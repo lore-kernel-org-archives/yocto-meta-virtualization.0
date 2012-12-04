@@ -1,22 +1,32 @@
-Return-Path: <David.Nystrom@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 3AFA4E0045D
+Return-Path: <ray.danks@se-eng.com>
+Received: from judge.camp.se-eng.com
+	(75-148-42-21-Colorado.hfc.comcastbusiness.net [75.148.42.21])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3F68EE0045D
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  4 Dec 2012 08:03:57 -0800 (PST)
-Received: from [172.16.140.28] (172.16.140.28) by smtp.enea.com (172.21.1.208)
-	with Microsoft SMTP Server id 14.2.318.1;
-	Tue, 4 Dec 2012 17:03:54 +0100
-Message-ID: <50BE1EE8.30504@enea.com>
-Date: Tue, 4 Dec 2012 17:03:52 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+	Tue,  4 Dec 2012 09:38:15 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id A7401138077;
+	Tue,  4 Dec 2012 10:38:13 -0700 (MST)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 6wZaxgLNNGkt; Tue,  4 Dec 2012 10:38:07 -0700 (MST)
+Received: from [192.168.1.104] (host-209-169-196-2.beyondbb.com
+	[209.169.196.2])
+	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 8797B138070;
+	Tue,  4 Dec 2012 10:38:06 -0700 (MST)
+Message-ID: <50BE34FC.8040205@se-eng.com>
+Date: Tue, 04 Dec 2012 10:38:04 -0700
+From: Raymond Danks <ray.danks@se-eng.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	rv:16.0) Gecko/20121028 Thunderbird/16.0.2
 MIME-Version: 1.0
-To: "Prica, Mihai" <mihai.prica@intel.com>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
 References: <50BE184E.2000403@gmail.com>
 	<97BD068FB200C44AA73C2B641F162ECF8F260F@IRSMSX101.ger.corp.intel.com>
-In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF8F260F@IRSMSX101.ger.corp.intel.com>
-X-Originating-IP: [172.16.140.28]
+	<50BE1EE8.30504@enea.com>
+In-Reply-To: <50BE1EE8.30504@enea.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: PACKAGECONFIG variables.
@@ -32,89 +42,107 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 16:03:58 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Dec 2012 17:38:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I have some issues with how PACKAGECONFIG works, do you guys mind if I
-disable all --without functionality in PACKAGECONFIG, and let libvirt=20
-./configure autodetect dependencies ?
-This will result in a bigger libvirt binary, and
-libnl, netcf, augeas, polkit dependencies being mandatory for all users=20
-of libvirt, unless explicitly disabled by the "xen" PACKAGECONFIG.
+David,
 
-Does anyone have any binary size constraints ?
+XenAPI is used by XenServer and Xen Cloud Platform.  There is currently 
+no underlying metadata support for these packages, so this should be 
+disabled.
 
-Br,
-David
+I do, in fact have binary size constraints.  I see where you are going 
+with this, but would it be possible instead to add a "detect" or "all" 
+to PACKAGECONFIG?  I suppose an alternative would be to add "*-minimal" 
+to PACKAGECONFIG which tweak the configure to create minimal build 
+configurations.
 
-On 12/04/2012 04:49 PM, Prica, Mihai wrote:
+Ray
+
+On 12/04/2012 09:03 AM, David Nyström wrote:
+> I have some issues with how PACKAGECONFIG works, do you guys mind if I
+> disable all --without functionality in PACKAGECONFIG, and let libvirt 
+> ./configure autodetect dependencies ?
+> This will result in a bigger libvirt binary, and
+> libnl, netcf, augeas, polkit dependencies being mandatory for all 
+> users of libvirt, unless explicitly disabled by the "xen" PACKAGECONFIG.
 >
-> Hi,
->
-> The error is because configure is called with the --with-xenapi option. I=
- think there is a bug in the recipe at the PACKAGECONFIG[xen] line. It shou=
-ld be --without-xenapi instead of the first --with-xenapi. I don't know exa=
-ctly what xenapi does, Raymond can give you more details here.
->
-> Try to change this and see if it works.
->
-> Thanks,
-> Mihai
->
-> -----Original Message-----
-> From: David Nystr=F6m [mailto:david.c.nystrom@gmail.com]
-> Sent: Tuesday, December 04, 2012 5:36 PM
-> To: Raymond Danks
-> Cc: Prica, Mihai; meta-virtualization@yoctoproject.org
-> Subject: PACKAGECONFIG variables.
->
-> Hi All,
->
-> When trying to upgrade to libvirt-1.0, I'm getting some strange errors.
-> How could this pass with the old libvirt I dont know.
->
-> Is the XenAPI driver something you explicitly build and use ?
->
-> ------------------------------------------------------------------
-> checking for xen_vm_start in -lxenserver... no
-> configure: error: You must install the XenServer Library to compile XenAP=
-I driver with -lxenserver Configure failed. The contents of all config.log =
-files follows to aid debugging /media/sdb5/eel/build/tmp/work/x86_64-poky-l=
-inux/libvirt-1.0.0-r1/libvirt-1.0.0/config.log
-> This file contains any messages produced by compilers while running confi=
-gure, to aid debugging if configure makes a mistake.
->
-> It was created by libvirt configure 1.0.0, which was generated by GNU Aut=
-oconf 2.69.  Invocation command line was
->
->     $
-> /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r1/libvirt=
--1.0.0/configure
-> --build=3Dx86_64-linux --host=3Dx86_64-poky-linux --target=3Dx86_64-poky-=
-linux --prefix=3D/usr --exec_prefi x=3D/usr --bindir=3D/usr/bin --sbindir=
-=3D/usr/sbin --libexecdir=3D/usr/libexec --datadir=3D/usr/share --sysconfdi=
-r=3D/etc --sharedstatedir=3D/com --localstatedir=3D/var --libdir=3D/usr/lib=
- --includedir=3D/usr/incl ude --oldincludedir=3D/usr/include --infodir=3D/u=
-sr/share/info --mandir=3D/usr/share/man --disable-silent-rules --disable-de=
-pendency-tracking --with-libtool-sysroot=3D/media/sdb5/eel/build/tmp/sysroo=
-ts
-> /qemux86-64 --with-python=3Dyes
-> --with-python-inc-dir=3D-I/media/sdb5/eel/build/tmp/sysroots/qemux86-64/u=
-sr/include/python2.7
-> --enable-nls --without-hyperv --with-remote --without-openvz --without- p=
-hyp --without-augeas --with-xen --with-xenapi --with-libxl=3D/media/sdb5/ee=
-l/build/tmp/sysroots/qemux86-64/lib
-> --with-xen-inotify --with-macvtap=3Dno --without-esx --without-vbox --wit=
-hout-polkit --without-lxc --without-uml --with-test=3Dyes --with-libvirtd -=
--without-qemu --without-yajl --without-vmware
->
+> Does anyone have any binary size constraints ?
 >
 > Br,
 > David
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
+> On 12/04/2012 04:49 PM, Prica, Mihai wrote:
+>>
+>> Hi,
+>>
+>> The error is because configure is called with the --with-xenapi 
+>> option. I think there is a bug in the recipe at the 
+>> PACKAGECONFIG[xen] line. It should be --without-xenapi instead of the 
+>> first --with-xenapi. I don't know exactly what xenapi does, Raymond 
+>> can give you more details here.
+>>
+>> Try to change this and see if it works.
+>>
+>> Thanks,
+>> Mihai
+>>
+>> -----Original Message-----
+>> From: David Nyström [mailto:david.c.nystrom@gmail.com]
+>> Sent: Tuesday, December 04, 2012 5:36 PM
+>> To: Raymond Danks
+>> Cc: Prica, Mihai; meta-virtualization@yoctoproject.org
+>> Subject: PACKAGECONFIG variables.
+>>
+>> Hi All,
+>>
+>> When trying to upgrade to libvirt-1.0, I'm getting some strange errors.
+>> How could this pass with the old libvirt I dont know.
+>>
+>> Is the XenAPI driver something you explicitly build and use ?
+>>
+>> ------------------------------------------------------------------
+>> checking for xen_vm_start in -lxenserver... no
+>> configure: error: You must install the XenServer Library to compile 
+>> XenAPI driver with -lxenserver Configure failed. The contents of all 
+>> config.log files follows to aid debugging 
+>> /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r1/libvirt-1.0.0/config.log
+>> This file contains any messages produced by compilers while running 
+>> configure, to aid debugging if configure makes a mistake.
+>>
+>> It was created by libvirt configure 1.0.0, which was generated by GNU 
+>> Autoconf 2.69.  Invocation command line was
+>>
+>>     $
+>> /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r1/libvirt-1.0.0/configure 
+>>
+>> --build=x86_64-linux --host=x86_64-poky-linux 
+>> --target=x86_64-poky-linux --prefix=/usr --exec_prefi x=/usr 
+>> --bindir=/usr/bin --sbindir=/usr/sbin --libexecdir=/usr/libexec 
+>> --datadir=/usr/share --sysconfdir=/etc --sharedstatedir=/com 
+>> --localstatedir=/var --libdir=/usr/lib --includedir=/usr/incl ude 
+>> --oldincludedir=/usr/include --infodir=/usr/share/info 
+>> --mandir=/usr/share/man --disable-silent-rules 
+>> --disable-dependency-tracking 
+>> --with-libtool-sysroot=/media/sdb5/eel/build/tmp/sysroots
+>> /qemux86-64 --with-python=yes
+>> --with-python-inc-dir=-I/media/sdb5/eel/build/tmp/sysroots/qemux86-64/usr/include/python2.7 
+>>
+>> --enable-nls --without-hyperv --with-remote --without-openvz 
+>> --without- phyp --without-augeas --with-xen --with-xenapi 
+>> --with-libxl=/media/sdb5/eel/build/tmp/sysroots/qemux86-64/lib
+>> --with-xen-inotify --with-macvtap=no --without-esx --without-vbox 
+>> --without-polkit --without-lxc --without-uml --with-test=yes 
+>> --with-libvirtd --without-qemu --without-yajl --without-vmware
+>>
+>>
+>> Br,
+>> David
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+
 
