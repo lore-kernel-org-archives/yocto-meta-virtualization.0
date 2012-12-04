@@ -1,36 +1,34 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 911F7E0075A
+Return-Path: <mihai.prica@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1BE2CE0045D
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  4 Dec 2012 07:35:49 -0800 (PST)
-Received: by mail-la0-f48.google.com with SMTP id m13so3514513lah.35
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 04 Dec 2012 07:35:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:cc:subject
-	:content-type:content-transfer-encoding;
-	bh=06bZ1rTxEOPct0lPbF4mU/Ent1gmNUpmnoXSGWdgqWU=;
-	b=ggNYRRBnx4kzRXj5F9FGWDZ6q7HbrmK9DR86UjTzI5wHOIqWW+8lTOoOP5+epc0Weo
-	bc2BsAVEeTEmQO20g2QqqKpOkusG+9s/+eIU25nMxza3KSPd7Fq6+il4HM5TjJo2Pmi3
-	t0L4gGtFRiUWtAZ6ilaGgVOnSXrnVUceCIh9DBJqGsqDadLKqPS4kqFzhwlLUz0uT37s
-	IJUQOtwo13KsJzWqarsQ1ZTdjFd7zWFbkCg3YE6c0RW7Itd6yqrn7dCXfvK5ruhVProt
-	fwETeo4EziAPx6eCpgkcmeQnRzNufhsB4lt5T0Njae+WizKfD6Y5cQ66r06AxlY3724L
-	UsMg==
-Received: by 10.112.24.161 with SMTP id v1mr6007688lbf.28.1354635347713;
-	Tue, 04 Dec 2012 07:35:47 -0800 (PST)
-Received: from [172.16.140.28] (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id u9sm938478lbf.5.2012.12.04.07.35.45
-	(version=SSLv3 cipher=OTHER); Tue, 04 Dec 2012 07:35:46 -0800 (PST)
-Message-ID: <50BE184E.2000403@gmail.com>
-Date: Tue, 04 Dec 2012 16:35:42 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	Tue,  4 Dec 2012 07:50:21 -0800 (PST)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 04 Dec 2012 07:49:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,215,1355126400"; d="scan'208";a="251788698"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga002.jf.intel.com with ESMTP; 04 Dec 2012 07:50:02 -0800
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.13]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.151]) with mapi id
+	14.01.0355.002; Tue, 4 Dec 2012 15:49:59 +0000
+From: "Prica, Mihai" <mihai.prica@intel.com>
+To: =?iso-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>, Raymond
+	Danks <ray.danks@se-eng.com>
+Thread-Topic: PACKAGECONFIG variables.
+Thread-Index: AQHN0jUvgNCegg1KH0+0+jr9sdbWkpgIxz4w
+Date: Tue, 4 Dec 2012 15:49:58 +0000
+Message-ID: <97BD068FB200C44AA73C2B641F162ECF8F260F@IRSMSX101.ger.corp.intel.com>
+References: <50BE184E.2000403@gmail.com>
+In-Reply-To: <50BE184E.2000403@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
 MIME-Version: 1.0
-To: Raymond Danks <ray.danks@se-eng.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: PACKAGECONFIG variables.
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: PACKAGECONFIG variables.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,9 +41,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Dec 2012 15:35:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Dec 2012 15:50:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+
+Hi,
+
+The error is because configure is called with the --with-xenapi option. I t=
+hink there is a bug in the recipe at the PACKAGECONFIG[xen] line. It should=
+ be --without-xenapi instead of the first --with-xenapi. I don't know exact=
+ly what xenapi does, Raymond can give you more details here.=20
+
+Try to change this and see if it works.
+
+Thanks,
+Mihai
+
+-----Original Message-----
+From: David Nystr=F6m [mailto:david.c.nystrom@gmail.com]=20
+Sent: Tuesday, December 04, 2012 5:36 PM
+To: Raymond Danks
+Cc: Prica, Mihai; meta-virtualization@yoctoproject.org
+Subject: PACKAGECONFIG variables.
 
 Hi All,
 
@@ -56,36 +75,35 @@ Is the XenAPI driver something you explicitly build and use ?
 
 ------------------------------------------------------------------
 checking for xen_vm_start in -lxenserver... no
-configure: error: You must install the XenServer Library to compile 
-XenAPI driver with -lxenserver
-Configure failed. The contents of all config.log files follows to aid 
-debugging
-/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r1/libvirt-1.0.0/config.log
-This file contains any messages produced by compilers while
-running configure, to aid debugging if configure makes a mistake.
+configure: error: You must install the XenServer Library to compile XenAPI =
+driver with -lxenserver Configure failed. The contents of all config.log fi=
+les follows to aid debugging /media/sdb5/eel/build/tmp/work/x86_64-poky-lin=
+ux/libvirt-1.0.0-r1/libvirt-1.0.0/config.log
+This file contains any messages produced by compilers while running configu=
+re, to aid debugging if configure makes a mistake.
 
-It was created by libvirt configure 1.0.0, which was
-generated by GNU Autoconf 2.69.  Invocation command line was
+It was created by libvirt configure 1.0.0, which was generated by GNU Autoc=
+onf 2.69.  Invocation command line was
 
-   $ 
-/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r1/libvirt-1.0.0/configure 
---build=x86_64-linux --host=x86_64-poky-linux --target=x86_64-poky-linux 
---prefix=/usr --exec_prefi
-x=/usr --bindir=/usr/bin --sbindir=/usr/sbin --libexecdir=/usr/libexec 
---datadir=/usr/share --sysconfdir=/etc --sharedstatedir=/com 
---localstatedir=/var --libdir=/usr/lib --includedir=/usr/incl
-ude --oldincludedir=/usr/include --infodir=/usr/share/info 
---mandir=/usr/share/man --disable-silent-rules 
---disable-dependency-tracking 
---with-libtool-sysroot=/media/sdb5/eel/build/tmp/sysroots
-/qemux86-64 --with-python=yes 
---with-python-inc-dir=-I/media/sdb5/eel/build/tmp/sysroots/qemux86-64/usr/include/python2.7 
---enable-nls --without-hyperv --with-remote --without-openvz --without-
-phyp --without-augeas --with-xen --with-xenapi 
---with-libxl=/media/sdb5/eel/build/tmp/sysroots/qemux86-64/lib 
---with-xen-inotify --with-macvtap=no --without-esx --without-vbox 
---without-polkit --without-lxc --without-uml --with-test=yes 
---with-libvirtd --without-qemu --without-yajl --without-vmware
+   $
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r1/libvirt-1=
+.0.0/configure
+--build=3Dx86_64-linux --host=3Dx86_64-poky-linux --target=3Dx86_64-poky-li=
+nux --prefix=3D/usr --exec_prefi x=3D/usr --bindir=3D/usr/bin --sbindir=3D/=
+usr/sbin --libexecdir=3D/usr/libexec --datadir=3D/usr/share --sysconfdir=3D=
+/etc --sharedstatedir=3D/com --localstatedir=3D/var --libdir=3D/usr/lib --i=
+ncludedir=3D/usr/incl ude --oldincludedir=3D/usr/include --infodir=3D/usr/s=
+hare/info --mandir=3D/usr/share/man --disable-silent-rules --disable-depend=
+ency-tracking --with-libtool-sysroot=3D/media/sdb5/eel/build/tmp/sysroots
+/qemux86-64 --with-python=3Dyes
+--with-python-inc-dir=3D-I/media/sdb5/eel/build/tmp/sysroots/qemux86-64/usr=
+/include/python2.7
+--enable-nls --without-hyperv --with-remote --without-openvz --without- phy=
+p --without-augeas --with-xen --with-xenapi --with-libxl=3D/media/sdb5/eel/=
+build/tmp/sysroots/qemux86-64/lib
+--with-xen-inotify --with-macvtap=3Dno --without-esx --without-vbox --witho=
+ut-polkit --without-lxc --without-uml --with-test=3Dyes --with-libvirtd --w=
+ithout-qemu --without-yajl --without-vmware
 
 
 Br,
