@@ -1,34 +1,37 @@
-Return-Path: <mihai.prica@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 02522E0045D
+Return-Path: <ray.danks@se-eng.com>
+Received: from judge.camp.se-eng.com
+	(75-148-42-21-Colorado.hfc.comcastbusiness.net [75.148.42.21])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 69F96E006C3
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Dec 2012 04:02:33 -0800 (PST)
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga102.fm.intel.com with ESMTP; 05 Dec 2012 04:02:33 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,221,1355126400"; 
-	d="scan'208,217";a="257595959"
-Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
-	by fmsmga001.fm.intel.com with ESMTP; 05 Dec 2012 04:02:32 -0800
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.13]) by
-	IRSMSX103.ger.corp.intel.com ([169.254.3.74]) with mapi id
-	14.01.0355.002; Wed, 5 Dec 2012 12:02:31 +0000
-From: "Prica, Mihai" <mihai.prica@intel.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: meta-virtualization structure
-Thread-Index: Ac3S3fWc3L9Myuh7TQeop6Tag5S33g==
-Date: Wed, 5 Dec 2012 12:02:31 +0000
-Message-ID: <97BD068FB200C44AA73C2B641F162ECF8F2AB5@IRSMSX101.ger.corp.intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Wed,  5 Dec 2012 10:57:15 -0800 (PST)
+Received: from localhost (localhost [127.0.0.1])
+	by judge.camp.se-eng.com (Postfix) with ESMTP id 437D5138077
+	for <meta-virtualization@yoctoproject.org>;
+	Wed,  5 Dec 2012 11:57:14 -0700 (MST)
+X-Virus-Scanned: amavisd-new at camp.se-eng.com
+Received: from judge.camp.se-eng.com ([127.0.0.1])
+	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id WvnbTkpXBL4q for <meta-virtualization@yoctoproject.org>; 
+	Wed,  5 Dec 2012 11:57:12 -0700 (MST)
+Received: from [172.20.202.50] (beast.camp.se-eng.com [172.20.202.50])
+	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 971F7138015
+	for <meta-virtualization@yoctoproject.org>;
+	Wed,  5 Dec 2012 11:57:12 -0700 (MST)
+Message-ID: <50BF9906.6080108@se-eng.com>
+Date: Wed, 05 Dec 2012 11:57:10 -0700
+From: Raymond Danks <ray.danks@se-eng.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
 MIME-Version: 1.0
-Subject: meta-virtualization structure
+To: meta-virtualization@yoctoproject.org
+References: <97BD068FB200C44AA73C2B641F162ECF8F2AB5@IRSMSX101.ger.corp.intel.com>
+In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF8F2AB5@IRSMSX101.ger.corp.intel.com>
+Subject: Re: meta-virtualization structure
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: ray.danks@se-eng.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -38,41 +41,67 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Dec 2012 12:02:34 -0000
-Content-Language: en-US
+X-List-Received-Date: Wed, 05 Dec 2012 18:57:15 -0000
 Content-Type: multipart/alternative;
-	boundary="_000_97BD068FB200C44AA73C2B641F162ECF8F2AB5IRSMSX101gercorpi_"
+	boundary="------------040005080607090408020609"
 
---_000_97BD068FB200C44AA73C2B641F162ECF8F2AB5IRSMSX101gercorpi_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+--------------040005080607090408020609
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-I wanted to include my work with meta-kvm into the new layer(meta-virtualiz=
-ation) and I was thinking about the best method of doing this.  The problem=
- is there are different kernel configs depending on the hypervisor and diff=
-erent values for the PACKAGECONFIG in libvirt.
-
-One solution would be to move all the common pieces into a meta layer and g=
-roup the hypervisor configurations into a specific directory (meta-kvm, met=
-a-xen), all of them in meta-virtualization. Is there another way ?
-Thanks,
-Mihai
-
---_000_97BD068FB200C44AA73C2B641F162ECF8F2AB5IRSMSX101gercorpi_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On 12/05/2012 05:02 AM, Prica, Mihai wrote:
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
+> Hi,
+>
+> I wanted to include my work with meta-kvm into the new 
+> layer(meta-virtualization) and I was thinking about the best method of 
+> doing this.  The problem is there are different kernel configs 
+> depending on the hypervisor and different values for the PACKAGECONFIG 
+> in libvirt.
+>
+> One solution would be to move all the common pieces into a meta layer 
+> and group the hypervisor configurations into a specific directory 
+> (meta-kvm, meta-xen), all of them in meta-virtualization. Is there 
+> another way ?
+>
+
+It seems to me the choice of hypervisor should be made in the distro 
+configuration.  Can't this be handled with the addition of a HYPERVISOR 
+definition there?
+
+> Thanks,
+>
+> Mihai
+>
+>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+--------------040005080607090408020609
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
+
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="Content-Type">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 12/05/2012 05:02 AM, Prica, Mihai
+      wrote:<br>
+    </div>
+    <blockquote
+cite="mid:97BD068FB200C44AA73C2B641F162ECF8F2AB5@IRSMSX101.ger.corp.intel.com"
+      type="cite">
+      <meta http-equiv="Content-Type" content="text/html;
+        charset=ISO-8859-1">
+      <meta name="Generator" content="Microsoft Word 14 (filtered
+        medium)">
+      <style><!--
 /* Font Definitions */
 @font-face
 	{font-family:Calibri;
@@ -104,31 +133,51 @@ span.EmailStyle17
 div.WordSection1
 	{page:WordSection1;}
 --></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+<o:shapedefaults v:ext="edit" spidmax="1026" />
 </xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
+<o:shapelayout v:ext="edit">
+<o:idmap v:ext="edit" data="1" />
 </o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I wanted to include my work with meta-kvm into the n=
-ew layer(meta-virtualization) and I was thinking about the best method of d=
-oing this. &nbsp;The problem is there are different kernel configs dependin=
-g on the hypervisor and different values
- for the PACKAGECONFIG in libvirt. <o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">One solution would be to move all the common pieces =
-into a meta layer and group the hypervisor configurations into a specific d=
-irectory (meta-kvm, meta-xen), all of them in meta-virtualization. Is there=
- another way ?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p></o:p></p>
-<p class=3D"MsoNormal">Thanks,<o:p></o:p></p>
-<p class=3D"MsoNormal">Mihai<o:p></o:p></p>
-</div>
-</body>
+      <div class="WordSection1">
+        <p class="MsoNormal">Hi,<o:p></o:p></p>
+        <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+        <p class="MsoNormal">I wanted to include my work with meta-kvm
+          into the new layer(meta-virtualization) and I was thinking
+          about the best method of doing this. &nbsp;The problem is there are
+          different kernel configs depending on the hypervisor and
+          different values for the PACKAGECONFIG in libvirt. <o:p></o:p></p>
+        <p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+        <p class="MsoNormal">One solution would be to move all the
+          common pieces into a meta layer and group the hypervisor
+          configurations into a specific directory (meta-kvm, meta-xen),
+          all of them in meta-virtualization. Is there another way ?</p>
+      </div>
+    </blockquote>
+    <br>
+    It seems to me the choice of hypervisor should be made in the distro
+    configuration.&nbsp; Can't this be handled with the addition of a
+    HYPERVISOR definition there?<br>
+    <br>
+    <blockquote
+cite="mid:97BD068FB200C44AA73C2B641F162ECF8F2AB5@IRSMSX101.ger.corp.intel.com"
+      type="cite">
+      <div class="WordSection1">
+        <p class="MsoNormal"><o:p></o:p></p>
+        <p class="MsoNormal"><o:p></o:p></p>
+        <p class="MsoNormal">Thanks,<o:p></o:p></p>
+        <p class="MsoNormal">Mihai<o:p></o:p></p>
+      </div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <br>
+      <pre wrap="">_______________________________________________
+meta-virtualization mailing list
+<a class="moz-txt-link-abbreviated" href="mailto:meta-virtualization@yoctoproject.org">meta-virtualization@yoctoproject.org</a>
+<a class="moz-txt-link-freetext" href="https://lists.yoctoproject.org/listinfo/meta-virtualization">https://lists.yoctoproject.org/listinfo/meta-virtualization</a>
+</pre>
+    </blockquote>
+    <br>
+  </body>
 </html>
 
---_000_97BD068FB200C44AA73C2B641F162ECF8F2AB5IRSMSX101gercorpi_--
+--------------040005080607090408020609--
