@@ -1,39 +1,38 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 88F61E0144E
+Received: from mail-ee0-f68.google.com (mail-ee0-f68.google.com [74.125.83.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A124AE0145F
 	for <meta-virtualization@yoctoproject.org>;
 	Thu,  6 Dec 2012 05:45:14 -0800 (PST)
-Received: by mail-ea0-f176.google.com with SMTP id d13so2770405eaa.35
+Received: by mail-ee0-f68.google.com with SMTP id b45so1261981eek.11
 	for <meta-virtualization@yoctoproject.org>;
 	Thu, 06 Dec 2012 05:45:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=CJ+fuY+okh5LXIvx0OVAgmLHM+eB6FjWOax7CDvDWS4=;
-	b=ZGi4shac3iQ40Hi/IGP3UGhJ3z/UR7ar/SKRGMeSyQjEnyb6m4r2BM8LaW3u2DqsvZ
-	G3BX9338EiLY6w41PwImmfzBSQELN30Ns0Z3H6GpYK5ZBVaLRWGLUZlU0/VQR0H4cFwS
-	NCIPjISnN2SldM9DZXGRr0guGhjDZldlxw+Wdagz+AcajEBnLEqoahupac2168mgCmse
-	PNJf2jMVF3lqZxMZ7Z+c8tHfKc8P3yvkLxW2TT8cZLFpDREke6b5UVRLtiSqOiKDMHP3
-	e09M5i/CXTOR+24lxO4PZ7/P1ij2FE1VaD7/UvMCXcQPuFBvU8s6a6J+Aqzlw0iumy+H
-	ircg==
-Received: by 10.14.223.135 with SMTP id v7mr5771039eep.41.1354801513785;
+	bh=AolH7GuCXGU5qE1AWSOObF8+Fc+qlbgwjM9IhtHO46g=;
+	b=o594BDc+AIlyWvpupBJdFDuy1Xv9a99OQE1/oZFJfTHhD5PrnmP9sM65jY2PJX2AaO
+	BR311Xs+8SWbvh4bU9iji8Ix8HEoB23r+ujtifTgzYoZ+uVG0Of3NflkoEjMOYvhxoSk
+	00xpnMw0kxF2jImfpqvED/qasYR7FZ8zuNsXz58yXgSas6jxrWhHBaoCKf15jUeuxZkR
+	Y+mnyeXJd4/nh7/8dwbLpU+GjltWmJ43pD5clM/jnw1WNZ8sKrsKxzR7WtEfAcqqTFCG
+	btwVAWGeqnDHmpje+ZBlgyo/nqTBqKdbJD9huyg64kFTa4455SvRVyQMpUT2aB0NP5DQ
+	fPfA==
+Received: by 10.14.173.69 with SMTP id u45mr5949799eel.21.1354801513799;
 	Thu, 06 Dec 2012 05:45:13 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id b2sm15997729eep.9.2012.12.06.05.45.12
+	by mx.google.com with ESMTPS id w3sm15983867eel.17.2012.12.06.05.45.12
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Dec 2012 05:45:12 -0800 (PST)
+	Thu, 06 Dec 2012 05:45:13 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id D7230400DC1; Thu,  6 Dec 2012 14:45:06 +0100 (CET)
+	id E8F474011B6; Thu,  6 Dec 2012 14:45:06 +0100 (CET)
 From: david.c.nystrom@gmail.com
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  6 Dec 2012 14:44:41 +0100
-Message-Id: <1354801486-9482-10-git-send-email-david.nystrom@enea.com>
+Date: Thu,  6 Dec 2012 14:44:44 +0100
+Message-Id: <1354801486-9482-13-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1354801486-9482-1-git-send-email-david.nystrom@enea.com>
 References: <1354801486-9482-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/14] Added .gitignore file
+Subject: [PATCH 12/14] Added some details in README, and made the description common
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,29 +45,49 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 13:45:14 -0000
+X-List-Received-Date: Thu, 06 Dec 2012 13:45:15 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: David Nyström <david.nystrom@enea.com>
 
 ---
- .gitignore |    6 ++++++
- 1 file changed, 6 insertions(+)
- create mode 100644 .gitignore
+ README |   11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/.gitignore b/.gitignore
-new file mode 100644
-index 0000000..65feb82
---- /dev/null
-+++ b/.gitignore
-@@ -0,0 +1,6 @@
-+build*/
-+pyshtables.py
-+*.swp
-+*.orig
-+*.rej
-+*~
+diff --git a/README b/README
+index 0ee4047..f9f890b 100644
+--- a/README
++++ b/README
+@@ -1,12 +1,8 @@
+ meta-xen
+ ===========
+ 
+-This layer provides support for building Xen, Libvirt, and associated
+-packages necessary for constructing an OE-based Xen distribution.
+-
+-This layer provides support for building KVM, Libvirt, OpenvSwitch et.c.
+-and associated packages necessary for constructing virtualized solutions for
+-Openembedded based distros.
++This layer provides support for building Xen, KVM, Libvirt, and associated
++packages necessary for constructing OE-based virtualized solutions.
+ 
+ Dependencies
+ ------------
+@@ -15,10 +11,13 @@ This layer depends on:
+ URI: git://github.com/openembedded/oe-core.git
+ branch: master
+ revision: HEAD
++prio: default
+ 
+ URI: git://github.com/openembedded/meta-oe.git
+ branch: master
+ revision: HEAD
++layers: meta-oe
++BBFILE_PRIORITY_openembedded-layer = "4"
+ 
+ Maintenance
+ -----------
 -- 
 1.7.9.5
 
