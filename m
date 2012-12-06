@@ -1,35 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F1043E0143A
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1E59FE0143A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Dec 2012 06:20:12 -0800 (PST)
-Received: by mail-la0-f48.google.com with SMTP id m13so5604162lah.35
+	Thu,  6 Dec 2012 06:20:45 -0800 (PST)
+Received: by mail-lb0-f176.google.com with SMTP id k6so5728970lbo.35
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 06 Dec 2012 06:20:12 -0800 (PST)
+	Thu, 06 Dec 2012 06:20:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=wudAmbEhGqvLr1mP33zX9jziVkxly3u3S6WOJcOlP9U=;
-	b=jofsuKSJaTvZEMKcEjVc00CwYqLTd89ABKdsx1DDqkP1plaqOqmRuE9pEWFvSbRkjh
-	tMYS8qcwyLQn2f8qYeuEjiLBb9/wdZH/UatmvZ/rKHyQm7BDS8sWLe1Ki+7zh8iPxtY7
-	vsro2Iya1L6lgv8KTVGgf8WO2BWoNHrC3snWk/1IwGM/BBk8ntSNl22QUJM9plTl76uF
-	w+O5RFB1t9oS9fT6g19nXgi7qzQ5oiSxQ/zuWLreazl11Pn1+oog17A75iTXsCvK3zY+
-	hCUOcRYHXy1qJDnMFqIERNtRzK0l9M1erLKgH4n940ySfq/0fEO2i9gfCFsz+J37ekTD
-	6TGQ==
+	h=message-id:date:from:user-agent:mime-version:to:cc:subject
+	:references:in-reply-to:content-type:content-transfer-encoding;
+	bh=769YSnEpiGg5KI8WtEVg9hDzNHdBYnRy5uumNi81cyE=;
+	b=RkCup8X3caANYMheFvqAfqb8jq0rV+t+cXW+z7s9BQakx1AWrUoNOqqp/XSEbccfiq
+	wgtrW2pjSdzfWCwARK4bqAwE7Ggb0ArPGEbLvad3w1nETgcyyCQZjf4jYG4POF5AZBcr
+	bpSzxk4bTm/7nO7rT77n69VEMKi/lcXFSBgR7ab1hNAsV3gHKCjWSvuVzZDXghTSo3Ix
+	BNjsByErhKsixAmwjWpUtqQlkeyCNhqrP/xFB4gS7aq/Yz6B1W12jncDxIJzJ8bIb4av
+	V1auI+8SGl3hqCqAU04GkYqG5SHfBXbFnODQjg7y1N9zS22C+Hu6feXQNyqhjAq3B28S
+	eiCQ==
+Received: by 10.152.122.133 with SMTP id ls5mr1878086lab.9.1354803645067;
+	Thu, 06 Dec 2012 06:20:45 -0800 (PST)
+Received: from [172.16.140.28] (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPS id so7sm3498843lab.0.2012.12.06.06.20.43
+	(version=SSLv3 cipher=OTHER); Thu, 06 Dec 2012 06:20:44 -0800 (PST)
+Message-ID: <50C0A9B9.3020902@gmail.com>
+Date: Thu, 06 Dec 2012 15:20:41 +0100
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-Received: by 10.112.46.199 with SMTP id x7mr964992lbm.109.1354803611930; Thu,
-	06 Dec 2012 06:20:11 -0800 (PST)
-Received: by 10.114.77.164 with HTTP; Thu, 6 Dec 2012 06:20:11 -0800 (PST)
-In-Reply-To: <1354802601-10840-7-git-send-email-david.c.nystrom@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <1354802601-10840-1-git-send-email-david.c.nystrom@gmail.com>
-	<1354802601-10840-7-git-send-email-david.c.nystrom@gmail.com>
-Date: Thu, 6 Dec 2012 09:20:11 -0500
-Message-ID: <CADkTA4NZfY+P=2U7jdk4wY-SFJP-Ns4MMDtauy=HorkFRNHyWg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: David Nystrom <david.c.nystrom@gmail.com>
+	<1354802601-10840-5-git-send-email-david.c.nystrom@gmail.com>
+	<CADkTA4O_Bj7+DjSgEKK=9TTc-=FNFkyJnVBz3CaoVNKgT8WN=Q@mail.gmail.com>
+In-Reply-To: <CADkTA4O_Bj7+DjSgEKK=9TTc-=FNFkyJnVBz3CaoVNKgT8WN=Q@mail.gmail.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCHv3 06/14] Added openbsd-netcat recipe, libvirt dependency
+Subject: Re: [PATCHv3 04/14] Added lxc recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,181 +47,201 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 14:20:13 -0000
-Content-Type: multipart/alternative; boundary=bcaec55405680790ac04d02fcc06
+X-List-Received-Date: Thu, 06 Dec 2012 14:20:46 -0000
+Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+Content-Transfer-Encoding: 8bit
 
---bcaec55405680790ac04d02fcc06
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Dec 6, 2012 at 9:03 AM, <david.c.nystrom@gmail.com> wrote:
-
-> From: David Nystr=F6m <david.nystrom@enea.com>
+On 12/06/2012 03:15 PM, Bruce Ashfield wrote:
+> On Thu, Dec 6, 2012 at 9:03 AM, <david.c.nystrom@gmail.com> wrote:
 >
-> ---
->  recipes-networking/netcat/openbsd-netcat_1.6.bb |   29
-> +++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->  create mode 100644 recipes-networking/netcat/openbsd-netcat_1.6.bb
+>> From: David Nyström <david.nystrom@enea.com>
+>>
+>> ---
+>>   recipes-containers/lxc/files/libmounts.patch  |   48
+>> +++++++++++++++++++++++++
+>>   recipes-containers/lxc/files/noldconfig.patch |   29 +++++++++++++++
+>>   recipes-containers/lxc/lxc_0.8.0.bb           |   39 ++++++++++++++++++++
+>>   3 files changed, 116 insertions(+)
+>>   create mode 100644 recipes-containers/lxc/files/libmounts.patch
+>>   create mode 100644 recipes-containers/lxc/files/noldconfig.patch
+>>   create mode 100644 recipes-containers/lxc/lxc_0.8.0.bb
+>>
+>> diff --git a/recipes-containers/lxc/files/libmounts.patch
+>> b/recipes-containers/lxc/files/libmounts.patch
+>> new file mode 100644
+>> index 0000000..7e092f1
+>> --- /dev/null
+>> +++ b/recipes-containers/lxc/files/libmounts.patch
+>> @@ -0,0 +1,48 @@
+>> +From dfef62f0334c65397254215f809a8f25364ea6ef Mon Sep 17 00:00:00 2001
+>> +From: Stuart Yoder <stuart.yoder@freescale.com>
+>> +Date: Wed, 12 Sep 2012 11:05:07 -0500
+>> +Subject: [PATCH] create lib mounts only if the host directories exist
+>> +
+>>
+>
+> Is the source of the lxc recipe the meta-fsl layers ? If so, it's always a
+> good idea
+> to provide a reference to the original recipe (or layer) in the commit
+> message or
+> even in the patch itself. It serves to give credit and help people trace
+> the history
+> of a particular recipe.
+>
+> Cheers,
+>
+> Bruce
+
+Yes, the source is lxc_0.8.0-rc1.bb in meta-fsl-ppc. Unfortunately I 
+lack the git-fu needed  to import _only_ one file with history from 
+another repo.
+Any suggestions are welcome here.
+
+I'll make a note in the commit message of the origin.
+
+>
+>
+>> +Signed-off-by: Stuart Yoder <stuart.yoder@freescale.com>
+>> +---
+>> + templates/lxc-busybox.in |   24 +++++++++++-------------
+>> + 1 file changed, 11 insertions(+), 13 deletions(-)
+>> +
+>> +diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
+>> +index 720ceef..f6cb1ba 100644
+>> +--- a/templates/lxc-busybox.in
+>> ++++ b/templates/lxc-busybox.in
+>> +@@ -235,19 +235,17 @@ lxc.pts = 1
+>> + lxc.rootfs = $rootfs
+>> + EOF
+>> +
+>> +-if [ -d "$rootfs/lib" ]; then
+>> +-cat <<EOF >> $path/config
+>> +-lxc.mount.entry=/lib $rootfs/lib none ro,bind 0 0
+>> +-lxc.mount.entry=/usr/lib $rootfs/usr/lib none ro,bind 0 0
+>> +-EOF
+>> +-fi
+>> +-
+>> +-if [ -d "/lib64" ] && [ -d "$rootfs/lib64" ]; then
+>> +-cat <<EOF >> $path/config
+>> +-lxc.mount.entry=/lib64 $rootfs/lib64 none ro,bind 0 0
+>> +-lxc.mount.entry=/usr/lib64 $rootfs/usr/lib64 none ro,bind 0 0
+>> +-EOF
+>> +-fi
+>> ++    libdirs="\
+>> ++        /lib \
+>> ++        /usr/lib \
+>> ++        /lib64 \
+>> ++        /usr/lib64"
+>> ++
+>> ++    for dir in $libdirs; do
+>> ++        if [ -d $dir ]; then
+>> ++            echo "lxc.mount.entry=$dir $rootfs$dir none ro,bind 0 0" >>
+>> $path/config
+>> ++        fi
+>> ++    done
+>> + }
+>> +
+>> + usage()
+>> +--
+>> +1.7.9.7
+>> +
+>> diff --git a/recipes-containers/lxc/files/noldconfig.patch
+>> b/recipes-containers/lxc/files/noldconfig.patch
+>> new file mode 100644
+>> index 0000000..5edff46
+>> --- /dev/null
+>> +++ b/recipes-containers/lxc/files/noldconfig.patch
+>> @@ -0,0 +1,29 @@
+>> +From a8aa8d131a7140d5625c24c9f4c28c605213552c Mon Sep 17 00:00:00 2001
+>> +From: Andrey Mazo <ahippo@yandex.ru>
+>> +Date: Fri, 18 May 2012 21:11:22 +0400
+>> +Subject: [PATCH] Avoid ldconfig due to cross-compilation problems.
+>> +
+>> +Make required symlinks manually.
+>> +Otherwise, it cases problems on cbuild endianness != ctarget endianness
+>> +setups because /sbin/ldconfig expects elf header in the wrong endianness.
+>> +---
+>> + src/lxc/Makefile.am |    2 +-
+>> + 1 files changed, 1 insertions(+), 1 deletions(-)
+>> +
+>> +diff --git a/src/lxc/Makefile.am b/src/lxc/Makefile.am
+>> +index 1c26952..3b84c1a 100644
+>> +--- a/src/lxc/Makefile.am
+>> ++++ b/src/lxc/Makefile.am
+>> +@@ -125,8 +125,8 @@ lxc_kill_SOURCES = lxc_kill.c
+>> +
+>> + install-exec-local: install-soPROGRAMS
+>> +       mv $(DESTDIR)$(libdir)/liblxc.so
+>> $(DESTDIR)$(libdir)/liblxc.so.$(VERSION)
+>> +-      /sbin/ldconfig -l $(DESTDIR)$(libdir)/liblxc.so.$(VERSION)
+>> +       cd $(DESTDIR)$(libdir); \
+>> ++      ln -sf liblxc.so.$(VERSION) liblxc.so.$(firstword $(subst .,
+>> ,$(VERSION))); \
+>> +       ln -sf liblxc.so.$(firstword $(subst ., ,$(VERSION))) liblxc.so
+>> +
+>> + uninstall-local:
+>> +--
+>> +1.7.3.4
+>> +
+>> diff --git a/recipes-containers/lxc/lxc_0.8.0.bb b/recipes-containers/lxc/
+>> lxc_0.8.0.bb
+>> new file mode 100644
+>> index 0000000..c662cb1
+>> --- /dev/null
+>> +++ b/recipes-containers/lxc/lxc_0.8.0.bb
+>> @@ -0,0 +1,39 @@
+>> +DESCRIPTION = "lxc aims to use these new functionnalities to provide an
+>> userspace container object"
+>> +SECTION = "console/utils"
+>> +LICENSE = "GPLv2"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=fbc093901857fcd118f065f900982c24"
+>> +PRIORITY = "optional"
+>> +PR = "r2"
+>> +DEPENDS = "libxml2 libcap"
+>> +RDEPENDS_${PN} = " \
+>> +               rsync \
+>> +               gzip \
+>> +               libcap-bin \
+>> +               bridge-utils \
+>> +               dnsmasq \
+>> +               perl-module-strict \
+>> +               perl-module-getopt-long \
+>> +               perl-module-vars \
+>> +               perl-module-warnings-register \
+>> +               perl-module-exporter \
+>> +               perl-module-constant \
+>> +               perl-module-overload \
+>> +               perl-module-exporter-heavy \
+>> +"
+>> +
+>> +SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
+>> +       file://noldconfig.patch \
+>> +       "
+>> +SRC_URI[md5sum] = "7304fa57146ce687f749b5df876bb20d"
+>> +SRC_URI[sha256sum] =
+>> "eac833730b94e423d4bef6834bc4a716437d2abd6ab8b24334c506aaaa08692c"
+>> +
+>> +S = "${WORKDIR}/${PN}-${PV}"
+>> +
+>> +PACKAGECONFIG ??= ""
+>> +PACKAGECONFIG[doc] = "--enable-doc,--disable-doc"
+>> +PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath"
+>> +PACKAGECONFIG[apparmour] =
+>> "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+>> +
+>> +inherit autotools
+>> +
+>> +FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
+>> --
+>> 1.7.9.5
+>>
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>
+>
 >
 
-Random comment. I was surprised that this wasn't already in the
-meta-networking
-layer, so I went to have a look. And indeed I don't see it.
 
-Is that consistent with what other people see ? This seems like it could go
-in another
-layer at some point.
-
-At a glance, I'm not seeing the libvirt dependency. Am I overlooking it
-somehow ?
-
-Cheers,
-
-Bruce
-
-
->
-> diff --git a/recipes-networking/netcat/openbsd-netcat_1.6.bbb/recipes-net=
-working/netcat/
-> openbsd-netcat_1.6.bb
-> new file mode 100644
-> index 0000000..1ae3f37
-> --- /dev/null
-> +++ b/recipes-networking/netcat/openbsd-netcat_1.6.bb
-> @@ -0,0 +1,29 @@
-> +DESCRIPTION =3D "OpenBSD Netcat"
-> +HOMEPAGE =3D "http://code.google.com/p/openbsd-netcat/"
-> +SECTION =3D "console/network"
-> +LICENSE =3D "BSD-3-Clause"
-> +PR =3D "r0"
-> +
-> +SRCREV =3D "5"
-> +
-> +SRC_URI =3D "svn://
-> openbsd-netcat.googlecode.com/svn;module=3Dtrunk;protocol=3Dhttp"
-> +S =3D "${WORKDIR}/trunk"
-> +
-> +inherit update-alternatives gettext
-> +
-> +do_configure[noexec] =3D "1"
-> +
-> +do_compile() {
-> +       cd ${S}
-> +       oe_runmake
-> +}
-> +
-> +do_install() {
-> +       install -d ${D}${bindir}
-> +       install -m 755 ${S}/nc ${D}${bindir}/nc.${BPN}
-> +}
-> +
-> +ALTERNATIVE_${PN} =3D "nc"
-> +ALTERNATIVE_PRIORITY =3D "101"
-> +
-> +BBCLASSEXTEND =3D "nativesdk"
-> --
-> 1.7.9.5
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---bcaec55405680790ac04d02fcc06
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<br><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Thu, D=
-ec 6, 2012 at 9:03 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:david.c.nys=
-trom@gmail.com" target=3D"_blank">david.c.nystrom@gmail.com</a>&gt;</span> =
-wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"HOEnZb"><div class=3D"h5">From=
-: David Nystr=F6m &lt;<a href=3D"mailto:david.nystrom@enea.com">david.nystr=
-om@enea.com</a>&gt;<br>
-
-<br>
----<br>
-=A0recipes-networking/netcat/<a href=3D"http://openbsd-netcat_1.6.bb" targe=
-t=3D"_blank">openbsd-netcat_1.6.bb</a> | =A0 29 +++++++++++++++++++++++<br>
-=A01 file changed, 29 insertions(+)<br>
-=A0create mode 100644 recipes-networking/netcat/<a href=3D"http://openbsd-n=
-etcat_1.6.bb" target=3D"_blank">openbsd-netcat_1.6.bb</a></div></div></bloc=
-kquote><div><br></div><div>Random comment. I was surprised that this wasn&#=
-39;t already in the meta-networking</div>
-<div>layer, so I went to have a look. And indeed I don&#39;t see it.</div><=
-div><br></div><div>Is that consistent with what other people see ? This see=
-ms like it could go in another</div><div>layer at some point.</div><div>
-=A0</div><div>At a glance, I&#39;m not seeing the libvirt dependency. Am I =
-overlooking it somehow ?</div><div><br></div><div>Cheers,</div><div><br></d=
-iv><div>Bruce</div><div><br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-<br>
-diff --git a/recipes-networking/netcat/<a href=3D"http://openbsd-netcat_1.6=
-.bb" target=3D"_blank">openbsd-netcat_1.6.bb</a> b/recipes-networking/netca=
-t/<a href=3D"http://openbsd-netcat_1.6.bb" target=3D"_blank">openbsd-netcat=
-_1.6.bb</a><br>
-
-new file mode 100644<br>
-index 0000000..1ae3f37<br>
---- /dev/null<br>
-+++ b/recipes-networking/netcat/<a href=3D"http://openbsd-netcat_1.6.bb" ta=
-rget=3D"_blank">openbsd-netcat_1.6.bb</a><br>
-@@ -0,0 +1,29 @@<br>
-+DESCRIPTION =3D &quot;OpenBSD Netcat&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"http://code.google.com/p/openbsd-netcat/" ta=
-rget=3D"_blank">http://code.google.com/p/openbsd-netcat/</a>&quot;<br>
-+SECTION =3D &quot;console/network&quot;<br>
-+LICENSE =3D &quot;BSD-3-Clause&quot;<br>
-+PR =3D &quot;r0&quot;<br>
-+<br>
-+SRCREV =3D &quot;5&quot;<br>
-+<br>
-+SRC_URI =3D &quot;svn://<a href=3D"http://openbsd-netcat.googlecode.com/sv=
-n;module=3Dtrunk;protocol=3Dhttp" target=3D"_blank">openbsd-netcat.googleco=
-de.com/svn;module=3Dtrunk;protocol=3Dhttp</a>&quot;<br>
-+S =3D &quot;${WORKDIR}/trunk&quot;<br>
-+<br>
-+inherit update-alternatives gettext<br>
-+<br>
-+do_configure[noexec] =3D &quot;1&quot;<br>
-+<br>
-+do_compile() {<br>
-+ =A0 =A0 =A0 cd ${S}<br>
-+ =A0 =A0 =A0 oe_runmake<br>
-+}<br>
-+<br>
-+do_install() {<br>
-+ =A0 =A0 =A0 install -d ${D}${bindir}<br>
-+ =A0 =A0 =A0 install -m 755 ${S}/nc ${D}${bindir}/nc.${BPN}<br>
-+}<br>
-+<br>
-+ALTERNATIVE_${PN} =3D &quot;nc&quot;<br>
-+ALTERNATIVE_PRIORITY =3D &quot;101&quot;<br>
-+<br>
-+BBCLASSEXTEND =3D &quot;nativesdk&quot;<br>
---<br>
-1.7.9.5<br>
-<br>
-_______________________________________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" tar=
-get=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization<=
-/a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its end&quot;<br>
-</div>
-
---bcaec55405680790ac04d02fcc06--
