@@ -1,39 +1,38 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B01F8E0145F
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D7670E01458
 	for <meta-virtualization@yoctoproject.org>;
 	Thu,  6 Dec 2012 05:45:13 -0800 (PST)
-Received: by mail-ea0-f176.google.com with SMTP id d13so2770402eaa.35
+Received: by mail-ee0-f48.google.com with SMTP id b57so4029677eek.35
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 06 Dec 2012 05:45:12 -0800 (PST)
+	Thu, 06 Dec 2012 05:45:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
 	:mime-version:content-type:content-transfer-encoding;
-	bh=7ZF6t1z7TbeFKcKEFWp187Hvl8gOPx7KvASzEeAH7OE=;
-	b=notS+GKiDO0sJXsB0LZPtDPH5WV0Kk885VosKYYmB+0LUryJiX54vY3OLHyai14iMo
-	TYkxzJ1vYWbXRjnHjKm329594+yUUqa6eh2eCbylRBYgI1cz0GY32/NTrf8uWtG9oCz8
-	pjM3Pvha4bEbkHrcZVfaWjMwVgNbuOLpjesQvju7Bl8OnEAsiKtN9ptfZtSWzZVuyh49
-	4n5rN3nF7sX7HSlm1KUwJYB3x3/tj0Q1alU8F3qFSJIY2wW7KGX5IqYo/ImNDJgcesNg
-	pFWR2fat7jQR4EXiS/80bLKEuFyyW/Tk5W8q4eaF11a/tv6GlzLAxEp8Ebbc54zZgyQQ
-	YnBg==
-Received: by 10.14.214.132 with SMTP id c4mr5953729eep.18.1354801512928;
-	Thu, 06 Dec 2012 05:45:12 -0800 (PST)
+	bh=wfAi5KMhu3SpYe30WlETrcs26yvWXgVOqgt0k8N744E=;
+	b=l6Le1HxpA+K/yGlN2UU5mOIeD577io9igViFAVbetGcir9nR/RyhAvgF4MB6LnKH/o
+	hh43uWp3LbWIC5dt5FsBLLmpazhxkyGQGDV14SYE3Zrxfa/aWdthJDkEOZMeOECQX2iB
+	Ww0lHDXjlAmY72s4U/yFHFFRVM8AypTaMeHa7eCaDXD8bU5s/wxdbyr+XTZuXU4K00Nf
+	H+nCHM+wTjrgwB5NloJnewxpCVdKTqIlOa3wle5jwKvwdw9rxaW5p3GAfMHXeukz71zL
+	FY/DTVzyBUCoMVYPe4WhaEaTUuSy6u7FMLEUJje5xdMrA+ykd1z6bHmQfTy1wUJU1vL4
+	4LeQ==
+Received: by 10.14.223.200 with SMTP id v48mr5895227eep.24.1354801513579;
+	Thu, 06 Dec 2012 05:45:13 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id 44sm16027619eek.0.2012.12.06.05.45.11
+	by mx.google.com with ESMTPS id z8sm15991397eeo.11.2012.12.06.05.45.11
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Thu, 06 Dec 2012 05:45:12 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id C876D400D66; Thu,  6 Dec 2012 14:45:06 +0100 (CET)
+	id CD469400D96; Thu,  6 Dec 2012 14:45:06 +0100 (CET)
 From: david.c.nystrom@gmail.com
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  6 Dec 2012 14:44:37 +0100
-Message-Id: <1354801486-9482-6-git-send-email-david.nystrom@enea.com>
+Date: Thu,  6 Dec 2012 14:44:39 +0100
+Message-Id: <1354801486-9482-8-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1354801486-9482-1-git-send-email-david.nystrom@enea.com>
 References: <1354801486-9482-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/14] Added netcf recipe, libvirt dependency
+Subject: [PATCH 07/14] Added openflow recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,41 +52,41 @@ Content-Transfer-Encoding: 8bit
 From: David Nyström <david.nystrom@enea.com>
 
 ---
- recipes-networking/netcf/netcf_git.bb |   25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 recipes-networking/netcf/netcf_git.bb
+ recipes-networking/openflow/openflow_1.0.bb |   24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 recipes-networking/openflow/openflow_1.0.bb
 
-diff --git a/recipes-networking/netcf/netcf_git.bb b/recipes-networking/netcf/netcf_git.bb
+diff --git a/recipes-networking/openflow/openflow_1.0.bb b/recipes-networking/openflow/openflow_1.0.bb
 new file mode 100644
-index 0000000..60fc446
+index 0000000..3663e50
 --- /dev/null
-+++ b/recipes-networking/netcf/netcf_git.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "netcf"
-+DESCRIPTION = "netcf is a cross-platform network configuration library."
-+HOMEPAGE = "https://fedorahosted.org/netcf/"
-+SECTION = "console/tools"
-+LICENSE = "LGPLv2.1"
++++ b/recipes-networking/openflow/openflow_1.0.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "OpelFlow"
++DESCRIPTION = "Provide a generic framework for handling devices in userspace."
++HOMEPAGE = "http://www.openflow.org"
++SECTION = "networking"
++LICENSE = "GPLv2"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=bbb461211a33b134d42ed5ee802b37ff"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e870c934e2c3d6ccf085fd7cf0a1e2e2"
 +
-+SRCREV = "2b0d9ca226c13d7150382367f62b256bdb2db5ef"
++SRCREV = "5ccca75a69f99791659bcfbcf35353ab1921320a"
 +PR = "r0"
-+PV = "0.2.2+git${SRCPV}"
++PV = "1.0+git${SRCPV}"
 +
-+SRC_URI = "git://git.fedorahosted.org/netcf.git;protocol=git"
++SRC_URI = "git://gitosis.stanford.edu/openflow.git;protocol=git"
 +
-+DEPENDS += "augeas libnl libxslt libxml2"
++DEPENDS = "virtual/libc"
++
++EXTRA_OECONF += "KARCH=${TARGET_ARCH}"
++
++PACKAGECONFIG ??= "libssl"
++PACKAGECONFIG[libssl] = "--enable-ssl,--disable-ssl, openssl, libssl"
 +
 +S = "${WORKDIR}/git"
 +
-+inherit gettext autotools
-+
-+do_configure_prepend() {
-+	cd ${S}
-+	./bootstrap
-+}
-+
++inherit autotools
+\ No newline at end of file
 -- 
 1.7.9.5
 
