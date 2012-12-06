@@ -1,36 +1,39 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 151F8E01462
+Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
+	[209.85.215.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5F2C1E01465
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Dec 2012 05:13:54 -0800 (PST)
-Received: by mail-ee0-f48.google.com with SMTP id b57so4008290eek.35
+	Thu,  6 Dec 2012 05:13:55 -0800 (PST)
+Received: by mail-ea0-f176.google.com with SMTP id d13so2757058eaa.35
 	for <meta-virtualization@yoctoproject.org>;
 	Thu, 06 Dec 2012 05:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=Y5/RvvvdTgssrhzqUUhsRtJvYqFSMJQmgEzQXINxxpE=;
-	b=E55MMIbCDd78p7+v5jHv9torqoYgirey5taNQNgN4pzJeyzesKXBfoCVIF5tejjxU4
-	llX2+Mrta8CV/Tm3VS6QJnge2f7D3h6ftN8wQ/j3yvprgqfhac4ECUseGKZI6Y6Midq2
-	9jiTRn8pJA8hRFx4/HLQJzUf46FTzhLlqIUs+2wUgeBoIlerYaqdMNgC/dywYp3iWh8T
-	kdZjaKXgEuHQr5drbp6BJtJMSSvV+LCefotSyijj3udChVbY9lLywh1W62jx6b0Ar3xt
-	QVdC9Ii6Ny6/dN3KDP1M2YleWzEqUhSiKhSlybgWebU5kW91TvkHnIPd6TAPwO7FYure
-	yHwQ==
-Received: by 10.14.178.196 with SMTP id f44mr5761290eem.14.1354799634795;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=Uo4zdijIif8SJ7+F5FJq3nBKrdKEmCLvHzD9gKChY9A=;
+	b=TGyGBsou4ymlV1bdKVN6YpTSgr5XgKN4Q+FVZo663fkx5KJOqw6pt4uAuMHnAXyNQP
+	qKfdyH+RWYdWm+AJeeA9yM7wHDqpCZCBsNn3/XXBgY4i/qMl0Nnyw6cp5Dlk4yrc2qKM
+	mLc6xj1yYFpF5VLLWU8k/aQcnbC2VfzNu68PYfwTuy9LstbphcGW6W1OnRiFyMfLIVp4
+	8WOnEMOflWy/k7ZPzUpJTJEPD6zSnuKSUdwmHbN+XzZh3HPjbqp3hUkPdUPe8y2Xjvsf
+	2bRTxP7wzu/TIbXlNzAVAIAgKfHQdormUUidYXiv3Pe6zJ7SSoF1nTlaID7qoqWBDBM/
+	FdpQ==
+Received: by 10.14.177.1 with SMTP id c1mr5778799eem.8.1354799634604;
 	Thu, 06 Dec 2012 05:13:54 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id 44sm15879833eek.0.2012.12.06.05.13.53
+	by mx.google.com with ESMTPS id k4sm9435609eep.15.2012.12.06.05.13.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Thu, 06 Dec 2012 05:13:53 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 65776400DC1; Thu,  6 Dec 2012 14:13:49 +0100 (CET)
+	id 6A914400DF7; Thu,  6 Dec 2012 14:13:49 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  6 Dec 2012 14:13:40 +0100
-Message-Id: <1354799626-6911-10-git-send-email-david.nystrom@enea.com>
+Date: Thu,  6 Dec 2012 14:13:41 +0100
+Message-Id: <1354799626-6911-11-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
 References: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
-Subject: [PATCH 09/14] Added .gitignore file
+MIME-Version: 1.0
+Subject: =?UTF-8?B?W1BBVENIIDEwLzE0XSBDaGFuZ2VkIERhdmlkIE55c3Ryw7ZtcyBlbWFpbCBpbiBSRUFETUU=?=
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,24 +47,26 @@ List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 X-List-Received-Date: Thu, 06 Dec 2012 13:13:55 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 ---
- .gitignore |    6 ++++++
- 1 file changed, 6 insertions(+)
- create mode 100644 .gitignore
+ README |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitignore b/.gitignore
-new file mode 100644
-index 0000000..65feb82
---- /dev/null
-+++ b/.gitignore
-@@ -0,0 +1,6 @@
-+build*/
-+pyshtables.py
-+*.swp
-+*.orig
-+*.rej
-+*~
+diff --git a/README b/README
+index 1ab6411..0ee4047 100644
+--- a/README
++++ b/README
+@@ -26,7 +26,7 @@ Maintenance
+ Send pull requests, patches, comments or questions to meta-virtualization@yoctoproject.org
+ 
+ Maintainers: Raymond Danks <ray.danks@se-eng.com>
+-             David Nyström <david.c.nystrom@gmail.com>
++             David Nyström <david.nystrom@enea.com>
+              Bruce Ashfield <bruce.ashfield@gmail.com>
+ 
+ When sending single patches, please using something like:
 -- 
 1.7.9.5
 
