@@ -1,35 +1,38 @@
-Return-Path: <ray.danks@se-eng.com>
-Received: from judge.camp.se-eng.com
-	(75-148-42-21-Colorado.hfc.comcastbusiness.net [75.148.42.21])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 66F39E0143A
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52E98E0143A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Dec 2012 06:00:50 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 39216138081
+	Thu,  6 Dec 2012 06:03:52 -0800 (PST)
+Received: by mail-ee0-f48.google.com with SMTP id b57so4044011eek.35
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Dec 2012 07:00:49 -0700 (MST)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id I3-KVzuCStGP for <meta-virtualization@yoctoproject.org>; 
-	Thu,  6 Dec 2012 07:00:45 -0700 (MST)
-Received: from [192.168.1.104] (host-209-169-196-2.beyondbb.com
-	[209.169.196.2])
-	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 44421138080
-	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Dec 2012 07:00:45 -0700 (MST)
-Message-ID: <50C0A4F9.3020203@se-eng.com>
-Date: Thu, 06 Dec 2012 07:00:25 -0700
-From: Raymond Danks <ray.danks@se-eng.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121028 Thunderbird/16.0.2
-MIME-Version: 1.0
+	Thu, 06 Dec 2012 06:03:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references
+	:mime-version:content-type:content-transfer-encoding;
+	bh=xKwc8fQq3NlqBdU0J1V0uNBbk3bvkG1TZSsFdHrZB5k=;
+	b=rfMlS0R60zlmS3jhYJ2h53Xi4a1US6mKCo7Kmar2arwDdsKvafLtpHPp4daPVpa8PO
+	tTc08GTxQqtsdhZqPMM8dGwDyj6L0Cvt3Dpz0CkyQlKcuw6Du5yef2ZoJmKFvE4fS3v0
+	9nIh85k983QLIhuTLvk07swzwYDqZWdT48Ek++JBXFVZRzdJT2al70+EA4RKyzfIjbXn
+	J6sTnSTiV6iqMOe1aYgkCykFtNG+1bv7S5KhUnKRSzmuwofF7g9kNHKxOCw3muxjjx53
+	J+UY7Wg3MYx/19dEUeKP330Wl/Er4zgsT5v5d/o02gCaI8uEvPcuKoCt/mfsrXf2oI4i
+	WQoA==
+Received: by 10.14.178.70 with SMTP id e46mr6305832eem.1.1354802631511;
+	Thu, 06 Dec 2012 06:03:51 -0800 (PST)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPS id d3sm16074005eeo.13.2012.12.06.06.03.50
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 06 Dec 2012 06:03:50 -0800 (PST)
+Received: by nysan (Postfix, from userid 1000)
+	id 934CD400D24; Thu,  6 Dec 2012 15:03:48 +0100 (CET)
+From: david.c.nystrom@gmail.com
 To: meta-virtualization@yoctoproject.org
-References: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
-	<1354799626-6911-14-git-send-email-david.nystrom@enea.com>
-In-Reply-To: <1354799626-6911-14-git-send-email-david.nystrom@enea.com>
-Subject: Re: [PATCH 13/14] Upgraded to libvirt 1.0.0, and added a more detailed packageconfig
+Date: Thu,  6 Dec 2012 15:03:10 +0100
+Message-Id: <1354802601-10840-4-git-send-email-david.c.nystrom@gmail.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1354802601-10840-1-git-send-email-david.c.nystrom@gmail.com>
+References: <1354802601-10840-1-git-send-email-david.c.nystrom@gmail.com>
+MIME-Version: 1.0
+Subject: [PATCHv3 03/14] Added CRIU recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,172 +45,109 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Dec 2012 14:00:50 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
+X-List-Received-Date: Thu, 06 Dec 2012 14:03:52 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-David,
+From: David Nystr√∂m <david.nystrom@enea.com>
 
-At a quick glance these all look good.  I probably won't be able to run 
-a build, but I will look at these throughout the day.  On this one in 
-particular, though, would you mind to either apply the changes to the 
-existing version first or simply perform the rename operation in git?  
-With that we can see more specifically what is being changed in the bb 
-file(s).
+---
+ recipes-containers/criu/criu_git.bb                |   29 ++++++++++++
+ .../criu/files/0001-Fixed-hardcoding.patch         |   47 ++++++++++++++++++++
+ 2 files changed, 76 insertions(+)
+ create mode 100644 recipes-containers/criu/criu_git.bb
+ create mode 100644 recipes-containers/criu/files/0001-Fixed-hardcoding.patch
 
-Thanks,
-Ray
-
-On 12/06/2012 06:13 AM, David Nystrˆm wrote:
-> ---
->   recipes-extended/libvirt/libvirt_1.0.0.bb |  139 +++++++++++++++++++++++++++++
->   1 file changed, 139 insertions(+)
->   create mode 100644 recipes-extended/libvirt/libvirt_1.0.0.bb
->
-> diff --git a/recipes-extended/libvirt/libvirt_1.0.0.bb b/recipes-extended/libvirt/libvirt_1.0.0.bb
-> new file mode 100644
-> index 0000000..45b460a
-> --- /dev/null
-> +++ b/recipes-extended/libvirt/libvirt_1.0.0.bb
-> @@ -0,0 +1,139 @@
-> +DESCRIPTION = "A toolkit to interact with the virtualization capabilities of recent versions of Linux."
-> +HOMEPAGE = "http://libvirt.org"
-> +LICENSE = "GPLv2+"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
-> +SECTION = "console/tools"
-> +PR = "r2"
-> +
-> +DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
-> +	   iptables ebtables dnsmasq readline"
-> +
-> +# These might be included by PACKAGECONFIG
-> +#RRECOMMENDS+= "polkit qemu yajl libnl lxc netcf"
-> +
-> +RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq openbsd-netcat"
-> +RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
-> +RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
-> +
-> +#connman blocks the 53 port and libvirtd can't start its DNS service
-> +RCONFLICTS_${PN}_libvirtd = "connman"
-> +
-> +SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz \
-> +	file://libvirtd.sh \
-> +	file://libvirtd.conf"
-> +
-> +SRC_URI[md5sum] = "7c8b006de7338e30866bb56738803b21"
-> +SRC_URI[sha256sum] = "14c8a30ebfb939c82cab5f759a95d09646b43b4210e45490e92459ae65123076"
-> +
-> +inherit autotools gettext update-rc.d
-> +
-> +CACHED_CONFIGUREVARS += "\
-> +ac_cv_path_XMLLINT=/usr/bin/xmllint \
-> +ac_cv_path_XMLCATLOG=/usr/bin/xmlcatalog \
-> +ac_cv_path_AUGPARSE=/usr/bin/augparse \
-> +ac_cv_path_DNSMASQ=/usr/bin/dnsmasq \
-> +ac_cv_path_BRCTL=/usr/sbin/brctl \
-> +ac_cv_path_TC=/sbin/tc \
-> +ac_cv_path_UDEVADM=/sbin/udevadm \
-> +ac_cv_path_MODPROBE=/sbin/modprobe \
-> +ac_cv_path_IP_PATH=/bin/ip \
-> +ac_cv_path_IPTABLES_PATH=/usr/sbin/iptables \
-> +ac_cv_path_IP6TABLES_PATH=/usr/sbin/ip6tables \
-> +ac_cv_path_MOUNT=/bin/mount \
-> +ac_cv_path_UMOUNT=/bin/umount \
-> +ac_cv_path_MKFS=/usr/sbin/mkfs \
-> +ac_cv_path_SHOWMOUNT=/usr/sbin/showmount \
-> +ac_cv_path_PVCREATE=/usr/sbin/pvcreate \
-> +ac_cv_path_VGCREATE=/usr/sbin/vgcreate \
-> +ac_cv_path_LVCREATE=/usr/sbin/lvcreate \
-> +ac_cv_path_PVREMOVE=/usr/sbin/pvremove \
-> +ac_cv_path_VGREMOVE=/usr/sbin/vgremove \
-> +ac_cv_path_LVREMOVE=/usr/sbin/lvremove \
-> +ac_cv_path_LVCHANGE=/usr/sbin/lvchange \
-> +ac_cv_path_VGCHANGE=/usr/sbin/vgchange \
-> +ac_cv_path_VGSCAN=/usr/sbin/vgscan \
-> +ac_cv_path_PVS=/usr/sbin/pvs \
-> +ac_cv_path_VGS=/usr/sbin/vgs \
-> +ac_cv_path_LVS=/usr/sbin/lvs \
-> +ac_cv_path_PARTED=/usr/sbin/parted \
-> +ac_cv_path_DMSETUP=/usr/sbin/dmsetup"
-> +
-> +# Some other possible paths we are not yet setting
-> +#ac_cv_path_RPCGEN=
-> +#ac_cv_path_XSLTPROC=
-> +#ac_cv_path_RADVD=
-> +#ac_cv_path_UDEVSETTLE=
-> +#ac_cv_path_EBTABLES_PATH=
-> +#ac_cv_path_PKG_CONFIG=
-> +#ac_cv_path_ac_pt_PKG_CONFIG
-> +#ac_cv_path_PKCHECK_PATH=
-> +#ac_cv_path_POLKIT_AUTH=
-> +#ac_cv_path_DTRACE=
-> +#ac_cv_path_ISCSIADM=
-> +#ac_cv_path_MSGFMT=
-> +#ac_cv_path_GMSGFMT=
-> +#ac_cv_path_XGETTEXT=
-> +#ac_cv_path_MSGMERGE=
-> +#ac_cv_path_SCRUB=
-> +#ac_cv_path_PYTHON=
-> +
-> +ALLOW_EMPTY_${PN} = "1"
-> +
-> +PACKAGES =+ "${PN}-libvirtd ${PN}-virsh"
-> +
-> +FILES_${PN}-libvirtd = "${sysconfdir}/init.d \
-> +	${sysconfdir}/sysctl.d \
-> +	${sysconfdir}/logrotate.d \
-> +	${sysconfdir}/libvirt/libvirtd.conf \
-> +	${sbindir}/libvirtd"
-> +
-> +FILES_${PN}-virsh = "${bindir}/virsh"
-> +FILES_${PN} += "${libdir}/libvirt/connection-driver \
-> +	    ${datadir}/augeas \
-> +	    ${datadir}/polkit-1"
-> +
-> +FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug"
-> +FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a"
-> +
-> +INITSCRIPT_PACKAGES = "${PN}-libvirtd"
-> +INITSCRIPT_NAME_${PN}-libvirtd = "libvirtd"
-> +INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
-> +
-> +# xen-minimal config
-> +#PACKAGECONFIG ??= "xen libxl xen-inotify test remote libvirtd"
-> +
-> +# full config
-> +PACKAGECONFIG ??= "qemu yajl xen libxl xen-inotify uml openvz vmware vbox esx \
-> +	           polkit lxc test remote macvtap libvirtd netcf"
-> +
-> +PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu"
-> +PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
-> +PACKAGECONFIG[xen] = "--with-xen,--without-xen,xen"
-> +PACKAGECONFIG[xenapi] = "--with-xenapi,--without-xenapi"
-> +PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,xen"
-> +PACKAGECONFIG[xen-inotify] = "--with-xen-inotify,--without-xen-inotify,xen"
-> +PACKAGECONFIG[uml] = "--with-uml, --without-uml"
-> +PACKAGECONFIG[openvz] = "--with-openvz,--without-openvz"
-> +PACKAGECONFIG[vmware] = "--with-vmware,--without-vmware"
-> +PACKAGECONFIG[phyp] = "--with-phyp,--without-phyp"
-> +PACKAGECONFIG[vbox] = "--with-vbox,--without-vbox"
-> +PACKAGECONFIG[esx] = "--with-esx,--without-esx"
-> +PACKAGECONFIG[hyperv] = "--with-hyperv,--without-hyperv"
-> +PACKAGECONFIG[polkit] = "--with-polkit,--without-polkit,polkit,polkit"
-> +PACKAGECONFIG[lxc] = "--with-lxc,--without-lxc, lxc"
-> +PACKAGECONFIG[test] = "--with-test=yes,--with-test=no"
-> +PACKAGECONFIG[remote] = "--with-remote,--without-remote"
-> +PACKAGECONFIG[macvtap] = "--with-macvtap=yes,--with-macvtap=no,libnl,libnl"
-> +PACKAGECONFIG[libvirtd] = "--with-libvirtd,--without-libvirtd"
-> +PACKAGECONFIG[netcf] = "--with-netcf,--without-netcf,netcf,netcf"
-> +
-> +# Enable the Python tool support
-> +require libvirt-python.inc
-> +
-> +do_install_append() {
-> +	install -d ${D}/etc/init.d
-> +	install -d ${D}/etc/libvirt
-> +
-> +	install -m 0755 ${WORKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
-> +	install -m 0644 ${WORKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
-> +}
+diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
+new file mode 100644
+index 0000000..878827f
+--- /dev/null
++++ b/recipes-containers/criu/criu_git.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "CRIU"
++DESCRIPTION = "Checkpoint/Restore In Userspace, or CRIU, is a software tool for Linux operating system. Using this tool, you can freeze a running application (or part of it) and checkpoint it to a hard drive as a collection of files. You can then use the files to restore and run the application from the point it was frozen at. The distinctive feature of the CRIU project is that it is mainly implemented in user space"
++HOMEPAGE = "http://criu.org"
++SECTION = "console/tools"
++LICENSE = "GPLv2"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=12920dfe6b35a0758155f0e62878b366"
++
++SRCREV = "d81c9a4618db2f618bdb8e207b7f0fec631c7142"
++PR = "r0"
++PV = "0.2+git${SRCPV}"
++
++SRC_URI = "git://git.criu.org/crtools.git;protocol=git \
++	file://0001-Fixed-hardcoding.patch"
++
++DEPENDS += "protobuf-c-native protobuf-c"
++
++S = "${WORKDIR}/git"
++
++EXTRA_OEMAKE += "ARCH=${TARGET_ARCH} WERROR=0"
++
++do_compile () {
++	   oe_runmake
++}
++
++do_install () {
++	   mkdir -p ${D}/${bindir}
++	   install -m 755 ${S}/crtools ${D}/${bindir}/crtools
++}
+\ No newline at end of file
+diff --git a/recipes-containers/criu/files/0001-Fixed-hardcoding.patch b/recipes-containers/criu/files/0001-Fixed-hardcoding.patch
+new file mode 100644
+index 0000000..5ff0a78
+--- /dev/null
++++ b/recipes-containers/criu/files/0001-Fixed-hardcoding.patch
+@@ -0,0 +1,47 @@
++From 32c6c037a6de0a0972e16949ebb64ffebb5b7bcc Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?David=20Nystr=C3=B6m?= <david.nystrom@enea.com>
++Date: Wed, 28 Nov 2012 15:07:27 +0100
++Subject: [PATCH] Fixed hardcoding
++
++---
++ Makefile.inc |   24 ++++++++++++------------
++ 1 file changed, 12 insertions(+), 12 deletions(-)
++
++diff --git a/Makefile.inc b/Makefile.inc
++index 722cbfc..3ae693e 100644
++--- a/Makefile.inc
+++++ b/Makefile.inc
++@@ -11,18 +11,18 @@ else
++ endif
++ export E Q
++ 
++-FIND		:= find
++-CSCOPE		:= cscope
++-TAGS		:= ctags
++-RM		:= rm
++-LD		:= ld
++-HEXDUMP		:= hexdump
++-CC		:= gcc
++-ECHO		:= echo
++-NM		:= nm
++-AWK		:= awk
++-SH		:= sh
++-MAKE		:= make
+++FIND		?= find
+++CSCOPE		?= cscope
+++TAGS		?= ctags
+++RM		?= rm
+++LD		?= ld
+++HEXDUMP		?= hexdump
+++CC		?= gcc
+++ECHO		?= echo
+++NM		?= nm
+++AWK		?= awk
+++SH		?= sh
+++MAKE		?= make
++ 
++ # Additional ARCH settings for x86
++ ARCH ?= $(shell echo $(uname_M) | sed -e s/i.86/i386/ -e s/sun4u/sparc64/ \
++-- 
++1.7.9.5
++
+-- 
+1.7.9.5
 
 
