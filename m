@@ -1,36 +1,37 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5A9EEE0145B
+Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
+	[209.85.215.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 85679E01462
 	for <meta-virtualization@yoctoproject.org>;
 	Thu,  6 Dec 2012 05:13:54 -0800 (PST)
-Received: by mail-ee0-f48.google.com with SMTP id b57so4008281eek.35
+Received: by mail-ea0-f176.google.com with SMTP id d13so2757036eaa.35
 	for <meta-virtualization@yoctoproject.org>;
 	Thu, 06 Dec 2012 05:13:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=vLk/UkLma7IMsZz1doni2ezOhmzLxMrjK0E4JxchWUE=;
-	b=gPjiPdsX77Bk9yvZDIAPGyweviCwZcxEf6eCYzQJ3JrqXAGz8T2Mzyd34awWKgLsbe
-	nR24QIVA16io9N9TOUIW79GpubLhPZqLcynJS83Rcq8+BMHE3RuofNEKOdJx+ey06WcZ
-	7yp7KfnAad/ofKr9s/yiI2LKcp+VG90wWuGDGAcNqSJMGIC+Ntloija6UAARaMqpj7T1
-	6o+hlaWgjgY+WmUNfVkBGNvpi1Za4LYrSOVal59h4awuetWnat5RMoimgqr9N3+Acu/o
-	WDgHhIp0V+9CotrktAB2LZXBPS3xBuS+QyvRE99s15SRrLCSvRUNlP2mwiXDApYUzeqn
-	Yovg==
-Received: by 10.14.205.198 with SMTP id j46mr5640363eeo.27.1354799634079;
+	bh=2EjBdoQ2bscUUI+g4AceAL06lrBI4bhrluZ/zfUgvW8=;
+	b=Q6STgDn0dQfonl5tmduMCVOpP1kMaavsIkb3fV2YTwu56YiyXeIVmmHpFh3xYbtX3l
+	4FIxCwwtruoMUjsuwH1PgAv55WKVrYrPp5+RCtScranmjnv01fb86jCHQESGiSfORyhF
+	c2J8baXIabCEo0AkQEg9Bn8ZSM/VPk1i/hgxw94Txct4jF5QtcrSyBbu/NFlEKutjWGp
+	bZ+bakwAculjSGG7pFj42tjl23gbMy8HzxwHx62RhtlIl+gnOeeOOZZVq0Qo9muNEpNa
+	4So8sdpltQC055Md57WxHRzQJqALnCFQP7UBDt8LujBIl/5a+y6SLwNTIYtOma5cif8c
+	adyA==
+Received: by 10.14.194.195 with SMTP id m43mr5495487een.44.1354799634243;
 	Thu, 06 Dec 2012 05:13:54 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id y44sm15835117eel.14.2012.12.06.05.13.52
+	by mx.google.com with ESMTPS id w3sm15835314eel.17.2012.12.06.05.13.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Thu, 06 Dec 2012 05:13:53 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 540CC400D66; Thu,  6 Dec 2012 14:13:49 +0100 (CET)
+	id 744AF4011B6; Thu,  6 Dec 2012 14:13:49 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  6 Dec 2012 14:13:36 +0100
-Message-Id: <1354799626-6911-6-git-send-email-david.nystrom@enea.com>
+Date: Thu,  6 Dec 2012 14:13:43 +0100
+Message-Id: <1354799626-6911-13-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
 References: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
-Subject: [PATCH 05/14] Added netcf recipe, libvirt dependency
+Subject: [PATCH 12/14] Added some details in README, and made the description common
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,41 +47,42 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Thu, 06 Dec 2012 13:13:54 -0000
 
 ---
- recipes-networking/netcf/netcf_git.bb |   25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
- create mode 100644 recipes-networking/netcf/netcf_git.bb
+ README |   11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/recipes-networking/netcf/netcf_git.bb b/recipes-networking/netcf/netcf_git.bb
-new file mode 100644
-index 0000000..60fc446
---- /dev/null
-+++ b/recipes-networking/netcf/netcf_git.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "netcf"
-+DESCRIPTION = "netcf is a cross-platform network configuration library."
-+HOMEPAGE = "https://fedorahosted.org/netcf/"
-+SECTION = "console/tools"
-+LICENSE = "LGPLv2.1"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=bbb461211a33b134d42ed5ee802b37ff"
-+
-+SRCREV = "2b0d9ca226c13d7150382367f62b256bdb2db5ef"
-+PR = "r0"
-+PV = "0.2.2+git${SRCPV}"
-+
-+SRC_URI = "git://git.fedorahosted.org/netcf.git;protocol=git"
-+
-+DEPENDS += "augeas libnl libxslt libxml2"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit gettext autotools
-+
-+do_configure_prepend() {
-+	cd ${S}
-+	./bootstrap
-+}
-+
+diff --git a/README b/README
+index 0ee4047..f9f890b 100644
+--- a/README
++++ b/README
+@@ -1,12 +1,8 @@
+ meta-xen
+ ===========
+ 
+-This layer provides support for building Xen, Libvirt, and associated
+-packages necessary for constructing an OE-based Xen distribution.
+-
+-This layer provides support for building KVM, Libvirt, OpenvSwitch et.c.
+-and associated packages necessary for constructing virtualized solutions for
+-Openembedded based distros.
++This layer provides support for building Xen, KVM, Libvirt, and associated
++packages necessary for constructing OE-based virtualized solutions.
+ 
+ Dependencies
+ ------------
+@@ -15,10 +11,13 @@ This layer depends on:
+ URI: git://github.com/openembedded/oe-core.git
+ branch: master
+ revision: HEAD
++prio: default
+ 
+ URI: git://github.com/openembedded/meta-oe.git
+ branch: master
+ revision: HEAD
++layers: meta-oe
++BBFILE_PRIORITY_openembedded-layer = "4"
+ 
+ Maintenance
+ -----------
 -- 
 1.7.9.5
 
