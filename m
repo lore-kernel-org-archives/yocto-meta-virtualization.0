@@ -1,37 +1,36 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ea0-f176.google.com (mail-ea0-f176.google.com
-	[209.85.215.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A24BAE01462
+Received: from mail-ee0-f48.google.com (mail-ee0-f48.google.com [74.125.83.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 75C80E01467
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Dec 2012 05:13:55 -0800 (PST)
-Received: by mail-ea0-f176.google.com with SMTP id d13so2757036eaa.35
+	Thu,  6 Dec 2012 05:13:56 -0800 (PST)
+Received: by mail-ee0-f48.google.com with SMTP id b57so4008282eek.35
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 06 Dec 2012 05:13:55 -0800 (PST)
+	Thu, 06 Dec 2012 05:13:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:x-mailer:in-reply-to:references;
-	bh=xcc8Rx08cV5s3vOgE24F6ycxt88NOEm7ilgpuhox/W4=;
-	b=fXfVmM9cj6E1ROUjNhzKbHm0ksmX8DFe0u39xdqXBnkPOfzV6s+eV7Qmz6CqqdGeVY
-	PlMBBWThFYBacRlbr5LLUiSmCjRa44lPh+0woBTQOQPVkR+ULMab3Rf8FwMLH3caT2cV
-	uJ1Aya9M32V0WaBoOX60tejnkfkevkEvQPMCMn7+JxuXlZP1YmcmBMy2v4pIl5hFcSRl
-	axEoh1+0geE/vj2eieObS1gPFPxwvJA3adGUmHceEal/Pt+OW2YUj8UjWbWkBkSIcUMO
-	DAS9SWX7La643alZ3VPEtJH14yaFR3/Pe0NidJWxFDEwTD8CNulxNk69dokqAepnRn2U
-	oCSg==
-Received: by 10.14.0.133 with SMTP id 5mr5547067eeb.29.1354799634966;
-	Thu, 06 Dec 2012 05:13:54 -0800 (PST)
+	bh=swcM1fndT3b1VwxQrzPshCS17swgcVsqs1AE7HLZito=;
+	b=pIH3Kqap+vLy2w6nJ6pCkwX7C/jQUWHLNJ6/o00Xb6LJ3WjQ6HWlShxUT9rsEvFQx9
+	vibrC0e3f22/iPziotxMn5z71aO3M9hbNDoeXuDp2DJQGQa3wj5FCo+17CgeJJVuFqK6
+	ASA/W2TrVVmGMNCpCJgMf+kmIY5TeoxOnbWcVhM/Om8+AsqmBfjOih00CaU7ORalxUTt
+	8ruLwAzLCkjyqjkhyw+J5hnAaFPVVKTEZXYaX25ybMeFUUex78rscZS5jE1xylH2dnNk
+	2jjjSfJwEtdiF88PnJ+J4xjk82UbjBeYrL8+LYIqjw7sjGC7V71vlASYPop+QSVzpU24
+	yTMw==
+Received: by 10.14.3.8 with SMTP id 8mr5500820eeg.40.1354799636163;
+	Thu, 06 Dec 2012 05:13:56 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id v46sm15877290eep.1.2012.12.06.05.13.53
+	by mx.google.com with ESMTPS id 43sm15847070eed.10.2012.12.06.05.13.53
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 06 Dec 2012 05:13:53 -0800 (PST)
+	Thu, 06 Dec 2012 05:13:55 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 603DB400DAC; Thu,  6 Dec 2012 14:13:49 +0100 (CET)
+	id 7977F4011BB; Thu,  6 Dec 2012 14:13:49 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  6 Dec 2012 14:13:39 +0100
-Message-Id: <1354799626-6911-9-git-send-email-david.nystrom@enea.com>
+Date: Thu,  6 Dec 2012 14:13:44 +0100
+Message-Id: <1354799626-6911-14-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
 References: <1354799626-6911-1-git-send-email-david.nystrom@enea.com>
-Subject: [PATCH 08/14] Added openvswitch recipe
+Subject: [PATCH 13/14] Upgraded to libvirt 1.0.0, and added a more detailed packageconfig
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,669 +46,154 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Thu, 06 Dec 2012 13:13:56 -0000
 
 ---
- .../openvswitch/files/openvswitch-controller       |  274 ++++++++++++++++++++
- .../openvswitch/files/openvswitch-controller-setup |   29 +++
- .../openvswitch/files/openvswitch-example          |  102 ++++++++
- .../openvswitch/files/openvswitch-switch           |  102 ++++++++
- .../openvswitch/files/openvswitch-switch-setup     |    8 +
- .../openvswitch/openvswitch_1.4.3.bb               |   99 +++++++
- 6 files changed, 614 insertions(+)
- create mode 100755 recipes-networking/openvswitch/files/openvswitch-controller
- create mode 100644 recipes-networking/openvswitch/files/openvswitch-controller-setup
- create mode 100644 recipes-networking/openvswitch/files/openvswitch-example
- create mode 100644 recipes-networking/openvswitch/files/openvswitch-switch
- create mode 100644 recipes-networking/openvswitch/files/openvswitch-switch-setup
- create mode 100644 recipes-networking/openvswitch/openvswitch_1.4.3.bb
+ recipes-extended/libvirt/libvirt_1.0.0.bb |  139 +++++++++++++++++++++++++++++
+ 1 file changed, 139 insertions(+)
+ create mode 100644 recipes-extended/libvirt/libvirt_1.0.0.bb
 
-diff --git a/recipes-networking/openvswitch/files/openvswitch-controller b/recipes-networking/openvswitch/files/openvswitch-controller
-new file mode 100755
-index 0000000..026974a
---- /dev/null
-+++ b/recipes-networking/openvswitch/files/openvswitch-controller
-@@ -0,0 +1,274 @@
-+#!/bin/sh
-+#
-+# Copyright (c) 2011 Nicira Networks Inc.
-+# Copyright (c) 2007, 2009 Javier Fernandez-Sanguino <jfs@debian.org>
-+#
-+# This is free software; you may redistribute it and/or modify
-+# it under the terms of the GNU General Public License as
-+# published by the Free Software Foundation; either version 2,
-+# or (at your option) any later version.
-+#
-+# This is distributed in the hope that it will be useful, but
-+# WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License with
-+# the Debian operating system, in /usr/share/common-licenses/GPL;  if
-+# not, write to the Free Software Foundation, Inc., 59 Temple Place,
-+# Suite 330, Boston, MA 02111-1307 USA
-+#
-+### BEGIN INIT INFO
-+# Provides:          openvswitch-controller
-+# Required-Start:    $network $local_fs $remote_fs
-+# Required-Stop:     $remote_fs
-+# Should-Start:      $named
-+# Should-Stop:       
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: Open vSwitch controller
-+### END INIT INFO
-+
-+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-+
-+DAEMON=/usr/bin/ovs-controller # Introduce the server's location here
-+NAME=ovs-controller         # Introduce the short server's name here
-+DESC=ovs-controller         # Introduce a short description here
-+LOGDIR=/var/log/openvswitch # Log directory to use
-+
-+PIDFILE=/var/run/openvswitch/$NAME.pid 
-+
-+test -x $DAEMON || exit 0
-+
-+. /lib/lsb/init-functions
-+
-+# Default options, these can be overriden by the information
-+# at /etc/default/openvswitch-controller
-+DAEMON_OPTS=""          # Additional options given to the server 
-+
-+DODTIME=10              # Time to wait for the server to die, in seconds
-+                        # If this value is set too low you might not
-+                        # let some servers to die gracefully and
-+                        # 'restart' will not work
-+                        
-+LOGFILE=$LOGDIR/$NAME.log  # Server logfile
-+#DAEMONUSER=            # User to run the daemons as. If this value
-+                        # is set start-stop-daemon will chuid the server
-+
-+# Include defaults if available
-+default=/etc/default/openvswitch-controller
-+if [ -f $default ] ; then
-+    . $default
-+fi
-+
-+# Check that the user exists (if we set a user)
-+# Does the user exist?
-+if [ -n "$DAEMONUSER" ] ; then
-+    if getent passwd | grep -q "^$DAEMONUSER:"; then
-+        # Obtain the uid and gid
-+        DAEMONUID=`getent passwd |grep "^$DAEMONUSER:" | awk -F : '{print $3}'`
-+        DAEMONGID=`getent passwd |grep "^$DAEMONUSER:" | awk -F : '{print $4}'`
-+    else
-+        log_failure_msg "The user $DAEMONUSER, required to run $NAME does not exist."
-+        exit 1
-+    fi
-+fi
-+
-+
-+set -e
-+
-+running_pid() {
-+# Check if a given process pid's cmdline matches a given name
-+    pid=$1
-+    name=$2
-+    [ -z "$pid" ] && return 1 
-+    [ ! -d /proc/$pid ] &&  return 1
-+    cmd=`cat /proc/$pid/cmdline | tr "\000" "\n"|head -n 1 |cut -d : -f 1`
-+    # Is this the expected server
-+    [ "$cmd" != "$name" ] &&  return 1
-+    return 0
-+}
-+
-+running() {
-+# Check if the process is running looking at /proc
-+# (works for all users)
-+
-+    # No pidfile, probably no daemon present
-+    [ ! -f "$PIDFILE" ] && return 1
-+    pid=`cat $PIDFILE`
-+    running_pid $pid $DAEMON || return 1
-+    return 0
-+}
-+
-+start_server() {
-+    if [ -z "$LISTEN" ]; then
-+        echo "$default: No connection methods configured, controller disabled" >&2
-+        exit 0
-+    fi
-+
-+    if [ ! -d /var/run/openvswitch ]; then
-+        install -d -m 755 -o root -g root /var/run/openvswitch
-+    fi
-+
-+    SSL_OPTS=
-+    case $LISTEN in
-+        *ssl*)
-+            : ${PRIVKEY:=/etc/openvswitch-controller/privkey.pem}
-+            : ${CERT:=/etc/openvswitch-controller/cert.pem}
-+            : ${CACERT:=/etc/openvswitch-controller/cacert.pem}
-+            if test ! -e "$PRIVKEY" || test ! -e "$CERT" ||
-+                test ! -e "$CACERT"; then
-+                if test ! -e "$PRIVKEY"; then
-+                    echo "$PRIVKEY: private key missing" >&2
-+                fi
-+                if test ! -e "$CERT"; then
-+                    echo "$CERT: certificate for private key missing" >&2
-+                fi
-+                if test ! -e "$CACERT"; then
-+                    echo "$CACERT: CA certificate missing" >&2
-+                fi
-+                exit 1
-+            fi
-+            SSL_OPTS="--private-key=$PRIVKEY --certificate=$CERT --ca-cert=$CACERT"
-+            ;;
-+    esac
-+
-+# Start the process using the wrapper
-+        if [ -z "$DAEMONUSER" ] ; then
-+            start-stop-daemon --start --pidfile $PIDFILE \
-+                        --exec $DAEMON -- --detach --pidfile=$PIDFILE \
-+                        $LISTEN $DAEMON_OPTS $SSL_OPTS
-+            errcode=$?
-+        else
-+# if we are using a daemonuser then change the user id
-+            start-stop-daemon --start --quiet --pidfile $PIDFILE \
-+                        --chuid $DAEMONUSER --exec $DAEMON -- \
-+                        --detach --pidfile=$PIDFILE $LISTEN $DAEMON_OPTS \
-+                        $SSL_OPTS
-+            errcode=$?
-+        fi
-+        return $errcode
-+}
-+
-+stop_server() {
-+# Stop the process using the wrapper
-+        if [ -z "$DAEMONUSER" ] ; then
-+            start-stop-daemon --stop --quiet --pidfile $PIDFILE \
-+                        --exec $DAEMON
-+            errcode=$?
-+        else
-+# if we are using a daemonuser then look for process that match
-+            start-stop-daemon --stop --quiet --pidfile $PIDFILE \
-+                        --user $DAEMONUSER --exec $DAEMON
-+            errcode=$?
-+        fi
-+
-+        return $errcode
-+}
-+
-+reload_server() {
-+    [ ! -f "$PIDFILE" ] && return 1
-+    pid=`cat $PIDFILE` # This is the daemon's pid
-+    # Send a SIGHUP
-+    kill -1 $pid
-+    return $?
-+}
-+
-+force_stop() {
-+# Force the process to die killing it manually
-+    [ ! -e "$PIDFILE" ] && return
-+    if running ; then
-+        kill -15 $pid
-+        # Is it really dead?
-+        sleep "$DODTIME"
-+        if running ; then
-+            kill -9 $pid
-+            sleep "$DODTIME"
-+            if running ; then
-+                echo "Cannot kill $NAME (pid=$pid)!"
-+                exit 1
-+            fi
-+        fi
-+    fi
-+    rm -f $PIDFILE
-+}
-+
-+
-+case "$1" in
-+  start)
-+        log_begin_msg "Starting $DESC " "$NAME"
-+        # Check if it's running first
-+        if running ;  then
-+            log_warning_msg "apparently already running"
-+            log_end_msg 0
-+            exit 0
-+        fi
-+        if start_server && running ;  then
-+            # It's ok, the server started and is running
-+            log_end_msg 0
-+        else
-+            # Either we could not start it or it is not running
-+            # after we did
-+            # NOTE: Some servers might die some time after they start,
-+            # this code does not try to detect this and might give
-+            # a false positive (use 'status' for that)
-+            log_end_msg 1
-+        fi
-+        ;;
-+  stop)
-+        log_begin_msg "Stopping $DESC" "$NAME"
-+        if running ; then
-+            # Only stop the server if we see it running
-+            stop_server
-+            log_end_msg $?
-+        else
-+            # If it's not running don't do anything
-+            log_warning_msg "apparently not running"
-+            log_end_msg 0
-+            exit 0
-+        fi
-+        ;;
-+  force-stop)
-+        # First try to stop gracefully the program
-+        $0 stop
-+        if running; then
-+            # If it's still running try to kill it more forcefully
-+            log_begin_msg "Stopping (force) $DESC" "$NAME"
-+            force_stop
-+            log_end_msg $?
-+        fi
-+        ;;
-+  restart|force-reload)
-+        log_begin_msg "Restarting $DESC" "$NAME"
-+        stop_server
-+        # Wait some sensible amount, some server need this
-+        [ -n "$DODTIME" ] && sleep $DODTIME
-+        start_server
-+        running
-+        log_end_msg $?
-+        ;;
-+  status)
-+
-+        log_begin_msg "Checking status of $DESC" "$NAME"
-+        if running ;  then
-+            log_begin_msg "running"
-+            log_end_msg 0
-+        else
-+            log_warning_msg "apparently not running"
-+            log_end_msg 1
-+            exit 1
-+        fi
-+        ;;
-+  # Use this if the daemon cannot reload
-+  reload)
-+        log_warning_msg "Reloading $NAME daemon: not implemented, as the daemon"
-+        log_warning_msg "cannot re-read the config file (use restart)."
-+        ;;
-+  *)
-+        N=/etc/init.d/openvswitch-controller
-+        echo "Usage: $N {start|stop|force-stop|restart|force-reload|status}" >&2
-+        exit 1
-+        ;;
-+esac
-+
-+exit 0
-diff --git a/recipes-networking/openvswitch/files/openvswitch-controller-setup b/recipes-networking/openvswitch/files/openvswitch-controller-setup
+diff --git a/recipes-extended/libvirt/libvirt_1.0.0.bb b/recipes-extended/libvirt/libvirt_1.0.0.bb
 new file mode 100644
-index 0000000..1d9f926
+index 0000000..45b460a
 --- /dev/null
-+++ b/recipes-networking/openvswitch/files/openvswitch-controller-setup
-@@ -0,0 +1,29 @@
-+# This is a POSIX shell fragment                -*- sh -*-
++++ b/recipes-extended/libvirt/libvirt_1.0.0.bb
+@@ -0,0 +1,139 @@
++DESCRIPTION = "A toolkit to interact with the virtualization capabilities of recent versions of Linux." 
++HOMEPAGE = "http://libvirt.org"
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
++SECTION = "console/tools"
++PR = "r2"
 +
-+# LISTEN: What OpenFlow connection methods should the controller listen on?
-+#
-+# This is a space-delimited list of connection methods:
-+#
-+# * "pssl:[PORT]": Listen for SSL connections on the specified PORT
-+#   (default: 6633).  The private key, certificate, and CA certificate
-+#   must be specified below.
-+#
-+# * "pctp:[PORT]": Listen for TCP connections on the specified PORT
-+#   (default: 6633).  Not recommended for security reasons.
-+#
-+LISTEN="pssl:"
++DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
++	   iptables ebtables dnsmasq readline"
 +
-+# PRIVKEY: Name of file containing controller's private key.
-+# Required if SSL enabled.
-+PRIVKEY=/etc/openvswitch-controller/privkey.pem
++# These might be included by PACKAGECONFIG
++#RRECOMMENDS+= "polkit qemu yajl libnl lxc netcf"
 +
-+# CERT: Name of file containing certificate for private key.
-+# Required if SSL enabled.
-+CERT=/etc/openvswitch-controller/cert.pem
++RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq openbsd-netcat"
++RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
++RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
 +
-+# CACERT: Name of file containing switch CA certificate.
-+# Required if SSL enabled.
-+CACERT=/etc/openvswitch-controller/cacert.pem
++#connman blocks the 53 port and libvirtd can't start its DNS service
++RCONFLICTS_${PN}_libvirtd = "connman"
 +
-+# Additional options to pass to controller, e.g. "--hub"
-+DAEMON_OPTS=""
-diff --git a/recipes-networking/openvswitch/files/openvswitch-example b/recipes-networking/openvswitch/files/openvswitch-example
-new file mode 100644
-index 0000000..6f08c3f
---- /dev/null
-+++ b/recipes-networking/openvswitch/files/openvswitch-example
-@@ -0,0 +1,102 @@
-+#! /bin/sh
-+#
-+# Copyright (C) 2011 Nicira Networks, Inc.
-+#
-+# Licensed under the Apache License, Version 2.0 (the "License");
-+# you may not use this file except in compliance with the License.
-+# You may obtain a copy of the License at:
-+#
-+#     http://www.apache.org/licenses/LICENSE-2.0
-+#
-+# Unless required by applicable law or agreed to in writing, software
-+# distributed under the License is distributed on an "AS IS" BASIS,
-+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+# See the License for the specific language governing permissions and
-+# limitations under the License.
-+#
-+### BEGIN INIT INFO
-+# Provides:          openvswitch-switch
-+# Required-Start:    $network $named $remote_fs $syslog
-+# Required-Stop:     $remote_fs
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: Open vSwitch switch
-+### END INIT INFO
++SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz \
++	file://libvirtd.sh \
++	file://libvirtd.conf"
 +
-+(test -x /usr/sbin/ovs-vswitchd && test -x /usr/sbin/ovsdb-server) || exit 0
++SRC_URI[md5sum] = "7c8b006de7338e30866bb56738803b21"
++SRC_URI[sha256sum] = "14c8a30ebfb939c82cab5f759a95d09646b43b4210e45490e92459ae65123076"
 +
-+. /usr/share/openvswitch/scripts/ovs-lib
-+test -e /etc/default/openvswitch-switch && . /etc/default/openvswitch-switch
++inherit autotools gettext update-rc.d
 +
-+if test X"$BRCOMPAT" = Xyes && test ! -x /usr/sbin/ovs-brcompatd; then
-+    BRCOMPAT=no
-+    log_warning_msg "ovs-brcompatd missing, disabling bridge compatibility"
-+fi
++CACHED_CONFIGUREVARS += "\
++ac_cv_path_XMLLINT=/usr/bin/xmllint \
++ac_cv_path_XMLCATLOG=/usr/bin/xmlcatalog \
++ac_cv_path_AUGPARSE=/usr/bin/augparse \
++ac_cv_path_DNSMASQ=/usr/bin/dnsmasq \
++ac_cv_path_BRCTL=/usr/sbin/brctl \
++ac_cv_path_TC=/sbin/tc \
++ac_cv_path_UDEVADM=/sbin/udevadm \
++ac_cv_path_MODPROBE=/sbin/modprobe \
++ac_cv_path_IP_PATH=/bin/ip \
++ac_cv_path_IPTABLES_PATH=/usr/sbin/iptables \
++ac_cv_path_IP6TABLES_PATH=/usr/sbin/ip6tables \
++ac_cv_path_MOUNT=/bin/mount \
++ac_cv_path_UMOUNT=/bin/umount \
++ac_cv_path_MKFS=/usr/sbin/mkfs \
++ac_cv_path_SHOWMOUNT=/usr/sbin/showmount \
++ac_cv_path_PVCREATE=/usr/sbin/pvcreate \
++ac_cv_path_VGCREATE=/usr/sbin/vgcreate \
++ac_cv_path_LVCREATE=/usr/sbin/lvcreate \
++ac_cv_path_PVREMOVE=/usr/sbin/pvremove \
++ac_cv_path_VGREMOVE=/usr/sbin/vgremove \
++ac_cv_path_LVREMOVE=/usr/sbin/lvremove \
++ac_cv_path_LVCHANGE=/usr/sbin/lvchange \
++ac_cv_path_VGCHANGE=/usr/sbin/vgchange \
++ac_cv_path_VGSCAN=/usr/sbin/vgscan \
++ac_cv_path_PVS=/usr/sbin/pvs \
++ac_cv_path_VGS=/usr/sbin/vgs \
++ac_cv_path_LVS=/usr/sbin/lvs \
++ac_cv_path_PARTED=/usr/sbin/parted \
++ac_cv_path_DMSETUP=/usr/sbin/dmsetup"
 +
-+ovs_ctl () {
-+    set /usr/share/openvswitch/scripts/ovs-ctl "$@"
-+    if test X"$BRCOMPAT" = Xyes; then
-+        set "$@" --brcompat
-+    fi
-+    "$@"
-+}
++# Some other possible paths we are not yet setting
++#ac_cv_path_RPCGEN=
++#ac_cv_path_XSLTPROC=
++#ac_cv_path_RADVD=
++#ac_cv_path_UDEVSETTLE=
++#ac_cv_path_EBTABLES_PATH=
++#ac_cv_path_PKG_CONFIG=
++#ac_cv_path_ac_pt_PKG_CONFIG
++#ac_cv_path_PKCHECK_PATH=
++#ac_cv_path_POLKIT_AUTH=
++#ac_cv_path_DTRACE=
++#ac_cv_path_ISCSIADM=
++#ac_cv_path_MSGFMT=
++#ac_cv_path_GMSGFMT=
++#ac_cv_path_XGETTEXT=
++#ac_cv_path_MSGMERGE=
++#ac_cv_path_SCRUB=
++#ac_cv_path_PYTHON=
 +
-+load_kmod () {
-+    ovs_ctl load-kmod || exit $?
-+}
++ALLOW_EMPTY_${PN} = "1"
 +
-+start () {
-+    if ovs_ctl load-kmod; then
-+	:
-+    else
-+	echo "Module has probably not been built for this kernel."
-+	if ! test -d /usr/share/doc/openvswitch-datapath-source; then
-+	    echo "Install the openvswitch-datapath-source package, then read"
-+	else
-+            echo "For instructions, read"
-+	fi
-+	echo "/usr/share/doc/openvswitch-datapath-source/README.Debian"
-+    fi
-+    set ovs_ctl ${1-start} --system-id=random
-+    if test X"$FORCE_COREFILES" != X; then
-+	set "$@" --force-corefiles="$FORCE_COREFILES"
-+    fi
-+    "$@" || exit $?
++PACKAGES =+ "${PN}-libvirtd ${PN}-virsh"
 +
-+    ovs_ctl --protocol=gre enable-protocol
-+}
++FILES_${PN}-libvirtd = "${sysconfdir}/init.d \
++	${sysconfdir}/sysctl.d \
++	${sysconfdir}/logrotate.d \
++	${sysconfdir}/libvirt/libvirtd.conf \
++	${sbindir}/libvirtd"
 +
-+stop () {
-+    ovs_ctl stop
-+}
++FILES_${PN}-virsh = "${bindir}/virsh"
++FILES_${PN} += "${libdir}/libvirt/connection-driver \
++	    ${datadir}/augeas \
++	    ${datadir}/polkit-1"
 +
-+case $1 in
-+    start)
-+        start
-+	;;
-+    stop | force-stop)
-+        stop
-+        ;;
-+    reload | force-reload)
-+        # The OVS daemons keep up-to-date.
-+        ;;
-+    restart)
-+        stop
-+        start
-+        ;;
-+    status)
-+        ovs_ctl status
-+        ;;
-+    force-reload-kmod)
-+        start force-reload-kmod
-+        ;;
-+    load-kmod)
-+        load_kmod
-+        ;;
-+    *)
-+        echo "Usage: $0 {start|stop|restart|force-reload|status|force-stop|force-reload-kmod|load-kmod}" >&2
-+        exit 1
-+        ;;
-+esac
++FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug"
++FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a"
 +
-+exit 0
-diff --git a/recipes-networking/openvswitch/files/openvswitch-switch b/recipes-networking/openvswitch/files/openvswitch-switch
-new file mode 100644
-index 0000000..6f08c3f
---- /dev/null
-+++ b/recipes-networking/openvswitch/files/openvswitch-switch
-@@ -0,0 +1,102 @@
-+#! /bin/sh
-+#
-+# Copyright (C) 2011 Nicira Networks, Inc.
-+#
-+# Licensed under the Apache License, Version 2.0 (the "License");
-+# you may not use this file except in compliance with the License.
-+# You may obtain a copy of the License at:
-+#
-+#     http://www.apache.org/licenses/LICENSE-2.0
-+#
-+# Unless required by applicable law or agreed to in writing, software
-+# distributed under the License is distributed on an "AS IS" BASIS,
-+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-+# See the License for the specific language governing permissions and
-+# limitations under the License.
-+#
-+### BEGIN INIT INFO
-+# Provides:          openvswitch-switch
-+# Required-Start:    $network $named $remote_fs $syslog
-+# Required-Stop:     $remote_fs
-+# Default-Start:     2 3 4 5
-+# Default-Stop:      0 1 6
-+# Short-Description: Open vSwitch switch
-+### END INIT INFO
++INITSCRIPT_PACKAGES = "${PN}-libvirtd"
++INITSCRIPT_NAME_${PN}-libvirtd = "libvirtd"
++INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
 +
-+(test -x /usr/sbin/ovs-vswitchd && test -x /usr/sbin/ovsdb-server) || exit 0
++# xen-minimal config
++#PACKAGECONFIG ??= "xen libxl xen-inotify test remote libvirtd"
 +
-+. /usr/share/openvswitch/scripts/ovs-lib
-+test -e /etc/default/openvswitch-switch && . /etc/default/openvswitch-switch
++# full config
++PACKAGECONFIG ??= "qemu yajl xen libxl xen-inotify uml openvz vmware vbox esx \
++	           polkit lxc test remote macvtap libvirtd netcf"
 +
-+if test X"$BRCOMPAT" = Xyes && test ! -x /usr/sbin/ovs-brcompatd; then
-+    BRCOMPAT=no
-+    log_warning_msg "ovs-brcompatd missing, disabling bridge compatibility"
-+fi
++PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu"
++PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
++PACKAGECONFIG[xen] = "--with-xen,--without-xen,xen"
++PACKAGECONFIG[xenapi] = "--with-xenapi,--without-xenapi"
++PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,xen"
++PACKAGECONFIG[xen-inotify] = "--with-xen-inotify,--without-xen-inotify,xen"
++PACKAGECONFIG[uml] = "--with-uml, --without-uml"
++PACKAGECONFIG[openvz] = "--with-openvz,--without-openvz"
++PACKAGECONFIG[vmware] = "--with-vmware,--without-vmware"
++PACKAGECONFIG[phyp] = "--with-phyp,--without-phyp"
++PACKAGECONFIG[vbox] = "--with-vbox,--without-vbox"
++PACKAGECONFIG[esx] = "--with-esx,--without-esx"
++PACKAGECONFIG[hyperv] = "--with-hyperv,--without-hyperv"
++PACKAGECONFIG[polkit] = "--with-polkit,--without-polkit,polkit,polkit"
++PACKAGECONFIG[lxc] = "--with-lxc,--without-lxc, lxc"
++PACKAGECONFIG[test] = "--with-test=yes,--with-test=no"
++PACKAGECONFIG[remote] = "--with-remote,--without-remote"
++PACKAGECONFIG[macvtap] = "--with-macvtap=yes,--with-macvtap=no,libnl,libnl"
++PACKAGECONFIG[libvirtd] = "--with-libvirtd,--without-libvirtd"
++PACKAGECONFIG[netcf] = "--with-netcf,--without-netcf,netcf,netcf"
 +
-+ovs_ctl () {
-+    set /usr/share/openvswitch/scripts/ovs-ctl "$@"
-+    if test X"$BRCOMPAT" = Xyes; then
-+        set "$@" --brcompat
-+    fi
-+    "$@"
-+}
-+
-+load_kmod () {
-+    ovs_ctl load-kmod || exit $?
-+}
-+
-+start () {
-+    if ovs_ctl load-kmod; then
-+	:
-+    else
-+	echo "Module has probably not been built for this kernel."
-+	if ! test -d /usr/share/doc/openvswitch-datapath-source; then
-+	    echo "Install the openvswitch-datapath-source package, then read"
-+	else
-+            echo "For instructions, read"
-+	fi
-+	echo "/usr/share/doc/openvswitch-datapath-source/README.Debian"
-+    fi
-+    set ovs_ctl ${1-start} --system-id=random
-+    if test X"$FORCE_COREFILES" != X; then
-+	set "$@" --force-corefiles="$FORCE_COREFILES"
-+    fi
-+    "$@" || exit $?
-+
-+    ovs_ctl --protocol=gre enable-protocol
-+}
-+
-+stop () {
-+    ovs_ctl stop
-+}
-+
-+case $1 in
-+    start)
-+        start
-+	;;
-+    stop | force-stop)
-+        stop
-+        ;;
-+    reload | force-reload)
-+        # The OVS daemons keep up-to-date.
-+        ;;
-+    restart)
-+        stop
-+        start
-+        ;;
-+    status)
-+        ovs_ctl status
-+        ;;
-+    force-reload-kmod)
-+        start force-reload-kmod
-+        ;;
-+    load-kmod)
-+        load_kmod
-+        ;;
-+    *)
-+        echo "Usage: $0 {start|stop|restart|force-reload|status|force-stop|force-reload-kmod|load-kmod}" >&2
-+        exit 1
-+        ;;
-+esac
-+
-+exit 0
-diff --git a/recipes-networking/openvswitch/files/openvswitch-switch-setup b/recipes-networking/openvswitch/files/openvswitch-switch-setup
-new file mode 100644
-index 0000000..73387fb
---- /dev/null
-+++ b/recipes-networking/openvswitch/files/openvswitch-switch-setup
-@@ -0,0 +1,8 @@
-+# This is a POSIX shell fragment                -*- sh -*-
-+
-+# FORCE_COREFILES: If 'yes' then core files will be enabled.
-+# FORCE_COREFILES=yes
-+
-+# BRCOMPAT: If 'yes' and the openvswitch-brcompat package is installed, then
-+# Linux bridge compatibility will be enabled.
-+# BRCOMPAT=yes
-diff --git a/recipes-networking/openvswitch/openvswitch_1.4.3.bb b/recipes-networking/openvswitch/openvswitch_1.4.3.bb
-new file mode 100644
-index 0000000..88f0114
---- /dev/null
-+++ b/recipes-networking/openvswitch/openvswitch_1.4.3.bb
-@@ -0,0 +1,99 @@
-+SUMMARY = "OpenvSwitch"
-+DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
-+HOMEPAGE = "http://openvswitch.org/"
-+SECTION = "networking"
-+LICENSE = "Apache-2"
-+
-+DEPENDS += "bridge-utils openssl python perl"
-+
-+RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid \
-+	       python perl perl-module-strict"
-+RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
-+RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
-+RDEPENDS_${PN}-pki = "${PN}"
-+RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
-+RRECOMMENDS_${PN} += "kernel-module-openvswitch"
-+
-+PR = "r1"
-+
-+SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
-+	file://openvswitch-switch \
-+	file://openvswitch-switch-setup \
-+	file://openvswitch-controller \
-+	file://openvswitch-controller-setup \		
-+	"
-+
-+SRC_URI[md5sum] = "66df8e84f579e734aa4a43bc502baffd"
-+SRC_URI[sha256sum] = "be1ae1ecff0ff095d24f552c148dd4d2931d187bbb35b3d9205416a0aca746a8"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
-+
-+# Don't compile kernel modules by default since it heavily depends on 
-+# kernel version. Use the in-kernel module for now.
-+# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
-+# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
-+
-+ALLOW_EMPTY_${PN}-pki = "1"
-+PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
-+
-+FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
-+	${sysconfdir}/default/openvswitch-controller \
-+	${sysconfdir}/openvswitch-controller \
-+	${bindir}/ovs-controller"
-+
-+FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
-+
-+FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
-+		   ${sysconfdir}/default/openvswitch-switch \
-+		   "
-+inherit autotools update-rc.d
-+
-+INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
-+INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
-+INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
-+
-+INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
-+INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
++# Enable the Python tool support
++require libvirt-python.inc
 +
 +do_install_append() {
-+	install -d ${D}/${sysconfdir}/default/
-+	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
-+	install -d ${D}/${sysconfdir}/openvswitch-controller
-+	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
-+	
-+	install -d ${D}/${sysconfdir}/init.d/
-+	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
-+	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
-+	true || rm -fr ${D}/${datadir}/${PN}/pki
-+}
++	install -d ${D}/etc/init.d
++	install -d ${D}/etc/libvirt
 +
-+pkg_postinst_${PN}-pki () {
-+	# can't do this offline
-+        if [ "x$D" != "x" ]; then
-+                exit 1
-+        fi
-+	if test ! -d $D/${datadir}/${PN}/pki; then
-+            ovs-pki init --dir=$D/${datadir}/${PN}/pki
-+        fi
-+}
-+
-+pkg_postinst_${PN}-controller () {
-+        # can't do this offline
-+        if [ "x$D" != "x" ]; then
-+                exit 1
-+        fi
-+	
-+	cd $D/${sysconfdir}/openvswitch-controller
-+        if ! test -e cacert.pem; then
-+            ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
-+        fi
-+        if ! test -e privkey.pem || ! test -e cert.pem; then
-+            oldumask=$(umask)
-+            umask 077
-+            ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
-+            mv tmp-privkey.pem privkey.pem
-+            mv tmp-cert.pem cert.pem
-+            mv tmp-req.pem req.pem
-+            chmod go+r cert.pem req.pem
-+            umask $oldumask
-+        fi
++	install -m 0755 ${WORKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
++	install -m 0644 ${WORKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
 +}
 -- 
 1.7.9.5
