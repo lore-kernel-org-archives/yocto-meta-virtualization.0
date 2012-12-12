@@ -1,25 +1,28 @@
 Return-Path: <David.Nystrom@enea.com>
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 6B82EE0141C
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id DE03EE006B4
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  7 Dec 2012 06:39:02 -0800 (PST)
-Received: from [172.16.140.28] (172.16.140.28) by smtp.enea.com (172.21.1.209)
+	Wed, 12 Dec 2012 01:51:32 -0800 (PST)
+Received: from [172.16.140.28] (172.16.140.28) by smtp.enea.com (172.21.1.208)
 	with Microsoft SMTP Server id 14.2.318.1;
-	Fri, 7 Dec 2012 15:39:01 +0100
-Message-ID: <50C1FF81.1050308@enea.com>
-Date: Fri, 7 Dec 2012 15:38:57 +0100
+	Wed, 12 Dec 2012 10:51:29 +0100
+Message-ID: <50C85393.2070300@enea.com>
+Date: Wed, 12 Dec 2012 10:51:15 +0100
 From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/17.0 Thunderbird/17.0
 MIME-Version: 1.0
-To: Raymond Danks <ray.danks@se-eng.com>
-References: <1354813596-8233-1-git-send-email-david.nystrom@enea.com>
-	<CADkTA4MBjGfqctC3Dwi69=O2xk6Xba5eAeNVq8=bvfUD7TqMkA@mail.gmail.com>
-	<50C11AC2.7050300@se-eng.com>
-In-Reply-To: <50C11AC2.7050300@se-eng.com>
+To: "Prica, Mihai" <mihai.prica@intel.com>
+References: <97BD068FB200C44AA73C2B641F162ECF8F4F22@IRSMSX101.ger.corp.intel.com>,
+	<50C72905.7030003@enea.com>
+	<97BD068FB200C44AA73C2B641F162ECF8F4F6E@IRSMSX101.ger.corp.intel.com>,
+	<50C73C64.5020702@enea.com>
+	<97BD068FB200C44AA73C2B641F162ECF8F4FF0@IRSMSX101.ger.corp.intel.com>
+In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF8F4FF0@IRSMSX101.ger.corp.intel.com>
 X-Originating-IP: [172.16.140.28]
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCHv4 00/15] meta-cloud merge, updated with review comments
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: Meta-virtualization build
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -32,180 +35,174 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Dec 2012 14:39:03 -0000
+X-List-Received-Date: Wed, 12 Dec 2012 09:51:33 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: quoted-printable
 
+Build Configuration:
+BB_VERSION        =3D "1.16.0"
+TARGET_ARCH       =3D "x86_64"
+TARGET_OS         =3D "linux"
+MACHINE           =3D "qemux86-64"
+DISTRO            =3D "poky"
+DISTRO_VERSION    =3D "1.3"
+TUNE_FEATURES     =3D "m64"
+TARGET_FPU        =3D ""
+meta
+meta-yocto
+meta-yocto-bsp    =3D "danny:27af23e65f63b41962a7cfddba9e9372d5212396"
+meta-oe           =3D "danny:f8ad0760abf8055bac27036853c56f56b40a36c7"
+meta-virtualization =3D "nova:ab6b70a1f495f4ba5e2752878c2d37572cf59c4e"
 
+Build of kvm image with your patches is successful with unmodificed=20
+libvirt PACKAGECONFIG,  when adding:
+PACKAGECONFIG_pn-libvirt =3D "libvirtd remote qemu yajl test"
+to local.conf and rebuilding.
 
-On 12/06/2012 11:22 PM, Raymond Danks wrote:
-> On 12/06/2012 01:49 PM, Bruce Ashfield wrote:
->>
->>
->>
->> On Thu, Dec 6, 2012 at 12:06 PM, <david.c.nystrom@gmail.com
->> <mailto:david.c.nystrom@gmail.com>> wrote:
->>
->>     From: David Nystr=F6m <david.nystrom@enea.com
->>     <mailto:david.nystrom@enea.com>>
->>
->>     PATCHv4 updated with review comments.
->>
->>     David Nystr=F6m (15):
->>       Added protobuf-c criu dependency
->>       Added protobuf criu dependency
->>       Added CRIU recipe
->>       Added netcf recipe, libvirt dependency
->>       Added openbsd-netcat recipe, libvirt dependency
->>       Added openflow recipe
->>       Added openvswitch recipe
->>       Added .gitignore file
->>       Changed David Nystr=F6ms email in README
->>       Added template cloud-* images
->>       Added some details in README, and made the description common
->>       Added kernel configuration for LxC and in kernel OpenvSwitch
->>       Updated libvirt to 1.0.0, added more details to packageconfig
->>       Removed old version of libvirt
->>       Added LxC recipe from meta-fsl-ppc, curtesy of Matthew McClintock,
->>         Stuart Yoder
->>
->>
->> v4 looks pretty good to me, and we can continue to tweak it once it is
->> in tree.
->>
->> Reviewed-by: Bruce Ashfield <bruce.ashfield@windriver.com
->> <mailto:bruce.ashfield@windriver.com>>
->
-> Thanks Bruce.  I concur. I haven't been as active as I'd have liked to
-> with this, but it's good to get it in the tree and go from there.
->
-> Ray
+I get errors below:
+64/usr/lib/libgpg-error.so -lcap ../gnulib/lib/.libs/libgnu.a -lrt=20
+-lpthread -lutil -ldl -pthread
+|=20
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r0/libvirt-1=
+.0.0/src/.libs/libvirt.so:=20
+undefined reference to `vboxRegister'
+|=20
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r0/libvirt-1=
+.0.0/src/.libs/libvirt.so:=20
+undefined reference to `openvzRegister'
+|=20
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r0/libvirt-1=
+.0.0/src/.libs/libvirt.so:=20
+undefined reference to `curl_global_init'
+|=20
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r0/libvirt-1=
+.0.0/src/.libs/libvirt.so:=20
+undefined reference to `esxRegister'
+|=20
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/libvirt-1.0.0-r0/libvirt-1=
+.0.0/src/.libs/libvirt.so:=20
+undefined reference to `vmwareRegister'
+| collect2: error: ld returned 1 exit status
 
-Thanks, Merged to master,
+After bitbake -c cleanall libvirt; bitbake libvirt;
+Build is successful, with new packageconfig.
+
+It seems rebuilds (from sstate ??) is not playing nicely with=20
+PACKAGECONFIG modifications.
 
 Br,
 David
 
->>
->>
->>      .gitignore                                         |    6 +
->>      README                                             |   13 +-
->>      recipes-containers/criu/criu_git.bb <http://criu_git.bb>
->>            |   29 +++
->>      .../criu/files/0001-Fixed-hardcoding.patch         |   47 ++++
->>      recipes-containers/criu/files/disable_tests.patch  |   19 ++
->>      recipes-containers/criu/protobuf-c_0.15.bb
->>     <http://protobuf-c_0.15.bb>         |   20 ++
->>      recipes-containers/criu/protobuf_2.4.1.bb
->>     <http://protobuf_2.4.1.bb>          |   18 ++
->>      recipes-containers/lxc/files/noldconfig.patch      |   29 +++
->>      recipes-containers/lxc/lxc_0.8.0.bb <http://lxc_0.8.0.bb>
->>            |   39 +++
->>      recipes-extended/images/cloud-image-compute.bb
->>     <http://cloud-image-compute.bb>     |   14 +
->>      recipes-extended/images/cloud-image-controller.bb
->>     <http://cloud-image-controller.bb>  |   34 +++
->>      recipes-extended/images/cloud-image-guest.bb
->>     <http://cloud-image-guest.bb>       |   18 ++
->>      .../{libvirt_0.10.2.bb <http://libvirt_0.10.2.bb> =3D>
->>     libvirt_1.0.0.bb <http://libvirt_1.0.0.bb>}        |   69 +++--
->>      recipes-kernel/linux/linux-yocto/lxc.cfg           |   22 ++
->>      recipes-kernel/linux/linux-yocto/lxc.scc           |    4 +
->>      recipes-kernel/linux/linux-yocto/vswitch.cfg       |    2 +
->>      recipes-kernel/linux/linux-yocto/vswitch.scc       |    4 +
->>      recipes-kernel/linux/linux-yocto_3.4.bbappend      |    5 +-
->>      recipes-networking/netcat/openbsd-netcat_1.6.bb
->>     <http://openbsd-netcat_1.6.bb>    |   29 +++
->>      recipes-networking/netcf/netcf_git.bb <http://netcf_git.bb>
->>            |   25 ++
->>      recipes-networking/openflow/openflow_1.0.bb
->>     <http://openflow_1.0.bb>        |   24 ++
->>      .../openvswitch/files/openvswitch-controller       |  274
->>     ++++++++++++++++++++
->>      .../openvswitch/files/openvswitch-controller-setup |   29 +++
->>      .../openvswitch/files/openvswitch-example          |  102 ++++++++
->>      .../openvswitch/files/openvswitch-switch           |  102 ++++++++
->>      .../openvswitch/files/openvswitch-switch-setup     |    8 +
->>      .../openvswitch/openvswitch_1.4.3.bb
->>     <http://openvswitch_1.4.3.bb>               |   99 +++++++
->>      27 files changed, 1053 insertions(+), 31 deletions(-)
->>      create mode 100644 .gitignore
->>      create mode 100644 recipes-containers/criu/criu_git.bb
->>     <http://criu_git.bb>
->>      create mode 100644
->>     recipes-containers/criu/files/0001-Fixed-hardcoding.patch
->>      create mode 100644 recipes-containers/criu/files/disable_tests.patc=
-h
->>      create mode 100644 recipes-containers/criu/protobuf-c_0.15.bb
->>     <http://protobuf-c_0.15.bb>
->>      create mode 100644 recipes-containers/criu/protobuf_2.4.1.bb
->>     <http://protobuf_2.4.1.bb>
->>      create mode 100644 recipes-containers/lxc/files/noldconfig.patch
->>      create mode 100644 recipes-containers/lxc/lxc_0.8.0.bb
->>     <http://lxc_0.8.0.bb>
->>      create mode 100644 recipes-extended/images/cloud-image-compute.bb
->>     <http://cloud-image-compute.bb>
->>      create mode 100644
->>     recipes-extended/images/cloud-image-controller.bb
->>     <http://cloud-image-controller.bb>
->>      create mode 100644 recipes-extended/images/cloud-image-guest.bb
->>     <http://cloud-image-guest.bb>
->>      rename recipes-extended/libvirt/{libvirt_0.10.2.bb
->>     <http://libvirt_0.10.2.bb> =3D> libvirt_1.0.0.bb
->>     <http://libvirt_1.0.0.bb>} (61%)
->>      create mode 100644 recipes-kernel/linux/linux-yocto/lxc.cfg
->>      create mode 100644 recipes-kernel/linux/linux-yocto/lxc.scc
->>      create mode 100644 recipes-kernel/linux/linux-yocto/vswitch.cfg
->>      create mode 100644 recipes-kernel/linux/linux-yocto/vswitch.scc
->>      create mode 100644
->>     recipes-networking/netcat/openbsd-netcat_1.6.bb
->>     <http://openbsd-netcat_1.6.bb>
->>      create mode 100644 recipes-networking/netcf/netcf_git.bb
->>     <http://netcf_git.bb>
->>      create mode 100644 recipes-networking/openflow/openflow_1.0.bb
->>     <http://openflow_1.0.bb>
->>      create mode 100755
->>     recipes-networking/openvswitch/files/openvswitch-controller
->>      create mode 100644
->>     recipes-networking/openvswitch/files/openvswitch-controller-setup
->>      create mode 100644
->>     recipes-networking/openvswitch/files/openvswitch-example
->>      create mode 100644
->>     recipes-networking/openvswitch/files/openvswitch-switch
->>      create mode 100644
->>     recipes-networking/openvswitch/files/openvswitch-switch-setup
->>      create mode 100644
->>     recipes-networking/openvswitch/openvswitch_1.4.3.bb
->>     <http://openvswitch_1.4.3.bb>
->>
->>     --
->>     1.7.9.5
->>
->>     _______________________________________________
->>     meta-virtualization mailing list
->>     meta-virtualization@yoctoproject.org
->>     <mailto:meta-virtualization@yoctoproject.org>
->>     https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->>
->>
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+On 12/11/2012 03:30 PM, Prica, Mihai wrote:
 >
+> I tried with the PACKAGECONFIG you suggested and I get other errors, with=
+ an undefined reference. If I leave it in its initial form I get other erro=
+rs from openbsd-netcat and netcf, but I think these are due to my proxy set=
+tings.  I'll continue to look into these errors.
+> I've attached you my patches for kvm. Can you apply them in your repo and=
+ see if the build succeeds ?
 >
+> Thanks,
+> Mihai
 >
+> ________________________________________
+> From: David Nystr=F6m [david.nystrom@enea.com]
+> Sent: Tuesday, December 11, 2012 4:00 PM
+> To: Prica, Mihai
+> Cc: ray.danks@se-eng.com; bruce.ashfield@gmail.com
+> Subject: Re: Meta-virtualization build
 >
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> Well,
 >
+> Setting packageconfig to only qemu might not be enough for libvirtd on KV=
+M.
+>
+> Packageconfig "qemu" included --with-yajl in the old recipe, it does not
+> in the new.
+>
+> OLD config line when setting "qemu" in packageconfig:
+> EXTRA_OECONF =3D "--with-libvirtd --with-test=3Dyes --with-remote=3Dyes
+> --with-macvtap=3Dno --with-polkit=3Dno"
+> PACKAGECONFIG[qemu] =3D "--with-qemu --with-yajl, ......
+>
+> To get the same config line with libvirt_1.0.0.bb
+>
+> PACKAGECONFIG =3D "libvirtd remote qemu yajl test"
+>
+> Try setting packageconfig to above, when building qemu/kvm/libvirt 1.0
+>
+> Br,
+> David
+>
+> How about if you build with no modifications
+>
+> On 12/11/2012 02:43 PM, Prica, Mihai wrote:
+>> Hi,
+>>
+>> I tried now to build on a x86-64 target using a fresh poky repo(the late=
+st) and I got the same error. I reverted the 2 commits and the build was su=
+ccessful. I set PACKAGECONFIG to "qemu" to build only for KVM.
+>>
+>> It seems like a libvirt error, I don't think it has anything to do with =
+kvm.
+>>
+>> Thanks,
+>> Mihai
+>>
+>>
+>> ________________________________________
+>> From: David Nystr=F6m [david.nystrom@enea.com]
+>> Sent: Tuesday, December 11, 2012 2:37 PM
+>> To: Prica, Mihai
+>> Cc: ray.danks@se-eng.com; bruce.ashfield@gmail.com
+>> Subject: Re: Meta-virtualization build
+>>
+>> Hi,
+>>
+>> I built for a x86-64 target,on danny branch and did not see this when
+>> building, tested images using kvm on laptop.
+>>
+>> Try reverting commits:
+>> 1c75f19747b91d5d9556aff20b0f740eeffd8028
+>> c83fd72a864acdaf4f9790dbfd14c153ac0a1d4f
+>>
+>> and rebuild if you suspect the new libvirt additions.
+>>
+>> What changed did you make in poky  ?
+>> "mprica:b75157885432312bbdb3189acfb7adf3cdaf8b93"
+>>
+>> Br,
+>> David
+>>
+>> On 12/11/2012 12:11 PM, Prica, Mihai wrote:
+>>> Hi,
+>>>
+>>> I've developed some patches for KVM integration but I wasn't able to bu=
+ild an image because of an error at libvrit compile:
+>>>
+>>> | ../src/.libs/libvirt.so: undefined reference to `virNetTLSInit'
+>>>
+>>>     don't think this is caused by my changes. Did meta-virtualization b=
+uild ? This is my build configuration:
+>>>
+>>> BB_VERSION        =3D "1.17.0"
+>>> BUILD_SYS         =3D "x86_64-linux"
+>>> NATIVELSBSTRING   =3D "Ubuntu-12.04"
+>>> TARGET_SYS        =3D "i586-poky-linux"
+>>> MACHINE           =3D "qemux86"
+>>> DISTRO            =3D "poky"
+>>> DISTRO_VERSION    =3D "1.3+snapshot-20121211"
+>>> TUNE_FEATURES     =3D "m32 i586"
+>>> TARGET_FPU        =3D ""
+>>> meta
+>>> meta-yocto
+>>> meta-yocto-bsp    =3D "mprica:b75157885432312bbdb3189acfb7adf3cdaf8b93"
+>>> meta-oe           =3D "master:c75fc2573b88576b577946ff834b10446e591532"
+>>> meta-virtualization =3D "mihaip:7e9649d297ecddde556a0aa7ed1251e1a727969=
+6"
+>>>
+>>> Thanks,
+>>> Mihai
+>>>
 
