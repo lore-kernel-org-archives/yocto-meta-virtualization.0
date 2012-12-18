@@ -1,40 +1,40 @@
 Return-Path: <david.c.nystrom@gmail.com>
 Received: from mail-bk0-f46.google.com (mail-bk0-f46.google.com
 	[209.85.214.46])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 267E8E011AF
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2CEA4E011C0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Dec 2012 06:32:17 -0800 (PST)
-Received: by mail-bk0-f46.google.com with SMTP id q16so370861bkw.33
+	Tue, 18 Dec 2012 06:32:18 -0800 (PST)
+Received: by mail-bk0-f46.google.com with SMTP id q16so366249bkw.5
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 18 Dec 2012 06:32:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:mime-version:content-type:content-transfer-encoding;
-	bh=pEF0UTnnpUWug5yb1rMal1jX9f+r6ymnmwWIzyKPByg=;
-	b=cIpHKWISK6t2plW/ZmmjMHRYo/8uJiBJTbpz8M9HuHCiKwbJoxVXeOZ39/YRQxbKwo
-	qrtZsPf90IzNfuoJfvfD0s5/ak2SgFKKJwUF9mXGPH3GRHMahMWnpjTWbfJDbrUkrotw
-	LkYLrwoPyhAeMtoiSuPizvZVzX30nC5YD8q2ODHRCBJmHSKNZlLWh7ARlrhgZT/xvGiP
-	rEzdPnzLEwMrfao5ObYltkifl60ZT8oVTFZJWt7BVCvSbx0pOZwGppU769aAs5b8F9UK
-	+YR6BHHWCt05xCgui1wbNCsVLPvHjRCUX3mlGgZUsEj7kJy3RHQT04wxYJW8c6QQ2FU/
-	j9pA==
-X-Received: by 10.204.147.79 with SMTP id k15mr801381bkv.55.1355841137187;
-	Tue, 18 Dec 2012 06:32:17 -0800 (PST)
+	bh=q1o5zoFvqwCE7IDwRmP6lUmMp6hJmFTZ8/b51YEgCEU=;
+	b=i8KD0NLTLsLixqt08VLtZH284zMg5/Ehw11zX5J9b7xKE8pWx3Dik41ZDTjWVWuCpe
+	tuiLSts4LrHwyHukeFDjD6qfFmtxBbHem/QQKzR2bdltedgcsn7c20vKHIQ/FD0sXnym
+	dmiW8rdDnJuObOURZW9KHjWQu7fMbHyI0+J4sw4FiwzNgW6JiqLSX9h1/9VRklyKwAGk
+	JVs18aglAv4f/k7vCwRbdn6lB3iPhdi8ag9ILjY0TM2dtGzB6jarITW/aN03vkjw2/1+
+	Vjlmz92BIqQjRH4aQRxaQpKwUsZsu54bmK4WRzKcW0TEbB9rbAo54TqpDVZc9Ychl4D9
+	uBjQ==
+X-Received: by 10.204.129.214 with SMTP id p22mr825120bks.47.1355841136669;
+	Tue, 18 Dec 2012 06:32:16 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id r16sm1504688bkv.3.2012.12.18.06.32.14
+	by mx.google.com with ESMTPS id c10sm1505661bkw.1.2012.12.18.06.32.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
-	Tue, 18 Dec 2012 06:32:15 -0800 (PST)
+	Tue, 18 Dec 2012 06:32:14 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 4470A414F43; Tue, 18 Dec 2012 15:32:01 +0100 (CET)
+	id 42646414F42; Tue, 18 Dec 2012 15:32:01 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 18 Dec 2012 15:31:53 +0100
-Message-Id: <1355841118-22361-12-git-send-email-david.nystrom@enea.com>
+Date: Tue, 18 Dec 2012 15:31:52 +0100
+Message-Id: <1355841118-22361-11-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1355841118-22361-1-git-send-email-david.nystrom@enea.com>
 References: <1355841118-22361-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
 Cc: raymond.danks@se-eng.com
-Subject: [RFC][PATCH 11/16] Added python-pyparsing recipe
+Subject: [RFC][PATCH 10/16] Added python-pyopenssl recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,34 +53,32 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- recipes-python/pyparsing/python-pyparsing_1.5.6.bb |   22 ++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 recipes-python/pyparsing/python-pyparsing_1.5.6.bb
+ recipes-python/pyOpenSSL/python-pyopenssl_0.13.bb |   20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 recipes-python/pyOpenSSL/python-pyopenssl_0.13.bb
 
-diff --git a/recipes-python/pyparsing/python-pyparsing_1.5.6.bb b/recipes-python/pyparsing/python-pyparsing_1.5.6.bb
+diff --git a/recipes-python/pyOpenSSL/python-pyopenssl_0.13.bb b/recipes-python/pyOpenSSL/python-pyopenssl_0.13.bb
 new file mode 100644
-index 0000000..8f1fa22
+index 0000000..9e2492f
 --- /dev/null
-+++ b/recipes-python/pyparsing/python-pyparsing_1.5.6.bb
-@@ -0,0 +1,22 @@
-+SUMMARY="Python parsing module"
-+DESCRIPTION = "The pyparsing module is an alternative approach to creating and executing \ 
-+simple grammars, vs. the traditional lex/yacc approach, or the use of \
-+regular expressions.  The pyparsing module provides a library of classes \ 
-+that client code uses to construct the grammar directly in Python code."
++++ b/recipes-python/pyOpenSSL/python-pyopenssl_0.13.bb
+@@ -0,0 +1,20 @@
++SUMMARY="pyOpenSSL"
++DESCRIPTION = "A Python wrapper around the OpenSSL library"
 +SECTION = "devel/python"
-+LICENSE = "MIT"
++LICENSE = "Apache-2"
 +PR = "0"
 +
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=fb46329938e6bc829b256e37d5c1e31a"
-+SRC_URI = "http://pypi.python.org/packages/source/p/pyparsing/pyparsing-${PV}.zip"
++RDEPENDS_${PN} += "openssl libssl"
 +
-+SRC_URI[md5sum] = "5404de54e6d0ae71ce354d8db3576ac1"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
++SRC_URI = "http://pypi.python.org/packages/source/p/pyOpenSSL/pyOpenSSL-${PV}.tar.gz"
 +
-+S = "${WORKDIR}/pyparsing-${PV}"
++SRC_URI[md5sum] = "767bca18a71178ca353dff9e10941929"
++SRC_URI[sha256sum] = "21e12b03abaa0e04ecc8cd9c251598f71bae11c9f385304234e4ea5618c6163b"
 +
-+export STAGING_INCDIR
-+export STAGING_LIBDIR
++S = "${WORKDIR}/pyOpenSSL-${PV}"
++
 +export BUILD_SYS
 +export HOST_SYS
 +
