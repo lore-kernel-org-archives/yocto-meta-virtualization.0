@@ -1,40 +1,40 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-bk0-f41.google.com (mail-bk0-f41.google.com
-	[209.85.214.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CF003E01454
+Received: from mail-bk0-f54.google.com (mail-bk0-f54.google.com
+	[209.85.214.54])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DBBDBE0145B
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 18 Dec 2012 06:32:16 -0800 (PST)
-Received: by mail-bk0-f41.google.com with SMTP id jg9so369625bkc.0
+Received: by mail-bk0-f54.google.com with SMTP id je9so371023bkc.13
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 18 Dec 2012 06:32:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:mime-version:content-type:content-transfer-encoding;
-	bh=wJRC0Gpw2aFKVGtES00xEHHBmNblUiL0zfEzIJWfCMU=;
-	b=D0E6UbCVnIcAt0eYvAGVyws634VSh5GYtqQR+ohh9tPdm/hjnwQwqq92sjxN49sX7u
-	9H9vXmbO/j0VzLfa7lcShUShXqsqore+63+DjpeoWuvLujws9Tor86+oMYtY7A9ia6pe
-	iHhhuFons5hmnYkWVTJHecOGrViG8Uk0VVcoRJ8nCACMFgnx6rKeWE6alsLPfnK3k/0B
-	CLpgubVP9WecQXY30tgUg5bkT5R7xnP9+Hz781/Rimqd1RaY76XaWqDIsfkf1fBLXp9p
-	VPvKd7cGsCXa+4Zcskn1ehHnfevx2o7GmFwhve0jEHPbwIBLQiTPFmmmt4DlLLzhYV7h
-	XDgg==
-X-Received: by 10.204.11.142 with SMTP id t14mr857958bkt.9.1355841135915;
+	bh=T7dB+77JkXo3jUeAlRDPC8rnrGxJp/AvJ71CUFls6Zk=;
+	b=lluLAEYfAmhEpIwUXHEZnSaZcZPHO6hJ/a12obYoCmttUlkbfkCHAVrVnlRT5m/Ayl
+	KDmxn8tXmCyaCOMnLk0Tyf7Tp/2UoZVDwPIZHpiuG2QPB1YQRueT4YQz2ky8gSzdh33X
+	wv0p9ALmtp2dBAdrotbXjmOeJqF6lKxNU3K6yGNaSuWpuq44TIvZfBCqVPZ8LmG8rPTl
+	+Ungt0tSuSKO79AZrhM7Da80do4fiWCZPvqMVjd+Dm5eMi1NSLbb4L/Bkaq6jsBH8MdU
+	ybYH8/SXw99RaD0kMZ/iPoCtc+NaAHNEM2Gs9O9chsS+JhyDVmkBrUlaR5Mchi/281xS
+	b5cw==
+X-Received: by 10.204.148.154 with SMTP id p26mr826215bkv.31.1355841135448;
 	Tue, 18 Dec 2012 06:32:15 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id r16sm1504609bkv.3.2012.12.18.06.32.13
+	by mx.google.com with ESMTPS id 18sm1505430bkv.0.2012.12.18.06.32.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Tue, 18 Dec 2012 06:32:14 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 32C1C414F3E; Tue, 18 Dec 2012 15:32:01 +0100 (CET)
+	id 37BA0414F3F; Tue, 18 Dec 2012 15:32:01 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 18 Dec 2012 15:31:48 +0100
-Message-Id: <1355841118-22361-7-git-send-email-david.nystrom@enea.com>
+Date: Tue, 18 Dec 2012 15:31:49 +0100
+Message-Id: <1355841118-22361-8-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1355841118-22361-1-git-send-email-david.nystrom@enea.com>
 References: <1355841118-22361-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
 Cc: raymond.danks@se-eng.com
-Subject: [RFC][PATCH 06/16] Added python-jsonpointer recipe
+Subject: [RFC][PATCH 07/16] Added python-jsonschema recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,30 +53,36 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- .../jsonpointer/python-jsonpointer_0.5.bb          |   16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 recipes-python/jsonpointer/python-jsonpointer_0.5.bb
+ recipes-python/jsonschema/python-jsonschema_0.7.bb |   22 ++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 recipes-python/jsonschema/python-jsonschema_0.7.bb
 
-diff --git a/recipes-python/jsonpointer/python-jsonpointer_0.5.bb b/recipes-python/jsonpointer/python-jsonpointer_0.5.bb
+diff --git a/recipes-python/jsonschema/python-jsonschema_0.7.bb b/recipes-python/jsonschema/python-jsonschema_0.7.bb
 new file mode 100644
-index 0000000..a5451ba
+index 0000000..7f6d40b
 --- /dev/null
-+++ b/recipes-python/jsonpointer/python-jsonpointer_0.5.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "python-jsonpointer"
-+DESCRIPTION = "Identify specific nodes in a JSON document"
++++ b/recipes-python/jsonschema/python-jsonschema_0.7.bb
+@@ -0,0 +1,22 @@
++SUMMARY="jsonschema"
++DESCRIPTION = "jsonschema is an implementation of JSON Schema \
++	    (currently in Draft 3 \
++	    <http://tools.ietf.org/html/draft-zyp-json-schema-03>) \
++	    for Python (supporting 2.6+ including Python 3)." 
 +SECTION = "devel/python"
-+HOMEPAGE = "https://github.com/stefankoegl/python-json-pointer"
 +LICENSE = "MIT"
 +PR = "0"
 +
-+LIC_FILES_CHKSUM = "file://jsonpointer.py;beginline=3;endline=31;md5=5e663c88967b53590856107a043d605c"
-+SRC_URI = "http://pypi.python.org/packages/source/j/jsonpointer/jsonpointer-${PV}.tar.gz"
 +
-+SRC_URI[md5sum] = "41fe4189279b9c6cd35a4131cb2498f2"
-+SRC_URI[sha256sum] = "6a27fb4cb590a118d0f8c7e367f902cf553abf5dcb4b7938cdc91cc36e3e4bdf"
++LIC_FILES_CHKSUM = "file://COPYING;md5=833b6ec380e7cdfcdab8ea6138da2e34"
++SRC_URI = "http://pypi.python.org/packages/source/j/jsonschema/jsonschema-${PV}.zip"
 +
-+S = "${WORKDIR}/jsonpointer-${PV}"
++SRC_URI[md5sum] = "b93f9bd7864d7c5c587951efa4c0a80f"
++SRC_URI[sha256sum] = "703b92b969d245b060b37055305110539507dfdc64ac1760b1868ca489c121e0"
++
++S = "${WORKDIR}/jsonschema-${PV}"
++
++export BUILD_SYS
++export HOST_SYS
 +
 +inherit distutils
 -- 
