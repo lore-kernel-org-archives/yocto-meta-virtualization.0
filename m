@@ -1,40 +1,40 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
-	[209.85.214.52])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9447EE01454
+Received: from mail-bk0-f46.google.com (mail-bk0-f46.google.com
+	[209.85.214.46])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 267E8E011AF
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 18 Dec 2012 06:32:17 -0800 (PST)
-Received: by mail-bk0-f52.google.com with SMTP id w5so363627bku.39
+Received: by mail-bk0-f46.google.com with SMTP id q16so370861bkw.33
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Dec 2012 06:32:16 -0800 (PST)
+	Tue, 18 Dec 2012 06:32:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:mime-version:content-type:content-transfer-encoding;
-	bh=qwSj0t7P19pYUUl9AQD6AXYLcTU5jcHyWXvKDzqak0I=;
-	b=tVPIJJVIwc8O90F1jwv0EimJCsQjx5jpItDe9KX22fY5AfVyBowywhWK5Qk9XufSJi
-	Jqg7X9vYFnPyVjnHE2rluRp2grxMWsMG5UAJ51v39OGkaoAQ16dMZlN8XHXd1IzpmE8f
-	T2PbjWb6hhOMu/VUPPyk7xKQB93hmkwPy2W4E9q9++BXWmNFrzb7/TaWWP5lPhL2fZ4R
-	eQdXO/pmGGGJLLthQAOfArQXHuwLI6C5aSexl13uopxgzIggPAHLM7YGEle94UXxpwjn
-	ijQ4nst57SpVrAacV06t2IzS8rpO9eKNoY3jWdxBPVrIPgNYurf/WdvaKzmyAHMUTCpF
-	qZNw==
-X-Received: by 10.204.152.28 with SMTP id e28mr863683bkw.3.1355841136599;
-	Tue, 18 Dec 2012 06:32:16 -0800 (PST)
+	bh=pEF0UTnnpUWug5yb1rMal1jX9f+r6ymnmwWIzyKPByg=;
+	b=cIpHKWISK6t2plW/ZmmjMHRYo/8uJiBJTbpz8M9HuHCiKwbJoxVXeOZ39/YRQxbKwo
+	qrtZsPf90IzNfuoJfvfD0s5/ak2SgFKKJwUF9mXGPH3GRHMahMWnpjTWbfJDbrUkrotw
+	LkYLrwoPyhAeMtoiSuPizvZVzX30nC5YD8q2ODHRCBJmHSKNZlLWh7ARlrhgZT/xvGiP
+	rEzdPnzLEwMrfao5ObYltkifl60ZT8oVTFZJWt7BVCvSbx0pOZwGppU769aAs5b8F9UK
+	+YR6BHHWCt05xCgui1wbNCsVLPvHjRCUX3mlGgZUsEj7kJy3RHQT04wxYJW8c6QQ2FU/
+	j9pA==
+X-Received: by 10.204.147.79 with SMTP id k15mr801381bkv.55.1355841137187;
+	Tue, 18 Dec 2012 06:32:17 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id o7sm1500454bkv.13.2012.12.18.06.32.14
+	by mx.google.com with ESMTPS id r16sm1504688bkv.3.2012.12.18.06.32.14
 	(version=TLSv1/SSLv3 cipher=OTHER);
 	Tue, 18 Dec 2012 06:32:15 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id 4B058414F46; Tue, 18 Dec 2012 15:32:01 +0100 (CET)
+	id 4470A414F43; Tue, 18 Dec 2012 15:32:01 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 18 Dec 2012 15:31:56 +0100
-Message-Id: <1355841118-22361-15-git-send-email-david.nystrom@enea.com>
+Date: Tue, 18 Dec 2012 15:31:53 +0100
+Message-Id: <1355841118-22361-12-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1355841118-22361-1-git-send-email-david.nystrom@enea.com>
 References: <1355841118-22361-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
 Cc: raymond.danks@se-eng.com
-Subject: [RFC][PATCH 14/16] Added python-glanceclient recipe
+Subject: [RFC][PATCH 11/16] Added python-pyparsing recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,42 +53,38 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- .../glanceclient/python-glanceclient_git.bb        |   26 ++++++++++++++++++++
- 1 file changed, 26 insertions(+)
- create mode 100644 recipes-cloud/glanceclient/python-glanceclient_git.bb
+ recipes-python/pyparsing/python-pyparsing_1.5.6.bb |   22 ++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 recipes-python/pyparsing/python-pyparsing_1.5.6.bb
 
-diff --git a/recipes-cloud/glanceclient/python-glanceclient_git.bb b/recipes-cloud/glanceclient/python-glanceclient_git.bb
+diff --git a/recipes-python/pyparsing/python-pyparsing_1.5.6.bb b/recipes-python/pyparsing/python-pyparsing_1.5.6.bb
 new file mode 100644
-index 0000000..d9c7472
+index 0000000..8f1fa22
 --- /dev/null
-+++ b/recipes-cloud/glanceclient/python-glanceclient_git.bb
-@@ -0,0 +1,26 @@
-+DESCRIPTION = "This is a client library for Glance built on the OpenStack \
-+	    Images API. It provides a Python API (the ``glanceclient`` module) \
-+	     and a command-line tool (glance)."
++++ b/recipes-python/pyparsing/python-pyparsing_1.5.6.bb
+@@ -0,0 +1,22 @@
++SUMMARY="Python parsing module"
++DESCRIPTION = "The pyparsing module is an alternative approach to creating and executing \ 
++simple grammars, vs. the traditional lex/yacc approach, or the use of \
++regular expressions.  The pyparsing module provides a library of classes \ 
++that client code uses to construct the grammar directly in Python code."
 +SECTION = "devel/python"
-+SRCNAME = "glanceclient"
-+LICENSE = "Apache-2"
++LICENSE = "MIT"
 +PR = "0"
 +
-+DEPENDS = "gmp"
-+RDEPENDS_${PN} = "gmp \
-+	python-warlock \
-+	python-pyopenssl \
-+	python-keystoneclient \
-+	python-prettytable \
-+	"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fb46329938e6bc829b256e37d5c1e31a"
++SRC_URI = "http://pypi.python.org/packages/source/p/pyparsing/pyparsing-${PV}.zip"
 +
-+FILES_${PN} += "${datadir}/${SRCNAME}"
++SRC_URI[md5sum] = "5404de54e6d0ae71ce354d8db3576ac1"
 +
-+SRCREV = "c057fe47d6889912b7675aa54102509cd464171a"
-+PV = "0.7.0+gitr${SRCREV}"
-+SRC_URI = "git://github.com/openstack/python-glanceclient.git;protocol=https"
-+S = "${WORKDIR}/git"
++S = "${WORKDIR}/pyparsing-${PV}"
 +
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
++export STAGING_INCDIR
++export STAGING_LIBDIR
++export BUILD_SYS
++export HOST_SYS
 +
-+inherit setuptools
++inherit distutils
 -- 
 1.7.9.5
 
