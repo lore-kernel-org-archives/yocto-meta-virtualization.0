@@ -1,31 +1,31 @@
 Return-Path: <yanglei.fage@gmail.com>
-Received: from mail-bk0-f53.google.com (mail-bk0-f53.google.com
-	[209.85.214.53])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8DB3DE004D1
+Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
+	[209.85.214.52])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 96488E004D1
 	for <meta-virtualization@yoctoproject.org>;
-	Sat,  5 Jan 2013 05:13:55 -0800 (PST)
-Received: by mail-bk0-f53.google.com with SMTP id j5so7682597bkw.12
+	Sat,  5 Jan 2013 05:14:07 -0800 (PST)
+Received: by mail-bk0-f52.google.com with SMTP id w5so7646574bku.11
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 05 Jan 2013 05:13:54 -0800 (PST)
+	Sat, 05 Jan 2013 05:14:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type:content-transfer-encoding;
-	bh=PMTbLcEVPGjDzPDVc1seWCE8O1Yl5/QGR2vawXUbZIQ=;
-	b=kcwRYd3cEIlGQF+I7q6e1qZRyWtlTNLrI6uO2bBnicT1hKX4/TF4ii+SH9AifA2zhN
-	y9a6GoQZvJ/xgPF0DKLiTD2oIjYqSQIqZAaxTLeP53eLF7NptpzGy8WkqdJ9VCGQM8BX
-	LqxIJu+cKm0R+wRPf+6xweVvF9wYqGwmbZ0OEq7SjPMurvh3j+m2Yf0iEI8v1KBUUJdh
-	aaLYd6kNrhyz8RYU6ch2NbjHaeIAD0bSVtKxtO79sAS3t6odwOykT6dssM1i/A59lceO
-	dWkSLeMTgSpdCTP+BIMbCSXWmfCXbgq8yooEvBKW6XCoNTZxRa0WSQwRGB2aFNyCL4aY
-	oIFA==
+	bh=GIK5v35A4xYNtlHWhKX26R/bxydDoiRq3O+Aq5jmhm8=;
+	b=omYkYNeKnBCzoR0eOQok9sHcyKLN1p/InVrZpfFfmBLP0JuyHECbV8OGqMN5cE8e7Z
+	oNmIg/Z+SV5ijSpIp0G8BFfivVGrLuQDuqxP04hdjbaJp7anQxXjE62E54bLgUORlkJi
+	J/IVdyTSfjb3m8e98Sfk6J6HHygJTI+s3TUEFNRVDH/LnnB03kg3FpYGdWrR+BU/GBSw
+	SmVugEhaj/+Rxx+z61KoiX47KQt664QkbDLWHrJ3eGoSCIRtyomeuwV1fBNnk+IiGkvQ
+	lY79uIKPDKFt/2rdzVFrZCbMe/bUpbUOeU1R70YpGN3DJ/araFkoRrJ/8VnqnLH/CnCI
+	y2MQ==
 MIME-Version: 1.0
-Received: by 10.204.5.145 with SMTP id 17mr26859726bkv.98.1357391634017; Sat,
-	05 Jan 2013 05:13:54 -0800 (PST)
-Received: by 10.204.11.86 with HTTP; Sat, 5 Jan 2013 05:13:53 -0800 (PST)
+Received: by 10.204.5.205 with SMTP id 13mr28020291bkw.111.1357391646261; Sat,
+	05 Jan 2013 05:14:06 -0800 (PST)
+Received: by 10.204.11.86 with HTTP; Sat, 5 Jan 2013 05:14:06 -0800 (PST)
 In-Reply-To: <50E810B0.8060709@gmail.com>
 References: <1357375543-2001-1-git-send-email-lei.yang@windriver.com>
 	<50E810B0.8060709@gmail.com>
-Date: Sat, 5 Jan 2013 05:13:53 -0800
-Message-ID: <CAHsH0E_PEp46zSw+-G3nWsytCgtymSR5F63fOWKkLQBFmZ0_1A@mail.gmail.com>
+Date: Sat, 5 Jan 2013 05:14:06 -0800
+Message-ID: <CAHsH0E-SyAa3aPkjya7es6rnnUe2P3HEKZVbScWnzUMKf77NJQ@mail.gmail.com>
 From: lei yang <yanglei.fage@gmail.com>
 To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
 Cc: lei.yang@windriver.com, meta-virtualization@yoctoproject.org
@@ -42,7 +42,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 05 Jan 2013 13:13:55 -0000
+X-List-Received-Date: Sat, 05 Jan 2013 13:14:08 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
@@ -148,9 +148,15 @@ irt
 Yes, the patch comes from
 http://ftp.debian.org/debian/pool/main/n/netcat-openbsd/netcat-openbsd_1.89=
 -4.diff.gz
-I don't know how to put two http location in one bb
+I don't know how to put two http location in one bb, do you have an
+examle? or use wget in bb? seems not
 
-and How could I fill the upstream s
+and How could I fill the upstream status, should be pending? since
+it's not in openbsd-netcat.googlecode.com now
+
+
+Lei
+
 
 
 >
