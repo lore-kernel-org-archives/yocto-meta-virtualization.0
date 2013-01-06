@@ -1,22 +1,22 @@
 Return-Path: <Lei.Yang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4C246E00709
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BA428E00721
 	for <meta-virtualization@yoctoproject.org>;
-	Sat,  5 Jan 2013 21:17:46 -0800 (PST)
+	Sun,  6 Jan 2013 00:20:28 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r065HeZ8020290
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r068KFUH005426
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 5 Jan 2013 21:17:40 -0800 (PST)
+	Sun, 6 Jan 2013 00:20:15 -0800 (PST)
 Received: from pek-lpgtest4.wrs.com (128.224.153.84) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.2.318.4; Sat, 5 Jan 2013 21:17:40 -0800
+	14.2.318.4; Sun, 6 Jan 2013 00:20:15 -0800
 From: <lei.yang@windriver.com>
 To: <openembedded-devel@lists.openembedded.org>, <Joe.MacDonald@windriver.com>,
 	<meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>,
 	<david.c.nystrom@gmail.com>
-Date: Sun, 6 Jan 2013 13:17:37 +0800
-Message-ID: <1357449457-2669-1-git-send-email-lei.yang@windriver.com>
+Date: Sun, 6 Jan 2013 16:20:12 +0800
+Message-ID: <1357460412-11889-1-git-send-email-lei.yang@windriver.com>
 X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
 Subject: [meta-networking][PATCH] Add netcat-openbsd for virtualization (libvirt virt-test)
@@ -32,7 +32,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2013 05:17:46 -0000
+X-List-Received-Date: Sun, 06 Jan 2013 08:20:28 -0000
 Content-Type: text/plain
 
 From: Lei Yang <lei.yang@windriver.com>
