@@ -1,44 +1,40 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-qc0-f179.google.com (mail-qc0-f179.google.com
-	[209.85.216.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A35F1E013EF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-pb0-f51.google.com (mail-pb0-f51.google.com
+	[209.85.160.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8F1DEE00709
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  6 Jan 2013 04:59:11 -0800 (PST)
-Received: by mail-qc0-f179.google.com with SMTP id b14so10900797qcs.10
+	Sun,  6 Jan 2013 04:06:40 -0800 (PST)
+Received: by mail-pb0-f51.google.com with SMTP id ro12so10019358pbb.24
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 06 Jan 2013 04:59:11 -0800 (PST)
+	Sun, 06 Jan 2013 04:06:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=P/RPCnTrfQIZA1RjiDxvgIYgdHGYP5ifw0B3vSYuJto=;
-	b=ZflREsKA+FgHDrY0z82L6atomjn74FbqXz/iAVUSUnCrd0TAwVs1fIRxdPwr47TVj8
-	mu7F9td5ftxfch+/ukZm8gzJy9vGH31lITDLAkeQj5tBCGTUKGJabo25hTcmKSrj0iDt
-	qwVHFWFIA5Xq32+uS7jc65q1be08Cyt2+3tjXxwEtHI39eta7jtq3CFk56IyOOqZX++x
-	yoQFm7nULHDShwe+m8cQ7I5Cim/AW5Qn1ceL+ZmC46JQ/8v5kktoCWcBUsER84oTi2Eh
-	maheuE0rjg7Satj1s/UuPbDtlgwUQck/ecG0gB+QjXw3z/HLDDqiISH/F8pLJvDgpac0
-	4WlQ==
-X-Received: by 10.224.188.81 with SMTP id cz17mr39940186qab.74.1357477151044; 
-	Sun, 06 Jan 2013 04:59:11 -0800 (PST)
-Received: from [79.102.210.67] ([79.102.210.67])
-	by mx.google.com with ESMTPS id z5sm14741150qer.8.2013.01.06.04.59.09
-	(version=SSLv3 cipher=OTHER); Sun, 06 Jan 2013 04:59:10 -0800 (PST)
-Message-ID: <50E9751B.6020808@gmail.com>
-Date: Sun, 06 Jan 2013 13:59:07 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/17.0 Thunderbird/17.0
+	h=x-received:date:from:to:cc:subject:message-id:references
+	:mime-version:content-type:content-disposition:in-reply-to
+	:user-agent; bh=JIzneNdVI/XNe2Ve+RRIPAI3ZUjm1awNssOZjGB0SZw=;
+	b=KbtZ7Nii/vk+gxZxl+zezs1CnflX2XMRbsJO2jGSPOZKtERohVIZsXofrsf0YgvxKu
+	eRLPYsfnFP65uc/u2bj9GLrkKhRdo+AzmTx8K0LWd+Yee58jEz33Is/W5kUi8IeIi0yL
+	Ef8iOE3A/hCDWmV3KE1BEl5oWoBMzx1QiK32UQcpF+T7kNuJy1aRefHWGemf3YZIvwY2
+	p8gSnztLLVt9V0KzmyRcODOibmlnkliymbbGLC0cZVtH89ndTucFG0HYZZuK/dtFG948
+	3gDeHipVl8wJdWQor7MVLcVM3pcdiajrgeh3X1NNGcg/alUxO9/97oHjbqXkXpcGzIn8
+	DVxg==
+X-Received: by 10.66.88.198 with SMTP id bi6mr169081269pab.54.1357474000382;
+	Sun, 06 Jan 2013 04:06:40 -0800 (PST)
+Received: from localhost (ip-62-24-80-7.net.upcbroadband.cz. [62.24.80.7])
+	by mx.google.com with ESMTPS id p10sm36746837pax.27.2013.01.06.04.06.37
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Sun, 06 Jan 2013 04:06:39 -0800 (PST)
+Date: Sun, 6 Jan 2013 13:06:38 +0100
+From: Martin Jansa <martin.jansa@gmail.com>
+To: openembedded-devel@lists.openembedded.org
+Message-ID: <20130106120638.GE3272@jama>
+References: <1357460412-11889-1-git-send-email-lei.yang@windriver.com>
+	<50E966F7.1040909@gmail.com>
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1357393406-11707-1-git-send-email-lei.yang@windriver.com>
-	<50E830EF.6030102@gmail.com>
-	<CAHsH0E8wu6gn4bnqiDr8AtexVc7kq4zdL3jVWWzOOnqx1zMrZQ@mail.gmail.com>
-	<50E83CC7.60608@enea.com>
-	<CADkTA4Mx6EQGPb2c7qgjQ0eqQ0P4eFyxnTj38nB2gN=z5KY29Q@mail.gmail.com>
-In-Reply-To: <CADkTA4Mx6EQGPb2c7qgjQ0eqQ0P4eFyxnTj38nB2gN=z5KY29Q@mail.gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Update the netcat with debian patches to fix some error
+In-Reply-To: <50E966F7.1040909@gmail.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Mailman-Approved-At: Sun, 06 Jan 2013 05:13:14 -0800
+Cc: meta-virtualization@yoctoproject.org, Joe.MacDonald@windriver.com
+Subject: Re: [oe] [meta-networking][PATCH] Add netcat-openbsd for virtualization (libvirt virt-test)
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,58 +47,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Jan 2013 12:59:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 06 Jan 2013 12:06:40 -0000
+X-Groupsio-MsgNum: 144
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="cYtjc4pxslFTELvY"
+Content-Disposition: inline
 
-On 01/05/2013 07:44 PM, Bruce Ashfield wrote:
-> On Sat, Jan 5, 2013 at 9:46 AM, David Nyström <david.nystrom@enea.com>wrote:
->
->>
->>
->> On 01/05/2013 03:26 PM, lei yang wrote:
->>
->>> On Sat, Jan 5, 2013 at 5:55 AM, David Nyström <david.c.nystrom@gmail.com>
->>> wrote:
->>>
->>>> On 01/05/2013 02:43 PM, lei.yang@windriver.com wrote:
->>>>
->>>>>
->>>>> From: Lei Yang <lei.yang@windriver.com>
->>>>>
-> I think we should hold on this merge completely. netcat is already covered
-> by meta-networking, so
-> we should be consolidating patches and support there.
->
-> If there are any specific meta-virt requirements for netcat, we should
-> either use bbappends (and
-> depend on meta-networking, or use the combo-layer tools to pull the support
-> directly) or better yet
-> get them merged into meta-networking.
->
-> Cheers,
->
-> Bruce
->
+--cYtjc4pxslFTELvY
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I'm totaly OK with this, as long as its accepted somewhere.
-As Lei states though, we need to document the layer setup in README.
+On Sun, Jan 06, 2013 at 12:58:47PM +0100, David Nystr=F6m wrote:
+> On 01/06/2013 09:20 AM, lei.yang@windriver.com wrote:
+> > +SECTION =3D "console/network"
+> > +inherit update-alternatives gettext
+> > +
+> > +ALTERNATIVE_${PN} =3D "nc"
+> > +ALTERNATIVE_PRIORITY =3D "100"
+>=20
+> This means that both versions of netcat have alt. prio 100. what happens=
+=20
+> when both are installed on the rootfs at the same time. where does the=20
+> symlink point ?
 
-However, for future reference, I see no reason why new recipes can't end 
-up in meta-virtualization first for a usable working setup, and when 
-accepted upstream, they will be removed.
-I suggest we use 
-recipes-external/meta-<potential-upstream-here>/new-recipe-name/ until 
-accepted elsewhere.
+The one installed later (at least for opkg implementation).=20
+So it's better to change it to different number.
 
-Br,
-David
->
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+Cheers,
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
+--cYtjc4pxslFTELvY
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v2.0.19 (GNU/Linux)
+
+iEYEARECAAYFAlDpaM4ACgkQN1Ujt2V2gBwcIgCfSoEhe235LDeMQ5vgqbDhk9ra
+yDAAn23kWe+nqaIwJZyZhbjbu7A4QHWA
+=e+MI
+-----END PGP SIGNATURE-----
+
+--cYtjc4pxslFTELvY--
