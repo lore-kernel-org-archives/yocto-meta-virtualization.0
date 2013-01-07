@@ -1,39 +1,55 @@
-Return-Path: <Joe.MacDonald@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 19967E01453
+Return-Path: <B29882@freescale.com>
+Received: from va3outboundpool.messaging.microsoft.com
+	(va3ehsobe006.messaging.microsoft.com [216.32.180.16])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CB515E0144E
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  7 Jan 2013 12:25:37 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r07KPAYo023308
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 7 Jan 2013 12:25:11 -0800 (PST)
-Received: from yow-jmacdona-d1.ottawa.wrs.com (128.224.146.66) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
-	(TLS) id 14.2.318.4; Mon, 7 Jan 2013 12:25:09 -0800
-Received: from yow-jmacdona-l1 (yow-jmacdona-d2.wrs.com [128.224.146.166])	by
-	yow-jmacdona-d1.ottawa.wrs.com (Postfix) with ESMTP id 721D87FCE;
-	Mon,  7 Jan 2013 15:23:34 -0500 (EST)
-Received: by yow-jmacdona-l1 (Postfix, from userid 1000)	id A35F324151; Mon,
-	7 Jan 2013 15:25:08 -0500 (EST)
-Date: Mon, 7 Jan 2013 15:25:08 -0500
-From: Joe MacDonald <Joe.MacDonald@windriver.com>
-To: <lei.yang@windriver.com>
-Message-ID: <20130107202508.GN6154@windriver.com>
-References: <1357522704-9608-1-git-send-email-lei.yang@windriver.com>
-	<20130107021523.GF9356@windriver.com>
+	Mon,  7 Jan 2013 12:24:01 -0800 (PST)
+Received: from mail152-va3-R.bigfish.com (10.7.14.251) by
+	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 7 Jan 2013 20:24:01 +0000
+Received: from mail152-va3 (localhost [127.0.0.1])	by
+	mail152-va3-R.bigfish.com (Postfix) with ESMTP id 0D13F4A00DE;
+	Mon,  7 Jan 2013 20:24:01 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -5
+X-BigFish: VS-5(zzbb2dI98dI9371Ic89bh168aJ1432Izz1de0h1202h1e76h1d1ah1d2ahzz8275bh8275dhz2dh2a8h668h839h8e2h8e3h947hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh15d0h162dh1631h1758hbe9i1155h)
+Received: from mail152-va3 (localhost.localdomain [127.0.0.1]) by mail152-va3
+	(MessageSwitch) id 1357590238151593_27428;
+	Mon,  7 Jan 2013 20:23:58 +0000 (UTC)
+Received: from VA3EHSMHS027.bigfish.com (unknown [10.7.14.251])	by
+	mail152-va3.bigfish.com (Postfix) with ESMTP id 15BB6C0060;
+	Mon,  7 Jan 2013 20:23:58 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS027.bigfish.com
+	(10.7.99.37) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 7 Jan 2013 20:23:58 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.21]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0318.003; Mon, 7 Jan 2013 20:23:57 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: =?iso-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+Thread-Topic: [meta-virtualization] It seems my patch review doesn't deliver
+	to this mail list
+Thread-Index: AQHN7RTrWd/MzvGXIUqZ+DCqXaJT3Q==
+Date: Mon, 7 Jan 2013 20:23:56 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A818C99@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <CAHsH0E9taMuDSGH_A-OS3jqQfOu+i-=8TXcGSUh3vac+pzjH2Q@mail.gmail.com>
+	<50E80B57.5040804@gmail.com>
+In-Reply-To: <50E80B57.5040804@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-In-Reply-To: <20130107021523.GF9356@windriver.com>
-X-URL: http://github.com/joeythesaint/joe-s-common-environment/tree/master
-X-Configuration: git://github.com/joeythesaint/joe-s-common-environment.git
-X-Editor: Vim-703 http://www.vim.org
-User-Agent: Mutt/1.5.21 (2010-09-15)
-Cc: meta-virtualization@yoctoproject.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [meta-networking][PATCHV2] Add netcat-bsd into meta-networking for meta-virutalization libvirt virt-test
+X-OriginatorOrg: freescale.com
+X-Mailman-Approved-At: Mon, 07 Jan 2013 23:26:27 -0800
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: It seems my patch review doesn't deliver to this mail list
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -43,165 +59,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 20:25:37 -0000
-X-Groupsio-MsgNum: 165
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="e8/wErwm0bqugfcz"
-Content-Disposition: inline
-
---e8/wErwm0bqugfcz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 07 Jan 2013 20:24:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <90DBE4E2735D694B8A0857717E3940D0@mgd.freescale.com>
 Content-Transfer-Encoding: quoted-printable
 
-[Re: [meta-networking][PATCHV2] Add netcat-bsd into meta-networking for met=
-a-virutalization libvirt virt-test] On 13.01.06 (Sun 21:15) Joe MacDonald w=
-rote:
+On Sat, Jan 5, 2013 at 5:15 AM, David Nystr=F6m <david.c.nystrom@gmail.com>=
+ wrote:
+> Hi,
+>
+> Please use a subscribed address to post to this list,
+> Messages from unsubscribed posters get put on hold and needs to be manual=
+ly
+> accepted by maintainers, which may lag in time.
 
-> [[meta-networking][PATCHV2] Add netcat-bsd into meta-networking for meta-=
-virutalization libvirt virt-test] On 13.01.07 (Mon 09:38) lei.yang@windrive=
-r.com wrote:
->=20
-> > From: Lei Yang <lei.yang@windriver.com>
-> >=20
-> > The netcat-openbsd in meta-virtualization layer has bugs.
-> > This update version will fix "nc: Protocol no available." error.
-> > As bruce point, we want to keep netcat in the meta-networking,
-> > which meta-virtualization will depend on,and this patch will let
-> > netcat-openbsd with low priority to install
->=20
-> Okay, I hadn't seen this version yet.  Looks okay, I think.  I'll
-> merge it anyway soon, unless there's further discussion.
+fyi, you can subscribe the other email and turn off mail delivery so
+patches are accepted.
 
-Merged.  Thanks, Lei.
+-M
 
--J.
+>
+> Br,
+> David
+>
+>
+>
+> On 01/05/2013 11:19 AM, lei yang wrote:
+>>
+>> Hi list,
+>>
+>>   I send a patch, it seems blocked because I use my another mail which
+>> doesn't subscribe this list, do I need to resend with this mail
+>> account?
+>>
+>> Lei
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization=
 
-> The dependency on
-> meta-networking from meta-virtualization is probably out of scope.  Ping
-> me any time if you've got any questions about the relationship between
-> meta-oe/meta-networking and my github meta-networking.
->=20
-> Thanks, Lei.
->=20
-> -J.
->=20
-> >=20
-> > Lei
-> >=20
-> > Signed-off-by: Lei Yang <lei.yang@windriver.com>
-> > ---
-> >  .../recipes-support/netcat/netcat-openbsd_1.89.bb  |   30 ++++++++++++=
-++++++++
-> >  meta-networking/recipes-support/netcat/netcat.inc  |    5 +++
-> >  .../recipes-support/netcat/netcat_0.7.1.bb         |   11 +++----
-> >  3 files changed, 40 insertions(+), 6 deletions(-)
-> >  create mode 100644 meta-networking/recipes-support/netcat/netcat-openb=
-sd_1.89.bb
-> >  create mode 100644 meta-networking/recipes-support/netcat/netcat.inc
-> >=20
-> > diff --git a/meta-networking/recipes-support/netcat/netcat-openbsd_1.89=
-=2Ebb b/meta-networking/recipes-support/netcat/netcat-openbsd_1.89.bb
-> > new file mode 100644
-> > index 0000000..f83caee
-> > --- /dev/null
-> > +++ b/meta-networking/recipes-support/netcat/netcat-openbsd_1.89.bb
-> > @@ -0,0 +1,30 @@
-> > +require netcat.inc
-> > +DESCRIPTION =3D "OpenBSD Netcat"
-> > +HOMEPAGE =3D "http://ftp.debian.org"
-> > +LICENSE =3D "BSD-3-Clause"
-> > +PR =3D "r0"
-> > +
-> > +SRC_URI =3D "${DEBIAN_MIRROR}/main/n/netcat-openbsd/netcat-openbsd_1.8=
-9.orig.tar.gz;name=3Dnetcat \
-> > +           ${DEBIAN_MIRROR}/main/n/netcat-openbsd/netcat-openbsd_1.89-=
-4.diff.gz;name=3Dnetcat-patch"
-> > +
-> > +SRC_URI[netcat.md5sum] =3D "7238ce15aae43069e96ba7faf03f153e"
-> > +SRC_URI[netcat.sha256sum] =3D "72e844dde8a2a7cba61971d493758dbea9ef0b1=
-64bccef15fd4a36490dc77f2b"
-> > +SRC_URI[netcat-patch.md5sum] =3D "00c65aa22243b76998174c733cbb64cc"
-> > +SRC_URI[netcat-patch.sha256sum] =3D "d5b6b2bd9788114bdcfbb71acad026372=
-0b4fdc41529e287adf451b8610f84f1"
-> > +
-> > +S =3D "${WORKDIR}/${PN}-${PV}.orig"
-> > +
-> > +do_configure[noexec] =3D "1"
-> > +
-> > +do_compile() {
-> > +	cd ${S}
-> > +        while read line; do patch -p1 <debian/patches/$line; done <deb=
-ian/patches/series
-> > +	pkgrel=3D4
-> > +	oe_runmake CFLAGS=3D"$CFLAGS -DDEBIAN_VERSION=3D\"\\\"${pkgrel}\\\"\""
-> > +}
-> > +
-> > +do_install() {
-> > +        install -d ${D}${bindir}
-> > +        install -m 755 ${S}/nc ${D}${bindir}/nc.${PN}
-> > +}
-> > +ALTERNATIVE_PRIORITY =3D "50"
-> > diff --git a/meta-networking/recipes-support/netcat/netcat.inc b/meta-n=
-etworking/recipes-support/netcat/netcat.inc
-> > new file mode 100644
-> > index 0000000..6c815d9
-> > --- /dev/null
-> > +++ b/meta-networking/recipes-support/netcat/netcat.inc
-> > @@ -0,0 +1,5 @@
-> > +SECTION =3D "console/network"
-> > +inherit update-alternatives gettext
-> > +
-> > +ALTERNATIVE_${PN} =3D "nc"
-> > +
-> > diff --git a/meta-networking/recipes-support/netcat/netcat_0.7.1.bb b/m=
-eta-networking/recipes-support/netcat/netcat_0.7.1.bb
-> > index c5ab85d..c4f1f33 100644
-> > --- a/meta-networking/recipes-support/netcat/netcat_0.7.1.bb
-> > +++ b/meta-networking/recipes-support/netcat/netcat_0.7.1.bb
-> > @@ -1,21 +1,20 @@
-> > +require netcat.inc
-> >  DESCRIPTION =3D "GNU Netcat"
-> >  HOMEPAGE =3D "http://netcat.sourceforge.net"
-> > -SECTION =3D "console/network"
-> >  LICENSE =3D "GPLv2"
-> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079b=
-ae19f"
-> > =20
-> > -PR =3D "r0"
-> > +PR =3D "r1"
-> > =20
-> >  SRC_URI =3D "${SOURCEFORGE_MIRROR}/netcat/netcat-${PV}.tar.bz2"
-> > =20
-> >  SRC_URI[md5sum] =3D "0a29eff1736ddb5effd0b1ec1f6fe0ef"
-> >  SRC_URI[sha256sum] =3D "b55af0bbdf5acc02d1eb6ab18da2acd77a400bafd07448=
-9003f3df09676332bb"
-> > =20
-> > -inherit autotools update-alternatives gettext
-> > +inherit autotools
-> > =20
-> >  do_install_append() {
-> > -	mv ${D}${bindir}/nc ${D}${bindir}/nc.${PN}
-> > +        install -d ${D}${bindir}
-> > +        mv ${D}${bindir}/nc ${D}${bindir}/nc.${PN}
-> >  }
-> > -
-> > -ALTERNATIVE_${PN} =3D "nc"
-> >  ALTERNATIVE_PRIORITY =3D "100"
---=20
--Joe MacDonald.
-:wq
 
---e8/wErwm0bqugfcz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.12 (GNU/Linux)
-
-iEYEARECAAYFAlDrLyQACgkQPN8S4W6ZZndEMACffXSLycU0z0YzhyQhYgEumFos
-ox8An3OPdyNL7sILy6rGw86l/mj6310I
-=Gj/v
------END PGP SIGNATURE-----
-
---e8/wErwm0bqugfcz--
