@@ -1,39 +1,39 @@
-Return-Path: <ray.danks@se-eng.com>
-Received: from judge.camp.se-eng.com
-	(75-148-42-21-Colorado.hfc.comcastbusiness.net [75.148.42.21])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6A32BE01275
+Return-Path: <Joe.MacDonald@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 19967E01453
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  7 Jan 2013 10:31:39 -0800 (PST)
-Received: from localhost (localhost [127.0.0.1])
-	by judge.camp.se-eng.com (Postfix) with ESMTP id 496841380F1;
-	Mon,  7 Jan 2013 11:31:38 -0700 (MST)
-X-Virus-Scanned: amavisd-new at camp.se-eng.com
-Received: from judge.camp.se-eng.com ([127.0.0.1])
-	by localhost (judge.camp.se-eng.com [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id ayTUKQKAj4T5; Mon,  7 Jan 2013 11:31:35 -0700 (MST)
-Received: from [172.20.202.50] (beast.camp.se-eng.com [172.20.202.50])
-	by judge.camp.se-eng.com (Postfix) with ESMTPSA id 515B91380EA;
-	Mon,  7 Jan 2013 11:31:35 -0700 (MST)
-Message-ID: <50EB1486.4080901@se-eng.com>
-Date: Mon, 07 Jan 2013 11:31:34 -0700
-From: Raymond Danks <ray.danks@se-eng.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:16.0) Gecko/20121011 Thunderbird/16.0.1
+	Mon,  7 Jan 2013 12:25:37 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r07KPAYo023308
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 7 Jan 2013 12:25:11 -0800 (PST)
+Received: from yow-jmacdona-d1.ottawa.wrs.com (128.224.146.66) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server
+	(TLS) id 14.2.318.4; Mon, 7 Jan 2013 12:25:09 -0800
+Received: from yow-jmacdona-l1 (yow-jmacdona-d2.wrs.com [128.224.146.166])	by
+	yow-jmacdona-d1.ottawa.wrs.com (Postfix) with ESMTP id 721D87FCE;
+	Mon,  7 Jan 2013 15:23:34 -0500 (EST)
+Received: by yow-jmacdona-l1 (Postfix, from userid 1000)	id A35F324151; Mon,
+	7 Jan 2013 15:25:08 -0500 (EST)
+Date: Mon, 7 Jan 2013 15:25:08 -0500
+From: Joe MacDonald <Joe.MacDonald@windriver.com>
+To: <lei.yang@windriver.com>
+Message-ID: <20130107202508.GN6154@windriver.com>
+References: <1357522704-9608-1-git-send-email-lei.yang@windriver.com>
+	<20130107021523.GF9356@windriver.com>
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1357560505-24122-1-git-send-email-mihai.prica@intel.com>
-	<1357560505-24122-2-git-send-email-mihai.prica@intel.com>
-	<50EB053F.2040809@se-eng.com>
-	<CADkTA4NfJq0e-Kcg99uotS1O5ny0uQw=VVmKV0yxwwoMxqdNuw@mail.gmail.com>
-In-Reply-To: <CADkTA4NfJq0e-Kcg99uotS1O5ny0uQw=VVmKV0yxwwoMxqdNuw@mail.gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] linux-yocto: added kernel configuration for KVM
+In-Reply-To: <20130107021523.GF9356@windriver.com>
+X-URL: http://github.com/joeythesaint/joe-s-common-environment/tree/master
+X-Configuration: git://github.com/joeythesaint/joe-s-common-environment.git
+X-Editor: Vim-703 http://www.vim.org
+User-Agent: Mutt/1.5.21 (2010-09-15)
+Cc: meta-virtualization@yoctoproject.org,
+	openembedded-devel@lists.openembedded.org
+Subject: Re: [meta-networking][PATCHV2] Add netcat-bsd into meta-networking for meta-virutalization libvirt virt-test
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: ray.danks@se-eng.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -43,313 +43,165 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Jan 2013 18:31:39 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040207030102000602090408"
+X-List-Received-Date: Mon, 07 Jan 2013 20:25:37 -0000
+X-Groupsio-MsgNum: 165
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="e8/wErwm0bqugfcz"
+Content-Disposition: inline
 
---------------040207030102000602090408
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+--e8/wErwm0bqugfcz
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 01/07/2013 11:10 AM, Bruce Ashfield wrote:
->
->
->
-> On Mon, Jan 7, 2013 at 12:26 PM, Raymond Danks <ray.danks@se-eng.com 
-> <mailto:ray.danks@se-eng.com>> wrote:
->
->     I'm going to show my lack of knowledge in this area, but I know
->     this is going to come up when I push a xen.cfg that I apparently
->     never added.
->
->     Is it possible to do something along the lines of PACKAGE_CONFIG
->     in the linux-yocto.bbappend?  For example, in the libvirt package
->     one can use PACKAGE_CONFIG to construct a "minimal" build of
->     libvirt.  What would be the method for one to do the same in this
->     package?
->
->
-> kernel configuration fragment use are controlled via the 
-> KERNEL_FEATURES variable, and
-> for anything pre-yocto 1.4 that means an in-tree kernel configuration 
-> fragment (I'm still pushing
-> for the fragments to be maintained in tree, since that allows them to 
-> be reused and maintained
-> more easily).
->
-> KERNEL_FEATURES is managed like any other variable in the system, 
-> including updating
-> it via optional/dynamic features as we see fit.
+[Re: [meta-networking][PATCHV2] Add netcat-bsd into meta-networking for met=
+a-virutalization libvirt virt-test] On 13.01.06 (Sun 21:15) Joe MacDonald w=
+rote:
 
-Thanks Bruce.  Yes, KERNEL_FEATURES is what I was looking for, I 
-believe.  I'm seeing some references and examples for this now.
+> [[meta-networking][PATCHV2] Add netcat-bsd into meta-networking for meta-=
+virutalization libvirt virt-test] On 13.01.07 (Mon 09:38) lei.yang@windrive=
+r.com wrote:
+>=20
+> > From: Lei Yang <lei.yang@windriver.com>
+> >=20
+> > The netcat-openbsd in meta-virtualization layer has bugs.
+> > This update version will fix "nc: Protocol no available." error.
+> > As bruce point, we want to keep netcat in the meta-networking,
+> > which meta-virtualization will depend on,and this patch will let
+> > netcat-openbsd with low priority to install
+>=20
+> Okay, I hadn't seen this version yet.  Looks okay, I think.  I'll
+> merge it anyway soon, unless there's further discussion.
 
-Ray
+Merged.  Thanks, Lei.
 
->
->
->     Yes, I imagine that worst case there can be a SRC_URI_distro
->     definition that includes only the .scc files required for that
->     "minimal" image build, but it seems like we want to keep away from
->     that as much as possible being that this isn't a distro layer.
->
->
-> Typically we do this via a base KERNEL_FEATURES specification in the 
-> relevant recipe(s), and
-> distros, or other configurations can override/extend it as required.
->
-> Cheers,
->
-> Buce
->
->     Thanks,
->     Ray
->
->
->     On 01/07/2013 05:08 AM, Mihai Prica wrote:
->
->         Signed-off-by: Mihai Prica <mihai.prica@intel.com
->         <mailto:mihai.prica@intel.com>>
->         ---
->           recipes-kernel/linux/linux-yocto/kvm-enable.scc |    4 ++++
->           recipes-kernel/linux/linux-yocto/kvm.cfg        |    4 ++++
->           recipes-kernel/linux/linux-yocto_3.4.bbappend   |    1 +
->           3 files changed, 9 insertions(+)
->           create mode 100644
->         recipes-kernel/linux/linux-yocto/kvm-enable.scc
->           create mode 100644 recipes-kernel/linux/linux-yocto/kvm.cfg
->
->         diff --git a/recipes-kernel/linux/linux-yocto/kvm-enable.scc
->         b/recipes-kernel/linux/linux-yocto/kvm-enable.scc
->         new file mode 100644
->         index 0000000..0b5f4fc
->         --- /dev/null
->         +++ b/recipes-kernel/linux/linux-yocto/kvm-enable.scc
->         @@ -0,0 +1,4 @@
->         +define KFEATURE_DESCRIPTION "Enable KVM host support"
->         +define KFEATURE_COMPATIBILITY board
->         +
->         +kconf non-hardware kvm.cfg
->         diff --git a/recipes-kernel/linux/linux-yocto/kvm.cfg
->         b/recipes-kernel/linux/linux-yocto/kvm.cfg
->         new file mode 100644
->         index 0000000..0cfcf58
->         --- /dev/null
->         +++ b/recipes-kernel/linux/linux-yocto/kvm.cfg
->         @@ -0,0 +1,4 @@
->         +CONFIG_KVM=y
->         +CONFIG_KVM_INTEL=y
->         +CONFIG_KVM_AMD=y
->         +CONFIG_TUN=y
->         diff --git a/recipes-kernel/linux/linux-yocto_3.4.bbappend
->         b/recipes-kernel/linux/linux-yocto_3.4.bbappend
->         index 5b163ff..71bead2 100644
->         --- a/recipes-kernel/linux/linux-yocto_3.4.bbappend
->         +++ b/recipes-kernel/linux/linux-yocto_3.4.bbappend
->         @@ -4,5 +4,6 @@ SRC_URI += "file://xt-checksum.scc \
->                       file://ebtables.scc \
->                     file://vswitch.scc \
->                     file://lxc.scc \
->         +            file://kvm-enable.scc \
->                     "
->
->
->     _______________________________________________
->     meta-virtualization mailing list
->     meta-virtualization@yoctoproject.org
->     <mailto:meta-virtualization@yoctoproject.org>
->     https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await 
-> thee at its end"
+-J.
 
+> The dependency on
+> meta-networking from meta-virtualization is probably out of scope.  Ping
+> me any time if you've got any questions about the relationship between
+> meta-oe/meta-networking and my github meta-networking.
+>=20
+> Thanks, Lei.
+>=20
+> -J.
+>=20
+> >=20
+> > Lei
+> >=20
+> > Signed-off-by: Lei Yang <lei.yang@windriver.com>
+> > ---
+> >  .../recipes-support/netcat/netcat-openbsd_1.89.bb  |   30 ++++++++++++=
+++++++++
+> >  meta-networking/recipes-support/netcat/netcat.inc  |    5 +++
+> >  .../recipes-support/netcat/netcat_0.7.1.bb         |   11 +++----
+> >  3 files changed, 40 insertions(+), 6 deletions(-)
+> >  create mode 100644 meta-networking/recipes-support/netcat/netcat-openb=
+sd_1.89.bb
+> >  create mode 100644 meta-networking/recipes-support/netcat/netcat.inc
+> >=20
+> > diff --git a/meta-networking/recipes-support/netcat/netcat-openbsd_1.89=
+=2Ebb b/meta-networking/recipes-support/netcat/netcat-openbsd_1.89.bb
+> > new file mode 100644
+> > index 0000000..f83caee
+> > --- /dev/null
+> > +++ b/meta-networking/recipes-support/netcat/netcat-openbsd_1.89.bb
+> > @@ -0,0 +1,30 @@
+> > +require netcat.inc
+> > +DESCRIPTION =3D "OpenBSD Netcat"
+> > +HOMEPAGE =3D "http://ftp.debian.org"
+> > +LICENSE =3D "BSD-3-Clause"
+> > +PR =3D "r0"
+> > +
+> > +SRC_URI =3D "${DEBIAN_MIRROR}/main/n/netcat-openbsd/netcat-openbsd_1.8=
+9.orig.tar.gz;name=3Dnetcat \
+> > +           ${DEBIAN_MIRROR}/main/n/netcat-openbsd/netcat-openbsd_1.89-=
+4.diff.gz;name=3Dnetcat-patch"
+> > +
+> > +SRC_URI[netcat.md5sum] =3D "7238ce15aae43069e96ba7faf03f153e"
+> > +SRC_URI[netcat.sha256sum] =3D "72e844dde8a2a7cba61971d493758dbea9ef0b1=
+64bccef15fd4a36490dc77f2b"
+> > +SRC_URI[netcat-patch.md5sum] =3D "00c65aa22243b76998174c733cbb64cc"
+> > +SRC_URI[netcat-patch.sha256sum] =3D "d5b6b2bd9788114bdcfbb71acad026372=
+0b4fdc41529e287adf451b8610f84f1"
+> > +
+> > +S =3D "${WORKDIR}/${PN}-${PV}.orig"
+> > +
+> > +do_configure[noexec] =3D "1"
+> > +
+> > +do_compile() {
+> > +	cd ${S}
+> > +        while read line; do patch -p1 <debian/patches/$line; done <deb=
+ian/patches/series
+> > +	pkgrel=3D4
+> > +	oe_runmake CFLAGS=3D"$CFLAGS -DDEBIAN_VERSION=3D\"\\\"${pkgrel}\\\"\""
+> > +}
+> > +
+> > +do_install() {
+> > +        install -d ${D}${bindir}
+> > +        install -m 755 ${S}/nc ${D}${bindir}/nc.${PN}
+> > +}
+> > +ALTERNATIVE_PRIORITY =3D "50"
+> > diff --git a/meta-networking/recipes-support/netcat/netcat.inc b/meta-n=
+etworking/recipes-support/netcat/netcat.inc
+> > new file mode 100644
+> > index 0000000..6c815d9
+> > --- /dev/null
+> > +++ b/meta-networking/recipes-support/netcat/netcat.inc
+> > @@ -0,0 +1,5 @@
+> > +SECTION =3D "console/network"
+> > +inherit update-alternatives gettext
+> > +
+> > +ALTERNATIVE_${PN} =3D "nc"
+> > +
+> > diff --git a/meta-networking/recipes-support/netcat/netcat_0.7.1.bb b/m=
+eta-networking/recipes-support/netcat/netcat_0.7.1.bb
+> > index c5ab85d..c4f1f33 100644
+> > --- a/meta-networking/recipes-support/netcat/netcat_0.7.1.bb
+> > +++ b/meta-networking/recipes-support/netcat/netcat_0.7.1.bb
+> > @@ -1,21 +1,20 @@
+> > +require netcat.inc
+> >  DESCRIPTION =3D "GNU Netcat"
+> >  HOMEPAGE =3D "http://netcat.sourceforge.net"
+> > -SECTION =3D "console/network"
+> >  LICENSE =3D "GPLv2"
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D94d55d512a9ba36caa9b7df079b=
+ae19f"
+> > =20
+> > -PR =3D "r0"
+> > +PR =3D "r1"
+> > =20
+> >  SRC_URI =3D "${SOURCEFORGE_MIRROR}/netcat/netcat-${PV}.tar.bz2"
+> > =20
+> >  SRC_URI[md5sum] =3D "0a29eff1736ddb5effd0b1ec1f6fe0ef"
+> >  SRC_URI[sha256sum] =3D "b55af0bbdf5acc02d1eb6ab18da2acd77a400bafd07448=
+9003f3df09676332bb"
+> > =20
+> > -inherit autotools update-alternatives gettext
+> > +inherit autotools
+> > =20
+> >  do_install_append() {
+> > -	mv ${D}${bindir}/nc ${D}${bindir}/nc.${PN}
+> > +        install -d ${D}${bindir}
+> > +        mv ${D}${bindir}/nc ${D}${bindir}/nc.${PN}
+> >  }
+> > -
+> > -ALTERNATIVE_${PN} =3D "nc"
+> >  ALTERNATIVE_PRIORITY =3D "100"
+--=20
+-Joe MacDonald.
+:wq
 
---------------040207030102000602090408
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+--e8/wErwm0bqugfcz
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-<html>
-  <head>
-    <meta content="text/html; charset=ISO-8859-1"
-      http-equiv="Content-Type">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <div class="moz-cite-prefix">On 01/07/2013 11:10 AM, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CADkTA4NfJq0e-Kcg99uotS1O5ny0uQw=VVmKV0yxwwoMxqdNuw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr"><br>
-        <div class="gmail_extra"><br>
-          <br>
-          <div class="gmail_quote">On Mon, Jan 7, 2013 at 12:26 PM,
-            Raymond Danks <span dir="ltr">&lt;<a moz-do-not-send="true"
-                href="mailto:ray.danks@se-eng.com" target="_blank">ray.danks@se-eng.com</a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">I'm
-              going to show my lack of knowledge in this area, but I
-              know this is going to come up when I push a xen.cfg that I
-              apparently never added.<br>
-              <br>
-              Is it possible to do something along the lines of
-              PACKAGE_CONFIG in the linux-yocto.bbappend? &nbsp;For example,
-              in the libvirt package one can use PACKAGE_CONFIG to
-              construct a "minimal" build of libvirt. &nbsp;What would be the
-              method for one to do the same in this package?<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>kernel configuration fragment use are controlled via
-              the KERNEL_FEATURES variable, and</div>
-            <div>for anything pre-yocto 1.4 that means an in-tree kernel
-              configuration fragment (I'm still pushing</div>
-            <div>for the fragments to be maintained in tree, since that
-              allows them to be reused and maintained</div>
-            <div>more easily).</div>
-            <div><br>
-            </div>
-            <div style="">KERNEL_FEATURES is managed like any other
-              variable in the system, including updating</div>
-            <div style="">it via optional/dynamic features as we see
-              fit.</div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    Thanks Bruce.&nbsp; Yes, KERNEL_FEATURES is what I was looking for, I
-    believe.&nbsp; I'm seeing some references and examples for this now.<br>
-    <br>
-    Ray<br>
-    <br>
-    <blockquote
-cite="mid:CADkTA4NfJq0e-Kcg99uotS1O5ny0uQw=VVmKV0yxwwoMxqdNuw@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div><br>
-            </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              <br>
-              Yes, I imagine that worst case there can be a
-              SRC_URI_distro definition that includes only the .scc
-              files required for that "minimal" image build, but it
-              seems like we want to keep away from that as much as
-              possible being that this isn't a distro layer.<br>
-              <br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div style="">Typically we do this via a base
-              KERNEL_FEATURES specification in the relevant recipe(s),
-              and</div>
-            <div style="">distros, or other configurations can
-              override/extend it as required.</div>
-            <div style=""><br>
-            </div>
-            <div style="">Cheers,</div>
-            <div style=""><br>
-            </div>
-            <div style="">Buce</div>
-            <div>&nbsp;</div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              Thanks,<br>
-              Ray
-              <div>
-                <div><br>
-                  <br>
-                  On 01/07/2013 05:08 AM, Mihai Prica wrote:<br>
-                  <blockquote class="gmail_quote" style="margin:0 0 0
-                    .8ex;border-left:1px #ccc solid;padding-left:1ex">
-                    Signed-off-by: Mihai Prica &lt;<a
-                      moz-do-not-send="true"
-                      href="mailto:mihai.prica@intel.com"
-                      target="_blank">mihai.prica@intel.com</a>&gt;<br>
-                    ---<br>
-                    &nbsp; recipes-kernel/linux/linux-yocto/kvm-enable.scc |
-                    &nbsp; &nbsp;4 ++++<br>
-                    &nbsp; recipes-kernel/linux/linux-yocto/kvm.cfg &nbsp; &nbsp; &nbsp; &nbsp;|
-                    &nbsp; &nbsp;4 ++++<br>
-                    &nbsp; recipes-kernel/linux/linux-yocto_3.4.bbappend &nbsp; |
-                    &nbsp; &nbsp;1 +<br>
-                    &nbsp; 3 files changed, 9 insertions(+)<br>
-                    &nbsp; create mode 100644 recipes-kernel/linux/linux-yocto/kvm-enable.scc<br>
-                    &nbsp; create mode 100644 recipes-kernel/linux/linux-yocto/kvm.cfg<br>
-                    <br>
-                    diff --git a/recipes-kernel/linux/linux-yocto/kvm-enable.scc
-                    b/recipes-kernel/linux/linux-yocto/kvm-enable.scc<br>
-                    new file mode 100644<br>
-                    index 0000000..0b5f4fc<br>
-                    --- /dev/null<br>
-                    +++ b/recipes-kernel/linux/linux-yocto/kvm-enable.scc<br>
-                    @@ -0,0 +1,4 @@<br>
-                    +define KFEATURE_DESCRIPTION "Enable KVM host
-                    support"<br>
-                    +define KFEATURE_COMPATIBILITY board<br>
-                    +<br>
-                    +kconf non-hardware kvm.cfg<br>
-                    diff --git a/recipes-kernel/linux/linux-yocto/kvm.cfg
-                    b/recipes-kernel/linux/linux-yocto/kvm.cfg<br>
-                    new file mode 100644<br>
-                    index 0000000..0cfcf58<br>
-                    --- /dev/null<br>
-                    +++ b/recipes-kernel/linux/linux-yocto/kvm.cfg<br>
-                    @@ -0,0 +1,4 @@<br>
-                    +CONFIG_KVM=y<br>
-                    +CONFIG_KVM_INTEL=y<br>
-                    +CONFIG_KVM_AMD=y<br>
-                    +CONFIG_TUN=y<br>
-                    diff --git a/recipes-kernel/linux/linux-yocto_3.4.bbappend
-                    b/recipes-kernel/linux/linux-yocto_3.4.bbappend<br>
-                    index 5b163ff..71bead2 100644<br>
-                    --- a/recipes-kernel/linux/linux-yocto_3.4.bbappend<br>
-                    +++ b/recipes-kernel/linux/linux-yocto_3.4.bbappend<br>
-                    @@ -4,5 +4,6 @@ SRC_URI += "<a class="moz-txt-link-freetext" href="file://xt-checksum.scc">file://xt-checksum.scc</a> \<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://ebtables.scc">file://ebtables.scc</a> \<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://vswitch.scc">file://vswitch.scc</a> \<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a class="moz-txt-link-freetext" href="file://lxc.scc">file://lxc.scc</a> \<br>
-                    + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a class="moz-txt-link-freetext" href="file://kvm-enable.scc">file://kvm-enable.scc</a> \<br>
-                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "<br>
-                    &nbsp; <br>
-                  </blockquote>
-                  <br>
-                </div>
-              </div>
-              <div>
-                <div>
-                  _______________________________________________<br>
-                  meta-virtualization mailing list<br>
-                  <a moz-do-not-send="true"
-                    href="mailto:meta-virtualization@yoctoproject.org"
-                    target="_blank">meta-virtualization@yoctoproject.org</a><br>
-                  <a moz-do-not-send="true"
-                    href="https://lists.yoctoproject.org/listinfo/meta-virtualization"
-                    target="_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization</a><br>
-                </div>
-              </div>
-            </blockquote>
-          </div>
-          <br>
-          <br clear="all">
-          <div><br>
-          </div>
-          -- <br>
-          "Thou shalt not follow the NULL pointer, for chaos and madness
-          await thee at its end"
-        </div>
-      </div>
-    </blockquote>
-    <br>
-  </body>
-</html>
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.12 (GNU/Linux)
 
---------------040207030102000602090408--
+iEYEARECAAYFAlDrLyQACgkQPN8S4W6ZZndEMACffXSLycU0z0YzhyQhYgEumFos
+ox8An3OPdyNL7sILy6rGw86l/mj6310I
+=Gj/v
+-----END PGP SIGNATURE-----
+
+--e8/wErwm0bqugfcz--
