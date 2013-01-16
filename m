@@ -1,18 +1,18 @@
 Return-Path: <Lei.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3C9CAE01454
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 82AD9E011DB
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Jan 2013 03:22:07 -0800 (PST)
+	Tue, 15 Jan 2013 19:27:54 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0FBM6i1026464
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r0G3Rrts002002
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 15 Jan 2013 03:22:06 -0800 (PST)
+	Tue, 15 Jan 2013 19:27:53 -0800 (PST)
 Received: from [128.224.158.225] (128.224.158.225) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 15 Jan 2013 03:22:05 -0800
-Message-ID: <50F53BD9.60203@windriver.com>
-Date: Tue, 15 Jan 2013 19:22:01 +0800
+	Tue, 15 Jan 2013 19:27:53 -0800
+Message-ID: <50F61E35.9000204@windriver.com>
+Date: Wed, 16 Jan 2013 11:27:49 +0800
 From: lei yang <lei.yang@windriver.com>
 User-Agent: Mozilla/5.0 (X11; Linux x86_64;
 	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
@@ -24,7 +24,7 @@ References: <1357921647-17864-1-git-send-email-mihai.prica@intel.com>
 	<97BD068FB200C44AA73C2B641F162ECF8FC42C@IRSMSX101.ger.corp.intel.com>
 In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF8FC42C@IRSMSX101.ger.corp.intel.com>
 X-Originating-IP: [128.224.158.225]
-Cc: bruce.ashfield@windriver.com, "meta-virtualization@yoctoproject.org"
+Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH v2 2/2] Created new target:kvm-image-minimal
 X-BeenThere: meta-virtualization@yoctoproject.org
@@ -39,7 +39,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Jan 2013 11:22:07 -0000
+X-List-Received-Date: Wed, 16 Jan 2013 03:27:54 -0000
 Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -97,11 +97,16 @@ On 01/15/2013 06:44 PM, Prica, Mihai wrote:
 >> variable first time
 > In an image recipe you can't use RRECOMMENDS to specify a list of packages that extend the usability of the image being built.  In this type of recipe you can use PACKAGE_INSTALL_ATTEMPTONLY that has the same functionality.
 
-I don't know why RRECOMMENDS can't be used in image recipes, How about 
-"IMAGE_INSTALL", this is always used
+and I think both can be used, from below, it tells me, they can perform 
+the same function, do you try RRECOMEEDS and meet an error?
 
-Lei
+lyang001@lyang0-9010:~/intel-xeon-core/layers/oe-core/meta/classes$ cat 
+image.bbclass |grep -E "^RRECOM|^PACKAGE_INSTALL_ATTEMPTONLY"
+RRECOMMENDS += "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+PACKAGE_INSTALL_ATTEMPTONLY ?= "${FEATURE_INSTALL_OPTIONAL}"
 
+
+  Lei
 
 
 
