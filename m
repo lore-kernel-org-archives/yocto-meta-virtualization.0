@@ -1,41 +1,24 @@
-Return-Path: <mihai.prica@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1ACCCE011AB
+Return-Path: <Lei.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3B2A3E01456
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Jan 2013 05:58:33 -0800 (PST)
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP; 16 Jan 2013 05:58:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,479,1355126400"; d="scan'208";a="277598488"
-Received: from irsmsx101.ger.corp.intel.com ([163.33.3.153])
-	by fmsmga002.fm.intel.com with ESMTP; 16 Jan 2013 05:58:31 -0800
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX101.ger.corp.intel.com (163.33.3.153) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Wed, 16 Jan 2013 13:58:30 +0000
-Received: from irsmsx101.ger.corp.intel.com ([169.254.1.60]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.144]) with mapi id
-	14.01.0355.002; Wed, 16 Jan 2013 13:58:30 +0000
-From: "Prica, Mihai" <mihai.prica@intel.com>
-To: lei yang <lei.yang@windriver.com>
-Thread-Topic: [meta-virtualization] [PATCH v2 2/2] Created new
-	target:kvm-image-minimal
-Thread-Index: AQHN8BiHtWdZ/usQO028YMJ+BamZwphEXrgAgAXaMOCAARnRgIAAr6lA
-Date: Wed, 16 Jan 2013 13:58:30 +0000
-Message-ID: <97BD068FB200C44AA73C2B641F162ECF905906@IRSMSX101.ger.corp.intel.com>
-References: <1357921647-17864-1-git-send-email-mihai.prica@intel.com>
-	<1357921647-17864-2-git-send-email-mihai.prica@intel.com>
-	<50F04908.2020103@windriver.com>
-	<97BD068FB200C44AA73C2B641F162ECF8FC42C@IRSMSX101.ger.corp.intel.com>
-	<50F61E35.9000204@windriver.com>
-In-Reply-To: <50F61E35.9000204@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [163.33.239.182]
+	Mon, 21 Jan 2013 02:00:42 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0LA0a7V029924
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 21 Jan 2013 02:00:36 -0800 (PST)
+Received: from pek-lpgtest4.wrs.com (128.224.153.84) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Mon, 21 Jan 2013 02:00:35 -0800
+From: <lei.yang@windriver.com>
+To: <openembedded-devel@lists.openembedded.org>
+Date: Mon, 21 Jan 2013 18:00:33 +0800
+Message-ID: <1358762433-11853-1-git-send-email-lei.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2 2/2] Created new target:kvm-image-minimal
+Cc: meta-virtualization@yoctoproject.org
+Subject: [meta-oe][PATCH] multipath-tools: Add multipath-tools recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,106 +31,79 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jan 2013 13:58:33 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 21 Jan 2013 10:00:42 -0000
+Content-Type: text/plain
 
-> -----Original Message-----
-> From: lei yang [mailto:lei.yang@windriver.com]
-> Sent: Wednesday, January 16, 2013 5:28 AM
-> To: Prica, Mihai
-> Cc: meta-virtualization@yoctoproject.org
-> Subject: Re: [meta-virtualization] [PATCH v2 2/2] Created new target:kvm-=
-image-
-> minimal
->=20
-> On 01/15/2013 06:44 PM, Prica, Mihai wrote:
-> >> -----Original Message-----
-> >> From: Lei Yang [mailto:lei.yang@windriver.com]
-> >> Sent: Friday, January 11, 2013 7:17 PM
-> >> To: Prica, Mihai
-> >> Cc: meta-virtualization@yoctoproject.org
-> >> Subject: Re: [meta-virtualization] [PATCH v2 2/2] Created new
-> >> target:kvm-image- minimal
-> >>
-> >> On 01/12/2013 12:27 AM, Mihai Prica wrote:
-> >>> Signed-off-by: Mihai Prica<mihai.prica@intel.com>
-> >>> ---
-> >>>    recipes-extended/images/kvm-image-minimal.bb |   28
-> >> ++++++++++++++++++++++++++
-> >>>    1 file changed, 28 insertions(+)
-> >>>    create mode 100644 recipes-extended/images/kvm-image-minimal.bb
-> >>>
-> >>> diff --git a/recipes-extended/images/kvm-image-minimal.bb
-> >>> b/recipes-extended/images/kvm-image-minimal.bb
-> >>> new file mode 100644
-> >>> index 0000000..275c43b
-> >>> --- /dev/null
-> >>> +++ b/recipes-extended/images/kvm-image-minimal.bb
-> >>> @@ -0,0 +1,28 @@
-> >>> +DESCRIPTION =3D "A minimal kvm image"
-> >>> +
-> >>> +IMAGE_INSTALL =3D " \
-> >>> +    packagegroup-core-boot \
-> >>> +    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
-> >>> +    qemu \
-> >>> +    libvirt \
-> >>> +    libvirt-libvirtd \
-> >>> +    libvirt-virsh \
-> >>> +    "
-> >>> +
-> >>> +IMAGE_FEATURES +=3D "ssh-server-openssh"
-> >>> +
-> >>> +IMAGE_LINGUAS =3D " "
-> >>> +
-> >>> +LICENSE =3D "MIT"
-> >>> +
-> >>> +inherit core-image
-> >>> +
-> >>> +IMAGE_ROOTFS_SIZE =3D "8192"
-> >>> +
-> >>> +ROOTFS_POSTPROCESS_COMMAND +=3D "remove_packaging_data_files ; "
-> >>> +
-> >>> +PACKAGE_INSTALL_ATTEMPTONLY =3D "\
-> >> Hi Mibai
-> >>
-> >> can you explain "PACKAGE_INSTALL_ATTEMPTONLY " to me, I just see this
-> >> variable first time
-> > In an image recipe you can't use RRECOMMENDS to specify a list of packa=
-ges
-> that extend the usability of the image being built.  In this type of reci=
-pe you can
-> use PACKAGE_INSTALL_ATTEMPTONLY that has the same functionality.
->=20
-> and I think both can be used, from below, it tells me, they can perform t=
-he same
-> function, do you try RRECOMEEDS and meet an error?
+From: Lei Yang <lei.yang@windriver.com>
 
-I tried using RRECOMMENDS. I didn't get any errors but the kernel modules w=
-ere not loaded onto the image. I tried a number of times to be sure it's be=
-cause of the shared state, but with the same result. With PACAKAGE_INSTALL_=
-ATTEMPTONLY it worked.
+This packages provides:
+- multipath: scans the system for multipathed devices, assembles
+- multipathd: waits for maps events then execs multipath
+- kpartx: maps linear devmaps to device partitions, which makes
+multipath maps partionable
+......
 
->=20
-> lyang001@lyang0-9010:~/intel-xeon-core/layers/oe-core/meta/classes$ cat
-> image.bbclass |grep -E "^RRECOM|^PACKAGE_INSTALL_ATTEMPTONLY"
-> RRECOMMENDS +=3D "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
-> PACKAGE_INSTALL_ATTEMPTONLY ?=3D "${FEATURE_INSTALL_OPTIONAL}"
->=20
->=20
->   Lei
->=20
->=20
->=20
-> > Thanks,
-> > Mihai
-> >> Lei
-> >> :-)
-> >>
-> >>> +    kernel-module-kvm \
-> >>> +    kernel-module-kvm-intel \
-> >>> +    kernel-module-kvm-amd \
-> >>> +    "
+Now,It can be used for kvm disk img partion for me.
+
+Signed-off-by: Lei Yang <lei.yang@windriver.com>
+---
+ .../multipath-tools/multipath-tools_git.bb         |   46 ++++++++++++++++++++
+ 1 files changed, 46 insertions(+), 0 deletions(-)
+ create mode 100644 meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb
+
+diff --git a/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb b/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb
+new file mode 100644
+index 0000000..e9509d3
+--- /dev/null
++++ b/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb
+@@ -0,0 +1,46 @@
++SUMMARY = "Tools to Manage Multipathed Devices with the device-mapper"
++DESCRIPTION = "This package provides the tools to manage multipathed devices by \
++instructing the device-mapper multipath module what to do"
++
++HOMEPAGE = "http://christophe.varoqui.free.fr/"
++DEPENDS = "readline libaio lvm2"
++LICENSE = "GPLv2"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=7be2873b6270e45abacc503abbe2aa3d"
++S="${WORKDIR}/git"
++
++
++SRC_URI = "git://git.opensvc.com/multipath-tools/.git;protocol=http"
++
++SRCREV = "d3683ab18b386e9b3b54b59a122c689e9ebdf5cf"
++PV = "0.4.9+gitr${SRCPV}"
++
++inherit autotools
++
++EXTRA_OEMAKE="LIB=${libdir} exec_prefix=${exec_prefix} libdir=${libdir}"
++
++PACKAGES =+ "libmpathpersist mpathpersist kpartx libmultipath multipath multipathd libmultipath-dev libmpathpersist-dev"
++
++
++RDEPENDS_${PN} += "libmpathpersist mpathpersist kpartx libmultipath multipath multipathd"
++
++do_install_append () {
++	ln -sf libmpathpersist.so.0 ${D}${libdir}/libmpathpersist.so
++	ln -sf libmultipath.so.0 ${D}${libdir}/libmultipath.so
++}
++
++ALLOW_EMPTY_${PN} = "1"
++FILES_${PN}     = ""
++
++FILES_libmpathpersist = "${libdir}/libmpathpersist*.so.0"
++FILES_mpathpersist = "${sbindir}/mpathpersist"
++FILES_kpartx = "${sbindir}/kpartx ${base_libdir}/udev/"
++FILES_libmultipath = "${libdir}/libcheck*.so ${libdir}/libpri*.so ${libdir}/libmultipath*.so.0"
++FILES_multipath = "${sbindir}/multipath ${sysconfdir}"
++FILES_multipathd = "${sbindir}/multipathd ${base_libdir}"
++
++#put the symbol link lib in -dev 
++FILES_libmultipath-dev = "${libdir}/libmultipath*.so"
++FILES_libmpathpersist-dev = "${libdir}/libmpathpersist*.so"
++
++
+-- 
+1.7.1
 
 
