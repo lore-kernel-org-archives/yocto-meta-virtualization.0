@@ -1,30 +1,39 @@
-Return-Path: <Lei.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2810E01495
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-ea0-f175.google.com (mail-ea0-f175.google.com
+	[209.85.215.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 00662E00709
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Jan 2013 02:22:47 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0MAMBkD019897
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 22 Jan 2013 02:22:12 -0800 (PST)
-Received: from [128.224.158.225] (128.224.158.225) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.2.318.4;
-	Tue, 22 Jan 2013 02:22:11 -0800
-Message-ID: <50FE684F.3000107@windriver.com>
-Date: Tue, 22 Jan 2013 18:22:07 +0800
-From: lei yang <lei.yang@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
+	Tue, 22 Jan 2013 04:47:46 -0800 (PST)
+Received: by mail-ea0-f175.google.com with SMTP id d1so2858818eab.6
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 22 Jan 2013 04:47:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
+	:references:mime-version:content-type:content-transfer-encoding;
+	bh=uiaOHJXROSqv31dlmh/OxIisUKVuU4hSih+05fs7F6w=;
+	b=Uob6hXz6W3eSAdT2KIqT5UM19qDFV7Mx/lFhVpQhPVUQqR0VjXslnOYIp6HzEiLqJJ
+	XNj3rar7hnEUeLehNu6qYlJMh4Z5vnNgrXT86ePkJjwMZzBz4Xr7jirxB22DzQyXeiRX
+	7d40dG7h8CVfSM+lpeWLg1Rbj8Lq/2nr5rpWX4z1MXwxY4BlQuWYfsNPM6KwC5OG3QWA
+	HveBMY2naReqxmCpvcCtssE+zxsr9vTflyKLv38u4V13HgxZC3F6QCJSvp56GLdoYu4C
+	h+9fu0f5Rz+PYpqqf7VBXi7VjyZslhPxKsvPS1zwVzXhHjY77Sg1w8a7fItqVyrzAmrX
+	8A2Q==
+X-Received: by 10.14.215.6 with SMTP id d6mr72062577eep.40.1358858865591;
+	Tue, 22 Jan 2013 04:47:45 -0800 (PST)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPS id g2sm4079611eep.16.2013.01.22.04.47.43
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 22 Jan 2013 04:47:44 -0800 (PST)
+Received: by nysan (Postfix, from userid 1000)
+	id DBA13400DC1; Tue, 22 Jan 2013 13:47:31 +0100 (CET)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 22 Jan 2013 13:47:17 +0100
+Message-Id: <1358858841-13339-3-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1358858841-13339-1-git-send-email-david.nystrom@enea.com>
+References: <1358858841-13339-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-To: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.nystrom@enea.com>
-References: <1358762433-11853-1-git-send-email-lei.yang@windriver.com>
-	<50FE5110.7090104@enea.com>
-In-Reply-To: <50FE5110.7090104@enea.com>
-X-Originating-IP: [128.224.158.225]
-Cc: meta-virtualization@yoctoproject.org,
-	openembedded-devel@lists.openembedded.org
-Subject: Re: [meta-oe][PATCH] multipath-tools: Add multipath-tools recipe
+Subject: [PATCH 2/6] Changed libvirt dependency to netcat-openbsd to match meta-networking
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -37,134 +46,29 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 10:22:47 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+X-List-Received-Date: Tue, 22 Jan 2013 12:47:47 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 01/22/2013 04:42 PM, David Nyström wrote:
-> On Mon 21 Jan 2013 11:00:33 AM CET, lei.yang@windriver.com wrote:
->> From: Lei Yang <lei.yang@windriver.com>
->>
->> This packages provides:
->> - multipath: scans the system for multipathed devices, assembles
->> - multipathd: waits for maps events then execs multipath
->> - kpartx: maps linear devmaps to device partitions, which makes
->> multipath maps partionable
->> ......
->>
->> Now,It can be used for kvm disk img partion for me.
->>
->> Signed-off-by: Lei Yang <lei.yang@windriver.com>
->> ---
->>   .../multipath-tools/multipath-tools_git.bb         |   46 
->> ++++++++++++++++++++
->>   1 files changed, 46 insertions(+), 0 deletions(-)
->>   create mode 100644 
->> meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb
->>
->> diff --git 
->> a/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb 
->> b/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb
->> new file mode 100644
->> index 0000000..e9509d3
->> --- /dev/null
->> +++ b/meta-oe/recipes-support/multipath-tools/multipath-tools_git.bb
->> @@ -0,0 +1,46 @@
->> +SUMMARY = "Tools to Manage Multipathed Devices with the device-mapper"
->> +DESCRIPTION = "This package provides the tools to manage multipathed 
->> devices by \
->> +instructing the device-mapper multipath module what to do"
->> +
->> +HOMEPAGE = "http://christophe.varoqui.free.fr/"
->> +DEPENDS = "readline libaio lvm2"
->> +LICENSE = "GPLv2"
->> +
->> +LIC_FILES_CHKSUM = 
->> "file://COPYING;md5=7be2873b6270e45abacc503abbe2aa3d"
->> +S="${WORKDIR}/git"
->> +
->> +
->> +SRC_URI = "git://git.opensvc.com/multipath-tools/.git;protocol=http"
->> +
->> +SRCREV = "d3683ab18b386e9b3b54b59a122c689e9ebdf5cf"
->> +PV = "0.4.9+gitr${SRCPV}"
->> +
->> +inherit autotools
->> +
->> +EXTRA_OEMAKE="LIB=${libdir} exec_prefix=${exec_prefix} 
->> libdir=${libdir}"
->> +
->> +PACKAGES =+ "libmpathpersist mpathpersist kpartx libmultipath 
->> multipath multipathd libmultipath-dev libmpathpersist-dev"
->> +
->> +
->> +RDEPENDS_${PN} += "libmpathpersist mpathpersist kpartx libmultipath 
->> multipath multipathd"
->> +
->
-> Is RDEPENDS on udev not mandatory ?
->
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ recipes-extended/libvirt/libvirt_1.0.0.bb |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-good catch, we can add it, it will create /dev/mapper/loop0p1 node, I 
-give a log for it's kpart usage in my testing,It's pretty easy for image 
-partition
-because you don't need to know offset for partition
-
-root@intel_5500_server:/# kpartx -l sdb.img
-loop0p1 : 0 20480 /dev/loop0 2048
-loop0p2 : 0 10240 /dev/loop0 22528
-loop deleted : /dev/loop0
-root@intel_5500_server:/# kpartx -a sdb.img
-root@intel_5500_server:/# ls /dev/mapper/
-control  loop0p1  loop0p2
-root@intel_5500_server:/# ls /dev/mapper/loop0p1
-/dev/mapper/loop0p1
-root@intel_5500_server:/# mkfs.ext3 /dev/mapper/loop0p1
-.....
-
-root@intel_5500_server:/# mount /dev/mapper/loop0p1 /mnt
-root@intel_5500_server:/# ls /mnt
-lost+found
-
-
-
->> +do_install_append () {
->> +    ln -sf libmpathpersist.so.0 ${D}${libdir}/libmpathpersist.so
->> +    ln -sf libmultipath.so.0 ${D}${libdir}/libmultipath.so
->> +}
->> +
->> +ALLOW_EMPTY_${PN} = "1"
->> +FILES_${PN}     = ""
->> +
->> +FILES_libmpathpersist = "${libdir}/libmpathpersist*.so.0"
->> +FILES_mpathpersist = "${sbindir}/mpathpersist"
->> +FILES_kpartx = "${sbindir}/kpartx ${base_libdir}/udev/"
->> +FILES_libmultipath = "${libdir}/libcheck*.so ${libdir}/libpri*.so 
->> ${libdir}/libmultipath*.so.0"
->> +FILES_multipath = "${sbindir}/multipath ${sysconfdir}"
->> +FILES_multipathd = "${sbindir}/multipathd ${base_libdir}"
->> +
->> +#put the symbol link lib in -dev
->> +FILES_libmultipath-dev = "${libdir}/libmultipath*.so"
->> +FILES_libmpathpersist-dev = "${libdir}/libmpathpersist*.so"
->> +
->> +
->
-> Whats the intended destination for this recipe ?
-
-if meta-oe,  recipes-support
-if meta-virtualization: recipes-extended
-
-
-> If not accepted in meta-oe, We'll be happy to merge it in 
-> meta-virtualization.
->
-
-Glad to add in meta-virt
-
-Lei
-
-> Br,
-> David
+diff --git a/recipes-extended/libvirt/libvirt_1.0.0.bb b/recipes-extended/libvirt/libvirt_1.0.0.bb
+index 5374237..90d7dbb 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.0.bb
++++ b/recipes-extended/libvirt/libvirt_1.0.0.bb
+@@ -11,7 +11,7 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux
+ # These might be included by PACKAGECONFIG
+ #RRECOMMENDS+= "polkit qemu yajl libnl lxc netcf"
+ 
+-RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq openbsd-netcat"
++RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd"
+ RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
+ RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
+ 
+-- 
+1.7.9.5
 
 
