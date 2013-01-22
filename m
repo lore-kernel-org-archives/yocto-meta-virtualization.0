@@ -1,38 +1,38 @@
 Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ee0-f53.google.com (mail-ee0-f53.google.com [74.125.83.53])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1BCC1E00716
+Received: from mail-ee0-f52.google.com (mail-ee0-f52.google.com [74.125.83.52])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4465CE00724
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Jan 2013 04:47:46 -0800 (PST)
-Received: by mail-ee0-f53.google.com with SMTP id e53so3482544eek.40
+	Tue, 22 Jan 2013 04:47:47 -0800 (PST)
+Received: by mail-ee0-f52.google.com with SMTP id b15so3353367eek.39
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 22 Jan 2013 04:47:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
 	:references:mime-version:content-type:content-transfer-encoding;
-	bh=N5NYFg30h/V6EptAD4n9XJiwVOxtrVs/UHfsOTNR1Rk=;
-	b=wboCUg5DdUqRgrxOehgs5N+D38gCH9FEYOFyh8u9Qas3S6WNAc1tn1RVUlRAqhV8s2
-	BjUubAzC3kgxqwy/HMtZU9GDFwtDAJ2xNTslHHpYTS4sZ/Prr30L/mYzFiR0ZwNBbfzW
-	tVtvNEDWja7R+I42S5nItGkGbNR3+JpJycaTPTAFvWCHL7XQ3IBiN/2MhjLy9d+JKdNi
-	Qg0rgLFREPjCfj0j+OKke9cwHpZ79I2dO+76T8LHLixix2Jn5RZ9WCWoKMoFoNP5wtQK
-	aKUpx3D8O0N37DG9XwhSDvo1seX1emngFLMmzOE0Zr4QsjQGxWYNR3IjTTxpys0wsQLj
-	Mb2A==
-X-Received: by 10.14.174.198 with SMTP id x46mr72062661eel.23.1358858865359;
+	bh=cL+c+lebdn9B7grJ2UvLb4Fb5jmLn2EEojIphpCDLq0=;
+	b=b3WGPJq7fztyqqm2CkXXJVlDT/ZMnOS3HBLQd/MHZPQ0Ig1fjHmzD8ObO8YA74WAp7
+	fqyNbApdlSme2ZtraL6tbAmTzhkfVXOhl/sFrdjdTrwoKo9BpVJO3K78PldI61tTSGkO
+	UBD7JoZkCnj7uTKnt/b7rE+cw3UsAIqrwD56ob++y604NSawgljgYSfMIkir3DBv1kuu
+	8jbh5tQNTeh5uIcgRoVwttvrTza44Cq2BVH4yKassUxZjrGRiBbqZqJ5j6cFld29EJF+
+	/3Ct6BbflfXsLHpCZHOXwKAvq3TVajDSEov6S/lqsUVB3KOtBP0BZamkt+ZHvUtgS76a
+	a9Uw==
+X-Received: by 10.14.219.72 with SMTP id l48mr72599318eep.37.1358858865129;
 	Tue, 22 Jan 2013 04:47:45 -0800 (PST)
 Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id f49sm26893909eep.12.2013.01.22.04.47.43
+	by mx.google.com with ESMTPS id g2sm4079632eep.16.2013.01.22.04.47.43
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
 	Tue, 22 Jan 2013 04:47:44 -0800 (PST)
 Received: by nysan (Postfix, from userid 1000)
-	id DE322400DF7; Tue, 22 Jan 2013 13:47:31 +0100 (CET)
+	id D943A40075E; Tue, 22 Jan 2013 13:47:31 +0100 (CET)
 From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 22 Jan 2013 13:47:18 +0100
-Message-Id: <1358858841-13339-4-git-send-email-david.nystrom@enea.com>
+Date: Tue, 22 Jan 2013 13:47:16 +0100
+Message-Id: <1358858841-13339-2-git-send-email-david.nystrom@enea.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1358858841-13339-1-git-send-email-david.nystrom@enea.com>
 References: <1358858841-13339-1-git-send-email-david.nystrom@enea.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] Removed openbsd-netcat since it now recides in meta-networking
+Subject: [PATCH 1/6] Added meta-networking dependency
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,45 +51,22 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: David Nyström <david.nystrom@enea.com>
 ---
- recipes-networking/netcat/openbsd-netcat_1.6.bb |   29 -----------------------
- 1 file changed, 29 deletions(-)
- delete mode 100644 recipes-networking/netcat/openbsd-netcat_1.6.bb
+ README |    2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/recipes-networking/netcat/openbsd-netcat_1.6.bb b/recipes-networking/netcat/openbsd-netcat_1.6.bb
-deleted file mode 100644
-index 1ae3f37..0000000
---- a/recipes-networking/netcat/openbsd-netcat_1.6.bb
-+++ /dev/null
-@@ -1,29 +0,0 @@
--DESCRIPTION = "OpenBSD Netcat"
--HOMEPAGE = "http://code.google.com/p/openbsd-netcat/"
--SECTION = "console/network"
--LICENSE = "BSD-3-Clause"
--PR = "r0"
--
--SRCREV = "5"
--
--SRC_URI = "svn://openbsd-netcat.googlecode.com/svn;module=trunk;protocol=http"
--S = "${WORKDIR}/trunk"
--
--inherit update-alternatives gettext
--
--do_configure[noexec] = "1"
--
--do_compile() {
--	cd ${S}
--	oe_runmake
--}
--
--do_install() {
--	install -d ${D}${bindir}
--	install -m 755 ${S}/nc ${D}${bindir}/nc.${BPN}
--}
--
--ALTERNATIVE_${PN} = "nc"
--ALTERNATIVE_PRIORITY = "101"
--
--BBCLASSEXTEND = "nativesdk"
+diff --git a/README b/README
+index c630494..e8c5252 100644
+--- a/README
++++ b/README
+@@ -17,6 +17,8 @@ URI: git://github.com/openembedded/meta-oe.git
+ branch: master
+ revision: HEAD
+ layers: meta-oe
++	meta-networking
++
+ BBFILE_PRIORITY_openembedded-layer = "4"
+ 
+ Maintenance
 -- 
 1.7.9.5
 
