@@ -1,38 +1,23 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-ee0-f49.google.com (mail-ee0-f49.google.com [74.125.83.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 32A09E01482
+Return-Path: <Lei.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 90DE9E006EF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Jan 2013 04:47:49 -0800 (PST)
-Received: by mail-ee0-f49.google.com with SMTP id d4so3326194eek.36
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Jan 2013 04:47:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:in-reply-to
-	:references:mime-version:content-type:content-transfer-encoding;
-	bh=NFh3NhqyShohR6jPkKxs2rCdfQrHmPTqF0JHW7/V2/w=;
-	b=XlHoTiLdACspTnWFCQ7tcUc6rCUXohNQtTUbFqp4wRvCbPQSNf8QhPbA3SeL7qOmPx
-	UWoOEsLTOAoshswtK/6Fs06lx8geBQJNOeK726kxJGwhKtzHGYE3j9uruKEZNsYZZNLj
-	oqN7H25lwEvq+B4CR2dazhd6Jhik6Yr0ATBwSs11VxnnZZZHofrY8pkAx/xRqdNKCbZQ
-	GZiv64aOeioOJWeXxQQtAiNvRi9ZKVteYGph1TnhkeJl0iUAo30imMYZyj0SKXD7/oZl
-	2dViA5qplpYVYoHzzXkDsfOYl80sq46yRUDLxRdnqDwPA+W1ZmoDYE74vjC7+zFIRJCL
-	58FQ==
-X-Received: by 10.14.213.134 with SMTP id a6mr72537564eep.45.1358858867690;
-	Tue, 22 Jan 2013 04:47:47 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id q5sm11912069eeo.17.2013.01.22.04.47.46
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 22 Jan 2013 04:47:46 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id E39AD400DEF; Tue, 22 Jan 2013 13:47:31 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Tue, 22 Jan 2013 13:47:20 +0100
-Message-Id: <1358858841-13339-6-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1358858841-13339-1-git-send-email-david.nystrom@enea.com>
-References: <1358858841-13339-1-git-send-email-david.nystrom@enea.com>
+	Tue, 22 Jan 2013 19:16:12 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r0N3G6iX005872
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 22 Jan 2013 19:16:06 -0800 (PST)
+Received: from pek-lpgtest4.wrs.com (128.224.153.84) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.318.4; Tue, 22 Jan 2013 19:16:04 -0800
+From: <lei.yang@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <david.nystrom@enea.com>
+Date: Wed, 23 Jan 2013 11:16:02 +0800
+Message-ID: <1358910962-6960-1-git-send-email-lei.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Subject: [PATCH 5/6] Moved bbappend to match updated master branch in oe-core
+Subject: [PATCH] This package provides: - multipath: scans the system for multipathed devices, assembles - multipathd: waits for maps events then execs multipath - kpartx: maps linear devmaps to device partitions, which makes multipath maps partionable ......
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,21 +30,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Jan 2013 12:47:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 23 Jan 2013 03:16:12 -0000
+Content-Type: text/plain
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+From: Lei Yang <lei.yang@windriver.com>
+
+Now,It can be used for kvm disk img partion mounting for me.
+
+Signed-off-by: Lei Yang <lei.yang@windriver.com>
 ---
- ..._1.4.15.bbappend => iptables_1.4.16.3.bbappend} |    0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename recipes-extended/iptables/{iptables_1.4.15.bbappend => iptables_1.4.16.3.bbappend} (100%)
+ .../multipath-tools/multipath-tools_git.bb         |   46 ++++++++++++++++++++
+ 1 files changed, 46 insertions(+), 0 deletions(-)
+ create mode 100644 recipes-extended/multipath-tools/multipath-tools_git.bb
 
-diff --git a/recipes-extended/iptables/iptables_1.4.15.bbappend b/recipes-extended/iptables/iptables_1.4.16.3.bbappend
-similarity index 100%
-rename from recipes-extended/iptables/iptables_1.4.15.bbappend
-rename to recipes-extended/iptables/iptables_1.4.16.3.bbappend
+diff --git a/recipes-extended/multipath-tools/multipath-tools_git.bb b/recipes-extended/multipath-tools/multipath-tools_git.bb
+new file mode 100644
+index 0000000..633b9f2
+--- /dev/null
++++ b/recipes-extended/multipath-tools/multipath-tools_git.bb
+@@ -0,0 +1,46 @@
++SUMMARY = "Tools to Manage Multipathed Devices with the device-mapper"
++DESCRIPTION = "This package provides the tools to manage multipathed devices by \
++instructing the device-mapper multipath module what to do"
++
++HOMEPAGE = "http://christophe.varoqui.free.fr/"
++DEPENDS = "readline libaio lvm2"
++LICENSE = "GPLv2"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=7be2873b6270e45abacc503abbe2aa3d"
++S="${WORKDIR}/git"
++
++
++SRC_URI = "git://git.opensvc.com/multipath-tools/.git;protocol=http"
++
++SRCREV = "d3683ab18b386e9b3b54b59a122c689e9ebdf5cf"
++PV = "0.4.9+gitr${SRCPV}"
++
++inherit autotools
++
++EXTRA_OEMAKE="LIB=${libdir} exec_prefix=${exec_prefix} libdir=${libdir}"
++
++PACKAGES =+ "libmpathpersist mpathpersist kpartx libmultipath multipath multipathd libmultipath-dev libmpathpersist-dev"
++
++
++RDEPENDS_${PN} += "libmpathpersist mpathpersist kpartx libmultipath multipath multipathd udev"
++
++do_install_append () {
++	ln -sf libmpathpersist.so.0 ${D}${libdir}/libmpathpersist.so
++	ln -sf libmultipath.so.0 ${D}${libdir}/libmultipath.so
++}
++
++ALLOW_EMPTY_${PN} = "1"
++FILES_${PN}     = ""
++
++FILES_libmpathpersist = "${libdir}/libmpathpersist*.so.0"
++FILES_mpathpersist = "${sbindir}/mpathpersist"
++FILES_kpartx = "${sbindir}/kpartx ${base_libdir}/udev/"
++FILES_libmultipath = "${libdir}/libcheck*.so ${libdir}/libpri*.so ${libdir}/libmultipath*.so.0"
++FILES_multipath = "${sbindir}/multipath ${sysconfdir}"
++FILES_multipathd = "${sbindir}/multipathd ${base_libdir}"
++
++#put the symbol link lib in -dev 
++FILES_libmultipath-dev = "${libdir}/libmultipath*.so"
++FILES_libmpathpersist-dev = "${libdir}/libmpathpersist*.so"
++
++
 -- 
-1.7.9.5
+1.7.1
 
 
