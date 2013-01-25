@@ -1,33 +1,31 @@
 Return-Path: <mihai.prica@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2E89CE004AB
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A93DDE004AB
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 25 Jan 2013 07:49:20 -0800 (PST)
+	Fri, 25 Jan 2013 07:58:24 -0800 (PST)
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by fmsmga101.fm.intel.com with ESMTP; 25 Jan 2013 07:49:01 -0800
+	by fmsmga102.fm.intel.com with ESMTP; 25 Jan 2013 07:58:24 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,539,1355126400"; d="scan'208";a="278412343"
-Received: from irsmsx102.ger.corp.intel.com ([163.33.3.155])
-	by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2013 07:48:59 -0800
-Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
-	IRSMSX102.ger.corp.intel.com (163.33.3.155) with Microsoft SMTP Server
-	(TLS) id 14.1.355.2; Fri, 25 Jan 2013 15:48:47 +0000
+X-IronPort-AV: E=Sophos;i="4.84,539,1355126400"; d="scan'208";a="278415568"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by fmsmga001.fm.intel.com with ESMTP; 25 Jan 2013 07:58:23 -0800
 Received: from irsmsx101.ger.corp.intel.com ([169.254.1.60]) by
-	IRSMSX151.ger.corp.intel.com ([169.254.4.144]) with mapi id
-	14.01.0355.002; Fri, 25 Jan 2013 15:48:47 +0000
+	IRSMSX103.ger.corp.intel.com ([169.254.3.218]) with mapi id
+	14.01.0355.002; Fri, 25 Jan 2013 15:58:22 +0000
 From: "Prica, Mihai" <mihai.prica@intel.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, lei yang
-	<yanglei.fage@gmail.com>
-Thread-Topic: [meta-virtualization] [PATCH v2 1/2] linux-yocto: added kernel
-	configuration for KVM
-Thread-Index: AQHN8BiHWcEbwWvPNkqaM/lSMSY7dphEn4oAgACW4YCAAiOHgIAS7Bcw
-Date: Fri, 25 Jan 2013 15:48:47 +0000
-Message-ID: <97BD068FB200C44AA73C2B641F162ECF914A03@IRSMSX101.ger.corp.intel.com>
+To: "Prica, Mihai" <mihai.prica@intel.com>, lei yang <lei.yang@windriver.com>
+Thread-Topic: [meta-virtualization] [PATCH v2 2/2] Created new
+	target:kvm-image-minimal
+Thread-Index: AQHN8BiHtWdZ/usQO028YMJ+BamZwphEXrgAgAXaMOCAARnRgIAAr6lAgA5GRjA=
+Date: Fri, 25 Jan 2013 15:58:21 +0000
+Message-ID: <97BD068FB200C44AA73C2B641F162ECF914A2E@IRSMSX101.ger.corp.intel.com>
 References: <1357921647-17864-1-git-send-email-mihai.prica@intel.com>
-	<CADkTA4Nh1b6oySSoz59oODeLyehSYdGsUrh3JMLK2C9=AOZaKg@mail.gmail.com>
-	<CAHsH0E8431dvHzC+qHerH6UqpDp3KbUzOf8vE5KXHUw0+23_QQ@mail.gmail.com>
-	<CADkTA4OWKDPuP+g_VDqfoWGkRHaee-aOS+WhCySYMb7kPwjxQw@mail.gmail.com>
-In-Reply-To: <CADkTA4OWKDPuP+g_VDqfoWGkRHaee-aOS+WhCySYMb7kPwjxQw@mail.gmail.com>
+	<1357921647-17864-2-git-send-email-mihai.prica@intel.com>
+	<50F04908.2020103@windriver.com>
+	<97BD068FB200C44AA73C2B641F162ECF8FC42C@IRSMSX101.ger.corp.intel.com>
+	<50F61E35.9000204@windriver.com>
+	<97BD068FB200C44AA73C2B641F162ECF905906@IRSMSX101.ger.corp.intel.com>
+In-Reply-To: <97BD068FB200C44AA73C2B641F162ECF905906@IRSMSX101.ger.corp.intel.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -35,7 +33,7 @@ x-originating-ip: [163.33.239.181]
 MIME-Version: 1.0
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2 1/2] linux-yocto: added kernel configuration for KVM
+Subject: Re: [PATCH v2 2/2] Created new target:kvm-image-minimal
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,126 +46,128 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2013 15:49:20 -0000
+X-List-Received-Date: Fri, 25 Jan 2013 15:58:24 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-
-
-> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]=20
-> Sent: Sunday, January 13, 2013 4:49 PM
+> -----Original Message-----
+> From: meta-virtualization-bounces@yoctoproject.org [mailto:meta-virtualiz=
+ation-
+> bounces@yoctoproject.org] On Behalf Of Prica, Mihai
+> Sent: Wednesday, January 16, 2013 3:59 PM
 > To: lei yang
-> Cc: Prica, Mihai; meta-virtualization@yoctoproject.org
-> Subject: Re: [meta-virtualization] [PATCH v2 1/2] linux-yocto: added kern=
-el configuration for KVM
->
->
->
-> On Sat, Jan 12, 2013 at 1:08 AM, lei yang <yanglei.fage@gmail.com> wrote:
-> On Fri, Jan 11, 2013 at 1:08 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
-> > On Fri, Jan 11, 2013 at 11:27 AM, Mihai Prica <mihai.prica@intel.com> w=
-rote:
-> >>
->> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
->> ---
->> =A0recipes-kernel/linux/linux-yocto_3.4.bbappend | =A0 =A05 +++++
->> =A01 file changed, 5 insertions(+)
->>
->> diff --git a/recipes-kernel/linux/linux-yocto_3.4.bbappend
->> b/recipes-kernel/linux/linux-yocto_3.4.bbappend
->> index 5b163ff..6fa02e8 100644
->> --- a/recipes-kernel/linux/linux-yocto_3.4.bbappend
->> +++ b/recipes-kernel/linux/linux-yocto_3.4.bbappend
->> @@ -6,3 +6,8 @@ SRC_URI +=3D "file://xt-checksum.scc \
->> =A0 =A0 =A0 =A0 =A0 =A0 file://lxc.scc \
->> =A0 =A0 =A0 =A0 =A0 =A0 "
->>
->> +KERNEL_FEATURES_append =3D " kvm/qemu-kvm-enable"
->
->
-> Have you confirmed that this is adding the option you want ? I would have
-> expected this to be:
->
-> KERNEL_FEATURES_append =3D " features/kvm/qemu-kvm-enable.scc"
->
->
-> Hi Bruce,
->
-> I also notice this, I did a serch in internal layer just found below
-> in wr-kernel use the same way
->
-> templates/feature/libhugetlbfs/template.conf:KERNEL_FEATURES_append +=3D
-> "features/hugetlb"
->
-> I don't know if there is defect for this, both work or not,or we like
->.scc is there(coding style)
->
-> They style is an older way of doing things. I have a yocto 1.4 bugzilla e=
-ntry to convert
-> all cases of features that do not end with ".scc" to the more explicit fo=
-rmat that includes
-> the extension.
->
-> So no need to do anything special, but just keep in mind to use ".scc" wh=
-en possible,=A0
-> and eventually existing features will be converted.
->
-> Cheers,
->
-> Bruce
+> Cc: meta-virtualization@yoctoproject.org
+> Subject: Re: [meta-virtualization] [PATCH v2 2/2] Created new target:kvm-=
+image-
+> minimal
+>=20
+> > -----Original Message-----
+> > From: lei yang [mailto:lei.yang@windriver.com]
+> > Sent: Wednesday, January 16, 2013 5:28 AM
+> > To: Prica, Mihai
+> > Cc: meta-virtualization@yoctoproject.org
+> > Subject: Re: [meta-virtualization] [PATCH v2 2/2] Created new
+> > target:kvm-image- minimal
+> >
+> > On 01/15/2013 06:44 PM, Prica, Mihai wrote:
+> > >> -----Original Message-----
+> > >> From: Lei Yang [mailto:lei.yang@windriver.com]
+> > >> Sent: Friday, January 11, 2013 7:17 PM
+> > >> To: Prica, Mihai
+> > >> Cc: meta-virtualization@yoctoproject.org
+> > >> Subject: Re: [meta-virtualization] [PATCH v2 2/2] Created new
+> > >> target:kvm-image- minimal
+> > >>
+> > >> On 01/12/2013 12:27 AM, Mihai Prica wrote:
+> > >>> Signed-off-by: Mihai Prica<mihai.prica@intel.com>
+> > >>> ---
+> > >>>    recipes-extended/images/kvm-image-minimal.bb |   28
+> > >> ++++++++++++++++++++++++++
+> > >>>    1 file changed, 28 insertions(+)
+> > >>>    create mode 100644 recipes-extended/images/kvm-image-minimal.bb
+> > >>>
+> > >>> diff --git a/recipes-extended/images/kvm-image-minimal.bb
+> > >>> b/recipes-extended/images/kvm-image-minimal.bb
+> > >>> new file mode 100644
+> > >>> index 0000000..275c43b
+> > >>> --- /dev/null
+> > >>> +++ b/recipes-extended/images/kvm-image-minimal.bb
+> > >>> @@ -0,0 +1,28 @@
+> > >>> +DESCRIPTION =3D "A minimal kvm image"
+> > >>> +
+> > >>> +IMAGE_INSTALL =3D " \
+> > >>> +    packagegroup-core-boot \
+> > >>> +    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
+> > >>> +    qemu \
+> > >>> +    libvirt \
+> > >>> +    libvirt-libvirtd \
+> > >>> +    libvirt-virsh \
+> > >>> +    "
+> > >>> +
+> > >>> +IMAGE_FEATURES +=3D "ssh-server-openssh"
+> > >>> +
+> > >>> +IMAGE_LINGUAS =3D " "
+> > >>> +
+> > >>> +LICENSE =3D "MIT"
+> > >>> +
+> > >>> +inherit core-image
+> > >>> +
+> > >>> +IMAGE_ROOTFS_SIZE =3D "8192"
+> > >>> +
+> > >>> +ROOTFS_POSTPROCESS_COMMAND +=3D "remove_packaging_data_files ;
+> "
+> > >>> +
+> > >>> +PACKAGE_INSTALL_ATTEMPTONLY =3D "\
+> > >> Hi Mibai
+> > >>
+> > >> can you explain "PACKAGE_INSTALL_ATTEMPTONLY " to me, I just see
+> > >> this variable first time
+> > > In an image recipe you can't use RRECOMMENDS to specify a list of
+> > > packages
+> > that extend the usability of the image being built.  In this type of
+> > recipe you can use PACKAGE_INSTALL_ATTEMPTONLY that has the same
+> functionality.
+> >
+> > and I think both can be used, from below, it tells me, they can
+> > perform the same function, do you try RRECOMEEDS and meet an error?
+>=20
+> I tried using RRECOMMENDS. I didn't get any errors but the kernel modules=
+ were
+> not loaded onto the image. I tried a number of times to be sure it's beca=
+use of
+> the shared state, but with the same result. With
+> PACAKAGE_INSTALL_ATTEMPTONLY it worked.
 
-I see that this hasn't been merged to master. Do I have to redo this  with =
-"features/kvm/qemu-kvm-enable.scc" ?
+I see this hasn't been merged to master yet. Is there a specific reason for=
+ this ? Maybe it's something I'm missing.
 
 Mihai
 
-> I'm glad to do a test later.
->
-> Lei
->
->
->>
->> +
->> +module_autoload_kvm =3D "kvm"
->> +module_autoload_kvm-amd =3D "kvm-amd"
->> +module_autoload_kvm-intel =3D "kvm-intel"
->
->
-> This part looks fine though.
->
-> Cheers,
->
-> Bruce
->
->>
->> --
->> 1.7.9.5
->>
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee=
- at
-> its end"
->
+>=20
+> >
+> > lyang001@lyang0-9010:~/intel-xeon-core/layers/oe-core/meta/classes$
+> > cat image.bbclass |grep -E "^RRECOM|^PACKAGE_INSTALL_ATTEMPTONLY"
+> > RRECOMMENDS +=3D "${NORMAL_FEATURE_INSTALL_OPTIONAL}"
+> > PACKAGE_INSTALL_ATTEMPTONLY ?=3D "${FEATURE_INSTALL_OPTIONAL}"
+> >
+> >
+> >   Lei
+> >
+> >
+> >
+> > > Thanks,
+> > > Mihai
+> > >> Lei
+> > >> :-)
+> > >>
+> > >>> +    kernel-module-kvm \
+> > >>> +    kernel-module-kvm-intel \
+> > >>> +    kernel-module-kvm-amd \
+> > >>> +    "
+>=20
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee a=
-t its end"=20
 
