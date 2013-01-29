@@ -1,40 +1,38 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8C3E4E002AB
+Return-Path: <mihai.prica@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 80174E002AB
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2013 06:13:55 -0800 (PST)
-Received: by mail-lb0-f170.google.com with SMTP id ge1so783564lbb.29
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2013 06:13:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:message-id:date:from:user-agent:mime-version:to:cc
-	:subject:references:in-reply-to:content-type
-	:content-transfer-encoding;
-	bh=53J81KIG5W5KvQADEL+rh5e7oUHCGLbjgJgA1iy7wB4=;
-	b=m/TXzNAkh8aoEQ6ZK2f2erFGwYSZeweGb+p/dk20YlWkpyglqRMrzVP040OlWjW4zw
-	isFTcoze91Ti+sXFfW/SEz95XP4NOV5dkKVNui38pn/QHlGJm3P1wxSaKIqNpYQT7a4P
-	1Br69jpj0HnenAkRB38do+LcH3REbWgfbZnmwgKM77/N86HRPs2LK9LIn7Vff8KgCsHC
-	ipU4FtsH51kQYdK3I6lo4XIInJA4qeSik0tJ/kcsLliy42cM9A73bT6fvd7R1kNyFhOr
-	xcukZ4/sSoco70zFxiJ059VhM/wZc643SYDxnBYY2+coYWMRZWNt83RI5538gt+w6Ult
-	IGzg==
-X-Received: by 10.112.43.198 with SMTP id y6mr542300lbl.93.1359468834461;
-	Tue, 29 Jan 2013 06:13:54 -0800 (PST)
-Received: from [172.16.140.31] (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id ew10sm5153422lbb.10.2013.01.29.06.13.52
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 29 Jan 2013 06:13:53 -0800 (PST)
-Message-ID: <5107D91C.3090504@gmail.com>
-Date: Tue, 29 Jan 2013 15:13:48 +0100
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130106 Thunderbird/17.0.2
-MIME-Version: 1.0
-To: Mihai Prica <mihai.prica@intel.com>
+	Tue, 29 Jan 2013 06:18:02 -0800 (PST)
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga101.fm.intel.com with ESMTP; 29 Jan 2013 06:18:02 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.84,559,1355126400"; d="scan'208";a="283603944"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by fmsmga002.fm.intel.com with ESMTP; 29 Jan 2013 06:17:55 -0800
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.60]) by
+	IRSMSX104.ger.corp.intel.com ([169.254.5.20]) with mapi id
+	14.01.0355.002; Tue, 29 Jan 2013 14:17:53 +0000
+From: "Prica, Mihai" <mihai.prica@intel.com>
+To: =?utf-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>, Bruce
+	Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [meta-virtualization] [PATCH 2/2] qemu: Enabled VGA output
+Thread-Index: AQHN/iX7zQgzs3KhqkyVgty9Yj/ExphgVByAgAAEwQCAAAFEwA==
+Date: Tue, 29 Jan 2013 14:17:53 +0000
+Message-ID: <97BD068FB200C44AA73C2B641F162ECF916754@IRSMSX101.ger.corp.intel.com>
 References: <1359464500-16993-1-git-send-email-mihai.prica@intel.com>
-In-Reply-To: <1359464500-16993-1-git-send-email-mihai.prica@intel.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/2] iptables: Sync bbappend version with oe-core
+	<1359464500-16993-2-git-send-email-mihai.prica@intel.com>
+	<5107D0DF.6040006@gmail.com>
+	<CADkTA4OsbnmQCZ+2wkPjY6hoq-ZHE4PSt1ozYgsb=9Ur0Fcfqg@mail.gmail.com>
+	<5107D8A6.6090900@gmail.com>
+In-Reply-To: <5107D8A6.6090900@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.181]
+MIME-Version: 1.0
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 2/2] qemu: Enabled VGA output
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,51 +45,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 14:13:56 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 29 Jan 2013 14:18:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 01/29/2013 02:01 PM, Mihai Prica wrote:
-> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> ---
->   recipes-extended/iptables/iptables_1.4.15.bbappend |    8 --------
->   recipes-extended/iptables/iptables_1.4.17.bbappend |    8 ++++++++
->   2 files changed, 8 insertions(+), 8 deletions(-)
->   delete mode 100644 recipes-extended/iptables/iptables_1.4.15.bbappend
->   create mode 100644 recipes-extended/iptables/iptables_1.4.17.bbappend
->
-> diff --git a/recipes-extended/iptables/iptables_1.4.15.bbappend b/recipes-extended/iptables/iptables_1.4.15.bbappend
-> deleted file mode 100644
-> index 52a4c4f..0000000
-> --- a/recipes-extended/iptables/iptables_1.4.15.bbappend
-> +++ /dev/null
-> @@ -1,8 +0,0 @@
-> -RRECOMMENDS_${PN} += "kernel-module-ip6-tables \
-> -                      kernel-module-ip6table-filter \
-> -                      kernel-module-xt-tcpudp \
-> -                      kernel-module-ipt-reject \
-> -                      kernel-module-iptable-mangle \
-> -                      kernel-module-xt-checksum \
-> -                      kernel-module-xt-state \
-> -                      "
-> diff --git a/recipes-extended/iptables/iptables_1.4.17.bbappend b/recipes-extended/iptables/iptables_1.4.17.bbappend
-> new file mode 100644
-> index 0000000..52a4c4f
-> --- /dev/null
-> +++ b/recipes-extended/iptables/iptables_1.4.17.bbappend
-> @@ -0,0 +1,8 @@
-> +RRECOMMENDS_${PN} += "kernel-module-ip6-tables \
-> +                      kernel-module-ip6table-filter \
-> +                      kernel-module-xt-tcpudp \
-> +                      kernel-module-ipt-reject \
-> +                      kernel-module-iptable-mangle \
-> +                      kernel-module-xt-checksum \
-> +                      kernel-module-xt-state \
-> +                      "
->
-Merged to master,
-Thanks.
-
-//DD
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBEYXZpZCBOeXN0csO2bSBbbWFp
+bHRvOmRhdmlkLmMubnlzdHJvbUBnbWFpbC5jb21dDQo+IFNlbnQ6IFR1ZXNkYXksIEphbnVhcnkg
+MjksIDIwMTMgNDoxMiBQTQ0KPiBUbzogQnJ1Y2UgQXNoZmllbGQNCj4gQ2M6IFByaWNhLCBNaWhh
+aTsgbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qub3JnDQo+IFN1YmplY3Q6IFJlOiBb
+bWV0YS12aXJ0dWFsaXphdGlvbl0gW1BBVENIIDIvMl0gcWVtdTogRW5hYmxlZCBWR0Egb3V0cHV0
+DQo+IA0KPiBPbiBUdWUgMjkgSmFuIDIwMTMgMDI6NTQ6NDkgUE0gQ0VULCBCcnVjZSBBc2hmaWVs
+ZCB3cm90ZToNCj4gPiBPbiBUdWUsIEphbiAyOSwgMjAxMyBhdCA4OjM4IEFNLCBEYXZpZCBOeXN0
+csO2bQ0KPiA8ZGF2aWQuYy5ueXN0cm9tQGdtYWlsLmNvbT53cm90ZToNCj4gPg0KPiA+PiBPbiAw
+MS8yOS8yMDEzIDAyOjAxIFBNLCBNaWhhaSBQcmljYSB3cm90ZToNCj4gPj4NCj4gPj4+IFNpZ25l
+ZC1vZmYtYnk6IE1paGFpIFByaWNhIDxtaWhhaS5wcmljYUBpbnRlbC5jb20+DQo+ID4+PiAtLS0N
+Cj4gPj4+ICAgIHJlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzEuKiozLjAuYmJhcHBlbmQgfCAg
+ICAzICsrKw0KPiA+Pj4gICAgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KPiA+Pj4g
+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtZGV2dG9vbHMvcWVtdS9xZW11XzEuKiozLjAu
+YmJhcHBlbmQNCj4gPj4+DQo+ID4+PiBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1kZXZ0b29scy9xZW11
+L3FlbXVfKioxLjMuMC5iYmFwcGVuZA0KPiA+Pj4gYi9yZWNpcGVzLWRldnRvb2xzL3FlbXUvcWVt
+dV8qKjEuMy4wLmJiYXBwZW5kDQo+ID4+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+Pj4gaW5k
+ZXggMDAwMDAwMC4uMjEwNjgyNQ0KPiA+Pj4gLS0tIC9kZXYvbnVsbA0KPiA+Pj4gKysrIGIvcmVj
+aXBlcy1kZXZ0b29scy9xZW11L3FlbXVfKioxLjMuMC5iYmFwcGVuZA0KPiA+Pj4gQEAgLTAsMCAr
+MSwzIEBADQo+ID4+PiArIyBFbmFibGVzIFFFTVUgdG8gZGlzcGxheSB0aGUgVkdBIG91dHB1dCBE
+RVBFTkRTX2FwcGVuZCA9ICIgbGlic2RsIg0KPiA+Pj4gK1NETCA9ICItLWVuYWJsZS1zZGwiDQo+
+ID4+Pg0KPiA+Pj4NCj4gPj4gU2hvdWxkIHRoaXMgcmVhbGx5IGJlIGluIG1ldGEtdmlydCwgdGhp
+cyBzZWVtcyBhIGJpdCBkaXN0cm8gc3BlY2lmaWMgPw0KPiA+Pg0KPiA+DQo+ID4gQ2FuIFBBQ0tB
+R0VDT05GSUcgb3IgYSBESVNUUk9fRkVBVFVSRVMgaGVscCBoZXJlID8gU0RMIGZvciBxZW11IGlz
+DQo+ID4gcHJvYmFibHkgYSBiYWQgZXhhbXBsZSwgYnV0IGtlZXBpbmcgZXZlcnl0aGluZyB0aGF0
+IHdlIHRoaW5rIGlzDQo+ID4gaW1wb3J0YW50IGZvciBvdXQgb2YgYm94IGV4cGVyaWVuY2UsIG9y
+IHByb3BlciBvcGVyYXRpb24sIGNvbnRhaW5lZA0KPiA+IHdpdGhpbiBhIGxheWVyIGlzIGEgZ29v
+ZCB0aGluZyAuLiBidXQgbGVhdmluZyBpdCBjb25kaXRpb25hbCBvbiBhDQo+ID4gZGlzdHJvIHNl
+dHRpbmcgZm9yIHRob3NlIHRoYXQgcmVhbGx5IGRvbid0IHdhbnQgaXQsIHNlZW1zIHRvIHN0cmlr
+ZQ0KPiA+IHRoZSByaWdodCBiYWxhbmNlLg0KPiA+DQo+ID4gQ2hlZXJzLA0KPiA+DQo+ID4gQnJ1
+Y2UNCj4gDQo+IEFncmVlLCBidXQgZXZlbiBpbiB0aGlzIGNhc2UsIHRoaXMgaXMgc29tZXRoaW5n
+IGZvciBvZS1jb3JlIHRvIGZhY2lsaXRhdGUgaW4gdGhlDQo+IHFlbXUgcmVjaXBlLg0KPiBEb24n
+dCBnZXQgbWUgd3JvbmcsIEknbSBub3QgbWlsaXRhbnQgYWJvdXQgYW55dGhpbmcsIGJ1dCBJIHdv
+dWxkIHJhdGhlciBsaWtlIHRvDQo+IGF2b2lkIGJiYXBwZW5kcyB3aGVuIHBvc3NpYmxlLCBpZiBv
+ZS1jb3JlIHdvbid0IGFjY2VwdCBhIFBBQ0tBR0VDT05GSUcNCj4gZW5hYmxpbmcgc2RsLCB0aGVu
+IGxldHMgdGhlIG1lcmdlIGl0IGhlcmUuDQoNClllcywgeW91J3JlIHJpZ2h0LCB0aGF04oCZcyB0
+aGUgcmlnaHQgd2F5IHRvIGdvLg0KSSdsbCB0d2VhayB0aGUgcGF0Y2ggd2l0aCBQQUNLQUdFQ09O
+RklHIG9yIERJU1RST19GRUFUVVJFUyBhbmQgc2VlIGlmIHRoaXMgY2FuIGJlIG1lcmdlZCB0byBv
+ZS1jb3JlIGFuZCBrZWVwIHlvdSB1cGRhdGVkLg0KDQpUaGFua3MsDQpNaWhhaQ0KDQo+IA0KPiBC
+ciwNCj4gRGF2aWQNCg==
 
