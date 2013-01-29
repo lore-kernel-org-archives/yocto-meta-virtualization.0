@@ -1,20 +1,22 @@
 Return-Path: <mihai.prica@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 06B05E002AB
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1446FE002AB
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2013 04:55:18 -0800 (PST)
+	Tue, 29 Jan 2013 04:55:20 -0800 (PST)
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga102.jf.intel.com with ESMTP; 29 Jan 2013 04:54:06 -0800
+	by orsmga102.jf.intel.com with ESMTP; 29 Jan 2013 04:54:08 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="4.84,559,1355126400"; d="scan'208";a="254163439"
+X-IronPort-AV: E=Sophos;i="4.84,559,1355126400"; d="scan'208";a="254163451"
 Received: from mihai-vostro-460 (HELO localhost.localdomain) ([10.237.105.31])
-	by orsmga001.jf.intel.com with ESMTP; 29 Jan 2013 04:55:16 -0800
+	by orsmga001.jf.intel.com with ESMTP; 29 Jan 2013 04:55:18 -0800
 From: Mihai Prica <mihai.prica@intel.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 29 Jan 2013 14:55:53 +0200
-Message-Id: <1359464154-16618-1-git-send-email-mihai.prica@intel.com>
+Date: Tue, 29 Jan 2013 14:55:54 +0200
+Message-Id: <1359464154-16618-2-git-send-email-mihai.prica@intel.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH V3 1/2] linux-yocto: added kernel configuration for KVM
+In-Reply-To: <1359464154-16618-1-git-send-email-mihai.prica@intel.com>
+References: <1359464154-16618-1-git-send-email-mihai.prica@intel.com>
+Subject: [PATCH V3 2/2] Created new target: kvm-image-minimal
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -27,26 +29,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 12:55:18 -0000
+X-List-Received-Date: Tue, 29 Jan 2013 12:55:20 -0000
 
 Signed-off-by: Mihai Prica <mihai.prica@intel.com>
 ---
- recipes-kernel/linux/linux-yocto_3.4.bbappend |    5 +++++
- 1 file changed, 5 insertions(+)
+ recipes-extended/images/kvm-image-minimal.bb |   25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+ create mode 100644 recipes-extended/images/kvm-image-minimal.bb
 
-diff --git a/recipes-kernel/linux/linux-yocto_3.4.bbappend b/recipes-kernel/linux/linux-yocto_3.4.bbappend
-index 5b163ff..bac7646 100644
---- a/recipes-kernel/linux/linux-yocto_3.4.bbappend
-+++ b/recipes-kernel/linux/linux-yocto_3.4.bbappend
-@@ -6,3 +6,8 @@ SRC_URI += "file://xt-checksum.scc \
- 	    file://lxc.scc \
- 	    "
- 
-+KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable"
+diff --git a/recipes-extended/images/kvm-image-minimal.bb b/recipes-extended/images/kvm-image-minimal.bb
+new file mode 100644
+index 0000000..abc0fee
+--- /dev/null
++++ b/recipes-extended/images/kvm-image-minimal.bb
+@@ -0,0 +1,25 @@
++DESCRIPTION = "A minimal kvm image"
 +
-+module_autoload_kvm = "kvm"
-+module_autoload_kvm-amd = "kvm-amd"
-+module_autoload_kvm-intel = "kvm-intel"
++IMAGE_INSTALL = " \
++    packagegroup-core-boot \
++    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
++    qemu \
++    libvirt \
++    libvirt-libvirtd \
++    libvirt-virsh \
++    kernel-module-kvm \
++    kernel-module-kvm-intel \
++    kernel-module-kvm-amd \
++    "
++
++IMAGE_FEATURES += "ssh-server-openssh"
++
++IMAGE_LINGUAS = " "
++
++LICENSE = "MIT"
++
++inherit core-image
++
++IMAGE_ROOTFS_SIZE = "8192"
++
++ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
 -- 
 1.7.9.5
 
