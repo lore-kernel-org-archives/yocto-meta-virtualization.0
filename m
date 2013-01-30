@@ -1,37 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-da0-f47.google.com (mail-da0-f47.google.com
-	[209.85.210.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7AF7CE0072F
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2EE42E01423
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2013 08:46:39 -0800 (PST)
-Received: by mail-da0-f47.google.com with SMTP id s35so305507dak.6
+	Wed, 30 Jan 2013 01:38:09 -0800 (PST)
+Received: by mail-la0-f43.google.com with SMTP id ek20so947917lab.30
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2013 08:46:34 -0800 (PST)
+	Wed, 30 Jan 2013 01:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=GDVXaE0gXdGC1Vwmokmp/z19Ie7rgegUYPLi4UMufO8=;
-	b=J2LgGfaOuvO19fIjcQIBrrDjqnEmVdC6ixvLlOK2zvB4+76BFEQawa0LULchvl4Ejz
-	HJjroBIFP/ya+hB4nR5LwaKx2Qs1QkjGZdB4INuksSAMoCv4ZoGXZGx9XlXDxktgsKc1
-	izCdd9s3l/9H0idj3y7WTEuH4vG80rgmVTuNE69n8IPnb4DP8Rkw+POIpWnnE7tzF/8B
-	mI8g8AK/N/pA4IupfM44N5kKjmLXd3hkY1c/JpR2qucPLhBfGQW+TbiTY69izH07K+WW
-	Ek+GjWEa7LIQaT/KKMICvJdj1YRTFZjs+yhcgZEUnqYgLqZUQ8yf+WSD9MJ+hOHLNsrt
-	ydZw==
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding;
+	bh=jPARNX+oyFO/EdjibADyln+J2mrP83o7PU8x9SP43iI=;
+	b=aOCXOMbl1UsgtmxHdIYPrBIMdrcNoKHc52QFg8wv995CDYwDq7xXA40OLk6WMt8c/t
+	fN75pmj5LP6HXuBdz/IrCZgYgob27FV8A3YkPzD+rrgsSZIdhrQjghhfd+970GfPWMKH
+	Sgb9ei1XBxRWezofx53fOOzbYOduPI7tfPhlZ9P9sLT56ozCZlIYJ3C/nvQlAEE/vXqs
+	+TJ6yOlHFEgUUmUYv+LIy3dM+3e28a4G7MlR1UGgcLRZTN59KYYIYlnD3TCh5w8KDYfN
+	b/n37KUpl3ZgHruwzvk7h36qaZ6/bEDH3V7vETD+pyjnKI5fRaXCghcpdDQ9f2wgBSsv
+	4O5Q==
+X-Received: by 10.152.136.20 with SMTP id pw20mr3908841lab.16.1359538688773;
+	Wed, 30 Jan 2013 01:38:08 -0800 (PST)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPS id e9sm351287lbz.1.2013.01.30.01.38.06
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 30 Jan 2013 01:38:07 -0800 (PST)
+Received: by nysan (Postfix, from userid 1000)
+	id C00B44001F4; Wed, 30 Jan 2013 10:38:00 +0100 (CET)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Wed, 30 Jan 2013 10:37:59 +0100
+Message-Id: <1359538679-7548-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.68.211.42 with SMTP id mz10mr4054214pbc.100.1359477994773;
-	Tue, 29 Jan 2013 08:46:34 -0800 (PST)
-Received: by 10.68.224.4 with HTTP; Tue, 29 Jan 2013 08:46:34 -0800 (PST)
-In-Reply-To: <5107F9B9.10500@windriver.com>
-References: <1359370883-2033-1-git-send-email-lei.yang@windriver.com>
-	<CADkTA4N0LWxDXWSGnUzUQKgGWPEtZ0wyzNF4p9Jf68xTZ5uDWw@mail.gmail.com>
-	<5107F9B9.10500@windriver.com>
-Date: Tue, 29 Jan 2013 11:46:34 -0500
-Message-ID: <CADkTA4MWt9r+6m9JcgQqA9JbMPhWd7kKd2ZwL5nU9BfmunRVcw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: lei yang <lei.yang@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] openvswtich: start openvswitch at the boot time
+Subject: [PATCH] Removed meta-virtualization private patch, using poky default instead.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,545 +44,178 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Jan 2013 16:46:39 -0000
-Content-Type: multipart/alternative; boundary=e89a8ff1ca38f55c3b04d4702215
+X-List-Received-Date: Wed, 30 Jan 2013 09:38:10 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---e89a8ff1ca38f55c3b04d4702215
-Content-Type: text/plain; charset=ISO-8859-1
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ .../01-use-proper-tools-for-cross-build.patch      |  138 --------------------
+ recipes-devtools/python/python_2.7.3.bbappend      |    9 --
+ 2 files changed, 147 deletions(-)
+ delete mode 100644 recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+ delete mode 100644 recipes-devtools/python/python_2.7.3.bbappend
 
-On Tue, Jan 29, 2013 at 11:32 AM, lei yang <lei.yang@windriver.com> wrote:
-
-> On 01/29/2013 09:46 PM, Bruce Ashfield wrote:
->
->>
->>
->> On Mon, Jan 28, 2013 at 6:01 AM, <lei.yang@windriver.com <mailto:
->> lei.yang@windriver.com**>> wrote:
->>
->>     From: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>
->>
->>     When I define the bridge, I get below error
->>
->>     root@intel_5500_server:~# ovs-vsctl add-br ovsbr0
->>     Jan 25 17:34:07|00002|stream_unix|**ERR|/tmp/stream-unix.1487.0:
->>     connection to /var/run/openvswitch/db.sock
->>     failed: No such file or directory
->>     ........
->>     ........
->>
->>     This is becasue openvswitch isn't running,so we'd better start it
->>     at the boot time.
->>
->>
->> s/becasue/because/
->>
->> Can you elaborate on this a bit more as well. What you are actually doing
->> in the
->> patch is adding to the RDEPENDS of openvswitch and it's the dependencies
->> that
->> you are adding, that once installed are starting the switch at runtime ..
->> right ? The
->> reason I'd like it clarified is that when I read your patch, I expected
->> to see an initscript
->> update, or inherit rc.d, but found the RDEPENDS update instead.
->>
->
->
-> because : those tow packages used rc.d. so we only need to install them
->
-> inherit autotools update-rc.d
->
-> INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
-> INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
-> INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
->
-> INITSCRIPT_NAME_${PN}-**controller = "openvswitch-controller"
-> INITSCRIPT_PARAMS_${PN}-**controller = "defaults 72"
->
->
->
-Exactly, that's what I saw when I checked .. but it's worth being clear in
-the
-message.
-
-Bruce
-
-
-> I will send V2 tomorrow
->
-> LeI
->
->
->
->
->
->      Since openvswtich depends on openvswtich module,so auto load the
->>     kernel module too.
->>
->>
->>     Signed-off-by: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>     Tested-by: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>
->>     ---
->>      recipes-kernel/linux/linux-**yocto_3.4.bbappend      |    2 +-
->>      .../openvswitch/openvswitch_1.**4.3.bb <http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>               |    2 +-
->>
->>      2 files changed, 2 insertions(+), 2 deletions(-)
->>
->>     diff --git a/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     b/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     index 5b163ff..918302a 100644
->>     --- a/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     +++ b/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     @@ -5,4 +5,4 @@ SRC_URI += "file://xt-checksum.scc \
->>                 file://vswitch.scc \
->>                 file://lxc.scc \
->>                 "
->>     -
->>     +module_autoload_openvswitch = "openvswitch"
->>
->>
->> This looks fine. I double checked that the vswitch kernel fragment
->> enables the module,
->> so our autoload is fine.
->>
->> Bruce
->>
->>     diff --git a/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>     b/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>
->>     index 88f0114..6764073 100644
->>     --- a/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>     +++ b/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>
->>     @@ -7,7 +7,7 @@ LICENSE = "Apache-2"
->>      DEPENDS += "bridge-utils openssl python perl"
->>
->>      RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid \
->>     -              python perl perl-module-strict"
->>     +              python perl perl-module-strict ${PN}-switch
->>     ${PN}-controller"
->>      RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
->>      RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
->>      RDEPENDS_${PN}-pki = "${PN}"
->>     --
->>     1.7.1
->>
->>     ______________________________**_________________
->>     meta-virtualization mailing list
->>     meta-virtualization@**yoctoproject.org<meta-virtualization@yoctoproject.org>
->>     <mailto:meta-virtualization@**yoctoproject.org<meta-virtualization@yoctoproject.org>
->> >
->>
->>     https://lists.yoctoproject.**org/listinfo/meta-**virtualization<https://lists.yoctoproject.org/listinfo/meta-virtualization>
->>
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
->> at its end"
->>
->>
->> On Mon, Jan 28, 2013 at 6:01 AM, <lei.yang@windriver.com <mailto:
->> lei.yang@windriver.com**>> wrote:
->>
->>     From: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>
->>
->>     When I define the bridge, I get below error
->>
->>     root@intel_5500_server:~# ovs-vsctl add-br ovsbr0
->>     Jan 25 17:34:07|00002|stream_unix|**ERR|/tmp/stream-unix.1487.0:
->>     connection to /var/run/openvswitch/db.sock
->>     failed: No such file or directory
->>     ........
->>     ........
->>
->>     This is becasue openvswitch isn't running,so we'd better start it
->>     at the boot time.
->>     Since openvswtich depends on openvswtich module,so auto load the
->>     kernel module too.
->>
->>     Signed-off-by: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>     Tested-by: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>
->>     ---
->>      recipes-kernel/linux/linux-**yocto_3.4.bbappend      |    2 +-
->>      .../openvswitch/openvswitch_1.**4.3.bb <http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>               |    2 +-
->>
->>      2 files changed, 2 insertions(+), 2 deletions(-)
->>
->>     diff --git a/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     b/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     index 5b163ff..918302a 100644
->>     --- a/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     +++ b/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     @@ -5,4 +5,4 @@ SRC_URI += "file://xt-checksum.scc \
->>                 file://vswitch.scc \
->>                 file://lxc.scc \
->>                 "
->>     -
->>     +module_autoload_openvswitch = "openvswitch"
->>     diff --git a/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>     b/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>
->>     index 88f0114..6764073 100644
->>     --- a/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>     +++ b/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>
->>     @@ -7,7 +7,7 @@ LICENSE = "Apache-2"
->>      DEPENDS += "bridge-utils openssl python perl"
->>
->>      RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid \
->>     -              python perl perl-module-strict"
->>     +              python perl perl-module-strict ${PN}-switch
->>     ${PN}-controller"
->>      RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
->>      RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
->>      RDEPENDS_${PN}-pki = "${PN}"
->>     --
->>     1.7.1
->>
->>     ______________________________**_________________
->>     meta-virtualization mailing list
->>     meta-virtualization@**yoctoproject.org<meta-virtualization@yoctoproject.org>
->>     <mailto:meta-virtualization@**yoctoproject.org<meta-virtualization@yoctoproject.org>
->> >
->>
->>     https://lists.yoctoproject.**org/listinfo/meta-**virtualization<https://lists.yoctoproject.org/listinfo/meta-virtualization>
->>
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
->> at its end"
->>
->
->
-
-
+diff --git a/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+deleted file mode 100644
+index 2589bde..0000000
+--- a/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
++++ /dev/null
+@@ -1,138 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-# We need to ensure our host tools get run during build, not the freshly
+-# built cross-tools (this will not work), so we introduce HOSTPYTHON and HOSTPGEN.
+-# Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
+-
+-Index: Python-2.7.2/Makefile.pre.in
+-===================================================================
+---- Python-2.7.2.orig/Makefile.pre.in
+-+++ Python-2.7.2/Makefile.pre.in
+-@@ -182,6 +182,7 @@ UNICODE_OBJS=   @UNICODE_OBJS@
+- 
+- PYTHON=		python$(EXE)
+- BUILDPYTHON=	python$(BUILDEXE)
+-+HOSTPYTHON=	$(BUILDPYTHON)
+- 
+- # The task to run while instrument when building the profile-opt target
+- PROFILE_TASK=	$(srcdir)/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck
+-@@ -214,7 +215,7 @@ LIBFFI_INCLUDEDIR=	@LIBFFI_INCLUDEDIR@
+- ##########################################################################
+- # Parser
+- PGEN=		Parser/pgen$(EXE)
+--
+-+HOSTPGEN=	$(PGEN)$(EXE)
+- POBJS=		\
+- 		Parser/acceler.o \
+- 		Parser/grammar1.o \
+-@@ -401,14 +402,14 @@ $(BUILDPYTHON):	Modules/python.o $(LIBRA
+- 			$(BLDLIBRARY) $(LIBS) $(MODLIBS) $(SYSLIBS) $(LDLAST)
+- 
+- platform: $(BUILDPYTHON)
+--	$(RUNSHARED) ./$(BUILDPYTHON) -E -c 'import sys ; from sysconfig import get_platform ; print get_platform()+"-"+sys.version[0:3]' >platform
+-+	$(RUNSHARED) ./$(BUILDPYTHON) -E -c 'import sys ; from distutils.util import get_platform ; print get_platform()+"-"+sys.version[0:3]' >platform
+- 
+- 
+- # Build the shared modules
+- sharedmods: $(BUILDPYTHON)
+- 	@case $$MAKEFLAGS in \
+--	*s*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' ./$(BUILDPYTHON) -E $(srcdir)/setup.py -q build;; \
+--	*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' ./$(BUILDPYTHON) -E $(srcdir)/setup.py build;; \
+-+	*s*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' $(HOSTPYTHON) -E $(srcdir)/setup.py -q build;; \
+-+	*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' $(HOSTPYTHON) -E $(srcdir)/setup.py build;; \
+- 	esac
+- 
+- # Build static library
+-@@ -542,7 +543,7 @@ Modules/python.o: $(srcdir)/Modules/pyth
+- $(GRAMMAR_H) $(GRAMMAR_C): Parser/pgen.stamp
+- Parser/pgen.stamp: $(PGEN) $(GRAMMAR_INPUT)
+- 		-@$(INSTALL) -d Include
+--		$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
+-+		$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
+- 		-touch Parser/pgen.stamp
+- 
+- $(PGEN):	$(PGENOBJS)
+-@@ -926,25 +927,25 @@ libinstall:	build_all $(srcdir)/Lib/$(PL
+- 	done
+- 	$(INSTALL_DATA) $(srcdir)/LICENSE $(DESTDIR)$(LIBDEST)/LICENSE.txt
+- 	PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
+--		./$(BUILDPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+- 		-d $(LIBDEST) -f \
+- 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+- 		$(DESTDIR)$(LIBDEST)
+- 	PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+--		./$(BUILDPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+- 		-d $(LIBDEST) -f \
+- 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+- 		$(DESTDIR)$(LIBDEST)
+- 	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
+--		./$(BUILDPYTHON) -Wi -t $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -t $(DESTDIR)$(LIBDEST)/compileall.py \
+- 		-d $(LIBDEST)/site-packages -f \
+- 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+- 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+--		./$(BUILDPYTHON) -Wi -t -O $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -t -O $(DESTDIR)$(LIBDEST)/compileall.py \
+- 		-d $(LIBDEST)/site-packages -f \
+- 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+- 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+--		./$(BUILDPYTHON) -Wi -t -c "import lib2to3.pygram, lib2to3.patcomp;lib2to3.patcomp.PatternCompiler()"
+-+		$(HOSTPYTHON) -Wi -t -c "import lib2to3.pygram, lib2to3.patcomp;lib2to3.patcomp.PatternCompiler()"
+- 
+- # Create the PLATDIR source directory, if one wasn't distributed..
+- $(srcdir)/Lib/$(PLATDIR):
+-@@ -1049,7 +1050,7 @@ libainstall:	all python-config
+- # Install the dynamically loadable modules
+- # This goes into $(exec_prefix)
+- sharedinstall: sharedmods
+--	$(RUNSHARED) ./$(BUILDPYTHON) -E $(srcdir)/setup.py install \
+-+	$(RUNSHARED) $(HOSTPYTHON) -E $(srcdir)/setup.py install \
+- 	   	--prefix=$(prefix) \
+- 		--install-scripts=$(BINDIR) \
+- 		--install-platlib=$(DESTSHARED) \
+-Index: Python-2.7.2/setup.py
+-===================================================================
+---- Python-2.7.2.orig/setup.py
+-+++ Python-2.7.2/setup.py
+-@@ -313,6 +313,7 @@ class PyBuildExt(build_ext):
+-             self.failed.append(ext.name)
+-             self.announce('*** WARNING: renaming "%s" since importing it'
+-                           ' failed: %s' % (ext.name, why), level=3)
+-+            return
+-             assert not self.inplace
+-             basename, tail = os.path.splitext(ext_filename)
+-             newname = basename + "_failed" + tail
+-@@ -369,8 +370,8 @@ class PyBuildExt(build_ext):
+- 
+-     def detect_modules(self):
+-         # Ensure that /usr/local is always used
+--        add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
+--        add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
+-+        #add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
+-+        #add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
+-         self.add_multiarch_paths()
+- 
+-         # Add paths specified in the environment variables LDFLAGS and
+-@@ -475,6 +476,9 @@ class PyBuildExt(build_ext):
+- 
+-         # XXX Omitted modules: gl, pure, dl, SGI-specific modules
+- 
+-+        lib_dirs = [ os.getenv( "STAGING_LIBDIR" ) ]
+-+        inc_dirs = [ os.getenv( "STAGING_INCDIR" ) ]
+-+        lib_dirs += os.getenv('LIBRARY_PATH', '').split(os.pathsep)
+-         #
+-         # The following modules are all pretty straightforward, and compile
+-         # on pretty much any POSIXish platform.
+-@@ -677,8 +681,8 @@ class PyBuildExt(build_ext):
+-             elif curses_library:
+-                 readline_libs.append(curses_library)
+-             elif self.compiler.find_library_file(lib_dirs +
+--                                                     ['/usr/lib/termcap'],
+--                                                     'termcap'):
+-+                                               ['/usr/lib/termcap'],
+-+                                               'termcap'):
+-                 readline_libs.append('termcap')
+-             exts.append( Extension('readline', ['readline.c'],
+-                                    library_dirs=['/usr/lib/termcap'],
+diff --git a/recipes-devtools/python/python_2.7.3.bbappend b/recipes-devtools/python/python_2.7.3.bbappend
+deleted file mode 100644
+index e39deba..0000000
+--- a/recipes-devtools/python/python_2.7.3.bbappend
++++ /dev/null
+@@ -1,9 +0,0 @@
+-THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
+-FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
+-
+-DEPENDS += " ncurses"
+-
+-do_compile_prepend() {
+-	export LIBRARY_PATH=${STAGING_DIR_TARGET}/lib
+-}
+-
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+1.7.9.5
 
---e89a8ff1ca38f55c3b04d4702215
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Tue, Jan 29, 2013 at 11:32 AM, lei yang <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:lei.yang@windriver.com" target=3D"_blank">lei.yang@windrive=
-r.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">On 01/29/2013 09:46 PM, Bruce Ashfield wrote=
-:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">
-<br>
-<br>
-On Mon, Jan 28, 2013 at 6:01 AM, &lt;<a href=3D"mailto:lei.yang@windriver.c=
-om" target=3D"_blank">lei.yang@windriver.com</a> &lt;mailto:<a href=3D"mail=
-to:lei.yang@windriver.com" target=3D"_blank">lei.yang@windriver.com</a><u><=
-/u>&gt;&gt; wrote:<br>
-
-<br>
-=A0 =A0 From: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.com" target=
-=3D"_blank">lei.yang@windriver.com</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
-<br>
-=A0 =A0 When I define the bridge, I get below error<br>
-<br>
-=A0 =A0 root@intel_5500_server:~# ovs-vsctl add-br ovsbr0<br>
-=A0 =A0 Jan 25 17:34:07|00002|stream_unix|<u></u>ERR|/tmp/stream-unix.1487.=
-0:<br>
-=A0 =A0 connection to /var/run/openvswitch/db.sock<br>
-=A0 =A0 failed: No such file or directory<br>
-=A0 =A0 ........<br>
-=A0 =A0 ........<br>
-<br>
-=A0 =A0 This is becasue openvswitch isn&#39;t running,so we&#39;d better st=
-art it<br>
-=A0 =A0 at the boot time.<br>
-<br>
-<br>
-s/becasue/because/<br>
-<br>
-Can you elaborate on this a bit more as well. What you are actually doing i=
-n the<br>
-patch is adding to the RDEPENDS of openvswitch and it&#39;s the dependencie=
-s that<br>
-you are adding, that once installed are starting the switch at runtime .. r=
-ight ? The<br>
-reason I&#39;d like it clarified is that when I read your patch, I expected=
- to see an initscript<br>
-update, or inherit rc.d, but found the RDEPENDS update instead.<br>
-</div></blockquote>
-<br>
-<br>
-because : those tow packages used rc.d. so we only need to install them<br>
-<br>
-inherit autotools update-rc.d<br>
-<br>
-INITSCRIPT_PACKAGES =3D &quot;${PN}-switch ${PN}-controller&quot;<br>
-INITSCRIPT_NAME_${PN}-switch =3D &quot;openvswitch-switch&quot;<br>
-INITSCRIPT_PARAMS_${PN}-switch =3D &quot;defaults 71&quot;<br>
-<br>
-INITSCRIPT_NAME_${PN}-<u></u>controller =3D &quot;openvswitch-controller&qu=
-ot;<br>
-INITSCRIPT_PARAMS_${PN}-<u></u>controller =3D &quot;defaults 72&quot;<br>
-<br>
-<br></blockquote><div><br></div><div style>Exactly, that&#39;s what I saw w=
-hen I checked .. but it&#39;s worth being clear in the</div><div style>mess=
-age.</div><div style><br></div><div style>Bruce</div><div>=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">
-
-I will send V2 tomorrow<br>
-<br>
-LeI<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">
-=A0 =A0 Since openvswtich depends on openvswtich module,so auto load the<br=
->
-=A0 =A0 kernel module too.<br>
-<br>
-<br>
-=A0 =A0 Signed-off-by: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.co=
-m" target=3D"_blank">lei.yang@windriver.com</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<br>
-=A0 =A0 Tested-by: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.com" t=
-arget=3D"_blank">lei.yang@windriver.com</a><br>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
-=A0 =A0 ---<br>
-=A0 =A0 =A0recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend =A0 =A0 =A0=
-| =A0 =A02 +-<br>
-=A0 =A0 =A0.../openvswitch/<a href=3D"http://openvswitch_1.4.3.bb" target=
-=3D"_blank">openvswitch_1.<u></u>4.3.bb</a><br></div>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A02 +-<di=
-v class=3D"im"><br>
-=A0 =A0 =A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-=A0 =A0 diff --git a/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<b=
-r>
-=A0 =A0 b/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 index 5b163ff..918302a 100644<br>
-=A0 =A0 --- a/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 +++ b/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 @@ -5,4 +5,4 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://vswitch.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://lxc.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &quot;<br>
-=A0 =A0 -<br>
-=A0 =A0 +module_autoload_openvswitch =3D &quot;openvswitch&quot;<br>
-<br>
-<br>
-This looks fine. I double checked that the vswitch kernel fragment enables =
-the module,<br>
-so our autoload is fine.<br>
-<br>
-Bruce<br>
-<br>
-=A0 =A0 diff --git a/recipes-networking/<u></u>openvswitch/<a href=3D"http:=
-//openvswitch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><b=
-r></div>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<br>
-=A0 =A0 b/recipes-networking/<u></u>openvswitch/<a href=3D"http://openvswit=
-ch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<div class=3D"im"><br>
-=A0 =A0 index 88f0114..6764073 100644<br>
-=A0 =A0 --- a/recipes-networking/<u></u>openvswitch/<a href=3D"http://openv=
-switch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br></div=
->
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<br>
-=A0 =A0 +++ b/recipes-networking/<u></u>openvswitch/<a href=3D"http://openv=
-switch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<div class=3D"im"><br>
-=A0 =A0 @@ -7,7 +7,7 @@ LICENSE =3D &quot;Apache-2&quot;<br>
-=A0 =A0 =A0DEPENDS +=3D &quot;bridge-utils openssl python perl&quot;<br>
-<br>
-=A0 =A0 =A0RDEPENDS_${PN} +=3D &quot;util-linux-uuidgen util-linux-libuuid =
-\<br>
-=A0 =A0 - =A0 =A0 =A0 =A0 =A0 =A0 =A0python perl perl-module-strict&quot;<b=
-r>
-=A0 =A0 + =A0 =A0 =A0 =A0 =A0 =A0 =A0python perl perl-module-strict ${PN}-s=
-witch<br>
-=A0 =A0 ${PN}-controller&quot;<br>
-=A0 =A0 =A0RDEPENDS_${PN}-controller =3D &quot;${PN} lsb ${PN}-pki&quot;<br=
->
-=A0 =A0 =A0RDEPENDS_${PN}-switch =3D &quot;${PN} openssl procps util-linux-=
-uuidgen&quot;<br>
-=A0 =A0 =A0RDEPENDS_${PN}-pki =3D &quot;${PN}&quot;<br>
-=A0 =A0 --<br>
-=A0 =A0 1.7.1<br>
-<br>
-=A0 =A0 ______________________________<u></u>_________________<br>
-=A0 =A0 meta-virtualization mailing list<br>
-=A0 =A0 <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_=
-blank">meta-virtualization@<u></u>yoctoproject.org</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:meta-virtualization@yoctoproject.org" =
-target=3D"_blank">meta-virtualization@<u></u>yoctoproject.org</a>&gt;<div c=
-lass=3D"im"><br>
-=A0 =A0 <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualizat=
-ion" target=3D"_blank">https://lists.yoctoproject.<u></u>org/listinfo/meta-=
-<u></u>virtualization</a><br>
-<br>
-<br>
-<br>
-<br>
--- <br>
-&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its end&quot;<br>
-<br>
-<br></div><div class=3D"im">
-On Mon, Jan 28, 2013 at 6:01 AM, &lt;<a href=3D"mailto:lei.yang@windriver.c=
-om" target=3D"_blank">lei.yang@windriver.com</a> &lt;mailto:<a href=3D"mail=
-to:lei.yang@windriver.com" target=3D"_blank">lei.yang@windriver.com</a><u><=
-/u>&gt;&gt; wrote:<br>
-
-<br>
-=A0 =A0 From: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.com" target=
-=3D"_blank">lei.yang@windriver.com</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
-<br>
-=A0 =A0 When I define the bridge, I get below error<br>
-<br>
-=A0 =A0 root@intel_5500_server:~# ovs-vsctl add-br ovsbr0<br>
-=A0 =A0 Jan 25 17:34:07|00002|stream_unix|<u></u>ERR|/tmp/stream-unix.1487.=
-0:<br>
-=A0 =A0 connection to /var/run/openvswitch/db.sock<br>
-=A0 =A0 failed: No such file or directory<br>
-=A0 =A0 ........<br>
-=A0 =A0 ........<br>
-<br>
-=A0 =A0 This is becasue openvswitch isn&#39;t running,so we&#39;d better st=
-art it<br>
-=A0 =A0 at the boot time.<br>
-=A0 =A0 Since openvswtich depends on openvswtich module,so auto load the<br=
->
-=A0 =A0 kernel module too.<br>
-<br>
-=A0 =A0 Signed-off-by: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.co=
-m" target=3D"_blank">lei.yang@windriver.com</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<br>
-=A0 =A0 Tested-by: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.com" t=
-arget=3D"_blank">lei.yang@windriver.com</a><br>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
-=A0 =A0 ---<br>
-=A0 =A0 =A0recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend =A0 =A0 =A0=
-| =A0 =A02 +-<br>
-=A0 =A0 =A0.../openvswitch/<a href=3D"http://openvswitch_1.4.3.bb" target=
-=3D"_blank">openvswitch_1.<u></u>4.3.bb</a><br></div>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A02 +-<di=
-v class=3D"im"><br>
-=A0 =A0 =A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-=A0 =A0 diff --git a/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<b=
-r>
-=A0 =A0 b/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 index 5b163ff..918302a 100644<br>
-=A0 =A0 --- a/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 +++ b/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 @@ -5,4 +5,4 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://vswitch.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://lxc.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &quot;<br>
-=A0 =A0 -<br>
-=A0 =A0 +module_autoload_openvswitch =3D &quot;openvswitch&quot;<br>
-=A0 =A0 diff --git a/recipes-networking/<u></u>openvswitch/<a href=3D"http:=
-//openvswitch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><b=
-r></div>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<br>
-=A0 =A0 b/recipes-networking/<u></u>openvswitch/<a href=3D"http://openvswit=
-ch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<div class=3D"im"><br>
-=A0 =A0 index 88f0114..6764073 100644<br>
-=A0 =A0 --- a/recipes-networking/<u></u>openvswitch/<a href=3D"http://openv=
-switch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br></div=
->
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<br>
-=A0 =A0 +++ b/recipes-networking/<u></u>openvswitch/<a href=3D"http://openv=
-switch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<div class=3D"im"><br>
-=A0 =A0 @@ -7,7 +7,7 @@ LICENSE =3D &quot;Apache-2&quot;<br>
-=A0 =A0 =A0DEPENDS +=3D &quot;bridge-utils openssl python perl&quot;<br>
-<br>
-=A0 =A0 =A0RDEPENDS_${PN} +=3D &quot;util-linux-uuidgen util-linux-libuuid =
-\<br>
-=A0 =A0 - =A0 =A0 =A0 =A0 =A0 =A0 =A0python perl perl-module-strict&quot;<b=
-r>
-=A0 =A0 + =A0 =A0 =A0 =A0 =A0 =A0 =A0python perl perl-module-strict ${PN}-s=
-witch<br>
-=A0 =A0 ${PN}-controller&quot;<br>
-=A0 =A0 =A0RDEPENDS_${PN}-controller =3D &quot;${PN} lsb ${PN}-pki&quot;<br=
->
-=A0 =A0 =A0RDEPENDS_${PN}-switch =3D &quot;${PN} openssl procps util-linux-=
-uuidgen&quot;<br>
-=A0 =A0 =A0RDEPENDS_${PN}-pki =3D &quot;${PN}&quot;<br>
-=A0 =A0 --<br>
-=A0 =A0 1.7.1<br>
-<br>
-=A0 =A0 ______________________________<u></u>_________________<br>
-=A0 =A0 meta-virtualization mailing list<br>
-=A0 =A0 <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_=
-blank">meta-virtualization@<u></u>yoctoproject.org</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:meta-virtualization@yoctoproject.org" =
-target=3D"_blank">meta-virtualization@<u></u>yoctoproject.org</a>&gt;<div c=
-lass=3D"im"><br>
-=A0 =A0 <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualizat=
-ion" target=3D"_blank">https://lists.yoctoproject.<u></u>org/listinfo/meta-=
-<u></u>virtualization</a><br>
-<br>
-<br>
-<br>
-<br>
--- <br>
-&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its end&quot;<br>
-</div></blockquote>
-<br>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>&quot;Thou s=
-halt not follow the NULL pointer, for chaos and madness await thee at its e=
-nd&quot;
-</div></div>
-
---e89a8ff1ca38f55c3b04d4702215--
