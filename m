@@ -1,40 +1,56 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2EE42E01423
+Return-Path: <B29882@freescale.com>
+Received: from co1outboundpool.messaging.microsoft.com
+	(co1ehsobe004.messaging.microsoft.com [216.32.180.187])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 25063E006CC
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 30 Jan 2013 01:38:09 -0800 (PST)
-Received: by mail-la0-f43.google.com with SMTP id ek20so947917lab.30
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 30 Jan 2013 01:38:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding;
-	bh=jPARNX+oyFO/EdjibADyln+J2mrP83o7PU8x9SP43iI=;
-	b=aOCXOMbl1UsgtmxHdIYPrBIMdrcNoKHc52QFg8wv995CDYwDq7xXA40OLk6WMt8c/t
-	fN75pmj5LP6HXuBdz/IrCZgYgob27FV8A3YkPzD+rrgsSZIdhrQjghhfd+970GfPWMKH
-	Sgb9ei1XBxRWezofx53fOOzbYOduPI7tfPhlZ9P9sLT56ozCZlIYJ3C/nvQlAEE/vXqs
-	+TJ6yOlHFEgUUmUYv+LIy3dM+3e28a4G7MlR1UGgcLRZTN59KYYIYlnD3TCh5w8KDYfN
-	b/n37KUpl3ZgHruwzvk7h36qaZ6/bEDH3V7vETD+pyjnKI5fRaXCghcpdDQ9f2wgBSsv
-	4O5Q==
-X-Received: by 10.152.136.20 with SMTP id pw20mr3908841lab.16.1359538688773;
-	Wed, 30 Jan 2013 01:38:08 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id e9sm351287lbz.1.2013.01.30.01.38.06
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 30 Jan 2013 01:38:07 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id C00B44001F4; Wed, 30 Jan 2013 10:38:00 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Wed, 30 Jan 2013 10:37:59 +0100
-Message-Id: <1359538679-7548-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 30 Jan 2013 23:04:30 -0800 (PST)
+Received: from mail97-co1-R.bigfish.com (10.243.78.197) by
+	CO1EHSOBE012.bigfish.com (10.243.66.75) with Microsoft SMTP Server id
+	14.1.225.23; Thu, 31 Jan 2013 07:04:29 +0000
+Received: from mail97-co1 (localhost [127.0.0.1])	by mail97-co1-R.bigfish.com
+	(Postfix) with ESMTP id 7FB91480133;
+	Thu, 31 Jan 2013 07:04:29 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 8
+X-BigFish: VS8(zz98dI9371I1432Izz1ee6h1de0h1202h1e76h1d1ah1d2ahzz17326ah8275dh8275bh1835farz2dh2a8h668h839h8e2h8e3h947hd25hf0ah10d2h1288h12a5h12a9h12bdh137ah13b6h1441h1537h153bh15d0h162dh1631h1758h18e1h1946hbe9i1155h)
+Received: from mail97-co1 (localhost.localdomain [127.0.0.1]) by mail97-co1
+	(MessageSwitch) id 1359615867387048_27792;
+	Thu, 31 Jan 2013 07:04:27 +0000 (UTC)
+Received: from CO1EHSMHS023.bigfish.com (unknown [10.243.78.217])	by
+	mail97-co1.bigfish.com (Postfix) with ESMTP id 5276658004B;
+	Thu, 31 Jan 2013 07:04:27 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO1EHSMHS023.bigfish.com
+	(10.243.66.33) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Thu, 31 Jan 2013 07:04:27 +0000
+Received: from 039-SN1MPN1-002.039d.mgd.msft.net ([169.254.2.50]) by
+	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
+	14.02.0318.003; Thu, 31 Jan 2013 07:04:22 +0000
+From: McClintock Matthew-B29882 <B29882@freescale.com>
+To: "lei.yang@windriver.com" <lei.yang@windriver.com>
+Thread-Topic: [meta-virtualization] [PATCH] This package provides: -
+	multipath: scans the system for multipathed devices,
+	assembles - multipathd:
+	waits for maps events then execs multipath - kpartx: maps linear
+	devmaps to device partitions, which makes multipath...
+Thread-Index: AQHN/4Eygni0nhEDIU6bzGMELhsXWQ==
+Date: Thu, 31 Jan 2013 07:04:22 +0000
+Message-ID: <70CC66F5C30A414DADDA6973E4CA391A866F23@039-SN1MPN1-002.039d.mgd.msft.net>
+References: <1358910962-6960-1-git-send-email-lei.yang@windriver.com>
+In-Reply-To: <1358910962-6960-1-git-send-email-lei.yang@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [70.112.201.132]
 MIME-Version: 1.0
-Subject: [PATCH] Removed meta-virtualization private patch, using poky default instead.
+X-OriginatorOrg: freescale.com
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] This package provides: - multipath: scans the system for multipathed devices, assembles - multipathd: waits for maps events then execs multipath - kpartx: maps linear devmaps to device partitions, which makes multipath...
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: McClintock Matthew-B29882 <B29882@freescale.com>
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -44,178 +60,95 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2013 09:38:10 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 31 Jan 2013 07:04:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <B63C2E60C305A24BB9FC1ECD3B411375@mgd.freescale.com>
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- .../01-use-proper-tools-for-cross-build.patch      |  138 --------------------
- recipes-devtools/python/python_2.7.3.bbappend      |    9 --
- 2 files changed, 147 deletions(-)
- delete mode 100644 recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
- delete mode 100644 recipes-devtools/python/python_2.7.3.bbappend
+On Tue, Jan 22, 2013 at 9:16 PM,  <lei.yang@windriver.com> wrote:
+> From: Lei Yang <lei.yang@windriver.com>
+>
+> Now,It can be used for kvm disk img partion mounting for me.
 
-diff --git a/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
-deleted file mode 100644
-index 2589bde..0000000
---- a/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
-+++ /dev/null
-@@ -1,138 +0,0 @@
--Upstream-Status: Inappropriate [embedded specific]
--
--# We need to ensure our host tools get run during build, not the freshly
--# built cross-tools (this will not work), so we introduce HOSTPYTHON and HOSTPGEN.
--# Signed-Off: Michael 'Mickey' Lauer <mickey@vanille-media.de>
--
--Index: Python-2.7.2/Makefile.pre.in
--===================================================================
----- Python-2.7.2.orig/Makefile.pre.in
--+++ Python-2.7.2/Makefile.pre.in
--@@ -182,6 +182,7 @@ UNICODE_OBJS=   @UNICODE_OBJS@
-- 
-- PYTHON=		python$(EXE)
-- BUILDPYTHON=	python$(BUILDEXE)
--+HOSTPYTHON=	$(BUILDPYTHON)
-- 
-- # The task to run while instrument when building the profile-opt target
-- PROFILE_TASK=	$(srcdir)/Tools/pybench/pybench.py -n 2 --with-gc --with-syscheck
--@@ -214,7 +215,7 @@ LIBFFI_INCLUDEDIR=	@LIBFFI_INCLUDEDIR@
-- ##########################################################################
-- # Parser
-- PGEN=		Parser/pgen$(EXE)
---
--+HOSTPGEN=	$(PGEN)$(EXE)
-- POBJS=		\
-- 		Parser/acceler.o \
-- 		Parser/grammar1.o \
--@@ -401,14 +402,14 @@ $(BUILDPYTHON):	Modules/python.o $(LIBRA
-- 			$(BLDLIBRARY) $(LIBS) $(MODLIBS) $(SYSLIBS) $(LDLAST)
-- 
-- platform: $(BUILDPYTHON)
---	$(RUNSHARED) ./$(BUILDPYTHON) -E -c 'import sys ; from sysconfig import get_platform ; print get_platform()+"-"+sys.version[0:3]' >platform
--+	$(RUNSHARED) ./$(BUILDPYTHON) -E -c 'import sys ; from distutils.util import get_platform ; print get_platform()+"-"+sys.version[0:3]' >platform
-- 
-- 
-- # Build the shared modules
-- sharedmods: $(BUILDPYTHON)
-- 	@case $$MAKEFLAGS in \
---	*s*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' ./$(BUILDPYTHON) -E $(srcdir)/setup.py -q build;; \
---	*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' ./$(BUILDPYTHON) -E $(srcdir)/setup.py build;; \
--+	*s*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' $(HOSTPYTHON) -E $(srcdir)/setup.py -q build;; \
--+	*) $(RUNSHARED) CC='$(CC)' LDSHARED='$(BLDSHARED)' OPT='$(OPT)' $(HOSTPYTHON) -E $(srcdir)/setup.py build;; \
-- 	esac
-- 
-- # Build static library
--@@ -542,7 +543,7 @@ Modules/python.o: $(srcdir)/Modules/pyth
-- $(GRAMMAR_H) $(GRAMMAR_C): Parser/pgen.stamp
-- Parser/pgen.stamp: $(PGEN) $(GRAMMAR_INPUT)
-- 		-@$(INSTALL) -d Include
---		$(PGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
--+		$(HOSTPGEN) $(GRAMMAR_INPUT) $(GRAMMAR_H) $(GRAMMAR_C)
-- 		-touch Parser/pgen.stamp
-- 
-- $(PGEN):	$(PGENOBJS)
--@@ -926,25 +927,25 @@ libinstall:	build_all $(srcdir)/Lib/$(PL
-- 	done
-- 	$(INSTALL_DATA) $(srcdir)/LICENSE $(DESTDIR)$(LIBDEST)/LICENSE.txt
-- 	PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
---		./$(BUILDPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
--+		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
-- 		-d $(LIBDEST) -f \
-- 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
-- 		$(DESTDIR)$(LIBDEST)
-- 	PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
---		./$(BUILDPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
--+		$(HOSTPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
-- 		-d $(LIBDEST) -f \
-- 		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
-- 		$(DESTDIR)$(LIBDEST)
-- 	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
---		./$(BUILDPYTHON) -Wi -t $(DESTDIR)$(LIBDEST)/compileall.py \
--+		$(HOSTPYTHON) -Wi -t $(DESTDIR)$(LIBDEST)/compileall.py \
-- 		-d $(LIBDEST)/site-packages -f \
-- 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
-- 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
---		./$(BUILDPYTHON) -Wi -t -O $(DESTDIR)$(LIBDEST)/compileall.py \
--+		$(HOSTPYTHON) -Wi -t -O $(DESTDIR)$(LIBDEST)/compileall.py \
-- 		-d $(LIBDEST)/site-packages -f \
-- 		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
-- 	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
---		./$(BUILDPYTHON) -Wi -t -c "import lib2to3.pygram, lib2to3.patcomp;lib2to3.patcomp.PatternCompiler()"
--+		$(HOSTPYTHON) -Wi -t -c "import lib2to3.pygram, lib2to3.patcomp;lib2to3.patcomp.PatternCompiler()"
-- 
-- # Create the PLATDIR source directory, if one wasn't distributed..
-- $(srcdir)/Lib/$(PLATDIR):
--@@ -1049,7 +1050,7 @@ libainstall:	all python-config
-- # Install the dynamically loadable modules
-- # This goes into $(exec_prefix)
-- sharedinstall: sharedmods
---	$(RUNSHARED) ./$(BUILDPYTHON) -E $(srcdir)/setup.py install \
--+	$(RUNSHARED) $(HOSTPYTHON) -E $(srcdir)/setup.py install \
-- 	   	--prefix=$(prefix) \
-- 		--install-scripts=$(BINDIR) \
-- 		--install-platlib=$(DESTSHARED) \
--Index: Python-2.7.2/setup.py
--===================================================================
----- Python-2.7.2.orig/setup.py
--+++ Python-2.7.2/setup.py
--@@ -313,6 +313,7 @@ class PyBuildExt(build_ext):
--             self.failed.append(ext.name)
--             self.announce('*** WARNING: renaming "%s" since importing it'
--                           ' failed: %s' % (ext.name, why), level=3)
--+            return
--             assert not self.inplace
--             basename, tail = os.path.splitext(ext_filename)
--             newname = basename + "_failed" + tail
--@@ -369,8 +370,8 @@ class PyBuildExt(build_ext):
-- 
--     def detect_modules(self):
--         # Ensure that /usr/local is always used
---        add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
---        add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
--+        #add_dir_to_list(self.compiler.library_dirs, '/usr/local/lib')
--+        #add_dir_to_list(self.compiler.include_dirs, '/usr/local/include')
--         self.add_multiarch_paths()
-- 
--         # Add paths specified in the environment variables LDFLAGS and
--@@ -475,6 +476,9 @@ class PyBuildExt(build_ext):
-- 
--         # XXX Omitted modules: gl, pure, dl, SGI-specific modules
-- 
--+        lib_dirs = [ os.getenv( "STAGING_LIBDIR" ) ]
--+        inc_dirs = [ os.getenv( "STAGING_INCDIR" ) ]
--+        lib_dirs += os.getenv('LIBRARY_PATH', '').split(os.pathsep)
--         #
--         # The following modules are all pretty straightforward, and compile
--         # on pretty much any POSIXish platform.
--@@ -677,8 +681,8 @@ class PyBuildExt(build_ext):
--             elif curses_library:
--                 readline_libs.append(curses_library)
--             elif self.compiler.find_library_file(lib_dirs +
---                                                     ['/usr/lib/termcap'],
---                                                     'termcap'):
--+                                               ['/usr/lib/termcap'],
--+                                               'termcap'):
--                 readline_libs.append('termcap')
--             exts.append( Extension('readline', ['readline.c'],
--                                    library_dirs=['/usr/lib/termcap'],
-diff --git a/recipes-devtools/python/python_2.7.3.bbappend b/recipes-devtools/python/python_2.7.3.bbappend
-deleted file mode 100644
-index e39deba..0000000
---- a/recipes-devtools/python/python_2.7.3.bbappend
-+++ /dev/null
-@@ -1,9 +0,0 @@
--THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
--FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
--
--DEPENDS += " ncurses"
--
--do_compile_prepend() {
--	export LIBRARY_PATH=${STAGING_DIR_TARGET}/lib
--}
--
--- 
-1.7.9.5
+Looks like the first subject line is way to long.... ;)
+
+-M
+
+>
+> Signed-off-by: Lei Yang <lei.yang@windriver.com>
+> ---
+>  .../multipath-tools/multipath-tools_git.bb         |   46 ++++++++++++++=
+++++++
+>  1 files changed, 46 insertions(+), 0 deletions(-)
+>  create mode 100644 recipes-extended/multipath-tools/multipath-tools_git.=
+bb
+>
+> diff --git a/recipes-extended/multipath-tools/multipath-tools_git.bb b/re=
+cipes-extended/multipath-tools/multipath-tools_git.bb
+> new file mode 100644
+> index 0000000..633b9f2
+> --- /dev/null
+> +++ b/recipes-extended/multipath-tools/multipath-tools_git.bb
+> @@ -0,0 +1,46 @@
+> +SUMMARY =3D "Tools to Manage Multipathed Devices with the device-mapper"
+> +DESCRIPTION =3D "This package provides the tools to manage multipathed d=
+evices by \
+> +instructing the device-mapper multipath module what to do"
+> +
+> +HOMEPAGE =3D "http://christophe.varoqui.free.fr/"
+> +DEPENDS =3D "readline libaio lvm2"
+> +LICENSE =3D "GPLv2"
+> +
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D7be2873b6270e45abacc503abbe2a=
+a3d"
+> +S=3D"${WORKDIR}/git"
+> +
+> +
+> +SRC_URI =3D "git://git.opensvc.com/multipath-tools/.git;protocol=3Dhttp"
+> +
+> +SRCREV =3D "d3683ab18b386e9b3b54b59a122c689e9ebdf5cf"
+> +PV =3D "0.4.9+gitr${SRCPV}"
+> +
+> +inherit autotools
+> +
+> +EXTRA_OEMAKE=3D"LIB=3D${libdir} exec_prefix=3D${exec_prefix} libdir=3D${=
+libdir}"
+> +
+> +PACKAGES =3D+ "libmpathpersist mpathpersist kpartx libmultipath multipat=
+h multipathd libmultipath-dev libmpathpersist-dev"
+> +
+> +
+> +RDEPENDS_${PN} +=3D "libmpathpersist mpathpersist kpartx libmultipath mu=
+ltipath multipathd udev"
+> +
+> +do_install_append () {
+> +       ln -sf libmpathpersist.so.0 ${D}${libdir}/libmpathpersist.so
+> +       ln -sf libmultipath.so.0 ${D}${libdir}/libmultipath.so
+> +}
+> +
+> +ALLOW_EMPTY_${PN} =3D "1"
+> +FILES_${PN}     =3D ""
+> +
+> +FILES_libmpathpersist =3D "${libdir}/libmpathpersist*.so.0"
+> +FILES_mpathpersist =3D "${sbindir}/mpathpersist"
+> +FILES_kpartx =3D "${sbindir}/kpartx ${base_libdir}/udev/"
+> +FILES_libmultipath =3D "${libdir}/libcheck*.so ${libdir}/libpri*.so ${li=
+bdir}/libmultipath*.so.0"
+> +FILES_multipath =3D "${sbindir}/multipath ${sysconfdir}"
+> +FILES_multipathd =3D "${sbindir}/multipathd ${base_libdir}"
+> +
+> +#put the symbol link lib in -dev
+> +FILES_libmultipath-dev =3D "${libdir}/libmultipath*.so"
+> +FILES_libmpathpersist-dev =3D "${libdir}/libmpathpersist*.so"
+> +
+> +
+> --
+> 1.7.1
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization=
 
 
