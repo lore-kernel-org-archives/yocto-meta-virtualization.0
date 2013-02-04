@@ -1,37 +1,38 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2073FE0073D
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-bk0-f48.google.com (mail-bk0-f48.google.com
+	[209.85.214.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 51197E006F5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  1 Feb 2013 06:10:25 -0800 (PST)
-Received: by mail-lb0-f178.google.com with SMTP id n1so4492608lba.23
+	Mon,  4 Feb 2013 04:33:20 -0800 (PST)
+Received: by mail-bk0-f48.google.com with SMTP id jf20so2755602bkc.35
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 01 Feb 2013 06:10:24 -0800 (PST)
+	Mon, 04 Feb 2013 04:33:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=ExDyu13n31WD+suFcqSv5lKMjgtpM8bkB1qnDXeuU8M=;
-	b=DO4wyPEykwfN/ldekGNgt+rsg3SrjCKt1h7sdQA5lPC8qQfbHDw0nuS8zTAuCreiOj
-	1GuaqPWXEIEA7pP+f+fVdt6ApakiwmA5fWgJDFA3J0tlUHvI9S5kuorsxqgn09Yg2apK
-	IoW6MafyMigZN+tU+lpE6NXz+p3jgkMlm1t6EykbeIokrMJs7SuEXFefhjLfVoILsM2L
-	iyM7iy2C9MDu7ZLa8rUdeeIgSKNrmcDbSwMdNA/RM1zV5265+i955aavhnK18halTsH1
-	zhfm9v5kkPejtZEnXeORdFfHy44PJvDRsxYRrjFihKGUfhk0ESZ77tOn3EKW4GGMOTUU
-	z7Kw==
+	h=x-received:from:to:cc:subject:date:message-id:x-mailer:mime-version
+	:content-type:content-transfer-encoding;
+	bh=SkS0j9g44geNZ1Fx4ZpSioLdee3pJnK2B4hCwNJpEvg=;
+	b=fEz7Z8PutfHDn8nqDfL7pc4YKMYsnmLIm0tTKsXLYFQ5aN6j9O+yOcePVOQpKynjdQ
+	LRhHK3PfnDKoFrLHgIz/mP+Md6bSGh5JPKotJbEcTlnWQcn9FmhxE8PDBg+C3ZKQdKKr
+	n/B0hy7mBVxTDay7vfK7WF9kG5egJ6xzL8Hep4qOr3y/+ANP9dzV4MEwZtdxBHfhnmR0
+	jD+jSKqHay0tX9VYkiy0X0yC0gango4KTCs7iNXgfd26HGsbA3fwgyX0mjGcGHUESJaF
+	fikwCUqBAnEQ1Ht5nhuG2aDbTVdHQ29pxD5FOREUk0uaVG2dMdDYb9lNdRDxpaRpteNa
+	r2Cw==
+X-Received: by 10.204.147.139 with SMTP id l11mr5641771bkv.46.1359981199072;
+	Mon, 04 Feb 2013 04:33:19 -0800 (PST)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPS id s10sm5236767bkt.10.2013.02.04.04.33.17
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 04 Feb 2013 04:33:18 -0800 (PST)
+Received: by nysan (Postfix, from userid 1000)
+	id E16E34074D2; Mon,  4 Feb 2013 13:32:58 +0100 (CET)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  4 Feb 2013 13:32:51 +0100
+Message-Id: <1359981171-13511-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.152.147.103 with SMTP id tj7mr11377440lab.54.1359727824608; 
-	Fri, 01 Feb 2013 06:10:24 -0800 (PST)
-Received: by 10.112.127.35 with HTTP; Fri, 1 Feb 2013 06:10:24 -0800 (PST)
-In-Reply-To: <510B3C84.5060009@windriver.com>
-References: <1359616727-15082-1-git-send-email-lei.yang@windriver.com>
-	<CADkTA4M6MPUeC6XfHnWOgbYEbC3tiWauf7NyyZm0UPq05SjD9w@mail.gmail.com>
-	<510B3C84.5060009@windriver.com>
-Date: Fri, 1 Feb 2013 09:10:24 -0500
-Message-ID: <CADkTA4PCO0Dpt6DSXPrafYmwW5ETMtoxorjbAVf2=4p059D97w@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: lei yang <lei.yang@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] openvswtich: start openvswitch at the boot time
+Cc: meta-virtualization@yoctoproject.org
+Subject: [OE-core][PATCH] Python improvements for create-recipe.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,309 +45,309 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Feb 2013 14:10:26 -0000
-Content-Type: multipart/alternative; boundary=e89a8f234d2bfa1f1c04d4aa4d93
+X-List-Received-Date: Mon, 04 Feb 2013 12:33:20 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---e89a8f234d2bfa1f1c04d4aa4d93
-Content-Type: text/plain; charset=ISO-8859-1
+1. Added ability to parse .zip files.
+2. Added optional automatic dependency resolving for python
+   recipes(easy_install wrapper).
+3. Fixed a few name/version bugs.
 
-On Thu, Jan 31, 2013 at 10:54 PM, lei yang <lei.yang@windriver.com> wrote:
+Give it a whirl by:
+create-recipe -r https://launchpad.net/nova/folsom/2012.2.3/+download/nova-2012.2.3.tar.gz
 
-> On 01/31/2013 09:39 PM, Bruce Ashfield wrote:
->
->>
->>
->>
->> On Thu, Jan 31, 2013 at 2:18 AM, <lei.yang@windriver.com <mailto:
->> lei.yang@windriver.com**>> wrote:
->>
->>     From: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>
->>
->>     When I define the bridge, I get below error
->>
->>     root@intel_5500_server:~# ovs-vsctl add-br ovsbr0
->>     Jan 25 17:34:07|00002|stream_unix|**ERR|/tmp/stream-unix.1487.0:
->>     connection to /var/run/openvswitch/db.sock
->>     failed: No such file or directory
->>     ........
->>     ........
->>
->>     This is because openvswitch damon isn't running,so we'd better
->>     start it at the boot time.
->>     The split-pacakage ${PN}-switch ${PN}-controller provide us to
->>     start nessary damon with update-rc.d
->>
->>
->> s/pacakage/package/
->> s/nessary/necessary/
->> s/damon/daemon/
->>
->>     so we add them to the RDEPENDS.
->>
->>     Since openvswtich depends on openvswtich kernel module,so auto
->>     load the kernel module too.
->>
->>
->> s/openvswtich/openvswitch/
->>
->>
->>     Signed-off-by: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>     Tested-by: Lei Yang <lei.yang@windriver.com
->>     <mailto:lei.yang@windriver.com**>>
->>
->>
->>
->> We can drop the Tested-by: since it is your patch :)
->>
->> I can make the changes below if you agree with them, and save us another
->> revision
->> of the patch.
->>
->>
-> Agree, I don't trust "set spell" again in vim :-( , it doesn't help me for
-> this spelling error
->
->
-No worries, we all make spelling mistakes and typos.
+Saves me some time unwinding python dependencies, and creating template recipes.
 
-I wrapped the commit message to 72 chars, fixed the few issues and pushed it
-to master.
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ scripts/create-recipe |  156 +++++++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 124 insertions(+), 32 deletions(-)
 
-Bruce
-
-
-> Lei
->
->
->
->  Cheers,
->>
->> Bruce
->>
->>     ---
->>      recipes-kernel/linux/linux-**yocto_3.4.bbappend      |    2 +-
->>      .../openvswitch/openvswitch_1.**4.3.bb <http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>               |    2 +-
->>
->>      2 files changed, 2 insertions(+), 2 deletions(-)
->>
->>     diff --git a/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     b/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     index 5b163ff..918302a 100644
->>     --- a/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     +++ b/recipes-kernel/linux/linux-**yocto_3.4.bbappend
->>     @@ -5,4 +5,4 @@ SRC_URI += "file://xt-checksum.scc \
->>                 file://vswitch.scc \
->>                 file://lxc.scc \
->>                 "
->>     -
->>     +module_autoload_openvswitch = "openvswitch"
->>     diff --git a/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>     b/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>
->>     index 88f0114..6764073 100644
->>     --- a/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>     +++ b/recipes-networking/**openvswitch/openvswitch_1.4.3.**bb<http://openvswitch_1.4.3.bb>
->>     <http://openvswitch_1.4.3.bb>
->>
->>     @@ -7,7 +7,7 @@ LICENSE = "Apache-2"
->>      DEPENDS += "bridge-utils openssl python perl"
->>
->>      RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid \
->>     -              python perl perl-module-strict"
->>     +              python perl perl-module-strict ${PN}-switch
->>     ${PN}-controller"
->>      RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
->>      RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
->>      RDEPENDS_${PN}-pki = "${PN}"
->>     --
->>     1.7.1
->>
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
->> at its end"
->>
->
->
-
-
+diff --git a/scripts/create-recipe b/scripts/create-recipe
+index a556e39..1b10e1b 100755
+--- a/scripts/create-recipe
++++ b/scripts/create-recipe
+@@ -37,11 +37,14 @@ use File::Basename qw(basename dirname);
+ my $name = "";
+ my $predef_version = "TO BE FILLED IN";
+ my $version = $predef_version;
++my $pversion = $predef_version;
+ my $description = "";
+ my $summary = "";
+ my $url = "";
+-my $homepage;
++my $homepage = "";
++my @depends;
+ my @rdepends;
++my @rawpythondeps;
+ my $configure = "";
+ my $localename = "";
+ my @sources;
+@@ -59,6 +62,7 @@ my $builder = "";
+ 
+ 
+ my $oscmode = 0;
++my $python = 0;
+ 
+ my @banned_pkgconfig;
+ my %failed_commands;
+@@ -74,7 +78,7 @@ my %failed_headers;
+ # We store the sha1sum of common COPYING files in an associative array
+ # %licenses. 
+ #
+-# For all matching sha1's in the tarbal, we then push the result
++# For all matching sha1's in the tarball, we then push the result
+ # in the @license array (which we'll dedupe at the time of printing).
+ # 
+ 
+@@ -135,6 +139,18 @@ sub guess_license_from_file {
+ 	}
+ 
+ 	#
++	# if file is found, and licence of python
++	# package is already aquired, add file.
++        #
++	if ($python == 1 && @license != 0) {
++	        my $md5output = `md5sum $copying`;
++	        $md5output =~ /^([a-zA-Z0-9]*) /;
++	        my $md5 = $1;
++	        chomp($md5);
++	        $lic_files{$copying} = $md5
++	}
++
++	#
+ 	# We also must make sure that the COPYING/etc files
+ 	# end up in the main package as %doc..
+ 	#
+@@ -1539,10 +1555,14 @@ sub guess_name_from_url {
+ 	}
+ 	my $tarfile = $spliturl[0];
+ 	
++	# Ensure correct name resolution from .zip&tgz archives
++	$tarfile =~ s/\.zip/\.tar/;
++	$tarfile =~ s/\.tgz/\.tar/;
++	$tarfile =~ s/\_/\-/g;
+ 	if ($tarfile =~ /(.*?)\-([0-9\.\-\~]+.*?)\.tar/) {
+ 		$name = $1;
+ 		$version = $2;
+-                $version =~ s/\-/\_/g;
++		$version =~ s/\-/\_/g;
+ 	}
+ }
+ 
+@@ -1678,11 +1698,29 @@ sub write_yaml
+ 
+ sub write_bbfile
+ {
++	my $curdir = `pwd`;
++	chomp($curdir);
++
++	if ($python == 1) {
++	    $name =~ s/python-//;
++    	    $name = lc("python-" . $name);	    
++	}
++	
++	if (-e "$curdir/${name}_$version.bb") {
++	    print "Wont overwrite file:";
++	    print "$curdir/${name}_$version.bb, exiting\n";
++	    return;
++	}
+ 	open(BBFILE, ">${name}_$version.bb");
++	
+ 	print BBFILE "SUMMARY = \"$summary\"\n";
+ 	print BBFILE "DESCRIPTION = \"$description\"\n";
+ 	print BBFILE "HOMEPAGE = \"$homepage\"\n";
+ 
++	if ($python == 1) {
++	    print BBFILE "SRCNAME = \"$summary\"\n";
++	}
++
+ 	print BBFILE "LICENSE = \"@license\"\n";
+ 	print BBFILE "LIC_FILES_CHKSUM = \"";
+ 	foreach (keys %lic_files) {
+@@ -1702,10 +1740,18 @@ sub write_bbfile
+ 	};
+ 
+ 	if (@rdepends > 0) {
+-	    print BBFILE "RDEPENDS_\$\{PN\} += \"@rdepends\"\n";
++	    print BBFILE "RDEPENDS_\$\{PN\} += \"";
++	    foreach (@rdepends) {
++		print BBFILE "$_ \\\n\t";
++	    }
++	    print BBFILE "\"\n";
++	}
++
++	print BBFILE 'PR = "r0"' . "\n";
++	if ($python == 1) {
++	    print BBFILE "PV = \"$pversion\"\n\n";
+ 	}
+ 
+-	print BBFILE 'PR = "r0"' . "\n\n";
+ 	print BBFILE "SRC_URI = \"";
+ 	foreach (@sources) {
+ 		print BBFILE "$_ \\\n";
+@@ -1713,18 +1759,19 @@ sub write_bbfile
+ 	print BBFILE "\"\n\n";
+ 	print BBFILE "SRC_URI[md5sum] = \"$md5sum\"\n";
+ 	print BBFILE "SRC_URI[sha256sum] = \"$sha256sum\"\n\n";
++	if ($python == 1) {
++	    print BBFILE "S = \"\${WORKDIR}/\${SRCNAME}-\${PV}\"\n";
++	}
+ 
+ 	if (@inherits) {
+ 		print BBFILE "inherit ";
+ 		foreach (@inherits) {
+ 			print BBFILE "$_ ";
+ 		}
++		print BBFILE "\n";
+ 	}
+ 
+-	close(BBFILE);
+-
+-	my $curdir = `pwd`;
+-	chomp($curdir);
++	close(BBFILE);	
+ 	print "Create bb file: $curdir/${name}_$version.bb\n";
+ }
+ 
+@@ -1748,10 +1795,18 @@ sub calculate_sums
+ #
+ 
+ if ( @ARGV < 1 ) {
+-    print "Usage: $0 <url-of-source-tarballs>\n";
++    print "Usage: $0 [-r] <url-of-source-tarballs>\n";
+     exit(1);
+ }
+ 
++# Recusive parsing of python dependencies using
++# easy_install
++my $recurse_python = 0;
++if ($ARGV[0] eq "-r") {
++    $recurse_python = 1;
++    shift @ARGV;
++}
++
+ if (@ARGV > 1) {
+         my $i = 1;
+         while ($i < @ARGV) {
+@@ -1809,7 +1864,7 @@ foreach (@tgzfiles) {
+ # this is a step backwards in time that is just silly.
+ #
+ 
+-my @sourcetars = <$orgdir/$outputdir/*\.tar\.bz2 $orgdir/$outputdir/*\.tar\.gz>;
++my @sourcetars = <$orgdir/$outputdir/*\.tar\.bz2 $orgdir/$outputdir/*\.tar\.gz $orgdir/$outputdir/*\.zip>;
+ if ( length @sourcetars == 0) {
+ 	print "Can NOT find source tarball. Exiting...\n";
+ 	exit (1);
+@@ -1818,6 +1873,8 @@ if (defined($sourcetars[0]) and $sourcetars[0] =~ ".*\.tar\.bz2") {
+ 	system("cd $tmpdir; tar -jxf $sourcetars[0] &>/dev/null");
+ } elsif (defined($sourcetars[0]) and $sourcetars[0] =~ ".*\.tar\.gz") {
+ 	system("cd $tmpdir; tar -zxf $sourcetars[0] &>/dev/null");
++} elsif (defined($sourcetars[0]) and $sourcetars[0] =~ ".*\.zip") {
++        system("cd $tmpdir; unzip $sourcetars[0] &>/dev/null");
+ }
+ 
+ print "Parsing content    ....\n";
+@@ -1830,34 +1887,64 @@ $fulldir = $dir;
+ 
+ if ( -e "$dir/setup.py" ) {
+        	$python = 1;
+-	push(@inherits, "distutils");
+-	
+-	system("cd $dir ; python setup.py build sdist &> /dev/null");	
++	$tmp_stools = `grep -r setuptools $dir/setup.py`;
++	if (length($tmp_stools) > 2) {
++	    push(@inherits, "setuptools");
++	} else {
++	    push(@inherits, "distutils");
++	}	
+ 
+-        $templic = `sed '/^License: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
+-	chomp($templic);
++	$templic = `cd $dir; python setup.py --license;`;
++	$templic =~ s/[\r\n]+//g;
+ 	push(@license, $templic);
+-	$summary = `sed '/^Name: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
+-	chomp($summary);
+-	$description = `sed '/^Summary: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
+-	chomp($description);
+-	$homepage = `sed '/^Home-page: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
+-	chomp($homepage);
++	$summary = `cd $dir; python setup.py --name`;
++	$summary =~ s/[\r\n]+//g;
++	$description = `cd $dir; python setup.py --description`;
++	$description =~ s/[\r\n]+//g;
++	$homepage = `cd $dir; python setup.py --url`;
++	$homepage =~ s/[\r\n]+//g;
++	$pversion = `cd $dir; python setup.py -V`;
++	$pversion =~ s/[\r\n]+//g;
++#	$findoutput = `cd $dir; python setup.py --requires`;
++#	if (length($findoutput) < 3) {
+ 	$findoutput = `find $dir/*.egg-info/ -name "requires.txt" 2>/dev/null`;
++#	}
+ 	@findlist = split(/\n/, $findoutput);
+ 	foreach (@findlist) {
+-	    # Adding dependency do buildreqs should be removed when
+-	    # distutils is unbroken, i.e. blocks setup.py install from 
+-	    # downloading and installing dependencies.
+-	    push(@buildreqs, `sed 's/[^a-zA-Z]//g' $dir/*.egg-info/requires.txt`);
+-	    chomp(@buildreqs);	    
+-	    foreach $item (@buildreqs) {
+-		$item = "python-" . $item
+-	    }
+-	    push(@rdepends, `sed 's/[^a-zA-Z]//g' $dir/*.egg-info/requires.txt`);
++	    push(@rawpythondeps, `sed -e '/^\$/d' "$_" | sed '/^\\[/d'`);
++	    chomp(@rawpythondeps);
++	    push(@rdepends, `sed -e 's/python-//g' "$_" | sed '/^\\[/d'`);
+ 	    chomp(@rdepends);
++	    if ($recurse_python == 1) {
++		foreach (@rawpythondeps) {
++		    my $ptempdir = tempdir();
++		    $purl = `easy_install -eb $ptempdir "$_" 2>/dev/null`;
++		    $purl =~ s/#.*//;
++		    @purllist = $purl =~ m/Downloading (http:\/\/.*\n)/g;
++		    chomp(@purllist);
++		    
++		    # Remove empty lines
++		    @purllist = grep(/\S/, @purllist);
++
++		    # Recursively create recipes for dependencies
++		    if (@purllist != 0) {
++			if (fork) {
++			    # Parent, do nothing
++			} else {
++			    # child, execute 
++			    print "Recursively creating recipe for: $purllist[0]\n";
++			    exec("cd .. ; create-recipe -r $purllist[0]");
++			}
++		    }
++		}
++		wait;
++	    }
++
+ 	    foreach $item (@rdepends) {
+-		$item = "python-" . $item
++		@pyclean = split(/(\=|\<|\>).*/, $item);
++		if (defined($pyclean[0])) {
++		    $item = lc("python-" . $pyclean[0]);
++		}
+ 	    }
+ 	}
+ }
+@@ -1920,6 +2007,11 @@ if ($uses_configure == 0) {
+ 	$configure = "none"; 
+ }
+ 
++@files = <$dir/docs/license.txt>;
++foreach (@files) {
++	guess_license_from_file("$_");
++}
++
+ @files = <$dir/COPY*>;
+ foreach (@files) {
+ 	guess_license_from_file("$_");
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+1.7.9.5
 
---e89a8f234d2bfa1f1c04d4aa4d93
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><br><div class=3D"gmail=
-_quote">On Thu, Jan 31, 2013 at 10:54 PM, lei yang <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:lei.yang@windriver.com" target=3D"_blank">lei.yang@windrive=
-r.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">On 01/31/2013 09:39 PM, Bruce Ashfield wrote=
-:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">
-<br>
-<br>
-<br>
-On Thu, Jan 31, 2013 at 2:18 AM, &lt;<a href=3D"mailto:lei.yang@windriver.c=
-om" target=3D"_blank">lei.yang@windriver.com</a> &lt;mailto:<a href=3D"mail=
-to:lei.yang@windriver.com" target=3D"_blank">lei.yang@windriver.com</a><u><=
-/u>&gt;&gt; wrote:<br>
-
-<br>
-=A0 =A0 From: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.com" target=
-=3D"_blank">lei.yang@windriver.com</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
-<br>
-=A0 =A0 When I define the bridge, I get below error<br>
-<br>
-=A0 =A0 root@intel_5500_server:~# ovs-vsctl add-br ovsbr0<br>
-=A0 =A0 Jan 25 17:34:07|00002|stream_unix|<u></u>ERR|/tmp/stream-unix.1487.=
-0:<br>
-=A0 =A0 connection to /var/run/openvswitch/db.sock<br>
-=A0 =A0 failed: No such file or directory<br>
-=A0 =A0 ........<br>
-=A0 =A0 ........<br>
-<br>
-=A0 =A0 This is because openvswitch damon isn&#39;t running,so we&#39;d bet=
-ter<br>
-=A0 =A0 start it at the boot time.<br>
-=A0 =A0 The split-pacakage ${PN}-switch ${PN}-controller provide us to<br>
-=A0 =A0 start nessary damon with update-rc.d<br>
-<br>
-<br>
-s/pacakage/package/<br>
-s/nessary/necessary/<br>
-s/damon/daemon/<br>
-<br>
-=A0 =A0 so we add them to the RDEPENDS.<br>
-<br>
-=A0 =A0 Since openvswtich depends on openvswtich kernel module,so auto<br>
-=A0 =A0 load the kernel module too.<br>
-<br>
-<br>
-s/openvswtich/openvswitch/<br>
-<br>
-<br>
-=A0 =A0 Signed-off-by: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.co=
-m" target=3D"_blank">lei.yang@windriver.com</a><br></div>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<br>
-=A0 =A0 Tested-by: Lei Yang &lt;<a href=3D"mailto:lei.yang@windriver.com" t=
-arget=3D"_blank">lei.yang@windriver.com</a><br>
-=A0 =A0 &lt;mailto:<a href=3D"mailto:lei.yang@windriver.com" target=3D"_bla=
-nk">lei.yang@windriver.com</a><u></u>&gt;&gt;<div class=3D"im"><br>
-<br>
-<br>
-We can drop the Tested-by: since it is your patch :)<br>
-<br>
-I can make the changes below if you agree with them, and save us another re=
-vision<br>
-of the patch.<br>
-<br>
-</div></blockquote>
-<br>
-Agree, I don&#39;t trust &quot;set spell&quot; again in vim :-( , it doesn&=
-#39;t help me for this spelling error<br>
-<br></blockquote><div><br></div><div style>No worries, we all make spelling=
- mistakes and typos.</div><div style><br></div><div style>I wrapped the com=
-mit message to 72 chars, fixed the few issues and pushed it</div><div style=
->
-to master.</div><div style><br></div><div style>Bruce</div><div>=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex">
-Lei<br>
-<br>
-<br>
-<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">
-Cheers,<br>
-<br>
-Bruce<br>
-<br>
-=A0 =A0 ---<br>
-=A0 =A0 =A0recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend =A0 =A0 =A0=
-| =A0 =A02 +-<br>
-=A0 =A0 =A0.../openvswitch/<a href=3D"http://openvswitch_1.4.3.bb" target=
-=3D"_blank">openvswitch_1.<u></u>4.3.bb</a><br></div>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt; =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0 =A02 +-<di=
-v class=3D"im"><br>
-=A0 =A0 =A02 files changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-=A0 =A0 diff --git a/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<b=
-r>
-=A0 =A0 b/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 index 5b163ff..918302a 100644<br>
-=A0 =A0 --- a/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 +++ b/recipes-kernel/linux/linux-<u></u>yocto_3.4.bbappend<br>
-=A0 =A0 @@ -5,4 +5,4 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://vswitch.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 file://lxc.scc \<br>
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 &quot;<br>
-=A0 =A0 -<br>
-=A0 =A0 +module_autoload_openvswitch =3D &quot;openvswitch&quot;<br>
-=A0 =A0 diff --git a/recipes-networking/<u></u>openvswitch/<a href=3D"http:=
-//openvswitch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><b=
-r></div>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<br>
-=A0 =A0 b/recipes-networking/<u></u>openvswitch/<a href=3D"http://openvswit=
-ch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<div class=3D"im"><br>
-=A0 =A0 index 88f0114..6764073 100644<br>
-=A0 =A0 --- a/recipes-networking/<u></u>openvswitch/<a href=3D"http://openv=
-switch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br></div=
->
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<br>
-=A0 =A0 +++ b/recipes-networking/<u></u>openvswitch/<a href=3D"http://openv=
-switch_1.4.3.bb" target=3D"_blank">openvswitch_1.4.3.<u></u>bb</a><br>
-=A0 =A0 &lt;<a href=3D"http://openvswitch_1.4.3.bb" target=3D"_blank">http:=
-//openvswitch_1.4.3.bb</a>&gt;<div class=3D"im"><br>
-=A0 =A0 @@ -7,7 +7,7 @@ LICENSE =3D &quot;Apache-2&quot;<br>
-=A0 =A0 =A0DEPENDS +=3D &quot;bridge-utils openssl python perl&quot;<br>
-<br>
-=A0 =A0 =A0RDEPENDS_${PN} +=3D &quot;util-linux-uuidgen util-linux-libuuid =
-\<br>
-=A0 =A0 - =A0 =A0 =A0 =A0 =A0 =A0 =A0python perl perl-module-strict&quot;<b=
-r>
-=A0 =A0 + =A0 =A0 =A0 =A0 =A0 =A0 =A0python perl perl-module-strict ${PN}-s=
-witch<br>
-=A0 =A0 ${PN}-controller&quot;<br>
-=A0 =A0 =A0RDEPENDS_${PN}-controller =3D &quot;${PN} lsb ${PN}-pki&quot;<br=
->
-=A0 =A0 =A0RDEPENDS_${PN}-switch =3D &quot;${PN} openssl procps util-linux-=
-uuidgen&quot;<br>
-=A0 =A0 =A0RDEPENDS_${PN}-pki =3D &quot;${PN}&quot;<br>
-=A0 =A0 --<br>
-=A0 =A0 1.7.1<br>
-<br>
-<br>
-<br>
-<br>
--- <br>
-&quot;Thou shalt not follow the NULL pointer, for chaos and madness await t=
-hee at its end&quot;<br>
-</div></blockquote>
-<br>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>&quot;Thou s=
-halt not follow the NULL pointer, for chaos and madness await thee at its e=
-nd&quot;
-</div></div>
-
---e89a8f234d2bfa1f1c04d4aa4d93--
