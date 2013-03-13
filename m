@@ -1,34 +1,45 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-da0-f49.google.com (mail-da0-f49.google.com
-	[209.85.210.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E5925E01460
+Return-Path: <r63875@freescale.com>
+Received: from db8outboundpool.messaging.microsoft.com
+	(mail-db8lp0184.outbound.messaging.microsoft.com [213.199.154.184])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CFCEDE01248
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  5 Apr 2013 08:26:49 -0700 (PDT)
-Received: by mail-da0-f49.google.com with SMTP id t11so1642096daj.36
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 05 Apr 2013 08:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:sender:from:to:subject:date:message-id:x-mailer;
-	bh=WR3CGbwCrD9y1BfJQAuHBFodh+yT2ff4mPScr+TCUVE=;
-	b=V/LH9RrGn1tVTZbWsxLKLD2BY9BL7g3ahMb1lMf8IDQphEJu5F3VijB6loHazndS1W
-	r9alhUYRQ7cAm9fV6+6Z/k3nIoWe/AnXWqvs2Kbt43CzzEfdsWz4WwY+4Zjbso1WuyG7
-	iO1TmQX0YWQG+zjOpOLVDpr6NVsFnW4DIqZtxx9hiPnCrxaLUs6udZ99I3ijmjoZMGIJ
-	OUy/UUmTgNm7bBIWwzSuLBed0bl8D/ObmNNuwc1+oxHR/fwp7Pw4dfWe10q13xlEdXo2
-	F6pj9MYp6i02amsc/Bo0Oab365kfC22JYFI66sztilX6NnM1rYG0InLGEXnwY6qsCX8w
-	AZ4Q==
-X-Received: by 10.66.179.41 with SMTP id dd9mr15677857pac.30.1365175609689;
-	Fri, 05 Apr 2013 08:26:49 -0700 (PDT)
-Received: from yow-bashfiel-d3.wrs.com ([128.224.252.2])
-	by mx.google.com with ESMTPS id of1sm1080673pbb.2.2013.04.05.08.26.46
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Fri, 05 Apr 2013 08:26:48 -0700 (PDT)
-Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-To: meta-virtualization@yoctoproject.org
-Date: Fri,  5 Apr 2013 08:26:20 -0700
-Message-Id: <1365175581-29815-1-git-send-email-bruce.ashfield@windriver.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] libvirt: add dtrace pkgconfig option
+	Tue, 12 Mar 2013 22:48:48 -0700 (PDT)
+Received: from mail218-db8-R.bigfish.com (10.174.8.249) by
+	DB8EHSOBE003.bigfish.com (10.174.4.66) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 13 Mar 2013 05:48:47 +0000
+Received: from mail218-db8 (localhost [127.0.0.1])	by
+	mail218-db8-R.bigfish.com (Postfix) with ESMTP id 8F8004A0097	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 13 Mar 2013 05:48:47 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz177df4h17326ah8275dh8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail218-db8 (localhost.localdomain [127.0.0.1]) by mail218-db8
+	(MessageSwitch) id 1363153724710796_2724;
+	Wed, 13 Mar 2013 05:48:44 +0000 (UTC)
+Received: from DB8EHSMHS030.bigfish.com (unknown [10.174.8.252])	by
+	mail218-db8.bigfish.com (Postfix) with ESMTP id AAE8C1A0266	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 13 Mar 2013 05:48:44 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS030.bigfish.com
+	(10.174.4.40) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 13 Mar 2013 05:48:44 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Wed, 13 Mar 2013 05:48:42 +0000
+Received: from localhost.localdomain (rock.ap.freescale.net [10.193.20.106])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r2D5mepU006103; Tue, 12 Mar 2013 22:48:41 -0700
+From: Olivia Yin <hong-hua.yin@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Message-ID: <1363151711-20456-1-git-send-email-hong-hua.yin@freescale.com>
+X-Mailer: git-send-email 1.6.4
+MIME-Version: 1.0
+X-OriginatorOrg: freescale.com
+X-Mailman-Approved-At: Sat, 06 Apr 2013 13:19:54 -0700
+Cc: Olivia Yin <hong-hua.yin@freescale.com>
+Subject: [PATCH] libvirt: upgrade to 1.0.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,63 +52,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2013 15:26:50 -0000
+Date: Wed, 13 Mar 2013 05:48:49 -0000
+X-Original-Date: Wed, 13 Mar 2013 13:15:11 +0800
+X-List-Received-Date: Wed, 13 Mar 2013 05:48:49 -0000
+Content-Type: text/plain
 
-If the host machine has dtrace, or systemtap development libraries
-installed, libvirt will detect their headers and enable dtrace probe
-support.
-
-But since we don't have a dependency on dtrace, the build will fail
-with:
-
-  | compilation terminated.
-  | In file included from ./internal.h:297:0,
-  | from util/bitmap.h:27,
-  | from util/bitmap.c:33:
-  | ./libvirt_probes.h:9:21: fatal error: sys/sdt.h: No such file or directory
-
-There are three problems:
-
-  - a host contamination issue
-  - dtrace/probes being automatically enabled
-  - a lack of integrated systemtap/dtrace solution
-
-Fixing any of the above will make the problem go away, to fix currently
-broken builds, we can fix the problem by adding dtrace as a PACKAGECONFIG
-option, and leaving it disabled. This change doesn't add a dtrace/systemtap
-dependency to the config entry, since they haven't been confirmed at this
-point.
-
-In the future, we should either fix the host contamination or do a full
-systemtap/dtrae integration, but for now, simply disabling it is the
-best choice.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+Signed-off-by: Olivia Yin <hong-hua.yin@freescale.com>
 ---
+ .../libvirt/{libvirt_1.0.0.bb => libvirt_1.0.3.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-extended/libvirt/{libvirt_1.0.0.bb => libvirt_1.0.3.bb} (97%)
 
-Sending this patch out for comment, it's minor change. If there are no objections,
-I'll push it into the repository tomorrow.
-
-Cheers,
-
-Bruce
-
- recipes-extended/libvirt/libvirt_1.0.3.bb |    1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
-index 372e874..bf8c9ec 100644
---- a/recipes-extended/libvirt/libvirt_1.0.3.bb
+diff --git a/recipes-extended/libvirt/libvirt_1.0.0.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+similarity index 97%
+rename from recipes-extended/libvirt/libvirt_1.0.0.bb
+rename to recipes-extended/libvirt/libvirt_1.0.3.bb
+index 90d7dbb..372e874 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.0.bb
 +++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
-@@ -128,6 +128,7 @@ PACKAGECONFIG[remote] = "--with-remote,--without-remote"
- PACKAGECONFIG[macvtap] = "--with-macvtap=yes,--with-macvtap=no,libnl,libnl"
- PACKAGECONFIG[libvirtd] = "--with-libvirtd,--without-libvirtd"
- PACKAGECONFIG[netcf] = "--with-netcf,--without-netcf,netcf,netcf"
-+PACKAGECONFIG[dtrace] = "--with-dtrace,--without-dtrace,,"
+@@ -22,8 +22,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz \
+ 	file://libvirtd.sh \
+ 	file://libvirtd.conf"
  
- # Enable the Python tool support
- require libvirt-python.inc
+-SRC_URI[md5sum] = "7c8b006de7338e30866bb56738803b21"
+-SRC_URI[sha256sum] = "14c8a30ebfb939c82cab5f759a95d09646b43b4210e45490e92459ae65123076"
++SRC_URI[md5sum] = "3d9f85d586c9aa3d819b626622f3fc97"
++SRC_URI[sha256sum] = "f64f4acd7cdcfc6ab5e803195ed58b949f262b54e3659d8c37b33f0fec112757"
+ 
+ inherit autotools gettext update-rc.d
+ 
 -- 
-1.7.10.4
+1.6.4
+
 
 
