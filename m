@@ -1,38 +1,45 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-bk0-f48.google.com (mail-bk0-f48.google.com
-	[209.85.214.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 51197E006F5
+Return-Path: <r63875@freescale.com>
+Received: from am1outboundpool.messaging.microsoft.com
+	(am1ehsobe001.messaging.microsoft.com [213.199.154.204])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 10C7BE0131E
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  4 Feb 2013 04:33:20 -0800 (PST)
-Received: by mail-bk0-f48.google.com with SMTP id jf20so2755602bkc.35
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 04 Feb 2013 04:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=x-received:from:to:cc:subject:date:message-id:x-mailer:mime-version
-	:content-type:content-transfer-encoding;
-	bh=SkS0j9g44geNZ1Fx4ZpSioLdee3pJnK2B4hCwNJpEvg=;
-	b=fEz7Z8PutfHDn8nqDfL7pc4YKMYsnmLIm0tTKsXLYFQ5aN6j9O+yOcePVOQpKynjdQ
-	LRhHK3PfnDKoFrLHgIz/mP+Md6bSGh5JPKotJbEcTlnWQcn9FmhxE8PDBg+C3ZKQdKKr
-	n/B0hy7mBVxTDay7vfK7WF9kG5egJ6xzL8Hep4qOr3y/+ANP9dzV4MEwZtdxBHfhnmR0
-	jD+jSKqHay0tX9VYkiy0X0yC0gango4KTCs7iNXgfd26HGsbA3fwgyX0mjGcGHUESJaF
-	fikwCUqBAnEQ1Ht5nhuG2aDbTVdHQ29pxD5FOREUk0uaVG2dMdDYb9lNdRDxpaRpteNa
-	r2Cw==
-X-Received: by 10.204.147.139 with SMTP id l11mr5641771bkv.46.1359981199072;
-	Mon, 04 Feb 2013 04:33:19 -0800 (PST)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPS id s10sm5236767bkt.10.2013.02.04.04.33.17
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 04 Feb 2013 04:33:18 -0800 (PST)
-Received: by nysan (Postfix, from userid 1000)
-	id E16E34074D2; Mon,  4 Feb 2013 13:32:58 +0100 (CET)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  4 Feb 2013 13:32:51 +0100
-Message-Id: <1359981171-13511-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.7.9.5
+	Tue, 12 Mar 2013 23:01:50 -0700 (PDT)
+Received: from mail71-am1-R.bigfish.com (10.3.201.254) by
+	AM1EHSOBE026.bigfish.com (10.3.207.148) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 13 Mar 2013 06:01:49 +0000
+Received: from mail71-am1 (localhost [127.0.0.1])	by mail71-am1-R.bigfish.com
+	(Postfix) with ESMTP id EFAC94E0084	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 13 Mar 2013 06:01:48 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1202h1e76h1d1ah1d2ahzz177df4h17326ah8275dh8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail71-am1 (localhost.localdomain [127.0.0.1]) by mail71-am1
+	(MessageSwitch) id 1363154506617372_30374;
+	Wed, 13 Mar 2013 06:01:46 +0000 (UTC)
+Received: from AM1EHSMHS012.bigfish.com (unknown [10.3.201.247])	by
+	mail71-am1.bigfish.com (Postfix) with ESMTP id 94A671203CA	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 13 Mar 2013 06:01:46 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by AM1EHSMHS012.bigfish.com
+	(10.3.207.112) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 13 Mar 2013 06:01:46 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-003.039d.mgd.msft.net (10.84.1.16) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Wed, 13 Mar 2013 06:01:45 +0000
+Received: from localhost.localdomain (rock.ap.freescale.net [10.193.20.106])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r2D61fuY016957; Tue, 12 Mar 2013 23:01:43 -0700
+From: Olivia Yin <hong-hua.yin@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 13 Mar 2013 13:28:13 +0800
+Message-ID: <1363152493-25261-1-git-send-email-hong-hua.yin@freescale.com>
+X-Mailer: git-send-email 1.6.4
 MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org
-Subject: [OE-core][PATCH] Python improvements for create-recipe.
+X-OriginatorOrg: freescale.com
+Cc: Olivia Yin <hong-hua.yin@freescale.com>
+Subject: [PATCH] libvirt: upgrade to 1.0.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,309 +52,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Feb 2013 12:33:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 13 Mar 2013 06:01:50 -0000
+Content-Type: text/plain
 
-1. Added ability to parse .zip files.
-2. Added optional automatic dependency resolving for python
-   recipes(easy_install wrapper).
-3. Fixed a few name/version bugs.
-
-Give it a whirl by:
-create-recipe -r https://launchpad.net/nova/folsom/2012.2.3/+download/nova-2012.2.3.tar.gz
-
-Saves me some time unwinding python dependencies, and creating template recipes.
-
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+Signed-off-by: Olivia Yin <hong-hua.yin@freescale.com>
 ---
- scripts/create-recipe |  156 +++++++++++++++++++++++++++++++++++++++----------
- 1 file changed, 124 insertions(+), 32 deletions(-)
+ .../libvirt/{libvirt_1.0.0.bb => libvirt_1.0.3.bb} |    4 ++--
+ 1 files changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-extended/libvirt/{libvirt_1.0.0.bb => libvirt_1.0.3.bb} (97%)
 
-diff --git a/scripts/create-recipe b/scripts/create-recipe
-index a556e39..1b10e1b 100755
---- a/scripts/create-recipe
-+++ b/scripts/create-recipe
-@@ -37,11 +37,14 @@ use File::Basename qw(basename dirname);
- my $name = "";
- my $predef_version = "TO BE FILLED IN";
- my $version = $predef_version;
-+my $pversion = $predef_version;
- my $description = "";
- my $summary = "";
- my $url = "";
--my $homepage;
-+my $homepage = "";
-+my @depends;
- my @rdepends;
-+my @rawpythondeps;
- my $configure = "";
- my $localename = "";
- my @sources;
-@@ -59,6 +62,7 @@ my $builder = "";
+diff --git a/recipes-extended/libvirt/libvirt_1.0.0.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+similarity index 97%
+rename from recipes-extended/libvirt/libvirt_1.0.0.bb
+rename to recipes-extended/libvirt/libvirt_1.0.3.bb
+index 90d7dbb..372e874 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.0.bb
++++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+@@ -22,8 +22,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz \
+ 	file://libvirtd.sh \
+ 	file://libvirtd.conf"
  
+-SRC_URI[md5sum] = "7c8b006de7338e30866bb56738803b21"
+-SRC_URI[sha256sum] = "14c8a30ebfb939c82cab5f759a95d09646b43b4210e45490e92459ae65123076"
++SRC_URI[md5sum] = "3d9f85d586c9aa3d819b626622f3fc97"
++SRC_URI[sha256sum] = "f64f4acd7cdcfc6ab5e803195ed58b949f262b54e3659d8c37b33f0fec112757"
  
- my $oscmode = 0;
-+my $python = 0;
+ inherit autotools gettext update-rc.d
  
- my @banned_pkgconfig;
- my %failed_commands;
-@@ -74,7 +78,7 @@ my %failed_headers;
- # We store the sha1sum of common COPYING files in an associative array
- # %licenses. 
- #
--# For all matching sha1's in the tarbal, we then push the result
-+# For all matching sha1's in the tarball, we then push the result
- # in the @license array (which we'll dedupe at the time of printing).
- # 
- 
-@@ -135,6 +139,18 @@ sub guess_license_from_file {
- 	}
- 
- 	#
-+	# if file is found, and licence of python
-+	# package is already aquired, add file.
-+        #
-+	if ($python == 1 && @license != 0) {
-+	        my $md5output = `md5sum $copying`;
-+	        $md5output =~ /^([a-zA-Z0-9]*) /;
-+	        my $md5 = $1;
-+	        chomp($md5);
-+	        $lic_files{$copying} = $md5
-+	}
-+
-+	#
- 	# We also must make sure that the COPYING/etc files
- 	# end up in the main package as %doc..
- 	#
-@@ -1539,10 +1555,14 @@ sub guess_name_from_url {
- 	}
- 	my $tarfile = $spliturl[0];
- 	
-+	# Ensure correct name resolution from .zip&tgz archives
-+	$tarfile =~ s/\.zip/\.tar/;
-+	$tarfile =~ s/\.tgz/\.tar/;
-+	$tarfile =~ s/\_/\-/g;
- 	if ($tarfile =~ /(.*?)\-([0-9\.\-\~]+.*?)\.tar/) {
- 		$name = $1;
- 		$version = $2;
--                $version =~ s/\-/\_/g;
-+		$version =~ s/\-/\_/g;
- 	}
- }
- 
-@@ -1678,11 +1698,29 @@ sub write_yaml
- 
- sub write_bbfile
- {
-+	my $curdir = `pwd`;
-+	chomp($curdir);
-+
-+	if ($python == 1) {
-+	    $name =~ s/python-//;
-+    	    $name = lc("python-" . $name);	    
-+	}
-+	
-+	if (-e "$curdir/${name}_$version.bb") {
-+	    print "Wont overwrite file:";
-+	    print "$curdir/${name}_$version.bb, exiting\n";
-+	    return;
-+	}
- 	open(BBFILE, ">${name}_$version.bb");
-+	
- 	print BBFILE "SUMMARY = \"$summary\"\n";
- 	print BBFILE "DESCRIPTION = \"$description\"\n";
- 	print BBFILE "HOMEPAGE = \"$homepage\"\n";
- 
-+	if ($python == 1) {
-+	    print BBFILE "SRCNAME = \"$summary\"\n";
-+	}
-+
- 	print BBFILE "LICENSE = \"@license\"\n";
- 	print BBFILE "LIC_FILES_CHKSUM = \"";
- 	foreach (keys %lic_files) {
-@@ -1702,10 +1740,18 @@ sub write_bbfile
- 	};
- 
- 	if (@rdepends > 0) {
--	    print BBFILE "RDEPENDS_\$\{PN\} += \"@rdepends\"\n";
-+	    print BBFILE "RDEPENDS_\$\{PN\} += \"";
-+	    foreach (@rdepends) {
-+		print BBFILE "$_ \\\n\t";
-+	    }
-+	    print BBFILE "\"\n";
-+	}
-+
-+	print BBFILE 'PR = "r0"' . "\n";
-+	if ($python == 1) {
-+	    print BBFILE "PV = \"$pversion\"\n\n";
- 	}
- 
--	print BBFILE 'PR = "r0"' . "\n\n";
- 	print BBFILE "SRC_URI = \"";
- 	foreach (@sources) {
- 		print BBFILE "$_ \\\n";
-@@ -1713,18 +1759,19 @@ sub write_bbfile
- 	print BBFILE "\"\n\n";
- 	print BBFILE "SRC_URI[md5sum] = \"$md5sum\"\n";
- 	print BBFILE "SRC_URI[sha256sum] = \"$sha256sum\"\n\n";
-+	if ($python == 1) {
-+	    print BBFILE "S = \"\${WORKDIR}/\${SRCNAME}-\${PV}\"\n";
-+	}
- 
- 	if (@inherits) {
- 		print BBFILE "inherit ";
- 		foreach (@inherits) {
- 			print BBFILE "$_ ";
- 		}
-+		print BBFILE "\n";
- 	}
- 
--	close(BBFILE);
--
--	my $curdir = `pwd`;
--	chomp($curdir);
-+	close(BBFILE);	
- 	print "Create bb file: $curdir/${name}_$version.bb\n";
- }
- 
-@@ -1748,10 +1795,18 @@ sub calculate_sums
- #
- 
- if ( @ARGV < 1 ) {
--    print "Usage: $0 <url-of-source-tarballs>\n";
-+    print "Usage: $0 [-r] <url-of-source-tarballs>\n";
-     exit(1);
- }
- 
-+# Recusive parsing of python dependencies using
-+# easy_install
-+my $recurse_python = 0;
-+if ($ARGV[0] eq "-r") {
-+    $recurse_python = 1;
-+    shift @ARGV;
-+}
-+
- if (@ARGV > 1) {
-         my $i = 1;
-         while ($i < @ARGV) {
-@@ -1809,7 +1864,7 @@ foreach (@tgzfiles) {
- # this is a step backwards in time that is just silly.
- #
- 
--my @sourcetars = <$orgdir/$outputdir/*\.tar\.bz2 $orgdir/$outputdir/*\.tar\.gz>;
-+my @sourcetars = <$orgdir/$outputdir/*\.tar\.bz2 $orgdir/$outputdir/*\.tar\.gz $orgdir/$outputdir/*\.zip>;
- if ( length @sourcetars == 0) {
- 	print "Can NOT find source tarball. Exiting...\n";
- 	exit (1);
-@@ -1818,6 +1873,8 @@ if (defined($sourcetars[0]) and $sourcetars[0] =~ ".*\.tar\.bz2") {
- 	system("cd $tmpdir; tar -jxf $sourcetars[0] &>/dev/null");
- } elsif (defined($sourcetars[0]) and $sourcetars[0] =~ ".*\.tar\.gz") {
- 	system("cd $tmpdir; tar -zxf $sourcetars[0] &>/dev/null");
-+} elsif (defined($sourcetars[0]) and $sourcetars[0] =~ ".*\.zip") {
-+        system("cd $tmpdir; unzip $sourcetars[0] &>/dev/null");
- }
- 
- print "Parsing content    ....\n";
-@@ -1830,34 +1887,64 @@ $fulldir = $dir;
- 
- if ( -e "$dir/setup.py" ) {
-        	$python = 1;
--	push(@inherits, "distutils");
--	
--	system("cd $dir ; python setup.py build sdist &> /dev/null");	
-+	$tmp_stools = `grep -r setuptools $dir/setup.py`;
-+	if (length($tmp_stools) > 2) {
-+	    push(@inherits, "setuptools");
-+	} else {
-+	    push(@inherits, "distutils");
-+	}	
- 
--        $templic = `sed '/^License: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
--	chomp($templic);
-+	$templic = `cd $dir; python setup.py --license;`;
-+	$templic =~ s/[\r\n]+//g;
- 	push(@license, $templic);
--	$summary = `sed '/^Name: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
--	chomp($summary);
--	$description = `sed '/^Summary: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
--	chomp($description);
--	$homepage = `sed '/^Home-page: */!d; s///;q' $dir/*.egg-info/PKG-INFO`;
--	chomp($homepage);
-+	$summary = `cd $dir; python setup.py --name`;
-+	$summary =~ s/[\r\n]+//g;
-+	$description = `cd $dir; python setup.py --description`;
-+	$description =~ s/[\r\n]+//g;
-+	$homepage = `cd $dir; python setup.py --url`;
-+	$homepage =~ s/[\r\n]+//g;
-+	$pversion = `cd $dir; python setup.py -V`;
-+	$pversion =~ s/[\r\n]+//g;
-+#	$findoutput = `cd $dir; python setup.py --requires`;
-+#	if (length($findoutput) < 3) {
- 	$findoutput = `find $dir/*.egg-info/ -name "requires.txt" 2>/dev/null`;
-+#	}
- 	@findlist = split(/\n/, $findoutput);
- 	foreach (@findlist) {
--	    # Adding dependency do buildreqs should be removed when
--	    # distutils is unbroken, i.e. blocks setup.py install from 
--	    # downloading and installing dependencies.
--	    push(@buildreqs, `sed 's/[^a-zA-Z]//g' $dir/*.egg-info/requires.txt`);
--	    chomp(@buildreqs);	    
--	    foreach $item (@buildreqs) {
--		$item = "python-" . $item
--	    }
--	    push(@rdepends, `sed 's/[^a-zA-Z]//g' $dir/*.egg-info/requires.txt`);
-+	    push(@rawpythondeps, `sed -e '/^\$/d' "$_" | sed '/^\\[/d'`);
-+	    chomp(@rawpythondeps);
-+	    push(@rdepends, `sed -e 's/python-//g' "$_" | sed '/^\\[/d'`);
- 	    chomp(@rdepends);
-+	    if ($recurse_python == 1) {
-+		foreach (@rawpythondeps) {
-+		    my $ptempdir = tempdir();
-+		    $purl = `easy_install -eb $ptempdir "$_" 2>/dev/null`;
-+		    $purl =~ s/#.*//;
-+		    @purllist = $purl =~ m/Downloading (http:\/\/.*\n)/g;
-+		    chomp(@purllist);
-+		    
-+		    # Remove empty lines
-+		    @purllist = grep(/\S/, @purllist);
-+
-+		    # Recursively create recipes for dependencies
-+		    if (@purllist != 0) {
-+			if (fork) {
-+			    # Parent, do nothing
-+			} else {
-+			    # child, execute 
-+			    print "Recursively creating recipe for: $purllist[0]\n";
-+			    exec("cd .. ; create-recipe -r $purllist[0]");
-+			}
-+		    }
-+		}
-+		wait;
-+	    }
-+
- 	    foreach $item (@rdepends) {
--		$item = "python-" . $item
-+		@pyclean = split(/(\=|\<|\>).*/, $item);
-+		if (defined($pyclean[0])) {
-+		    $item = lc("python-" . $pyclean[0]);
-+		}
- 	    }
- 	}
- }
-@@ -1920,6 +2007,11 @@ if ($uses_configure == 0) {
- 	$configure = "none"; 
- }
- 
-+@files = <$dir/docs/license.txt>;
-+foreach (@files) {
-+	guess_license_from_file("$_");
-+}
-+
- @files = <$dir/COPY*>;
- foreach (@files) {
- 	guess_license_from_file("$_");
 -- 
-1.7.9.5
+1.6.4
+
 
 
