@@ -1,36 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 29719E01248
+Return-Path: <b43198@az84smr01.freescale.net>
+Received: from db3outboundpool.messaging.microsoft.com
+	(db3ehsobe003.messaging.microsoft.com [213.199.154.141])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B7475E01474
 	for <meta-virtualization@yoctoproject.org>;
-	Sat,  6 Apr 2013 20:53:56 -0700 (PDT)
-Received: by mail-la0-f54.google.com with SMTP id gw10so4494269lab.13
-	for <meta-virtualization@yoctoproject.org>;
-	Sat, 06 Apr 2013 20:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=suzkaLk5btVgX0eneTYzCNcN6X5ODP7TLt7fCg2JLUU=;
-	b=ULP/7MIrnS64QAdZ6/bxWUEf+mjBicffCE73kd8LNAov52/wwLETaBCuqO4EjTVRaC
-	qwtwM3zaf8/6RQTyfz6MPdevnoKh2N+QMVe1XEvwbfj2EQ0GGj1GLGACD6hepjFmcB+A
-	eYF/S2bDy/KhPWzQQAFkpdK1KOc9MNV1JOTfmolROCY7KOo5cl2z8YBQp7lPBdZZr0U5
-	tcI8C8/uEH5oo9PTATS09/pLU4lXNGBqm07234ywtEUwLleRVB5wSoNGXbnfnFL9fEqd
-	SvkLO8U1IZ90ZILGWgwTjlQdGVRiMfJh6eIK6l3EnVla4+NVaNer46I9JrykFQ1tH+hJ
-	g5Iw==
+	Wed, 10 Apr 2013 02:50:25 -0700 (PDT)
+Received: from mail56-db3-R.bigfish.com (10.3.81.248) by
+	DB3EHSOBE003.bigfish.com (10.3.84.23) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 10 Apr 2013 09:50:24 +0000
+Received: from mail56-db3 (localhost [127.0.0.1])	by mail56-db3-R.bigfish.com
+	(Postfix) with ESMTP id A1212180197	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 10 Apr 2013 09:50:24 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzz17326ah8275chz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail56-db3 (localhost.localdomain [127.0.0.1]) by mail56-db3
+	(MessageSwitch) id 13655874224199_31302; Wed, 10 Apr 2013 09:50:22 +0000
+	(UTC)
+Received: from DB3EHSMHS006.bigfish.com (unknown [10.3.81.225])	by
+	mail56-db3.bigfish.com (Postfix) with ESMTP id F1D3AA0080	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 10 Apr 2013 09:50:21 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB3EHSMHS006.bigfish.com
+	(10.3.87.106) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 10 Apr 2013 09:50:13 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Wed, 10 Apr 2013 09:50:11 +0000
+Received: from localhost.localdomain (fsr-fed1764-008.ea.freescale.net
+	[10.171.73.92])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
+	id r3A9o5cN005968;	Wed, 10 Apr 2013 02:50:05 -0700
+Received: (from b43198@localhost)	by localhost.localdomain
+	(8.14.5/8.14.5/Submit) id r3A9o468008319;
+	Wed, 10 Apr 2013 12:50:04 +0300
+From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 10 Apr 2013 12:50:00 +0300
+Message-ID: <1365587401-8284-1-git-send-email-bogdan.purcareata@freescale.com>
+X-Mailer: git-send-email 1.7.11.7
 MIME-Version: 1.0
-X-Received: by 10.152.134.164 with SMTP id pl4mr9325553lab.54.1365306835817;
-	Sat, 06 Apr 2013 20:53:55 -0700 (PDT)
-Received: by 10.112.61.3 with HTTP; Sat, 6 Apr 2013 20:53:55 -0700 (PDT)
-In-Reply-To: <1364397914-17992-3-git-send-email-b28495@freescale.com>
-References: <1364397914-17992-1-git-send-email-b28495@freescale.com>
-	<1364397914-17992-3-git-send-email-b28495@freescale.com>
-Date: Sat, 6 Apr 2013 23:53:55 -0400
-Message-ID: <CADkTA4Phs7GRJpfrQHP6pu1nR4NQiW==d36WkxVXLfYAyvTtdg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: b28495@freescale.com
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, b19537@freescale.com
-Subject: Re: [PATCH 2/2] libvirt: package .debug and .a files in lock-driver
+X-OriginatorOrg: freescale.net
+Subject: [PATCH] Add LXC 0.9.0 recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,71 +54,60 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Apr 2013 03:53:57 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 10 Apr 2013 09:50:26 -0000
+Content-Type: text/plain
 
-On Wed, Mar 27, 2013 at 11:25 AM,  <b28495@freescale.com> wrote:
-> From: Ting Liu <b28495@freescale.com>
->
-> Fix ERROR: QA Issue: non -staticdev package contains static .a
-> library: libvirt path '.../packages-split/libvirt/usr/lib/libvirt/lock-driver/lockd.a'
-> ERROR: QA Issue: non debug package contains .debug directory:
-> libvirt path .../packages-split/libvirt/usr/lib/libvirt/lock-driver/.debug/lockd.so
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
+---
+ recipes-containers/lxc/lxc_0.9.0.bb | 38 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+ create mode 100644 recipes-containers/lxc/lxc_0.9.0.bb
 
-This looks fine to me.
-
-I've grabbed it and queued it here, if no one else has issues with it,
-I'll push it early
-next week.
-
-Cheers,
-
-Bruce
-
->
-> Signed-off-by: Ting Liu <b28495@freescale.com>
-> ---
->  recipes-extended/libvirt/libvirt_1.0.3.bb |    6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
-> index ae2a9df..e3cc22f 100644
-> --- a/recipes-extended/libvirt/libvirt_1.0.3.bb
-> +++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
-> @@ -3,7 +3,7 @@ HOMEPAGE = "http://libvirt.org"
->  LICENSE = "GPLv2+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
->  SECTION = "console/tools"
-> -PR = "r1"
-> +PR = "r2"
->
->  DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
->            iptables ebtables dnsmasq readline libpciaccess"
-> @@ -94,8 +94,8 @@ FILES_${PN} += "${libdir}/libvirt/connection-driver \
->             ${datadir}/augeas \
->             ${datadir}/polkit-1"
->
-> -FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug"
-> -FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a"
-> +FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
-> +FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a ${libdir}/libvirt/lock-driver/*.a"
->
->  INITSCRIPT_PACKAGES = "${PN}-libvirtd"
->  INITSCRIPT_NAME_${PN}-libvirtd = "libvirtd"
-> --
-> 1.7.9.7
->
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
+new file mode 100644
+index 0000000..292285d
+--- /dev/null
++++ b/recipes-containers/lxc/lxc_0.9.0.bb
+@@ -0,0 +1,38 @@
++DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
++SECTION = "console/utils"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++PRIORITY = "optional"
++PR = "r1"
++DEPENDS = "libxml2 libcap"
++RDEPENDS_${PN} = " \
++		rsync \
++		gzip \
++		libcap-bin \
++		bridge-utils \
++		dnsmasq \
++		perl-module-strict \
++		perl-module-getopt-long \
++		perl-module-vars \
++		perl-module-warnings-register \
++		perl-module-exporter \
++		perl-module-constant \
++		perl-module-overload \
++		perl-module-exporter-heavy \
++"
++
++SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
++	"
++SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
++SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
++
++S = "${WORKDIR}/${PN}-${PV}"
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[doc] = "--enable-doc,--disable-doc"
++PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath"
++PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
++
++inherit autotools
++
++FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
+-- 
+1.7.11.7
 
 
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
