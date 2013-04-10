@@ -1,49 +1,35 @@
-Return-Path: <b43198@az84smr01.freescale.net>
-Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0186.outbound.messaging.microsoft.com [213.199.154.186])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 37524E014B5
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8FDE1E014D0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 10 Apr 2013 04:21:49 -0700 (PDT)
-Received: from mail56-db8-R.bigfish.com (10.174.8.232) by
-	DB8EHSOBE023.bigfish.com (10.174.4.86) with Microsoft SMTP Server id
-	14.1.225.23; Wed, 10 Apr 2013 11:21:48 +0000
-Received: from mail56-db8 (localhost [127.0.0.1])	by mail56-db8-R.bigfish.com
-	(Postfix) with ESMTP id 29B2264013B	for
-	<meta-virtualization@yoctoproject.org>;
-	Wed, 10 Apr 2013 11:21:48 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
-Received: from mail56-db8 (localhost.localdomain [127.0.0.1]) by mail56-db8
-	(MessageSwitch) id 1365592905796565_893; Wed, 10 Apr 2013 11:21:45 +0000
-	(UTC)
-Received: from DB8EHSMHS029.bigfish.com (unknown [10.174.8.228])	by
-	mail56-db8.bigfish.com (Postfix) with ESMTP id BF68680045	for
-	<meta-virtualization@yoctoproject.org>;
-	Wed, 10 Apr 2013 11:21:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS029.bigfish.com
-	(10.174.4.39) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Wed, 10 Apr 2013 11:21:45 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Wed, 10 Apr 2013 11:21:44 +0000
-Received: from localhost.localdomain (fsr-fed1764-008.ea.freescale.net
-	[10.171.73.92])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
-	id r3ABLgoe002911;	Wed, 10 Apr 2013 04:21:43 -0700
-Received: (from b43198@localhost)	by localhost.localdomain
-	(8.14.5/8.14.5/Submit) id r3ABLfPO024595;
-	Wed, 10 Apr 2013 14:21:41 +0300
-From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 10 Apr 2013 14:21:36 +0300
-Message-ID: <1365592897-24559-1-git-send-email-bogdan.purcareata@freescale.com>
-X-Mailer: git-send-email 1.7.11.7
-In-Reply-To: <1365586806-8155-1-git-send-email-bogdan.purcareata@freescale.com>
-References: <1365586806-8155-1-git-send-email-bogdan.purcareata@freescale.com>
+	Wed, 10 Apr 2013 05:53:21 -0700 (PDT)
+Received: by mail-lb0-f178.google.com with SMTP id q13so485328lbi.9
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 10 Apr 2013 05:53:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=Nfh9IDPKW3tn+AsxCEbJjWwtwPQuYmaNF+fidNrRIbw=;
+	b=AJICzwC40oS96kLSDHgnfZso4nSdnlunAwoCOK7j40esR48uKz48CIjFa9ANJYsPBo
+	JcLMffmXMRVmDPkBP+PwF4Hnth1kVElrKBIf4HugIG75tDPbz9de00kRuce0PzjPAhgW
+	wgAhJF+gyBHoFlfqVlPxHduMUTgSA9Q1SebQpNjFOe0t9YQZ/0Lkn0WB4qFIlUdZ5YLL
+	zmqxmty7GoMzJWoBsqP5C3yDFK7NtHtBNFvA1pE7yYpdrE/5sMRgBeg4Qlvzw1gG79u2
+	9f+MzR/7PIhy++ILC/ebD1gBaBHmCQOSuIzuIgSewolT2/KAH5q5+XD+FmyVYcByYUOj
+	wmpw==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.net
-Subject: [PATCH] Update LXC recipe to include config examples in main package
+X-Received: by 10.112.132.166 with SMTP id ov6mr1146079lbb.71.1365598400178;
+	Wed, 10 Apr 2013 05:53:20 -0700 (PDT)
+Received: by 10.112.75.161 with HTTP; Wed, 10 Apr 2013 05:53:20 -0700 (PDT)
+In-Reply-To: <1365587401-8284-1-git-send-email-bogdan.purcareata@freescale.com>
+References: <1365587401-8284-1-git-send-email-bogdan.purcareata@freescale.com>
+Date: Wed, 10 Apr 2013 08:53:20 -0400
+Message-ID: <CADkTA4NmLke-mcwgVUXgcYacH0Bfy5Nn_ndLCqw7Ub-bGvdNbA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] Add LXC 0.9.0 recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -56,28 +42,83 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2013 11:21:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Apr 2013 12:53:22 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
----
- recipes-containers/lxc/lxc_0.9.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Can we get a bit of a long log that describes how this was testing ? Or
+an entry in the meta-virtualization/docs directory ?
 
-diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-index a5bfa3e..14f8a07 100644
---- a/recipes-containers/lxc/lxc_0.9.0.bb
-+++ b/recipes-containers/lxc/lxc_0.9.0.bb
-@@ -37,4 +37,7 @@ PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparm
- 
- inherit autotools
- 
-+FILES_${PN}-doc = "${mandir} ${infodir}"
-+# For LXC the docdir only contains example configuration files and should be included in the lxc package
-+FILES_${PN} += "${docdir}"
- FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
--- 
-1.7.11.7
+There's no reason to keep this the existing recipe around, so the 0.8.0
+recipe should be removed, and we can see the differences between the
+two and ensure that functionality drops and adds are understood.
+
+Cheers,
+
+Bruce
+
+On Wed, Apr 10, 2013 at 5:50 AM, Bogdan Purcareata
+<bogdan.purcareata@freescale.com> wrote:
+> ---
+>  recipes-containers/lxc/lxc_0.9.0.bb | 38 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 recipes-containers/lxc/lxc_0.9.0.bb
+>
+> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
+> new file mode 100644
+> index 0000000..292285d
+> --- /dev/null
+> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
+> @@ -0,0 +1,38 @@
+> +DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
+> +SECTION = "console/utils"
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> +PRIORITY = "optional"
+> +PR = "r1"
+> +DEPENDS = "libxml2 libcap"
+> +RDEPENDS_${PN} = " \
+> +               rsync \
+> +               gzip \
+> +               libcap-bin \
+> +               bridge-utils \
+> +               dnsmasq \
+> +               perl-module-strict \
+> +               perl-module-getopt-long \
+> +               perl-module-vars \
+> +               perl-module-warnings-register \
+> +               perl-module-exporter \
+> +               perl-module-constant \
+> +               perl-module-overload \
+> +               perl-module-exporter-heavy \
+> +"
+> +
+> +SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
+> +       "
+> +SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
+> +SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
+> +
+> +S = "${WORKDIR}/${PN}-${PV}"
+> +
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[doc] = "--enable-doc,--disable-doc"
+> +PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath"
+> +PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+> +
+> +inherit autotools
+> +
+> +FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
+> --
+> 1.7.11.7
+>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
