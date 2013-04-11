@@ -1,47 +1,35 @@
-Return-Path: <b43198@az84smr01.freescale.net>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe001.messaging.microsoft.com [216.32.180.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1D978E014CB
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 209FCE014DA
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Apr 2013 02:20:15 -0700 (PDT)
-Received: from mail168-va3-R.bigfish.com (10.7.14.243) by
-	VA3EHSOBE002.bigfish.com (10.7.40.22) with Microsoft SMTP Server id
-	14.1.225.23; Thu, 11 Apr 2013 09:20:14 +0000
-Received: from mail168-va3 (localhost [127.0.0.1])	by
-	mail168-va3-R.bigfish.com (Postfix) with ESMTP id 661292A0063	for
-	<meta-virtualization@yoctoproject.org>;
-	Thu, 11 Apr 2013 09:20:14 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzz8275bhz2dh2a8h668h839hd24he5bhf0ah107ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
-Received: from mail168-va3 (localhost.localdomain [127.0.0.1]) by mail168-va3
-	(MessageSwitch) id 1365672011587049_8690;
-	Thu, 11 Apr 2013 09:20:11 +0000 (UTC)
-Received: from VA3EHSMHS025.bigfish.com (unknown [10.7.14.237])	by
-	mail168-va3.bigfish.com (Postfix) with ESMTP id 8A8B6100061	for
-	<meta-virtualization@yoctoproject.org>;
-	Thu, 11 Apr 2013 09:20:11 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS025.bigfish.com
-	(10.7.99.35) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Thu, 11 Apr 2013 09:20:11 +0000
-Received: from az84smr01.freescale.net (10.64.34.197) by
-	039-SN1MMR1-002.039d.mgd.msft.net (10.84.1.15) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Thu, 11 Apr 2013 09:20:10 +0000
-Received: from localhost.localdomain (fsr-fed1764-008.ea.freescale.net
-	[10.171.73.92])	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP
-	id r3B9K9gg030064;	Thu, 11 Apr 2013 02:20:09 -0700
-Received: (from b43198@localhost)	by localhost.localdomain
-	(8.14.5/8.14.5/Submit) id r3B9K8B2011009;
-	Thu, 11 Apr 2013 12:20:08 +0300
-From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 11 Apr 2013 12:20:06 +0300
-Message-ID: <1365672007-10960-1-git-send-email-bogdan.purcareata@freescale.com>
-X-Mailer: git-send-email 1.7.11.7
+	Thu, 11 Apr 2013 06:32:07 -0700 (PDT)
+Received: by mail-la0-f42.google.com with SMTP id fn20so1192890lab.1
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 11 Apr 2013 06:32:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:x-received:in-reply-to:references:date:message-id
+	:subject:from:to:cc:content-type;
+	bh=VK6KX8BVjQt+4fY45qg6doYdFApNqZRRihYHzVIKN1w=;
+	b=G+Ulsye/LOp+GNpiifFazex5PdPhvalyVN1SG/WV+j5AmTganupdwtYL72TvCkzlgq
+	nbh2yQrrdSxM3CnVrux9rfE8pd+t29dvAx0jgB+lh4/5Q0cEnYcCuE7qRblm/Nx0wRK1
+	ibx4QI7mAiydZCS0HoPu5UagwFU/lwaB2fiUMCGaqFZtoj9Vb+jGG18mLIHQD3hop3qh
+	h1eQfrYLXdtHY9W7VKA4Zr9LjmuzjUnS8pELNhDkQZfI52ir7oEGcFlsj3dpn+EG5inu
+	BMpumz+gWJ1be8uN7dPyqn00ccDjriqI8BAbMyK4YqUjKoq8KtxQ9y9p6ph10oE4IMbA
+	D/DQ==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.net
-Subject: [PATCH v2] Update LXC recipe to include config examples in main package
+X-Received: by 10.152.6.229 with SMTP id e5mr3257616laa.6.1365687126436; Thu,
+	11 Apr 2013 06:32:06 -0700 (PDT)
+Received: by 10.112.75.161 with HTTP; Thu, 11 Apr 2013 06:32:06 -0700 (PDT)
+In-Reply-To: <1365671972-8194-1-git-send-email-bogdan.purcareata@freescale.com>
+References: <1365671972-8194-1-git-send-email-bogdan.purcareata@freescale.com>
+Date: Thu, 11 Apr 2013 09:32:06 -0400
+Message-ID: <CADkTA4P=4JfzktEYZcxeRr=phYa4FecWhTBFapDtTQLhfCWmXg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH v2] Add LXC 0.9.0 recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -54,44 +42,148 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2013 09:20:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Apr 2013 13:32:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-The patch configures the LXC recipe to include configuration examples
-or containers in the default package - lxc, not in the documentation
-one - lxc-doc.
+On Thu, Apr 11, 2013 at 5:19 AM, Bogdan Purcareata
+<bogdan.purcareata@freescale.com> wrote:
+> Introducing the LXC 0.9.0 recipe.
+>
+> Maintainer log for intermediate versions since LXC 0.8.0. This only contains
+> the major differences between versions. You may find the complete log on the
+> SourceForge LXC devel mailing list [1].
+>
 
-By default, bitbake will split a specific package into multiple sections,
-based on meaning - binaries, libraries, documentation, configs, etc. The 
-sections will then be assembled into individual packages, such as e.g lxc,
-lxc-doc, lxc-dbg and so on. The packages are mutually exclusive with
-respect to the sections they contain.
+Thanks for the resend, these look good. I've staged them here and will do a
+quick build test, and push them once it passes.
 
-LXC installation provides several example configuration files for various
-usage scenarios. The twist is that LXC build scripts place these config
-examples in a relative path that is identified by bitbake as belonging to
-documentation. This patch places these configuration files in the main
-package, where they normally belong.
+Cheers,
 
-Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
----
- recipes-containers/lxc/lxc_0.9.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Bruce
 
-diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-index a5bfa3e..14f8a07 100644
---- a/recipes-containers/lxc/lxc_0.9.0.bb
-+++ b/recipes-containers/lxc/lxc_0.9.0.bb
-@@ -37,4 +37,7 @@ PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparm
- 
- inherit autotools
- 
-+FILES_${PN}-doc = "${mandir} ${infodir}"
-+# For LXC the docdir only contains example configuration files and should be included in the lxc package
-+FILES_${PN} += "${docdir}"
- FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
--- 
-1.7.11.7
+> 0.9.0.alpha1:
+> - Introduction of the new liblxc API
+> - Python bindings
+> - New tools:
+>    - lxc-device
+>    - lxc-start-ephemeral
+>    - python version of lxc-ls
+> - lxc.autodev support
+> - oracle template
+> - reworked lxc-attach
+> - /etc/lxc/lxc.conf configuration
+> - Switch to new docbook
+> - A lot of other improvements, new features and bugfixes
+>
+> 0.9.0.alpha2: bug fix for issue with 0.9.0.alpha1 - no significant changes
+>
+> 0.9.0.alpha3:
+> - Android support
+> - New lua binding
+> - User namespace support
+> - Oracle template
+> - Manpage updates
+> - POSIX shell support for most scripts
+> - Improved systemd support
+> - Various API improvements
+> - Logging improvements
+>
+> 0.9.0.rc1:
+> - Addition of -P option to all executables (to specify lxcpath)
+> - Rework of the cgroup handling code
+> - Rework of lxc-attach for userns
+> - Updates to the alpine, archlinux, opensuse, oracle and ubuntu
+> templates. Removal of the lenny template.
+> - Introduction of a new lxc.stopsignal option
+> - Introduction of a new lxc.kmsg option
+> - Various userns improvements
+> - New --host option in lxc-ps
+> - Introduction of a few examples lxc hooks
+> - Support for nested containers in lxc-ls
+> - Introduction of get_version in the C API.
+> - And a variety of bugfixes
+>
+> 0.9.0:
+> Feature changes include:
+>  - Support for ephemeral containers in lxc-clone
+>  - --clear-env/--keep-env support in lxc-attach
+>  - -n option to lxc-start-ephemeral
+> Everything else is bugfixes on top of rc1.
+> Tests done by maintainers:
+>  - Test build on my machine (up to date Ubuntu 13.04)
+>  - Test build on Launchpad (Ubuntu 12.04, 12.10 and 13.04)
+>  - Test build on an armhf board running Ubuntu 13.04
+>  - Test build for Android cross-compiling on my laptop
+>  - Ran our test suite on the x86 binaries
+>  - Ran a quick test (start/stop/info/wait) on Android
+>  - Tested the API and tools on ARM
+>  - Rebuilt all my local templates (~20 containers) on a variety of
+>    architectures (i386, amd64, armel and armhf)
+>
+> [1] https://lists.sourceforge.net/lists/listinfo/lxc-develIntroducing the LXC 0.9.0 recipe.
+>
+> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> ---
+>  recipes-containers/lxc/lxc_0.9.0.bb | 38 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 38 insertions(+)
+>  create mode 100644 recipes-containers/lxc/lxc_0.9.0.bb
+>
+> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
+> new file mode 100644
+> index 0000000..292285d
+> --- /dev/null
+> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
+> @@ -0,0 +1,38 @@
+> +DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
+> +SECTION = "console/utils"
+> +LICENSE = "GPLv2"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+> +PRIORITY = "optional"
+> +PR = "r1"
+> +DEPENDS = "libxml2 libcap"
+> +RDEPENDS_${PN} = " \
+> +               rsync \
+> +               gzip \
+> +               libcap-bin \
+> +               bridge-utils \
+> +               dnsmasq \
+> +               perl-module-strict \
+> +               perl-module-getopt-long \
+> +               perl-module-vars \
+> +               perl-module-warnings-register \
+> +               perl-module-exporter \
+> +               perl-module-constant \
+> +               perl-module-overload \
+> +               perl-module-exporter-heavy \
+> +"
+> +
+> +SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
+> +       "
+> +SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
+> +SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
+> +
+> +S = "${WORKDIR}/${PN}-${PV}"
+> +
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[doc] = "--enable-doc,--disable-doc"
+> +PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath"
+> +PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+> +
+> +inherit autotools
+> +
+> +FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
+> --
+> 1.7.11.7
+>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
