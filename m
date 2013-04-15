@@ -1,35 +1,45 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B1D1BE014DB
+Return-Path: <r63875@freescale.com>
+Received: from co9outboundpool.messaging.microsoft.com
+	(co9ehsobe002.messaging.microsoft.com [207.46.163.25])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 584CDE0140A
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 12 Apr 2013 10:08:32 -0700 (PDT)
-Received: by mail-lb0-f172.google.com with SMTP id u10so2852690lbi.3
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 12 Apr 2013 10:08:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=lgpRjuRAOaplpGrU5pz99Ymx1KnLmsqRUi1hnqCjQFA=;
-	b=sBocTseE9UvO3BYNcyynBQMYbQcc5Ux9jbbdejMePosaza1lZPOxoMNqNyxT2yd7TE
-	caPFPmW9QC7uZGLZiZu3ka7KD1LLdg0GU4PpnX7VrOQOdFKvi2B8oAlYNTi2S599CRvp
-	rCLDgNIvA3oORqeDP2ptLRQLpAlkMPp8Z5iQ2UAOaoycAyiWH4vmFixV5k8TFDW9Fz+/
-	dawf5S77q6YUdTjIzOtZtZNDHUpzWvHwlNU4orMnUSQXeC+FWEEAiSFkXWIbkaGJz2GX
-	eyPIR1OhPyLp4T5/VEBlTE+I8O6scW9MTyNg+0cTmHvTLAMILbYPycIZCb3/QoHDjT2D
-	k7oA==
+	Sun, 14 Apr 2013 20:55:01 -0700 (PDT)
+Received: from mail196-co9-R.bigfish.com (10.236.132.247) by
+	CO9EHSOBE035.bigfish.com (10.236.130.98) with Microsoft SMTP Server id
+	14.1.225.23; Mon, 15 Apr 2013 03:55:00 +0000
+Received: from mail196-co9 (localhost [127.0.0.1])	by
+	mail196-co9-R.bigfish.com (Postfix) with ESMTP id 1A4527C051B	for
+	<meta-virtualization@yoctoproject.org>;
+	Mon, 15 Apr 2013 03:55:00 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1fc6h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ahzzz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1155h)
+Received: from mail196-co9 (localhost.localdomain [127.0.0.1]) by mail196-co9
+	(MessageSwitch) id 1365998097275157_4316;
+	Mon, 15 Apr 2013 03:54:57 +0000 (UTC)
+Received: from CO9EHSMHS010.bigfish.com (unknown [10.236.132.239])	by
+	mail196-co9.bigfish.com (Postfix) with ESMTP id 4100D90004A	for
+	<meta-virtualization@yoctoproject.org>;
+	Mon, 15 Apr 2013 03:54:57 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by CO9EHSMHS010.bigfish.com
+	(10.236.130.20) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Mon, 15 Apr 2013 03:54:57 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Mon, 15 Apr 2013 03:54:56 +0000
+Received: from localhost.localdomain (tank.ap.freescale.net [10.193.20.104])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r3F3srCq016457; Sun, 14 Apr 2013 20:54:54 -0700
+From: Olivia Yin <hong-hua.yin@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 15 Apr 2013 11:18:44 +0800
+Message-ID: <1365995924-17342-1-git-send-email-hong-hua.yin@freescale.com>
+X-Mailer: git-send-email 1.7.0.4
 MIME-Version: 1.0
-X-Received: by 10.112.136.33 with SMTP id px1mr5772542lbb.95.1365786511513;
-	Fri, 12 Apr 2013 10:08:31 -0700 (PDT)
-Received: by 10.112.75.161 with HTTP; Fri, 12 Apr 2013 10:08:31 -0700 (PDT)
-In-Reply-To: <1365776519-8929-1-git-send-email-bogdan.purcareata@freescale.com>
-References: <1365776519-8929-1-git-send-email-bogdan.purcareata@freescale.com>
-Date: Fri, 12 Apr 2013 13:08:31 -0400
-Message-ID: <CADkTA4NNG0C4mJa7Nt-Xz4QzL2JQDWEci14BjmgDo13oqJ8Enw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] containers - lxc-template: enable chroot + chpasswd functionality for Busybox hosts
+X-OriginatorOrg: freescale.com
+Cc: Olivia Yin <hong-hua.yin@freescale.com>
+Subject: [PATCH] update libvirt DEPENDS and FILES
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,139 +52,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2013 17:08:33 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 15 Apr 2013 03:55:01 -0000
+Content-Type: text/plain
 
-On Fri, Apr 12, 2013 at 10:21 AM, Bogdan Purcareata
-<bogdan.purcareata@freescale.com> wrote:
-> This patch enables installation of Buysbox containers on Busybox hosts.
-> Please see patch message for detailed information.
->
-> The patch has been submitted and accepted upstream by LXC maintainers.
-> The functionality hasn't made it to LXC 0.9.0, but will (most probably)
-> be included upstream in future releases of LXC.
+---
+ recipes-extended/libvirt/libvirt_1.0.3.bb |    8 +++++---
+ 1 files changed, 5 insertions(+), 3 deletions(-)
 
-Since you've already sent this upstream, I have no issues with merging the patch
-here as well.
-
-The only addition that I'd suggest is adding the yocto upstream-status
-field to the
-patch itself, so the state is clear. I can do that during merge,
-rather than forcing
-you to resend the series.
-
-Cheers,
-
-Bruce
-
->
-> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> ---
->  ...-chpasswd-functionality-for-busybox-hosts.patch | 70 ++++++++++++++++++++++
->  recipes-containers/lxc/lxc_0.9.0.bb                |  1 +
->  2 files changed, 71 insertions(+)
->  create mode 100644 recipes-containers/lxc/files/lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch
->
-> diff --git a/recipes-containers/lxc/files/lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch b/recipes-containers/lxc/files/lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch
-> new file mode 100644
-> index 0000000..d07c658
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch
-> @@ -0,0 +1,70 @@
-> +From 4ddc14bd0866ff769421857044dd14867f1944d5 Mon Sep 17 00:00:00 2001
-> +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Date: Thu, 11 Apr 2013 16:15:43 +0300
-> +Subject: [PATCH v2] lxc-template: enable chroot + chpasswd functionality for
-> + Busybox hosts
-> +
-> +This patch supports the scenario where a user wants to install a
-> +busybox container on a busybox host.
-> +
-> +When running the template, in order to change the root password,
-> +the template needs to do the chroot. On busybox-powered hosts, chroot
-> +is not part of the coreutils package - it's part of busybox. And the
-> +busybox implementation or chroot only works if it has /lib in the new
-> +root populated with the right binaries (or at least that's the
-> +solution I found to make it work).
-> +
-> +The temporarily bind-mounts /lib in the NEWROOT, chroots there,
-> +changes the password, goes back and unmounts. This set of operations
-> +is contained in a new MOUNT namespace, using the lxc-unshare call.
-> +
-> +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +---
-> + templates/lxc-busybox.in | 30 ++++++++++++++++++++++++++++--
-> + 1 file changed, 28 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
-> +index cb425ec..2ca2bfd 100644
-> +--- a/templates/lxc-busybox.in
-> ++++ b/templates/lxc-busybox.in
-> +@@ -189,9 +189,35 @@ configure_busybox()
-> +     # passwd exec must be setuid
-> +     chmod +s $rootfs/bin/passwd
-> +     touch $rootfs/etc/shadow
-> +-    echo "setting root passwd to root"
-> +-    echo "root:root" | chroot $rootfs chpasswd
-> +
-> ++    # setting passwd for root
-> ++    CHPASSWD_FILE=$rootfs/root/chpasswd.sh
-> ++
-> ++    cat <<EOF >$CHPASSWD_FILE
-> ++echo "setting root password to \"root\""
-> ++
-> ++mount --bind /lib $rootfs/lib
-> ++if [ \$? -ne 0 ]; then
-> ++    echo "Failed bind-mounting /lib at $rootfs/lib"
-> ++    exit 1
-> ++fi
-> ++
-> ++chroot $rootfs chpasswd <<EOFF 2>/dev/null
-> ++root:root
-> ++EOFF
-> ++
-> ++
-> ++if [ \$? -ne 0 ]; then
-> ++    echo "Failed to change root password"
-> ++    exit 1
-> ++fi
-> ++
-> ++umount $rootfs/lib
-> ++
-> ++EOF
-> ++
-> ++    lxc-unshare -s MOUNT -- /bin/sh < $CHPASSWD_FILE
-> ++    rm $CHPASSWD_FILE
-> +
-> +     # add ssh functionality if dropbear package available on host
-> +     which dropbear >/dev/null 2>&1
-> +--
-> +1.7.11.7
-> +
-> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-> index fcda0ba..63ce2d6 100644
-> --- a/recipes-containers/lxc/lxc_0.9.0.bb
-> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
-> @@ -23,6 +23,7 @@ RDEPENDS_${PN} = " \
->
->  SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
->         file://lxc-0.9.0-disable-udhcp-from-busybox-template.patch \
-> +       file://lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch \
->         "
->  SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
->  SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
-> --
-> 1.7.11.7
->
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+index c1c000e..3ce9743 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.3.bb
++++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+@@ -6,7 +6,7 @@ SECTION = "console/tools"
+ PR = "r1"
+ 
+ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
+-	   iptables ebtables dnsmasq readline"
++	   iptables ebtables dnsmasq readline libpciaccess augeas"
+ 
+ # These might be included by PACKAGECONFIG
+ #RRECOMMENDS+= "polkit qemu yajl libnl lxc netcf"
+@@ -94,8 +94,10 @@ FILES_${PN} += "${libdir}/libvirt/connection-driver \
+ 	    ${datadir}/augeas \
+ 	    ${datadir}/polkit-1"
+ 
+-FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
+-FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a ${libdir}/libvirt/lock-driver/*.a"
++FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug \
++                    ${libdir}/libvirt/lock-driver/.debug"
++FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a \
++                           ${libdir}/libvirt/lock-driver/*.a"
+ 
+ INITSCRIPT_PACKAGES = "${PN}-libvirtd"
+ INITSCRIPT_NAME_${PN}-libvirtd = "libvirtd"
+-- 
+1.5.6.5
 
 
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
