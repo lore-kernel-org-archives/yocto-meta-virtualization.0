@@ -1,33 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
-	[209.85.215.43])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 79771E01473
+Return-Path: <mihai.prica@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C6476E014AD
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Apr 2013 08:47:11 -0700 (PDT)
-Received: by mail-la0-f43.google.com with SMTP id eg20so2674589lab.2
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Apr 2013 08:47:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=E3hdZGHAPXr7XNotbtzU0TCYxJwFhogPw2cHVjEorfU=;
-	b=E9LGBN+yr0LCrGa7Uqy0rYQymkmf784oqoUyWGSCof9jwqex+hf/9mSDQGDTooP+KM
-	DPuPU/b3VzuqQoKe4hAZ2o/17kDFwQXDAXVNnKmVSVEX8dV8Y37e+WCLysA09dkoLavK
-	1JwcWTLaMaNeYtjdaYDhxcOuaI3br+Xx5CesIql9TRiiQ6vDcPDxfPjpoxoav3DA/qb3
-	UIAwsqtxqT15Uz94CVCg4ghslOzbEDYP2kh63cHlEWNs4ri3S7O4qkr+iEuR6DV20xt+
-	65rvqDTgfQ3KaFbIdYrN2DTeuboJ29ivdS3biBUSOBfsDR94SlVCzktugpQtBydAPKds
-	ksBQ==
-MIME-Version: 1.0
-X-Received: by 10.152.116.73 with SMTP id ju9mr6149398lab.54.1366300030225;
-	Thu, 18 Apr 2013 08:47:10 -0700 (PDT)
-Received: by 10.112.75.161 with HTTP; Thu, 18 Apr 2013 08:47:10 -0700 (PDT)
-In-Reply-To: <1366297842-10846-2-git-send-email-mihai.prica@intel.com>
+	Fri, 19 Apr 2013 02:36:17 -0700 (PDT)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga101.jf.intel.com with ESMTP; 19 Apr 2013 02:36:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.87,507,1363158000"; d="scan'208";a="320811577"
+Received: from irsmsx103.ger.corp.intel.com ([163.33.3.157])
+	by orsmga002.jf.intel.com with ESMTP; 19 Apr 2013 02:36:16 -0700
+Received: from irsmsx151.ger.corp.intel.com (163.33.192.59) by
+	IRSMSX103.ger.corp.intel.com (163.33.3.157) with Microsoft SMTP Server
+	(TLS) id 14.1.355.2; Fri, 19 Apr 2013 10:36:13 +0100
+Received: from irsmsx101.ger.corp.intel.com ([169.254.1.73]) by
+	IRSMSX151.ger.corp.intel.com ([169.254.4.245]) with mapi id
+	14.01.0355.002; Fri, 19 Apr 2013 10:36:12 +0100
+From: "Prica, Mihai" <mihai.prica@intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [meta-virtualization] [PATCH 2/2] libvirt: Changed python
+	bindings install location
+Thread-Index: AQHOPEwKj4Cdx+SMBk2tOvv0yuKtCZjdSYKw
+Date: Fri, 19 Apr 2013 09:36:13 +0000
+Message-ID: <97BD068FB200C44AA73C2B641F162ECF985E61@IRSMSX101.ger.corp.intel.com>
 References: <1366297842-10846-1-git-send-email-mihai.prica@intel.com>
 	<1366297842-10846-2-git-send-email-mihai.prica@intel.com>
-Date: Thu, 18 Apr 2013 11:47:10 -0400
-Message-ID: <CADkTA4N87FqdCv2SS9va3xw-n4eEyxB0PqmWKhGQuLo_qs0m_Q@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mihai Prica <mihai.prica@intel.com>
+	<CADkTA4N87FqdCv2SS9va3xw-n4eEyxB0PqmWKhGQuLo_qs0m_Q@mail.gmail.com>
+In-Reply-To: <CADkTA4N87FqdCv2SS9va3xw-n4eEyxB0PqmWKhGQuLo_qs0m_Q@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [163.33.239.182]
+MIME-Version: 1.0
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH 2/2] libvirt: Changed python bindings install location
@@ -43,81 +46,113 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2013 15:47:11 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 19 Apr 2013 09:36:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 18, 2013 at 11:10 AM, Mihai Prica <mihai.prica@intel.com> wrote:
-> The libvirt-python files were installed to dist-packages and this
-> is not part of sys.path in yocto so they were not detected. Changed
-> this to site-packages.
+> -----Original Message-----
+> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
+> Sent: Thursday, April 18, 2013 6:47 PM
+> To: Prica, Mihai
+> Cc: meta-virtualization@yoctoproject.org
+> Subject: Re: [meta-virtualization] [PATCH 2/2] libvirt: Changed python bi=
+ndings
+> install location
+>=20
+> On Thu, Apr 18, 2013 at 11:10 AM, Mihai Prica <mihai.prica@intel.com> wro=
+te:
+> > The libvirt-python files were installed to dist-packages and this is
+> > not part of sys.path in yocto so they were not detected. Changed this
+> > to site-packages.
+>=20
+> By detected, you mean python couldn't import and use them at runtime on t=
+he
+> target ?
 
-By detected, you mean python couldn't import and use them at runtime on the
-target ?
+Yes. I got an error when trying to load the module. From what I saw, In yoc=
+to all=20
+python packages are installed In site-packages.=20
 
-Bruce
+Mihai
 
->
-> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> ---
->  recipes-extended/libvirt/libvirt-python.inc        |    4 ++--
->  .../libvirt/libvirt/python_incdir.patch            |   15 +++++++++------
->  2 files changed, 11 insertions(+), 8 deletions(-)
->
-> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-> index 49d15fb..297e90c 100644
-> --- a/recipes-extended/libvirt/libvirt-python.inc
-> +++ b/recipes-extended/libvirt/libvirt-python.inc
-> @@ -10,5 +10,5 @@ RDEPENDS_${PN}-python += "python"
->  PACKAGECONFIG_${PN}-python[xen] = ",,,xen-python"
->
->  PACKAGES += "${PN}-python-dbg ${PN}-python"
-> -FILES_${PN}-python-dbg += "${libdir}/${PYTHON_DIR}/dist-packages/.debug/"
-> -FILES_${PN}-python += "${libdir}/${PYTHON_DIR}/dist-packages"
-> +FILES_${PN}-python-dbg += "${libdir}/${PYTHON_DIR}/site-packages/.debug/"
-> +FILES_${PN}-python += "${libdir}/${PYTHON_DIR}/site-packages"
-> diff --git a/recipes-extended/libvirt/libvirt/python_incdir.patch b/recipes-extended/libvirt/libvirt/python_incdir.patch
-> index 6c77b09..5b78c13 100644
-> --- a/recipes-extended/libvirt/libvirt/python_incdir.patch
-> +++ b/recipes-extended/libvirt/libvirt/python_incdir.patch
-> @@ -1,8 +1,8 @@
-> -Index: libvirt-0.10.2/configure.ac
-> +Index: libvirt-1.0.3/configure.ac
->  ===================================================================
-> ---- libvirt-0.10.2.orig/configure.ac   2012-10-29 11:59:27.091615491 +0200
-> -+++ libvirt-0.10.2/configure.ac        2012-10-29 12:09:50.067603647 +0200
-> -@@ -2397,6 +2397,11 @@
-> +--- libvirt-1.0.3.orig/configure.ac
-> ++++ libvirt-1.0.3/configure.ac
-> +@@ -1878,6 +1878,11 @@ fi
->
->   PYTHON_VERSION=
->   PYTHON_INCLUDES=
-> @@ -14,9 +14,12 @@ Index: libvirt-0.10.2/configure.ac
->   if test "$with_python" != "no" ; then
->       if test -x "$with_python/bin/python"
->       then
-> -@@ -2422,29 +2427,30 @@
-> -         AM_PATH_PYTHON(,, [:])
-> +@@ -1901,31 +1906,32 @@ if test "$with_python" != "no" ; then
->
-> +     if test "$with_python" = "yes" ; then
-> +         AM_PATH_PYTHON(,, [:])
-> +-
-> ++        pyexecdir=$prefix/lib/python$PYTHON_VERSION/site-packages
->           if test "$PYTHON" != : ; then
->  -            PYTHON_CONFIG="$PYTHON-config"
->  -
+>=20
+> Bruce
+>=20
+> >
+> > Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+> > ---
+> >  recipes-extended/libvirt/libvirt-python.inc        |    4 ++--
+> >  .../libvirt/libvirt/python_incdir.patch            |   15 +++++++++---=
+---
+> >  2 files changed, 11 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/recipes-extended/libvirt/libvirt-python.inc
+> > b/recipes-extended/libvirt/libvirt-python.inc
+> > index 49d15fb..297e90c 100644
+> > --- a/recipes-extended/libvirt/libvirt-python.inc
+> > +++ b/recipes-extended/libvirt/libvirt-python.inc
+> > @@ -10,5 +10,5 @@ RDEPENDS_${PN}-python +=3D "python"
+> >  PACKAGECONFIG_${PN}-python[xen] =3D ",,,xen-python"
+> >
+> >  PACKAGES +=3D "${PN}-python-dbg ${PN}-python"
+> > -FILES_${PN}-python-dbg +=3D "${libdir}/${PYTHON_DIR}/dist-packages/.de=
+bug/"
+> > -FILES_${PN}-python +=3D "${libdir}/${PYTHON_DIR}/dist-packages"
+> > +FILES_${PN}-python-dbg +=3D "${libdir}/${PYTHON_DIR}/site-
+> packages/.debug/"
+> > +FILES_${PN}-python +=3D "${libdir}/${PYTHON_DIR}/site-packages"
+> > diff --git a/recipes-extended/libvirt/libvirt/python_incdir.patch
+> > b/recipes-extended/libvirt/libvirt/python_incdir.patch
+> > index 6c77b09..5b78c13 100644
+> > --- a/recipes-extended/libvirt/libvirt/python_incdir.patch
+> > +++ b/recipes-extended/libvirt/libvirt/python_incdir.patch
+> > @@ -1,8 +1,8 @@
+> > -Index: libvirt-0.10.2/configure.ac
+> > +Index: libvirt-1.0.3/configure.ac
+> >
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =3D=3D=3D=3D=3D
+> > ---- libvirt-0.10.2.orig/configure.ac   2012-10-29 11:59:27.091615491 +=
+0200
+> > -+++ libvirt-0.10.2/configure.ac        2012-10-29 12:09:50.067603647 +=
+0200
+> > -@@ -2397,6 +2397,11 @@
+> > +--- libvirt-1.0.3.orig/configure.ac
+> > ++++ libvirt-1.0.3/configure.ac
+> > +@@ -1878,6 +1878,11 @@ fi
+> >
+> >   PYTHON_VERSION=3D
+> >   PYTHON_INCLUDES=3D
+> > @@ -14,9 +14,12 @@ Index: libvirt-0.10.2/configure.ac
+> >   if test "$with_python" !=3D "no" ; then
+> >       if test -x "$with_python/bin/python"
+> >       then
+> > -@@ -2422,29 +2427,30 @@
+> > -         AM_PATH_PYTHON(,, [:])
+> > +@@ -1901,31 +1906,32 @@ if test "$with_python" !=3D "no" ; then
+> >
+> > +     if test "$with_python" =3D "yes" ; then
+> > +         AM_PATH_PYTHON(,, [:])
+> > +-
+> > ++        pyexecdir=3D$prefix/lib/python$PYTHON_VERSION/site-packages
+> >           if test "$PYTHON" !=3D : ; then
+> >  -            PYTHON_CONFIG=3D"$PYTHON-config"
+> >  -
+> > --
+> > 1.7.9.5
+> >
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>=20
+>=20
+>=20
 > --
-> 1.7.9.5
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee=
+ at its
+> end"
 
