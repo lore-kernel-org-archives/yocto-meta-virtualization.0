@@ -1,35 +1,45 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
-	[209.85.215.52])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4C296E014FF
+Return-Path: <r63875@freescale.com>
+Received: from db8outboundpool.messaging.microsoft.com
+	(mail-db8lp0189.outbound.messaging.microsoft.com [213.199.154.189])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3D30CE013C9
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 May 2013 06:25:15 -0700 (PDT)
-Received: by mail-la0-f52.google.com with SMTP id fo13so527294lab.11
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 May 2013 06:25:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=IkPRRex6M1vN3c3ftVfcdVny7CR6gyK/VhoUj2Tt3kE=;
-	b=kFFsp+gd9XOrN/S6jcmL45Ptrb1W78q3FfoSBQwIpSztWek7nBS0JL8AEmPfS0i2ej
-	z3ZPbppJfLbG8SOpKYdPDzj8rWZqK0Hk9ZEjNdLk3GkKLOAXdVaai5yKHRYnG0xMOFNU
-	DUEope6EDSGWnJXJq3dneX2CYVsxxMARwOfNakoSw0PvBd2hPQD7np6N8mGWhph8d2EU
-	xCw0aK6SFAf5xfyoMdxaSa16joCsq7eA2m73xyUvVbYR3ebc6zRsYC9Gz252GMjVt+aK
-	kzo4PC7C7yY3/DpAnnEaaJ8fU5t2987FTpyS1SxIGN4y7wGqS10e6Kt/IQ6FgMmjG1RX
-	Nugg==
+	Tue, 14 May 2013 17:23:24 -0700 (PDT)
+Received: from mail117-db8-R.bigfish.com (10.174.8.253) by
+	DB8EHSOBE013.bigfish.com (10.174.4.76) with Microsoft SMTP Server id
+	14.1.225.23; Wed, 15 May 2013 00:23:22 +0000
+Received: from mail117-db8 (localhost [127.0.0.1])	by
+	mail117-db8-R.bigfish.com (Postfix) with ESMTP id B2776100380	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 15 May 2013 00:23:22 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz17326ah1954cbh8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h1354h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1155h)
+Received: from mail117-db8 (localhost.localdomain [127.0.0.1]) by mail117-db8
+	(MessageSwitch) id 1368577401337372_16318;
+	Wed, 15 May 2013 00:23:21 +0000 (UTC)
+Received: from DB8EHSMHS003.bigfish.com (unknown [10.174.8.237])	by
+	mail117-db8.bigfish.com (Postfix) with ESMTP id 502E7400099	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed, 15 May 2013 00:23:21 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS003.bigfish.com
+	(10.174.4.13) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Wed, 15 May 2013 00:23:21 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Wed, 15 May 2013 00:23:43 +0000
+Received: from localhost.localdomain (tank.ap.freescale.net [10.193.20.104])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r4F0NGcB017250; Tue, 14 May 2013 17:23:18 -0700
+From: Olivia Yin <hong-hua.yin@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 15 May 2013 07:41:23 +0800
+Message-ID: <1368574883-25078-1-git-send-email-hong-hua.yin@freescale.com>
+X-Mailer: git-send-email 1.5.6.5
 MIME-Version: 1.0
-X-Received: by 10.112.159.136 with SMTP id xc8mr15046343lbb.57.1368537912848; 
-	Tue, 14 May 2013 06:25:12 -0700 (PDT)
-Received: by 10.112.234.166 with HTTP; Tue, 14 May 2013 06:25:12 -0700 (PDT)
-In-Reply-To: <1368524486-30880-1-git-send-email-bogdan.purcareata@freescale.com>
-References: <1368524486-30880-1-git-send-email-bogdan.purcareata@freescale.com>
-Date: Tue, 14 May 2013 09:25:12 -0400
-Message-ID: <CADkTA4NYfBWHsP2a+U0=u1+Ab0=5aVZNsLPRLTaGckJ+65r-_g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc-busybox: check when bind-mounting host libdirs
+X-OriginatorOrg: freescale.com
+Cc: Olivia Yin <hong-hua.yin@freescale.com>
+Subject: [PATCH v2] libvirt: fix warning of sysctl.d/libvirtd.conf
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,110 +52,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2013 13:25:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 15 May 2013 00:23:24 -0000
+Content-Type: text/plain
 
-FYI: your local gitconfig is picking up your login ID as the sender, I changed
-the reply manually.
+WARNING: QA Issue: libvirt: Files/directories were installed but not shipped
+  /usr/lib
+  /usr/lib/sysctl.d
+  /usr/lib/sysctl.d/libvirtd.conf
 
-On Tue, May 14, 2013 at 5:41 AM, Bogdan Purcareata
-<bogdan.purcareata@freescale.com> wrote:
-> The patch checks bind mounting lib directories when starting a
-> busybox container on a 64bit platform. Some entries in the host
-> filesystem are not present but the busybox template expects them
-> to be there, and thus container start fails.
+$(DESTDIR)$(prefix)/lib is hardcoded in libvirt Makefile due to following
+reason that is stated in the daemon/Makefile.in of libvirt.
+    # Use $(prefix)/lib rather than $(libdir), since man sysctl.d insists on
+    # /usr/lib/sysctl.d/ even when libdir is /usr/lib64
+    @WITH_LIBVIRTD_TRUE@@WITH_SYSCTL_TRUE@install-sysctl:
+    @WITH_LIBVIRTD_TRUE@@WITH_SYSCTL_TRUE@  $(MKDIR_P) $(DESTDIR)$(prefix)/lib/sysctl.d
+    @WI TH_LIBVIRTD_TRUE@@WITH_SYSCTL_TRUE@  $(INSTALL_DATA) $(srcdir)/libvirtd.sysctl \
+    @WITH_LIBVIRTD_TRUE@@WITH_SYSCTL_TRUE@    $(DESTDIR)$(prefix)/lib/sysctl.d/libvirtd.conf
 
-Looks sensible/reasonable to me. I haven't run into this myself, probably just
-by luck!
+Signed-off-by: Olivia Yin <hong-hua.yin@freescale.com>
+---
+ recipes-extended/libvirt/libvirt_1.0.3.bb |    3 ++-
+ 1 files changed, 2 insertions(+), 1 deletions(-)
 
-I'll wait a bit for more comments, but will push the change after that.
-
-Bruce
-
->
-> Please see further details in added patch description.
->
-> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> ---
->  ...xc-0.9.0-check-when-bind-mounting-libdirs.patch | 44 ++++++++++++++++++++++
->  recipes-containers/lxc/lxc_0.9.0.bb                |  1 +
->  2 files changed, 45 insertions(+)
->  create mode 100644 recipes-containers/lxc/files/lxc-0.9.0-check-when-bind-mounting-libdirs.patch
->
-> diff --git a/recipes-containers/lxc/files/lxc-0.9.0-check-when-bind-mounting-libdirs.patch b/recipes-containers/lxc/files/lxc-0.9.0-check-when-bind-mounting-libdirs.patch
-> new file mode 100644
-> index 0000000..4d21a02
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/lxc-0.9.0-check-when-bind-mounting-libdirs.patch
-> @@ -0,0 +1,44 @@
-> +From 9e74f8161b8db05365fde0646b0c29c852afc3a0 Mon Sep 17 00:00:00 2001
-> +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Date: Tue, 14 May 2013 11:54:23 +0300
-> +Subject: [PATCH] lxc-busybox: check when bind-mounting host libdirs
-> +
-> +The patch changes the busybox template behavior to automatically
-> +mount /lib and /usr/lib. In case one of these folders does not exist,
-> +starting the container will fail. Also, if there are other lib entries
-> +on the host - e.g. /usr/lib64 -  mount them as well.
-> +
-> +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +---
-> + templates/lxc-busybox.in | 8 +-------
-> + 1 file changed, 1 insertion(+), 7 deletions(-)
-> +
-> +diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
-> +index cb425ec..49effae 100644
-> +--- a/templates/lxc-busybox.in
-> ++++ b/templates/lxc-busybox.in
-> +@@ -240,13 +240,6 @@ lxc.pts = 1
-> + #lxc.aa_profile = unconfined
-> + EOF
-> +
-> +-if [ -d "$rootfs/lib" ]; then
-> +-cat <<EOF >> $path/config
-> +-lxc.mount.entry = /lib $rootfs/lib none ro,bind 0 0
-> +-lxc.mount.entry = /usr/lib $rootfs/usr/lib none ro,bind 0 0
-> +-EOF
-> +-fi
-> +-
-> +     libdirs="\
-> +         lib \
-> +         usr/lib \
-> +@@ -255,6 +248,7 @@ fi
-> +
-> +     for dir in $libdirs; do
-> +         if [ -d "/$dir" ] && [ -d "$rootfs/$dir" ]; then
-> ++            echo "lxc.mount.entry = /$dir $rootfs/$dir none ro,bind 0 0" >> $path/config
-> +             echo "lxc.mount.entry = /$dir $dir none ro,bind 0 0" >> $path/config
-> +         fi
-> +     done
-> +--
-> +1.7.11.7
-> +
-> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-> index 63ce2d6..1cbbad0 100644
-> --- a/recipes-containers/lxc/lxc_0.9.0.bb
-> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
-> @@ -24,6 +24,7 @@ RDEPENDS_${PN} = " \
->  SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
->         file://lxc-0.9.0-disable-udhcp-from-busybox-template.patch \
->         file://lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch \
-> +    file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
->         "
->  SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
->  SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
-> --
-> 1.7.11.7
->
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+index 88cb018..f0683c8 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.3.bb
++++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://libvirt.org"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
+ SECTION = "console/tools"
+-PR = "r2"
++PR = "r3"
+ 
+ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
+ 	   iptables ebtables dnsmasq readline"
+@@ -87,6 +87,7 @@ FILES_${PN}-libvirtd = "${sysconfdir}/init.d \
+ 	${sysconfdir}/sysctl.d \
+ 	${sysconfdir}/logrotate.d \
+ 	${sysconfdir}/libvirt/libvirtd.conf \
++        /usr/lib/sysctl.d/libvirtd.conf \
+ 	${sbindir}/libvirtd"
+ 
+ FILES_${PN}-virsh = "${bindir}/virsh"
+-- 
+1.7.0.4
 
 
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
