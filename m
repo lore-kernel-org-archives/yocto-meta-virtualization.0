@@ -1,35 +1,35 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ECEE6E01486
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C5FF0E01486
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 May 2013 05:57:31 -0700 (PDT)
-Received: by mail-lb0-f182.google.com with SMTP id r11so1825501lbv.27
+	Wed, 15 May 2013 05:57:54 -0700 (PDT)
+Received: by mail-lb0-f179.google.com with SMTP id d10so1830501lbj.38
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 May 2013 05:57:30 -0700 (PDT)
+	Wed, 15 May 2013 05:57:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
 	:subject:from:to:cc:content-type;
-	bh=zLNOK8sTVDFKeEFwmkGT2VA5C8HwyYsKAEKB3XakK60=;
-	b=jxpigDZToR7SzKPsH9wyKRaulj3/vqawN3wJMw3lHTbCo7iJXBTd7woMYjJ3jIn+PH
-	QFsIe8LZKlQZXjoeRkjEqAxf9/+cbPMZth7tZWad5xWRf2pk6RswV1W3I9nI5ewD1uf0
-	6sNdy81t0kZExNkVy9OEByU4SohVX/5W1ncgy/PGuPiH1YRdNdNck8Mf9AIj9pA0k9p0
-	hXVPAemjpkNZU5ru3g8vJj0gSLtFcPdkh+PRFUBYtdzJhw86ssptVku/CB8KQ+O75IEh
-	QSNNc/GthrP9erS/LWjP555mPIgyEizk7xJFp9kdrHJ0FcdgyVBRjovUgifVvS2CLJLb
-	lN4w==
+	bh=OpTaTas27jg/0i83AQcQOMchYObmsNcP805zmnKYZB0=;
+	b=tysY3h4xLWcCUAo2XDjzGVRjb+lgLdGG5REGwZ1pDBK9z2X0WbLXuZ5OSrt8Qh68n1
+	xihXrse/3k/ytMGJzAhLGZF0teHGjAr4ZpEzirUGTV8TsntxzESIgRdDFW9T+AZHR1nq
+	8QnRTCbhhMm29zVkm8SGWFQV98dq3RRA85UwlogyifYiD2LNyFvAaMcoLlD6qmh43pu+
+	ZQKpFNPTg6LqQJ/JSZLBIdSXXU2GYlbCVFxQyBwBCF8kzk1dmX3xjcVzYL0qNbCnTV88
+	fsZxCmXANhAaRjSsoucnwPIf7NOXJXu6OpDU0phSg4uNVaK8Z1EEZmM4TgiDFnqW9jSq
+	iMqA==
 MIME-Version: 1.0
-X-Received: by 10.112.158.71 with SMTP id ws7mr13411344lbb.49.1368622650276;
-	Wed, 15 May 2013 05:57:30 -0700 (PDT)
-Received: by 10.112.234.166 with HTTP; Wed, 15 May 2013 05:57:30 -0700 (PDT)
-In-Reply-To: <1368606517-4873-1-git-send-email-paul.eggleton@linux.intel.com>
-References: <1368606517-4873-1-git-send-email-paul.eggleton@linux.intel.com>
-Date: Wed, 15 May 2013 08:57:30 -0400
-Message-ID: <CADkTA4PbHgvx6nUD9Z3qpSMGgPgygVnhtQzPUJgH_770-oeA3g@mail.gmail.com>
+X-Received: by 10.112.128.231 with SMTP id nr7mr17391296lbb.26.1368622673502; 
+	Wed, 15 May 2013 05:57:53 -0700 (PDT)
+Received: by 10.112.234.166 with HTTP; Wed, 15 May 2013 05:57:53 -0700 (PDT)
+In-Reply-To: <1368607316-17468-1-git-send-email-b28495@freescale.com>
+References: <1368607316-17468-1-git-send-email-b28495@freescale.com>
+Date: Wed, 15 May 2013 08:57:53 -0400
+Message-ID: <CADkTA4NZR6spKaTAkdkLcR5+BJu2EgrrNiCA5gQa_AQgRCGoMg@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: b28495@freescale.com
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] dmidecode: remove
+	<meta-virtualization@yoctoproject.org>, b19537@freescale.com
+Subject: Re: [PATCH] iptables: update bbappend to match oe-core
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,58 +42,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2013 12:57:32 -0000
+X-List-Received-Date: Wed, 15 May 2013 12:57:55 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, May 15, 2013 at 4:28 AM, Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
-> A newer version is now in OE-Core.
+On Wed, May 15, 2013 at 4:41 AM,  <b28495@freescale.com> wrote:
+> From: Ting Liu <b28495@freescale.com>
+>
 
-Grabbed and pulled into my queue. I'll push the changes shortly.
+Queued. This will be pushed shortly.
 
 Bruce
 
->
-> Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+> Signed-off-by: Ting Liu <b28495@freescale.com>
 > ---
->  recipes-extended/dmidecode/dmidecode_2.11.bb | 26 --------------------------
->  1 file changed, 26 deletions(-)
->  delete mode 100644 recipes-extended/dmidecode/dmidecode_2.11.bb
+>  ...es_1.4.17.bbappend => iptables_1.4.18.bbappend} |    0
+>  1 files changed, 0 insertions(+), 0 deletions(-)
+>  rename recipes-extended/iptables/{iptables_1.4.17.bbappend => iptables_1.4.18.bbappend} (100%)
 >
-> diff --git a/recipes-extended/dmidecode/dmidecode_2.11.bb b/recipes-extended/dmidecode/dmidecode_2.11.bb
-> deleted file mode 100644
-> index 65496ae..0000000
-> --- a/recipes-extended/dmidecode/dmidecode_2.11.bb
-> +++ /dev/null
-> @@ -1,26 +0,0 @@
-> -DESCRIPTION = "DMI (Desktop Management Interface) table related utilities"
-> -HOMEPAGE = "http://www.nongnu.org/dmidecode/"
-> -LICENSE = "GPLv2"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=393a5ca445f6965873eca0259a17f833"
-> -SECTION = "console/tools"
-> -
-> -PR = "r0"
-> -
-> -SRC_URI = "http://download.savannah.gnu.org/releases/${PN}/${PN}-${PV}.tar.gz"
-> -
-> -SRC_URI[md5sum] = "9fddbbc3e330bee5950b8b5d424a57cb"
-> -SRC_URI[sha256sum] = "d99ee210ecbd6caff2cf6d95dec6d88818c16cec1a08ed0963fd8702f6af8b59"
-> -
-> -EXTRA_OEMAKE =+ "prefix=${prefix}  \
-> -                 includedir=${includedir} \
-> -                 libdir=${libdir} \
-> -                 sbindir=${sbindir} \
-> -                 DESTDIR=${D} \
-> -                 'CC=${CC}' \
-> -                 'CFLAGS=${CFLAGS}' \
-> -                 "
-> -
-> -do_install() {
-> -    oe_runmake install
-> -    install -d ${D}${sbindir}
-> -}
+> diff --git a/recipes-extended/iptables/iptables_1.4.17.bbappend b/recipes-extended/iptables/iptables_1.4.18.bbappend
+> similarity index 100%
+> rename from recipes-extended/iptables/iptables_1.4.17.bbappend
+> rename to recipes-extended/iptables/iptables_1.4.18.bbappend
 > --
-> 1.8.1.2
+> 1.7.3.4
+>
 >
 > _______________________________________________
 > meta-virtualization mailing list
