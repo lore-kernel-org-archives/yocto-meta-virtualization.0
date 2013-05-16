@@ -1,35 +1,36 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
-	[209.85.217.180])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1123EE0051D
+Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
+	[209.85.217.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 18335E0051D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 May 2013 14:13:54 -0700 (PDT)
-Received: by mail-lb0-f180.google.com with SMTP id o10so3577072lbi.25
+	Thu, 16 May 2013 14:22:22 -0700 (PDT)
+Received: by mail-lb0-f173.google.com with SMTP id t10so3673756lbi.32
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 May 2013 14:13:54 -0700 (PDT)
+	Thu, 16 May 2013 14:22:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:x-received:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=PNTVZ2TogqtsxWH+YoRu9DQpUWiM2s65/d42Eutceqc=;
-	b=gX4YvCBqeC+pBSXS8IbDlnEH7oXkeodQkSKN1Aww+bG7DRmP1MqVT9jaeOyow7s/mP
-	Ac9iFWfGJfDCTbiBhupggxYHx9FVm8ucrTQhI5cyCeWEeBUM7tjISip8EpLAeqHRGSsH
-	9zLSlxy0wZAiE1X0C0/favV4i9P4O3wP3VLxTUZAXYEXv6yi32rwUIVAfgbfu71ZSUk6
-	cB4hvSDgssBKA5VfOYm8Fob0eiFUCd0cfN3paeU5QJjLjyfsSFhVn3SIur8N31R4nCTr
-	6MesrDt0+7i1WTiCRjafDuu4gRZnsx84W/Qr2TQzp6FGAtPxpqj0b/rtqqvPY6t69uCT
-	hNug==
+	:subject:from:to:cc:content-type:content-transfer-encoding;
+	bh=zGwcJ6E19wo5yhMG9Zzs/F4ogdYFn2qhNb+KG4sHkv4=;
+	b=xkfyhUF1DKTNQO/UQJRaNHPunMXKuWCO77laOqE+HViIKLyZ9zGsD6Ly/NyqsNIKK6
+	kexX6CjWj0PgPcf9813LL+xaezLZsSuZRBf8fMY6qp/GiA9CCmCZuU1f5z4xwnF6Tr3P
+	kDOnSrJmFcXtRb8AH6RbswQuJ/dAYqy07DqTLhNC/MsH16upBsv8EYys6rZXHH3osGWE
+	EKuxUQ0D0kZykpR65CZEcNKDl8jSven4rlRVBQ07tmCuC2XJlUGhOlPza2VByzNSFG4D
+	1resl0FQ7ktEvV1IGC4Y05O+3C4EmwMKqJ+SvyAYR0vk8k2QC07zcGOcgv8L2FsnOr9Q
+	x8rw==
 MIME-Version: 1.0
-X-Received: by 10.112.158.71 with SMTP id ws7mr16680436lbb.49.1368738833947;
-	Thu, 16 May 2013 14:13:53 -0700 (PDT)
-Received: by 10.112.234.166 with HTTP; Thu, 16 May 2013 14:13:53 -0700 (PDT)
-In-Reply-To: <1368695397-23171-1-git-send-email-bogdan.purcareata@freescale.com>
-References: <1368695397-23171-1-git-send-email-bogdan.purcareata@freescale.com>
-Date: Thu, 16 May 2013 17:13:53 -0400
-Message-ID: <CADkTA4NH4VB5_Yu9fChMGZbhiNj2t2uZwr4Lj6+cXRTwjUZ-BQ@mail.gmail.com>
+X-Received: by 10.112.155.67 with SMTP id vu3mr20435201lbb.109.1368739341660; 
+	Thu, 16 May 2013 14:22:21 -0700 (PDT)
+Received: by 10.112.234.166 with HTTP; Thu, 16 May 2013 14:22:21 -0700 (PDT)
+In-Reply-To: <9D709999-1879-49C8-A4ED-B91B8DCB2500@spidercloud.com>
+References: <mailman.1.1368126001.16184.meta-virtualization@yoctoproject.org>
+	<9D709999-1879-49C8-A4ED-B91B8DCB2500@spidercloud.com>
+Date: Thu, 16 May 2013 17:22:21 -0400
+Message-ID: <CADkTA4OJKTGULXraqQa+Th-rMQX+PQ+n7F=+2VOYTM=5OY0KQw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+To: Ben Warren <Ben.Warren@spidercloud.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc-clone: don't let LXC_PATH end in failure
+Subject: Re: meta-virtualization Digest, Vol 6, Issue 4
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,78 +43,107 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2013 21:13:55 -0000
+X-List-Received-Date: Thu, 16 May 2013 21:22:23 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2013 at 5:09 AM, Bogdan Purcareata
-<bogdan.purcareata@freescale.com> wrote:
-> This patch has been included in the upstream repo as the first
-> patch after LXC 0.9.0 release. Including it in meta-virtualization
-> for proper functioning of the lxc-clone command.
+On Thu, May 16, 2013 at 5:01 PM, Ben Warren <Ben.Warren@spidercloud.com> wr=
+ote:
+> Hi,
+>
+> A week's gone by and nothing but crickets.  Does anybody have an idea of =
+what might be causing this build problem?  I'm not trying to do anything ex=
+otic, just add meta-virtualization support to a bare-bones crystalforest (l=
+ow power Xeon)-based platform.  The host is Ubuntu 12.10 64-bit.
 
-I've grabbed and staged this change. I'll push it tomorrow if no one
-objects.
+Since I haven't been able to reproduce or see the error here, it's hard
+to say.
+
+gnutls is in the DEPENDS for libvirt, so everyone should be seeing this if
+that was being detected and enabling functionality that wasn't being built.
+A quick check of the Makefiles shows that the .c file with the implementati=
+on
+is being triggered from the same TLS enablement check.
+
+Have you tried modifying the recipe to have an explicit: --with-gnutls (or
+--without) ?
+
+Cheers,
 
 Bruce
 
+
+
 >
-> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> ---
->  ...c-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch | 29 ++++++++++++++++++++++
->  recipes-containers/lxc/lxc_0.9.0.bb                |  1 +
->  2 files changed, 30 insertions(+)
->  create mode 100644 recipes-containers/lxc/files/lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch
+> thanks,
+> Ben
 >
-> diff --git a/recipes-containers/lxc/files/lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch b/recipes-containers/lxc/files/lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch
-> new file mode 100644
-> index 0000000..fe9f8cc
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch
-> @@ -0,0 +1,29 @@
-> +From fd95f2402dc70ad41fa2db8fb101f950196458a9 Mon Sep 17 00:00:00 2001
-> +From: Serge Hallyn <serge.hallyn@ubuntu.com>
-> +Date: Tue, 9 Apr 2013 16:23:05 -0500
-> +Subject: [PATCH] lxc.functions: don't let LXC_PATH= line end in failure
-> +
-> +Otherwise if called from dash with set -e, dash will exit.  This
-> +causes lxc-clone to fail.
-> +
-> +Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-> +---
-> + src/lxc/lxc.functions.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/src/lxc/lxc.functions.in b/src/lxc/lxc.functions.in
-> +index b41f9b8..aa5717d 100644
-> +--- a/src/lxc/lxc.functions.in
-> ++++ b/src/lxc/lxc.functions.in
-> +@@ -26,7 +26,7 @@ templatedir=@LXCTEMPLATEDIR@
-> + lxcinitdir=@LXCINITDIR@
-> +
-> + get_default_lxcpath() {
-> +-      LXC_PATH=$(grep -v "^#" "$globalconf" 2>/dev/null | grep "[ \t]*lxcpath[ \t]*=")
-> ++      LXC_PATH=$(grep -v "^#" "$globalconf" 2>/dev/null | grep "[ \t]*lxcpath[ \t]*=") || true
-> +       if [ -n "$LXC_PATH" ]; then
-> +               echo $LXC_PATH | awk -F= '{ print $2 }'
-> +       else
-> +--
-> +1.7.11.7
-> +
-> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-> index 1cbbad0..bed7e4a 100644
-> --- a/recipes-containers/lxc/lxc_0.9.0.bb
-> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
-> @@ -25,6 +25,7 @@ SRC_URI = "http://lxc.sourceforge.net/download/lxc/${PN}-${PV}.tar.gz \
->         file://lxc-0.9.0-disable-udhcp-from-busybox-template.patch \
->         file://lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch \
->      file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
-> +    file://lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch \
->         "
->  SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
->  SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
-> --
-> 1.7.11.7
->
+>> Date: Wed, 8 May 2013 13:57:45 -0700
+>> From: Ben Warren <Ben.Warren@spidercloud.com>
+>> To: "meta-virtualization@yoctoproject.org"
+>>       <meta-virtualization@yoctoproject.org>
+>> Subject: [meta-virtualization] `virNetTLSInit' link error when
+>>       building        libvirt
+>> Message-ID: <89EFFFA7-0CB8-409C-BF0F-2355ED1BA0FD@spidercloud.com>
+>> Content-Type: text/plain; charset=3D"Windows-1252"
+>>
+>> Hello,
+>>
+>> I'm trying to add virtualization support to my Yocto project and can't g=
+et libvirt to build.  In particular, the following link error occurs:
+>>
+>> | ../src/.libs/libvirt.so: undefined reference to `virNetTLSInit'
+>> | collect2: error: ld returned 1 exit status
+>>
+>> Looking at the code, this function is conditionally compiled as:
+>>
+>> #ifdef WITH_GNUTLS
+>>    virNetTLSInit();
+>> #endif
+>>
+>> and the function itself is here:
+>> libvirt-1.0.3/src/rpc/virnettlscontext.c
+>>
+>> I don't see any .o files in that 'rpc' directory, so it appears that the=
+ files aren't being compiled, hence the link error.
+>>
+>> I'm using the following code revisions:
+>>       ? poky @ git tag 'dylan 9.0.0'
+>>       ? meta-virtualization @ git commit 22e7b5e92b33e5fe18723083ce69867=
+749839894 (5/3/2013)
+>>       ? meta-oa @ git commit a8b96b69bd418b74f48dc4d111caac676ae667f5 (4=
+/27/2013 from git://github.com/openembedded/meta-oe.git)
+>>
+>> My build command line is:
+>>
+>> MACHINE=3Dscw-appscard bitbake kvm-image-minimal
+>>
+>> where the 'scw_appscard' BSP is identical to 'crystalforest' (x86_64) wi=
+th some kernel config modifications.
+>>
+>> My bblayers are:
+>> BBLAYERS ?=3D " \
+>>  /opt/poky/meta \
+>>  /opt/poky/meta-yocto \
+>>  /opt/poky/meta-yocto-bsp \
+>>  /opt/meta-oe/meta-oe \
+>>  /opt/meta-oe/meta-networking \
+>>  /opt/meta-virtualization \
+>>  /opt/meta-scw-appscard \
+>>  "
+>>
+>> Does anybody have insight as to why this won't build?
+>>
+>> thanks,
+>> Ben
+>>
+>> ------------------------------
+>>
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
 >
 > _______________________________________________
 > meta-virtualization mailing list
