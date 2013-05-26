@@ -1,27 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
+Return-Path: <Lei.Yang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9937EE0146C
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2218E013A2
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 24 May 2013 11:05:27 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4OI5RaD010579
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 24 May 2013 11:05:27 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Fri, 24 May 2013 11:05:27 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 24 May 2013 11:05:25 -0700
-Message-ID: <1369418725-6697-3-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
-In-Reply-To: <1369418725-6697-1-git-send-email-jslater@windriver.com>
-References: <1369418725-6697-1-git-send-email-jslater@windriver.com>
+	Sat, 25 May 2013 23:05:53 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4Q64VKc003927
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sat, 25 May 2013 23:04:31 -0700 (PDT)
+Received: from pek-lpgtest3.wrs.com (128.224.153.83) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.2.342.3; Sat, 25 May 2013 23:04:30 -0700
+From: <lei.yang@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <david.c.nystrom@gmail.com>,
+	<bruce.ashfield@gmail.co>
+Date: Sun, 26 May 2013 14:04:29 +0800
+Message-ID: <1369548269-22464-1-git-send-email-lei.yang@windriver.com>
+X-Mailer: git-send-email 1.7.1
 MIME-Version: 1.0
-Cc: joe.slater@windriver.com
-Subject: [PATCH 2/2] lxc: use four fields for PACAKGECONFIG[] info
+Subject: [PATCH] dev86: add "COMPATIBLE_HOST" in the recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -34,33 +31,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2013 18:05:27 -0000
+X-List-Received-Date: Sun, 26 May 2013 06:05:53 -0000
 Content-Type: text/plain
 
-To be safe, we specifiy all four possible fields
-even if some trailing ones are null.
+From: Lei Yang <lei.yang@windriver.com>
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
+dev86 is only used for x86/x86-64
+
+Signed-off-by: Lei Yang <lei.yang@windriver.com>
 ---
- recipes-containers/lxc/lxc_0.9.0.bb |    4 ++--
- 1 files changed, 2 insertions(+), 2 deletions(-)
+ recipes-extended/dev86/dev86_0.16.19.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-index 1db6d40..1e36dd9 100644
---- a/recipes-containers/lxc/lxc_0.9.0.bb
-+++ b/recipes-containers/lxc/lxc_0.9.0.bb
-@@ -35,8 +35,8 @@ S = "${WORKDIR}/${PN}-${PV}"
- EXTRA_OECONF += "--with-distro=${DISTRO}"
+diff --git a/recipes-extended/dev86/dev86_0.16.19.bb b/recipes-extended/dev86/dev86_0.16.19.bb
+index ea03812..807504e 100644
+--- a/recipes-extended/dev86/dev86_0.16.19.bb
++++ b/recipes-extended/dev86/dev86_0.16.19.bb
+@@ -33,5 +33,5 @@ do_install() {
+ 	ln -s ../lib/bcc/bcc-cc1 ${D}${prefix}/bin/bcc-cc1
  
- PACKAGECONFIG ??= ""
--PACKAGECONFIG[doc] = "--enable-doc,--disable-doc"
--PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath"
-+PACKAGECONFIG[doc] = "--enable-doc,--disable-doc,,"
-+PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
- PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
- 
- inherit autotools
+ }
+-
++COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
+ FILES_${PN} += "${libdir}/bcc"
 -- 
-1.7.3.4
+1.7.1
 
 
