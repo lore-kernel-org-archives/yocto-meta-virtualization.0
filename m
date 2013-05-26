@@ -1,24 +1,36 @@
-Return-Path: <Lei.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2218E013A2
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
+	[209.85.215.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1C9DBE013EE
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 25 May 2013 23:05:53 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r4Q64VKc003927
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 25 May 2013 23:04:31 -0700 (PDT)
-Received: from pek-lpgtest3.wrs.com (128.224.153.83) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.342.3; Sat, 25 May 2013 23:04:30 -0700
-From: <lei.yang@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <david.c.nystrom@gmail.com>,
-	<bruce.ashfield@gmail.co>
-Date: Sun, 26 May 2013 14:04:29 +0800
-Message-ID: <1369548269-22464-1-git-send-email-lei.yang@windriver.com>
-X-Mailer: git-send-email 1.7.1
+	Sun, 26 May 2013 08:39:48 -0700 (PDT)
+Received: by mail-la0-f48.google.com with SMTP id fs12so5723778lab.7
+	for <meta-virtualization@yoctoproject.org>;
+	Sun, 26 May 2013 08:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=VP3nPlYzNFnSEWnvpzN+HTvLuJ1EoNuJ9pifG3bZZtY=;
+	b=QQkG5Vxf8LYxN7286jEg6tY/grtY4K1TblAfBRZylLFFD5M27P1VWrDGN1byCVsghv
+	T2yb5pZx9pEe9yWlSfprHohQA/k9CG6raD3xEUMAFxkywwhjZrAWUYeEWwNgUE05jaEC
+	6K/1c9g147vZxGdeFMaHTTv1nmFuXoPXCcIyxZljxOYMDpoxfuuuy0RqtIvI7oY+aV0B
+	uBS7jLu2tL9mBZIARjp1vIThI3nIQktSk+DdXoE0IvH7qXU9P1vZOGOAoSjoPiAf+sNr
+	WTuSb5bWg6l9XsGDr/4om9g+mFV1C6qSlmCB/tPxXxyh00NqjthJYZ4vhMES+y4e99Ik
+	lFdg==
 MIME-Version: 1.0
-Subject: [PATCH] dev86: add "COMPATIBLE_HOST" in the recipe
+X-Received: by 10.112.20.3 with SMTP id j3mr12286707lbe.90.1369582787284; Sun,
+	26 May 2013 08:39:47 -0700 (PDT)
+Received: by 10.112.166.100 with HTTP; Sun, 26 May 2013 08:39:47 -0700 (PDT)
+In-Reply-To: <1369548269-22464-1-git-send-email-lei.yang@windriver.com>
+References: <1369548269-22464-1-git-send-email-lei.yang@windriver.com>
+Date: Sun, 26 May 2013 11:39:47 -0400
+Message-ID: <CADkTA4MQEGUh92FkVXLzdSs3YdffdjwbiDTxSvqy13ATZkN0LA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: lei yang <lei.yang@windriver.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>,
+	Bruce Ashfield <bruce.ashfield@gmail.co>
+Subject: Re: [PATCH] dev86: add "COMPATIBLE_HOST" in the recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -31,30 +43,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2013 06:05:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 26 May 2013 15:39:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Lei Yang <lei.yang@windriver.com>
+On Sun, May 26, 2013 at 2:04 AM,  <lei.yang@windriver.com> wrote:
+> From: Lei Yang <lei.yang@windriver.com>
+>
+> dev86 is only used for x86/x86-64
 
-dev86 is only used for x86/x86-64
+A reasonable change. I've staged it here.
 
-Signed-off-by: Lei Yang <lei.yang@windriver.com>
----
- recipes-extended/dev86/dev86_0.16.19.bb |    2 +-
- 1 files changed, 1 insertions(+), 1 deletions(-)
+Bruce
 
-diff --git a/recipes-extended/dev86/dev86_0.16.19.bb b/recipes-extended/dev86/dev86_0.16.19.bb
-index ea03812..807504e 100644
---- a/recipes-extended/dev86/dev86_0.16.19.bb
-+++ b/recipes-extended/dev86/dev86_0.16.19.bb
-@@ -33,5 +33,5 @@ do_install() {
- 	ln -s ../lib/bcc/bcc-cc1 ${D}${prefix}/bin/bcc-cc1
- 
- }
--
-+COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
- FILES_${PN} += "${libdir}/bcc"
--- 
-1.7.1
+>
+> Signed-off-by: Lei Yang <lei.yang@windriver.com>
+> ---
+>  recipes-extended/dev86/dev86_0.16.19.bb |    2 +-
+>  1 files changed, 1 insertions(+), 1 deletions(-)
+>
+> diff --git a/recipes-extended/dev86/dev86_0.16.19.bb b/recipes-extended/dev86/dev86_0.16.19.bb
+> index ea03812..807504e 100644
+> --- a/recipes-extended/dev86/dev86_0.16.19.bb
+> +++ b/recipes-extended/dev86/dev86_0.16.19.bb
+> @@ -33,5 +33,5 @@ do_install() {
+>         ln -s ../lib/bcc/bcc-cc1 ${D}${prefix}/bin/bcc-cc1
+>
+>  }
+> -
+> +COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
+>  FILES_${PN} += "${libdir}/bcc"
+> --
+> 1.7.1
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
+
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
