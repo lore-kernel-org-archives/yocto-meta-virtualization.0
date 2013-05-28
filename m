@@ -1,36 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1C9DBE013EE
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D0748E01423
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 26 May 2013 08:39:48 -0700 (PDT)
-Received: by mail-la0-f48.google.com with SMTP id fs12so5723778lab.7
+	Tue, 28 May 2013 16:15:24 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4SNFMZs018140
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 26 May 2013 08:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=VP3nPlYzNFnSEWnvpzN+HTvLuJ1EoNuJ9pifG3bZZtY=;
-	b=QQkG5Vxf8LYxN7286jEg6tY/grtY4K1TblAfBRZylLFFD5M27P1VWrDGN1byCVsghv
-	T2yb5pZx9pEe9yWlSfprHohQA/k9CG6raD3xEUMAFxkywwhjZrAWUYeEWwNgUE05jaEC
-	6K/1c9g147vZxGdeFMaHTTv1nmFuXoPXCcIyxZljxOYMDpoxfuuuy0RqtIvI7oY+aV0B
-	uBS7jLu2tL9mBZIARjp1vIThI3nIQktSk+DdXoE0IvH7qXU9P1vZOGOAoSjoPiAf+sNr
-	WTuSb5bWg6l9XsGDr/4om9g+mFV1C6qSlmCB/tPxXxyh00NqjthJYZ4vhMES+y4e99Ik
-	lFdg==
+	Tue, 28 May 2013 16:15:22 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.342.3; Tue, 28 May 2013 16:15:22 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 28 May 2013 16:15:21 -0700
+Message-ID: <1369782921-9572-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.112.20.3 with SMTP id j3mr12286707lbe.90.1369582787284; Sun,
-	26 May 2013 08:39:47 -0700 (PDT)
-Received: by 10.112.166.100 with HTTP; Sun, 26 May 2013 08:39:47 -0700 (PDT)
-In-Reply-To: <1369548269-22464-1-git-send-email-lei.yang@windriver.com>
-References: <1369548269-22464-1-git-send-email-lei.yang@windriver.com>
-Date: Sun, 26 May 2013 11:39:47 -0400
-Message-ID: <CADkTA4MQEGUh92FkVXLzdSs3YdffdjwbiDTxSvqy13ATZkN0LA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: lei yang <lei.yang@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Bruce Ashfield <bruce.ashfield@gmail.co>
-Subject: Re: [PATCH] dev86: add "COMPATIBLE_HOST" in the recipe
+Cc: joe.slater@windriver.com
+Subject: [PATCH 1/1] libvirt: move libvirt-guests.sh to /etc/init.d
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,46 +32,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2013 15:39:49 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 28 May 2013 23:15:24 -0000
+Content-Type: text/plain
 
-On Sun, May 26, 2013 at 2:04 AM,  <lei.yang@windriver.com> wrote:
-> From: Lei Yang <lei.yang@windriver.com>
->
-> dev86 is only used for x86/x86-64
+CQID: 418962
 
-A reasonable change. I've staged it here.
+The script does not seem to meet the definition
+of what should go into /usr/libexec and is a superset
+of a normal "service" script, so we move it to
+/etc/init.d.
 
-Bruce
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ recipes-extended/libvirt/libvirt_1.0.3.bb |    6 +++++-
+ 1 files changed, 5 insertions(+), 1 deletions(-)
 
->
-> Signed-off-by: Lei Yang <lei.yang@windriver.com>
-> ---
->  recipes-extended/dev86/dev86_0.16.19.bb |    2 +-
->  1 files changed, 1 insertions(+), 1 deletions(-)
->
-> diff --git a/recipes-extended/dev86/dev86_0.16.19.bb b/recipes-extended/dev86/dev86_0.16.19.bb
-> index ea03812..807504e 100644
-> --- a/recipes-extended/dev86/dev86_0.16.19.bb
-> +++ b/recipes-extended/dev86/dev86_0.16.19.bb
-> @@ -33,5 +33,5 @@ do_install() {
->         ln -s ../lib/bcc/bcc-cc1 ${D}${prefix}/bin/bcc-cc1
->
->  }
-> -
-> +COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
->  FILES_${PN} += "${libdir}/bcc"
-> --
-> 1.7.1
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+index ea136bc..63fa598 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.3.bb
++++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://libvirt.org"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
+ SECTION = "console/tools"
+-PR = "r3"
++PR = "r5"
+ 
+ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
+ 	   iptables ebtables dnsmasq readline"
+@@ -146,4 +146,8 @@ do_install_append() {
+ 
+ 	install -m 0755 ${WORKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
+ 	install -m 0644 ${WORKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
++
++	# This will wind up in the libvirtd package, but will NOT be invoked by default.
++	#
++	mv ${D}/usr/libexec/libvirt-guests.sh ${D}/${sysconfdir}/init.d
+ }
+-- 
+1.7.3.4
 
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
