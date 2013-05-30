@@ -1,25 +1,35 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F4186E01423
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C9199E014FD
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 29 May 2013 13:16:37 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r4TKGbuU006606
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 29 May 2013 19:31:52 -0700 (PDT)
+Received: by mail-lb0-f170.google.com with SMTP id t13so62072lbd.1
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 29 May 2013 13:16:37 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Wed, 29 May 2013 13:16:37 -0700
-From: Joe Slater <jslater@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 29 May 2013 13:16:36 -0700
-Message-ID: <1369858596-719-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+	Wed, 29 May 2013 19:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=76LIuZJTU6R2x8CPS+7tL610xDXVk/UcUDitfQTjyXk=;
+	b=Gjy2ESj9Ysoyityw154wfrerIh1pV2kIu2M3bhbldv7zCkwdv5AWiAeU6I2qvyut/3
+	pTtkwDIy/tGSiSFOfPayt6jpf0ubOAriszPQ4W0KlfZhQnWpCSYhoGp/AVTp1twfpQV6
+	kvjEkovR3ZtSPAVQkCLDx8wO9EVCHeK6ZeXQo0182KmG0vWHqkvIL6XRfdV00bPQw6J+
+	7pZx9wgPtO5i7slf5QgvVEVv98RUX1SbhYK7q4s9Ngigb4RKDRQhx5SzJR5RbwqVyDp9
+	cNEFdyoByo2dMN+61XSn8cd6EcAT4TfRMy62lhXH8lfKLwBl47WtLCOnk3nwOxQ30p8x
+	TTrA==
 MIME-Version: 1.0
-Cc: joe.slater@windriver.com
-Subject: [v2][PATCH 1/1] libvirt: move libvirt-guests.sh to /etc/init.d
+X-Received: by 10.112.146.233 with SMTP id tf9mr2733952lbb.33.1369881111736;
+	Wed, 29 May 2013 19:31:51 -0700 (PDT)
+Received: by 10.112.71.14 with HTTP; Wed, 29 May 2013 19:31:51 -0700 (PDT)
+In-Reply-To: <1369810513-19253-1-git-send-email-lei.yang@windriver.com>
+References: <1369810513-19253-1-git-send-email-lei.yang@windriver.com>
+Date: Wed, 29 May 2013 22:31:51 -0400
+Message-ID: <CADkTA4OL+3NRFUGmmCNMaD+Z9pez=aPqwi0am1dHbKRFhC8y4A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: lei yang <lei.yang@windriver.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] libvirt: Enable selinux if selinux is available
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -32,44 +42,53 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2013 20:16:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 May 2013 02:31:53 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-CQID: 418962
+On Wed, May 29, 2013 at 2:55 AM,  <lei.yang@windriver.com> wrote:
+> From: Lei Yang <lei.yang@windriver.com>
+>
+> Enable selinux when "DISTRO_FEATURES" contains selinux'
 
-The script does not seem to meet the definition
-of what should go into /usr/libexec and is a superset
-of a normal "service" script, so we move it to
-/etc/init.d.
+Looks good to me. Staged locally, I'll push it out soon.
 
-Signed-off-by: Joe Slater <jslater@windriver.com>
----
- recipes-extended/libvirt/libvirt_1.0.3.bb |    6 +++++-
- 1 files changed, 5 insertions(+), 1 deletions(-)
+Bruce
 
-diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
-index 989b8b1..9ced413 100644
---- a/recipes-extended/libvirt/libvirt_1.0.3.bb
-+++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://libvirt.org"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
- SECTION = "console/tools"
--PR = "r4"
-+PR = "r5"
- 
- DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
- 	   iptables ebtables dnsmasq readline"
-@@ -146,4 +146,8 @@ do_install_append() {
- 
- 	install -m 0755 ${WORKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
- 	install -m 0644 ${WORKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
-+
-+	# This will wind up in the libvirtd package, but will NOT be invoked by default.
-+	#
-+	mv ${D}/usr/libexec/libvirt-guests.sh ${D}/${sysconfdir}/init.d
- }
--- 
-1.7.3.4
+>
+> Signed-off-by: Lei Yang <lei.yang@windriver.com>
+> ---
+>  recipes-extended/libvirt/libvirt_1.0.3.bb |    4 ++--
+>  1 files changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+> index 989b8b1..b0a4e0a 100644
+> --- a/recipes-extended/libvirt/libvirt_1.0.3.bb
+> +++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+> @@ -112,7 +112,7 @@ INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
+>
+>  # full config
+>  PACKAGECONFIG ??= "qemu yajl xen libxl xen-inotify uml openvz vmware vbox esx \
+> -                  polkit lxc test remote macvtap libvirtd netcf udev python"
+> +                  polkit lxc test remote macvtap libvirtd netcf udev python ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)}"
+>
+>  PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu"
+>  PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
+> @@ -136,7 +136,7 @@ PACKAGECONFIG[libvirtd] = "--with-libvirtd,--without-libvirtd"
+>  PACKAGECONFIG[netcf] = "--with-netcf,--without-netcf,netcf,netcf"
+>  PACKAGECONFIG[dtrace] = "--with-dtrace,--without-dtrace,,"
+>  PACKAGECONFIG[udev] = "--with-udev --with-pciaccess,--without-udev,udev libpciaccess,"
+> -
+> +PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux"
+>  # Enable the Python tool support
+>  require libvirt-python.inc
+>
+> --
+> 1.7.1
+>
 
+
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
