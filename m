@@ -1,27 +1,45 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0187BE014E1
+Return-Path: <B28495@freescale.com>
+Received: from va3outboundpool.messaging.microsoft.com
+	(va3ehsobe001.messaging.microsoft.com [216.32.180.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DF822E01568
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  3 Jun 2013 15:08:27 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r53M8QFP017301
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 3 Jun 2013 15:08:26 -0700 (PDT)
-Received: from [128.224.22.24] (128.224.22.24) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.2.342.3;
-	Mon, 3 Jun 2013 15:08:26 -0700
-Message-ID: <51AD13D7.4000107@windriver.com>
-Date: Mon, 3 Jun 2013 18:08:23 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:17.0) Gecko/20130510 Thunderbird/17.0.6
+	Thu,  6 Jun 2013 19:45:17 -0700 (PDT)
+Received: from mail76-va3-R.bigfish.com (10.7.14.242) by
+	VA3EHSOBE009.bigfish.com (10.7.40.29) with Microsoft SMTP Server id
+	14.1.225.23; Fri, 7 Jun 2013 02:45:15 +0000
+Received: from mail76-va3 (localhost [127.0.0.1])	by mail76-va3-R.bigfish.com
+	(Postfix) with ESMTP id AFC341C00EF	for
+	<meta-virtualization@yoctoproject.org>;
+	Fri,  7 Jun 2013 02:45:15 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz17326ah1954cbh8275bh8275dhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
+Received: from mail76-va3 (localhost.localdomain [127.0.0.1]) by mail76-va3
+	(MessageSwitch) id 1370573113916280_24478;
+	Fri,  7 Jun 2013 02:45:13 +0000 (UTC)
+Received: from VA3EHSMHS012.bigfish.com (unknown [10.7.14.250])	by
+	mail76-va3.bigfish.com (Postfix) with ESMTP id DBE2546088A	for
+	<meta-virtualization@yoctoproject.org>;
+	Fri,  7 Jun 2013 02:45:13 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS012.bigfish.com
+	(10.7.99.22) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Fri, 7 Jun 2013 02:45:13 +0000
+Received: from tx30smr01.am.freescale.net (10.81.153.31) by
+	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
+	Server (TLS) id 14.2.328.11; Fri, 7 Jun 2013 02:46:30 +0000
+Received: from right.am.freescale.net (right.am.freescale.net [10.82.176.228])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	r572jBdm030724; Thu, 6 Jun 2013 19:45:12 -0700
+From: <b28495@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Thu, 6 Jun 2013 21:45:11 -0500
+Message-ID: <1370573111-13102-1-git-send-email-b28495@freescale.com>
+X-Mailer: git-send-email 1.7.9.7
 MIME-Version: 1.0
-To: Paul Barrette <paul.barrette@windriver.com>
-References: <1370293347-30609-1-git-send-email-paul.barrette@windriver.com>
-In-Reply-To: <1370293347-30609-1-git-send-email-paul.barrette@windriver.com>
-Cc: bruce.ashfield@mail.wrs.com, meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] openvswitch: uprev to 1.10 and documentation update.
+X-OriginatorOrg: freescale.com
+Cc: b19537@freescale.com
+Subject: [PATCH] libvirt: use libexecdir instead of hard code path
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -34,296 +52,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2013 22:08:28 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Jun 2013 02:45:18 -0000
+Content-Type: text/plain
 
-On 13-06-03 05:02 PM, Paul Barrette wrote:
-> -Uprev to 1.10
-> -removed vswitch_test.sh
-> -added openvswitch.txt.
+From: Ting Liu <b28495@freescale.com>
 
-Looks fine here. I've staged the patch and will push it out if no
-one objects in 24h.
+Signed-off-by: Ting Liu <b28495@freescale.com>
+---
+ recipes-extended/libvirt/libvirt_1.0.3.bb |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Cheers,
+diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb b/recipes-extended/libvirt/libvirt_1.0.3.bb
+index b29c055..479ce7e 100644
+--- a/recipes-extended/libvirt/libvirt_1.0.3.bb
++++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://libvirt.org"
+ LICENSE = "GPLv2+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
+ SECTION = "console/tools"
+-PR = "r5"
++PR = "r6"
+ 
+ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
+ 	   iptables ebtables dnsmasq readline"
+@@ -149,5 +149,5 @@ do_install_append() {
+ 
+ 	# This will wind up in the libvirtd package, but will NOT be invoked by default.
+ 	#
+-	mv ${D}/usr/libexec/libvirt-guests.sh ${D}/${sysconfdir}/init.d
++	mv ${D}/${libexecdir}/libvirt-guests.sh ${D}/${sysconfdir}/init.d
+ }
+-- 
+1.7.9.7
 
-Bruce
-
->
-> Signed-off-by: Paul Barrette <paul.barrette@windriver.com>
-> ---
->   docs/00-INDEX                                      |   2 +
->   docs/openvswitch.txt                               |  96 +++++++++++++++++++
->   docs/vswitch_test.sh                               |  36 --------
->   .../openvswitch/openvswitch_1.10.0.bb              | 102 +++++++++++++++++++++
->   4 files changed, 200 insertions(+), 36 deletions(-)
->   create mode 100644 docs/openvswitch.txt
->   delete mode 100755 docs/vswitch_test.sh
->   create mode 100644 recipes-networking/openvswitch/openvswitch_1.10.0.bb
->
-> diff --git a/docs/00-INDEX b/docs/00-INDEX
-> index 41d83a5..a2ffd99 100644
-> --- a/docs/00-INDEX
-> +++ b/docs/00-INDEX
-> @@ -8,3 +8,5 @@ alphabetical order as well.
->   00-README
->           - info on the goals of meta-virtualization and this docs subdir
->
-> +openvswitch.txt
-> +	- example on how to setup openvswitch with qemu/kvm.
-> diff --git a/docs/openvswitch.txt b/docs/openvswitch.txt
-> new file mode 100644
-> index 0000000..4410d27
-> --- /dev/null
-> +++ b/docs/openvswitch.txt
-> @@ -0,0 +1,96 @@
-> +Simple setup for connecting openvswitch to qemu/kvm
-> +===================================================
-> +This example brings up openvswitch using a private network.
-> +
-> +Preliminary notes
-> +=================
-> +1. Make sure to build kernel support for openvswitch as a module.  The
-> +openvswitch init scripts expect to load a module and upon success
-> +continue to setup the switch.  If openvswitch is compiled
-> +statically, the init scripts not load the ovs-vswitchd daemon
-> +and none of the configured bridges will show up in the interfaces
-> +table (ifconfig).  You can get around this limiation by running the
-> +following by hand:
-> +	# ovs-vswitchd --pidfile --detach
-> +
-> +2. Verify that ovs-vswitchd is running before proceeding:
-> +	# /etc/init.d/openvswitch-switch status
-> +	ovsdb-server is running with pid 1867
-> +	ovs-vswitchd is running with pid 1877
-> +
-> +3. A kernel and rootfs is required for qemu bring up.
-> +
-> +Qemu Setup
-> +==========
-> +The host requires a /etc/qemu-ifup script to setup the bridging and tap
-> +devices.  Qemu will invoke this qemu-ifup script at startup.  Here is
-> +an example script:
-> +$ cat /etc/qemu-fup
-> +	#!/bin/sh
-> +	# the tap is dynamically assigned and passed into this script
-> +	# as a parameter
-> +	TAP=$1
-> +
-> +	# Note: if booting over NFS, once the $ETH0 device is added to the bridge,
-> +	# your host will be unusable.  In that case, setup networking
-> +	# init scripts appropriately and change the following to work
-> +	# with it.
-> +	ETH0="eth1"
-> +	NETMASK=255.255.255.0
-> +	IP=192.168.1.1
-> +	GATEWAY=
-> +	SWITCH=ovsbr0
-> +	if [ -n "$TAP" ];then
-> +		ifconfig $TAP up
-> +		ifconfig $SWITCH down &>/dev/null
-> +		ovs-vsctl del-br $SWITCH
-> +		ovs-vsctl add-br $SWITCH
-> +		ifconfig $ETH0 0.0.0.0
-> +		ifconfig $SWITCH $IP up netmask $NETMASK
-> +		#-- external access not required for this test.
-> +		#route add default gw $GATEWAY
-> +		ovs-vsctl add-port $SWITCH $ETH0
-> +		ovs-vsctl add-port $SWITCH $TAP
-> +		exit 0
-> +	else
-> +		echo "$0: No tap device"
-> +		exit 1
-> +	fi
-> +
-> +Start Qemu
-> +==========
-> +This example will bring up qemu with a tap network interface.
-> +Note: this command must be run as root due to the networking setup.
-> +
-> +	$ qemu-system-x86_64 -nographic -k en-us -m 1024  \
-> +		-net nic,macaddr=1a:46:0b:ca:bc:7a,model=virtio \
-> +		-net tap -enable-kvm\
-> +		-kernel /opt/dpdk-guest-kernel \
-> +		-append 'root=/dev/vda ro console=ttyS0' \
-> +		-drive file=/opt/intel-xeon-core-ovp-kvm-preempt-rt-dist.ext3,cache=none,if=virtio
-> +
-> +Once the guest OS is up and running, configure the quest network interface:
-> +	$ ifconfig eth0 192.168.1.10
-> +
-> +Ping the bridge:
-> +	$ ping 192.168.1.1
-> +
-> +From the host, view the bridged network:
-> +$ ovs-vsctl show
-> +c1212b96-ef49-4a8e-b598-09b05b854dd0
-> +    Bridge "ovsbr0"
-> +        Port "tap0"
-> +            Interface "tap0"
-> +        Port "eth1"
-> +            Interface "eth1"
-> +        Port "ovsbr0"
-> +            Interface "ovsbr0"
-> +                type: internal
-> +
-> +At this point, openvswitch is up and running.  If you want external
-> +network access, you need to set a GATEWAY in the qemu-ifup script and
-> +make sure the external device is part of the bridge.
-> +
-> +Note:
-> +Proper setup will require a /etc/qemu-ifdown script to tear down the
-> +bridge and interfaces. (not provided here).
-> diff --git a/docs/vswitch_test.sh b/docs/vswitch_test.sh
-> deleted file mode 100755
-> index 63168e3..0000000
-> --- a/docs/vswitch_test.sh
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -#!/bin/sh
-> -
-> -# runqemu defaults for the first "guest"
-> -#
-> -my_inet4="192.168.7.2"
-> -my_gw="192.168.7.1"
-> -
-> -# create a bridge
-> -#
-> -ovs-vsctl add-br br-int
-> -
-> -# Add a physical interface to your virtual bridge for connectivity off box.
-> -# If your rootfs is nfs mounted (on eth0), you will die after attaching it
-> -# to the bridge.
-> -#
-> -ovs-vsctl add-port br-int eth0
-> -
-> -# Zero out your eth0 interface and slap it on the bridge interface.
-> -#
-> -ifconfig eth0 0
-> -ifconfig br-int ${my_inet4} netmask 255.255.255.0
-> -
-> -# Change your default route.  If you don't do this, nothing will
-> -# be reachable.
-> -#
-> -route add default gw ${my_gw} br-int
-> -
-> -(You can then check that the connection works.)
-> -
-> -# The bridge configuration is persistant, so if something goes wrong
-> -# and you reboot, it will still be messed up.  Destroy the bridge,
-> -# then add a route, or reboot.
-> -#
-> -ovs-vsctl del-br br-int
-> -ifconfig eth0 ${my_inet4}
-> -route add default gw ${my_gw} eth0
-> diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> new file mode 100644
-> index 0000000..2e89454
-> --- /dev/null
-> +++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> @@ -0,0 +1,102 @@
-> +SUMMARY = "OpenvSwitch"
-> +DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
-> +HOMEPAGE = "http://openvswitch.org/"
-> +SECTION = "networking"
-> +LICENSE = "Apache-2"
-> +
-> +DEPENDS += "bridge-utils openssl python perl"
-> +
-> +RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid \
-> +	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
-> +RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
-> +RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
-> +RDEPENDS_${PN}-pki = "${PN}"
-> +RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
-> +RRECOMMENDS_${PN} += "kernel-module-openvswitch"
-> +
-> +PR = "r0"
-> +
-> +SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
-> +	file://openvswitch-switch \
-> +	file://openvswitch-switch-setup \
-> +	file://openvswitch-controller \
-> +	file://openvswitch-controller-setup \
-> +	"
-> +
-> +SRC_URI[md5sum] = "e9004202b0e10c0de9870f19d2044f11"
-> +SRC_URI[sha256sum] = "825730db82c7b46a142f057a43345590c299e66704ef7a88d9ed4ffd0c3d6b64"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
-> +
-> +# Don't compile kernel modules by default since it heavily depends on
-> +# kernel version. Use the in-kernel module for now.
-> +# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
-> +# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
-> +
-> +ALLOW_EMPTY_${PN}-pki = "1"
-> +PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
-> +
-> +FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
-> +	${sysconfdir}/default/openvswitch-controller \
-> +	${sysconfdir}/openvswitch-controller \
-> +	${bindir}/ovs-controller"
-> +
-> +FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
-> +
-> +FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
-> +		   ${sysconfdir}/default/openvswitch-switch \
-> +		   "
-> +# silence a warning
-> +FILES_${PN} += "${datadir}/ovsdbmonitor"
-> +
-> +inherit autotools update-rc.d
-> +
-> +INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
-> +INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
-> +INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
-> +
-> +INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
-> +INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
-> +
-> +do_install_append() {
-> +	install -d ${D}/${sysconfdir}/default/
-> +	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
-> +	install -d ${D}/${sysconfdir}/openvswitch-controller
-> +	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
-> +
-> +	install -d ${D}/${sysconfdir}/init.d/
-> +	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
-> +	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
-> +	true || rm -fr ${D}/${datadir}/${PN}/pki
-> +}
-> +
-> +pkg_postinst_${PN}-pki () {
-> +	# can't do this offline
-> +        if [ "x$D" != "x" ]; then
-> +                exit 1
-> +        fi
-> +	if test ! -d $D/${datadir}/${PN}/pki; then
-> +            ovs-pki init --dir=$D/${datadir}/${PN}/pki
-> +        fi
-> +}
-> +
-> +pkg_postinst_${PN}-controller () {
-> +        # can't do this offline
-> +        if [ "x$D" != "x" ]; then
-> +                exit 1
-> +        fi
-> +
-> +	cd $D/${sysconfdir}/openvswitch-controller
-> +        if ! test -e cacert.pem; then
-> +            ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
-> +        fi
-> +        if ! test -e privkey.pem || ! test -e cert.pem; then
-> +            oldumask=$(umask)
-> +            umask 077
-> +            ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
-> +            mv tmp-privkey.pem privkey.pem
-> +            mv tmp-cert.pem cert.pem
-> +            mv tmp-req.pem req.pem
-> +            chmod go+r cert.pem req.pem
-> +            umask $oldumask
-> +        fi
-> +}
->
 
 
