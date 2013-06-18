@@ -1,35 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 17A20E01538
+Return-Path: <B28495@freescale.com>
+Received: from va3outboundpool.messaging.microsoft.com
+	(va3ehsobe001.messaging.microsoft.com [216.32.180.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36CE0E01483
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Jun 2013 05:39:26 -0700 (PDT)
-Received: by mail-lb0-f175.google.com with SMTP id r10so3258281lbi.20
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Jun 2013 05:39:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=pxUos0xYT/xM4pLzmYik+/bZ1Hf52jI9KkWEMCmBrWE=;
-	b=weIvaQ9/DpyuLRPprWZdtsNvA1ROXi5JV1MV1Zg4d87nqLH3yz/t1YsZXpIWN7IBa6
-	bHbyan7c39vr0fhJZU9O0DbzAYlOzzQ4oQBDyKyNRVn4wFOysXC5ZfIEYnTnop0TeRki
-	XhGoSAphx3TgKMdrnWafspHZK+iy+4nKB/rGA2pQrOnK0vuv5hZVElpafNffoQCO1wKA
-	pxLhrZJIDSetuHt+sYV03fFba2gEgRaYzbeNUsqYWaq6d0XjHYehBxrtkwIIFLedNo+q
-	PWDCfAMCOBHZ34MD/zlt46C706fOBamzlE+5hvlp/FZJC8OEVq6gf6TB2arQT/rmO6BG
-	tUcw==
+	Mon, 17 Jun 2013 19:35:49 -0700 (PDT)
+Received: from mail131-va3-R.bigfish.com (10.7.14.254) by
+	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
+	14.1.225.23; Tue, 18 Jun 2013 02:35:47 +0000
+Received: from mail131-va3 (localhost [127.0.0.1])	by
+	mail131-va3-R.bigfish.com (Postfix) with ESMTP id 2EA6C2400B2;
+	Tue, 18 Jun 2013 02:35:47 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: -4
+X-BigFish: VS-4(zz98dI9371I542I1432I4015Izz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz17326ah1954cbh8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
+Received: from mail131-va3 (localhost.localdomain [127.0.0.1]) by mail131-va3
+	(MessageSwitch) id 1371522945461194_16735;
+	Tue, 18 Jun 2013 02:35:45 +0000 (UTC)
+Received: from VA3EHSMHS017.bigfish.com (unknown [10.7.14.247])	by
+	mail131-va3.bigfish.com (Postfix) with ESMTP id 622E7C0070;
+	Tue, 18 Jun 2013 02:35:45 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS017.bigfish.com
+	(10.7.99.27) with Microsoft SMTP Server (TLS) id 14.1.225.23;
+	Tue, 18 Jun 2013 02:35:41 +0000
+Received: from 039-SN2MPN1-011.039d.mgd.msft.net ([169.254.1.25]) by
+	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
+	14.02.0328.011; Tue, 18 Jun 2013 02:35:41 +0000
+From: Liu Ting-B28495 <B28495@freescale.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [meta-virtualization] [PATCH] libvirt: use libexecdir instead
+	of hard code path
+Thread-Index: AQHOZe7nFDYZeQa6N029970WDNBQUJk6zPng
+Date: Tue, 18 Jun 2013 02:35:40 +0000
+Message-ID: <AF604684617F454390621992F367F16901D15A31@039-SN2MPN1-011.039d.mgd.msft.net>
+References: <1370573111-13102-1-git-send-email-b28495@freescale.com>
+	<CADkTA4N=H5RUGCp-iL3ge_psPmpDPhbGTn2ywA3SOj6eo4bmwQ@mail.gmail.com>
+In-Reply-To: <CADkTA4N=H5RUGCp-iL3ge_psPmpDPhbGTn2ywA3SOj6eo4bmwQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.192.208.99]
 MIME-Version: 1.0
-X-Received: by 10.152.27.169 with SMTP id u9mr2191436lag.8.1370954364695; Tue,
-	11 Jun 2013 05:39:24 -0700 (PDT)
-Received: by 10.112.71.14 with HTTP; Tue, 11 Jun 2013 05:39:24 -0700 (PDT)
-In-Reply-To: <1370940490-41856-1-git-send-email-anders.roxell@linaro.org>
-References: <1370940490-41856-1-git-send-email-anders.roxell@linaro.org>
-Date: Tue, 11 Jun 2013 08:39:24 -0400
-Message-ID: <CADkTA4PrMMedmcwnMvjjt52RbrTAUa9MemEeweSRnhhxmJhW9A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Anders Roxell <anders.roxell@linaro.org>
+X-OriginatorOrg: freescale.com
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] openvswitch: Checksum missmatch fix
+	<meta-virtualization@yoctoproject.org>,
+	Luo Zhenhua-B19537 <B19537@freescale.com>
+Subject: Re: [PATCH] libvirt: use libexecdir instead of hard code path
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,50 +58,75 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2013 12:39:27 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 18 Jun 2013 02:35:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Hmmm. That's very strange to be broken.
+> -----Original Message-----
+> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
+> Sent: Monday, June 10, 2013 11:25 PM
+> To: Liu Ting-B28495
+> Cc: meta-virtualization@yoctoproject.org; Luo Zhenhua-B19537
+> Subject: Re: [meta-virtualization] [PATCH] libvirt: use libexecdir
+> instead of hard code path
+>=20
+> On Thu, Jun 6, 2013 at 10:45 PM,  <b28495@freescale.com> wrote:
+> > From: Ting Liu <b28495@freescale.com>
+>=20
+> Thanks, I've staged the change locally. Will push it out shortly.
+>=20
 
-I've grabbed the change, and will push it out, once I've seen a build work
-myself!
+Ping.
 
-Cheers,
-
-Bruce
-
-On Tue, Jun 11, 2013 at 4:48 AM, Anders Roxell <anders.roxell@linaro.org> wrote:
-> Signed-off-by: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  recipes-networking/openvswitch/openvswitch_1.10.0.bb |    4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> index 2e89454..fe112f2 100644
-> --- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> @@ -23,8 +23,8 @@ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
->         file://openvswitch-controller-setup \
->         "
->
-> -SRC_URI[md5sum] = "e9004202b0e10c0de9870f19d2044f11"
-> -SRC_URI[sha256sum] = "825730db82c7b46a142f057a43345590c299e66704ef7a88d9ed4ffd0c3d6b64"
-> +SRC_URI[md5sum] = "fe8b49efe9f86b57abab00166b971106"
-> +SRC_URI[sha256sum] = "803966c89d6a5de6d710a2cb4ed73ac8d8111a2c44b12b846dcef8e91ffab167"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
->
->  # Don't compile kernel modules by default since it heavily depends on
+> Bruce
+>=20
+> >
+> > Signed-off-by: Ting Liu <b28495@freescale.com>
+> > ---
+> >  recipes-extended/libvirt/libvirt_1.0.3.bb |    4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb
+> > b/recipes-extended/libvirt/libvirt_1.0.3.bb
+> > index b29c055..479ce7e 100644
+> > --- a/recipes-extended/libvirt/libvirt_1.0.3.bb
+> > +++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+> > @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://libvirt.org"
+> >  LICENSE =3D "GPLv2+"
+> >  LIC_FILES_CHKSUM =3D
+> "file://COPYING;md5=3Dfb919cc88dbe06ec0b0bd50e001ccf1f"
+> >  SECTION =3D "console/tools"
+> > -PR =3D "r5"
+> > +PR =3D "r6"
+> >
+> >  DEPENDS =3D "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpca=
+p
+> util-linux e2fsprogs pm-utils \
+> >            iptables ebtables dnsmasq readline"
+> > @@ -149,5 +149,5 @@ do_install_append() {
+> >
+> >         # This will wind up in the libvirtd package, but will NOT be
+> invoked by default.
+> >         #
+> > -       mv ${D}/usr/libexec/libvirt-guests.sh ${D}/${sysconfdir}/init.d
+> > +       mv ${D}/${libexecdir}/libvirt-guests.sh
+> > + ${D}/${sysconfdir}/init.d
+> >  }
+> > --
+> > 1.7.9.7
+> >
+> >
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>=20
+>=20
+>=20
 > --
-> 1.7.10.4
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
 
 
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
