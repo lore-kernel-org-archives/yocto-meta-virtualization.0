@@ -1,47 +1,34 @@
-Return-Path: <B28495@freescale.com>
-Received: from va3outboundpool.messaging.microsoft.com
-	(va3ehsobe001.messaging.microsoft.com [216.32.180.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36CE0E01483
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
+	[209.85.215.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7C916E01483
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 17 Jun 2013 19:35:49 -0700 (PDT)
-Received: from mail131-va3-R.bigfish.com (10.7.14.254) by
-	VA3EHSOBE007.bigfish.com (10.7.40.11) with Microsoft SMTP Server id
-	14.1.225.23; Tue, 18 Jun 2013 02:35:47 +0000
-Received: from mail131-va3 (localhost [127.0.0.1])	by
-	mail131-va3-R.bigfish.com (Postfix) with ESMTP id 2EA6C2400B2;
-	Tue, 18 Jun 2013 02:35:47 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -4
-X-BigFish: VS-4(zz98dI9371I542I1432I4015Izz1f42h1ee6h1de0h1fdah1202h1e76h1d1ah1d2ah1fc6hzz17326ah1954cbh8275bh8275dhz2dh2a8h668h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dfeh1dffh1e1dhbe9i1155h)
-Received: from mail131-va3 (localhost.localdomain [127.0.0.1]) by mail131-va3
-	(MessageSwitch) id 1371522945461194_16735;
-	Tue, 18 Jun 2013 02:35:45 +0000 (UTC)
-Received: from VA3EHSMHS017.bigfish.com (unknown [10.7.14.247])	by
-	mail131-va3.bigfish.com (Postfix) with ESMTP id 622E7C0070;
-	Tue, 18 Jun 2013 02:35:45 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by VA3EHSMHS017.bigfish.com
-	(10.7.99.27) with Microsoft SMTP Server (TLS) id 14.1.225.23;
-	Tue, 18 Jun 2013 02:35:41 +0000
-Received: from 039-SN2MPN1-011.039d.mgd.msft.net ([169.254.1.25]) by
-	039-SN1MMR1-003.039d.mgd.msft.net ([10.84.1.16]) with mapi id
-	14.02.0328.011; Tue, 18 Jun 2013 02:35:41 +0000
-From: Liu Ting-B28495 <B28495@freescale.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [meta-virtualization] [PATCH] libvirt: use libexecdir instead
-	of hard code path
-Thread-Index: AQHOZe7nFDYZeQa6N029970WDNBQUJk6zPng
-Date: Tue, 18 Jun 2013 02:35:40 +0000
-Message-ID: <AF604684617F454390621992F367F16901D15A31@039-SN2MPN1-011.039d.mgd.msft.net>
+	Mon, 17 Jun 2013 19:51:10 -0700 (PDT)
+Received: by mail-la0-f51.google.com with SMTP id fq12so3024487lab.24
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 17 Jun 2013 19:51:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=/ZtFBSZODcAQ1QzCAwbeJHRCAVE0MLrj9TL5M7sMn3Y=;
+	b=Vz9KSF/Kfq9X7Y+lQNVMddh82oeahd9bHniz0n+I4yX+yFrhwFzMRbWGjcxm0w9YTx
+	N91WH2poFA4YGSbiAs/QFSe+cxhHoIt+VIVtaKlIDh8cba/ka2J/sE/ete5W2AQ/BzQB
+	+vwZxRLAtwvVivpc+KdruhOf+u9pGRDVlrnFfJ3eGOF0t9DFmIfCKUtzYhRmnMVqPres
+	WVODEtO2cR0GyjVEZi73/R1feh/o4Flj1PpO4l5oeiW1teEnEm/JDFJUj+wYzhPc5+Hz
+	6l8OXOb2TnnAGsbRYA6rnXds+vvygFiTcL/NdYb0LRRqnOMnNxDCy2LxK24RStdSj6kS
+	Am8A==
+MIME-Version: 1.0
+X-Received: by 10.152.37.138 with SMTP id y10mr1875145laj.40.1371523869443;
+	Mon, 17 Jun 2013 19:51:09 -0700 (PDT)
+Received: by 10.112.71.14 with HTTP; Mon, 17 Jun 2013 19:51:09 -0700 (PDT)
+In-Reply-To: <AF604684617F454390621992F367F16901D15A31@039-SN2MPN1-011.039d.mgd.msft.net>
 References: <1370573111-13102-1-git-send-email-b28495@freescale.com>
 	<CADkTA4N=H5RUGCp-iL3ge_psPmpDPhbGTn2ywA3SOj6eo4bmwQ@mail.gmail.com>
-In-Reply-To: <CADkTA4N=H5RUGCp-iL3ge_psPmpDPhbGTn2ywA3SOj6eo4bmwQ@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.192.208.99]
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
+	<AF604684617F454390621992F367F16901D15A31@039-SN2MPN1-011.039d.mgd.msft.net>
+Date: Mon, 17 Jun 2013 22:51:09 -0400
+Message-ID: <CADkTA4N=QkTGmVu0iK9FjnrbTZKT6X2aMOMx37jheDp-78bryw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Liu Ting-B28495 <B28495@freescale.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>,
 	Luo Zhenhua-B19537 <B19537@freescale.com>
@@ -58,75 +45,86 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2013 02:35:50 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 18 Jun 2013 02:51:11 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-> -----Original Message-----
-> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
-> Sent: Monday, June 10, 2013 11:25 PM
-> To: Liu Ting-B28495
-> Cc: meta-virtualization@yoctoproject.org; Luo Zhenhua-B19537
-> Subject: Re: [meta-virtualization] [PATCH] libvirt: use libexecdir
-> instead of hard code path
->=20
-> On Thu, Jun 6, 2013 at 10:45 PM,  <b28495@freescale.com> wrote:
-> > From: Ting Liu <b28495@freescale.com>
->=20
-> Thanks, I've staged the change locally. Will push it out shortly.
->=20
+On Mon, Jun 17, 2013 at 10:35 PM, Liu Ting-B28495 <B28495@freescale.com> wrote:
+>> -----Original Message-----
+>> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
+>> Sent: Monday, June 10, 2013 11:25 PM
+>> To: Liu Ting-B28495
+>> Cc: meta-virtualization@yoctoproject.org; Luo Zhenhua-B19537
+>> Subject: Re: [meta-virtualization] [PATCH] libvirt: use libexecdir
+>> instead of hard code path
+>>
+>> On Thu, Jun 6, 2013 at 10:45 PM,  <b28495@freescale.com> wrote:
+>> > From: Ting Liu <b28495@freescale.com>
+>>
+>> Thanks, I've staged the change locally. Will push it out shortly.
+>>
+>
+> Ping.
 
-Ping.
+Hmm. I swear I pushed it out.  I merged patches after this, and they
+are present.
+I'll hunt for the changes in my test branch!
 
-> Bruce
->=20
-> >
-> > Signed-off-by: Ting Liu <b28495@freescale.com>
-> > ---
-> >  recipes-extended/libvirt/libvirt_1.0.3.bb |    4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb
-> > b/recipes-extended/libvirt/libvirt_1.0.3.bb
-> > index b29c055..479ce7e 100644
-> > --- a/recipes-extended/libvirt/libvirt_1.0.3.bb
-> > +++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
-> > @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://libvirt.org"
-> >  LICENSE =3D "GPLv2+"
-> >  LIC_FILES_CHKSUM =3D
-> "file://COPYING;md5=3Dfb919cc88dbe06ec0b0bd50e001ccf1f"
-> >  SECTION =3D "console/tools"
-> > -PR =3D "r5"
-> > +PR =3D "r6"
-> >
-> >  DEPENDS =3D "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpca=
-p
-> util-linux e2fsprogs pm-utils \
-> >            iptables ebtables dnsmasq readline"
-> > @@ -149,5 +149,5 @@ do_install_append() {
-> >
-> >         # This will wind up in the libvirtd package, but will NOT be
-> invoked by default.
-> >         #
-> > -       mv ${D}/usr/libexec/libvirt-guests.sh ${D}/${sysconfdir}/init.d
-> > +       mv ${D}/${libexecdir}/libvirt-guests.sh
-> > + ${D}/${sysconfdir}/init.d
-> >  }
-> > --
-> > 1.7.9.7
-> >
-> >
-> > _______________________________________________
-> > meta-virtualization mailing list
-> > meta-virtualization@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->=20
->=20
->=20
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
+Bruce
+
+>
+>> Bruce
+>>
+>> >
+>> > Signed-off-by: Ting Liu <b28495@freescale.com>
+>> > ---
+>> >  recipes-extended/libvirt/libvirt_1.0.3.bb |    4 ++--
+>> >  1 file changed, 2 insertions(+), 2 deletions(-)
+>> >
+>> > diff --git a/recipes-extended/libvirt/libvirt_1.0.3.bb
+>> > b/recipes-extended/libvirt/libvirt_1.0.3.bb
+>> > index b29c055..479ce7e 100644
+>> > --- a/recipes-extended/libvirt/libvirt_1.0.3.bb
+>> > +++ b/recipes-extended/libvirt/libvirt_1.0.3.bb
+>> > @@ -3,7 +3,7 @@ HOMEPAGE = "http://libvirt.org"
+>> >  LICENSE = "GPLv2+"
+>> >  LIC_FILES_CHKSUM =
+>> "file://COPYING;md5=fb919cc88dbe06ec0b0bd50e001ccf1f"
+>> >  SECTION = "console/tools"
+>> > -PR = "r5"
+>> > +PR = "r6"
+>> >
+>> >  DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap
+>> util-linux e2fsprogs pm-utils \
+>> >            iptables ebtables dnsmasq readline"
+>> > @@ -149,5 +149,5 @@ do_install_append() {
+>> >
+>> >         # This will wind up in the libvirtd package, but will NOT be
+>> invoked by default.
+>> >         #
+>> > -       mv ${D}/usr/libexec/libvirt-guests.sh ${D}/${sysconfdir}/init.d
+>> > +       mv ${D}/${libexecdir}/libvirt-guests.sh
+>> > + ${D}/${sysconfdir}/init.d
+>> >  }
+>> > --
+>> > 1.7.9.7
+>> >
+>> >
+>> > _______________________________________________
+>> > meta-virtualization mailing list
+>> > meta-virtualization@yoctoproject.org
+>> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+>> at its end"
+>
+>
 
 
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
