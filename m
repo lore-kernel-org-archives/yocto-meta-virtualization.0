@@ -1,25 +1,25 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9736AE003E3
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AE650E01403
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 20 Jun 2013 10:25:06 -0700 (PDT)
+	Wed, 26 Jun 2013 08:21:43 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r5KHP7w8029162
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r5QFLhjS021462
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 20 Jun 2013 10:25:07 -0700 (PDT)
-Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Thu, 20 Jun 2013 10:25:05 -0700
-From: Joe Slater <jslater@windriver.com>
+	Wed, 26 Jun 2013 08:21:43 -0700 (PDT)
+Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Wed, 26 Jun 2013 08:21:43 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 20 Jun 2013 10:25:04 -0700
-Message-ID: <1371749105-24841-1-git-send-email-jslater@windriver.com>
-X-Mailer: git-send-email 1.7.3.4
+Date: Wed, 26 Jun 2013 11:21:54 -0400
+Message-ID: <1372260114-28857-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-Cc: joe.slater@windriver.com
-Subject: [PATCH 1/2] Uprev irqbalance to 1.0.5
+X-Originating-IP: [128.224.146.23]
+Subject: [PATCH] openvswitch: add split between host and target python and perl paths
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -32,143 +32,276 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2013 17:25:08 -0000
+X-List-Received-Date: Wed, 26 Jun 2013 15:21:44 -0000
 Content-Type: text/plain
 
-From: Amy Fong <amy.fong@windriver.com>
+Openvswitch is built with the assumption that the PYTHON and PERL
+variables are common between the host and target. This can result in
+improper paths used for script substitutions which in turn causes
+scripts which will fail to run on the target and the generated
+packages to have improper REQUIRES, making them impossible to
+install. These are usually not an issue since python and perl are
+found in the same location on the host and target, but there is no
+guarantee of this so the possibility of failure exists. By explicitly
+defining the location of the python and perl on the target we can
+avoid these assumptions and possibility of failure.
 
-CQID: WIND00393798
-
-Uprev irqbalance to the latest version.
-
-  * consolidate logging
-  * Implement user policy script callout
-    (http://code.google.com/p/irqbalance/issues/detail?id=35)
-  * Replace fscanf(%as) by getline
-  * manpage: Improve the readability of the --banirq text
-  * glib-local: ad call for g_list_remove
-
-Also splitting files into inc and bb files.
-
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-extended/irqbalance/irqbalance.inc      |   32 +++++++++++++++++++
- recipes-extended/irqbalance/irqbalance_1.0.4.bb |   37 ++++------------------
- recipes-extended/irqbalance/irqbalance_1.0.5.bb |   14 ++++++++
- 3 files changed, 53 insertions(+), 30 deletions(-)
- create mode 100644 recipes-extended/irqbalance/irqbalance.inc
- create mode 100644 recipes-extended/irqbalance/irqbalance_1.0.5.bb
+ .../openvswitch-add-target-perl-handling.patch     |  61 +++++++++
+ .../openvswitch-add-target-python-handling.patch   | 149 +++++++++++++++++++++
+ .../openvswitch/openvswitch_1.10.0.bb              |   6 +
+ 3 files changed, 216 insertions(+)
+ create mode 100644 recipes-networking/openvswitch/files/openvswitch-add-target-perl-handling.patch
+ create mode 100644 recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch
 
-diff --git a/recipes-extended/irqbalance/irqbalance.inc b/recipes-extended/irqbalance/irqbalance.inc
+diff --git a/recipes-networking/openvswitch/files/openvswitch-add-target-perl-handling.patch b/recipes-networking/openvswitch/files/openvswitch-add-target-perl-handling.patch
 new file mode 100644
-index 0000000..c076913
+index 0000000..35a3d5b
 --- /dev/null
-+++ b/recipes-extended/irqbalance/irqbalance.inc
-@@ -0,0 +1,32 @@
-+#
-+# Copyright (C) 2013 Wind River Systems, Inc.
-+#
-+SUMMARY = "IRQ allocation daemon"
-+DESCRIPTION = "A daemon to balance interrupts across multiple CPUs, \
-+which can lead to better performance and IO balance on SMP systems."
++++ b/recipes-networking/openvswitch/files/openvswitch-add-target-perl-handling.patch
+@@ -0,0 +1,61 @@
++From 569ac1066cd3046b8ac899153df9f07908d45145 Mon Sep 17 00:00:00 2001
++From: Mark Asselstine <mark.asselstine@windriver.com>
++Date: Fri, 21 Jun 2013 11:16:00 -0400
++Subject: [PATCH] openvswitch: add target perl handling
 +
-+HOMEPAGE = "http://code.google.com/p/irqbalance/"
-+BUGTRACKER = "http://code.google.com/p/irqbalance/issues/list"
++Allow the build to specify a path for the perl instead of reusing
++the PERL variable which can lead to inconsistencies if we are cross
++compiling. The TARGET_PERL variable will be used for script
++substitutions to ensure the scripts will be able to properly execute
++if the target system has a different path for the perl.
 +
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
-+		    file://irqbalance.c;beginline=6;endline=8;md5=b94e153694672307b503b1bc87dc9e24 \
-+		   "
++Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++---
++ Makefile.am                  | 1 +
++ configure.ac                 | 7 +++++++
++ utilities/ovs-parse-leaks.in | 2 +-
++ 3 files changed, 9 insertions(+), 1 deletion(-)
 +
-+DEPENDS = "glib-2.0"
++diff --git a/Makefile.am b/Makefile.am
++index c4f8341..45488f2 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -111,6 +111,7 @@ SUFFIXES += .in
++                 -e 's,[@]LOGDIR[@],$(LOGDIR),g' \
++                 -e 's,[@]DBDIR[@],$(DBDIR),g' \
++                 -e 's,[@]PERL[@],$(PERL),g' \
+++                -e 's,[@]TARGET_PERL[@],$(TARGET_PERL),g' \
++                 -e 's,[@]PYTHON[@],$(PYTHON),g' \
++                 -e 's,[@]TARGET_PYTHON[@],$(TARGET_PYTHON),g' \
++                 -e 's,[@]RUNDIR[@],$(RUNDIR),g' \
++diff --git a/configure.ac b/configure.ac
++index 74cb691..5e39893 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -101,6 +101,13 @@ AC_ARG_VAR(KARCH, [Kernel Architecture String])
++ AC_SUBST(KARCH)
++ OVS_CHECK_LINUX
++ 
+++if test "$TARGET_PERL"; then
+++    TARGET_PERL=$TARGET_PERL
+++else
+++    TARGET_PERL=$PERL
+++fi
+++AC_SUBST(TARGET_PERL)
+++
++ if test "$TARGET_PYTHON"; then
++     TARGET_PYTHON=$TARGET_PYTHON
++ else
++diff --git a/utilities/ovs-parse-leaks.in b/utilities/ovs-parse-leaks.in
++index 72417e5..7c9436c 100755
++--- a/utilities/ovs-parse-leaks.in
+++++ b/utilities/ovs-parse-leaks.in
++@@ -1,4 +1,4 @@
++-#! @PERL@
+++#! @TARGET_PERL@
++ 
++ # Copyright (c) 2009, 2010 Nicira, Inc.
++ #
++-- 
++1.8.1.2
 +
-+INITSCRIPT_NAME = "irqbalanced"
-+INITSCRIPT_PARAMS = "defaults"
-+
-+inherit autotools
-+inherit update-rc.d
-+
-+EXTRA_OECONF = "--program-transform-name= \
-+	       "
-+
-+do_install () {
-+        oe_runmake 'DESTDIR=${D}' install
-+        install -d ${D}${sysconfdir}/init.d
-+        cat ${S}/irqbalance.init | sed -e's,/usr/sbin,${sbindir},g' > ${D}${sysconfdir}/init.d/irqbalanced
-+        chmod 755 ${D}${sysconfdir}/init.d/irqbalanced
-+}
-diff --git a/recipes-extended/irqbalance/irqbalance_1.0.4.bb b/recipes-extended/irqbalance/irqbalance_1.0.4.bb
-index aa9941c..33703f8 100644
---- a/recipes-extended/irqbalance/irqbalance_1.0.4.bb
-+++ b/recipes-extended/irqbalance/irqbalance_1.0.4.bb
-@@ -1,39 +1,16 @@
- #
- # Copyright (C) 2013 Wind River Systems, Inc.
- #
--SUMMARY = "IRQ allocation daemon"
--DESCRIPTION = "A daemon to balance interrupts across multiple CPUs, \
--which can lead to better performance and IO balance on SMP systems."
- 
--HOMEPAGE = "http://code.google.com/p/irqbalance/"
--BUGTRACKER = "http://code.google.com/p/irqbalance/issues/list"
-+require irqbalance.inc
- 
--LICENSE = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--		    file://irqbalance.c;beginline=6;endline=8;md5=b94e153694672307b503b1bc87dc9e24 \
--		   "
--
--DEPENDS = "glib-2.0"
--SRC_URI = "http://irqbalance.googlecode.com/files/irqbalance-${PV}.tar.bz2 \
--	   file://add-initscript.patch \
--	  "
-+PR = "r1"
- 
- SRC_URI[md5sum] = "f7ca283c46331db73f27e686a643dcfb"
--SRC_URI[sha256sum] = "15725edf4a6f20258620cbd05ebf02d0c25aadd5ffa4871ef8507c9215021c43"
--
--INITSCRIPT_NAME = "irqbalanced"
--INITSCRIPT_PARAMS = "defaults"
-+SRC_URI[sha256su] = "15725edf4a6f20258620cbd05ebf02d0c25aadd5ffa4871ef8507c9215021c43"
- 
--inherit autotools
--inherit update-rc.d
-+EXTRA_OECONF += "--with-sysroot=${STAGING_DIR_TARGET}"
- 
--EXTRA_OECONF = "--program-transform-name= \
--	        --with-sysroot=${STAGING_DIR_TARGET} \
--	       "
--
--do_install () {
--        oe_runmake 'DESTDIR=${D}' install
--        install -d ${D}${sysconfdir}/init.d
--        cat ${S}/irqbalance.init | sed -e's,/usr/sbin,${sbindir},g' > ${D}${sysconfdir}/init.d/irqbalanced
--        chmod 755 ${D}${sysconfdir}/init.d/irqbalanced
--}
-+SRC_URI = "http://irqbalance.googlecode.com/files/irqbalance-${PV}.tar.bz2 \
-+           file://add-initscript.patch \
-+          "
-diff --git a/recipes-extended/irqbalance/irqbalance_1.0.5.bb b/recipes-extended/irqbalance/irqbalance_1.0.5.bb
+diff --git a/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch b/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch
 new file mode 100644
-index 0000000..49c3acd
+index 0000000..59607da
 --- /dev/null
-+++ b/recipes-extended/irqbalance/irqbalance_1.0.5.bb
-@@ -0,0 +1,14 @@
-+#
-+# Copyright (C) 2013 Wind River Systems, Inc.
-+#
++++ b/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch
+@@ -0,0 +1,149 @@
++From e8a5d34885c5fdba7d951fb1bb85131cbafca432 Mon Sep 17 00:00:00 2001
++From: Mark Asselstine <mark.asselstine@windriver.com>
++Date: Wed, 19 Jun 2013 17:25:56 -0400
++Subject: [PATCH] openvswitch: add target python handling
 +
-+require irqbalance.inc
++Allow the build to specify a path for the python instead of reusing
++the PYTHON variable which can lead to inconsistencies if we are cross
++compiling. The TARGET_PYTHON variable will be used for script
++substitutions to ensure the scripts will be able to properly execute
++if the target system has a different path for the python.
 +
-+PR = "r0"
++Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++---
++ Makefile.am                        | 1 +
++ configure.ac                       | 7 +++++++
++ ovsdb/ovsdbmonitor/ovsdbmonitor.in | 2 +-
++ utilities/bugtool/ovs-bugtool.in   | 2 +-
++ utilities/ovs-check-dead-ifs.in    | 2 +-
++ utilities/ovs-l3ping.in            | 2 +-
++ utilities/ovs-parse-backtrace.in   | 2 +-
++ utilities/ovs-pcap.in              | 2 +-
++ utilities/ovs-tcpundump.in         | 2 +-
++ utilities/ovs-test.in              | 2 +-
++ utilities/ovs-vlan-test.in         | 2 +-
++ 11 files changed, 17 insertions(+), 9 deletions(-)
 +
-+SRC_URI[md5sum] = "b6403fa067c96adce448a48c9993654d"
-+SRC_URI[sha256sum] = "1123e75224b9c0b63ac85892e920bc4a9c76211278ea3d5d4bcbbde44815685c"
++diff --git a/Makefile.am b/Makefile.am
++index b71ca1f..c4f8341 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -112,6 +112,7 @@ SUFFIXES += .in
++                 -e 's,[@]DBDIR[@],$(DBDIR),g' \
++                 -e 's,[@]PERL[@],$(PERL),g' \
++                 -e 's,[@]PYTHON[@],$(PYTHON),g' \
+++                -e 's,[@]TARGET_PYTHON[@],$(TARGET_PYTHON),g' \
++                 -e 's,[@]RUNDIR[@],$(RUNDIR),g' \
++                 -e 's,[@]VERSION[@],$(VERSION),g' \
++                 -e 's,[@]localstatedir[@],$(localstatedir),g' \
++diff --git a/configure.ac b/configure.ac
++index 060b53f..74cb691 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -101,6 +101,13 @@ AC_ARG_VAR(KARCH, [Kernel Architecture String])
++ AC_SUBST(KARCH)
++ OVS_CHECK_LINUX
++ 
+++if test "$TARGET_PYTHON"; then
+++    TARGET_PYTHON=$TARGET_PYTHON
+++else
+++    TARGET_PYTHON=$PYTHON
+++fi
+++AC_SUBST(TARGET_PYTHON)
+++
++ AC_CONFIG_FILES([Makefile 
++ datapath/Makefile 
++ datapath/linux/Kbuild
++diff --git a/ovsdb/ovsdbmonitor/ovsdbmonitor.in b/ovsdb/ovsdbmonitor/ovsdbmonitor.in
++index e26130a..aaf1aff 100755
++--- a/ovsdb/ovsdbmonitor/ovsdbmonitor.in
+++++ b/ovsdb/ovsdbmonitor/ovsdbmonitor.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ # Copyright (c) 2010 Citrix Systems, Inc.
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++diff --git a/utilities/bugtool/ovs-bugtool.in b/utilities/bugtool/ovs-bugtool.in
++index 2074e23..525939e 100755
++--- a/utilities/bugtool/ovs-bugtool.in
+++++ b/utilities/bugtool/ovs-bugtool.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ 
++ # This library is free software; you can redistribute it and/or
++ # modify it under the terms of version 2.1 of the GNU Lesser General Public
++diff --git a/utilities/ovs-check-dead-ifs.in b/utilities/ovs-check-dead-ifs.in
++index 9b806ed..b6f6fcb 100755
++--- a/utilities/ovs-check-dead-ifs.in
+++++ b/utilities/ovs-check-dead-ifs.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ 
++ import os
++ import re
++diff --git a/utilities/ovs-l3ping.in b/utilities/ovs-l3ping.in
++index 1b07972..4fedb6f 100644
++--- a/utilities/ovs-l3ping.in
+++++ b/utilities/ovs-l3ping.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++ # you may not use this file except in compliance with the License.
++diff --git a/utilities/ovs-parse-backtrace.in b/utilities/ovs-parse-backtrace.in
++index 4f793be..4a07f47 100755
++--- a/utilities/ovs-parse-backtrace.in
+++++ b/utilities/ovs-parse-backtrace.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ #
++ # Copyright (c) 2012 Nicira, Inc.
++ #
++diff --git a/utilities/ovs-pcap.in b/utilities/ovs-pcap.in
++index 5306480..3221c7c 100755
++--- a/utilities/ovs-pcap.in
+++++ b/utilities/ovs-pcap.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ #
++ # Copyright (c) 2010 Nicira, Inc.
++ #
++diff --git a/utilities/ovs-tcpundump.in b/utilities/ovs-tcpundump.in
++index 0268c50..dad0bb5 100755
++--- a/utilities/ovs-tcpundump.in
+++++ b/utilities/ovs-tcpundump.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ #
++ # Copyright (c) 2010 Nicira, Inc.
++ #
++diff --git a/utilities/ovs-test.in b/utilities/ovs-test.in
++index fb1f9ad..bddd327 100644
++--- a/utilities/ovs-test.in
+++++ b/utilities/ovs-test.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++ # you may not use this file except in compliance with the License.
++diff --git a/utilities/ovs-vlan-test.in b/utilities/ovs-vlan-test.in
++index e229498..da64040 100755
++--- a/utilities/ovs-vlan-test.in
+++++ b/utilities/ovs-vlan-test.in
++@@ -1,4 +1,4 @@
++-#! @PYTHON@
+++#! @TARGET_PYTHON@
++ #
++ # Copyright (c) 2010 Nicira, Inc.
++ #
++-- 
++1.8.1.2
 +
-+SRC_URI = "http://irqbalance.googlecode.com/files/irqbalance-${PV}.tar.gz \
-+           file://add-initscript.patch \
-+          "
+diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+index fe112f2..2e9506f 100644
+--- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
++++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+@@ -21,6 +21,8 @@ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+ 	file://openvswitch-switch-setup \
+ 	file://openvswitch-controller \
+ 	file://openvswitch-controller-setup \
++	file://openvswitch-add-target-python-handling.patch \
++	file://openvswitch-add-target-perl-handling.patch \
+ 	"
+ 
+ SRC_URI[md5sum] = "fe8b49efe9f86b57abab00166b971106"
+@@ -32,6 +34,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
+ # distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
+ # EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
+ 
++EXTRA_OECONF += "TARGET_PYTHON=${bindir}/python \
++                 TARGET_PERL=${bindir}/perl \
++                "
++
+ ALLOW_EMPTY_${PN}-pki = "1"
+ PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
+ 
 -- 
-1.7.3.4
+1.8.1.2
 
 
