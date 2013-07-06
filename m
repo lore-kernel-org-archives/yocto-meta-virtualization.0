@@ -1,46 +1,36 @@
-Return-Path: <B28495@freescale.com>
-Received: from db8outboundpool.messaging.microsoft.com
-	(mail-db8lp0184.outbound.messaging.microsoft.com [213.199.154.184])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8E655E0155E
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
+	[209.85.215.46])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 96B5AE0155E
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  5 Jul 2013 19:34:38 -0700 (PDT)
-Received: from mail37-db8-R.bigfish.com (10.174.8.249) by
-	DB8EHSOBE010.bigfish.com (10.174.4.73) with Microsoft SMTP Server id
-	14.1.225.22; Sat, 6 Jul 2013 02:34:37 +0000
-Received: from mail37-db8 (localhost [127.0.0.1])	by mail37-db8-R.bigfish.com
-	(Postfix) with ESMTP id 2C617A402C7	for
-	<meta-virtualization@yoctoproject.org>;
-	Sat,  6 Jul 2013 02:34:37 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: 0
-X-BigFish: VS0(zzzz1f42h1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz8275bhz2dh2a8h668h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1155h)
-Received: from mail37-db8 (localhost.localdomain [127.0.0.1]) by mail37-db8
-	(MessageSwitch) id 1373078075631966_7521;
-	Sat,  6 Jul 2013 02:34:35 +0000 (UTC)
-Received: from DB8EHSMHS003.bigfish.com (unknown [10.174.8.238])	by
-	mail37-db8.bigfish.com (Postfix) with ESMTP id 95AF8340047	for
-	<meta-virtualization@yoctoproject.org>;
-	Sat,  6 Jul 2013 02:34:35 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by DB8EHSMHS003.bigfish.com
-	(10.174.4.13) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Sat, 6 Jul 2013 02:34:35 +0000
-Received: from tx30smr01.am.freescale.net (10.81.153.31) by
-	039-SN1MMR1-005.039d.mgd.msft.net (10.84.1.17) with Microsoft SMTP
-	Server (TLS) id 14.2.328.11; Sat, 6 Jul 2013 02:34:33 +0000
-Received: from b28495.ap.freescale.net ([10.192.208.202])	by
-	tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id r662YT0A019349;
-	Fri, 5 Jul 2013 19:34:30 -0700
-From: <b28495@freescale.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Sat, 6 Jul 2013 10:34:29 +0800
-Message-ID: <1373078069-9032-1-git-send-email-b28495@freescale.com>
-X-Mailer: git-send-email 1.7.3.4
+	Fri,  5 Jul 2013 20:40:22 -0700 (PDT)
+Received: by mail-la0-f46.google.com with SMTP id eg20so2534947lab.19
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 05 Jul 2013 20:40:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=3fFYwczTeg/YkScem5bHIL6wjOmCubZl+nVB9bpKt4Y=;
+	b=zihDodkD0YtJjPkr5Y3/G7MHQUFU7ax4Fk6WYOEQh6tp4kdmOo1mMQ8wK/EsX4m1o+
+	B+H9duB6A4H85BXW4f3jS75EhXe5+stQekmCGLIg4H4GO3IFmPNB3VKcGCeG2ab72T2U
+	CqSmLfk6XVhky4PS6dG3QgqRYEhZS4HGEiIb5c1VCffL0xSgndprT5qUiEBANNMIVk2C
+	C4sMbJB/V1xWS0pC4bU7L7mTW9HI53rYRYPxJoInTANRN+VjDIgR6ChwIOjLMP1wY/bl
+	2CtKEDmclR+CJgu7EhNuCZi7hHJAj5rxo742wFgc68t/mq5vt8PHUT5PKXHhtcrubEsv
+	qjyg==
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: b19537@freescale.com
-Subject: [PATCH v2] busybox: Follow OE-Core update to 1.12.1 version
+X-Received: by 10.152.27.40 with SMTP id q8mr6145896lag.75.1373082021087; Fri,
+	05 Jul 2013 20:40:21 -0700 (PDT)
+Received: by 10.112.133.234 with HTTP; Fri, 5 Jul 2013 20:40:21 -0700 (PDT)
+In-Reply-To: <1373077224-8733-1-git-send-email-b28495@freescale.com>
+References: <1373077224-8733-1-git-send-email-b28495@freescale.com>
+Date: Fri, 5 Jul 2013 23:40:21 -0400
+Message-ID: <CADkTA4NAR=TfqoD9VLw7nspt=kaakLUFUtXo5tMMSA14XzhhnA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Liu Ting-B28495 <b28495@freescale.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>,
+	Luo Zhenhua-B19537 <b19537@freescale.com>
+Subject: Re: [PATCH 1/2] iptables: Follow OE-Core update to 1.4.19.1 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,35 +43,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2013 02:34:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 06 Jul 2013 03:40:24 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Ting Liu <b28495@freescale.com>
+On Fri, Jul 5, 2013 at 10:20 PM,  <b28495@freescale.com> wrote:
+> From: Ting Liu <b28495@freescale.com>
 
-Signed-off-by: Ting Liu <b28495@freescale.com>
----
- ...box_1.20.2.bbappend => busybox_1.21.1.bbappend} |    0
- .../busybox-awk-make--F-STR-interpret-escape.patch |    0
- .../{busybox_1.20.2 => busybox_1.21.1}/defconfig   |    0
- 3 files changed, 0 insertions(+), 0 deletions(-)
- rename recipes-core/busybox/{busybox_1.20.2.bbappend => busybox_1.21.1.bbappend} (100%)
- rename recipes-core/busybox/{busybox_1.20.2 => busybox_1.21.1}/busybox-awk-make--F-STR-interpret-escape.patch (100%)
- rename recipes-core/busybox/{busybox_1.20.2 => busybox_1.21.1}/defconfig (100%)
+Both patches in the series are fine. I grabbed them and will push them
+out over the weekend.
 
-diff --git a/recipes-core/busybox/busybox_1.20.2.bbappend b/recipes-core/busybox/busybox_1.21.1.bbappend
-similarity index 100%
-rename from recipes-core/busybox/busybox_1.20.2.bbappend
-rename to recipes-core/busybox/busybox_1.21.1.bbappend
-diff --git a/recipes-core/busybox/busybox_1.20.2/busybox-awk-make--F-STR-interpret-escape.patch b/recipes-core/busybox/busybox_1.21.1/busybox-awk-make--F-STR-interpret-escape.patch
-similarity index 100%
-rename from recipes-core/busybox/busybox_1.20.2/busybox-awk-make--F-STR-interpret-escape.patch
-rename to recipes-core/busybox/busybox_1.21.1/busybox-awk-make--F-STR-interpret-escape.patch
-diff --git a/recipes-core/busybox/busybox_1.20.2/defconfig b/recipes-core/busybox/busybox_1.21.1/defconfig
-similarity index 100%
-rename from recipes-core/busybox/busybox_1.20.2/defconfig
-rename to recipes-core/busybox/busybox_1.21.1/defconfig
--- 
-1.7.3.4
+Bruce
+
+>
+> Signed-off-by: Ting Liu <b28495@freescale.com>
+> ---
+>  ..._1.4.18.bbappend => iptables_1.4.19.1.bbappend} |    0
+>  1 files changed, 0 insertions(+), 0 deletions(-)
+>  rename recipes-extended/iptables/{iptables_1.4.18.bbappend => iptables_1.4.19.1.bbappend} (100%)
+>
+> diff --git a/recipes-extended/iptables/iptables_1.4.18.bbappend b/recipes-extended/iptables/iptables_1.4.19.1.bbappend
+> similarity index 100%
+> rename from recipes-extended/iptables/iptables_1.4.18.bbappend
+> rename to recipes-extended/iptables/iptables_1.4.19.1.bbappend
+> --
+> 1.7.3.4
+>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
+
+--
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
