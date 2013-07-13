@@ -1,35 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f53.google.com (mail-la0-f53.google.com
-	[209.85.215.53])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 923AEE0140D
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1A042E0071F
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 12 Jul 2013 22:19:43 -0700 (PDT)
-Received: by mail-la0-f53.google.com with SMTP id fs12so8187733lab.40
+	Sat, 13 Jul 2013 09:09:35 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6DG9Y58007429
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 12 Jul 2013 22:19:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TOfV4WMDQgNp7x89UM5eAg7TROa17sRoC8V7apEwywI=;
-	b=QJd4UZHr8eh+vsRJmyncGaKYrH85UVwAGrKuqz4T1n05nOyHRemy2cMiqWoQEWKT/v
-	1Hb9IVcXpjLgwalGZP7bPS6KtsvNeJb5cAFRvu8kqJKW8uw5nLmbL0Yj/HjCo+Nb8doS
-	sjFTaH76GtM8ji4PlAbjEuJmcFy1OtxXgFgNhgMkpyfKDW1ojotAwZdjuROlL7m9dxT5
-	7HrIlLxIKLeczQyZGJJefpC7EkU5YgZu+7ZajV5Upenx2MRf2HM0oyjrN/oJaHH8kFzd
-	fkNVO56i3L275wMxgDEMHxSHAAbgs9c9locmM5+c93EoDTlED0UewvN/wRtlvOlJomTy
-	DIaw==
+	Sat, 13 Jul 2013 09:09:34 -0700 (PDT)
+Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Sat, 13 Jul 2013 09:09:34 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Sat, 13 Jul 2013 12:09:26 -0400
+Message-ID: <1373731766-7117-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-X-Received: by 10.112.130.37 with SMTP id ob5mr20614991lbb.77.1373692782026;
-	Fri, 12 Jul 2013 22:19:42 -0700 (PDT)
-Received: by 10.112.133.234 with HTTP; Fri, 12 Jul 2013 22:19:41 -0700 (PDT)
-In-Reply-To: <1373587374-3084-1-git-send-email-stickmanthe@gmail.com>
-References: <1373587374-3084-1-git-send-email-stickmanthe@gmail.com>
-Date: Sat, 13 Jul 2013 01:19:41 -0400
-Message-ID: <CADkTA4PuTfncTH9m=NedFjwHA9GR_Ybc4X76OaQSj-M2RiX7ig@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Peter Muller <stickmanthe@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] xen.inc: Fixed typos in initscript declarations and syntax
+X-Originating-IP: [128.224.146.23]
+Subject: [PATCH] Revert "kvm: Make lapic hrtimer irq safe"
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,57 +32,47 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Jul 2013 05:19:45 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Sat, 13 Jul 2013 16:09:37 -0000
+Content-Type: text/plain
 
-On Thu, Jul 11, 2013 at 8:02 PM, Peter Muller <stickmanthe@gmail.com> wrote:
-> Signed-off-by: Peter Muller <stickmanthe@gmail.com>
+This reverts commit 5345ad1661edb624aeca87f5fb08abccd4414f68.
 
-Thanks Peter,
+Conflicts:
+	arch/x86/kvm/lapic.c
+---
+ arch/x86/kvm/lapic.c | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
-Sorry for the delay, I was on vacation!  I've queued the change. And
-will push it
-out when I'm back to the office on Monday.
+diff --git a/arch/x86/kvm/lapic.c b/arch/x86/kvm/lapic.c
+index 671aa5d..8c26c63 100644
+--- a/arch/x86/kvm/lapic.c
++++ b/arch/x86/kvm/lapic.c
+@@ -1037,13 +1037,9 @@ static void start_apic_timer(struct kvm_lapic *apic)
+ 			}
+ 		}
+ 
+-again:
+-		if (hrtimer_start(&apic->lapic_timer.timer,
+-				  ktime_add_ns(now, apic->lapic_timer.period),
+-				  HRTIMER_MODE_ABS) == -ETIME) {
+-			if (apic_timer_fn(&apic->lapic_timer.timer) == HRTIMER_RESTART)
+-				goto again;
+-		}
++		hrtimer_start(&apic->lapic_timer.timer,
++			      ktime_add_ns(now, apic->lapic_timer.period),
++			      HRTIMER_MODE_ABS);
+ 
+ 		apic_debug("%s: bus cycle is %" PRId64 "ns, now 0x%016"
+ 			   PRIx64 ", "
+@@ -1562,7 +1558,6 @@ int kvm_create_lapic(struct kvm_vcpu *vcpu)
+ 	hrtimer_init(&apic->lapic_timer.timer, CLOCK_MONOTONIC,
+ 		     HRTIMER_MODE_ABS);
+ 	apic->lapic_timer.timer.function = apic_timer_fn;
+-	apic->lapic_timer.timer.irqsafe = 1;
+ 	apic->lapic_timer.t_ops = &lapic_timer_ops;
+ 	apic->lapic_timer.kvm = vcpu->kvm;
+ 	apic->lapic_timer.vcpu = vcpu;
+-- 
+1.8.1.2
 
-Bruce
-
-> ---
->  recipes-extended/xen/xen.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 6207897..ccaa8fe 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -222,7 +222,7 @@ INITSCRIPT_NAME_${PN}-watchdog = "xen-watchdog"
->  INITSCRIPT_PARAMS_${PN}-watchdog = "defaults 66"
->  INITSCRIPT_NAME_${PN}-domains = "xendomains"
->  INITSCRIPT_PARAMS_${PN}-domains = "defaults 68"
-> -NITSCRIPT_NAME_${PN}-minimal = "xenminiinit"
-> +INITSCRIPT_NAME_${PN}-minimal = "xenminiinit"
->  INITSCRIPT_PARAMS_${PN}-minimal = "defaults 69"
->
->  do_compile() {
-> @@ -295,7 +295,7 @@ do_install() {
->                 fi
->         done
->
-> -       cp -av ${S}/dist/install/* ${D}/
-> +       cp -av ${S}/dist/install/\* ${D}/
->         install -d ${D}/etc/xen
->         install -d ${D}/etc/init.d
->
-> --
-> 1.8.3.1
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
