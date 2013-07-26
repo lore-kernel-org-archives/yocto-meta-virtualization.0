@@ -1,28 +1,20 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 83F20E013C2
+Return-Path: <mihai.prica@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A6051E013DE
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 13 Jul 2013 20:07:06 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r6E374JV007607
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Sat, 13 Jul 2013 20:07:05 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.23.134) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.2.342.3; Sat, 13 Jul 2013 20:07:03 -0700
-Message-ID: <51E215D6.1040104@windriver.com>
-Date: Sat, 13 Jul 2013 23:07:02 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:17.0) Gecko/20130620 Thunderbird/17.0.7
-MIME-Version: 1.0
-To: Mark Asselstine <mark.asselstine@windriver.com>
-References: <1373731892-9124-1-git-send-email-mark.asselstine@windriver.com>
-In-Reply-To: <1373731892-9124-1-git-send-email-mark.asselstine@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] lxc: create lxc cache directory
+	Fri, 26 Jul 2013 07:01:03 -0700 (PDT)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga102.jf.intel.com with ESMTP; 26 Jul 2013 06:58:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.89,751,1367996400"; d="scan'208";a="352199792"
+Received: from mihai-vostro-460.rb.intel.com ([10.237.105.61])
+	by orsmga001.jf.intel.com with ESMTP; 26 Jul 2013 07:00:50 -0700
+From: Mihai Prica <mihai.prica@intel.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri, 26 Jul 2013 17:00:52 +0300
+Message-Id: <1374847253-18653-1-git-send-email-mihai.prica@intel.com>
+X-Mailer: git-send-email 1.7.9.5
+Subject: [PATCH 1/2] openvswitch: Add coreutils runtime dependency
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -35,66 +27,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 14 Jul 2013 03:07:07 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Jul 2013 14:01:03 -0000
 
-On 13-07-13 12:11 PM, Mark Asselstine wrote:
-> Many LXC templates expect the cache directory to exist and use it without
-> necessarily checking if it exists. Normally the Makefile would create this
-> directory but since /var/cache is volatile we must use the volatile system to
-> create this directory at boot, or when the package is installed.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->
-> If templates are expecting longer term cache they will need to be
-> modified accordingly since this cache directory will not survive
-> reboots...
+The install and nice programs from coreutils are required by openvswitch.
 
-Fine with me.
+Signed-off-by: Mihai Prica <mihai.prica@intel.com>
+---
+ .../openvswitch/openvswitch_1.10.0.bb              |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Merged.
-
-Bruce
-
->
->   recipes-containers/lxc/lxc_0.9.0.bb | 18 +++++++++++++++++-
->   1 file changed, 17 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-> index 30316bb..563131f 100644
-> --- a/recipes-containers/lxc/lxc_0.9.0.bb
-> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
-> @@ -3,7 +3,7 @@ SECTION = "console/utils"
->   LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->   PRIORITY = "optional"
-> -PR = "r2"
-> +PR = "r3"
->   DEPENDS = "libxml2 libcap"
->   RDEPENDS_${PN} = " \
->   		rsync \
-> @@ -47,3 +47,19 @@ FILES_${PN}-doc = "${mandir} ${infodir}"
->   # For LXC the docdir only contains example configuration files and should be included in the lxc package
->   FILES_${PN} += "${docdir}"
->   FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
-> +
-> +do_install_append() {
-> +	# The /var/cache/lxc directory created by the Makefile
-> +	# is wiped out in volatile, we need to create this at boot.
-> +	rm -rf ${D}${localstatedir}/cache
-> +	install -d ${D}${sysconfdir}/default/volatiles
-> +	echo "d root root 0755 ${localstatedir}/cache/lxc none" \
-> +	     > ${D}${sysconfdir}/default/volatiles/99_lxc
-> +
-> +}
-> +
-> +pkg_postinst_${PN}() {
-> +	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-> +		/etc/init.d/populate-volatile.sh update
-> +	fi
-> +}
->
+diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+index 2e9506f..fff597c 100644
+--- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
++++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+@@ -6,7 +6,7 @@ LICENSE = "Apache-2"
+ 
+ DEPENDS += "bridge-utils openssl python perl"
+ 
+-RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid \
++RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
+ 	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
+ RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
+ RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
+@@ -14,7 +14,7 @@ RDEPENDS_${PN}-pki = "${PN}"
+ RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
+ RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+ 
+-PR = "r0"
++PR = "r1"
+ 
+ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+ 	file://openvswitch-switch \
+-- 
+1.7.9.5
 
 
