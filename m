@@ -1,35 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28463E002F9
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7FE7AE003D4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Jul 2013 20:00:57 -0700 (PDT)
-Received: by mail-la0-f51.google.com with SMTP id fp13so115968lab.10
+	Fri,  9 Aug 2013 08:04:23 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r79F4LKJ006186
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Jul 2013 20:00:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=lCW4M8b2byJv0RUWnW+Ydn5R21xtV8RQkNMRr0/U2hY=;
-	b=bw66Dqy5RyZTGgsKB5fX6WR2h/bCWWDzpPiGBiMceMO9yaVkSRNRtrG5pzcpEiGpwi
-	PEosdLpwK+x/PyR0gGa4x8MnZWEKDSbmNyRggatn/CoWAkohwlGZUd6PHWrHsiy5uIiQ
-	4tFjd8QxjU92TNA6nSjs/O/kmLtzQP7/gF6h4earR5EJIXHfWS47yGnr8LpSAb8SWU6e
-	LQfi2X4X5XY8mHBjvmUf05i+X4CidM0ANLXpTUm+nYVLJyce5KhRYxhm4vDGPaKwFLwp
-	75IDr7vwYGZ+5SkBHsvz4p9cS+RCy2ssOuspMZFfkp6RhRLC06DUyhQFJz5/Fh18bnRg
-	pOaw==
+	Fri, 9 Aug 2013 08:04:21 -0700 (PDT)
+Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.342.3; Fri, 9 Aug 2013 08:04:21 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Fri, 9 Aug 2013 11:04:26 -0400
+Message-ID: <1376060666-19812-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.1.2
 MIME-Version: 1.0
-X-Received: by 10.152.23.168 with SMTP id n8mr29922906laf.88.1375239656392;
-	Tue, 30 Jul 2013 20:00:56 -0700 (PDT)
-Received: by 10.112.133.234 with HTTP; Tue, 30 Jul 2013 20:00:56 -0700 (PDT)
-In-Reply-To: <1374847604-18982-1-git-send-email-mihai.prica@intel.com>
-References: <1374847604-18982-1-git-send-email-mihai.prica@intel.com>
-Date: Tue, 30 Jul 2013 23:00:56 -0400
-Message-ID: <CADkTA4NOFLb3wtNz1auH9_w_+MhCP0MHsHgsPuwTZzDk6vgfFw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mihai Prica <mihai.prica@intel.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 2/2] openvswitch: Ensure pki directory creation
+X-Originating-IP: [128.224.146.23]
+Subject: [PATCH] iasl: Add Intel ACPI license information
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,59 +32,160 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Jul 2013 03:00:58 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Fri, 09 Aug 2013 15:04:24 -0000
+Content-Type: text/plain
 
-On Fri, Jul 26, 2013 at 10:06 AM, Mihai Prica <mihai.prica@intel.com> wrote:
-> RPM doesn't guarantee the order in which postinstalls are ran.
-> Added code to ensure the pki directory is initialized.
+The iasl package is licensed under the Intel ACPI license. This is a
+variation of the MIT license but with enough modification that we
+don't want to mark it as MIT. Previously building this package would
+warn about the missing license. With this change we are providing a
+clear text copy of the license and calling this license out in the
+iasl recipe to make the warning go away and to ensure we are clearly
+defining this package's license information.
 
-Looks good, and tested fine here. Again, sorry for the delay, this is
-now merged.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ conf/layer.conf                        |   3 +
+ files/custom-licenses/Intel-ACPI       | 104 +++++++++++++++++++++++++++++++++
+ recipes-extended/iasl/iasl_20120215.bb |   2 +-
+ 3 files changed, 108 insertions(+), 1 deletion(-)
+ create mode 100644 files/custom-licenses/Intel-ACPI
 
-Bruce
-
->
-> Signed-off-by: Mihai Prica <mihai.prica@intel.com>
-> ---
->  .../openvswitch/openvswitch_1.10.0.bb              |    6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> index fff597c..3703c1b 100644
-> --- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> @@ -14,7 +14,7 @@ RDEPENDS_${PN}-pki = "${PN}"
->  RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
->  RRECOMMENDS_${PN} += "kernel-module-openvswitch"
->
-> -PR = "r1"
-> +PR = "r2"
->
->  SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
->         file://openvswitch-switch \
-> @@ -91,6 +91,10 @@ pkg_postinst_${PN}-controller () {
->                  exit 1
->          fi
->
-> +    if test ! -d $D/${datadir}/${PN}/pki; then
-> +        ovs-pki init --dir=$D/${datadir}/${PN}/pki
-> +    fi
-> +
->         cd $D/${sysconfdir}/openvswitch-controller
->          if ! test -e cacert.pem; then
->              ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
-> --
-> 1.7.9.5
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/conf/layer.conf b/conf/layer.conf
+index 873ff37..4c1fa19 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -7,3 +7,6 @@ BBFILES += "${LAYERDIR}/recipes*/*/*.bb ${LAYERDIR}/recipes*/*/*.bbappend"
+ BBFILE_COLLECTIONS += "virtualization-layer"
+ BBFILE_PATTERN_virtualization-layer := "^${LAYERDIR}/"
+ BBFILE_PRIORITY_virtualization-layer = "7"
++
++# Custom licenses used by some packages in this layer
++LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
+\ No newline at end of file
+diff --git a/files/custom-licenses/Intel-ACPI b/files/custom-licenses/Intel-ACPI
+new file mode 100644
+index 0000000..df0d0bb
+--- /dev/null
++++ b/files/custom-licenses/Intel-ACPI
+@@ -0,0 +1,104 @@
++1. Copyright Notice
++
++Some or all of this work - Copyright (c) 1999 - 2010, Intel Corp.
++All rights reserved.
++
++2. License
++
++2.1. This is your license from Intel Corp. under its intellectual property
++rights.  You may have additional license terms from the party that provided
++you this software, covering your right to use that party's intellectual
++property rights.
++
++2.2. Intel grants, free of charge, to any person ("Licensee") obtaining a
++copy of the source code appearing in this file ("Covered Code") an
++irrevocable, perpetual, worldwide license under Intel's copyrights in the
++base code distributed originally by Intel ("Original Intel Code") to copy,
++make derivatives, distribute, use and display any portion of the Covered
++Code in any form, with the right to sublicense such rights; and
++
++2.3. Intel grants Licensee a non-exclusive and non-transferable patent
++license (with the right to sublicense), under only those claims of Intel
++patents that are infringed by the Original Intel Code, to make, use, sell,
++offer to sell, and import the Covered Code and derivative works thereof
++solely to the minimum extent necessary to exercise the above copyright
++license, and in no event shall the patent license extend to any additions
++to or modifications of the Original Intel Code.  No other license or right
++is granted directly or by implication, estoppel or otherwise;
++
++The above copyright and patent license is granted only if the following
++conditions are met:
++
++3. Conditions
++
++3.1. Redistribution of Source with Rights to Further Distribute Source.
++Redistribution of source code of any substantial portion of the Covered
++Code or modification with rights to further distribute source must include
++the above Copyright Notice, the above License, this list of Conditions,
++and the following Disclaimer and Export Compliance provision.  In addition,
++Licensee must cause all Covered Code to which Licensee contributes to
++contain a file documenting the changes Licensee made to create that Covered
++Code and the date of any change.  Licensee must include in that file the
++documentation of any changes made by any predecessor Licensee.  Licensee
++must include a prominent statement that the modification is derived,
++directly or indirectly, from Original Intel Code.
++
++3.2. Redistribution of Source with no Rights to Further Distribute Source.
++Redistribution of source code of any substantial portion of the Covered
++Code or modification without rights to further distribute source must
++include the following Disclaimer and Export Compliance provision in the
++documentation and/or other materials provided with distribution.  In
++addition, Licensee may not authorize further sublicense of source of any
++portion of the Covered Code, and must include terms to the effect that the
++license from Licensee to its licensee is limited to the intellectual
++property embodied in the software Licensee provides to its licensee, and
++not to intellectual property embodied in modifications its licensee may
++make.
++
++3.3. Redistribution of Executable. Redistribution in executable form of any
++substantial portion of the Covered Code or modification must reproduce the
++above Copyright Notice, and the following Disclaimer and Export Compliance
++provision in the documentation and/or other materials provided with the
++distribution.
++
++3.4. Intel retains all right, title, and interest in and to the Original
++Intel Code.
++
++3.5. Neither the name Intel nor any other trademark owned or controlled by
++Intel shall be used in advertising or otherwise to promote the sale, use or
++other dealings in products derived from or relating to the Covered Code
++without prior written authorization from Intel.
++
++4. Disclaimer and Export Compliance
++
++4.1. INTEL MAKES NO WARRANTY OF ANY KIND REGARDING ANY SOFTWARE PROVIDED
++HERE.  ANY SOFTWARE ORIGINATING FROM INTEL OR DERIVED FROM INTEL SOFTWARE
++IS PROVIDED "AS IS," AND INTEL WILL NOT PROVIDE ANY SUPPORT,  ASSISTANCE,
++INSTALLATION, TRAINING OR OTHER SERVICES.  INTEL WILL NOT PROVIDE ANY
++UPDATES, ENHANCEMENTS OR EXTENSIONS.  INTEL SPECIFICALLY DISCLAIMS ANY
++IMPLIED WARRANTIES OF MERCHANTABILITY, NONINFRINGEMENT AND FITNESS FOR A
++PARTICULAR PURPOSE.
++
++4.2. IN NO EVENT SHALL INTEL HAVE ANY LIABILITY TO LICENSEE, ITS LICENSEES
++OR ANY OTHER THIRD PARTY, FOR ANY LOST PROFITS, LOST DATA, LOSS OF USE OR
++COSTS OF PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES, OR FOR ANY INDIRECT,
++SPECIAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THIS AGREEMENT, UNDER ANY
++CAUSE OF ACTION OR THEORY OF LIABILITY, AND IRRESPECTIVE OF WHETHER INTEL
++HAS ADVANCE NOTICE OF THE POSSIBILITY OF SUCH DAMAGES.  THESE LIMITATIONS
++SHALL APPLY NOTWITHSTANDING THE FAILURE OF THE ESSENTIAL PURPOSE OF ANY
++LIMITED REMEDY.
++
++4.3. Licensee shall not export, either directly or indirectly, any of this
++software or system incorporating such software without first obtaining any
++required license or other approval from the U. S. Department of Commerce or
++any other agency or department of the United States Government.  In the
++event Licensee exports any such software from the United States or
++re-exports any such software from a foreign destination, Licensee shall
++ensure that the distribution and export/re-export of the software is in
++compliance with all laws, regulations, orders, or other restrictions of the
++U.S. Export Administration Regulations. Licensee agrees that neither it nor
++any of its subsidiaries will export/re-export any technical data, process,
++software, or service, directly or indirectly, to any country for which the
++United States government or any agency thereof requires an export license,
++other governmental approval, or letter of assurance, without first obtaining
++such license, approval or letter.
+diff --git a/recipes-extended/iasl/iasl_20120215.bb b/recipes-extended/iasl/iasl_20120215.bb
+index e9c5fbe..5ce0930 100644
+--- a/recipes-extended/iasl/iasl_20120215.bb
++++ b/recipes-extended/iasl/iasl_20120215.bb
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "This is a cross development C compiler, assembler and linker environment for the production of 8086 executables (Optionally MSDOS COM)"
+ HOMEPAGE = "http://www.acpica.org/"
+-LICENSE = "Intel"
++LICENSE = "Intel-ACPI"
+ LIC_FILES_CHKSUM = "file://asldefine.h;endline=115;md5=d4d7cf809b8b5e03131327b3f718e8f0"
+ SECTION = "console/tools"
+ PR="r1"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.1.2
+
 
