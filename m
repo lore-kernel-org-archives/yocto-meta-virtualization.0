@@ -1,36 +1,34 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ee0-f44.google.com (mail-ee0-f44.google.com [74.125.83.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3BC5BE01431
+Received: from mail-ee0-f50.google.com (mail-ee0-f50.google.com [74.125.83.50])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BF1C2E01431
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 10 Aug 2013 21:16:55 -0700 (PDT)
-Received: by mail-ee0-f44.google.com with SMTP id b47so2868058eek.3
+	Sat, 10 Aug 2013 21:16:52 -0700 (PDT)
+Received: by mail-ee0-f50.google.com with SMTP id d51so2782489eek.23
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 10 Aug 2013 21:16:54 -0700 (PDT)
+	Sat, 10 Aug 2013 21:16:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=sender:from:to:subject:date:message-id:in-reply-to:references;
-	bh=WgRx2t/93Y3VcO7gNAEK9l0+BGb2bnt9fv7SV0lsNTM=;
-	b=fA25iEeOdVFoYSVzz4PNKZWs8BP3TK9s6h4i76MPG1oFR1XF3DufZnTIxQtma83mQX
-	4zxHJuw2z6fWQgVL/I+zfaouBh3l7J0DzgN6qJHOiYHDKFHVv/MqRsMmV00/vcXlqca5
-	T+oEPqAKypof4MDAWT1aAXo1CpEmMHZvyl6mgudCoumFUiIJOuTFncCl+DyLkhjjL/4/
-	SwttxMBO5lmibqrYrvdaTjL1PWzjRqg7vsFeVIPzEQhVthjrpoYNfkLcp4xk/dPMHQec
-	afz1Nsc2xef9eI6LUI4AQSrj9pSX3Wu2H+hD4TfO/9NTDe47StBADhoQ6rDvB9CasUd2
-	unPA==
-X-Received: by 10.14.9.129 with SMTP id 1mr19830446eet.59.1376194614173;
-	Sat, 10 Aug 2013 21:16:54 -0700 (PDT)
+	h=sender:from:to:subject:date:message-id;
+	bh=6dHtY6q5CMitC/p0Yyq8fu8JA4RISF/+hy4Gqtg7fP0=;
+	b=OTlEZyoWd7mKk1FaJMreHskJ+iEhePYeoV/L7zCtDI8rQZ1Ea5yiSW+Pc3YUW2mA21
+	fNSrPgTDQYuEeOSuDzMSzpHoSMfKWDT5hnyiXzvtSwWMPjJescha1kPLIxViNb+id6t1
+	nVf4WFDx+4TygsL2WL5lPpj36m4YO3i5XvDnWIcKSKwnhmsxXtzd0ZZqg07xmF1ftwYn
+	nbP3dYOa21zk/MmzQboVFpIY8cM5jqm4h9pC2HXKRIbA0RCZtrDLzUYjf/8oexUaXClU
+	hFppJJDSo1EJmEwGP5YZPEZYgZheiDVUgfL7ewLIXQgPjxCKdCfokqUlAOySPQO4PUgd
+	W9qQ==
+X-Received: by 10.15.98.203 with SMTP id bj51mr19847931eeb.22.1376194611257;
+	Sat, 10 Aug 2013 21:16:51 -0700 (PDT)
 Received: from yow-bashfiel-d2.wrs.com ([128.224.252.2])
-	by mx.google.com with ESMTPSA id f49sm38830324eec.7.2013.08.10.21.16.52
+	by mx.google.com with ESMTPSA id f49sm38830324eec.7.2013.08.10.21.16.49
 	for <meta-virtualization@yoctoproject.org>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sat, 10 Aug 2013 21:16:53 -0700 (PDT)
+	Sat, 10 Aug 2013 21:16:50 -0700 (PDT)
 Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: meta-virtualization@yoctoproject.org
-Date: Sun, 11 Aug 2013 00:16:58 -0400
-Message-Id: <1376194618-25627-3-git-send-email-bruce.ashfield@windriver.com>
+Date: Sun, 11 Aug 2013 00:16:56 -0400
+Message-Id: <1376194618-25627-1-git-send-email-bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1376194618-25627-1-git-send-email-bruce.ashfield@windriver.com>
-References: <1376194618-25627-1-git-send-email-bruce.ashfield@windriver.com>
-Subject: [PATCH 2/2] libvirt: move python PACKAGECONFIG into main recipe
+Subject: [PATCH 0/2] libvirt: uprev and PACKAGECONFIG fixups
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,62 +41,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 11 Aug 2013 04:16:56 -0000
+X-List-Received-Date: Sun, 11 Aug 2013 04:16:57 -0000
 
-The libvirt-python.inc manipulation of PACKAGECONFIG meant that the default
-configuration options of the libvirt recipe never fired, since the variable
-had an assignment and the lazy set of the configuration values never
-applied to the build.
+These patches update libvirt to the July 1.1.1 release, as well as fix
+some build issues I found along the way.
 
-Moving the python PACKAGE_CONFIG options into the main recipe, and ensuring
-that PACKAGE_CONFIG_${PN} is used for libvirt-python means that most builds
-will now use the default configuration.
+As for the release update, standard libvirt/libvirtd tests were run, 
+and the ability to launch, query and control a guest were confirmed.
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
----
- recipes-extended/libvirt/libvirt-python.inc |    2 --
- recipes-extended/libvirt/libvirt_1.1.1.bb   |    7 ++++---
- 2 files changed, 4 insertions(+), 5 deletions(-)
+Along with the 1.1.1 update, I've included a patch that fixes the 
+virNetTLSInit unresolved symbol error that has been reported several
+times in the past. As the patch states, this fix isn't perfect, since
+there must be some libtool magic that could be used to make the 
+link change I'm showing be automatically applied .. but I couldn't make
+it work, and instead have a blunter approach. If anyone wants to tackle
+a better fix, patches are welcome.
 
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index d4cc5f3..3d09d09 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -5,8 +5,6 @@ export STAGING_LIBDIR
- export BUILD_SYS 
- export HOST_SYS
- 
--PACKAGECONFIG += "python"
--PACKAGECONFIG[python] = "--with-python,--without-python,python,"
- RDEPENDS_${PN}-python += "python"
- PACKAGECONFIG_${PN}-python[xen] = ",,,xen-python"
- 
-diff --git a/recipes-extended/libvirt/libvirt_1.1.1.bb b/recipes-extended/libvirt/libvirt_1.1.1.bb
-index 4502e85..2b971df 100644
---- a/recipes-extended/libvirt/libvirt_1.1.1.bb
-+++ b/recipes-extended/libvirt/libvirt_1.1.1.bb
-@@ -112,9 +112,9 @@ INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
- 
- # full config
- PACKAGECONFIG ??= "qemu yajl xen libxl xen-inotify uml openvz vmware vbox esx \
--	          polkit lxc test remote macvtap libvirtd netcf udev python \
--	          ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
--	          ebtables"
-+                   polkit lxc test remote macvtap libvirtd netcf udev python ebtables \
-+                   {@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-+                  "
- 
- # enable,disable,depends,rdepends
- #
-@@ -142,6 +142,7 @@ PACKAGECONFIG[dtrace] = "--with-dtrace,--without-dtrace,,"
- PACKAGECONFIG[udev] = "--with-udev --with-pciaccess,--without-udev,udev libpciaccess,"
- PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux,"
- PACKAGECONFIG[ebtables] = "ac_cv_path_EBTABLES_PATH=/sbin/ebtables,ac_cv_path_EBTABLES_PATH=,ebtables,ebtables"
-+PACKAGECONFIG[python] = "--with-python,--without-python,python,"
- 
- # Enable the Python tool support
- require libvirt-python.inc
--- 
-1.7.10.4
+I'm keeping 1.0.3 around for a short while, just to ensure that 1.1.1
+is fully functional.
+
+As it turns out the virNetTLSInit link error is triggered by a bad
+combination of PACKAGECONFIG values (where everything but python is
+disabled for libvirt). It just so happens that this is the default
+since the libvirt-python.inc file sets PACKAGECONFIG, which inhibits
+the defaults you see in the libvirt recipe from ever triggering. 
+Everyone must be building with their own options, in their own layers
+if this is working for people.
+
+By pulling the python PACKAGECONFIG back into the main recipe and 
+ensuring that PACKAGECONFIG_${PN} is used in the python.inc, we get
+the default options building again.
+
+I've confirmed that things build here, but YMMV and error reports
+and patches are welcomed.
+
+If no one objects, I'll push these patches on Monday.
+
+Cheers,
+
+Bruce
 
 
