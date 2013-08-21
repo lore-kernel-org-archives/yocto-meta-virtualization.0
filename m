@@ -1,37 +1,34 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E3338E00406
+Return-Path: <zishen.lim@linaro.org>
+Received: from mail-qe0-f53.google.com (mail-qe0-f53.google.com
+	[209.85.128.53])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3D745E0043C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 21 Aug 2013 07:16:38 -0700 (PDT)
-Received: by mail-la0-f49.google.com with SMTP id ev20so387419lab.36
+	Wed, 21 Aug 2013 16:22:42 -0700 (PDT)
+Received: by mail-qe0-f53.google.com with SMTP id 1so686799qee.12
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 21 Aug 2013 07:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=hkEcQ6kjRCOo9tFz/EohxxcuwyCs01sxSfc5M5lam5g=;
-	b=EjyvryzpeuELtm+W1qZSI+kXvCfH7yiQaQs1cpMAdPF5I+q8MxJJavIfg9Ecb5aiRy
-	fcseo141l5yjy7uUytZptFqdyACckZmgPZa+cSw3SeEIjVXfh8Pc/jzjY1vZjQIVdM+F
-	Z8POuw7KDQ6DoxPJs8VC6R36EcO0U0J1f9OWj6y140MuZ90Sh9npnOUUj68zQdit14rC
-	R7HUJZD0abm5O/3VwH7m0wP9nFBFtEBGvkcqBraSUszwAWZAMk3QKIySlTQUsdPHnNL5
-	qBLH52cmPjOoCNJ33z67IqpEXwF8T1pb1wur5SYcRsVcJPnnDFnw3Y9SWd7K65hCIawk
-	3aZw==
-X-Received: by 10.112.132.193 with SMTP id ow1mr1600358lbb.40.1377094595769;
-	Wed, 21 Aug 2013 07:16:35 -0700 (PDT)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id ay4sm3263950lbb.2.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 21 Aug 2013 07:16:34 -0700 (PDT)
-Received: by nysan (Postfix, from userid 1000)
-	id E27344002CF; Wed, 21 Aug 2013 16:16:27 +0200 (CEST)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Wed, 21 Aug 2013 16:16:13 +0200
-Message-Id: <1377094573-30072-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+	Wed, 21 Aug 2013 16:22:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:date:message-id:subject:from:to:cc
+	:content-type;
+	bh=i2lGuUH1ehFjjs498+n2SMEnH1AuelmAz/bEJdXwPn0=;
+	b=OteGTeMY0Rh0HoGKOE3aZqvI0qDY9gEj+HO/QnyKiar4Ra2alHpM/m+JVwk5kOboIz
+	jBFFdsGVYq1jmadfFn84BfYAdTFqYCqn45MABiqjgRCPSoOArzR3FG2L9KDjVskG/1TL
+	47IIFviakH/D4d5sVFKN89ZHwQYX8gG1enQyDHrqxNhrugcsM2IDXcD14Z6qx8lplG6V
+	puwwpuUa3hXDuB0LmFjNLLG4K2wj10UeBk0TMiLhsVHGNrNVgfy2hQ9/5JHIcAJnIoMX
+	XN/xdKlOEChSblAIMosxlvYFq6cPfNdCuu0W6nhXgEbNTS4Ld0BdzDtzlUBygGNEsNLr
+	7Lvw==
+X-Gm-Message-State: ALoCoQkVZtKrfQmXUvb2lm6GjhYhtRo7+IHdhJ75CewqzFzWTz8OjnNd7ogBpmA1mZGYTT/1qG/t
 MIME-Version: 1.0
-Subject: [PATCH] Fixed Q&A error for OpenFlow recipe
+X-Received: by 10.229.112.194 with SMTP id x2mr1147780qcp.109.1377127361933;
+	Wed, 21 Aug 2013 16:22:41 -0700 (PDT)
+Received: by 10.49.59.82 with HTTP; Wed, 21 Aug 2013 16:22:41 -0700 (PDT)
+Date: Wed, 21 Aug 2013 16:22:41 -0700
+Message-ID: <CAM1oe53TxnJzi0mtx+4NLZruC3kEX=OLjWVVfpoxUtcYpzrcgQ@mail.gmail.com>
+From: Zi Shen Lim <zishen.lim@linaro.org>
+To: meta-virtualization@yoctoproject.org
+Cc: Victor Kamensky <victor.kamensky@linaro.org>
+Subject: error triggered by meta-virtualization
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,38 +41,23 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 21 Aug 2013 14:16:39 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 21 Aug 2013 23:22:44 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
----
- recipes-networking/openflow/openflow_1.0.bb | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Hi,
 
-diff --git a/recipes-networking/openflow/openflow_1.0.bb b/recipes-networking/openflow/openflow_1.0.bb
-index 3663e50..20a2bc9 100644
---- a/recipes-networking/openflow/openflow_1.0.bb
-+++ b/recipes-networking/openflow/openflow_1.0.bb
-@@ -1,4 +1,4 @@
--SUMMARY = "OpelFlow"
-+SUMMARY = "OpenFlow"
- DESCRIPTION = "Provide a generic framework for handling devices in userspace."
- HOMEPAGE = "http://www.openflow.org"
- SECTION = "networking"
-@@ -21,4 +21,9 @@ PACKAGECONFIG[libssl] = "--enable-ssl,--disable-ssl, openssl, libssl"
- 
- S = "${WORKDIR}/git"
- 
--inherit autotools
-\ No newline at end of file
-+inherit autotools
-+
-+do_install_append() {
-+	# Remove /var/run as it is created on startup
-+        rm -rf ${D}${localstatedir}/run
-+}
--- 
-1.8.3.2
+After adding meta-virtualization layer into bblayers.conf, I'm not
+able to build packages.
+Looks like the search path is broken [1].
 
+As a quick workaround, I removed
+meta-virtualization/recipes-devtools/python/python_2.7.3.bbappend.
+That resolved the issue.
+
+Suggestions?
+
+Thanks,
+z
+
+[1] http://pastebin.com/BmK4QnnE
 
