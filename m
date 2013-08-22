@@ -1,36 +1,35 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D3A1E00747
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 894CEE00747
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 21 Aug 2013 17:52:34 -0700 (PDT)
-Received: by mail-la0-f47.google.com with SMTP id eo20so894469lab.20
+	Wed, 21 Aug 2013 17:54:38 -0700 (PDT)
+Received: by mail-la0-f52.google.com with SMTP id ev20so895064lab.39
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 21 Aug 2013 17:52:33 -0700 (PDT)
+	Wed, 21 Aug 2013 17:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=+4h6a8k3aSoMDT8bVmwZsS3Veh8BNWMQkekzXAQLhiU=;
-	b=ENsHJnrpYoVz4Zty9cqHvQLFpVQaWTuUNSPvSooC3pt/4w5MBYOmKOzCdNskhduVum
-	XPNTnpJhORBKjqWX/iYFMRBlbH9VBAOoZmmUF7ZbQhdQf3OZTfmabAfujHDz0HgmVluS
-	2y0gQbInu2MtzBTlRGgJMj4Jo+FCvlnJw6I0kEwXWTih07c60DOMmNL+PiC+tGIoKJyZ
-	J7FgLX3KcqLB8EgtKSV8mWVOCQrk3qw2oS8Q78ncxISavkp4W8FKw7jtiioL5ySeP60Z
-	BK71irgAqjdAQFGweaPbu+jZYFFU4ALy1eFYGic/jujpjt5tJ3eOw7v1PNwmKAOsk8nz
-	hraA==
+	:cc:content-type:content-transfer-encoding;
+	bh=Rxq/xswQXbiuN53j6L6tMTZHcSzvcImPzVApYamsmX8=;
+	b=TANi0qzLIE1WDBDuzouBKhRGWzvbxF+ogvAxW9iOAh3iKQ6bKEzyEyl0LLCDS470c3
+	gq/mdZxNuPWoulQ+Lc03o+FmWrUDX0QwAbzrNvlVJIZpYrCAGlzQ7d2Lfsza56iSp8Sf
+	dUbWtco7CKEFjn30uxX5vVysSlrVsuMChd4+IzqcvTgyuQEDwaO2FAHC61kfuIwdu2T6
+	h/Zo7ktu532apWofXzeHbWnnitXimUNOvOhwbJztMfYS9fOL7CDC+bkswtxvvktHMCsA
+	nFZ1kIStplVmJxHINBFkiDOls6jYngHsRTtD7NHH8qbAiz+jbWBWU6rtshL8fqXc6BMj
+	O/gw==
 MIME-Version: 1.0
-X-Received: by 10.152.44.225 with SMTP id h1mr8293803lam.15.1377132753042;
-	Wed, 21 Aug 2013 17:52:33 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Wed, 21 Aug 2013 17:52:33 -0700 (PDT)
-In-Reply-To: <CAM1oe53TxnJzi0mtx+4NLZruC3kEX=OLjWVVfpoxUtcYpzrcgQ@mail.gmail.com>
-References: <CAM1oe53TxnJzi0mtx+4NLZruC3kEX=OLjWVVfpoxUtcYpzrcgQ@mail.gmail.com>
-Date: Wed, 21 Aug 2013 20:52:33 -0400
-Message-ID: <CADkTA4OQXOgvj4XhA2LhENVYpOdEsRodaPj+5kRA=EVf9zRKmw@mail.gmail.com>
+X-Received: by 10.112.168.170 with SMTP id zx10mr9212782lbb.0.1377132877856;
+	Wed, 21 Aug 2013 17:54:37 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Wed, 21 Aug 2013 17:54:37 -0700 (PDT)
+In-Reply-To: <1377094573-30072-1-git-send-email-david.nystrom@enea.com>
+References: <1377094573-30072-1-git-send-email-david.nystrom@enea.com>
+Date: Wed, 21 Aug 2013 20:54:37 -0400
+Message-ID: <CADkTA4NHoDDeP1C262yZ=dj3+eqJUa2vuBw4xPHLiN4exnhfVQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Zi Shen Lim <zishen.lim@linaro.org>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Victor Kamensky <victor.kamensky@linaro.org>
-Subject: Re: error triggered by meta-virtualization
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] Fixed Q&A error for OpenFlow recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,58 +42,59 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 00:52:35 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 00:54:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 21, 2013 at 7:22 PM, Zi Shen Lim <zishen.lim@linaro.org> wrote:
-> Hi,
+Can you dump the QA recipe here for the long log ? I've been building this =
+and
+haven't seen it myself. So I'm curious to see what it is .. with it in
+the commit log,
+I'll know if I see it.
+
+On Wed, Aug 21, 2013 at 10:16 AM, David Nystr=F6m
+<david.c.nystrom@gmail.com> wrote:
+> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
+> ---
+>  recipes-networking/openflow/openflow_1.0.bb | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 >
-> After adding meta-virtualization layer into bblayers.conf, I'm not
-> able to build packages.
-> Looks like the search path is broken [1].
+> diff --git a/recipes-networking/openflow/openflow_1.0.bb b/recipes-networ=
+king/openflow/openflow_1.0.bb
+> index 3663e50..20a2bc9 100644
+> --- a/recipes-networking/openflow/openflow_1.0.bb
+> +++ b/recipes-networking/openflow/openflow_1.0.bb
+> @@ -1,4 +1,4 @@
+> -SUMMARY =3D "OpelFlow"
+> +SUMMARY =3D "OpenFlow"
+
+I for one liked the OpelFlow support! :)
+
+>  DESCRIPTION =3D "Provide a generic framework for handling devices in use=
+rspace."
+>  HOMEPAGE =3D "http://www.openflow.org"
+>  SECTION =3D "networking"
+> @@ -21,4 +21,9 @@ PACKAGECONFIG[libssl] =3D "--enable-ssl,--disable-ssl, =
+openssl, libssl"
 >
-> As a quick workaround, I removed
-> meta-virtualization/recipes-devtools/python/python_2.7.3.bbappend.
-> That resolved the issue.
+>  S =3D "${WORKDIR}/git"
+>
+> -inherit autotools
+> \ No newline at end of file
+> +inherit autotools
+> +
+> +do_install_append() {
+> +       # Remove /var/run as it is created on startup
+> +        rm -rf ${D}${localstatedir}/run
+> +}
 
-I'm definitely still able to build packages and plenty of python packages with
-that bbappend in place.
-
-That being said, we've talked about it before, and it should be we can remove
-as it isn't necessary anymore.
-
-I take it you have your own python patches, which the clobbered THISDIR
-is breaking.
-
-If you make the following change, does it build for you ?
-
-------------------
-
-diff --git a/recipes-devtools/python/python_2.7.3.bbappend
-b/recipes-devtools/python/python_2.7.3.bbappend
-index e39deba..55301c7 100644
---- a/recipes-devtools/python/python_2.7.3.bbappend
-+++ b/recipes-devtools/python/python_2.7.3.bbappend
-@@ -1,5 +1,4 @@
--THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
--FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
-+FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
-
- DEPENDS += " ncurses"
-
-------------
-
-If you can confirm it works, I'll push the change ASAP.
+Indeed .. this will get populated without OpenFlow's help.
 
 Bruce
 
+> --
+> 1.8.3.2
 >
-> Suggestions?
->
-> Thanks,
-> z
->
-> [1] http://pastebin.com/BmK4QnnE
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
@@ -102,7 +102,7 @@ Bruce
 
 
 
--- 
+--=20
 "Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end"
 
