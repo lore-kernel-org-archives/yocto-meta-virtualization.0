@@ -1,38 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2665AE00747
+Return-Path: <David.Nystrom@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 22943E00747
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 21 Aug 2013 18:34:40 -0700 (PDT)
-Received: by mail-lb0-f177.google.com with SMTP id n6so1214747lbi.22
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 21 Aug 2013 18:34:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=j8Q50KRaoxzKpdkDAplTBcT/76AZ/ZPkuhzJVt7REpA=;
-	b=XfgcqV930zNDShpROvJmNwUv6/qct2cilOTZu26klW4Y2RUcLOkLRPxpr8x0RVMkqs
-	GrNdiCST+xEm5Ej2hr7YjdZwBR//JkxURvUkSU7Pg62TEyXA6g/S9yJojqbWr4+ITwNS
-	oCPcn7YYEantCgu5otvCssSSph/PTkZskyEwRvt6Ee57yFJN/z/7LyYqZ9dNtk7NIwCb
-	rQ48iIkXXuFpKW9G2+AY/CabnXUPgxC41Zzix76ICQJkQCf5E84t+zs9a8s044cdW+gA
-	2sOJYu1DWuK1fWvY5EKFb4scQ93PYoSqD7KeySJq/34khzx6ozDEmoKd1i2J2V6iKwgh
-	uSpg==
+	Thu, 22 Aug 2013 00:55:44 -0700 (PDT)
+Received: from [172.16.141.168] (172.16.141.168) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.2.318.1;
+	Thu, 22 Aug 2013 09:55:41 +0200
+Message-ID: <5215C3F6.5040000@enea.com>
+Date: Thu, 22 Aug 2013 09:55:34 +0200
+From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:17.0) Gecko/20130803 Thunderbird/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.112.35.52 with SMTP id e20mr396125lbj.11.1377135278733; Wed,
-	21 Aug 2013 18:34:38 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Wed, 21 Aug 2013 18:34:38 -0700 (PDT)
-In-Reply-To: <CAM1oe50xWq3fPMU2dc0axfdZ-3pMR5PvJaZ7wcyAKLeHaCFDVQ@mail.gmail.com>
-References: <CAM1oe53TxnJzi0mtx+4NLZruC3kEX=OLjWVVfpoxUtcYpzrcgQ@mail.gmail.com>
-	<CADkTA4OQXOgvj4XhA2LhENVYpOdEsRodaPj+5kRA=EVf9zRKmw@mail.gmail.com>
-	<CAM1oe50xWq3fPMU2dc0axfdZ-3pMR5PvJaZ7wcyAKLeHaCFDVQ@mail.gmail.com>
-Date: Wed, 21 Aug 2013 21:34:38 -0400
-Message-ID: <CADkTA4Nd2BxFF_SCaytXZQzSfQ4nwnnVWJJCus66QSYmWnaTLw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Zi Shen Lim <zishen.lim@linaro.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1377094573-30072-1-git-send-email-david.nystrom@enea.com>
+	<CADkTA4NHoDDeP1C262yZ=dj3+eqJUa2vuBw4xPHLiN4exnhfVQ@mail.gmail.com>
+In-Reply-To: <CADkTA4NHoDDeP1C262yZ=dj3+eqJUa2vuBw4xPHLiN4exnhfVQ@mail.gmail.com>
+X-Originating-IP: [172.16.141.168]
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Victor Kamensky <victor.kamensky@linaro.org>
-Subject: Re: error triggered by meta-virtualization
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] Fixed Q&A error for OpenFlow recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,85 +32,183 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Aug 2013 01:34:43 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Thu, 22 Aug 2013 07:55:45 -0000
+X-Groupsio-MsgNum: 377
+Content-Type: multipart/mixed; boundary="------------030200080700010205020201"
 
-On Wed, Aug 21, 2013 at 9:02 PM, Zi Shen Lim <zishen.lim@linaro.org> wrote:
-> On Wed, Aug 21, 2013 at 5:52 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->> On Wed, Aug 21, 2013 at 7:22 PM, Zi Shen Lim <zishen.lim@linaro.org> wrote:
->>> Hi,
->>>
->>> After adding meta-virtualization layer into bblayers.conf, I'm not
->>> able to build packages.
->>> Looks like the search path is broken [1].
->>>
->>> As a quick workaround, I removed
->>> meta-virtualization/recipes-devtools/python/python_2.7.3.bbappend.
->>> That resolved the issue.
->>
->> I'm definitely still able to build packages and plenty of python packages with
->> that bbappend in place.
->>
->> That being said, we've talked about it before, and it should be we can remove
->> as it isn't necessary anymore.
->>
->> I take it you have your own python patches, which the clobbered THISDIR
->> is breaking.
->>
->> If you make the following change, does it build for you ?
->>
->> ------------------
->>
->> diff --git a/recipes-devtools/python/python_2.7.3.bbappend
->> b/recipes-devtools/python/python_2.7.3.bbappend
->> index e39deba..55301c7 100644
->> --- a/recipes-devtools/python/python_2.7.3.bbappend
->> +++ b/recipes-devtools/python/python_2.7.3.bbappend
->> @@ -1,5 +1,4 @@
->> -THISDIR := "${@os.path.dirname(bb.data.getVar('FILE', d, True))}"
->> -FILESPATH =. "${@base_set_filespath(["${THISDIR}/${PN}"], d)}:"
->> +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
->>
->>  DEPENDS += " ncurses"
->>
->> ------------
->>
->> If you can confirm it works, I'll push the change ASAP.
->>
+--------------030200080700010205020201
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+$ bitbake openflow
+WARNING: Host distribution "Ubuntu-13.10" has not been validated with 
+this version of the build system; you may possibly experience unexpected 
+failures. It is recommended that you use a tested distribution.
+Loading cache: 100% 
+|######################################################################| 
+ETA:  00:00:00
+Loaded 1727 entries from dependency cache.
+Parsing recipes: 100% 
+|####################################################################| 
+Time: 00:00:00
+Parsing of 1336 .bb files complete (1335 cached, 1 parsed). 1726 
+targets, 38 skipped, 0 masked, 0 errors.
+
+Build Configuration:
+BB_VERSION        = "1.19.1"
+BUILD_SYS         = "x86_64-linux"
+NATIVELSBSTRING   = "Ubuntu-13.10"
+TARGET_SYS        = "x86_64-poky-linux"
+MACHINE           = "qemux86-64"
+DISTRO            = "poky"
+DISTRO_VERSION    = "1.4+snapshot-20130822"
+TUNE_FEATURES     = "m64"
+TARGET_FPU        = ""
+meta
+meta-yocto
+meta-yocto-bsp    = "master:b2ff1add530b1fec2fb7f385227a03db47015c37"
+meta-oe
+meta-networking   = "master:d4571b3d94d999ad54d8965f0d049dcfd34da504"
+meta-virtualization = "master:ef0700820686d262fa28091b8e143fc881f69965"
+
+NOTE: Resolving any missing task queue dependencies
+NOTE: Preparing runqueue
+NOTE: Executing SetScene Tasks
+NOTE: Executing RunQueue Tasks
+ERROR: QA Issue: openflow: Files/directories were installed but not shipped
+   /run
+ERROR: QA run found fatal errors. Please consider fixing them.
+ERROR: Function failed: do_package_qa
+ERROR: Logfile of failure stored in: 
+/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/temp/log.do_package.14523
+ERROR: Task 10 
+(/media/sdb5/eel/meta-virtualization/recipes-networking/openflow/openflow_1.0.bb, 
+do_package) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 578 tasks of which 576 didn't need to be 
+rerun and 1 failed.
+No currently running tasks (577 of 582)
+
+Summary: 1 task failed:
+ 
+/media/sdb5/eel/meta-virtualization/recipes-networking/openflow/openflow_1.0.bb, 
+do_package
+Summary: There was 1 WARNING message shown.
+Summary: There were 3 ERROR messages shown, returning a non-zero exit code.
+
+
+Br,
+David
+
+
+
+On 08/22/2013 02:54 AM, Bruce Ashfield wrote:
+> Can you dump the QA recipe here for the long log ? I've been building this and
+> haven't seen it myself. So I'm curious to see what it is .. with it in
+> the commit log,
+> I'll know if I see it.
 >
-> Yes, it works :)
+> On Wed, Aug 21, 2013 at 10:16 AM, David Nyström
+> <david.c.nystrom@gmail.com> wrote:
+>> Signed-off-by: David Nyström <david.nystrom@enea.com>
+>> ---
+>>   recipes-networking/openflow/openflow_1.0.bb | 9 +++++++--
+>>   1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/recipes-networking/openflow/openflow_1.0.bb b/recipes-networking/openflow/openflow_1.0.bb
+>> index 3663e50..20a2bc9 100644
+>> --- a/recipes-networking/openflow/openflow_1.0.bb
+>> +++ b/recipes-networking/openflow/openflow_1.0.bb
+>> @@ -1,4 +1,4 @@
+>> -SUMMARY = "OpelFlow"
+>> +SUMMARY = "OpenFlow"
 >
-
-Thanks for the confirmation, I'll push the change now.
-
-Bruce
-
-> Thanks Bruce and Victor.
+> I for one liked the OpelFlow support! :)
 >
->> Bruce
+>>   DESCRIPTION = "Provide a generic framework for handling devices in userspace."
+>>   HOMEPAGE = "http://www.openflow.org"
+>>   SECTION = "networking"
+>> @@ -21,4 +21,9 @@ PACKAGECONFIG[libssl] = "--enable-ssl,--disable-ssl, openssl, libssl"
 >>
->>>
->>> Suggestions?
->>>
->>> Thanks,
->>> z
->>>
->>> [1] http://pastebin.com/BmK4QnnE
->>> _______________________________________________
->>> meta-virtualization mailing list
->>> meta-virtualization@yoctoproject.org
->>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>   S = "${WORKDIR}/git"
 >>
->>
->>
+>> -inherit autotools
+>> \ No newline at end of file
+>> +inherit autotools
+>> +
+>> +do_install_append() {
+>> +       # Remove /var/run as it is created on startup
+>> +        rm -rf ${D}${localstatedir}/run
+>> +}
+>
+> Indeed .. this will get populated without OpenFlow's help.
+>
+> Bruce
+>
 >> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
+>> 1.8.3.2
+>>
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
 
+--------------030200080700010205020201
+Content-Type: text/plain; charset="UTF-8"; name="log.do_package.14523"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="log.do_package.14523"
 
+DEBUG: Executing python function sstate_task_prefunc
+DEBUG: Python function sstate_task_prefunc finished
+DEBUG: Executing python function do_package
+DEBUG: Executing python function package_get_auto_pr
+DEBUG: Python function package_get_auto_pr finished
+DEBUG: Executing python function perform_packagecopy
+DEBUG: Python function perform_packagecopy finished
+DEBUG: Executing python function split_and_strip_files
+DEBUG: runstrip: 'x86_64-poky-linux-strip' --remove-section=.comment --remove-section=.note '/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/package/usr/bin/ofprotocol'
+DEBUG: runstrip: 'x86_64-poky-linux-strip' --remove-section=.comment --remove-section=.note '/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/package/usr/bin/ofp-kill'
+DEBUG: runstrip: 'x86_64-poky-linux-strip' --remove-section=.comment --remove-section=.note '/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/package/usr/bin/ofdatapath'
+DEBUG: runstrip: 'x86_64-poky-linux-strip' --remove-section=.comment --remove-section=.note '/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/package/usr/bin/controller'
+DEBUG: runstrip: 'x86_64-poky-linux-strip' --remove-section=.comment --remove-section=.note '/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/package/usr/bin/dpctl'
+DEBUG: runstrip: 'x86_64-poky-linux-strip' --remove-section=.comment --remove-section=.note '/media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/package/usr/bin/ofp-discover'
+DEBUG: Python function split_and_strip_files finished
+DEBUG: Executing python function fixup_perms
+DEBUG: Python function fixup_perms finished
+DEBUG: Executing python function package_do_split_locales
+DEBUG: No locale files in this package
+DEBUG: Python function package_do_split_locales finished
+DEBUG: Executing python function populate_packages
+ERROR: QA Issue: openflow: Files/directories were installed but not shipped
+  /run
+DEBUG: Python function populate_packages finished
+DEBUG: Executing python function do_package_qa
+NOTE: DO PACKAGE QA
+NOTE: Checking Package: openflow-dbg
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/controller
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/vlogconf
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/ofdatapath
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/ofprotocol
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/ofp-discover
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/dpctl
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow-dbg/usr/bin/.debug/ofp-kill
+NOTE: Checking Package: openflow-staticdev
+NOTE: Checking Package: openflow-dev
+NOTE: Checking Package: openflow-doc
+NOTE: Checking Package: openflow-locale
+NOTE: Checking Package: openflow
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/controller
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/vlogconf
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/ofdatapath
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/ofprotocol
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/ofp-discover
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/dpctl
+NOTE: x86_64-poky-linux-objdump -p /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+5ccca75a69-r0/packages-split/openflow/usr/bin/ofp-kill
+ERROR: QA run found fatal errors. Please consider fixing them.
+DEBUG: Python function do_package_qa finished
+DEBUG: Python function do_package finished
+ERROR: Function failed: do_package_qa
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
-
+--------------030200080700010205020201--
