@@ -1,35 +1,37 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ie0-f175.google.com (mail-ie0-f175.google.com
-	[209.85.223.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 296D8E01206
+Return-Path: <victor.kamensky@linaro.org>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C6909E0043C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  2 Jul 2013 09:10:07 -0700 (PDT)
-Received: by mail-ie0-f175.google.com with SMTP id a13so12970337iee.34
+	Wed, 21 Aug 2013 17:46:44 -0700 (PDT)
+Received: by mail-qc0-f173.google.com with SMTP id z10so659653qcx.18
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 02 Jul 2013 09:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:x-mailer;
-	bh=NaVULFpTh5hXlP+w585a32NhpequPXUUVIy5PYDxMmA=;
-	b=zteOY3vwsw7QuwP/dek44JCSdqcVAQ7y4ki/zqCABdE/A81Cjxhu7VyHYtew7eX347
-	Dc81Lvei02pFTSaqKi7G9JJV57dYxtilUYyPLWFHuUGPrFE21FGYpn1CLWtfBMSOZYVp
-	NAlZGcwXA2G0Zd+fsMmUjdnr3sbQGshbXfsR4dSn6l9WTqfL/psM6RwGEfoiZsnxHZOp
-	SAVxKU4FbIs1YwRLAu3edkpHVq9Gh6sGdCsdABH2lINR5tZUPSm6YfP0HUuYGoIbIkuj
-	dGDlxwTK4cA4Ocwd6Ja37p6NP0fd2pRJ1e5XcZcR5nQ6NpTPU402+kWDzGw5Dg+UbvFk
-	ECNA==
-X-Received: by 10.50.11.72 with SMTP id o8mr21235615igb.44.1372781407008;
-	Tue, 02 Jul 2013 09:10:07 -0700 (PDT)
-Received: from precise64.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id
-	wn10sm19042669igb.2.2013.07.02.09.10.05 for <multiple recipients>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 02 Jul 2013 09:10:06 -0700 (PDT)
-From: Christopher Larson <kergoth@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Message-Id: <1372781400-19837-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.3.2
+	Wed, 21 Aug 2013 17:46:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=google.com; s=20120113;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=16CiBO1IfINJWwsVxwvTPE2Uhvmmeq92pKsJnnAY1pI=;
+	b=NsNKVJHF8kQIDMr7C1sormGQgcXa6Aq6kYFPzFKn7Liqa0Piz2DcmkqX958YFdCbAM
+	tBGsmLTObn/5vZOyetdK6dVhx7nzTViBDAwGzgtTbNqrsr5JZX5kgLO4o3v0+iQ21MsZ
+	Ma4Ru9WQdG+PJ1oKuPUFTDEF45Y/F2Q9fiAG6hqNGsRty85hhiB0tRKfmelNNhaVjlyu
+	r6WqC3xf7g+MHSdlNNYe7gUYRnodZrHuauiuzhWUIFpX6LM+t3lUM7EYtjUk2Z76XZpN
+	xEFpIC7AY0xrvI9yVyHPQBgE57ugYqliTHNhbJiNhktjiBY2GW3N0yPbt2cVX25czniI
+	48Ig==
+X-Gm-Message-State: ALoCoQl3rB2T8ldM0kzDTnqgxus7o4469Af47ZImZHnB0t2oBTRLzy2pi+UVoEG1Ie9iDfuXeY+5
+MIME-Version: 1.0
+X-Received: by 10.49.30.233 with SMTP id v9mr8905274qeh.80.1377132404046; Wed,
+	21 Aug 2013 17:46:44 -0700 (PDT)
+Received: by 10.229.193.71 with HTTP; Wed, 21 Aug 2013 17:46:43 -0700 (PDT)
+In-Reply-To: <CAM1oe53TxnJzi0mtx+4NLZruC3kEX=OLjWVVfpoxUtcYpzrcgQ@mail.gmail.com>
+References: <CAM1oe53TxnJzi0mtx+4NLZruC3kEX=OLjWVVfpoxUtcYpzrcgQ@mail.gmail.com>
+Date: Wed, 21 Aug 2013 17:46:44 -0700
+Message-ID: <CAA3XUr2CKHbT9rgF4+1-TQm1jCMoULFuETozOPgY8-RY=SV5-Q@mail.gmail.com>
+From: Victor Kamensky <victor.kamensky@linaro.org>
+To: Zi Shen Lim <zishen.lim@linaro.org>
 X-Mailman-Approved-At: Thu, 29 Aug 2013 06:02:43 -0700
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] iptables: update bbappend to match oe-core
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: error triggered by meta-virtualization
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,23 +44,68 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Tue, 02 Jul 2013 16:10:10 -0000
-X-Original-Date: Tue,  2 Jul 2013 09:10:00 -0700
-X-List-Received-Date: Tue, 02 Jul 2013 16:10:10 -0000
+X-List-Received-Date: Thu, 22 Aug 2013 00:46:50 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-From: Christopher Larson <chris_larson@mentor.com>
+Just to clarify a bit:
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+some preexisting layers in Zi's setup also had
+python_2.7.3.bbappend with syntax like this
+
+[kamensky@kamensky-w530 081913_1]$ cat
+meta-linaro/meta-bigendian/recipes-devtools/python/python_2.7.3.bbappend
+FILESEXTRAPATHS := "${THISDIR}/${PN}"
+
+SRC_URI += "file://python_ffi_armeb_be8.patch"
+
+We are wondering why
+meta-virtualization/recipes-devtools/python/python_2.7.3.bbappend
+redefines FILESPATH in such unusual way, which results that another layer
+modification got wiped out. Also it seems that
+meta-virtualization/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+patch
+already exist in OE defined layer
+(poky/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch).
+With your python_2.7.3.bbappend you make it pick up yours. It is highly
+unusual for OE system. Patches are different just a bit:
+
+[kamensky@kamensky-w530 081913_1]$ diff
+meta-virtualization/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+poky/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+122,124c122,124
+< +        lib_dirs = [ os.getenv( "STAGING_LIBDIR" ) ]
+< +        inc_dirs = [ os.getenv( "STAGING_INCDIR" ) ]
+< +        lib_dirs += os.getenv('LIBRARY_PATH', '').split(os.pathsep)
 ---
- .../iptables/{iptables_1.4.18.bbappend => iptables_1.4.19.1.bbappend}     | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename recipes-extended/iptables/{iptables_1.4.18.bbappend => iptables_1.4.19.1.bbappend} (100%)
+> +        lib_dirs = [ os.getenv("STAGING_LIBDIR"),  os.getenv("STAGING_BASELIBDIR") ]
+> +        inc_dirs = [ os.getenv("STAGING_INCDIR") ]
+> +
 
-diff --git a/recipes-extended/iptables/iptables_1.4.18.bbappend b/recipes-extended/iptables/iptables_1.4.19.1.bbappend
-similarity index 100%
-rename from recipes-extended/iptables/iptables_1.4.18.bbappend
-rename to recipes-extended/iptables/iptables_1.4.19.1.bbappend
--- 
-1.8.3.2
+If you are unhappy with OE provided
+01-use-proper-tools-for-cross-build.patch patch patch you
+could come up with new patch on top of it, but not instead.
 
+Does this python_2.7.3.bbappend even really needed or it is artifact
+of some things in the past?
+
+Thanks,
+Victor
+
+On 21 August 2013 16:22, Zi Shen Lim <zishen.lim@linaro.org> wrote:
+> Hi,
+>
+> After adding meta-virtualization layer into bblayers.conf, I'm not
+> able to build packages.
+> Looks like the search path is broken [1].
+>
+> As a quick workaround, I removed
+> meta-virtualization/recipes-devtools/python/python_2.7.3.bbappend.
+> That resolved the issue.
+>
+> Suggestions?
+>
+> Thanks,
+> z
+>
+> [1] http://pastebin.com/BmK4QnnE
 
