@@ -1,37 +1,34 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C0B2DE00443
+Return-Path: <cjp256@gmail.com>
+Received: from mail-ie0-f176.google.com (mail-ie0-f176.google.com
+	[209.85.223.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 34B59E003FB
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 24 Aug 2013 22:29:12 -0700 (PDT)
-Received: by mail-la0-f41.google.com with SMTP id ec20so1571312lab.0
+	Sun, 25 Aug 2013 07:57:42 -0700 (PDT)
+Received: by mail-ie0-f176.google.com with SMTP id s9so3353738iec.7
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 24 Aug 2013 22:29:10 -0700 (PDT)
+	Sun, 25 Aug 2013 07:57:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=xuOCaUxoBmlAlvOv56EkBhtzvT1oZZlh1O6kcqxQv8g=;
-	b=HtWFdfHS9O8Zs3DC3vr6Di6anSqu9tQP8PTrtJXsizBk2IGindndhdFpRzVG4t2zEm
-	Ehf9VrjCgzKmLGEBBlEywu6B/qo1yJk/tOqAFaWQ75vK51Rk/uuJF9e/YWCRDTOWZCsx
-	FiPWU4Vp0xC8CXvn8Dmwj5yYZTBijZkc9h/VnYooezfCmji/LURmmpOp2lc97Y9wihN8
-	f+5g4Dpbcmytj8O1EZUzZmpdXT4UYPwp5thSg6llgaiwx+57H/1bvzn5+e9WvyE+KyI1
-	+OoCXJRV4OmJCKG+V0pUqw+Y412JBl9Rn64KpGYdYqBv2iF9Ze6VeiJnZShKDtWIitX+
-	sofA==
-MIME-Version: 1.0
-X-Received: by 10.152.29.103 with SMTP id j7mr7183487lah.7.1377408550408; Sat,
-	24 Aug 2013 22:29:10 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Sat, 24 Aug 2013 22:29:10 -0700 (PDT)
-In-Reply-To: <5215C3F6.5040000@enea.com>
-References: <1377094573-30072-1-git-send-email-david.nystrom@enea.com>
-	<CADkTA4NHoDDeP1C262yZ=dj3+eqJUa2vuBw4xPHLiN4exnhfVQ@mail.gmail.com>
-	<5215C3F6.5040000@enea.com>
-Date: Sun, 25 Aug 2013 01:29:10 -0400
-Message-ID: <CADkTA4PaOEFsd7Dw1E3eRXf9hiPytMa3FAaZjZ1Wbo+xVtEtfg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Fixed Q&A error for OpenFlow recipe
+	h=from:to:cc:subject:date:message-id;
+	bh=r6d8rA/Gb6zB1IYiMsZmmD23xQ3pybKvR6SIacqcK8w=;
+	b=nuLjB+Ld9xm5Mpa0Bs0yg5o18+XqLGJIVPT2gpDwW0f7YY6MMyjJ9D2jcLnpGbzvfp
+	7vknVeWi3/eKYaGQ4gWGrx1sFX6pgcxeV1URWs2VL3bpZ23H4tMqg2ITzftn7GoJGlba
+	JkXr+HkyyuX3N7yWFTVht+ONbuK4lXgAlJMDIVFUC/gg8hE3hjKAq+2pMVtX++0a6htm
+	2EBewst9cdF9K83mRKvyDwVQ1+dNOQ9Yw+jXCB1f0TPGrE81vKFzsjq/Kc/5iAbCWZs2
+	jEmsgae1di97k0opAlg+k2hRykSuxhwfGEwAdEdongmufryOmoxmdaNwbfOoR5fuLNqw
+	t47A==
+X-Received: by 10.50.87.99 with SMTP id w3mr3832118igz.53.1377442661851;
+	Sun, 25 Aug 2013 07:57:41 -0700 (PDT)
+Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
+	[74.71.215.22])
+	by mx.google.com with ESMTPSA id pk8sm11277974igb.6.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Sun, 25 Aug 2013 07:57:41 -0700 (PDT)
+From: Chris Patterson <cjp256@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Sun, 25 Aug 2013 10:57:37 -0400
+Message-Id: <1377442657-31590-1-git-send-email-cjp256@gmail.com>
+X-Mailer: git-send-email 1.7.10.4
+Subject: [PATCH] xen: add 4.3.0 recipe.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,164 +41,649 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Aug 2013 05:29:13 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 25 Aug 2013 14:57:45 -0000
 
-On Thu, Aug 22, 2013 at 3:55 AM, David Nystr=F6m <david.nystrom@enea.com> w=
-rote:
-> $ bitbake openflow
-> WARNING: Host distribution "Ubuntu-13.10" has not been validated with thi=
-s
-> version of the build system; you may possibly experience unexpected
-> failures. It is recommended that you use a tested distribution.
-> Loading cache: 100%
-> |######################################################################|
-> ETA:  00:00:00
-> Loaded 1727 entries from dependency cache.
-> Parsing recipes: 100%
-> |####################################################################| Ti=
-me:
-> 00:00:00
-> Parsing of 1336 .bb files complete (1335 cached, 1 parsed). 1726 targets,=
- 38
-> skipped, 0 masked, 0 errors.
->
-> Build Configuration:
-> BB_VERSION        =3D "1.19.1"
-> BUILD_SYS         =3D "x86_64-linux"
-> NATIVELSBSTRING   =3D "Ubuntu-13.10"
-> TARGET_SYS        =3D "x86_64-poky-linux"
-> MACHINE           =3D "qemux86-64"
-> DISTRO            =3D "poky"
-> DISTRO_VERSION    =3D "1.4+snapshot-20130822"
-> TUNE_FEATURES     =3D "m64"
-> TARGET_FPU        =3D ""
-> meta
-> meta-yocto
-> meta-yocto-bsp    =3D "master:b2ff1add530b1fec2fb7f385227a03db47015c37"
-> meta-oe
-> meta-networking   =3D "master:d4571b3d94d999ad54d8965f0d049dcfd34da504"
-> meta-virtualization =3D "master:ef0700820686d262fa28091b8e143fc881f69965"
->
-> NOTE: Resolving any missing task queue dependencies
-> NOTE: Preparing runqueue
-> NOTE: Executing SetScene Tasks
-> NOTE: Executing RunQueue Tasks
-> ERROR: QA Issue: openflow: Files/directories were installed but not shipp=
-ed
->   /run
+This patch provides a xen 4.3.0 build that is suitable for a x86_64 target.  It builds most of the components with the exception of the stubdoms and pv-grub.  This has been tested with the xl toolstack, qemu-xen-traditional, and upstream qemu.  This will likely require some additional work/dependencies for users of the xm/xend toolstacks.
 
-Ah yes. I've seen this same QA error here. I've actually just packaged it
-in the past to avoid the same error .. with no ill effects at runtime.
+Note that I did not attempt to integrate with the common xen.inc as the build system(s) have changed a fair bit.  This would probably be a useful exercise after the next release of xen.
 
-But this works just as well.
+Suggestions or other feedback is certainly welcome :)
 
-I was working on some code, so I tweaked the commit message and pushed
-out your two pending changes.
+---
+ recipes-extended/xen/xen_4.3.0.bb |  623 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 623 insertions(+)
+ create mode 100644 recipes-extended/xen/xen_4.3.0.bb
 
-Cheers,
+diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
+new file mode 100644
+index 0000000..baafbd8
+--- /dev/null
++++ b/recipes-extended/xen/xen_4.3.0.bb
+@@ -0,0 +1,623 @@
++DESCRIPTION = "Xen hypervisor"
++HOMEPAGE = "http://xen.org"
++LICENSE = "GPLv2"
++SECTION = "console/tools"
++PR = "r0"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=e0f0f3ac55608719a82394cc353928df"
++
++SRC_URI = "http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "7b18cfb58f1ac2ce39cf35a1867f0c0a"
++SRC_URI[sha256sum] = "e1e9faabe4886e2227aacdbde74410653b233d66642ca1972a860cbec6439961"
++
++S = "${WORKDIR}/xen-${PV}"
++
++COMPATIBLE_HOST = '(x86_64.*).*-linux'
++
++inherit autotools gettext setuptools update-rc.d
++
++DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python xz xz-native"
++
++RDEPENDS_xen-base = "\
++    libgcc pciutils bridge-utils iproute2 util-linux udev procps bash coreutils python python-core python-shell python-pprint perl xz \
++    ${PN}-blktap \
++    ${PN}-console \
++    ${PN}-libblktapctl \
++    ${PN}-libxenguest \
++    ${PN}-libxenlight \
++    ${PN}-libxenvchan \
++    ${PN}-libxenctrl \
++    ${PN}-libxlutil \
++    ${PN}-libvhd \
++    ${PN}-libxenstat \
++    ${PN}-libxenstore \
++    ${PN}-libblktap \
++    ${PN}-libfsimage \
++    ${PN}-flask \
++    ${PN}-fsimage \
++    ${PN}-hvmloader \
++    ${PN}-scripts-block \
++    ${PN}-scripts-network \
++    ${PN}-udev \
++    ${PN}-xenpaging \
++    ${PN}-xen-watchdog \
++    ${PN}-xencommons \
++    ${PN}-xendomains \
++    ${PN}-xenstore \
++    ${PN}-xenstored \
++    ${PN}-xl \
++    "
++
++RDEPENDS_${PN}-scripts-block = "\
++    ${PN}-scripts-common \
++    ${PN}-udev \
++    "
++
++RDEPENDS_${PN}-scripts-network = "\
++    bridge-utils \
++    ${PN}-scripts-common \
++    ${PN}-udev \
++    "
++
++PACKAGES = "\
++    ${PN}-base \
++    ${PN}-blktap \
++    ${PN}-console \
++    ${PN}-dbg \
++    ${PN}-dev \
++    ${PN}-doc \
++    ${PN}-flask \
++    ${PN}-fsimage \
++    ${PN}-gdbsx \
++    ${PN}-hvmloader \
++    ${PN}-hypervisor \
++    ${PN}-kdd \
++    ${PN}-libblktap \
++    ${PN}-libblktapctl \
++    ${PN}-libblktapctl-dev \
++    ${PN}-libblktap-dev \
++    ${PN}-libfsimage \
++    ${PN}-libfsimage-dev \
++    ${PN}-libvhd \
++    ${PN}-libvhd-dev \
++    ${PN}-libxenctrl \
++    ${PN}-libxenctrl-dev \
++    ${PN}-libxenguest \
++    ${PN}-libxenguest-dev \
++    ${PN}-libxenlight \
++    ${PN}-libxenlight-dev \
++    ${PN}-libxenstat \
++    ${PN}-libxenstat-dev \
++    ${PN}-libxenstore \
++    ${PN}-libxenstore-dev \
++    ${PN}-libxenvchan \
++    ${PN}-libxenvchan-dev \
++    ${PN}-libxlutil \
++    ${PN}-libxlutil-dev \
++    ${PN}-misc \
++    ${PN}-pygrub \
++    ${PN}-python \
++    ${PN}-qemu \
++    ${PN}-remus \
++    ${PN}-scripts-block \
++    ${PN}-scripts-common \
++    ${PN}-scripts-network \
++    ${PN}-staticdev \
++    ${PN}-udev \
++    ${PN}-xcutils \
++    ${PN}-xencommons \
++    ${PN}-xend \
++    ${PN}-xend-examples \
++    ${PN}-xendomains \
++    ${PN}-xenmon \
++    ${PN}-xenpaging \
++    ${PN}-xenpmd \
++    ${PN}-xenstat \
++    ${PN}-xenstore \
++    ${PN}-xenstored \
++    ${PN}-xentrace \
++    ${PN}-xen-watchdog \
++    ${PN}-xl \
++    ${PN}-xl-examples \
++    ${PN}-xm \
++    ${PN}-xm-examples \
++    "
++
++FILES_${PN}-dbg += "\
++    ${libdir}/.debug \
++    ${libdir}/xen/bin/.debug \
++    ${libdir}/python2.7/site-packages/.debug \
++    ${libdir}/python2.7/site-packages/xen/lowlevel/.debug \
++    ${libdir}/fs/xfs/.debug \
++    ${libdir}/fs/ufs/.debug \
++    ${libdir}/fs/ext2fs-lib/.debug \
++    ${libdir}/fs/fat/.debug \
++    ${libdir}/fs/zfs/.debug \
++    ${libdir}/fs/reiserfs/.debug \
++    ${libdir}/fs/iso9660/.debug \
++    ${sbindir}/.debug \
++    ${libdir}exec/.debug \
++    ${bindir}/.debug \
++    ${libdir}/python2.7/dist-packages/.debug \
++    ${libdir}/python2.7/dist-packages/xen/lowlevel/.debug \
++    "
++
++FILES_${PN}-dev = "\
++    ${includedir} \
++    "
++
++FILES_${PN}-doc = "\
++    ${sysconfdir}/xen/README \
++    ${sysconfdir}/xen/README.incompatibilities \
++    ${datadir}/doc \
++    ${datadir}/man \
++    "
++
++FILES_${PN}-staticdev += "\
++    ${libdir}/libblktapctl.a \
++    ${libdir}/libxenguest.a \
++    ${libdir}/libxenlight.a \
++    ${libdir}/libxenvchan.a \
++    ${libdir}/libxenctrl.a \
++    ${libdir}/libxlutil.a \
++    ${libdir}/libvhd.a \
++    ${libdir}/libxenstat.a \
++    ${libdir}/libxenstore.a \
++    ${libdir}/libblktap.a \
++    "
++
++FILES_${PN}-libblktapctl = "${libdir}/libblktapctl.so.*"
++FILES_${PN}-libblktapctl-dev = "${libdir}/libblktapctl.so"
++
++FILES_${PN}-libxenguest = "${libdir}/libxenguest.so.*"
++FILES_${PN}-libxenguest-dev = "${libdir}/libxenguest.so"
++
++FILES_${PN}-libxenlight = "${libdir}/libxenlight.so.*"
++FILES_${PN}-libxenlight-dev = "${libdir}/libxenlight.so"
++
++FILES_${PN}-libxenvchan = "${libdir}/libxenvchan.so.*"
++FILES_${PN}-libxenvchan-dev = "${libdir}/libxenvchan.so"
++
++FILES_${PN}-libxenctrl = "${libdir}/libxenctrl.so.*"
++FILES_${PN}-libxenctrl-dev = "${libdir}/libxenctrl.so"
++
++FILES_${PN}-libxlutil = "${libdir}/libxlutil.so.*"
++FILES_${PN}-libxlutil-dev = "${libdir}/libxlutil.so"
++
++FILES_${PN}-libvhd = "${libdir}/libvhd.so.*"
++FILES_${PN}-libvhd-dev = "${libdir}/libvhd.so"
++
++FILES_${PN}-libxenstat = "${libdir}/libxenstat.so.*"
++FILES_${PN}-libxenstat-dev = "${libdir}/libxenstat.so"
++
++FILES_${PN}-libxenstore = "${libdir}/libxenstore.so.*"
++FILES_${PN}-libxenstore-dev = "${libdir}/libxenstore.so"
++
++FILES_${PN}-libblktap = "${libdir}/libblktap.so.*"
++FILES_${PN}-libblktap-dev = "${libdir}/libblktap.so"
++
++FILES_${PN}-libfsimage = "${libdir}/libfsimage.so.*"
++FILES_${PN}-libfsimage-dev = "${libdir}/libfsimage.so"
++
++FILES_${PN}-fsimage = "${libdir}/fs/*/*fsimage.so"
++
++FILES_${PN}-hypervisor = "\
++    /boot/xen-4.3.0.gz \
++    /boot/xen-4.3.gz \
++    /boot/xen-4.gz \
++    /boot/xen.gz \
++    /boot/xen-syms-4.3.0 \
++    "
++
++FILES_${PN}-base = "\
++    ${sysconfdir}/default/volatiles/99_xen \
++    ${sysconfdir}/default/xencommons \
++    ${sysconfdir}/default/xendomains \
++    ${sysconfdir}/xen/auto \
++    ${sysconfdir}/xen/cpupool \
++    ${sysconfdir}/sysconfig/xendomains \
++    ${localstatedir}/xen/dump \
++    "
++
++FILES_${PN}-blktap = "\
++    ${sbindir}/blktapctrl \
++    ${sbindir}/img2qcow \
++    ${sbindir}/lock-util \
++    ${sbindir}/qcow2raw \
++    ${sbindir}/qcow-create \
++    ${sbindir}/tap-ctl \
++    ${sbindir}/tapdisk \
++    ${sbindir}/tapdisk2 \
++    ${sbindir}/tapdisk-client \
++    ${sbindir}/tapdisk-diff \
++    ${sbindir}/tapdisk-stream \
++    ${sbindir}/td-util \
++    ${sbindir}/vhd-update \
++    ${sbindir}/vhd-util \
++    "
++
++FILES_${PN}-console = "\
++    ${libdir}/xen/bin/xenconsole \
++    ${sbindir}/xenconsoled \
++    "
++
++FILES_${PN}-flask = "\
++    ${sbindir}/flask-get-bool \
++    ${sbindir}/flask-getenforce \
++    ${sbindir}/flask-label-pci \
++    ${sbindir}/flask-loadpolicy \
++    ${sbindir}/flask-set-bool \
++    ${sbindir}/flask-setenforce \
++    "
++
++FILES_${PN}-gdbsx = "\
++    ${sbindir}/gdbsx \
++    "
++
++INSANE_SKIP_${PN}-hvmloader = "arch"
++FILES_${PN}-hvmloader = "\
++    ${libdir}/xen/boot/hvmloader \
++    "
++
++FILES_${PN}-kdd = "\
++    ${sbindir}/kdd \
++    "
++
++FILES_${PN}-misc = "\
++    ${bindir}/xencons \
++    ${bindir}/xencov_split \
++    ${bindir}/xen-detect \
++    ${libdir}/xen/bin/xenpvnetboot \
++    ${sbindir}/gtracestat \
++    ${sbindir}/gtraceview \
++    ${sbindir}/xen-bugtool \
++    ${sbindir}/xencov \
++    ${sbindir}/xend \
++    ${sbindir}/xenperf \
++    ${sbindir}/xenpm \
++    ${sbindir}/xsview \
++    ${sbindir}/xen-tmem-list-parse \
++    ${sbindir}/xen-python-path \
++    ${sbindir}/xen-ringwatch \
++    ${sbindir}/xen-hptool \
++    ${sbindir}/xen-hvmcrash \
++    ${sbindir}/xen-hvmctx \
++    ${sbindir}/xenlockprof \
++    ${sbindir}/xen-lowmemd \
++    "
++
++FILES_${PN}-pygrub = "\
++    ${bindir}/pygrub \
++    ${libdir}/xen/bin/pygrub \
++    "
++
++FILES_${PN}-python = "\
++    ${libdir}/python2.7 \
++    "
++
++INSANE_SKIP_${PN}-qemu = "arch"
++FILES_${PN}-qemu = " \
++    ${datadir}/xen/qemu \
++    ${libdir}/xen/bin/qemu-system-i386 \
++    ${libdir}/xen/bin/qemu-system-x86_64 \
++    ${libdir}/xen/bin/qemu-img \
++    ${libdir}/xen/bin/qemu-nbd \
++    ${libdir}/xen/bin/qemu-ga \
++    ${libdir}/xen/bin/qemu-io \
++    ${libdir}/xen/bin/qemu-dm \
++    ${libdir}/xen/bin/virtfs-proxy-helper \
++    /usr/libexec/qemu-bridge-helper \
++    /usr/etc/qemu \
++    /usr/etc/qemu/target-x86_64.conf \
++    ${datadir}/qemu-xen \
++    ${datadir}/qemu-xen/qemu \
++    ${datadir}/qemu-xen/qemu/bamboo.dtb \
++    ${datadir}/qemu-xen/qemu/pxe-pcnet.rom \
++    ${datadir}/qemu-xen/qemu/vgabios-vmware.bin \
++    ${datadir}/qemu-xen/qemu/pxe-eepro100.rom \
++    ${datadir}/qemu-xen/qemu/pxe-e1000.rom \
++    ${datadir}/qemu-xen/qemu/openbios-ppc \
++    ${datadir}/qemu-xen/qemu/multiboot.bin \
++    ${datadir}/qemu-xen/qemu/vgabios-cirrus.bin \
++    ${datadir}/qemu-xen/qemu/bios.bin \
++    ${datadir}/qemu-xen/qemu/vgabios-stdvga.bin \
++    ${datadir}/qemu-xen/qemu/palcode-clipper \
++    ${datadir}/qemu-xen/qemu/pxe-ne2k_pci.rom \
++    ${datadir}/qemu-xen/qemu/spapr-rtas.bin \
++    ${datadir}/qemu-xen/qemu/slof.bin \
++    ${datadir}/qemu-xen/qemu/vgabios-qxl.bin \
++    ${datadir}/qemu-xen/qemu/pxe-rtl8139.rom \
++    ${datadir}/qemu-xen/qemu/openbios-sparc64 \
++    ${datadir}/qemu-xen/qemu/pxe-virtio.rom \
++    ${datadir}/qemu-xen/qemu/kvmvapic.bin \
++    ${datadir}/qemu-xen/qemu/openbios-sparc32 \
++    ${datadir}/qemu-xen/qemu/petalogix-s3adsp1800.dtb \
++    ${datadir}/qemu-xen/qemu/sgabios.bin \
++    ${datadir}/qemu-xen/qemu/linuxboot.bin \
++    ${datadir}/qemu-xen/qemu/qemu-icon.bmp \
++    ${datadir}/qemu-xen/qemu/ppc_rom.bin \
++    ${datadir}/qemu-xen/qemu/vgabios.bin \
++    ${datadir}/qemu-xen/qemu/s390-zipl.rom \
++    ${datadir}/qemu-xen/qemu/petalogix-ml605.dtb \
++    ${datadir}/qemu-xen/qemu/keymaps \
++    ${datadir}/qemu-xen/qemu/keymaps/common \
++    ${datadir}/qemu-xen/qemu/keymaps/th \
++    ${datadir}/qemu-xen/qemu/keymaps/is \
++    ${datadir}/qemu-xen/qemu/keymaps/en-gb \
++    ${datadir}/qemu-xen/qemu/keymaps/ar \
++    ${datadir}/qemu-xen/qemu/keymaps/fr-be \
++    ${datadir}/qemu-xen/qemu/keymaps/ru \
++    ${datadir}/qemu-xen/qemu/keymaps/hu \
++    ${datadir}/qemu-xen/qemu/keymaps/de-ch \
++    ${datadir}/qemu-xen/qemu/keymaps/no \
++    ${datadir}/qemu-xen/qemu/keymaps/fr \
++    ${datadir}/qemu-xen/qemu/keymaps/pl \
++    ${datadir}/qemu-xen/qemu/keymaps/fr-ca \
++    ${datadir}/qemu-xen/qemu/keymaps/de \
++    ${datadir}/qemu-xen/qemu/keymaps/fr-ch \
++    ${datadir}/qemu-xen/qemu/keymaps/bepo \
++    ${datadir}/qemu-xen/qemu/keymaps/lv \
++    ${datadir}/qemu-xen/qemu/keymaps/ja \
++    ${datadir}/qemu-xen/qemu/keymaps/da \
++    ${datadir}/qemu-xen/qemu/keymaps/lt \
++    ${datadir}/qemu-xen/qemu/keymaps/hr \
++    ${datadir}/qemu-xen/qemu/keymaps/es \
++    ${datadir}/qemu-xen/qemu/keymaps/modifiers \
++    ${datadir}/qemu-xen/qemu/keymaps/sl \
++    ${datadir}/qemu-xen/qemu/keymaps/it \
++    ${datadir}/qemu-xen/qemu/keymaps/nl \
++    ${datadir}/qemu-xen/qemu/keymaps/fo \
++    ${datadir}/qemu-xen/qemu/keymaps/mk \
++    ${datadir}/qemu-xen/qemu/keymaps/pt-br \
++    ${datadir}/qemu-xen/qemu/keymaps/tr \
++    ${datadir}/qemu-xen/qemu/keymaps/sv \
++    ${datadir}/qemu-xen/qemu/keymaps/fi \
++    ${datadir}/qemu-xen/qemu/keymaps/en-us \
++    ${datadir}/qemu-xen/qemu/keymaps/et \
++    ${datadir}/qemu-xen/qemu/keymaps/nl-be \
++    ${datadir}/qemu-xen/qemu/keymaps/pt \
++    ${bindir}/qemu-nbd-xen \
++    ${bindir}/qemu-img-xen \
++    "
++
++FILES_${PN}-remus = "\
++    ${bindir}/remus \
++    "
++
++FILES_${PN}-scripts-network = " \
++    ${sysconfdir}/xen/scripts/network-bridge \
++    ${sysconfdir}/xen/scripts/network-nat \
++    ${sysconfdir}/xen/scripts/network-route \
++    ${sysconfdir}/xen/scripts/qemu-ifup \
++    ${sysconfdir}/xen/scripts/vif2 \
++    ${sysconfdir}/xen/scripts/vif-bridge \
++    ${sysconfdir}/xen/scripts/vif-common.sh \
++    ${sysconfdir}/xen/scripts/vif-nat \
++    ${sysconfdir}/xen/scripts/vif-openvswitch \
++    ${sysconfdir}/xen/scripts/vif-route \
++    ${sysconfdir}/xen/scripts/vif-setup \
++    "
++
++FILES_${PN}-scripts-block = " \
++    ${sysconfdir}/xen/scripts/blktap \
++    ${sysconfdir}/xen/scripts/block \
++    ${sysconfdir}/xen/scripts/block-common.sh \
++    ${sysconfdir}/xen/scripts/block-enbd \
++    ${sysconfdir}/xen/scripts/block-iscsi \
++    ${sysconfdir}/xen/scripts/block-nbd \
++    ${sysconfdir}/xen/scripts/vscsi \
++    "
++
++FILES_${PN}-scripts-common = " \
++    ${sysconfdir}/xen/scripts/external-device-migrate \
++    ${sysconfdir}/xen/scripts/hotplugpath.sh \
++    ${sysconfdir}/xen/scripts/locking.sh \
++    ${sysconfdir}/xen/scripts/logging.sh \
++    ${sysconfdir}/xen/scripts/xen-hotplug-cleanup \
++    ${sysconfdir}/xen/scripts/xen-hotplug-common.sh \
++    ${sysconfdir}/xen/scripts/xen-network-common.sh \
++    ${sysconfdir}/xen/scripts/xen-script-common.sh \
++    "
++
++FILES_${PN}-udev = "\
++    ${sysconfdir}/udev/rules.d/xen-backend.rules \
++    ${sysconfdir}/udev/rules.d/xend.rules \
++    "
++
++FILES_${PN}-xcutils = "\
++    ${libdir}/xen/bin/lsevtchn \
++    ${libdir}/xen/bin/readnotes \
++    ${libdir}/xen/bin/xc_restore \
++    ${libdir}/xen/bin/xc_save \
++    "
++
++FILES_${PN}-xend-examples = "\
++    ${sysconfdir}/xen/xend-config.sxp \
++    ${sysconfdir}/xen/xend-pci-permissive.sxp \
++    ${sysconfdir}/xen/xend-pci-quirks.sxp \
++    "
++
++FILES_${PN}-xenpaging = "\
++    ${libdir}/xen/bin/xenpaging \
++    ${localstatedir}/lib/xen/xenpaging \
++    "
++
++FILES_${PN}-xenpmd = "\
++    ${sbindir}/xenpmd \
++    "
++
++FILES_${PN}-xenstat = "\
++    ${sbindir}/xentop \
++    "
++
++FILES_${PN}-xenstore = "\
++    ${bindir}/xenstore \
++    ${bindir}/xenstore-chmod \
++    ${bindir}/xenstore-control \
++    ${bindir}/xenstore-exists \
++    ${bindir}/xenstore-list \
++    ${bindir}/xenstore-ls \
++    ${bindir}/xenstore-read \
++    ${bindir}/xenstore-rm \
++    ${bindir}/xenstore-watch \
++    ${bindir}/xenstore-write \
++    "
++
++FILES_${PN}-xenstored = "\
++    ${sbindir}/xenstored \
++    ${localstatedir}/lib/xenstored \
++    "
++
++FILES_${PN}-xentrace = "\
++    ${bindir}/xentrace \
++    ${bindir}/xentrace_format \
++    ${bindir}/xentrace_setsize \
++    ${libdir}/xen/bin/xenctx \
++    "
++
++FILES_${PN}-xen-watchdog = "\
++    ${sbindir}/xenwatchdogd \
++    "
++
++FILES_${PN}-xl = "\
++    ${sysconfdir}/bash_completion.d/xl.sh \
++    ${sysconfdir}/xen/xl.conf \
++    ${libdir}/xen/bin/libxl-save-helper \
++    ${sbindir}/xl \
++    "
++
++FILES_${PN}-xl-examples = "\
++    ${sysconfdir}/xen/xlexample.hvm \
++    ${sysconfdir}/xen/xlexample.pvlinux \
++    "
++
++FILES_${PN}-xm-examples = "\
++    ${sysconfdir}/xen/xmexample1 \
++    ${sysconfdir}/xen/xmexample2 \
++    ${sysconfdir}/xen/xmexample3 \
++    ${sysconfdir}/xen/xmexample.hvm \
++    ${sysconfdir}/xen/xmexample.hvm-stubdom \
++    ${sysconfdir}/xen/xmexample.nbd \
++    ${sysconfdir}/xen/xmexample.pv-grub \
++    ${sysconfdir}/xen/xmexample.vti \
++    "
++
++FILES_${PN}-xenmon = "\
++    ${sbindir}/xenbaked \
++    ${sbindir}/xentrace_setmask \
++    ${sbindir}/xenmon.py \
++    "
++
++FILES_${PN}-xm = "\
++    ${sysconfdir}/xen/xm-config.xml \
++    ${datadir}/xen/create.dtd \
++    ${sbindir}/xm \
++    "
++
++FILES_${PN}-xencommons += "${sysconfdir}/init.d/xencommons"
++FILES_${PN}-xend += "${sysconfdir}/init.d/xend"
++FILES_${PN}-xendomains += "${sysconfdir}/init.d/xendomains"
++FILES_${PN}-xen-watchdog += "${sysconfdir}/init.d/xen-watchdog"
++
++# configure init.d scripts
++INITSCRIPT_PACKAGES = "${PN}-xend ${PN}-xencommons ${PN}-xen-watchdog ${PN}-xendomains"
++INITSCRIPT_NAME_${PN}-xencommons = "xencommons"
++INITSCRIPT_PARAMS_${PN}-xencommons = "defaults 80"
++INITSCRIPT_NAME_${PN}-xen-watchdog = "xen-watchdog"
++INITSCRIPT_PARAMS_${PN}-xen-watchdog = "defaults 81"
++INITSCRIPT_NAME_${PN}-xend = "xend"
++INITSCRIPT_PARAMS_${PN}-xend = "defaults 82"
++INITSCRIPT_NAME_${PN}-xendomains = "xendomains"
++INITSCRIPT_PARAMS_${PN}-xendomains = "defaults 83"
++
++#### REQUIRED ENVIRONMENT VARIABLES ####
++export BUILD_SYS
++export HOST_SYS
++export STAGING_INCDIR
++export STAGING_LIBDIR
++
++# specify xen hypervisor to target x86_64 (x86_32 not supported)
++export XEN_TARGET_ARCH="x86_64"
++export XEN_COMPILE_ARCH="x86_64"
++
++# this is used for the header (#!${bindir}/python) of the install python scripts
++export PYTHONPATH="${bindir}/python"
++
++# seabios forcefully sets HOSTCC to CC - fixup to allow it to build native conf executable
++export HOSTCC="${BUILD_CC}"
++
++# make xen requires CROSS_COMPILE set by hand as it does not abide by ./configure
++export CROSS_COMPILE="${TARGET_PREFIX}"
++
++# overide LDFLAGS to allow xen to build without: "x86_64-oe-linux-ld: unrecognized option '-Wl,-O1'"
++export LDFLAGS=""
++
++do_configure() {
++    # fixup qemu-xen-traditional pciutils check hardcoded to test ${includedir}/pci
++    sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g' ${S}/tools/qemu-xen-traditional/xen-hooks.mak
++
++    # fixup for qemu to cross compile
++    sed -i 's/configure --d/configure --cross-prefix=${TARGET_PREFIX} --d/g' ${S}/tools/qemu-xen-traditional/xen-setup
++
++    # no stubs-32.h in our 64-bit sysroot - hack it into tools/include/gnu
++    test -d ${S}/tools/include/gnu || mkdir ${S}/tools/include/gnu
++    if ! test -f ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-32.h ; then
++        cat ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-64.h | grep -v stub_bdflush | grep -v stub_getmsg | grep -v stub_putmsg > ${S}/tools/include/gnu/stubs-32.h
++        echo \#define __stub___kernel_cosl >> ${S}/tools/include/gnu/stubs-32.h
++        echo \#define __stub___kernel_sinl >> ${S}/tools/include/gnu/stubs-32.h
++        echo \#define __stub___kernel_tanl >> ${S}/tools/include/gnu/stubs-32.h
++    fi
++
++    # do configure
++    ./configure --exec-prefix=/usr --prefix=/usr --host=${HOST_SYS} --disable-stubdom --disable-ioemu-stubdom --disable-pv-grub --disable-xenstore-stubdom
++
++    # seabios needs a patch to specify correct compiler - pull and patch Makefile
++    make -C ${S}/tools/firmware seabios-dir
++    sed -i 's/export HOSTCC.*$(CC)/export HOSTCC ?= $(CC)/g' ${S}/tools/firmware/seabios-dir/Makefile
++}
++
++do_compile() {
++    oe_runmake
++}
++
++do_install() {
++    oe_runmake DESTDIR="${D}" install
++
++    # remove installed volatiles
++    rm -rf ${D}${localstatedir}/run ${D}${localstatedir}/lock ${D}${localstatedir}/log ${D}${localstatedir}/volatile
++
++    # install volatiles using populate_volatiles mechanism
++    install -d ${D}${sysconfdir}/default/volatiles
++    echo "d root root 0755 ${localstatedir}/run/xenstored none" \
++         > ${D}${sysconfdir}/default/volatiles/99_xen
++    echo "d root root 0755 ${localstatedir}/run/xend none" \
++         >> ${D}${sysconfdir}/default/volatiles/99_xen
++    echo "d root root 0755 ${localstatedir}/run/xend/boot none" \
++         >> ${D}${sysconfdir}/default/volatiles/99_xen
++    echo "d root root 0755 ${localstatedir}/run/xen none" \
++         >> ${D}${sysconfdir}/default/volatiles/99_xen
++    echo "d root root 0755 ${localstatedir}/log/xen none" \
++         >> ${D}${sysconfdir}/default/volatiles/99_xen
++    echo "d root root 0755 ${localstatedir}/lock/xen none" \
++         >> ${D}${sysconfdir}/default/volatiles/99_xen
++    echo "d root root 0755 ${localstatedir}/lock/subsys none" \
++         >> ${D}${sysconfdir}/default/volatiles/99_xen
++
++    # workaround for xendomains script which searchs sysconfig if directory exists
++    install -d ${D}${sysconfdir}/sysconfig
++    ln -sf ${sysconfdir}/default/xendomains ${D}${sysconfdir}/sysconfig/xendomains
++}
++
++pkg_postinst_${PN}-base() {
++    if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
++        ${sysconfdir}/init.d/populate-volatile.sh update
++    fi
++}
++
++sysroot_stage_all_append() {
++        sysroot_stage_dir ${D}/boot ${SYSROOT_DESTDIR}/kernel
++
++    install -d ${DEPLOY_DIR_IMAGE}
++    install -m 0644 ${D}/boot/xen.gz ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz
++}
+-- 
+1.7.10.4
 
-Bruce
-
-> ERROR: QA run found fatal errors. Please consider fixing them.
-> ERROR: Function failed: do_package_qa
-> ERROR: Logfile of failure stored in:
-> /media/sdb5/eel/build/tmp/work/x86_64-poky-linux/openflow/1.0+gitAUTOINC+=
-5ccca75a69-r0/temp/log.do_package.14523
-> ERROR: Task 10
-> (/media/sdb5/eel/meta-virtualization/recipes-networking/openflow/openflow=
-_1.0.bb,
-> do_package) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 578 tasks of which 576 didn't need to be
-> rerun and 1 failed.
-> No currently running tasks (577 of 582)
->
-> Summary: 1 task failed:
->
-> /media/sdb5/eel/meta-virtualization/recipes-networking/openflow/openflow_=
-1.0.bb,
-> do_package
-> Summary: There was 1 WARNING message shown.
-> Summary: There were 3 ERROR messages shown, returning a non-zero exit cod=
-e.
->
->
-> Br,
-> David
->
->
->
->
-> On 08/22/2013 02:54 AM, Bruce Ashfield wrote:
->>
->> Can you dump the QA recipe here for the long log ? I've been building th=
-is
->> and
->> haven't seen it myself. So I'm curious to see what it is .. with it in
->> the commit log,
->> I'll know if I see it.
->>
->> On Wed, Aug 21, 2013 at 10:16 AM, David Nystr=F6m
->> <david.c.nystrom@gmail.com> wrote:
->>>
->>> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
->>> ---
->>>   recipes-networking/openflow/openflow_1.0.bb | 9 +++++++--
->>>   1 file changed, 7 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/recipes-networking/openflow/openflow_1.0.bb
->>> b/recipes-networking/openflow/openflow_1.0.bb
->>> index 3663e50..20a2bc9 100644
->>> --- a/recipes-networking/openflow/openflow_1.0.bb
->>> +++ b/recipes-networking/openflow/openflow_1.0.bb
->>> @@ -1,4 +1,4 @@
->>> -SUMMARY =3D "OpelFlow"
->>> +SUMMARY =3D "OpenFlow"
->>
->>
->> I for one liked the OpelFlow support! :)
->>
->>>   DESCRIPTION =3D "Provide a generic framework for handling devices in
->>> userspace."
->>>   HOMEPAGE =3D "http://www.openflow.org"
->>>   SECTION =3D "networking"
->>> @@ -21,4 +21,9 @@ PACKAGECONFIG[libssl] =3D "--enable-ssl,--disable-ssl=
-,
->>> openssl, libssl"
->>>
->>>   S =3D "${WORKDIR}/git"
->>>
->>> -inherit autotools
->>> \ No newline at end of file
->>> +inherit autotools
->>> +
->>> +do_install_append() {
->>> +       # Remove /var/run as it is created on startup
->>> +        rm -rf ${D}${localstatedir}/run
->>> +}
->>
->>
->> Indeed .. this will get populated without OpenFlow's help.
->>
->> Bruce
->>
->>> --
->>> 1.8.3.2
->>>
->>> _______________________________________________
->>> meta-virtualization mailing list
->>> meta-virtualization@yoctoproject.org
->>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
->>
->>
->
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
