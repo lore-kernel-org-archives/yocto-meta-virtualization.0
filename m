@@ -1,36 +1,36 @@
 Return-Path: <cjp256@gmail.com>
-Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
-	[209.85.223.171])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6602CE00747
+Received: from mail-ie0-f173.google.com (mail-ie0-f173.google.com
+	[209.85.223.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4A40FE01206
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2013 20:37:34 -0700 (PDT)
-Received: by mail-ie0-f171.google.com with SMTP id 9so2347258iec.2
+	Thu, 29 Aug 2013 20:37:38 -0700 (PDT)
+Received: by mail-ie0-f173.google.com with SMTP id qa5so2028720ieb.18
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2013 20:37:33 -0700 (PDT)
+	Thu, 29 Aug 2013 20:37:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=XHxmha44TA7POoksPoaUBvqVYoUjbra7qucNXlBFfkw=;
-	b=PgsSc25l0ZQvloHVjcf+6gJRIWyywtXKI2cEJ/BluycN1qyIMMUFYDdMHh2VIfIqfs
-	Glo9BbkQMjGrvolba5rRQ99BS/aXQMjZk9oZGMxGkxlqrYPhva7g6dr0Cnc1CSRh0N2s
-	AzXXqsOrJlVpP1Fg4HRXIUr0wbBuYN7KHfC33nbqp6AIUmXQ0fPPvgc710ePiPMut8ix
-	ecg+rHzi5mPC3be/5z+QE39qVsbZYarxIupBgNdl96i4htpMGTw3DP1aFJY9QehzlfzA
-	BSiVDbPMqEIl3FNSUzqtbhz3elKuVjw87oN3qoDIqG1WftOBRivkFaRjFxDFBr6ScPTs
-	qZ5Q==
-X-Received: by 10.50.136.135 with SMTP id qa7mr182303igb.49.1377833853749;
-	Thu, 29 Aug 2013 20:37:33 -0700 (PDT)
+	bh=Rs4lqakkDA46TZUz/zfNt3eU8CW7DENDFyYpwfu6OJ8=;
+	b=VHiTn0XFDmtTVULsDnIekW1InNKkLkM3TxafzLwBMW/khSrz1mC8xqisJ2SZ26uHtO
+	XAPQq4YyA+ea98SYV7JJvc79w/q4mAljChAVscbSZPHIhhCtUJQ96hSfLmBUuEYPkTPg
+	xQ4owlZFCjS+b1msnOEmRrJqhGOc3SDd34/gL0yFkqp/3L5L1LXS8s7ylaEsgWrMVW2p
+	4vnS9oZ8H5/49gbUMbuO3t9ISW7ReOmo6XRKTR3LvLqNMBbRBquMlQ8hVWhOXd8vpiSg
+	yCk5BhOZa1CFosV5eZaYrAA3d5h/gcZDW99q3278D1DBP1gdJ7DjuRkq79McKSr7QYOK
+	NSLg==
+X-Received: by 10.42.223.10 with SMTP id ii10mr3880439icb.17.1377833858503;
+	Thu, 29 Aug 2013 20:37:38 -0700 (PDT)
 Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
 	[74.71.215.22])
 	by mx.google.com with ESMTPSA id p5sm1744506igj.10.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Thu, 29 Aug 2013 20:37:32 -0700 (PDT)
+	Thu, 29 Aug 2013 20:37:37 -0700 (PDT)
 From: Chris Patterson <cjp256@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu, 29 Aug 2013 23:37:21 -0400
-Message-Id: <1377833844-14672-2-git-send-email-cjp256@gmail.com>
+Date: Thu, 29 Aug 2013 23:37:24 -0400
+Message-Id: <1377833844-14672-5-git-send-email-cjp256@gmail.com>
 X-Mailer: git-send-email 1.7.10.4
 In-Reply-To: <1377833844-14672-1-git-send-email-cjp256@gmail.com>
 References: <1377833844-14672-1-git-send-email-cjp256@gmail.com>
-Subject: [PATCH 1/4] linux-yocto: add kernel fragment and scc for xen dom0 kernel support.
+Subject: [PATCH 4/4] xen-image-minimal: update image to support xen 4.3.0 base with xl toolstack.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,84 +43,342 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 03:37:38 -0000
+X-List-Received-Date: Fri, 30 Aug 2013 03:37:40 -0000
 
+xen-image-initramfs: newly added initrd to support testing xen-image-minimal and init script based on init-live.sh.
 ---
- recipes-kernel/linux/linux-yocto/xen.cfg |   53 ++++++++++++++++++++++++++++++
- recipes-kernel/linux/linux-yocto/xen.scc |    4 +++
- 2 files changed, 57 insertions(+)
- create mode 100644 recipes-kernel/linux/linux-yocto/xen.cfg
- create mode 100644 recipes-kernel/linux/linux-yocto/xen.scc
+ recipes-extended/images/xen-image-initramfs.bb     |   17 ++
+ recipes-extended/images/xen-image-minimal.bb       |   55 +++++-
+ .../initrdscripts/files/init-boot-xen.sh           |  205 ++++++++++++++++++++
+ .../initrdscripts/initramfs-boot-xen_1.0.bb        |   16 ++
+ 4 files changed, 286 insertions(+), 7 deletions(-)
+ create mode 100644 recipes-extended/images/xen-image-initramfs.bb
+ create mode 100644 recipes-extended/initrdscripts/files/init-boot-xen.sh
+ create mode 100644 recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
 
-diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg b/recipes-kernel/linux/linux-yocto/xen.cfg
+diff --git a/recipes-extended/images/xen-image-initramfs.bb b/recipes-extended/images/xen-image-initramfs.bb
 new file mode 100644
-index 0000000..f9cfb6a
+index 0000000..d2f1301
 --- /dev/null
-+++ b/recipes-kernel/linux/linux-yocto/xen.cfg
-@@ -0,0 +1,53 @@
-+..........................................................................
-+.                                WARNING
-+.
-+. This file is a kernel configuration fragment, and not a full kernel
-+. configuration file.  The final kernel configuration is made up of
-+. an assembly of processed fragments, each of which is designed to
-+. capture a specific part of the final configuration (e.g. platform
-+. configuration, feature configuration, and board specific hardware
-+. configuration).  For more information on kernel configuration, please
-+. consult the product documentation.
-+.
-+..........................................................................
++++ b/recipes-extended/images/xen-image-initramfs.bb
+@@ -0,0 +1,17 @@
++DESCRIPTION = "Xen image initramfs"
 +
-+CONFIG_PARAVIRT_GUEST=y
-+# CONFIG_PARAVIRT_TIME_ACCOUNTING is not set
-+CONFIG_XEN=y
-+CONFIG_XEN_DOM0=y
-+CONFIG_XEN_PRIVILEGED_GUEST=y
-+CONFIG_XEN_PVHVM=y
-+CONFIG_XEN_MAX_DOMAIN_MEMORY=500
-+CONFIG_XEN_SAVE_RESTORE=y
-+# CONFIG_XEN_DEBUG_FS is not set
-+CONFIG_PARAVIRT=y
-+# CONFIG_PARAVIRT_SPINLOCKS is not set
-+CONFIG_PARAVIRT_CLOCK=y
-+# CONFIG_PARAVIRT_DEBUG is not set
-+CONFIG_PCI_XEN=y
-+CONFIG_XEN_PCIDEV_FRONTEND=m
-+CONFIG_XEN_BLKDEV_FRONTEND=m
-+CONFIG_XEN_BLKDEV_BACKEND=m
-+CONFIG_XEN_NETDEV_FRONTEND=m
-+CONFIG_XEN_NETDEV_BACKEND=m
-+CONFIG_INPUT_XEN_KBDDEV_FRONTEND=y
-+CONFIG_HVC_XEN=y
-+CONFIG_HVC_XEN_FRONTEND=y
-+CONFIG_XEN_WDT=m
-+CONFIG_XEN_FBDEV_FRONTEND=y
-+# Xen driver support
-+CONFIG_XEN_BALLOON=y
-+CONFIG_XEN_SCRUB_PAGES=y
-+CONFIG_XEN_DEV_EVTCHN=m
-+CONFIG_XEN_BACKEND=y
-+CONFIG_XENFS=m
-+CONFIG_XEN_COMPAT_XENFS=y
-+CONFIG_XEN_SYS_HYPERVISOR=y
-+CONFIG_XEN_XENBUS_FRONTEND=y
-+CONFIG_XEN_GNTDEV=m
-+CONFIG_XEN_GRANT_DEV_ALLOC=m
-+CONFIG_SWIOTLB_XEN=y
-+CONFIG_XEN_PCIDEV_BACKEND=y
-+CONFIG_XEN_PRIVCMD=m
-+CONFIG_XEN_ACPI_PROCESSOR=m
-+CONFIG_PCI_STUB=y
-diff --git a/recipes-kernel/linux/linux-yocto/xen.scc b/recipes-kernel/linux/linux-yocto/xen.scc
++IMAGE_INSTALL = "initramfs-boot-xen busybox udev udev-extraconf base-passwd coreutils"
++
++# Do not pollute the initrd image with rootfs features
++IMAGE_FEATURES = ""
++
++export IMAGE_BASENAME = "xen-image-initramfs"
++
++IMAGE_LINGUAS = ""
++
++LICENSE = "MIT"
++
++IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
++inherit core-image
++
++IMAGE_ROOTFS_SIZE = "8192"
+diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+index 0cf55d6..c941339 100644
+--- a/recipes-extended/images/xen-image-minimal.bb
++++ b/recipes-extended/images/xen-image-minimal.bb
+@@ -1,14 +1,55 @@
+-DESCRIPTION = "A minimal xen image"
+-IMAGE_INSTALL = "packagegroup-core-boot xen-minimal dropbear mdadm"
++DESCRIPTION = "Image with Xen."
++
++INITRD_IMAGE ?= "xen-image-initramfs"
++
++IMAGE_INSTALL += " \
++    ${CORE_IMAGE_BASE_INSTALL} \
++    packagegroup-core-basic \
++    packagegroup-core-ssh-openssh \
++    kernel-module-xen-acpi-processor \
++    kernel-module-xen-blkback \
++    kernel-module-xen-blkfront \
++    kernel-module-xen-evtchn \
++    kernel-module-xenfs \
++    kernel-module-xen-gntalloc \
++    kernel-module-xen-gntdev \
++    kernel-module-xen-netback \
++    kernel-module-xen-netfront \
++    kernel-module-xen-pcifront \
++    kernel-module-xen-privcmd \
++    kernel-module-xen-wdt \
++    xen-base \
++    xen-qemu \
++    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
++    "
+ 
+-IMAGE_LINGUAS = " "
+ LICENSE = "MIT"
+ 
+ inherit core-image
+ 
+-IMAGE_ROOTFS_SIZE = "8192"
++syslinux_iso_populate_append() {
++	install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${ISODIR}${ISOLINUXDIR}
++}
++
++syslinux_hddimg_populate_append() {
++	install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${HDDDIR}${SYSLINUXDIR}
++}
++
++grubefi_populate_append() {
++	install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz ${DEST}${EFIDIR}/xen.gz
++}
++
++populate_append() {
++	install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz ${DEST}/xen.gz
++}
+ 
+-# remove not needed ipkg informations
+-ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
++build_syslinux_cfg () {
++	echo "ALLOWOPTIONS 1" > ${SYSLINUXCFG}
++	echo "DEFAULT boot" >> ${SYSLINUXCFG}
++	echo "TIMEOUT 10" >> ${SYSLINUXCFG}
++	echo "PROMPT 1" >> ${SYSLINUXCFG}
++	echo "LABEL boot" >> ${SYSLINUXCFG}
++	echo "  KERNEL mboot.c32" >> ${SYSLINUXCFG}
++	echo "  APPEND /xen.gz loglvl=all guest_loglvl=all console=com1,vga com1=115200,8n1 --- /vmlinuz ramdisk_size=32768 root=/dev/ram0 rw console=hvc0 earlyprintk=xen console=tty0 panic=10 --- /initrd" >> ${SYSLINUXCFG}
++}
+ 
+-require xen-bootimg.inc
+diff --git a/recipes-extended/initrdscripts/files/init-boot-xen.sh b/recipes-extended/initrdscripts/files/init-boot-xen.sh
 new file mode 100644
-index 0000000..6c68bda
+index 0000000..741f201
 --- /dev/null
-+++ b/recipes-kernel/linux/linux-yocto/xen.scc
-@@ -0,0 +1,4 @@
-+define KFEATURE_DESCRIPTION "Xen Dom0 Support"
-+define KFEATURE_COMPATIBILITY board
++++ b/recipes-extended/initrdscripts/files/init-boot-xen.sh
+@@ -0,0 +1,205 @@
++#!/bin/sh
 +
-+kconf non-hardware xen.cfg
++PATH=/sbin:/bin:/usr/sbin:/usr/bin
++
++ROOT_MOUNT="/rootfs/"
++ROOT_IMAGE="rootfs.img"
++MOUNT="/bin/mount"
++UMOUNT="/bin/umount"
++ISOLINUX=""
++
++# Copied from initramfs-framework. The core of this script probably should be
++# turned into initramfs-framework modules to reduce duplication.
++udev_daemon() {
++	OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
++
++	for o in $OPTIONS; do
++		if [ -x "$o" ]; then
++			echo $o
++			return 0
++		fi
++	done
++
++	return 1
++}
++
++_UDEV_DAEMON=`udev_daemon`
++
++early_setup() {
++    mkdir -p /proc
++    mkdir -p /sys
++    mount -t proc proc /proc
++    mount -t sysfs sysfs /sys
++    mount -t devtmpfs none /dev
++
++    # support modular kernel
++    modprobe isofs 2> /dev/null
++
++    mkdir -p /run
++    mkdir -p /var/run
++    mkdir -p /media
++
++    $_UDEV_DAEMON --daemon
++    udevadm trigger --action=add
++}
++
++read_args() {
++    [ -z "$CMDLINE" ] && CMDLINE=`cat /proc/cmdline`
++    for arg in $CMDLINE; do
++        optarg=`expr "x$arg" : 'x[^=]*=\(.*\)'`
++        case $arg in
++            root=*)
++                ROOT_DEVICE=$optarg ;;
++            rootfstype=*)
++                modprobe $optarg 2> /dev/null ;;
++            LABEL=*)
++                label=$optarg ;;
++            video=*)
++                video_mode=$arg ;;
++            vga=*)
++                vga_mode=$arg ;;
++            console=*)
++                if [ -z "${console_params}" ]; then
++                    console_params=$arg
++                else
++                    console_params="$console_params $arg"
++                fi ;;
++            debugshell*)
++                if [ -z "$optarg" ]; then
++                        shelltimeout=30
++                else
++                        shelltimeout=$optarg
++                fi
++        esac
++    done
++}
++
++boot_live_root() {
++    # Watches the udev event queue, and exits if all current events are handled
++    udevadm settle --timeout=3 --quiet
++    killall "${_UDEV_DAEMON##*/}" 2>/dev/null
++
++    # Move the mount points of some filesystems over to
++    # the corresponding directories under the real root filesystem.
++    for dir in `awk '/\/dev.* \/media/{print $2}' /proc/mounts`; do
++        mkdir -p  ${ROOT_MOUNT}/$dir
++        mount -n --move $dir ${ROOT_MOUNT}/$dir
++    done
++    mount -n --move /proc ${ROOT_MOUNT}/proc
++    mount -n --move /sys ${ROOT_MOUNT}/sys
++    mount -n --move /dev ${ROOT_MOUNT}/dev
++
++    cd $ROOT_MOUNT
++    exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init
++}
++
++fatal() {
++    echo $1 >$CONSOLE
++    echo >$CONSOLE
++    exec sh
++}
++
++early_setup
++
++[ -z "$CONSOLE" ] && CONSOLE="/dev/console"
++
++read_args
++
++echo "Waiting for removable media..."
++C=0
++shelltimeout=5
++while true
++do
++  udevadm trigger
++  udevadm settle
++  for i in `ls /media 2>/dev/null`; do
++      if [ -f /media/$i/$ROOT_IMAGE ] ; then
++		found="yes"
++		break
++	  elif [ -f /media/$i/isolinux/$ROOT_IMAGE ]; then
++		found="yes"
++		ISOLINUX="isolinux"
++		break
++      fi
++  done
++  if [ "$found" = "yes" ]; then
++      break;
++  fi
++  # don't wait for more than $shelltimeout seconds, if it's set
++  if [ -n "$shelltimeout" ]; then
++      echo -n " " $(( $shelltimeout - $C ))
++      if [ $C -ge $shelltimeout ]; then
++           echo "..."
++	   echo "Mounted filesystems"
++           mount | grep media
++           echo "Available block devices"
++           ls /dev/sd*
++           fatal "Cannot find rootfs.img file in /media/* , dropping to a shell "
++      fi
++      C=$(( C + 1 ))
++  fi
++  sleep 1
++done
++
++# Try to make a union mount of the root image.
++# If no unification filesystem is available, mount the image read-only.
++mount_and_boot() {
++    mkdir $ROOT_MOUNT
++
++    mknod /dev/loop0 b 7 0 2>/dev/null
++
++    # determine which unification filesystem to use
++    union_fs_type=""
++    if grep -q -w "overlayfs" /proc/filesystems; then
++	union_fs_type="overlayfs"
++    elif grep -q -w "aufs" /proc/filesystems; then
++	union_fs_type="aufs"
++    else
++	union_fs_type=""
++    fi
++    # make a union mount if possible
++    case $union_fs_type in
++	"overlayfs")
++	    mkdir -p /rootfs.ro /rootfs.rw
++	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
++		rm -rf /rootfs.ro /rootfs.rw
++		fatal "Could not mount rootfs image"
++	    else
++		mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
++		mount -t overlayfs -o "lowerdir=/rootfs.ro,upperdir=/rootfs.rw" overlayfs $ROOT_MOUNT
++		mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
++		mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
++		mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
++	    fi
++	    ;;
++	"aufs")
++	    mkdir -p /rootfs.ro /rootfs.rw
++	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
++		rm -rf /rootfs.ro /rootfs.rw
++		fatal "Could not mount rootfs image"
++	    else
++		mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
++		mount -t aufs -o "dirs=/rootfs.rw=rw:/rootfs.ro=ro" aufs $ROOT_MOUNT
++		mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
++		mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
++		mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
++	    fi
++	    ;;
++	"")
++	    if ! mount -o rw,loop,noatime,nodiratime /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
++		fatal "Could not mount rootfs image"
++	    else
++		mount -t tmpfs -o rw,noatime,mode=755 tmpfs $ROOT_MOUNT/media
++	    fi
++	    ;;
++    esac
++
++    # boot the image
++    boot_live_root
++}
++
++mount_and_boot
++
++# If we're getting here, we failed...
++fatal "Installation image failed"
++
+diff --git a/recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb b/recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
+new file mode 100644
+index 0000000..9380e83
+--- /dev/null
++++ b/recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
+@@ -0,0 +1,16 @@
++DESCRIPTION = "A live image init script with support for Xen"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++SRC_URI = "file://init-boot-xen.sh"
++PR = "r0"
++
++inherit allarch
++
++RDEPENDS_${PN} = "udev udev-extraconf"
++
++FILES_${PN} += " /init "
++
++do_install() {
++        install -m 0755 ${WORKDIR}/init-boot-xen.sh ${D}/init
++}
++
 -- 
 1.7.10.4
 
