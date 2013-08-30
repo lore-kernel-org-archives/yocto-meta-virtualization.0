@@ -1,36 +1,36 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7BEA7E005B4
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 367D9E005B4
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2013 22:32:20 -0700 (PDT)
-Received: by mail-la0-f46.google.com with SMTP id eh20so1153267lab.33
+	Thu, 29 Aug 2013 22:34:18 -0700 (PDT)
+Received: by mail-la0-f43.google.com with SMTP id ep20so1160375lab.16
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2013 22:32:19 -0700 (PDT)
+	Thu, 29 Aug 2013 22:34:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=l78kxIVbGvljD4zq69BDB1Gunr3ZhNTijOODOrScr/Q=;
-	b=sQ0oUu6+sT/GgLRZjf0eMScUg+SQ7RXdEIxrAHqH5+xPKqJqk2rLE+v262E+lEOgBy
-	5z8LTUZDjUVeWZBZ6lQLBaEwgoEgyNC2kKtYZDL8BIBQ9bnxuroXkKIcAyjr+AHs7Ljw
-	emXXDbQsSXVXIGHdQxE7oHnWZ2ZCN+Agomqafiz3jwHpTQx5EYDakzipM+IzxGPvjMNS
-	FlrF4R+SvqYqns+ed7QvLhNAr15CrtPcXy6F2m2KzjIJ/hLSK97ZbXQCLSvV8DDFgtuV
-	+FdWLY8WJV0IP/5snUsjYB5N7BcRHUWtyqiPYM/PzP+9wC7KhANKKEpdLD6J80lLvfy3
-	YUYA==
+	bh=9dyfP62s/QmhVepA/vBvnXwC2AAcx7YxBWOM5IyMcEs=;
+	b=ZUOZ86lg30LQ1XPnP430IsYygzZiohvgSyt1AqoJ+CSFMcb56sIl3t6LJ1TtWRe7hQ
+	aNaOkJ+wlSpGt1meWVBVXqWfNL6HegqTTypFLBYIuBbQWShLfKze0u9+dN2MUvGffftz
+	UC0E4FuyjG4+u8GWRMSXCbo5//tXsn7zmUFJiRPRnUGgpx/W7c/tjTmW+M3lv7P9UsPh
+	W8zMRfpv7/kVZRIVKa4140swFLMro8GWFM808QQu9HEJjDekhzzo/+ZFfAeTMZYCMC+B
+	r9M01h+MgnxryX8kip23cpQIaMqBbVCwVSMvwoaDvjD4I9zqK4nE4WBr4rxCFIB0/kUa
+	LtiQ==
 MIME-Version: 1.0
-X-Received: by 10.152.115.242 with SMTP id jr18mr29437lab.40.1377840739345;
-	Thu, 29 Aug 2013 22:32:19 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Thu, 29 Aug 2013 22:32:19 -0700 (PDT)
-In-Reply-To: <1377833844-14672-2-git-send-email-cjp256@gmail.com>
+X-Received: by 10.152.228.130 with SMTP id si2mr351088lac.32.1377840857810;
+	Thu, 29 Aug 2013 22:34:17 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Thu, 29 Aug 2013 22:34:17 -0700 (PDT)
+In-Reply-To: <1377833844-14672-3-git-send-email-cjp256@gmail.com>
 References: <1377833844-14672-1-git-send-email-cjp256@gmail.com>
-	<1377833844-14672-2-git-send-email-cjp256@gmail.com>
-Date: Fri, 30 Aug 2013 01:32:19 -0400
-Message-ID: <CADkTA4MAHOGDS7=8VMQQuUYDq_uGXq04WRyGqhfkVw=NBLHxOA@mail.gmail.com>
+	<1377833844-14672-3-git-send-email-cjp256@gmail.com>
+Date: Fri, 30 Aug 2013 01:34:17 -0400
+Message-ID: <CADkTA4MePwwura+-T402oqxa2L7kb804z+4mxWhvU95M+A0aWg@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Chris Patterson <cjp256@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/4] linux-yocto: add kernel fragment and scc for xen dom0 kernel support.
+Subject: Re: [PATCH 2/4] linux-yocto: add optional support for aufs and xen using DISTRO_FEATURES.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,101 +43,57 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2013 05:32:21 -0000
+X-List-Received-Date: Fri, 30 Aug 2013 05:34:19 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
 On Thu, Aug 29, 2013 at 11:37 PM, Chris Patterson <cjp256@gmail.com> wrote:
 > ---
->  recipes-kernel/linux/linux-yocto/xen.cfg |   53 ++++++++++++++++++++++++++++++
->  recipes-kernel/linux/linux-yocto/xen.scc |    4 +++
->  2 files changed, 57 insertions(+)
->  create mode 100644 recipes-kernel/linux/linux-yocto/xen.cfg
->  create mode 100644 recipes-kernel/linux/linux-yocto/xen.scc
+>  recipes-kernel/linux/linux-yocto_3.4.bbappend |    6 ++++++
+>  recipes-kernel/linux/linux-yocto_3.8.bbappend |    6 ++++++
+>  2 files changed, 12 insertions(+)
 >
-> diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg b/recipes-kernel/linux/linux-yocto/xen.cfg
-> new file mode 100644
-> index 0000000..f9cfb6a
-> --- /dev/null
-> +++ b/recipes-kernel/linux/linux-yocto/xen.cfg
+> diff --git a/recipes-kernel/linux/linux-yocto_3.4.bbappend b/recipes-kernel/linux/linux-yocto_3.4.bbappend
+> index 2893a01..2ada931 100644
+> --- a/recipes-kernel/linux/linux-yocto_3.4.bbappend
+> +++ b/recipes-kernel/linux/linux-yocto_3.4.bbappend
+> @@ -11,3 +11,9 @@ KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+>  module_autoload_kvm = "kvm"
+>  module_autoload_kvm-amd = "kvm-amd"
+>  module_autoload_kvm-intel = "kvm-intel"
+> +
+> +# aufs kernel support required for core-image-xen
+> +KERNEL_FEATURES_append += "${@base_contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+> +
+> +# xen dom0 kernel support
+> +SRC_URI += "${@base_contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
 
-Nice. The fragment looks good. I'd actually like to bump this up to the level of
-in-tree support that we have for KVM.
+Also nice. I like the change. With my previous comment about pulling
+the xen fragment into
+the kernel itself, you'd be able to make these two lines consistent.
 
-And by that, I mean that I can merge this to the meta branch of the linux-yocto
-kernel (and also found in the tracking yocto-kernel-cache repository).
-
-Once there, it can be built and tested standalone, as well as shared by other
-feature fragments. You'd then be able to just enable it via a KERNEL_FEATURES
-entry, just like KVM.
+Moving up the chain to new kernels is simple after that, since I'll
+pull it forward as I uprev
+support. (in fact, we can also add a new 3.10 fragment along with
+these changes now :)
 
 Cheers,
 
 Bruce
 
-> @@ -0,0 +1,53 @@
-> +..........................................................................
-> +.                                WARNING
-> +.
-> +. This file is a kernel configuration fragment, and not a full kernel
-> +. configuration file.  The final kernel configuration is made up of
-> +. an assembly of processed fragments, each of which is designed to
-> +. capture a specific part of the final configuration (e.g. platform
-> +. configuration, feature configuration, and board specific hardware
-> +. configuration).  For more information on kernel configuration, please
-> +. consult the product documentation.
-> +.
-> +..........................................................................
+> diff --git a/recipes-kernel/linux/linux-yocto_3.8.bbappend b/recipes-kernel/linux/linux-yocto_3.8.bbappend
+> index 2893a01..2ada931 100644
+> --- a/recipes-kernel/linux/linux-yocto_3.8.bbappend
+> +++ b/recipes-kernel/linux/linux-yocto_3.8.bbappend
+> @@ -11,3 +11,9 @@ KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+>  module_autoload_kvm = "kvm"
+>  module_autoload_kvm-amd = "kvm-amd"
+>  module_autoload_kvm-intel = "kvm-intel"
 > +
-> +CONFIG_PARAVIRT_GUEST=y
-> +# CONFIG_PARAVIRT_TIME_ACCOUNTING is not set
-> +CONFIG_XEN=y
-> +CONFIG_XEN_DOM0=y
-> +CONFIG_XEN_PRIVILEGED_GUEST=y
-> +CONFIG_XEN_PVHVM=y
-> +CONFIG_XEN_MAX_DOMAIN_MEMORY=500
-> +CONFIG_XEN_SAVE_RESTORE=y
-> +# CONFIG_XEN_DEBUG_FS is not set
-> +CONFIG_PARAVIRT=y
-> +# CONFIG_PARAVIRT_SPINLOCKS is not set
-> +CONFIG_PARAVIRT_CLOCK=y
-> +# CONFIG_PARAVIRT_DEBUG is not set
-> +CONFIG_PCI_XEN=y
-> +CONFIG_XEN_PCIDEV_FRONTEND=m
-> +CONFIG_XEN_BLKDEV_FRONTEND=m
-> +CONFIG_XEN_BLKDEV_BACKEND=m
-> +CONFIG_XEN_NETDEV_FRONTEND=m
-> +CONFIG_XEN_NETDEV_BACKEND=m
-> +CONFIG_INPUT_XEN_KBDDEV_FRONTEND=y
-> +CONFIG_HVC_XEN=y
-> +CONFIG_HVC_XEN_FRONTEND=y
-> +CONFIG_XEN_WDT=m
-> +CONFIG_XEN_FBDEV_FRONTEND=y
-> +# Xen driver support
-> +CONFIG_XEN_BALLOON=y
-> +CONFIG_XEN_SCRUB_PAGES=y
-> +CONFIG_XEN_DEV_EVTCHN=m
-> +CONFIG_XEN_BACKEND=y
-> +CONFIG_XENFS=m
-> +CONFIG_XEN_COMPAT_XENFS=y
-> +CONFIG_XEN_SYS_HYPERVISOR=y
-> +CONFIG_XEN_XENBUS_FRONTEND=y
-> +CONFIG_XEN_GNTDEV=m
-> +CONFIG_XEN_GRANT_DEV_ALLOC=m
-> +CONFIG_SWIOTLB_XEN=y
-> +CONFIG_XEN_PCIDEV_BACKEND=y
-> +CONFIG_XEN_PRIVCMD=m
-> +CONFIG_XEN_ACPI_PROCESSOR=m
-> +CONFIG_PCI_STUB=y
-> diff --git a/recipes-kernel/linux/linux-yocto/xen.scc b/recipes-kernel/linux/linux-yocto/xen.scc
-> new file mode 100644
-> index 0000000..6c68bda
-> --- /dev/null
-> +++ b/recipes-kernel/linux/linux-yocto/xen.scc
-> @@ -0,0 +1,4 @@
-> +define KFEATURE_DESCRIPTION "Xen Dom0 Support"
-> +define KFEATURE_COMPATIBILITY board
+> +# aufs kernel support required for core-image-xen
+> +KERNEL_FEATURES_append += "${@base_contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
 > +
-> +kconf non-hardware xen.cfg
+> +# xen dom0 kernel support
+> +SRC_URI += "${@base_contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
 > --
 > 1.7.10.4
 >
