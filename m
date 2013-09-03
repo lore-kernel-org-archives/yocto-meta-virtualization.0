@@ -1,39 +1,34 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
-	[209.85.215.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 85059E00450
+Return-Path: <cjp256@gmail.com>
+Received: from mail-ie0-f180.google.com (mail-ie0-f180.google.com
+	[209.85.223.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2B280E01420
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2013 20:08:07 -0700 (PDT)
-Received: by mail-la0-f47.google.com with SMTP id eo20so3131838lab.34
+	Mon,  2 Sep 2013 17:54:58 -0700 (PDT)
+Received: by mail-ie0-f180.google.com with SMTP id x14so9123130ief.11
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 01 Sep 2013 20:08:05 -0700 (PDT)
+	Mon, 02 Sep 2013 17:54:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Bu9ul4qYCNvwtJlgDn031ddywPeTLWCdOJA9tNx8uzU=;
-	b=FSDrTPVtWOnp83eJ6uPdfghYZ0jtbQKYPi7RLziDVVcImnRRsZrGjmRHtvY76NUTMU
-	OllW3vW3g2QiYeJauTqJEJ6YuphwQwgCFaD3tz+zhOyaORMzjAsWLNhQoPyUsakX709e
-	RB2xhEFjThdTd/Wy4NYceWGo1c9g6sKFuq1kBzTDH62ZjK7x4kof2+RCiB8YlSJJ+0He
-	GZQ0jtOWZ76ukNZX3u7AHgztXMx2b/yeO0hKa7ovmvysl9XFi7TC0FoKf2J6LE9nOlSQ
-	SwUx2Q/0a5dM/Ptz1pMSdPfAr3G5Ixwd1FqUREQCzbcvPTOxOFKs3+EJA3fzlYVTeDdF
-	MMXA==
-MIME-Version: 1.0
-X-Received: by 10.112.168.35 with SMTP id zt3mr18943252lbb.11.1378091285510;
-	Sun, 01 Sep 2013 20:08:05 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Sun, 1 Sep 2013 20:08:05 -0700 (PDT)
-In-Reply-To: <CABZSBQcqjGgouK9s3-9-mpLtROK4zN-rW5Fj-spoze6kzLHLgw@mail.gmail.com>
-References: <1377833844-14672-1-git-send-email-cjp256@gmail.com>
-	<1377833844-14672-5-git-send-email-cjp256@gmail.com>
-	<CADkTA4M38h0=R5=nG1EoOOnoKfodShCqHJ05S=m8na=MF92HFA@mail.gmail.com>
-	<CABZSBQeaFr2zaQwTeQciO6sw7Tvsedy=5m49MO9LkLVZE95QjA@mail.gmail.com>
-	<CABZSBQcqjGgouK9s3-9-mpLtROK4zN-rW5Fj-spoze6kzLHLgw@mail.gmail.com>
-Date: Sun, 1 Sep 2013 23:08:05 -0400
-Message-ID: <CADkTA4M1ZbwCMs8R1V9AGJ2nKT-_01zR4d7hvVZ=9QGn8nAnwQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 4/4] xen-image-minimal: update image to support xen 4.3.0 base with xl toolstack.
+	h=from:to:cc:subject:date:message-id;
+	bh=E3wwnZwDBXKAOPRD+chCApkf+0Ds8eYn74osa/YVvJ4=;
+	b=cGImEhh5uog+vTTrkcWcBjWPdhx7uIoQMvlW4Ag1UI+jqgqLf0kjhbm3r8SbB+UtPw
+	NNyOC0JpEsOWiLNq5HXyGm1s19cOF/B95oJxW5cgFM/h1kZGTQMZmNi2MiyV7CLFuTio
+	x3bhDvUbib5OUja67e0HueB3t4NFSp3njLatHqAPlzLJVsZ+33yIrH9TiDNsXHA+1ib4
+	06cbNH5oZvXHDmwgiQZxSvcrXSrcFPtVOAHCPULvBclzC5VEbV/t8svDjTEfS4MGL3bA
+	hf2ZG0R3BOJZE8+OZvHxcP5PFDpd0EBUj/tw8y0Te0Xsogni5IqA2J/eNa4Tuh8b7R/J
+	UO4g==
+X-Received: by 10.50.65.99 with SMTP id w3mr5237298igs.42.1378169697785;
+	Mon, 02 Sep 2013 17:54:57 -0700 (PDT)
+Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
+	[74.71.215.22])
+	by mx.google.com with ESMTPSA id ir7sm27784804igb.8.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 02 Sep 2013 17:54:57 -0700 (PDT)
+From: Chris Patterson <cjp256@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Mon,  2 Sep 2013 20:54:50 -0400
+Message-Id: <1378169690-4438-1-git-send-email-cjp256@gmail.com>
+X-Mailer: git-send-email 1.8.4.rc3
+Subject: [PATCH] busybox: migrate from defconfig to config fragments.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,452 +41,1097 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2013 03:08:09 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 03 Sep 2013 00:54:59 -0000
 
-On Sun, Sep 1, 2013 at 10:25 AM, Chris Patterson <cjp256@gmail.com> wrote:
-> Tracked down the issue to the busybox defconfig in the meta-virt layer.
->
-> There were patches upstreamed to udev's mount script to require 'stat' in
-> addition to a similar update to busybox's config to provide it.
->
-> commit ef7e1239b95dbef4e461007d6d0612c27a7919ec
-> Author: Andy Ross <andy.ross@windriver.com>
-> Date:   Tue Sep 18 14:38:44 2012 -0700
-> busybox: add /usr/bin/stat applet...
->
-> commit 3543d0db691e82098c1da7bf12f43e0c57551a3d
-> Author: Andy Ross <andy.ross@windriver.com>
-> Date:   Tue Sep 18 14:38:45 2012 -0700
-> udev-extraconf: Don't mount root filesystem under /media...
->
-> I suppose this could be resolved by updating the busybox defconfig to a
-> fragment turning on only the extra bits it wants?  Or should I be
-> prioritizing my layers differently?
+---
+ recipes-core/busybox/busybox/lspci.cfg        |    1 +
+ recipes-core/busybox/busybox/lsusb.cfg        |    1 +
+ recipes-core/busybox/busybox/mdev.cfg         |    6 +
+ recipes-core/busybox/busybox/mount-cifs.cfg   |    1 +
+ recipes-core/busybox/busybox/ps-extras.cfg    |    3 +
+ recipes-core/busybox/busybox_1.21.1.bbappend  |    9 +-
+ recipes-core/busybox/busybox_1.21.1/defconfig | 1009 -------------------------
+ 7 files changed, 20 insertions(+), 1010 deletions(-)
+ create mode 100644 recipes-core/busybox/busybox/lspci.cfg
+ create mode 100644 recipes-core/busybox/busybox/lsusb.cfg
+ create mode 100644 recipes-core/busybox/busybox/mdev.cfg
+ create mode 100644 recipes-core/busybox/busybox/mount-cifs.cfg
+ create mode 100644 recipes-core/busybox/busybox/ps-extras.cfg
+ delete mode 100644 recipes-core/busybox/busybox_1.21.1/defconfig
 
-Converting to a fragment would be the best thing. The defconfig in
-meta-virt predates
-the fragment support for busybox, and no one has converted it yet.
-
-Cheers,
-
-Bruce
-
->
->
-> On Sun, Sep 1, 2013 at 12:41 AM, Chris Patterson <cjp256@gmail.com> wrote:
->>
->> The reasoning for xen-image-initramfs was that I had minor issues with
->> using stock core-image-minimal-initramfs and initramfs-live-boot.
->>
->> However, I have since tracked down the issue I was having with
->> initramfs-live-boot, and determined we could drop initramfs-boot-xen in
->> favor of initramfs-live-boot simply by adding LABEL=boot to the kernel args.
->>
->> Beyond that, vanilla core-image-minimal-initramfs would hang at "Waiting
->> for removeable media..." indefinitely.  After some testing, It appeared that
->> adding coreutils to core-image-minimal-initramfs would resolve the issue
->> (though not yet sure why, but looking into it).
->>
->>
->> On Fri, Aug 30, 2013 at 1:36 AM, Bruce Ashfield <bruce.ashfield@gmail.com>
->> wrote:
->>>
->>> On Thu, Aug 29, 2013 at 11:37 PM, Chris Patterson <cjp256@gmail.com>
->>> wrote:
->>> > xen-image-initramfs: newly added initrd to support testing
->>> > xen-image-minimal and init script based on init-live.sh.
->>> > ---
->>> >  recipes-extended/images/xen-image-initramfs.bb     |   17 ++
->>> >  recipes-extended/images/xen-image-minimal.bb       |   55 +++++-
->>> >  .../initrdscripts/files/init-boot-xen.sh           |  205
->>> > ++++++++++++++++++++
->>> >  .../initrdscripts/initramfs-boot-xen_1.0.bb        |   16 ++
->>> >  4 files changed, 286 insertions(+), 7 deletions(-)
->>> >  create mode 100644 recipes-extended/images/xen-image-initramfs.bb
->>> >  create mode 100644
->>> > recipes-extended/initrdscripts/files/init-boot-xen.sh
->>> >  create mode 100644
->>> > recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
->>> >
->>> > diff --git a/recipes-extended/images/xen-image-initramfs.bb
->>> > b/recipes-extended/images/xen-image-initramfs.bb
->>> > new file mode 100644
->>> > index 0000000..d2f1301
->>> > --- /dev/null
->>> > +++ b/recipes-extended/images/xen-image-initramfs.bb
->>> > @@ -0,0 +1,17 @@
->>> > +DESCRIPTION = "Xen image initramfs"
->>> > +
->>> > +IMAGE_INSTALL = "initramfs-boot-xen busybox udev udev-extraconf
->>> > base-passwd coreutils"
->>> > +
->>> > +# Do not pollute the initrd image with rootfs features
->>> > +IMAGE_FEATURES = ""
->>> > +
->>> > +export IMAGE_BASENAME = "xen-image-initramfs"
->>> > +
->>> > +IMAGE_LINGUAS = ""
->>> > +
->>> > +LICENSE = "MIT"
->>> > +
->>> > +IMAGE_FSTYPES = "${INITRAMFS_FSTYPES}"
->>> > +inherit core-image
->>> > +
->>> > +IMAGE_ROOTFS_SIZE = "8192"
->>> > diff --git a/recipes-extended/images/xen-image-minimal.bb
->>> > b/recipes-extended/images/xen-image-minimal.bb
->>> > index 0cf55d6..c941339 100644
->>> > --- a/recipes-extended/images/xen-image-minimal.bb
->>> > +++ b/recipes-extended/images/xen-image-minimal.bb
->>> > @@ -1,14 +1,55 @@
->>> > -DESCRIPTION = "A minimal xen image"
->>> > -IMAGE_INSTALL = "packagegroup-core-boot xen-minimal dropbear mdadm"
->>> > +DESCRIPTION = "Image with Xen."
->>> > +
->>> > +INITRD_IMAGE ?= "xen-image-initramfs"
->>> > +
->>> > +IMAGE_INSTALL += " \
->>> > +    ${CORE_IMAGE_BASE_INSTALL} \
->>> > +    packagegroup-core-basic \
->>> > +    packagegroup-core-ssh-openssh \
->>> > +    kernel-module-xen-acpi-processor \
->>> > +    kernel-module-xen-blkback \
->>> > +    kernel-module-xen-blkfront \
->>> > +    kernel-module-xen-evtchn \
->>> > +    kernel-module-xenfs \
->>> > +    kernel-module-xen-gntalloc \
->>> > +    kernel-module-xen-gntdev \
->>> > +    kernel-module-xen-netback \
->>> > +    kernel-module-xen-netfront \
->>> > +    kernel-module-xen-pcifront \
->>> > +    kernel-module-xen-privcmd \
->>> > +    kernel-module-xen-wdt \
->>> > +    xen-base \
->>> > +    xen-qemu \
->>> > +    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
->>> > +    "
->>> >
->>> > -IMAGE_LINGUAS = " "
->>> >  LICENSE = "MIT"
->>> >
->>> >  inherit core-image
->>> >
->>> > -IMAGE_ROOTFS_SIZE = "8192"
->>> > +syslinux_iso_populate_append() {
->>> > +       install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32
->>> > ${ISODIR}${ISOLINUXDIR}
->>> > +}
->>> > +
->>> > +syslinux_hddimg_populate_append() {
->>> > +       install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32
->>> > ${HDDDIR}${SYSLINUXDIR}
->>> > +}
->>> > +
->>> > +grubefi_populate_append() {
->>> > +       install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz
->>> > ${DEST}${EFIDIR}/xen.gz
->>> > +}
->>> > +
->>> > +populate_append() {
->>> > +       install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz
->>> > ${DEST}/xen.gz
->>> > +}
->>> >
->>> > -# remove not needed ipkg informations
->>> > -ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
->>> > +build_syslinux_cfg () {
->>> > +       echo "ALLOWOPTIONS 1" > ${SYSLINUXCFG}
->>> > +       echo "DEFAULT boot" >> ${SYSLINUXCFG}
->>> > +       echo "TIMEOUT 10" >> ${SYSLINUXCFG}
->>> > +       echo "PROMPT 1" >> ${SYSLINUXCFG}
->>> > +       echo "LABEL boot" >> ${SYSLINUXCFG}
->>> > +       echo "  KERNEL mboot.c32" >> ${SYSLINUXCFG}
->>> > +       echo "  APPEND /xen.gz loglvl=all guest_loglvl=all
->>> > console=com1,vga com1=115200,8n1 --- /vmlinuz ramdisk_size=32768
->>> > root=/dev/ram0 rw console=hvc0 earlyprintk=xen console=tty0 panic=10 ---
->>> > /initrd" >> ${SYSLINUXCFG}
->>> > +}
->>> >
->>> > -require xen-bootimg.inc
->>> > diff --git a/recipes-extended/initrdscripts/files/init-boot-xen.sh
->>> > b/recipes-extended/initrdscripts/files/init-boot-xen.sh
->>> > new file mode 100644
->>> > index 0000000..741f201
->>> > --- /dev/null
->>> > +++ b/recipes-extended/initrdscripts/files/init-boot-xen.sh
->>> > @@ -0,0 +1,205 @@
->>> > +#!/bin/sh
->>> > +
->>> > +PATH=/sbin:/bin:/usr/sbin:/usr/bin
->>> > +
->>> > +ROOT_MOUNT="/rootfs/"
->>> > +ROOT_IMAGE="rootfs.img"
->>> > +MOUNT="/bin/mount"
->>> > +UMOUNT="/bin/umount"
->>> > +ISOLINUX=""
->>> > +
->>> > +# Copied from initramfs-framework. The core of this script probably
->>> > should be
->>> > +# turned into initramfs-framework modules to reduce duplication.
->>> > +udev_daemon() {
->>> > +       OPTIONS="/sbin/udev/udevd /sbin/udevd /lib/udev/udevd
->>> > /sbin/systemd/systemd-udevd /lib/systemd/systemd-udevd"
->>> > +
->>> > +       for o in $OPTIONS; do
->>> > +               if [ -x "$o" ]; then
->>> > +                       echo $o
->>> > +                       return 0
->>> > +               fi
->>> > +       done
->>> > +
->>> > +       return 1
->>> > +}
->>> > +
->>> > +_UDEV_DAEMON=`udev_daemon`
->>> > +
->>> > +early_setup() {
->>> > +    mkdir -p /proc
->>> > +    mkdir -p /sys
->>> > +    mount -t proc proc /proc
->>> > +    mount -t sysfs sysfs /sys
->>> > +    mount -t devtmpfs none /dev
->>> > +
->>> > +    # support modular kernel
->>> > +    modprobe isofs 2> /dev/null
->>> > +
->>> > +    mkdir -p /run
->>> > +    mkdir -p /var/run
->>> > +    mkdir -p /media
->>> > +
->>> > +    $_UDEV_DAEMON --daemon
->>> > +    udevadm trigger --action=add
->>> > +}
->>> > +
->>> > +read_args() {
->>> > +    [ -z "$CMDLINE" ] && CMDLINE=`cat /proc/cmdline`
->>> > +    for arg in $CMDLINE; do
->>> > +        optarg=`expr "x$arg" : 'x[^=]*=\(.*\)'`
->>> > +        case $arg in
->>> > +            root=*)
->>> > +                ROOT_DEVICE=$optarg ;;
->>> > +            rootfstype=*)
->>> > +                modprobe $optarg 2> /dev/null ;;
->>> > +            LABEL=*)
->>> > +                label=$optarg ;;
->>> > +            video=*)
->>> > +                video_mode=$arg ;;
->>> > +            vga=*)
->>> > +                vga_mode=$arg ;;
->>> > +            console=*)
->>> > +                if [ -z "${console_params}" ]; then
->>> > +                    console_params=$arg
->>> > +                else
->>> > +                    console_params="$console_params $arg"
->>> > +                fi ;;
->>> > +            debugshell*)
->>> > +                if [ -z "$optarg" ]; then
->>> > +                        shelltimeout=30
->>> > +                else
->>> > +                        shelltimeout=$optarg
->>> > +                fi
->>> > +        esac
->>> > +    done
->>> > +}
->>> > +
->>> > +boot_live_root() {
->>> > +    # Watches the udev event queue, and exits if all current events
->>> > are handled
->>> > +    udevadm settle --timeout=3 --quiet
->>> > +    killall "${_UDEV_DAEMON##*/}" 2>/dev/null
->>> > +
->>> > +    # Move the mount points of some filesystems over to
->>> > +    # the corresponding directories under the real root filesystem.
->>> > +    for dir in `awk '/\/dev.* \/media/{print $2}' /proc/mounts`; do
->>> > +        mkdir -p  ${ROOT_MOUNT}/$dir
->>> > +        mount -n --move $dir ${ROOT_MOUNT}/$dir
->>> > +    done
->>> > +    mount -n --move /proc ${ROOT_MOUNT}/proc
->>> > +    mount -n --move /sys ${ROOT_MOUNT}/sys
->>> > +    mount -n --move /dev ${ROOT_MOUNT}/dev
->>> > +
->>> > +    cd $ROOT_MOUNT
->>> > +    exec switch_root -c /dev/console $ROOT_MOUNT /sbin/init
->>> > +}
->>> > +
->>> > +fatal() {
->>> > +    echo $1 >$CONSOLE
->>> > +    echo >$CONSOLE
->>> > +    exec sh
->>> > +}
->>> > +
->>> > +early_setup
->>> > +
->>> > +[ -z "$CONSOLE" ] && CONSOLE="/dev/console"
->>> > +
->>> > +read_args
->>> > +
->>> > +echo "Waiting for removable media..."
->>> > +C=0
->>> > +shelltimeout=5
->>> > +while true
->>> > +do
->>> > +  udevadm trigger
->>> > +  udevadm settle
->>> > +  for i in `ls /media 2>/dev/null`; do
->>> > +      if [ -f /media/$i/$ROOT_IMAGE ] ; then
->>> > +               found="yes"
->>> > +               break
->>> > +         elif [ -f /media/$i/isolinux/$ROOT_IMAGE ]; then
->>> > +               found="yes"
->>> > +               ISOLINUX="isolinux"
->>> > +               break
->>> > +      fi
->>> > +  done
->>> > +  if [ "$found" = "yes" ]; then
->>> > +      break;
->>> > +  fi
->>> > +  # don't wait for more than $shelltimeout seconds, if it's set
->>> > +  if [ -n "$shelltimeout" ]; then
->>> > +      echo -n " " $(( $shelltimeout - $C ))
->>> > +      if [ $C -ge $shelltimeout ]; then
->>> > +           echo "..."
->>> > +          echo "Mounted filesystems"
->>> > +           mount | grep media
->>> > +           echo "Available block devices"
->>> > +           ls /dev/sd*
->>> > +           fatal "Cannot find rootfs.img file in /media/* , dropping
->>> > to a shell "
->>> > +      fi
->>> > +      C=$(( C + 1 ))
->>> > +  fi
->>> > +  sleep 1
->>> > +done
->>> > +
->>> > +# Try to make a union mount of the root image.
->>> > +# If no unification filesystem is available, mount the image
->>> > read-only.
->>> > +mount_and_boot() {
->>> > +    mkdir $ROOT_MOUNT
->>> > +
->>> > +    mknod /dev/loop0 b 7 0 2>/dev/null
->>> > +
->>> > +    # determine which unification filesystem to use
->>> > +    union_fs_type=""
->>> > +    if grep -q -w "overlayfs" /proc/filesystems; then
->>> > +       union_fs_type="overlayfs"
->>> > +    elif grep -q -w "aufs" /proc/filesystems; then
->>> > +       union_fs_type="aufs"
->>> > +    else
->>> > +       union_fs_type=""
->>> > +    fi
->>> > +    # make a union mount if possible
->>> > +    case $union_fs_type in
->>> > +       "overlayfs")
->>> > +           mkdir -p /rootfs.ro /rootfs.rw
->>> > +           if ! mount -o rw,loop,noatime,nodiratime
->>> > /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
->>> > +               rm -rf /rootfs.ro /rootfs.rw
->>> > +               fatal "Could not mount rootfs image"
->>> > +           else
->>> > +               mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
->>> > +               mount -t overlayfs -o
->>> > "lowerdir=/rootfs.ro,upperdir=/rootfs.rw" overlayfs $ROOT_MOUNT
->>> > +               mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
->>> > +               mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
->>> > +               mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
->>> > +           fi
->>> > +           ;;
->>> > +       "aufs")
->>> > +           mkdir -p /rootfs.ro /rootfs.rw
->>> > +           if ! mount -o rw,loop,noatime,nodiratime
->>> > /media/$i/$ISOLINUX/$ROOT_IMAGE /rootfs.ro; then
->>> > +               rm -rf /rootfs.ro /rootfs.rw
->>> > +               fatal "Could not mount rootfs image"
->>> > +           else
->>> > +               mount -t tmpfs -o rw,noatime,mode=755 tmpfs /rootfs.rw
->>> > +               mount -t aufs -o "dirs=/rootfs.rw=rw:/rootfs.ro=ro"
->>> > aufs $ROOT_MOUNT
->>> > +               mkdir -p $ROOT_MOUNT/rootfs.ro $ROOT_MOUNT/rootfs.rw
->>> > +               mount --move /rootfs.ro $ROOT_MOUNT/rootfs.ro
->>> > +               mount --move /rootfs.rw $ROOT_MOUNT/rootfs.rw
->>> > +           fi
->>> > +           ;;
->>> > +       "")
->>> > +           if ! mount -o rw,loop,noatime,nodiratime
->>> > /media/$i/$ISOLINUX/$ROOT_IMAGE $ROOT_MOUNT ; then
->>> > +               fatal "Could not mount rootfs image"
->>> > +           else
->>> > +               mount -t tmpfs -o rw,noatime,mode=755 tmpfs
->>> > $ROOT_MOUNT/media
->>> > +           fi
->>> > +           ;;
->>> > +    esac
->>> > +
->>> > +    # boot the image
->>> > +    boot_live_root
->>> > +}
->>> > +
->>> > +mount_and_boot
->>> > +
->>> > +# If we're getting here, we failed...
->>> > +fatal "Installation image failed"
->>> > +
->>> > diff --git a/recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
->>> > b/recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
->>> > new file mode 100644
->>> > index 0000000..9380e83
->>> > --- /dev/null
->>> > +++ b/recipes-extended/initrdscripts/initramfs-boot-xen_1.0.bb
->>> > @@ -0,0 +1,16 @@
->>> > +DESCRIPTION = "A live image init script with support for Xen"
->>> > +LICENSE = "MIT"
->>> > +LIC_FILES_CHKSUM =
->>> > "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
->>> > +SRC_URI = "file://init-boot-xen.sh"
->>> > +PR = "r0"
->>> > +
->>> > +inherit allarch
->>> > +
->>> > +RDEPENDS_${PN} = "udev udev-extraconf"
->>> > +
->>> > +FILES_${PN} += " /init "
->>>
->>> I was going to ask if you are seeing any QA warnings with this, since
->>> in the past we've had
->>> to use update alternatives and priority to ensure that the right init
->>> was used in an image .. but
->>> then I noticed this is only pulled into the minimal config and there
->>> shouldn't be any conflicting
->>> init providers!
->>>
->>> Bruce
->>>
->>> > +
->>> > +do_install() {
->>> > +        install -m 0755 ${WORKDIR}/init-boot-xen.sh ${D}/init
->>> > +}
->>> > +
->>> > --
->>> > 1.7.10.4
->>> >
->>> > _______________________________________________
->>> > meta-virtualization mailing list
->>> > meta-virtualization@yoctoproject.org
->>> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->>>
->>>
->>>
->>> --
->>> "Thou shalt not follow the NULL pointer, for chaos and madness await
->>> thee at its end"
->>
->>
->
-
-
-
+diff --git a/recipes-core/busybox/busybox/lspci.cfg b/recipes-core/busybox/busybox/lspci.cfg
+new file mode 100644
+index 0000000..6458af8
+--- /dev/null
++++ b/recipes-core/busybox/busybox/lspci.cfg
+@@ -0,0 +1 @@
++CONFIG_LSPCI=y
+diff --git a/recipes-core/busybox/busybox/lsusb.cfg b/recipes-core/busybox/busybox/lsusb.cfg
+new file mode 100644
+index 0000000..2aba6ef
+--- /dev/null
++++ b/recipes-core/busybox/busybox/lsusb.cfg
+@@ -0,0 +1 @@
++CONFIG_LSUSB=y
+diff --git a/recipes-core/busybox/busybox/mdev.cfg b/recipes-core/busybox/busybox/mdev.cfg
+new file mode 100644
+index 0000000..f8d6da8
+--- /dev/null
++++ b/recipes-core/busybox/busybox/mdev.cfg
+@@ -0,0 +1,6 @@
++CONFIG_MDEV=y
++CONFIG_FEATURE_MDEV_CONF=y
++CONFIG_FEATURE_MDEV_RENAME=y
++CONFIG_FEATURE_MDEV_RENAME_REGEXP=y
++CONFIG_FEATURE_MDEV_EXEC=y
++CONFIG_FEATURE_MDEV_LOAD_FIRMWARE=y
+diff --git a/recipes-core/busybox/busybox/mount-cifs.cfg b/recipes-core/busybox/busybox/mount-cifs.cfg
+new file mode 100644
+index 0000000..88f0404
+--- /dev/null
++++ b/recipes-core/busybox/busybox/mount-cifs.cfg
+@@ -0,0 +1 @@
++CONFIG_FEATURE_MOUNT_CIFS=y
+diff --git a/recipes-core/busybox/busybox/ps-extras.cfg b/recipes-core/busybox/busybox/ps-extras.cfg
+new file mode 100644
+index 0000000..7434635
+--- /dev/null
++++ b/recipes-core/busybox/busybox/ps-extras.cfg
+@@ -0,0 +1,3 @@
++CONFIG_DESKTOP=y
++CONFIG_FEATURE_PS_TIME=y
++CONFIG_FEATURE_PS_ADDITIONAL_COLUMNS=y
+diff --git a/recipes-core/busybox/busybox_1.21.1.bbappend b/recipes-core/busybox/busybox_1.21.1.bbappend
+index 9477984..7d71c7d 100644
+--- a/recipes-core/busybox/busybox_1.21.1.bbappend
++++ b/recipes-core/busybox/busybox_1.21.1.bbappend
+@@ -1,2 +1,9 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}_${PV}:${THISDIR}/${PN}-${PV}/${MACHINE}:${THISDIR}/${PN}/${MACHINE}:${THISDIR}/${PN}-${PV}:${THISDIR}/${PN}:"
++FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+ 
++SRC_URI += " \
++	    file://lspci.cfg \
++	    file://lsusb.cfg \
++	    file://mdev.cfg \
++	    file://mount-cifs.cfg \
++	    file://ps-extras.cfg \
++           "
+diff --git a/recipes-core/busybox/busybox_1.21.1/defconfig b/recipes-core/busybox/busybox_1.21.1/defconfig
+deleted file mode 100644
+index cd5edbc..0000000
+--- a/recipes-core/busybox/busybox_1.21.1/defconfig
++++ /dev/null
+@@ -1,1009 +0,0 @@
+-#
+-# Automatically generated make config: don't edit
+-# Busybox version: 1.19.4
+-# Thu Jun 14 18:17:47 2012
+-#
+-CONFIG_HAVE_DOT_CONFIG=y
+-
+-#
+-# Busybox Settings
+-#
+-
+-#
+-# General Configuration
+-#
+-# CONFIG_DESKTOP is not set
+-# CONFIG_EXTRA_COMPAT is not set
+-# CONFIG_INCLUDE_SUSv2 is not set
+-# CONFIG_USE_PORTABLE_CODE is not set
+-CONFIG_PLATFORM_LINUX=y
+-CONFIG_FEATURE_BUFFERS_USE_MALLOC=y
+-# CONFIG_FEATURE_BUFFERS_GO_ON_STACK is not set
+-# CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
+-CONFIG_SHOW_USAGE=y
+-# CONFIG_FEATURE_VERBOSE_USAGE is not set
+-CONFIG_FEATURE_COMPRESS_USAGE=y
+-# CONFIG_FEATURE_INSTALLER is not set
+-# CONFIG_INSTALL_NO_USR is not set
+-CONFIG_LOCALE_SUPPORT=y
+-# CONFIG_UNICODE_SUPPORT is not set
+-# CONFIG_UNICODE_USING_LOCALE is not set
+-# CONFIG_FEATURE_CHECK_UNICODE_IN_ENV is not set
+-CONFIG_SUBST_WCHAR=0
+-CONFIG_LAST_SUPPORTED_WCHAR=0
+-# CONFIG_UNICODE_COMBINING_WCHARS is not set
+-# CONFIG_UNICODE_WIDE_WCHARS is not set
+-# CONFIG_UNICODE_BIDI_SUPPORT is not set
+-# CONFIG_UNICODE_NEUTRAL_TABLE is not set
+-# CONFIG_UNICODE_PRESERVE_BROKEN is not set
+-CONFIG_LONG_OPTS=y
+-CONFIG_FEATURE_DEVPTS=y
+-# CONFIG_FEATURE_CLEAN_UP is not set
+-CONFIG_FEATURE_UTMP=y
+-# CONFIG_FEATURE_WTMP is not set
+-CONFIG_FEATURE_PIDFILE=y
+-CONFIG_FEATURE_SUID=y
+-CONFIG_FEATURE_SUID_CONFIG=y
+-CONFIG_FEATURE_SUID_CONFIG_QUIET=y
+-# CONFIG_SELINUX is not set
+-# CONFIG_FEATURE_PREFER_APPLETS is not set
+-CONFIG_BUSYBOX_EXEC_PATH="/proc/self/exe"
+-CONFIG_FEATURE_SYSLOG=y
+-CONFIG_FEATURE_HAVE_RPC=y
+-
+-#
+-# Build Options
+-#
+-# CONFIG_STATIC is not set
+-# CONFIG_PIE is not set
+-# CONFIG_NOMMU is not set
+-# CONFIG_BUILD_LIBBUSYBOX is not set
+-# CONFIG_FEATURE_INDIVIDUAL is not set
+-# CONFIG_FEATURE_SHARED_BUSYBOX is not set
+-CONFIG_LFS=y
+-CONFIG_CROSS_COMPILER_PREFIX=""
+-CONFIG_EXTRA_CFLAGS=""
+-
+-#
+-# Debugging Options
+-#
+-# CONFIG_DEBUG is not set
+-# CONFIG_DEBUG_PESSIMIZE is not set
+-# CONFIG_WERROR is not set
+-CONFIG_NO_DEBUG_LIB=y
+-# CONFIG_DMALLOC is not set
+-# CONFIG_EFENCE is not set
+-
+-#
+-# Installation Options ("make install" behavior)
+-#
+-CONFIG_INSTALL_APPLET_SYMLINKS=y
+-# CONFIG_INSTALL_APPLET_HARDLINKS is not set
+-# CONFIG_INSTALL_APPLET_SCRIPT_WRAPPERS is not set
+-# CONFIG_INSTALL_APPLET_DONT is not set
+-# CONFIG_INSTALL_SH_APPLET_SYMLINK is not set
+-# CONFIG_INSTALL_SH_APPLET_HARDLINK is not set
+-# CONFIG_INSTALL_SH_APPLET_SCRIPT_WRAPPER is not set
+-CONFIG_PREFIX="./_install"
+-
+-#
+-# Busybox Library Tuning
+-#
+-CONFIG_FEATURE_SYSTEMD=y
+-CONFIG_FEATURE_RTMINMAX=y
+-CONFIG_PASSWORD_MINLEN=6
+-CONFIG_MD5_SIZE_VS_SPEED=2
+-CONFIG_FEATURE_FAST_TOP=y
+-# CONFIG_FEATURE_ETC_NETWORKS is not set
+-CONFIG_FEATURE_USE_TERMIOS=y
+-CONFIG_FEATURE_EDITING=y
+-CONFIG_FEATURE_EDITING_MAX_LEN=1024
+-# CONFIG_FEATURE_EDITING_VI is not set
+-CONFIG_FEATURE_EDITING_HISTORY=15
+-CONFIG_FEATURE_EDITING_SAVEHISTORY=y
+-# CONFIG_FEATURE_REVERSE_SEARCH is not set
+-CONFIG_FEATURE_TAB_COMPLETION=y
+-CONFIG_FEATURE_USERNAME_COMPLETION=y
+-CONFIG_FEATURE_EDITING_FANCY_PROMPT=y
+-# CONFIG_FEATURE_EDITING_ASK_TERMINAL is not set
+-CONFIG_FEATURE_NON_POSIX_CP=y
+-# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
+-CONFIG_FEATURE_COPYBUF_KB=4
+-CONFIG_FEATURE_SKIP_ROOTFS=y
+-CONFIG_MONOTONIC_SYSCALL=y
+-CONFIG_IOCTL_HEX2STR_ERROR=y
+-CONFIG_FEATURE_HWIB=y
+-
+-#
+-# Applets
+-#
+-
+-#
+-# Archival Utilities
+-#
+-# CONFIG_FEATURE_SEAMLESS_XZ is not set
+-CONFIG_FEATURE_SEAMLESS_LZMA=y
+-CONFIG_FEATURE_SEAMLESS_BZ2=y
+-CONFIG_FEATURE_SEAMLESS_GZ=y
+-CONFIG_FEATURE_SEAMLESS_Z=y
+-CONFIG_AR=y
+-# CONFIG_FEATURE_AR_LONG_FILENAMES is not set
+-# CONFIG_FEATURE_AR_CREATE is not set
+-CONFIG_BUNZIP2=y
+-# CONFIG_BZIP2 is not set
+-CONFIG_CPIO=y
+-# CONFIG_FEATURE_CPIO_O is not set
+-# CONFIG_FEATURE_CPIO_P is not set
+-# CONFIG_DPKG is not set
+-# CONFIG_DPKG_DEB is not set
+-# CONFIG_FEATURE_DPKG_DEB_EXTRACT_ONLY is not set
+-CONFIG_GUNZIP=y
+-CONFIG_GZIP=y
+-# CONFIG_FEATURE_GZIP_LONG_OPTIONS is not set
+-# CONFIG_LZOP is not set
+-# CONFIG_LZOP_COMPR_HIGH is not set
+-# CONFIG_RPM2CPIO is not set
+-# CONFIG_RPM is not set
+-CONFIG_TAR=y
+-CONFIG_FEATURE_TAR_CREATE=y
+-CONFIG_FEATURE_TAR_AUTODETECT=y
+-CONFIG_FEATURE_TAR_FROM=y
+-CONFIG_FEATURE_TAR_OLDGNU_COMPATIBILITY=y
+-# CONFIG_FEATURE_TAR_OLDSUN_COMPATIBILITY is not set
+-CONFIG_FEATURE_TAR_GNU_EXTENSIONS=y
+-# CONFIG_FEATURE_TAR_LONG_OPTIONS is not set
+-# CONFIG_FEATURE_TAR_TO_COMMAND is not set
+-# CONFIG_FEATURE_TAR_UNAME_GNAME is not set
+-# CONFIG_FEATURE_TAR_NOPRESERVE_TIME is not set
+-# CONFIG_FEATURE_TAR_SELINUX is not set
+-# CONFIG_UNCOMPRESS is not set
+-# CONFIG_UNLZMA is not set
+-# CONFIG_FEATURE_LZMA_FAST is not set
+-# CONFIG_LZMA is not set
+-# CONFIG_UNXZ is not set
+-# CONFIG_XZ is not set
+-CONFIG_UNZIP=y
+-
+-#
+-# Coreutils
+-#
+-CONFIG_BASENAME=y
+-CONFIG_CAT=y
+-CONFIG_DATE=y
+-# CONFIG_FEATURE_DATE_ISOFMT is not set
+-# CONFIG_FEATURE_DATE_NANO is not set
+-CONFIG_FEATURE_DATE_COMPAT=y
+-CONFIG_ID=y
+-CONFIG_GROUPS=y
+-CONFIG_TEST=y
+-CONFIG_FEATURE_TEST_64=y
+-CONFIG_TOUCH=y
+-CONFIG_TR=y
+-CONFIG_FEATURE_TR_CLASSES=y
+-# CONFIG_FEATURE_TR_EQUIV is not set
+-# CONFIG_BASE64 is not set
+-CONFIG_WHO=y
+-CONFIG_USERS=y
+-# CONFIG_CAL is not set
+-# CONFIG_CATV is not set
+-CONFIG_CHGRP=y
+-CONFIG_CHMOD=y
+-CONFIG_CHOWN=y
+-# CONFIG_FEATURE_CHOWN_LONG_OPTIONS is not set
+-CONFIG_CHROOT=y
+-# CONFIG_CKSUM is not set
+-# CONFIG_COMM is not set
+-CONFIG_CP=y
+-# CONFIG_FEATURE_CP_LONG_OPTIONS is not set
+-CONFIG_CUT=y
+-CONFIG_DD=y
+-CONFIG_FEATURE_DD_SIGNAL_HANDLING=y
+-# CONFIG_FEATURE_DD_THIRD_STATUS_LINE is not set
+-# CONFIG_FEATURE_DD_IBS_OBS is not set
+-CONFIG_DF=y
+-# CONFIG_FEATURE_DF_FANCY is not set
+-CONFIG_DIRNAME=y
+-# CONFIG_DOS2UNIX is not set
+-# CONFIG_UNIX2DOS is not set
+-CONFIG_DU=y
+-CONFIG_FEATURE_DU_DEFAULT_BLOCKSIZE_1K=y
+-CONFIG_ECHO=y
+-CONFIG_FEATURE_FANCY_ECHO=y
+-CONFIG_ENV=y
+-CONFIG_FEATURE_ENV_LONG_OPTIONS=y
+-# CONFIG_EXPAND is not set
+-# CONFIG_FEATURE_EXPAND_LONG_OPTIONS is not set
+-CONFIG_EXPR=y
+-CONFIG_EXPR_MATH_SUPPORT_64=y
+-CONFIG_FALSE=y
+-# CONFIG_FOLD is not set
+-# CONFIG_FSYNC is not set
+-CONFIG_HEAD=y
+-# CONFIG_FEATURE_FANCY_HEAD is not set
+-# CONFIG_HOSTID is not set
+-# CONFIG_INSTALL is not set
+-# CONFIG_FEATURE_INSTALL_LONG_OPTIONS is not set
+-CONFIG_LN=y
+-CONFIG_LOGNAME=y
+-CONFIG_LS=y
+-CONFIG_FEATURE_LS_FILETYPES=y
+-CONFIG_FEATURE_LS_FOLLOWLINKS=y
+-CONFIG_FEATURE_LS_RECURSIVE=y
+-CONFIG_FEATURE_LS_SORTFILES=y
+-CONFIG_FEATURE_LS_TIMESTAMPS=y
+-CONFIG_FEATURE_LS_USERNAME=y
+-CONFIG_FEATURE_LS_COLOR=y
+-# CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
+-CONFIG_MD5SUM=y
+-CONFIG_MKDIR=y
+-CONFIG_FEATURE_MKDIR_LONG_OPTIONS=y
+-CONFIG_MKFIFO=y
+-CONFIG_MKNOD=y
+-CONFIG_MV=y
+-# CONFIG_FEATURE_MV_LONG_OPTIONS is not set
+-# CONFIG_NICE is not set
+-CONFIG_NOHUP=y
+-CONFIG_OD=y
+-# CONFIG_PRINTENV is not set
+-CONFIG_PRINTF=y
+-CONFIG_PWD=y
+-CONFIG_READLINK=y
+-CONFIG_FEATURE_READLINK_FOLLOW=y
+-CONFIG_REALPATH=y
+-CONFIG_RM=y
+-CONFIG_RMDIR=y
+-# CONFIG_FEATURE_RMDIR_LONG_OPTIONS is not set
+-CONFIG_SEQ=y
+-# CONFIG_SHA1SUM is not set
+-# CONFIG_SHA256SUM is not set
+-# CONFIG_SHA512SUM is not set
+-CONFIG_SLEEP=y
+-CONFIG_FEATURE_FANCY_SLEEP=y
+-# CONFIG_FEATURE_FLOAT_SLEEP is not set
+-CONFIG_SORT=y
+-CONFIG_FEATURE_SORT_BIG=y
+-# CONFIG_SPLIT is not set
+-# CONFIG_FEATURE_SPLIT_FANCY is not set
+-# CONFIG_STAT is not set
+-# CONFIG_FEATURE_STAT_FORMAT is not set
+-CONFIG_STTY=y
+-# CONFIG_SUM is not set
+-CONFIG_SYNC=y
+-# CONFIG_TAC is not set
+-CONFIG_TAIL=y
+-CONFIG_FEATURE_FANCY_TAIL=y
+-CONFIG_TEE=y
+-# CONFIG_FEATURE_TEE_USE_BLOCK_IO is not set
+-CONFIG_TRUE=y
+-CONFIG_TTY=y
+-CONFIG_UNAME=y
+-# CONFIG_UNEXPAND is not set
+-# CONFIG_FEATURE_UNEXPAND_LONG_OPTIONS is not set
+-CONFIG_UNIQ=y
+-CONFIG_USLEEP=y
+-# CONFIG_UUDECODE is not set
+-# CONFIG_UUENCODE is not set
+-CONFIG_WC=y
+-# CONFIG_FEATURE_WC_LARGE is not set
+-CONFIG_WHOAMI=y
+-CONFIG_YES=y
+-
+-#
+-# Common options for cp and mv
+-#
+-# CONFIG_FEATURE_PRESERVE_HARDLINKS is not set
+-
+-#
+-# Common options for ls, more and telnet
+-#
+-CONFIG_FEATURE_AUTOWIDTH=y
+-
+-#
+-# Common options for df, du, ls
+-#
+-CONFIG_FEATURE_HUMAN_READABLE=y
+-
+-#
+-# Common options for md5sum, sha1sum, sha256sum, sha512sum
+-#
+-CONFIG_FEATURE_MD5_SHA1_SUM_CHECK=y
+-
+-#
+-# Console Utilities
+-#
+-CONFIG_CHVT=y
+-# CONFIG_FGCONSOLE is not set
+-CONFIG_CLEAR=y
+-CONFIG_DEALLOCVT=y
+-CONFIG_DUMPKMAP=y
+-# CONFIG_KBD_MODE is not set
+-CONFIG_LOADFONT=y
+-CONFIG_LOADKMAP=y
+-CONFIG_OPENVT=y
+-CONFIG_RESET=y
+-# CONFIG_RESIZE is not set
+-# CONFIG_FEATURE_RESIZE_PRINT is not set
+-CONFIG_SETCONSOLE=y
+-# CONFIG_FEATURE_SETCONSOLE_LONG_OPTIONS is not set
+-# CONFIG_SETFONT is not set
+-# CONFIG_FEATURE_SETFONT_TEXTUAL_MAP is not set
+-CONFIG_DEFAULT_SETFONT_DIR=""
+-# CONFIG_SETKEYCODES is not set
+-# CONFIG_SETLOGCONS is not set
+-# CONFIG_SHOWKEY is not set
+-
+-#
+-# Common options for loadfont and setfont
+-#
+-# CONFIG_FEATURE_LOADFONT_PSF2 is not set
+-# CONFIG_FEATURE_LOADFONT_RAW is not set
+-
+-#
+-# Debian Utilities
+-#
+-CONFIG_MKTEMP=y
+-# CONFIG_PIPE_PROGRESS is not set
+-CONFIG_RUN_PARTS=y
+-CONFIG_FEATURE_RUN_PARTS_LONG_OPTIONS=y
+-# CONFIG_FEATURE_RUN_PARTS_FANCY is not set
+-CONFIG_START_STOP_DAEMON=y
+-CONFIG_FEATURE_START_STOP_DAEMON_FANCY=y
+-CONFIG_FEATURE_START_STOP_DAEMON_LONG_OPTIONS=y
+-CONFIG_WHICH=y
+-
+-#
+-# Editors
+-#
+-CONFIG_PATCH=y
+-CONFIG_VI=y
+-CONFIG_FEATURE_VI_MAX_LEN=1024
+-CONFIG_FEATURE_VI_8BIT=y
+-CONFIG_FEATURE_VI_COLON=y
+-CONFIG_FEATURE_VI_YANKMARK=y
+-CONFIG_FEATURE_VI_SEARCH=y
+-# CONFIG_FEATURE_VI_REGEX_SEARCH is not set
+-CONFIG_FEATURE_VI_USE_SIGNALS=y
+-# CONFIG_FEATURE_VI_DOT_CMD is not set
+-# CONFIG_FEATURE_VI_READONLY is not set
+-# CONFIG_FEATURE_VI_SETOPTS is not set
+-# CONFIG_FEATURE_VI_SET is not set
+-CONFIG_FEATURE_VI_WIN_RESIZE=y
+-# CONFIG_FEATURE_VI_ASK_TERMINAL is not set
+-CONFIG_FEATURE_VI_OPTIMIZE_CURSOR=y
+-CONFIG_AWK=y
+-# CONFIG_FEATURE_AWK_LIBM is not set
+-CONFIG_CMP=y
+-CONFIG_DIFF=y
+-# CONFIG_FEATURE_DIFF_LONG_OPTIONS is not set
+-CONFIG_FEATURE_DIFF_DIR=y
+-# CONFIG_ED is not set
+-CONFIG_SED=y
+-CONFIG_FEATURE_ALLOW_EXEC=y
+-
+-#
+-# Finding Utilities
+-#
+-CONFIG_FIND=y
+-CONFIG_FEATURE_FIND_PRINT0=y
+-CONFIG_FEATURE_FIND_MTIME=y
+-CONFIG_FEATURE_FIND_MMIN=y
+-CONFIG_FEATURE_FIND_PERM=y
+-CONFIG_FEATURE_FIND_TYPE=y
+-CONFIG_FEATURE_FIND_XDEV=y
+-CONFIG_FEATURE_FIND_MAXDEPTH=y
+-CONFIG_FEATURE_FIND_NEWER=y
+-# CONFIG_FEATURE_FIND_INUM is not set
+-CONFIG_FEATURE_FIND_EXEC=y
+-CONFIG_FEATURE_FIND_USER=y
+-CONFIG_FEATURE_FIND_GROUP=y
+-CONFIG_FEATURE_FIND_NOT=y
+-CONFIG_FEATURE_FIND_DEPTH=y
+-CONFIG_FEATURE_FIND_PAREN=y
+-CONFIG_FEATURE_FIND_SIZE=y
+-CONFIG_FEATURE_FIND_PRUNE=y
+-# CONFIG_FEATURE_FIND_DELETE is not set
+-CONFIG_FEATURE_FIND_PATH=y
+-CONFIG_FEATURE_FIND_REGEX=y
+-# CONFIG_FEATURE_FIND_CONTEXT is not set
+-# CONFIG_FEATURE_FIND_LINKS is not set
+-CONFIG_GREP=y
+-CONFIG_FEATURE_GREP_EGREP_ALIAS=y
+-CONFIG_FEATURE_GREP_FGREP_ALIAS=y
+-CONFIG_FEATURE_GREP_CONTEXT=y
+-CONFIG_XARGS=y
+-# CONFIG_FEATURE_XARGS_SUPPORT_CONFIRMATION is not set
+-# CONFIG_FEATURE_XARGS_SUPPORT_QUOTES is not set
+-# CONFIG_FEATURE_XARGS_SUPPORT_TERMOPT is not set
+-# CONFIG_FEATURE_XARGS_SUPPORT_ZERO_TERM is not set
+-
+-#
+-# Init Utilities
+-#
+-# CONFIG_BOOTCHARTD is not set
+-# CONFIG_FEATURE_BOOTCHARTD_BLOATED_HEADER is not set
+-# CONFIG_FEATURE_BOOTCHARTD_CONFIG_FILE is not set
+-CONFIG_HALT=y
+-# CONFIG_FEATURE_CALL_TELINIT is not set
+-CONFIG_TELINIT_PATH=""
+-# CONFIG_INIT is not set
+-# CONFIG_FEATURE_USE_INITTAB is not set
+-# CONFIG_FEATURE_KILL_REMOVED is not set
+-CONFIG_FEATURE_KILL_DELAY=0
+-# CONFIG_FEATURE_INIT_SCTTY is not set
+-# CONFIG_FEATURE_INIT_SYSLOG is not set
+-# CONFIG_FEATURE_EXTRA_QUIET is not set
+-# CONFIG_FEATURE_INIT_COREDUMPS is not set
+-# CONFIG_FEATURE_INITRD is not set
+-CONFIG_INIT_TERMINAL_TYPE=""
+-# CONFIG_MESG is not set
+-# CONFIG_FEATURE_MESG_ENABLE_ONLY_GROUP is not set
+-
+-#
+-# Login/Password Management Utilities
+-#
+-# CONFIG_ADD_SHELL is not set
+-# CONFIG_REMOVE_SHELL is not set
+-# CONFIG_FEATURE_SHADOWPASSWDS is not set
+-# CONFIG_USE_BB_PWD_GRP is not set
+-# CONFIG_USE_BB_SHADOW is not set
+-CONFIG_USE_BB_CRYPT=y
+-# CONFIG_USE_BB_CRYPT_SHA is not set
+-# CONFIG_ADDUSER is not set
+-# CONFIG_FEATURE_ADDUSER_LONG_OPTIONS is not set
+-# CONFIG_FEATURE_CHECK_NAMES is not set
+-CONFIG_FIRST_SYSTEM_ID=0
+-CONFIG_LAST_SYSTEM_ID=0
+-# CONFIG_ADDGROUP is not set
+-# CONFIG_FEATURE_ADDGROUP_LONG_OPTIONS is not set
+-# CONFIG_FEATURE_ADDUSER_TO_GROUP is not set
+-# CONFIG_DELUSER is not set
+-# CONFIG_DELGROUP is not set
+-# CONFIG_FEATURE_DEL_USER_FROM_GROUP is not set
+-# CONFIG_GETTY is not set
+-# CONFIG_LOGIN is not set
+-# CONFIG_PAM is not set
+-# CONFIG_LOGIN_SCRIPTS is not set
+-# CONFIG_FEATURE_NOLOGIN is not set
+-# CONFIG_FEATURE_SECURETTY is not set
+-# CONFIG_PASSWD is not set
+-# CONFIG_FEATURE_PASSWD_WEAK_CHECK is not set
+-# CONFIG_CRYPTPW is not set
+-# CONFIG_CHPASSWD is not set
+-# CONFIG_SU is not set
+-# CONFIG_FEATURE_SU_SYSLOG is not set
+-# CONFIG_FEATURE_SU_CHECKS_SHELLS is not set
+-# CONFIG_SULOGIN is not set
+-# CONFIG_VLOCK is not set
+-
+-#
+-# Linux Ext2 FS Progs
+-#
+-CONFIG_CHATTR=y
+-CONFIG_FSCK=y
+-# CONFIG_LSATTR is not set
+-# CONFIG_TUNE2FS is not set
+-
+-#
+-# Linux Module Utilities
+-#
+-# CONFIG_MODINFO is not set
+-# CONFIG_MODPROBE_SMALL is not set
+-# CONFIG_FEATURE_MODPROBE_SMALL_OPTIONS_ON_CMDLINE is not set
+-# CONFIG_FEATURE_MODPROBE_SMALL_CHECK_ALREADY_LOADED is not set
+-CONFIG_INSMOD=y
+-CONFIG_RMMOD=y
+-CONFIG_LSMOD=y
+-# CONFIG_FEATURE_LSMOD_PRETTY_2_6_OUTPUT is not set
+-CONFIG_MODPROBE=y
+-# CONFIG_FEATURE_MODPROBE_BLACKLIST is not set
+-# CONFIG_DEPMOD is not set
+-
+-#
+-# Options common to multiple modutils
+-#
+-# CONFIG_FEATURE_2_4_MODULES is not set
+-# CONFIG_FEATURE_INSMOD_TRY_MMAP is not set
+-# CONFIG_FEATURE_INSMOD_VERSION_CHECKING is not set
+-# CONFIG_FEATURE_INSMOD_KSYMOOPS_SYMBOLS is not set
+-# CONFIG_FEATURE_INSMOD_LOADINKMEM is not set
+-# CONFIG_FEATURE_INSMOD_LOAD_MAP is not set
+-# CONFIG_FEATURE_INSMOD_LOAD_MAP_FULL is not set
+-CONFIG_FEATURE_CHECK_TAINTED_MODULE=y
+-CONFIG_FEATURE_MODUTILS_ALIAS=y
+-CONFIG_FEATURE_MODUTILS_SYMBOLS=y
+-CONFIG_DEFAULT_MODULES_DIR="/lib/modules"
+-CONFIG_DEFAULT_DEPMOD_FILE="modules.dep"
+-
+-#
+-# Linux System Utilities
+-#
+-# CONFIG_BLOCKDEV is not set
+-# CONFIG_REV is not set
+-# CONFIG_ACPID is not set
+-# CONFIG_FEATURE_ACPID_COMPAT is not set
+-# CONFIG_BLKID is not set
+-# CONFIG_FEATURE_BLKID_TYPE is not set
+-CONFIG_DMESG=y
+-CONFIG_FEATURE_DMESG_PRETTY=y
+-CONFIG_FBSET=y
+-CONFIG_FEATURE_FBSET_FANCY=y
+-CONFIG_FEATURE_FBSET_READMODE=y
+-# CONFIG_FDFLUSH is not set
+-# CONFIG_FDFORMAT is not set
+-CONFIG_FDISK=y
+-# CONFIG_FDISK_SUPPORT_LARGE_DISKS is not set
+-CONFIG_FEATURE_FDISK_WRITABLE=y
+-# CONFIG_FEATURE_AIX_LABEL is not set
+-# CONFIG_FEATURE_SGI_LABEL is not set
+-# CONFIG_FEATURE_SUN_LABEL is not set
+-# CONFIG_FEATURE_OSF_LABEL is not set
+-# CONFIG_FEATURE_GPT_LABEL is not set
+-# CONFIG_FEATURE_FDISK_ADVANCED is not set
+-# CONFIG_FINDFS is not set
+-CONFIG_FLOCK=y
+-# CONFIG_FREERAMDISK is not set
+-CONFIG_FSCK_MINIX=y
+-# CONFIG_MKFS_EXT2 is not set
+-CONFIG_MKFS_MINIX=y
+-CONFIG_FEATURE_MINIX2=y
+-# CONFIG_MKFS_REISER is not set
+-# CONFIG_MKFS_VFAT is not set
+-# CONFIG_GETOPT is not set
+-# CONFIG_FEATURE_GETOPT_LONG is not set
+-CONFIG_HEXDUMP=y
+-# CONFIG_FEATURE_HEXDUMP_REVERSE is not set
+-# CONFIG_HD is not set
+-CONFIG_HWCLOCK=y
+-CONFIG_FEATURE_HWCLOCK_LONG_OPTIONS=y
+-CONFIG_FEATURE_HWCLOCK_ADJTIME_FHS=y
+-# CONFIG_IPCRM is not set
+-# CONFIG_IPCS is not set
+-CONFIG_LOSETUP=y
+-CONFIG_LSPCI=y
+-CONFIG_LSUSB=y
+-CONFIG_MDEV=y
+-CONFIG_FEATURE_MDEV_CONF=y
+-CONFIG_FEATURE_MDEV_RENAME=y
+-CONFIG_FEATURE_MDEV_RENAME_REGEXP=y
+-CONFIG_FEATURE_MDEV_EXEC=y
+-CONFIG_FEATURE_MDEV_LOAD_FIRMWARE=y
+-CONFIG_MKSWAP=y
+-# CONFIG_FEATURE_MKSWAP_UUID is not set
+-CONFIG_MORE=y
+-CONFIG_MOUNT=y
+-# CONFIG_FEATURE_MOUNT_FAKE is not set
+-# CONFIG_FEATURE_MOUNT_VERBOSE is not set
+-# CONFIG_FEATURE_MOUNT_HELPERS is not set
+-# CONFIG_FEATURE_MOUNT_LABEL is not set
+-CONFIG_FEATURE_MOUNT_NFS=y
+-CONFIG_FEATURE_MOUNT_CIFS=y
+-CONFIG_FEATURE_MOUNT_FLAGS=y
+-CONFIG_FEATURE_MOUNT_FSTAB=y
+-CONFIG_PIVOT_ROOT=y
+-CONFIG_RDATE=y
+-# CONFIG_RDEV is not set
+-# CONFIG_READPROFILE is not set
+-# CONFIG_RTCWAKE is not set
+-# CONFIG_SCRIPT is not set
+-# CONFIG_SCRIPTREPLAY is not set
+-# CONFIG_SETARCH is not set
+-CONFIG_SWAPONOFF=y
+-# CONFIG_FEATURE_SWAPON_PRI is not set
+-CONFIG_SWITCH_ROOT=y
+-CONFIG_UMOUNT=y
+-CONFIG_FEATURE_UMOUNT_ALL=y
+-
+-#
+-# Common options for mount/umount
+-#
+-CONFIG_FEATURE_MOUNT_LOOP=y
+-CONFIG_FEATURE_MOUNT_LOOP_CREATE=y
+-# CONFIG_FEATURE_MTAB_SUPPORT is not set
+-# CONFIG_VOLUMEID is not set
+-# CONFIG_FEATURE_VOLUMEID_EXT is not set
+-# CONFIG_FEATURE_VOLUMEID_BTRFS is not set
+-# CONFIG_FEATURE_VOLUMEID_REISERFS is not set
+-# CONFIG_FEATURE_VOLUMEID_FAT is not set
+-# CONFIG_FEATURE_VOLUMEID_HFS is not set
+-# CONFIG_FEATURE_VOLUMEID_JFS is not set
+-# CONFIG_FEATURE_VOLUMEID_XFS is not set
+-# CONFIG_FEATURE_VOLUMEID_NTFS is not set
+-# CONFIG_FEATURE_VOLUMEID_ISO9660 is not set
+-# CONFIG_FEATURE_VOLUMEID_UDF is not set
+-# CONFIG_FEATURE_VOLUMEID_LUKS is not set
+-# CONFIG_FEATURE_VOLUMEID_LINUXSWAP is not set
+-# CONFIG_FEATURE_VOLUMEID_CRAMFS is not set
+-# CONFIG_FEATURE_VOLUMEID_ROMFS is not set
+-# CONFIG_FEATURE_VOLUMEID_SYSV is not set
+-# CONFIG_FEATURE_VOLUMEID_OCFS2 is not set
+-# CONFIG_FEATURE_VOLUMEID_LINUXRAID is not set
+-
+-#
+-# Miscellaneous Utilities
+-#
+-# CONFIG_CONSPY is not set
+-CONFIG_LESS=y
+-CONFIG_FEATURE_LESS_MAXLINES=9999999
+-CONFIG_FEATURE_LESS_BRACKETS=y
+-CONFIG_FEATURE_LESS_FLAGS=y
+-# CONFIG_FEATURE_LESS_MARKS is not set
+-# CONFIG_FEATURE_LESS_REGEXP is not set
+-# CONFIG_FEATURE_LESS_WINCH is not set
+-# CONFIG_FEATURE_LESS_ASK_TERMINAL is not set
+-# CONFIG_FEATURE_LESS_DASHCMD is not set
+-# CONFIG_FEATURE_LESS_LINENUMS is not set
+-# CONFIG_NANDWRITE is not set
+-# CONFIG_NANDDUMP is not set
+-# CONFIG_SETSERIAL is not set
+-# CONFIG_UBIATTACH is not set
+-# CONFIG_UBIDETACH is not set
+-# CONFIG_UBIMKVOL is not set
+-# CONFIG_UBIRMVOL is not set
+-# CONFIG_UBIRSVOL is not set
+-# CONFIG_UBIUPDATEVOL is not set
+-# CONFIG_ADJTIMEX is not set
+-# CONFIG_BBCONFIG is not set
+-# CONFIG_FEATURE_COMPRESS_BBCONFIG is not set
+-# CONFIG_BEEP is not set
+-CONFIG_FEATURE_BEEP_FREQ=0
+-CONFIG_FEATURE_BEEP_LENGTH_MS=0
+-# CONFIG_CHAT is not set
+-# CONFIG_FEATURE_CHAT_NOFAIL is not set
+-# CONFIG_FEATURE_CHAT_TTY_HIFI is not set
+-# CONFIG_FEATURE_CHAT_IMPLICIT_CR is not set
+-# CONFIG_FEATURE_CHAT_SWALLOW_OPTS is not set
+-# CONFIG_FEATURE_CHAT_SEND_ESCAPES is not set
+-# CONFIG_FEATURE_CHAT_VAR_ABORT_LEN is not set
+-# CONFIG_FEATURE_CHAT_CLR_ABORT is not set
+-# CONFIG_CHRT is not set
+-# CONFIG_CROND is not set
+-# CONFIG_FEATURE_CROND_D is not set
+-# CONFIG_FEATURE_CROND_CALL_SENDMAIL is not set
+-CONFIG_FEATURE_CROND_DIR=""
+-# CONFIG_CRONTAB is not set
+-CONFIG_DC=y
+-# CONFIG_FEATURE_DC_LIBM is not set
+-# CONFIG_DEVFSD is not set
+-# CONFIG_DEVFSD_MODLOAD is not set
+-# CONFIG_DEVFSD_FG_NP is not set
+-# CONFIG_DEVFSD_VERBOSE is not set
+-# CONFIG_FEATURE_DEVFS is not set
+-# CONFIG_DEVMEM is not set
+-# CONFIG_EJECT is not set
+-# CONFIG_FEATURE_EJECT_SCSI is not set
+-# CONFIG_FBSPLASH is not set
+-# CONFIG_FLASHCP is not set
+-# CONFIG_FLASH_LOCK is not set
+-# CONFIG_FLASH_UNLOCK is not set
+-# CONFIG_FLASH_ERASEALL is not set
+-# CONFIG_IONICE is not set
+-# CONFIG_INOTIFYD is not set
+-# CONFIG_LAST is not set
+-# CONFIG_FEATURE_LAST_SMALL is not set
+-# CONFIG_FEATURE_LAST_FANCY is not set
+-# CONFIG_HDPARM is not set
+-# CONFIG_FEATURE_HDPARM_GET_IDENTITY is not set
+-# CONFIG_FEATURE_HDPARM_HDIO_SCAN_HWIF is not set
+-# CONFIG_FEATURE_HDPARM_HDIO_UNREGISTER_HWIF is not set
+-# CONFIG_FEATURE_HDPARM_HDIO_DRIVE_RESET is not set
+-# CONFIG_FEATURE_HDPARM_HDIO_TRISTATE_HWIF is not set
+-# CONFIG_FEATURE_HDPARM_HDIO_GETSET_DMA is not set
+-# CONFIG_MAKEDEVS is not set
+-# CONFIG_FEATURE_MAKEDEVS_LEAF is not set
+-# CONFIG_FEATURE_MAKEDEVS_TABLE is not set
+-# CONFIG_MAN is not set
+-CONFIG_MICROCOM=y
+-# CONFIG_MOUNTPOINT is not set
+-# CONFIG_MT is not set
+-# CONFIG_RAIDAUTORUN is not set
+-# CONFIG_READAHEAD is not set
+-# CONFIG_RFKILL is not set
+-# CONFIG_RUNLEVEL is not set
+-# CONFIG_RX is not set
+-# CONFIG_SETSID is not set
+-CONFIG_STRINGS=y
+-# CONFIG_TASKSET is not set
+-# CONFIG_FEATURE_TASKSET_FANCY is not set
+-CONFIG_TIME=y
+-# CONFIG_TIMEOUT is not set
+-# CONFIG_TTYSIZE is not set
+-# CONFIG_VOLNAME is not set
+-# CONFIG_WALL is not set
+-# CONFIG_WATCHDOG is not set
+-
+-#
+-# Networking Utilities
+-#
+-# CONFIG_NAMEIF is not set
+-# CONFIG_FEATURE_NAMEIF_EXTENDED is not set
+-# CONFIG_NBDCLIENT is not set
+-CONFIG_NC=y
+-# CONFIG_NC_SERVER is not set
+-# CONFIG_NC_EXTRA is not set
+-# CONFIG_NC_110_COMPAT is not set
+-CONFIG_PING=y
+-CONFIG_PING6=y
+-CONFIG_FEATURE_FANCY_PING=y
+-# CONFIG_WHOIS is not set
+-CONFIG_FEATURE_IPV6=y
+-# CONFIG_FEATURE_UNIX_LOCAL is not set
+-CONFIG_FEATURE_PREFER_IPV4_ADDRESS=y
+-# CONFIG_VERBOSE_RESOLUTION_ERRORS is not set
+-# CONFIG_ARP is not set
+-# CONFIG_ARPING is not set
+-# CONFIG_BRCTL is not set
+-# CONFIG_FEATURE_BRCTL_FANCY is not set
+-# CONFIG_FEATURE_BRCTL_SHOW is not set
+-# CONFIG_DNSD is not set
+-# CONFIG_ETHER_WAKE is not set
+-# CONFIG_FAKEIDENTD is not set
+-# CONFIG_FTPD is not set
+-# CONFIG_FEATURE_FTP_WRITE is not set
+-# CONFIG_FEATURE_FTPD_ACCEPT_BROKEN_LIST is not set
+-# CONFIG_FTPGET is not set
+-# CONFIG_FTPPUT is not set
+-# CONFIG_FEATURE_FTPGETPUT_LONG_OPTIONS is not set
+-CONFIG_HOSTNAME=y
+-# CONFIG_HTTPD is not set
+-# CONFIG_FEATURE_HTTPD_RANGES is not set
+-# CONFIG_FEATURE_HTTPD_USE_SENDFILE is not set
+-# CONFIG_FEATURE_HTTPD_SETUID is not set
+-# CONFIG_FEATURE_HTTPD_BASIC_AUTH is not set
+-# CONFIG_FEATURE_HTTPD_AUTH_MD5 is not set
+-# CONFIG_FEATURE_HTTPD_CGI is not set
+-# CONFIG_FEATURE_HTTPD_CONFIG_WITH_SCRIPT_INTERPR is not set
+-# CONFIG_FEATURE_HTTPD_SET_REMOTE_PORT_TO_ENV is not set
+-# CONFIG_FEATURE_HTTPD_ENCODE_URL_STR is not set
+-# CONFIG_FEATURE_HTTPD_ERROR_PAGES is not set
+-# CONFIG_FEATURE_HTTPD_PROXY is not set
+-# CONFIG_FEATURE_HTTPD_GZIP is not set
+-CONFIG_IFCONFIG=y
+-CONFIG_FEATURE_IFCONFIG_STATUS=y
+-# CONFIG_FEATURE_IFCONFIG_SLIP is not set
+-# CONFIG_FEATURE_IFCONFIG_MEMSTART_IOADDR_IRQ is not set
+-CONFIG_FEATURE_IFCONFIG_HW=y
+-# CONFIG_FEATURE_IFCONFIG_BROADCAST_PLUS is not set
+-# CONFIG_IFENSLAVE is not set
+-# CONFIG_IFPLUGD is not set
+-CONFIG_IFUPDOWN=y
+-CONFIG_IFUPDOWN_IFSTATE_PATH="/var/run/ifstate"
+-# CONFIG_FEATURE_IFUPDOWN_IP is not set
+-# CONFIG_FEATURE_IFUPDOWN_IP_BUILTIN is not set
+-CONFIG_FEATURE_IFUPDOWN_IFCONFIG_BUILTIN=y
+-CONFIG_FEATURE_IFUPDOWN_IPV4=y
+-CONFIG_FEATURE_IFUPDOWN_IPV6=y
+-CONFIG_FEATURE_IFUPDOWN_MAPPING=y
+-# CONFIG_FEATURE_IFUPDOWN_EXTERNAL_DHCP is not set
+-# CONFIG_INETD is not set
+-# CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_ECHO is not set
+-# CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_DISCARD is not set
+-# CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_TIME is not set
+-# CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_DAYTIME is not set
+-# CONFIG_FEATURE_INETD_SUPPORT_BUILTIN_CHARGEN is not set
+-# CONFIG_FEATURE_INETD_RPC is not set
+-CONFIG_IP=y
+-CONFIG_FEATURE_IP_ADDRESS=y
+-CONFIG_FEATURE_IP_LINK=y
+-CONFIG_FEATURE_IP_ROUTE=y
+-CONFIG_FEATURE_IP_TUNNEL=y
+-# CONFIG_FEATURE_IP_RULE is not set
+-# CONFIG_FEATURE_IP_SHORT_FORMS is not set
+-# CONFIG_FEATURE_IP_RARE_PROTOCOLS is not set
+-# CONFIG_IPADDR is not set
+-# CONFIG_IPLINK is not set
+-# CONFIG_IPROUTE is not set
+-# CONFIG_IPTUNNEL is not set
+-# CONFIG_IPRULE is not set
+-# CONFIG_IPCALC is not set
+-# CONFIG_FEATURE_IPCALC_FANCY is not set
+-# CONFIG_FEATURE_IPCALC_LONG_OPTIONS is not set
+-CONFIG_NETSTAT=y
+-# CONFIG_FEATURE_NETSTAT_WIDE is not set
+-# CONFIG_FEATURE_NETSTAT_PRG is not set
+-CONFIG_NSLOOKUP=y
+-# CONFIG_NTPD is not set
+-# CONFIG_FEATURE_NTPD_SERVER is not set
+-# CONFIG_PSCAN is not set
+-CONFIG_ROUTE=y
+-# CONFIG_SLATTACH is not set
+-# CONFIG_TCPSVD is not set
+-CONFIG_TELNET=y
+-# CONFIG_FEATURE_TELNET_TTYPE is not set
+-CONFIG_FEATURE_TELNET_AUTOLOGIN=y
+-# CONFIG_TELNETD is not set
+-# CONFIG_FEATURE_TELNETD_STANDALONE is not set
+-# CONFIG_FEATURE_TELNETD_INETD_WAIT is not set
+-CONFIG_TFTP=y
+-# CONFIG_TFTPD is not set
+-
+-#
+-# Common options for tftp/tftpd
+-#
+-CONFIG_FEATURE_TFTP_GET=y
+-CONFIG_FEATURE_TFTP_PUT=y
+-# CONFIG_FEATURE_TFTP_BLOCKSIZE is not set
+-# CONFIG_FEATURE_TFTP_PROGRESS_BAR is not set
+-# CONFIG_TFTP_DEBUG is not set
+-CONFIG_TRACEROUTE=y
+-# CONFIG_TRACEROUTE6 is not set
+-# CONFIG_FEATURE_TRACEROUTE_VERBOSE is not set
+-# CONFIG_FEATURE_TRACEROUTE_SOURCE_ROUTE is not set
+-# CONFIG_FEATURE_TRACEROUTE_USE_ICMP is not set
+-# CONFIG_TUNCTL is not set
+-# CONFIG_FEATURE_TUNCTL_UG is not set
+-CONFIG_UDHCPD=y
+-# CONFIG_DHCPRELAY is not set
+-CONFIG_DUMPLEASES=y
+-# CONFIG_FEATURE_UDHCPD_WRITE_LEASES_EARLY is not set
+-# CONFIG_FEATURE_UDHCPD_BASE_IP_ON_MAC is not set
+-CONFIG_DHCPD_LEASES_FILE="/var/lib/misc/udhcpd.leases"
+-CONFIG_UDHCPC=y
+-CONFIG_FEATURE_UDHCPC_ARPING=y
+-# CONFIG_FEATURE_UDHCP_PORT is not set
+-CONFIG_UDHCP_DEBUG=0
+-# CONFIG_FEATURE_UDHCP_RFC3397 is not set
+-# CONFIG_FEATURE_UDHCP_8021Q is not set
+-CONFIG_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
+-CONFIG_UDHCPC_SLACK_FOR_BUGGY_SERVERS=80
+-CONFIG_IFUPDOWN_UDHCPC_CMD_OPTIONS="-R -n"
+-# CONFIG_UDPSVD is not set
+-# CONFIG_VCONFIG is not set
+-CONFIG_WGET=y
+-CONFIG_FEATURE_WGET_STATUSBAR=y
+-CONFIG_FEATURE_WGET_AUTHENTICATION=y
+-CONFIG_FEATURE_WGET_LONG_OPTIONS=y
+-CONFIG_FEATURE_WGET_TIMEOUT=y
+-# CONFIG_ZCIP is not set
+-
+-#
+-# Print Utilities
+-#
+-# CONFIG_LPD is not set
+-# CONFIG_LPR is not set
+-# CONFIG_LPQ is not set
+-
+-#
+-# Mail Utilities
+-#
+-# CONFIG_MAKEMIME is not set
+-CONFIG_FEATURE_MIME_CHARSET=""
+-# CONFIG_POPMAILDIR is not set
+-# CONFIG_FEATURE_POPMAILDIR_DELIVERY is not set
+-# CONFIG_REFORMIME is not set
+-# CONFIG_FEATURE_REFORMIME_COMPAT is not set
+-# CONFIG_SENDMAIL is not set
+-
+-#
+-# Process Utilities
+-#
+-# CONFIG_IOSTAT is not set
+-# CONFIG_MPSTAT is not set
+-# CONFIG_NMETER is not set
+-# CONFIG_PMAP is not set
+-# CONFIG_POWERTOP is not set
+-# CONFIG_PSTREE is not set
+-# CONFIG_PWDX is not set
+-# CONFIG_SMEMCAP is not set
+-CONFIG_UPTIME=y
+-# CONFIG_FEATURE_UPTIME_UTMP_SUPPORT is not set
+-CONFIG_FREE=y
+-CONFIG_FUSER=y
+-CONFIG_KILL=y
+-CONFIG_KILLALL=y
+-# CONFIG_KILLALL5 is not set
+-# CONFIG_PGREP is not set
+-CONFIG_PIDOF=y
+-# CONFIG_FEATURE_PIDOF_SINGLE is not set
+-# CONFIG_FEATURE_PIDOF_OMIT is not set
+-# CONFIG_PKILL is not set
+-CONFIG_PS=y
+-CONFIG_FEATURE_PS_WIDE=y
+-CONFIG_FEATURE_PS_TIME=y
+-CONFIG_FEATURE_PS_ADDITIONAL_COLUMNS=y
+-# CONFIG_FEATURE_PS_UNUSUAL_SYSTEMS is not set
+-CONFIG_RENICE=y
+-CONFIG_BB_SYSCTL=y
+-CONFIG_TOP=y
+-CONFIG_FEATURE_TOP_CPU_USAGE_PERCENTAGE=y
+-CONFIG_FEATURE_TOP_CPU_GLOBAL_PERCENTS=y
+-# CONFIG_FEATURE_TOP_SMP_CPU is not set
+-# CONFIG_FEATURE_TOP_DECIMALS is not set
+-# CONFIG_FEATURE_TOP_SMP_PROCESS is not set
+-# CONFIG_FEATURE_TOPMEM is not set
+-# CONFIG_FEATURE_SHOW_THREADS is not set
+-CONFIG_WATCH=y
+-
+-#
+-# Runit Utilities
+-#
+-# CONFIG_RUNSV is not set
+-# CONFIG_RUNSVDIR is not set
+-# CONFIG_FEATURE_RUNSVDIR_LOG is not set
+-# CONFIG_SV is not set
+-CONFIG_SV_DEFAULT_SERVICE_DIR=""
+-# CONFIG_SVLOGD is not set
+-# CONFIG_CHPST is not set
+-# CONFIG_SETUIDGID is not set
+-# CONFIG_ENVUIDGID is not set
+-# CONFIG_ENVDIR is not set
+-# CONFIG_SOFTLIMIT is not set
+-# CONFIG_CHCON is not set
+-# CONFIG_FEATURE_CHCON_LONG_OPTIONS is not set
+-# CONFIG_GETENFORCE is not set
+-# CONFIG_GETSEBOOL is not set
+-# CONFIG_LOAD_POLICY is not set
+-# CONFIG_MATCHPATHCON is not set
+-# CONFIG_RESTORECON is not set
+-# CONFIG_RUNCON is not set
+-# CONFIG_FEATURE_RUNCON_LONG_OPTIONS is not set
+-# CONFIG_SELINUXENABLED is not set
+-# CONFIG_SETENFORCE is not set
+-# CONFIG_SETFILES is not set
+-# CONFIG_FEATURE_SETFILES_CHECK_OPTION is not set
+-# CONFIG_SETSEBOOL is not set
+-# CONFIG_SESTATUS is not set
+-
+-#
+-# Shells
+-#
+-CONFIG_ASH=y
+-CONFIG_ASH_BASH_COMPAT=y
+-# CONFIG_ASH_IDLE_TIMEOUT is not set
+-CONFIG_ASH_JOB_CONTROL=y
+-CONFIG_ASH_ALIAS=y
+-CONFIG_ASH_GETOPTS=y
+-CONFIG_ASH_BUILTIN_ECHO=y
+-CONFIG_ASH_BUILTIN_PRINTF=y
+-CONFIG_ASH_BUILTIN_TEST=y
+-# CONFIG_ASH_CMDCMD is not set
+-# CONFIG_ASH_MAIL is not set
+-CONFIG_ASH_OPTIMIZE_FOR_SIZE=y
+-# CONFIG_ASH_RANDOM_SUPPORT is not set
+-CONFIG_ASH_EXPAND_PRMT=y
+-# CONFIG_CTTYHACK is not set
+-# CONFIG_HUSH is not set
+-# CONFIG_HUSH_BASH_COMPAT is not set
+-# CONFIG_HUSH_BRACE_EXPANSION is not set
+-# CONFIG_HUSH_HELP is not set
+-# CONFIG_HUSH_INTERACTIVE is not set
+-# CONFIG_HUSH_SAVEHISTORY is not set
+-# CONFIG_HUSH_JOB is not set
+-# CONFIG_HUSH_TICK is not set
+-# CONFIG_HUSH_IF is not set
+-# CONFIG_HUSH_LOOPS is not set
+-# CONFIG_HUSH_CASE is not set
+-# CONFIG_HUSH_FUNCTIONS is not set
+-# CONFIG_HUSH_LOCAL is not set
+-# CONFIG_HUSH_RANDOM_SUPPORT is not set
+-# CONFIG_HUSH_EXPORT_N is not set
+-# CONFIG_HUSH_MODE_X is not set
+-# CONFIG_MSH is not set
+-CONFIG_FEATURE_SH_IS_ASH=y
+-# CONFIG_FEATURE_SH_IS_HUSH is not set
+-# CONFIG_FEATURE_SH_IS_NONE is not set
+-# CONFIG_FEATURE_BASH_IS_ASH is not set
+-# CONFIG_FEATURE_BASH_IS_HUSH is not set
+-CONFIG_FEATURE_BASH_IS_NONE=y
+-CONFIG_SH_MATH_SUPPORT=y
+-# CONFIG_SH_MATH_SUPPORT_64 is not set
+-CONFIG_FEATURE_SH_EXTRA_QUIET=y
+-# CONFIG_FEATURE_SH_STANDALONE is not set
+-# CONFIG_FEATURE_SH_NOFORK is not set
+-CONFIG_FEATURE_SH_HISTFILESIZE=y
+-
+-#
+-# System Logging Utilities
+-#
+-CONFIG_SYSLOGD=y
+-CONFIG_FEATURE_ROTATE_LOGFILE=y
+-CONFIG_FEATURE_REMOTE_LOG=y
+-CONFIG_FEATURE_SYSLOGD_DUP=y
+-CONFIG_FEATURE_SYSLOGD_CFG=y
+-CONFIG_FEATURE_SYSLOGD_READ_BUFFER_SIZE=256
+-CONFIG_FEATURE_IPC_SYSLOG=y
+-CONFIG_FEATURE_IPC_SYSLOG_BUFFER_SIZE=16
+-CONFIG_LOGREAD=y
+-CONFIG_FEATURE_LOGREAD_REDUCED_LOCKING=y
+-CONFIG_KLOGD=y
+-CONFIG_FEATURE_KLOGD_KLOGCTL=y
+-CONFIG_LOGGER=y
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.4.rc3
+
 
