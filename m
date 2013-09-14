@@ -1,35 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D781CE013DF
+Return-Path: <flihp@twobit.us>
+Received: from www.twobit.us (www.twobit.us [50.19.210.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 90135E0076B
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 12 Sep 2013 10:28:05 -0700 (PDT)
-Received: by mail-la0-f46.google.com with SMTP id eh20so96086lab.33
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 12 Sep 2013 10:28:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=Oj9uNf4kmgVBfem4k/X46Ln7cjF0bazafhslGnxcZys=;
-	b=NzKB9dyUyR1i58dqvvk6KTa8q+ixnMZ/UUzKPXHriu/Lss9uwMdpXNZpsmBLUZU3KZ
-	BKNKjyh1nhd5H5n6vXnf5ALLrg1FFDD+IgkljKYMVEcFYSPVRQtzpt+eHw2HcnMsE4kF
-	nQqcSpOZtpj9fum9W9KQzEbLj+KGvPLkCtmcvh4hD8EA75tsGGhPfwMykQuycjSI1GgX
-	fJXD9rPME9S2F7BRI1pbwlWBN+Uhm6G0KTz8tzQ2m+AVjZZQF3wi1FISC5qWlGmhEcjY
-	UNFPDkBAXFWohycPoUpaCILMz1VqMGcgZQZxnTVDwM9WgvvQHE9VkdSUTAPpiVUHCJPH
-	ZlQA==
+	Sat, 14 Sep 2013 15:28:06 -0700 (PDT)
+Received: from [50.146.52.89] (helo=[172.16.1.10])
+	by www.twobit.us with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.72) (envelope-from <flihp@twobit.us>)
+	id 1VKyJs-0003lS-Cf; Sat, 14 Sep 2013 22:28:02 +0000
+Message-ID: <5234E2EF.6010704@twobit.us>
+Date: Sat, 14 Sep 2013 18:27:59 -0400
+From: Philip Tricca <flihp@twobit.us>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130828 Icedove/17.0.8
 MIME-Version: 1.0
-X-Received: by 10.152.116.7 with SMTP id js7mr6994019lab.11.1379006883780;
-	Thu, 12 Sep 2013 10:28:03 -0700 (PDT)
-Received: by 10.112.12.103 with HTTP; Thu, 12 Sep 2013 10:28:03 -0700 (PDT)
-In-Reply-To: <1378861361-7980-4-git-send-email-cjp256@gmail.com>
+To: Chris Patterson <cjp256@gmail.com>
 References: <1378861361-7980-1-git-send-email-cjp256@gmail.com>
 	<1378861361-7980-4-git-send-email-cjp256@gmail.com>
-Date: Thu, 12 Sep 2013 13:28:03 -0400
-Message-ID: <CADkTA4P-dtoJhME-bN3G-Jys1UcPzB+VhxJgwmEwj5hQ8mQ_cw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
+In-Reply-To: <1378861361-7980-4-git-send-email-cjp256@gmail.com>
+X-Enigmail-Version: 1.5.1
+X-SA-Exim-Connect-IP: 50.146.52.89
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.1
+X-SA-Exim-Version: 4.2.1 (built Mon, 22 Mar 2010 06:26:47 +0000)
+X-SA-Exim-Scanned: Yes (on www.twobit.us)
+Cc: meta-virtualization@yoctoproject.org
 Subject: Re: [PATCH v2 3/4] xen: add 4.3.0 recipe.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
@@ -43,70 +40,60 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Sep 2013 17:28:06 -0000
+X-List-Received-Date: Sat, 14 Sep 2013 22:28:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Chris,
+A few days back oe-core added an INSANE_SKIP for pre-stripped binaries
+that you may want to add to the xen recipe:
 
-sorry for the radio silence, I was travelling and am now scrambling through=
- my
-email.
+INSANE_SKIP_${PN} = "already-stripped"
 
-I'll give this a try, and start staging it for merge.
+This will get rid of the 4 QA warnings. Not sure if there's a better way
+to deal with this but they'd likely be pretty heavy lifts to prevent the
+Xen build from stripping these in the first place.
 
-From a glance, it looks like a good patch series.
+Regards,
+- Philip
 
-Cheers,
-
-Bruce
-
-On Tue, Sep 10, 2013 at 9:02 PM, Chris Patterson <cjp256@gmail.com> wrote:
+On 09/10/2013 09:02 PM, Chris Patterson wrote:
 > Signed-off-by: Chris Patterson <cjp256@gmail.com>
 > ---
->  recipes-extended/xen/xen_4.3.0.bb | 626 ++++++++++++++++++++++++++++++++=
-++++++
+>  recipes-extended/xen/xen_4.3.0.bb | 626 ++++++++++++++++++++++++++++++++++++++
 >  1 file changed, 626 insertions(+)
 >  create mode 100644 recipes-extended/xen/xen_4.3.0.bb
->
-> diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen=
-_4.3.0.bb
+> 
+> diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
 > new file mode 100644
 > index 0000000..00394b9
 > --- /dev/null
 > +++ b/recipes-extended/xen/xen_4.3.0.bb
 > @@ -0,0 +1,626 @@
-> +DESCRIPTION =3D "Xen hypervisor"
-> +HOMEPAGE =3D "http://xen.org"
-> +LICENSE =3D "GPLv2"
-> +SECTION =3D "console/tools"
-> +PR =3D "r0"
+> +DESCRIPTION = "Xen hypervisor"
+> +HOMEPAGE = "http://xen.org"
+> +LICENSE = "GPLv2"
+> +SECTION = "console/tools"
+> +PR = "r0"
 > +
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De0f0f3ac55608719a82394cc35392=
-8df"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=e0f0f3ac55608719a82394cc353928df"
 > +
-> +SRC_URI =3D "http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.t=
-ar.gz"
+> +SRC_URI = "http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz"
 > +
-> +SRC_URI[md5sum] =3D "7b18cfb58f1ac2ce39cf35a1867f0c0a"
-> +SRC_URI[sha256sum] =3D "e1e9faabe4886e2227aacdbde74410653b233d66642ca197=
-2a860cbec6439961"
+> +SRC_URI[md5sum] = "7b18cfb58f1ac2ce39cf35a1867f0c0a"
+> +SRC_URI[sha256sum] = "e1e9faabe4886e2227aacdbde74410653b233d66642ca1972a860cbec6439961"
 > +
-> +S =3D "${WORKDIR}/xen-${PV}"
+> +S = "${WORKDIR}/xen-${PV}"
 > +
-> +COMPATIBLE_HOST =3D '(x86_64.*).*-linux'
+> +COMPATIBLE_HOST = '(x86_64.*).*-linux'
 > +
 > +inherit autotools gettext setuptools update-rc.d
 > +
-> +DEPENDS =3D "util-linux util-linux-native file-native zlib ncurses opens=
-sl bison-native flex-native gettext dev86-native iasl-native pciutils virtu=
-al/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python pyt=
-hon-setuptools-native xz xz-native"
+> +DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native"
 > +
 > +# inherit setuptools adds python to RDEPENDS, override it
-> +RDEPENDS_${PN} =3D ""
+> +RDEPENDS_${PN} = ""
 > +
-> +RDEPENDS_${PN}-base =3D "\
+> +RDEPENDS_${PN}-base = "\
 > +    libgcc udev bash perl xz \
 > +    ${PN}-blktap \
 > +    ${PN}-console \
@@ -136,18 +123,18 @@ hon-setuptools-native xz xz-native"
 > +    ${PN}-xl \
 > +    "
 > +
-> +RDEPENDS_${PN}-scripts-block =3D "\
+> +RDEPENDS_${PN}-scripts-block = "\
 > +    ${PN}-scripts-common \
 > +    ${PN}-udev \
 > +    "
 > +
-> +RDEPENDS_${PN}-scripts-network =3D "\
+> +RDEPENDS_${PN}-scripts-network = "\
 > +    bridge-utils \
 > +    ${PN}-scripts-common \
 > +    ${PN}-udev \
 > +    "
 > +
-> +PACKAGES =3D "\
+> +PACKAGES = "\
 > +    ${PN}-base \
 > +    ${PN}-blktap \
 > +    ${PN}-console \
@@ -211,7 +198,7 @@ hon-setuptools-native xz xz-native"
 > +    ${PN}-xm-examples \
 > +    "
 > +
-> +FILES_${PN}-dbg +=3D "\
+> +FILES_${PN}-dbg += "\
 > +    ${libdir}/.debug \
 > +    ${libdir}/xen/bin/.debug \
 > +    ${libdir}/python2.7/site-packages/.debug \
@@ -230,18 +217,18 @@ hon-setuptools-native xz xz-native"
 > +    ${libdir}/python2.7/dist-packages/xen/lowlevel/.debug \
 > +    "
 > +
-> +FILES_${PN}-dev =3D "\
+> +FILES_${PN}-dev = "\
 > +    ${includedir} \
 > +    "
 > +
-> +FILES_${PN}-doc =3D "\
+> +FILES_${PN}-doc = "\
 > +    ${sysconfdir}/xen/README \
 > +    ${sysconfdir}/xen/README.incompatibilities \
 > +    ${datadir}/doc \
 > +    ${datadir}/man \
 > +    "
 > +
-> +FILES_${PN}-staticdev +=3D "\
+> +FILES_${PN}-staticdev += "\
 > +    ${libdir}/libblktapctl.a \
 > +    ${libdir}/libxenguest.a \
 > +    ${libdir}/libxenlight.a \
@@ -254,42 +241,42 @@ hon-setuptools-native xz xz-native"
 > +    ${libdir}/libblktap.a \
 > +    "
 > +
-> +FILES_${PN}-libblktapctl =3D "${libdir}/libblktapctl.so.*"
-> +FILES_${PN}-libblktapctl-dev =3D "${libdir}/libblktapctl.so"
+> +FILES_${PN}-libblktapctl = "${libdir}/libblktapctl.so.*"
+> +FILES_${PN}-libblktapctl-dev = "${libdir}/libblktapctl.so"
 > +
-> +FILES_${PN}-libxenguest =3D "${libdir}/libxenguest.so.*"
-> +FILES_${PN}-libxenguest-dev =3D "${libdir}/libxenguest.so"
+> +FILES_${PN}-libxenguest = "${libdir}/libxenguest.so.*"
+> +FILES_${PN}-libxenguest-dev = "${libdir}/libxenguest.so"
 > +
-> +FILES_${PN}-libxenlight =3D "${libdir}/libxenlight.so.*"
-> +FILES_${PN}-libxenlight-dev =3D "${libdir}/libxenlight.so"
+> +FILES_${PN}-libxenlight = "${libdir}/libxenlight.so.*"
+> +FILES_${PN}-libxenlight-dev = "${libdir}/libxenlight.so"
 > +
-> +FILES_${PN}-libxenvchan =3D "${libdir}/libxenvchan.so.*"
-> +FILES_${PN}-libxenvchan-dev =3D "${libdir}/libxenvchan.so"
+> +FILES_${PN}-libxenvchan = "${libdir}/libxenvchan.so.*"
+> +FILES_${PN}-libxenvchan-dev = "${libdir}/libxenvchan.so"
 > +
-> +FILES_${PN}-libxenctrl =3D "${libdir}/libxenctrl.so.*"
-> +FILES_${PN}-libxenctrl-dev =3D "${libdir}/libxenctrl.so"
+> +FILES_${PN}-libxenctrl = "${libdir}/libxenctrl.so.*"
+> +FILES_${PN}-libxenctrl-dev = "${libdir}/libxenctrl.so"
 > +
-> +FILES_${PN}-libxlutil =3D "${libdir}/libxlutil.so.*"
-> +FILES_${PN}-libxlutil-dev =3D "${libdir}/libxlutil.so"
+> +FILES_${PN}-libxlutil = "${libdir}/libxlutil.so.*"
+> +FILES_${PN}-libxlutil-dev = "${libdir}/libxlutil.so"
 > +
-> +FILES_${PN}-libvhd =3D "${libdir}/libvhd.so.*"
-> +FILES_${PN}-libvhd-dev =3D "${libdir}/libvhd.so"
+> +FILES_${PN}-libvhd = "${libdir}/libvhd.so.*"
+> +FILES_${PN}-libvhd-dev = "${libdir}/libvhd.so"
 > +
-> +FILES_${PN}-libxenstat =3D "${libdir}/libxenstat.so.*"
-> +FILES_${PN}-libxenstat-dev =3D "${libdir}/libxenstat.so"
+> +FILES_${PN}-libxenstat = "${libdir}/libxenstat.so.*"
+> +FILES_${PN}-libxenstat-dev = "${libdir}/libxenstat.so"
 > +
-> +FILES_${PN}-libxenstore =3D "${libdir}/libxenstore.so.*"
-> +FILES_${PN}-libxenstore-dev =3D "${libdir}/libxenstore.so"
+> +FILES_${PN}-libxenstore = "${libdir}/libxenstore.so.*"
+> +FILES_${PN}-libxenstore-dev = "${libdir}/libxenstore.so"
 > +
-> +FILES_${PN}-libblktap =3D "${libdir}/libblktap.so.*"
-> +FILES_${PN}-libblktap-dev =3D "${libdir}/libblktap.so"
+> +FILES_${PN}-libblktap = "${libdir}/libblktap.so.*"
+> +FILES_${PN}-libblktap-dev = "${libdir}/libblktap.so"
 > +
-> +FILES_${PN}-libfsimage =3D "${libdir}/libfsimage.so.*"
-> +FILES_${PN}-libfsimage-dev =3D "${libdir}/libfsimage.so"
+> +FILES_${PN}-libfsimage = "${libdir}/libfsimage.so.*"
+> +FILES_${PN}-libfsimage-dev = "${libdir}/libfsimage.so"
 > +
-> +FILES_${PN}-fsimage =3D "${libdir}/fs/*/*fsimage.so"
+> +FILES_${PN}-fsimage = "${libdir}/fs/*/*fsimage.so"
 > +
-> +FILES_${PN}-hypervisor =3D "\
+> +FILES_${PN}-hypervisor = "\
 > +    /boot/xen-4.3.0.gz \
 > +    /boot/xen-4.3.gz \
 > +    /boot/xen-4.gz \
@@ -297,7 +284,7 @@ hon-setuptools-native xz xz-native"
 > +    /boot/xen-syms-4.3.0 \
 > +    "
 > +
-> +FILES_${PN}-base =3D "\
+> +FILES_${PN}-base = "\
 > +    ${sysconfdir}/default/volatiles/99_xen \
 > +    ${sysconfdir}/default/xencommons \
 > +    ${sysconfdir}/default/xendomains \
@@ -307,7 +294,7 @@ hon-setuptools-native xz xz-native"
 > +    ${localstatedir}/xen/dump \
 > +    "
 > +
-> +FILES_${PN}-blktap =3D "\
+> +FILES_${PN}-blktap = "\
 > +    ${sbindir}/blktapctrl \
 > +    ${sbindir}/img2qcow \
 > +    ${sbindir}/lock-util \
@@ -324,12 +311,12 @@ hon-setuptools-native xz xz-native"
 > +    ${sbindir}/vhd-util \
 > +    "
 > +
-> +FILES_${PN}-console =3D "\
+> +FILES_${PN}-console = "\
 > +    ${libdir}/xen/bin/xenconsole \
 > +    ${sbindir}/xenconsoled \
 > +    "
 > +
-> +FILES_${PN}-flask =3D "\
+> +FILES_${PN}-flask = "\
 > +    ${sbindir}/flask-get-bool \
 > +    ${sbindir}/flask-getenforce \
 > +    ${sbindir}/flask-label-pci \
@@ -338,20 +325,20 @@ hon-setuptools-native xz xz-native"
 > +    ${sbindir}/flask-setenforce \
 > +    "
 > +
-> +FILES_${PN}-gdbsx =3D "\
+> +FILES_${PN}-gdbsx = "\
 > +    ${sbindir}/gdbsx \
 > +    "
 > +
-> +INSANE_SKIP_${PN}-hvmloader =3D "arch"
-> +FILES_${PN}-hvmloader =3D "\
+> +INSANE_SKIP_${PN}-hvmloader = "arch"
+> +FILES_${PN}-hvmloader = "\
 > +    ${libdir}/xen/boot/hvmloader \
 > +    "
 > +
-> +FILES_${PN}-kdd =3D "\
+> +FILES_${PN}-kdd = "\
 > +    ${sbindir}/kdd \
 > +    "
 > +
-> +FILES_${PN}-misc =3D "\
+> +FILES_${PN}-misc = "\
 > +    ${bindir}/xencons \
 > +    ${bindir}/xencov_split \
 > +    ${bindir}/xen-detect \
@@ -374,17 +361,17 @@ hon-setuptools-native xz xz-native"
 > +    ${sbindir}/xen-lowmemd \
 > +    "
 > +
-> +FILES_${PN}-pygrub =3D "\
+> +FILES_${PN}-pygrub = "\
 > +    ${bindir}/pygrub \
 > +    ${libdir}/xen/bin/pygrub \
 > +    "
 > +
-> +FILES_${PN}-python =3D "\
+> +FILES_${PN}-python = "\
 > +    ${libdir}/python2.7 \
 > +    "
 > +
-> +INSANE_SKIP_${PN}-qemu =3D "arch"
-> +FILES_${PN}-qemu =3D " \
+> +INSANE_SKIP_${PN}-qemu = "arch"
+> +FILES_${PN}-qemu = " \
 > +    ${datadir}/xen/qemu \
 > +    ${libdir}/xen/bin/qemu-system-i386 \
 > +    ${libdir}/xen/bin/qemu-system-x86_64 \
@@ -468,11 +455,11 @@ hon-setuptools-native xz xz-native"
 > +    ${bindir}/qemu-img-xen \
 > +    "
 > +
-> +FILES_${PN}-remus =3D "\
+> +FILES_${PN}-remus = "\
 > +    ${bindir}/remus \
 > +    "
 > +
-> +FILES_${PN}-scripts-network =3D " \
+> +FILES_${PN}-scripts-network = " \
 > +    ${sysconfdir}/xen/scripts/network-bridge \
 > +    ${sysconfdir}/xen/scripts/network-nat \
 > +    ${sysconfdir}/xen/scripts/network-route \
@@ -486,7 +473,7 @@ hon-setuptools-native xz xz-native"
 > +    ${sysconfdir}/xen/scripts/vif-setup \
 > +    "
 > +
-> +FILES_${PN}-scripts-block =3D " \
+> +FILES_${PN}-scripts-block = " \
 > +    ${sysconfdir}/xen/scripts/blktap \
 > +    ${sysconfdir}/xen/scripts/block \
 > +    ${sysconfdir}/xen/scripts/block-common.sh \
@@ -496,7 +483,7 @@ hon-setuptools-native xz xz-native"
 > +    ${sysconfdir}/xen/scripts/vscsi \
 > +    "
 > +
-> +FILES_${PN}-scripts-common =3D " \
+> +FILES_${PN}-scripts-common = " \
 > +    ${sysconfdir}/xen/scripts/external-device-migrate \
 > +    ${sysconfdir}/xen/scripts/hotplugpath.sh \
 > +    ${sysconfdir}/xen/scripts/locking.sh \
@@ -507,38 +494,38 @@ hon-setuptools-native xz xz-native"
 > +    ${sysconfdir}/xen/scripts/xen-script-common.sh \
 > +    "
 > +
-> +FILES_${PN}-udev =3D "\
+> +FILES_${PN}-udev = "\
 > +    ${sysconfdir}/udev/rules.d/xen-backend.rules \
 > +    ${sysconfdir}/udev/rules.d/xend.rules \
 > +    "
 > +
-> +FILES_${PN}-xcutils =3D "\
+> +FILES_${PN}-xcutils = "\
 > +    ${libdir}/xen/bin/lsevtchn \
 > +    ${libdir}/xen/bin/readnotes \
 > +    ${libdir}/xen/bin/xc_restore \
 > +    ${libdir}/xen/bin/xc_save \
 > +    "
 > +
-> +FILES_${PN}-xend-examples =3D "\
+> +FILES_${PN}-xend-examples = "\
 > +    ${sysconfdir}/xen/xend-config.sxp \
 > +    ${sysconfdir}/xen/xend-pci-permissive.sxp \
 > +    ${sysconfdir}/xen/xend-pci-quirks.sxp \
 > +    "
 > +
-> +FILES_${PN}-xenpaging =3D "\
+> +FILES_${PN}-xenpaging = "\
 > +    ${libdir}/xen/bin/xenpaging \
 > +    ${localstatedir}/lib/xen/xenpaging \
 > +    "
 > +
-> +FILES_${PN}-xenpmd =3D "\
+> +FILES_${PN}-xenpmd = "\
 > +    ${sbindir}/xenpmd \
 > +    "
 > +
-> +FILES_${PN}-xenstat =3D "\
+> +FILES_${PN}-xenstat = "\
 > +    ${sbindir}/xentop \
 > +    "
 > +
-> +FILES_${PN}-xenstore =3D "\
+> +FILES_${PN}-xenstore = "\
 > +    ${bindir}/xenstore \
 > +    ${bindir}/xenstore-chmod \
 > +    ${bindir}/xenstore-control \
@@ -551,35 +538,35 @@ hon-setuptools-native xz xz-native"
 > +    ${bindir}/xenstore-write \
 > +    "
 > +
-> +FILES_${PN}-xenstored =3D "\
+> +FILES_${PN}-xenstored = "\
 > +    ${sbindir}/xenstored \
 > +    ${localstatedir}/lib/xenstored \
 > +    "
 > +
-> +FILES_${PN}-xentrace =3D "\
+> +FILES_${PN}-xentrace = "\
 > +    ${bindir}/xentrace \
 > +    ${bindir}/xentrace_format \
 > +    ${bindir}/xentrace_setsize \
 > +    ${libdir}/xen/bin/xenctx \
 > +    "
 > +
-> +FILES_${PN}-xen-watchdog =3D "\
+> +FILES_${PN}-xen-watchdog = "\
 > +    ${sbindir}/xenwatchdogd \
 > +    "
 > +
-> +FILES_${PN}-xl =3D "\
+> +FILES_${PN}-xl = "\
 > +    ${sysconfdir}/bash_completion.d/xl.sh \
 > +    ${sysconfdir}/xen/xl.conf \
 > +    ${libdir}/xen/bin/libxl-save-helper \
 > +    ${sbindir}/xl \
 > +    "
 > +
-> +FILES_${PN}-xl-examples =3D "\
+> +FILES_${PN}-xl-examples = "\
 > +    ${sysconfdir}/xen/xlexample.hvm \
 > +    ${sysconfdir}/xen/xlexample.pvlinux \
 > +    "
 > +
-> +FILES_${PN}-xm-examples =3D "\
+> +FILES_${PN}-xm-examples = "\
 > +    ${sysconfdir}/xen/xmexample1 \
 > +    ${sysconfdir}/xen/xmexample2 \
 > +    ${sysconfdir}/xen/xmexample3 \
@@ -590,34 +577,33 @@ hon-setuptools-native xz xz-native"
 > +    ${sysconfdir}/xen/xmexample.vti \
 > +    "
 > +
-> +FILES_${PN}-xenmon =3D "\
+> +FILES_${PN}-xenmon = "\
 > +    ${sbindir}/xenbaked \
 > +    ${sbindir}/xentrace_setmask \
 > +    ${sbindir}/xenmon.py \
 > +    "
 > +
-> +FILES_${PN}-xm =3D "\
+> +FILES_${PN}-xm = "\
 > +    ${sysconfdir}/xen/xm-config.xml \
 > +    ${datadir}/xen/create.dtd \
 > +    ${sbindir}/xm \
 > +    "
 > +
-> +FILES_${PN}-xencommons +=3D "${sysconfdir}/init.d/xencommons"
-> +FILES_${PN}-xend +=3D "${sysconfdir}/init.d/xend"
-> +FILES_${PN}-xendomains +=3D "${sysconfdir}/init.d/xendomains"
-> +FILES_${PN}-xen-watchdog +=3D "${sysconfdir}/init.d/xen-watchdog"
+> +FILES_${PN}-xencommons += "${sysconfdir}/init.d/xencommons"
+> +FILES_${PN}-xend += "${sysconfdir}/init.d/xend"
+> +FILES_${PN}-xendomains += "${sysconfdir}/init.d/xendomains"
+> +FILES_${PN}-xen-watchdog += "${sysconfdir}/init.d/xen-watchdog"
 > +
 > +# configure init.d scripts
-> +INITSCRIPT_PACKAGES =3D "${PN}-xend ${PN}-xencommons ${PN}-xen-watchdog =
-${PN}-xendomains"
-> +INITSCRIPT_NAME_${PN}-xencommons =3D "xencommons"
-> +INITSCRIPT_PARAMS_${PN}-xencommons =3D "defaults 80"
-> +INITSCRIPT_NAME_${PN}-xen-watchdog =3D "xen-watchdog"
-> +INITSCRIPT_PARAMS_${PN}-xen-watchdog =3D "defaults 81"
-> +INITSCRIPT_NAME_${PN}-xend =3D "xend"
-> +INITSCRIPT_PARAMS_${PN}-xend =3D "defaults 82"
-> +INITSCRIPT_NAME_${PN}-xendomains =3D "xendomains"
-> +INITSCRIPT_PARAMS_${PN}-xendomains =3D "defaults 83"
+> +INITSCRIPT_PACKAGES = "${PN}-xend ${PN}-xencommons ${PN}-xen-watchdog ${PN}-xendomains"
+> +INITSCRIPT_NAME_${PN}-xencommons = "xencommons"
+> +INITSCRIPT_PARAMS_${PN}-xencommons = "defaults 80"
+> +INITSCRIPT_NAME_${PN}-xen-watchdog = "xen-watchdog"
+> +INITSCRIPT_PARAMS_${PN}-xen-watchdog = "defaults 81"
+> +INITSCRIPT_NAME_${PN}-xend = "xend"
+> +INITSCRIPT_PARAMS_${PN}-xend = "defaults 82"
+> +INITSCRIPT_NAME_${PN}-xendomains = "xendomains"
+> +INITSCRIPT_PARAMS_${PN}-xendomains = "defaults 83"
 > +
 > +#### REQUIRED ENVIRONMENT VARIABLES ####
 > +export BUILD_SYS
@@ -626,60 +612,43 @@ ${PN}-xendomains"
 > +export STAGING_LIBDIR
 > +
 > +# specify xen hypervisor to target x86_64 (x86_32 not supported)
-> +export XEN_TARGET_ARCH=3D"x86_64"
-> +export XEN_COMPILE_ARCH=3D"x86_64"
+> +export XEN_TARGET_ARCH="x86_64"
+> +export XEN_COMPILE_ARCH="x86_64"
 > +
-> +# this is used for the header (#!${bindir}/python) of the install python=
- scripts
-> +export PYTHONPATH=3D"${bindir}/python"
+> +# this is used for the header (#!${bindir}/python) of the install python scripts
+> +export PYTHONPATH="${bindir}/python"
 > +
-> +# seabios forcefully sets HOSTCC to CC - fixup to allow it to build nati=
-ve conf executable
-> +export HOSTCC=3D"${BUILD_CC}"
+> +# seabios forcefully sets HOSTCC to CC - fixup to allow it to build native conf executable
+> +export HOSTCC="${BUILD_CC}"
 > +
-> +# make xen requires CROSS_COMPILE set by hand as it does not abide by ./=
-configure
-> +export CROSS_COMPILE=3D"${TARGET_PREFIX}"
+> +# make xen requires CROSS_COMPILE set by hand as it does not abide by ./configure
+> +export CROSS_COMPILE="${TARGET_PREFIX}"
 > +
-> +# overide LDFLAGS to allow xen to build without: "x86_64-oe-linux-ld: un=
-recognized option '-Wl,-O1'"
-> +export LDFLAGS=3D""
+> +# overide LDFLAGS to allow xen to build without: "x86_64-oe-linux-ld: unrecognized option '-Wl,-O1'"
+> +export LDFLAGS=""
 > +
 > +do_configure() {
-> +    # fixup qemu-xen-traditional pciutils check hardcoded to test ${incl=
-udedir}/pci
-> +    sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g' ${S}/tools/q=
-emu-xen-traditional/xen-hooks.mak
+> +    # fixup qemu-xen-traditional pciutils check hardcoded to test ${includedir}/pci
+> +    sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g' ${S}/tools/qemu-xen-traditional/xen-hooks.mak
 > +
 > +    # fixup for qemu to cross compile
-> +    sed -i 's/configure --d/configure --cross-prefix=3D${TARGET_PREFIX} =
---d/g' ${S}/tools/qemu-xen-traditional/xen-setup
+> +    sed -i 's/configure --d/configure --cross-prefix=${TARGET_PREFIX} --d/g' ${S}/tools/qemu-xen-traditional/xen-setup
 > +
-> +    # no stubs-32.h in our 64-bit sysroot - hack it into tools/include/g=
-nu
+> +    # no stubs-32.h in our 64-bit sysroot - hack it into tools/include/gnu
 > +    test -d ${S}/tools/include/gnu || mkdir ${S}/tools/include/gnu
 > +    if ! test -f ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-32.h ; then
-> +        cat ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-64.h | grep -v s=
-tub_bdflush | grep -v stub_getmsg | grep -v stub_putmsg > ${S}/tools/includ=
-e/gnu/stubs-32.h
-> +        echo \#define __stub___kernel_cosl >> ${S}/tools/include/gnu/stu=
-bs-32.h
-> +        echo \#define __stub___kernel_sinl >> ${S}/tools/include/gnu/stu=
-bs-32.h
-> +        echo \#define __stub___kernel_tanl >> ${S}/tools/include/gnu/stu=
-bs-32.h
+> +        cat ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-64.h | grep -v stub_bdflush | grep -v stub_getmsg | grep -v stub_putmsg > ${S}/tools/include/gnu/stubs-32.h
+> +        echo \#define __stub___kernel_cosl >> ${S}/tools/include/gnu/stubs-32.h
+> +        echo \#define __stub___kernel_sinl >> ${S}/tools/include/gnu/stubs-32.h
+> +        echo \#define __stub___kernel_tanl >> ${S}/tools/include/gnu/stubs-32.h
 > +    fi
 > +
 > +    # do configure
-> +    ./configure --exec-prefix=3D/usr --prefix=3D/usr --host=3D${HOST_SYS=
-} --disable-stubdom --disable-ioemu-stubdom --disable-pv-grub --disable-xen=
-store-stubdom
+> +    ./configure --exec-prefix=/usr --prefix=/usr --host=${HOST_SYS} --disable-stubdom --disable-ioemu-stubdom --disable-pv-grub --disable-xenstore-stubdom
 > +
-> +    # seabios needs a patch to specify correct compiler - pull and patch=
- Makefile
+> +    # seabios needs a patch to specify correct compiler - pull and patch Makefile
 > +    make -C ${S}/tools/firmware seabios-dir
-> +    sed -i 's/export HOSTCC.*$(CC)/export HOSTCC ?=3D $(CC)/g' ${S}/tool=
-s/firmware/seabios-dir/Makefile
+> +    sed -i 's/export HOSTCC.*$(CC)/export HOSTCC ?= $(CC)/g' ${S}/tools/firmware/seabios-dir/Makefile
 > +}
 > +
 > +do_compile() {
@@ -687,11 +656,10 @@ s/firmware/seabios-dir/Makefile
 > +}
 > +
 > +do_install() {
-> +    oe_runmake DESTDIR=3D"${D}" install
+> +    oe_runmake DESTDIR="${D}" install
 > +
 > +    # remove installed volatiles
-> +    rm -rf ${D}${localstatedir}/run ${D}${localstatedir}/lock ${D}${loca=
-lstatedir}/log ${D}${localstatedir}/volatile
+> +    rm -rf ${D}${localstatedir}/run ${D}${localstatedir}/lock ${D}${localstatedir}/log ${D}${localstatedir}/volatile
 > +
 > +    # install volatiles using populate_volatiles mechanism
 > +    install -d ${D}${sysconfdir}/default/volatiles
@@ -710,16 +678,13 @@ lstatedir}/log ${D}${localstatedir}/volatile
 > +    echo "d root root 0755 ${localstatedir}/lock/subsys none" \
 > +         >> ${D}${sysconfdir}/default/volatiles/99_xen
 > +
-> +    # workaround for xendomains script which searchs sysconfig if direct=
-ory exists
+> +    # workaround for xendomains script which searchs sysconfig if directory exists
 > +    install -d ${D}${sysconfdir}/sysconfig
-> +    ln -sf ${sysconfdir}/default/xendomains ${D}${sysconfdir}/sysconfig/=
-xendomains
+> +    ln -sf ${sysconfdir}/default/xendomains ${D}${sysconfdir}/sysconfig/xendomains
 > +}
 > +
 > +pkg_postinst_${PN}-base() {
-> +    if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ;=
- then
+> +    if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
 > +        ${sysconfdir}/init.d/populate-volatile.sh update
 > +    fi
 > +}
@@ -728,20 +693,8 @@ xendomains
 > +    sysroot_stage_dir ${D}/boot ${SYSROOT_DESTDIR}/kernel
 > +
 > +    install -d ${DEPLOY_DIR_IMAGE}
-> +    install -m 0644 ${D}/boot/xen.gz ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.=
-gz
+> +    install -m 0644 ${D}/boot/xen.gz ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz
 > +}
-> --
-> 1.8.4.rc3
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> 
 
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
