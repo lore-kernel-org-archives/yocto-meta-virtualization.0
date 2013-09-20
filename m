@@ -1,24 +1,24 @@
 Return-Path: <flihp@twobit.us>
 Received: from www.twobit.us (www.twobit.us [50.19.210.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 90135E0076B
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9A2D8E015FD
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2013 15:28:06 -0700 (PDT)
-Received: from [50.146.52.89] (helo=[172.16.1.10])
+	Fri, 20 Sep 2013 11:10:58 -0700 (PDT)
+Received: from [50.146.17.79] (helo=[172.16.1.10])
 	by www.twobit.us with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.72) (envelope-from <flihp@twobit.us>)
-	id 1VKyJs-0003lS-Cf; Sat, 14 Sep 2013 22:28:02 +0000
-Message-ID: <5234E2EF.6010704@twobit.us>
-Date: Sat, 14 Sep 2013 18:27:59 -0400
+	id 1VN5AK-0000Gy-9c; Fri, 20 Sep 2013 18:10:57 +0000
+Message-ID: <523C8FA5.4030000@twobit.us>
+Date: Fri, 20 Sep 2013 14:10:45 -0400
 From: Philip Tricca <flihp@twobit.us>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:17.0) Gecko/20130828 Icedove/17.0.8
 MIME-Version: 1.0
-To: Chris Patterson <cjp256@gmail.com>
+To: meta-virtualization@yoctoproject.org
 References: <1378861361-7980-1-git-send-email-cjp256@gmail.com>
 	<1378861361-7980-4-git-send-email-cjp256@gmail.com>
 In-Reply-To: <1378861361-7980-4-git-send-email-cjp256@gmail.com>
 X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 50.146.52.89
+X-SA-Exim-Connect-IP: 50.146.17.79
 X-SA-Exim-Mail-From: flihp@twobit.us
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.twobit.us
 X-Spam-Level: 
@@ -26,7 +26,6 @@ X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
 	autolearn=ham version=3.3.1
 X-SA-Exim-Version: 4.2.1 (built Mon, 22 Mar 2010 06:26:47 +0000)
 X-SA-Exim-Scanned: Yes (on www.twobit.us)
-Cc: meta-virtualization@yoctoproject.org
 Subject: Re: [PATCH v2 3/4] xen: add 4.3.0 recipe.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
@@ -40,20 +39,12 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Sep 2013 22:28:07 -0000
+X-List-Received-Date: Fri, 20 Sep 2013 18:11:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-A few days back oe-core added an INSANE_SKIP for pre-stripped binaries
-that you may want to add to the xen recipe:
++1 on this. Boot tested this the other day nesting on Xen stable-4.3. We could use a Xen PVHVM guest image for testing guest images :)
 
-INSANE_SKIP_${PN} = "already-stripped"
-
-This will get rid of the 4 QA warnings. Not sure if there's a better way
-to deal with this but they'd likely be pretty heavy lifts to prevent the
-Xen build from stripping these in the first place.
-
-Regards,
 - Philip
 
 On 09/10/2013 09:02 PM, Chris Patterson wrote:
