@@ -1,48 +1,28 @@
-Return-Path: <B43198@freescale.com>
-Received: from tx2outboundpool.messaging.microsoft.com
-	(tx2ehsobe004.messaging.microsoft.com [65.55.88.14])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EB45FE01426
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4F37EE015ED
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Sep 2013 06:51:49 -0700 (PDT)
-Received: from mail43-tx2-R.bigfish.com (10.9.14.234) by
-	TX2EHSOBE011.bigfish.com (10.9.40.31) with Microsoft SMTP Server id
-	14.1.225.22; Mon, 30 Sep 2013 13:51:46 +0000
-Received: from mail43-tx2 (localhost [127.0.0.1])	by mail43-tx2-R.bigfish.com
-	(Postfix) with ESMTP id 622202021D;
-	Mon, 30 Sep 2013 13:51:46 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -3
-X-BigFish: VS-3(zz98dI9371I542I1432Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h177df4h17326ah1de097h186068h8275bh8275dhz2dh2a8h839h8e2h8e3h93fhd25hf0ah1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5hbe9i1155h)
-Received: from mail43-tx2 (localhost.localdomain [127.0.0.1]) by mail43-tx2
-	(MessageSwitch) id 1380549104855053_25881;
-	Mon, 30 Sep 2013 13:51:44 +0000 (UTC)
-Received: from TX2EHSMHS043.bigfish.com (unknown [10.9.14.238])	by
-	mail43-tx2.bigfish.com (Postfix) with ESMTP id C74502600DA;
-	Mon, 30 Sep 2013 13:51:44 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS043.bigfish.com
-	(10.9.99.143) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Mon, 30 Sep 2013 13:51:44 +0000
-Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.137]) by
-	039-SN1MMR1-001.039d.mgd.msft.net ([10.84.1.13]) with mapi id
-	14.03.0158.002; Mon, 30 Sep 2013 13:51:44 +0000
-From: Purcareata Bogdan-B43198 <B43198@freescale.com>
-To: "mark.asselstine@windriver.com" <mark.asselstine@windriver.com>
-Thread-Topic: [meta-virtualization] [PATCH] libvirt: Don't fail when
-	mounting securityfs with containers
-Thread-Index: AQHOvcltV197tQPVVE2je65Vc7aiAZneRRUAgAACF5A=
-Date: Mon, 30 Sep 2013 13:51:43 +0000
-Message-ID: <E7E317BD5B5D764682EEAC13B01676E288C5B9@039-SN2MPN1-021.039d.mgd.msft.net>
+	Mon, 30 Sep 2013 08:28:29 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.3) with ESMTP id r8UFSRp6007507
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 30 Sep 2013 08:28:27 -0700 (PDT)
+Received: from yow-masselst-d1.localnet (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Mon, 30 Sep 2013 08:28:25 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Purcareata Bogdan-B43198 <B43198@freescale.com>
+Date: Mon, 30 Sep 2013 11:28:39 -0400
+Message-ID: <3714572.e2AS4sx51u@yow-masselst-d1>
+Organization: Wind River Internation Inc.
+User-Agent: KMail/4.10.5 (Linux/3.8.0-30-generic; KDE/4.10.5; x86_64; ; )
+In-Reply-To: <E7E317BD5B5D764682EEAC13B01676E288C5B9@039-SN2MPN1-021.039d.mgd.msft.net>
 References: <1380537602-28880-1-git-send-email-bogdan.purcareata@freescale.com>
 	<CAPuovEJkvD5ighvKZzwXWovKdUn+byMnOweZ-BjV2c10C_p=Kw@mail.gmail.com>
-In-Reply-To: <CAPuovEJkvD5ighvKZzwXWovKdUn+byMnOweZ-BjV2c10C_p=Kw@mail.gmail.com>
-Accept-Language: ro-RO, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.171.74.27]
+	<E7E317BD5B5D764682EEAC13B01676E288C5B9@039-SN2MPN1-021.039d.mgd.msft.net>
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-Originating-IP: [128.224.146.23]
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] libvirt: Don't fail when mounting securityfs with containers
@@ -58,141 +38,261 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Sep 2013 13:51:51 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 30 Sep 2013 15:28:30 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBhc3NlbHNtQGdtYWlsLmNvbSBb
-bWFpbHRvOmFzc2Vsc21AZ21haWwuY29tXSBPbiBCZWhhbGYgT2YgTWFyayBBc3NlbHN0aW5lDQo+
-IFNlbnQ6IE1vbmRheSwgU2VwdGVtYmVyIDMwLCAyMDEzIDQ6MjQgUE0NCj4gVG86IFB1cmNhcmVh
-dGEgQm9nZGFuLUI0MzE5OA0KPiBDYzogbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qu
-b3JnDQo+IFN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0gW1BBVENIXSBsaWJ2aXJ0
-OiBEb24ndCBmYWlsIHdoZW4gbW91bnRpbmcgc2VjdXJpdHlmcyB3aXRoDQo+IGNvbnRhaW5lcnMN
-Cj4gDQo+IE9uIE1vbiwgU2VwIDMwLCAyMDEzIGF0IDY6NDAgQU0sIEJvZ2RhbiBQdXJjYXJlYXRh
-DQo+IDxib2dkYW4ucHVyY2FyZWF0YUBmcmVlc2NhbGUuY29tPiB3cm90ZToNCj4gPiBXaGVuIHN0
-YXJ0aW5nIGNvbnRhaW5lcnMgdW5kZXIgbGlidmlydCwgdGhlIGNvZGUgd2lsbCBhdXRvbWF0aWNh
-bGx5DQo+ID4gdHJ5IHRvIG1vdW50IHNlY3VyaXR5ZnMgaW4gdGhlIG5ldyBtb3VudCBuYW1lc3Bh
-Y2UuIFNpbmNlIHNlY3VyaXR5ZnMNCj4gPiBzdXBwb3J0IGlzIG5vdCBhdmFpbGFibGUgb24gYWxs
-IGVtYmVkZGVkIHBsYXRmb3JtcywgYWRkIHJ1bnRpbWUgY2hlY2sNCj4gPiBvZiBpdHMgcHJlc2Vu
-Y2UgaW4gdGhlIGN1cnJlbnQgcnVubmluZyBrZXJuZWwuIEJhc2VkIG9uIHRoaXMsIG1vdW50DQo+
-ID4gc2VjdXJpdHlmcyBpbiBsaWJ2aXJ0IGNvbnRhaW5lcnMuDQo+ID4NCj4gPiBTaWduZWQtb2Zm
-LWJ5OiBCb2dkYW4gUHVyY2FyZWF0YSA8Ym9nZGFuLnB1cmNhcmVhdGFAZnJlZXNjYWxlLmNvbT4N
-Cj4gPiAtLS0NCj4gPiAgLi4uL0Rvbi10LWZhaWwtd2hlbi1tb3VudGluZy1zZWN1cml0eWZzLnBh
-dGNoICAgICAgfCAxMDEgKysrKysrKysrKysrKysrKysrKysrDQo+ID4gIHJlY2lwZXMtZXh0ZW5k
-ZWQvbGlidmlydC9saWJ2aXJ0XzEuMS4yLmJiICAgICAgICAgIHwgICAzICstDQo+ID4gIDIgZmls
-ZXMgY2hhbmdlZCwgMTAzIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPiAgY3JlYXRl
-IG1vZGUgMTAwNjQ0IHJlY2lwZXMtZXh0ZW5kZWQvbGlidmlydC9saWJ2aXJ0L0Rvbi10LWZhaWwt
-d2hlbi1tb3VudGluZy1zZWN1cml0eWZzLnBhdGNoDQo+IA0KPiBCb2dkYW4sDQo+IA0KPiBJIHdh
-cyBhY3R1YWxseSBwcmVwYXJpbmcgYSBzaW1pbGFyIGNvbW1pdCBidXQgdXNpbmcgYSBzbGlnaHRs
-eQ0KPiBkaWZmZXJlbnQgc3RyYXRlZ3kuIFRoZXJlIGFyZSB0aHJlZSB1cHN0cmVhbSBsaWJ2aXJ0
-IGNvbW1pdHMgcmVsYXRlZA0KPiB0byB0aGlzIHRoYXQgSSBoYWQgYXBwbGllZCAoSSBqdXN0IGhh
-ZG4ndCB0ZXN0ZWQgaXQgeWV0IHNvIGhhZG4ndCBzZW50DQo+IHRoaXMgb3V0IGZvciByZXZpZXcp
-Lg0KPiANCj4gMTU4M2RmZGE3YzRlNWFkNzFlZmUwNjE1YzA2ZTU2NzY1MjhkODIwMw0KPiBbTFhD
-OiBEb24ndCBtb3VudCBzZWN1cml0eWZzIHdoZW4gdXNlciBuYW1lc3BhY2UgZW5hYmxlZF0NCj4g
-DQo+IGYyN2Y1ZjdlZGRmNTMxMTU5ZDc5MWEyYjVhYzQzOGNhMDExYjVmMjYNCj4gW01vdmUgYXJy
-YXkgb2YgbW91bnRzIG91dCBvZiBseGNDb250YWluZXJNb3VudEJhc2ljRlNdDQo+IA0KPiAxYzcw
-MzdjZmY0MmRkZTM1OTEzZGRlNTMzYjMxZWUxZGE4YzJkNmUwDQo+IFtMWEM6IGRvbid0IHRyeSB0
-byBtb3VudCBzZWxpbnV4IGZpbGVzeXN0ZW0gd2hlbiB1c2VyIG5hbWVzcGFjZSBlbmFibGVkXQ0K
-PiANCj4gVGhlc2Ugd2lsbCBhcHBseSBjbGVhbmx5IGluIHRoaXMgb3JkZXIuIEkgZmlndXJlZCBp
-ZiB3ZSBkaWQgdGhpcyBmb3INCj4gc2VjdXJpdHlmcyB3ZSBtaWdodCBhcyB3ZWxsIGFsc28gZG8g
-dGhlIHNhbWUgZm9yIHNlbGludXguIFRoZSBtaWRkbGUNCj4gY29tbWl0IGp1c3QgcHJvdmlkZXMg
-Y29udGV4dCB0byBhbGxvdyB0aGUgM3JkIHBhdGNoIHRvIGFwcGx5IGNsZWFubHkuDQo+IEhvdyBk
-byB5b3Ugc3VwcG9zZSB3ZSBtb3ZlIGFoZWFkPw0KPiANCj4gTWFyaw0KDQpIZWxsbyBNYXJrLA0K
-DQpJIGFsc28gbWFkZSBhIHZlcnNpb24gb2YgdGhpcyBwYXRjaCBmb3IgdXBzdHJlYW0gbGlidmly
-dCBtYXN0ZXIsIGFuZCBzZW50IGl0IG9uIHRoZSBkZXZlbG9wZXIgbGlzdCBbMV0uIEl0IGFwcGxp
-ZXMgY2xlYW5seSBhZnRlciB0aGUgMyBwYXRjaGVzIHlvdSBtZW50aW9uZWQgYWJvdmUuDQoNCk9u
-ZSBvcHRpb24gaXMgdG8gaW5jbHVkZSB0aGVzZSAzIHBhdGNoZXMgaW4gdGhlIGxpYnZpcnQgcmVj
-aXBlLCBhbmQgdGhlbiBzdWJtaXQgb3VyIHdvcmsgYXMgd2VsbC4gSWYgeW91IGhhdmVuJ3QgZmlu
-aXNoZWQgd29yayBvbiB0aGUgc2VsaW51eCBwYXRjaCwgSSBjYW4gc2VuZCB5b3UgdGhlIHZlcnNp
-b24gb2YgbXkgcGF0Y2gsIHNvIHlvdSBjYW4gYXBwbHkgaXQgdG8geW91ciB3b3JraW5nIGJyYW5j
-aC4NCg0KQ2FuIHlvdSBkZXNjcmliZSB0aGUgc3RyYXRlZ3kgeW91IHdhbnQgdG8gdXNlPw0KDQpb
-MV0gaHR0cHM6Ly93d3cucmVkaGF0LmNvbS9hcmNoaXZlcy9saWJ2aXItbGlzdC8yMDEzLVNlcHRl
-bWJlci9tc2cwMTQ0OS5odG1sDQoNCj4gDQo+IA0KPiANCj4gPg0KPiA+IGRpZmYgLS1naXQgYS9y
-ZWNpcGVzLWV4dGVuZGVkL2xpYnZpcnQvbGlidmlydC9Eb24tdC1mYWlsLXdoZW4tbW91bnRpbmct
-c2VjdXJpdHlmcy5wYXRjaCBiL3JlY2lwZXMtDQo+IGV4dGVuZGVkL2xpYnZpcnQvbGlidmlydC9E
-b24tdC1mYWlsLXdoZW4tbW91bnRpbmctc2VjdXJpdHlmcy5wYXRjaA0KPiA+IG5ldyBmaWxlIG1v
-ZGUgMTAwNjQ0DQo+ID4gaW5kZXggMDAwMDAwMC4uODY1ZGNiNQ0KPiA+IC0tLSAvZGV2L251bGwN
-Cj4gPiArKysgYi9yZWNpcGVzLWV4dGVuZGVkL2xpYnZpcnQvbGlidmlydC9Eb24tdC1mYWlsLXdo
-ZW4tbW91bnRpbmctc2VjdXJpdHlmcy5wYXRjaA0KPiA+IEBAIC0wLDAgKzEsMTAxIEBADQo+ID4g
-K0Zyb20gMjU4YzQ0YjU2ZmNhMmI0MDk1ZmMxY2Y3NmUyYTNiYWYwY2UzZjMzZiBNb24gU2VwIDE3
-IDAwOjAwOjAwIDIwMDENCj4gPiArRnJvbTogQm9nZGFuIFB1cmNhcmVhdGEgPGJvZ2Rhbi5wdXJj
-YXJlYXRhQGZyZWVzY2FsZS5jb20+DQo+ID4gK0RhdGU6IFdlZCwgMjUgU2VwIDIwMTMgMTM6MTk6
-NDcgKzAzMDANCj4gPiArU3ViamVjdDogW1BBVENIXSBEb24ndCBmYWlsIHdoZW4gbW91bnRpbmcg
-c2VjdXJpdHlmcyB3aGVuIGl0J3Mgbm90IHN1cHBvcnRlZA0KPiA+ICsNCj4gPiArU2lnbmVkLW9m
-Zi1ieTogQm9nZGFuIFB1cmNhcmVhdGEgPGJvZ2Rhbi5wdXJjYXJlYXRhQGZyZWVzY2FsZS5jb20+
-DQo+ID4gKy0tLQ0KPiA+ICsgc3JjL2x4Yy9seGNfY29udGFpbmVyLmMgfCA1OSArKysrKysrKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrDQo+ID4gKyAxIGZpbGUgY2hh
-bmdlZCwgNTkgaW5zZXJ0aW9ucygrKQ0KPiA+ICsNCj4gPiArZGlmZiAtLWdpdCBhL3NyYy9seGMv
-bHhjX2NvbnRhaW5lci5jIGIvc3JjL2x4Yy9seGNfY29udGFpbmVyLmMNCj4gPiAraW5kZXggOGFi
-YWVhMC4uYTQ0YzllZiAxMDA2NDQNCj4gPiArLS0tIGEvc3JjL2x4Yy9seGNfY29udGFpbmVyLmMN
-Cj4gPiArKysrIGIvc3JjL2x4Yy9seGNfY29udGFpbmVyLmMNCj4gPiArQEAgLTUwOSw2ICs1MDks
-NTkgQEAgc3RhdGljIGludCBseGNDb250YWluZXJDaGlsZE1vdW50U29ydChjb25zdCB2b2lkICph
-LCBjb25zdCB2b2lkICpiKQ0KPiA+ICsgIyBkZWZpbmUgTVNfU0xBVkUgICAgICAgICAgICAgICAg
-KDE8PDE5KQ0KPiA+ICsgI2VuZGlmDQo+ID4gKw0KPiA+ICsrLyoNCj4gPiArKyAqIFRoaXMgZnVu
-Y3Rpb24gYXR0ZW1wdHMgdG8gZGV0ZWN0IGtlcm5lbCBzdXBwb3J0DQo+ID4gKysgKiBmb3IgYSBz
-cGVjaWZpYyBmaWxlc3lzdGVtIHR5cGUuIFRoaXMgaXMgZG9uZSBieQ0KPiA+ICsrICogaW5zcGVj
-dGluZyAvcHJvYy9maWxlc3lzdGVtcy4NCj4gPiArKyAqLw0KPiA+ICsrc3RhdGljIGludCBseGND
-aGVja0ZTU3VwcG9ydChjb25zdCBjaGFyICpmc190eXBlKQ0KPiA+ICsrew0KPiA+ICsrICAgIEZJ
-TEUgKmZwID0gTlVMTDsNCj4gPiArKyAgICBpbnQgcmV0ID0gLTE7DQo+ID4gKysgICAgY29uc3Qg
-Y2hhciAqZnNsaXN0ID0gIi9wcm9jL2ZpbGVzeXN0ZW1zIjsNCj4gPiArKyAgICBjaGFyICpsaW5l
-ID0gTlVMTDsNCj4gPiArKyAgICBjb25zdCBjaGFyICp0eXBlOw0KPiA+ICsrDQo+ID4gKysgICAg
-aWYoIWZzX3R5cGUpDQo+ID4gKysgICAgICAgICAgcmV0dXJuIDE7DQo+ID4gKysNCj4gPiArKyAg
-ICBWSVJfREVCVUcoIkNoZWNraW5nIGtlcm5lbCBzdXBwb3J0IGZvciAlcyIsIGZzX3R5cGUpOw0K
-PiA+ICsrDQo+ID4gKysgICAgVklSX0RFQlVHKCJPcGVuICAlcyIsIGZzbGlzdCk7DQo+ID4gKysg
-ICAgaWYgKCEoZnAgPSBmb3Blbihmc2xpc3QsICJyIikpKSB7DQo+ID4gKysgICAgICAgIGlmIChl
-cnJubyA9PSBFTk9FTlQpDQo+ID4gKysNCj4gPiArKyAgICAgICAgdmlyUmVwb3J0U3lzdGVtRXJy
-b3IoZXJybm8sDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgIF8oIlVuYWJsZSB0
-byByZWFkICVzIiksDQo+ID4gKysgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZzbGlzdCk7
-DQo+ID4gKysgICAgICAgIGdvdG8gY2xlYW51cDsNCj4gPiArKyAgICB9DQo+ID4gKysNCj4gPiAr
-KyAgICB3aGlsZSAoIWZlb2YoZnApKSB7DQo+ID4gKysgICAgICAgIHNpemVfdCBuOw0KPiA+ICsr
-ICAgICAgICBWSVJfRlJFRShsaW5lKTsNCj4gPiArKyAgICAgICAgaWYgKGdldGxpbmUoJmxpbmUs
-ICZuLCBmcCkgPD0gMCkgew0KPiA+ICsrICAgICAgICAgICAgaWYgKGZlb2YoZnApKQ0KPiA+ICsr
-ICAgICAgICAgICAgICAgIGJyZWFrOw0KPiA+ICsrDQo+ID4gKysgICAgICAgICAgICBnb3RvIGNs
-ZWFudXA7DQo+ID4gKysgICAgICAgIH0NCj4gPiArKw0KPiA+ICsrICAgICAgICB0eXBlID0gc3Ry
-c3RyKGxpbmUsIGZzX3R5cGUpOw0KPiA+ICsrICAgICAgICBpZiAodHlwZSkgew0KPiA+ICsrICAg
-ICAgICAgICAgcmV0ID0gMTsNCj4gPiArKyAgICAgICAgICBnb3RvIGNsZWFudXA7DQo+ID4gKysg
-ICAgICB9DQo+ID4gKysgICAgfQ0KPiA+ICsrDQo+ID4gKysgICAgcmV0ID0gMDsNCj4gPiArKw0K
-PiA+ICsrY2xlYW51cDoNCj4gPiArKyAgICBWSVJfRlJFRShsaW5lKTsNCj4gPiArKyAgICBWSVJf
-Rk9SQ0VfRkNMT1NFKGZwKTsNCj4gPiArKyAgICByZXR1cm4gcmV0Ow0KPiA+ICsrfQ0KPiA+ICsr
-DQo+ID4gKyBzdGF0aWMgaW50IGx4Y0NvbnRhaW5lckdldFN1YnRyZWUoY29uc3QgY2hhciAqcHJl
-Zml4LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNoYXIgKioqbW91
-bnRzcmV0LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHNpemVfdCAq
-bm1vdW50c3JldCkNCj4gPiArQEAgLTc4NCwxNyArODM3LDIzIEBAIHN0YXRpYyBpbnQgbHhjQ29u
-dGFpbmVyTW91bnRCYXNpY0ZTKHZvaWQpDQo+ID4gKw0KPiA+ICsgICAgIGZvciAoaSA9IDA7IGkg
-PCBBUlJBWV9DQVJESU5BTElUWShtbnRzKTsgaSsrKSB7DQo+ID4gKyAgICAgICAgIGNvbnN0IGNo
-YXIgKnNyY3BhdGggPSBOVUxMOw0KPiA+ICsrICAgICAgY29uc3QgY2hhciAqZHN0cGF0aCA9IE5V
-TEw7DQo+ID4gKw0KPiA+ICsgICAgICAgICBWSVJfREVCVUcoIlByb2Nlc3NpbmcgJXMgLT4gJXMi
-LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgbW50c1tpXS5zcmMsIG1udHNbaV0uZHN0KTsNCj4g
-PiArDQo+ID4gKyAgICAgICAgIHNyY3BhdGggPSBtbnRzW2ldLnNyYzsNCj4gPiArKyAgICAgIGRz
-dHBhdGggPSBtbnRzW2ldLmRzdDsNCj4gPiArDQo+ID4gKyAgICAgICAgIC8qIFNraXAgaWYgbW91
-bnQgZG9lc24ndCBleGlzdCBpbiBzb3VyY2UgKi8NCj4gPiArICAgICAgICAgaWYgKChzcmNwYXRo
-WzBdID09ICcvJykgJiYNCj4gPiArICAgICAgICAgICAgIChhY2Nlc3Moc3JjcGF0aCwgUl9PSykg
-PCAwKSkNCj4gPiArICAgICAgICAgICAgIGNvbnRpbnVlOw0KPiA+ICsNCj4gPiArKyAgICAgIGlm
-ICgoYWNjZXNzKGRzdHBhdGgsIFJfT0spIDwgMCkgfHwgLyogbW91bnQgaXMgbm90IHByZXNlbnQg
-b24gaG9zdCAqLw0KPiA+ICsrICAgICAgICAgICghbHhjQ2hlY2tGU1N1cHBvcnQobW50c1tpXS50
-eXBlKSkpIC8qIG5vIGZzIHN1cHBvcnQgaW4ga2VybmVsICovDQo+ID4gKysgICAgICAgICAgICAg
-IGNvbnRpbnVlOw0KPiA+ICsrDQo+ID4gKyAjaWYgV0lUSF9TRUxJTlVYDQo+ID4gKyAgICAgICAg
-IGlmIChTVFJFUShtbnRzW2ldLnNyYywgU0VMSU5VWF9NT1VOVCkgJiYNCj4gPiArICAgICAgICAg
-ICAgICFpc19zZWxpbnV4X2VuYWJsZWQoKSkNCj4gPiArLS0NCj4gPiArMS43LjExLjcNCj4gPiAr
-DQo+ID4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidmlydC9saWJ2aXJ0XzEuMS4y
-LmJiIGIvcmVjaXBlcy1leHRlbmRlZC9saWJ2aXJ0L2xpYnZpcnRfMS4xLjIuYmINCj4gPiBpbmRl
-eCBjZmI0MDZkLi4yNDBmM2QyIDEwMDY0NA0KPiA+IC0tLSBhL3JlY2lwZXMtZXh0ZW5kZWQvbGli
-dmlydC9saWJ2aXJ0XzEuMS4yLmJiDQo+ID4gKysrIGIvcmVjaXBlcy1leHRlbmRlZC9saWJ2aXJ0
-L2xpYnZpcnRfMS4xLjIuYmINCj4gPiBAQCAtMjUsNyArMjUsOCBAQCBSQ09ORkxJQ1RTXyR7UE59
-X2xpYnZpcnRkID0gImNvbm5tYW4iDQo+ID4gIFNSQ19VUkkgPSAiaHR0cDovL2xpYnZpcnQub3Jn
-L3NvdXJjZXMvbGlidmlydC0ke1BWfS50YXIuZ3ogXA0KPiA+ICAgICAgICAgICAgIGZpbGU6Ly90
-b29scy1hZGQtbGlidmlydC1uZXQtcnBjLXRvLXZpcnQtaG9zdC12YWxpZGF0ZS13aGVuLnBhdGNo
-IFwNCj4gPiAgICAgICAgICAgIGZpbGU6Ly9saWJ2aXJ0ZC5zaCBcDQo+ID4gLSAgICAgICAgICBm
-aWxlOi8vbGlidmlydGQuY29uZiINCj4gPiArICAgICAgICAgIGZpbGU6Ly9saWJ2aXJ0ZC5jb25m
-IFwNCj4gPiArICAgICAgICAgIGZpbGU6Ly9Eb24tdC1mYWlsLXdoZW4tbW91bnRpbmctc2VjdXJp
-dHlmcy5wYXRjaCINCj4gPg0KPiA+ICBTUkNfVVJJW21kNXN1bV0gPSAiMTgzNWJiZmE0OTIwOTli
-Y2UxMmUyOTM0ODcwZTU2MTEiDQo+ID4gIFNSQ19VUklbc2hhMjU2c3VtXSA9ICIxNjY0OGFmNTRk
-M2UxNjJmNWNjNTQ0NWQ5NzBlYzI5YTBiZDU1YjFkYmNiNTY4YTA1NTMzYzRjMmYyNTk2NWUzIg0K
-PiA+IC0tDQo+ID4gMS43LjExLjcNCj4gPg0KPiA+DQo+ID4gX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gPiBtZXRhLXZpcnR1YWxpemF0aW9uIG1haWxp
-bmcgbGlzdA0KPiA+IG1ldGEtdmlydHVhbGl6YXRpb25AeW9jdG9wcm9qZWN0Lm9yZw0KPiA+IGh0
-dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9saXN0aW5mby9tZXRhLXZpcnR1YWxpemF0aW9u
-DQoNCg==
+On September 30, 2013 13:51:43 Purcareata Bogdan-B43198 wrote:
+> > -----Original Message-----
+> > From: asselsm@gmail.com [mailto:asselsm@gmail.com] On Behalf Of Mark
+> > Asselstine
+ Sent: Monday, September 30, 2013 4:24 PM
+> > To: Purcareata Bogdan-B43198
+> > Cc: meta-virtualization@yoctoproject.org
+> > Subject: Re: [meta-virtualization] [PATCH] libvirt: Don't fail when
+> > mounting securityfs with
+ containers
+> > 
+> > On Mon, Sep 30, 2013 at 6:40 AM, Bogdan Purcareata
+> > <bogdan.purcareata@freescale.com> wrote:
+> > 
+> > > When starting containers under libvirt, the code will automatically
+> > > try to mount securityfs in the new mount namespace. Since securityfs
+> > > support is not available on all embedded platforms, add runtime check
+> > > of its presence in the current running kernel. Based on this, mount
+> > > securityfs in libvirt containers.
+> > >
+> > >
+> > >
+> > > Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> > > ---
+> > > 
+> > >  .../Don-t-fail-when-mounting-securityfs.patch      | 101
+> > >  +++++++++++++++++++++
+ recipes-extended/libvirt/libvirt_1.1.2.bb      
+> > >     |   3 +-
+> > >  2 files changed, 103 insertions(+), 1 deletion(-)
+> > >  create mode 100644
+> > >  recipes-extended/libvirt/libvirt/Don-t-fail-when-mounting-securityfs.p
+> > >  atch
+> 
+> > 
+> > Bogdan,
+> > 
+> > I was actually preparing a similar commit but using a slightly
+> > different strategy. There are three upstream libvirt commits related
+> > to this that I had applied (I just hadn't tested it yet so hadn't sent
+> > this out for review).
+> > 
+> > 1583dfda7c4e5ad71efe0615c06e5676528d8203
+> > [LXC: Don't mount securityfs when user namespace enabled]
+> > 
+> > f27f5f7eddf531159d791a2b5ac438ca011b5f26
+> > [Move array of mounts out of lxcContainerMountBasicFS]
+> > 
+> > 1c7037cff42dde35913dde533b31ee1da8c2d6e0
+> > [LXC: don't try to mount selinux filesystem when user namespace enabled]
+> > 
+> > These will apply cleanly in this order. I figured if we did this for
+> > securityfs we might as well also do the same for selinux. The middle
+> > commit just provides context to allow the 3rd patch to apply cleanly.
+> > How do you suppose we move ahead?
+> > 
+> > Mark
+> 
+> 
+> Hello Mark,
+> 
+> I also made a version of this patch for upstream libvirt master, and sent it
+> on the developer list [1]. It applies cleanly after the 3 patches you
+> mentioned above.
+ 
+> One option is to include these 3 patches in the libvirt recipe, and then
+> submit our work as well. If you haven't finished work on the selinux patch,
+> I can send you the version of my patch, so you can apply it to your working
+> branch.
+ 
+> Can you describe the strategy you want to use?
+
+I will finish my testing and submit the three upstream patches within the next 
+day or so. Since your patch is still being vetted upstream you might as well 
+wait until it is sorted and then submit it to meta-virtualization. Knowing 
+that there might be upstream comments I suspect Bruce will want to wait the 
+few days to get a final version of your patch anyways.
+
+Otherwise you can bundle all 4 patches and submit them on your own. This works 
+for me as well.
+
+Mark
+
+
+
+> 
+> [1]
+> https://www.redhat.com/archives/libvir-list/2013-September/msg01449.html
+ 
+> 
+> > 
+> > 
+> > 
+> > 
+> > >
+> > >
+> > > diff --git
+> > > a/recipes-extended/libvirt/libvirt/Don-t-fail-when-mounting-securityfs.
+> > > patch b/recipes-
+> 
+> > extended/libvirt/libvirt/Don-t-fail-when-mounting-securityfs.patch
+> > 
+> > > new file mode 100644
+> > > index 0000000..865dcb5
+> > > --- /dev/null
+> > > +++
+> > > b/recipes-extended/libvirt/libvirt/Don-t-fail-when-mounting-securityfs.
+> > > patch
+ @@ -0,0 +1,101 @@
+> > > +From 258c44b56fca2b4095fc1cf76e2a3baf0ce3f33f Mon Sep 17 00:00:00 2001
+> > > +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> > > +Date: Wed, 25 Sep 2013 13:19:47 +0300
+> > > +Subject: [PATCH] Don't fail when mounting securityfs when it's not
+> > > supported
+ +
+> > > +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> > > +---
+> > > + src/lxc/lxc_container.c | 59
+> > > +++++++++++++++++++++++++++++++++++++++++++++++++
+ + 1 file changed, 59
+> > > insertions(+)
+> > > +
+> > > +diff --git a/src/lxc/lxc_container.c b/src/lxc/lxc_container.c
+> > > +index 8abaea0..a44c9ef 100644
+> > > +--- a/src/lxc/lxc_container.c
+> > > ++++ b/src/lxc/lxc_container.c
+> > > +@@ -509,6 +509,59 @@ static int lxcContainerChildMountSort(const void
+> > > *a, const void *b)
+ + # define MS_SLAVE                (1<<19)
+> > > + #endif
+> > > +
+> > > ++/*
+> > > ++ * This function attempts to detect kernel support
+> > > ++ * for a specific filesystem type. This is done by
+> > > ++ * inspecting /proc/filesystems.
+> > > ++ */
+> > > ++static int lxcCheckFSSupport(const char *fs_type)
+> > > ++{
+> > > ++    FILE *fp = NULL;
+> > > ++    int ret = -1;
+> > > ++    const char *fslist = "/proc/filesystems";
+> > > ++    char *line = NULL;
+> > > ++    const char *type;
+> > > ++
+> > > ++    if(!fs_type)
+> > > ++          return 1;
+> > > ++
+> > > ++    VIR_DEBUG("Checking kernel support for %s", fs_type);
+> > > ++
+> > > ++    VIR_DEBUG("Open  %s", fslist);
+> > > ++    if (!(fp = fopen(fslist, "r"))) {
+> > > ++        if (errno == ENOENT)
+> > > ++
+> > > ++        virReportSystemError(errno,
+> > > ++                             _("Unable to read %s"),
+> > > ++                             fslist);
+> > > ++        goto cleanup;
+> > > ++    }
+> > > ++
+> > > ++    while (!feof(fp)) {
+> > > ++        size_t n;
+> > > ++        VIR_FREE(line);
+> > > ++        if (getline(&line, &n, fp) <= 0) {
+> > > ++            if (feof(fp))
+> > > ++                break;
+> > > ++
+> > > ++            goto cleanup;
+> > > ++        }
+> > > ++
+> > > ++        type = strstr(line, fs_type);
+> > > ++        if (type) {
+> > > ++            ret = 1;
+> > > ++          goto cleanup;
+> > > ++      }
+> > > ++    }
+> > > ++
+> > > ++    ret = 0;
+> > > ++
+> > > ++cleanup:
+> > > ++    VIR_FREE(line);
+> > > ++    VIR_FORCE_FCLOSE(fp);
+> > > ++    return ret;
+> > > ++}
+> > > ++
+> > > + static int lxcContainerGetSubtree(const char *prefix,
+> > > +                                   char ***mountsret,
+> > > +                                   size_t *nmountsret)
+> > > +@@ -784,17 +837,23 @@ static int lxcContainerMountBasicFS(void)
+> > > +
+> > > +     for (i = 0; i < ARRAY_CARDINALITY(mnts); i++) {
+> > > +         const char *srcpath = NULL;
+> > > ++      const char *dstpath = NULL;
+> > > +
+> > > +         VIR_DEBUG("Processing %s -> %s",
+> > > +                   mnts[i].src, mnts[i].dst);
+> > > +
+> > > +         srcpath = mnts[i].src;
+> > > ++      dstpath = mnts[i].dst;
+> > > +
+> > > +         /* Skip if mount doesn't exist in source */
+> > > +         if ((srcpath[0] == '/') &&
+> > > +             (access(srcpath, R_OK) < 0))
+> > > +             continue;
+> > > +
+> > > ++      if ((access(dstpath, R_OK) < 0) || /* mount is not present on
+> > > host */
+ ++          (!lxcCheckFSSupport(mnts[i].type))) /* no fs
+> > > support in kernel */ ++              continue;
+> > > ++
+> > > + #if WITH_SELINUX
+> > > +         if (STREQ(mnts[i].src, SELINUX_MOUNT) &&
+> > > +             !is_selinux_enabled())
+> > > +--
+> > > +1.7.11.7
+> > > +
+> > > diff --git a/recipes-extended/libvirt/libvirt_1.1.2.bb
+> > > b/recipes-extended/libvirt/libvirt_1.1.2.bb
+ index cfb406d..240f3d2
+> > > 100644
+> > > --- a/recipes-extended/libvirt/libvirt_1.1.2.bb
+> > > +++ b/recipes-extended/libvirt/libvirt_1.1.2.bb
+> > > @@ -25,7 +25,8 @@ RCONFLICTS_${PN}_libvirtd = "connman"
+> > > 
+> > >  SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz \
+> > >  
+> > >             file://tools-add-libvirt-net-rpc-to-virt-host-validate-when.
+> > >             patch \
+> > >            
+> > >            file://libvirtd.sh \
+> > > 
+> > > -          file://libvirtd.conf"
+> > > +          file://libvirtd.conf \
+> > > +          file://Don-t-fail-when-mounting-securityfs.patch"
+> > >
+> > >
+> > >
+> > >  SRC_URI[md5sum] = "1835bbfa492099bce12e2934870e5611"
+> > >  SRC_URI[sha256sum] =
+> > >  "16648af54d3e162f5cc5445d970ec29a0bd55b1dbcb568a05533c4c2f25965e3"
+> > 
+> > > --
+> > > 1.7.11.7
+> > >
+> > >
+> > >
+> > >
+> > > _______________________________________________
+> > > meta-virtualization mailing list
+> > > meta-virtualization@yoctoproject.org
+> > > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> 
+> 
 
 
