@@ -1,53 +1,37 @@
-Return-Path: <B43198@freescale.com>
-Received: from tx2outboundpool.messaging.microsoft.com
-	(tx2ehsobe003.messaging.microsoft.com [65.55.88.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AC090E01630
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6AA8CE01684
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  1 Oct 2013 03:43:35 -0700 (PDT)
-Received: from mail227-tx2-R.bigfish.com (10.9.14.228) by
-	TX2EHSOBE013.bigfish.com (10.9.40.33) with Microsoft SMTP Server id
-	14.1.225.22; Tue, 1 Oct 2013 10:43:33 +0000
-Received: from mail227-tx2 (localhost [127.0.0.1])	by
-	mail227-tx2-R.bigfish.com (Postfix) with ESMTP id D3CF776041E;
-	Tue,  1 Oct 2013 10:43:33 +0000 (UTC)
-X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
-	H:mail.freescale.net; RD:none; EFVD:NLI
-X-SpamScore: -2
-X-BigFish: VS-2(zz9371I542I1432Izz1f42h208ch1ee6h1de0h1fdah2073h1202h1e76h1d1ah1d2ah1fc6hzz1de098h1de097hz2dh2a8h839h8e2h8e3h944hd25hf0ah1220h1288h12a5h12a9h12bdh137ah13b6h1441h1504h1537h153bh15d0h162dh1631h1758h18e1h1946h19b5h1ad9h1b0ah1b2fh1fb3h1d0ch1d2eh1d3fh1dfeh1dffh1e1dh1fe8h1ff5hbe9i1155h)
-Received: from mail227-tx2 (localhost.localdomain [127.0.0.1]) by mail227-tx2
-	(MessageSwitch) id 13806242125946_26167;
-	Tue,  1 Oct 2013 10:43:32 +0000 (UTC)
-Received: from TX2EHSMHS008.bigfish.com (unknown [10.9.14.248])	by
-	mail227-tx2.bigfish.com (Postfix) with ESMTP id F10AB640031;
-	Tue,  1 Oct 2013 10:43:31 +0000 (UTC)
-Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS008.bigfish.com
-	(10.9.99.108) with Microsoft SMTP Server (TLS) id 14.16.227.3;
-	Tue, 1 Oct 2013 10:43:31 +0000
-Received: from 039-SN2MPN1-021.039d.mgd.msft.net ([169.254.1.137]) by
-	039-SN1MMR1-004.039d.mgd.msft.net ([::1]) with mapi id 14.03.0158.002;
-	Tue, 1 Oct 2013 10:43:31 +0000
-From: Purcareata Bogdan-B43198 <B43198@freescale.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Thread-Topic: [meta-virtualization] [PATCH] libvirt: Don't fail when
-	mounting securityfs with containers
-Thread-Index: AQHOvcltV197tQPVVE2je65Vc7aiAZneRRUAgAACF5CAACC6gIABQUWw
-Date: Tue, 1 Oct 2013 10:43:31 +0000
-Message-ID: <E7E317BD5B5D764682EEAC13B01676E288C8AD@039-SN2MPN1-021.039d.mgd.msft.net>
-References: <1380537602-28880-1-git-send-email-bogdan.purcareata@freescale.com>
-	<CAPuovEJkvD5ighvKZzwXWovKdUn+byMnOweZ-BjV2c10C_p=Kw@mail.gmail.com>
-	<E7E317BD5B5D764682EEAC13B01676E288C5B9@039-SN2MPN1-021.039d.mgd.msft.net>
-	<3714572.e2AS4sx51u@yow-masselst-d1>
-In-Reply-To: <3714572.e2AS4sx51u@yow-masselst-d1>
-Accept-Language: ro-RO, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.171.74.27]
+	Tue,  1 Oct 2013 06:13:13 -0700 (PDT)
+Received: by mail-lb0-f182.google.com with SMTP id c11so5852267lbj.13
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 01 Oct 2013 06:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id:mime-version:content-type
+	:content-transfer-encoding;
+	bh=v/H354W5/+Acu5VUrr/XXkwzmaFKjo+tH84WoRqeMhY=;
+	b=yq1ZNHcEKhtzWcZ6UAP8imdyDy+arbunMumSlUCJkkLJsVFqsSL3zhyp518mveOdjh
+	EDfJcBvHgDGdmQ5ulR1g0pd030p3LwS8Sxaiv1reV54MZ93flFJ8i0JPszjaFTQliAO3
+	2WN20TLvRwB4eZdDaO3346EhqRE38IJ25tq6J/biB/ASp4L9oAKXPib3st/s3N532SGz
+	7YXXh7+sWvZrTrdsilDXz14XMoLdVLqoZMoAX6stYv1ezV0Ox6EIBCfS0dOEH2l9AYPg
+	jzpjd7VaMtLHLFI6eU25WUaySQ7JzYLfw5Z9nVtGA35vTF5aeAwz1xCVbJ0VbQoXoPK6
+	yB6A==
+X-Received: by 10.152.87.143 with SMTP id ay15mr25069268lab.2.1380633192098;
+	Tue, 01 Oct 2013 06:13:12 -0700 (PDT)
+Received: from nysan (sestofw01.enea.se. [192.36.1.252])
+	by mx.google.com with ESMTPSA id e4sm4018889lba.15.1969.12.31.16.00.00
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Tue, 01 Oct 2013 06:13:11 -0700 (PDT)
+Received: by nysan (Postfix, from userid 1000)
+	id 4889A4006DD; Tue,  1 Oct 2013 15:13:07 +0200 (CEST)
+From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Tue,  1 Oct 2013 15:13:00 +0200
+Message-Id: <1380633180-10459-1-git-send-email-david.nystrom@enea.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] libvirt: Don't fail when mounting securityfs with containers
+Subject: [PATCH] busybox: Add getopt since lxc templates require it
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -60,45 +44,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 10:43:36 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 01 Oct 2013 13:13:14 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: Mark Asselstine [mailto:mark.asselstine@windriver.com]
-> Sent: Monday, September 30, 2013 6:29 PM
-> To: Purcareata Bogdan-B43198
-> Cc: meta-virtualization@yoctoproject.org; Purcareata Bogdan-B43198
-> Subject: Re: [meta-virtualization] [PATCH] libvirt: Don't fail when mount=
-ing securityfs with
-> containers
-> =20
-> I will finish my testing and submit the three upstream patches within the=
- next
-> day or so. Since your patch is still being vetted upstream you might as w=
-ell
-> wait until it is sorted and then submit it to meta-virtualization. Knowin=
-g
-> that there might be upstream comments I suspect Bruce will want to wait t=
-he
-> few days to get a final version of your patch anyways.
->=20
-> Otherwise you can bundle all 4 patches and submit them on your own. This =
-works
-> for me as well.
->=20
-> Mark
+Signed-off-by: David Nyström <david.nystrom@enea.com>
+---
+ recipes-core/busybox/busybox/getopt.cfg      | 2 ++
+ recipes-core/busybox/busybox_1.21.1.bbappend | 1 +
+ 2 files changed, 3 insertions(+)
+ create mode 100644 recipes-core/busybox/busybox/getopt.cfg
 
-I just noticed the feedback I've got from upstream. I will update my patch =
-according to the maintainer comments, and then wait for his feedback. I wil=
-l keep you updated on the progress.
-
-Meanwhile, you may submit the three patches that are already available. Or,=
- just as well, I will bundle all 4 of them as soon as I get to a final vers=
-ion for my patch.
-
-Bogdan P.
-
+diff --git a/recipes-core/busybox/busybox/getopt.cfg b/recipes-core/busybox/busybox/getopt.cfg
+new file mode 100644
+index 0000000..8dcd350
+--- /dev/null
++++ b/recipes-core/busybox/busybox/getopt.cfg
+@@ -0,0 +1,2 @@
++CONFIG_GETOPT=y
++CONFIG_FEATURE_GETOPT_LONG=y
+diff --git a/recipes-core/busybox/busybox_1.21.1.bbappend b/recipes-core/busybox/busybox_1.21.1.bbappend
+index 7d71c7d..8369a03 100644
+--- a/recipes-core/busybox/busybox_1.21.1.bbappend
++++ b/recipes-core/busybox/busybox_1.21.1.bbappend
+@@ -6,4 +6,5 @@ SRC_URI += " \
+ 	    file://mdev.cfg \
+ 	    file://mount-cifs.cfg \
+ 	    file://ps-extras.cfg \
++	    file://getopt.cfg \
+            "
+-- 
+1.8.3.2
 
 
