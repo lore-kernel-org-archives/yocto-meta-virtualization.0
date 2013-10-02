@@ -1,37 +1,28 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6AA8CE01684
+Return-Path: <flihp@twobit.us>
+Received: from www.twobit.us (www.twobit.us [50.19.210.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5F2A9E01687
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  1 Oct 2013 06:13:13 -0700 (PDT)
-Received: by mail-lb0-f182.google.com with SMTP id c11so5852267lbj.13
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 01 Oct 2013 06:13:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:mime-version:content-type
-	:content-transfer-encoding;
-	bh=v/H354W5/+Acu5VUrr/XXkwzmaFKjo+tH84WoRqeMhY=;
-	b=yq1ZNHcEKhtzWcZ6UAP8imdyDy+arbunMumSlUCJkkLJsVFqsSL3zhyp518mveOdjh
-	EDfJcBvHgDGdmQ5ulR1g0pd030p3LwS8Sxaiv1reV54MZ93flFJ8i0JPszjaFTQliAO3
-	2WN20TLvRwB4eZdDaO3346EhqRE38IJ25tq6J/biB/ASp4L9oAKXPib3st/s3N532SGz
-	7YXXh7+sWvZrTrdsilDXz14XMoLdVLqoZMoAX6stYv1ezV0Ox6EIBCfS0dOEH2l9AYPg
-	jzpjd7VaMtLHLFI6eU25WUaySQ7JzYLfw5Z9nVtGA35vTF5aeAwz1xCVbJ0VbQoXoPK6
-	yB6A==
-X-Received: by 10.152.87.143 with SMTP id ay15mr25069268lab.2.1380633192098;
-	Tue, 01 Oct 2013 06:13:12 -0700 (PDT)
-Received: from nysan (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id e4sm4018889lba.15.1969.12.31.16.00.00
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Tue, 01 Oct 2013 06:13:11 -0700 (PDT)
-Received: by nysan (Postfix, from userid 1000)
-	id 4889A4006DD; Tue,  1 Oct 2013 15:13:07 +0200 (CEST)
-From: "=?UTF-8?q?David=20Nystr=C3=B6m?=" <david.c.nystrom@gmail.com>
+	Wed,  2 Oct 2013 15:14:30 -0700 (PDT)
+Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
+	helo=longhaul.twobit.us)
+	by www.twobit.us with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.72) (envelope-from <flihp@twobit.us>)
+	id 1VRUgf-0001Pb-1g; Wed, 02 Oct 2013 22:14:29 +0000
+Date: Wed, 2 Oct 2013 22:14:21 +0000
+From: Philip Tricca <flihp@twobit.us>
 To: meta-virtualization@yoctoproject.org
-Date: Tue,  1 Oct 2013 15:13:00 +0200
-Message-Id: <1380633180-10459-1-git-send-email-david.nystrom@enea.com>
-X-Mailer: git-send-email 1.8.3.2
+Message-ID: <20131002221420.GA2972@longhaul.twobit.us>
 MIME-Version: 1.0
-Subject: [PATCH] busybox: Add getopt since lxc templates require it
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-SA-Exim-Connect-IP: 76.24.20.220
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.1
+X-SA-Exim-Version: 4.2.1 (built Mon, 22 Mar 2010 06:26:47 +0000)
+X-SA-Exim-Scanned: Yes (on www.twobit.us)
+Subject: [PATCH] Put the xend daemon in the xen-xend package.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,36 +35,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Oct 2013 13:13:14 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 02 Oct 2013 22:14:30 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: David Nyström <david.nystrom@enea.com>
+Just a bit of clean up. I know xend is deprecated and hopefully no
+one will use it but it should end up in the right package.
+
+Signed-off-by: Philip Tricca <flihp@twobit.us>
 ---
- recipes-core/busybox/busybox/getopt.cfg      | 2 ++
- recipes-core/busybox/busybox_1.21.1.bbappend | 1 +
- 2 files changed, 3 insertions(+)
- create mode 100644 recipes-core/busybox/busybox/getopt.cfg
+ recipes-extended/xen/xen_4.3.0.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-core/busybox/busybox/getopt.cfg b/recipes-core/busybox/busybox/getopt.cfg
-new file mode 100644
-index 0000000..8dcd350
---- /dev/null
-+++ b/recipes-core/busybox/busybox/getopt.cfg
-@@ -0,0 +1,2 @@
-+CONFIG_GETOPT=y
-+CONFIG_FEATURE_GETOPT_LONG=y
-diff --git a/recipes-core/busybox/busybox_1.21.1.bbappend b/recipes-core/busybox/busybox_1.21.1.bbappend
-index 7d71c7d..8369a03 100644
---- a/recipes-core/busybox/busybox_1.21.1.bbappend
-+++ b/recipes-core/busybox/busybox_1.21.1.bbappend
-@@ -6,4 +6,5 @@ SRC_URI += " \
- 	    file://mdev.cfg \
- 	    file://mount-cifs.cfg \
- 	    file://ps-extras.cfg \
-+	    file://getopt.cfg \
-            "
+diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
+index 00394b9..0baea97 100644
+--- a/recipes-extended/xen/xen_4.3.0.bb
++++ b/recipes-extended/xen/xen_4.3.0.bb
+@@ -276,7 +276,6 @@ FILES_${PN}-misc = "\
+     ${sbindir}/gtraceview \
+     ${sbindir}/xen-bugtool \
+     ${sbindir}/xencov \
+-    ${sbindir}/xend \
+     ${sbindir}/xenperf \
+     ${sbindir}/xenpm \
+     ${sbindir}/xsview \
+@@ -519,7 +518,10 @@ FILES_${PN}-xm = "\
+     "
+ 
+ FILES_${PN}-xencommons += "${sysconfdir}/init.d/xencommons"
+-FILES_${PN}-xend += "${sysconfdir}/init.d/xend"
++FILES_${PN}-xend += " \
++    ${sysconfdir}/init.d/xend \
++    ${sbindir}/xend \
++    "
+ FILES_${PN}-xendomains += "${sysconfdir}/init.d/xendomains"
+ FILES_${PN}-xen-watchdog += "${sysconfdir}/init.d/xen-watchdog"
+ 
 -- 
-1.8.3.2
+1.7.10.4
 
 
