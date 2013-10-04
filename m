@@ -1,29 +1,35 @@
-Return-Path: <flihp@twobit.us>
-Received: from www.twobit.us (www.twobit.us [50.19.210.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1302FE01654
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
+	[209.85.160.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 68637E0166C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  3 Oct 2013 18:47:27 -0700 (PDT)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=longhaul.twobit.us)
-	by www.twobit.us with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.72) (envelope-from <flihp@twobit.us>)
-	id 1VRuUG-00058x-FW; Fri, 04 Oct 2013 01:47:25 +0000
-Date: Fri, 4 Oct 2013 01:47:17 +0000
-From: Philip Tricca <flihp@twobit.us>
-To: meta-virtualization@yoctoproject.org
-Message-ID: <20131004014717.GA7786@longhaul.twobit.us>
+	Thu,  3 Oct 2013 19:42:32 -0700 (PDT)
+Received: by mail-pb0-f47.google.com with SMTP id rr4so3318551pbb.34
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 03 Oct 2013 19:42:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=oJzt265ie3/VbxCYa+wfRW/gvtkSLTqQJ62iWRiXETQ=;
+	b=Bcr1bI3U64KxZ/ilDp4GvWgknPwR3yL2cgwScmIvj0S7Gf+XpN7MvlrARozwROPJsX
+	/saRSqXAzNL4W4ZM8NwCwvh4Phn6SiSeAD6fsYi68C6AHasHiVAMJMzYUMXc/wJExuDN
+	Tj2HtIlTAqjEdUwEuGScFGWJnRLx/+qb0LfYLlyNJoh4ADvYA4oM85siSwJjDThOnG5C
+	7TZ2BPyoCi/SJsAEerPX29XHQmAjx7xOEaX9mmJrssfAcRnpVQfLUoquHXXt6Pucm0BR
+	YPHkgl77nECB1zTQDbCqnxn3eCZ0PClNKalbc+fo132m2fruWnYf+uHIl4gjpFxOcOwH
+	dl8Q==
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-X-SA-Exim-Version: 4.2.1 (built Mon, 22 Mar 2010 06:26:47 +0000)
-X-SA-Exim-Scanned: Yes (on www.twobit.us)
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH] Put the XSM policy in the flask package.
+X-Received: by 10.66.65.195 with SMTP id z3mr12789457pas.47.1380854552263;
+	Thu, 03 Oct 2013 19:42:32 -0700 (PDT)
+Received: by 10.68.43.130 with HTTP; Thu, 3 Oct 2013 19:42:32 -0700 (PDT)
+In-Reply-To: <1380633180-10459-1-git-send-email-david.nystrom@enea.com>
+References: <1380633180-10459-1-git-send-email-david.nystrom@enea.com>
+Date: Thu, 3 Oct 2013 22:42:32 -0400
+Message-ID: <CADkTA4PNijM-aCRG1HmCc9bmi3eKq2N+Jy_7Xn=pj4iFSY_Kpg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] busybox: Add getopt since lxc templates require it
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -36,32 +42,54 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Oct 2013 01:47:28 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 04 Oct 2013 02:42:33 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-It make make sense to break this out into it's own package in the
-future for those that want to ship a monolithic policy without the
-tools but for now we should at least get it in the flask package.
+Makes sense. merged!
 
-Signed-off-by: Philip Tricca <flihp@twobit.us>
----
- recipes-extended/xen/xen_4.3.0.bb |    1 +
- 1 file changed, 1 insertion(+)
+Bruce
 
-diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
-index 00394b9..2e1a29f 100644
---- a/recipes-extended/xen/xen_4.3.0.bb
-+++ b/recipes-extended/xen/xen_4.3.0.bb
-@@ -252,6 +252,7 @@ FILES_${PN}-flask = "\
-     ${sbindir}/flask-loadpolicy \
-     ${sbindir}/flask-set-bool \
-     ${sbindir}/flask-setenforce \
-+    /boot/xenpolicy.24 \
-     "
- 
- FILES_${PN}-gdbsx = "\
--- 
-1.7.10.4
+On Tue, Oct 1, 2013 at 9:13 AM, David Nystr=F6m <david.c.nystrom@gmail.com>=
+ wrote:
+> Signed-off-by: David Nystr=F6m <david.nystrom@enea.com>
+> ---
+>  recipes-core/busybox/busybox/getopt.cfg      | 2 ++
+>  recipes-core/busybox/busybox_1.21.1.bbappend | 1 +
+>  2 files changed, 3 insertions(+)
+>  create mode 100644 recipes-core/busybox/busybox/getopt.cfg
+>
+> diff --git a/recipes-core/busybox/busybox/getopt.cfg b/recipes-core/busyb=
+ox/busybox/getopt.cfg
+> new file mode 100644
+> index 0000000..8dcd350
+> --- /dev/null
+> +++ b/recipes-core/busybox/busybox/getopt.cfg
+> @@ -0,0 +1,2 @@
+> +CONFIG_GETOPT=3Dy
+> +CONFIG_FEATURE_GETOPT_LONG=3Dy
+> diff --git a/recipes-core/busybox/busybox_1.21.1.bbappend b/recipes-core/=
+busybox/busybox_1.21.1.bbappend
+> index 7d71c7d..8369a03 100644
+> --- a/recipes-core/busybox/busybox_1.21.1.bbappend
+> +++ b/recipes-core/busybox/busybox_1.21.1.bbappend
+> @@ -6,4 +6,5 @@ SRC_URI +=3D " \
+>             file://mdev.cfg \
+>             file://mount-cifs.cfg \
+>             file://ps-extras.cfg \
+> +           file://getopt.cfg \
+>             "
+> --
+> 1.8.3.2
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
