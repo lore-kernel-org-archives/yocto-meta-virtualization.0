@@ -1,36 +1,36 @@
 Return-Path: <cjp256@gmail.com>
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BB85DE01683
+Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
+	[209.85.223.177])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D8BB5E016B7
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  6 Oct 2013 14:22:54 -0700 (PDT)
-Received: by mail-ie0-f179.google.com with SMTP id e14so13357425iej.24
+	Sun,  6 Oct 2013 14:22:55 -0700 (PDT)
+Received: by mail-ie0-f177.google.com with SMTP id qd12so13235566ieb.8
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 06 Oct 2013 14:22:53 -0700 (PDT)
+	Sun, 06 Oct 2013 14:22:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ZVlEUszV4ONWCm1gwcgdZy3g9tx+taT3yN9N2zVxYXg=;
-	b=ffjjbERe0+R+PDGnFRUkBhi5o59TMOtImXoWYV/vZ4N9IR3xDyD63lnMB+PUMSiL3I
-	VuOf1Q0uGzQOHraB97UvlvugD5BN/je2ZV6pm6lUcEZyh7ILWLRDrHykna65v8MSrbzO
-	NTnThQ4FkJtmG0QRtoOXS5RAFjWI/vP4z06GvTEt5JDZ8MXarPy2B9Z4wu/Mpi3C9921
-	93Bp7/yZVhZGhw7Gc4UJhQtZ34mPU6pX+R9u2fZbI0L4EH3csA4dt4Zjwf9rfr/ZZhtu
-	dqKc7og8UpKzJkGjBPaFckKk8pPSpb6Ed/p0Pu3zrjWGQmhCZJVo3Cx3PFgKzi9scdlG
-	f0Qg==
-X-Received: by 10.50.20.99 with SMTP id m3mr14280625ige.54.1381094573608;
-	Sun, 06 Oct 2013 14:22:53 -0700 (PDT)
+	bh=1Ijm+gs5GAa0WB5I1WqMZFaeWhMqH/MIJZ6Xhnl03xw=;
+	b=QdUiEVgfqPlOxEN1nyQPG/cwdwMDP1uEt/w/sueEYzGkpAZppQx2tpgP/qBQFQ2BoG
+	dxAcZarmLwZsKM9UKuJdExEASGKuSqA4l9Pr83SIsEoh2DvRZ+Cgmikgb9P7qoicWrkB
+	U8DJGAQQWlDX3LsCYno9hSdYGQv7CZ+fxB4pkFZoyqAO7WAitPfhhywazyqssd0Db5yB
+	odF3IihCSmxNOH1V+9h+awqGE1kuMNzYnEmO87tgDS5SvwzxJ9p2oQu2CII13juDgyeN
+	J1MV14NHUy5fM33jz4E5F9HEc1W8WaT4dA8bRcMnB+OhnWGDSohM42Clo2eob1nErIC7
+	N7hQ==
+X-Received: by 10.50.25.101 with SMTP id b5mr14537357igg.31.1381094575027;
+	Sun, 06 Oct 2013 14:22:55 -0700 (PDT)
 Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
 	[74.71.215.22])
 	by mx.google.com with ESMTPSA id i3sm22631061igh.0.1969.12.31.16.00.00
 	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Sun, 06 Oct 2013 14:22:52 -0700 (PDT)
+	Sun, 06 Oct 2013 14:22:54 -0700 (PDT)
 From: Chris Patterson <cjp256@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Sun,  6 Oct 2013 17:22:15 -0400
-Message-Id: <1381094537-11576-3-git-send-email-cjp256@gmail.com>
+Date: Sun,  6 Oct 2013 17:22:16 -0400
+Message-Id: <1381094537-11576-4-git-send-email-cjp256@gmail.com>
 X-Mailer: git-send-email 1.8.4.rc3
 In-Reply-To: <1381094537-11576-1-git-send-email-cjp256@gmail.com>
 References: <1381094537-11576-1-git-send-email-cjp256@gmail.com>
-Subject: [PATCH] xen: Add sdl support by including dependency for libsdl.
+Subject: [PATCH] xen-guest-image-minimal: example image for a PV/HVM/PVHVM xen guest built with the 'xen-guest' kernel fragment.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,33 +43,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 06 Oct 2013 21:22:54 -0000
+X-List-Received-Date: Sun, 06 Oct 2013 21:22:56 -0000
 
 Signed-off-by: Chris Patterson <cjp256@gmail.com>
 ---
- recipes-extended/xen/xen_4.3.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-extended/images/xen-guest-image-minimal.bb | 31 ++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+ create mode 100644 recipes-extended/images/xen-guest-image-minimal.bb
 
-diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
-index 233be99..9cbd2ac 100644
---- a/recipes-extended/xen/xen_4.3.0.bb
-+++ b/recipes-extended/xen/xen_4.3.0.bb
-@@ -17,13 +17,13 @@ COMPATIBLE_HOST = '(x86_64.*).*-linux'
- 
- inherit autotools gettext setuptools update-rc.d
- 
--DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native"
-+DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native libsdl"
- 
- # inherit setuptools adds python to RDEPENDS, override it
- RDEPENDS_${PN} = ""
- 
- RDEPENDS_${PN}-base = "\
--    libgcc udev bash perl xz \
-+    libgcc libsdl udev bash perl xz \
-     ${PN}-blktap \
-     ${PN}-console \
-     ${PN}-libblktapctl \
+diff --git a/recipes-extended/images/xen-guest-image-minimal.bb b/recipes-extended/images/xen-guest-image-minimal.bb
+new file mode 100644
+index 0000000..05b0b61
+--- /dev/null
++++ b/recipes-extended/images/xen-guest-image-minimal.bb
+@@ -0,0 +1,31 @@
++DESCRIPTION = "A Xen PV guest image."
++
++inherit core-image
++
++IMAGE_INSTALL += " \
++    packagegroup-core-boot \
++    kernel-module-xen-acpi-processor \
++    kernel-module-xen-blkback \
++    kernel-module-xen-netback \
++    kernel-module-xen-pciback \
++    kernel-module-xen-pcifront \
++    "
++
++IMAGE_INSTALL += "${@base_contains('DISTRO_FEATURES', 'x11', ' xf86-video-fbdev', '', d)}"
++IMAGE_INSTALL += "${@base_contains('DISTRO_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
++
++LICENSE = "MIT"
++
++SYSLINUX_KERNEL_ARGS ?= "LABEL=boot ramdisk_size=32768 root=/dev/ram0 rootimg=rootfs.img rw console=hvc0 console=tty0 panic=10 debugshell=5"
++
++# syslinux is not required for PV guest configuration, but for HVM
++build_syslinux_cfg () {
++	echo "ALLOWOPTIONS 1" > ${SYSLINUXCFG}
++	echo "DEFAULT boot" >> ${SYSLINUXCFG}
++	echo "TIMEOUT 10" >> ${SYSLINUXCFG}
++	echo "PROMPT 1" >> ${SYSLINUXCFG}
++	echo "LABEL boot" >> ${SYSLINUXCFG}
++	echo "  KERNEL /vmlinuz" >> ${SYSLINUXCFG}
++	echo "  INITRD /initrd" >> ${SYSLINUXCFG}
++	echo "  APPEND ${SYSLINUX_KERNEL_ARGS}" >> ${SYSLINUXCFG}
++}
 -- 
 1.8.4.rc3
 
