@@ -1,41 +1,34 @@
-Return-Path: <david.c.nystrom@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 50C8DE01697
+Return-Path: <cjp256@gmail.com>
+Received: from mail-qc0-f173.google.com (mail-qc0-f173.google.com
+	[209.85.216.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A7916E015BA
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Oct 2013 02:14:25 -0700 (PDT)
-Received: by mail-lb0-f178.google.com with SMTP id z5so541783lbh.9
+	Wed,  9 Oct 2013 19:23:23 -0700 (PDT)
+Received: by mail-qc0-f173.google.com with SMTP id l13so779984qcy.18
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 09 Oct 2013 02:14:24 -0700 (PDT)
+	Wed, 09 Oct 2013 19:23:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=message-id:date:from:user-agent:mime-version:to:subject:references
-	:in-reply-to:content-type:content-transfer-encoding;
-	bh=iCPruZuWMe7TwLGuz+m9C71XW4cHw65gWku3vGCIFmA=;
-	b=HyVg0JJkKIrn6fSvb3z4GFgWTPU7hfAMpycLmeeqN9mTZbAftT+tKnHT6aEyQIPfZb
-	BCc269PYNpf5OklY655t9q3FjmULqmY1nr+SC7WSoZbSVYuLagBGo6IsH9OzP3lBPKbI
-	NPL7AeRVp/uNhuvTC4rcYWGsvCXpmQQjkbtoeXZOqkZLNXrTQ29NCbYGn/qzZGsh2Fk/
-	bbDfZNlGGJIrb/AdQLJsHMzy20tLZwFkDq4A/zn4Q9wKdYlqzH2u0TQRRVCaRAbNW5v1
-	G1hqxahSTNhvzSEx+A2YKUmH9TAIEHdvEQLkDDRCWHUMA2kx0gqzOp52vArw8VccwTdN
-	PYgA==
-X-Received: by 10.152.171.72 with SMTP id as8mr1068542lac.33.1381310063831;
-	Wed, 09 Oct 2013 02:14:23 -0700 (PDT)
-Received: from [172.16.140.23] (sestofw01.enea.se. [192.36.1.252])
-	by mx.google.com with ESMTPSA id
-	ap7sm34319334lac.10.1969.12.31.16.00.00
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Oct 2013 02:14:23 -0700 (PDT)
-Message-ID: <52551E5A.4000204@gmail.com>
-Date: Wed, 09 Oct 2013 11:14:02 +0200
-From: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.0
-MIME-Version: 1.0
-To: Philip Tricca <flihp@twobit.us>, 
- meta-virtualization@yoctoproject.org
-References: <20131004163952.GA5669@longhaul.twobit.us>
-	<524EF9AE.7090201@twobit.us>
-In-Reply-To: <524EF9AE.7090201@twobit.us>
-Subject: Re: [PATCH] Explicitly set CHECKPOLICY path to native sysroot.
+	h=from:to:cc:subject:date:message-id;
+	bh=lCSsVV/vIRYB1assh2oYlHlBLx5vLpdWwyFsv6q+pIg=;
+	b=W80qOFM0LH5ZIlPW/MB4VBROwy0tmxOKwDuhiglc6uUy7MvP4TXeeDLhIf0WPL861V
+	RsiPyApyc3yf4vsjdw3DMWDRWP6YqhbBql29HkxKSR9w9yHR9YpUdfNNR99E7SD3Ts/e
+	Uq32tFizt8TcE950ocTyVjNeLPk7NGa743/2s0vzhhdL+wiDFVsawirch1ETyCcf+lau
+	gxAksOTNdHyl2oG85hkbOdWuapLPFJTH8WLVLeWd3+Rzucc0q5vxwhabk48rjy3QFVjH
+	nTieoifdELYSqx4HZVXWkEYZWWHcHNeuCP4UiNGWZig2gnxWAMfIbEmXN7mkgfnadx++
+	/4Gw==
+X-Received: by 10.49.110.36 with SMTP id hx4mr851902qeb.93.1381371803271;
+	Wed, 09 Oct 2013 19:23:23 -0700 (PDT)
+Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
+	[74.71.215.22])
+	by mx.google.com with ESMTPSA id h6sm82159945qej.4.1969.12.31.16.00.00
+	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 09 Oct 2013 19:23:22 -0700 (PDT)
+From: Chris Patterson <cjp256@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Wed,  9 Oct 2013 22:22:48 -0400
+Message-Id: <1381371771-12021-1-git-send-email-cjp256@gmail.com>
+X-Mailer: git-send-email 1.8.4.rc3
+Subject: [PATCH v2 0/3] Xen guest support
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,26 +41,34 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Oct 2013 09:14:26 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 10 Oct 2013 02:23:24 -0000
 
-On 10/04/2013 07:23 PM, Philip Tricca wrote:
-> Probably should add that I'm not very fond of having the path hard coded
-> like this. Makes for a dependency on the install location from the
-> checkpolicy recipe. For the short term this fixes the immediate issue
-> though. Feedback on the "right way" to reference / find this binary
-> would be appreciated.
->
-> Regards,
-> - Philip
+This patch set supercedes:
+[meta-virtualization][PATCH] xen-guest-image-minimal: example image for a PV/HVM/PVHVM xen guest built with the 'xen-guest' kernel fragment.
+[meta-virtualization][PATCH] linux-yocto: Add xen guest kernel fragment support for PV/HVM guests, using 'xen-guest' distro flag.
 
-I suppose the correct way would be to patch the configure scripts and 
-upstream that patch to Xen. But I have no problems with this, as long as 
-chkconfig referenced from native sysroot is in DEPENDS, to avoid build 
-race conditions.
+v1 -> v2:
+Consolidates xen-guest.cfg and xen.cfg into a single fragment that should be more consistent with typical yocto fragments and satisfies requirements for different types of xen guests.
+Simplified xen-guest-image-minimal to simply append console=hvc0 kernel argument instead of the special syslinux config handling.
 
-Br,
-David
+Chris Patterson (3):
+  linux-yocto/xen: update fragment to support both dom0 and typical xen
+    guests.
+  xen-image-minimal: update image installed modules to reflect xen
+    fragment changes.
+  xen-guest-image-minimal: add minimal xen guest image.
+
+ recipes-extended/images/xen-guest-image-minimal.bb | 16 ++++++++++++++++
+ recipes-extended/images/xen-image-minimal.bb       |  6 ------
+ recipes-kernel/linux/linux-yocto/xen.cfg           | 13 ++++++-------
+ recipes-kernel/linux/linux-yocto/xen.scc           |  4 ++--
+ recipes-kernel/linux/linux-yocto_3.10.bbappend     |  2 +-
+ recipes-kernel/linux/linux-yocto_3.4.bbappend      |  2 +-
+ recipes-kernel/linux/linux-yocto_3.8.bbappend      |  2 +-
+ 7 files changed, 27 insertions(+), 18 deletions(-)
+ create mode 100644 recipes-extended/images/xen-guest-image-minimal.bb
+
+-- 
+1.8.4.rc3
 
 
