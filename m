@@ -1,36 +1,36 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-qe0-f43.google.com (mail-qe0-f43.google.com
-	[209.85.128.43])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 634D2E0161B
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B43CCE01653
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Oct 2013 19:23:27 -0700 (PDT)
-Received: by mail-qe0-f43.google.com with SMTP id nc12so1395883qeb.30
+	Thu, 10 Oct 2013 20:21:39 -0700 (PDT)
+Received: by mail-lb0-f181.google.com with SMTP id u14so2824497lbd.26
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 09 Oct 2013 19:23:27 -0700 (PDT)
+	Thu, 10 Oct 2013 20:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qLbKYJrpQyxiE1KMGJacYH+ZxXQarcqcuJyGGe0gRHo=;
-	b=RA9791JAew9tmIFl+H5dK90hu/JPsx7uioHrlKEdHCdbphouXL/waYOPDonj0UmEI5
-	jy4/uBLPTiWWHbJ4WmNvU43ROxorvn8TaIi97wVpVHdM8MbQXbZL4uTJZyF0sW1kKM2J
-	lrSeyOdC7j+jS/mlxXrzEQmM0mzeQwBpCdi1NlspKeY4zREwTcz8KZkMcNHnfFho99AJ
-	1ByhjpaNzG2gFQ7Rhuukg1ipVQwU5ydLfDQicrxAYk6hPB7bq5T/iTcF7AaoqUejPhG9
-	n2xbu2IG/kIhDF5BaNpXNjDh5NsbgClh9u7KpYLW0k3YvHGjaAJyIPz/D2XJt1/ns60p
-	eeZw==
-X-Received: by 10.229.191.7 with SMTP id dk7mr15650491qcb.4.1381371807357;
-	Wed, 09 Oct 2013 19:23:27 -0700 (PDT)
-Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
-	[74.71.215.22])
-	by mx.google.com with ESMTPSA id h6sm82159945qej.4.1969.12.31.16.00.00
-	(version=TLSv1.2 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Wed, 09 Oct 2013 19:23:26 -0700 (PDT)
-From: Chris Patterson <cjp256@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Wed,  9 Oct 2013 22:22:51 -0400
-Message-Id: <1381371771-12021-4-git-send-email-cjp256@gmail.com>
-X-Mailer: git-send-email 1.8.4.rc3
-In-Reply-To: <1381371771-12021-1-git-send-email-cjp256@gmail.com>
-References: <1381371771-12021-1-git-send-email-cjp256@gmail.com>
-Subject: [PATCH v2 3/3] xen-guest-image-minimal: add minimal xen guest image.
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=yAybip1rpxGPqNzU4DoqR+WIYDJjPGjzhMwn6KiGb4Y=;
+	b=J30FIPFP29TfVE7ku0qByGOsFX1PunIRKpDMgl/8GU3o+l07XxepQEjIxBSZ+ZDAdu
+	wVwf5oNX8Hk0ElKes/AllYnwABcKPrDL8JWYhLkf3zhz2+GlQCkMeQtwZZqRXeiS52jm
+	XN59N6qqtwJ10hRa1HmPIKFya5MuNZiIdJVfX+/2HtZJaRQGXjLAAhnGeuzIOx+zvHNY
+	FJEU9WMaG1JMAh98ifKaG1jvqVyUMEJosIOLskHJkgnuyW/7p0Xlz1GKoj8+CeI76v7O
+	/FX5QcWXXyl9e1/LvLdrsToM8jeG39ebWCfREmsMa5tvtQMxwf6CfcunIRkyw247HzAF
+	tKmw==
+MIME-Version: 1.0
+X-Received: by 10.112.0.173 with SMTP id 13mr14674026lbf.8.1381461697611; Thu,
+	10 Oct 2013 20:21:37 -0700 (PDT)
+Received: by 10.112.12.103 with HTTP; Thu, 10 Oct 2013 20:21:37 -0700 (PDT)
+In-Reply-To: <52551E5A.4000204@gmail.com>
+References: <20131004163952.GA5669@longhaul.twobit.us>
+	<524EF9AE.7090201@twobit.us> <52551E5A.4000204@gmail.com>
+Date: Thu, 10 Oct 2013 23:21:37 -0400
+Message-ID: <CADkTA4PvJVHCvLi7bG7Vckqv-8MqbWju3HwSvkc7eo8HE89Nzw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.c.nystrom@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] Explicitly set CHECKPOLICY path to native sysroot.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,37 +43,53 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Oct 2013 02:23:28 -0000
+X-List-Received-Date: Fri, 11 Oct 2013 03:21:40 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Chris Patterson <cjp256@gmail.com>
----
- recipes-extended/images/xen-guest-image-minimal.bb | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 recipes-extended/images/xen-guest-image-minimal.bb
+On Wed, Oct 9, 2013 at 5:14 AM, David Nystr=F6m <david.c.nystrom@gmail.com>=
+ wrote:
+> On 10/04/2013 07:23 PM, Philip Tricca wrote:
+>>
+>> Probably should add that I'm not very fond of having the path hard coded
+>> like this. Makes for a dependency on the install location from the
+>> checkpolicy recipe. For the short term this fixes the immediate issue
+>> though. Feedback on the "right way" to reference / find this binary
+>> would be appreciated.
+>>
+>> Regards,
+>> - Philip
+>
+>
+> I suppose the correct way would be to patch the configure scripts and
+> upstream that patch to Xen. But I have no problems with this, as long as
+> chkconfig referenced from native sysroot is in DEPENDS, to avoid build ra=
+ce
+> conditions.
 
-diff --git a/recipes-extended/images/xen-guest-image-minimal.bb b/recipes-extended/images/xen-guest-image-minimal.bb
-new file mode 100644
-index 0000000..bcac4d7
---- /dev/null
-+++ b/recipes-extended/images/xen-guest-image-minimal.bb
-@@ -0,0 +1,16 @@
-+DESCRIPTION = "A Xen guest image."
-+
-+inherit core-image
-+
-+IMAGE_INSTALL += " \
-+    packagegroup-core-boot \
-+    kernel-module-xen-acpi-processor \
-+    "
-+
-+IMAGE_INSTALL += "${@base_contains('DISTRO_FEATURES', 'x11', ' xf86-video-fbdev', '', d)}"
-+IMAGE_INSTALL += "${@base_contains('DISTRO_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
-+
-+LICENSE = "MIT"
-+
-+# Send console messages to xen console
-+APPEND += "console=hvc0"
--- 
-1.8.4.rc3
+Which isn't the case at the moment.So this patch needs a bit more work.
 
+Philip: Are you talking about the selinux checkpolicy here ? I assume you a=
+re,
+but want to be sure. If you are, not only do we need the package in the
+DEPENDS, we need meta-selinux in the README's layer dependency list for
+meta-virt.
+
+Bruce
+
+>
+> Br,
+> David
+>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
