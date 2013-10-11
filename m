@@ -1,36 +1,36 @@
-Return-Path: <flihp@twobit.us>
-Received: from www.twobit.us (www.twobit.us [50.19.210.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1D170E011C5
+Return-Path: <cjp256@gmail.com>
+Received: from mail-lb0-f174.google.com (mail-lb0-f174.google.com
+	[209.85.217.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52535E0159B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 11 Oct 2013 11:36:55 -0700 (PDT)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=[10.79.148.145])
-	by www.twobit.us with esmtpsa (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.72) (envelope-from <flihp@twobit.us>)
-	id 1VUha0-0003mX-PG; Fri, 11 Oct 2013 18:36:53 +0000
-Message-ID: <5258453A.3090408@twobit.us>
-Date: Fri, 11 Oct 2013 14:36:42 -0400
-From: Philip Tricca <flihp@twobit.us>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130922 Icedove/17.0.9
+	Fri, 11 Oct 2013 13:57:54 -0700 (PDT)
+Received: by mail-lb0-f174.google.com with SMTP id w6so3877182lbh.33
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 11 Oct 2013 13:57:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=cm0shQTiVnCPueTd1lfKSY8QoOhYRCOFRwLQLotXNE4=;
+	b=rTRy9aPCrxATxDfD+F2qAntCn6tE8yDtqlI+tv8xFnXx+WkOlMos/d3xwahj2bvkI4
+	EKhheEyjII+EwIJ9nAK4Pomq09F3EQwJ2eVr0wNpJdh8gs76x8YE1DG14TH0Y2CIc5dt
+	Uw5sn8I4w6XqzgCEzKQc4badymxBjWbN/SaVbViuOkryWe4rB4PmaopbLb5e0+iL4zse
+	Cc/lJuUWsNxaY1mtcgUaM8rW+Tkc8S/F8tVeqqmC8CfnvB9nnI5TyRP3vttX/3oqZAWx
+	K0hsObDJJPLwR0YbA2llauieV7LtXVqZBkO/7+37VQNEaVhIv5MZs+II3xZN031g5muh
+	ssUw==
 MIME-Version: 1.0
+X-Received: by 10.112.53.130 with SMTP id b2mr18235811lbp.6.1381525073150;
+	Fri, 11 Oct 2013 13:57:53 -0700 (PDT)
+Received: by 10.114.181.41 with HTTP; Fri, 11 Oct 2013 13:57:53 -0700 (PDT)
+In-Reply-To: <CADkTA4PUpuVhh28WFetFChKapQvZ8ym4D+EvmgadX-3u93=CoA@mail.gmail.com>
+References: <1381371771-12021-1-git-send-email-cjp256@gmail.com>
+	<CADkTA4PUpuVhh28WFetFChKapQvZ8ym4D+EvmgadX-3u93=CoA@mail.gmail.com>
+Date: Fri, 11 Oct 2013 16:57:53 -0400
+Message-ID: <CABZSBQcfQOA73Mz7n-pKWpkRJ4cz+0pbPvOGxysMAyKQAi8PTg@mail.gmail.com>
+From: Chris Patterson <cjp256@gmail.com>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <20131004163952.GA5669@longhaul.twobit.us>
-	<524EF9AE.7090201@twobit.us> <52551E5A.4000204@gmail.com>
-	<CADkTA4PvJVHCvLi7bG7Vckqv-8MqbWju3HwSvkc7eo8HE89Nzw@mail.gmail.com>
-In-Reply-To: <CADkTA4PvJVHCvLi7bG7Vckqv-8MqbWju3HwSvkc7eo8HE89Nzw@mail.gmail.com>
-X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-X-SA-Exim-Version: 4.2.1 (built Mon, 22 Mar 2010 06:26:47 +0000)
-X-SA-Exim-Scanned: Yes (on www.twobit.us)
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Explicitly set CHECKPOLICY path to native sysroot.
+Subject: Re: [PATCH v2 0/3] Xen guest support
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,53 +43,157 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Oct 2013 18:36:58 -0000
+X-List-Received-Date: Fri, 11 Oct 2013 20:57:55 -0000
+Content-Type: multipart/alternative; boundary=001a11c3f4003bc98604e87d5feb
+
+--001a11c3f4003bc98604e87d5feb
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
 
-On 10/10/2013 11:21 PM, Bruce Ashfield wrote:
-> On Wed, Oct 9, 2013 at 5:14 AM, David Nyström <david.c.nystrom@gmail.com> wrote:
->> On 10/04/2013 07:23 PM, Philip Tricca wrote:
->>>
->>> Probably should add that I'm not very fond of having the path hard coded
->>> like this. Makes for a dependency on the install location from the
->>> checkpolicy recipe. For the short term this fixes the immediate issue
->>> though. Feedback on the "right way" to reference / find this binary
->>> would be appreciated.
->>>
->>> Regards,
->>> - Philip
->>
->>
->> I suppose the correct way would be to patch the configure scripts and
->> upstream that patch to Xen. But I have no problems with this, as long as
->> chkconfig referenced from native sysroot is in DEPENDS, to avoid build race
->> conditions.
-> 
-> Which isn't the case at the moment.So this patch needs a bit more work.
-
-So even doing this "the right way" by setting the variable and including
-checkpolicy in the DEPENDS (using the selinux distro feature) won't fix
-the immediate problem: the configure script and Makefile don't work
-right so any user with /usr/bin/checkpolicy installed on their build
-host will end up with the Xen recipe trying to build the FLASK policy
-and it won't compile.
-
-I'll start checking upstream to see if this was fixed recently or if I
-have to start from scratch. Good data on how to handle the conditional
-dependency though.
-
-> Philip: Are you talking about the selinux checkpolicy here ? I assume you are,
-> but want to be sure. If you are, not only do we need the package in the
-> DEPENDS, we need meta-selinux in the README's layer dependency list for
-> meta-virt.
-
-That's the checkpolicy I'm talking about. The right way to add a
-dependency on a new layer w/o forcing that layer on everyone wasn't
-initially clear. I'll poke around the DISTRO_FEATURES stuff and com back
-with a v2
-
-Thanks,
-- Philip
+Thanks, looks good.
 
 
+On Thu, Oct 10, 2013 at 11:34 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com>wrote:
+
+> On Wed, Oct 9, 2013 at 10:22 PM, Chris Patterson <cjp256@gmail.com> wrote:
+> > This patch set supercedes:
+> > [meta-virtualization][PATCH] xen-guest-image-minimal: example image for
+> a PV/HVM/PVHVM xen guest built with the 'xen-guest' kernel fragment.
+> > [meta-virtualization][PATCH] linux-yocto: Add xen guest kernel fragment
+> support for PV/HVM guests, using 'xen-guest' distro flag.
+> >
+> > v1 -> v2:
+> > Consolidates xen-guest.cfg and xen.cfg into a single fragment that
+> should be more consistent with typical yocto fragments and satisfies
+> requirements for different types of xen guests.
+> > Simplified xen-guest-image-minimal to simply append console=hvc0 kernel
+> argument instead of the special syslinux config handling.
+>
+> Chris,
+>
+> I grabbed and merged these three, plus the outstanding patches from your
+> other series. I very well could have missed something, so if i have, resend
+> them and I'll get them merged right away.
+>
+> Bruce
+>
+> >
+> > Chris Patterson (3):
+> >   linux-yocto/xen: update fragment to support both dom0 and typical xen
+> >     guests.
+> >   xen-image-minimal: update image installed modules to reflect xen
+> >     fragment changes.
+> >   xen-guest-image-minimal: add minimal xen guest image.
+> >
+> >  recipes-extended/images/xen-guest-image-minimal.bb | 16
+> ++++++++++++++++
+> >  recipes-extended/images/xen-image-minimal.bb       |  6 ------
+> >  recipes-kernel/linux/linux-yocto/xen.cfg           | 13 ++++++-------
+> >  recipes-kernel/linux/linux-yocto/xen.scc           |  4 ++--
+> >  recipes-kernel/linux/linux-yocto_3.10.bbappend     |  2 +-
+> >  recipes-kernel/linux/linux-yocto_3.4.bbappend      |  2 +-
+> >  recipes-kernel/linux/linux-yocto_3.8.bbappend      |  2 +-
+> >  7 files changed, 27 insertions(+), 18 deletions(-)
+> >  create mode 100644 recipes-extended/images/xen-guest-image-minimal.bb
+> >
+> > --
+> > 1.8.4.rc3
+> >
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
+
+--001a11c3f4003bc98604e87d5feb
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks, looks good.</div><div class=3D"gmail_extra"><br><b=
+r><div class=3D"gmail_quote">On Thu, Oct 10, 2013 at 11:34 PM, Bruce Ashfie=
+ld <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=
+=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Wed, Oct 9, 2013 at 10:=
+22 PM, Chris Patterson &lt;<a href=3D"mailto:cjp256@gmail.com">cjp256@gmail=
+.com</a>&gt; wrote:<br>
+
+&gt; This patch set supercedes:<br>
+&gt; [meta-virtualization][PATCH] xen-guest-image-minimal: example image fo=
+r a PV/HVM/PVHVM xen guest built with the &#39;xen-guest&#39; kernel fragme=
+nt.<br>
+&gt; [meta-virtualization][PATCH] linux-yocto: Add xen guest kernel fragmen=
+t support for PV/HVM guests, using &#39;xen-guest&#39; distro flag.<br>
+&gt;<br>
+&gt; v1 -&gt; v2:<br>
+&gt; Consolidates xen-guest.cfg and xen.cfg into a single fragment that sho=
+uld be more consistent with typical yocto fragments and satisfies requireme=
+nts for different types of xen guests.<br>
+&gt; Simplified xen-guest-image-minimal to simply append console=3Dhvc0 ker=
+nel argument instead of the special syslinux config handling.<br>
+<br>
+</div>Chris,<br>
+<br>
+I grabbed and merged these three, plus the outstanding patches from your<br=
+>
+other series. I very well could have missed something, so if i have, resend=
+<br>
+them and I&#39;ll get them merged right away.<br>
+<br>
+Bruce<br>
+<div class=3D"im"><br>
+&gt;<br>
+&gt; Chris Patterson (3):<br>
+&gt; =A0 linux-yocto/xen: update fragment to support both dom0 and typical =
+xen<br>
+&gt; =A0 =A0 guests.<br>
+&gt; =A0 xen-image-minimal: update image installed modules to reflect xen<b=
+r>
+&gt; =A0 =A0 fragment changes.<br>
+&gt; =A0 xen-guest-image-minimal: add minimal xen guest image.<br>
+&gt;<br>
+&gt; =A0recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.b=
+b" target=3D"_blank">xen-guest-image-minimal.bb</a> | 16 ++++++++++++++++<b=
+r>
+&gt; =A0recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" tar=
+get=3D"_blank">xen-image-minimal.bb</a> =A0 =A0 =A0 | =A06 ------<br>
+&gt; =A0recipes-kernel/linux/linux-yocto/xen.cfg =A0 =A0 =A0 =A0 =A0 | 13 +=
++++++-------<br>
+&gt; =A0recipes-kernel/linux/linux-yocto/xen.scc =A0 =A0 =A0 =A0 =A0 | =A04=
+ ++--<br>
+&gt; =A0recipes-kernel/linux/linux-yocto_3.10.bbappend =A0 =A0 | =A02 +-<br=
+>
+&gt; =A0recipes-kernel/linux/linux-yocto_3.4.bbappend =A0 =A0 =A0| =A02 +-<=
+br>
+&gt; =A0recipes-kernel/linux/linux-yocto_3.8.bbappend =A0 =A0 =A0| =A02 +-<=
+br>
+&gt; =A07 files changed, 27 insertions(+), 18 deletions(-)<br>
+&gt; =A0create mode 100644 recipes-extended/images/<a href=3D"http://xen-gu=
+est-image-minimal.bb" target=3D"_blank">xen-guest-image-minimal.bb</a><br>
+&gt;<br>
+&gt; --<br>
+&gt; 1.8.4.rc3<br>
+&gt;<br>
+</div>&gt; _______________________________________________<br>
+&gt; meta-virtualization mailing list<br>
+&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
+ation@yoctoproject.org</a><br>
+&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
+" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualiza=
+tion</a><br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
+<br>
+--<br>
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
+r>
+thee at its end&quot;<br>
+</font></span></blockquote></div><br></div>
+
+--001a11c3f4003bc98604e87d5feb--
