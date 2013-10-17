@@ -1,32 +1,25 @@
-Return-Path: <flihp@twobit.us>
-Received: from www.twobit.us (www.twobit.us [50.19.210.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 34445E016D7
+Return-Path: <Yang.Shi@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E5D62E016D1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 17 Oct 2013 11:47:54 -0700 (PDT)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=longhaul.twobit.us)
-	by www.twobit.us with esmtpsa (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.72) (envelope-from <flihp@twobit.us>)
-	id 1VWsbx-0004ra-Dc; Thu, 17 Oct 2013 18:47:53 +0000
-Received: from flihp by longhaul.twobit.us with local (Exim 4.80)
-	(envelope-from <flihp@longhaul.twobit.us>)
-	id 1VWsbp-0007uI-0G; Thu, 17 Oct 2013 18:47:45 +0000
-From: flihp@twobit.us
-To: meta-virtualization@yoctoproject.org
-Date: Thu, 17 Oct 2013 18:47:35 +0000
-Message-Id: <1382035656-30349-3-git-send-email-flihp@twobit.us>
-X-Mailer: git-send-email 1.7.10.4
-In-Reply-To: <1382035656-30349-1-git-send-email-flihp@twobit.us>
-References: <1382035656-30349-1-git-send-email-flihp@twobit.us>
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on www.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.1
-X-SA-Exim-Version: 4.2.1 (built Mon, 22 Mar 2010 06:26:47 +0000)
-X-SA-Exim-Scanned: Yes (on www.twobit.us)
-Subject: [PATCH 2/3] build xsm policy when 'xsm' DISTRO_FEATURE is present
+	Thu, 17 Oct 2013 12:34:39 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9HJYbp3013896
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 17 Oct 2013 12:34:37 -0700 (PDT)
+Received: from localhost.localdomain (147.11.152.86) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.2.347.0; Thu, 17 Oct 2013 12:34:37 -0700
+From: Yang Shi <yang.shi@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Thu, 17 Oct 2013 12:29:24 -0700
+Message-ID: <1382038164-21363-1-git-send-email-yang.shi@windriver.com>
+X-Mailer: git-send-email 1.7.5.4
+MIME-Version: 1.0
+Cc: yang.shi@windriver.com
+Subject: [PATCH] libvirt: Fix wrong depend for libxl
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,42 +32,31 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Oct 2013 18:47:54 -0000
+X-List-Received-Date: Thu, 17 Oct 2013 19:34:40 -0000
+Content-Type: text/plain
 
-From: Philip Tricca <flihp@twobit.us>
+xen is not the right dependancy for --with-libxl/--without-libxl, replace
+it to libxl.
 
-This pulls in a dependency on the checkpolicy compiler (native)
-and adds --enable-xsmpolicy in do_configure when 'xsm'
-DISTRO_FEATURE is present.
-
-Signed-off-by: Philip Tricca <flihp@twobit.us>
+Signed-off-by: Yang Shi <yang.shi@windriver.com>
 ---
- recipes-extended/xen/xen_4.3.0.bb |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-extended/libvirt/libvirt_1.1.2.bb |    2 +-
+ 1 files changed, 1 insertions(+), 1 deletions(-)
 
-diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
-index 228f75f..078b39c 100644
---- a/recipes-extended/xen/xen_4.3.0.bb
-+++ b/recipes-extended/xen/xen_4.3.0.bb
-@@ -20,7 +20,7 @@ COMPATIBLE_HOST = '(x86_64.*).*-linux'
- 
- inherit autotools gettext setuptools update-rc.d
- 
--DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native libsdl"
-+DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native libsdl ${@base_contains('DISTRO_FEATURES', 'xsm', 'checkpolicy-native', '', d )}"
- 
- # inherit setuptools adds python to RDEPENDS, override it
- RDEPENDS_${PN} = ""
-@@ -580,7 +580,7 @@ do_configure() {
-     fi
- 
-     # do configure
--    ./configure --exec-prefix=/usr --prefix=/usr --host=${HOST_SYS} --disable-stubdom --disable-ioemu-stubdom --disable-pv-grub --disable-xenstore-stubdom
-+    ./configure --exec-prefix=/usr --prefix=/usr --host=${HOST_SYS} --disable-stubdom --disable-ioemu-stubdom --disable-pv-grub --disable-xenstore-stubdom "${@base_contains('DISTRO_FEATURES', 'xsm', '--enable-xsmpolicy', '--disable-xsmpolicy',d)}"
- 
-     # seabios needs a patch to specify correct compiler - pull and patch Makefile
-     make -C ${S}/tools/firmware seabios-dir
+diff --git a/recipes-extended/libvirt/libvirt_1.1.2.bb b/recipes-extended/libvirt/libvirt_1.1.2.bb
+index 819072d..ca34b3c 100644
+--- a/recipes-extended/libvirt/libvirt_1.1.2.bb
++++ b/recipes-extended/libvirt/libvirt_1.1.2.bb
+@@ -131,7 +131,7 @@ PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu,"
+ PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
+ PACKAGECONFIG[xen] = "--with-xen,--without-xen,xen,"
+ PACKAGECONFIG[xenapi] = "--with-xenapi,--without-xenapi,,"
+-PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,xen,"
++PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,libxl,"
+ PACKAGECONFIG[xen-inotify] = "--with-xen-inotify,--without-xen-inotify,xen,"
+ PACKAGECONFIG[uml] = "--with-uml, --without-uml,,"
+ PACKAGECONFIG[openvz] = "--with-openvz,--without-openvz,,"
 -- 
-1.7.10.4
+1.7.5.4
 
 
