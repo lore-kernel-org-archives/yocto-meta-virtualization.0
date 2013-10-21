@@ -1,33 +1,40 @@
-Return-Path: <jonatan.palsson@pelagicore.com>
-Received: from mail-vb0-f54.google.com (mail-vb0-f54.google.com
-	[209.85.212.54])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 059CCE01713
+Return-Path: <david.c.nystrom@gmail.com>
+Received: from mail-wi0-f178.google.com (mail-wi0-f178.google.com
+	[209.85.212.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 70E73E01725
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 20 Oct 2013 23:37:58 -0700 (PDT)
-Received: by mail-vb0-f54.google.com with SMTP id q14so3739600vbe.13
+	Mon, 21 Oct 2013 03:31:48 -0700 (PDT)
+Received: by mail-wi0-f178.google.com with SMTP id hn9so3729211wib.5
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 20 Oct 2013 23:37:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=A8WSVhyon5EpAervzSZv2Y6Xbcfstp26f4JIflacfXU=;
-	b=TzddHSHvng4D6ZwZIs8VnkzfIlPjIu3mfS56icmFX1c2MKhXr4MjVQnTZgj/LWKjrV
-	IMpCFLNWsRQaBKg7eFypT/EwnrEBmrmWqwMJc08BFpsHx475mcqcU93IVMe/RqfO1HVK
-	m2Ksa9v9pMnMN6ncKQKJnUPZI0Vb3ORXhNf7mBIpWn8aGNKpZ3FP0C8RrwwucfEI8yfS
-	ZxM8uiMgKj4R5qtZUEAJ3+V5ZMsH76GYXaKnawz+DF2Rq1IeaURhj6lQl9M+KnbOh4+B
-	gyEqNge/AHl1jNNiVVDaR/RAWCtdjo7HkCTMGy7uNDDrDDasTYy/HYANglRizfzUKKfY
-	eXuw==
-X-Gm-Message-State: ALoCoQkcG8bfo6s+2/tqGEr0JHhD0rhi1XGvw/pqt4RkgZZg1N8+TfxMv8NT1Tb24KiKOXZagdRM
+	Mon, 21 Oct 2013 03:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=message-id:date:from:user-agent:mime-version:to:subject:references
+	:in-reply-to:content-type:content-transfer-encoding;
+	bh=n+K2hhlSyHMq3ZouA2atOOKiYVfKBi0QAtqi4pwLHxA=;
+	b=VOnjSs1DKEU9pVhSh5Sk0TxojH+rKeHY6Z3uP1Ftl6uj3MGJhK/DNb4LL+/SW4BdBM
+	4daeuZGw3yhEIPfsFH5+Lj4Z6O3odoYJXoa//m6x6DrGxtglBqcsJ64RuFskxs7D6fwd
+	eENJvmq8HwWbIo1Rw17LFuM7mgxge02SyiS7b0hIk5bsOtRF5XFJ0z6h8b2Z88uakkfg
+	zOG+j2YCPGAWEl89OAzhAkjK89E2gZpu4K1oqdmw1aF7Bgzhu9h06nHwNrzP36UN5M93
+	RFIJbk8wvrMBrDGhix2Oh6f8Ob1EAq41p5euzovkuUv87iq7pUiTg9oySCNCAqh+4eoj
+	HOMw==
+X-Received: by 10.180.13.174 with SMTP id i14mr9226962wic.49.1382351507688;
+	Mon, 21 Oct 2013 03:31:47 -0700 (PDT)
+Received: from [172.22.81.31] (ed03490-ge-0-0-0.mgdfwr.lumison.net.
+	[212.20.242.100]) by mx.google.com with ESMTPSA id
+	gg20sm53234410wic.1.2013.10.21.03.31.46 for <multiple recipients>
+	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 21 Oct 2013 03:31:47 -0700 (PDT)
+Message-ID: <5265028F.40506@gmail.com>
+Date: Mon, 21 Oct 2013 12:31:43 +0200
+From: =?UTF-8?B?RGF2aWQgTnlzdHLDtm0=?= <david.c.nystrom@gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.0
 MIME-Version: 1.0
-X-Received: by 10.58.216.74 with SMTP id oo10mr1523845vec.0.1382337477568;
-	Sun, 20 Oct 2013 23:37:57 -0700 (PDT)
-Received: by 10.220.101.12 with HTTP; Sun, 20 Oct 2013 23:37:57 -0700 (PDT)
-Date: Mon, 21 Oct 2013 08:37:57 +0200
-Message-ID: <CABYQY==EU9m2OV1LEi2NP6xqed2q0dVb9YnGkZyj20UE9E-5Jw@mail.gmail.com>
-From: =?ISO-8859-1?Q?Jonatan_P=E5lsson?= <jonatan.palsson@pelagicore.com>
-To: meta-virtualization@yoctoproject.org
-Subject: PATCH: Fix URL for LXC tarball
+To: =?UTF-8?B?Sm9uYXRhbiBQw6Vsc3Nvbg==?= <jonatan.palsson@pelagicore.com>, 
+	meta-virtualization@yoctoproject.org
+References: <CABYQY==EU9m2OV1LEi2NP6xqed2q0dVb9YnGkZyj20UE9E-5Jw@mail.gmail.com>
+In-Reply-To: <CABYQY==EU9m2OV1LEi2NP6xqed2q0dVb9YnGkZyj20UE9E-5Jw@mail.gmail.com>
+Subject: Re: PATCH: Fix URL for LXC tarball
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -40,52 +47,63 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Oct 2013 06:38:00 -0000
-X-Groupsio-MsgNum: 470
-Content-Type: multipart/mixed; boundary=047d7b86e3d84f9c4604e93a863b
+X-List-Received-Date: Mon, 21 Oct 2013 10:31:49 -0000
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---047d7b86e3d84f9c4604e93a863b
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+On 10/21/2013 08:37 AM, Jonatan Pålsson wrote:
+> Hello,
+>
+> See the following patch for the correct URL.
+>
 
-Hello,
+Hej Jonathan,
 
-See the following patch for the correct URL.
+That new URL seems to fail for me.
 
---=20
-Regards,
-Jonatan P=E5lsson
+$ wget http://lxc.sourceforge.net/downloads/lxc-0.9.0.tar.gz
+--2013-10-21 12:26:35-- 
+http://lxc.sourceforge.net/downloads/lxc-0.9.0.tar.gz
+Resolving lxc.sourceforge.net (lxc.sourceforge.net)... 216.34.181.96
+Connecting to lxc.sourceforge.net 
+(lxc.sourceforge.net)|216.34.181.96|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2013-10-21 12:26:35 ERROR 404: Not Found.
 
-Pelagicore AB
-Ekelundsgatan 4, 6th floor, SE-411 18 Gothenburg, Sweden
 
---047d7b86e3d84f9c4604e93a863b
-Content-Type: application/octet-stream; 
-	name="0001-lxc-fixed-URL-for-tarball.patch"
-Content-Disposition: attachment; 
-	filename="0001-lxc-fixed-URL-for-tarball.patch"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_hn1byomt0
+The old URL issued a redirect, to an URL which now is 404:ed
+wget http://lxc.sourceforge.net/download/lxc/lxc-0.9.0.tar.gz
+--2013-10-21 12:24:30-- 
+http://lxc.sourceforge.net/download/lxc/lxc-0.9.0.tar.gz
+Resolving lxc.sourceforge.net (lxc.sourceforge.net)... 216.34.181.96
+Connecting to lxc.sourceforge.net 
+(lxc.sourceforge.net)|216.34.181.96|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: http://linuxcontainers.org/downloads/lxc/lxc-0.9.0.tar.gz 
+[following]
+--2013-10-21 12:24:30-- 
+http://linuxcontainers.org/downloads/lxc/lxc-0.9.0.tar.gz
+Resolving linuxcontainers.org (linuxcontainers.org)... 204.232.175.78
+Connecting to linuxcontainers.org 
+(linuxcontainers.org)|204.232.175.78|:80... connected.
+HTTP request sent, awaiting response... 404 Not Found
+2013-10-21 12:24:30 ERROR 404: Not Found.
 
-RnJvbSA3YzY0ZTc2YmQxYzI1NzhiOWNjNWY3OTJmYTYyMzA4ZjJhYTQxY2JkIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiA9P1VURi04P3E/Sm9uYXRhbj0yMFA9QzM9QTVsc3Nvbj89IDxq
-b25hdGFuLnBhbHNzb25AcGVsYWdpY29yZS5jb20+CkRhdGU6IE1vbiwgMjEgT2N0IDIwMTMgMDg6
-MjI6MjIgKzAyMDAKU3ViamVjdDogW1BBVENIXSBseGM6IGZpeGVkIFVSTCBmb3IgdGFyYmFsbApN
-SU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgK
-Q29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJpdAoKU2lnbmVkLW9mZi1ieTogSm9uYXRhbiBQ
-w6Vsc3NvbiA8am9uYXRhbi5wYWxzc29uQHBlbGFnaWNvcmUuY29tPgotLS0KIHJlY2lwZXMtY29u
-dGFpbmVycy9seGMvbHhjXzAuOS4wLmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvcmVjaXBlcy1jb250YWluZXJzL2x4
-Yy9seGNfMC45LjAuYmIgYi9yZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2x4Y18wLjkuMC5iYgppbmRl
-eCA1NjMxMzFmLi4wYTdlNjc0IDEwMDY0NAotLS0gYS9yZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2x4
-Y18wLjkuMC5iYgorKysgYi9yZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2x4Y18wLjkuMC5iYgpAQCAt
-MjEsNyArMjEsNyBAQCBSREVQRU5EU18ke1BOfSA9ICIgXAogCQlwZXJsLW1vZHVsZS1leHBvcnRl
-ci1oZWF2eSBcCiAiCiAKLVNSQ19VUkkgPSAiaHR0cDovL2x4Yy5zb3VyY2Vmb3JnZS5uZXQvZG93
-bmxvYWQvbHhjLyR7UE59LSR7UFZ9LnRhci5neiBcCitTUkNfVVJJID0gImh0dHA6Ly9seGMuc291
-cmNlZm9yZ2UubmV0L2Rvd25sb2Fkcy8ke1BOfS0ke1BWfS50YXIuZ3ogXAogCWZpbGU6Ly9seGMt
-MC45LjAtZGlzYWJsZS11ZGhjcC1mcm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2ggXAogCWZpbGU6
-Ly9seGMtMC45LjAtZW5hYmxlLWNocm9vdC1jaHBhc3N3ZC1mdW5jdGlvbmFsaXR5LWZvci1idXN5
-Ym94LWhvc3RzLnBhdGNoIFwKICAgICBmaWxlOi8vbHhjLTAuOS4wLWNoZWNrLXdoZW4tYmluZC1t
-b3VudGluZy1saWJkaXJzLnBhdGNoIFwKLS0gCjEuOC40LnJjMwoK
+I suppose you meant to add URL, which seems to be working.
+wget http://linuxcontainers.org/downloads/lxc-0.9.0.tar.gz
 
---047d7b86e3d84f9c4604e93a863b--
+Please correct the URL, and use git send-email to send further patches.
+
+Br,
+David
+
+
+
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+
