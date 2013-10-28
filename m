@@ -1,35 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 11A84E01781
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (unknown [38.83.192.235])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28DCBE01797
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 26 Oct 2013 20:51:36 -0700 (PDT)
-Received: by mail-la0-f49.google.com with SMTP id eh20so4117525lab.8
-	for <meta-virtualization@yoctoproject.org>;
-	Sat, 26 Oct 2013 20:51:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=LTWOwqqXyaAxnPGAlh7pRd0QKD6RxqEgRDPMG64fn8I=;
-	b=juHYE63vAswOsoMWvxAswlJPBSdCOTnFyt9CIwxI9rVkVsd0p0Kdn7qWBZaZa0tSCx
-	I0vMWcIIrLv7K2DviI7d9UjsfHQxq5qYXlbCzNBJDyoP+HrT/Twfj/XFQ9SWzhN2B27c
-	EQOe04o/x7ZftLw0U5mgEQR2IrqGPhwEibBA5KgOrh35Wv4UUf/4OcWz7xFP4xToRXVH
-	NcfkWsL1fGp9TB/q5fh7BqpEp/dfpCpaSH13/Bm/CnGeS4wX+UKO8qapp//Bw79LuQQ6
-	tCArJuKNLP24BaO1BnjBXUtebyVr7ek+xoxH1s4rm/lZtakZuVtXb5hSzhVWql0FRw4b
-	N/tg==
-MIME-Version: 1.0
-X-Received: by 10.112.136.65 with SMTP id py1mr3166510lbb.4.1382845894599;
-	Sat, 26 Oct 2013 20:51:34 -0700 (PDT)
-Received: by 10.112.14.200 with HTTP; Sat, 26 Oct 2013 20:51:34 -0700 (PDT)
-In-Reply-To: <1382736387-20490-1-git-send-email-paul.barrette@windriver.com>
-References: <1382736387-20490-1-git-send-email-paul.barrette@windriver.com>
-Date: Sat, 26 Oct 2013 23:51:34 -0400
-Message-ID: <CADkTA4OAEjX4Y6=qvEDJBqXXxKovO=Ay744HkgBC2bf4kTgOGQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Paul Barrette <paul.barrette@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] openvswitch: fix RDEPENDS issue for installers.
+	Mon, 28 Oct 2013 15:10:47 -0700 (PDT)
+Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
+	helo=localhost)
+	by smtp.twobit.us with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1Vav1I-00057G-Qu; Mon, 28 Oct 2013 22:10:45 +0000
+Received: from flihp by localhost with local (Exim 4.80)
+	(envelope-from <flihp@longhaul.twobit.us>)
+	id 1Vav1P-0000nQ-Rz; Mon, 28 Oct 2013 22:10:51 +0000
+From: Philip Tricca <flihp@twobit.us>
+To: meta-virtualization@yoctoproject.org
+Date: Mon, 28 Oct 2013 22:10:47 +0000
+Message-Id: <1382998249-3028-1-git-send-email-flihp@twobit.us>
+X-Mailer: git-send-email 1.7.10.4
+In-Reply-To: <y>
+References: <y>
+X-SA-Exim-Connect-IP: 76.24.20.220
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+	version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Subject: [PATCH 0/2] Xen: start using PACKAGECONFIG
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,57 +39,25 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 27 Oct 2013 03:51:37 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 28 Oct 2013 22:10:48 -0000
 
-On Fri, Oct 25, 2013 at 5:26 PM, Paul Barrette
-<paul.barrette@windriver.com> wrote:
-> Make sure openvswitch has all the runtime dependencies defined.
-> Without e.g. sed, an installer may calculate dependencies and order
-> packages based on the deps, which may install openvswitch before sed.
-> This would result in an install failure, when the post install step
-> calls ovs-pki, which uses sed.
+This is a first pass at cleaning up the DEPENDS and do_configure in
+the xen_4.3.0 recipe. Adding XSM stuff made it clear that directly
+interacting with DISTRO_FEATURES was the wrong way to do it. That and
+when Chris and I ment up at LinuxCon he told me I should have used
+PACKAGECONFIG in the first place :P
 
-Looks fine to me, better to be explicit with the dependencies.
+This small patch series is the first step to handling features (like
+sdl) using PACKAGECONFIG.
 
-merged to the tree.
+Philip Tricca (2):
+  Convert direct call to ./configure with oe_runconf and EXTRA_OECONF.
+  Use PACKAGECONFIG to deal with XSM policy.
 
-Bruce
-
->
-> Signed-off-by: Paul Barrette <paul.barrette@windriver.com>
-> ---
->  recipes-networking/openvswitch/openvswitch_1.10.0.bb | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> index 9cdd839..02c8ab3 100644
-> --- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-> @@ -14,7 +14,11 @@ RDEPENDS_${PN}-pki = "${PN}"
->  RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
->  RRECOMMENDS_${PN} += "kernel-module-openvswitch"
->
-> -PR = "r2"
-> +# Some installers will fail because of an install order based on
-> +# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
-> +# queued for install later.
-> +RDEPENDS_${PN} += "sed gawk grep"
-> +PR = "r3"
->
->  SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
->         file://openvswitch-switch \
-> --
-> 1.8.1.4
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
+ recipes-extended/xen/xen_4.3.0.bb |   19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.10.4
+
 
