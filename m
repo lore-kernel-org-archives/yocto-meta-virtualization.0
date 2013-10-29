@@ -1,35 +1,24 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC3D3E0174F
+Return-Path: <Paul.Barrette@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C19B6E01756
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Oct 2013 11:20:29 -0700 (PDT)
-Received: by mail-la0-f41.google.com with SMTP id el20so215156lab.0
+	Tue, 29 Oct 2013 13:40:29 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9TKeSGI009072
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Oct 2013 11:20:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Ob/vvPuZLbWzYA0uzU226X8sZLCUmkDGmMzNm856Q4A=;
-	b=MjyhBbWbJTw6u6rvDG7LGz8VtEqTVKjW4YwkeQBFoTGbD1wLl/tTO70Dt4VNBPof48
-	R/M5YGfrbwm8H9rKeY2XNo8Ezyso/QkfnMUJCCu+VRN65ky9fvqclHdamSRHXT4r+HI6
-	rsEBRSxaagcW86Y/SfmbsFSqcjHjzNUQF0YtrHsMNglnEHMg7M+vrOAi77K8qJ6+3p5p
-	AMpw0MjqQe/j8M+eL4uwFqS510QqRwfhLJm3zz4NzkmuCp5bD9VIxW+b+R20jwOqOHNB
-	epQ+9w7Br0RXI45a63lc06CsU5GUhyfLnHZaLzLmpfnGAGCmQnZsH/ZhC1HJzoa/CQBY
-	abUA==
+	Tue, 29 Oct 2013 13:40:28 -0700 (PDT)
+Received: from yow-pbarrett-lx.wrs.com (128.224.146.11) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.2.347.0; Tue, 29 Oct 2013 13:40:28 -0700
+From: Paul Barrette <paul.barrette@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
+Date: Tue, 29 Oct 2013 16:40:27 -0400
+Message-ID: <1383079227-24408-1-git-send-email-paul.barrette@windriver.com>
+X-Mailer: git-send-email 1.8.1.4
 MIME-Version: 1.0
-X-Received: by 10.112.138.164 with SMTP id qr4mr818932lbb.49.1383070827693;
-	Tue, 29 Oct 2013 11:20:27 -0700 (PDT)
-Received: by 10.112.14.200 with HTTP; Tue, 29 Oct 2013 11:20:27 -0700 (PDT)
-In-Reply-To: <1382998249-3028-1-git-send-email-flihp@twobit.us>
-References: <1382998249-3028-1-git-send-email-flihp@twobit.us>
-Date: Tue, 29 Oct 2013 14:20:27 -0400
-Message-ID: <CADkTA4Nsa=Qd3V=9JrV_Xr++4rE-ia9+=1DPSdHReaNwrJctQA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Philip Tricca <flihp@twobit.us>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 0/2] Xen: start using PACKAGECONFIG
+Subject: [PATCH] initscripts: add warning and begin functions to lsb_log_message
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,46 +31,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Oct 2013 18:20:32 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 29 Oct 2013 20:40:32 -0000
+Content-Type: text/plain
 
-On Mon, Oct 28, 2013 at 6:10 PM, Philip Tricca <flihp@twobit.us> wrote:
-> This is a first pass at cleaning up the DEPENDS and do_configure in
-> the xen_4.3.0 recipe. Adding XSM stuff made it clear that directly
-> interacting with DISTRO_FEATURES was the wrong way to do it. That and
-> when Chris and I ment up at LinuxCon he told me I should have used
-> PACKAGECONFIG in the first place :P
+Some init scripts call a "begin" or "warning" function to log early init
+phase messages, e.g. openvswitch-controller.  These functions are not
+part of the default /etc/init.d/functions script, which is provided by
+oe-core's lsb pkg.  Append these two missing commands to
+/etc/init.d/functions during the install phase.
 
-:)
+Signed-off-by: Paul Barrette <paul.barrette@windriver.com>
+---
+ recipes-core/initscripts/initscripts_1.0.bbappend | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
->
-> This small patch series is the first step to handling features (like
-> sdl) using PACKAGECONFIG.
-
-Agreed. Small steps are good. This looks fine to me. I grabbed the series,
-since no one has offered an objection!
-
-Bruce
-
->
-> Philip Tricca (2):
->   Convert direct call to ./configure with oe_runconf and EXTRA_OECONF.
->   Use PACKAGECONFIG to deal with XSM policy.
->
->  recipes-extended/xen/xen_4.3.0.bb |   19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
->
-> --
-> 1.7.10.4
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-core/initscripts/initscripts_1.0.bbappend b/recipes-core/initscripts/initscripts_1.0.bbappend
+index 04d848d..02b5bc4 100644
+--- a/recipes-core/initscripts/initscripts_1.0.bbappend
++++ b/recipes-core/initscripts/initscripts_1.0.bbappend
+@@ -7,4 +7,10 @@ do_install_append() {
+ 	echo failure \(\) \{  >> ${D}${sysconfdir}/init.d/functions
+ 	echo \ \ \ \ echo \$* >> ${D}${sysconfdir}/init.d/functions
+ 	echo \}               >> ${D}${sysconfdir}/init.d/functions
++	echo warning \(\) \{  >> ${D}${sysconfdir}/init.d/functions
++	echo \ \ \ \ echo \$* >> ${D}${sysconfdir}/init.d/functions
++	echo \}               >> ${D}${sysconfdir}/init.d/functions
++	echo begin \(\) \{  >> ${D}${sysconfdir}/init.d/functions
++	echo \ \ \ \ echo \$* >> ${D}${sysconfdir}/init.d/functions
++	echo \} 
+ }
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.1.4
+
 
