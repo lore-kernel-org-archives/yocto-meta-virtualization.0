@@ -1,26 +1,30 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CF72FE017BD
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (unknown [38.83.192.235])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 05D35E01633
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 30 Oct 2013 21:00:02 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.5/8.14.3) with ESMTP id r9V3xxKZ000623
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 30 Oct 2013 20:59:59 -0700 (PDT)
-Received: from bruce-ashfields-macbook.local (128.224.20.154) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.2.347.0; Wed, 30 Oct 2013 20:59:58 -0700
-Message-ID: <5271D5BE.5010409@windriver.com>
-Date: Wed, 30 Oct 2013 23:59:58 -0400
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7;
-	rv:24.0) Gecko/20100101 Thunderbird/24.1.0
-MIME-Version: 1.0
-To: Mark Asselstine <asselsm@gmail.com>, <meta-virtualization@yoctoproject.org>
-References: <1383184512-28442-1-git-send-email-asselsm@gmail.com>
-In-Reply-To: <1383184512-28442-1-git-send-email-asselsm@gmail.com>
-Subject: Re: [PATCH] libvirt: add PACKAGECONFIG for sasl
+	Sun,  3 Nov 2013 08:10:16 -0800 (PST)
+Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
+	helo=localhost)
+	by smtp.twobit.us with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1Vd0Fc-0000bg-9W; Sun, 03 Nov 2013 16:10:08 +0000
+Received: from flihp by localhost with local (Exim 4.80)
+	(envelope-from <flihp@longhaul.twobit.us>)
+	id 1Vd0Fx-0006xe-O9; Sun, 03 Nov 2013 16:10:29 +0000
+From: Philip Tricca <flihp@twobit.us>
+To: meta-virtualization@yoctoproject.org
+Date: Sun,  3 Nov 2013 16:10:29 +0000
+Message-Id: <1383495029-26728-1-git-send-email-flihp@twobit.us>
+X-Mailer: git-send-email 1.7.10.4
+X-SA-Exim-Connect-IP: 76.24.20.220
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+	version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Subject: [PATCH] xen: use PACKAGECONFIG for SDL and a bit of dependency cleanup
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -33,41 +37,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 31 Oct 2013 04:00:04 -0000
-Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 03 Nov 2013 16:10:19 -0000
 
-On 13-10-30 9:55 PM, Mark Asselstine wrote:
-> We don't want to leave build order dictating whether or not we get
-> sasl support in libvirt so add a PACKAGECONFIG for sasl. I have not
-> added sasl as a default PACKAGECONFIG since out of the box you would
-> not normally get sasl being built so this mimics this behavior. I have
-> listed a RDEPENDS in the PACKAGECONFIG as older Yocto builds for some
-> reason are not picking up the required runtime dependency.
+This patch moves the optional SDL dependency to a PACKAGECONFIG
+entry. It also cleans up dependencies on both the virtual libsdl
+and libsdl. The dependency on libgl is also removed. libGL support
+should be enabled with the 'opengl' distro feature instead.
 
-This makes sense to me. I queued the patch, and if no one objects, I
-can push it tomorrow.
+Signed-off-by: Philip Tricca <flihp@twobit.us>
+---
+ recipes-extended/xen/xen_4.3.0.bb |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Bruce
-
->
-> Signed-off-by: Mark Asselstine <asselsm@gmail.com>
-> ---
->   recipes-extended/libvirt/libvirt_1.1.2.bb | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/recipes-extended/libvirt/libvirt_1.1.2.bb b/recipes-extended/libvirt/libvirt_1.1.2.bb
-> index 56d6aed..4bdade8 100644
-> --- a/recipes-extended/libvirt/libvirt_1.1.2.bb
-> +++ b/recipes-extended/libvirt/libvirt_1.1.2.bb
-> @@ -149,6 +149,7 @@ PACKAGECONFIG[udev] = "--with-udev --with-pciaccess,--without-udev,udev libpciac
->   PACKAGECONFIG[selinux] = "--with-selinux,--without-selinux,libselinux,"
->   PACKAGECONFIG[ebtables] = "ac_cv_path_EBTABLES_PATH=/sbin/ebtables,ac_cv_path_EBTABLES_PATH=,ebtables,ebtables"
->   PACKAGECONFIG[python] = "--with-python,--without-python,python,"
-> +PACKAGECONFIG[sasl] = "--with-sasl,--without-sasl,cyrus-sasl,cyrus-sasl"
->
->   # Enable the Python tool support
->   require libvirt-python.inc
->
+diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.0.bb
+index 09c25aa..1fad48d 100644
+--- a/recipes-extended/xen/xen_4.3.0.bb
++++ b/recipes-extended/xen/xen_4.3.0.bb
+@@ -21,17 +21,19 @@ COMPATIBLE_HOST = '(x86_64.*).*-linux'
+ inherit autotools gettext setuptools update-rc.d
+ 
+ PACKAGECONFIG ??= " \
++    sdl \
+     xsm \
+ "
++PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
+ PACKAGECONFIG[xsm] = "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
+ 
+-DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native libsdl"
++DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-native"
+ 
+ # inherit setuptools adds python to RDEPENDS, override it
+ RDEPENDS_${PN} = ""
+ 
+ RDEPENDS_${PN}-base = "\
+-    libgcc libsdl udev bash perl xz \
++    libgcc udev bash perl xz \
+     ${PN}-blktap \
+     ${PN}-console \
+     ${PN}-libblktapctl \
+-- 
+1.7.10.4
 
 
