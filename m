@@ -1,26 +1,25 @@
 Return-Path: <flihp@twobit.us>
 Received: from smtp.twobit.us (unknown [38.83.192.235])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8C342E0178C
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 18989E01716
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Nov 2013 06:30:51 -0800 (PST)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=[172.16.1.10]) by smtp.twobit.us with esmtpsa
+	Tue,  5 Nov 2013 09:35:58 -0800 (PST)
+Received: from [216.57.91.130] (helo=[10.204.207.200])
+	by smtp.twobit.us with esmtpsa
 	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
 	(envelope-from <flihp@twobit.us>)
-	id 1VdheT-0001rC-JT; Tue, 05 Nov 2013 14:30:42 +0000
-Message-ID: <5279010F.8080101@twobit.us>
-Date: Tue, 05 Nov 2013 09:30:39 -0500
+	id 1VdkXb-00022L-B8; Tue, 05 Nov 2013 17:35:48 +0000
+Message-ID: <52792C7A.4040801@twobit.us>
+Date: Tue, 05 Nov 2013 12:35:54 -0500
 From: Philip Tricca <flihp@twobit.us>
 User-Agent: Mozilla/5.0 (X11; Linux i686;
 	rv:17.0) Gecko/20130922 Icedove/17.0.9
 MIME-Version: 1.0
 To: Chris Patterson <cjp256@gmail.com>
-References: <1382998249-3028-1-git-send-email-flihp@twobit.us>
-	<CADkTA4Nsa=Qd3V=9JrV_Xr++4rE-ia9+=1DPSdHReaNwrJctQA@mail.gmail.com>
-	<CABZSBQfuwRW6rKgT3eYeSi76F9di2E5aoGaULOeV6HszPoqjcQ@mail.gmail.com>
-In-Reply-To: <CABZSBQfuwRW6rKgT3eYeSi76F9di2E5aoGaULOeV6HszPoqjcQ@mail.gmail.com>
+References: <1383495029-26728-1-git-send-email-flihp@twobit.us>
+	<CABZSBQfVAtZkacVcUVfxbu8CN7R605eSzn_dJ1TOkSHQ3eETUg@mail.gmail.com>
+In-Reply-To: <CABZSBQfVAtZkacVcUVfxbu8CN7R605eSzn_dJ1TOkSHQ3eETUg@mail.gmail.com>
 X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 76.24.20.220
+X-SA-Exim-Connect-IP: 216.57.91.130
 X-SA-Exim-Mail-From: flihp@twobit.us
 X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
 X-Spam-Level: 
@@ -30,7 +29,7 @@ X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
 X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 0/2] Xen: start using PACKAGECONFIG
+Subject: Re: [PATCH] xen: use PACKAGECONFIG for SDL and a bit of dependency cleanup
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,69 +42,86 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2013 14:30:54 -0000
+X-List-Received-Date: Tue, 05 Nov 2013 17:36:00 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 7bit
 
-Agree. PACKAGECONFIG is still new to me and I didn't realize this was
-the net result. I'll send out a patch soon ... unless you beat me to it.
+Hi Chris,
 
+On 11/04/2013 10:17 PM, Chris Patterson wrote:
+> I would think that libsdl should be included as a runtime dependency if
+> enabled...?  Though looking through recipes, it would appear that many
+> PACKAGECONFIG users ignore the runtime dependencies (presumably assuming
+> that the image will include them if the functionality is desired - or
+> perhaps specifying only when the dependency is strictly required as a
+> result?).
+
+I left out the runtime dependency stuff because the xen-qemu package
+will end up with a dependency on libsdl if it's enabled. I was under the
+impression that this is sufficient though I'm not exactly sure how the
+dependency is created. Honestly I was happy to write it off as
+bitbake/OE magic. I've tested dom0 images with sdl enabled and disabled
+and the xen-qemu package will pull the SDL library into the image if
+it's enabled.
+
+Are you seeing different behavior?
+
+Regards,
 - Philip
 
-On 11/04/2013 09:55 PM, Chris Patterson wrote:
-> I would remove xsm from the default PACKAGECONFIG list.  As it stands
-> with the defaults, the recipe now requires checkpolicy-native (in
-> meta-selinux) to build.
+P.S. There's a dependency issue with this patch anyways so I'll send out
+a v2 with a minor fix tonight.
+
+> On Sun, Nov 3, 2013 at 11:10 AM, Philip Tricca <flihp@twobit.us
+> <mailto:flihp@twobit.us>> wrote:
 > 
-> Cheers,
-> -Chris
+>     This patch moves the optional SDL dependency to a PACKAGECONFIG
+>     entry. It also cleans up dependencies on both the virtual libsdl
+>     and libsdl. The dependency on libgl is also removed. libGL support
+>     should be enabled with the 'opengl' distro feature instead.
 > 
-> On Tue, Oct 29, 2013 at 2:20 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com <mailto:bruce.ashfield@gmail.com>> wrote:
+>     Signed-off-by: Philip Tricca <flihp@twobit.us <mailto:flihp@twobit.us>>
+>     ---
+>      recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb> |    6 ++++--
+>      1 file changed, 4 insertions(+), 2 deletions(-)
 > 
->     On Mon, Oct 28, 2013 at 6:10 PM, Philip Tricca <flihp@twobit.us
->     <mailto:flihp@twobit.us>> wrote:
->     > This is a first pass at cleaning up the DEPENDS and do_configure in
->     > the xen_4.3.0 recipe. Adding XSM stuff made it clear that directly
->     > interacting with DISTRO_FEATURES was the wrong way to do it. That and
->     > when Chris and I ment up at LinuxCon he told me I should have used
->     > PACKAGECONFIG in the first place :P
+>     diff --git a/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
+>     b/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
+>     index 09c25aa..1fad48d 100644
+>     --- a/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
+>     +++ b/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
+>     @@ -21,17 +21,19 @@ COMPATIBLE_HOST = '(x86_64.*).*-linux'
+>      inherit autotools gettext setuptools update-rc.d
 > 
->     :)
+>      PACKAGECONFIG ??= " \
+>     +    sdl \
+>          xsm \
+>      "
+>     +PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
+>      PACKAGECONFIG[xsm] =
+>     "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
 > 
->     >
->     > This small patch series is the first step to handling features (like
->     > sdl) using PACKAGECONFIG.
+>     -DEPENDS = "util-linux util-linux-native file-native zlib ncurses
+>     openssl bison-native flex-native gettext dev86-native iasl-native
+>     pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps
+>     yajl pixman python python-setuptools-native xz xz-native libsdl"
+>     +DEPENDS = "util-linux util-linux-native file-native zlib ncurses
+>     openssl bison-native flex-native gettext dev86-native iasl-native
+>     pciutils bridge-utils iproute2 procps yajl pixman python
+>     python-setuptools-native xz xz-native"
 > 
->     Agreed. Small steps are good. This looks fine to me. I grabbed the
->     series,
->     since no one has offered an objection!
+>      # inherit setuptools adds python to RDEPENDS, override it
+>      RDEPENDS_${PN} = ""
 > 
->     Bruce
-> 
->     >
->     > Philip Tricca (2):
->     >   Convert direct call to ./configure with oe_runconf and EXTRA_OECONF.
->     >   Use PACKAGECONFIG to deal with XSM policy.
->     >
->     >  recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb> |   19
->     +++++++++++++++++--
->     >  1 file changed, 17 insertions(+), 2 deletions(-)
->     >
->     > --
->     > 1.7.10.4
->     >
->     > _______________________________________________
->     > meta-virtualization mailing list
->     > meta-virtualization@yoctoproject.org
->     <mailto:meta-virtualization@yoctoproject.org>
->     > https://lists.yoctoproject.org/listinfo/meta-virtualization
-> 
-> 
-> 
+>      RDEPENDS_${PN}-base = "\
+>     -    libgcc libsdl udev bash perl xz \
+>     +    libgcc udev bash perl xz \
+>          ${PN}-blktap \
+>          ${PN}-console \
+>          ${PN}-libblktapctl \
 >     --
->     "Thou shalt not follow the NULL pointer, for chaos and madness await
->     thee at its end"
+>     1.7.10.4
+> 
 >     _______________________________________________
 >     meta-virtualization mailing list
 >     meta-virtualization@yoctoproject.org
