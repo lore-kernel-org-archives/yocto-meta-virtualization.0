@@ -1,37 +1,37 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 57AFBE017F8
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 151CCE01757
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  6 Nov 2013 19:20:07 -0800 (PST)
-Received: by mail-la0-f42.google.com with SMTP id ep20so307116lab.15
+	Thu,  7 Nov 2013 12:28:37 -0800 (PST)
+Received: by mail-la0-f49.google.com with SMTP id ev20so862330lab.8
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 06 Nov 2013 19:20:06 -0800 (PST)
+	Thu, 07 Nov 2013 12:28:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=ftjiZim4ajUxIvH2fZuqV/64NfeHgXXr8Fph4Jwuy+w=;
-	b=Rp4B7zm7Jia0IOSk9P1d3gNz/g36rgvr+nwmk7RCWNH5S5TfsPguXle8Y3oIKEnV+r
-	dYxpQ4mbmlwEqGJ1GcAqV9LUlftgvGm5O4bqR2L9Kzq1IUIg5xxjKHblluNcTAPoYNMD
-	4KWh+5zaSmPpyGLAKM87qQEhysrOJQ1htoU/hyvvnsTiTvq0lfLb8TxoiPT0JI4NriM+
-	Zsqpw+zMiLlFmJvSNVyUOUq2coN+VmdLwrY+Kvl/dIcKYpCfsZrWIJZ9iaaXqwytoRaL
-	hp16i7aleuoiuRxvYQ4/sJeDawd9fKKjfRwatZKFWa8N6fSFJ/lAUD8oEJ59IIAaJVpR
-	LGAQ==
+	bh=VFa+jeQ3Dt/IXh7yqHr025V5FJZMHyG+kVY5Ysc/TtM=;
+	b=k4rAFGAqpAPzOoOBxMsMDH8VmNIC0hty8DGVIvaJbf5c4bRkSK/rMCpUVAz0C7W9K4
+	PhrBpfloYC/26VCRSrPWob4Cm1kW+J7F0aQa+qeSNyyQmU/QnkOwzIIyqqZjHH7FY8if
+	Ss9CNeVHolFLVgjhvuAB2sv3z5eNQ9WHIv4ZXyWhHquWDUKsT8WhA/j3/XRAB7DQNtW1
+	DmnLHRQDaHQfaGk6I3P7I7IAVkKTpSDslz62rhja46MLWpFT7sChavYAB0oIopN9cuD5
+	uaq94lLw1LX2ll9hlV4HuGft0iq/0RgQr9dI4jeoXBDJxyyyWbEkMJvZFVtXPwbJIZat
+	WKhA==
 MIME-Version: 1.0
-X-Received: by 10.152.225.161 with SMTP id rl1mr37327lac.38.1383794406056;
-	Wed, 06 Nov 2013 19:20:06 -0800 (PST)
-Received: by 10.114.181.41 with HTTP; Wed, 6 Nov 2013 19:20:05 -0800 (PST)
-In-Reply-To: <527A4093.2010806@twobit.us>
-References: <1383704237-3496-1-git-send-email-flihp@twobit.us>
-	<CABZSBQcqShF0d4AOy3pxi3uc_d=NchGw7LiEYZS5HmgUoSL4Rw@mail.gmail.com>
-	<527A4093.2010806@twobit.us>
-Date: Wed, 6 Nov 2013 22:20:05 -0500
-Message-ID: <CABZSBQcNSutTrkVNs6f9HWb+Eb8AR7cX7tAZkBX=j1MtfH7Vmw@mail.gmail.com>
-From: Chris Patterson <cjp256@gmail.com>
+X-Received: by 10.152.3.42 with SMTP id 10mr7829029laz.22.1383856116134; Thu,
+	07 Nov 2013 12:28:36 -0800 (PST)
+Received: by 10.112.14.200 with HTTP; Thu, 7 Nov 2013 12:28:36 -0800 (PST)
+In-Reply-To: <527A4247.80105@twobit.us>
+References: <1383707342-3827-1-git-send-email-cjp256@gmail.com>
+	<1383707342-3827-4-git-send-email-cjp256@gmail.com>
+	<527A4247.80105@twobit.us>
+Date: Thu, 7 Nov 2013 15:28:36 -0500
+Message-ID: <CADkTA4Oq_KqcarNDBUq1eBErXhJrw3Rohrq6RYFoSj0wi_0AnQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Philip Tricca <flihp@twobit.us>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2] xen: use PACKAGECONFIG for SDL and a bit of dependency cleanup
+Subject: Re: [PATCH 4/4] xen: upgrade to 4.3.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,237 +44,75 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 03:20:08 -0000
-Content-Type: multipart/alternative; boundary=001a113490fa03e78804ea8dbe1b
-
---001a113490fa03e78804ea8dbe1b
+X-List-Received-Date: Thu, 07 Nov 2013 20:28:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Wed, Nov 6, 2013 at 8:13 AM, Philip Tricca <flihp@twobit.us> wrote:
+On Wed, Nov 6, 2013 at 8:21 AM, Philip Tricca <flihp@twobit.us> wrote:
+> All of this looks good to me but I'm not seeing PATCH 2/4.
 
-> On 11/05/2013 09:36 PM, Chris Patterson wrote:
-> > FYI - removing libgl as a dependency exposes another hardcoded
-> > dependency/check/path (in this case adding /usr/include/GL to the
-> > include path for qemu-xen-traditional).  Probably won't hit it unless
-> > you have the opengl or libsdl dev bits on your host (as I do).
-> >
-> > WARNING: QA Issue: xen: The compile log indicates that host include
-> > and/or library paths were used.
-> > ...
-> >   CC    audio/sdlaudio.o
-> > cc1: warning: include location "/usr/include/GL" is unsafe for
-> > cross-compilation [-Wpoison-system-directories]
-> > ....
+Hah. I was just trying to merge this .. and was wondering the same thing.
+
+Chris: can you put the changes on a github repo or other source for me to
+pull ?
+
+Bruce
+
+
 >
-> Yuck. I'm seeing this in the qemu-xen-traditional configure script. It's
-> a separate issue from this patch though no?
->
->
-Yeah, I though the removal of libgl triggered it, but I guess not. I'm
-looking at some of the trouble points, seeing what could be cleaned up for
-future revs.
-
-Cheers,
--Chris
-
-
 > - Philip
 >
-> > On Tue, Nov 5, 2013 at 9:17 PM, Philip Tricca <flihp@twobit.us
-> > <mailto:flihp@twobit.us>> wrote:
-> >
-> >     This patch moves the optional SDL dependency to a PACKAGECONFIG
-> >     entry. It also cleans up dependencies on both the virtual libsdl
-> >     and libsdl. The dependency on libgl is also removed. libGL support
-> >     should be enabled with the 'opengl' distro feature instead. The
-> >     dependency on glib-2.0 is now explicit as well.
-> >
-> >     Signed-off-by: Philip Tricca <flihp@twobit.us <mailto:
-> flihp@twobit.us>>
-> >     ---
-> >      recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb> |    6
-> ++++--
-> >      1 file changed, 4 insertions(+), 2 deletions(-)
-> >
-> >     diff --git a/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
-> >     b/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
-> >     index 09c25aa..283da28 100644
-> >     --- a/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
-> >     +++ b/recipes-extended/xen/xen_4.3.0.bb <http://xen_4.3.0.bb>
-> >     @@ -21,17 +21,19 @@ COMPATIBLE_HOST = '(x86_64.*).*-linux'
-> >      inherit autotools gettext setuptools update-rc.d
-> >
-> >      PACKAGECONFIG ??= " \
-> >     +    sdl \
-> >          xsm \
-> >      "
-> >     +PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
-> >      PACKAGECONFIG[xsm] =
-> >     "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
-> >
-> >     -DEPENDS = "util-linux util-linux-native file-native zlib ncurses
-> >     openssl bison-native flex-native gettext dev86-native iasl-native
-> >     pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps
-> >     yajl pixman python python-setuptools-native xz xz-native libsdl"
-> >     +DEPENDS = "util-linux util-linux-native file-native zlib ncurses
-> >     openssl bison-native flex-native gettext dev86-native iasl-native
-> >     pciutils bridge-utils iproute2 procps yajl pixman python
-> >     python-setuptools-native xz xz-native glib-2.0"
-> >
-> >      # inherit setuptools adds python to RDEPENDS, override it
-> >      RDEPENDS_${PN} = ""
-> >
-> >      RDEPENDS_${PN}-base = "\
-> >     -    libgcc libsdl udev bash perl xz \
-> >     +    libgcc udev bash perl xz \
-> >          ${PN}-blktap \
-> >          ${PN}-console \
-> >          ${PN}-libblktapctl \
-> >     --
-> >     1.7.10.4
-> >
-> >     _______________________________________________
-> >     meta-virtualization mailing list
-> >     meta-virtualization@yoctoproject.org
-> >     <mailto:meta-virtualization@yoctoproject.org>
-> >     https://lists.yoctoproject.org/listinfo/meta-virtualization
-> >
-> >
+> On 11/05/2013 10:09 PM, Chris Patterson wrote:
+>> Changelog available at:
+>> http://xenproject.org/downloads/xen-archives/supported-xen-43-series/xen-431.html
+>>
+>> Signed-off-by: Chris Patterson <cjp256@gmail.com>
+>> ---
+>>  recipes-extended/xen/{xen_4.3.0.bb => xen_4.3.1.bb} | 8 ++++----
+>>  1 file changed, 4 insertions(+), 4 deletions(-)
+>>  rename recipes-extended/xen/{xen_4.3.0.bb => xen_4.3.1.bb} (99%)
+>>
+>> diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen_4.3.1.bb
+>> similarity index 99%
+>> rename from recipes-extended/xen/xen_4.3.0.bb
+>> rename to recipes-extended/xen/xen_4.3.1.bb
+>> index f1067bc..6985624 100644
+>> --- a/recipes-extended/xen/xen_4.3.0.bb
+>> +++ b/recipes-extended/xen/xen_4.3.1.bb
+>> @@ -11,8 +11,8 @@ SRC_URI = " \
+>>      file://flask-avoid-installing-policy-file-as-boot.patch \
+>>      "
+>>
+>> -SRC_URI[md5sum] = "7b18cfb58f1ac2ce39cf35a1867f0c0a"
+>> -SRC_URI[sha256sum] = "e1e9faabe4886e2227aacdbde74410653b233d66642ca1972a860cbec6439961"
+>> +SRC_URI[md5sum] = "7616b8704e1ab89c81f011f0e3703bc8"
+>> +SRC_URI[sha256sum] = "3b5b7cc508b1739753585b5c25635471cdcef680e8770a78bf6ef9333d26a9fd"
+>>
+>>  S = "${WORKDIR}/xen-${PV}"
+>>
+>> @@ -215,11 +215,11 @@ FILES_${PN}-libfsimage-dev = "${libdir}/libfsimage.so"
+>>  FILES_${PN}-fsimage = "${libdir}/fs/*/*fsimage.so"
+>>
+>>  FILES_${PN}-hypervisor = "\
+>> -    /boot/xen-4.3.0.gz \
+>> +    /boot/xen-4.3.1.gz \
+>>      /boot/xen-4.3.gz \
+>>      /boot/xen-4.gz \
+>>      /boot/xen.gz \
+>> -    /boot/xen-syms-4.3.0 \
+>> +    /boot/xen-syms-4.3.1 \
+>>      "
+>>
+>>  FILES_${PN}-base = "\
+>>
 >
->
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
---001a113490fa03e78804ea8dbe1b
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><br><div class=3D"gmail_quo=
-te">On Wed, Nov 6, 2013 at 8:13 AM, Philip Tricca <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:flihp@twobit.us" target=3D"_blank">flihp@twobit.us</a>&gt;</=
-span> wrote:<br>
 
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div>On 11/05/2013 09:36 PM, Chris Patterson=
- wrote:<br>
-&gt; FYI - removing libgl as a dependency exposes another hardcoded<br>
-&gt; dependency/check/path (in this case adding /usr/include/GL to the<br>
-&gt; include path for qemu-xen-traditional). =A0Probably won&#39;t hit it u=
-nless<br>
-&gt; you have the opengl or libsdl dev bits on your host (as I do).<br>
-&gt;<br>
-&gt; WARNING: QA Issue: xen: The compile log indicates that host include<br=
->
-&gt; and/or library paths were used.<br>
-&gt; ...<br>
-&gt; =A0 CC =A0 =A0audio/sdlaudio.o<br>
-&gt; cc1: warning: include location &quot;/usr/include/GL&quot; is unsafe f=
-or<br>
-&gt; cross-compilation [-Wpoison-system-directories]<br>
-&gt; ....<br>
-<br>
-</div>Yuck. I&#39;m seeing this in the qemu-xen-traditional configure scrip=
-t. It&#39;s<br>
-a separate issue from this patch though no?<br>
-<br></blockquote><div><br></div><div>Yeah, I though the removal of libgl tr=
-iggered it, but I guess not. I&#39;m looking at some of the trouble points,=
- seeing what could be cleaned up for future revs.<br><br></div><div>Cheers,=
-<br>
-</div><div>-Chris<br>
-</div><div>=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">
-- Philip<br>
-<div><br>
-&gt; On Tue, Nov 5, 2013 at 9:17 PM, Philip Tricca &lt;<a href=3D"mailto:fl=
-ihp@twobit.us" target=3D"_blank">flihp@twobit.us</a><br>
-</div><div>&gt; &lt;mailto:<a href=3D"mailto:flihp@twobit.us" target=3D"_bl=
-ank">flihp@twobit.us</a>&gt;&gt; wrote:<br>
-&gt;<br>
-&gt; =A0 =A0 This patch moves the optional SDL dependency to a PACKAGECONFI=
-G<br>
-&gt; =A0 =A0 entry. It also cleans up dependencies on both the virtual libs=
-dl<br>
-&gt; =A0 =A0 and libsdl. The dependency on libgl is also removed. libGL sup=
-port<br>
-&gt; =A0 =A0 should be enabled with the &#39;opengl&#39; distro feature ins=
-tead. The<br>
-&gt; =A0 =A0 dependency on glib-2.0 is now explicit as well.<br>
-&gt;<br>
-</div>&gt; =A0 =A0 Signed-off-by: Philip Tricca &lt;<a href=3D"mailto:flihp=
-@twobit.us" target=3D"_blank">flihp@twobit.us</a> &lt;mailto:<a href=3D"mai=
-lto:flihp@twobit.us" target=3D"_blank">flihp@twobit.us</a>&gt;&gt;<br>
-&gt; =A0 =A0 ---<br>
-&gt; =A0 =A0 =A0recipes-extended/xen/<a href=3D"http://xen_4.3.0.bb" target=
-=3D"_blank">xen_4.3.0.bb</a> &lt;<a href=3D"http://xen_4.3.0.bb" target=3D"=
-_blank">http://xen_4.3.0.bb</a>&gt; | =A0 =A06 ++++--<br>
-<div>&gt; =A0 =A0 =A01 file changed, 4 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-</div>&gt; =A0 =A0 diff --git a/recipes-extended/xen/<a href=3D"http://xen_=
-4.3.0.bb" target=3D"_blank">xen_4.3.0.bb</a> &lt;<a href=3D"http://xen_4.3.=
-0.bb" target=3D"_blank">http://xen_4.3.0.bb</a>&gt;<br>
-&gt; =A0 =A0 b/recipes-extended/xen/<a href=3D"http://xen_4.3.0.bb" target=
-=3D"_blank">xen_4.3.0.bb</a> &lt;<a href=3D"http://xen_4.3.0.bb" target=3D"=
-_blank">http://xen_4.3.0.bb</a>&gt;<br>
-&gt; =A0 =A0 index 09c25aa..283da28 100644<br>
-&gt; =A0 =A0 --- a/recipes-extended/xen/<a href=3D"http://xen_4.3.0.bb" tar=
-get=3D"_blank">xen_4.3.0.bb</a> &lt;<a href=3D"http://xen_4.3.0.bb" target=
-=3D"_blank">http://xen_4.3.0.bb</a>&gt;<br>
-&gt; =A0 =A0 +++ b/recipes-extended/xen/<a href=3D"http://xen_4.3.0.bb" tar=
-get=3D"_blank">xen_4.3.0.bb</a> &lt;<a href=3D"http://xen_4.3.0.bb" target=
-=3D"_blank">http://xen_4.3.0.bb</a>&gt;<br>
-<div><div>&gt; =A0 =A0 @@ -21,17 +21,19 @@ COMPATIBLE_HOST =3D &#39;(x86_64=
-.*).*-linux&#39;<br>
-&gt; =A0 =A0 =A0inherit autotools gettext setuptools update-rc.d<br>
-&gt;<br>
-&gt; =A0 =A0 =A0PACKAGECONFIG ??=3D &quot; \<br>
-&gt; =A0 =A0 + =A0 =A0sdl \<br>
-&gt; =A0 =A0 =A0 =A0 =A0xsm \<br>
-&gt; =A0 =A0 =A0&quot;<br>
-&gt; =A0 =A0 +PACKAGECONFIG[sdl] =3D &quot;--enable-sdl,--disable-sdl,virtu=
-al/libsdl,&quot;<br>
-&gt; =A0 =A0 =A0PACKAGECONFIG[xsm] =3D<br>
-&gt; =A0 =A0 &quot;--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-nativ=
-e,&quot;<br>
-&gt;<br>
-&gt; =A0 =A0 -DEPENDS =3D &quot;util-linux util-linux-native file-native zl=
-ib ncurses<br>
-&gt; =A0 =A0 openssl bison-native flex-native gettext dev86-native iasl-nat=
-ive<br>
-&gt; =A0 =A0 pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 pr=
-ocps<br>
-&gt; =A0 =A0 yajl pixman python python-setuptools-native xz xz-native libsd=
-l&quot;<br>
-&gt; =A0 =A0 +DEPENDS =3D &quot;util-linux util-linux-native file-native zl=
-ib ncurses<br>
-&gt; =A0 =A0 openssl bison-native flex-native gettext dev86-native iasl-nat=
-ive<br>
-&gt; =A0 =A0 pciutils bridge-utils iproute2 procps yajl pixman python<br>
-&gt; =A0 =A0 python-setuptools-native xz xz-native glib-2.0&quot;<br>
-&gt;<br>
-&gt; =A0 =A0 =A0# inherit setuptools adds python to RDEPENDS, override it<b=
-r>
-&gt; =A0 =A0 =A0RDEPENDS_${PN} =3D &quot;&quot;<br>
-&gt;<br>
-&gt; =A0 =A0 =A0RDEPENDS_${PN}-base =3D &quot;\<br>
-&gt; =A0 =A0 - =A0 =A0libgcc libsdl udev bash perl xz \<br>
-&gt; =A0 =A0 + =A0 =A0libgcc udev bash perl xz \<br>
-&gt; =A0 =A0 =A0 =A0 =A0${PN}-blktap \<br>
-&gt; =A0 =A0 =A0 =A0 =A0${PN}-console \<br>
-&gt; =A0 =A0 =A0 =A0 =A0${PN}-libblktapctl \<br>
-&gt; =A0 =A0 --<br>
-&gt; =A0 =A0 1.7.10.4<br>
-&gt;<br>
-&gt; =A0 =A0 _______________________________________________<br>
-&gt; =A0 =A0 meta-virtualization mailing list<br>
-&gt; =A0 =A0 <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=
-=3D"_blank">meta-virtualization@yoctoproject.org</a><br>
-</div></div>&gt; =A0 =A0 &lt;mailto:<a href=3D"mailto:meta-virtualization@y=
-octoproject.org" target=3D"_blank">meta-virtualization@yoctoproject.org</a>=
-&gt;<br>
-&gt; =A0 =A0 <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtua=
-lization" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-vi=
-rtualization</a><br>
-&gt;<br>
-&gt;<br>
-<br>
-</blockquote></div><br></div></div>
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
---001a113490fa03e78804ea8dbe1b--
