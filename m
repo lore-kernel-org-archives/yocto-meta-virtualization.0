@@ -1,35 +1,35 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6948EE01757
+Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
+	[209.85.217.182])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 12DC0E01757
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Nov 2013 12:32:53 -0800 (PST)
-Received: by mail-lb0-f176.google.com with SMTP id z5so868732lbh.21
+	Thu,  7 Nov 2013 12:33:56 -0800 (PST)
+Received: by mail-lb0-f182.google.com with SMTP id w6so863376lbh.41
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Nov 2013 12:32:52 -0800 (PST)
+	Thu, 07 Nov 2013 12:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=PJrEaDTB8JugWbukSAI5HjpY2uu5htRDRZDTHOZGwJo=;
-	b=JWtw7R5bUdWxS1aEsPnqsdfP51PjUmSwHGlQDtDTJfRGyEXdcHZq4nGRhbG/kQbfQL
-	p4utuCZ8gwtwV+A4o79VPtDJ8GWWAHf+/kSOadszfxRMfmcmyO5zWhWq3nCcwB8vdDHO
-	/useBalSP5vJ8CU6gKkykNOg2SOYo+FYv1QIVjEFf5rikjiPJH4eLED8kKovROwvXNs0
-	beNtM6LFJhgdKP7jGa9yl2tKRPwTeI0ylm/L9sFHhp25vOAAdpXMl9qbm+j3osrinzM8
-	h12fbYal+bTHCTymoTsrHOJRnHhi8cEwEcnZ8bnZi+fh3GB7kROxj1zfp/b3awk2t4Rx
-	ks5A==
+	:cc:content-type:content-transfer-encoding;
+	bh=MQFfjA/cenk+SmRRq+rujrxfTfyZAKU0uLsuGlBE5IA=;
+	b=C84o+b8CTl1iLVYJ6JnZR/sM3j5PWw1Y0F35azcSD/U5OOw+2M6lpC2LnDYzhyUtvS
+	7Bxtmm3DRalXlIWUpyi4OZDdEUwdhhFW2peZe/ugLEvRCV2/zFOusfQWqAMN4O8ZzdGc
+	FYy3OcM9tWheY7M+gsuTB/yzMGZVP6/5ntzz/rIvwW11669/iQ+dbB6JFHM4oFUuCZaX
+	/jBfZVzAjXW/FeVE7by/Y1vzon1+w7MnLeLkeTf0L1yJjsmLO3B+clPzGD2m6wWsc+xS
+	5dXLo8SAsUUArG1KaZn33qTPl2TVIrE3b/z3YoZ1jGf7q7jrzGDb9cBIUzQvIiNyv1S1
+	F2qw==
 MIME-Version: 1.0
-X-Received: by 10.152.243.11 with SMTP id wu11mr2189325lac.42.1383856372464;
-	Thu, 07 Nov 2013 12:32:52 -0800 (PST)
-Received: by 10.112.14.200 with HTTP; Thu, 7 Nov 2013 12:32:52 -0800 (PST)
-In-Reply-To: <1383706491-3555-1-git-send-email-flihp@twobit.us>
-References: <1383706491-3555-1-git-send-email-flihp@twobit.us>
-Date: Thu, 7 Nov 2013 15:32:52 -0500
-Message-ID: <CADkTA4MAfcsVPH54igL_PSvh8U=Q_85bSQincGSQNb7OMHMPSQ@mail.gmail.com>
+X-Received: by 10.152.10.99 with SMTP id h3mr7752021lab.13.1383856435261; Thu,
+	07 Nov 2013 12:33:55 -0800 (PST)
+Received: by 10.112.14.200 with HTTP; Thu, 7 Nov 2013 12:33:55 -0800 (PST)
+In-Reply-To: <1383704237-3496-1-git-send-email-flihp@twobit.us>
+References: <1383704237-3496-1-git-send-email-flihp@twobit.us>
+Date: Thu, 7 Nov 2013 15:33:55 -0500
+Message-ID: <CADkTA4MW4VcA_HuuXq+rq6oa-oF66+r7m68r4kd94MhRvz_ZMg@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Philip Tricca <flihp@twobit.us>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Add getty to inittab for login on Xen serial console.
+Subject: Re: [PATCH v2] xen: use PACKAGECONFIG for SDL and a bit of dependency cleanup
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,38 +42,67 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 20:32:54 -0000
+X-List-Received-Date: Thu, 07 Nov 2013 20:33:59 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 5, 2013 at 9:54 PM, Philip Tricca <flihp@twobit.us> wrote:
-> It's not pretty but the mechanisms in sysvinit-inittab assume the
-> console device name is tty*. The Xen console device doesn't meet
-> this criteria.
+On Tue, Nov 5, 2013 at 9:17 PM, Philip Tricca <flihp@twobit.us> wrote:
+> This patch moves the optional SDL dependency to a PACKAGECONFIG
+> entry. It also cleans up dependencies on both the virtual libsdl
+> and libsdl. The dependency on libgl is also removed. libGL support
+> should be enabled with the 'opengl' distro feature instead. The
+> dependency on glib-2.0 is now explicit as well.
 
-merged (with a minor tweak to the shortlog).
+Merged. We'll worry about the other issues mentioned in this thread in futu=
+re
+patches.
+
+Phillip: this should be all your pending patches merged, let me know if I'v=
+e
+missed anything.
 
 Bruce
 
 >
 > Signed-off-by: Philip Tricca <flihp@twobit.us>
 > ---
->  recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend |    7 +++++++
->  1 file changed, 7 insertions(+)
->  create mode 100644 recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+>  recipes-extended/xen/xen_4.3.0.bb |    6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
 >
-> diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
-> new file mode 100644
-> index 0000000..2edbedf
-> --- /dev/null
-> +++ b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
-> @@ -0,0 +1,7 @@
-> +do_install_append() {
-> +       echo "${DISTRO_FEATURES}" | grep -q 'xen'
-> +       if [ $? -eq 0 ]; then
-> +               echo "" >> ${D}${sysconfdir}/inittab
-> +               echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >> ${D}${sysconfdir}/inittab
-> +       fi
-> +}
+> diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen=
+_4.3.0.bb
+> index 09c25aa..283da28 100644
+> --- a/recipes-extended/xen/xen_4.3.0.bb
+> +++ b/recipes-extended/xen/xen_4.3.0.bb
+> @@ -21,17 +21,19 @@ COMPATIBLE_HOST =3D '(x86_64.*).*-linux'
+>  inherit autotools gettext setuptools update-rc.d
+>
+>  PACKAGECONFIG ??=3D " \
+> +    sdl \
+>      xsm \
+>  "
+> +PACKAGECONFIG[sdl] =3D "--enable-sdl,--disable-sdl,virtual/libsdl,"
+>  PACKAGECONFIG[xsm] =3D "--enable-xsmpolicy,--disable-xsmpolicy,checkpoli=
+cy-native,"
+>
+> -DEPENDS =3D "util-linux util-linux-native file-native zlib ncurses opens=
+sl bison-native flex-native gettext dev86-native iasl-native pciutils virtu=
+al/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python pyt=
+hon-setuptools-native xz xz-native libsdl"
+> +DEPENDS =3D "util-linux util-linux-native file-native zlib ncurses opens=
+sl bison-native flex-native gettext dev86-native iasl-native pciutils bridg=
+e-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-n=
+ative glib-2.0"
+>
+>  # inherit setuptools adds python to RDEPENDS, override it
+>  RDEPENDS_${PN} =3D ""
+>
+>  RDEPENDS_${PN}-base =3D "\
+> -    libgcc libsdl udev bash perl xz \
+> +    libgcc udev bash perl xz \
+>      ${PN}-blktap \
+>      ${PN}-console \
+>      ${PN}-libblktapctl \
 > --
 > 1.7.10.4
 >
@@ -84,7 +113,7 @@ Bruce
 
 
 
--- 
+--=20
 "Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end"
 
