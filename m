@@ -1,37 +1,36 @@
 Return-Path: <cjp256@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2B32E01830
+Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
+	[209.85.215.54])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5CE57E0182C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Nov 2013 20:02:29 -0800 (PST)
-Received: by mail-ie0-f174.google.com with SMTP id qd12so2436741ieb.5
+	Thu,  7 Nov 2013 20:07:59 -0800 (PST)
+Received: by mail-la0-f54.google.com with SMTP id hp15so286528lab.41
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Nov 2013 20:02:29 -0800 (PST)
+	Thu, 07 Nov 2013 20:07:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=bHwJz1+vreUEZknoiLl1FlSY13o0QGVE7q+ShnWKUo8=;
-	b=EtXz2lpB8WABau5/3fFl+2W0XWZPwYJuLz5051Ulx45hqgj34HCn50KalJcxaCgq5f
-	owsM1XSLiwpzRWVhKs2JnAmOfAWgmiXfVDe35+yccKRLHMXL8ZaIFBVK+iSz2bAXbZGU
-	pEnosvqNulvfwtpnbD+A5sZUMNYCWKFKsbIbghwtuWpGLcX1eVLjKM0ttNUOM3WwA0lW
-	K9FoDKf3f77YtOaKLH83Cpv3GUoz/jKGTfpLre6z2H16+466xWILhxvKZQXT3C+c8QS9
-	EcApe0JKzFWJw7/rHwXHzWWY2BOsKLTMUACxee9xNbHyefcqmh55R7AfQDwKsm6mcSrh
-	sM2w==
-X-Received: by 10.50.26.70 with SMTP id j6mr709181igg.24.1383883349359;
-	Thu, 07 Nov 2013 20:02:29 -0800 (PST)
-Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
-	[74.71.215.22])
-	by mx.google.com with ESMTPSA id hv5sm1230089igb.9.2013.11.07.20.02.27
-	for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Nov 2013 20:02:28 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Np7UdMetS4XsropcOjkFoluPn1YNKU/UlPdSMDrX2ew=;
+	b=XcMVbO25gN8DYntBPiXwuF8q+760pUOxh6WCz3UbF10JOQ1p232GUl6ElwHALbVn3e
+	TdizaCjwLnJtO2qvTKmkgRgBYvytSLfCgMOZSg56eXZVExvx++QQO4RhNlV54KMOjL1c
+	jhuW0X4lcsIltrOPaGizgH2IdyomfxVTw1FjdI041pg+S2fAe46k0CjdR17Uf6hyAzn7
+	uZB1mHV/hJg8qCJsdZfCZRazXuO2NPSlBp9Pn+rsacAJzp+e4KNtBHVJ71BTlYn6jTQq
+	kmpYZHdl+vg/vZgoaxIsGBGe4wCShiZPHsvmhsFl9l/fFJZg4uH81YMTkweSIOvd7Sy8
+	VNSg==
+MIME-Version: 1.0
+X-Received: by 10.152.6.74 with SMTP id y10mr9254816lay.16.1383883678796; Thu,
+	07 Nov 2013 20:07:58 -0800 (PST)
+Received: by 10.114.181.41 with HTTP; Thu, 7 Nov 2013 20:07:58 -0800 (PST)
+In-Reply-To: <CADkTA4MAfcsVPH54igL_PSvh8U=Q_85bSQincGSQNb7OMHMPSQ@mail.gmail.com>
+References: <1383706491-3555-1-git-send-email-flihp@twobit.us>
+	<CADkTA4MAfcsVPH54igL_PSvh8U=Q_85bSQincGSQNb7OMHMPSQ@mail.gmail.com>
+Date: Thu, 7 Nov 2013 23:07:58 -0500
+Message-ID: <CABZSBQcXJ4mJTCAwwVoT9-oRoAOKsZYwxiPNxn1eOawpB-K5xA@mail.gmail.com>
 From: Chris Patterson <cjp256@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Thu,  7 Nov 2013 23:01:07 -0500
-Message-Id: <1383883267-31992-11-git-send-email-cjp256@gmail.com>
-X-Mailer: git-send-email 1.8.4.rc3
-In-Reply-To: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
-References: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
-Subject: [PATCH v2 10/10] xen: add xen_git recipe.
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] Add getty to inittab for login on Xen serial console.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,76 +43,143 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 04:02:29 -0000
+X-List-Received-Date: Fri, 08 Nov 2013 04:08:00 -0000
+Content-Type: multipart/alternative; boundary=089e0149401a15cf9504eaa28742
 
-Added recipe for xen unstable from git repository.
+--089e0149401a15cf9504eaa28742
+Content-Type: text/plain; charset=ISO-8859-1
 
-Moved now empty xen-flask and xen-libblktap packages from
-required dependencies from xen.inc into xen_4.3.1.bb.
-
-Signed-off-by: Chris Patterson <cjp256@gmail.com>
----
- recipes-extended/xen/xen.inc      |  2 --
- recipes-extended/xen/xen_4.3.1.bb |  5 +++++
- recipes-extended/xen/xen_git.bb   | 18 ++++++++++++++++++
- 3 files changed, 23 insertions(+), 2 deletions(-)
- create mode 100644 recipes-extended/xen/xen_git.bb
-
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index fff3dc1..9d43814 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -35,9 +35,7 @@ RDEPENDS_${PN}-base = "\
-     ${PN}-libvhd \
-     ${PN}-libxenstat \
-     ${PN}-libxenstore \
--    ${PN}-libblktap \
-     ${PN}-libfsimage \
--    ${PN}-flask \
-     ${PN}-fsimage \
-     ${PN}-hvmloader \
-     ${PN}-scripts-block \
-diff --git a/recipes-extended/xen/xen_4.3.1.bb b/recipes-extended/xen/xen_4.3.1.bb
-index 46563ce..2c9806b 100644
---- a/recipes-extended/xen/xen_4.3.1.bb
-+++ b/recipes-extended/xen/xen_4.3.1.bb
-@@ -10,6 +10,11 @@ SRC_URI[sha256sum] = "3b5b7cc508b1739753585b5c25635471cdcef680e8770a78bf6ef9333d
- 
- S = "${WORKDIR}/xen-${PV}"
- 
-+RDEPENDS_${PN}-base += "\
-+    ${PN}-libblktap \
-+    ${PN}-flask \
-+    "
-+
- do_configure_prepend() {
-     # fixup qemu-xen-traditional pciutils check hardcoded to test /usr/include/pci
-     sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g' ${S}/tools/qemu-xen-traditional/xen-hooks.mak
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-new file mode 100644
-index 0000000..f333157
---- /dev/null
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -0,0 +1,18 @@
-+require xen.inc
-+
-+SRCREV = "68bd172e6fa565899c846eb72755c8ffd8562c8a"
-+
-+PV = "4.4.0+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+SRC_URI = " \
-+    git://xenbits.xen.org/xen.git \
-+    "
-+
-+DEFAULT_PREFERENCE = "-1"
-+
-+PACKAGES += "${PN}-xen-mfndump"
-+
-+FILES_${PN}-xen-mfndump = "${sbindir}/xen-mfndump"
-+
--- 
-1.8.4.rc3
+Thanks, handy!
 
 
+On Thu, Nov 7, 2013 at 3:32 PM, Bruce Ashfield <bruce.ashfield@gmail.com>wrote:
+
+> On Tue, Nov 5, 2013 at 9:54 PM, Philip Tricca <flihp@twobit.us> wrote:
+> > It's not pretty but the mechanisms in sysvinit-inittab assume the
+> > console device name is tty*. The Xen console device doesn't meet
+> > this criteria.
+>
+> merged (with a minor tweak to the shortlog).
+>
+> Bruce
+>
+> >
+> > Signed-off-by: Philip Tricca <flihp@twobit.us>
+> > ---
+> >  recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend |    7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >  create mode 100644
+> recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+> >
+> > diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+> b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+> > new file mode 100644
+> > index 0000000..2edbedf
+> > --- /dev/null
+> > +++ b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+> > @@ -0,0 +1,7 @@
+> > +do_install_append() {
+> > +       echo "${DISTRO_FEATURES}" | grep -q 'xen'
+> > +       if [ $? -eq 0 ]; then
+> > +               echo "" >> ${D}${sysconfdir}/inittab
+> > +               echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >>
+> ${D}${sysconfdir}/inittab
+> > +       fi
+> > +}
+> > --
+> > 1.7.10.4
+> >
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+--089e0149401a15cf9504eaa28742
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Thanks, handy!<br></div><div class=3D"gmail_extra"><br><br=
+><div class=3D"gmail_quote">On Thu, Nov 7, 2013 at 3:32 PM, Bruce Ashfield =
+<span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D=
+"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"im">On Tue, Nov 5, 2013 at 9:5=
+4 PM, Philip Tricca &lt;<a href=3D"mailto:flihp@twobit.us">flihp@twobit.us<=
+/a>&gt; wrote:<br>
+
+&gt; It&#39;s not pretty but the mechanisms in sysvinit-inittab assume the<=
+br>
+&gt; console device name is tty*. The Xen console device doesn&#39;t meet<b=
+r>
+&gt; this criteria.<br>
+<br>
+</div>merged (with a minor tweak to the shortlog).<br>
+<br>
+Bruce<br>
+<div class=3D"im HOEnZb"><br>
+&gt;<br>
+&gt; Signed-off-by: Philip Tricca &lt;<a href=3D"mailto:flihp@twobit.us">fl=
+ihp@twobit.us</a>&gt;<br>
+&gt; ---<br>
+&gt; =A0recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend | =A0 =A07 =
++++++++<br>
+&gt; =A01 file changed, 7 insertions(+)<br>
+&gt; =A0create mode 100644 recipes-core/sysvinit/sysvinit-inittab_2.88dsf.b=
+bappend<br>
+&gt;<br>
+&gt; diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend b=
+/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..2edbedf<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend<br>
+&gt; @@ -0,0 +1,7 @@<br>
+&gt; +do_install_append() {<br>
+&gt; + =A0 =A0 =A0 echo &quot;${DISTRO_FEATURES}&quot; | grep -q &#39;xen&#=
+39;<br>
+&gt; + =A0 =A0 =A0 if [ $? -eq 0 ]; then<br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;&quot; &gt;&gt; ${D}${sysconf=
+dir}/inittab<br>
+&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;X0:12345:respawn:/sbin/getty =
+115200 hvc0&quot; &gt;&gt; ${D}${sysconfdir}/inittab<br>
+&gt; + =A0 =A0 =A0 fi<br>
+&gt; +}<br>
+&gt; --<br>
+&gt; 1.7.10.4<br>
+&gt;<br>
+&gt; _______________________________________________<br>
+&gt; meta-virtualization mailing list<br>
+&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
+ation@yoctoproject.org</a><br>
+&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
+" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualiza=
+tion</a><br>
+<br>
+<br>
+<br>
+</div><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
+r>
+thee at its end&quot;<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5">_____________________=
+__________________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" tar=
+get=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization<=
+/a><br>
+</div></div></blockquote></div><br></div>
+
+--089e0149401a15cf9504eaa28742--
