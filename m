@@ -1,37 +1,37 @@
 Return-Path: <cjp256@gmail.com>
-Received: from mail-ie0-f170.google.com (mail-ie0-f170.google.com
-	[209.85.223.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D4326E0182F
+Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
+	[209.85.223.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 05328E01831
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Nov 2013 20:02:16 -0800 (PST)
-Received: by mail-ie0-f170.google.com with SMTP id at1so2497832iec.29
+	Thu,  7 Nov 2013 20:02:20 -0800 (PST)
+Received: by mail-ie0-f174.google.com with SMTP id qd12so2391728ieb.19
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Nov 2013 20:02:16 -0800 (PST)
+	Thu, 07 Nov 2013 20:02:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=SbqCmRLHRW3B7rU55eq3a8Q0v6pR36FPxO1NDjPOgl8=;
-	b=bS8d1XfaADRaecG33PcrOR3rKfvR0NJSMoFGh84Td2a9OYY57tRJjukF+qFazeIQW7
-	Bw81MY3ramBkHJ5zozKWmTTxWAx9izfLzXcPatshJMvLNLQ7r1YqJm20Petyl6l/iILF
-	Z/WoLaHs0fWEnuYxyz73LW2aAiYVWmdS1QNFpU8hmu8jUK3mhzQj/PdoAVPfy9mrXaRR
-	aQi82ZG9U6RrM8jmCz2KFT+b2JMJVtWMJy/7Im1BmK7SeHaE0GfBBT+qY1aBqeZdiy7z
-	/d1DA7ieQPtnEQQNrpylDu3yDOv6fhxn2ZQxM0vS17eFxig0LqHDulGMXAzemc/FLu+f
-	nEJg==
-X-Received: by 10.50.128.72 with SMTP id nm8mr722624igb.10.1383883335937;
-	Thu, 07 Nov 2013 20:02:15 -0800 (PST)
+	bh=ftLDgmTJE3wtBYYbHsAcpzE0KYASnKDNJGuUYLdVJIM=;
+	b=OZ1gL3KCW/sxcYl+OGNq9jPm9HiLuLJOTs78iAMyVpCW22Z3tUHl4I4RqyAca01A5m
+	qMytgUQodpmeobLtThxtV6qeLx0gSMrg4/nIR5ZWn7+10FqE6AEMonaxvx+3XtFvhvxg
+	gdtglNLvfWXyZBaawuv3FZqunn9z/d18QXDVAlVWwnv/NZxSdgc752DtgT8NdPlbOLMl
+	7UkZkNaLb/wb1/C+aHaIWBF+vQLU2KVsO43RtaryRynU31f/Az1Rc+vtc5jlGZzpQfbb
+	HE82bTcemgoIBSU+95ia7BowcO7FnAWgCVoIoAcbPRUzScVsB1dqm95IsHYV+JJS2nFY
+	WU1w==
+X-Received: by 10.50.225.39 with SMTP id rh7mr724462igc.10.1383883340205;
+	Thu, 07 Nov 2013 20:02:20 -0800 (PST)
 Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
 	[74.71.215.22])
-	by mx.google.com with ESMTPSA id hv5sm1230089igb.9.2013.11.07.20.02.14
+	by mx.google.com with ESMTPSA id hv5sm1230089igb.9.2013.11.07.20.02.18
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Nov 2013 20:02:14 -0800 (PST)
+	Thu, 07 Nov 2013 20:02:19 -0800 (PST)
 From: Chris Patterson <cjp256@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  7 Nov 2013 23:01:00 -0500
-Message-Id: <1383883267-31992-4-git-send-email-cjp256@gmail.com>
+Date: Thu,  7 Nov 2013 23:01:02 -0500
+Message-Id: <1383883267-31992-6-git-send-email-cjp256@gmail.com>
 X-Mailer: git-send-email 1.8.4.rc3
 In-Reply-To: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
 References: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
-Subject: [PATCH v2 03/10] xen: remove xen-hg recipe and patches
+Subject: [PATCH v2 05/10] xen: remove old xen.inc and xen-python.inc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,142 +44,391 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 04:02:16 -0000
+X-List-Received-Date: Fri, 08 Nov 2013 04:02:21 -0000
 
 Signed-off-by: Chris Patterson <cjp256@gmail.com>
 ---
- recipes-extended/xen/xen-hg.bb                     | 29 -------------
- .../xen/xen-hg/ioemu-cross-gl-check.patch          | 29 -------------
- .../xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch  | 48 ----------------------
- 3 files changed, 106 deletions(-)
- delete mode 100644 recipes-extended/xen/xen-hg.bb
- delete mode 100644 recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch
- delete mode 100644 recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch
+ recipes-extended/xen/xen-python.inc |  49 ------
+ recipes-extended/xen/xen.inc        | 314 ------------------------------------
+ 2 files changed, 363 deletions(-)
+ delete mode 100644 recipes-extended/xen/xen-python.inc
+ delete mode 100644 recipes-extended/xen/xen.inc
 
-diff --git a/recipes-extended/xen/xen-hg.bb b/recipes-extended/xen/xen-hg.bb
+diff --git a/recipes-extended/xen/xen-python.inc b/recipes-extended/xen/xen-python.inc
 deleted file mode 100644
-index bdb4d32..0000000
---- a/recipes-extended/xen/xen-hg.bb
+index a54db07..0000000
+--- a/recipes-extended/xen/xen-python.inc
 +++ /dev/null
-@@ -1,29 +0,0 @@
--# A build of Xen Unstable from Mercurial
+@@ -1,49 +0,0 @@
+-XEN_DISABLE_XEND=""
 -
--# Build is not yet verified as functional
--# Setting BROKEN for now
--BROKEN = "1"
+-DEPENDS += "python python-native udev"
+-RDEPENDS_${PN}-python = "xen python python-lang python-re python-fcntl python-shell python-io python-threading python-stringold python-math python-crypt python-logging python-pickle python-xmlrpc python-netclient python-mime python-unixadmin python-compression python-mmap python-textutils python-resource python-terminal python-pprint python-curses"
 -
--inherit autotools
+-INITSCRIPT_PACKAGES += "${PN}-python"
+-INITSCRIPT_NAME_${PN}-python = "xend"
+-INITSCRIPT_PARAMS_${PN}-python = "defaults 64"
 -
--require xen.inc
+-inherit python-dir
 -
--DEPENDS += "yajl"
+-PACKAGES =+ "${PN}-python-dbg ${PN}-python"
+-FILES_${PN}-python = "\
+-	${sysconfdir}/init.d/xend \
+-	${sysconfdir}/xen/xend-config.sxp \
+-	${sysconfdir}/xen/xend-pci-permissive.sxp \
+-	${sysconfdir}/xen/xend-pci-quirks.sxp \
+-	${sysconfdir}/xen/xm-config.xml \
+-	${bindir}/xentrace_format \
+-	${bindir}/xencons \
+-	${bindir}/pygrub \
+-	${bindir}/remus \
+-	${sbindir}/xen-bugtool \
+-	${sbindir}/xend \
+-	${sbindir}/xenmon.py \
+-	${sbindir}/xm \
+-	${sbindir}/xen-python-path \
+-	${libdir}/${PYTHON_DIR} \
+-	/var/run/xend"
 -
--LIC_FILES_CHKSUM = "file://COPYING;md5=e0f0f3ac55608719a82394cc353928df"
+-FILES_${PN}-python-dbg = "\
+-        ${libdir}/${PYTHON_DIR}/site-packages/.debug \
+-        ${libdir}/${PYTHON_DIR}/site-packages/xen/lowlevel/.debug"
 -
--SRCREV = "82db8de16530f016809264d3179823999d702849"
+-#EXTRA_OECONF="ac_cv_lib_python_PyArg_ParseTuple=yes"
+-autotools_do_configure() {
+-        export PYTHON=${STAGING_DIR_NATIVE}/usr/bin/python
+-        export PREPEND_LIB="${STAGING_LIBDIR_NATIVE} ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}"
+-        export PREPEND_INCLUDES="${STAGING_INCDIR_NATIVE} ${STAGING_INCDIR_NATIVE}/${PYTHON_DIR}"
 -
--SRC_URI = "hg://xenbits.xen.org;module=xen-unstable.hg;rev=d690c7e896a2 \
--        git://xenbits.xensource.com/qemu-xen-unstable.git \
--        file://ioemu-cross-gl-check.patch \
--	file://tools_qemu_xen_remove_CFLAGS.patch"
+-        export STAGING_INCDIR=${STAGING_INCDIR}
+-        export STAGING_LIBDIR=${STAGING_LIBDIR}
+-        export STAGING_DIR=${STAGING_DIR}
+-        export BUILD_SYS=${BUILD_SYS}
+-        export HOST_SYS=${HOST_SYS}
 -
--SRC_URI[md5sum] = "2f3e36c96fe13cebc7475652c2803e14"
--SRC_URI[sha256sum] = "b63bc8d48aaf2688cff1417f99a140943e71de0777b28ed8cbba8aa018b4117c"
+-        oe_runconf
+-}
 -
--S = "${WORKDIR}/xen-unstable.hg"
--
--#EXTRA_OECONF="--disable-pythontools"
--require xen-python.inc
--
-diff --git a/recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch b/recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
 deleted file mode 100644
-index 23497e2..0000000
---- a/recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch
+index 6207897..0000000
+--- a/recipes-extended/xen/xen.inc
 +++ /dev/null
-@@ -1,29 +0,0 @@
----- git/configure.sav	2012-04-06 12:08:07.891529546 -0600
--+++ xen-unstable.hg/../git/configure	2012-04-06 12:09:39.872923477 -0600
--@@ -289,7 +289,7 @@
--             kqemu="yes"
--         fi
--     fi
---    if test -f /usr/include/sys/soundcard.h ; then
--+    if test -f ${CROSS_SYS_ROOT}/usr/include/sys/soundcard.h ; then
--         audio_drv_list="oss"
--     fi
--     audio_possible_drivers="oss sdl"
--@@ -872,7 +872,7 @@
-- #endif
-- int main( void ) { return (int) glGetString(GL_EXTENSIONS); }
-- EOF
---if $cc $ARCH_CFLAGS -o $TMPE `$sdl_config --cflags --libs 2> /dev/null` -I/usr/include/GL $TMPC -lXext -lGL 2> /dev/null
--+if $cc $ARCH_CFLAGS -o $TMPE `$sdl_config --cflags --libs 2> /dev/null` -I${CROSS_SYS_ROOT}/usr/include/GL $TMPC -lXext -lGL 2> /dev/null
-- then
-- opengl="yes"
-- else
--@@ -1450,7 +1450,7 @@
-- then
--     echo "#define CONFIG_OPENGL 1" >> $config_h
--     echo "CONFIG_OPENGL=yes" >> $config_mak
---    echo "SDL_CFLAGS+=-I/usr/include/GL" >> $config_mak
--+    echo "SDL_CFLAGS+=-I${CROSS_SYS_ROOT}/usr/include/GL" >> $config_mak
--     echo "SDL_LIBS+=-lXext" >> $config_mak
--     echo "SDL_LIBS+=-lGL" >> $config_mak
-- fi
-diff --git a/recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch b/recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch
-deleted file mode 100644
-index 5fd0148..0000000
---- a/recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch
-+++ /dev/null
-@@ -1,48 +0,0 @@
--# HG changeset patch
--# User Olaf Hering <olaf@xxxxxxxxx>
--# Date 1330015545 -3600
--# Node ID 5bdbdcb03d60a7b58f41306ef39cb988100efbe4
--# Parent  56214b978466914c1b9f8adb1158a3217a823e42
--tools/qemu-xen: remove CFLAGS for qemu build
+@@ -1,314 +0,0 @@
+-DESCRIPTION = "Xen is a virtual-machine monitor providing services that allow multiple computer operating systems to execute on the same computer hardware concurrently." 
+-HOMEPAGE = "http://xen.org"
+-LICENSE = "GPLv2"
+-SECTION = "console/tools"
+-PR = "r0"
 -
--Currently qemu-xen gets build with CFLAGS only if CFLAGS was already in
--the environment during make invocation. If CFLAGS is in environment then
--make will append all of the various flags specified in xen Makefiles,
--which is then passed to qemu configure. If CFLAGS is not set, then
--configure will use just "-O2 -g" because make does not export its own
--CFLAGS variable.
+-# Disable xend and python support
+-XEN_DISABLE_XEND = "1"
 -
--To make qemu-xen build consistent this change removes CFLAGS from the
--environment so that only the CFLAGS from qemu configure script will be
--used. This matches what is done in kvm.rpm and qemu.rpm where for
--example RPM_OPT_FLAGS is not passes as CFLAGS. Otherwise those packages
--would not build as well.
+-DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps"
 -
--Passing makes CFLAGS to configure will lead to build errors:
--- xen Makefiles append -std=gnu99, this breaks qemu build due to a bug
--  in header file:
--fpu/softfloat-specialize.h:107: error: initializer element is not constant
--- in 32bit builds, qemus configure script will append -mcpu=i486 in an
--  odd way, which leads to unknown gcc cmdline options due to a missing
--  space
--- xen Makefiles will append -Wall which will expose all sorts of style
--  issues in the qemu code
--- in one case some of the asm() blocks will not compile with gcc 4.6 in
--  openSuSE 12.1
+-# RDEPENDS_xen = "libgcc pciutils bridge-utils iproute2 util-linux udev procps bash"
+-RDEPENDS_xen-minimal = "libgcc xen-keymaps-base xen-xenstore xen-xenconsole xen-xenlight xen-hvmloader xen-qemu-dm"
+-RDEPENDS_xen = "libgcc xen-keymaps-base xen-xenstore xen-xenconsole xen-xenlight xen-hvmloader xen-qemu-dm xen-keymaps"
+-RDEPENDS_xen-networking = "bridge-utils"
+-RDEPENDS_xen-domains = "bash procps coreutils"
+-RDEPENDS_xen-commons = "bash procps coreutils"
+-RDEPENDS_xen-watchdog = "bash procps coreutils"
 -
--Until upstream qemu has fixed all these issues use no extra CFLAGS to
--configure qemu-xen.
+-COMPATIBLE_HOST = '(x86_64.*|i.86.*).*-linux'
 -
--Signed-off-by: Olaf Hering <olaf@xxxxxxxxx>
+-ALLOW_EMPTY_${PN} = "1"
 -
--diff -r 56214b978466 -r 5bdbdcb03d60 tools/Makefile
----- a/tools/Makefile
--+++ b/tools/Makefile
--@@ -146,6 +146,7 @@
-- 		source=.; \
-- 	fi; \
-- 	cd qemu-xen-dir; \
--+	env -u CFLAGS 
-- 	$$source/configure --enable-xen --target-list=i386-softmmu \
-- 		--source-path=$$source \
-- 		--extra-cflags="-I$(XEN_ROOT)/tools/include \
+-PACKAGES = "\
+-	${PN}-boot ${PN}-watchdog ${PN}-examples ${PN}-debugging ${PN}-tools ${PN}-pm ${PN}-domains ${PN}-commons \
+-	${PN}-bios-ppc ${PN}-bios-sparc ${PN}-networking \
+-	${PN}-doc ${PN}-dbg ${PN}-staticdev ${PN}-minimal ${PN}-keymaps-base ${PN}-keymaps \
+-	${PN}-xenstore ${PN}-xenconsole ${PN}-xenlight ${PN}-hvmloader ${PN}-qemu-dm \
+-	libxenlight libfsimage libflask libxenguest libblktap libblktapctl libvhd libxlutil libxenstore libxenctrl \
+-	libxenlight-dev libfsimage-dev libflask-dev libxenguest-dev libblktap-dev libblktapctl-dev libvhd-dev libxlutil-dev libxenstore-dev libxenctrl-dev \
+-	${PN}-dev ${PN} \
+-	"
+-
+-FILES_${PN} += "\
+-	${libdir}/xen \
+-	${libdir}/fs \
+-	/usr/lib64 \
+-	"
+-
+-FILES_${PN}-minimal = "\
+-	${sysconfdir}/init.d/xenminiinit \
+-	"
+-
+-FILES_${PN}-qemu-dm = "\
+-        ${libdir}/xen/bin/qemu-dm \
+-        /var/lib/xen \
+-        "
+-
+-FILES_${PN}-keymaps-base = "\
+-	/usr/share/xen/qemu/keymaps/common \
+-	/usr/share/xen/qemu/keymaps/modifiers \
+-	/usr/share/xen/qemu/keymaps/en-us \
+-	"
+-
+-FILES_${PN}-keymaps = "\
+-	/usr/share/xen/qemu/keymaps \
+-	"
+-
+-FILES_${PN}-xenlight = "\
+-	${sbindir}/xl \
+-	${sysconfdir}/xen/xl.conf \
+-	${sysconfdir}/bash_completion.d/xl.sh \
+-	"
+-
+-FILES_${PN}-xenconsole = "\
+-	${sbindir}/xenconsoled \
+-	${libdir}/xen/bin/xc_restore \
+-	${libdir}/xen/bin/xc_save \
+-	${libdir}/xen/bin/xenconsole \
+-	"
+-
+-FILES_${PN}-xenstore = "\
+-	${bindir}/xenstore \
+-	${bindir}/xenstore-* \
+-	${sbindir}/xenstored \
+-	/var/run/xenstored \
+-	"
+-
+-FILES_${PN}-hvmloader = "\
+-	${libdir}/xen/boot/hvmloader \
+-	"
+-
+-FILES_libxenlight = "${libdir}/libxenlight.so.*"
+-FILES_libxenlight-dev = "${libdir}/libxenlight.so {libdir}/libxenlight.a"
+-FILES_libfsimage = "${libdir}/libfsimage.so.*"
+-FILES_libfsimage-dev = "${libdir}/libfsimage.so {libdir}/libfsimage.a"
+-FILES_libflask = "${libdir}/libflask.so.*"
+-FILES_libflask-dev = "${libdir}/libflask.so ${libdir}/libflask.a"
+-FILES_libxenguest = "${libdir}/libxenguest.so.*"
+-FILES_libxenguest-dev = "${libdir}/libxenguest.so ${libdir}/libxenguest.a"
+-FILES_libblktap = "${libdir}/libblktap.so.*"
+-FILES_libblktap-dev = "${libdir}/libblktap.so ${libdir}/libblktap.a"
+-FILES_libblktapctl = "${libdir}/libblktapctl.so.*"
+-FILES_libblktapctl-dev = "${libdir}/libblktapctl.so ${libdir}/libblktapctl.a"
+-FILES_libxlutil = "${libdir}/libxlutil.so.*"
+-FILES_libxlutil-dev = "${libdir}/libxlutil.so ${libdir}/libxlutil.a"
+-FILES_libvhd = "${libdir}/libvhd.so.*"
+-FILES_libvhd-dev = "${libdir}/libvhd.so ${libdir}/libvhd.a"
+-FILES_libxenstore = "${libdir}/libxenstore.so.*"
+-FILES_libxenstore-dev = "${libdir}/libxenstore.so ${libdir}/libxenstore.a"
+-FILES_libxenctrl = "${libdir}/libxenctrl.so.*"
+-FILES_libxenctrl-dev = "${libdir}/libxenctrl.so ${libdir}/libxenctrl.a"
+-
+-FILES_${PN}-doc += "\
+-	/usr/share/xen/man \
+-	${sysconfdir}/xen/README* \
+-	"
+-
+-FILES_${PN}-dbg += "\
+-	${libdir}/xen/bin/.debug \
+-	${libdir}/fs/ufs/.debug \
+-	${libdir}/fs/zfs/.debug \
+-	${libdir}/fs/ext2fs-lib/.debug \
+-	${libdir}/fs/fat/.debug \
+-	${libdir}/fs/iso9660/.debug \
+-	${libdir}/fs/reiserfs/.debug \
+-	"
+-
+-FILES_${PN}-boot = "/boot"
+-
+-FILES_${PN}-domains = "\
+-	${sysconfdir}/default/xendomains \
+-	${sysconfdir}/init.d/xendomains \
+-	"
+-
+-FILES_${PN}-commons = "\
+-	${sysconfdir}/default/xencommons \
+-	${sysconfdir}/init.d/xencommons \
+-	"
+-
+-FILES_${PN}-bios-sparc = "\
+-	/usr/share/xen/qemu/openbios-sparc32 \
+-	/usr/share/xen/qemu/openbios-sparc64 \
+-	"
+-
+-FILES_${PN}-bios-ppc = "\
+-	/usr/share/xen/qemu/openbios-ppc \
+-	/usr/share/xen/qemu/ppc_rom.bin \
+-	"
+-
+-FILES_${PN}-networking = "\
+-	${sysconfdir}/xen/scripts/network-nat \
+-	${sysconfdir}/xen/scripts/network-route \
+-	${sysconfdir}/xen/scripts/qemu-ifup \
+-	${sysconfdir}/xen/scripts/vif2 \
+-	${sysconfdir}/xen/scripts/vif-bridge \
+-	${sysconfdir}/xen/scripts/vif-route \
+-	${sysconfdir}/xen/scripts/vif-setup \
+-	${sysconfdir}/xen/scripts/vif-common \
+-	${sysconfdir}/xen/scripts/vif-nat \
+-	${sysconfdir}/xen/scripts/xen-network-common \
+-	/usr/share/xen/qemu/pxe-e1000.bin \
+-	/usr/share/xen/qemu/pxe-ne2k_pci.bin \
+-	/usr/share/xen/qemu/pxe-pcnet.bin \
+-	/usr/share/xen/qemu/pxe-rtl8139.bin \
+-	"
+-
+-FILES_${PN}-pm = "\
+-	${sbindir}/xenpmd \
+-	${sbindir}/xenpm \
+-	"
+-
+-FILES_${PN}-watchdog = "\
+-	${sysconfdir}/init.d/xen-watchdog \
+-	${sbindir}/xenwatchdogd \
+-	"
+-
+-FILES_${PN}-examples = "\
+-	${sysconfdir}/xen/xmexample* \
+-	"
+-
+-FILES_${PN}-debugging = "\
+-	${sbindir}/gdbsx \
+-	${sbindir}/kdd \
+-	${sbindir}/xen-hvmcrash \
+-	${sbindir}/gtraceview \
+-	${sbindir}/gtracestat \
+-	"
+-
+-FILES_${PN}-tools = "\
+-	${bindir}/xen-detect \
+-	${bindir}/xentrace \
+-	${bindir}/xentrace_* \
+-	${bindir}/qemu-img-xen \
+-	${sbindir}/tap-ctl \
+-	${sbindir}/xentrace_* \
+-	${sbindir}/tapdisk \
+-	${sbindir}/tapdisk2 \
+-	${sbindir}/tapdisk-* \
+-	${sbindir}/flask-genenforce \
+-	${sbindir}/qcow-create \
+-	${sbindir}/qcow2raw \
+-	${sbindir}/xen-hptool \
+-	${sbindir}/blktapctrl \
+-	${sbindir}/xsview \
+-	${sbindir}/xen-hvmctx \
+-	${sbindir}/lock-util \
+-	${sbindir}/tapdisk-stream \
+-	${sbindir}/vhd-update \
+-	${sbindir}/xenpaging \
+-	${sbindir}/xenperf \
+-	${sbindir}/xenlockprof \
+-	${sbindir}/td-util \
+-	${sbindir}/flask-loadpolicy \
+-	${sbindir}/xentop \
+-	${sbindir}/img2qcow \
+-	${sbindir}/flask-setenforce \
+-	${sbindir}/xen-tmem-list-parse \
+-	${sbindir}/vhd-util \
+-	${sbindir}/xenbaked \
+-	"
+-
+-# Don't run architecture tests on xen packages
+-QAPATHTEST[arch]=""
+-
+-inherit update-rc.d
+-
+-INITSCRIPT_PACKAGES = "${PN}-commons ${PN}-watchdog ${PN}-domains"
+-INITSCRIPT_NAME_${PN}-commons = "xencommons"
+-INITSCRIPT_PARAMS_${PN}-commons = "defaults 62"
+-INITSCRIPT_NAME_${PN}-watchdog = "xen-watchdog"
+-INITSCRIPT_PARAMS_${PN}-watchdog = "defaults 66"
+-INITSCRIPT_NAME_${PN}-domains = "xendomains"
+-INITSCRIPT_PARAMS_${PN}-domains = "defaults 68"
+-NITSCRIPT_NAME_${PN}-minimal = "xenminiinit"
+-INITSCRIPT_PARAMS_${PN}-minimal = "defaults 69"
+-
+-do_compile() {
+-
+-	# Hack to get around missing/failed multilib support
+-	export LIBLEAFDIR_x86_64=lib
+-	test -d ${S}/tools/firmware/rombios/gnu || mkdir ${S}/tools/firmware/rombios/gnu
+-	test -e ${S}/tools/firmware/rombios/32bit/gnu || ln -s ../gnu ${S}/tools/firmware/rombios/32bit/gnu
+-	test -e ${S}/tools/firmware/hvmloader/gnu || ln -s ../rombios/gnu ${S}/tools/firmware/hvmloader/gnu
+-	test -e ${S}/tools/firmware/hvmloader/acpi/gnu || ln -s ../../rombios/gnu ${S}/tools/firmware/hvmloader/acpi/gnu
+-	test -d ${S}/tools/include || mkdir -p ${S}/tools/include
+-	test -e ${S}/tools/include/gnu || ln -s ../firmware/rombios/gnu ${S}/tools/include/gnu
+-
+-	if ! test -f ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-32.h ; then
+-		cat ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-64.h | grep -v stub_bdflush | grep -v stub_getmsg | grep -v stub_putmsg > ${S}/tools/firmware/rombios/gnu/stubs-32.h
+-		echo \#define __stub___kernel_cosl >> ${S}/tools/firmware/rombios/gnu/stubs-32.h
+-		echo \#define __stub___kernel_sinl >> ${S}/tools/firmware/rombios/gnu/stubs-32.h
+-		echo \#define __stub___kernel_tanl >> ${S}/tools/firmware/rombios/gnu/stubs-32.h
+-	fi
+-	# End multilib hack
+-	
+-	export CONFIG_QEMU=${WORKDIR}/git
+-
+-	export XEN_TARGET_ARCH=`echo ${TARGET_ARCH} | sed -e s/i.86/x86_32/ \
+-                                -e s/i86pc/x86_32/ -e s/amd64/x86_64/`
+-	export XEN_OS=Linux
+-	export XEN_DISABLE_XEND=${XEN_DISABLE_XEND}
+-
+-	export EXTRA_PREFIX=${STAGING_DIR_TARGET}
+-	export CROSS_COMPILE=${TARGET_PREFIX}
+-	export CROSS_BIN_PATH=${STAGING_DIR_NATIVE}/usr/bin
+-	export CROSS_SYS_ROOT=${STAGING_DIR_TARGET}
+-
+-	# These are needed by sysconfig.py
+-	export BUILD_SYS=${BUILD_SYS}
+-	export HOST_SYS=${HOST_SYS}
+-	export STAGING_INCDIR=${STAGING_INCDIR}
+-	export STAGING_LIBDIR=${STAGING_LIBDIR}
+-
+-	export PYTHON="${STAGING_BINDIR_NATIVE}/python-native/python"
+-	export PREPEND_LIB="${STAGING_LIBDIR_NATIVE} ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}"
+-	export PREPEND_INCLUDES="${STAGING_INCDIR} ${STAGING_INCDIR}/${PYTHON_DIR}"
+-	export CFLAGS=
+-	export LDFLAGS=
+-
+-	# These two checks are for binaries that are not installed yet
+-	rm -f ${S}/tools/check/check_python_devel
+-	rm -f ${S}/tools/check/check_xgettext
+-
+-	# These checks are for libraries utilizing ldconfig
+-	rm -f ${S}/tools/check/check_zlib_lib
+-	rm -f ${S}/tools/check/check_crypto_lib
+-	rm -f ${S}/tools/check/check_zlib_devel
+-
+-	# remove -Werror for gcc-4.6's sake
+-	find "${S}" -name 'Makefile*' -o -name '*.mk' -o -name 'common.make' | \
+-				xargs sed -i 's/ *-Werror */ /'
+-
+-	#stubdom image builds are being a pain
+-	oe_runmake dist-xen dist-tools dist-kernels dist-docs
+-}
+-
+-do_install() {
+-
+-	for foo in `find ${S}/dist/install -type f` ; do
+-		if file $foo | grep text 2>&1 ; then
+-			echo Fixing paths in $foo
+-			sed -e "s%${STAGING_DIR_NATIVE}%%g" -i $foo
+-			sed -e "s%${STAGING_DIR_TARGET}%%g" -i $foo
+-		fi
+-	done
+-	
+-	cp -av ${S}/dist/install/* ${D}/
+-	install -d ${D}/etc/xen
+-	install -d ${D}/etc/init.d
+-
+-	install -m 0755 ${WORKDIR}/xenminiinit.sh ${D}/etc/init.d/xenminiinit
+-	install -m 0644 ${WORKDIR}/xend-config.sxp ${D}/etc/xen/xend-config.sxp
+-	test -e ${D}/usr/lib64 || ln -s lib ${D}/usr/lib64
+-
+-}
+-
+-sysroot_stage_all_append() {
+-        sysroot_stage_dir ${D}/boot ${SYSROOT_DESTDIR}/kernel
+-
+-	install -d ${DEPLOY_DIR_IMAGE}
+-	install -m 0644 ${D}/boot/xen.gz ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz 
+-}
+-
 -- 
 1.8.4.rc3
 
