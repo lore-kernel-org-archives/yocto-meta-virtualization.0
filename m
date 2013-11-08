@@ -1,36 +1,34 @@
 Return-Path: <cjp256@gmail.com>
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5CE57E0182C
+Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
+	[209.85.215.52])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 00E98E01830
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Nov 2013 20:07:59 -0800 (PST)
-Received: by mail-la0-f54.google.com with SMTP id hp15so286528lab.41
+	Fri,  8 Nov 2013 04:50:21 -0800 (PST)
+Received: by mail-la0-f52.google.com with SMTP id ev20so1651265lab.25
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Nov 2013 20:07:58 -0800 (PST)
+	Fri, 08 Nov 2013 04:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=Np7UdMetS4XsropcOjkFoluPn1YNKU/UlPdSMDrX2ew=;
-	b=XcMVbO25gN8DYntBPiXwuF8q+760pUOxh6WCz3UbF10JOQ1p232GUl6ElwHALbVn3e
-	TdizaCjwLnJtO2qvTKmkgRgBYvytSLfCgMOZSg56eXZVExvx++QQO4RhNlV54KMOjL1c
-	jhuW0X4lcsIltrOPaGizgH2IdyomfxVTw1FjdI041pg+S2fAe46k0CjdR17Uf6hyAzn7
-	uZB1mHV/hJg8qCJsdZfCZRazXuO2NPSlBp9Pn+rsacAJzp+e4KNtBHVJ71BTlYn6jTQq
-	kmpYZHdl+vg/vZgoaxIsGBGe4wCShiZPHsvmhsFl9l/fFJZg4uH81YMTkweSIOvd7Sy8
-	VNSg==
+	bh=n27yxGuUHo0LJ0cA+17DzGxF9Xza3qkw0NAe6hCY3bQ=;
+	b=BahDBFVrDkHv7GxMUYxqPztqt8OsGeYFq5WqUc5dY9BC8B78ZhCHQ6ES3GsK1SNrQO
+	34nm0XlRKjrXZjQsPiHirQM5OGiXc/VTrCwO3dVP+GmLaiBfwtLmCx0A8RYxGjQwJF9L
+	VLZH9nOQSz0Sot2/glz6e3fYlYCPSJeUryLAnhawMGMsBCtbmaG4ug5E8OpMchHfYO24
+	/MHAAKtkdTmbSkYFcPdbCo4bFbqym8K3Du7R7WWfoeNseILCRuhwcQC899Y0xuzocsmD
+	sy3PZyeYH2Z0rUErjFX92X9EdTfzXSvFmeempoJ7cqmgBj2X2QW3425vlzHC1AaUsW47
+	N77w==
 MIME-Version: 1.0
-X-Received: by 10.152.6.74 with SMTP id y10mr9254816lay.16.1383883678796; Thu,
-	07 Nov 2013 20:07:58 -0800 (PST)
-Received: by 10.114.181.41 with HTTP; Thu, 7 Nov 2013 20:07:58 -0800 (PST)
-In-Reply-To: <CADkTA4MAfcsVPH54igL_PSvh8U=Q_85bSQincGSQNb7OMHMPSQ@mail.gmail.com>
-References: <1383706491-3555-1-git-send-email-flihp@twobit.us>
-	<CADkTA4MAfcsVPH54igL_PSvh8U=Q_85bSQincGSQNb7OMHMPSQ@mail.gmail.com>
-Date: Thu, 7 Nov 2013 23:07:58 -0500
-Message-ID: <CABZSBQcXJ4mJTCAwwVoT9-oRoAOKsZYwxiPNxn1eOawpB-K5xA@mail.gmail.com>
+X-Received: by 10.112.16.67 with SMTP id e3mr12760lbd.55.1383915019468; Fri,
+	08 Nov 2013 04:50:19 -0800 (PST)
+Received: by 10.114.181.41 with HTTP; Fri, 8 Nov 2013 04:50:19 -0800 (PST)
+In-Reply-To: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
+References: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
+Date: Fri, 8 Nov 2013 07:50:19 -0500
+Message-ID: <CABZSBQd_Nn4KdPohN6PyiAH-RGsU7zrTuuEj-1bb6gMzG_z1zQ@mail.gmail.com>
 From: Chris Patterson <cjp256@gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
+To: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Add getty to inittab for login on Xen serial console.
+Subject: Re: [PATCH v2 00/10] xen cleanup and upgrades
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,143 +41,195 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 04:08:00 -0000
-Content-Type: multipart/alternative; boundary=089e0149401a15cf9504eaa28742
+X-List-Received-Date: Fri, 08 Nov 2013 12:50:24 -0000
+Content-Type: multipart/alternative; boundary=001a11c3f9b22284d904eaa9d3ce
 
---089e0149401a15cf9504eaa28742
+--001a11c3f9b22284d904eaa9d3ce
 Content-Type: text/plain; charset=ISO-8859-1
 
-Thanks, handy!
+Bounce messages say patches 2 & 8 are subject to moderator approval.
+
+For future reference, it states a limit of 40 KB in the message body.
+
+Cheers,
+-Chris
 
 
-On Thu, Nov 7, 2013 at 3:32 PM, Bruce Ashfield <bruce.ashfield@gmail.com>wrote:
+On Thu, Nov 7, 2013 at 11:00 PM, Chris Patterson <cjp256@gmail.com> wrote:
 
-> On Tue, Nov 5, 2013 at 9:54 PM, Philip Tricca <flihp@twobit.us> wrote:
-> > It's not pretty but the mechanisms in sysvinit-inittab assume the
-> > console device name is tty*. The Xen console device doesn't meet
-> > this criteria.
+> Cleaned out old xen bits, upgraded to 4.3.1, moved to common xen.inc,
+> and added git recipe pointing to xen-unstable.
 >
-> merged (with a minor tweak to the shortlog).
+> I broke out the cleanup into smaller patches in hopes that it will make it
+> through.
 >
-> Bruce
+> If not, you can find these patches in branch=xen-upgrades-and-cleanup-v2
+> at:
+> https://github.com/cjp256/meta-virtualization.git
 >
-> >
-> > Signed-off-by: Philip Tricca <flihp@twobit.us>
-> > ---
-> >  recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend |    7 +++++++
-> >  1 file changed, 7 insertions(+)
-> >  create mode 100644
-> recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
-> >
-> > diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
-> b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
-> > new file mode 100644
-> > index 0000000..2edbedf
-> > --- /dev/null
-> > +++ b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
-> > @@ -0,0 +1,7 @@
-> > +do_install_append() {
-> > +       echo "${DISTRO_FEATURES}" | grep -q 'xen'
-> > +       if [ $? -eq 0 ]; then
-> > +               echo "" >> ${D}${sysconfdir}/inittab
-> > +               echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >>
-> ${D}${sysconfdir}/inittab
-> > +       fi
-> > +}
-> > --
-> > 1.7.10.4
-> >
-> > _______________________________________________
-> > meta-virtualization mailing list
-> > meta-virtualization@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> Chris Patterson (10):
+>   xen: remove xsm from default PACKAGECONFIG options.
+>   xen: remove 4.1.2 recipe and patches
+>   xen: remove xen-hg recipe and patches
+>   xen: remove xen-rt recipe and patches
+>   xen: remove old xen.inc and xen-python.inc
+>   xen: remove old patches
+>   xen: rename xen patches directory from xen-4.3.0 to files.
+>   xen: upgrade to 4.3.1
+>   xen: improve organization with new xen.inc
+>   xen: add xen_git recipe.
 >
->
+>  .../xen/files/allow_disable_xend.patch             |   75 -
+>  ...lask-avoid-installing-policy-file-as-boot.patch |   26 +
+>  .../xen/files/ioemu-cross-gl-check.patch           |   29 -
+>  recipes-extended/xen/files/xend-config.sxp         |  304 -
+>  recipes-extended/xen/files/xenminiinit.sh          |   59 -
+>  .../xen/xen-4.1.2/allow_disable_xend.patch         |   75 -
+>  ...lask-avoid-installing-policy-file-as-boot.patch |   26 -
+>  recipes-extended/xen/xen-hg.bb                     |   29 -
+>  .../xen/xen-hg/ioemu-cross-gl-check.patch          |   29 -
+>  .../xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch  |   48 -
+>  recipes-extended/xen/xen-python.inc                |   49 -
+>  recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch | 6785
+> --------------------
+>  recipes-extended/xen/xen-rt_4.0.1.bb               |   25 -
+>  recipes-extended/xen/xen.inc                       |  902 ++-
+>  recipes-extended/xen/xen_4.1.2.bb                  |   24 -
+>  recipes-extended/xen/xen_4.3.0.bb                  |  650 --
+>  recipes-extended/xen/xen_4.3.1.bb                  |   24 +
+>  recipes-extended/xen/xen_git.bb                    |   18 +
+>  18 files changed, 677 insertions(+), 8500 deletions(-)
+>  delete mode 100644 recipes-extended/xen/files/allow_disable_xend.patch
+>  create mode 100644
+> recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
+>  delete mode 100644 recipes-extended/xen/files/ioemu-cross-gl-check.patch
+>  delete mode 100644 recipes-extended/xen/files/xend-config.sxp
+>  delete mode 100755 recipes-extended/xen/files/xenminiinit.sh
+>  delete mode 100644 recipes-extended/xen/xen-4.1.2/allow_disable_xend.patch
+>  delete mode 100644
+> recipes-extended/xen/xen-4.3.0/flask-avoid-installing-policy-file-as-boot.patch
+>  delete mode 100644 recipes-extended/xen/xen-hg.bb
+>  delete mode 100644 recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch
+>  delete mode 100644
+> recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch
+>  delete mode 100644 recipes-extended/xen/xen-python.inc
+>  delete mode 100644 recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch
+>  delete mode 100644 recipes-extended/xen/xen-rt_4.0.1.bb
+>  delete mode 100644 recipes-extended/xen/xen_4.1.2.bb
+>  delete mode 100644 recipes-extended/xen/xen_4.3.0.bb
+>  create mode 100644 recipes-extended/xen/xen_4.3.1.bb
+>  create mode 100644 recipes-extended/xen/xen_git.bb
 >
 > --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> 1.8.4.rc3
+>
 >
 
---089e0149401a15cf9504eaa28742
+--001a11c3f9b22284d904eaa9d3ce
 Content-Type: text/html; charset=ISO-8859-1
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thanks, handy!<br></div><div class=3D"gmail_extra"><br><br=
-><div class=3D"gmail_quote">On Thu, Nov 7, 2013 at 3:32 PM, Bruce Ashfield =
-<span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D=
-"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div class=3D"im">On Tue, Nov 5, 2013 at 9:5=
-4 PM, Philip Tricca &lt;<a href=3D"mailto:flihp@twobit.us">flihp@twobit.us<=
-/a>&gt; wrote:<br>
-
-&gt; It&#39;s not pretty but the mechanisms in sysvinit-inittab assume the<=
+<div dir=3D"ltr"><div><div>Bounce messages say patches 2 &amp; 8 are subjec=
+t to moderator approval.<br><br>For future reference, it states a limit of =
+40 KB in the message body.<br><br></div>Cheers,<br></div>-Chris<br></div><d=
+iv class=3D"gmail_extra">
+<br><br><div class=3D"gmail_quote">On Thu, Nov 7, 2013 at 11:00 PM, Chris P=
+atterson <span dir=3D"ltr">&lt;<a href=3D"mailto:cjp256@gmail.com" target=
+=3D"_blank">cjp256@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex">
+Cleaned out old xen bits, upgraded to 4.3.1, moved to common xen.inc,<br>
+and added git recipe pointing to xen-unstable.<br>
+<br>
+I broke out the cleanup into smaller patches in hopes that it will make it =
+through.<br>
+<br>
+If not, you can find these patches in branch=3Dxen-upgrades-and-cleanup-v2 =
+at:<br>
+<a href=3D"https://github.com/cjp256/meta-virtualization.git" target=3D"_bl=
+ank">https://github.com/cjp256/meta-virtualization.git</a><br>
+<br>
+Chris Patterson (10):<br>
+=A0 xen: remove xsm from default PACKAGECONFIG options.<br>
+=A0 xen: remove 4.1.2 recipe and patches<br>
+=A0 xen: remove xen-hg recipe and patches<br>
+=A0 xen: remove xen-rt recipe and patches<br>
+=A0 xen: remove old xen.inc and xen-python.inc<br>
+=A0 xen: remove old patches<br>
+=A0 xen: rename xen patches directory from xen-4.3.0 to files.<br>
+=A0 xen: upgrade to 4.3.1<br>
+=A0 xen: improve organization with new xen.inc<br>
+=A0 xen: add xen_git recipe.<br>
+<br>
+=A0.../xen/files/allow_disable_xend.patch =A0 =A0 =A0 =A0 =A0 =A0 | =A0 75 =
+-<br>
+=A0...lask-avoid-installing-policy-file-as-boot.patch | =A0 26 +<br>
+=A0.../xen/files/ioemu-cross-gl-check.patch =A0 =A0 =A0 =A0 =A0 | =A0 29 -<=
 br>
-&gt; console device name is tty*. The Xen console device doesn&#39;t meet<b=
+=A0recipes-extended/xen/files/xend-config.sxp =A0 =A0 =A0 =A0 | =A0304 -<br=
+>
+=A0recipes-extended/xen/files/xenminiinit.sh =A0 =A0 =A0 =A0 =A0| =A0 59 -<=
+br>
+=A0.../xen/xen-4.1.2/allow_disable_xend.patch =A0 =A0 =A0 =A0 | =A0 75 -<br=
+>
+=A0...lask-avoid-installing-policy-file-as-boot.patch | =A0 26 -<br>
+=A0recipes-extended/xen/<a href=3D"http://xen-hg.bb" target=3D"_blank">xen-=
+hg.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0 29 -<br>
+=A0.../xen/xen-hg/ioemu-cross-gl-check.patch =A0 =A0 =A0 =A0 =A0| =A0 29 -<=
+br>
+=A0.../xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch =A0| =A0 48 -<br>
+=A0recipes-extended/xen/xen-python.inc =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0=
+ 49 -<br>
+=A0recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch | 6785 --------------=
+------<br>
+=A0recipes-extended/xen/<a href=3D"http://xen-rt_4.0.1.bb" target=3D"_blank=
+">xen-rt_4.0.1.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 | =A0 25 -<br>
+=A0recipes-extended/xen/xen.inc =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
+ | =A0902 ++-<br>
+=A0recipes-extended/xen/<a href=3D"http://xen_4.1.2.bb" target=3D"_blank">x=
+en_4.1.2.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0 24 -<br>
+=A0recipes-extended/xen/<a href=3D"http://xen_4.3.0.bb" target=3D"_blank">x=
+en_4.3.0.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0650 --<br>
+=A0recipes-extended/xen/<a href=3D"http://xen_4.3.1.bb" target=3D"_blank">x=
+en_4.3.1.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0 24 +<br>
+=A0recipes-extended/xen/<a href=3D"http://xen_git.bb" target=3D"_blank">xen=
+_git.bb</a> =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0| =A0 18 +<br>
+=A018 files changed, 677 insertions(+), 8500 deletions(-)<br>
+=A0delete mode 100644 recipes-extended/xen/files/allow_disable_xend.patch<b=
 r>
-&gt; this criteria.<br>
+=A0create mode 100644 recipes-extended/xen/files/flask-avoid-installing-pol=
+icy-file-as-boot.patch<br>
+=A0delete mode 100644 recipes-extended/xen/files/ioemu-cross-gl-check.patch=
 <br>
-</div>merged (with a minor tweak to the shortlog).<br>
+=A0delete mode 100644 recipes-extended/xen/files/xend-config.sxp<br>
+=A0delete mode 100755 recipes-extended/xen/files/xenminiinit.sh<br>
+=A0delete mode 100644 recipes-extended/xen/xen-4.1.2/allow_disable_xend.pat=
+ch<br>
+=A0delete mode 100644 recipes-extended/xen/xen-4.3.0/flask-avoid-installing=
+-policy-file-as-boot.patch<br>
+=A0delete mode 100644 recipes-extended/xen/<a href=3D"http://xen-hg.bb" tar=
+get=3D"_blank">xen-hg.bb</a><br>
+=A0delete mode 100644 recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patc=
+h<br>
+=A0delete mode 100644 recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFL=
+AGS.patch<br>
+=A0delete mode 100644 recipes-extended/xen/xen-python.inc<br>
+=A0delete mode 100644 recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch<br=
+>
+=A0delete mode 100644 recipes-extended/xen/<a href=3D"http://xen-rt_4.0.1.b=
+b" target=3D"_blank">xen-rt_4.0.1.bb</a><br>
+=A0delete mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.1.2.bb" =
+target=3D"_blank">xen_4.1.2.bb</a><br>
+=A0delete mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.3.0.bb" =
+target=3D"_blank">xen_4.3.0.bb</a><br>
+=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.3.1.bb" =
+target=3D"_blank">xen_4.3.1.bb</a><br>
+=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen_git.bb" ta=
+rget=3D"_blank">xen_git.bb</a><br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+1.8.4.rc3<br>
 <br>
-Bruce<br>
-<div class=3D"im HOEnZb"><br>
-&gt;<br>
-&gt; Signed-off-by: Philip Tricca &lt;<a href=3D"mailto:flihp@twobit.us">fl=
-ihp@twobit.us</a>&gt;<br>
-&gt; ---<br>
-&gt; =A0recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend | =A0 =A07 =
-+++++++<br>
-&gt; =A01 file changed, 7 insertions(+)<br>
-&gt; =A0create mode 100644 recipes-core/sysvinit/sysvinit-inittab_2.88dsf.b=
-bappend<br>
-&gt;<br>
-&gt; diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend b=
-/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..2edbedf<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend<br>
-&gt; @@ -0,0 +1,7 @@<br>
-&gt; +do_install_append() {<br>
-&gt; + =A0 =A0 =A0 echo &quot;${DISTRO_FEATURES}&quot; | grep -q &#39;xen&#=
-39;<br>
-&gt; + =A0 =A0 =A0 if [ $? -eq 0 ]; then<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;&quot; &gt;&gt; ${D}${sysconf=
-dir}/inittab<br>
-&gt; + =A0 =A0 =A0 =A0 =A0 =A0 =A0 echo &quot;X0:12345:respawn:/sbin/getty =
-115200 hvc0&quot; &gt;&gt; ${D}${sysconfdir}/inittab<br>
-&gt; + =A0 =A0 =A0 fi<br>
-&gt; +}<br>
-&gt; --<br>
-&gt; 1.7.10.4<br>
-&gt;<br>
-&gt; _______________________________________________<br>
-&gt; meta-virtualization mailing list<br>
-&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
-ation@yoctoproject.org</a><br>
-&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
-" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualiza=
-tion</a><br>
-<br>
-<br>
-<br>
-</div><span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
-r>
-thee at its end&quot;<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5">_____________________=
-__________________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" tar=
-get=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization<=
-/a><br>
-</div></div></blockquote></div><br></div>
+</font></span></blockquote></div><br></div>
 
---089e0149401a15cf9504eaa28742--
+--001a11c3f9b22284d904eaa9d3ce--
