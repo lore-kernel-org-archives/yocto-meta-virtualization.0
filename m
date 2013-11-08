@@ -1,35 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 12DC0E01757
+Return-Path: <cjp256@gmail.com>
+Received: from mail-ie0-f178.google.com (mail-ie0-f178.google.com
+	[209.85.223.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A4256E01828
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Nov 2013 12:33:56 -0800 (PST)
-Received: by mail-lb0-f182.google.com with SMTP id w6so863376lbh.41
+	Thu,  7 Nov 2013 20:02:11 -0800 (PST)
+Received: by mail-ie0-f178.google.com with SMTP id to1so654044ieb.23
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Nov 2013 12:33:55 -0800 (PST)
+	Thu, 07 Nov 2013 20:02:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=MQFfjA/cenk+SmRRq+rujrxfTfyZAKU0uLsuGlBE5IA=;
-	b=C84o+b8CTl1iLVYJ6JnZR/sM3j5PWw1Y0F35azcSD/U5OOw+2M6lpC2LnDYzhyUtvS
-	7Bxtmm3DRalXlIWUpyi4OZDdEUwdhhFW2peZe/ugLEvRCV2/zFOusfQWqAMN4O8ZzdGc
-	FYy3OcM9tWheY7M+gsuTB/yzMGZVP6/5ntzz/rIvwW11669/iQ+dbB6JFHM4oFUuCZaX
-	/jBfZVzAjXW/FeVE7by/Y1vzon1+w7MnLeLkeTf0L1yJjsmLO3B+clPzGD2m6wWsc+xS
-	5dXLo8SAsUUArG1KaZn33qTPl2TVIrE3b/z3YoZ1jGf7q7jrzGDb9cBIUzQvIiNyv1S1
-	F2qw==
-MIME-Version: 1.0
-X-Received: by 10.152.10.99 with SMTP id h3mr7752021lab.13.1383856435261; Thu,
-	07 Nov 2013 12:33:55 -0800 (PST)
-Received: by 10.112.14.200 with HTTP; Thu, 7 Nov 2013 12:33:55 -0800 (PST)
-In-Reply-To: <1383704237-3496-1-git-send-email-flihp@twobit.us>
-References: <1383704237-3496-1-git-send-email-flihp@twobit.us>
-Date: Thu, 7 Nov 2013 15:33:55 -0500
-Message-ID: <CADkTA4MW4VcA_HuuXq+rq6oa-oF66+r7m68r4kd94MhRvz_ZMg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Philip Tricca <flihp@twobit.us>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2] xen: use PACKAGECONFIG for SDL and a bit of dependency cleanup
+	h=from:to:cc:subject:date:message-id;
+	bh=KpTQDAj96yvCG+UJKaScGak9Ru1r5ADcrKFB/jRz1t0=;
+	b=JgMyd3lLCWNeac4eqfcWQUQ4jSYPM846BaqKxsfHwTm0mhgcXOmloRdd9aOsovEOeu
+	8WphHv8Pr4iLL15XXZyj3OorRk/IrwrosPGbq7vS3wz6qz9/1lPlLtiJAqc0WrP8O7L4
+	4Dmymt3qDzfe2RoNVmJZbGo4IB646N9zax1hTbvjwswRVfVk1CDTOjqxJ8HxGtpVlnmX
+	o6h+Rcd2z1g6KtkPrw+t/ZHq3rdYBvPSNwkRE4nfr/ae7WVfinyS7hoqsvPCY8pKdZV4
+	BaJJcOezrqqSSUwZJKe1jtSNuu09KRrDMcMhfJCKcKVprwK7St0uv0qiT4ju+EBSeJN/
+	0GWg==
+X-Received: by 10.50.20.99 with SMTP id m3mr649240ige.54.1383883330428;
+	Thu, 07 Nov 2013 20:02:10 -0800 (PST)
+Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
+	[74.71.215.22])
+	by mx.google.com with ESMTPSA id hv5sm1230089igb.9.2013.11.07.20.02.08
+	for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 07 Nov 2013 20:02:09 -0800 (PST)
+From: Chris Patterson <cjp256@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Thu,  7 Nov 2013 23:00:57 -0500
+Message-Id: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
+X-Mailer: git-send-email 1.8.4.rc3
+Subject: [PATCH v2 00/10] xen cleanup and upgrades
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,78 +42,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2013 20:33:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 08 Nov 2013 04:02:11 -0000
 
-On Tue, Nov 5, 2013 at 9:17 PM, Philip Tricca <flihp@twobit.us> wrote:
-> This patch moves the optional SDL dependency to a PACKAGECONFIG
-> entry. It also cleans up dependencies on both the virtual libsdl
-> and libsdl. The dependency on libgl is also removed. libGL support
-> should be enabled with the 'opengl' distro feature instead. The
-> dependency on glib-2.0 is now explicit as well.
+Cleaned out old xen bits, upgraded to 4.3.1, moved to common xen.inc, 
+and added git recipe pointing to xen-unstable.
 
-Merged. We'll worry about the other issues mentioned in this thread in futu=
-re
-patches.
+I broke out the cleanup into smaller patches in hopes that it will make it through.
 
-Phillip: this should be all your pending patches merged, let me know if I'v=
-e
-missed anything.
+If not, you can find these patches in branch=xen-upgrades-and-cleanup-v2 at:
+https://github.com/cjp256/meta-virtualization.git
 
-Bruce
+Chris Patterson (10):
+  xen: remove xsm from default PACKAGECONFIG options.
+  xen: remove 4.1.2 recipe and patches
+  xen: remove xen-hg recipe and patches
+  xen: remove xen-rt recipe and patches
+  xen: remove old xen.inc and xen-python.inc
+  xen: remove old patches
+  xen: rename xen patches directory from xen-4.3.0 to files.
+  xen: upgrade to 4.3.1
+  xen: improve organization with new xen.inc
+  xen: add xen_git recipe.
 
->
-> Signed-off-by: Philip Tricca <flihp@twobit.us>
-> ---
->  recipes-extended/xen/xen_4.3.0.bb |    6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-extended/xen/xen_4.3.0.bb b/recipes-extended/xen/xen=
-_4.3.0.bb
-> index 09c25aa..283da28 100644
-> --- a/recipes-extended/xen/xen_4.3.0.bb
-> +++ b/recipes-extended/xen/xen_4.3.0.bb
-> @@ -21,17 +21,19 @@ COMPATIBLE_HOST =3D '(x86_64.*).*-linux'
->  inherit autotools gettext setuptools update-rc.d
->
->  PACKAGECONFIG ??=3D " \
-> +    sdl \
->      xsm \
->  "
-> +PACKAGECONFIG[sdl] =3D "--enable-sdl,--disable-sdl,virtual/libsdl,"
->  PACKAGECONFIG[xsm] =3D "--enable-xsmpolicy,--disable-xsmpolicy,checkpoli=
-cy-native,"
->
-> -DEPENDS =3D "util-linux util-linux-native file-native zlib ncurses opens=
-sl bison-native flex-native gettext dev86-native iasl-native pciutils virtu=
-al/libgl virtual/libsdl bridge-utils iproute2 procps yajl pixman python pyt=
-hon-setuptools-native xz xz-native libsdl"
-> +DEPENDS =3D "util-linux util-linux-native file-native zlib ncurses opens=
-sl bison-native flex-native gettext dev86-native iasl-native pciutils bridg=
-e-utils iproute2 procps yajl pixman python python-setuptools-native xz xz-n=
-ative glib-2.0"
->
->  # inherit setuptools adds python to RDEPENDS, override it
->  RDEPENDS_${PN} =3D ""
->
->  RDEPENDS_${PN}-base =3D "\
-> -    libgcc libsdl udev bash perl xz \
-> +    libgcc udev bash perl xz \
->      ${PN}-blktap \
->      ${PN}-console \
->      ${PN}-libblktapctl \
-> --
-> 1.7.10.4
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+ .../xen/files/allow_disable_xend.patch             |   75 -
+ ...lask-avoid-installing-policy-file-as-boot.patch |   26 +
+ .../xen/files/ioemu-cross-gl-check.patch           |   29 -
+ recipes-extended/xen/files/xend-config.sxp         |  304 -
+ recipes-extended/xen/files/xenminiinit.sh          |   59 -
+ .../xen/xen-4.1.2/allow_disable_xend.patch         |   75 -
+ ...lask-avoid-installing-policy-file-as-boot.patch |   26 -
+ recipes-extended/xen/xen-hg.bb                     |   29 -
+ .../xen/xen-hg/ioemu-cross-gl-check.patch          |   29 -
+ .../xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch  |   48 -
+ recipes-extended/xen/xen-python.inc                |   49 -
+ recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch | 6785 --------------------
+ recipes-extended/xen/xen-rt_4.0.1.bb               |   25 -
+ recipes-extended/xen/xen.inc                       |  902 ++-
+ recipes-extended/xen/xen_4.1.2.bb                  |   24 -
+ recipes-extended/xen/xen_4.3.0.bb                  |  650 --
+ recipes-extended/xen/xen_4.3.1.bb                  |   24 +
+ recipes-extended/xen/xen_git.bb                    |   18 +
+ 18 files changed, 677 insertions(+), 8500 deletions(-)
+ delete mode 100644 recipes-extended/xen/files/allow_disable_xend.patch
+ create mode 100644 recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
+ delete mode 100644 recipes-extended/xen/files/ioemu-cross-gl-check.patch
+ delete mode 100644 recipes-extended/xen/files/xend-config.sxp
+ delete mode 100755 recipes-extended/xen/files/xenminiinit.sh
+ delete mode 100644 recipes-extended/xen/xen-4.1.2/allow_disable_xend.patch
+ delete mode 100644 recipes-extended/xen/xen-4.3.0/flask-avoid-installing-policy-file-as-boot.patch
+ delete mode 100644 recipes-extended/xen/xen-hg.bb
+ delete mode 100644 recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch
+ delete mode 100644 recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch
+ delete mode 100644 recipes-extended/xen/xen-python.inc
+ delete mode 100644 recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch
+ delete mode 100644 recipes-extended/xen/xen-rt_4.0.1.bb
+ delete mode 100644 recipes-extended/xen/xen_4.1.2.bb
+ delete mode 100644 recipes-extended/xen/xen_4.3.0.bb
+ create mode 100644 recipes-extended/xen/xen_4.3.1.bb
+ create mode 100644 recipes-extended/xen/xen_git.bb
 
+-- 
+1.8.4.rc3
 
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
