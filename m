@@ -1,37 +1,37 @@
 Return-Path: <cjp256@gmail.com>
-Received: from mail-ie0-f174.google.com (mail-ie0-f174.google.com
-	[209.85.223.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 05328E01831
+Received: from mail-ie0-f171.google.com (mail-ie0-f171.google.com
+	[209.85.223.171])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8C885E01828
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Nov 2013 20:02:20 -0800 (PST)
-Received: by mail-ie0-f174.google.com with SMTP id qd12so2391728ieb.19
+	Thu,  7 Nov 2013 20:02:22 -0800 (PST)
+Received: by mail-ie0-f171.google.com with SMTP id tp5so2545264ieb.30
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Nov 2013 20:02:20 -0800 (PST)
+	Thu, 07 Nov 2013 20:02:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ftLDgmTJE3wtBYYbHsAcpzE0KYASnKDNJGuUYLdVJIM=;
-	b=OZ1gL3KCW/sxcYl+OGNq9jPm9HiLuLJOTs78iAMyVpCW22Z3tUHl4I4RqyAca01A5m
-	qMytgUQodpmeobLtThxtV6qeLx0gSMrg4/nIR5ZWn7+10FqE6AEMonaxvx+3XtFvhvxg
-	gdtglNLvfWXyZBaawuv3FZqunn9z/d18QXDVAlVWwnv/NZxSdgc752DtgT8NdPlbOLMl
-	7UkZkNaLb/wb1/C+aHaIWBF+vQLU2KVsO43RtaryRynU31f/Az1Rc+vtc5jlGZzpQfbb
-	HE82bTcemgoIBSU+95ia7BowcO7FnAWgCVoIoAcbPRUzScVsB1dqm95IsHYV+JJS2nFY
-	WU1w==
-X-Received: by 10.50.225.39 with SMTP id rh7mr724462igc.10.1383883340205;
-	Thu, 07 Nov 2013 20:02:20 -0800 (PST)
+	bh=vNL26IGqBGcgAGkFOLaWxHZwQDJtnx9zGbDpQqN78DE=;
+	b=hnnPNTk2BIWtqW9vmU7x0t6/kWDqu0bPrYNp7JS4QBTBE9JxJR1e8+QRagSlx7Qhx8
+	2VvDutBZR4YbLgTjZwDGoTpaVaLs8dvxxkuJxgvuk06ENy7eQxqSMm9LGD3/R0w7jsUu
+	fBIT6vk0Cj7Xset40tikNWuqmPPt80+VbrcFnDRXFzRPr/neY6tj6QiqcnR2hC6AZgus
+	i1ahbEW+v+4u1Dh7n6ClKZ3BfgLx9M3q8LcpOrknbsthayVnxa7pR/Tu3Q505FiNGGkE
+	snR9e/KEMpO1Id4OHi1HOhImodQRYoylm1XaNK+FLI/9Epyksn+hqkEcyD+/1r0PAzDh
+	ph2Q==
+X-Received: by 10.50.164.130 with SMTP id yq2mr571170igb.53.1383883341756;
+	Thu, 07 Nov 2013 20:02:21 -0800 (PST)
 Received: from hatchery.local (cpe-74-71-215-22.twcny.res.rr.com.
 	[74.71.215.22])
-	by mx.google.com with ESMTPSA id hv5sm1230089igb.9.2013.11.07.20.02.18
+	by mx.google.com with ESMTPSA id hv5sm1230089igb.9.2013.11.07.20.02.20
 	for <multiple recipients>
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 07 Nov 2013 20:02:19 -0800 (PST)
+	Thu, 07 Nov 2013 20:02:20 -0800 (PST)
 From: Chris Patterson <cjp256@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  7 Nov 2013 23:01:02 -0500
-Message-Id: <1383883267-31992-6-git-send-email-cjp256@gmail.com>
+Date: Thu,  7 Nov 2013 23:01:03 -0500
+Message-Id: <1383883267-31992-7-git-send-email-cjp256@gmail.com>
 X-Mailer: git-send-email 1.8.4.rc3
 In-Reply-To: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
 References: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
-Subject: [PATCH v2 05/10] xen: remove old xen.inc and xen-python.inc
+Subject: [PATCH v2 06/10] xen: remove old patches
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,391 +44,511 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2013 04:02:21 -0000
+X-List-Received-Date: Fri, 08 Nov 2013 04:02:24 -0000
 
 Signed-off-by: Chris Patterson <cjp256@gmail.com>
 ---
- recipes-extended/xen/xen-python.inc |  49 ------
- recipes-extended/xen/xen.inc        | 314 ------------------------------------
- 2 files changed, 363 deletions(-)
- delete mode 100644 recipes-extended/xen/xen-python.inc
- delete mode 100644 recipes-extended/xen/xen.inc
+ .../xen/files/allow_disable_xend.patch             |  75 -----
+ .../xen/files/ioemu-cross-gl-check.patch           |  29 --
+ recipes-extended/xen/files/xend-config.sxp         | 304 ---------------------
+ recipes-extended/xen/files/xenminiinit.sh          |  59 ----
+ 4 files changed, 467 deletions(-)
+ delete mode 100644 recipes-extended/xen/files/allow_disable_xend.patch
+ delete mode 100644 recipes-extended/xen/files/ioemu-cross-gl-check.patch
+ delete mode 100644 recipes-extended/xen/files/xend-config.sxp
+ delete mode 100755 recipes-extended/xen/files/xenminiinit.sh
 
-diff --git a/recipes-extended/xen/xen-python.inc b/recipes-extended/xen/xen-python.inc
+diff --git a/recipes-extended/xen/files/allow_disable_xend.patch b/recipes-extended/xen/files/allow_disable_xend.patch
 deleted file mode 100644
-index a54db07..0000000
---- a/recipes-extended/xen/xen-python.inc
+index 3318704..0000000
+--- a/recipes-extended/xen/files/allow_disable_xend.patch
 +++ /dev/null
-@@ -1,49 +0,0 @@
--XEN_DISABLE_XEND=""
--
--DEPENDS += "python python-native udev"
--RDEPENDS_${PN}-python = "xen python python-lang python-re python-fcntl python-shell python-io python-threading python-stringold python-math python-crypt python-logging python-pickle python-xmlrpc python-netclient python-mime python-unixadmin python-compression python-mmap python-textutils python-resource python-terminal python-pprint python-curses"
--
--INITSCRIPT_PACKAGES += "${PN}-python"
--INITSCRIPT_NAME_${PN}-python = "xend"
--INITSCRIPT_PARAMS_${PN}-python = "defaults 64"
--
--inherit python-dir
--
--PACKAGES =+ "${PN}-python-dbg ${PN}-python"
--FILES_${PN}-python = "\
--	${sysconfdir}/init.d/xend \
--	${sysconfdir}/xen/xend-config.sxp \
--	${sysconfdir}/xen/xend-pci-permissive.sxp \
--	${sysconfdir}/xen/xend-pci-quirks.sxp \
--	${sysconfdir}/xen/xm-config.xml \
--	${bindir}/xentrace_format \
--	${bindir}/xencons \
--	${bindir}/pygrub \
--	${bindir}/remus \
--	${sbindir}/xen-bugtool \
--	${sbindir}/xend \
--	${sbindir}/xenmon.py \
--	${sbindir}/xm \
--	${sbindir}/xen-python-path \
--	${libdir}/${PYTHON_DIR} \
--	/var/run/xend"
--
--FILES_${PN}-python-dbg = "\
--        ${libdir}/${PYTHON_DIR}/site-packages/.debug \
--        ${libdir}/${PYTHON_DIR}/site-packages/xen/lowlevel/.debug"
--
--#EXTRA_OECONF="ac_cv_lib_python_PyArg_ParseTuple=yes"
--autotools_do_configure() {
--        export PYTHON=${STAGING_DIR_NATIVE}/usr/bin/python
--        export PREPEND_LIB="${STAGING_LIBDIR_NATIVE} ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}"
--        export PREPEND_INCLUDES="${STAGING_INCDIR_NATIVE} ${STAGING_INCDIR_NATIVE}/${PYTHON_DIR}"
--
--        export STAGING_INCDIR=${STAGING_INCDIR}
--        export STAGING_LIBDIR=${STAGING_LIBDIR}
--        export STAGING_DIR=${STAGING_DIR}
--        export BUILD_SYS=${BUILD_SYS}
--        export HOST_SYS=${HOST_SYS}
--
--        oe_runconf
--}
--
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+@@ -1,75 +0,0 @@
+---- xen-4.1.2/config/StdGNU.mk.sav	2012-03-08 12:30:26.047303578 -0700
+-+++ xen-4.1.2/config/StdGNU.mk	2012-03-08 12:31:48.826696508 -0700
+-@@ -56,6 +56,9 @@
+- XEN_CONFIG_DIR = $(CONFIG_DIR)/xen
+- XEN_SCRIPT_DIR = $(XEN_CONFIG_DIR)/scripts
+- 
+-+# Allow xend to be disabled in lieu of only libxl
+-+CONFIG_ENABLE_XEND ?= y
+-+
+- SOCKET_LIBS =
+- CURSES_LIBS = -lncurses
+- PTHREAD_LIBS = -lpthread
+---- xen-4.1.2/tools/Makefile.sav	2012-03-08 11:25:10.177301492 -0700
+-+++ xen-4.1.2/tools/Makefile	2012-03-08 12:33:48.807302767 -0700
+-@@ -15,7 +15,7 @@
+- SUBDIRS-$(CONFIG_X86) += firmware
+- SUBDIRS-$(ACM_SECURITY) += security
+- SUBDIRS-y += console
+--SUBDIRS-y += xenmon
+-+SUBDIRS-$(CONFIG_ENABLE_XEND) += xenmon
+- SUBDIRS-$(VTPM_TOOLS) += vtpm_manager
+- SUBDIRS-$(VTPM_TOOLS) += vtpm
+- SUBDIRS-y += xenstat
+-@@ -36,17 +36,19 @@
+- 
+- SUBDIRS-y += xenpmd
+- SUBDIRS-y += libxl
+--SUBDIRS-y += remus
+-+SUBDIRS-$(CONFIG_ENABLE_XEND) += remus
+- SUBDIRS-$(CONFIG_X86) += xenpaging
+- SUBDIRS-$(CONFIG_X86) += debugger/gdbsx
+- SUBDIRS-$(CONFIG_X86) += debugger/kdd
+- 
+- # These don't cross-compile
+- ifeq ($(XEN_COMPILE_ARCH),$(XEN_TARGET_ARCH))
+-+ifneq ($(XEN_ENABLE_XEND),y)
+- SUBDIRS-$(PYTHON_TOOLS) += python
+- SUBDIRS-$(PYTHON_TOOLS) += pygrub
+- SUBDIRS-$(OCAML_TOOLS) += ocaml
+- endif
+-+endif
+- 
+- # For the sake of linking, set the sys-root
+- ifneq ($(CROSS_COMPILE),)
+---- xen-4.1.2/tools/misc/Makefile.sav	2012-03-08 12:23:10.107321955 -0700
+-+++ xen-4.1.2/tools/misc/Makefile	2012-03-08 12:34:54.466721729 -0700
+-@@ -19,11 +19,13 @@
+- SUBDIRS-$(CONFIG_MINITERM) += miniterm
+- SUBDIRS := $(SUBDIRS-y)
+- 
+--INSTALL_BIN-y := xencons
+-+INSTALL_BIN-y :=
+-+INSTALL_BIN-$(CONFIG_ENABLE_XEND) += xencons
+- INSTALL_BIN-$(CONFIG_X86) += xen-detect
+- INSTALL_BIN := $(INSTALL_BIN-y)
+- 
+--INSTALL_SBIN-y := xm xen-bugtool xen-python-path xend xenperf xsview xenpm xen-tmem-list-parse gtraceview gtracestat xenlockprof xenwatchdogd
+-+INSTALL_SBIN-y := xenperf xsview xenpm xen-tmem-list-parse gtraceview gtracestat xenlockprof xenwatchdogd
+-+INSTALL_SBIN-$(CONFIG_ENABLE_XEND) += xm xend xsview xen-python-path xen-bugtool
+- INSTALL_SBIN-$(CONFIG_X86) += xen-hvmctx xen-hvmcrash
+- INSTALL_SBIN-$(CONFIG_MIGRATE) += xen-hptool
+- INSTALL_SBIN := $(INSTALL_SBIN-y)
+---- xen-4.1.2/tools/hotplug/NetBSD/Makefile.sav	2012-03-08 12:54:56.247306596 -0700
+-+++ xen-4.1.2/tools/hotplug/NetBSD/Makefile	2012-03-08 12:57:50.337339410 -0700
+-@@ -8,7 +8,9 @@
+- XEN_SCRIPTS += vif-ip
+- 
+- XEN_SCRIPT_DATA =
+--XEN_RCD_PROG = rc.d/xencommons rc.d/xend rc.d/xendomains rc.d/xen-watchdog
+-+XEN_RCD_PROG-y := rc.d/xencommons rc.d/xendomains rc.d/xen-watchdog
+-+XEN_RCD_PROG-$(CONFIG_ENABLE_XEND) += rc.d/xend 
+-+XEN_RCD_PROG := $(XEN_RCD_PROG-y)
+- 
+- .PHONY: all
+- all:
+diff --git a/recipes-extended/xen/files/ioemu-cross-gl-check.patch b/recipes-extended/xen/files/ioemu-cross-gl-check.patch
 deleted file mode 100644
-index 6207897..0000000
---- a/recipes-extended/xen/xen.inc
+index a1363ea..0000000
+--- a/recipes-extended/xen/files/ioemu-cross-gl-check.patch
 +++ /dev/null
-@@ -1,314 +0,0 @@
--DESCRIPTION = "Xen is a virtual-machine monitor providing services that allow multiple computer operating systems to execute on the same computer hardware concurrently." 
--HOMEPAGE = "http://xen.org"
--LICENSE = "GPLv2"
--SECTION = "console/tools"
--PR = "r0"
+@@ -1,29 +0,0 @@
+---- qemu-xen-4.1-testing/configure	2012-02-20 09:01:08.219798969 -0700
+-+++ xen-4.1-testing.hg/../git/configure	2012-02-20 09:03:27.876749305 -0700
+-@@ -289,7 +289,7 @@
+-             kqemu="yes"
+-         fi
+-     fi
+--    if test -f /usr/include/sys/soundcard.h ; then
+-+    if test -f ${CROSS_SYS_ROOT}/usr/include/sys/soundcard.h ; then
+-         audio_drv_list="oss"
+-     fi
+-     audio_possible_drivers="oss sdl"
+-@@ -872,7 +872,7 @@
+- #endif
+- int main( void ) { return (int) glGetString(GL_EXTENSIONS); }
+- EOF
+--if $cc $ARCH_CFLAGS -o $TMPE `$sdl_config --cflags --libs 2> /dev/null` -I/usr/include/GL $TMPC -lXext -lGL 2> /dev/null
+-+if $cc $ARCH_CFLAGS -o $TMPE `$sdl_config --cflags --libs 2> /dev/null` -I${CROSS_SYS_ROOT}/usr/include/GL $TMPC -lXext -lGL 2> /dev/null
+- then
+- opengl="yes"
+- else
+-@@ -1450,7 +1450,7 @@
+- then
+-     echo "#define CONFIG_OPENGL 1" >> $config_h
+-     echo "CONFIG_OPENGL=yes" >> $config_mak
+--    echo "SDL_CFLAGS+=-I/usr/include/GL" >> $config_mak
+-+    echo "SDL_CFLAGS+=-I${CROSS_SYS_ROOT}/usr/include/GL" >> $config_mak
+-     echo "SDL_LIBS+=-lXext" >> $config_mak
+-     echo "SDL_LIBS+=-lGL" >> $config_mak
+- fi
+diff --git a/recipes-extended/xen/files/xend-config.sxp b/recipes-extended/xen/files/xend-config.sxp
+deleted file mode 100644
+index 096bb55..0000000
+--- a/recipes-extended/xen/files/xend-config.sxp
++++ /dev/null
+@@ -1,304 +0,0 @@
+-# -*- sh -*-
 -
--# Disable xend and python support
--XEN_DISABLE_XEND = "1"
+-#
+-# Xend configuration file.
+-#
 -
--DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl bison-native flex-native gettext dev86-native iasl-native pciutils virtual/libgl virtual/libsdl bridge-utils iproute2 procps"
+-# This example configuration is appropriate for an installation that 
+-# utilizes a bridged network configuration. Access to xend via http
+-# is disabled.  
 -
--# RDEPENDS_xen = "libgcc pciutils bridge-utils iproute2 util-linux udev procps bash"
--RDEPENDS_xen-minimal = "libgcc xen-keymaps-base xen-xenstore xen-xenconsole xen-xenlight xen-hvmloader xen-qemu-dm"
--RDEPENDS_xen = "libgcc xen-keymaps-base xen-xenstore xen-xenconsole xen-xenlight xen-hvmloader xen-qemu-dm xen-keymaps"
--RDEPENDS_xen-networking = "bridge-utils"
--RDEPENDS_xen-domains = "bash procps coreutils"
--RDEPENDS_xen-commons = "bash procps coreutils"
--RDEPENDS_xen-watchdog = "bash procps coreutils"
+-# Commented out entries show the default for that entry, unless otherwise
+-# specified.
 -
--COMPATIBLE_HOST = '(x86_64.*|i.86.*).*-linux'
+-#(logfile /var/log/xen/xend.log)
+-#(loglevel DEBUG)
 -
--ALLOW_EMPTY_${PN} = "1"
+-# Uncomment the line below.  Set the value to flask, acm, or dummy to 
+-# select a security module.
 -
--PACKAGES = "\
--	${PN}-boot ${PN}-watchdog ${PN}-examples ${PN}-debugging ${PN}-tools ${PN}-pm ${PN}-domains ${PN}-commons \
--	${PN}-bios-ppc ${PN}-bios-sparc ${PN}-networking \
--	${PN}-doc ${PN}-dbg ${PN}-staticdev ${PN}-minimal ${PN}-keymaps-base ${PN}-keymaps \
--	${PN}-xenstore ${PN}-xenconsole ${PN}-xenlight ${PN}-hvmloader ${PN}-qemu-dm \
--	libxenlight libfsimage libflask libxenguest libblktap libblktapctl libvhd libxlutil libxenstore libxenctrl \
--	libxenlight-dev libfsimage-dev libflask-dev libxenguest-dev libblktap-dev libblktapctl-dev libvhd-dev libxlutil-dev libxenstore-dev libxenctrl-dev \
--	${PN}-dev ${PN} \
--	"
+-#(xsm_module_name dummy)
 -
--FILES_${PN} += "\
--	${libdir}/xen \
--	${libdir}/fs \
--	/usr/lib64 \
--	"
+-# The Xen-API server configuration.
+-#
+-# This value configures the ports, interfaces, and access controls for the
+-# Xen-API server.  Each entry in the list starts with either unix, a port
+-# number, or an address:port pair.  If this is "unix", then a UDP socket is
+-# opened, and this entry applies to that.  If it is a port, then Xend will
+-# listen on all interfaces on that TCP port, and if it is an address:port
+-# pair, then Xend will listen on the specified port, using the interface with
+-# the specified address.
+-#
+-# The subsequent string configures the user-based access control for the
+-# listener in question.  This can be one of "none" or "pam", indicating either
+-# that users should be allowed access unconditionally, or that the local
+-# Pluggable Authentication Modules configuration should be used.  If this
+-# string is missing or empty, then "pam" is used.
+-#
+-# The final string gives the host-based access control for that listener. If
+-# this is missing or empty, then all connections are accepted.  Otherwise,
+-# this should be a space-separated sequence of regular expressions; any host
+-# with a fully-qualified domain name or an IP address that matches one of
+-# these regular expressions will be accepted.
+-#
+-# Example: listen on TCP port 9363 on all interfaces, accepting connections
+-# only from machines in example.com or localhost, and allow access through
+-# the unix domain socket unconditionally:
+-#
+-#   (xen-api-server ((9363 pam '^localhost$ example\\.com$')
+-#                    (unix none)))
+-#
+-# Optionally, the TCP Xen-API server can use SSL by specifying the private
+-# key and certificate location:
+-#
+-#                    (9367 pam '' xen-api.key xen-api.crt)
+-#
+-# Default:
+-#   (xen-api-server ((unix)))
 -
--FILES_${PN}-minimal = "\
--	${sysconfdir}/init.d/xenminiinit \
--	"
 -
--FILES_${PN}-qemu-dm = "\
--        ${libdir}/xen/bin/qemu-dm \
--        /var/lib/xen \
--        "
+-(xend-http-server yes)
+-(xend-unix-server yes)
+-(xend-tcp-xmlrpc-server yes)
+-(xend-unix-xmlrpc-server yes)
+-#(xend-relocation-server no)
+-(xend-relocation-server yes)
+-#(xend-relocation-ssl-server no)
+-(xend-udev-event-server yes)
 -
--FILES_${PN}-keymaps-base = "\
--	/usr/share/xen/qemu/keymaps/common \
--	/usr/share/xen/qemu/keymaps/modifiers \
--	/usr/share/xen/qemu/keymaps/en-us \
--	"
+-#(xend-unix-path /var/lib/xend/xend-socket)
 -
--FILES_${PN}-keymaps = "\
--	/usr/share/xen/qemu/keymaps \
--	"
 -
--FILES_${PN}-xenlight = "\
--	${sbindir}/xl \
--	${sysconfdir}/xen/xl.conf \
--	${sysconfdir}/bash_completion.d/xl.sh \
--	"
+-# Address and port xend should use for the legacy TCP XMLRPC interface, 
+-# if xend-tcp-xmlrpc-server is set.
+-#(xend-tcp-xmlrpc-server-address 'localhost')
+-#(xend-tcp-xmlrpc-server-port 8006)
 -
--FILES_${PN}-xenconsole = "\
--	${sbindir}/xenconsoled \
--	${libdir}/xen/bin/xc_restore \
--	${libdir}/xen/bin/xc_save \
--	${libdir}/xen/bin/xenconsole \
--	"
+-# SSL key and certificate to use for the legacy TCP XMLRPC interface.
+-# Setting these will mean that this port serves only SSL connections as
+-# opposed to plaintext ones.
+-#(xend-tcp-xmlrpc-server-ssl-key-file  xmlrpc.key)
+-#(xend-tcp-xmlrpc-server-ssl-cert-file xmlrpc.crt)
 -
--FILES_${PN}-xenstore = "\
--	${bindir}/xenstore \
--	${bindir}/xenstore-* \
--	${sbindir}/xenstored \
--	/var/run/xenstored \
--	"
 -
--FILES_${PN}-hvmloader = "\
--	${libdir}/xen/boot/hvmloader \
--	"
+-# Port xend should use for the HTTP interface, if xend-http-server is set.
+-#(xend-port            8000)
 -
--FILES_libxenlight = "${libdir}/libxenlight.so.*"
--FILES_libxenlight-dev = "${libdir}/libxenlight.so {libdir}/libxenlight.a"
--FILES_libfsimage = "${libdir}/libfsimage.so.*"
--FILES_libfsimage-dev = "${libdir}/libfsimage.so {libdir}/libfsimage.a"
--FILES_libflask = "${libdir}/libflask.so.*"
--FILES_libflask-dev = "${libdir}/libflask.so ${libdir}/libflask.a"
--FILES_libxenguest = "${libdir}/libxenguest.so.*"
--FILES_libxenguest-dev = "${libdir}/libxenguest.so ${libdir}/libxenguest.a"
--FILES_libblktap = "${libdir}/libblktap.so.*"
--FILES_libblktap-dev = "${libdir}/libblktap.so ${libdir}/libblktap.a"
--FILES_libblktapctl = "${libdir}/libblktapctl.so.*"
--FILES_libblktapctl-dev = "${libdir}/libblktapctl.so ${libdir}/libblktapctl.a"
--FILES_libxlutil = "${libdir}/libxlutil.so.*"
--FILES_libxlutil-dev = "${libdir}/libxlutil.so ${libdir}/libxlutil.a"
--FILES_libvhd = "${libdir}/libvhd.so.*"
--FILES_libvhd-dev = "${libdir}/libvhd.so ${libdir}/libvhd.a"
--FILES_libxenstore = "${libdir}/libxenstore.so.*"
--FILES_libxenstore-dev = "${libdir}/libxenstore.so ${libdir}/libxenstore.a"
--FILES_libxenctrl = "${libdir}/libxenctrl.so.*"
--FILES_libxenctrl-dev = "${libdir}/libxenctrl.so ${libdir}/libxenctrl.a"
+-# Port xend should use for the relocation interface, if xend-relocation-server
+-# is set.
+-#(xend-relocation-port 8002)
 -
--FILES_${PN}-doc += "\
--	/usr/share/xen/man \
--	${sysconfdir}/xen/README* \
--	"
+-# Port xend should use for the ssl relocation interface, if
+-# xend-relocation-ssl-server is set.
+-#(xend-relocation-ssl-port 8003)
 -
--FILES_${PN}-dbg += "\
--	${libdir}/xen/bin/.debug \
--	${libdir}/fs/ufs/.debug \
--	${libdir}/fs/zfs/.debug \
--	${libdir}/fs/ext2fs-lib/.debug \
--	${libdir}/fs/fat/.debug \
--	${libdir}/fs/iso9660/.debug \
--	${libdir}/fs/reiserfs/.debug \
--	"
+-# SSL key and certificate to use for the ssl relocation interface, if
+-# xend-relocation-ssl-server is set.
+-#(xend-relocation-server-ssl-key-file   xmlrpc.key)
+-#(xend-relocation-server-ssl-cert-file  xmlrpc.crt)
 -
--FILES_${PN}-boot = "/boot"
+-# Whether to use ssl as default when relocating.
+-#(xend-relocation-ssl no)
 -
--FILES_${PN}-domains = "\
--	${sysconfdir}/default/xendomains \
--	${sysconfdir}/init.d/xendomains \
--	"
+-# Address xend should listen on for HTTP connections, if xend-http-server is
+-# set.
+-# Specifying 'localhost' prevents remote connections.
+-# Specifying the empty string '' (the default) allows all connections.
+-#(xend-address '')
+-#(xend-address localhost)
 -
--FILES_${PN}-commons = "\
--	${sysconfdir}/default/xencommons \
--	${sysconfdir}/init.d/xencommons \
--	"
+-# Address xend should listen on for relocation-socket connections, if
+-# xend-relocation-server is set.
+-# Meaning and default as for xend-address above.
+-# Also, interface name is allowed (e.g. eth0) there to get the
+-# relocation address to be bound on.
+-#(xend-relocation-address '')
 -
--FILES_${PN}-bios-sparc = "\
--	/usr/share/xen/qemu/openbios-sparc32 \
--	/usr/share/xen/qemu/openbios-sparc64 \
--	"
+-# The hosts allowed to talk to the relocation port.  If this is empty (the
+-# default), then all connections are allowed (assuming that the connection
+-# arrives on a port and interface on which we are listening; see
+-# xend-relocation-port and xend-relocation-address above).  Otherwise, this
+-# should be a space-separated sequence of regular expressions.  Any host with
+-# a fully-qualified domain name or an IP address that matches one of these
+-# regular expressions will be accepted.
+-#
+-# For example:
+-#  (xend-relocation-hosts-allow '^localhost$ ^.*\\.example\\.org$')
+-#
+-#(xend-relocation-hosts-allow '')
+-(xend-relocation-hosts-allow '^localhost$ ^localhost\\.localdomain$')
 -
--FILES_${PN}-bios-ppc = "\
--	/usr/share/xen/qemu/openbios-ppc \
--	/usr/share/xen/qemu/ppc_rom.bin \
--	"
+-# The limit (in kilobytes) on the size of the console buffer
+-#(console-limit 1024)
 -
--FILES_${PN}-networking = "\
--	${sysconfdir}/xen/scripts/network-nat \
--	${sysconfdir}/xen/scripts/network-route \
--	${sysconfdir}/xen/scripts/qemu-ifup \
--	${sysconfdir}/xen/scripts/vif2 \
--	${sysconfdir}/xen/scripts/vif-bridge \
--	${sysconfdir}/xen/scripts/vif-route \
--	${sysconfdir}/xen/scripts/vif-setup \
--	${sysconfdir}/xen/scripts/vif-common \
--	${sysconfdir}/xen/scripts/vif-nat \
--	${sysconfdir}/xen/scripts/xen-network-common \
--	/usr/share/xen/qemu/pxe-e1000.bin \
--	/usr/share/xen/qemu/pxe-ne2k_pci.bin \
--	/usr/share/xen/qemu/pxe-pcnet.bin \
--	/usr/share/xen/qemu/pxe-rtl8139.bin \
--	"
+-##
+-# To bridge network traffic, like this:
+-#
+-# dom0: ----------------- bridge -> real eth0 -> the network
+-#                            |
+-# domU: fake eth0 -> vifN.0 -+
+-#
+-# use
+-#
+-# (network-script network-bridge)
+-#
+-# Your default ethernet device is used as the outgoing interface, by default. 
+-# To use a different one (e.g. eth1) use
+-#
+-# (network-script 'network-bridge netdev=eth1')
+-#
+-# The bridge is named eth0, by default (yes, really!)
+-#
 -
--FILES_${PN}-pm = "\
--	${sbindir}/xenpmd \
--	${sbindir}/xenpm \
--	"
+-# It is normally much better to create the bridge yourself in
+-# /etc/network/interfaces.  network-bridge start does nothing if you
+-# already have a bridge, and network-bridge stop does nothing if the
+-# default bridge name (normally eth0) is not a bridge.  See
+-# bridge-utils-interfaces(5) for full information on the syntax in
+-# /etc/network/interfaces, but you probably want something like this:
+-#    iface xenbr0 inet static
+-#        address [etc]
+-#        netmask [etc]
+-#        [etc]
+-#        bridge_ports eth0
+-#
+-# To have network-bridge create a differently-named bridge, use:
+-# (network-script 'network-bridge bridge=<name>')
+-#
+-# It is possible to use the network-bridge script in more complicated
+-# scenarios, such as having two outgoing interfaces, with two bridges, and
+-# two fake interfaces per guest domain.  To do things like this, write
+-# yourself a wrapper script, and call network-bridge from it, as appropriate.
+-#
+-(network-script network-bridge)
 -
--FILES_${PN}-watchdog = "\
--	${sysconfdir}/init.d/xen-watchdog \
--	${sbindir}/xenwatchdogd \
--	"
+-# The script used to control virtual interfaces.  This can be overridden on a
+-# per-vif basis when creating a domain or a configuring a new vif.  The
+-# vif-bridge script is designed for use with the network-bridge script, or
+-# similar configurations.
+-#
+-# If you have overridden the bridge name using
+-# (network-script 'network-bridge bridge=<name>') then you may wish to do the
+-# same here.  The bridge name can also be set when creating a domain or
+-# configuring a new vif, but a value specified here would act as a default.
+-#
+-# If you are using only one bridge, the vif-bridge script will discover that,
+-# so there is no need to specify it explicitly.  The default is to use
+-# the bridge which is listed first in the output from brctl.
+-#
+-(vif-script vif-bridge)
 -
--FILES_${PN}-examples = "\
--	${sysconfdir}/xen/xmexample* \
--	"
 -
--FILES_${PN}-debugging = "\
--	${sbindir}/gdbsx \
--	${sbindir}/kdd \
--	${sbindir}/xen-hvmcrash \
--	${sbindir}/gtraceview \
--	${sbindir}/gtracestat \
--	"
+-## Use the following if network traffic is routed, as an alternative to the
+-# settings for bridged networking given above.
+-#(network-script network-route)
+-#(vif-script     vif-route)
 -
--FILES_${PN}-tools = "\
--	${bindir}/xen-detect \
--	${bindir}/xentrace \
--	${bindir}/xentrace_* \
--	${bindir}/qemu-img-xen \
--	${sbindir}/tap-ctl \
--	${sbindir}/xentrace_* \
--	${sbindir}/tapdisk \
--	${sbindir}/tapdisk2 \
--	${sbindir}/tapdisk-* \
--	${sbindir}/flask-genenforce \
--	${sbindir}/qcow-create \
--	${sbindir}/qcow2raw \
--	${sbindir}/xen-hptool \
--	${sbindir}/blktapctrl \
--	${sbindir}/xsview \
--	${sbindir}/xen-hvmctx \
--	${sbindir}/lock-util \
--	${sbindir}/tapdisk-stream \
--	${sbindir}/vhd-update \
--	${sbindir}/xenpaging \
--	${sbindir}/xenperf \
--	${sbindir}/xenlockprof \
--	${sbindir}/td-util \
--	${sbindir}/flask-loadpolicy \
--	${sbindir}/xentop \
--	${sbindir}/img2qcow \
--	${sbindir}/flask-setenforce \
--	${sbindir}/xen-tmem-list-parse \
--	${sbindir}/vhd-util \
--	${sbindir}/xenbaked \
--	"
 -
--# Don't run architecture tests on xen packages
--QAPATHTEST[arch]=""
+-## Use the following if network traffic is routed with NAT, as an alternative
+-# to the settings for bridged networking given above.
+-#(network-script network-nat)
+-#(vif-script     vif-nat)
 -
--inherit update-rc.d
+-# dom0-min-mem is the lowest permissible memory level (in MB) for dom0.
+-# This is a minimum both for auto-ballooning (as enabled by
+-# enable-dom0-ballooning below) and for xm mem-set when applied to dom0.
+-(dom0-min-mem 196)
 -
--INITSCRIPT_PACKAGES = "${PN}-commons ${PN}-watchdog ${PN}-domains"
--INITSCRIPT_NAME_${PN}-commons = "xencommons"
--INITSCRIPT_PARAMS_${PN}-commons = "defaults 62"
--INITSCRIPT_NAME_${PN}-watchdog = "xen-watchdog"
--INITSCRIPT_PARAMS_${PN}-watchdog = "defaults 66"
--INITSCRIPT_NAME_${PN}-domains = "xendomains"
--INITSCRIPT_PARAMS_${PN}-domains = "defaults 68"
--NITSCRIPT_NAME_${PN}-minimal = "xenminiinit"
--INITSCRIPT_PARAMS_${PN}-minimal = "defaults 69"
+-# Whether to enable auto-ballooning of dom0 to allow domUs to be created.
+-# If enable-dom0-ballooning = no, dom0 will never balloon out.
+-(enable-dom0-ballooning yes)
 -
--do_compile() {
+-# 32-bit paravirtual domains can only consume physical
+-# memory below 168GB. On systems with memory beyond that address,
+-# they'll be confined to memory below 128GB.
+-# Using total_available_memory (in GB) to specify the amount of memory reserved
+-# in the memory pool exclusively for 32-bit paravirtual domains.
+-# Additionally you should use dom0_mem = <-Value> as a parameter in 
+-# xen kernel to reserve the memory for 32-bit paravirtual domains, default 
+-# is "0" (0GB).  
+-(total_available_memory 0) 
 -
--	# Hack to get around missing/failed multilib support
--	export LIBLEAFDIR_x86_64=lib
--	test -d ${S}/tools/firmware/rombios/gnu || mkdir ${S}/tools/firmware/rombios/gnu
--	test -e ${S}/tools/firmware/rombios/32bit/gnu || ln -s ../gnu ${S}/tools/firmware/rombios/32bit/gnu
--	test -e ${S}/tools/firmware/hvmloader/gnu || ln -s ../rombios/gnu ${S}/tools/firmware/hvmloader/gnu
--	test -e ${S}/tools/firmware/hvmloader/acpi/gnu || ln -s ../../rombios/gnu ${S}/tools/firmware/hvmloader/acpi/gnu
--	test -d ${S}/tools/include || mkdir -p ${S}/tools/include
--	test -e ${S}/tools/include/gnu || ln -s ../firmware/rombios/gnu ${S}/tools/include/gnu
+-# In SMP system, dom0 will use dom0-cpus # of CPUS
+-# If dom0-cpus = 0, dom0 will take all cpus available
+-(dom0-cpus 0)
 -
--	if ! test -f ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-32.h ; then
--		cat ${STAGING_DIR_TARGET}/usr/include/gnu/stubs-64.h | grep -v stub_bdflush | grep -v stub_getmsg | grep -v stub_putmsg > ${S}/tools/firmware/rombios/gnu/stubs-32.h
--		echo \#define __stub___kernel_cosl >> ${S}/tools/firmware/rombios/gnu/stubs-32.h
--		echo \#define __stub___kernel_sinl >> ${S}/tools/firmware/rombios/gnu/stubs-32.h
--		echo \#define __stub___kernel_tanl >> ${S}/tools/firmware/rombios/gnu/stubs-32.h
+-# Whether to enable core-dumps when domains crash.
+-#(enable-dump no)
+-
+-# The tool used for initiating virtual TPM migration
+-#(external-migration-tool '')
+-
+-# The interface for VNC servers to listen on. Defaults
+-# to 127.0.0.1  To restore old 'listen everywhere' behaviour
+-# set this to 0.0.0.0
+-#(vnc-listen '127.0.0.1')
+-
+-# The default password for VNC console on HVM domain.
+-# Empty string is no authentication.
+-(vncpasswd '')
+-
+-# The VNC server can be told to negotiate a TLS session
+-# to encryption all traffic, and provide x509 cert to
+-# clients enabling them to verify server identity. The
+-# GTK-VNC widget, virt-viewer, virt-manager and VeNCrypt
+-# all support the VNC extension for TLS used in QEMU. The
+-# TightVNC/RealVNC/UltraVNC clients do not.
+-#
+-# To enable this create x509 certificates / keys in the
+-# directory ${XEN_CONFIG_DIR} + vnc
+-#
+-#  ca-cert.pem       - The CA certificate
+-#  server-cert.pem   - The Server certificate signed by the CA
+-#  server-key.pem    - The server private key
+-#
+-# and then uncomment this next line
+-# (vnc-tls 1)
+-
+-# The certificate dir can be pointed elsewhere..
+-#
+-# (vnc-x509-cert-dir vnc)
+-
+-# The server can be told to request & validate an x509
+-# certificate from the client. Only clients with a cert
+-# signed by the trusted CA will be able to connect. This
+-# is more secure the password auth alone. Passwd auth can
+-# used at the same time if desired. To enable client cert
+-# checking uncomment this:
+-#
+-# (vnc-x509-verify 1)
+-
+-# The default keymap to use for the VM's virtual keyboard
+-# when not specififed in VM's configuration
+-#(keymap 'en-us')
+-
+-# Script to run when the label of a resource has changed.
+-#(resource-label-change-script '')
+-
+-# Rotation count of qemu-dm log file.
+-#(qemu-dm-logrotate-count 10)
+-
+-# Path where persistent domain configuration is stored.
+-# Default is /var/lib/xend/domains/
+-#(xend-domains-path /var/lib/xend/domains)
+-
+-# Number of seconds xend will wait for device creation and
+-# destruction
+-#(device-create-timeout 100)
+-#(device-destroy-timeout 100)
+-
+-# When assigning device to HVM guest, we use the strict check for HVM guest by
+-# default. (For PV guest, we use loose check automatically if necessary.)
+-# When we assign device to HVM guest, if we meet with the co-assignment
+-# issues or the ACS issue, we could try changing the option to 'no' -- however,
+-# we have to realize this may incur security issue and we can't make sure the
+-# device assignment could really work properly even after we do this.
+-#(pci-passthrough-strict-check yes)
+-
+-# If we have a very big scsi device configuration, start of xend is slow,
+-# because xend scans all the device paths to build its internal PSCSI device
+-# list.  If we need only a few devices for assigning to a guest, we can reduce
+-# the scan to this device. Set list list of device paths in same syntax like in
+-# command lsscsi, e.g. ('16:0:0:0' '15:0') 
+-# (pscsi-device-mask ('*'))
+-
+diff --git a/recipes-extended/xen/files/xenminiinit.sh b/recipes-extended/xen/files/xenminiinit.sh
+deleted file mode 100755
+index 22d5008..0000000
+--- a/recipes-extended/xen/files/xenminiinit.sh
++++ /dev/null
+@@ -1,59 +0,0 @@
+-#!/bin/sh
+-
+-# This is currently a very raw init script for xen-minimal
+-# Feel free to expand and make more useful
+-
+-STARTDOMAINS="rtos freedos"
+-
+-# Shutdown Xen domains
+-for foo in $STARTDOMAINS ; do
+-	xl destroy $foo
+-done
+-
+-# Stop and Startup Xen common
+-if test -f /etc/init.d/xencommons ; then
+-	echo Using Xen standard init scripts
+-#	/etc/init.d/libvirtd stop
+-#	/etc/init.d/xendomains stop
+-#	/etc/init.d/xencommons stop
+-#
+-#	/etc/init.d/xencommons start
+-#	/etc/init.d/libvirtd start
+-#	/etc/init.d/xendomains start
+-else
+-	echo Skipping Xen standard init scripts
+-
+-	killall xenstored
+-	killall xenconsoled
+-	umount /proc/xen
+-
+-	# Fix up device nodes
+-	if pidof udevd ; then 
+-		echo Udev running.  Skipping mdev fixups
+-	else
+-		rm -rf /dev/xen
+-		mkdir /dev/xen
+-		for foo in /dev/xen!* ; do ln -s $foo /dev/xen/`echo $foo | cut -f 2 -d '!'` ; done
 -	fi
--	# End multilib hack
--	
--	export CONFIG_QEMU=${WORKDIR}/git
 -
--	export XEN_TARGET_ARCH=`echo ${TARGET_ARCH} | sed -e s/i.86/x86_32/ \
--                                -e s/i86pc/x86_32/ -e s/amd64/x86_64/`
--	export XEN_OS=Linux
--	export XEN_DISABLE_XEND=${XEN_DISABLE_XEND}
+-	mount -t xenfs xenfs /proc/xen
+-	xenstored --pid-file=/var/run/xenstored.pid
+-	xenstore-write "/local/domain/0/name" "Domain-0"
+-	xenconsoled --pid-file=/var/run/xenconsoled.pid
+-fi
 -
--	export EXTRA_PREFIX=${STAGING_DIR_TARGET}
--	export CROSS_COMPILE=${TARGET_PREFIX}
--	export CROSS_BIN_PATH=${STAGING_DIR_NATIVE}/usr/bin
--	export CROSS_SYS_ROOT=${STAGING_DIR_TARGET}
+-# Remove the images we have
+-cd /tmp
+-rm -rf xen
 -
--	# These are needed by sysconfig.py
--	export BUILD_SYS=${BUILD_SYS}
--	export HOST_SYS=${HOST_SYS}
--	export STAGING_INCDIR=${STAGING_INCDIR}
--	export STAGING_LIBDIR=${STAGING_LIBDIR}
+-# Grab and start the VM images
+-mkdir xen
+-cd xen
+-for foo in $STARTDOMAINS ; do
+-	wget http://candidates/xen/images/$foo.zip
+-	unzip $foo.zip
+-	xl create $foo.cfg
+-done
 -
--	export PYTHON="${STAGING_BINDIR_NATIVE}/python-native/python"
--	export PREPEND_LIB="${STAGING_LIBDIR_NATIVE} ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}"
--	export PREPEND_INCLUDES="${STAGING_INCDIR} ${STAGING_INCDIR}/${PYTHON_DIR}"
--	export CFLAGS=
--	export LDFLAGS=
--
--	# These two checks are for binaries that are not installed yet
--	rm -f ${S}/tools/check/check_python_devel
--	rm -f ${S}/tools/check/check_xgettext
--
--	# These checks are for libraries utilizing ldconfig
--	rm -f ${S}/tools/check/check_zlib_lib
--	rm -f ${S}/tools/check/check_crypto_lib
--	rm -f ${S}/tools/check/check_zlib_devel
--
--	# remove -Werror for gcc-4.6's sake
--	find "${S}" -name 'Makefile*' -o -name '*.mk' -o -name 'common.make' | \
--				xargs sed -i 's/ *-Werror */ /'
--
--	#stubdom image builds are being a pain
--	oe_runmake dist-xen dist-tools dist-kernels dist-docs
--}
--
--do_install() {
--
--	for foo in `find ${S}/dist/install -type f` ; do
--		if file $foo | grep text 2>&1 ; then
--			echo Fixing paths in $foo
--			sed -e "s%${STAGING_DIR_NATIVE}%%g" -i $foo
--			sed -e "s%${STAGING_DIR_TARGET}%%g" -i $foo
--		fi
--	done
--	
--	cp -av ${S}/dist/install/* ${D}/
--	install -d ${D}/etc/xen
--	install -d ${D}/etc/init.d
--
--	install -m 0755 ${WORKDIR}/xenminiinit.sh ${D}/etc/init.d/xenminiinit
--	install -m 0644 ${WORKDIR}/xend-config.sxp ${D}/etc/xen/xend-config.sxp
--	test -e ${D}/usr/lib64 || ln -s lib ${D}/usr/lib64
--
--}
--
--sysroot_stage_all_append() {
--        sysroot_stage_dir ${D}/boot ${SYSROOT_DESTDIR}/kernel
--
--	install -d ${DEPLOY_DIR_IMAGE}
--	install -m 0644 ${D}/boot/xen.gz ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz 
--}
--
+-# Fix up the Webmin server with a new admin password
+-test -f /usr/libexec/webmin/changepass.pl && /usr/libexec/webmin/changepass.pl /etc/webmin admin password
 -- 
 1.8.4.rc3
 
