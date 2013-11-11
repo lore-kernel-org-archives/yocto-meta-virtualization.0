@@ -1,36 +1,21 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f175.google.com (mail-lb0-f175.google.com
-	[209.85.217.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E7A59E008FA
+Return-Path: <riku.voipio@linaro.org>
+Received: from afflict.kos.to (afflict.kos.to [92.243.29.197])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EB36EE01897
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 26 Feb 2014 11:36:12 -0800 (PST)
-Received: by mail-lb0-f175.google.com with SMTP id w7so968054lbi.34
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 26 Feb 2014 11:36:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=aKHaaNUNcR601BmzNN/4Y1fC7RmM6JizmcDdt8ZVBCI=;
-	b=FbDy7SmzNJtnB2DEn0LjNSDYRyF7IpSM2curlZFRUGduYIvxHbNUjz9VWRRZWkJAWp
-	3fRoaSe3raL9iZQe6bd0AfP658ZP66a59NQ7ajT3IF9WxWOgdQ4MDzWISNUiDlg3bf9D
-	QFTNdJaBKMkxUFdrmLHuSOup1mukP0Wvo3yBNNWS1bmiy45rYlro4G1OmVDeS8g8Afrt
-	uLGwE5Lv+eBrnkA7rm+2MjdQAVvmlEiIfl2KbSwQvYGTFwtsw4Xt+EVwroFA1qiRf6S1
-	WaBP4mjwnq8cVNXuL/PxAzGyXBNx+5BdQcsLZgn+NrFlDsZVCKGZnUZ7ivBiLtIIiAnn
-	warw==
-MIME-Version: 1.0
-X-Received: by 10.112.129.168 with SMTP id nx8mr3342611lbb.37.1393443371329;
-	Wed, 26 Feb 2014 11:36:11 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Wed, 26 Feb 2014 11:36:11 -0800 (PST)
-In-Reply-To: <1393409277-17451-6-git-send-email-jonas.eriksson@enea.com>
-References: <1393409277-17451-1-git-send-email-jonas.eriksson@enea.com>
-	<1393409277-17451-6-git-send-email-jonas.eriksson@enea.com>
-Date: Wed, 26 Feb 2014 14:36:11 -0500
-Message-ID: <CADkTA4P4WZzqe=4x2J3J0wNJtero4_LTTPLXp6fsEYGpTKSMrw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Jonas Eriksson <jonas.eriksson@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 5/5] libvirt: Disable polkit driver when there is no x11
+	Mon, 11 Nov 2013 06:01:38 -0800 (PST)
+Received: from aimless.elisa-laajakaista.fi
+	(91-157-196-38.elisa-laajakaista.fi [91.157.196.38])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by afflict.kos.to (Postfix) with ESMTPSA id 7DFCF2654C;
+	Mon, 11 Nov 2013 15:01:35 +0100 (CET)
+From: Riku Voipio <riku.voipio@linaro.org>
+To: meta-virtualization@yoctoproject.org
+Message-Id: <1384178493-15854-1-git-send-email-riku.voipio@linaro.org>
+X-Mailer: git-send-email 1.8.3.1
+X-Mailman-Approved-At: Thu, 27 Feb 2014 01:11:37 -0800
+Cc: koen.kooi@linaro.org, patches@linaro.org
+Subject: [PATCH] fix inittab install when Xen not in DISTRO_FEATURES
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,51 +28,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Feb 2014 19:36:15 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+Date: Mon, 11 Nov 2013 14:01:42 -0000
+X-Original-Date: Mon, 11 Nov 2013 16:01:33 +0200
+X-List-Received-Date: Mon, 11 Nov 2013 14:01:42 -0000
 
-On Wed, Feb 26, 2014 at 5:07 AM, Jonas Eriksson <jonas.eriksson@enea.com> wrote:
-> To avoid having the default build of libvirt depend on virtual/x11
-> through polkit and consolekit, check for x11 in DISTRO_FEATURES before
-> enabling the polkit support in the default PKG_CONFIG.
+With the latest patch, OE builds may file like:
 
-Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+https://ci.linaro.org/jenkins/job/openembedded-armv7ab-rootfs/gcc_version=4.8,label=oe_persistent_cloud,rootfs=minimal/127/consoleText
 
->
-> Signed-off-by: Jonas Eriksson <jonas.eriksson@enea.com>
-> ---
->  recipes-extended/libvirt/libvirt_1.2.1.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-extended/libvirt/libvirt_1.2.1.bb b/recipes-extended/libvirt/libvirt_1.2.1.bb
-> index a75cc45..2841fcb 100644
-> --- a/recipes-extended/libvirt/libvirt_1.2.1.bb
-> +++ b/recipes-extended/libvirt/libvirt_1.2.1.bb
-> @@ -109,11 +109,12 @@ INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
->  #PACKAGECONFIG ??= "xen libxl xen-inotify test remote libvirtd"
->
->  # full config
-> -PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 polkit test \
-> +PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 test \
->                     remote macvtap libvirtd netcf udev python ebtables \
->                     ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->                     ${@base_contains('DISTRO_FEATURES', 'lxc', 'lxc', '', d)} \
->                     ${@base_contains('DISTRO_FEATURES', 'xen', 'xen libxl xen-inotify', '', d)} \
-> +                   ${@base_contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
->                    "
->
->  # enable,disable,depends,rdepends
-> --
-> 1.9.rc1
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+By having the "failing" grep within the if block, set -e
+in shell code will not bite configurations where meta-virtualization
+is included but xen is not in DISTRO_FEATURES.
 
+Signed-off-by: Riku Voipio <riku.voipio@linaro.org>
+---
+ recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
+diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+index 2edbedf..1b89aec 100644
+--- a/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
++++ b/recipes-core/sysvinit/sysvinit-inittab_2.88dsf.bbappend
+@@ -1,6 +1,5 @@
+ do_install_append() {
+-	echo "${DISTRO_FEATURES}" | grep -q 'xen'
+-	if [ $? -eq 0 ]; then
++	if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
+ 		echo "" >> ${D}${sysconfdir}/inittab
+ 		echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >> ${D}${sysconfdir}/inittab
+ 	fi
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.3.1
+
 
