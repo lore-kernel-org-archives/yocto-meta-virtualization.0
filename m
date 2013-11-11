@@ -1,37 +1,35 @@
-Return-Path: <flihp@twobit.us>
-Received: from smtp.twobit.us (unknown [38.83.192.235])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 078B7E00461
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
+	[209.85.215.41])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CD3ABE017CE
 	for <meta-virtualization@yoctoproject.org>;
-	Sat,  9 Nov 2013 16:51:27 -0800 (PST)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=[10.79.148.145]) by smtp.twobit.us with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <flihp@twobit.us>)
-	id 1VfJFA-00059X-3a; Sun, 10 Nov 2013 00:51:12 +0000
-Message-ID: <527ED886.2000109@twobit.us>
-Date: Sat, 09 Nov 2013 19:51:18 -0500
-From: Philip Tricca <flihp@twobit.us>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20130922 Icedove/17.0.9
+	Mon, 11 Nov 2013 12:50:17 -0800 (PST)
+Received: by mail-la0-f41.google.com with SMTP id hp15so363506lab.14
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 11 Nov 2013 12:50:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=jsv9mknjoIu8uBXPKLFs6OZePpFXJ2acmjIZVXubLXY=;
+	b=HThywf5CQkorssVqn3tvnw0WFUyQNzhACa0HH1ePZOsyOFiOkUcJD1ZlpTyxJTvfmC
+	Eyx+sI3+1Glajl2m5dOid6tH/uTeR/PgA3B+PrFjg9NBko57hRzwOHKj4/BsgjPqMbND
+	xu1dnVmBjpE4EamTTNjOCtBRaqofAl/hiuBaPvTZbwDRQr+RKPXEmile/djTGAhvy/HD
+	Uy/cK8IX6Pi46Nzwo6RwD0hbKsO0DpgwfFCUE+dO5ZyG7urBR51F8COI5L4jHcYSkKLU
+	dQcQXkvKViaG3CLJ3Br60ND8zfg3UqN9ihz/kJMeEpikZXunZRgUOhVQm8hicb5GlznE
+	TJww==
 MIME-Version: 1.0
-To: Chris Patterson <cjp256@gmail.com>
+X-Received: by 10.112.154.129 with SMTP id vo1mr3186735lbb.31.1384203014713;
+	Mon, 11 Nov 2013 12:50:14 -0800 (PST)
+Received: by 10.112.14.200 with HTTP; Mon, 11 Nov 2013 12:50:14 -0800 (PST)
+In-Reply-To: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
 References: <1383883267-31992-1-git-send-email-cjp256@gmail.com>
-	<1383883267-31992-11-git-send-email-cjp256@gmail.com>
-	<527D2ED8.2090709@twobit.us>
-	<CABZSBQcy88sTwgKqHT0Q7EB-bRqSA_6tZ_C86c15ZQ-_Z-LUxA@mail.gmail.com>
-In-Reply-To: <CABZSBQcy88sTwgKqHT0Q7EB-bRqSA_6tZ_C86c15ZQ-_Z-LUxA@mail.gmail.com>
-X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
-	version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Date: Mon, 11 Nov 2013 15:50:14 -0500
+Message-ID: <CADkTA4NSxOOmyimDw28N4pbgbzw=GMN79Q0q0J1H-AwY1XT1Pg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chris Patterson <cjp256@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2 10/10] xen: add xen_git recipe.
+Subject: Re: [PATCH v2 00/10] xen cleanup and upgrades
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,108 +42,84 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Nov 2013 00:51:30 -0000
+X-List-Received-Date: Mon, 11 Nov 2013 20:50:18 -0000
 Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
 
-On 11/08/2013 04:38 PM, Chris Patterson wrote:
-> Both are no longer built by default: libblktap is for blktap1, and flask
-> is now only built if you have xsm enabled.
+On Thu, Nov 7, 2013 at 11:00 PM, Chris Patterson <cjp256@gmail.com> wrote:
+> Cleaned out old xen bits, upgraded to 4.3.1, moved to common xen.inc,
+> and added git recipe pointing to xen-unstable.
+>
+> I broke out the cleanup into smaller patches in hopes that it will make it through.
+>
+> If not, you can find these patches in branch=xen-upgrades-and-cleanup-v2 at:
+> https://github.com/cjp256/meta-virtualization.git
+>
 
-Gotcha. LGTM.
+The series looks fine to me. I've pulled it in locally and will push the changes
+shortly.
 
-- Philip
+Bruce
 
-> On Fri, Nov 8, 2013 at 1:35 PM, Philip Tricca <flihp@twobit.us
-> <mailto:flihp@twobit.us>> wrote:
-> 
->     Can I get you to explain the reason for removing libblktap and flask
->     from RDEPENDS in xen.inc? Other than that the patch set looks good to
->     me. Deleting stuff is a very good thing :)
-> 
->     - Philip
-> 
->     On 11/07/2013 11:01 PM, Chris Patterson wrote:
->     > Added recipe for xen unstable from git repository.
->     >
->     > Moved now empty xen-flask and xen-libblktap packages from
->     > required dependencies from xen.inc into xen_4.3.1.bb
->     <http://xen_4.3.1.bb>.
->     >
->     > Signed-off-by: Chris Patterson <cjp256@gmail.com
->     <mailto:cjp256@gmail.com>>
->     > ---
->     >  recipes-extended/xen/xen.inc      |  2 --
->     >  recipes-extended/xen/xen_4.3.1.bb <http://xen_4.3.1.bb> |  5 +++++
->     >  recipes-extended/xen/xen_git.bb <http://xen_git.bb>   | 18
->     ++++++++++++++++++
->     >  3 files changed, 23 insertions(+), 2 deletions(-)
->     >  create mode 100644 recipes-extended/xen/xen_git.bb
->     <http://xen_git.bb>
->     >
->     > diff --git a/recipes-extended/xen/xen.inc
->     b/recipes-extended/xen/xen.inc
->     > index fff3dc1..9d43814 100644
->     > --- a/recipes-extended/xen/xen.inc
->     > +++ b/recipes-extended/xen/xen.inc
->     > @@ -35,9 +35,7 @@ RDEPENDS_${PN}-base = "\
->     >      ${PN}-libvhd \
->     >      ${PN}-libxenstat \
->     >      ${PN}-libxenstore \
->     > -    ${PN}-libblktap \
->     >      ${PN}-libfsimage \
->     > -    ${PN}-flask \
->     >      ${PN}-fsimage \
->     >      ${PN}-hvmloader \
->     >      ${PN}-scripts-block \
->     > diff --git a/recipes-extended/xen/xen_4.3.1.bb
->     <http://xen_4.3.1.bb> b/recipes-extended/xen/xen_4.3.1.bb
->     <http://xen_4.3.1.bb>
->     > index 46563ce..2c9806b 100644
->     > --- a/recipes-extended/xen/xen_4.3.1.bb <http://xen_4.3.1.bb>
->     > +++ b/recipes-extended/xen/xen_4.3.1.bb <http://xen_4.3.1.bb>
->     > @@ -10,6 +10,11 @@ SRC_URI[sha256sum] =
->     "3b5b7cc508b1739753585b5c25635471cdcef680e8770a78bf6ef9333d
->     >
->     >  S = "${WORKDIR}/xen-${PV}"
->     >
->     > +RDEPENDS_${PN}-base += "\
->     > +    ${PN}-libblktap \
->     > +    ${PN}-flask \
->     > +    "
->     > +
->     >  do_configure_prepend() {
->     >      # fixup qemu-xen-traditional pciutils check hardcoded to test
->     /usr/include/pci
->     >      sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g'
->     ${S}/tools/qemu-xen-traditional/xen-hooks.mak
->     > diff --git a/recipes-extended/xen/xen_git.bb <http://xen_git.bb>
->     b/recipes-extended/xen/xen_git.bb <http://xen_git.bb>
->     > new file mode 100644
->     > index 0000000..f333157
->     > --- /dev/null
->     > +++ b/recipes-extended/xen/xen_git.bb <http://xen_git.bb>
->     > @@ -0,0 +1,18 @@
->     > +require xen.inc
->     > +
->     > +SRCREV = "68bd172e6fa565899c846eb72755c8ffd8562c8a"
->     > +
->     > +PV = "4.4.0+git${SRCPV}"
->     > +
->     > +S = "${WORKDIR}/git"
->     > +
->     > +SRC_URI = " \
->     > +    git://xenbits.xen.org/xen.git <http://xenbits.xen.org/xen.git> \
->     > +    "
->     > +
->     > +DEFAULT_PREFERENCE = "-1"
->     > +
->     > +PACKAGES += "${PN}-xen-mfndump"
->     > +
->     > +FILES_${PN}-xen-mfndump = "${sbindir}/xen-mfndump"
->     > +
->     >
-> 
-> 
+> Chris Patterson (10):
+>   xen: remove xsm from default PACKAGECONFIG options.
+>   xen: remove 4.1.2 recipe and patches
+>   xen: remove xen-hg recipe and patches
+>   xen: remove xen-rt recipe and patches
+>   xen: remove old xen.inc and xen-python.inc
+>   xen: remove old patches
+>   xen: rename xen patches directory from xen-4.3.0 to files.
+>   xen: upgrade to 4.3.1
+>   xen: improve organization with new xen.inc
+>   xen: add xen_git recipe.
+>
+>  .../xen/files/allow_disable_xend.patch             |   75 -
+>  ...lask-avoid-installing-policy-file-as-boot.patch |   26 +
+>  .../xen/files/ioemu-cross-gl-check.patch           |   29 -
+>  recipes-extended/xen/files/xend-config.sxp         |  304 -
+>  recipes-extended/xen/files/xenminiinit.sh          |   59 -
+>  .../xen/xen-4.1.2/allow_disable_xend.patch         |   75 -
+>  ...lask-avoid-installing-policy-file-as-boot.patch |   26 -
+>  recipes-extended/xen/xen-hg.bb                     |   29 -
+>  .../xen/xen-hg/ioemu-cross-gl-check.patch          |   29 -
+>  .../xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch  |   48 -
+>  recipes-extended/xen/xen-python.inc                |   49 -
+>  recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch | 6785 --------------------
+>  recipes-extended/xen/xen-rt_4.0.1.bb               |   25 -
+>  recipes-extended/xen/xen.inc                       |  902 ++-
+>  recipes-extended/xen/xen_4.1.2.bb                  |   24 -
+>  recipes-extended/xen/xen_4.3.0.bb                  |  650 --
+>  recipes-extended/xen/xen_4.3.1.bb                  |   24 +
+>  recipes-extended/xen/xen_git.bb                    |   18 +
+>  18 files changed, 677 insertions(+), 8500 deletions(-)
+>  delete mode 100644 recipes-extended/xen/files/allow_disable_xend.patch
+>  create mode 100644 recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
+>  delete mode 100644 recipes-extended/xen/files/ioemu-cross-gl-check.patch
+>  delete mode 100644 recipes-extended/xen/files/xend-config.sxp
+>  delete mode 100755 recipes-extended/xen/files/xenminiinit.sh
+>  delete mode 100644 recipes-extended/xen/xen-4.1.2/allow_disable_xend.patch
+>  delete mode 100644 recipes-extended/xen/xen-4.3.0/flask-avoid-installing-policy-file-as-boot.patch
+>  delete mode 100644 recipes-extended/xen/xen-hg.bb
+>  delete mode 100644 recipes-extended/xen/xen-hg/ioemu-cross-gl-check.patch
+>  delete mode 100644 recipes-extended/xen/xen-hg/tools_qemu_xen_remove_CFLAGS.patch
+>  delete mode 100644 recipes-extended/xen/xen-python.inc
+>  delete mode 100644 recipes-extended/xen/xen-rt/rt-xen_0.3_4.0.1.patch
+>  delete mode 100644 recipes-extended/xen/xen-rt_4.0.1.bb
+>  delete mode 100644 recipes-extended/xen/xen_4.1.2.bb
+>  delete mode 100644 recipes-extended/xen/xen_4.3.0.bb
+>  create mode 100644 recipes-extended/xen/xen_4.3.1.bb
+>  create mode 100644 recipes-extended/xen/xen_git.bb
+>
+> --
+> 1.8.4.rc3
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
