@@ -1,36 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 91EFBE002AC
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D79FBE004DD
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 18 Nov 2013 05:58:56 -0800 (PST)
-Received: by mail-la0-f44.google.com with SMTP id ep20so4967298lab.3
+	Tue, 19 Nov 2013 09:20:39 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id rAJHKdPc024885
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 18 Nov 2013 05:58:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=bqFlx19P9SfOHKs3CD3c4YnA+AC4ru2ZzFYwibL2n8Y=;
-	b=N6WaKzmi6xAmu/CRuzJ+szLyTOankjTRWa6DYsv289GgthmyftnbjyRc/Jwr6j0hjn
-	qqNaSO80rYKY8n8m2a8M+KhBkRhx2/KBrsuQ6apgFvJnxaeDwpIFg4OjIT+5z6Ll/sh7
-	V1g2IaA50FZX6MK/xaxm64g/LE+u74TAC5bvnzGpXo3aMnzhUJX+OuS3pdN0L3LQZOQ0
-	Y57H5edTGOZ+vAgJIJaynjzEMq/wZmicLsilrpfLHY68Sc5fB6hgfmC8I5kIYsSnx7Ck
-	7jfnNi6vyDO0/28zhimmrWRnBu2KnbOME/BbbZFuaBIGB8gtdD5KbrTgO7X4WLMGchGb
-	jxnA==
+	Tue, 19 Nov 2013 09:20:39 -0800 (PST)
+Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Tue, 19 Nov 2013 09:20:38 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Tue, 19 Nov 2013 12:20:45 -0500
+Message-ID: <1384881645-30221-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-X-Received: by 10.152.181.98 with SMTP id dv2mr5977428lac.15.1384783135324;
-	Mon, 18 Nov 2013 05:58:55 -0800 (PST)
-Received: by 10.112.14.200 with HTTP; Mon, 18 Nov 2013 05:58:55 -0800 (PST)
-In-Reply-To: <CABZSBQeNOp6A0gxTVEA6DsF8E+Ovho5DaDkr4eJsszP=Bz5E9g@mail.gmail.com>
-References: <CADkTA4OKxUpKr=0mqFREY9UCTWfAoG3QJwFft481rOwLc_cL7w@mail.gmail.com>
-	<CABZSBQeNOp6A0gxTVEA6DsF8E+Ovho5DaDkr4eJsszP=Bz5E9g@mail.gmail.com>
-Date: Mon, 18 Nov 2013 08:58:55 -0500
-Message-ID: <CADkTA4Ps864Dofu_vOoV4+deiLKPp_kY8hrWEy6M6gVUXoiJRg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: Xen Query ...
+X-Originating-IP: [128.224.146.23]
+Subject: [PATCH] openvswitch: deal with missing RDEPENDS of libpcap
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,117 +32,124 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2013 13:58:59 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 19 Nov 2013 17:20:42 -0000
+Content-Type: text/plain
 
-On Sun, Nov 17, 2013 at 3:58 PM, Chris Patterson <cjp256@gmail.com> wrote:
-> I did a couple of fresh builds yesterday against oe-core master without
-> issue (I do this pretty regularly...).
->
+Bitbake was properly detecting a dependency on libpcap but since it
+was not an explicit RDEPENDS the libpcap package was not being built
+in all cases which had the potential to break rootfs image building.
 
-Excellent. First rule of debugging: if you see an error that is so
-fundamental that
-no one could possibly build .. assume that your environment is completely
-tainted. Which was my starting assumption :)
+The obvious solution was to add libpcap to the RDEPENDS but looking
+upstream it was found that they have removed the use of this library
+for all but FreeBSD since for other systems it is unused. So using the
+upstream patch here eliminates the dependency and in turn the issue
+described above.
 
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ ...gure-Only-link-against-libpcap-on-FreeBSD.patch | 70 ++++++++++++++++++++++
+ .../openvswitch/openvswitch_1.10.0.bb              |  3 +-
+ 2 files changed, 72 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-networking/openvswitch/files/configure-Only-link-against-libpcap-on-FreeBSD.patch
 
-> For the two distros that I build, they share:
-> DISTRO_FEATURES_append = " tpm txt usb3 xen opengl aufs "
->
-> Another build I do extends that even further.  They are regularly updated to
-> master on oe-core/meta-oe/meta-intel/meta-virtualization/meta-measured.
->
-> As another test, I took my existing "vanilla" build tree (nodistro, no
-> additional flags), created a new distro config and built xen-image-minimal:
->
-> oe-xen.conf:
-> DISTRO = "oe-xen"
-> DISTROOVERRIDES = ""
-> DISTRO_FEATURES_append = " xen aufs "
->
-> eglibc and the image built OK.
->
-> Then, in the same build tree, I went back to nodistro, with the same
-> DISTRO_FEATURES_append instead placed into local.conf.  eglibc and the image
-> built OK.
->
-> I will note that on occasion, I have seen the rare oddball errors (eglibc
-> sounds like a familiar one, but couldn't say for sure) - usually after a
-> substantial fetch and/or layer changes.  I've gone into the rabbit hole on a
-> couple of them without much success.  In all cases, wiping out
-> tmp/cache/sstate and starting fresh fixed the issues for me.
-
-And the same thing with me. I've hit a few of these over the years, and when
-the c library and toolchain builds go bad, I've never been able to sort them out
-with clean and rebuilds. Only a full removal of tmp/. This time, I thought I'd
-try and sort it out.
-
->
-> Out of curiosity, what's the error you are seeing?
-
-Here's the last snippet of the error:
-
-86_64-poky-linux/eglibc/2.18-r0/build-x86_64-poky-linux/libc_pic.os:
-relocation R_X86_64_PC32 against undefined hidden symbol
-`__nss_not_use_nscd_group' can not be used when making a shared object
-| /home/bruce/poky/build/tmp/sysroots/x86_64-linux/usr/libexec/x86_64-poky-linux.gcc-cross-initial/gcc/x86_64-poky-linux/4.8.1/ld:
-final link failed: Bad value
-| collect2: error: ld returned 1 exit status
-| make[2]: *** [/home/bruce/poky/build/tmp/work/x86_64-poky-linux/eglibc/2.18-r0/build-x86_64-poky-linux/libc.so]
-Error 1
-| make[2]: Leaving directory
-`/home/bruce/poky/build/tmp/work/x86_64-poky-linux/eglibc/2.18-r0/eglibc-2.18/libc/elf'
-| make[1]: *** [elf/subdir_lib] Error 2
-| make[1]: Leaving directory
-`/home/bruce/poky/build/tmp/work/x86_64-poky-linux/eglibc/2.18-r0/eglibc-2.18/libc'
-| make: *** [all] Error 2
-| ERROR: oe_runmake failed
-| WARNING: exit code 1 from a shell command.
-
-
-Cheers,
-
-Bruce
-
->
-> Cheers,
-> -Chris
->
-> On Sat, Nov 16, 2013 at 10:42 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-> wrote:
->>
->> Hi all,
->>
->> Just sending a question to see who else is building Xen from
->> meta-virtualization
->> master against yocto/oe-core master ?
->>
->> All my builds have been failing on eglibc after adding xen and aufs to
->> the DISTRO_FEATURES.
->> I've worked around the problem and converted them to IMAGE_FEATURES to get
->> full
->> functionality, but I'm wondering if anyone else has seen this .. I
->> want to rule out my
->> build machine, and it being a one-off, before I dig any deeper.
->>
->> Cheers,
->>
->> Bruce
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
-
-
-
+diff --git a/recipes-networking/openvswitch/files/configure-Only-link-against-libpcap-on-FreeBSD.patch b/recipes-networking/openvswitch/files/configure-Only-link-against-libpcap-on-FreeBSD.patch
+new file mode 100644
+index 0000000..0a44b85
+--- /dev/null
++++ b/recipes-networking/openvswitch/files/configure-Only-link-against-libpcap-on-FreeBSD.patch
+@@ -0,0 +1,70 @@
++From d30e714ccb9d13caf39d14d5b2fc9523b678ed51 Mon Sep 17 00:00:00 2001
++From: Ben Pfaff <blp@nicira.com>
++Date: Thu, 14 Mar 2013 15:20:55 -0700
++Subject: [PATCH] configure: Only link against libpcap on FreeBSD.
++
++commit d30e714ccb9d13caf39d14d5b2fc9523b678ed51 upstream
++http://git.openvswitch.org/git/openvswitch
++
++On other platforms there is no benefit to linking against libpcap, because
++it is not used.
++
++Signed-off-by: Ben Pfaff <blp@nicira.com>
++CC: Ed Maste <emaste@freebsd.org>
++---
++ acinclude.m4 | 7 ++++++-
++ configure.ac | 3 +--
++ 2 files changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/acinclude.m4 b/acinclude.m4
++index f0610c9..19a47dd 100644
++--- a/acinclude.m4
+++++ b/acinclude.m4
++@@ -1,6 +1,6 @@
++ # -*- autoconf -*-
++ 
++-# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.
+++# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++ # you may not use this file except in compliance with the License.
++@@ -295,6 +295,8 @@ AC_DEFUN([OVS_CHECK_IF_PACKET],
++    fi])
++ 
++ dnl Checks for net/if_dl.h.
+++dnl
+++dnl (We use this as a proxy for checking whether we're building on FreeBSD.)
++ AC_DEFUN([OVS_CHECK_IF_DL],
++   [AC_CHECK_HEADER([net/if_dl.h],
++                    [HAVE_IF_DL=yes],
++@@ -303,6 +305,9 @@ AC_DEFUN([OVS_CHECK_IF_DL],
++    if test "$HAVE_IF_DL" = yes; then
++       AC_DEFINE([HAVE_IF_DL], [1],
++                 [Define to 1 if net/if_dl.h is available.])
+++
+++      # On FreeBSD we use libpcap to access network devices.
+++      AC_SEARCH_LIBS([pcap_open_live], [pcap])
++    fi])
++ 
++ dnl Checks for buggy strtok_r.
++diff --git a/configure.ac b/configure.ac
++index 1cacd29..bd49179 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -1,4 +1,4 @@
++-# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.
+++# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++ # you may not use this file except in compliance with the License.
++@@ -44,7 +44,6 @@ AC_SYS_LARGEFILE
++ AC_SEARCH_LIBS([pow], [m])
++ AC_SEARCH_LIBS([clock_gettime], [rt])
++ AC_SEARCH_LIBS([timer_create], [rt])
++-AC_SEARCH_LIBS([pcap_open_live], [pcap])
++ 
++ OVS_CHECK_ESX
++ OVS_CHECK_COVERAGE
++-- 
++1.8.3.2
++
+diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+index 02c8ab3..c0ea829 100644
+--- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
++++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+@@ -18,7 +18,7 @@ RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+ # rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
+ # queued for install later.
+ RDEPENDS_${PN} += "sed gawk grep"
+-PR = "r3"
++PR = "r4"
+ 
+ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+ 	file://openvswitch-switch \
+@@ -27,6 +27,7 @@ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+ 	file://openvswitch-controller-setup \
+ 	file://openvswitch-add-target-python-handling.patch \
+ 	file://openvswitch-add-target-perl-handling.patch \
++	file://configure-Only-link-against-libpcap-on-FreeBSD.patch \
+ 	"
+ 
+ SRC_URI[md5sum] = "fe8b49efe9f86b57abab00166b971106"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.3.2
+
 
