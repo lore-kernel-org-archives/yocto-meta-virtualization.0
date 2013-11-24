@@ -1,35 +1,35 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
-	[209.85.217.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2E21E00744
+Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
+	[209.85.215.49])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA5D3E00744
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 23 Nov 2013 21:06:42 -0800 (PST)
-Received: by mail-lb0-f172.google.com with SMTP id z5so2202212lbh.17
+	Sat, 23 Nov 2013 21:07:05 -0800 (PST)
+Received: by mail-la0-f49.google.com with SMTP id er20so1996145lab.22
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 23 Nov 2013 21:06:41 -0800 (PST)
+	Sat, 23 Nov 2013 21:07:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=oC3gU+apIzVwh7MuUx6BBUqRaYt0U+Dy0N0ZORec+aA=;
-	b=Xu2Tk8uqBdOe8QQWb1xgdhygFzcj6vAZvtTJzNwemj7CQ5e5Nj78ohNi0joEKNqT+s
-	sFifBvzE7YbZ/8RITapBklpsqQIS84b8GjATfAAHuIeC5KK6r2ges5518Qk48JciwPKh
-	6Eim4DWMaOMsYDOI7rIKsfwonXS+TgWF3VN4hhVDO2qO8OeTmpeL5UUf0z/cfu6xBJ76
-	jSipPq6nQZMQ2sf8v1hyW7NecXPPEgRK3V7XVfPTikG6SxVWLSZ9TUrMB3UdRBLLDuyF
-	9wnHN2yYSP8ABFWRIdzf/jx3a9D40yzHM2Lt90zY/9/4gSDQHZc3oU/vwKzoKKVI+0Ew
-	6jmQ==
+	bh=JplxzUPDqSPkF2IvzigLkWuA7erWM9UKvZWaCHME/t8=;
+	b=U8+BOKUPEf/4OA8QtOs3VaZaKtR+rckTpZ3x9leeelyOMTYOgL9VjkBK6xYhF1AyRS
+	HBGerRiJ4JFOXUGwsHNzGFCMAZL86PCXsk0LSdcJ+I84fKLYOVt3HJYibBkktv1uTRAN
+	Wcm1Ig8W+O58XUn1M4/8UH8+bzDq0hRJS6lrwHeLaEBiekWu3Csoa+3aaCc5gbzKetK3
+	FRUWZ2N4mKN66UGginP5YXZyFpR1WwgtYlprFhmDyUxsAjoczgksyy3NqXpIi+eZ4/jT
+	ifzwRxqlguVlgREP9AraLgfb92Qe3BEVdi6OaeJfaJBYImZBIqa7BLYBkL+Z6Y2IgXAv
+	FE3g==
 MIME-Version: 1.0
-X-Received: by 10.152.203.168 with SMTP id kr8mr44114lac.44.1385269601096;
-	Sat, 23 Nov 2013 21:06:41 -0800 (PST)
-Received: by 10.112.14.200 with HTTP; Sat, 23 Nov 2013 21:06:41 -0800 (PST)
-In-Reply-To: <1385267103-25565-1-git-send-email-asselsm@gmail.com>
-References: <1385267103-25565-1-git-send-email-asselsm@gmail.com>
-Date: Sun, 24 Nov 2013 00:06:41 -0500
-Message-ID: <CADkTA4MjYsfxjRByPrnj0XVpQJbip2iGHpQd_WCOvW_rkYAF+w@mail.gmail.com>
+X-Received: by 10.152.8.199 with SMTP id t7mr14865131laa.21.1385269624189;
+	Sat, 23 Nov 2013 21:07:04 -0800 (PST)
+Received: by 10.112.14.200 with HTTP; Sat, 23 Nov 2013 21:07:04 -0800 (PST)
+In-Reply-To: <1385237848-30558-1-git-send-email-cjp256@gmail.com>
+References: <1385237848-30558-1-git-send-email-cjp256@gmail.com>
+Date: Sun, 24 Nov 2013 00:07:04 -0500
+Message-ID: <CADkTA4Nkr1=O1oDkPKNpQ2fyNZdLZwABa_rOf8dJfZZVTNR7XQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mark Asselstine <asselsm@gmail.com>
+To: Chris Patterson <cjp256@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: correct use of PN vs. BPN to fix multilib builds
+Subject: Re: [PATCH] xen-image-minimal: fix syslinux dependency
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,48 +42,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2013 05:06:45 -0000
+X-List-Received-Date: Sun, 24 Nov 2013 05:07:07 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Sat, Nov 23, 2013 at 11:25 PM, Mark Asselstine <asselsm@gmail.com> wrote:
-> BPN should be used in place of PN otherwise the fetcher will attempt
-> to download a file with the multilib prefix,and fail, and S will not
-> be what is expected, causing patching and other failures.
+On Sat, Nov 23, 2013 at 3:17 PM, Chris Patterson <cjp256@gmail.com> wrote:
+> Install libcom32.c32 when populating syslinux-based images.
+>
+> When syslinux upgraded to v6, libcom32.c32 became a dependency
+> for mboot.c32.
 
-merged.
+Thanks Chris.
+
+Merged.
 
 Bruce
 
 >
-> Signed-off-by: Mark Asselstine <asselsm@gmail.com>
+> Signed-off-by: Chris Patterson <cjp256@gmail.com>
 > ---
->  recipes-containers/lxc/lxc_0.9.0.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  recipes-extended/images/xen-image-minimal.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-> index 03d4589..24e0249 100644
-> --- a/recipes-containers/lxc/lxc_0.9.0.bb
-> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
-> @@ -21,7 +21,7 @@ RDEPENDS_${PN} = " \
->                 perl-module-exporter-heavy \
->  "
+> diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+> index 00146f7..13917c5 100644
+> --- a/recipes-extended/images/xen-image-minimal.bb
+> +++ b/recipes-extended/images/xen-image-minimal.bb
+> @@ -21,10 +21,12 @@ LICENSE = "MIT"
+>  inherit core-image
 >
-> -SRC_URI = "http://linuxcontainers.org/downloads/${PN}-${PV}.tar.gz \
-> +SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
->         file://lxc-0.9.0-disable-udhcp-from-busybox-template.patch \
->         file://lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch \
->         file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
-> @@ -31,7 +31,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${PN}-${PV}.tar.gz \
->  SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
->  SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
+>  syslinux_iso_populate_append() {
+> +       install -m 0444 ${STAGING_DATADIR}/syslinux/libcom32.c32 ${ISODIR}${ISOLINUXDIR}
+>         install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${ISODIR}${ISOLINUXDIR}
+>  }
 >
-> -S = "${WORKDIR}/${PN}-${PV}"
-> +S = "${WORKDIR}/${BPN}-${PV}"
+>  syslinux_hddimg_populate_append() {
+> +       install -m 0444 ${STAGING_DATADIR}/syslinux/libcom32.c32 ${HDDDIR}${SYSLINUXDIR}
+>         install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${HDDDIR}${SYSLINUXDIR}
+>  }
 >
->  # Let's not configure for the host distro.
->  #
 > --
-> 1.8.1.2
+> 1.8.4.rc3
 >
 > _______________________________________________
 > meta-virtualization mailing list
