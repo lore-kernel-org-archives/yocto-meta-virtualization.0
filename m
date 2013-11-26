@@ -1,35 +1,30 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA5D3E00744
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6D82EE00782
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 23 Nov 2013 21:07:05 -0800 (PST)
-Received: by mail-la0-f49.google.com with SMTP id er20so1996145lab.22
-	for <meta-virtualization@yoctoproject.org>;
-	Sat, 23 Nov 2013 21:07:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=JplxzUPDqSPkF2IvzigLkWuA7erWM9UKvZWaCHME/t8=;
-	b=U8+BOKUPEf/4OA8QtOs3VaZaKtR+rckTpZ3x9leeelyOMTYOgL9VjkBK6xYhF1AyRS
-	HBGerRiJ4JFOXUGwsHNzGFCMAZL86PCXsk0LSdcJ+I84fKLYOVt3HJYibBkktv1uTRAN
-	Wcm1Ig8W+O58XUn1M4/8UH8+bzDq0hRJS6lrwHeLaEBiekWu3Csoa+3aaCc5gbzKetK3
-	FRUWZ2N4mKN66UGginP5YXZyFpR1WwgtYlprFhmDyUxsAjoczgksyy3NqXpIi+eZ4/jT
-	ifzwRxqlguVlgREP9AraLgfb92Qe3BEVdi6OaeJfaJBYImZBIqa7BLYBkL+Z6Y2IgXAv
-	FE3g==
-MIME-Version: 1.0
-X-Received: by 10.152.8.199 with SMTP id t7mr14865131laa.21.1385269624189;
-	Sat, 23 Nov 2013 21:07:04 -0800 (PST)
-Received: by 10.112.14.200 with HTTP; Sat, 23 Nov 2013 21:07:04 -0800 (PST)
-In-Reply-To: <1385237848-30558-1-git-send-email-cjp256@gmail.com>
-References: <1385237848-30558-1-git-send-email-cjp256@gmail.com>
-Date: Sun, 24 Nov 2013 00:07:04 -0500
-Message-ID: <CADkTA4Nkr1=O1oDkPKNpQ2fyNZdLZwABa_rOf8dJfZZVTNR7XQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] xen-image-minimal: fix syslinux dependency
+	Tue, 26 Nov 2013 05:08:45 -0800 (PST)
+Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
+	helo=localhost)
+	by smtp.twobit.us with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1VlIND-0004uD-3P; Tue, 26 Nov 2013 13:08:15 +0000
+Received: from flihp by localhost with local (Exim 4.80)
+	(envelope-from <flihp@longhaul.twobit.us>)
+	id 1VlINr-0008Mi-EI; Tue, 26 Nov 2013 13:08:55 +0000
+From: Philip Tricca <flihp@twobit.us>
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 26 Nov 2013 13:08:55 +0000
+Message-Id: <1385471335-32126-1-git-send-email-flihp@twobit.us>
+X-Mailer: git-send-email 1.7.10.4
+X-SA-Exim-Connect-IP: 76.24.20.220
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+	version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Subject: [PATCH] base-files: add xenfs entry to fstab if xen DISTRO_FEATURE is enabled
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,55 +37,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2013 05:07:07 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Tue, 26 Nov 2013 13:08:48 -0000
 
-On Sat, Nov 23, 2013 at 3:17 PM, Chris Patterson <cjp256@gmail.com> wrote:
-> Install libcom32.c32 when populating syslinux-based images.
->
-> When syslinux upgraded to v6, libcom32.c32 became a dependency
-> for mboot.c32.
+Xen handles mounting xenfs with an init script. Unfortunately this
+script is the same one that starts xenstored and xenconsoled. That's
+great for dom0 but a domU may need xenfs but running xenstored/
+xenconsoled in a domU makes no sense. A simple fstab entry is
+preferrable.
 
-Thanks Chris.
+Signed-off-by: Philip Tricca <flihp@twobit.us>
+---
+ recipes-core/base-files/base-files_3.0.14.bbappend |    5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 recipes-core/base-files/base-files_3.0.14.bbappend
 
-Merged.
-
-Bruce
-
->
-> Signed-off-by: Chris Patterson <cjp256@gmail.com>
-> ---
->  recipes-extended/images/xen-image-minimal.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
-> index 00146f7..13917c5 100644
-> --- a/recipes-extended/images/xen-image-minimal.bb
-> +++ b/recipes-extended/images/xen-image-minimal.bb
-> @@ -21,10 +21,12 @@ LICENSE = "MIT"
->  inherit core-image
->
->  syslinux_iso_populate_append() {
-> +       install -m 0444 ${STAGING_DATADIR}/syslinux/libcom32.c32 ${ISODIR}${ISOLINUXDIR}
->         install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${ISODIR}${ISOLINUXDIR}
->  }
->
->  syslinux_hddimg_populate_append() {
-> +       install -m 0444 ${STAGING_DATADIR}/syslinux/libcom32.c32 ${HDDDIR}${SYSLINUXDIR}
->         install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${HDDDIR}${SYSLINUXDIR}
->  }
->
-> --
-> 1.8.4.rc3
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-core/base-files/base-files_3.0.14.bbappend b/recipes-core/base-files/base-files_3.0.14.bbappend
+new file mode 100644
+index 0000000..eb973ad
+--- /dev/null
++++ b/recipes-core/base-files/base-files_3.0.14.bbappend
+@@ -0,0 +1,5 @@
++do_install_append() {
++	if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
++		echo "xenfs                /proc/xen            xenfs      defaults              0  0" >> ${D}${sysconfdir}/fstab
++	fi
++}
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.10.4
+
 
