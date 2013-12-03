@@ -1,32 +1,35 @@
-Return-Path: <bambalakkat@gmail.com>
-Received: from mail-bk0-f52.google.com (mail-bk0-f52.google.com
-	[209.85.214.52])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA247E006BC
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
+	[209.85.220.52])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2AEFE006BC
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  2 Dec 2013 16:47:54 -0800 (PST)
-Received: by mail-bk0-f52.google.com with SMTP id u14so5787718bkz.11
+	Mon,  2 Dec 2013 21:57:56 -0800 (PST)
+Received: by mail-pa0-f52.google.com with SMTP id ld10so2450313pab.25
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 02 Dec 2013 16:47:53 -0800 (PST)
+	Mon, 02 Dec 2013 21:57:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:content-type; bh=StnlR227ox3rKb/CzjriYmek8ZGPowBwCe/jzKI/RAM=;
-	b=Z+ONz0rjBfydVy2zAL+1Ep+7md2/dPLaEIxckMtIZvqbVFBUUmRAaczPQz6yOh+us1
-	U5dVxHmh1S/0DpkUHawqaBscqd3CycxVIj3vQhNr2QX5ILnvb+Ph2+K8DDRXDrTKJ8S3
-	LGxdQ8wH99aOiReFX7AokOxWFV/kr45g89nMw7hH+ddk31xjM+q/VIdMSSwRrN8Y8POz
-	o2PEvQgfqK2xuvf8rP5qUif9Z2EDV5Y/sV6RnnDjL4NugeRHtayAS2KCdkDsFESz/nrF
-	KUN9FAVzJTl0+3SUeYbLOxoKDSDIjGyDr5xwnySvnCpaHZzvx+UZx98uiGjl5GtLqc0S
-	ox3A==
+	:cc:content-type;
+	bh=TRUl5cyHgClR2tr2nOYEUOMj2BuxR/lRyB5ZsG8vO90=;
+	b=a9Z2Ny73z9G1ls6G4CZ/aIWeav0F7IMvw7135uX0JZ8pv2kdhkJWUepxNVrL7pERAF
+	QOs4heiNDKNE/lbSMbvMRTRpRVTVobGGkAqccDy7OMNVPrZJzirmp76/9pBirGDQgl08
+	39hXBQY/mxlTiI+JBHU9FpEFOHS/2z61YDR8jH9BQexO8yfzKcbVPvK9zfzo7aDav9GC
+	WHQ3tVo1gwJ18YLFCetaRN28zbO8QyK3ixWYEJUg8i6p5KC0vJFPa7Qv1dy1Pbo6bB+B
+	zkvR6mLR9poe8CK1VovQeonEvbybIpTdSA5oxa/u21DCBBbml+AAlcyKoj59pa8EFPs0
+	yBdQ==
 MIME-Version: 1.0
-X-Received: by 10.205.106.202 with SMTP id dv10mr64798bkc.109.1386031673331;
-	Mon, 02 Dec 2013 16:47:53 -0800 (PST)
-Received: by 10.204.225.207 with HTTP; Mon, 2 Dec 2013 16:47:53 -0800 (PST)
-In-Reply-To: <CAHb3sCc6B_S=AdzWCwUE62W+RqmY7GB=zkcCxHA7CG6HV6=VTw@mail.gmail.com>
-References: <CAHb3sCc6B_S=AdzWCwUE62W+RqmY7GB=zkcCxHA7CG6HV6=VTw@mail.gmail.com>
-Date: Mon, 2 Dec 2013 16:47:53 -0800
-Message-ID: <CAHb3sCc+RyYXGv1Gb7CZFogsfTYtmNBv5_UG=xJGKth+5kBHqg@mail.gmail.com>
-From: balagopal ambalakkat <bambalakkat@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Re: ERROR while building kvm-minimal-image: xg_main.c:221:52: error: 'ulong' undeclared (first use in this function)
+X-Received: by 10.66.188.172 with SMTP id gb12mr8796843pac.143.1386050276450; 
+	Mon, 02 Dec 2013 21:57:56 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Mon, 2 Dec 2013 21:57:56 -0800 (PST)
+In-Reply-To: <1385471335-32126-1-git-send-email-flihp@twobit.us>
+References: <1385471335-32126-1-git-send-email-flihp@twobit.us>
+Date: Tue, 3 Dec 2013 00:57:56 -0500
+Message-ID: <CADkTA4On0GwsQ+POK62aaCXExCLR+UN-fFJJy-+k4fW9rcX5nQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Philip Tricca <flihp@twobit.us>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] base-files: add xenfs entry to fstab if xen DISTRO_FEATURE is enabled
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,256 +42,52 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 00:47:58 -0000
-Content-Type: multipart/alternative; boundary=f46d041c41468982d604ec96a5e7
-
---f46d041c41468982d604ec96a5e7
+X-List-Received-Date: Tue, 03 Dec 2013 05:57:58 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-Found this fix
-http://lists.xen.org/archives/html/xen-devel/2012-12/msg00429.html
+Hey Phillip,
 
-How do I create a patch that gets applied when kvm-minimal-image is built??
-Or what is the correct approach?
+It appears that I forgot to follow up on this. I was working up upreving libvirt
+and grabbed this into my tree. I'll push this shortly, since libvirt is nearly
+done :)
 
+Bruce
 
-
-On Mon, Dec 2, 2013 at 4:18 PM, balagopal ambalakkat
-<bambalakkat@gmail.com>wrote:
-
-> Hello
+On Tue, Nov 26, 2013 at 8:08 AM, Philip Tricca <flihp@twobit.us> wrote:
+> Xen handles mounting xenfs with an init script. Unfortunately this
+> script is the same one that starts xenstored and xenconsoled. That's
+> great for dom0 but a domU may need xenfs but running xenstored/
+> xenconsoled in a domU makes no sense. A simple fstab entry is
+> preferrable.
 >
-> While building kvm-minimal-image . I encountered the following error
-> (detail below)
+> Signed-off-by: Philip Tricca <flihp@twobit.us>
+> ---
+>  recipes-core/base-files/base-files_3.0.14.bbappend |    5 +++++
+>  1 file changed, 5 insertions(+)
+>  create mode 100644 recipes-core/base-files/base-files_3.0.14.bbappend
 >
-> xg_main.c: In function '_check_hyp':
-> | xg_main.c:221:52: error: 'ulong' undeclared (first use in this function)
->
-> - fixed by replacing "*ulong"* with "*unsigned long" *to fix the issue in
-> the specified file in
-> working /home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/
-> directory.
->
-> Not sure if this is already fixed.  just sending
->
->
->
-> *==*
-> Build Configuration:
-> BB_VERSION        = "1.18.0"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Ubuntu-12.04"
-> TARGET_SYS        = "x86_64-poky-linux"
-> MACHINE           = "crystalforest-gladden"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "1.4.2"
-> TUNE_FEATURES     = "m64"
-> TARGET_FPU        = ""
-> meta
-> meta-yocto        = "dylan:4e399f08d596197859214fdb3b06403b87bf8789"
-> meta-intel        = "dylan:86525216c6b8bdb850bf01958fe4defae3b42f4a"
-> meta-oe
-> meta-networking   = "dylan:44754206632dd5b0725aeb43e99e4ff9e0245dca"
-> meta-virtualization = "dylan:15a0d3432ea8d4441417b689a58aae8a6a7fb860"
-> meta-crystalforest-gladden =
-> "dylan:4e399f08d596197859214fdb3b06403b87bf8789"
->
-> ### ERROR while building kvm-minimal-image
->
-> |
-> -I/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/sysroots/crystalforest-gladden/include
-> -D__XEN_TOOLS__ -MMD -MF .subdirs-install.d  -D_LARGEFILE_SOURCE
-> -D_LARGEFILE64_SOURCE  -O2 -fomit-frame-pointer -m64 -fno-strict-aliasing
-> -std=gnu99 -Wall -Wstrict-prototypes -Wno-unused-value
-> -Wdeclaration-after-statement -Wno-unused-but-set-variable
->  -I/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/sysroots/crystalforest-gladden/include
-> -D__XEN_TOOLS__ -MMD -MF .gdbsx.d  -D_LARGEFILE_SOURCE
-> -D_LARGEFILE64_SOURCE  -O2 -fomit-frame-pointer -m64 -fno-strict-aliasing
-> -std=gnu99 -Wall -Wstrict-prototypes -Wno-unused-value
-> -Wdeclaration-after-statement -Wno-unused-but-set-variable
->  -I/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/sysroots/crystalforest-gladden/include
-> -D__XEN_TOOLS__ -MMD -MF .all.d  -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
->  -Wmissing-prototypes  -O2 -fomit-frame-pointer -m64 -fno-strict-aliasing
-> -std=gnu99 -Wall -Wstrict-prototypes -Wno-unused-value
-> -Wdeclaration-after-statement -Wno-unused-but-set-variable
->  -I/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/sysroots/crystalforest-gladden/include
-> -D__XEN_TOOLS__ -MMD -MF .xg_main.o.d  -D_LARGEFILE_SOURCE
-> -D_LARGEFILE64_SOURCE  -Wmissing-prototypes   -I. -I../../../include  -c -o
-> xg_main.o xg_main.c
-> | xg_main.c: In function '_domctl_hcall':
-> | xg_main.c:181:52: error: 'ulong' undeclared (first use in this function)
-> | xg_main.c:181:52: note: each undeclared identifier is reported only once
-> for each function it appears in
-> | xg_main.c: In function '_check_hyp':
-> | xg_main.c:221:52: error: 'ulong' undeclared (first use in this function)
-> | make[4]: *** [xg_main.o] Error 1
-> | make[4]: Leaving directory
-> `/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/tools/debugger/gdbsx/xg'
-> | make[3]: *** [all] Error 2
-> | make[3]: Leaving directory
-> `/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/tools/debugger/gdbsx'
-> | make[2]: *** [subdir-install-debugger/gdbsx] Error 2
-> | make[2]: Leaving directory
-> `/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/tools'
-> | make[1]: *** [subdirs-install] Error 2
-> | make[1]: Leaving directory
-> `/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/tools'
-> | make: *** [install-tools] Error 2
-> | ERROR: oe_runmake failed
-> | ERROR: Function failed: do_compile (see
-> /home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/temp/log.do_compile.9770
-> for further information)
-> ERROR: Task 1415
-> (/home/ambalakkat/projects/yocto/git/poky/meta-virtualization/recipes-extended/xen/
-> xen_4.1.2.bb, do_compile) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 1995 tasks of which 293 didn't need to be
-> rerun and 1 failed.
-> Waiting for 0 running tasks to finish:
->
-> Summary: 1 task failed:
->
-> /home/ambalakkat/projects/yocto/git/poky/meta-virtualization/recipes-extended/xen/
-> xen_4.1.2.bb, do_compile
-> Summary: There were 10 WARNING messages shown.
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
->
+> diff --git a/recipes-core/base-files/base-files_3.0.14.bbappend b/recipes-core/base-files/base-files_3.0.14.bbappend
+> new file mode 100644
+> index 0000000..eb973ad
+> --- /dev/null
+> +++ b/recipes-core/base-files/base-files_3.0.14.bbappend
+> @@ -0,0 +1,5 @@
+> +do_install_append() {
+> +       if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
+> +               echo "xenfs                /proc/xen            xenfs      defaults              0  0" >> ${D}${sysconfdir}/fstab
+> +       fi
+> +}
 > --
-> *Balagopal* *Ambalakkat*
+> 1.7.10.4
 >
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
 
 -- 
-*Balagopal* *Ambalakkat*
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
---f46d041c41468982d604ec96a5e7
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Found this fix<div><a href=3D"http://lists.xen.org/archive=
-s/html/xen-devel/2012-12/msg00429.html">http://lists.xen.org/archives/html/=
-xen-devel/2012-12/msg00429.html</a><br></div><div><br></div><div>How do I c=
-reate a patch that gets applied when kvm-minimal-image is built??</div>
-<div>Or what is the correct approach?</div><div><br></div></div><div class=
-=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, Dec 2, 2013 at =
-4:18 PM, balagopal ambalakkat <span dir=3D"ltr">&lt;<a href=3D"mailto:bamba=
-lakkat@gmail.com" target=3D"_blank">bambalakkat@gmail.com</a>&gt;</span> wr=
-ote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><div>Hello</div><div><=
-br></div><div>While building kvm-minimal-image . I encountered the followin=
-g error (detail below)</div>
-<div><br></div><div><div><div>xg_main.c: In function &#39;_check_hyp&#39;:<=
-/div>
-<div>| xg_main.c:221:52: error: &#39;ulong&#39; undeclared (first use in th=
-is function)</div><div><br></div></div></div><div><div>- fixed by replacing=
- &quot;<b>ulong&quot;</b>=A0with &quot;<b>unsigned long&quot; </b>to fix th=
-e issue in the specified file in</div>
-
-<div>working=A0/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work=
-/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/ directory.</div></div><div><br><=
-/div><div>Not sure if this is already fixed. =A0just sending</div><div><br>
-
-</div><div><br></div></div><div><br></div><div><b>=3D=3D</b></div><div><div=
->Build Configuration:</div><div>BB_VERSION =A0 =A0 =A0 =A0=3D &quot;1.18.0&=
-quot;</div><div>BUILD_SYS =A0 =A0 =A0 =A0 =3D &quot;x86_64-linux&quot;</div=
-><div>NATIVELSBSTRING =A0 =3D &quot;Ubuntu-12.04&quot;</div>
-
-<div>TARGET_SYS =A0 =A0 =A0 =A0=3D &quot;x86_64-poky-linux&quot;</div><div>=
-MACHINE =A0 =A0 =A0 =A0 =A0 =3D &quot;crystalforest-gladden&quot;</div><div=
->DISTRO =A0 =A0 =A0 =A0 =A0 =A0=3D &quot;poky&quot;</div><div>DISTRO_VERSIO=
-N =A0 =A0=3D &quot;1.4.2&quot;</div><div>
-
-TUNE_FEATURES =A0 =A0 =3D &quot;m64&quot;</div><div>TARGET_FPU =A0 =A0 =A0 =
-=A0=3D &quot;&quot;</div><div>meta =A0 =A0 =A0 =A0 =A0 =A0 =A0</div><div>me=
-ta-yocto =A0 =A0 =A0 =A0=3D &quot;dylan:4e399f08d596197859214fdb3b06403b87b=
-f8789&quot;</div><div>meta-intel =A0 =A0 =A0 =A0=3D &quot;dylan:86525216c6b=
-8bdb850bf01958fe4defae3b42f4a&quot;</div>
-
-<div>meta-oe =A0 =A0 =A0 =A0 =A0=A0</div><div>meta-networking =A0 =3D &quot=
-;dylan:44754206632dd5b0725aeb43e99e4ff9e0245dca&quot;</div><div>meta-virtua=
-lization =3D &quot;dylan:15a0d3432ea8d4441417b689a58aae8a6a7fb860&quot;</di=
-v><div>meta-crystalforest-gladden =3D &quot;dylan:4e399f08d596197859214fdb3=
-b06403b87bf8789&quot;</div>
-
-</div><div><br></div>
-<div>### ERROR while building kvm-minimal-image</div><div><br></div><div>| =
--I/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/sysroots/crystalf=
-orest-gladden/include -D__XEN_TOOLS__ -MMD -MF .subdirs-install.d =A0-D_LAR=
-GEFILE_SOURCE -D_LARGEFILE64_SOURCE =A0-O2 -fomit-frame-pointer -m64 -fno-s=
-trict-aliasing -std=3Dgnu99 -Wall -Wstrict-prototypes -Wno-unused-value -Wd=
-eclaration-after-statement -Wno-unused-but-set-variable =A0-I/home/ambalakk=
-at/projects/yocto/git/poky/opus-build/tmp/sysroots/crystalforest-gladden/in=
-clude -D__XEN_TOOLS__ -MMD -MF .gdbsx.d =A0-D_LARGEFILE_SOURCE -D_LARGEFILE=
-64_SOURCE =A0-O2 -fomit-frame-pointer -m64 -fno-strict-aliasing -std=3Dgnu9=
-9 -Wall -Wstrict-prototypes -Wno-unused-value -Wdeclaration-after-statement=
- -Wno-unused-but-set-variable =A0-I/home/ambalakkat/projects/yocto/git/poky=
-/opus-build/tmp/sysroots/crystalforest-gladden/include -D__XEN_TOOLS__ -MMD=
- -MF .all.d =A0-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE =A0-Wmissing-proto=
-types =A0-O2 -fomit-frame-pointer -m64 -fno-strict-aliasing -std=3Dgnu99 -W=
-all -Wstrict-prototypes -Wno-unused-value -Wdeclaration-after-statement -Wn=
-o-unused-but-set-variable =A0-I/home/ambalakkat/projects/yocto/git/poky/opu=
-s-build/tmp/sysroots/crystalforest-gladden/include -D__XEN_TOOLS__ -MMD -MF=
- .xg_main.o.d =A0-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE =A0-Wmissing-pro=
-totypes =A0 -I. -I../../../include =A0-c -o xg_main.o xg_main.c</div>
-
-
-<div>| xg_main.c: In function &#39;_domctl_hcall&#39;:</div><div>| xg_main.=
-c:181:52: error: &#39;ulong&#39; undeclared (first use in this function)</d=
-iv><div>| xg_main.c:181:52: note: each undeclared identifier is reported on=
-ly once for each function it appears in</div>
-
-
-<div>| xg_main.c: In function &#39;_check_hyp&#39;:</div><div>| xg_main.c:2=
-21:52: error: &#39;ulong&#39; undeclared (first use in this function)</div>=
-<div>| make[4]: *** [xg_main.o] Error 1</div><div>| make[4]: Leaving direct=
-ory `/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-po=
-ky-linux/xen/4.1.2-r1/xen-4.1.2/tools/debugger/gdbsx/xg&#39;</div>
-
-
-<div>| make[3]: *** [all] Error 2</div><div>| make[3]: Leaving directory `/=
-home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-lin=
-ux/xen/4.1.2-r1/xen-4.1.2/tools/debugger/gdbsx&#39;</div><div>| make[2]: **=
-* [subdir-install-debugger/gdbsx] Error 2</div>
-
-
-<div>| make[2]: Leaving directory `/home/ambalakkat/projects/yocto/git/poky=
-/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/tools&#39;</d=
-iv><div>| make[1]: *** [subdirs-install] Error 2</div><div>| make[1]: Leavi=
-ng directory `/home/ambalakkat/projects/yocto/git/poky/opus-build/tmp/work/=
-x86_64-poky-linux/xen/4.1.2-r1/xen-4.1.2/tools&#39;</div>
-
-
-<div>| make: *** [install-tools] Error 2</div><div>| ERROR: oe_runmake fail=
-ed</div><div>| ERROR: Function failed: do_compile (see /home/ambalakkat/pro=
-jects/yocto/git/poky/opus-build/tmp/work/x86_64-poky-linux/xen/4.1.2-r1/tem=
-p/log.do_compile.9770 for further information)</div>
-
-
-<div>ERROR: Task 1415 (/home/ambalakkat/projects/yocto/git/poky/meta-virtua=
-lization/recipes-extended/xen/<a href=3D"http://xen_4.1.2.bb" target=3D"_bl=
-ank">xen_4.1.2.bb</a>, do_compile) failed with exit code &#39;1&#39;</div>
-
-<div>NOTE: Tasks Summary: Attempted 1995 tasks of which 293 didn&#39;t need=
- to be rerun and 1 failed.</div>
-<div>Waiting for 0 running tasks to finish:</div><div><br></div><div>Summar=
-y: 1 task failed:</div><div>=A0 /home/ambalakkat/projects/yocto/git/poky/me=
-ta-virtualization/recipes-extended/xen/<a href=3D"http://xen_4.1.2.bb" targ=
-et=3D"_blank">xen_4.1.2.bb</a>, do_compile</div>
-
-
-<div>Summary: There were 10 WARNING messages shown.</div><div>Summary: Ther=
-e was 1 ERROR message shown, returning a non-zero exit code.</div><span cla=
-ss=3D"HOEnZb"><font color=3D"#888888"><div><br></div><div><br></div>-- <br>
-<div dir=3D"ltr"><font face=3D"trebuchet ms, sans-serif"><i>Balagopal</i> <=
-i>Ambalakkat</i></font></div>
-
-
-</font></span></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div dir=3D"=
-ltr"><font face=3D"trebuchet ms, sans-serif"><i>Balagopal</i> <i>Ambalakkat=
-</i></font></div>
-</div>
-
---f46d041c41468982d604ec96a5e7--
