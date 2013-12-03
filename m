@@ -1,32 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-pa0-f52.google.com (mail-pa0-f52.google.com
-	[209.85.220.52])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2AEFE006BC
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 986C4E006C7
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  2 Dec 2013 21:57:56 -0800 (PST)
-Received: by mail-pa0-f52.google.com with SMTP id ld10so2450313pab.25
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 02 Dec 2013 21:57:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=TRUl5cyHgClR2tr2nOYEUOMj2BuxR/lRyB5ZsG8vO90=;
-	b=a9Z2Ny73z9G1ls6G4CZ/aIWeav0F7IMvw7135uX0JZ8pv2kdhkJWUepxNVrL7pERAF
-	QOs4heiNDKNE/lbSMbvMRTRpRVTVobGGkAqccDy7OMNVPrZJzirmp76/9pBirGDQgl08
-	39hXBQY/mxlTiI+JBHU9FpEFOHS/2z61YDR8jH9BQexO8yfzKcbVPvK9zfzo7aDav9GC
-	WHQ3tVo1gwJ18YLFCetaRN28zbO8QyK3ixWYEJUg8i6p5KC0vJFPa7Qv1dy1Pbo6bB+B
-	zkvR6mLR9poe8CK1VovQeonEvbybIpTdSA5oxa/u21DCBBbml+AAlcyKoj59pa8EFPs0
-	yBdQ==
+	Tue,  3 Dec 2013 04:45:31 -0800 (PST)
+Received: from [216.57.91.130] (helo=[10.204.207.200])
+	by smtp.twobit.us with esmtpsa
+	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
+	(envelope-from <flihp@twobit.us>)
+	id 1VnpLQ-0000xT-VT; Tue, 03 Dec 2013 12:44:53 +0000
+Message-ID: <529DD262.2020302@twobit.us>
+Date: Tue, 03 Dec 2013 07:45:22 -0500
+From: Philip Tricca <flihp@twobit.us>
+User-Agent: Mozilla/5.0 (X11; Linux i686;
+	rv:17.0) Gecko/20130922 Icedove/17.0.9
 MIME-Version: 1.0
-X-Received: by 10.66.188.172 with SMTP id gb12mr8796843pac.143.1386050276450; 
-	Mon, 02 Dec 2013 21:57:56 -0800 (PST)
-Received: by 10.68.12.133 with HTTP; Mon, 2 Dec 2013 21:57:56 -0800 (PST)
-In-Reply-To: <1385471335-32126-1-git-send-email-flihp@twobit.us>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <1385471335-32126-1-git-send-email-flihp@twobit.us>
-Date: Tue, 3 Dec 2013 00:57:56 -0500
-Message-ID: <CADkTA4On0GwsQ+POK62aaCXExCLR+UN-fFJJy-+k4fW9rcX5nQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Philip Tricca <flihp@twobit.us>
+	<CADkTA4On0GwsQ+POK62aaCXExCLR+UN-fFJJy-+k4fW9rcX5nQ@mail.gmail.com>
+In-Reply-To: <CADkTA4On0GwsQ+POK62aaCXExCLR+UN-fFJJy-+k4fW9rcX5nQ@mail.gmail.com>
+X-Enigmail-Version: 1.5.1
+X-SA-Exim-Connect-IP: 216.57.91.130
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=5.0 tests=ALL_TRUSTED autolearn=ham
+	version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] base-files: add xenfs entry to fstab if xen DISTRO_FEATURE is enabled
@@ -42,52 +42,56 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2013 05:57:58 -0000
+X-List-Received-Date: Tue, 03 Dec 2013 12:45:36 -0000
 Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-Hey Phillip,
+Thanks Bruce.
 
-It appears that I forgot to follow up on this. I was working up upreving libvirt
-and grabbed this into my tree. I'll push this shortly, since libvirt is nearly
-done :)
+Philip
 
-Bruce
+On 12/03/2013 12:57 AM, Bruce Ashfield wrote:
+> Hey Phillip,
+> 
+> It appears that I forgot to follow up on this. I was working up upreving libvirt
+> and grabbed this into my tree. I'll push this shortly, since libvirt is nearly
+> done :)
+> 
+> Bruce
+> 
+> On Tue, Nov 26, 2013 at 8:08 AM, Philip Tricca <flihp@twobit.us> wrote:
+>> Xen handles mounting xenfs with an init script. Unfortunately this
+>> script is the same one that starts xenstored and xenconsoled. That's
+>> great for dom0 but a domU may need xenfs but running xenstored/
+>> xenconsoled in a domU makes no sense. A simple fstab entry is
+>> preferrable.
+>>
+>> Signed-off-by: Philip Tricca <flihp@twobit.us>
+>> ---
+>>  recipes-core/base-files/base-files_3.0.14.bbappend |    5 +++++
+>>  1 file changed, 5 insertions(+)
+>>  create mode 100644 recipes-core/base-files/base-files_3.0.14.bbappend
+>>
+>> diff --git a/recipes-core/base-files/base-files_3.0.14.bbappend b/recipes-core/base-files/base-files_3.0.14.bbappend
+>> new file mode 100644
+>> index 0000000..eb973ad
+>> --- /dev/null
+>> +++ b/recipes-core/base-files/base-files_3.0.14.bbappend
+>> @@ -0,0 +1,5 @@
+>> +do_install_append() {
+>> +       if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
+>> +               echo "xenfs                /proc/xen            xenfs      defaults              0  0" >> ${D}${sysconfdir}/fstab
+>> +       fi
+>> +}
+>> --
+>> 1.7.10.4
+>>
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> 
+> 
+> 
 
-On Tue, Nov 26, 2013 at 8:08 AM, Philip Tricca <flihp@twobit.us> wrote:
-> Xen handles mounting xenfs with an init script. Unfortunately this
-> script is the same one that starts xenstored and xenconsoled. That's
-> great for dom0 but a domU may need xenfs but running xenstored/
-> xenconsoled in a domU makes no sense. A simple fstab entry is
-> preferrable.
->
-> Signed-off-by: Philip Tricca <flihp@twobit.us>
-> ---
->  recipes-core/base-files/base-files_3.0.14.bbappend |    5 +++++
->  1 file changed, 5 insertions(+)
->  create mode 100644 recipes-core/base-files/base-files_3.0.14.bbappend
->
-> diff --git a/recipes-core/base-files/base-files_3.0.14.bbappend b/recipes-core/base-files/base-files_3.0.14.bbappend
-> new file mode 100644
-> index 0000000..eb973ad
-> --- /dev/null
-> +++ b/recipes-core/base-files/base-files_3.0.14.bbappend
-> @@ -0,0 +1,5 @@
-> +do_install_append() {
-> +       if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
-> +               echo "xenfs                /proc/xen            xenfs      defaults              0  0" >> ${D}${sysconfdir}/fstab
-> +       fi
-> +}
-> --
-> 1.7.10.4
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
