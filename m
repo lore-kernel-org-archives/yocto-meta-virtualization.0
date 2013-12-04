@@ -1,17 +1,19 @@
 Return-Path: <denis@eukrea.com>
 Received: from smtp6-g21.free.fr (smtp6-g21.free.fr [212.27.42.6])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1D5BDE00784
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A223AE00784
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  4 Dec 2013 09:49:14 -0800 (PST)
+	Wed,  4 Dec 2013 09:49:31 -0800 (PST)
 Received: from denis-N73SV.local.eukrea.com (unknown [88.170.243.169])
-	by smtp6-g21.free.fr (Postfix) with ESMTP id E4AD5823F9;
-	Wed,  4 Dec 2013 18:49:06 +0100 (CET)
+	by smtp6-g21.free.fr (Postfix) with ESMTP id 472BD823AB;
+	Wed,  4 Dec 2013 18:49:23 +0100 (CET)
 From: Denis Carikli <denis@eukrea.com>
 To: meta-virtualization@yoctoproject.org
-Date: Wed,  4 Dec 2013 18:49:00 +0100
-Message-Id: <1386179341-19457-1-git-send-email-denis@eukrea.com>
+Date: Wed,  4 Dec 2013 18:49:01 +0100
+Message-Id: <1386179341-19457-2-git-send-email-denis@eukrea.com>
 X-Mailer: git-send-email 1.7.9.5
-Subject: [PATCH 1/2] python-babel: add python-pytz to (R)EPENDS
+In-Reply-To: <1386179341-19457-1-git-send-email-denis@eukrea.com>
+References: <1386179341-19457-1-git-send-email-denis@eukrea.com>
+Subject: [PATCH 2/2] python-babel: add native support.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -24,26 +26,33 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2013 17:49:17 -0000
+X-List-Received-Date: Wed, 04 Dec 2013 17:49:33 -0000
 
 Signed-off-by: Denis Carikli <denis@eukrea.com>
 ---
- .../recipes-devtools/python/python-babel_1.3.bb    |    2 ++
- 1 file changed, 2 insertions(+)
+ .../recipes-devtools/python/python-babel_1.3.bb    |    1 +
+ .../recipes-devtools/python/python-pytz_2013.8.bb  |    2 ++
+ 2 files changed, 3 insertions(+)
 
 diff --git a/meta-openstack/recipes-devtools/python/python-babel_1.3.bb b/meta-openstack/recipes-devtools/python/python-babel_1.3.bb
-index 390a3c5..cf2b7a8 100644
+index cf2b7a8..11b79d8 100644
 --- a/meta-openstack/recipes-devtools/python/python-babel_1.3.bb
 +++ b/meta-openstack/recipes-devtools/python/python-babel_1.3.bb
-@@ -3,6 +3,8 @@ HOMEPAGE = "http://babel.edgewall.org/"
- SECTION = "devel/python"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e6eeaabc92cfc2d03f53e789324d7292"
-+DEPENDS += "python-pytz"
-+RDEPENDS_${PN} += "python-pytz"
+@@ -18,3 +18,4 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
- PR = "r0"
- SRCNAME = "Babel"
+ inherit setuptools
+ 
++BBCLASSEXTEND = "native"
+diff --git a/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb b/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb
+index cee4fc2..c5c3fce 100644
+--- a/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb
++++ b/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb
+@@ -16,3 +16,5 @@ SRC_URI[sha256sum] = "58552e870aa2c0a1fa3b4ef923f00fbf3e55afaa87f8d31244d44f188d
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+ inherit setuptools 
++
++BBCLASSEXTEND = "native"
 -- 
 1.7.9.5
 
