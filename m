@@ -1,35 +1,35 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-pb0-f43.google.com (mail-pb0-f43.google.com
-	[209.85.160.43])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A73F3E0077E
+Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
+	[209.85.192.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1A938E0077E
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Dec 2013 10:57:18 -0800 (PST)
-Received: by mail-pb0-f43.google.com with SMTP id rq2so26418256pbb.16
+	Thu,  5 Dec 2013 11:09:33 -0800 (PST)
+Received: by mail-pd0-f180.google.com with SMTP id q10so25241751pdj.11
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Dec 2013 10:57:18 -0800 (PST)
+	Thu, 05 Dec 2013 11:09:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=gh90Vf9+2rN01LJcoDIp5Y13JtznSSvYEoJYXWGI/WY=;
-	b=tKS/xQIHyiCqVbWDmN3kA9OuTQO5OwP96mF76cw6GBVC73Gyjj3gGMV7VdjwdGdvBK
-	2fKaUeNhpvAtZ3UXxi6r94Vp3drSIe5fUk1Lgn7UaJlD8I5dtAN0V5yT6rfT50NEoCBB
-	IL0AKQ/Dc3mSC+fHaIhdQbDcRWjhtDvBvNpbydM6wu3C9O8YZKF9flWFybOd1CU/8Knv
-	kNZDXSzpD5K9bU5DjaLbyp31wZQdMIwRS1XDi5govOl2ZegMyNUB1+wmT/06JqI74hPp
-	9l1J8wozZq3Nc9ovtdKfO5ORnlwqqGonq/EooFD1gx1dFaLRvUBR8TlVXpHI42sYgrjk
-	TtAw==
+	bh=MdTjXZqNlH1LLSbjd17OF2qGg9eo2g9Ao7W9MxpAwg4=;
+	b=vrd8JnJpQaHf/MPzLeNnBTp3Ebq0CQuy/Tdv6xxq4BAPmnPv+HTqAlU98gWYi1Vm55
+	I32aGV8GZDe0EVf1QqTOtVJPxkWBY2O0ziIR0eFurNNGD3/iV8ylOUKVnEU++rgib8In
+	+Ee1bDjiYfnBFP68K8y+8KLHlCImbH6FKLQmzTZG7A3ha9ZZx1CvVK0YC01KHFEWMLGp
+	zWG7bTHDZUqBNneJm3qSDsMEUMMvzm5syuqDEE39IGJSrH/thEtM2xWfl3Z19xk+kIxS
+	eBgBfHY4WnrsOJHx49HlttHQHVzgJ1lCpxqF0uaxmfxbFkJ5cbuP2vjoIZUsC0ZDfJm/
+	My8w==
 MIME-Version: 1.0
-X-Received: by 10.68.196.193 with SMTP id io1mr54393950pbc.46.1386269838023;
-	Thu, 05 Dec 2013 10:57:18 -0800 (PST)
-Received: by 10.68.12.133 with HTTP; Thu, 5 Dec 2013 10:57:17 -0800 (PST)
-In-Reply-To: <C40136690E471047B567224B6AD7213D1BED57@AMSPEX01CL02.citrite.net>
-References: <C40136690E471047B567224B6AD7213D1BED57@AMSPEX01CL02.citrite.net>
-Date: Thu, 5 Dec 2013 13:57:17 -0500
-Message-ID: <CADkTA4NcFnN2E08G8xMxTs+tkKQh3_xnjXBxwFeL9W332L3Pdg@mail.gmail.com>
+X-Received: by 10.66.250.129 with SMTP id zc1mr27113775pac.153.1386270572930; 
+	Thu, 05 Dec 2013 11:09:32 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Thu, 5 Dec 2013 11:09:32 -0800 (PST)
+In-Reply-To: <1386123634-5877-1-git-send-email-flihp@twobit.us>
+References: <1386123634-5877-1-git-send-email-flihp@twobit.us>
+Date: Thu, 5 Dec 2013 14:09:32 -0500
+Message-ID: <CADkTA4NCOjwCH524=zFx-wyw3E0A+02bnMLswE5HLnAjmHbfBA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Rob Dobson <rob.dobson@citrix.com>
+To: Philip Tricca <flihp@twobit.us>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: Error: kernel-module-xen-acpi-processor not found in the base feeds
+Subject: Re: [RFC] xen: Break volatiles out into separate package.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,110 +42,86 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 18:57:20 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 19:09:34 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Thu, Dec 5, 2013 at 7:29 AM, Rob Dobson <rob.dobson@citrix.com> wrote:
-> Hi all,
+On Tue, Dec 3, 2013 at 9:20 PM, Philip Tricca <flihp@twobit.us> wrote:
+> The Xen scripts for handling block and vif udev events depend on
+> directories created by the Xen volatile directories. In a situation
+> where the 'base' Xen package isn't installed (NDVM etc) these
+> scripts fail silently. The most simple approach I could come up
+> with is just breaking the Xen volatiles config out into it's own
+> package and setting up the logical dependencies.
 >
-> I'm new to OpenEmbedded and I've been trying to use the meta-virtualization layer in order to build a small Xen guest VM.
->
-> The target I am building for is 'xen-guest-image-minimal',  however I am hitting a failure complete 'do_rootfs':
->
->        Error: kernel-module-xen-acpi-processor not found in the base feeds (genericx86 core2 i686 i586 i486 i386 x86 noarch any all).
->
-> Can anyone see what I'm doing wrong here?
+> Creating a new package for just a single file seems like overkill
+> to me but it's the most straightforward thing I could come up with.
 
-Still suffering with this problem ? Nothing jumps to mind as a problem, since
-it really looks like you haven't changed anything from the default
-configuration.
+This seems reasonable to me, there are plenty of other one file package
+examples (in particular since the update-rc.d only works for one initscript
+per package), so that isn't all that out of the ordinary.
 
-The error implies that the kernel module wasn't built for the board in question.
-
-Can you check the kernel build directory and check the .config to see if the
-Xen options where enabled ?
+So to my eye, this looks ok.
 
 Bruce
 
 >
-> Thanks very much.
+> Regards,
+> Philip
 >
-> Rob
+> Signed-off-by: Philip Tricca <flihp@twobit.us>
+> ---
+>  recipes-extended/xen/xen.inc |    8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
->>>>>>> BUILD CONFIG >>>>>>>
-> Build Configuration:
-> BB_VERSION        = "1.20.0"
-> BUILD_SYS         = "x86_64-linux"
-> NATIVELSBSTRING   = "Ubuntu-12.04"
-> TARGET_SYS        = "i586-poky-linux"
-> MACHINE           = "genericx86"
-> DISTRO            = "poky"
-> DISTRO_VERSION    = "1.5"
-> TUNE_FEATURES     = "m32 core2"
-> TARGET_FPU        = ""
-> meta
-> meta-yocto
-> meta-yocto-bsp    = "master:64f0a0bc408d8e32d5e795aeb9fffee0539f5e22"
-> meta-oe
-> meta-networking   = "master:b2c0f57f01ee8286c55259c8e0215a7c901699fc"
-> meta-virtualization = "master:61f1cd9c44f2bf1cb6b3605d2587baf9f439db9a"
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index 9d43814..e31e996 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -53,12 +53,14 @@ RDEPENDS_${PN}-base = "\
+>  RDEPENDS_${PN}-scripts-block = "\
+>      ${PN}-scripts-common \
+>      ${PN}-udev \
+> +    ${PN}-volatiles \
+>      "
 >
->>>>>>> MACHINE >>>>>>>
-> MACHINE ?= "genericx86"
+>  RDEPENDS_${PN}-scripts-network = "\
+>      bridge-utils \
+>      ${PN}-scripts-common \
+>      ${PN}-udev \
+> +    ${PN}-volatiles \
+>      "
 >
->>>>>>> FAILURE MESSAGE >>>>>>>
-> DEBUG: Executing python function rootfs_process_ignore
-> DEBUG: Python function rootfs_process_ignore finished
-> DEBUG: Executing python function rootfs_runtime_mapping
-> DEBUG: Python function rootfs_runtime_mapping finished
-> DEBUG: Executing shell function do_rootfs
-> Note: configuring RPM platform settings
-> Note: configuring RPM system provides
-> Note: configuring RPM DB settings
-> Note: configuring Smart settings
+>  PACKAGES = "\
+> @@ -106,6 +108,7 @@ PACKAGES = "\
+>      ${PN}-scripts-network \
+>      ${PN}-staticdev \
+>      ${PN}-udev \
+> +    ${PN}-volatiles \
+>      ${PN}-xcutils \
+>      ${PN}-xencommons \
+>      ${PN}-xend \
+> @@ -210,7 +213,6 @@ FILES_${PN}-hypervisor = "\
+>      "
 >
-> Note: adding Smart channel genericx86 (55)
+>  FILES_${PN}-base = "\
+> -    ${sysconfdir}/default/volatiles/99_xen \
+>      ${sysconfdir}/default/xencommons \
+>      ${sysconfdir}/default/xendomains \
+>      ${sysconfdir}/xen/auto \
+> @@ -425,6 +427,10 @@ FILES_${PN}-udev = "\
+>      ${sysconfdir}/udev/rules.d/xend.rules \
+>      "
 >
-> Note: adding Smart channel core2 (50)
+> +FILES_${PN}-volatiles = "\
+> +    ${sysconfdir}/default/volatiles/99_xen \
+> +    "
+> +
+>  FILES_${PN}-xcutils = "\
+>      ${libdir}/xen/bin/lsevtchn \
+>      ${libdir}/xen/bin/readnotes \
+> --
+> 1.7.10.4
 >
-> Note: adding Smart channel i586 (40)
->
-> Note: adding Smart channel all (10)
->
-> Note: configuring RPM cross-install scriptlet_wrapper
->
-> Updating cache...               ######################################## [100%]
->
-> Saving cache...
->
-> Error: kernel-module-xen-acpi-processor not found in the base feeds (genericx86 core2 i686 i586 i486 i386 x86 noarch any all).
-> WARNING: exit code 1 from a shell command.
-> ERROR: Function failed: do_rootfs (log file is located at /local/files/yocto/poky-dora-10.0.0/build/tmp/work/genericx86-poky-linux/xen-guest-image-minimal/1.0-r0/temp/log.do_rootfs.21957)
->
->>>>>>> BBLAYERS >>>>>>
-> # LAYER_CONF_VERSION is increased each time build/conf/bblayers.conf
-> # changes incompatibly
-> LCONF_VERSION = "6"
->
-> BBPATH = "${TOPDIR}"
-> BBFILES ?= ""
->
-> BBLAYERS ?= " \
->   /local/files/yocto/poky-dora-10.0.0/meta \
->   /local/files/yocto/poky-dora-10.0.0/meta-yocto \
->   /local/files/yocto/poky-dora-10.0.0/meta-yocto-bsp \
->   /local/files/yocto/poky-dora-10.0.0/meta-oe/meta-oe \
->   /local/files/yocto/poky-dora-10.0.0/meta-oe/meta-networking \
->   /local/files/yocto/poky-dora-10.0.0/meta-virtualization \
->   "
-> BBLAYERS_NON_REMOVABLE ?= " \
->   /local/files/yocto/poky-dora-10.0.0/meta \
->   /local/files/yocto/poky-dora-10.0.0/meta-yocto \
->   "
->
->>>>>>> meta-oe/conf/layer.conf >>>>>>
-> Updated priority:
->        BBFILE_PRIORITY_openembedded-layer = "4"
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
