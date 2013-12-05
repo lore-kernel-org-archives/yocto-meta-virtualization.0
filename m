@@ -1,35 +1,36 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-pd0-f180.google.com (mail-pd0-f180.google.com
-	[209.85.192.180])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1A938E0077E
+Received: from mail-pd0-f174.google.com (mail-pd0-f174.google.com
+	[209.85.192.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7685EE0077E
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Dec 2013 11:09:33 -0800 (PST)
-Received: by mail-pd0-f180.google.com with SMTP id q10so25241751pdj.11
+	Thu,  5 Dec 2013 11:10:39 -0800 (PST)
+Received: by mail-pd0-f174.google.com with SMTP id y13so25348974pdi.33
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Dec 2013 11:09:33 -0800 (PST)
+	Thu, 05 Dec 2013 11:10:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=MdTjXZqNlH1LLSbjd17OF2qGg9eo2g9Ao7W9MxpAwg4=;
-	b=vrd8JnJpQaHf/MPzLeNnBTp3Ebq0CQuy/Tdv6xxq4BAPmnPv+HTqAlU98gWYi1Vm55
-	I32aGV8GZDe0EVf1QqTOtVJPxkWBY2O0ziIR0eFurNNGD3/iV8ylOUKVnEU++rgib8In
-	+Ee1bDjiYfnBFP68K8y+8KLHlCImbH6FKLQmzTZG7A3ha9ZZx1CvVK0YC01KHFEWMLGp
-	zWG7bTHDZUqBNneJm3qSDsMEUMMvzm5syuqDEE39IGJSrH/thEtM2xWfl3Z19xk+kIxS
-	eBgBfHY4WnrsOJHx49HlttHQHVzgJ1lCpxqF0uaxmfxbFkJ5cbuP2vjoIZUsC0ZDfJm/
-	My8w==
+	bh=Pv6p2NbVxyN/Mk5Hgu/d9E+kB8EUf1jPyrP6XGh0H8w=;
+	b=NWz2EvFm7RnLaUZquAGZiBNt3ScNJEPeMOnBS4E+OkbaOF7fl/1rcs6MCGWMGoeZAy
+	YUMxGQbeF81+Z2lJAhxQV/cKBGNds4XBG2f26/dBLATAfyoiAbGHPFwtfgn+zwePv3lL
+	kSJg5F73O2z9tGLlE20khZ4AVLTgoTn5HqktHppRgTB1q+xuYfK2yhKyH6SNOpjb+rT8
+	eubfExhxODlXkcKF7bUdAWyfl7acdoWc0bGjUQkpj4iDO9onKYqyBal3inGnqYmZ6dWN
+	fzSAr9iM4emBnv3HEV1GjuOCodCJ+f7emSKAhymvfq45DJ2/2Bzga5yS3FrW+cPZMHSb
+	agyA==
 MIME-Version: 1.0
-X-Received: by 10.66.250.129 with SMTP id zc1mr27113775pac.153.1386270572930; 
-	Thu, 05 Dec 2013 11:09:32 -0800 (PST)
-Received: by 10.68.12.133 with HTTP; Thu, 5 Dec 2013 11:09:32 -0800 (PST)
-In-Reply-To: <1386123634-5877-1-git-send-email-flihp@twobit.us>
-References: <1386123634-5877-1-git-send-email-flihp@twobit.us>
-Date: Thu, 5 Dec 2013 14:09:32 -0500
-Message-ID: <CADkTA4NCOjwCH524=zFx-wyw3E0A+02bnMLswE5HLnAjmHbfBA@mail.gmail.com>
+X-Received: by 10.66.250.163 with SMTP id zd3mr90572099pac.109.1386270638894; 
+	Thu, 05 Dec 2013 11:10:38 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Thu, 5 Dec 2013 11:10:38 -0800 (PST)
+In-Reply-To: <1386179341-19457-2-git-send-email-denis@eukrea.com>
+References: <1386179341-19457-1-git-send-email-denis@eukrea.com>
+	<1386179341-19457-2-git-send-email-denis@eukrea.com>
+Date: Thu, 5 Dec 2013 14:10:38 -0500
+Message-ID: <CADkTA4OYOeJ0eXCrCQZPRR=SGZM-w+Op62sTo8YcMVJ4Jy2N-A@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Philip Tricca <flihp@twobit.us>
+To: Denis Carikli <denis@eukrea.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [RFC] xen: Break volatiles out into separate package.
+Subject: Re: [PATCH 2/2] python-babel: add native support.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,85 +43,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2013 19:09:34 -0000
+X-List-Received-Date: Thu, 05 Dec 2013 19:10:40 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-On Tue, Dec 3, 2013 at 9:20 PM, Philip Tricca <flihp@twobit.us> wrote:
-> The Xen scripts for handling block and vif udev events depend on
-> directories created by the Xen volatile directories. In a situation
-> where the 'base' Xen package isn't installed (NDVM etc) these
-> scripts fail silently. The most simple approach I could come up
-> with is just breaking the Xen volatiles config out into it's own
-> package and setting up the logical dependencies.
->
-> Creating a new package for just a single file seems like overkill
-> to me but it's the most straightforward thing I could come up with.
-
-This seems reasonable to me, there are plenty of other one file package
-examples (in particular since the update-rc.d only works for one initscript
-per package), so that isn't all that out of the ordinary.
-
-So to my eye, this looks ok.
+Out of curiosity, what is using the native version of the package ? I'd like
+to get that in the commit log.
 
 Bruce
 
->
-> Regards,
-> Philip
->
-> Signed-off-by: Philip Tricca <flihp@twobit.us>
+On Wed, Dec 4, 2013 at 12:49 PM, Denis Carikli <denis@eukrea.com> wrote:
+> Signed-off-by: Denis Carikli <denis@eukrea.com>
 > ---
->  recipes-extended/xen/xen.inc |    8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  .../recipes-devtools/python/python-babel_1.3.bb    |    1 +
+>  .../recipes-devtools/python/python-pytz_2013.8.bb  |    2 ++
+>  2 files changed, 3 insertions(+)
 >
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 9d43814..e31e996 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -53,12 +53,14 @@ RDEPENDS_${PN}-base = "\
->  RDEPENDS_${PN}-scripts-block = "\
->      ${PN}-scripts-common \
->      ${PN}-udev \
-> +    ${PN}-volatiles \
->      "
+> diff --git a/meta-openstack/recipes-devtools/python/python-babel_1.3.bb b/meta-openstack/recipes-devtools/python/python-babel_1.3.bb
+> index cf2b7a8..11b79d8 100644
+> --- a/meta-openstack/recipes-devtools/python/python-babel_1.3.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-babel_1.3.bb
+> @@ -18,3 +18,4 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
 >
->  RDEPENDS_${PN}-scripts-network = "\
->      bridge-utils \
->      ${PN}-scripts-common \
->      ${PN}-udev \
-> +    ${PN}-volatiles \
->      "
+>  inherit setuptools
 >
->  PACKAGES = "\
-> @@ -106,6 +108,7 @@ PACKAGES = "\
->      ${PN}-scripts-network \
->      ${PN}-staticdev \
->      ${PN}-udev \
-> +    ${PN}-volatiles \
->      ${PN}-xcutils \
->      ${PN}-xencommons \
->      ${PN}-xend \
-> @@ -210,7 +213,6 @@ FILES_${PN}-hypervisor = "\
->      "
+> +BBCLASSEXTEND = "native"
+> diff --git a/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb b/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb
+> index cee4fc2..c5c3fce 100644
+> --- a/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-pytz_2013.8.bb
+> @@ -16,3 +16,5 @@ SRC_URI[sha256sum] = "58552e870aa2c0a1fa3b4ef923f00fbf3e55afaa87f8d31244d44f188d
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
 >
->  FILES_${PN}-base = "\
-> -    ${sysconfdir}/default/volatiles/99_xen \
->      ${sysconfdir}/default/xencommons \
->      ${sysconfdir}/default/xendomains \
->      ${sysconfdir}/xen/auto \
-> @@ -425,6 +427,10 @@ FILES_${PN}-udev = "\
->      ${sysconfdir}/udev/rules.d/xend.rules \
->      "
->
-> +FILES_${PN}-volatiles = "\
-> +    ${sysconfdir}/default/volatiles/99_xen \
-> +    "
+>  inherit setuptools
 > +
->  FILES_${PN}-xcutils = "\
->      ${libdir}/xen/bin/lsevtchn \
->      ${libdir}/xen/bin/readnotes \
+> +BBCLASSEXTEND = "native"
 > --
-> 1.7.10.4
+> 1.7.9.5
 >
 > _______________________________________________
 > meta-virtualization mailing list
