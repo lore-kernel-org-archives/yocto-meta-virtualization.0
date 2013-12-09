@@ -1,34 +1,34 @@
 Return-Path: <kergoth@gmail.com>
 Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
 	[209.85.223.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 55442E00779
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6CA54E0070B
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Dec 2013 10:32:35 -0800 (PST)
-Received: by mail-ie0-f177.google.com with SMTP id tp5so6458814ieb.8
+	Mon,  9 Dec 2013 10:32:57 -0800 (PST)
+Received: by mail-ie0-f177.google.com with SMTP id tp5so6459743ieb.8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Dec 2013 10:32:35 -0800 (PST)
+	Mon, 09 Dec 2013 10:32:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=from:to:subject:date:message-id;
-	bh=srKagklOJcxEjeYn8sQ4CXdSFfblHfp2nEsrlFxS8XM=;
-	b=Pns+BX7C495HAagZZmmlLm5O56VhHoqJRKqyhGxtJGbMR0X/X9wAwKlxNqTcBUzW5t
-	W6X8i+kJ8NSve7/V0D8prO7HNBaam8WiQRo/k6llWRqEqxf5+Yp/i7E0GTpD1gy7pXAX
-	OiEIV4uzDz8AAqwQNMOuM33k+v7R/irfmx1/9Qp8THsAXGDpEd3XcYCH+l8GAXj/2b5g
-	OQkN1MRSYAjUirQWKC43m3kAVHuFEuGGquKLHMe5sdeRT/pmfPzGO4fggyRCtdROV9pw
-	EwS98WLUsZtsbU7ARTHMeb7gtpD19iSwrCXBgTdCmU+pu5gfN+FkDV/m9gbFHdiEnwgz
-	6WpA==
-X-Received: by 10.50.221.99 with SMTP id qd3mr16550695igc.49.1386613954647;
-	Mon, 09 Dec 2013 10:32:34 -0800 (PST)
+	bh=BEsdHEPXfc9gyXu+NN6DphDmc7rK+/z8q353WTZV/QU=;
+	b=IE5dWSqyEN0Z6Wgj5R4M8e2dIVM2Gdr2I52WQIMLVEU4JrQVQMLvOoQhndSdmtDb6O
+	COGCmCexieB8f0nqqM7WfpNyvXO+4tScwROzHRVFvy81OuJIdJUhuvzoqiati/QKTO9Q
+	MAc2cNLIUnPiaYQ2YR43DhzHyDhlbFmE0KNc4L4AEvGBTaOgEkjWnwDVkTP3eEl+V57K
+	g0dY51fpQBsszMkwjlEiBHu5Hbu6QO/cFir6PbojFPaCQP0P0W15lNNz6AH7vf1thZlT
+	xbSxN9a4EJSSV4x/rg/JtkSiE8gNYlG0wEOWoi1en5JE8RXS5uzq9ejP5aDO8U4sYSFn
+	cStA==
+X-Received: by 10.42.123.199 with SMTP id t7mr2877528icr.45.1386613977161;
+	Mon, 09 Dec 2013 10:32:57 -0800 (PST)
 Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id ri5sm15155447igc.1.2013.12.09.10.32.32
+	by mx.google.com with ESMTPSA id l7sm15811854igx.2.2013.12.09.10.32.55
 	for <meta-virtualization@yoctoproject.org>
 	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 09 Dec 2013 10:32:33 -0800 (PST)
+	Mon, 09 Dec 2013 10:32:56 -0800 (PST)
 From: Christopher Larson <kergoth@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Mon,  9 Dec 2013 11:32:27 -0700
-Message-Id: <1386613947-5686-1-git-send-email-kergoth@gmail.com>
+Date: Mon,  9 Dec 2013 11:32:51 -0700
+Message-Id: <1386613971-6107-1-git-send-email-kergoth@gmail.com>
 X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH] lxc: kill use of susv2 'head' args
+Subject: [PATCH v2] lxc: kill use of susv2 'head' args
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,7 +41,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 18:32:36 -0000
+X-List-Received-Date: Mon, 09 Dec 2013 18:32:57 -0000
 
 Without enabling INCLUDE_SUSv2 in busybox, we need to use head's -n argument,
 rather than -#.
@@ -55,7 +55,7 @@ Signed-off-by: Christopher Larson <kergoth@gmail.com>
 
 diff --git a/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch b/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
 new file mode 100644
-index 0000000..b9c516e
+index 0000000..86ed7d2
 --- /dev/null
 +++ b/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
 @@ -0,0 +1,46 @@
@@ -66,7 +66,7 @@ index 0000000..b9c516e
 +@@ -67,7 +67,7 @@ print_cgroups() {
 +   awk '$1 !~ /#/ && $3 == mp { print $2; } ; END { exit(0); } '  "mp=$1" "$2" ;
 + }
-+ 
++
 +-CGROUP_MNT_PATH=`print_cgroups cgroup /proc/self/mounts | head -1`
 ++CGROUP_MNT_PATH=`print_cgroups cgroup /proc/self/mounts | head -n 1`
 + KVER_MAJOR=$($GREP '^# Linux' $CONFIG | \
@@ -77,10 +77,10 @@ index 0000000..b9c516e
 +@@ -107,7 +107,7 @@ if [ ! -d "$parent_cgroup" ]; then
 +     exit 1
 + fi
-+ 
++
 +-pid=$(head -1 $parent_cgroup/$name/tasks)
 ++pid=$(head -n 1 $parent_cgroup/$name/tasks)
-+ 
++
 + if [ -z "$pid" ]; then
 +     echo "$(basename $0): no process found for '$name'" >&2
 +--- lxc-0.9.0.orig/templates/lxc-alpine.in
@@ -106,10 +106,10 @@ index 0000000..b9c516e
 +     mkdir -p $cfg_dir || die "unable to create config dir $cfg_dir"
 +     cat <<EOF >> $cfg_dir/config || die "unable to create $cfg_dir/config"
 diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-index 03d4589..be6f8ca 100644
+index 24e0249..4bbc1c1 100644
 --- a/recipes-containers/lxc/lxc_0.9.0.bb
 +++ b/recipes-containers/lxc/lxc_0.9.0.bb
-@@ -27,6 +27,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${PN}-${PV}.tar.gz \
+@@ -27,6 +27,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
  	file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
  	file://lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch \
  	file://lxc-0.9.0-setup_netdev-re-read-ifindex-in-LXC_NET_PHYS-case.patch \
