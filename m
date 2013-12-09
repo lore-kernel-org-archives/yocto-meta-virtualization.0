@@ -1,37 +1,34 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
-	[209.85.160.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2848E007C3
+Return-Path: <kergoth@gmail.com>
+Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
+	[209.85.223.177])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 55442E00779
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Dec 2013 09:01:03 -0800 (PST)
-Received: by mail-pb0-f47.google.com with SMTP id um1so5782842pbc.20
+	Mon,  9 Dec 2013 10:32:35 -0800 (PST)
+Received: by mail-ie0-f177.google.com with SMTP id tp5so6458814ieb.8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Dec 2013 09:01:02 -0800 (PST)
+	Mon, 09 Dec 2013 10:32:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=CuVg2gZznFSTUFkvAM2bYN3GnHV57lXEtDXD3gNDj7E=;
-	b=ld1LQDoFJLjJtZ6K+Ox0JwS62d8OuI9ghQPqgAOQknrKeC6IZ1AJ/nfRRoS7ceF/Bz
-	GUydvBW/JdIm9evT54Z7kMZAW/e07ZfBMx/p0FDbxKQTRe3TNALVpJEx4n1iOFM+mm3Z
-	UV6kHvYQmfCQb/n+L6tmguWIdQ7lKAGSXayA9676pgf5YoZci5l1CuiNhue22TCubLJN
-	+4X0Z80WYS3Oo/P1+sbP2Co3lDwODwPyQ0hPQKuXXgf0MBaez96703DxO/mdoJZD0WzG
-	WNDstMVHSfY5EMol21gc4Kl/W1PB8cdMPOFyGaNd8ZpuoeQIQFobkIH5rPegqkEkuZkb
-	t2MQ==
-MIME-Version: 1.0
-X-Received: by 10.68.111.33 with SMTP id if1mr22264503pbb.31.1386608462446;
-	Mon, 09 Dec 2013 09:01:02 -0800 (PST)
-Received: by 10.68.12.133 with HTTP; Mon, 9 Dec 2013 09:01:02 -0800 (PST)
-In-Reply-To: <CABZSBQd54bgBVsfW+wq0QH6vcv6oW3OVcE6d2G24EA4U5HQpRw@mail.gmail.com>
-References: <1386123634-5877-1-git-send-email-flihp@twobit.us>
-	<CADkTA4NCOjwCH524=zFx-wyw3E0A+02bnMLswE5HLnAjmHbfBA@mail.gmail.com>
-	<CABZSBQd54bgBVsfW+wq0QH6vcv6oW3OVcE6d2G24EA4U5HQpRw@mail.gmail.com>
-Date: Mon, 9 Dec 2013 12:01:02 -0500
-Message-ID: <CADkTA4O0-FYcn=REuwno2UFiDZX++yes892FEOWAsfo5boS9rA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [RFC] xen: Break volatiles out into separate package.
+	h=from:to:subject:date:message-id;
+	bh=srKagklOJcxEjeYn8sQ4CXdSFfblHfp2nEsrlFxS8XM=;
+	b=Pns+BX7C495HAagZZmmlLm5O56VhHoqJRKqyhGxtJGbMR0X/X9wAwKlxNqTcBUzW5t
+	W6X8i+kJ8NSve7/V0D8prO7HNBaam8WiQRo/k6llWRqEqxf5+Yp/i7E0GTpD1gy7pXAX
+	OiEIV4uzDz8AAqwQNMOuM33k+v7R/irfmx1/9Qp8THsAXGDpEd3XcYCH+l8GAXj/2b5g
+	OQkN1MRSYAjUirQWKC43m3kAVHuFEuGGquKLHMe5sdeRT/pmfPzGO4fggyRCtdROV9pw
+	EwS98WLUsZtsbU7ARTHMeb7gtpD19iSwrCXBgTdCmU+pu5gfN+FkDV/m9gbFHdiEnwgz
+	6WpA==
+X-Received: by 10.50.221.99 with SMTP id qd3mr16550695igc.49.1386613954647;
+	Mon, 09 Dec 2013 10:32:34 -0800 (PST)
+Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
+	by mx.google.com with ESMTPSA id ri5sm15155447igc.1.2013.12.09.10.32.32
+	for <meta-virtualization@yoctoproject.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Mon, 09 Dec 2013 10:32:33 -0800 (PST)
+From: Christopher Larson <kergoth@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Mon,  9 Dec 2013 11:32:27 -0700
+Message-Id: <1386613947-5686-1-git-send-email-kergoth@gmail.com>
+X-Mailer: git-send-email 1.8.3.4
+Subject: [PATCH] lxc: kill use of susv2 'head' args
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,119 +41,83 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 17:01:03 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 09 Dec 2013 18:32:36 -0000
 
-On Thu, Dec 5, 2013 at 5:20 PM, Chris Patterson <cjp256@gmail.com> wrote:
-> Looks good to me.
->
+Without enabling INCLUDE_SUSv2 in busybox, we need to use head's -n argument,
+rather than -#.
 
-So to confirm for everyone, no objections if this merges as-is ?
+Signed-off-by: Christopher Larson <kergoth@gmail.com>
+---
+ .../files/lxc-0.9.0-use-susv3-head-arguments.patch | 46 ++++++++++++++++++++++
+ recipes-containers/lxc/lxc_0.9.0.bb                |  1 +
+ 2 files changed, 47 insertions(+)
+ create mode 100644 recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
 
-Bruce
-
->
-> On Thu, Dec 5, 2013 at 7:09 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-> wrote:
->>
->> On Tue, Dec 3, 2013 at 9:20 PM, Philip Tricca <flihp@twobit.us> wrote:
->> > The Xen scripts for handling block and vif udev events depend on
->> > directories created by the Xen volatile directories. In a situation
->> > where the 'base' Xen package isn't installed (NDVM etc) these
->> > scripts fail silently. The most simple approach I could come up
->> > with is just breaking the Xen volatiles config out into it's own
->> > package and setting up the logical dependencies.
->> >
->> > Creating a new package for just a single file seems like overkill
->> > to me but it's the most straightforward thing I could come up with.
->>
->> This seems reasonable to me, there are plenty of other one file package
->> examples (in particular since the update-rc.d only works for one
->> initscript
->> per package), so that isn't all that out of the ordinary.
->>
->> So to my eye, this looks ok.
->>
->> Bruce
->>
->> >
->> > Regards,
->> > Philip
->> >
->> > Signed-off-by: Philip Tricca <flihp@twobit.us>
->> > ---
->> >  recipes-extended/xen/xen.inc |    8 +++++++-
->> >  1 file changed, 7 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
->> > index 9d43814..e31e996 100644
->> > --- a/recipes-extended/xen/xen.inc
->> > +++ b/recipes-extended/xen/xen.inc
->> > @@ -53,12 +53,14 @@ RDEPENDS_${PN}-base = "\
->> >  RDEPENDS_${PN}-scripts-block = "\
->> >      ${PN}-scripts-common \
->> >      ${PN}-udev \
->> > +    ${PN}-volatiles \
->> >      "
->> >
->> >  RDEPENDS_${PN}-scripts-network = "\
->> >      bridge-utils \
->> >      ${PN}-scripts-common \
->> >      ${PN}-udev \
->> > +    ${PN}-volatiles \
->> >      "
->> >
->> >  PACKAGES = "\
->> > @@ -106,6 +108,7 @@ PACKAGES = "\
->> >      ${PN}-scripts-network \
->> >      ${PN}-staticdev \
->> >      ${PN}-udev \
->> > +    ${PN}-volatiles \
->> >      ${PN}-xcutils \
->> >      ${PN}-xencommons \
->> >      ${PN}-xend \
->> > @@ -210,7 +213,6 @@ FILES_${PN}-hypervisor = "\
->> >      "
->> >
->> >  FILES_${PN}-base = "\
->> > -    ${sysconfdir}/default/volatiles/99_xen \
->> >      ${sysconfdir}/default/xencommons \
->> >      ${sysconfdir}/default/xendomains \
->> >      ${sysconfdir}/xen/auto \
->> > @@ -425,6 +427,10 @@ FILES_${PN}-udev = "\
->> >      ${sysconfdir}/udev/rules.d/xend.rules \
->> >      "
->> >
->> > +FILES_${PN}-volatiles = "\
->> > +    ${sysconfdir}/default/volatiles/99_xen \
->> > +    "
->> > +
->> >  FILES_${PN}-xcutils = "\
->> >      ${libdir}/xen/bin/lsevtchn \
->> >      ${libdir}/xen/bin/readnotes \
->> > --
->> > 1.7.10.4
->> >
->> > _______________________________________________
->> > meta-virtualization mailing list
->> > meta-virtualization@yoctoproject.org
->> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
-
-
-
+diff --git a/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch b/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
+new file mode 100644
+index 0000000..b9c516e
+--- /dev/null
++++ b/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
+@@ -0,0 +1,46 @@
++Upstream-status: Pending
++
++--- lxc-0.9.0.orig/src/lxc/lxc-checkconfig.in
+++++ lxc-0.9.0/src/lxc/lxc-checkconfig.in
++@@ -67,7 +67,7 @@ print_cgroups() {
++   awk '$1 !~ /#/ && $3 == mp { print $2; } ; END { exit(0); } '  "mp=$1" "$2" ;
++ }
++ 
++-CGROUP_MNT_PATH=`print_cgroups cgroup /proc/self/mounts | head -1`
+++CGROUP_MNT_PATH=`print_cgroups cgroup /proc/self/mounts | head -n 1`
++ KVER_MAJOR=$($GREP '^# Linux' $CONFIG | \
++     sed -r 's/.* ([0-9])\.[0-9]{1,2}\.[0-9]{1,3}.*/\1/')
++ if [ "$KVER_MAJOR" = "2" ]; then
++--- lxc-0.9.0.orig/src/lxc/lxc-netstat.in
+++++ lxc-0.9.0/src/lxc/lxc-netstat.in
++@@ -107,7 +107,7 @@ if [ ! -d "$parent_cgroup" ]; then
++     exit 1
++ fi
++ 
++-pid=$(head -1 $parent_cgroup/$name/tasks)
+++pid=$(head -n 1 $parent_cgroup/$name/tasks)
++ 
++ if [ -z "$pid" ]; then
++     echo "$(basename $0): no process found for '$name'" >&2
++--- lxc-0.9.0.orig/templates/lxc-alpine.in
+++++ lxc-0.9.0/templates/lxc-alpine.in
++@@ -99,7 +99,7 @@ EOF
++     if [ "$nics" -eq 1 ] && ! grep -q "^lxc.network.hwaddr" $path/config; then
++         # see http://sourceforge.net/tracker/?func=detail&aid=3411497&group_id=163076&atid=826303
++         hwaddr="fe:$(dd if=/dev/urandom bs=8 count=1 2>/dev/null |od -t x8 | \
++-                      head -1 |awk '{print $2}' | cut -c1-10 |\
+++                      head -n 1 |awk '{print $2}' | cut -c1-10 |\
++                       sed 's/\(..\)/\1:/g; s/.$//')"
++         echo "lxc.network.hwaddr = $hwaddr" >> $path/config
++     fi
++--- lxc-0.9.0.orig/templates/lxc-oracle.in
+++++ lxc-0.9.0/templates/lxc-oracle.in
++@@ -327,7 +327,7 @@ container_config_create()
++     # generate a hwaddr for the container with a high mac address
++     # see http://sourceforge.net/tracker/?func=detail&aid=3411497&group_id=163076&atid=826303
++     local hwaddr="fe:`dd if=/dev/urandom bs=8 count=1 2>/dev/null |od -t x8 | \
++-                      head -1 |awk '{print $2}' | cut -c1-10 |\
+++                      head -n 1 |awk '{print $2}' | cut -c1-10 |\
++                       sed 's/\(..\)/\1:/g; s/.$//'`"
++     mkdir -p $cfg_dir || die "unable to create config dir $cfg_dir"
++     cat <<EOF >> $cfg_dir/config || die "unable to create $cfg_dir/config"
+diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
+index 03d4589..be6f8ca 100644
+--- a/recipes-containers/lxc/lxc_0.9.0.bb
++++ b/recipes-containers/lxc/lxc_0.9.0.bb
+@@ -27,6 +27,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${PN}-${PV}.tar.gz \
+ 	file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
+ 	file://lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch \
+ 	file://lxc-0.9.0-setup_netdev-re-read-ifindex-in-LXC_NET_PHYS-case.patch \
++	file://lxc-0.9.0-use-susv3-head-arguments.patch \
+ 	"
+ SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
+ SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.3.4
+
 
