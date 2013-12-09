@@ -1,39 +1,37 @@
-Return-Path: <rob.dobson@citrix.com>
-Received: from SMTP02.CITRIX.COM (smtp02.citrix.com [66.165.176.63])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A6C51E006D2
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-pb0-f47.google.com (mail-pb0-f47.google.com
+	[209.85.160.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2848E007C3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Dec 2013 08:54:12 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="4.93,859,1378857600"; d="scan'208";a="80083857"
-Received: from accessns.citrite.net (HELO FTLPEX01CL02.citrite.net)
-	([10.9.154.239])
-	by FTLPIPO02.CITRIX.COM with ESMTP; 09 Dec 2013 16:54:10 +0000
-Received: from AMSPEX01CL03.citrite.net (10.69.46.34) by
-	FTLPEX01CL02.citrite.net (10.13.107.79) with Microsoft SMTP Server
-	(TLS) id 14.2.342.4; Mon, 9 Dec 2013 11:54:10 -0500
-Received: from AMSPEX01CL02.citrite.net ([169.254.7.18]) by
-	AMSPEX01CL03.citrite.net ([10.69.46.34]) with mapi id 14.02.0342.004;
-	Mon, 9 Dec 2013 17:54:08 +0100
-From: Rob Dobson <rob.dobson@citrix.com>
-To: Philip Tricca <flihp@twobit.us>
-Thread-Topic: [meta-virtualization] Error: kernel-module-xen-acpi-processor
-	not found in the base feeds
-Thread-Index: AQHO8ewHL3Dr25S33kGLF7stWJsnFJpGGcmAgAE8nACABMMsgA==
-Date: Mon, 9 Dec 2013 16:54:07 +0000
-Message-ID: <C40136690E471047B567224B6AD7213D1C0BEC@AMSPEX01CL02.citrite.net>
-References: <C40136690E471047B567224B6AD7213D1BED57@AMSPEX01CL02.citrite.net>
-	<CADkTA4NcFnN2E08G8xMxTs+tkKQh3_xnjXBxwFeL9W332L3Pdg@mail.gmail.com>
-	<CABZSBQd+CD3j-WBsUiMW5x53HUeYcXeDpKLxiLjyb7AVjaS+pQ@mail.gmail.com>
-	<52A20414.3080600@twobit.us>
-In-Reply-To: <52A20414.3080600@twobit.us>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.80.118.241]
+	Mon,  9 Dec 2013 09:01:03 -0800 (PST)
+Received: by mail-pb0-f47.google.com with SMTP id um1so5782842pbc.20
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 09 Dec 2013 09:01:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=CuVg2gZznFSTUFkvAM2bYN3GnHV57lXEtDXD3gNDj7E=;
+	b=ld1LQDoFJLjJtZ6K+Ox0JwS62d8OuI9ghQPqgAOQknrKeC6IZ1AJ/nfRRoS7ceF/Bz
+	GUydvBW/JdIm9evT54Z7kMZAW/e07ZfBMx/p0FDbxKQTRe3TNALVpJEx4n1iOFM+mm3Z
+	UV6kHvYQmfCQb/n+L6tmguWIdQ7lKAGSXayA9676pgf5YoZci5l1CuiNhue22TCubLJN
+	+4X0Z80WYS3Oo/P1+sbP2Co3lDwODwPyQ0hPQKuXXgf0MBaez96703DxO/mdoJZD0WzG
+	WNDstMVHSfY5EMol21gc4Kl/W1PB8cdMPOFyGaNd8ZpuoeQIQFobkIH5rPegqkEkuZkb
+	t2MQ==
 MIME-Version: 1.0
-X-DLP: MIA2
+X-Received: by 10.68.111.33 with SMTP id if1mr22264503pbb.31.1386608462446;
+	Mon, 09 Dec 2013 09:01:02 -0800 (PST)
+Received: by 10.68.12.133 with HTTP; Mon, 9 Dec 2013 09:01:02 -0800 (PST)
+In-Reply-To: <CABZSBQd54bgBVsfW+wq0QH6vcv6oW3OVcE6d2G24EA4U5HQpRw@mail.gmail.com>
+References: <1386123634-5877-1-git-send-email-flihp@twobit.us>
+	<CADkTA4NCOjwCH524=zFx-wyw3E0A+02bnMLswE5HLnAjmHbfBA@mail.gmail.com>
+	<CABZSBQd54bgBVsfW+wq0QH6vcv6oW3OVcE6d2G24EA4U5HQpRw@mail.gmail.com>
+Date: Mon, 9 Dec 2013 12:01:02 -0500
+Message-ID: <CADkTA4O0-FYcn=REuwno2UFiDZX++yes892FEOWAsfo5boS9rA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chris Patterson <cjp256@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: Error: kernel-module-xen-acpi-processor not found in the base feeds
+Subject: Re: [RFC] xen: Break volatiles out into separate package.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,194 +44,119 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 16:54:14 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 09 Dec 2013 17:01:03 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Thanks for your help - and thanks for the example Philip, that's very helpf=
-ul.
+On Thu, Dec 5, 2013 at 5:20 PM, Chris Patterson <cjp256@gmail.com> wrote:
+> Looks good to me.
+>
 
-Thanks,
+So to confirm for everyone, no objections if this merges as-is ?
 
-Rob
+Bruce
 
------Original Message-----
-From: Philip Tricca [mailto:flihp@twobit.us]=20
-Sent: 06 December 2013 17:06
-To: Rob Dobson
-Cc: Chris Patterson; meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] Error: kernel-module-xen-acpi-processor =
-not found in the base feeds
+>
+> On Thu, Dec 5, 2013 at 7:09 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+>>
+>> On Tue, Dec 3, 2013 at 9:20 PM, Philip Tricca <flihp@twobit.us> wrote:
+>> > The Xen scripts for handling block and vif udev events depend on
+>> > directories created by the Xen volatile directories. In a situation
+>> > where the 'base' Xen package isn't installed (NDVM etc) these
+>> > scripts fail silently. The most simple approach I could come up
+>> > with is just breaking the Xen volatiles config out into it's own
+>> > package and setting up the logical dependencies.
+>> >
+>> > Creating a new package for just a single file seems like overkill
+>> > to me but it's the most straightforward thing I could come up with.
+>>
+>> This seems reasonable to me, there are plenty of other one file package
+>> examples (in particular since the update-rc.d only works for one
+>> initscript
+>> per package), so that isn't all that out of the ordinary.
+>>
+>> So to my eye, this looks ok.
+>>
+>> Bruce
+>>
+>> >
+>> > Regards,
+>> > Philip
+>> >
+>> > Signed-off-by: Philip Tricca <flihp@twobit.us>
+>> > ---
+>> >  recipes-extended/xen/xen.inc |    8 +++++++-
+>> >  1 file changed, 7 insertions(+), 1 deletion(-)
+>> >
+>> > diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+>> > index 9d43814..e31e996 100644
+>> > --- a/recipes-extended/xen/xen.inc
+>> > +++ b/recipes-extended/xen/xen.inc
+>> > @@ -53,12 +53,14 @@ RDEPENDS_${PN}-base = "\
+>> >  RDEPENDS_${PN}-scripts-block = "\
+>> >      ${PN}-scripts-common \
+>> >      ${PN}-udev \
+>> > +    ${PN}-volatiles \
+>> >      "
+>> >
+>> >  RDEPENDS_${PN}-scripts-network = "\
+>> >      bridge-utils \
+>> >      ${PN}-scripts-common \
+>> >      ${PN}-udev \
+>> > +    ${PN}-volatiles \
+>> >      "
+>> >
+>> >  PACKAGES = "\
+>> > @@ -106,6 +108,7 @@ PACKAGES = "\
+>> >      ${PN}-scripts-network \
+>> >      ${PN}-staticdev \
+>> >      ${PN}-udev \
+>> > +    ${PN}-volatiles \
+>> >      ${PN}-xcutils \
+>> >      ${PN}-xencommons \
+>> >      ${PN}-xend \
+>> > @@ -210,7 +213,6 @@ FILES_${PN}-hypervisor = "\
+>> >      "
+>> >
+>> >  FILES_${PN}-base = "\
+>> > -    ${sysconfdir}/default/volatiles/99_xen \
+>> >      ${sysconfdir}/default/xencommons \
+>> >      ${sysconfdir}/default/xendomains \
+>> >      ${sysconfdir}/xen/auto \
+>> > @@ -425,6 +427,10 @@ FILES_${PN}-udev = "\
+>> >      ${sysconfdir}/udev/rules.d/xend.rules \
+>> >      "
+>> >
+>> > +FILES_${PN}-volatiles = "\
+>> > +    ${sysconfdir}/default/volatiles/99_xen \
+>> > +    "
+>> > +
+>> >  FILES_${PN}-xcutils = "\
+>> >      ${libdir}/xen/bin/lsevtchn \
+>> >      ${libdir}/xen/bin/readnotes \
+>> > --
+>> > 1.7.10.4
+>> >
+>> > _______________________________________________
+>> > meta-virtualization mailing list
+>> > meta-virtualization@yoctoproject.org
+>> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
 
-Hey Rob,
 
-Chris is spot on here. You need 'xen' in your DISTRO_FEATURES. Figured sinc=
-e you point out that you're new to OE you may want an example as well. I've=
- got some config / metadata up on github if you're interested.
-Basically I've set up a meta layer specifically for distro stuff that doesn=
-'t belong in meta-virt to deal with stuff like this. You can check out the =
-distro config here:
 
-https://github.com/flihp/meta-integral/blob/master/conf/distro/integral-ndv=
-m.conf
-
-There's a bunch of stuff there that you may not want (selinux) but there's =
-useful stuff too for Xen guests. Specifically I've had to sort out how to d=
-eal with the xen console and fstab for PV guests to get xenfs mounted etc. =
-Nothing too complicated but it may save you some time.
-
-Hope this helps,
-Philip
-
-On 12/05/2013 05:13 PM, Chris Patterson wrote:
-> You may need to add 'xen' to your DISTRO_FEATURES if you haven't=20
-> already.  It will enable the xen configuration bits for the kernel.
->=20
->=20
-> On Thu, Dec 5, 2013 at 6:57 PM, Bruce Ashfield=20
-> <bruce.ashfield@gmail.com <mailto:bruce.ashfield@gmail.com>> wrote:
->=20
->     On Thu, Dec 5, 2013 at 7:29 AM, Rob Dobson <rob.dobson@citrix.com
->     <mailto:rob.dobson@citrix.com>> wrote:
->     > Hi all,
->     >
->     > I'm new to OpenEmbedded and I've been trying to use the
->     meta-virtualization layer in order to build a small Xen guest VM.
->     >
->     > The target I am building for is 'xen-guest-image-minimal',
->      however I am hitting a failure complete 'do_rootfs':
->     >
->     >        Error: kernel-module-xen-acpi-processor not found in the
->     base feeds (genericx86 core2 i686 i586 i486 i386 x86 noarch any all).
->     >
->     > Can anyone see what I'm doing wrong here?
->=20
->     Still suffering with this problem ? Nothing jumps to mind as a
->     problem, since
->     it really looks like you haven't changed anything from the default
->     configuration.
->=20
->     The error implies that the kernel module wasn't built for the board
->     in question.
->=20
->     Can you check the kernel build directory and check the .config to
->     see if the
->     Xen options where enabled ?
->=20
->     Bruce
->=20
->     >
->     > Thanks very much.
->     >
->     > Rob
->     >
->     >>>>>>> BUILD CONFIG >>>>>>>
->     > Build Configuration:
->     > BB_VERSION        =3D "1.20.0"
->     > BUILD_SYS         =3D "x86_64-linux"
->     > NATIVELSBSTRING   =3D "Ubuntu-12.04"
->     > TARGET_SYS        =3D "i586-poky-linux"
->     > MACHINE           =3D "genericx86"
->     > DISTRO            =3D "poky"
->     > DISTRO_VERSION    =3D "1.5"
->     > TUNE_FEATURES     =3D "m32 core2"
->     > TARGET_FPU        =3D ""
->     > meta
->     > meta-yocto
->     > meta-yocto-bsp    =3D "master:64f0a0bc408d8e32d5e795aeb9fffee0539f5=
-e22"
->     > meta-oe
->     > meta-networking   =3D "master:b2c0f57f01ee8286c55259c8e0215a7c90169=
-9fc"
->     > meta-virtualization =3D
->     "master:61f1cd9c44f2bf1cb6b3605d2587baf9f439db9a"
->     >
->     >>>>>>> MACHINE >>>>>>>
->     > MACHINE ?=3D "genericx86"
->     >
->     >>>>>>> FAILURE MESSAGE >>>>>>>
->     > DEBUG: Executing python function rootfs_process_ignore
->     > DEBUG: Python function rootfs_process_ignore finished
->     > DEBUG: Executing python function rootfs_runtime_mapping
->     > DEBUG: Python function rootfs_runtime_mapping finished
->     > DEBUG: Executing shell function do_rootfs
->     > Note: configuring RPM platform settings
->     > Note: configuring RPM system provides
->     > Note: configuring RPM DB settings
->     > Note: configuring Smart settings
->     >
->     > Note: adding Smart channel genericx86 (55)
->     >
->     > Note: adding Smart channel core2 (50)
->     >
->     > Note: adding Smart channel i586 (40)
->     >
->     > Note: adding Smart channel all (10)
->     >
->     > Note: configuring RPM cross-install scriptlet_wrapper
->     >
->     > Updating cache...             =20
->     ######################################## [100%]
->     >
->     > Saving cache...
->     >
->     > Error: kernel-module-xen-acpi-processor not found in the base
->     feeds (genericx86 core2 i686 i586 i486 i386 x86 noarch any all).
->     > WARNING: exit code 1 from a shell command.
->     > ERROR: Function failed: do_rootfs (log file is located at
->     /local/files/yocto/poky-dora-10.0.0/build/tmp/work/genericx86-poky-li=
-nux/xen-guest-image-minimal/1.0-r0/temp/log.do_rootfs.21957)
->     >
->     >>>>>>> BBLAYERS >>>>>>
->     > # LAYER_CONF_VERSION is increased each time build/conf/bblayers.con=
-f
->     > # changes incompatibly
->     > LCONF_VERSION =3D "6"
->     >
->     > BBPATH =3D "${TOPDIR}"
->     > BBFILES ?=3D ""
->     >
->     > BBLAYERS ?=3D " \
->     >   /local/files/yocto/poky-dora-10.0.0/meta \
->     >   /local/files/yocto/poky-dora-10.0.0/meta-yocto \
->     >   /local/files/yocto/poky-dora-10.0.0/meta-yocto-bsp \
->     >   /local/files/yocto/poky-dora-10.0.0/meta-oe/meta-oe \
->     >   /local/files/yocto/poky-dora-10.0.0/meta-oe/meta-networking \
->     >   /local/files/yocto/poky-dora-10.0.0/meta-virtualization \
->     >   "
->     > BBLAYERS_NON_REMOVABLE ?=3D " \
->     >   /local/files/yocto/poky-dora-10.0.0/meta \
->     >   /local/files/yocto/poky-dora-10.0.0/meta-yocto \
->     >   "
->     >
->     >>>>>>> meta-oe/conf/layer.conf >>>>>>
->     > Updated priority:
->     >        BBFILE_PRIORITY_openembedded-layer =3D "4"
->     > _______________________________________________
->     > meta-virtualization mailing list
->     > meta-virtualization@yoctoproject.org
->     <mailto:meta-virtualization@yoctoproject.org>
->     > https://lists.yoctoproject.org/listinfo/meta-virtualization
->=20
->=20
->=20
->     --
->     "Thou shalt not follow the NULL pointer, for chaos and madness await
->     thee at its end"
->     _______________________________________________
->     meta-virtualization mailing list
->     meta-virtualization@yoctoproject.org
->     <mailto:meta-virtualization@yoctoproject.org>
->     https://lists.yoctoproject.org/listinfo/meta-virtualization
->=20
->=20
->=20
->=20
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->=20
-
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
