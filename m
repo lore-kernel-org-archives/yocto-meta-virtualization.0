@@ -1,34 +1,38 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-ie0-f177.google.com (mail-ie0-f177.google.com
-	[209.85.223.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6CA54E0070B
+Return-Path: <cjp256@gmail.com>
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 83FDCE006D2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Dec 2013 10:32:57 -0800 (PST)
-Received: by mail-ie0-f177.google.com with SMTP id tp5so6459743ieb.8
+	Mon,  9 Dec 2013 19:17:35 -0800 (PST)
+Received: by mail-la0-f42.google.com with SMTP id ec20so2254344lab.15
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Dec 2013 10:32:57 -0800 (PST)
+	Mon, 09 Dec 2013 19:17:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:subject:date:message-id;
-	bh=BEsdHEPXfc9gyXu+NN6DphDmc7rK+/z8q353WTZV/QU=;
-	b=IE5dWSqyEN0Z6Wgj5R4M8e2dIVM2Gdr2I52WQIMLVEU4JrQVQMLvOoQhndSdmtDb6O
-	COGCmCexieB8f0nqqM7WfpNyvXO+4tScwROzHRVFvy81OuJIdJUhuvzoqiati/QKTO9Q
-	MAc2cNLIUnPiaYQ2YR43DhzHyDhlbFmE0KNc4L4AEvGBTaOgEkjWnwDVkTP3eEl+V57K
-	g0dY51fpQBsszMkwjlEiBHu5Hbu6QO/cFir6PbojFPaCQP0P0W15lNNz6AH7vf1thZlT
-	xbSxN9a4EJSSV4x/rg/JtkSiE8gNYlG0wEOWoi1en5JE8RXS5uzq9ejP5aDO8U4sYSFn
-	cStA==
-X-Received: by 10.42.123.199 with SMTP id t7mr2877528icr.45.1386613977161;
-	Mon, 09 Dec 2013 10:32:57 -0800 (PST)
-Received: from amyr.alm.mentorg.com (nat-lmt.mentorg.com. [139.181.28.34])
-	by mx.google.com with ESMTPSA id l7sm15811854igx.2.2013.12.09.10.32.55
-	for <meta-virtualization@yoctoproject.org>
-	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 09 Dec 2013 10:32:56 -0800 (PST)
-From: Christopher Larson <kergoth@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Mon,  9 Dec 2013 11:32:51 -0700
-Message-Id: <1386613971-6107-1-git-send-email-kergoth@gmail.com>
-X-Mailer: git-send-email 1.8.3.4
-Subject: [PATCH v2] lxc: kill use of susv2 'head' args
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=7WNtDwgZexVnA+7NOs9fMlHZ/0BiRTeB/i1iS1EMUpU=;
+	b=RcN/sqSiJxP2oivo+QnAvjpZN87Gtw4ASx4q4rblVidcra8pXLIYd6gKo+BWx3hj7L
+	02S5YTrSfQYOiO4pzk92QNokr6EHB8PyySw3CFP+nruWGRjEXZC+KCxrnFCHbS+UCQmS
+	O73jzYgGhsPCOq4XIqt7UfX+txG4SNqNlL3sjiPCPO2sAmtv9p4zGks/7swWmu987GBf
+	H6XLY6jIQpdDWCu7uot7CsmZxtQb6/dJqxVum1MfE3TiFGo23jH3ibkd41rzzUFOzD9I
+	ga8mibA8yVL+4IqQhSMqA0C8zlc813W8dird/qLNtVP9MO5BXCw6gjro3nxtO/OdGL1m
+	Irig==
+MIME-Version: 1.0
+X-Received: by 10.152.21.74 with SMTP id t10mr3581503lae.65.1386645453985;
+	Mon, 09 Dec 2013 19:17:33 -0800 (PST)
+Received: by 10.114.181.41 with HTTP; Mon, 9 Dec 2013 19:17:33 -0800 (PST)
+In-Reply-To: <CADkTA4O0-FYcn=REuwno2UFiDZX++yes892FEOWAsfo5boS9rA@mail.gmail.com>
+References: <1386123634-5877-1-git-send-email-flihp@twobit.us>
+	<CADkTA4NCOjwCH524=zFx-wyw3E0A+02bnMLswE5HLnAjmHbfBA@mail.gmail.com>
+	<CABZSBQd54bgBVsfW+wq0QH6vcv6oW3OVcE6d2G24EA4U5HQpRw@mail.gmail.com>
+	<CADkTA4O0-FYcn=REuwno2UFiDZX++yes892FEOWAsfo5boS9rA@mail.gmail.com>
+Date: Mon, 9 Dec 2013 22:17:33 -0500
+Message-ID: <CABZSBQfqAnYkJf9jqtk_hdoj2QN-FrFDsPiVfdXpmTXTPOU49A@mail.gmail.com>
+From: Chris Patterson <cjp256@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [RFC] xen: Break volatiles out into separate package.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,83 +45,308 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2013 18:32:57 -0000
+X-List-Received-Date: Tue, 10 Dec 2013 03:17:40 -0000
+Content-Type: multipart/alternative; boundary=089e01494164b6db3304ed258df1
 
-Without enabling INCLUDE_SUSv2 in busybox, we need to use head's -n argument,
-rather than -#.
+--089e01494164b6db3304ed258df1
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Christopher Larson <kergoth@gmail.com>
----
- .../files/lxc-0.9.0-use-susv3-head-arguments.patch | 46 ++++++++++++++++++++++
- recipes-containers/lxc/lxc_0.9.0.bb                |  1 +
- 2 files changed, 47 insertions(+)
- create mode 100644 recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
+I applied the patch and had a couple notes:
 
-diff --git a/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch b/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
-new file mode 100644
-index 0000000..86ed7d2
---- /dev/null
-+++ b/recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
-@@ -0,0 +1,46 @@
-+Upstream-status: Pending
-+
-+--- lxc-0.9.0.orig/src/lxc/lxc-checkconfig.in
-++++ lxc-0.9.0/src/lxc/lxc-checkconfig.in
-+@@ -67,7 +67,7 @@ print_cgroups() {
-+   awk '$1 !~ /#/ && $3 == mp { print $2; } ; END { exit(0); } '  "mp=$1" "$2" ;
-+ }
-+
-+-CGROUP_MNT_PATH=`print_cgroups cgroup /proc/self/mounts | head -1`
-++CGROUP_MNT_PATH=`print_cgroups cgroup /proc/self/mounts | head -n 1`
-+ KVER_MAJOR=$($GREP '^# Linux' $CONFIG | \
-+     sed -r 's/.* ([0-9])\.[0-9]{1,2}\.[0-9]{1,3}.*/\1/')
-+ if [ "$KVER_MAJOR" = "2" ]; then
-+--- lxc-0.9.0.orig/src/lxc/lxc-netstat.in
-++++ lxc-0.9.0/src/lxc/lxc-netstat.in
-+@@ -107,7 +107,7 @@ if [ ! -d "$parent_cgroup" ]; then
-+     exit 1
-+ fi
-+
-+-pid=$(head -1 $parent_cgroup/$name/tasks)
-++pid=$(head -n 1 $parent_cgroup/$name/tasks)
-+
-+ if [ -z "$pid" ]; then
-+     echo "$(basename $0): no process found for '$name'" >&2
-+--- lxc-0.9.0.orig/templates/lxc-alpine.in
-++++ lxc-0.9.0/templates/lxc-alpine.in
-+@@ -99,7 +99,7 @@ EOF
-+     if [ "$nics" -eq 1 ] && ! grep -q "^lxc.network.hwaddr" $path/config; then
-+         # see http://sourceforge.net/tracker/?func=detail&aid=3411497&group_id=163076&atid=826303
-+         hwaddr="fe:$(dd if=/dev/urandom bs=8 count=1 2>/dev/null |od -t x8 | \
-+-                      head -1 |awk '{print $2}' | cut -c1-10 |\
-++                      head -n 1 |awk '{print $2}' | cut -c1-10 |\
-+                       sed 's/\(..\)/\1:/g; s/.$//')"
-+         echo "lxc.network.hwaddr = $hwaddr" >> $path/config
-+     fi
-+--- lxc-0.9.0.orig/templates/lxc-oracle.in
-++++ lxc-0.9.0/templates/lxc-oracle.in
-+@@ -327,7 +327,7 @@ container_config_create()
-+     # generate a hwaddr for the container with a high mac address
-+     # see http://sourceforge.net/tracker/?func=detail&aid=3411497&group_id=163076&atid=826303
-+     local hwaddr="fe:`dd if=/dev/urandom bs=8 count=1 2>/dev/null |od -t x8 | \
-+-                      head -1 |awk '{print $2}' | cut -c1-10 |\
-++                      head -n 1 |awk '{print $2}' | cut -c1-10 |\
-+                       sed 's/\(..\)/\1:/g; s/.$//'`"
-+     mkdir -p $cfg_dir || die "unable to create config dir $cfg_dir"
-+     cat <<EOF >> $cfg_dir/config || die "unable to create $cfg_dir/config"
-diff --git a/recipes-containers/lxc/lxc_0.9.0.bb b/recipes-containers/lxc/lxc_0.9.0.bb
-index 24e0249..4bbc1c1 100644
---- a/recipes-containers/lxc/lxc_0.9.0.bb
-+++ b/recipes-containers/lxc/lxc_0.9.0.bb
-@@ -27,6 +27,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
- 	file://lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch \
- 	file://lxc-0.9.0-setup_netdev-re-read-ifindex-in-LXC_NET_PHYS-case.patch \
-+	file://lxc-0.9.0-use-susv3-head-arguments.patch \
- 	"
- SRC_URI[md5sum] = "8552a4479090616f4bc04d8473765fc9"
- SRC_URI[sha256sum] = "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
--- 
-1.8.3.4
+- rename pkg_postinst_${PN}-base -> pkg_postinst_${PN}-volatiles.  As it
+stands, 'populate-volatile.sh update' supposedly only executes when one
+installs xen-base, but it is only there for handling the volatiles.  In my
+testing, I don't think this step is required (it doesn't look like it is
+generating the volatile.cache in the rootfs as I expected) - but it is the
+common practice from what I've seen.
+
+- volatiles indirectly rdepends xen-volatiles now via the script packages.
+I don't see a problem with this as the job is still getting done - but I
+wouldn't mind better defining and cleaning up xen-base a bit (or perhaps
+outright removing it and moving the bits into the appropriate places).
+
+Either way, I'm ok with merging. :)
+
+Cheers,
+-Chris
 
 
+On Mon, Dec 9, 2013 at 12:01 PM, Bruce Ashfield <bruce.ashfield@gmail.com>wrote:
+
+> On Thu, Dec 5, 2013 at 5:20 PM, Chris Patterson <cjp256@gmail.com> wrote:
+> > Looks good to me.
+> >
+>
+> So to confirm for everyone, no objections if this merges as-is ?
+>
+> Bruce
+>
+> >
+> > On Thu, Dec 5, 2013 at 7:09 PM, Bruce Ashfield <bruce.ashfield@gmail.com
+> >
+> > wrote:
+> >>
+> >> On Tue, Dec 3, 2013 at 9:20 PM, Philip Tricca <flihp@twobit.us> wrote:
+> >> > The Xen scripts for handling block and vif udev events depend on
+> >> > directories created by the Xen volatile directories. In a situation
+> >> > where the 'base' Xen package isn't installed (NDVM etc) these
+> >> > scripts fail silently. The most simple approach I could come up
+> >> > with is just breaking the Xen volatiles config out into it's own
+> >> > package and setting up the logical dependencies.
+> >> >
+> >> > Creating a new package for just a single file seems like overkill
+> >> > to me but it's the most straightforward thing I could come up with.
+> >>
+> >> This seems reasonable to me, there are plenty of other one file package
+> >> examples (in particular since the update-rc.d only works for one
+> >> initscript
+> >> per package), so that isn't all that out of the ordinary.
+> >>
+> >> So to my eye, this looks ok.
+> >>
+> >> Bruce
+> >>
+> >> >
+> >> > Regards,
+> >> > Philip
+> >> >
+> >> > Signed-off-by: Philip Tricca <flihp@twobit.us>
+> >> > ---
+> >> >  recipes-extended/xen/xen.inc |    8 +++++++-
+> >> >  1 file changed, 7 insertions(+), 1 deletion(-)
+> >> >
+> >> > diff --git a/recipes-extended/xen/xen.inc
+> b/recipes-extended/xen/xen.inc
+> >> > index 9d43814..e31e996 100644
+> >> > --- a/recipes-extended/xen/xen.inc
+> >> > +++ b/recipes-extended/xen/xen.inc
+> >> > @@ -53,12 +53,14 @@ RDEPENDS_${PN}-base = "\
+> >> >  RDEPENDS_${PN}-scripts-block = "\
+> >> >      ${PN}-scripts-common \
+> >> >      ${PN}-udev \
+> >> > +    ${PN}-volatiles \
+> >> >      "
+> >> >
+> >> >  RDEPENDS_${PN}-scripts-network = "\
+> >> >      bridge-utils \
+> >> >      ${PN}-scripts-common \
+> >> >      ${PN}-udev \
+> >> > +    ${PN}-volatiles \
+> >> >      "
+> >> >
+> >> >  PACKAGES = "\
+> >> > @@ -106,6 +108,7 @@ PACKAGES = "\
+> >> >      ${PN}-scripts-network \
+> >> >      ${PN}-staticdev \
+> >> >      ${PN}-udev \
+> >> > +    ${PN}-volatiles \
+> >> >      ${PN}-xcutils \
+> >> >      ${PN}-xencommons \
+> >> >      ${PN}-xend \
+> >> > @@ -210,7 +213,6 @@ FILES_${PN}-hypervisor = "\
+> >> >      "
+> >> >
+> >> >  FILES_${PN}-base = "\
+> >> > -    ${sysconfdir}/default/volatiles/99_xen \
+> >> >      ${sysconfdir}/default/xencommons \
+> >> >      ${sysconfdir}/default/xendomains \
+> >> >      ${sysconfdir}/xen/auto \
+> >> > @@ -425,6 +427,10 @@ FILES_${PN}-udev = "\
+> >> >      ${sysconfdir}/udev/rules.d/xend.rules \
+> >> >      "
+> >> >
+> >> > +FILES_${PN}-volatiles = "\
+> >> > +    ${sysconfdir}/default/volatiles/99_xen \
+> >> > +    "
+> >> > +
+> >> >  FILES_${PN}-xcutils = "\
+> >> >      ${libdir}/xen/bin/lsevtchn \
+> >> >      ${libdir}/xen/bin/readnotes \
+> >> > --
+> >> > 1.7.10.4
+> >> >
+> >> > _______________________________________________
+> >> > meta-virtualization mailing list
+> >> > meta-virtualization@yoctoproject.org
+> >> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >>
+> >>
+> >>
+> >> --
+> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> >> thee at its end"
+> >> _______________________________________________
+> >> meta-virtualization mailing list
+> >> meta-virtualization@yoctoproject.org
+> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >
+> >
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
+
+--089e01494164b6db3304ed258df1
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I applied the patch and had a couple notes:<div><br></div>=
+<div>- rename=A0pkg_postinst_${PN}-base=A0-&gt;=A0pkg_postinst_${PN}-volati=
+les. =A0As it stands, &#39;populate-volatile.sh update&#39; supposedly only=
+ executes when one installs xen-base, but it is only there for handling the=
+ volatiles. =A0In my testing, I don&#39;t think this step is required (it d=
+oesn&#39;t look like it is generating the volatile.cache in the rootfs as I=
+ expected) - but it is the common practice from what I&#39;ve seen.</div>
+<div><br></div><div>- volatiles indirectly rdepends xen-volatiles now via t=
+he script packages. I don&#39;t see a problem with this as the job is still=
+ getting done - but I wouldn&#39;t mind better defining and cleaning up xen=
+-base a bit (or perhaps outright removing it and moving the bits into the a=
+ppropriate places).</div>
+<div><br></div><div>Either way, I&#39;m ok with merging. :)</div><div><br><=
+/div><div>Cheers,</div><div>-Chris</div></div><div class=3D"gmail_extra"><b=
+r><br><div class=3D"gmail_quote">On Mon, Dec 9, 2013 at 12:01 PM, Bruce Ash=
+field <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" tar=
+get=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">On Thu, Dec 5, 2013 at 5:20 PM, Chris Patter=
+son &lt;<a href=3D"mailto:cjp256@gmail.com">cjp256@gmail.com</a>&gt; wrote:=
+<br>
+
+&gt; Looks good to me.<br>
+&gt;<br>
+<br>
+So to confirm for everyone, no objections if this merges as-is ?<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Bruce<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;<br>
+&gt; On Thu, Dec 5, 2013 at 7:09 PM, Bruce Ashfield &lt;<a href=3D"mailto:b=
+ruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Tue, Dec 3, 2013 at 9:20 PM, Philip Tricca &lt;<a href=3D"mailt=
+o:flihp@twobit.us">flihp@twobit.us</a>&gt; wrote:<br>
+&gt;&gt; &gt; The Xen scripts for handling block and vif udev events depend=
+ on<br>
+&gt;&gt; &gt; directories created by the Xen volatile directories. In a sit=
+uation<br>
+&gt;&gt; &gt; where the &#39;base&#39; Xen package isn&#39;t installed (NDV=
+M etc) these<br>
+&gt;&gt; &gt; scripts fail silently. The most simple approach I could come =
+up<br>
+&gt;&gt; &gt; with is just breaking the Xen volatiles config out into it&#3=
+9;s own<br>
+&gt;&gt; &gt; package and setting up the logical dependencies.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Creating a new package for just a single file seems like over=
+kill<br>
+&gt;&gt; &gt; to me but it&#39;s the most straightforward thing I could com=
+e up with.<br>
+&gt;&gt;<br>
+&gt;&gt; This seems reasonable to me, there are plenty of other one file pa=
+ckage<br>
+&gt;&gt; examples (in particular since the update-rc.d only works for one<b=
+r>
+&gt;&gt; initscript<br>
+&gt;&gt; per package), so that isn&#39;t all that out of the ordinary.<br>
+&gt;&gt;<br>
+&gt;&gt; So to my eye, this looks ok.<br>
+&gt;&gt;<br>
+&gt;&gt; Bruce<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Regards,<br>
+&gt;&gt; &gt; Philip<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Philip Tricca &lt;<a href=3D"mailto:flihp@twob=
+it.us">flihp@twobit.us</a>&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt; &gt; =A0recipes-extended/xen/xen.inc | =A0 =A08 +++++++-<br>
+&gt;&gt; &gt; =A01 file changed, 7 insertions(+), 1 deletion(-)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/=
+xen/xen.inc<br>
+&gt;&gt; &gt; index 9d43814..e31e996 100644<br>
+&gt;&gt; &gt; --- a/recipes-extended/xen/xen.inc<br>
+&gt;&gt; &gt; +++ b/recipes-extended/xen/xen.inc<br>
+&gt;&gt; &gt; @@ -53,12 +53,14 @@ RDEPENDS_${PN}-base =3D &quot;\<br>
+&gt;&gt; &gt; =A0RDEPENDS_${PN}-scripts-block =3D &quot;\<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-scripts-common \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-udev \<br>
+&gt;&gt; &gt; + =A0 =A0${PN}-volatiles \<br>
+&gt;&gt; &gt; =A0 =A0 =A0&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; =A0RDEPENDS_${PN}-scripts-network =3D &quot;\<br>
+&gt;&gt; &gt; =A0 =A0 =A0bridge-utils \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-scripts-common \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-udev \<br>
+&gt;&gt; &gt; + =A0 =A0${PN}-volatiles \<br>
+&gt;&gt; &gt; =A0 =A0 =A0&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; =A0PACKAGES =3D &quot;\<br>
+&gt;&gt; &gt; @@ -106,6 +108,7 @@ PACKAGES =3D &quot;\<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-scripts-network \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-staticdev \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-udev \<br>
+&gt;&gt; &gt; + =A0 =A0${PN}-volatiles \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-xcutils \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-xencommons \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${PN}-xend \<br>
+&gt;&gt; &gt; @@ -210,7 +213,6 @@ FILES_${PN}-hypervisor =3D &quot;\<br>
+&gt;&gt; &gt; =A0 =A0 =A0&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; =A0FILES_${PN}-base =3D &quot;\<br>
+&gt;&gt; &gt; - =A0 =A0${sysconfdir}/default/volatiles/99_xen \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${sysconfdir}/default/xencommons \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${sysconfdir}/default/xendomains \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${sysconfdir}/xen/auto \<br>
+&gt;&gt; &gt; @@ -425,6 +427,10 @@ FILES_${PN}-udev =3D &quot;\<br>
+&gt;&gt; &gt; =A0 =A0 =A0${sysconfdir}/udev/rules.d/xend.rules \<br>
+&gt;&gt; &gt; =A0 =A0 =A0&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; +FILES_${PN}-volatiles =3D &quot;\<br>
+&gt;&gt; &gt; + =A0 =A0${sysconfdir}/default/volatiles/99_xen \<br>
+&gt;&gt; &gt; + =A0 =A0&quot;<br>
+&gt;&gt; &gt; +<br>
+&gt;&gt; &gt; =A0FILES_${PN}-xcutils =3D &quot;\<br>
+&gt;&gt; &gt; =A0 =A0 =A0${libdir}/xen/bin/lsevtchn \<br>
+&gt;&gt; &gt; =A0 =A0 =A0${libdir}/xen/bin/readnotes \<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; 1.7.10.4<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; _______________________________________________<br>
+&gt;&gt; &gt; meta-virtualization mailing list<br>
+&gt;&gt; &gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-=
+virtualization@yoctoproject.org</a><br>
+&gt;&gt; &gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtu=
+alization" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-v=
+irtualization</a><br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madnes=
+s await<br>
+&gt;&gt; thee at its end&quot;<br>
+&gt;&gt; _______________________________________________<br>
+&gt;&gt; meta-virtualization mailing list<br>
+&gt;&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtu=
+alization@yoctoproject.org</a><br>
+&gt;&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualiza=
+tion" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtua=
+lization</a><br>
+&gt;<br>
+&gt;<br>
+<br>
+<br>
+<br>
+--<br>
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
+r>
+thee at its end&quot;<br>
+</div></div></blockquote></div><br></div>
+
+--089e01494164b6db3304ed258df1--
