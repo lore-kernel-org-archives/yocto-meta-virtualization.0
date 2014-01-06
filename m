@@ -1,26 +1,20 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5EDB2E007AD
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D51BE00529
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Dec 2013 13:38:49 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id rBILcmgR015758
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Dec 2013 13:38:48 -0800 (PST)
-Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Wed, 18 Dec 2013 13:38:48 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Wed, 18 Dec 2013 16:36:52 -0500
-Message-ID: <1387402612-16479-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
-MIME-Version: 1.0
-X-Originating-IP: [128.224.146.23]
-Cc: meta-virtualization@yoctoproject.org
-Subject: [PATCH] irqbalance: add missing inherit
+	Mon,  6 Jan 2014 06:10:20 -0800 (PST)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by orsmga102.jf.intel.com with ESMTP; 06 Jan 2014 06:06:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="4.95,613,1384329600"; d="scan'208";a="462306396"
+Received: from unknown (HELO helios.ger.corp.intel.com) ([10.252.122.119])
+	by orsmga002.jf.intel.com with ESMTP; 06 Jan 2014 06:10:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: meta-virtualization@yoctoproject.org
+Date: Mon,  6 Jan 2014 14:09:44 +0000
+Message-Id: <cover.1389006438.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 1.8.1.2
+Subject: [meta-openstack][PATCH 0/9] Python web recipe fixes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -33,45 +27,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2013 21:38:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 06 Jan 2014 14:10:21 -0000
 
-irqblance's configure script makes use of pkg-config so we need to inherit
-pkgconfig or else we may see an error like
+I made use of these recipes outside of the context of OpenStack; here
+are some patches for issues I noticed.
 
-./configure: line 12460: syntax error near unexpected token `GLIB,'
-./configure: line 12460: `  PKG_CHECK_MODULES(GLIB, glib-2.0 >= 2.28)'
 
-during configure.
+The following changes since commit 93d2434e1ae3d7d0fc568005c2ec82846e31cba0:
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
-Bruce,
+  Revert "horizon: update to 2013.2.2" (2013-12-20 11:25:59 -0500)
 
-One last one. This one was lurking so I didn't spot it along with
-the others. I am confident this will be the last commit related
-to pkgconfig.
+are available in the git repository at:
 
-Mark
+  git://git.yoctoproject.org/poky-contrib paule/mcs-python-fixes
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=paule/mcs-python-fixes
 
- recipes-extended/irqbalance/irqbalance.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Paul Eggleton (9):
+  python-flask: correct LICENSE
+  python-itsdangerous: correct LICENSE
+  python-jinja2: correct LICENSE
+  python-markupsafe: make LICENSE more accurate
+  python-werkzeug: correct LICENSE
+  python-itsdangerous: add missing python module dependencies
+  python-jinja2: add missing python module dependencies
+  python-markupsafe: add missing python module dependencies
+  python-werkzeug: add missing python module dependencies
 
-diff --git a/recipes-extended/irqbalance/irqbalance.inc b/recipes-extended/irqbalance/irqbalance.inc
-index 789cc9b..c20840d 100644
---- a/recipes-extended/irqbalance/irqbalance.inc
-+++ b/recipes-extended/irqbalance/irqbalance.inc
-@@ -18,8 +18,7 @@ DEPENDS = "glib-2.0"
- INITSCRIPT_NAME = "irqbalanced"
- INITSCRIPT_PARAMS = "defaults"
- 
--inherit autotools
--inherit update-rc.d
-+inherit autotools update-rc.d pkgconfig
- 
- EXTRA_OECONF = "--program-transform-name= \
- 	       "
+ meta-openstack/recipes-devtools/python/python-flask_0.10.1.bb      | 2 +-
+ meta-openstack/recipes-devtools/python/python-itsdangerous_0.23.bb | 5 ++++-
+ meta-openstack/recipes-devtools/python/python-jinja2_2.7.1.bb      | 4 +++-
+ meta-openstack/recipes-devtools/python/python-markupsafe_0.18.bb   | 5 ++++-
+ meta-openstack/recipes-devtools/python/python-werkzeug_0.9.4.bb    | 5 ++++-
+ 5 files changed, 16 insertions(+), 5 deletions(-)
+
 -- 
-1.8.3.2
+1.8.1.2
 
 
