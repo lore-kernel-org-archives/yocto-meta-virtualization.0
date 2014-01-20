@@ -1,32 +1,35 @@
-Return-Path: <flihp@twobit.us>
-Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CE318E00875
+Return-Path: <cjp256@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 34056E0087A
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 19 Jan 2014 17:57:58 -0800 (PST)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=localhost)
-	by smtp.twobit.us with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
-	(Exim 4.80) (envelope-from <flihp@twobit.us>)
-	id 1W546K-0002tX-W2; Mon, 20 Jan 2014 01:56:34 +0000
-Received: from flihp by localhost with local (Exim 4.80)
-	(envelope-from <flihp@longhaul.twobit.us>)
-	id 1W549H-0000SL-Nd; Mon, 20 Jan 2014 01:59:35 +0000
-From: Philip Tricca <flihp@twobit.us>
-To: meta-virtualization@yoctoproject.org
-Date: Mon, 20 Jan 2014 01:59:33 +0000
-Message-Id: <1390183175-1718-2-git-send-email-flihp@twobit.us>
-X-Mailer: git-send-email 1.7.10.4
+	Mon, 20 Jan 2014 09:11:48 -0800 (PST)
+Received: by mail-la0-f47.google.com with SMTP id el20so3256955lab.34
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 20 Jan 2014 09:11:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=7mvDx2NaOP1IEtT8HvQ9V23XfUsKifeFTL4FOBsiKtk=;
+	b=Ab/e82NjfHzrEXzvy16hNFq50NAOVldBiSpTxhVDcrdM92oiTHiKrvVMWlvOT09eZb
+	9f3eqY7sMYqNr2UQbSHS8axwRdBApCtJIcGvlWTBBH3udvbvRPmccnYLUcjG7AcZuATF
+	pxdCP6gWc2OMSMUf7+AdYGyPXAGee2ZVOLyJJa6o4ZrdFlD6bjDjT9GGjJg0oamFxmM8
+	gM+Cz60ARMPl7RXml9DzAuFIOW+v+YonuqTK2j7UjpnMQOQRCi4GGnp3KtEC6nWqT3eD
+	S8Xb7Z2xjuKhyQLDrRh+dABQh5KsN8ZkKIBBEMLPJ5h3xmoqvxcgoRxzbiALNUCUNyK+
+	R4CA==
+MIME-Version: 1.0
+X-Received: by 10.112.144.69 with SMTP id sk5mr2199892lbb.44.1390237907232;
+	Mon, 20 Jan 2014 09:11:47 -0800 (PST)
+Received: by 10.114.161.69 with HTTP; Mon, 20 Jan 2014 09:11:47 -0800 (PST)
 In-Reply-To: <1390183175-1718-1-git-send-email-flihp@twobit.us>
 References: <1390183175-1718-1-git-send-email-flihp@twobit.us>
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
-Subject: [PATCH 1/3] xen: Move supporting files into xencommons and xendomains packages.
+Date: Mon, 20 Jan 2014 12:11:47 -0500
+Message-ID: <CABZSBQeZqkuJg=CoJa+i1u=+vbJQbPj7Vs20Xo1noEm=0DgMrA@mail.gmail.com>
+From: Chris Patterson <cjp256@gmail.com>
+To: Philip Tricca <flihp@twobit.us>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 0/3] Xen recipe minor cleanup.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,56 +42,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2014 01:58:01 -0000
+X-List-Received-Date: Mon, 20 Jan 2014 17:11:51 -0000
+Content-Type: multipart/alternative; boundary=047d7b3432f49d2d9504f069fc7f
+
+--047d7b3432f49d2d9504f069fc7f
+Content-Type: text/plain; charset=ISO-8859-1
+
++1, series looks good to me.
 
 
-Signed-off-by: Philip Tricca <flihp@twobit.us>
----
- recipes-extended/xen/xen.inc |   17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+On Sun, Jan 19, 2014 at 8:59 PM, Philip Tricca <flihp@twobit.us> wrote:
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index e31e996..0b6ce93 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -213,11 +213,8 @@ FILES_${PN}-hypervisor = "\
-     "
- 
- FILES_${PN}-base = "\
--    ${sysconfdir}/default/xencommons \
--    ${sysconfdir}/default/xendomains \
-     ${sysconfdir}/xen/auto \
-     ${sysconfdir}/xen/cpupool \
--    ${sysconfdir}/sysconfig/xendomains \
-     ${localstatedir}/xen/dump \
-     "
- 
-@@ -521,12 +518,22 @@ FILES_${PN}-xm = "\
-     ${sbindir}/xm \
-     "
- 
--FILES_${PN}-xencommons += "${sysconfdir}/init.d/xencommons"
-+FILES_${PN}-xencommons += "\
-+    ${sysconfdir}/default/xencommons \
-+    ${sysconfdir}/init.d/xencommons \
-+    "
-+
- FILES_${PN}-xend += " \
-     ${sysconfdir}/init.d/xend \
-     ${sbindir}/xend \
-     "
--FILES_${PN}-xendomains += "${sysconfdir}/init.d/xendomains"
-+
-+FILES_${PN}-xendomains += "\
-+    ${sysconfdir}/default/xendomains \
-+    ${sysconfdir}/init.d/xendomains \
-+    ${sysconfdir}/sysconfig/xendomains \
-+    "
-+
- FILES_${PN}-xen-watchdog += "${sysconfdir}/init.d/xen-watchdog"
- 
- # configure init.d scripts
--- 
-1.7.10.4
+> Philip Tricca (3):
+>   xen: Move supporting files into xencommons and xendomains packages.
+>   xen: Cleanup watchdog FILES declaration.
+>   xen: Add RDEPENDS for xencommons.
+>
+>  recipes-extended/xen/xen.inc |   25 +++++++++++++++++++------
+>  1 file changed, 19 insertions(+), 6 deletions(-)
+>
+> --
+> 1.7.10.4
+>
+>
 
+--047d7b3432f49d2d9504f069fc7f
+Content-Type: text/html; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">+1, series looks good to me.<br></div><div class=3D"gmail_=
+extra"><br><br><div class=3D"gmail_quote">On Sun, Jan 19, 2014 at 8:59 PM, =
+Philip Tricca <span dir=3D"ltr">&lt;<a href=3D"mailto:flihp@twobit.us" targ=
+et=3D"_blank">flihp@twobit.us</a>&gt;</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex">Philip Tricca (3):<br>
+=A0 xen: Move supporting files into xencommons and xendomains packages.<br>
+=A0 xen: Cleanup watchdog FILES declaration.<br>
+=A0 xen: Add RDEPENDS for xencommons.<br>
+<br>
+=A0recipes-extended/xen/xen.inc | =A0 25 +++++++++++++++++++------<br>
+=A01 file changed, 19 insertions(+), 6 deletions(-)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+1.7.10.4<br>
+<br>
+</font></span></blockquote></div><br></div>
+
+--047d7b3432f49d2d9504f069fc7f--
