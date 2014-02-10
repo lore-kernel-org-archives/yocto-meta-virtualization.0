@@ -1,36 +1,24 @@
-Return-Path: <flihp@twobit.us>
-Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DB63CE00743
+Return-Path: <Mark.Asselstine@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9D8C6E006D5
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Feb 2014 06:08:50 -0800 (PST)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=[172.16.1.12]) by smtp.twobit.us with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <flihp@twobit.us>)
-	id 1WCrVm-0001lx-8v; Mon, 10 Feb 2014 14:07:02 +0000
-Message-ID: <52F8DD6B.4080000@twobit.us>
-Date: Mon, 10 Feb 2014 09:08:43 -0500
-From: Philip Tricca <flihp@twobit.us>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20131104 Icedove/17.0.10
+	Mon, 10 Feb 2014 06:54:36 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1AEsZkB024714
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Feb 2014 06:54:35 -0800 (PST)
+Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.2.347.0; Mon, 10 Feb 2014 06:54:34 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
+Date: Mon, 10 Feb 2014 09:55:28 -0500
+Message-ID: <1392044128-3756-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-To: Chris Patterson <cjp256@gmail.com>
-References: <1391996719-14419-1-git-send-email-flihp@twobit.us>
-	<1391996719-14419-2-git-send-email-flihp@twobit.us>
-	<CABZSBQe0p6X805ErdNkFS99Yuu-04vki+h50B5U00tcO4EV9hQ@mail.gmail.com>
-In-Reply-To: <CABZSBQe0p6X805ErdNkFS99Yuu-04vki+h50B5U00tcO4EV9hQ@mail.gmail.com>
-X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] xen: Replace python-setuptools-native with python-distutils-native to keep pace with upstream.
+X-Originating-IP: [128.224.146.23]
+Subject: [meta-openstack][PATCH v2] python-dogpile: core: update SRC_URI* sums
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,62 +31,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 14:08:51 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Feb 2014 14:54:38 -0000
+Content-Type: text/plain
 
-Because I screwed this up. Should DEPEND on python-distribute-native
-instead of RDEPEND on python-distutils-native:
+Attempting to build openstack-image-controller I was getting
 
-http://patchwork.openembedded.org/patch/66085/
+  'Fetcher failure ... /dogpile.core-0.4.1.tar.gz'. Checksum mismatch!
 
-I'll fix this up and send it out.
+Update the sums to match the expected values.
 
-Regards,
-Philip
+Unfortunately upstream repackaged the tarball after updating some of
+the python egg files without bumping the package version or providing
+any details about the updates. The new tarball matches the md5 listed
+on the upstream website (https://pypi.python.org/pypi/dogpile.core) so
+the update does not seem to be malicious.
 
-On 02/09/2014 09:59 PM, Chris Patterson wrote:
-> Hey Phil, why does xen need to RDEPENDS python-distutils-native?
-> 
-> Cheers,
-> -Chris
-> 
-> 
-> On Sun, Feb 9, 2014 at 8:45 PM, Philip Tricca <flihp@twobit.us
-> <mailto:flihp@twobit.us>> wrote:
-> 
->     python-native RPROVIDES python-distutils-native so this changes the
->     dependency around a bit.
-> 
->     Signed-off-by: Philip Tricca <flihp@twobit.us <mailto:flihp@twobit.us>>
-> 
->     diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
->     index e0d01a5..bd2fc74 100644
->     --- a/recipes-extended/xen/xen.inc
->     +++ b/recipes-extended/xen/xen.inc
->     @@ -17,10 +17,10 @@ PACKAGECONFIG ??= " \
->      PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
->      PACKAGECONFIG[xsm] =
->     "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
-> 
->     -DEPENDS = "util-linux util-linux-native file-native zlib ncurses
->     openssl bison-native flex-native gettext dev86-native iasl-native
->     pciutils bridge-utils iproute2 procps yajl pixman python
->     python-setuptools-native xz xz-native glib-2.0"
->     +DEPENDS = "util-linux util-linux-native file-native zlib ncurses
->     openssl bison-native flex-native gettext dev86-native iasl-native
->     pciutils bridge-utils iproute2 procps yajl pixman python xz
->     xz-native glib-2.0"
-> 
->      # inherit setuptools adds python to RDEPENDS, override it
->     -RDEPENDS_${PN} = ""
->     +RDEPENDS_${PN} = "python-distutils-native"
-> 
->      RDEPENDS_${PN}-base = "\
->          libgcc udev bash perl xz \
->     --
->     1.7.10.4
-> 
-> 
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+
+v2:
+ * Updated commit log with details about the tarball update
+
+ meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb b/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
+index 3079c39..0b33455 100644
+--- a/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
++++ b/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
+@@ -9,8 +9,8 @@ SRCNAME = "dogpile.core"
+ 
+ SRC_URI = "https://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "5f76cce023d505a5375b07e094c3260f"
+-SRC_URI[sha256sum] = "af2555702811d56846778d39451cf822b04b3f13347080c121a4977fefdfcbff"
++SRC_URI[md5sum] = "01cb19f52bba3e95c9b560f39341f045"
++SRC_URI[sha256sum] = "be652fb11a8eaf66f7e5c94d418d2eaa60a2fe81dae500f3743a863cc9dbed76"
+ 
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+-- 
+1.8.3.2
 
 
