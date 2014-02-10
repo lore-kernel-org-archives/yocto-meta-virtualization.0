@@ -1,36 +1,38 @@
-Return-Path: <cjp256@gmail.com>
-Received: from mail-lb0-f177.google.com (mail-lb0-f177.google.com
-	[209.85.217.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B5602E00524
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52453E00764
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  9 Feb 2014 18:59:12 -0800 (PST)
-Received: by mail-lb0-f177.google.com with SMTP id 10so2802846lbg.22
+	Sun,  9 Feb 2014 20:28:02 -0800 (PST)
+Received: by mail-la0-f47.google.com with SMTP id hr17so4321671lab.20
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 09 Feb 2014 18:59:10 -0800 (PST)
+	Sun, 09 Feb 2014 20:28:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=nqn/cmjGDjjHYkuxkMG6QXq8IdBu3jLvtrmgnh65mY8=;
-	b=Ip33lt+n7NoGeYdUhzbqAHnacO3fqStXYnMSid07/qDrkEAc9HH0rF9uFaKWwvs9X0
-	c3spl7zFGA53iERRdi97X/oRKDhBr5O/N7fPx2SI42uoIQn0eywzc1xrFAh41MO3tPjS
-	VZYVXMCUX66Nm0qal0itgUVB9tOX8mSN/8cxKl6RKU6a80ypBZIF5FtV14Q0CleepPv8
-	enwPxch/05HerK8YKKMZgLRFBaO8d+pkI7YyMfPrISNpxGpb+5VXpTlCGbEFjp/f+M99
-	NuUxQIHSM9lb6iQj7F0xvFKQxEUU2YrhvoF5bU/Ap8yEJouH9ag5IiiwwjK+qi3mmtxy
-	jh8A==
+	bh=Rz4Jz5fW/zYuo5urHrYOgmwaTl9M5ybbwnat2bpK8oE=;
+	b=rbJdi76Dy8fkEQ3K6yFx5AsmyAB4KsUGPrkpP7NQuuUWQCcG+ZZCfdf7+bKf1CVlNO
+	rjbUpgt+OssdAxZnJug43W+j1l3Cac2fUwIlEIbzGFPm7uMlE1kxwrmB4m1m/Bpb4du5
+	jdTiHTc2pQjtsLWF4fp9ZtCu5URnCGFj5NoUcRUwoSirARM+A64pob6M6h2G7Y7zOsdh
+	0xhU7gKIxU6NETJDwUKUKqEcHjgtXGkBmotVacmMLEwgm5ZlzUVJ3w3GLapGTVMs8+BG
+	W7ysWaIuVR79fY52SflOB3pIGaw0htkwAYD8Z4oQ3W9jS6HsZ6S70zwC6Ck4ydmX9VBF
+	+yBg==
 MIME-Version: 1.0
-X-Received: by 10.112.173.6 with SMTP id bg6mr18874431lbc.17.1392001150694;
-	Sun, 09 Feb 2014 18:59:10 -0800 (PST)
-Received: by 10.114.161.69 with HTTP; Sun, 9 Feb 2014 18:59:10 -0800 (PST)
-In-Reply-To: <1391996719-14419-2-git-send-email-flihp@twobit.us>
-References: <1391996719-14419-1-git-send-email-flihp@twobit.us>
-	<1391996719-14419-2-git-send-email-flihp@twobit.us>
-Date: Sun, 9 Feb 2014 21:59:10 -0500
-Message-ID: <CABZSBQe0p6X805ErdNkFS99Yuu-04vki+h50B5U00tcO4EV9hQ@mail.gmail.com>
-From: Chris Patterson <cjp256@gmail.com>
-To: Philip Tricca <flihp@twobit.us>
+X-Received: by 10.112.201.164 with SMTP id kb4mr3970813lbc.32.1392006480713;
+	Sun, 09 Feb 2014 20:28:00 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Sun, 9 Feb 2014 20:28:00 -0800 (PST)
+In-Reply-To: <CAPuovEJkvHc8dU6Tcs0XHacZp7wfD57_GA9p2XRTQ8+pFt5Dog@mail.gmail.com>
+References: <1391807253-1423-1-git-send-email-mark.asselstine@windriver.com>
+	<3180433.Kj0SDgXkey@peggleto-mobl5.ger.corp.intel.com>
+	<CADkTA4M0DxX8yMT8LYxOo+_QpPq0Pxb9PZoH=9ZFYX8ApjC8nA@mail.gmail.com>
+	<CAPuovEJkvHc8dU6Tcs0XHacZp7wfD57_GA9p2XRTQ8+pFt5Dog@mail.gmail.com>
+Date: Sun, 9 Feb 2014 23:28:00 -0500
+Message-ID: <CADkTA4MWuuDtYLKu-OPxGNGeYKpJihMWgS3JG3kfgKZM=MYx6g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] xen: Replace python-setuptools-native with python-distutils-native to keep pace with upstream.
+Subject: Re: [[meta-openstack][PATCH] python-dogpile: core: update SRC_URI* sums
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,101 +45,101 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 02:59:13 -0000
-Content-Type: multipart/alternative; boundary=001a11c239be1d3af404f2048652
-
---001a11c239be1d3af404f2048652
+X-List-Received-Date: Mon, 10 Feb 2014 04:28:05 -0000
 Content-Type: text/plain; charset=ISO-8859-1
 
-Hey Phil, why does xen need to RDEPENDS python-distutils-native?
-
-Cheers,
--Chris
-
-
-On Sun, Feb 9, 2014 at 8:45 PM, Philip Tricca <flihp@twobit.us> wrote:
-
-> python-native RPROVIDES python-distutils-native so this changes the
-> dependency around a bit.
+On Fri, Feb 7, 2014 at 10:25 PM, Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+> On Fri, Feb 7, 2014 at 5:23 PM, Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>> On Fri, Feb 7, 2014 at 5:03 PM, Paul Eggleton
+>> <paul.eggleton@linux.intel.com> wrote:
+>>> Hi Mark,
+>>>
+>>> On Friday 07 February 2014 16:07:33 Mark Asselstine wrote:
+>>>> Attempting to build openstack-image-controller I was getting
+>>>>
+>>>>   'Fetcher failure ... /dogpile.core-0.4.1.tar.gz'. Checksum mismatch!
+>>>>
+>>>> Update the sums to match the expected values.
+>>>
+>>> So one of three things happened here:
+>>>
+>>> 1) The checksum was never right in the first place
+>>>
+>>> 2) The file upstream has changed "legitimately" (annoying, but sometimes
+>>> happens)
+>>>
+>>> 3) The file upstream has been tampered with
+>>>
+>>> Are you sure it's not #3?
+>>
+>> Agreed, we should look closer. I can assure that when I added the support, the
+>> checksum matched what's in the recipe:
+>>
+>> [/home/bruc.../downloads]> ls -alF | grep -w dogpile.core-0.4.1.tar.gz
+>> -rw-r--r--  1 bruce users     99534 Jan 19  2013 dogpile.core-0.4.1.tar.gz
+>> -rw-r--r--  1 bruce users         0 Feb  5 16:56 dogpile.core-0.4.1.tar.gz.done
+>> [/home/bruc.../downloads]> md5sum dogpile.core-0.4.1.tar.gz
+>> 5f76cce023d505a5375b07e094c3260f  dogpile.core-0.4.1.tar.gz
+>>
+>> So it's either #2 or #3.
 >
-> Signed-off-by: Philip Tricca <flihp@twobit.us>
+> It's #2. I had looked quickly before sending the update but you are
+> right in that I should have looked more closely and included a note in
+> the commit log.
 >
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index e0d01a5..bd2fc74 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -17,10 +17,10 @@ PACKAGECONFIG ??= " \
->  PACKAGECONFIG[sdl] = "--enable-sdl,--disable-sdl,virtual/libsdl,"
->  PACKAGECONFIG[xsm] =
-> "--enable-xsmpolicy,--disable-xsmpolicy,checkpolicy-native,"
+> According to here:
+> https://pypi.python.org/pypi/dogpile.core
 >
-> -DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl
-> bison-native flex-native gettext dev86-native iasl-native pciutils
-> bridge-utils iproute2 procps yajl pixman python python-setuptools-native xz
-> xz-native glib-2.0"
-> +DEPENDS = "util-linux util-linux-native file-native zlib ncurses openssl
-> bison-native flex-native gettext dev86-native iasl-native pciutils
-> bridge-utils iproute2 procps yajl pixman python xz xz-native glib-2.0"
+> A new upload was provided on 2013-11-15. The md5sum matches what is
+> present on the page. Looking at the contents of the tarball there are
+> about 5 files modified on that date, all related to the Python Egg.
 >
->  # inherit setuptools adds python to RDEPENDS, override it
-> -RDEPENDS_${PN} = ""
-> +RDEPENDS_${PN} = "python-distutils-native"
+> What I haven't been able to find is any mailing list, bug report etc.
+> describing what/why the change. The files modified in the tarball are
+> not part of the projects source repo, so no commit logs or other
+> breadcrumbs. Do we need anything more definitive than the webpage?
 >
->  RDEPENDS_${PN}-base = "\
->      libgcc udev bash perl xz \
-> --
-> 1.7.10.4
->
->
+> Bruce, do you want an updated commit log with some of this information captured?
 
---001a11c239be1d3af404f2048652
-Content-Type: text/html; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+Yep, let's put this in the commit log to remove all doubt.
 
-<div dir=3D"ltr">Hey Phil, why does xen need to RDEPENDS python-distutils-n=
-ative?<div><br></div><div>Cheers,<br></div><div>-Chris</div></div><div clas=
-s=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Sun, Feb 9, 2014 at=
- 8:45 PM, Philip Tricca <span dir=3D"ltr">&lt;<a href=3D"mailto:flihp@twobi=
-t.us" target=3D"_blank">flihp@twobit.us</a>&gt;</span> wrote:<br>
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">python-native RPROVIDES python-distutils-nat=
-ive so this changes the<br>
-dependency around a bit.<br>
-<br>
-Signed-off-by: Philip Tricca &lt;<a href=3D"mailto:flihp@twobit.us">flihp@t=
-wobit.us</a>&gt;<br>
-<br>
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc<br=
+Bruce
+
 >
-index e0d01a5..bd2fc74 100644<br>
---- a/recipes-extended/xen/xen.inc<br>
-+++ b/recipes-extended/xen/xen.inc<br>
-@@ -17,10 +17,10 @@ PACKAGECONFIG ??=3D &quot; \<br>
-=A0PACKAGECONFIG[sdl] =3D &quot;--enable-sdl,--disable-sdl,virtual/libsdl,&=
-quot;<br>
-=A0PACKAGECONFIG[xsm] =3D &quot;--enable-xsmpolicy,--disable-xsmpolicy,chec=
-kpolicy-native,&quot;<br>
-<br>
--DEPENDS =3D &quot;util-linux util-linux-native file-native zlib ncurses op=
-enssl bison-native flex-native gettext dev86-native iasl-native pciutils br=
-idge-utils iproute2 procps yajl pixman python python-setuptools-native xz x=
-z-native glib-2.0&quot;<br>
+> Mark
+>
+>
+>
+>>
+>> Bruce
+>>
+>>>
+>>> Cheers,
+>>> Paul
+>>>
+>>> --
+>>>
+>>> Paul Eggleton
+>>> Intel Open Source Technology Centre
+>>> _______________________________________________
+>>> meta-virtualization mailing list
+>>> meta-virtualization@yoctoproject.org
+>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-+DEPENDS =3D &quot;util-linux util-linux-native file-native zlib ncurses op=
-enssl bison-native flex-native gettext dev86-native iasl-native pciutils br=
-idge-utils iproute2 procps yajl pixman python xz xz-native glib-2.0&quot;<b=
-r>
 
-<br>
-=A0# inherit setuptools adds python to RDEPENDS, override it<br>
--RDEPENDS_${PN} =3D &quot;&quot;<br>
-+RDEPENDS_${PN} =3D &quot;python-distutils-native&quot;<br>
-<br>
-=A0RDEPENDS_${PN}-base =3D &quot;\<br>
-=A0 =A0 =A0libgcc udev bash perl xz \<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.7.10.4<br>
-<br>
-</font></span></blockquote></div><br></div>
 
---001a11c239be1d3af404f2048652--
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
