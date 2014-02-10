@@ -1,24 +1,36 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9D8C6E006D5
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
+	[209.85.217.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CC0C4E0059A
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Feb 2014 06:54:36 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s1AEsZkB024714
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 10 Feb 2014 06:54:35 -0800 (PST)
-Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Mon, 10 Feb 2014 06:54:34 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Mon, 10 Feb 2014 09:55:28 -0500
-Message-ID: <1392044128-3756-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
+	Mon, 10 Feb 2014 08:23:05 -0800 (PST)
+Received: by mail-lb0-f181.google.com with SMTP id z11so3883714lbi.26
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 10 Feb 2014 08:23:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type:content-transfer-encoding;
+	bh=K+vDMWFMyMMf+eRJ/DYPmdhv1DGfRQLYZ4o4QGcuwCw=;
+	b=HyLHueVtywZEfVoox81by+qy8YmR/hzfGk7hwOLUl9ZsMJK/nKC+QxVlxsOwKMMpd7
+	snWb3mop2+iLAAYGcG+u27ZkwleVloQ1Tx6LRKG4bdTlsDnF+3KxjZSCniCF/j31Iivz
+	jqxnEzj2BwHBQJmiseqt/PtEliqOxpBprStq++2D4uAkcR7xYQWxbvUHb9OlFH3hKnJL
+	i4Lf2yWT/QZQ/7rb0IMULGDWYMmv1xh2btex85s4aIbrZAuLugT/n1bp0bbC47gyQHZI
+	9thiQe5WWzwUZQbrydf9PduoYbG3tFbgOWXLyzzcF03O99WbMuQ/0QbFoUHUTbvR8D9E
+	IrpQ==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.146.23]
-Subject: [meta-openstack][PATCH v2] python-dogpile: core: update SRC_URI* sums
+X-Received: by 10.112.56.237 with SMTP id d13mr21746882lbq.2.1392049384558;
+	Mon, 10 Feb 2014 08:23:04 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Mon, 10 Feb 2014 08:23:04 -0800 (PST)
+In-Reply-To: <52F8DCE4.8050404@enea.com>
+References: <1392037746-27912-1-git-send-email-josep.puigdemont@enea.com>
+	<52F8DCE4.8050404@enea.com>
+Date: Mon, 10 Feb 2014 11:23:04 -0500
+Message-ID: <CADkTA4Mj0VceoZGxYFR7UN7Jx9EkGccw_Y_-OvaYDOOEp-tXKQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: =?ISO-8859-1?Q?David_Nystr=F6m?= <david.nystrom@enea.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] lxc: always strdup lxc.rootfs.mount
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -31,46 +43,114 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2014 14:54:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 10 Feb 2014 16:23:09 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-Attempting to build openstack-image-controller I was getting
+On Mon, Feb 10, 2014 at 9:06 AM, David Nystr=F6m <david.nystrom@enea.com> w=
+rote:
+> On 2014-02-10 14:09, Josep Puigdemont wrote:
+>>
+>> The reason is that the generic code which handles reading lxc.rootfs.mou=
+nt
+>> always frees the old value if not NULL. So without this setting
+>> lxc.rootfs.mount =3D /mnt causes segfault.
+>>
+>> This is a backport for lxc-0.9.0 (dora) of the same fix found in
+>> upstream's master, see commits 54c30e29 and 53f3f048.
+>>
+>> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
+>> ---
+>>   .../lxc-0.9.0-always-strdup-rootfs-mount.patch     |   27
+>> ++++++++++++++++++++
+>>   recipes-containers/lxc/lxc_0.9.0.bb                |    1 +
+>>   2 files changed, 28 insertions(+)
+>>   create mode 100644
+>> recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.patch
+>>
+>> diff --git
+>> a/recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.patc=
+h
+>> b/recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.patc=
+h
+>> new file mode 100644
+>> index 0000000..3e299d2
+>> --- /dev/null
+>> +++
+>> b/recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.patc=
+h
+>> @@ -0,0 +1,27 @@
+>> +diff --git a/src/lxc/conf.c b/src/lxc/conf.c
+>> +index 6b3f318..2f8b9e6 100644
+>> +--- a/src/lxc/conf.c
+>> ++++ b/src/lxc/conf.c
+>> +@@ -2072,7 +2072,12 @@ struct lxc_conf *lxc_conf_init(void)
+>> +       new->console.slave =3D -1;
+>> +       new->console.name[0] =3D '\0';
+>> +       new->maincmd_fd =3D -1;
+>> +-      new->rootfs.mount =3D default_rootfs_mount;
+>> ++      new->rootfs.mount =3D strdup(default_rootfs_mount);
+>> ++      if (!new->rootfs.mount) {
+>> ++              ERROR("lxc_conf_init : %m");
+>> ++              free(new);
+>> ++              return NULL;
+>> ++      }
+>> +       new->kmsg =3D 1;
+>> +       lxc_list_init(&new->cgroup);
+>> +       lxc_list_init(&new->network);
+>> +@@ -3084,7 +3089,7 @@ void lxc_conf_free(struct lxc_conf *conf)
+>> +               return;
+>> +       if (conf->console.path)
+>> +               free(conf->console.path);
+>> +-      if (conf->rootfs.mount !=3D default_rootfs_mount)
+>> ++      if (conf->rootfs.mount)
+>> +               free(conf->rootfs.mount);
+>> +       if (conf->rootfs.path)
+>> +               free(conf->rootfs.path);
+>> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb
+>> b/recipes-containers/lxc/lxc_0.9.0.bb
+>> index 8f7736b..fceefff 100644
+>> --- a/recipes-containers/lxc/lxc_0.9.0.bb
+>> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
+>> @@ -26,6 +26,7 @@ SRC_URI =3D
+>> "http://linuxcontainers.org/downloads/${PN}-${PV}.tar.gz \
+>>
+>> file://lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.=
+patch
+>> \
+>>       file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
+>>       file://lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch \
+>> +    file://lxc-0.9.0-always-strdup-rootfs-mount.patch \
+>>         "
+>>   SRC_URI[md5sum] =3D "8552a4479090616f4bc04d8473765fc9"
+>>   SRC_URI[sha256sum] =3D
+>> "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
+>>
+>
+> Reviewed-by: David Nystr=F6m <david.nystrom@enea.com>
+>
+> Minor nitpicking, please add the branch name in the subject as:
+> [dora][PATCH]blah for future patches, unless its for master.
 
-  'Fetcher failure ... /dogpile.core-0.4.1.tar.gz'. Checksum mismatch!
+Agreed. But in this case, don't we also want this on master ? The dora and
+master version of lxc are the same, so doesn't this fix apply to both branc=
+hes ?
 
-Update the sums to match the expected values.
+Bruce
 
-Unfortunately upstream repackaged the tarball after updating some of
-the python egg files without bumping the package version or providing
-any details about the updates. The new tarball matches the md5 listed
-on the upstream website (https://pypi.python.org/pypi/dogpile.core) so
-the update does not seem to be malicious.
+>
+> Br,
+> David
+>
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
 
-v2:
- * Updated commit log with details about the tarball update
 
- meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb b/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
-index 3079c39..0b33455 100644
---- a/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
-@@ -9,8 +9,8 @@ SRCNAME = "dogpile.core"
- 
- SRC_URI = "https://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "5f76cce023d505a5375b07e094c3260f"
--SRC_URI[sha256sum] = "af2555702811d56846778d39451cf822b04b3f13347080c121a4977fefdfcbff"
-+SRC_URI[md5sum] = "01cb19f52bba3e95c9b560f39341f045"
-+SRC_URI[sha256sum] = "be652fb11a8eaf66f7e5c94d418d2eaa60a2fe81dae500f3743a863cc9dbed76"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
--- 
-1.8.3.2
-
+--=20
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
