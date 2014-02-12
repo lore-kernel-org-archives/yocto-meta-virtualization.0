@@ -1,38 +1,30 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28729E00799
+Return-Path: <flihp@twobit.us>
+Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3CAA6E006B6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Feb 2014 12:48:23 -0800 (PST)
-Received: by mail-la0-f42.google.com with SMTP id hr13so6446189lab.1
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Feb 2014 12:48:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=ErK5q2LaN+pzCUmFUjJVOWvjCez28c/wjGP34Gv/dyE=;
-	b=pSpdbs4ZM5N6vizG7vF14Rrhe9zYBTN3gJfMuy3vSh+OiSLrAEJL1dLMq6MfHPYjeY
-	TxxTAdOeUmEajN2cJ1Ky/b8iRsG0iaOubxu/rYY5g6d5jsXSfXJfW0lnIgHpr4SPouRJ
-	3d6Yo2CMFBFydEf6rArob1G7HEJOLa+s8vXOITQAwG14qRCU2imms+X9PLq+Usd/Dh9X
-	LV3iJv/Uxy3DsehMgB0CsWNHc70Jt0tq/lHyxmEvZai654sGKZsMFGuTrotAFNLJlwq+
-	iemkuFMv4PRaluYJEWTN+dbh7RHfcboE8VjVFknNSDGfl708z5M/U0tqOszxgf7tkVcx
-	BQMg==
-MIME-Version: 1.0
-X-Received: by 10.152.26.2 with SMTP id h2mr85645lag.75.1392151702385; Tue, 11
-	Feb 2014 12:48:22 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Tue, 11 Feb 2014 12:48:22 -0800 (PST)
-In-Reply-To: <CAAKB1h2NREQGDbMNGN_awsYMQe0qeKzJ5SCYie0QNFmt9EKnbg@mail.gmail.com>
-References: <1392037746-27912-1-git-send-email-josep.puigdemont@enea.com>
-	<52F8DCE4.8050404@enea.com>
-	<CADkTA4Mj0VceoZGxYFR7UN7Jx9EkGccw_Y_-OvaYDOOEp-tXKQ@mail.gmail.com>
-	<CAAKB1h2NREQGDbMNGN_awsYMQe0qeKzJ5SCYie0QNFmt9EKnbg@mail.gmail.com>
-Date: Tue, 11 Feb 2014 15:48:22 -0500
-Message-ID: <CADkTA4OxZmdBr8+VrJ2cpn7BJDgad0jGqWi1NEY--25AjVMKRg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: David Nystrom <david.c.nystrom@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: always strdup lxc.rootfs.mount
+	Tue, 11 Feb 2014 18:45:10 -0800 (PST)
+Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
+	helo=localhost)
+	by smtp.twobit.us with esmtpsa (TLS1.2:DHE_RSA_AES_128_CBC_SHA1:128)
+	(Exim 4.80) (envelope-from <flihp@twobit.us>)
+	id 1WDPnE-0002v1-IK; Wed, 12 Feb 2014 02:43:22 +0000
+Received: from flihp by localhost with local (Exim 4.80)
+	(envelope-from <flihp@longhaul.twobit.us>)
+	id 1WDPox-0005Vy-Ny; Wed, 12 Feb 2014 02:45:07 +0000
+From: Philip Tricca <flihp@twobit.us>
+To: meta-virtualization@yoctoproject.org
+Date: Wed, 12 Feb 2014 02:45:04 +0000
+Message-Id: <1392173107-21170-1-git-send-email-flihp@twobit.us>
+X-Mailer: git-send-email 1.7.10.4
+X-SA-Exim-Connect-IP: 76.24.20.220
+X-SA-Exim-Mail-From: flihp@twobit.us
+X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
+	autolearn=ham version=3.3.2
+X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
+X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
+Subject: [RFC 0/3] xen: Break Xen kernel config into two parts: dom0 / guest.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,152 +37,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2014 20:48:24 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 12 Feb 2014 02:45:11 -0000
 
-On Mon, Feb 10, 2014 at 2:10 PM, David Nystrom
-<david.c.nystrom@gmail.com> wrote:
->
-> On 10 Feb 2014 17:23, "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
->>
->> On Mon, Feb 10, 2014 at 9:06 AM, David Nystr=F6m <david.nystrom@enea.com=
->
->> wrote:
->> > On 2014-02-10 14:09, Josep Puigdemont wrote:
->> >>
->> >> The reason is that the generic code which handles reading
->> >> lxc.rootfs.mount
->> >> always frees the old value if not NULL. So without this setting
->> >> lxc.rootfs.mount =3D /mnt causes segfault.
->> >>
->> >> This is a backport for lxc-0.9.0 (dora) of the same fix found in
->> >> upstream's master, see commits 54c30e29 and 53f3f048.
->> >>
->> >> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
->> >> ---
->> >>   .../lxc-0.9.0-always-strdup-rootfs-mount.patch     |   27
->> >> ++++++++++++++++++++
->> >>   recipes-containers/lxc/lxc_0.9.0.bb                |    1 +
->> >>   2 files changed, 28 insertions(+)
->> >>   create mode 100644
->> >> recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.pat=
-ch
->> >>
->> >> diff --git
->> >>
->> >> a/recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.p=
-atch
->> >>
->> >> b/recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.p=
-atch
->> >> new file mode 100644
->> >> index 0000000..3e299d2
->> >> --- /dev/null
->> >> +++
->> >>
->> >> b/recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.p=
-atch
->> >> @@ -0,0 +1,27 @@
->> >> +diff --git a/src/lxc/conf.c b/src/lxc/conf.c
->> >> +index 6b3f318..2f8b9e6 100644
->> >> +--- a/src/lxc/conf.c
->> >> ++++ b/src/lxc/conf.c
->> >> +@@ -2072,7 +2072,12 @@ struct lxc_conf *lxc_conf_init(void)
->> >> +       new->console.slave =3D -1;
->> >> +       new->console.name[0] =3D '\0';
->> >> +       new->maincmd_fd =3D -1;
->> >> +-      new->rootfs.mount =3D default_rootfs_mount;
->> >> ++      new->rootfs.mount =3D strdup(default_rootfs_mount);
->> >> ++      if (!new->rootfs.mount) {
->> >> ++              ERROR("lxc_conf_init : %m");
->> >> ++              free(new);
->> >> ++              return NULL;
->> >> ++      }
->> >> +       new->kmsg =3D 1;
->> >> +       lxc_list_init(&new->cgroup);
->> >> +       lxc_list_init(&new->network);
->> >> +@@ -3084,7 +3089,7 @@ void lxc_conf_free(struct lxc_conf *conf)
->> >> +               return;
->> >> +       if (conf->console.path)
->> >> +               free(conf->console.path);
->> >> +-      if (conf->rootfs.mount !=3D default_rootfs_mount)
->> >> ++      if (conf->rootfs.mount)
->> >> +               free(conf->rootfs.mount);
->> >> +       if (conf->rootfs.path)
->> >> +               free(conf->rootfs.path);
->> >> diff --git a/recipes-containers/lxc/lxc_0.9.0.bb
->> >> b/recipes-containers/lxc/lxc_0.9.0.bb
->> >> index 8f7736b..fceefff 100644
->> >> --- a/recipes-containers/lxc/lxc_0.9.0.bb
->> >> +++ b/recipes-containers/lxc/lxc_0.9.0.bb
->> >> @@ -26,6 +26,7 @@ SRC_URI =3D
->> >> "http://linuxcontainers.org/downloads/${PN}-${PV}.tar.gz \
->> >>
->> >>
->> >> file://lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hos=
-ts.patch
->> >> \
->> >>       file://lxc-0.9.0-check-when-bind-mounting-libdirs.patch \
->> >>       file://lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch \
->> >> +    file://lxc-0.9.0-always-strdup-rootfs-mount.patch \
->> >>         "
->> >>   SRC_URI[md5sum] =3D "8552a4479090616f4bc04d8473765fc9"
->> >>   SRC_URI[sha256sum] =3D
->> >> "1e1767eae6cc5fbf892c0e193d25da420ba19f2db203716c38f7cdea3b654120"
->> >>
->> >
->> > Reviewed-by: David Nystr=F6m <david.nystrom@enea.com>
->> >
->> > Minor nitpicking, please add the branch name in the subject as:
->> > [dora][PATCH]blah for future patches, unless its for master.
->>
->> Agreed. But in this case, don't we also want this on master ? The dora a=
-nd
->> master version of lxc are the same, so doesn't this fix apply to both
->> branches ?
->
-> Yes, you are correct.
-> Misunderstanding on my behalf.
+Kernel configs for Xen VMs are often very different depending on their
+purpose. Dom0 and guest VMs are the most obvious lines to divide the
+config space on. This small patch set is an RFC to to get opinions on:
+1) whether this is desired
+2) whether or not the proposed approach is acceptable
 
-I wouldn't say that, since the patch was definitely intended for dora (with
-it's context), but the reject was trivial to resolve. I did a build
-test on master
-and all looks fine.
+I've broken the 'xen' distro feature up into two parts, one for dom0
+the other for guest VMs. In the first patch the configs are functionally
+equivalent but some structure is presented for splitting the two up
+where desired in the future. The second patch splits the Xen PCI device
+passthrough config options between those that make sense for dom0 and
+those that make sense fo guest VMs.
 
-So I went ahead and pushed this to dora and master.
+Let me know what you all think.
 
-Bruce
+Regards,
+Philip
 
->
-> Br,
-> David
->
->> Bruce
->>
->> >
->> > Br,
->> > David
->> >
->> >
->> > _______________________________________________
->> > meta-virtualization mailing list
->> > meta-virtualization@yoctoproject.org
->> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
+Philip Tricca (3):
+  xen: Create structure necessary to break Xen kernel config into dom0
+    / guest.
+  xen: Split Xen PCI kernel config into dom0 / guest VM.
+  xen: Remove pciback kernel module from xen-image-minimal.
 
+ recipes-extended/images/xen-image-minimal.bb    |    1 -
+ recipes-kernel/linux/linux-yocto/xen-common.cfg |   51 +++++++++++++++++++++
+ recipes-kernel/linux/linux-yocto/xen-dom0.cfg   |    2 +
+ recipes-kernel/linux/linux-yocto/xen-dom0.scc   |    5 +++
+ recipes-kernel/linux/linux-yocto/xen-guest.cfg  |    2 +
+ recipes-kernel/linux/linux-yocto/xen-guest.scc  |    5 +++
+ recipes-kernel/linux/linux-yocto/xen.cfg        |   54 -----------------------
+ recipes-kernel/linux/linux-yocto/xen.scc        |    4 --
+ recipes-kernel/linux/linux-yocto_3.10.bbappend  |    6 ++-
+ 9 files changed, 70 insertions(+), 60 deletions(-)
+ create mode 100644 recipes-kernel/linux/linux-yocto/xen-common.cfg
+ create mode 100644 recipes-kernel/linux/linux-yocto/xen-dom0.cfg
+ create mode 100644 recipes-kernel/linux/linux-yocto/xen-dom0.scc
+ create mode 100644 recipes-kernel/linux/linux-yocto/xen-guest.cfg
+ create mode 100644 recipes-kernel/linux/linux-yocto/xen-guest.scc
+ delete mode 100644 recipes-kernel/linux/linux-yocto/xen.cfg
+ delete mode 100644 recipes-kernel/linux/linux-yocto/xen.scc
 
+-- 
+1.7.10.4
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
