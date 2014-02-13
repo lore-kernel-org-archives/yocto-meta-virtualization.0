@@ -1,39 +1,52 @@
-Return-Path: <flihp@twobit.us>
-Received: from smtp.twobit.us (smtp.twobit.us [38.83.192.235])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E831EE0077B
+Return-Path: <v_gota@yahoo.com>
+Received: from nm16.bullet.mail.bf1.yahoo.com (nm16.bullet.mail.bf1.yahoo.com
+	[98.139.212.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C6045E007DF
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 12 Feb 2014 14:12:29 -0800 (PST)
-Received: from c-76-24-20-220.hsd1.ma.comcast.net ([76.24.20.220]
-	helo=[172.16.1.12]) by smtp.twobit.us with esmtpsa
-	(TLS1.0:DHE_RSA_CAMELLIA_256_CBC_SHA1:256) (Exim 4.80)
-	(envelope-from <flihp@twobit.us>)
-	id 1WDi0r-0003VD-Er; Wed, 12 Feb 2014 22:10:39 +0000
-Message-ID: <52FBF1C4.6070101@twobit.us>
-Date: Wed, 12 Feb 2014 17:12:20 -0500
-From: Philip Tricca <flihp@twobit.us>
-User-Agent: Mozilla/5.0 (X11; Linux i686;
-	rv:17.0) Gecko/20131104 Icedove/17.0.10
-MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1392173107-21170-1-git-send-email-flihp@twobit.us>
-	<1392173107-21170-2-git-send-email-flihp@twobit.us>
-	<CADkTA4M9vk053S65KVYGaA2dwns1tQW9drmnuDhtaLOXe_KB3A@mail.gmail.com>
-In-Reply-To: <CADkTA4M9vk053S65KVYGaA2dwns1tQW9drmnuDhtaLOXe_KB3A@mail.gmail.com>
-X-Enigmail-Version: 1.5.1
-X-SA-Exim-Connect-IP: 76.24.20.220
-X-SA-Exim-Mail-From: flihp@twobit.us
-X-Spam-Checker-Version: SpamAssassin 3.3.2 (2011-06-06) on smtp.twobit.us
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=5.0 tests=ALL_TRUSTED,BAYES_00
-	autolearn=ham version=3.3.2
-X-SA-Exim-Version: 4.2.1 (built Mon, 26 Dec 2011 16:24:06 +0000)
-X-SA-Exim-Scanned: Yes (on smtp.twobit.us)
-Cc: "meta-virtualization@yoctoproject.org"
+	Thu, 13 Feb 2014 03:17:51 -0800 (PST)
+Received: from [98.139.214.32] by nm16.bullet.mail.bf1.yahoo.com with NNFMP;
+	13 Feb 2014 11:17:50 -0000
+Received: from [98.139.212.231] by tm15.bullet.mail.bf1.yahoo.com with NNFMP;
+	13 Feb 2014 11:17:50 -0000
+Received: from [127.0.0.1] by omp1040.mail.bf1.yahoo.com with NNFMP;
+	13 Feb 2014 11:17:50 -0000
+X-Yahoo-Newman-Property: ymail-3
+X-Yahoo-Newman-Id: 342568.69516.bm@omp1040.mail.bf1.yahoo.com
+Received: (qmail 42614 invoked by uid 60001); 13 Feb 2014 11:17:49 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s1024;
+	t=1392290269; bh=bypRpSGL1Vw7EOub+8mhSUxkuSpQBG/TO+HpMcRfXcg=;
+	h=X-YMail-OSG:Received:X-Rocket-MIMEInfo:X-Mailer:Message-ID:Date:From:Reply-To:Subject:To:MIME-Version:Content-Type;
+	b=x9E/6rOY/UwY1ZggxK8GKQtPzsGlYB/Qg0sKoKAtYiWkajjgWjIQCUSllms6jRS5FX3MdFMR11YZe48r5OQGCNNfLirXGwYrj+hSdHvhDp8r+3TZjyq81rIpvyx9lcfhBo8ySV/8zo/d1Eu/OP0+i8ocJtewFmejdOZVxVBMVKs=
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws; s=s1024; d=yahoo.com;
+	h=X-YMail-OSG:Received:X-Rocket-MIMEInfo:X-Mailer:Message-ID:Date:From:Reply-To:Subject:To:MIME-Version:Content-Type;
+	b=sn4VgGuXhBFOf7Ceh3NTwmvx2D6I+0eAipe+JzaR7f33QVTRvRReBbiIk4yRkMpsQqkgGrQW8JzCxbfBLlzbllQ5uTUaac8ivmGebRjIZ1Zd+LmGJsQboNF6oXagEplhKDK700VHyGqqxKsQy53yfUmz8s6dNu71cWg75W5b1og=;
+X-YMail-OSG: 1jFAmEEVM1k4V6GWLb5DOZb6sDl2wu2n58ImqiFzbuxVzt9
+	5Ym696dfHxxBNnVatuq8HhZJCdzYsNCdFXQbWsY.dRzOvVBZtLeSRYt6keyQ
+	GlScTUqLCmZ1pss8QfB2qYNx017Jhg8_Tt6rfYEaUSwvIHlxkEYEvsXr0PNA
+	53QJWzOD241B1tT3onD5syBy3Ids570Gbty.cmePqmy8oEH9GEXE37UuloRa
+	amfv4iDJVQ8cIg21RpYrokG3S6_IPImi2s.j6L_IVB9pca4v0YUAPj4Lys8H
+	hylDM9CQPIcbnTBvvNLFphj0r_pFu.seoaKRzPr6VOM5DHHBnQPfFOENmUeV
+	MjPfZtBOR.dOdAjV5sZqTLid8KgAleKv_h2ipPvamdrmZ3CJtmWH5Yb4HDBK
+	RLJQrAhHgG7b94gWcPRH4FXCL8Kcc7qIkcnzFRqBML1m2dHiIqFRu0_gLL_0
+	vI3cTVD0F2xpy_mmLVl8ks8VnANdJf7vkv5DSbpimwOjMf5im2.itw_pS5Bu
+	f71fCAWQOWLZDDKZ5TrXzBCtZcdmaQoB68fbKgGTM54f7LvRDQiR4ASDYNSm
+	iA.R_wWsq8C4tCN.qdr.C9w--
+Received: from [116.197.184.14] by web162001.mail.bf1.yahoo.com via HTTP;
+	Thu, 13 Feb 2014 03:17:49 PST
+X-Rocket-MIMEInfo: 002.001,
+	CgpJIHB1bGxlZCBkeWxhbiBtZXRhLXZpcnR1YWxpemF0aW9uIGxheWVyIGludG8gbXkgeW9jdG8gcHJvamVjdCBiYXNlZCBvZmYgZHlsYW4uIEkgYW0gdW5hYmxlIHRvIGJ1aWxkIGNvcmUtaW1hZ2UtKiB3aXRoIG1ldGEtdmlydHVhbGl6YXRpb24gaW5jbHVkZWQuIEl0IGZhaWxzIHRvd2FyZHMgdGhlIGVuZCB3aXRoIHRoaXMgZXJyb3IuCgp8IMKgIDQ5Okluc3RhbGxpbmcgbGlieGVuc3RvcmUzLjAgwqAjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIFsgwqAzJV0KfCBPdXRwdXQgZnIBMAEBAQE-
+X-Mailer: YahooMailWebService/0.8.177.636
+Message-ID: <1392290269.37071.YahooMailNeo@web162001.mail.bf1.yahoo.com>
+Date: Thu, 13 Feb 2014 03:17:49 -0800 (PST)
+From: Venkatesh Gota <v_gota@yahoo.com>
+To: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [RFC 1/3] xen: Create structure necessary to break Xen kernel config into dom0 / guest.
+MIME-Version: 1.0
+Subject: Build error: do_rootfs: libxenstore3.0-4.1.2-r1.0@x86_64
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: Venkatesh Gota <v_gota@yahoo.com>
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -43,232 +56,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2014 22:12:30 -0000
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 13 Feb 2014 11:17:52 -0000
+Content-Type: multipart/alternative;
+	boundary="1969517296-1678738528-1392290269=:37071"
 
-On 02/12/2014 10:40 AM, Bruce Ashfield wrote:
-> On Tue, Feb 11, 2014 at 9:45 PM, Philip Tricca <flihp@twobit.us> wrote:
->> For now the config remains the same for both dom0 and guest
->> DISTRO_FEATURES. This work provides the structure for migrating
->> config options into the two different distro features as the need
->> arises.
-> 
-> I have a similar split for KVM hosts and guests, the options are largely
-> the same, but the flexibility is maintained for cases where they really
-> do need to differ.
-> 
-> But here's a more general question, rather than having to trigger on
-> distro features, why not separate the differences based on different machines ?
-> (maybe that is what you are already doing, and I'm missing it).
+--1969517296-1678738528-1392290269=:37071
+Content-Type: text/plain; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-No you're spot-on, didn't miss a thing.
+=0A=0AI pulled dylan meta-virtualization layer into my yocto project based =
+off dylan. I am unable to build core-image-* with meta-virtualization inclu=
+ded. It fails towards the end with this error.=0A=0A| =A0 49:Installing lib=
+xenstore3.0 =A0######################################## [ =A03%]=0A| Output=
+ from libxenstore3.0-4.1.2-r1.0@x86_64:=0A| error: unpacking of archive fai=
+led on file /usr/lib64: cpio: rename failed - Resource temporarily unavaila=
+ble=0A| =A0 50:Installing eglibc-gconv-.. #################################=
+####### [ =A03%]=0A=0Athe file exists, and not sure what is cpio complainin=
+g about.=0A=0Ayocto-build:/mnt/vgota/poky/build/tmp-eglibc/work/x86_64-poky=
+-linux$ find . | grep libxenstore3.0 | xargs ls -al=0A-rw-r--r-- 2 vgota vg=
+ota =A00 Feb 13 16:32 ./xen/4.1.2-r1/deploy-rpms/x86_64/libxenstore3.0-4.1.=
+2-r1.0.x86_64.rpm=0Alrwxrwxrwx 1 vgota vgota 22 Feb 13 15:29 ./xen/4.1.2-r1=
+/pkgdata/runtime-reverse/libxenstore3.0 -> ../runtime/libxenstore=0A=0Aany =
+insight is appreciated.=0A
 
-> i.e. for a KVM host, I use the "native" BSP + some kernel options. For the
-> KVM guest, I have a x86-kvm-guest BSP that encapsulates the options
-> and userspace that we want.
-> 
-> The kernel configurations and other changes you have here would be the
-> same, but just with a different separation mechanism.
+--1969517296-1678738528-1392290269=:37071
+Content-Type: text/html; charset=iso-8859-1
+Content-Transfer-Encoding: quoted-printable
 
-This sounds like a great suggestion. I'll take a look at what you all
-have done with KVM. It does sound like a better fit. I'll send out a v2
-once I've got my head around using the machine mechanisms.
+<html><body><div style=3D"color:#000; background-color:#fff; font-family:He=
+lveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;fo=
+nt-size:12pt"><div><br></div><div style=3D"color: rgb(0, 0, 0); font-size: =
+16px; font-family: HelveticaNeue, 'Helvetica Neue', Helvetica, Arial, 'Luci=
+da Grande', sans-serif; background-color: transparent; font-style: normal;"=
+>I pulled dylan meta-virtualization layer into my yocto project based off d=
+ylan. I am unable to build core-image-* with meta-virtualization included. =
+It fails towards the end with this error.</div><div style=3D"color: rgb(0, =
+0, 0); font-size: 16px; font-family: HelveticaNeue, 'Helvetica Neue', Helve=
+tica, Arial, 'Lucida Grande', sans-serif; background-color: transparent; fo=
+nt-style: normal;"><br></div><div style=3D"background-color: transparent;">=
+| &nbsp; 49:Installing libxenstore3.0 &nbsp;###############################=
+######### [ &nbsp;3%]</div><div style=3D"background-color: transparent;">|
+ Output from libxenstore3.0-4.1.2-r1.0@x86_64:</div><div style=3D"backgroun=
+d-color: transparent;">| error: unpacking of archive failed on file /usr/li=
+b64: cpio: rename failed - Resource temporarily unavailable</div><div style=
+=3D"background-color: transparent;">| &nbsp; 50:Installing eglibc-gconv-.. =
+######################################## [ &nbsp;3%]</div><div><br></div><d=
+iv>the file exists, and not sure what is cpio complaining about.</div><div>=
+<br></div><div><div><div>yocto-build:/mnt/vgota/poky/build/tmp-eglibc/work/=
+x86_64-poky-linux$ find . | grep libxenstore3.0 | xargs ls -al</div><div>-r=
+w-r--r-- 2 vgota vgota &nbsp;0 Feb 13 16:32 ./xen/4.1.2-r1/deploy-rpms/x86_=
+64/libxenstore3.0-4.1.2-r1.0.x86_64.rpm</div><div>lrwxrwxrwx 1 vgota vgota =
+22 Feb 13 15:29 ./xen/4.1.2-r1/pkgdata/runtime-reverse/libxenstore3.0 -&gt;=
+ ../runtime/libxenstore</div><div><br></div><div>any insight is appreciated=
+.</div></div><div><br></div></div></div></body></html>
 
-Thanks,
-Philip
-
->> Signed-off-by: Philip Tricca <flihp@twobit.us>
->>
->>  create mode 100644 recipes-kernel/linux/linux-yocto/xen-common.cfg
->>  create mode 100644 recipes-kernel/linux/linux-yocto/xen-dom0.cfg
->>  create mode 100644 recipes-kernel/linux/linux-yocto/xen-dom0.scc
->>  create mode 100644 recipes-kernel/linux/linux-yocto/xen-guest.cfg
->>  create mode 100644 recipes-kernel/linux/linux-yocto/xen-guest.scc
->>  delete mode 100644 recipes-kernel/linux/linux-yocto/xen.cfg
->>  delete mode 100644 recipes-kernel/linux/linux-yocto/xen.scc
->>
->> diff --git a/recipes-kernel/linux/linux-yocto/xen-common.cfg b/recipes-kernel/linux/linux-yocto/xen-common.cfg
->> new file mode 100644
->> index 0000000..4e796b9
->> --- /dev/null
->> +++ b/recipes-kernel/linux/linux-yocto/xen-common.cfg
->> @@ -0,0 +1,54 @@
->> +###
->> +# linux 3.4, 3.8
->> +CONFIG_PARAVIRT_GUEST=y
->> +###
->> +
->> +###
->> +# linux 3.10
->> +CONFIG_HYPERVISOR_GUEST=y
->> +###
->> +
->> +CONFIG_PARAVIRT=y
->> +CONFIG_XEN=y
->> +CONFIG_XEN_DOM0=y
->> +CONFIG_XEN_PRIVILEGED_GUEST=y
->> +CONFIG_XEN_PVHVM=y
->> +CONFIG_XEN_MAX_DOMAIN_MEMORY=500
->> +CONFIG_XEN_SAVE_RESTORE=y
->> +CONFIG_PARAVIRT_CLOCK=y
->> +CONFIG_HIBERNATE_CALLBACKS=y
->> +CONFIG_PCI_XEN=y
->> +CONFIG_XEN_PCIDEV_FRONTEND=y
->> +CONFIG_SYS_HYPERVISOR=y
->> +CONFIG_XEN_BLKDEV_FRONTEND=y
->> +CONFIG_XEN_BLKDEV_BACKEND=m
->> +CONFIG_XEN_NETDEV_FRONTEND=y
->> +CONFIG_XEN_NETDEV_BACKEND=m
->> +CONFIG_INPUT_MISC=y
->> +CONFIG_INPUT_XEN_KBDDEV_FRONTEND=y
->> +CONFIG_HVC_IRQ=y
->> +CONFIG_HVC_XEN=y
->> +CONFIG_HVC_XEN_FRONTEND=y
->> +CONFIG_XEN_WDT=m
->> +CONFIG_FB_SYS_FILLRECT=y
->> +CONFIG_FB_SYS_COPYAREA=y
->> +CONFIG_FB_SYS_IMAGEBLIT=y
->> +CONFIG_FB_SYS_FOPS=y
->> +CONFIG_FB_DEFERRED_IO=y
->> +CONFIG_XEN_FBDEV_FRONTEND=y
->> +CONFIG_XEN_BALLOON=y
->> +CONFIG_XEN_SCRUB_PAGES=y
->> +CONFIG_XEN_DEV_EVTCHN=y
->> +CONFIG_XEN_BACKEND=y
->> +CONFIG_XENFS=y
->> +CONFIG_XEN_COMPAT_XENFS=y
->> +CONFIG_XEN_SYS_HYPERVISOR=y
->> +CONFIG_XEN_XENBUS_FRONTEND=y
->> +CONFIG_XEN_GNTDEV=m
->> +CONFIG_XEN_GRANT_DEV_ALLOC=m
->> +CONFIG_SWIOTLB_XEN=y
->> +CONFIG_XEN_PCIDEV_BACKEND=m
->> +CONFIG_XEN_PRIVCMD=y
->> +CONFIG_XEN_ACPI_PROCESSOR=m
->> +CONFIG_XEN_MCE_LOG=y
->> +CONFIG_XEN_HAVE_PVMMU=y
->> diff --git a/recipes-kernel/linux/linux-yocto/xen-dom0.cfg b/recipes-kernel/linux/linux-yocto/xen-dom0.cfg
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/recipes-kernel/linux/linux-yocto/xen-dom0.scc b/recipes-kernel/linux/linux-yocto/xen-dom0.scc
->> new file mode 100644
->> index 0000000..a84b0cb
->> --- /dev/null
->> +++ b/recipes-kernel/linux/linux-yocto/xen-dom0.scc
->> @@ -0,0 +1,5 @@
->> +define KFEATURE_DESCRIPTION "Xen dom0 Kernel Support"
->> +define KFEATURE_COMPATIBILITY arch
->> +
->> +kconf non-hardware xen-common.cfg
->> +kconf non-hardware xen-dom0.cfg
->> diff --git a/recipes-kernel/linux/linux-yocto/xen-guest.cfg b/recipes-kernel/linux/linux-yocto/xen-guest.cfg
->> new file mode 100644
->> index 0000000..e69de29
->> diff --git a/recipes-kernel/linux/linux-yocto/xen-guest.scc b/recipes-kernel/linux/linux-yocto/xen-guest.scc
->> new file mode 100644
->> index 0000000..0edba0c
->> --- /dev/null
->> +++ b/recipes-kernel/linux/linux-yocto/xen-guest.scc
->> @@ -0,0 +1,5 @@
->> +define KFEATURE_DESCRIPTION "Xen Guest Kernel Support"
->> +define KFEATURE_COMPATIBILITY arch
->> +
->> +kconf non-hardware xen-common.cfg
->> +kconf non-hardware xen-guest.cfg
->> diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg b/recipes-kernel/linux/linux-yocto/xen.cfg
->> deleted file mode 100644
->> index 4e796b9..0000000
->> --- a/recipes-kernel/linux/linux-yocto/xen.cfg
->> +++ /dev/null
->> @@ -1,54 +0,0 @@
->> -###
->> -# linux 3.4, 3.8
->> -CONFIG_PARAVIRT_GUEST=y
->> -###
->> -
->> -###
->> -# linux 3.10
->> -CONFIG_HYPERVISOR_GUEST=y
->> -###
->> -
->> -CONFIG_PARAVIRT=y
->> -CONFIG_XEN=y
->> -CONFIG_XEN_DOM0=y
->> -CONFIG_XEN_PRIVILEGED_GUEST=y
->> -CONFIG_XEN_PVHVM=y
->> -CONFIG_XEN_MAX_DOMAIN_MEMORY=500
->> -CONFIG_XEN_SAVE_RESTORE=y
->> -CONFIG_PARAVIRT_CLOCK=y
->> -CONFIG_HIBERNATE_CALLBACKS=y
->> -CONFIG_PCI_XEN=y
->> -CONFIG_XEN_PCIDEV_FRONTEND=y
->> -CONFIG_SYS_HYPERVISOR=y
->> -CONFIG_XEN_BLKDEV_FRONTEND=y
->> -CONFIG_XEN_BLKDEV_BACKEND=m
->> -CONFIG_XEN_NETDEV_FRONTEND=y
->> -CONFIG_XEN_NETDEV_BACKEND=m
->> -CONFIG_INPUT_MISC=y
->> -CONFIG_INPUT_XEN_KBDDEV_FRONTEND=y
->> -CONFIG_HVC_IRQ=y
->> -CONFIG_HVC_XEN=y
->> -CONFIG_HVC_XEN_FRONTEND=y
->> -CONFIG_XEN_WDT=m
->> -CONFIG_FB_SYS_FILLRECT=y
->> -CONFIG_FB_SYS_COPYAREA=y
->> -CONFIG_FB_SYS_IMAGEBLIT=y
->> -CONFIG_FB_SYS_FOPS=y
->> -CONFIG_FB_DEFERRED_IO=y
->> -CONFIG_XEN_FBDEV_FRONTEND=y
->> -CONFIG_XEN_BALLOON=y
->> -CONFIG_XEN_SCRUB_PAGES=y
->> -CONFIG_XEN_DEV_EVTCHN=y
->> -CONFIG_XEN_BACKEND=y
->> -CONFIG_XENFS=y
->> -CONFIG_XEN_COMPAT_XENFS=y
->> -CONFIG_XEN_SYS_HYPERVISOR=y
->> -CONFIG_XEN_XENBUS_FRONTEND=y
->> -CONFIG_XEN_GNTDEV=m
->> -CONFIG_XEN_GRANT_DEV_ALLOC=m
->> -CONFIG_SWIOTLB_XEN=y
->> -CONFIG_XEN_PCIDEV_BACKEND=m
->> -CONFIG_XEN_PRIVCMD=y
->> -CONFIG_XEN_ACPI_PROCESSOR=m
->> -CONFIG_XEN_MCE_LOG=y
->> -CONFIG_XEN_HAVE_PVMMU=y
->> diff --git a/recipes-kernel/linux/linux-yocto/xen.scc b/recipes-kernel/linux/linux-yocto/xen.scc
->> deleted file mode 100644
->> index b588e5d..0000000
->> --- a/recipes-kernel/linux/linux-yocto/xen.scc
->> +++ /dev/null
->> @@ -1,4 +0,0 @@
->> -define KFEATURE_DESCRIPTION "Xen Kernel Support"
->> -define KFEATURE_COMPATIBILITY arch
->> -
->> -kconf non-hardware xen.cfg
->> diff --git a/recipes-kernel/linux/linux-yocto_3.10.bbappend b/recipes-kernel/linux/linux-yocto_3.10.bbappend
->> index c029c05..e4ae462 100644
->> --- a/recipes-kernel/linux/linux-yocto_3.10.bbappend
->> +++ b/recipes-kernel/linux/linux-yocto_3.10.bbappend
->> @@ -16,4 +16,8 @@ module_autoload_kvm-intel = "kvm-intel"
->>  KERNEL_FEATURES_append += "${@base_contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
->>
->>  # xen kernel support
->> -SRC_URI += "${@base_contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
->> +SRC_URI += " \
->> +    ${@base_contains('DISTRO_FEATURES', 'xen-dom0', ' file://xen-dom0.scc', '', d)} \
->> +    ${@base_contains('DISTRO_FEATURES', 'xen-guest', ' file://xen-guest.scc', '', d)} \
->> +"
->> +
->> --
->> 1.7.10.4
->>
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
-> 
-> 
-> 
-
-
+--1969517296-1678738528-1392290269=:37071--
