@@ -1,32 +1,35 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-la0-f51.google.com (mail-la0-f51.google.com
-	[209.85.215.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9863BE0043B
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
+	[209.85.217.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3D6FAE005B4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Feb 2014 10:03:46 -0800 (PST)
-Received: by mail-la0-f51.google.com with SMTP id c6so12637689lan.10
+	Tue, 18 Feb 2014 11:43:07 -0800 (PST)
+Received: by mail-lb0-f178.google.com with SMTP id u14so12804571lbd.9
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Feb 2014 10:03:45 -0800 (PST)
+	Tue, 18 Feb 2014 11:43:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:from:date:message-id:subject:to:content-type;
-	bh=PU4x8qH1Q0RZAlkrdpgrESKdPdjUvSxGWgr4XceylKE=;
-	b=XtFlfkLtg4+zPqCrZzKi82K+/1Nwv1/cVODy4/L6sRRawrkMOZb9AA/6+D5ealD+TF
-	Gyo+YiaXYEEaxOWSzTwRnI8pJC6lg+VKmeb4nfEPVELrtxwTUUMBLb2tslaBubV5LfUe
-	nJt5I5dLH9kbJYlwglAeLcEASIfUP/JXiUbrHU2qwxOHuW9IfEkdE2BxelnPwDAa3XIp
-	3A36Zf9N42siIlBhkU2W0DlEywLNYYu4mOjsUhe4wGijh/4ZTtvweuWi2lC2dzin+rQB
-	a2ITYatA7R0rvHuFHk8i0rSVhGMTfhoPOC+F94mpkoP/p8Draqb1R3N/Ezs/SKKhd3Lq
-	iSEQ==
-X-Received: by 10.152.37.9 with SMTP id u9mr36494laj.80.1392746624949; Tue, 18
-	Feb 2014 10:03:44 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=mlZ1VSYBhtlQOErQdo5DvxsXKXxZTyT9AE7MxP5xhxM=;
+	b=kkJIW0jEsXrMoP2ZrtbWWHkLOdtKj8/K/5AUb3wSiwA27C0IaYyu8y18QKv0ZSSyqt
+	UhM0Be6+fr13OtwQjTrE5nz33ikIlLtkPRaAazW0PIfYY8qeTbwvslDf2p2dP1VPf2qH
+	wXOJ3Idxl4JH/8F6R0a1gAJL7dpIe2hp671LvPZAqC4QscJh04AKKo1KdtutWawGKh2/
+	kyEuogUHG+YVP1vJXlV/3J5uwzJwfVYqBDjvmedq+Rq+EgRI2N/FLWWDqI/NRHre+GQF
+	oAXhyQt5v+HdUpA4tm1Ui7/GiVdMzqmtEHWlsMIQd9tMdSw0ex+8HuRz1tBFPpwKkmQy
+	dvtQ==
 MIME-Version: 1.0
-Sender: kergoth@gmail.com
-Received: by 10.112.35.200 with HTTP; Tue, 18 Feb 2014 10:03:24 -0800 (PST)
-From: Chris Larson <clarson@kergoth.com>
-Date: Tue, 18 Feb 2014 11:03:24 -0700
-X-Google-Sender-Auth: e0_bfnWqQG8MfzBAofFfySoPV4w
-Message-ID: <CABcZANnw7DPih712ZFdSaGaghPztgeBsUEW6LV_oQxUCMGAV_Q@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Regarding 7499d6c in meta-virtualization master branch
+X-Received: by 10.152.22.102 with SMTP id c6mr23282302laf.27.1392752585918;
+	Tue, 18 Feb 2014 11:43:05 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Tue, 18 Feb 2014 11:43:05 -0800 (PST)
+In-Reply-To: <CABcZANnw7DPih712ZFdSaGaghPztgeBsUEW6LV_oQxUCMGAV_Q@mail.gmail.com>
+References: <CABcZANnw7DPih712ZFdSaGaghPztgeBsUEW6LV_oQxUCMGAV_Q@mail.gmail.com>
+Date: Tue, 18 Feb 2014 14:43:05 -0500
+Message-ID: <CADkTA4M=DTb_VVtvOWg3G3A4kXnpQfrutOh50J=n6+k3jPhurg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chris Larson <clarson@kergoth.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: Regarding 7499d6c in meta-virtualization master branch
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,27 +42,33 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 18:03:49 -0000
-Content-Type: multipart/alternative; boundary=089e01538410d7a24804f2b217d2
+X-List-Received-Date: Tue, 18 Feb 2014 19:43:08 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
---089e01538410d7a24804f2b217d2
-Content-Type: text/plain; charset=UTF-8
+On Tue, Feb 18, 2014 at 1:03 PM, Chris Larson <clarson@kergoth.com> wrote:
+> FYI, the recipe was modified to add a patch to SRC_URI, but the patch wasn't
 
-FYI, the recipe was modified to add a patch to SRC_URI, but the patch
-wasn't checked in.
+Argh. Thanks for the report, I just pushed the patch :)
+
+Bruce
+
+> checked in.
+> --
+> Christopher Larson
+> clarson at kergoth dot com
+> Founder - BitBake, OpenEmbedded, OpenZaurus
+> Maintainer - Tslib
+> Senior Software Engineer, Mentor Graphics
+>
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+
+
 -- 
-Christopher Larson
-clarson at kergoth dot com
-Founder - BitBake, OpenEmbedded, OpenZaurus
-Maintainer - Tslib
-Senior Software Engineer, Mentor Graphics
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
---089e01538410d7a24804f2b217d2
-Content-Type: text/html; charset=UTF-8
-
-<div dir="ltr">FYI, the recipe was modified to add a patch to SRC_URI, but the patch wasn&#39;t checked in.<br><div>-- <br>Christopher Larson<br>clarson at kergoth dot com<br>Founder - BitBake, OpenEmbedded, OpenZaurus<br>
-
-Maintainer - Tslib<br>Senior Software Engineer, Mentor Graphics
-</div></div>
-
---089e01538410d7a24804f2b217d2--
