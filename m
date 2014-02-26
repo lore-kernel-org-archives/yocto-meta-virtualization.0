@@ -1,35 +1,21 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f178.google.com (mail-lb0-f178.google.com
-	[209.85.217.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3D6FAE005B4
+Return-Path: <jori@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 55FBFE00736
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Feb 2014 11:43:07 -0800 (PST)
-Received: by mail-lb0-f178.google.com with SMTP id u14so12804571lbd.9
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Feb 2014 11:43:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=mlZ1VSYBhtlQOErQdo5DvxsXKXxZTyT9AE7MxP5xhxM=;
-	b=kkJIW0jEsXrMoP2ZrtbWWHkLOdtKj8/K/5AUb3wSiwA27C0IaYyu8y18QKv0ZSSyqt
-	UhM0Be6+fr13OtwQjTrE5nz33ikIlLtkPRaAazW0PIfYY8qeTbwvslDf2p2dP1VPf2qH
-	wXOJ3Idxl4JH/8F6R0a1gAJL7dpIe2hp671LvPZAqC4QscJh04AKKo1KdtutWawGKh2/
-	kyEuogUHG+YVP1vJXlV/3J5uwzJwfVYqBDjvmedq+Rq+EgRI2N/FLWWDqI/NRHre+GQF
-	oAXhyQt5v+HdUpA4tm1Ui7/GiVdMzqmtEHWlsMIQd9tMdSw0ex+8HuRz1tBFPpwKkmQy
-	dvtQ==
+	Wed, 26 Feb 2014 02:08:11 -0800 (PST)
+Received: from sestows930 (172.16.140.35) by smtp.enea.com (172.21.1.208) with
+	Microsoft SMTP Server id 14.3.158.1; Wed, 26 Feb 2014 11:08:06 +0100
+Received: from jori by sestows930 with local (Exim 4.80)	(envelope-from
+	<jori@sestows930>)	id 1WIbPK-0004YD-8z; Wed, 26 Feb 2014 11:08:06 +0100
+From: Jonas Eriksson <jonas.eriksson@enea.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 26 Feb 2014 11:07:52 +0100
+Message-ID: <1393409277-17451-1-git-send-email-jonas.eriksson@enea.com>
+X-Mailer: git-send-email 1.9.rc1
 MIME-Version: 1.0
-X-Received: by 10.152.22.102 with SMTP id c6mr23282302laf.27.1392752585918;
-	Tue, 18 Feb 2014 11:43:05 -0800 (PST)
-Received: by 10.112.170.166 with HTTP; Tue, 18 Feb 2014 11:43:05 -0800 (PST)
-In-Reply-To: <CABcZANnw7DPih712ZFdSaGaghPztgeBsUEW6LV_oQxUCMGAV_Q@mail.gmail.com>
-References: <CABcZANnw7DPih712ZFdSaGaghPztgeBsUEW6LV_oQxUCMGAV_Q@mail.gmail.com>
-Date: Tue, 18 Feb 2014 14:43:05 -0500
-Message-ID: <CADkTA4M=DTb_VVtvOWg3G3A4kXnpQfrutOh50J=n6+k3jPhurg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Chris Larson <clarson@kergoth.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: Regarding 7499d6c in meta-virtualization master branch
+Received-SPF: None (SESTOEX08.enea.se: jonas.eriksson@enea.com does not
+	designate permitted sender hosts)
+Subject: [PATCH 0/5] libvirt fixes and a kernel update
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,33 +28,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2014 19:43:08 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 26 Feb 2014 10:08:13 -0000
+Content-Type: text/plain
 
-On Tue, Feb 18, 2014 at 1:03 PM, Chris Larson <clarson@kergoth.com> wrote:
-> FYI, the recipe was modified to add a patch to SRC_URI, but the patch wasn't
+Hi,
 
-Argh. Thanks for the report, I just pushed the patch :)
+The ultimate goal of this patch series was to use a DISTRO_FEATURE to include
+the lxc.scc configuration in the kernel to be built. This is done to avoid that
+the kernel configuration gets additional code paths ( =y options ) when adding
+the meta-virtualization layer. The configurations that enables modules are left
+untouched.
 
-Bruce
+In this process, I stumbled upon some bugs/issues with the libvirt recipe,
+which are updated as well.
 
-> checked in.
-> --
-> Christopher Larson
-> clarson at kergoth dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Maintainer - Tslib
-> Senior Software Engineer, Mentor Graphics
->
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+Best regards,
+/Jonas
 
+Jonas Eriksson (5):
+  libvirt: Change license to LGPLv2.1+
+  libvirt: Fix selinux DISTRO_FEATURE check
+  Use a DISTRO_FEATURE to toggle LXC support
+  libvirt: Use DISTRO_FEATURES to enable Xen support
+  libvirt: Disable polkit driver when there is no x11
 
+ recipes-extended/libvirt/libvirt_1.2.1.bb      | 14 +++++++++-----
+ recipes-kernel/linux/linux-yocto_3.10.bbappend |  4 +++-
+ recipes-kernel/linux/linux-yocto_3.4.bbappend  |  4 +++-
+ recipes-kernel/linux/linux-yocto_3.8.bbappend  |  4 +++-
+ 4 files changed, 18 insertions(+), 8 deletions(-)
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.rc1
+
 
