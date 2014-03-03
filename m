@@ -1,26 +1,28 @@
-Return-Path: <Mark.Asselstine@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6910AE009A8
+Return-Path: <josep.puigdemont@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 03175E008E5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 28 Feb 2014 13:17:19 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s1SLHHgs005393
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 28 Feb 2014 13:17:18 -0800 (PST)
-Received: from yow-masselst-d1.wrs.com (128.224.146.23) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.2.347.0; Fri, 28 Feb 2014 13:17:17 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Fri, 28 Feb 2014 16:17:16 -0500
-Message-ID: <1393622236-23064-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
+	Mon,  3 Mar 2014 04:10:24 -0800 (PST)
+Received: from SESTOEX05.enea.se ([fe80::41cb:8d2e:2e90:a183]) by
+	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
+	14.03.0158.001; Mon, 3 Mar 2014 13:10:19 +0100
+From: Josep Puigdemont <josep.puigdemont@enea.com>
+To: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Thread-Topic: [meta-virtualization] [PATCH] Update lxc recipe to 1.0.0
+Thread-Index: AQHPM6+xixiOxuuHXU6PPZXJFjfwvZrJcBEAgAXK4QA=
+Date: Mon, 3 Mar 2014 12:10:19 +0000
+Message-ID: <1393848618.1668.9.camel@sestows040.enea.se>
+References: <1393500786-16877-1-git-send-email-josep.puigdemont@enea.com>
+	<CADkTA4M1qW4ZTzieAZo=Pb+Ybdkw9FvSXw1qDQpzo-KWC10M8A@mail.gmail.com>
+In-Reply-To: <CADkTA4M1qW4ZTzieAZo=Pb+Ybdkw9FvSXw1qDQpzo-KWC10M8A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.141.163]
 MIME-Version: 1.0
-X-Originating-IP: [128.224.146.23]
-Cc: meta-virtualization@yoctoproject.org
-Subject: [meta-openstack][PATCH] rabbitmq-server: add missing zip-native DEPENDS
+Subject: Re: [PATCH] Update lxc recipe to 1.0.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -33,38 +35,73 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Feb 2014 21:17:21 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Mar 2014 12:10:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <38A59B4BCACEE64BA535B4454FF37E6D@local>
+Content-Transfer-Encoding: base64
 
-As part of the build there is an attempt to package rabbit_common-0.0.0.ez
-using zip. If zip isn't present on the build host this will cause an error:
-
-| cp ../rabbitmq-server/include/*.hrl dist/rabbit_common-0.0.0/include/
-| (cd dist; zip -q -r rabbit_common-0.0.0.ez rabbit_common-0.0.0)
-| /bin/sh: 1: zip: not found
-
-Adding zip-native in the DEPENDS avoids making the assumption that zip
-is installed on the build host.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.0.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.0.4.bb b/meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.0.4.bb
-index 6a50444..b5796a1 100644
---- a/meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.0.4.bb
-+++ b/meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.0.4.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.rabbitmq.com/"
- LICENSE = "MPL-1.1"
- LIC_FILES_CHKSUM = "file://LICENSE-MPL-RabbitMQ;md5=10a81373a21abb63f98ef5dc93e1601a"
- SECTION = "network"
--DEPENDS = "erlang-native libxslt python-simplejson"
-+DEPENDS = "erlang-native libxslt python-simplejson zip-native"
- PR = "r0"
- 
- SRC_URI = "http://www.rabbitmq.com/releases/rabbitmq-server/v${PV}/${PN}-${PV}.tar.gz \
--- 
-1.8.3.2
-
+T24gVGh1LCAyMDE0LTAyLTI3IGF0IDE0OjQyIC0wNTAwLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToN
+Cj4gT24gVGh1LCBGZWIgMjcsIDIwMTQgYXQgNjozMyBBTSwgSm9zZXAgUHVpZ2RlbW9udA0KPiA8
+am9zZXAucHVpZ2RlbW9udEBlbmVhLmNvbT4gd3JvdGU6DQo+ID4gTFhDIDEuMCB3YXMgcmVsZWFz
+ZWQgbGFzdCB3ZWVrIFsxXSwgdGhpcyBpcyBhbiB1cGRhdGUgb2YgdGhlIGx4YyByZWNpcGUgdG8g
+dXNlDQo+ID4gdGhlIGxhdGVzdCBzdGFibGUgdmVyc2lvbi4NCj4gPiBUaGVyZSBhcmUgbm90IG1h
+bnkgY2hhbmdlcyBmcm9tIHRoZSAwLjkuMCByZWNpcGUsIGp1c3QgdGhlIGhhc2hlcyBhbmQgdGhl
+IGZldGNoDQo+ID4gdXJsLiBTb21lIHBhdGNoZXMgaGF2ZSBiZWVuIHJlbW92ZWQgc2luY2UgdGhl
+eSBoYXZlIGFscmVhZHkgYmVlbiBpbmNsdWRlZA0KPiA+IGluIGx4Yy0xLjAuMC4NCj4gDQo+IE5p
+Y2UgdG8gc3RheSBzbyBxdWlja2x5IHVwIHRvIGRhdGUgOikNCj4gDQo+IFRoZSBzZXJpZXMgbG9v
+a3MgZ29vZCB0byBtZSwgZGlkIHlvdSBkbyBhbnkgcnVudGltZSB0ZXN0aW5nIHRvIHNob3cgYmFz
+aWMNCj4gZnVuY3Rpb25hbGl0eSB3YXMgc3RpbGwgaW50YWN0ID8gSSBhc3N1bWUgaXQgaXMsIGJ1
+dCBJIGRpZG4ndCBhc2sgb25jZSwgYW5kIHdhcw0KPiBiaXR0ZW4gYnkgYSBpbml0IGVycm9yIQ0K
+DQpIaSBCcnVjZSENClNvcnJ5IEkgZGlkbid0IGFuc3dlciBlYXJsaWVyLCBJIHdhcyBhd2F5IHdp
+dGhvdXQgZW1haWwgdW50aWwgdG9kYXkuDQpUaGFuayB5b3UgZm9yIGFwcGx5aW5nIHRoZSBwYXRj
+aCENCg0KUmVncmV0dGFibHkgSSBkaWQgbm90IGRvIHZlcnkgdGhvcm91Z2ggdGVzdGluZywgSSB1
+c2VkIGl0IHRvDQpzdGFydC9zdG9wL2V4ZWN1dGUgY29udGFpbmVycywgYnV0IGRpZG4ndCB1c2Ug
+bHhjLWNyZWF0ZSBmb3IgaW5zdGFuY2UNCihtb3N0IG9mIHRoZSBwcmV2aW91cyBwYXRjaGVzIHdl
+cmUgcmVsYXRlZCB0byB0aGUgdGVtcGxhdGVzIHVzZWQgYnkNCmx4Yy1jcmVhdGUpLiBJJ2xsIGdp
+dmUgaXQgYSBnbyBpZiBJIGhhdmUgdGltZSB0b21vcnJvdyAoSSBkb24ndCB0aGluaw0KSSdsbCBi
+ZSBhYmxlIHRvIGRvIGl0IHRvZGF5KSwgdW5sZXNzIHlvdSd2ZSBhbHJlYWR5IGRvbmUgc28uDQoN
+ClRoYW5rcyENCg0KL0pvc2VwDQoNCj4gDQo+IEJydWNlDQo+IA0KPiA+DQo+ID4gWzFdIGh0dHBz
+Oi8vbGlzdHMubGludXhjb250YWluZXJzLm9yZy9waXBlcm1haWwvbHhjLXVzZXJzLzIwMTQtRmVi
+cnVhcnkvMDA2MjYwLmh0bWwNCj4gPg0KPiA+IEpvc2VwIFB1aWdkZW1vbnQgKDEpOg0KPiA+ICAg
+VXBkYXRlIExpbnV4IENvbnRhaW5lcnMgdG8gbHhjLTEuMC4wDQo+ID4NCj4gPiAgLi4uL2x4Yy0w
+LjkuMC1hbHdheXMtc3RyZHVwLXJvb3Rmcy1tb3VudC5wYXRjaCAgICAgfCAgIDI3IC0tLS0tLS0t
+DQo+ID4gIC4uLnhjLTAuOS4wLWNoZWNrLXdoZW4tYmluZC1tb3VudGluZy1saWJkaXJzLnBhdGNo
+IHwgICA0NCAtLS0tLS0tLS0tLS0NCj4gPiAgLi4uL2x4Yy0wLjkuMC1jb25maWd1cmUtYWxsb3ct
+c3ViZGlyLW9iamVjdHMucGF0Y2ggfCAgIDM1IC0tLS0tLS0tLS0NCj4gPiAgLi4uMC45LjAtZGlz
+YWJsZS11ZGhjcC1mcm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2ggfCAgIDI0IC0tLS0tLS0NCj4g
+PiAgLi4uYy0wLjkuMC1kb24tdC1sZXQtTFhDX1BBVEgtZW5kLWluLWZhaWx1cmUucGF0Y2ggfCAg
+IDI5IC0tLS0tLS0tDQo+ID4gIC4uLi1jaHBhc3N3ZC1mdW5jdGlvbmFsaXR5LWZvci1idXN5Ym94
+LWhvc3RzLnBhdGNoIHwgICA3MCAtLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICAuLi50ZGV2LXJl
+LXJlYWQtaWZpbmRleC1pbi1MWENfTkVUX1BIWVMtY2FzZS5wYXRjaCB8ICAgNDkgLS0tLS0tLS0t
+LS0tLS0NCj4gPiAgLi4uL2ZpbGVzL2x4Yy0wLjkuMC11c2Utc3VzdjMtaGVhZC1hcmd1bWVudHMu
+cGF0Y2ggfCAgIDQ2IC0tLS0tLS0tLS0tLS0NCj4gPiAgLi4uMS4wLjAtZGlzYWJsZS11ZGhjcC1m
+cm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2ggfCAgIDI0ICsrKysrKysNCj4gPiAgcmVjaXBlcy1j
+b250YWluZXJzL2x4Yy9seGNfMC45LjAuYmIgICAgICAgICAgICAgICAgfCAgIDY5IC0tLS0tLS0t
+LS0tLS0tLS0tLS0NCj4gPiAgcmVjaXBlcy1jb250YWluZXJzL2x4Yy9seGNfMS4wLjAuYmIgICAg
+ICAgICAgICAgICAgfCAgIDYyICsrKysrKysrKysrKysrKysrDQo+ID4gIDExIGZpbGVzIGNoYW5n
+ZWQsIDg2IGluc2VydGlvbnMoKyksIDM5MyBkZWxldGlvbnMoLSkNCj4gPiAgZGVsZXRlIG1vZGUg
+MTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhjLTAuOS4wLWFsd2F5cy1zdHJk
+dXAtcm9vdGZzLW1vdW50LnBhdGNoDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWNv
+bnRhaW5lcnMvbHhjL2ZpbGVzL2x4Yy0wLjkuMC1jaGVjay13aGVuLWJpbmQtbW91bnRpbmctbGli
+ZGlycy5wYXRjaA0KPiA+ICBkZWxldGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1jb250YWluZXJzL2x4
+Yy9maWxlcy9seGMtMC45LjAtY29uZmlndXJlLWFsbG93LXN1YmRpci1vYmplY3RzLnBhdGNoDQo+
+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2ZpbGVzL2x4Yy0w
+LjkuMC1kaXNhYmxlLXVkaGNwLWZyb20tYnVzeWJveC10ZW1wbGF0ZS5wYXRjaA0KPiA+ICBkZWxl
+dGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1jb250YWluZXJzL2x4Yy9maWxlcy9seGMtMC45LjAtZG9u
+LXQtbGV0LUxYQ19QQVRILWVuZC1pbi1mYWlsdXJlLnBhdGNoDQo+ID4gIGRlbGV0ZSBtb2RlIDEw
+MDY0NCByZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2ZpbGVzL2x4Yy0wLjkuMC1lbmFibGUtY2hyb290
+LWNocGFzc3dkLWZ1bmN0aW9uYWxpdHktZm9yLWJ1c3lib3gtaG9zdHMucGF0Y2gNCj4gPiAgZGVs
+ZXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhjLTAuOS4wLXNl
+dHVwX25ldGRldi1yZS1yZWFkLWlmaW5kZXgtaW4tTFhDX05FVF9QSFlTLWNhc2UucGF0Y2gNCj4g
+PiAgZGVsZXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhjLTAu
+OS4wLXVzZS1zdXN2My1oZWFkLWFyZ3VtZW50cy5wYXRjaA0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2
+NDQgcmVjaXBlcy1jb250YWluZXJzL2x4Yy9maWxlcy9seGMtMS4wLjAtZGlzYWJsZS11ZGhjcC1m
+cm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2gNCj4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IHJlY2lw
+ZXMtY29udGFpbmVycy9seGMvbHhjXzAuOS4wLmJiDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBy
+ZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2x4Y18xLjAuMC5iYg0KPiA+DQo+ID4gLS0NCj4gPiAxLjcu
+MTAuNA0KPiA+DQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX18NCj4gPiBtZXRhLXZpcnR1YWxpemF0aW9uIG1haWxpbmcgbGlzdA0KPiA+IG1ldGEtdmly
+dHVhbGl6YXRpb25AeW9jdG9wcm9qZWN0Lm9yZw0KPiA+IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9q
+ZWN0Lm9yZy9saXN0aW5mby9tZXRhLXZpcnR1YWxpemF0aW9uDQo+IA0KPiANCj4gDQoNCg==
 
