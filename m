@@ -1,27 +1,36 @@
-Return-Path: <josep.puigdemont@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 03175E008E5
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 60CB4E009D2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  3 Mar 2014 04:10:24 -0800 (PST)
-Received: from SESTOEX05.enea.se ([fe80::41cb:8d2e:2e90:a183]) by
-	SESTOEX03.enea.se ([fe80::6ce7:7b51:1edf:e245%17]) with mapi id
-	14.03.0158.001; Mon, 3 Mar 2014 13:10:19 +0100
-From: Josep Puigdemont <josep.puigdemont@enea.com>
-To: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
-	"meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: [meta-virtualization] [PATCH] Update lxc recipe to 1.0.0
-Thread-Index: AQHPM6+xixiOxuuHXU6PPZXJFjfwvZrJcBEAgAXK4QA=
-Date: Mon, 3 Mar 2014 12:10:19 +0000
-Message-ID: <1393848618.1668.9.camel@sestows040.enea.se>
+	Mon,  3 Mar 2014 08:18:12 -0800 (PST)
+Received: by mail-lb0-f170.google.com with SMTP id s7so4814706lbd.1
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 03 Mar 2014 08:18:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=yONz62/mxPI0iNEp1d+Y7fBEyh76agMtUH2ueKQsi6M=;
+	b=gkUZYTRDStMwrPk+CN24EkXsvJkMDqsPKtU2i3ZeLBdIna8zgfenYctjMHkr090HGv
+	Sk/jpCL/vvjB7srYBgCUZQZIQG9BwN8swsyL1/WMo7G3HL6QmqrpbY8pWDvg8IJeaP6W
+	Qv4a7XjNdDeymsDM8v3wQDIO6MCwDgVVRbS6MZh3XhioVirdj2zJsaayOtTK3h2aONzw
+	BZ6WdT9+D987M6QfOuUw/EsuKuz9mJ6mFyHVh3kEbcYJMaEVH6uY5miY9y1oFsM1EKuo
+	u3BKvedPj8NQIghNnpXWIdei3ubeCBPl+LGF/3EWrE57n1brVAxNhDvyKhCXsXkJP3+/
+	Ebtg==
+MIME-Version: 1.0
+X-Received: by 10.112.173.6 with SMTP id bg6mr22389926lbc.17.1393863490901;
+	Mon, 03 Mar 2014 08:18:10 -0800 (PST)
+Received: by 10.112.170.166 with HTTP; Mon, 3 Mar 2014 08:18:10 -0800 (PST)
+In-Reply-To: <1393848618.1668.9.camel@sestows040.enea.se>
 References: <1393500786-16877-1-git-send-email-josep.puigdemont@enea.com>
 	<CADkTA4M1qW4ZTzieAZo=Pb+Ybdkw9FvSXw1qDQpzo-KWC10M8A@mail.gmail.com>
-In-Reply-To: <CADkTA4M1qW4ZTzieAZo=Pb+Ybdkw9FvSXw1qDQpzo-KWC10M8A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.16.141.163]
-MIME-Version: 1.0
+	<1393848618.1668.9.camel@sestows040.enea.se>
+Date: Mon, 3 Mar 2014 11:18:10 -0500
+Message-ID: <CADkTA4N3y7Ly-uxSUdqt0qEx=NuiUGTTB0jz4p32kqjC1xgwqw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Josep Puigdemont <josep.puigdemont@enea.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] Update lxc recipe to 1.0.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
@@ -35,73 +44,98 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Mar 2014 12:10:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <38A59B4BCACEE64BA535B4454FF37E6D@local>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 03 Mar 2014 16:18:15 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-T24gVGh1LCAyMDE0LTAyLTI3IGF0IDE0OjQyIC0wNTAwLCBCcnVjZSBBc2hmaWVsZCB3cm90ZToN
-Cj4gT24gVGh1LCBGZWIgMjcsIDIwMTQgYXQgNjozMyBBTSwgSm9zZXAgUHVpZ2RlbW9udA0KPiA8
-am9zZXAucHVpZ2RlbW9udEBlbmVhLmNvbT4gd3JvdGU6DQo+ID4gTFhDIDEuMCB3YXMgcmVsZWFz
-ZWQgbGFzdCB3ZWVrIFsxXSwgdGhpcyBpcyBhbiB1cGRhdGUgb2YgdGhlIGx4YyByZWNpcGUgdG8g
-dXNlDQo+ID4gdGhlIGxhdGVzdCBzdGFibGUgdmVyc2lvbi4NCj4gPiBUaGVyZSBhcmUgbm90IG1h
-bnkgY2hhbmdlcyBmcm9tIHRoZSAwLjkuMCByZWNpcGUsIGp1c3QgdGhlIGhhc2hlcyBhbmQgdGhl
-IGZldGNoDQo+ID4gdXJsLiBTb21lIHBhdGNoZXMgaGF2ZSBiZWVuIHJlbW92ZWQgc2luY2UgdGhl
-eSBoYXZlIGFscmVhZHkgYmVlbiBpbmNsdWRlZA0KPiA+IGluIGx4Yy0xLjAuMC4NCj4gDQo+IE5p
-Y2UgdG8gc3RheSBzbyBxdWlja2x5IHVwIHRvIGRhdGUgOikNCj4gDQo+IFRoZSBzZXJpZXMgbG9v
-a3MgZ29vZCB0byBtZSwgZGlkIHlvdSBkbyBhbnkgcnVudGltZSB0ZXN0aW5nIHRvIHNob3cgYmFz
-aWMNCj4gZnVuY3Rpb25hbGl0eSB3YXMgc3RpbGwgaW50YWN0ID8gSSBhc3N1bWUgaXQgaXMsIGJ1
-dCBJIGRpZG4ndCBhc2sgb25jZSwgYW5kIHdhcw0KPiBiaXR0ZW4gYnkgYSBpbml0IGVycm9yIQ0K
-DQpIaSBCcnVjZSENClNvcnJ5IEkgZGlkbid0IGFuc3dlciBlYXJsaWVyLCBJIHdhcyBhd2F5IHdp
-dGhvdXQgZW1haWwgdW50aWwgdG9kYXkuDQpUaGFuayB5b3UgZm9yIGFwcGx5aW5nIHRoZSBwYXRj
-aCENCg0KUmVncmV0dGFibHkgSSBkaWQgbm90IGRvIHZlcnkgdGhvcm91Z2ggdGVzdGluZywgSSB1
-c2VkIGl0IHRvDQpzdGFydC9zdG9wL2V4ZWN1dGUgY29udGFpbmVycywgYnV0IGRpZG4ndCB1c2Ug
-bHhjLWNyZWF0ZSBmb3IgaW5zdGFuY2UNCihtb3N0IG9mIHRoZSBwcmV2aW91cyBwYXRjaGVzIHdl
-cmUgcmVsYXRlZCB0byB0aGUgdGVtcGxhdGVzIHVzZWQgYnkNCmx4Yy1jcmVhdGUpLiBJJ2xsIGdp
-dmUgaXQgYSBnbyBpZiBJIGhhdmUgdGltZSB0b21vcnJvdyAoSSBkb24ndCB0aGluaw0KSSdsbCBi
-ZSBhYmxlIHRvIGRvIGl0IHRvZGF5KSwgdW5sZXNzIHlvdSd2ZSBhbHJlYWR5IGRvbmUgc28uDQoN
-ClRoYW5rcyENCg0KL0pvc2VwDQoNCj4gDQo+IEJydWNlDQo+IA0KPiA+DQo+ID4gWzFdIGh0dHBz
-Oi8vbGlzdHMubGludXhjb250YWluZXJzLm9yZy9waXBlcm1haWwvbHhjLXVzZXJzLzIwMTQtRmVi
-cnVhcnkvMDA2MjYwLmh0bWwNCj4gPg0KPiA+IEpvc2VwIFB1aWdkZW1vbnQgKDEpOg0KPiA+ICAg
-VXBkYXRlIExpbnV4IENvbnRhaW5lcnMgdG8gbHhjLTEuMC4wDQo+ID4NCj4gPiAgLi4uL2x4Yy0w
-LjkuMC1hbHdheXMtc3RyZHVwLXJvb3Rmcy1tb3VudC5wYXRjaCAgICAgfCAgIDI3IC0tLS0tLS0t
-DQo+ID4gIC4uLnhjLTAuOS4wLWNoZWNrLXdoZW4tYmluZC1tb3VudGluZy1saWJkaXJzLnBhdGNo
-IHwgICA0NCAtLS0tLS0tLS0tLS0NCj4gPiAgLi4uL2x4Yy0wLjkuMC1jb25maWd1cmUtYWxsb3ct
-c3ViZGlyLW9iamVjdHMucGF0Y2ggfCAgIDM1IC0tLS0tLS0tLS0NCj4gPiAgLi4uMC45LjAtZGlz
-YWJsZS11ZGhjcC1mcm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2ggfCAgIDI0IC0tLS0tLS0NCj4g
-PiAgLi4uYy0wLjkuMC1kb24tdC1sZXQtTFhDX1BBVEgtZW5kLWluLWZhaWx1cmUucGF0Y2ggfCAg
-IDI5IC0tLS0tLS0tDQo+ID4gIC4uLi1jaHBhc3N3ZC1mdW5jdGlvbmFsaXR5LWZvci1idXN5Ym94
-LWhvc3RzLnBhdGNoIHwgICA3MCAtLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICAuLi50ZGV2LXJl
-LXJlYWQtaWZpbmRleC1pbi1MWENfTkVUX1BIWVMtY2FzZS5wYXRjaCB8ICAgNDkgLS0tLS0tLS0t
-LS0tLS0NCj4gPiAgLi4uL2ZpbGVzL2x4Yy0wLjkuMC11c2Utc3VzdjMtaGVhZC1hcmd1bWVudHMu
-cGF0Y2ggfCAgIDQ2IC0tLS0tLS0tLS0tLS0NCj4gPiAgLi4uMS4wLjAtZGlzYWJsZS11ZGhjcC1m
-cm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2ggfCAgIDI0ICsrKysrKysNCj4gPiAgcmVjaXBlcy1j
-b250YWluZXJzL2x4Yy9seGNfMC45LjAuYmIgICAgICAgICAgICAgICAgfCAgIDY5IC0tLS0tLS0t
-LS0tLS0tLS0tLS0NCj4gPiAgcmVjaXBlcy1jb250YWluZXJzL2x4Yy9seGNfMS4wLjAuYmIgICAg
-ICAgICAgICAgICAgfCAgIDYyICsrKysrKysrKysrKysrKysrDQo+ID4gIDExIGZpbGVzIGNoYW5n
-ZWQsIDg2IGluc2VydGlvbnMoKyksIDM5MyBkZWxldGlvbnMoLSkNCj4gPiAgZGVsZXRlIG1vZGUg
-MTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhjLTAuOS4wLWFsd2F5cy1zdHJk
-dXAtcm9vdGZzLW1vdW50LnBhdGNoDQo+ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWNv
-bnRhaW5lcnMvbHhjL2ZpbGVzL2x4Yy0wLjkuMC1jaGVjay13aGVuLWJpbmQtbW91bnRpbmctbGli
-ZGlycy5wYXRjaA0KPiA+ICBkZWxldGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1jb250YWluZXJzL2x4
-Yy9maWxlcy9seGMtMC45LjAtY29uZmlndXJlLWFsbG93LXN1YmRpci1vYmplY3RzLnBhdGNoDQo+
-ID4gIGRlbGV0ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2ZpbGVzL2x4Yy0w
-LjkuMC1kaXNhYmxlLXVkaGNwLWZyb20tYnVzeWJveC10ZW1wbGF0ZS5wYXRjaA0KPiA+ICBkZWxl
-dGUgbW9kZSAxMDA2NDQgcmVjaXBlcy1jb250YWluZXJzL2x4Yy9maWxlcy9seGMtMC45LjAtZG9u
-LXQtbGV0LUxYQ19QQVRILWVuZC1pbi1mYWlsdXJlLnBhdGNoDQo+ID4gIGRlbGV0ZSBtb2RlIDEw
-MDY0NCByZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2ZpbGVzL2x4Yy0wLjkuMC1lbmFibGUtY2hyb290
-LWNocGFzc3dkLWZ1bmN0aW9uYWxpdHktZm9yLWJ1c3lib3gtaG9zdHMucGF0Y2gNCj4gPiAgZGVs
-ZXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhjLTAuOS4wLXNl
-dHVwX25ldGRldi1yZS1yZWFkLWlmaW5kZXgtaW4tTFhDX05FVF9QSFlTLWNhc2UucGF0Y2gNCj4g
-PiAgZGVsZXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhjLTAu
-OS4wLXVzZS1zdXN2My1oZWFkLWFyZ3VtZW50cy5wYXRjaA0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2
-NDQgcmVjaXBlcy1jb250YWluZXJzL2x4Yy9maWxlcy9seGMtMS4wLjAtZGlzYWJsZS11ZGhjcC1m
-cm9tLWJ1c3lib3gtdGVtcGxhdGUucGF0Y2gNCj4gPiAgZGVsZXRlIG1vZGUgMTAwNjQ0IHJlY2lw
-ZXMtY29udGFpbmVycy9seGMvbHhjXzAuOS4wLmJiDQo+ID4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBy
-ZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2x4Y18xLjAuMC5iYg0KPiA+DQo+ID4gLS0NCj4gPiAxLjcu
-MTAuNA0KPiA+DQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX18NCj4gPiBtZXRhLXZpcnR1YWxpemF0aW9uIG1haWxpbmcgbGlzdA0KPiA+IG1ldGEtdmly
-dHVhbGl6YXRpb25AeW9jdG9wcm9qZWN0Lm9yZw0KPiA+IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9q
-ZWN0Lm9yZy9saXN0aW5mby9tZXRhLXZpcnR1YWxpemF0aW9uDQo+IA0KPiANCj4gDQoNCg==
+On Mon, Mar 3, 2014 at 7:10 AM, Josep Puigdemont
+<josep.puigdemont@enea.com> wrote:
+> On Thu, 2014-02-27 at 14:42 -0500, Bruce Ashfield wrote:
+>> On Thu, Feb 27, 2014 at 6:33 AM, Josep Puigdemont
+>> <josep.puigdemont@enea.com> wrote:
+>> > LXC 1.0 was released last week [1], this is an update of the lxc recipe to use
+>> > the latest stable version.
+>> > There are not many changes from the 0.9.0 recipe, just the hashes and the fetch
+>> > url. Some patches have been removed since they have already been included
+>> > in lxc-1.0.0.
+>>
+>> Nice to stay so quickly up to date :)
+>>
+>> The series looks good to me, did you do any runtime testing to show basic
+>> functionality was still intact ? I assume it is, but I didn't ask once, and was
+>> bitten by a init error!
+>
+> Hi Bruce!
+> Sorry I didn't answer earlier, I was away without email until today.
+> Thank you for applying the patch!
+
+No worries. I went ahead and merged it, since a quick check confirmed
+the details of your commit.
+
+>
+> Regrettably I did not do very thorough testing, I used it to
+> start/stop/execute containers, but didn't use lxc-create for instance
+> (most of the previous patches were related to the templates used by
+> lxc-create). I'll give it a go if I have time tomorrow (I don't think
+> I'll be able to do it today), unless you've already done so.
+
+I did do a basic build and smoke test, but getting a bit more testing
+would be ideal :)
+
+Bruce
+
+>
+> Thanks!
+>
+> /Josep
+>
+>>
+>> Bruce
+>>
+>> >
+>> > [1] https://lists.linuxcontainers.org/pipermail/lxc-users/2014-February/006260.html
+>> >
+>> > Josep Puigdemont (1):
+>> >   Update Linux Containers to lxc-1.0.0
+>> >
+>> >  .../lxc-0.9.0-always-strdup-rootfs-mount.patch     |   27 --------
+>> >  ...xc-0.9.0-check-when-bind-mounting-libdirs.patch |   44 ------------
+>> >  .../lxc-0.9.0-configure-allow-subdir-objects.patch |   35 ----------
+>> >  ...0.9.0-disable-udhcp-from-busybox-template.patch |   24 -------
+>> >  ...c-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch |   29 --------
+>> >  ...-chpasswd-functionality-for-busybox-hosts.patch |   70 --------------------
+>> >  ...tdev-re-read-ifindex-in-LXC_NET_PHYS-case.patch |   49 --------------
+>> >  .../files/lxc-0.9.0-use-susv3-head-arguments.patch |   46 -------------
+>> >  ...1.0.0-disable-udhcp-from-busybox-template.patch |   24 +++++++
+>> >  recipes-containers/lxc/lxc_0.9.0.bb                |   69 -------------------
+>> >  recipes-containers/lxc/lxc_1.0.0.bb                |   62 +++++++++++++++++
+>> >  11 files changed, 86 insertions(+), 393 deletions(-)
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-always-strdup-rootfs-mount.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-check-when-bind-mounting-libdirs.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-configure-allow-subdir-objects.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-disable-udhcp-from-busybox-template.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-don-t-let-LXC_PATH-end-in-failure.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-enable-chroot-chpasswd-functionality-for-busybox-hosts.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-setup_netdev-re-read-ifindex-in-LXC_NET_PHYS-case.patch
+>> >  delete mode 100644 recipes-containers/lxc/files/lxc-0.9.0-use-susv3-head-arguments.patch
+>> >  create mode 100644 recipes-containers/lxc/files/lxc-1.0.0-disable-udhcp-from-busybox-template.patch
+>> >  delete mode 100644 recipes-containers/lxc/lxc_0.9.0.bb
+>> >  create mode 100644 recipes-containers/lxc/lxc_1.0.0.bb
+>> >
+>> > --
+>> > 1.7.10.4
+>> >
+>> > _______________________________________________
+>> > meta-virtualization mailing list
+>> > meta-virtualization@yoctoproject.org
+>> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>>
+>>
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
