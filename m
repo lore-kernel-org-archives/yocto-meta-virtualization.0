@@ -1,24 +1,35 @@
-Return-Path: <misn@enea.com>
-Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 50860E00502
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
+	[209.85.217.170])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 546D0E00AC1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Mar 2014 03:34:23 -0700 (PDT)
-Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
-	Tue, 18 Mar 2014 11:34:14 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4351)	id 9DB2E2800D0;
-	Tue, 18 Mar 2014 11:34:14 +0100 (CET)
-From: Mihaela Sendrea <mihaela.sendrea@enea.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 18 Mar 2014 11:34:12 +0100
-Message-ID: <1395138852-21444-3-git-send-email-mihaela.sendrea@enea.com>
-X-Mailer: git-send-email 1.7.10.4
+	Wed, 19 Mar 2014 08:00:17 -0700 (PDT)
+Received: by mail-lb0-f170.google.com with SMTP id s7so6083888lbd.29
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 19 Mar 2014 08:00:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=nCSNriWGe3PgLiXlgfkTvjNzyY3hJ/VR+VYsdl+8DNE=;
+	b=jqDcZP2E8uk0f99r5nJ8pnHyC1Cfe8h1CptxuSuUm8A/uFwIfhf/6gigRyqjLKl4fp
+	ZJf7jQ4PGg49tUb6cQqrjvCV9l3Ufax9N6s+bOAaWI30GvfX2irJioiV6bC6NpGP2Cyi
+	DAEHNTiNrLHPEMjLbvZOhNvr7oxyFLc0ygxal5cBIuhQgDX4Myl6mi0TCKXNaWQMSkoO
+	0ixbVumakKgVUoTUWdzZydrAuxuT2X6Ufr1ivU+c1N1jPPkrZnEJbGn343+Ir6ATNd7w
+	uIMi+vlL9obqBs1dOkWeWRFbUBuy5MxzMmLY19kom6cE+IZN0aPApUfJez8GfIkboNbX
+	EWYw==
+MIME-Version: 1.0
+X-Received: by 10.112.151.146 with SMTP id uq18mr2015528lbb.38.1395241215968; 
+	Wed, 19 Mar 2014 08:00:15 -0700 (PDT)
+Received: by 10.112.170.166 with HTTP; Wed, 19 Mar 2014 08:00:15 -0700 (PDT)
 In-Reply-To: <1395138852-21444-1-git-send-email-mihaela.sendrea@enea.com>
 References: <1395138852-21444-1-git-send-email-mihaela.sendrea@enea.com>
-MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: mihaela.sendrea@enea.com does not
-	designate permitted sender hosts)
-Subject: [PATCH 2/2] libvirt: Update version to 1.2.2
+Date: Wed, 19 Mar 2014 11:00:15 -0400
+Message-ID: <CADkTA4PikYAfLRvu8RGr=nJekCp77maEjk9NJLOOwPAYt+EZ0g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mihaela Sendrea <mihaela.sendrea@enea.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 0/2] libvirt ptest support and update to version 1.2.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -31,50 +42,52 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Mar 2014 10:34:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Mar 2014 15:00:18 -0000
+Content-Type: text/plain; charset=ISO-8859-1
 
-Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
----
- recipes-extended/libvirt/libvirt-python.inc                     | 4 ++--
- recipes-extended/libvirt/{libvirt_1.2.1.bb => libvirt_1.2.2.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename recipes-extended/libvirt/{libvirt_1.2.1.bb => libvirt_1.2.2.bb} (98%)
+On Tue, Mar 18, 2014 at 6:34 AM, Mihaela Sendrea
+<mihaela.sendrea@enea.com> wrote:
+> Hi,
+>
+> This patch series adds libvirt to ptest framework and updates to 1.2.2.
+> The testsuite summary for libvirt 1.2.2 looks similar to the one for libvirt 1.2.1 (8 new tests come with the new livbirt version).
 
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index 2144a56..195a9de 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
- SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
- SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
- 
--SRC_URI[libvirt_python.md5sum] = "e1effd6007b2ebd5d024c6c3838456fb"
--SRC_URI[libvirt_python.sha256sum] = "bce558606b157d0717ee7bd6537d85dd4c0321c59b4235c967db7a3aad80e246"
-+SRC_URI[libvirt_python.md5sum] = "cd3b75c0eb64e933f0b648fbdca6e868"
-+SRC_URI[libvirt_python.sha256sum] = "94d79d662b6010f6c688b8856b2d95077736d48ffa35feed5a339d7fafbf8c39"
- 
- export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
- export LIBVIRT_CFLAGS = "-I${S}/include"
-diff --git a/recipes-extended/libvirt/libvirt_1.2.1.bb b/recipes-extended/libvirt/libvirt_1.2.2.bb
-similarity index 98%
-rename from recipes-extended/libvirt/libvirt_1.2.1.bb
-rename to recipes-extended/libvirt/libvirt_1.2.2.bb
-index e2c0f99..0cd6b99 100644
---- a/recipes-extended/libvirt/libvirt_1.2.1.bb
-+++ b/recipes-extended/libvirt/libvirt_1.2.2.bb
-@@ -31,8 +31,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
-            file://run-ptest \
-           "
- 
--SRC_URI[libvirt.md5sum] = "cce374220f67895afb6331bd2ddedbfd"
--SRC_URI[libvirt.sha256sum] = "bc29b5751bf36753c17e2fdbb75e70c7b07df3d9527586d3426e90f5f4abb898"
-+SRC_URI[libvirt.md5sum] = "592958ad1ddce7574d8cb0a31e635acd"
-+SRC_URI[libvirt.sha256sum] = "a48377e307c5c21b67e43db99af909a23c33aff8cbbaa3361fd389eb047cbbc3"
- 
- inherit autotools gettext update-rc.d pkgconfig ptest
- 
+This looks good to me. I threw the two other uprev patches to 1.2.2 out and
+took your series, since it comes with testing information :)
+
+Thanks for the update.
+
+Bruce
+
+>
+> Best regards,
+> Mihaela Sendrea.
+>
+> Mihaela Sendrea (2):
+>   libvirt: Add ptest support
+>   libvirt: Update version to 1.2.2
+>
+>  recipes-extended/libvirt/libvirt-python.inc        |   4 +-
+>  recipes-extended/libvirt/libvirt/run-ptest         |   3 +
+>  recipes-extended/libvirt/libvirt/runptest.patch    | 112 +++++++++++++++++++++
+>  .../libvirt/{libvirt_1.2.1.bb => libvirt_1.2.2.bb} |  43 +++++++-
+>  4 files changed, 155 insertions(+), 7 deletions(-)
+>  create mode 100644 recipes-extended/libvirt/libvirt/run-ptest
+>  create mode 100644 recipes-extended/libvirt/libvirt/runptest.patch
+>  rename recipes-extended/libvirt/{libvirt_1.2.1.bb => libvirt_1.2.2.bb} (87%)
+>
+> --
+> 1.8.5.3
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-1.8.5.3
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
