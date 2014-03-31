@@ -1,35 +1,19 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 546D0E00AC1
+Return-Path: <Radu.Patriu@enea.com>
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 9DCB5E00BF6
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 19 Mar 2014 08:00:17 -0700 (PDT)
-Received: by mail-lb0-f170.google.com with SMTP id s7so6083888lbd.29
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 19 Mar 2014 08:00:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=nCSNriWGe3PgLiXlgfkTvjNzyY3hJ/VR+VYsdl+8DNE=;
-	b=jqDcZP2E8uk0f99r5nJ8pnHyC1Cfe8h1CptxuSuUm8A/uFwIfhf/6gigRyqjLKl4fp
-	ZJf7jQ4PGg49tUb6cQqrjvCV9l3Ufax9N6s+bOAaWI30GvfX2irJioiV6bC6NpGP2Cyi
-	DAEHNTiNrLHPEMjLbvZOhNvr7oxyFLc0ygxal5cBIuhQgDX4Myl6mi0TCKXNaWQMSkoO
-	0ixbVumakKgVUoTUWdzZydrAuxuT2X6Ufr1ivU+c1N1jPPkrZnEJbGn343+Ir6ATNd7w
-	uIMi+vlL9obqBs1dOkWeWRFbUBuy5MxzMmLY19kom6cE+IZN0aPApUfJez8GfIkboNbX
-	EWYw==
+	Mon, 31 Mar 2014 01:50:12 -0700 (PDT)
+Received: from rapa-2.enea.se (192.168.14.124) by SESTOEX03.enea.se
+	(172.21.1.38) with Microsoft SMTP Server (TLS) id 14.3.158.1;
+	Mon, 31 Mar 2014 10:50:07 +0200
+From: Radu Patriu <radu.patriu@enea.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 31 Mar 2014 11:49:58 +0300
+Message-ID: <1396255798-12753-1-git-send-email-radu.patriu@enea.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.112.151.146 with SMTP id uq18mr2015528lbb.38.1395241215968; 
-	Wed, 19 Mar 2014 08:00:15 -0700 (PDT)
-Received: by 10.112.170.166 with HTTP; Wed, 19 Mar 2014 08:00:15 -0700 (PDT)
-In-Reply-To: <1395138852-21444-1-git-send-email-mihaela.sendrea@enea.com>
-References: <1395138852-21444-1-git-send-email-mihaela.sendrea@enea.com>
-Date: Wed, 19 Mar 2014 11:00:15 -0400
-Message-ID: <CADkTA4PikYAfLRvu8RGr=nJekCp77maEjk9NJLOOwPAYt+EZ0g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mihaela Sendrea <mihaela.sendrea@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 0/2] libvirt ptest support and update to version 1.2.2
+X-Originating-IP: [192.168.14.124]
+Subject: [PATCH] openvswitch: add ptest support
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,52 +26,145 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Mar 2014 15:00:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Mon, 31 Mar 2014 08:50:16 -0000
+Content-Type: text/plain
 
-On Tue, Mar 18, 2014 at 6:34 AM, Mihaela Sendrea
-<mihaela.sendrea@enea.com> wrote:
-> Hi,
->
-> This patch series adds libvirt to ptest framework and updates to 1.2.2.
-> The testsuite summary for libvirt 1.2.2 looks similar to the one for libvirt 1.2.1 (8 new tests come with the new livbirt version).
+Install openvswitch test suite and run it as ptest.
 
-This looks good to me. I threw the two other uprev patches to 1.2.2 out and
-took your series, since it comes with testing information :)
+Signed-off-by: Radu Patriu <radu.patriu@enea.com>
+---
+ .../openvswitch/files/openvswitch-add-ptest.patch  |   67 ++++++++++++++++++++
+ recipes-networking/openvswitch/files/run-ptest     |    4 ++
+ .../openvswitch/openvswitch_2.0.0.bb               |   16 ++++-
+ 3 files changed, 85 insertions(+), 2 deletions(-)
+ create mode 100644 recipes-networking/openvswitch/files/openvswitch-add-ptest.patch
+ create mode 100644 recipes-networking/openvswitch/files/run-ptest
 
-Thanks for the update.
-
-Bruce
-
->
-> Best regards,
-> Mihaela Sendrea.
->
-> Mihaela Sendrea (2):
->   libvirt: Add ptest support
->   libvirt: Update version to 1.2.2
->
->  recipes-extended/libvirt/libvirt-python.inc        |   4 +-
->  recipes-extended/libvirt/libvirt/run-ptest         |   3 +
->  recipes-extended/libvirt/libvirt/runptest.patch    | 112 +++++++++++++++++++++
->  .../libvirt/{libvirt_1.2.1.bb => libvirt_1.2.2.bb} |  43 +++++++-
->  4 files changed, 155 insertions(+), 7 deletions(-)
->  create mode 100644 recipes-extended/libvirt/libvirt/run-ptest
->  create mode 100644 recipes-extended/libvirt/libvirt/runptest.patch
->  rename recipes-extended/libvirt/{libvirt_1.2.1.bb => libvirt_1.2.2.bb} (87%)
->
-> --
-> 1.8.5.3
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch b/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch
+new file mode 100644
+index 0000000..aebb182
+--- /dev/null
++++ b/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch
+@@ -0,0 +1,67 @@
++Add test-install rule to support ptest execution
++
++Signed-off-by: Radu Patriu <radu.patriu@enea.com>
++
++Index: ovs/Makefile.am
++===================================================================
++--- ovs.orig/Makefile.am	2014-03-10 16:19:46.000000000 +0200
+++++ ovs/Makefile.am	2014-03-10 16:23:10.481075341 +0200
++@@ -276,3 +276,4 @@
++ include python/automake.mk
++ include python/compat/automake.mk
++ include tutorial/automake.mk
+++include test.mk
++Index: ovs/test.mk
++===================================================================
++--- /dev/null	1970-01-01 00:00:00.000000000 +0000
+++++ ovs/test.mk	2014-03-10 16:42:41.000000000 +0200
++@@ -0,0 +1,49 @@
+++TEST_DEST ?= ${prefix}/lib/openvswitch
+++TEST_ROOT ?= ${prefix}/lib/openvswitch
+++TEST_DEPEND =
+++
+++if HAVE_OPENSSL
+++TEST_DEPEND += $(TESTPKI_FILES)
+++endif
+++
+++test-install: $(TEST_DEPEND)
+++	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
+++	install -d $(TEST_DEST)/tests ;\
+++	install -d $(TEST_DEST)/python ;\
+++	install -d $(TEST_DEST)/python/ovs ;\
+++	install -d $(TEST_DEST)/python/ovs/db ;\
+++	install -d $(TEST_DEST)/python/ovs/unixctl ;\
+++	install -d $(TEST_DEST)/vswitchd ;\
+++	install vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
+++	install -d $(TEST_DEST)/debian ;\
+++	install debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
+++	install -d $(TEST_DEST)/build-aux ;\
+++	install build-aux/check-structs $(TEST_DEST)/build-aux ;\
+++	install -d $(TEST_DEST)/xenserver ;\
+++	install xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
+++	install xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
+++	install xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
+++	install xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
+++	install xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
+++	install -d $(TEST_DEST)/vtep ;\
+++	install vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
+++	for p in $$list ; do \
+++	  echo $$p ;\
+++	  p=$${p#./} ;\
+++	  pre=$${p#tests\/} ;\
+++	  if test $$pre != $$p ; then \
+++	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
+++	    install $$p $(TEST_DEST)/tests/$$pre ;\
+++	    continue ;\
+++	  fi ;\
+++	  pre=$${p#python\/ovs\/} ;\
+++	  if test $$pre != $$p ; then \
+++	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
+++	    install $$p $(TEST_DEST)/python/ovs/$$pre ;\
+++	    continue ;\
+++	  fi; \
+++	done ;\
+++	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
+diff --git a/recipes-networking/openvswitch/files/run-ptest b/recipes-networking/openvswitch/files/run-ptest
+new file mode 100644
+index 0000000..dd06707
+--- /dev/null
++++ b/recipes-networking/openvswitch/files/run-ptest
+@@ -0,0 +1,4 @@
++#!/bin/sh
++
++./tests/testsuite --am-fmt -C tests AUTOTEST_PATH=utilities:vswitchd:ovsdb:tests
++
+diff --git a/recipes-networking/openvswitch/openvswitch_2.0.0.bb b/recipes-networking/openvswitch/openvswitch_2.0.0.bb
+index 15c4dca..0100308 100644
+--- a/recipes-networking/openvswitch/openvswitch_2.0.0.bb
++++ b/recipes-networking/openvswitch/openvswitch_2.0.0.bb
+@@ -14,6 +14,10 @@ RDEPENDS_${PN}-pki = "${PN}"
+ RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
+ RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+ 
++RDEPENDS_${PN}-ptest += "python-logging python-syslog python-argparse python-io \
++                     python-fcntl python-shell python-lang python-xml python-math \
++                     python-datetime python-netclient python sed"
++
+ # Some installers will fail because of an install order based on
+ # rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
+ # queued for install later.
+@@ -26,7 +30,9 @@ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+ 	file://openvswitch-controller-setup \
+ 	file://openvswitch-add-target-python-handling.patch \
+ 	file://openvswitch-add-target-perl-handling.patch \
+-        file://openvswitch-add-more-target-python-substitutions.patch \
++	file://openvswitch-add-more-target-python-substitutions.patch \
++	file://openvswitch-add-ptest.patch \
++	file://run-ptest \
+ 	"
+ 
+ SRC_URI[md5sum] = "7d7a58350e634e515e0fe43c64d64f44"
+@@ -60,7 +66,13 @@ FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
+ FILES_${PN} += "${datadir}/ovsdbmonitor"
+ FILES_${PN} += "/run"
+ 
+-inherit autotools update-rc.d
++inherit autotools update-rc.d ptest
++
++EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
++
++do_install_ptest() {
++	oe_runmake test-install
++}
+ 
+ INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
+ INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.5
+
 
