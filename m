@@ -1,35 +1,46 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lb0-f181.google.com (mail-lb0-f181.google.com
-	[209.85.217.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C431EE00B7F
+Return-Path: <cosmin.paraschiv@freescale.com>
+Received: from tx2outboundpool.messaging.microsoft.com
+	(tx2ehsobe004.messaging.microsoft.com [65.55.88.14])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CCB41E00BAB
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  1 Apr 2014 17:53:32 -0700 (PDT)
-Received: by mail-lb0-f181.google.com with SMTP id c11so7459130lbj.26
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 01 Apr 2014 17:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=GTWWmT1lqXPYjX5tXWBOqyp+QMuPWsGCHzrHup1er5I=;
-	b=wVsKU4iiH9dhGz1cBx6Wy25tob/5BLuIwhrurroD/f4xm26NaHSR5Gieja/j0rO0JB
-	sh5OJ9rlUxvEclv9tVqGU0S6yEZ0QuW6Qti6+p1Qe9BEucO++PbVaM8T/AvL9OEzrj1u
-	1L4qSBqK5/YqFIQPJ4FtWEeGl/rmsAoQ2cj/3WovjIaJFxXjEZRHSKgVXEIez0w4sFoc
-	SJCaoPH8jPOxQzDfG6pFqRNN68rONvP/H0AGGhldto3zZP+undUq14N3mL9t9wk54FJc
-	pYcOaFy7bKRWcPTvG9Q63mqYNek85qfXN0USkp/w5kMDu5n9f46LbgboZlm8a1mIex/o
-	iY0w==
+	Wed,  2 Apr 2014 01:05:40 -0700 (PDT)
+Received: from mail216-tx2-R.bigfish.com (10.9.14.246) by
+	TX2EHSOBE015.bigfish.com (10.9.40.35) with Microsoft SMTP Server id
+	14.1.225.22; Wed, 2 Apr 2014 08:05:39 +0000
+Received: from mail216-tx2 (localhost [127.0.0.1])	by
+	mail216-tx2-R.bigfish.com (Postfix) with ESMTP id 849E15C01F1	for
+	<meta-virtualization@yoctoproject.org>;
+	Wed,  2 Apr 2014 08:05:39 +0000 (UTC)
+X-Forefront-Antispam-Report: CIP:70.37.183.190; KIP:(null); UIP:(null); IPV:NLI;
+	H:mail.freescale.net; RD:none; EFVD:NLI
+X-SpamScore: 0
+X-BigFish: VS0(zzzz1f42h2148h1ee6h1de0h1fdah2073h2146h1202h1e76h2189h1d1ah1d2ah21bch1fc6h208chzz1de098h8275bh1de097hz2dh2a8h839hd24he5bhf0ah1288h12a5h12a9h12bdh12e5h137ah139eh13b6h1441h1504h1537h162dh1631h1758h1898h18e1h1946h19b5h1ad9h1b0ah1b2fh2222h224fh1fb3h1d0ch1d2eh1d3fh1dc1h1dfeh1dffh1e23h1fe8h1ff5h2218h2216h226dh22d0h24afh2327h2336h2438h2461h2487h24d7h2516h2545h255eh25cch25f6h2605h268bh26d3h1155h)
+Received: from mail216-tx2 (localhost.localdomain [127.0.0.1]) by mail216-tx2
+	(MessageSwitch) id 1396425937530897_14468;
+	Wed,  2 Apr 2014 08:05:37 +0000 (UTC)
+Received: from TX2EHSMHS005.bigfish.com (unknown [10.9.14.247])	by
+	mail216-tx2.bigfish.com (Postfix) with ESMTP id 7C95A3400CE;
+	Wed,  2 Apr 2014 08:05:37 +0000 (UTC)
+Received: from mail.freescale.net (70.37.183.190) by TX2EHSMHS005.bigfish.com
+	(10.9.99.105) with Microsoft SMTP Server (TLS) id 14.16.227.3;
+	Wed, 2 Apr 2014 08:05:36 +0000
+Received: from az84smr01.freescale.net (10.64.34.197) by
+	039-SN1MMR1-001.039d.mgd.msft.net (10.84.1.13) with Microsoft SMTP
+	Server (TLS) id 14.3.158.2; Wed, 2 Apr 2014 08:05:36 +0000
+Received: from fsr-ub1264-104.ea.freescale.net
+	(fsr-ub1264-104.ea.freescale.net [10.171.73.71])	by
+	az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id s3285YfI017060;
+	Wed, 2 Apr 2014 01:05:35 -0700
+From: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 2 Apr 2014 11:05:32 +0300
+Message-ID: <1396425932-16233-1-git-send-email-cosmin.paraschiv@freescale.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.152.210.70 with SMTP id ms6mr24696887lac.5.1396400011252;
-	Tue, 01 Apr 2014 17:53:31 -0700 (PDT)
-Received: by 10.112.58.132 with HTTP; Tue, 1 Apr 2014 17:53:30 -0700 (PDT)
-In-Reply-To: <1396353496-3511-1-git-send-email-bogdan.purcareata@freescale.com>
-References: <1396353496-3511-1-git-send-email-bogdan.purcareata@freescale.com>
-Date: Tue, 1 Apr 2014 20:53:30 -0400
-Message-ID: <CADkTA4O_5PBnknnyFEDGwLr8cBuKYvhXcjHWrWS7fZCUi=kM5A@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: bug fixes from upstream
+X-OriginatorOrg: freescale.com
+X-FOPE-CONNECTOR: Id%0$Dn%*$RO%0$TLS%0$FQDN%$TlsDn%
+X-FOPE-CONNECTOR: Id%0$Dn%FREESCALE.MAIL.ONMICROSOFT.COM$RO%1$TLS%0$FQDN%$TlsDn%
+Subject: [PATCH] linux-yocto: Remove 3.8 kernel bbappend
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,199 +53,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Apr 2014 00:53:36 -0000
-Content-Type: text/plain; charset=ISO-8859-1
+X-List-Received-Date: Wed, 02 Apr 2014 08:05:42 -0000
+Content-Type: text/plain
 
-On Tue, Apr 1, 2014 at 7:58 AM, Bogdan Purcareata
-<bogdan.purcareata@freescale.com> wrote:
-> Adding a couple of upstream fixes for lxc:
-> - follow symlinks when determining if Busybox is statically linked
-> - don't fail for lxc.network.type = none
-> - don't fail if no default macvlan mode is specified
->
-> More details are available in the individual patches.
+Commit c565d76c from poky removed the 3.8 kernel
+from the list of supported kernels in Yocto 1.6.
 
+Signed-off-by: Cosmin Paraschiv <cosmin.paraschiv@freescale.com>
+---
+ recipes-kernel/linux/linux-yocto_3.8.bbappend |   19 -------------------
+ 1 file changed, 19 deletions(-)
+ delete mode 100644 recipes-kernel/linux/linux-yocto_3.8.bbappend
 
-Looks sane.
-
-merged.
-
-Bruce
-
->
-> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> ---
->  ...ork_type-set-macvlan-default-mode-to-priv.patch | 43 ++++++++++++++++++++++
->  ...-follow-symlinks-when-inspecting-busybox-.patch | 27 ++++++++++++++
->  ...-Add-missing-LXC_NET_NONE-option-refactor.patch | 38 +++++++++++++++++++
->  recipes-containers/lxc/lxc_1.0.0.bb                |  5 ++-
->  4 files changed, 112 insertions(+), 1 deletion(-)
->  create mode 100644 recipes-containers/lxc/files/config_network_type-set-macvlan-default-mode-to-priv.patch
->  create mode 100644 recipes-containers/lxc/files/lxc-busybox-follow-symlinks-when-inspecting-busybox-.patch
->  create mode 100644 recipes-containers/lxc/files/network.c-Add-missing-LXC_NET_NONE-option-refactor.patch
->
-> diff --git a/recipes-containers/lxc/files/config_network_type-set-macvlan-default-mode-to-priv.patch b/recipes-containers/lxc/files/config_network_type-set-macvlan-default-mode-to-priv.patch
-> new file mode 100644
-> index 0000000..8cb321b
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/config_network_type-set-macvlan-default-mode-to-priv.patch
-> @@ -0,0 +1,43 @@
-> +From 261658e80014c031852a024f8794dd7f2a2351ad Mon Sep 17 00:00:00 2001
-> +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Date: Fri, 28 Mar 2014 10:31:41 -0400
-> +Subject: [PATCH] config_network_type: set macvlan default mode to private
-> +
-> +If a default mode is not set, the container requires an explicit
-> +mode specified in the config file, otherwise creating the
-> +container fails.
-> +
-> +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-> +---
-> + src/lxc/confile.c | 6 +++++-
-> + 1 file changed, 5 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/lxc/confile.c b/src/lxc/confile.c
-> +index d6cf151..90fb344 100644
-> +--- a/src/lxc/confile.c
-> ++++ b/src/lxc/confile.c
-> +@@ -303,6 +303,8 @@ out:
-> +       return ret;
-> + }
-> +
-> ++static int macvlan_mode(int *valuep, const char *value);
-> ++
-> + static int config_network_type(const char *key, const char *value,
-> +                              struct lxc_conf *lxc_conf)
-> + {
-> +@@ -337,8 +339,10 @@ static int config_network_type(const char *key, const char *value,
-> +
-> +       if (!strcmp(value, "veth"))
-> +               netdev->type = LXC_NET_VETH;
-> +-      else if (!strcmp(value, "macvlan"))
-> ++      else if (!strcmp(value, "macvlan")) {
-> +               netdev->type = LXC_NET_MACVLAN;
-> ++              macvlan_mode(&netdev->priv.macvlan_attr.mode, "private");
-> ++      }
-> +       else if (!strcmp(value, "vlan"))
-> +               netdev->type = LXC_NET_VLAN;
-> +       else if (!strcmp(value, "phys"))
-> +--
-> +1.9.rc1
-> +
-> diff --git a/recipes-containers/lxc/files/lxc-busybox-follow-symlinks-when-inspecting-busybox-.patch b/recipes-containers/lxc/files/lxc-busybox-follow-symlinks-when-inspecting-busybox-.patch
-> new file mode 100644
-> index 0000000..6882c16
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/lxc-busybox-follow-symlinks-when-inspecting-busybox-.patch
-> @@ -0,0 +1,27 @@
-> +From 50dbb8209bf65e4d24ccd06d3ca05004d0ddc63c Mon Sep 17 00:00:00 2001
-> +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Date: Mon, 24 Mar 2014 12:43:03 -0400
-> +Subject: [PATCH] lxc-busybox: follow symlinks when inspecting busybox binary
-> +
-> +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-> +---
-> + templates/lxc-busybox.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
-> +index e5a512a..246e743 100644
-> +--- a/templates/lxc-busybox.in
-> ++++ b/templates/lxc-busybox.in
-> +@@ -187,7 +187,7 @@ configure_busybox()
-> +         return 1
-> +     fi
-> +
-> +-    file $(which busybox) | grep -q "statically linked"
-> ++    file -L $(which busybox) | grep -q "statically linked"
-> +     if [ $? -ne 0 ]; then
-> +         echo "warning : busybox is not statically linked."
-> +         echo "warning : The template script may not correctly"
-> +--
-> +1.9.rc1
-> +
-> diff --git a/recipes-containers/lxc/files/network.c-Add-missing-LXC_NET_NONE-option-refactor.patch b/recipes-containers/lxc/files/network.c-Add-missing-LXC_NET_NONE-option-refactor.patch
-> new file mode 100644
-> index 0000000..81fde83
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/network.c-Add-missing-LXC_NET_NONE-option-refactor.patch
-> @@ -0,0 +1,38 @@
-> +From b343592b45c91db8c18e863fac5ab8eeb94445d6 Mon Sep 17 00:00:00 2001
-> +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Date: Wed, 26 Mar 2014 11:35:09 -0400
-> +Subject: [PATCH] network.c: Add missing LXC_NET_NONE option + refactor
-> +
-> +Add LXC_NET_NONE to known lxc_network_types, so parsing a config
-> +file with lxc.network.type = none does not result in failure
-> +(e.g. doc/examples/lxc-no-netns.conf). Options have also been
-> +reordered to match the enum in conf.h.
-> +
-> +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Signed-off-by: Serge Hallyn <serge.hallyn@ubuntu.com>
-> +---
-> + src/lxc/network.c | 5 +++--
-> + 1 file changed, 3 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/src/lxc/network.c b/src/lxc/network.c
-> +index 090b9bd..a9900de 100644
-> +--- a/src/lxc/network.c
-> ++++ b/src/lxc/network.c
-> +@@ -1202,11 +1202,12 @@ int lxc_bridge_attach(const char *bridge, const char *ifname)
-> + }
-> +
-> + static const char* const lxc_network_types[LXC_NET_MAXCONFTYPE + 1] = {
-> ++      [LXC_NET_EMPTY]   = "empty",
-> +       [LXC_NET_VETH]    = "veth",
-> +       [LXC_NET_MACVLAN] = "macvlan",
-> +-      [LXC_NET_VLAN]    = "vlan",
-> +       [LXC_NET_PHYS]    = "phys",
-> +-      [LXC_NET_EMPTY]   = "empty",
-> ++      [LXC_NET_VLAN]    = "vlan",
-> ++      [LXC_NET_NONE]    = "none",
-> + };
-> +
-> + const char *lxc_net_type_to_str(int type)
-> +--
-> +1.9.rc1
-> +
-> diff --git a/recipes-containers/lxc/lxc_1.0.0.bb b/recipes-containers/lxc/lxc_1.0.0.bb
-> index 36ac78d..d5fc680 100644
-> --- a/recipes-containers/lxc/lxc_1.0.0.bb
-> +++ b/recipes-containers/lxc/lxc_1.0.0.bb
-> @@ -3,7 +3,7 @@ SECTION = "console/utils"
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->  PRIORITY = "optional"
-> -PR = "r3"
-> +PR = "r4"
->  DEPENDS = "libxml2 libcap"
->  RDEPENDS_${PN} = " \
->                 rsync \
-> @@ -23,6 +23,9 @@ RDEPENDS_${PN} = " \
->
->  SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
->         file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
-> +       file://config_network_type-set-macvlan-default-mode-to-priv.patch \
-> +       file://lxc-busybox-follow-symlinks-when-inspecting-busybox-.patch \
-> +       file://network.c-Add-missing-LXC_NET_NONE-option-refactor.patch \
->         "
->  SRC_URI[md5sum] = "87a9d168a6e55326303cce3b2cb7f82e"
->  SRC_URI[sha256sum] = "0992212ddaad01dfe8c048e130566b73dd5f34191585f36bdac07a4f8a91f3bd"
-> --
-> 1.9.rc1
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-kernel/linux/linux-yocto_3.8.bbappend b/recipes-kernel/linux/linux-yocto_3.8.bbappend
+deleted file mode 100644
+index c029c05..0000000
+--- a/recipes-kernel/linux/linux-yocto_3.8.bbappend
++++ /dev/null
+@@ -1,19 +0,0 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+-
+-SRC_URI += "file://xt-checksum.scc \
+-            file://ebtables.scc \
+-	    file://vswitch.scc \
+-	    file://lxc.scc \
+-	    "
+-module_autoload_openvswitch = "openvswitch"
+-KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+-
+-module_autoload_kvm = "kvm"
+-module_autoload_kvm-amd = "kvm-amd"
+-module_autoload_kvm-intel = "kvm-intel"
+-
+-# aufs kernel support required for xen-image-minimal
+-KERNEL_FEATURES_append += "${@base_contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+-
+-# xen kernel support
+-SRC_URI += "${@base_contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.5
+
+
 
