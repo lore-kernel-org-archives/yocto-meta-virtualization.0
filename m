@@ -1,35 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 483A4E00BED
+Return-Path: <joe.slater@windriver.com>
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id D1D6CE00C6A; Tue, 29 Apr 2014 14:57:21 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=0.0 required=5.0 tests=RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A064AE00B95
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Apr 2014 16:46:34 -0700 (PDT)
-Received: by mail-la0-f44.google.com with SMTP id c6so7555803lan.31
+	Tue, 29 Apr 2014 14:57:16 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s3TLvFFw005384
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Apr 2014 16:46:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=2o34/heUq91EKgWPclw/cEn68GpxX19yAqZgnv3Drwg=;
-	b=Jw/e/JYB/weGzXjcm3J8kWZT/GJ2UanIc2cagDyyLPm6XSYUhtI1eB4bUimR2WNaCU
-	HdlLCKF+swuPeSMZc99tgHnDt9DPFsWKmKmcMsYUTXWoUZeUabyPNC/BVeLvUVrMU2Yl
-	7l/8G2K9vagwtNJi2aukF7AVkWYZVYIdREu+U79exhCClSHuh8PZhzpHNqgLRG+tx0Ye
-	wnone//ksNEzwyxqvNb6J9OQAe1y06qWFt9djcViAp25mTx2e88fN8ydFRP+1USkLuGi
-	IZIoLZZL5x1877WnR77xJEhEmLG7UGJEs59Z3LVE2ikTVgES0WYhBbtnPYADu4d9nqIS
-	RFRA==
+	Tue, 29 Apr 2014 14:57:16 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.169.1; Tue, 29 Apr 2014 14:57:15 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 29 Apr 2014 14:57:15 -0700
+Message-ID: <1398808635-24644-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.152.116.43 with SMTP id jt11mr2990086lab.41.1397605592934;
-	Tue, 15 Apr 2014 16:46:32 -0700 (PDT)
-Received: by 10.112.58.132 with HTTP; Tue, 15 Apr 2014 16:46:32 -0700 (PDT)
-In-Reply-To: <1397481980-65447-1-git-send-email-mihaela.sendrea@enea.com>
-References: <1397481980-65447-1-git-send-email-mihaela.sendrea@enea.com>
-Date: Tue, 15 Apr 2014 19:46:32 -0400
-Message-ID: <CADkTA4Nnnn625iyHCQi7gRrpWZbwEtmAJew1w=V-t=FuyLxhMg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mihaela Sendrea <mihaela.sendrea@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 0/2] lxc ptest support and update to version 1.0.1
+Cc: joe.slater@windriver.com
+Subject: [meta-virt][PATCH 1/1] libvirt: add PACKAGECONFIG[numactl]
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,51 +42,31 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Apr 2014 23:46:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 29 Apr 2014 21:57:21 -0000
+Content-Type: text/plain
 
-On Mon, Apr 14, 2014 at 9:26 AM, Mihaela Sendrea
-<mihaela.sendrea@enea.com> wrote:
-> Hi,
->
-> This patch series adds libvirt to ptest framework and updates to 1.0.1.
-> The tests that are using the ubuntu template are not installed, since
-> they are not suitable to embedded distros.
+configure will check for numa support by default, resulting
+in indeterminate configuration.  We add a PACKAGECONFIG[]
+to force behavior.
 
-Looks fine to me.
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ recipes-extended/libvirt/libvirt_1.2.2.bb |    1 +
+ 1 files changed, 1 insertions(+), 0 deletions(-)
 
-merged!
-
-Bruce
-
->
-> Best regards,
-> Mihaela Sendrea.
->
-> Mihaela Sendrea (2):
->   lxc: Add ptest support
->   lxc: Update version to 1.0.1
->
->  recipes-containers/lxc/files/run-ptest             |  4 +++
->  recipes-containers/lxc/files/runtest.patch         | 32 ++++++++++++++++++++++
->  .../lxc/{lxc_1.0.0.bb => lxc_1.0.1.bb}             | 21 +++++++++++---
->  3 files changed, 53 insertions(+), 4 deletions(-)
->  create mode 100644 recipes-containers/lxc/files/run-ptest
->  create mode 100644 recipes-containers/lxc/files/runtest.patch
->  rename recipes-containers/lxc/{lxc_1.0.0.bb => lxc_1.0.1.bb} (77%)
->
-> --
-> 1.8.5.3
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-extended/libvirt/libvirt_1.2.2.bb b/recipes-extended/libvirt/libvirt_1.2.2.bb
+index 0cd6b99..a66a6ad 100644
+--- a/recipes-extended/libvirt/libvirt_1.2.2.bb
++++ b/recipes-extended/libvirt/libvirt_1.2.2.bb
+@@ -168,6 +168,7 @@ PACKAGECONFIG[ebtables] = "ac_cv_path_EBTABLES_PATH=/sbin/ebtables,ac_cv_path_EB
+ PACKAGECONFIG[python] = ",,python,"
+ PACKAGECONFIG[sasl] = "--with-sasl,--without-sasl,cyrus-sasl,cyrus-sasl"
+ PACKAGECONFIG[iproute2] = "ac_cv_path_IP_PATH=/sbin/ip,ac_cv_path_IP_PATH=,iproute2,iproute2"
++PACKAGECONFIG[numactl] = "--with-numactl,--without-numactl,numactl,"
+ 
+ # Enable the Python tool support
+ require libvirt-python.inc
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.3.4
+
 
