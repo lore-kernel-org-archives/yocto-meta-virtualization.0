@@ -1,36 +1,57 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 71433E0070F; Wed,  7 May 2014 12:00:12 -0700 (PDT)
+	id 5ED29E00724; Wed,  7 May 2014 14:24:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.0 required=5.0 tests=none autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: 
-X-Greylist: delayed 7556 seconds by postgrey-1.32 at yocto-www;
-	Wed, 07 May 2014 12:00:09 PDT
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B9512E00480
+X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.217.172 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-lb0-f172.google.com (mail-lb0-f172.google.com
+	[209.85.217.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 22E08E006EF
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  7 May 2014 12:00:09 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s47GsCoR003676
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  7 May 2014 14:24:49 -0700 (PDT)
+Received: by mail-lb0-f172.google.com with SMTP id l4so2289534lbv.31
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 7 May 2014 09:54:13 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
-	Wed, 7 May 2014 09:54:12 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Wed, 7 May 2014 12:52:28 -0400
-Message-ID: <1399481549-15420-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
+	Wed, 07 May 2014 14:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=XL24qxT4PnkxIuFuHFQp1N25yEnuiG7PjGCLAhdVbOg=;
+	b=x/iXq1rIuFydyh11F4Jq1Akj2M3BmE0pEPLA6QxBnBJXa+9w7K81NuGE9s6Se6ilSX
+	uG1n5uiJQDtqHrkQVeyybcmR0ZCGHOUwXg9bOzY+xzTOe1AGmI8dF98Va6CCUO/2aJVn
+	HNahhCWLIpudxi6v1R4lUeruBl8I1jjMaiH/RBnw1CjjLK2X9auwOHIjq1fXA874vTM3
+	F0PqMbriAz5X+3DAmW0AgZSNu6ugTRoY8K40PULUxgxqQpK7I5cg5kV1afmTwKQfRQdx
+	G35ofJQqKzOvYNKL/NzlaOEoyUV0h6Zjq8hlZA5kJK+lhOIGzqokbWayVth8soXYVgGI
+	UV5A==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.56.18]
-Cc: mark.asselstine@windriver.com, meta-virtualization@yoctoproject.org
-Subject: [PATCH 1/2] lxc: fixup VPATH builds
+X-Received: by 10.112.14.5 with SMTP id l5mr15589601lbc.12.1399497888336; Wed,
+	07 May 2014 14:24:48 -0700 (PDT)
+Received: by 10.112.58.132 with HTTP; Wed, 7 May 2014 14:24:48 -0700 (PDT)
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84565B7244@ALA-MBA.corp.ad.wrs.com>
+References: <20140507124513.GA18437@iapetus.enea.se>
+	<CADkTA4NXTB558rHETszFB9WuRwKEWRvr7gwRkDfhJB_fMhwxgA@mail.gmail.com>
+	<20140507131642.GB18437@iapetus.enea.se>
+	<CADkTA4P1UoOQP2FLQVv9_6JnLSKPmq4nYwHy2f1aPVR56sk_fg@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84565B7244@ALA-MBA.corp.ad.wrs.com>
+Date: Wed, 7 May 2014 17:24:48 -0400
+Message-ID: <CADkTA4NJ36Hm57h0C1qWjvJaGNp7N8vvCXsb2UD+wBDx+Z05_Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Slater, Joseph" <joe.slater@windriver.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: libvirt requires libssh2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,86 +64,93 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 19:00:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 07 May 2014 21:24:55 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Poky commit 69b6eaca3d9b635e8a61a0fdbd814b558e91901d [autotools:
-Enable separate builddir by default] enforced separate build
-directories, which is supported by automake. Unfortunately lxc had a
-few make directives which didn't take into account VPATH builds so
-fixing them up here to allow the lxc build to complete successfully.
+On Wed, May 7, 2014 at 2:53 PM, Slater, Joseph <joe.slater@windriver.com> wrote:
+>
+>
+>> -----Original Message-----
+>> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
+>> Sent: Wednesday, May 07, 2014 6:21 AM
+>> To: Josep Puigdemont
+>> Cc: meta-virtualization@yoctoproject.org; Slater, Joseph
+>> Subject: Re: [meta-virtualization] libvirt requires libssh2
+>>
+>> On Wed, May 7, 2014 at 9:16 AM, Josep Puigdemont
+>> <josep.puigdemont@enea.com> wrote:
+>> > On Wed, May 07, 2014 at 09:10:47AM -0400, Bruce Ashfield wrote:
+>> >> On Wed, May 7, 2014 at 8:45 AM, Josep Puigdemont
+>> >> <josep.puigdemont@enea.com> wrote:
+>> >> > Hi,
+>> >> >
+>> >> > A default dependency on libssh2 for libvirt was added recently. Where is libssh2
+>> >> > provided? I can not find it in either meta-oe or oe-core.
+>> >>
+>> >> Joe ? Did that leak in from something local to you ?
+>> >>
+>> >> Regardless, I'll revert the change for now.
+>> >
+>> > Maybe we can keep PACKAGECONFIG[libssh2]
+>>
+>> If that doesn't map to anything obvious in the yocto ecosystem, then I wouldn't
+>> want it to be available at all. Otherwise we'll pollute the options
+>> with internal/private
+>> fields in a public recipe .. which isn't what we want.
+>
+> libvirt configure does check for and will silently use libssh2, so it might be good
+> to tell it not to.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- ...tomake-ensure-VPATH-builds-work-correctly.patch | 45 ++++++++++++++++++++++
- recipes-containers/lxc/lxc_1.0.1.bb                |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch
+That doesn't answer the question. If it checks and silently uses it, but yet it
+isn't in an obvious Yocto layer .. it'll never find it, so we don't
+need a package
+config.
 
-diff --git a/recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch b/recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch
-new file mode 100644
-index 0000000..2a91951
---- /dev/null
-+++ b/recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch
-@@ -0,0 +1,45 @@
-+From 08ccd79319e66b3f0b51fd5f5b539e652a16dfc0 Mon Sep 17 00:00:00 2001
-+From: Mark Asselstine <mark.asselstine@windriver.com>
-+Date: Wed, 30 Apr 2014 11:06:12 -0400
-+Subject: [PATCH] automake: ensure VPATH builds work correctly
-+
-+There were a few non-VPATH friendly directives in some Makefile.am files, fix
-+these up to allow VPATH builds to work.
-+
-+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-+---
-+ config/etc/Makefile.am | 4 ++--
-+ src/tests/Makefile.am  | 2 +-
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/config/etc/Makefile.am b/config/etc/Makefile.am
-+index 81d7709..dca001e 100644
-+--- a/config/etc/Makefile.am
-++++ b/config/etc/Makefile.am
-+@@ -4,8 +4,8 @@ distroconf = @LXC_DISTRO_CONF@
-+ 
-+ EXTRA_DIST = default.conf.ubuntu default.conf.libvirt default.conf.unknown
-+ 
-+-default.conf:
-+-	cp $(distroconf) $@
-++default.conf: $(distroconf)
-++	cp $? $@
-+ 
-+ clean-local:
-+ 	@$(RM) -f default.conf
-+diff --git a/src/tests/Makefile.am b/src/tests/Makefile.am
-+index 7f6645b..641e207 100644
-+--- a/src/tests/Makefile.am
-++++ b/src/tests/Makefile.am
-+@@ -64,7 +64,7 @@ buildtest-TESTS: $(TESTS)
-+ install-ptest:
-+ 	install -d $(TEST_DIR)
-+ 	install -D ../lxc/liblxc.so $(TEST_DIR)/../lxc/liblxc.so
-+-	install -D ../../config/test-driver $(TEST_DIR)/../../config/test-driver
-++	install -D $(top_srcdir)/config/test-driver $(TEST_DIR)/../../config/test-driver
-+ 	cp Makefile $(TEST_DIR)
-+ 	@(for file in $(TESTS); do install $$file $(TEST_DIR);  done;)
-+ 	sed -i 's|^Makefile:|_Makefile:|' $(TEST_DIR)/Makefile
-+-- 
-+1.8.3.2
-+
-diff --git a/recipes-containers/lxc/lxc_1.0.1.bb b/recipes-containers/lxc/lxc_1.0.1.bb
-index b366116..4ef80d6 100644
---- a/recipes-containers/lxc/lxc_1.0.1.bb
-+++ b/recipes-containers/lxc/lxc_1.0.1.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://network.c-Add-missing-LXC_NET_NONE-option-refactor.patch \
- 	file://runtest.patch \
- 	file://run-ptest \
-+	file://automake-ensure-VPATH-builds-work-correctly.patch \
- 	"
- SRC_URI[md5sum] = "3c7379891e45713817ec873a167070b0"
- SRC_URI[sha256sum] = "17d8e5b575207b4fb57da0b8ba2d13f3e5ee20ce8ccd1259d6eae4bd5ca575b1"
+If it is detecting it from the host, that's host contamination and a bug that we
+don't fix via packageconfig.
+
+Bruce
+
+>
+> Joe
+>
+>
+>>
+>> I obviously should have done a build test on this one, but instead
+>> assumed it was safe
+>> ... lesson learned.
+>>
+>> Bruce
+>>
+>> >
+>> > /Josep
+>> >>
+>> >> Bruce
+>> >>
+>> >> >
+>> >> > Thanks,
+>> >> > Josep
+>> >> > --
+>> >> > _______________________________________________
+>> >> > meta-virtualization mailing list
+>> >> > meta-virtualization@yoctoproject.org
+>> >> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>> >>
+>> >>
+>> >>
+>> >> --
+>> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> >> thee at its end"
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+
+
+
 -- 
-1.8.3.2
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
