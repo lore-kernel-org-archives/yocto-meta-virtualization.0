@@ -1,53 +1,38 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 88004E0070F; Wed,  7 May 2014 09:29:58 -0700 (PDT)
+	id 2D4F7E0070F; Wed,  7 May 2014 09:54:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.217.179 listed in list.dnswl.org]
-Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
-	[209.85.217.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B0A36E00480
+X-Spam-Status: No, score=-2.3 required=5.0 tests=RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E3283E00480
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  7 May 2014 09:29:52 -0700 (PDT)
-Received: by mail-lb0-f179.google.com with SMTP id c11so1718227lbj.24
+	Wed,  7 May 2014 09:54:14 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s47GsDg1005133
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 07 May 2014 09:29:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=pZZrxyOL+wALUSPz+C19I4Nw9Hj5PSMK7YoUyK1C88U=;
-	b=Doip65F+7SXJnXUuAXGZgm9EnLsDwnKmoUnwRqewRSniKFGR5gTg0E0HpGfpn40KWm
-	dSrMD8Umu3Xpud5rmieDDjgyZXOc5JoOaAbP5hfMsp01n0LDsh9Wgk4g0RRJC4StrzDM
-	fZCfoe9Mm6WYEW8AfDj2Bn+kwk3keJ2io6LdLPYtcZ2Z/sT1524q9ili9StPC0BGtGqM
-	mIwfpQ//BQe/c4Ap8YhZ28WGPStS2Tm5OYLxGXBokMVM8nnFWZHgJUYqfFFyvWR+tA2B
-	UO8mZ9BEV+Qht/R9UozE+fOD1FJgo28kNJYI8L3anHxLsD976SVx2Ro/yCWAREtl6iDG
-	1p2A==
+	Wed, 7 May 2014 09:54:13 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.169.1;
+	Wed, 7 May 2014 09:54:13 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Wed, 7 May 2014 12:52:29 -0400
+Message-ID: <1399481549-15420-2-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.3.2
+In-Reply-To: <1399481549-15420-1-git-send-email-mark.asselstine@windriver.com>
+References: <1399481549-15420-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-X-Received: by 10.112.57.164 with SMTP id j4mr2114701lbq.77.1399480191575;
-	Wed, 07 May 2014 09:29:51 -0700 (PDT)
-Received: by 10.112.58.132 with HTTP; Wed, 7 May 2014 09:29:51 -0700 (PDT)
-In-Reply-To: <20140507151308.GC18437@iapetus.enea.se>
-References: <20140507151308.GC18437@iapetus.enea.se>
-Date: Wed, 7 May 2014 12:29:51 -0400
-Message-ID: <CADkTA4MvZSR1ydH1FdUByfEGQ0fdP4znUFCm2+ujQHMdzEHrAA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: daisy
+X-Originating-IP: [128.224.56.18]
+Cc: mark.asselstine@windriver.com, meta-virtualization@yoctoproject.org
+Subject: [PATCH 2/2] libvirt: allow separated src and build dirs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -60,42 +45,114 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 May 2014 16:29:58 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 07 May 2014 16:54:20 -0000
+Content-Type: text/plain
 
-On Wed, May 7, 2014 at 11:13 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> Hi,
->
-> with yocto 1.6 released, I wonder if a daisy branch for meta-virtualization
-> is planned, as there was one for dora.
+Poky commit 69b6eaca3d9b635e8a61a0fdbd814b558e91901d [autotools:
+Enable separate builddir by default] enforced separate build
+directories, which is supported by automake.  Make some minor updates
+to the recipes and upstream source to allow builds to work with
+separated src and build directories.
 
-There is one planned. I was just waiting for the dust to settle before
-pushing the one I tagged at the time of the release.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ recipes-extended/libvirt/libvirt-python.inc        |  4 +-
+ .../tests-allow-separated-src-and-build-dirs.patch | 57 ++++++++++++++++++++++
+ recipes-extended/libvirt/libvirt_1.2.2.bb          |  1 +
+ 3 files changed, 60 insertions(+), 2 deletions(-)
+ create mode 100644 recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch
 
-I was looking into one issue with libvirt against the release, but once that
-is confirmed or denied, I'll push a branch .. unless someone beats me to
-it :)
-
-I typically build meta-virt master against mutiple versions of the core, so
-it does work and with the wildcard bbappends .. that'll only get easier.
-
-Cheers,
-
-Bruce
-
->
-> Thanks,
-> Josep
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+index 195a9de..181e9d3 100644
+--- a/recipes-extended/libvirt/libvirt-python.inc
++++ b/recipes-extended/libvirt/libvirt-python.inc
+@@ -23,8 +23,8 @@ SRC_URI[libvirt_python.sha256sum] = "94d79d662b6010f6c688b8856b2d95077736d48ffa3
+ 
+ export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+ export LIBVIRT_CFLAGS = "-I${S}/include"
+-export LIBVIRT_LIBS = "-L${S}/src/.libs -lvirt -ldl"
+-export LDFLAGS="-L${S}/src/.libs"
++export LIBVIRT_LIBS = "-L${B}/src/.libs -lvirt -ldl"
++export LDFLAGS="-L${B}/src/.libs"
+ 
+ LIBVIRT_INSTALL_ARGS = "--root=${D} \
+     --prefix=${prefix} \
+diff --git a/recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch b/recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch
+new file mode 100644
+index 0000000..3964865
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch
+@@ -0,0 +1,57 @@
++From 884b6e3724b75cd92766d5386455983e3557a286 Mon Sep 17 00:00:00 2001
++From: Mark Asselstine <mark.asselstine@windriver.com>
++Date: Fri, 2 May 2014 13:45:05 -0400
++Subject: [PATCH] tests: allow separated src and build dirs
++
++Fixup Makefile.am to search for static files back in srcdir.
++
++Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++---
++ tests/Makefile.am | 14 +++++++-------
++ 1 file changed, 7 insertions(+), 7 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 0da514b..b8d7c19 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -1006,22 +1006,22 @@ install-ptest:
++ 	@(if [ -d ../tools/.libs ] ; then cd ../tools/.libs; fi; \
++ 	install * $(DEST_DIR)/tools)
++ 	install -d $(DEST_DIR)/src/network
++-	cp ../src/network/*.xml $(DEST_DIR)/src/network
+++	cp $(top_srcdir)/src/network/*.xml $(DEST_DIR)/src/network
++ 	install -d $(DEST_DIR)/src/cpu
++-	cp ../src/cpu/*.xml $(DEST_DIR)/src/cpu
+++	cp $(top_srcdir)/src/cpu/*.xml $(DEST_DIR)/src/cpu
++ 	install ../src/libvirt_iohelper $(DEST_DIR)/src
++ 	install -D ../daemon/libvirtd $(DEST_DIR)/daemon/libvirtd
++-	install -D ../daemon/libvirtd.conf $(DEST_DIR)/daemon/libvirtd.conf
+++	install -D $(top_srcdir)/daemon/libvirtd.conf $(DEST_DIR)/daemon/libvirtd.conf
++ 	@(if [ -d ../daemon/.libs ] ; then cd ../daemon/.libs; fi; \
++ 	install * $(DEST_DIR)/daemon)
++ 	install -d $(DEST_DIR)/src/.libs
++ 	@(if [ -d ../src/.libs ] ; then cd ../src/.libs; fi; \
++ 	install * $(DEST_DIR)/src/.libs)
++ 	install -d $(DEST_DIR)/docs/schemas
++-	cp ../docs/schemas/*.rng $(DEST_DIR)/docs/schemas
++-	cp -r ../build-aux $(DEST_DIR)
+++	cp $(top_srcdir)/docs/schemas/*.rng $(DEST_DIR)/docs/schemas
+++	cp -r $(top_srcdir)/build-aux $(DEST_DIR)
++ 	install -d $(DEST_DIR)/examples/xml
++-	cp -r ../examples/xml/test $(DEST_DIR)/examples/xml
+++	cp -r $(top_srcdir)/examples/xml/test $(DEST_DIR)/examples/xml
++ 	install -d $(DEST_DIR)/tests/.libs
++ 	find . -type d -name "*xml2xml*" -exec cp -r {} $(DEST_DIR)/tests \;
++ 	find . -type d -name "*data" -exec cp -r {} $(DEST_DIR)/tests \;
++@@ -1029,7 +1029,7 @@ install-ptest:
++ 		if [ -f .libs/$$file ]; then \
++ 			install .libs/$$file $(DEST_DIR)/tests; \
++ 		else \
++-			install $$file $(DEST_DIR)/tests; \
+++			install $(srcdir)/$$file $(DEST_DIR)/tests; \
++ 		fi; \
++ 	done;)
++ 	@(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
++-- 
++1.8.3.2
++
+diff --git a/recipes-extended/libvirt/libvirt_1.2.2.bb b/recipes-extended/libvirt/libvirt_1.2.2.bb
+index a66a6ad..22ae2c7 100644
+--- a/recipes-extended/libvirt/libvirt_1.2.2.bb
++++ b/recipes-extended/libvirt/libvirt_1.2.2.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+            file://libvirtd.conf \
+            file://runptest.patch \
+            file://run-ptest \
++           file://tests-allow-separated-src-and-build-dirs.patch \
+           "
+ 
+ SRC_URI[libvirt.md5sum] = "592958ad1ddce7574d8cb0a31e635acd"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.3.2
+
 
