@@ -1,57 +1,39 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 33DD5E00B45; Thu,  8 May 2014 06:39:21 -0700 (PDT)
+	id BDEBFE0073D; Thu,  8 May 2014 09:38:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,RDNS_NONE autolearn=no
-	version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.217.180 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+X-Spam-Status: No, score=-1.0 required=5.0 tests=RCVD_IN_DNSWL_MED,RDNS_NONE
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	*  1.3 RDNS_NONE Delivered to internal network by a host with no rDNS
-X-Greylist: delayed 476 seconds by postgrey-1.32 at yocto-www;
-	Thu, 08 May 2014 06:39:09 PDT
-Received: from mail-lb0-f180.google.com (unknown [209.85.217.180])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2B5C8E00B43
+Received: from mail.windriver.com (unknown [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EB68EE0070F
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  8 May 2014 06:39:09 -0700 (PDT)
-Received: by mail-lb0-f180.google.com with SMTP id p9so3586097lbv.11
+	Thu,  8 May 2014 09:38:37 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s48Gcb6f005837
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 08 May 2014 06:39:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=iB875vaVDYub5vmw/TNqsPezDK2Zp1DR2733bB2I6co=;
-	b=PoT06Z0+RsrIu/nYOI1zlnj33F2rX3itQ0tW4cLqX2/p05YkxNbksFaWnaC3L/Rl16
-	fYbLRuWrejpoaK/laQ5rd5AfzMEa5w5pZxvz3QVcZA2SPe6AmlkT2NQvIytz8acHRzr2
-	cWiLDl6aZ0q4/lKeNYY/x6dUg14IEuZv2ibmpMLAG3LMDe+vYtyXMEMY2M5bcaLnJMjH
-	vuSdvJPuxGppTQ2UcalTsy7dKSR9z8xbbNQIkL6EDi26mOKKryZDbPOldhNKP5/cKwMA
-	39jECYhqYIWEB9B4v/+8qFDQxQTQSO96oNTe+tKY1C8w/xnCKiEPU74sf8iJ7gJn7sgw
-	btHw==
+	Thu, 8 May 2014 09:38:37 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Thu, 8 May 2014 09:38:36 -0700
+Message-ID: <536BB309.2000602@windriver.com>
+Date: Thu, 8 May 2014 12:38:33 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-Received: by 10.112.64.33 with SMTP id l1mr1777411lbs.79.1399555871835; Thu,
-	08 May 2014 06:31:11 -0700 (PDT)
-Received: by 10.112.58.132 with HTTP; Thu, 8 May 2014 06:31:11 -0700 (PDT)
-In-Reply-To: <20140508122713.GB29985@iapetus.enea.se>
-References: <20140507151308.GC18437@iapetus.enea.se>
-	<CADkTA4MvZSR1ydH1FdUByfEGQ0fdP4znUFCm2+ujQHMdzEHrAA@mail.gmail.com>
-	<20140508122713.GB29985@iapetus.enea.se>
-Date: Thu, 8 May 2014 09:31:11 -0400
-Message-ID: <CADkTA4PqmKMr1HwZVXBEfTgZkiUKs5WLKDC2N34t=yQbqoF+kw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: daisy
+To: Mark Asselstine <mark.asselstine@windriver.com>
+References: <1399481549-15420-1-git-send-email-mark.asselstine@windriver.com>
+In-Reply-To: <1399481549-15420-1-git-send-email-mark.asselstine@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH 1/2] lxc: fixup VPATH builds
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -64,69 +46,94 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 May 2014 13:39:21 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 08 May 2014 16:38:40 -0000
+Content-Type: text/plain; charset="ISO-8859-1"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 8, 2014 at 8:27 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> On Wed, May 07, 2014 at 12:29:51PM -0400, Bruce Ashfield wrote:
->> On Wed, May 7, 2014 at 11:13 AM, Josep Puigdemont
->> <josep.puigdemont@enea.com> wrote:
->> > Hi,
->> >
->> > with yocto 1.6 released, I wonder if a daisy branch for meta-virtualization
->> > is planned, as there was one for dora.
->>
->> There is one planned. I was just waiting for the dust to settle before
->> pushing the one I tagged at the time of the release.
->>
->> I was looking into one issue with libvirt against the release, but once that
->> is confirmed or denied, I'll push a branch .. unless someone beats me to
->> it :)
->
-> Looks like someone did beat you and created the daisy branch already, unless
-> it was you, of course ;-)
+On 14-05-07 12:52 PM, Mark Asselstine wrote:
+> Poky commit 69b6eaca3d9b635e8a61a0fdbd814b558e91901d [autotools:
+> Enable separate builddir by default] enforced separate build
+> directories, which is supported by automake. Unfortunately lxc had a
+> few make directives which didn't take into account VPATH builds so
+> fixing them up here to allow the lxc build to complete successfully.
 
-It was me :) But you did beat me to informing the list that the xeon issue was
-a fire drill and not a real problem!
+Both look fine to me.
 
-The patches to fix the B != S issues, and some pending libvirt updates, etc,
-definitely forced my hand in creating the branch.
-
-If anyone has issues with where I had branched and tested, yell .. and we can
-fix it up.
+Merged and pushed to master.
 
 Bruce
 
 >
-> /Josep
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>   ...tomake-ensure-VPATH-builds-work-correctly.patch | 45 ++++++++++++++++++++++
+>   recipes-containers/lxc/lxc_1.0.1.bb                |  1 +
+>   2 files changed, 46 insertions(+)
+>   create mode 100644 recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch
 >
->>
->> I typically build meta-virt master against mutiple versions of the core, so
->> it does work and with the wildcard bbappends .. that'll only get easier.
->>
->> Cheers,
->>
->> Bruce
->>
->> >
->> > Thanks,
->> > Josep
->> > --
->> > _______________________________________________
->> > meta-virtualization mailing list
->> > meta-virtualization@yoctoproject.org
->> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
+> diff --git a/recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch b/recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch
+> new file mode 100644
+> index 0000000..2a91951
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/automake-ensure-VPATH-builds-work-correctly.patch
+> @@ -0,0 +1,45 @@
+> +From 08ccd79319e66b3f0b51fd5f5b539e652a16dfc0 Mon Sep 17 00:00:00 2001
+> +From: Mark Asselstine <mark.asselstine@windriver.com>
+> +Date: Wed, 30 Apr 2014 11:06:12 -0400
+> +Subject: [PATCH] automake: ensure VPATH builds work correctly
+> +
+> +There were a few non-VPATH friendly directives in some Makefile.am files, fix
+> +these up to allow VPATH builds to work.
+> +
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> +---
+> + config/etc/Makefile.am | 4 ++--
+> + src/tests/Makefile.am  | 2 +-
+> + 2 files changed, 3 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/config/etc/Makefile.am b/config/etc/Makefile.am
+> +index 81d7709..dca001e 100644
+> +--- a/config/etc/Makefile.am
+> ++++ b/config/etc/Makefile.am
+> +@@ -4,8 +4,8 @@ distroconf = @LXC_DISTRO_CONF@
+> +
+> + EXTRA_DIST = default.conf.ubuntu default.conf.libvirt default.conf.unknown
+> +
+> +-default.conf:
+> +-	cp $(distroconf) $@
+> ++default.conf: $(distroconf)
+> ++	cp $? $@
+> +
+> + clean-local:
+> + 	@$(RM) -f default.conf
+> +diff --git a/src/tests/Makefile.am b/src/tests/Makefile.am
+> +index 7f6645b..641e207 100644
+> +--- a/src/tests/Makefile.am
+> ++++ b/src/tests/Makefile.am
+> +@@ -64,7 +64,7 @@ buildtest-TESTS: $(TESTS)
+> + install-ptest:
+> + 	install -d $(TEST_DIR)
+> + 	install -D ../lxc/liblxc.so $(TEST_DIR)/../lxc/liblxc.so
+> +-	install -D ../../config/test-driver $(TEST_DIR)/../../config/test-driver
+> ++	install -D $(top_srcdir)/config/test-driver $(TEST_DIR)/../../config/test-driver
+> + 	cp Makefile $(TEST_DIR)
+> + 	@(for file in $(TESTS); do install $$file $(TEST_DIR);  done;)
+> + 	sed -i 's|^Makefile:|_Makefile:|' $(TEST_DIR)/Makefile
+> +--
+> +1.8.3.2
+> +
+> diff --git a/recipes-containers/lxc/lxc_1.0.1.bb b/recipes-containers/lxc/lxc_1.0.1.bb
+> index b366116..4ef80d6 100644
+> --- a/recipes-containers/lxc/lxc_1.0.1.bb
+> +++ b/recipes-containers/lxc/lxc_1.0.1.bb
+> @@ -29,6 +29,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>   	file://network.c-Add-missing-LXC_NET_NONE-option-refactor.patch \
+>   	file://runtest.patch \
+>   	file://run-ptest \
+> +	file://automake-ensure-VPATH-builds-work-correctly.patch \
+>   	"
+>   SRC_URI[md5sum] = "3c7379891e45713817ec873a167070b0"
+>   SRC_URI[sha256sum] = "17d8e5b575207b4fb57da0b8ba2d13f3e5ee20ce8ccd1259d6eae4bd5ca575b1"
+>
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
