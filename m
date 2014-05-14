@@ -1,30 +1,48 @@
-Return-Path: <bruce.ashfield@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DA3FAE00975; Wed, 14 May 2014 07:44:43 -0700 (PDT)
+	id 55497E006EF; Wed, 14 May 2014 15:41:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=RCVD_IN_DNSWL_MED,RDNS_NONE
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=0.6 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+	RCVD_IN_DNSWL_LOW,RDNS_NONE autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.217.171 listed in list.dnswl.org]
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  1.3 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from mail.windriver.com (unknown [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 10CF4E006EF
+Received: from mail-lb0-f171.google.com (unknown [209.85.217.171])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D5DCFE0053B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 May 2014 07:44:38 -0700 (PDT)
-Received: from yow-bashfiel-d3.corp.ad.wrs.com
-	(yow-bashfiel-d3.corp.ad.wrs.com [128.224.92.171])
-	by mail.windriver.com (8.14.5/8.14.5) with ESMTP id s4EEibHn027220
+	Wed, 14 May 2014 15:41:12 -0700 (PDT)
+Received: by mail-lb0-f171.google.com with SMTP id 10so167997lbg.16
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 May 2014 07:44:37 -0700 (PDT)
+	Wed, 14 May 2014 15:41:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:subject:date:message-id;
+	bh=3X3RSu9DI/sXRDlAE9I4mAFq+GR1ieGUVo1ofwfoTpA=;
+	b=ULDr3Pkq9srUgw8YOTj/a/D5XxyITE8gKTADQ85ZVTrOcF4nTgPqeyeqOK9RCDMDiJ
+	nODS+ktzacbXBUURm+3QpyorZvox9nyFoqRXAWqk1x1ojPhaBCSTS0teipgJi1gW+kia
+	yB96WFhryEcg4l/wlhjJcLqdCbERY71+gAh4QhPfs+liVdw7TM8BaOi8Jje34zK5SjHl
+	ZKDAlnb/motUojrzuoZ5wF30rR4gHu0J8CAtSQBdlmQNCy63lCbJxznYi8PW/mB9MGph
+	NUCiqEiGMk3dGafZ11S9M2yN1Du2ftU4RqlSRpSo9U+wVbz7OGbNkdUnoHErSNDrq8Ce
+	x4CQ==
+X-Received: by 10.152.4.1 with SMTP id g1mr4498284lag.20.1400106807536;
+	Wed, 14 May 2014 15:33:27 -0700 (PDT)
+Received: from localhost.localdomain ([88.131.14.170])
+	by mx.google.com with ESMTPSA id bq6sm3302636lbb.34.2014.05.14.15.33.25
+	for <meta-virtualization@yoctoproject.org>
+	(version=TLSv1.1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
+	Wed, 14 May 2014 15:33:26 -0700 (PDT)
+Sender: Bruce Ashfield <bruce.ashfield@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
 To: meta-virtualization@yoctoproject.org
-Date: Wed, 14 May 2014 10:44:36 -0400
-Message-Id: <1400078676-681-1-git-send-email-bruce.ashfield@windriver.com>
+Date: Wed, 14 May 2014 18:33:22 -0400
+Message-Id: <1400106802-24248-1-git-send-email-bruce.ashfield@windriver.com>
 X-Mailer: git-send-email 1.8.1.2
-Subject: [PATCH] libvirt: uprev to 1.2.4
+Subject: [PATCH] openvswitch: uprev to v2.1.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -37,248 +55,246 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 May 2014 14:44:43 -0000
+X-List-Received-Date: Wed, 14 May 2014 22:41:16 -0000
 
-Updating the version of libvirt to 1.2.4. Only small changes are required
-to the ptest and python chnages for this new version, but otherwise, all
-packaging and build optinos are the same.
-
-Sanity tests show no regressions from 1.2.2.
+Updating to the latest OVS 2.x. Only minor patch refreshes required, and
+no regressions were found during sanity testing.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- recipes-extended/libvirt/libvirt-python.inc        |  4 +-
- .../libvirt/libvirt/libvirt_api_xml_path.patch     | 88 ++++++++++------------
- recipes-extended/libvirt/libvirt/runptest.patch    | 31 ++++----
- .../libvirt/{libvirt_1.2.2.bb => libvirt_1.2.4.bb} |  4 +-
- 4 files changed, 61 insertions(+), 66 deletions(-)
- rename recipes-extended/libvirt/{libvirt_1.2.2.bb => libvirt_1.2.4.bb} (98%)
+ .../openvswitch/files/openvswitch-add-ptest.patch  |  17 ++--
+ .../openvswitch-add-target-python-handling.patch   | 103 +++++++++------------
+ .../{openvswitch_2.0.0.bb => openvswitch_2.1.2.bb} |   6 +-
+ 3 files changed, 57 insertions(+), 69 deletions(-)
+ rename recipes-networking/openvswitch/{openvswitch_2.0.0.bb => openvswitch_2.1.2.bb} (95%)
 
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index 181e9d3cbd6c..1c95b07f5655 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
- SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
- SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
+diff --git a/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch b/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch
+index aebb1823fbd6..cb708deae68d 100644
+--- a/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch
++++ b/recipes-networking/openvswitch/files/openvswitch-add-ptest.patch
+@@ -2,19 +2,20 @@ Add test-install rule to support ptest execution
  
--SRC_URI[libvirt_python.md5sum] = "cd3b75c0eb64e933f0b648fbdca6e868"
--SRC_URI[libvirt_python.sha256sum] = "94d79d662b6010f6c688b8856b2d95077736d48ffa35feed5a339d7fafbf8c39"
-+SRC_URI[libvirt_python.md5sum] = "fbcb68f898390b321cbfcbdaa8d0c1ba"
-+SRC_URI[libvirt_python.sha256sum] = "a2f30059b8870b3808b2bd2f19210422a348649a8f53523c2cbfa5cd64af217e"
+ Signed-off-by: Radu Patriu <radu.patriu@enea.com>
  
- export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
- export LIBVIRT_CFLAGS = "-I${S}/include"
-diff --git a/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch b/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch
-index 0aa3bde221de..b0fa20e14fc5 100644
---- a/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch
-+++ b/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch
-@@ -14,41 +14,26 @@ Signed-off-by: Martin Kletzander <mkletzan redhat com>
-  setup.py |   25 ++++++++++++++++++++++---
-  1 file changed, 22 insertions(+), 3 deletions(-)
- 
--Index: libvirt-python-1.2.1/setup.py
-+Index: libvirt-python-1.2.4/setup.py
+-Index: ovs/Makefile.am
++Index: openvswitch-2.1.2/Makefile.am
  ===================================================================
----- libvirt-python-1.2.1.orig/setup.py
--+++ libvirt-python-1.2.1/setup.py
--@@ -30,18 +30,19 @@
-- if pkgcfg is None:
--     raise Exception("pkg-config binary is required to compile libvirt-python")
-+--- libvirt-python-1.2.4.orig/setup.py
-++++ libvirt-python-1.2.4/setup.py
-+@@ -40,13 +40,7 @@
-+            "libvirt"])
-  
---spawn([pkgcfg,
---       "--print-errors",
---       "--atleast-version=%s" % MIN_LIBVIRT,
---       "libvirt"])
--+# spawn([pkgcfg,
--+#        "--print-errors",
--+#        "--atleast-version=%s" % MIN_LIBVIRT,
--+#        "libvirt"])
-- 
-- have_libvirt_lxc=True
---try:
---    spawn([pkgcfg,
---           "--atleast-version=%s" % MIN_LIBVIRT_LXC,
---         "libvirt"])
---except DistutilsExecError:
---    have_libvirt_lxc=False
--+# try:
--+#     spawn([pkgcfg,
--+#            "--atleast-version=%s" % MIN_LIBVIRT_LXC,
--+#          "libvirt"])
--+# except DistutilsExecError:
--+#     have_libvirt_lxc=False
--+have_libvirt_lxc=True
-+ def have_libvirt_lxc():
-+-    try:
-+-        spawn([get_pkgcfg(),
-+-               "--atleast-version=%s" % MIN_LIBVIRT_LXC,
-+-             "libvirt"])
-+-        return True
-+-    except DistutilsExecError:
-+-        return False
-++    return True
-  
-  def get_pkgconfig_data(args, mod, required=True):
-      """Run pkg-config to and return content associated with it"""
--@@ -63,7 +64,17 @@
-+@@ -68,7 +62,17 @@
-      """Check with pkg-config that libvirt is present and extract
-      the API XML file paths we need from it"""
-  
-@@ -67,23 +52,32 @@ Index: libvirt-python-1.2.1/setup.py
-  
-      offset = libvirt_api.index("-api.xml")
-      libvirt_qemu_api = libvirt_api[0:offset] + "-qemu-api.xml"
--@@ -73,8 +84,17 @@
-- 
--     return (libvirt_api, libvirt_qemu_api, libvirt_lxc_api)
-+@@ -88,8 +92,17 @@
-  
---ldflags = get_pkgconfig_data(["--libs-only-L"], "libvirt", False)
---cflags = get_pkgconfig_data(["--cflags"], "libvirt", False)
--+libvirt_cflags = os.getenv("LIBVIRT_CFLAGS")
--+if libvirt_cflags:
--+    cflags = libvirt_cflags
--+else:
--+    cflags = get_pkgconfig_data(["--cflags"], "libvirt", False)
-+     c_modules = []
-+     py_modules = []
-+-    ldflags = get_pkgconfig_data(["--libs-only-L"], "libvirt", False)
-+-    cflags = get_pkgconfig_data(["--cflags"], "libvirt", False)
-++    libvirt_cflags = os.getenv("LIBVIRT_CFLAGS")
-++    if libvirt_cflags:
-++        cflags = libvirt_cflags
-++    else:
-++        cflags = get_pkgconfig_data(["--cflags"], "libvirt", False)
- +
--+libvirt_libs = os.getenv("LIBVIRT_LIBS")
--+if libvirt_libs:
--+    ldflags = libvirt_libs
--+else:
--+    ldflags = get_pkgconfig_data(["--libs-only-L"], "libvirt", False)
-++    libvirt_libs = os.getenv("LIBVIRT_LIBS")
-++    if libvirt_libs:
-++        ldflags = libvirt_libs
-++    else:
-++        ldflags = get_pkgconfig_data(["--libs-only-L"], "libvirt", False)
-+ 
-+     module = Extension('libvirtmod',
-+                        sources = ['libvirt-override.c', 'build/libvirt.c', 'typewrappers.c', 'libvirt-utils.c'],
-+@@ -138,7 +151,7 @@
-+ class my_build(build):
-+ 
-+     def run(self):
-+-        check_minimum_libvirt_version()
-++#        check_minimum_libvirt_version()
-+         apis = get_api_xml_files()
-  
-- c_modules = []
-- py_modules = []
-+         self.spawn([sys.executable, "generator.py", "libvirt", apis[0]])
-diff --git a/recipes-extended/libvirt/libvirt/runptest.patch b/recipes-extended/libvirt/libvirt/runptest.patch
-index 0c0197511a77..cdc0f65c34ad 100644
---- a/recipes-extended/libvirt/libvirt/runptest.patch
-+++ b/recipes-extended/libvirt/libvirt/runptest.patch
-@@ -4,24 +4,25 @@ Change TESTS_ENVIRONMENT to allow running outside build dir.
- Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
- Upstream-status: Pending
+---- ovs.orig/Makefile.am	2014-03-10 16:19:46.000000000 +0200
+-+++ ovs/Makefile.am	2014-03-10 16:23:10.481075341 +0200
+-@@ -276,3 +276,4 @@
+- include python/automake.mk
++--- openvswitch-2.1.2.orig/Makefile.am
+++++ openvswitch-2.1.2/Makefile.am
++@@ -300,3 +300,5 @@
+  include python/compat/automake.mk
+  include tutorial/automake.mk
++ include vtep/automake.mk
+ +include test.mk
+-Index: ovs/test.mk
+++
++Index: openvswitch-2.1.2/test.mk
+ ===================================================================
+---- /dev/null	1970-01-01 00:00:00.000000000 +0000
+-+++ ovs/test.mk	2014-03-10 16:42:41.000000000 +0200
++--- /dev/null
+++++ openvswitch-2.1.2/test.mk
+ @@ -0,0 +1,49 @@
+ +TEST_DEST ?= ${prefix}/lib/openvswitch
+ +TEST_ROOT ?= ${prefix}/lib/openvswitch
+diff --git a/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch b/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch
+index 59607dad900f..97b352cb526f 100644
+--- a/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch
++++ b/recipes-networking/openvswitch/files/openvswitch-add-target-python-handling.patch
+@@ -24,11 +24,11 @@ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+  utilities/ovs-vlan-test.in         | 2 +-
+  11 files changed, 17 insertions(+), 9 deletions(-)
  
--diff -uNr a/tests/Makefile.am b/tests/Makefile.am
----- a/tests/Makefile.am	2014-03-11 11:37:31.497605736 +0200
--+++ b/tests/Makefile.am	2014-03-17 15:57:35.515268399 +0200
--@@ -27,9 +27,11 @@
-+Index: libvirt-1.2.4/tests/Makefile.am
+-diff --git a/Makefile.am b/Makefile.am
+-index b71ca1f..c4f8341 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -112,6 +112,7 @@ SUFFIXES += .in
++Index: openvswitch-2.1.2/Makefile.am
 +===================================================================
-+--- libvirt-1.2.4.orig/tests/Makefile.am
-++++ libvirt-1.2.4/tests/Makefile.am
-+@@ -31,9 +31,11 @@
-  	-I$(top_srcdir)/src/conf \
-  	$(GETTEXT_CPPFLAGS)
++--- openvswitch-2.1.2.orig/Makefile.am
+++++ openvswitch-2.1.2/Makefile.am
++@@ -125,6 +125,7 @@
+                  -e 's,[@]DBDIR[@],$(DBDIR),g' \
+                  -e 's,[@]PERL[@],$(PERL),g' \
+                  -e 's,[@]PYTHON[@],$(PYTHON),g' \
+@@ -36,11 +36,11 @@ index b71ca1f..c4f8341 100644
+                  -e 's,[@]RUNDIR[@],$(RUNDIR),g' \
+                  -e 's,[@]VERSION[@],$(VERSION),g' \
+                  -e 's,[@]localstatedir[@],$(localstatedir),g' \
+-diff --git a/configure.ac b/configure.ac
+-index 060b53f..74cb691 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -101,6 +101,13 @@ AC_ARG_VAR(KARCH, [Kernel Architecture String])
++Index: openvswitch-2.1.2/configure.ac
++===================================================================
++--- openvswitch-2.1.2.orig/configure.ac
+++++ openvswitch-2.1.2/configure.ac
++@@ -118,6 +118,13 @@
+  AC_SUBST(KARCH)
+  OVS_CHECK_LINUX
   
- +PTEST_DIR ?= /usr/lib/libvirt/ptest
+@@ -51,99 +51,86 @@ index 060b53f..74cb691 100644
+ +fi
+ +AC_SUBST(TARGET_PYTHON)
  +
-  AM_CFLAGS = \
---	-Dabs_builddir="\"`pwd`\"" \
---	-Dabs_srcdir="\"`cd '$(srcdir)'; pwd`\"" \
-+-	-Dabs_builddir="\"$(abs_builddir)\"" \
-+-	-Dabs_srcdir="\"$(abs_srcdir)\"" \
- +	-Dabs_builddir="\"$(PTEST_DIR)/tests\"" \
- +	-Dabs_srcdir="\"$(PTEST_DIR)/tests\"" \
-  	$(LIBXML_CFLAGS) \
-  	$(GNUTLS_CFLAGS) \
-  	$(SASL_CFLAGS) \
--@@ -41,7 +43,7 @@
-+@@ -48,7 +50,7 @@
+- AC_CONFIG_FILES([Makefile 
+- datapath/Makefile 
+- datapath/linux/Kbuild
+-diff --git a/ovsdb/ovsdbmonitor/ovsdbmonitor.in b/ovsdb/ovsdbmonitor/ovsdbmonitor.in
+-index e26130a..aaf1aff 100755
+---- a/ovsdb/ovsdbmonitor/ovsdbmonitor.in
+-+++ b/ovsdb/ovsdbmonitor/ovsdbmonitor.in
+-@@ -1,4 +1,4 @@
+--#! @PYTHON@
+-+#! @TARGET_PYTHON@
+- # Copyright (c) 2010 Citrix Systems, Inc.
+- #
+- # Licensed under the Apache License, Version 2.0 (the "License");
+-diff --git a/utilities/bugtool/ovs-bugtool.in b/utilities/bugtool/ovs-bugtool.in
+-index 2074e23..525939e 100755
+---- a/utilities/bugtool/ovs-bugtool.in
+-+++ b/utilities/bugtool/ovs-bugtool.in
++ AC_CONFIG_FILES(Makefile)
++ AC_CONFIG_FILES(datapath/Makefile)
++ AC_CONFIG_FILES(datapath/linux/Kbuild)
++Index: openvswitch-2.1.2/utilities/bugtool/ovs-bugtool.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/bugtool/ovs-bugtool.in
+++++ openvswitch-2.1.2/utilities/bugtool/ovs-bugtool.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
   
-  if WITH_DRIVER_MODULES
-  INCLUDES += \
-@@ -30,11 +31,11 @@ diff -uNr a/tests/Makefile.am b/tests/Makefile.am
-  endif WITH_DRIVER_MODULES
+  # This library is free software; you can redistribute it and/or
+  # modify it under the terms of version 2.1 of the GNU Lesser General Public
+-diff --git a/utilities/ovs-check-dead-ifs.in b/utilities/ovs-check-dead-ifs.in
+-index 9b806ed..b6f6fcb 100755
+---- a/utilities/ovs-check-dead-ifs.in
+-+++ b/utilities/ovs-check-dead-ifs.in
++Index: openvswitch-2.1.2/utilities/ovs-check-dead-ifs.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-check-dead-ifs.in
+++++ openvswitch-2.1.2/utilities/ovs-check-dead-ifs.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
   
-  PROBES_O =
--@@ -344,20 +346,19 @@
-+@@ -409,20 +411,19 @@
-  # Also, BSD sh doesn't like 'a=b b=$$a', so we can't use an
-  # intermediate shell variable, but must do all the expansion in make
-  
---lv_abs_top_builddir=`cd '$(top_builddir)'; pwd`
-+-lv_abs_top_builddir=$(shell cd '$(top_builddir)' && pwd)
-  path_add = $(subst :,$(PATH_SEPARATOR),\
- -	$(subst !,$(lv_abs_top_builddir)/,!daemon:!tools:!tests))
- +	$(subst !,$(PTEST_DIR)/,!daemon:!tools:!tests))
-@@ -43,9 +44,9 @@ diff -uNr a/tests/Makefile.am b/tests/Makefile.am
-  TESTS_ENVIRONMENT =				\
- -  abs_top_builddir=$(lv_abs_top_builddir)	\
- -  abs_top_srcdir=`cd '$(top_srcdir)'; pwd`	\
---  abs_builddir=`pwd`				\
---  abs_srcdir=`cd '$(srcdir)'; pwd`		\
---  CONFIG_HEADER="`cd '$(top_builddir)'; pwd`/config.h"	\
-+-  abs_builddir=$(abs_builddir)			\
-+-  abs_srcdir=$(abs_srcdir)			\
-+-  CONFIG_HEADER="$(lv_abs_top_builddir)/config.h"	\
- +  abs_top_builddir="$(PTEST_DIR)"             \
- +  abs_top_srcdir="$(PTEST_DIR)"               \
- +  abs_builddir="$(PTEST_DIR)/tests"           \
-@@ -58,8 +59,8 @@ diff -uNr a/tests/Makefile.am b/tests/Makefile.am
-    LIBVIRT_AUTOSTART=0				\
-    LC_ALL=C					\
-    VIR_TEST_EXPENSIVE=$(VIR_TEST_EXPENSIVE)	\
--@@ -933,5 +934,51 @@
-- EXTRA_DIST += object-locking.ml
-+@@ -1137,5 +1138,51 @@
-+ EXTRA_DIST += objectlocking.ml
-  endif ! WITH_CIL
-  
- +buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
-@@ -109,4 +110,4 @@ diff -uNr a/tests/Makefile.am b/tests/Makefile.am
- +	sed -i -e 's|^\(.*\.log:\) \(.*EXEEXT.*\)|\1|g' $(DEST_DIR)/tests/Makefile
- +
-  CLEANFILES = *.cov *.gcov .libs/*.gcda .libs/*.gcno *.gcno *.gcda *.cmi *.cmx \
-- 	object-locking-files.txt
-+ 	objectlocking-files.txt
-diff --git a/recipes-extended/libvirt/libvirt_1.2.2.bb b/recipes-extended/libvirt/libvirt_1.2.4.bb
-similarity index 98%
-rename from recipes-extended/libvirt/libvirt_1.2.2.bb
-rename to recipes-extended/libvirt/libvirt_1.2.4.bb
-index 22ae2c7a0ad5..c2eea495682e 100644
---- a/recipes-extended/libvirt/libvirt_1.2.2.bb
-+++ b/recipes-extended/libvirt/libvirt_1.2.4.bb
-@@ -32,8 +32,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
-            file://tests-allow-separated-src-and-build-dirs.patch \
-           "
+  import os
+  import re
+-diff --git a/utilities/ovs-l3ping.in b/utilities/ovs-l3ping.in
+-index 1b07972..4fedb6f 100644
+---- a/utilities/ovs-l3ping.in
+-+++ b/utilities/ovs-l3ping.in
++Index: openvswitch-2.1.2/utilities/ovs-l3ping.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-l3ping.in
+++++ openvswitch-2.1.2/utilities/ovs-l3ping.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+-diff --git a/utilities/ovs-parse-backtrace.in b/utilities/ovs-parse-backtrace.in
+-index 4f793be..4a07f47 100755
+---- a/utilities/ovs-parse-backtrace.in
+-+++ b/utilities/ovs-parse-backtrace.in
++Index: openvswitch-2.1.2/utilities/ovs-parse-backtrace.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-parse-backtrace.in
+++++ openvswitch-2.1.2/utilities/ovs-parse-backtrace.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
+  #
+  # Copyright (c) 2012 Nicira, Inc.
+  #
+-diff --git a/utilities/ovs-pcap.in b/utilities/ovs-pcap.in
+-index 5306480..3221c7c 100755
+---- a/utilities/ovs-pcap.in
+-+++ b/utilities/ovs-pcap.in
++Index: openvswitch-2.1.2/utilities/ovs-pcap.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-pcap.in
+++++ openvswitch-2.1.2/utilities/ovs-pcap.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
+  #
+  # Copyright (c) 2010 Nicira, Inc.
+  #
+-diff --git a/utilities/ovs-tcpundump.in b/utilities/ovs-tcpundump.in
+-index 0268c50..dad0bb5 100755
+---- a/utilities/ovs-tcpundump.in
+-+++ b/utilities/ovs-tcpundump.in
++Index: openvswitch-2.1.2/utilities/ovs-tcpundump.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-tcpundump.in
+++++ openvswitch-2.1.2/utilities/ovs-tcpundump.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
+  #
+  # Copyright (c) 2010 Nicira, Inc.
+  #
+-diff --git a/utilities/ovs-test.in b/utilities/ovs-test.in
+-index fb1f9ad..bddd327 100644
+---- a/utilities/ovs-test.in
+-+++ b/utilities/ovs-test.in
++Index: openvswitch-2.1.2/utilities/ovs-test.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-test.in
+++++ openvswitch-2.1.2/utilities/ovs-test.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
+  #
+  # Licensed under the Apache License, Version 2.0 (the "License");
+  # you may not use this file except in compliance with the License.
+-diff --git a/utilities/ovs-vlan-test.in b/utilities/ovs-vlan-test.in
+-index e229498..da64040 100755
+---- a/utilities/ovs-vlan-test.in
+-+++ b/utilities/ovs-vlan-test.in
++Index: openvswitch-2.1.2/utilities/ovs-vlan-test.in
++===================================================================
++--- openvswitch-2.1.2.orig/utilities/ovs-vlan-test.in
+++++ openvswitch-2.1.2/utilities/ovs-vlan-test.in
+ @@ -1,4 +1,4 @@
+ -#! @PYTHON@
+ +#! @TARGET_PYTHON@
+  #
+  # Copyright (c) 2010 Nicira, Inc.
+  #
+--- 
+-1.8.1.2
+-
+diff --git a/recipes-networking/openvswitch/openvswitch_2.0.0.bb b/recipes-networking/openvswitch/openvswitch_2.1.2.bb
+similarity index 95%
+rename from recipes-networking/openvswitch/openvswitch_2.0.0.bb
+rename to recipes-networking/openvswitch/openvswitch_2.1.2.bb
+index 01003082ed1b..3f092afb05ec 100644
+--- a/recipes-networking/openvswitch/openvswitch_2.0.0.bb
++++ b/recipes-networking/openvswitch/openvswitch_2.1.2.bb
+@@ -35,10 +35,10 @@ SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+ 	file://run-ptest \
+ 	"
  
--SRC_URI[libvirt.md5sum] = "592958ad1ddce7574d8cb0a31e635acd"
--SRC_URI[libvirt.sha256sum] = "a48377e307c5c21b67e43db99af909a23c33aff8cbbaa3361fd389eb047cbbc3"
-+SRC_URI[libvirt.md5sum] = "da7a9ca519df45a460659189fe0024e6"
-+SRC_URI[libvirt.sha256sum] = "e43ac5f6b2baeafcd01777be03a897e636f8d48c0cdfb4c4cbb80d45faa9e875"
+-SRC_URI[md5sum] = "7d7a58350e634e515e0fe43c64d64f44"
+-SRC_URI[sha256sum] = "5060e2be69cce01c15f67b481482cb1a0eaa6ef5cbdbed592bac3c3ab2a390f8"
++SRC_URI[md5sum] = "430ff6d1e1fc81e9c5ebc2e641cfc953"
++SRC_URI[sha256sum] = "875429b052c4001815b6cb38616c7a6cb212df4bba74602164ee0a99b172079b"
  
- inherit autotools gettext update-rc.d pkgconfig ptest
+-LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
++LIC_FILES_CHKSUM = "file://COPYING;md5=e03b0d9c4115c44518594e5618e653f8"
  
+ # Don't compile kernel modules by default since it heavily depends on
+ # kernel version. Use the in-kernel module for now.
 -- 
 1.8.1.2
 
