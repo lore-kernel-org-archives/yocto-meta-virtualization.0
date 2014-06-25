@@ -1,53 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D2D30E00B20; Tue,  3 Jun 2014 08:21:48 -0700 (PDT)
+	id 04BEFE00509; Wed, 25 Jun 2014 05:35:13 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.8 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.52 listed in list.dnswl.org]
-Received: from mail-la0-f52.google.com (mail-la0-f52.google.com
-	[209.85.215.52])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4C703E0073D
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BE408E003C1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Jun 2014 08:21:37 -0700 (PDT)
-Received: by mail-la0-f52.google.com with SMTP id s18so1565312lam.25
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Jun 2014 08:21:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=MrLBNCMIhybGozcRJ2+6ABvlXKa0m+isLdkluJYYZ0g=;
-	b=et2xAe8qotz/tmyztlxcq+pA9nUaYnSavSw/C1md92djLyxPXI8RzJACP/G2NmaVys
-	YC5XSj9umf9722jsOTDuuBgmHZJIkXYac/fzdFAHyIAHGavyYG0IfOidWtim5hEs/5XY
-	6/s4XFItM/Uvas88K8QKH05W+f81S6hUCAPBta9qIPUZGSJpomKdmczTSCwHq3WWLKP0
-	MMsT2rLk2jNDeEDuNUXDaV92svfhYvYDC2V26WAv0Qwt6LzRedkfG+TA7IGG7YJ9FgOX
-	cifEaG+5urqbJ+1u/5LN2NDmTOuwBj7BN83eFlA0ql3rDabzJGGjkxYgCv7s3xjcg7/O
-	pp5A==
+	Wed, 25 Jun 2014 05:35:10 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.5/8.14.5) with ESMTP id s5PCZ7g9001255
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 25 Jun 2014 05:35:07 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.169.1;
+	Wed, 25 Jun 2014 05:35:06 -0700
+Message-ID: <53AAC1E0.8020305@windriver.com>
+Date: Wed, 25 Jun 2014 08:34:40 -0400
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:24.0) Gecko/20100101 Thunderbird/24.5.0
 MIME-Version: 1.0
-X-Received: by 10.112.89.66 with SMTP id bm2mr2519796lbb.91.1401808896298;
-	Tue, 03 Jun 2014 08:21:36 -0700 (PDT)
-Received: by 10.112.124.146 with HTTP; Tue, 3 Jun 2014 08:21:36 -0700 (PDT)
-In-Reply-To: <1401459839-22714-1-git-send-email-mihaela.sendrea@enea.com>
-References: <1401459839-22714-1-git-send-email-mihaela.sendrea@enea.com>
-Date: Tue, 3 Jun 2014 11:21:36 -0400
-Message-ID: <CADkTA4MBk-BdUYiT5ASLqKoU5gz5Ogfe=dBB+pLjFC=XM0k-2g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mihaela Sendrea <mihaela.sendrea@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
+To: Gaurang Shastri <gmshastri@gmail.com>,
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] libvirt: fix PTEST_DIR
+References: <CAE_REAv=XBPGSLe_zPUFqpU5cnnW_TPqfo75SjSLY-HSkBcePQ@mail.gmail.com>
+	<CAE_REAvX1Mx0PDxW0SAiMMXciCLLEGM5WsHCxL70NQ-cZ3rJ=w@mail.gmail.com>
+In-Reply-To: <CAE_REAvX1Mx0PDxW0SAiMMXciCLLEGM5WsHCxL70NQ-cZ3rJ=w@mail.gmail.com>
+Subject: Re: [meta-mvcloud-services] python-lxml points to wrong LIC_FILES_CHKSUM
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -60,48 +47,49 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jun 2014 15:21:48 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 25 Jun 2014 12:35:13 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 30, 2014 at 10:23 AM, Mihaela Sendrea
-<mihaela.sendrea@enea.com> wrote:
-> The default PTEST_DIR only works for 32bit.
+On 14-06-25 04:21 AM, Gaurang Shastri wrote:
+> Adding meta-virtualization group....
 
-Looks fine to me. I grabbed and applied these to master and daisy.
+Looks like an errant push and a sstate build making it work for me!
+
+I'll fix it shortly.
+
+Thanks for the report!
 
 Bruce
 
 >
-> Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
-> ---
->  recipes-extended/libvirt/libvirt/runptest.patch |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> ---------- Forwarded message ----------
+> From: *Gaurang Shastri* <gmshastri@gmail.com <mailto:gmshastri@gmail.com>>
+> Date: Wed, Jun 25, 2014 at 1:49 PM
+> Subject: [meta-mvcloud-services] python-lxml points to wrong
+> LIC_FILES_CHKSUM
+> To: bruce.ashfield@windriver.com <mailto:bruce.ashfield@windriver.com>
 >
-> diff --git a/recipes-extended/libvirt/libvirt/runptest.patch b/recipes-extended/libvirt/libvirt/runptest.patch
-> index cdc0f65..873a959 100644
-> --- a/recipes-extended/libvirt/libvirt/runptest.patch
-> +++ b/recipes-extended/libvirt/libvirt/runptest.patch
-> @@ -12,7 +12,7 @@ Index: libvirt-1.2.4/tests/Makefile.am
->         -I$(top_srcdir)/src/conf \
->         $(GETTEXT_CPPFLAGS)
 >
-> -+PTEST_DIR ?= /usr/lib/libvirt/ptest
-> ++PTEST_DIR ?= $(libdir)/libvirt/ptest
->  +
->   AM_CFLAGS = \
->  -      -Dabs_builddir="\"$(abs_builddir)\"" \
-> --
-> 1.7.10.4
+> Dear Bruce,
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> While building meta-cloud-services, I got error in LIC_FILES_CHKSUM of
+> python-lxml package.
+>
+> I think we should correct from
+>
+> *LIC_FILES_CHKSUM = "file://LICENSE.txt;md5="%LIC_MD5SUM%"*
+>
+> to
+>
+> *LIC_FILES_CHKSUM =
+> "file://LICENSES.txt;md5=f9f1dc24f720c143c2240df41fe5073b"*
+> *
+> *
+> The above will fix the build issue of python-lxml.
+>
+> Regards,
+> Gaurang Shastri
+>
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
