@@ -1,51 +1,49 @@
 Return-Path: <akuster@mvista.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9B76AE0053A; Mon, 30 Jun 2014 13:55:18 -0700 (PDT)
+	id E41F5E006D1; Mon, 30 Jun 2014 14:48:26 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.192.170 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.220.41 listed in list.dnswl.org]
-Received: from mail-pa0-f41.google.com (mail-pa0-f41.google.com
-	[209.85.220.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 532ECE0030B
+Received: from mail-pd0-f170.google.com (mail-pd0-f170.google.com
+	[209.85.192.170])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 64224E00507
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Jun 2014 13:55:08 -0700 (PDT)
-Received: by mail-pa0-f41.google.com with SMTP id fb1so9333138pad.0
+	Mon, 30 Jun 2014 14:48:19 -0700 (PDT)
+Received: by mail-pd0-f170.google.com with SMTP id z10so8952328pdj.1
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Jun 2014 13:55:08 -0700 (PDT)
+	Mon, 30 Jun 2014 14:48:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:message-id:date:from:user-agent:mime-version:to
-	:subject:content-type:content-transfer-encoding;
-	bh=lGMdsaLJoqElucelm9ysz8o3CqwHe+BrJnwdIXq9htM=;
-	b=KPKG3QPMn5tI8yhWdZ53PVG3K2kltzCqNdJCpbR31XIe83sCzdqb5/SfP3usySGEFQ
-	lwF/kHunPjELYEN/V+iEGh+Usj87KP9LtwO/bh87VmaZhYnopfYOrc2oRu8oG0CsGOSN
-	7N2pfz/jIpP809b2Gf8TBq3LMjWuOG1h/CRQKyg1EPFKdiG3MYUrC2WUQPlZFresR7ji
-	cyqsP5GBKy/H2dhAaF/vePtdGa5ENCd159pPNf+s7afHeyz3oERvDbu8b3Dsdo1cbM6q
-	IG/5yeoAND0sVZPyOZRmabvjLeQxL8HorPU+IbzMB51v0R8dIinY3vWLFyg2RaknHBwr
-	+y5Q==
-X-Gm-Message-State: ALoCoQnmKp7jx5lpz6CF7PdZdQf9dMWlnrhfJLvwNHDfee4jUPGE/9XqkdT6PBF1ltGXBAqBqU5k
-X-Received: by 10.68.197.195 with SMTP id iw3mr55577331pbc.139.1404161707934; 
-	Mon, 30 Jun 2014 13:55:07 -0700 (PDT)
-Received: from [172.16.1.20] (c-98-239-95-55.hsd1.ca.comcast.net.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CFKk2PFX3v1nZBdHp8rUcCI154U6/jeotMyWpah6iu0=;
+	b=UbkSBF3mzyXHzQJ8QoYnNjqVYTF+6TuMb3tm8lzRjnvXzOJ5XLR2Y5R5h9ENIPsEaq
+	zxHXdW9LV7d2pz0ysdyevlJuad8db2biDMGvAodc03d1uMU8r7fgfXKj3Gar6uL8ZFke
+	N8OFFlRLiUfhBIrPim2GoJfkGhz+ehV77+57DzbbfNzHkKQOc5cZmhccgpzVQv+iNDcX
+	JIe9vIvACx5GtM/zwUaH1n8kWNmbWKlFPyt4LwJEmay2q3wEqAGAx8nG60XTi9rAXNbz
+	pTyPcVYC530KqOa4js6rkaQvsmVQRzkzK1kbZ8GOUKhx+jeuR7xhkRGxx2YvnIoY4pT4
+	RaIQ==
+X-Gm-Message-State: ALoCoQlT18vBV2unwiLzgBRW5SkMjGvo4U/hEBlllvNi/Ur8VtPIl16hrltE5v/z0xiGjHbkKGpv
+X-Received: by 10.66.164.234 with SMTP id yt10mr55544737pab.65.1404164899434; 
+	Mon, 30 Jun 2014 14:48:19 -0700 (PDT)
+Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
 	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	vk5sm29234428pbc.44.2014.06.30.13.55.06 for <multiple recipients>
-	(version=TLSv1 cipher=ECDHE-RSA-RC4-SHA bits=128/128);
-	Mon, 30 Jun 2014 13:55:07 -0700 (PDT)
-Message-ID: <53B1CEA8.2020107@mvista.com>
-Date: Mon, 30 Jun 2014 13:55:04 -0700
-From: akuster <akuster@mvista.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:24.0) Gecko/20100101 Thunderbird/24.6.0
-MIME-Version: 1.0
-To: meta-virtualization@yoctoproject.org, bruce.ashfield@windriver.com
-Subject: meta-cloud-services
+	ir10sm29325691pbc.59.2014.06.30.14.48.17 for <multiple recipients>
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 30 Jun 2014 14:48:18 -0700 (PDT)
+From: Armin Kuster <akuster@mvista.com>
+To: meta-virtualization@yoctoproject.org
+Date: Mon, 30 Jun 2014 14:48:08 -0700
+Message-Id: <1404164895-19815-1-git-send-email-akuster@mvista.com>
+X-Mailer: git-send-email 1.9.1
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH 0/7] Remove use of PRINC
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -58,23 +56,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 20:55:18 -0000
-Content-Type: text/plain; charset=ISO-8859-1; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 30 Jun 2014 21:48:27 -0000
+
+PR .= instead of PRINC
 
 
-Hello Bruce,
+Armin Kuster (7):
+  [meta-openstack] apache2: Remove PRINC reference
+  [meta-openstack] iptables: remove PRINC reference
+  [meta-openstack] lighttpd: remove PRINC reference
+  [meta-openstack] postgressql: remove PRINC reference
+  [meta-openstack] linux-yocto_3.10: remove PRINC reference
+  [meta-openstack] linux-yocto_3.14: remove PRINC reference
+  [meta-openstack] linux-yocto_3.4: remove PRINC reference
 
-1) what is the purpose of 'recipes-dangling'?
+ meta-openstack/recipes-extended/apache2/apache2_2.4.9.bbappend      | 2 +-
+ meta-openstack/recipes-extended/iptables/iptables_1.4.21.bbappend   | 2 +-
+ meta-openstack/recipes-extended/lighttpd/lighttpd_1.4.35.bbappend   | 2 +-
+ meta-openstack/recipes-kernel/linux/linux-yocto_3.10.bbappend       | 3 ++-
+ meta-openstack/recipes-kernel/linux/linux-yocto_3.14.bbappend       | 2 +-
+ meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend        | 2 +-
+ meta-openstack/recipes-support/postgresql/postgresql_9.2.4.bbappend | 2 +-
+ 7 files changed, 8 insertions(+), 7 deletions(-)
 
-2) I notice several "WARNING: Use of PRINC 1 was detected in the recipe" 
-in the meta-cloud-services, is anyone working on correcting those? if 
-not, I can submit patches.
+-- 
+1.9.1
 
-3) I also noticed several "WARNING: No recipes available for.." in this 
-layer as well. If no one is working on patches for these, I will send 
-fixes as well. I believe these fixes might be the 'wild card' if applicable.
-
-kind regards,
-Armin
 
