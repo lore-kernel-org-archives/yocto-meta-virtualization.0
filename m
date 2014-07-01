@@ -1,52 +1,55 @@
-Return-Path: <akuster@mvista.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 14A9BE0076C; Mon, 30 Jun 2014 14:48:32 -0700 (PDT)
+	id 606CEE006C6; Mon, 30 Jun 2014 21:37:49 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.220.47 listed in list.dnswl.org]
-Received: from mail-pa0-f47.google.com (mail-pa0-f47.google.com
-	[209.85.220.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 843C5E006EE
+	*      [209.85.217.176 listed in list.dnswl.org]
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E1E02E0053A
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Jun 2014 14:48:28 -0700 (PDT)
-Received: by mail-pa0-f47.google.com with SMTP id kq14so9328139pab.20
+	Mon, 30 Jun 2014 21:37:42 -0700 (PDT)
+Received: by mail-lb0-f176.google.com with SMTP id w7so6408742lbi.7
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Jun 2014 14:48:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=bNP2raMxMwA2HWnvEtDBWGforqoG8Hg9CAbc2bDAn2I=;
-	b=h7ot28gSK8tITp2JTctBtE/j/BTgthQwBf7cIgmJVztz0py4iFMGWyNTVyXBuIGIuH
-	GIEpZR5SOnVXFnoMfaKBEddman/ciO98bnSsh8xf2dVqQQq3GjlUl2/w6cQq0Lv0dOR3
-	7GgQi45hoytm2x7WNwosZrpFKpzhKyvbKX87TrRHn0rZzofgi9PRqAdMjPwDBAS6hab6
-	RKSMK18WQJ8DatXIv9C3iM9sxifwgx8YzMLSnR/3r5i+mEhU+bXPJnPFzPbkoR4py/ji
-	eqsTdgFhzqhLoi1DG1s1V27zsZ06HX388zZGRcAF24OTiJMvhOlOfHL9+f4+Z+wS1GUh
-	wGDw==
-X-Gm-Message-State: ALoCoQljncMdC+sibGw6tlUfjQK7H140+OrcHG2LvDWcNl8T2dCK7z1yYw3UnV3tWJ3dHSWBAtZ/
-X-Received: by 10.68.211.233 with SMTP id nf9mr55174837pbc.29.1404164908579;
-	Mon, 30 Jun 2014 14:48:28 -0700 (PDT)
-Received: from Pahoa2.mvista.com (c-98-239-95-55.hsd1.ca.comcast.net.
-	[98.239.95.55]) by mx.google.com with ESMTPSA id
-	ir10sm29325691pbc.59.2014.06.30.14.48.27 for <multiple recipients>
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 30 Jun 2014 14:48:27 -0700 (PDT)
-From: Armin Kuster <akuster@mvista.com>
-To: meta-virtualization@yoctoproject.org
-Date: Mon, 30 Jun 2014 14:48:15 -0700
-Message-Id: <1404164895-19815-8-git-send-email-akuster@mvista.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1404164895-19815-1-git-send-email-akuster@mvista.com>
-References: <1404164895-19815-1-git-send-email-akuster@mvista.com>
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH 7/7] [meta-openstack] linux-yocto_3.4: remove PRINC reference
+	Mon, 30 Jun 2014 21:37:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=bExKroT5/kajMTQ+3tP6bp96qrsI/0WQQSCCa2emZLg=;
+	b=sr21E6QzGVHufUTQ5INMEpZ1WwVKL73SJYLjhyX1Wh67bDsfNuw5/1Tr6+VRCHhqBK
+	+8DXfzr3f50HMWBfytONiObXmc/6orpleYp3X055dOW4C5iF4KN7coZwpXABGDtghgGa
+	8XbbgKDLL1Lm0JF1VgJBPtK6qR76XfMTEh5jI1YTHeOdboCAf1U2PgXIs7jRQxY7xnUs
+	Xr1W3UIdLrgwDa+FmZE4zZf4rT3DOYxUzn0cnBr+bfAjaB0/YJnFEEdDQQhX02ZK2Qw5
+	Jb0upFkZ/T8QvtML+8I193MoLIeVfg4MkaLV53uhVVXbIQ7jndmACU6B3fuZplgCJCBW
+	dSfg==
+MIME-Version: 1.0
+X-Received: by 10.112.173.201 with SMTP id bm9mr32051382lbc.16.1404189461896; 
+	Mon, 30 Jun 2014 21:37:41 -0700 (PDT)
+Received: by 10.112.124.137 with HTTP; Mon, 30 Jun 2014 21:37:41 -0700 (PDT)
+In-Reply-To: <53B1CEA8.2020107@mvista.com>
+References: <53B1CEA8.2020107@mvista.com>
+Date: Tue, 1 Jul 2014 00:37:41 -0400
+Message-ID: <CADkTA4MJ35jxX9CkZPs1oYz0LwEb=NWjO=JiMymsVCRxFs81KA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: akuster <akuster@mvista.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: meta-cloud-services
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -59,27 +62,55 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Jun 2014 21:48:32 -0000
+X-List-Received-Date: Tue, 01 Jul 2014 04:37:49 -0000
+Content-Type: text/plain; charset=UTF-8
 
-replace PRINC with PR .= ".1"
+On Mon, Jun 30, 2014 at 4:55 PM, akuster <akuster@mvista.com> wrote:
+>
+> Hello Bruce,
+>
+> 1) what is the purpose of 'recipes-dangling'?
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+They are bbappends for different versions of oe-core/meta-networking, etc, that
+I know are in use. I carry them in meta-cloud-services versus forcing all those
+other projects to keep them locally.
 
-diff --git a/meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend b/meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend
-index 6df4c0f..0453786 100644
---- a/meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend
-+++ b/meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend
-@@ -1,5 +1,5 @@
- FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
--PRINC := "${@int(PRINC) + 1}"
-+PR .= ".1"
- 
- SRC_URI += "file://iptables-nat.scc \
- 	file://enable-veth.cfg \
+>
+> 2) I notice several "WARNING: Use of PRINC 1 was detected in the recipe" in
+> the meta-cloud-services, is anyone working on correcting those? if not, I
+> can submit patches.
+
+I already have patches for these, at the moment, I'm tolerating the warnings
+until some base layers are updated.
+
+>
+> 3) I also noticed several "WARNING: No recipes available for.." in this
+> layer as well. If no one is working on patches for these, I will send fixes
+> as well. I believe these fixes might be the 'wild card' if applicable.
+
+No patches for these, and no wildcards at the moment. I use the branches
+branch for many different versions of oe-core, hence why I'm still leaving
+these around.
+
+In the next six months, I'll retire the non-wildcard appends, dangling appends
+and other cruft, but for now they stay.
+
+Cheers,
+
+Bruce
+
+>
+> kind regards,
+> Armin
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-1.9.1
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
