@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 606CEE006C6; Mon, 30 Jun 2014 21:37:49 -0700 (PDT)
+	id E824BE006C6; Mon, 30 Jun 2014 21:39:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -18,38 +18,38 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.217.176 listed in list.dnswl.org]
-Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
-	[209.85.217.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E1E02E0053A
+	*      [209.85.215.45 listed in list.dnswl.org]
+Received: from mail-la0-f45.google.com (mail-la0-f45.google.com
+	[209.85.215.45])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4B0DBE0053A
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Jun 2014 21:37:42 -0700 (PDT)
-Received: by mail-lb0-f176.google.com with SMTP id w7so6408742lbi.7
+	Mon, 30 Jun 2014 21:39:32 -0700 (PDT)
+Received: by mail-la0-f45.google.com with SMTP id hr17so5567712lab.32
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Jun 2014 21:37:41 -0700 (PDT)
+	Mon, 30 Jun 2014 21:39:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=bExKroT5/kajMTQ+3tP6bp96qrsI/0WQQSCCa2emZLg=;
-	b=sr21E6QzGVHufUTQ5INMEpZ1WwVKL73SJYLjhyX1Wh67bDsfNuw5/1Tr6+VRCHhqBK
-	+8DXfzr3f50HMWBfytONiObXmc/6orpleYp3X055dOW4C5iF4KN7coZwpXABGDtghgGa
-	8XbbgKDLL1Lm0JF1VgJBPtK6qR76XfMTEh5jI1YTHeOdboCAf1U2PgXIs7jRQxY7xnUs
-	Xr1W3UIdLrgwDa+FmZE4zZf4rT3DOYxUzn0cnBr+bfAjaB0/YJnFEEdDQQhX02ZK2Qw5
-	Jb0upFkZ/T8QvtML+8I193MoLIeVfg4MkaLV53uhVVXbIQ7jndmACU6B3fuZplgCJCBW
-	dSfg==
+	bh=Ncg95Y41kFPjqBPEl4uLXzhlz2CmWBc9LHXg23xXBoA=;
+	b=tyw61PGrOHFDm7Y3D3Jjy871RWF66eWaCAveclonKRrDtlfeCe2SK7mi9cehePLpG7
+	1VfrTirHjQq/luzeTctxNHJGfbWCOb+K/8ByLTUXmaHiomx+nzKzJAbk+dtpwMRiS81E
+	ToKacrbs9CvzGnbQTTRP7JuxVSHjLUQUub4SFeIOjhUMzpFD8d4q83oUA4cmrZiJQ9Wp
+	FGLbbFdhQme5UXqxLjCVsY5+k10ITwdk1E+Tmx5psZqaiSE7c3n2Mxs3PBpdDJ+3BncY
+	GlNjsExw2bg/QdDpoiEj3gEGbv6/bhCSrVNRM5A35MeicSEn6VsyY+JNnTWHCxWUX6jP
+	4t6A==
 MIME-Version: 1.0
-X-Received: by 10.112.173.201 with SMTP id bm9mr32051382lbc.16.1404189461896; 
-	Mon, 30 Jun 2014 21:37:41 -0700 (PDT)
-Received: by 10.112.124.137 with HTTP; Mon, 30 Jun 2014 21:37:41 -0700 (PDT)
-In-Reply-To: <53B1CEA8.2020107@mvista.com>
-References: <53B1CEA8.2020107@mvista.com>
-Date: Tue, 1 Jul 2014 00:37:41 -0400
-Message-ID: <CADkTA4MJ35jxX9CkZPs1oYz0LwEb=NWjO=JiMymsVCRxFs81KA@mail.gmail.com>
+X-Received: by 10.152.29.168 with SMTP id l8mr34118527lah.35.1404189571667;
+	Mon, 30 Jun 2014 21:39:31 -0700 (PDT)
+Received: by 10.112.124.137 with HTTP; Mon, 30 Jun 2014 21:39:31 -0700 (PDT)
+In-Reply-To: <1404164895-19815-1-git-send-email-akuster@mvista.com>
+References: <1404164895-19815-1-git-send-email-akuster@mvista.com>
+Date: Tue, 1 Jul 2014 00:39:31 -0400
+Message-ID: <CADkTA4OXMbtPKpfcDHQxRoDAGsGLzBrDJpZEMqV+q8NqOKoczg@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: akuster <akuster@mvista.com>
+To: Armin Kuster <akuster@mvista.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: meta-cloud-services
+Subject: Re: [PATCH 0/7] Remove use of PRINC
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,46 +62,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 01 Jul 2014 04:37:49 -0000
+X-List-Received-Date: Tue, 01 Jul 2014 04:39:36 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 30, 2014 at 4:55 PM, akuster <akuster@mvista.com> wrote:
+On Mon, Jun 30, 2014 at 5:48 PM, Armin Kuster <akuster@mvista.com> wrote:
+> PR .= instead of PRINC
 >
-> Hello Bruce,
->
-> 1) what is the purpose of 'recipes-dangling'?
 
-They are bbappends for different versions of oe-core/meta-networking, etc, that
-I know are in use. I carry them in meta-cloud-services versus forcing all those
-other projects to keep them locally.
+I have a similar series staged locally, but since I'm out of the
+office, I haven't
+pushed them yet.
 
->
-> 2) I notice several "WARNING: Use of PRINC 1 was detected in the recipe" in
-> the meta-cloud-services, is anyone working on correcting those? if not, I
-> can submit patches.
-
-I already have patches for these, at the moment, I'm tolerating the warnings
-until some base layers are updated.
-
->
-> 3) I also noticed several "WARNING: No recipes available for.." in this
-> layer as well. If no one is working on patches for these, I will send fixes
-> as well. I believe these fixes might be the 'wild card' if applicable.
-
-No patches for these, and no wildcards at the moment. I use the branches
-branch for many different versions of oe-core, hence why I'm still leaving
-these around.
-
-In the next six months, I'll retire the non-wildcard appends, dangling appends
-and other cruft, but for now they stay.
-
-Cheers,
+I staged these on top of that pending work, and if no one objects, I'll push
+everything at the same time.
 
 Bruce
 
 >
-> kind regards,
-> Armin
+> Armin Kuster (7):
+>   [meta-openstack] apache2: Remove PRINC reference
+>   [meta-openstack] iptables: remove PRINC reference
+>   [meta-openstack] lighttpd: remove PRINC reference
+>   [meta-openstack] postgressql: remove PRINC reference
+>   [meta-openstack] linux-yocto_3.10: remove PRINC reference
+>   [meta-openstack] linux-yocto_3.14: remove PRINC reference
+>   [meta-openstack] linux-yocto_3.4: remove PRINC reference
+>
+>  meta-openstack/recipes-extended/apache2/apache2_2.4.9.bbappend      | 2 +-
+>  meta-openstack/recipes-extended/iptables/iptables_1.4.21.bbappend   | 2 +-
+>  meta-openstack/recipes-extended/lighttpd/lighttpd_1.4.35.bbappend   | 2 +-
+>  meta-openstack/recipes-kernel/linux/linux-yocto_3.10.bbappend       | 3 ++-
+>  meta-openstack/recipes-kernel/linux/linux-yocto_3.14.bbappend       | 2 +-
+>  meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend        | 2 +-
+>  meta-openstack/recipes-support/postgresql/postgresql_9.2.4.bbappend | 2 +-
+>  7 files changed, 8 insertions(+), 7 deletions(-)
+>
+> --
+> 1.9.1
+>
 > --
 > _______________________________________________
 > meta-virtualization mailing list
