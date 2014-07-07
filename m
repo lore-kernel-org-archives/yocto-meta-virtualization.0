@@ -1,6 +1,6 @@
 Return-Path: <Alexandru.Vaduva@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B6027E006D5; Mon,  7 Jul 2014 06:58:00 -0700 (PDT)
+	id ADEC4E00726; Mon,  7 Jul 2014 06:58:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,23 +9,25 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 9E48DE006B7
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 9D90CE006B6
 	for <meta-virtualization@yoctoproject.org>;
 	Mon,  7 Jul 2014 06:57:53 -0700 (PDT)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Mon, 7 Jul 2014
-	15:57:52 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4470)	id 464E2288F30;
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1; Mon, 7 Jul 2014
+	15:57:51 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4470)	id 4AD0E285092;
 	Mon,  7 Jul 2014 15:57:52 +0200 (CEST)
 From: Alexandru.Vaduva <Alexandru.Vaduva@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Message-ID: <1404741470-4980-1-git-send-email-Alexandru.Vaduva@enea.com>
+Message-ID: <1404741470-4980-2-git-send-email-Alexandru.Vaduva@enea.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1404741470-4980-1-git-send-email-Alexandru.Vaduva@enea.com>
+References: <1404741470-4980-1-git-send-email-Alexandru.Vaduva@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: Alexandru.Vaduva@enea.com does not
+Received-SPF: None (SESTOEX03.enea.se: Alexandru.Vaduva@enea.com does not
 	designate permitted sender hosts)
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
-Subject: [PATCH 1/1] multipath-tools: added support for autotools-brokensep.
+Subject: [PATCH] multipath-tools: added support for autotools-brokensep.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,7 +41,7 @@ List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 Date: Mon, 07 Jul 2014 13:58:00 -0000
-X-Original-Date: Mon, 7 Jul 2014 15:57:49 +0200
+X-Original-Date: Mon, 7 Jul 2014 15:57:50 +0200
 X-List-Received-Date: Mon, 07 Jul 2014 13:58:00 -0000
 Content-Type: text/plain
 
