@@ -1,6 +1,6 @@
 Return-Path: <Alexandru.Vaduva@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id ABAB6E006B7; Mon,  7 Jul 2014 06:53:46 -0700 (PDT)
+	id B6027E006D5; Mon,  7 Jul 2014 06:58:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,17 +9,17 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 2D2FBE0056D
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 9E48DE006B7
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  7 Jul 2014 06:53:33 -0700 (PDT)
+	Mon,  7 Jul 2014 06:57:53 -0700 (PDT)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1; Mon, 7 Jul 2014
-	15:53:31 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4470)	id 1FCCB288F30;
-	Mon,  7 Jul 2014 15:53:31 +0200 (CEST)
+	15:57:52 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4470)	id 464E2288F30;
+	Mon,  7 Jul 2014 15:57:52 +0200 (CEST)
 From: Alexandru.Vaduva <Alexandru.Vaduva@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Message-ID: <1404741209-8765-1-git-send-email-Alexandru.Vaduva@enea.com>
+Message-ID: <1404741470-4980-1-git-send-email-Alexandru.Vaduva@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: Alexandru.Vaduva@enea.com does not
@@ -38,9 +38,9 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Mon, 07 Jul 2014 13:53:46 -0000
-X-Original-Date: Mon, 7 Jul 2014 15:53:29 +0200
-X-List-Received-Date: Mon, 07 Jul 2014 13:53:46 -0000
+Date: Mon, 07 Jul 2014 13:58:00 -0000
+X-Original-Date: Mon, 7 Jul 2014 15:57:49 +0200
+X-List-Received-Date: Mon, 07 Jul 2014 13:58:00 -0000
 Content-Type: text/plain
 
 Separed build dir caused problem, the autotools support needs fixing.
