@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 71137E00559; Wed, 16 Jul 2014 10:13:34 -0700 (PDT)
+	id EABC4E007A1; Sat, 26 Jul 2014 19:43:26 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,6 +9,9 @@ X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.217.180 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -16,40 +19,39 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.41 listed in list.dnswl.org]
-Received: from mail-la0-f41.google.com (mail-la0-f41.google.com
-	[209.85.215.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 05542E00543
+Received: from mail-lb0-f180.google.com (mail-lb0-f180.google.com
+	[209.85.217.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 13A5AE00746
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Jul 2014 10:13:29 -0700 (PDT)
-Received: by mail-la0-f41.google.com with SMTP id s18so881279lam.14
+	Sat, 26 Jul 2014 19:43:24 -0700 (PDT)
+Received: by mail-lb0-f180.google.com with SMTP id v6so4553801lbi.25
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Jul 2014 10:13:28 -0700 (PDT)
+	Sat, 26 Jul 2014 19:43:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=tCtNY2Gy0gRVJBxHlMlg47VMe+kU9AoYIAQa9To9Vig=;
-	b=XxCjzB8v0MBKMvKsKAHuYkJVZG65YsHPjikoGADUC20USKdsU9O8aXKEaxImkeGBi7
-	qeyYylueByoBwtKtHtcKev4yvKX9fiIMm0bDhyUbTGQ+30qobcpO1SDygvxilnNxtuT1
-	DXsuNQsVUCHiA/Xljdc9xPZDSsuxVM12L9XJ7oxYZ5LslQcq4TNOBygaYusQAb6mxXA8
-	0lGbUzx1CqJr+7xJuwo6HOdyvIhn0/uxqvLZV5UhVF2JaNPPTdSNLrxqz/ph6DMZLjmm
-	XfYknhXTzhHb98Ew03q3NNK7PcMcaqQpWW/fDelkFBTTQd6QwYVNs+3eVBfhUh3BwmEA
-	Qgnw==
+	bh=yy77VmP2JviSbaOXGRvuS5yAL9nFJ/lLW8nWZSRsVp8=;
+	b=ggHyHj8nZ+f/LQLMkpdjKNl3XzQoXTo9u06P8MPQYR9ZWQoa91tpsdJY8WXq5z6xqr
+	OR+8aDGy2ICjHYDCTUqlrBPKnpy9A7dv+rS2lTInjNOj9tKYs5OQZI9WqCF/BJG33VYu
+	WZCKZ1fWVogPeIY5He1+44CcJWySVf0GVFcJ4sCLwg/sZcFB4bZPMyr0u+3HBdzJfRAj
+	CsO+vkFPWE9hZMJ+Mxr4Uq3Qe8CVWhLQkXnLCcGgHE4XsKoRXdG+IcT2tPIWSKi4mpM/
+	1/5Fi5H/kC89nm+QuBs4XU4z9jCDT/OdiXw921J56pIgp26gScO7aDFyDdu/4MhJt+FK
+	fg3w==
 MIME-Version: 1.0
-X-Received: by 10.152.6.170 with SMTP id c10mr26929087laa.9.1405530808644;
-	Wed, 16 Jul 2014 10:13:28 -0700 (PDT)
-Received: by 10.112.124.137 with HTTP; Wed, 16 Jul 2014 10:13:28 -0700 (PDT)
-In-Reply-To: <1405525392-4829-1-git-send-email-maxin.john@enea.com>
-References: <1405525392-4829-1-git-send-email-maxin.john@enea.com>
-Date: Wed, 16 Jul 2014 13:13:28 -0400
-Message-ID: <CADkTA4P_aSB_pONk_vmwta-hb83Rcioe=z1ygVzn-KNPJXRFMA@mail.gmail.com>
+X-Received: by 10.112.239.41 with SMTP id vp9mr24344027lbc.8.1406429003127;
+	Sat, 26 Jul 2014 19:43:23 -0700 (PDT)
+Received: by 10.112.124.137 with HTTP; Sat, 26 Jul 2014 19:43:23 -0700 (PDT)
+In-Reply-To: <53D2B338.906@gmail.com>
+References: <1404164895-19815-1-git-send-email-akuster@mvista.com>
+	<CADkTA4OXMbtPKpfcDHQxRoDAGsGLzBrDJpZEMqV+q8NqOKoczg@mail.gmail.com>
+	<53D2B338.906@gmail.com>
+Date: Sat, 26 Jul 2014 22:43:23 -0400
+Message-ID: <CADkTA4PrOi-ZPFXBaMOJN1y5a4=MNWJ_XPA=7p0V375iQHjC0A@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Maxin B. John" <maxin.john@enea.com>
+To: akuster808 <akuster808@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2] kvm-image-minimal: Fix warning
+Subject: Re: [PATCH 0/7] Remove use of PRINC
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,48 +64,79 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Jul 2014 17:13:34 -0000
+X-List-Received-Date: Sun, 27 Jul 2014 02:43:27 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Jul 16, 2014 at 11:43 AM, Maxin B. John <maxin.john@enea.com> wrote:
-> Fix this warning:
-> WARNING: Function remove_packaging_data_files doesn't exist
+On Fri, Jul 25, 2014 at 3:42 PM, akuster808 <akuster808@gmail.com> wrote:
+> Bruce,
 >
-> The remove_packaging_data_files function is now handled automatically when
-> "package-management" is not in IMAGE_FEATURES. We should remove the lines,
-> as they are not needed and might interfere with correct operation of
-> postinstall scripts.
+> Where there any objections?
 
-Looks good.
-
-merged!
+No objections. I'm simply busy getting OpenStack Icehouse and Juno working
+to my satisfaction, and then I'm pushing a whole series of updates.
 
 Bruce
 
 >
-> Signed-off-by: Maxin B. John <maxin.john@enea.com>
-> ---
->  recipes-extended/images/kvm-image-minimal.bb | 2 --
->  1 file changed, 2 deletions(-)
+> - Armi
 >
-> diff --git a/recipes-extended/images/kvm-image-minimal.bb b/recipes-extended/images/kvm-image-minimal.bb
-> index abc0fee..c96edca 100644
-> --- a/recipes-extended/images/kvm-image-minimal.bb
-> +++ b/recipes-extended/images/kvm-image-minimal.bb
-> @@ -21,5 +21,3 @@ LICENSE = "MIT"
->  inherit core-image
 >
->  IMAGE_ROOTFS_SIZE = "8192"
-> -
-> -ROOTFS_POSTPROCESS_COMMAND += "remove_packaging_data_files ; "
-> --
-> 1.9.1
+> On 06/30/2014 09:39 PM, Bruce Ashfield wrote:
+>>
+>> On Mon, Jun 30, 2014 at 5:48 PM, Armin Kuster <akuster@mvista.com> wrote:
+>>>
+>>> PR .= instead of PRINC
+>>>
+>>
+>> I have a similar series staged locally, but since I'm out of the
+>> office, I haven't
+>> pushed them yet.
+>>
+>> I staged these on top of that pending work, and if no one objects, I'll
+>> push
+>> everything at the same time.
+>>
+>> Bruce
+>>
+>>>
+>>> Armin Kuster (7):
+>>>    [meta-openstack] apache2: Remove PRINC reference
+>>>    [meta-openstack] iptables: remove PRINC reference
+>>>    [meta-openstack] lighttpd: remove PRINC reference
+>>>    [meta-openstack] postgressql: remove PRINC reference
+>>>    [meta-openstack] linux-yocto_3.10: remove PRINC reference
+>>>    [meta-openstack] linux-yocto_3.14: remove PRINC reference
+>>>    [meta-openstack] linux-yocto_3.4: remove PRINC reference
+>>>
+>>>   meta-openstack/recipes-extended/apache2/apache2_2.4.9.bbappend      | 2
+>>> +-
+>>>   meta-openstack/recipes-extended/iptables/iptables_1.4.21.bbappend   | 2
+>>> +-
+>>>   meta-openstack/recipes-extended/lighttpd/lighttpd_1.4.35.bbappend   | 2
+>>> +-
+>>>   meta-openstack/recipes-kernel/linux/linux-yocto_3.10.bbappend       | 3
+>>> ++-
+>>>   meta-openstack/recipes-kernel/linux/linux-yocto_3.14.bbappend       | 2
+>>> +-
+>>>   meta-openstack/recipes-kernel/linux/linux-yocto_3.4.bbappend        | 2
+>>> +-
+>>>   meta-openstack/recipes-support/postgresql/postgresql_9.2.4.bbappend | 2
+>>> +-
+>>>   7 files changed, 8 insertions(+), 7 deletions(-)
+>>>
+>>> --
+>>> 1.9.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> meta-virtualization mailing list
+>>> meta-virtualization@yoctoproject.org
+>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>>
+>>
+>>
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
 
