@@ -1,40 +1,58 @@
-Return-Path: <Keith.Holman@windriver.com>
+Return-Path: <bobadeshrikant@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 66F54E00814; Wed, 20 Aug 2014 13:46:25 -0700 (PDT)
+	id D4147E00807; Thu, 21 Aug 2014 02:07:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bobadeshrikant[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.213.177 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2F97AE0080C
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-ig0-f177.google.com (mail-ig0-f177.google.com
+	[209.85.213.177])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8F5C0E004F5
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Aug 2014 13:46:20 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s7KKkKbC016095
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Aug 2014 02:07:00 -0700 (PDT)
+Received: by mail-ig0-f177.google.com with SMTP id hn18so12553519igb.4
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Aug 2014 13:46:20 -0700 (PDT)
-Received: from yow-kholman-lx1.wrs.com (128.224.56.110) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.174.1; Wed, 20 Aug 2014 13:46:17 -0700
-From: Keith Holman <Keith.Holman@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 20 Aug 2014 16:46:10 -0400
-Message-ID: <1408567571-27481-4-git-send-email-Keith.Holman@windriver.com>
-X-Mailer: git-send-email 1.9.3
-In-Reply-To: <1408567571-27481-1-git-send-email-Keith.Holman@windriver.com>
-References: <1408567571-27481-1-git-send-email-Keith.Holman@windriver.com>
+	Thu, 21 Aug 2014 02:07:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=jKxQiu/4VDGjlTFf6E2eBFRdRrpGxLQDdtXNQSkcZXc=;
+	b=I2+CQA2glbm5Hu09rnuf+Spz645m48i/Mc8nc7w3HqpUT5DF6Xz0TtFuLcJjmMkwJs
+	wR/3qsuK1NGz0EFJoU92kYMaWA6NaoYeyr2Xq0lBJfewIrvpipuSBw6p8/pOyEoID54U
+	Hy0aXq4uVduu02Hdx/1qXX6wIUzdoztQOEpJW79Ne7+NL0XbGR6wNxbjZdvjWdLrbZ8G
+	9CdMbuMLjI/gIlxrJLmOd63dsctVdjw7uKFpMvktiupxJHbXzP8Aulk84AzuRERLPVNQ
+	AqZDsvT1pRja/yG4FZl0cJT/JqaOirkcee94wgkElDhDkL9JLapQ2expufIMwbZ+qxsf
+	8ZyA==
 MIME-Version: 1.0
-X-Originating-IP: [128.224.56.110]
-Cc: keith.holman@windriver.com
-Subject: [PATCH 4/5] protobuf: add examples when test feature enabled
+X-Received: by 10.50.114.38 with SMTP id jd6mr2785809igb.25.1408612019921;
+	Thu, 21 Aug 2014 02:06:59 -0700 (PDT)
+Received: by 10.50.13.10 with HTTP; Thu, 21 Aug 2014 02:06:59 -0700 (PDT)
+In-Reply-To: <CADkTA4MCXjFKLd=+c5NQzJG2Ev9Dw=VNpsgqUQEED4swVnY2vA@mail.gmail.com>
+References: <1407827345-8097-1-git-send-email-bobadeshrikant@gmail.com>
+	<CADkTA4MCXjFKLd=+c5NQzJG2Ev9Dw=VNpsgqUQEED4swVnY2vA@mail.gmail.com>
+Date: Thu, 21 Aug 2014 14:36:59 +0530
+Message-ID: <CALwQErrEvTA7uSCkvSoU4AHfgzAGgXDPxOLJaR-r+FaVzhkDgQ@mail.gmail.com>
+From: Shrikant Bobade <bobadeshrikant@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>,
+	Shrikant Bobade <Shrikant_Bobade@mentor.com>
+Subject: Re: [daisy][PATCH] libvirt: set path to pkcheck
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,191 +65,192 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Aug 2014 20:46:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Aug 2014 09:07:04 -0000
+Content-Type: multipart/alternative; boundary=047d7b3a959812eabb0501200bc8
 
-Google Protocol Buffers includes some basic example applications to
-show its functionality.  This fix installs these examples to the
-target system when the "test" feature is enabled in the configuration.
+--047d7b3a959812eabb0501200bc8
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Keith Holman <Keith.Holman@windriver.com>
----
- ...llow-running-python-scripts-from-anywhere.patch | 38 +++++++++++++
- recipes-containers/criu/files/run-ptest            | 32 +++++++++++
- recipes-containers/criu/protobuf_2.5.0.bb          | 62 ++++++++++++++++++++--
- 3 files changed, 128 insertions(+), 4 deletions(-)
- create mode 100644 recipes-containers/criu/files/protobuf-allow-running-python-scripts-from-anywhere.patch
- create mode 100755 recipes-containers/criu/files/run-ptest
-
-diff --git a/recipes-containers/criu/files/protobuf-allow-running-python-scripts-from-anywhere.patch b/recipes-containers/criu/files/protobuf-allow-running-python-scripts-from-anywhere.patch
-new file mode 100644
-index 0000000..13d4e84
---- /dev/null
-+++ b/recipes-containers/criu/files/protobuf-allow-running-python-scripts-from-anywhere.patch
-@@ -0,0 +1,38 @@
-+From 46e331263eb92e47510e88478b255f226d30245c Mon Sep 17 00:00:00 2001
-+From: Keith Holman <Keith.Holman@windriver.com>
-+Date: Mon, 18 Aug 2014 15:19:35 -0400
-+Subject: [PATCH] protobuf: allow running python scripts from anywhere
-+
-+The Makefile to generate the examples with Google Protocol Buffers
-+generates some scripts for python.  However, these generated scripts
-+only work if they are ran in the same directory as the source files.
-+This fix generates scripts to execute from anywhere on the system.
-+
-+Signed-off-by: Keith Holman <Keith.Holman@windriver.com>
-+---
-+ examples/Makefile | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/examples/Makefile b/examples/Makefile
-+index 8dc9083..a993d63 100644
-+--- a/examples/Makefile
-++++ b/examples/Makefile
-+@@ -48,11 +48,13 @@ list_people_java: javac_middleman
-+ add_person_python: add_person.py protoc_middleman
-+ 	@echo "Writing shortcut script add_person_python..."
-+ 	@echo '#! /bin/sh' > add_person_python
-+-	@echo './add_person.py "$$@"' >> add_person_python
-++	@echo 'SCRIPT_DIR=$$(dirname $$0)' >> add_person_python
-++	@echo '$$SCRIPT_DIR/add_person.py "$$@"' >> add_person_python
-+ 	@chmod +x add_person_python
-+ 
-+ list_people_python: list_people.py protoc_middleman
-+ 	@echo "Writing shortcut script list_people_python..."
-+ 	@echo '#! /bin/sh' > list_people_python
-+-	@echo './list_people.py "$$@"' >> list_people_python
-++	@echo 'SCRIPT_DIR=$$(dirname $$0)' >> list_people_python
-++	@echo '$$SCRIPT_DIR/list_people.py "$$@"' >> list_people_python
-+ 	@chmod +x list_people_python
-+-- 
-+1.9.3
-+
-diff --git a/recipes-containers/criu/files/run-ptest b/recipes-containers/criu/files/run-ptest
-new file mode 100755
-index 0000000..a5a7b0f
---- /dev/null
-+++ b/recipes-containers/criu/files/run-ptest
-@@ -0,0 +1,32 @@
-+#!/bin/bash
-+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-+TEST_FILE="/tmp/test.data"
-+
-+RETVAL=0
-+# Test every writing test application
-+for write_exe_full_path in ${DIR}/add_person_*; do
-+	if [ -x "${write_exe_full_path}" ]; then
-+		write_exe=`basename ${write_exe_full_path}`
-+		echo "Generating new test file using ${write_exe}..."
-+		${write_exe_full_path} "${TEST_FILE}"
-+		RETVAL=$?
-+
-+		# Test every reading test application
-+		for read_exe_full_path in ${DIR}/list_people_*; do
-+			read_exe=`basename ${read_exe_full_path}`
-+			echo "Test: Write with ${write_exe}; Read with ${read_exe}..."
-+			if [ -x "${read_exe_full_path}" ]; then
-+				${read_exe_full_path} "${TEST_FILE}"
-+				RETVAL=$?
-+			fi
-+		done
-+
-+		# Cleanup...
-+		if [ -e "${TEST_FILE}" ]; then
-+			rm "${TEST_FILE}"
-+		fi
-+	fi
-+done
-+
-+exit $RETVAL
-+
-diff --git a/recipes-containers/criu/protobuf_2.5.0.bb b/recipes-containers/criu/protobuf_2.5.0.bb
-index 5cf6cc9..851fbf0 100644
---- a/recipes-containers/criu/protobuf_2.5.0.bb
-+++ b/recipes-containers/criu/protobuf_2.5.0.bb
-@@ -12,23 +12,77 @@ PR = "r0"
- 
- SRC_URI[md5sum] = "b751f772bdeb2812a2a8e7202bf1dae8"
- SRC_URI[sha256sum] = "c55aa3dc538e6fd5eaf732f4eb6b98bdcb7cedb5b91d3b5bdcf29c98c293f58e"
--SRC_URI = "http://protobuf.googlecode.com/files/protobuf-${PV}.tar.gz"
--PYTHON_SRC_DIR="python"
-+SRC_URI = "http://protobuf.googlecode.com/files/protobuf-${PV}.tar.gz \
-+	file://protobuf-allow-running-python-scripts-from-anywhere.patch \
-+	file://run-ptest"
- 
- EXTRA_OECONF += " --with-protoc=echo"
--inherit autotools setuptools
-+inherit autotools setuptools ptest
-+
-+RDEPENDS_${PN}-ptest += "make"
-+
-+PYTHON_SRC_DIR="python"
-+TEST_SRC_DIR="examples"
-+LANG_SUPPORT="cpp python"
- 
- do_compile() {
- 	# Compile protoc compiler
- 	base_do_compile
- }
- 
-+do_compile_ptest() {
-+	# Modify makefile to use the cross-compiler
-+	sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
-+
-+	# Add the location of the cross-compiled header and library files
-+	# which haven't been installed yet.
-+	cp "${S}/protobuf.pc" "${S}/${TEST_SRC_DIR}/protobuf.pc"
-+	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${S}/${TEST_SRC_DIR}/protobuf.pc"
-+	sed -e 's|Libs:|Libs: -L${S}/src/.libs|' -i "${S}/${TEST_SRC_DIR}/protobuf.pc"
-+	export PKG_CONFIG_PATH="${S}/${TEST_SRC_DIR}"
-+
-+	# Save the pkgcfg sysroot variable, and update it to nothing so
-+	# that it doesn't append the sysroot to the beginning of paths.
-+	# The header and library files aren't installed to the target
-+	# system yet.  So the absolute paths were specified above.
-+	save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
-+	export PKG_CONFIG_SYSROOT_DIR=
-+
-+	# Compile the tests
-+	for lang in ${LANG_SUPPORT}; do
-+		oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
-+	done
-+
-+	# Restore the pkgconfig sysroot variable
-+	export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
-+}
-+
- do_install() {
-+	local olddir=`pwd`
-+
- 	# Install protoc compiler
- 	autotools_do_install
-+
- 	# Install header files
--	cd "${PYTHON_SRC_DIR}"
-+	cd "${S}/${PYTHON_SRC_DIR}"
- 	distutils_do_install
-+
-+	cd "$olddir"
-+}
-+
-+do_install_ptest() {
-+	local olddir=`pwd`
-+
-+	cd "${S}/${TEST_SRC_DIR}"
-+	install -d "${D}/${PTEST_PATH}"
-+	for i in add_person* list_people*; do
-+		if [ -x "$i" ]; then
-+			install "$i" "${D}/${PTEST_PATH}"
-+		fi
-+	done
-+	cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
-+	
-+	cd "$olddir"
- }
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.3
+Thanks ! Bruce for applying it on daisy & master.
 
 
+Regard's
+Shrikant
+
+
+On Mon, Aug 18, 2014 at 11:29 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
+
+> On Tue, Aug 12, 2014 at 3:09 AM, Shrikant Bobade
+> <bobadeshrikant@gmail.com> wrote:
+> > From: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+> >
+> > The libvirt build would fail whenever x11 was in DISTRO_FEATURES and the
+> host
+> > didn't have polkit installed (either no polkit/policykit at all, or just
+> old
+> > policykit).
+> >
+> > Ensure that libvirt uses polkit rather than policykit, whether the host
+> has
+> > pkcheck installed or not, and ensure the path is correct per our config.
+>
+>
+> Sorry for the delay, I was out of the office.
+>
+> I applied the patch to daisy and master, let me know if anyone has
+> problems!
+>
+> Cheers,
+>
+> Bruce
+>
+> >
+> > Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> > Signed-off-by: Shrikant Bobade <Shrikant_Bobade@mentor.com>
+> > ---
+> >  recipes-extended/libvirt/libvirt_1.2.2.bb |    5 ++++-
+> >  1 file changed, 4 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/recipes-extended/libvirt/libvirt_1.2.2.bb
+> b/recipes-extended/libvirt/libvirt_1.2.2.bb
+> > index 0cd6b99..a14d465 100644
+> > --- a/recipes-extended/libvirt/libvirt_1.2.2.bb
+> > +++ b/recipes-extended/libvirt/libvirt_1.2.2.bb
+> > @@ -67,6 +67,10 @@ ac_cv_path_LVS=/usr/sbin/lvs \
+> >  ac_cv_path_PARTED=/usr/sbin/parted \
+> >  ac_cv_path_DMSETUP=/usr/sbin/dmsetup"
+> >
+> > +# Ensure that libvirt uses polkit rather than policykit, whether the
+> host has
+> > +# pkcheck installed or not, and ensure the path is correct per our
+> config.
+> > +CACHED_CONFIGUREVARS += "ac_cv_path_PKCHECK_PATH=${bindir}/pkcheck"
+> > +
+> >  # Some other possible paths we are not yet setting
+> >  #ac_cv_path_RPCGEN=
+> >  #ac_cv_path_XSLTPROC=
+> > @@ -75,7 +79,6 @@ ac_cv_path_DMSETUP=/usr/sbin/dmsetup"
+> >  #ac_cv_path_EBTABLES_PATH=
+> >  #ac_cv_path_PKG_CONFIG=
+> >  #ac_cv_path_ac_pt_PKG_CONFIG
+> > -#ac_cv_path_PKCHECK_PATH=
+> >  #ac_cv_path_POLKIT_AUTH=
+> >  #ac_cv_path_DTRACE=
+> >  #ac_cv_path_ISCSIADM=
+> > --
+> > 1.7.9.5
+> >
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
+
+--047d7b3a959812eabb0501200bc8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div>Thanks ! Bruce for applying it on daisy &amp; ma=
+ster. <br><br><br></div>Regard&#39;s<br></div>Shrikant<br><div><div><div><d=
+iv class=3D"gmail_extra"><br><br><div class=3D"gmail_quote">On Mon, Aug 18,=
+ 2014 at 11:29 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"mailto:b=
+ruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;=
+</span> wrote:<br>
+<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
+x #ccc solid;padding-left:1ex"><div class=3D"">On Tue, Aug 12, 2014 at 3:09=
+ AM, Shrikant Bobade<br>
+&lt;<a href=3D"mailto:bobadeshrikant@gmail.com">bobadeshrikant@gmail.com</a=
+>&gt; wrote:<br>
+&gt; From: Shrikant Bobade &lt;<a href=3D"mailto:Shrikant_Bobade@mentor.com=
+">Shrikant_Bobade@mentor.com</a>&gt;<br>
+&gt;<br>
+&gt; The libvirt build would fail whenever x11 was in DISTRO_FEATURES and t=
+he host<br>
+&gt; didn&#39;t have polkit installed (either no polkit/policykit at all, o=
+r just old<br>
+&gt; policykit).<br>
+&gt;<br>
+&gt; Ensure that libvirt uses polkit rather than policykit, whether the hos=
+t has<br>
+&gt; pkcheck installed or not, and ensure the path is correct per our confi=
+g.<br>
+<br>
+<br>
+</div>Sorry for the delay, I was out of the office.<br>
+<br>
+I applied the patch to daisy and master, let me know if anyone has problems=
+!<br>
+<br>
+Cheers,<br>
+<br>
+Bruce<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;<br>
+&gt; Signed-off-by: Christopher Larson &lt;<a href=3D"mailto:kergoth@gmail.=
+com">kergoth@gmail.com</a>&gt;<br>
+&gt; Signed-off-by: Shrikant Bobade &lt;<a href=3D"mailto:Shrikant_Bobade@m=
+entor.com">Shrikant_Bobade@mentor.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 recipes-extended/libvirt/<a href=3D"http://libvirt_1.2.2.bb" tar=
+get=3D"_blank">libvirt_1.2.2.bb</a> |=C2=A0 =C2=A0 5 ++++-<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/recipes-extended/libvirt/<a href=3D"http://libvirt_1.2.2.=
+bb" target=3D"_blank">libvirt_1.2.2.bb</a> b/recipes-extended/libvirt/<a hr=
+ef=3D"http://libvirt_1.2.2.bb" target=3D"_blank">libvirt_1.2.2.bb</a><br>
+&gt; index 0cd6b99..a14d465 100644<br>
+&gt; --- a/recipes-extended/libvirt/<a href=3D"http://libvirt_1.2.2.bb" tar=
+get=3D"_blank">libvirt_1.2.2.bb</a><br>
+&gt; +++ b/recipes-extended/libvirt/<a href=3D"http://libvirt_1.2.2.bb" tar=
+get=3D"_blank">libvirt_1.2.2.bb</a><br>
+&gt; @@ -67,6 +67,10 @@ ac_cv_path_LVS=3D/usr/sbin/lvs \<br>
+&gt;=C2=A0 ac_cv_path_PARTED=3D/usr/sbin/parted \<br>
+&gt;=C2=A0 ac_cv_path_DMSETUP=3D/usr/sbin/dmsetup&quot;<br>
+&gt;<br>
+&gt; +# Ensure that libvirt uses polkit rather than policykit, whether the =
+host has<br>
+&gt; +# pkcheck installed or not, and ensure the path is correct per our co=
+nfig.<br>
+&gt; +CACHED_CONFIGUREVARS +=3D &quot;ac_cv_path_PKCHECK_PATH=3D${bindir}/p=
+kcheck&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 # Some other possible paths we are not yet setting<br>
+&gt;=C2=A0 #ac_cv_path_RPCGEN=3D<br>
+&gt;=C2=A0 #ac_cv_path_XSLTPROC=3D<br>
+&gt; @@ -75,7 +79,6 @@ ac_cv_path_DMSETUP=3D/usr/sbin/dmsetup&quot;<br>
+&gt;=C2=A0 #ac_cv_path_EBTABLES_PATH=3D<br>
+&gt;=C2=A0 #ac_cv_path_PKG_CONFIG=3D<br>
+&gt;=C2=A0 #ac_cv_path_ac_pt_PKG_CONFIG<br>
+&gt; -#ac_cv_path_PKCHECK_PATH=3D<br>
+&gt;=C2=A0 #ac_cv_path_POLKIT_AUTH=3D<br>
+&gt;=C2=A0 #ac_cv_path_DTRACE=3D<br>
+&gt;=C2=A0 #ac_cv_path_ISCSIADM=3D<br>
+&gt; --<br>
+&gt; 1.7.9.5<br>
+&gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; meta-virtualization mailing list<br>
+&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
+ation@yoctoproject.org</a><br>
+&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
+" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualiza=
+tion</a><br>
+<br>
+<br>
+<br>
+--<br>
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
+r>
+thee at its end&quot;<br>
+</font></span></blockquote></div><br></div></div></div></div></div>
+
+--047d7b3a959812eabb0501200bc8--
