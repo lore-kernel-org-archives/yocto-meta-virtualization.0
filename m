@@ -1,57 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Chong.Lu@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8DE71E007DB; Wed, 27 Aug 2014 11:39:05 -0700 (PDT)
+	id 5B63CE00566; Wed,  3 Sep 2014 02:17:08 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.44 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-la0-f44.google.com (mail-la0-f44.google.com
-	[209.85.215.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7F0C1E007B9
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E6C25E0054C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 27 Aug 2014 11:38:58 -0700 (PDT)
-Received: by mail-la0-f44.google.com with SMTP id mc6so417413lab.3
+	Wed,  3 Sep 2014 02:17:05 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id s839H4XF029431
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 27 Aug 2014 11:38:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=17lkVPTM4zJwGsfV9WK1zih+EpMXdwMjk8AbyVoB4XM=;
-	b=rAiKizRAxtv40HHgChH0v4CjarsC5JuhsIs3oTzotCFa0bScl747Xby0FX63J9oA+K
-	viuo6iHuOJS0X/j8j/3Fp1rglf2wwipkuQTtgFyiNnMXTYsaVY+cHL1Tjl1XtU+GrR49
-	Dl3S7PrkKHNDOluYVlM+G3yIaAl5asUBzzNl5vWazW90XTbdNtuq8oXydtEush5nZ6cs
-	PPcn8jifrYAxDvY6YNXuFIOVb0MUDk/Izu2F1IOiNEW/UmRbCMzh9EEHFjXHbr6KCnPJ
-	Wclmt9mImp1dWHYm4i6a8zVyYHGA8onAuzQTyhvDvlSc5CgRgjTFOSmTr8zxZsLMwjY0
-	ZhOQ==
+	Wed, 3 Sep 2014 02:17:04 -0700 (PDT)
+Received: from PKE-CLU1-D1.corp.ad.wrs.com (128.224.162.204) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.174.1; Wed, 3 Sep 2014 02:17:04 -0700
+From: Chong Lu <Chong.Lu@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 3 Sep 2014 17:17:02 +0800
+Message-ID: <1409735822-23058-1-git-send-email-Chong.Lu@windriver.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.112.165.68 with SMTP id yw4mr35221524lbb.5.1409164736874;
-	Wed, 27 Aug 2014 11:38:56 -0700 (PDT)
-Received: by 10.112.202.67 with HTTP; Wed, 27 Aug 2014 11:38:56 -0700 (PDT)
-In-Reply-To: <53FE2374.3030308@windriver.com>
-References: <1409155567-13758-1-git-send-email-Zibo.Zhao@windriver.com>
-	<CADkTA4MG3Xuhdj=GYfnOZR097bZv1sodEiSrStxE01uKKXGZTw@mail.gmail.com>
-	<53FE2374.3030308@windriver.com>
-Date: Wed, 27 Aug 2014 14:38:56 -0400
-Message-ID: <CADkTA4O2TAK3HJF9FZdVNH0A-S1F3er+HPX-4aLFqKniJ4SexA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Zibo Zhao <Zibo.Zhao@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/1] protobuf: fix ptest compile errors
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH V2] lxc: fix RDEPENDS on bash
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -64,93 +44,76 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Aug 2014 18:39:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 03 Sep 2014 09:17:08 -0000
+Content-Type: text/plain
 
-I pushed the resolution already, but I'll take care of the fixup as well.
+Split a ${PN}-template pkg to put ${datadir}/lxc/templates/, and debash in
+${datadir}/lxc/hooks/*
 
-Thanks for checking.
+Bash scripts:
+lxc/usr/share/lxc/hooks/mountcgroups:#!/bin/bash
+lxc/usr/share/lxc/hooks/ubuntu-cloud-prep:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-debian:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-openmandriva:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-archlinux:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-centos:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-plamo:1:#!/bin/bash -eu
+lxc/usr/share/lxc/templates/lxc-ubuntu-cloud:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-opensuse:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-gentoo:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-altlinux:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-sshd:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-ubuntu:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-cirros:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-busybox:1:#!/bin/bash
+lxc/usr/share/lxc/templates/lxc-fedora:1:#!/bin/bash
 
-Bruce
+Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
+---
+ recipes-containers/lxc/lxc_1.0.5.bb |   11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-On Wed, Aug 27, 2014 at 2:29 PM, Zibo Zhao <Zibo.Zhao@windriver.com> wrote:
->
-> On 08/27/2014 12:32 PM, Bruce Ashfield wrote:
->>
->> I had to resolve a reject on this one, so double check that your
->> meta-virt tree is
->> up to date, and also check that my resolution was correct.
->
-> Sorry, Bruce. I certainly didn't pick up your latest commit regarding
-> splitting the build/src directories.
-> So the resolution has a little bit issue:
->
->
-> sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i
-> "${S}/${TEST_SRC_DIR}/protobuf.pc"
->
-> Should have been using ${B} instead of ${S} since the file is in build dir
-> not in source dir.
-> Can you fix it or you want me to resubmit the patch?
->
-> Zibo
->
->
->>
->> Cheers,
->>
->> Bruce
->>
->> On Wed, Aug 27, 2014 at 12:06 PM, Zibo Zhao <Zibo.Zhao@windriver.com>
->> wrote:
->>>
->>> While buiding protobuf ptest on Centos 6.4, the build
->>> failed with errors:
->>>
->>> ...libprotobuf.so: undefined reference to `memcpy@GLIBC_2.14'
->>>
->>> This is due to protobuf.pc still contains /usr/lib64
->>> as libdir which are not good for cross compiling.
->>> Replace it with proper sysroot path.
->>>
->>> Signed-off-by: Zibo Zhao <Zibo.Zhao@windriver.com>
->>> ---
->>>   recipes-containers/criu/protobuf_2.5.0.bb | 1 +
->>>   1 file changed, 1 insertion(+)
->>>
->>> diff --git a/recipes-containers/criu/protobuf_2.5.0.bb
->>> b/recipes-containers/criu/protobuf_2.5.0.bb
->>> index 5c7454b..c4b7d18 100644
->>> --- a/recipes-containers/criu/protobuf_2.5.0.bb
->>> +++ b/recipes-containers/criu/protobuf_2.5.0.bb
->>> @@ -37,6 +37,7 @@ do_compile_ptest() {
->>>          # Add the location of the cross-compiled header and library
->>> files
->>>          # which haven't been installed yet.
->>>          cp "${S}/protobuf.pc" "${S}/${TEST_SRC_DIR}/protobuf.pc"
->>> +       sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i
->>> "${S}/${TEST_SRC_DIR}/protobuf.pc"
->>>          sed -e 's|Cflags:|Cflags: -I${S}/src|' -i
->>> "${S}/${TEST_SRC_DIR}/protobuf.pc"
->>>          sed -e 's|Libs:|Libs: -L${S}/src/.libs|' -i
->>> "${S}/${TEST_SRC_DIR}/protobuf.pc"
->>>          export PKG_CONFIG_PATH="${S}/${TEST_SRC_DIR}"
->>> --
->>> 1.9.1
->>>
->>> --
->>> _______________________________________________
->>> meta-virtualization mailing list
->>> meta-virtualization@yoctoproject.org
->>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
->>
->
-
-
-
+diff --git a/recipes-containers/lxc/lxc_1.0.5.bb b/recipes-containers/lxc/lxc_1.0.5.bb
+index bea1ad0..c0603ee 100644
+--- a/recipes-containers/lxc/lxc_1.0.5.bb
++++ b/recipes-containers/lxc/lxc_1.0.5.bb
+@@ -37,10 +37,11 @@ S = "${WORKDIR}/${BPN}-${PV}"
+ PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
+ EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "templates"
+ PACKAGECONFIG[doc] = "--enable-doc,--disable-doc,,"
+ PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
+ PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
++PACKAGECONFIG[templates] = ",,, ${PN}-templates"
+ 
+ inherit autotools pkgconfig ptest
+ 
+@@ -48,6 +49,9 @@ FILES_${PN}-doc = "${mandir} ${infodir}"
+ # For LXC the docdir only contains example configuration files and should be included in the lxc package
+ FILES_${PN} += "${docdir}"
+ FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
++PACKAGES =+ "${PN}-templates"
++FILES_${PN}-templates += "${datadir}/lxc/templates"
++RDEPENDS_${PN}-templates += "bash"
+ 
+ PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
+ 
+@@ -57,8 +61,11 @@ do_install_append() {
+ 	rm -rf ${D}${localstatedir}/cache
+ 	install -d ${D}${sysconfdir}/default/volatiles
+ 	echo "d root root 0755 ${localstatedir}/cache/lxc none" \
+-	     > ${D}${sysconfdir}/default/volatiles/99_lxc
++	    > ${D}${sysconfdir}/default/volatiles/99_lxc
+ 
++	# The checkbashisms shows there are no bashism, so use /bin/sh.
++	for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
++	    sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
+ }
+ 
+ EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.5
+
 
