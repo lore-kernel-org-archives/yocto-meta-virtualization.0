@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 05211E00876; Tue, 30 Sep 2014 21:59:03 -0700 (PDT)
+	id 1BDA0E00876; Tue, 30 Sep 2014 22:02:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -18,38 +18,38 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.217.170 listed in list.dnswl.org]
-Received: from mail-lb0-f170.google.com (mail-lb0-f170.google.com
-	[209.85.217.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 76743E0079A
+	*      [209.85.217.179 listed in list.dnswl.org]
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 71B3EE0079A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Sep 2014 21:58:59 -0700 (PDT)
-Received: by mail-lb0-f170.google.com with SMTP id u10so49565lbd.29
+	Tue, 30 Sep 2014 22:02:13 -0700 (PDT)
+Received: by mail-lb0-f179.google.com with SMTP id l4so60195lbv.10
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Sep 2014 21:58:58 -0700 (PDT)
+	Tue, 30 Sep 2014 22:02:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=GplywZ9aMqG8twun0kuYxgpH5YKY1l7Rpa8uomWglbY=;
-	b=bgLS4yElzv8Ianmik4f3NX8ltuCHv+jnt3nVEQNrIP5EMoreNkLf3oO/zKXk4MGauj
-	cIMvQp7kugxl4/6dek54X8wCXJm8rrSsXEsA4T0kd3LE9IDpqOT2LlsBtkMUkeJj5f0o
-	wj265ZJcFIlb49/kKIFwsYHuHZ/4ULoophhXxL4z875pThENXZM9PIfMXWRyfU8UDEwB
-	Ukv2L58JNEc9UshVNNjOBw8ZbR0zhU1d6iRybQw3VNH9LjUSXrIRSpswN3CttfDpMbAy
-	AiweLCOhiGSMh86VkY7mlYJvs/ZmdQ3+9kfQiZ4/PJ8qpqpHgVE+QE8wHqYEgY8v1lWB
-	kykQ==
+	bh=Ox7hED0vTf/mrXovGbcgj8GDoGyTimTTgHFnWGLX1pw=;
+	b=qXoHCz0O5AbVVDNKZFWdMM2u9iSi9advG5dLD5j2cR9V5mYbOqe9OHQg0v0PndXCjk
+	NieFt3zzbWOhmlyvPRhJmjImJm7n/Abe3V/9CWUQCiJjlEFNp8nuSUtM9y/1ghqvz/uX
+	hgmXGxDbXDQIkxOQFEmWVONV3RwYhiIeUZZQtAThICclG3O00YHZkDU2EIDCZYzqBS1w
+	1Lzt2Vh7wbtPH2UCV/5OyVJ1iXLrqZEW184idGe3USfVRzD8cP97R/9geFFPhuPJCbkR
+	tiW8p84IcS1xPsQwuhTmJUEaJqBf0FuI9k0K/ACARqOQ2zO1eBN8IxUgDXz4uAFbGKrL
+	4tmg==
 MIME-Version: 1.0
-X-Received: by 10.112.134.229 with SMTP id pn5mr23249248lbb.22.1412139538528; 
-	Tue, 30 Sep 2014 21:58:58 -0700 (PDT)
-Received: by 10.112.44.234 with HTTP; Tue, 30 Sep 2014 21:58:58 -0700 (PDT)
-In-Reply-To: <1412082675-11981-1-git-send-email-josep.puigdemont@enea.com>
-References: <1412082675-11981-1-git-send-email-josep.puigdemont@enea.com>
-Date: Wed, 1 Oct 2014 00:58:58 -0400
-Message-ID: <CADkTA4PHMgrC6BZhBgdb8NoVN3Dbzb1-uHfpE5HwfawJndsvSw@mail.gmail.com>
+X-Received: by 10.152.36.37 with SMTP id n5mr16111067laj.93.1412139731425;
+	Tue, 30 Sep 2014 22:02:11 -0700 (PDT)
+Received: by 10.112.44.234 with HTTP; Tue, 30 Sep 2014 22:02:11 -0700 (PDT)
+In-Reply-To: <CAFeBWL5qa-SEyJ-cwup-PLHszx0X+yy9aKOjCneis7fm5zJtYw@mail.gmail.com>
+References: <CAFeBWL5qa-SEyJ-cwup-PLHszx0X+yy9aKOjCneis7fm5zJtYw@mail.gmail.com>
+Date: Wed, 1 Oct 2014 01:02:11 -0400
+Message-ID: <CADkTA4Mu5hZz5Y4HTopSH46iBe4je=Hs899Fm13yrsJMnXkFNg@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
+To: Adam Lee <adam.yh.lee@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: build API docs only when required
+Subject: Re: uwsgi fails to get packaged with bad RPATH
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,41 +62,74 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 04:59:03 -0000
+X-List-Received-Date: Wed, 01 Oct 2014 05:02:24 -0000
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+On Tue, Sep 30, 2014 at 6:43 PM, Adam Lee <adam.yh.lee@gmail.com> wrote:
+> Hello everyone, I am building uwsgi as a part of my image to run a web
+> application on my embedded board.
+>
+> Ingredients including nginx builds fine, but I am getting the error
+> attached. I am building on Yocto Project 1.6.1 (current master).
+
+Hmmm. I just did a completely clean build and didn't get any QA errors with
+respect to rpath.
+
+Hopefully someone else is seeing this and can help isolate the issue.
 
 Bruce
 
-On Tue, Sep 30, 2014 at 9:11 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
-> ---
->  recipes-containers/lxc/lxc_1.0.5.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-containers/lxc/lxc_1.0.5.bb b/recipes-containers/lxc/lxc_1.0.5.bb
-> index 04c027d..232a3d0 100644
-> --- a/recipes-containers/lxc/lxc_1.0.5.bb
-> +++ b/recipes-containers/lxc/lxc_1.0.5.bb
-> @@ -38,7 +38,7 @@ PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '',
->  EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+> Any insight will be greatly appreciated!
 >
->  PACKAGECONFIG ??= "templates"
-> -PACKAGECONFIG[doc] = "--enable-doc,--disable-doc,,"
-> +PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
->  PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
->  PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
->  PACKAGECONFIG[templates] = ",,, ${PN}-templates"
-> --
-> 1.9.3
+> Adam
+>
+>> DEBUG: Executing python function sstate_task_prefunc
+>> DEBUG: Python function sstate_task_prefunc finished
+>> DEBUG: Executing python function do_package
+>> DEBUG: Executing python function package_get_auto_pr
+>> DEBUG: Python function package_get_auto_pr finished
+>> DEBUG: Executing python function perform_packagecopy
+>> DEBUG: Python function perform_packagecopy finished
+>> DEBUG: Executing python function split_and_strip_files
+>> DEBUG: runstrip: 'arm-poky-linux-gnueabi-strip' --remove-section=.comment
+>> --remove-section=.note
+>> '/media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/package/usr/bin/uwsgi'
+>> DEBUG: Python function split_and_strip_files finished
+>> DEBUG: Executing python function fixup_perms
+>> DEBUG: Python function fixup_perms finished
+>> DEBUG: Executing python function package_do_split_locales
+>> DEBUG: No locale files in this package
+>> DEBUG: Python function package_do_split_locales finished
+>> DEBUG: Executing python function populate_packages
+>> DEBUG: Python function populate_packages finished
+>> DEBUG: Executing python function do_package_qa
+>> NOTE: DO PACKAGE QA
+>> NOTE: Checking Package: uwsgi-staticdev
+>> NOTE: Checking Package: uwsgi-dev
+>> NOTE: Checking Package: uwsgi-dbg
+>> NOTE: arm-poky-linux-gnueabi-objdump -p
+>> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi-dbg/usr/bin/.debug/uwsgi
+>> NOTE: Checking Package: uwsgi-doc
+>> NOTE: Checking Package: uwsgi
+>> NOTE: arm-poky-linux-gnueabi-objdump -p
+>> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
+>> ERROR: QA Issue: package uwsgi contains bad RPATH
+>> /media/Build/master/build/tmp/sysroots/duovero/usr/lib in file
+>> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
+>> ERROR: QA run found fatal errors. Please consider fixing them.
+>> DEBUG: Python function do_package_qa finished
+>> DEBUG: Python function do_package finished
+>> ERROR: Function failed: do_package_qa
+>
+>
 >
 > --
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
 
 
 
