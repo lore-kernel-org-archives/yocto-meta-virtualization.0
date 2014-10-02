@@ -1,6 +1,6 @@
 Return-Path: <adam.yh.lee@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 96EBDE0076C; Thu,  2 Oct 2014 10:01:28 -0700 (PDT)
+	id 504FAE0076C; Thu,  2 Oct 2014 10:39:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (adam.yh.lee[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.220.176 listed in list.dnswl.org]
+	*      [209.85.220.181 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,35 +20,36 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-vc0-f176.google.com (mail-vc0-f176.google.com
-	[209.85.220.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2A0B8E00749
+Received: from mail-vc0-f181.google.com (mail-vc0-f181.google.com
+	[209.85.220.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BDE54E00749
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  2 Oct 2014 10:01:24 -0700 (PDT)
-Received: by mail-vc0-f176.google.com with SMTP id hq11so1638867vcb.21
+	Thu,  2 Oct 2014 10:39:01 -0700 (PDT)
+Received: by mail-vc0-f181.google.com with SMTP id le20so1715679vcb.40
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 02 Oct 2014 10:01:23 -0700 (PDT)
+	Thu, 02 Oct 2014 10:39:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=NpbqtRfgyqNEZFt5DAyqSjehBWtik7ANQ6TVVdUQhZU=;
-	b=R4r+K80Yn8P0VrEdEQR3oVgDFJhd9wzM/RinP0ueVFUTGS3MdvZJZNAiIteeLNfwRJ
-	ByMTJWjyHULrXecafDGVlEVgl1cnWVgdzW5/VnD2/60ClMhDoWK2CZh+KfVy/BSKJMLg
-	OhuTIOOkMZW3TDkVJ7SD71f07VfofQ2uU9ZB8RsmLCO4l0iP5hxKTvUcMZHqIw00O+2l
-	Tgyd/KLKMOhYaDFZdd3h3wMKa2qh9NAzDmK8RxtVpc49AA62dxwYY2vE6zEKbCNWRX5O
-	34FffnSvwzEil1dcFiS/WCQYw2PnuhOnVfGReKpCT4h9isaZzsNIyFsNmEUI2U0I9V1T
-	gfWQ==
+	bh=SslaSb357u3GTLN+WSW2xb1IXfKszKSqkBDEJiQwAKg=;
+	b=VWIcTERwC/jV/91uEAM0wH0yYvg66BDhD1djfaFu7+JaTEySo98xohY0aSadGc0oI5
+	HCNWu/koThExMx2eqRUN8hah+8mmfqS4D/aYciRHWM9aDa24bII/HUVjqeS1am8dvQJi
+	nw03JXM6k6EV3tF1SZNRDHJcnjBsn7Fo5hGWFEW2KTxa683mJ37A6pZHzvJzOC72EXzO
+	zTzUGZQC5havEUvad+Pta218IhlGmPtZUB3Eo+5RoJmofq8qlgc6Am4P1BunrGzK56WD
+	5hBuS9safVgc3iz0i4okJflUKkBot/viURAwVtLrMsomj8U6v3Wn180CSkkwspfXPENd
+	qlUQ==
 MIME-Version: 1.0
-X-Received: by 10.52.30.2 with SMTP id o2mr133420vdh.12.1412269283279; Thu, 02
-	Oct 2014 10:01:23 -0700 (PDT)
-Received: by 10.52.112.65 with HTTP; Thu, 2 Oct 2014 10:01:23 -0700 (PDT)
-In-Reply-To: <CADkTA4MSNGX2Lf0sL3x5YxPNZE3bHpYFFjEVeupjagQoXBi=pw@mail.gmail.com>
+X-Received: by 10.221.66.194 with SMTP id xr2mr149187vcb.27.1412271540598;
+	Thu, 02 Oct 2014 10:39:00 -0700 (PDT)
+Received: by 10.52.112.65 with HTTP; Thu, 2 Oct 2014 10:39:00 -0700 (PDT)
+In-Reply-To: <CAFeBWL7+YWR6GjdSpVmoxGy-=E6o3Ocnw=-YheR8by=CHTOgRg@mail.gmail.com>
 References: <CAFeBWL5qa-SEyJ-cwup-PLHszx0X+yy9aKOjCneis7fm5zJtYw@mail.gmail.com>
 	<CADkTA4Mu5hZz5Y4HTopSH46iBe4je=Hs899Fm13yrsJMnXkFNg@mail.gmail.com>
 	<CAFeBWL7WnEY=WMUvz508mKhiJj5NC3veckuQxPYAhnMMsHfLmw@mail.gmail.com>
 	<CADkTA4MSNGX2Lf0sL3x5YxPNZE3bHpYFFjEVeupjagQoXBi=pw@mail.gmail.com>
-Date: Thu, 2 Oct 2014 10:01:23 -0700
-Message-ID: <CAFeBWL7+YWR6GjdSpVmoxGy-=E6o3Ocnw=-YheR8by=CHTOgRg@mail.gmail.com>
+	<CAFeBWL7+YWR6GjdSpVmoxGy-=E6o3Ocnw=-YheR8by=CHTOgRg@mail.gmail.com>
+Date: Thu, 2 Oct 2014 10:39:00 -0700
+Message-ID: <CAFeBWL4hYTf8kGgzwxvLCH5rAd=nRg9SKDCHWM2MwOnr5ng7_g@mail.gmail.com>
 From: Adam Lee <adam.yh.lee@gmail.com>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
@@ -66,186 +67,208 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Oct 2014 17:01:28 -0000
-Content-Type: multipart/alternative; boundary=20cf307d06b2f509bd05047390ff
+X-List-Received-Date: Thu, 02 Oct 2014 17:39:05 -0000
+Content-Type: multipart/alternative; boundary=001a11363bfc80fbdb0504741766
 
---20cf307d06b2f509bd05047390ff
+--001a11363bfc80fbdb0504741766
 Content-Type: text/plain; charset=UTF-8
 
-Thanks Bruce, I appreciate your help on this.
+I just tried building uwsgi with qumux86 target. It built ok.
+There must be something different and/or wrong in the machine configuration
+for my embedded board (TI OMAP4 platform).
 
-May I get your target also (MACHINE)?
-
-Regards,
+I will keep digging, but if anyone has insight, it will be appreciated!
 
 Adam
 
-On Wed, Oct 1, 2014 at 10:34 AM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
+On Thu, Oct 2, 2014 at 10:01 AM, Adam Lee <adam.yh.lee@gmail.com> wrote:
 
-> On Wed, Oct 1, 2014 at 1:09 PM, Adam Lee <adam.yh.lee@gmail.com> wrote:
-> > Thanks Bruce, can I have some information about your setup? Yocto
-> version,
-> > layers involved?
-> >
-> > I appreciate it!
+> Thanks Bruce, I appreciate your help on this.
 >
-> I'm always building the HEAD of pretty much everything, since that's where
-> I
-> do all the development.
+> May I get your target also (MACHINE)?
 >
-> So in my case:
+> Regards,
 >
-> meta
+> Adam
 >
-> meta-yocto
->
-> meta-yocto-bsp    = "master:d6da1f78cbf29c6c9ee3e0857a403e53daed256e"
->
-> meta-kernel-dev   = "master:7235853e3d88ace1d4a8784ba533e676a0e74edd"
->
-> meta-virtualization = "master:f5d690a773052c3406936d7e0f2e6af6b24c77c2"
->
-> meta-networking
->
-> meta-filesystems
->
-> meta-webserver
->
-> meta-python
->
-> meta-oe
->
-> meta-ruby         = "master:28e26a9b0ad37d0c92ba42b2727215eef1edf5a2"
->
-> meta-cloud-services
->
-> meta-openstack-controller-deploy
->
-> meta-openstack
->
-> meta-openstack-qemu = "master:d8c7fe8aa19b28249e50ea69127c392743d028dd"
->
-> Bruce
->
->
-> >
-> > Adam
-> >
-> > On Tue, Sep 30, 2014 at 10:02 PM, Bruce Ashfield <
-> bruce.ashfield@gmail.com>
-> > wrote:
-> >>
-> >> On Tue, Sep 30, 2014 at 6:43 PM, Adam Lee <adam.yh.lee@gmail.com>
+> On Wed, Oct 1, 2014 at 10:34 AM, Bruce Ashfield <bruce.ashfield@gmail.com>
 > wrote:
-> >> > Hello everyone, I am building uwsgi as a part of my image to run a web
-> >> > application on my embedded board.
-> >> >
-> >> > Ingredients including nginx builds fine, but I am getting the error
-> >> > attached. I am building on Yocto Project 1.6.1 (current master).
-> >>
-> >> Hmmm. I just did a completely clean build and didn't get any QA errors
-> >> with
-> >> respect to rpath.
-> >>
-> >> Hopefully someone else is seeing this and can help isolate the issue.
-> >>
-> >> Bruce
-> >>
-> >> >
-> >> > Any insight will be greatly appreciated!
-> >> >
-> >> > Adam
-> >> >
-> >> >> DEBUG: Executing python function sstate_task_prefunc
-> >> >> DEBUG: Python function sstate_task_prefunc finished
-> >> >> DEBUG: Executing python function do_package
-> >> >> DEBUG: Executing python function package_get_auto_pr
-> >> >> DEBUG: Python function package_get_auto_pr finished
-> >> >> DEBUG: Executing python function perform_packagecopy
-> >> >> DEBUG: Python function perform_packagecopy finished
-> >> >> DEBUG: Executing python function split_and_strip_files
-> >> >> DEBUG: runstrip: 'arm-poky-linux-gnueabi-strip'
-> >> >> --remove-section=.comment
-> >> >> --remove-section=.note
-> >> >>
-> >> >>
-> '/media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/package/usr/bin/uwsgi'
-> >> >> DEBUG: Python function split_and_strip_files finished
-> >> >> DEBUG: Executing python function fixup_perms
-> >> >> DEBUG: Python function fixup_perms finished
-> >> >> DEBUG: Executing python function package_do_split_locales
-> >> >> DEBUG: No locale files in this package
-> >> >> DEBUG: Python function package_do_split_locales finished
-> >> >> DEBUG: Executing python function populate_packages
-> >> >> DEBUG: Python function populate_packages finished
-> >> >> DEBUG: Executing python function do_package_qa
-> >> >> NOTE: DO PACKAGE QA
-> >> >> NOTE: Checking Package: uwsgi-staticdev
-> >> >> NOTE: Checking Package: uwsgi-dev
-> >> >> NOTE: Checking Package: uwsgi-dbg
-> >> >> NOTE: arm-poky-linux-gnueabi-objdump -p
-> >> >>
-> >> >>
-> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi-dbg/usr/bin/.debug/uwsgi
-> >> >> NOTE: Checking Package: uwsgi-doc
-> >> >> NOTE: Checking Package: uwsgi
-> >> >> NOTE: arm-poky-linux-gnueabi-objdump -p
-> >> >>
-> >> >>
-> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
-> >> >> ERROR: QA Issue: package uwsgi contains bad RPATH
-> >> >> /media/Build/master/build/tmp/sysroots/duovero/usr/lib in file
-> >> >>
-> >> >>
-> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
-> >> >> ERROR: QA run found fatal errors. Please consider fixing them.
-> >> >> DEBUG: Python function do_package_qa finished
-> >> >> DEBUG: Python function do_package finished
-> >> >> ERROR: Function failed: do_package_qa
-> >> >
-> >> >
-> >> >
-> >> > --
-> >> > _______________________________________________
-> >> > meta-virtualization mailing list
-> >> > meta-virtualization@yoctoproject.org
-> >> > https://lists.yoctoproject.org/listinfo/meta-virtualization
-> >> >
-> >>
-> >>
-> >>
-> >> --
-> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> >> thee at its end"
-> >
-> >
 >
+>> On Wed, Oct 1, 2014 at 1:09 PM, Adam Lee <adam.yh.lee@gmail.com> wrote:
+>> > Thanks Bruce, can I have some information about your setup? Yocto
+>> version,
+>> > layers involved?
+>> >
+>> > I appreciate it!
+>>
+>> I'm always building the HEAD of pretty much everything, since that's
+>> where I
+>> do all the development.
+>>
+>> So in my case:
+>>
+>> meta
+>>
+>> meta-yocto
+>>
+>> meta-yocto-bsp    = "master:d6da1f78cbf29c6c9ee3e0857a403e53daed256e"
+>>
+>> meta-kernel-dev   = "master:7235853e3d88ace1d4a8784ba533e676a0e74edd"
+>>
+>> meta-virtualization = "master:f5d690a773052c3406936d7e0f2e6af6b24c77c2"
+>>
+>> meta-networking
+>>
+>> meta-filesystems
+>>
+>> meta-webserver
+>>
+>> meta-python
+>>
+>> meta-oe
+>>
+>> meta-ruby         = "master:28e26a9b0ad37d0c92ba42b2727215eef1edf5a2"
+>>
+>> meta-cloud-services
+>>
+>> meta-openstack-controller-deploy
+>>
+>> meta-openstack
+>>
+>> meta-openstack-qemu = "master:d8c7fe8aa19b28249e50ea69127c392743d028dd"
+>>
+>> Bruce
+>>
+>>
+>> >
+>> > Adam
+>> >
+>> > On Tue, Sep 30, 2014 at 10:02 PM, Bruce Ashfield <
+>> bruce.ashfield@gmail.com>
+>> > wrote:
+>> >>
+>> >> On Tue, Sep 30, 2014 at 6:43 PM, Adam Lee <adam.yh.lee@gmail.com>
+>> wrote:
+>> >> > Hello everyone, I am building uwsgi as a part of my image to run a
+>> web
+>> >> > application on my embedded board.
+>> >> >
+>> >> > Ingredients including nginx builds fine, but I am getting the error
+>> >> > attached. I am building on Yocto Project 1.6.1 (current master).
+>> >>
+>> >> Hmmm. I just did a completely clean build and didn't get any QA errors
+>> >> with
+>> >> respect to rpath.
+>> >>
+>> >> Hopefully someone else is seeing this and can help isolate the issue.
+>> >>
+>> >> Bruce
+>> >>
+>> >> >
+>> >> > Any insight will be greatly appreciated!
+>> >> >
+>> >> > Adam
+>> >> >
+>> >> >> DEBUG: Executing python function sstate_task_prefunc
+>> >> >> DEBUG: Python function sstate_task_prefunc finished
+>> >> >> DEBUG: Executing python function do_package
+>> >> >> DEBUG: Executing python function package_get_auto_pr
+>> >> >> DEBUG: Python function package_get_auto_pr finished
+>> >> >> DEBUG: Executing python function perform_packagecopy
+>> >> >> DEBUG: Python function perform_packagecopy finished
+>> >> >> DEBUG: Executing python function split_and_strip_files
+>> >> >> DEBUG: runstrip: 'arm-poky-linux-gnueabi-strip'
+>> >> >> --remove-section=.comment
+>> >> >> --remove-section=.note
+>> >> >>
+>> >> >>
+>> '/media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/package/usr/bin/uwsgi'
+>> >> >> DEBUG: Python function split_and_strip_files finished
+>> >> >> DEBUG: Executing python function fixup_perms
+>> >> >> DEBUG: Python function fixup_perms finished
+>> >> >> DEBUG: Executing python function package_do_split_locales
+>> >> >> DEBUG: No locale files in this package
+>> >> >> DEBUG: Python function package_do_split_locales finished
+>> >> >> DEBUG: Executing python function populate_packages
+>> >> >> DEBUG: Python function populate_packages finished
+>> >> >> DEBUG: Executing python function do_package_qa
+>> >> >> NOTE: DO PACKAGE QA
+>> >> >> NOTE: Checking Package: uwsgi-staticdev
+>> >> >> NOTE: Checking Package: uwsgi-dev
+>> >> >> NOTE: Checking Package: uwsgi-dbg
+>> >> >> NOTE: arm-poky-linux-gnueabi-objdump -p
+>> >> >>
+>> >> >>
+>> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi-dbg/usr/bin/.debug/uwsgi
+>> >> >> NOTE: Checking Package: uwsgi-doc
+>> >> >> NOTE: Checking Package: uwsgi
+>> >> >> NOTE: arm-poky-linux-gnueabi-objdump -p
+>> >> >>
+>> >> >>
+>> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
+>> >> >> ERROR: QA Issue: package uwsgi contains bad RPATH
+>> >> >> /media/Build/master/build/tmp/sysroots/duovero/usr/lib in file
+>> >> >>
+>> >> >>
+>> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
+>> >> >> ERROR: QA run found fatal errors. Please consider fixing them.
+>> >> >> DEBUG: Python function do_package_qa finished
+>> >> >> DEBUG: Python function do_package finished
+>> >> >> ERROR: Function failed: do_package_qa
+>> >> >
+>> >> >
+>> >> >
+>> >> > --
+>> >> > _______________________________________________
+>> >> > meta-virtualization mailing list
+>> >> > meta-virtualization@yoctoproject.org
+>> >> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>> >> >
+>> >>
+>> >>
+>> >>
+>> >> --
+>> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> >> thee at its end"
+>> >
+>> >
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await
+>> thee at its end"
+>>
 >
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
 >
 
---20cf307d06b2f509bd05047390ff
+--001a11363bfc80fbdb0504741766
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr" style=3D"font-family:arial,sans-serif;fon=
-t-size:13px">Thanks Bruce, I appreciate your help on this.=C2=A0<div><br></=
-div><div>May I get your target also (MACHINE)?=C2=A0</div><div><br></div><d=
-iv>Regards,</div><div><br></div><div>Adam</div></div><div class=3D"" style=
-=3D"font-family:arial,sans-serif;font-size:13px"><div id=3D":12i" class=3D"=
-" tabindex=3D"0"><img class=3D"" src=3D"https://ssl.gstatic.com/ui/v1/icons=
-/mail/images/cleardot.gif"></div></div></div><div class=3D"gmail_extra"><br=
-><div class=3D"gmail_quote">On Wed, Oct 1, 2014 at 10:34 AM, Bruce Ashfield=
- <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=
-=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex"><span class=3D"">On Wed, Oct 1, 2014 at 1:09 PM, Adam Lee=
- &lt;<a href=3D"mailto:adam.yh.lee@gmail.com">adam.yh.lee@gmail.com</a>&gt;=
- wrote:<br>
+<div dir=3D"ltr">I just tried building uwsgi with qumux86 target. It built =
+ok.=C2=A0<div>There must be something different and/or wrong in the machine=
+ configuration for my embedded board (TI OMAP4 platform).</div><div><br></d=
+iv><div>I will keep digging, but if anyone has insight, it will be apprecia=
+ted!</div><div><br></div><div>Adam</div></div><div class=3D"gmail_extra"><b=
+r><div class=3D"gmail_quote">On Thu, Oct 2, 2014 at 10:01 AM, Adam Lee <spa=
+n dir=3D"ltr">&lt;<a href=3D"mailto:adam.yh.lee@gmail.com" target=3D"_blank=
+">adam.yh.lee@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div dir=3D"ltr"><span class=3D""><div dir=3D"ltr" style=3D"font-famil=
+y:arial,sans-serif;font-size:13px">Thanks Bruce, I appreciate your help on =
+this.=C2=A0<div><br></div><div>May I get your target also (MACHINE)?=C2=A0<=
+/div><div><br></div><div>Regards,</div><div><br></div><div>Adam</div></div>=
+</span><div style=3D"font-family:arial,sans-serif;font-size:13px"><div><img=
+ src=3D"https://ssl.gstatic.com/ui/v1/icons/mail/images/cleardot.gif"></div=
+></div></div><div class=3D"HOEnZb"><div class=3D"h5"><div class=3D"gmail_ex=
+tra"><br><div class=3D"gmail_quote">On Wed, Oct 1, 2014 at 10:34 AM, Bruce =
+Ashfield <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" =
+target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><span>On Wed, Oct 1, 2014 at 1:09 PM, Adam Lee &lt;=
+<a href=3D"mailto:adam.yh.lee@gmail.com" target=3D"_blank">adam.yh.lee@gmai=
+l.com</a>&gt; wrote:<br>
 &gt; Thanks Bruce, can I have some information about your setup? Yocto vers=
 ion,<br>
 &gt; layers involved?<br>
@@ -292,19 +315,21 @@ meta-openstack<br>
 <br>
 meta-openstack-qemu =3D &quot;master:d8c7fe8aa19b28249e50ea69127c392743d028=
 dd&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<span><font color=3D"#888888"><br>
 Bruce<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
+</font></span><div><div><br>
 <br>
 &gt;<br>
 &gt; Adam<br>
 &gt;<br>
 &gt; On Tue, Sep 30, 2014 at 10:02 PM, Bruce Ashfield &lt;<a href=3D"mailto=
-:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;<br>
+:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&g=
+t;<br>
 &gt; wrote:<br>
 &gt;&gt;<br>
 &gt;&gt; On Tue, Sep 30, 2014 at 6:43 PM, Adam Lee &lt;<a href=3D"mailto:ad=
-am.yh.lee@gmail.com">adam.yh.lee@gmail.com</a>&gt; wrote:<br>
+am.yh.lee@gmail.com" target=3D"_blank">adam.yh.lee@gmail.com</a>&gt; wrote:=
+<br>
 &gt;&gt; &gt; Hello everyone, I am building uwsgi as a part of my image to =
 run a web<br>
 &gt;&gt; &gt; application on my embedded board.<br>
@@ -391,8 +416,8 @@ them.<br>
 &gt;&gt; &gt; --<br>
 &gt;&gt; &gt; _______________________________________________<br>
 &gt;&gt; &gt; meta-virtualization mailing list<br>
-&gt;&gt; &gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-=
-virtualization@yoctoproject.org</a><br>
+&gt;&gt; &gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org" targe=
+t=3D"_blank">meta-virtualization@yoctoproject.org</a><br>
 &gt;&gt; &gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtu=
 alization" target=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-v=
 irtualization</a><br>
@@ -414,5 +439,6 @@ s await<br>
 r>
 thee at its end&quot;<br>
 </div></div></blockquote></div><br></div>
+</div></div></blockquote></div><br></div>
 
---20cf307d06b2f509bd05047390ff--
+--001a11363bfc80fbdb0504741766--
