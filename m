@@ -1,57 +1,64 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <bogdan.purcareata@freescale.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3D788E0077F; Wed,  1 Oct 2014 10:34:22 -0700 (PDT)
+	id 8FC69E0076C; Thu,  2 Oct 2014 09:18:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00, DATE_IN_FUTURE_06_12,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [157.56.111.141 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* 1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.217.182 listed in list.dnswl.org]
-Received: from mail-lb0-f182.google.com (mail-lb0-f182.google.com
-	[209.85.217.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 92AD2E006DB
+X-Greylist: delayed 935 seconds by postgrey-1.32 at yocto-www;
+	Thu, 02 Oct 2014 09:18:45 PDT
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0141.outbound.protection.outlook.com [157.56.111.141])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 13D39E00749
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  1 Oct 2014 10:34:08 -0700 (PDT)
-Received: by mail-lb0-f182.google.com with SMTP id z11so798564lbi.13
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 01 Oct 2014 10:34:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=yGKmXy8TIyUyKkScKD32fGN4ueeHDBI8RxgYCX3egTo=;
-	b=CoYNd9QL3FwoSi0Y+pzhq4ahcZlIr2j7jSOz9L27aXCleK/atMIehADPfBsW8ihYkY
-	wg5aQc9BbE2MCKDG5CKajLmwdM501F8fgRokcQ5T0kaUubgp67RJ8pcjdsYf9e9vBGri
-	V4rtQElAsMi4agJ0Ma5D5DfU/MQH3hH6uUFrR9x/QRaW4cHaB6GAcYqlCngBtkp1qxkZ
-	4sMFxTR7hXEWGCQdLm5aZdYdi6QvzVIxJuCpowNde4mBTpbpfwFIz5kLgbcg8ZrwCCV8
-	++IbwXY26ckxmpzjgUswC224lMyWIvSzn18yTLIthrjFzo5kghPPGI9kmPNRKpd0JEyx
-	NcfA==
+	Thu,  2 Oct 2014 09:18:45 -0700 (PDT)
+Received: from CH1PR03CA011.namprd03.prod.outlook.com (10.255.156.156) by
+	DM2PR0301MB0638.namprd03.prod.outlook.com (25.160.96.12) with Microsoft
+	SMTP Server (TLS) id 15.0.1039.15; Thu, 2 Oct 2014 16:03:08 +0000
+Received: from BY2FFO11FD057.protection.gbl (10.255.156.132) by
+	CH1PR03CA011.outlook.office365.com (10.255.156.156) with Microsoft SMTP
+	Server (TLS) id 15.0.1044.10 via Frontend Transport;
+	Thu, 2 Oct 2014 16:03:07 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BY2FFO11FD057.mail.protection.outlook.com (10.1.15.185) with Microsoft
+	SMTP Server (TLS) id 15.0.1029.15 via Frontend Transport;
+	Thu, 2 Oct 2014 16:03:07 +0000
+Received: from exile.ea.freescale.net (exile.ea.freescale.net [10.171.73.223])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	s92G34s3006293 for <meta-virtualization@yoctoproject.org>;
+	Thu, 2 Oct 2014 09:03:05 -0700
+From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Thu, 2 Oct 2014 19:01:16 -0400
+Message-ID: <1412290878-18574-1-git-send-email-bogdan.purcareata@freescale.com>
+X-Mailer: git-send-email 1.7.10.4
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:CAL; IPV:NLI;
+	EFV:NLI; SFV:NSPM;
+	SFS:(10019020)(6009001)(189002)(199003)(85852003)(97736003)(48376002)(50466002)(6806004)(85306004)(558084003)(44976005)(21056001)(50986999)(88136002)(89996001)(93916002)(86362001)(92566001)(68736004)(87936001)(84676001)(87286001)(95666004)(46102003)(120916001)(99396003)(102836001)(110136001)(26826002)(76482002)(33646002)(4396001)(62966002)(107046002)(10300001)(36756003)(229853001)(104166001)(77156001)(104016003)(2351001)(31966008)(20776003)(105606002)(50226001)(92726001)(107886001)(80022003)(47776003)(64706001)(106466001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:DM2PR0301MB0638;
+	H:tx30smr01.am.freescale.net; FPR:; MLV:ovrnspm;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-Received: by 10.112.204.197 with SMTP id la5mr53367379lbc.2.1412184846717;
-	Wed, 01 Oct 2014 10:34:06 -0700 (PDT)
-Received: by 10.112.44.234 with HTTP; Wed, 1 Oct 2014 10:34:06 -0700 (PDT)
-In-Reply-To: <CAFeBWL7WnEY=WMUvz508mKhiJj5NC3veckuQxPYAhnMMsHfLmw@mail.gmail.com>
-References: <CAFeBWL5qa-SEyJ-cwup-PLHszx0X+yy9aKOjCneis7fm5zJtYw@mail.gmail.com>
-	<CADkTA4Mu5hZz5Y4HTopSH46iBe4je=Hs899Fm13yrsJMnXkFNg@mail.gmail.com>
-	<CAFeBWL7WnEY=WMUvz508mKhiJj5NC3veckuQxPYAhnMMsHfLmw@mail.gmail.com>
-Date: Wed, 1 Oct 2014 13:34:06 -0400
-Message-ID: <CADkTA4MSNGX2Lf0sL3x5YxPNZE3bHpYFFjEVeupjagQoXBi=pw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Adam Lee <adam.yh.lee@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: uwsgi fails to get packaged with bad RPATH
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:DM2PR0301MB0638;
+X-Forefront-PRVS: 03524FBD26
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=bogdan.purcareata@freescale.com; 
+X-OriginatorOrg: freescale.com
+Subject: lxc: Update version to 1.0.6
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -64,142 +71,9 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Oct 2014 17:34:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 02 Oct 2014 16:18:52 -0000
+Content-Type: text/plain
 
-On Wed, Oct 1, 2014 at 1:09 PM, Adam Lee <adam.yh.lee@gmail.com> wrote:
-> Thanks Bruce, can I have some information about your setup? Yocto version,
-> layers involved?
->
-> I appreciate it!
+Update LXC version to 1.0.6 and rework one of the patches to apply.
 
-I'm always building the HEAD of pretty much everything, since that's where I
-do all the development.
-
-So in my case:
-
-meta
-
-meta-yocto
-
-meta-yocto-bsp    = "master:d6da1f78cbf29c6c9ee3e0857a403e53daed256e"
-
-meta-kernel-dev   = "master:7235853e3d88ace1d4a8784ba533e676a0e74edd"
-
-meta-virtualization = "master:f5d690a773052c3406936d7e0f2e6af6b24c77c2"
-
-meta-networking
-
-meta-filesystems
-
-meta-webserver
-
-meta-python
-
-meta-oe
-
-meta-ruby         = "master:28e26a9b0ad37d0c92ba42b2727215eef1edf5a2"
-
-meta-cloud-services
-
-meta-openstack-controller-deploy
-
-meta-openstack
-
-meta-openstack-qemu = "master:d8c7fe8aa19b28249e50ea69127c392743d028dd"
-
-Bruce
-
-
->
-> Adam
->
-> On Tue, Sep 30, 2014 at 10:02 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-> wrote:
->>
->> On Tue, Sep 30, 2014 at 6:43 PM, Adam Lee <adam.yh.lee@gmail.com> wrote:
->> > Hello everyone, I am building uwsgi as a part of my image to run a web
->> > application on my embedded board.
->> >
->> > Ingredients including nginx builds fine, but I am getting the error
->> > attached. I am building on Yocto Project 1.6.1 (current master).
->>
->> Hmmm. I just did a completely clean build and didn't get any QA errors
->> with
->> respect to rpath.
->>
->> Hopefully someone else is seeing this and can help isolate the issue.
->>
->> Bruce
->>
->> >
->> > Any insight will be greatly appreciated!
->> >
->> > Adam
->> >
->> >> DEBUG: Executing python function sstate_task_prefunc
->> >> DEBUG: Python function sstate_task_prefunc finished
->> >> DEBUG: Executing python function do_package
->> >> DEBUG: Executing python function package_get_auto_pr
->> >> DEBUG: Python function package_get_auto_pr finished
->> >> DEBUG: Executing python function perform_packagecopy
->> >> DEBUG: Python function perform_packagecopy finished
->> >> DEBUG: Executing python function split_and_strip_files
->> >> DEBUG: runstrip: 'arm-poky-linux-gnueabi-strip'
->> >> --remove-section=.comment
->> >> --remove-section=.note
->> >>
->> >> '/media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/package/usr/bin/uwsgi'
->> >> DEBUG: Python function split_and_strip_files finished
->> >> DEBUG: Executing python function fixup_perms
->> >> DEBUG: Python function fixup_perms finished
->> >> DEBUG: Executing python function package_do_split_locales
->> >> DEBUG: No locale files in this package
->> >> DEBUG: Python function package_do_split_locales finished
->> >> DEBUG: Executing python function populate_packages
->> >> DEBUG: Python function populate_packages finished
->> >> DEBUG: Executing python function do_package_qa
->> >> NOTE: DO PACKAGE QA
->> >> NOTE: Checking Package: uwsgi-staticdev
->> >> NOTE: Checking Package: uwsgi-dev
->> >> NOTE: Checking Package: uwsgi-dbg
->> >> NOTE: arm-poky-linux-gnueabi-objdump -p
->> >>
->> >> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi-dbg/usr/bin/.debug/uwsgi
->> >> NOTE: Checking Package: uwsgi-doc
->> >> NOTE: Checking Package: uwsgi
->> >> NOTE: arm-poky-linux-gnueabi-objdump -p
->> >>
->> >> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
->> >> ERROR: QA Issue: package uwsgi contains bad RPATH
->> >> /media/Build/master/build/tmp/sysroots/duovero/usr/lib in file
->> >>
->> >> /media/Build/master/build/tmp/work/armv7a-vfp-neon-poky-linux-gnueabi/uwsgi/2.0.4+gitAUTOINC+7604c67018-r0/packages-split/uwsgi/usr/bin/uwsgi
->> >> ERROR: QA run found fatal errors. Please consider fixing them.
->> >> DEBUG: Python function do_package_qa finished
->> >> DEBUG: Python function do_package finished
->> >> ERROR: Function failed: do_package_qa
->> >
->> >
->> >
->> > --
->> > _______________________________________________
->> > meta-virtualization mailing list
->> > meta-virtualization@yoctoproject.org
->> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->> >
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
