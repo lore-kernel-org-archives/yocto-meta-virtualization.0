@@ -1,55 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Zibo.Zhao@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DCBFEE00887; Thu,  2 Oct 2014 20:26:39 -0700 (PDT)
+	id E9BA2E007C1; Tue,  7 Oct 2014 09:23:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.46 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-la0-f46.google.com (mail-la0-f46.google.com
-	[209.85.215.46])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DFC37E00749
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7615EE0076C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  2 Oct 2014 20:26:33 -0700 (PDT)
-Received: by mail-la0-f46.google.com with SMTP id gi9so321221lab.33
+	Tue,  7 Oct 2014 09:22:58 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.5) with ESMTP id s97GMuEG015732
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 02 Oct 2014 20:26:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=KTlFbRlBSQjhY9n91AczIswJkVu3rrPX8PgCxFg5SgQ=;
-	b=qcjk3SUMDB70yG7kUhBlgSutGL6ktUkdU8RWGSg0cGJ7eA5wdfeE42bEEBU/AsoWVa
-	Bjt5m/9TCnSP9RhW2DpToaeIx7JXRIjO6AIABxQZ3lQzVkow9erM5JchGtfeC9ZEbZBq
-	jizLt2TTbllSAzX13cuIkwW+Ho0ay4lQZspurpTIurhVSB9XDUru5SoB/MTm10BlsFvT
-	7yyxnrUdKoCgRva1dBiqK7x0MuFRPGqNboK74tXe64eogdQsw7JeMV+vaJ+uvcjkyJ+5
-	MwVTPEQJ6GIse8CQqidzsof+AxLhqGdKP+UL6BokWNQ/G3wSxAhHqNT+alHGDcX56qC7
-	/s7Q==
+	Tue, 7 Oct 2014 09:22:56 -0700 (PDT)
+Received: from chinabull.wrs.com (128.224.56.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.174.1;
+	Tue, 7 Oct 2014 09:22:56 -0700
+From: Zibo Zhao <zibo.zhao@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 7 Oct 2014 12:22:41 -0400
+Message-ID: <1412698961-17093-1-git-send-email-zibo.zhao@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.112.163.103 with SMTP id yh7mr2413168lbb.73.1412306792161;
-	Thu, 02 Oct 2014 20:26:32 -0700 (PDT)
-Received: by 10.112.44.234 with HTTP; Thu, 2 Oct 2014 20:26:32 -0700 (PDT)
-In-Reply-To: <1412290878-18574-1-git-send-email-bogdan.purcareata@freescale.com>
-References: <1412290878-18574-1-git-send-email-bogdan.purcareata@freescale.com>
-Date: Thu, 2 Oct 2014 23:26:32 -0400
-Message-ID: <CADkTA4PORECng=RgNQuhH3obdkV2bayio=PPEdPV09pj44PwsA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: lxc: Update version to 1.0.6
+Subject: [PATCH 1/1] libvirtd not properly shutting down on oVirt node install
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,29 +43,63 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Oct 2014 03:26:40 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Oct 2014 16:23:05 -0000
+Content-Type: text/plain
 
-On Thu, Oct 2, 2014 at 7:01 PM, Bogdan Purcareata
-<bogdan.purcareata@freescale.com> wrote:
-> Update LXC version to 1.0.6 and rework one of the patches to apply.
+From: Prateek Kumar <prateek.kumar@windriver.com>
 
-Looks fine to me.
+On registering the ovirt node form the ovirt engine web
+interface the ovirt node installation goes fine but the
+node will suffer a "communication failure" and the
+status of the node will fail to go up status.
+Its due to the race condition in libvirtd shutdown where
+pid file is deleted before the real libvirtd process get
+terminated.
+The issue is fixed by making sure the libvirtd process
+is terminated before deteting the pid file and providing
+sufficient delay.
 
-merged.
+Signed-off-by: Prateek Kumar <prateek.kumar@windriver.com>
+Signed-off-by: Zibo Zhao <zibo.zhao@windriver.com>
+---
+ recipes-extended/libvirt/libvirt/libvirtd.sh | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
-Bruce
-
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-extended/libvirt/libvirt/libvirtd.sh b/recipes-extended/libvirt/libvirt/libvirtd.sh
+index 29dbf39..c1cd6ee 100755
+--- a/recipes-extended/libvirt/libvirt/libvirtd.sh
++++ b/recipes-extended/libvirt/libvirt/libvirtd.sh
+@@ -86,10 +86,26 @@ case "$1" in
+                 log_end_msg $?
+                 ;;
+         stop)
++                if [ -f /var/run/libvirtd.pid ]; then
++                        pid=$(cat /var/run/libvirtd.pid)
++                fi
+                 log_begin_msg "Stopping virtualization library daemon: libvirtd"
+-		start-stop-daemon --stop --quiet --retry 3 --exec /usr/sbin/libvirtd --pidfile /var/run/libvirtd.pid
+-                log_end_msg $?
+-                rm -f /var/run/libvirtd.pid
++                start-stop-daemon --stop --quiet --retry 3 --exec /usr/sbin/libvirtd --pidfile /var/run/libvirtd.pid
++                CHECK=0
++                k=0
++                while /bin/kill -0 $pid >/dev/null 2>&1; do
++                        k=$(($k+1))
++                        sleep 1
++                        if [ $k -ge 60 ]; then
++                                log_end_msg "Stopping the libvertd timedout"
++                                CHECK=1
++                                break
++                        fi				
++                done
++                if [ $CHECK -eq 0 ]; then
++                        log_end_msg "Removing the pid $PID"
++                        rm -f /var/run/libvirtd.pid
++                fi
+                 ;;
+         restart)
+                 $0 stop
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.1.0
+
 
