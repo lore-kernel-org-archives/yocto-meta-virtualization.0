@@ -1,56 +1,67 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <B40869@freescale.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E1D83E00872; Mon,  1 Dec 2014 07:49:43 -0800 (PST)
+	id 7FDD5E00521; Tue,  2 Dec 2014 19:00:24 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [65.55.169.122 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.220.182 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-vc0-f182.google.com (mail-vc0-f182.google.com
-	[209.85.220.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 66FEEE00521
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0122.outbound.protection.outlook.com [65.55.169.122])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 013AEE00521
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  1 Dec 2014 07:49:40 -0800 (PST)
-Received: by mail-vc0-f182.google.com with SMTP id hq12so4820071vcb.27
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 01 Dec 2014 07:49:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=9UV7UlUkA3orxiGrJgC3VJAVuLW4INoMd5N1gnX1dws=;
-	b=ZQpAS/FBMv9LdDRy0hqfSERxQIvIVulf1F76oMkQj56HwMZQxa8DqPEtZ74BMFxC2U
-	oGF7wPRb/99FjNHpZBMKLOcwHLF5l7npOs8DvjsLnQYDT/uYFzfRoNTyRT9JsAEi6eTG
-	AbZ1IdMjNLdNyItprpT2LT8NRw+S7nFXg81Yo68XPhe/XOQvPZkqIZE8BcMIZFSjp8fl
-	lwQf4/eIiFce/MldkDbeB93vwJQrPIvV76EVt+LSIJg2fVGo8RdBXhFi8ABXRNUJPbTr
-	Ey4VUympR0lF8np+eiJOYJWgHeM8smCYWLQ7XFSYdUf33ppxuEDH3LUCliMsrTRZTB5F
-	ElaA==
+	Tue,  2 Dec 2014 19:00:21 -0800 (PST)
+Received: from CH1PR03CA007.namprd03.prod.outlook.com (10.255.156.152) by
+	BN1PR0301MB0756.namprd03.prod.outlook.com (25.160.78.150) with
+	Microsoft SMTP
+	Server (TLS) id 15.1.26.15; Wed, 3 Dec 2014 03:00:17 +0000
+Received: from BL2FFO11FD048.protection.gbl (10.255.156.132) by
+	CH1PR03CA007.outlook.office365.com (10.255.156.152) with Microsoft SMTP
+	Server (TLS) id 15.1.26.15 via Frontend Transport;
+	Wed, 3 Dec 2014 03:00:17 +0000
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BL2FFO11FD048.mail.protection.outlook.com (10.173.161.210) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport; Wed, 3 Dec 2014
+	03:00:17 +0000
+Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	sB330Ert021151; Tue, 2 Dec 2014 20:00:15 -0700
+From: YangHaibo <b40869@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 3 Dec 2014 11:00:11 +0800
+Message-ID: <1417575611-10434-1-git-send-email-b40869@freescale.com>
+X-Mailer: git-send-email 1.9.2
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(189002)(199003)(377424004)(88136002)(87936001)(95666004)(106466001)(89996001)(87286001)(105606002)(84676001)(62966003)(450100001)(77156002)(4396001)(31966008)(50226001)(21056001)(86362001)(92566001)(92726001)(93916002)(50986999)(120916001)(33646002)(36756003)(110136001)(104016003)(97736003)(99396003)(15975445006)(104166001)(46102003)(50466002)(48376002)(102836001)(68736005)(107046002)(2351001)(229853001)(77096005)(64706001)(44976005)(20776003)(47776003)(6806004)(19580395003)(19580405001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN1PR0301MB0756;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
+	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
 MIME-Version: 1.0
-X-Received: by 10.220.82.199 with SMTP id c7mr29418817vcl.61.1417448980458;
-	Mon, 01 Dec 2014 07:49:40 -0800 (PST)
-Received: by 10.52.114.225 with HTTP; Mon, 1 Dec 2014 07:49:40 -0800 (PST)
-In-Reply-To: <1417163898-4587-1-git-send-email-david.c.nystrom@gmail.com>
-References: <CADkTA4MVJkRUeLW-1tdxF03YjbNh-h0CBhh7X0WX7ooqA3EmLg@mail.gmail.com>
-	<1417163898-4587-1-git-send-email-david.c.nystrom@gmail.com>
-Date: Mon, 1 Dec 2014 10:49:40 -0500
-Message-ID: <CADkTA4O5ykDEi4UxQFMqYRkeZxks4BU5pqCABcQUNq3-dRFwUw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: =?UTF-8?Q?David_Nystr=C3=B6m?= <david.c.nystrom@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [all][PATCH] Remove david.nystrom from MAINTAINERS
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1PR0301MB0756;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1PR0301MB0756; 
+X-Forefront-PRVS: 0414DF926F
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=B40869@freescale.com; 
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1PR0301MB0756; 
+X-OriginatorOrg: freescale.com
+Subject: [PATCH] hiera: add recipe for hiera 1.3.4
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,50 +74,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Dec 2014 15:49:44 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Dec 2014 03:00:24 -0000
+Content-Type: text/plain
 
-Thanks David. Merged!
+---
+ .../hiera/hiera/add_hiera_gemspec.patch            | 23 ++++++++++++++++++++++
+ .../recipes-support/hiera/hiera_1.3.4.bb           | 20 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta-openstack/recipes-support/hiera/hiera/add_hiera_gemspec.patch
+ create mode 100644 meta-openstack/recipes-support/hiera/hiera_1.3.4.bb
 
-Bruce
+diff --git a/meta-openstack/recipes-support/hiera/hiera/add_hiera_gemspec.patch b/meta-openstack/recipes-support/hiera/hiera/add_hiera_gemspec.patch
+new file mode 100644
+index 0000000..7e302cf
+--- /dev/null
++++ b/meta-openstack/recipes-support/hiera/hiera/add_hiera_gemspec.patch
+@@ -0,0 +1,23 @@
++diff -urN hiera-1.3.4_ori/hiera.gemspec hiera-1.3.4/hiera.gemspec
++--- hiera-1.3.4_ori/hiera.gemspec	1970-01-01 08:00:00.000000000 +0800
+++++ hiera-1.3.4/hiera.gemspec	2014-11-12 14:30:07.000000000 +0800
++@@ -0,0 +1,19 @@
+++$:.unshift(File.dirname(__FILE__) + '/lib')
+++require 'hiera/version'
+++
+++Gem::Specification.new do |s|
+++  s.name = 'hiera'
+++  s.version = Hiera::VERSION
+++  s.platform = Gem::Platform::RUBY
+++  s.summary = 'A simple pluggable Hierarchical Database.'
+++  s.description = s.summary
+++  s.author = 'Yang Haibo'
+++  s.email = 'b40869@freescale.com'
+++  s.homepage = 'https://projects.puppetlabs.com/projects/hiera'
+++  s.license = 'Apache 2.0'
+++
+++  s.bindir       = 'bin'
+++  s.executables  = ['hiera']
+++  s.require_path = 'lib'
+++  s.files = %w(LICENSE README.md Rakefile) + Dir.glob('{lib,spec}/**/*')
+++end
+diff --git a/meta-openstack/recipes-support/hiera/hiera_1.3.4.bb b/meta-openstack/recipes-support/hiera/hiera_1.3.4.bb
+new file mode 100644
+index 0000000..eb633ff
+--- /dev/null
++++ b/meta-openstack/recipes-support/hiera/hiera_1.3.4.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "A simple pluggable Hierarchical Database"
++HOMEPAGE = "https://projects.puppetlabs.com/projects/hiera"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=8ac92c91fbec097f798223679c1a7491"
++
++SRC_URI = " \
++    https://downloads.puppetlabs.com/hiera/hiera-${PV}.tar.gz \
++    file://add_hiera_gemspec.patch \
++"
++SRC_URI[md5sum] = "6abccc518edb55291a63129ef30888cd"
++SRC_URI[sha256sum] = "d3ecbfedc7d8493fd00c7dd624efbb225705d289442fe7706cb81a3a7230e70e"
++
++
++inherit ruby
++
++DEPENDS += " \
++        ruby \
++"
++
++RUBY_INSTALL_GEMS = "hiera-${PV}.gem"
+-- 
+1.9.2
 
-On Fri, Nov 28, 2014 at 3:38 AM, David Nystr=C3=B6m
-<david.c.nystrom@gmail.com> wrote:
-> I've been a ghost on the list for ages, I think its long overdue to
-> remove me from the maintainers list.
->
-> Signed-off-by: David Nystr=C3=B6m <david.c.nystrom@gmail.com>
-> Signed-off-by: David Nystr=C3=B6m <david.nystrom@enea.com>
-> ---
->  README | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/README b/README
-> index 6a1f2d1..1531ac0 100644
-> --- a/README
-> +++ b/README
-> @@ -34,7 +34,6 @@ Maintenance
->  Send pull requests, patches, comments or questions to meta-virtualizatio=
-n@yoctoproject.org
->
->  Maintainers: Raymond Danks <ray.danks@se-eng.com>
-> -             David Nystr=C3=B6m <david.nystrom@enea.com>
->               Bruce Ashfield <bruce.ashfield@gmail.com>
->
->  When sending single patches, please using something like:
-> --
-> 2.1.0
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
