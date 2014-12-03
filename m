@@ -1,67 +1,37 @@
-Return-Path: <B40869@freescale.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 04884E00895; Tue,  2 Dec 2014 19:15:42 -0800 (PST)
+	id A1E95E00874; Tue,  2 Dec 2014 19:34:14 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [157.56.111.112 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 940 seconds by postgrey-1.32 at yocto-www;
-	Tue, 02 Dec 2014 19:15:38 PST
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0112.outbound.protection.outlook.com [157.56.111.112])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6F2A5E00521
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E3C02E00521
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  2 Dec 2014 19:15:38 -0800 (PST)
-Received: from BY2PR03CA002.namprd03.prod.outlook.com (10.255.93.19) by
-	BY2PR0301MB0759.namprd03.prod.outlook.com (25.160.63.27) with Microsoft
-	SMTP Server (TLS) id 15.1.26.15; Wed, 3 Dec 2014 03:00:32 +0000
-Received: from BN1AFFO11FD023.protection.gbl (10.255.93.4) by
-	BY2PR03CA002.outlook.office365.com (10.255.93.19) with Microsoft SMTP
-	Server (TLS) id 15.1.31.17 via Frontend Transport;
-	Wed, 3 Dec 2014 03:00:31 +0000
-Received: from tx30smr01.am.freescale.net (192.88.168.50) by
-	BN1AFFO11FD023.mail.protection.outlook.com (10.58.52.83) with Microsoft
-	SMTP Server (TLS) id 15.1.6.13 via Frontend Transport;
-	Wed, 3 Dec 2014 03:00:31 +0000
-Received: from sun.ap.freescale.net (sun.ap.freescale.net [10.192.208.75])
-	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
-	sB330SBU021513; Tue, 2 Dec 2014 20:00:29 -0700
-From: YangHaibo <b40869@freescale.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 3 Dec 2014 11:00:23 +0800
-Message-ID: <1417575623-10537-1-git-send-email-b40869@freescale.com>
-X-Mailer: git-send-email 1.9.2
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.88.168.50; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(377424004)(50986999)(450100001)(6806004)(110136001)(44976005)(19580405001)(19580395003)(4396001)(50226001)(77096005)(36756003)(68736005)(106466001)(120916001)(99396003)(77156002)(104016003)(62966003)(33646002)(107046002)(48376002)(2351001)(229853001)(50466002)(104166001)(105606002)(95666004)(86362001)(47776003)(575784001)(20776003)(93916002)(31966008)(102836001)(97736003)(87936001)(15975445006)(89996001)(88136002)(87286001)(46102003)(21056001)(92566001)(92726001)(84676001)(64706001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY2PR0301MB0759;
-	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv;
-	PTR:InfoDomainNonexistent; MX:1; A:1; LANG:en; 
+	Tue,  2 Dec 2014 19:34:04 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id sB33Y1UI012544
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 2 Dec 2014 19:34:02 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.174.1;
+	Tue, 2 Dec 2014 19:34:01 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@gmail.com>
+Date: Tue, 2 Dec 2014 22:33:31 -0500
+Message-ID: <1417577611-13242-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2PR0301MB0759;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:BY2PR0301MB0759; 
-X-Forefront-PRVS: 0414DF926F
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.168.50 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.168.50)
-	smtp.mailfrom=B40869@freescale.com; 
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:BY2PR0301MB0759; 
-X-OriginatorOrg: freescale.com
-Subject: [PATCH] puppet: add recipe for puppet 3.7.3
+X-Originating-IP: [128.224.56.18]
+Cc: meta-virtualization@yoctoproject.org
+Subject: [PATCH] openvswitch: uprev to latest stable update - v2.1.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,83 +44,304 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Dec 2014 03:15:42 -0000
+X-List-Received-Date: Wed, 03 Dec 2014 03:34:14 -0000
 Content-Type: text/plain
 
----
- .../puppet/puppet/add_puppet_gemspec.patch         | 23 ++++++++++++++++
- .../recipes-support/puppet/puppet_3.7.3.bb         | 31 ++++++++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
- create mode 100644 meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
+v2.1.3 is listed upstream as "contains only bug fixes for the 2.1.2
+release". The only update to the recipe is updated checksums.
 
-diff --git a/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch b/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+
+Bruce,
+
+I notice that upstream has released v2.3.0 as well. I will look to
+creating a recipe for that shortly so folks can have it available to
+try out while we continue to make this v2.1.x release stream
+available.
+
+Mark
+
+
+ .../openvswitch/openvswitch_2.1.2.bb               | 130 ---------------------
+ .../openvswitch/openvswitch_2.1.3.bb               | 130 +++++++++++++++++++++
+ 2 files changed, 130 insertions(+), 130 deletions(-)
+ delete mode 100644 recipes-networking/openvswitch/openvswitch_2.1.2.bb
+ create mode 100644 recipes-networking/openvswitch/openvswitch_2.1.3.bb
+
+diff --git a/recipes-networking/openvswitch/openvswitch_2.1.2.bb b/recipes-networking/openvswitch/openvswitch_2.1.2.bb
+deleted file mode 100644
+index 3f092af..0000000
+--- a/recipes-networking/openvswitch/openvswitch_2.1.2.bb
++++ /dev/null
+@@ -1,130 +0,0 @@
+-SUMMARY = "OpenvSwitch"
+-DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
+-HOMEPAGE = "http://openvswitch.org/"
+-SECTION = "networking"
+-LICENSE = "Apache-2"
+-
+-DEPENDS += "bridge-utils openssl python perl"
+-
+-RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
+-	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
+-RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
+-RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
+-RDEPENDS_${PN}-pki = "${PN}"
+-RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
+-RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+-
+-RDEPENDS_${PN}-ptest += "python-logging python-syslog python-argparse python-io \
+-                     python-fcntl python-shell python-lang python-xml python-math \
+-                     python-datetime python-netclient python sed"
+-
+-# Some installers will fail because of an install order based on
+-# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
+-# queued for install later.
+-RDEPENDS_${PN} += "sed gawk grep"
+-
+-SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+-	file://openvswitch-switch \
+-	file://openvswitch-switch-setup \
+-	file://openvswitch-controller \
+-	file://openvswitch-controller-setup \
+-	file://openvswitch-add-target-python-handling.patch \
+-	file://openvswitch-add-target-perl-handling.patch \
+-	file://openvswitch-add-more-target-python-substitutions.patch \
+-	file://openvswitch-add-ptest.patch \
+-	file://run-ptest \
+-	"
+-
+-SRC_URI[md5sum] = "430ff6d1e1fc81e9c5ebc2e641cfc953"
+-SRC_URI[sha256sum] = "875429b052c4001815b6cb38616c7a6cb212df4bba74602164ee0a99b172079b"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e03b0d9c4115c44518594e5618e653f8"
+-
+-# Don't compile kernel modules by default since it heavily depends on
+-# kernel version. Use the in-kernel module for now.
+-# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
+-# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
+-
+-EXTRA_OECONF += "TARGET_PYTHON=${bindir}/python \
+-                 TARGET_PERL=${bindir}/perl \
+-                "
+-
+-ALLOW_EMPTY_${PN}-pki = "1"
+-PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
+-
+-FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
+-	${sysconfdir}/default/openvswitch-controller \
+-	${sysconfdir}/openvswitch-controller \
+-	${bindir}/ovs-controller"
+-
+-FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
+-
+-FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
+-		   ${sysconfdir}/default/openvswitch-switch \
+-		   "
+-# silence a warning
+-FILES_${PN} += "${datadir}/ovsdbmonitor"
+-FILES_${PN} += "/run"
+-
+-inherit autotools update-rc.d ptest
+-
+-EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
+-
+-do_install_ptest() {
+-	oe_runmake test-install
+-}
+-
+-INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
+-INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
+-INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
+-
+-INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
+-INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
+-
+-do_install_append() {
+-	install -d ${D}/${sysconfdir}/default/
+-	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
+-	install -d ${D}/${sysconfdir}/openvswitch-controller
+-	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
+-
+-	install -d ${D}/${sysconfdir}/init.d/
+-	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
+-	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
+-	true || rm -fr ${D}/${datadir}/${PN}/pki
+-}
+-
+-pkg_postinst_${PN}-pki () {
+-	# can't do this offline
+-	if [ "x$D" != "x" ]; then
+-		exit 1
+-	fi
+-	if test ! -d $D/${datadir}/${PN}/pki; then
+-		ovs-pki init --dir=$D/${datadir}/${PN}/pki
+-	fi
+-}
+-
+-pkg_postinst_${PN}-controller () {
+-	# can't do this offline
+-	if [ "x$D" != "x" ]; then
+-		exit 1
+-	fi
+-
+-	if test ! -d $D/${datadir}/${PN}/pki; then
+-		ovs-pki init --dir=$D/${datadir}/${PN}/pki
+-	fi
+-
+-	cd $D/${sysconfdir}/openvswitch-controller
+-	if ! test -e cacert.pem; then
+-		ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
+-	fi
+-	if ! test -e privkey.pem || ! test -e cert.pem; then
+-		oldumask=$(umask)
+-		umask 077
+-		ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
+-		mv tmp-privkey.pem privkey.pem
+-		mv tmp-cert.pem cert.pem
+-		mv tmp-req.pem req.pem
+-		chmod go+r cert.pem req.pem
+-		umask $oldumask
+-	fi
+-}
+diff --git a/recipes-networking/openvswitch/openvswitch_2.1.3.bb b/recipes-networking/openvswitch/openvswitch_2.1.3.bb
 new file mode 100644
-index 0000000..a5c8e3b
+index 0000000..c3a29aa
 --- /dev/null
-+++ b/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
-@@ -0,0 +1,23 @@
-+diff -urN puppet-3.7.3_ori/puppet.gemspec puppet-3.7.3/puppet.gemspec
-+--- puppet-3.7.3_ori/puppet.gemspec	1970-01-01 08:00:00.000000000 +0800
-++++ puppet-3.7.3/puppet.gemspec	2014-11-12 14:30:07.000000000 +0800
-+@@ -0,0 +1,19 @@
-++$:.unshift(File.dirname(__FILE__) + '/lib')
-++require 'puppet/version'
-++
-++Gem::Specification.new do |s|
-++  s.name = 'puppet'
-++  s.version = Puppet::PUPPETVERSION
-++  s.platform = Gem::Platform::RUBY
-++  s.summary = 'Open source Puppet is a configuration management system'
-++  s.description = s.summary
-++  s.author = 'Yang Haibo'
-++  s.email = 'b40869@freescale.com'
-++  s.homepage = 'https://puppetlabs.com/puppet/puppet-open-source'
-++  s.license = 'Apache 2.0'
-++
-++  s.bindir       = 'bin'
-++  s.executables  = ['puppet', 'extlookup2hiera']
-++  s.require_path = 'lib'
-++  s.files = %w(LICENSE README.md Rakefile) + Dir.glob('{lib,spec}/**/*')
-++end
-diff --git a/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb b/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
-new file mode 100644
-index 0000000..afd9a23
---- /dev/null
-+++ b/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
-@@ -0,0 +1,31 @@
-+SUMMARY = "Open source Puppet is a configuration management system"
-+HOMEPAGE = "https://puppetlabs.com/puppet/puppet-open-source"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f257790c70561550fd666c6e0044fd89"
++++ b/recipes-networking/openvswitch/openvswitch_2.1.3.bb
+@@ -0,0 +1,130 @@
++SUMMARY = "OpenvSwitch"
++DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
++HOMEPAGE = "http://openvswitch.org/"
++SECTION = "networking"
++LICENSE = "Apache-2"
 +
-+SRC_URI = " \
-+    https://downloads.puppetlabs.com/puppet/puppet-${PV}.tar.gz \
-+    file://add_puppet_gemspec.patch \
-+"
-+SRC_URI[md5sum] = "cc294da1d51df07bcc7f6cf78bd90ce0"
-+SRC_URI[sha256sum] = "4a3bd7ddb51072c3dd898a8de158cde204a2d8fd0b84e8ac806b84c074348637"
++DEPENDS += "bridge-utils openssl python perl"
 +
-+inherit ruby
++RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
++	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
++RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
++RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
++RDEPENDS_${PN}-pki = "${PN}"
++RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
++RRECOMMENDS_${PN} += "kernel-module-openvswitch"
 +
-+DEPENDS += " \
-+        ruby \
-+        facter \
-+        hiera \
-+"
++RDEPENDS_${PN}-ptest += "python-logging python-syslog python-argparse python-io \
++                     python-fcntl python-shell python-lang python-xml python-math \
++                     python-datetime python-netclient python sed"
 +
-+RUBY_INSTALL_GEMS = "puppet-${PV}.gem"
++# Some installers will fail because of an install order based on
++# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
++# queued for install later.
++RDEPENDS_${PN} += "sed gawk grep"
++
++SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
++	file://openvswitch-switch \
++	file://openvswitch-switch-setup \
++	file://openvswitch-controller \
++	file://openvswitch-controller-setup \
++	file://openvswitch-add-target-python-handling.patch \
++	file://openvswitch-add-target-perl-handling.patch \
++	file://openvswitch-add-more-target-python-substitutions.patch \
++	file://openvswitch-add-ptest.patch \
++	file://run-ptest \
++	"
++
++SRC_URI[md5sum] = "d3c8a69df3d1b1a9eaef5a896576fd2a"
++SRC_URI[sha256sum] = "43a2562fe5e8e48e997bfdb04691ffaaaefe73069b5699654538bf2f16ebfb1a"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=e03b0d9c4115c44518594e5618e653f8"
++
++# Don't compile kernel modules by default since it heavily depends on
++# kernel version. Use the in-kernel module for now.
++# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
++# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
++
++EXTRA_OECONF += "TARGET_PYTHON=${bindir}/python \
++                 TARGET_PERL=${bindir}/perl \
++                "
++
++ALLOW_EMPTY_${PN}-pki = "1"
++PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
++
++FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
++	${sysconfdir}/default/openvswitch-controller \
++	${sysconfdir}/openvswitch-controller \
++	${bindir}/ovs-controller"
++
++FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
++
++FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
++		   ${sysconfdir}/default/openvswitch-switch \
++		   "
++# silence a warning
++FILES_${PN} += "${datadir}/ovsdbmonitor"
++FILES_${PN} += "/run"
++
++inherit autotools update-rc.d ptest
++
++EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
++
++do_install_ptest() {
++	oe_runmake test-install
++}
++
++INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
++INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
++INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
++
++INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
++INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
 +
 +do_install_append() {
-+    install -d ${D}${sysconfdir}/puppet
-+    install -d ${D}${sysconfdir}/puppet/manifests
-+    install -d ${D}${sysconfdir}/puppet/modules
++	install -d ${D}/${sysconfdir}/default/
++	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
++	install -d ${D}/${sysconfdir}/openvswitch-controller
++	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
 +
-+    install -m 655 ${S}/conf/auth.conf ${D}${sysconfdir}/puppet/
-+    install -m 655 ${S}/conf/fileserver.conf ${D}${sysconfdir}/puppet/
-+    install -m 655 ${S}/conf/tagmail.conf ${D}${sysconfdir}/puppet/
++	install -d ${D}/${sysconfdir}/init.d/
++	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
++	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
++	true || rm -fr ${D}/${datadir}/${PN}/pki
++}
++
++pkg_postinst_${PN}-pki () {
++	# can't do this offline
++	if [ "x$D" != "x" ]; then
++		exit 1
++	fi
++	if test ! -d $D/${datadir}/${PN}/pki; then
++		ovs-pki init --dir=$D/${datadir}/${PN}/pki
++	fi
++}
++
++pkg_postinst_${PN}-controller () {
++	# can't do this offline
++	if [ "x$D" != "x" ]; then
++		exit 1
++	fi
++
++	if test ! -d $D/${datadir}/${PN}/pki; then
++		ovs-pki init --dir=$D/${datadir}/${PN}/pki
++	fi
++
++	cd $D/${sysconfdir}/openvswitch-controller
++	if ! test -e cacert.pem; then
++		ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
++	fi
++	if ! test -e privkey.pem || ! test -e cert.pem; then
++		oldumask=$(umask)
++		umask 077
++		ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
++		mv tmp-privkey.pem privkey.pem
++		mv tmp-cert.pem cert.pem
++		mv tmp-req.pem req.pem
++		chmod go+r cert.pem req.pem
++		umask $oldumask
++	fi
 +}
 -- 
-1.9.2
+1.8.3.2
 
 
