@@ -1,6 +1,6 @@
 Return-Path: <Adrian.Calianu@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 37281E009F0; Tue, 16 Dec 2014 04:06:58 -0800 (PST)
+	id A5426E00A21; Tue, 16 Dec 2014 04:06:59 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,26 +9,26 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id A48FAE0093F
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 69068E009E2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Dec 2014 04:06:45 -0800 (PST)
+	Tue, 16 Dec 2014 04:06:55 -0800 (PST)
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.158.1;
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.158.1;
 	Tue, 16 Dec 2014 13:06:41 +0100
-Received: by sestofb10.enea.se (Postfix, from userid 4191)	id 8BC672800CA;
+Received: by sestofb10.enea.se (Postfix, from userid 4191)	id 9813E2800CE;
 	Tue, 16 Dec 2014 13:06:41 +0100 (CET)
 From: Adrian Calianu <adrian.calianu@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Message-ID: <1418731583-59475-2-git-send-email-adrian.calianu@enea.com>
+Message-ID: <1418731583-59475-3-git-send-email-adrian.calianu@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1418731583-59475-1-git-send-email-adrian.calianu@enea.com>
 References: <1418731583-59475-1-git-send-email-adrian.calianu@enea.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: adrian.calianu@enea.com does not
+Received-SPF: None (SESTOEX08.enea.se: adrian.calianu@enea.com does not
 	designate permitted sender hosts)
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
 Cc: Adrian Calianu <adrian.calianu@enea.com>
-Subject: [PATCH 1/1] libvirt: disable separate builddir support
+Subject: [PATCH] libvirt: disable separate builddir support
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,9 +41,9 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Tue, 16 Dec 2014 12:06:58 -0000
-X-Original-Date: Tue, 16 Dec 2014 13:06:22 +0100
-X-List-Received-Date: Tue, 16 Dec 2014 12:06:58 -0000
+Date: Tue, 16 Dec 2014 12:06:59 -0000
+X-Original-Date: Tue, 16 Dec 2014 13:06:23 +0100
+X-List-Received-Date: Tue, 16 Dec 2014 12:06:59 -0000
 Content-Type: text/plain
 
 building libvirt in a separate folder brake the
