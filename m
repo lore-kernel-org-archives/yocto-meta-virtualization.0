@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 996D6E00930; Thu, 18 Dec 2014 07:20:46 -0800 (PST)
+	id D1A1AE00B68; Thu, 18 Dec 2014 10:01:50 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.215.54 listed in list.dnswl.org]
+	*      [209.85.217.179 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,38 +19,38 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-la0-f54.google.com (mail-la0-f54.google.com
-	[209.85.215.54])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BF4FEE00837
+Received: from mail-lb0-f179.google.com (mail-lb0-f179.google.com
+	[209.85.217.179])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 82BB8E00A73
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Dec 2014 07:20:43 -0800 (PST)
-Received: by mail-la0-f54.google.com with SMTP id pv20so1195163lab.13
+	Thu, 18 Dec 2014 10:01:46 -0800 (PST)
+Received: by mail-lb0-f179.google.com with SMTP id z11so1379903lbi.38
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Dec 2014 07:20:41 -0800 (PST)
+	Thu, 18 Dec 2014 10:01:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=bDdZuk548AhyC7waFcgpXonmVPs4vkdT3rdxxe61tHA=;
-	b=gFtBiSxEV3ogDXGMJHDpvtZb/2po+ELk/VTJO+jE5cK5ZhPGgFwvQWlVMAg+ZAa21i
-	V4/OIezNHwX/esMjm19sM/AO2NrtsQq3EK9Z62lwL5knxQ/UUnP5tpzG5MzoeYWJ+tDC
-	vlILq0h7FRQhEsmnDHvNdPvT0aGcqteSsNXolUETom0mhkxplOaC4Lrgf3GCh8cZMied
-	ox7daRIiQIbGHFvGnnw5fcOjpzfSaIv73zuYvl5DZV53O38QkRd+vRourWl7hrbAnA88
-	13z9jn7RFkE+cAn4q6jkbq1S1h9YV8G/Sv26nrlg6Myvlb4NEr3guvaMqxZMLk+Kby5S
-	AX4A==
+	bh=dEiyxzUs0QylP4Uu7iudlrJ+NKxGvTer1rfHoozPXkY=;
+	b=Re/qWEdKIl9yVbkxkS3cnQQ5Br78G8s0AVYyJyJwu9KHKLAnsO67wPYp0oblC8Kv50
+	Wy4mBcB+I0rNe8TVhQFxDI5+p+RKbGUJZzl6DVoAjASkO3y6tYJlPCpOnuge9A5Sz2VF
+	8Y7l6334qwWsCDu4WbJxmrJgldsow1Nz3HRsRlF/rLvgtAWsTUGJfhIP+waBZrwdUf93
+	7w4vso2rm2B/7hm/c6rCbz50RQWIkogw2jGVrAlUBNHrvpy1oOrYSCGOcVajwEIpIQWX
+	H/DFaEEZ4kXzat+ca+yBq6saH1DMhtRJ/fQohzQ1RVB+ejZwBWl2lF16+NrsEFg/Q9YA
+	9vYA==
 MIME-Version: 1.0
-X-Received: by 10.112.154.70 with SMTP id vm6mr539833lbb.18.1418916041676;
-	Thu, 18 Dec 2014 07:20:41 -0800 (PST)
-Received: by 10.112.48.41 with HTTP; Thu, 18 Dec 2014 07:20:41 -0800 (PST)
-In-Reply-To: <CADkTA4PL1+_E+XEhtuBRgCm2FXeVf6JXo7aWa5e2ZMFJKgQbYg@mail.gmail.com>
-References: <1418905372-9361-1-git-send-email-Martin.Jansa@gmail.com>
-	<CADkTA4PL1+_E+XEhtuBRgCm2FXeVf6JXo7aWa5e2ZMFJKgQbYg@mail.gmail.com>
-Date: Thu, 18 Dec 2014 10:20:41 -0500
-Message-ID: <CADkTA4OmhVvdE__mevnw1hBjnP1XnHTvGrkurc4rKM2PYswgLg@mail.gmail.com>
+X-Received: by 10.152.87.12 with SMTP id t12mr3559502laz.31.1418925705168;
+	Thu, 18 Dec 2014 10:01:45 -0800 (PST)
+Received: by 10.112.48.41 with HTTP; Thu, 18 Dec 2014 10:01:45 -0800 (PST)
+In-Reply-To: <CADkTA4PcsMQ3P=oogBPxoaLFeUSsK7wxSL1VZZepKgwTfB1Jjw@mail.gmail.com>
+References: <1417597676-18985-1-git-send-email-b40869@freescale.com>
+	<CADkTA4PcsMQ3P=oogBPxoaLFeUSsK7wxSL1VZZepKgwTfB1Jjw@mail.gmail.com>
+Date: Thu, 18 Dec 2014 13:01:45 -0500
+Message-ID: <CADkTA4P0u2ns0-aCy+qL7dBK_jRYAwfgt7hVV02W=KhktFMjnA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+To: YangHaibo <b40869@freescale.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python: remove modules moved to meta-python
+Subject: Re: [PATCH v2] puppet: add recipe for puppet 3.7.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,259 +63,193 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Dec 2014 15:20:46 -0000
+X-List-Received-Date: Thu, 18 Dec 2014 18:01:50 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Dec 18, 2014 at 10:02 AM, Bruce Ashfield
+On Wed, Dec 3, 2014 at 10:21 AM, Bruce Ashfield
 <bruce.ashfield@gmail.com> wrote:
-> On Thu, Dec 18, 2014 at 7:22 AM, Martin Jansa <martin.jansa@gmail.com> wrote:
->> * apply only after
->>   http://lists.openembedded.org/pipermail/openembedded-devel/2014-December/099382.html
->>   is merged in meta-python
->> * only small changes were applied (as they were in meta-webos)
->>   DESCRIPTION -> SUMMARY
->>   drop PR = r0
->>   4 space indentation
+> On Wed, Dec 3, 2014 at 4:07 AM, YangHaibo <b40869@freescale.com> wrote:
+>> A simple demo is added
 >
-> Thanks, but as I've mentioned to everyone, these are incredibly
-> version sensitive. So
-> I won't be moving the patches out of meta-openstack.
+> Fantastic.
+>
+> I'll queue the patches and do a test build. With the chef support and
+> now puppet, we have
+> some nice functionality for configuration and deployment.
 
+My apologies for the delay on this. I was travelling for a week and
+didn't get the cycles
+to to all the builds I wanted.
 
-But I should also add, that these are pretty generic packages, so they
-do make sense
-in meta-python as well. I'll just have to continue on with my combo
-layers and copies
-of them for the forseable future. The nasty lesson learned from hours
-of debugging
-a broken OpenStack.
-
-Cheers,
+But I've now built and tested this. I've pushed it to the master and
+juno branches.
+If you need it elsewhere, let me know and I can cherry pick and push.
 
 Bruce
 
->
-> I'm actually in favour of grouping supporting packages, versus
-> grouping them by type.
 >
 > Cheers,
 >
 > Bruce
 >
->>
->> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 >> ---
->>  .../recipes-devtools/python/python-cmd2_0.6.7.bb   | 19 -----------------
->>  .../recipes-devtools/python/python-mccabe_0.2.1.bb | 21 -------------------
->>  .../recipes-devtools/python/python-mock_1.0.1.bb   | 24 ----------------------
->>  .../recipes-devtools/python/python-pep8_1.4.6.bb   | 21 -------------------
->>  .../python/python-prettytable_0.7.2.bb             | 24 ----------------------
->>  .../python/python-pyflakes_0.7.3.bb                | 21 -------------------
->>  .../python/python-pyparsing_2.0.1.bb               | 17 ---------------
->>  7 files changed, 147 deletions(-)
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
->>  delete mode 100644 meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
+>>  meta-openstack/recipes-support/puppet/README       | 75 ++++++++++++++++++++++
+>>  .../puppet/puppet/add_puppet_gemspec.patch         | 23 +++++++
+>>  .../recipes-support/puppet/puppet_3.7.3.bb         | 31 +++++++++
+>>  3 files changed, 129 insertions(+)
+>>  create mode 100644 meta-openstack/recipes-support/puppet/README
+>>  create mode 100644 meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
+>>  create mode 100644 meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
 >>
->> diff --git a/meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb b/meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb
->> deleted file mode 100644
->> index 9558cc6..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb
->> +++ /dev/null
->> @@ -1,19 +0,0 @@
->> -DESCRIPTION = "Extra features for standard library's cmd module"
->> -HOMEPAGE = "http://packages.python.org/cmd2/"
->> -SECTION = "devel/python"
->> -LICENSE = "MIT"
->> -LIC_FILES_CHKSUM = "file://setup.py;beginline=21;endline=21;md5=a00047b7e92e0781452d0beba4e7b44e"
->> -
->> -PR = "r0"
->> -SRCNAME = "cmd2"
->> -
->> -SRC_URI = "http://pypi.python.org/packages/source/c/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->> -
->> -SRC_URI[md5sum] = "842df29ff2f72d64d7f0d917039c0e51"
->> -SRC_URI[sha256sum] = "8e98c7a1cfd106183559240b269e7cd9fe97e8342b5c05295f591aab6fd2f4f0"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit setuptools
->> -
->> -RDEPENDS_${PN} += "python-pyparsing"
->> diff --git a/meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb b/meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
->> deleted file mode 100644
->> index 30c47e8..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
->> +++ /dev/null
->> @@ -1,21 +0,0 @@
->> -DESCRIPTION = "McCabe checker, plugin for flake8"
->> -HOMEPAGE = "https://github.com/dreamhost/cliff"
->> -SECTION = "devel/python"
->> -LICENSE = "Apache-2.0"
->> -LIC_FILES_CHKSUM = "file://README.rst;md5=aa0383f6aee4f5c20084a97cd13164c4"
->> -
->> -PR = "r0"
->> -SRCNAME = "mccabe"
->> -
->> -SRC_URI = "https://pypi.python.org/packages/source/m/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->> -
->> -SRC_URI[md5sum] = "5a3f3fa6a4bad126c88aaaa7dab682f5"
->> -SRC_URI[sha256sum] = "5a2a170e47de5593a6abfae1e9542bd2c3924ac62bbe4e6ed96c953c0352243a"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit setuptools
->> -
->> -RDEPENDS_${PN} += "python-prettytable \
->> -            python-cmd2 \
->> -            python-pyparsing"
->> \ No newline at end of file
->> diff --git a/meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb b/meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
->> deleted file mode 100644
->> index b17b3f0..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
->> +++ /dev/null
->> @@ -1,24 +0,0 @@
->> -DESCRIPTION = "A Python Mocking and Patching Library for Testing"
->> -HOMEPAGE = "https://pypi.python.org/pypi/mock"
->> -SECTION = "devel/python"
->> -LICENSE = "Apache-2.0"
->> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=80e5ba73891255687dff3bee2b4cbb16"
->> -
->> -PR = "r0"
->> -SRCNAME = "mock"
->> -
->> -SRC_URI = "https://pypi.python.org/packages/source/m/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->> -
->> -SRC_URI[md5sum] = "c3971991738caa55ec7c356bbc154ee2"
->> -SRC_URI[sha256sum] = "b839dd2d9c117c701430c149956918a423a9863b48b09c90e30a6013e7d2f44f"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit setuptools
->> -
->> -RDEPENDS_${PN} += "python-prettytable \
->> -            python-cmd2 \
->> -            python-pyparsing \
->> -            python-mccabe \
->> -            python-pep8 \
->> -            python-pyflakes"
->> diff --git a/meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb b/meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb
->> deleted file mode 100644
->> index 723bec3..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb
->> +++ /dev/null
->> @@ -1,21 +0,0 @@
->> -DESCRIPTION = "Python style guide checker"
->> -HOMEPAGE = "https://github.com/dreamhost/cliff"
->> -SECTION = "devel/python"
->> -LICENSE = "Apache-2.0"
->> -LIC_FILES_CHKSUM = "file://README.rst;md5=b0d37793ab91ca25ad5c200e9ea22331"
->> -
->> -PR = "r0"
->> -SRCNAME = "pep8"
->> -
->> -SRC_URI = "https://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->> -
->> -SRC_URI[md5sum] = "a03bb494859e87b42601b61b1b043a0c"
->> -SRC_URI[sha256sum] = "603a46e5c358ce20ac4807a0eeafac7505d1125a4c1bd8378757ada06f61bed8"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit setuptools
->> -
->> -RDEPENDS_${PN} += "python-prettytable \
->> -            python-cmd2 \
->> -            python-pyparsing"
->> \ No newline at end of file
->> diff --git a/meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb b/meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
->> deleted file mode 100644
->> index 5242bfc..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
->> +++ /dev/null
->> @@ -1,24 +0,0 @@
->> -DESCRIPTION = "Python library for displaying tabular data in a ASCII table format"
->> -HOMEPAGE = "http://code.google.com/p/prettytable"
->> -SECTION = "devel/python"
->> -LICENSE = "BSD"
->> -LIC_FILES_CHKSUM = "file://COPYING;md5=3e73500ffa52de5071cff65990055282"
->> -
->> -PR = "r0"
->> -SRCNAME = "prettytable"
->> -
->> -SRC_URI = "http://pypi.python.org/packages/source/P/PrettyTable/prettytable-0.7.2.zip"
->> -
->> -SRC_URI[md5sum] = "0c1361104caff8b09f220748f9d69899"
->> -SRC_URI[sha256sum] = "a53da3b43d7a5c229b5e3ca2892ef982c46b7923b51e98f0db49956531211c4f"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit setuptools
->> -
->> -do_install_append() {
->> -       perm_files=`find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "top_level.txt"`
->> -       for f in $perm_files; do
->> -               chmod 644 "${f}"
->> -       done
->> -}
->> \ No newline at end of file
->> diff --git a/meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb b/meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
->> deleted file mode 100644
->> index af7a7f3..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
->> +++ /dev/null
->> @@ -1,21 +0,0 @@
->> -DESCRIPTION = "passive checker of Python programs"
->> -HOMEPAGE = "https://github.com/dreamhost/cliff"
->> -SECTION = "devel/python"
->> -LICENSE = "Apache-2.0"
->> -LIC_FILES_CHKSUM = "file://README.rst;md5=1815018ebbbfc8659a9df33681a0936e"
->> -
->> -PR = "r0"
->> -SRCNAME = "pyflakes"
->> -
->> -SRC_URI = "https://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->> -
->> -SRC_URI[md5sum] = "ec94ac11cb110e6e72cca23c104b66b1"
->> -SRC_URI[sha256sum] = "dbd2c940a1030a4f811afc1a04017a44011c0cb54f8f384b66aa624097d9b5e3"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit setuptools
->> -
->> -RDEPENDS_${PN} += "python-prettytable \
->> -            python-cmd2 \
->> -            python-pyparsing"
->> \ No newline at end of file
->> diff --git a/meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb b/meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
->> deleted file mode 100644
->> index 32d9ebb..0000000
->> --- a/meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
->> +++ /dev/null
->> @@ -1,17 +0,0 @@
->> -DESCRIPTION = "Python parsing module"
->> -HOMEPAGE = "http://pyparsing.wikispaces.com/"
->> -SECTION = "devel/python"
->> -LICENSE = "MIT"
->> -LIC_FILES_CHKSUM = "file://LICENSE;md5=fb46329938e6bc829b256e37d5c1e31a"
->> -
->> -PR = "r0"
->> -SRCNAME = "pyparsing"
->> -
->> -SRC_URI = "http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.zip"
->> -
->> -SRC_URI[md5sum] = "dc7036a6f1ab01c3baed3d97af8d77c0"
->> -SRC_URI[sha256sum] = "7e1766ee747cca79fe172b670fd53ef58fc55d2b1804fd6c66d857abb62d143a"
->> -
->> -S = "${WORKDIR}/${SRCNAME}-${PV}"
->> -
->> -inherit distutils
+>> diff --git a/meta-openstack/recipes-support/puppet/README b/meta-openstack/recipes-support/puppet/README
+>> new file mode 100644
+>> index 0000000..2de808a
+>> --- /dev/null
+>> +++ b/meta-openstack/recipes-support/puppet/README
+>> @@ -0,0 +1,75 @@
+>> +What is Puppet
+>> +------------------------
+>> +Puppet is a configuration management system that allows you to define the
+>> +state of your IT infrastructure, then automatically enforces the correct state.
+>> +
+>> +
+>> +Basic Requirements
+>> +------------------------
+>> +Ruby 1.8.7 or later
+>> +Facter 1.7.0 or later
+>> +Hiera 1.0 or later
+>> +The json gem (any modern version)
+>> +
+>> +
+>> +Simple Demo
+>> +------------------------
+>> +In this simple demo, we have a CA master server named 'master' and ip is 192.168.2.83
+>> +and an agent node named 'agent', ip is 192.168.2.30.
+>> +
+>> +On master server, file 'test.cfg' is under /etc/puppet/files/, puppet will sync this
+>> +file to /opt/ folder on agent node.
+>> +
+>> +Step 1: Configure Puppet CA Master Server
+>> +1) create a puppet group and user
+>> +$ puppet resource group puppet ensure=presnt
+>> +$ puppet resource user puppet ensure=present gid=puppet shell='/sbin/nologin'
+>> +
+>> +2) create the CA certificate and the puppet master certificate
+>> +$ puppet master --verbose --no-daemonize
+>> +(Once it says Notice: Starting Puppet master version <VERSION>, type ctrl-C to kill the process)
+>> +
+>> +3) $ vi /etc/hosts
+>> +add new line:
+>> +192.168.2.30    agent
+>> +
+>> +4) start puppet master
+>> +$ puppet master --verbose --no-daemonize &
+>> +
+>> +
+>> +Step 2: Config Puppet Agent Node
+>> +1) Edit puppet.conf
+>> +$ echo "[main]
+>> +server = master" >> /etc/puppet/puppet.conf
+>> +
+>> +2) $ vi /etc/hosts
+>> +add new line:
+>> +192.168.2.83    master
+>> +
+>> +3) Request certificates
+>> +$ puppet agent --test --ca_server=t2080qds -w 60
+>> +(Accept the request on master server by this command: puppet cert sign --all)
+>> +
+>> +
+>> +Step 3: Add site map on master
+>> +1) Edit /etc/puppet/fileserver.conf to make /etc/puppet/files available
+>> +$ mkdir /etc/puppet/files
+>> +$ touch /etc/puppet/files/test.cfg
+>> +$ vi /etc/puppet/fileserver.conf
+>> +add following lines:
+>> +[extra_files]
+>> +   path /etc/puppet/files
+>> +   allow *
+>> +
+>> +2) Add a new sitemap
+>> +$ vi /etc/puppet/manifests/site.pp
+>> +add follwing lines:
+>> +file
+>> +{ "/opt/test.cfg":
+>> +source => "puppet:///extra_files/test.cfg",
+>> +}
+>> +
+>> +
+>> +Step 4: Run puppet on agent
+>> +$ puppet agent --test
+>> +$ ls /opt/
+>> diff --git a/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch b/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
+>> new file mode 100644
+>> index 0000000..a5c8e3b
+>> --- /dev/null
+>> +++ b/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
+>> @@ -0,0 +1,23 @@
+>> +diff -urN puppet-3.7.3_ori/puppet.gemspec puppet-3.7.3/puppet.gemspec
+>> +--- puppet-3.7.3_ori/puppet.gemspec    1970-01-01 08:00:00.000000000 +0800
+>> ++++ puppet-3.7.3/puppet.gemspec        2014-11-12 14:30:07.000000000 +0800
+>> +@@ -0,0 +1,19 @@
+>> ++$:.unshift(File.dirname(__FILE__) + '/lib')
+>> ++require 'puppet/version'
+>> ++
+>> ++Gem::Specification.new do |s|
+>> ++  s.name = 'puppet'
+>> ++  s.version = Puppet::PUPPETVERSION
+>> ++  s.platform = Gem::Platform::RUBY
+>> ++  s.summary = 'Open source Puppet is a configuration management system'
+>> ++  s.description = s.summary
+>> ++  s.author = 'Yang Haibo'
+>> ++  s.email = 'b40869@freescale.com'
+>> ++  s.homepage = 'https://puppetlabs.com/puppet/puppet-open-source'
+>> ++  s.license = 'Apache 2.0'
+>> ++
+>> ++  s.bindir       = 'bin'
+>> ++  s.executables  = ['puppet', 'extlookup2hiera']
+>> ++  s.require_path = 'lib'
+>> ++  s.files = %w(LICENSE README.md Rakefile) + Dir.glob('{lib,spec}/**/*')
+>> ++end
+>> diff --git a/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb b/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
+>> new file mode 100644
+>> index 0000000..afd9a23
+>> --- /dev/null
+>> +++ b/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
+>> @@ -0,0 +1,31 @@
+>> +SUMMARY = "Open source Puppet is a configuration management system"
+>> +HOMEPAGE = "https://puppetlabs.com/puppet/puppet-open-source"
+>> +LICENSE = "Apache-2.0"
+>> +LIC_FILES_CHKSUM = "file://LICENSE;md5=f257790c70561550fd666c6e0044fd89"
+>> +
+>> +SRC_URI = " \
+>> +    https://downloads.puppetlabs.com/puppet/puppet-${PV}.tar.gz \
+>> +    file://add_puppet_gemspec.patch \
+>> +"
+>> +SRC_URI[md5sum] = "cc294da1d51df07bcc7f6cf78bd90ce0"
+>> +SRC_URI[sha256sum] = "4a3bd7ddb51072c3dd898a8de158cde204a2d8fd0b84e8ac806b84c074348637"
+>> +
+>> +inherit ruby
+>> +
+>> +DEPENDS += " \
+>> +        ruby \
+>> +        facter \
+>> +        hiera \
+>> +"
+>> +
+>> +RUBY_INSTALL_GEMS = "puppet-${PV}.gem"
+>> +
+>> +do_install_append() {
+>> +    install -d ${D}${sysconfdir}/puppet
+>> +    install -d ${D}${sysconfdir}/puppet/manifests
+>> +    install -d ${D}${sysconfdir}/puppet/modules
+>> +
+>> +    install -m 655 ${S}/conf/auth.conf ${D}${sysconfdir}/puppet/
+>> +    install -m 655 ${S}/conf/fileserver.conf ${D}${sysconfdir}/puppet/
+>> +    install -m 655 ${S}/conf/tagmail.conf ${D}${sysconfdir}/puppet/
+>> +}
 >> --
->> 2.2.0
+>> 1.9.2
 >>
 >> --
 >> _______________________________________________
