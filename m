@@ -1,55 +1,56 @@
-Return-Path: <B51469@freescale.com>
+Return-Path: <martin.jansa@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2BED2E00874; Wed, 10 Dec 2014 18:46:24 -0800 (PST)
+	id 4161AE008B4; Thu, 18 Dec 2014 04:22:55 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE,SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [157.56.110.147 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (martin.jansa[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.212.181 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-X-Greylist: delayed 961 seconds by postgrey-1.32 at yocto-www;
-	Wed, 10 Dec 2014 18:46:19 PST
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0147.outbound.protection.outlook.com [157.56.110.147])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1CEAE0080C
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
+	[209.85.212.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BBA5DE002A6
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 10 Dec 2014 18:46:19 -0800 (PST)
-Received: from BL2PR03MB497.namprd03.prod.outlook.com (10.141.93.142) by
-	BL2PR03MB498.namprd03.prod.outlook.com (10.141.93.146) with Microsoft
-	SMTP Server (TLS) id 15.1.31.17; Thu, 11 Dec 2014 02:30:16 +0000
-Received: from BL2PR03MB497.namprd03.prod.outlook.com ([10.141.93.142]) by
-	BL2PR03MB497.namprd03.prod.outlook.com ([10.141.93.142]) with mapi id
-	15.01.0031.000; Thu, 11 Dec 2014 02:30:16 +0000
-From: Benlei Xu <B51469@freescale.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: need your help about integrate opendayliht into
-	meta-cloud-services 
-Thread-Index: AdAU6mRG/rt5Pag4TO26IphHvmcFzA==
-Date: Thu, 11 Dec 2014 02:30:16 +0000
-Message-ID: <BL2PR03MB49705933F924B34CFE8797A84630@BL2PR03MB497.namprd03.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [123.151.195.52]
-x-microsoft-antispam: BCL:0;PCL:0;RULEID:;SRVR:BL2PR03MB498;
-x-exchange-antispam-report-test: UriScan:;
-x-exchange-antispam-report-cfa-test: BCL:0;PCL:0;RULEID:;SRVR:BL2PR03MB498;
-x-forefront-prvs: 0422860ED4
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(189002)(199003)(54606007)(106356001)(66066001)(107046002)(40100003)(19609705001)(107886001)(50986999)(99286002)(2351001)(19300405004)(99396003)(76576001)(110136001)(54356999)(97736003)(122556002)(68736005)(16236675004)(54206007)(33656002)(101416001)(19625215002)(15975445007)(102836002)(77096005)(19580395003)(31966008)(74316001)(77156002)(18717965001)(92566001)(20776003)(62966003)(230783001)(229853001)(120916001)(64706001)(105586002)(4396001)(86362001)(46102003)(21056001)(450100001)(87936001)(2656002)(151803002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BL2PR03MB498;
-	H:BL2PR03MB497.namprd03.prod.outlook.com; FPR:; SPF:None;
-	MLV:sfv; PTR:InfoNoRecords; MX:1; A:1; LANG:en; 
-MIME-Version: 1.0
-X-OriginatorOrg: freescale.com
-Subject: need your help about integrate opendayliht into meta-cloud-services
+	Thu, 18 Dec 2014 04:22:51 -0800 (PST)
+Received: by mail-wi0-f181.google.com with SMTP id r20so1597565wiv.8
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 18 Dec 2014 04:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=p9BYUGPEWlg1/fk7X/yt6T6INfvDkxa0o9BpoLbey3E=;
+	b=Vtm4A4RIhJSl9xeF8pkta7ycYT91vB1uL/XTVcO5LIrJV7N2dz18Q6s2gEWO8KWGY7
+	h6Hqzmptvog26CK8wZYzYCPLmTlxlfv7a95WFvC9fCZUt8xzK6HawR59q9jwRX1dD0T7
+	agYh7IZoSNEf1siN0pNqyq7na8bP+v7b6AUXmA37Qcd/Jkv5Z3V1aoDOQlbCVGzUn3jN
+	IoET4Sl8h3Ykqne3otKnFtFX6lVIUyOYWBpIUvv7mjo431bUwkvStu+n3mzD/w5HrEXW
+	0gEiw6fUj6P/LJxDSC0VCSbPFKRUVbYwdVvEb6JZSSxeAurkxam9crW9KFLVvzKqsroO
+	qgeg==
+X-Received: by 10.180.210.228 with SMTP id mx4mr19473910wic.57.1418905370405; 
+	Thu, 18 Dec 2014 04:22:50 -0800 (PST)
+Received: from localhost (ip-89-176-104-3.net.upcbroadband.cz. [89.176.104.3])
+	by mx.google.com with ESMTPSA id
+	dp8sm24535002wib.20.2014.12.18.04.22.49
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 18 Dec 2014 04:22:49 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Thu, 18 Dec 2014 13:22:52 +0100
+Message-Id: <1418905372-9361-1-git-send-email-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.2.0
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [PATCH] python: remove modules moved to meta-python
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,104 +63,228 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Dec 2014 02:46:24 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_BL2PR03MB49705933F924B34CFE8797A84630BL2PR03MB497namprd_"
+X-List-Received-Date: Thu, 18 Dec 2014 12:22:55 -0000
 
---_000_BL2PR03MB49705933F924B34CFE8797A84630BL2PR03MB497namprd_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+* apply only after
+  http://lists.openembedded.org/pipermail/openembedded-devel/2014-December/099382.html
+  is merged in meta-python
+* only small changes were applied (as they were in meta-webos)
+  DESCRIPTION -> SUMMARY
+  drop PR = r0
+  4 space indentation
 
-Hell all,
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../recipes-devtools/python/python-cmd2_0.6.7.bb   | 19 -----------------
+ .../recipes-devtools/python/python-mccabe_0.2.1.bb | 21 -------------------
+ .../recipes-devtools/python/python-mock_1.0.1.bb   | 24 ----------------------
+ .../recipes-devtools/python/python-pep8_1.4.6.bb   | 21 -------------------
+ .../python/python-prettytable_0.7.2.bb             | 24 ----------------------
+ .../python/python-pyflakes_0.7.3.bb                | 21 -------------------
+ .../python/python-pyparsing_2.0.1.bb               | 17 ---------------
+ 7 files changed, 147 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
 
-I want to add OpenDaylight to meta-cloud-services layer, but the Daylight h=
-ave more than 220mb and if we use that software we have to connect to inter=
-net,
-otherwise, we can't use the software correctly. So I want to know whether n=
-eed to add a recipe to meta-cloud-services? We just need to load Daylight t=
-o our
-system from internet if we want to use it.
+diff --git a/meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb b/meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb
+deleted file mode 100644
+index 9558cc6..0000000
+--- a/meta-openstack/recipes-devtools/python/python-cmd2_0.6.7.bb
++++ /dev/null
+@@ -1,19 +0,0 @@
+-DESCRIPTION = "Extra features for standard library's cmd module"
+-HOMEPAGE = "http://packages.python.org/cmd2/"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://setup.py;beginline=21;endline=21;md5=a00047b7e92e0781452d0beba4e7b44e"
+-
+-PR = "r0"
+-SRCNAME = "cmd2"
+-
+-SRC_URI = "http://pypi.python.org/packages/source/c/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "842df29ff2f72d64d7f0d917039c0e51"
+-SRC_URI[sha256sum] = "8e98c7a1cfd106183559240b269e7cd9fe97e8342b5c05295f591aab6fd2f4f0"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools 
+-
+-RDEPENDS_${PN} += "python-pyparsing"
+diff --git a/meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb b/meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
+deleted file mode 100644
+index 30c47e8..0000000
+--- a/meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
++++ /dev/null
+@@ -1,21 +0,0 @@
+-DESCRIPTION = "McCabe checker, plugin for flake8"
+-HOMEPAGE = "https://github.com/dreamhost/cliff"
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;md5=aa0383f6aee4f5c20084a97cd13164c4"
+-
+-PR = "r0"
+-SRCNAME = "mccabe"
+-
+-SRC_URI = "https://pypi.python.org/packages/source/m/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "5a3f3fa6a4bad126c88aaaa7dab682f5"
+-SRC_URI[sha256sum] = "5a2a170e47de5593a6abfae1e9542bd2c3924ac62bbe4e6ed96c953c0352243a"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools
+-
+-RDEPENDS_${PN} += "python-prettytable \
+-            python-cmd2 \
+-            python-pyparsing"
+\ No newline at end of file
+diff --git a/meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb b/meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
+deleted file mode 100644
+index b17b3f0..0000000
+--- a/meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-DESCRIPTION = "A Python Mocking and Patching Library for Testing"
+-HOMEPAGE = "https://pypi.python.org/pypi/mock"
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=80e5ba73891255687dff3bee2b4cbb16"
+-
+-PR = "r0"
+-SRCNAME = "mock"
+-
+-SRC_URI = "https://pypi.python.org/packages/source/m/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "c3971991738caa55ec7c356bbc154ee2"
+-SRC_URI[sha256sum] = "b839dd2d9c117c701430c149956918a423a9863b48b09c90e30a6013e7d2f44f"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools
+-
+-RDEPENDS_${PN} += "python-prettytable \
+-            python-cmd2 \
+-            python-pyparsing \
+-            python-mccabe \
+-            python-pep8 \
+-            python-pyflakes"
+diff --git a/meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb b/meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb
+deleted file mode 100644
+index 723bec3..0000000
+--- a/meta-openstack/recipes-devtools/python/python-pep8_1.4.6.bb
++++ /dev/null
+@@ -1,21 +0,0 @@
+-DESCRIPTION = "Python style guide checker"
+-HOMEPAGE = "https://github.com/dreamhost/cliff"
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;md5=b0d37793ab91ca25ad5c200e9ea22331"
+-
+-PR = "r0"
+-SRCNAME = "pep8"
+-
+-SRC_URI = "https://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "a03bb494859e87b42601b61b1b043a0c"
+-SRC_URI[sha256sum] = "603a46e5c358ce20ac4807a0eeafac7505d1125a4c1bd8378757ada06f61bed8"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools
+-
+-RDEPENDS_${PN} += "python-prettytable \
+-            python-cmd2 \
+-            python-pyparsing"
+\ No newline at end of file
+diff --git a/meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb b/meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
+deleted file mode 100644
+index 5242bfc..0000000
+--- a/meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-DESCRIPTION = "Python library for displaying tabular data in a ASCII table format"
+-HOMEPAGE = "http://code.google.com/p/prettytable"
+-SECTION = "devel/python"
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=3e73500ffa52de5071cff65990055282"
+-
+-PR = "r0"
+-SRCNAME = "prettytable"
+-
+-SRC_URI = "http://pypi.python.org/packages/source/P/PrettyTable/prettytable-0.7.2.zip"
+-
+-SRC_URI[md5sum] = "0c1361104caff8b09f220748f9d69899"
+-SRC_URI[sha256sum] = "a53da3b43d7a5c229b5e3ca2892ef982c46b7923b51e98f0db49956531211c4f"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools
+-
+-do_install_append() {
+-	perm_files=`find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "top_level.txt"`
+-	for f in $perm_files; do
+-		chmod 644 "${f}"
+-	done
+-}
+\ No newline at end of file
+diff --git a/meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb b/meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
+deleted file mode 100644
+index af7a7f3..0000000
+--- a/meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
++++ /dev/null
+@@ -1,21 +0,0 @@
+-DESCRIPTION = "passive checker of Python programs"
+-HOMEPAGE = "https://github.com/dreamhost/cliff"
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;md5=1815018ebbbfc8659a9df33681a0936e"
+-
+-PR = "r0"
+-SRCNAME = "pyflakes"
+-
+-SRC_URI = "https://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "ec94ac11cb110e6e72cca23c104b66b1"
+-SRC_URI[sha256sum] = "dbd2c940a1030a4f811afc1a04017a44011c0cb54f8f384b66aa624097d9b5e3"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools
+-
+-RDEPENDS_${PN} += "python-prettytable \
+-            python-cmd2 \
+-            python-pyparsing"
+\ No newline at end of file
+diff --git a/meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb b/meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
+deleted file mode 100644
+index 32d9ebb..0000000
+--- a/meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-DESCRIPTION = "Python parsing module"
+-HOMEPAGE = "http://pyparsing.wikispaces.com/"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=fb46329938e6bc829b256e37d5c1e31a"
+-
+-PR = "r0"
+-SRCNAME = "pyparsing"
+-
+-SRC_URI = "http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.zip"
+-
+-SRC_URI[md5sum] = "dc7036a6f1ab01c3baed3d97af8d77c0"
+-SRC_URI[sha256sum] = "7e1766ee747cca79fe172b670fd53ef58fc55d2b1804fd6c66d857abb62d143a"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit distutils
+-- 
+2.2.0
 
-Best Regards,
-Benlei
 
---_000_BL2PR03MB49705933F924B34CFE8797A84630BL2PR03MB497namprd_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 12 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.25in 1.0in 1.25in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hell all,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I want to add OpenDaylight to meta-cloud-services la=
-yer, but the Daylight have more than 220mb and if we use that software we h=
-ave to connect to internet,<o:p></o:p></p>
-<p class=3D"MsoNormal">otherwise, we can&#8217;t use the software correctly=
-. So I want to know whether need to add a recipe to meta-cloud-services? We=
- just need to load Daylight to our
-<o:p></o:p></p>
-<p class=3D"MsoNormal">system from internet if we want to use it.<o:p></o:p=
-></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Best Regards,<o:p></o:p></p>
-<p class=3D"MsoNormal">Benlei<o:p></o:p></p>
-</div>
-</body>
-</html>
-
---_000_BL2PR03MB49705933F924B34CFE8797A84630BL2PR03MB497namprd_--
