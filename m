@@ -1,6 +1,6 @@
 Return-Path: <cjp256@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C1C08E00717; Sun,  1 Feb 2015 23:11:10 -0800 (PST)
+	id 0F27AE00717; Sun,  1 Feb 2015 23:15:33 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,6 +9,9 @@ X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (cjp256[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.215.43 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -17,41 +20,38 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.42 listed in list.dnswl.org]
-Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
-	[209.85.215.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36446E005A9
+Received: from mail-la0-f43.google.com (mail-la0-f43.google.com
+	[209.85.215.43])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5E9F0E005A9
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Feb 2015 23:10:52 -0800 (PST)
-Received: by mail-la0-f42.google.com with SMTP id ms9so37714537lab.1
+	Sun,  1 Feb 2015 23:15:24 -0800 (PST)
+Received: by mail-la0-f43.google.com with SMTP id q1so37799413lam.2
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 01 Feb 2015 23:10:50 -0800 (PST)
+	Sun, 01 Feb 2015 23:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=wIb/CyrbW91DfHKRsUYjgsCOgvV78ipW2pHSmn74EHQ=;
-	b=gLoLie1vIQdQLz9xkZMnDJJGmIKZCMN0IejDth5lt0PoQtFeHl7JOJIYSPotHYa4U8
-	mJd7HaIrqabJC0c3azYYamyRCMd5RGAYbtM+cClOllq/QvPF81RfCKLGs3zo9tBnmwnw
-	lotAVSwpgfveiM4mP6fL2u85zgbGrPDsDA/fIgvefjfSaroQ+Kp6jvlB2MEac3S23giS
-	ken/K3nLEE+wd3FZyTHscj4sYBfvpPz6iuHs7ZyLJMn2f1SITAugjIy8Vy2kL5qqcQFn
-	tD6vsdHFKr3n9Snaxm4vcf09fQPEbhZA75uiDc5wXXH892CKEcgR6dLWp46wPjjrGP8F
-	3rAg==
+	bh=RgizmAhg+cZFyqVSfuNIGwOmdnQguLPoQPquf8bwq3I=;
+	b=crvRkcWlrCbMPnLRWWW1gxmYp93bYks/QwZdPLm0SzK9AZ8dey1tRdkW4PA+geqETq
+	Wu4xD32Wjh9XX1Knu1ZiaZPtst2H8jRwolBaLuFT3zaLNZy0/PwLrtiUw0f7s0A/GCLy
+	ftBVXmJZ6FOEMvF05FTNobsUss0kW8V9yRjIq5YTgTaXlSKGrL0aQhLvAyc+FQoxo2qr
+	uyukSpDit3GA/uRVa0B+dg8Nszwazaslz19nDIdLJ9mBRazx7ADmfPpFFtPHJnGi6xEZ
+	N0LGJtYvpOCg7GYrftNJqcJBtyWC69idFrMomJp+/xcOuLaxpizVgshv4UQ5a3oi4KOv
+	ry7Q==
 MIME-Version: 1.0
-X-Received: by 10.112.184.198 with SMTP id ew6mr17749865lbc.71.1422861050201; 
-	Sun, 01 Feb 2015 23:10:50 -0800 (PST)
-Received: by 10.114.182.115 with HTTP; Sun, 1 Feb 2015 23:10:50 -0800 (PST)
-In-Reply-To: <a7ba7b2cdf844220a4a6adfd0e685199@BL2FFO11FD026.protection.gbl>
-References: <1422588708-17225-1-git-send-email-nathan.rossi@xilinx.com>
-	<a7ba7b2cdf844220a4a6adfd0e685199@BL2FFO11FD026.protection.gbl>
-Date: Mon, 2 Feb 2015 02:10:50 -0500
-Message-ID: <CABZSBQfG7Q9F17e1ZoM7KP-eGGGxbog9VEzTvmhNgNj2wRRPwQ@mail.gmail.com>
+X-Received: by 10.152.28.194 with SMTP id d2mr18155779lah.85.1422861322029;
+	Sun, 01 Feb 2015 23:15:22 -0800 (PST)
+Received: by 10.114.182.115 with HTTP; Sun, 1 Feb 2015 23:15:21 -0800 (PST)
+In-Reply-To: <CABZSBQfHtwWRJ62pW3XnAQRBX6HW06d3fqUDG8=zqNv5f+R5-w@mail.gmail.com>
+References: <fa0c0be68aa042b6bede0c2f644a2c42@BN1BFFO11FD008.protection.gbl>
+	<CABZSBQfHtwWRJ62pW3XnAQRBX6HW06d3fqUDG8=zqNv5f+R5-w@mail.gmail.com>
+Date: Mon, 2 Feb 2015 02:15:21 -0500
+Message-ID: <CABZSBQc4u6OArq-jaz=WJCQ06RVmv3q3Z=Mw016LDvkz=FfPxA@mail.gmail.com>
 From: Chris Patterson <cjp256@gmail.com>
 To: Nathan Rossi <nathan.rossi@xilinx.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [RFC 8/8] xen-image-minimal: Install qemu instead of xen-qemu
+Subject: Re: [RFC 0/8] Update to Xen 4.5.0 and add AArch64 support
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -64,88 +64,254 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Feb 2015 07:11:10 -0000
-Content-Type: multipart/alternative; boundary=001a11c3c96a764c98050e15a7d8
+X-List-Received-Date: Mon, 02 Feb 2015 07:15:33 -0000
+Content-Type: multipart/alternative; boundary=089e0160b420aa10aa050e15b7dc
 
---001a11c3c96a764c98050e15a7d8
+--089e0160b420aa10aa050e15b7dc
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jan 29, 2015 at 10:31 PM, Nathan Rossi <nathan.rossi@xilinx.com>
-wrote:
+On Thu, Jan 29, 2015 at 11:44 PM, Chris Patterson <cjp256@gmail.com> wrote:
 
-> * Install QEMU from the distro as opposed to a specific xen-qemu setup
+> Nice! :)  I'll try to take this for a test drive this weekend and provide
+> some feedback.
 >
+> On Thu, Jan 29, 2015 at 10:31 PM, Nathan Rossi <nathan.rossi@xilinx.com>
+> wrote:
+>
+>> This patch series updates the Xen recipes to use version 4.5.0 as well as
+>> refactoring and adding support for AArch64.
+>>
+>> The first 6 patches of this series are relatively trivial changes: adding
+>> additional files to packages, updating dependencies and adding support for
+>> additional architectures ontop of x86-64. The most important change is the
+>> moving of some x86 of the packages from xen-base RDEPENDS to RRECOMMENDS.
+>>
+>> Patches 7 and 8 are the reason for this set being a RFC instead of just a
+>> patch
+>> set, I am after feedback regarding the changes I have made for these
+>> patches.
+>> In these two patches I disabled the building of xen-qemu and seabios from
+>> within the xen build system. There are a number of issues in wrapping the
+>> xen
+>> build system within OE (including source fetching and cross building).
+>>
+>>
++1 with this approach. I'm sure that the qemu rev included with the xen
+release is better tested and has some appropriate patches for xen users.
+However, the oe-core qemu recipe is in much better shape.  Someone could
+break it out into its own recipe, if so desired.
 
-Missing sign-off, otherwise LGTM
+
+> Instead of building qemu from within xen, I have configured the qemu which
+>> is
+>> part of oe-core to build with xen support (PACKAGECONFIG_append = "xen").
+>> Since
+>> xen support is available in mainline qemu this allows for easier support
+>> of the
+>> xen device emulation via qemu. The PACKAGECONFIG option in oe-core does
+>> need to
+>> be updated to point to the correct depends (which is seperate to this
+>> patch
+>> set).
+>>
+>>
+Agreed, maybe document in README? In my local.conf, I added:
+PACKAGECONFIG_append_pn-qemu = " xen "
 
 
-> ---
->  recipes-extended/images/xen-image-minimal.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-extended/images/xen-image-minimal.bb
-> b/recipes-extended/images/xen-image-minimal.bb
-> index aed0526..26b6d06 100644
-> --- a/recipes-extended/images/xen-image-minimal.bb
-> +++ b/recipes-extended/images/xen-image-minimal.bb
-> @@ -13,7 +13,7 @@ IMAGE_INSTALL += " \
->      ${@bb.utils.contains('MACHINE_FEATURES', 'pci',
-> 'kernel-module-xen-pciback', '', d)} \
->      kernel-module-xen-wdt \
->      xen-base \
-> -    xen-qemu \
-> +    qemu \
->      "
->
->  LICENSE = "MIT"
-> --
-> 2.1.1
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+> SeaBIOS is disabled due to fetching issues as well as only being supported
+>> on
+>> x86. I have not worked out the issues around this yet. I am querying as to
+>> whether supporting it is desired, if so should it be via the xen build
+>> system
+>> or as a seperate recipe?
+>>
+>>
++1 to breaking it out as a separate recipe, but it is important for us x86
+hvm users :)  If you'd like, I could attempt to port the recipe we use on
+openxt to meta-virtualization.
 
---001a11c3c96a764c98050e15a7d8
+
+> Thanks,
+>> Nathan
+>>
+>> Nathan Rossi (8):
+>>   xen: Fix and refactor common include
+>>   xen: Add Build and Target architecture mapping
+>>   xen: Move x86/arch specific components into RRECOMMENDS
+>>   xen: Fix up architecture specific steps
+>>   xen: Add aarch64 as compatible host
+>>   xen-*image-minimal: Setup conditional based on MACHINE_FEATURES
+>>   xen: Update recipe to 4.5.0
+>>   xen-image-minimal: Install qemu instead of xen-qemu
+>>
+>>  recipes-extended/images/xen-guest-image-minimal.bb |   2 +-
+>>  recipes-extended/images/xen-image-minimal.bb       |   6 +-
+>>  ...lask-avoid-installing-policy-file-as-boot.patch |  26 -----
+>>  recipes-extended/xen/xen-arch.inc                  |  18 ++++
+>>  recipes-extended/xen/xen.inc                       | 113
+>> +++++++++++++++++----
+>>  recipes-extended/xen/xen_4.3.1.bb                  |  24 -----
+>>  recipes-extended/xen/xen_4.5.0.bb                  |  36 +++++++
+>>  7 files changed, 150 insertions(+), 75 deletions(-)
+>>  delete mode 100644
+>> recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
+>>  create mode 100644 recipes-extended/xen/xen-arch.inc
+>>  delete mode 100644 recipes-extended/xen/xen_4.3.1.bb
+>>  create mode 100644 recipes-extended/xen/xen_4.5.0.bb
+>>
+>> --
+>> 2.1.1
+>>
+>> --
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>
+>
+>
+I did some really basic testing of xen-image-minimal. I built against
+master on a x86-64 host for an intel x86-64 target.
+
+For my build, I had to set TUNE_CCARGS="" for xen as the -mno-sse flag
+required in xen/arch/x86/Rules.mk was conflicting with the standard tune
+args.  I'm not sure the most appropriate way to do this, but that's how I
+worked around it.  Any ideas on a better way to handle this?
+
+Without addressing seabios, I couldn't do much to validate running guests,
+but otherwise it seem to run fine. We'll have to figure out something here.
+
+Nice work!
+
+Cheers,
+-Chris
+
+--089e0160b420aa10aa050e15b7dc
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div><div><div class=3D"gmail_extra"><div class=3D"gma=
-il_quote">On Thu, Jan 29, 2015 at 10:31 PM, Nathan Rossi <span dir=3D"ltr">=
-&lt;<a href=3D"mailto:nathan.rossi@xilinx.com" target=3D"_blank">nathan.ros=
-si@xilinx.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">* Ins=
-tall QEMU from the distro as opposed to a specific xen-qemu setup<br></bloc=
-kquote><div><br></div><div>Missing sign-off, otherwise LGTM<br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">
----<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Jan 29, 2015 at 11:44 PM, Chris Patterson <span dir=3D"ltr">&lt=
+;<a href=3D"mailto:cjp256@gmail.com" target=3D"_blank">cjp256@gmail.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><di=
+v dir=3D"ltr">Nice! :) =C2=A0I&#39;ll try to take this for a test drive thi=
+s weekend and provide some feedback.</div><div class=3D""><div class=3D"h5"=
+><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, Jan 29, =
+2015 at 10:31 PM, Nathan Rossi <span dir=3D"ltr">&lt;<a href=3D"mailto:nath=
+an.rossi@xilinx.com" target=3D"_blank">nathan.rossi@xilinx.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This patch s=
+eries updates the Xen recipes to use version 4.5.0 as well as<br>
+refactoring and adding support for AArch64.<br>
+<br>
+The first 6 patches of this series are relatively trivial changes: adding<b=
+r>
+additional files to packages, updating dependencies and adding support for<=
+br>
+additional architectures ontop of x86-64. The most important change is the<=
+br>
+moving of some x86 of the packages from xen-base RDEPENDS to RRECOMMENDS.<b=
+r>
+<br>
+Patches 7 and 8 are the reason for this set being a RFC instead of just a p=
+atch<br>
+set, I am after feedback regarding the changes I have made for these patche=
+s.<br>
+In these two patches I disabled the building of xen-qemu and seabios from<b=
+r>
+within the xen build system. There are a number of issues in wrapping the x=
+en<br>
+build system within OE (including source fetching and cross building).<br>
+<br></blockquote></div></div></div></div></blockquote><div>=C2=A0</div><div=
+>+1 with this approach. I&#39;m sure that the qemu rev included with the xe=
+n=20
+release is better tested and has some appropriate patches for xen=20
+users.=C2=A0 However, the oe-core qemu recipe is in much better shape.=C2=
+=A0=20
+Someone could break it out into its own recipe, if so desired.<br>=C2=A0<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D""><d=
+iv class=3D"h5"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">
+Instead of building qemu from within xen, I have configured the qemu which =
+is<br>
+part of oe-core to build with xen support (PACKAGECONFIG_append =3D &quot;x=
+en&quot;). Since<br>
+xen support is available in mainline qemu this allows for easier support of=
+ the<br>
+xen device emulation via qemu. The PACKAGECONFIG option in oe-core does nee=
+d to<br>
+be updated to point to the correct depends (which is seperate to this patch=
+<br>
+set).<br>
+<br></blockquote></div></div></div></div></blockquote><div>=C2=A0</div><div=
+>Agreed, maybe document in README? In my local.conf, I added:<br>PACKAGECON=
+FIG_append_pn-qemu =3D &quot; xen &quot;<br>=C2=A0<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex"><div class=3D""><div class=3D"h5"><div c=
+lass=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+SeaBIOS is disabled due to fetching issues as well as only being supported =
+on<br>
+x86. I have not worked out the issues around this yet. I am querying as to<=
+br>
+whether supporting it is desired, if so should it be via the xen build syst=
+em<br>
+or as a seperate recipe?<br>
+<br></blockquote></div></div></div></div></blockquote><div><span class=3D"i=
+m"><br></span>+1 to breaking it out as a separate recipe,=20
+but it is important for us x86 hvm users :)=C2=A0 If you&#39;d like, I coul=
+d=20
+attempt to port the recipe we use on openxt to meta-virtualization.<br>=C2=
+=A0<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div class=
+=3D""><div class=3D"h5"><div class=3D"gmail_extra"><div class=3D"gmail_quot=
+e"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex">
+Thanks,<br>
+Nathan<br>
+<br>
+Nathan Rossi (8):<br>
+=C2=A0 xen: Fix and refactor common include<br>
+=C2=A0 xen: Add Build and Target architecture mapping<br>
+=C2=A0 xen: Move x86/arch specific components into RRECOMMENDS<br>
+=C2=A0 xen: Fix up architecture specific steps<br>
+=C2=A0 xen: Add aarch64 as compatible host<br>
+=C2=A0 xen-*image-minimal: Setup conditional based on MACHINE_FEATURES<br>
+=C2=A0 xen: Update recipe to 4.5.0<br>
+=C2=A0 xen-image-minimal: Install qemu instead of xen-qemu<br>
+<br>
+=C2=A0recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.bb"=
+ target=3D"_blank">xen-guest-image-minimal.bb</a> |=C2=A0 =C2=A02 +-<br>
 =C2=A0recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
-t=3D"_blank">xen-image-minimal.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/recipes-extended/images/<a href=3D"http://xen-image-minimal.bb=
-" target=3D"_blank">xen-image-minimal.bb</a> b/recipes-extended/images/<a h=
-ref=3D"http://xen-image-minimal.bb" target=3D"_blank">xen-image-minimal.bb<=
-/a><br>
-index aed0526..26b6d06 100644<br>
---- a/recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
-t=3D"_blank">xen-image-minimal.bb</a><br>
-+++ b/recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
-t=3D"_blank">xen-image-minimal.bb</a><br>
-@@ -13,7 +13,7 @@ IMAGE_INSTALL +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;MACHINE_FEATURES&#39;, &#39;p=
-ci&#39;, &#39;kernel-module-xen-pciback&#39;, &#39;&#39;, d)} \<br>
-=C2=A0 =C2=A0 =C2=A0kernel-module-xen-wdt \<br>
-=C2=A0 =C2=A0 =C2=A0xen-base \<br>
--=C2=A0 =C2=A0 xen-qemu \<br>
-+=C2=A0 =C2=A0 qemu \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0LICENSE =3D &quot;MIT&quot;<br>
-<span><font color=3D"#888888">--<br>
+t=3D"_blank">xen-image-minimal.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
+=A06 +-<br>
+=C2=A0...lask-avoid-installing-policy-file-as-boot.patch |=C2=A0 26 -----<b=
+r>
+=C2=A0recipes-extended/xen/xen-arch.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 18 ++++<br>
+=C2=A0recipes-extended/xen/xen.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 113 +++++++++++++++++----<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.3.1.bb" target=3D"_blank=
+">xen_4.3.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 24 -----<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb" target=3D"_blank=
+">xen_4.5.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 36 +++++++<br>
+=C2=A07 files changed, 150 insertions(+), 75 deletions(-)<br>
+=C2=A0delete mode 100644 recipes-extended/xen/files/flask-avoid-installing-=
+policy-file-as-boot.patch<br>
+=C2=A0create mode 100644 recipes-extended/xen/xen-arch.inc<br>
+=C2=A0delete mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.3.1.b=
+b" target=3D"_blank">xen_4.3.1.bb</a><br>
+=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.5.0.b=
+b" target=3D"_blank">xen_4.5.0.bb</a><br>
+<span><font color=3D"#888888"><br>
+--<br>
 2.1.1<br>
 <br>
 --<br>
@@ -156,6 +322,21 @@ eta-virtualization@yoctoproject.org</a><br>
 <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" tar=
 get=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization<=
 /a><br>
-</font></span></blockquote></div><br></div></div></div></div>
+</font></span></blockquote></div><br></div></div></div></blockquote><div><b=
+r><div>I did some really basic testing of xen-image-minimal. I built agains=
+t master on a x86-64 host for an intel x86-64 target.=C2=A0 <br><br><div>Fo=
+r
+ my build, I had to set TUNE_CCARGS=3D&quot;&quot; for xen as the -mno-sse =
+flag=20
+required in xen/arch/x86/Rules.mk was conflicting with the standard tune
+ args.=C2=A0 I&#39;m not sure the most appropriate way to do this, but that=
+&#39;s how
+ I worked around it.=C2=A0 Any ideas on a better way to handle this?<br><br=
+>Without
+ addressing seabios, I couldn&#39;t do much to validate running guests, but=
+=20
+otherwise it seem to run fine. We&#39;ll have to figure out something here.=
+<br></div></div><br>Nice work!<br><br>Cheers,<br>-Chris <br></div></div><br=
+></div></div>
 
---001a11c3c96a764c98050e15a7d8--
+--089e0160b420aa10aa050e15b7dc--
