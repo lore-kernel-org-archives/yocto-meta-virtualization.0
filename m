@@ -1,38 +1,57 @@
-Return-Path: <amy.fong@windriver.com>
+Return-Path: <cjp256@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 31280E0086F; Fri, 30 Jan 2015 09:36:34 -0800 (PST)
+	id C1C08E00717; Sun,  1 Feb 2015 23:11:10 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (cjp256[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC284E002F9
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.215.42 listed in list.dnswl.org]
+Received: from mail-la0-f42.google.com (mail-la0-f42.google.com
+	[209.85.215.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36446E005A9
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Jan 2015 09:36:32 -0800 (PST)
-Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t0UHaVe0014066
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO)
+	Sun,  1 Feb 2015 23:10:52 -0800 (PST)
+Received: by mail-la0-f42.google.com with SMTP id ms9so37714537lab.1
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Jan 2015 09:36:32 -0800 (PST)
-Received: from afong by yow-dellw-af with local (Exim 4.84)
-	(envelope-from <amy.fong@windriver.com>) id 1YHFUT-0002Qi-Lc
-	for meta-virtualization@yoctoproject.org;
-	Fri, 30 Jan 2015 12:36:21 -0500
-Date: Fri, 30 Jan 2015 12:36:21 -0500
-From: Amy Fong <amy.fong@windriver.com>
-To: meta-virtualization@yoctoproject.org
-Message-ID: <20150130173621.GB9299@windriver.com>
-References: <20150130173537.GA9113@windriver.com>
+	Sun, 01 Feb 2015 23:10:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=wIb/CyrbW91DfHKRsUYjgsCOgvV78ipW2pHSmn74EHQ=;
+	b=gLoLie1vIQdQLz9xkZMnDJJGmIKZCMN0IejDth5lt0PoQtFeHl7JOJIYSPotHYa4U8
+	mJd7HaIrqabJC0c3azYYamyRCMd5RGAYbtM+cClOllq/QvPF81RfCKLGs3zo9tBnmwnw
+	lotAVSwpgfveiM4mP6fL2u85zgbGrPDsDA/fIgvefjfSaroQ+Kp6jvlB2MEac3S23giS
+	ken/K3nLEE+wd3FZyTHscj4sYBfvpPz6iuHs7ZyLJMn2f1SITAugjIy8Vy2kL5qqcQFn
+	tD6vsdHFKr3n9Snaxm4vcf09fQPEbhZA75uiDc5wXXH892CKEcgR6dLWp46wPjjrGP8F
+	3rAg==
 MIME-Version: 1.0
-In-Reply-To: <20150130173537.GA9113@windriver.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [PATCH 2/2] openvswitch restructure recipes
+X-Received: by 10.112.184.198 with SMTP id ew6mr17749865lbc.71.1422861050201; 
+	Sun, 01 Feb 2015 23:10:50 -0800 (PST)
+Received: by 10.114.182.115 with HTTP; Sun, 1 Feb 2015 23:10:50 -0800 (PST)
+In-Reply-To: <a7ba7b2cdf844220a4a6adfd0e685199@BL2FFO11FD026.protection.gbl>
+References: <1422588708-17225-1-git-send-email-nathan.rossi@xilinx.com>
+	<a7ba7b2cdf844220a4a6adfd0e685199@BL2FFO11FD026.protection.gbl>
+Date: Mon, 2 Feb 2015 02:10:50 -0500
+Message-ID: <CABZSBQfG7Q9F17e1ZoM7KP-eGGGxbog9VEzTvmhNgNj2wRRPwQ@mail.gmail.com>
+From: Chris Patterson <cjp256@gmail.com>
+To: Nathan Rossi <nathan.rossi@xilinx.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [RFC 8/8] xen-image-minimal: Install qemu instead of xen-qemu
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,582 +64,98 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Jan 2015 17:36:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Feb 2015 07:11:10 -0000
+Content-Type: multipart/alternative; boundary=001a11c3c96a764c98050e15a7d8
 
-From fba310bc395a45747d5f40daf6784ea52820ffe0 Mon Sep 17 00:00:00 2001
-From: Amy Fong <amy.fong@windriver.com>
-Date: Thu, 29 Jan 2015 13:28:08 -0500
-Subject: [PATCH 2/2] openvswitch restructure recipes
+--001a11c3c96a764c98050e15a7d8
+Content-Type: text/plain; charset=UTF-8
 
-Add openvswitch.inc, removing common parts out of openvswitch*.bb
+On Thu, Jan 29, 2015 at 10:31 PM, Nathan Rossi <nathan.rossi@xilinx.com>
+wrote:
 
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> * Install QEMU from the distro as opposed to a specific xen-qemu setup
+>
 
-cleanup
-
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
----
- recipes-networking/openvswitch/openvswitch.inc     | 127 +++++++++++++++++++++
- .../openvswitch/openvswitch_1.10.0.bb              | 110 +-----------------
- .../openvswitch/openvswitch_2.1.3.bb               | 119 ++-----------------
- recipes-networking/openvswitch/openvswitch_git.bb  | 115 ++-----------------
- 4 files changed, 151 insertions(+), 320 deletions(-)
- create mode 100644 recipes-networking/openvswitch/openvswitch.inc
-
-diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-new file mode 100644
-index 0000000..ed97920
---- /dev/null
-+++ b/recipes-networking/openvswitch/openvswitch.inc
-@@ -0,0 +1,127 @@
-+SUMMARY = "OpenvSwitch"
-+DESCRIPTION = "\
-+	Open vSwitch is a production quality, multilayer virtual switch \
-+	licensed under the open source Apache 2.0 license. It is designed \
-+	to enable massive network automation through programmatic extension, \
-+	while still supporting standard management interfaces and protocols \
-+	(e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag) \
-+	"
-+
-+HOMEPAGE = "http://openvswitch.org/"
-+SECTION = "networking"
-+LICENSE = "Apache-2"
-+
-+DEPENDS += "bridge-utils openssl python perl"
-+
-+RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
-+	python perl perl-module-strict ${PN}-switch ${PN}-controller"
-+RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
-+RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
-+RDEPENDS_${PN}-pki = "${PN}"
-+RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
-+
-+# Some installers will fail because of an install order based on
-+# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
-+# queued for install later.
-+RDEPENDS_${PN} += "sed gawk grep"
-+
-+SRC_URI = "\
-+	file://openvswitch-switch \
-+	file://openvswitch-switch-setup \
-+	file://openvswitch-controller \
-+	file://openvswitch-controller-setup \
-+	file://openvswitch-add-target-python-handling.patch \
-+	file://openvswitch-add-target-perl-handling.patch \
-+	"
-+
-+EXTRA_OECONF += "\
-+	TARGET_PYTHON=${bindir}/python \
-+	TARGET_PERL=${bindir}/perl \
-+	"
-+
-+# Don't compile kernel modules by default since it heavily depends on
-+# kernel version. Use the in-kernel module for now.
-+# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
-+# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
-+
-+ALLOW_EMPTY_${PN}-pki = "1"
-+PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
-+
-+FILES_${PN}-controller = "\
-+	${sysconfdir}/init.d/openvswitch-controller \
-+	${sysconfdir}/default/openvswitch-controller \
-+	${sysconfdir}/openvswitch-controller \
-+	${bindir}/ovs-controller \
-+	"
-+
-+FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
-+
-+FILES_${PN}-switch = "\
-+	${sysconfdir}/init.d/openvswitch-switch \
-+	${sysconfdir}/default/openvswitch-switch \
-+	"
-+
-+# silence a warning
-+FILES_${PN} += "${datadir}/ovsdbmonitor"
-+FILES_${PN} += "/run"
-+
-+inherit autotools update-rc.d
-+
-+INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
-+INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
-+INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
-+
-+INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
-+INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
-+
-+do_install_append() {
-+	install -d ${D}/${sysconfdir}/default/
-+	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
-+	install -d ${D}/${sysconfdir}/openvswitch-controller
-+	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
-+
-+	install -d ${D}/${sysconfdir}/init.d/
-+	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
-+	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
-+	true || rm -fr ${D}/${datadir}/${PN}/pki
-+
-+	install -d ${D}/${sysconfdir}/init.d/
-+
-+	oe_runmake modules_install INSTALL_MOD_PATH=${D}
-+}
-+
-+pkg_postinst_${PN}-pki () {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+	if test ! -d $D/${datadir}/${PN}/pki; then
-+		ovs-pki init --dir=$D/${datadir}/${PN}/pki
-+	fi
-+}
-+
-+pkg_postinst_${PN}-controller () {
-+	# can't do this offline
-+	if [ "x$D" != "x" ]; then
-+		exit 1
-+	fi
-+
-+	if test ! -d $D/${datadir}/${PN}/pki; then
-+		ovs-pki init --dir=$D/${datadir}/${PN}/pki
-+	fi
-+
-+	cd $D/${sysconfdir}/openvswitch-controller
-+	if ! test -e cacert.pem; then
-+		ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
-+	fi
-+	if ! test -e privkey.pem || ! test -e cert.pem; then
-+		oldumask=$(umask)
-+		umask 077
-+		ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
-+		mv tmp-privkey.pem privkey.pem
-+		mv tmp-cert.pem cert.pem
-+		mv tmp-req.pem req.pem
-+		chmod go+r cert.pem req.pem
-+		umask $oldumask
-+	fi
-+}
-diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-index 42d4bc4..85b2709 100644
---- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-+++ b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
-@@ -1,32 +1,11 @@
--SUMMARY = "OpenvSwitch"
--DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
--HOMEPAGE = "http://openvswitch.org/"
--SECTION = "networking"
--LICENSE = "Apache-2"
-+require openvswitch.inc
- 
--DEPENDS += "bridge-utils openssl python perl"
--
--RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
--	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
--RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
--RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
--RDEPENDS_${PN}-pki = "${PN}"
--RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
- RRECOMMENDS_${PN} += "kernel-module-openvswitch"
- 
--# Some installers will fail because of an install order based on
--# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
--# queued for install later.
--RDEPENDS_${PN} += "sed gawk grep"
- PR = "r4"
- 
--SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
--	file://openvswitch-switch \
--	file://openvswitch-switch-setup \
--	file://openvswitch-controller \
--	file://openvswitch-controller-setup \
--	file://openvswitch-add-target-python-handling.patch \
--	file://openvswitch-add-target-perl-handling.patch \
-+SRC_URI += "\
-+	http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
- 	file://configure-Only-link-against-libpcap-on-FreeBSD.patch \
- 	"
- 
-@@ -34,85 +13,4 @@ SRC_URI[md5sum] = "fe8b49efe9f86b57abab00166b971106"
- SRC_URI[sha256sum] = "803966c89d6a5de6d710a2cb4ed73ac8d8111a2c44b12b846dcef8e91ffab167"
- LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
- 
--# Don't compile kernel modules by default since it heavily depends on
--# kernel version. Use the in-kernel module for now.
--# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
--# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
--
--EXTRA_OECONF += "TARGET_PYTHON=${bindir}/python \
--                 TARGET_PERL=${bindir}/perl \
--                "
--
--ALLOW_EMPTY_${PN}-pki = "1"
--PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
--
--FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
--	${sysconfdir}/default/openvswitch-controller \
--	${sysconfdir}/openvswitch-controller \
--	${bindir}/ovs-controller"
--
--FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
--
--FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
--		   ${sysconfdir}/default/openvswitch-switch \
--		   "
--# silence a warning
--FILES_${PN} += "${datadir}/ovsdbmonitor"
--FILES_${PN} += "/run"
--
--inherit autotools update-rc.d pkgconfig
--
--INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
--INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
--INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
--
--INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
--INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
--
--do_install_append() {
--	install -d ${D}/${sysconfdir}/default/
--	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
--	install -d ${D}/${sysconfdir}/openvswitch-controller
--	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
--
--	install -d ${D}/${sysconfdir}/init.d/
--	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
--	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
--	true || rm -fr ${D}/${datadir}/${PN}/pki
--}
--
--pkg_postinst_${PN}-pki () {
--	# can't do this offline
--        if [ "x$D" != "x" ]; then
--                exit 1
--        fi
--	if test ! -d $D/${datadir}/${PN}/pki; then
--            ovs-pki init --dir=$D/${datadir}/${PN}/pki
--        fi
--}
--
--pkg_postinst_${PN}-controller () {
--        # can't do this offline
--        if [ "x$D" != "x" ]; then
--                exit 1
--        fi
--
--    if test ! -d $D/${datadir}/${PN}/pki; then
--        ovs-pki init --dir=$D/${datadir}/${PN}/pki
--    fi
--
--	cd $D/${sysconfdir}/openvswitch-controller
--        if ! test -e cacert.pem; then
--            ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
--        fi
--        if ! test -e privkey.pem || ! test -e cert.pem; then
--            oldumask=$(umask)
--            umask 077
--            ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
--            mv tmp-privkey.pem privkey.pem
--            mv tmp-cert.pem cert.pem
--            mv tmp-req.pem req.pem
--            chmod go+r cert.pem req.pem
--            umask $oldumask
--        fi
--}
-+inherit pkgconfig
-diff --git a/recipes-networking/openvswitch/openvswitch_2.1.3.bb b/recipes-networking/openvswitch/openvswitch_2.1.3.bb
-index c3a29aa..dc6c7e3 100644
---- a/recipes-networking/openvswitch/openvswitch_2.1.3.bb
-+++ b/recipes-networking/openvswitch/openvswitch_2.1.3.bb
-@@ -1,35 +1,15 @@
--SUMMARY = "OpenvSwitch"
--DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
--HOMEPAGE = "http://openvswitch.org/"
--SECTION = "networking"
--LICENSE = "Apache-2"
-+require openvswitch.inc
- 
--DEPENDS += "bridge-utils openssl python perl"
--
--RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
--	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
--RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
--RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
--RDEPENDS_${PN}-pki = "${PN}"
--RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
- RRECOMMENDS_${PN} += "kernel-module-openvswitch"
- 
--RDEPENDS_${PN}-ptest += "python-logging python-syslog python-argparse python-io \
--                     python-fcntl python-shell python-lang python-xml python-math \
--                     python-datetime python-netclient python sed"
--
--# Some installers will fail because of an install order based on
--# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
--# queued for install later.
--RDEPENDS_${PN} += "sed gawk grep"
-+RDEPENDS_${PN}-ptest += "\
-+	python-logging python-syslog python-argparse python-io \
-+	python-fcntl python-shell python-lang python-xml python-math \
-+	python-datetime python-netclient python sed \
-+	"
- 
--SRC_URI = "http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
--	file://openvswitch-switch \
--	file://openvswitch-switch-setup \
--	file://openvswitch-controller \
--	file://openvswitch-controller-setup \
--	file://openvswitch-add-target-python-handling.patch \
--	file://openvswitch-add-target-perl-handling.patch \
-+SRC_URI += "\
-+	http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
- 	file://openvswitch-add-more-target-python-substitutions.patch \
- 	file://openvswitch-add-ptest.patch \
- 	file://run-ptest \
-@@ -40,91 +20,10 @@ SRC_URI[sha256sum] = "43a2562fe5e8e48e997bfdb04691ffaaaefe73069b5699654538bf2f16
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e03b0d9c4115c44518594e5618e653f8"
- 
--# Don't compile kernel modules by default since it heavily depends on
--# kernel version. Use the in-kernel module for now.
--# distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
--# EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
--
--EXTRA_OECONF += "TARGET_PYTHON=${bindir}/python \
--                 TARGET_PERL=${bindir}/perl \
--                "
--
--ALLOW_EMPTY_${PN}-pki = "1"
--PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
--
--FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
--	${sysconfdir}/default/openvswitch-controller \
--	${sysconfdir}/openvswitch-controller \
--	${bindir}/ovs-controller"
--
--FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
--
--FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
--		   ${sysconfdir}/default/openvswitch-switch \
--		   "
--# silence a warning
--FILES_${PN} += "${datadir}/ovsdbmonitor"
--FILES_${PN} += "/run"
--
--inherit autotools update-rc.d ptest
-+inherit ptest
- 
- EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
- 
- do_install_ptest() {
- 	oe_runmake test-install
- }
--
--INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
--INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
--INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
--
--INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
--INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
--
--do_install_append() {
--	install -d ${D}/${sysconfdir}/default/
--	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
--	install -d ${D}/${sysconfdir}/openvswitch-controller
--	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
--
--	install -d ${D}/${sysconfdir}/init.d/
--	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
--	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
--	true || rm -fr ${D}/${datadir}/${PN}/pki
--}
--
--pkg_postinst_${PN}-pki () {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--	if test ! -d $D/${datadir}/${PN}/pki; then
--		ovs-pki init --dir=$D/${datadir}/${PN}/pki
--	fi
--}
--
--pkg_postinst_${PN}-controller () {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--
--	if test ! -d $D/${datadir}/${PN}/pki; then
--		ovs-pki init --dir=$D/${datadir}/${PN}/pki
--	fi
--
--	cd $D/${sysconfdir}/openvswitch-controller
--	if ! test -e cacert.pem; then
--		ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
--	fi
--	if ! test -e privkey.pem || ! test -e cert.pem; then
--		oldumask=$(umask)
--		umask 077
--		ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
--		mv tmp-privkey.pem privkey.pem
--		mv tmp-cert.pem cert.pem
--		mv tmp-req.pem req.pem
--		chmod go+r cert.pem req.pem
--		umask $oldumask
--	fi
--}
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index 17bebae..5580915 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -1,27 +1,12 @@
--SUMMARY = "OpenvSwitch"
--DESCRIPTION = "Open vSwitch is a production quality, multilayer virtual switch licensed under the open source Apache 2.0 license. It is designed to enable massive network automation through programmatic extension, while still supporting standard management interfaces and protocols (e.g. NetFlow, sFlow, SPAN, RSPAN, CLI, LACP, 802.1ag)"
--HOMEPAGE = "http://openvswitch.org/"
--SECTION = "networking"
--LICENSE = "Apache-2 & GPLv2 & PSF"
-+require openvswitch.inc
- 
--DEPENDS += "bridge-utils openssl python perl virtual/kernel"
-+DEPENDS += "virtual/kernel"
- 
--RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
--	       python perl perl-module-strict ${PN}-switch ${PN}-controller"
--RDEPENDS_${PN}-controller = "${PN} lsb ${PN}-pki"
--RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
--RDEPENDS_${PN}-pki = "${PN}"
--RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
--RRECOMMENDS_${PN} += "kernel-module-openvswitch"
--
--RDEPENDS_${PN}-ptest += "python-logging python-syslog python-argparse python-io \
--                     python-fcntl python-shell python-lang python-xml python-math \
--                     python-datetime python-netclient python sed"
--
--# Some installers will fail because of an install order based on
--# rdeps.  E.g. ovs-pki calls sed in the postinstall.  sed may be
--# queued for install later.
--RDEPENDS_${PN} += "sed gawk grep"
-+RDEPENDS_${PN}-ptest += "\
-+	python-logging python-syslog python-argparse python-io \
-+	python-fcntl python-shell python-lang python-xml python-math \
-+	python-datetime python-netclient python sed \
-+	"
- 
- S = "${WORKDIR}/git"
- PV = "2.3.90+${SRCREV}"
-@@ -29,12 +14,8 @@ PV = "2.3.90+${SRCREV}"
- FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
- 
- SRCREV = "1667bb34988358aaf1c92d0d21fad4b1c8698780"
--SRC_URI = "git://github.com/openvswitch/ovs.git;protocol=git \
--	file://openvswitch-switch \
--	file://openvswitch-switch-setup \
--	file://openvswitch-controller \
--	file://openvswitch-controller-setup \
--	file://openvswitch-add-target-python-handling.patch \
-+SRC_URI += "\
-+	git://github.com/openvswitch/ovs.git;protocol=git \
- 	file://openvswitch-add-more-target-python-substitutions.patch \
- 	file://openvswitch-add-ptest-${SRCREV}.patch \
- 	file://run-ptest \
-@@ -51,31 +32,12 @@ PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}/opt/dpdk/${TARGET_ARCH}
- # Don't compile kernel modules by default since it heavily depends on
- # kernel version. Use the in-kernel module for now.
- # distro layers can enable with EXTRA_OECONF_pn_openvswitch += ""
--EXTRA_OECONF = "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
--
--EXTRA_OECONF += "TARGET_PYTHON=${bindir}/python \
--                 TARGET_PERL=${bindir}/perl \
--                "
--
--ALLOW_EMPTY_${PN}-pki = "1"
--PACKAGES =+ "${PN}-controller ${PN}-switch ${PN}-brcompat ${PN}-pki"
-+EXTRA_OECONF += "--with-linux=${STAGING_KERNEL_DIR} KARCH=${TARGET_ARCH}"
- 
--FILES_${PN}-controller = "${sysconfdir}/init.d/openvswitch-controller \
--	${sysconfdir}/default/openvswitch-controller \
--	${sysconfdir}/openvswitch-controller \
--	${bindir}/ovs-controller"
--
--FILES_${PN}-brcompat = "${sbindir}/ovs-brcompatd"
--
--FILES_${PN}-switch = "${sysconfdir}/init.d/openvswitch-switch \
--		   ${sysconfdir}/default/openvswitch-switch \
--		   "
- # silence a warning
--FILES_${PN} += "${datadir}/ovsdbmonitor"
--FILES_${PN} += "/run"
- FILES_${PN} += "/lib/modules"
- 
--inherit autotools update-rc.d ptest
-+inherit ptest
- 
- EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
- 
-@@ -83,61 +45,6 @@ do_install_ptest() {
- 	oe_runmake test-install
- }
- 
--INITSCRIPT_PACKAGES = "${PN}-switch ${PN}-controller"
--INITSCRIPT_NAME_${PN}-switch = "openvswitch-switch"
--INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
--
--INITSCRIPT_NAME_${PN}-controller = "openvswitch-controller"
--INITSCRIPT_PARAMS_${PN}-controller = "defaults 72"
--
- do_install_append() {
--	install -d ${D}/${sysconfdir}/default/
--	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
--	install -d ${D}/${sysconfdir}/openvswitch-controller
--	install -m 660 ${WORKDIR}/openvswitch-controller-setup ${D}/${sysconfdir}/default/openvswitch-controller
--
--	install -d ${D}/${sysconfdir}/init.d/
--	install -m 755 ${WORKDIR}/openvswitch-controller ${D}/${sysconfdir}/init.d/openvswitch-controller
--	install -m 755 ${WORKDIR}/openvswitch-switch ${D}/${sysconfdir}/init.d/openvswitch-switch
--	true || rm -fr ${D}/${datadir}/${PN}/pki
--
--	install -d ${D}/${sysconfdir}/init.d/
--
- 	oe_runmake modules_install INSTALL_MOD_PATH=${D}
- }
--
--pkg_postinst_${PN}-pki () {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--	if test ! -d $D/${datadir}/${PN}/pki; then
--		ovs-pki init --dir=$D/${datadir}/${PN}/pki
--	fi
--}
--
--pkg_postinst_${PN}-controller () {
--	# can't do this offline
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--
--	if test ! -d $D/${datadir}/${PN}/pki; then
--		ovs-pki init --dir=$D/${datadir}/${PN}/pki
--	fi
--
--	cd $D/${sysconfdir}/openvswitch-controller
--	if ! test -e cacert.pem; then
--		ln -s $D/${datadir}/${PN}/pki/switchca/cacert.pem cacert.pem
--	fi
--	if ! test -e privkey.pem || ! test -e cert.pem; then
--		oldumask=$(umask)
--		umask 077
--		ovs-pki req+sign --dir=$D/${datadir}/${PN}/pki tmp controller >/dev/null
--		mv tmp-privkey.pem privkey.pem
--		mv tmp-cert.pem cert.pem
--		mv tmp-req.pem req.pem
--		chmod go+r cert.pem req.pem
--		umask $oldumask
--	fi
--}
--- 
-2.1.4
+Missing sign-off, otherwise LGTM
 
 
+> ---
+>  recipes-extended/images/xen-image-minimal.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-extended/images/xen-image-minimal.bb
+> b/recipes-extended/images/xen-image-minimal.bb
+> index aed0526..26b6d06 100644
+> --- a/recipes-extended/images/xen-image-minimal.bb
+> +++ b/recipes-extended/images/xen-image-minimal.bb
+> @@ -13,7 +13,7 @@ IMAGE_INSTALL += " \
+>      ${@bb.utils.contains('MACHINE_FEATURES', 'pci',
+> 'kernel-module-xen-pciback', '', d)} \
+>      kernel-module-xen-wdt \
+>      xen-base \
+> -    xen-qemu \
+> +    qemu \
+>      "
+>
+>  LICENSE = "MIT"
+> --
+> 2.1.1
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+--001a11c3c96a764c98050e15a7d8
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><br><div><div><div class=3D"gmail_extra"><div class=3D"gma=
+il_quote">On Thu, Jan 29, 2015 at 10:31 PM, Nathan Rossi <span dir=3D"ltr">=
+&lt;<a href=3D"mailto:nathan.rossi@xilinx.com" target=3D"_blank">nathan.ros=
+si@xilinx.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">* Ins=
+tall QEMU from the distro as opposed to a specific xen-qemu setup<br></bloc=
+kquote><div><br></div><div>Missing sign-off, otherwise LGTM<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">
+---<br>
+=C2=A0recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
+t=3D"_blank">xen-image-minimal.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/recipes-extended/images/<a href=3D"http://xen-image-minimal.bb=
+" target=3D"_blank">xen-image-minimal.bb</a> b/recipes-extended/images/<a h=
+ref=3D"http://xen-image-minimal.bb" target=3D"_blank">xen-image-minimal.bb<=
+/a><br>
+index aed0526..26b6d06 100644<br>
+--- a/recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
+t=3D"_blank">xen-image-minimal.bb</a><br>
++++ b/recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
+t=3D"_blank">xen-image-minimal.bb</a><br>
+@@ -13,7 +13,7 @@ IMAGE_INSTALL +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;MACHINE_FEATURES&#39;, &#39;p=
+ci&#39;, &#39;kernel-module-xen-pciback&#39;, &#39;&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0kernel-module-xen-wdt \<br>
+=C2=A0 =C2=A0 =C2=A0xen-base \<br>
+-=C2=A0 =C2=A0 xen-qemu \<br>
++=C2=A0 =C2=A0 qemu \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+<span><font color=3D"#888888">--<br>
+2.1.1<br>
+<br>
+--<br>
+_______________________________________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_blank">m=
+eta-virtualization@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" tar=
+get=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization<=
+/a><br>
+</font></span></blockquote></div><br></div></div></div></div>
+
+--001a11c3c96a764c98050e15a7d8--
