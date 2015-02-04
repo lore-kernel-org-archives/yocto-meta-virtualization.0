@@ -1,56 +1,81 @@
-Return-Path: <cjp256@gmail.com>
+Return-Path: <nathan.rossi@xilinx.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AC257E0086E; Tue,  3 Feb 2015 21:25:29 -0800 (PST)
+	id 8B90AE00985; Wed,  4 Feb 2015 01:11:50 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (cjp256[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.48 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [157.56.110.80 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-la0-f48.google.com (mail-la0-f48.google.com
-	[209.85.215.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 04197E00828
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0080.outbound.protection.outlook.com [157.56.110.80])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C7E77E0097F
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Feb 2015 21:25:24 -0800 (PST)
-Received: by mail-la0-f48.google.com with SMTP id pv20so56043439lab.7
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Feb 2015 21:25:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=n+v+bdcWGOPs1Hmfw0+qSVAp0TBFJrSqHSl0uocuq4Q=;
-	b=eNjR8bnBYN3HhYj0CzZ2bBb87G1AC/iyRXorL1pfVTMa5MwhqGR+TrGesgPUe89KXn
-	ZaO3sN6KhkVicmtcTcuLKxL1Eq9RtkkrHOuyaXhJ65vFQHLVEomaCy6+dWgKnnsg9ziS
-	hu1LAZKkRRF2dvpS17sxWIZxQFLJfCM+B2d3QIhSnZFsdXFEA296wDsglIZ+L2d5jafj
-	i7V7gk9sTDVPFObKGNKDTdkJtLZxraR46yzFUSEGCvu6CdNvTkQ7ycwne38eJq85rjDL
-	S6robUxVeTJxfaOl87cFQuVTeMsSRT/ku6gJo70iEdMw1kwgd7ElC5SYR7gQH4IzvaTI
-	JXKA==
-MIME-Version: 1.0
-X-Received: by 10.152.5.72 with SMTP id q8mr10896588laq.57.1423027522084; Tue,
-	03 Feb 2015 21:25:22 -0800 (PST)
-Received: by 10.114.182.115 with HTTP; Tue, 3 Feb 2015 21:25:22 -0800 (PST)
-In-Reply-To: <CABZSBQcyJT093UnpZ4QDA4OQVNQFY8P+suWVTP2=ap4iysbiOQ@mail.gmail.com>
+	Wed,  4 Feb 2015 01:11:46 -0800 (PST)
+Received: from BN1AFFO11FD019.protection.gbl (10.58.52.31) by
+	BN1AFFO11HUB039.protection.gbl (10.58.52.150) with Microsoft SMTP
+	Server (TLS) id 15.1.75.11; Wed, 4 Feb 2015 09:11:44 +0000
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BN1AFFO11FD019.mail.protection.outlook.com (10.58.52.79) with Microsoft
+	SMTP Server (TLS) id 15.1.87.10 via Frontend Transport;
+	Wed, 4 Feb 2015 09:11:44 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <nathan.rossi@xilinx.com>)
+	id 1YIvwN-0005Pi-1C; Wed, 04 Feb 2015 01:08:07 -0800
+From: Nathan Rossi <nathan.rossi@xilinx.com>
+To: Chris Patterson <cjp256@gmail.com>
+Thread-Topic: [meta-virtualization] [RFC 0/8] Update to Xen 4.5.0 and add
+	AArch64 support
+Thread-Index: AQHQPEeEOBwapyQ00kGZS8jz+0knUZzccVeAgAME9wCAAAD4AIAAqYIg
+Date: Wed, 4 Feb 2015 09:11:40 +0000
 References: <fa0c0be68aa042b6bede0c2f644a2c42@BN1BFFO11FD008.protection.gbl>
 	<CABZSBQfHtwWRJ62pW3XnAQRBX6HW06d3fqUDG8=zqNv5f+R5-w@mail.gmail.com>
 	<CABZSBQc4u6OArq-jaz=WJCQ06RVmv3q3Z=Mw016LDvkz=FfPxA@mail.gmail.com>
 	<CABZSBQcyJT093UnpZ4QDA4OQVNQFY8P+suWVTP2=ap4iysbiOQ@mail.gmail.com>
-Date: Wed, 4 Feb 2015 00:25:22 -0500
-Message-ID: <CABZSBQcVSi=C+_P+YLte93F6UfzB5k_=93QDxN434iw61NtoVA@mail.gmail.com>
-From: Chris Patterson <cjp256@gmail.com>
-To: Nathan Rossi <nathan.rossi@xilinx.com>
+	<CABZSBQcVSi=C+_P+YLte93F6UfzB5k_=93QDxN434iw61NtoVA@mail.gmail.com>
+In-Reply-To: <CABZSBQcVSi=C+_P+YLte93F6UfzB5k_=93QDxN434iw61NtoVA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.16.164.65]
+MIME-Version: 1.0
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21302.006
+X-TM-AS-User-Approved-Sender: Yes;Yes
+Message-ID: <4f5c5ef09adc4e219522de0788b5912d@BN1AFFO11FD019.protection.gbl>
+X-EOPAttributedMessage: 0
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=nathan.rossi@xilinx.com; yoctoproject.org;
+	dkim=none (message not signed) header.d=none;
+X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(377454003)(164054003)(24454002)(51704005)(110136001)(106466001)(106116001)(92726002)(87936001)(2656002)(33646002)(46102003)(1411001)(23676002)(93886004)(50466002)(19580395003)(2950100001)(104016003)(74316001)(62966003)(77156002)(15975445007)(102836002)(6806004)(54356999)(47776003)(53416004)(92566002)(19580405001)(50986999)(76176999)(86362001)(107986001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1AFFO11HUB039;
+	H:xsj-pvapsmtpgw01; FPR:; SPF:None; MLV:sfv; LANG:en; 
+X-Microsoft-Antispam: UriScan:;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1AFFO11HUB039;
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
+	SRVR:BN1AFFO11HUB039; 
+X-Forefront-PRVS: 04772EA191
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1AFFO11HUB039; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Feb 2015 09:11:44.2073 (UTC)
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1AFFO11HUB039
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [RFC 0/8] Update to Xen 4.5.0 and add AArch64 support
@@ -66,348 +91,128 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Feb 2015 05:25:29 -0000
-Content-Type: multipart/alternative; boundary=089e01419c42f5a604050e3c69f0
+X-List-Received-Date: Wed, 04 Feb 2015 09:11:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---089e01419c42f5a604050e3c69f0
-Content-Type: text/plain; charset=UTF-8
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBDaHJpcyBQYXR0ZXJzb24gW21h
+aWx0bzpjanAyNTZAZ21haWwuY29tXQ0KPiBTZW50OiBXZWRuZXNkYXksIEZlYnJ1YXJ5IDA0LCAy
+MDE1IDM6MjUgUE0NCj4gVG86IE5hdGhhbiBSb3NzaQ0KPiBDYzogbWV0YS12aXJ0dWFsaXphdGlv
+bkB5b2N0b3Byb2plY3Qub3JnDQo+IFN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0g
+W1JGQyAwLzhdIFVwZGF0ZSB0byBYZW4gNC41LjAgYW5kIGFkZA0KPiBBQXJjaDY0IHN1cHBvcnQN
+Cj4gDQo+IA0KPiANCj4gT24gV2VkLCBGZWIgNCwgMjAxNSBhdCAxMjoyMSBBTSwgQ2hyaXMgUGF0
+dGVyc29uIDxjanAyNTZAZ21haWwuY29tPiB3cm90ZToNCj4gDQo+IA0KPiANCj4gDQo+IAlPbiBN
+b24sIEZlYiAyLCAyMDE1IGF0IDI6MTUgQU0sIENocmlzIFBhdHRlcnNvbiA8Y2pwMjU2QGdtYWls
+LmNvbT4NCj4gd3JvdGU6DQo+IA0KPiANCj4gDQo+IA0KPiAJCU9uIFRodSwgSmFuIDI5LCAyMDE1
+IGF0IDExOjQ0IFBNLCBDaHJpcyBQYXR0ZXJzb24NCj4gPGNqcDI1NkBnbWFpbC5jb20+IHdyb3Rl
+Og0KPiANCj4gDQo+IAkJCU5pY2UhIDopICBJJ2xsIHRyeSB0byB0YWtlIHRoaXMgZm9yIGEgdGVz
+dCBkcml2ZSB0aGlzDQo+IHdlZWtlbmQgYW5kIHByb3ZpZGUgc29tZSBmZWVkYmFjay4NCj4gDQo+
+IAkJCU9uIFRodSwgSmFuIDI5LCAyMDE1IGF0IDEwOjMxIFBNLCBOYXRoYW4gUm9zc2kNCj4gPG5h
+dGhhbi5yb3NzaUB4aWxpbnguY29tPiB3cm90ZToNCj4gDQo+IA0KPiAJCQkJVGhpcyBwYXRjaCBz
+ZXJpZXMgdXBkYXRlcyB0aGUgWGVuIHJlY2lwZXMgdG8gdXNlDQo+IHZlcnNpb24gNC41LjAgYXMg
+d2VsbCBhcw0KPiAJCQkJcmVmYWN0b3JpbmcgYW5kIGFkZGluZyBzdXBwb3J0IGZvciBBQXJjaDY0
+Lg0KPiANCj4gCQkJCVRoZSBmaXJzdCA2IHBhdGNoZXMgb2YgdGhpcyBzZXJpZXMgYXJlIHJlbGF0
+aXZlbHkNCj4gdHJpdmlhbCBjaGFuZ2VzOiBhZGRpbmcNCj4gCQkJCWFkZGl0aW9uYWwgZmlsZXMg
+dG8gcGFja2FnZXMsIHVwZGF0aW5nDQo+IGRlcGVuZGVuY2llcyBhbmQgYWRkaW5nIHN1cHBvcnQg
+Zm9yDQo+IAkJCQlhZGRpdGlvbmFsIGFyY2hpdGVjdHVyZXMgb250b3Agb2YgeDg2LTY0LiBUaGUg
+bW9zdA0KPiBpbXBvcnRhbnQgY2hhbmdlIGlzIHRoZQ0KPiAJCQkJbW92aW5nIG9mIHNvbWUgeDg2
+IG9mIHRoZSBwYWNrYWdlcyBmcm9tIHhlbi1iYXNlDQo+IFJERVBFTkRTIHRvIFJSRUNPTU1FTkRT
+Lg0KPiANCj4gCQkJCVBhdGNoZXMgNyBhbmQgOCBhcmUgdGhlIHJlYXNvbiBmb3IgdGhpcyBzZXQg
+YmVpbmcNCj4gYSBSRkMgaW5zdGVhZCBvZiBqdXN0IGEgcGF0Y2gNCj4gCQkJCXNldCwgSSBhbSBh
+ZnRlciBmZWVkYmFjayByZWdhcmRpbmcgdGhlIGNoYW5nZXMgSQ0KPiBoYXZlIG1hZGUgZm9yIHRo
+ZXNlIHBhdGNoZXMuDQo+IAkJCQlJbiB0aGVzZSB0d28gcGF0Y2hlcyBJIGRpc2FibGVkIHRoZSBi
+dWlsZGluZyBvZg0KPiB4ZW4tcWVtdSBhbmQgc2VhYmlvcyBmcm9tDQo+IAkJCQl3aXRoaW4gdGhl
+IHhlbiBidWlsZCBzeXN0ZW0uIFRoZXJlIGFyZSBhIG51bWJlciBvZg0KPiBpc3N1ZXMgaW4gd3Jh
+cHBpbmcgdGhlIHhlbg0KPiAJCQkJYnVpbGQgc3lzdGVtIHdpdGhpbiBPRSAoaW5jbHVkaW5nIHNv
+dXJjZSBmZXRjaGluZw0KPiBhbmQgY3Jvc3MgYnVpbGRpbmcpLg0KPiANCj4gDQo+IA0KPiANCj4g
+DQo+IAkJKzEgd2l0aCB0aGlzIGFwcHJvYWNoLiBJJ20gc3VyZSB0aGF0IHRoZSBxZW11IHJldiBp
+bmNsdWRlZA0KPiB3aXRoIHRoZSB4ZW4gcmVsZWFzZSBpcyBiZXR0ZXIgdGVzdGVkIGFuZCBoYXMg
+c29tZSBhcHByb3ByaWF0ZSBwYXRjaGVzIGZvcg0KPiB4ZW4gdXNlcnMuICBIb3dldmVyLCB0aGUg
+b2UtY29yZSBxZW11IHJlY2lwZSBpcyBpbiBtdWNoIGJldHRlciBzaGFwZS4NCj4gU29tZW9uZSBj
+b3VsZCBicmVhayBpdCBvdXQgaW50byBpdHMgb3duIHJlY2lwZSwgaWYgc28gZGVzaXJlZC4NCj4g
+DQo+IA0KPiANCj4gCQkJCUluc3RlYWQgb2YgYnVpbGRpbmcgcWVtdSBmcm9tIHdpdGhpbiB4ZW4s
+IEkgaGF2ZQ0KPiBjb25maWd1cmVkIHRoZSBxZW11IHdoaWNoIGlzDQo+IAkJCQlwYXJ0IG9mIG9l
+LWNvcmUgdG8gYnVpbGQgd2l0aCB4ZW4gc3VwcG9ydA0KPiAoUEFDS0FHRUNPTkZJR19hcHBlbmQg
+PSAieGVuIikuIFNpbmNlDQo+IAkJCQl4ZW4gc3VwcG9ydCBpcyBhdmFpbGFibGUgaW4gbWFpbmxp
+bmUgcWVtdSB0aGlzDQo+IGFsbG93cyBmb3IgZWFzaWVyIHN1cHBvcnQgb2YgdGhlDQo+IAkJCQl4
+ZW4gZGV2aWNlIGVtdWxhdGlvbiB2aWEgcWVtdS4gVGhlIFBBQ0tBR0VDT05GSUcNCj4gb3B0aW9u
+IGluIG9lLWNvcmUgZG9lcyBuZWVkIHRvDQo+IAkJCQliZSB1cGRhdGVkIHRvIHBvaW50IHRvIHRo
+ZSBjb3JyZWN0IGRlcGVuZHMgKHdoaWNoDQo+IGlzIHNlcGVyYXRlIHRvIHRoaXMgcGF0Y2gNCj4g
+CQkJCXNldCkuDQo+IA0KPiANCj4gDQo+IA0KPiANCj4gCQlBZ3JlZWQsIG1heWJlIGRvY3VtZW50
+IGluIFJFQURNRT8gSW4gbXkgbG9jYWwuY29uZiwgSSBhZGRlZDoNCj4gCQlQQUNLQUdFQ09ORklH
+X2FwcGVuZF9wbi1xZW11ID0gIiB4ZW4gIg0KPiANCj4gDQo+IA0KPiAJCQkJU2VhQklPUyBpcyBk
+aXNhYmxlZCBkdWUgdG8gZmV0Y2hpbmcgaXNzdWVzIGFzIHdlbGwNCj4gYXMgb25seSBiZWluZyBz
+dXBwb3J0ZWQgb24NCj4gCQkJCXg4Ni4gSSBoYXZlIG5vdCB3b3JrZWQgb3V0IHRoZSBpc3N1ZXMg
+YXJvdW5kIHRoaXMNCj4geWV0LiBJIGFtIHF1ZXJ5aW5nIGFzIHRvDQo+IAkJCQl3aGV0aGVyIHN1
+cHBvcnRpbmcgaXQgaXMgZGVzaXJlZCwgaWYgc28gc2hvdWxkIGl0DQo+IGJlIHZpYSB0aGUgeGVu
+IGJ1aWxkIHN5c3RlbQ0KPiAJCQkJb3IgYXMgYSBzZXBlcmF0ZSByZWNpcGU/DQo+IA0KPiANCj4g
+DQo+IA0KPiANCj4gCQkrMSB0byBicmVha2luZyBpdCBvdXQgYXMgYSBzZXBhcmF0ZSByZWNpcGUs
+IGJ1dCBpdCBpcw0KPiBpbXBvcnRhbnQgZm9yIHVzIHg4NiBodm0gdXNlcnMgOikgIElmIHlvdSdk
+IGxpa2UsIEkgY291bGQgYXR0ZW1wdCB0byBwb3J0DQo+IHRoZSByZWNpcGUgd2UgdXNlIG9uIG9w
+ZW54dCB0byBtZXRhLXZpcnR1YWxpemF0aW9uLg0KPiANCj4gDQo+IA0KPiANCj4gCUFjdHVhbGx5
+LCBpdCBzZWVtcyB0byBnbyBiZXlvbmQganVzdCB0aGUgcm9tIGJpbihzKSB3aXRoIGh2bWxvYWRl
+ci4NCj4gV2hhdCBhYm91dCBtYWtpbmcgaXQgYXJjaCBkZXBlbmRlbnQgZmVhdHVyZT8NCj4gDQo+
+IA0KPiANCj4gDQo+IE15IG1haWxpbmcgbGlzdCBmb28gaXMgd2VhayB0aGlzIHdlZWsuICBQbGVh
+c2UgaWdub3JlIHRoZSBhYm92ZSBjb21tZW50LCBJDQo+IGZvcmdvdCB0aGF0IHdhcyBpbiB0aGUg
+b2xkIGRyYWZ0LiA6KQ0KPiANCj4gDQo+IA0KPiANCj4gDQo+IAkJCQlUaGFua3MsDQo+IA0KPiAJ
+CQkJTmF0aGFuDQo+IA0KPiAJCQkJTmF0aGFuIFJvc3NpICg4KToNCj4gCQkJCSAgeGVuOiBGaXgg
+YW5kIHJlZmFjdG9yIGNvbW1vbiBpbmNsdWRlDQo+IAkJCQkgIHhlbjogQWRkIEJ1aWxkIGFuZCBU
+YXJnZXQgYXJjaGl0ZWN0dXJlIG1hcHBpbmcNCj4gCQkJCSAgeGVuOiBNb3ZlIHg4Ni9hcmNoIHNw
+ZWNpZmljIGNvbXBvbmVudHMgaW50bw0KPiBSUkVDT01NRU5EUw0KPiAJCQkJICB4ZW46IEZpeCB1
+cCBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgc3RlcHMNCj4gCQkJCSAgeGVuOiBBZGQgYWFyY2g2NCBh
+cyBjb21wYXRpYmxlIGhvc3QNCj4gCQkJCSAgeGVuLSppbWFnZS1taW5pbWFsOiBTZXR1cCBjb25k
+aXRpb25hbCBiYXNlZCBvbg0KPiBNQUNISU5FX0ZFQVRVUkVTDQo+IAkJCQkgIHhlbjogVXBkYXRl
+IHJlY2lwZSB0byA0LjUuMA0KPiAJCQkJICB4ZW4taW1hZ2UtbWluaW1hbDogSW5zdGFsbCBxZW11
+IGluc3RlYWQgb2YgeGVuLQ0KPiBxZW11DQo+IA0KPiAJCQkJIHJlY2lwZXMtZXh0ZW5kZWQvaW1h
+Z2VzL3hlbi1ndWVzdC1pbWFnZS0NCj4gbWluaW1hbC5iYiB8ICAgMiArLQ0KPiAJCQkJIHJlY2lw
+ZXMtZXh0ZW5kZWQvaW1hZ2VzL3hlbi1pbWFnZS1taW5pbWFsLmJiDQo+IHwgICA2ICstDQo+IAkJ
+CQkgLi4ubGFzay1hdm9pZC1pbnN0YWxsaW5nLXBvbGljeS1maWxlLWFzLQ0KPiBib290LnBhdGNo
+IHwgIDI2IC0tLS0tDQo+IAkJCQkgcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuLWFyY2guaW5jDQo+
+IHwgIDE4ICsrKysNCj4gCQkJCSByZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4uaW5jDQo+IHwgMTEz
+ICsrKysrKysrKysrKysrKysrLS0tLQ0KPiAJCQkJIHJlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl80
+LjMuMS5iYg0KPiB8ICAyNCAtLS0tLQ0KPiAJCQkJIHJlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl80
+LjUuMC5iYg0KPiB8ICAzNiArKysrKysrDQo+IAkJCQkgNyBmaWxlcyBjaGFuZ2VkLCAxNTAgaW5z
+ZXJ0aW9ucygrKSwgNzUNCj4gZGVsZXRpb25zKC0pDQo+IAkJCQkgZGVsZXRlIG1vZGUgMTAwNjQ0
+IHJlY2lwZXMtDQo+IGV4dGVuZGVkL3hlbi9maWxlcy9mbGFzay1hdm9pZC1pbnN0YWxsaW5nLXBv
+bGljeS1maWxlLWFzLWJvb3QucGF0Y2gNCj4gCQkJCSBjcmVhdGUgbW9kZSAxMDA2NDQgcmVjaXBl
+cy1leHRlbmRlZC94ZW4veGVuLQ0KPiBhcmNoLmluYw0KPiAJCQkJIGRlbGV0ZSBtb2RlIDEwMDY0
+NCByZWNpcGVzLQ0KPiBleHRlbmRlZC94ZW4veGVuXzQuMy4xLmJiDQo+IAkJCQkgY3JlYXRlIG1v
+ZGUgMTAwNjQ0IHJlY2lwZXMtDQo+IGV4dGVuZGVkL3hlbi94ZW5fNC41LjAuYmINCj4gDQo+IAkJ
+CQktLQ0KPiAJCQkJMi4xLjENCj4gDQo+IAkJCQktLQ0KPiAJCQkJX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gCQkJCW1ldGEtdmlydHVhbGl6YXRpb24g
+bWFpbGluZyBsaXN0DQo+IAkJCQltZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmcN
+Cj4gCQkJCWh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9yZy9saXN0aW5mby9tZXRhLQ0KPiB2
+aXJ0dWFsaXphdGlvbg0KPiANCj4gDQo+IA0KPiANCj4gDQo+IAkJSSBkaWQgc29tZSByZWFsbHkg
+YmFzaWMgdGVzdGluZyBvZiB4ZW4taW1hZ2UtbWluaW1hbC4gSSBidWlsdA0KPiBhZ2FpbnN0IG1h
+c3RlciBvbiBhIHg4Ni02NCBob3N0IGZvciBhbiBpbnRlbCB4ODYtNjQgdGFyZ2V0Lg0KPiANCj4g
+DQo+IAkJRm9yIG15IGJ1aWxkLCBJIGhhZCB0byBzZXQgVFVORV9DQ0FSR1M9IiIgZm9yIHhlbiBh
+cyB0aGUgLW1uby0NCj4gc3NlIGZsYWcgcmVxdWlyZWQgaW4geGVuL2FyY2gveDg2L1J1bGVzLm1r
+IHdhcyBjb25mbGljdGluZyB3aXRoIHRoZQ0KPiBzdGFuZGFyZCB0dW5lIGFyZ3MuICBJJ20gbm90
+IHN1cmUgdGhlIG1vc3QgYXBwcm9wcmlhdGUgd2F5IHRvIGRvIHRoaXMsIGJ1dA0KPiB0aGF0J3Mg
+aG93IEkgd29ya2VkIGFyb3VuZCBpdC4gIEFueSBpZGVhcyBvbiBhIGJldHRlciB3YXkgdG8gaGFu
+ZGxlIHRoaXM/DQo+IA0KPiAJCVdpdGhvdXQgYWRkcmVzc2luZyBzZWFiaW9zLCBJIGNvdWxkbid0
+IGRvIG11Y2ggdG8gdmFsaWRhdGUNCj4gcnVubmluZyBndWVzdHMsIGJ1dCBvdGhlcndpc2UgaXQg
+c2VlbSB0byBydW4gZmluZS4gV2UnbGwgaGF2ZSB0byBmaWd1cmUNCj4gb3V0IHNvbWV0aGluZyBo
+ZXJlLg0KPiANCj4gDQo+IAkJTmljZSB3b3JrIQ0KPiANCj4gCQlDaGVlcnMsDQo+IAkJLUNocmlz
+DQo+IA0KPiANCj4gDQo+IA0KPiAJSGV5IE5hdGhhbi4gIEkgbWFkZSBzb21lIHByb2dyZXNzIG9u
+IHNwbGl0dGluZyBvdXQgdGhlIGZpcm13YXJlLQ0KPiByZWxhdGVkIHBhY2thZ2VzIG9uIHRvcCBv
+ZiB5b3VyIHBhdGNoZXMuICBJIGFkZGVkIGEgeGVuLWh2bWxvYWRlciByZWNpcGUNCj4gdGhhdCB3
+b3VsZCBzb21laG93IG5lZWQgdG8gYmUgaW5jbHVkZWQgaW4gdGhlIGltYWdlLCBidXQgb25seSBm
+b3IgeDg2LiBJDQo+IHN0aWxsIGhhdmUgc29tZSB3b3JrIHRvIGRvLCBidXQgbXkgbGF0ZXN0IGJ1
+aWxkIHNlZW1zIHRvIGJlIHVzYWJsZSBmb3INCj4gYmFzaWMgeDg2IGh2bS4NCj4gDQo+IAlXb3Jr
+IGluIHByb2dyZXNzIEAgaHR0cHM6Ly9naXRodWIuY29tL2NqcDI1Ni9tZXRhLQ0KPiB2aXJ0dWFs
+aXphdGlvbi90cmVlL21hc3Rlcg0KPiANCg0KSGkgQ2hyaXMsDQoNCk5pY2Ugd29yaywgSSdtIGN1
+cmlvdXMgaWYgdGhlcmUgd2FzIGFueSBwYXJ0aWN1bGFyIHJlYXNvbiBmb3IgdGhlIHNwbGl0dGlu
+ZyBvZiB4ZW4taHZtbG9hZGVyPyBBcyBJIHdhcyBhYmxlIHRvIGdldCBpdCBpbnRvIHRoZSBtYWlu
+IHhlbiByZWNpcGUgd2l0aG91dCBhbnkgZnVzcywgYW5kICdjb25maWd1cmUnIGl0IHZpYSBQQUNL
+QUdFQ09ORklHLiAoc2VlIGJyYW5jaCBtZW50aW9uZWQgYmVsb3cpDQoNCkkgaGF2ZSB1cGRhdGVk
+IHRoZSBwYXRjaCBzZXJpZXMsIGFuZCBhZGRlZCBzb21lIGFkZGl0aW9uYWwgcGF0Y2hlcyBJIHdh
+cyB3b3JraW5nIG9uIGluY2x1ZGluZyBzeXN0ZW1kIHN1cHBvcnQsIHFlbXUgUEFDS0FHRUNPTkZJ
+RyBzZXR1cC9kZWZhdWx0cyBhbmQgYSBwYXRjaCBmb3IgdGhlIHhlbiAtbW5vLXNzZSBpc3N1ZS4g
+SW5zdGVhZCBvZiBzZW5kaW5nIGFub3RoZXIgcGF0Y2ggc2VyaWVzIEkgaGF2ZSBqdXN0IHVwbG9h
+ZGVkIGl0IHRvIGdpdGh1Yi4gQWxzbyBJIGhhdmUgdHdvIHBhdGNoZXMgb24gdGhlIHRvcCBvZiB0
+aGUgYnJhbmNoIHdpdGggY2hhbmdlcyBjaGVycnktcGlja2VkIGZyb20geW91ciBicmFuY2guDQoN
+Cmh0dHBzOi8vZ2l0aHViLmNvbS9uYXRoYW5yb3NzaS9tZXRhLXZpcnR1YWxpemF0aW9uL2NvbW1p
+dHMvbnJvc3NpL2FkZC1hYXJjaDY0LXN1cHBvcnQNCg0KUmVnYXJkcywNCk5hdGhhbg0K
 
-On Wed, Feb 4, 2015 at 12:21 AM, Chris Patterson <cjp256@gmail.com> wrote:
-
->
->
-> On Mon, Feb 2, 2015 at 2:15 AM, Chris Patterson <cjp256@gmail.com> wrote:
->
->>
->>
->> On Thu, Jan 29, 2015 at 11:44 PM, Chris Patterson <cjp256@gmail.com>
->> wrote:
->>
->>> Nice! :)  I'll try to take this for a test drive this weekend and
->>> provide some feedback.
->>>
->>> On Thu, Jan 29, 2015 at 10:31 PM, Nathan Rossi <nathan.rossi@xilinx.com>
->>> wrote:
->>>
->>>> This patch series updates the Xen recipes to use version 4.5.0 as well
->>>> as
->>>> refactoring and adding support for AArch64.
->>>>
->>>> The first 6 patches of this series are relatively trivial changes:
->>>> adding
->>>> additional files to packages, updating dependencies and adding support
->>>> for
->>>> additional architectures ontop of x86-64. The most important change is
->>>> the
->>>> moving of some x86 of the packages from xen-base RDEPENDS to
->>>> RRECOMMENDS.
->>>>
->>>> Patches 7 and 8 are the reason for this set being a RFC instead of just
->>>> a patch
->>>> set, I am after feedback regarding the changes I have made for these
->>>> patches.
->>>> In these two patches I disabled the building of xen-qemu and seabios
->>>> from
->>>> within the xen build system. There are a number of issues in wrapping
->>>> the xen
->>>> build system within OE (including source fetching and cross building).
->>>>
->>>>
->> +1 with this approach. I'm sure that the qemu rev included with the xen
->> release is better tested and has some appropriate patches for xen users.
->> However, the oe-core qemu recipe is in much better shape.  Someone could
->> break it out into its own recipe, if so desired.
->>
->>
->>> Instead of building qemu from within xen, I have configured the qemu
->>>> which is
->>>> part of oe-core to build with xen support (PACKAGECONFIG_append =
->>>> "xen"). Since
->>>> xen support is available in mainline qemu this allows for easier
->>>> support of the
->>>> xen device emulation via qemu. The PACKAGECONFIG option in oe-core does
->>>> need to
->>>> be updated to point to the correct depends (which is seperate to this
->>>> patch
->>>> set).
->>>>
->>>>
->> Agreed, maybe document in README? In my local.conf, I added:
->> PACKAGECONFIG_append_pn-qemu = " xen "
->>
->>
->>> SeaBIOS is disabled due to fetching issues as well as only being
->>>> supported on
->>>> x86. I have not worked out the issues around this yet. I am querying as
->>>> to
->>>> whether supporting it is desired, if so should it be via the xen build
->>>> system
->>>> or as a seperate recipe?
->>>>
->>>>
->> +1 to breaking it out as a separate recipe, but it is important for us
->> x86 hvm users :)  If you'd like, I could attempt to port the recipe we use
->> on openxt to meta-virtualization.
->>
->>
->
-> Actually, it seems to go beyond just the rom bin(s) with hvmloader.  What
-> about making it arch dependent feature?
->
->
-
-My mailing list foo is weak this week.  Please ignore the above comment, I
-forgot that was in the old draft. :)
-
-
-> Thanks,
->>>>
->>>> Nathan
->>>>
->>>> Nathan Rossi (8):
->>>>   xen: Fix and refactor common include
->>>>   xen: Add Build and Target architecture mapping
->>>>   xen: Move x86/arch specific components into RRECOMMENDS
->>>>   xen: Fix up architecture specific steps
->>>>   xen: Add aarch64 as compatible host
->>>>   xen-*image-minimal: Setup conditional based on MACHINE_FEATURES
->>>>   xen: Update recipe to 4.5.0
->>>>   xen-image-minimal: Install qemu instead of xen-qemu
->>>>
->>>>  recipes-extended/images/xen-guest-image-minimal.bb |   2 +-
->>>>  recipes-extended/images/xen-image-minimal.bb       |   6 +-
->>>>  ...lask-avoid-installing-policy-file-as-boot.patch |  26 -----
->>>>  recipes-extended/xen/xen-arch.inc                  |  18 ++++
->>>>  recipes-extended/xen/xen.inc                       | 113
->>>> +++++++++++++++++----
->>>>  recipes-extended/xen/xen_4.3.1.bb                  |  24 -----
->>>>  recipes-extended/xen/xen_4.5.0.bb                  |  36 +++++++
->>>>  7 files changed, 150 insertions(+), 75 deletions(-)
->>>>  delete mode 100644
->>>> recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
->>>>  create mode 100644 recipes-extended/xen/xen-arch.inc
->>>>  delete mode 100644 recipes-extended/xen/xen_4.3.1.bb
->>>>  create mode 100644 recipes-extended/xen/xen_4.5.0.bb
->>>>
->>>> --
->>>> 2.1.1
->>>>
->>>> --
->>>> _______________________________________________
->>>> meta-virtualization mailing list
->>>> meta-virtualization@yoctoproject.org
->>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>>>
->>>
->>>
->> I did some really basic testing of xen-image-minimal. I built against
->> master on a x86-64 host for an intel x86-64 target.
->>
->> For my build, I had to set TUNE_CCARGS="" for xen as the -mno-sse flag
->> required in xen/arch/x86/Rules.mk was conflicting with the standard tune
->> args.  I'm not sure the most appropriate way to do this, but that's how I
->> worked around it.  Any ideas on a better way to handle this?
->>
->> Without addressing seabios, I couldn't do much to validate running
->> guests, but otherwise it seem to run fine. We'll have to figure out
->> something here.
->>
->> Nice work!
->>
->> Cheers,
->> -Chris
->>
->>
-> Hey Nathan.  I made some progress on splitting out the firmware-related
-> packages on top of your patches.  I added a xen-hvmloader recipe that would
-> somehow need to be included in the image, but only for x86. I still have
-> some work to do, but my latest build seems to be usable for basic x86 hvm.
->
-> Work in progress @
-> https://github.com/cjp256/meta-virtualization/tree/master
->
->
-
---089e01419c42f5a604050e3c69f0
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Feb 4, 2015 at 12:21 AM, Chris Patterson <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:cjp256@gmail.com" target=3D"_blank">cjp256@gmail.com</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div=
- dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-<div><div class=3D"h5">On Mon, Feb 2, 2015 at 2:15 AM, Chris Patterson <spa=
-n dir=3D"ltr">&lt;<a href=3D"mailto:cjp256@gmail.com" target=3D"_blank">cjp=
-256@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div clas=
-s=3D"gmail_quote"><span>On Thu, Jan 29, 2015 at 11:44 PM, Chris Patterson <=
-span dir=3D"ltr">&lt;<a href=3D"mailto:cjp256@gmail.com" target=3D"_blank">=
-cjp256@gmail.com</a>&gt;</span> wrote:<br></span><span><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex"><div dir=3D"ltr">Nice! :) =C2=A0I&#39;ll try =
-to take this for a test drive this weekend and provide some feedback.</div>=
-<div><div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu,=
- Jan 29, 2015 at 10:31 PM, Nathan Rossi <span dir=3D"ltr">&lt;<a href=3D"ma=
-ilto:nathan.rossi@xilinx.com" target=3D"_blank">nathan.rossi@xilinx.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0px=
- 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Thi=
-s patch series updates the Xen recipes to use version 4.5.0 as well as<br>
-refactoring and adding support for AArch64.<br>
-<br>
-The first 6 patches of this series are relatively trivial changes: adding<b=
-r>
-additional files to packages, updating dependencies and adding support for<=
-br>
-additional architectures ontop of x86-64. The most important change is the<=
-br>
-moving of some x86 of the packages from xen-base RDEPENDS to RRECOMMENDS.<b=
-r>
-<br>
-Patches 7 and 8 are the reason for this set being a RFC instead of just a p=
-atch<br>
-set, I am after feedback regarding the changes I have made for these patche=
-s.<br>
-In these two patches I disabled the building of xen-qemu and seabios from<b=
-r>
-within the xen build system. There are a number of issues in wrapping the x=
-en<br>
-build system within OE (including source fetching and cross building).<br>
-<br></blockquote></div></div></div></div></blockquote><div>=C2=A0</div></sp=
-an><span><div>+1 with this approach. I&#39;m sure that the qemu rev include=
-d with the xen=20
-release is better tested and has some appropriate patches for xen=20
-users.=C2=A0 However, the oe-core qemu recipe is in much better shape.=C2=
-=A0=20
-Someone could break it out into its own recipe, if so desired.<br>=C2=A0<br=
-></div></span><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div><=
-div class=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">
-Instead of building qemu from within xen, I have configured the qemu which =
-is<span><br>
-part of oe-core to build with xen support (PACKAGECONFIG_append =3D &quot;x=
-en&quot;). Since<br>
-xen support is available in mainline qemu this allows for easier support of=
- the<br>
-xen device emulation via qemu. The PACKAGECONFIG option in oe-core does nee=
-d to<br>
-be updated to point to the correct depends (which is seperate to this patch=
-<br>
-set).<br>
-<br></span></blockquote></div></div></div></div></blockquote><div>=C2=A0</d=
-iv><span><div>Agreed, maybe document in README? In my local.conf, I added:<=
-br>PACKAGECONFIG_append_pn-qemu =3D &quot; xen &quot;<br>=C2=A0<br></div></=
-span><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div><div class=
-=3D"gmail_extra"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">
-SeaBIOS is disabled due to fetching issues as well as only being supported =
-on<span><br>
-x86. I have not worked out the issues around this yet. I am querying as to<=
-br>
-whether supporting it is desired, if so should it be via the xen build syst=
-em<br>
-or as a seperate recipe?<br>
-<br></span></blockquote></div></div></div></div></blockquote><span><div><sp=
-an><br></span>+1 to breaking it out as a separate recipe,=20
-but it is important for us x86 hvm users :)=C2=A0 If you&#39;d like, I coul=
-d=20
-attempt to port the recipe we use on openxt to meta-virtualization.<br>=C2=
-=A0<br></div></span></div></div></div></blockquote><div><br></div></div></d=
-iv><div>Actually, it seems to go beyond just the rom bin(s) with hvmloader.=
-=C2=A0 What about making it arch dependent feature?<br></div><div><div clas=
-s=3D"h5"><div>=C2=A0</div></div></div></div></div></div></blockquote><div><=
-br>My mailing list foo is weak this week.=C2=A0 Please ignore the above com=
-ment, I forgot that was in the old draft. :)<br>=C2=A0<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail=
-_extra"><div class=3D"gmail_quote"><div><div class=3D"h5"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra=
-"><div class=3D"gmail_quote"><span><div></div></span><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex"><div><div><div class=3D"gmail_extra"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-Thanks,<div><div><br>
-Nathan<br>
-<br>
-Nathan Rossi (8):<br>
-=C2=A0 xen: Fix and refactor common include<br>
-=C2=A0 xen: Add Build and Target architecture mapping<br>
-=C2=A0 xen: Move x86/arch specific components into RRECOMMENDS<br>
-=C2=A0 xen: Fix up architecture specific steps<br>
-=C2=A0 xen: Add aarch64 as compatible host<br>
-=C2=A0 xen-*image-minimal: Setup conditional based on MACHINE_FEATURES<br>
-=C2=A0 xen: Update recipe to 4.5.0<br>
-=C2=A0 xen-image-minimal: Install qemu instead of xen-qemu<br>
-<br>
-=C2=A0recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.bb"=
- target=3D"_blank">xen-guest-image-minimal.bb</a> |=C2=A0 =C2=A02 +-<br>
-=C2=A0recipes-extended/images/<a href=3D"http://xen-image-minimal.bb" targe=
-t=3D"_blank">xen-image-minimal.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=
-=A06 +-<br>
-=C2=A0...lask-avoid-installing-policy-file-as-boot.patch |=C2=A0 26 -----<b=
-r>
-=C2=A0recipes-extended/xen/xen-arch.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 18 ++++<br>
-=C2=A0recipes-extended/xen/xen.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 113 +++++++++++++++++----<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.3.1.bb" target=3D"_blank=
-">xen_4.3.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 24 -----<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb" target=3D"_blank=
-">xen_4.5.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 36 +++++++<br>
-=C2=A07 files changed, 150 insertions(+), 75 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/flask-avoid-installing-=
-policy-file-as-boot.patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/xen-arch.inc<br>
-=C2=A0delete mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.3.1.b=
-b" target=3D"_blank">xen_4.3.1.bb</a><br>
-=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://xen_4.5.0.b=
-b" target=3D"_blank">xen_4.5.0.bb</a><br>
-<span><font color=3D"#888888"><br>
---<br>
-2.1.1<br>
-<br>
---<br>
-_______________________________________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_blank">m=
-eta-virtualization@yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" tar=
-get=3D"_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization<=
-/a><br>
-</font></span></div></div></blockquote></div><br></div></div></div></blockq=
-uote><span><div><br><div>I did some really basic testing of xen-image-minim=
-al. I built against master on a x86-64 host for an intel x86-64 target.=C2=
-=A0 <br><br><div>For
- my build, I had to set TUNE_CCARGS=3D&quot;&quot; for xen as the -mno-sse =
-flag=20
-required in xen/arch/x86/Rules.mk was conflicting with the standard tune
- args.=C2=A0 I&#39;m not sure the most appropriate way to do this, but that=
-&#39;s how
- I worked around it.=C2=A0 Any ideas on a better way to handle this?<br><br=
->Without
- addressing seabios, I couldn&#39;t do much to validate running guests, but=
-=20
-otherwise it seem to run fine. We&#39;ll have to figure out something here.=
-<br></div></div><br>Nice work!<br><br>Cheers,<br>-Chris <br></div></span></=
-div><br></div></div>
-</blockquote></div></div></div><br>Hey Nathan.=C2=A0 I made some progress o=
-n splitting out the firmware-related packages on top of your patches.=C2=A0=
- I added a xen-hvmloader recipe that would somehow need to be included in t=
-he image, but only for x86. I still have some work to do, but my latest bui=
-ld seems to be usable for basic x86 hvm. <br><br>Work in progress @ <a href=
-=3D"https://github.com/cjp256/meta-virtualization/tree/master" target=3D"_b=
-lank">https://github.com/cjp256/meta-virtualization/tree/master</a><br><br>=
-</div></div>
-</blockquote></div><br></div></div>
-
---089e01419c42f5a604050e3c69f0--
