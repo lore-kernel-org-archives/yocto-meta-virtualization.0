@@ -1,43 +1,41 @@
 Return-Path: <nathan.rossi@xilinx.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BE6A5E00809; Mon, 16 Feb 2015 00:35:26 -0800 (PST)
+	id 24E71E0074C; Mon, 16 Feb 2015 00:42:02 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
 	SPF_HELO_PASS autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [157.56.111.77 listed in list.dnswl.org]
+	*      [157.56.110.68 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1bon0077.outbound.protection.outlook.com [157.56.111.77])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8A3E4E00827
+	(mail-bn1on0068.outbound.protection.outlook.com [157.56.110.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2554E00746
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Feb 2015 00:35:06 -0800 (PST)
-Received: from BN1BFFO11FD015.protection.gbl (10.58.144.30) by
-	BN1BFFO11HUB050.protection.gbl (10.58.144.197) with Microsoft SMTP
-	Server (TLS) id 15.1.87.10; Mon, 16 Feb 2015 08:35:04 +0000
+	Mon, 16 Feb 2015 00:41:58 -0800 (PST)
+Received: from BN1AFFO11FD019.protection.gbl (10.58.52.31) by
+	BN1AFFO11HUB053.protection.gbl (10.58.53.59) with Microsoft SMTP Server
+	(TLS) id 15.1.87.10; Mon, 16 Feb 2015 08:41:56 +0000
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BN1BFFO11FD015.mail.protection.outlook.com (10.58.144.78) with
-	Microsoft SMTP Server (TLS) id 15.1.99.6 via Frontend Transport;
-	Mon, 16 Feb 2015 08:35:03 +0000
+	BN1AFFO11FD019.mail.protection.outlook.com (10.58.52.79) with Microsoft
+	SMTP Server (TLS) id 15.1.99.6 via Frontend Transport;
+	Mon, 16 Feb 2015 08:41:56 +0000
 Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
 	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
 	(envelope-from <nathan.rossi@xilinx.com>)
-	id 1YNH5H-0002pL-1M; Mon, 16 Feb 2015 00:31:15 -0800
+	id 1YNHBu-0003Tp-LC; Mon, 16 Feb 2015 00:38:06 -0800
 From: Nathan Rossi <nathan.rossi@xilinx.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 16 Feb 2015 18:34:35 +1000
+Date: Mon, 16 Feb 2015 18:41:43 +1000
 X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1424075676-28287-1-git-send-email-nathan.rossi@xilinx.com>
-References: <1424075676-28287-1-git-send-email-nathan.rossi@xilinx.com>
 X-RCIS-Action: ALLOW
 X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21334.005
 X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
-Message-ID: <0da250d8148c49b3b1d61e9d68345e5b@BN1BFFO11FD015.protection.gbl>
+Message-ID: <5109c896ba3341469be6b848ab5220c3@BN1AFFO11FD019.protection.gbl>
 X-EOPAttributedMessage: 0
 Received-SPF: PermError (protection.outlook.com: domain of xilinx.com used an
 	invalid SPF mechanism)
@@ -45,26 +43,26 @@ Authentication-Results: spf=permerror (sender IP is 149.199.60.83)
 	smtp.mailfrom=nathan.rossi@xilinx.com; 
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(6009001)(448002)(229853001)(50226001)(92566002)(106466001)(2351001)(46102003)(33646002)(108616004)(62966003)(92726002)(15975445007)(77156002)(110136001)(104016003)(6806004)(19580405001)(19580395003)(85326001)(74316001)(48376002)(50986999)(2950100001)(50466002)(53416004)(76176999)(87936001)(47776003)(86362001)(107986001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1BFFO11HUB050;
+	SFS:(10009020)(6009001)(448002)(2420400003)(46102003)(77156002)(62966003)(53416004)(85326001)(33646002)(104016003)(92566002)(15975445007)(106466001)(92726002)(86362001)(2351001)(575784001)(229853001)(110136001)(47776003)(108616004)(50986999)(19580395003)(48376002)(74316001)(6806004)(19580405001)(50466002)(50226001)(87936001)(107986001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1AFFO11HUB053;
 	H:xsj-pvapsmtpgw01; FPR:; SPF:PermError; MLV:sfv; LANG:en; 
 MIME-Version: 1.0
 X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1BFFO11HUB050;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1AFFO11HUB053;
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:BN1BFFO11HUB050; 
+	SRVR:BN1AFFO11HUB053; 
 X-Forefront-PRVS: 0489CFBAC9
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:BN1BFFO11HUB050; 
+	SRVR:BN1AFFO11HUB053; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2015 08:35:03.9217 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2015 08:41:56.0899 (UTC)
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
 	Ip=[149.199.60.83]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1BFFO11HUB050
-Subject: [PATCH 13/14] vgabios: DEPENDS on dev86-native
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1AFFO11HUB053
+Subject: [PATCH 07/14] xen: Update recipe to 4.5.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,33 +75,135 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 08:35:26 -0000
+X-List-Received-Date: Mon, 16 Feb 2015 08:42:02 -0000
 Content-Type: text/plain
 
-From: Chris Patterson <cjp256@gmail.com>
+* Added configure step to fix handling of the CC, AS, etc. variables
+  within the xen build scripts.
+* Add configure options for handling of system config directories for
+  cross building
+* Use the qemu provided by oe instead of the xen built version for
+  consistency as well as to remove the need to have two seperate flows
+  for building qemu
+* Disable building of SeaBIOS
+* Removed no longer needed patches
 
-Signed-off-by: Chris Patterson <cjp256@gmail.com>
+Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
 ---
- recipes-extended/vgabios/vgabios_0.7a.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Sorry, minor mistake I overlooked. Removed 'squish' from commit message.
+---
+ ...lask-avoid-installing-policy-file-as-boot.patch | 26 ----------------
+ recipes-extended/xen/xen_4.3.1.bb                  | 24 ---------------
+ recipes-extended/xen/xen_4.5.0.bb                  | 36 ++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 50 deletions(-)
+ delete mode 100644 recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
+ delete mode 100644 recipes-extended/xen/xen_4.3.1.bb
+ create mode 100644 recipes-extended/xen/xen_4.5.0.bb
 
-diff --git a/recipes-extended/vgabios/vgabios_0.7a.bb b/recipes-extended/vgabios/vgabios_0.7a.bb
-index 6addeff..0ed8bb4 100644
---- a/recipes-extended/vgabios/vgabios_0.7a.bb
-+++ b/recipes-extended/vgabios/vgabios_0.7a.bb
-@@ -2,10 +2,10 @@ DESCRIPTION = "Plex86/Bochs LGPL VGABios"
- HOMEPAGE = "http://www.nongnu.org/vgabios/"
- LICENSE = "LGPLv2.1"
- SECTION = "firmware"
--DEPENDS = ""
+diff --git a/recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch b/recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
+deleted file mode 100644
+index d980807..0000000
+--- a/recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From 8bff3edead4318bfebc487f929f833d11922c238 Mon Sep 17 00:00:00 2001
+-From: "Vadim A. Misbakh-Soloviov" <mva@mva.name>
+-Date: Tue, 30 Jul 2013 16:34:38 +0400
+-Subject: [PATCH] flask: avoid installing policy file as '/boot'
+-
+-Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
+-Acked-by: Daniel De Graaf <dgdegra@tycho.nsa.gov>
+----
+- tools/flask/policy/Makefile |    1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/tools/flask/policy/Makefile b/tools/flask/policy/Makefile
+-index e666f3e..df1e8f3 100644
+---- a/tools/flask/policy/Makefile
+-+++ b/tools/flask/policy/Makefile
+-@@ -103,6 +103,7 @@ POLICY_SECTIONS += $(USERS) $(CONSTRAINTS) $(ISID_DEFS)
+- all: $(POLICY_FILENAME)
+- 
+- install: $(POLICY_FILENAME)
+-+	$(INSTALL_DIR) $(POLICY_LOADPATH)
+- 	$(INSTALL_DATA) $^ $(POLICY_LOADPATH)
+- 
+- $(POLICY_FILENAME): policy.conf
+--- 
+-1.7.10.4
+-
+diff --git a/recipes-extended/xen/xen_4.3.1.bb b/recipes-extended/xen/xen_4.3.1.bb
+deleted file mode 100644
+index 2c9806b..0000000
+--- a/recipes-extended/xen/xen_4.3.1.bb
++++ /dev/null
+@@ -1,24 +0,0 @@
+-require xen.inc
+-
+-SRC_URI = " \
+-    http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
+-    file://flask-avoid-installing-policy-file-as-boot.patch \
+-    "
+-
+-SRC_URI[md5sum] = "7616b8704e1ab89c81f011f0e3703bc8"
+-SRC_URI[sha256sum] = "3b5b7cc508b1739753585b5c25635471cdcef680e8770a78bf6ef9333d26a9fd"
+-
+-S = "${WORKDIR}/xen-${PV}"
+-
+-RDEPENDS_${PN}-base += "\
+-    ${PN}-libblktap \
+-    ${PN}-flask \
+-    "
+-
+-do_configure_prepend() {
+-    # fixup qemu-xen-traditional pciutils check hardcoded to test /usr/include/pci
+-    sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g' ${S}/tools/qemu-xen-traditional/xen-hooks.mak
+-
+-    # fixup for qemu to cross compile
+-    sed -i 's/configure --d/configure --cross-prefix=${TARGET_PREFIX} --d/g' ${S}/tools/qemu-xen-traditional/xen-setup
+-}
+diff --git a/recipes-extended/xen/xen_4.5.0.bb b/recipes-extended/xen/xen_4.5.0.bb
+new file mode 100644
+index 0000000..62d1d87
+--- /dev/null
++++ b/recipes-extended/xen/xen_4.5.0.bb
+@@ -0,0 +1,36 @@
++require xen.inc
 +
-+DEPENDS = "dev86-native"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=dcf3c825659e82539645da41a7908589"
--DEPENDS = ""
- 
- SRC_URI =  "http://savannah.gnu.org/download/vgabios/${PN}-${PV}.tgz"
- 
++SRC_URI = " \
++    http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
++    "
++
++SRC_URI[md5sum] = "9bac43d2419d05a647064d9253bb03fa"
++SRC_URI[sha256sum] = "5bdb40e2b28d2eeb541bd71a9777f40cbe2ae444b987521d33f099541a006f3b"
++
++S = "${WORKDIR}/xen-${PV}"
++
++# Xen suffixes the libexecdir within its configure scripts, prevent the nested xen/xen/
++libexecdir = "${libdir}"
++
++# These options override detected values from the build.
++EXTRA_OECONF_append += " \
++    --with-initddir=${INIT_D_DIR} \
++    --with-sysconfig-leaf-dir=default \
++    --with-system-qemu=/usr/bin/qemu-system-i386 \
++    --disable-qemu-traditional \
++    --disable-seabios \
++    "
++
++do_configure_prepend() {
++    # fixup AS/CC/CCP/etc variable within StdGNU.mk
++    for i in AS LD CC CPP AR RANLIB NM STRIP OBJCOPY OBJDUMP; do
++        sed -i "s/^\($i\s\s*\).*=/\1?=/" ${S}/config/StdGNU.mk
++    done
++    # fixup environment passing in some makefiles
++    sed -i 's#\(\w*\)=\(\$.\w*.\)#\1="\2"#' ${S}/tools/firmware/Makefile
++}
++
++do_install_append() {
++    # fixup default path to qemu-system-i386
++    sed -i 's#\(test -z "$QEMU_XEN" && QEMU_XEN=\).*$#\1"/usr/bin/qemu-system-i386"#' ${D}/etc/init.d/xencommons
++}
 -- 
 2.1.1
 
