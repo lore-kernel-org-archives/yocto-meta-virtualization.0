@@ -1,6 +1,6 @@
 Return-Path: <nathan.rossi@xilinx.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 742C3E008E3; Mon, 16 Feb 2015 00:35:23 -0800 (PST)
+	id 9817FE00824; Mon, 16 Feb 2015 00:35:23 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,59 +11,61 @@ X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	*      [score: 0.0000]
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [65.55.169.100 listed in list.dnswl.org]
-Received: from na01-bl2-obe.outbound.protection.outlook.com
-	(mail-bl2on0100.outbound.protection.outlook.com [65.55.169.100])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DE9EBE00754
+	*      [207.46.100.63 listed in list.dnswl.org]
+Received: from na01-by2-obe.outbound.protection.outlook.com
+	(mail-by2on0063.outbound.protection.outlook.com [207.46.100.63])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7CA9EE00815
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Feb 2015 00:35:04 -0800 (PST)
-Received: from BY2FFO11FD031.protection.gbl (10.1.14.30) by
-	BY2FFO11HUB040.protection.gbl (10.1.14.161) with Microsoft SMTP Server
-	(TLS) id 15.1.87.10; Mon, 16 Feb 2015 08:35:02 +0000
+	Mon, 16 Feb 2015 00:35:03 -0800 (PST)
+Received: from BN1BFFO11FD032.protection.gbl (10.58.144.34) by
+	BN1BFFO11HUB039.protection.gbl (10.58.144.186) with Microsoft SMTP
+	Server (TLS) id 15.1.87.10; Mon, 16 Feb 2015 08:35:02 +0000
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BY2FFO11FD031.mail.protection.outlook.com (10.1.14.196) with Microsoft
-	SMTP Server (TLS) id 15.1.99.6 via Frontend Transport;
+	BN1BFFO11FD032.mail.protection.outlook.com (10.58.144.95) with
+	Microsoft SMTP Server (TLS) id 15.1.99.6 via Frontend Transport;
 	Mon, 16 Feb 2015 08:35:01 +0000
 Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
 	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
 	(envelope-from <nathan.rossi@xilinx.com>)
-	id 1YNH5F-0002ox-C0; Mon, 16 Feb 2015 00:31:13 -0800
+	id 1YNH5E-0002ol-R9; Mon, 16 Feb 2015 00:31:12 -0800
 From: Nathan Rossi <nathan.rossi@xilinx.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 16 Feb 2015 18:34:28 +1000
+Date: Mon, 16 Feb 2015 18:34:30 +1000
 X-Mailer: git-send-email 2.1.1
 In-Reply-To: <1424075676-28287-1-git-send-email-nathan.rossi@xilinx.com>
 References: <1424075676-28287-1-git-send-email-nathan.rossi@xilinx.com>
 X-RCIS-Action: ALLOW
 X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21334.005
 X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
-Message-ID: <94534a8d9ee644f5916ba107e1b9600c@BY2FFO11FD031.protection.gbl>
+Message-ID: <07b6c27b66d9422da2003a32d0c04c95@BN1BFFO11FD032.protection.gbl>
 X-EOPAttributedMessage: 0
 Received-SPF: PermError (protection.outlook.com: domain of xilinx.com used an
 	invalid SPF mechanism)
 Authentication-Results: spf=permerror (sender IP is 149.199.60.83)
-	smtp.mailfrom=nathan.rossi@xilinx.com; 
+	smtp.mailfrom=nathan.rossi@xilinx.com; gmail.com; dkim=none (message not
+	signed) header.d=none;
 X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(6009001)(448002)(86362001)(62966003)(229853001)(77156002)(87936001)(50226001)(50986999)(92726002)(19580395003)(92566002)(2950100001)(6806004)(48376002)(2351001)(76176999)(108616004)(53416004)(110136001)(85326001)(19580405001)(50466002)(106466001)(104016003)(46102003)(74316001)(47776003)(107986001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BY2FFO11HUB040;
+	SFS:(10009020)(6009001)(448002)(33646002)(6806004)(50986999)(76176999)(74316001)(106466001)(87936001)(50226001)(62966003)(108616004)(85326001)(104016003)(50466002)(77156002)(48376002)(86362001)(230783001)(229853001)(92726002)(2351001)(47776003)(92566002)(19580405001)(2950100001)(19580395003)(53416004)(46102003)(110136001)(107986001)(24736002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1BFFO11HUB039;
 	H:xsj-pvapsmtpgw01; FPR:; SPF:PermError; MLV:sfv; LANG:en; 
 MIME-Version: 1.0
 X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BY2FFO11HUB040;
+X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1BFFO11HUB039;
 X-Exchange-Antispam-Report-Test: UriScan:;
 X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:BY2FFO11HUB040; 
+	SRVR:BN1BFFO11HUB039; 
 X-Forefront-PRVS: 0489CFBAC9
-X-Exchange-Antispam-Report-CFA-Test: BCL:0;PCL:0;RULEID:;SRVR:BY2FFO11HUB040;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
+	SRVR:BN1BFFO11HUB039; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2015 08:35:01.7720 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2015 08:35:01.8890 (UTC)
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
 	Ip=[149.199.60.83]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY2FFO11HUB040
-Subject: [PATCH 06/14] xen-*image-minimal: Setup conditional based on MACHINE_FEATURES
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1BFFO11HUB039
+Subject: [PATCH 08/14] xen-image-minimal: Install qemu instead of xen-qemu
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -79,47 +81,26 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Mon, 16 Feb 2015 08:35:23 -0000
 Content-Type: text/plain
 
-* Conditionally add packages to the image depending on whether the
-  machine supports the respective feature
+* Install QEMU from the distro as opposed to a specific xen-qemu setup
 
 Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
 ---
- recipes-extended/images/xen-guest-image-minimal.bb | 2 +-
- recipes-extended/images/xen-image-minimal.bb       | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ recipes-extended/images/xen-image-minimal.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-extended/images/xen-guest-image-minimal.bb b/recipes-extended/images/xen-guest-image-minimal.bb
-index bcac4d7..f13940c 100644
---- a/recipes-extended/images/xen-guest-image-minimal.bb
-+++ b/recipes-extended/images/xen-guest-image-minimal.bb
-@@ -4,7 +4,7 @@ inherit core-image
- 
- IMAGE_INSTALL += " \
-     packagegroup-core-boot \
--    kernel-module-xen-acpi-processor \
-+    ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'kernel-module-xen-acpi-processor', '', d)} \
-     "
- 
- IMAGE_INSTALL += "${@base_contains('DISTRO_FEATURES', 'x11', ' xf86-video-fbdev', '', d)}"
 diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
-index 13917c5..aed0526 100644
+index aed0526..26b6d06 100644
 --- a/recipes-extended/images/xen-image-minimal.bb
 +++ b/recipes-extended/images/xen-image-minimal.bb
-@@ -5,12 +5,12 @@ INITRD_IMAGE = "core-image-minimal-initramfs"
- IMAGE_INSTALL += " \
-     packagegroup-core-boot \
-     packagegroup-core-ssh-openssh \
--    kernel-module-xen-acpi-processor \
-+    ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'kernel-module-xen-acpi-processor', '', d)} \
-     kernel-module-xen-blkback \
-     kernel-module-xen-gntalloc \
-     kernel-module-xen-gntdev \
-     kernel-module-xen-netback \
--    kernel-module-xen-pciback \
-+    ${@bb.utils.contains('MACHINE_FEATURES', 'pci', 'kernel-module-xen-pciback', '', d)} \
+@@ -13,7 +13,7 @@ IMAGE_INSTALL += " \
+     ${@bb.utils.contains('MACHINE_FEATURES', 'pci', 'kernel-module-xen-pciback', '', d)} \
      kernel-module-xen-wdt \
      xen-base \
-     xen-qemu \
+-    xen-qemu \
++    qemu \
+     "
+ 
+ LICENSE = "MIT"
 -- 
 2.1.1
 
