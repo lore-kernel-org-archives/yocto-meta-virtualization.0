@@ -1,68 +1,55 @@
-Return-Path: <nathan.rossi@xilinx.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 24E71E0074C; Mon, 16 Feb 2015 00:42:02 -0800 (PST)
+	id EAA7FE0077E; Mon, 16 Feb 2015 20:42:52 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [157.56.110.68 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0068.outbound.protection.outlook.com [157.56.110.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2554E00746
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.215.47 listed in list.dnswl.org]
+Received: from mail-la0-f47.google.com (mail-la0-f47.google.com
+	[209.85.215.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 24C0CE00777
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Feb 2015 00:41:58 -0800 (PST)
-Received: from BN1AFFO11FD019.protection.gbl (10.58.52.31) by
-	BN1AFFO11HUB053.protection.gbl (10.58.53.59) with Microsoft SMTP Server
-	(TLS) id 15.1.87.10; Mon, 16 Feb 2015 08:41:56 +0000
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BN1AFFO11FD019.mail.protection.outlook.com (10.58.52.79) with Microsoft
-	SMTP Server (TLS) id 15.1.99.6 via Frontend Transport;
-	Mon, 16 Feb 2015 08:41:56 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <nathan.rossi@xilinx.com>)
-	id 1YNHBu-0003Tp-LC; Mon, 16 Feb 2015 00:38:06 -0800
-From: Nathan Rossi <nathan.rossi@xilinx.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 16 Feb 2015 18:41:43 +1000
-X-Mailer: git-send-email 2.1.1
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-7.5.0.1018-21334.005
-X-TM-AS-User-Approved-Sender: Yes;Yes;Yes
-Message-ID: <5109c896ba3341469be6b848ab5220c3@BN1AFFO11FD019.protection.gbl>
-X-EOPAttributedMessage: 0
-Received-SPF: PermError (protection.outlook.com: domain of xilinx.com used an
-	invalid SPF mechanism)
-Authentication-Results: spf=permerror (sender IP is 149.199.60.83)
-	smtp.mailfrom=nathan.rossi@xilinx.com; 
-X-Forefront-Antispam-Report: CIP:149.199.60.83; CTRY:US; IPV:NLI; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(6009001)(448002)(2420400003)(46102003)(77156002)(62966003)(53416004)(85326001)(33646002)(104016003)(92566002)(15975445007)(106466001)(92726002)(86362001)(2351001)(575784001)(229853001)(110136001)(47776003)(108616004)(50986999)(19580395003)(48376002)(74316001)(6806004)(19580405001)(50466002)(50226001)(87936001)(107986001)(24736002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN1AFFO11HUB053;
-	H:xsj-pvapsmtpgw01; FPR:; SPF:PermError; MLV:sfv; LANG:en; 
+	Mon, 16 Feb 2015 20:42:47 -0800 (PST)
+Received: by labpn19 with SMTP id pn19so33569303lab.4
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 16 Feb 2015 20:42:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=OxwAgS+AQn89YhFk3ax9rZqG0Iiwe0BWcTAFmQUtzx0=;
+	b=1EvjQBVkpjWHBeZOj2w64jmEOkhaZz8AmElnEgzT+D1pVlxncgLmCj7Ty1yjjGrwzi
+	a/qmSAPs13swyHiePiDOf8HKFu7eYd+TX45QUy5JfCsFR+11zFok+vlO1UTWPY5tERYg
+	iI7fJghS/YaDX0cJYbm3bQ8Tf/J96EipZOwJLC3oq/8TKR4u1PoRhI2v2FHAyfgOVrd4
+	ECszp9n08jAP7liJkzfbYcOv3koVQwglK/o5qAtjiQemLJ4Ng0V2457IH3ErZXSlZ0I8
+	tERJlsm09dZ+cP2GlnvnViD05/AWoP3F/izz9oH9htlpXhZW1cb4YhYgq/60Kp193gte
+	h99w==
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;
-X-Microsoft-Antispam: BCL:0;PCL:0;RULEID:;SRVR:BN1AFFO11HUB053;
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:(601004);
-	SRVR:BN1AFFO11HUB053; 
-X-Forefront-PRVS: 0489CFBAC9
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0; RULEID:;
-	SRVR:BN1AFFO11HUB053; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2015 08:41:56.0899 (UTC)
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN1AFFO11HUB053
-Subject: [PATCH 07/14] xen: Update recipe to 4.5.0
+X-Received: by 10.112.126.162 with SMTP id mz2mr26406757lbb.51.1424148164979; 
+	Mon, 16 Feb 2015 20:42:44 -0800 (PST)
+Received: by 10.112.40.34 with HTTP; Mon, 16 Feb 2015 20:42:44 -0800 (PST)
+In-Reply-To: <1423829042-21574-1-git-send-email-j105.rob@gmail.com>
+References: <1423829042-21574-1-git-send-email-j105.rob@gmail.com>
+Date: Mon, 16 Feb 2015 23:42:44 -0500
+Message-ID: <CADkTA4P3GCWxZ3+kDMec+Vg28Y3J_0xBH7NB0mHEqye55s5=rw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: j105rob <j105.rob@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] dev86: Adjusted the SRC_URI of the source code.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,136 +62,53 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Feb 2015 08:42:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 17 Feb 2015 04:42:53 -0000
+Content-Type: text/plain; charset=UTF-8
 
-* Added configure step to fix handling of the CC, AS, etc. variables
-  within the xen build scripts.
-* Add configure options for handling of system config directories for
-  cross building
-* Use the qemu provided by oe instead of the xen built version for
-  consistency as well as to remove the need to have two seperate flows
-  for building qemu
-* Disable building of SeaBIOS
-* Removed no longer needed patches
+On Fri, Feb 13, 2015 at 7:04 AM, j105rob <j105.rob@gmail.com> wrote:
+> The SRC_URI of the source code was returning a 404. After locating the correct URI
+> for this version of the source code, updated the SRC_URI & hashes.
 
-Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
----
-Sorry, minor mistake I overlooked. Removed 'squish' from commit message.
----
- ...lask-avoid-installing-policy-file-as-boot.patch | 26 ----------------
- recipes-extended/xen/xen_4.3.1.bb                  | 24 ---------------
- recipes-extended/xen/xen_4.5.0.bb                  | 36 ++++++++++++++++++++++
- 3 files changed, 36 insertions(+), 50 deletions(-)
- delete mode 100644 recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
- delete mode 100644 recipes-extended/xen/xen_4.3.1.bb
- create mode 100644 recipes-extended/xen/xen_4.5.0.bb
+merged
 
-diff --git a/recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch b/recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
-deleted file mode 100644
-index d980807..0000000
---- a/recipes-extended/xen/files/flask-avoid-installing-policy-file-as-boot.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From 8bff3edead4318bfebc487f929f833d11922c238 Mon Sep 17 00:00:00 2001
--From: "Vadim A. Misbakh-Soloviov" <mva@mva.name>
--Date: Tue, 30 Jul 2013 16:34:38 +0400
--Subject: [PATCH] flask: avoid installing policy file as '/boot'
--
--Signed-off-by: Vadim A. Misbakh-Soloviov <mva@mva.name>
--Acked-by: Daniel De Graaf <dgdegra@tycho.nsa.gov>
-----
-- tools/flask/policy/Makefile |    1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/tools/flask/policy/Makefile b/tools/flask/policy/Makefile
--index e666f3e..df1e8f3 100644
----- a/tools/flask/policy/Makefile
--+++ b/tools/flask/policy/Makefile
--@@ -103,6 +103,7 @@ POLICY_SECTIONS += $(USERS) $(CONSTRAINTS) $(ISID_DEFS)
-- all: $(POLICY_FILENAME)
-- 
-- install: $(POLICY_FILENAME)
--+	$(INSTALL_DIR) $(POLICY_LOADPATH)
-- 	$(INSTALL_DATA) $^ $(POLICY_LOADPATH)
-- 
-- $(POLICY_FILENAME): policy.conf
---- 
--1.7.10.4
--
-diff --git a/recipes-extended/xen/xen_4.3.1.bb b/recipes-extended/xen/xen_4.3.1.bb
-deleted file mode 100644
-index 2c9806b..0000000
---- a/recipes-extended/xen/xen_4.3.1.bb
-+++ /dev/null
-@@ -1,24 +0,0 @@
--require xen.inc
--
--SRC_URI = " \
--    http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
--    file://flask-avoid-installing-policy-file-as-boot.patch \
--    "
--
--SRC_URI[md5sum] = "7616b8704e1ab89c81f011f0e3703bc8"
--SRC_URI[sha256sum] = "3b5b7cc508b1739753585b5c25635471cdcef680e8770a78bf6ef9333d26a9fd"
--
--S = "${WORKDIR}/xen-${PV}"
--
--RDEPENDS_${PN}-base += "\
--    ${PN}-libblktap \
--    ${PN}-flask \
--    "
--
--do_configure_prepend() {
--    # fixup qemu-xen-traditional pciutils check hardcoded to test /usr/include/pci
--    sed -i 's/\/usr\/include\/pci/$(STAGING_INCDIR)\/pci/g' ${S}/tools/qemu-xen-traditional/xen-hooks.mak
--
--    # fixup for qemu to cross compile
--    sed -i 's/configure --d/configure --cross-prefix=${TARGET_PREFIX} --d/g' ${S}/tools/qemu-xen-traditional/xen-setup
--}
-diff --git a/recipes-extended/xen/xen_4.5.0.bb b/recipes-extended/xen/xen_4.5.0.bb
-new file mode 100644
-index 0000000..62d1d87
---- /dev/null
-+++ b/recipes-extended/xen/xen_4.5.0.bb
-@@ -0,0 +1,36 @@
-+require xen.inc
-+
-+SRC_URI = " \
-+    http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
-+    "
-+
-+SRC_URI[md5sum] = "9bac43d2419d05a647064d9253bb03fa"
-+SRC_URI[sha256sum] = "5bdb40e2b28d2eeb541bd71a9777f40cbe2ae444b987521d33f099541a006f3b"
-+
-+S = "${WORKDIR}/xen-${PV}"
-+
-+# Xen suffixes the libexecdir within its configure scripts, prevent the nested xen/xen/
-+libexecdir = "${libdir}"
-+
-+# These options override detected values from the build.
-+EXTRA_OECONF_append += " \
-+    --with-initddir=${INIT_D_DIR} \
-+    --with-sysconfig-leaf-dir=default \
-+    --with-system-qemu=/usr/bin/qemu-system-i386 \
-+    --disable-qemu-traditional \
-+    --disable-seabios \
-+    "
-+
-+do_configure_prepend() {
-+    # fixup AS/CC/CCP/etc variable within StdGNU.mk
-+    for i in AS LD CC CPP AR RANLIB NM STRIP OBJCOPY OBJDUMP; do
-+        sed -i "s/^\($i\s\s*\).*=/\1?=/" ${S}/config/StdGNU.mk
-+    done
-+    # fixup environment passing in some makefiles
-+    sed -i 's#\(\w*\)=\(\$.\w*.\)#\1="\2"#' ${S}/tools/firmware/Makefile
-+}
-+
-+do_install_append() {
-+    # fixup default path to qemu-system-i386
-+    sed -i 's#\(test -z "$QEMU_XEN" && QEMU_XEN=\).*$#\1"/usr/bin/qemu-system-i386"#' ${D}/etc/init.d/xencommons
-+}
+Bruce
+
+>
+> Signed-off-by: j105rob <j105.rob@gmail.com>
+> ---
+>  recipes-extended/dev86/dev86_0.16.19.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/recipes-extended/dev86/dev86_0.16.19.bb b/recipes-extended/dev86/dev86_0.16.19.bb
+> index 807504e..5e26a75 100644
+> --- a/recipes-extended/dev86/dev86_0.16.19.bb
+> +++ b/recipes-extended/dev86/dev86_0.16.19.bb
+> @@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+>  SECTION = "console/tools"
+>  PR="r0"
+>
+> -SRC_URI="http://www.debath.co.uk/dev86/Dev86src-${PV}.tar.gz"
+> +SRC_URI="https://github.com/lkundrak/dev86/archive/v${PV}.zip"
+>
+> -SRC_URI[md5sum] = "442e98e1afa23fe00d40c5a996385942"
+> -SRC_URI[sha256sum] = "33398b87ca85e2b69e4062cf59f2f7354af46da5edcba036c6f97bae17b8d00e"
+> +SRC_URI[md5sum] = "1308759f36f9907e7dae92c46f35c51e"
+> +SRC_URI[sha256sum] = "efd33d456ff87d6d0308608f6a34052b22ea8629913d0597d98c73815ed0f9f0"
+>
+>  S = "${WORKDIR}/dev86-${PV}"
+>
+> --
+> 2.3.0
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-2.1.1
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
