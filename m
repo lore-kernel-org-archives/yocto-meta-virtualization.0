@@ -1,6 +1,6 @@
-Return-Path: <Rob.Woolley@windriver.com>
+Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D478DE008CF; Tue,  3 Mar 2015 13:25:23 -0800 (PST)
+	id 8673FE00750; Mon,  9 Mar 2015 11:34:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,27 +12,28 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4DF69E00828
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D6AF3E003FA
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Mar 2015 13:25:17 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t23LPHY6016293
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 3 Mar 2015 13:25:17 -0800 (PST)
-Received: from yow-rwoolley-lx.wrs.com (128.224.146.40) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 3 Mar 2015 13:25:17 -0800
-From: Rob Woolley <rob.woolley@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 3 Mar 2015 16:25:14 -0500
-Message-ID: <1425417916-16328-2-git-send-email-rob.woolley@windriver.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1425417916-16328-1-git-send-email-rob.woolley@windriver.com>
-References: <1425417916-16328-1-git-send-email-rob.woolley@windriver.com>
+	Mon,  9 Mar 2015 11:34:03 -0700 (PDT)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.14.9/8.14.5) with ESMTP id t29IY0gb003473
+	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+	Mon, 9 Mar 2015 11:34:00 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.84)
+	(envelope-from <amy.fong@windriver.com>)
+	id 1YV2Ub-0007mC-Rp; Mon, 09 Mar 2015 14:33:29 -0400
+Date: Mon, 9 Mar 2015 14:33:29 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <20150309183329.GA29759@windriver.com>
+References: <20150227214013.GA2160@windriver.com>
+	<CADkTA4N4nrxOz7R7MgQ11m9hXLO4=0O98jk2o2mDi=m-RzY3Lg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] libvirt: Identify CONFFILES
+In-Reply-To: <CADkTA4N4nrxOz7R7MgQ11m9hXLO4=0O98jk2o2mDi=m-RzY3Lg@mail.gmail.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 0/5] Package docker + docker-registry
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,34 +46,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Mar 2015 21:25:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Mar 2015 18:34:04 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Some package formats explicitly track which files are configuration files
-so that they are not overwritten on updates. Explicitly list the
-configuration files.
+On Mon, Mar 02, 2015 at 03:40:11PM -0500, Bruce Ashfield wrote:
+> On Fri, Feb 27, 2015 at 4:40 PM, Amy Fong <amy.fong@windriver.com> wrote:
+> > This set of patches adds the packages docker, docker-registry
+> > and required dependencies/rdependencies.
+> >
+> > The following were added to my BBLAYERS on top
+> > of a basic yocto/poky build to compile these packages:
+> >
+> >   meta-virtualization \
+> >   meta-cloud-services/meta-openstack \
+> 
+> This is creating a circular dependency. Which recipes in particular do we
+> need from meta-openstack ?
+> 
+> We need to pull those recipes from meta-openstack to meta-virt, and then
+> I can take the submission.
+> 
+> Cheers.
+> 
+> Bruce
 
-Signed-off by: Rob Woolley <rob.woolley@windriver.com>
---- a/recipes-extended/libvirt/libvirt_1.2.12.bb
-+++ b/recipes-extended/libvirt/libvirt_1.2.12.bb
-@@ -111,6 +111,18 @@ FILES_${PN} += "${libdir}/libvirt/connection-driver \
- FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
- FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a ${libdir}/libvirt/lock-driver/*.a"
- 
-+CONFFILES_${PN} += "${sysconfdir}/libvirt/libvirt.conf \
-+                    ${sysconfdir}/libvirt/lxc.conf \
-+                    ${sysconfdir}/libvirt/qemu-lockd.conf \
-+                    ${sysconfdir}/libvirt/qemu.conf \
-+                    ${sysconfdir}/libvirt/virt-login-shell.conf \
-+                    ${sysconfdir}/libvirt/virtlockd.conf"
-+
-+CONFFILES_${PN}-libvirtd = "${sysconfdir}/logrotate.d/libvirt ${sysconfdir}/logrotate.d/libvirt.lxc \
-+                            ${sysconfdir}/logrotate.d/libvirt.qemu ${sysconfdir}/logrotate.d/libvirt.uml \
-+                            ${sysconfdir}/libvirt/libvirtd.conf \
-+                            /usr/lib/sysctl.d/libvirtd.conf"
-+
- INITSCRIPT_PACKAGES = "${PN}-libvirtd"
- INITSCRIPT_NAME_${PN}-libvirtd = "libvirtd"
- INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
+Sorry, mail got buried.
 
+3 packages:
+
+python-flask
+python-webob
+python-werkzeug
+
+Amy
 
