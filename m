@@ -1,75 +1,55 @@
-Return-Path: <B43198@freescale.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1FB69E00777; Tue, 10 Mar 2015 05:11:43 -0700 (PDT)
+	id CB033E003A8; Tue, 10 Mar 2015 10:08:50 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [207.46.100.131 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.217.171 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 6210 seconds by postgrey-1.32 at yocto-www;
-	Tue, 10 Mar 2015 05:11:40 PDT
-Received: from na01-by2-obe.outbound.protection.outlook.com
-	(mail-by2on0131.outbound.protection.outlook.com [207.46.100.131])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3A79BE00754
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-lb0-f171.google.com (mail-lb0-f171.google.com
+	[209.85.217.171])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 56FDBE003A8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 10 Mar 2015 05:11:40 -0700 (PDT)
-Received: from BY2PR03CA062.namprd03.prod.outlook.com (10.141.249.35) by
-	BY1PR03MB1435.namprd03.prod.outlook.com (25.162.127.153) with Microsoft
-	SMTP Server (TLS) id 15.1.99.14; Tue, 10 Mar 2015 12:11:38 +0000
-Received: from BL2FFO11FD020.protection.gbl (2a01:111:f400:7c09::100) by
-	BY2PR03CA062.outlook.office365.com (2a01:111:e400:2c5d::35) with
-	Microsoft SMTP Server (TLS) id 15.1.106.15 via Frontend Transport;
-	Tue, 10 Mar 2015 12:11:38 +0000
-Received: from az84smr01.freescale.net (192.88.158.2) by
-	BL2FFO11FD020.mail.protection.outlook.com (10.173.161.38) with
-	Microsoft SMTP Server (TLS) id 15.1.112.13 via Frontend Transport;
-	Tue, 10 Mar 2015 12:11:37 +0000
-Received: from localhost.localdomain (fsr-ub1464-106.ea.freescale.net
-	[10.171.74.27])
-	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t2ACBZOi023150
+	Tue, 10 Mar 2015 10:08:44 -0700 (PDT)
+Received: by lbdu10 with SMTP id u10so3245535lbd.4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 10 Mar 2015 05:11:36 -0700
-From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 10 Mar 2015 12:11:34 +0000
-Message-ID: <1425989494-501-1-git-send-email-bogdan.purcareata@freescale.com>
-X-Mailer: git-send-email 2.1.4
-X-EOPAttributedMessage: 0
-Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
-	designate 192.88.158.2 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
-Authentication-Results: spf=fail (sender IP is 192.88.158.2)
-	smtp.mailfrom=bogdan.purcareata@freescale.com; yoctoproject.org;
-	dkim=none (message not signed) header.d=none;
-X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI; BMV:0;
-	SFV:NSPM;
-	SFS:(10019020)(6009001)(339900001)(189002)(199003)(450100001)(36756003)(46102003)(15975445007)(77156002)(50986999)(92566002)(62966003)(77096005)(106466001)(50226001)(33646002)(47776003)(105606002)(50466002)(2351001)(6806004)(229853001)(19580395003)(107886001)(48376002)(110136001)(19580405001)(104016003)(49486002)(575784001)(87936001)(85426001)(15395725005);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BY1PR03MB1435;
-	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv; MX:1; A:1;
-	LANG:en; 
+	Tue, 10 Mar 2015 10:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=J+KzUFn1sW932L8cbRzlbAKCTmG5UbrrpX07xkPdrEs=;
+	b=L4d4lNx9AEoegZHRW/a0zOFbekYmMX5FL15QBzFHvhRIJ6+HNKYQM2GXivv9Ry9Tvp
+	PPi1flpPEhwz8TKw1xn7hge+XVC/eNBnBjm6mUMXf9ldLuSihrRI4cucjBv7Yn0hZDR+
+	Ce6YCoC2V1obv8v6c2mh5XBEOSOYWbUQRSxnCorYUUdU97nh8BXCPoKElZ2YTz1b9Bct
+	Ds1kwT2tGP4d6anQY5yidHrqWuGHa4AI7Us52evaeCDUgmBX7QLi51zrxwJO7iuQFSr1
+	85zi4gGprlphsHqJg6Whou0LSerAYPFGJzHyaQHqXhbV2thSgCuxL8//PyZ7VBoRcf6/
+	55zw==
 MIME-Version: 1.0
-X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BY1PR03MB1435;
-X-Microsoft-Antispam-PRVS: <BY1PR03MB14357B85E9133787490953D48A180@BY1PR03MB1435.namprd03.prod.outlook.com>
-X-Exchange-Antispam-Report-Test: UriScan:;
-X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
-	RULEID:(601004)(5001009)(5005006); SRVR:BY1PR03MB1435; BCL:0;
-	PCL:0; RULEID:; SRVR:BY1PR03MB1435; 
-X-Forefront-PRVS: 051158ECBB
-X-OriginatorOrg: freescale.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2015 12:11:37.3696 (UTC)
-X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2];
-	Helo=[az84smr01.freescale.net]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR03MB1435
-Subject: [PATCH 3/3] lxc: Add support for seccomp on PPC architectures
+X-Received: by 10.152.28.5 with SMTP id x5mr30795254lag.112.1426007322119;
+	Tue, 10 Mar 2015 10:08:42 -0700 (PDT)
+Received: by 10.112.170.70 with HTTP; Tue, 10 Mar 2015 10:08:42 -0700 (PDT)
+In-Reply-To: <1425989489-458-1-git-send-email-bogdan.purcareata@freescale.com>
+References: <1425989489-458-1-git-send-email-bogdan.purcareata@freescale.com>
+Date: Tue, 10 Mar 2015 13:08:42 -0400
+Message-ID: <CADkTA4PhnTZQ5FQqvmc7Y8J9BT+tHqpbg4JUTrgKyjS4q0KV-Q@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 2/3] lxc: Add PACKAGECONFIG for seccomp
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -82,141 +62,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Mar 2015 12:11:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Mar 2015 17:08:50 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Add the necessary bits to enable seccomp support for LXC running on PPC
-architectures. libseccomp added support for PPC [1], yet to be applied to
-Yocto/meta-security.
+On Tue, Mar 10, 2015 at 8:11 AM, Bogdan Purcareata
+<bogdan.purcareata@freescale.com> wrote:
+> Determine whether libseccomp is installed in the Yocto image, and based on that,
+> compile the necessary support for LXC as well.
+>
+> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> ---
+>  recipes-containers/lxc/lxc_1.0.7.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/recipes-containers/lxc/lxc_1.0.7.bb b/recipes-containers/lxc/lxc_1.0.7.bb
+> index c618c84..4110ac5 100644
+> --- a/recipes-containers/lxc/lxc_1.0.7.bb
+> +++ b/recipes-containers/lxc/lxc_1.0.7.bb
+> @@ -43,12 +43,14 @@ EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+>
+>  PACKAGECONFIG ??= "templates \
+>      ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+> +    ${@base_contains('IMAGE_INSTALL', 'libseccomp', 'seccomp', '', d)} \
 
-[1] https://github.com/seccomp/libseccomp/tree/working-ppc64
+This doesn't seem correct, or at least not in the spirit of other
+package config options
+and tests that I've used (and seen). But if you know of a reference
+that looks like this,
+point me in its direction and I'll have a look.
 
-Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
----
- .../files/ppc-add-seccomp-support-for-lxc.patch    | 100 +++++++++++++++++++++
- recipes-containers/lxc/lxc_1.0.7.bb                |   1 +
- 2 files changed, 101 insertions(+)
- create mode 100644 recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch
+Testing on distro features is one thing, as would be image features ..
+but IMAGE_INSTALL
+is not the same, and isn't always used.
 
-diff --git a/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch b/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch
-new file mode 100644
-index 0000000..769d165
---- /dev/null
-+++ b/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch
-@@ -0,0 +1,100 @@
-+From 29ca2ec418cb496ac8a19f0718a8474a55cfe16d Mon Sep 17 00:00:00 2001
-+From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-+Date: Wed, 4 Feb 2015 11:28:32 +0000
-+Subject: [PATCH] seccomp: add ppc support
-+
-+This patch enables seccomp support for LXC containers running on PowerPC
-+architectures. It is based on the latest PowerPC support added to libseccomp, on
-+the working-ppc64 branch [1].
-+
-+Libseccomp has been tested on ppc, ppc64 and ppc64le architectures. LXC with
-+seccomp support has been tested on ppc and ppc64 architectures, using the
-+default seccomp policy example files delivered with the LXC package.
-+
-+[1] https://github.com/seccomp/libseccomp/commits/working-ppc64
-+
-+Upstream-Status: Pending
-+[https://lists.linuxcontainers.org/pipermail/lxc-devel/2015-March/011437.html]
-+
-+Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-+---
-+ src/lxc/seccomp.c | 42 ++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 42 insertions(+)
-+
-+diff --git a/src/lxc/seccomp.c b/src/lxc/seccomp.c
-+index 3ba6c9a..0e2310f 100644
-+--- a/src/lxc/seccomp.c
-++++ b/src/lxc/seccomp.c
-+@@ -121,6 +121,9 @@ enum lxc_hostarch_t {
-+ 	lxc_seccomp_arch_i386,
-+ 	lxc_seccomp_arch_amd64,
-+ 	lxc_seccomp_arch_arm,
-++	lxc_seccomp_arch_ppc64,
-++	lxc_seccomp_arch_ppc64le,
-++	lxc_seccomp_arch_ppc,
-+ 	lxc_seccomp_arch_unknown = 999,
-+ };
-+ 
-+@@ -137,6 +140,12 @@ int get_hostarch(void)
-+ 		return lxc_seccomp_arch_amd64;
-+ 	else if (strncmp(uts.machine, "armv7", 5) == 0)
-+ 		return lxc_seccomp_arch_arm;
-++	else if (strncmp(uts.machine, "ppc64le", 7) == 0)
-++		return lxc_seccomp_arch_ppc64le;
-++	else if (strncmp(uts.machine, "ppc64", 5) == 0)
-++		return lxc_seccomp_arch_ppc64;
-++	else if (strncmp(uts.machine, "ppc", 3) == 0)
-++		return lxc_seccomp_arch_ppc;
-+ 	return lxc_seccomp_arch_unknown;
-+ }
-+ 
-+@@ -150,6 +159,9 @@ scmp_filter_ctx get_new_ctx(enum lxc_hostarch_t n_arch, uint32_t default_policy_
-+ 	case lxc_seccomp_arch_i386: arch = SCMP_ARCH_X86; break;
-+ 	case lxc_seccomp_arch_amd64: arch = SCMP_ARCH_X86_64; break;
-+ 	case lxc_seccomp_arch_arm: arch = SCMP_ARCH_ARM; break;
-++	case lxc_seccomp_arch_ppc64le: arch = SCMP_ARCH_PPC64LE; break;
-++	case lxc_seccomp_arch_ppc64: arch = SCMP_ARCH_PPC64; break;
-++	case lxc_seccomp_arch_ppc: arch = SCMP_ARCH_PPC; break;
-+ 	default: return NULL;
-+ 	}
-+ 
-+@@ -343,6 +355,36 @@ static int parse_config_v2(FILE *f, char *line, struct lxc_conf *conf)
-+ 				cur_rule_arch = lxc_seccomp_arch_arm;
-+ 			}
-+ #endif
-++#ifdef SCMP_ARCH_PPC64LE
-++			else if (strcmp(line, "[ppc64le]") == 0 ||
-++					strcmp(line, "[PPC64LE]") == 0) {
-++				if (native_arch != lxc_seccomp_arch_ppc64le) {
-++					cur_rule_arch = lxc_seccomp_arch_unknown;
-++					continue;
-++				}
-++				cur_rule_arch = lxc_seccomp_arch_ppc64le;
-++			}
-++#endif
-++#ifdef SCMP_ARCH_PPC64
-++			else if (strcmp(line, "[ppc64]") == 0 ||
-++					strcmp(line, "[PPC64]") == 0) {
-++				if (native_arch != lxc_seccomp_arch_ppc64) {
-++					cur_rule_arch = lxc_seccomp_arch_unknown;
-++					continue;
-++				}
-++				cur_rule_arch = lxc_seccomp_arch_ppc64;
-++			}
-++#endif
-++#ifdef SCMP_ARCH_PPC
-++			else if (strcmp(line, "[ppc]") == 0 ||
-++					strcmp(line, "[PPC]") == 0) {
-++				if (native_arch != lxc_seccomp_arch_ppc) {
-++					cur_rule_arch = lxc_seccomp_arch_unknown;
-++					continue;
-++				}
-++				cur_rule_arch = lxc_seccomp_arch_ppc;
-++			}
-++#endif
-+ 			else
-+ 				goto bad_arch;
-+ 
-+-- 
-+2.1.4
-+
-diff --git a/recipes-containers/lxc/lxc_1.0.7.bb b/recipes-containers/lxc/lxc_1.0.7.bb
-index 4110ac5..d1af6ac 100644
---- a/recipes-containers/lxc/lxc_1.0.7.bb
-+++ b/recipes-containers/lxc/lxc_1.0.7.bb
-@@ -29,6 +29,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://add-lxc.rebootsignal.patch \
- 	file://document-lxc.rebootsignal.patch \
- 	file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
-+	file://ppc-add-seccomp-support-for-lxc.patch \
- 	"
- 
- SRC_URI[md5sum] = "b48f468a9bef0e4e140dd723f0a65ad0"
+Part of the package config is to trigger both depends and rdepends on
+other packages
+when it is enabled. In this case, we are doing the opposite, using the
+dependency to
+trigger the package config.
+
+Either this test needs to be patched into the lxc configuration phase,
+so it can detect
+it at runtime, or just leave it at a package config option. Your
+layers can then enable
+that packageconfig and everything works as expected, and we don't
+force all users
+to enable this in lxc when they may not want it simply because
+libseccomp is present.
+
+Bruce
+
+>  "
+>  PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
+>  PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
+>  PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+>  PACKAGECONFIG[templates] = ",,, ${PN}-templates"
+>  PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
+> +PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
+>
+>  inherit autotools pkgconfig ptest update-rc.d systemd
+>
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-2.1.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
