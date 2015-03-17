@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7FAB7E00753; Tue, 17 Mar 2015 06:42:50 -0700 (PDT)
+	id E9C13E00753; Tue, 17 Mar 2015 06:43:28 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.215.49 listed in list.dnswl.org]
+	*      [209.85.217.176 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-la0-f49.google.com (mail-la0-f49.google.com
-	[209.85.215.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B3989E00746
+Received: from mail-lb0-f176.google.com (mail-lb0-f176.google.com
+	[209.85.217.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D5938E00746
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Mar 2015 06:42:49 -0700 (PDT)
-Received: by lagg8 with SMTP id g8so8874407lag.1
+	Tue, 17 Mar 2015 06:43:25 -0700 (PDT)
+Received: by lbcds1 with SMTP id ds1so7227275lbc.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Mar 2015 06:42:47 -0700 (PDT)
+	Tue, 17 Mar 2015 06:43:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=BR/vfQknF4FJPF9NBv27FokjIKDiwQijan8sjgGDkis=;
-	b=rkTAbbCDCK1cXqpaQCBsPDCEgbBwKvxVZfuW/Oeykf96BcacklkQGmj81P6ZOu3qNY
-	yG8zblKj786pFX9cWywQ01OQOrsbupzzpCAsR99Q3cfwLkd/qjSbXTfsTAMFZKELbb6f
-	vP/3dl/WdGDhJT8X5Fd64vqV3N/F0JhdKPZ3cZ5Xg6Xu6RwzsDUMxHuI8JtiSuJWdews
-	1bEc3R2Va5mRFJ5cJAfNkaPnzSrN3QK8Kxivld1l3EhPzoo4uYbUVe/OKOqAOK9ZHRZl
-	/lgisymq5nkJwAGR22Erw0I4macVpZLQUN5hXQHCy/xGG6sVeyVP4u7elUJPLmY2xDlU
-	g0PQ==
+	bh=RkUMWz30csInTbRkfQ584k+kul5mPQon5X6HVV0mTsc=;
+	b=f3C1PVewaZNDDVUMuVndchPlxdS+G0C2wpf2QUtgAtbDyKncspCE4brP91p6cQYjQk
+	dn8O8DHSH2dzHYv2LlZAnU3ddklSbwktDbl8r2Iw19xRhl/84SP99hLTud0VAkVwY1ua
+	LgLCHDXmw4WN/vYioZG+4yK7lpzfBqZuhxm8B6ZGFOSDa/IYvHZPEpEflFz30a1U6tHB
+	HsgOhV10Y1hudaqYz6iUmufxxf88MFi9teqZx9QjKoZMCSjUJopE83V7pvD1epgIdjmE
+	zzGnqD8hyq+tbsTD0O9whBTsK7slTLQo8mUht55lJgdxMjnqXpH07SmzDgDB/Ufz5HUS
+	N2MA==
 MIME-Version: 1.0
-X-Received: by 10.152.115.169 with SMTP id jp9mr60184204lab.121.1426599767080; 
-	Tue, 17 Mar 2015 06:42:47 -0700 (PDT)
-Received: by 10.112.170.70 with HTTP; Tue, 17 Mar 2015 06:42:47 -0700 (PDT)
-In-Reply-To: <1426532133-30849-1-git-send-email-kergoth@gmail.com>
-References: <1426532133-30849-1-git-send-email-kergoth@gmail.com>
-Date: Tue, 17 Mar 2015 09:42:47 -0400
-Message-ID: <CADkTA4MvZ7UXMxjVTB0Rv6wgudZeoNUUx0aPOHjAKjd-eo2OvA@mail.gmail.com>
+X-Received: by 10.152.179.42 with SMTP id dd10mr29166980lac.122.1426599803746; 
+	Tue, 17 Mar 2015 06:43:23 -0700 (PDT)
+Received: by 10.112.170.70 with HTTP; Tue, 17 Mar 2015 06:43:23 -0700 (PDT)
+In-Reply-To: <1426504623-1921-1-git-send-email-bogdan.purcareata@freescale.com>
+References: <1426504623-1921-1-git-send-email-bogdan.purcareata@freescale.com>
+Date: Tue, 17 Mar 2015 09:43:23 -0400
+Message-ID: <CADkTA4Ptv_B=_Mopd_NuX4LoAvKR0YsFE2uMHL52W6RRJgNjPQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Christopher Larson <kergoth@gmail.com>
+To: Bogdan Purcareata <bogdan.purcareata@freescale.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] xen: avoid parse time errors for non-xen-archs
+Subject: Re: [PATCH] lxc: Update support for seccomp on PPC architectures
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,62 +62,91 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Mar 2015 13:42:50 -0000
+X-List-Received-Date: Tue, 17 Mar 2015 13:43:29 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Mar 16, 2015 at 2:55 PM, Christopher Larson <kergoth@gmail.com> wrote:
-> XEN_TARGET_ARCH, when expanded, would emit a bb.error(). Referencing
-> XEN_TARGET_ARCH in PACKAGECONFIG resulted in its expansion at the up front
-> parse time, rather than at compile time, so non-xen-supported-archs like
-> powerpc would see parse time errors, resulting in non-zero bitbake exit codes.
->
-> Naturally this isn't ideal, so instead have the mapping function return
-> 'INVALID' in the unsupported case, and in anonymous python, raise SkipPackage
-> if the mapped architecture is invalid, so it's seen as unbuildable in that
-> case.
-
-Looks good to me.
+On Mon, Mar 16, 2015 at 7:17 AM, Bogdan Purcareata
+<bogdan.purcareata@freescale.com> wrote:
+> Update the LXC recipe with the upstream-applied version of the patch.
 
 merged.
 
 Bruce
 
 >
-> Signed-off-by: Christopher Larson <kergoth@gmail.com>
+> Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
 > ---
->  recipes-extended/xen/xen-arch.inc | 2 +-
->  recipes-extended/xen/xen.inc      | 5 +++++
->  2 files changed, 6 insertions(+), 1 deletion(-)
+>  .../files/ppc-add-seccomp-support-for-lxc.patch    | 29 +++++++++++++++-------
+>  1 file changed, 20 insertions(+), 9 deletions(-)
 >
-> diff --git a/recipes-extended/xen/xen-arch.inc b/recipes-extended/xen/xen-arch.inc
-> index bcf9f54..fb0093e 100644
-> --- a/recipes-extended/xen/xen-arch.inc
-> +++ b/recipes-extended/xen/xen-arch.inc
-> @@ -14,5 +14,5 @@ def map_xen_arch(a, d):
->      elif re.match("aarch64.*", a):   return "arm64"
->      elif a in valid_archs:           return a
->      else:
-> -        bb.error("cannot map '%s' to a xen architecture" % a)
-> +        return "INVALID"
+> diff --git a/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch b/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch
+> index 6faf791..1055539 100644
+> --- a/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch
+> +++ b/recipes-containers/lxc/files/ppc-add-seccomp-support-for-lxc.patch
+> @@ -1,6 +1,6 @@
+> -From 29ca2ec418cb496ac8a19f0718a8474a55cfe16d Mon Sep 17 00:00:00 2001
+> +From b4067426d58aec9b6cad7a4739793f3d90c5f189 Mon Sep 17 00:00:00 2001
+>  From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> -Date: Wed, 4 Feb 2015 11:28:32 +0000
+> +Date: Thu, 12 Mar 2015 08:57:47 +0000
+>  Subject: [PATCH] seccomp: add ppc support
 >
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 0e4136a..432bf4d 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -663,6 +663,11 @@ export STAGING_LIBDIR
->  export XEN_TARGET_ARCH = "${@map_xen_arch(d.getVar('TARGET_ARCH', True), d)}"
->  export XEN_COMPILE_ARCH = "${@map_xen_arch(d.getVar('BUILD_ARCH', True), d)}"
+>  This patch enables seccomp support for LXC containers running on PowerPC
+> @@ -13,16 +13,21 @@ default seccomp policy example files delivered with the LXC package.
 >
-> +python () {
-> +    if d.getVar('XEN_TARGET_ARCH', True) == 'INVALID':
-> +        raise bb.parse.SkipPackage('Cannot map `%s` to a xen architecture' % d.getVar('TARGET_ARCH', True))
-> +}
+>  [1] https://github.com/seccomp/libseccomp/commits/working-ppc64
+>
+> -Upstream-Status: Pending
+> -[https://lists.linuxcontainers.org/pipermail/lxc-devel/2015-March/011437.html]
+> +v2:
+> +- add #ifdefs in get_new_ctx to fix builds on systems not having SCMP_ARCH_PPC*
+> +  defined
 > +
->  # hardcoded as Linux, as the only compatible hosts are Linux.
->  export XEN_OS = "Linux"
+> +Upstream-Status: Applied
+> +[https://github.com/lxc/lxc/commit/b4067426d58aec9b6cad7a4739793f3d90c5f189]
 >
+>  Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+> +Acked-by: Serge E. Hallyn <serge.hallyn@ubuntu.com>
+>  ---
+> - src/lxc/seccomp.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+> - 1 file changed, 42 insertions(+)
+> + src/lxc/seccomp.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+> + 1 file changed, 48 insertions(+)
+>
+>  diff --git a/src/lxc/seccomp.c b/src/lxc/seccomp.c
+> -index 3ba6c9a..0e2310f 100644
+> +index 3ba6c9a..108faa0 100644
+>  --- a/src/lxc/seccomp.c
+>  +++ b/src/lxc/seccomp.c
+>  @@ -121,6 +121,9 @@ enum lxc_hostarch_t {
+> @@ -48,17 +53,23 @@ index 3ba6c9a..0e2310f 100644
+>         return lxc_seccomp_arch_unknown;
+>   }
+>
+> -@@ -150,6 +159,9 @@ scmp_filter_ctx get_new_ctx(enum lxc_hostarch_t n_arch, uint32_t default_policy_
+> +@@ -150,6 +159,15 @@ scmp_filter_ctx get_new_ctx(enum lxc_hostarch_t n_arch, uint32_t default_policy_
+>         case lxc_seccomp_arch_i386: arch = SCMP_ARCH_X86; break;
+>         case lxc_seccomp_arch_amd64: arch = SCMP_ARCH_X86_64; break;
+>         case lxc_seccomp_arch_arm: arch = SCMP_ARCH_ARM; break;
+> ++#ifdef SCMP_ARCH_PPC64LE
+>  +      case lxc_seccomp_arch_ppc64le: arch = SCMP_ARCH_PPC64LE; break;
+> ++#endif
+> ++#ifdef SCMP_ARCH_PPC64
+>  +      case lxc_seccomp_arch_ppc64: arch = SCMP_ARCH_PPC64; break;
+> ++#endif
+> ++#ifdef SCMP_ARCH_PPC
+>  +      case lxc_seccomp_arch_ppc: arch = SCMP_ARCH_PPC; break;
+> ++#endif
+>         default: return NULL;
+>         }
+>
+> -@@ -343,6 +355,36 @@ static int parse_config_v2(FILE *f, char *line, struct lxc_conf *conf)
+> +@@ -343,6 +361,36 @@ static int parse_config_v2(FILE *f, char *line, struct lxc_conf *conf)
+>                                 cur_rule_arch = lxc_seccomp_arch_arm;
+>                         }
+>   #endif
 > --
-> 2.2.1
+> 2.1.4
 >
 > --
 > _______________________________________________
