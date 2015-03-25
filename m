@@ -1,55 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <eddy.lai.tw@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B4F4AE0091D; Tue, 24 Mar 2015 11:24:58 -0700 (PDT)
+	id 1DA09E0091D; Tue, 24 Mar 2015 18:15:06 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.217.173 listed in list.dnswl.org]
+	mail provider *      (eddy.lai.tw[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lb0-f173.google.com (mail-lb0-f173.google.com
-	[209.85.217.173])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5C1FCE008D4
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.218.44 listed in list.dnswl.org]
+Received: from mail-oi0-f44.google.com (mail-oi0-f44.google.com
+	[209.85.218.44])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2C37CE008D4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Mar 2015 11:24:55 -0700 (PDT)
-Received: by lbcgn8 with SMTP id gn8so913924lbc.2
+	Tue, 24 Mar 2015 18:15:02 -0700 (PDT)
+Received: by oiag65 with SMTP id g65so9329869oia.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Mar 2015 11:24:54 -0700 (PDT)
+	Tue, 24 Mar 2015 18:15:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=f5jqPJK4tCoXq0LSQnMuP0KQEjymQzeWyLDBYMkvgA4=;
-	b=x5UXy9OsKQ3lWczyi0iPk9igO1GI1zUAAbpT4KD10OeQ04dieHW1dEbAihiDidlYT7
-	oocSOsBWYkw890x5BzB9FCnrLQBFGWbeKGxJj3ZfcuxavLtRfp9O0cJGeEz96UbbrRqj
-	OZSGebilE4s8zGludiDIJYiFcX134TgW0wxrOakzHC55hjNpRy6Mz6rhUa+rmfuhGhf0
-	6HSlhRDYvjwSx/dnkA1gcXdeIqWBct6lSBr8UG74fOu1p9C2Qpkg+sJYBlCSl2qVT444
-	UGXpomtwfBKgnZb/BFD+9MhcTUaPanzhVxmXXf/e2zjBL/jURjNTEyQ818hVQUg0Fw0u
-	/g5A==
+	h=mime-version:date:message-id:subject:from:to:content-type;
+	bh=obyUL+zOrDpK6O0H/y9trSuyoyuj0CH0773Q/GSb3uU=;
+	b=VvH8G78805DIYU/Srz9kSaEsKGG7ReQ6hI7JFWuXZWtu9/8k03IWa+E6JPls2Q2pgQ
+	M+ozYXJokm2sYb6tfdGxjEQ81OSz2jgSTRjnwfoB6v0ZT2sRv60EXExBDO2SExr7iES8
+	ACMd4ZmNukkCtUZR7f1/32s6TmLb/HD7t6DyoKsjx87raYnqBUyPs7aGAvqx8lCimSzV
+	tBoSKU6m0PI9GL5nOGjz8ISixlxW2XchwaBACYcMt96VOXqgULGhtq/F06n9UTyLcPyt
+	CpyA9Xc0NeZfu+6fuelwTy08X94YMBAtZuQ4t0Lg09ZH4wb7wFABmjDHlG8e+jjr3bmQ
+	psdw==
 MIME-Version: 1.0
-X-Received: by 10.112.160.227 with SMTP id xn3mr2972731lbb.112.1427221493706; 
-	Tue, 24 Mar 2015 11:24:53 -0700 (PDT)
-Received: by 10.112.170.70 with HTTP; Tue, 24 Mar 2015 11:24:53 -0700 (PDT)
-In-Reply-To: <20150323173319.GA17882@windriver.com>
-References: <20150323173319.GA17882@windriver.com>
-Date: Tue, 24 Mar 2015 14:24:53 -0400
-Message-ID: <CADkTA4Pw-t=V1GPARrk0ZPqFCcW1TjP7RcqeNSASpVY_nUzzyA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Amy Fong <amy.fong@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] libvirt: do_compile fails 'src/cpu/cpu_map.xml': No such file or directory
+X-Received: by 10.60.50.69 with SMTP id a5mr5365184oeo.23.1427246102297; Tue,
+	24 Mar 2015 18:15:02 -0700 (PDT)
+Received: by 10.76.4.173 with HTTP; Tue, 24 Mar 2015 18:15:02 -0700 (PDT)
+Date: Wed, 25 Mar 2015 09:15:02 +0800
+Message-ID: <CACrgodeNuWsECmFftXE3t3V8hvZGMu6spLXyw+KdPc5GPcUt6A@mail.gmail.com>
+From: Lai Eddy <eddy.lai.tw@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: bblayers configuration
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,97 +58,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Mar 2015 18:24:58 -0000
+X-List-Received-Date: Wed, 25 Mar 2015 01:15:06 -0000
+Content-Type: multipart/alternative; boundary=001a11c21b4cef4114051212a0ea
+
+--001a11c21b4cef4114051212a0ea
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+according to README in meta-virtualization
+I download all the related repo. and add following to my conf/bblayers.conf
 
-Bruce
+  /media/data/poky/meta-virtualization \
+  /media/data/poky/oe-core/meta \
+  /media/data/poky/meta-oe/meta-oe \
+  /media/data/poky/meta-oe/meta-python \
+  /media/data/poky/meta-oe/meta-networking \
+  /media/data/poky/meta-oe/meta-filesystems \
 
-On Mon, Mar 23, 2015 at 1:33 PM, Amy Fong <amy.fong@windriver.com> wrote:
-> From b80338aa436fa115cc0c8d9b7fc5345d4171c56a Mon Sep 17 00:00:00 2001
-> From: Amy Fong <amy.fong@windriver.com>
-> Date: Mon, 23 Mar 2015 13:29:39 -0400
-> Subject: [PATCH] libvirt: do_compile fails 'src/cpu/cpu_map.xml': No such file
->  or directory'
->
-> In some circumstances where the build tree differs from the source,
-> libvirt's compile will try to create the symlink for cpu_map.xml before
-> creating the directory $(abs_builddir)/cpu.
->
-> Add a test to create this directory if it hasn't already been created.
->
-> Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> ---
->  ...virt-Fix-cannot-symlink-cpu_map.xml-error.patch | 34 ++++++++++++++++++++++
->  recipes-extended/libvirt/libvirt_1.2.12.bb         |  1 +
->  2 files changed, 35 insertions(+)
->  create mode 100644 recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch
->
-> diff --git a/recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch b/recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch
-> new file mode 100644
-> index 0000000..090bc6e
-> --- /dev/null
-> +++ b/recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch
-> @@ -0,0 +1,34 @@
-> +libvirt: do_compile fails 'src/cpu/cpu_map.xml': No such file or directory'
-> +
-> +In some very rare circumstances, libvirt's compile will try to create the
-> +symlink for cpu_map.xml before creating the directory $(abs_builddir)/cpu.
-> +
-> +Add a test to create this directory if it hasn't already been created.
-> +
-> +Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> +
-> +---
-> + src/Makefile.am |    1 +
-> + src/Makefile.in |    1 +
-> + 2 files changed, 2 insertions(+)
-> +
-> +--- a/src/Makefile.am
-> ++++ b/src/Makefile.am
-> +@@ -1053,6 +1053,7 @@
-> + libvirt_cpu_la_DEPENDENCIES = $(abs_builddir)/cpu/cpu_map.xml
-> +
-> + $(abs_builddir)/cpu/cpu_map.xml:
-> ++      if [ ! -d $(abs_builddir)/cpu ]; then $(MKDIR_P) $(abs_builddir)/cpu/; fi
-> +       $(AM_V_GEN)ln -s $(abs_srcdir)/cpu/cpu_map.xml $@
-> +
-> + if WITH_VMX
-> +--- a/src/Makefile.in
-> ++++ b/src/Makefile.in
-> +@@ -10338,6 +10338,7 @@
-> +         $(srcdir)/lxc/lxc_controller_dispatch.h
-> +
-> + $(abs_builddir)/cpu/cpu_map.xml:
-> ++      if [ ! -d $(abs_builddir)/cpu ]; then $(MKDIR_P) $(abs_builddir)/cpu/; fi
-> +       $(AM_V_GEN)ln -s $(abs_srcdir)/cpu/cpu_map.xml $@
-> +
-> + %protocol.c: %protocol.x %protocol.h $(srcdir)/rpc/genprotocol.pl
-> diff --git a/recipes-extended/libvirt/libvirt_1.2.12.bb b/recipes-extended/libvirt/libvirt_1.2.12.bb
-> index ef46e22..dca2d1b 100644
-> --- a/recipes-extended/libvirt/libvirt_1.2.12.bb
-> +++ b/recipes-extended/libvirt/libvirt_1.2.12.bb
-> @@ -30,6 +30,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
->             file://runptest.patch \
->             file://run-ptest \
->             file://tests-allow-separated-src-and-build-dirs.patch \
-> +           file://libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch \
->            "
->
->  SRC_URI[libvirt.md5sum] = "2ae99535265ce4687d8718d744024c27"
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+then change BBFILE_PRIORITY_openembedded-layer = "4" insdide the layer.conf
+of meta-oe/meta-oe, have I done everything right?
 
+I go following error after issue "bitbake kvm-image-minimal"
 
+File:
+'__anon_35__media_data_poky_oe_core_meta_recipes_support_libproxy_libproxy_0_4_11_bb',
+lineno: 2, function:
+__anon_35__media_data_poky_oe_core_meta_recipes_support_libproxy_libproxy_0_4_11_bb
+     0001:def
+__anon_35__media_data_poky_oe_core_meta_recipes_support_libproxy_libproxy_0_4_11_bb(d):
+ *** 0002:    if incompatible_license_contains("GPLv3", "x", "", d) == "x"
+or bb.utils.contains("DISTRO_FEATURES", "x11", "x", "", d) == "":
+     0003:        d.setVar("EXTRA_OECMAKE",
+d.getVar("EXTRA_OECMAKE").replace("-DWITH_GNOME=yes", "-DWITH_GNOME=no"))
+     0004:        d.setVar("DEPENDS", " ".join(i for i in
+d.getVar("DEPENDS").split() if i != "gconf"))
+     0005:
+Exception: NameError: global name 'incompatible_license_contains' is not
+defined
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+--001a11c21b4cef4114051212a0ea
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div><div>according to README in meta-virtualization<br></=
+div>I download all the related repo. and add following to my conf/bblayers.=
+conf<br><br>=C2=A0 /media/data/poky/meta-virtualization \<br>=C2=A0 /media/=
+data/poky/oe-core/meta \<br>=C2=A0 /media/data/poky/meta-oe/meta-oe \<br>=
+=C2=A0 /media/data/poky/meta-oe/meta-python \<br>=C2=A0 /media/data/poky/me=
+ta-oe/meta-networking \<br>=C2=A0 /media/data/poky/meta-oe/meta-filesystems=
+ \<br><br></div><div>then change BBFILE_PRIORITY_openembedded-layer =3D &qu=
+ot;4&quot; insdide the layer.conf of meta-oe/meta-oe, have I done everythin=
+g right? <br><br></div><div>I go following error after issue &quot;bitbake =
+kvm-image-minimal&quot;<br><br>File: &#39;__anon_35__media_data_poky_oe_cor=
+e_meta_recipes_support_libproxy_libproxy_0_4_11_bb&#39;, lineno: 2, functio=
+n: __anon_35__media_data_poky_oe_core_meta_recipes_support_libproxy_libprox=
+y_0_4_11_bb<br>=C2=A0=C2=A0=C2=A0=C2=A0 0001:def __anon_35__media_data_poky=
+_oe_core_meta_recipes_support_libproxy_libproxy_0_4_11_bb(d):<br>=C2=A0*** =
+0002:=C2=A0=C2=A0=C2=A0 if incompatible_license_contains(&quot;GPLv3&quot;,=
+ &quot;x&quot;, &quot;&quot;, d) =3D=3D &quot;x&quot; or bb.utils.contains(=
+&quot;DISTRO_FEATURES&quot;, &quot;x11&quot;, &quot;x&quot;, &quot;&quot;, =
+d) =3D=3D &quot;&quot;:<br>=C2=A0=C2=A0=C2=A0=C2=A0 0003:=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar(&quot;EXTRA_OECMAKE&quot;, d.getVar(&quot=
+;EXTRA_OECMAKE&quot;).replace(&quot;-DWITH_GNOME=3Dyes&quot;, &quot;-DWITH_=
+GNOME=3Dno&quot;))<br>=C2=A0=C2=A0=C2=A0=C2=A0 0004:=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 d.setVar(&quot;DEPENDS&quot;, &quot; &quot;.join(i fo=
+r i in d.getVar(&quot;DEPENDS&quot;).split() if i !=3D &quot;gconf&quot;))<=
+br>=C2=A0=C2=A0=C2=A0=C2=A0 0005:<br>Exception: NameError: global name &#39=
+;incompatible_license_contains&#39; is not defined<br><br></div><div><br></=
+div></div>
+
+--001a11c21b4cef4114051212a0ea--
