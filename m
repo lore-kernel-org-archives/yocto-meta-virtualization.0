@@ -1,56 +1,39 @@
-Return-Path: <vomegaz@gmail.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 72B76E008EA; Wed,  1 Apr 2015 09:13:43 -0700 (PDT)
+	id 18022E00858; Tue,  7 Apr 2015 01:55:18 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.212.181 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wi0-f181.google.com (mail-wi0-f181.google.com
-	[209.85.212.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E7461E0056E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B02C6E007A0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  1 Apr 2015 09:13:41 -0700 (PDT)
-Received: by wiaa2 with SMTP id a2so72792512wia.0
+	Tue,  7 Apr 2015 01:55:16 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t378tFdU021588
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 01 Apr 2015 09:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=zPNUv9CBuR0wG5HrwKTjOhWdRsZQzPMN02lvh+vONrU=;
-	b=Smj1vdBCCcfILUCrUsNa9t4KG6yOdFoqaPGis3sZn7N91UPvu/HfqyBj0sAgFsFpY3
-	0q2guskyjZd5iEm0KRV3iUkwKwrsB2lAManHMTFBH+KsisRDG1o91v1b9cqW4UE6qDpS
-	SGMovz9Sj/1ujetm2i1OZY9EyWs3kyyxPnAIIkJCwTXMovO4jJwBpaPxsOQUZ5FYpbLj
-	NI6RGSxfXKZwfE+uuM45kn9tC2InWn0E5eNX09P6qdKbW9PYyJgeiAsgCgaxsbT4ninN
-	6rYjkUvvwTSbJUIa8PyVq2RB5ap2CSPGQRsGiTIBddEBgKWDbfjqee/3HGK1AlMoCNvl
-	W/lg==
-X-Received: by 10.194.187.46 with SMTP id fp14mr55456837wjc.86.1427904820110; 
-	Wed, 01 Apr 2015 09:13:40 -0700 (PDT)
+	Tue, 7 Apr 2015 01:55:15 -0700 (PDT)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Tue, 7 Apr 2015 01:55:15 -0700
+From: <jackie.huang@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 7 Apr 2015 16:55:14 +0800
+Message-ID: <1428396914-16902-1-git-send-email-jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Sender: vomegaz@gmail.com
-Received: by 10.28.170.72 with HTTP; Wed, 1 Apr 2015 09:12:59 -0700 (PDT)
-In-Reply-To: <CAPuovEK8Ta1x-OOR4mBA0G4_r7P_LJOx93p86HhMF5JCg-+rnQ@mail.gmail.com>
-References: <CAPuovEK8Ta1x-OOR4mBA0G4_r7P_LJOx93p86HhMF5JCg-+rnQ@mail.gmail.com>
-From: Thomas PERROT <thomas.perrot@tupi.fr>
-Date: Wed, 1 Apr 2015 18:12:59 +0200
-X-Google-Sender-Auth: sJkHss_khkdiOkFsEojnMBmwBhc
-Message-ID: <CAGXeWgnkx_-hXBXCBt-vmBqzb8PEypZYL6KnN+pw+ipJ1T4_cQ@mail.gmail.com>
-To: "M. Asselstine" <asselsm@mcmaster.ca>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: ERROR: Layer 'networking-layer' depends on layer 'meta-python'
+Subject: [PATCH] python-oslotest: correct the SRC_URI and add bash to rdepends
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: thomas.perrot@tupi.fr
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -60,51 +43,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Apr 2015 16:13:43 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 07 Apr 2015 08:55:18 -0000
+Content-Type: text/plain
 
-Hi,
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Yes, there has a patch, see the email entitled "[meta-virtualization]
-[PATCH] README: add missing meta-python dependency"
------------------------------------------------------------------------------------------
-http://fr.linkedin.com/pub/thomas-perrot/37/436/876
-https://plus.google.com/u/0/111501193434241021399
-https://github.com/tprrt
+- It's updated to 1.4.0 in previous commit but the SRC_URI
+  and checksums are incorrect.
+- The scripts in python-oslotest needs bash so add it to
+  rdepends to avoid:
+  WARNING: QA Issue: python-oslotest requires /bin/bash, but no providers in its RDEPENDS [file-rdeps]
 
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-On Wed, Mar 25, 2015 at 5:46 PM, M. Asselstine <asselsm@mcmaster.ca> wrote:
-> On Mon, Mar 23, 2015 at 9:44 PM, Lai Eddy <eddy.lai.tw@gmail.com> wrote:
->> trying to build $ bitbake kvm-image-minimal with Ubuntu 13.10 host, poky
->> 1.7.1
->> and following README inside meta-virtualization to setup me-virtualization,
->> oe-core, meta-oe dependencys,
->>
->> got following error messge:
->> $ bitbake kvm-image-minimal
->> ERROR: Layer 'networking-layer' depends on layer 'meta-python', but this
->> layer is not enabled in your configuration
->
-> This reminded me that I had a patch queued to send to update the
-> README. Sent now.
->
-> Regards,
-> Mark
->
->>
->>
->> should meta-oe/meta-python added other than meta-oe, meta-networking and
->> meta-filesystems as README said?
->>
->> --
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb b/meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb
+index edb37d8..b3819e4 100644
+--- a/meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb
+@@ -9,11 +9,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+ PR = "r0"
+ SRCNAME = "oslotest"
+ 
+-SRC_URI = "https://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-1.0.0.tar.gz \
++SRC_URI = "https://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[md5sum] = "1f7710e4d38b615990737f813704fd58"
+-SRC_URI[sha256sum] = "cf05f4ff0cbf84ad0b5d1bef7c46d719eaf4408107e65a32a4500cf707d1a1e7"
++SRC_URI[md5sum] = "a573e1943869f0841f487cf94a121321"
++SRC_URI[sha256sum] = "4226c044198792da7e14ca76895656e8d6e4b256eab184a6c81477b373e059a6"
+ 
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+@@ -26,4 +26,5 @@ RDEPENDS_${PN} = "python-fixtures \
+                   python-testtools \
+                   python-mock \
+                   python-mox \
++                  bash \
+ "
+-- 
+1.9.1
+
 
