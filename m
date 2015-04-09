@@ -1,34 +1,38 @@
-Return-Path: <amy.fong@windriver.com>
+Return-Path: <Dmitry_Eremin@mentor.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E2C5BE008EC; Thu,  9 Apr 2015 11:22:22 -0700 (PDT)
+	id 0BBFAE009A1; Thu,  9 Apr 2015 13:01:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [192.94.38.131 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2A8BE0049A
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 05232E009A3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  9 Apr 2015 11:22:20 -0700 (PDT)
-Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t39IMI1O027437
-	(version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
-	Thu, 9 Apr 2015 11:22:18 -0700 (PDT)
-Received: from afong by yow-dellw-af with local (Exim 4.84)
-	(envelope-from <amy.fong@windriver.com>)
-	id 1YgH5S-0000L3-4C; Thu, 09 Apr 2015 14:21:58 -0400
-Date: Thu, 9 Apr 2015 14:21:58 -0400
-From: Amy Fong <amy.fong@windriver.com>
-To: meta-virtualization@yoctoproject.org, amy.fong@windriver.com
-Message-ID: <20150409182158.GA1288@windriver.com>
+	Thu,  9 Apr 2015 13:01:51 -0700 (PDT)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-FEM-03.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1YgIe7-0000eb-7e from Dmitry_Eremin@mentor.com 
+	for meta-virtualization@yoctoproject.org;
+	Thu, 09 Apr 2015 13:01:51 -0700
+Received: from fangorn.rup.mentorg.com (137.202.0.76) by
+	SVR-IES-FEM-03.mgc.mentorg.com (137.202.0.108) with Microsoft SMTP
+	Server (TLS) id 14.3.224.2; Thu, 9 Apr 2015 21:01:50 +0100
+From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Thu, 9 Apr 2015 23:01:47 +0300
+Message-ID: <1428609708-15379-2-git-send-email-dmitry_eremin@mentor.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1428609708-15379-1-git-send-email-dmitry_eremin@mentor.com>
+References: <1428609708-15379-1-git-send-email-dmitry_eremin@mentor.com>
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [PATCH] docker engine not running
+Subject: [PATCH 2/3] lxc: include systemd files into lxc-setup
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,107 +45,29 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Apr 2015 18:22:23 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Apr 2015 20:01:55 -0000
+Content-Type: text/plain
 
-From 37dcaff90e6bfac93dad78f9ddc077b210a28fc8 Mon Sep 17 00:00:00 2001
-From: Amy Fong <amy.fong@windriver.com>
-Date: Thu, 9 Apr 2015 14:19:48 -0400
-Subject: [PATCH] docker engine not running
+lxc-setup package accumulates all initscripts, so it should also include
+systemd service files.
 
-In yocto builds, preprocessing of binaries can happen after the install
-phase.  Some of these can modify the size/sha1sum of the binaries.
-e.g. A new .gnu_debuglink can happen
-
-docker will not start because of these modifications. Docker initially
-does a sha1sum of dockerinit to identify the dockerinit that it was built
-with, this is done for security and for compatibility reasons. Since
-this checking is disabled, we should rely on rpm tests for validation
-of the binary instead.
-
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
+Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
 ---
- recipes-containers/docker/docker_git.bb            |  1 +
- .../docker/files/disable_sha1sum_startup.patch     | 57 ++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 recipes-containers/docker/files/disable_sha1sum_startup.patch
+ recipes-containers/lxc/lxc_1.0.7.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index 8357ee8..8f86f70 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -23,6 +23,7 @@ SRC_URI = "\
- 	git://github.com/docker/docker.git \
- 	file://docker.service \
- 	file://hi.Dockerfile \
-+	file://disable_sha1sum_startup.patch \
- 	"
+diff --git a/recipes-containers/lxc/lxc_1.0.7.bb b/recipes-containers/lxc/lxc_1.0.7.bb
+index c9eef75..1c70958 100644
+--- a/recipes-containers/lxc/lxc_1.0.7.bb
++++ b/recipes-containers/lxc/lxc_1.0.7.bb
+@@ -72,6 +72,7 @@ RDEPENDS_${PN}-templates += "bash"
  
- # Apache-2.0 for docker
-diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patch b/recipes-containers/docker/files/disable_sha1sum_startup.patch
-new file mode 100644
-index 0000000..cc6819b
---- /dev/null
-+++ b/recipes-containers/docker/files/disable_sha1sum_startup.patch
-@@ -0,0 +1,57 @@
-+docker engine not running
-+
-+In yocto builds, preprocessing of binaries can happen after the install phase.
-+Some of these can modify the size/sha1sum of the binaries.
-+e.g. A new .gnu_debuglink can happen
-+
-+docker will not start because of these modifications. Docker initially
-+does a sha1sum of dockerinit to identify the dockerinit that it was built
-+with, this is done for security and for compatibility reasons. Since
-+this checking is disabled, we should rely on rpm tests for validation
-+of the binary instead.
-+
-+Signed-off-by: Amy Fong <amy.fong@windriver.com>
-+---
-+ utils/utils.go |   17 +----------------
-+ 1 file changed, 1 insertion(+), 16 deletions(-)
-+
-+--- a/utils/utils.go
-++++ b/utils/utils.go
-+@@ -4,7 +4,6 @@
-+ 	"bufio"
-+ 	"bytes"
-+ 	"crypto/rand"
-+-	"crypto/sha1"
-+ 	"crypto/sha256"
-+ 	"encoding/hex"
-+ 	"fmt"
-+@@ -76,20 +75,6 @@
-+ 	return path
-+ }
-+ 
-+-func dockerInitSha1(target string) string {
-+-	f, err := os.Open(target)
-+-	if err != nil {
-+-		return ""
-+-	}
-+-	defer f.Close()
-+-	h := sha1.New()
-+-	_, err = io.Copy(h, f)
-+-	if err != nil {
-+-		return ""
-+-	}
-+-	return hex.EncodeToString(h.Sum(nil))
-+-}
-+-
-+ func isValidDockerInitPath(target string, selfPath string) bool { // target and selfPath should be absolute (InitPath and SelfPath already do this)
-+ 	if target == "" {
-+ 		return false
-+@@ -111,7 +96,7 @@
-+ 		}
-+ 		return os.SameFile(targetFileInfo, selfPathFileInfo)
-+ 	}
-+-	return dockerversion.INITSHA1 != "" && dockerInitSha1(target) == dockerversion.INITSHA1
-++	return true
-+ }
-+ 
-+ // Figure out the path of our dockerinit (which may be SelfPath())
+ FILES_${PN}-setup += "/etc/tmpfiles.d"
+ FILES_${PN}-setup += "/lib/systemd/system"
++FILES_${PN}-setup += "/usr/lib/systemd/system"
+ FILES_${PN}-setup += "/etc/init.d"
+ 
+ PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
 -- 
 2.1.4
 
