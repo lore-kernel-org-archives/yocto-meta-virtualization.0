@@ -1,56 +1,82 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Petr.Gotthard@Honeywell.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CD20BE00954; Thu,  9 Apr 2015 22:03:04 -0700 (PDT)
+	id 2833CE00956; Fri, 10 Apr 2015 05:53:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [157.56.111.148 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.223.179 listed in list.dnswl.org]
-Received: from mail-ie0-f179.google.com (mail-ie0-f179.google.com
-	[209.85.223.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 92648E008F6
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+X-Greylist: delayed 1111 seconds by postgrey-1.32 at yocto-www;
+	Fri, 10 Apr 2015 05:53:04 PDT
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1bon0148.outbound.protection.outlook.com [157.56.111.148])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5C805E0049A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  9 Apr 2015 22:02:58 -0700 (PDT)
-Received: by iebrs15 with SMTP id rs15so9093331ieb.3
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 09 Apr 2015 22:02:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=F86+H2xZj8kaLhVbRbgnauAynUrviqPYGeNQAJEJa7o=;
-	b=cxVr6+9cpJGAcg4XhMv95KHw9pAvRdzMPVnUsyYNxe+ba4fAfiBj7b0gXr6aK0N3Ba
-	lmkBUWn6JaHFznyhHWGv2zHN8Pys4S+RemAQo8647yv4PjH9N4oqATMPHdKgypr02DID
-	HkLG2DOM79kZCcM+lyuzJukhWUHhSLcqOIDiyCccu7+cnA6tk3NLhJSaUhNLqGNZJo0H
-	RGX6/RvYK7kCAGRXv8kd7jK9iMqQ7mXdohxrstFJGhWa8TgXRxrefCp+rTmJ6l0USfUN
-	AuOuHBI84kRwuyskFNSWpCa8TruIOybPwo3rwtEzq8Lo9y5yEqVFS1lhpAoWoR6JyXKj
-	if7w==
-MIME-Version: 1.0
-X-Received: by 10.50.171.130 with SMTP id au2mr25581537igc.28.1428642178103;
-	Thu, 09 Apr 2015 22:02:58 -0700 (PDT)
-Received: by 10.107.158.20 with HTTP; Thu, 9 Apr 2015 22:02:58 -0700 (PDT)
-In-Reply-To: <1428609708-15379-2-git-send-email-dmitry_eremin@mentor.com>
-References: <1428609708-15379-1-git-send-email-dmitry_eremin@mentor.com>
-	<1428609708-15379-2-git-send-email-dmitry_eremin@mentor.com>
-Date: Fri, 10 Apr 2015 01:02:58 -0400
-Message-ID: <CADkTA4NmrB8tonUh6tdrkjBB2vUz6dQztKXax7qMsBNGwW=Gog@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-Cc: "meta-virtualization@yoctoproject.org"
+	Fri, 10 Apr 2015 05:53:04 -0700 (PDT)
+Received: from BLUPR07CA058.namprd07.prod.outlook.com (25.160.24.13) by
+	SN1PR07MB1470.namprd07.prod.outlook.com (25.161.223.144) with Microsoft
+	SMTP Server (TLS) id 15.1.136.25; Fri, 10 Apr 2015 12:19:47 +0000
+Received: from BL2FFO11FD033.protection.gbl (2a01:111:f400:7c09::142) by
+	BLUPR07CA058.outlook.office365.com (2a01:111:e400:8ae::13) with
+	Microsoft SMTP Server (TLS) id 15.1.136.25 via Frontend Transport;
+	Fri, 10 Apr 2015 12:19:47 +0000
+Authentication-Results: spf=neutral (sender IP is 199.61.26.153)
+	smtp.mailfrom=Honeywell.com; yoctoproject.org;
+	dkim=none (message not signed) header.d=none;
+Received-SPF: Neutral (protection.outlook.com: 199.61.26.153 is neither
+	permitted nor denied by domain of Honeywell.com)
+Received: from DE08W1025.honeywell.com (199.61.26.153) by
+	BL2FFO11FD033.mail.protection.outlook.com (10.173.161.129) with
+	Microsoft SMTP Server (TLS) id 15.1.142.12 via Frontend Transport;
+	Fri, 10 Apr 2015 12:19:47 +0000
+Received: from de08ex5005.global.ds.honeywell.com (10.216.34.43) by
+	DE08W1025.honeywell.com (10.221.248.36) with Microsoft SMTP Server id
+	14.3.224.2; Fri, 10 Apr 2015 08:19:20 -0400
+Received: from DE08W1303.global.ds.honeywell.com ([169.254.10.149]) by
+	de08ex5005.global.ds.honeywell.com ([10.216.14.78]) with mapi id
+	14.03.0224.002; Fri, 10 Apr 2015 08:19:21 -0400
+From: "Gotthard, Petr" <Petr.Gotthard@Honeywell.com>
+To: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 2/3] lxc: include systemd files into lxc-setup
+Thread-Topic: interest to integrate virt-manager?
+Thread-Index: AdBzgTeokLzcb9BhTomfkSnn/kh0qg==
+Date: Fri, 10 Apr 2015 12:19:20 +0000
+Message-ID: <F9E85480F62349458DF67CE8BA000D8D4076D50F@DE08W1303.global.ds.honeywell.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [158.138.138.187]
+MIME-Version: 1.0
+X-CFilter-Loop: Forwarded
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:199.61.26.153; CTRY:US; IPV:NLI; EFV:NLI;
+	BMV:1; SFV:NSPM;
+	SFS:(10019020)(51164003)(189002)(199003)(2351001)(229853001)(19617315012)(107886001)(110136001)(105586002)(19625215002)(33656002)(16796002)(106466001)(84326002)(512954002)(55846006)(16236675004)(46102003)(6806004)(62966003)(54356999)(50986999)(19580395003)(102836002)(66066001)(87936001)(2656002)(19300405004)(77096005)(15975445007)(450100001)(77156002)(86362001)(2900100001)(2501003)(92566002)(2930100002)(2920100001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:SN1PR07MB1470;
+	H:DE08W1025.honeywell.com; FPR:; SPF:Neutral; MLV:sfv; MX:1; A:1;
+	LANG:en; 
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:SN1PR07MB1470;
+X-Microsoft-Antispam-PRVS: <SN1PR07MB1470BE51FEA53D8E595B9EB0F8FA0@SN1PR07MB1470.namprd07.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5002010)(5005006); SRVR:SN1PR07MB1470; BCL:0;
+	PCL:0; RULEID:; SRVR:SN1PR07MB1470; 
+X-Forefront-PRVS: 054231DC40
+X-OriginatorOrg: Honeywell.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2015 12:19:47.0572 (UTC)
+X-MS-Exchange-CrossTenant-Id: 96ece526-9c7d-48b0-8daf-8b93c90a5d18
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=96ece526-9c7d-48b0-8daf-8b93c90a5d18;
+	Ip=[199.61.26.153]; Helo=[DE08W1025.honeywell.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR07MB1470
+Subject: interest to integrate virt-manager?
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,49 +89,127 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Apr 2015 05:03:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 10 Apr 2015 12:53:11 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_F9E85480F62349458DF67CE8BA000D8D4076D50FDE08W1303global_"
 
-systemd and lxc are broken in quite a few ways at the moment. I've just
-finished fixing things up, so I tossed this on the queue and will push all
-the changes shortly.
+--_000_F9E85480F62349458DF67CE8BA000D8D4076D50FDE08W1303global_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Bruce
+Hello,
 
-On Thu, Apr 9, 2015 at 4:01 PM, Dmitry Eremin-Solenikov
-<dmitry_eremin@mentor.com> wrote:
-> lxc-setup package accumulates all initscripts, so it should also include
-> systemd service files.
+I managed to build virt-manager (plus virt-viewer and the virt-* scipts) fo=
+r Yocto, so I wonder if you would be interested to integrate the virt-manag=
+er (and related bitbake recipes) into the meta-virtualization? Or is there =
+another recommended graphical manager for KVM?
+https://virt-manager.org/
+
+New virt-manager releases unfortunately require python-pygobject 3.0, which=
+ is (seems to be) not supported in Yocto (yet). I wanted to avoid the GObje=
+ct Introspection (dependency on meta-gir), so I have scripts for virt-manag=
+er 0.9.5 only, which is the latest GTK2 release. (It's better than nothing.=
+)
+
+Shall I just post the .bb files (or a long list of patches), or would you p=
+refer another approach? The virt-manager depends on gtk-vnc and few python-=
+* packages that I also had to create. Should the new python-* packages requ=
+ired by virt-manager go also into meta-virtualization (as no one else is ap=
+parently using them), or shall these go into some other layer?
+
+Please advise.
+
+
+Cheers,
+Petr
+
+
+--_000_F9E85480F62349458DF67CE8BA000D8D4076D50FDE08W1303global_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
-> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-> ---
->  recipes-containers/lxc/lxc_1.0.7.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/recipes-containers/lxc/lxc_1.0.7.bb b/recipes-containers/lxc/lxc_1.0.7.bb
-> index c9eef75..1c70958 100644
-> --- a/recipes-containers/lxc/lxc_1.0.7.bb
-> +++ b/recipes-containers/lxc/lxc_1.0.7.bb
-> @@ -72,6 +72,7 @@ RDEPENDS_${PN}-templates += "bash"
->
->  FILES_${PN}-setup += "/etc/tmpfiles.d"
->  FILES_${PN}-setup += "/lib/systemd/system"
-> +FILES_${PN}-setup += "/usr/lib/systemd/system"
->  FILES_${PN}-setup += "/etc/init.d"
->
->  PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0cm;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri","sans-serif";}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:blue;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:purple;
+	text-decoration:underline;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri","sans-serif";
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;
+	font-family:"Calibri","sans-serif";}
+@page WordSection1
+	{size:612.0pt 792.0pt;
+	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">I managed to build virt-manager (plus virt-viewer an=
+d the virt-* scipts) for Yocto, so I wonder if you would be interested to i=
+ntegrate the virt-manager (and related bitbake recipes) into the meta-virtu=
+alization? Or is there another recommended
+ graphical manager for KVM?<o:p></o:p></p>
+<p class=3D"MsoNormal"><a href=3D"https://virt-manager.org/">https://virt-m=
+anager.org/</a><o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">New virt-manager releases unfortunately require pyth=
+on-pygobject 3.0, which is (seems to be) not supported in Yocto (yet). I wa=
+nted to avoid the GObject Introspection (dependency on meta-gir), so I have=
+ scripts for virt-manager 0.9.5 only,
+ which is the latest GTK2 release. (It&#8217;s better than nothing.)<o:p></=
+o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Shall I just post the .bb files (or a long list of p=
+atches), or would you prefer another approach? The virt-manager depends on =
+gtk-vnc and few python-* packages that I also had to create. Should the new=
+ python-* packages required by virt-manager
+ go also into meta-virtualization (as no one else is apparently using them)=
+, or shall these go into some other layer?<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Please advise.<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Cheers,<o:p></o:p></p>
+<p class=3D"MsoNormal">Petr<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+</div>
+</body>
+</html>
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
-
+--_000_F9E85480F62349458DF67CE8BA000D8D4076D50FDE08W1303global_--
