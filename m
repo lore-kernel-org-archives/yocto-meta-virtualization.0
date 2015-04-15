@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8219EE009CA; Tue, 14 Apr 2015 22:58:39 -0700 (PDT)
+	id 92E65E009C9; Tue, 14 Apr 2015 22:58:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 486D0E009B8
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9001FE00830
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Apr 2015 22:58:37 -0700 (PDT)
+	Tue, 14 Apr 2015 22:58:38 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3F5wbnf022069
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3F5wcH3027084
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Apr 2015 22:58:37 -0700 (PDT)
+	Tue, 14 Apr 2015 22:58:38 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 14 Apr 2015 22:58:43 -0700
+	14.3.224.2; Tue, 14 Apr 2015 22:58:44 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 15 Apr 2015 13:58:29 +0800
-Message-ID: <2f5ea4c1a2a5ca6a7fe5b2078d128e2fac757d58.1429074850.git.jackie.huang@windriver.com>
+Date: Wed, 15 Apr 2015 13:58:30 +0800
+Message-ID: <4d60e09971db347cf27221e177ca457a1d86965e.1429074850.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1429074850.git.jackie.huang@windriver.com>
 References: <cover.1429074850.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/14] python-glanceclient: upgrade to 0.17.0
+Subject: [PATCH 07/14] python-heatclient: upgrade to 0.4.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,24 +52,24 @@ From: Jackie Huang <jackie.huang@windriver.com>
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- meta-openstack/recipes-devtools/python/python-glanceclient_git.bb | 4 ++--
+ meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-index 1d8529a..a8ba1ed 100644
---- a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-@@ -9,8 +9,8 @@ DEPENDS += " \
-         python-pbr \
-         "
+diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+index 2b9d34a..b83fc77 100644
+--- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+@@ -23,8 +23,8 @@ SRCNAME = "heatclient"
  
--SRCREV = "69361a146ecd0cd775579e5dcf34692e9c6328bc"
--PV = "0.13.1+git${SRCPV}"
-+SRCREV = "26280ed58b5d16feed4ab27be063d305ef48a252"
-+PV = "0.17.0+git${SRCPV}"
- PR = "r0"
+ SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
  
- SRC_URI = "\
+-PV="0.3.0+git${SRCPV}"
+-SRCREV="065d02499ad77b9c481a83dce973cfa4fbb26711"
++PV = "0.4.0+git${SRCPV}"
++SRCREV = "6d528f005742263837d05250662bf6214a703da8"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools
 -- 
 1.9.1
 
