@@ -1,38 +1,39 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <leimaohui@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4FB4FE009BE; Tue, 14 Apr 2015 23:01:20 -0700 (PDT)
+	id 070F4E009C3; Wed, 15 Apr 2015 20:59:54 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AE243E009C6
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+X-Greylist: delayed 64 seconds by postgrey-1.32 at yocto-www;
+	Wed, 15 Apr 2015 20:59:50 PDT
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7B4A2E009A3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Apr 2015 23:01:10 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3F61AZe027413
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 15 Apr 2015 20:59:50 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="90752599"
+Received: from localhost (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Apr 2015 11:54:53 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t3G3vWRu014553
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Apr 2015 23:01:10 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 14 Apr 2015 23:01:16 -0700
-From: <jackie.huang@windriver.com>
+	Thu, 16 Apr 2015 11:57:32 +0800
+Received: from localhost.localdomain (10.167.226.48) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 16 Apr 2015 11:58:46 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 15 Apr 2015 14:01:09 +0800
-Message-ID: <f09ad132d25ea60d57b00c24a4f789e6f5bc9c02.1429074850.git.jackie.huang@windriver.com>
+Date: Thu, 16 Apr 2015 11:58:41 +0800
+Message-ID: <1429156721-39898-1-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1429074850.git.jackie.huang@windriver.com>
-References: <cover.1429074850.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 14/14] python-troveclient: upgrade to 1.0.9
+X-Originating-IP: [10.167.226.48]
+Subject: [PATCH] python-psycopg2_2.5: The license should be GPLv3+
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,32 +46,28 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Apr 2015 06:01:20 -0000
+X-List-Received-Date: Thu, 16 Apr 2015 03:59:54 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-troveclient_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-troveclient_git.bb b/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-index 4691145..a55ce27 100644
---- a/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-@@ -11,8 +11,8 @@ SRC_URI = "\
- 	git://github.com/openstack/python-troveclient.git;branch=master \
- 	"
+diff --git a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+index c93e62b..ab4fe1f 100644
+--- a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
++++ b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "Python-PostgreSQL Database Adapter"
+ HOMEPAGE = "http://initd.org/psycopg/"
+ SECTION = "devel/python"
+-LICENSE = "GPLv2"
++LICENSE = "GPLv3+
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2c9872d13fa571e7ba6de95055da1fe2"
+ DEPENDS = "postgresql"
  
--PV="1.0.8+git${SRCPV}"
--SRCREV="51aa1a8dbd1b45e6abdaf571d1d73a6d7405fd3a"
-+PV = "1.0.9+git${SRCPV}"
-+SRCREV = "a36ebe539ce0affef5388b7edd7a6a230a0fde6c"
- S = "${WORKDIR}/git"
- 
- inherit setuptools hosts default_configs
 -- 
-1.9.1
+1.8.4.2
 
 
