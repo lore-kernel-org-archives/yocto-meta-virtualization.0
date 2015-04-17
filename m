@@ -1,36 +1,37 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <leimaohui@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1E4B0E009C2; Thu, 16 Apr 2015 23:56:02 -0700 (PDT)
+	id AE800E009C2; Fri, 17 Apr 2015 00:58:12 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7D619E0085D
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EB1EAE0085D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 Apr 2015 23:55:59 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3H6txlJ013636
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 17 Apr 2015 00:58:08 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.04,848,1406563200"; d="scan'208";a="90825424"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Apr 2015 15:54:16 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t3H7utIi021446
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 Apr 2015 23:55:59 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Thu, 16 Apr 2015 23:56:08 -0700
-From: <jackie.huang@windriver.com>
+	Fri, 17 Apr 2015 15:56:55 +0800
+Received: from localhost.localdomain (10.167.226.48) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 17 Apr 2015 15:58:10 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 17 Apr 2015 14:56:03 +0800
-Message-ID: <1429253763-2474-1-git-send-email-jackie.huang@windriver.com>
+Date: Fri, 17 Apr 2015 15:58:01 +0800
+Message-ID: <1429257481-45153-1-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] package_regex_openstack: fix for openstack core components
+X-Originating-IP: [10.167.226.48]
+Subject: [PATCH v2] python-psycopg2_2.5: The license should be LGPLv3+
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,41 +44,28 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Apr 2015 06:56:02 -0000
+X-List-Received-Date: Fri, 17 Apr 2015 07:58:12 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
-
-The bitbake git fetcher ignores non-released branches/tags
-like beta and rc, but we may want to update the openstack
-milestones like 2015.1.0.b2, add the GITTAGREGEX_BETA to
-allow this.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- .../conf/distro/include/package_regex_openstack.inc           | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/conf/distro/include/package_regex_openstack.inc b/meta-openstack/conf/distro/include/package_regex_openstack.inc
-index b72b2d1..6afe5ea 100644
---- a/meta-openstack/conf/distro/include/package_regex_openstack.inc
-+++ b/meta-openstack/conf/distro/include/package_regex_openstack.inc
-@@ -40,3 +40,14 @@ GITTAGREGEX_pn-python-glanceclient = "${GITTAGREGEX_COMMON}"
- GITTAGREGEX_pn-python-keystoneclient = "${GITTAGREGEX_COMMON}"
- GITTAGREGEX_pn-python-neutronclient = "(?P<pver>\d+\.\d+\.(\d\.?)+)"
- GITTAGREGEX_pn-python-novaclient = "${GITTAGREGEX_COMMON}"
-+
-+GITTAGREGEX_BETA = "(?P<pver>\d+\.\d+(\.\d+(b\d)?)?)"
-+GITTAGREGEX_pn-python-barbican = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-ceilometer = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-cinder = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-glance = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-heat = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-horizon = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-keystone = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-neutron = "${GITTAGREGEX_BETA}"
-+GITTAGREGEX_pn-python-nova = "${GITTAGREGEX_BETA}"
+diff --git a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+index c93e62b..e1b7c02 100644
+--- a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
++++ b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "Python-PostgreSQL Database Adapter"
+ HOMEPAGE = "http://initd.org/psycopg/"
+ SECTION = "devel/python"
+-LICENSE = "GPLv2"
++LICENSE = "LGPLv3+"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2c9872d13fa571e7ba6de95055da1fe2"
+ DEPENDS = "postgresql"
+ 
 -- 
-1.9.1
+1.8.4.2
 
 
