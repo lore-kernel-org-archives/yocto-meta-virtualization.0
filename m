@@ -1,55 +1,47 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8F2B2E00965; Thu, 16 Apr 2015 12:14:37 -0700 (PDT)
+	id 9BDAFE009C2; Thu, 16 Apr 2015 19:09:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.214.175 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ob0-f175.google.com (mail-ob0-f175.google.com
-	[209.85.214.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 86127E0049A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C0405E00965
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 Apr 2015 12:14:35 -0700 (PDT)
-Received: by obbeb7 with SMTP id eb7so50733763obb.3
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 Apr 2015 12:14:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=XvRVUOxpwy4AEnQtXaFctP0Mf8w7SV+wNxYSOov7VbQ=;
-	b=x3TbwRA18lb9cOSkIaYw9OjJaUfM0hkXFBQwB411uwC8nY8VcFGKtR1D81Ye0rnLEP
-	G1HGdln+NN+xP4vzy+V/ymC66vqK5t0ejbqKaIsQV83lnZJmDeUosL/YM5MdfpxCPSQ/
-	qTyaHSqbsd5pcq2dTsljzf/8XPTWiUj1jUgSt0x55vFw/MESdm4HZvANJZ5eu8IX0N5Z
-	dyCMxvPSvQ0kHIKDvTMR/UpbsgqZNmo0/Biw2VLycQ+ewCy4x+yW8tRmtC+Sa/H4NQIk
-	t9kK+04vfBV8QDuHVvLLDUkKYDSnFFJiu4haYu/Ub5jGcyqyxUEBpQtqoQCRjCyv+YfK
-	4aXQ==
+	Thu, 16 Apr 2015 19:09:38 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3H29Xq8024406
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 16 Apr 2015 19:09:33 -0700 (PDT)
+Received: from ALA-MBA.corp.ad.wrs.com ([169.254.2.14]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0224.002;
+	Thu, 16 Apr 2015 19:09:33 -0700
+From: "Huang, Jie (Jackie)" <Jackie.Huang@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Lei Maohui
+	<leimaohui@cn.fujitsu.com>
+Thread-Topic: [meta-virtualization] [PATCH] python-psycopg2_2.5: The license
+	should be GPLv3+
+Thread-Index: AQHQeHmB2j7PWL9Y90OiGabhzM9bnZ1QdWIg
+Date: Fri, 17 Apr 2015 02:09:42 +0000
+Message-ID: <1B858668EC6A94408DCA5225FDFA85AAF0D27342@ALA-MBA.corp.ad.wrs.com>
+References: <1429156721-39898-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<CADkTA4N7oqyy1-=WhcCTF+vULC3pXFoiLwXMNhHiOOi-7jXeZg@mail.gmail.com>
+In-Reply-To: <CADkTA4N7oqyy1-=WhcCTF+vULC3pXFoiLwXMNhHiOOi-7jXeZg@mail.gmail.com>
+Accept-Language: en-US, zh-CN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.132]
 MIME-Version: 1.0
-X-Received: by 10.202.75.6 with SMTP id y6mr21544340oia.23.1429211674562; Thu,
-	16 Apr 2015 12:14:34 -0700 (PDT)
-Received: by 10.202.9.193 with HTTP; Thu, 16 Apr 2015 12:14:34 -0700 (PDT)
-In-Reply-To: <cover.1429074850.git.jackie.huang@windriver.com>
-References: <cover.1429074850.git.jackie.huang@windriver.com>
-Date: Thu, 16 Apr 2015 15:14:34 -0400
-Message-ID: <CADkTA4NBHxHuscW=JTP4Yf06cs83mnPKwCFu0mMYu2-2GpT6VA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: jackie.huang@windriver.com
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 00/14] clients: version upgrades and add a helper meta data
+Subject: Re: [PATCH] python-psycopg2_2.5: The license should be GPLv3+
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,108 +54,75 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Apr 2015 19:14:37 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 17 Apr 2015 02:09:40 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 15, 2015 at 1:58 AM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
 
-Thanks Jackie.
 
-I've merged the series.
+> -----Original Message-----
+> From: meta-virtualization-bounces@yoctoproject.org [mailto:meta-virtualiz=
+ation-
+> bounces@yoctoproject.org] On Behalf Of Bruce Ashfield
+> Sent: Friday, April 17, 2015 3:14 AM
+> To: Lei Maohui
+> Cc: meta-virtualization@yoctoproject.org
+> Subject: Re: [meta-virtualization] [PATCH] python-psycopg2_2.5: The licen=
+se should be GPLv3+
+>=20
+> On Wed, Apr 15, 2015 at 11:58 PM, Lei Maohui <leimaohui@cn.fujitsu.com> w=
+rote:
+> > Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+>=20
+> Thanks! I've merged the change.
+>=20
+> Bruce
+>=20
+> > ---
+> >  meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git
+> > a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+> > b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+> > index c93e62b..ab4fe1f 100644
+> > --- a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+> > +++ b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
+> > @@ -1,7 +1,7 @@
+> >  DESCRIPTION =3D "Python-PostgreSQL Database Adapter"
+> >  HOMEPAGE =3D "http://initd.org/psycopg/"
+> >  SECTION =3D "devel/python"
+> > -LICENSE =3D "GPLv2"
+> > +LICENSE =3D "GPLv3+
 
-Bruce
+The right quotation mark is missing, which cause parsing error.
 
->
-> Tested with:
-> 1) git clone git://git.yoctoproject.org/auto-upgrade-helper
->
-> 2) Add maintainers.inc
-> $ cat conf/maintainers.inc
-> RECIPE_MAINTAINER = "Jackie Huang <jackie.huang@windriver.com>"
->
-> 3) Add upgrade-helper.conf
-> $ cat upgrade-helper.conf
-> [maintainer_override]
->
-> [settings]
-> smtp=smtp-na.wrs.com
-> from=upgrade.helper@wrs.com
-> status_recipients=jackie.huang@windriver.com
-> clean_sstate=yes
-> clean_tmp=yes
-> drop_previous_commits=yes
-> machines=qemux86 qemux86-64 qemuarm qemumips qemuppc
->
-> 4) Add the following into local.conf:
-> INHERIT =+ "distrodata"
-> require conf/distro/include/recipe_color.inc
-> require conf/distro/include/distro_alias.inc
-> require conf/maintainers.inc
-> require conf/distro/include/upstream_tracking.inc
-> require conf/distro/include/package_regex_openstack.inc
->
-> 5) run the script upgradehelper.py:
-> $ for i in `cat all_client.txt`; do echo "== $i =="; \
->   /path/to/upgradehelper.py -a -c upgrade-helper.conf $i; \
-> done
+Thanks,
+Jackie
+
+
+> >  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D2c9872d13fa571e7ba6de95055d=
+a1fe2"
+> >  DEPENDS =3D "postgresql"
+> >
+> > --
+> > 1.8.4.2
+> >
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>=20
+>=20
+>=20
 > --
-> The following changes since commit 274cf835e275e8ec2f1a4260bd4437b5cdcaed92:
->
->   python-oslotest: correct the SRC_URI and add bash to rdepends (2015-04-08 10:36:55 -0400)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib jhuang0/r_update_op_clients_150415_2
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_update_op_clients_150415_2
->
-> Jackie Huang (14):
->   Add helper meta data to find upstream versions correctly
->   rest-client: upgrade to 1.7.3
->   python-barbicanclient: upgrade to 3.0.3
->   python-ceilometerclient: fix the version to 1.0.13
->   python-cephclient: upgrade to 0.1.0.5
->   python-glanceclient: upgrade to 0.17.0
->   python-heatclient: upgrade to 0.4.0
->   python-keystoneclient: upgrade to 1.3.0
->   python-novaclient: upgrade to 2.23.0
->   python-neutronclient: upgrade to 2.4.0
->   python-openstackclient: upgrade to 1.0.3
->   python-saharaclient: upgrade to 0.8.0
->   python-swiftclient: upgrade to 2.4.0
->   python-troveclient: upgrade to 1.0.9
->
->  .../distro/include/package_regex_openstack.inc     | 42 ++++++++++++++++++++++
->  .../python/python-barbicanclient_git.bb            |  4 +--
->  .../python/python-ceilometerclient_git.bb          |  4 +--
->  ...ent_0.1.0.4.bb => python-cephclient_0.1.0.5.bb} |  6 ++--
->  .../python/python-glanceclient_git.bb              |  4 +--
->  .../python/python-heatclient_git.bb                |  4 +--
->  .../python/python-keystoneclient_git.bb            |  4 +--
->  .../python/python-neutronclient_git.bb             |  4 +--
->  .../python/python-novaclient_git.bb                |  4 +--
->  ...nt_1.0.2.bb => python-openstackclient_1.0.3.bb} |  5 ++-
->  .../python/python-saharaclient_git.bb              |  4 +--
->  .../python/python-swiftclient_git.bb               |  4 +--
->  .../python/python-troveclient_git.bb               |  4 +--
->  .../recipes-devtools/ruby/rest-client_git.bb       |  6 ++--
->  14 files changed, 70 insertions(+), 29 deletions(-)
->  create mode 100644 meta-openstack/conf/distro/include/package_regex_openstack.inc
->  rename meta-openstack/recipes-devtools/python/{python-cephclient_0.1.0.4.bb => python-cephclient_0.1.0.5.bb} (78%)
->  rename meta-openstack/recipes-devtools/python/{python-openstackclient_1.0.2.bb => python-openstackclient_1.0.3.bb} (73%)
->
-> --
-> 1.9.1
->
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee=
+ at its end"
 > --
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
