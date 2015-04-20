@@ -1,36 +1,38 @@
-Return-Path: <Dmitry_Eremin@mentor.com>
+Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A1C23E00902; Sat, 18 Apr 2015 07:59:03 -0700 (PDT)
+	id 29181E00994; Mon, 20 Apr 2015 01:09:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [192.94.38.131 listed in list.dnswl.org]
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0E976E00902
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 962D6E0091D
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 18 Apr 2015 07:59:01 -0700 (PDT)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-FEM-01.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1YjUCy-0006t7-Th from Dmitry_Eremin@mentor.com 
-	for meta-virtualization@yoctoproject.org;
-	Sat, 18 Apr 2015 07:59:01 -0700
-Received: from fangorn.rup.mentorg.com (137.202.0.76) by
-	SVR-IES-FEM-01.mgc.mentorg.com (137.202.0.104) with Microsoft SMTP
-	Server (TLS) id 14.3.224.2; Sat, 18 Apr 2015 15:58:59 +0100
-From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+	Mon, 20 Apr 2015 01:09:23 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89Moo014549
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 20 Apr 2015 01:09:22 -0700 (PDT)
+Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.224.2; Mon, 20 Apr 2015 01:09:21 -0700
+From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Sat, 18 Apr 2015 17:58:58 +0300
-Message-ID: <1429369138-22226-1-git-send-email-dmitry_eremin@mentor.com>
-X-Mailer: git-send-email 2.1.4
+Date: Mon, 20 Apr 2015 16:09:17 +0800
+Message-ID: <844898d201714a8673c88d548779634633114433.1429517010.git.jackie.huang@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1429517010.git.jackie.huang@windriver.com>
+References: <cover.1429517010.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] conf: override SECURITY_CFLAGS for a set of recipes
+Subject: [PATCH 01/10] python-glancestore: upgrade to 0.4.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,43 +45,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Apr 2015 14:59:03 -0000
+X-List-Received-Date: Mon, 20 Apr 2015 08:09:25 -0000
 Content-Type: text/plain
 
-Some of recipes produce errors if the distro has enabled usage of
-security_flags.inc file. Fix those errors (and QA warnings) by providing
-an additional include file that is require'd from conf/layer.conf.
+From: Jackie Huang <jackie.huang@windriver.com>
 
-Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- conf/distro/include/virt_security_flags.inc | 5 +++++
- conf/layer.conf                             | 3 +++
- 2 files changed, 8 insertions(+)
- create mode 100644 conf/distro/include/virt_security_flags.inc
+ meta-openstack/recipes-devtools/python/python-glancestore_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/conf/distro/include/virt_security_flags.inc b/conf/distro/include/virt_security_flags.inc
-new file mode 100644
-index 0000000..16db013
---- /dev/null
-+++ b/conf/distro/include/virt_security_flags.inc
-@@ -0,0 +1,5 @@
-+# Build errors with the pie options enabled
-+SECURITY_CFLAGS_pn-libvirt = "${SECURITY_NO_PIE_CFLAGS}"
-+
-+# This has text reloc errors with the pie options enabled
-+SECURITY_CFLAGS_pn-lxc = "${SECURITY_NO_PIE_CFLAGS}"
-diff --git a/conf/layer.conf b/conf/layer.conf
-index 7ae9d09..f5c1b1e 100644
---- a/conf/layer.conf
-+++ b/conf/layer.conf
-@@ -16,3 +16,6 @@ LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
- LAYERVERSION_virtualization-layer = "1"
+diff --git a/meta-openstack/recipes-devtools/python/python-glancestore_git.bb b/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
+index b3aa2f3..ae32037 100644
+--- a/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
+@@ -4,8 +4,8 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
  
- LAYERDEPENDS_virtualization-layer = "core networking-layer"
-+
-+# Override security flags
-+require conf/distro/include/virt_security_flags.inc
+-SRCREV = "bd592d3e33e5f6d222befd53523c97aaa478b175"
+-PV = "0.1.11+git${SRCPV}"
++SRCREV = "ea88e503b617a7ac9a0ae7e537d6517e9992a104"
++PV = "0.4.0+git${SRCPV}"
+ 
+ SRC_URI = "\
+ 	git://github.com/openstack/glance_store.git \
 -- 
-2.1.4
+1.9.1
 
 
