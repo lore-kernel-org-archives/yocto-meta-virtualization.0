@@ -1,39 +1,55 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 886CEE009D6; Mon, 20 Apr 2015 01:09:51 -0700 (PDT)
+	id BA3DDE00932; Tue, 21 Apr 2015 18:10:42 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	WEIRD_PORT autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	*  0.0 WEIRD_PORT URI: Uses non-standard port number for HTTP
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.214.172 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C20ABE009BB
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
+	[209.85.214.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5153EE003A8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 20 Apr 2015 01:09:35 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3K89Z52029790
-	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
+Received: by obbeb7 with SMTP id eb7so158696529obb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 20 Apr 2015 01:09:35 -0700 (PDT)
-Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.224.2; Mon, 20 Apr 2015 01:09:34 -0700
-From: <jackie.huang@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 20 Apr 2015 16:09:26 +0800
-Message-ID: <81bfe3f1d13b503b9f50c60904da63a2c97f95e5.1429517010.git.jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1429517010.git.jackie.huang@windriver.com>
-References: <cover.1429517010.git.jackie.huang@windriver.com>
+	Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=IymEpOf3VIf/J/ZMOkBVqeA/dUyMyEcS7+TNibZ6HgY=;
+	b=pNmosGhqnQ5DAYP33JGqYP1IbGQpfZWXvi4I2HBeDztejW2ErkSxYxYB3Jzzi4DHJv
+	du6DFxIiEULgIMSOwMKdgSep1rrYWXv+UXwa5vU1yC/qH/K/pKAN6JZDMqDTbuhKXYf8
+	U5H/sgaNiUHSngclCWO4C+KPyHAEy2H8ZDPwBgZOQS6y5iihMPNPYseUopM1D5ysXM8y
+	gWeFsKWUH6CCKg+nfnOs8lidkcfcQ0fNWhFceI/f/t2l0iopXvKNS+TMooczBBz106yp
+	jkvwsTZKQZIpKKuUoYR43L4+Fr4+njec/7m4/h5ihn9P5LDbNyXltPVGUw//T9E7mWEI
+	YOww==
 MIME-Version: 1.0
-Subject: [PATCH 10/10] python-neutron: upgrade to 2015.1.0b3
+X-Received: by 10.60.149.166 with SMTP id ub6mr21573822oeb.41.1429665037227;
+	Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
+Received: by 10.202.9.193 with HTTP; Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
+In-Reply-To: <1429369138-22226-1-git-send-email-dmitry_eremin@mentor.com>
+References: <1429369138-22226-1-git-send-email-dmitry_eremin@mentor.com>
+Date: Tue, 21 Apr 2015 21:10:37 -0400
+Message-ID: <CADkTA4M-3XY4FfHFo+DW+a52EmiqBmiY0rsgSh+aNd0Y+68-yg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH v2] conf: override SECURITY_CFLAGS for a set of recipes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,82 +62,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Apr 2015 08:09:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Apr 2015 01:10:42 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From: Jackie Huang <jackie.huang@windriver.com>
+On Sat, Apr 18, 2015 at 10:58 AM, Dmitry Eremin-Solenikov
+<dmitry_eremin@mentor.com> wrote:
+> Some of recipes produce errors if the distro has enabled usage of
+> security_flags.inc file. Fix those errors (and QA warnings) by providing
+> an additional include file that is require'd from conf/layer.conf.
 
-Removed the patch neutron-test-nec-plugin-extensions-location.patch
-since the main codes and unit tests of NEC plugin had been removed.
+merged.
 
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
----
- ...utron-test-nec-plugin-extensions-location.patch | 24 ----------------------
- .../recipes-devtools/python/python-neutron_git.bb  |  7 ++-----
- 2 files changed, 2 insertions(+), 29 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-neutron/neutron-test-nec-plugin-extensions-location.patch
+Bruce
 
-diff --git a/meta-openstack/recipes-devtools/python/python-neutron/neutron-test-nec-plugin-extensions-location.patch b/meta-openstack/recipes-devtools/python/python-neutron/neutron-test-nec-plugin-extensions-location.patch
-deleted file mode 100644
-index bf54c79..0000000
---- a/meta-openstack/recipes-devtools/python/python-neutron/neutron-test-nec-plugin-extensions-location.patch
-+++ /dev/null
-@@ -1,24 +0,0 @@
--neutron test: nec plugin extensions location
--
--Some of the neutron built-in testcases failed
--because they can not find nec plugin extensions
--based on the given the relative path.
--
--So forcing these failure testcases to look for
--these extensions using absolute path.
--
--Signed-off-by: Vu Tran <vu.tran@windriver.com>
--
--diff --git a/neutron/tests/unit/nec/test_nec_plugin.py b/neutron/tests/unit/nec/test_nec_plugin.py
--index 2f913ca..1c3f0ce 100644
----- a/neutron/tests/unit/nec/test_nec_plugin.py
--+++ b/neutron/tests/unit/nec/test_nec_plugin.py
--@@ -37,7 +37,7 @@ OFC_MANAGER = 'neutron.plugins.nec.nec_plugin.ofc_manager.OFCManager'
-- NOTIFIER = 'neutron.plugins.nec.nec_plugin.NECPluginV2AgentNotifierApi'
-- NEC_PLUGIN_INI = """
-- [DEFAULT]
---api_extensions_path = neutron/plugins/nec/extensions
--+api_extensions_path = %PYTHON_SITEPACKAGES_DIR%/neutron/plugins/nec/extensions
-- [OFC]
-- driver = neutron.tests.unit.nec.stub_ofc_driver.StubOFCDriver
-- enable_packet_filter = False
-diff --git a/meta-openstack/recipes-devtools/python/python-neutron_git.bb b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-index 1a5a9b2..3c64d61 100644
---- a/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-@@ -15,14 +15,13 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
-            file://metadata_agent.ini \
-            file://neutron-dhcp-agent-netns-cleanup.cron \
-            file://0001-neutron.conf-jumpstart-nova-state-reporting-configur.patch \
--           file://neutron-test-nec-plugin-extensions-location.patch \
- 	  "
- 
- # TBD: update or drop
- # file://uuid_wscheck.patch
- 
--SRCREV="1948efa261e47b08e2cde4828321614ee6e169be"
--PV="2015.1.0b2+git${SRCPV}"
-+SRCREV = "e86077e8452891cc176841dd6b6316831e12abc1"
-+PV = "2015.1.0b3+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
-@@ -137,8 +136,6 @@ do_install_append() {
-     sed -i '/\[keystone_authtoken\]/aidentity_uri=http://127.0.0.1:8081/keystone/admin/' ${NEUTRON_CONF_DIR}/neutron.conf
- 
-     cp run_tests.sh ${NEUTRON_CONF_DIR}
--
--    sed 's:%PYTHON_SITEPACKAGES_DIR%:${PYTHON_SITEPACKAGES_DIR}:g' -i ${D}${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/tests/unit/nec/test_nec_plugin.py
- }
- 
- pkg_postinst_${SRCNAME}-setup () {
+>
+
+> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+> ---
+>  conf/distro/include/virt_security_flags.inc | 5 +++++
+>  conf/layer.conf                             | 3 +++
+>  2 files changed, 8 insertions(+)
+>  create mode 100644 conf/distro/include/virt_security_flags.inc
+>
+> diff --git a/conf/distro/include/virt_security_flags.inc b/conf/distro/include/virt_security_flags.inc
+> new file mode 100644
+> index 0000000..16db013
+> --- /dev/null
+> +++ b/conf/distro/include/virt_security_flags.inc
+> @@ -0,0 +1,5 @@
+> +# Build errors with the pie options enabled
+> +SECURITY_CFLAGS_pn-libvirt = "${SECURITY_NO_PIE_CFLAGS}"
+> +
+> +# This has text reloc errors with the pie options enabled
+> +SECURITY_CFLAGS_pn-lxc = "${SECURITY_NO_PIE_CFLAGS}"
+> diff --git a/conf/layer.conf b/conf/layer.conf
+> index 7ae9d09..f5c1b1e 100644
+> --- a/conf/layer.conf
+> +++ b/conf/layer.conf
+> @@ -16,3 +16,6 @@ LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
+>  LAYERVERSION_virtualization-layer = "1"
+>
+>  LAYERDEPENDS_virtualization-layer = "core networking-layer"
+> +
+> +# Override security flags
+> +require conf/distro/include/virt_security_flags.inc
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-1.9.1
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
