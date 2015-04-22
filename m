@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BA3DDE00932; Tue, 21 Apr 2015 18:10:42 -0700 (PDT)
+	id EA97DE00932; Tue, 21 Apr 2015 18:11:01 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.214.172 listed in list.dnswl.org]
+	*      [209.85.214.180 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ob0-f172.google.com (mail-ob0-f172.google.com
-	[209.85.214.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5153EE003A8
+Received: from mail-ob0-f180.google.com (mail-ob0-f180.google.com
+	[209.85.214.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26BB6E003A8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
-Received: by obbeb7 with SMTP id eb7so158696529obb.3
+	Tue, 21 Apr 2015 18:11:00 -0700 (PDT)
+Received: by obbeb7 with SMTP id eb7so158701606obb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
+	Tue, 21 Apr 2015 18:11:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=IymEpOf3VIf/J/ZMOkBVqeA/dUyMyEcS7+TNibZ6HgY=;
-	b=pNmosGhqnQ5DAYP33JGqYP1IbGQpfZWXvi4I2HBeDztejW2ErkSxYxYB3Jzzi4DHJv
-	du6DFxIiEULgIMSOwMKdgSep1rrYWXv+UXwa5vU1yC/qH/K/pKAN6JZDMqDTbuhKXYf8
-	U5H/sgaNiUHSngclCWO4C+KPyHAEy2H8ZDPwBgZOQS6y5iihMPNPYseUopM1D5ysXM8y
-	gWeFsKWUH6CCKg+nfnOs8lidkcfcQ0fNWhFceI/f/t2l0iopXvKNS+TMooczBBz106yp
-	jkvwsTZKQZIpKKuUoYR43L4+Fr4+njec/7m4/h5ihn9P5LDbNyXltPVGUw//T9E7mWEI
-	YOww==
+	bh=Mpny9O69TvfRGFgVj9s5OJx0eJxsWaGrB75uoBGiWgo=;
+	b=dkjOFc3UT9rk2v8eCZ7gI5yXNiugHxNo8vQV+ydYG0y3H4s9VJB6yPIuhhsoDK0E2g
+	9pdsyJm0dYdXJOggraUVRUvXbtfgZcVGmin7Dd/jPFXV90EfOigrvoSihrMvo15A5NTe
+	9zNBaQFxA8ewIeCZ63o4L/W3w85oPJEx1BVjLHZHvfX2cy2fProqWGcmE2V/BxdC8dld
+	h+ITpvPC7Wo3Ai0MgdxWTBrwH6HaC5ve0cXNo8o7rmb8b1m+hTQQDGw8rGL8Rel06BNY
+	lBBSP0kVroq/hJwkMxuV4FmU1en5fjLRh3P84PESwOwOtk5jiUjFv+xkkNmIhhlM5yKb
+	zlKw==
 MIME-Version: 1.0
-X-Received: by 10.60.149.166 with SMTP id ub6mr21573822oeb.41.1429665037227;
-	Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
-Received: by 10.202.9.193 with HTTP; Tue, 21 Apr 2015 18:10:37 -0700 (PDT)
-In-Reply-To: <1429369138-22226-1-git-send-email-dmitry_eremin@mentor.com>
-References: <1429369138-22226-1-git-send-email-dmitry_eremin@mentor.com>
-Date: Tue, 21 Apr 2015 21:10:37 -0400
-Message-ID: <CADkTA4M-3XY4FfHFo+DW+a52EmiqBmiY0rsgSh+aNd0Y+68-yg@mail.gmail.com>
+X-Received: by 10.202.75.6 with SMTP id y6mr20085631oia.23.1429665060479; Tue,
+	21 Apr 2015 18:11:00 -0700 (PDT)
+Received: by 10.202.9.193 with HTTP; Tue, 21 Apr 2015 18:11:00 -0700 (PDT)
+In-Reply-To: <cover.1429517010.git.jackie.huang@windriver.com>
+References: <cover.1429517010.git.jackie.huang@windriver.com>
+Date: Tue, 21 Apr 2015 21:11:00 -0400
+Message-ID: <CADkTA4NFspH9NtsXfg4gjzFwGfpgG2uQzT4Bsa0=bBGLMxWN2g@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
+To: "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH v2] conf: override SECURITY_CFLAGS for a set of recipes
+Subject: Re: [PATCH 00/10] core: update to 2015.1.0b3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,52 +62,59 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Apr 2015 01:10:42 -0000
+X-List-Received-Date: Wed, 22 Apr 2015 01:11:02 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Sat, Apr 18, 2015 at 10:58 AM, Dmitry Eremin-Solenikov
-<dmitry_eremin@mentor.com> wrote:
-> Some of recipes produce errors if the distro has enabled usage of
-> security_flags.inc file. Fix those errors (and QA warnings) by providing
-> an additional include file that is require'd from conf/layer.conf.
+On Mon, Apr 20, 2015 at 4:09 AM,  <jackie.huang@windriver.com> wrote:
+> From: Jackie Huang <jackie.huang@windriver.com>
+>
+> 1) The patches are generated by the auto-upgrade-helper script
+>    and some are modified as needed.
+> 2) builds fine on qemux86 and qemux86-64.
 
 merged.
 
 Bruce
 
 >
-
-> Signed-off-by: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
-> ---
->  conf/distro/include/virt_security_flags.inc | 5 +++++
->  conf/layer.conf                             | 3 +++
->  2 files changed, 8 insertions(+)
->  create mode 100644 conf/distro/include/virt_security_flags.inc
->
-> diff --git a/conf/distro/include/virt_security_flags.inc b/conf/distro/include/virt_security_flags.inc
-> new file mode 100644
-> index 0000000..16db013
-> --- /dev/null
-> +++ b/conf/distro/include/virt_security_flags.inc
-> @@ -0,0 +1,5 @@
-> +# Build errors with the pie options enabled
-> +SECURITY_CFLAGS_pn-libvirt = "${SECURITY_NO_PIE_CFLAGS}"
-> +
-> +# This has text reloc errors with the pie options enabled
-> +SECURITY_CFLAGS_pn-lxc = "${SECURITY_NO_PIE_CFLAGS}"
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index 7ae9d09..f5c1b1e 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -16,3 +16,6 @@ LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
->  LAYERVERSION_virtualization-layer = "1"
->
->  LAYERDEPENDS_virtualization-layer = "core networking-layer"
-> +
-> +# Override security flags
-> +require conf/distro/include/virt_security_flags.inc
 > --
-> 2.1.4
+> The following changes since commit 9a75a28fd56f345960155cb47cf79e08cd05e161:
+>
+>   package_regex_openstack: fix for openstack core components (2015-04-17 08:47:57 -0400)
+>
+> are available in the git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib jhuang0/r_up_openstack-core_150420_1
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_up_openstack-core_150420_1
+>
+> Jackie Huang (10):
+>   python-glancestore: upgrade to 0.4.0
+>   python-keystonemiddleware: upgrade to 1.5.0
+>   python-barbican: upgrade to 2015.1.0b3
+>   python-ceilometer: upgrade to 2015.1.0b3
+>   python-glance: upgrade to 2015.1.0b3
+>   python-heat: upgrade to 2015.1.0b3
+>   python-horizon: upgrade to 2015.1.0b3
+>   python-keystone: upgrade to 2015.1.0b3
+>   python-nova: upgrade to 2015.1.0b3
+>   python-neutron: upgrade to 2015.1.0b3
+>
+>  .../recipes-devtools/python/python-barbican_git.bb |  4 ++--
+>  .../python/python-ceilometer_git.bb                |  4 ++--
+>  .../recipes-devtools/python/python-glance_git.bb   |  4 ++--
+>  .../python/python-glancestore_git.bb               |  4 ++--
+>  .../recipes-devtools/python/python-heat_git.bb     |  4 ++--
+>  .../recipes-devtools/python/python-horizon_git.bb  |  4 ++--
+>  .../recipes-devtools/python/python-keystone_git.bb |  4 ++--
+>  .../python/python-keystonemiddleware_git.bb        |  4 ++--
+>  ...utron-test-nec-plugin-extensions-location.patch | 24 ----------------------
+>  .../recipes-devtools/python/python-neutron_git.bb  |  7 ++-----
+>  .../recipes-devtools/python/python-nova_git.bb     |  4 ++--
+>  11 files changed, 20 insertions(+), 47 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python-neutron/neutron-test-nec-plugin-extensions-location.patch
+>
+> --
+> 1.9.1
 >
 > --
 > _______________________________________________
