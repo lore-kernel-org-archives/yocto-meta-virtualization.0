@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0875CE009E5; Tue, 28 Apr 2015 20:09:42 -0700 (PDT)
+	id 1497DE00A2C; Tue, 28 Apr 2015 20:09:42 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,27 +12,27 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 11AAFE009A6
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 94C00E00949
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:26 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:28 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39PGV000030
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39SAq000036
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:25 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:28 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 28 Apr 2015 20:09:25 -0700
+	14.3.224.2; Tue, 28 Apr 2015 20:09:27 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 29 Apr 2015 11:08:37 +0800
-Message-ID: <6ce2fc86ace1ad5900b1c35853487a7973af1db1.1430275945.git.jackie.huang@windriver.com>
+Date: Wed, 29 Apr 2015 11:08:39 +0800
+Message-ID: <02877d98caa11e45d3516090a097879131ab1663.1430275945.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1430275944.git.jackie.huang@windriver.com>
 References: <cover.1430275944.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 27/55] python-oslotest: upgrade to 1.6.0
+Subject: [PATCH 29/55] python-pycadf: upgrade to 0.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,31 +52,30 @@ From: Jackie Huang <jackie.huang@windriver.com>
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../python/{python-oslotest_1.4.0.bb => python-oslotest_1.6.0.bb}    | 5 ++---
+ .../python/{python-pycadf_0.6.0.bb => python-pycadf_0.9.0.bb}        | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-oslotest_1.4.0.bb => python-oslotest_1.6.0.bb} (84%)
+ rename meta-openstack/recipes-devtools/python/{python-pycadf_0.6.0.bb => python-pycadf_0.9.0.bb} (80%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb b/meta-openstack/recipes-devtools/python/python-oslotest_1.6.0.bb
-similarity index 84%
-rename from meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb
-rename to meta-openstack/recipes-devtools/python/python-oslotest_1.6.0.bb
-index b3819e4..30cff23 100644
---- a/meta-openstack/recipes-devtools/python/python-oslotest_1.4.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-oslotest_1.6.0.bb
-@@ -6,14 +6,13 @@ SECTION = "devel/python"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+diff --git a/meta-openstack/recipes-devtools/python/python-pycadf_0.6.0.bb b/meta-openstack/recipes-devtools/python/python-pycadf_0.9.0.bb
+similarity index 80%
+rename from meta-openstack/recipes-devtools/python/python-pycadf_0.6.0.bb
+rename to meta-openstack/recipes-devtools/python/python-pycadf_0.9.0.bb
+index 6762b6c..a363119 100644
+--- a/meta-openstack/recipes-devtools/python/python-pycadf_0.6.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-pycadf_0.9.0.bb
+@@ -4,13 +4,12 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=c46f31914956e4579f9b488e71415ac8"
  
 -PR = "r0"
- SRCNAME = "oslotest"
  
- SRC_URI = "https://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
- "
+ SRCNAME = "pycadf"
+ SRC_URI = "http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "a573e1943869f0841f487cf94a121321"
--SRC_URI[sha256sum] = "4226c044198792da7e14ca76895656e8d6e4b256eab184a6c81477b373e059a6"
-+SRC_URI[md5sum] = "54ba62e2e13619616ddce772fb267106"
-+SRC_URI[sha256sum] = "cb65b53b753375b669dcdb4717c362a205d19e3d16ca26310c0916cfd359354c"
+-SRC_URI[md5sum] = "283ff62801098f499e37aa493c1d18bb"
+-SRC_URI[sha256sum] = "9ba1e9ac52ee2a2d6d9cc89847323559cc2ffe7b4d80b703944a0a1f75c7093f"
++SRC_URI[md5sum] = "cadda6f685a31abf18a0efe40541fec8"
++SRC_URI[sha256sum] = "3bda0f95b6defd0d0c6afc827617002ddd0688bed5ccc93a25965aa1d6b40094"
  
  S = "${WORKDIR}/${SRCNAME}-${PV}"
  
