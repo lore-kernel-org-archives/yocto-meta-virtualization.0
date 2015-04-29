@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5F909E00A9B; Tue, 28 Apr 2015 20:10:24 -0700 (PDT)
+	id A5CB7E00A00; Tue, 28 Apr 2015 20:10:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0AE83E00A31
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 132ABE00A04
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:48 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:49 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39lir000085
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39mqi009430
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:47 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:48 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 28 Apr 2015 20:09:47 -0700
+	14.3.224.2; Tue, 28 Apr 2015 20:09:48 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 29 Apr 2015 11:08:56 +0800
-Message-ID: <c65a614d28c864f413d974b083c444031b20c344.1430275945.git.jackie.huang@windriver.com>
+Date: Wed, 29 Apr 2015 11:08:57 +0800
+Message-ID: <1c82ba4aefe4982da64d224503a8f15c6041c578.1430275945.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1430275944.git.jackie.huang@windriver.com>
 References: <cover.1430275944.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 46/55] python-tox: upgrade to 1.9.2
+Subject: [PATCH 47/55] python-waitress: upgrade to 0.8.9
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,30 +52,30 @@ From: Jackie Huang <jackie.huang@windriver.com>
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../python/{python-tox_1.7.1.bb => python-tox_1.9.2.bb}              | 5 ++---
+ .../python/{python-waitress_0.8.7.bb => python-waitress_0.8.9.bb}    | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-tox_1.7.1.bb => python-tox_1.9.2.bb} (85%)
+ rename meta-openstack/recipes-devtools/python/{python-waitress_0.8.7.bb => python-waitress_0.8.9.bb} (71%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-tox_1.7.1.bb b/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
-similarity index 85%
-rename from meta-openstack/recipes-devtools/python/python-tox_1.7.1.bb
-rename to meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
-index 7010fa7..81dbd81 100644
---- a/meta-openstack/recipes-devtools/python/python-tox_1.7.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-waitress_0.8.7.bb b/meta-openstack/recipes-devtools/python/python-waitress_0.8.9.bb
+similarity index 71%
+rename from meta-openstack/recipes-devtools/python/python-waitress_0.8.7.bb
+rename to meta-openstack/recipes-devtools/python/python-waitress_0.8.9.bb
+index 6fc319f..548efd1 100644
+--- a/meta-openstack/recipes-devtools/python/python-waitress_0.8.7.bb
++++ b/meta-openstack/recipes-devtools/python/python-waitress_0.8.9.bb
 @@ -4,13 +4,12 @@ SECTION = "devel/python"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d0fc2c2c954dc4d41043e67d4a8d8e7"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=78ccb3640dc841e1baecb3e27a6966b2"
  
 -PR = "r0"
+ SRCNAME = "waitress"
  
- SRCNAME = "tox"
- SRC_URI = "http://pypi.python.org/packages/source/t/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ SRC_URI = "https://pypi.python.org/packages/source/w/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "ec85bbfc7bd29600e91aa0e9754645d0"
--SRC_URI[sha256sum] = "869cb9e07847a9f0238f5a5029f3621504a5a3ec05af6d878e879b354c6851c4"
-+SRC_URI[md5sum] = "f4db4d6a82d6a651e457ba55ef370258"
-+SRC_URI[sha256sum] = "3125a15da7381f59f835a25bd259a84acb7a69858c81e386c50027bd842bb91b"
+-SRC_URI[md5sum] = "714f3d458d82a47f12fb168460de8366"
+-SRC_URI[sha256sum] = "e161e27faa12837739294dd8c837541aa66a5b2764eed753f0bf851d8ac81a74"
++SRC_URI[md5sum] = "da3f2e62b3676be5dd630703a68e2a04"
++SRC_URI[sha256sum] = "826527dc9d334ed4ed76cdae672fdcbbccf614186657db71679ab58df869458a"
  
  S = "${WORKDIR}/${SRCNAME}-${PV}"
  
