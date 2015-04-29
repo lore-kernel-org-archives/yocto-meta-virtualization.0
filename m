@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3672FE00A16; Tue, 28 Apr 2015 20:10:40 -0700 (PDT)
+	id C07EFE00AA9; Tue, 28 Apr 2015 20:10:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 93C5FE009CF
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A28C9E009C1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:52 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:53 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39q7A000091
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39rZt009436
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:52 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:53 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 28 Apr 2015 20:09:51 -0700
+	14.3.224.2; Tue, 28 Apr 2015 20:09:53 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 29 Apr 2015 11:09:00 +0800
-Message-ID: <245a3823e11b1a0af695ba4c1663e8ae5ad524c4.1430275945.git.jackie.huang@windriver.com>
+Date: Wed, 29 Apr 2015 11:09:01 +0800
+Message-ID: <f1ca3d2fdf2ea5680b4e09a0f2ac7f1157a1b9a7.1430275945.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1430275944.git.jackie.huang@windriver.com>
 References: <cover.1430275944.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 50/55] python-wsme: upgrade to 0.6.4
+Subject: [PATCH 51/55] python-xstatic-font-awesome: upgrade to 4.3.0.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,30 +52,33 @@ From: Jackie Huang <jackie.huang@windriver.com>
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../python/{python-wsme_0.6.bb => python-wsme_0.6.4.bb}              | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-wsme_0.6.bb => python-wsme_0.6.4.bb} (78%)
+ ...t-awesome_4.1.0.0.bb => python-xstatic-font-awesome_4.3.0.0.bb} | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-xstatic-font-awesome_4.1.0.0.bb => python-xstatic-font-awesome_4.3.0.0.bb} (69%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-wsme_0.6.bb b/meta-openstack/recipes-devtools/python/python-wsme_0.6.4.bb
-similarity index 78%
-rename from meta-openstack/recipes-devtools/python/python-wsme_0.6.bb
-rename to meta-openstack/recipes-devtools/python/python-wsme_0.6.4.bb
-index b0c159a..238b67c 100644
---- a/meta-openstack/recipes-devtools/python/python-wsme_0.6.bb
-+++ b/meta-openstack/recipes-devtools/python/python-wsme_0.6.4.bb
-@@ -4,13 +4,12 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=477dfa54ede28e2f361e7db05941d7a7"
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_4.1.0.0.bb b/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_4.3.0.0.bb
+similarity index 69%
+rename from meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_4.1.0.0.bb
+rename to meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_4.3.0.0.bb
+index 62d49e3..4f90fbb 100644
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_4.1.0.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_4.3.0.0.bb
+@@ -2,15 +2,14 @@ DESCRIPTION = "Font Awesome icons packaged for setuptools (easy_install) / pip."
+ HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Font-Awesome"
+ SECTION = "devel/python"
+ LICENSE = "Apache-2"
+-LIC_FILES_CHKSUM = "file://PKG-INFO;md5=faab18144d8e4d0230ad3fd6f3764d22"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=821ae461252f11e98fefe8bdfaa130ca"
  
 -PR = "r0"
- SRCNAME = "WSME"
  
- SRC_URI = "https://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ SRCNAME = "XStatic-Font-Awesome"
+ SRC_URI = "http://pypi.python.org/packages/source/X/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "80a46e564ae0710118ddeded8c5f4412"
--SRC_URI[sha256sum] = "8a37981ebf877d2ca8ae12f6c6fc3d920cb0c9d7be68fef419de252797dfdc15"
-+SRC_URI[md5sum] = "0ba96f660c10d41c63d6bb65bfeeed59"
-+SRC_URI[sha256sum] = "e4c0012b1a592c3889697259c690447dfc8edcbae5b52307709705377305e953"
+-SRC_URI[md5sum] = "84965a23e6f98e2e50df5386b85e0f6e"
+-SRC_URI[sha256sum] = "620cc5224358b8bdb214ecf3c4e8aa9ea3b538ff38624d54e609b52e77f8caea"
++SRC_URI[md5sum] = "56e637fe7b3dcdd2ebd683996ad60759"
++SRC_URI[sha256sum] = "d2c0548990a22744ad20013e1d095de8ba1ea56b1878d8393a721205b03885c3"
  
  S = "${WORKDIR}/${SRCNAME}-${PV}"
  
