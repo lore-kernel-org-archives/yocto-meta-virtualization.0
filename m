@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 57C98E009C2; Tue, 28 Apr 2015 20:09:33 -0700 (PDT)
+	id 75B8AE009AA; Tue, 28 Apr 2015 20:09:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,27 +12,27 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 51AE1E00932
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8D2DBE009DF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:19 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:21 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39JK2029999
+	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t3T39LQc000006
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Apr 2015 20:09:19 -0700 (PDT)
+	Tue, 28 Apr 2015 20:09:21 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 28 Apr 2015 20:09:18 -0700
+	14.3.224.2; Tue, 28 Apr 2015 20:09:20 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 29 Apr 2015 11:08:31 +0800
-Message-ID: <8b624a6dd1067f19c2eb305fcb67840f4780a8b5.1430275945.git.jackie.huang@windriver.com>
+Date: Wed, 29 Apr 2015 11:08:33 +0800
+Message-ID: <1242ab00053cd5704727fe3dd4b517b994b9884a.1430275945.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1430275944.git.jackie.huang@windriver.com>
 References: <cover.1430275944.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 21/55] python-oslo.concurrency: upgrade to 1.9.0
+Subject: [PATCH 23/55] python-oslo.db: upgrade to 1.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,30 +52,30 @@ From: Jackie Huang <jackie.huang@windriver.com>
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- ...on-oslo.concurrency_1.5.0.bb => python-oslo.concurrency_1.9.0.bb} | 5 ++---
+ .../python/{python-oslo.db_1.5.0.bb => python-oslo.db_1.9.0.bb}      | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-oslo.concurrency_1.5.0.bb => python-oslo.concurrency_1.9.0.bb} (77%)
+ rename meta-openstack/recipes-devtools/python/{python-oslo.db_1.5.0.bb => python-oslo.db_1.9.0.bb} (81%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-oslo.concurrency_1.5.0.bb b/meta-openstack/recipes-devtools/python/python-oslo.concurrency_1.9.0.bb
-similarity index 77%
-rename from meta-openstack/recipes-devtools/python/python-oslo.concurrency_1.5.0.bb
-rename to meta-openstack/recipes-devtools/python/python-oslo.concurrency_1.9.0.bb
-index 50136ae..76d3424 100644
---- a/meta-openstack/recipes-devtools/python/python-oslo.concurrency_1.5.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-oslo.concurrency_1.9.0.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-oslo.db_1.5.0.bb b/meta-openstack/recipes-devtools/python/python-oslo.db_1.9.0.bb
+similarity index 81%
+rename from meta-openstack/recipes-devtools/python/python-oslo.db_1.5.0.bb
+rename to meta-openstack/recipes-devtools/python/python-oslo.db_1.9.0.bb
+index 04b5dd3..9ca1742 100644
+--- a/meta-openstack/recipes-devtools/python/python-oslo.db_1.5.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-oslo.db_1.9.0.bb
 @@ -4,13 +4,12 @@ SECTION = "devel/python"
- LICENSE = "Apache-2"
+ LICENSE = "Apache-2.0"
  LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
  
 -PR = "r0"
  
- SRCNAME = "oslo.concurrency"
+ SRCNAME = "oslo.db"
  SRC_URI = "http://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "83baf51766c3acf9929223762689ebfd"
--SRC_URI[sha256sum] = "89b62c029f0ecfcc92da22277e93fbe74363d459208bf62d2c9e7a3da0019e83"
-+SRC_URI[md5sum] = "32d21336b17086521599f5e15891a2bb"
-+SRC_URI[sha256sum] = "6b47dfdc8213226053b95def19ed3c7fc492b3d4c1b3c0a61381cddf8dbbf67c"
+-SRC_URI[md5sum] = "b5786f249c3af5a45e39fcb495ef62f1"
+-SRC_URI[sha256sum] = "1358218c8055226e6a11aca521e46f7e0e13174b2ff4ae0503b372def10cd26e"
++SRC_URI[md5sum] = "1ab1e83d18761b8411f44983ae749da1"
++SRC_URI[sha256sum] = "028ed6a38c1ed6d39d04f3dc2d7b7e2e0aca3cf53e72e145c3c07a5a0fb80eb8"
  
  S = "${WORKDIR}/${SRCNAME}-${PV}"
  
