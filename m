@@ -1,55 +1,76 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <B43198@freescale.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 327F2E007B9; Wed, 29 Apr 2015 09:31:04 -0700 (PDT)
+	id 1C222E007B9; Mon,  4 May 2015 08:24:10 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.160.173 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [65.55.169.111 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
-	[209.85.160.173])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 489C1E003A8
+X-Greylist: delayed 1028 seconds by postgrey-1.32 at yocto-www;
+	Mon, 04 May 2015 08:24:06 PDT
+Received: from na01-bl2-obe.outbound.protection.outlook.com
+	(mail-bl2on0111.outbound.protection.outlook.com [65.55.169.111])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52F59E003A8
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 29 Apr 2015 09:31:01 -0700 (PDT)
-Received: by ykec202 with SMTP id c202so7118769yke.2
+	Mon,  4 May 2015 08:24:06 -0700 (PDT)
+Received: from BN3PR0301CA0073.namprd03.prod.outlook.com (25.160.152.169) by
+	BLUPR03MB456.namprd03.prod.outlook.com (10.141.78.148) with Microsoft
+	SMTP Server (TLS) id 15.1.160.10; Mon, 4 May 2015 14:52:01 +0000
+Received: from BY2FFO11FD022.protection.gbl (2a01:111:f400:7c0c::185) by
+	BN3PR0301CA0073.outlook.office365.com (2a01:111:e400:401e::41) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.154.19 via Frontend Transport; Mon, 4 May 2015
+	14:52:01 +0000
+Authentication-Results: spf=fail (sender IP is 192.88.158.2)
+	smtp.mailfrom=freescale.com; yoctoproject.org;
+	dkim=none (message not signed) header.d=none;
+Received-SPF: Fail (protection.outlook.com: domain of freescale.com does not
+	designate 192.88.158.2 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.158.2; helo=az84smr01.freescale.net;
+Received: from az84smr01.freescale.net (192.88.158.2) by
+	BY2FFO11FD022.mail.protection.outlook.com (10.1.15.211) with Microsoft
+	SMTP Server (TLS) id 15.1.160.8 via Frontend Transport;
+	Mon, 4 May 2015 14:52:01 +0000
+Received: from localhost.localdomain (fsr-ub1464-106.ea.freescale.net
+	[10.171.74.50])
+	by az84smr01.freescale.net (8.14.3/8.14.0) with ESMTP id t44EpxA3028636
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 29 Apr 2015 09:31:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=R7xh2wGngaDeoNd2zCtcCUh1Bbk9J8XUOk3DlYdjePo=;
-	b=0hJQ3Y12O3U1+IHizUIiQ/W0dlaLaMfHt3gw2DgPOGkzHWEtr/aQKhBL6Z4imeHGKd
-	5KEYh6lR6RVSYeYXtx43vSJA0oXyiTzxWehDmOOR2RJcE7UU3jftSj/GBvtXleBk16p/
-	YL0DPNqL5H2Z/0NgBqqNOMYJm6aeNUpAW8nz86SK/HKXgsQ5Z3OSm5jqaIgi0DOFUGLp
-	+gqvnoQ0j4bpAvqqLse2YhBttBbT2FRUs5M9DGHvXFM6WJNriuHnD1/t+oB4JWF8pMTP
-	Ry65dHaKT08lAq90Ze6O12KchaD29oigvyxpadCnIBRYb0chd6wR0vkqW0cvhy/EDFEh
-	J09A==
+	Mon, 4 May 2015 07:52:00 -0700
+From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 4 May 2015 17:51:58 +0000
+Message-ID: <1430761918-340-1-git-send-email-bogdan.purcareata@freescale.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Received: by 10.236.5.202 with SMTP id 50mr28824284yhl.178.1430325060444;
-	Wed, 29 Apr 2015 09:31:00 -0700 (PDT)
-Received: by 10.129.109.20 with HTTP; Wed, 29 Apr 2015 09:31:00 -0700 (PDT)
-In-Reply-To: <cover.1430275944.git.jackie.huang@windriver.com>
-References: <cover.1430275944.git.jackie.huang@windriver.com>
-Date: Wed, 29 Apr 2015 12:31:00 -0400
-Message-ID: <CADkTA4NU-0_omBSxSDsD0qCqfv14kFP8MWpA38cwAqoBzH02HQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Huang, Jie (Jackie)" <jackie.huang@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 00/55] libraries: version upgrades
+X-EOPAttributedMessage: 0
+X-Forefront-Antispam-Report: CIP:192.88.158.2; CTRY:US; IPV:NLI; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10019020)(6009001)(339900001)(199003)(189002)(6806004)(104016003)(5001920100001)(15395725005)(49486002)(2351001)(229853001)(47776003)(87936001)(551544002)(105606002)(107886002)(110136002)(62966003)(19580395003)(19580405001)(77156002)(50986999)(575784001)(5820100001)(77096005)(15975445007)(33646002)(23676002)(92566002)(46102003)(50226001)(5001960100002)(50466002)(36756003);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BLUPR03MB456;
+	H:az84smr01.freescale.net; FPR:; SPF:Fail; MLV:sfv; A:1; MX:1;
+	LANG:en; 
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:BLUPR03MB456;
+X-Microsoft-Antispam-PRVS: <BLUPR03MB4565B719341EECBC9C9F80F8CD20@BLUPR03MB456.namprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(5005006)(3002001); SRVR:BLUPR03MB456; BCL:0;
+	PCL:0; RULEID:; SRVR:BLUPR03MB456; 
+X-Forefront-PRVS: 05669A7924
+X-OriginatorOrg: freescale.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2015 14:52:01.0509 (UTC)
+X-MS-Exchange-CrossTenant-Id: 710a03f5-10f6-4d38-9ff4-a80b81da590d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=710a03f5-10f6-4d38-9ff4-a80b81da590d; Ip=[192.88.158.2];
+	Helo=[az84smr01.freescale.net]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR03MB456
+Subject: [PATCH] lxc: Add OpenSSH support for Busybox containers
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,217 +83,344 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Apr 2015 16:31:04 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 04 May 2015 15:24:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 28, 2015 at 11:05 PM,  <jackie.huang@windriver.com> wrote:
-> From: Jackie Huang <jackie.huang@windriver.com>
->
-> 1) The patches are generated by the auto-upgrade-helper script
->    and some are modified as needed.
-> 2) builds fine on qemux86 and qemux86-64.
+Add command line parameter to create Busybox containers
+with OpenSSH support. As a prerequisite, OpenSSH needs
+to be installed on the host system.
 
-Thanks Jackie.
+Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+---
+ .../files/lxc-busybox-add-OpenSSH-support.patch    | 246 +++++++++++++++++++++
+ .../files/make-some-OpenSSH-tools-optional.patch   |  49 ++++
+ recipes-containers/lxc/lxc_1.0.7.bb                |   2 +
+ 3 files changed, 297 insertions(+)
+ create mode 100644 recipes-containers/lxc/files/lxc-busybox-add-OpenSSH-support.patch
+ create mode 100644 recipes-containers/lxc/files/make-some-OpenSSH-tools-optional.patch
 
-I've merged the changes to kilo and master.
-
-Bruce
-
->
-> --
-> The following changes since commit 67f97ec7ac29b7fc8f4a25223c6ef09cc20ab8e6:
->
->   cloud-init: fix 64bit libraries (2015-04-23 11:30:08 -0400)
->
-> are available in the git repository at:
->
->   git://git.pokylinux.org/poky-contrib jhuang0/r_up_pypi_150428-0
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_up_pypi_150428-0
->
-> Jackie Huang (55):
->   package_regex_openstack: fix for pypi packages
->   python-alembic: upgrade to 0.7.5.post2
->   python-amqp: upgrade to 1.4.6
->   python-cliff: upgrade to 1.12.0
->   python-coverage: upgrade to 4.0a5
->   python-django-compressor: upgrade to 1.5
->   python-django-nose: upgrade to 1.4
->   python-django-openstack-auth: upgrade to 1.3.0
->   python-django-pyscss: upgrade to 2.0.1
->   python-eventlet: upgrade to 0.17.3
->   python-flake8: upgrade to 2.4.0
->   python-httplib2: upgrade to 0.9.1
->   python-i18n: upgrade to 0.3.1
->   python-jsonpath-rw: upgrade to 1.4.0
->   python-kombu: upgrade to 3.0.26
->   python-lesscpy: upgrade to 0.10.2
->   python-lockfile: upgrade to 0.10.2
->   python-memcache: upgrade to 1.2.9
->   python-netaddr: upgrade to 0.7.14
->   python-openstackclient: upgrade to 1.1.0
->   python-oslo.concurrency: upgrade to 1.9.0
->   python-oslo.config: upgrade to 1.11.0
->   python-oslo.db: upgrade to 1.9.0
->   python-oslo.i18n: upgrade to 1.6.0
->   python-oslo.middleware: upgrade to 1.1.0
->   python-oslo.rootwrap: upgrade to 1.7.0
->   python-oslotest: upgrade to 1.6.0
->   python-paste: upgrade to 2.0.1
->   python-pycadf: upgrade to 0.9.0
->   python-pycrypto: upgrade to 2.6.1
->   python-pymongo: upgrade to 3.0.1
->   python-pysaml2: upgrade to 2.4.0
->   python-pyscss: upgrade to 1.3.4
->   python-pytest: upgrade to 2.7.0
->   python-rfc3986: upgrade to 0.2.1
->   python-routes: upgrade to 2.1
->   python-rtslib-fb: upgrade to 2.1.51
->   python-singledispatch: upgrade to 3.4.0.3
->   python-sqlalchemy-migrate: upgrade to 0.9.6
->   python-stevedore: upgrade to 1.4.0
->   python-subunit: upgrade to 1.1.0
->   python-tempita: upgrade to 0.5.3dev
->   python-testrepository: upgrade to 0.0.20
->   python-thrift: upgrade to 0.9.2
->   python-tooz: upgrade to 0.15.0
->   python-tox: upgrade to 1.9.2
->   python-waitress: upgrade to 0.8.9
->   python-warlock: upgrade to 1.1.0
->   python-webtest: upgrade to 2.0.18
->   python-wsme: upgrade to 0.6.4
->   python-xstatic-font-awesome: upgrade to 4.3.0.0
->   python-xstatic-jasmine: upgrade to 2.1.2.0
->   python-zake: upgrade to 0.2.1
->   python-mimeparse: upgrade to 0.1.4
->   python-setuptools-git: upgrade to 1.1
->
->  .../distro/include/package_regex_openstack.inc     | 311 +++++++++++++++++++++
->  ...mbic_0.5.0.bb => python-alembic_0.7.5.post2.bb} |   7 +-
->  .../{python-amqp_1.3.2.bb => python-amqp_1.4.6.bb} |   5 +-
->  ...thon-cliff_1.10.0.bb => python-cliff_1.12.0.bb} |   5 +-
->  ...-coverage_3.7.1.bb => python-coverage_4.0a5.bb} |   5 +-
->  ...ssor_1.4.bb => python-django-compressor_1.5.bb} |   5 +-
->  ...jango-nose_1.3.bb => python-django-nose_1.4.bb} |   5 +-
->  ....9.bb => python-django-openstack-auth_1.3.0.bb} |   5 +-
->  ...scss_1.0.6.bb => python-django-pyscss_2.0.1.bb} |   5 +-
->  ...ventlet_0.17.1.bb => python-eventlet_0.17.3.bb} |   5 +-
->  ...thon-flake8_2.3.0.bb => python-flake8_2.4.0.bb} |   5 +-
->  ...on-httplib2_0.9.bb => python-httplib2_0.9.1.bb} |   7 +-
->  .../{python-i18n_0.3.0.bb => python-i18n_0.3.1.bb} |   5 +-
->  ...ath-rw_1.3.0.bb => python-jsonpath-rw_1.4.0.bb} |   7 +-
->  ...ython-kombu_3.0.3.bb => python-kombu_3.0.26.bb} |   7 +-
->  .../0001-lesscpy-remove-explicit-python3.patch     |  23 --
->  ...02-Description-Fixup-for-python3.3-compat.patch |  31 --
->  ...on-lesscpy_0.9j.bb => python-lesscpy_0.10.2.bb} |   7 +-
->  ...lockfile_0.9.1.bb => python-lockfile_0.10.2.bb} |   5 +-
->  ...-memcache_1.2.5.bb => python-memcache_1.2.9.bb} |   7 +-
->  ...imeparse_0.1.3.bb => python-mimeparse_0.1.4.bb} |  11 +-
->  ...-netaddr_0.7.13.bb => python-netaddr_0.7.14.bb} |   5 +-
->  ...nt_1.0.3.bb => python-openstackclient_1.1.0.bb} |   4 +-
->  ...y_1.5.0.bb => python-oslo.concurrency_1.9.0.bb} |   5 +-
->  ...onfig_1.6.1.bb => python-oslo.config_1.11.0.bb} |   5 +-
->  ...on-oslo.db_1.5.0.bb => python-oslo.db_1.9.0.bb} |   5 +-
->  ...slo.i18n_1.4.0.bb => python-oslo.i18n_1.6.0.bb} |   5 +-
->  ...re_0.4.0.bb => python-oslo.middleware_1.1.0.bb} |   5 +-
->  ...wrap_1.5.0.bb => python-oslo.rootwrap_1.7.0.bb} |   5 +-
->  ...-oslotest_1.4.0.bb => python-oslotest_1.6.0.bb} |   5 +-
->  ...thon-paste_1.7.5.1.bb => python-paste_2.0.1.bb} |   5 +-
->  ...thon-pycadf_0.6.0.bb => python-pycadf_0.9.0.bb} |   5 +-
->  ...on-pycrypto_2.6.bb => python-pycrypto_2.6.1.bb} |   5 +-
->  ...on-pymongo_2.6.3.bb => python-pymongo_3.0.1.bb} |   5 +-
->  ...on-pysaml2_2.3.0.bb => python-pysaml2_2.4.0.bb} |   7 +-
->  ...thon-pyscss_1.2.1.bb => python-pyscss_1.3.4.bb} |   5 +-
->  ...thon-pytest_2.5.2.bb => python-pytest_2.7.0.bb} |   5 +-
->  ...on-rfc3986_0.2.0.bb => python-rfc3986_0.2.1.bb} |   5 +-
->  ...ython-routes_1.12.3.bb => python-routes_2.1.bb} |   7 +-
->  ...lib-fb_2.1.32.bb => python-rtslib-fb_2.1.51.bb} |   7 +-
->  ...ols-git_1.0.bb => python-setuptools-git_1.1.bb} |   9 +-
->  ...3.4.0.2.bb => python-singledispatch_3.4.0.3.bb} |   7 +-
->  ...0.9.1.bb => python-sqlalchemy-migrate_0.9.6.bb} |   5 +-
->  ...tevedore_1.2.0.bb => python-stevedore_1.4.0.bb} |   5 +-
->  ...n-subunit_0.0.15.bb => python-subunit_1.1.0.bb} |   7 +-
->  ...tempita_0.5.1.bb => python-tempita_0.5.3dev.bb} |   7 +-
->  ...y_0.0.18.bb => python-testrepository_0.0.20.bb} |   5 +-
->  ...thon-thrift_0.9.1.bb => python-thrift_0.9.2.bb} |   7 +-
->  .../{python-tooz_0.4.bb => python-tooz_0.15.0.bb}  |   5 +-
->  .../{python-tox_1.7.1.bb => python-tox_1.9.2.bb}   |   5 +-
->  ...-waitress_0.8.7.bb => python-waitress_0.8.9.bb} |   5 +-
->  ...on-warlock_1.0.1.bb => python-warlock_1.1.0.bb} |   5 +-
->  ...n-webtest_2.0.9.bb => python-webtest_2.0.18.bb} |   5 +-
->  .../{python-wsme_0.6.bb => python-wsme_0.6.4.bb}   |   5 +-
->  ...0.bb => python-xstatic-font-awesome_4.3.0.0.bb} |   7 +-
->  ....3.1.1.bb => python-xstatic-jasmine_2.1.2.0.bb} |   7 +-
->  .../{python-zake_0.1.6.bb => python-zake_0.2.1.bb} |   7 +-
->  57 files changed, 439 insertions(+), 237 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-alembic_0.5.0.bb => python-alembic_0.7.5.post2.bb} (61%)
->  rename meta-openstack/recipes-devtools/python/{python-amqp_1.3.2.bb => python-amqp_1.4.6.bb} (71%)
->  rename meta-openstack/recipes-devtools/python/{python-cliff_1.10.0.bb => python-cliff_1.12.0.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-coverage_3.7.1.bb => python-coverage_4.0a5.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-django-compressor_1.4.bb => python-django-compressor_1.5.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-django-nose_1.3.bb => python-django-nose_1.4.bb} (79%)
->  rename meta-openstack/recipes-devtools/python/{python-django-openstack-auth_1.1.9.bb => python-django-openstack-auth_1.3.0.bb} (79%)
->  rename meta-openstack/recipes-devtools/python/{python-django-pyscss_1.0.6.bb => python-django-pyscss_2.0.1.bb} (79%)
->  rename meta-openstack/recipes-devtools/python/{python-eventlet_0.17.1.bb => python-eventlet_0.17.3.bb} (71%)
->  rename meta-openstack/recipes-devtools/python/{python-flake8_2.3.0.bb => python-flake8_2.4.0.bb} (79%)
->  rename meta-openstack/recipes-devtools/python/{python-httplib2_0.9.bb => python-httplib2_0.9.1.bb} (67%)
->  rename meta-openstack/recipes-devtools/python/{python-i18n_0.3.0.bb => python-i18n_0.3.1.bb} (78%)
->  rename meta-openstack/recipes-devtools/python/{python-jsonpath-rw_1.3.0.bb => python-jsonpath-rw_1.4.0.bb} (61%)
->  rename meta-openstack/recipes-devtools/python/{python-kombu_3.0.3.bb => python-kombu_3.0.26.bb} (63%)
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-lesscpy/0001-lesscpy-remove-explicit-python3.patch
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-lesscpy/0002-Description-Fixup-for-python3.3-compat.patch
->  rename meta-openstack/recipes-devtools/python/{python-lesscpy_0.9j.bb => python-lesscpy_0.10.2.bb} (68%)
->  rename meta-openstack/recipes-devtools/python/{python-lockfile_0.9.1.bb => python-lockfile_0.10.2.bb} (71%)
->  rename meta-openstack/recipes-devtools/python/{python-memcache_1.2.5.bb => python-memcache_1.2.9.bb} (67%)
->  rename meta-openstack/recipes-devtools/python/{python-mimeparse_0.1.3.bb => python-mimeparse_0.1.4.bb} (55%)
->  rename meta-openstack/recipes-devtools/python/{python-netaddr_0.7.13.bb => python-netaddr_0.7.14.bb} (72%)
->  rename meta-openstack/recipes-devtools/python/{python-openstackclient_1.0.3.bb => python-openstackclient_1.1.0.bb} (74%)
->  rename meta-openstack/recipes-devtools/python/{python-oslo.concurrency_1.5.0.bb => python-oslo.concurrency_1.9.0.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-oslo.config_1.6.1.bb => python-oslo.config_1.11.0.bb} (78%)
->  rename meta-openstack/recipes-devtools/python/{python-oslo.db_1.5.0.bb => python-oslo.db_1.9.0.bb} (81%)
->  rename meta-openstack/recipes-devtools/python/{python-oslo.i18n_1.4.0.bb => python-oslo.i18n_1.6.0.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-oslo.middleware_0.4.0.bb => python-oslo.middleware_1.1.0.bb} (76%)
->  rename meta-openstack/recipes-devtools/python/{python-oslo.rootwrap_1.5.0.bb => python-oslo.rootwrap_1.7.0.bb} (76%)
->  rename meta-openstack/recipes-devtools/python/{python-oslotest_1.4.0.bb => python-oslotest_1.6.0.bb} (84%)
->  rename meta-openstack/recipes-devtools/python/{python-paste_1.7.5.1.bb => python-paste_2.0.1.bb} (72%)
->  rename meta-openstack/recipes-devtools/python/{python-pycadf_0.6.0.bb => python-pycadf_0.9.0.bb} (80%)
->  rename meta-openstack/recipes-devtools/python/{python-pycrypto_2.6.bb => python-pycrypto_2.6.1.bb} (83%)
->  rename meta-openstack/recipes-devtools/python/{python-pymongo_2.6.3.bb => python-pymongo_3.0.1.bb} (71%)
->  rename meta-openstack/recipes-devtools/python/{python-pysaml2_2.3.0.bb => python-pysaml2_2.4.0.bb} (65%)
->  rename meta-openstack/recipes-devtools/python/{python-pyscss_1.2.1.bb => python-pyscss_1.3.4.bb} (78%)
->  rename meta-openstack/recipes-devtools/python/{python-pytest_2.5.2.bb => python-pytest_2.7.0.bb} (74%)
->  rename meta-openstack/recipes-devtools/python/{python-rfc3986_0.2.0.bb => python-rfc3986_0.2.1.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-routes_1.12.3.bb => python-routes_2.1.bb} (58%)
->  rename meta-openstack/recipes-devtools/python/{python-rtslib-fb_2.1.32.bb => python-rtslib-fb_2.1.51.bb} (66%)
->  rename meta-openstack/recipes-devtools/python/{python-setuptools-git_1.0.bb => python-setuptools-git_1.1.bb} (68%)
->  rename meta-openstack/recipes-devtools/python/{python-singledispatch_3.4.0.2.bb => python-singledispatch_3.4.0.3.bb} (60%)
->  rename meta-openstack/recipes-devtools/python/{python-sqlalchemy-migrate_0.9.1.bb => python-sqlalchemy-migrate_0.9.6.bb} (80%)
->  rename meta-openstack/recipes-devtools/python/{python-stevedore_1.2.0.bb => python-stevedore_1.4.0.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-subunit_0.0.15.bb => python-subunit_1.1.0.bb} (61%)
->  rename meta-openstack/recipes-devtools/python/{python-tempita_0.5.1.bb => python-tempita_0.5.3dev.bb} (55%)
->  rename meta-openstack/recipes-devtools/python/{python-testrepository_0.0.18.bb => python-testrepository_0.0.20.bb} (76%)
->  rename meta-openstack/recipes-devtools/python/{python-thrift_0.9.1.bb => python-thrift_0.9.2.bb} (59%)
->  rename meta-openstack/recipes-devtools/python/{python-tooz_0.4.bb => python-tooz_0.15.0.bb} (80%)
->  rename meta-openstack/recipes-devtools/python/{python-tox_1.7.1.bb => python-tox_1.9.2.bb} (85%)
->  rename meta-openstack/recipes-devtools/python/{python-waitress_0.8.7.bb => python-waitress_0.8.9.bb} (71%)
->  rename meta-openstack/recipes-devtools/python/{python-warlock_1.0.1.bb => python-warlock_1.1.0.bb} (77%)
->  rename meta-openstack/recipes-devtools/python/{python-webtest_2.0.9.bb => python-webtest_2.0.18.bb} (74%)
->  rename meta-openstack/recipes-devtools/python/{python-wsme_0.6.bb => python-wsme_0.6.4.bb} (78%)
->  rename meta-openstack/recipes-devtools/python/{python-xstatic-font-awesome_4.1.0.0.bb => python-xstatic-font-awesome_4.3.0.0.bb} (69%)
->  rename meta-openstack/recipes-devtools/python/{python-xstatic-jasmine_1.3.1.1.bb => python-xstatic-jasmine_2.1.2.0.bb} (67%)
->  rename meta-openstack/recipes-devtools/python/{python-zake_0.1.6.bb => python-zake_0.2.1.bb} (69%)
->
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-containers/lxc/files/lxc-busybox-add-OpenSSH-support.patch b/recipes-containers/lxc/files/lxc-busybox-add-OpenSSH-support.patch
+new file mode 100644
+index 0000000..f2f332c
+--- /dev/null
++++ b/recipes-containers/lxc/files/lxc-busybox-add-OpenSSH-support.patch
+@@ -0,0 +1,246 @@
++From ed52814c776963efdcc9dcda1ec26fc09930ef93 Mon Sep 17 00:00:00 2001
++From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
++Date: Wed, 22 Apr 2015 14:53:32 +0000
++Subject: [PATCH] lxc-busybox: add OpenSSH support
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Add an additional template parameter for SSH support in the container. Currently
++this can be implemented using the Dropbear or OpenSSH utility. The respective
++tool needs to be available on the host Linux.
++
++If the parameter is omitted, the template will look for the Dropbear utility on
++the host and install it if it is available (legacy behavior).
++
++Adding OpenSSH support has been done following the model in the lxc-sshd
++template.
++
++Upstream-status: Accepted
++[https://github.com/lxc/lxc/commit/ed52814c776963efdcc9dcda1ec26fc09930ef93]
++
++Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
++Acked-by: Stéphane Graber <stgraber@ubuntu.com>
++---
++ templates/lxc-busybox.in | 169 ++++++++++++++++++++++++++++++++++++++---------
++ 1 file changed, 139 insertions(+), 30 deletions(-)
++
++diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
++index 7e05bd6..95961a3 100644
++--- a/templates/lxc-busybox.in
+++++ b/templates/lxc-busybox.in
++@@ -22,6 +22,7 @@
++ 
++ LXC_MAPPED_UID=
++ LXC_MAPPED_GID=
+++SSH=
++ 
++ # Make sure the usual locations are in PATH
++ export PATH=$PATH:/usr/sbin:/usr/bin:/sbin:/bin
++@@ -160,6 +161,116 @@ EOF
++     return $res
++ }
++ 
+++install_dropbear()
+++{
+++    # copy dropbear binary
+++    cp $(which dropbear) $rootfs/usr/sbin
+++    if [ $? -ne 0 ]; then
+++        echo "Failed to copy dropbear in the rootfs"
+++        return 1
+++    fi
+++
+++    # make symlinks to various ssh utilities
+++    utils="\
+++        $rootfs/usr/bin/dbclient \
+++        $rootfs/usr/bin/scp \
+++        $rootfs/usr/bin/ssh \
+++        $rootfs/usr/sbin/dropbearkey \
+++        $rootfs/usr/sbin/dropbearconvert \
+++    "
+++    echo $utils | xargs -n1 ln -s /usr/sbin/dropbear
+++
+++    # add necessary config files
+++    mkdir $rootfs/etc/dropbear
+++    dropbearkey -t rsa -f $rootfs/etc/dropbear/dropbear_rsa_host_key > /dev/null 2>&1
+++    dropbearkey -t dss -f $rootfs/etc/dropbear/dropbear_dss_host_key > /dev/null 2>&1
+++
+++    echo "'dropbear' ssh utility installed"
+++
+++    return 0
+++}
+++
+++install_openssh()
+++{
+++    # tools to be installed
+++    server_utils="sshd"
+++    client_utils="\
+++        ssh \
+++        scp \
+++        sftp \
+++        ssh-add \
+++        ssh-agent \
+++        ssh-keygen \
+++        ssh-keyscan \
+++        ssh-argv0 \
+++        ssh-copy-id \
+++        "
+++
+++    # new folders used by ssh
+++    ssh_tree="\
+++$rootfs/etc/ssh \
+++$rootfs/var/empty/sshd \
+++$rootfs/var/lib/empty/sshd \
+++$rootfs/var/run/sshd \
+++"
+++
+++    # create folder structure
+++    mkdir -p $ssh_tree
+++    if [ $? -ne 0 ]; then
+++        return 1
+++    fi
+++
+++    # copy binaries
+++    for bin in $server_utils $client_utils; do
+++        tool_path=`which $bin`
+++        cp $tool_path $rootfs/$tool_path
+++        if [ $? -ne 0 ]; then
+++            echo "Unable to copy $tool_path in the rootfs"
+++            return 1
+++        fi
+++    done
+++
+++    # add user and group
+++    cat <<EOF >> $rootfs/etc/passwd
+++sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+++EOF
+++
+++    cat <<EOF >> $rootfs/etc/group
+++sshd:x:74:
+++EOF
+++
+++    # generate container keys
+++    ssh-keygen -t rsa -N "" -f $rootfs/etc/ssh/ssh_host_rsa_key >/dev/null 2>&1
+++    ssh-keygen -t dsa -N "" -f $rootfs/etc/ssh/ssh_host_dsa_key >/dev/null 2>&1
+++
+++    # by default setup root password with no password
+++    cat <<EOF > $rootfs/etc/ssh/sshd_config
+++Port 22
+++Protocol 2
+++HostKey /etc/ssh/ssh_host_rsa_key
+++HostKey /etc/ssh/ssh_host_dsa_key
+++UsePrivilegeSeparation yes
+++KeyRegenerationInterval 3600
+++ServerKeyBits 768
+++SyslogFacility AUTH
+++LogLevel INFO
+++LoginGraceTime 120
+++PermitRootLogin yes
+++StrictModes yes
+++RSAAuthentication yes
+++PubkeyAuthentication yes
+++IgnoreRhosts yes
+++RhostsRSAAuthentication no
+++HostbasedAuthentication no
+++PermitEmptyPasswords yes
+++ChallengeResponseAuthentication no
+++EOF
+++
+++    echo "'OpenSSH' utility installed"
+++
+++    return 0
+++}
+++
++ configure_busybox()
++ {
++     rootfs=$1
++@@ -230,34 +341,6 @@ EOF
++     lxc-unshare -s MOUNT -- /bin/sh < $CHPASSWD_FILE
++     rm $CHPASSWD_FILE
++ 
++-    # add ssh functionality if dropbear package available on host
++-    which dropbear >/dev/null 2>&1
++-    if [ $? -eq 0 ]; then
++-        # copy dropbear binary
++-        cp $(which dropbear) $rootfs/usr/sbin
++-        if [ $? -ne 0 ]; then
++-            echo "Failed to copy dropbear in the rootfs"
++-            return 1
++-        fi
++-
++-        # make symlinks to various ssh utilities
++-        utils="\
++-            $rootfs/usr/bin/dbclient \
++-            $rootfs/usr/bin/scp \
++-            $rootfs/usr/bin/ssh \
++-            $rootfs/usr/sbin/dropbearkey \
++-            $rootfs/usr/sbin/dropbearconvert \
++-        "
++-        echo $utils | xargs -n1 ln -s /usr/sbin/dropbear
++-
++-        # add necessary config files
++-        mkdir $rootfs/etc/dropbear
++-        dropbearkey -t rsa -f $rootfs/etc/dropbear/dropbear_rsa_host_key > /dev/null 2>&1
++-        dropbearkey -t dss -f $rootfs/etc/dropbear/dropbear_dss_host_key > /dev/null 2>&1
++-
++-        echo "'dropbear' ssh utility installed"
++-    fi
++-
++     return 0
++ }
++ 
++@@ -315,12 +398,12 @@ remap_userns()
++ usage()
++ {
++     cat <<EOF
++-$1 -h|--help -p|--path=<path>
+++$1 -h|--help -p|--path=<path> -s|--ssh={dropbear,openssh}
++ EOF
++     return 0
++ }
++ 
++-options=$(getopt -o hp:n: -l help,rootfs:,path:,name:,mapped-uid:,mapped-gid: -- "$@")
+++options=$(getopt -o hp:n:s: -l help,rootfs:,path:,name:,mapped-uid:,mapped-gid:,ssh: -- "$@")
++ if [ $? -ne 0 ]; then
++     usage $(basename $0)
++     exit 1
++@@ -336,6 +419,7 @@ do
++         -n|--name)      name=$2; shift 2;;
++         --mapped-uid)   LXC_MAPPED_UID=$2; shift 2;;
++         --mapped-gid)   LXC_MAPPED_GID=$2; shift 2;;
+++        -s|--ssh)       SSH=$2; shift 2;;
++         --)             shift 1; break ;;
++         *)              break ;;
++     esac
++@@ -384,3 +468,28 @@ if [ $? -ne 0 ]; then
++     echo "failed to remap files to user"
++     exit 1
++ fi
+++
+++if [ -n "$SSH" ]; then
+++    case "$SSH" in
+++        "dropbear")
+++            install_dropbear
+++            if [ $? -ne 0 ]; then
+++                echo "Unable to install 'dropbear' ssh utility"
+++                exit 1
+++            fi ;;
+++        "openssh")
+++            install_openssh
+++            if [ $? -ne 0 ]; then
+++                echo "Unable to install 'OpenSSH' utility"
+++                exit 1
+++            fi ;;
+++        *)
+++            echo "$SSH: unrecognized ssh utility"
+++            exit 1
+++    esac
+++else
+++    which dropbear >/dev/null 2>&1
+++    if [ $? -eq 0 ]; then
+++        install_dropbear
+++    fi
+++fi
++-- 
++2.1.4
++
+diff --git a/recipes-containers/lxc/files/make-some-OpenSSH-tools-optional.patch b/recipes-containers/lxc/files/make-some-OpenSSH-tools-optional.patch
+new file mode 100644
+index 0000000..2d28788
+--- /dev/null
++++ b/recipes-containers/lxc/files/make-some-OpenSSH-tools-optional.patch
+@@ -0,0 +1,49 @@
++From 34be0d3cd8c4eaca9929470bc8bce5e74975bccf Mon Sep 17 00:00:00 2001
++From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
++Date: Thu, 23 Apr 2015 08:33:00 +0000
++Subject: [PATCH] lxc-busybox: make some OpenSSH tools optional
++
++Currently, when installing OpenSSH in a Busybox container, the template searches
++for all the OpenSSH client binaries available in the Debian distro package. The
++included tools might differ from distro to distro, so make part of the tools
++optional. The mandatory tools, without which installing OpenSSH fails, are
++"sshd" for the server and "ssh" and "scp" for the client.
++
++Upstream-Status: Submitted
++[https://lists.linuxcontainers.org/pipermail/lxc-devel/2015-April/011696.html]
++
++Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
++---
++ templates/lxc-busybox.in | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
++index 95961a3..17a3006 100644
++--- a/templates/lxc-busybox.in
+++++ b/templates/lxc-busybox.in
++@@ -197,6 +197,8 @@ install_openssh()
++     client_utils="\
++         ssh \
++         scp \
+++        "
+++    client_optional_utils="\
++         sftp \
++         ssh-add \
++         ssh-agent \
++@@ -230,6 +232,13 @@ $rootfs/var/run/sshd \
++         fi
++     done
++ 
+++    for bin in $client_optional_utils; do
+++        tool_path=`which $bin`
+++        if [ $? -eq 0 ]; then
+++            cp $tool_path $rootfs/$tool_path
+++        fi
+++    done
+++
++     # add user and group
++     cat <<EOF >> $rootfs/etc/passwd
++ sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
++-- 
++2.1.4
++
+diff --git a/recipes-containers/lxc/lxc_1.0.7.bb b/recipes-containers/lxc/lxc_1.0.7.bb
+index 0da1e37..f79ba76 100644
+--- a/recipes-containers/lxc/lxc_1.0.7.bb
++++ b/recipes-containers/lxc/lxc_1.0.7.bb
+@@ -32,6 +32,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
+ 	file://ppc-add-seccomp-support-for-lxc.patch \
+ 	file://lxc-fix-B-S.patch \
++	file://lxc-busybox-add-OpenSSH-support.patch \
++	file://make-some-OpenSSH-tools-optional.patch \
+ 	"
+ 
+ SRC_URI[md5sum] = "b48f468a9bef0e4e140dd723f0a65ad0"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.1
+
 
