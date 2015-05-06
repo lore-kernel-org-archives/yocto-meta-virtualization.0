@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 26883E009E5; Tue,  5 May 2015 18:45:13 -0700 (PDT)
+	id 8922CE009E1; Tue,  5 May 2015 18:45:14 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,29 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CE390E007B6
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BDCCFE009E1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 May 2015 18:45:07 -0700 (PDT)
+	Tue,  5 May 2015 18:45:12 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.14.9/8.14.9) with ESMTP id t461j6vI028080
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t461jC9s025958
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 5 May 2015 18:45:06 -0700 (PDT)
+	Tue, 5 May 2015 18:45:12 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 5 May 2015 18:45:05 -0700
+	14.3.224.2; Tue, 5 May 2015 18:45:11 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 6 May 2015 09:44:58 +0800
-Message-ID: <cover.1430817811.git.jackie.huang@windriver.com>
+Date: Wed, 6 May 2015 09:45:03 +0800
+Message-ID: <3001d4dcd419fcbedc0d9cb371a2fef9ce8cd1f3.1430817811.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1430817811.git.jackie.huang@windriver.com>
+References: <cover.1430817811.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 00/10] core: update to the kilo release
+Subject: [PATCH 05/10] python-heat: upgrade to 2015.1.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,47 +45,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 01:45:13 -0000
+X-List-Received-Date: Wed, 06 May 2015 01:45:14 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-update to the kilo release and change to stable/kilo branch.
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+---
+ meta-openstack/recipes-devtools/python/python-heat_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---
-The following changes since commit 2ed930f23e4d5678ef943cef413d09cd10c78eb7:
-
-  python-setuptools-git: upgrade to 1.1 (2015-04-29 12:29:42 -0400)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib jhuang0/r_up_openstack-kilo_150505-0
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=jhuang0/r_up_openstack-kilo_150505-0
-
-Jackie Huang (10):
-  python-keystonemiddleware: upgrade to 1.6.1
-  python-ceilometer: upgrade to 2015.1.0
-  python-cinder: upgrade to 2015.1.0
-  python-glance: upgrade to 2015.1.0
-  python-heat: upgrade to 2015.1.0
-  python-horizon: upgrade to 2015.1.0
-  python-keystone: upgrade to 2015.1.0
-  python-neutron: upgrade to 2015.1.0
-  python-nova: upgrade to 2015.1.0
-  python-barbican: upgrade to 2015.1.0
-
- meta-openstack/recipes-devtools/python/python-barbican_git.bb      | 6 +++---
- meta-openstack/recipes-devtools/python/python-ceilometer_git.bb    | 6 +++---
- meta-openstack/recipes-devtools/python/python-cinder_git.bb        | 6 +++---
- meta-openstack/recipes-devtools/python/python-glance_git.bb        | 6 +++---
- meta-openstack/recipes-devtools/python/python-heat_git.bb          | 6 +++---
- meta-openstack/recipes-devtools/python/python-horizon_git.bb       | 7 +++----
- meta-openstack/recipes-devtools/python/python-keystone_git.bb      | 7 +++----
- .../recipes-devtools/python/python-keystonemiddleware_git.bb       | 4 ++--
- meta-openstack/recipes-devtools/python/python-neutron_git.bb       | 7 +++----
- meta-openstack/recipes-devtools/python/python-nova_git.bb          | 7 +++----
- 10 files changed, 29 insertions(+), 33 deletions(-)
-
+diff --git a/meta-openstack/recipes-devtools/python/python-heat_git.bb b/meta-openstack/recipes-devtools/python/python-heat_git.bb
+index 7750c93..7abb4d0 100644
+--- a/meta-openstack/recipes-devtools/python/python-heat_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-heat_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+ PR = "r0"
+ SRCNAME = "heat"
+ 
+-SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
++SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo \
+            file://heat.conf \
+            file://heat.init \
+            file://autoscaling_example.template \
+@@ -16,8 +16,8 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
+            file://heat-tests-change-project_dir-path.patch \
+ "
+ 
+-SRCREV = "34cc6d7e96e1a54dce5c91cc09583e08f2fa778e"
+-PV = "2015.1.0b3+git${SRCPV}"
++SRCREV = "6db88597dba0b79b2501f43b704c93b2728a5ec6"
++PV = "2015.1.0+git${SRCPV}"
+ S = "${WORKDIR}/git"
+ 
+ SERVICECREATE_PACKAGES = "${SRCNAME}-setup ${SRCNAME}-templates ${SRCNAME}-cfn"
 -- 
 1.9.1
 
