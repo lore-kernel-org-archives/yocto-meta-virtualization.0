@@ -1,6 +1,6 @@
 Return-Path: <Jackie.Huang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B0BE7E009D6; Tue,  5 May 2015 18:45:10 -0700 (PDT)
+	id A58C0E009E2; Tue,  5 May 2015 18:45:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,27 +12,27 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9CEDEE007B6
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 12970E009AA
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 May 2015 18:45:08 -0700 (PDT)
+	Tue,  5 May 2015 18:45:10 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t461j7F9025952
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t461j9Xx025955
 	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 5 May 2015 18:45:07 -0700 (PDT)
+	Tue, 5 May 2015 18:45:09 -0700 (PDT)
 Received: from pek-kkang-d2.wrs.com (128.224.163.135) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.224.2; Tue, 5 May 2015 18:45:06 -0700
+	14.3.224.2; Tue, 5 May 2015 18:45:09 -0700
 From: <jackie.huang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 6 May 2015 09:44:59 +0800
-Message-ID: <95ecfde49df4a5e85a09c931bd8a2f53ffd903c5.1430817811.git.jackie.huang@windriver.com>
+Date: Wed, 6 May 2015 09:45:01 +0800
+Message-ID: <8c9679a638ca7242cdf74623ea3fbce1b1b9318c.1430817811.git.jackie.huang@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1430817811.git.jackie.huang@windriver.com>
 References: <cover.1430817811.git.jackie.huang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/10] python-keystonemiddleware: upgrade to 1.6.1
+Subject: [PATCH 03/10] python-cinder: upgrade to 2015.1.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,31 +45,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 May 2015 01:45:10 -0000
+X-List-Received-Date: Wed, 06 May 2015 01:45:11 -0000
 Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 ---
- .../recipes-devtools/python/python-keystonemiddleware_git.bb          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-openstack/recipes-devtools/python/python-cinder_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb b/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
-index 9c23f61..35c5b49 100644
---- a/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
-@@ -11,8 +11,8 @@ SRC_URI = "\
- 	git://git.openstack.org/openstack/keystonemiddleware;branch=master \
- 	"
+diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
+index 9276d1f..ceb17d8 100644
+--- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+ PR = "r0"
+ SRCNAME = "cinder"
  
--PV = "1.5.0+git${SRCPV}"
--SRCREV = "06bdfc886fed7e30684a612a3c6ff8616eb2be34"
-+PV = "1.6.1+git${SRCPV}"
-+SRCREV = "6ff732b3893a7e71f7b9a7318e8a4daaf906ebbf"
+-SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
++SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo \
+     file://cinder.conf \
+     file://cinder.init \
+     file://cinder-volume \
+@@ -21,8 +21,8 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
+ # file://0001-run_tests-respect-tools-dir.patch
+ # file://fix_cinder_memory_leak.patch 
+ 
+-SRCREV="f4f46e972004eca66e4751a836156c342e448621"
+-PV="2015.1.0b2+git${SRCPV}"
++SRCREV = "5987bb2290f629e59b0bcced2f8fe22cdeb9cc6d"
++PV = "2015.1.0+git${SRCPV}"
  S = "${WORKDIR}/git"
  
- inherit setuptools
+ inherit setuptools update-rc.d identity default_configs hosts openstackchef monitor
 -- 
 1.9.1
 
