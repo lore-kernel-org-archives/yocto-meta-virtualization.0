@@ -1,50 +1,36 @@
-Return-Path: <alejandro.delcastillo@ni.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8C254E0097D; Wed, 13 May 2015 14:59:37 -0700 (PDT)
+	id B6D6FE009C1; Thu, 14 May 2015 18:29:34 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [130.164.80.23 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 38A1DE008DC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 95C72E00985
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 13 May 2015 14:59:35 -0700 (PDT)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t4DLxXdk026901; Wed, 13 May 2015 16:59:33 -0500
-Received: from [10.2.33.36] ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6)
-	with ESMTP id 2015051316593395-1432992 ;
-	Wed, 13 May 2015 16:59:33 -0500 
-Message-ID: <5553C943.9050704@ni.com>
-Date: Wed, 13 May 2015 16:59:31 -0500
-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.6.0
+	Thu, 14 May 2015 18:29:33 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.14.9/8.14.9) with ESMTP id t4F1TWSU004445
+	(version=TLSv1/SSLv3 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 14 May 2015 18:29:32 -0700 (PDT)
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.224.2; Thu, 14 May 2015 18:29:32 -0700
+From: <rongqing.li@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 15 May 2015 09:24:49 +0800
+Message-ID: <1431653089-19771-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1431098920-13669-1-git-send-email-alejandro.delcastillo@ni.com>	<CADkTA4OeKO0ccSu24as0U5EkmAFJFMOnejbQbgbiu=5pOceRjg@mail.gmail.com>	<55521E7C.1060105@ni.com>
-	<CADkTA4O5W=Yfrqihq2tkGL4fRULHZM2OG9AJSsgpASk4h=Bw_g@mail.gmail.com>
-In-Reply-To: <CADkTA4O5W=Yfrqihq2tkGL4fRULHZM2OG9AJSsgpASk4h=Bw_g@mail.gmail.com>
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 05/13/2015 04:59:33 PM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6|November 21, 2013) at 05/13/2015 04:59:34 PM,
-	Serialize complete at 05/13/2015 04:59:34 PM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-05-13_07:, , signatures=0
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, code@joelwhitehouse.com,
-	Joseph Hall <perlhoser@gmail.com>
-Subject: Re: [PATCH] salt: add recipe for salt
+Subject: [PATCH][meta-virt] libvirt: upgrade to 1.2.15
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -57,134 +43,110 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 May 2015 21:59:37 -0000
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Fri, 15 May 2015 01:29:34 -0000
+Content-Type: text/plain
 
+From: Roy Li <rongqing.li@windriver.com>
 
+Remove libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch, since
+rules for install *.xml are changed, the race issue does not exist.
 
-On 05/12/2015 11:20 AM, Bruce Ashfield wrote:
-> On Tue, May 12, 2015 at 11:38 AM, Alejandro del Castillo
-> <alejandro.delcastillo@ni.com> wrote:
->>
->>
->> On 05/11/2015 11:08 PM, Bruce Ashfield wrote:
->>> The series looks good to me, I've queued it locally and will push it soon.
->>> Is there a README or HOWTO for any runtime testing ?
->>
->> There is a ton of documentation on SaltStack website
->> (http://docs.saltstack.com/en/latest/contents.html). The help is extensive,
->> which can make it overwhelming.
-> 
-> I find the same thing with all of openstack :)
-> 
->>
->> The recipe has 6 components that provide different System Configuration
->> Management functionality. For embedded, I expect the majority of the use cases
->> will involve running only the salt-minion, but I did test all the components.
->> The components:
->>
->> salt-master (daemon).-
->> salt-minion (daemon)
->> salt-syndic (daemon)
->> salt-ssh
->> salt-api  (daemon)
->> salt-cloud
->>
->> If it helps, I can send you the testing that I did for each component.
-> 
-> 
-> That would be great!
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
+---
+ recipes-extended/libvirt/libvirt-python.inc        |  4 +--
+ ...virt-Fix-cannot-symlink-cpu_map.xml-error.patch | 34 ----------------------
+ .../{libvirt_1.2.12.bb => libvirt_1.2.15.bb}       |  7 ++---
+ 3 files changed, 5 insertions(+), 40 deletions(-)
+ delete mode 100644 recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch
+ rename recipes-extended/libvirt/{libvirt_1.2.12.bb => libvirt_1.2.15.bb} (97%)
 
-* salt-master & salt-minion : The salt minion is a daemon that receives command
-from a salt-master
-
-  - Install salt master, verify that service is running (It spawns several
-salt-master processes)
-  - Install salt-minion, verify that service is running (1 process)
-  - Set salt-minion master setting to salt-master instance. On /etc/salt/minion set
-	master: <DNS of your system>
-   - Restart salt-minion
-        /etc/init.d/salt-minion restart
-   - Accept salt-minion key
-        salt-key -A
-   - Ping salt-minion from master
-	salt '*' test.ping    (you should get a ping)
-
-* salt-syndic : Special pass-through minion that runs on a master so it can
-connect to another master
-
-For this test you'll need another system running salt-master, which will be the
-master of masters
-
-    - Set the master of masters dns by adding to /etc/salt/master
-         syndic_master: <master of masters dns>
-    - Install salt-syndic and verify that the service is running (1 process)
-    - On the master of master's server, accept the syndic key:
-         salt-key -A
-    - Ping all targets from master of masters
-         salt '*' test.ping   (you should get a ping, comming from the minion,
-via the syndic)
-
-Cleanup:
-      - Uninstall the syndic
-      - killall salt-syndic (due to https://github.com/saltstack/salt/issues/23026)
-
-* salt-ssh : Allow routines to be executed on remote systems entirely via ssh.
-
-     - Install salt-ssh
-     - Configure machine to connect to on /etc/salt/roster (doesn't need to have
-salt installed)
-           myslave:
-              host: <slave_ip>
-              user: <ssh_username>
-              passwd: <ssh_passwd>
-     - Ping slave
-           salt-ssh myslave test.ping
-
-* salt-api : Modular interface on top of Salt that can provide a variety of
-entry points into a running salt system
-
-      - Configure WSGI interface and auth via pam by adding to /etc/salt/master:
-            rest_wsgi:
-               port: 8001
-            external_auth:
-               pam:
-                 <username>:
-                    -.*
-       - Install salt-api (it will spawn 2 processes)
-       - Restart salt-master
-            /etc/init.d/salt-master restart
-
-        - Ping via the REST API
-           curl -sS -i -H 'Content-Type: application/json' -d
-'[{"eauth":"pam","username":"<username>","password":"<passwd>","client":"local","tgt":"*","fun":"test.ping"}]'
-localhost:8001
-
-CAVEATS
-   - You can't use username root
-
-* salt-cloud : Interface to public cloud VM management systems
-
-        - Configure salt-cloud to use Amazon EC2 by adding to
-/etc/salt/cloud.providers/myprovider.conf:
-           myprovider:
-              id: <AWS_ACCESS_KEY_ID>
-              key: '<AWS_SECRET_ACCESS_KEY>'
-              keyname: <aws_ssh_key>.pem
-              private_key: <path_to_pem_file>
-              provider: ec2
-         - List configured providers:
-	   salt-cloud --list-providers (should list ec2 as a provider)
-
-To run --list-providers you don't need a EC2 account (just make up values). If
-you want to interact with the cloud, you'll need a EC2 account, and you will
-need to fill the values on myprovider.conf. Then you should be able to do things
-like list the available images:
-            salt-cloud --list-images ec2
-
+diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+index 21cfa55..550236a 100644
+--- a/recipes-extended/libvirt/libvirt-python.inc
++++ b/recipes-extended/libvirt/libvirt-python.inc
+@@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+ SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
+ SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
+ 
+-SRC_URI[libvirt_python.md5sum] = "4255f2bfece23aacbc8d94256598b302"
+-SRC_URI[libvirt_python.sha256sum] = "432f438f9759e216424490f51a8804398b70fb1b2f2211f45fb05f72f5ad849f"
++SRC_URI[libvirt_python.md5sum] = "f13b566b54fe71ec0f26992aee11dd09"
++SRC_URI[libvirt_python.sha256sum] = "9a6dfbd487d49f887a41aca4bfb1b4e043fd9fbdfc041252cae84023f5c387ba"
+ 
+ export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+ export LIBVIRT_CFLAGS = "-I${S}/include"
+diff --git a/recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch b/recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch
+deleted file mode 100644
+index 090bc6e..0000000
+--- a/recipes-extended/libvirt/libvirt/libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-libvirt: do_compile fails 'src/cpu/cpu_map.xml': No such file or directory'
+-
+-In some very rare circumstances, libvirt's compile will try to create the
+-symlink for cpu_map.xml before creating the directory $(abs_builddir)/cpu.
+-
+-Add a test to create this directory if it hasn't already been created.
+-
+-Signed-off-by: Amy Fong <amy.fong@windriver.com>
+-
+----
+- src/Makefile.am |    1 +
+- src/Makefile.in |    1 +
+- 2 files changed, 2 insertions(+)
+-
+---- a/src/Makefile.am
+-+++ b/src/Makefile.am
+-@@ -1053,6 +1053,7 @@
+- libvirt_cpu_la_DEPENDENCIES = $(abs_builddir)/cpu/cpu_map.xml
+- 
+- $(abs_builddir)/cpu/cpu_map.xml:
+-+	if [ ! -d $(abs_builddir)/cpu ]; then $(MKDIR_P) $(abs_builddir)/cpu/; fi
+- 	$(AM_V_GEN)ln -s $(abs_srcdir)/cpu/cpu_map.xml $@
+- 
+- if WITH_VMX
+---- a/src/Makefile.in
+-+++ b/src/Makefile.in
+-@@ -10338,6 +10338,7 @@
+- 	  $(srcdir)/lxc/lxc_controller_dispatch.h
+- 
+- $(abs_builddir)/cpu/cpu_map.xml:
+-+	if [ ! -d $(abs_builddir)/cpu ]; then $(MKDIR_P) $(abs_builddir)/cpu/; fi
+- 	$(AM_V_GEN)ln -s $(abs_srcdir)/cpu/cpu_map.xml $@
+- 
+- %protocol.c: %protocol.x %protocol.h $(srcdir)/rpc/genprotocol.pl
+diff --git a/recipes-extended/libvirt/libvirt_1.2.12.bb b/recipes-extended/libvirt/libvirt_1.2.15.bb
+similarity index 97%
+rename from recipes-extended/libvirt/libvirt_1.2.12.bb
+rename to recipes-extended/libvirt/libvirt_1.2.15.bb
+index 298da2b..8abd41e 100644
+--- a/recipes-extended/libvirt/libvirt_1.2.12.bb
++++ b/recipes-extended/libvirt/libvirt_1.2.15.bb
+@@ -30,12 +30,11 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+            file://runptest.patch \
+            file://run-ptest \
+            file://tests-allow-separated-src-and-build-dirs.patch \
+-           file://libvirt-Fix-cannot-symlink-cpu_map.xml-error.patch \
+            file://libvirt-use-pkg-config-to-locate-libcap.patch \
+           "
+ 
+-SRC_URI[libvirt.md5sum] = "2ae99535265ce4687d8718d744024c27"
+-SRC_URI[libvirt.sha256sum] = "eff5227f774560d97f0b44402a444e821c51e8cd44add89f74bc3c1f4dede66a"
++SRC_URI[libvirt.md5sum] = "08c2ea825d076ee67b1bbc600c220b97"
++SRC_URI[libvirt.sha256sum] = "5f88041b8c212f8f687c672fe583108833240d6175b512ce4de92ab6660194c6"
+ 
+ inherit autotools gettext update-rc.d pkgconfig ptest
+ 
+@@ -102,7 +101,7 @@ FILES_${PN}-libvirtd = "${sysconfdir}/init.d \
+ 	${sysconfdir}/sysctl.d \
+ 	${sysconfdir}/logrotate.d \
+ 	${sysconfdir}/libvirt/libvirtd.conf \
+-        /usr/lib/sysctl.d/libvirtd.conf \
++        /usr/lib/sysctl.d/60-libvirtd.conf \
+ 	${sbindir}/libvirtd"
+ 
+ FILES_${PN}-virsh = "${bindir}/virsh"
 -- 
-Cheers,
+1.9.1
 
-Alejandro
 
