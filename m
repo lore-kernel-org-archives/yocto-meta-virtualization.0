@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7E8C2E00982; Wed, 10 Jun 2015 13:15:39 -0700 (PDT)
+	id F21BEE00982; Wed, 10 Jun 2015 13:34:10 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -18,38 +18,38 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.169 listed in list.dnswl.org]
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52B35E0086D
+	*      [209.85.213.53 listed in list.dnswl.org]
+Received: from mail-yh0-f53.google.com (mail-yh0-f53.google.com
+	[209.85.213.53])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 82CBAE0086D
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 10 Jun 2015 13:15:35 -0700 (PDT)
-Received: by ykfr66 with SMTP id r66so28417891ykf.0
+	Wed, 10 Jun 2015 13:34:04 -0700 (PDT)
+Received: by yhan67 with SMTP id n67so25550666yha.3
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 10 Jun 2015 13:15:34 -0700 (PDT)
+	Wed, 10 Jun 2015 13:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type:content-transfer-encoding;
-	bh=QPuwo0p+28F1tdAP9fCJqf8WFmdAogkYeSV3htUm4Hw=;
-	b=kPMt8Ri5LVyLftkoRVT9gCbB4P8QQ3MhTOFvBxIom7KgbycyvW7nd+yWwzzNx6b7T1
-	Gq5TkIoYcupD/CXEGBJa7UEaj4DEtCwWdKw49FsXrhX44w+FUJsXNl7L9JD2SZCetPt3
-	15sQh+ac7h0Qd5x1DNCeEjSD/3DTjyrpWqIaFYUh253+w+vHm6PsaYrS8I4rYuq7szVt
-	yk5Hq1zqBk/tuayERcTvxM80kODymd/V8MTiO1jPs96azl1LfFFrC9lfIQghRuV0cMby
-	yATB/ftcslTRr8By56Fx3gl8Q+VxP7gR+0Lhiy7mZHw79Rvjfs+7XCpGzNYqLopFMalZ
-	BgZg==
+	:cc:content-type;
+	bh=ec7+iiWcWGNBzu6X91oV/jqf8RzGYImdcfvrLCL9J5g=;
+	b=lDR//aRjU1k21Jx3UzQJHOYezAktff5QO4vs5ebH4F4DjuzWIh50B2lzoXuG1bcQhm
+	bv21RoRdrE6b/otv4TZC9tFgFruiz7SBSdmmkX+61P5MTbJav9GChMl3XI9t1v7lnTp/
+	ggG6MnsxHMyqQvQkHDEL5kRgbyonM5jPgD3+UoP8jIuB8zvDWjMoS28a8JDssVwpdDU3
+	VLLL3PIioAXmeoH/QHq3uImCvUM6Dd6OPY5iBcPcW10I0WopJNvnWxOhdTR6P4BlIASQ
+	+ce1bCdVmfNCixMLox+ie8uMi4PXGsGylo0DffkeuuGtdaRwC2hk0Rwfws2cTgslVtAg
+	3NQQ==
 MIME-Version: 1.0
-X-Received: by 10.170.73.194 with SMTP id p185mr6669905ykp.123.1433967334608; 
-	Wed, 10 Jun 2015 13:15:34 -0700 (PDT)
-Received: by 10.129.128.2 with HTTP; Wed, 10 Jun 2015 13:15:34 -0700 (PDT)
-In-Reply-To: <1433856827-25796-1-git-send-email-erik.boto@pelagicore.com>
-References: <1433856827-25796-1-git-send-email-erik.boto@pelagicore.com>
-Date: Wed, 10 Jun 2015 16:15:34 -0400
-Message-ID: <CADkTA4O1r=zwwFhRbUCoBrDmUDU=y8BFmFPZpZ5MmvSSS2Wfpg@mail.gmail.com>
+X-Received: by 10.170.84.215 with SMTP id b206mr6796506yka.21.1433968444336;
+	Wed, 10 Jun 2015 13:34:04 -0700 (PDT)
+Received: by 10.129.128.2 with HTTP; Wed, 10 Jun 2015 13:34:04 -0700 (PDT)
+In-Reply-To: <001701d0a2a0$ec4b2880$c4e17980$@windriver.com>
+References: <001701d0a2a0$ec4b2880$c4e17980$@windriver.com>
+Date: Wed, 10 Jun 2015 16:34:04 -0400
+Message-ID: <CADkTA4Ox8xXXxk3tZhK_RWJ=UjER-uwQ0tbEBhxusGtaaGxkaw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
+To: Daniel Badea <daniel.badea@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: allow multiple init systems in DISTRO_FEATURES
+Subject: Re: [PATCH] tgt: update version to 1.0.37
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,50 +62,60 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jun 2015 20:15:39 -0000
+X-List-Received-Date: Wed, 10 Jun 2015 20:34:11 -0000
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jun 9, 2015 at 9:33 AM, Erik Bot=C3=B6 <erik.boto@pelagicore.com> w=
-rote:
-> Add handling for distros with both systemd and sysvinit by passing
-> multiple init systems to configure with --with-init-script=3D
+I tried to apply this .. but your mailer has corrupted the patch.
 
+While it is simple, and I could fix it .. there's much more value in
+getting your workflow fixed.
 
-I've never had much luck with multiple init systems .. but no issues in
-merging this change. It is now on the master branch.
+The headers show that this was sent with outlook, which likely caused
+the corruption.
 
-Cheers,
+The README has the information for using git-send-email:
+
+-------------------------------
+Send pull requests, patches, comments or questions to
+meta-virtualization@yoctoproject.org
+
+When sending single patches, please using something like:
+'git send-email -1 --to meta-virtualization@yoctoproject.org
+--subject-prefix=meta-virtualization][PATCH'
+-------------------------------
+
+If you did send this with git, then we need to figure out what else may have
+corrupted it.
 
 Bruce
 
->
-> Signed-off-by: Erik Bot=C3=B6 <erik.boto@pelagicore.com>
+On Tue, Jun 9, 2015 at 6:42 AM, Daniel Badea <daniel.badea@windriver.com> wrote:
+> Signed-off-by: Daniel Badea <daniel.badea@windriver.com>
 > ---
->  recipes-containers/lxc/lxc_1.0.7.bb | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  meta-openstack/recipes-support/tgt/tgt_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/recipes-containers/lxc/lxc_1.0.7.bb b/recipes-containers/lxc=
-/lxc_1.0.7.bb
-> index f79ba76..faa31b7 100644
-> --- a/recipes-containers/lxc/lxc_1.0.7.bb
-> +++ b/recipes-containers/lxc/lxc_1.0.7.bb
-> @@ -46,7 +46,9 @@ S =3D "${WORKDIR}/${BPN}-${PV}"
->  PTEST_CONF =3D "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-t=
-ests', '', d)}"
->  EXTRA_OECONF +=3D "--with-distro=3D${DISTRO} ${PTEST_CONF}"
+> diff --git a/meta-openstack/recipes-support/tgt/tgt_git.bb
+> b/meta-openstack/recipes-support/tgt/tgt_git.bb
+> index 7796418..fe34858 100644
+> --- a/meta-openstack/recipes-support/tgt/tgt_git.bb
+> +++ b/meta-openstack/recipes-support/tgt/tgt_git.bb
+> @@ -4,8 +4,8 @@ LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM =
+> "file://scripts/tgtd.spec;beginline=7;endline=7;md5=21c19ea7dad04648b9c2f791
+> b6e29b4c"
+>  DEPENDS = "sg3-utils"
 >
-> -EXTRA_OECONF +=3D "${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '=
---with-init-script=3Dsysvinit', '--with-init-script=3Dsystemd', d)}"
-> +EXTRA_OECONF +=3D "--with-init-script=3D\
-> +${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}=
-\
-> +${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+> -SRCREV = "0ee382bab57a8ecd9ece18d511bd098298478409"
+> -PV = "1.0.36+git${SRCPV}"
+> +SRCREV = "3f779c0338fa7a97d5d0defbdb3ad06167b791d3"
+> +PV = "1.0.37+git${SRCPV}"
+>  PR = "r0"
 >
->  PACKAGECONFIG ??=3D "templates \
->      ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+>  SRC_URI = "git://github.com/fujita/tgt.git \
 > --
-> 1.9.1
+> 2.1.0
+>
 >
 > --
 > _______________________________________________
@@ -115,7 +125,7 @@ ests', '', d)}"
 
 
 
---=20
+-- 
 "Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end"
 
