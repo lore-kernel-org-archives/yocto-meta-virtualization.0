@@ -1,54 +1,48 @@
-Return-Path: <celeodor@gmail.com>
+Return-Path: <koen.kooi@linaro.org>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 35029E009A3; Thu, 16 Apr 2015 15:14:00 -0700 (PDT)
+	id 1D4AAE009D6; Thu, 11 Jun 2015 22:36:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (celeodor[at]gmail.com)
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.192.169 listed in list.dnswl.org]
-Received: from mail-pd0-f169.google.com (mail-pd0-f169.google.com
-	[209.85.192.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED180E0091A
+	*      [209.85.212.180 listed in list.dnswl.org]
+Received: from mail-wi0-f180.google.com (mail-wi0-f180.google.com
+	[209.85.212.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6597BE009C2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 Apr 2015 15:13:57 -0700 (PDT)
-Received: by pdea3 with SMTP id a3so106482262pde.3
+	Thu, 11 Jun 2015 22:36:41 -0700 (PDT)
+Received: by wiga1 with SMTP id a1so6164153wig.0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 16 Apr 2015 15:13:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=loYfhsTUROm2n7Qp9D9a4o/vcdGhox1zrhGSJKkYUHg=;
-	b=HJWN22dgt52tujaWfKmPn59A/FcTDKRBE4owRFfiK9obxh9xzghutWLz5c07TL+Kvj
-	nQj1skMPkm3RIthTVDKJdK6w6yTZloBdxuoWr0NDtWibcjbc9xIvzoqfGPvJyZ5YvQlN
-	fHDLhVDDcSMEfWGl8WbezGwS03obxwh8JdINw9kLuIpzGPoUOMzlMMQ0HZM9ib4DXiRf
-	LLMjSj++Z/vBlluOcYe3l2A9YzJYFUYc+r0MIaWS7AjmN1BYUBom0joFBRxO4F4Jo19/
-	zd+BpWxEkU3u9fTxapnxcFnAHOPtK3+dDKqOKpizNknFhFMnqJtawxGJp1aNw0PxUtAU
-	HGng==
-X-Received: by 10.66.119.136 with SMTP id ku8mr61298352pab.29.1429222436856;
-	Thu, 16 Apr 2015 15:13:56 -0700 (PDT)
-Received: from deiban-wheezy-7.hme.com ([12.46.199.2])
-	by mx.google.com with ESMTPSA id q4sm8119080pdo.42.2015.04.16.15.13.55
+	Thu, 11 Jun 2015 22:36:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=sF5o5dLowPtTXnbbZ5I1Ls3KyPIJR90ud5SpzLAxsNs=;
+	b=geubcTyFvv3Y+oZ6ADdq4IW+OKu6LZ2lhdZI49p9o4EruPO2DQif2ZcKDEYt2uoGWI
+	pEYJEzLpXJGZRqRQKw26dUgjHq9hFR7AX+MJcwjhb4I0KdEv3PVzIqq+JXng8uwBxaX1
+	5E0qLlWtzz+BSnFLd8KMw6GbdgINh9kltCiuHLGDryPmAtAqdaW4rsY95L2DACZaxepC
+	+5B3b79nM6j2c8cSt4RXxtbQ4S8vMrAQY43A/9p2We8ODbNxGMGMKNcWmeSJ6tjcq8nx
+	GX+/jqGH6Zk9k8q97VsN3Y1nSf9+2bztkc7tceBKkWeoKcrftFF4CPb+YwCEuyorMTRO
+	DiQA==
+X-Gm-Message-State: ALoCoQnAB57ly6ltK9M5bYXHKG7WLx3mzN7PsfhNTpv7zG3adpVq+r2vYw08a8+z419M6eFLYrod
+X-Received: by 10.180.73.236 with SMTP id o12mr3289958wiv.56.1434087401036;
+	Thu, 11 Jun 2015 22:36:41 -0700 (PDT)
+Received: from localhost ([2001:610:612:0:2ad2:44ff:fe4b:bc17])
+	by mx.google.com with ESMTPSA id pp8sm1876398wjc.13.2015.06.11.22.36.40
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 Apr 2015 15:13:56 -0700 (PDT)
-From: Celeo <celeodor@gmail.com>
+	Thu, 11 Jun 2015 22:36:40 -0700 (PDT)
+From: Koen Kooi <koen.kooi@linaro.org>
 To: meta-virtualization@yoctoproject.org
-Message-Id: <1429222421-7314-1-git-send-email-celeodor@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
+Message-Id: <1434087392-20250-1-git-send-email-koen.kooi@linaro.org>
+X-Mailer: git-send-email 1.9.3
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
-Cc: Celeo <celeodor@gmail.com>
-Subject: [PATCH] Added missing quotation mark
+Cc: ray.danks@se-eng.com, Koen Kooi <koen.kooi@linaro.org>
+Subject: [PATCH] cloud-image-*: catch up with OE-core class rename
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -61,28 +55,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Thu, 16 Apr 2015 22:14:00 -0000
-X-Original-Date: Thu, 16 Apr 2015 15:13:41 -0700
-X-List-Received-Date: Thu, 16 Apr 2015 22:14:00 -0000
+Date: Fri, 12 Jun 2015 05:36:46 -0000
+X-Original-Date: Fri, 12 Jun 2015 07:36:32 +0200
+X-List-Received-Date: Fri, 12 Jun 2015 05:36:46 -0000
 
+OE-core rev 0a3e8eb9f592c3f1edd2c7521855f7406541651a renamed 'image-vmdk' to 'image-vm'. IMAGE_FSTYPES didn't change, so keep those as 'vmdk'.
+
+Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-extended/images/cloud-image-controller.bb | 2 +-
+ recipes-extended/images/cloud-image-guest.bb      | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
-index ab4fe1f..c92842e 100644
---- a/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
-+++ b/meta-openstack/recipes-devtools/python/python-psycopg2_2.5.bb
-@@ -1,7 +1,7 @@
- DESCRIPTION = "Python-PostgreSQL Database Adapter"
- HOMEPAGE = "http://initd.org/psycopg/"
- SECTION = "devel/python"
--LICENSE = "GPLv3+
-+LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2c9872d13fa571e7ba6de95055da1fe2"
- DEPENDS = "postgresql"
+diff --git a/recipes-extended/images/cloud-image-controller.bb b/recipes-extended/images/cloud-image-controller.bb
+index 74f724b..0b2a67b 100644
+--- a/recipes-extended/images/cloud-image-controller.bb
++++ b/recipes-extended/images/cloud-image-controller.bb
+@@ -26,7 +26,7 @@ IMAGE_INSTALL = "\
+     "
  
+ inherit core-image
+-inherit image-vmdk
++inherit image-vm
+ 
+ IMAGE_FSTYPES = "vmdk tar.gz"
+ 
+diff --git a/recipes-extended/images/cloud-image-guest.bb b/recipes-extended/images/cloud-image-guest.bb
+index 818a513..e24bf0d 100644
+--- a/recipes-extended/images/cloud-image-guest.bb
++++ b/recipes-extended/images/cloud-image-guest.bb
+@@ -13,6 +13,6 @@ IMAGE_INSTALL = "\
+     "
+ 
+ inherit core-image
+-inherit image-vmdk
++inherit image-vm
+ 
+ IMAGE_FSTYPES += "vmdk"
 -- 
-1.7.10.4
+1.9.3
 
 
