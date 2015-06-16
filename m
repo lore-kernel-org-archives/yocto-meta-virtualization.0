@@ -1,45 +1,41 @@
-Return-Path: <erik.boto@pelagicore.com>
+Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 20510E009BD; Tue, 16 Jun 2015 01:47:26 -0700 (PDT)
+	id 94EF0E00A4F; Tue, 16 Jun 2015 02:03:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.220.179 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Level: *
+X-Spam-Status: No, score=1.6 required=5.0 tests=BAYES_00,RDNS_NONE,
+	TVD_SPACE_RATIO,TVD_SPACE_RATIO_MINFP autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
-	[209.85.220.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BD3F2E009BD
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
+	*  2.7 TVD_SPACE_RATIO_MINFP TVD_SPACE_RATIO_MINFP
+X-Greylist: delayed 66 seconds by postgrey-1.32 at yocto-www;
+	Tue, 16 Jun 2015 02:03:18 PDT
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A79F3E009E6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Jun 2015 01:47:24 -0700 (PDT)
-Received: by qkbp125 with SMTP id p125so1060885qkb.2
+	Tue, 16 Jun 2015 02:03:18 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.13,622,1427731200"; d="scan'208";a="97129119"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Jun 2015 17:06:21 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5G90Z5Y025487
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Jun 2015 01:47:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=Ul2vzyQ7qWVRtFe75waE743fGV1D9dCdGiy3NfWtrOI=;
-	b=WqbWqECay2vnZl8mlb5aG61g83tFv+aqDnB9NxZ3aw7OxkO/Pbi775pED0/fmqnx9r
-	1B6krSTe76NgCgMeXNbYjtLf812dbNswia151QV6wNjQovrz7kslYWAQyyPDmnPttPfn
-	BUL7lJeZka8rBf3nygcIbxsM4nISizQ6YLbMQDoR7aTGbVbAPdWqdH0bn6YeBbyB8A9w
-	MDnMGxKG7MFQNUvUlpyJ84YMnSDiLij8o6Pr/qcoI4yh00YjgZ1YkoRH+zyxIRRBQyrt
-	CqhwNYsRyXeZfF88G7dVYk9CztT2X0ya1lVfMAgLkymGXBEURkYL5xAfw2FvgZao8Q7A
-	y1/A==
-X-Gm-Message-State: ALoCoQny+RS0KNNUCpzvBhixrWdeg3CBoM0u/UgnK8w+7+fujBxqGV9FdrEL5Av6HY+YnElg0A1q
+	Tue, 16 Jun 2015 17:00:35 +0800
+Received: from localhost.localdomain (10.167.226.85) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Tue, 16 Jun 2015 17:02:18 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 16 Jun 2015 17:01:58 +0800
+Message-ID: <1434445318-2437-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.55.17.75 with SMTP id b72mr67240965qkh.103.1434444443860;
-	Tue, 16 Jun 2015 01:47:23 -0700 (PDT)
-Received: by 10.96.226.176 with HTTP; Tue, 16 Jun 2015 01:47:23 -0700 (PDT)
-Date: Tue, 16 Jun 2015 10:47:23 +0200
-Message-ID: <CA+AhUGx08V9KdA7NHpLnzR1EzL3LBPRTyUOKj2S7-w5MQhRVMg@mail.gmail.com>
-From: =?UTF-8?Q?Erik_Bot=C3=B6?= <erik.boto@pelagicore.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Creating a fido branch
+X-Originating-IP: [10.167.226.85]
+Subject: [PATCH] python-setuptools-git: add native support
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,29 +48,24 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jun 2015 08:47:26 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 16 Jun 2015 09:03:20 -0000
+Content-Type: text/plain
 
-Hi,
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ meta-openstack/recipes-devtools/python/python-setuptools-git_1.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-I noticed that there isn't any fido branch, and since the following
-commit the master branch does not work with Poky's fido branch.
+diff --git a/meta-openstack/recipes-devtools/python/python-setuptools-git_1.1.bb b/meta-openstack/recipes-devtools/python/python-setuptools-git_1.1.bb
+index 9447744..61408c3 100644
+--- a/meta-openstack/recipes-devtools/python/python-setuptools-git_1.1.bb
++++ b/meta-openstack/recipes-devtools/python/python-setuptools-git_1.1.bb
+@@ -19,3 +19,4 @@ inherit setuptools
+ do_install_append() {
+ 	rm -f ${D}${libdir}/python*/site-packages/site.py*
+ }
++BBCLASSEXTEND = "native"
+-- 
+1.8.4.2
 
-"cloud-image-*: catch up with OE-core class rename
-
-OE-core rev 0a3e8eb9f592c3f1edd2c7521855f7406541651a renamed
-'image-vmdk' to 'image-vm'. IMAGE_FSTYPES didn't change, so keep those
-as 'vmdk'.
-
-Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>"
-
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?id=e50e36cfa3898b1defcbffe9f3fd0a20403c8de3
-
-I'm not sure if there's a policy of branching of to keep compatibility
-for certain oe-core/poky versions, but I saw that there are branches
-for e.g. dizzy and daisy so I hope that it's ok to do so.
-
-Cheers,
-Erik
 
