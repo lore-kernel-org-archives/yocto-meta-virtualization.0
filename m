@@ -1,37 +1,34 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 904E8E00A5B; Wed, 17 Jun 2015 23:11:05 -0700 (PDT)
+	id 466D9E00A65; Thu, 18 Jun 2015 13:10:53 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 25A93E00A4B
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CDB87E00957
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 17 Jun 2015 23:11:00 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.13,625,1427731200"; d="scan'208";a="97248628"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Jun 2015 14:15:07 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t5I69MtY007265
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Jun 2015 14:09:22 +0800
-Received: from localhost.localdomain (10.167.226.85) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 18 Jun 2015 14:10:57 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 18 Jun 2015 14:10:53 +0800
-Message-ID: <1434607853-2097-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Thu, 18 Jun 2015 13:10:51 -0700 (PDT)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t5IKAnr4011980
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+	Thu, 18 Jun 2015 13:10:50 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.85)
+	(envelope-from <amy.fong@windriver.com>)
+	id 1Z5g8r-00071K-Az; Thu, 18 Jun 2015 16:10:29 -0400
+Date: Thu, 18 Jun 2015 16:10:29 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: meta-virtualization@yoctoproject.org, amy.fong@windriver.com
+Message-ID: <20150618201029.GA26966@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.85]
-Subject: [PATCH] open-iscsi-user: fix warnings and errors.
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH] seabios fails to build when ccache enabled
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,57 +41,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Jun 2015 06:11:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Jun 2015 20:10:53 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-WARNING: QA Issue: /usr/sbin/iscsi@underscore@discovery_open-iscsi-user contained
-in package open-iscsi-user requires /bin/bash,
-but no providers found in its RDEPENDS [file-rdeps]
+From eadb837b8467af26a7370427e4cb98ccad63c670 Mon Sep 17 00:00:00 2001
+From: Amy Fong <amy.fong@windriver.com>
+Date: Wed, 17 Jun 2015 16:40:25 -0400
+Subject: [PATCH] seabios fails to build when ccache enabled
 
-ERROR: Function failed: SYSTEMD_SERVICE_open-iscsi-user-systemd value
-iscsi-initiator.service does not exist
+HOSTCC needs to be quoted since it may have whitespace values.
+(as in the case when ccache is enabled)
 
-Also,modify the LICENSE from GPL to GPLv2.
-
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
 ---
- .../recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb   | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ recipes-extended/seabios/seabios_1.7.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb
-index 593d791..5b3a257 100644
---- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb
-+++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb
-@@ -1,6 +1,6 @@
- DESCRIPTION = "Open-iSCSI project is a high performance, transport independent, multi-platform implementation of RFC3720."
- HOMEPAGE = "http://www.open-iscsi.org/"
--LICENSE = "GPL"
-+LICENSE = "GPLv2"
- PR = "r1"
+diff --git a/recipes-extended/seabios/seabios_1.7.5.bb b/recipes-extended/seabios/seabios_1.7.5.bb
+index 511578f..d57e250 100644
+--- a/recipes-extended/seabios/seabios_1.7.5.bb
++++ b/recipes-extended/seabios/seabios_1.7.5.bb
+@@ -23,7 +23,7 @@ FILES_${PN} = "/usr/share/firmware"
+ DEPENDS = "util-linux-native file-native bison-native flex-native gettext-native iasl-native python-native"
  
- inherit systemd
-@@ -38,15 +38,18 @@ SRC_URI_append = "  file://iscsi-initiator                                   \
-                     file://iscsi-initiator.service                           \
-                     file://iscsi-initiator-targets.service                   \
-                  "
-+RDEPENDS_${PN} += "bash"
- RDEPENDS_${PN}-systemd += "${PN}"
- FILES_${PN}-systemd +=  "   ${base_libdir}/systemd                  \
-                             ${sysconfdir}/default/iscsi-initiator   \
-                         "
- SYSTEMD_PACKAGES = "${PN}-systemd"
--SYSTEMD_SERVICE = " iscsi-initiator.service iscsi-initiator-targets.service "
--
-+SYSTEMD_SERVICE_${PN}-systemd = "iscsi-initiator.service iscsi-initiator-targets.service"
+ TUNE_CCARGS = ""
+-EXTRA_OEMAKE += "HOSTCC=${BUILD_CC}"
++EXTRA_OEMAKE += "HOSTCC='${BUILD_CC}'"
+ EXTRA_OEMAKE += "CROSS_PREFIX=${TARGET_PREFIX}"
  
- do_install_append () {
-         install -d ${D}${sysconfdir}/default/
-         install -m 0644 ${WORKDIR}/iscsi-initiator ${D}${sysconfdir}/default/
-+        install -d ${D}${systemd_unitdir}/system
-+        install -m 0644 ${WORKDIR}/iscsi-initiator.service ${D}${systemd_unitdir}/system/
-+        install -m 0644 ${WORKDIR}/iscsi-initiator-targets.service ${D}${systemd_unitdir}/system/
- }
+ do_configure() {
 -- 
-1.8.4.2
+2.1.4
 
 
