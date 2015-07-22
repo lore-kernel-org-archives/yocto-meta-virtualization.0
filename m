@@ -1,37 +1,34 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 678E5E009ED; Wed, 22 Jul 2015 02:16:42 -0700 (PDT)
+	id 9AB7DE009DF; Wed, 22 Jul 2015 09:12:54 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6F1B7E009BE
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6FAD4E00927
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 22 Jul 2015 02:16:38 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="98720087"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 22 Jul 2015 17:20:14 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6M9EjHd030419
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 22 Jul 2015 17:14:45 +0800
-Received: from localhost.localdomain (10.167.226.92) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Wed, 22 Jul 2015 17:16:33 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 22 Jul 2015 17:16:28 +0800
-Message-ID: <1437556588-2083-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 22 Jul 2015 09:12:49 -0700 (PDT)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t6MGCmEE018876
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+	Wed, 22 Jul 2015 09:12:48 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.85)
+	(envelope-from <amy.fong@windriver.com>)
+	id 1ZHwdA-0008GH-3X; Wed, 22 Jul 2015 12:12:28 -0400
+Date: Wed, 22 Jul 2015 12:12:28 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: meta-virtualization@yoctoproject.org, amy.fong@windriver.com
+Message-ID: <20150722161227.GA31716@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.92]
-Subject: [PATCH] libconfig-general-perl: upgrade 2.51 -> 2.58
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH] docker-registry invalid path on startup
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,41 +41,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jul 2015 09:16:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 Jul 2015 16:12:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+From 383cba6388cf7a1a221a0b03b78d017b0f0fe299 Mon Sep 17 00:00:00 2001
+From: Amy Fong <amy.fong@windriver.com>
+Date: Wed, 22 Jul 2015 10:43:14 -0400
+Subject: [PATCH] docker-registry invalid path on startup
+
+Systemd throws the following warning at boot:
+systemd[1]: [/lib/systemd/system/docker-registry.service:10]
+	Not an absolute path, ignoring: #WORKDIR#
+
+Fix WORKDIR in docker-registry's systemd from #WORKDIR# to
+${PYTHON_SITEPACKAGES_DIR}/docker_registry
+
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
 ---
- ...libconfig-general-perl_2.51.bb => libconfig-general-perl_2.58.bb} | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta-openstack/recipes-devtools/perl/{libconfig-general-perl_2.51.bb => libconfig-general-perl_2.58.bb} (80%)
+ recipes-containers/docker-registry/docker-registry_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta-openstack/recipes-devtools/perl/libconfig-general-perl_2.51.bb b/meta-openstack/recipes-devtools/perl/libconfig-general-perl_2.58.bb
-similarity index 80%
-rename from meta-openstack/recipes-devtools/perl/libconfig-general-perl_2.51.bb
-rename to meta-openstack/recipes-devtools/perl/libconfig-general-perl_2.58.bb
-index 8535845..fd06ccc 100644
---- a/meta-openstack/recipes-devtools/perl/libconfig-general-perl_2.51.bb
-+++ b/meta-openstack/recipes-devtools/perl/libconfig-general-perl_2.58.bb
-@@ -2,15 +2,14 @@ DESCRIPTION = "Config file parser module"
- HOMEPAGE = "http://search.cpan.org/dist/Config-General/"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
- SECTION = "libs"
--PR = "r0"
- LIC_FILES_CHKSUM = "file://README;beginline=90;endline=90;md5=3ba4bbac1e79a08332688196f637d2b2"
- 
- SRCNAME = "Config-General"
- 
- SRC_URI = "http://search.cpan.org/CPAN/authors/id/T/TL/TLINDEN/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "3100325f99bdc2f265645a842e6bb025"
--SRC_URI[sha256sum] = "8ff530cd4818a040c1bc2ba96e3e8237241dde1208d206685d1204270ef00bce"
-+SRC_URI[md5sum] = "79397bfbf32dbe772bdc2167afc5c5a6"
-+SRC_URI[sha256sum] = "d63cf3f4c600a87de336db806a7def0385ba5e3a9be427e0c65e407558b82eef"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
+diff --git a/recipes-containers/docker-registry/docker-registry_git.bb b/recipes-containers/docker-registry/docker-registry_git.bb
+index 338cb69..fe766d2 100644
+--- a/recipes-containers/docker-registry/docker-registry_git.bb
++++ b/recipes-containers/docker-registry/docker-registry_git.bb
+@@ -83,6 +83,7 @@ do_install_append() {
+ 	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+ 		install -d ${D}${systemd_unitdir}/system
+ 		install -m 644 ${WORKDIR}/docker-registry.service ${D}/${systemd_unitdir}/system
++		sed -i "s|#WORKDIR#|${PYTHON_SITEPACKAGES_DIR}/docker_registry|" ${D}/${systemd_unitdir}/system/docker-registry.service
+ 	fi
+ 	# based on config_mirror.yml - uses /var/docker-registry instead of /tmp for files
+ 	install ${WORKDIR}/config.yml ${D}/etc/docker-registry.yml
 -- 
-1.8.4.2
+2.1.4
 
 
