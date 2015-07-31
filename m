@@ -1,6 +1,6 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4EBD1E00A97; Thu, 30 Jul 2015 01:12:10 -0700 (PDT)
+	id C4193E00B1A; Thu, 30 Jul 2015 20:43:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,36 +10,28 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 25D93E00A7E
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6018BE00B34
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 30 Jul 2015 01:12:04 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99070590"
+	Thu, 30 Jul 2015 20:43:49 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99105142"
 Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Jul 2015 16:15:26 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
+	by heian.cn.fujitsu.com with ESMTP; 31 Jul 2015 11:47:17 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6U8A0gV009214;
-	Thu, 30 Jul 2015 16:10:00 +0800
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0181.006; Thu, 30 Jul 2015 16:11:51 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [meta-virtualization] [PATCH 1/4] pry: upgrade 0.9.12.6 -> 0.10.1
-Thread-Index: AQHQyhHaJVs+vYwBXk+WJTQ73arRJp3zqmvw
-Date: Thu, 30 Jul 2015 08:11:50 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E87391140D@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <1438077007-1836-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-	<CADkTA4N6Ks2apDVz-e93WmveqLXfMu-GKAOXF_exud9DUTSiFQ@mail.gmail.com>
-In-Reply-To: <CADkTA4N6Ks2apDVz-e93WmveqLXfMu-GKAOXF_exud9DUTSiFQ@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.92]
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t6V3fq04017979
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 31 Jul 2015 11:41:52 +0800
+Received: from localhost.localdomain (10.167.226.92) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 31 Jul 2015 11:43:43 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 31 Jul 2015 11:43:34 +0800
+Message-ID: <1438314217-3788-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/4] pry: upgrade 0.9.12.6 -> 0.10.1
+X-Originating-IP: [10.167.226.92]
+Subject: [PATCH 1/3] nss-pam-ldapd: upgrade 0.9.4 -> 0.9.6
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,137 +44,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jul 2015 08:12:10 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 31 Jul 2015 03:43:56 -0000
+Content-Type: text/plain
 
-SGksIEJydWNlOg0KDQpUaGFua3MgYSBsb3QuDQoNCkNoZWVycywNCkxpDQo+IC0tLS0tT3JpZ2lu
-YWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IEJydWNlIEFzaGZpZWxkIFttYWlsdG86YnJ1Y2UuYXNo
-ZmllbGRAZ21haWwuY29tXQ0KPiBTZW50OiBXZWRuZXNkYXksIEp1bHkgMjksIDIwMTUgMTE6MTkg
-UE0NCj4gVG86IExpLCBYaW4v5p2OIOasow0KPiBDYzogbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0
-b3Byb2plY3Qub3JnDQo+IFN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0gW1BBVENI
-IDEvNF0gcHJ5OiB1cGdyYWRlIDAuOS4xMi42IC0+IDAuMTAuMQ0KPiANCj4gVGhhbmtzLA0KPiAN
-Cj4gSSd2ZSBtZXJnZWQgYWxsIHRoZSByZWNpcGUgdXBkYXRlcyB0byBtYXN0ZXIgYW5kIGZpZG8t
-a2lsby4NCj4gDQo+IENoZWVycywNCj4gDQo+IEJydWNlDQo+IA0KPiBPbiBUdWUsIEp1bCAyOCwg
-MjAxNSBhdCA1OjUwIEFNLCBMaSB4aW4gPGxpeGluLmZuc3RAY24uZnVqaXRzdS5jb20+IHdyb3Rl
-Og0KPiA+IDEpIE1vZGlmeSByZG9jLWZpeHVwLW9wdC5iYW5uZXItaGVyZWRvYy5wYXRjaCxzaW5j
-ZSB0aGUgY29udGVudHMgaGFzDQo+ID4gYmVlbiBjaGFuZ2VkLg0KPiA+DQo+ID4gMikgVXBkYXRl
-IHRoZSBjaGVja3N1bSBvZiBMSUNFTlNFLHNpbmNlIHRoZSBkYXRlIGluIGl0IGhhcyBiZWVuDQo+
-ID4gY2hhbmdlZCwgYnV0IHRoZSBMSUNFTlNFIGhhcyBub3QgYmVlbiBjaGFuZ2VkLg0KPiA+DQo+
-ID4gU2lnbmVkLW9mZi1ieTogTGkgWGluIDxsaXhpbi5mbnN0QGNuLmZ1aml0c3UuY29tPg0KPiA+
-IC0tLQ0KPiA+ICAuLi4vcnVieS9wcnkvcmRvYy1maXh1cC1vcHQuYmFubmVyLWhlcmVkb2MucGF0
-Y2ggICB8IDU2ICsrKysrKysrKysrLS0tLS0tLS0tLS0NCj4gPiAgbWV0YS1vcGVuc3RhY2svcmVj
-aXBlcy1kZXZ0b29scy9ydWJ5L3ByeV9naXQuYmIgICAgfCAgOCArKy0tDQo+ID4gIDIgZmlsZXMg
-Y2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKSwgMzEgZGVsZXRpb25zKC0pDQo+ID4NCj4gPiBkaWZm
-IC0tZ2l0DQo+ID4gYS9tZXRhLW9wZW5zdGFjay9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcHJ5L3Jk
-b2MtZml4dXAtb3B0LmJhbm5lci1oZXJlZA0KPiA+IG9jLnBhdGNoDQo+ID4gYi9tZXRhLW9wZW5z
-dGFjay9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcHJ5L3Jkb2MtZml4dXAtb3B0LmJhbm5lci1oZXJl
-ZA0KPiA+IG9jLnBhdGNoDQo+ID4gaW5kZXggYjY2MTJjOS4uMzJhZGZiNiAxMDA2NDQNCj4gPiAt
-LS0NCj4gPiBhL21ldGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9wcnkvcmRvYy1m
-aXh1cC1vcHQuYmFubmVyLWhlcmVkDQo+ID4gb2MucGF0Y2gNCj4gPiArKysgYi9tZXRhLW9wZW5z
-dGFjay9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcHJ5L3Jkb2MtZml4dXAtb3B0LmJhbm5lci1oDQo+
-ID4gKysrIGVyZWRvYy5wYXRjaA0KPiA+IEBAIC0xLDYgKzEsNiBAQA0KPiA+IC1Gcm9tIDU1Zjgx
-ZGYwYmIyN2M2OGQyYTgxN2NhZGU1ZTBlYjQ3MmFjZjI0ZTUgTW9uIFNlcCAxNyAwMDowMDowMA0K
-PiA+IDIwMDENCj4gPiAtRnJvbTogTWFyayBBc3NlbHN0aW5lIDxtYXJrLmFzc2Vsc3RpbmVAd2lu
-ZHJpdmVyLmNvbT4NCj4gPiAtRGF0ZTogV2VkLCAxNCBNYXkgMjAxNCAxMDo0MzowNCAtMDQwMA0K
-PiA+ICtGcm9tIDQwZjc4YzlhZTFjOGYzN2UzODJkMmRhMzQ5OGUxNjcwYzFhMzIxZGQgTW9uIFNl
-cCAxNyAwMDowMDowMA0KPiA+ICsyMDAxDQo+ID4gK0Zyb206IExpIHhpbiA8bGl4aW4uZm5zdEBj
-bi5mdWppdHN1LmNvbT4NCj4gPiArRGF0ZTogU2F0LCAyNSBKdWwgMjAxNSAwMzoxMzo1MCArMDkw
-MA0KPiA+ICBTdWJqZWN0OiBbUEFUQ0hdIHJkb2M6IGZpeHVwIG9wdC5iYW5uZXIgaGVyZWRvYw0K
-PiA+DQo+ID4gIHJkb2MgaGFzIHNvbWUgcXVpcmtzIHdpdGggaGVyZWRvYyB3aGljaCBpbiB0aGlz
-IGNhc2Ugd291bGQgQEAgLTEzLDM5DQo+ID4gKzEzLDQxIEBAIEZpeHVwIHRoZSBoZXJlZG9jIHRv
-IHVzZSBhIG1vcmUgc3RhbmRhcmQgZm9ybWF0IHdoaWNoIGlzDQo+ID4ga25vd24gIG5vdCB0byBt
-ZXNzIHVwIHJkb2MgcHJvY2Vzc2luZy4NCj4gPg0KPiA+ICBTaWduZWQtb2ZmLWJ5OiBNYXJrIEFz
-c2Vsc3RpbmUgPG1hcmsuYXNzZWxzdGluZUB3aW5kcml2ZXIuY29tPg0KPiA+ICtTaWduZWQtb2Zm
-LWJ5OiBMaSBYaW4gPGxpeGluLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4gIC0tLQ0KPiA+IC0g
-bGliL3ByeS9jb21tYW5kcy9scy5yYiB8IDM0ICsrKysrKysrKysrKysrKysrLS0tLS0tLS0tLS0t
-LS0tLS0NCj4gPiAtIDEgZmlsZSBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspLCAxNyBkZWxldGlv
-bnMoLSkNCj4gPiArIGxpYi9wcnkvY29tbWFuZHMvbHMucmIgfCAzNSArKysrKysrKysrKysrKysr
-LS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ICsgMSBmaWxlIGNoYW5nZWQsIDE2IGluc2VydGlvbnMo
-KyksIDE5IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gIGRpZmYgLS1naXQgYS9saWIvcHJ5L2NvbW1h
-bmRzL2xzLnJiIGIvbGliL3ByeS9jb21tYW5kcy9scy5yYiAtaW5kZXgNCj4gPiA2Y2U0OWJiLi5i
-NzhmN2UxIDEwMDY0NA0KPiA+ICtpbmRleCA5ZjBlNjhmLi5lZGE3YTUzIDEwMDY0NA0KPiA+ICAt
-LS0gYS9saWIvcHJ5L2NvbW1hbmRzL2xzLnJiDQo+ID4gICsrKyBiL2xpYi9wcnkvY29tbWFuZHMv
-bHMucmINCj4gPiAtQEAgLTYsMjMgKzYsMjMgQEAgY2xhc3MgUHJ5DQo+ID4gK0BAIC0yOCwyNSAr
-MjgsMjIgQEAgY2xhc3MgUHJ5DQo+ID4gKyAgICAgZGVzY3JpcHRpb24gJ1Nob3cgdGhlIGxpc3Qg
-b2YgdmFycyBhbmQgbWV0aG9kcyBpbiB0aGUgY3VycmVudCBzY29wZS4nDQo+ID4gICAgICAgY29t
-bWFuZF9vcHRpb25zIDpzaGVsbHdvcmRzID0+IGZhbHNlLCA6aW50ZXJwb2xhdGUgPT4gZmFsc2UN
-Cj4gPg0KPiA+IC0gICAgIGRlZiBvcHRpb25zKG9wdCkNCj4gPiAtLSAgICAgIG9wdC5iYW5uZXIg
-dW5pbmRlbnQgPDwtJ0JBTk5FUicNCj4gPiAtLSAgICAgICAgVXNhZ2U6IGxzIFstbXwtTXwtcHwt
-cE1dIFstcXwtdl0gWy1jfC1pXSBbT2JqZWN0XQ0KPiA+IC0tICAgICAgICAgICAgICAgbHMgWy1n
-XSBbLWxdDQo+ID4gKy0gICAgYmFubmVyIDw8LSdCQU5ORVInDQo+ID4gKy0gICAgICBVc2FnZTog
-bHMgWy1tfC1NfC1wfC1wTV0gWy1xfC12XSBbLWN8LWldIFtPYmplY3RdDQo+ID4gKy0gICAgICAg
-ICAgICAgbHMgWy1nXSBbLWxdDQo+ID4gKy0NCj4gPiArLSAgICAgIGxzIHNob3dzIHlvdSB3aGlj
-aCBtZXRob2RzLCBjb25zdGFudHMgYW5kIHZhcmlhYmxlcyBhcmUgYWNjZXNzaWJsZSB0bw0KPiBQ
-cnkuIEJ5DQo+ID4gKy0gICAgICBkZWZhdWx0IGl0IHNob3dzIHlvdSB0aGUgbG9jYWwgdmFyaWFi
-bGVzIGRlZmluZWQgaW4gdGhlIGN1cnJlbnQgc2hlbGwsIGFuZA0KPiBhbnkNCj4gPiArLSAgICAg
-IHB1YmxpYyBtZXRob2RzIG9yIGluc3RhbmNlIHZhcmlhYmxlcyBkZWZpbmVkIG9uIHRoZSBjdXJy
-ZW50IG9iamVjdC4NCj4gPiAgLQ0KPiA+IC0tICAgICAgICBscyBzaG93cyB5b3Ugd2hpY2ggbWV0
-aG9kcywgY29uc3RhbnRzIGFuZCB2YXJpYWJsZXMgYXJlIGFjY2Vzc2libGUgdG8NCj4gUHJ5LiBC
-eQ0KPiA+IC0tICAgICAgICBkZWZhdWx0IGl0IHNob3dzIHlvdSB0aGUgbG9jYWwgdmFyaWFibGVz
-IGRlZmluZWQgaW4gdGhlIGN1cnJlbnQgc2hlbGwsDQo+IGFuZCBhbnkNCj4gPiAtLSAgICAgICAg
-cHVibGljIG1ldGhvZHMgb3IgaW5zdGFuY2UgdmFyaWFibGVzIGRlZmluZWQgb24gdGhlIGN1cnJl
-bnQgb2JqZWN0Lg0KPiA+ICstICAgICAgVGhlIGNvbG91cnMgdXNlZCBhcmUgY29uZmlndXJhYmxl
-IHVzaW5nIFByeS5jb25maWcubHMuKl9jb2xvciwgYW5kIHRoZQ0KPiBzZXBhcmF0b3INCj4gPiAr
-LSAgICAgIGlzIFByeS5jb25maWcubHMuc2VwYXJhdG9yLg0KPiA+ICAtDQo+ID4gLS0gICAgICAg
-IFRoZSBjb2xvdXJzIHVzZWQgYXJlIGNvbmZpZ3VyYWJsZSB1c2luZyBQcnkuY29uZmlnLmxzLipf
-Y29sb3IsIGFuZCB0aGUNCj4gc2VwYXJhdG9yDQo+ID4gLS0gICAgICAgIGlzIFByeS5jb25maWcu
-bHMuc2VwYXJhdG9yLg0KPiA+ICstICAgICAgUHJ5LmNvbmZpZy5scy5jZWlsaW5nIGlzIHVzZWQg
-dG8gaGlkZSBtZXRob2RzIGRlZmluZWQgaGlnaGVyIHVwIGluIHRoZQ0KPiA+ICstICAgICAgaW5o
-ZXJpdGFuY2UgY2hhaW4sIHRoaXMgaXMgYnkgZGVmYXVsdCBzZXQgdG8gW09iamVjdCwgTW9kdWxl
-LCBDbGFzc10gc28gdGhhdA0KPiA+ICstICAgICAgbWV0aG9kcyBkZWZpbmVkIG9uIGFsbCBPYmpl
-Y3RzIGFyZSBvbWl0dGVkLiBUaGUgLXYgZmxhZyBjYW4gYmUgdXNlZCB0bw0KPiBpZ25vcmUNCj4g
-PiArLSAgICAgIHRoaXMgc2V0dGluZyBhbmQgc2hvdyBhbGwgbWV0aG9kcywgd2hpbGUgdGhlIC1x
-IGNhbiBiZSB1c2VkIHRvIHNldCB0aGUNCj4gY2VpbGluZw0KPiA+ICstICAgICAgbXVjaCBsb3dl
-ciBhbmQgc2hvdyBvbmx5IG1ldGhvZHMgZGVmaW5lZCBvbiB0aGUgb2JqZWN0IG9yIGl0cyBkaXJl
-Y3QNCj4gY2xhc3MuDQo+ID4gIC0NCj4gPiAtLSAgICAgICAgUHJ5LmNvbmZpZy5scy5jZWlsaW5n
-IGlzIHVzZWQgdG8gaGlkZSBtZXRob2RzIGRlZmluZWQgaGlnaGVyIHVwIGluIHRoZQ0KPiA+IC0t
-ICAgICAgICBpbmhlcml0YW5jZSBjaGFpbiwgdGhpcyBpcyBieSBkZWZhdWx0IHNldCB0byBbT2Jq
-ZWN0LCBNb2R1bGUsIENsYXNzXSBzbw0KPiB0aGF0DQo+ID4gLS0gICAgICAgIG1ldGhvZHMgZGVm
-aW5lZCBvbiBhbGwgT2JqZWN0cyBhcmUgb21pdHRlZC4gVGhlIC12IGZsYWcgY2FuIGJlIHVzZWQg
-dG8NCj4gaWdub3JlDQo+ID4gLS0gICAgICAgIHRoaXMgc2V0dGluZyBhbmQgc2hvdyBhbGwgbWV0
-aG9kcywgd2hpbGUgdGhlIC1xIGNhbiBiZSB1c2VkIHRvIHNldCB0aGUNCj4gY2VpbGluZw0KPiA+
-IC0tICAgICAgICBtdWNoIGxvd2VyIGFuZCBzaG93IG9ubHkgbWV0aG9kcyBkZWZpbmVkIG9uIHRo
-ZSBvYmplY3Qgb3IgaXRzIGRpcmVjdA0KPiBjbGFzcy4NCj4gPiAtLSAgICAgIEJBTk5FUg0KPiA+
-IC0rICAgICAgb3B0LmJhbm5lciA9IDw8LUVPRg0KPiA+ICstICAgICAgQWxzbyBjaGVjayBvdXQg
-YGZpbmQtbWV0aG9kYCBjb21tYW5kIChydW4gYGhlbHAgZmluZC1tZXRob2RgKS4NCj4gPiArLSAg
-ICBCQU5ORVINCj4gPiArKyAgICBvcHQuYmFubmVyID0gPDwtRU9GDQo+ID4gICtVc2FnZTogbHMg
-Wy1tfC1NfC1wfC1wTV0gWy1xfC12XSBbLWN8LWldIFtPYmplY3RdDQo+ID4gICsgICAgICAgbHMg
-Wy1nXSBbLWxdDQo+ID4gLSsNCj4gPiAgK2xzIHNob3dzIHlvdSB3aGljaCBtZXRob2RzLCBjb25z
-dGFudHMgYW5kIHZhcmlhYmxlcyBhcmUgYWNjZXNzaWJsZQ0KPiA+IHRvIFByeS4gQnkgICtkZWZh
-dWx0IGl0IHNob3dzIHlvdSB0aGUgbG9jYWwgdmFyaWFibGVzIGRlZmluZWQgaW4gdGhlDQo+ID4g
-Y3VycmVudCBzaGVsbCwgYW5kIGFueSAgK3B1YmxpYyBtZXRob2RzIG9yIGluc3RhbmNlIHZhcmlh
-YmxlcyBkZWZpbmVkIG9uIHRoZQ0KPiBjdXJyZW50IG9iamVjdC4NCj4gPiBAQCAtNjAsOCArNjIs
-OCBAQCBpbmRleCA2Y2U0OWJiLi5iNzhmN2UxIDEwMDY0NCAgK211Y2ggbG93ZXIgYW5kIHNob3cN
-Cj4gPiBvbmx5IG1ldGhvZHMgZGVmaW5lZCBvbiB0aGUgb2JqZWN0IG9yIGl0cyBkaXJlY3QgY2xh
-c3MuDQo+ID4gICsgIEVPRg0KPiA+DQo+ID4gLSAgICAgICBvcHQub24gOm0sIDptZXRob2RzLCAg
-ICJTaG93IHB1YmxpYyBtZXRob2RzIGRlZmluZWQgb24gdGhlIE9iamVjdA0KPiAoZGVmYXVsdCki
-DQo+ID4gLSAgICAgICBvcHQub24gOk0sICJpbnN0YW5jZS1tZXRob2RzIiwgIlNob3cgbWV0aG9k
-cyBkZWZpbmVkIGluIGEgTW9kdWxlIG9yDQo+IENsYXNzIg0KPiA+ICsNCj4gPiArICAgICBkZWYg
-b3B0aW9ucyhvcHQpDQo+ID4gIC0tDQo+ID4gLTEuOC4zLjINCj4gPiArMS44LjQuMg0KPiA+DQo+
-ID4gZGlmZiAtLWdpdCBhL21ldGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMvcnVieS9wcnlf
-Z2l0LmJiDQo+ID4gYi9tZXRhLW9wZW5zdGFjay9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcHJ5X2dp
-dC5iYg0KPiA+IGluZGV4IDM3ZDQ0OTcuLmE0ZWI2M2MgMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS1v
-cGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9ydWJ5L3ByeV9naXQuYmINCj4gPiArKysgYi9tZXRh
-LW9wZW5zdGFjay9yZWNpcGVzLWRldnRvb2xzL3J1YnkvcHJ5X2dpdC5iYg0KPiA+IEBAIC03LDE4
-ICs3LDE4IEBAIGZvciBSdWJ5LiBJdCBpcyB3cml0dGVuIGZyb20gc2NyYXRjaCB0byBwcm92aWRl
-IGENCj4gPiBudW1iZXIgb2YgYWR2YW5jZWQgXCAgZmVhdHVyZXMuIg0KPiA+DQo+ID4gIExJQ0VO
-U0UgPSAiTUlUIg0KPiA+IC1MSUNfRklMRVNfQ0hLU1VNID0NCj4gImZpbGU6Ly9MSUNFTlNFO21k
-NT03ZDFhNmZiYjczZjYwNGUxZTcxNjM4MDQ5MDkzOGJkNCINCj4gPiArTElDX0ZJTEVTX0NIS1NV
-TSA9DQo+ICJmaWxlOi8vTElDRU5TRTttZDU9ZGRlOTM3NTM2ODdlMTZhYjBjNDY2OTIzMmZkMjdm
-ZDAiDQo+ID4NCj4gPiAgUFIgPSAicjAiDQo+ID4NCj4gPiAtQlBWID0gIjAuOS4xMi42Ig0KPiA+
-ICtCUFYgPSAiMC4xMC4xIg0KPiA+ICBQViA9ICIke0JQVn0iDQo+ID4gLVNSQ1JFViA9ICIwNDc3
-ODhjNDIyNWIyNWJiMDQ2MmUwNjcxNTYxNjk2NGU0ZjBkYTE1Ig0KPiA+ICtTUkNSRVYgPSAiMTkx
-ZGM1MTk4MTM0MDJhY2Q2ZGIwZDdmNzNlNjUyZWQ2MWY4MTExZiINCj4gPg0KPiA+ICBTID0gIiR7
-V09SS0RJUn0vZ2l0Ig0KPiA+DQo+ID4gIFNSQ19VUkkgPSAiIFwNCj4gPiAtICAgIGdpdDovL2dp
-dGh1Yi5jb20vcHJ5L3ByeS5naXQ7YnJhbmNoPTAtOS0xMi1zdGFibGUgXA0KPiA+ICsgICAgZ2l0
-Oi8vZ2l0aHViLmNvbS9wcnkvcHJ5LmdpdCBcDQo+ID4gICAgICBmaWxlOi8vcmRvYy1maXh1cC1v
-cHQuYmFubmVyLWhlcmVkb2MucGF0Y2ggXA0KPiA+ICAgICAgIg0KPiA+DQo+ID4gLS0NCj4gPiAx
-LjguNC4yDQo+ID4NCj4gPiAtLQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fDQo+ID4gbWV0YS12aXJ0dWFsaXphdGlvbiBtYWlsaW5nIGxpc3QNCj4g
-PiBtZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmcNCj4gPiBodHRwczovL2xpc3Rz
-LnlvY3RvcHJvamVjdC5vcmcvbGlzdGluZm8vbWV0YS12aXJ0dWFsaXphdGlvbg0KPiANCj4gDQo+
-IA0KPiAtLQ0KPiAiVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBj
-aGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cw0KPiBlbmQiDQo=
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+---
+ .../nss-pam-ldapd/{nss-pam-ldapd_0.9.4.bb => nss-pam-ldapd_0.9.6.bb} | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta-openstack/recipes-support/nss-pam-ldapd/{nss-pam-ldapd_0.9.4.bb => nss-pam-ldapd_0.9.6.bb} (90%)
+
+diff --git a/meta-openstack/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.4.bb b/meta-openstack/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.6.bb
+similarity index 90%
+rename from meta-openstack/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.4.bb
+rename to meta-openstack/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.6.bb
+index 65ed66f..9f822f3 100644
+--- a/meta-openstack/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.4.bb
++++ b/meta-openstack/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.6.bb
+@@ -21,9 +21,8 @@ SRC_URI = "\
+ 
+ inherit autotools
+ 
+-
+-SRC_URI[md5sum] = "0d74202700efdde3b6e551bfff49c132"
+-SRC_URI[sha256sum] = "fd2e3e0935acfd3d2b13682962f51d28d5855472e690d787e36a476fa40c88e6"
++SRC_URI[md5sum] = "fa5ec49cb54428d6c73e244a11021695"
++SRC_URI[sha256sum] = "101d5a7fa10549cc77be48d07f2b8141f59182f10f2cc0fea93efd13c3a5a6f2"
+ 
+ DEPENDS += "libpam openldap"
+ 
+-- 
+1.8.4.2
+
 
