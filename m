@@ -1,37 +1,37 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5BA81E00AB4; Tue,  4 Aug 2015 19:02:57 -0700 (PDT)
+	id C1399E009B3; Wed,  5 Aug 2015 13:29:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 66E4BE00AA2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 93F2BE009B3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  4 Aug 2015 19:02:52 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99274176"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Aug 2015 10:06:19 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t7520vf3021556
+	Wed,  5 Aug 2015 13:29:53 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t75KTrnu010608
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 5 Aug 2015 10:00:57 +0800
-Received: from localhost.localdomain (10.167.226.104) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Wed, 5 Aug 2015 10:02:50 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 5 Aug 2015 10:02:03 +0800
-Message-ID: <1438740123-2708-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
+	Wed, 5 Aug 2015 13:29:53 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Wed, 5 Aug 2015 13:29:53 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Wed, 5 Aug 2015 16:29:41 -0400
+Message-ID: <1438806592-32745-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.104]
-Subject: [meta-cloud-services][PATCH] python-eventlet: upgrade 0.17.3 -> 0.17.4
+Cc: meta-virtualization@yoctoproject.org, mark.asselstine@windriver.com
+Subject: [m-c-s][PATCH 00/11] fixup danglers
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,34 +44,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Aug 2015 02:02:57 -0000
+X-List-Received-Date: Wed, 05 Aug 2015 20:29:58 -0000
 Content-Type: text/plain
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- .../python/{python-eventlet_0.17.3.bb => python-eventlet_0.17.4.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-eventlet_0.17.3.bb => python-eventlet_0.17.4.bb} (73%)
+The primary goal of this patch series was to address the numerous
+dangling bbappends that exist on the the 'master' branch (I suspect
+the other branches have danglers too but master is what I have been
+building lately and my goal is to get these on to master where they
+can then be propagated to any applicable branches).
 
-diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.17.3.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.17.4.bb
-similarity index 73%
-rename from meta-openstack/recipes-devtools/python/python-eventlet_0.17.3.bb
-rename to meta-openstack/recipes-devtools/python/python-eventlet_0.17.4.bb
-index d85bef0..32494e1 100644
---- a/meta-openstack/recipes-devtools/python/python-eventlet_0.17.3.bb
-+++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.17.4.bb
-@@ -8,8 +8,8 @@ SRCNAME = "eventlet"
- 
- SRC_URI = "http://pypi.python.org/packages/source/e/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "12c855e37dd688d3137ecc88d5b8f05b"
--SRC_URI[sha256sum] = "d39e4124a7b10055c78d5c51c2ee23789a8ebf4f8b811fee4533542ecd3ac99a"
-+SRC_URI[md5sum] = "fea0993b14cc7322f944bdd535c4f24a"
-+SRC_URI[sha256sum] = "8721e9714eaff8d20f2407e0d3a80069db6b57c9226c26ee9db25c541d06556d"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
--- 
-1.8.4.2
+The first set of patches therefor address the danglers. Through
+inspection some of the danglers can be deemed no longer needed and
+have been removed. Others appear to still be relevant and thus were
+re-attached (using wildcards when possible). I tried to capture
+details in the commit logs as I looked at each dangler, for some of
+the obvious ones I did do some grouping to avoid multiple repetitive
+commits. For most of the re-attached danglers no changes were needed
+but again details of any required changes were captured in the
+associated commit logs.
 
+The series grew a bit beyond just addressing the danglers as the main
+images - openstack-image-compute and openstack-image-controller - were
+not build-able. So some of this series introduces changes that were
+required to get these images build-able again. Once I had build-able
+images I was able to poke around to ensure that my dangler
+removal/re-attachments didn't cause any immediate runtime issues. I
+was able to do some validation but due to issues with the openstack
+dashboard I wasn't able to perform the minimal openstack tests
+(spinning up an instance, interacting with the dashboard...).
+
+Obviously I would like to be able to validate with the base usecase
+but the series has already grown beyond the initial goal. With the
+images previously being unbuild-able I can only assume the issues with
+the dashboard etc. were preexisting. I will continue to work on
+getting 'master' to a working state but please consider merging this
+series so that the changes can be available to anyone else who would
+like to work on 'master' but currently can't even build it.
+
+Regards,
+Mark
+
+
+P.S. The "[m-c-s]" in the subject line is obviously for
+'meta-cloud-services'. I had to use the abbreviation as git was
+truncating things otherwise. Looking at the mailing list it seems I am
+the first one to send more than a single patch and thus the first to
+run in to the truncation.
 
