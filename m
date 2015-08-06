@@ -1,58 +1,42 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6AC67E009B8; Thu,  6 Aug 2015 06:27:05 -0700 (PDT)
+	id 9793AE009B8; Thu,  6 Aug 2015 06:36:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.182 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
-	[209.85.160.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D1147E00867
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3F8E5E00867
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Aug 2015 06:27:03 -0700 (PDT)
-Received: by ykoo205 with SMTP id o205so61998974yko.0
+	Thu,  6 Aug 2015 06:35:57 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t76DZvsl010447
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 06 Aug 2015 06:27:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5EnJ+PneQVfL+cpUiEetlyX5yDaC8wuxZ27HUmYSsLA=;
-	b=qbycfExgJR+mRx/QXq3UgoDi03ThcnIroxrxSgQCF457zIrVOe0fd5716Iuho0TXQ3
-	qpUzn8LZMYMGayq9HJkETP/o8RJsWFD5qxovarOlsQcakxRMNWvGVkgZlkf312KFPWDi
-	sfyWT47oeLaIpryNfYzWmgX2B4+69dkeL3eOXryCE3llLm8EeYdmnoZ+OBftizTL+ugq
-	6VNSWlX371Qgwmt3JWBd1tLnU1uEQztYnRaV90iFcl8nVJ8eAVptP5DggW449ZS8WfbY
-	Vg/Th3JW+fQF13XyVhQRKqUmJzwyxwx+fdyZO5aeJeem2GKipmyo0vu9bmoRjaM7tLPZ
-	izgg==
-MIME-Version: 1.0
-X-Received: by 10.13.232.83 with SMTP id r80mr1416494ywe.16.1438867622968;
-	Thu, 06 Aug 2015 06:27:02 -0700 (PDT)
-Received: by 10.13.226.203 with HTTP; Thu, 6 Aug 2015 06:27:02 -0700 (PDT)
-In-Reply-To: <4916663.vW0W1FbXsT@yow-masselst-d1>
+	Thu, 6 Aug 2015 06:35:57 -0700 (PDT)
+Received: from yow-masselst-d1.localnet (128.224.56.91) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.235.1; Thu, 6 Aug 2015 06:35:57 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Thu, 6 Aug 2015 09:37:13 -0400
+Message-ID: <10602474.99xbkQu933@yow-masselst-d1>
+Organization: Wind River Internation Inc.
+User-Agent: KMail/4.13.3 (Linux/3.13.0-52-generic; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <1438806592-32745-3-git-send-email-mark.asselstine@windriver.com>
 References: <1438806592-32745-1-git-send-email-mark.asselstine@windriver.com>
-	<1438806592-32745-7-git-send-email-mark.asselstine@windriver.com>
-	<CADkTA4PzxM+HhWn-_55Gdcecn=+54fiySVFCe7=pyZjEbE_fKg@mail.gmail.com>
-	<4916663.vW0W1FbXsT@yow-masselst-d1>
-Date: Thu, 6 Aug 2015 09:27:02 -0400
-Message-ID: <CADkTA4PN8zBmzefr+4PkJJvwCN9f3S3hEj8_rpikLpeaizCgNQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [m-c-s][PATCH 06/11] python-testtools: fix build error
+	<1438806592-32745-3-git-send-email-mark.asselstine@windriver.com>
+MIME-Version: 1.0
+X-Originating-IP: [128.224.56.91]
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [m-c-s][PATCH 02/11] meta-openstack: add wildcard to libvirt bbappend
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -65,121 +49,75 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 13:27:05 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 06 Aug 2015 13:36:00 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Aug 6, 2015 at 9:01 AM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> On August 5, 2015 21:11:35 Bruce Ashfield wrote:
->> On Wed, Aug 5, 2015 at 4:29 PM, Mark Asselstine
->>
->> <mark.asselstine@windriver.com> wrote:
->> > Ran in to a build error:
->> > distutils.errors.DistutilsError: Could not find suitable distribution for
->> > Requirement.parse('pbr') ERROR: python setup.py build execution failed.
->> >
->> > Fix by DEPENDing on python-pbr.
->>
->> This used to be on purpose. If you added python-pbr to DEPENDS the images
->> would fail to assemble due to QA errors and overlapping files.
->>
->> If you say that you've successfully assembled and booted the images and pbr
->> isn't acting up, I'll merge this .. but otherwise, I'm eyeing the
->> change for more
->> testing.
->
-> Some quick build testing this morning and I can confirm that both this package
-> and the python-oslo.serialization packages *will not* build without pbr. For
-> this package we can see that upstream has converted to building with pbr so
-> the build failure in the absence of pbr is easily explained:
->
+On August 5, 2015 16:29:43 Mark Asselstine wrote:
+> This is currently a dangling bbappend as libvirt is now version
+> 1.2.15. The content of the file appears to still be relevant so simply
+> renaming this bbappend to apply to a range of releases. This will
+> throw a warning as no 'sanlock' PKGCONFIG currently exists in the base
+> recipe, a commit will be sent for meta-virtualizaiton to add this.
+
+I might still send a commit for meta-virt to add the sanlock PKGCONFIG but 
+there is yet to exist a recipe for sanlock so I might just do a V2 of this 
+patch and remove 'sanlock' from the PACKAGECONFIG. Obviously this dangler has 
+been dangling for a long time.
+
+Mark
+
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
-> commit 915b2b604c0e9b97e813711c035dfd13682fb6df
-> Author: Robert Collins <robertc@robertcollins.net>
-> Date:   Tue May 5 10:45:22 2015 +1200
->
->     Switch to pbr as a build system
->     ...
-> ---
->
-> Similarly for python-oslo.serialization we can see commits in the upstream
-> repo which point to the required pbr dependency:
->
-> ---
-> commit a7bade117a8f8297955c0cb8adb6757d30f02e1b
-> Author: Doug Hellmann <doug@doughellmann.com>
-> Date:   Fri Oct 24 09:29:18 2014 -0400
->
->     Add pbr to installation requirements
->
->     Add pbr to the list of installation requirements so that it is installed
->     via pip before this library is installed, instead of with easy_install.
->     This avoids issues like Bug #1384919, and ensures that projects that use
->     this library as a dependency are properly installed.
->
->     Change-Id: I6c155370dbd01fe4748d5137bdf288e8d3e1a67e
-> ---
-> I can't easily identify the change that made pbr mandatory but the build
-> failure is 100% reproducible so there is definitely a change which prevents us
-> from treating this as optional.
->
-> I can also confirm that with these changes there exists no QA errors that
-> prevent the images from being constructed. I did builds from scratch and
-> others out of sstate without issue. I would be more than happy if Li would
-> like to confirm this by doing a build with this series applied.
+>  .../recipes-extended/libvirt/libvirt_1.%.bbappend           | 13
+> +++++++++++++ .../recipes-extended/libvirt/libvirt_1.2.12.bbappend        |
+> 13 ------------- 2 files changed, 13 insertions(+), 13 deletions(-)
+>  create mode 100644
+> meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend delete mode
+> 100644 meta-openstack/recipes-extended/libvirt/libvirt_1.2.12.bbappend
+> 
+> diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
+> b/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend new file
+> mode 100644
+> index 0000000..195633b
+> --- /dev/null
+> +++ b/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
+> @@ -0,0 +1,13 @@
+> +PACKAGECONFIG ?= "qemu lxc test remote macvtap libvirtd udev yajl \
+> +	 	 python sanlock ebtables \
+> +		 ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+> +		"
+> +
+> +inherit useradd
+> +USERADD_PACKAGES = "${PN}"
+> +GROUPADD_PARAM_${PN} = "--system libvirt"
+> +
+> +do_install_append() {
+> +	sed -e "s:^#unix_sock_group =:unix_sock_group =:g" -i
+> ${D}/etc/libvirt/libvirtd.conf +	sed -e "s:^#unix_sock_rw_perms
+> =:unix_sock_rw_perms =:g" -i ${D}/etc/libvirt/libvirtd.conf +}
+> diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_1.2.12.bbappend
+> b/meta-openstack/recipes-extended/libvirt/libvirt_1.2.12.bbappend deleted
+> file mode 100644
+> index 195633b..0000000
+> --- a/meta-openstack/recipes-extended/libvirt/libvirt_1.2.12.bbappend
+> +++ /dev/null
+> @@ -1,13 +0,0 @@
+> -PACKAGECONFIG ?= "qemu lxc test remote macvtap libvirtd udev yajl \
+> -	 	 python sanlock ebtables \
+> -		 ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+> -		"
+> -
+> -inherit useradd
+> -USERADD_PACKAGES = "${PN}"
+> -GROUPADD_PARAM_${PN} = "--system libvirt"
+> -
+> -do_install_append() {
+> -	sed -e "s:^#unix_sock_group =:unix_sock_group =:g" -i
+> ${D}/etc/libvirt/libvirtd.conf -	sed -e "s:^#unix_sock_rw_perms
+> =:unix_sock_rw_perms =:g" -i ${D}/etc/libvirt/libvirtd.conf -}
+> --
+> 2.1.4
 
-
-Good enough for me. I've staged the series here and will push it shortly.
-It can't make things worse .. so in it goes!
-
-Bruce
-
->
-> Mark
->
->>
->> Bruce
->>
->> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->> > ---
->> >
->> >  meta-openstack/recipes-devtools/python/python-testtools_1.8.0.bb | 4 ++++
->> >  1 file changed, 4 insertions(+)
->> >
->> > diff --git
->> > a/meta-openstack/recipes-devtools/python/python-testtools_1.8.0.bb
->> > b/meta-openstack/recipes-devtools/python/python-testtools_1.8.0.bb index
->> > 80a7489..a58c91a 100644
->> > --- a/meta-openstack/recipes-devtools/python/python-testtools_1.8.0.bb
->> > +++ b/meta-openstack/recipes-devtools/python/python-testtools_1.8.0.bb
->> > @@ -17,4 +17,8 @@ S = "${WORKDIR}/${SRCNAME}-${PV}"
->> >
->> >  inherit setuptools
->> >
->> > +DEPENDS += " \
->> > +    python-pbr \
->> > +"
->> > +
->> >
->> >  RDEPENDS_${PN} += "python-extras"
->> >
->> > --
->> > 2.1.4
->> >
->> > --
->> > _______________________________________________
->> > meta-virtualization mailing list
->> > meta-virtualization@yoctoproject.org
->> > https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end"
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
