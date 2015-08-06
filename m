@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F07B5E00A73; Wed,  5 Aug 2015 19:45:45 -0700 (PDT)
+	id B4470E00A7D; Wed,  5 Aug 2015 19:45:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,9 +9,6 @@ X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.174 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +16,40 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2AD73E00A53
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.171 listed in list.dnswl.org]
+Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
+	[209.85.160.171])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8BFBDE00A53
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Aug 2015 19:45:41 -0700 (PDT)
-Received: by ykeo23 with SMTP id o23so51823233yke.3
+	Wed,  5 Aug 2015 19:45:58 -0700 (PDT)
+Received: by ykax123 with SMTP id x123so52221450yka.1
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 05 Aug 2015 19:45:40 -0700 (PDT)
+	Wed, 05 Aug 2015 19:45:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=7pipLl0gBq/qGLOlJlsL3rOCGxlEIqQ9EezUV+jFF2Q=;
-	b=PjYKnxUxdMD5XZib1/nQHBLHh+XSI797dxaz28xoucYQK7sdmIOqR98MCFKE9ABYTM
-	D3XG3GdJGhqxCXSBxQ6UeTS8BYiQsWWFm6yxous3ubD3RCKxaFCXmbCsmB3+JypUUP2x
-	78+RH4zh2D88b+Ao++osJf1dJ5oWDvvPOdTsSkv64txrWb2PsgSB3YA/hSM6zkxFfZAf
-	74TOy4KwCNyKQXLAHv9hAo7CwN554Hd8PrepLt9KKMwCt8fQdVqS/bVQoM58NrciZpSc
-	0XyAUSCp/rJO/8Qln7aL1W34lLkTVMxC7LkHPODbtNzKkwuZznBxeTUDoQtj/PYuoysq
-	cCnQ==
+	bh=5AM5uf3linThzPyiPE4LdV1/YpNi9bzv6kf5oXw3GjY=;
+	b=iWgROenvGtbTZn/sjmHYxbgwEDX+VSQZeQvlg7KHqxfDsb4EM50F21VCliMQWhFz5h
+	zmgZSm+pGuG+RVmtzRXwjXrzFChkgzR65HdS7q+BT/V+YRbx2jENfH086yXtQ2OGlJLF
+	hXorC1dQSVSeq7w0n/quohcE0Ek6XoT5KVQl8tFpZnndc8SgkB0fOOo4flvSNMgwzWSb
+	RbU7WBIDlfHbF4+h4hLEIy4lTWxZTdUWkkb758FtQeTfRbZ6kMPtZlfSntC+YpY0j82G
+	uS75o0Vb0VoA3Vy/NvHU46mtw05hX64B018YGne3XB4rE/wVmymxRDPRTyX9BB4IWxic
+	+buA==
 MIME-Version: 1.0
-X-Received: by 10.13.198.2 with SMTP id i2mr12977174ywd.123.1438829140664;
-	Wed, 05 Aug 2015 19:45:40 -0700 (PDT)
-Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 19:45:40 -0700 (PDT)
-In-Reply-To: <1438595880-47411-1-git-send-email-leimaohui@cn.fujitsu.com>
-References: <1438595880-47411-1-git-send-email-leimaohui@cn.fujitsu.com>
-Date: Wed, 5 Aug 2015 22:45:40 -0400
-Message-ID: <CADkTA4Ph5AHd4uiY10D=BZyWFTYGjPywB0UOULsi1xcRbOuhKg@mail.gmail.com>
+X-Received: by 10.170.74.130 with SMTP id q124mr12099709ykq.21.1438829157772; 
+	Wed, 05 Aug 2015 19:45:57 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 19:45:57 -0700 (PDT)
+In-Reply-To: <1438739950-2649-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1438739950-2649-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Wed, 5 Aug 2015 22:45:57 -0400
+Message-ID: <CADkTA4N5rt9ZRCO6qHwUrKgZAYDUFKmB5fjV+W2jNQiMYNtJbQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: Li xin <lixin.fnst@cn.fujitsu.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-sphinx: upgrade 1.2b1 -> 1.3.1
+Subject: Re: [meta-cloud-services][PATCH] python-cliff: upgrade 1.12.0 -> 1.13.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,43 +62,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 02:45:46 -0000
+X-List-Received-Date: Thu, 06 Aug 2015 02:45:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Thanks. I've merged your changes.
+merged!
+
+Cheers,
 
 Bruce
 
-On Mon, Aug 3, 2015 at 5:58 AM, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
-> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+On Tue, Aug 4, 2015 at 9:59 PM, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
+> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 > ---
->  .../python/{python-sphinx_1.2b1.bb => python-sphinx_1.3.1.bb}       | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename recipes-devtools/python/{python-sphinx_1.2b1.bb => python-sphinx_1.3.1.bb} (58%)
+>  .../python/{python-cliff_1.12.0.bb => python-cliff_1.13.0.bb}         | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-cliff_1.12.0.bb => python-cliff_1.13.0.bb} (78%)
 >
-> diff --git a/recipes-devtools/python/python-sphinx_1.2b1.bb b/recipes-devtools/python/python-sphinx_1.3.1.bb
-> similarity index 58%
-> rename from recipes-devtools/python/python-sphinx_1.2b1.bb
-> rename to recipes-devtools/python/python-sphinx_1.3.1.bb
-> index acdba56..fe8ad94 100644
-> --- a/recipes-devtools/python/python-sphinx_1.2b1.bb
-> +++ b/recipes-devtools/python/python-sphinx_1.3.1.bb
-> @@ -2,15 +2,15 @@ DESCRIPTION = "Python documentation generator"
->  HOMEPAGE = "http://sphinx-doc.org/"
->  SECTION = "devel/python"
->  LICENSE = "BSD"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=da9cf9fa4e0d0076dd4d116777ad401e"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=6dd095eaa1e7a662b279daf80ecad7e6"
+> diff --git a/meta-openstack/recipes-devtools/python/python-cliff_1.12.0.bb b/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
+> similarity index 78%
+> rename from meta-openstack/recipes-devtools/python/python-cliff_1.12.0.bb
+> rename to meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
+> index e6da930..d8ef0af 100644
+> --- a/meta-openstack/recipes-devtools/python/python-cliff_1.12.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
+> @@ -8,8 +8,8 @@ SRCNAME = "cliff"
 >
->  PR = "r0"
->  SRCNAME = "Sphinx"
+>  SRC_URI = "https://pypi.python.org/packages/source/c/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
 >
->  SRC_URI = "http://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->
-> -SRC_URI[md5sum] = "67bea6df63be8e2a76ebedc76d8f71a3"
-> -SRC_URI[sha256sum] = "16102b69e939d9ee60b05d694a804a83e3ce047c283f6b981a83573a75ea718d"
-> +SRC_URI[md5sum] = "8786a194acf9673464c5455b11fd4332"
-> +SRC_URI[sha256sum] = "1a6e5130c2b42d2de301693c299f78cc4bd3501e78b610c08e45efc70e2b5114"
+> -SRC_URI[md5sum] = "feaa48620db2aeb9306ff33e5494fccc"
+> -SRC_URI[sha256sum] = "7609abc1789522fc4e228ea5567a9fd1db3963850396178adca3332cdd9c929a"
+> +SRC_URI[md5sum] = "188212b80ee152ee65b2018975193418"
+> +SRC_URI[sha256sum] = "2b92d12cf1aa59c0cf1914b4b6b02b78daadac890a53d0e6b71b5220661ab9e0"
 >
 >  S = "${WORKDIR}/${SRCNAME}-${PV}"
 >
