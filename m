@@ -1,39 +1,43 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 55A6DE00AB0; Thu,  6 Aug 2015 01:13:15 -0700 (PDT)
+	id 6E193E009B8; Thu,  6 Aug 2015 05:38:13 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B927BE00349
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8C352E00867
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Aug 2015 01:13:00 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99335486"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 Aug 2015 16:16:26 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t768B3GV006970
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 6 Aug 2015 16:11:03 +0800
-Received: from localhost.localdomain (10.167.226.92) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Thu, 6 Aug 2015 16:12:57 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 6 Aug 2015 16:12:05 +0800
-Message-ID: <1438848725-1643-12-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1438848725-1643-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1438848725-1643-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+	Thu,  6 Aug 2015 05:38:10 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t76Cc4W9009986
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Aug 2015 05:38:04 -0700 (PDT)
+Received: from yow-masselst-d1.localnet (128.224.56.91) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.235.1; Thu, 6 Aug 2015 05:38:03 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 6 Aug 2015 08:39:20 -0400
+Message-ID: <1623077.yRKgO9kaQh@yow-masselst-d1>
+Organization: Wind River Internation Inc.
+User-Agent: KMail/4.13.3 (Linux/3.13.0-52-generic; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <CADkTA4N6maGASaise+LZakvfhj8zK-UonCko02gQWP8w=vk4wQ@mail.gmail.com>
+References: <1438806592-32745-1-git-send-email-mark.asselstine@windriver.com>
+	<1438806592-32745-10-git-send-email-mark.asselstine@windriver.com>
+	<CADkTA4N6maGASaise+LZakvfhj8zK-UonCko02gQWP8w=vk4wQ@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.92]
-Subject: [meta-cloud-services][PATCH 11/11] python-pymongo: upgrade 3.0.1 -> 3.0.3
+X-Originating-IP: [128.224.56.91]
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [m-c-s][PATCH 09/11] python-oslo.serialization: add pbr to DEPEND
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,34 +50,90 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 08:13:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Aug 2015 12:38:13 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
----
- .../python/{python-pymongo_3.0.1.bb => python-pymongo_3.0.3.bb}       | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-pymongo_3.0.1.bb => python-pymongo_3.0.3.bb} (72%)
+On August 5, 2015 21:14:36 Bruce Ashfield wrote:
+> On Wed, Aug 5, 2015 at 4:29 PM, Mark Asselstine
+> 
+> <mark.asselstine@windriver.com> wrote:
+> > Per the package's setup.py we need to depend on python-pbr. Failing to
+> > 
+> > do so results in a build failure:
+> >     Could not find suitable distribution for Requirement.parse('pbr')
+> 
+> My same comment applies. You'll find 15 or 20 packages that depend on
+> pbr, but that didn't specify it.
+> 
+> We used to get errors if it was specified, since pbr was also coming from
+> the base python package.
 
-diff --git a/meta-openstack/recipes-devtools/python/python-pymongo_3.0.1.bb b/meta-openstack/recipes-devtools/python/python-pymongo_3.0.3.bb
-similarity index 72%
-rename from meta-openstack/recipes-devtools/python/python-pymongo_3.0.1.bb
-rename to meta-openstack/recipes-devtools/python/python-pymongo_3.0.3.bb
-index 2f28003..1582400 100644
---- a/meta-openstack/recipes-devtools/python/python-pymongo_3.0.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-pymongo_3.0.3.bb
-@@ -8,8 +8,8 @@ SRCNAME = "pymongo"
- 
- SRC_URI = "https://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "f2aab37b56229981f975ad1daf61b774"
--SRC_URI[sha256sum] = "d26076e838335d33d10f35f5b94a5a618a7aea5519c889b9ec473b23200b1237"
-+SRC_URI[md5sum] = "0425d99c2a453144b9c95cb37dbc46e9"
-+SRC_URI[sha256sum] = "3c6b2317f8031bc1e200fd1ea35f00a96f4569e3f3f220a5e66ab6227d96ccaf"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
--- 
-1.8.4.2
+Were we not pushing our luck a little bit by not addressing the QA errors? By 
+luck I mean that without anti-DEPENDS we simply relied on the fact that 
+nothing else was causing pbr to be present in the sysroot before these 
+packages were built (far from a guarantee).
+
+> 
+> Sounds like this is no longer the case.
+
+I believe this is the case but will look to backup this statement with further 
+testing today. My current view is:
+
+- Previously => some pkgs _could_ build without pbr DEPENDS
+             => building with pbr will/could cause QA issues
+
+- Currently => some pkgs _will_ fail to build without pbr DEPENDS
+            => building with pbr does cause QA issues
+
+Since the previous approach was somewhat 'lucky' as described previously I 
+would say that this shift in being able to build with pbr and not have QA 
+issues is a shift in our favor.
+
+I will follow up with some further test findings.
+
+Mark
+      
+
+> 
+> Bruce
+> 
+> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> > ---
+> > 
+> >  meta-openstack/recipes-devtools/python/python-oslo.serialization_git.bb |
+> >  1 + 1 file changed, 1 insertion(+)
+> > 
+> > diff --git
+> > a/meta-openstack/recipes-devtools/python/python-oslo.serialization_git.bb
+> > b/meta-openstack/recipes-devtools/python/python-oslo.serialization_git.bb
+> > index 451c6b9..7f0fb9c 100644
+> > ---
+> > a/meta-openstack/recipes-devtools/python/python-oslo.serialization_git.bb
+> > +++
+> > b/meta-openstack/recipes-devtools/python/python-oslo.serialization_git.bb
+> > @@ -19,6 +19,7 @@ inherit setuptools
+> > 
+> >  DEPENDS += " \
+> >  
+> >          python-pip \
+> > 
+> > +        python-pbr \
+> > 
+> >          "
+> >  
+> >  # RDEPENDS_default:
+> > --
+> > 2.1.4
+> > 
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> 
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 
 
