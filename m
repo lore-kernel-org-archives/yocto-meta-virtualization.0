@@ -1,55 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B4470E00A7D; Wed,  5 Aug 2015 19:45:59 -0700 (PDT)
+	id C546EE009B3; Thu,  6 Aug 2015 01:12:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.171 listed in list.dnswl.org]
-Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
-	[209.85.160.171])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8BFBDE00A53
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 27FC1E00349
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Aug 2015 19:45:58 -0700 (PDT)
-Received: by ykax123 with SMTP id x123so52221450yka.1
+	Thu,  6 Aug 2015 01:12:24 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99335455"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Aug 2015 16:15:45 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t768ANQF006904
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 05 Aug 2015 19:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=5AM5uf3linThzPyiPE4LdV1/YpNi9bzv6kf5oXw3GjY=;
-	b=iWgROenvGtbTZn/sjmHYxbgwEDX+VSQZeQvlg7KHqxfDsb4EM50F21VCliMQWhFz5h
-	zmgZSm+pGuG+RVmtzRXwjXrzFChkgzR65HdS7q+BT/V+YRbx2jENfH086yXtQ2OGlJLF
-	hXorC1dQSVSeq7w0n/quohcE0Ek6XoT5KVQl8tFpZnndc8SgkB0fOOo4flvSNMgwzWSb
-	RbU7WBIDlfHbF4+h4hLEIy4lTWxZTdUWkkb758FtQeTfRbZ6kMPtZlfSntC+YpY0j82G
-	uS75o0Vb0VoA3Vy/NvHU46mtw05hX64B018YGne3XB4rE/wVmymxRDPRTyX9BB4IWxic
-	+buA==
+	Thu, 6 Aug 2015 16:10:23 +0800
+Received: from localhost.localdomain (10.167.226.92) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Thu, 6 Aug 2015 16:12:17 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Thu, 6 Aug 2015 16:11:54 +0800
+Message-ID: <1438848725-1643-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-X-Received: by 10.170.74.130 with SMTP id q124mr12099709ykq.21.1438829157772; 
-	Wed, 05 Aug 2015 19:45:57 -0700 (PDT)
-Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 19:45:57 -0700 (PDT)
-In-Reply-To: <1438739950-2649-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-References: <1438739950-2649-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-Date: Wed, 5 Aug 2015 22:45:57 -0400
-Message-ID: <CADkTA4N5rt9ZRCO6qHwUrKgZAYDUFKmB5fjV+W2jNQiMYNtJbQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Li xin <lixin.fnst@cn.fujitsu.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][PATCH] python-cliff: upgrade 1.12.0 -> 1.13.0
+X-Originating-IP: [10.167.226.92]
+Subject: [meta-cloud-services][PATCH 00/11] upgrade recipes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,52 +44,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 02:45:59 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 06 Aug 2015 08:12:27 -0000
+Content-Type: text/plain
 
-merged!
+Li xin (11):
+  python-fixtures: upgrade 1.0.0 -> 1.3.1
+  python-glanceclient: upgrade 0.17.0 -> 0.19.0
+  python-httpretty: upgrade 0.8.7 -> 0.8.10
+  python-jsonpatch: upgrade 1.9 -> 1.11
+  python-jsonpointer: upgrade 1.7 -> 1.9
+  python-keystoneclient: upgrade 1.3.0 -> 1.6.0
+  python-msgpack: upgrade 0.4.5 -> 0.4.6
+  python-oslo.config: upgrade 1.11.0 -> 1.14.0
+  python-paste: upgrade 2.0.1 -> 2.0.2
+  python-pecan: upgrade 0.8.3 -> 0.9.0
+  python-pymongo: upgrade 3.0.1 -> 3.0.3
 
-Cheers,
-
-Bruce
-
-On Tue, Aug 4, 2015 at 9:59 PM, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
-> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
-> ---
->  .../python/{python-cliff_1.12.0.bb => python-cliff_1.13.0.bb}         | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-cliff_1.12.0.bb => python-cliff_1.13.0.bb} (78%)
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-cliff_1.12.0.bb b/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
-> similarity index 78%
-> rename from meta-openstack/recipes-devtools/python/python-cliff_1.12.0.bb
-> rename to meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
-> index e6da930..d8ef0af 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cliff_1.12.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
-> @@ -8,8 +8,8 @@ SRCNAME = "cliff"
->
->  SRC_URI = "https://pypi.python.org/packages/source/c/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
->
-> -SRC_URI[md5sum] = "feaa48620db2aeb9306ff33e5494fccc"
-> -SRC_URI[sha256sum] = "7609abc1789522fc4e228ea5567a9fd1db3963850396178adca3332cdd9c929a"
-> +SRC_URI[md5sum] = "188212b80ee152ee65b2018975193418"
-> +SRC_URI[sha256sum] = "2b92d12cf1aa59c0cf1914b4b6b02b78daadac890a53d0e6b71b5220661ab9e0"
->
->  S = "${WORKDIR}/${SRCNAME}-${PV}"
->
-> --
-> 1.8.4.2
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
+ .../python/{python-fixtures_1.0.0.bb => python-fixtures_1.3.1.bb}    | 4 ++--
+ meta-openstack/recipes-devtools/python/python-glanceclient_git.bb    | 5 +++--
+ .../python/{python-httpretty_0.8.7.bb => python-httpretty_0.8.10.bb} | 4 ++--
+ .../python/{python-jsonpatch_1.9.bb => python-jsonpatch_1.11.bb}     | 4 ++--
+ .../python/{python-jsonpointer_1.7.bb => python-jsonpointer_1.9.bb}  | 4 ++--
+ meta-openstack/recipes-devtools/python/python-keystoneclient_git.bb  | 4 ++--
+ .../python/{python-msgpack_0.4.5.bb => python-msgpack_0.4.6.bb}      | 4 ++--
+ .../{python-oslo.config_1.11.0.bb => python-oslo.config_1.14.0.bb}   | 4 ++--
+ .../python/{python-paste_2.0.1.bb => python-paste_2.0.2.bb}          | 4 ++--
+ .../python/{python-pecan_0.8.3.bb => python-pecan_0.9.0.bb}          | 4 ++--
+ .../python/{python-pymongo_3.0.1.bb => python-pymongo_3.0.3.bb}      | 4 ++--
+ 11 files changed, 23 insertions(+), 22 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-fixtures_1.0.0.bb => python-fixtures_1.3.1.bb} (81%)
+ rename meta-openstack/recipes-devtools/python/{python-httpretty_0.8.7.bb => python-httpretty_0.8.10.bb} (78%)
+ rename meta-openstack/recipes-devtools/python/{python-jsonpatch_1.9.bb => python-jsonpatch_1.11.bb} (77%)
+ rename meta-openstack/recipes-devtools/python/{python-jsonpointer_1.7.bb => python-jsonpointer_1.9.bb} (76%)
+ rename meta-openstack/recipes-devtools/python/{python-msgpack_0.4.5.bb => python-msgpack_0.4.6.bb} (74%)
+ rename meta-openstack/recipes-devtools/python/{python-oslo.config_1.11.0.bb => python-oslo.config_1.14.0.bb} (79%)
+ rename meta-openstack/recipes-devtools/python/{python-paste_2.0.1.bb => python-paste_2.0.2.bb} (73%)
+ rename meta-openstack/recipes-devtools/python/{python-pecan_0.8.3.bb => python-pecan_0.9.0.bb} (80%)
+ rename meta-openstack/recipes-devtools/python/{python-pymongo_3.0.1.bb => python-pymongo_3.0.3.bb} (72%)
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.8.4.2
+
 
