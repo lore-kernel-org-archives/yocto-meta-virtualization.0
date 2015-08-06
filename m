@@ -1,48 +1,55 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C5637E00A71; Wed,  5 Aug 2015 18:58:43 -0700 (PDT)
+	id F07B5E00A73; Wed,  5 Aug 2015 19:45:45 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.174 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 59AB9E00A01
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
+	[209.85.160.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2AD73E00A53
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Aug 2015 18:58:38 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99320889"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 Aug 2015 10:02:04 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t761ugK5014537;
-	Thu, 6 Aug 2015 09:56:42 +0800
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0181.006; Thu, 6 Aug 2015 09:58:36 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Mark Asselstine
-	<mark.asselstine@windriver.com>
-Thread-Topic: [meta-virtualization] [m-c-s][PATCH 06/11] python-testtools:
-	fix build error
-Thread-Index: AQHQz+ThAPBxIWcSqEeD50unSRm65Z3+NRNw
-Date: Thu, 6 Aug 2015 01:58:35 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E8011BCB8F6E@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1438806592-32745-1-git-send-email-mark.asselstine@windriver.com>
-	<1438806592-32745-7-git-send-email-mark.asselstine@windriver.com>
-	<CADkTA4PzxM+HhWn-_55Gdcecn=+54fiySVFCe7=pyZjEbE_fKg@mail.gmail.com>
-In-Reply-To: <CADkTA4PzxM+HhWn-_55Gdcecn=+54fiySVFCe7=pyZjEbE_fKg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.92]
+	Wed,  5 Aug 2015 19:45:41 -0700 (PDT)
+Received: by ykeo23 with SMTP id o23so51823233yke.3
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 05 Aug 2015 19:45:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=7pipLl0gBq/qGLOlJlsL3rOCGxlEIqQ9EezUV+jFF2Q=;
+	b=PjYKnxUxdMD5XZib1/nQHBLHh+XSI797dxaz28xoucYQK7sdmIOqR98MCFKE9ABYTM
+	D3XG3GdJGhqxCXSBxQ6UeTS8BYiQsWWFm6yxous3ubD3RCKxaFCXmbCsmB3+JypUUP2x
+	78+RH4zh2D88b+Ao++osJf1dJ5oWDvvPOdTsSkv64txrWb2PsgSB3YA/hSM6zkxFfZAf
+	74TOy4KwCNyKQXLAHv9hAo7CwN554Hd8PrepLt9KKMwCt8fQdVqS/bVQoM58NrciZpSc
+	0XyAUSCp/rJO/8Qln7aL1W34lLkTVMxC7LkHPODbtNzKkwuZznBxeTUDoQtj/PYuoysq
+	cCnQ==
 MIME-Version: 1.0
+X-Received: by 10.13.198.2 with SMTP id i2mr12977174ywd.123.1438829140664;
+	Wed, 05 Aug 2015 19:45:40 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Wed, 5 Aug 2015 19:45:40 -0700 (PDT)
+In-Reply-To: <1438595880-47411-1-git-send-email-leimaohui@cn.fujitsu.com>
+References: <1438595880-47411-1-git-send-email-leimaohui@cn.fujitsu.com>
+Date: Wed, 5 Aug 2015 22:45:40 -0400
+Message-ID: <CADkTA4Ph5AHd4uiY10D=BZyWFTYGjPywB0UOULsi1xcRbOuhKg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Lei Maohui <leimaohui@cn.fujitsu.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [m-c-s][PATCH 06/11] python-testtools: fix build error
+Subject: Re: [PATCH] python-sphinx: upgrade 1.2b1 -> 1.3.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -55,36 +62,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 01:58:43 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="iso-2022-jp"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Aug 2015 02:45:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Hi,
->-----Original Message-----
->From: meta-virtualization-bounces@yoctoproject.org
->[mailto:meta-virtualization-bounces@yoctoproject.org] On Behalf Of Bruce A=
-shfield
->Sent: Thursday, August 06, 2015 9:12 AM
->To: Mark Asselstine
->Cc: meta-virtualization@yoctoproject.org
->Subject: Re: [meta-virtualization] [m-c-s][PATCH 06/11] python-testtools: =
-fix build
->error
+Thanks. I've merged your changes.
+
+Bruce
+
+On Mon, Aug 3, 2015 at 5:58 AM, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
+> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> ---
+>  .../python/{python-sphinx_1.2b1.bb => python-sphinx_1.3.1.bb}       | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename recipes-devtools/python/{python-sphinx_1.2b1.bb => python-sphinx_1.3.1.bb} (58%)
 >
->On Wed, Aug 5, 2015 at 4:29 PM, Mark Asselstine <mark.asselstine@windriver=
-.com>
->wrote:
->> Ran in to a build error:
->> distutils.errors.DistutilsError: Could not find suitable distribution
->> for Requirement.parse('pbr')
->> ERROR: python setup.py build execution failed.
->>
->> Fix by DEPENDing on python-pbr.
->>
-If you build python-pbr first, and then build python-testtools,
-The error will not happen.
+> diff --git a/recipes-devtools/python/python-sphinx_1.2b1.bb b/recipes-devtools/python/python-sphinx_1.3.1.bb
+> similarity index 58%
+> rename from recipes-devtools/python/python-sphinx_1.2b1.bb
+> rename to recipes-devtools/python/python-sphinx_1.3.1.bb
+> index acdba56..fe8ad94 100644
+> --- a/recipes-devtools/python/python-sphinx_1.2b1.bb
+> +++ b/recipes-devtools/python/python-sphinx_1.3.1.bb
+> @@ -2,15 +2,15 @@ DESCRIPTION = "Python documentation generator"
+>  HOMEPAGE = "http://sphinx-doc.org/"
+>  SECTION = "devel/python"
+>  LICENSE = "BSD"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=da9cf9fa4e0d0076dd4d116777ad401e"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=6dd095eaa1e7a662b279daf80ecad7e6"
+>
+>  PR = "r0"
+>  SRCNAME = "Sphinx"
+>
+>  SRC_URI = "http://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+>
+> -SRC_URI[md5sum] = "67bea6df63be8e2a76ebedc76d8f71a3"
+> -SRC_URI[sha256sum] = "16102b69e939d9ee60b05d694a804a83e3ce047c283f6b981a83573a75ea718d"
+> +SRC_URI[md5sum] = "8786a194acf9673464c5455b11fd4332"
+> +SRC_URI[sha256sum] = "1a6e5130c2b42d2de301693c299f78cc4bd3501e78b610c08e45efc70e2b5114"
+>
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
+> --
+> 1.8.4.2
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-Cherrs,
-Li
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
