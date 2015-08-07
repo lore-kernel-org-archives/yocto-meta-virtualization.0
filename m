@@ -1,37 +1,47 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 734FEE00A38; Fri,  7 Aug 2015 02:40:25 -0700 (PDT)
+	id EAB91E00A3C; Fri,  7 Aug 2015 05:55:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.160.169 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 81401E009FD
+Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
+	[209.85.160.169])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CF563E00A31
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  7 Aug 2015 02:40:21 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99385963"
-Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2015 17:43:46 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
-	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t779cOdf004526
+	Fri,  7 Aug 2015 05:54:59 -0700 (PDT)
+Received: by ykoo205 with SMTP id o205so87758344yko.0
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 7 Aug 2015 17:38:24 +0800
-Received: from localhost.localdomain (10.167.226.92) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Fri, 7 Aug 2015 17:40:19 +0800
-From: Li xin <lixin.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 7 Aug 2015 17:40:12 +0800
-Message-ID: <1438940412-2219-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.7.9.5
-MIME-Version: 1.0
-X-Originating-IP: [10.167.226.92]
-Subject: [meta-cloud-services][PATCH] json: upgrade 1.8.1 -> 1.8.3
+	Fri, 07 Aug 2015 05:54:59 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=o9M60XUbuOBL7ftiOuohEI8KBZlnb4Kv50v9Yf8Nf5U=;
+	b=XJrXCKzGg/n427GrqZMoP+BHdgoMmt9iyWBpeB8U9EQqB7ONvP48tGaEsRtbCep0YM
+	9OvN4gp9vazqp1RwZb3glGqbNhoBb7Ahh8oWJiA2g8XBWAio0EIsQebSatzZXtQD2YRI
+	ru5hHafTJnslCiRF8RdSYHgoeY4iYVFOodNyI+/loQC+32qRaK5yMus53mv4px09/BHj
+	Dsn6Ab+4dyZnB7Z7gisa5oa4fpggluT4HYTRn5h9P32GkF2GKRJiBIKKbXEC24i+afLV
+	mdrzXoikbvrb2Ti1GCUNm6nwfYt4xEQyoN8aKIHaff72g/eaVCvevIvYbxIR/iQ6aPYl
+	entg==
+X-Gm-Message-State: ALoCoQlpS0DiMSkCDSSe2AwmzcfD945sdOldpWEs3IYVI6aif/uuoMtM1jrR20Bg6jXZM1mn45sT
+X-Received: by 10.170.170.6 with SMTP id m6mr7242909ykd.102.1438952098855;
+	Fri, 07 Aug 2015 05:54:58 -0700 (PDT)
+Received: from doug-t430.lan ([67.63.141.2])
+	by smtp.gmail.com with ESMTPSA id c3sm9302397ywd.39.2015.08.07.05.54.57
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 07 Aug 2015 05:54:58 -0700 (PDT)
+From: Doug Goldstein <cardoe@cardoe.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri,  7 Aug 2015 07:54:36 -0500
+Message-Id: <1438952077-9400-1-git-send-email-cardoe@cardoe.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] README: don't advertise obsolete layer URLs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,67 +54,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Aug 2015 09:40:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Aug 2015 12:55:03 -0000
 
-Dropped 0001-Dont-compile-extensions.patch, it is not needed anymore.
+This layer depends on openembedded-core and meta-openembedded so
+recommend the actual URLs and not the obsolete ones.
 
-Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+Signed-off-by: Doug Goldstein <cardoe@cardoe.com>
 ---
- .../ruby/json/0001-Dont-compile-extensions.patch     | 20 --------------------
- meta-openstack/recipes-devtools/ruby/json_git.bb     |  5 ++---
- 2 files changed, 2 insertions(+), 23 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/ruby/json/0001-Dont-compile-extensions.patch
+ README | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/ruby/json/0001-Dont-compile-extensions.patch b/meta-openstack/recipes-devtools/ruby/json/0001-Dont-compile-extensions.patch
-deleted file mode 100644
-index 0c2f513..0000000
---- a/meta-openstack/recipes-devtools/ruby/json/0001-Dont-compile-extensions.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--From 8c6e4b688cc7feade17caa832f9304262025fd17 Mon Sep 17 00:00:00 2001
--From: Qian Lei <qianl.fnst@cn.fujitsu.com>
--Date: Tue, 27 Jan 2015 19:34:26 +0800
--Subject: [PATCH] Dont compile extensions
--
--Signed-off-by: Qian Lei <qianl.fnst@cn.fujitsu.com>
-----
-- json.gemspec | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/json.gemspec b/json.gemspec
--index 75926b1..af7e9ca 100644
----- a/json.gemspec
--+++ b/json.gemspec
--@@ -13 +13 @@ Gem::Specification.new do |s|
---  s.extensions = ["ext/json/ext/generator/extconf.rb", "ext/json/ext/parser/extconf.rb"]
--+#  s.extensions = ["ext/json/ext/generator/extconf.rb", "ext/json/ext/parser/extconf.rb"]
---- 
--1.8.3.1
--
-diff --git a/meta-openstack/recipes-devtools/ruby/json_git.bb b/meta-openstack/recipes-devtools/ruby/json_git.bb
-index f738ece..a417798 100644
---- a/meta-openstack/recipes-devtools/ruby/json_git.bb
-+++ b/meta-openstack/recipes-devtools/ruby/json_git.bb
-@@ -9,15 +9,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=aef161fe3c86f1a8d6c71d3b8c5655c5"
+diff --git a/README b/README
+index beb3760..652d98f 100644
+--- a/README
++++ b/README
+@@ -8,12 +8,12 @@ Dependencies
+ ------------
+ This layer depends on:
  
- PR = "r0"
+-URI: git://github.com/openembedded/oe-core.git
++URI: git://github.com/openembedded/openembedded-core.git
+ branch: master
+ revision: HEAD
+ prio: default
  
--BPV = "1.8.1"
-+BPV = "1.8.3"
- PV = "${BPV}"
--SRCREV = "92a96dea2b24b9c68856004d69491f46aedd0925"
-+SRCREV = "db4c71a7701b95c30f945ee1536240920dcfdc17"
- 
- S = "${WORKDIR}/git"
- 
- SRC_URI = " \
-     git://github.com/flori/json.git \
--    file://0001-Dont-compile-extensions.patch \
-     "
- 
- inherit ruby
+-URI: git://github.com/openembedded/meta-oe.git
++URI: git://github.com/openembedded/meta-openembedded.git
+ branch: master
+ revision: HEAD
+ layers: meta-oe
 -- 
-1.8.4.2
+2.1.4
 
 
