@@ -1,37 +1,37 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0197AE009FD; Thu,  6 Aug 2015 07:13:18 -0700 (PDT)
+	id C714DE00A38; Fri,  7 Aug 2015 01:01:31 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9020AE00867
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 593D3E009FD
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Aug 2015 07:13:14 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t76EDE07017099
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  7 Aug 2015 01:01:25 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99381437"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Aug 2015 16:04:45 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (localhost.localdomain
+	[127.0.0.1])
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t777xMll030198
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 6 Aug 2015 07:13:14 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 6 Aug 2015 07:13:13 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Thu, 6 Aug 2015 10:13:13 -0400
-Message-ID: <1438870393-14677-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.1.4
+	Fri, 7 Aug 2015 15:59:22 +0800
+Received: from localhost.localdomain (10.167.226.92) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Fri, 7 Aug 2015 16:01:16 +0800
+From: Li xin <lixin.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 7 Aug 2015 16:01:09 +0800
+Message-ID: <1438934469-1986-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.7.9.5
 MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org, mark.asselstine@windriver.com
-Subject: [m-c-s][PATCH] libvirt: remove sanlock from PACKAGECONFIG
+X-Originating-IP: [10.167.226.92]
+Subject: [meta-cloud-services][PATCH] python-heatclient: upgrade 0.4.0 -> 0.6.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,30 +44,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Aug 2015 14:13:18 -0000
+X-List-Received-Date: Fri, 07 Aug 2015 08:01:31 -0000
 Content-Type: text/plain
 
-There exists no recipe for sanlock and the libvirt recipe doesn't have
-a sanlock PACKAGECONFIG so removing sanlock from the set of
-PACKAGECONFIGs.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend b/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-index 195633b..874bfd6 100644
---- a/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-+++ b/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-@@ -1,5 +1,5 @@
- PACKAGECONFIG ?= "qemu lxc test remote macvtap libvirtd udev yajl \
--	 	 python sanlock ebtables \
-+	 	 python ebtables \
- 		 ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
- 		"
+diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+index b83fc77..10428c2 100644
+--- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+@@ -23,8 +23,8 @@ SRCNAME = "heatclient"
  
+ SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
+ 
+-PV = "0.4.0+git${SRCPV}"
+-SRCREV = "6d528f005742263837d05250662bf6214a703da8"
++PV = "0.6.0+git${SRCPV}"
++SRCREV = "7cca8394b8ab2f4dccb982ae789b1b2985627115"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools
 -- 
-2.1.4
+1.8.4.2
 
 
