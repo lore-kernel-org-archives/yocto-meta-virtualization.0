@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7492FE00A7B; Mon, 10 Aug 2015 06:52:30 -0700 (PDT)
+	id D7E49E00A7D; Mon, 10 Aug 2015 06:52:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.174 listed in list.dnswl.org]
+	*      [209.85.160.175 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C4D7EE007B1
+Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
+	[209.85.160.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 584C5E007B1
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Aug 2015 06:52:27 -0700 (PDT)
-Received: by ykdz80 with SMTP id z80so28057491ykd.2
+	Mon, 10 Aug 2015 06:52:36 -0700 (PDT)
+Received: by ykdz80 with SMTP id z80so28061640ykd.2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Aug 2015 06:52:27 -0700 (PDT)
+	Mon, 10 Aug 2015 06:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=QsKdWcWQMJwDQnBq3MQoqrAA79blV6XVOV2hfFruNbE=;
-	b=JGH6PRFBTzRUICBTAtwqicJBAB2nVoBio9eFSZjssL+yCcQJQVU6+XxPQbRdOUCiv0
-	XSKqScH+EZD1MRmjpH8qjyfZQCTojxQ6c16oTv70qdL+I5MNQMn6GHjuhoBsFRo568xj
-	aXL2wUk/7wo3nLTheRQJfUkFP+uQ6qGKu8lc48L2lY1W+AfFl2O+gETJAga2oGhL84e4
-	VdwqhcPl9w7A32KTngDTiP5Yq8OHDyvuCsDvw/U319Fm1YzqdxKNjUklH/qUPgVLiGht
-	0/3/m2kQ1iEzFm/gbYTadPyivUwvdV7CZEIekSNIRAiH4bQPWCYLzNgaq8igoVbECVYw
-	b+7g==
+	bh=ICxpFk6EMlH9fMo5qF2ik5i/TU6xXO3YLVOENeELrEc=;
+	b=E385CQsnMiqJwDfup6HeS8M//AE+zTv3fvFnkdaUKjlCEQAlDu3jC8XszCxkwqVLcj
+	DU3fK4vJF7WZ1Mz4FiVaTUTKjyRBW0uJzP7+/uYsZ4ZHQaVTCJ66L5tOmOAKASM1Zb8u
+	d3IiHRhCkGhfji91/oWd/AcFhlwaBUhmp3Bi14sPqNRsfLHA+DTPHUBLijOfGv0e+XdO
+	9HFbUONprmmi9aaa/5ag1htjESQ8smVV/ETzRZJmHEJ1TT0yEvnxfExDDUlMLf5hcm1N
+	oEcbcacYjSqChjMuYpiiTjvbhj1PQYGVK0/HARDEOVP6/88fY9VuXNj9ptVo+S5V8k6S
+	NrBQ==
 MIME-Version: 1.0
-X-Received: by 10.129.16.215 with SMTP id 206mr20147904ywq.13.1439214747105;
-	Mon, 10 Aug 2015 06:52:27 -0700 (PDT)
-Received: by 10.13.226.203 with HTTP; Mon, 10 Aug 2015 06:52:27 -0700 (PDT)
-In-Reply-To: <1438870393-14677-1-git-send-email-mark.asselstine@windriver.com>
-References: <1438870393-14677-1-git-send-email-mark.asselstine@windriver.com>
-Date: Mon, 10 Aug 2015 09:52:27 -0400
-Message-ID: <CADkTA4MU=h_hybVMXcNZaHncKxisU27seMFwcD49f+UsQHR06Q@mail.gmail.com>
+X-Received: by 10.170.121.9 with SMTP id n9mr9903100ykb.54.1439214756523; Mon,
+	10 Aug 2015 06:52:36 -0700 (PDT)
+Received: by 10.13.226.203 with HTTP; Mon, 10 Aug 2015 06:52:36 -0700 (PDT)
+In-Reply-To: <1438934469-1986-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+References: <1438934469-1986-1-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Mon, 10 Aug 2015 09:52:36 -0400
+Message-ID: <CADkTA4MKfFw2zvZ4ZPsMC0A8CF5bePo5725Mw2t_GS8ZZYCd0A@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+To: Li xin <lixin.fnst@cn.fujitsu.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [m-c-s][PATCH] libvirt: remove sanlock from PACKAGECONFIG
+Subject: Re: [meta-cloud-services][PATCH] python-heatclient: upgrade 0.4.0 -> 0.6.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,37 +62,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Aug 2015 13:52:30 -0000
+X-List-Received-Date: Mon, 10 Aug 2015 13:52:38 -0000
 Content-Type: text/plain; charset=UTF-8
 
-merged to master.
+merged.
 
 Bruce
 
-On Thu, Aug 6, 2015 at 10:13 AM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> There exists no recipe for sanlock and the libvirt recipe doesn't have
-> a sanlock PACKAGECONFIG so removing sanlock from the set of
-> PACKAGECONFIGs.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+On Fri, Aug 7, 2015 at 4:01 AM, Li xin <lixin.fnst@cn.fujitsu.com> wrote:
+> Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend b/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-> index 195633b..874bfd6 100644
-> --- a/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-> +++ b/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-> @@ -1,5 +1,5 @@
->  PACKAGECONFIG ?= "qemu lxc test remote macvtap libvirtd udev yajl \
-> -                python sanlock ebtables \
-> +                python ebtables \
->                  ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
->                 "
+> diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+> index b83fc77..10428c2 100644
+> --- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+> @@ -23,8 +23,8 @@ SRCNAME = "heatclient"
 >
+>  SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
+>
+> -PV = "0.4.0+git${SRCPV}"
+> -SRCREV = "6d528f005742263837d05250662bf6214a703da8"
+> +PV = "0.6.0+git${SRCPV}"
+> +SRCREV = "7cca8394b8ab2f4dccb982ae789b1b2985627115"
+>  S = "${WORKDIR}/git"
+>
+>  inherit setuptools
 > --
-> 2.1.4
+> 1.8.4.2
 >
 > --
 > _______________________________________________
