@@ -1,6 +1,6 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <Jim.Somerville@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 24AC7E007B1; Wed, 12 Aug 2015 12:48:09 -0700 (PDT)
+	id BBBB9E00978; Thu, 13 Aug 2015 07:59:09 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,32 +8,29 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B868AE007B1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26568E0096A
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 12 Aug 2015 12:48:05 -0700 (PDT)
+	Thu, 13 Aug 2015 07:59:06 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7CJm4nR000685
+	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7DEx5qm027773
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 12 Aug 2015 12:48:04 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
-	Wed, 12 Aug 2015 12:48:04 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Wed, 12 Aug 2015 15:47:58 -0400
-Message-ID: <1439408879-8203-3-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1439408879-8203-1-git-send-email-mark.asselstine@windriver.com>
-References: <1439408879-8203-1-git-send-email-mark.asselstine@windriver.com>
+	Thu, 13 Aug 2015 07:59:05 -0700 (PDT)
+Received: from yow-dellw-js.wrs.com (128.224.56.30) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
+	Thu, 13 Aug 2015 07:59:05 -0700
+From: Jim Somerville <Jim.Somerville@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Thu, 13 Aug 2015 10:59:04 -0400
+Message-ID: <1439477944-17425-1-git-send-email-Jim.Somerville@windriver.com>
+X-Mailer: git-send-email 1.8.3.2
 MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org, mark.asselstine@windriver.com
-Subject: [m-c-s][PATCH 2/3] glance: add new dependencies
+Subject: [PATCH] lxc: doc: fix broken manpage build
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,103 +43,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Aug 2015 19:48:09 -0000
+X-List-Received-Date: Thu, 13 Aug 2015 14:59:09 -0000
 Content-Type: text/plain
 
-Attempting to run glance-api several python traces are
-encountered. The following packages were identified in the traces and
-as such are added as dependencies which allows glance-api to launch
-successfully.
+docbook2man fails to build the man pages in poky
+due to missing the ancient Davenport 3.0 DTD.
+Poky meta has the Oasis 3.1 version so upgrade
+to use that instead.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
 ---
- .../recipes-devtools/python/python-glance_git.bb   |  5 +++-
- .../python/python-oslo.vmware_1.19.0.bb            | 24 +++++++++++++++++++
- .../python/python-semantic-version_2.4.2.bb        | 27 ++++++++++++++++++++++
- 3 files changed, 55 insertions(+), 1 deletion(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-oslo.vmware_1.19.0.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python-semantic-version_2.4.2.bb
+ .../lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch   | 32 ++++++++++++++++++++++
+ recipes-containers/lxc/lxc_1.1.2.bb                |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
 
-diff --git a/meta-openstack/recipes-devtools/python/python-glance_git.bb b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-index ea189ef..79235af 100644
---- a/meta-openstack/recipes-devtools/python/python-glance_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-@@ -197,7 +197,10 @@ RDEPENDS_${PN} += "python-greenlet \
- 	python-oslo.i18n \
- 	python-osprofiler \
- 	python-retrying \
--        python-glancestore \
-+	python-glancestore \
-+	python-enum34 \
-+	python-semantic-version \
-+	python-oslo.vmware \
+diff --git a/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch b/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
+new file mode 100644
+index 0000000..5f9d771
+--- /dev/null
++++ b/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
+@@ -0,0 +1,32 @@
++From 4cf207ffd64c6f815e62ecbbf25b5a378e707182 Mon Sep 17 00:00:00 2001
++Message-Id: <4cf207ffd64c6f815e62ecbbf25b5a378e707182.1439319694.git.Jim.Somerville@windriver.com>
++From: Jim Somerville <Jim.Somerville@windriver.com>
++Date: Tue, 11 Aug 2015 14:05:00 -0400
++Subject: [PATCH 1/1] lxc: doc: upgrade to use docbook 3.1 DTD
++
++docbook2man fails to build the man pages in poky
++due to missing the ancient Davenport 3.0 DTD.
++Poky meta has the Oasis 3.1 version so upgrade
++to use that instead.
++
++Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
++---
++ configure.ac | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 4972803..2e67b5e 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -179,7 +179,7 @@ AM_CONDITIONAL([ENABLE_DOCBOOK], [test "x$db2xman" != "x"])
++ AM_CONDITIONAL([USE_DOCBOOK2X], [test "x$db2xman" != "xdocbook2man"])
++ 
++ if test "x$db2xman" = "xdocbook2man"; then
++-	docdtd="\"-//Davenport//DTD DocBook V3.0//EN\""
+++	docdtd="\"-//OASIS//DTD DocBook V3.1//EN\""
++ else
++ 	docdtd="\"-//OASIS//DTD DocBook XML\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\""
++ fi
++-- 
++1.8.3.2
++
+diff --git a/recipes-containers/lxc/lxc_1.1.2.bb b/recipes-containers/lxc/lxc_1.1.2.bb
+index 77d226b..7bbae88 100644
+--- a/recipes-containers/lxc/lxc_1.1.2.bb
++++ b/recipes-containers/lxc/lxc_1.1.2.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://lxc-busybox-add-OpenSSH-support.patch \
+ 	file://make-some-OpenSSH-tools-optional.patch \
+ 	file://Generate-lxc-restore-net-properly.patch \
++	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
  	"
  
- RDEPENDS_${SRCNAME} = "${PN} \
-diff --git a/meta-openstack/recipes-devtools/python/python-oslo.vmware_1.19.0.bb b/meta-openstack/recipes-devtools/python/python-oslo.vmware_1.19.0.bb
-new file mode 100644
-index 0000000..ace65ba
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-oslo.vmware_1.19.0.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "oslo.vmware library"
-+HOMEPAGE = "http://launchpad.net/oslo"
-+SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
-+
-+
-+SRCNAME = "oslo.vmware"
-+SRC_URI = "http://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "3115d6922ed7119cf3737af708a7984d"
-+SRC_URI[sha256sum] = "d342420fa272bd80ac9c39e876ee1a518b975d21cff1c179a91da48305c9b3b4"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+inherit setuptools
-+
-+DEPENDS += " \
-+        python-pip \
-+        python-pbr \
-+        "
-+
-+RDEPENDS_${PN} += " \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-semantic-version_2.4.2.bb b/meta-openstack/recipes-devtools/python/python-semantic-version_2.4.2.bb
-new file mode 100644
-index 0000000..746d646
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-semantic-version_2.4.2.bb
-@@ -0,0 +1,27 @@
-+DESCRIPTION = "A library which provides a few tools to handle SemVer in Python."
-+HOMEPAGE = "http://pypi.python.org/pypi/semantic_version"
-+SECTION = "devel/python"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a7dcaa0740d59f8f13ef05a3d0ed7313"
-+
-+SRCNAME = "semantic_version"
-+SRC_URI = "http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "fd7d5ade76e78d8540b9a4044496a57c"
-+SRC_URI[sha256sum] = "7e8b7fa74a3bc9b6e90b15b83b9bc2377c78eaeae3447516425f475d5d6932d2"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+#export BUILD_SYS
-+#export HOST_SYS
-+
-+inherit setuptools
-+
-+# DEPENDS_default: python-pip
-+
-+DEPENDS += " \
-+        "
-+
-+# RDEPENDS_default: 
-+RDEPENDS_${PN} += " \
-+        "
+ SRC_URI[md5sum] = "3ebadacf5fe8bfe689fd7a09812b682c"
 -- 
-2.1.4
+1.8.3.2
 
 
