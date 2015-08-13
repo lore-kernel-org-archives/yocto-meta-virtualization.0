@@ -1,6 +1,6 @@
-Return-Path: <Jim.Somerville@windriver.com>
+Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BBBB9E00978; Thu, 13 Aug 2015 07:59:09 -0700 (PDT)
+	id 8B337E00A31; Thu, 13 Aug 2015 13:51:54 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,29 +8,29 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26568E0096A
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01677E00767
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Aug 2015 07:59:06 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.1/8.15.1) with ESMTPS id t7DEx5qm027773
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 13 Aug 2015 13:51:49 -0700 (PDT)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7DKpldR023837
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NO)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Aug 2015 07:59:05 -0700 (PDT)
-Received: from yow-dellw-js.wrs.com (128.224.56.30) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.235.1;
-	Thu, 13 Aug 2015 07:59:05 -0700
-From: Jim Somerville <Jim.Somerville@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 13 Aug 2015 10:59:04 -0400
-Message-ID: <1439477944-17425-1-git-send-email-Jim.Somerville@windriver.com>
-X-Mailer: git-send-email 1.8.3.2
+	Thu, 13 Aug 2015 13:51:48 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.86)
+	(envelope-from <amy.fong@windriver.com>) id 1ZPzTN-0000Rv-FO
+	for meta-virtualization@yoctoproject.org;
+	Thu, 13 Aug 2015 16:51:37 -0400
+Date: Thu, 13 Aug 2015 16:51:37 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: meta-virtualization@yoctoproject.org
+Message-ID: <20150813205137.GA1707@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] lxc: doc: fix broken manpage build
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH] docker-registry dependency update
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,72 +43,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 14:59:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 13 Aug 2015 20:51:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-docbook2man fails to build the man pages in poky
-due to missing the ancient Davenport 3.0 DTD.
-Poky meta has the Oasis 3.1 version so upgrade
-to use that instead.
+From f0c34c20d253412d8e43e58cb4141c5028101bde Mon Sep 17 00:00:00 2001
+From: Amy Fong <amy.fong@windriver.com>
+Date: Thu, 13 Aug 2015 16:47:23 -0400
+Subject: [PATCH] docker-registry dependency update
 
-Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
+With the recent python-simplejson:upgrade 3.6.2->3.7.3, docker-registry
+was broken due to unsatisfied dependencies. The docker-registry builds and
+passes basic testing with 3.7.3 (verified by jason.wessel@windriver.com),
+updating the dependency requirement to >= 3.6.2
+
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
 ---
- .../lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch   | 32 ++++++++++++++++++++++
- recipes-containers/lxc/lxc_1.1.2.bb                |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
+ recipes-containers/docker-registry/docker-registry_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch b/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
-new file mode 100644
-index 0000000..5f9d771
---- /dev/null
-+++ b/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
-@@ -0,0 +1,32 @@
-+From 4cf207ffd64c6f815e62ecbbf25b5a378e707182 Mon Sep 17 00:00:00 2001
-+Message-Id: <4cf207ffd64c6f815e62ecbbf25b5a378e707182.1439319694.git.Jim.Somerville@windriver.com>
-+From: Jim Somerville <Jim.Somerville@windriver.com>
-+Date: Tue, 11 Aug 2015 14:05:00 -0400
-+Subject: [PATCH 1/1] lxc: doc: upgrade to use docbook 3.1 DTD
-+
-+docbook2man fails to build the man pages in poky
-+due to missing the ancient Davenport 3.0 DTD.
-+Poky meta has the Oasis 3.1 version so upgrade
-+to use that instead.
-+
-+Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 4972803..2e67b5e 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -179,7 +179,7 @@ AM_CONDITIONAL([ENABLE_DOCBOOK], [test "x$db2xman" != "x"])
-+ AM_CONDITIONAL([USE_DOCBOOK2X], [test "x$db2xman" != "xdocbook2man"])
-+ 
-+ if test "x$db2xman" = "xdocbook2man"; then
-+-	docdtd="\"-//Davenport//DTD DocBook V3.0//EN\""
-++	docdtd="\"-//OASIS//DTD DocBook V3.1//EN\""
-+ else
-+ 	docdtd="\"-//OASIS//DTD DocBook XML\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\""
-+ fi
-+-- 
-+1.8.3.2
-+
-diff --git a/recipes-containers/lxc/lxc_1.1.2.bb b/recipes-containers/lxc/lxc_1.1.2.bb
-index 77d226b..7bbae88 100644
---- a/recipes-containers/lxc/lxc_1.1.2.bb
-+++ b/recipes-containers/lxc/lxc_1.1.2.bb
-@@ -33,6 +33,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://lxc-busybox-add-OpenSSH-support.patch \
- 	file://make-some-OpenSSH-tools-optional.patch \
- 	file://Generate-lxc-restore-net-properly.patch \
-+	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
- 	"
- 
- SRC_URI[md5sum] = "3ebadacf5fe8bfe689fd7a09812b682c"
+diff --git a/recipes-containers/docker-registry/docker-registry_git.bb b/recipes-containers/docker-registry/docker-registry_git.bb
+index fe766d2..3d8d74b 100644
+--- a/recipes-containers/docker-registry/docker-registry_git.bb
++++ b/recipes-containers/docker-registry/docker-registry_git.bb
+@@ -42,7 +42,7 @@ RDEPENDS_${PN} += "\
+   python-itsdangerous (>= 0.21) \
+   python-jinja2 (>= 2.4) \
+   python-werkzeug (>= 0.7) \
+-  python-simplejson (= 3.6.2) \
++  python-simplejson (>= 3.6.2) \
+   python-redis (= 2.10.3) \
+   python-boto (= 2.34.0) \
+   python-webob \
 -- 
-1.8.3.2
+2.4.6
 
 
