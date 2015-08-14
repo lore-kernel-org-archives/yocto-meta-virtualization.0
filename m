@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 896B4E00A3C; Thu, 13 Aug 2015 20:42:18 -0700 (PDT)
+	id E7330E00A3C; Thu, 13 Aug 2015 20:42:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.176 listed in list.dnswl.org]
+	*      [209.85.160.173 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
-	[209.85.160.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7DFD9E00767
+Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
+	[209.85.160.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26928E00767
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Aug 2015 20:42:14 -0700 (PDT)
-Received: by ykek5 with SMTP id k5so7151225yke.2
+	Thu, 13 Aug 2015 20:42:57 -0700 (PDT)
+Received: by ykfw73 with SMTP id w73so5720382ykf.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Aug 2015 20:42:14 -0700 (PDT)
+	Thu, 13 Aug 2015 20:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=Wfo5SMdMGA7CCNw6yT15o8/5Q0a5cZ/Ifb0Sw62eUKw=;
-	b=oEyoTJwaUZe1/g/Vt3vMxRfXS29gulV0EQizR7s3uai0dwMykgvOCkoj+9wSP8DVtY
-	qy/NIXHu+w7Ib1rJ8pgXI92ZPBILb9fTmsAC4fae9/I5vJxpMQyhJ3brcu0InGOkkXgm
-	IXDJ/Jw0cQ5VmjG+Sif/Sqv84K5ycL9qa9uesAJUu+82yzJoC/mQeXAwqGbp4/FdGlzC
-	jATMsNdTjKg8yJaSiKeoWXwQGS0FHuj7kYuXVssJdKufsJu1cNKXaBBBR3b+BcQlQ8dx
-	NNY/Moxa5/JEaWMauLKB5OsnIE2zo/6r2P5PFSA4Hulz5BJWpL2q7lENvyXywyBwhPz9
-	2M5g==
+	bh=xm3DiT7Ttg4Uahw+z5zihIoVsYHJZQkbuxayIAEU06U=;
+	b=ilbhtA8CmA6bKSFS6B7aR7W70sgKswPvwYBHei3xHX809KDOdPMAUJ7OBFPpwYJd9m
+	xDdEhUaV69wpp8dZTqGXfGHI5+Un3XPOBGNBoAljIVzhywlGVi+7YaFNfTkA4tSEP08p
+	8+ZPoT2cebHDuonvm2YZRfwhEWOgQ5pM74bWazWb7B9dIvZn/Wur4+haTZsmpyFSg8dt
+	sz5T6rvMT14IkgS+48arHOyj+8MWhzxyEEtovwAwUxdUAeqGRfPw7RHDmLNiJ7Mz68lR
+	P4lpxy1VrRTAH6pJcItzO1AfcM/k5OlCV8Dq/Lgzfqh75Y2KGnM9382y799BicD+/1PH
+	8fnw==
 MIME-Version: 1.0
-X-Received: by 10.13.222.129 with SMTP id h123mr636592ywe.30.1439523734311;
-	Thu, 13 Aug 2015 20:42:14 -0700 (PDT)
-Received: by 10.13.216.216 with HTTP; Thu, 13 Aug 2015 20:42:13 -0700 (PDT)
-In-Reply-To: <1439218251-7707-1-git-send-email-noor_ahsan@mentor.com>
-References: <1439218251-7707-1-git-send-email-noor_ahsan@mentor.com>
-Date: Thu, 13 Aug 2015 23:42:13 -0400
-Message-ID: <CADkTA4MQeDm_ijE+23pQOcwiP7XJTr8+HTxawP02ay5GsGT20g@mail.gmail.com>
+X-Received: by 10.129.16.215 with SMTP id 206mr41234473ywq.13.1439523777223;
+	Thu, 13 Aug 2015 20:42:57 -0700 (PDT)
+Received: by 10.13.216.216 with HTTP; Thu, 13 Aug 2015 20:42:57 -0700 (PDT)
+In-Reply-To: <1439390388-16012-1-git-send-email-cardoe@cardoe.com>
+References: <1439390388-16012-1-git-send-email-cardoe@cardoe.com>
+Date: Thu, 13 Aug 2015 23:42:57 -0400
+Message-ID: <CADkTA4N=6H08SZfJ1URz1yXrLZBNgPt2PBZx=hTT1Of3_Knm4w@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Noor, Ahsan" <noor_ahsan@mentor.com>
+To: Doug Goldstein <cardoe@cardoe.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH V2] libvirt: kill update-rc.d when not using sysvinit
+Subject: Re: [PATCH 1/2] Revert "dev86: Adjusted the SRC_URI of the source code."
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,38 +62,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Aug 2015 03:42:18 -0000
+X-List-Received-Date: Fri, 14 Aug 2015 03:42:59 -0000
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+merged both patches. But I squashed them into a single patch .. we don't
+need the revert as part of the change, simply adjusting it to the new site
+and fixing the hashes are fine in the single commit.
 
 Bruce
 
-On Mon, Aug 10, 2015 at 10:50 AM, Noor, Ahsan <noor_ahsan@mentor.com> wrote:
-> From: Noor <noor_ahsan@mentor.com>
+On Wed, Aug 12, 2015 at 10:39 AM, Doug Goldstein <cardoe@cardoe.com> wrote:
+> While the change to the SRC_URI switched to one that did not 404, the
+> hashes are not correct. The previous md5sum and sha256 are the same that
+> Gentoo and Arch Linux have.
 >
-> * Fixes a dependency on a nonexistent initscripts-functions package.
->
-> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> This reverts commit 2892c53779f4cf2e58e3c60302b7e9ef792f938e.
 > ---
->  recipes-extended/libvirt/libvirt_1.2.17.bb |    5 +++++
->  1 file changed, 5 insertions(+)
+>  recipes-extended/dev86/dev86_0.16.19.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/recipes-extended/libvirt/libvirt_1.2.17.bb b/recipes-extended/libvirt/libvirt_1.2.17.bb
-> index 9f8c3af..a945792 100644
-> --- a/recipes-extended/libvirt/libvirt_1.2.17.bb
-> +++ b/recipes-extended/libvirt/libvirt_1.2.17.bb
-> @@ -239,3 +239,8 @@ pkg_postinst_libvirt() {
->                  /etc/init.d/populate-volatile.sh update
->          fi
->  }
-> +
-> +python () {
-> +    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-> +        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
-> +}
+> diff --git a/recipes-extended/dev86/dev86_0.16.19.bb b/recipes-extended/dev86/dev86_0.16.19.bb
+> index 5e26a75..807504e 100644
+> --- a/recipes-extended/dev86/dev86_0.16.19.bb
+> +++ b/recipes-extended/dev86/dev86_0.16.19.bb
+> @@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
+>  SECTION = "console/tools"
+>  PR="r0"
+>
+> -SRC_URI="https://github.com/lkundrak/dev86/archive/v${PV}.zip"
+> +SRC_URI="http://www.debath.co.uk/dev86/Dev86src-${PV}.tar.gz"
+>
+> -SRC_URI[md5sum] = "1308759f36f9907e7dae92c46f35c51e"
+> -SRC_URI[sha256sum] = "efd33d456ff87d6d0308608f6a34052b22ea8629913d0597d98c73815ed0f9f0"
+> +SRC_URI[md5sum] = "442e98e1afa23fe00d40c5a996385942"
+> +SRC_URI[sha256sum] = "33398b87ca85e2b69e4062cf59f2f7354af46da5edcba036c6f97bae17b8d00e"
+>
+>  S = "${WORKDIR}/dev86-${PV}"
+>
 > --
-> 1.7.9.5
+> 2.1.4
 >
 > --
 > _______________________________________________
