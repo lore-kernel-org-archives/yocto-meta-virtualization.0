@@ -1,36 +1,55 @@
-Return-Path: <amy.fong@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8B337E00A31; Thu, 13 Aug 2015 13:51:54 -0700 (PDT)
+	id 896B4E00A3C; Thu, 13 Aug 2015 20:42:18 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.176 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01677E00767
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7DFD9E00767
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Aug 2015 13:51:49 -0700 (PDT)
-Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
-	by mail.windriver.com (8.15.1/8.15.1) with ESMTPS id t7DKpldR023837
-	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NO)
+	Thu, 13 Aug 2015 20:42:14 -0700 (PDT)
+Received: by ykek5 with SMTP id k5so7151225yke.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Aug 2015 13:51:48 -0700 (PDT)
-Received: from afong by yow-dellw-af with local (Exim 4.86)
-	(envelope-from <amy.fong@windriver.com>) id 1ZPzTN-0000Rv-FO
-	for meta-virtualization@yoctoproject.org;
-	Thu, 13 Aug 2015 16:51:37 -0400
-Date: Thu, 13 Aug 2015 16:51:37 -0400
-From: Amy Fong <amy.fong@windriver.com>
-To: meta-virtualization@yoctoproject.org
-Message-ID: <20150813205137.GA1707@windriver.com>
+	Thu, 13 Aug 2015 20:42:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=Wfo5SMdMGA7CCNw6yT15o8/5Q0a5cZ/Ifb0Sw62eUKw=;
+	b=oEyoTJwaUZe1/g/Vt3vMxRfXS29gulV0EQizR7s3uai0dwMykgvOCkoj+9wSP8DVtY
+	qy/NIXHu+w7Ib1rJ8pgXI92ZPBILb9fTmsAC4fae9/I5vJxpMQyhJ3brcu0InGOkkXgm
+	IXDJ/Jw0cQ5VmjG+Sif/Sqv84K5ycL9qa9uesAJUu+82yzJoC/mQeXAwqGbp4/FdGlzC
+	jATMsNdTjKg8yJaSiKeoWXwQGS0FHuj7kYuXVssJdKufsJu1cNKXaBBBR3b+BcQlQ8dx
+	NNY/Moxa5/JEaWMauLKB5OsnIE2zo/6r2P5PFSA4Hulz5BJWpL2q7lENvyXywyBwhPz9
+	2M5g==
 MIME-Version: 1.0
-User-Agent: Mutt/1.5.23 (2014-03-12)
-Subject: [PATCH] docker-registry dependency update
+X-Received: by 10.13.222.129 with SMTP id h123mr636592ywe.30.1439523734311;
+	Thu, 13 Aug 2015 20:42:14 -0700 (PDT)
+Received: by 10.13.216.216 with HTTP; Thu, 13 Aug 2015 20:42:13 -0700 (PDT)
+In-Reply-To: <1439218251-7707-1-git-send-email-noor_ahsan@mentor.com>
+References: <1439218251-7707-1-git-send-email-noor_ahsan@mentor.com>
+Date: Thu, 13 Aug 2015 23:42:13 -0400
+Message-ID: <CADkTA4MQeDm_ijE+23pQOcwiP7XJTr8+HTxawP02ay5GsGT20g@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: "Noor, Ahsan" <noor_ahsan@mentor.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH V2] libvirt: kill update-rc.d when not using sysvinit
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,39 +62,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Aug 2015 20:51:54 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 14 Aug 2015 03:42:18 -0000
+Content-Type: text/plain; charset=UTF-8
 
-From f0c34c20d253412d8e43e58cb4141c5028101bde Mon Sep 17 00:00:00 2001
-From: Amy Fong <amy.fong@windriver.com>
-Date: Thu, 13 Aug 2015 16:47:23 -0400
-Subject: [PATCH] docker-registry dependency update
+merged.
 
-With the recent python-simplejson:upgrade 3.6.2->3.7.3, docker-registry
-was broken due to unsatisfied dependencies. The docker-registry builds and
-passes basic testing with 3.7.3 (verified by jason.wessel@windriver.com),
-updating the dependency requirement to >= 3.6.2
+Bruce
 
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
----
- recipes-containers/docker-registry/docker-registry_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Aug 10, 2015 at 10:50 AM, Noor, Ahsan <noor_ahsan@mentor.com> wrote:
+> From: Noor <noor_ahsan@mentor.com>
+>
+> * Fixes a dependency on a nonexistent initscripts-functions package.
+>
+> Signed-off-by: Noor Ahsan <noor_ahsan@mentor.com>
+> ---
+>  recipes-extended/libvirt/libvirt_1.2.17.bb |    5 +++++
+>  1 file changed, 5 insertions(+)
+>
+> diff --git a/recipes-extended/libvirt/libvirt_1.2.17.bb b/recipes-extended/libvirt/libvirt_1.2.17.bb
+> index 9f8c3af..a945792 100644
+> --- a/recipes-extended/libvirt/libvirt_1.2.17.bb
+> +++ b/recipes-extended/libvirt/libvirt_1.2.17.bb
+> @@ -239,3 +239,8 @@ pkg_postinst_libvirt() {
+>                  /etc/init.d/populate-volatile.sh update
+>          fi
+>  }
+> +
+> +python () {
+> +    if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
+> +        d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
+> +}
+> --
+> 1.7.9.5
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-diff --git a/recipes-containers/docker-registry/docker-registry_git.bb b/recipes-containers/docker-registry/docker-registry_git.bb
-index fe766d2..3d8d74b 100644
---- a/recipes-containers/docker-registry/docker-registry_git.bb
-+++ b/recipes-containers/docker-registry/docker-registry_git.bb
-@@ -42,7 +42,7 @@ RDEPENDS_${PN} += "\
-   python-itsdangerous (>= 0.21) \
-   python-jinja2 (>= 2.4) \
-   python-werkzeug (>= 0.7) \
--  python-simplejson (= 3.6.2) \
-+  python-simplejson (>= 3.6.2) \
-   python-redis (= 2.10.3) \
-   python-boto (= 2.34.0) \
-   python-webob \
+
+
 -- 
-2.4.6
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
