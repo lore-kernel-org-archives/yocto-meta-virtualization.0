@@ -1,6 +1,6 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <leimaohui@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6FF6DE00A01; Sun, 16 Aug 2015 18:26:44 -0700 (PDT)
+	id 6C717E009B3; Mon, 17 Aug 2015 18:52:23 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,37 +10,28 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C34A3E0049B
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2CA8E00816
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 16 Aug 2015 18:26:37 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99696146"
-Received: from bogon (HELO edo.cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 17 Aug 2015 09:29:53 +0800
+	Mon, 17 Aug 2015 18:52:17 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.15,520,1432569600"; d="scan'208";a="99739581"
+Received: from unknown (HELO edo.cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Aug 2015 09:55:32 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (localhost.localdomain
 	[127.0.0.1])
-	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t7H1QWip002857;
-	Mon, 17 Aug 2015 09:26:32 +0800
-Received: from G08CNEXMBPEKD03.g08.fujitsu.local ([10.167.33.86]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0181.006; Mon, 17 Aug 2015 09:26:34 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: "mark.asselstine@windriver.com" <mark.asselstine@windriver.com>
-Thread-Topic: [meta-virtualization] [meta-cloud-services][PATCH]
-	ruby.bbclass: Error fix
-Thread-Index: AQHQ0PUL/lG5NbnhPUyvae0dHzbQF54AEqcAgA9iwHA=
-Date: Mon, 17 Aug 2015 01:26:32 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E8011BCBA479@G08CNEXMBPEKD03.g08.fujitsu.local>
-References: <1438940396-2186-1-git-send-email-lixin.fnst@cn.fujitsu.com>
-	<CAPuovEKHHGyqezC7tv3JZURxZ22O0dkox9tn8ZcLGMUtNYoBYw@mail.gmail.com>
-In-Reply-To: <CAPuovEKHHGyqezC7tv3JZURxZ22O0dkox9tn8ZcLGMUtNYoBYw@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.92]
+	by edo.cn.fujitsu.com (8.14.3/8.13.1) with ESMTP id t7I1qBkg008258
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 18 Aug 2015 09:52:12 +0800
+Received: from localhost.localdomain (10.167.226.26) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.181.6; Tue, 18 Aug 2015 09:52:14 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 18 Aug 2015 09:52:29 +0800
+Message-ID: <1439862749-11235-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][PATCH] ruby.bbclass: Error fix
+X-Originating-IP: [10.167.226.26]
+Subject: [m-c-s][PATCH] open-iscsi-user: upgrade 2.0-871->2.0-873
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,45 +44,112 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Aug 2015 01:26:44 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 18 Aug 2015 01:52:23 -0000
+Content-Type: text/plain
 
-DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IGFzc2Vsc21AZ21haWwuY29t
-IFttYWlsdG86YXNzZWxzbUBnbWFpbC5jb21dIE9uIEJlaGFsZiBPZiBNYXJrDQo+QXNzZWxzdGlu
-ZQ0KPlNlbnQ6IEZyaWRheSwgQXVndXN0IDA3LCAyMDE1IDEwOjI5IFBNDQo+VG86IExpLCBYaW4v
-5p2OIOasow0KPkNjOiBtZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmcNCj5TdWJq
-ZWN0OiBSZTogW21ldGEtdmlydHVhbGl6YXRpb25dIFttZXRhLWNsb3VkLXNlcnZpY2VzXVtQQVRD
-SF0gcnVieS5iYmNsYXNzOiBFcnJvcg0KPmZpeA0KPg0KPkkgaGFkIGludGVudGlvbnMgb2YgZGl2
-ZXN0aW5nIG1ldGEtY2xvdWQtc2VydmljZXMgb2YgbXVjaCBvZiB0aGUgcnVieSBiaXRzIGFuZCBh
-cyBzdWNoDQo+aGF2ZSBhbHJlYWR5IGdvdCB0aGlzIGNsYXNzIG1lcmdlZCB0byBtZXRhLW9lL21l
-dGEtcnVieS4gU28gYmUgc3VyZSB0byBzZW5kIHRoaXMgZml4DQo+dGhlcmUgdG9vLg0KDQpPSywg
-SSB3aWxsIHNlbmQgdGhpcyBwYXRjaCB0aGVyZSB0b28uDQoNClRoYW5rcywNCkxpDQoNCg0KPg0K
-Pk9uIEZyaSwgQXVnIDcsIDIwMTUgYXQgNTozOSBBTSwgTGkgeGluIDxsaXhpbi5mbnN0QGNuLmZ1
-aml0c3UuY29tPiB3cm90ZToNCj4+IFdoZW4gYnVpbGQgdGhlIHJlY2lwZXMgd2hpY2ggaW5oZXJp
-dCBydWJ5LEVSUk9SIHdpbGwgb2NjdXIgYXMgZm9sbG93aW5nOg0KPj4gRVJST1I6IFFBIElzc3Vl
-OiBub24gZGVidWcgcGFja2FnZSBjb250YWlucyAuZGVidWcgZGlyZWN0b3J5OiBqc29uDQo+PiBw
-YXRoDQo+PiAvd29yay9jb3JlMi02NC1vZS1saW51eC9qc29uLzEuOC4zLXIwL3BhY2thZ2VzLXNw
-bGl0L2pzb24vdXNyL2xpYi9ydWJ5DQo+PiAvDQo+PiBnZW1zLzIuMi4wL2V4dGVuc2lvbnMveDg2
-XzY0LWxpbnV4LzIuMi4wL2pzb24tMS44LjMvanNvbi9leHQvLmRlYnVnL2dlDQo+PiBuZXJhdG9y
-LnNvIFtkZWJ1Zy1maWxlc10gU28gbW9kaWZ5IHJ1YnkuYmJjbGFzcy4NCj4+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBMaSBYaW4gPGxpeGluLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+PiAtLS0NCj4+ICBt
-ZXRhLW9wZW5zdGFjay9jbGFzc2VzL3J1YnkuYmJjbGFzcyB8IDEgKw0KPj4gIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9tZXRhLW9wZW5zdGFjay9j
-bGFzc2VzL3J1YnkuYmJjbGFzcw0KPj4gYi9tZXRhLW9wZW5zdGFjay9jbGFzc2VzL3J1YnkuYmJj
-bGFzcw0KPj4gaW5kZXggOTU3YWJmNy4uMGM4NDJkNSAxMDA2NDQNCj4+IC0tLSBhL21ldGEtb3Bl
-bnN0YWNrL2NsYXNzZXMvcnVieS5iYmNsYXNzDQo+PiArKysgYi9tZXRhLW9wZW5zdGFjay9jbGFz
-c2VzL3J1YnkuYmJjbGFzcw0KPj4gQEAgLTExNCw2ICsxMTQsNyBAQCBGSUxFU18ke1BOfS1kYmcg
-Kz0gIiBcDQo+PiAgICAgICAgICAke2xpYmRpcn0vcnVieS9nZW1zLyR7UlVCWV9HRU1fVkVSU0lP
-Tn0vZ2Vtcy8qLyovKi8uZGVidWcgXA0KPj4gICAgICAgICAgJHtsaWJkaXJ9L3J1YnkvZ2Vtcy8k
-e1JVQllfR0VNX1ZFUlNJT059L2dlbXMvKi8qLyovKi8uZGVidWcgXA0KPj4gICAgICAgICAgJHts
-aWJkaXJ9L3J1YnkvZ2Vtcy8ke1JVQllfR0VNX1ZFUlNJT059L2dlbXMvKi8qLyovKi8qLy5kZWJ1
-Zw0KPj4gXA0KPj4gKw0KPj4gKyAke2xpYmRpcn0vcnVieS9nZW1zLyR7UlVCWV9HRU1fVkVSU0lP
-Tn0vZXh0ZW5zaW9ucy8qLyovKi8qLyovLmRlYnVnDQo+PiArIFwNCj4+ICAgICAgICAgICINCj4+
-DQo+PiAgRklMRVNfJHtQTn0gKz0gIiBcDQo+PiAtLQ0KPj4gMS44LjQuMg0KPj4NCj4+IC0tDQo+
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4gbWV0
-YS12aXJ0dWFsaXphdGlvbiBtYWlsaW5nIGxpc3QNCj4+IG1ldGEtdmlydHVhbGl6YXRpb25AeW9j
-dG9wcm9qZWN0Lm9yZw0KPj4gaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL2xpc3RpbmZv
-L21ldGEtdmlydHVhbGl6YXRpb24NCg==
+-deleted patch not used any more
+-add new patch for new version
+
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ .../0001-fix-build-error-of-cross-build.patch      | 30 ++++++++++++++++++++++
+ .../open-iscsi/files/user.patch                    | 11 --------
+ ...-user_2.0-871.bb => open-iscsi-user_2.0-873.bb} |  8 +++---
+ 3 files changed, 34 insertions(+), 15 deletions(-)
+ create mode 100644 meta-openstack/recipes-connectivity/open-iscsi/files/0001-fix-build-error-of-cross-build.patch
+ delete mode 100644 meta-openstack/recipes-connectivity/open-iscsi/files/user.patch
+ rename meta-openstack/recipes-connectivity/open-iscsi/{open-iscsi-user_2.0-871.bb => open-iscsi-user_2.0-873.bb} (87%)
+
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/files/0001-fix-build-error-of-cross-build.patch b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-fix-build-error-of-cross-build.patch
+new file mode 100644
+index 0000000..206da48
+--- /dev/null
++++ b/meta-openstack/recipes-connectivity/open-iscsi/files/0001-fix-build-error-of-cross-build.patch
+@@ -0,0 +1,30 @@
++From 943a321104a5b2c4ac25bdb2ae81b5b208e3973c Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Tue, 18 Aug 2015 10:29:35 +0900
++Subject: [PATCH] fix build error of cross build
++
++The error likes as following
++| configure: error: cannot run C compiled programs.
++| If you meant to cross compile, use `--host'.
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile b/Makefile
++index c5d9700..1f31e43 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -42,7 +42,7 @@ user: utils/open-isns/Makefile
++ 	@echo "Read README file for detailed information."
++ 
++ utils/open-isns/Makefile: utils/open-isns/configure utils/open-isns/Makefile.in
++-	cd utils/open-isns; ./configure CFLAGS="$(OPTFLAGS)" --with-security=no
+++	cd utils/open-isns; ./configure CFLAGS="$(OPTFLAGS)" --with-security=no ${CONFIGURE_ARGS}
++ 
++ kernel: force
++ 	$(MAKE) -C kernel
++-- 
++1.8.4.2
++
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/files/user.patch b/meta-openstack/recipes-connectivity/open-iscsi/files/user.patch
+deleted file mode 100644
+index 767c508..0000000
+--- a/meta-openstack/recipes-connectivity/open-iscsi/files/user.patch
++++ /dev/null
+@@ -1,11 +0,0 @@
+-diff -Nurd a/usr/iscsi_sysfs.c b/usr/iscsi_sysfs.c
+---- a/usr/iscsi_sysfs.c	2012-08-06 12:32:21.098233792 +0200
+-+++ b/usr/iscsi_sysfs.c	2012-08-06 12:33:09.534233952 +0200
+-@@ -22,6 +22,7 @@
+- #include <string.h>
+- #include <errno.h>
+- #include <dirent.h>
+-+#include <sys/stat.h>
+- 
+- #include "log.h"
+- #include "initiator.h"
+diff --git a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-873.bb
+similarity index 87%
+rename from meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb
+rename to meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-873.bb
+index 5b3a257..4c9326e 100644
+--- a/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-871.bb
++++ b/meta-openstack/recipes-connectivity/open-iscsi/open-iscsi-user_2.0-873.bb
+@@ -8,7 +8,7 @@ inherit systemd
+ LIC_FILES_CHKSUM = "file://COPYING;md5=393a5ca445f6965873eca0259a17f833"
+ 
+ SRC_URI = "http://www.open-iscsi.org/bits/open-iscsi-${PV}.tar.gz   \
+-           file://user.patch                                        \
++           file://0001-fix-build-error-of-cross-build.patch         \
+            file://open-iscsi                                        \
+            file://initiatorname.iscsi                               \
+            "
+@@ -16,7 +16,7 @@ SRC_URI = "http://www.open-iscsi.org/bits/open-iscsi-${PV}.tar.gz   \
+ 
+ S = "${WORKDIR}/open-iscsi-${PV}"
+ TARGET_CC_ARCH += "${LDFLAGS}"
+-
++EXTRA_OEMAKE += "CONFIGURE_ARGS='--host=${HOST_SYS}'"
+ 
+ do_compile () {
+         oe_runmake user
+@@ -29,8 +29,8 @@ do_install () {
+ }
+ 
+ 
+-SRC_URI[md5sum] = "0c403e8c9ad41607571ba0e6e8ff196e"
+-SRC_URI[sha256sum] = "bcea8746ae82f2ada7bc05d2aa59bcda1ca0d5197f05f2e16744aae59f0a7dcb"
++SRC_URI[md5sum] = "8b8316d7c9469149a6cc6234478347f7"
++SRC_URI[sha256sum] = "7dd9f2f97da417560349a8da44ea4fcfe98bfd5ef284240a2cc4ff8e88ac7cd9"
+ 
+ # systemd support
+ PACKAGES =+ "${PN}-systemd"
+-- 
+1.8.4.2
+
 
