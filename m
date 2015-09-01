@@ -1,53 +1,54 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 36C24E00D31; Mon, 31 Aug 2015 06:08:15 -0700 (PDT)
+	id 97B29E00474; Tue,  1 Sep 2015 10:50:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.169 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.220.169 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AB8B8E00A7D
+Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
+	[209.85.220.169])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 65E24E00349
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 31 Aug 2015 06:08:09 -0700 (PDT)
-Received: by ykfj9 with SMTP id j9so1023939ykf.2
+	Tue,  1 Sep 2015 10:49:54 -0700 (PDT)
+Received: by qkcj187 with SMTP id j187so52409504qkc.2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 31 Aug 2015 06:08:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=mcmKeuSUDFUw51CvIr0iN+6kJWYIqrJCBdcD3wkZVLA=;
-	b=NKqj/Fo2ZtSQgokWgRoL9o0MDRzGk/bW+IN65hRl9SB9uvBs3OJ1pbw5P9/wpY67NQ
-	SACEoiiT7QCd22wyAyVOarJrGfTAhqJlyAyMx4OOFrGiBxtlIyt3NPl9BPr31xJOZGr0
-	KT+5thj4uJJelAdCrAG+6fK6Ty5agvCF3COqhzhYYKIc+eiTmU8PEg3y8qEWwVCugVvz
-	lRKaqeVDKJZEkUoAc8psOg629jJVYDOhCUAZdsOJcwphm4V/ufBHcJTymyKuVOmjhUYj
-	ffh12jxvTSi8yMKIcoJX8otX4qoUeRqdG4C1qh0PNgvn71U61G0xVLTD5PMx5Y4bkjTC
-	PNfw==
-MIME-Version: 1.0
-X-Received: by 10.13.215.66 with SMTP id z63mr20711899ywd.123.1441026488677;
-	Mon, 31 Aug 2015 06:08:08 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Mon, 31 Aug 2015 06:08:08 -0700 (PDT)
-In-Reply-To: <1440448008-9189-2-git-send-email-cardoe@cardoe.com>
+	Tue, 01 Sep 2015 10:49:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type;
+	bh=ORAHGubbgnPPMEDferSnx8Zxg20LvAyb+rQqRY0bnQ8=;
+	b=ioUV4V3hJtF2/UyMzGMVALqfjVE/LyUQIwDMUJokhc3HpMmwUESkVjXXj4MN+QI4mS
+	JNXPCSWI2F/LaeaF13T2rK+3RmwM/sAUoZ/XRAE4NhG/4GWTFIsDGuBCZ45kYhiPjNzj
+	WfyT33zgWHC1LTUjZfg17C8cj20dYr2UQP58ktZafP1TBm1W4eJnqycMXzuzUFzk/4rE
+	10AdCSGqeQ85Cm7sHigZiIgiuibYwdfNs8srJv5vepAJ4/Nz+UZPR32RSbvZa4PdxXF4
+	nYarBRmpcsXNm1MR5AFy0U7Dwzg5Ow1KDGCeSqeQPQLW3VIelGaZ7V7iJ2+UJ8T8myse
+	apAA==
+X-Gm-Message-State: ALoCoQmfERBh8vqwexGB0XPUJZuQ5AAVzLr6TF10NT/DMddLLUrgrQqCp0jRmJsC9OEzGTGR9OHk
+X-Received: by 10.13.213.138 with SMTP id x132mr29779756ywd.79.1441129794088; 
+	Tue, 01 Sep 2015 10:49:54 -0700 (PDT)
+Received: from doug-macbook.lan ([67.63.141.2])
+	by smtp.googlemail.com with ESMTPSA id
+	m198sm1163694ywd.52.2015.09.01.10.49.53
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 01 Sep 2015 10:49:53 -0700 (PDT)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <1440448008-9189-1-git-send-email-cardoe@cardoe.com>
 	<1440448008-9189-2-git-send-email-cardoe@cardoe.com>
-Date: Mon, 31 Aug 2015 09:08:08 -0400
-Message-ID: <CADkTA4Mjg_+g+4oak_nApGcCKe_Or-NrrPu0ofWpQ_-3KP6ynw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Doug Goldstein <cardoe@cardoe.com>
+	<CADkTA4Mjg_+g+4oak_nApGcCKe_Or-NrrPu0ofWpQ_-3KP6ynw@mail.gmail.com>
+From: Doug Goldstein <cardoe@cardoe.com>
+Message-ID: <55E5E540.2030205@cardoe.com>
+Date: Tue, 1 Sep 2015 12:49:52 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:38.0)
+	Gecko/20100101 Thunderbird/38.2.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4Mjg_+g+4oak_nApGcCKe_Or-NrrPu0ofWpQ_-3KP6ynw@mail.gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH 2/4] xen: drop incorrectly broken out package
@@ -63,50 +64,56 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 31 Aug 2015 13:08:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Tue, 01 Sep 2015 17:50:00 -0000
+X-Groupsio-MsgNum: 1292
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="a4BWDaDRPQn7g0BObI2rFSjTNFcijn0cs"
 
-I've merged patches 2/3/4 of the series, and dropped patch #1 as discussed
-on the list.
+--a4BWDaDRPQn7g0BObI2rFSjTNFcijn0cs
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+On 8/31/15 8:08 AM, Bruce Ashfield wrote:
+> I've merged patches 2/3/4 of the series, and dropped patch #1 as discus=
+sed
+> on the list.
+>=20
+> Cheers,
+>=20
+> Bruce
 
-Bruce
-
-On Mon, Aug 24, 2015 at 4:26 PM, Doug Goldstein <cardoe@cardoe.com> wrote:
-> The xen-mfndump utility was broken out into xen-xen-mfndump which is
-> clearly a typo for xen-mfndump but the xen.inc file which is also used
-> for 4.5.0 places this binary into xen-misc so remove these lines and let
-> it go into xen-misc.
-> ---
->  recipes-extended/xen/xen_git.bb | 5 -----
->  1 file changed, 5 deletions(-)
->
-> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-> index f333157..88145a3 100644
-> --- a/recipes-extended/xen/xen_git.bb
-> +++ b/recipes-extended/xen/xen_git.bb
-> @@ -11,8 +11,3 @@ SRC_URI = " \
->      "
->
->  DEFAULT_PREFERENCE = "-1"
-> -
-> -PACKAGES += "${PN}-xen-mfndump"
-> -
-> -FILES_${PN}-xen-mfndump = "${sbindir}/xen-mfndump"
-> -
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+Thank you. I'll re-submit soon along with more updates to let xen_git.bb
+build Xen 4.6.0_rc2 (current master as of this email).
 
 
+--=20
+Doug Goldstein
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
+--a4BWDaDRPQn7g0BObI2rFSjTNFcijn0cs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG/MacGPG2 v2.0
+
+iQJ8BAEBCgBmBQJV5eVAXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
+MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUyzkP/RKirEF7LLpjvYC052uB3LKW
+jEYaPi4+6n1BhIwnxLcjWj3na11ry/hI7OJFAs4rNaiIga7aaOiEHY/egpbzbmfP
+MJ4z3AMkKj/o+donSWD7AUwXNIb2cisO+imhEXjcsC/boHDopWqEZoD0YymYS1uV
+4xZS1yG/qkh1O31pio3GEL4RCZIShzbsKgVLrZ4PtxtT8i2BG6LylIODqm8RGe92
+mErFJ9x+NnQ/fWZ8M0HEds0DcwO6W7zyaEzrN880BS6HXurfsgl6TKsgiYSzZawh
+Jy/z4KUauB9weBsFxZ0ioVC/hYMmP6HZntan7oGmvlUOKf/LnByU6142frvZmbkf
+Apd510aS0yVFk28jvTb9XyY7V4CuRDxNWg8Bd6uDDnk6oGu3XE6eGsfA+TiYxiGQ
+YFEKkC0GlL3lcuHFcmKX0V/wiMCgDS5DXjmq+ZYpEi5ZmSruaXjMVtBa0DbPJNCm
+ttj0z4CeeaF5Ay+risd+rHUWtpED4q6YsVyjFVD/Bvqwhsa2yJkJwNMjXfEENqDC
+SuBikygnqaJZKBQZY9YPrd7/R4lNsqc2swlmcCqreqRzS2GXJXotmbxBUZ4j7RO4
+rqnsir6En0fyuOFXSF6ve53+epcq8385hW5UaeBa15OCEl7wq4cQ3KKJMA1FxhfM
+WOrN2LTBRPJ9XeATDByR
+=ul3w
+-----END PGP SIGNATURE-----
+
+--a4BWDaDRPQn7g0BObI2rFSjTNFcijn0cs--
