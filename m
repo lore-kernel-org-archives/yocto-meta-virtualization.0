@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1A9BAE00C62; Tue,  8 Sep 2015 07:04:01 -0700 (PDT)
+	id 0AFF7E00CA6; Tue,  8 Sep 2015 07:04:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	http://www.dnswl.org/, low *      trust
-	*      [209.85.160.169 listed in list.dnswl.org]
+	*      [209.85.160.178 listed in list.dnswl.org]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8E171E00B5A
+Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
+	[209.85.160.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 82F69E00B5A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  8 Sep 2015 07:03:58 -0700 (PDT)
-Received: by ykdu9 with SMTP id u9so44217728ykd.2
+	Tue,  8 Sep 2015 07:04:23 -0700 (PDT)
+Received: by ykdu9 with SMTP id u9so44238631ykd.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 08 Sep 2015 07:03:58 -0700 (PDT)
+	Tue, 08 Sep 2015 07:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=QGn2gn+bJ7nxY1oDES44tIuEhAV7SL4kQwk2/mDnlw0=;
-	b=uAlRGFn5E9tnPJW9m3PqQ6+UO5JkDahdicaXV1QyzxihKnB9jBVb6V01m8rHhmIR9r
-	a1WS21kcsCoDo6Xsv4ulzsjOFCgS1ArkC41HEUrv9siHKhvNgbgSeIJ/ag7FNk0ucjat
-	NKIjKUXon7FmYgeI4YW99Gt7lup3/yEDJbHzbGVKjGVlPZUThkyhHe5PUlrCqIV59vpd
-	QlxXRK+re4o9bOidkvxSrENS2YJMlm7x1D5gRBHLd5+cu3bJoNww1yYwH4NIIDV3pJoW
-	+IWiK680wPJshRD6+cp7YlnyLrfDKMfDGZq2QYmueNxRd5Xc7jkTfCSQbkME6szfKKZW
-	E5Bg==
+	bh=SNNwinJ5/uewC1DC0gGXG4/jnlNcLVwZnKGoXNEanZw=;
+	b=aBHnI2wkb47LxKeoTUkMMMXBz9khF4NRDV1II0zQIW0g5JYMzGlSfm/3u3qJDCCJRl
+	VwYalqpcYxSQH/k9/gWvccXS+pBi+2MyRXX1FOVKcg0YKsLcBCUrumYsKJT4K4Hkm+tT
+	Q6aFWmPCNwxCul6QHXWGxy2dLqbAvXdztIW4nd747XKo4lhpl8eNo4BfPhA/tzBss0tE
+	TFJi3HNX+Ugm0b6JtuYLsNhcOg21qB+GX2gHVe83ZMJTQAQqfu01zSFMN8EL+wt8OaBK
+	3t2FRfG12uCl4TW0nnW5bOkqClC8ax/YTBP19Uy4ctiLRVX699SxyPMI/bNfM5xQp3Li
+	PdcA==
 MIME-Version: 1.0
-X-Received: by 10.13.215.200 with SMTP id z191mr11023076ywd.123.1441721035393; 
-	Tue, 08 Sep 2015 07:03:55 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Tue, 8 Sep 2015 07:03:55 -0700 (PDT)
-In-Reply-To: <1441695081-24118-1-git-send-email-zhe.he@windriver.com>
-References: <1441695081-24118-1-git-send-email-zhe.he@windriver.com>
-Date: Tue, 8 Sep 2015 10:03:55 -0400
-Message-ID: <CADkTA4PUZh-PWpZp4ffkfdxw3TrRJ+KiqMK+rJxFv582xh-GcA@mail.gmail.com>
+X-Received: by 10.13.193.67 with SMTP id c64mr28454065ywd.68.1441721062556;
+	Tue, 08 Sep 2015 07:04:22 -0700 (PDT)
+Received: by 10.129.34.212 with HTTP; Tue, 8 Sep 2015 07:04:22 -0700 (PDT)
+In-Reply-To: <1441603797-10160-1-git-send-email-jianchuan.wang@windriver.com>
+References: <1441603797-10160-1-git-send-email-jianchuan.wang@windriver.com>
+Date: Tue, 8 Sep 2015 10:04:22 -0400
+Message-ID: <CADkTA4NNLEq9rqQGjM3+QZ-mBqWuC=mjOGc0ZOuvVrw0VVjm+Q@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: He Zhe <zhe.he@windriver.com>
+To: jianchuan.wang@windriver.com
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/1] lxc: Uprev 1.1.2 to 1.1.3
+Subject: Re: [PATCH 1/3] protobuf: upgrade 2.5.0 -> 2.6.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,339 +62,320 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 14:04:01 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 14:04:25 -0000
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+All three patches from this series have been merged.
 
 Bruce
 
-On Tue, Sep 8, 2015 at 2:51 AM,  <zhe.he@windriver.com> wrote:
-> From: He Zhe <zhe.he@windriver.com>
+On Mon, Sep 7, 2015 at 1:29 AM,  <jianchuan.wang@windriver.com> wrote:
+> From: Jianchuan Wang <jianchuan.wang@windriver.com>
 >
-> Uprev to 1.1.3
-> Remove Generate-lxc-restore-net-properly.patch since related code
-> has been removed.
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
 > ---
->  recipes-containers/lxc/lxc_1.1.2.bb | 150 ------------------------------------
->  recipes-containers/lxc/lxc_1.1.3.bb | 149 +++++++++++++++++++++++++++++++++++
->  2 files changed, 149 insertions(+), 150 deletions(-)
->  delete mode 100644 recipes-containers/lxc/lxc_1.1.2.bb
->  create mode 100644 recipes-containers/lxc/lxc_1.1.3.bb
+>  .../files/Omit-google-apputils-dependency.patch    | 25 ++++++
+>  recipes-containers/criu/protobuf-native_2.5.0.bb   | 21 -----
+>  recipes-containers/criu/protobuf-native_2.6.1.bb   | 21 +++++
+>  recipes-containers/criu/protobuf_2.5.0.bb          | 96 ---------------------
+>  recipes-containers/criu/protobuf_2.6.1.bb          | 97 ++++++++++++++++++++++
+>  5 files changed, 143 insertions(+), 117 deletions(-)
+>  create mode 100644 recipes-containers/criu/files/Omit-google-apputils-dependency.patch
+>  delete mode 100644 recipes-containers/criu/protobuf-native_2.5.0.bb
+>  create mode 100644 recipes-containers/criu/protobuf-native_2.6.1.bb
+>  delete mode 100644 recipes-containers/criu/protobuf_2.5.0.bb
+>  create mode 100644 recipes-containers/criu/protobuf_2.6.1.bb
 >
-> diff --git a/recipes-containers/lxc/lxc_1.1.2.bb b/recipes-containers/lxc/lxc_1.1.2.bb
+> diff --git a/recipes-containers/criu/files/Omit-google-apputils-dependency.patch b/recipes-containers/criu/files/Omit-google-apputils-dependency.patch
+> new file mode 100644
+> index 0000000..ef60fc0
+> --- /dev/null
+> +++ b/recipes-containers/criu/files/Omit-google-apputils-dependency.patch
+> @@ -0,0 +1,25 @@
+> +From f8b7c90f6da90b67bdd7d5301894c5c28bd9d076 Mon Sep 17 00:00:00 2001
+> +From: Jianchuan Wang <jianchuan.wang@windriver.com>
+> +Date: Mon, 10 Aug 2015 11:23:31 +0800
+> +Subject: [PATCH] Omit google-apputils dependency
+> +
+> +Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+> +---
+> + python/setup.py | 1 -
+> + 1 file changed, 1 deletion(-)
+> +
+> +diff --git a/python/setup.py b/python/setup.py
+> +index 2450a77..6f6bffb 100755
+> +--- a/python/setup.py
+> ++++ b/python/setup.py
+> +@@ -189,7 +189,6 @@ if __name__ == '__main__':
+> +           'google.protobuf.text_format'],
+> +         cmdclass = { 'clean': clean, 'build_py': build_py },
+> +         install_requires = ['setuptools'],
+> +-        setup_requires = ['google-apputils'],
+> +         ext_modules = ext_module_list,
+> +         url = 'https://developers.google.com/protocol-buffers/',
+> +         maintainer = maintainer_email,
+> +--
+> +1.9.1
+> +
+> diff --git a/recipes-containers/criu/protobuf-native_2.5.0.bb b/recipes-containers/criu/protobuf-native_2.5.0.bb
 > deleted file mode 100644
-> index a20b8e4..0000000
-> --- a/recipes-containers/lxc/lxc_1.1.2.bb
+> index b3f00dd..0000000
+> --- a/recipes-containers/criu/protobuf-native_2.5.0.bb
 > +++ /dev/null
-> @@ -1,150 +0,0 @@
-> -DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
-> -SECTION = "console/utils"
-> -LICENSE = "GPLv2"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-> -PRIORITY = "optional"
-> -DEPENDS = "libxml2 libcap"
-> -RDEPENDS_${PN} = " \
-> -               rsync \
-> -               gzip \
-> -               libcap-bin \
-> -               bridge-utils \
-> -               dnsmasq \
-> -               perl-module-strict \
-> -               perl-module-getopt-long \
-> -               perl-module-vars \
-> -               perl-module-warnings-register \
-> -               perl-module-exporter \
-> -               perl-module-constant \
-> -               perl-module-overload \
-> -               perl-module-exporter-heavy \
-> -"
-> -RDEPENDS_${PN}-ptest += "file make"
+> @@ -1,21 +0,0 @@
+> -SUMMARY = "protobuf"
+> -DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> -an efficient yet extensible format. Google uses Protocol Buffers for \
+> -almost all of its internal RPC protocols and file formats."
+> -HOMEPAGE = "http://code.google.com/p/protobuf/"
+> -SECTION = "console/tools"
+> -LICENSE = "BSD-3-Clause"
 > -
-> -SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
-> -       file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
-> -       file://runtest.patch \
-> -       file://run-ptest \
-> -       file://automake-ensure-VPATH-builds-correctly.patch \
-> -       file://add-lxc.rebootsignal.patch \
-> -       file://document-lxc.rebootsignal.patch \
-> -       file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
-> -       file://lxc-fix-B-S.patch \
-> -       file://lxc-busybox-add-OpenSSH-support.patch \
-> -       file://make-some-OpenSSH-tools-optional.patch \
-> -       file://Generate-lxc-restore-net-properly.patch \
-> -       file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
+> -LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af6809583bfde9a31595a58bb4a24514"
+> -
+> -PR = "r0"
+> -
+> -SRC_URI[md5sum] = "b751f772bdeb2812a2a8e7202bf1dae8"
+> -SRC_URI[sha256sum] = "c55aa3dc538e6fd5eaf732f4eb6b98bdcb7cedb5b91d3b5bdcf29c98c293f58e"
+> -SRC_URI = "http://protobuf.googlecode.com/files/protobuf-${PV}.tar.gz \
 > -       "
 > -
-> -SRC_URI[md5sum] = "3ebadacf5fe8bfe689fd7a09812b682c"
-> -SRC_URI[sha256sum] = "34ba517ffd7b38a14e5d12d56a4928b78602d56311d5f47c3ef90f4e714b9604"
+> -EXTRA_OECONF += " --with-protoc=echo --disable-shared"
 > -
-> -S = "${WORKDIR}/${BPN}-${PV}"
+> -inherit native autotools
 > -
-> -# Let's not configure for the host distro.
-> -#
-> -PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
-> -EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
-> -
-> -EXTRA_OECONF += "--with-init-script=\
-> -${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
-> -${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-> -
-> -PACKAGECONFIG ??= "templates \
-> -    ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> -"
-> -PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
-> -PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
-> -PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
-> -PACKAGECONFIG[templates] = ",,, ${PN}-templates"
-> -PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
-> -PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
-> -
-> -inherit autotools pkgconfig ptest update-rc.d systemd
-> -
-> -SYSTEMD_PACKAGES = "${PN}-setup"
-> -SYSTEMD_SERVICE_${PN}-setup = "lxc.service"
-> -SYSTEMD_AUTO_ENABLE_${PN}-setup = "disable"
-> -
-> -INITSCRIPT_PACKAGES = "${PN}-setup"
-> -INITSCRIPT_NAME_{PN}-setup = "lxc"
-> -INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
-> -
-> -FILES_${PN}-doc = "${mandir} ${infodir}"
-> -# For LXC the docdir only contains example configuration files and should be included in the lxc package
-> -FILES_${PN} += "${docdir}"
-> -FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
-> -PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
-> -FILES_${PN}-templates += "${datadir}/lxc/templates"
-> -RDEPENDS_${PN}-templates += "bash"
-> -
-> -ALLOW_EMPTY_${PN}-networking = "1"
-> -
-> -FILES_${PN}-setup += "/etc/tmpfiles.d"
-> -FILES_${PN}-setup += "/lib/systemd/system"
-> -FILES_${PN}-setup += "/usr/lib/systemd/system"
-> -FILES_${PN}-setup += "/etc/init.d"
-> -
-> -PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
-> -
-> -do_install_append() {
-> -       # The /var/cache/lxc directory created by the Makefile
-> -       # is wiped out in volatile, we need to create this at boot.
-> -       rm -rf ${D}${localstatedir}/cache
-> -       install -d ${D}${sysconfdir}/default/volatiles
-> -       echo "d root root 0755 ${localstatedir}/cache/lxc none" \
-> -            > ${D}${sysconfdir}/default/volatiles/99_lxc
-> -
-> -       for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
-> -           sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
-> -
-> -       if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-> -           install -d ${D}${sysconfdir}/init.d
-> -           install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
-> -       fi
-> -}
-> -
-> -EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
-> -
-> -do_install_ptest() {
-> -       oe_runmake -C src/tests install-ptest
-> -}
-> -
-> -pkg_postinst_${PN}() {
-> -       if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-> -               /etc/init.d/populate-volatile.sh update
-> -       fi
-> -}
-> -
-> -pkg_postinst_${PN}-networking() {
-> -       if [ "x$D" != "x" ]; then
-> -               exit 1
-> -       fi
-> -
-> -       # setup for our bridge
-> -        echo "lxc.network.link=lxcbr0" >> ${sysconfdir}/lxc/default.conf
-> -
-> -cat >> /etc/network/interfaces << EOF
-> -
-> -auto lxcbr0
-> -iface lxcbr0 inet dhcp
-> -       bridge_ports eth0
-> -       bridge_fd 0
-> -       bridge_maxwait 0
-> -EOF
-> -
-> -cat<<EOF>/etc/network/if-pre-up.d/lxcbr0
-> -#! /bin/sh
-> -
-> -if test "x\$IFACE" = xlxcbr0 ; then
-> -        brctl show |grep lxcbr0 > /dev/null 2>/dev/null
-> -        if [ \$? != 0 ] ; then
-> -                brctl addbr lxcbr0
-> -                brctl addif lxcbr0 eth0
-> -                ip addr flush eth0
-> -                ifconfig eth0 up
-> -        fi
-> -fi
-> -EOF
-> -chmod 755 /etc/network/if-pre-up.d/lxcbr0
-> -}
-> diff --git a/recipes-containers/lxc/lxc_1.1.3.bb b/recipes-containers/lxc/lxc_1.1.3.bb
+> diff --git a/recipes-containers/criu/protobuf-native_2.6.1.bb b/recipes-containers/criu/protobuf-native_2.6.1.bb
 > new file mode 100644
-> index 0000000..d1e80c4
+> index 0000000..e88c9e7
 > --- /dev/null
-> +++ b/recipes-containers/lxc/lxc_1.1.3.bb
-> @@ -0,0 +1,149 @@
-> +DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
-> +SECTION = "console/utils"
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-> +PRIORITY = "optional"
-> +DEPENDS = "libxml2 libcap"
-> +RDEPENDS_${PN} = " \
-> +               rsync \
-> +               gzip \
-> +               libcap-bin \
-> +               bridge-utils \
-> +               dnsmasq \
-> +               perl-module-strict \
-> +               perl-module-getopt-long \
-> +               perl-module-vars \
-> +               perl-module-warnings-register \
-> +               perl-module-exporter \
-> +               perl-module-constant \
-> +               perl-module-overload \
-> +               perl-module-exporter-heavy \
-> +"
-> +RDEPENDS_${PN}-ptest += "file make"
+> +++ b/recipes-containers/criu/protobuf-native_2.6.1.bb
+> @@ -0,0 +1,21 @@
+> +SUMMARY = "protobuf"
+> +DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> +an efficient yet extensible format. Google uses Protocol Buffers for \
+> +almost all of its internal RPC protocols and file formats."
+> +HOMEPAGE = "http://code.google.com/p/protobuf/"
+> +SECTION = "console/tools"
+> +LICENSE = "BSD-3-Clause"
 > +
-> +SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
-> +       file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
-> +       file://runtest.patch \
-> +       file://run-ptest \
-> +       file://automake-ensure-VPATH-builds-correctly.patch \
-> +       file://add-lxc.rebootsignal.patch \
-> +       file://document-lxc.rebootsignal.patch \
-> +       file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
-> +       file://lxc-fix-B-S.patch \
-> +       file://lxc-busybox-add-OpenSSH-support.patch \
-> +       file://make-some-OpenSSH-tools-optional.patch \
-> +       file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=af6809583bfde9a31595a58bb4a24514"
+> +
+> +PR = "r0"
+> +
+> +SRC_URI[md5sum] = "af05b2cca289f7b86eef2734a0cdc8b9"
+> +SRC_URI[sha256sum] = "2667b7cda4a6bc8a09e5463adf3b5984e08d94e72338277affa8594d8b6e5cd1"
+> +SRC_URI = "https://github.com/google/protobuf/archive/v2.6.1.tar.gz;downloadfilename=protobuf-2.6.1.tar.gz \
 > +       "
 > +
-> +SRC_URI[md5sum] = "197abb5a28ab0b689c737eb1951023fb"
-> +SRC_URI[sha256sum] = "933b87f773ea6213c912fcd25b8f24d66fb66d285b80797dac530a8b94b7d1ad"
+> +EXTRA_OECONF += " --with-protoc=echo --disable-shared"
 > +
-> +S = "${WORKDIR}/${BPN}-${PV}"
+> +inherit native autotools
 > +
-> +# Let's not configure for the host distro.
-> +#
-> +PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
-> +EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+> diff --git a/recipes-containers/criu/protobuf_2.5.0.bb b/recipes-containers/criu/protobuf_2.5.0.bb
+> deleted file mode 100644
+> index b19e906..0000000
+> --- a/recipes-containers/criu/protobuf_2.5.0.bb
+> +++ /dev/null
+> @@ -1,96 +0,0 @@
+> -SUMMARY = "protobuf"
+> -DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> -an efficient yet extensible format. Google uses Protocol Buffers for \
+> -almost all of its internal RPC protocols and file formats."
+> -HOMEPAGE = "http://code.google.com/p/protobuf/"
+> -SECTION = "console/tools"
+> -LICENSE = "BSD-3-Clause"
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af6809583bfde9a31595a58bb4a24514"
+> -
+> -PR = "r0"
+> -EXCLUDE_FROM_WORLD = "1"
+> -
+> -SRC_URI[md5sum] = "b751f772bdeb2812a2a8e7202bf1dae8"
+> -SRC_URI[sha256sum] = "c55aa3dc538e6fd5eaf732f4eb6b98bdcb7cedb5b91d3b5bdcf29c98c293f58e"
+> -SRC_URI = "http://protobuf.googlecode.com/files/protobuf-${PV}.tar.gz \
+> -       file://protobuf-allow-running-python-scripts-from-anywhere.patch \
+> -       file://run-ptest"
+> -
+> -COMPATIBLE_HOST = "(x86_64|arm).*-linux"
+> -
+> -EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
+> -inherit autotools setuptools ptest
+> -
+> -DEPENDS += "protobuf-native"
+> -
+> -PYTHON_SRC_DIR="python"
+> -TEST_SRC_DIR="examples"
+> -LANG_SUPPORT="cpp python"
+> -
+> -do_compile() {
+> -       # Compile protoc compiler
+> -       base_do_compile
+> -}
+> -
+> -do_compile_ptest() {
+> -       # Modify makefile to use the cross-compiler
+> -       sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
+> -
+> -       mkdir -p "${B}/${TEST_SRC_DIR}"
+> -
+> -       # Add the location of the cross-compiled header and library files
+> -       # which haven't been installed yet.
+> -       cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> -       sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> -       sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> -       sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> -       export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
+> -
+> -       # Save the pkgcfg sysroot variable, and update it to nothing so
+> -       # that it doesn't append the sysroot to the beginning of paths.
+> -       # The header and library files aren't installed to the target
+> -       # system yet.  So the absolute paths were specified above.
+> -       save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
+> -       export PKG_CONFIG_SYSROOT_DIR=
+> -
+> -       # Compile the tests
+> -       for lang in ${LANG_SUPPORT}; do
+> -               oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
+> -       done
+> -
+> -       # Restore the pkgconfig sysroot variable
+> -       export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
+> -}
+> -
+> -do_install() {
+> -       local olddir=`pwd`
+> -
+> -       # Install protoc compiler
+> -       autotools_do_install
+> -
+> -       # Install header files
+> -       export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
+> -       cd "${S}/${PYTHON_SRC_DIR}"
+> -       distutils_do_install
+> -
+> -       cd "$olddir"
+> -}
+> -
+> -do_install_ptest() {
+> -       local olddir=`pwd`
+> -
+> -       cd "${S}/${TEST_SRC_DIR}"
+> -       install -d "${D}/${PTEST_PATH}"
+> -       for i in add_person* list_people*; do
+> -               if [ -x "$i" ]; then
+> -                       install "$i" "${D}/${PTEST_PATH}"
+> -               fi
+> -       done
+> -       cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
+> -
+> -       cd "$olddir"
+> -}
+> -
+> -BBCLASSEXTEND = "nativesdk"
+> -
+> diff --git a/recipes-containers/criu/protobuf_2.6.1.bb b/recipes-containers/criu/protobuf_2.6.1.bb
+> new file mode 100644
+> index 0000000..1b7ab20
+> --- /dev/null
+> +++ b/recipes-containers/criu/protobuf_2.6.1.bb
+> @@ -0,0 +1,97 @@
+> +SUMMARY = "protobuf"
+> +DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> +an efficient yet extensible format. Google uses Protocol Buffers for \
+> +almost all of its internal RPC protocols and file formats."
+> +HOMEPAGE = "http://code.google.com/p/protobuf/"
+> +SECTION = "console/tools"
+> +LICENSE = "BSD-3-Clause"
 > +
-> +EXTRA_OECONF += "--with-init-script=\
-> +${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
-> +${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=af6809583bfde9a31595a58bb4a24514"
 > +
-> +PACKAGECONFIG ??= "templates \
-> +    ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
-> +"
-> +PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
-> +PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
-> +PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
-> +PACKAGECONFIG[templates] = ",,, ${PN}-templates"
-> +PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
-> +PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
+> +PR = "r0"
+> +EXCLUDE_FROM_WORLD = "1"
 > +
-> +inherit autotools pkgconfig ptest update-rc.d systemd
+> +SRC_URI[md5sum] = "af05b2cca289f7b86eef2734a0cdc8b9"
+> +SRC_URI[sha256sum] = "2667b7cda4a6bc8a09e5463adf3b5984e08d94e72338277affa8594d8b6e5cd1"
+> +SRC_URI = "https://github.com/google/protobuf/archive/v2.6.1.tar.gz;downloadfilename=protobuf-2.6.1.tar.gz\
+> +       file://protobuf-allow-running-python-scripts-from-anywhere.patch \
+> +       file://Omit-google-apputils-dependency.patch \
+> +       file://run-ptest"
 > +
-> +SYSTEMD_PACKAGES = "${PN}-setup"
-> +SYSTEMD_SERVICE_${PN}-setup = "lxc.service"
-> +SYSTEMD_AUTO_ENABLE_${PN}-setup = "disable"
+> +COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 > +
-> +INITSCRIPT_PACKAGES = "${PN}-setup"
-> +INITSCRIPT_NAME_{PN}-setup = "lxc"
-> +INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
+> +EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
+> +inherit autotools setuptools ptest
 > +
-> +FILES_${PN}-doc = "${mandir} ${infodir}"
-> +# For LXC the docdir only contains example configuration files and should be included in the lxc package
-> +FILES_${PN} += "${docdir}"
-> +FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
-> +PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
-> +FILES_${PN}-templates += "${datadir}/lxc/templates"
-> +RDEPENDS_${PN}-templates += "bash"
+> +DEPENDS += "protobuf-native"
 > +
-> +ALLOW_EMPTY_${PN}-networking = "1"
+> +PYTHON_SRC_DIR="python"
+> +TEST_SRC_DIR="examples"
+> +LANG_SUPPORT="cpp python"
 > +
-> +FILES_${PN}-setup += "/etc/tmpfiles.d"
-> +FILES_${PN}-setup += "/lib/systemd/system"
-> +FILES_${PN}-setup += "/usr/lib/systemd/system"
-> +FILES_${PN}-setup += "/etc/init.d"
-> +
-> +PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
-> +
-> +do_install_append() {
-> +       # The /var/cache/lxc directory created by the Makefile
-> +       # is wiped out in volatile, we need to create this at boot.
-> +       rm -rf ${D}${localstatedir}/cache
-> +       install -d ${D}${sysconfdir}/default/volatiles
-> +       echo "d root root 0755 ${localstatedir}/cache/lxc none" \
-> +            > ${D}${sysconfdir}/default/volatiles/99_lxc
-> +
-> +       for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
-> +           sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
-> +
-> +       if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-> +           install -d ${D}${sysconfdir}/init.d
-> +           install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
-> +       fi
+> +do_compile() {
+> +       # Compile protoc compiler
+> +       base_do_compile
 > +}
 > +
-> +EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
+> +do_compile_ptest() {
+> +       # Modify makefile to use the cross-compiler
+> +       sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
+> +
+> +       mkdir -p "${B}/${TEST_SRC_DIR}"
+> +
+> +       # Add the location of the cross-compiled header and library files
+> +       # which haven't been installed yet.
+> +       cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> +       sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> +       sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> +       sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> +       export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
+> +
+> +       # Save the pkgcfg sysroot variable, and update it to nothing so
+> +       # that it doesn't append the sysroot to the beginning of paths.
+> +       # The header and library files aren't installed to the target
+> +       # system yet.  So the absolute paths were specified above.
+> +       save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
+> +       export PKG_CONFIG_SYSROOT_DIR=
+> +
+> +       # Compile the tests
+> +       for lang in ${LANG_SUPPORT}; do
+> +               oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
+> +       done
+> +
+> +       # Restore the pkgconfig sysroot variable
+> +       export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
+> +}
+> +
+> +do_install() {
+> +       local olddir=`pwd`
+> +
+> +       # Install protoc compiler
+> +       autotools_do_install
+> +
+> +       # Install header files
+> +       export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
+> +       cd "${S}/${PYTHON_SRC_DIR}"
+> +       distutils_do_install
+> +
+> +       cd "$olddir"
+> +}
 > +
 > +do_install_ptest() {
-> +       oe_runmake -C src/tests install-ptest
+> +       local olddir=`pwd`
+> +
+> +       cd "${S}/${TEST_SRC_DIR}"
+> +       install -d "${D}/${PTEST_PATH}"
+> +       for i in add_person* list_people*; do
+> +               if [ -x "$i" ]; then
+> +                       install "$i" "${D}/${PTEST_PATH}"
+> +               fi
+> +       done
+> +       cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
+> +
+> +       cd "$olddir"
 > +}
 > +
-> +pkg_postinst_${PN}() {
-> +       if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
-> +               /etc/init.d/populate-volatile.sh update
-> +       fi
-> +}
+> +BBCLASSEXTEND = "nativesdk"
 > +
-> +pkg_postinst_${PN}-networking() {
-> +       if [ "x$D" != "x" ]; then
-> +               exit 1
-> +       fi
-> +
-> +       # setup for our bridge
-> +        echo "lxc.network.link=lxcbr0" >> ${sysconfdir}/lxc/default.conf
-> +
-> +cat >> /etc/network/interfaces << EOF
-> +
-> +auto lxcbr0
-> +iface lxcbr0 inet dhcp
-> +       bridge_ports eth0
-> +       bridge_fd 0
-> +       bridge_maxwait 0
-> +EOF
-> +
-> +cat<<EOF>/etc/network/if-pre-up.d/lxcbr0
-> +#! /bin/sh
-> +
-> +if test "x\$IFACE" = xlxcbr0 ; then
-> +        brctl show |grep lxcbr0 > /dev/null 2>/dev/null
-> +        if [ \$? != 0 ] ; then
-> +                brctl addbr lxcbr0
-> +                brctl addif lxcbr0 eth0
-> +                ip addr flush eth0
-> +                ifconfig eth0 up
-> +        fi
-> +fi
-> +EOF
-> +chmod 755 /etc/network/if-pre-up.d/lxcbr0
-> +}
 > --
 > 1.9.1
 >
