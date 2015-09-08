@@ -1,6 +1,6 @@
-Return-Path: <Jianchuan.Wang@windriver.com>
+Return-Path: <Zhe.He@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3FF69E00C82; Sun,  6 Sep 2015 22:39:38 -0700 (PDT)
+	id EC711E00CE9; Mon,  7 Sep 2015 23:51:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,29 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C66F6E00C3E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AB544E00B19
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  6 Sep 2015 22:39:34 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t875dYgU028713
+	Mon,  7 Sep 2015 23:51:49 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t886pm7U028356
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 6 Sep 2015 22:39:34 -0700 (PDT)
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.235.1; Sun, 6 Sep 2015 22:39:34 -0700
-From: <jianchuan.wang@windriver.com>
+	Mon, 7 Sep 2015 23:51:48 -0700 (PDT)
+Received: from PEK-ZHE-D1.corp.ad.wrs.com (128.224.162.235) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Mon, 7 Sep 2015 23:51:48 -0700
+From: <zhe.he@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 7 Sep 2015 13:29:57 +0800
-Message-ID: <1441603797-10160-3-git-send-email-jianchuan.wang@windriver.com>
+Date: Tue, 8 Sep 2015 14:51:21 +0800
+Message-ID: <1441695081-24118-1-git-send-email-zhe.he@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1441603797-10160-1-git-send-email-jianchuan.wang@windriver.com>
-References: <1441603797-10160-1-git-send-email-jianchuan.wang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] criu: upgrade 1.4 -> 1.6
+Subject: [PATCH 1/1] lxc: Uprev 1.1.2 to 1.1.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,138 +43,334 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Sep 2015 05:39:38 -0000
+X-List-Received-Date: Tue, 08 Sep 2015 06:51:53 -0000
 Content-Type: text/plain
 
-From: Jianchuan Wang <jianchuan.wang@windriver.com>
+From: He Zhe <zhe.he@windriver.com>
 
-Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+Uprev to 1.1.3
+Remove Generate-lxc-restore-net-properly.patch since related code
+has been removed.
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- recipes-containers/criu/criu_git.bb                | 30 ++++++++++----
- ...1-criu-Change-libraries-install-directory.patch | 48 ++++++++++++++++++++++
- 2 files changed, 71 insertions(+), 7 deletions(-)
- create mode 100644 recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
+ recipes-containers/lxc/lxc_1.1.2.bb | 150 ------------------------------------
+ recipes-containers/lxc/lxc_1.1.3.bb | 149 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 149 insertions(+), 150 deletions(-)
+ delete mode 100644 recipes-containers/lxc/lxc_1.1.2.bb
+ create mode 100644 recipes-containers/lxc/lxc_1.1.3.bb
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-index 2b8921f..48bcdc2 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_git.bb
-@@ -13,16 +13,17 @@ EXCLUDE_FROM_WORLD = "1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=5cc804625b8b491b6b4312f0c9cb5efa"
- 
--SRCREV = "bda033e1e91ac5b86afd0a9fdb9fcdd581da6185"
-+SRCREV = "4c5b23e52c1dc4e3fbbc7472b92e7b1ce9d22f02"
- PR = "r0"
--PV = "1.4+git${SRCPV}"
-+PV = "1.6+git${SRCPV}"
- 
--SRC_URI = "git://git.criu.org/crtools.git;protocol=git \
-+SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
- 	   file://0001-criu-Fix-toolchain-hardcode.patch \
- 	   file://0002-criu-Skip-documentation-install.patch \
-+       file://0001-criu-Change-libraries-install-directory.patch \
- 	  "
- 
--COMPATIBLE_HOST = "(x86_64|arm).*-linux"
-+COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
- 
- DEPENDS += "protobuf-c-native protobuf-c"
- 
-@@ -35,8 +36,9 @@ S = "${WORKDIR}/git"
- #
- EXTRA_OEMAKE_arm += "ARCH=${CRIU_BUILD_ARCH} WERROR=0"
- EXTRA_OEMAKE_x86-64 += "ARCH=${TARGET_ARCH} WERROR=0"
-+EXTRA_OEMAKE_aarch64 += "ARCH=${TARGET_ARCH} WERROR=0"
- 
--EXTRA_OEMAKE_append += "SBINDIR=${sbindir} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
-+EXTRA_OEMAKE_append += "SBINDIR=${sbindir} LIBDIR=${libdir} INCLUDEDIR=${includedir} PIEGEN=no"
- EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unitdir}"
- 
- CFLAGS += "-D__USE_GNU -D_GNU_SOURCE"
-@@ -44,12 +46,26 @@ CFLAGS += "-D__USE_GNU -D_GNU_SOURCE"
- # overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
- export LDFLAGS=""
- 
-+export BUILD_SYS
-+export HOST_SYS
+diff --git a/recipes-containers/lxc/lxc_1.1.2.bb b/recipes-containers/lxc/lxc_1.1.2.bb
+deleted file mode 100644
+index a20b8e4..0000000
+--- a/recipes-containers/lxc/lxc_1.1.2.bb
++++ /dev/null
+@@ -1,150 +0,0 @@
+-DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
+-SECTION = "console/utils"
+-LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-PRIORITY = "optional"
+-DEPENDS = "libxml2 libcap"
+-RDEPENDS_${PN} = " \
+-		rsync \
+-		gzip \
+-		libcap-bin \
+-		bridge-utils \
+-		dnsmasq \
+-		perl-module-strict \
+-		perl-module-getopt-long \
+-		perl-module-vars \
+-		perl-module-warnings-register \
+-		perl-module-exporter \
+-		perl-module-constant \
+-		perl-module-overload \
+-		perl-module-exporter-heavy \
+-"
+-RDEPENDS_${PN}-ptest += "file make"
+-
+-SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+-	file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
+-	file://runtest.patch \
+-	file://run-ptest \
+-	file://automake-ensure-VPATH-builds-correctly.patch \
+-	file://add-lxc.rebootsignal.patch \
+-	file://document-lxc.rebootsignal.patch \
+-	file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
+-	file://lxc-fix-B-S.patch \
+-	file://lxc-busybox-add-OpenSSH-support.patch \
+-	file://make-some-OpenSSH-tools-optional.patch \
+-	file://Generate-lxc-restore-net-properly.patch \
+-	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
+-	"
+-
+-SRC_URI[md5sum] = "3ebadacf5fe8bfe689fd7a09812b682c"
+-SRC_URI[sha256sum] = "34ba517ffd7b38a14e5d12d56a4928b78602d56311d5f47c3ef90f4e714b9604"
+-
+-S = "${WORKDIR}/${BPN}-${PV}"
+-
+-# Let's not configure for the host distro.
+-#
+-PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
+-EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+-
+-EXTRA_OECONF += "--with-init-script=\
+-${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
+-${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+-
+-PACKAGECONFIG ??= "templates \
+-    ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+-"
+-PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
+-PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
+-PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+-PACKAGECONFIG[templates] = ",,, ${PN}-templates"
+-PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
+-PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
+-
+-inherit autotools pkgconfig ptest update-rc.d systemd
+-
+-SYSTEMD_PACKAGES = "${PN}-setup"
+-SYSTEMD_SERVICE_${PN}-setup = "lxc.service"
+-SYSTEMD_AUTO_ENABLE_${PN}-setup = "disable"
+-
+-INITSCRIPT_PACKAGES = "${PN}-setup"
+-INITSCRIPT_NAME_{PN}-setup = "lxc"
+-INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
+-
+-FILES_${PN}-doc = "${mandir} ${infodir}"
+-# For LXC the docdir only contains example configuration files and should be included in the lxc package
+-FILES_${PN} += "${docdir}"
+-FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
+-PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
+-FILES_${PN}-templates += "${datadir}/lxc/templates"
+-RDEPENDS_${PN}-templates += "bash"
+-
+-ALLOW_EMPTY_${PN}-networking = "1"
+-
+-FILES_${PN}-setup += "/etc/tmpfiles.d"
+-FILES_${PN}-setup += "/lib/systemd/system"
+-FILES_${PN}-setup += "/usr/lib/systemd/system"
+-FILES_${PN}-setup += "/etc/init.d"
+-
+-PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
+-
+-do_install_append() {
+-	# The /var/cache/lxc directory created by the Makefile
+-	# is wiped out in volatile, we need to create this at boot.
+-	rm -rf ${D}${localstatedir}/cache
+-	install -d ${D}${sysconfdir}/default/volatiles
+-	echo "d root root 0755 ${localstatedir}/cache/lxc none" \
+-	     > ${D}${sysconfdir}/default/volatiles/99_lxc
+-
+-	for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
+-	    sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
+-
+-	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+-	    install -d ${D}${sysconfdir}/init.d
+-	    install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
+-	fi
+-}
+-
+-EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
+-
+-do_install_ptest() {
+-	oe_runmake -C src/tests install-ptest
+-}
+-
+-pkg_postinst_${PN}() {
+-	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+-		/etc/init.d/populate-volatile.sh update
+-	fi
+-}
+-
+-pkg_postinst_${PN}-networking() {
+-	if [ "x$D" != "x" ]; then
+-		exit 1
+-	fi
+-
+-	# setup for our bridge
+-        echo "lxc.network.link=lxcbr0" >> ${sysconfdir}/lxc/default.conf
+-
+-cat >> /etc/network/interfaces << EOF
+-
+-auto lxcbr0
+-iface lxcbr0 inet dhcp
+-	bridge_ports eth0
+-	bridge_fd 0
+-	bridge_maxwait 0
+-EOF
+-
+-cat<<EOF>/etc/network/if-pre-up.d/lxcbr0
+-#! /bin/sh
+-
+-if test "x\$IFACE" = xlxcbr0 ; then
+-        brctl show |grep lxcbr0 > /dev/null 2>/dev/null
+-        if [ \$? != 0 ] ; then
+-                brctl addbr lxcbr0
+-                brctl addif lxcbr0 eth0
+-                ip addr flush eth0
+-                ifconfig eth0 up
+-        fi
+-fi
+-EOF
+-chmod 755 /etc/network/if-pre-up.d/lxcbr0
+-}
+diff --git a/recipes-containers/lxc/lxc_1.1.3.bb b/recipes-containers/lxc/lxc_1.1.3.bb
+new file mode 100644
+index 0000000..d1e80c4
+--- /dev/null
++++ b/recipes-containers/lxc/lxc_1.1.3.bb
+@@ -0,0 +1,149 @@
++DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
++SECTION = "console/utils"
++LICENSE = "GPLv2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++PRIORITY = "optional"
++DEPENDS = "libxml2 libcap"
++RDEPENDS_${PN} = " \
++		rsync \
++		gzip \
++		libcap-bin \
++		bridge-utils \
++		dnsmasq \
++		perl-module-strict \
++		perl-module-getopt-long \
++		perl-module-vars \
++		perl-module-warnings-register \
++		perl-module-exporter \
++		perl-module-constant \
++		perl-module-overload \
++		perl-module-exporter-heavy \
++"
++RDEPENDS_${PN}-ptest += "file make"
 +
-+inherit setuptools
++SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
++	file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
++	file://runtest.patch \
++	file://run-ptest \
++	file://automake-ensure-VPATH-builds-correctly.patch \
++	file://add-lxc.rebootsignal.patch \
++	file://document-lxc.rebootsignal.patch \
++	file://lxc-busybox-use-lxc.rebootsignal-SIGTERM.patch \
++	file://lxc-fix-B-S.patch \
++	file://lxc-busybox-add-OpenSSH-support.patch \
++	file://make-some-OpenSSH-tools-optional.patch \
++	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
++	"
 +
-+do_compile_prepend() {
-+    rm -rf ${S}/protobuf/google/protobuf/descriptor.proto
-+    ln -s  ${PKG_CONFIG_SYSROOT_DIR}/usr/include/google/protobuf/descriptor.proto ${S}/protobuf/google/protobuf/descriptor.proto
++SRC_URI[md5sum] = "197abb5a28ab0b689c737eb1951023fb"
++SRC_URI[sha256sum] = "933b87f773ea6213c912fcd25b8f24d66fb66d285b80797dac530a8b94b7d1ad"
++
++S = "${WORKDIR}/${BPN}-${PV}"
++
++# Let's not configure for the host distro.
++#
++PTEST_CONF = "${@base_contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
++EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
++
++EXTRA_OECONF += "--with-init-script=\
++${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
++${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
++
++PACKAGECONFIG ??= "templates \
++    ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
++"
++PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
++PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
++PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
++PACKAGECONFIG[templates] = ",,, ${PN}-templates"
++PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
++PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
++
++inherit autotools pkgconfig ptest update-rc.d systemd
++
++SYSTEMD_PACKAGES = "${PN}-setup"
++SYSTEMD_SERVICE_${PN}-setup = "lxc.service"
++SYSTEMD_AUTO_ENABLE_${PN}-setup = "disable"
++
++INITSCRIPT_PACKAGES = "${PN}-setup"
++INITSCRIPT_NAME_{PN}-setup = "lxc"
++INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
++
++FILES_${PN}-doc = "${mandir} ${infodir}"
++# For LXC the docdir only contains example configuration files and should be included in the lxc package
++FILES_${PN} += "${docdir}"
++FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
++PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
++FILES_${PN}-templates += "${datadir}/lxc/templates"
++RDEPENDS_${PN}-templates += "bash"
++
++ALLOW_EMPTY_${PN}-networking = "1"
++
++FILES_${PN}-setup += "/etc/tmpfiles.d"
++FILES_${PN}-setup += "/lib/systemd/system"
++FILES_${PN}-setup += "/usr/lib/systemd/system"
++FILES_${PN}-setup += "/etc/init.d"
++
++PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
++
++do_install_append() {
++	# The /var/cache/lxc directory created by the Makefile
++	# is wiped out in volatile, we need to create this at boot.
++	rm -rf ${D}${localstatedir}/cache
++	install -d ${D}${sysconfdir}/default/volatiles
++	echo "d root root 0755 ${localstatedir}/cache/lxc none" \
++	     > ${D}${sysconfdir}/default/volatiles/99_lxc
++
++	for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
++	    sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
++
++	if ${@base_contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++	    install -d ${D}${sysconfdir}/init.d
++	    install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
++	fi
 +}
 +
- do_compile () {
- 	oe_runmake
- }
- 
- do_install () {
--	oe_runmake DESTDIR="${D}" install
-+    oe_runmake PREFIX=${exec_prefix} LIBDIR=${libdir} DESTDIR="${D}" install
- }
- 
--FILES_${PN} += "${systemd_unitdir}/"
-+FILES_${PN} += "${systemd_unitdir}/ \
-+            ${libdir}/python2.7/site-packages/ \
-+            ${libdir}/pycriu/ \
-+            ${libdir}/crit-0.0.1-py2.7.egg-info \
-+            "
-diff --git a/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch b/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-new file mode 100644
-index 0000000..28d638b
---- /dev/null
-+++ b/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-@@ -0,0 +1,48 @@
-+From cb9933dc34af0b4d52c4584332600114ac65c402 Mon Sep 17 00:00:00 2001
-+From: Jianchuan Wang <jianchuan.wang@windriver.com>
-+Date: Tue, 4 Aug 2015 17:45:51 +0800
-+Subject: [PATCH] criu: Change libraries install directory
++EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
 +
-+Install the libraries into /usr/lib(/usr/lib64)
++do_install_ptest() {
++	oe_runmake -C src/tests install-ptest
++}
 +
-+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-+---
-+ Makefile     | 2 +-
-+ Makefile.inc | 9 ---------
-+ 2 files changed, 1 insertion(+), 10 deletions(-)
++pkg_postinst_${PN}() {
++	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
++		/etc/init.d/populate-volatile.sh update
++	fi
++}
 +
-+diff --git a/Makefile b/Makefile
-+index 7f5c890..6dbc436 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -351,7 +351,7 @@ install-man:
-+ 
-+ install-crit: crit
-+ 	$(E) "  INSTALL crit"
-+-	$(Q) python scripts/crit-setup.py install --root=$(DESTDIR) --prefix=$(PREFIX)
-++	$(Q) python scripts/crit-setup.py install --root=$(DESTDIR) --prefix=$(PREFIX) --install-lib=$(LIBDIR)
-+ 
-+ .PHONY: install install-man install-crit install-criu
-+ 
-+diff --git a/Makefile.inc b/Makefile.inc
-+index 5496f41..ba70aea 100644
-+--- a/Makefile.inc
-++++ b/Makefile.inc
-+@@ -17,14 +17,5 @@ MANDIR		:= $(PREFIX)/share/man
-+ SYSTEMDUNITDIR	:= $(PREFIX)/lib/systemd/system/
-+ LOGROTATEDIR	:= $(PREFIX)/etc/logrotate.d/
-+ LIBDIR		:= $(PREFIX)/lib
-+-# For recent Debian/Ubuntu with multiarch support
-+-DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture \
-+-			-qDEB_HOST_MULTIARCH 2>/dev/null)
-+-ifneq "$(DEB_HOST_MULTIARCH)" ""
-+-LIBDIR		:= $(PREFIX)/lib/$(DEB_HOST_MULTIARCH)
-+-# For most other systems
-+-else ifeq "$(shell uname -m)" "x86_64"
-+-LIBDIR		:= $(PREFIX)/lib64
-+-endif
-+ 
-+ INCLUDEDIR	:= $(PREFIX)/include/criu
-+-- 
-+1.9.1
++pkg_postinst_${PN}-networking() {
++	if [ "x$D" != "x" ]; then
++		exit 1
++	fi
 +
++	# setup for our bridge
++        echo "lxc.network.link=lxcbr0" >> ${sysconfdir}/lxc/default.conf
++
++cat >> /etc/network/interfaces << EOF
++
++auto lxcbr0
++iface lxcbr0 inet dhcp
++	bridge_ports eth0
++	bridge_fd 0
++	bridge_maxwait 0
++EOF
++
++cat<<EOF>/etc/network/if-pre-up.d/lxcbr0
++#! /bin/sh
++
++if test "x\$IFACE" = xlxcbr0 ; then
++        brctl show |grep lxcbr0 > /dev/null 2>/dev/null
++        if [ \$? != 0 ] ; then
++                brctl addbr lxcbr0
++                brctl addif lxcbr0 eth0
++                ip addr flush eth0
++                ifconfig eth0 up
++        fi
++fi
++EOF
++chmod 755 /etc/network/if-pre-up.d/lxcbr0
++}
 -- 
 1.9.1
 
