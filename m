@@ -1,56 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <joe.slater@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E980BE00CE1; Tue,  8 Sep 2015 07:13:02 -0700 (PDT)
+	id 66B85E00CB6; Tue,  8 Sep 2015 17:30:42 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.160.175 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f175.google.com (mail-yk0-f175.google.com
-	[209.85.160.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9CEDAE00AF0
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E9BF0E00B0B
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  8 Sep 2015 07:13:01 -0700 (PDT)
-Received: by ykdg206 with SMTP id g206so120090849ykd.1
+	Tue,  8 Sep 2015 17:30:39 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t890UcZ0018967
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 08 Sep 2015 07:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=bJ+l+L5Cygcc/bh6BEFwfogeScTCHmqtFkZ6xFcNlXA=;
-	b=JVjFlgWiGVq3oMW3ULNgHsyM6wEU5gbicK1iCSUBht09nLkmDt54vkFEc3X94fmoUf
-	/2qrjBvggAMR7ZJQzZF2j0e8Nd5Vit3XAOCeeNbcQpIuQa36ee+1crvFLDeOwXd26qn6
-	/HnqPyAnA7ynXvqjJXn18AeqfHrYga8zw/ZvVrudgVr+EBJQ4wo7s/IxLeVwVhtNpy4i
-	kDRU7e2MfqPy14Gy57lNuzy5VbKbYV1xEGmCfh/3i9Rpy2oomcSFFhLhlNLckZKSW17e
-	3bGYsBWoFD8EpeAgNbl0jyMpVD5toqts1lJQFVvZTbx9t2YLuXpwkdBKuGjspnu9yQEa
-	VMLg==
+	Tue, 8 Sep 2015 17:30:38 -0700 (PDT)
+Received: from ala-jslater-lx3.wrs.com (147.11.152.42) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.235.1; Tue, 8 Sep 2015 17:30:37 -0700
+From: Joe Slater <jslater@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 8 Sep 2015 17:30:37 -0700
+Message-ID: <1441758637-25576-1-git-send-email-jslater@windriver.com>
+X-Mailer: git-send-email 1.7.3.4
 MIME-Version: 1.0
-X-Received: by 10.129.73.203 with SMTP id w194mr10211470ywa.16.1441721579698; 
-	Tue, 08 Sep 2015 07:12:59 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Tue, 8 Sep 2015 07:12:59 -0700 (PDT)
-In-Reply-To: <1441379737-16799-2-git-send-email-josep.puigdemont@enea.com>
-References: <1441379737-16799-1-git-send-email-josep.puigdemont@enea.com>
-	<1441379737-16799-2-git-send-email-josep.puigdemont@enea.com>
-Date: Tue, 8 Sep 2015 10:12:59 -0400
-Message-ID: <CADkTA4MK-VfJrr3xZKcfdB_fj6b0gtsWnFXBV3PS3ztTfYpkTQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][kilo][PATCH 2/2] python-sqlalchemy: add dependency on sqlparse
+Cc: joe.slater@windriver.com
+Subject: [PATCH 1/1] spice: add SRCREV_FORMAT to recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,52 +44,31 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Sep 2015 14:13:02 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Wed, 09 Sep 2015 00:30:42 -0000
+Content-Type: text/plain
 
-merged.
+Create a composite source revision.  Failure to do so
+can cause parsing errors.
 
-Bruce
+Signed-off-by: Joe Slater <jslater@windriver.com>
+---
+ recipes-support/spice/spice_git.bb |    2 ++
+ 1 file changed, 2 insertions(+)
 
-On Fri, Sep 4, 2015 at 11:15 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> Account for python-sqlparse dependency.
-> Project home page has moved to github.
->
-> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
-> ---
->  .../recipes-devtools/python/python-sqlalchemy-migrate_0.9.6.bb         | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.9.6.bb b/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.9.6.bb
-> index c64855b..3c20a50 100644
-> --- a/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.9.6.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.9.6.bb
-> @@ -1,5 +1,5 @@
->  DESCRIPTION = "Database schema migration for SQLAlchemy"
-> -HOMEPAGE = "http://code.google.com/p/sqlalchemy-migrate/"
-> +HOMEPAGE = "https://github.com/stackforge/sqlalchemy-migrate"
->  SECTION = "devel/python"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://setup.py;beginline=32;endline=32;md5=d41d8cd98f00b204e9800998ecf8427e"
-> @@ -24,4 +24,5 @@ RDEPENDS_${PN} += "python-sqlalchemy  \
->         python-decorator \
->         python-tempita  \
->          python-pbr \
-> +       python-sqlparse \
->      "
-> --
-> 2.1.0
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-support/spice/spice_git.bb b/recipes-support/spice/spice_git.bb
+index 8340787..95f7156 100644
+--- a/recipes-support/spice/spice_git.bb
++++ b/recipes-support/spice/spice_git.bb
+@@ -24,6 +24,8 @@ SRCREV_spice = "b270fb010a3ddb432dfe6b15e4bdffa6ac086cd0"
+ SRCREV_spice-common = "fe93908238196bd632287fc9875e6f2e11105d04"
+ SRCREV_spice-protocol = "784407f248e7f99d2bfcc9368f9acd1efb2b9617"
+ 
++SRCREV_FORMAT = "spice_spice-common_spice-protocol"
++
+ SRC_URI = "git://anongit.freedesktop.org/spice/spice;name=spice \
+            git://anongit.freedesktop.org/spice/spice-common;destsuffix=git/spice-common;name=spice-common \
+            git://anongit.freedesktop.org/spice/spice-protocol;destsuffix=git/spice-common/spice-protocol;name=spice-protocol \
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.7.9.5
+
 
