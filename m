@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A0600E00D77; Wed,  9 Sep 2015 09:02:30 -0700 (PDT)
+	id D0D0CE00C1F; Thu, 10 Sep 2015 02:15:53 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,21 +12,21 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 56FB8E00ABE
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 36882E00B6C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Sep 2015 09:02:26 -0700 (PDT)
+	Thu, 10 Sep 2015 02:15:50 -0700 (PDT)
 Received: from sestofb11.enea.se (172.21.3.146) by smtp.enea.com
-	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2; Wed, 9 Sep 2015
-	18:02:24 +0200
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 10 Sep 2015 11:15:45 +0200
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 9 Sep 2015 18:02:24 +0200
-Message-ID: <1441814544-7657-1-git-send-email-josep.puigdemont@enea.com>
+Date: Thu, 10 Sep 2015 11:15:45 +0200
+Message-ID: <1441876545-29061-1-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX03.enea.se: josep.puigdemont@enea.com does not
+Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [fido-kilo][PATCH] python-memcache: add missing dependency
+Subject: [fido-kilo][PATCH] dhcp: fix QA issue files installed but not shipped
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,38 +39,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Sep 2015 16:02:30 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 09:15:53 -0000
 Content-Type: text/plain
 
-python-memcache requires python-nose, this fixes this build error:
+The value of FILES set in this bbappend was overriden after
+bitbake expanded it from the value set in the recipe.
+This patch solves this issue:
 
-|   File ".../x86_64-linux/usr/lib/python2.7/site-packages/distribute-0.6.32-py2.7.egg/setuptools/command/easy_install.py", line 592, in easy_install
-|     raise DistutilsError(msg)
-| distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('nose>=1.0')
-| ERROR: python setup.py build_ext execution failed.
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_compile (log file is located at .../python-memcache/1.2.5-r0/temp/log.do_compile.24701)
+WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+ERROR: QA Issue: dhcp: Files/directories were installed but not shipped
+  /etc/dhcp/dhclient-exit-hooks [installed-vs-shipped]
+WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
 
 Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 ---
- meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-connectivity/dhcp/dhcp_%.bbappend | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb b/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb
-index 6597e86..3e6f3f6 100644
---- a/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb
-+++ b/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb
-@@ -20,8 +20,10 @@ inherit setuptools
+diff --git a/recipes-connectivity/dhcp/dhcp_%.bbappend b/recipes-connectivity/dhcp/dhcp_%.bbappend
+index a23f7c9..2babae9 100644
+--- a/recipes-connectivity/dhcp/dhcp_%.bbappend
++++ b/recipes-connectivity/dhcp/dhcp_%.bbappend
+@@ -12,5 +12,6 @@ do_install_append () {
  
- DEPENDS += " \
-         python-pip \
-+        python-nose \
-         "
+ }
  
- # RDEPENDS_default: 
- RDEPENDS_${PN} += " \
-+        python-nose \
-         "
+-FILES_dhcp-client += "${sysconfdir}/dhcp/dhclient-exit-hooks \
+-                     "
++FILES_${PN}-client += " \
++	${sysconfdir}/dhcp/dhclient-exit-hooks \
++	"
 -- 
 1.9.1
 
