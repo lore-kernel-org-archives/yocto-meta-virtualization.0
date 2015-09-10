@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B22E2E00DA3; Thu, 10 Sep 2015 11:46:17 -0700 (PDT)
+	id 0FA63E00DAB; Thu, 10 Sep 2015 11:46:28 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.174 listed in list.dnswl.org]
+	*      [209.85.160.173 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,38 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 89D7CE00BB9
+Received: from mail-yk0-f173.google.com (mail-yk0-f173.google.com
+	[209.85.160.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 66305E00BB9
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 10 Sep 2015 11:46:14 -0700 (PDT)
-Received: by ykei199 with SMTP id i199so67633647yke.0
+	Thu, 10 Sep 2015 11:46:23 -0700 (PDT)
+Received: by ykdu9 with SMTP id u9so68182280ykd.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 10 Sep 2015 11:46:13 -0700 (PDT)
+	Thu, 10 Sep 2015 11:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=BOUYgWQ/V5mmUY13aSy6PJU5Vt/3BDp5CStAU248mMw=;
-	b=tUCQyJJyBqJBQJSraWG+gElyxYFmwkG5YiGgsXgh7wLx8KbJsG8KM4zqe4ri5DwX8p
-	n+3xn4nBmfvEIGHlsDUDYHKZuEVWj/c3Vu1aq+csn3N4WsS7up6MGOceNOkTf4R08AJV
-	sIv6cMrhgdVMpyFKHJP20AqoSiY8Pkd4jgg9DUX/b59aklKknkMXkdSGxEoSS7HCat+p
-	xrmCENWBJFj1MlGBVkkPZsyKTkcHrmAe5y4IJ4YJYKEAEvVm9uqm1di+JLrqrLjbIcfW
-	gugti/0FbFr8GZDAKfPkFPB1gBRAGjDzufIfjgm4+jb0hsgiXBMOZX3Sd79t+IJA9AqD
-	zTOw==
+	bh=GmiqqrsSqU1VClB3SvO54LbIBlrruUSxGIC+0peVMAg=;
+	b=hafSTEmW4ei/kFjGcZVqEIi6jmPzE9MA98dBipFpT7C0MKXu+jWmK3xdnTIhzKyMvU
+	rdAQkTO4w33DAnzs7IHfCx2hq98vTLh3kpkK/bnpjqUzH9G8kknMNZDQQwgeM+19/9dY
+	7pSjsbz+2xbRwI2V6vanCDnZ5qniQs3fsvp6KEfzIi0FT6+GM97IbJtj/EUzwCF4BGzH
+	uXJHZweDhxk2LmU7Px9tM14NI6B8SHKnRs9mpm1xQbG64E/6jqyMlZNEuNld20zuGvrU
+	pZrMKSXYG5lURDSRm7qFBZ3t+g+ako1DXOVpFpGHjBzTrBSEZIjxZiWnJ3coDMYD0yQz
+	q9cg==
 MIME-Version: 1.0
-X-Received: by 10.129.75.3 with SMTP id y3mr48830185ywa.92.1441910773226; Thu,
-	10 Sep 2015 11:46:13 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Thu, 10 Sep 2015 11:46:13 -0700 (PDT)
-In-Reply-To: <1441758637-25576-1-git-send-email-jslater@windriver.com>
-References: <1441758637-25576-1-git-send-email-jslater@windriver.com>
-Date: Thu, 10 Sep 2015 14:46:13 -0400
-Message-ID: <CADkTA4MntBVsj52FRfDnGRcCWsPSYdwPE-PPaWh3mkyR_AG9sw@mail.gmail.com>
+X-Received: by 10.170.159.214 with SMTP id a205mr48073062ykd.62.1441910783481; 
+	Thu, 10 Sep 2015 11:46:23 -0700 (PDT)
+Received: by 10.129.34.212 with HTTP; Thu, 10 Sep 2015 11:46:23 -0700 (PDT)
+In-Reply-To: <1441806093-6926-1-git-send-email-josep.puigdemont@enea.com>
+References: <1441806093-6926-1-git-send-email-josep.puigdemont@enea.com>
+Date: Thu, 10 Sep 2015 14:46:23 -0400
+Message-ID: <CADkTA4MrBjRCmcZNNtTfikoHbaGxLxws1RR16n7bzusOf9gKdQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Joe Slater <jslater@windriver.com>
+To: Josep Puigdemont <josep.puigdemont@enea.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, "Slater,
-	Joseph" <joe.slater@windriver.com>
-Subject: Re: [PATCH 1/1] spice: add SRCREV_FORMAT to recipe
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [juno/dizzy-juno][PATCH] python-django-appconf: use correct hashes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,37 +62,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 18:46:17 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 18:46:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
 merged.
 
 Bruce
 
-On Tue, Sep 8, 2015 at 8:30 PM, Joe Slater <jslater@windriver.com> wrote:
-> Create a composite source revision.  Failure to do so
-> can cause parsing errors.
->
-> Signed-off-by: Joe Slater <jslater@windriver.com>
+On Wed, Sep 9, 2015 at 9:41 AM, Josep Puigdemont
+<josep.puigdemont@enea.com> wrote:
+> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 > ---
->  recipes-support/spice/spice_git.bb |    2 ++
->  1 file changed, 2 insertions(+)
+>  meta-openstack/recipes-devtools/python/python-django-appconf_0.6.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/recipes-support/spice/spice_git.bb b/recipes-support/spice/spice_git.bb
-> index 8340787..95f7156 100644
-> --- a/recipes-support/spice/spice_git.bb
-> +++ b/recipes-support/spice/spice_git.bb
-> @@ -24,6 +24,8 @@ SRCREV_spice = "b270fb010a3ddb432dfe6b15e4bdffa6ac086cd0"
->  SRCREV_spice-common = "fe93908238196bd632287fc9875e6f2e11105d04"
->  SRCREV_spice-protocol = "784407f248e7f99d2bfcc9368f9acd1efb2b9617"
+> diff --git a/meta-openstack/recipes-devtools/python/python-django-appconf_0.6.bb b/meta-openstack/recipes-devtools/python/python-django-appconf_0.6.bb
+> index f406708..4ed2392 100644
+> --- a/meta-openstack/recipes-devtools/python/python-django-appconf_0.6.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-django-appconf_0.6.bb
+> @@ -10,8 +10,8 @@ SRCNAME = "django-appconf"
+>  SRC_URI = "https://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+>  "
 >
-> +SRCREV_FORMAT = "spice_spice-common_spice-protocol"
-> +
->  SRC_URI = "git://anongit.freedesktop.org/spice/spice;name=spice \
->             git://anongit.freedesktop.org/spice/spice-common;destsuffix=git/spice-common;name=spice-common \
->             git://anongit.freedesktop.org/spice/spice-protocol;destsuffix=git/spice-common/spice-protocol;name=spice-protocol \
+> -SRC_URI[md5sum] = "40494042c3c8bd1e054c884e5ed4bb6c"
+> -SRC_URI[sha256sum] = "a88ed8fb923a53c70c2c46fbe4508b5f81646b4b01401f1568a821671b33215c"
+> +SRC_URI[md5sum] = "6971f6c9df6b5213797578fecc1845d7"
+> +SRC_URI[sha256sum] = "06b64baf26c7a436cbb81464e7a50047aea30db1059dbe6e09dc443efa23ba20"
+>
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
 > --
-> 1.7.9.5
+> 2.1.0
 >
 > --
 > _______________________________________________
