@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 553AEE00D91; Thu, 10 Sep 2015 11:46:49 -0700 (PDT)
+	id B8020E00DAC; Thu, 10 Sep 2015 11:46:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.171 listed in list.dnswl.org]
+	*      [209.85.160.170 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
-	[209.85.160.171])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 125F7E00DB2
+Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
+	[209.85.160.170])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DE558E00BB9
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 10 Sep 2015 11:46:42 -0700 (PDT)
-Received: by ykdu9 with SMTP id u9so68191355ykd.2
+	Thu, 10 Sep 2015 11:46:54 -0700 (PDT)
+Received: by ykdg206 with SMTP id g206so67322946ykd.1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 10 Sep 2015 11:46:42 -0700 (PDT)
+	Thu, 10 Sep 2015 11:46:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=YbUzh8VVZROvpu9gsK/pBwBd353x0XXHY3zwHbtjbQ8=;
-	b=iqmzAxpCkdZ70dwdVHRYnY0zIDWAEKLOkJTdCYJgBdrJZBvOvt0LwuBxtidv5PW+Vw
-	Iky8SH2Nwd9dKdY8uwmGZl0doNIuxFOmdHtQsDDNJ9JQEnrfAE9L/b6NmFmq9j5ScY+E
-	NKexaQql6JLfS8X5urPYzAL1KBKnMqweIuSzsisSuXIoYZ++5UiyRgUbFuXo0g0PZdAJ
-	w6CURUHviFfxjzqtbCAPvSLc+NhUoqmjljmesfwEFFxG21TPrpvXCS70KOx2Ee11EnXf
-	V1ACMZ5au5xEOzwBkRbMtK67J1rAAQxG/36cHsXTxODQz+V7EX/mrjoQmJQSW1aHpbPU
-	dqLw==
+	bh=Ks0NglyBpR/RuJeitPhu95vts952TkZI5mF/Dw/6jfw=;
+	b=gxDSucV0R4oi/383iT50LUso1VI5Hz1Y8SFZNDtRQqHObJHYEK2MNhf6Qm5ILbRkQj
+	A6swqA/Piyp+48yv5ah4RW1S39b7UX2dG5hPBTv0N8YfBoRoC+r3oAQicGE4fFYyPztO
+	E/wY4YJKr7AjTNOKtfqeaAXo571U1l21CDzTrw204X8DxVlOIgzBkjIlzk4XHhvhDz37
+	UX6kfAQPhkES1YEDkBloWu8O9n0VsmyOiDwe1YiKLdPF0UKzv2nBSBoJIid8cOw8o5Iv
+	RwVZp0A7ORDKcBNETVYHFAZTnNu5JAYC8jk54UTvBK506I8Ws4Ae92l07tV59ZRaAVPI
+	c3LA==
 MIME-Version: 1.0
-X-Received: by 10.170.96.196 with SMTP id n187mr6854188yka.54.1441910802263;
-	Thu, 10 Sep 2015 11:46:42 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Thu, 10 Sep 2015 11:46:42 -0700 (PDT)
-In-Reply-To: <1441814544-7657-1-git-send-email-josep.puigdemont@enea.com>
-References: <1441814544-7657-1-git-send-email-josep.puigdemont@enea.com>
-Date: Thu, 10 Sep 2015 14:46:42 -0400
-Message-ID: <CADkTA4MLRv0tPi4bfObEvg47D_n+schchC-cK=kTGvLp6XOBNQ@mail.gmail.com>
+X-Received: by 10.129.75.3 with SMTP id y3mr48834279ywa.92.1441910814028; Thu,
+	10 Sep 2015 11:46:54 -0700 (PDT)
+Received: by 10.129.34.212 with HTTP; Thu, 10 Sep 2015 11:46:53 -0700 (PDT)
+In-Reply-To: <1441876545-29061-1-git-send-email-josep.puigdemont@enea.com>
+References: <1441876545-29061-1-git-send-email-josep.puigdemont@enea.com>
+Date: Thu, 10 Sep 2015 14:46:53 -0400
+Message-ID: <CADkTA4MOWBZtym+KX1s8b62wFLMa2wmfNJ+qXzeJmKd_T+z4SQ@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Josep Puigdemont <josep.puigdemont@enea.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [fido-kilo][PATCH] python-memcache: add missing dependency
+Subject: Re: [fido-kilo][PATCH] dhcp: fix QA issue files installed but not shipped
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,44 +62,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 18:46:49 -0000
+X-List-Received-Date: Thu, 10 Sep 2015 18:46:55 -0000
 Content-Type: text/plain; charset=UTF-8
 
 merged.
 
 Bruce
 
-On Wed, Sep 9, 2015 at 12:02 PM, Josep Puigdemont
+On Thu, Sep 10, 2015 at 5:15 AM, Josep Puigdemont
 <josep.puigdemont@enea.com> wrote:
-> python-memcache requires python-nose, this fixes this build error:
+> The value of FILES set in this bbappend was overriden after
+> bitbake expanded it from the value set in the recipe.
+> This patch solves this issue:
 >
-> |   File ".../x86_64-linux/usr/lib/python2.7/site-packages/distribute-0.6.32-py2.7.egg/setuptools/command/easy_install.py", line 592, in easy_install
-> |     raise DistutilsError(msg)
-> | distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('nose>=1.0')
-> | ERROR: python setup.py build_ext execution failed.
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_compile (log file is located at .../python-memcache/1.2.5-r0/temp/log.do_compile.24701)
+> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+> ERROR: QA Issue: dhcp: Files/directories were installed but not shipped
+>   /etc/dhcp/dhclient-exit-hooks [installed-vs-shipped]
+> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
+> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
 >
 > Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb | 2 ++
->  1 file changed, 2 insertions(+)
+>  recipes-connectivity/dhcp/dhcp_%.bbappend | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb b/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb
-> index 6597e86..3e6f3f6 100644
-> --- a/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-memcache_1.2.5.bb
-> @@ -20,8 +20,10 @@ inherit setuptools
+> diff --git a/recipes-connectivity/dhcp/dhcp_%.bbappend b/recipes-connectivity/dhcp/dhcp_%.bbappend
+> index a23f7c9..2babae9 100644
+> --- a/recipes-connectivity/dhcp/dhcp_%.bbappend
+> +++ b/recipes-connectivity/dhcp/dhcp_%.bbappend
+> @@ -12,5 +12,6 @@ do_install_append () {
 >
->  DEPENDS += " \
->          python-pip \
-> +        python-nose \
->          "
+>  }
 >
->  # RDEPENDS_default:
->  RDEPENDS_${PN} += " \
-> +        python-nose \
->          "
+> -FILES_dhcp-client += "${sysconfdir}/dhcp/dhclient-exit-hooks \
+> -                     "
+> +FILES_${PN}-client += " \
+> +       ${sysconfdir}/dhcp/dhclient-exit-hooks \
+> +       "
 > --
 > 1.9.1
 >
