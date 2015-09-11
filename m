@@ -1,55 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B8020E00DAC; Thu, 10 Sep 2015 11:46:55 -0700 (PDT)
+	id 53BF1E00D16; Fri, 11 Sep 2015 07:42:10 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.170 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
-	[209.85.160.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DE558E00BB9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2A7FDE00B18
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 10 Sep 2015 11:46:54 -0700 (PDT)
-Received: by ykdg206 with SMTP id g206so67322946ykd.1
+	Fri, 11 Sep 2015 07:42:05 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8BEg5gP028744
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 10 Sep 2015 11:46:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=Ks0NglyBpR/RuJeitPhu95vts952TkZI5mF/Dw/6jfw=;
-	b=gxDSucV0R4oi/383iT50LUso1VI5Hz1Y8SFZNDtRQqHObJHYEK2MNhf6Qm5ILbRkQj
-	A6swqA/Piyp+48yv5ah4RW1S39b7UX2dG5hPBTv0N8YfBoRoC+r3oAQicGE4fFYyPztO
-	E/wY4YJKr7AjTNOKtfqeaAXo571U1l21CDzTrw204X8DxVlOIgzBkjIlzk4XHhvhDz37
-	UX6kfAQPhkES1YEDkBloWu8O9n0VsmyOiDwe1YiKLdPF0UKzv2nBSBoJIid8cOw8o5Iv
-	RwVZp0A7ORDKcBNETVYHFAZTnNu5JAYC8jk54UTvBK506I8Ws4Ae92l07tV59ZRaAVPI
-	c3LA==
+	Fri, 11 Sep 2015 07:42:05 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.235.1;
+	Fri, 11 Sep 2015 07:42:04 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Fri, 11 Sep 2015 10:42:04 -0400
+Message-ID: <1441982524-31476-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Received: by 10.129.75.3 with SMTP id y3mr48834279ywa.92.1441910814028; Thu,
-	10 Sep 2015 11:46:54 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Thu, 10 Sep 2015 11:46:53 -0700 (PDT)
-In-Reply-To: <1441876545-29061-1-git-send-email-josep.puigdemont@enea.com>
-References: <1441876545-29061-1-git-send-email-josep.puigdemont@enea.com>
-Date: Thu, 10 Sep 2015 14:46:53 -0400
-Message-ID: <CADkTA4MOWBZtym+KX1s8b62wFLMa2wmfNJ+qXzeJmKd_T+z4SQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [fido-kilo][PATCH] dhcp: fix QA issue files installed but not shipped
+Subject: [PATCH] libvirt: get libvirt-guests systemd service running
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,57 +43,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Sep 2015 18:46:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 11 Sep 2015 14:42:10 -0000
+Content-Type: text/plain
 
-merged.
+While testing libvirt with the new systemd init I found that the
+libvirt-guests service was failing to run since the libvirt-guests.sh
+script was not where it was expected. If we are building for systemd
+init system use the default installation location which is used
+upstream for the libvirt-guests.sh script.
 
-Bruce
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ recipes-extended/libvirt/libvirt_1.2.17.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-On Thu, Sep 10, 2015 at 5:15 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> The value of FILES set in this bbappend was overriden after
-> bitbake expanded it from the value set in the recipe.
-> This patch solves this issue:
->
-> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
-> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
-> ERROR: QA Issue: dhcp: Files/directories were installed but not shipped
->   /etc/dhcp/dhclient-exit-hooks [installed-vs-shipped]
-> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
-> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
-> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf) replaces original key FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks                      ).
->
-> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
-> ---
->  recipes-connectivity/dhcp/dhcp_%.bbappend | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-connectivity/dhcp/dhcp_%.bbappend b/recipes-connectivity/dhcp/dhcp_%.bbappend
-> index a23f7c9..2babae9 100644
-> --- a/recipes-connectivity/dhcp/dhcp_%.bbappend
-> +++ b/recipes-connectivity/dhcp/dhcp_%.bbappend
-> @@ -12,5 +12,6 @@ do_install_append () {
->
->  }
->
-> -FILES_dhcp-client += "${sysconfdir}/dhcp/dhclient-exit-hooks \
-> -                     "
-> +FILES_${PN}-client += " \
-> +       ${sysconfdir}/dhcp/dhclient-exit-hooks \
-> +       "
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-extended/libvirt/libvirt_1.2.17.bb b/recipes-extended/libvirt/libvirt_1.2.17.bb
+index 28a22bb..6f269f9 100644
+--- a/recipes-extended/libvirt/libvirt_1.2.17.bb
++++ b/recipes-extended/libvirt/libvirt_1.2.17.bb
+@@ -107,6 +107,7 @@ FILES_${PN}-libvirtd = " \
+         /usr/lib/sysctl.d/60-libvirtd.conf \
+ 	${sbindir}/libvirtd \
+ 	${systemd_unitdir}/system/* \
++	${@base_contains('DISTRO_FEATURES', 'sysvinit', '', '${libexecdir}/libvirt-guests.sh', d)} \
+         "
+ 
+ FILES_${PN}-virsh = "${bindir}/virsh"
+@@ -215,9 +216,11 @@ do_install_append() {
+ 	install -m 0755 ${WORKDIR}/libvirtd.sh ${D}/etc/init.d/libvirtd
+ 	install -m 0644 ${WORKDIR}/libvirtd.conf ${D}/etc/libvirt/libvirtd.conf
+ 
+-	# This will wind up in the libvirtd package, but will NOT be invoked by default.
+-	#
+-	mv ${D}/${libexecdir}/libvirt-guests.sh ${D}/${sysconfdir}/init.d
++	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
++	    # This will wind up in the libvirtd package, but will NOT be invoked by default.
++	    #
++	    mv ${D}/${libexecdir}/libvirt-guests.sh ${D}/${sysconfdir}/init.d
++	fi
+ 
+ 	# The /var/run/libvirt directories created by the Makefile
+ 	# are wiped out in volatile, we need to create these at boot.
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.1.4
+
 
