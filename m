@@ -1,6 +1,6 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0D6C0E00C7C; Tue, 15 Sep 2015 19:32:08 -0700 (PDT)
+	id 4E8BDE00D63; Tue, 15 Sep 2015 21:16:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,25 +12,23 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B07FAE00B7A
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26286E00B7A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Sep 2015 19:32:01 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G2W017002319
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Sep 2015 19:32:00 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.235.1; Tue, 15 Sep 2015 19:31:59 -0700
-From: <rongqing.li@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 16 Sep 2015 10:26:08 +0800
-Message-ID: <1442370368-30349-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue, 15 Sep 2015 21:16:12 -0700 (PDT)
+Received: from yow-dellw-af (yow-dellw-af.wrs.com [128.224.56.22])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t8G4GAfd012276
+	(version=TLSv1.2 cipher=AES128-GCM-SHA256 bits=128 verify=NO);
+	Tue, 15 Sep 2015 21:16:11 -0700 (PDT)
+Received: from afong by yow-dellw-af with local (Exim 4.86)
+	(envelope-from <amy.fong@windriver.com>)
+	id 1Zc48M-00074l-FI; Wed, 16 Sep 2015 00:15:50 -0400
+Date: Wed, 16 Sep 2015 00:15:50 -0400
+From: Amy Fong <amy.fong@windriver.com>
+To: meta-virtualization@yoctoproject.org
+Message-ID: <20150916041550.GA27159@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] libvirt: upgrade 1.2.17 -> 1.2.19
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Subject: [PATCH] docker: update SRC_URI
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,60 +41,34 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 02:32:08 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 16 Sep 2015 04:16:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Roy Li <rongqing.li@windriver.com>
+Author: Amy Fong <amy.fong@windriver.com>
+Date:   Wed Sep 16 00:12:10 2015 -0400
 
-The release notes is http://libvirt.org/news.html
+    docker: update SRC_URI
+    
+    branch=release is no longer valid in the git tree,
+    updating the branch to v1.6.2
+    
+    Signed-off-by: Amy Fong <amy.fong@windriver.com>
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
----
- .../{libvirt-1.2.17 => libvirt-1.2.19}/0001-to-fix-build-error.patch  | 0
- recipes-extended/libvirt/libvirt-python.inc                           | 4 ++--
- recipes-extended/libvirt/{libvirt_1.2.17.bb => libvirt_1.2.19.bb}     | 4 ++--
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename recipes-extended/libvirt/{libvirt-1.2.17 => libvirt-1.2.19}/0001-to-fix-build-error.patch (100%)
- rename recipes-extended/libvirt/{libvirt_1.2.17.bb => libvirt_1.2.19.bb} (98%)
-
-diff --git a/recipes-extended/libvirt/libvirt-1.2.17/0001-to-fix-build-error.patch b/recipes-extended/libvirt/libvirt-1.2.19/0001-to-fix-build-error.patch
-similarity index 100%
-rename from recipes-extended/libvirt/libvirt-1.2.17/0001-to-fix-build-error.patch
-rename to recipes-extended/libvirt/libvirt-1.2.19/0001-to-fix-build-error.patch
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index f42e491..015b4b6 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
- SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
- SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
+diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+index aa125a3..46714fe 100644
+--- a/recipes-containers/docker/docker_git.bb
++++ b/recipes-containers/docker/docker_git.bb
+@@ -19,8 +19,9 @@ DESCRIPTION = "Linux container runtime \
+  "
  
--SRC_URI[libvirt_python.md5sum] = "a695e323e33db562d86e947f7ac77f09"
--SRC_URI[libvirt_python.sha256sum] = "f4d3db4012a800a2519e62bbef4ce14a37e030a20ab18f5b66759533a39b36ed"
-+SRC_URI[libvirt_python.md5sum] = "429e328028fc59b62404a4163004f2ae"
-+SRC_URI[libvirt_python.sha256sum] = "88ab63b0c53e435bd2c6e8551805fe273353708efd4dfab908257dc5f37bec49"
- 
- export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
- export LIBVIRT_CFLAGS = "-I${S}/include"
-diff --git a/recipes-extended/libvirt/libvirt_1.2.17.bb b/recipes-extended/libvirt/libvirt_1.2.19.bb
-similarity index 98%
-rename from recipes-extended/libvirt/libvirt_1.2.17.bb
-rename to recipes-extended/libvirt/libvirt_1.2.19.bb
-index a945792..1d5e328 100644
---- a/recipes-extended/libvirt/libvirt_1.2.17.bb
-+++ b/recipes-extended/libvirt/libvirt_1.2.19.bb
-@@ -34,8 +34,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
-            file://0001-to-fix-build-error.patch \
-           "
- 
--SRC_URI[libvirt.md5sum] = "a1f49050223be3cbd7678c32b1ee2756"
--SRC_URI[libvirt.sha256sum] = "e07eaf20b0590fae05ba3b53ad4dac3e5fbd771437563cc78b692f23ddd02fad"
-+SRC_URI[libvirt.md5sum] = "bc3ab1ba5b6fabd2e4516c70ddd4d97c"
-+SRC_URI[libvirt.sha256sum] = "282c141f03331d640020c15f81464b27400e0ee307ef4c5190393b021caedd6e"
- 
- inherit autotools gettext update-rc.d pkgconfig ptest
- 
--- 
-1.9.1
+ SRCREV = "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
++SRCBRANCH = "v1.6.2"
+ SRC_URI = "\
+-       git://github.com/docker/docker.git;branch=release \
++       git://github.com/docker/docker.git;branch=${SRCBRANCH};nobranch=1 \
+        file://docker.service \
+        file://docker.init \
+        file://hi.Dockerfile \
 
 
