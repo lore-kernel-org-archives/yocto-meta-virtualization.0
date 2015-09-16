@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0692BE00E2B; Wed, 16 Sep 2015 13:10:59 -0700 (PDT)
+	id 30B4CE00C35; Wed, 16 Sep 2015 13:11:09 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.169 listed in list.dnswl.org]
+	*      [209.85.160.172 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f169.google.com (mail-yk0-f169.google.com
-	[209.85.160.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6AD20E00BF9
+Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
+	[209.85.160.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7A7B0E00BF9
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Sep 2015 13:10:56 -0700 (PDT)
-Received: by ykdg206 with SMTP id g206so230718702ykd.1
+	Wed, 16 Sep 2015 13:11:07 -0700 (PDT)
+Received: by ykdt18 with SMTP id t18so210672850ykd.3
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Sep 2015 13:10:56 -0700 (PDT)
+	Wed, 16 Sep 2015 13:11:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=oT91PmK0ZlKrci+EYp4SmJTS0Pnm3isFBehg5DeFPOQ=;
-	b=S9+PN6g2JwgpyRltBLEAeyW2CdXlykiXsCQ8SkxS0Uw1+1OSnNcVhyzd5yYfcpLoq5
-	b4pZXwwWBtldhda1GBYcun6wfg/PcDRwmN8FQ6iMYE1/tvvR2C9r7kVdi5ZNe0bd8cT6
-	S5x1WjJBVWe9vPUDgnYy/JgO9Qxy5UfOuSM865mZGdGH5jqEk4DOZ1pL4YmfhWaN/VGx
-	/43TBxwHNurJTUAFQQVwWzhE5uVQZBUacvD/yuGfUJcL8lUOx1VRjl5D6rlYAKw+XzTM
-	png2Ov0rz3Cxm66A/8V7EmNBLkKZ/GKCWH8T+9CWWp4MKHaNGgVH9mVl2/kx7qyTeqmQ
-	faWA==
+	bh=TYHfO+cW/ZQmCQ8itgWMCi2cmj34mnJg1h3WxDyXuhE=;
+	b=MTtTd6B8ZrEPaMq5RS42EhcBfaFUzKEDpcAjaOh6hbO9x3V+Oq0eF8RGh+OwBDsFSP
+	JhWmXVaJTHnNo7ytBURd3ofA+jwBTJgq7gHGwHukZueBdxbNW/FEgYK0YOwGA7QbcAjB
+	FpoD1JUpMH6aH94Ah0qlZ7exeRsrCl546mf25LytUybhWFnV8L24G2f8g5QnQ7t4kQMo
+	TSDpx/HSb7yNOPU8WTkQOOa6j1E2QuUz7M5Moog0qx3yK42DiONek2A7XDjYPknWBnRl
+	znuku+dgKb75YhutAdJK4QrN7k2NEWB26f26Mn7LZ7X4t5494YXQJbaZPCThgVKAZohi
+	uSrg==
 MIME-Version: 1.0
-X-Received: by 10.129.75.3 with SMTP id y3mr30587022ywa.92.1442434255993; Wed,
-	16 Sep 2015 13:10:55 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Wed, 16 Sep 2015 13:10:55 -0700 (PDT)
-In-Reply-To: <20150916041550.GA27159@windriver.com>
-References: <20150916041550.GA27159@windriver.com>
-Date: Wed, 16 Sep 2015 16:10:55 -0400
-Message-ID: <CADkTA4NqyviC+f2ytrwi8dNLZ6Kq3mZV6gU=L4N_Sge4kaJQkg@mail.gmail.com>
+X-Received: by 10.13.245.135 with SMTP id e129mr28933096ywf.13.1442434267392; 
+	Wed, 16 Sep 2015 13:11:07 -0700 (PDT)
+Received: by 10.129.34.212 with HTTP; Wed, 16 Sep 2015 13:11:07 -0700 (PDT)
+In-Reply-To: <1442420798-8646-1-git-send-email-mark.asselstine@windriver.com>
+References: <1442420798-8646-1-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 16 Sep 2015 16:11:07 -0400
+Message-ID: <CADkTA4ON51RzeyYyxPCJ-E7-VxCFNjKL0qiRhtgPCYH2CiPKdw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Amy Fong <amy.fong@windriver.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] docker: update SRC_URI
+Subject: Re: [PATCH 1/2] libvirt: upgrade 1.2.17 -> 1.2.19
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,39 +62,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 20:10:59 -0000
+X-List-Received-Date: Wed, 16 Sep 2015 20:11:09 -0000
 Content-Type: text/plain; charset=UTF-8
 
 merged.
 
 Bruce
 
-On Wed, Sep 16, 2015 at 12:15 AM, Amy Fong <amy.fong@windriver.com> wrote:
-> Author: Amy Fong <amy.fong@windriver.com>
-> Date:   Wed Sep 16 00:12:10 2015 -0400
+On Wed, Sep 16, 2015 at 12:26 PM, Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
->     docker: update SRC_URI
+> The release notes is http://libvirt.org/news.html
 >
->     branch=release is no longer valid in the git tree,
->     updating the branch to v1.6.2
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
 >
->     Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> Roys' original patch with context fixed up to apply against the
+> latest. (non-thunking).
 >
-> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-> index aa125a3..46714fe 100644
-> --- a/recipes-containers/docker/docker_git.bb
-> +++ b/recipes-containers/docker/docker_git.bb
-> @@ -19,8 +19,9 @@ DESCRIPTION = "Linux container runtime \
->   "
+>  .../{libvirt-1.2.17 => libvirt-1.2.19}/0001-to-fix-build-error.patch  | 0
+>  recipes-extended/libvirt/libvirt-python.inc                           | 4 ++--
+>  recipes-extended/libvirt/{libvirt_1.2.17.bb => libvirt_1.2.19.bb}     | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>  rename recipes-extended/libvirt/{libvirt-1.2.17 => libvirt-1.2.19}/0001-to-fix-build-error.patch (100%)
+>  rename recipes-extended/libvirt/{libvirt_1.2.17.bb => libvirt_1.2.19.bb} (98%)
 >
->  SRCREV = "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
-> +SRCBRANCH = "v1.6.2"
->  SRC_URI = "\
-> -       git://github.com/docker/docker.git;branch=release \
-> +       git://github.com/docker/docker.git;branch=${SRCBRANCH};nobranch=1 \
->         file://docker.service \
->         file://docker.init \
->         file://hi.Dockerfile \
+> diff --git a/recipes-extended/libvirt/libvirt-1.2.17/0001-to-fix-build-error.patch b/recipes-extended/libvirt/libvirt-1.2.19/0001-to-fix-build-error.patch
+> similarity index 100%
+> rename from recipes-extended/libvirt/libvirt-1.2.17/0001-to-fix-build-error.patch
+> rename to recipes-extended/libvirt/libvirt-1.2.19/0001-to-fix-build-error.patch
+> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+> index f42e491..015b4b6 100644
+> --- a/recipes-extended/libvirt/libvirt-python.inc
+> +++ b/recipes-extended/libvirt/libvirt-python.inc
+> @@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+>  SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
+>  SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
+>
+> -SRC_URI[libvirt_python.md5sum] = "a695e323e33db562d86e947f7ac77f09"
+> -SRC_URI[libvirt_python.sha256sum] = "f4d3db4012a800a2519e62bbef4ce14a37e030a20ab18f5b66759533a39b36ed"
+> +SRC_URI[libvirt_python.md5sum] = "429e328028fc59b62404a4163004f2ae"
+> +SRC_URI[libvirt_python.sha256sum] = "88ab63b0c53e435bd2c6e8551805fe273353708efd4dfab908257dc5f37bec49"
+>
+>  export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+>  export LIBVIRT_CFLAGS = "-I${S}/include"
+> diff --git a/recipes-extended/libvirt/libvirt_1.2.17.bb b/recipes-extended/libvirt/libvirt_1.2.19.bb
+> similarity index 98%
+> rename from recipes-extended/libvirt/libvirt_1.2.17.bb
+> rename to recipes-extended/libvirt/libvirt_1.2.19.bb
+> index 06cb51b..f433321 100644
+> --- a/recipes-extended/libvirt/libvirt_1.2.17.bb
+> +++ b/recipes-extended/libvirt/libvirt_1.2.19.bb
+> @@ -35,8 +35,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+>             file://Revert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch \
+>            "
+>
+> -SRC_URI[libvirt.md5sum] = "a1f49050223be3cbd7678c32b1ee2756"
+> -SRC_URI[libvirt.sha256sum] = "e07eaf20b0590fae05ba3b53ad4dac3e5fbd771437563cc78b692f23ddd02fad"
+> +SRC_URI[libvirt.md5sum] = "bc3ab1ba5b6fabd2e4516c70ddd4d97c"
+> +SRC_URI[libvirt.sha256sum] = "282c141f03331d640020c15f81464b27400e0ee307ef4c5190393b021caedd6e"
+>
+>  inherit autotools gettext update-rc.d pkgconfig ptest systemd
+>
+> --
+> 2.1.4
 >
 > --
 > _______________________________________________
