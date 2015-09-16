@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 74458E00E25; Wed, 16 Sep 2015 13:05:54 -0700 (PDT)
+	id 2C54BE00D81; Wed, 16 Sep 2015 13:07:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.182 listed in list.dnswl.org]
+	*      [209.85.160.180 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
-	[209.85.160.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3015DE00BF9
+Received: from mail-yk0-f180.google.com (mail-yk0-f180.google.com
+	[209.85.160.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A8DB2E00C35
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Sep 2015 13:05:51 -0700 (PDT)
-Received: by ykdt18 with SMTP id t18so210522286ykd.3
+	Wed, 16 Sep 2015 13:07:52 -0700 (PDT)
+Received: by ykdu9 with SMTP id u9so231687666ykd.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 16 Sep 2015 13:05:51 -0700 (PDT)
+	Wed, 16 Sep 2015 13:07:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=q9XytlTQqGZAL4WYZY6IBKT+sXr/uZKFo3/my29bhRA=;
-	b=tPnTmZUbv3sveb4slY4P0qICBBmjmF87lGNmrJA6S5OLflamT3gnn+NF2w03TwIrId
-	3yIHf8sMWJQ/hwRQNETAqGPYHDF1BrRcKlUzMZ2WjE+XHibh7JMrNUanMzDaDExmvhqH
-	Uji+Eg4k59RUFm6JttsnZ9hgRQBFZLMWFkzbSJtcYPFRdyODrWToBASmuj9xOQKkp8Uk
-	F7m+nR94gXBiK6IhMpcE4aL3uFZ9KWL2AoLR4GxvRU99NzEqZXHcHRkRUGe+2ol8ITDa
-	B5Zdf1ghFfRb4UMRhwGE01ucuRY/02Fv92V7GpWV7wU3Zms2TR0i+G4jjrLH6ty5gbr+
-	wEMA==
+	bh=Ypv7s0zDmNQ1gRhzkvIe6NV95Q8Dprbny7HpC/hgC78=;
+	b=JFGpZ4oIFFNBXqQRZaW8bAjScGNrCBIbqSq/Htxpp4kp/CIh57e5XZx/UGSMuLJuh9
+	8uKa2PY5A5kPNh4KhFfXqyp1HwlXtokSjQ7+XVuPCIzUnSzcyfRiGRT5s5c8WZY1wN0U
+	LYupMN6Qkbivzz1s+42Nabr+0OyT94f0cgv9ve1crZJ+isXl2YcClh6x+Msu62EEY9L2
+	bGT3X4O+eu7ioE0V+Bl55BsR9ltqgIInL7LIG32sxJKZ45AiViJhbnq0wbB484iOzcbF
+	3e7A5CMIEUohhQ22CRF8NUpzSc/714ejeuTkzdRHw0Qirq9Mhq8H4074dAL+xVTtYnGG
+	9yLQ==
 MIME-Version: 1.0
-X-Received: by 10.129.73.203 with SMTP id w194mr28848408ywa.16.1442433951198; 
-	Wed, 16 Sep 2015 13:05:51 -0700 (PDT)
-Received: by 10.129.34.212 with HTTP; Wed, 16 Sep 2015 13:05:51 -0700 (PDT)
-In-Reply-To: <1442315235-4401-1-git-send-email-josep.puigdemont@enea.com>
-References: <1442315235-4401-1-git-send-email-josep.puigdemont@enea.com>
-Date: Wed, 16 Sep 2015 16:05:51 -0400
-Message-ID: <CADkTA4MdwFvXpaJQ8oOpxbKaM6V_uBmTrqpEahECBhXNKPNJmw@mail.gmail.com>
+X-Received: by 10.13.245.135 with SMTP id e129mr28917365ywf.13.1442434072420; 
+	Wed, 16 Sep 2015 13:07:52 -0700 (PDT)
+Received: by 10.129.34.212 with HTTP; Wed, 16 Sep 2015 13:07:52 -0700 (PDT)
+In-Reply-To: <1442324736-15011-1-git-send-email-mark.asselstine@windriver.com>
+References: <1442324736-15011-1-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 16 Sep 2015 16:07:52 -0400
+Message-ID: <CADkTA4O7-jZZyGnVSJ1W_jjwJkz+YoxSc3FH0mjfQ07LKFwmPg@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [kilo][fido-kilo][PATCH] python-fixtures: depends on python-pbr
+Subject: Re: [meta-cloud-services][PATCH 1/3] dnsmasq: move bbappend to use a wilcard
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,44 +62,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Sep 2015 20:05:54 -0000
+X-List-Received-Date: Wed, 16 Sep 2015 20:07:56 -0000
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+all three patches are now merged.
 
 Bruce
 
-On Tue, Sep 15, 2015 at 7:07 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> Fixes this build error:
-> |   File ".../sysroots/x86_64-linux/usr/lib/python2.7/site-packages/distribute-0.6.32-py2.7.egg/setuptools/command/easy_install.py", line 592, in easy_install
-> |     raise DistutilsError(msg)
-> | distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('pbr')
-> | ERROR: python setup.py build_ext execution failed.
+On Tue, Sep 15, 2015 at 9:45 AM, Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+> To facilitate future support and to simplify using meta-cloud-services
+> with other branches we prefer to use a wildcard. In making this move
+> the content of the bbappend has been audited and most of the content
+> is now no longer needed (it is found in dnsmasq.inc for some time now)
+> and so we are removing these parts.
 >
-> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-fixtures_1.0.0.bb | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  .../dnsmasq/{dnsmasq_2.72.bbappend => dnsmasq_2.%.bbappend}          | 5 -----
+>  1 file changed, 5 deletions(-)
+>  rename meta-openstack/recipes-support/dnsmasq/{dnsmasq_2.72.bbappend => dnsmasq_2.%.bbappend} (51%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-fixtures_1.0.0.bb b/meta-openstack/recipes-devtools/python/python-fixtures_1.0.0.bb
-> index fe1c8d1..f0cb453 100644
-> --- a/meta-openstack/recipes-devtools/python/python-fixtures_1.0.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-fixtures_1.0.0.bb
-> @@ -21,4 +21,10 @@ DISTUTILS_INSTALL_ARGS = "--root=${D} \
->      --install-lib=${PYTHON_SITEPACKAGES_DIR} \
->      --install-data=${datadir}"
->
-> -RDEPENDS_${PN} += "python-testtools"
-> +DEPENDS += " \
-> +       python-pbr \
-> +       "
-> +
-> +RDEPENDS_${PN} += "python-testtools \
-> +       python-pbr \
-> +       "
+> diff --git a/meta-openstack/recipes-support/dnsmasq/dnsmasq_2.72.bbappend b/meta-openstack/recipes-support/dnsmasq/dnsmasq_2.%.bbappend
+> similarity index 51%
+> rename from meta-openstack/recipes-support/dnsmasq/dnsmasq_2.72.bbappend
+> rename to meta-openstack/recipes-support/dnsmasq/dnsmasq_2.%.bbappend
+> index 52eab54..0c979fe 100644
+> --- a/meta-openstack/recipes-support/dnsmasq/dnsmasq_2.72.bbappend
+> +++ b/meta-openstack/recipes-support/dnsmasq/dnsmasq_2.%.bbappend
+> @@ -1,9 +1,4 @@
+>  do_install_append() {
+> -    cd ${S}/contrib/wrt
+> -    oe_runmake
+> -
+> -    install -m 0755 ${S}/contrib/wrt/dhcp_release ${D}${bindir}
+> -
+>      # Remove /var/run as it is created on startup
+>      rm -rf ${D}${localstatedir}/run
+>  }
 > --
-> 1.9.1
+> 2.1.4
 >
 > --
 > _______________________________________________
