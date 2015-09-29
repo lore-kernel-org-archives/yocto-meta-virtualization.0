@@ -1,45 +1,55 @@
-Return-Path: <arnold.csorvasi@ni.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BC275E00EAF; Tue, 29 Sep 2015 02:56:42 -0700 (PDT)
+	id CD21CE00B23; Tue, 29 Sep 2015 08:04:23 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [130.164.80.23 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.176 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 4722 seconds by postgrey-1.32 at yocto-www;
-	Tue, 29 Sep 2015 02:56:40 PDT
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 10909E00A81
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yk0-f176.google.com (mail-yk0-f176.google.com
+	[209.85.160.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8D508E0076A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Sep 2015 02:56:40 -0700 (PDT)
-Received: from us-aus-mgwout1.amer.corp.natinst.com (nb-chan1-1338.natinst.com
-	[130.164.19.134])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t8T8bwF6015334 for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Sep 2015 03:37:58 -0500
-Received: from arnold-ro-linux.emea.corp.natinst.com ([130.164.14.198])
-	by us-aus-mgwout1.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015092903375815-693414 ;
-	Tue, 29 Sep 2015 03:37:58 -0500 
-From: Arnold Csorvasi <arnold.csorvasi@ni.com>
-To: meta-virtualization@yoctoproject.org
-Date: Tue, 29 Sep 2015 11:37:56 +0300
-Message-Id: <1443515876-3573-1-git-send-email-arnold.csorvasi@ni.com>
-X-Mailer: git-send-email 2.1.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut1/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 09/29/2015 03:37:58 AM,
-	Serialize by Router on US-AUS-MGWOut1/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 09/29/2015 03:37:58 AM,
-	Serialize complete at 09/29/2015 03:37:58 AM
-X-Proofpoint-Virus-Version: vendor=nai engine=5600 definitions=5800
-	signatures=585085
-Subject: [meta-cloud-services][fido-kilo][PATCH] qpid: inherit pkgconfig class
+	Tue, 29 Sep 2015 08:04:17 -0700 (PDT)
+Received: by ykdt18 with SMTP id t18so9497124ykd.3
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 29 Sep 2015 08:04:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=sQS/J2sMfZLG9/dS4Y+ZDYkvA0X8a3+M/r5Jw0kX3GQ=;
+	b=kvX9SqyZEHhaj86rocEO3kSC2TfPGHqW4GLhsqA5pgjzavKLqBg/c8VDTpzntIcpvo
+	ki52ajzKLhbqEIkQhwgxE94//0BR0COSGhu+2EUCJt2PGM7dYLzdQdjRrjRs7pryql49
+	TvOx0TEOfzo/zRhyrNxbgk83pCnjo1S3iIwd1oj0c1rKlJba6iGV80li3Y/3SKGJ+eSU
+	XxQ8mrBmlWZ60hATXwCJj72Gsy/G5xh7pUhc1kceEcBcsZRxZtQcAQ9S4Ad5HLx1nXsu
+	8mOqqzMymMuTh3I7ORGTruYh4ONNDYxs3GTB0I5WAr+/INTU5KnDR4/3LmUukJW157zP
+	yzbA==
+MIME-Version: 1.0
+X-Received: by 10.129.96.9 with SMTP id u9mr13076473ywb.13.1443539057082; Tue,
+	29 Sep 2015 08:04:17 -0700 (PDT)
+Received: by 10.13.217.201 with HTTP; Tue, 29 Sep 2015 08:04:17 -0700 (PDT)
+In-Reply-To: <1443026751-57424-1-git-send-email-josep.puigdemont@enea.com>
+References: <1443026751-57424-1-git-send-email-josep.puigdemont@enea.com>
+Date: Tue, 29 Sep 2015 11:04:17 -0400
+Message-ID: <CADkTA4NGOn6Rt5RxztM+f1OWGFsgm8iCGnEFgu5YfjGOgiZosQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Josep Puigdemont <josep.puigdemont@enea.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [meta-cloud-services][fido-kilo][PATCH] python-glancestore: requires python module enum
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -52,37 +62,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Sep 2015 09:56:42 -0000
+X-List-Received-Date: Tue, 29 Sep 2015 15:04:23 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Also add -Wno-unused-function to prevent build from failing.
+merged!
 
-Signed-off-by: Arnold Csorvasi <arnold.csorvasi@ni.com>
----
- meta-openstack/recipes-extended/qpid/qpid_0.20.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Bruce
 
-diff --git a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
-index a6f1c67..5e6ae2d 100644
---- a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
-+++ b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
-@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "31b80ba3c4773d288b4e6245e3b2048438386331d460f7a7b0794cbd20
- 
- S = "${WORKDIR}/${PN}c-${PV}"
- 
--inherit autotools python-dir perlnative cpan-base update-rc.d
-+inherit autotools python-dir perlnative cpan-base update-rc.d pkgconfig
- 
- # Env var which tells perl if it should use host (no) or target (yes) settings
- export PERLCONFIGTARGET = "${@is_target(d)}"
-@@ -27,6 +27,7 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
- export PERL="${STAGING_BINDIR}/perl"
- 
- EXTRA_OECONF += " --without-help2man SASL_PASSWD=/usr/sbin/saslpasswd2"
-+EXTRA_OEMAKE += " CPPFLAGS=-Wno-unused-function "
- 
- do_install_append() {
-      install -d ${D}${sysconfdir}/init.d
+On Wed, Sep 23, 2015 at 12:45 PM, Josep Puigdemont
+<josep.puigdemont@enea.com> wrote:
+> In capabilities, glance store imports enum, which is available
+> since python 3.4. For earlier versions of python we can use
+> the backported package python-enum34 from meta-python.
+>
+> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
+> ---
+>  meta-openstack/recipes-devtools/python/python-glancestore_git.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python-glancestore_git.bb b/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
+> index b3aa2f3..43707ee 100644
+> --- a/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
+> @@ -22,6 +22,7 @@ DEPENDS += " \
+>          "
+>
+>  RDEPENDS_${PN} = " \
+> +   python-enum34 \
+>     python-eventlet \
+>     python-iso8601 \
+>     python-six \
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-2.1.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
