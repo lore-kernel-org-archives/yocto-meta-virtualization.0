@@ -1,6 +1,6 @@
 Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3161DE00D26; Tue,  6 Oct 2015 11:34:26 -0700 (PDT)
+	id 4109CE00CA1; Tue,  6 Oct 2015 11:34:26 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,18 +12,20 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      medium trust
 	*      [147.11.1.11 listed in list.dnswl.org]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 129FFE00A81
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 13E3AE00AA5
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Oct 2015 11:34:21 -0700 (PDT)
+	Tue,  6 Oct 2015 11:34:22 -0700 (PDT)
 Received: from yow-dellw-af.wrs.com (yow-dellw-af.wrs.com [128.224.56.22])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTP id t96IYJLV016263;
-	Tue, 6 Oct 2015 11:34:20 -0700 (PDT)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTP id t96IYJLZ016263;
+	Tue, 6 Oct 2015 11:34:21 -0700 (PDT)
 From: Amy Fong <amy.fong@windriver.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue,  6 Oct 2015 14:34:02 -0400
-Message-Id: <1444156449-19847-1-git-send-email-amy.fong@windriver.com>
+Date: Tue,  6 Oct 2015 14:34:06 -0400
+Message-Id: <1444156449-19847-5-git-send-email-amy.fong@windriver.com>
 X-Mailer: git-send-email 2.5.3
-Subject: [PATCHES] docker/docker-registry issues
+In-Reply-To: <1444156449-19847-1-git-send-email-amy.fong@windriver.com>
+References: <1444156449-19847-1-git-send-email-amy.fong@windriver.com>
+Subject: [PATCH 4/7] Backport go-cross: set alignment for the .rel.plt section on 32-bit architectures
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -38,7 +40,64 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 X-List-Received-Date: Tue, 06 Oct 2015 18:34:26 -0000
 
+submitted to upstream https://github.com/errordeveloper/oe-meta-go
 
-- go 1.4 has bugs in sqlite, forcing build with go 1.3
-- upreving python-greenlet - instability issues
+Signed-off-by: Amy Fong <amy.fong@windriver.com>
+---
+ ...alignment-for-the-.rel.plt-section-on-32-.patch | 30 ++++++++++++++++++++++
+ recipes-devtools/go-cross/go-cross_1.3.bb          |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 recipes-devtools/go-cross/files/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+
+diff --git a/recipes-devtools/go-cross/files/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch b/recipes-devtools/go-cross/files/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+new file mode 100644
+index 0000000..4cfa9d1
+--- /dev/null
++++ b/recipes-devtools/go-cross/files/0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch
+@@ -0,0 +1,30 @@
++From 855145d5c03c4b4faf60736c38d7a299c682af4a Mon Sep 17 00:00:00 2001
++From: Shenghou Ma <minux@golang.org>
++Date: Sat, 7 Feb 2015 14:06:02 -0500
++Subject: [PATCH] cmd/ld: set alignment for the .rel.plt section on 32-bit
++ architectures
++
++Fixes #9802.
++
++Change-Id: I22c52a37bdb23a14cc4615c9519431bb14ca81ca
++Reviewed-on: https://go-review.googlesource.com/4170
++Reviewed-by: Ian Lance Taylor <iant@golang.org>
++---
++ src/cmd/ld/elf.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/cmd/ld/elf.c b/src/cmd/ld/elf.c
++index 12ced98..97ed4bd 100644
++--- a/src/cmd/ld/elf.c
+++++ b/src/cmd/ld/elf.c
++@@ -1363,6 +1363,7 @@ asmbelf(vlong symo)
++ 			sh->type = SHT_REL;
++ 			sh->flags = SHF_ALLOC;
++ 			sh->entsize = ELF32RELSIZE;
+++			sh->addralign = 4;
++ 			sh->link = elfshname(".dynsym")->shnum;
++ 			shsym(sh, linklookup(ctxt, ".rel.plt", 0));
++ 
++-- 
++1.9.1
++
+diff --git a/recipes-devtools/go-cross/go-cross_1.3.bb b/recipes-devtools/go-cross/go-cross_1.3.bb
+index d689e61..1fb4870 100644
+--- a/recipes-devtools/go-cross/go-cross_1.3.bb
++++ b/recipes-devtools/go-cross/go-cross_1.3.bb
+@@ -20,6 +20,7 @@ SRC_URI[sha256sum] = "eb983e6c5b2b9838f482c5442b1ac1856f610f2b21f3c123b3fedb48ff
+ SRC_URI += "\
+         file://bsd_svid_source.patch \
+         file://ccache.patch \
++        file://0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch \
+         "
+ 
+ do_compile() {
+-- 
+2.5.3
+
 
