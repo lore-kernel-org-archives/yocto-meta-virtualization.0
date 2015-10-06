@@ -1,6 +1,6 @@
 Return-Path: <amy.fong@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 518BBE00D5F; Tue,  6 Oct 2015 11:41:33 -0700 (PDT)
+	id 464A1E00DBE; Tue,  6 Oct 2015 11:41:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,20 +12,20 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DFCB0E00A81
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C4CCBE006F1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Oct 2015 11:41:26 -0700 (PDT)
+	Tue,  6 Oct 2015 11:41:27 -0700 (PDT)
 Received: from yow-dellw-af.wrs.com (yow-dellw-af.wrs.com [128.224.56.22])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTP id t96IfNeE017950;
-	Tue, 6 Oct 2015 11:41:26 -0700 (PDT)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTP id t96IfNeG017950;
+	Tue, 6 Oct 2015 11:41:27 -0700 (PDT)
 From: Amy Fong <amy.fong@windriver.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue,  6 Oct 2015 14:41:13 -0400
-Message-Id: <1444156875-21115-6-git-send-email-amy.fong@windriver.com>
+Date: Tue,  6 Oct 2015 14:41:15 -0400
+Message-Id: <1444156875-21115-8-git-send-email-amy.fong@windriver.com>
 X-Mailer: git-send-email 2.5.3
 In-Reply-To: <1444156875-21115-1-git-send-email-amy.fong@windriver.com>
 References: <1444156875-21115-1-git-send-email-amy.fong@windriver.com>
-Subject: [PATCH 5/7] Enable go-cross 1.3 to coexist with later versions
+Subject: [PATCH 7/7] python-greenlet: uprev to 0.4.9
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -38,201 +38,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 18:41:33 -0000
+X-List-Received-Date: Tue, 06 Oct 2015 18:41:40 -0000
 
-Since we need go 1.3 to co-exist with later versions (ie 1.4),
-package go-cross_1.3 as go-cross-1.3_1.3.
+python-greenlet bugfixes from 0.3.4 - unstable issues. This resulted in
+the docker-registry (in some build scenarios) crashing repeatedly.
 
-go 1.3 will be installed to a different path than go-cross, this requires
-go packages needing go 1.3 to set its PATH to:
-        export PATH=${STAGING_BINDIR_NATIVE}/${HOST_SYS}/go-1.3:$PATH
+    Traceback (most recent call last):
+      File "/usr/lib64/python2.7/site-packages/gunicorn/arbiter.py", line 507, in spawn_worker
+        worker.init_process()
+      File "/usr/lib64/python2.7/site-packages/gunicorn/workers/ggevent.py", line 193, in init_process
+        super(GeventWorker, self).init_process()
+      File "/usr/lib64/python2.7/site-packages/gunicorn/workers/base.py", line 120, in init_process
+        self.run()
+      File "/usr/lib64/python2.7/site-packages/gunicorn/workers/ggevent.py", line 117, in run
+        gevent.sleep(1.0)
+      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 75, in sleep
+        hub.wait(loop.timer(seconds, ref=ref))
+      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 341, in wait
+        result = waiter.get()
+      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 568, in get
+        return self.hub.switch()
+      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 331, in switch
+        return greenlet.switch(self)
+    SystemError: NULL result without error in PyObject_Call
+
+    <repeat>
 
 Signed-off-by: Amy Fong <amy.fong@windriver.com>
 ---
- recipes-containers/docker/docker_git.bb       |  4 +-
- recipes-devtools/go-cross/go-cross-1.3_1.3.bb | 72 +++++++++++++++++++++++++++
- recipes-devtools/go-cross/go-cross_1.3.bb     | 71 --------------------------
- 3 files changed, 75 insertions(+), 72 deletions(-)
- create mode 100644 recipes-devtools/go-cross/go-cross-1.3_1.3.bb
- delete mode 100644 recipes-devtools/go-cross/go-cross_1.3.bb
+ recipes-devtools/python/python-greenlet_0.4.9.bb | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+ create mode 100644 recipes-devtools/python/python-greenlet_0.4.9.bb
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index aa125a3..165b319 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -36,7 +36,7 @@ S = "${WORKDIR}/git"
- DOCKER_VERSION = "1.6.2"
- PV = "${DOCKER_VERSION}+git${SRCREV}"
- 
--DEPENDS = "go-cross \
-+DEPENDS = "go-cross-1.3 \
-     go-cli \
-     go-pty \
-     go-context \
-@@ -65,6 +65,8 @@ do_configure() {
- }
- 
- do_compile() {
-+	export PATH=${STAGING_BINDIR_NATIVE}/${HOST_SYS}/go-1.3:$PATH
-+
- 	export GOARCH="${TARGET_ARCH}"
- 	# supported amd64, 386, arm
- 	if [ "${TARGET_ARCH}" = "x86_64" ]; then
-diff --git a/recipes-devtools/go-cross/go-cross-1.3_1.3.bb b/recipes-devtools/go-cross/go-cross-1.3_1.3.bb
+diff --git a/recipes-devtools/python/python-greenlet_0.4.9.bb b/recipes-devtools/python/python-greenlet_0.4.9.bb
 new file mode 100644
-index 0000000..775e28f
+index 0000000..fa35fa8
 --- /dev/null
-+++ b/recipes-devtools/go-cross/go-cross-1.3_1.3.bb
-@@ -0,0 +1,72 @@
-+DESCRIPTION = "\
-+  Go is an open source programming language that makes it easy to build simple, \
-+  reliable, and efficient software. \
-+  "
-+HOMEPAGE = "https://golang.org/"
-+LICENSE = "BSD-3-Clause"
++++ b/recipes-devtools/python/python-greenlet_0.4.9.bb
+@@ -0,0 +1,14 @@
++SUMMARY = "Python lightweight in-process concurrent programming"
++HOMEPAGE = "http://pypi.python.org/pypi/greenlet"
++SECTION = "devel/python"
++LICENSE = "MIT & PSF"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=03143d7a1a9f5d8a0fee825f24ca9c36 \
++                    file://LICENSE.PSF;md5=c106931d9429eda0492617f037b8f69a"
++SRC_URI = "http://pypi.python.org/packages/source/g/greenlet/greenlet-${PV}.tar.gz"
++SRC_URI[md5sum] = "00bb1822d8511cc85f052e89d1fd919b"
++SRC_URI[sha256sum] = "79f9b8bbbb1c599c66aed5e643e8b53bae697cae46e0acfc4ee461df48a90012"
 +
-+DEPENDS = "virtual/${TARGET_PREFIX}gcc"
++S = "${WORKDIR}/greenlet-${PV}"
 +
-+SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz"
++inherit distutils
 +
-+S = "${WORKDIR}/go/"
-+
-+inherit cross
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=591778525c869cdde0ab5a1bf283cd81"
-+SRC_URI[md5sum] = "4b66d7249554181c314f139ea78920b1"
-+SRC_URI[sha256sum] = "eb983e6c5b2b9838f482c5442b1ac1856f610f2b21f3c123b3fedb48ffc35382"
-+
-+SRC_URI += "\
-+        file://bsd_svid_source.patch \
-+        file://ccache.patch \
-+        file://0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch \
-+        "
-+
-+do_compile() {
-+	## Setting `$GOBIN` doesn't do any good, looks like it ends up copying binaries there.
-+	export GOROOT_FINAL="${SYSROOT}${libdir}/go-1.3"
-+
-+	export GOHOSTOS="linux"
-+	export GOOS="linux"
-+
-+	export GOARCH="${TARGET_ARCH}"
-+	# golang only support 386, amd64 and arm architecture.
-+	if [ "${TARGET_ARCH}" = "x86_64" ]; then
-+		export GOARCH="amd64"
-+	elif [ "${TARGET_ARCH}" = "i586" ]; then
-+		export GOARCH="386"
-+	fi
-+	if [ "${TARGET_ARCH}" = "arm" ]
-+	then
-+		if [ `echo ${TUNE_PKGARCH} | cut -c 1-7` = "cortexa" ]
-+		then
-+			echo GOARM 7
-+			export GOARM="7"
-+		fi
-+	fi
-+
-+	export CGO_ENABLED="1"
-+	## TODO: consider setting GO_EXTLINK_ENABLED
-+
-+	export CC="${BUILD_CC}"
-+	export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
-+	export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
-+	export GO_CCFLAGS="${HOST_CFLAGS}"
-+	export GO_LDFLAGS="${HOST_LDFLAGS}"
-+
-+	cd src && ./make.bash
-+}
-+
-+do_install() {
-+	## It should be okay to ignore `${WORKDIR}/go/bin/linux_arm`...
-+	## Also `gofmt` is not needed right now.
-+	install -d "${D}${bindir}/go-1.3"
-+	install -m 0755 "${WORKDIR}/go/bin/go" "${D}${bindir}/go-1.3/"
-+	install -d "${D}${libdir}/go-1.3"
-+
-+	## TODO: use `install` instead of `cp`
-+	for dir in include lib pkg src test
-+	do cp -a "${WORKDIR}/go/${dir}" "${D}${libdir}/go-1.3/"
-+	done
-+}
-diff --git a/recipes-devtools/go-cross/go-cross_1.3.bb b/recipes-devtools/go-cross/go-cross_1.3.bb
-deleted file mode 100644
-index 1fb4870..0000000
---- a/recipes-devtools/go-cross/go-cross_1.3.bb
-+++ /dev/null
-@@ -1,71 +0,0 @@
--DESCRIPTION = "\
--  Go is an open source programming language that makes it easy to build simple, \
--  reliable, and efficient software. \
--  "
--HOMEPAGE = "https://golang.org/"
--LICENSE = "BSD-3-Clause"
--
--DEPENDS = "virtual/${TARGET_PREFIX}gcc"
--
--SRC_URI = "http://golang.org/dl/go${PV}.src.tar.gz"
--
--S = "${WORKDIR}/go/"
--
--inherit cross
--
--LIC_FILES_CHKSUM = "file://LICENSE;md5=591778525c869cdde0ab5a1bf283cd81"
--SRC_URI[md5sum] = "4b66d7249554181c314f139ea78920b1"
--SRC_URI[sha256sum] = "eb983e6c5b2b9838f482c5442b1ac1856f610f2b21f3c123b3fedb48ffc35382"
--
--SRC_URI += "\
--        file://bsd_svid_source.patch \
--        file://ccache.patch \
--        file://0001-cmd-ld-set-alignment-for-the-.rel.plt-section-on-32-.patch \
--        "
--
--do_compile() {
--	## Setting `$GOBIN` doesn't do any good, looks like it ends up copying binaries there.
--	export GOROOT_FINAL="${SYSROOT}${libdir}/go"
--
--	export GOHOSTOS="linux"
--	export GOOS="linux"
--
--	export GOARCH="${TARGET_ARCH}"
--	# golang only support 386, amd64 and arm architecture.
--	if [ "${TARGET_ARCH}" = "x86_64" ]; then
--		export GOARCH="amd64"
--	elif [ "${TARGET_ARCH}" = "i586" ]; then
--		export GOARCH="386"
--	fi
--	if [ "${TARGET_ARCH}" = "arm" ]
--	then
--		if [ `echo ${TUNE_PKGARCH} | cut -c 1-7` = "cortexa" ]
--		then
--			echo GOARM 7
--			export GOARM="7"
--		fi
--	fi
--
--	export CGO_ENABLED="1"
--	## TODO: consider setting GO_EXTLINK_ENABLED
--
--	export CC="${BUILD_CC}"
--	export CC_FOR_TARGET="${TARGET_PREFIX}gcc ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
--	export CXX_FOR_TARGET="${TARGET_PREFIX}g++ ${TARGET_CC_ARCH} --sysroot=${STAGING_DIR_TARGET}"
--	export GO_CCFLAGS="${HOST_CFLAGS}"
--	export GO_LDFLAGS="${HOST_LDFLAGS}"
--
--	cd src && ./make.bash
--}
--
--do_install() {
--	## It should be okay to ignore `${WORKDIR}/go/bin/linux_arm`...
--	## Also `gofmt` is not needed right now.
--	install -d "${D}${bindir}"
--	install -m 0755 "${WORKDIR}/go/bin/go" "${D}${bindir}"
--	install -d "${D}${libdir}/go"
--	## TODO: use `install` instead of `cp`
--	for dir in include lib pkg src test
--	do cp -a "${WORKDIR}/go/${dir}" "${D}${libdir}/go/"
--	done
--}
 -- 
 2.5.3
 
