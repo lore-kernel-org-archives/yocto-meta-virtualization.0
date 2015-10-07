@@ -1,31 +1,32 @@
-Return-Path: <amy.fong@windriver.com>
+Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 464A1E00DBE; Tue,  6 Oct 2015 11:41:40 -0700 (PDT)
+	id DE30CE00D53; Wed,  7 Oct 2015 08:38:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C4CCBE006F1
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [192.36.1.252 listed in list.dnswl.org]
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 6A6CBE00B5A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Oct 2015 11:41:27 -0700 (PDT)
-Received: from yow-dellw-af.wrs.com (yow-dellw-af.wrs.com [128.224.56.22])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTP id t96IfNeG017950;
-	Tue, 6 Oct 2015 11:41:27 -0700 (PDT)
-From: Amy Fong <amy.fong@windriver.com>
-To: meta-virtualization@yoctoproject.org
-Date: Tue,  6 Oct 2015 14:41:15 -0400
-Message-Id: <1444156875-21115-8-git-send-email-amy.fong@windriver.com>
-X-Mailer: git-send-email 2.5.3
-In-Reply-To: <1444156875-21115-1-git-send-email-amy.fong@windriver.com>
-References: <1444156875-21115-1-git-send-email-amy.fong@windriver.com>
-Subject: [PATCH 7/7] python-greenlet: uprev to 0.4.9
+	Wed,  7 Oct 2015 08:38:48 -0700 (PDT)
+Received: from sestofb11.enea.se (172.21.3.146) by smtp.enea.com
+	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Wed, 7 Oct 2015
+	17:38:45 +0200
+From: Josep Puigdemont <josep.puigdemont@enea.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 7 Oct 2015 17:38:42 +0200
+Message-ID: <1444232325-22859-1-git-send-email-josep.puigdemont@enea.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
+	designate permitted sender hosts)
+Subject: [meta-cloud-services][fido/kilo][PATCH 0/3] openstack client
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -38,59 +39,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Oct 2015 18:41:40 -0000
+X-List-Received-Date: Wed, 07 Oct 2015 15:38:52 -0000
+Content-Type: text/plain
 
-python-greenlet bugfixes from 0.3.4 - unstable issues. This resulted in
-the docker-registry (in some build scenarios) crashing repeatedly.
+The openstack client depends on cliff-tablib:
+  # openstack token issue
+  ERROR: openstackclient.shell Exception raised: cliff-tablib>=1.0
 
-    Traceback (most recent call last):
-      File "/usr/lib64/python2.7/site-packages/gunicorn/arbiter.py", line 507, in spawn_worker
-        worker.init_process()
-      File "/usr/lib64/python2.7/site-packages/gunicorn/workers/ggevent.py", line 193, in init_process
-        super(GeventWorker, self).init_process()
-      File "/usr/lib64/python2.7/site-packages/gunicorn/workers/base.py", line 120, in init_process
-        self.run()
-      File "/usr/lib64/python2.7/site-packages/gunicorn/workers/ggevent.py", line 117, in run
-        gevent.sleep(1.0)
-      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 75, in sleep
-        hub.wait(loop.timer(seconds, ref=ref))
-      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 341, in wait
-        result = waiter.get()
-      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 568, in get
-        return self.hub.switch()
-      File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 331, in switch
-        return greenlet.switch(self)
-    SystemError: NULL result without error in PyObject_Call
+I've added the necessary recipes to satisfy this dependency, and
+updated openstackclient to a newer minor version.
 
-    <repeat>
+Josep Puigdemont (3):
+  python-tablib: added recipe
+  python-cliff-tablib: add recipe
+  openstackcclient: New version and updated dependencies
 
-Signed-off-by: Amy Fong <amy.fong@windriver.com>
----
- recipes-devtools/python/python-greenlet_0.4.9.bb | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
- create mode 100644 recipes-devtools/python/python-greenlet_0.4.9.bb
+ .../python/python-cliff-tablib_git.bb              | 23 ++++++++++++++++++++++
+ ...nt_1.0.3.bb => python-openstackclient_1.0.4.bb} | 15 ++++++++++++++
+ .../python/python-tablib_0.10.0.bb                 | 18 +++++++++++++++++
+ 3 files changed, 56 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-cliff-tablib_git.bb
+ rename meta-openstack/recipes-devtools/python/{python-openstackclient_1.0.3.bb => python-openstackclient_1.0.4.bb} (63%)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-tablib_0.10.0.bb
 
-diff --git a/recipes-devtools/python/python-greenlet_0.4.9.bb b/recipes-devtools/python/python-greenlet_0.4.9.bb
-new file mode 100644
-index 0000000..fa35fa8
---- /dev/null
-+++ b/recipes-devtools/python/python-greenlet_0.4.9.bb
-@@ -0,0 +1,14 @@
-+SUMMARY = "Python lightweight in-process concurrent programming"
-+HOMEPAGE = "http://pypi.python.org/pypi/greenlet"
-+SECTION = "devel/python"
-+LICENSE = "MIT & PSF"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=03143d7a1a9f5d8a0fee825f24ca9c36 \
-+                    file://LICENSE.PSF;md5=c106931d9429eda0492617f037b8f69a"
-+SRC_URI = "http://pypi.python.org/packages/source/g/greenlet/greenlet-${PV}.tar.gz"
-+SRC_URI[md5sum] = "00bb1822d8511cc85f052e89d1fd919b"
-+SRC_URI[sha256sum] = "79f9b8bbbb1c599c66aed5e643e8b53bae697cae46e0acfc4ee461df48a90012"
-+
-+S = "${WORKDIR}/greenlet-${PV}"
-+
-+inherit distutils
-+
 -- 
-2.5.3
+1.9.1
 
 
