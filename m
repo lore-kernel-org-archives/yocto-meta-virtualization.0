@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8795EE00D4B; Wed,  7 Oct 2015 08:38:53 -0700 (PDT)
+	id A2FB0E00D4B; Wed,  7 Oct 2015 08:38:53 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,23 +12,23 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id ED06EE00C80
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 7FD72E00CF9
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  7 Oct 2015 08:38:50 -0700 (PDT)
+	Wed,  7 Oct 2015 08:38:52 -0700 (PDT)
 Received: from sestofb11.enea.se (172.21.3.146) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Wed, 7 Oct 2015
-	17:38:49 +0200
+	17:38:51 +0200
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 7 Oct 2015 17:38:43 +0200
-Message-ID: <1444232325-22859-2-git-send-email-josep.puigdemont@enea.com>
+Date: Wed, 7 Oct 2015 17:38:44 +0200
+Message-ID: <1444232325-22859-3-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1444232325-22859-1-git-send-email-josep.puigdemont@enea.com>
 References: <1444232325-22859-1-git-send-email-josep.puigdemont@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [meta-cloud-services][fido/kilo][PATCH 1/3] python-tablib: added recipe
+Subject: [meta-cloud-services][fido/kilo][PATCH 2/3] python-cliff-tablib: add recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,33 +46,38 @@ Content-Type: text/plain
 
 Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 ---
- .../recipes-devtools/python/python-tablib_0.10.0.bb    | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-tablib_0.10.0.bb
+ .../python/python-cliff-tablib_git.bb              | 23 ++++++++++++++++++++++
+ 1 file changed, 23 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-cliff-tablib_git.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-tablib_0.10.0.bb b/meta-openstack/recipes-devtools/python/python-tablib_0.10.0.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-cliff-tablib_git.bb b/meta-openstack/recipes-devtools/python/python-cliff-tablib_git.bb
 new file mode 100644
-index 0000000..7c8dbca
+index 0000000..bd74348
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-tablib_0.10.0.bb
-@@ -0,0 +1,18 @@
-+DESCRIPTION = "Format agnostic tabular data library (XLS, JSON, YAML, CSV)"
++++ b/meta-openstack/recipes-devtools/python/python-cliff-tablib_git.bb
+@@ -0,0 +1,23 @@
++DESCRIPTION = "tablib formatters for cliff"
++HOMEPAGE = "https://github.com/dreamhost/cliff-tablib"
 +SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d26f98effd307261a2e0ddcce08e07b7"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 +
-+SRC_URI[md5sum] = "41fb8a731f6ef54812045ef9bf2909c6"
-+SRC_URI[sha256sum] = "41c2dad7f491f5557e22783a9af81bed62f7b6fb0d7afd4c2ee301f3eb428c93"
++SRC_URI = "git://github.com/dreamhost/cliff-tablib;branch=master"
++# 1.1 release
++SRCREV="a83bf47d7dfbb690dd53e189c532f0859898db04"
++PV="1.1+git${SRCPV}"
++S = "${WORKDIR}/git"
 +
-+inherit pypi
++inherit setuptools
 +
 +DEPENDS += " \
-+    python-pip \
++    python-pbr \
 +    "
 +
 +RDEPENDS_${PN} += " \
-+    python-pip \
-+    python-pyyaml \
++    python-pbr \
++    python-cliff \
++    python-tablib \
 +    "
 -- 
 1.9.1
