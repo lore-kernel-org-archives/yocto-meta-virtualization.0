@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E5BC6E010B7; Fri,  9 Oct 2015 12:05:11 -0700 (PDT)
+	id B6393E00C98; Fri,  9 Oct 2015 12:05:28 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,6 +9,9 @@ X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.178 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -16,40 +19,38 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.170 listed in list.dnswl.org]
-Received: from mail-yk0-f170.google.com (mail-yk0-f170.google.com
-	[209.85.160.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5C556E00AD5
+Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
+	[209.85.160.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1BA7CE00AD5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  9 Oct 2015 12:05:09 -0700 (PDT)
-Received: by ykft14 with SMTP id t14so87321552ykf.0
+	Fri,  9 Oct 2015 12:05:27 -0700 (PDT)
+Received: by ykba192 with SMTP id a192so83254687ykb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 09 Oct 2015 12:05:09 -0700 (PDT)
+	Fri, 09 Oct 2015 12:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=Id0a2qL61cpspmjFuo7/g5DIscZ4b3acAUBbor+HnpE=;
-	b=wWFs04hTJF3K9cWwZhfBisG0HLQKO/E5lyNHKnfNv9nExzGDPzISAoh0fYVWg9o8BS
-	M33n/7RUmvit7iFXHOEPpHoBVqr6PAQZhKSt7E4ZueDeCMxHeqhf3E2uj+ufSc2X/26p
-	llLS+tn1gr5JRSbxlgOqwnzmfMOcBnMqJNVCOKPygFLnLSrt3Wd5g7dPUATyclBlwzuv
-	hL5mojlrxdqZ9FZjnt8HoWwJCifOV9xhFeyTBiNxVI47vX7Qup9ezXpPA8nTAi7Pqo6Y
-	4QUXlDli523zejEtElGwtjTTcclFXUKmAWnr7R0AGUU+0WB4BcQBvfB235oLcYy93IIR
-	WUaw==
+	bh=LTDvYn1IfD5F4mGecTEFvTRdDBKuGIAcfjdfpmXPu1A=;
+	b=ZwxHndiY9YiKhYv9L5AfJqXOskJTn/ZxHAYPrnxgVrdAw2Sso49jrwLActB4rZypeL
+	nsXZXryOxRN8EoV7t82g9iy6eQOJLklHqgGsJmBbi1O7uEXmuSwBYA8r5RoX1DdrICCe
+	OiNyTJ2J5BSuH88Wfo17ogIab951LcHUwSJJJHnT8WY1VfqTBL4hPfYYfjDPy4eDalZG
+	RvSHGbvnLR72AX2tayecgoKDGUJ3X/kl+tPwdX3S5KnY+4n74DjrluA9qAaXfTFtl0iq
+	xSgeuyvs7OzOu1mecPug78esj0l1BDazOGoLlIcVNkG1Ih7IAMWe2eeQBiC/OoVFDeFO
+	Mrpg==
 MIME-Version: 1.0
-X-Received: by 10.129.4.207 with SMTP id 198mr11738187ywe.320.1444417509253;
-	Fri, 09 Oct 2015 12:05:09 -0700 (PDT)
-Received: by 10.13.217.201 with HTTP; Fri, 9 Oct 2015 12:05:09 -0700 (PDT)
-In-Reply-To: <1444413018-15865-1-git-send-email-josep.puigdemont@enea.com>
-References: <1444413018-15865-1-git-send-email-josep.puigdemont@enea.com>
-Date: Fri, 9 Oct 2015 15:05:09 -0400
-Message-ID: <CADkTA4NDnZ1pNULp0sPCcJ_4bVqkQvXq3E0gZxh6FdN=bsG2Yg@mail.gmail.com>
+X-Received: by 10.13.202.136 with SMTP id m130mr11214688ywd.127.1444417527329; 
+	Fri, 09 Oct 2015 12:05:27 -0700 (PDT)
+Received: by 10.13.217.201 with HTTP; Fri, 9 Oct 2015 12:05:27 -0700 (PDT)
+In-Reply-To: <20151009153045.GA4447@iapetus.enea.se>
+References: <1444404405-54190-1-git-send-email-josep.puigdemont@enea.com>
+	<20151009153045.GA4447@iapetus.enea.se>
+Date: Fri, 9 Oct 2015 15:05:27 -0400
+Message-ID: <CADkTA4M0FoYFi33rgjqC8tre2NbfhS+E732xxG1L9HhVT4+qpw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Josep Puigdemont <josep.puigdemont@enea.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][fido/kilo][PATCH] Remove recipes
+Subject: Re: [meta-cloud-services][PATCH] openstack-base.bbclass: do not overwrite hosts file
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,64 +63,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Oct 2015 19:05:12 -0000
+X-List-Received-Date: Fri, 09 Oct 2015 19:05:28 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Fri, Oct 9, 2015 at 1:50 PM, Josep Puigdemont
+On Fri, Oct 9, 2015 at 11:30 AM, Josep Puigdemont
 <josep.puigdemont@enea.com> wrote:
-> Some recipes are already provided by other layers that we depend
-> on, so no need to maintain them anymore. Indicated in the patch are
-> those that changed versions, otherwise they are the same.
->
+> oops, sorry, this patch should not have been sent! :-/
 
-Same as the other reply, I won't apply this patch as-is, since I can't count on
-the versions or integrated testing of the outputs with the rest of the stack.
-
-bundler is still probably ok to remove, but it needs to be split from
-the others.
+ignored!
 
 Bruce
 
-> openldap is already provided by meta-oe, but since I have not tried
-> openldap, I didn't remove it. The recipe in meta-oe has preference over
-> the one in this layer.
+> (and it is not good either)
+> /Josep
 >
-> Josep Puigdemont (1):
->   Remove recipes already provided by other layers
->
->  .../recipes-devtools/python/python-boto_git.bb     | 20 ----------
->  .../python/python-decorator_3.4.0.bb               | 17 ---------
->  .../recipes-devtools/python/python-jinja2_2.7.3.bb | 31 ---------------
->  .../python/python-markupsafe_0.18.bb               | 20 ----------
->  .../recipes-devtools/python/python-mccabe_0.2.1.bb | 21 -----------
->  .../recipes-devtools/python/python-mock_1.0.1.bb   | 24 ------------
->  .../python/python-msgpack_0.4.5.bb                 | 17 ---------
->  .../python/python-prettytable_0.7.2.bb             | 24 ------------
->  .../python/python-pyflakes_0.7.3.bb                | 21 -----------
->  .../python/python-pyparsing_2.0.1.bb               | 17 ---------
->  .../python/python-pyudev_0.16.1.bb                 | 17 ---------
->  .../recipes-devtools/ruby/bundler_git.bb           | 33 ----------------
->  .../memcached/memcached/configure.patch            | 13 -------
->  .../recipes-support/memcached/memcached_1.4.17.bb  | 44 ----------------------
->  14 files changed, 319 deletions(-)
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-boto_git.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-decorator_3.4.0.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-jinja2_2.7.3.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-markupsafe_0.18.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-mccabe_0.2.1.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-mock_1.0.1.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-msgpack_0.4.5.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-prettytable_0.7.2.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-pyflakes_0.7.3.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-pyparsing_2.0.1.bb
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-pyudev_0.16.1.bb
->  delete mode 100644 meta-openstack/recipes-devtools/ruby/bundler_git.bb
->  delete mode 100644 meta-openstack/recipes-support/memcached/memcached/configure.patch
->  delete mode 100644 meta-openstack/recipes-support/memcached/memcached_1.4.17.bb
->
-> --
-> 1.9.1
->
+> On Fri, Oct 09, 2015 at 05:26:45PM +0200, Josep Puigdemont wrote:
+>> Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
+>> ---
+>>  meta-openstack/classes/openstack-base.bbclass | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta-openstack/classes/openstack-base.bbclass b/meta-openstack/classes/openstack-base.bbclass
+>> index 718aa1c..5ecbd21 100644
+>> --- a/meta-openstack/classes/openstack-base.bbclass
+>> +++ b/meta-openstack/classes/openstack-base.bbclass
+>> @@ -7,6 +7,6 @@ openstack_configure_hosts() {
+>>
+>>      echo "${CONTROLLER_IP} ${CONTROLLER_HOST}" >> ${IMAGE_ROOTFS}/etc/hosts
+>>      echo "${COMPUTE_IP} ${COMPUTE_HOST}" >> ${IMAGE_ROOTFS}/etc/hosts
+>> -    echo "${MY_HOST}" > ${IMAGE_ROOTFS}/etc/hostname
+>> +    echo "${MY_HOST}" >> ${IMAGE_ROOTFS}/etc/hostname
+>>  }
+>>
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
 > --
 > _______________________________________________
 > meta-virtualization mailing list
