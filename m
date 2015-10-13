@@ -1,17 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8F8FCE00DBD; Tue, 13 Oct 2015 08:29:32 -0700 (PDT)
+	id A0E48E00DBF; Tue, 13 Oct 2015 08:31:17 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.160.172 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.182 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,38 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f172.google.com (mail-yk0-f172.google.com
-	[209.85.160.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EEC3BE006F6
+Received: from mail-yk0-f182.google.com (mail-yk0-f182.google.com
+	[209.85.160.182])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0CEA8E006F6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Oct 2015 08:29:28 -0700 (PDT)
-Received: by ykfs79 with SMTP id s79so7813734ykf.2
+	Tue, 13 Oct 2015 08:31:12 -0700 (PDT)
+Received: by ykoo7 with SMTP id o7so20140996yko.0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Oct 2015 08:29:28 -0700 (PDT)
+	Tue, 13 Oct 2015 08:31:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=tQnfQ2HZXeFxYYkuvgKPcgaxgPJe08Jn7GVqesHl+J8=;
-	b=N/2zftYXZtkliliLt4UIy0BG77SX6ccHJ1rTsog7YYlvjB20U3ds+YObv26qzEAkBf
-	ZGnwTuKQjLj4tj+xjN/dOMZ5KiON8p1FxeDYdXHVhgWnysUtHn/21A1vUp7uxyYyElnf
-	MudcaS4WD/6XHYs1RsF0QLhSBfXWW0mluhDPPUTiPyJfUxNtC4CNvTkkGLnXz7J2AWjd
-	8t24OSDUdG9MOXWoyarotgr0CAyAFsoMs16zVvYE3dy40Z4YGcxrREfs4/VHcPP0or3P
-	BJuqMRetqZXtP90UjruY8jgiw6GLDCUwZ1AJE2cV/simVeKLzPk3Q04o/75vX3rY+XPl
-	0O0A==
+	bh=xV8vEbpXKePqO0YCdu6tnnbYa+M3Y/sr4drKf5QXVIw=;
+	b=wQEZTadF4JNhz7ffw/2swM71HFz/nnfvT8phUoEyO0ZtU6xsy/DGCn5Qs4q9B7bVC8
+	wWWKaVRtxrINNb0VCU/5u1yv/9RMUhOW541sYu+HshXHsZ69mFZlsBNjLtkujmLEFB61
+	mNGnHWVrBrYMffoeQR/v6lNbhmnxm0fpTG9wk/gicHfJJSQx3V49dnf3uHx3TQaVSAfv
+	B2dgqOwo0B4ARrbL+9Hd8yKvnYydnqsloIHoxzt8c9TdM3vSLiEkMsthGsDlaHzefE/R
+	eGFdy5zH8bE5sQEHHlRzSX1hvoax8i2iObjyyszd5iLUIDV8v3mMInhuzKOIHWBiAN0w
+	MwKA==
 MIME-Version: 1.0
-X-Received: by 10.129.0.2 with SMTP id 2mr4634173ywa.127.1444750168046; Tue,
-	13 Oct 2015 08:29:28 -0700 (PDT)
-Received: by 10.13.217.201 with HTTP; Tue, 13 Oct 2015 08:29:28 -0700 (PDT)
-In-Reply-To: <1444232325-22859-1-git-send-email-josep.puigdemont@enea.com>
-References: <1444232325-22859-1-git-send-email-josep.puigdemont@enea.com>
-Date: Tue, 13 Oct 2015 11:29:28 -0400
-Message-ID: <CADkTA4OMKAuepbBE-cR8XvTKk_tfEK7m3Oi7qiW+3NS7Co+vaw@mail.gmail.com>
+X-Received: by 10.129.0.2 with SMTP id 2mr4641484ywa.127.1444750272246; Tue,
+	13 Oct 2015 08:31:12 -0700 (PDT)
+Received: by 10.13.217.201 with HTTP; Tue, 13 Oct 2015 08:31:12 -0700 (PDT)
+In-Reply-To: <1444156449-19847-8-git-send-email-amy.fong@windriver.com>
+References: <1444156449-19847-1-git-send-email-amy.fong@windriver.com>
+	<1444156449-19847-8-git-send-email-amy.fong@windriver.com>
+Date: Tue, 13 Oct 2015 11:31:12 -0400
+Message-ID: <CADkTA4NJ=Y+AXWHZf5-ejaPK4KDND8F6Az7vrfeooCVAdi9CfA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
+To: Amy Fong <amy.fong@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][fido/kilo][PATCH 0/3] openstack client
+Subject: Re: [PATCH 7/7] python-greenlet: uprev to 0.4.9
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,45 +63,67 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Oct 2015 15:29:32 -0000
+X-List-Received-Date: Tue, 13 Oct 2015 15:31:17 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Oct 7, 2015 at 11:38 AM, Josep Puigdemont
-<josep.puigdemont@enea.com> wrote:
-> The openstack client depends on cliff-tablib:
->   # openstack token issue
->   ERROR: openstackclient.shell Exception raised: cliff-tablib>=1.0
->
-> I've added the necessary recipes to satisfy this dependency, and
-> updated openstackclient to a newer minor version.
-
-Sorry for the delay, I was traveling and didn't get to this until now.
-
-Any particular reason why you bumped to 1.0.4 ? versus something completely
-up to date (incompatibilities with the kilo release ?).
-
-I was going to merge this to master at the same time, but ran into the version
-skew, and was considering the best way to get the same updated dependencies
-into master.
+meta-python already has 0.4.7. Is there any reason why that version shouldn't
+work here ? .. versus carrying a meta-virt specific version.
 
 Bruce
 
+On Tue, Oct 6, 2015 at 2:34 PM, Amy Fong <amy.fong@windriver.com> wrote:
+> python-greenlet bugfixes from 0.3.4 - unstable issues. This resulted in
+> the docker-registry (in some build scenarios) crashing repeatedly.
 >
-> Josep Puigdemont (3):
->   python-tablib: added recipe
->   python-cliff-tablib: add recipe
->   openstackcclient: New version and updated dependencies
+>     Traceback (most recent call last):
+>       File "/usr/lib64/python2.7/site-packages/gunicorn/arbiter.py", line 507, in spawn_worker
+>         worker.init_process()
+>       File "/usr/lib64/python2.7/site-packages/gunicorn/workers/ggevent.py", line 193, in init_process
+>         super(GeventWorker, self).init_process()
+>       File "/usr/lib64/python2.7/site-packages/gunicorn/workers/base.py", line 120, in init_process
+>         self.run()
+>       File "/usr/lib64/python2.7/site-packages/gunicorn/workers/ggevent.py", line 117, in run
+>         gevent.sleep(1.0)
+>       File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 75, in sleep
+>         hub.wait(loop.timer(seconds, ref=ref))
+>       File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 341, in wait
+>         result = waiter.get()
+>       File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 568, in get
+>         return self.hub.switch()
+>       File "/usr/lib64/python2.7/site-packages/gevent/hub.py", line 331, in switch
+>         return greenlet.switch(self)
+>     SystemError: NULL result without error in PyObject_Call
 >
->  .../python/python-cliff-tablib_git.bb              | 23 ++++++++++++++++++++++
->  ...nt_1.0.3.bb => python-openstackclient_1.0.4.bb} | 15 ++++++++++++++
->  .../python/python-tablib_0.10.0.bb                 | 18 +++++++++++++++++
->  3 files changed, 56 insertions(+)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-cliff-tablib_git.bb
->  rename meta-openstack/recipes-devtools/python/{python-openstackclient_1.0.3.bb => python-openstackclient_1.0.4.bb} (63%)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-tablib_0.10.0.bb
+>     <repeat>
 >
+> Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> ---
+>  recipes-devtools/python/python-greenlet_0.4.9.bb | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>  create mode 100644 recipes-devtools/python/python-greenlet_0.4.9.bb
+>
+> diff --git a/recipes-devtools/python/python-greenlet_0.4.9.bb b/recipes-devtools/python/python-greenlet_0.4.9.bb
+> new file mode 100644
+> index 0000000..fa35fa8
+> --- /dev/null
+> +++ b/recipes-devtools/python/python-greenlet_0.4.9.bb
+> @@ -0,0 +1,14 @@
+> +SUMMARY = "Python lightweight in-process concurrent programming"
+> +HOMEPAGE = "http://pypi.python.org/pypi/greenlet"
+> +SECTION = "devel/python"
+> +LICENSE = "MIT & PSF"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=03143d7a1a9f5d8a0fee825f24ca9c36 \
+> +                    file://LICENSE.PSF;md5=c106931d9429eda0492617f037b8f69a"
+> +SRC_URI = "http://pypi.python.org/packages/source/g/greenlet/greenlet-${PV}.tar.gz"
+> +SRC_URI[md5sum] = "00bb1822d8511cc85f052e89d1fd919b"
+> +SRC_URI[sha256sum] = "79f9b8bbbb1c599c66aed5e643e8b53bae697cae46e0acfc4ee461df48a90012"
+> +
+> +S = "${WORKDIR}/greenlet-${PV}"
+> +
+> +inherit distutils
+> +
 > --
-> 1.9.1
+> 2.5.3
 >
 > --
 > _______________________________________________
