@@ -1,55 +1,32 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 23EDFE00B46; Wed, 14 Oct 2015 07:35:47 -0700 (PDT)
+	id 1EF5FE00C11; Mon, 19 Oct 2015 04:53:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.181 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [192.36.1.252 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7BBDAE00B43
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id A1243E00C0B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Oct 2015 07:35:44 -0700 (PDT)
-Received: by ykey125 with SMTP id y125so48971426yke.3
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Oct 2015 07:35:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=RjVZQ9uh6whY8o8cHgqdEWYDD//H+yS6Fs+f/24401s=;
-	b=HWPP2ctnz9gxoOPk0hhotPCbq2v/dKmnZdxsj57oSsKy04cTtFIxAiiDrM7ztg7pRG
-	KHBqlKoXPJUElhvNcyB/c8/2JEJpOFNlvXH9aDplJIeQltErbyGyIkl8ALp6WRFjOuZk
-	mcV3gsnGdvpBAQp3QPIBXs4TWX9zG8A02tiUUEnihmT7QYIzJplh42Qe5NSF2UAlKE4q
-	8S8o579L4VL1aZG1U/wKtmVbZELY3CSihAcAeONDgsxwXJPO58R8wDLRIVwImKpAc3gn
-	dAWP69gxRKgfikUhfSBApkXIRjBpFZb9XZWvNLQRw14vVpJIiA+l34FVMTtOJ1ULuJ+d
-	yFeQ==
+	Mon, 19 Oct 2015 04:53:30 -0700 (PDT)
+Received: from sestofb11.enea.se (172.21.3.146) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Mon, 19 Oct 2015 13:53:24 +0200
+From: Josep Puigdemont <josep.puigdemont@enea.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 19 Oct 2015 13:53:24 +0200
+Message-ID: <1445255604-65032-1-git-send-email-josep.puigdemont@enea.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-X-Received: by 10.13.225.9 with SMTP id k9mr2861367ywe.320.1444833344356; Wed,
-	14 Oct 2015 07:35:44 -0700 (PDT)
-Received: by 10.13.217.201 with HTTP; Wed, 14 Oct 2015 07:35:44 -0700 (PDT)
-In-Reply-To: <1444784792-19233-1-git-send-email-mark.asselstine@windriver.com>
-References: <1444784792-19233-1-git-send-email-mark.asselstine@windriver.com>
-Date: Wed, 14 Oct 2015 10:35:44 -0400
-Message-ID: <CADkTA4NOy8NuBRZU_Me9d24zhA58k5TK1K6fRWqJohTRz-hkAQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services] dhcp: bbappend to use PN
+Received-SPF: None (SESTOEX03.enea.se: josep.puigdemont@enea.com does not
+	designate permitted sender hosts)
+Subject: [meta-cloud-services][fido-kilo]][PATCH] python-openstackclient: fix checksums
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,54 +39,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Oct 2015 14:35:47 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 Oct 2015 11:53:35 -0000
+Content-Type: text/plain
 
-On Tue, Oct 13, 2015 at 9:06 PM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> From: Vu Tran <vu.tran@windriver.com>
->
-> Fix the following warning:
+Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
+---
+ .../recipes-devtools/python/python-openstackclient_1.0.4.bb           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-merged.
-
-Bruce
-
->
-> WARNING: Variable key FILES_${PN}-client (${base_sbindir}/dhclient
-> ${base_sbindir}/dhclient-script ${sysconfdir}/dhcp/dhclient.conf
-> ${base_sbindir}/dhclient-systemd-wrapper) replaces original key
-> FILES_dhcp-client ( ${sysconfdir}/dhcp/dhclient-exit-hooks).
->
-> Signed-off-by: Vu Tran <vu.tran@windriver.com>
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->  recipes-connectivity/dhcp/dhcp_%.bbappend | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-connectivity/dhcp/dhcp_%.bbappend b/recipes-connectivity/dhcp/dhcp_%.bbappend
-> index a23f7c9..7466056 100644
-> --- a/recipes-connectivity/dhcp/dhcp_%.bbappend
-> +++ b/recipes-connectivity/dhcp/dhcp_%.bbappend
-> @@ -12,5 +12,5 @@ do_install_append () {
->
->  }
->
-> -FILES_dhcp-client += "${sysconfdir}/dhcp/dhclient-exit-hooks \
-> +FILES_${PN}-client += "${sysconfdir}/dhcp/dhclient-exit-hooks \
->                       "
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/meta-openstack/recipes-devtools/python/python-openstackclient_1.0.4.bb b/meta-openstack/recipes-devtools/python/python-openstackclient_1.0.4.bb
+index a585b68..221c817 100644
+--- a/meta-openstack/recipes-devtools/python/python-openstackclient_1.0.4.bb
++++ b/meta-openstack/recipes-devtools/python/python-openstackclient_1.0.4.bb
+@@ -8,8 +8,8 @@ SRCNAME = "python-openstackclient"
+ 
+ SRC_URI = "http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "595c9be3ae2f967f7dd5f33753137377"
+-SRC_URI[sha256sum] = "d39a2e6cf98d409f8545b9d3a207eb8cbf3b2fc5ea17b0f8d9bed52326ca9f49"
++SRC_URI[md5sum] = "3ba35cbfa48b876d198d83e37a794721"
++SRC_URI[sha256sum] = "4ae6d7b35fd1da2a07959fea9639e506871abfb769c62f3692d2f2585605ac85"
+ 
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+1.9.1
+
 
