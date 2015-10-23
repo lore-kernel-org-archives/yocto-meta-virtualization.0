@@ -1,43 +1,36 @@
-Return-Path: <adrian.ratiu@ni.com>
+Return-Path: <Rongqing.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AFB30E0049B; Thu, 22 Oct 2015 08:01:24 -0700 (PDT)
+	id 195FAE00B6A; Thu, 22 Oct 2015 19:19:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [130.164.80.24 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from ni.com (skprod3.natinst.com [130.164.80.24])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C4F7FE00343
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+X-Greylist: delayed 3203 seconds by postgrey-1.32 at yocto-www;
+	Thu, 22 Oct 2015 19:19:40 PDT
+Received: from mail5.wrs.com (unknown [64.129.254.146])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 27D4FE00B66
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 22 Oct 2015 08:01:21 -0700 (PDT)
-Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
-	[130.164.19.135])
-	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	t9ME47C1017784 for <meta-virtualization@yoctoproject.org>;
-	Thu, 22 Oct 2015 09:04:07 -0500
-Received: from adi-pc-linux.natinst.com ([130.164.14.198])
-	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2015102209040766-356914 ;
-	Thu, 22 Oct 2015 09:04:07 -0500 
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: meta-virtualization@yoctoproject.org
-Date: Thu, 22 Oct 2015 17:04:05 +0300
-Message-Id: <1445522645-3618-1-git-send-email-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.1.4
-X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 10/22/2015 09:04:07 AM,
-	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 10/22/2015 09:04:07 AM,
-	Serialize complete at 10/22/2015 09:04:07 AM
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2015-10-22_09:, , signatures=0
-Subject: [PATCH] go-sqlite: add SRC_URI checksums
+	Thu, 22 Oct 2015 19:19:40 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9N1QH7l017560
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 22 Oct 2015 18:26:17 -0700
+Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.248.2; Thu, 22 Oct 2015 18:26:16 -0700
+From: <rongqing.li@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 23 Oct 2015 09:17:44 +0800
+Message-ID: <1445563064-19994-1-git-send-email-rongqing.li@windriver.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+Subject: [PATCH] lxc: upgrade it to 1.1.4
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -50,28 +43,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 22 Oct 2015 15:01:24 -0000
+X-List-Received-Date: Fri, 23 Oct 2015 02:19:44 -0000
+Content-Type: text/plain
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+From: Roy Li <rongqing.li@windriver.com>
+
+V1.1.4 includes a fix for CVE-2015-1335:
+
+lxc-start in lxc before 1.0.8 and 1.1.x before 1.1.4 allows local container
+administrators to escape AppArmor confinement via a symlink attack on a (1)
+mount target or (2) bind mount source.
+http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1335
+
+Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ---
- recipes-devtools/go/go-sqlite_hg.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} (97%)
 
-diff --git a/recipes-devtools/go/go-sqlite_hg.bb b/recipes-devtools/go/go-sqlite_hg.bb
-index c5bc6ce..ebda84d 100644
---- a/recipes-devtools/go/go-sqlite_hg.bb
-+++ b/recipes-devtools/go/go-sqlite_hg.bb
-@@ -11,6 +11,9 @@ SRC_URI = "hg://code.google.com/p;module=gosqlite"
+diff --git a/recipes-containers/lxc/lxc_1.1.3.bb b/recipes-containers/lxc/lxc_1.1.4.bb
+similarity index 97%
+rename from recipes-containers/lxc/lxc_1.1.3.bb
+rename to recipes-containers/lxc/lxc_1.1.4.bb
+index e61aa6d..4006deb 100644
+--- a/recipes-containers/lxc/lxc_1.1.3.bb
++++ b/recipes-containers/lxc/lxc_1.1.4.bb
+@@ -36,8 +36,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
+ 	"
  
- SRCREV = "74691fb6f83716190870cde1b658538dd4b18eb0"
+-SRC_URI[md5sum] = "197abb5a28ab0b689c737eb1951023fb"
+-SRC_URI[sha256sum] = "933b87f773ea6213c912fcd25b8f24d66fb66d285b80797dac530a8b94b7d1ad"
++SRC_URI[md5sum] = "d33c4bd9c57755c0e2b0e2acbc3f171d"
++SRC_URI[sha256sum] = "8f072ea2001bc94389003d82a91902855edf16b609e06f0486a74e4b8973e5dc"
  
-+SRC_URI[md5sum] = "04bb4682d0113d5dbcd4a1dbf6b24dfc"
-+SRC_URI[sha256sum] = "478967fee730b85a6a4f96ace1e08fe91b6dfa6d641856bcd4574baec2f0361c"
-+
- S = "${WORKDIR}/${SRCNAME}"
+ S = "${WORKDIR}/${BPN}-${PV}"
  
- do_install() {
 -- 
-2.1.4
+1.9.1
 
 
