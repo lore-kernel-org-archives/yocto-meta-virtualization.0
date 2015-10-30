@@ -1,40 +1,55 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D751AE00B58; Fri, 30 Oct 2015 05:37:21 -0700 (PDT)
+	id BFCFEE00B58; Fri, 30 Oct 2015 05:38:26 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.160.178 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ADFD2E00B4A
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
+	[209.85.160.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E78ACE00B4A
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Oct 2015 05:37:16 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9UCbFEx011657
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
+Received: by ykek133 with SMTP id k133so74289271yke.2
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Oct 2015 05:37:15 -0700 (PDT)
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 30 Oct 2015 05:37:15 -0700
-To: Mark Asselstine <mark.asselstine@windriver.com>,
-	<meta-virtualization@yoctoproject.org>
-References: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56336464.9020108@windriver.com>
-Date: Fri, 30 Oct 2015 08:36:52 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=aNHRaGkoTrvxuU8ZfyvXlSCBXu+JrRmEzC1iU0fdeY4=;
+	b=aizHA7alE3qYi1gof4Lv4vnyVTFqdGPXCWdHsAuR4uBo/JZxNY9YOuKZekm1DBuhpB
+	RWQALMQT+gtyFjLyWIHlHMES8ustt4QF6BsunGm+xeTEH8q4h/ZYJSr3iNS0kUTV/EJL
+	YridL4KkhC3gP6vOgPQhEU4xX8SGo+sPRrVFMj4Hx4Fy0yNI9RRuzvCO8jD+6H+pO0dO
+	dk4Dp5aJMh1y4WWDX1h5pD5kNgOfrMzvUwUMfesGmkPJ7nqL2OUKMtqOFhQhoB7uekJL
+	d3gXgOZ+pm6tfO8IoO5CXxBhHSJEO6/SiBSAYSv+t/7uEezwNS8RY7BFZ5lEH4NgfCPR
+	co4Q==
 MIME-Version: 1.0
-In-Reply-To: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
-Subject: Re: [meta-cloud-services][PATCH 1/2] django-pyscss: uprev to version 2.0.2
+X-Received: by 10.129.155.130 with SMTP id s124mr5990843ywg.68.1446208705205; 
+	Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
+Received: by 10.129.153.142 with HTTP; Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
+In-Reply-To: <1445563064-19994-1-git-send-email-rongqing.li@windriver.com>
+References: <1445563064-19994-1-git-send-email-rongqing.li@windriver.com>
+Date: Fri, 30 Oct 2015 08:38:25 -0400
+Message-ID: <CADkTA4ON7VqXEFLLRHSJeBbjzWQ9ZJff_4+o1nzNNibpcu2niQ@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: rongqing.li@windriver.com
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] lxc: upgrade it to 1.1.4
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,50 +62,59 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 12:37:21 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 30 Oct 2015 12:38:26 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 15-10-29 10:54 PM, Mark Asselstine wrote:
-> This uprev is needed to work around an error when attempting to log in
-> to the horizon dashboard:
-
-merged both patches to master.
+sorry for the delay. This is now merged.
 
 Bruce
 
+On Thu, Oct 22, 2015 at 9:17 PM,  <rongqing.li@windriver.com> wrote:
+> From: Roy Li <rongqing.li@windriver.com>
 >
-> Couldn't find anything to import: bootstrap/variables
+> V1.1.4 includes a fix for CVE-2015-1335:
 >
-> The upstream fix bd8b2ae8bf21b9c4f671d9364cdc41fbced9b214 [Retain the
-> imported file path] forms the basis of the 2.0.2 release and fixes
-> this error, per bug:
-> https://github.com/fusionbox/django-pyscss/issues/34.
+> lxc-start in lxc before 1.0.8 and 1.1.x before 1.1.4 allows local container
+> administrators to escape AppArmor confinement via a symlink attack on a (1)
+> mount target or (2) bind mount source.
+> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1335
 >
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> Signed-off-by: Roy Li <rongqing.li@windriver.com>
 > ---
->   .../{python-django-pyscss_2.0.1.bb => python-django-pyscss_2.0.2.bb}  | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->   rename meta-openstack/recipes-devtools/python/{python-django-pyscss_2.0.1.bb => python-django-pyscss_2.0.2.bb} (81%)
+>  recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} (97%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb b/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
-> similarity index 81%
-> rename from meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb
-> rename to meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
-> index 43dbc9f..7c5606a 100644
-> --- a/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
-> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=07339dad721a3ae7e420b8b751a15c70"
->   SRCNAME = "django-pyscss"
->   SRC_URI = "http://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+> diff --git a/recipes-containers/lxc/lxc_1.1.3.bb b/recipes-containers/lxc/lxc_1.1.4.bb
+> similarity index 97%
+> rename from recipes-containers/lxc/lxc_1.1.3.bb
+> rename to recipes-containers/lxc/lxc_1.1.4.bb
+> index e61aa6d..4006deb 100644
+> --- a/recipes-containers/lxc/lxc_1.1.3.bb
+> +++ b/recipes-containers/lxc/lxc_1.1.4.bb
+> @@ -36,8 +36,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>         file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
+>         "
 >
-> -SRC_URI[md5sum] = "4df1b89942f41b8e8bde8704efcfe6c2"
-> -SRC_URI[sha256sum] = "03fa4d7e483d87eaa4df0e91b337d078a39fcca897952e8d65ebdca7f759a822"
-> +SRC_URI[md5sum] = "f8dbcc4d314c8e220aa311ec6561b06d"
-> +SRC_URI[sha256sum] = "0f4844f8fd3f69f4d428a616fdcf2b650a24862dd81443ae3fba14980c7b0615"
+> -SRC_URI[md5sum] = "197abb5a28ab0b689c737eb1951023fb"
+> -SRC_URI[sha256sum] = "933b87f773ea6213c912fcd25b8f24d66fb66d285b80797dac530a8b94b7d1ad"
+> +SRC_URI[md5sum] = "d33c4bd9c57755c0e2b0e2acbc3f171d"
+> +SRC_URI[sha256sum] = "8f072ea2001bc94389003d82a91902855edf16b609e06f0486a74e4b8973e5dc"
 >
->   S = "${WORKDIR}/${SRCNAME}-${PV}"
+>  S = "${WORKDIR}/${BPN}-${PV}"
 >
+> --
+> 1.9.1
 >
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
