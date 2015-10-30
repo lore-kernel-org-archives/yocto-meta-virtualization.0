@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BFCFEE00B58; Fri, 30 Oct 2015 05:38:26 -0700 (PDT)
+	id D7B87E00BFF; Fri, 30 Oct 2015 05:40:42 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.160.178 listed in list.dnswl.org]
+	*      [209.85.160.180 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,37 +19,37 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yk0-f178.google.com (mail-yk0-f178.google.com
-	[209.85.160.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E78ACE00B4A
+Received: from mail-yk0-f180.google.com (mail-yk0-f180.google.com
+	[209.85.160.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F1A4DE00BCC
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
-Received: by ykek133 with SMTP id k133so74289271yke.2
+	Fri, 30 Oct 2015 05:40:30 -0700 (PDT)
+Received: by ykek133 with SMTP id k133so74343226yke.2
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
+	Fri, 30 Oct 2015 05:40:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
 	:cc:content-type;
-	bh=aNHRaGkoTrvxuU8ZfyvXlSCBXu+JrRmEzC1iU0fdeY4=;
-	b=aizHA7alE3qYi1gof4Lv4vnyVTFqdGPXCWdHsAuR4uBo/JZxNY9YOuKZekm1DBuhpB
-	RWQALMQT+gtyFjLyWIHlHMES8ustt4QF6BsunGm+xeTEH8q4h/ZYJSr3iNS0kUTV/EJL
-	YridL4KkhC3gP6vOgPQhEU4xX8SGo+sPRrVFMj4Hx4Fy0yNI9RRuzvCO8jD+6H+pO0dO
-	dk4Dp5aJMh1y4WWDX1h5pD5kNgOfrMzvUwUMfesGmkPJ7nqL2OUKMtqOFhQhoB7uekJL
-	d3gXgOZ+pm6tfO8IoO5CXxBhHSJEO6/SiBSAYSv+t/7uEezwNS8RY7BFZ5lEH4NgfCPR
-	co4Q==
+	bh=U/GqSgMRB0J49Lb2jxGTop+2LtcQPrVj01VXiymwi9M=;
+	b=qmtNlDvUAlbvdD2KTiqh86qdR+i28x7rdPqKCIZnDzFSSA7ABiZVtnAxsxI+srQ0pN
+	r5APXGG8H/hxSIzK8k3UqytLQDFZaLqGFWI+4LsxAu6MULZIX42lBfrLwIKbnKXm9xBf
+	94ONDkav3vhlrjYURBXkYT51uMkNAXONsPKhnPnnXjimrE/NXJMBv4ZxUvix6RZvhhZB
+	Njnt54Xn4/rWrFpjcxex4gQA/gLqa8PKY3GLRoO8RvSQuRNJjYwlLpekVy8eaR6ymH8N
+	c35p3AR/5VzU5pCa8mFo5bD/C/PYKOUDH/5leFDm+OIzVX5hrSwvr5Wl7nFWxR0xKUZk
+	+peQ==
 MIME-Version: 1.0
-X-Received: by 10.129.155.130 with SMTP id s124mr5990843ywg.68.1446208705205; 
-	Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
-Received: by 10.129.153.142 with HTTP; Fri, 30 Oct 2015 05:38:25 -0700 (PDT)
-In-Reply-To: <1445563064-19994-1-git-send-email-rongqing.li@windriver.com>
-References: <1445563064-19994-1-git-send-email-rongqing.li@windriver.com>
-Date: Fri, 30 Oct 2015 08:38:25 -0400
-Message-ID: <CADkTA4ON7VqXEFLLRHSJeBbjzWQ9ZJff_4+o1nzNNibpcu2niQ@mail.gmail.com>
+X-Received: by 10.13.254.69 with SMTP id o66mr5912590ywf.252.1446208830001;
+	Fri, 30 Oct 2015 05:40:30 -0700 (PDT)
+Received: by 10.129.153.142 with HTTP; Fri, 30 Oct 2015 05:40:29 -0700 (PDT)
+In-Reply-To: <1445522645-3618-1-git-send-email-adrian.ratiu@ni.com>
+References: <1445522645-3618-1-git-send-email-adrian.ratiu@ni.com>
+Date: Fri, 30 Oct 2015 08:40:29 -0400
+Message-ID: <CADkTA4PJHVUYSieyicw0017VC=_6_ggivVYr=PBAT5F0KCVg1w@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: rongqing.li@windriver.com
+To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: upgrade it to 1.1.4
+Subject: Re: [PATCH] go-sqlite: add SRC_URI checksums
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,49 +62,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 12:38:26 -0000
+X-List-Received-Date: Fri, 30 Oct 2015 12:40:42 -0000
 Content-Type: text/plain; charset=UTF-8
 
-sorry for the delay. This is now merged.
+merged.
 
 Bruce
 
-On Thu, Oct 22, 2015 at 9:17 PM,  <rongqing.li@windriver.com> wrote:
-> From: Roy Li <rongqing.li@windriver.com>
->
-> V1.1.4 includes a fix for CVE-2015-1335:
->
-> lxc-start in lxc before 1.0.8 and 1.1.x before 1.1.4 allows local container
-> administrators to escape AppArmor confinement via a symlink attack on a (1)
-> mount target or (2) bind mount source.
-> http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1335
->
-> Signed-off-by: Roy Li <rongqing.li@windriver.com>
+On Thu, Oct 22, 2015 at 10:04 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
+> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 > ---
->  recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} (97%)
+>  recipes-devtools/go/go-sqlite_hg.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/recipes-containers/lxc/lxc_1.1.3.bb b/recipes-containers/lxc/lxc_1.1.4.bb
-> similarity index 97%
-> rename from recipes-containers/lxc/lxc_1.1.3.bb
-> rename to recipes-containers/lxc/lxc_1.1.4.bb
-> index e61aa6d..4006deb 100644
-> --- a/recipes-containers/lxc/lxc_1.1.3.bb
-> +++ b/recipes-containers/lxc/lxc_1.1.4.bb
-> @@ -36,8 +36,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
->         file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
->         "
+> diff --git a/recipes-devtools/go/go-sqlite_hg.bb b/recipes-devtools/go/go-sqlite_hg.bb
+> index c5bc6ce..ebda84d 100644
+> --- a/recipes-devtools/go/go-sqlite_hg.bb
+> +++ b/recipes-devtools/go/go-sqlite_hg.bb
+> @@ -11,6 +11,9 @@ SRC_URI = "hg://code.google.com/p;module=gosqlite"
 >
-> -SRC_URI[md5sum] = "197abb5a28ab0b689c737eb1951023fb"
-> -SRC_URI[sha256sum] = "933b87f773ea6213c912fcd25b8f24d66fb66d285b80797dac530a8b94b7d1ad"
-> +SRC_URI[md5sum] = "d33c4bd9c57755c0e2b0e2acbc3f171d"
-> +SRC_URI[sha256sum] = "8f072ea2001bc94389003d82a91902855edf16b609e06f0486a74e4b8973e5dc"
+>  SRCREV = "74691fb6f83716190870cde1b658538dd4b18eb0"
 >
->  S = "${WORKDIR}/${BPN}-${PV}"
+> +SRC_URI[md5sum] = "04bb4682d0113d5dbcd4a1dbf6b24dfc"
+> +SRC_URI[sha256sum] = "478967fee730b85a6a4f96ace1e08fe91b6dfa6d641856bcd4574baec2f0361c"
+> +
+>  S = "${WORKDIR}/${SRCNAME}"
 >
+>  do_install() {
 > --
-> 1.9.1
+> 2.1.4
 >
 > --
 > _______________________________________________
