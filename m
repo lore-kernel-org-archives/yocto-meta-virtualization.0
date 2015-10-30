@@ -1,41 +1,53 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6CBBEE00AF6; Thu, 29 Oct 2015 19:55:02 -0700 (PDT)
+	id 5FD5DE00AE9; Thu, 29 Oct 2015 19:56:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CFC91E00AD8
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BFE8BE00AD1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Oct 2015 19:55:00 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9U2sx7Z002809
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 29 Oct 2015 19:56:42 -0700 (PDT)
+Received: by wmff134 with SMTP id f134so2184766wmf.1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Oct 2015 19:54:59 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Thu, 29 Oct 2015 19:54:58 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
-Date: Thu, 29 Oct 2015 22:54:56 -0400
-Message-ID: <1446173696-15191-3-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
-References: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
+	Thu, 29 Oct 2015 19:56:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:reply-to:sender:in-reply-to:references:date:message-id
+	:subject:from:to:content-type;
+	bh=UZ5jV3+VvtPhVp9E3SzRQ0n3YZwCFgaamcD5kUAbTlE=;
+	b=DSUiG3IEs8/dYGxIcrIiyXCPu2nPrW+6UaI0HdNMTFjQU/XbciJlb0xuihE3CHa7n3
+	maZlBGaJmLPVghIImbQpCZv7Wy8snJXm87E7xL36j0elV6pQgMj0pS+W/INAWSWrrO7G
+	EDWmmDJVxUOUCTK2a4/7nUJw962Ki1xcT8iY78CZcfeENx1Mf4A0kXsOia/UKJW9zUfw
+	UMGHWx1/EQQoS1vl3nGEpdmvDBWfd/XEqIQkbaZGy/gr+IorDyCgojpINGbwwGj7C4to
+	UfuXZJut137qBeIl/ryPevaFJU74iAHnGjvY6fPPXv0l7OBmuUxYqiyINfuZi9dBAnLZ
+	P7Ag==
 MIME-Version: 1.0
-Subject: [meta-cloud-services][PATCH 2/2] horizon: add an upstream patch needed for pyscss 1.3.4
+X-Received: by 10.28.11.205 with SMTP id 196mr546113wml.83.1446173800974; Thu,
+	29 Oct 2015 19:56:40 -0700 (PDT)
+Sender: asselsm@gmail.com
+Received: by 10.194.94.101 with HTTP; Thu, 29 Oct 2015 19:56:40 -0700 (PDT)
+In-Reply-To: <1446173696-15191-2-git-send-email-mark.asselstine@windriver.com>
+References: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
+	<1446173696-15191-2-git-send-email-mark.asselstine@windriver.com>
+Date: Thu, 29 Oct 2015 22:56:40 -0400
+X-Google-Sender-Auth: 1tNlc8mwNOs7Mz33PM030UfkmH8
+Message-ID: <CAPuovEJZ=+aDApCVeSRbdL9DPj7Cb+Mkt4d6CyCmi6A3NFQw3A@mail.gmail.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [meta-overc][PATCH] local.conf.sample: set DISTRO
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -45,108 +57,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 02:55:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 30 Oct 2015 02:56:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Without this patch we will get an error:
-Don't know how to merge conflicting combinators: <SimpleSelector: u'+ .btn:not(:first-child)'> and <SimpleSelector: u'> .btn'>
+Please ignore this one, accidentally got picked up in my send-email expression.
 
-when attempting to connect to the horizon dashboard.
+Mark
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- .../Compatibility-fix-for-pyscss-1.3.4.patch       | 68 ++++++++++++++++++++++
- .../recipes-devtools/python/python-horizon_git.bb  |  1 +
- 2 files changed, 69 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-horizon/Compatibility-fix-for-pyscss-1.3.4.patch
-
-diff --git a/meta-openstack/recipes-devtools/python/python-horizon/Compatibility-fix-for-pyscss-1.3.4.patch b/meta-openstack/recipes-devtools/python/python-horizon/Compatibility-fix-for-pyscss-1.3.4.patch
-new file mode 100644
-index 0000000..a94d757
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-horizon/Compatibility-fix-for-pyscss-1.3.4.patch
-@@ -0,0 +1,68 @@
-+From cca93ade7c23c1f2794376161b6660a459292eee Mon Sep 17 00:00:00 2001
-+From: Richard Jones <r1chardj0n3s@gmail.com>
-+Date: Fri, 1 May 2015 11:39:37 +1000
-+Subject: [PATCH] Compatibility fix for pyscss 1.3.4
-+
-+Commit cca93ade7c23c1f2794376161b6660a459292eee from
-+https://github.com/openstack/horizon.git
-+
-+This commit alters the action-list.scss file so it is compatible
-+with the newer version of pyScss (1.3.4+), allowing us to
-+upgrade to that version.
-+
-+This change is a prerequisite for the update to get into the
-+global requirements so that that change can pass testing.
-+
-+Change-Id: Idec7ce039b57476ce20b7b678431459c2ca0bdbf
-+Co-Authored-By: Kelly Domico <kelly.domico@hp.com>
-+---
-+ .../static/angular/action-list/action-list.scss    | 23 +++++++++++++++++++---
-+ 1 file changed, 20 insertions(+), 3 deletions(-)
-+ mode change 100644 => 100755 horizon/static/angular/action-list/action-list.scss
-+
-+diff --git a/horizon/static/angular/action-list/action-list.scss b/horizon/static/angular/action-list/action-list.scss
-+old mode 100644
-+new mode 100755
-+index 58092e0..5b3fcc4
-+--- a/horizon/static/angular/action-list/action-list.scss
-++++ b/horizon/static/angular/action-list/action-list.scss
-+@@ -22,16 +22,33 @@ action-list.btn-group {
-+     right: -0.35em;
-+     z-index: 3;
-+ 
-+-    & + .btn:not(:first-child) {
-++    & + .btn:last-child:not(:first-child):not(.dropdown-toggle),
-++    & + .btn:not(:last-child):not(:first-child):not(.dropdown-toggle),
-++    & + .btn.single-button:not(:first-child),
-++    & + .btn.split-button:not(:first-child):not(:last-child) {
-+       border-top-left-radius: 4px;
-+       border-bottom-left-radius: 4px;
-++    }
-++  }
-+ 
-+-      &.btn-sm {
-++  &.btn-group-sm {
-++    notifications {
-++      & + .btn:last-child:not(:first-child):not(.dropdown-toggle),
-++      & + .btn:not(:last-child):not(:first-child):not(.dropdown-toggle),
-++      & + .btn.single-button:not(:first-child),
-++      & + .btn.split-button:not(:first-child):not(:last-child) {
-+         border-top-left-radius: 3px;
-+         border-bottom-left-radius: 3px;
-+       }
-++    }
-++  }
-+ 
-+-      &.btn-lg {
-++  &.btn-group-lg {
-++    notifications {
-++      & + .btn:last-child:not(:first-child):not(.dropdown-toggle),
-++      & + .btn:not(:last-child):not(:first-child):not(.dropdown-toggle),
-++      & + .btn.single-button:not(:first-child),
-++      & + .btn.split-button:not(:first-child):not(:last-child) {
-+         border-top-left-radius: 6px;
-+         border-bottom-left-radius: 6px;
-+       }
-+-- 
-+2.1.4
-+
-diff --git a/meta-openstack/recipes-devtools/python/python-horizon_git.bb b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-index f5c6c03..cf62d44 100644
---- a/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-@@ -70,6 +70,7 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo \
-     file://openstack-dashboard-apache.conf \
-     file://local_settings.py \
-     file://horizon-use-full-package-path-to-test-directories.patch \
-+    file://Compatibility-fix-for-pyscss-1.3.4.patch \
-     "
- 
- SRCREV = "b99cf48ff346494198fb9740495eacc14fa406bf"
--- 
-2.1.4
-
+On Thu, Oct 29, 2015 at 10:54 PM, Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+> My builds kept on producing images with sysvinit as the init system
+> despite being told that systemd was the expected default throughout
+> meta-overc. After poking around I found that the DISTRO in the
+> local.conf.sample still had the default DISTRO set to 'poky' so
+> changing this to be the expected 'pod'.
+>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>  meta-pod/conf/local.conf.sample | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-pod/conf/local.conf.sample b/meta-pod/conf/local.conf.sample
+> index a5f9bfd..dbab304 100644
+> --- a/meta-pod/conf/local.conf.sample
+> +++ b/meta-pod/conf/local.conf.sample
+> @@ -115,7 +115,7 @@ KMACHINE_genericx86-64 ?= "common-pc-64"
+>  # Ultimately when creating custom policy, people will likely end up subclassing
+>  # these defaults.
+>  #
+> -DISTRO ?= "poky"
+> +DISTRO ?= "pod"
+>  # As an example of a subclass there is a "bleeding" edge policy configuration
+>  # where many versions are set to the absolute latest code from the upstream
+>  # source control systems. This is just mentioned here as an example, its not
+> --
+> 2.1.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
