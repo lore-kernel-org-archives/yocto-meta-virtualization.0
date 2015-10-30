@@ -1,53 +1,43 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5FD5DE00AE9; Thu, 29 Oct 2015 19:56:46 -0700 (PDT)
+	id D751AE00B58; Fri, 30 Oct 2015 05:37:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f50.google.com (mail-wm0-f50.google.com [74.125.82.50])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BFE8BE00AD1
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ADFD2E00B4A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Oct 2015 19:56:42 -0700 (PDT)
-Received: by wmff134 with SMTP id f134so2184766wmf.1
+	Fri, 30 Oct 2015 05:37:16 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id t9UCbFEx011657
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Oct 2015 19:56:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:reply-to:sender:in-reply-to:references:date:message-id
-	:subject:from:to:content-type;
-	bh=UZ5jV3+VvtPhVp9E3SzRQ0n3YZwCFgaamcD5kUAbTlE=;
-	b=DSUiG3IEs8/dYGxIcrIiyXCPu2nPrW+6UaI0HdNMTFjQU/XbciJlb0xuihE3CHa7n3
-	maZlBGaJmLPVghIImbQpCZv7Wy8snJXm87E7xL36j0elV6pQgMj0pS+W/INAWSWrrO7G
-	EDWmmDJVxUOUCTK2a4/7nUJw962Ki1xcT8iY78CZcfeENx1Mf4A0kXsOia/UKJW9zUfw
-	UMGHWx1/EQQoS1vl3nGEpdmvDBWfd/XEqIQkbaZGy/gr+IorDyCgojpINGbwwGj7C4to
-	UfuXZJut137qBeIl/ryPevaFJU74iAHnGjvY6fPPXv0l7OBmuUxYqiyINfuZi9dBAnLZ
-	P7Ag==
-MIME-Version: 1.0
-X-Received: by 10.28.11.205 with SMTP id 196mr546113wml.83.1446173800974; Thu,
-	29 Oct 2015 19:56:40 -0700 (PDT)
-Sender: asselsm@gmail.com
-Received: by 10.194.94.101 with HTTP; Thu, 29 Oct 2015 19:56:40 -0700 (PDT)
-In-Reply-To: <1446173696-15191-2-git-send-email-mark.asselstine@windriver.com>
-References: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
-	<1446173696-15191-2-git-send-email-mark.asselstine@windriver.com>
-Date: Thu, 29 Oct 2015 22:56:40 -0400
-X-Google-Sender-Auth: 1tNlc8mwNOs7Mz33PM030UfkmH8
-Message-ID: <CAPuovEJZ=+aDApCVeSRbdL9DPj7Cb+Mkt4d6CyCmi6A3NFQw3A@mail.gmail.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>, 
-	"meta-virtualization@yoctoproject.org"
+	Fri, 30 Oct 2015 05:37:15 -0700 (PDT)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Fri, 30 Oct 2015 05:37:15 -0700
+To: Mark Asselstine <mark.asselstine@windriver.com>,
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-overc][PATCH] local.conf.sample: set DISTRO
+References: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <56336464.9020108@windriver.com>
+Date: Fri, 30 Oct 2015 08:36:52 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
+MIME-Version: 1.0
+In-Reply-To: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
+Subject: Re: [meta-cloud-services][PATCH 1/2] django-pyscss: uprev to version 2.0.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -57,45 +47,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Oct 2015 02:56:46 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 30 Oct 2015 12:37:21 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Please ignore this one, accidentally got picked up in my send-email expression.
+On 15-10-29 10:54 PM, Mark Asselstine wrote:
+> This uprev is needed to work around an error when attempting to log in
+> to the horizon dashboard:
 
-Mark
+merged both patches to master.
 
-On Thu, Oct 29, 2015 at 10:54 PM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> My builds kept on producing images with sysvinit as the init system
-> despite being told that systemd was the expected default throughout
-> meta-overc. After poking around I found that the DISTRO in the
-> local.conf.sample still had the default DISTRO set to 'poky' so
-> changing this to be the expected 'pod'.
+Bruce
+
+>
+> Couldn't find anything to import: bootstrap/variables
+>
+> The upstream fix bd8b2ae8bf21b9c4f671d9364cdc41fbced9b214 [Retain the
+> imported file path] forms the basis of the 2.0.2 release and fixes
+> this error, per bug:
+> https://github.com/fusionbox/django-pyscss/issues/34.
 >
 > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
->  meta-pod/conf/local.conf.sample | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>   .../{python-django-pyscss_2.0.1.bb => python-django-pyscss_2.0.2.bb}  | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta-openstack/recipes-devtools/python/{python-django-pyscss_2.0.1.bb => python-django-pyscss_2.0.2.bb} (81%)
 >
-> diff --git a/meta-pod/conf/local.conf.sample b/meta-pod/conf/local.conf.sample
-> index a5f9bfd..dbab304 100644
-> --- a/meta-pod/conf/local.conf.sample
-> +++ b/meta-pod/conf/local.conf.sample
-> @@ -115,7 +115,7 @@ KMACHINE_genericx86-64 ?= "common-pc-64"
->  # Ultimately when creating custom policy, people will likely end up subclassing
->  # these defaults.
->  #
-> -DISTRO ?= "poky"
-> +DISTRO ?= "pod"
->  # As an example of a subclass there is a "bleeding" edge policy configuration
->  # where many versions are set to the absolute latest code from the upstream
->  # source control systems. This is just mentioned here as an example, its not
-> --
-> 2.1.4
+> diff --git a/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb b/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
+> similarity index 81%
+> rename from meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb
+> rename to meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
+> index 43dbc9f..7c5606a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
+> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=07339dad721a3ae7e420b8b751a15c70"
+>   SRCNAME = "django-pyscss"
+>   SRC_URI = "http://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> -SRC_URI[md5sum] = "4df1b89942f41b8e8bde8704efcfe6c2"
+> -SRC_URI[sha256sum] = "03fa4d7e483d87eaa4df0e91b337d078a39fcca897952e8d65ebdca7f759a822"
+> +SRC_URI[md5sum] = "f8dbcc4d314c8e220aa311ec6561b06d"
+> +SRC_URI[sha256sum] = "0f4844f8fd3f69f4d428a616fdcf2b650a24862dd81443ae3fba14980c7b0615"
+>
+>   S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
+>
+
 
