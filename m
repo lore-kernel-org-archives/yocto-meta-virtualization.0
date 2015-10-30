@@ -1,36 +1,36 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 195FAE00B6A; Thu, 22 Oct 2015 19:19:44 -0700 (PDT)
+	id 78A9FE00AE9; Thu, 29 Oct 2015 19:55:01 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-X-Greylist: delayed 3203 seconds by postgrey-1.32 at yocto-www;
-	Thu, 22 Oct 2015 19:19:40 PDT
-Received: from mail5.wrs.com (unknown [64.129.254.146])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 27D4FE00B66
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC210E00AD1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 22 Oct 2015 19:19:40 -0700 (PDT)
+	Thu, 29 Oct 2015 19:54:58 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id t9N1QH7l017560
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id t9U2svIL023154
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 22 Oct 2015 18:26:17 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.248.2; Thu, 22 Oct 2015 18:26:16 -0700
-From: <rongqing.li@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 23 Oct 2015 09:17:44 +0800
-Message-ID: <1445563064-19994-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 29 Oct 2015 19:54:57 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Thu, 29 Oct 2015 19:54:57 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Thu, 29 Oct 2015 22:54:54 -0400
+Message-ID: <1446173696-15191-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-Subject: [PATCH] lxc: upgrade it to 1.1.4
+Subject: [meta-cloud-services][PATCH 1/2] django-pyscss: uprev to version 2.0.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,43 +43,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Oct 2015 02:19:44 -0000
+X-List-Received-Date: Fri, 30 Oct 2015 02:55:01 -0000
 Content-Type: text/plain
 
-From: Roy Li <rongqing.li@windriver.com>
+This uprev is needed to work around an error when attempting to log in
+to the horizon dashboard:
 
-V1.1.4 includes a fix for CVE-2015-1335:
+Couldn't find anything to import: bootstrap/variables
 
-lxc-start in lxc before 1.0.8 and 1.1.x before 1.1.4 allows local container
-administrators to escape AppArmor confinement via a symlink attack on a (1)
-mount target or (2) bind mount source.
-http://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2015-1335
+The upstream fix bd8b2ae8bf21b9c4f671d9364cdc41fbced9b214 [Retain the
+imported file path] forms the basis of the 2.0.2 release and fixes
+this error, per bug:
+https://github.com/fusionbox/django-pyscss/issues/34.
 
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} | 4 ++--
+ .../{python-django-pyscss_2.0.1.bb => python-django-pyscss_2.0.2.bb}  | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename recipes-containers/lxc/{lxc_1.1.3.bb => lxc_1.1.4.bb} (97%)
+ rename meta-openstack/recipes-devtools/python/{python-django-pyscss_2.0.1.bb => python-django-pyscss_2.0.2.bb} (81%)
 
-diff --git a/recipes-containers/lxc/lxc_1.1.3.bb b/recipes-containers/lxc/lxc_1.1.4.bb
-similarity index 97%
-rename from recipes-containers/lxc/lxc_1.1.3.bb
-rename to recipes-containers/lxc/lxc_1.1.4.bb
-index e61aa6d..4006deb 100644
---- a/recipes-containers/lxc/lxc_1.1.3.bb
-+++ b/recipes-containers/lxc/lxc_1.1.4.bb
-@@ -36,8 +36,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
- 	"
+diff --git a/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb b/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
+similarity index 81%
+rename from meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb
+rename to meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
+index 43dbc9f..7c5606a 100644
+--- a/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.1.bb
++++ b/meta-openstack/recipes-devtools/python/python-django-pyscss_2.0.2.bb
+@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=07339dad721a3ae7e420b8b751a15c70"
+ SRCNAME = "django-pyscss"
+ SRC_URI = "http://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
--SRC_URI[md5sum] = "197abb5a28ab0b689c737eb1951023fb"
--SRC_URI[sha256sum] = "933b87f773ea6213c912fcd25b8f24d66fb66d285b80797dac530a8b94b7d1ad"
-+SRC_URI[md5sum] = "d33c4bd9c57755c0e2b0e2acbc3f171d"
-+SRC_URI[sha256sum] = "8f072ea2001bc94389003d82a91902855edf16b609e06f0486a74e4b8973e5dc"
+-SRC_URI[md5sum] = "4df1b89942f41b8e8bde8704efcfe6c2"
+-SRC_URI[sha256sum] = "03fa4d7e483d87eaa4df0e91b337d078a39fcca897952e8d65ebdca7f759a822"
++SRC_URI[md5sum] = "f8dbcc4d314c8e220aa311ec6561b06d"
++SRC_URI[sha256sum] = "0f4844f8fd3f69f4d428a616fdcf2b650a24862dd81443ae3fba14980c7b0615"
  
- S = "${WORKDIR}/${BPN}-${PV}"
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
 -- 
-1.9.1
+2.1.4
 
 
