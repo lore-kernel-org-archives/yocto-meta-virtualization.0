@@ -1,35 +1,36 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 192D5E00C14; Wed, 11 Nov 2015 18:50:44 -0800 (PST)
+	id 16075E00C2D; Thu, 12 Nov 2015 06:35:42 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [192.36.1.252 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CB9D2E009EF
+Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id C0465E00C25
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 11 Nov 2015 18:50:39 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tAC2odqL013143
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 11 Nov 2015 18:50:39 -0800
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 11 Nov 2015 18:50:38 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
-Date: Wed, 11 Nov 2015 21:50:31 -0500
-Message-ID: <1447296631-16483-6-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1447296631-16483-1-git-send-email-mark.asselstine@windriver.com>
+	Thu, 12 Nov 2015 06:35:38 -0800 (PST)
+Received: from iapetus.enea.se (172.16.141.163) by smtp.enea.com
+	(172.21.1.209) with Microsoft SMTP Server id 14.3.224.2;
+	Thu, 12 Nov 2015 15:35:35 +0100
+Date: Thu, 12 Nov 2015 15:35:35 +0100
+From: Josep Puigdemont <josep.puigdemont@enea.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Message-ID: <20151112143535.GA28678@iapetus.enea.se>
 References: <1447296631-16483-1-git-send-email-mark.asselstine@windriver.com>
+	<1447296631-16483-2-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: [meta-cloud-services][PATCH 6/6] functools32: use git instead of release tarballs
+In-Reply-To: <1447296631-16483-2-git-send-email-mark.asselstine@windriver.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
+Received-SPF: None (SESTOEX03.enea.se: josep.puigdemont@enea.com does not
+	designate permitted sender hosts)
+Cc: bruce.ashfield@windriver.com, meta-virtualization@yoctoproject.org
+Subject: Re: [meta-cloud-services][PATCH 2/6] init: no need to close (non-existing) ps file descriptors
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,46 +43,244 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Nov 2015 02:50:44 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Nov 2015 14:35:42 -0000
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Since we are often moving packages forward on the master branch it is
-simpler to use git instead of tarballs.
+On Wed, Nov 11, 2015 at 09:50:27PM -0500, Mark Asselstine wrote:
+> Attempting to get the status of various daemons which are part of the
+> compute image results in an error:
+> 
+> ps: write error: Bad file descriptor
+> 
+> Switch to using the more standard io redirection techniques to avoid
+> this error.
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- .../{python-functools32_3.2.3-2.bb => python-functools32_git.bb} | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-functools32_3.2.3-2.bb => python-functools32_git.bb} (66%)
+Please apply this patch to kilo/fido-kilo too. Thanks!
 
-diff --git a/meta-openstack/recipes-devtools/python/python-functools32_3.2.3-2.bb b/meta-openstack/recipes-devtools/python/python-functools32_git.bb
-similarity index 66%
-rename from meta-openstack/recipes-devtools/python/python-functools32_3.2.3-2.bb
-rename to meta-openstack/recipes-devtools/python/python-functools32_git.bb
-index 937e933..f167e7d 100644
---- a/meta-openstack/recipes-devtools/python/python-functools32_3.2.3-2.bb
-+++ b/meta-openstack/recipes-devtools/python/python-functools32_git.bb
-@@ -3,14 +3,15 @@ HOMEPAGE = "https://pypi.python.org/pypi/functools32"
- SECTION = "devel/python"
- LICENSE = "PSFv2"
- 
-+PV = "3.2.3-2"
-+SRCREV = "ad90fa86e2f4f494a3aedb0571274f3bbc6d7ab5"
-+
- SRCNAME = "functools32"
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=27cf2345969ed18e6730e90fb0063a10"
--SRC_URI = "http://pypi.python.org/packages/source/f/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--SRC_URI[md5sum] = "09f24ffd9af9f6cd0f63cb9f4e23d4b2"
--SRC_URI[sha256sum] = "f6253dfbe0538ad2e387bd8fdfd9293c925d63553f5813c4e587745416501e6d"
-+SRC_URI = "git://github.com/MiCHiLU/python-${SRCNAME}.git"
- 
--S = "${WORKDIR}/${SRCNAME}-${PV}"
-+S = "${WORKDIR}/git"
- 
- inherit distutils
- 
--- 
-2.1.4
+/Josep
 
+> ---
+>  meta-openstack/recipes-devtools/python/python-barbican/barbican.init    | 2 +-
+>  .../recipes-devtools/python/python-ceilometer/ceilometer.init           | 2 +-
+>  meta-openstack/recipes-devtools/python/python-cinder/cinder-volume      | 2 +-
+>  meta-openstack/recipes-devtools/python/python-cinder/cinder.init        | 2 +-
+>  meta-openstack/recipes-devtools/python/python-glance/glance.init        | 2 +-
+>  meta-openstack/recipes-devtools/python/python-heat/heat.init            | 2 +-
+>  meta-openstack/recipes-devtools/python/python-horizon/horizon.init      | 2 +-
+>  meta-openstack/recipes-devtools/python/python-keystone/keystone         | 2 +-
+>  .../recipes-devtools/python/python-neutron/neutron-agent.init           | 2 +-
+>  .../recipes-devtools/python/python-neutron/neutron-server.init          | 2 +-
+>  meta-openstack/recipes-devtools/python/python-nova/nova-all             | 2 +-
+>  meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth     | 2 +-
+>  meta-openstack/recipes-devtools/python/python-nova/nova.init            | 2 +-
+>  meta-openstack/recipes-devtools/python/python-rally/rally.init          | 2 +-
+>  meta-openstack/recipes-devtools/python/python-trove/trove-init          | 2 +-
+>  15 files changed, 15 insertions(+), 15 deletions(-)
+> 
+> diff --git a/meta-openstack/recipes-devtools/python/python-barbican/barbican.init b/meta-openstack/recipes-devtools/python/python-barbican/barbican.init
+> index 5b353e1..a23a493 100644
+> --- a/meta-openstack/recipes-devtools/python/python-barbican/barbican.init
+> +++ b/meta-openstack/recipes-devtools/python/python-barbican/barbican.init
+> @@ -71,7 +71,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init b/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init
+> index ba0f426..80fdff5 100644
+> --- a/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init
+> +++ b/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init
+> @@ -62,7 +62,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume b/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume
+> index f753810..7d0aa14 100644
+> --- a/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume
+> +++ b/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume
+> @@ -61,7 +61,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-cinder/cinder.init b/meta-openstack/recipes-devtools/python/python-cinder/cinder.init
+> index f130ac8..4c97962 100644
+> --- a/meta-openstack/recipes-devtools/python/python-cinder/cinder.init
+> +++ b/meta-openstack/recipes-devtools/python/python-cinder/cinder.init
+> @@ -63,7 +63,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-glance/glance.init b/meta-openstack/recipes-devtools/python/python-glance/glance.init
+> index 5b1bf74..cbcfb0a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-glance/glance.init
+> +++ b/meta-openstack/recipes-devtools/python/python-glance/glance.init
+> @@ -62,7 +62,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-heat/heat.init b/meta-openstack/recipes-devtools/python/python-heat/heat.init
+> index 5e0719f..794ac6a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-heat/heat.init
+> +++ b/meta-openstack/recipes-devtools/python/python-heat/heat.init
+> @@ -68,7 +68,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-horizon/horizon.init b/meta-openstack/recipes-devtools/python/python-horizon/horizon.init
+> index 994fbec..be79353 100644
+> --- a/meta-openstack/recipes-devtools/python/python-horizon/horizon.init
+> +++ b/meta-openstack/recipes-devtools/python/python-horizon/horizon.init
+> @@ -58,7 +58,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-keystone/keystone b/meta-openstack/recipes-devtools/python/python-keystone/keystone
+> index 8953da8..0d8a538 100644
+> --- a/meta-openstack/recipes-devtools/python/python-keystone/keystone
+> +++ b/meta-openstack/recipes-devtools/python/python-keystone/keystone
+> @@ -59,7 +59,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init b/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init
+> index 8b11a27..c9d8d72 100644
+> --- a/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init
+> +++ b/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init
+> @@ -60,7 +60,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init b/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init
+> index 0c78de6..77f8f01 100644
+> --- a/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init
+> +++ b/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init
+> @@ -63,7 +63,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-nova/nova-all b/meta-openstack/recipes-devtools/python/python-nova/nova-all
+> index c1d537d..914b714 100644
+> --- a/meta-openstack/recipes-devtools/python/python-nova/nova-all
+> +++ b/meta-openstack/recipes-devtools/python/python-nova/nova-all
+> @@ -62,7 +62,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth b/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth
+> index 99f04d5..9a74107 100644
+> --- a/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth
+> +++ b/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth
+> @@ -48,7 +48,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-nova/nova.init b/meta-openstack/recipes-devtools/python/python-nova/nova.init
+> index 46b28d3..607b6de 100644
+> --- a/meta-openstack/recipes-devtools/python/python-nova/nova.init
+> +++ b/meta-openstack/recipes-devtools/python/python-nova/nova.init
+> @@ -78,7 +78,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-rally/rally.init b/meta-openstack/recipes-devtools/python/python-rally/rally.init
+> index e834547..6128e48 100644
+> --- a/meta-openstack/recipes-devtools/python/python-rally/rally.init
+> +++ b/meta-openstack/recipes-devtools/python/python-rally/rally.init
+> @@ -63,7 +63,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> diff --git a/meta-openstack/recipes-devtools/python/python-trove/trove-init b/meta-openstack/recipes-devtools/python/python-trove/trove-init
+> index 584bf77..ee0bd21 100644
+> --- a/meta-openstack/recipes-devtools/python/python-trove/trove-init
+> +++ b/meta-openstack/recipes-devtools/python/python-trove/trove-init
+> @@ -73,7 +73,7 @@ status()
+>  {
+>      pid=`cat $PIDFILE 2>/dev/null`
+>      if [ -n "$pid" ]; then
+> -        if ps -p $pid >&- ; then
+> +        if ps -p $pid > /dev/null 2>&1 ; then
+>              echo "$DESC is running"
+>              return
+>          fi
+> -- 
+> 2.1.4
+> 
+> -- 
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
