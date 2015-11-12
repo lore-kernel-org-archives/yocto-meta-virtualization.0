@@ -1,6 +1,6 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3DEFBE00B56; Tue,  3 Nov 2015 01:52:32 -0800 (PST)
+	id 9B51BE008D2; Wed, 11 Nov 2015 18:50:37 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,32 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8E802E0088C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 59D3DE006F3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Nov 2015 01:52:28 -0800 (PST)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tA39qRfg014331
+	Wed, 11 Nov 2015 18:50:34 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tAC2oYwp016704
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 3 Nov 2015 01:52:28 -0800 (PST)
-Received: from [128.224.5.143] (128.224.5.143) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 3 Nov 2015 01:52:27 -0800
-Message-ID: <563883DA.8050008@windriver.com>
-Date: Tue, 3 Nov 2015 04:52:26 -0500
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.8.0
+	Wed, 11 Nov 2015 18:50:34 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 11 Nov 2015 18:50:33 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Wed, 11 Nov 2015 21:50:27 -0500
+Message-ID: <1447296631-16483-2-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
+In-Reply-To: <1447296631-16483-1-git-send-email-mark.asselstine@windriver.com>
+References: <1447296631-16483-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-To: <jianchuan.wang@windriver.com>, <meta-virtualization@yoctoproject.org>
-References: <1446543315-25520-1-git-send-email-jianchuan.wang@windriver.com>
-In-Reply-To: <1446543315-25520-1-git-send-email-jianchuan.wang@windriver.com>
-Subject: Re: [PATCH] openvswith: Uprev to latest stable version 2.4.0
+Subject: [meta-cloud-services][PATCH 2/6] init: no need to close (non-existing) ps file descriptors
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,236 +45,232 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Nov 2015 09:52:32 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 12 Nov 2015 02:50:37 -0000
+Content-Type: text/plain
 
-There was a typo in the short log (openvswith), but I fixed that during
-my merge, and I've pushed the change.
+Attempting to get the status of various daemons which are part of the
+compute image results in an error:
 
-Thanks!
+ps: write error: Bad file descriptor
 
-Bruce
+Switch to using the more standard io redirection techniques to avoid
+this error.
 
-On 11/03/2015 04:35 AM, jianchuan.wang@windriver.com wrote:
-> From: Jianchuan Wang <jianchuan.wang@windriver.com>
->
-> Uprev to git rev bb429e09f7783f1ba23ac0682ed9edf424f0cfbb (based on 2.4.0)
-> - Remove non_reproducible_builds_cleanup.patch since it
->    have been in the version 2.4.0.
->
-> Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-> ---
->   .../non_reproducible_builds_cleanup.patch          | 18 ------
->   ...-1667bb34988358aaf1c92d0d21fad4b1c8698780.patch | 69 ----------------------
->   ...-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch | 69 ++++++++++++++++++++++
->   recipes-networking/openvswitch/openvswitch_git.bb  |  7 +--
->   4 files changed, 72 insertions(+), 91 deletions(-)
->   delete mode 100644 recipes-networking/openvswitch/openvswitch-git/non_reproducible_builds_cleanup.patch
->   delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-1667bb34988358aaf1c92d0d21fad4b1c8698780.patch
->   create mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
->
-> diff --git a/recipes-networking/openvswitch/openvswitch-git/non_reproducible_builds_cleanup.patch b/recipes-networking/openvswitch/openvswitch-git/non_reproducible_builds_cleanup.patch
-> deleted file mode 100644
-> index 999f2ea..0000000
-> --- a/recipes-networking/openvswitch/openvswitch-git/non_reproducible_builds_cleanup.patch
-> +++ /dev/null
-> @@ -1,18 +0,0 @@
-> -Remove __DATE__, __TIME__ - error messages on non-reproducible builds
-> -
-> -Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> ----
-> - datapath/datapath.c             |    2 +-
-> - 1 files changed, 1 insertions(+), 1 deletions(-)
-> -
-> ---- a/datapath/datapath.c
-> -+++ b/datapath/datapath.c
-> -@@ -2142,7 +2142,7 @@
-> -
-> - 	BUILD_BUG_ON(sizeof(struct ovs_skb_cb) > FIELD_SIZEOF(struct sk_buff, cb));
-> -
-> --	pr_info("Open vSwitch switching datapath %s, built "__DATE__" "__TIME__"\n",
-> -+	pr_info("Open vSwitch switching datapath %s\n",
-> - 		VERSION);
-> -
-> - 	err = action_fifos_init();
-> diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-1667bb34988358aaf1c92d0d21fad4b1c8698780.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-1667bb34988358aaf1c92d0d21fad4b1c8698780.patch
-> deleted file mode 100644
-> index 76e312c..0000000
-> --- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-1667bb34988358aaf1c92d0d21fad4b1c8698780.patch
-> +++ /dev/null
-> @@ -1,69 +0,0 @@
-> -Add test-install rule to support ptest execution
-> -
-> -Signed-off-by: Radu Patriu <radu.patriu@enea.com>
-> -
-> ----
-> - Makefile.am |    2 ++
-> - test.mk     |   49 +++++++++++++++++++++++++++++++++++++++++++++++++
-> - 2 files changed, 51 insertions(+)
-> -
-> ---- a/Makefile.am
-> -+++ b/Makefile.am
-> -@@ -369,3 +369,5 @@
-> - include vtep/automake.mk
-> - include datapath-windows/automake.mk
-> - include datapath-windows/include/automake.mk
-> -+include test.mk
-> -+
-> ---- /dev/null
-> -+++ b/test.mk
-> -@@ -0,0 +1,49 @@
-> -+TEST_DEST ?= ${prefix}/lib/openvswitch
-> -+TEST_ROOT ?= ${prefix}/lib/openvswitch
-> -+TEST_DEPEND =
-> -+
-> -+if HAVE_OPENSSL
-> -+TEST_DEPEND += $(TESTPKI_FILES)
-> -+endif
-> -+
-> -+test-install: $(TEST_DEPEND)
-> -+	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
-> -+	install -d $(TEST_DEST)/tests ;\
-> -+	install -d $(TEST_DEST)/python ;\
-> -+	install -d $(TEST_DEST)/python/ovs ;\
-> -+	install -d $(TEST_DEST)/python/ovs/db ;\
-> -+	install -d $(TEST_DEST)/python/ovs/unixctl ;\
-> -+	install -d $(TEST_DEST)/vswitchd ;\
-> -+	install vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
-> -+	install -d $(TEST_DEST)/debian ;\
-> -+	install debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
-> -+	install -d $(TEST_DEST)/build-aux ;\
-> -+	install build-aux/check-structs $(TEST_DEST)/build-aux ;\
-> -+	install -d $(TEST_DEST)/xenserver ;\
-> -+	install xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
-> -+	install xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
-> -+	install xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
-> -+	install xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
-> -+	install xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
-> -+	install -d $(TEST_DEST)/vtep ;\
-> -+	install vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
-> -+	for p in $$list ; do \
-> -+	  echo $$p ;\
-> -+	  p=$${p#./} ;\
-> -+	  pre=$${p#tests\/} ;\
-> -+	  if test $$pre != $$p ; then \
-> -+	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
-> -+	    install $$p $(TEST_DEST)/tests/$$pre ;\
-> -+	    continue ;\
-> -+	  fi ;\
-> -+	  pre=$${p#python\/ovs\/} ;\
-> -+	  if test $$pre != $$p ; then \
-> -+	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
-> -+	    install $$p $(TEST_DEST)/python/ovs/$$pre ;\
-> -+	    continue ;\
-> -+	  fi; \
-> -+	done ;\
-> -+	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
-> -+	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
-> -+	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-> -+	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-> diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
-> new file mode 100644
-> index 0000000..c8ebff1
-> --- /dev/null
-> +++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
-> @@ -0,0 +1,69 @@
-> +Add test-install rule to support ptest execution
-> +
-> +Signed-off-by: Radu Patriu <radu.patriu@enea.com>
-> +
-> +---
-> + Makefile.am |    2 ++
-> + test.mk     |   49 +++++++++++++++++++++++++++++++++++++++++++++++++
-> + 2 files changed, 51 insertions(+)
-> +
-> +--- a/Makefile.am
-> ++++ b/Makefile.am
-> +@@ -382,3 +382,5 @@
-> + include datapath-windows/automake.mk
-> + include datapath-windows/include/automake.mk
-> + include windows/automake.mk
-> ++include test.mk
-> ++
-> +--- /dev/null
-> ++++ b/test.mk
-> +@@ -0,0 +1,49 @@
-> ++TEST_DEST ?= ${prefix}/lib/openvswitch
-> ++TEST_ROOT ?= ${prefix}/lib/openvswitch
-> ++TEST_DEPEND =
-> ++
-> ++if HAVE_OPENSSL
-> ++TEST_DEPEND += $(TESTPKI_FILES)
-> ++endif
-> ++
-> ++test-install: $(TEST_DEPEND)
-> ++	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
-> ++	install -d $(TEST_DEST)/tests ;\
-> ++	install -d $(TEST_DEST)/python ;\
-> ++	install -d $(TEST_DEST)/python/ovs ;\
-> ++	install -d $(TEST_DEST)/python/ovs/db ;\
-> ++	install -d $(TEST_DEST)/python/ovs/unixctl ;\
-> ++	install -d $(TEST_DEST)/vswitchd ;\
-> ++	install vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
-> ++	install -d $(TEST_DEST)/debian ;\
-> ++	install debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
-> ++	install -d $(TEST_DEST)/build-aux ;\
-> ++	install build-aux/check-structs $(TEST_DEST)/build-aux ;\
-> ++	install -d $(TEST_DEST)/xenserver ;\
-> ++	install xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
-> ++	install xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
-> ++	install xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
-> ++	install xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
-> ++	install xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
-> ++	install -d $(TEST_DEST)/vtep ;\
-> ++	install vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
-> ++	for p in $$list ; do \
-> ++	  echo $$p ;\
-> ++	  p=$${p#./} ;\
-> ++	  pre=$${p#tests\/} ;\
-> ++	  if test $$pre != $$p ; then \
-> ++	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
-> ++	    install $$p $(TEST_DEST)/tests/$$pre ;\
-> ++	    continue ;\
-> ++	  fi ;\
-> ++	  pre=$${p#python\/ovs\/} ;\
-> ++	  if test $$pre != $$p ; then \
-> ++	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
-> ++	    install $$p $(TEST_DEST)/python/ovs/$$pre ;\
-> ++	    continue ;\
-> ++	  fi; \
-> ++	done ;\
-> ++	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
-> ++	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
-> ++	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-> ++	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-> index 13d6165..0c918cd 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -9,19 +9,18 @@ RDEPENDS_${PN}-ptest += "\
->   	"
->
->   S = "${WORKDIR}/git"
-> -PV = "2.3.90+${SRCREV}"
-> +PV = "2.4.0+${SRCREV}"
->
->   FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
->
-> -SRCREV = "1667bb34988358aaf1c92d0d21fad4b1c8698780"
-> +SRCREV = "bb429e09f7783f1ba23ac0682ed9edf424f0cfbb"
->   SRC_URI += "\
-> -	git://github.com/openvswitch/ovs.git;protocol=git \
-> +	git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.4 \
->   	file://openvswitch-add-more-target-python-substitutions.patch \
->   	file://openvswitch-add-ptest-${SRCREV}.patch \
->   	file://run-ptest \
->   	file://disable_m4_check.patch \
->   	file://kernel_module.patch \
-> -	file://non_reproducible_builds_cleanup.patch \
->   	"
->
->   LIC_FILES_CHKSUM = "file://COPYING;md5=5973c953e3c8a767cf0808ff8a0bac1b"
->
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta-openstack/recipes-devtools/python/python-barbican/barbican.init    | 2 +-
+ .../recipes-devtools/python/python-ceilometer/ceilometer.init           | 2 +-
+ meta-openstack/recipes-devtools/python/python-cinder/cinder-volume      | 2 +-
+ meta-openstack/recipes-devtools/python/python-cinder/cinder.init        | 2 +-
+ meta-openstack/recipes-devtools/python/python-glance/glance.init        | 2 +-
+ meta-openstack/recipes-devtools/python/python-heat/heat.init            | 2 +-
+ meta-openstack/recipes-devtools/python/python-horizon/horizon.init      | 2 +-
+ meta-openstack/recipes-devtools/python/python-keystone/keystone         | 2 +-
+ .../recipes-devtools/python/python-neutron/neutron-agent.init           | 2 +-
+ .../recipes-devtools/python/python-neutron/neutron-server.init          | 2 +-
+ meta-openstack/recipes-devtools/python/python-nova/nova-all             | 2 +-
+ meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth     | 2 +-
+ meta-openstack/recipes-devtools/python/python-nova/nova.init            | 2 +-
+ meta-openstack/recipes-devtools/python/python-rally/rally.init          | 2 +-
+ meta-openstack/recipes-devtools/python/python-trove/trove-init          | 2 +-
+ 15 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/meta-openstack/recipes-devtools/python/python-barbican/barbican.init b/meta-openstack/recipes-devtools/python/python-barbican/barbican.init
+index 5b353e1..a23a493 100644
+--- a/meta-openstack/recipes-devtools/python/python-barbican/barbican.init
++++ b/meta-openstack/recipes-devtools/python/python-barbican/barbican.init
+@@ -71,7 +71,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init b/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init
+index ba0f426..80fdff5 100644
+--- a/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init
++++ b/meta-openstack/recipes-devtools/python/python-ceilometer/ceilometer.init
+@@ -62,7 +62,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume b/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume
+index f753810..7d0aa14 100644
+--- a/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume
++++ b/meta-openstack/recipes-devtools/python/python-cinder/cinder-volume
+@@ -61,7 +61,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-cinder/cinder.init b/meta-openstack/recipes-devtools/python/python-cinder/cinder.init
+index f130ac8..4c97962 100644
+--- a/meta-openstack/recipes-devtools/python/python-cinder/cinder.init
++++ b/meta-openstack/recipes-devtools/python/python-cinder/cinder.init
+@@ -63,7 +63,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-glance/glance.init b/meta-openstack/recipes-devtools/python/python-glance/glance.init
+index 5b1bf74..cbcfb0a 100644
+--- a/meta-openstack/recipes-devtools/python/python-glance/glance.init
++++ b/meta-openstack/recipes-devtools/python/python-glance/glance.init
+@@ -62,7 +62,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-heat/heat.init b/meta-openstack/recipes-devtools/python/python-heat/heat.init
+index 5e0719f..794ac6a 100644
+--- a/meta-openstack/recipes-devtools/python/python-heat/heat.init
++++ b/meta-openstack/recipes-devtools/python/python-heat/heat.init
+@@ -68,7 +68,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-horizon/horizon.init b/meta-openstack/recipes-devtools/python/python-horizon/horizon.init
+index 994fbec..be79353 100644
+--- a/meta-openstack/recipes-devtools/python/python-horizon/horizon.init
++++ b/meta-openstack/recipes-devtools/python/python-horizon/horizon.init
+@@ -58,7 +58,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-keystone/keystone b/meta-openstack/recipes-devtools/python/python-keystone/keystone
+index 8953da8..0d8a538 100644
+--- a/meta-openstack/recipes-devtools/python/python-keystone/keystone
++++ b/meta-openstack/recipes-devtools/python/python-keystone/keystone
+@@ -59,7 +59,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init b/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init
+index 8b11a27..c9d8d72 100644
+--- a/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init
++++ b/meta-openstack/recipes-devtools/python/python-neutron/neutron-agent.init
+@@ -60,7 +60,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init b/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init
+index 0c78de6..77f8f01 100644
+--- a/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init
++++ b/meta-openstack/recipes-devtools/python/python-neutron/neutron-server.init
+@@ -63,7 +63,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-nova/nova-all b/meta-openstack/recipes-devtools/python/python-nova/nova-all
+index c1d537d..914b714 100644
+--- a/meta-openstack/recipes-devtools/python/python-nova/nova-all
++++ b/meta-openstack/recipes-devtools/python/python-nova/nova-all
+@@ -62,7 +62,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth b/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth
+index 99f04d5..9a74107 100644
+--- a/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth
++++ b/meta-openstack/recipes-devtools/python/python-nova/nova-consoleauth
+@@ -48,7 +48,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-nova/nova.init b/meta-openstack/recipes-devtools/python/python-nova/nova.init
+index 46b28d3..607b6de 100644
+--- a/meta-openstack/recipes-devtools/python/python-nova/nova.init
++++ b/meta-openstack/recipes-devtools/python/python-nova/nova.init
+@@ -78,7 +78,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-rally/rally.init b/meta-openstack/recipes-devtools/python/python-rally/rally.init
+index e834547..6128e48 100644
+--- a/meta-openstack/recipes-devtools/python/python-rally/rally.init
++++ b/meta-openstack/recipes-devtools/python/python-rally/rally.init
+@@ -63,7 +63,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+diff --git a/meta-openstack/recipes-devtools/python/python-trove/trove-init b/meta-openstack/recipes-devtools/python/python-trove/trove-init
+index 584bf77..ee0bd21 100644
+--- a/meta-openstack/recipes-devtools/python/python-trove/trove-init
++++ b/meta-openstack/recipes-devtools/python/python-trove/trove-init
+@@ -73,7 +73,7 @@ status()
+ {
+     pid=`cat $PIDFILE 2>/dev/null`
+     if [ -n "$pid" ]; then
+-        if ps -p $pid >&- ; then
++        if ps -p $pid > /dev/null 2>&1 ; then
+             echo "$DESC is running"
+             return
+         fi
+-- 
+2.1.4
 
 
