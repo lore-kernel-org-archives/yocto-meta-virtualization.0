@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C6A67E00A4C; Wed,  2 Dec 2015 08:33:50 -0800 (PST)
+	id 31E28E00AD8; Wed,  2 Dec 2015 08:34:05 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,23 +13,23 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id CFF5FE00A04
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 93AEAE00948
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 Dec 2015 08:33:07 -0800 (PST)
+	Wed,  2 Dec 2015 08:33:15 -0800 (PST)
 Received: from iapetus.enea.se (172.16.141.158) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Wed, 2 Dec 2015
-	17:33:06 +0100
+	17:33:14 +0100
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 2 Dec 2015 17:32:18 +0100
-Message-ID: <1449073966-29707-13-git-send-email-josep.puigdemont@enea.com>
+Date: Wed, 2 Dec 2015 17:32:23 +0100
+Message-ID: <1449073966-29707-18-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 References: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [meta-cloud-services][fido-kilo][PATCH 12/40] python-wrapt: add recipe
+Subject: [meta-cloud-services][fido-kilo][PATCH 17/40] python-trollius: add recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,32 +42,31 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 16:33:50 -0000
+X-List-Received-Date: Wed, 02 Dec 2015 16:34:05 -0000
 Content-Type: text/plain
 
 Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 ---
- meta-openstack/recipes-devtools/python/python-wrapt_1.10.5.bb | 11 +++++++++++
- 1 file changed, 11 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-wrapt_1.10.5.bb
+ meta-openstack/recipes-devtools/python/python-trollius_2.0.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-trollius_2.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-wrapt_1.10.5.bb b/meta-openstack/recipes-devtools/python/python-wrapt_1.10.5.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-trollius_2.0.bb b/meta-openstack/recipes-devtools/python/python-trollius_2.0.bb
 new file mode 100644
-index 0000000..5a8d0e7
+index 0000000..0a64581
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-wrapt_1.10.5.bb
-@@ -0,0 +1,11 @@
-+DESCRIPTION = "A Python module for decorators, wrappers and monkey patching."
-+HOMEPAGE = "https://pypi.python.org/pypi/wrapt/"
++++ b/meta-openstack/recipes-devtools/python/python-trollius_2.0.bb
+@@ -0,0 +1,10 @@
++DESCRIPTION = "Port of the Tulip project (asyncio module, PEP 3156) on Python 2"
++HOMEPAGE = "https://pypi.python.org/pypi/trollius"
 +SECTION = "devel/python"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=848d45ec255e411c0ff82b034a49d8a0"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://COPYING;md5=8f7bb094c7232b058c7e9f2e431f389c"
 +
-+SRC_URI[md5sum] = "79732bbc096235704e7523d3bacd202c"
-+SRC_URI[sha256sum] = "99cbb4e3a3ea964df0cb1437261fc1198616ec872e7b501622f3f7f92fcd0833"
++SRC_URI[md5sum] = "5704231bc385660783c5fad59e75549d"
++SRC_URI[sha256sum] = "a8e0e2d3a3193be3e0f113253f41675d2679d23c491f32b37f4e0a736f32a28f"
 +
 +inherit pypi
-+
 -- 
 2.1.0
 
