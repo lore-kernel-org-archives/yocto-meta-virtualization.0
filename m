@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CB240E00C38; Wed,  2 Dec 2015 08:34:20 -0800 (PST)
+	id 04EE9E00C39; Wed,  2 Dec 2015 08:34:23 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,23 +12,23 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 3AB83E0083E
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id BE61AE00A18
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 Dec 2015 08:33:40 -0800 (PST)
+	Wed,  2 Dec 2015 08:33:41 -0800 (PST)
 Received: from iapetus.enea.se (172.16.141.158) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Wed, 2 Dec 2015
-	17:33:39 +0100
+	17:33:40 +0100
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 2 Dec 2015 17:32:39 +0100
-Message-ID: <1449073966-29707-34-git-send-email-josep.puigdemont@enea.com>
+Date: Wed, 2 Dec 2015 17:32:40 +0100
+Message-ID: <1449073966-29707-35-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 References: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [meta-cloud-services][fido-kilo][PATCH 33/40] python-keystoneclient: upgrade to 1.3.3
+Subject: [meta-cloud-services][fido-kilo][PATCH 34/40] python-xstatic-angular-irdragndrop: add new recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,47 +41,49 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 16:34:20 -0000
+X-List-Received-Date: Wed, 02 Dec 2015 16:34:23 -0000
 Content-Type: text/plain
 
+From: Jackie Huang <jackie.huang@windriver.com>
+
+It's required by python-horizon
+
+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 ---
- .../recipes-devtools/python/python-keystoneclient_git.bb          | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../python-xstatic-angular-irdragndrop_1.0.2.2.bb  | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-irdragndrop_1.0.2.2.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-keystoneclient_git.bb b/meta-openstack/recipes-devtools/python/python-keystoneclient_git.bb
-index 0063efc..5c5d98c 100644
---- a/meta-openstack/recipes-devtools/python/python-keystoneclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-keystoneclient_git.bb
-@@ -4,17 +4,16 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=4a4d0e932ffae1c0131528d30d419c55"
- 
--PR = "r0"
- SRCNAME = "keystoneclient"
- 
- SRC_URI = "\
--	git://github.com/openstack/python-keystoneclient.git;branch=master \
-+	git://github.com/openstack/python-keystoneclient.git;branch=stable/kilo \
- 	file://fix_keystoneclient_memory_leak.patch \
- 	file://keystone-api-check.sh \
- 	"
- 
--PV = "1.3.0+git${SRCPV}"
--SRCREV = "a84b5ac115dd5775f7380a204811aa939fd5c242"
-+PV = "1.3.3+git${SRCPV}"
-+SRCREV = "ec70eb02f8a5889828cde786694283240f64c5c4"
- S = "${WORKDIR}/git"
- 
- inherit setuptools monitor
-@@ -32,6 +31,7 @@ RDEPENDS_${PN} += " \
- 	python-requests \
- 	python-simplejson \
- 	python-oslo.config \
-+	python-oslo.serialization \
- 	python-pbr \
- 	"
- 
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-irdragndrop_1.0.2.2.bb b/meta-openstack/recipes-devtools/python/python-xstatic-angular-irdragndrop_1.0.2.2.bb
+new file mode 100644
+index 0000000..2ad3e55
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python-xstatic-angular-irdragndrop_1.0.2.2.bb
+@@ -0,0 +1,22 @@
++DESCRIPTION = "IrDragNDrop javascript library packaged for setuptools"
++HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-IrDragNDrop"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=9acc2dfc3a0345c175df08104bd22298"
++
++SRCNAME = "XStatic-Angular-IrDragNDrop"
++SRC_URI = "http://pypi.python.org/packages/source/X/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++
++SRC_URI[md5sum] = "6ea8809bae94014aef699d58836dba84"
++SRC_URI[sha256sum] = "5595f4a98ac8f8468f7e56dc916e10c0fc5f0197567899a75755f99fe8b5bd6d"
++
++S = "${WORKDIR}/${SRCNAME}-${PV}"
++
++inherit setuptools
++
++DEPENDS += " \
++        python-pip \
++        "
++
++RDEPENDS_${PN} += " \
++        "
 -- 
 2.1.0
 
