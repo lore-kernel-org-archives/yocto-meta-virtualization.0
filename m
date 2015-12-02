@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F2F9DE00B30; Wed,  2 Dec 2015 08:33:38 -0800 (PST)
+	id 2CB01E00B3A; Wed,  2 Dec 2015 08:33:40 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,23 +12,23 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 1E1AAE0083E
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id CDB1BE009AD
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 Dec 2015 08:32:59 -0800 (PST)
+	Wed,  2 Dec 2015 08:33:01 -0800 (PST)
 Received: from iapetus.enea.se (172.16.141.158) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Wed, 2 Dec 2015
-	17:32:58 +0100
+	17:33:00 +0100
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 2 Dec 2015 17:32:13 +0100
-Message-ID: <1449073966-29707-8-git-send-email-josep.puigdemont@enea.com>
+Date: Wed, 2 Dec 2015 17:32:14 +0100
+Message-ID: <1449073966-29707-9-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 References: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [meta-cloud-services][fido-kilo][PATCH 07/40] python-oslo.i18n: upgrade to 1.5.0 (kilo)
+Subject: [meta-cloud-services][fido-kilo][PATCH 08/40] python-oslo.utils: update to 1.4.0, add dependencies
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,36 +41,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 Dec 2015 16:33:39 -0000
+X-List-Received-Date: Wed, 02 Dec 2015 16:33:40 -0000
 Content-Type: text/plain
 
 Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 ---
- .../python/{python-oslo.i18n_1.4.0.bb => python-oslo.i18n_1.5.0.bb}  | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-oslo.i18n_1.4.0.bb => python-oslo.i18n_1.5.0.bb} (77%)
+ .../recipes-devtools/python/python-oslo.utils_git.bb         | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-oslo.i18n_1.4.0.bb b/meta-openstack/recipes-devtools/python/python-oslo.i18n_1.5.0.bb
-similarity index 77%
-rename from meta-openstack/recipes-devtools/python/python-oslo.i18n_1.4.0.bb
-rename to meta-openstack/recipes-devtools/python/python-oslo.i18n_1.5.0.bb
-index d2bc53b..dc50ad9 100644
---- a/meta-openstack/recipes-devtools/python/python-oslo.i18n_1.4.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-oslo.i18n_1.5.0.bb
-@@ -9,8 +9,8 @@ PR = "r0"
- SRCNAME = "oslo.i18n"
- SRC_URI = "http://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+diff --git a/meta-openstack/recipes-devtools/python/python-oslo.utils_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.utils_git.bb
+index 33c7e53..aaacc37 100644
+--- a/meta-openstack/recipes-devtools/python/python-oslo.utils_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-oslo.utils_git.bb
+@@ -4,13 +4,11 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
  
--SRC_URI[md5sum] = "afd0a3394785b1b37959c1384129a554"
--SRC_URI[sha256sum] = "a3d64e8d2b4235a457da2c6269d8c97e867a90ba7d938fe0ed3cfc792c8c87bb"
-+SRC_URI[md5sum] = "4ed6035729343bb4becdc5ffe6dc8e24"
-+SRC_URI[sha256sum] = "cd09da0780e45737b784bdc026ea705ad006e3c003aa5dfeab83f269b4ea0e70"
+-PR = "r0"
+-
+ SRCNAME = "oslo.utils"
+ SRC_URI = "git://github.com/openstack/${SRCNAME}.git"
  
- S = "${WORKDIR}/${SRCNAME}-${PV}"
+-PV = "1.3.0"
+-SRCREV = "ed4e2d775a56b9d47ed314f96dccd9221a91e241"
++PV = "1.4.0"
++SRCREV = "91dc782c2f11fb76425effd7a331d63111adf1ce"
+ S = "${WORKDIR}/git"
  
-@@ -27,4 +27,5 @@ DEPENDS += " \
+ inherit setuptools
+@@ -24,5 +22,11 @@ DEPENDS += " \
+ 
+ # RDEPENDS_default: 
  RDEPENDS_${PN} += " \
-         python-babel \
++        python-babel \
++        python-iso8601 \
++        python-netaddr \
++        python-netifaces \
++        python-oslo.i18n \
          python-pbr \
 +        python-six \
          "
