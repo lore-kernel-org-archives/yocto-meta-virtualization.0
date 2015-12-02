@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A7B0EE00AA6; Wed,  2 Dec 2015 08:33:50 -0800 (PST)
+	id B7B9AE00A27; Wed,  2 Dec 2015 08:33:50 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,23 +12,23 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id 5DC5DE007D5
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id E2098E00A4C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 Dec 2015 08:33:09 -0800 (PST)
+	Wed,  2 Dec 2015 08:33:10 -0800 (PST)
 Received: from iapetus.enea.se (172.16.141.158) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.224.2; Wed, 2 Dec 2015
-	17:33:08 +0100
+	17:33:09 +0100
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 2 Dec 2015 17:32:19 +0100
-Message-ID: <1449073966-29707-14-git-send-email-josep.puigdemont@enea.com>
+Date: Wed, 2 Dec 2015 17:32:20 +0100
+Message-ID: <1449073966-29707-15-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 2.1.0
 In-Reply-To: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 References: <1449073966-29707-1-git-send-email-josep.puigdemont@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [meta-cloud-services][fido-kilo][PATCH 13/40] python-debtcollector: add recipe
+Subject: [meta-cloud-services][fido-kilo][PATCH 14/40] python-oslo.log: update to 1.0.0, add dependencies
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,38 +46,45 @@ Content-Type: text/plain
 
 Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
 ---
- .../python/python-debtcollector_0.3.0.bb           | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-debtcollector_0.3.0.bb
+ meta-openstack/recipes-devtools/python/python-oslo.log_git.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector_0.3.0.bb b/meta-openstack/recipes-devtools/python/python-debtcollector_0.3.0.bb
-new file mode 100644
-index 0000000..af88441
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-debtcollector_0.3.0.bb
-@@ -0,0 +1,22 @@
-+DESCRIPTION = "A collection of Python deprecation patterns and strategies"
-+HOMEPAGE = "https://pypi.python.org/pypi/debtcollector/"
-+SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
-+
-+SRC_URI[md5sum] = "21e711b88ab956bb1c1d15444bfca0a6"
-+SRC_URI[sha256sum] = "64cf1ab9bacbdda8c83a569349f2a91211a890973e0119514a9b7bf34518373e"
-+
-+inherit pypi
-+
-+DEPENDS += " \
-+    python-pbr \
-+    "
-+
-+RDEPENDS_${PN} += " \
-+    python-babel \
-+    python-oslo.utils \
-+    python-pbr \
-+    python-six \
-+    python-wrapt \
-+    "
+diff --git a/meta-openstack/recipes-devtools/python/python-oslo.log_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.log_git.bb
+index bfcbe31..1518717 100644
+--- a/meta-openstack/recipes-devtools/python/python-oslo.log_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-oslo.log_git.bb
+@@ -4,13 +4,11 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+ 
+-PR = "r0"
+-
+ SRCNAME = "oslo.log"
+-SRC_URI = "git://github.com/openstack/${SRCNAME}.git"
++SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo"
+ 
+-PV = "0.3.0"
+-SRCREV = "5139941a0c8d63ae33421a2082e35fae0f800b67"
++PV = "1.0.0"
++SRCREV = "4f01e7e540e5cc6b26d32f2bc56dccd3fcd21920"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools
+@@ -24,6 +22,8 @@ DEPENDS += " \
+ # RDEPENDS_default: 
+ RDEPENDS_${PN} += " \
+         bash \
++        python-babel \
++        python-debtcollector \
+         python-pbr \
+         python-iso8601 \
+         python-oslo.config \
+@@ -31,4 +31,5 @@ RDEPENDS_${PN} += " \
+         python-oslo.i18n \
+         python-oslo.utils \
+         python-oslo.serialization\
++        python-six \
+         "
 -- 
 2.1.0
 
