@@ -1,49 +1,52 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E8349E007C3; Wed,  2 Dec 2015 21:50:56 -0800 (PST)
+	id A977FE005B3; Thu,  3 Dec 2015 09:34:31 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,HTML_MESSAGE,
-	RDNS_NONE autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [74.125.82.47 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 20759E00748
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-wm0-f47.google.com (mail-wm0-f47.google.com [74.125.82.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 90A63E00349
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 Dec 2015 21:50:51 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; d="scan'208,217";a="1135595"
-Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 03 Dec 2015 13:50:36 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 09DC14092550
+	Thu,  3 Dec 2015 09:34:28 -0800 (PST)
+Received: by wmec201 with SMTP id c201so32369969wme.1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  3 Dec 2015 13:50:33 +0800 (CST)
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0181.006; Thu, 3 Dec 2015 13:50:32 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: Help (python-jsonschema do_compile Failed)
-Thread-Index: AdEtjiHMEMtadIP6TMil2kBjIxC82w==
-Date: Thu, 3 Dec 2015 05:50:31 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E8011BCDCE58@G08CNEXMBPEKD02.g08.fujitsu.local>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.98]
+	Thu, 03 Dec 2015 09:34:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:reply-to:sender:date:message-id:subject:from:to:cc
+	:content-type; bh=9I2ibv9D3WYa7r+qinncewlyLMi7rwOpr1EEOfwptnk=;
+	b=HdDuCtQdVO02jAYoyiSC49+CxnMwhVwSs6e+UUUujGq4ca5WYjLOrMLUNBv+hX2eAZ
+	gJoLvhF9vS1K1IrJyBOtgjlxMedj9/VcV/V6nnXdYS+f8SqJCDM1JRQthTWh0zX/Q797
+	qKZIXxa6pkgAUGnNpCthoE8da0q2RZDbYc7Ysh3cmOvVzjE9QiDr7htHjIpYlNNalIF3
+	wmcZlmTBl+IRqasOjpldTUc0U20STfGb6bNgRKsnj0bQKQt6ogxH4bipZVpCS55lPMic
+	KjVgLUVmOHdgPO+C5WhZcFrHBrY/yI/+qv/UtzwzC0gX6ji5TkZ4ydGQOUnwqFqyxsq1
+	8DBQ==
 MIME-Version: 1.0
-X-yoursite-MailScanner-Information: Please contact the ISP for more information
-X-yoursite-MailScanner-ID: 09DC14092550.AD131
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-Subject: Help (python-jsonschema do_compile Failed)
+X-Received: by 10.194.175.230 with SMTP id cd6mr14048281wjc.100.1449164067473; 
+	Thu, 03 Dec 2015 09:34:27 -0800 (PST)
+Sender: asselsm@gmail.com
+Received: by 10.194.59.176 with HTTP; Thu, 3 Dec 2015 09:34:27 -0800 (PST)
+Date: Thu, 3 Dec 2015 12:34:27 -0500
+X-Google-Sender-Auth: CRopUUnHRV9wnQntx-kUWwTMmFk
+Message-ID: <CAPuovEJTm8DXRDksyLDV6ts-31-SMBFAQptg=c8ySnRGJOxs8g@mail.gmail.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Josep Puigdemont <josep.puigdemont@enea.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [meta-cloud-services][fido-kilo][PATCH 00/13] cherry picks from master
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -53,138 +56,53 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Dec 2015 05:50:56 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_A8FC939F80655644A89BB21CCD3741E8011BCDCE58G08CNEXMBPEKD_"
+X-List-Received-Date: Thu, 03 Dec 2015 17:34:31 -0000
+Content-Type: text/plain; charset=UTF-8
 
---_000_A8FC939F80655644A89BB21CCD3741E8011BCDCE58G08CNEXMBPEKD_
-Content-Type: text/plain; charset="shift_jis"
-Content-Transfer-Encoding: base64
+On Wed, Dec 2, 2015 at 11:16 AM, Josep Puigdemont
+<josep.puigdemont@enea.com> wrote:
+> On Tue, Dec 01, 2015 at 09:37:08AM -0500, Bruce Ashfield wrote:
+>>
+>>
+>> On Thu, Nov 26, 2015 at 10:47 AM, Josep Puigdemont <josep.puigdemont@enea.com>
+>> wrote:
+>>
+>>     Hi,
+>>     this is a collection of cherry-picks from master to fido-kilo (commit short
+>>     hash in parantheses)
+>>     This is part of a more complete patch set to bring fido-kilo to a more
+>>     functional state.
+>>
+>>
+>> A noble goal :) Same as we are working on for master and liberty, before
+>> jumping to the latest.
+>
+> mmm, I guess we're noble people... :) I didn't want to touch master too
+> much because I didn't know what the direction was exactly, but hearing
+> that you're working on Liberty is excellent news! I might be able to
+> give a hand when it hits the repo (or is there a development repo I
+> could take a peek?)
 
-SGksYWxsDQoNCldoZW4gSSBiaXRiYWtlIHB5dGhvbi1qc29uc2NoZW1hLHRo
-ZSBlcnJvciBpcyBvY2N1cnJlZCBpbiB0aGUgc3RlcCBvZiBkb19jb21waWxl
-IGFzIGZvbGxvd2luZzoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tDQpERUJVRzogRXhlY3V0aW5nIHNoZWxsIGZ1bmN0aW9uIGRvX2NvbXBp
-bGUNCkRvd25sb2FkIGVycm9yIG9uIGh0dHBzOi8vcHlwaS5weXRob24ub3Jn
-L3NpbXBsZS92Y3ZlcnNpb25lci86IFtFcnJubyAtNV0gTm8gYWRkcmVzcyBh
-c3NvY2lhdGVkIHdpdGggaG9zdG5hbWUgLS0gU29tZSBwYWNrYWdlcyBtYXkg
-bm90IGJlIGZvdW5kIQ0KQ291bGRuJ3QgZmluZCBpbmRleCBwYWdlIGZvciAn
-dmN2ZXJzaW9uZXInIChtYXliZSBtaXNzcGVsbGVkPykNCkRvd25sb2FkIGVy
-cm9yIG9uIGh0dHBzOi8vcHlwaS5weXRob24ub3JnL3NpbXBsZS86IFtFcnJu
-byAtNV0gTm8gYWRkcmVzcyBhc3NvY2lhdGVkIHdpdGggaG9zdG5hbWUgLS0g
-U29tZSBwYWNrYWdlcyBtYXkgbm90IGJlIGZvdW5kIQ0KTm8gbG9jYWwgcGFj
-a2FnZXMgb3IgZG93bmxvYWQgbGlua3MgZm91bmQgZm9yIHZjdmVyc2lvbmVy
-DQpUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQogIEZpbGUg
-InNldHVwLnB5IiwgbGluZSA0NCwgaW4gPG1vZHVsZT4NCnZjdmVyc2lvbmVy
-PXsidmVyc2lvbl9tb2R1bGVfcGF0aHMiIDogWyJqc29uc2NoZW1hL192ZXJz
-aW9uLnB5Il19LA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-SWYgeW91IGtub3cgaG93IHRvIGZpeCBpdCwgUGxlYXNlIHRlbGwgbWUuDQoN
-ClJlZ2FyZHMsDQpsaQ0KDQoKCg==
+I am working on this in my 'free time'. I hope to have things sent out
+in about a week. I have already sent out some stuff to oe as I have
+already found some dependencies that they host that need uprevs. Stay
+tuned.
 
---_000_A8FC939F80655644A89BB21CCD3741E8011BCDCE58G08CNEXMBPEKD_
-Content-Type: text/html; charset="shift_jis"
-Content-Transfer-Encoding: quoted-printable
+Mark
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dshift_jis=
-">
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:SimSun;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	margin-bottom:.0001pt;
-	text-align:justify;
-	text-justify:inter-ideograph;
-	font-size:10.5pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-/* Page Definitions */
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 90.0pt 72.0pt 90.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"ZH-CN" link=3D"blue" vlink=3D"purple" style=3D"text-justify-t=
-rim:punctuation">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Hi,all<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">When I bitbake python-jsonschem=
-a,the error is occurred in the step of do_compile as following:<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">------------------------------<=
-o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">DEBUG: Executing shell function=
- do_compile<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Download error on https://pypi.=
-python.org/simple/vcversioner/: [Errno -5] No address associated with hostn=
-ame -- Some packages may not be found!<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Couldn't find index page for 'v=
-cversioner' (maybe misspelled?)<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Download error on https://pypi.=
-python.org/simple/: [Errno -5] No address associated with hostname -- Some =
-packages may not be found!<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">No local packages or download l=
-inks found for vcversioner<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Traceback (most recent call las=
-t):<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">&nbsp; File &quot;setup.py&quot=
-;, line 44, in &lt;module&gt;<o:p></o:p></span></p>
-<p class=3D"MsoNormal" style=3D"text-indent:21.6pt"><span lang=3D"EN-US">vc=
-versioner=3D{&quot;version_module_paths&quot; : [&quot;jsonschema/_version.=
-py&quot;]},<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">-------------------------------=
-<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">If you know how to fix it, Plea=
-se tell me.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">Regards,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US">li <o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
+>
+>>
+>> I've merged the whole series.
+>
+> Thanks! There are more on the way... ;-)
+>
+> /Josep
+>>
+>> Bruce
+>>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
---_000_A8FC939F80655644A89BB21CCD3741E8011BCDCE58G08CNEXMBPEKD_--
