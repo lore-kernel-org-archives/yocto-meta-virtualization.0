@@ -1,6 +1,6 @@
 Return-Path: <josep.puigdemont@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5600CE00B89; Tue,  8 Dec 2015 09:34:02 -0800 (PST)
+	id C9BBBE00B89; Tue,  8 Dec 2015 09:34:02 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,23 +12,23 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mx-3.enea.com (sestofw01.enea.se [192.36.1.252])
-	by yocto-www.yoctoproject.org (Postfix) with SMTP id B9731E00ACF
+	by yocto-www.yoctoproject.org (Postfix) with SMTP id 47B86E00B3F
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  8 Dec 2015 09:33:59 -0800 (PST)
+	Tue,  8 Dec 2015 09:34:01 -0800 (PST)
 Received: from iapetus.enea.se (172.16.140.26) by smtp.enea.com (172.21.1.208)
 	with Microsoft SMTP Server id 14.3.224.2;
-	Tue, 8 Dec 2015 18:33:58 +0100
+	Tue, 8 Dec 2015 18:34:00 +0100
 From: Josep Puigdemont <josep.puigdemont@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 8 Dec 2015 18:33:13 +0100
-Message-ID: <1449596034-8308-2-git-send-email-josep.puigdemont@enea.com>
+Date: Tue, 8 Dec 2015 18:33:14 +0100
+Message-ID: <1449596034-8308-3-git-send-email-josep.puigdemont@enea.com>
 X-Mailer: git-send-email 2.5.0
 In-Reply-To: <1449596034-8308-1-git-send-email-josep.puigdemont@enea.com>
 References: <1449596034-8308-1-git-send-email-josep.puigdemont@enea.com>
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: josep.puigdemont@enea.com does not
 	designate permitted sender hosts)
-Subject: [meta-cloud-services][fido-kilo][PATCH 01/42] python-pathlib: add new recipe
+Subject: [meta-cloud-services][fido-kilo][PATCH 02/42] python-django-pyscss: add missing rdepends on python-pathlib
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,50 +46,27 @@ Content-Type: text/plain
 
 From: Jackie Huang <jackie.huang@windriver.com>
 
-It's required by python-django-pyscss.
+Add missing rdepends on python-pathlib or it fails with:
+  File "/usr/lib64/python2.7/site-packages/django_pyscss/compiler.py", line 4, in <module>
+    from pathlib import PurePath
+  ImportError: No module named pathlib
 
 Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 ---
- .../python/python-pathlib_1.0.1.bb                 | 29 ++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-pathlib_1.0.1.bb
+ meta-openstack/recipes-devtools/python/python-django-pyscss_1.0.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-pathlib_1.0.1.bb b/meta-openstack/recipes-devtools/python/python-pathlib_1.0.1.bb
-new file mode 100644
-index 0000000..ae26da1
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-pathlib_1.0.1.bb
-@@ -0,0 +1,29 @@
-+SUMMARY = "Object-oriented filesystem paths"
-+DESCRIPTION = "pathlib offers a set of classes to handle filesystem paths. \
-+It offers the following advantages over using string objects: \
-+- No more cumbersome use of os and os.path functions. \
-+- Embodies the semantics of different path types. \
-+- Well-defined semantics, eliminating any warts or ambiguities. \
-+"
-+HOMEPAGE = "https://pypi.python.org/pypi/pathlib"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b6557c860f0fc867aeab30afd649753"
-+
-+
-+SRCNAME = "pathlib"
-+SRC_URI = "http://pypi.python.org/packages/source/p/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "5099ed48be9b1ee29b31c82819240537"
-+SRC_URI[sha256sum] = "6940718dfc3eff4258203ad5021090933e5c04707d5ca8cc9e73c94a7894ea9f"
-+
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
-+
-+inherit setuptools
-+
-+DEPENDS += " \
-+        python-pip \
-+"
-+
-+RDEPENDS_${PN} += " \
-+"
+diff --git a/meta-openstack/recipes-devtools/python/python-django-pyscss_1.0.6.bb b/meta-openstack/recipes-devtools/python/python-django-pyscss_1.0.6.bb
+index 4261f71..f05018a 100644
+--- a/meta-openstack/recipes-devtools/python/python-django-pyscss_1.0.6.bb
++++ b/meta-openstack/recipes-devtools/python/python-django-pyscss_1.0.6.bb
+@@ -26,4 +26,5 @@ DEPENDS += " \
+ RDEPENDS_${PN} += " \
+         python-django \
+         python-pyscss \        
++        python-pathlib \
+         "
 -- 
 2.5.0
 
