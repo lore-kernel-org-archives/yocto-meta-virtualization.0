@@ -1,42 +1,34 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9122AE00AEA; Wed,  9 Dec 2015 05:42:56 -0800 (PST)
+	id 3E898E00BD2; Wed,  9 Dec 2015 08:44:26 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 39E97E008C8
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6BF77E0033E
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Dec 2015 05:42:54 -0800 (PST)
+	Wed,  9 Dec 2015 08:44:23 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tB9DgkNN002395
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 9 Dec 2015 05:42:46 -0800 (PST)
-Received: from yow-masselst-d1.localnet (128.224.56.91) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
-	(TLS) id 14.3.248.2; Wed, 9 Dec 2015 05:42:45 -0800
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tB9GiMUv025834
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 9 Dec 2015 08:44:22 -0800
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 9 Dec 2015 08:44:21 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Josep Puigdemont <josep.puigdemont@enea.com>
-Date: Wed, 9 Dec 2015 08:42:44 -0500
-Message-ID: <4884224.zQ0smeAS9m@yow-masselst-d1>
-Organization: Wind River Internation Inc.
-User-Agent: KMail/5.0.2 (Linux/4.2.0-16-generic; KDE/5.15.0; x86_64; ; )
-In-Reply-To: <20151209074414.GA15477@iapetus.enea.se>
-References: <CAPuovEKNdfoeP6ewE2gXHJB46OiBXAdsQ2wiLYWrDVmpM0Ay7A@mail.gmail.com>
-	<20151209074414.GA15477@iapetus.enea.se>
+To: <bruce.ashfield@windriver.com>
+Date: Wed, 9 Dec 2015 11:44:21 -0500
+Message-ID: <1449679461-4787-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Originating-IP: [128.224.56.91]
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][fido-kilo][PATCH 41/42] packagegroup-cloud-extras: include xterm only if x11 in DISTRO_FEATURES
+Cc: meta-virtualization@yoctoproject.org
+Subject: [meta-cloud-services][PATCH] python-django: uprev to 1.8.6
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,65 +41,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Dec 2015 13:42:56 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 09 Dec 2015 16:44:26 -0000
+Content-Type: text/plain
 
-On December 9, 2015 08:44:14 AM Josep Puigdemont wrote:
-> On Tue, Dec 08, 2015 at 08:31:53PM -0500, Mark Asselstine wrote:
-> > On Tue, Dec 8, 2015 at 12:33 PM, Josep Puigdemont
-> > 
-> > <josep.puigdemont@enea.com> wrote:
-> > > Signed-off-by: Josep Puigdemont <josep.puigdemont@enea.com>
-> > > ---
-> > 
-> > The reason we included xterm is to have the 'resize' command
-> > available. Admittedly this is a big hammer to solve a small problem
-> > but an annoying problem. Was xterm causing issues?
-> 
-> I had no x11 on one of my images, so the build bailed out due to that.
+Move to use git to ease future uprevs. Note that a recipe for django
+exists in meta-python and since it is a versioned recipe instead of a
+"_git" recipe it seems to be picked up instead of our recipe, so we
+need to add a PREFERRED_VERSION to ensure our recipe is used.
 
-Alright. No objections then from me. Thanks for the follow up.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta-openstack/conf/layer.conf                                |  1 +
+ .../python/{python-django_1.7.5.bb => python-django_git.bb}   | 11 ++++++-----
+ 2 files changed, 7 insertions(+), 5 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-django_1.7.5.bb => python-django_git.bb} (51%)
 
-Mark
-
-> 
-> /Josep
-> 
-> > Mark
-> > 
-> > >  .../recipes-extended/packagegroups/packagegroup-cloud-extras.bb        
-> > >  | 2 +- 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > 
-> > > diff --git
-> > > a/meta-openstack/recipes-extended/packagegroups/packagegroup-cloud-extr
-> > > as.bb
-> > > b/meta-openstack/recipes-extended/packagegroups/packagegroup-cloud-extr
-> > > as.bb index 35b9b6e..721e2c9 100644
-> > > ---
-> > > a/meta-openstack/recipes-extended/packagegroups/packagegroup-cloud-extr
-> > > as.bb +++
-> > > b/meta-openstack/recipes-extended/packagegroups/packagegroup-cloud-extr
-> > > as.bb @@ -8,7 +8,7 @@ inherit packagegroup
-> > > 
-> > >  RDEPENDS_${PN} = " \
-> > >  
-> > >      vim \
-> > > 
-> > > -    xterm \
-> > > +    ${@base_contains('DISTRO_FEATURES', 'x11', 'xterm', '', d)} \
-> > > 
-> > >      "
-> > >  
-> > >  IMAGE_FEATURES += "package-management"
-> > > 
-> > > --
-> > > 2.5.0
-> > > 
-> > > --
-> > > _______________________________________________
-> > > meta-virtualization mailing list
-> > > meta-virtualization@yoctoproject.org
-> > > https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+index 2b3a00d..f0d42b8 100644
+--- a/meta-openstack/conf/layer.conf
++++ b/meta-openstack/conf/layer.conf
+@@ -14,3 +14,4 @@ BB_DANGLINGAPPENDS_WARNONLY ?= "true"
+ PREFERRED_VERSION_python-greenlet = "0.4.1"
+ PREFERRED_VERSION_python-sqlalchemy = "0.9.7"
+ PREFERRED_VERSION_python-pexpect = "3.3"
++PREFERRED_VERSION_python-django = "1.8.6"
+diff --git a/meta-openstack/recipes-devtools/python/python-django_1.7.5.bb b/meta-openstack/recipes-devtools/python/python-django_git.bb
+similarity index 51%
+rename from meta-openstack/recipes-devtools/python/python-django_1.7.5.bb
+rename to meta-openstack/recipes-devtools/python/python-django_git.bb
+index b462e4d..f11f8e6 100644
+--- a/meta-openstack/recipes-devtools/python/python-django_1.7.5.bb
++++ b/meta-openstack/recipes-devtools/python/python-django_git.bb
+@@ -6,13 +6,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f09eb47206614a4954c51db8a94840fa"
+ 
+ SRCNAME = "Django"
+ 
+-SRC_URI = "https://pypi.python.org/packages/source/D/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+-"
++PV = "1.8.6"
++SRCREV = "80b7e9d09f2d23209b591288f9b2cf3eb3d927c8"
+ 
+-SRC_URI[md5sum] = "e76c70a5dd7d56a511974b28ab38df20"
+-SRC_URI[sha256sum] = "1c391f9349c97df503dac3461599f24235e4d04393498e6060e74dd2721460bc"
++SRC_URI = " \
++    git://github.com/django/django.git;branch=stable/1.8.x \
++    "
+ 
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
++S = "${WORKDIR}/git"
+ 
+ inherit setuptools
+ 
+-- 
+2.1.4
 
 
