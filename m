@@ -1,37 +1,37 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3BA75E00B97; Fri, 11 Dec 2015 09:17:59 -0800 (PST)
+	id 49D9CE00B81; Fri, 11 Dec 2015 09:28:30 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DF90BE0097F
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EFBDFE007D5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 11 Dec 2015 09:17:57 -0800 (PST)
+	Fri, 11 Dec 2015 09:28:27 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id tBBHHuVY022103
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id tBBHSQnm027244
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 11 Dec 2015 09:17:56 -0800
-Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	Fri, 11 Dec 2015 09:28:26 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 11 Dec 2015 09:17:55 -0800
-To: Mark Asselstine <mark.asselstine@windriver.com>
-References: <1449679461-4787-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <566B0538.4060502@windriver.com>
-Date: Fri, 11 Dec 2015 12:17:44 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.3.0
+	Fri, 11 Dec 2015 09:28:25 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Fri, 11 Dec 2015 12:28:23 -0500
+Message-ID: <1449854905-22308-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-In-Reply-To: <1449679461-4787-1-git-send-email-mark.asselstine@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-cloud-services][PATCH] python-django: uprev to 1.8.6
+Subject: [PATCH 1/3] openvswitch: drop version 1.10.0 and 2.1.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,64 +44,81 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 17:17:59 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 11 Dec 2015 17:28:30 -0000
+Content-Type: text/plain
 
-On 15-12-09 11:44 AM, Mark Asselstine wrote:
-> Move to use git to ease future uprevs. Note that a recipe for django
-> exists in meta-python and since it is a versioned recipe instead of a
-> "_git" recipe it seems to be picked up instead of our recipe, so we
-> need to add a PREFERRED_VERSION to ensure our recipe is used.
+There are some changes that we need to make in the .inc file to
+properly support more recent releases of openvswitch. These changes
+are not compatible with these older versions of openvswitch, so rather
+than make accommodations in the .inc file to continue to support this
+version we will simply drop them.
 
-merged.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ .../openvswitch/openvswitch_1.10.0.bb              | 16 ------------
+ .../openvswitch/openvswitch_2.1.3.bb               | 29 ----------------------
+ 2 files changed, 45 deletions(-)
+ delete mode 100644 recipes-networking/openvswitch/openvswitch_1.10.0.bb
+ delete mode 100644 recipes-networking/openvswitch/openvswitch_2.1.3.bb
 
-Bruce
-
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->   meta-openstack/conf/layer.conf                                |  1 +
->   .../python/{python-django_1.7.5.bb => python-django_git.bb}   | 11 ++++++-----
->   2 files changed, 7 insertions(+), 5 deletions(-)
->   rename meta-openstack/recipes-devtools/python/{python-django_1.7.5.bb => python-django_git.bb} (51%)
->
-> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
-> index 2b3a00d..f0d42b8 100644
-> --- a/meta-openstack/conf/layer.conf
-> +++ b/meta-openstack/conf/layer.conf
-> @@ -14,3 +14,4 @@ BB_DANGLINGAPPENDS_WARNONLY ?= "true"
->   PREFERRED_VERSION_python-greenlet = "0.4.1"
->   PREFERRED_VERSION_python-sqlalchemy = "0.9.7"
->   PREFERRED_VERSION_python-pexpect = "3.3"
-> +PREFERRED_VERSION_python-django = "1.8.6"
-> diff --git a/meta-openstack/recipes-devtools/python/python-django_1.7.5.bb b/meta-openstack/recipes-devtools/python/python-django_git.bb
-> similarity index 51%
-> rename from meta-openstack/recipes-devtools/python/pythongit-django_1.7.5.bb
-> rename to meta-openstack/recipes-devtools/python/python-django_git.bb
-> index b462e4d..f11f8e6 100644
-> --- a/meta-openstack/recipes-devtools/python/python-django_1.7.5.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-django_git.bb
-> @@ -6,13 +6,14 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f09eb47206614a4954c51db8a94840fa"
->
->   SRCNAME = "Django"
->
-> -SRC_URI = "https://pypi.python.org/packages/source/D/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-> -"
-> +PV = "1.8.6"
-> +SRCREV = "80b7e9d09f2d23209b591288f9b2cf3eb3d927c8"
->
-> -SRC_URI[md5sum] = "e76c70a5dd7d56a511974b28ab38df20"
-> -SRC_URI[sha256sum] = "1c391f9349c97df503dac3461599f24235e4d04393498e6060e74dd2721460bc"
-> +SRC_URI = " \
-> +    git://github.com/django/django.git;branch=stable/1.8.x \
-> +    "
->
-> -S = "${WORKDIR}/${SRCNAME}-${PV}"
-> +S = "${WORKDIR}/git"
->
->   inherit setuptools
->
->
+diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+deleted file mode 100644
+index 85b2709..0000000
+--- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-require openvswitch.inc
+-
+-RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+-
+-PR = "r4"
+-
+-SRC_URI += "\
+-	http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+-	file://configure-Only-link-against-libpcap-on-FreeBSD.patch \
+-	"
+-
+-SRC_URI[md5sum] = "fe8b49efe9f86b57abab00166b971106"
+-SRC_URI[sha256sum] = "803966c89d6a5de6d710a2cb4ed73ac8d8111a2c44b12b846dcef8e91ffab167"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
+-
+-inherit pkgconfig
+diff --git a/recipes-networking/openvswitch/openvswitch_2.1.3.bb b/recipes-networking/openvswitch/openvswitch_2.1.3.bb
+deleted file mode 100644
+index dc6c7e3..0000000
+--- a/recipes-networking/openvswitch/openvswitch_2.1.3.bb
++++ /dev/null
+@@ -1,29 +0,0 @@
+-require openvswitch.inc
+-
+-RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+-
+-RDEPENDS_${PN}-ptest += "\
+-	python-logging python-syslog python-argparse python-io \
+-	python-fcntl python-shell python-lang python-xml python-math \
+-	python-datetime python-netclient python sed \
+-	"
+-
+-SRC_URI += "\
+-	http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+-	file://openvswitch-add-more-target-python-substitutions.patch \
+-	file://openvswitch-add-ptest.patch \
+-	file://run-ptest \
+-	"
+-
+-SRC_URI[md5sum] = "d3c8a69df3d1b1a9eaef5a896576fd2a"
+-SRC_URI[sha256sum] = "43a2562fe5e8e48e997bfdb04691ffaaaefe73069b5699654538bf2f16ebfb1a"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e03b0d9c4115c44518594e5618e653f8"
+-
+-inherit ptest
+-
+-EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
+-
+-do_install_ptest() {
+-	oe_runmake test-install
+-}
+-- 
+2.1.4
 
 
