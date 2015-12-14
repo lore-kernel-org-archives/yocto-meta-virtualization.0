@@ -1,66 +1,49 @@
-Return-Path: <cardoe@cardoe.com>
+Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A1047E009AD; Fri, 11 Dec 2015 13:59:03 -0800 (PST)
+	id 233A5E00C0E; Sun, 13 Dec 2015 17:46:48 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_LOW,URIBL_BLACK autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 1.7 URIBL_BLACK Contains an URL listed in the URIBL
-	blacklist *      [URIs: cardoe.com]
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.220.169 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f169.google.com (mail-qk0-f169.google.com
-	[209.85.220.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9203BE00BDC
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4AF04E0070F
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 11 Dec 2015 13:58:57 -0800 (PST)
-Received: by qkdp187 with SMTP id p187so59704825qkd.1
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 11 Dec 2015 13:58:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cardoe-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KOUpT6uXH/YHlLhyVyG7/8Zas2JWjaX5HCy6CMsjJNY=;
-	b=CdZpP7UMtHCmlcEyOEubdZrAyxe6bLD7Be7oEyFdYho0PJVktov5F7e5f0ux5xq8/n
-	X1EyAmfQh9PnNoBsBbvRGk4hgaSrOBpkEMn3v/Z0S8QhWcJFLQrxiAIOD4FFcXkgzGxU
-	eiuLhuhjVvlTRte38BfY4ac+gFRn5MZPV6WXHUYo5LzTn3jh5OD+LK0wI/XbsqYBXYpj
-	0sFuGfkHn+vHhnAKzk53Eq/lMJBm45yMOv2dWS+28cWvZlt78Ffnv+NSSR+UMC/Q94W+
-	w1/a+fpVrsrRfZs88zhDk5hDBv6PtBzv4DqfSyqmvG7jirgOvL5rc/RBkYJcJsePhDN4
-	rpdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=KOUpT6uXH/YHlLhyVyG7/8Zas2JWjaX5HCy6CMsjJNY=;
-	b=I8ZGhSsRFBiTsDKjgQn85Zbg68CoAIsmKIe0MiquR9Usmk4F15TkrLpXcpRZbCWBC7
-	Qce6fS2EK+stCqeWag5OZWjdBDT5l1rE1rSIYt4VKToweXOwllpp+78yxCa+Pk91YEO6
-	m+TnhPjgrpkdQZIJLDqKo1y0iSllzB9LkaVUzuq6e4+pxxK/mudc/hozbFAAz8Zsl15s
-	quTtqCVZTv6zQXmEZHShHJFhXFDdijArsTLQ02k9yaDsdAHEROzUbiUXmazneNjz17Z8
-	mLpnUCrhDgmoU4495MxEn+EHubgNOLObF1ogcVRtMZvFWALA1UX8cFeTP5KAa9LTJ3Lm
-	cXUQ==
-X-Gm-Message-State: ALoCoQlzpQnsIW+nLKxDqtho3Vi29189FfhlZCN6pLSjftKv86ftieeXzlUV6w97Wlndarv0pmYEoxhWDjk5MAvhlKpbd1yufA==
-X-Received: by 10.129.33.65 with SMTP id h62mr10520020ywh.139.1449871137187;
-	Fri, 11 Dec 2015 13:58:57 -0800 (PST)
-Received: from swanson.lan (c-68-46-196-185.hsd1.al.comcast.net.
-	[68.46.196.185]) by smtp.gmail.com with ESMTPSA id
-	e64sm14070336ywb.25.2015.12.11.13.58.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 11 Dec 2015 13:58:56 -0800 (PST)
-From: Doug Goldstein <cardoe@cardoe.com>
-To: meta-virtualization@yoctoproject.org
-Date: Fri, 11 Dec 2015 15:58:32 -0600
-Message-Id: <1449871112-12401-4-git-send-email-cardoe@cardoe.com>
-X-Mailer: git-send-email 2.4.10
-In-Reply-To: <1449871112-12401-1-git-send-email-cardoe@cardoe.com>
-References: <1449871112-12401-1-git-send-email-cardoe@cardoe.com>
-Subject: [PATCH 4/4] xen: move PR variable from include file
+	Sun, 13 Dec 2015 17:46:42 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
+   d="scan'208";a="1528087"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 14 Dec 2015 09:46:28 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4247E41890EE;
+	Mon, 14 Dec 2015 09:46:20 +0800 (CST)
+Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0181.006; Mon, 14 Dec 2015 09:46:20 +0800
+From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
+To: "mark.asselstine@windriver.com" <mark.asselstine@windriver.com>
+Thread-Topic: [meta-virtualization] Help (python-jsonschema do_compile Failed)
+Thread-Index: AdEtjiHMEMtadIP6TMil2kBjIxC82wFiahkAAL2DDtA=
+Date: Mon, 14 Dec 2015 01:46:19 +0000
+Message-ID: <A8FC939F80655644A89BB21CCD3741E8014090843F@G08CNEXMBPEKD02.g08.fujitsu.local>
+References: <A8FC939F80655644A89BB21CCD3741E8011BCDCE58@G08CNEXMBPEKD02.g08.fujitsu.local>
+	<CAPuovELJU9_nEBkP90HjexOctVSfs5Pc72f6FdvdkaKy3hywpQ@mail.gmail.com>
+In-Reply-To: <CAPuovELJU9_nEBkP90HjexOctVSfs5Pc72f6FdvdkaKy3hywpQ@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.98]
+MIME-Version: 1.0
+X-yoursite-MailScanner-Information: Please contact the ISP for more information
+X-yoursite-MailScanner-ID: 4247E41890EE.A6989
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: Help (python-jsonschema do_compile Failed)
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,51 +56,70 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 11 Dec 2015 21:59:03 -0000
+X-List-Received-Date: Mon, 14 Dec 2015 01:46:48 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-It appears inapporpriate to have this variable in the include file and
-should live within the bitbake files themselves.
-
-Signed-off-by: Doug Goldstein <cardoe@cardoe.com>
----
- recipes-extended/xen/xen.inc      | 1 -
- recipes-extended/xen/xen_4.5.0.bb | 1 +
- recipes-extended/xen/xen_git.bb   | 1 +
- 3 files changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 1bb0e6a..00f1823 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -2,7 +2,6 @@ DESCRIPTION = "Xen hypervisor"
- HOMEPAGE = "http://xen.org"
- LICENSE = "GPLv2"
- SECTION = "console/tools"
--PR = "r0"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e0f0f3ac55608719a82394cc353928df"
- 
-diff --git a/recipes-extended/xen/xen_4.5.0.bb b/recipes-extended/xen/xen_4.5.0.bb
-index 6c17b90..73d01c4 100644
---- a/recipes-extended/xen/xen_4.5.0.bb
-+++ b/recipes-extended/xen/xen_4.5.0.bb
-@@ -1,4 +1,5 @@
- require xen.inc
-+PR = "r0"
- 
- SRC_URI = " \
-     http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-index 88145a3..4def3bf 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -1,4 +1,5 @@
- require xen.inc
-+PR = "r0"
- 
- SRCREV = "68bd172e6fa565899c846eb72755c8ffd8562c8a"
- 
--- 
-2.4.10
-
+SGksIE1hcmsgYW5kIGFsbCwNCg0KVGhhbmtzIGEgbG90IGZvciB5b3VyIGhl
+bHAuDQoNCj4+IFdoZW4gSSBiaXRiYWtlIHB5dGhvbi1qc29uc2NoZW1hLHRo
+ZSBlcnJvciBpcyBvY2N1cnJlZCBpbiB0aGUgc3RlcCBvZg0KPj4gZG9fY29t
+cGlsZSBhcyBmb2xsb3dpbmc6DQo+PiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0NCj4+DQo+PiBERUJVRzogRXhlY3V0aW5nIHNoZWxsIGZ1bmN0
+aW9uIGRvX2NvbXBpbGUNCj4+DQo+PiBEb3dubG9hZCBlcnJvciBvbiBodHRw
+czovL3B5cGkucHl0aG9uLm9yZy9zaW1wbGUvdmN2ZXJzaW9uZXIvOiBbRXJy
+bm8NCj4+IC01XSBObyBhZGRyZXNzIGFzc29jaWF0ZWQgd2l0aCBob3N0bmFt
+ZSAtLSBTb21lIHBhY2thZ2VzIG1heSBub3QgYmUgZm91bmQhDQo+Pg0KPj4g
+Q291bGRuJ3QgZmluZCBpbmRleCBwYWdlIGZvciAndmN2ZXJzaW9uZXInICht
+YXliZSBtaXNzcGVsbGVkPykNCj4+DQo+PiBEb3dubG9hZCBlcnJvciBvbiBo
+dHRwczovL3B5cGkucHl0aG9uLm9yZy9zaW1wbGUvOiBbRXJybm8gLTVdIE5v
+DQo+PiBhZGRyZXNzIGFzc29jaWF0ZWQgd2l0aCBob3N0bmFtZSAtLSBTb21l
+IHBhY2thZ2VzIG1heSBub3QgYmUgZm91bmQhDQo+Pg0KPj4gTm8gbG9jYWwg
+cGFja2FnZXMgb3IgZG93bmxvYWQgbGlua3MgZm91bmQgZm9yIHZjdmVyc2lv
+bmVyDQo+Pg0KPj4gVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3Qp
+Og0KPj4NCj4+ICAgRmlsZSAic2V0dXAucHkiLCBsaW5lIDQ0LCBpbiA8bW9k
+dWxlPg0KPj4NCj4+IHZjdmVyc2lvbmVyPXsidmVyc2lvbl9tb2R1bGVfcGF0
+aHMiIDogWyJqc29uc2NoZW1hL192ZXJzaW9uLnB5Il19LA0KPj4NCj4+IC0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+DQo+PiBJZiB5b3Ug
+a25vdyBob3cgdG8gZml4IGl0LCBQbGVhc2UgdGVsbCBtZS4NCj4NCj5BIGRv
+d25sb2FkIGVycm9yIGR1cmluZyBkb19jb21waWxlKCkuIE15IGd1ZXNzIGlz
+IHRoYXQgd2UgaGF2ZSBhIG1pc3NpbmcNCj5kZXBlbmRlbmN5LiBXaXRoIHB5
+dGhvbiwgUnVieSBhbmQgc29tZSBvdGhlciBwYWNrYWdlcyB3ZSBoYXZlIHRv
+IGJlIGNhcmVmdWwNCj5hcyB0aGVpciBidWlsZHMgd2lsbCBhY3R1YWxseSBj
+YXVzZSBkb3dubG9hZHMgdG8gaGFwcGVuIGlmIGEgZGVwZW5kZW5jeSBpcyBt
+aXNzaW5nDQo+KHB5dGhvbiB3aWxsIGZldGNoIGVnZ3MsIHJ1Ynkgd2lsbCBm
+ZXRjaCBnZW1zLi4uKS4gV2hlbiBJIGhhdmUgdGltZSBJIHVzdWFsbHkgZG8N
+Cj5idWlsZHMgd2l0aCBJUCB0YWJsZXMgcnVsZXMgaW4gcGxhY2UgdG8gZm9y
+Y2UgZXJyb3JzIHdoZW4gdGhlc2UgZmV0Y2hlcyBoYXBwZW4gc28NCj50aGF0
+IEkgY2FuIGNhdGNoIHRoZW0gYW5kIGZpeCB0aGVtLiBEb3dubG9hZHMgc2hv
+dWxkIG9ubHkgYmUgZG9uZSBieSB0aGUgZmV0Y2hlcg0KPmFuZCBub3QgYnVu
+ZGxlciwgcGRiIGV0Yy4gSWYgeW91IHNlZSBhbiBlcnJvciBhYm91dCBkb3du
+bG9hZGluZyBhbmQgeW91IGFyZSBub3QNCj5pbiBkb19mZXRjaCgpIHNvbWV0
+aGluZyBpcyB3cm9uZy4NCj4NCj5TdGFydCBieSBhZGRpbmcgcHl0aG9uLXZj
+dmVyc2lvbmVyIGFzIGEgREVQRU5EUyBpbiBweXRob24tanNvbnNjaGVtYSBh
+bmQgeW91DQo+c2hvdWxkIGJlIGdvb2QgdG8gZ28uDQo+DQoNClRoZSBweXRo
+b24tdmN2ZXJzaW9uZXIgaXMgYWxyZWFkeSBhcyBhIERFUEVORFMgaW4gcHl0
+aG9uLWpzb25zY2hlbWEsIGFuZA0KSXQgaXMgc3RpbGwgZmFpbGVkLg0KDQpQ
+ZXJoYXBzIGl0IGlzIHRoZSBwcm9ibGVtIGFib3V0IHByb3h5IHNldC4NCg0K
+V2hlbiBJIGJpdGJha2UgcHl0aG9uLWpzb25zY2hlbWEsIHRoZSBlcnJvciBv
+Y2N1cnMgaW4gdGhlIHN0ZXAgb2YgZG9fY29tcGlsZSwNCkJ1dCB3aGVuIEkg
+aW50byBkaXJlY3RvcnkgInB5dGhvbi1qc29uc2NoZW1hLzIuNS4xLXIwL2pz
+b25zY2hlbWEtMi41LjEvICIsIGFuZCBydW4uZG9fY29tcGxpZSwgbm8gZXJy
+b3JzIG9jY3VyLg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gDQok
+IGNkIGJ1aWxkLXg4Nl82NC90bXAvd29yay94ODZfNjQgLWxpbnV4L3B5dGhv
+bi1qc29uc2NoZW1hLzIuNS4xLXIwL2pzb25zY2hlbWEtMi41LjEvDQokIC4u
+L3RlbXAvcnVuLmRvX2NvbXBpbGUNCnppcF9zYWZlIGZsYWcgbm90IHNldDsg
+YW5hbHl6aW5nIGFyY2hpdmUgY29udGVudHMuLi4NCg0KSW5zdGFsbGVkICoq
+Ki93b3JrL3g4Nl82NCAtbGludXgvcHl0aG9uLWpzb25zY2hlbWEvMi41LjEt
+cjAvanNvbnNjaGVtYS0yLjUuMS8uZWdncy92Y3ZlcnNpb25lci0yLjE0LjAu
+MC1weTIuNy5lZ2cNCnJ1bm5pbmcgYnVpbGQNCnJ1bm5pbmcgYnVpbGRfcHkN
+CmNyZWF0aW5nIGJ1aWxkDQpjcmVhdGluZyBidWlsZC9saWINCmNyZWF0aW5n
+IGJ1aWxkL2xpYi9qc29uc2NoZW1hDQouLi4uLi4NCiQgZWNobyAkPw0KMA0K
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tIA0KDQpBbmQgSSBo
+YXZlIHByb3h5IHNldCBpbiB+Ly53Z2V0cmMgbGlrZSB0aGlzOg0KaHR0cF9w
+cm94eSA9IGh0dHA6Ly9yZXAucHJveHkubmljLmZ1aml0c3UuY29tOjgwODAv
+DQpmdHBfcHJveHkgPSBodHRwOi8vcmVwLnByb3h5Lm5pYy5mdWppdHN1LmNv
+bTo4MDgwLw0KaHR0cHNfcHJveHk9aHR0cHM6Ly9yZXAucHJveHkubmljLmZ1
+aml0c3UuY29tOjgwODAvDQoNCklmIHlvdSBrbm93IGhvdyB0byBmaXggaXQs
+IHBsZWFzZSBoZWxwIG1lLg0KDQpSZWdhcmRzLA0KTGkNCgoK
 
