@@ -1,51 +1,40 @@
-Return-Path: <lixin.fnst@cn.fujitsu.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C37AFE00B44; Mon, 14 Dec 2015 21:15:47 -0800 (PST)
+	id 6CDD5E00B9D; Tue, 15 Dec 2015 05:48:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 981F2E002F9
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 42222E0048C
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 14 Dec 2015 21:15:44 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="1584254"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Dec 2015 13:15:26 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id D4E2F40427C5;
-	Tue, 15 Dec 2015 13:15:24 +0800 (CST)
-Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0181.006; Tue, 15 Dec 2015 13:15:24 +0800
-From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
-To: "mark.asselstine@windriver.com" <mark.asselstine@windriver.com>
-Thread-Topic: [meta-virtualization] Help (python-jsonschema do_compile Failed)
-Thread-Index: AdEtjiHMEMtadIP6TMil2kBjIxC82wFiahkAAL2DDtAAF+vtAAAeSIZQ
-Date: Tue, 15 Dec 2015 05:15:23 +0000
-Message-ID: <A8FC939F80655644A89BB21CCD3741E80140909908@G08CNEXMBPEKD02.g08.fujitsu.local>
-References: <A8FC939F80655644A89BB21CCD3741E8011BCDCE58@G08CNEXMBPEKD02.g08.fujitsu.local>
-	<CAPuovELJU9_nEBkP90HjexOctVSfs5Pc72f6FdvdkaKy3hywpQ@mail.gmail.com>
-	<A8FC939F80655644A89BB21CCD3741E8014090843F@G08CNEXMBPEKD02.g08.fujitsu.local>
-	<CAPuovEL2pTvLOpLN=xBP+fczUmf3WPQ89ou=ndbGgRyChty8bg@mail.gmail.com>
-In-Reply-To: <CAPuovEL2pTvLOpLN=xBP+fczUmf3WPQ89ou=ndbGgRyChty8bg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.226.98]
+	Tue, 15 Dec 2015 05:48:12 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id tBFDmB10022740
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 15 Dec 2015 05:48:11 -0800 (PST)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 15 Dec 2015 05:48:11 -0800
+To: Mark Asselstine <mark.asselstine@windriver.com>
+References: <1449854905-22308-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <56701A0D.50008@windriver.com>
+Date: Tue, 15 Dec 2015 08:47:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.3.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-Information: Please contact the ISP for more information
-X-yoursite-MailScanner-ID: D4E2F40427C5.A8270
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: Help (python-jsonschema do_compile Failed)
+In-Reply-To: <1449854905-22308-1-git-send-email-mark.asselstine@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH 1/3] openvswitch: drop version 1.10.0 and 2.1.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -58,133 +47,87 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 05:15:47 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 15 Dec 2015 13:48:16 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-SGksIE1hcmsNCg0KVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBraW5k
-bHkgcmVwbHkuDQoNCj4+Pg0KPj4+QSBkb3dubG9hZCBlcnJvciBkdXJpbmcg
-ZG9fY29tcGlsZSgpLiBNeSBndWVzcyBpcyB0aGF0IHdlIGhhdmUgYQ0KPj4+
-bWlzc2luZyBkZXBlbmRlbmN5LiBXaXRoIHB5dGhvbiwgUnVieSBhbmQgc29t
-ZSBvdGhlciBwYWNrYWdlcyB3ZSBoYXZlDQo+Pj50byBiZSBjYXJlZnVsIGFz
-IHRoZWlyIGJ1aWxkcyB3aWxsIGFjdHVhbGx5IGNhdXNlIGRvd25sb2FkcyB0
-byBoYXBwZW4NCj4+PmlmIGEgZGVwZW5kZW5jeSBpcyBtaXNzaW5nIChweXRo
-b24gd2lsbCBmZXRjaCBlZ2dzLCBydWJ5IHdpbGwgZmV0Y2gNCj4+PmdlbXMu
-Li4pLiBXaGVuIEkgaGF2ZSB0aW1lIEkgdXN1YWxseSBkbyBidWlsZHMgd2l0
-aCBJUCB0YWJsZXMgcnVsZXMgaW4NCj4+PnBsYWNlIHRvIGZvcmNlIGVycm9y
-cyB3aGVuIHRoZXNlIGZldGNoZXMgaGFwcGVuIHNvIHRoYXQgSSBjYW4gY2F0
-Y2gNCj4+PnRoZW0gYW5kIGZpeCB0aGVtLiBEb3dubG9hZHMgc2hvdWxkIG9u
-bHkgYmUgZG9uZSBieSB0aGUgZmV0Y2hlciBhbmQNCj4+Pm5vdCBidW5kbGVy
-LCBwZGIgZXRjLiBJZiB5b3Ugc2VlIGFuIGVycm9yIGFib3V0IGRvd25sb2Fk
-aW5nIGFuZCB5b3UgYXJlIG5vdCBpbg0KPmRvX2ZldGNoKCkgc29tZXRoaW5n
-IGlzIHdyb25nLg0KPj4+DQo+Pj5TdGFydCBieSBhZGRpbmcgcHl0aG9uLXZj
-dmVyc2lvbmVyIGFzIGEgREVQRU5EUyBpbiBweXRob24tanNvbnNjaGVtYQ0K
-Pj4+YW5kIHlvdSBzaG91bGQgYmUgZ29vZCB0byBnby4NCj4+Pg0KPj4NCj4+
-IFRoZSBweXRob24tdmN2ZXJzaW9uZXIgaXMgYWxyZWFkeSBhcyBhIERFUEVO
-RFMgaW4gcHl0aG9uLWpzb25zY2hlbWEsDQo+PiBhbmQgSXQgaXMgc3RpbGwg
-ZmFpbGVkLg0KPj4NCj4+IFBlcmhhcHMgaXQgaXMgdGhlIHByb2JsZW0gYWJv
-dXQgcHJveHkgc2V0Lg0KPg0KPk5vLCBhZ2FpbiB0aGlzIHdvdWxkIGp1c3Qg
-YmUgYmFuZC1haWQgZm9yIGEgcmVhbCBwcm9ibGVtLiBJIGRpZCBoYXZlIHRp
-bWUgdG8gbG9vayBhdA0KPnRoaXMgdG9kYXksIGJ1dCBub3QgZW5vdWdoIHRv
-IGZpbmQgYSBzdWl0YWJsZSBzb2x1dGlvbi4NCj4NCj5UaGUgaXNzdWUgaXMg
-InNldHVwX3JlcXVpcmVzIiBpbiBzZXR1cC5weSBmb3IgcHl0aG9uLWpzb25z
-Y2hlbWEuIFRoaXMgaXMgYSByYXJlbHkNCj51c2VkIGRpcmVjdGl2ZSB0aGF0
-IGhhcyBzb21lIHVuZXhwZWN0ZWQgY29uc2VxdWVuY2VzLiBTZWU6DQo+DQo+
-aHR0cHM6Ly9naXRodWIuY29tL3B5cGEvcGlwL2lzc3Vlcy80MTANCj5odHRw
-czovL3BpcC5weXBhLmlvL2VuL2xhdGVzdC91c2VyX2d1aWRlLyNpbnN0YWxs
-YXRpb24tYnVuZGxlcw0KPih3YXJuaW5nIGF0IGJvdHRvbSBvZiBzZWN0aW9u
-KQ0KPmh0dHBzOi8vcGlwLnB5cGEuaW8vZW4vbGF0ZXN0L3JlZmVyZW5jZS9w
-aXBfaW5zdGFsbC8jY29udHJvbGxpbmctc2V0dXAtcmVxdWlyZXMNCj4NCj5J
-IGNhbiByZXByb2R1Y2UgeW91ciBpc3N1ZSBieSB1c2luZyBpcHRhYmxlcyBy
-dWxlcyB0byBEUk9QIHBhY2tldHMgb24gcG9ydCA4MCBhbmQNCj40NDMuDQo+
-DQo+VGhlIHNvbHV0aW9uIGlzIG9uZSBvZiAzLg0KPjEpIFdlIGNhbiBjbGVh
-bnVwIHRoZSBzZXR1cC5weSB0byBub3QgcmVxdWlyZSB2Y3ZlcnNpb25lci4g
-VGhpcyBpcyBtb3N0IGxpa2VseSB0aGUNCj5zaW1wbGVzdCBidXQgbWF5IGhh
-dmUgYmFkIHNpZGUgZWZmZWN0cy4NCj4yKSBXZSBidWlsZCB2Y3ZlcnNpb25l
-ciAuZWdnIGZpbGUgaW4gYW4gYWRkaXRpb24gdG8gZG9fY29tcGlsZSgpIGFu
-ZCBhZGQgaXQgdG8gdGhlDQo+LWRldiBwa2cgdG8gZW5zdXJlIGl0IGlzIGlu
-IHRoZSBzeXNyb290LiBXZSB0aGVuIGNvcHkgdGhlIGVnZyBmcm9tIHRoZSBz
-eXNyb290IHRvDQo+b3VyIGJ1aWxkIGFzIGEgc3RlcCBiZWZvcmUgcHl0aG9u
-LWpzb25zY2hlbWEgZG9fY29tcGlsZSgpLiBUaGlzIGlzIG1vc3QgbGlrZWx5
-IHRoZQ0KPmJlc3QgZml4Lg0KPjMpIFdlIGJ1aWxkIHRoZSAuZWdnIGFzIGlu
-ICgyKSBidXQgYnVpbGQgYW4gaW5kZXggZmlsZSBpbiB0aGUgc3lzcm9vdCwg
-YWxsb3dpbmcgdXMgdG8NCj51c2UgZmluZF9saW5rcw0KPg0KPkkgcmVhbGx5
-IGJlbGlldmUgKDIpIGlzIHRoZSBiZXN0IGFwcHJvYWNoLiBCdWlsZGluZyB0
-aGUgZWdnIGFuZCBoYXZpbmcgaXQgaW4gdGhlDQo+c3lzcm9vdCBpcyB2ZXJ5
-IHN0cmFpZ2h0Zm9yd2FyZCwgdGhlIGNvcHkgc2hvdWxkbid0IGJlIHRoYXQg
-ZGlmZmljdWx0IGVpdGhlci4gSSBjYW4NCj5hdHRlbXB0IHRoaXMgYnV0IG1v
-c3QgbGlrZWx5IHdvbid0IGhhdmUgYSBmaXggdW50aWwgdG9tb3Jyb3cuIEZv
-ciBub3cgbWFudWFsbHkNCj5kb3dubG9hZCB0aGUgZWdnIGZvciB2Y3ZlcnNp
-b25lciBhbmQgcGxhY2UgaXQgaW4NCj50bXAvd29yay9jb3JlMi02NC1wb2t5
-LWxpbnV4L3B5dGhvbi1qc29uc2NoZW1hLzIuNS4xLXIwL2pzb25zY2hlbWEt
-Mi41LjEvLmUNCj5nZ3MvdmN2ZXJzaW9uZXItMi4xNC4wLjAtcHkyLjcuZWdn
-DQo+YW5kIHlvdSBzaG91bGQgYmUgYWJsZSB0byBhdCBsZWFzdCBjb250aW51
-ZSB0byBidWlsZC4NCg0KSSBjaG9zZSAoMikgc29sdXRpb24uIEFuZCBpdCBp
-cyBidWlsZCB3aXRoIG5vIGVycm9ycywgc28gaG93IGFib3V0IHRoaXMgTW9k
-aWZ5Pw0KDQoxLiBNb2RpZnkgcHl0aG9uLXZjdmVyc2lvbmVyXzIuMTQuMC4w
-LmJiLCBhbmQgY3JlYXRlIHZjdmVyc2lvbmVyLTIuMTQuMC4wLXB5Mi43LmVn
-ZyBieSBkb19jb21waWxlX2FwcGVuZCgpIC4NCkFuZCB0aGVuIGluc3RhbGwg
-aXQuIA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
-ZGlmZiAtLWdpdCBhL21ldGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbi12Y3ZlcnNpb25lcl8yLjE0LjAuMC5iYiBiL21ldGEt
-b3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMvcA0KaW5kZXggMmZlOTZhYi4u
-YjgxMzFiMSAxMDA2NDQNCi4uLi4uLg0KLWluaGVyaXQgc2V0dXB0b29scw0K
-K2luaGVyaXQgc2V0dXB0b29scyBweXRob25uYXRpdmUNCisNCitkb19jb21w
-aWxlX2FwcGVuZCgpIHsNCisgICAgZXhwb3J0IEJVSUxEX1NZUz0ke0JVSUxE
-X1NZU30gSE9TVF9TWVM9JHtIT1NUX1NZU30NCisgICAgJHtQWVRIT059IHNl
-dHVwLnB5IC1xIGJkaXN0X2VnZyAtLWRpc3QtZGlyIC4vDQorfQ0KKw0KK2Rv
-X2luc3RhbGxfYXBwZW5kKCkgew0KKyAgICBpbnN0YWxsIC1tIDA2NDQgJHtT
-fS92Y3ZlcnNpb25lci0yLjE0LjAuMC1weTIuNy5lZ2cgJHtEfS8ke1BZVEhP
-Tl9TSVRFUEFDS0FHRVNfRElSfS8NCit9DQotLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQoyLiBNb2RpZnkgcHl0aG9uLWpzb25z
-Y2hlbWFfMi41LjEuYmIsIGNvcHkgdmN2ZXJzaW9uZXItMi4xNC4wLjAtcHky
-LjcuZWdnIGZyb20gc3lzcm9vdCB0byAke1N9Ly5lZ2dzLw0KLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gDQokIGdpdCBkaWZmIG1l
-dGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1q
-c29uc2NoZW1hXzIuNS4xLmJiDQpkaWZmIC0tZ2l0IGEvbWV0YS1vcGVuc3Rh
-Y2svcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWpzb25zY2hlbWFf
-Mi41LjEuYmIgYi9tZXRhLW9wZW5zdGFjay9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvDQppbmRleCBhM2E3ZWMwLi5hMjA1NWM4IDEwMDY0NA0KLS0tIGEvbWV0
-YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWpz
-b25zY2hlbWFfMi41LjEuYmINCisrKyBiL21ldGEtb3BlbnN0YWNrL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1qc29uc2NoZW1hXzIuNS4xLmJi
-DQpAQCAtMTYsNCArMTYsOSBAQCBTID0gIiR7V09SS0RJUn0vJHtTUkNOQU1F
-fS0ke1BWfSINCg0KIGluaGVyaXQgc2V0dXB0b29scw0KDQotREVQRU5EUyAr
-PSAicHl0aG9uLXZjdmVyc2lvbmVyIg0KK0RFUEVORFMgKz0gInB5dGhvbi12
-Y3ZlcnNpb25lciBweXRob24tcGlwIg0KKw0KK2RvX2NvbXBpbGVfcHJlcGVu
-ZCgpIHsNCisgICAgaW5zdGFsbCAtZCAke1N9Ly5lZ2dzDQorICAgIGluc3Rh
-bGwgLW0gMDY0NCAke1NUQUdJTkdfRElSX0hPU1R9LyR7UFlUSE9OX1NJVEVQ
-QUNLQUdFU19ESVJ9L3ZjdmVyc2lvbmVyLTIuMTQuMC4wLXB5Mi43LmVnZyAk
-e1N9Ly5lZ2dzLw0KK30NCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tIA0KDQpUaGFua3MgYSBsb3QgZm9yIHlvdXIgaGVscC4NCg0K
-UmVnYXJkcywNCkxpDQoNCj4NCj4+DQo+PiBXaGVuIEkgYml0YmFrZSBweXRo
-b24tanNvbnNjaGVtYSwgdGhlIGVycm9yIG9jY3VycyBpbiB0aGUgc3RlcCBv
-Zg0KPj4gZG9fY29tcGlsZSwgQnV0IHdoZW4gSSBpbnRvIGRpcmVjdG9yeQ0K
-PiJweXRob24tanNvbnNjaGVtYS8yLjUuMS1yMC9qc29uc2NoZW1hLTIuNS4x
-LyAiLCBhbmQgcnVuLmRvX2NvbXBsaWUsIG5vDQo+ZXJyb3JzIG9jY3VyLg0K
-Pj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+ICQgY2QgYnVp
-bGQteDg2XzY0L3RtcC93b3JrL3g4Nl82NA0KPj4gLWxpbnV4L3B5dGhvbi1q
-c29uc2NoZW1hLzIuNS4xLXIwL2pzb25zY2hlbWEtMi41LjEvDQo+PiAkIC4u
-L3RlbXAvcnVuLmRvX2NvbXBpbGUNCj4+IHppcF9zYWZlIGZsYWcgbm90IHNl
-dDsgYW5hbHl6aW5nIGFyY2hpdmUgY29udGVudHMuLi4NCj4+DQo+PiBJbnN0
-YWxsZWQgKioqL3dvcmsveDg2XzY0DQo+PiAtbGludXgvcHl0aG9uLWpzb25z
-Y2hlbWEvMi41LjEtcjAvanNvbnNjaGVtYS0yLjUuMS8uZWdncy92Y3ZlcnNp
-b25lci0yDQo+PiAuMTQuMC4wLXB5Mi43LmVnZw0KPj4gcnVubmluZyBidWls
-ZA0KPj4gcnVubmluZyBidWlsZF9weQ0KPj4gY3JlYXRpbmcgYnVpbGQNCj4+
-IGNyZWF0aW5nIGJ1aWxkL2xpYg0KPj4gY3JlYXRpbmcgYnVpbGQvbGliL2pz
-b25zY2hlbWENCj4+IC4uLi4uLg0KPj4gJCBlY2hvICQ/DQo+PiAwDQo+PiAt
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+DQo+PiBBbmQg
-SSBoYXZlIHByb3h5IHNldCBpbiB+Ly53Z2V0cmMgbGlrZSB0aGlzOg0KPj4g
-aHR0cF9wcm94eSA9IGh0dHA6Ly9yZXAucHJveHkubmljLmZ1aml0c3UuY29t
-OjgwODAvDQo+PiBmdHBfcHJveHkgPSBodHRwOi8vcmVwLnByb3h5Lm5pYy5m
-dWppdHN1LmNvbTo4MDgwLw0KPj4gaHR0cHNfcHJveHk9aHR0cHM6Ly9yZXAu
-cHJveHkubmljLmZ1aml0c3UuY29tOjgwODAvDQo+Pg0KPj4gSWYgeW91IGtu
-b3cgaG93IHRvIGZpeCBpdCwgcGxlYXNlIGhlbHAgbWUuDQo+Pg0KPj4gUmVn
-YXJkcywNCj4+IExpDQo+Pg0KPj4NCj4+IC0tDQo+PiBfX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4gbWV0YS12
-aXJ0dWFsaXphdGlvbiBtYWlsaW5nIGxpc3QNCj4+IG1ldGEtdmlydHVhbGl6
-YXRpb25AeW9jdG9wcm9qZWN0Lm9yZw0KPj4gaHR0cHM6Ly9saXN0cy55b2N0
-b3Byb2plY3Qub3JnL2xpc3RpbmZvL21ldGEtdmlydHVhbGl6YXRpb24NCj4N
-Cg0KCgo=
+On 15-12-11 12:28 PM, Mark Asselstine wrote:
+> There are some changes that we need to make in the .inc file to
+> properly support more recent releases of openvswitch. These changes
+> are not compatible with these older versions of openvswitch, so rather
+> than make accommodations in the .inc file to continue to support this
+> version we will simply drop them.
+
+I've merged the series.
+
+Bruce
+
+>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>   .../openvswitch/openvswitch_1.10.0.bb              | 16 ------------
+>   .../openvswitch/openvswitch_2.1.3.bb               | 29 ----------------------
+>   2 files changed, 45 deletions(-)
+>   delete mode 100644 recipes-networking/openvswitch/openvswitch_1.10.0.bb
+>   delete mode 100644 recipes-networking/openvswitch/openvswitch_2.1.3.bb
+>
+> diff --git a/recipes-networking/openvswitch/openvswitch_1.10.0.bb b/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+> deleted file mode 100644
+> index 85b2709..0000000
+> --- a/recipes-networking/openvswitch/openvswitch_1.10.0.bb
+> +++ /dev/null
+> @@ -1,16 +0,0 @@
+> -require openvswitch.inc
+> -
+> -RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+> -
+> -PR = "r4"
+> -
+> -SRC_URI += "\
+> -	http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+> -	file://configure-Only-link-against-libpcap-on-FreeBSD.patch \
+> -	"
+> -
+> -SRC_URI[md5sum] = "fe8b49efe9f86b57abab00166b971106"
+> -SRC_URI[sha256sum] = "803966c89d6a5de6d710a2cb4ed73ac8d8111a2c44b12b846dcef8e91ffab167"
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=49eeb5acb1f5e510f12c44f176c42253"
+> -
+> -inherit pkgconfig
+> diff --git a/recipes-networking/openvswitch/openvswitch_2.1.3.bb b/recipes-networking/openvswitch/openvswitch_2.1.3.bb
+> deleted file mode 100644
+> index dc6c7e3..0000000
+> --- a/recipes-networking/openvswitch/openvswitch_2.1.3.bb
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -require openvswitch.inc
+> -
+> -RRECOMMENDS_${PN} += "kernel-module-openvswitch"
+> -
+> -RDEPENDS_${PN}-ptest += "\
+> -	python-logging python-syslog python-argparse python-io \
+> -	python-fcntl python-shell python-lang python-xml python-math \
+> -	python-datetime python-netclient python sed \
+> -	"
+> -
+> -SRC_URI += "\
+> -	http://openvswitch.org/releases/openvswitch-${PV}.tar.gz \
+> -	file://openvswitch-add-more-target-python-substitutions.patch \
+> -	file://openvswitch-add-ptest.patch \
+> -	file://run-ptest \
+> -	"
+> -
+> -SRC_URI[md5sum] = "d3c8a69df3d1b1a9eaef5a896576fd2a"
+> -SRC_URI[sha256sum] = "43a2562fe5e8e48e997bfdb04691ffaaaefe73069b5699654538bf2f16ebfb1a"
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=e03b0d9c4115c44518594e5618e653f8"
+> -
+> -inherit ptest
+> -
+> -EXTRA_OEMAKE += "TEST_DEST=${D}${PTEST_PATH} TEST_ROOT=${PTEST_PATH}"
+> -
+> -do_install_ptest() {
+> -	oe_runmake test-install
+> -}
+>
+
 
