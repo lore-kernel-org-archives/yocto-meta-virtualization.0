@@ -1,57 +1,54 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E984DE00AF2; Mon, 14 Dec 2015 20:08:22 -0800 (PST)
+	id C37AFE00B44; Mon, 14 Dec 2015 21:15:47 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,HTML_MESSAGE,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [74.125.82.51 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A787EE0048C
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 981F2E002F9
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 14 Dec 2015 20:08:19 -0800 (PST)
-Received: by mail-wm0-f51.google.com with SMTP id p66so91645018wmp.1
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 14 Dec 2015 20:08:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:reply-to:sender:in-reply-to:references:date:message-id
-	:subject:from:to:cc:content-type;
-	bh=CGRqIAZtBrDcD+xkHXiqBHzrj9pngC/4P573Y3f/Rpw=;
-	b=Tn896M5GiN+mN5k6Kq2M38YKPRM8NzJ7NILVoqCxd0Xa/RqF6nwYNq++c/e/9tpNax
-	lzwHr/iUtRjEVC0EkNPm4TS3RXrIKDzt+zFoVVElLhLvgPGQXlVvuFw+yTkv7GqyO2xq
-	cHMOYtnRURkzpOk54/d79YoV62CLahm6yv68EQ/hpgK5MVUwSZqDgyTrPVeSSYiEGltz
-	sr2cuS0W/AYoii8N9FulG84VdI6vmQ/Je/HL6q/3uXdfInexa/SBFcZeg5hTYJmpLnoe
-	rmjJlIxnfSOvuWEfh0pvq1O8/TOHtruRByG7yEDeJowKT3QtFVGmXOKbWMKNtMPCQA1F
-	J7uw==
+	Mon, 14 Dec 2015 21:15:44 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
+   d="scan'208";a="1584254"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 15 Dec 2015 13:15:26 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id D4E2F40427C5;
+	Tue, 15 Dec 2015 13:15:24 +0800 (CST)
+Received: from G08CNEXMBPEKD02.g08.fujitsu.local ([10.167.33.84]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0181.006; Tue, 15 Dec 2015 13:15:24 +0800
+From: "Li, Xin" <lixin.fnst@cn.fujitsu.com>
+To: "mark.asselstine@windriver.com" <mark.asselstine@windriver.com>
+Thread-Topic: [meta-virtualization] Help (python-jsonschema do_compile Failed)
+Thread-Index: AdEtjiHMEMtadIP6TMil2kBjIxC82wFiahkAAL2DDtAAF+vtAAAeSIZQ
+Date: Tue, 15 Dec 2015 05:15:23 +0000
+Message-ID: <A8FC939F80655644A89BB21CCD3741E80140909908@G08CNEXMBPEKD02.g08.fujitsu.local>
+References: <A8FC939F80655644A89BB21CCD3741E8011BCDCE58@G08CNEXMBPEKD02.g08.fujitsu.local>
+	<CAPuovELJU9_nEBkP90HjexOctVSfs5Pc72f6FdvdkaKy3hywpQ@mail.gmail.com>
+	<A8FC939F80655644A89BB21CCD3741E8014090843F@G08CNEXMBPEKD02.g08.fujitsu.local>
+	<CAPuovEL2pTvLOpLN=xBP+fczUmf3WPQ89ou=ndbGgRyChty8bg@mail.gmail.com>
+In-Reply-To: <CAPuovEL2pTvLOpLN=xBP+fczUmf3WPQ89ou=ndbGgRyChty8bg@mail.gmail.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.226.98]
 MIME-Version: 1.0
-X-Received: by 10.28.175.144 with SMTP id y138mr1743673wme.47.1450152498549;
-	Mon, 14 Dec 2015 20:08:18 -0800 (PST)
-Sender: asselsm@gmail.com
-Received: by 10.194.59.176 with HTTP; Mon, 14 Dec 2015 20:08:18 -0800 (PST)
-Received: by 10.194.59.176 with HTTP; Mon, 14 Dec 2015 20:08:18 -0800 (PST)
-In-Reply-To: <1449871112-12401-4-git-send-email-cardoe@cardoe.com>
-References: <1449871112-12401-1-git-send-email-cardoe@cardoe.com>
-	<1449871112-12401-4-git-send-email-cardoe@cardoe.com>
-Date: Mon, 14 Dec 2015 23:08:18 -0500
-X-Google-Sender-Auth: UHfstz_WEXQy30kZu8Ej0YxlcWc
-Message-ID: <CAPuovEJZmJNXt4EF168fWeU=g94dhdgaak3k4B3__oH4xZp_ag@mail.gmail.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Doug Goldstein <cardoe@cardoe.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 4/4] xen: move PR variable from include file
+X-yoursite-MailScanner-Information: Please contact the ISP for more information
+X-yoursite-MailScanner-ID: D4E2F40427C5.A8270
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: Help (python-jsonschema do_compile Failed)
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -61,154 +58,133 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 15 Dec 2015 04:08:23 -0000
-Content-Type: multipart/alternative; boundary=001a11444b648bd9ee0526e7f0ea
+X-List-Received-Date: Tue, 15 Dec 2015 05:15:47 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---001a11444b648bd9ee0526e7f0ea
-Content-Type: text/plain; charset=UTF-8
+SGksIE1hcmsNCg0KVGhhbmsgeW91IHZlcnkgbXVjaCBmb3IgeW91ciBraW5k
+bHkgcmVwbHkuDQoNCj4+Pg0KPj4+QSBkb3dubG9hZCBlcnJvciBkdXJpbmcg
+ZG9fY29tcGlsZSgpLiBNeSBndWVzcyBpcyB0aGF0IHdlIGhhdmUgYQ0KPj4+
+bWlzc2luZyBkZXBlbmRlbmN5LiBXaXRoIHB5dGhvbiwgUnVieSBhbmQgc29t
+ZSBvdGhlciBwYWNrYWdlcyB3ZSBoYXZlDQo+Pj50byBiZSBjYXJlZnVsIGFz
+IHRoZWlyIGJ1aWxkcyB3aWxsIGFjdHVhbGx5IGNhdXNlIGRvd25sb2FkcyB0
+byBoYXBwZW4NCj4+PmlmIGEgZGVwZW5kZW5jeSBpcyBtaXNzaW5nIChweXRo
+b24gd2lsbCBmZXRjaCBlZ2dzLCBydWJ5IHdpbGwgZmV0Y2gNCj4+PmdlbXMu
+Li4pLiBXaGVuIEkgaGF2ZSB0aW1lIEkgdXN1YWxseSBkbyBidWlsZHMgd2l0
+aCBJUCB0YWJsZXMgcnVsZXMgaW4NCj4+PnBsYWNlIHRvIGZvcmNlIGVycm9y
+cyB3aGVuIHRoZXNlIGZldGNoZXMgaGFwcGVuIHNvIHRoYXQgSSBjYW4gY2F0
+Y2gNCj4+PnRoZW0gYW5kIGZpeCB0aGVtLiBEb3dubG9hZHMgc2hvdWxkIG9u
+bHkgYmUgZG9uZSBieSB0aGUgZmV0Y2hlciBhbmQNCj4+Pm5vdCBidW5kbGVy
+LCBwZGIgZXRjLiBJZiB5b3Ugc2VlIGFuIGVycm9yIGFib3V0IGRvd25sb2Fk
+aW5nIGFuZCB5b3UgYXJlIG5vdCBpbg0KPmRvX2ZldGNoKCkgc29tZXRoaW5n
+IGlzIHdyb25nLg0KPj4+DQo+Pj5TdGFydCBieSBhZGRpbmcgcHl0aG9uLXZj
+dmVyc2lvbmVyIGFzIGEgREVQRU5EUyBpbiBweXRob24tanNvbnNjaGVtYQ0K
+Pj4+YW5kIHlvdSBzaG91bGQgYmUgZ29vZCB0byBnby4NCj4+Pg0KPj4NCj4+
+IFRoZSBweXRob24tdmN2ZXJzaW9uZXIgaXMgYWxyZWFkeSBhcyBhIERFUEVO
+RFMgaW4gcHl0aG9uLWpzb25zY2hlbWEsDQo+PiBhbmQgSXQgaXMgc3RpbGwg
+ZmFpbGVkLg0KPj4NCj4+IFBlcmhhcHMgaXQgaXMgdGhlIHByb2JsZW0gYWJv
+dXQgcHJveHkgc2V0Lg0KPg0KPk5vLCBhZ2FpbiB0aGlzIHdvdWxkIGp1c3Qg
+YmUgYmFuZC1haWQgZm9yIGEgcmVhbCBwcm9ibGVtLiBJIGRpZCBoYXZlIHRp
+bWUgdG8gbG9vayBhdA0KPnRoaXMgdG9kYXksIGJ1dCBub3QgZW5vdWdoIHRv
+IGZpbmQgYSBzdWl0YWJsZSBzb2x1dGlvbi4NCj4NCj5UaGUgaXNzdWUgaXMg
+InNldHVwX3JlcXVpcmVzIiBpbiBzZXR1cC5weSBmb3IgcHl0aG9uLWpzb25z
+Y2hlbWEuIFRoaXMgaXMgYSByYXJlbHkNCj51c2VkIGRpcmVjdGl2ZSB0aGF0
+IGhhcyBzb21lIHVuZXhwZWN0ZWQgY29uc2VxdWVuY2VzLiBTZWU6DQo+DQo+
+aHR0cHM6Ly9naXRodWIuY29tL3B5cGEvcGlwL2lzc3Vlcy80MTANCj5odHRw
+czovL3BpcC5weXBhLmlvL2VuL2xhdGVzdC91c2VyX2d1aWRlLyNpbnN0YWxs
+YXRpb24tYnVuZGxlcw0KPih3YXJuaW5nIGF0IGJvdHRvbSBvZiBzZWN0aW9u
+KQ0KPmh0dHBzOi8vcGlwLnB5cGEuaW8vZW4vbGF0ZXN0L3JlZmVyZW5jZS9w
+aXBfaW5zdGFsbC8jY29udHJvbGxpbmctc2V0dXAtcmVxdWlyZXMNCj4NCj5J
+IGNhbiByZXByb2R1Y2UgeW91ciBpc3N1ZSBieSB1c2luZyBpcHRhYmxlcyBy
+dWxlcyB0byBEUk9QIHBhY2tldHMgb24gcG9ydCA4MCBhbmQNCj40NDMuDQo+
+DQo+VGhlIHNvbHV0aW9uIGlzIG9uZSBvZiAzLg0KPjEpIFdlIGNhbiBjbGVh
+bnVwIHRoZSBzZXR1cC5weSB0byBub3QgcmVxdWlyZSB2Y3ZlcnNpb25lci4g
+VGhpcyBpcyBtb3N0IGxpa2VseSB0aGUNCj5zaW1wbGVzdCBidXQgbWF5IGhh
+dmUgYmFkIHNpZGUgZWZmZWN0cy4NCj4yKSBXZSBidWlsZCB2Y3ZlcnNpb25l
+ciAuZWdnIGZpbGUgaW4gYW4gYWRkaXRpb24gdG8gZG9fY29tcGlsZSgpIGFu
+ZCBhZGQgaXQgdG8gdGhlDQo+LWRldiBwa2cgdG8gZW5zdXJlIGl0IGlzIGlu
+IHRoZSBzeXNyb290LiBXZSB0aGVuIGNvcHkgdGhlIGVnZyBmcm9tIHRoZSBz
+eXNyb290IHRvDQo+b3VyIGJ1aWxkIGFzIGEgc3RlcCBiZWZvcmUgcHl0aG9u
+LWpzb25zY2hlbWEgZG9fY29tcGlsZSgpLiBUaGlzIGlzIG1vc3QgbGlrZWx5
+IHRoZQ0KPmJlc3QgZml4Lg0KPjMpIFdlIGJ1aWxkIHRoZSAuZWdnIGFzIGlu
+ICgyKSBidXQgYnVpbGQgYW4gaW5kZXggZmlsZSBpbiB0aGUgc3lzcm9vdCwg
+YWxsb3dpbmcgdXMgdG8NCj51c2UgZmluZF9saW5rcw0KPg0KPkkgcmVhbGx5
+IGJlbGlldmUgKDIpIGlzIHRoZSBiZXN0IGFwcHJvYWNoLiBCdWlsZGluZyB0
+aGUgZWdnIGFuZCBoYXZpbmcgaXQgaW4gdGhlDQo+c3lzcm9vdCBpcyB2ZXJ5
+IHN0cmFpZ2h0Zm9yd2FyZCwgdGhlIGNvcHkgc2hvdWxkbid0IGJlIHRoYXQg
+ZGlmZmljdWx0IGVpdGhlci4gSSBjYW4NCj5hdHRlbXB0IHRoaXMgYnV0IG1v
+c3QgbGlrZWx5IHdvbid0IGhhdmUgYSBmaXggdW50aWwgdG9tb3Jyb3cuIEZv
+ciBub3cgbWFudWFsbHkNCj5kb3dubG9hZCB0aGUgZWdnIGZvciB2Y3ZlcnNp
+b25lciBhbmQgcGxhY2UgaXQgaW4NCj50bXAvd29yay9jb3JlMi02NC1wb2t5
+LWxpbnV4L3B5dGhvbi1qc29uc2NoZW1hLzIuNS4xLXIwL2pzb25zY2hlbWEt
+Mi41LjEvLmUNCj5nZ3MvdmN2ZXJzaW9uZXItMi4xNC4wLjAtcHkyLjcuZWdn
+DQo+YW5kIHlvdSBzaG91bGQgYmUgYWJsZSB0byBhdCBsZWFzdCBjb250aW51
+ZSB0byBidWlsZC4NCg0KSSBjaG9zZSAoMikgc29sdXRpb24uIEFuZCBpdCBp
+cyBidWlsZCB3aXRoIG5vIGVycm9ycywgc28gaG93IGFib3V0IHRoaXMgTW9k
+aWZ5Pw0KDQoxLiBNb2RpZnkgcHl0aG9uLXZjdmVyc2lvbmVyXzIuMTQuMC4w
+LmJiLCBhbmQgY3JlYXRlIHZjdmVyc2lvbmVyLTIuMTQuMC4wLXB5Mi43LmVn
+ZyBieSBkb19jb21waWxlX2FwcGVuZCgpIC4NCkFuZCB0aGVuIGluc3RhbGwg
+aXQuIA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0K
+ZGlmZiAtLWdpdCBhL21ldGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbi12Y3ZlcnNpb25lcl8yLjE0LjAuMC5iYiBiL21ldGEt
+b3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMvcA0KaW5kZXggMmZlOTZhYi4u
+YjgxMzFiMSAxMDA2NDQNCi4uLi4uLg0KLWluaGVyaXQgc2V0dXB0b29scw0K
+K2luaGVyaXQgc2V0dXB0b29scyBweXRob25uYXRpdmUNCisNCitkb19jb21w
+aWxlX2FwcGVuZCgpIHsNCisgICAgZXhwb3J0IEJVSUxEX1NZUz0ke0JVSUxE
+X1NZU30gSE9TVF9TWVM9JHtIT1NUX1NZU30NCisgICAgJHtQWVRIT059IHNl
+dHVwLnB5IC1xIGJkaXN0X2VnZyAtLWRpc3QtZGlyIC4vDQorfQ0KKw0KK2Rv
+X2luc3RhbGxfYXBwZW5kKCkgew0KKyAgICBpbnN0YWxsIC1tIDA2NDQgJHtT
+fS92Y3ZlcnNpb25lci0yLjE0LjAuMC1weTIuNy5lZ2cgJHtEfS8ke1BZVEhP
+Tl9TSVRFUEFDS0FHRVNfRElSfS8NCit9DQotLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQ0KDQoyLiBNb2RpZnkgcHl0aG9uLWpzb25z
+Y2hlbWFfMi41LjEuYmIsIGNvcHkgdmN2ZXJzaW9uZXItMi4xNC4wLjAtcHky
+LjcuZWdnIGZyb20gc3lzcm9vdCB0byAke1N9Ly5lZ2dzLw0KLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0gDQokIGdpdCBkaWZmIG1l
+dGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1q
+c29uc2NoZW1hXzIuNS4xLmJiDQpkaWZmIC0tZ2l0IGEvbWV0YS1vcGVuc3Rh
+Y2svcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWpzb25zY2hlbWFf
+Mi41LjEuYmIgYi9tZXRhLW9wZW5zdGFjay9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvDQppbmRleCBhM2E3ZWMwLi5hMjA1NWM4IDEwMDY0NA0KLS0tIGEvbWV0
+YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uLWpz
+b25zY2hlbWFfMi41LjEuYmINCisrKyBiL21ldGEtb3BlbnN0YWNrL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1qc29uc2NoZW1hXzIuNS4xLmJi
+DQpAQCAtMTYsNCArMTYsOSBAQCBTID0gIiR7V09SS0RJUn0vJHtTUkNOQU1F
+fS0ke1BWfSINCg0KIGluaGVyaXQgc2V0dXB0b29scw0KDQotREVQRU5EUyAr
+PSAicHl0aG9uLXZjdmVyc2lvbmVyIg0KK0RFUEVORFMgKz0gInB5dGhvbi12
+Y3ZlcnNpb25lciBweXRob24tcGlwIg0KKw0KK2RvX2NvbXBpbGVfcHJlcGVu
+ZCgpIHsNCisgICAgaW5zdGFsbCAtZCAke1N9Ly5lZ2dzDQorICAgIGluc3Rh
+bGwgLW0gMDY0NCAke1NUQUdJTkdfRElSX0hPU1R9LyR7UFlUSE9OX1NJVEVQ
+QUNLQUdFU19ESVJ9L3ZjdmVyc2lvbmVyLTIuMTQuMC4wLXB5Mi43LmVnZyAk
+e1N9Ly5lZ2dzLw0KK30NCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tIA0KDQpUaGFua3MgYSBsb3QgZm9yIHlvdXIgaGVscC4NCg0K
+UmVnYXJkcywNCkxpDQoNCj4NCj4+DQo+PiBXaGVuIEkgYml0YmFrZSBweXRo
+b24tanNvbnNjaGVtYSwgdGhlIGVycm9yIG9jY3VycyBpbiB0aGUgc3RlcCBv
+Zg0KPj4gZG9fY29tcGlsZSwgQnV0IHdoZW4gSSBpbnRvIGRpcmVjdG9yeQ0K
+PiJweXRob24tanNvbnNjaGVtYS8yLjUuMS1yMC9qc29uc2NoZW1hLTIuNS4x
+LyAiLCBhbmQgcnVuLmRvX2NvbXBsaWUsIG5vDQo+ZXJyb3JzIG9jY3VyLg0K
+Pj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+ICQgY2QgYnVp
+bGQteDg2XzY0L3RtcC93b3JrL3g4Nl82NA0KPj4gLWxpbnV4L3B5dGhvbi1q
+c29uc2NoZW1hLzIuNS4xLXIwL2pzb25zY2hlbWEtMi41LjEvDQo+PiAkIC4u
+L3RlbXAvcnVuLmRvX2NvbXBpbGUNCj4+IHppcF9zYWZlIGZsYWcgbm90IHNl
+dDsgYW5hbHl6aW5nIGFyY2hpdmUgY29udGVudHMuLi4NCj4+DQo+PiBJbnN0
+YWxsZWQgKioqL3dvcmsveDg2XzY0DQo+PiAtbGludXgvcHl0aG9uLWpzb25z
+Y2hlbWEvMi41LjEtcjAvanNvbnNjaGVtYS0yLjUuMS8uZWdncy92Y3ZlcnNp
+b25lci0yDQo+PiAuMTQuMC4wLXB5Mi43LmVnZw0KPj4gcnVubmluZyBidWls
+ZA0KPj4gcnVubmluZyBidWlsZF9weQ0KPj4gY3JlYXRpbmcgYnVpbGQNCj4+
+IGNyZWF0aW5nIGJ1aWxkL2xpYg0KPj4gY3JlYXRpbmcgYnVpbGQvbGliL2pz
+b25zY2hlbWENCj4+IC4uLi4uLg0KPj4gJCBlY2hvICQ/DQo+PiAwDQo+PiAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+DQo+PiBBbmQg
+SSBoYXZlIHByb3h5IHNldCBpbiB+Ly53Z2V0cmMgbGlrZSB0aGlzOg0KPj4g
+aHR0cF9wcm94eSA9IGh0dHA6Ly9yZXAucHJveHkubmljLmZ1aml0c3UuY29t
+OjgwODAvDQo+PiBmdHBfcHJveHkgPSBodHRwOi8vcmVwLnByb3h5Lm5pYy5m
+dWppdHN1LmNvbTo4MDgwLw0KPj4gaHR0cHNfcHJveHk9aHR0cHM6Ly9yZXAu
+cHJveHkubmljLmZ1aml0c3UuY29tOjgwODAvDQo+Pg0KPj4gSWYgeW91IGtu
+b3cgaG93IHRvIGZpeCBpdCwgcGxlYXNlIGhlbHAgbWUuDQo+Pg0KPj4gUmVn
+YXJkcywNCj4+IExpDQo+Pg0KPj4NCj4+IC0tDQo+PiBfX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4gbWV0YS12
+aXJ0dWFsaXphdGlvbiBtYWlsaW5nIGxpc3QNCj4+IG1ldGEtdmlydHVhbGl6
+YXRpb25AeW9jdG9wcm9qZWN0Lm9yZw0KPj4gaHR0cHM6Ly9saXN0cy55b2N0
+b3Byb2plY3Qub3JnL2xpc3RpbmZvL21ldGEtdmlydHVhbGl6YXRpb24NCj4N
+Cg0KCgo=
 
-On Dec 11, 2015 4:59 PM, "Doug Goldstein" <cardoe@cardoe.com> wrote:
->
-> It appears inapporpriate to have this variable in the include file and
-> should live within the bitbake files themselves.
-
-Actually you should drop this completely, the PR server will take care of
-this for you.
-
-Mark
-
->
-> Signed-off-by: Doug Goldstein <cardoe@cardoe.com>
-> ---
->  recipes-extended/xen/xen.inc      | 1 -
->  recipes-extended/xen/xen_4.5.0.bb | 1 +
->  recipes-extended/xen/xen_git.bb   | 1 +
->  3 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 1bb0e6a..00f1823 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -2,7 +2,6 @@ DESCRIPTION = "Xen hypervisor"
->  HOMEPAGE = "http://xen.org"
->  LICENSE = "GPLv2"
->  SECTION = "console/tools"
-> -PR = "r0"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=e0f0f3ac55608719a82394cc353928df"
->
-> diff --git a/recipes-extended/xen/xen_4.5.0.bb b/recipes-extended/xen/
-xen_4.5.0.bb
-> index 6c17b90..73d01c4 100644
-> --- a/recipes-extended/xen/xen_4.5.0.bb
-> +++ b/recipes-extended/xen/xen_4.5.0.bb
-> @@ -1,4 +1,5 @@
->  require xen.inc
-> +PR = "r0"
->
->  SRC_URI = " \
->      http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
-> diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/
-xen_git.bb
-> index 88145a3..4def3bf 100644
-> --- a/recipes-extended/xen/xen_git.bb
-> +++ b/recipes-extended/xen/xen_git.bb
-> @@ -1,4 +1,5 @@
->  require xen.inc
-> +PR = "r0"
->
->  SRCREV = "68bd172e6fa565899c846eb72755c8ffd8562c8a"
->
-> --
-> 2.4.10
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
---001a11444b648bd9ee0526e7f0ea
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<p dir=3D"ltr"><br>
-On Dec 11, 2015 4:59 PM, &quot;Doug Goldstein&quot; &lt;<a href=3D"mailto:c=
-ardoe@cardoe.com">cardoe@cardoe.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; It appears inapporpriate to have this variable in the include file and=
-<br>
-&gt; should live within the bitbake files themselves.<br></p>
-<p dir=3D"ltr">Actually you should drop this completely, the PR server will=
- take care of this for you. </p>
-<p dir=3D"ltr">Mark </p>
-<p dir=3D"ltr">&gt;<br>
-&gt; Signed-off-by: Doug Goldstein &lt;<a href=3D"mailto:cardoe@cardoe.com"=
->cardoe@cardoe.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0recipes-extended/xen/xen.inc=C2=A0 =C2=A0 =C2=A0 | 1 -<br>
-&gt; =C2=A0recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb">xen_4.5.0.b=
-b</a> | 1 +<br>
-&gt; =C2=A0recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a=
->=C2=A0 =C2=A0| 1 +<br>
-&gt; =C2=A03 files changed, 2 insertions(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.i=
-nc<br>
-&gt; index 1bb0e6a..00f1823 100644<br>
-&gt; --- a/recipes-extended/xen/xen.inc<br>
-&gt; +++ b/recipes-extended/xen/xen.inc<br>
-&gt; @@ -2,7 +2,6 @@ DESCRIPTION =3D &quot;Xen hypervisor&quot;<br>
-&gt; =C2=A0HOMEPAGE =3D &quot;<a href=3D"http://xen.org">http://xen.org</a>=
-&quot;<br>
-&gt; =C2=A0LICENSE =3D &quot;GPLv2&quot;<br>
-&gt; =C2=A0SECTION =3D &quot;console/tools&quot;<br>
-&gt; -PR =3D &quot;r0&quot;<br>
-&gt;<br>
-&gt; =C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3De0f0f3ac55608719=
-a82394cc353928df&quot;<br>
-&gt;<br>
-&gt; diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb">xen_=
-4.5.0.bb</a> b/recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb">xen_4.5=
-.0.bb</a><br>
-&gt; index 6c17b90..73d01c4 100644<br>
-&gt; --- a/recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb">xen_4.5.0.b=
-b</a><br>
-&gt; +++ b/recipes-extended/xen/<a href=3D"http://xen_4.5.0.bb">xen_4.5.0.b=
-b</a><br>
-&gt; @@ -1,4 +1,5 @@<br>
-&gt; =C2=A0require xen.inc<br>
-&gt; +PR =3D &quot;r0&quot;<br>
-&gt;<br>
-&gt; =C2=A0SRC_URI =3D &quot; \<br>
-&gt; =C2=A0 =C2=A0 =C2=A0<a href=3D"http://bits.xensource.com/oss-xen/relea=
-se/${PV}/xen-${PV}.tar.gz">http://bits.xensource.com/oss-xen/release/${PV}/=
-xen-${PV}.tar.gz</a> \<br>
-&gt; diff --git a/recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_gi=
-t.bb</a> b/recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a=
-><br>
-&gt; index 88145a3..4def3bf 100644<br>
-&gt; --- a/recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a=
-><br>
-&gt; +++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb">xen_git.bb</a=
-><br>
-&gt; @@ -1,4 +1,5 @@<br>
-&gt; =C2=A0require xen.inc<br>
-&gt; +PR =3D &quot;r0&quot;<br>
-&gt;<br>
-&gt; =C2=A0SRCREV =3D &quot;68bd172e6fa565899c846eb72755c8ffd8562c8a&quot;<=
-br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.4.10<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; meta-virtualization mailing list<br>
-&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
-ation@yoctoproject.org</a><br>
-&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
-">https://lists.yoctoproject.org/listinfo/meta-virtualization</a><br>
-</p>
-
---001a11444b648bd9ee0526e7f0ea--
