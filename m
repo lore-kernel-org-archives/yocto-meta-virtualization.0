@@ -1,55 +1,56 @@
 Return-Path: <cjp256@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 33948E00CA5; Tue, 22 Dec 2015 10:26:39 -0800 (PST)
+	id DD981E00CA5; Tue, 22 Dec 2015 10:27:30 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_LOW,
-	UPPERCASE_50_75 autolearn=ham version=3.3.1
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (cjp256[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.192.49 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.223.172 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.0 UPPERCASE_50_75 message body is 50-75% uppercase
-Received: from mail-qg0-f49.google.com (mail-qg0-f49.google.com
-	[209.85.192.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 78A48E00ACF
+Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
+	[209.85.223.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5BF2AE00ACF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Dec 2015 10:26:35 -0800 (PST)
-Received: by mail-qg0-f49.google.com with SMTP id k90so137534397qge.0
+	Tue, 22 Dec 2015 10:27:29 -0800 (PST)
+Received: by mail-io0-f172.google.com with SMTP id o67so194601576iof.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Dec 2015 10:26:35 -0800 (PST)
+	Tue, 22 Dec 2015 10:27:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=Eflu+X/CNOXCc5Sn8JAF3cBi2bv6pS12ahNUaEJ1MPQ=;
-	b=tVOrKtdWzC4YzSUpqFfvIb4TxbRg3NB6HOOxFdD/CCLbVgFOIo9tGmcBg/Tq73gL/X
-	4JdisrUpvEklIm1wF9j2P9uG1+vjpnZwhYgOrLtrdgYNL2OqVqc/Ir/ddUL+qqphRaPi
-	wNcoeowmEEO1h94EzyepwO8nTGGMdIorQDO4O+wCaT4Y0gDw2VbOqPgLSyouEcFVXgDB
-	SBbpoaQnFQn6gCuPhWn+Goik09AWcnkf9RtnvghkO1Gw9bA/6qHCj6Sk9pgKlrU3oGyO
-	AyX7KXtqAexyWxJF/LouAhMpLD6GueH/epl/P/wSuw6YCP3rj9n5YSSlH7UE6Ju1Vg+7
-	N7Pw==
-X-Received: by 10.140.139.71 with SMTP id 68mr15012974qhl.51.1450808794551;
-	Tue, 22 Dec 2015 10:26:34 -0800 (PST)
-Received: from roost.members.linode.com (chrispatterson.net. [66.175.209.160])
-	by smtp.gmail.com with ESMTPSA id
-	v138sm16651308qka.6.2015.12.22.10.26.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 22 Dec 2015 10:26:34 -0800 (PST)
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=SPL9NH/ClddomQyXQq6jzObe/SwxqS1v73YPGI4+Wig=;
+	b=u6uY/88nu52cv1hxz+NSl9ippH3nxOGYiujRURV5tQ3nUnZCSGsDRrmwAMZNHiI8+Z
+	wz4wGfaTzkp3Hgl57JAirqZ3FmCRXqZtHENFbFtFiyrlHjfWdWot26c71czmZO49N8b1
+	WAi7pEn5ma6pfgc+Z56yrNI2ZRMaOWlbhektxAFa2f1EPDZZygwqPQFXfj+n2TZCImLU
+	kiiskEFPg2ytJPfLu/K55QQ+Jc4kTklpTkmj9u5wxbhFqfgeVHnxcyjp7e0DuWVvdff5
+	7JaUopNnuTa9CWjt3bz/5ZEeNI1FCNHDQMu4JkcnRhhNK8xRXHGQWxryWGpCqQRPvf5X
+	mXzg==
+MIME-Version: 1.0
+X-Received: by 10.107.33.203 with SMTP id h194mr24681270ioh.108.1450808849335; 
+	Tue, 22 Dec 2015 10:27:29 -0800 (PST)
+Received: by 10.79.112.213 with HTTP; Tue, 22 Dec 2015 10:27:29 -0800 (PST)
+In-Reply-To: <56785CEF.4090702@cardoe.com>
+References: <1450285722-14530-1-git-send-email-mbgrego@tycho.nsa.gov>
+	<56785CEF.4090702@cardoe.com>
+Date: Tue, 22 Dec 2015 13:27:29 -0500
+Message-ID: <CABZSBQddaqj039MV4Ardkg9V6GEq9UTz7DwP=pnfvPLU1SCK+w@mail.gmail.com>
 From: Chris Patterson <cjp256@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Tue, 22 Dec 2015 13:26:28 -0500
-Message-Id: <1450808788-16555-1-git-send-email-cjp256@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH v2] xen.cfg: update for linux 4.1
+To: Doug Goldstein <cardoe@cardoe.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [V2 Patch 1/2] Disables OCaml tools.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,59 +63,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Dec 2015 18:26:39 -0000
+X-List-Received-Date: Tue, 22 Dec 2015 18:27:30 -0000
+Content-Type: text/plain; charset=UTF-8
 
-- Drop old kernel options and add some newly available ones.
++1, though I wonder if should be using PACKAGECONFIG?  Should
+packageconfig options be only for things that are known to work?
 
-Signed-off-by: Chris Patterson <cjp256@gmail.com>
----
- recipes-kernel/linux/linux-yocto/xen.cfg |   19 +++++++------------
- 1 file changed, 7 insertions(+), 12 deletions(-)
-
-diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg b/recipes-kernel/linux/linux-yocto/xen.cfg
-index 4e796b9..096bea0 100644
---- a/recipes-kernel/linux/linux-yocto/xen.cfg
-+++ b/recipes-kernel/linux/linux-yocto/xen.cfg
-@@ -1,27 +1,19 @@
--###
--# linux 3.4, 3.8
--CONFIG_PARAVIRT_GUEST=y
--###
--
--###
--# linux 3.10
--CONFIG_HYPERVISOR_GUEST=y
--###
--
- CONFIG_PARAVIRT=y
- CONFIG_XEN=y
- CONFIG_XEN_DOM0=y
--CONFIG_XEN_PRIVILEGED_GUEST=y
- CONFIG_XEN_PVHVM=y
- CONFIG_XEN_MAX_DOMAIN_MEMORY=500
- CONFIG_XEN_SAVE_RESTORE=y
--CONFIG_PARAVIRT_CLOCK=y
-+# CONFIG_XEN_DEBUG_FS is not set
-+CONFIG_XEN_PVH=y
-+CONFIG_MMU_NOTIFIER=y
- CONFIG_HIBERNATE_CALLBACKS=y
- CONFIG_PCI_XEN=y
- CONFIG_XEN_PCIDEV_FRONTEND=y
- CONFIG_SYS_HYPERVISOR=y
- CONFIG_XEN_BLKDEV_FRONTEND=y
- CONFIG_XEN_BLKDEV_BACKEND=m
-+CONFIG_XEN_SCSI_FRONTEND=m
- CONFIG_XEN_NETDEV_FRONTEND=y
- CONFIG_XEN_NETDEV_BACKEND=m
- CONFIG_INPUT_MISC=y
-@@ -52,3 +44,6 @@ CONFIG_XEN_PRIVCMD=y
- CONFIG_XEN_ACPI_PROCESSOR=m
- CONFIG_XEN_MCE_LOG=y
- CONFIG_XEN_HAVE_PVMMU=y
-+CONFIG_XEN_EFI=y
-+CONFIG_XEN_AUTO_XLATE=y
-+CONFIG_XEN_ACPI=y
--- 
-1.7.10.4
-
+On Mon, Dec 21, 2015 at 3:11 PM, Doug Goldstein <cardoe@cardoe.com> wrote:
+> On 12/16/15 11:08 AM, Machon Gregory wrote:
+>> There is currently no support for OCaml in OpenEmbedded.
+>>
+>> Signed-off-by: Machon Gregory <mbgrego@tycho.nsa.gov>
+>> ---
+>>  recipes-extended/xen/xen.inc | 1 +
+>>  1 file changed, 1 insertion(+)
+>>
+>> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+>> index 00f1823..9e35459 100644
+>> --- a/recipes-extended/xen/xen.inc
+>> +++ b/recipes-extended/xen/xen.inc
+>> @@ -712,6 +712,7 @@ EXTRA_OECONF += " \
+>>      --disable-pv-grub \
+>>      --disable-xenstore-stubdom \
+>>      --disable-rombios \
+>> +    --disable-ocamltools \
+>>      "
+>>
+>>  do_configure() {
+>>
+>
+> Reviewed-by: Doug Goldstein <cardoe@cardoe.com>
+>
+> --
+> Doug Goldstein
+>
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
 
