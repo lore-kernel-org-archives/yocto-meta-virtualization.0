@@ -1,6 +1,6 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 56F1FE00D0C; Mon,  4 Jan 2016 18:02:00 -0800 (PST)
+	id 5842EE00C1F; Mon,  4 Jan 2016 18:02:00 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,34 +10,34 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1EB4CE00C1F
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E6032E00C40
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  4 Jan 2016 18:01:57 -0800 (PST)
+	Mon,  4 Jan 2016 18:01:58 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="2212930"
+   d="scan'208";a="2212932"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 05 Jan 2016 10:01:45 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id D083841890E0
+	by cn.fujitsu.com (Postfix) with ESMTP id B1C3A41890F7
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Jan 2016 10:01:32 +0800 (CST)
+	Tue,  5 Jan 2016 10:01:34 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.98) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Tue, 5 Jan 2016 10:05:04 +0800
+	Server (TLS) id 14.3.181.6; Tue, 5 Jan 2016 10:05:06 +0800
 From: Li Xin <lixin.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 5 Jan 2016 05:01:01 +0300
-Message-ID: <1451959280-3349-3-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Tue, 5 Jan 2016 05:01:02 +0300
+Message-ID: <1451959280-3349-4-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1451959280-3349-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 References: <CAPuovEJA6me_M0qtm1EeN=WnzrcOZ-GwfNtHBsEym-gAKRkYng@mail.gmail.com>
 	<1451959280-3349-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.98]
-X-yoursite-MailScanner-ID: D083841890E0.AE718
+X-yoursite-MailScanner-ID: B1C3A41890F7.AE8DE
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-Subject: [m-c-s][PATCH 02/21] python-cliff: Error fix
+Subject: [m-c-s][PATCH 03/21] python-fixtures: Error fix
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,7 +53,7 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Tue, 05 Jan 2016 02:02:00 -0000
 Content-Type: text/plain
 
-python-cliff depends on python-pbr, and will download pbr modules
+python-fixtures depends on python-pbr, and will download pbr modules
 in the step of do_compile.
 If your network is not very well,errors will occur as following:
   Download error on https://pypi.python.org/simple/pbr/:
@@ -63,18 +63,17 @@ If your network is not very well,errors will occur as following:
 
 Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta-openstack/recipes-devtools/python/python-fixtures_1.3.1.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb b/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
-index 49d4186..5086ba4 100644
---- a/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-cliff_1.13.0.bb
-@@ -25,3 +25,10 @@ RDEPENDS_${PN} += "python-prettytable \
-             python-pyparsing"
- 
- CLEANBROKEN = "1"
-+
+diff --git a/meta-openstack/recipes-devtools/python/python-fixtures_1.3.1.bb b/meta-openstack/recipes-devtools/python/python-fixtures_1.3.1.bb
+index c2b79e4..1d3387a 100644
+--- a/meta-openstack/recipes-devtools/python/python-fixtures_1.3.1.bb
++++ b/meta-openstack/recipes-devtools/python/python-fixtures_1.3.1.bb
+@@ -28,3 +28,9 @@ DEPENDS += " \
+ RDEPENDS_${PN} += "python-testtools \
+ 	python-pbr \
+ 	"
 +do_compile_prepend() {
 +    install -d ${S}/.eggs
 +    if [ -f ${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}/pbr*.egg ]; then
