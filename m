@@ -1,6 +1,6 @@
 Return-Path: <lixin.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 595FEE00C33; Mon,  4 Jan 2016 18:02:00 -0800 (PST)
+	id 65E02E00C94; Mon,  4 Jan 2016 18:02:00 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,34 +10,34 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4887CE00C33
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 96061E00C96
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  4 Jan 2016 18:01:57 -0800 (PST)
+	Mon,  4 Jan 2016 18:01:59 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.20,346,1444665600"; 
-   d="scan'208";a="2212929"
+   d="scan'208";a="2212939"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Jan 2016 10:01:45 +0800
+	by heian.cn.fujitsu.com with ESMTP; 05 Jan 2016 10:01:53 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 321124189101
+	by cn.fujitsu.com (Postfix) with ESMTP id 99CDA41887FE
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Jan 2016 10:01:36 +0800 (CST)
+	Tue,  5 Jan 2016 10:01:40 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.98) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.181.6; Tue, 5 Jan 2016 10:05:08 +0800
+	Server (TLS) id 14.3.181.6; Tue, 5 Jan 2016 10:05:12 +0800
 From: Li Xin <lixin.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 5 Jan 2016 05:01:03 +0300
-Message-ID: <1451959280-3349-5-git-send-email-lixin.fnst@cn.fujitsu.com>
+Date: Tue, 5 Jan 2016 05:01:05 +0300
+Message-ID: <1451959280-3349-7-git-send-email-lixin.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.7.9.5
 In-Reply-To: <1451959280-3349-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 References: <CAPuovEJA6me_M0qtm1EeN=WnzrcOZ-GwfNtHBsEym-gAKRkYng@mail.gmail.com>
 	<1451959280-3349-1-git-send-email-lixin.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.98]
-X-yoursite-MailScanner-ID: 321124189101.AADB1
+X-yoursite-MailScanner-ID: 99CDA41887FE.A19FD
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: lixin.fnst@cn.fujitsu.com
-Subject: [m-c-s][PATCH 04/21] python-glanceclient: Error fix
+Subject: [m-c-s][PATCH 06/21] python-heatclient: Error fix
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,7 +53,7 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Tue, 05 Jan 2016 02:02:00 -0000
 Content-Type: text/plain
 
-python-glanceclient depends on python-pbr, and will download pbr modules
+python-heatclient depends on python-pbr, and will download pbr modules
 in the step of do_compile.
 If your network is not very well,errors will occur as following:
   Download error on https://pypi.python.org/simple/pbr/:
@@ -63,16 +63,16 @@ If your network is not very well,errors will occur as following:
 
 Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-glanceclient_git.bb | 7 +++++++
+ meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 7 +++++++
  1 file changed, 7 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-index ab32be8..bb712b2 100644
---- a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-@@ -23,6 +23,13 @@ S = "${WORKDIR}/git"
- 
- inherit setuptools monitor rmargparse
+diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+index 10428c2..94911cd 100644
+--- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+@@ -33,6 +33,13 @@ inherit setuptools
+ PACKAGECONFIG ?= "bash-completion"
+ PACKAGECONFIG[bash-completion] = ",,bash-completion,bash-completion ${BPN}-bash-completion"
  
 +do_compile_prepend() {
 +    install -d ${S}/.eggs
@@ -81,9 +81,9 @@ index ab32be8..bb712b2 100644
 +    fi
 +}
 +
- FILES_${PN} += "${datadir}/${SRCNAME}"
- 
- RDEPENDS_${PN} = "gmp \
+ do_install_append() {
+ 	install -d ${D}/${sysconfdir}/bash_completion.d
+ 	install -m 664 ${S}/tools/heat.bash_completion ${D}/${sysconfdir}/bash_completion.d
 -- 
 1.8.4.2
 
