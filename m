@@ -1,56 +1,37 @@
-Return-Path: <cjp256@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 27B50E00CA1; Tue,  5 Jan 2016 09:09:13 -0800 (PST)
+	id C50C5E00AB5; Sat,  9 Jan 2016 11:04:19 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (cjp256[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.223.174 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-io0-f174.google.com (mail-io0-f174.google.com
-	[209.85.223.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D5F61E0033E
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7C996E00AA8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Jan 2016 09:09:09 -0800 (PST)
-Received: by mail-io0-f174.google.com with SMTP id 1so146148412ion.1
+	Sat,  9 Jan 2016 11:04:16 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u09J4GQw014462
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 05 Jan 2016 09:09:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc:content-type;
-	bh=nf3o1D2GeUObM5m8K9kCDoc99qNEq73y9RoLIfUMxnk=;
-	b=kth+g05sY0p8KGxhTxEnauiA46mSXBDFI8g/WF3Cxfljt4wlPj1Uj8+FZAxMdf6J1k
-	vrXYc0nFCS91F8Tlf9U/ihz5hBxjZsU+LKZ4sU/C71e/W8EgC9Fs3szSn/A4NZt2CLzU
-	m44wWdrUbBv1LZyg6tlntLG77UUZeGz7qncFmtRF5O/QFsMRaTz93Mf6EuFr66+6M8GS
-	LHw/Hi6LwFwCKnGTrMn8pB4InPuZ9EAg1Py1+JtG0cyk13VHdEL65adF1ChEX98mBJFO
-	CA9gjUh5oCcFqdkzKXIm61Tj2ixdKTNywcSU4rr5AMSyUdPQJoLOgVHpZdzeDQUpA6Fz
-	05Iw==
+	Sat, 9 Jan 2016 11:04:16 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Sat, 9 Jan 2016 11:04:15 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Sat, 9 Jan 2016 14:04:14 -0500
+Message-ID: <1452366255-8937-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.1.4
 MIME-Version: 1.0
-X-Received: by 10.107.33.12 with SMTP id h12mr30960443ioh.108.1452013748864;
-	Tue, 05 Jan 2016 09:09:08 -0800 (PST)
-Received: by 10.79.112.213 with HTTP; Tue, 5 Jan 2016 09:09:08 -0800 (PST)
-In-Reply-To: <CADkTA4P6UAoigNf9qdYVkCt7GarmzAJPYaz-tuhy3FqOV0cgfA@mail.gmail.com>
-References: <1451663640-25038-1-git-send-email-cjp256@gmail.com>
-	<CADkTA4P6UAoigNf9qdYVkCt7GarmzAJPYaz-tuhy3FqOV0cgfA@mail.gmail.com>
-Date: Tue, 5 Jan 2016 12:09:08 -0500
-Message-ID: <CABZSBQcqr+Fx2KfJShM-AQRb1CbFnEZ0DO33pniWr4VVYhNqHQ@mail.gmail.com>
-From: Chris Patterson <cjp256@gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] seabios: drop shipped defconfig and use defaults
+Cc: meta-virtualization@yoctoproject.org
+Subject: [m-c-s][PATCH 1/2] puppet: add puppetlabs stdlib module
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,176 +44,98 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jan 2016 17:09:13 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Sat, 09 Jan 2016 19:04:19 -0000
+Content-Type: text/plain
 
-Thanks Bruce! :)
+This module is used by many puppet modules so will be useful to have
+to extend our puppet capabilities. Additionally it offers some useful
+functionality such as the ability to append to a file.
 
-On Tue, Jan 5, 2016 at 11:48 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> merged.
->
-> Bruce
->
-> On Fri, Jan 1, 2016 at 10:54 AM, Chris Patterson <cjp256@gmail.com> wrote:
->>
->> Upstream Xen opted to simply use 'make defconfig' to get a
->> generic seabios config.  Follow suit and remove old config.
->>
->> Signed-off-by: Chris Patterson <cjp256@gmail.com>
->> ---
->>  recipes-extended/seabios/seabios/defconfig |  102
->> ----------------------------
->>  recipes-extended/seabios/seabios_1.9.0.bb  |    4 +-
->>  2 files changed, 1 insertion(+), 105 deletions(-)
->>  delete mode 100644 recipes-extended/seabios/seabios/defconfig
->>
->> diff --git a/recipes-extended/seabios/seabios/defconfig
->> b/recipes-extended/seabios/seabios/defconfig
->> deleted file mode 100644
->> index d4474ba..0000000
->> --- a/recipes-extended/seabios/seabios/defconfig
->> +++ /dev/null
->> @@ -1,102 +0,0 @@
->> -#
->> -# Automatically generated make config: don't edit
->> -# SeaBIOS Configuration
->> -# Wed Sep 18 14:08:45 2013
->> -#
->> -
->> -#
->> -# General Features
->> -#
->> -# CONFIG_COREBOOT is not set
->> -CONFIG_QEMU=y
->> -# CONFIG_CSM is not set
->> -CONFIG_QEMU_HARDWARE=y
->> -CONFIG_XEN=y
->> -CONFIG_THREADS=y
->> -# CONFIG_THREAD_OPTIONROMS is not set
->> -CONFIG_RELOCATE_INIT=y
->> -CONFIG_BOOTMENU=y
->> -# CONFIG_BOOTSPLASH is not set
->> -CONFIG_BOOTORDER=y
->> -# CONFIG_ENTRY_EXTRASTACK is not set
->> -
->> -#
->> -# Hardware support
->> -#
->> -CONFIG_ATA=y
->> -# CONFIG_ATA_DMA is not set
->> -# CONFIG_ATA_PIO32 is not set
->> -CONFIG_AHCI=y
->> -CONFIG_VIRTIO_BLK=y
->> -CONFIG_VIRTIO_SCSI=y
->> -CONFIG_ESP_SCSI=y
->> -CONFIG_LSI_SCSI=y
->> -CONFIG_MEGASAS=y
->> -CONFIG_FLOPPY=y
->> -CONFIG_PS2PORT=y
->> -CONFIG_USB=y
->> -CONFIG_USB_UHCI=y
->> -CONFIG_USB_OHCI=y
->> -CONFIG_USB_EHCI=y
->> -CONFIG_USB_MSC=y
->> -CONFIG_USB_UAS=y
->> -CONFIG_USB_HUB=y
->> -CONFIG_USB_KEYBOARD=y
->> -CONFIG_USB_MOUSE=y
->> -CONFIG_SERIAL=y
->> -CONFIG_LPT=y
->> -# CONFIG_USE_SMM is not set
->> -CONFIG_MTRR_INIT=y
->> -CONFIG_PMTIMER=y
->> -
->> -#
->> -# BIOS interfaces
->> -#
->> -CONFIG_DRIVES=y
->> -CONFIG_CDROM_BOOT=y
->> -CONFIG_CDROM_EMU=y
->> -CONFIG_PCIBIOS=y
->> -CONFIG_APMBIOS=y
->> -CONFIG_PNPBIOS=y
->> -CONFIG_OPTIONROMS=y
->> -CONFIG_OPTIONROMS_DEPLOYED=y
->> -CONFIG_PMM=y
->> -CONFIG_BOOT=y
->> -CONFIG_KEYBOARD=y
->> -CONFIG_KBD_CALL_INT15_4F=y
->> -CONFIG_MOUSE=y
->> -CONFIG_S3_RESUME=y
->> -CONFIG_VGAHOOKS=y
->> -# CONFIG_DISABLE_A20 is not set
->> -
->> -#
->> -# BIOS Tables
->> -#
->> -# CONFIG_PIRTABLE is not set
->> -# CONFIG_MPTABLE is not set
->> -# CONFIG_SMBIOS is not set
->> -# CONFIG_ACPI is not set
->> -
->> -#
->> -# VGA ROM
->> -#
->> -# CONFIG_NO_VGABIOS is not set
->> -# CONFIG_VGA_STANDARD_VGA is not set
->> -# CONFIG_VGA_CIRRUS is not set
->> -# CONFIG_VGA_BOCHS is not set
->> -# CONFIG_VGA_GEODEGX2 is not set
->> -# CONFIG_VGA_GEODELX is not set
->> -# CONFIG_VGA_XENGFX is not set
->> -# CONFIG_BUILD_VGABIOS is not set
->> -# CONFIG_VGA_VBE is not set
->> -# CONFIG_VGA_PCI is not set
->> -# CONFIG_OVERRIDE_PCI_ID is not set
->> -# CONFIG_VGA_VID=0x5853
->> -# CONFIG_VGA_DID=0xC147
->> -
->> -#
->> -# Debugging
->> -#
->> -CONFIG_DEBUG_LEVEL=2
->> -# CONFIG_DEBUG_SERIAL is not set
->> -CONFIG_DEBUG_IO=y
->> diff --git a/recipes-extended/seabios/seabios_1.9.0.bb
->> b/recipes-extended/seabios/seabios_1.9.0.bb
->> index fcdc0c5..4808a18 100644
->> --- a/recipes-extended/seabios/seabios_1.9.0.bb
->> +++ b/recipes-extended/seabios/seabios_1.9.0.bb
->> @@ -6,7 +6,6 @@ SECTION = "firmware"
->>  SRC_URI = " \
->>      http://code.coreboot.org/p/seabios/downloads/get/${PN}-${PV}.tar.gz \
->>      file://hostcc.patch \
->> -    file://defconfig \
->>      "
->>
->>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504
->> \
->> @@ -25,8 +24,7 @@ EXTRA_OEMAKE += "HOSTCC='${BUILD_CC}'"
->>  EXTRA_OEMAKE += "CROSS_PREFIX=${TARGET_PREFIX}"
->>
->>  do_configure() {
->> -    install -m 0644 "${WORKDIR}/defconfig" .config
->> -    oe_runmake oldconfig
->> +    oe_runmake defconfig
->>  }
->>
->>  do_compile() {
->> --
->> 1.7.10.4
->>
->> --
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at
-> its end"
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ .../puppetlabs-stdlib/files/Add-gemspec.patch      | 35 ++++++++++++++++++++++
+ .../puppetlabs-stdlib/puppetlabs-stdlib_git.bb     | 29 ++++++++++++++++++
+ 2 files changed, 64 insertions(+)
+ create mode 100644 recipes-support/puppetlabs-stdlib/files/Add-gemspec.patch
+ create mode 100644 recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
+
+diff --git a/recipes-support/puppetlabs-stdlib/files/Add-gemspec.patch b/recipes-support/puppetlabs-stdlib/files/Add-gemspec.patch
+new file mode 100644
+index 0000000..d959aeb
+--- /dev/null
++++ b/recipes-support/puppetlabs-stdlib/files/Add-gemspec.patch
+@@ -0,0 +1,35 @@
++From e23971fcc1425e06a11484e552fbc631c43f44d4 Mon Sep 17 00:00:00 2001
++From: Mark Asselstine <mark.asselstine@windriver.com>
++Date: Tue, 22 Dec 2015 11:05:22 -0500
++Subject: [PATCH] Add gemspec
++
++Started with an example from here
++http://guides.rubygems.org/make-your-own-gem/
++
++Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++---
++ puppetlabs-stdlib.gemspec | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
++ create mode 100644 puppetlabs-stdlib.gemspec
++
++diff --git a/puppetlabs-stdlib.gemspec b/puppetlabs-stdlib.gemspec
++new file mode 100644
++index 0000000..6b7eee3
++--- /dev/null
+++++ b/puppetlabs-stdlib.gemspec
++@@ -0,0 +1,12 @@
+++Gem::Specification.new do |s|
+++  s.name        = 'puppetlabs-stdlib'
+++  s.version     = '4.10.0'
+++  s.date        = '2015-12-15'
+++  s.summary     = "Puppet Labs Standard Library module"
+++  s.description = s.summary
+++  s.authors     = ["Puppet Labs"]
+++  s.email       = ''
+++  s.files       = %w(LICENSE README.markdown Rakefile) + Dir.glob('{lib,spec}/**/*')
+++  s.homepage    = 'https://github.com/puppetlabs/puppetlabs-stdlib'
+++  s.license     = 'Apache 2.0'
+++end
++-- 
++2.1.4
++
+diff --git a/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb b/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
+new file mode 100644
+index 0000000..2d3d9c2
+--- /dev/null
++++ b/recipes-support/puppetlabs-stdlib/puppetlabs-stdlib_git.bb
+@@ -0,0 +1,29 @@
++SUMMARY = "Puppet Labs Standard Library module"
++HOMEPAGE = "https://github.com/puppetlabs/puppetlabs-stdlib"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=38a048b9d82e713d4e1b2573e370a756"
++
++PV = "4.10.0"
++SRCREV = "0b4822be3d2242e83c28ab7fed6c5817adc322d5"
++
++SRC_URI = " \
++    git://github.com/puppetlabs/puppetlabs-stdlib.git;branch=master \
++    file://Add-gemspec.patch \
++"
++
++inherit ruby
++
++S="${WORKDIR}/git"
++
++DEPENDS += " \
++        ruby \
++        facter \
++"
++
++RDEPENDS_${PN} += " \
++        ruby \
++        facter \
++        puppet \
++"
++
++RUBY_INSTALL_GEMS = "puppetlabs-stdlib-${PV}.gem"
+-- 
+2.1.4
+
 
