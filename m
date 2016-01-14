@@ -1,54 +1,68 @@
-Return-Path: <cjp256@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4E2C7E007EA; Mon, 11 Jan 2016 11:37:51 -0800 (PST)
+	id D3A25E0073D; Thu, 14 Jan 2016 12:38:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (cjp256[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.220.178 listed in list.dnswl.org]
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f178.google.com (mail-qk0-f178.google.com
-	[209.85.220.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 090A3E0070F
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.213.45 listed in list.dnswl.org]
+Received: from mail-vk0-f45.google.com (mail-vk0-f45.google.com
+	[209.85.213.45])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A0FD2E00444
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 11 Jan 2016 11:37:47 -0800 (PST)
-Received: by mail-qk0-f178.google.com with SMTP id r67so32914752qke.1
+	Thu, 14 Jan 2016 12:38:10 -0800 (PST)
+Received: by mail-vk0-f45.google.com with SMTP id n1so133028028vkb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 11 Jan 2016 11:37:47 -0800 (PST)
+	Thu, 14 Jan 2016 12:38:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=from:to:cc:subject:date:message-id;
-	bh=aNT/DRmAZVrQdm+uQ6+ANtE0tbduvPVX/4tcevQGMmU=;
-	b=sb37tdokexO37+13VTrhjc4uWYvSvO0E/tQqQF5TJa1wG6kP8XwG5qE8L87HXW4ssz
-	EbiGBzOifE0lmWwAsqu3AQob+hMdw0B2+IuA3vppVD9huelPbzL1CSn7wuBR9duZNAu2
-	x3ofJwokqJh0Qqf6jVNB7YIN3xhW7/yPVNnl7a3xbfjoZmnQiyGYdRc8vwbWTjtEH0FF
-	zntKP86CqHroEh1rAx1f1aATmx6l/Q/3poqkVYgNPSIcXbqjRMGHKSQheDPEHmuL/+HK
-	7ebACXj2VEKHwHsl980bjIpHWugtrvR+lCYsAUNJsbfEbLdwfudaCCVu9sIT0TV/9jBn
-	/TYw==
-X-Received: by 10.55.15.139 with SMTP id 11mr19265890qkp.50.1452541066387;
-	Mon, 11 Jan 2016 11:37:46 -0800 (PST)
-Received: from roost.members.linode.com (chrispatterson.net. [66.175.209.160])
-	by smtp.gmail.com with ESMTPSA id
-	a69sm31462201qgf.21.2016.01.11.11.37.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Jan 2016 11:37:45 -0800 (PST)
-From: Chris Patterson <cjp256@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Mon, 11 Jan 2016 14:37:41 -0500
-Message-Id: <1452541061-26516-1-git-send-email-cjp256@gmail.com>
-X-Mailer: git-send-email 1.7.10.4
-Subject: [PATCH] xen.cfg: enable CONFIG_HYPERVISOR_GUEST by default
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc:content-type;
+	bh=cA+Cs4WJc+OlPSePr9/igVzzvWNRZHsHfiHZNeezG0k=;
+	b=tuRaj0hun6x56wObt1Q4/JQpJv52e0gr6Mr7ch/iGXTG3hP0JGeuAW0zNeVjbZDjxg
+	9tHgcEJbGYglexmkoQXcl6PhdWzt8yRN2oA75x9kWoutg27NaiJ1YZUOgXb1iXhoSHgc
+	A2NQ65ecHd/3Bw0/3Hte/O+B+6vU5RmN7jrvlnEnXuXea2c0rEcwhBN3/J/e9dMHOnWd
+	kV8o3laHkJBC5PSvPc58jjgJqp3sBACtZ7owoBJJWq0A5XwAyGTQmDzrVi+xWq2pL9J4
+	3rN6YRunmGZgoi/S1tsxobSOoPmpomX2m9QEX/S1j9IOAOnyzh4rxkAvaJv2P6UNti8O
+	selg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc:content-type;
+	bh=cA+Cs4WJc+OlPSePr9/igVzzvWNRZHsHfiHZNeezG0k=;
+	b=RL5vkXGpSbhhVD3lbWwKbKw8uVkdymksXNEcGPMbsmsaQXMXiFdOhaG6KIr3BEuiqq
+	CB18uYEkDIqKKfURyXgbZlbQYxkuga/Ou+Y4bP5VJwN1AYbdcB7lGAmFF56d5R72Y2UJ
+	zXhTCY0FWng4zjN6j7r9bBHqBvFpRMiXLLMNpEYz2lZ1/Y0Pt00Xec5Lxvmn/q9sYf1Y
+	1vFU96sYLkcTsictEphY4S6wQdcKmkYVcKmVV8+M3NmAHItyGIhF1wu3KCiKmViq6o3y
+	GkeISM/TKrWb0ct1K1MPS8laiVhSYFD+83je1PWvWWwhP8Pp987BoU5MVivR/qlUsoGZ
+	jclA==
+X-Gm-Message-State: ALoCoQniF02/e/KLae8GWIWpRYjqf/LyY1EAu8oDP4RqUCT3SIvUk3YTAbizLNbZky4i8W49EcQjNMl0Bju5v3SBg6zJIb8QSQ==
+MIME-Version: 1.0
+X-Received: by 10.31.3.169 with SMTP id f41mr4371810vki.114.1452803890093;
+	Thu, 14 Jan 2016 12:38:10 -0800 (PST)
+Received: by 10.31.202.196 with HTTP; Thu, 14 Jan 2016 12:38:10 -0800 (PST)
+In-Reply-To: <1452541061-26516-1-git-send-email-cjp256@gmail.com>
+References: <1452541061-26516-1-git-send-email-cjp256@gmail.com>
+Date: Thu, 14 Jan 2016 15:38:10 -0500
+Message-ID: <CADkTA4N0krq=GS90Lo94uF4u9c-7JH=vxERnNYEaMXNz15fWnA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Chris Patterson <cjp256@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] xen.cfg: enable CONFIG_HYPERVISOR_GUEST by default
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -61,25 +75,92 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Jan 2016 19:37:51 -0000
+X-List-Received-Date: Thu, 14 Jan 2016 20:38:16 -0000
+Content-Type: multipart/alternative; boundary=001a1142894acc22640529514368
 
-Required dependency for CONFIG_XEN.
+--001a1142894acc22640529514368
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Chris Patterson <cjp256@gmail.com>
----
- recipes-kernel/linux/linux-yocto/xen.cfg |    1 +
- 1 file changed, 1 insertion(+)
+merged.
 
-diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg b/recipes-kernel/linux/linux-yocto/xen.cfg
-index 096bea0..4780311 100644
---- a/recipes-kernel/linux/linux-yocto/xen.cfg
-+++ b/recipes-kernel/linux/linux-yocto/xen.cfg
-@@ -1,3 +1,4 @@
-+CONFIG_HYPERVISOR_GUEST=y
- CONFIG_PARAVIRT=y
- CONFIG_XEN=y
- CONFIG_XEN_DOM0=y
+Bruce
+
+On Mon, Jan 11, 2016 at 2:37 PM, Chris Patterson <cjp256@gmail.com> wrote:
+
+> Required dependency for CONFIG_XEN.
+>
+> Signed-off-by: Chris Patterson <cjp256@gmail.com>
+> ---
+>  recipes-kernel/linux/linux-yocto/xen.cfg |    1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg
+> b/recipes-kernel/linux/linux-yocto/xen.cfg
+> index 096bea0..4780311 100644
+> --- a/recipes-kernel/linux/linux-yocto/xen.cfg
+> +++ b/recipes-kernel/linux/linux-yocto/xen.cfg
+> @@ -1,3 +1,4 @@
+> +CONFIG_HYPERVISOR_GUEST=y
+>  CONFIG_PARAVIRT=y
+>  CONFIG_XEN=y
+>  CONFIG_XEN_DOM0=y
+> --
+> 1.7.10.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+
+
 -- 
-1.7.10.4
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a1142894acc22640529514368
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>merged.<br><br></div>Bruce<br></div><div class=3D"gma=
+il_extra"><br><div class=3D"gmail_quote">On Mon, Jan 11, 2016 at 2:37 PM, C=
+hris Patterson <span dir=3D"ltr">&lt;<a href=3D"mailto:cjp256@gmail.com" ta=
+rget=3D"_blank">cjp256@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex">Required dependency for CONFIG_XEN.<br>
+<br>
+Signed-off-by: Chris Patterson &lt;<a href=3D"mailto:cjp256@gmail.com">cjp2=
+56@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0recipes-kernel/linux/linux-yocto/xen.cfg |=C2=A0 =C2=A0 1 +<br>
+=C2=A01 file changed, 1 insertion(+)<br>
+<br>
+diff --git a/recipes-kernel/linux/linux-yocto/xen.cfg b/recipes-kernel/linu=
+x/linux-yocto/xen.cfg<br>
+index 096bea0..4780311 100644<br>
+--- a/recipes-kernel/linux/linux-yocto/xen.cfg<br>
++++ b/recipes-kernel/linux/linux-yocto/xen.cfg<br>
+@@ -1,3 +1,4 @@<br>
++CONFIG_HYPERVISOR_GUEST=3Dy<br>
+=C2=A0CONFIG_PARAVIRT=3Dy<br>
+=C2=A0CONFIG_XEN=3Dy<br>
+=C2=A0CONFIG_XEN_DOM0=3Dy<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+1.7.10.4<br>
+<br>
+--<br>
+_______________________________________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/listinfo/m=
+eta-virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for cha=
+os and madness await thee at its end&quot;</div>
+</div>
+
+--001a1142894acc22640529514368--
