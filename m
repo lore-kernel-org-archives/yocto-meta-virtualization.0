@@ -1,33 +1,34 @@
 Return-Path: <jason.wessel@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C8393E00AB7; Fri, 15 Jan 2016 13:36:16 -0800 (PST)
+	id E1EDDE00978; Fri, 15 Jan 2016 13:36:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6D7EDE0096C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EFF8BE00928
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 15 Jan 2016 13:36:13 -0800 (PST)
+	Fri, 15 Jan 2016 13:36:12 -0800 (PST)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0FLaD6R024652
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u0FLaBOZ000066
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 15 Jan 2016 13:36:13 -0800
+	Fri, 15 Jan 2016 13:36:12 -0800 (PST)
 Received: from ord-lpggp3.wrs.com (128.224.149.46) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Fri, 15 Jan 2016 13:36:12 -0800
+	Fri, 15 Jan 2016 13:36:11 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 15 Jan 2016 15:31:12 -0600
-Message-ID: <1452893472-14242-2-git-send-email-jason.wessel@windriver.com>
+Date: Fri, 15 Jan 2016 15:31:11 -0600
+Message-ID: <1452893472-14242-1-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
-In-Reply-To: <1452893472-14242-1-git-send-email-jason.wessel@windriver.com>
-References: <1452893472-14242-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Subject: [PATCH] ruby-shadow: Work around cross compile gem problem
 X-BeenThere: meta-virtualization@yoctoproject.org
@@ -42,7 +43,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Jan 2016 21:36:16 -0000
+X-List-Received-Date: Fri, 15 Jan 2016 21:36:17 -0000
 Content-Type: text/plain
 
 Prior to this commit it is not possible to cross build a ruby gem.  In
