@@ -1,31 +1,36 @@
 Return-Path: <jason.wessel@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 54DD1E00AAF; Tue, 19 Jan 2016 14:17:05 -0800 (PST)
+	id 54346E00B88; Tue, 19 Jan 2016 14:17:05 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 12036E00AAF
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2AF5EE00B36
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 19 Jan 2016 14:16:57 -0800 (PST)
+	Tue, 19 Jan 2016 14:16:58 -0800 (PST)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u0JMGuFY000304
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u0JMGveL007967
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 19 Jan 2016 14:16:56 -0800
+	Tue, 19 Jan 2016 14:16:57 -0800 (PST)
 Received: from ord-lpggp3.wrs.com (128.224.149.46) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 19 Jan 2016 14:16:55 -0800
+	Tue, 19 Jan 2016 14:16:56 -0800
 From: Jason Wessel <jason.wessel@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 19 Jan 2016 16:11:48 -0600
-Message-ID: <1453241509-9198-1-git-send-email-jason.wessel@windriver.com>
+Date: Tue, 19 Jan 2016 16:11:49 -0600
+Message-ID: <1453241509-9198-2-git-send-email-jason.wessel@windriver.com>
 X-Mailer: git-send-email 1.7.9.5
+In-Reply-To: <1453241509-9198-1-git-send-email-jason.wessel@windriver.com>
+References: <1453241509-9198-1-git-send-email-jason.wessel@windriver.com>
 MIME-Version: 1.0
 Subject: [PATCH] go-cross-1.3: Fix missing dependency for cross compile
 X-BeenThere: meta-virtualization@yoctoproject.org
