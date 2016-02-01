@@ -1,73 +1,37 @@
-Return-Path: <cardoe@cardoe.com>
+Return-Path: <mbgrego@tycho.nsa.gov>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 812C0E00929; Mon,  1 Feb 2016 08:00:37 -0800 (PST)
+	id 322C8E0079A; Mon,  1 Feb 2016 08:43:59 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [63.239.67.10 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.160.171 listed in list.dnswl.org]
-Received: from mail-yk0-f171.google.com (mail-yk0-f171.google.com
-	[209.85.160.171])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 02CAAE00911
+Received: from emvm-gh1-uea09.nsa.gov (emvm-gh1-uea09.nsa.gov [63.239.67.10])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C1CB0E00444
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  1 Feb 2016 08:00:34 -0800 (PST)
-Received: by mail-yk0-f171.google.com with SMTP id r207so108329517ykd.2
+	Mon,  1 Feb 2016 08:43:57 -0800 (PST)
+X-TM-IMSS-Message-ID: <e144e7de00000d08@nsa.gov>
+Received: from tarius.tycho.ncsc.mil ([144.51.242.1]) by nsa.gov
+	([10.208.42.194]) with ESMTP (TREND IMSS SMTP Service 7.1) id
+	e144e7de00000d08 ; Mon, 1 Feb 2016 11:46:20 -0500
+Received: from moss-terrapin.infosec.tycho.ncsc.mil (moss-terrapin
+	[192.168.25.69])
+	by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id u11Ghte0023158
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 01 Feb 2016 08:00:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cardoe-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type;
-	bh=OyB8oxZVBWsVfuN49pTLWP5TleTD0X9igiE4TVKKHuI=;
-	b=liUhlalFQ+VGvxvyWHSueGVShZT3fUtrgbpSRlmTxizXSRjOw1USc4okpFYL3xRhvb
-	WuTUr0z8Wn83StNTRJXUDevLYarit975zond7LDYLBqlr1Ibp84l+9Ql/6svkYgx7NKG
-	BWLSBG4h/o2zSoMrVDYteyjXnyPQnvGjD4oyP19MO2UCwi43cbHakg5U1foYhnrM3mYd
-	Y+f4ZsclgwMBz87HiBh3rg9UIb5CMq2Htow78hAR1u83RBQY6GT7Vra5TlMRPdekrE7z
-	LqAwLsUiZ7xOZS9nyCuV6aZGudXPTBrb/nw455hXYlkgWuakE1w6oLdm3fNuuzKE8OCR
-	wg3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type;
-	bh=OyB8oxZVBWsVfuN49pTLWP5TleTD0X9igiE4TVKKHuI=;
-	b=csgR+PKIsBHx2MoPwGW0K6l22YMc/Dc3osX74NEPLbKyDVnSCCnJGdKe6MfkeAy3MC
-	U7DP7pKcBWFx0dytrXiOtHq7eVH68u8boxPMl7PUkfhdgEHgwJE2Yl6iJbpKAlxN9Tdg
-	Y8J//GCxS0nRNGh3v8hF0oXXbQ+9NRaUPIJlgSVvELTqQA+scTxdksbFW9FVuQVNnGKT
-	7DkT0qMLD3a2uvPbyTwut3mxj9qSDgR0dNG/U+Gv+RMfRmsL+Aw/zvjBWADLVHuq5KzW
-	r1fPHfyq5q6Zg06tMaXcqUgG8w/X3p0euxNFusaIEaMgvxw/3pAUbPtulxneuYrx3H4p
-	gCAQ==
-X-Gm-Message-State: AG10YORzAQrET0F+bSc9q1WmWrkh7CFTD8l/6uWP2NbjVaB/SbgTFk7H63+GIMa8aNykPA==
-X-Received: by 10.37.8.5 with SMTP id 5mr12670823ybi.179.1454342434108;
-	Mon, 01 Feb 2016 08:00:34 -0800 (PST)
-Received: from doug-macbook.lan (c-68-34-224-206.hsd1.al.comcast.net.
-	[68.34.224.206]) by smtp.googlemail.com with ESMTPSA id
-	e6sm23112720ywd.23.2016.02.01.08.00.32
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Mon, 01 Feb 2016 08:00:32 -0800 (PST)
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <56AA7638.2070204@cardoe.com>
-	<CADkTA4N-7sJos=VrMmXP_qKAtvUDXA6fbvhq7_YyrX_c=fXQgw@mail.gmail.com>
-	<56AAD00D.2010708@cardoe.com>
-	<CADkTA4OXKN7hsWxRVHVDWvtxiFDC5vrcksHRJqi7c1y=psw90A@mail.gmail.com>
-From: Doug Goldstein <cardoe@cardoe.com>
-X-Enigmail-Draft-Status: N1110
-Message-ID: <56AF811C.6090001@cardoe.com>
-Date: Mon, 1 Feb 2016 10:00:28 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.5.1
+	Mon, 1 Feb 2016 11:43:56 -0500
+From: Machon Gregory <mbgrego@tycho.nsa.gov>
+To: meta-virtualization@yoctoproject.org
+Date: Mon,  1 Feb 2016 11:54:23 -0500
+Message-Id: <1454345663-31312-1-git-send-email-mbgrego@tycho.nsa.gov>
+X-Mailer: git-send-email 2.1.0
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4OXKN7hsWxRVHVDWvtxiFDC5vrcksHRJqi7c1y=psw90A@mail.gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: jethro branch?
+X-TM-AS-MML: disable
+Subject: [PATCH v2] Allow xsm to be built with GCC 5.1.1 and greater
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -80,114 +44,160 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Feb 2016 16:00:37 -0000
-X-Groupsio-MsgNum: 1734
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="wQWj1FxgMAEIsN8aLLiVhNE0sqAIc4xbV"
+X-List-Received-Date: Mon, 01 Feb 2016 16:43:59 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---wQWj1FxgMAEIsN8aLLiVhNE0sqAIc4xbV
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The patch was cherrypicked from upstream Xen. See patch header for more information.
 
-On 1/31/16 11:28 PM, Bruce Ashfield wrote:
->=20
->=20
-> On Thu, Jan 28, 2016 at 9:35 PM, Doug Goldstein <cardoe@cardoe.com
-> <mailto:cardoe@cardoe.com>> wrote:
->=20
->     On 1/28/16 6:25 PM, Bruce Ashfield wrote:
->     >
->     >
->     > On Thu, Jan 28, 2016 at 3:12 PM, Doug Goldstein <cardoe@cardoe.co=
-m <mailto:cardoe@cardoe.com>
->     > <mailto:cardoe@cardoe.com <mailto:cardoe@cardoe.com>>> wrote:
->     >
->     >     Hi all,
->     >
->     >     With the addition of the linux-yocto_4.4.bbappend, master no =
-longer
->     >     works with jethro. Could we land the Xen patches I proposed a=
-nd then
->     >     create a jethro branch and drop linux-yocto_4.4.bbappend from=
- that
->     >     branch?
->     >
->     >
->     > I actually have a jethro branch prep'd already. Once I've merged =
-the pending
->     > changes to master, I'll cherry pick them to the jethro and push b=
-oth
->     > branches.
->     >
->     > Bruce
->=20
->     Thanks Bruce.
->=20
->=20
-> I just pushed a preliminary jethro branch.=20
->=20
-> oe-core/yocto branched jethro Nov 3rd 2015, and I did the same at the
-> time. Looking
-> at the newer changes in meta-virt, I updated my jethro branch up to the=
+Signed-off-by: Machon Gregory <mbgrego@tycho.nsa.gov>
+---
+ ...e-p-policyvers-be-a-local-variable-ver-to.patch | 122 +++++++++++++++++++++
+ recipes-extended/xen/xen_4.6.0.bb                  |   1 +
+ 2 files changed, 123 insertions(+)
+ create mode 100644 recipes-extended/xen/files/xen-xsm-Make-p-policyvers-be-a-local-variable-ver-to.patch
 
-> point where
-> I cloned the 4.1 xen config to 4.4 .. since that creates a dangling
-> bbappend in the
-> context of jethro.
->=20
-> At this point, I'd like enlist the help of those that are building xen
-> regularly, to=20
-> point out the additional commits that should be merged.
->=20
-> Either a branch for a pull request, or just a list of hashes in master
-> will work.
->=20
-> Bruce
+diff --git a/recipes-extended/xen/files/xen-xsm-Make-p-policyvers-be-a-local-variable-ver-to.patch b/recipes-extended/xen/files/xen-xsm-Make-p-policyvers-be-a-local-variable-ver-to.patch
+new file mode 100644
+index 0000000..efe6e74
+--- /dev/null
++++ b/recipes-extended/xen/files/xen-xsm-Make-p-policyvers-be-a-local-variable-ver-to.patch
+@@ -0,0 +1,122 @@
++From 6a2f81459e1455d65a9a6f78dd2a0d0278619680 Mon Sep 17 00:00:00 2001
++From: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
++Date: Wed, 16 Sep 2015 15:57:27 -0400
++Subject: [PATCH] xen/xsm: Make p->policyvers be a local variable (ver) to shut
++ up GCC 5.1.1 warnings.
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++policydb.c: In function ‘user_read’:
++policydb.c:1443:26: error: ‘buf[2]’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
++         usrdatum->bounds = le32_to_cpu(buf[2]);
++                          ^
++cc1: all warnings being treated as errors
++
++Which (as Andrew mentioned) is because GCC cannot assume
++that 'p->policyvers' has the same value between checks.
++
++We make it local, optimize the name to 'ver' and the warnings go away.
++We also update another call site with this modification to
++make it more inline with the rest of the functions.
++
++Signed-off-by: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
++Acked-by: Daniel De Graaf <dgdegra@tycho.nsa.gov>
++---
++ xen/xsm/flask/ss/policydb.c | 17 ++++++++++-------
++ 1 file changed, 10 insertions(+), 7 deletions(-)
++
++diff --git a/xen/xsm/flask/ss/policydb.c b/xen/xsm/flask/ss/policydb.c
++index a1060b1..eebfe9c 100644
++--- a/xen/xsm/flask/ss/policydb.c
+++++ b/xen/xsm/flask/ss/policydb.c
++@@ -1258,6 +1258,7 @@ static int role_read(struct policydb *p, struct hashtab *h, void *fp)
++     int rc;
++     __le32 buf[3];
++     u32 len;
+++    u32 ver = p->policyvers;
++ 
++     role = xzalloc(struct role_datum);
++     if ( !role )
++@@ -1266,7 +1267,7 @@ static int role_read(struct policydb *p, struct hashtab *h, void *fp)
++         goto out;
++     }
++ 
++-    if ( p->policyvers >= POLICYDB_VERSION_BOUNDARY )
+++    if ( ver >= POLICYDB_VERSION_BOUNDARY )
++         rc = next_entry(buf, fp, sizeof(buf[0]) * 3);
++     else
++         rc = next_entry(buf, fp, sizeof(buf[0]) * 2);
++@@ -1276,7 +1277,7 @@ static int role_read(struct policydb *p, struct hashtab *h, void *fp)
++ 
++     len = le32_to_cpu(buf[0]);
++     role->value = le32_to_cpu(buf[1]);
++-    if ( p->policyvers >= POLICYDB_VERSION_BOUNDARY )
+++    if ( ver >= POLICYDB_VERSION_BOUNDARY )
++         role->bounds = le32_to_cpu(buf[2]);
++ 
++     key = xmalloc_array(char, len + 1);
++@@ -1328,6 +1329,7 @@ static int type_read(struct policydb *p, struct hashtab *h, void *fp)
++     int rc;
++     __le32 buf[4];
++     u32 len;
+++    u32 ver = p->policyvers;
++ 
++     typdatum = xzalloc(struct type_datum);
++     if ( !typdatum )
++@@ -1336,7 +1338,7 @@ static int type_read(struct policydb *p, struct hashtab *h, void *fp)
++         return rc;
++     }
++ 
++-    if ( p->policyvers >= POLICYDB_VERSION_BOUNDARY )
+++    if ( ver >= POLICYDB_VERSION_BOUNDARY )
++         rc = next_entry(buf, fp, sizeof(buf[0]) * 4);
++     else
++         rc = next_entry(buf, fp, sizeof(buf[0]) * 3);
++@@ -1346,7 +1348,7 @@ static int type_read(struct policydb *p, struct hashtab *h, void *fp)
++ 
++     len = le32_to_cpu(buf[0]);
++     typdatum->value = le32_to_cpu(buf[1]);
++-    if ( p->policyvers >= POLICYDB_VERSION_BOUNDARY )
+++    if ( ver >= POLICYDB_VERSION_BOUNDARY )
++     {
++         u32 prop = le32_to_cpu(buf[2]);
++ 
++@@ -1421,6 +1423,7 @@ static int user_read(struct policydb *p, struct hashtab *h, void *fp)
++     int rc;
++     __le32 buf[3];
++     u32 len;
+++    u32 ver = p->policyvers;
++ 
++     usrdatum = xzalloc(struct user_datum);
++     if ( !usrdatum )
++@@ -1429,7 +1432,7 @@ static int user_read(struct policydb *p, struct hashtab *h, void *fp)
++         goto out;
++     }
++ 
++-    if ( p->policyvers >= POLICYDB_VERSION_BOUNDARY )
+++    if ( ver >= POLICYDB_VERSION_BOUNDARY )
++         rc = next_entry(buf, fp, sizeof(buf[0]) * 3);
++     else
++         rc = next_entry(buf, fp, sizeof(buf[0]) * 2);
++@@ -1439,7 +1442,7 @@ static int user_read(struct policydb *p, struct hashtab *h, void *fp)
++ 
++     len = le32_to_cpu(buf[0]);
++     usrdatum->value = le32_to_cpu(buf[1]);
++-    if ( p->policyvers >= POLICYDB_VERSION_BOUNDARY )
+++    if ( ver >= POLICYDB_VERSION_BOUNDARY )
++         usrdatum->bounds = le32_to_cpu(buf[2]);
++ 
++     key = xmalloc_array(char, len + 1);
++@@ -1457,7 +1460,7 @@ static int user_read(struct policydb *p, struct hashtab *h, void *fp)
++     if ( rc )
++         goto bad;
++ 
++-    if ( p->policyvers >= POLICYDB_VERSION_MLS )
+++    if ( ver >= POLICYDB_VERSION_MLS )
++     {
++         rc = mls_read_range_helper(&usrdatum->range, fp);
++         if ( rc )
++-- 
++2.1.0
++
+diff --git a/recipes-extended/xen/xen_4.6.0.bb b/recipes-extended/xen/xen_4.6.0.bb
+index 41241cd..7650e46 100644
+--- a/recipes-extended/xen/xen_4.6.0.bb
++++ b/recipes-extended/xen/xen_4.6.0.bb
+@@ -2,6 +2,7 @@ require xen.inc
+ 
+ SRC_URI = " \
+     http://bits.xensource.com/oss-xen/release/${PV}/xen-${PV}.tar.gz \
++    file://xen-xsm-Make-p-policyvers-be-a-local-variable-ver-to.patch \
+     "
+ 
+ SRC_URI[md5sum] = "48e232f90927c08326a7b52bb06f49bc"
+-- 
+2.1.0
 
-Thanks Bruce. The changes that I'm building for jethro are the following:=
 
-
-45de52d11c68cf023566c0d6d4fd341adfb04c7b
-ec4b409bd6567e430511e767ac043066ddfc850c
-12a7d544f40fb911b706c681b611a7cbdd303c39
-a19e5567dc9f34d0c52fdb40544f82bba41bf0d0
-5817c4a29b361812b87eddb2bbb623344dccbdc2
-663463da0c29e1f22b0740335d193f637174c104
-3915d59fdf7af575b7e26a82efb0f998864d8692
-f5649753869888606de09701ea9f9a56424cd3d8
-
-You can also pull it from here:
-
-https://github.com/cardoe/meta-virtualization/tree/jethro-updates
-
---=20
-Doug Goldstein
-
-
---wQWj1FxgMAEIsN8aLLiVhNE0sqAIc4xbV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG/MacGPG2 v2.0
-
-iQJ8BAEBCgBmBQJWr4EfXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
-ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
-MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUjocP/Ag5XOutoGkQM+cxO+2izJqf
-UPy2IBTyUpUYL1PI97O74+fVzw9hBeNPCUCOENFggpGeLKYN9dLqO3DNaoyKP4k/
-Z3aMV7HgC+naTdpf8WAchjTGwnnxt5c8IOodGuQPRSvC6k+h8a2Ze+N5xs7msFAY
-4K6Tu4FLmX730YQ9J705KppDQD0Yv9ipIv9CqdvN2lpux152xbrEYWt14ys7V/Sx
-htjBygWwCYJE28hPgBGNppn79kuUoZ29XlF8ns1JDnZykI2N4NmVYQrR1kP4vMuE
-GKxcyNJEEnWawx5r65YHEMKKye8jePxjv83Z71QAwJdfzprbSBB4HpWmIlPrdL0k
-OYCxDgQ1TueiR995XE47P5GBkXZo7mACUpWQM9PrA7KS3ResxXeCYkZkbo9zShq5
-JYdYZ8oj6AVWuHhsCD2gVwZmLDlI/1yJpc+P/6F3qjXtKBzLTC0USYS7ymItxGDS
-ISS5+HcmZ9lUwMM4SnKlLmx7SwNU+VmLu6VUE1ozhRLAamUNn6sG+5WtJ6rDqA1R
-HYT3hiTOATY5Svv6B2/G4Gy+2GeGf+XSClyrfztcm/eRDBFyWe/cPjYGWgEcGRjl
-BicVZqPrMie40glT/aM/bLWRYoGcIDyPCe7mwSBGab0dSU0XWNsNhrycGigg6yFR
-CrZha+L9hhoAW+BkM4X7
-=E9hp
------END PGP SIGNATURE-----
-
---wQWj1FxgMAEIsN8aLLiVhNE0sqAIc4xbV--
