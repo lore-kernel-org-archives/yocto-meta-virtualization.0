@@ -1,39 +1,36 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A3126E00CAC; Wed,  3 Feb 2016 17:42:36 -0800 (PST)
+	id D4CC9E00C9E; Wed,  3 Feb 2016 17:42:37 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CE08EE00C7E
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 09E35E00C8E
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  3 Feb 2016 17:42:12 -0800 (PST)
+	Wed,  3 Feb 2016 17:42:13 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u141gCru011615
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u141gDoP019744
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 3 Feb 2016 17:42:12 -0800 (PST)
+	Wed, 3 Feb 2016 17:42:13 -0800
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 3 Feb 2016 17:42:12 -0800
+	Wed, 3 Feb 2016 17:42:13 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <bruce.ashfield@windriver.com>
-Date: Wed, 3 Feb 2016 20:41:20 -0500
-Message-ID: <1454550104-7065-26-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 3 Feb 2016 20:41:21 -0500
+Message-ID: <1454550104-7065-27-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1454550104-7065-1-git-send-email-mark.asselstine@windriver.com>
 References: <1454550104-7065-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
 Cc: meta-virtualization@yoctoproject.org
-Subject: [m-c-s][PATCH 25/49] python-zaqarclient: initial version
+Subject: [m-c-s][PATCH 26/49] python-unicodecsv: initial version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,56 +43,52 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Feb 2016 01:42:36 -0000
+X-List-Received-Date: Thu, 04 Feb 2016 01:42:37 -0000
 Content-Type: text/plain
 
 From: Mark Asselstine <asselsm@gmail.com>
 
-This package provides a python Zaqar Client.
+This package provides Python2's stdlib csv module replacement with
+unicode support.
 
-This package is required by heat.
+This package is required by python-cliff.
 
 Signed-off-by: Mark Asselstine <asselsm@gmail.com>
 ---
- .../python/python-zaqarclient_git.bb               | 29 ++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+ .../python/python-unicodecsv_git.bb                | 24 ++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-unicodecsv_git.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-unicodecsv_git.bb b/meta-openstack/recipes-devtools/python/python-unicodecsv_git.bb
 new file mode 100644
-index 0000000..5e11803
+index 0000000..76d638a
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
-@@ -0,0 +1,29 @@
-+DESCRIPTION = "Python Zaqar Client"
-+HOMEPAGE = "https://github.com/openstack/python-zaqarclient"
++++ b/meta-openstack/recipes-devtools/python/python-unicodecsv_git.bb
+@@ -0,0 +1,24 @@
++SUMMARY = "Python2's stdlib csv module replacement with unicode support"
++HOMEPAGE = "https://github.com/jdunck/python-unicodecsv"
 +SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
++LICENSE = "BSD"
 +
-+DEPENDS += " \
-+        python-pip \
-+        python-pbr \
-+        "
++PV = "0.14.1+git${SRCPV}"
++SRCREV = "4563e33ce322f5e2dea41e76cb33dc0e008ad341"
 +
-+RDEPENDS_${PN} +=" \
-+        python-pbr \
-+        python-requests \
-+        python-six \
-+        python-stevedore \
-+        python-jsonschema \
-+        python-oslo.i18n \
-+        python-keystoneclient \
-+	"
++SRCNAME = "unicodecsv"
 +
-+SRCNAME = "zaqarclient"
-+SRC_URI = "git://github.com/openstack/${BPN}.git;branch=master"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e71cdeaa2d2d59b225b8dfb9363fa590"
++SRC_URI = "git://github.com/jdunck/${BPN}.git"
 +
-+PV = "0.2.0+git${SRCPV}"
-+SRCREV = "c1a0ea98b6f0aad5764ce197172b41d3efc1e485"
 +S = "${WORKDIR}/git"
 +
 +inherit setuptools
++
++DEPENDS += " \
++	python-pbr \
++	"
++
++RDEPENDS_${PN} += " \
++	"
++
 -- 
 2.1.4
 
