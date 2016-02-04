@@ -1,39 +1,36 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 140A4E00CCE; Wed,  3 Feb 2016 17:42:24 -0800 (PST)
+	id 92060E00C70; Wed,  3 Feb 2016 17:42:24 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 21DE7E00C70
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C51B7E00C6E
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  3 Feb 2016 17:42:06 -0800 (PST)
+	Wed,  3 Feb 2016 17:42:04 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u141g5Gr000310
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u141g4jo019729
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 3 Feb 2016 17:42:05 -0800 (PST)
+	Wed, 3 Feb 2016 17:42:04 -0800
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 3 Feb 2016 17:42:05 -0800
+	Wed, 3 Feb 2016 17:42:04 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <bruce.ashfield@windriver.com>
-Date: Wed, 3 Feb 2016 20:41:13 -0500
-Message-ID: <1454550104-7065-19-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 3 Feb 2016 20:41:12 -0500
+Message-ID: <1454550104-7065-18-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1454550104-7065-1-git-send-email-mark.asselstine@windriver.com>
 References: <1454550104-7065-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
 Cc: meta-virtualization@yoctoproject.org
-Subject: [m-c-s][PATCH 18/49] python-futurist: initial version
+Subject: [m-c-s][PATCH 17/49] python-ordereddict: initial version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,48 +48,50 @@ Content-Type: text/plain
 
 From: Mark Asselstine <asselsm@gmail.com>
 
-This package provides a useful additions to futures, from the future.
+This package provides a drop-in substitute for Py2.7's new
+collections.OrderedDict that works in Python 2.4-2.6.
 
-This package is required by taskflow, tooz and others.
+This package is required by oslo.middleware.
 
 Signed-off-by: Mark Asselstine <asselsm@gmail.com>
 ---
- .../python/python-futurist_0.8.0.bb                | 26 ++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-futurist_0.8.0.bb
+ .../python/python-ordereddict_1.1.bb               | 27 ++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-futurist_0.8.0.bb b/meta-openstack/recipes-devtools/python/python-futurist_0.8.0.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb b/meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb
 new file mode 100644
-index 0000000..3ad3993
+index 0000000..db8afa3
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-futurist_0.8.0.bb
-@@ -0,0 +1,26 @@
-+DESCRIPTION = "Useful additions to futures, from the future"
-+HOMEPAGE = "https://pypi.python.org/pypi/futurist"
++++ b/meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb
+@@ -0,0 +1,27 @@
++DESCRIPTION = "A drop-in substitute for Py2.7's new collections.OrderedDict that works in Python 2.4-2.6."
++HOMEPAGE = "https://pypi.python.org/pypi/ordereddict"
 +SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=7f0267460024072a9bbf135ee87a41b8"
 +
-+SRCNAME = "futurist"
 +
-+SRC_URI = "https://pypi.python.org/packages/source/f/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++SRCNAME = "ordereddict"
++SRC_URI = "http://pypi.python.org/packages/source/o/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
 +
-+SRC_URI[md5sum] = "ccef2f5a651fffcfe13c71d91262be4d"
-+SRC_URI[sha256sum] = "36f48b56af54c44db848fe4a23c2cb70bd334237e11212a16885a55aca881ddd"
++SRC_URI[md5sum] = "a0ed854ee442051b249bfad0f638bbec"
++SRC_URI[sha256sum] = "1c35b4ac206cef2d24816c89f89cf289dd3d38cf7c449bb3fab7bf6d43f01b1f"
 +
 +S = "${WORKDIR}/${SRCNAME}-${PV}"
 +
-+inherit setuptools 
++inherit setuptools
++
++# DEPENDS_default: python-pip
 +
 +DEPENDS += " \
 +        python-pip \
 +        "
 +
++# RDEPENDS_default: 
 +RDEPENDS_${PN} += " \
-+        python-futures \
-+        python-contextlib2 \
-+        "
-+
++    python-pip \
++    "
 -- 
 2.1.4
 
