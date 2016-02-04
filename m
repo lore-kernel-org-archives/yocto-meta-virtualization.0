@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 33301E00CA7; Wed,  3 Feb 2016 17:43:13 -0800 (PST)
+	id E079BE00CA2; Wed,  3 Feb 2016 17:43:13 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,32 +8,32 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E8FABE00CA2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2DEF4E00C6F
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  3 Feb 2016 17:42:33 -0800 (PST)
+	Wed,  3 Feb 2016 17:42:35 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u141gX3L000416
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u141gY4b011633
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 3 Feb 2016 17:42:33 -0800 (PST)
+	Wed, 3 Feb 2016 17:42:35 -0800 (PST)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 3 Feb 2016 17:42:33 -0800
+	Wed, 3 Feb 2016 17:42:34 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <bruce.ashfield@windriver.com>
-Date: Wed, 3 Feb 2016 20:41:37 -0500
-Message-ID: <1454550104-7065-43-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 3 Feb 2016 20:41:38 -0500
+Message-ID: <1454550104-7065-44-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <1454550104-7065-1-git-send-email-mark.asselstine@windriver.com>
 References: <1454550104-7065-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
 Cc: meta-virtualization@yoctoproject.org
-Subject: [m-c-s][PATCH 42/49] heat: uprev to Liberty
+Subject: [m-c-s][PATCH 43/49] neutron: uprev to Liberty
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,85 +51,147 @@ Content-Type: text/plain
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../recipes-devtools/python/python-heat_git.bb     | 42 +++++++++++++++++++---
- 1 file changed, 37 insertions(+), 5 deletions(-)
+ .../recipes-devtools/python/python-neutron_git.bb  | 68 +++++++++++++---------
+ .../python/python-neutronclient_git.bb             | 26 +++++----
+ 2 files changed, 56 insertions(+), 38 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-heat_git.bb b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-index 7abb4d0..c2b2da7 100644
---- a/meta-openstack/recipes-devtools/python/python-heat_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-@@ -4,10 +4,9 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+diff --git a/meta-openstack/recipes-devtools/python/python-neutron_git.bb b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
+index b9cf518..cadc80f 100644
+--- a/meta-openstack/recipes-devtools/python/python-neutron_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
  
--PR = "r0"
- SRCNAME = "heat"
+ SRCNAME = "neutron"
  
 -SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo \
 +SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
-            file://heat.conf \
-            file://heat.init \
-            file://autoscaling_example.template \
-@@ -16,8 +15,8 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo \
-            file://heat-tests-change-project_dir-path.patch \
- "
+            file://neutron-server.init \
+            file://neutron-agent.init \
+            file://l3_agent.ini \
+@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/kilo \
+ # TBD: update or drop
+ # file://uuid_wscheck.patch
  
--SRCREV = "6db88597dba0b79b2501f43b704c93b2728a5ec6"
+-SRCREV = "7260e0e3fc2ea479e80e0962624aca7fd38a1f60"
 -PV = "2015.1.0+git${SRCPV}"
-+SRCREV = "4348b7ababd1048e17ec354ca38c903c908cd74e"
-+PV = "5.0.0+git${SRCPV}"
++SRCREV = "6dcfe3a9362ae5fcf18e5cfb59663e43446cd59c"
++PV = "7.0.0+git${SRCPV}"
+ 
  S = "${WORKDIR}/git"
  
- SERVICECREATE_PACKAGES = "${SRCNAME}-setup ${SRCNAME}-templates ${SRCNAME}-cfn"
-@@ -184,7 +183,7 @@ RDEPENDS_${PN} += " \
- 	python-paste \
- 	python-sqlalchemy-migrate \
- 	python-stevedore \
--	python-suds \
-+	python-suds-jurko \
- 	python-paramiko \
- 	python-babel \
- 	python-iso8601 \
-@@ -213,6 +212,39 @@ RDEPENDS_${PN} += " \
-         python-pytz \
+@@ -258,30 +258,44 @@ DEPENDS += " \
          python-pbr \
-         python-oslo.log \
-+        python-croniter \
-+        python-cryptography \
+         "
+ 
+-RDEPENDS_${PN} += "python-paste \
+-	python-pastedeploy \
+-	python-routes \
+-	python-amqplib \
+-	python-anyjson \
+-	python-alembic \
+-	python-eventlet \
+-	python-greenlet \
+-	python-httplib2 \
+-	python-iso8601 \
+-	python-kombu \
+-	python-netaddr \
+-	python-neutronclient \
+-	python-sqlalchemy \
+-	python-webob \
+-	python-keystoneclient \
+-	python-oslo.config \
+-	python-oslo.rootwrap \
+-	python-pyudev \
+-	python-novaclient \
+-	python-mako \
+-	python-markupsafe \
+-	python-pyparsing \
+-	python-pbr \
++RDEPENDS_${PN} += " \
++        python-pbr \
++        python-paste \
++        python-pastedeploy \
++        python-debtcollector \
++        python-eventlet \
++        python-pecan \
++        python-greenlet \
++        python-httplib2 \
++        python-requests \
++        python-jinja2 \
 +        python-keystonemiddleware \
 +        python-netaddr \
-+        python-oslo.cache \
++        python-neutronclient \
++        python-retrying \
++        python-ryu \
++        python-sqlalchemy \
++        python-webob \
++        python-keystoneclient \
++        python-alembic \
++        python-six \
++        python-stevedore \
 +        python-oslo.concurrency \
++        python-oslo.config \
 +        python-oslo.context \
 +        python-oslo.db \
 +        python-oslo.i18n \
++        python-oslo.log \
 +        python-oslo.messaging \
 +        python-oslo.middleware \
 +        python-oslo.policy \
-+        python-oslo.reports \
++        python-oslo.rootwrap \
 +        python-oslo.serialization \
 +        python-oslo.service \
 +        python-oslo.utils \
-+        python-osprofiler \
 +        python-oslo.versionedobjects \
-+        python-pycrypto \
-+        python-barbicanclient \
-+        python-ceilometerclient \
-+        python-cinderclient \
-+        python-designateclient \
-+        python-magnumclient \
-+        python-manilaclient \
-+        python-mistralclient \
-+        python-neutronclient \
 +        python-novaclient \
-+        python-saharaclient \
-+        python-troveclient \
-+        python-zaqarclient \
-+        python-requests \
-+        python-six \
++        python-routes \
  	"
  
- RDEPENDS_${SRCNAME}-engine = "${PN} ${SRCNAME}-templates ${SRCNAME}-common postgresql postgresql-client python-psycopg2 tgt ${SRCNAME}-cfn"
+ RDEPENDS_${SRCNAME} = "${PN} \
+diff --git a/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb b/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb
+index 16a2e92..bcbefaa 100644
+--- a/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-neutronclient_git.bb
+@@ -9,24 +9,28 @@ DEPENDS += " \
+         python-pbr \
+         "
+ 
+-RDEPENDS_${PN} +="python-cliff \
+-	python-httplib2 \
+-	python-iso8601 \
+-	python-prettytable \
+-	python-pyparsing \
+-	python-simplejson \
+-	python-pbr \
++RDEPENDS_${PN} +="\
++        python-pbr \
++        python-cliff \
++        python-iso8601 \
++        python-netaddr \
++        python-oslo.i18n \
++        python-oslo.serialization \
++        python-oslo.utils \
++        python-requests \
++        python-keystoneclient \
++        python-simplejson \
++        python-six \
++        python-babel \
+ 	"
+ 
+-PR = "r0"
+-
+ SRC_URI = "git://github.com/openstack/python-neutronclient.git;branch=master \
+            file://neutronclient-use-csv-flag-instead-of-json.patch \
+            file://neutron-api-check.sh \
+           "
+ 
+-PV = "2.4.0+git${SRCPV}"
+-SRCREV = "aa1215a5ad063b299d32ef319eb63d5210249a9b"
++PV = "3.1.0+git${SRCPV}"
++SRCREV = "3e115991c1cf9ec7cf4252440fa8d6015a5f53ce"
+ S = "${WORKDIR}/git"
+ 
+ inherit setuptools monitor rmargparse
 -- 
 2.1.4
 
