@@ -1,64 +1,40 @@
-Return-Path: <supritisingh08@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5F9F8E00C6E; Tue,  9 Feb 2016 01:22:30 -0800 (PST)
+	id F2C55E00CB4; Tue,  9 Feb 2016 11:28:18 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_LOW, WEIRD_PORT autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (supritisingh08[at]gmail.com)
-	*  0.0 WEIRD_PORT URI: Uses non-standard port number for HTTP
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.46 listed in list.dnswl.org]
-Received: from mail-lf0-f46.google.com (mail-lf0-f46.google.com
-	[209.85.215.46])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CA673E00C59
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 08401E00C87
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  9 Feb 2016 01:22:26 -0800 (PST)
-Received: by mail-lf0-f46.google.com with SMTP id m1so113080447lfg.0
+	Tue,  9 Feb 2016 11:28:14 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u19JSDjR016388
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 09 Feb 2016 01:22:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:date:message-id:subject:from:to:content-type;
-	bh=qxwF/1S8DZey5him9m3sbvsFlK7SReh7WtmcCUGTDF0=;
-	b=i9TQSDyAicSveaqwBIkvZ0NxJPi0pz0wbE23cgm+NZCdk2yHdruXlqnhAHekEUzy43
-	BfOFMJAigxETDO6+Hy+/iPbdvDAoSMpSJjtbNSQSjOK4Foe8mRm3ATeopEIc5G3acO3d
-	XbktwnfC/N0sO+Rnqb6UVBtWaPHwXQjz95QLEZQiRoGc+GqQg9vF2e6r4wK4GHluo49G
-	1Mh6Y8Hr9iX8MKV2mx3ANsBM7P0cCkvOCn6xAJ6kfaJhkkr/F0dTRYPjXgLGRFK6exyr
-	tYAd71cO7uLdFB38LgD3OD+Nt16J6qmtB9QcD0NxydS+3XqMsBNVOyBDyyfxGQJAUGx8
-	GMYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:date:message-id:subject:from:to
-	:content-type;
-	bh=qxwF/1S8DZey5him9m3sbvsFlK7SReh7WtmcCUGTDF0=;
-	b=UjSSqO6xK+1i2AnZ78GAJU1Qjh+5wSaVYENDVhM8OIPw0h052HUDY0BtexjgOKmVPY
-	9/mg1noMrQqOoBYffCQy1mkIGzQrGjNJxQQEGf/iX9MQTVPyhJLzyUshUFkpjzqmnpaF
-	qNbgNsbgWmVR61pU3r3Jz+SEW/YU1h8UgaQCkL3vd/h10gaxWLT2LuDA8YFS5bCwc0Wc
-	HpqDieSl7QHoG6wc40bzrvUz3A30FHVyq+I/hVGYcV2RWhG5PxbspsItEqblOy8fPDNB
-	9VdQi+MN9CxMl7tJywbH5lerCE/I11x8Ba+j5Fm4Vqas/jt2xSHuz0/sqMsguIaLLkR6
-	1Dcw==
-X-Gm-Message-State: AG10YOT10dvF+G6IptzgcYBamhBJYz6dA9yA05e0CqRFKbip3a9MRDApga0kRFUfR1knnN6uKExj0ORSm1PiOA==
+	Tue, 9 Feb 2016 11:28:13 -0800 (PST)
+Received: from server.local (147.11.118.115) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Tue, 9 Feb 2016 11:28:12 -0800
+To: Mark Asselstine <mark.asselstine@windriver.com>
+References: <1454943678-4827-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <56BA3DCB.205@windriver.com>
+Date: Tue, 9 Feb 2016 14:28:11 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.1
 MIME-Version: 1.0
-X-Received: by 10.25.24.82 with SMTP id o79mr13576702lfi.144.1455009745079;
-	Tue, 09 Feb 2016 01:22:25 -0800 (PST)
-Received: by 10.114.78.195 with HTTP; Tue, 9 Feb 2016 01:22:25 -0800 (PST)
-Date: Tue, 9 Feb 2016 10:22:25 +0100
-Message-ID: <CAO1oV+fmmzZ4XdV2BkgqH+Xoy-jdMRZ1msEfGaAOe-jOtQEjPg@mail.gmail.com>
-From: Supriti Singh <supritisingh08@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Getting virtualization running on mbmax yocto
+In-Reply-To: <1454943678-4827-1-git-send-email-mark.asselstine@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] python-six: uprev to latest
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -71,67 +47,79 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Feb 2016 09:22:30 -0000
-Content-Type: multipart/alternative; boundary=001a114058360018e5052b52db5e
+X-List-Received-Date: Tue, 09 Feb 2016 19:28:19 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---001a114058360018e5052b52db5e
-Content-Type: text/plain; charset=UTF-8
+On 2016-02-08 10:01 AM, Mark Asselstine wrote:
+> The openstack layer requires a version of six >= 1.9.0
 
-Hello,
+merged.
 
-I have a Minnowboard Max.
-I followed the instructions http://wiki.minnowboard.org/Yocto_Project from
-here to get a yocto kernel running on the board.
+Bruce
 
-I want to enable virtualization with kvm.
+>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>   .../python/{python-requests_2.3.0.bb => python-requests_2.8.1.bb}  | 7 +++----
+>   .../python/{python-six_1.7.3.bb => python-six_1.10.0.bb}           | 7 +++----
+>   2 files changed, 6 insertions(+), 8 deletions(-)
+>   rename recipes-devtools/python/{python-requests_2.3.0.bb => python-requests_2.8.1.bb} (78%)
+>   rename recipes-devtools/python/{python-six_1.7.3.bb => python-six_1.10.0.bb} (57%)
+>
+> diff --git a/recipes-devtools/python/python-requests_2.3.0.bb b/recipes-devtools/python/python-requests_2.8.1.bb
+> similarity index 78%
+> rename from recipes-devtools/python/python-requests_2.3.0.bb
+> rename to recipes-devtools/python/python-requests_2.8.1.bb
+> index 6f38bf1..187f97a 100644
+> --- a/recipes-devtools/python/python-requests_2.3.0.bb
+> +++ b/recipes-devtools/python/python-requests_2.8.1.bb
+> @@ -14,15 +14,14 @@ DESCRIPTION = "\
+>     "
+>   SECTION = "devel/python"
+>   LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=c7869e52c8275537186de35e3cd5f9ec"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=58c7e163c9f8ee037246da101c6afd1e"
+>
+> -PR = "r0"
+>   SRCNAME = "requests"
+>
+>   SRC_URI = "http://pypi.python.org/packages/source/r/requests/${SRCNAME}-${PV}.tar.gz"
+>
+> -SRC_URI[md5sum] = "7449ffdc8ec9ac37bbcd286003c80f00"
+> -SRC_URI[sha256sum] = "1c1473875d846fe563d70868acf05b1953a4472f4695b7b3566d1d978957b8fc"
+> +SRC_URI[md5sum] = "a27ea3d72d7822906ddce5e252d6add9"
+> +SRC_URI[sha256sum] = "84fe8d5bf4dcdcc49002446c47a146d17ac10facf00d9086659064ac43b6c25b"
+>
+>   S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
+> diff --git a/recipes-devtools/python/python-six_1.7.3.bb b/recipes-devtools/python/python-six_1.10.0.bb
+> similarity index 57%
+> rename from recipes-devtools/python/python-six_1.7.3.bb
+> rename to recipes-devtools/python/python-six_1.10.0.bb
+> index 07dcafd..a84a4c4 100644
+> --- a/recipes-devtools/python/python-six_1.7.3.bb
+> +++ b/recipes-devtools/python/python-six_1.10.0.bb
+> @@ -2,16 +2,15 @@ DESCRIPTION = "Python 2 and 3 compatibility utilities"
+>   HOMEPAGE = "http://pypi.python.org/pypi/six/"
+>   SECTION = "devel/python"
+>   LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=530f34047c21ad45b3199946dd90bea5"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=6f00d4a50713fa859858dd9abaa35b21"
+>
+> -PR = "r1"
+>   SRCNAME = "six"
+>
+>   SRC_URI = "https://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
+>   "
+>
+> -SRC_URI[md5sum] = "784c6e5541c3c4952de9c0a966a0a80b"
+> -SRC_URI[sha256sum] = "7a842c9f882c0b2ab1064d567bb9fff6a21c9efbc3d9992083ad6193787ed393"
+> +SRC_URI[md5sum] = "34eed507548117b2ab523ab14b2f8b55"
+> +SRC_URI[sha256sum] = "105f8d68616f8248e24bf0e9372ef04d3cc10104f1980f54d57b2ce73a5ad56a"
+>
+>   S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
+>
 
-My source hierarchy is :
-$HOME/source/poky/"all the layers".
 
-To add the meta-virtualization layer, I added the following into the
-bblayers.conf
-BBLAYERS += "/local/source/poky/meta-openembedded/meta-networking"
-BBLAYERS += "/local/source/poky/meta-openembedded/meta-python"
-BBLAYERS += "/local/source/poky/meta-openembedded/meta-oe"
-BBLAYERS += "/local/source/poky/meta-openembedded/meta-filesystems"
-BBLAYERS += "/local/source/poky/meta-virtualization"
-
-
-When I do a build, I get the following errror:
-ERROR: ParseError at
-/local/source/poky/meta-virtualization/recipes-extended/images/
-cloud-image-controller.bb:29: Could not inherit file
-classes/image-vm.bbclass
-
-Is there something else that I need to do?
-
-
-Thanks,
-Supriti
-
---001a114058360018e5052b52db5e
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello,<div><br></div><div>I have a Minnowboard Max.=C2=A0<=
-/div><div>I followed the instructions=C2=A0<a href=3D"http://wiki.minnowboa=
-rd.org/Yocto_Project">http://wiki.minnowboard.org/Yocto_Project</a> from he=
-re to get a yocto kernel running on the board.</div><div><br></div><div>I w=
-ant to enable virtualization with kvm.</div><div><br></div><div>My source h=
-ierarchy is :</div><div>$HOME/source/poky/&quot;all the layers&quot;.</div>=
-<div><br></div><div>To add the meta-virtualization layer, I added the follo=
-wing into the bblayers.conf</div><div><div>BBLAYERS +=3D &quot;/local/sourc=
-e/poky/meta-openembedded/meta-networking&quot;</div><div>BBLAYERS +=3D &quo=
-t;/local/source/poky/meta-openembedded/meta-python&quot;</div><div>BBLAYERS=
- +=3D &quot;/local/source/poky/meta-openembedded/meta-oe&quot;</div><div>BB=
-LAYERS +=3D &quot;/local/source/poky/meta-openembedded/meta-filesystems&quo=
-t;</div><div>BBLAYERS +=3D &quot;/local/source/poky/meta-virtualization&quo=
-t;</div></div><div><br></div><div><br></div><div>When I do a build, I get t=
-he following errror:</div><div>ERROR: ParseError at /local/source/poky/meta=
--virtualization/recipes-extended/images/<a href=3D"http://cloud-image-contr=
-oller.bb:29">cloud-image-controller.bb:29</a>: Could not inherit file class=
-es/image-vm.bbclass=C2=A0<br></div><div><br></div><div>Is there something e=
-lse that I need to do?=C2=A0</div><div><br></div><div><br></div><div>Thanks=
-,</div><div>Supriti=C2=A0</div></div>
-
---001a114058360018e5052b52db5e--
