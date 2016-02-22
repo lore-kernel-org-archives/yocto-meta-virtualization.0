@@ -1,47 +1,38 @@
-Return-Path: <cardoe@cardoe.com>
+Return-Path: <drquigl@tycho.nsa.gov>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1AD86E009B8; Wed,  5 Aug 2015 08:40:13 -0700 (PDT)
+	id 4B59BE00BEA; Mon, 22 Feb 2016 13:22:30 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_40,RCVD_IN_DNSWL_HI
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.160.174 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-Received: from mail-yk0-f174.google.com (mail-yk0-f174.google.com
-	[209.85.160.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E434DE009A7
+X-Spam-HAM-Report: * -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
+	*      [score: 0.3632]
+	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at http://www.dnswl.org/,
+	high *      trust
+	*      [63.239.67.10 listed in list.dnswl.org]
+X-Greylist: delayed 859 seconds by postgrey-1.32 at yocto-www;
+	Mon, 22 Feb 2016 13:22:29 PST
+Received: from emvm-gh1-uea09.nsa.gov (emvm-gh1-uea09.nsa.gov [63.239.67.10])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6D4E6E00BB6
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Aug 2015 08:40:03 -0700 (PDT)
-Received: by ykeo23 with SMTP id o23so38433342yke.3
+	Mon, 22 Feb 2016 13:22:29 -0800 (PST)
+X-TM-IMSS-Message-ID: <0a1534f90000483a@nsa.gov>
+Received: from tarius.tycho.ncsc.mil ([144.51.242.1]) by nsa.gov
+	([10.208.42.194]) with ESMTP (TREND IMSS SMTP Service 7.1) id
+	0a1534f90000483a ; Mon, 22 Feb 2016 16:11:44 -0500
+Received: from moss-clam.infosec.tycho.ncsc.mil (moss-clam [192.168.25.42])
+	by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id u1ML87Ko007240
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 05 Aug 2015 08:40:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=o9M60XUbuOBL7ftiOuohEI8KBZlnb4Kv50v9Yf8Nf5U=;
-	b=Y1ekZAVnlIfcYFakJGG1WgZXC+rwKellNvb1wpOYmSQNjb0YU7aB/19BBcyxJsIkAx
-	sVRsJ2yt4ipe/ZYTskbRjNwIQrTH4MIrBqw32vmfJJ2laTm6S1ZGE9AdyomaQMHUNNQF
-	1AQBmhuLRNlDD19fcuowD9pqAaKhVDCa3pyZyF2jzcAoE8ReBAD/OMQtRMCJpMp6hmQc
-	HvjUsrswePphku7lzqJp/GAqwdRou3vBE/3IFyw/LyCWxOEVkOPcl6Q1eB0kMy95o7pS
-	Kh3WuYZeA98q1BaubPSYnb5DBVeYnBE0ndwhls1kZqX4yvIPvKh7pKjlJdUg6Cih4zQu
-	t+AA==
-X-Gm-Message-State: ALoCoQmxlb+WBan8nq27OPgYAjof3ZKOImZh76sJoXPvlF25MRPNifrlSfnzL2et86/5o9YmgW+D
-X-Received: by 10.170.98.84 with SMTP id p81mr9962714yka.128.1438789202998;
-	Wed, 05 Aug 2015 08:40:02 -0700 (PDT)
-Received: from doug-t430.lan ([67.63.141.2]) by smtp.gmail.com with ESMTPSA id
-	q67sm3066918ywe.54.2015.08.05.08.40.01
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Aug 2015 08:40:02 -0700 (PDT)
-From: Doug Goldstein <cardoe@cardoe.com>
+	Mon, 22 Feb 2016 16:08:07 -0500
+Message-ID: <1456175226.32176.2.camel@tycho.nsa.gov>
+From: drquigl <drquigl@tycho.nsa.gov>
 To: meta-virtualization@yoctoproject.org
-Message-Id: <1438789182-2716-1-git-send-email-cardoe@cardoe.com>
-X-Mailer: git-send-email 2.1.4
-X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:38 -0800
-Subject: [PATCH] README: don't advertise obsolete layer URLs
+X-Mailer: Evolution 3.18.4 (3.18.4-1.fc23) 
+Mime-Version: 1.0
+X-TM-AS-MML: disable
+X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
+Subject: stubs-32 patch not merged
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -54,38 +45,18 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Wed, 05 Aug 2015 15:40:13 -0000
-X-Original-Date: Wed,  5 Aug 2015 10:39:42 -0500
-X-List-Received-Date: Wed, 05 Aug 2015 15:40:13 -0000
+Date: Mon, 22 Feb 2016 21:22:30 -0000
+X-Original-Date: Mon, 22 Feb 2016 16:07:06 -0500
+X-List-Received-Date: Mon, 22 Feb 2016 21:22:30 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This layer depends on openembedded-core and meta-openembedded so
-recommend the actual URLs and not the obsolete ones.
+Hello,
 
-Signed-off-by: Doug Goldstein <cardoe@cardoe.com>
----
- README | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I attempted to build xen and ran into the stubs-32 issue mentioned on
+the mailing list. The last email concerning it says that the patch was
+merged but I don't see it anywhere in the repo. Was this just not
+pushed upstream or am I cloning the wrong repo?
 
-diff --git a/README b/README
-index beb3760..652d98f 100644
---- a/README
-+++ b/README
-@@ -8,12 +8,12 @@ Dependencies
- ------------
- This layer depends on:
- 
--URI: git://github.com/openembedded/oe-core.git
-+URI: git://github.com/openembedded/openembedded-core.git
- branch: master
- revision: HEAD
- prio: default
- 
--URI: git://github.com/openembedded/meta-oe.git
-+URI: git://github.com/openembedded/meta-openembedded.git
- branch: master
- revision: HEAD
- layers: meta-oe
--- 
-2.1.4
-
+Dave
 
