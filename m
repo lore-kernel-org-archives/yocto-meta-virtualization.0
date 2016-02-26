@@ -1,64 +1,69 @@
-Return-Path: <cardoe@cardoe.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 70447E00D2C; Thu, 25 Feb 2016 18:59:07 -0800 (PST)
+	id 01AECE00DA6; Fri, 26 Feb 2016 09:28:04 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_LOW, URIBL_BLACK autolearn=no version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.213.44 listed in list.dnswl.org]
+	*  1.7 URIBL_BLACK Contains an URL listed in the URIBL blacklist
+	*      [URIs: cardoe.com]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
-	[209.85.160.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C48E8E00D25
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-vk0-f44.google.com (mail-vk0-f44.google.com
+	[209.85.213.44])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9BAD6E00D90
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 25 Feb 2016 18:59:05 -0800 (PST)
-Received: by mail-yk0-f181.google.com with SMTP id r207so31077079ykd.2
+	Fri, 26 Feb 2016 09:28:03 -0800 (PST)
+Received: by mail-vk0-f44.google.com with SMTP id c3so83414750vkb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 25 Feb 2016 18:59:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-type;
-	bh=YeHAFQGiVhEel48/8U3fRyrQq+7iJ0MmnOKckva7B6c=;
-	b=aClWqAza8fzdpZfufWfqIdcq08jTzsOLCNsgLT1zhdWmRnnHu8bmmifH6asMSDL/DD
-	XqKqYJcasGWHCxNxqcp7tGFRrjP0mNr527xA8LUt/T64xMbQmB+bM13wyq/bW+//ZMB7
-	x4qv1gJelGP2AgHYIB4VWo9x0/LL6O2tScSAg=
+	Fri, 26 Feb 2016 09:28:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
+	:cc; bh=+iGSF6aPTUrpeTEmJN5gecneqdPtQkYVd2W5a4KYADU=;
+	b=PKHNwaaCC4/MKgS7gR5wUI6YKRHKitxayBza+SeWnQT9uCjviDiSe+xlwI2nY32/UE
+	1d/7htMMkfPZJ5AVrd9ta2/QzygqDBFeuInnkBsWu2y7tcqhRN22ee5sPNLs7HmcHl1H
+	wWCC4K/KRr3kQrVTP6B+YyQ3R3F5j01AxNjEwOv+US6LtbrPnQN4TpvatVFLxvr6scEB
+	R2fAp0tY7n0FCHWI+5mmCy3oPmAwMISYRKYRN8xT6SCoRvfhzUfmRTMkK9KLT8v5k87s
+	+Yf8LUNNAx4i6nOZdjjcZCHQDCv37GN6Rn2W0Wnu3DbGNCQ1YHP0jPVhqwhWNXn/uGiE
+	ZUtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-type;
-	bh=YeHAFQGiVhEel48/8U3fRyrQq+7iJ0MmnOKckva7B6c=;
-	b=Aqwvfl9w8EP3uuhMgL8ucnJRulNKJW4ePgj3hGZ5L6oi9qlWlD1OsFvbLwmoKDZuZf
-	x5iZwpId+xqEEJF/HDdJyvWuC1NZwmgC3LW5m4xLCgqmw6fXMr58S9fGo/vJeHMCe6x0
-	/GVBoFg2PCUMKxgIK4u0MNFeTIN1pri62cLxiyfIs0CfR+99+twtH0uFKMbos/H0TukA
-	EvTH8iUmN2VXiFqpiwzyoYHm6f2Ngv3trFvQU66pHe8wYqXekcqWzwnBjGKEjlkC9n5X
-	qopNTrj5PY3I/LVNMyO6Ya+57mPyCVd+BcWUQzO6/gvxRWdNOiLhNtZ3iwOVqWHSAXzB
-	b9hQ==
-X-Gm-Message-State: AG10YOSjoBppmWj4v+pQcJ+s5M94Hqul2S/fQWsZDZFOL7xrBG2mReX/HiS3gwMBkUNs3w==
-X-Received: by 10.37.100.8 with SMTP id y8mr18811512ybb.33.1456455545111;
-	Thu, 25 Feb 2016 18:59:05 -0800 (PST)
-Received: from doug-macbook.lan ([2601:7c0:c300:dad6:285f:bbcd:1fa4:34dd])
-	by smtp.googlemail.com with ESMTPSA id
-	b3sm8467243ywc.24.2016.02.25.18.59.03
-	(version=TLSv1/SSLv3 cipher=OTHER);
-	Thu, 25 Feb 2016 18:59:03 -0800 (PST)
-To: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Chris Patterson <cjp256@gmail.com>
+	h=x-gm-message-state:mime-version:in-reply-to:references:date
+	:message-id:subject:from:to:cc;
+	bh=+iGSF6aPTUrpeTEmJN5gecneqdPtQkYVd2W5a4KYADU=;
+	b=dQIcScZoq30yhx+svwOpXaCb0+x3WCrc2TojD+JWBZKf9d/aSj1D8M1MrQa7YT6Mme
+	XiAAXPSZxiOOViv/i+Fd14YWOuVm3kQsFj0D0nBVlC5OgaOC/Vau6RUH7yu9M6TdaPuy
+	nM4j14ue/M/0g5gQtxhD9wL/pTP7plf6lk1MwVi2mF8Mw+DVaJ8pFEVswTS0gIxS0VK8
+	Z1SdaU1jbb4tNF/9h22nqBUiodvwXFU+xqjAg1o/6sea6DgC/R4MkLgCXgh58ZJxfx+T
+	zTtWWB+ePjHYaO32XDbxc2M56Tvdf4Nshh6Kbsl8vak/oURwUHfoY/t2UILUHTAtSUOI
+	25Qg==
+X-Gm-Message-State: AD7BkJKj1wUb7Ew+8pHK9STQy20OzQykWkAjupTqdTF3UpLGHaP4lFluvNbIPIkD70J3f+dBBnlO/ybI9MSpMg==
+MIME-Version: 1.0
+X-Received: by 10.31.167.195 with SMTP id q186mr2041787vke.113.1456507682634; 
+	Fri, 26 Feb 2016 09:28:02 -0800 (PST)
+Received: by 10.176.0.50 with HTTP; Fri, 26 Feb 2016 09:28:02 -0800 (PST)
+In-Reply-To: <56CFBF77.5050700@cardoe.com>
 References: <1455291269-32533-1-git-send-email-cjp256@gmail.com>
 	<CADkTA4MW9xP254y=tBQU33pztWGJwqqQUb+BwEApFb3UvUg8Ag@mail.gmail.com>
 	<CADkTA4NLHMjkY92WYWam7zzPqKXeD_S48bWKvQq3wgvao_20BA@mail.gmail.com>
-From: Doug Goldstein <cardoe@cardoe.com>
-Message-ID: <56CFBF77.5050700@cardoe.com>
-Date: Thu, 25 Feb 2016 20:59:03 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.6.0
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4NLHMjkY92WYWam7zzPqKXeD_S48bWKvQq3wgvao_20BA@mail.gmail.com>
+	<56CFBF77.5050700@cardoe.com>
+Date: Fri, 26 Feb 2016 12:28:02 -0500
+Message-ID: <CADkTA4PXCzzo=irtKjf6aRrVwxw5TLi41U35hoC=sK924g72KA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Doug Goldstein <cardoe@cardoe.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] xen.inc: fix ordering of stubs task
@@ -74,62 +79,101 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Feb 2016 02:59:07 -0000
-X-Groupsio-MsgNum: 1819
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature";
-	boundary="so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs"
+X-List-Received-Date: Fri, 26 Feb 2016 17:28:05 -0000
+Content-Type: multipart/alternative; boundary=001a11425fba093ffb052caf9f81
 
---so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs
-Content-Type: text/plain; charset=windows-1252
+--001a11425fba093ffb052caf9f81
+Content-Type: text/plain; charset=UTF-8
+
+On Thu, Feb 25, 2016 at 9:59 PM, Doug Goldstein <cardoe@cardoe.com> wrote:
+
+> On 2/24/16 10:04 AM, Bruce Ashfield wrote:
+> > Someone was pinging me about cherry-picking a patch to Jethro, but I
+> can't
+> > find any trace of that email any more.
+> >
+> > I can't even remember 100% who it was, but this patch rings a bell.
+> >
+> > Does anyone know of this, or other Xen patches that should also be
+> > pulled into
+> > the jethro branch ?
+> >
+> > Bruce
+>
+> Bruce,
+>
+> They likely pinged you off list because they dropped me a note and I
+> told them to ask you to backport this. As far as I'm aware this is the
+> only fix needed and its necessary into jethro and master.
+>
+
+Great. No worries about pinging me, whatever way works, I just read the
+email
+filed it .. and then couldn't find it again.
+
+So I figured that I had better broadcast before it was completely swapped
+out
+of my memory.
+
+This should now be on master and jethro.
+
+Bruce
+
+
+>
+> --
+> Doug Goldstein
+>
+>
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a11425fba093ffb052caf9f81
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 2/24/16 10:04 AM, Bruce Ashfield wrote:
-> Someone was pinging me about cherry-picking a patch to Jethro, but I ca=
-n't
-> find any trace of that email any more.
->=20
-> I can't even remember 100% who it was, but this patch rings a bell.
->=20
-> Does anyone know of this, or other Xen patches that should also be
-> pulled into
-> the jethro branch ?
->=20
-> Bruce
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Feb 25, 2016 at 9:59 PM, Doug Goldstein <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:cardoe@cardoe.com" target=3D"_blank">cardoe@cardoe.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On 2/=
+24/16 10:04 AM, Bruce Ashfield wrote:<br>
+&gt; Someone was pinging me about cherry-picking a patch to Jethro, but I c=
+an&#39;t<br>
+&gt; find any trace of that email any more.<br>
+&gt;<br>
+&gt; I can&#39;t even remember 100% who it was, but this patch rings a bell=
+.<br>
+&gt;<br>
+&gt; Does anyone know of this, or other Xen patches that should also be<br>
+&gt; pulled into<br>
+&gt; the jethro branch ?<br>
+&gt;<br>
+&gt; Bruce<br>
+<br>
+</span>Bruce,<br>
+<br>
+They likely pinged you off list because they dropped me a note and I<br>
+told them to ask you to backport this. As far as I&#39;m aware this is the<=
+br>
+only fix needed and its necessary into jethro and master.<br></blockquote><=
+div><br></div><div>Great. No worries about pinging me, whatever way works, =
+I just read the email</div><div>filed it .. and then couldn&#39;t find it a=
+gain.</div><div><br></div><div>So I figured that I had better broadcast bef=
+ore it was completely swapped out</div><div>of my memory.</div><div><br></d=
+iv><div>This should now be on master and jethro.</div><div><br></div><div>B=
+ruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+Doug Goldstein<br>
+<br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
+er, for chaos and madness await thee at its end&quot;</div>
+</div></div>
 
-Bruce,
-
-They likely pinged you off list because they dropped me a note and I
-told them to ask you to backport this. As far as I'm aware this is the
-only fix needed and its necessary into jethro and master.
-
---=20
-Doug Goldstein
-
-
---so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG/MacGPG2 v2.0
-
-iQJ8BAEBCgBmBQJWz793XxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
-ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
-MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUoAsP/R+C53GduFSWbIeQkGoFH0MR
-i6Cs0SHu+TF5oZgnnHvAzsY6hRmMgtXQZcpRwiS7UpVRXAiPYD9lkWwhu+bL4Zrq
-7ac0I1OFDHHQ9v6czMk8iQBT6P1oT1vgVfkl9eloGadQMi4+q0S1U17yxVBQKEMA
-V5lQylZMpCne82MZ83RQZw8714R7qVXoI4u21sQHQK6Znw1Cg2vtHvILzNbwLHEU
-ukH2hJPe2GeTvKF8StY2wtcOqlsNfJsvln3kjQMR+26ejEhHeawX9mDWuAD+wgu3
-QQxDStq6Xjv/pQF9kPaD6fe/fh/KI00Cupk4nXgCa8rr0RCjNZXXiEorkY94sghE
-Vw+1/fg84IqM6xEqKZgErjz3v6XbU1Js0/z7HQMIn++LHseG5nG1dtN1MtqipUhS
-LyVj/xlPtD8KgJddIBr+2J5Pljjp0f53NyAXTnHSHs7VelyJdmJ4aZ25h1EyW161
-83iyHV+7IhlmCS3o7RtwtsnYyoeKr3IuJ7Z3/Y6jXYpLVpfcy4qcmk1HAGfHP1hO
-KD86WQ2mafBURJ/xPkqlmVaBPxW3NwDLnDcvvhl2YuRbWUIw1kcrzyJl9nZmBugH
-yOWdtZLqAf9r8LXf7vupzX+0iFcyTT/DJf/JMnt91yL2dhcvNzYOLPtAZhxHpyx6
-wWEInOb773obbK9bY8GO
-=RxA+
------END PGP SIGNATURE-----
-
---so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs--
+--001a11425fba093ffb052caf9f81--
