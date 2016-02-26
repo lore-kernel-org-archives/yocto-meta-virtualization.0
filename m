@@ -1,66 +1,64 @@
-Return-Path: <cjp256@gmail.com>
+Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 93FAEE007B5; Wed, 24 Feb 2016 10:36:17 -0800 (PST)
+	id 70447E00D2C; Thu, 25 Feb 2016 18:59:07 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (cjp256[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.223.172 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-io0-f172.google.com (mail-io0-f172.google.com
-	[209.85.223.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 83199E00720
+Received: from mail-yk0-f181.google.com (mail-yk0-f181.google.com
+	[209.85.160.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C48E8E00D25
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 24 Feb 2016 10:36:14 -0800 (PST)
-Received: by mail-io0-f172.google.com with SMTP id g203so57542919iof.2
+	Thu, 25 Feb 2016 18:59:05 -0800 (PST)
+Received: by mail-yk0-f181.google.com with SMTP id r207so31077079ykd.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 24 Feb 2016 10:36:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-type;
-	bh=yetryJFHiSUcud6ZmWK/DHcnXiqMKDarQxifF8Afw/s=;
-	b=Gx5hoJBq0eEWzOx9ob4rtiUBnKOt3IS4dCQ3q4vV4ygW++zmvCBCzwa7TAi93KJHSM
-	jaIYAmqi06UW1hxXFXrxy8O+m9I6b028IW7mVokJ6soN885ckOdjq5XG7q4IY5GnsDe6
-	7Dics9MhvKHysgNvDwHA51DDeXr7DEJ3nBBkQD7sHjbx6jw00taAW3vPqpalrcYkeNAQ
-	bl4bZfJg3qzvL1mT8EJYY2Pe7G10G80lTyunAJt0wH2Wjeq7DmEeTOrXuX92YCS3Dydi
-	agwfbx7zFhwFFJ0E0BHjuW2zoYAJupFx1OjS7R0OFMYCPdZ9lQy3QvGDs/aBj4dGwDIi
-	Flcw==
+	Thu, 25 Feb 2016 18:59:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-type;
+	bh=YeHAFQGiVhEel48/8U3fRyrQq+7iJ0MmnOKckva7B6c=;
+	b=aClWqAza8fzdpZfufWfqIdcq08jTzsOLCNsgLT1zhdWmRnnHu8bmmifH6asMSDL/DD
+	XqKqYJcasGWHCxNxqcp7tGFRrjP0mNr527xA8LUt/T64xMbQmB+bM13wyq/bW+//ZMB7
+	x4qv1gJelGP2AgHYIB4VWo9x0/LL6O2tScSAg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-type;
-	bh=yetryJFHiSUcud6ZmWK/DHcnXiqMKDarQxifF8Afw/s=;
-	b=gPPI6Zv8SZw/tdHU9EgLNhOiM+w2X/bHWyI/Vn44Cllqb3+VglKKAMjQXBpJqdsvow
-	LDqiUuEDXtAeZKPDEFkm5ztF5UxNQkhVfh1ngsYhqakz7RZ/jgRIksMlfhJaWopxPQGv
-	8FkpwdqsTSGfHxTL9lBD/gLRCJvAbTJsR+L5aXvdYu546B+n8vjnY8OrzpZy2yzkC6k6
-	EhIJT0g3ukslk4DC3ZJqbtdKZ9d71Mco1RusZirFHng8Wf0gsjsLniVaQGGD1QxK8Jls
-	qHpikheKSZIOASdh96ndRG11+jkWqK0DoC+nhlaI9LGq31aJrQWlvXDImHc6aLZl4Crd
-	DeeA==
-X-Gm-Message-State: AG10YOTpMHP8g9HPkY3zAUqS9PbtLw/bLvWBfl5qYVJhI7tXSC1cghqGUlUyUHILj74SuKQIvFRWM1auddPF6A==
-X-Received: by 10.50.67.47 with SMTP id k15mr23061918igt.18.1456338970104;
-	Wed, 24 Feb 2016 10:36:10 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.79.98.7 with HTTP; Wed, 24 Feb 2016 10:35:48 -0800 (PST)
-In-Reply-To: <CADkTA4NLHMjkY92WYWam7zzPqKXeD_S48bWKvQq3wgvao_20BA@mail.gmail.com>
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-type;
+	bh=YeHAFQGiVhEel48/8U3fRyrQq+7iJ0MmnOKckva7B6c=;
+	b=Aqwvfl9w8EP3uuhMgL8ucnJRulNKJW4ePgj3hGZ5L6oi9qlWlD1OsFvbLwmoKDZuZf
+	x5iZwpId+xqEEJF/HDdJyvWuC1NZwmgC3LW5m4xLCgqmw6fXMr58S9fGo/vJeHMCe6x0
+	/GVBoFg2PCUMKxgIK4u0MNFeTIN1pri62cLxiyfIs0CfR+99+twtH0uFKMbos/H0TukA
+	EvTH8iUmN2VXiFqpiwzyoYHm6f2Ngv3trFvQU66pHe8wYqXekcqWzwnBjGKEjlkC9n5X
+	qopNTrj5PY3I/LVNMyO6Ya+57mPyCVd+BcWUQzO6/gvxRWdNOiLhNtZ3iwOVqWHSAXzB
+	b9hQ==
+X-Gm-Message-State: AG10YOSjoBppmWj4v+pQcJ+s5M94Hqul2S/fQWsZDZFOL7xrBG2mReX/HiS3gwMBkUNs3w==
+X-Received: by 10.37.100.8 with SMTP id y8mr18811512ybb.33.1456455545111;
+	Thu, 25 Feb 2016 18:59:05 -0800 (PST)
+Received: from doug-macbook.lan ([2601:7c0:c300:dad6:285f:bbcd:1fa4:34dd])
+	by smtp.googlemail.com with ESMTPSA id
+	b3sm8467243ywc.24.2016.02.25.18.59.03
+	(version=TLSv1/SSLv3 cipher=OTHER);
+	Thu, 25 Feb 2016 18:59:03 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Chris Patterson <cjp256@gmail.com>
 References: <1455291269-32533-1-git-send-email-cjp256@gmail.com>
 	<CADkTA4MW9xP254y=tBQU33pztWGJwqqQUb+BwEApFb3UvUg8Ag@mail.gmail.com>
 	<CADkTA4NLHMjkY92WYWam7zzPqKXeD_S48bWKvQq3wgvao_20BA@mail.gmail.com>
-From: Chris Patterson <cjp256@gmail.com>
-Date: Wed, 24 Feb 2016 13:35:48 -0500
-Message-ID: <CABZSBQc4WpA211+s2bArhf3SmnvcQYiyCFTJKZQqupHgTxTFhw@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+From: Doug Goldstein <cardoe@cardoe.com>
+Message-ID: <56CFBF77.5050700@cardoe.com>
+Date: Thu, 25 Feb 2016 20:59:03 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
+	Gecko/20100101 Thunderbird/38.6.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4NLHMjkY92WYWam7zzPqKXeD_S48bWKvQq3wgvao_20BA@mail.gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] xen.inc: fix ordering of stubs task
@@ -76,27 +74,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Feb 2016 18:36:17 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 26 Feb 2016 02:59:07 -0000
+X-Groupsio-MsgNum: 1819
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs"
 
-On Wed, Feb 24, 2016 at 11:04 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> Someone was pinging me about cherry-picking a patch to Jethro, but I can't
+--so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
+
+On 2/24/16 10:04 AM, Bruce Ashfield wrote:
+> Someone was pinging me about cherry-picking a patch to Jethro, but I ca=
+n't
 > find any trace of that email any more.
->
+>=20
 > I can't even remember 100% who it was, but this patch rings a bell.
->
-> Does anyone know of this, or other Xen patches that should also be pulled
-> into
+>=20
+> Does anyone know of this, or other Xen patches that should also be
+> pulled into
 > the jethro branch ?
->
+>=20
 > Bruce
 
-It was not me, but this fix applies to jethro as well. I'd recommend
-pushing to jethro & master (although you said "merged" above, I am not
-seeing it in master). :)
+Bruce,
 
-I'm not aware of other outstanding xen patches.
+They likely pinged you off list because they dropped me a note and I
+told them to ask you to backport this. As far as I'm aware this is the
+only fix needed and its necessary into jethro and master.
 
-Thanks Bruce!
+--=20
+Doug Goldstein
 
+
+--so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG/MacGPG2 v2.0
+
+iQJ8BAEBCgBmBQJWz793XxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
+MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUoAsP/R+C53GduFSWbIeQkGoFH0MR
+i6Cs0SHu+TF5oZgnnHvAzsY6hRmMgtXQZcpRwiS7UpVRXAiPYD9lkWwhu+bL4Zrq
+7ac0I1OFDHHQ9v6czMk8iQBT6P1oT1vgVfkl9eloGadQMi4+q0S1U17yxVBQKEMA
+V5lQylZMpCne82MZ83RQZw8714R7qVXoI4u21sQHQK6Znw1Cg2vtHvILzNbwLHEU
+ukH2hJPe2GeTvKF8StY2wtcOqlsNfJsvln3kjQMR+26ejEhHeawX9mDWuAD+wgu3
+QQxDStq6Xjv/pQF9kPaD6fe/fh/KI00Cupk4nXgCa8rr0RCjNZXXiEorkY94sghE
+Vw+1/fg84IqM6xEqKZgErjz3v6XbU1Js0/z7HQMIn++LHseG5nG1dtN1MtqipUhS
+LyVj/xlPtD8KgJddIBr+2J5Pljjp0f53NyAXTnHSHs7VelyJdmJ4aZ25h1EyW161
+83iyHV+7IhlmCS3o7RtwtsnYyoeKr3IuJ7Z3/Y6jXYpLVpfcy4qcmk1HAGfHP1hO
+KD86WQ2mafBURJ/xPkqlmVaBPxW3NwDLnDcvvhl2YuRbWUIw1kcrzyJl9nZmBugH
+yOWdtZLqAf9r8LXf7vupzX+0iFcyTT/DJf/JMnt91yL2dhcvNzYOLPtAZhxHpyx6
+wWEInOb773obbK9bY8GO
+=RxA+
+-----END PGP SIGNATURE-----
+
+--so36glgG54qVl0Vtg1uhjnd8uuRnF9Vxs--
