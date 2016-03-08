@@ -1,43 +1,82 @@
-Return-Path: <mbgrego@tycho.nsa.gov>
+Return-Path: <bogdan.purcareata@nxp.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 87BD8E00848; Mon,  7 Mar 2016 12:25:49 -0800 (PST)
+	id 6B7ADE006AE; Tue,  8 Mar 2016 03:18:32 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
-	RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [63.239.67.9 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [157.55.234.63 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-Received: from emvm-gh1-uea08.nsa.gov (emvm-gh1-uea08.nsa.gov [63.239.67.9])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4AED1E00803
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+X-Greylist: delayed 896 seconds by postgrey-1.32 at yocto-www;
+	Tue, 08 Mar 2016 03:18:27 PST
+Received: from emea01-db3-obe.outbound.protection.outlook.com
+	(mail-db3on0063.outbound.protection.outlook.com [157.55.234.63])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2C3A3E0077F
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  7 Mar 2016 12:25:47 -0800 (PST)
-X-TM-IMSS-Message-ID: <75d9458300089bd7@nsa.gov>
-Received: from tarius.tycho.ncsc.mil ([144.51.242.1]) by nsa.gov
-	([10.208.42.193]) with ESMTP (TREND IMSS SMTP Service 7.1) id
-	75d9458300089bd7 ; Mon, 7 Mar 2016 15:24:47 -0500
-Received: from moss-wolfpack.infosec.tycho.ncsc.mil (moss-wolfpack
-	[192.168.25.76])
-	by tarius.tycho.ncsc.mil (8.14.4/8.14.4) with ESMTP id u27KPjNJ029157; 
-	Mon, 7 Mar 2016 15:25:45 -0500
+	Tue,  8 Mar 2016 03:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com; 
+	s=selector1-nxp-com;
+	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=cjsnzedR0C8QIKC7A+7DFz/8VewzsR6WinF8uU4CXxM=;
+	b=oHsQV5CoRT6OeMXX5i3dXUEbf+e3pd4jOWUILTn9/toaiwZnalOVfIVuR+PjH6z16f6YW21il5+6u2p2aFF7afoQeKsPbldbyO6YklQ8CSsbFjumlSYpm1nK1+Opw4vhzbKXd8qUe9BfA4GSW0vaCMNfToMB6tNfCAy47G/zF04=
+Received: from DB5PR04MB1240.eurprd04.prod.outlook.com (10.162.156.142) by
+	DB5PR04MB1239.eurprd04.prod.outlook.com (10.162.156.141) with Microsoft
+	SMTP Server (TLS) id 15.1.427.16; Tue, 8 Mar 2016 11:03:28 +0000
+Received: from DB5PR04MB1240.eurprd04.prod.outlook.com ([10.162.156.142]) by
+	DB5PR04MB1240.eurprd04.prod.outlook.com ([10.162.156.142]) with mapi id
+	15.01.0427.019; Tue, 8 Mar 2016 11:03:28 +0000
+From: Bogdan Purcareata <bogdan.purcareata@nxp.com>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <1457127016-16947-1-git-send-email-mbgrego@tycho.nsa.gov>
-	<CADkTA4NU8nbaTeWNdRXa4qUgTw9KBCmTXnrwC7hMMYEroS59UA@mail.gmail.com>
-From: "M. Gregory" <mbgrego@tycho.nsa.gov>
-Message-ID: <56DDE34E.5000602@tycho.nsa.gov>
-Date: Mon, 7 Mar 2016 15:23:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.1.0
+Thread-Topic: [meta-virtualization] [PATCH] lxc: upstream fixes for lxc-execute
+Thread-Index: AQHRcxLNKmJB7ZLWkUiT2OLlK5ttfZ9ON/8AgAE2I4A=
+Date: Tue, 8 Mar 2016 11:03:28 +0000
+Message-ID: <56DEB17F.3050003@nxp.com>
+References: <1456759679-385-1-git-send-email-bogdan.purcareata@nxp.com>
+	<CADkTA4NtVdvuimG7uL9EiyR8C8bTdTqhEY8KnHyaqYNyoWt28w@mail.gmail.com>
+In-Reply-To: <CADkTA4NtVdvuimG7uL9EiyR8C8bTdTqhEY8KnHyaqYNyoWt28w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: gmail.com; dkim=none (message not signed)
+	header.d=none;gmail.com; dmarc=none action=none header.from=nxp.com;
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [192.88.146.1]
+x-ms-office365-filtering-correlation-id: 47d6c935-f59e-4d1d-c03f-08d34741477c
+x-microsoft-exchange-diagnostics: 1; DB5PR04MB1239;
+	5:lfLBcxbIyvwFQ+GHN2G7WwJbUs+HpwTwJRsgjBiWzYX1Wy9W0Rim2vHjM8/2yoseNjsF8idK9qBGwyD72O5yA/BGUyQTPKLcWe4RW9bMuAoxeHMudAdvcHKE+g0Xfax9ZjGs03nuNKrTHfgQMP79Zw==;
+	24:17jcK/1oa0TrLXAl0p7rjqUFnGgU1LY7iOui2sSeDde3CDVI55mtWsQsKCVXmq0B+zfsARw5jQ+sUfXovfM+sQ2dEIGM3bqsjNPrS07hjDw=
+x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:DB5PR04MB1239;
+x-microsoft-antispam-prvs: <DB5PR04MB1239823D5B7AB99596F2D0D8EAB20@DB5PR04MB1239.eurprd04.prod.outlook.com>
+x-exchange-antispam-report-test: UriScan:;
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(8121501046)(5005006)(3002001)(10201501046);
+	SRVR:DB5PR04MB1239; BCL:0; PCL:0; RULEID:; SRVR:DB5PR04MB1239; 
+x-forefront-prvs: 08756AC3C8
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(6009001)(377454003)(24454002)(122556002)(5004730100002)(77096005)(15975445007)(33656002)(5002640100001)(40100003)(4326007)(66066001)(36756003)(50986999)(76176999)(87266999)(54356999)(86362001)(65816999)(2900100001)(2950100001)(575784001)(102836003)(6116002)(19580395003)(19580405001)(80316001)(106116001)(81166005)(1220700001)(87936001)(1096002)(3846002)(2906002)(10400500002)(15395725005)(92566002)(586003)(5008740100001)(110136002)(189998001)(3280700002)(3660700001)(11100500001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DB5PR04MB1239;
+	H:DB5PR04MB1240.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	MLV:sfv; LANG:en; 
+spamdiagnosticoutput: 1:23
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4NU8nbaTeWNdRXa4qUgTw9KBCmTXnrwC7hMMYEroS59UA@mail.gmail.com>
-X-TM-AS-MML: disable
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Mar 2016 11:03:28.5613 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR04MB1239
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Fix QA Issues when building for aarch64 machines
+Subject: Re: [PATCH] lxc: upstream fixes for lxc-execute
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -50,235 +89,178 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 07 Mar 2016 20:25:49 -0000
-Content-Type: multipart/alternative;
-	boundary="------------040700000902090106020900"
+X-List-Received-Date: Tue, 08 Mar 2016 11:18:32 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <13798B8969FD954A8316E5687457E071@eurprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
---------------040700000902090106020900
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+VGhhbmsgeW91IQ0KDQpDb3VsZCB5b3Uga2luZGx5IGNoZXJyeS1waWNrIHRoaXMgY29tbWl0IG9u
+IHRoZSBqZXRocm8gYnJhbmNoIGFzIHdlbGw/IFNvcnJ5IEkgDQpmYWlsZWQgdG8gbWVudGlvbiB0
+aGlzIGluIHRoZSBpbml0aWFsIHBhdGNoLg0KDQpUaGFuayB5b3UhDQpCb2dkYW4gUC4NCg0KT24g
+MDcuMDMuMjAxNiAxODozMywgQnJ1Y2UgQXNoZmllbGQgd3JvdGU6DQo+IG1lcmdlZCB0byBtYXN0
+ZXIuDQo+DQo+IEJydWNlDQo+DQo+IE9uIE1vbiwgRmViIDI5LCAyMDE2IGF0IDEwOjI3IEFNLCBC
+b2dkYW4gUHVyY2FyZWF0YSA8DQo+IGJvZ2Rhbi5wdXJjYXJlYXRhQG54cC5jb20+IHdyb3RlOg0K
+Pg0KPj4gVGhlc2UgcGF0Y2hlcyBhZGRyZXNzIHNvbWUgd2FybmluZ3MgdGhhdCBMWEMgdGhyb3dz
+IHdoZW4gcnVubmluZw0KPj4gYW4gYXBwbGljYXRpb24gY29udGFpbmVyLiBUaGV5IGFyZSBjdXJy
+ZW50bHkgYXBwbGllZCBpbiB0aGUgb2ZmaWNpYWwNCj4+IHJlcG9zaXRvcnkuDQo+Pg0KPj4gU2ln
+bmVkLW9mZi1ieTogQm9nZGFuIFB1cmNhcmVhdGEgPGJvZ2Rhbi5wdXJjYXJlYXRhQG54cC5jb20+
+DQo+PiAtLS0NCj4+ICAgLi4ucy1DcmVhdGUtZGV2LXNobS1mb2xkZXItaWYtaXQtZG9lc24tdC1l
+eGkucGF0Y2ggfCAzOSArKysrKysrKysrKysNCj4+ICAgLi4uaWZfbmVlZGVkLW9ubHktc2FmZS1t
+b3VudC13aGVuLXJvb3Rmcy1pcy0ucGF0Y2ggfCA2OQ0KPj4gKysrKysrKysrKysrKysrKysrKysr
+Kw0KPj4gICAuLi50X3N5bWxpbmstQWNjb3VudC13aGVuLXByZWZpeC1pcy1lbXB0eS1zdC5wYXRj
+aCB8IDM3ICsrKysrKysrKysrKw0KPj4gICByZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2x4Y18xLjEu
+NC5iYiAgICAgICAgICAgICAgICB8ICAzICsNCj4+ICAgNCBmaWxlcyBjaGFuZ2VkLCAxNDggaW5z
+ZXJ0aW9ucygrKQ0KPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4+IHJlY2lwZXMtY29udGFpbmVy
+cy9seGMvZmlsZXMvbHhjX3NldHVwX2ZzLUNyZWF0ZS1kZXYtc2htLWZvbGRlci1pZi1pdC1kb2Vz
+bi10LWV4aS5wYXRjaA0KPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4+IHJlY2lwZXMtY29udGFp
+bmVycy9seGMvZmlsZXMvbW91bnRfcHJvY19pZl9uZWVkZWQtb25seS1zYWZlLW1vdW50LXdoZW4t
+cm9vdGZzLWlzLS5wYXRjaA0KPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4+IHJlY2lwZXMtY29u
+dGFpbmVycy9seGMvZmlsZXMvb3Blbl93aXRob3V0X3N5bWxpbmstQWNjb3VudC13aGVuLXByZWZp
+eC1pcy1lbXB0eS1zdC5wYXRjaA0KPj4NCj4+IGRpZmYgLS1naXQNCj4+IGEvcmVjaXBlcy1jb250
+YWluZXJzL2x4Yy9maWxlcy9seGNfc2V0dXBfZnMtQ3JlYXRlLWRldi1zaG0tZm9sZGVyLWlmLWl0
+LWRvZXNuLXQtZXhpLnBhdGNoDQo+PiBiL3JlY2lwZXMtY29udGFpbmVycy9seGMvZmlsZXMvbHhj
+X3NldHVwX2ZzLUNyZWF0ZS1kZXYtc2htLWZvbGRlci1pZi1pdC1kb2Vzbi10LWV4aS5wYXRjaA0K
+Pj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4IDAwMDAwMDAuLjc1MWE3YWMNCj4+IC0t
+LSAvZGV2L251bGwNCj4+ICsrKw0KPj4gYi9yZWNpcGVzLWNvbnRhaW5lcnMvbHhjL2ZpbGVzL2x4
+Y19zZXR1cF9mcy1DcmVhdGUtZGV2LXNobS1mb2xkZXItaWYtaXQtZG9lc24tdC1leGkucGF0Y2gN
+Cj4+IEBAIC0wLDAgKzEsMzkgQEANCj4+ICtGcm9tIDgxZTNjOWNmOGIyZjIzMGQ3NjE3MzhkYTI4
+ZTlkYzY5ZmI5MGVjNDYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxDQo+PiArRnJvbTogQm9nZGFu
+IFB1cmNhcmVhdGEgPGJvZ2Rhbi5wdXJjYXJlYXRhQG54cC5jb20+DQo+PiArRGF0ZTogRnJpLCA4
+IEphbiAyMDE2IDE1OjM4OjQ0ICswMDAwDQo+PiArU3ViamVjdDogW1BBVENIXSBseGNfc2V0dXBf
+ZnM6IENyZWF0ZSAvZGV2L3NobSBmb2xkZXIgaWYgaXQgZG9lc24ndCBleGlzdA0KPj4gKw0KPj4g
+K1doZW4gcnVubmluZyBhcHBsaWNhdGlvbiBjb250YWluZXJzIHdpdGggbHhjLWV4ZWN1dGUsIC9k
+ZXYgaXMNCj4+ICtwb3B1bGF0ZWQgb25seSB3aXRoIGRldmljZSBlbnRyaWVzLiBTaW5jZSAvZGV2
+IGlzIGEgdG1wZnMgbW91bnQgaW4NCj4+ICt0aGUgY29udGFpbmVyIGVudmlyb25tZW50LCB0aGUg
+L2Rldi9zaG0gZm9sZGVyIG5vdCBiZWluZyBwcmVzZW50IGlzIG5vdA0KPj4gK2Egc3VmZmljaWVu
+dCByZWFzb24gZm9yIHRoZSAvZGV2L3NobSBtb3VudCB0byBmYWlsLg0KPj4gKw0KPj4gK0NyZWF0
+ZSB0aGUgL2Rldi9zaG0gZGlyZWN0b3J5IGlmIG5vdCBwcmVzZW50Lg0KPj4gKw0KPj4gK1Vwc3Ry
+ZWFtLXN0YXR1czogQWNjZXB0ZWQNCj4+ICtbDQo+PiBodHRwczovL2dpdGh1Yi5jb20vbHhjL2x4
+Yy9jb21taXQvODFlM2M5Y2Y4YjJmMjMwZDc2MTczOGRhMjhlOWRjNjlmYjkwZWM0Ng0KPj4gXQ0K
+Pj4gKw0KPj4gK1NpZ25lZC1vZmYtYnk6IEJvZ2RhbiBQdXJjYXJlYXRhIDxib2dkYW4ucHVyY2Fy
+ZWF0YUBueHAuY29tPg0KPj4gK0Fja2VkLWJ5OiBTZXJnZSBFLiBIYWxseW4gPHNlcmdlLmhhbGx5
+bkB1YnVudHUuY29tPg0KPj4gKy0tLQ0KPj4gKyBzcmMvbHhjL2luaXR1dGlscy5jIHwgNCArKysr
+DQo+PiArIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKykNCj4+ICsNCj4+ICtkaWZmIC0t
+Z2l0IGEvc3JjL2x4Yy9pbml0dXRpbHMuYyBiL3NyYy9seGMvaW5pdHV0aWxzLmMNCj4+ICtpbmRl
+eCA0NWRmNjBmLi44ZDkwMTZjIDEwMDY0NA0KPj4gKy0tLSBhL3NyYy9seGMvaW5pdHV0aWxzLmMN
+Cj4+ICsrKysgYi9zcmMvbHhjL2luaXR1dGlscy5jDQo+PiArQEAgLTQ3LDYgKzQ3LDEwIEBAIGV4
+dGVybiB2b2lkIGx4Y19zZXR1cF9mcyh2b2lkKQ0KPj4gKyAgICAgICBpZiAobW91bnRfZnMoInBy
+b2MiLCAiL3Byb2MiLCAicHJvYyIpKQ0KPj4gKyAgICAgICAgICAgICAgIElORk8oImZhaWxlZCB0
+byByZW1vdW50IHByb2MiKTsNCj4+ICsNCj4+ICsrICAgICAgLyogaWYgL2RldiBoYXMgYmVlbiBw
+b3B1bGF0ZWQgYnkgdXMsIC9kZXYvc2htIGRvZXMgbm90IGV4aXN0ICovDQo+PiArKyAgICAgIGlm
+IChhY2Nlc3MoIi9kZXYvc2htIiwgRl9PSykgJiYgbWtkaXIoIi9kZXYvc2htIiwgMDc3NykpDQo+
+PiArKyAgICAgICAgICAgICAgSU5GTygiZmFpbGVkIHRvIGNyZWF0ZSAvZGV2L3NobSIpOw0KPj4g
+KysNCj4+ICsgICAgICAgLyogaWYgd2UgY2FuJ3QgbW91bnQgL2Rldi9zaG0sIGNvbnRpbnVlIGFu
+eXdheSAqLw0KPj4gKyAgICAgICBpZiAobW91bnRfZnMoInNobWZzIiwgIi9kZXYvc2htIiwgInRt
+cGZzIikpDQo+PiArICAgICAgICAgICAgICAgSU5GTygiZmFpbGVkIHRvIG1vdW50IC9kZXYvc2ht
+Iik7DQo+PiArLS0NCj4+ICsxLjkuMQ0KPj4gKw0KPj4gZGlmZiAtLWdpdA0KPj4gYS9yZWNpcGVz
+LWNvbnRhaW5lcnMvbHhjL2ZpbGVzL21vdW50X3Byb2NfaWZfbmVlZGVkLW9ubHktc2FmZS1tb3Vu
+dC13aGVuLXJvb3Rmcy1pcy0ucGF0Y2gNCj4+IGIvcmVjaXBlcy1jb250YWluZXJzL2x4Yy9maWxl
+cy9tb3VudF9wcm9jX2lmX25lZWRlZC1vbmx5LXNhZmUtbW91bnQtd2hlbi1yb290ZnMtaXMtLnBh
+dGNoDQo+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMC4uYzNhZmQ4NQ0K
+Pj4gLS0tIC9kZXYvbnVsbA0KPj4gKysrDQo+PiBiL3JlY2lwZXMtY29udGFpbmVycy9seGMvZmls
+ZXMvbW91bnRfcHJvY19pZl9uZWVkZWQtb25seS1zYWZlLW1vdW50LXdoZW4tcm9vdGZzLWlzLS5w
+YXRjaA0KPj4gQEAgLTAsMCArMSw2OSBAQA0KPj4gK0Zyb20gZjI2N2Q2NjY4ZTNhOTVjYjIyNDdh
+Y2NiMTY5Y2YxYmM3ZjhmZmNhYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4+ICtGcm9tOiBC
+b2dkYW4gUHVyY2FyZWF0YSA8Ym9nZGFuLnB1cmNhcmVhdGFAbnhwLmNvbT4NCj4+ICtEYXRlOiBX
+ZWQsIDIwIEphbiAyMDE2IDEwOjUzOjU3ICswMDAwDQo+PiArU3ViamVjdDogW1BBVENIXSBtb3Vu
+dF9wcm9jX2lmX25lZWRlZDogb25seSBzYWZlIG1vdW50IHdoZW4gcm9vdGZzIGlzDQo+PiBkZWZp
+bmVkDQo+PiArDQo+PiArVGhlIHNhZmVfbW91bnQgZnVuY3Rpb24gd2FzIGludHJvZHVjZWQgaW4g
+b3JkZXIgdG8gYWRkcmVzcyBDVkUtMjAxNS0xMzM1LA0KPj4gK29uZSBvZiB0aGUgdnVsbmVyYWJp
+bGl0aWVzIGJlaW5nIGEgbW91bnQgd2l0aCBhIHN5bWxpbmsgZm9yIHRoZQ0KPj4gK2Rlc3RpbmF0
+aW9uIHBhdGguIEluIHNjZW5hcmlvcyBzdWNoIGFzIGx4Yy1leGVjdXRlIHdpdGggbm8gcm9vdGZz
+LCB0aGUNCj4+ICtkZXN0aW5hdGlvbiBwYXRoIGlzIHRoZSBob3N0IC9wcm9jLCB3aGljaCBpcyBw
+cmV2aW91c2x5IG1vdW50ZWQgYnkgdGhlDQo+PiAraG9zdCwgYW5kIGlzIHVubW91bnRlZCBhbmQg
+bW91bnRlZCBhZ2FpbiBpbiBhIG5ldyBzZXQgb2YgbmFtZXNwYWNlcywNCj4+ICt0aGVyZWZvcmUg
+ZWxpbWluYXRpbmcgdGhlIG5lZWQgdG8gY2hlY2sgZm9yIGl0IGJlaW5nIGEgc3ltbGluay4NCj4+
+ICsNCj4+ICtNb3VudCB0aGUgcm9vdGZzIG5vcm1hbGx5IGlmIHRoZSByb290ZnMgaXMgTlVMTCwg
+a2VlcCB0aGUgc2FmZSBtb3VudA0KPj4gK29ubHkgZm9yIHNjZW5hcmlvcyB3aGVyZSBhIGRpZmZl
+cmVudCByb290ZnMgaXMgZGVmaW5lZC4NCj4+ICsNCj4+ICtVcHN0cmVhbS1zdGF0dXM6IEFjY2Vw
+dGVkDQo+PiArWw0KPj4gaHR0cHM6Ly9naXRodWIuY29tL2x4Yy9seGMvY29tbWl0L2YyNjdkNjY2
+OGUzYTk1Y2IyMjQ3YWNjYjE2OWNmMWJjN2Y4ZmZjYWINCj4+IF0NCj4+ICsNCj4+ICtTaWduZWQt
+b2ZmLWJ5OiBCb2dkYW4gUHVyY2FyZWF0YSA8Ym9nZGFuLnB1cmNhcmVhdGFAbnhwLmNvbT4NCj4+
+ICtBY2tlZC1ieTogU2VyZ2UgRS4gSGFsbHluIDxzZXJnZS5oYWxseW5AdWJ1bnR1LmNvbT4NCj4+
+ICstLS0NCj4+ICsgc3JjL2x4Yy9jb25mLmMgIHwgIDEgKw0KPj4gKyBzcmMvbHhjL3V0aWxzLmMg
+fCAxMCArKysrKysrKystDQo+PiArIDIgZmlsZXMgY2hhbmdlZCwgMTAgaW5zZXJ0aW9ucygrKSwg
+MSBkZWxldGlvbigtKQ0KPj4gKw0KPj4gK2RpZmYgLS1naXQgYS9zcmMvbHhjL2NvbmYuYyBiL3Ny
+Yy9seGMvY29uZi5jDQo+PiAraW5kZXggNjMyZGRlMy4uMWUzMGMwYyAxMDA2NDQNCj4+ICstLS0g
+YS9zcmMvbHhjL2NvbmYuYw0KPj4gKysrKyBiL3NyYy9seGMvY29uZi5jDQo+PiArQEAgLTM1MDks
+NiArMzUwOSw3IEBAIGludCB0dHlzX3NoaWZ0X2lkcyhzdHJ1Y3QgbHhjX2NvbmYgKmMpDQo+PiAr
+ICAgICAgIHJldHVybiAwOw0KPj4gKyB9DQo+PiArDQo+PiArKy8qIE5PVEU6IG5vdCB0byBiZSBj
+YWxsZWQgZnJvbSBpbnNpZGUgdGhlIGNvbnRhaW5lciBuYW1lc3BhY2UhICovDQo+PiArIGludCB0
+bXBfcHJvY19tb3VudChzdHJ1Y3QgbHhjX2NvbmYgKmx4Y19jb25mKQ0KPj4gKyB7DQo+PiArICAg
+ICAgIGludCBtb3VudGVkOw0KPj4gK2RpZmYgLS1naXQgYS9zcmMvbHhjL3V0aWxzLmMgYi9zcmMv
+bHhjL3V0aWxzLmMNCj4+ICtpbmRleCA0ZTk2YTUwLi4wYmM3YTIwIDEwMDY0NA0KPj4gKy0tLSBh
+L3NyYy9seGMvdXRpbHMuYw0KPj4gKysrKyBiL3NyYy9seGMvdXRpbHMuYw0KPj4gK0BAIC0xNzA0
+LDYgKzE3MDQsOCBAQCBpbnQgc2FmZV9tb3VudChjb25zdCBjaGFyICpzcmMsIGNvbnN0IGNoYXIg
+KmRlc3QsDQo+PiBjb25zdCBjaGFyICpmc3R5cGUsDQo+PiArICAqDQo+PiArICAqIFJldHVybnMg
+PCAwIG9uIGZhaWx1cmUsIDAgaWYgdGhlIGNvcnJlY3QgcHJvYyB3YXMgYWxyZWFkeSBtb3VudGVk
+DQo+PiArICAqIGFuZCAxIGlmIGEgbmV3IHByb2Mgd2FzIG1vdW50ZWQuDQo+PiArKyAqDQo+PiAr
+KyAqIE5PVEU6IG5vdCB0byBiZSBjYWxsZWQgZnJvbSBpbnNpZGUgdGhlIGNvbnRhaW5lciBuYW1l
+c3BhY2UhDQo+PiArICAqLw0KPj4gKyBpbnQgbW91bnRfcHJvY19pZl9uZWVkZWQoY29uc3QgY2hh
+ciAqcm9vdGZzKQ0KPj4gKyB7DQo+PiArQEAgLTE3MzcsOCArMTczOSwxNCBAQCBpbnQgbW91bnRf
+cHJvY19pZl9uZWVkZWQoY29uc3QgY2hhciAqcm9vdGZzKQ0KPj4gKyAgICAgICByZXR1cm4gMDsN
+Cj4+ICsNCj4+ICsgZG9tb3VudDoNCj4+ICstICAgICAgaWYgKHNhZmVfbW91bnQoInByb2MiLCBw
+YXRoLCAicHJvYyIsIDAsIE5VTEwsIHJvb3RmcykgPCAwKQ0KPj4gKysgICAgICBpZiAoIXN0cmNt
+cChyb290ZnMsIiIpKSAvKiByb290ZnMgaXMgTlVMTCAqLw0KPj4gKysgICAgICAgICAgICAgIHJl
+dCA9IG1vdW50KCJwcm9jIiwgcGF0aCwgInByb2MiLCAwLCBOVUxMKTsNCj4+ICsrICAgICAgZWxz
+ZQ0KPj4gKysgICAgICAgICAgICAgIHJldCA9IHNhZmVfbW91bnQoInByb2MiLCBwYXRoLCAicHJv
+YyIsIDAsIE5VTEwsIHJvb3Rmcyk7DQo+PiArKw0KPj4gKysgICAgICBpZiAocmV0IDwgMCkNCj4+
+ICsgICAgICAgICAgICAgICByZXR1cm4gLTE7DQo+PiArKw0KPj4gKyAgICAgICBJTkZPKCJNb3Vu
+dGVkIC9wcm9jIGluIGNvbnRhaW5lciBmb3Igc2VjdXJpdHkgdHJhbnNpdGlvbiIpOw0KPj4gKyAg
+ICAgICByZXR1cm4gMTsNCj4+ICsgfQ0KPj4gKy0tDQo+PiArMS45LjENCj4+ICsNCj4+IGRpZmYg
+LS1naXQNCj4+IGEvcmVjaXBlcy1jb250YWluZXJzL2x4Yy9maWxlcy9vcGVuX3dpdGhvdXRfc3lt
+bGluay1BY2NvdW50LXdoZW4tcHJlZml4LWlzLWVtcHR5LXN0LnBhdGNoDQo+PiBiL3JlY2lwZXMt
+Y29udGFpbmVycy9seGMvZmlsZXMvb3Blbl93aXRob3V0X3N5bWxpbmstQWNjb3VudC13aGVuLXBy
+ZWZpeC1pcy1lbXB0eS1zdC5wYXRjaA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4+IGluZGV4
+IDAwMDAwMDAuLjI4Zjk4ODkNCj4+IC0tLSAvZGV2L251bGwNCj4+ICsrKw0KPj4gYi9yZWNpcGVz
+LWNvbnRhaW5lcnMvbHhjL2ZpbGVzL29wZW5fd2l0aG91dF9zeW1saW5rLUFjY291bnQtd2hlbi1w
+cmVmaXgtaXMtZW1wdHktc3QucGF0Y2gNCj4+IEBAIC0wLDAgKzEsMzcgQEANCj4+ICtGcm9tIDAx
+MDc0ZTViMzQ3MTk1MzdjZWY0NzRjNmI4MWQ0ZjU1ZTY0Mjc2MzkgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxDQo+PiArRnJvbTogQm9nZGFuIFB1cmNhcmVhdGEgPGJvZ2Rhbi5wdXJjYXJlYXRhQG54
+cC5jb20+DQo+PiArRGF0ZTogRnJpLCA4IEphbiAyMDE2IDE1OjM4OjM1ICswMDAwDQo+PiArU3Vi
+amVjdDogW1BBVENIXSBvcGVuX3dpdGhvdXRfc3ltbGluazogQWNjb3VudCB3aGVuIHByZWZpeCBp
+cyBlbXB0eSBzdHJpbmcNCj4+ICsNCj4+ICtJbiB0aGUgY3VycmVudCBpbXBsZW1lbnRhdGlvbiwg
+dGhlIG9wZW5fd2l0aG91dF9zeW1saW5rIGZ1bmN0aW9uDQo+PiArd2lsbCBkZWZhdWx0IHRvIG9w
+ZW5pbmcgdGhlIHJvb3QgbW91bnQgb25seSBpZiB0aGUgcGFzc2VkIHJvb3Rmcw0KPj4gK3ByZWZp
+eCBpcyBudWxsLiBJdCBkb2Vzbid0IGFjY291bnQgZm9yIHRoZSBjYXNlIHdoZXJlIHRoaXMgcHJl
+Zml4DQo+PiAraXMgcGFzc2VkIGFzIGFuIGVtcHR5IHN0cmluZy4NCj4+ICsNCj4+ICtQcm9wZXJs
+eSBoYW5kbGUgdGhpcyBzZWNvbmQgY2FzZSBhcyB3ZWxsLg0KPj4gKw0KPj4gK1Vwc3RyZWFtLVN0
+YXR1czogQWNjZXB0ZWQNCj4+ICtbDQo+PiBodHRwczovL2dpdGh1Yi5jb20vbHhjL2x4Yy9jb21t
+aXQvMDEwNzRlNWIzNDcxOTUzN2NlZjQ3NGM2YjgxZDRmNTVlNjQyNzYzOQ0KPj4gXQ0KPj4gKw0K
+Pj4gK1NpZ25lZC1vZmYtYnk6IEJvZ2RhbiBQdXJjYXJlYXRhIDxib2dkYW4ucHVyY2FyZWF0YUBu
+eHAuY29tPg0KPj4gK0Fja2VkLWJ5OiBTZXJnZSBFLiBIYWxseW4gPHNlcmdlLmhhbGx5bkB1YnVu
+dHUuY29tPg0KPj4gKy0tLQ0KPj4gKyBzcmMvbHhjL3V0aWxzLmMgfCAyICstDQo+PiArIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPj4gKw0KPj4gK2RpZmYg
+LS1naXQgYS9zcmMvbHhjL3V0aWxzLmMgYi9zcmMvbHhjL3V0aWxzLmMNCj4+ICtpbmRleCBlZDhj
+NGM0Li40ZTk2YTUwIDEwMDY0NA0KPj4gKy0tLSBhL3NyYy9seGMvdXRpbHMuYw0KPj4gKysrKyBi
+L3NyYy9seGMvdXRpbHMuYw0KPj4gK0BAIC0xNTc1LDcgKzE1NzUsNyBAQCBzdGF0aWMgaW50IG9w
+ZW5fd2l0aG91dF9zeW1saW5rKGNvbnN0IGNoYXIgKnRhcmdldCwNCj4+IGNvbnN0IGNoYXIgKnBy
+ZWZpeF9za2lwKQ0KPj4gKyAgICAgICBmdWxsbGVuID0gc3RybGVuKHRhcmdldCk7DQo+PiArDQo+
+PiArICAgICAgIC8qIG1ha2Ugc3VyZSBwcmVmaXgtc2tpcCBtYWtlcyBzZW5zZSAqLw0KPj4gKy0g
+ICAgICBpZiAocHJlZml4X3NraXApIHsNCj4+ICsrICAgICAgaWYgKHByZWZpeF9za2lwICYmIHN0
+cmxlbihwcmVmaXhfc2tpcCkgPiAwKSB7DQo+PiArICAgICAgICAgICAgICAgY3VybGVuID0gc3Ry
+bGVuKHByZWZpeF9za2lwKTsNCj4+ICsgICAgICAgICAgICAgICBpZiAoIWlzX3N1YmRpcih0YXJn
+ZXQsIHByZWZpeF9za2lwLCBjdXJsZW4pKSB7DQo+PiArICAgICAgICAgICAgICAgICAgICAgICBF
+UlJPUigiV0hPQSB0aGVyZSAtIHRhcmdldCAnJXMnIGRpZG4ndCBzdGFydCB3aXRoDQo+PiBwcmVm
+aXggJyVzJyIsDQo+PiArLS0NCj4+ICsxLjkuMQ0KPj4gKw0KPj4gZGlmZiAtLWdpdCBhL3JlY2lw
+ZXMtY29udGFpbmVycy9seGMvbHhjXzEuMS40LmJiIGIvcmVjaXBlcy1jb250YWluZXJzL2x4Yy8N
+Cj4+IGx4Y18xLjEuNC5iYg0KPj4gaW5kZXggNDAwNmRlYi4uZTAxN2RjZiAxMDA2NDQNCj4+IC0t
+LSBhL3JlY2lwZXMtY29udGFpbmVycy9seGMvbHhjXzEuMS40LmJiDQo+PiArKysgYi9yZWNpcGVz
+LWNvbnRhaW5lcnMvbHhjL2x4Y18xLjEuNC5iYg0KPj4gQEAgLTM0LDYgKzM0LDkgQEAgU1JDX1VS
+SSA9ICINCj4+IGh0dHA6Ly9saW51eGNvbnRhaW5lcnMub3JnL2Rvd25sb2Fkcy8ke0JQTn0tJHtQ
+Vn0udGFyLmd6IFwNCj4+ICAgICAgICAgIGZpbGU6Ly9tYWtlLXNvbWUtT3BlblNTSC10b29scy1v
+cHRpb25hbC5wYXRjaCBcDQo+PiAgICAgICAgICBmaWxlOi8vbHhjLWRvYy11cGdyYWRlLXRvLXVz
+ZS1kb2Nib29rLTMuMS1EVEQucGF0Y2ggXA0KPj4gICAgICAgICAgZmlsZTovL2xvZ3Mtb3B0aW9u
+YWxseS11c2UtYmFzZS1maWxlbmFtZXMtdG8tcmVwb3J0LXNyYy1maWwucGF0Y2ggXA0KPj4gKyAg
+ICAgICBmaWxlOi8vb3Blbl93aXRob3V0X3N5bWxpbmstQWNjb3VudC13aGVuLXByZWZpeC1pcy1l
+bXB0eS1zdC5wYXRjaCBcDQo+PiArICAgICAgIGZpbGU6Ly9seGNfc2V0dXBfZnMtQ3JlYXRlLWRl
+di1zaG0tZm9sZGVyLWlmLWl0LWRvZXNuLXQtZXhpLnBhdGNoIFwNCj4+ICsgICAgICAgZmlsZTov
+L21vdW50X3Byb2NfaWZfbmVlZGVkLW9ubHktc2FmZS1tb3VudC13aGVuLXJvb3Rmcy1pcy0ucGF0
+Y2ggXA0KPj4gICAgICAgICAgIg0KPj4NCj4+ICAgU1JDX1VSSVttZDVzdW1dID0gImQzM2M0YmQ5
+YzU3NzU1YzBlMmIwZTJhY2JjM2YxNzFkIg0KPj4gLS0NCj4+IDEuOS4xDQo+Pg0KPj4gLS0NCj4+
+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+PiBtZXRh
+LXZpcnR1YWxpemF0aW9uIG1haWxpbmcgbGlzdA0KPj4gbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0
+b3Byb2plY3Qub3JnDQo+PiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvbGlzdGluZm8v
+bWV0YS12aXJ0dWFsaXphdGlvbg0KPj4NCj4NCj4NCj4=
 
-
-
-On 03/07/2016 11:34 AM, Bruce Ashfield wrote:
-> I merged this by mistake while reviewing the change .. but I have a
-> question.
->
-> On Fri, Mar 4, 2016 at 4:30 PM, Machon Gregory <mbgrego@tycho.nsa.gov
-> <mailto:mbgrego@tycho.nsa.gov>> wrote:
->
->     When building for the aarch64 based machines the following QA Issue is
->     produced:
->
->     ERROR: QA Issue: xen: Files/directories were installed but not
->     shipped in any package:
->       /usr/lib64
->       /usr/lib64/efi
->       /usr/lib64/efi/xen-4.6.efi
->       /usr/lib64/efi/xen-4.6.0.efi
->       /usr/lib64/efi/xen.efi
->       /usr/lib64/efi/xen-4.efi
->
->     Signed-off-by: Machon Gregory <mbgrego@tycho.nsa.gov
->     <mailto:mbgrego@tycho.nsa.gov>>
->     ---
->      recipes-extended/xen/xen.inc | 6 ++++++
->      1 file changed, 6 insertions(+)
->
->     diff --git a/recipes-extended/xen/xen.inc
->     b/recipes-extended/xen/xen.inc
->     index d35bc3f..2eba012 100644
->     --- a/recipes-extended/xen/xen.inc
->     +++ b/recipes-extended/xen/xen.inc
->     @@ -151,6 +151,7 @@ PACKAGES = "\
->          ${PN}-dev \
->          ${PN}-devd \
->          ${PN}-doc \
->     +    ${PN}-efi \
->          ${PN}-flask \
->          ${PN}-fsimage \
->          ${PN}-gdbsx \
->     @@ -303,6 +304,11 @@ FILES_${PN}-hypervisor = "\
->          /boot/xen-syms-* \
->          "
->
->     +FILES_${PN}-efi = "\
->     +    ${exec_prefix}/lib64 \
->     +    ${exec_prefix}/lib64/xen* \
->
->
-> This should be ${libdir), which tracks lib or lib64 based on the arch.
-> I don't have a
-> Xen build handy to try a quick test. Can you confirm that libdir also
-> fixes this ?
->
-In my build ${libdir} is set to /usr/lib despite the architecture
-aarch64. Xen arm64.mk manually sets EFI_DIR=/usr/lib64. I realize the
-that patch I submitted goes against convention, but I am not sure of the
-correct solution. Would it be better to set EFI_DIR=${libdir}?
-> Bruce
->  
->
->     +    "
->     +
->      FILES_${PN}-base = "\
->          ${sysconfdir}/xen/auto \
->          ${sysconfdir}/xen/cpupool \
->     --
->     2.1.0
->
->     --
->     _______________________________________________
->     meta-virtualization mailing list
->     meta-virtualization@yoctoproject.org
->     <mailto:meta-virtualization@yoctoproject.org>
->     https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
->
->
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-
--- 
-Machon Gregory
-Trusted Mechanisms Team
-Trusted Systems Research Group 
-(443)634-3832
-
-
---------------040700000902090106020900
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-  </head>
-  <body bgcolor="#FFFFFF" text="#000000">
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 03/07/2016 11:34 AM, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote
-cite="mid:CADkTA4NU8nbaTeWNdRXa4qUgTw9KBCmTXnrwC7hMMYEroS59UA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">I merged this by mistake while reviewing the change
-        .. but I have a question.
-        <div class="gmail_extra"><br>
-          <div class="gmail_quote">On Fri, Mar 4, 2016 at 4:30 PM,
-            Machon Gregory <span dir="ltr">&lt;<a
-                moz-do-not-send="true"
-                href="mailto:mbgrego@tycho.nsa.gov" target="_blank"><a class="moz-txt-link-abbreviated" href="mailto:mbgrego@tycho.nsa.gov">mbgrego@tycho.nsa.gov</a></a>&gt;</span>
-            wrote:<br>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">When
-              building for the aarch64 based machines the following QA
-              Issue is<br>
-              produced:<br>
-              <br>
-              ERROR: QA Issue: xen: Files/directories were installed but
-              not shipped in any package:<br>
-                /usr/lib64<br>
-                /usr/lib64/efi<br>
-                /usr/lib64/efi/xen-4.6.efi<br>
-                /usr/lib64/efi/xen-4.6.0.efi<br>
-                /usr/lib64/efi/xen.efi<br>
-                /usr/lib64/efi/xen-4.efi<br>
-              <br>
-              Signed-off-by: Machon Gregory &lt;<a
-                moz-do-not-send="true"
-                href="mailto:mbgrego@tycho.nsa.gov"><a class="moz-txt-link-abbreviated" href="mailto:mbgrego@tycho.nsa.gov">mbgrego@tycho.nsa.gov</a></a>&gt;<br>
-              ---<br>
-               recipes-extended/xen/xen.inc | 6 ++++++<br>
-               1 file changed, 6 insertions(+)<br>
-              <br>
-              diff --git a/recipes-extended/xen/xen.inc
-              b/recipes-extended/xen/xen.inc<br>
-              index d35bc3f..2eba012 100644<br>
-              --- a/recipes-extended/xen/xen.inc<br>
-              +++ b/recipes-extended/xen/xen.inc<br>
-              @@ -151,6 +151,7 @@ PACKAGES = "\<br>
-                   ${PN}-dev \<br>
-                   ${PN}-devd \<br>
-                   ${PN}-doc \<br>
-              +    ${PN}-efi \<br>
-                   ${PN}-flask \<br>
-                   ${PN}-fsimage \<br>
-                   ${PN}-gdbsx \<br>
-              @@ -303,6 +304,11 @@ FILES_${PN}-hypervisor = "\<br>
-                   /boot/xen-syms-* \<br>
-                   "<br>
-              <br>
-              +FILES_${PN}-efi = "\<br>
-              +    ${exec_prefix}/lib64 \<br>
-              +    ${exec_prefix}/lib64/xen* \<br>
-            </blockquote>
-            <div><br>
-            </div>
-            <div>This should be ${libdir), which tracks lib or lib64
-              based on the arch. I don't have a</div>
-            <div>Xen build handy to try a quick test. Can you confirm
-              that libdir also fixes this ?</div>
-            <div><br>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    In my build ${libdir} is set to /usr/lib despite the architecture
-    aarch64. Xen arm64.mk manually sets EFI_DIR=/usr/lib64. I realize
-    the that patch I submitted goes against convention, but I am not
-    sure of the correct solution. Would it be better to set
-    EFI_DIR=${libdir}? <br>
-    <blockquote
-cite="mid:CADkTA4NU8nbaTeWNdRXa4qUgTw9KBCmTXnrwC7hMMYEroS59UA@mail.gmail.com"
-      type="cite">
-      <div dir="ltr">
-        <div class="gmail_extra">
-          <div class="gmail_quote">
-            <div>Bruce</div>
-            <div> </div>
-            <blockquote class="gmail_quote" style="margin:0 0 0
-              .8ex;border-left:1px #ccc solid;padding-left:1ex">
-              +    "<br>
-              +<br>
-               FILES_${PN}-base = "\<br>
-                   ${sysconfdir}/xen/auto \<br>
-                   ${sysconfdir}/xen/cpupool \<br>
-              <span class="HOEnZb"><font color="#888888">--<br>
-                  2.1.0<br>
-                  <br>
-                  --<br>
-                  _______________________________________________<br>
-                  meta-virtualization mailing list<br>
-                  <a moz-do-not-send="true"
-                    href="mailto:meta-virtualization@yoctoproject.org">meta-virtualization@yoctoproject.org</a><br>
-                  <a moz-do-not-send="true"
-                    href="https://lists.yoctoproject.org/listinfo/meta-virtualization"
-                    rel="noreferrer" target="_blank">https://lists.yoctoproject.org/listinfo/meta-virtualization</a><br>
-                </font></span></blockquote>
-          </div>
-          <br>
-          <br clear="all">
-          <div><br>
-          </div>
-          -- <br>
-          <div class="gmail_signature">"Thou shalt not follow the NULL
-            pointer, for chaos and madness await thee at its end"</div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Machon Gregory
-Trusted Mechanisms Team
-Trusted Systems Research Group 
-(443)634-3832
-</pre>
-  </body>
-</html>
-
---------------040700000902090106020900--
