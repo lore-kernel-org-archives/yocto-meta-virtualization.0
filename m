@@ -1,6 +1,6 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E0A55E00973; Mon, 21 Mar 2016 07:21:20 -0700 (PDT)
+	id 683A2E00973; Mon, 21 Mar 2016 07:24:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,24 +9,24 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 88D93E00948
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 14450E00948
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 Mar 2016 07:21:18 -0700 (PDT)
+	Mon, 21 Mar 2016 07:24:54 -0700 (PDT)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2LELHJS029641
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2LEOrtv029727
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 Mar 2016 07:21:17 -0700
+	Mon, 21 Mar 2016 07:24:53 -0700
 Received: from server.local (147.11.116.210) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 21 Mar 2016 07:21:16 -0700
+	Mon, 21 Mar 2016 07:24:53 -0700
 To: Mark Asselstine <mark.asselstine@windriver.com>,
 	<meta-virtualization@yoctoproject.org>
 References: <1458334211-26727-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56F0035C.6080009@windriver.com>
-Date: Mon, 21 Mar 2016 10:21:16 -0400
+Message-ID: <56F00434.7000208@windriver.com>
+Date: Mon, 21 Mar 2016 10:24:52 -0400
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
 	Gecko/20100101 Thunderbird/38.7.0
 MIME-Version: 1.0
@@ -44,7 +44,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 14:21:20 -0000
+X-List-Received-Date: Mon, 21 Mar 2016 14:24:55 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -53,7 +53,7 @@ On 2016-03-18 4:50 PM, Mark Asselstine wrote:
 > set. Since we overwrite the CFLAGS by exporting CFLAGS and passing
 > '-e' to make, we need to include these in our defined CFLAGS.
 
-Patches 1 and 3 of the series have been merged to master.
+Correction: patches 1 & 2 were merged!
 
 Bruce
 
