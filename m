@@ -1,41 +1,65 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <cjp256@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 37062E00973; Mon, 21 Mar 2016 07:26:58 -0700 (PDT)
+	id 1676BE00AD8; Wed, 23 Mar 2016 07:10:22 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (cjp256[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F3AC0E00948
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 Mar 2016 07:26:54 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2LEQr8i002906
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 Mar 2016 07:26:53 -0700 (PDT)
-Received: from server.local (147.11.116.210) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 21 Mar 2016 07:26:52 -0700
-To: Mark Asselstine <mark.asselstine@windriver.com>,
-	<meta-virtualization@yoctoproject.org>
-References: <1458231905-15071-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56F004AC.4090001@windriver.com>
-Date: Mon, 21 Mar 2016 10:26:52 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.0
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.214.178 listed in list.dnswl.org]
+Received: from mail-ob0-f178.google.com (mail-ob0-f178.google.com
+	[209.85.214.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C5E6EE009D7;
+	Wed, 23 Mar 2016 07:10:07 -0700 (PDT)
+Received: by mail-ob0-f178.google.com with SMTP id m7so13506593obh.3;
+	Wed, 23 Mar 2016 07:10:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/BbxB6N+j4XeGxfZS8JI2dUl8GLa9YPzQ+JqI7NDTYM=;
+	b=xn9xU/fWZ0nnuK7rlQDSXURqpqOcSSxGWtS7dBSiq5AXqybwBcHaqVDUYEAJNK1DmK
+	7uBeWc5rFg3KB9/Cgw0ZYn1GMS7GgeJuT/mWGjZAIBpivB6+KtPvqhaGXzNBC11lvqBU
+	ZyHtqudeZzI/jbv/jv5lXH2+1RriuDbRAYe5ZNlbivqqp8iak9S5JIjdUzdhKtc7pZNj
+	jMtfHeAA+mxndkpBfct641GbJAyJBuOVz8h7MKrecYbbazU4YcJPeL20aPtM0QHQ8Kkv
+	vRD09BjHJtRAPvGF1l4Vu8lrQ9ImFoFp1GI+qCL2Zr84ibsVKiaL5I8j4YB2617ypXrb
+	VW8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/BbxB6N+j4XeGxfZS8JI2dUl8GLa9YPzQ+JqI7NDTYM=;
+	b=VBTJC/4zddrqb25pVPF841WeEq+MsyK/GeZrO9pbIlBQArBdcJM/yQAiM3LvZ4QFYz
+	vDadbp1ybMahS39GhEM69Fsam0mCOjbIuJvyuwWxn9ZVtXj++YCIha/38iERuiylk4GX
+	ai4zR+X6ld27k0kbAlZmYPzKu68RxuE9EFeTv65zO5+DeQ9FRAOJxccS7EkiZi6xVb/s
+	yp2b7i2vF8kYwHFqERPq3JUwfX1LTd4Y+dFqbI/H8AjzsFTigK0vKpkyGZ74TQPxfS0v
+	NS73WSATF+/5ssjYHzQN8YISn4ivjuGIa+4oRoLqDEEhJu9nS5vvmZrfTwopdOVFhKV0
+	Z+Dw==
+X-Gm-Message-State: AD7BkJJYf/hnBtma6Qcr3NqPW6wEYeKbeMHFARCbKdXIZYd1syXQIp+18klYR4l7TBqzL1LBRHCEjgzblVKJ+Q==
+X-Received: by 10.60.39.105 with SMTP id o9mr1555355oek.31.1458742206820; Wed,
+	23 Mar 2016 07:10:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1458231905-15071-1-git-send-email-mark.asselstine@windriver.com>
-Cc: arnold.german@windriver.com
-Subject: Re: [PATCH] lxc: fix build issue - unable to find Python.h
+Received: by 10.157.15.72 with HTTP; Wed, 23 Mar 2016 07:09:47 -0700 (PDT)
+In-Reply-To: <d5ba2b9811994d2dbfe58a1e46e7721a@SI-MBX1022.de.bosch.com>
+References: <d5ba2b9811994d2dbfe58a1e46e7721a@SI-MBX1022.de.bosch.com>
+From: Chris Patterson <cjp256@gmail.com>
+Date: Wed, 23 Mar 2016 10:09:47 -0400
+Message-ID: <CABZSBQcgfuZ6_+6WnPhBTX7vDz0vJpWBMtZLMb+ZJ72qd04DNw@mail.gmail.com>
+To: "Olsson Rikard (RBSN/ESW1)" <Rikard.Olsson@se.bosch.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [yocto] Question about XEN-hypervisor and Yocto build system
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,99 +72,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 Mar 2016 14:26:58 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 23 Mar 2016 14:10:22 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On 2016-03-17 12:25 PM, Mark Asselstine wrote:
-> Prior to poky commit 3d45853eef1269b455d840a60491802251368378
-> [python3: fix do_configure check platform triplet error] lxc's
-> configure scripts would fail to find python3 and would therefor
-> configure with python3 support disabled.
->
-> After poky integrated the above commit lxc can, and does, detect
-> python3 and attempts to configure with python support. Unfortunately
-> it would detect the host's python3 which it would use to run setup.py
-> and therefor get the host's include path etc. and ultimately fail to
-> build.
->
-> To fix this we make 'python' support configurable via a PACKAGECONFIG
-> and we default to not configuring with this support, to match our
-> previous configuration. We also fix things such that 'python' support
-> can be enabled in the PACKAGECONFIG and the build will complete
-> successfully, using our python3 and not the host's.
+(CCing meta-virtualization)
 
-merged as-is to master.
+On Wed, Mar 23, 2016 at 8:46 AM, Olsson Rikard (RBSN/ESW1)
+<Rikard.Olsson@se.bosch.com> wrote:
+> Hello Yocto Members,
+>
+> I am looking into xen-hypervisor and have downloaded the meta-virtualization layer and updated bblayers.conf to pull in the layer. However I am unsure how to proceed:
+> 1) How do I configure the meta-virtualization to use Xen hypervisor
 
->
-> We might want to eventually enable the python support but since this
-> not only enables python extensions but even goes as far as turning
-> scripts like lxc-ls into python scripts, instead of shell scripts,
-> keeping it disabled for now is the minimally invasive approach.
+You will need to add "xen" to your DISTRO_FEATURES to toggle on the
+yocto kernel config fragment for xen support, as well as libvirt.
 
-Indeed. That's overkill for now, but definitely something to consider.
-
-Bruce
-
+> 2) What target do I build/bb file do I build.
 >
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->   recipes-containers/lxc/lxc_1.1.4.bb | 21 +++++++++++++++++++++
->   1 file changed, 21 insertions(+)
+> I usually build either:
+> bitbake core-image-minimal ==> Standard Linux for our HW board
+> bitbake core-image-XXX--XXX ==> Standard Linux for our HW board + additional application layers.
 >
-> diff --git a/recipes-containers/lxc/lxc_1.1.4.bb b/recipes-containers/lxc/lxc_1.1.4.bb
-> index e017dcf..a4c44d2 100644
-> --- a/recipes-containers/lxc/lxc_1.1.4.bb
-> +++ b/recipes-containers/lxc/lxc_1.1.4.bb
-> @@ -64,6 +64,13 @@ PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparm
->   PACKAGECONFIG[templates] = ",,, ${PN}-templates"
->   PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
->   PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
-> +PACKAGECONFIG[python] = "--enable-python,--disable-python,python3,python3-core"
-> +
-> +# required by python3 to run setup.py
-> +export BUILD_SYS
-> +export HOST_SYS
-> +export STAGING_INCDIR
-> +export STAGING_LIBDIR
->
->   inherit autotools pkgconfig ptest update-rc.d systemd
->
-> @@ -78,6 +85,7 @@ INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
->   FILES_${PN}-doc = "${mandir} ${infodir}"
->   # For LXC the docdir only contains example configuration files and should be included in the lxc package
->   FILES_${PN} += "${docdir}"
-> +FILES_${PN} += "${libdir}/python3*"
->   FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
->   PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
->   FILES_${PN}-templates += "${datadir}/lxc/templates"
-> @@ -92,6 +100,12 @@ FILES_${PN}-setup += "/etc/init.d"
->
->   PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
->
-> +CACHED_CONFIGUREVARS += " \
-> +    ac_cv_path_PYTHON='${STAGING_BINDIR_NATIVE}/python3-native/python3' \
-> +    am_cv_python_pyexecdir='${exec_prefix}/${libdir}/python3.5/site-packages' \
-> +    am_cv_python_pythondir='${prefix}/${libdir}/python3.5/site-packages' \
-> +"
-> +
->   do_install_append() {
->   	# The /var/cache/lxc directory created by the Makefile
->   	# is wiped out in volatile, we need to create this at boot.
-> @@ -107,6 +121,13 @@ do_install_append() {
->   	    install -d ${D}${sysconfdir}/init.d
->   	    install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
->   	fi
-> +
-> +	# since python3-native is used for install location this will not be
-> +	# suitable for the target and we will have to correct the package install
-> +	if ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
-> +	    if [ -d ${D}${exec_prefix}/lib/python* ]; then mv ${D}${exec_prefix}/lib/python* ${D}${libdir}/; fi
-> +	    rmdir --ignore-fail-on-non-empty ${D}${exec_prefix}/lib
-> +	fi
->   }
->
->   EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
+> I am however unable to understand the connection between the images I currently build and the Xen-hypervisor, for example:
+> recipes-extended/libvirt/libvirt_1.2.19.bb:# xen-minimal config
+> recipes-extended/images/kvm-image-minimal.bb:DESCRIPTION = "A minimal kvm image"
+> recipes-extended/images/xen-image-minimal.bb:DESCRIPTION = "A minimal xen image"
+> What are above bitbake recipes, should I build xen-image-minimal.bb instead of core-image-minimal or....
 >
 
+This largely depends on what you are trying to do, your BSP, if you
+are using the yocto kernel, etc..  Building xen-image-minimal should
+provide a bootable dom0 out of the box (at least for typical x86-64)
+that can start/stop VMs using xl toolstack (not libvirt).
+
+Adding xen support is largely about getting the appropriate kernel
+bits enabled (meta-virtualization provides a config fragment).  For
+dom0, you will also need to configure your bootloader to boot xen, and
+then you will need to add the packages you desire (qemu, libvirt,
+xen-base, etc.) to your specific image.
+
+Good luck!
 
