@@ -1,35 +1,49 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <straka.derek@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DE3B6E00B30; Tue, 29 Mar 2016 03:22:32 -0700 (PDT)
+	id EC133E00BA0; Tue, 29 Mar 2016 05:47:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.220.173 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3A663E00B30
+Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
+	[209.85.220.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C44BFE00B30
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Mar 2016 03:22:29 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u2TAMTwM018363
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 29 Mar 2016 05:47:04 -0700 (PDT)
+Received: by mail-qk0-f173.google.com with SMTP id s5so5206417qkd.0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Mar 2016 03:22:29 -0700
-Received: from PEK-ZHE-D1.wrs.com (128.224.162.234) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Tue, 29 Mar 2016 03:22:28 -0700
-From: <zhe.he@windriver.com>
-To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
-Date: Tue, 29 Mar 2016 18:22:24 +0800
-Message-ID: <67ff683b234a9dbfe944a67652f1c15fc7aaea12.1459246648.git.zhe.he@windriver.com>
+	Tue, 29 Mar 2016 05:47:04 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kcM7XoAQFKmBYRQt6waDtF9vNL0X4YBhCvW4uKVbO5o=;
+	b=TmxKUuwfHTbqDKQwYodO4imByD6lPXNP8SDEVj9JatBnyyrFz04uevIRu4H5FsQ7nM
+	4OFR4dxVK9RMAEJMwratu1c/YehiKoE9hODvY0x561A5xhfxsx9m1QHU6CS5HR6VfKI9
+	AkiD9eqqS8720+9wzMv8MlOrNmsEzf6KbxjPHx6XaSmP2OXnyIyyWXZ7yA1sK5JyM0kq
+	MhbKM0CdwiPMgLgqeGtThSf404DvrusadUkMFUmVRd1vCfkF0n27IKT6xIr+VfkaRs8l
+	HvrIK/YyBQme6os/dUgRT1RtbqDrXgA76chue/25uFZ9s9bl0NXs/Nppr3bQab6RfMMn
+	PXow==
+X-Gm-Message-State: AD7BkJJrpo10UI11P92ys9IpADhSiGmKohYrE6n1na6c4leQiLQkXY9kCbd7C47QWOgu1g==
+X-Received: by 10.55.76.213 with SMTP id z204mr2362233qka.58.1459255623675;
+	Tue, 29 Mar 2016 05:47:03 -0700 (PDT)
+Received: from localhost.localdomain ([96.91.222.230])
+	by smtp.gmail.com with ESMTPSA id
+	i46sm13864021qgd.19.2016.03.29.05.47.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 29 Mar 2016 05:47:03 -0700 (PDT)
+From: Derek Straka <derek@asterius.io>
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 29 Mar 2016 08:46:37 -0400
+Message-Id: <1459255600-14043-1-git-send-email-derek@asterius.io>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1459246648.git.zhe.he@windriver.com>
-References: <cover.1459246648.git.zhe.he@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 1/1] openvswith: Uprev to latest version 2.5.0
+Cc: Derek Straka <derek@asterius.io>
+Subject: [PATCHv2 1/4] xen: split the flask package into a policy and tools package
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,203 +56,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Mar 2016 10:22:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 29 Mar 2016 12:47:06 -0000
 
-From: He Zhe <zhe.he@windriver.com>
-
-Uprev to git rev bb429e09f7783f1ba23ac0682ed9edf424f0cfbb (based on 2.5.0)
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Derek Straka <derek@asterius.io>
 ---
- ...-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch | 69 ++++++++++++++++++++++
- ...-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch | 69 ----------------------
- recipes-networking/openvswitch/openvswitch_git.bb  |  8 +--
- 3 files changed, 73 insertions(+), 73 deletions(-)
- create mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
+ recipes-extended/xen/xen.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch
-new file mode 100644
-index 0000000..b79cb1b
---- /dev/null
-+++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch
-@@ -0,0 +1,69 @@
-+Add test-install rule to support ptest execution
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 2eba012..bc5ff85 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -153,6 +153,7 @@ PACKAGES = "\
+     ${PN}-doc \
+     ${PN}-efi \
+     ${PN}-flask \
++    ${PN}-flask-tools \
+     ${PN}-fsimage \
+     ${PN}-gdbsx \
+     ${PN}-hvmloader \
+@@ -342,13 +343,16 @@ FILES_${PN}-devd = "\
+     "
+ 
+ FILES_${PN}-flask = "\
++    /boot/xenpolicy-${PV} \
++    "
 +
-+Signed-off-by: Radu Patriu <radu.patriu@enea.com>
-+
-+---
-+ Makefile.am |    2 ++
-+ test.mk     |   49 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 51 insertions(+)
-+
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -401,3 +401,5 @@
-+ include windows/automake.mk
-+ include ovn/automake.mk
-+ include selinux/automake.mk
-++include test.mk
-++
-+--- /dev/null
-++++ b/test.mk
-+@@ -0,0 +1,49 @@
-++TEST_DEST ?= ${prefix}/lib/openvswitch
-++TEST_ROOT ?= ${prefix}/lib/openvswitch
-++TEST_DEPEND =
-++
-++if HAVE_OPENSSL
-++TEST_DEPEND += $(TESTPKI_FILES)
-++endif
-++
-++test-install: $(TEST_DEPEND)
-++	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
-++	install -d $(TEST_DEST)/tests ;\
-++	install -d $(TEST_DEST)/python ;\
-++	install -d $(TEST_DEST)/python/ovs ;\
-++	install -d $(TEST_DEST)/python/ovs/db ;\
-++	install -d $(TEST_DEST)/python/ovs/unixctl ;\
-++	install -d $(TEST_DEST)/vswitchd ;\
-++	install vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
-++	install -d $(TEST_DEST)/debian ;\
-++	install debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
-++	install -d $(TEST_DEST)/build-aux ;\
-++	install build-aux/check-structs $(TEST_DEST)/build-aux ;\
-++	install -d $(TEST_DEST)/xenserver ;\
-++	install xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
-++	install xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
-++	install xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
-++	install xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
-++	install xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
-++	install -d $(TEST_DEST)/vtep ;\
-++	install vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
-++	for p in $$list ; do \
-++	  echo $$p ;\
-++	  p=$${p#./} ;\
-++	  pre=$${p#tests\/} ;\
-++	  if test $$pre != $$p ; then \
-++	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
-++	    install $$p $(TEST_DEST)/tests/$$pre ;\
-++	    continue ;\
-++	  fi ;\
-++	  pre=$${p#python\/ovs\/} ;\
-++	  if test $$pre != $$p ; then \
-++	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
-++	    install $$p $(TEST_DEST)/python/ovs/$$pre ;\
-++	    continue ;\
-++	  fi; \
-++	done ;\
-++	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
-++	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
-++	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-++	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
-deleted file mode 100644
-index c8ebff1..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--Add test-install rule to support ptest execution
--
--Signed-off-by: Radu Patriu <radu.patriu@enea.com>
--
-----
-- Makefile.am |    2 ++
-- test.mk     |   49 +++++++++++++++++++++++++++++++++++++++++++++++++
-- 2 files changed, 51 insertions(+)
--
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -382,3 +382,5 @@
-- include datapath-windows/automake.mk
-- include datapath-windows/include/automake.mk
-- include windows/automake.mk
--+include test.mk
--+
----- /dev/null
--+++ b/test.mk
--@@ -0,0 +1,49 @@
--+TEST_DEST ?= ${prefix}/lib/openvswitch
--+TEST_ROOT ?= ${prefix}/lib/openvswitch
--+TEST_DEPEND =
--+
--+if HAVE_OPENSSL
--+TEST_DEPEND += $(TESTPKI_FILES)
--+endif
--+
--+test-install: $(TEST_DEPEND)
--+	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
--+	install -d $(TEST_DEST)/tests ;\
--+	install -d $(TEST_DEST)/python ;\
--+	install -d $(TEST_DEST)/python/ovs ;\
--+	install -d $(TEST_DEST)/python/ovs/db ;\
--+	install -d $(TEST_DEST)/python/ovs/unixctl ;\
--+	install -d $(TEST_DEST)/vswitchd ;\
--+	install vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
--+	install -d $(TEST_DEST)/debian ;\
--+	install debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
--+	install -d $(TEST_DEST)/build-aux ;\
--+	install build-aux/check-structs $(TEST_DEST)/build-aux ;\
--+	install -d $(TEST_DEST)/xenserver ;\
--+	install xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
--+	install xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
--+	install xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
--+	install xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
--+	install xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
--+	install -d $(TEST_DEST)/vtep ;\
--+	install vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
--+	for p in $$list ; do \
--+	  echo $$p ;\
--+	  p=$${p#./} ;\
--+	  pre=$${p#tests\/} ;\
--+	  if test $$pre != $$p ; then \
--+	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
--+	    install $$p $(TEST_DEST)/tests/$$pre ;\
--+	    continue ;\
--+	  fi ;\
--+	  pre=$${p#python\/ovs\/} ;\
--+	  if test $$pre != $$p ; then \
--+	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
--+	    install $$p $(TEST_DEST)/python/ovs/$$pre ;\
--+	    continue ;\
--+	  fi; \
--+	done ;\
--+	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index 0c918cd..700a306 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -9,13 +9,13 @@ RDEPENDS_${PN}-ptest += "\
- 	"
++FILES_${PN}-flask-tools = "\
+     ${sbindir}/flask-get-bool \
+     ${sbindir}/flask-getenforce \
+     ${sbindir}/flask-label-pci \
+     ${sbindir}/flask-loadpolicy \
+     ${sbindir}/flask-set-bool \
+     ${sbindir}/flask-setenforce \
+-    /boot/xenpolicy-${PV} \
+     "
  
- S = "${WORKDIR}/git"
--PV = "2.4.0+${SRCREV}"
-+PV = "2.5.0+${SRCREV}"
- 
- FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
- 
--SRCREV = "bb429e09f7783f1ba23ac0682ed9edf424f0cfbb"
-+SRCREV = "8c0b419a0b9ac0141d6973dcc80306dfc6a83d31"
- SRC_URI += "\
--	git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.4 \
-+	git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.5 \
- 	file://openvswitch-add-more-target-python-substitutions.patch \
- 	file://openvswitch-add-ptest-${SRCREV}.patch \
- 	file://run-ptest \
-@@ -23,7 +23,7 @@ SRC_URI += "\
- 	file://kernel_module.patch \
- 	"
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=5973c953e3c8a767cf0808ff8a0bac1b"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=247d8817aece26b21a8cd6791b3ea994"
- 
- PACKAGECONFIG ?= ""
- PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}/opt/dpdk/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
+ FILES_${PN}-gdbsx = "\
 -- 
-2.0.1
+1.9.1
 
 
