@@ -1,6 +1,6 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <Yunguo.Wei@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 20B78E00C4C; Wed, 30 Mar 2016 05:03:23 -0700 (PDT)
+	id 49E98E00C75; Wed, 30 Mar 2016 23:03:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,29 +12,25 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A03B5E00C27
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A9962E00C62
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 30 Mar 2016 05:03:21 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2UC3KQF027116
+	Wed, 30 Mar 2016 23:03:10 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u2V63996018708
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 30 Mar 2016 05:03:20 -0700 (PDT)
-Received: from server.local (147.11.117.86) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 30 Mar 2016 05:03:19 -0700
-To: He Zhe <zhe.he@windriver.com>, <meta-virtualization@yoctoproject.org>
-References: <cover.1459246648.git.zhe.he@windriver.com>
-	<56FBA8B0.6000204@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <56FBC086.10304@windriver.com>
-Date: Wed, 30 Mar 2016 08:03:18 -0400
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:38.0)
-	Gecko/20100101 Thunderbird/38.7.0
+	Wed, 30 Mar 2016 23:03:10 -0700 (PDT)
+Received: from pek-bsp-build5.wrs.com (128.224.179.117) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.248.2; Wed, 30 Mar 2016 23:03:09 -0700
+From: Yunguo Wei <yunguo.wei@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Thu, 31 Mar 2016 13:58:41 +0800
+Message-ID: <1459403922-50740-1-git-send-email-yunguo.wei@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <56FBA8B0.6000204@windriver.com>
-Subject: Re: [PATCH 0/1] openvswith: Uprev to latest version 2.5.0
+Subject: [V2][PATCH 0/1] libvirt: uprev to 1.3.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,222 +43,307 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Mar 2016 12:03:23 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 31 Mar 2016 06:03:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On 2016-03-30 6:21 AM, He Zhe wrote:
-> Is this OK?
+Please ignore V1 as I found some issue.
 
-I haven't had a chance to look at it yet :)
+V2 changes:
 
-Bruce
+1. use git "-M" option to generate patch for easy review.
 
->
-> Thanks,
-> Zhe
->
-> On 03/29/2016 06:22 PM, zhe.he@windriver.com wrote:
->> From: He Zhe <zhe.he@windriver.com>
->>
->> Test it as follow:
->>
->> --------------------------------
->> host:
->> root@genericx86-64:~# nohup qemu-system-x86_64 -nographic -k en-us -m 256 -net nic,macaddr=1a:46:0b:ca:bc:7a,model=virtio -net tap,script=/etc/qemu-ifup1 -enable-kvm -kernel /boot/bzIma
->> ge -append 'root=/dev/vda ro console=ttyS0' -drive file=/core-image-minimal-genericx86-64.ext4,cache=none,if=virtio -serial telnet::4443,server,nowait &
->> [1] 384
->> root@genericx86-64:~# nohup: ignoring input and appending output to 'nohup.out'
->> device tap0 entered promiscuous mode
->> device ovsbr0 left promiscuous mode
->> device tap0 left promiscuous mode
->> device ovsbr0 entered promiscuous mode
->> device tap0 entered promiscuous mode
->>
->> root@genericx86-64:~# nohup qemu-system-x86_64 -nographic -k en-us -m 256 -net nic,macaddr=1a:46:0b:ca:bc:7b,model=virtio -net tap,script=/etc/qemu-ifup2 -enable-kvm -kernel /boot/bzIma
->> ge -append 'root=/dev/vda ro console=ttyS0' -drive file=/core-image-minimal-genericx86-64.ext4,cache=none,if=virtio -serial telnet::4444,server,nowait &
->> [2] 413
->> root@genericx86-64:~# nohup: ignoring input and appending output to 'nohup.out'
->> device tap1 entered promiscuous mode
->> kvm [384]: vcpu0 disabled perfctr wrmsr: 0xc2 data 0xffff
->> kvm [413]: vcpu0 disabled perfctr wrmsr: 0xc2 data 0xffff
->>
->> root@genericx86-64:~# ifconfig
->> eth0      Link encap:Ethernet  HWaddr 00:1A:A0:10:C3:B7
->>            inet addr:128.224.165.55  Bcast:128.224.165.255  Mask:255.255.255.0
->>            inet6 addr: fe80::21a:a0ff:fe10:c3b7%119/64 Scope:Link
->>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->>            RX packets:64658 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:24444 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:1000
->>            RX bytes:87027867 (82.9 MiB)  TX bytes:4205887 (4.0 MiB)
->>            Interrupt:17
->>
->> lo        Link encap:Local Loopback
->>            inet addr:127.0.0.1  Mask:255.0.0.0
->>            inet6 addr: ::1%119/128 Scope:Host
->>            UP LOOPBACK RUNNING  MTU:65536  Metric:1
->>            RX packets:0 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:0
->>            RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
->>
->> ovsbr0    Link encap:Ethernet  HWaddr 92:A2:85:64:6A:42
->>            inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0
->>            inet6 addr: fe80::90a2:85ff:fe64:6a42%119/64 Scope:Link
->>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->>            RX packets:38 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:15 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:0
->>            RX bytes:8776 (8.5 KiB)  TX bytes:1166 (1.1 KiB)
->>
->> tap0      Link encap:Ethernet  HWaddr E2:52:86:35:F8:FB
->>            inet6 addr: fe80::e052:86ff:fe35:f8fb%119/64 Scope:Link
->>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->>            RX packets:24 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:40 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:500
->>            RX bytes:5088 (4.9 KiB)  TX bytes:6336 (6.1 KiB)
->>
->> tap1      Link encap:Ethernet  HWaddr FA:C3:63:45:40:A8                                                                                                                         [20/5517]
->>            inet6 addr: fe80::f8c3:63ff:fe45:40a8%119/64 Scope:Link
->>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->>            RX packets:25 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:34 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:500
->>            RX bytes:5130 (5.0 KiB)  TX bytes:5820 (5.6 KiB)
->>
->> root@genericx86-64:~# ping 192.168.1.2
->> PING 192.168.1.2 (192.168.1.2): 56 data bytes
->> 64 bytes from 192.168.1.2: seq=0 ttl=64 time=0.533 ms
->> 64 bytes from 192.168.1.2: seq=1 ttl=64 time=0.281 ms
->> ^C
->> --- 192.168.1.2 ping statistics ---
->> 2 packets transmitted, 2 packets received, 0% packet loss
->> round-trip min/avg/max = 0.281/0.407/0.533 ms
->> root@genericx86-64:~# ping 192.168.1.3
->> PING 192.168.1.3 (192.168.1.3): 56 data bytes
->> 64 bytes from 192.168.1.3: seq=0 ttl=64 time=0.581 ms
->> 64 bytes from 192.168.1.3: seq=1 ttl=64 time=0.258 ms
->> ^C
->> --- 192.168.1.3 ping statistics ---
->> 2 packets transmitted, 2 packets received, 0% packet loss
->> round-trip min/avg/max = 0.258/0.419/0.581 ms
->> root@genericx86-64:~# cat /proc/net/arp
->> IP address       HW type     Flags       HW address            Mask     Device
->> 128.224.165.20   0x1         0x2         b8:ca:3a:f0:99:bf     *        eth0
->> 128.224.165.1    0x1         0x2         00:17:df:e5:ac:00     *        eth0
->> 192.168.1.2      0x1         0x2         1a:46:0b:ca:bc:7a     *        ovsbr0
->> 192.168.1.3      0x1         0x2         1a:46:0b:ca:bc:7b     *        ovsbr0
->> root@genericx86-64:~# ovs-vsctl show
->> 5f6b161b-efb7-4de2-8db5-012a7cd1835e
->>      Bridge "ovsbr0"
->>          Port "tap1"
->>              Interface "tap1"
->>          Port "ovsbr0"
->>              Interface "ovsbr0"
->>                  type: internal
->>          Port "tap0"
->>              Interface "tap0"
->>      ovs_version: "2.5.1"
->> root@genericx86-64:~#
->>
->> --------------------------------
->> guest1:
->> telnet host-ip-address 4443
->> root@genericx86-64:~# ifconfig eth0 192.168.1.2 up
->> root@genericx86-64:~# ifconfig
->> eth0      Link encap:Ethernet  HWaddr 1A:46:0B:CA:BC:7A
->>            inet addr:192.168.1.2  Bcast:192.168.1.255  Mask:255.255.255.0
->>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->>            RX packets:20 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:1000
->>            RX bytes:3168 (3.0 KiB)  TX bytes:1980 (1.9 KiB)
->>
->> lo        Link encap:Local Loopback
->>            inet addr:127.0.0.1  Mask:255.0.0.0
->>            inet6 addr: ::1%119/128 Scope:Host
->>            UP LOOPBACK RUNNING  MTU:65536  Metric:1
->>            RX packets:0 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:0
->>            RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
->>
->> root@genericx86-64:~# ping 192.168.1.1
->> PING 192.168.1.1 (192.168.1.1): 56 data bytes
->> 64 bytes from 192.168.1.1: seq=0 ttl=64 time=6.018 ms
->> 64 bytes from 192.168.1.1: seq=1 ttl=64 time=0.258 ms
->> ^C
->> --- 192.168.1.1 ping statistics ---
->> 2 packets transmitted, 2 packets received, 0% packet loss
->> round-trip min/avg/max = 0.258/3.138/6.018 ms
->> root@genericx86-64:~# ping 192.168.1.3
->> PING 192.168.1.3 (192.168.1.3): 56 data bytes
->> 64 bytes from 192.168.1.3: seq=0 ttl=64 time=1.294 ms
->> 64 bytes from 192.168.1.3: seq=1 ttl=64 time=0.459 ms
->> ^C
->> --- 192.168.1.3 ping statistics ---
->> 2 packets transmitted, 2 packets received, 0% packet loss
->> round-trip min/avg/max = 0.459/0.876/1.294 ms
->> root@genericx86-64:~# cat /proc/net/arp
->> IP address       HW type     Flags       HW address            Mask     Device
->> 192.168.1.3      0x1         0x2         1a:46:0b:ca:bc:7b     *        eth0
->> 192.168.1.1      0x1         0x2         92:a2:85:64:6a:42     *        eth0
->>
->> --------------------------------
->> guest2:
->> telnet host-ip-address 4444
->> root@genericx86-64:~# ifconfig eth0 192.168.1.3 up
->> root@genericx86-64:~# ifconfig
->> eth0      Link encap:Ethernet  HWaddr 1A:46:0B:CA:BC:7B
->>            inet addr:192.168.1.3  Bcast:192.168.1.255  Mask:255.255.255.0
->>            UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
->>            RX packets:15 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:8 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:1000
->>            RX bytes:2790 (2.7 KiB)  TX bytes:1980 (1.9 KiB)
->>
->> lo        Link encap:Local Loopback
->>            inet addr:127.0.0.1  Mask:255.0.0.0
->>            inet6 addr: ::1%119/128 Scope:Host
->>            UP LOOPBACK RUNNING  MTU:65536  Metric:1
->>            RX packets:0 errors:0 dropped:0 overruns:0 frame:0
->>            TX packets:0 errors:0 dropped:0 overruns:0 carrier:0
->>            collisions:0 txqueuelen:0
->>            RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)
->>
->> root@genericx86-64:~# ping 192.168.1.1
->> PING 192.168.1.1 (192.168.1.1): 56 data bytes
->> 64 bytes from 192.168.1.1: seq=0 ttl=64 time=0.920 ms
->> 64 bytes from 192.168.1.1: seq=1 ttl=64 time=0.286 ms
->> ^C
->> --- 192.168.1.1 ping statistics ---
->> 2 packets transmitted, 2 packets received, 0% packet loss
->> round-trip min/avg/max = 0.286/0.603/0.920 ms
->> root@genericx86-64:~# ping 192.168.1.2
->> PING 192.168.1.2 (192.168.1.2): 56 data bytes
->> 64 bytes from 192.168.1.2: seq=0 ttl=64 time=0.566 ms
->> 64 bytes from 192.168.1.2: seq=1 ttl=64 time=0.439 ms
->> ^C
->> --- 192.168.1.2 ping statistics ---
->> 2 packets transmitted, 2 packets received, 0% packet loss
->> round-trip min/avg/max = 0.439/0.502/0.566 ms
->> root@genericx86-64:~# cat /proc/net/arp
->> IP address       HW type     Flags       HW address            Mask     Device
->> 192.168.1.2      0x1         0x2         1a:46:0b:ca:bc:7a     *        eth0
->> 192.168.1.1      0x1         0x2         92:a2:85:64:6a:42     *        eth0
->>
->> He Zhe (1):
->>    openvswith: Uprev to latest version 2.5.0
->>
->>   ...-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch | 69 ++++++++++++++++++++++
->>   ...-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch | 69 ----------------------
->>   recipes-networking/openvswitch/openvswitch_git.bb  |  8 +--
->>   3 files changed, 73 insertions(+), 73 deletions(-)
->>   create mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-8c0b419a0b9ac0141d6973dcc80306dfc6a83d31.patch
->>   delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-bb429e09f7783f1ba23ac0682ed9edf424f0cfbb.patch
->>
->
+2. Drop the patch 0001-Add-missing-split-to-properly-retrieve-cflags-and-ld.patch
+in V1 as the patch was actually fixing an issue introduced during rebasing 1.2.19 patches.
+
+3. Rebase existing patches to make 2) happen.
+
+Comments (indicate scope for each "y" above):
+---------------------------------------------
+commit 4a68cdf2d0acd939c6217d002a77455e316a41fe
+Author: Yunguo Wei <yunguo.wei@windriver.com>
+Date:   Mon Mar 28 16:54:04 2016 +0800
+
+    libvirt: uprev to 1.3.2
+    
+    Release notes here http://libvirt.org/news.html.
+    
+    Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
+
+
+Added Files:
+------------
+ .../libvirt-1.3.2/0001-to-fix-build-error.patch    |  46 ++++
+ recipes-extended/libvirt/libvirt_1.3.2.bb          | 286 +++++++++++++++++++++
+
+Removed Files:
+--------------
+ .../libvirt-1.2.19/0001-to-fix-build-error.patch   |  44 ----
+ recipes-extended/libvirt/libvirt_1.2.19.bb         | 287 ---------------------
+
+Remaining Changes (diffstat):
+-----------------------------
+ recipes-extended/libvirt/libvirt-python.inc        |   4 +-
+ ...vert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch |  52 +++-------
+ .../libvirt/libvirt/libvirt_api_xml_path.patch     |  14 +--
+ recipes-extended/libvirt/libvirt/runptest.patch    |   2 +-
+ ...ibvirt-net-rpc-to-virt-host-validate-when.patch | 107 ++++++++-------------
+
+Test steps:
+
+t@SDP_Wildcat_Pass-1:/media# libvirtd -V
+libvirtd (libvirt) 1.3.2
+root@SDP_Wildcat_Pass-1:/media# systemctl status libvirtd
+● libvirtd.service - Virtualization daemon
+   Loaded: loaded (/lib/systemd/system/libvirtd.service; enabled; vendor
+preset: enabled)
+   Active: active (running) since Thu 2016-03-31 03:43:57 UTC; 2s ago
+     Docs: man:libvirtd(8)
+           http://libvirt.org
+  Process: 2200 ExecStart=/usr/sbin/libvirtd $LIBVIRTD_ARGS
+(code=exited, status=0/SUCCESS)
+ Main PID: 2202 (libvirtd)
+   CGroup: /system.slice/libvirtd.service
+           ├─2026 /usr/bin/dnsmasq
+--conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro
+--dhcp-script=/usr/lib64/libvirt/libvirt_leaseshelper
+           ├─2027 /usr/bin/dnsmasq
+--conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro
+--dhcp-script=/usr/lib64/libvirt/libvirt_leaseshelper
+           └─2202 /usr/sbin/libvirtd --listen --daemon
+
+Mar 31 03:43:55 SDP_Wildcat_Pass-1 systemd[1]: Starting Virtualization
+daemon...
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 libvirtd[2200]: 2016-03-31
+03:43:57.284+0000: 2200: info : libvirt version: 1.3.2
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 libvirtd[2200]: 2016-03-31
+03:43:57.284+0000: 2200: info : hostname: SDP_Wildcat_Pass-1
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 libvirtd[2200]: 2016-03-31
+03:43:57.284+0000: 2200: warning : virGetHostnameImpl:703 : getaddrinfo
+failed for 'SD...ot known
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 systemd[1]: Started Virtualization
+daemon.
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 dnsmasq[2026]: read /etc/hosts - 6
+addresses
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 dnsmasq[2026]: read
+/var/lib/libvirt/dnsmasq/default.addnhosts - 0 addresses
+Mar 31 03:43:57 SDP_Wildcat_Pass-1 dnsmasq-dhcp[2026]: read
+/var/lib/libvirt/dnsmasq/default.hostsfile
+Hint: Some lines were ellipsized, use -l to show in full.
+
+root@SDP_Wildcat_Pass-1:/media# cat test.xml 
+<domain type='kvm'>
+	<name>test</name>
+	<memory>2048000</memory>
+	<currentMemory>1024000</currentMemory>
+	<vcpu>1</vcpu>
+	<os>
+		<type arch='x86_64' machine='pc'>hvm</type>
+		<boot dev='hd' />
+		<kernel>/media/guest.kernel</kernel>
+		<cmdline>root=/dev/vda2 selinux=0 enforcing=0
+console=ttyS0 rw </cmdline>
+	</os>
+	<devices>
+		<disk type='file' device='disk'>
+			<source file='/media/guest_70013.img' />
+			<target dev='vda' bus='virtio'/>
+		</disk>
+	
+		<serial type='pty'>
+		        <target port='0'/>
+		</serial>
+		<console type='pty'>
+		        <target type='serial' port='0'/>
+		</console>
+	</devices>
+	<devices>
+		<memballoon model='virtio'/>
+	</devices>
+</domain>
+root@SDP_Wildcat_Pass-1:/media# virsh define test.xml 
+Domain test defined from test.xml
+root@SDP_Wildcat_Pass-1:/media# virsh start test
+Domain test started
+
+root@SDP_Wildcat_Pass-1:/media# virsh console test
+Connected to domain test
+Escape character is ^]
+EXT4-fs (vda2): re-mounted. Opts: (null)
+[  OK  ] Started Remount Root and Kernel File Systems.
+fuse init (API version 7.22)
+         Starting Create Static Device Nodes in /dev...
+[  OK  ] Started Load Kernel Modules.
+         Mounting FUSE Control File System...
+         Starting Apply Kernel Variables...
+[  OK  ] Mounted FUSE Control File System.
+[  OK  ] Started Apply Kernel Variables.
+[  OK  ] Started LSB: Set hostname based on /etc/hostname.
+         Starting (null)...
+[  OK  ] Started (null).
+[  OK  ] Started Create Static Device Nodes in /dev.
+         Starting udev Kernel Device Manager...
+[  OK  ] Reached target Local File Systems (Pre).
+         Mounting /mnt/huge...
+systemd-udevd[178]: starting version 216
+         Mounting /var/volatile...
+[  OK  ] Mounted /mnt/huge.
+[  OK  ] Started udev Kernel Device Manager.
+[  OK  ] Mounted /var/volatile.
+         Starting Load/Save Random Seed...
+[  OK  ] Started LVM activation.
+[  OK  ] Started Load/Save Random Seed.
+[  OK  ] Found device /dev/ttyS0.
+[  OK  ] Found device
+/dev/disk/by-uuid/c30d65b1-ac9c-4843-8ed0-1c572c45f411.
+         Starting File System Check on
+/dev/...1-ac9c-4843-8ed0-1c572c45f411...
+[  OK  ] Found device
+/dev/disk/by-uuid/dcb63b7b-29c5-46ca-bed4-561ddce91a10.
+         Activating swap
+/dev/disk/by-uuid/d...b-29c5-46ca-bed4-561ddce91a10...
+Adding 204796k swap on /dev/vda3.  Priority:-1 extents:1 across:204796k 
+[  OK  ] Activated swap
+/dev/disk/by-uuid/dcb63b7b-29c5-46ca-bed4-561ddce91a10.
+[  OK  ] Reached target Swap.
+systemd-fsck[235]: /dev/vda1: recovering journal
+systemd-fsck[235]: /dev/vda1: clean, 251/128016 files, 260578/512000
+blocks
+[  OK  ] Started File System Check on
+/dev/d...5b1-ac9c-4843-8ed0-1c572c45f411.
+         Mounting /boot...
+EXT4-fs (vda1): mounted filesystem with ordered data mode. Opts: (null)
+[  OK  ] Mounted /boot.
+[  OK  ] Reached target Local File Systems.
+         Starting Trigger Flushing of Journal to Persistent Storage...
+         Starting Create Volatile Files and Directories...
+systemd-journald[131]: Received request to flush runtime journal from
+PID 1
+[  OK  ] Started Trigger Flushing of Journal to Persistent Storage.
+[  OK  ] Started Create Volatile Files and Directories.
+[  OK  ] Reached target System Time Synchronized.
+         Starting Security Auditing Service...
+systemd-journald[131]: File
+/var/log/journal/1a524f82242b49afb8353a2ab625087a/system.journal
+corrupted or uncleanly shut down, renaming and replacing.
+[  OK  ] Started Security Auditing Service.
+         Starting Update UTMP about System Boot/Shutdown...
+[  OK  ] Started Update UTMP about System Boot/Shutdown.
+[  OK  ] Reached target System Initialization.
+audit: type=1305 audit(1459395895.903:2): audit_pid=261 old=0
+auid=4294967295 ses=4294967295 res=1
+[  OK  ] Listening on CUPS Printing Service Sockets.
+[  OK  ] Listening on RPCbind Server Activation Socket.
+[  OK  ] Listening on Avahi mDNS/DNS-SD Stack Activation Socket.
+[  OK  ] Reached target Paths.
+[  OK  ] Listening on D-Bus System Message Bus Socket.
+[  OK  ] Reached target Timers.
+         Starting Restore Sound Card State...
+[  OK  ] Listening on sshd.socket.
+[  OK  ] Reached target Sockets.
+[  OK  ] Reached target Basic System.
+         Starting LSB: Raise network interfaces....
+         Starting Ethernet Bridge Filtering Tables...
+         Starting Dynamic Host Configuration Protocol (DHCP)...
+[  OK  ] Started Dynamic Host Configuration Protocol (DHCP).
+         Starting irqbalance daemon...
+[  OK  ] Started irqbalance daemon.
+         Starting GNU Zebra routing manager...
+         Starting Job spooling tools...
+[  OK  ] Started Job spooling tools.
+         Starting Avahi mDNS/DNS-SD Stack...
+         Starting System Logging Service...
+         Starting strongSwan IPsec...
+[  OK  ] Started strongSwan IPsec.
+         Starting ACPI Event Daemon...
+         Starting Periodic Command Scheduler...
+[  OK  ] Started Periodic Command Scheduler.
+         Starting Apply Cpu Microcode...
+         Starting Permit User Sessions...
+         Starting Login Service...
+         Starting D-Bus System Message Bus...
+[  OK  ] Started D-Bus System Message Bus.
+[  OK  ] Started Avahi mDNS/DNS-SD Stack.
+         Starting Network Service...
+[  OK  ] Started System Logging Service.
+[  OK  ] Started Restore Sound Card State.
+[FAILED] Failed to start LSB: Raise network interfaces..
+See 'systemctl status networking.service' for details.
+[  OK  ] Started Ethernet Bridge Filtering Tables.
+[  OK  ] Started ACPI Event Daemon.
+[  OK  ] Started Apply Cpu Microcode.
+[  OK  ] Started Permit User Sessions.
+[  OK  ] Started Login Service.
+         Starting (null)...
+NET: Registered protocol family 15
+[  OK  ] Started Network Service.
+         Starting Wait for Network to be Configured...
+Initializing XFRM netlink socket
+[  OK  ] Started (null).
+[  OK  ] Started GNU Zebra routing manager.
+         Starting IS-IS routing daemon...
+[  OK  ] Reached target Network.
+         Starting Simple Network Management Protocol (SNMP) Trap
+Daemon....
+         Starting Distccd A Distributed Compilation Server...
+[  OK  ] Started Distccd A Distributed Compilation Server.
+         Starting FreeRADIUS high performance RADIUS server....
+         Starting Xinetd A Powerful Replacement For Inetd...
+         Starting DNS forwarder and DHCP server...
+         Starting Postfix Mail Transport Agent...
+         Starting Vsftpd ftp daemon...
+[  OK  ] Started Vsftpd ftp daemon.
+         Starting Network Time Service...
+         Starting Berkeley Internet Name Domain (DNS)...
+         Starting The RPC portmapper...
+         Starting Collectd...
+[  OK  ] Started Collectd.
+         Starting HP Agentless Management Service daemon...
+[  OK  ] Started HP Agentless Management Service daemon.
+         Starting Check tcf-agent autostart...
+         Starting Simple Network Management Protocol (SNMP) Daemon....
+         Starting /etc/rc.local Compatibility...
+         Starting OSPF routing daemon...
+         Starting RIP routing daemon for IPv6...
+         Starting OSPF routing daemon for IPv6...
+         Starting Babel routing daemon...
+         Starting RIP routing daemon...
+         Starting BGP routing daemon...
+[  OK  ] Started IS-IS routing daemon.
+[  OK  ] Started Xinetd A Powerful Replacement For Inetd.
+[  OK  ] Started Network Time Service.
+[  OK  ] Started The RPC portmapper.
+[  OK  ] Started /etc/rc.local Compatibility.
+         Starting Serial Getty on ttyS0...
+[  OK  ] Started Serial Getty on ttyS0.
+         Starting Getty on tty1...
+[  OK  ] Started Getty on tty1.
+[  OK  ] Reached target Login Prompts.
+[  OK  ] Started Babel routing daemon.
+[  OK  ] Started RIP routing daemon for IPv6.
+[  OK  ] Started OSPF routing daemon for IPv6.
+[  OK  ] Started RIP routing daemon.
+[  OK  ] Started OSPF routing daemon.
+[  OK  ] Started DNS forwarder and DHCP server.
+[  OK  ] Started BGP routing daemon.
+
+tcf-agent: not configured to autostart, use /etc/cafe/tcf-agent.init
+force-start
+[  OK  ] Started Check tcf-agent autostart.
+systemd-journald[131]: File
+/var/log/journal/1a524f82242b49afb8353a2ab625087a/user-65534.journal
+corrupted or uncleanly shut down, renaming and replacing.
+[  OK  ] Started Simple Network Management Protocol (SNMP) Trap Daemon..
+[  OK  ] Started Simple Network Management Protocol (SNMP) Daemon..
+[  OK  ] Started Berkeley Internet Name Domain (DNS).
+[  OK  ] Reached target Host and Network Name Lookups.
+[  OK  ] Started Postfix Mail Transport Agent.
+[  OK  ] Started FreeRADIUS high performance RADIUS server..
+
+Wind River Linux CGP 7.0.0.13 cgp-70013 ttyS0
+
+cgp-70013 login: root
+Password: 
+Last login: Tue Mar 29 04:21:57 EDT 2016 on ttyS0
 
 
