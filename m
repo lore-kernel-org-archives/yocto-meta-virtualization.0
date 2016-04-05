@@ -1,34 +1,117 @@
-Return-Path: <Jackie.Huang@windriver.com>
+Return-Path: <zongchun.yu@nxp.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A84A9E00AE4; Mon,  4 Apr 2016 22:45:50 -0700 (PDT)
+	id C0BEEE00B6F; Tue,  5 Apr 2016 04:27:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [157.56.110.57 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5DC24E0096D
+X-Greylist: delayed 3609 seconds by postgrey-1.32 at yocto-www;
+	Tue, 05 Apr 2016 04:27:35 PDT
+Received: from na01-bn1-obe.outbound.protection.outlook.com
+	(mail-bn1on0057.outbound.protection.outlook.com [157.56.110.57])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D91DE00AE4
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  4 Apr 2016 22:45:46 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u355jjet004834
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 4 Apr 2016 22:45:45 -0700
-Received: from pek-jhuang0-d1.wrs.com (128.224.162.218) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 4 Apr 2016 22:45:44 -0700
-From: <jackie.huang@windriver.com>
-To: <Mark.Asselstine@windriver.com>, <bruce.ashfield@windriver.com>,
-	<meta-virtualization@yoctoproject.org>
-Date: Tue, 5 Apr 2016 13:45:33 +0800
-Message-ID: <1459835133-3952-1-git-send-email-jackie.huang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue,  5 Apr 2016 04:27:35 -0700 (PDT)
+Received: from BLUPR0301CA0041.namprd03.prod.outlook.com (10.162.113.179) by
+	CY1PR0301MB1228.namprd03.prod.outlook.com (10.161.212.150) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.447.15; Tue, 5 Apr 2016 09:54:12 +0000
+Received: from BN1AFFO11FD017.protection.gbl (2a01:111:f400:7c10::195) by
+	BLUPR0301CA0041.outlook.office365.com (2a01:111:e400:5259::51) with
+	Microsoft
+	SMTP Server (TLS) id 15.1.447.15 via Frontend Transport; Tue, 5 Apr 2016
+	09:54:11 +0000
+Authentication-Results: spf=fail (sender IP is 192.88.168.50)
+	smtp.mailfrom=nxp.com; nxp.com; dkim=none (message not signed)
+	header.d=none;nxp.com; dmarc=none action=none header.from=nxp.com;
+Received-SPF: Fail (protection.outlook.com: domain of nxp.com does not
+	designate 192.88.168.50 as permitted sender)
+	receiver=protection.outlook.com; 
+	client-ip=192.88.168.50; helo=tx30smr01.am.freescale.net;
+Received: from tx30smr01.am.freescale.net (192.88.168.50) by
+	BN1AFFO11FD017.mail.protection.outlook.com (10.58.52.77) with Microsoft
+	SMTP Server (TLS) id 15.1.453.6 via Frontend Transport;
+	Tue, 5 Apr 2016 09:54:11 +0000
+Received: from neptune.ap.freescale.net (neptune.ap.freescale.net
+	[10.192.208.77])
+	by tx30smr01.am.freescale.net (8.14.3/8.14.0) with ESMTP id
+	u359s8hp031255; Tue, 5 Apr 2016 02:54:09 -0700
+From: <zongchun.yu@nxp.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 5 Apr 2016 17:54:05 +0800
+Message-ID: <1459850045-22838-1-git-send-email-zongchun.yu@nxp.com>
+X-Mailer: git-send-email 1.8.3.2
+X-EOPAttributedMessage: 0
+X-Matching-Connectors: 131043236520258882;
+	(91ab9b29-cfa4-454e-5278-08d120cd25b8); ()
+X-Forefront-Antispam-Report: CIP:192.88.168.50; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(6009001)(2980300002)(1109001)(1110001)(339900001)(199003)(189002)(77096005)(50986999)(15395725005)(15975445007)(81166005)(110136002)(551934003)(11100500001)(106466001)(2876002)(575784001)(5003940100001)(86152002)(104016004)(189998001)(85426001)(87936001)(229853001)(2351001)(6806005)(1096002)(1220700001)(5008740100001)(50466002)(48376002)(19580395003)(15198665003)(36756003)(5890100001)(2906002)(92566002)(10750500005)(33646002)(586003)(4326007)(19580405001)(50226001)(47776003)(86362001)(7059030)(4720700001)(559001)(579004)(473944003)(414714003)(10090945008);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY1PR0301MB1228;
+	H:tx30smr01.am.freescale.net; FPR:; SPF:Fail; MLV:sfv; A:1; MX:1;
+	LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; BN1AFFO11FD017;
+	1:A08+eC7bQBzXRcBPRlOZ36BunE8k0TtgfqGlI47CaHu+qBYySW+sFKYqonWfJ4HS+XPZ0g9UW0NyiwPxeBOvMovdL88mKuYbZjO6PSvmPMEGqWpOS5Ru9kT0hiZzH3CcFBk6Io021jFOMZZUBDX/Ux0k64Vq+d39UnsPaCWDSfTySKGR52g/qa8Hx4T7m7MCMCZvOcednrBJDQ2QaRLpmT3VROJd2vDXlJgeoiq6BP7xNDi2jU8sL9S68Er+igyC4b9XSYHVjms/TWMHIynlsq6K053dAmfcfzC6sk4THeTiEsWrMKXG2BeNTbSa8B8wDsNp9leIMnjunszY+XBS3NjOlSFkX5Z5n4oDgMKYGXXpWs7GdplKfmxRdOSq+MsxuYZsIch7a+xvxl2iDnhGbWh9FQXOMAPAylFgX0hxZLPEcVQELQz75Qhz4bBybT2O+H16jeM8Ea5kW5/dhNcvmHmK0BifxSlNhhBdxyGMclAYLoqP4S/HUYGqQQoWgO9y1T16rs3sjbeJahOHfSUs15/kxZix8en8keHEB4Q6lkku7ddLMcaiC1MgzkvtCPwu7C346X9ejgCXl+ifMGyoIBQtx1lmFlXOEVjBgiPsbi5l3EQUyXDzI+oG2Og2nYDUnw11D4hNvbsLJ/0W3+D2CUg45rU5Nlj8Oa9y/5+8I0R+y40yZBHDs7Z5psBKv2GW
 MIME-Version: 1.0
-Subject: [PATCH] python-m2crypto: Fix issue with swig 3.0.5
+X-MS-Office365-Filtering-Correlation-Id: 02bb6d3c-9a57-4705-2a82-08d35d383d74
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1228;
+	2:mHSaeEoacr6Q0XJ1uUsMYscg2ZkctXd9F7YNeqCmzjiT4zW8Yqj7Ylc7z/Jh1QZrX//aU0wcNpL+Cxy1kD+cUYZG/ULgWRkzB9pi5QfNtZEHNDRbjO1ikpdw/xt7dv6lUNcl9D/Ulgi2LEz+6uZhNK4Eoi5yY7i66vw6XEtipGB9/40WNo6z2vx0yTKBqN7a;
+	3:qw0kjOtGObnH+di7ZSNKYLqyE2UGlWnBbCAvwSZsbkLOq2k3hO+G239Od3K5GiwzDgPDe1F7KCzkNOaQBKuLbq9wjlUAlCHcVbwphOkVPx8PwnmcS5jGzdsobtQXBl9+Zq+y7vVj4C9IAbFtjyI4ptIPZ9x6B1VDCNyczieLeKCwiuNR4D29nGCIlh3GAmCtxtCi00KLyHeoPHM/Ssdoo7UGiIYDUPdSLWmxzqgFoAo=;
+	25:+2v+WjCedJatut39be6jDx0ogpLDSzv3HWYn/65XQTWeui+/2zZLLtLk8gkxbiYZsx+toHpVINjwihBjqRs4CXlhe/4FCSp1os4Ik2MmcxdQWUBnIAzW8K+y6FXZ8LaQ7SY7WXgtMJI6iMRbMbV+U6D7d1B7RhhNJttW8rJl+uNY8zkQc/IcJdRJ51euME7gF/7lWrijjS6XpkGQs0+XTC6u/S2g/845J8Ug1OEksVEPluxrV4XX9fjnmEL/XOSdOqZM91AZUCGWkkIuutgPjaxVYhMCLq9AsNiVW6+TeNW+ZmyF3933nkHbzND5HWypoghl4N3+lBtL44AHed9aPwOTZUejEy/KzC1V5FKaTH0=
+X-Microsoft-Antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:CY1PR0301MB1228;
+X-Microsoft-Antispam-PRVS: <CY1PR0301MB1228F921FBFE0EDEB4C0E0F1FD9E0@CY1PR0301MB1228.namprd03.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:;
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(601004)(2401047)(13023025)(13017025)(13015025)(13024025)(13018025)(8121501046)(5005006)(10201501046)(3002001);
+	SRVR:CY1PR0301MB1228; BCL:0; PCL:0; RULEID:(400006);
+	SRVR:CY1PR0301MB1228; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1228;
+	4:ExYB8WD50qVoZlqv1aYD4mZcxdJKkYOaLOyoq4464YEqYJtqTrrCMahkRU1oYYk4A5YodyRLIq9i6LCUwTe2BSjLoylRJAi5VN/5Hb1SZUsBZcBr6wYDFnJHrFTZTFUzuACnmfcIOFTOjyti2kQhvw2i32GXj3TBV/3zkjjahE9R703POjq3f/v9JHegS4uW7g/FAnajEJ4GxK/d2Dp3dY+m1iL3SXqExjECGOyWGh/fGzuCR3vpGYFiyFlESPNozkL3qfLjQo/L8WSsE2QKpwp20AULbeXgkCRKpdg8SfyTO+3munNA21x1xocLeVE+2ons8lQ3YYvfJFL/ZvlZcwYApAFKQrECXkCzCuQKYE/Qb/ZXXfChnf2jjMHuO9EXBCG3wMkJKoEdn3yjUhJr7XTSVzFwFcyifsoGjC0CE/8DnlnrxA8JsVcE8dOhB2Tk6f5/64WV/uqvu8jVzlOUow==
+X-Forefront-PRVS: 0903DD1D85
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; CY1PR0301MB1228;
+	23:RkDxmVNOhQpT0e+FHpA7KAAgAk1UweUDilV173V?=
+	=?us-ascii?Q?TJycoJQINzwDSQHFLfA2EBCuIwa2W1X/N23nKmPqFlVDBp10nO6yySYbFYK0?=
+	=?us-ascii?Q?j4cxtn9yvrljyHxbl/RqtYgPiaPSLq3peysL3fjl4kkCd8qDt8o4hx/iLVJs?=
+	=?us-ascii?Q?WeH92mOCLYYw/O9FGbIHHf6qFtjfynQZeEG9f+vO/CAXF5Rl1J5VH/D4UaeT?=
+	=?us-ascii?Q?4cMXtgmYPgXal2BLDOuMtczlXBiT2bweNmFVaaQgdKsrM2A61Btg9jQtV+ei?=
+	=?us-ascii?Q?LvRKUt3z1IeqBPi+7Pf8FWk9207k3clAP/Csq0WV9q1H3z8kJriaJcLyYYQd?=
+	=?us-ascii?Q?EKmpN24+0cI0mw4OqlnyGFRpPwdCTbObzPxIU0/tZGW8xKsysBJU7/ixSe6k?=
+	=?us-ascii?Q?Zanc5ZUBrilHJclxMRlHhmuzeOvdVfJgEjWvhtOS6j1N6M95lADfcHFFaBNH?=
+	=?us-ascii?Q?zWWjfN/NXUQyz9eI7Un0DmfDoElxJX0lFaPCsw6NkaD3AcuvdnnwXxJRFo2U?=
+	=?us-ascii?Q?aXBHkpjGhi2y4vrinDnmxeYWFeKXXMkfTAE+G1agjLXmQnEBaqkDRQCmS86i?=
+	=?us-ascii?Q?jwKJd90dKa9znxvnd7sXt8AD4yAQzwhgynutP3YUAqVPS2hdSadnr/M1FrSh?=
+	=?us-ascii?Q?B+b8no9XgqXdKuIfHH20G/jbpHHY0wRg7nm4PVlLLUDjSUBdqzCXX/jyETsc?=
+	=?us-ascii?Q?gIt6cAnaRyMyv07h4mSBFdo4oKncPXVrNWeNg3c7XzlTXH1PGpBRhZldNTO4?=
+	=?us-ascii?Q?OH+4I9SNBluA/fINge4SMNItnGydOJcryyafa7UDGQR0knycfpzoR9TXFNiq?=
+	=?us-ascii?Q?azM7q0SfFUTOWMhhBKtRCp2ncB8lMzQeX6MfLBaqd8auRGcPU2H63ChHwlk+?=
+	=?us-ascii?Q?vbByBng7npcVrfmvlT4pqNEuaxPfTCu4xTSHRZ406kQeuEZZWuNRI8DZIfWn?=
+	=?us-ascii?Q?NFdBzmIpreC1uGojsZ127WeBKLn7wNqZDdgX7nc51i2Dfn3hfe/dld9RBV2u?=
+	=?us-ascii?Q?gspCeJQxcqXzc3q+ek6iMHSlfpr0xP+nddCl7qWSX+toMetbQIeafSjNNCet?=
+	=?us-ascii?Q?ro9i1SkMlbHqIRB3HgeBP4A7xOiFYgWMjJJoiBTvOje4XFww4ueLI6N8JUDS?=
+	=?us-ascii?Q?MxuxaulgmfTu4g0pWwsRqvxPZvQ9ioTGtx6AZNLVNsrvd4ouAM5zAs+bhOYa?=
+	=?us-ascii?Q?WxiB3xWI73hjVIeKChAqBxfneVZHDOh8J8tWXnrYHyx6OI5iTLTG8Dgd4tU7?=
+	=?us-ascii?Q?td21sJd6sjCH28M/V+w3NAjQLwUbV8rMyESffcetPqiBE2ms9m53tPEFqBKs?=
+	=?us-ascii?Q?u4O2meD0qwGLlFgaTZjZpwPvh6T34CZDzh0frWAhhNfJIOiHYTi3PMWHQBL3?=
+	=?us-ascii?Q?zA1jLDA=3D=3D?=
+X-Microsoft-Exchange-Diagnostics: 1; CY1PR0301MB1228;
+	5:NlgMmG4MO0gt5G7qbt0pJAUqC11ssoPiGdGWDeEXz83HuZVJZmVUVn0lVyc4CL4y9cTejnWXPmb4Fw8or/CIYlgaH6xMqg0M4l65DgJ1qkFaycWdRNHpFrF1ABpn1S2klkgoHkHHcUiqo4/fe4CKMbvjc55PREsQegN9tJ9VyPI=;
+	24:4M33pOPoKUIlL3pZyNtQYss+CadCXN7y6CQGfiAjqK0wmS1jMpkAr3H87WLQukcuuwwEzV2iXZ+1cNk2cZ+I2aq5WMGNrAbdtSG0mHv5fj4=
+SpamDiagnosticOutput: 1:23
+SpamDiagnosticMetadata: NSPM
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2016 09:54:11.8386 (UTC)
+X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
+	Ip=[192.88.168.50]; Helo=[tx30smr01.am.freescale.net]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR0301MB1228
+Subject: [PATCH 1/2] docker: uprev to 1.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,206 +124,2019 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Apr 2016 05:45:50 -0000
+X-List-Received-Date: Tue, 05 Apr 2016 11:27:46 -0000
 Content-Type: text/plain
 
-From: Jackie Huang <jackie.huang@windriver.com>
+From: Zongchun Yu <zongchun.yu@nxp.com>
 
-The version 0.22.3 of python-m2crypto fails to work after
-swig updated to 3.0.5+:
-AttributeError: 'module' object has no attribute 'PKCS5_SALT_LEN'
-
-It's fixed since 0.22.4 and we could update it to latest version,
-but docker-registry depends on the version 0.22.3, so backport
-the patch to fix the issue with swig 3.0.5.
-
-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+Signed-off-by: Zongchun Yu <zongchun.yu@nxp.com>
 ---
- .../m2crypto-Fix-build-with-SWIG-3.0.5.patch       | 158 +++++++++++++++++++++
- recipes-devtools/python/python-m2crypto_0.22.3.bb  |   4 +-
- 2 files changed, 161 insertions(+), 1 deletion(-)
- create mode 100644 recipes-devtools/python/python-m2crypto/m2crypto-Fix-build-with-SWIG-3.0.5.patch
+ recipes-containers/docker/docker_git.bb            |   38 +-
+ .../docker/files/Bump-bolt-to-v1.1.0.patch         | 1828 ++++++++++++++++++++
+ .../docker/files/disable_sha1sum_startup.patch     |   41 +-
+ 3 files changed, 1863 insertions(+), 44 deletions(-)
+ create mode 100644 recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
 
-diff --git a/recipes-devtools/python/python-m2crypto/m2crypto-Fix-build-with-SWIG-3.0.5.patch b/recipes-devtools/python/python-m2crypto/m2crypto-Fix-build-with-SWIG-3.0.5.patch
+diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+index 2672b22..19fdef0 100644
+--- a/recipes-containers/docker/docker_git.bb
++++ b/recipes-containers/docker/docker_git.bb
+@@ -18,23 +18,23 @@ DESCRIPTION = "Linux container runtime \
+  subtle and/or glaring issues. \
+  "
+ 
+-SRCREV = "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
+-SRCBRANCH = "v1.6.2"
++SRCREV = "76d6bc9a9f1690e16f3721ba165364688b626de2"
+ SRC_URI = "\
+-	git://github.com/docker/docker.git;branch=${SRCBRANCH};nobranch=1 \
++	git://github.com/docker/docker.git;nobranch=1 \
+ 	file://docker.service \
+ 	file://docker.init \
+ 	file://hi.Dockerfile \
+ 	file://disable_sha1sum_startup.patch \
++	file://Bump-bolt-to-v1.1.0.patch \
+ 	"
+ 
+ # Apache-2.0 for docker
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=1cc0497778922bfd6cb48721deb80dc7"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=cc2221abf0b96ea39dd68141b70f7937"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DOCKER_VERSION = "1.6.2"
++DOCKER_VERSION = "1.9.0"
+ PV = "${DOCKER_VERSION}+git${SRCREV}"
+ 
+ DEPENDS = "go-cross \
+@@ -62,17 +62,17 @@ RRECOMMENDS_${PN} = "lxc docker-registry rt-tests"
+ RRECOMMENDS_${PN} += " kernel-module-dm-thin-pool kernel-module-nf-nat"
+ DOCKER_PKG="github.com/docker/docker"
+ 
+-do_configure() {
+-}
++do_configure[noexec] = "1"
+ 
+ do_compile() {
+-	export PATH=${STAGING_BINDIR_NATIVE}/${HOST_SYS}/go-1.3:$PATH
+-
+ 	export GOARCH="${TARGET_ARCH}"
+-	# supported amd64, 386, arm
++	# supported amd64, 386, arm arm64
+ 	if [ "${TARGET_ARCH}" = "x86_64" ]; then
+ 		export GOARCH="amd64"
+ 	fi
++	if [ "${TARGET_ARCH}" = "aarch64" ]; then
++		export GOARCH="arm64"
++	fi
+ 
+ 	# Set GOPATH. See 'PACKAGERS.md'. Don't rely on
+ 	# docker to download its dependencies but rather
+@@ -84,21 +84,19 @@ do_compile() {
+ 	export GOPATH="${S}/.gopath:${S}/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
+ 	cd -
+ 
+-	export CGO_ENABLED="1"
+-
+ 	# Pass the needed cflags/ldflags so that cgo
+ 	# can find the needed headers files and libraries
+-	export CGO_CFLAGS="${BUILDSDK_CFLAGS}"
+-	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS}"
++	export CGO_ENABLED="1"
++	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++	# in order to exclude devicemapper and btrfs - https://github.com/docker/docker/issues/14056
++	export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs exclude_graphdriver_devicemapper'
+ 
+ 	# this is the unsupported built structure
+ 	# that doesn't rely on an existing docker
+ 	# to build this:
+ 	DOCKER_GITCOMMIT="${SRCREV}" \
+ 	  ./hack/make.sh dynbinary
+-
+-	# make nsinit from libcontainer
+-	go install github.com/docker/libcontainer/nsinit/
+ }
+ 
+ inherit systemd update-rc.d
+@@ -127,12 +125,6 @@ do_install() {
+             install -m 0755 ${WORKDIR}/docker.init ${D}${sysconfdir}/init.d/docker.init
+ 	fi
+ 
+-	if [ -d ${S}/vendor/bin/linux_* ]; then
+-		cp ${S}/vendor/bin/linux_*/* ${D}/${bindir}
+-	else
+-		cp ${S}/vendor/bin/* ${D}/${bindir}
+-	fi
+-
+ 	mkdir -p ${D}/usr/share/docker/
+ 	cp ${WORKDIR}/hi.Dockerfile ${D}/usr/share/docker/
+ }
+diff --git a/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch b/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
 new file mode 100644
-index 0000000..c408595
+index 0000000..ca4ad81
 --- /dev/null
-+++ b/recipes-devtools/python/python-m2crypto/m2crypto-Fix-build-with-SWIG-3.0.5.patch
-@@ -0,0 +1,158 @@
-+From 8430e7202407fb1a0a104b0decdcc9da9e41a52b Mon Sep 17 00:00:00 2001
-+From: Jackie Huang <jackie.huang@windriver.com>
-+Date: Mon, 4 Apr 2016 23:28:15 -0400
-+Subject: [PATCH] Fix build with SWIG 3.0.5
++++ b/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
+@@ -0,0 +1,1828 @@
++From a41917c2c88bd7f694d141ac67f4a194aaa16fa1 Mon Sep 17 00:00:00 2001
++From: Qiang Huang <h.huangqiang@huawei.com>
++Date: Wed, 28 Oct 2015 08:49:45 +0800
++Subject: [PATCH] Bump bolt to v1.1.0
 +
-+See analysis and previous patches in
-+https://github.com/martinpaljak/M2Crypto/issues/60 and
-+https://github.com/swig/swig/issues/344, in particular this adds the
-+build machinery to patch
-+https://github.com/martinpaljak/M2Crypto/issues/60#issuecomment-75735489
++It adds ARM64, ppc64le, s390x, solaris support, and a bunch of
++bugfixs.
 +
-+Fixes #47
-+
-+Author: Miloslav Trmac <mitr@redhat.com>
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
++Signed-off-by: Qiang Huang <h.huangqiang@huawei.com>
 +---
-+ M2Crypto/__init__.py |  4 ++--
-+ M2Crypto/m2.py       |  2 +-
-+ SWIG/_lib.i          |  4 ++++
-+ SWIG/_pkcs7.i        |  1 +
-+ setup.py             | 24 ++++++++++++++++++++++++
-+ 5 files changed, 32 insertions(+), 3 deletions(-)
++ hack/vendor.sh                                     |   2 +-
++ vendor/src/github.com/boltdb/bolt/.gitignore       |   1 +
++ vendor/src/github.com/boltdb/bolt/README.md        | 250 +++++++++++++++++++--
++ vendor/src/github.com/boltdb/bolt/batch.go         | 138 ++++++++++++
++ vendor/src/github.com/boltdb/bolt/bolt_386.go      |   5 +-
++ vendor/src/github.com/boltdb/bolt/bolt_amd64.go    |   3 +
++ vendor/src/github.com/boltdb/bolt/bolt_arm.go      |   5 +-
++ vendor/src/github.com/boltdb/bolt/bolt_arm64.go    |   9 +
++ vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go  |   9 +
++ vendor/src/github.com/boltdb/bolt/bolt_s390x.go    |   9 +
++ vendor/src/github.com/boltdb/bolt/bolt_unix.go     |  37 ++-
++ .../github.com/boltdb/bolt/bolt_unix_solaris.go    | 101 +++++++++
++ vendor/src/github.com/boltdb/bolt/bolt_windows.go  |  10 +-
++ vendor/src/github.com/boltdb/bolt/bucket.go        |  29 ++-
++ vendor/src/github.com/boltdb/bolt/cursor.go        |  12 +-
++ vendor/src/github.com/boltdb/bolt/db.go            | 195 ++++++++++++----
++ vendor/src/github.com/boltdb/bolt/errors.go        |   4 +
++ vendor/src/github.com/boltdb/bolt/freelist.go      |  28 ++-
++ vendor/src/github.com/boltdb/bolt/node.go          |  36 ++-
++ vendor/src/github.com/boltdb/bolt/page.go          |  45 +++-
++ vendor/src/github.com/boltdb/bolt/tx.go            |  80 +++++--
++ 21 files changed, 886 insertions(+), 122 deletions(-)
++ create mode 100644 vendor/src/github.com/boltdb/bolt/batch.go
++ create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_arm64.go
++ create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
++ create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_s390x.go
++ create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go
 +
-+diff --git a/M2Crypto/__init__.py b/M2Crypto/__init__.py
-+index 647e057..280af94 100644
-+--- a/M2Crypto/__init__.py
-++++ b/M2Crypto/__init__.py
-+@@ -19,7 +19,7 @@ Copyright 2008-2011 Heikki Toivonen. All rights reserved.
-+ version_info = (0, 22)
-+ version = '.'.join([str(_v) for _v in version_info])
++diff --git a/hack/vendor.sh b/hack/vendor.sh
++index d872d4a..c28e677 100755
++--- a/hack/vendor.sh
+++++ b/hack/vendor.sh
++@@ -36,7 +36,7 @@ clone git github.com/coreos/etcd v2.2.0
++ fix_rewritten_imports github.com/coreos/etcd
++ clone git github.com/ugorji/go 5abd4e96a45c386928ed2ca2a7ef63e2533e18ec
++ clone git github.com/hashicorp/consul v0.5.2
++-clone git github.com/boltdb/bolt v1.0
+++clone git github.com/boltdb/bolt v1.1.0
 + 
-+-import __m2crypto
-++import _m2crypto
-+ import m2
-+ import ASN1
-+ import AuthCookie
-+@@ -47,4 +47,4 @@ import m2xmlrpclib
-+ import threading
-+ import util
++ # get graph and distribution packages
++ clone git github.com/docker/distribution 20c4b7a1805a52753dfd593ee1cc35558722a0ce # docker/1.9 branch
++diff --git a/vendor/src/github.com/boltdb/bolt/.gitignore b/vendor/src/github.com/boltdb/bolt/.gitignore
++index b2bb382..c7bd2b7 100644
++--- a/vendor/src/github.com/boltdb/bolt/.gitignore
+++++ b/vendor/src/github.com/boltdb/bolt/.gitignore
++@@ -1,3 +1,4 @@
++ *.prof
++ *.test
+++*.swp
++ /bin/
++diff --git a/vendor/src/github.com/boltdb/bolt/README.md b/vendor/src/github.com/boltdb/bolt/README.md
++index 727e977..0a33ebc 100644
++--- a/vendor/src/github.com/boltdb/bolt/README.md
+++++ b/vendor/src/github.com/boltdb/bolt/README.md
++@@ -16,7 +16,7 @@ and setting values. That's it.
 + 
-+-__m2crypto.lib_init()
-++_m2crypto.lib_init()
-+diff --git a/M2Crypto/m2.py b/M2Crypto/m2.py
-+index e4bb695..822143f 100644
-+--- a/M2Crypto/m2.py
-++++ b/M2Crypto/m2.py
-+@@ -25,7 +25,7 @@ Portions created by Open Source Applications Foundation (OSAF) are
-+ Copyright (C) 2004 OSAF. All Rights Reserved.
-+ """
++ ## Project Status
 + 
-+-from __m2crypto import *
-++from _m2crypto import *
-+ lib_init()
++-Bolt is stable and the API is fixed. Full unit test coverage and randomized 
+++Bolt is stable and the API is fixed. Full unit test coverage and randomized
++ black box testing are used to ensure database consistency and thread safety.
++ Bolt is currently in high-load production environments serving databases as
++ large as 1TB. Many companies such as Shopify and Heroku use Bolt-backed
++@@ -87,6 +87,11 @@ are not thread safe. To work with data in multiple goroutines you must start
++ a transaction for each one or use locking to ensure only one goroutine accesses
++ a transaction at a time. Creating transaction from the `DB` is thread safe.
 + 
-+ 
-+diff --git a/SWIG/_lib.i b/SWIG/_lib.i
-+index 0d40698..6cc1a44 100644
-+--- a/SWIG/_lib.i
-++++ b/SWIG/_lib.i
-+@@ -66,6 +66,7 @@ int ssl_verify_callback(int ok, X509_STORE_CTX *ctx) {
-+     int cret;
-+     int new_style_callback = 0, warning_raised_exception=0;
-+     PyGILState_STATE gilstate;
-++    PyObject *self = NULL; /* bug in SWIG_NewPointerObj as of 3.0.5 */
-+ 
-+     ssl = (SSL *)X509_STORE_CTX_get_app_data(ctx);
-+ 
-+@@ -151,6 +152,7 @@ int ssl_verify_callback(int ok, X509_STORE_CTX *ctx) {
-+ void ssl_info_callback(const SSL *s, int where, int ret) {
-+     PyObject *argv, *retval, *_SSL;
-+     PyGILState_STATE gilstate;
-++    PyObject *self = NULL; /* bug in SWIG_NewPointerObj as of 3.0.5 */
-+ 
-+     gilstate = PyGILState_Ensure();
-+ 
-+@@ -170,6 +172,7 @@ DH *ssl_set_tmp_dh_callback(SSL *ssl, int is_export, int keylength) {
-+     PyObject *argv, *ret, *_ssl;
-+     DH *dh;
-+     PyGILState_STATE gilstate;
-++    PyObject *self = NULL; /* bug in SWIG_NewPointerObj as of 3.0.5 */
-+ 
-+     gilstate = PyGILState_Ensure();
-+ 
-+@@ -193,6 +196,7 @@ RSA *ssl_set_tmp_rsa_callback(SSL *ssl, int is_export, int keylength) {
-+     PyObject *argv, *ret, *_ssl;
-+     RSA *rsa;
-+     PyGILState_STATE gilstate;
-++    PyObject *self = NULL; /* bug in SWIG_NewPointerObj as of 3.0.5 */
-+ 
-+     gilstate = PyGILState_Ensure();
-+ 
-+diff --git a/SWIG/_pkcs7.i b/SWIG/_pkcs7.i
-+index 22d791a..20dfbaf 100644
-+--- a/SWIG/_pkcs7.i
-++++ b/SWIG/_pkcs7.i
-+@@ -157,6 +157,7 @@ PyObject *smime_read_pkcs7(BIO *bio) {
-+     BIO *bcont = NULL;
-+     PKCS7 *p7;
-+     PyObject *tuple, *_p7, *_BIO;
-++    PyObject *self = NULL; /* bug in SWIG_NewPointerObj as of 3.0.5 */
-+ 
-+     if (BIO_method_type(bio) == BIO_TYPE_MEM) {
-+         /* OpenSSL FAQ explains that this is needed for mem BIO to return EOF,
-+diff --git a/setup.py b/setup.py
-+index bac6f9f..f59dc18 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -19,6 +19,7 @@ from setuptools.command import build_ext
-+ 
-+ from distutils.core import Extension
-+ from distutils.spawn import find_executable
-++from distutils.file_util import copy_file
-+ 
-+ 
-+ class _M2CryptoBuildExt(build_ext.build_ext):
-+@@ -77,6 +78,15 @@ class _M2CryptoBuildExt(build_ext.build_ext):
-+                           [opensslIncludeDir, os.path.join(opensslIncludeDir, "openssl")]]
-+         self.swig_opts.append('-includeall')
-+         self.swig_opts.append('-modern')
-++        self.swig_opts.append('-builtin')
+++Read-only transactions and read-write transactions should not depend on one
+++another and generally shouldn't be opened simultaneously in the same goroutine.
+++This can cause a deadlock as the read-write transaction needs to periodically
+++re-map the data file but it cannot do so while a read-only transaction is open.
 ++
-++        # These two lines are a workaround for
-++        # http://bugs.python.org/issue2624 , hard-coding that we are only
-++        # building a single extension with a known path; a proper patch to
-++        # distutils would be in the run phase, when extension name and path are
-++        # known.
-++        self.swig_opts.append('-outdir')
-++        self.swig_opts.append(os.path.join(self.build_lib, 'M2Crypto'))
 + 
-+         # Fedora does hat tricks.
-+         if platform.linux_distribution()[0] in ['Fedora', 'CentOS']:
-+@@ -98,6 +108,20 @@ class _M2CryptoBuildExt(build_ext.build_ext):
++ #### Read-write transactions
 + 
-+         self.library_dirs += [os.path.join(self.openssl, opensslLibraryDir)]
++@@ -120,12 +125,88 @@ err := db.View(func(tx *bolt.Tx) error {
++ })
++ ```
 + 
-++    def run(self):
-++        '''Overloaded build_ext implementation to allow inplace=1 to work,
-++        which is needed for (python setup.py test).'''
-++        # This is another workaround for http://bugs.python.org/issue2624 + the
-++        # corresponding lack of support in setuptools' test command. Note that
-++        # just using self.inplace in finalize_options() above does not work
-++        # because swig is not rerun if the __m2crypto.so extension exists.
-++        # Again, hard-coding our extension name and location.
-++        build_ext.build_ext.run(self)
-++        if self.inplace:
-++            copy_file(os.path.join(self.build_lib, 'M2Crypto', '_m2crypto.py'),
-++                      os.path.join('M2Crypto', '_m2crypto.py'),
-++                      verbose=self.verbose, dry_run=self.dry_run)
++-You also get a consistent view of the database within this closure, however, 
+++You also get a consistent view of the database within this closure, however,
++ no mutating operations are allowed within a read-only transaction. You can only
++ retrieve buckets, retrieve values, and copy the database within a read-only
++ transaction.
++ 
++ 
+++#### Batch read-write transactions
 ++
-+ if sys.platform == 'darwin':
-+    my_extra_compile_args = ["-Wno-deprecated-declarations"]
-+ else:
+++Each `DB.Update()` waits for disk to commit the writes. This overhead
+++can be minimized by combining multiple updates with the `DB.Batch()`
+++function:
+++
+++```go
+++err := db.Batch(func(tx *bolt.Tx) error {
+++	...
+++	return nil
+++})
+++```
+++
+++Concurrent Batch calls are opportunistically combined into larger
+++transactions. Batch is only useful when there are multiple goroutines
+++calling it.
+++
+++The trade-off is that `Batch` can call the given
+++function multiple times, if parts of the transaction fail. The
+++function must be idempotent and side effects must take effect only
+++after a successful return from `DB.Batch()`.
+++
+++For example: don't display messages from inside the function, instead
+++set variables in the enclosing scope:
+++
+++```go
+++var id uint64
+++err := db.Batch(func(tx *bolt.Tx) error {
+++	// Find last key in bucket, decode as bigendian uint64, increment
+++	// by one, encode back to []byte, and add new key.
+++	...
+++	id = newValue
+++	return nil
+++})
+++if err != nil {
+++	return ...
+++}
+++fmt.Println("Allocated ID %d", id)
+++```
+++
+++
+++#### Managing transactions manually
+++
+++The `DB.View()` and `DB.Update()` functions are wrappers around the `DB.Begin()`
+++function. These helper functions will start the transaction, execute a function,
+++and then safely close your transaction if an error is returned. This is the
+++recommended way to use Bolt transactions.
+++
+++However, sometimes you may want to manually start and end your transactions.
+++You can use the `Tx.Begin()` function directly but _please_ be sure to close the
+++transaction.
+++
+++```go
+++// Start a writable transaction.
+++tx, err := db.Begin(true)
+++if err != nil {
+++    return err
+++}
+++defer tx.Rollback()
+++
+++// Use the transaction...
+++_, err := tx.CreateBucket([]byte("MyBucket"))
+++if err != nil {
+++    return err
+++}
+++
+++// Commit the transaction and check for error.
+++if err := tx.Commit(); err != nil {
+++    return err
+++}
+++```
+++
+++The first argument to `DB.Begin()` is a boolean stating if the transaction
+++should be writable.
+++
+++
++ ### Using buckets
++ 
++ Buckets are collections of key/value pairs within the database. All keys in a
++@@ -175,13 +256,61 @@ db.View(func(tx *bolt.Tx) error {
++ ```
++ 
++ The `Get()` function does not return an error because its operation is
++-guarenteed to work (unless there is some kind of system failure). If the key
+++guaranteed to work (unless there is some kind of system failure). If the key
++ exists then it will return its byte slice value. If it doesn't exist then it
++ will return `nil`. It's important to note that you can have a zero-length value
++ set to a key which is different than the key not existing.
++ 
++ Use the `Bucket.Delete()` function to delete a key from the bucket.
++ 
+++Please note that values returned from `Get()` are only valid while the
+++transaction is open. If you need to use a value outside of the transaction
+++then you must use `copy()` to copy it to another byte slice.
+++
+++
+++### Autoincrementing integer for the bucket
+++By using the NextSequence() function, you can let Bolt determine a sequence
+++which can be used as the unique identifier for your key/value pairs. See the
+++example below.
+++
+++```go
+++// CreateUser saves u to the store. The new user ID is set on u once the data is persisted.
+++func (s *Store) CreateUser(u *User) error {
+++    return s.db.Update(func(tx *bolt.Tx) error {
+++        // Retrieve the users bucket.
+++        // This should be created when the DB is first opened.
+++        b := tx.Bucket([]byte("users"))
+++
+++        // Generate ID for the user.
+++        // This returns an error only if the Tx is closed or not writeable.
+++        // That can't happen in an Update() call so I ignore the error check.
+++        id, _ = b.NextSequence()
+++        u.ID = int(id)
+++
+++        // Marshal user data into bytes.
+++        buf, err := json.Marshal(u)
+++        if err != nil {
+++            return err
+++        }
+++
+++        // Persist bytes to users bucket.
+++        return b.Put(itob(u.ID), buf)
+++    })
+++}
+++
+++// itob returns an 8-byte big endian representation of v.
+++func itob(v int) []byte {
+++    b := make([]byte, 8)
+++    binary.BigEndian.PutUint64(b, uint64(v))
+++    return b
+++}
+++
+++type User struct {
+++    ID int
+++    ...
+++}
+++
+++```
++ 
++ ### Iterating over keys
++ 
++@@ -254,7 +383,7 @@ db.View(func(tx *bolt.Tx) error {
++ 	max := []byte("2000-01-01T00:00:00Z")
++ 
++ 	// Iterate over the 90's.
++-	for k, v := c.Seek(min); k != nil && bytes.Compare(k, max) != -1; k, v = c.Next() {
+++	for k, v := c.Seek(min); k != nil && bytes.Compare(k, max) <= 0; k, v = c.Next() {
++ 		fmt.Printf("%s: %s\n", k, v)
++ 	}
++ 
++@@ -294,7 +423,7 @@ func (*Bucket) DeleteBucket(key []byte) error
++ 
++ ### Database backups
++ 
++-Bolt is a single file so it's easy to backup. You can use the `Tx.Copy()`
+++Bolt is a single file so it's easy to backup. You can use the `Tx.WriteTo()`
++ function to write a consistent view of the database to a writer. If you call
++ this from a read-only transaction, it will perform a hot backup and not block
++ your other database reads and writes. It will also use `O_DIRECT` when available
++@@ -305,11 +434,12 @@ do database backups:
++ 
++ ```go
++ func BackupHandleFunc(w http.ResponseWriter, req *http.Request) {
++-	err := db.View(func(tx bolt.Tx) error {
+++	err := db.View(func(tx *bolt.Tx) error {
++ 		w.Header().Set("Content-Type", "application/octet-stream")
++ 		w.Header().Set("Content-Disposition", `attachment; filename="my.db"`)
++ 		w.Header().Set("Content-Length", strconv.Itoa(int(tx.Size())))
++-		return tx.Copy(w)
+++		_, err := tx.WriteTo(w)
+++		return err
++ 	})
++ 	if err != nil {
++ 		http.Error(w, err.Error(), http.StatusInternalServerError)
++@@ -351,14 +481,13 @@ go func() {
++ 		// Grab the current stats and diff them.
++ 		stats := db.Stats()
++ 		diff := stats.Sub(&prev)
++-		
+++
++ 		// Encode stats to JSON and print to STDERR.
++ 		json.NewEncoder(os.Stderr).Encode(diff)
++ 
++ 		// Save stats for the next loop.
++ 		prev = stats
++ 	}
++-}
++ }()
++ ```
++ 
++@@ -366,25 +495,83 @@ It's also useful to pipe these stats to a service such as statsd for monitoring
++ or to provide an HTTP endpoint that will perform a fixed-length sample.
++ 
++ 
+++### Read-Only Mode
+++
+++Sometimes it is useful to create a shared, read-only Bolt database. To this,
+++set the `Options.ReadOnly` flag when opening your database. Read-only mode
+++uses a shared lock to allow multiple processes to read from the database but
+++it will block any processes from opening the database in read-write mode.
+++
+++```go
+++db, err := bolt.Open("my.db", 0666, &bolt.Options{ReadOnly: true})
+++if err != nil {
+++	log.Fatal(err)
+++}
+++```
+++
+++
++ ## Resources
++ 
++ For more information on getting started with Bolt, check out the following articles:
++ 
++ * [Intro to BoltDB: Painless Performant Persistence](http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/) by [Nate Finch](https://github.com/natefinch).
+++* [Bolt -- an embedded key/value database for Go](https://www.progville.com/go/bolt-embedded-db-golang/) by Progville
+++
+++
+++## Comparison with other databases
+++
+++### Postgres, MySQL, & other relational databases
+++
+++Relational databases structure data into rows and are only accessible through
+++the use of SQL. This approach provides flexibility in how you store and query
+++your data but also incurs overhead in parsing and planning SQL statements. Bolt
+++accesses all data by a byte slice key. This makes Bolt fast to read and write
+++data by key but provides no built-in support for joining values together.
+++
+++Most relational databases (with the exception of SQLite) are standalone servers
+++that run separately from your application. This gives your systems
+++flexibility to connect multiple application servers to a single database
+++server but also adds overhead in serializing and transporting data over the
+++network. Bolt runs as a library included in your application so all data access
+++has to go through your application's process. This brings data closer to your
+++application but limits multi-process access to the data.
+++
+++
+++### LevelDB, RocksDB
++ 
+++LevelDB and its derivatives (RocksDB, HyperLevelDB) are similar to Bolt in that
+++they are libraries bundled into the application, however, their underlying
+++structure is a log-structured merge-tree (LSM tree). An LSM tree optimizes
+++random writes by using a write ahead log and multi-tiered, sorted files called
+++SSTables. Bolt uses a B+tree internally and only a single file. Both approaches
+++have trade offs.
++ 
+++If you require a high random write throughput (>10,000 w/sec) or you need to use
+++spinning disks then LevelDB could be a good choice. If your application is
+++read-heavy or does a lot of range scans then Bolt could be a good choice.
++ 
++-## Comparing Bolt to LMDB
+++One other important consideration is that LevelDB does not have transactions.
+++It supports batch writing of key/values pairs and it supports read snapshots
+++but it will not give you the ability to do a compare-and-swap operation safely.
+++Bolt supports fully serializable ACID transactions.
+++
+++
+++### LMDB
++ 
++ Bolt was originally a port of LMDB so it is architecturally similar. Both use
++-a B+tree, have ACID semanetics with fully serializable transactions, and support
+++a B+tree, have ACID semantics with fully serializable transactions, and support
++ lock-free MVCC using a single writer and multiple readers.
++ 
++ The two projects have somewhat diverged. LMDB heavily focuses on raw performance
++ while Bolt has focused on simplicity and ease of use. For example, LMDB allows
++-several unsafe actions such as direct writes and append writes for the sake of
++-performance. Bolt opts to disallow actions which can leave the database in a 
++-corrupted state. The only exception to this in Bolt is `DB.NoSync`.
+++several unsafe actions such as direct writes for the sake of performance. Bolt
+++opts to disallow actions which can leave the database in a corrupted state. The
+++only exception to this in Bolt is `DB.NoSync`.
+++
+++There are also a few differences in API. LMDB requires a maximum mmap size when
+++opening an `mdb_env` whereas Bolt will handle incremental mmap resizing
+++automatically. LMDB overloads the getter and setter functions with multiple
+++flags whereas Bolt splits these specialized cases into their own functions.
++ 
++ 
++ ## Caveats & Limitations
++@@ -425,14 +612,33 @@ Here are a few things to note when evaluating and using Bolt:
++   can in memory and will release memory as needed to other processes. This means
++   that Bolt can show very high memory usage when working with large databases.
++   However, this is expected and the OS will release memory as needed. Bolt can
++-  handle databases much larger than the available physical RAM.
+++  handle databases much larger than the available physical RAM, provided its
+++  memory-map fits in the process virtual address space. It may be problematic
+++  on 32-bits systems.
+++
+++* The data structures in the Bolt database are memory mapped so the data file
+++  will be endian specific. This means that you cannot copy a Bolt file from a
+++  little endian machine to a big endian machine and have it work. For most 
+++  users this is not a concern since most modern CPUs are little endian.
+++
+++* Because of the way pages are laid out on disk, Bolt cannot truncate data files
+++  and return free pages back to the disk. Instead, Bolt maintains a free list
+++  of unused pages within its data file. These free pages can be reused by later
+++  transactions. This works well for many use cases as databases generally tend
+++  to grow. However, it's important to note that deleting large chunks of data
+++  will not allow you to reclaim that space on disk.
+++
+++  For more information on page allocation, [see this comment][page-allocation].
+++
+++[page-allocation]: https://github.com/boltdb/bolt/issues/308#issuecomment-74811638
++ 
++ 
++ ## Other Projects Using Bolt
++ 
++ Below is a list of public, open source projects that use Bolt:
++ 
++-* [Bazil](https://github.com/bazillion/bazil) - A file system that lets your data reside where it is most convenient for it to reside.
+++* [Operation Go: A Routine Mission](http://gocode.io) - An online programming game for Golang using Bolt for user accounts and a leaderboard.
+++* [Bazil](https://bazil.org/) - A file system that lets your data reside where it is most convenient for it to reside.
++ * [DVID](https://github.com/janelia-flyem/dvid) - Added Bolt as optional storage engine and testing it against Basho-tuned leveldb.
++ * [Skybox Analytics](https://github.com/skybox/skybox) - A standalone funnel analysis tool for web analytics.
++ * [Scuttlebutt](https://github.com/benbjohnson/scuttlebutt) - Uses Bolt to store and process all Twitter mentions of GitHub projects.
++@@ -450,6 +656,16 @@ Below is a list of public, open source projects that use Bolt:
++ * [bleve](http://www.blevesearch.com/) - A pure Go search engine similar to ElasticSearch that uses Bolt as the default storage backend.
++ * [tentacool](https://github.com/optiflows/tentacool) - REST api server to manage system stuff (IP, DNS, Gateway...) on a linux server.
++ * [SkyDB](https://github.com/skydb/sky) - Behavioral analytics database.
+++* [Seaweed File System](https://github.com/chrislusf/weed-fs) - Highly scalable distributed key~file system with O(1) disk read.
+++* [InfluxDB](http://influxdb.com) - Scalable datastore for metrics, events, and real-time analytics.
+++* [Freehold](http://tshannon.bitbucket.org/freehold/) - An open, secure, and lightweight platform for your files and data.
+++* [Prometheus Annotation Server](https://github.com/oliver006/prom_annotation_server) - Annotation server for PromDash & Prometheus service monitoring system.
+++* [Consul](https://github.com/hashicorp/consul) - Consul is service discovery and configuration made easy. Distributed, highly available, and datacenter-aware.
+++* [Kala](https://github.com/ajvb/kala) - Kala is a modern job scheduler optimized to run on a single node. It is persistent, JSON over HTTP API, ISO 8601 duration notation, and dependent jobs.
+++* [drive](https://github.com/odeke-em/drive) - drive is an unofficial Google Drive command line client for \*NIX operating systems.
+++* [stow](https://github.com/djherbis/stow) -  a persistence manager for objects
+++  backed by boltdb.
+++* [buckets](https://github.com/joyrexus/buckets) - a bolt wrapper streamlining
+++  simple tx and key scans.
++ 
++ If you are using Bolt in a project please send a pull request to add it to the list.
++-
++diff --git a/vendor/src/github.com/boltdb/bolt/batch.go b/vendor/src/github.com/boltdb/bolt/batch.go
++new file mode 100644
++index 0000000..84acae6
++--- /dev/null
+++++ b/vendor/src/github.com/boltdb/bolt/batch.go
++@@ -0,0 +1,138 @@
+++package bolt
+++
+++import (
+++	"errors"
+++	"fmt"
+++	"sync"
+++	"time"
+++)
+++
+++// Batch calls fn as part of a batch. It behaves similar to Update,
+++// except:
+++//
+++// 1. concurrent Batch calls can be combined into a single Bolt
+++// transaction.
+++//
+++// 2. the function passed to Batch may be called multiple times,
+++// regardless of whether it returns error or not.
+++//
+++// This means that Batch function side effects must be idempotent and
+++// take permanent effect only after a successful return is seen in
+++// caller.
+++//
+++// The maximum batch size and delay can be adjusted with DB.MaxBatchSize
+++// and DB.MaxBatchDelay, respectively.
+++//
+++// Batch is only useful when there are multiple goroutines calling it.
+++func (db *DB) Batch(fn func(*Tx) error) error {
+++	errCh := make(chan error, 1)
+++
+++	db.batchMu.Lock()
+++	if (db.batch == nil) || (db.batch != nil && len(db.batch.calls) >= db.MaxBatchSize) {
+++		// There is no existing batch, or the existing batch is full; start a new one.
+++		db.batch = &batch{
+++			db: db,
+++		}
+++		db.batch.timer = time.AfterFunc(db.MaxBatchDelay, db.batch.trigger)
+++	}
+++	db.batch.calls = append(db.batch.calls, call{fn: fn, err: errCh})
+++	if len(db.batch.calls) >= db.MaxBatchSize {
+++		// wake up batch, it's ready to run
+++		go db.batch.trigger()
+++	}
+++	db.batchMu.Unlock()
+++
+++	err := <-errCh
+++	if err == trySolo {
+++		err = db.Update(fn)
+++	}
+++	return err
+++}
+++
+++type call struct {
+++	fn  func(*Tx) error
+++	err chan<- error
+++}
+++
+++type batch struct {
+++	db    *DB
+++	timer *time.Timer
+++	start sync.Once
+++	calls []call
+++}
+++
+++// trigger runs the batch if it hasn't already been run.
+++func (b *batch) trigger() {
+++	b.start.Do(b.run)
+++}
+++
+++// run performs the transactions in the batch and communicates results
+++// back to DB.Batch.
+++func (b *batch) run() {
+++	b.db.batchMu.Lock()
+++	b.timer.Stop()
+++	// Make sure no new work is added to this batch, but don't break
+++	// other batches.
+++	if b.db.batch == b {
+++		b.db.batch = nil
+++	}
+++	b.db.batchMu.Unlock()
+++
+++retry:
+++	for len(b.calls) > 0 {
+++		var failIdx = -1
+++		err := b.db.Update(func(tx *Tx) error {
+++			for i, c := range b.calls {
+++				if err := safelyCall(c.fn, tx); err != nil {
+++					failIdx = i
+++					return err
+++				}
+++			}
+++			return nil
+++		})
+++
+++		if failIdx >= 0 {
+++			// take the failing transaction out of the batch. it's
+++			// safe to shorten b.calls here because db.batch no longer
+++			// points to us, and we hold the mutex anyway.
+++			c := b.calls[failIdx]
+++			b.calls[failIdx], b.calls = b.calls[len(b.calls)-1], b.calls[:len(b.calls)-1]
+++			// tell the submitter re-run it solo, continue with the rest of the batch
+++			c.err <- trySolo
+++			continue retry
+++		}
+++
+++		// pass success, or bolt internal errors, to all callers
+++		for _, c := range b.calls {
+++			if c.err != nil {
+++				c.err <- err
+++			}
+++		}
+++		break retry
+++	}
+++}
+++
+++// trySolo is a special sentinel error value used for signaling that a
+++// transaction function should be re-run. It should never be seen by
+++// callers.
+++var trySolo = errors.New("batch function returned an error and should be re-run solo")
+++
+++type panicked struct {
+++	reason interface{}
+++}
+++
+++func (p panicked) Error() string {
+++	if err, ok := p.reason.(error); ok {
+++		return err.Error()
+++	}
+++	return fmt.Sprintf("panic: %v", p.reason)
+++}
+++
+++func safelyCall(fn func(*Tx) error, tx *Tx) (err error) {
+++	defer func() {
+++		if p := recover(); p != nil {
+++			err = panicked{p}
+++		}
+++	}()
+++	return fn(tx)
+++}
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_386.go b/vendor/src/github.com/boltdb/bolt/bolt_386.go
++index 856f401..e659bfb 100644
++--- a/vendor/src/github.com/boltdb/bolt/bolt_386.go
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_386.go
++@@ -1,4 +1,7 @@
++ package bolt
++ 
++ // maxMapSize represents the largest mmap size supported by Bolt.
++-const maxMapSize = 0xFFFFFFF // 256MB
+++const maxMapSize = 0x7FFFFFFF // 2GB
+++
+++// maxAllocSize is the size used when creating array pointers.
+++const maxAllocSize = 0xFFFFFFF
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_amd64.go b/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
++index 4262932..cca6b7e 100644
++--- a/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
++@@ -2,3 +2,6 @@ package bolt
++ 
++ // maxMapSize represents the largest mmap size supported by Bolt.
++ const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+++
+++// maxAllocSize is the size used when creating array pointers.
+++const maxAllocSize = 0x7FFFFFFF
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_arm.go b/vendor/src/github.com/boltdb/bolt/bolt_arm.go
++index 856f401..e659bfb 100644
++--- a/vendor/src/github.com/boltdb/bolt/bolt_arm.go
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_arm.go
++@@ -1,4 +1,7 @@
++ package bolt
++ 
++ // maxMapSize represents the largest mmap size supported by Bolt.
++-const maxMapSize = 0xFFFFFFF // 256MB
+++const maxMapSize = 0x7FFFFFFF // 2GB
+++
+++// maxAllocSize is the size used when creating array pointers.
+++const maxAllocSize = 0xFFFFFFF
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_arm64.go b/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
++new file mode 100644
++index 0000000..6d23093
++--- /dev/null
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
++@@ -0,0 +1,9 @@
+++// +build arm64
+++
+++package bolt
+++
+++// maxMapSize represents the largest mmap size supported by Bolt.
+++const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+++
+++// maxAllocSize is the size used when creating array pointers.
+++const maxAllocSize = 0x7FFFFFFF
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go b/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
++new file mode 100644
++index 0000000..8351e12
++--- /dev/null
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
++@@ -0,0 +1,9 @@
+++// +build ppc64le
+++
+++package bolt
+++
+++// maxMapSize represents the largest mmap size supported by Bolt.
+++const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+++
+++// maxAllocSize is the size used when creating array pointers.
+++const maxAllocSize = 0x7FFFFFFF
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_s390x.go b/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
++new file mode 100644
++index 0000000..f4dd26b
++--- /dev/null
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
++@@ -0,0 +1,9 @@
+++// +build s390x
+++
+++package bolt
+++
+++// maxMapSize represents the largest mmap size supported by Bolt.
+++const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+++
+++// maxAllocSize is the size used when creating array pointers.
+++const maxAllocSize = 0x7FFFFFFF
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_unix.go b/vendor/src/github.com/boltdb/bolt/bolt_unix.go
++index 95647a7..6eef6b2 100644
++--- a/vendor/src/github.com/boltdb/bolt/bolt_unix.go
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_unix.go
++@@ -1,8 +1,9 @@
++-// +build !windows,!plan9
+++// +build !windows,!plan9,!solaris
++ 
++ package bolt
++ 
++ import (
+++	"fmt"
++ 	"os"
++ 	"syscall"
++ 	"time"
++@@ -10,7 +11,7 @@ import (
++ )
++ 
++ // flock acquires an advisory lock on a file descriptor.
++-func flock(f *os.File, timeout time.Duration) error {
+++func flock(f *os.File, exclusive bool, timeout time.Duration) error {
++ 	var t time.Time
++ 	for {
++ 		// If we're beyond our timeout then return an error.
++@@ -20,9 +21,13 @@ func flock(f *os.File, timeout time.Duration) error {
++ 		} else if timeout > 0 && time.Since(t) > timeout {
++ 			return ErrTimeout
++ 		}
+++		flag := syscall.LOCK_SH
+++		if exclusive {
+++			flag = syscall.LOCK_EX
+++		}
++ 
++ 		// Otherwise attempt to obtain an exclusive lock.
++-		err := syscall.Flock(int(f.Fd()), syscall.LOCK_EX|syscall.LOCK_NB)
+++		err := syscall.Flock(int(f.Fd()), flag|syscall.LOCK_NB)
++ 		if err == nil {
++ 			return nil
++ 		} else if err != syscall.EWOULDBLOCK {
++@@ -41,11 +46,28 @@ func funlock(f *os.File) error {
++ 
++ // mmap memory maps a DB's data file.
++ func mmap(db *DB, sz int) error {
+++	// Truncate and fsync to ensure file size metadata is flushed.
+++	// https://github.com/boltdb/bolt/issues/284
+++	if !db.NoGrowSync && !db.readOnly {
+++		if err := db.file.Truncate(int64(sz)); err != nil {
+++			return fmt.Errorf("file resize error: %s", err)
+++		}
+++		if err := db.file.Sync(); err != nil {
+++			return fmt.Errorf("file sync error: %s", err)
+++		}
+++	}
+++
+++	// Map the data file to memory.
++ 	b, err := syscall.Mmap(int(db.file.Fd()), 0, sz, syscall.PROT_READ, syscall.MAP_SHARED)
++ 	if err != nil {
++ 		return err
++ 	}
++ 
+++	// Advise the kernel that the mmap is accessed randomly.
+++	if err := madvise(b, syscall.MADV_RANDOM); err != nil {
+++		return fmt.Errorf("madvise: %s", err)
+++	}
+++
++ 	// Save the original byte slice and convert to a byte array pointer.
++ 	db.dataref = b
++ 	db.data = (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
++@@ -67,3 +89,12 @@ func munmap(db *DB) error {
++ 	db.datasz = 0
++ 	return err
++ }
+++
+++// NOTE: This function is copied from stdlib because it is not available on darwin.
+++func madvise(b []byte, advice int) (err error) {
+++	_, _, e1 := syscall.Syscall(syscall.SYS_MADVISE, uintptr(unsafe.Pointer(&b[0])), uintptr(len(b)), uintptr(advice))
+++	if e1 != 0 {
+++		err = e1
+++	}
+++	return
+++}
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go b/vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go
++new file mode 100644
++index 0000000..f480ee7
++--- /dev/null
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go
++@@ -0,0 +1,101 @@
+++
+++package bolt
+++
+++import (
+++	"fmt"
+++	"os"
+++	"syscall"
+++	"time"
+++	"unsafe"
+++	"golang.org/x/sys/unix"
+++)
+++
+++// flock acquires an advisory lock on a file descriptor.
+++func flock(f *os.File, exclusive bool, timeout time.Duration) error {
+++	var t time.Time
+++	for {
+++		// If we're beyond our timeout then return an error.
+++		// This can only occur after we've attempted a flock once.
+++		if t.IsZero() {
+++			t = time.Now()
+++		} else if timeout > 0 && time.Since(t) > timeout {
+++			return ErrTimeout
+++		}
+++		var lock syscall.Flock_t
+++		lock.Start = 0
+++		lock.Len = 0
+++		lock.Pid = 0
+++		lock.Whence = 0
+++		lock.Pid = 0
+++		if exclusive {
+++			lock.Type = syscall.F_WRLCK
+++		} else {
+++			lock.Type = syscall.F_RDLCK
+++		}
+++		err := syscall.FcntlFlock(f.Fd(), syscall.F_SETLK, &lock)
+++		if err == nil {
+++			return nil
+++		} else if err != syscall.EAGAIN {
+++			return err
+++		}
+++
+++		// Wait for a bit and try again.
+++		time.Sleep(50 * time.Millisecond)
+++	}
+++}
+++
+++// funlock releases an advisory lock on a file descriptor.
+++func funlock(f *os.File) error {
+++	var lock syscall.Flock_t
+++	lock.Start = 0
+++	lock.Len = 0
+++	lock.Type = syscall.F_UNLCK
+++	lock.Whence = 0
+++	return syscall.FcntlFlock(uintptr(f.Fd()), syscall.F_SETLK, &lock)
+++}
+++
+++// mmap memory maps a DB's data file.
+++func mmap(db *DB, sz int) error {
+++	// Truncate and fsync to ensure file size metadata is flushed.
+++	// https://github.com/boltdb/bolt/issues/284
+++	if !db.NoGrowSync && !db.readOnly {
+++		if err := db.file.Truncate(int64(sz)); err != nil {
+++			return fmt.Errorf("file resize error: %s", err)
+++		}
+++		if err := db.file.Sync(); err != nil {
+++			return fmt.Errorf("file sync error: %s", err)
+++		}
+++	}
+++
+++	// Map the data file to memory.
+++	b, err := unix.Mmap(int(db.file.Fd()), 0, sz, syscall.PROT_READ, syscall.MAP_SHARED)
+++	if err != nil {
+++		return err
+++	}
+++
+++	// Advise the kernel that the mmap is accessed randomly.
+++	if err := unix.Madvise(b, syscall.MADV_RANDOM); err != nil {
+++		return fmt.Errorf("madvise: %s", err)
+++	}
+++
+++	// Save the original byte slice and convert to a byte array pointer.
+++	db.dataref = b
+++	db.data = (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
+++	db.datasz = sz
+++	return nil
+++}
+++
+++// munmap unmaps a DB's data file from memory.
+++func munmap(db *DB) error {
+++	// Ignore the unmap if we have no mapped data.
+++	if db.dataref == nil {
+++		return nil
+++	}
+++
+++	// Unmap using the original byte slice.
+++	err := unix.Munmap(db.dataref)
+++	db.dataref = nil
+++	db.data = nil
+++	db.datasz = 0
+++	return err
+++}
++diff --git a/vendor/src/github.com/boltdb/bolt/bolt_windows.go b/vendor/src/github.com/boltdb/bolt/bolt_windows.go
++index c8539d4..8b782be 100644
++--- a/vendor/src/github.com/boltdb/bolt/bolt_windows.go
+++++ b/vendor/src/github.com/boltdb/bolt/bolt_windows.go
++@@ -16,7 +16,7 @@ func fdatasync(db *DB) error {
++ }
++ 
++ // flock acquires an advisory lock on a file descriptor.
++-func flock(f *os.File, _ time.Duration) error {
+++func flock(f *os.File, _ bool, _ time.Duration) error {
++ 	return nil
++ }
++ 
++@@ -28,9 +28,11 @@ func funlock(f *os.File) error {
++ // mmap memory maps a DB's data file.
++ // Based on: https://github.com/edsrzf/mmap-go
++ func mmap(db *DB, sz int) error {
++-	// Truncate the database to the size of the mmap.
++-	if err := db.file.Truncate(int64(sz)); err != nil {
++-		return fmt.Errorf("truncate: %s", err)
+++	if !db.readOnly {
+++		// Truncate the database to the size of the mmap.
+++		if err := db.file.Truncate(int64(sz)); err != nil {
+++			return fmt.Errorf("truncate: %s", err)
+++		}
++ 	}
++ 
++ 	// Open a file mapping handle.
++diff --git a/vendor/src/github.com/boltdb/bolt/bucket.go b/vendor/src/github.com/boltdb/bolt/bucket.go
++index 2630800..2925288 100644
++--- a/vendor/src/github.com/boltdb/bolt/bucket.go
+++++ b/vendor/src/github.com/boltdb/bolt/bucket.go
++@@ -99,6 +99,7 @@ func (b *Bucket) Cursor() *Cursor {
++ 
++ // Bucket retrieves a nested bucket by name.
++ // Returns nil if the bucket does not exist.
+++// The bucket instance is only valid for the lifetime of the transaction.
++ func (b *Bucket) Bucket(name []byte) *Bucket {
++ 	if b.buckets != nil {
++ 		if child := b.buckets[string(name)]; child != nil {
++@@ -148,6 +149,7 @@ func (b *Bucket) openBucket(value []byte) *Bucket {
++ 
++ // CreateBucket creates a new bucket at the given key and returns the new bucket.
++ // Returns an error if the key already exists, if the bucket name is blank, or if the bucket name is too long.
+++// The bucket instance is only valid for the lifetime of the transaction.
++ func (b *Bucket) CreateBucket(key []byte) (*Bucket, error) {
++ 	if b.tx.db == nil {
++ 		return nil, ErrTxClosed
++@@ -192,6 +194,7 @@ func (b *Bucket) CreateBucket(key []byte) (*Bucket, error) {
++ 
++ // CreateBucketIfNotExists creates a new bucket if it doesn't already exist and returns a reference to it.
++ // Returns an error if the bucket name is blank, or if the bucket name is too long.
+++// The bucket instance is only valid for the lifetime of the transaction.
++ func (b *Bucket) CreateBucketIfNotExists(key []byte) (*Bucket, error) {
++ 	child, err := b.CreateBucket(key)
++ 	if err == ErrBucketExists {
++@@ -252,6 +255,7 @@ func (b *Bucket) DeleteBucket(key []byte) error {
++ 
++ // Get retrieves the value for a key in the bucket.
++ // Returns a nil value if the key does not exist or if the key is a nested bucket.
+++// The returned value is only valid for the life of the transaction.
++ func (b *Bucket) Get(key []byte) []byte {
++ 	k, v, flags := b.Cursor().seek(key)
++ 
++@@ -332,6 +336,12 @@ func (b *Bucket) NextSequence() (uint64, error) {
++ 		return 0, ErrTxNotWritable
++ 	}
++ 
+++	// Materialize the root node if it hasn't been already so that the
+++	// bucket will be saved during commit.
+++	if b.rootNode == nil {
+++		_ = b.node(b.root, nil)
+++	}
+++
++ 	// Increment and return the sequence.
++ 	b.bucket.sequence++
++ 	return b.bucket.sequence, nil
++@@ -339,7 +349,8 @@ func (b *Bucket) NextSequence() (uint64, error) {
++ 
++ // ForEach executes a function for each key/value pair in a bucket.
++ // If the provided function returns an error then the iteration is stopped and
++-// the error is returned to the caller.
+++// the error is returned to the caller. The provided function must not modify
+++// the bucket; this will result in undefined behavior.
++ func (b *Bucket) ForEach(fn func(k, v []byte) error) error {
++ 	if b.tx.db == nil {
++ 		return ErrTxClosed
++@@ -511,8 +522,12 @@ func (b *Bucket) spill() error {
++ 		// Update parent node.
++ 		var c = b.Cursor()
++ 		k, _, flags := c.seek([]byte(name))
++-		_assert(bytes.Equal([]byte(name), k), "misplaced bucket header: %x -> %x", []byte(name), k)
++-		_assert(flags&bucketLeafFlag != 0, "unexpected bucket header flag: %x", flags)
+++		if !bytes.Equal([]byte(name), k) {
+++			panic(fmt.Sprintf("misplaced bucket header: %x -> %x", []byte(name), k))
+++		}
+++		if flags&bucketLeafFlag == 0 {
+++			panic(fmt.Sprintf("unexpected bucket header flag: %x", flags))
+++		}
++ 		c.node().put([]byte(name), []byte(name), value, 0, bucketLeafFlag)
++ 	}
++ 
++@@ -528,7 +543,9 @@ func (b *Bucket) spill() error {
++ 	b.rootNode = b.rootNode.root()
++ 
++ 	// Update the root node for this bucket.
++-	_assert(b.rootNode.pgid < b.tx.meta.pgid, "pgid (%d) above high water mark (%d)", b.rootNode.pgid, b.tx.meta.pgid)
+++	if b.rootNode.pgid >= b.tx.meta.pgid {
+++		panic(fmt.Sprintf("pgid (%d) above high water mark (%d)", b.rootNode.pgid, b.tx.meta.pgid))
+++	}
++ 	b.root = b.rootNode.pgid
++ 
++ 	return nil
++@@ -659,7 +676,9 @@ func (b *Bucket) pageNode(id pgid) (*page, *node) {
++ 	// Inline buckets have a fake page embedded in their value so treat them
++ 	// differently. We'll return the rootNode (if available) or the fake page.
++ 	if b.root == 0 {
++-		_assert(id == 0, "inline bucket non-zero page access(2): %d != 0", id)
+++		if id != 0 {
+++			panic(fmt.Sprintf("inline bucket non-zero page access(2): %d != 0", id))
+++		}
++ 		if b.rootNode != nil {
++ 			return nil, b.rootNode
++ 		}
++diff --git a/vendor/src/github.com/boltdb/bolt/cursor.go b/vendor/src/github.com/boltdb/bolt/cursor.go
++index 3bfc2f1..006c548 100644
++--- a/vendor/src/github.com/boltdb/bolt/cursor.go
+++++ b/vendor/src/github.com/boltdb/bolt/cursor.go
++@@ -2,6 +2,7 @@ package bolt
++ 
++ import (
++ 	"bytes"
+++	"fmt"
++ 	"sort"
++ )
++ 
++@@ -9,6 +10,8 @@ import (
++ // Cursors see nested buckets with value == nil.
++ // Cursors can be obtained from a transaction and are valid as long as the transaction is open.
++ //
+++// Keys and values returned from the cursor are only valid for the life of the transaction.
+++//
++ // Changing data while traversing with a cursor may cause it to be invalidated
++ // and return unexpected keys and/or values. You must reposition your cursor
++ // after mutating data.
++@@ -24,6 +27,7 @@ func (c *Cursor) Bucket() *Bucket {
++ 
++ // First moves the cursor to the first item in the bucket and returns its key and value.
++ // If the bucket is empty then a nil key and value are returned.
+++// The returned key and value are only valid for the life of the transaction.
++ func (c *Cursor) First() (key []byte, value []byte) {
++ 	_assert(c.bucket.tx.db != nil, "tx closed")
++ 	c.stack = c.stack[:0]
++@@ -40,6 +44,7 @@ func (c *Cursor) First() (key []byte, value []byte) {
++ 
++ // Last moves the cursor to the last item in the bucket and returns its key and value.
++ // If the bucket is empty then a nil key and value are returned.
+++// The returned key and value are only valid for the life of the transaction.
++ func (c *Cursor) Last() (key []byte, value []byte) {
++ 	_assert(c.bucket.tx.db != nil, "tx closed")
++ 	c.stack = c.stack[:0]
++@@ -57,6 +62,7 @@ func (c *Cursor) Last() (key []byte, value []byte) {
++ 
++ // Next moves the cursor to the next item in the bucket and returns its key and value.
++ // If the cursor is at the end of the bucket then a nil key and value are returned.
+++// The returned key and value are only valid for the life of the transaction.
++ func (c *Cursor) Next() (key []byte, value []byte) {
++ 	_assert(c.bucket.tx.db != nil, "tx closed")
++ 	k, v, flags := c.next()
++@@ -68,6 +74,7 @@ func (c *Cursor) Next() (key []byte, value []byte) {
++ 
++ // Prev moves the cursor to the previous item in the bucket and returns its key and value.
++ // If the cursor is at the beginning of the bucket then a nil key and value are returned.
+++// The returned key and value are only valid for the life of the transaction.
++ func (c *Cursor) Prev() (key []byte, value []byte) {
++ 	_assert(c.bucket.tx.db != nil, "tx closed")
++ 
++@@ -99,6 +106,7 @@ func (c *Cursor) Prev() (key []byte, value []byte) {
++ // Seek moves the cursor to a given key and returns it.
++ // If the key does not exist then the next key is used. If no keys
++ // follow, a nil key is returned.
+++// The returned key and value are only valid for the life of the transaction.
++ func (c *Cursor) Seek(seek []byte) (key []byte, value []byte) {
++ 	k, v, flags := c.seek(seek)
++ 
++@@ -228,8 +236,8 @@ func (c *Cursor) next() (key []byte, value []byte, flags uint32) {
++ // search recursively performs a binary search against a given page/node until it finds a given key.
++ func (c *Cursor) search(key []byte, pgid pgid) {
++ 	p, n := c.bucket.pageNode(pgid)
++-	if p != nil {
++-		_assert((p.flags&(branchPageFlag|leafPageFlag)) != 0, "invalid page type: %d: %x", p.id, p.flags)
+++	if p != nil && (p.flags&(branchPageFlag|leafPageFlag)) == 0 {
+++		panic(fmt.Sprintf("invalid page type: %d: %x", p.id, p.flags))
++ 	}
++ 	e := elemRef{page: p, node: n}
++ 	c.stack = append(c.stack, e)
++diff --git a/vendor/src/github.com/boltdb/bolt/db.go b/vendor/src/github.com/boltdb/bolt/db.go
++index 6c45736..d39c4aa 100644
++--- a/vendor/src/github.com/boltdb/bolt/db.go
+++++ b/vendor/src/github.com/boltdb/bolt/db.go
++@@ -12,9 +12,6 @@ import (
++ 	"unsafe"
++ )
++ 
++-// The smallest size that the mmap can be.
++-const minMmapSize = 1 << 22 // 4MB
++-
++ // The largest step that can be taken when remapping the mmap.
++ const maxMmapStep = 1 << 30 // 1GB
++ 
++@@ -30,6 +27,12 @@ const magic uint32 = 0xED0CDAED
++ // must be synchronzied using the msync(2) syscall.
++ const IgnoreNoSync = runtime.GOOS == "openbsd"
++ 
+++// Default values if not set in a DB instance.
+++const (
+++	DefaultMaxBatchSize  int = 1000
+++	DefaultMaxBatchDelay     = 10 * time.Millisecond
+++)
+++
++ // DB represents a collection of buckets persisted to a file on disk.
++ // All data access is performed through transactions which can be obtained through the DB.
++ // All the functions on DB will return a ErrDatabaseNotOpen if accessed before Open() is called.
++@@ -52,9 +55,33 @@ type DB struct {
++ 	// THIS IS UNSAFE. PLEASE USE WITH CAUTION.
++ 	NoSync bool
++ 
+++	// When true, skips the truncate call when growing the database.
+++	// Setting this to true is only safe on non-ext3/ext4 systems.
+++	// Skipping truncation avoids preallocation of hard drive space and
+++	// bypasses a truncate() and fsync() syscall on remapping.
+++	//
+++	// https://github.com/boltdb/bolt/issues/284
+++	NoGrowSync bool
+++
+++	// MaxBatchSize is the maximum size of a batch. Default value is
+++	// copied from DefaultMaxBatchSize in Open.
+++	//
+++	// If <=0, disables batching.
+++	//
+++	// Do not change concurrently with calls to Batch.
+++	MaxBatchSize int
+++
+++	// MaxBatchDelay is the maximum delay before a batch starts.
+++	// Default value is copied from DefaultMaxBatchDelay in Open.
+++	//
+++	// If <=0, effectively disables batching.
+++	//
+++	// Do not change concurrently with calls to Batch.
+++	MaxBatchDelay time.Duration
+++
++ 	path     string
++ 	file     *os.File
++-	dataref  []byte
+++	dataref  []byte // mmap'ed readonly, write throws SEGV
++ 	data     *[maxMapSize]byte
++ 	datasz   int
++ 	meta0    *meta
++@@ -66,6 +93,9 @@ type DB struct {
++ 	freelist *freelist
++ 	stats    Stats
++ 
+++	batchMu sync.Mutex
+++	batch   *batch
+++
++ 	rwlock   sync.Mutex   // Allows only one writer at a time.
++ 	metalock sync.Mutex   // Protects meta page access.
++ 	mmaplock sync.RWMutex // Protects mmap access during remapping.
++@@ -74,6 +104,10 @@ type DB struct {
++ 	ops struct {
++ 		writeAt func(b []byte, off int64) (n int, err error)
++ 	}
+++
+++	// Read only mode.
+++	// When true, Update() and Begin(true) return ErrDatabaseReadOnly immediately.
+++	readOnly bool
++ }
++ 
++ // Path returns the path to currently open database file.
++@@ -101,20 +135,34 @@ func Open(path string, mode os.FileMode, options *Options) (*DB, error) {
++ 	if options == nil {
++ 		options = DefaultOptions
++ 	}
+++	db.NoGrowSync = options.NoGrowSync
+++
+++	// Set default values for later DB operations.
+++	db.MaxBatchSize = DefaultMaxBatchSize
+++	db.MaxBatchDelay = DefaultMaxBatchDelay
+++
+++	flag := os.O_RDWR
+++	if options.ReadOnly {
+++		flag = os.O_RDONLY
+++		db.readOnly = true
+++	}
++ 
++ 	// Open data file and separate sync handler for metadata writes.
++ 	db.path = path
++-
++ 	var err error
++-	if db.file, err = os.OpenFile(db.path, os.O_RDWR|os.O_CREATE, mode); err != nil {
+++	if db.file, err = os.OpenFile(db.path, flag|os.O_CREATE, mode); err != nil {
++ 		_ = db.close()
++ 		return nil, err
++ 	}
++ 
++-	// Lock file so that other processes using Bolt cannot use the database
++-	// at the same time. This would cause corruption since the two processes
++-	// would write meta pages and free pages separately.
++-	if err := flock(db.file, options.Timeout); err != nil {
+++	// Lock file so that other processes using Bolt in read-write mode cannot
+++	// use the database  at the same time. This would cause corruption since
+++	// the two processes would write meta pages and free pages separately.
+++	// The database file is locked exclusively (only one process can grab the lock)
+++	// if !options.ReadOnly.
+++	// The database file is locked using the shared lock (more than one process may
+++	// hold a lock at the same time) otherwise (options.ReadOnly is set).
+++	if err := flock(db.file, !db.readOnly, options.Timeout); err != nil {
++ 		_ = db.close()
++ 		return nil, err
++ 	}
++@@ -162,16 +210,6 @@ func (db *DB) mmap(minsz int) error {
++ 	db.mmaplock.Lock()
++ 	defer db.mmaplock.Unlock()
++ 
++-	// Dereference all mmap references before unmapping.
++-	if db.rwtx != nil {
++-		db.rwtx.root.dereference()
++-	}
++-
++-	// Unmap existing data before continuing.
++-	if err := db.munmap(); err != nil {
++-		return err
++-	}
++-
++ 	info, err := db.file.Stat()
++ 	if err != nil {
++ 		return fmt.Errorf("mmap stat error: %s", err)
++@@ -184,7 +222,20 @@ func (db *DB) mmap(minsz int) error {
++ 	if size < minsz {
++ 		size = minsz
++ 	}
++-	size = db.mmapSize(size)
+++	size, err = db.mmapSize(size)
+++	if err != nil {
+++		return err
+++	}
+++
+++	// Dereference all mmap references before unmapping.
+++	if db.rwtx != nil {
+++		db.rwtx.root.dereference()
+++	}
+++
+++	// Unmap existing data before continuing.
+++	if err := db.munmap(); err != nil {
+++		return err
+++	}
++ 
++ 	// Memory-map the data file as a byte slice.
++ 	if err := mmap(db, size); err != nil {
++@@ -215,22 +266,40 @@ func (db *DB) munmap() error {
++ }
++ 
++ // mmapSize determines the appropriate size for the mmap given the current size
++-// of the database. The minimum size is 4MB and doubles until it reaches 1GB.
++-func (db *DB) mmapSize(size int) int {
++-	if size <= minMmapSize {
++-		return minMmapSize
++-	} else if size < maxMmapStep {
++-		size *= 2
++-	} else {
++-		size += maxMmapStep
+++// of the database. The minimum size is 1MB and doubles until it reaches 1GB.
+++// Returns an error if the new mmap size is greater than the max allowed.
+++func (db *DB) mmapSize(size int) (int, error) {
+++	// Double the size from 32KB until 1GB.
+++	for i := uint(15); i <= 30; i++ {
+++		if size <= 1<<i {
+++			return 1 << i, nil
+++		}
+++	}
+++
+++	// Verify the requested size is not above the maximum allowed.
+++	if size > maxMapSize {
+++		return 0, fmt.Errorf("mmap too large")
+++	}
+++
+++	// If larger than 1GB then grow by 1GB at a time.
+++	sz := int64(size)
+++	if remainder := sz % int64(maxMmapStep); remainder > 0 {
+++		sz += int64(maxMmapStep) - remainder
++ 	}
++ 
++ 	// Ensure that the mmap size is a multiple of the page size.
++-	if (size % db.pageSize) != 0 {
++-		size = ((size / db.pageSize) + 1) * db.pageSize
+++	// This should always be true since we're incrementing in MBs.
+++	pageSize := int64(db.pageSize)
+++	if (sz % pageSize) != 0 {
+++		sz = ((sz / pageSize) + 1) * pageSize
+++	}
+++
+++	// If we've exceeded the max size then only grow up to the max size.
+++	if sz > maxMapSize {
+++		sz = maxMapSize
++ 	}
++ 
++-	return size
+++	return int(sz), nil
++ }
++ 
++ // init creates a new database file and initializes its meta pages.
++@@ -250,7 +319,6 @@ func (db *DB) init() error {
++ 		m.magic = magic
++ 		m.version = version
++ 		m.pageSize = uint32(db.pageSize)
++-		m.version = version
++ 		m.freelist = 2
++ 		m.root = bucket{root: 3}
++ 		m.pgid = 4
++@@ -283,8 +351,15 @@ func (db *DB) init() error {
++ // Close releases all database resources.
++ // All transactions must be closed before closing the database.
++ func (db *DB) Close() error {
+++	db.rwlock.Lock()
+++	defer db.rwlock.Unlock()
+++
++ 	db.metalock.Lock()
++ 	defer db.metalock.Unlock()
+++
+++	db.mmaplock.RLock()
+++	defer db.mmaplock.RUnlock()
+++
++ 	return db.close()
++ }
++ 
++@@ -304,8 +379,11 @@ func (db *DB) close() error {
++ 
++ 	// Close file handles.
++ 	if db.file != nil {
++-		// Unlock the file.
++-		_ = funlock(db.file)
+++		// No need to unlock read-only file.
+++		if !db.readOnly {
+++			// Unlock the file.
+++			_ = funlock(db.file)
+++		}
++ 
++ 		// Close the file descriptor.
++ 		if err := db.file.Close(); err != nil {
++@@ -323,6 +401,11 @@ func (db *DB) close() error {
++ // will cause the calls to block and be serialized until the current write
++ // transaction finishes.
++ //
+++// Transactions should not be depedent on one another. Opening a read
+++// transaction and a write transaction in the same goroutine can cause the
+++// writer to deadlock because the database periodically needs to re-mmap itself
+++// as it grows and it cannot do that while a read transaction is open.
+++//
++ // IMPORTANT: You must close read-only transactions after you are finished or
++ // else the database will not reclaim old pages.
++ func (db *DB) Begin(writable bool) (*Tx, error) {
++@@ -371,6 +454,11 @@ func (db *DB) beginTx() (*Tx, error) {
++ }
++ 
++ func (db *DB) beginRWTx() (*Tx, error) {
+++	// If the database was opened with Options.ReadOnly, return an error.
+++	if db.readOnly {
+++		return nil, ErrDatabaseReadOnly
+++	}
+++
++ 	// Obtain writer lock. This is released by the transaction when it closes.
++ 	// This enforces only one writer transaction at a time.
++ 	db.rwlock.Lock()
++@@ -501,6 +589,12 @@ func (db *DB) View(fn func(*Tx) error) error {
++ 	return nil
++ }
++ 
+++// Sync executes fdatasync() against the database file handle.
+++//
+++// This is not necessary under normal operation, however, if you use NoSync
+++// then it allows you to force the database file to sync against the disk.
+++func (db *DB) Sync() error { return fdatasync(db) }
+++
++ // Stats retrieves ongoing performance stats for the database.
++ // This is only updated when a transaction closes.
++ func (db *DB) Stats() Stats {
++@@ -561,18 +655,30 @@ func (db *DB) allocate(count int) (*page, error) {
++ 	return p, nil
++ }
++ 
+++func (db *DB) IsReadOnly() bool {
+++	return db.readOnly
+++}
+++
++ // Options represents the options that can be set when opening a database.
++ type Options struct {
++ 	// Timeout is the amount of time to wait to obtain a file lock.
++ 	// When set to zero it will wait indefinitely. This option is only
++ 	// available on Darwin and Linux.
++ 	Timeout time.Duration
+++
+++	// Sets the DB.NoGrowSync flag before memory mapping the file.
+++	NoGrowSync bool
+++
+++	// Open database in read-only mode. Uses flock(..., LOCK_SH |LOCK_NB) to
+++	// grab a shared lock (UNIX).
+++	ReadOnly bool
++ }
++ 
++ // DefaultOptions represent the options used if nil options are passed into Open().
++ // No timeout is used which will cause Bolt to wait indefinitely for a lock.
++ var DefaultOptions = &Options{
++-	Timeout: 0,
+++	Timeout:    0,
+++	NoGrowSync: false,
++ }
++ 
++ // Stats represents statistics about the database.
++@@ -647,9 +753,11 @@ func (m *meta) copy(dest *meta) {
++ 
++ // write writes the meta onto a page.
++ func (m *meta) write(p *page) {
++-
++-	_assert(m.root.root < m.pgid, "root bucket pgid (%d) above high water mark (%d)", m.root.root, m.pgid)
++-	_assert(m.freelist < m.pgid, "freelist pgid (%d) above high water mark (%d)", m.freelist, m.pgid)
+++	if m.root.root >= m.pgid {
+++		panic(fmt.Sprintf("root bucket pgid (%d) above high water mark (%d)", m.root.root, m.pgid))
+++	} else if m.freelist >= m.pgid {
+++		panic(fmt.Sprintf("freelist pgid (%d) above high water mark (%d)", m.freelist, m.pgid))
+++	}
++ 
++ 	// Page id is either going to be 0 or 1 which we can determine by the transaction ID.
++ 	p.id = pgid(m.txid % 2)
++@@ -675,13 +783,8 @@ func _assert(condition bool, msg string, v ...interface{}) {
++ 	}
++ }
++ 
++-func warn(v ...interface{}) {
++-	fmt.Fprintln(os.Stderr, v...)
++-}
++-
++-func warnf(msg string, v ...interface{}) {
++-	fmt.Fprintf(os.Stderr, msg+"\n", v...)
++-}
+++func warn(v ...interface{})              { fmt.Fprintln(os.Stderr, v...) }
+++func warnf(msg string, v ...interface{}) { fmt.Fprintf(os.Stderr, msg+"\n", v...) }
++ 
++ func printstack() {
++ 	stack := strings.Join(strings.Split(string(debug.Stack()), "\n")[2:], "\n")
++diff --git a/vendor/src/github.com/boltdb/bolt/errors.go b/vendor/src/github.com/boltdb/bolt/errors.go
++index aa504f1..6883786 100644
++--- a/vendor/src/github.com/boltdb/bolt/errors.go
+++++ b/vendor/src/github.com/boltdb/bolt/errors.go
++@@ -36,6 +36,10 @@ var (
++ 	// ErrTxClosed is returned when committing or rolling back a transaction
++ 	// that has already been committed or rolled back.
++ 	ErrTxClosed = errors.New("tx closed")
+++
+++	// ErrDatabaseReadOnly is returned when a mutating transaction is started on a
+++	// read-only database.
+++	ErrDatabaseReadOnly = errors.New("database is in read-only mode")
++ )
++ 
++ // These errors can occur when putting or deleting a value or a bucket.
++diff --git a/vendor/src/github.com/boltdb/bolt/freelist.go b/vendor/src/github.com/boltdb/bolt/freelist.go
++index 150e3e6..0161948 100644
++--- a/vendor/src/github.com/boltdb/bolt/freelist.go
+++++ b/vendor/src/github.com/boltdb/bolt/freelist.go
++@@ -1,6 +1,7 @@
++ package bolt
++ 
++ import (
+++	"fmt"
++ 	"sort"
++ 	"unsafe"
++ )
++@@ -47,15 +48,14 @@ func (f *freelist) pending_count() int {
++ 
++ // all returns a list of all free ids and all pending ids in one sorted list.
++ func (f *freelist) all() []pgid {
++-	ids := make([]pgid, len(f.ids))
++-	copy(ids, f.ids)
+++	m := make(pgids, 0)
++ 
++ 	for _, list := range f.pending {
++-		ids = append(ids, list...)
+++		m = append(m, list...)
++ 	}
++ 
++-	sort.Sort(pgids(ids))
++-	return ids
+++	sort.Sort(m)
+++	return pgids(f.ids).merge(m)
++ }
++ 
++ // allocate returns the starting page id of a contiguous list of pages of a given size.
++@@ -67,7 +67,9 @@ func (f *freelist) allocate(n int) pgid {
++ 
++ 	var initial, previd pgid
++ 	for i, id := range f.ids {
++-		_assert(id > 1, "invalid page allocation: %d", id)
+++		if id <= 1 {
+++			panic(fmt.Sprintf("invalid page allocation: %d", id))
+++		}
++ 
++ 		// Reset initial page if this is not contiguous.
++ 		if previd == 0 || id-previd != 1 {
++@@ -103,13 +105,17 @@ func (f *freelist) allocate(n int) pgid {
++ // free releases a page and its overflow for a given transaction id.
++ // If the page is already free then a panic will occur.
++ func (f *freelist) free(txid txid, p *page) {
++-	_assert(p.id > 1, "cannot free page 0 or 1: %d", p.id)
+++	if p.id <= 1 {
+++		panic(fmt.Sprintf("cannot free page 0 or 1: %d", p.id))
+++	}
++ 
++ 	// Free page and all its overflow pages.
++ 	var ids = f.pending[txid]
++ 	for id := p.id; id <= p.id+pgid(p.overflow); id++ {
++ 		// Verify that page is not already free.
++-		_assert(!f.cache[id], "page %d already freed", id)
+++		if f.cache[id] {
+++			panic(fmt.Sprintf("page %d already freed", id))
+++		}
++ 
++ 		// Add to the freelist and cache.
++ 		ids = append(ids, id)
++@@ -120,15 +126,17 @@ func (f *freelist) free(txid txid, p *page) {
++ 
++ // release moves all page ids for a transaction id (or older) to the freelist.
++ func (f *freelist) release(txid txid) {
+++	m := make(pgids, 0)
++ 	for tid, ids := range f.pending {
++ 		if tid <= txid {
++ 			// Move transaction's pending pages to the available freelist.
++ 			// Don't remove from the cache since the page is still free.
++-			f.ids = append(f.ids, ids...)
+++			m = append(m, ids...)
++ 			delete(f.pending, tid)
++ 		}
++ 	}
++-	sort.Sort(pgids(f.ids))
+++	sort.Sort(m)
+++	f.ids = pgids(f.ids).merge(m)
++ }
++ 
++ // rollback removes the pages from a given pending tx.
++diff --git a/vendor/src/github.com/boltdb/bolt/node.go b/vendor/src/github.com/boltdb/bolt/node.go
++index c204c39..c9fb21c 100644
++--- a/vendor/src/github.com/boltdb/bolt/node.go
+++++ b/vendor/src/github.com/boltdb/bolt/node.go
++@@ -2,6 +2,7 @@ package bolt
++ 
++ import (
++ 	"bytes"
+++	"fmt"
++ 	"sort"
++ 	"unsafe"
++ )
++@@ -70,7 +71,9 @@ func (n *node) pageElementSize() int {
++ 
++ // childAt returns the child node at a given index.
++ func (n *node) childAt(index int) *node {
++-	_assert(!n.isLeaf, "invalid childAt(%d) on a leaf node", index)
+++	if n.isLeaf {
+++		panic(fmt.Sprintf("invalid childAt(%d) on a leaf node", index))
+++	}
++ 	return n.bucket.node(n.inodes[index].pgid, n)
++ }
++ 
++@@ -111,9 +114,13 @@ func (n *node) prevSibling() *node {
++ 
++ // put inserts a key/value.
++ func (n *node) put(oldKey, newKey, value []byte, pgid pgid, flags uint32) {
++-	_assert(pgid < n.bucket.tx.meta.pgid, "pgid (%d) above high water mark (%d)", pgid, n.bucket.tx.meta.pgid)
++-	_assert(len(oldKey) > 0, "put: zero-length old key")
++-	_assert(len(newKey) > 0, "put: zero-length new key")
+++	if pgid >= n.bucket.tx.meta.pgid {
+++		panic(fmt.Sprintf("pgid (%d) above high water mark (%d)", pgid, n.bucket.tx.meta.pgid))
+++	} else if len(oldKey) <= 0 {
+++		panic("put: zero-length old key")
+++	} else if len(newKey) <= 0 {
+++		panic("put: zero-length new key")
+++	}
++ 
++ 	// Find insertion index.
++ 	index := sort.Search(len(n.inodes), func(i int) bool { return bytes.Compare(n.inodes[i].key, oldKey) != -1 })
++@@ -189,7 +196,9 @@ func (n *node) write(p *page) {
++ 		p.flags |= branchPageFlag
++ 	}
++ 
++-	_assert(len(n.inodes) < 0xFFFF, "inode overflow: %d (pgid=%d)", len(n.inodes), p.id)
+++	if len(n.inodes) >= 0xFFFF {
+++		panic(fmt.Sprintf("inode overflow: %d (pgid=%d)", len(n.inodes), p.id))
+++	}
++ 	p.count = uint16(len(n.inodes))
++ 
++ 	// Loop over each item and write it to the page.
++@@ -212,11 +221,20 @@ func (n *node) write(p *page) {
++ 			_assert(elem.pgid != p.id, "write: circular dependency occurred")
++ 		}
++ 
+++		// If the length of key+value is larger than the max allocation size
+++		// then we need to reallocate the byte array pointer.
+++		//
+++		// See: https://github.com/boltdb/bolt/pull/335
+++		klen, vlen := len(item.key), len(item.value)
+++		if len(b) < klen+vlen {
+++			b = (*[maxAllocSize]byte)(unsafe.Pointer(&b[0]))[:]
+++		}
+++
++ 		// Write data for the element to the end of the page.
++ 		copy(b[0:], item.key)
++-		b = b[len(item.key):]
+++		b = b[klen:]
++ 		copy(b[0:], item.value)
++-		b = b[len(item.value):]
+++		b = b[vlen:]
++ 	}
++ 
++ 	// DEBUG ONLY: n.dump()
++@@ -348,7 +366,9 @@ func (n *node) spill() error {
++ 		}
++ 
++ 		// Write the node.
++-		_assert(p.id < tx.meta.pgid, "pgid (%d) above high water mark (%d)", p.id, tx.meta.pgid)
+++		if p.id >= tx.meta.pgid {
+++			panic(fmt.Sprintf("pgid (%d) above high water mark (%d)", p.id, tx.meta.pgid))
+++		}
++ 		node.pgid = p.id
++ 		node.write(p)
++ 		node.spilled = true
++diff --git a/vendor/src/github.com/boltdb/bolt/page.go b/vendor/src/github.com/boltdb/bolt/page.go
++index b3dc473..818aa1b 100644
++--- a/vendor/src/github.com/boltdb/bolt/page.go
+++++ b/vendor/src/github.com/boltdb/bolt/page.go
++@@ -3,12 +3,12 @@ package bolt
++ import (
++ 	"fmt"
++ 	"os"
+++	"sort"
++ 	"unsafe"
++ )
++ 
++ const pageHeaderSize = int(unsafe.Offsetof(((*page)(nil)).ptr))
++ 
++-const maxAllocSize = 0xFFFFFFF
++ const minKeysPerPage = 2
++ 
++ const branchPageElementSize = int(unsafe.Sizeof(branchPageElement{}))
++@@ -97,7 +97,7 @@ type branchPageElement struct {
++ // key returns a byte slice of the node key.
++ func (n *branchPageElement) key() []byte {
++ 	buf := (*[maxAllocSize]byte)(unsafe.Pointer(n))
++-	return buf[n.pos : n.pos+n.ksize]
+++	return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksize]
++ }
++ 
++ // leafPageElement represents a node on a leaf page.
++@@ -111,13 +111,13 @@ type leafPageElement struct {
++ // key returns a byte slice of the node key.
++ func (n *leafPageElement) key() []byte {
++ 	buf := (*[maxAllocSize]byte)(unsafe.Pointer(n))
++-	return buf[n.pos : n.pos+n.ksize]
+++	return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksize]
++ }
++ 
++ // value returns a byte slice of the node value.
++ func (n *leafPageElement) value() []byte {
++ 	buf := (*[maxAllocSize]byte)(unsafe.Pointer(n))
++-	return buf[n.pos+n.ksize : n.pos+n.ksize+n.vsize]
+++	return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos+n.ksize]))[:n.vsize]
++ }
++ 
++ // PageInfo represents human readable information about a page.
++@@ -133,3 +133,40 @@ type pgids []pgid
++ func (s pgids) Len() int           { return len(s) }
++ func (s pgids) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
++ func (s pgids) Less(i, j int) bool { return s[i] < s[j] }
+++
+++// merge returns the sorted union of a and b.
+++func (a pgids) merge(b pgids) pgids {
+++	// Return the opposite slice if one is nil.
+++	if len(a) == 0 {
+++		return b
+++	} else if len(b) == 0 {
+++		return a
+++	}
+++
+++	// Create a list to hold all elements from both lists.
+++	merged := make(pgids, 0, len(a)+len(b))
+++
+++	// Assign lead to the slice with a lower starting value, follow to the higher value.
+++	lead, follow := a, b
+++	if b[0] < a[0] {
+++		lead, follow = b, a
+++	}
+++
+++	// Continue while there are elements in the lead.
+++	for len(lead) > 0 {
+++		// Merge largest prefix of lead that is ahead of follow[0].
+++		n := sort.Search(len(lead), func(i int) bool { return lead[i] > follow[0] })
+++		merged = append(merged, lead[:n]...)
+++		if n >= len(lead) {
+++			break
+++		}
+++
+++		// Swap lead and follow.
+++		lead, follow = follow, lead[n:]
+++	}
+++
+++	// Append what's left in follow.
+++	merged = append(merged, follow...)
+++
+++	return merged
+++}
++diff --git a/vendor/src/github.com/boltdb/bolt/tx.go b/vendor/src/github.com/boltdb/bolt/tx.go
++index c041d73..fe6c287 100644
++--- a/vendor/src/github.com/boltdb/bolt/tx.go
+++++ b/vendor/src/github.com/boltdb/bolt/tx.go
++@@ -87,18 +87,21 @@ func (tx *Tx) Stats() TxStats {
++ 
++ // Bucket retrieves a bucket by name.
++ // Returns nil if the bucket does not exist.
+++// The bucket instance is only valid for the lifetime of the transaction.
++ func (tx *Tx) Bucket(name []byte) *Bucket {
++ 	return tx.root.Bucket(name)
++ }
++ 
++ // CreateBucket creates a new bucket.
++ // Returns an error if the bucket already exists, if the bucket name is blank, or if the bucket name is too long.
+++// The bucket instance is only valid for the lifetime of the transaction.
++ func (tx *Tx) CreateBucket(name []byte) (*Bucket, error) {
++ 	return tx.root.CreateBucket(name)
++ }
++ 
++ // CreateBucketIfNotExists creates a new bucket if it doesn't already exist.
++ // Returns an error if the bucket name is blank, or if the bucket name is too long.
+++// The bucket instance is only valid for the lifetime of the transaction.
++ func (tx *Tx) CreateBucketIfNotExists(name []byte) (*Bucket, error) {
++ 	return tx.root.CreateBucketIfNotExists(name)
++ }
++@@ -127,7 +130,8 @@ func (tx *Tx) OnCommit(fn func()) {
++ }
++ 
++ // Commit writes all changes to disk and updates the meta page.
++-// Returns an error if a disk write error occurs.
+++// Returns an error if a disk write error occurs, or if Commit is
+++// called on a read-only transaction.
++ func (tx *Tx) Commit() error {
++ 	_assert(!tx.managed, "managed tx commit not allowed")
++ 	if tx.db == nil {
++@@ -203,7 +207,8 @@ func (tx *Tx) Commit() error {
++ 	return nil
++ }
++ 
++-// Rollback closes the transaction and ignores all previous updates.
+++// Rollback closes the transaction and ignores all previous updates. Read-only
+++// transactions must be rolled back and not committed.
++ func (tx *Tx) Rollback() error {
++ 	_assert(!tx.managed, "managed tx rollback not allowed")
++ 	if tx.db == nil {
++@@ -234,7 +239,8 @@ func (tx *Tx) close() {
++ 		var freelistPendingN = tx.db.freelist.pending_count()
++ 		var freelistAlloc = tx.db.freelist.size()
++ 
++-		// Remove writer lock.
+++		// Remove transaction ref & writer lock.
+++		tx.db.rwtx = nil
++ 		tx.db.rwlock.Unlock()
++ 
++ 		// Merge statistics.
++@@ -248,41 +254,51 @@ func (tx *Tx) close() {
++ 	} else {
++ 		tx.db.removeTx(tx)
++ 	}
+++
+++	// Clear all references.
++ 	tx.db = nil
+++	tx.meta = nil
+++	tx.root = Bucket{tx: tx}
+++	tx.pages = nil
++ }
++ 
++ // Copy writes the entire database to a writer.
++-// A reader transaction is maintained during the copy so it is safe to continue
++-// using the database while a copy is in progress.
++-// Copy will write exactly tx.Size() bytes into the writer.
+++// This function exists for backwards compatibility. Use WriteTo() in
++ func (tx *Tx) Copy(w io.Writer) error {
++-	var f *os.File
++-	var err error
+++	_, err := tx.WriteTo(w)
+++	return err
+++}
++ 
+++// WriteTo writes the entire database to a writer.
+++// If err == nil then exactly tx.Size() bytes will be written into the writer.
+++func (tx *Tx) WriteTo(w io.Writer) (n int64, err error) {
++ 	// Attempt to open reader directly.
+++	var f *os.File
++ 	if f, err = os.OpenFile(tx.db.path, os.O_RDONLY|odirect, 0); err != nil {
++ 		// Fallback to a regular open if that doesn't work.
++ 		if f, err = os.OpenFile(tx.db.path, os.O_RDONLY, 0); err != nil {
++-			return err
+++			return 0, err
++ 		}
++ 	}
++ 
++ 	// Copy the meta pages.
++ 	tx.db.metalock.Lock()
++-	_, err = io.CopyN(w, f, int64(tx.db.pageSize*2))
+++	n, err = io.CopyN(w, f, int64(tx.db.pageSize*2))
++ 	tx.db.metalock.Unlock()
++ 	if err != nil {
++ 		_ = f.Close()
++-		return fmt.Errorf("meta copy: %s", err)
+++		return n, fmt.Errorf("meta copy: %s", err)
++ 	}
++ 
++ 	// Copy data pages.
++-	if _, err := io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2)); err != nil {
+++	wn, err := io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2))
+++	n += wn
+++	if err != nil {
++ 		_ = f.Close()
++-		return err
+++		return n, err
++ 	}
++ 
++-	return f.Close()
+++	return n, f.Close()
++ }
++ 
++ // CopyFile copies the entire database to file at the given path.
++@@ -416,15 +432,39 @@ func (tx *Tx) write() error {
++ 	// Write pages to disk in order.
++ 	for _, p := range pages {
++ 		size := (int(p.overflow) + 1) * tx.db.pageSize
++-		buf := (*[maxAllocSize]byte)(unsafe.Pointer(p))[:size]
++ 		offset := int64(p.id) * int64(tx.db.pageSize)
++-		if _, err := tx.db.ops.writeAt(buf, offset); err != nil {
++-			return err
++-		}
++ 
++-		// Update statistics.
++-		tx.stats.Write++
+++		// Write out page in "max allocation" sized chunks.
+++		ptr := (*[maxAllocSize]byte)(unsafe.Pointer(p))
+++		for {
+++			// Limit our write to our max allocation size.
+++			sz := size
+++			if sz > maxAllocSize-1 {
+++				sz = maxAllocSize - 1
+++			}
+++
+++			// Write chunk to disk.
+++			buf := ptr[:sz]
+++			if _, err := tx.db.ops.writeAt(buf, offset); err != nil {
+++				return err
+++			}
+++
+++			// Update statistics.
+++			tx.stats.Write++
+++
+++			// Exit inner for loop if we've written all the chunks.
+++			size -= sz
+++			if size == 0 {
+++				break
+++			}
+++
+++			// Otherwise move offset forward and move pointer to next chunk.
+++			offset += int64(sz)
+++			ptr = (*[maxAllocSize]byte)(unsafe.Pointer(&ptr[sz]))
+++		}
++ 	}
+++
+++	// Ignore file sync if flag is set on DB.
++ 	if !tx.db.NoSync || IgnoreNoSync {
++ 		if err := fdatasync(tx.db); err != nil {
++ 			return err
 +-- 
 +1.9.1
 +
-diff --git a/recipes-devtools/python/python-m2crypto_0.22.3.bb b/recipes-devtools/python/python-m2crypto_0.22.3.bb
-index 3325455..95d6eec 100644
---- a/recipes-devtools/python/python-m2crypto_0.22.3.bb
-+++ b/recipes-devtools/python/python-m2crypto_0.22.3.bb
-@@ -14,7 +14,9 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://PKG-INFO;md5=0ccca7097c1d29fa42e75e9c15c6ff2e"
+diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patch b/recipes-containers/docker/files/disable_sha1sum_startup.patch
+index 580ca23..d37d7a0 100644
+--- a/recipes-containers/docker/files/disable_sha1sum_startup.patch
++++ b/recipes-containers/docker/files/disable_sha1sum_startup.patch
+@@ -1,31 +1,27 @@
+-docker engine not running
++From 12fd6388a033ab5ec9b3a7b144c4976031e6aa52 Mon Sep 17 00:00:00 2001
++From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
++Date: Fri, 20 Nov 2015 10:02:09 +0000
++Subject: [PATCH] disable sha1sum startup
  
- SRCNAME = "M2Crypto"
--SRC_URI = "http://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "http://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
-+           file://m2crypto-Fix-build-with-SWIG-3.0.5.patch \
-+"
+-In yocto builds, preprocessing of binaries can happen after the install phase.
+-Some of these can modify the size/sha1sum of the binaries.
+-e.g. A new .gnu_debuglink can happen
+-
+-docker will not start because of these modifications. Docker initially
+-does a sha1sum of dockerinit to identify the dockerinit that it was built
+-with, this is done for security and for compatibility reasons. Since
+-this checking is disabled, we should rely on rpm tests for validation
+-of the binary instead.
+-
+-Signed-off-by: Amy Fong <amy.fong@windriver.com>
++Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+ ---
+- utils/utils.go |   17 +----------------
+- 1 file changed, 1 insertion(+), 16 deletions(-)
++ utils/utils.go | 18 +-----------------
++ 1 file changed, 1 insertion(+), 17 deletions(-)
  
- SRC_URI[md5sum] = "573f21aaac7d5c9549798e72ffcefedd"
- SRC_URI[sha256sum] = "6071bfc817d94723e9b458a010d565365104f84aa73f7fe11919871f7562ff72"
++diff --git a/utils/utils.go b/utils/utils.go
++index a17ab9d..3fc514a 100644
+ --- a/utils/utils.go
+ +++ b/utils/utils.go
+-@@ -3,7 +3,6 @@
++@@ -2,8 +2,6 @@ package utils
++ 
+  import (
+  	"bufio"
+- 	"bytes"
+ -	"crypto/sha1"
+- 	"crypto/sha256"
+- 	"encoding/hex"
++-	"encoding/hex"
+  	"fmt"
+-@@ -75,20 +74,6 @@
++ 	"io"
++ 	"io/ioutil"
++@@ -42,20 +40,6 @@ func SelfPath() string {
+  	return path
+  }
+  
+@@ -46,7 +42,7 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
+  func isValidDockerInitPath(target string, selfPath string) bool { // target and selfPath should be absolute (InitPath and SelfPath already do this)
+  	if target == "" {
+  		return false
+-@@ -110,7 +95,7 @@
++@@ -77,7 +61,7 @@ func isValidDockerInitPath(target string, selfPath string) bool { // target and
+  		}
+  		return os.SameFile(targetFileInfo, selfPathFileInfo)
+  	}
+@@ -54,4 +50,7 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
+ +	return true
+  }
+  
+- // Figure out the path of our dockerinit (which may be SelfPath())
++ // DockerInitPath figures out the path of our dockerinit (which may be SelfPath())
++-- 
++1.9.1
++
 -- 
-1.9.1
+1.8.3.2
 
 
