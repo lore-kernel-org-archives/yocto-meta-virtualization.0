@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 51C25E00CAD; Mon, 18 Apr 2016 20:09:51 -0700 (PDT)
+	id ED80EE00F61; Tue, 19 Apr 2016 12:30:47 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	http://www.dnswl.org/, low *      trust
-	*      [209.85.218.53 listed in list.dnswl.org]
+	*      [209.85.218.42 listed in list.dnswl.org]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
@@ -20,48 +20,52 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
-	[209.85.218.53])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26BB2E0092C
+Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
+	[209.85.218.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C7E03E008EE
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 18 Apr 2016 20:09:41 -0700 (PDT)
-Received: by mail-oi0-f53.google.com with SMTP id k142so3325761oib.1
+	Tue, 19 Apr 2016 12:30:38 -0700 (PDT)
+Received: by mail-oi0-f42.google.com with SMTP id k142so19609476oib.1
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 18 Apr 2016 20:09:41 -0700 (PDT)
+	Tue, 19 Apr 2016 12:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=UhlSU9qTktfDnwMJCqe2XlNQKWE6WEevmjhHp9UofPY=;
-	b=dGfnV7/pYZImEAoZah+iPoTf3fv1f0Gs8i1BRebVIw2SUd/gzSNvy2EvN92r8XJ0z/
-	49/tyqc7uuBGSW365p5qHVU3tvqrCcCwyw/sbQ05vACkEoAw74X7NpzvHyJCGyfwtYSD
-	FRIzqoZZP4l377yDbqXq+fNrO50olBBgcrvWxNnb2Co2G3f0zFe604azySRURI4pHnqv
-	NiPTc8Qn8nkxIDI21NiaB3Wku59t6TxXHcwSSqfeTe79xjRj2jBtUvuktFNFCbr/xpO5
-	HFLEcNqo2juxaqzEgV5JDQ7eKKMZkqqJ9qNrZ4aF6OITI/dz3q9lVfsGsFGw8tZupLS5
-	uxZg==
+	:cc; bh=jboiGiKzzHmIBFYEYWYYE1Fm87lLJJ4SAQokdKL48Zo=;
+	b=J9bk8LVyYOGQtPUIQOh4zy+NF4uPMutaPwYiCMSh0je2YS1IBfLqfFgoKbjcz0uOL3
+	i3jcuPES90D8bLpsphl/3UcJfJnkZnfevT37xAdTnFPATSF7R8HFfaBxU0vPEK6UEb4K
+	JBIrIhtJCxyWslMPPUz/Jq1a31tR7a7nWoIhWH4P9Qtyat6wM4eLkUZbjrkrOLn0rZQT
+	JjPGB2g0FrTgLTzzxCRNqJ7YZElZ+1ZN2CAJSp1PpjkGohk1fdt3abr1VDnUqG9mif6/
+	+h+JQduqWOvKn+e4UckpO2Ox4NhTAg9u/kzRVC/4qdj1j9cS9QxQhbKJn5II+XyMUT36
+	2GxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=UhlSU9qTktfDnwMJCqe2XlNQKWE6WEevmjhHp9UofPY=;
-	b=V7CsVsrpeigevWBtgaAHig6uE5UIhXQOsR/g9U1F1jGhWrVBMQZ0Z0iuUNaEl/AFwX
-	XTBaOa1nIMXpqWlU/DhOvoDOGUONUBYWehYr+0bIrcNZ3B23eayrR8FPzmfpJ1N01C9w
-	nfIIHHugL5P6pubhryNu0QOayMpHXJvip3cq7ZQ3RDCOr3/pR/MQDqi4fyKkuRgjhqr4
-	gRY+TAYIKt5f7OLeW15t7EnqAo5Dl4ppmwzDCPPX3vSPaCql4TedcqHdFC9Esz9H5pug
-	vjSgerJ86QZmA6E48hLa3aJanJu+4HHz8S7PORvLw+CZaila9vC26vHa3PoSzybVbIoK
-	DLaQ==
-X-Gm-Message-State: AOPr4FWV4TbizxUyl8o721EMGVsExOsJOSlWtmiVp5FFLW0P6DBh7TZAjw3H2XuOYR5X20KUKzwWB0MeAuFyew==
+	bh=jboiGiKzzHmIBFYEYWYYE1Fm87lLJJ4SAQokdKL48Zo=;
+	b=GtdmkDEk2VunRv4zSN2H6ezIW5orBOFZc88Veqwchkd27AEQq7htPzaWySLK1gycJs
+	fb+pqh6IaXhqiUWXKxjHTrwPGWmEgBVkG3+KoJ7z1VNl/BEG2k+bl8R+E3MtyBA7BQsw
+	dz/H3iyhC8IXS/o8FL+OYjaxGW91p+1lOXeeR1sOY8H4njeJfY4fXGMbXWkrRlAGk51Q
+	VnkE11e3tzNLZed9hgqHXFYrWlykuWW4zQCpil2fKeBD8g39OyI71JLbSKwo1OMzUEYq
+	Jg82qZud0Uj7RvMd70Nxk+19tlgd6JuugEZNzF3dMtwPB6AP07wITdcCbTQD2MiahD/+
+	9yIA==
+X-Gm-Message-State: AOPr4FWHnDpQANL/H13/amakSbNtigSjD7jkvWUi2uPPWMdSo8ffSBnVGcM/lmhJgLrUycO2CYspZgkDqd9rjA==
 MIME-Version: 1.0
-X-Received: by 10.202.170.65 with SMTP id t62mr194425oie.60.1461035380796;
-	Mon, 18 Apr 2016 20:09:40 -0700 (PDT)
-Received: by 10.157.5.101 with HTTP; Mon, 18 Apr 2016 20:09:40 -0700 (PDT)
-In-Reply-To: <HE1PR04MB2170BADC77C7DC4781349639FD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
+X-Received: by 10.157.54.54 with SMTP id w51mr1871428otb.186.1461094236887;
+	Tue, 19 Apr 2016 12:30:36 -0700 (PDT)
+Received: by 10.157.5.101 with HTTP; Tue, 19 Apr 2016 12:30:36 -0700 (PDT)
+In-Reply-To: <AM3PR04MB40313AB152240F2495C7B0F936C0@AM3PR04MB403.eurprd04.prod.outlook.com>
 References: <1460450138-16240-1-git-send-email-zongchun.yu@nxp.com>
 	<HE1PR04MB2170BADC77C7DC4781349639FD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
-Message-ID: <CADkTA4NdArOKj2cqgVj2i2qfLf_-DQpoMT3mfAQycMEGwP7p4w@mail.gmail.com>
+	<CADkTA4NdArOKj2cqgVj2i2qfLf_-DQpoMT3mfAQycMEGwP7p4w@mail.gmail.com>
+	<HE1PR04MB2170699B2D798054BA45765EFD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
+	<AM3PR04MB40313AB152240F2495C7B0F936C0@AM3PR04MB403.eurprd04.prod.outlook.com>
+Message-ID: <CADkTA4OO1Ha3nDfO7T=sgrQ9vef4wjOJyPvUqQuDVinBRzVK9Q@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Zongchun Yu <zongchun.yu@nxp.com>
+To: Wei Lu <W.Lu@nxp.com>
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
+	<meta-virtualization@yoctoproject.org>,
+	Bogdan Purcareata <bogdan.purcareata@nxp.com>
 Subject: Re: [PATCH][v2] docker: uprev to 1.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
@@ -75,45 +79,297 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Tue, 19 Apr 2016 03:09:51 -0000
-X-Original-Date: Mon, 18 Apr 2016 23:09:40 -0400
-X-List-Received-Date: Tue, 19 Apr 2016 03:09:51 -0000
-Content-Type: multipart/alternative; boundary=001a113c352ce07f8e0530cdceeb
+Date: Tue, 19 Apr 2016 19:30:48 -0000
+X-Original-Date: Tue, 19 Apr 2016 15:30:36 -0400
+X-List-Received-Date: Tue, 19 Apr 2016 19:30:48 -0000
+Content-Type: multipart/alternative; boundary=001a114772b2f9245f0530db8253
 
---001a113c352ce07f8e0530cdceeb
+--001a114772b2f9245f0530db8253
 Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu <zongchun.yu@nxp.com> wrote:
+On Tue, Apr 19, 2016 at 3:29 AM, Wei Lu <W.Lu@nxp.com> wrote:
 
+> Hello,
+>
+>
+>
+
+Thanks. I've queued this locally. If my testing passes, I'll follow up when
+it has been
+pushed.
+
+Bruce
+
+
+> For Docker running on ARM64, we need enable below configures, these extra
+> configures are not enabled in default kernel, so we need open it manually=
+.
+>
+> CONFIG_CGROUP_DEBUG=3Dy
+>
+> CONFIG_CGROUP_FREEZER=3Dy
+>
+> CONFIG_CGROUP_DEVICE=3Dy
+>
+> CONFIG_CPUSETS=3Dy
+>
+> CONFIG_CGROUP_CPUACCT=3Dy
+>
+> CONFIG_CGROUP_PERF=3Dy
+>
+> CONFIG_BLK_CGROUP=3Dy
+>
+> CONFIG_DEBUG_BLK_CGROUP=3Dy
+>
+> CONFIG_UTS_NS=3Dy
+>
+> CONFIG_IPC_NS=3Dy
+>
+> CONFIG_USER_NS=3Dy
+>
+> CONFIG_IPV6=3Dy
+>
+> CONFIG_BRIDGE=3Dy
+>
+> CONFIG_VLAN_8021Q=3Dy
+>
+> CONFIG_VLAN_8021Q_GVRP=3Dy
+>
+> CONFIG_VLAN_8021Q_MVRP=3Dy
+>
+> CONFIG_MACVLAN=3Dy
+>
+> CONFIG_MACVTAP=3Dy
+>
+> CONFIG_VETH=3Dy
+>
+> CONFIG_DEVPTS_MULTIPLE_INSTANCES=3Dy
+>
+> CONFIG_EXT2_FS_XATTR=3Dy
+>
+> CONFIG_EXT2_FS_POSIX_ACL=3Dy
+>
+> CONFIG_EXT3_FS_POSIX_ACL=3Dy
+>
+> CONFIG_EXT4_FS_POSIX_ACL=3Dy
+>
+> CONFIG_TMPFS_POSIX_ACL=3Dy
+>
+> CONFIG_SECCOMP=3Dy
+>
+> CONFIG_BLK_DEV_THROTTLING=3Dy
+>
+> CONFIG_CFQ_GROUP_IOSCHED=3Dy
+>
+> CONFIG_OVERLAY_FS=3Dy
+>
+> CONFIG_TMPFS_POSIX_ACL=3Dy
+>
+> CONFIG_TMPFS_XATTR=3Dy
+>
+> CONFIG_NETFILTER=3Dy
+>
+> CONFIG_NETFILTER_ADVANCED=3Dy
+>
+> CONFIG_BRIDGE_NETFILTER=3Dm
+>
+> CONFIG_NETFILTER_NETLINK=3Dy
+>
+> CONFIG_NF_CONNTRACK=3Dy
+>
+> CONFIG_NF_CONNTRACK_MARK=3Dy
+>
+> CONFIG_NF_CONNTRACK_PROCFS=3Dy
+>
+> CONFIG_NF_NAT=3Dy
+>
+> CONFIG_NF_NAT_NEEDED=3Dy
+>
+> CONFIG_NF_TABLES=3Dy
+>
+> CONFIG_NFT_CT=3Dy
+>
+> CONFIG_NFT_RBTREE=3Dy
+>
+> CONFIG_NFT_MASQ=3Dy
+>
+> CONFIG_NFT_NAT=3Dy
+>
+> CONFIG_NFT_COMPAT=3Dy
+>
+> CONFIG_NETFILTER_XTABLES=3Dy
+>
+> CONFIG_NETFILTER_XT_CONNMARK=3Dy
+>
+> CONFIG_NETFILTER_XT_TARGET_CONNMARK=3Dy
+>
+> CONFIG_NETFILTER_XT_NAT=3Dy
+>
+> CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=3Dy
+>
+> CONFIG_NETFILTER_XT_MATCH_CONNMARK=3Dy
+>
+> CONFIG_NETFILTER_XT_MATCH_CONNTRACK=3Dy
+>
+> CONFIG_NF_DEFRAG_IPV4=3Dy
+>
+> CONFIG_NF_CONNTRACK_IPV4=3Dy
+>
+> CONFIG_NF_CONNTRACK_PROC_COMPAT=3Dy
+>
+> CONFIG_NF_TABLES_IPV4=3Dy
+>
+> CONFIG_NF_NAT_IPV4=3Dy
+>
+> CONFIG_NF_NAT_MASQUERADE_IPV4=3Dy
+>
+> CONFIG_IP_NF_IPTABLES=3Dy
+>
+> CONFIG_IP_NF_FILTER=3Dy
+>
+> CONFIG_IP_NF_NAT=3Dy
+>
+> CONFIG_IP_NF_TARGET_MASQUERADE=3Dy
+>
+> CONFIG_IP_NF_MANGLE=3Dy
+>
+> CONFIG_NF_TABLES_BRIDGE=3Dy
+>
+> CONFIG_BRIDGE_NF_EBTABLES=3Dy
+>
+> CONFIG_BRIDGE_EBT_T_NAT=3Dy
+>
+> CONFIG_BRIDGE_EBT_DNAT=3Dy
+>
+> CONFIG_BRIDGE_EBT_SNAT=3Dy
+>
+>
+>
+> Test steps on ARM64:
+>
+> docker daemon &
+>
+> docker  login docker hub
+>
+> docker search arm64
+>
+> docker pull $ARM64_images
+>
+> docker run -d -p 30081:80 --name=3Dsandbox1 -h sandbox1 $ARM64_images bas=
+h
+> -c "lighttpd -f /etc/lighttpd/lighttpd.conf -D"
+>
+> docker logout
+>
+> docker ps =E2=80=93a
+>
+> docker images
+>
+> docker stop sandbox1
+>
+> docker rm sandbox1
+>
+>
+>
+>
+>
+> Regards
+>
+> Lu Wei
+>
+>
+>
+> *From:* Zongchun Yu
+> *Sent:* Tuesday, April 19, 2016 11:18 AM
+> *To:* Bruce Ashfield <bruce.ashfield@gmail.com>; Wei Lu <W.Lu@nxp.com>
+> *Cc:* meta-virtualization@yoctoproject.org
+> *Subject:* RE: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0
+>
+>
+>
+> Okay.  Let me add Lu wei.
+>
+>
+>
+> Hi Lu wei.
+>
+>
+>
+> Can you help to provide the arm64 test and configure message to Bruce?
+>
+>
+>
+>
+>
+> Thank you.
+>
+>
+>
+> Best Regards
+>
+> Zongchun
+>
+> *From:* Bruce Ashfield [mailto:bruce.ashfield@gmail.com
+> <bruce.ashfield@gmail.com>]
+> *Sent:* Tuesday, April 19, 2016 11:10 AM
+> *To:* Zongchun Yu
+> *Cc:* meta-virtualization@yoctoproject.org
+> *Subject:* Re: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0
+>
+>
+>
+>
+>
+>
+>
+> On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu <zongchun.yu@nxp.com> wrote=
+:
+>
 > Hi Bruce.
 >
 > May I know if you have comments about this v2 patch? If not. Can you help
 > to apply the patch?
 >
-
-
-I'm waiting to hear from Bogdan P: .. you said the following:
-
-------------
-
-Hi Bogdan P.
-
-
-
-Can you help to provide the arm64 test and configure messages to Bruce?
-
------------
-
-And I see no other email on the subject .. so I'm not sure why I'd have
-started to merge a new version.
-
-Bruce
-
-
+>
+>
+>
+>
+> I'm waiting to hear from Bogdan P: .. you said the following:
+>
+>
+>
+> ------------
+>
+>
+>
+> Hi Bogdan P.
+>
+>
+>
+> Can you help to provide the arm64 test and configure messages to Bruce?
+>
+>
+>
+> -----------
+>
+>
+>
+> And I see no other email on the subject .. so I'm not sure why I'd have
+> started to merge a new version.
+>
+>
+>
+> Bruce
+>
+>
+>
+>
 > Thanks.
 >
 > Best Regards
 > Zongchun
+>
 > -----Original Message-----
 > From: zongchun.yu@nxp.com [mailto:zongchun.yu@nxp.com]
 > Sent: Tuesday, April 12, 2016 4:36 PM
@@ -143,17 +399,19 @@ Bruce
 > index 2672b22..19fdef0 100644
 > --- a/recipes-containers/docker/docker_git.bb
 > +++ b/recipes-containers/docker/docker_git.bb
-> @@ -18,23 +18,23 @@ DESCRIPTION = "Linux container runtime \
+> @@ -18,23 +18,23 @@ DESCRIPTION =3D "Linux container runtime \
 >   subtle and/or glaring issues. \
 >   "
 >
-> -SRCREV = "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
-> -SRCBRANCH = "v1.6.2"
-> +SRCREV = "76d6bc9a9f1690e16f3721ba165364688b626de2"
->  SRC_URI = "\
-> -       git://github.com/docker/docker.git;branch=${SRCBRANCH};nobranch=1
-> \
-> +       git://github.com/docker/docker.git;nobranch=1 \
+> -SRCREV =3D "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
+> -SRCBRANCH =3D "v1.6.2"
+> +SRCREV =3D "76d6bc9a9f1690e16f3721ba165364688b626de2"
+>  SRC_URI =3D "\
+> -       git://github.com/docker/docker.git;branch=3D${SRCBRANCH};nobranch=
+=3D1
+> <http://github.com/docker/docker.git;branch=3D$%7bSRCBRANCH%7d;nobranch=
+=3D1> \
+> +       git://github.com/docker/docker.git;nobranch=3D1 \
 >         file://docker.service \
 >         file://docker.init \
 >         file://hi.Dockerfile \
@@ -162,65 +420,69 @@ Bruce
 >         "
 >
 >  # Apache-2.0 for docker
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=1cc0497778922bfd6cb48721deb80dc7"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=cc2221abf0b96ea39dd68141b70f7937"
+>  LICENSE =3D "Apache-2.0"
+> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1cc0497778922bfd6cb48721deb80=
+dc7"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dcc2221abf0b96ea39dd68141b70f7=
+937"
 >
->  S = "${WORKDIR}/git"
+>  S =3D "${WORKDIR}/git"
 >
-> -DOCKER_VERSION = "1.6.2"
-> +DOCKER_VERSION = "1.9.0"
->  PV = "${DOCKER_VERSION}+git${SRCREV}"
+> -DOCKER_VERSION =3D "1.6.2"
+> +DOCKER_VERSION =3D "1.9.0"
+>  PV =3D "${DOCKER_VERSION}+git${SRCREV}"
 >
->  DEPENDS = "go-cross \
-> @@ -62,17 +62,17 @@ RRECOMMENDS_${PN} = "lxc docker-registry rt-tests"
->  RRECOMMENDS_${PN} += " kernel-module-dm-thin-pool kernel-module-nf-nat"
->  DOCKER_PKG="github.com/docker/docker"
+>  DEPENDS =3D "go-cross \
+> @@ -62,17 +62,17 @@ RRECOMMENDS_${PN} =3D "lxc docker-registry rt-tests"
+>  RRECOMMENDS_${PN} +=3D " kernel-module-dm-thin-pool kernel-module-nf-nat=
+"
+>  DOCKER_PKG=3D"github.com/docker/docker"
 >
 > -do_configure() {
 > -}
-> +do_configure[noexec] = "1"
+> +do_configure[noexec] =3D "1"
 >
 >  do_compile() {
-> -       export PATH=${STAGING_BINDIR_NATIVE}/${HOST_SYS}/go-1.3:$PATH
+> -       export PATH=3D${STAGING_BINDIR_NATIVE}/${HOST_SYS}/go-1.3:$PATH
 > -
->         export GOARCH="${TARGET_ARCH}"
+>         export GOARCH=3D"${TARGET_ARCH}"
 > -       # supported amd64, 386, arm
 > +       # supported amd64, 386, arm arm64
->         if [ "${TARGET_ARCH}" = "x86_64" ]; then
->                 export GOARCH="amd64"
+>         if [ "${TARGET_ARCH}" =3D "x86_64" ]; then
+>                 export GOARCH=3D"amd64"
 >         fi
-> +       if [ "${TARGET_ARCH}" = "aarch64" ]; then
-> +               export GOARCH="arm64"
+> +       if [ "${TARGET_ARCH}" =3D "aarch64" ]; then
+> +               export GOARCH=3D"arm64"
 > +       fi
 >
 >         # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
 >         # docker to download its dependencies but rather
 > @@ -84,21 +84,19 @@ do_compile() {
 >         export
-> GOPATH="${S}/.gopath:${S}/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
+> GOPATH=3D"${S}/.gopath:${S}/vendor:${STAGING_DIR_TARGET}/${prefix}/local/=
+go"
 >         cd -
 >
-> -       export CGO_ENABLED="1"
+> -       export CGO_ENABLED=3D"1"
 > -
 >         # Pass the needed cflags/ldflags so that cgo
 >         # can find the needed headers files and libraries
-> -       export CGO_CFLAGS="${BUILDSDK_CFLAGS}"
-> -       export CGO_LDFLAGS="${BUILDSDK_LDFLAGS}"
-> +       export CGO_ENABLED="1"
-> +       export CGO_CFLAGS="${BUILDSDK_CFLAGS}
-> --sysroot=${STAGING_DIR_TARGET}"
-> +       export CGO_LDFLAGS="${BUILDSDK_LDFLAGS}
-> --sysroot=${STAGING_DIR_TARGET}"
+> -       export CGO_CFLAGS=3D"${BUILDSDK_CFLAGS}"
+> -       export CGO_LDFLAGS=3D"${BUILDSDK_LDFLAGS}"
+> +       export CGO_ENABLED=3D"1"
+> +       export CGO_CFLAGS=3D"${BUILDSDK_CFLAGS}
+> --sysroot=3D${STAGING_DIR_TARGET}"
+> +       export CGO_LDFLAGS=3D"${BUILDSDK_LDFLAGS}
+> --sysroot=3D${STAGING_DIR_TARGET}"
 > +       # in order to exclude devicemapper and btrfs -
 > https://github.com/docker/docker/issues/14056
-> +       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
+> +       export DOCKER_BUILDTAGS=3D'exclude_graphdriver_btrfs
 > exclude_graphdriver_devicemapper'
 >
 >         # this is the unsupported built structure
 >         # that doesn't rely on an existing docker
 >         # to build this:
->         DOCKER_GITCOMMIT="${SRCREV}" \
+>         DOCKER_GITCOMMIT=3D"${SRCREV}" \
 >           ./hack/make.sh dynbinary
 > -
 > -       # make nsinit from libcontainer
@@ -329,7 +591,8 @@ Bruce
 > randomized
 > + black box testing are used to ensure database consistency and thread
 > safety.
-> + Bolt is currently in high-load production environments serving databases
+> + Bolt is currently in high-load production environments serving database=
+s
 > as
 > + large as 1TB. Many companies such as Shopify and Heroku use Bolt-backed
 > +@@ -87,6 +87,11 @@ are not thread safe. To work with data in multiple
@@ -351,7 +614,7 @@ Bruce
 > +
 > + #### Read-write transactions
 > +
-> +@@ -120,12 +125,88 @@ err := db.View(func(tx *bolt.Tx) error {
+> +@@ -120,12 +125,88 @@ err :=3D db.View(func(tx *bolt.Tx) error {
 > + })
 > + ```
 > +
@@ -373,7 +636,7 @@ Bruce
 > ++function:
 > ++
 > ++```go
-> ++err := db.Batch(func(tx *bolt.Tx) error {
+> ++err :=3D db.Batch(func(tx *bolt.Tx) error {
 > ++      ...
 > ++      return nil
 > ++})
@@ -393,14 +656,14 @@ Bruce
 > ++
 > ++```go
 > ++var id uint64
-> ++err := db.Batch(func(tx *bolt.Tx) error {
+> ++err :=3D db.Batch(func(tx *bolt.Tx) error {
 > ++      // Find last key in bucket, decode as bigendian uint64, increment
 > ++      // by one, encode back to []byte, and add new key.
 > ++      ...
-> ++      id = newValue
+> ++      id =3D newValue
 > ++      return nil
 > ++})
-> ++if err != nil {
+> ++if err !=3D nil {
 > ++      return ...
 > ++}
 > ++fmt.Println("Allocated ID %d", id)
@@ -425,20 +688,20 @@ Bruce
 > ++
 > ++```go
 > ++// Start a writable transaction.
-> ++tx, err := db.Begin(true)
-> ++if err != nil {
+> ++tx, err :=3D db.Begin(true)
+> ++if err !=3D nil {
 > ++    return err
 > ++}
 > ++defer tx.Rollback()
 > ++
 > ++// Use the transaction...
-> ++_, err := tx.CreateBucket([]byte("MyBucket"))
-> ++if err != nil {
+> ++_, err :=3D tx.CreateBucket([]byte("MyBucket"))
+> ++if err !=3D nil {
 > ++    return err
 > ++}
 > ++
 > ++// Commit the transaction and check for error.
-> ++if err := tx.Commit(); err != nil {
+> ++if err :=3D tx.Commit(); err !=3D nil {
 > ++    return err
 > ++}
 > ++```
@@ -450,15 +713,18 @@ Bruce
 > ++
 > + ### Using buckets
 > +
-> + Buckets are collections of key/value pairs within the database. All keys
+> + Buckets are collections of key/value pairs within the database. All key=
+s
 > in a
 > +@@ -175,13 +256,61 @@ db.View(func(tx *bolt.Tx) error {
 > + ```
 > +
 > + The `Get()` function does not return an error because its operation is
-> +-guarenteed to work (unless there is some kind of system failure). If the
+> +-guarenteed to work (unless there is some kind of system failure). If th=
+e
 > key
-> ++guaranteed to work (unless there is some kind of system failure). If the
+> ++guaranteed to work (unless there is some kind of system failure). If th=
+e
 > key
 > + exists then it will return its byte slice value. If it doesn't exist
 > then it
@@ -477,30 +743,32 @@ Bruce
 > ++### Autoincrementing integer for the bucket
 > ++By using the NextSequence() function, you can let Bolt determine a
 > sequence
-> ++which can be used as the unique identifier for your key/value pairs. See
+> ++which can be used as the unique identifier for your key/value pairs. Se=
+e
 > the
 > ++example below.
 > ++
 > ++```go
-> ++// CreateUser saves u to the store. The new user ID is set on u once the
+> ++// CreateUser saves u to the store. The new user ID is set on u once th=
+e
 > data is persisted.
 > ++func (s *Store) CreateUser(u *User) error {
 > ++    return s.db.Update(func(tx *bolt.Tx) error {
 > ++        // Retrieve the users bucket.
 > ++        // This should be created when the DB is first opened.
-> ++        b := tx.Bucket([]byte("users"))
+> ++        b :=3D tx.Bucket([]byte("users"))
 > ++
 > ++        // Generate ID for the user.
 > ++        // This returns an error only if the Tx is closed or not
 > writeable.
 > ++        // That can't happen in an Update() call so I ignore the error
 > check.
-> ++        id, _ = b.NextSequence()
-> ++        u.ID = int(id)
+> ++        id, _ =3D b.NextSequence()
+> ++        u.ID =3D int(id)
 > ++
 > ++        // Marshal user data into bytes.
-> ++        buf, err := json.Marshal(u)
-> ++        if err != nil {
+> ++        buf, err :=3D json.Marshal(u)
+> ++        if err !=3D nil {
 > ++            return err
 > ++        }
 > ++
@@ -511,7 +779,7 @@ Bruce
 > ++
 > ++// itob returns an 8-byte big endian representation of v.
 > ++func itob(v int) []byte {
-> ++    b := make([]byte, 8)
+> ++    b :=3D make([]byte, 8)
 > ++    binary.BigEndian.PutUint64(b, uint64(v))
 > ++    return b
 > ++}
@@ -526,13 +794,15 @@ Bruce
 > + ### Iterating over keys
 > +
 > +@@ -254,7 +383,7 @@ db.View(func(tx *bolt.Tx) error {
-> +       max := []byte("2000-01-01T00:00:00Z")
+> +       max :=3D []byte("2000-01-01T00:00:00Z")
 > +
 > +       // Iterate over the 90's.
-> +-      for k, v := c.Seek(min); k != nil && bytes.Compare(k, max) != -1;
-> k, v = c.Next() {
-> ++      for k, v := c.Seek(min); k != nil && bytes.Compare(k, max) <= 0;
-> k, v = c.Next() {
+> +-      for k, v :=3D c.Seek(min); k !=3D nil && bytes.Compare(k, max) !=
+=3D -1;
+> k, v =3D c.Next() {
+> ++      for k, v :=3D c.Seek(min); k !=3D nil && bytes.Compare(k, max) <=
+=3D 0;
+> k, v =3D c.Next() {
 > +               fmt.Printf("%s: %s\n", k, v)
 > +       }
 > +
@@ -540,7 +810,8 @@ Bruce
 > +
 > + ### Database backups
 > +
-> +-Bolt is a single file so it's easy to backup. You can use the `Tx.Copy()`
+> +-Bolt is a single file so it's easy to backup. You can use the `Tx.Copy(=
+)`
 > ++Bolt is a single file so it's easy to backup. You can use the
 > `Tx.WriteTo()`
 > + function to write a consistent view of the database to a writer. If you
@@ -553,30 +824,32 @@ Bruce
 > +
 > + ```go
 > + func BackupHandleFunc(w http.ResponseWriter, req *http.Request) {
-> +-      err := db.View(func(tx bolt.Tx) error {
-> ++      err := db.View(func(tx *bolt.Tx) error {
-> +               w.Header().Set("Content-Type", "application/octet-stream")
+> +-      err :=3D db.View(func(tx bolt.Tx) error {
+> ++      err :=3D db.View(func(tx *bolt.Tx) error {
+> +               w.Header().Set("Content-Type", "application/octet-stream"=
+)
 > +               w.Header().Set("Content-Disposition", `attachment;
-> filename="my.db"`)
+> filename=3D"my.db"`)
 > +               w.Header().Set("Content-Length",
 > strconv.Itoa(int(tx.Size())))
 > +-              return tx.Copy(w)
-> ++              _, err := tx.WriteTo(w)
+> ++              _, err :=3D tx.WriteTo(w)
 > ++              return err
 > +       })
-> +       if err != nil {
-> +               http.Error(w, err.Error(), http.StatusInternalServerError)
+> +       if err !=3D nil {
+> +               http.Error(w, err.Error(), http.StatusInternalServerError=
+)
 > +@@ -351,14 +481,13 @@ go func() {
 > +               // Grab the current stats and diff them.
-> +               stats := db.Stats()
-> +               diff := stats.Sub(&prev)
+> +               stats :=3D db.Stats()
+> +               diff :=3D stats.Sub(&prev)
 > +-
 > ++
 > +               // Encode stats to JSON and print to STDERR.
 > +               json.NewEncoder(os.Stderr).Encode(diff)
 > +
 > +               // Save stats for the next loop.
-> +               prev = stats
+> +               prev =3D stats
 > +       }
 > +-}
 > + }()
@@ -593,13 +866,15 @@ Bruce
 > this,
 > ++set the `Options.ReadOnly` flag when opening your database. Read-only
 > mode
-> ++uses a shared lock to allow multiple processes to read from the database
+> ++uses a shared lock to allow multiple processes to read from the databas=
+e
 > but
-> ++it will block any processes from opening the database in read-write mode.
+> ++it will block any processes from opening the database in read-write mod=
+e.
 > ++
 > ++```go
-> ++db, err := bolt.Open("my.db", 0666, &bolt.Options{ReadOnly: true})
-> ++if err != nil {
+> ++db, err :=3D bolt.Open("my.db", 0666, &bolt.Options{ReadOnly: true})
+> ++if err !=3D nil {
 > ++      log.Fatal(err)
 > ++}
 > ++```
@@ -629,17 +904,21 @@ Bruce
 > statements. Bolt
 > ++accesses all data by a byte slice key. This makes Bolt fast to read and
 > write
-> ++data by key but provides no built-in support for joining values together.
+> ++data by key but provides no built-in support for joining values togethe=
+r.
 > ++
 > ++Most relational databases (with the exception of SQLite) are standalone
 > servers
 > ++that run separately from your application. This gives your systems
-> ++flexibility to connect multiple application servers to a single database
+> ++flexibility to connect multiple application servers to a single databas=
+e
 > ++server but also adds overhead in serializing and transporting data over
 > the
-> ++network. Bolt runs as a library included in your application so all data
+> ++network. Bolt runs as a library included in your application so all dat=
+a
 > access
-> ++has to go through your application's process. This brings data closer to
+> ++has to go through your application's process. This brings data closer t=
+o
 > your
 > ++application but limits multi-process access to the data.
 > ++
@@ -662,7 +941,8 @@ Bruce
 > need to use
 > ++spinning disks then LevelDB could be a good choice. If your application
 > is
-> ++read-heavy or does a lot of range scans then Bolt could be a good choice.
+> ++read-heavy or does a lot of range scans then Bolt could be a good choic=
+e.
 > +
 > +-## Comparing Bolt to LMDB
 > ++One other important consideration is that LevelDB does not have
@@ -678,7 +958,8 @@ Bruce
 > +
 > + Bolt was originally a port of LMDB so it is architecturally similar.
 > Both use
-> +-a B+tree, have ACID semanetics with fully serializable transactions, and
+> +-a B+tree, have ACID semanetics with fully serializable transactions, an=
+d
 > support
 > ++a B+tree, have ACID semantics with fully serializable transactions, and
 > support
@@ -718,13 +999,15 @@ Bruce
 > +   However, this is expected and the OS will release memory as needed.
 > Bolt can
 > +-  handle databases much larger than the available physical RAM.
-> ++  handle databases much larger than the available physical RAM, provided
+> ++  handle databases much larger than the available physical RAM, provide=
+d
 > its
 > ++  memory-map fits in the process virtual address space. It may be
 > problematic
 > ++  on 32-bits systems.
 > ++
-> ++* The data structures in the Bolt database are memory mapped so the data
+> ++* The data structures in the Bolt database are memory mapped so the dat=
+a
 > file
 > ++  will be endian specific. This means that you cannot copy a Bolt file
 > from a
@@ -734,13 +1017,15 @@ Bruce
 > ++
 > ++* Because of the way pages are laid out on disk, Bolt cannot truncate
 > data files
-> ++  and return free pages back to the disk. Instead, Bolt maintains a free
+> ++  and return free pages back to the disk. Instead, Bolt maintains a fre=
+e
 > list
 > ++  of unused pages within its data file. These free pages can be reused
 > by later
 > ++  transactions. This works well for many use cases as databases
 > generally tend
-> ++  to grow. However, it's important to note that deleting large chunks of
+> ++  to grow. However, it's important to note that deleting large chunks o=
+f
 > data
 > ++  will not allow you to reclaim that space on disk.
 > ++
@@ -758,7 +1043,8 @@ Bruce
 > +-* [Bazil](https://github.com/bazillion/bazil) - A file system that lets
 > your data reside where it is most convenient for it to reside.
 > ++* [Operation Go: A Routine Mission](http://gocode.io) - An online
-> programming game for Golang using Bolt for user accounts and a leaderboard.
+> programming game for Golang using Bolt for user accounts and a leaderboar=
+d.
 > ++* [Bazil](https://bazil.org/) - A file system that lets your data
 > reside where it is most convenient for it to reside.
 > + * [DVID](https://github.com/janelia-flyem/dvid) - Added Bolt as
@@ -767,13 +1053,15 @@ Bruce
 > funnel analysis tool for web analytics.
 > + * [Scuttlebutt](https://github.com/benbjohnson/scuttlebutt) - Uses Bolt
 > to store and process all Twitter mentions of GitHub projects.
-> +@@ -450,6 +656,16 @@ Below is a list of public, open source projects that
+> +@@ -450,6 +656,16 @@ Below is a list of public, open source projects tha=
+t
 > use Bolt:
 > + * [bleve](http://www.blevesearch.com/) - A pure Go search engine
 > similar to ElasticSearch that uses Bolt as the default storage backend.
 > + * [tentacool](https://github.com/optiflows/tentacool) - REST api server
 > to manage system stuff (IP, DNS, Gateway...) on a linux server.
-> + * [SkyDB](https://github.com/skydb/sky) - Behavioral analytics database.
+> + * [SkyDB](https://github.com/skydb/sky) - Behavioral analytics database=
+.
 > ++* [Seaweed File System](https://github.com/chrislusf/weed-fs) - Highly
 > scalable distributed key~file system with O(1) disk read.
 > ++* [InfluxDB](http://influxdb.com) - Scalable datastore for metrics,
@@ -830,34 +1118,37 @@ Bruce
 > ++// take permanent effect only after a successful return is seen in
 > ++// caller.
 > ++//
-> ++// The maximum batch size and delay can be adjusted with DB.MaxBatchSize
+> ++// The maximum batch size and delay can be adjusted with DB.MaxBatchSiz=
+e
 > ++// and DB.MaxBatchDelay, respectively.
 > ++//
 > ++// Batch is only useful when there are multiple goroutines calling it.
 > ++func (db *DB) Batch(fn func(*Tx) error) error {
-> ++      errCh := make(chan error, 1)
+> ++      errCh :=3D make(chan error, 1)
 > ++
 > ++      db.batchMu.Lock()
-> ++      if (db.batch == nil) || (db.batch != nil && len(db.batch.calls) >=
+> ++      if (db.batch =3D=3D nil) || (db.batch !=3D nil && len(db.batch.ca=
+lls) >=3D
 > db.MaxBatchSize) {
 > ++              // There is no existing batch, or the existing batch is
 > full; start a new one.
-> ++              db.batch = &batch{
+> ++              db.batch =3D &batch{
 > ++                      db: db,
 > ++              }
-> ++              db.batch.timer = time.AfterFunc(db.MaxBatchDelay,
+> ++              db.batch.timer =3D time.AfterFunc(db.MaxBatchDelay,
 > db.batch.trigger)
 > ++      }
-> ++      db.batch.calls = append(db.batch.calls, call{fn: fn, err: errCh})
-> ++      if len(db.batch.calls) >= db.MaxBatchSize {
+> ++      db.batch.calls =3D append(db.batch.calls, call{fn: fn, err: errCh=
+})
+> ++      if len(db.batch.calls) >=3D db.MaxBatchSize {
 > ++              // wake up batch, it's ready to run
 > ++              go db.batch.trigger()
 > ++      }
 > ++      db.batchMu.Unlock()
 > ++
-> ++      err := <-errCh
-> ++      if err == trySolo {
-> ++              err = db.Update(fn)
+> ++      err :=3D <-errCh
+> ++      if err =3D=3D trySolo {
+> ++              err =3D db.Update(fn)
 > ++      }
 > ++      return err
 > ++}
@@ -886,33 +1177,34 @@ Bruce
 > ++      b.timer.Stop()
 > ++      // Make sure no new work is added to this batch, but don't break
 > ++      // other batches.
-> ++      if b.db.batch == b {
-> ++              b.db.batch = nil
+> ++      if b.db.batch =3D=3D b {
+> ++              b.db.batch =3D nil
 > ++      }
 > ++      b.db.batchMu.Unlock()
 > ++
 > ++retry:
 > ++      for len(b.calls) > 0 {
-> ++              var failIdx = -1
-> ++              err := b.db.Update(func(tx *Tx) error {
-> ++                      for i, c := range b.calls {
-> ++                              if err := safelyCall(c.fn, tx); err != nil
+> ++              var failIdx =3D -1
+> ++              err :=3D b.db.Update(func(tx *Tx) error {
+> ++                      for i, c :=3D range b.calls {
+> ++                              if err :=3D safelyCall(c.fn, tx); err !=
+=3D nil
 > {
-> ++                                      failIdx = i
+> ++                                      failIdx =3D i
 > ++                                      return err
 > ++                              }
 > ++                      }
 > ++                      return nil
 > ++              })
 > ++
-> ++              if failIdx >= 0 {
+> ++              if failIdx >=3D 0 {
 > ++                      // take the failing transaction out of the batch.
 > it's
 > ++                      // safe to shorten b.calls here because db.batch
 > no longer
 > ++                      // points to us, and we hold the mutex anyway.
-> ++                      c := b.calls[failIdx]
-> ++                      b.calls[failIdx], b.calls =
+> ++                      c :=3D b.calls[failIdx]
+> ++                      b.calls[failIdx], b.calls =3D
 > b.calls[len(b.calls)-1], b.calls[:len(b.calls)-1]
 > ++                      // tell the submitter re-run it solo, continue
 > with the rest of the batch
@@ -921,8 +1213,8 @@ Bruce
 > ++              }
 > ++
 > ++              // pass success, or bolt internal errors, to all callers
-> ++              for _, c := range b.calls {
-> ++                      if c.err != nil {
+> ++              for _, c :=3D range b.calls {
+> ++                      if c.err !=3D nil {
 > ++                              c.err <- err
 > ++                      }
 > ++              }
@@ -933,7 +1225,8 @@ Bruce
 > ++// trySolo is a special sentinel error value used for signaling that a
 > ++// transaction function should be re-run. It should never be seen by
 > ++// callers.
-> ++var trySolo = errors.New("batch function returned an error and should be
+> ++var trySolo =3D errors.New("batch function returned an error and should=
+ be
 > re-run solo")
 > ++
 > ++type panicked struct {
@@ -941,7 +1234,7 @@ Bruce
 > ++}
 > ++
 > ++func (p panicked) Error() string {
-> ++      if err, ok := p.reason.(error); ok {
+> ++      if err, ok :=3D p.reason.(error); ok {
 > ++              return err.Error()
 > ++      }
 > ++      return fmt.Sprintf("panic: %v", p.reason)
@@ -949,8 +1242,8 @@ Bruce
 > ++
 > ++func safelyCall(fn func(*Tx) error, tx *Tx) (err error) {
 > ++      defer func() {
-> ++              if p := recover(); p != nil {
-> ++                      err = panicked{p}
+> ++              if p :=3D recover(); p !=3D nil {
+> ++                      err =3D panicked{p}
 > ++              }
 > ++      }()
 > ++      return fn(tx)
@@ -964,11 +1257,11 @@ Bruce
 > + package bolt
 > +
 > + // maxMapSize represents the largest mmap size supported by Bolt.
-> +-const maxMapSize = 0xFFFFFFF // 256MB
-> ++const maxMapSize = 0x7FFFFFFF // 2GB
+> +-const maxMapSize =3D 0xFFFFFFF // 256MB
+> ++const maxMapSize =3D 0x7FFFFFFF // 2GB
 > ++
 > ++// maxAllocSize is the size used when creating array pointers.
-> ++const maxAllocSize = 0xFFFFFFF
+> ++const maxAllocSize =3D 0xFFFFFFF
 > +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
 > b/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
 > +index 4262932..cca6b7e 100644
@@ -977,10 +1270,10 @@ Bruce
 > +@@ -2,3 +2,6 @@ package bolt
 > +
 > + // maxMapSize represents the largest mmap size supported by Bolt.
-> + const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+> + const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
 > ++
 > ++// maxAllocSize is the size used when creating array pointers.
-> ++const maxAllocSize = 0x7FFFFFFF
+> ++const maxAllocSize =3D 0x7FFFFFFF
 > +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_arm.go b/vendor/src/
 > github.com/boltdb/bolt/bolt_arm.go
 > +index 856f401..e659bfb 100644
@@ -990,11 +1283,11 @@ Bruce
 > + package bolt
 > +
 > + // maxMapSize represents the largest mmap size supported by Bolt.
-> +-const maxMapSize = 0xFFFFFFF // 256MB
-> ++const maxMapSize = 0x7FFFFFFF // 2GB
+> +-const maxMapSize =3D 0xFFFFFFF // 256MB
+> ++const maxMapSize =3D 0x7FFFFFFF // 2GB
 > ++
 > ++// maxAllocSize is the size used when creating array pointers.
-> ++const maxAllocSize = 0xFFFFFFF
+> ++const maxAllocSize =3D 0xFFFFFFF
 > +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
 > b/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
 > +new file mode 100644
@@ -1007,10 +1300,10 @@ Bruce
 > ++package bolt
 > ++
 > ++// maxMapSize represents the largest mmap size supported by Bolt.
-> ++const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+> ++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
 > ++
 > ++// maxAllocSize is the size used when creating array pointers.
-> ++const maxAllocSize = 0x7FFFFFFF
+> ++const maxAllocSize =3D 0x7FFFFFFF
 > +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
 > b/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
 > +new file mode 100644
@@ -1023,10 +1316,10 @@ Bruce
 > ++package bolt
 > ++
 > ++// maxMapSize represents the largest mmap size supported by Bolt.
-> ++const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+> ++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
 > ++
 > ++// maxAllocSize is the size used when creating array pointers.
-> ++const maxAllocSize = 0x7FFFFFFF
+> ++const maxAllocSize =3D 0x7FFFFFFF
 > +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
 > b/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
 > +new file mode 100644
@@ -1039,11 +1332,12 @@ Bruce
 > ++package bolt
 > ++
 > ++// maxMapSize represents the largest mmap size supported by Bolt.
-> ++const maxMapSize = 0xFFFFFFFFFFFF // 256TB
+> ++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
 > ++
 > ++// maxAllocSize is the size used when creating array pointers.
-> ++const maxAllocSize = 0x7FFFFFFF
-> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_unix.go b/vendor/src/
+> ++const maxAllocSize =3D 0x7FFFFFFF
+> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_unix.go b/vendor/src=
+/
 > github.com/boltdb/bolt/bolt_unix.go
 > +index 95647a7..6eef6b2 100644
 > +--- a/vendor/src/github.com/boltdb/bolt/bolt_unix.go
@@ -1072,18 +1366,18 @@ Bruce
 > +               } else if timeout > 0 && time.Since(t) > timeout {
 > +                       return ErrTimeout
 > +               }
-> ++              flag := syscall.LOCK_SH
+> ++              flag :=3D syscall.LOCK_SH
 > ++              if exclusive {
-> ++                      flag = syscall.LOCK_EX
+> ++                      flag =3D syscall.LOCK_EX
 > ++              }
 > +
 > +               // Otherwise attempt to obtain an exclusive lock.
-> +-              err := syscall.Flock(int(f.Fd()),
+> +-              err :=3D syscall.Flock(int(f.Fd()),
 > syscall.LOCK_EX|syscall.LOCK_NB)
-> ++              err := syscall.Flock(int(f.Fd()), flag|syscall.LOCK_NB)
-> +               if err == nil {
+> ++              err :=3D syscall.Flock(int(f.Fd()), flag|syscall.LOCK_NB)
+> +               if err =3D=3D nil {
 > +                       return nil
-> +               } else if err != syscall.EWOULDBLOCK {
+> +               } else if err !=3D syscall.EWOULDBLOCK {
 > +@@ -41,11 +46,28 @@ func funlock(f *os.File) error {
 > +
 > + // mmap memory maps a DB's data file.
@@ -1091,42 +1385,43 @@ Bruce
 > ++      // Truncate and fsync to ensure file size metadata is flushed.
 > ++      // https://github.com/boltdb/bolt/issues/284
 > ++      if !db.NoGrowSync && !db.readOnly {
-> ++              if err := db.file.Truncate(int64(sz)); err != nil {
+> ++              if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
 > ++                      return fmt.Errorf("file resize error: %s", err)
 > ++              }
-> ++              if err := db.file.Sync(); err != nil {
+> ++              if err :=3D db.file.Sync(); err !=3D nil {
 > ++                      return fmt.Errorf("file sync error: %s", err)
 > ++              }
 > ++      }
 > ++
 > ++      // Map the data file to memory.
-> +       b, err := syscall.Mmap(int(db.file.Fd()), 0, sz,
+> +       b, err :=3D syscall.Mmap(int(db.file.Fd()), 0, sz,
 > syscall.PROT_READ, syscall.MAP_SHARED)
-> +       if err != nil {
+> +       if err !=3D nil {
 > +               return err
 > +       }
 > +
 > ++      // Advise the kernel that the mmap is accessed randomly.
-> ++      if err := madvise(b, syscall.MADV_RANDOM); err != nil {
+> ++      if err :=3D madvise(b, syscall.MADV_RANDOM); err !=3D nil {
 > ++              return fmt.Errorf("madvise: %s", err)
 > ++      }
 > ++
 > +       // Save the original byte slice and convert to a byte array
 > pointer.
-> +       db.dataref = b
-> +       db.data = (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
+> +       db.dataref =3D b
+> +       db.data =3D (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
 > +@@ -67,3 +89,12 @@ func munmap(db *DB) error {
-> +       db.datasz = 0
+> +       db.datasz =3D 0
 > +       return err
 > + }
 > ++
-> ++// NOTE: This function is copied from stdlib because it is not available
+> ++// NOTE: This function is copied from stdlib because it is not availabl=
+e
 > on darwin.
 > ++func madvise(b []byte, advice int) (err error) {
-> ++      _, _, e1 := syscall.Syscall(syscall.SYS_MADVISE,
+> ++      _, _, e1 :=3D syscall.Syscall(syscall.SYS_MADVISE,
 > uintptr(unsafe.Pointer(&b[0])), uintptr(len(b)), uintptr(advice))
-> ++      if e1 != 0 {
-> ++              err = e1
+> ++      if e1 !=3D 0 {
+> ++              err =3D e1
 > ++      }
 > ++      return
 > ++}
@@ -1154,27 +1449,29 @@ Bruce
 > ++      var t time.Time
 > ++      for {
 > ++              // If we're beyond our timeout then return an error.
-> ++              // This can only occur after we've attempted a flock once.
+> ++              // This can only occur after we've attempted a flock once=
+.
 > ++              if t.IsZero() {
-> ++                      t = time.Now()
+> ++                      t =3D time.Now()
 > ++              } else if timeout > 0 && time.Since(t) > timeout {
 > ++                      return ErrTimeout
 > ++              }
 > ++              var lock syscall.Flock_t
-> ++              lock.Start = 0
-> ++              lock.Len = 0
-> ++              lock.Pid = 0
-> ++              lock.Whence = 0
-> ++              lock.Pid = 0
+> ++              lock.Start =3D 0
+> ++              lock.Len =3D 0
+> ++              lock.Pid =3D 0
+> ++              lock.Whence =3D 0
+> ++              lock.Pid =3D 0
 > ++              if exclusive {
-> ++                      lock.Type = syscall.F_WRLCK
+> ++                      lock.Type =3D syscall.F_WRLCK
 > ++              } else {
-> ++                      lock.Type = syscall.F_RDLCK
+> ++                      lock.Type =3D syscall.F_RDLCK
 > ++              }
-> ++              err := syscall.FcntlFlock(f.Fd(), syscall.F_SETLK, &lock)
-> ++              if err == nil {
+> ++              err :=3D syscall.FcntlFlock(f.Fd(), syscall.F_SETLK, &loc=
+k)
+> ++              if err =3D=3D nil {
 > ++                      return nil
-> ++              } else if err != syscall.EAGAIN {
+> ++              } else if err !=3D syscall.EAGAIN {
 > ++                      return err
 > ++              }
 > ++
@@ -1186,11 +1483,12 @@ Bruce
 > ++// funlock releases an advisory lock on a file descriptor.
 > ++func funlock(f *os.File) error {
 > ++      var lock syscall.Flock_t
-> ++      lock.Start = 0
-> ++      lock.Len = 0
-> ++      lock.Type = syscall.F_UNLCK
-> ++      lock.Whence = 0
-> ++      return syscall.FcntlFlock(uintptr(f.Fd()), syscall.F_SETLK, &lock)
+> ++      lock.Start =3D 0
+> ++      lock.Len =3D 0
+> ++      lock.Type =3D syscall.F_UNLCK
+> ++      lock.Whence =3D 0
+> ++      return syscall.FcntlFlock(uintptr(f.Fd()), syscall.F_SETLK, &lock=
+)
 > ++}
 > ++
 > ++// mmap memory maps a DB's data file.
@@ -1198,46 +1496,47 @@ Bruce
 > ++      // Truncate and fsync to ensure file size metadata is flushed.
 > ++      // https://github.com/boltdb/bolt/issues/284
 > ++      if !db.NoGrowSync && !db.readOnly {
-> ++              if err := db.file.Truncate(int64(sz)); err != nil {
+> ++              if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
 > ++                      return fmt.Errorf("file resize error: %s", err)
 > ++              }
-> ++              if err := db.file.Sync(); err != nil {
+> ++              if err :=3D db.file.Sync(); err !=3D nil {
 > ++                      return fmt.Errorf("file sync error: %s", err)
 > ++              }
 > ++      }
 > ++
 > ++      // Map the data file to memory.
-> ++      b, err := unix.Mmap(int(db.file.Fd()), 0, sz, syscall.PROT_READ,
+> ++      b, err :=3D unix.Mmap(int(db.file.Fd()), 0, sz, syscall.PROT_READ=
+,
 > syscall.MAP_SHARED)
-> ++      if err != nil {
+> ++      if err !=3D nil {
 > ++              return err
 > ++      }
 > ++
 > ++      // Advise the kernel that the mmap is accessed randomly.
-> ++      if err := unix.Madvise(b, syscall.MADV_RANDOM); err != nil {
+> ++      if err :=3D unix.Madvise(b, syscall.MADV_RANDOM); err !=3D nil {
 > ++              return fmt.Errorf("madvise: %s", err)
 > ++      }
 > ++
 > ++      // Save the original byte slice and convert to a byte array
 > pointer.
-> ++      db.dataref = b
-> ++      db.data = (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
-> ++      db.datasz = sz
+> ++      db.dataref =3D b
+> ++      db.data =3D (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
+> ++      db.datasz =3D sz
 > ++      return nil
 > ++}
 > ++
 > ++// munmap unmaps a DB's data file from memory.
 > ++func munmap(db *DB) error {
 > ++      // Ignore the unmap if we have no mapped data.
-> ++      if db.dataref == nil {
+> ++      if db.dataref =3D=3D nil {
 > ++              return nil
 > ++      }
 > ++
 > ++      // Unmap using the original byte slice.
-> ++      err := unix.Munmap(db.dataref)
-> ++      db.dataref = nil
-> ++      db.data = nil
-> ++      db.datasz = 0
+> ++      err :=3D unix.Munmap(db.dataref)
+> ++      db.dataref =3D nil
+> ++      db.data =3D nil
+> ++      db.datasz =3D 0
 > ++      return err
 > ++}
 > +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_windows.go
@@ -1259,11 +1558,11 @@ Bruce
 > + // Based on: https://github.com/edsrzf/mmap-go
 > + func mmap(db *DB, sz int) error {
 > +-      // Truncate the database to the size of the mmap.
-> +-      if err := db.file.Truncate(int64(sz)); err != nil {
+> +-      if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
 > +-              return fmt.Errorf("truncate: %s", err)
 > ++      if !db.readOnly {
 > ++              // Truncate the database to the size of the mmap.
-> ++              if err := db.file.Truncate(int64(sz)); err != nil {
+> ++              if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
 > ++                      return fmt.Errorf("truncate: %s", err)
 > ++              }
 > +       }
@@ -1278,19 +1577,21 @@ Bruce
 > +
 > + // Bucket retrieves a nested bucket by name.
 > + // Returns nil if the bucket does not exist.
-> ++// The bucket instance is only valid for the lifetime of the transaction.
+> ++// The bucket instance is only valid for the lifetime of the transactio=
+n.
 > + func (b *Bucket) Bucket(name []byte) *Bucket {
-> +       if b.buckets != nil {
-> +               if child := b.buckets[string(name)]; child != nil {
+> +       if b.buckets !=3D nil {
+> +               if child :=3D b.buckets[string(name)]; child !=3D nil {
 > +@@ -148,6 +149,7 @@ func (b *Bucket) openBucket(value []byte) *Bucket {
 > +
 > + // CreateBucket creates a new bucket at the given key and returns the
 > new bucket.
 > + // Returns an error if the key already exists, if the bucket name is
 > blank, or if the bucket name is too long.
-> ++// The bucket instance is only valid for the lifetime of the transaction.
+> ++// The bucket instance is only valid for the lifetime of the transactio=
+n.
 > + func (b *Bucket) CreateBucket(key []byte) (*Bucket, error) {
-> +       if b.tx.db == nil {
+> +       if b.tx.db =3D=3D nil {
 > +               return nil, ErrTxClosed
 > +@@ -192,6 +194,7 @@ func (b *Bucket) CreateBucket(key []byte) (*Bucket,
 > error) {
@@ -1299,10 +1600,11 @@ Bruce
 > exist and returns a reference to it.
 > + // Returns an error if the bucket name is blank, or if the bucket name
 > is too long.
-> ++// The bucket instance is only valid for the lifetime of the transaction.
+> ++// The bucket instance is only valid for the lifetime of the transactio=
+n.
 > + func (b *Bucket) CreateBucketIfNotExists(key []byte) (*Bucket, error) {
-> +       child, err := b.CreateBucket(key)
-> +       if err == ErrBucketExists {
+> +       child, err :=3D b.CreateBucket(key)
+> +       if err =3D=3D ErrBucketExists {
 > +@@ -252,6 +255,7 @@ func (b *Bucket) DeleteBucket(key []byte) error {
 > +
 > + // Get retrieves the value for a key in the bucket.
@@ -1310,16 +1612,17 @@ Bruce
 > nested bucket.
 > ++// The returned value is only valid for the life of the transaction.
 > + func (b *Bucket) Get(key []byte) []byte {
-> +       k, v, flags := b.Cursor().seek(key)
+> +       k, v, flags :=3D b.Cursor().seek(key)
 > +
 > +@@ -332,6 +336,12 @@ func (b *Bucket) NextSequence() (uint64, error) {
 > +               return 0, ErrTxNotWritable
 > +       }
 > +
-> ++      // Materialize the root node if it hasn't been already so that the
+> ++      // Materialize the root node if it hasn't been already so that th=
+e
 > ++      // bucket will be saved during commit.
-> ++      if b.rootNode == nil {
-> ++              _ = b.node(b.root, nil)
+> ++      if b.rootNode =3D=3D nil {
+> ++              _ =3D b.node(b.root, nil)
 > ++      }
 > ++
 > +       // Increment and return the sequence.
@@ -1335,21 +1638,21 @@ Bruce
 > modify
 > ++// the bucket; this will result in undefined behavior.
 > + func (b *Bucket) ForEach(fn func(k, v []byte) error) error {
-> +       if b.tx.db == nil {
+> +       if b.tx.db =3D=3D nil {
 > +               return ErrTxClosed
 > +@@ -511,8 +522,12 @@ func (b *Bucket) spill() error {
 > +               // Update parent node.
-> +               var c = b.Cursor()
-> +               k, _, flags := c.seek([]byte(name))
+> +               var c =3D b.Cursor()
+> +               k, _, flags :=3D c.seek([]byte(name))
 > +-              _assert(bytes.Equal([]byte(name), k), "misplaced bucket
 > header: %x -> %x", []byte(name), k)
-> +-              _assert(flags&bucketLeafFlag != 0, "unexpected bucket
+> +-              _assert(flags&bucketLeafFlag !=3D 0, "unexpected bucket
 > header flag: %x", flags)
 > ++              if !bytes.Equal([]byte(name), k) {
 > ++                      panic(fmt.Sprintf("misplaced bucket header: %x ->
 > %x", []byte(name), k))
 > ++              }
-> ++              if flags&bucketLeafFlag == 0 {
+> ++              if flags&bucketLeafFlag =3D=3D 0 {
 > ++                      panic(fmt.Sprintf("unexpected bucket header flag:
 > %x", flags))
 > ++              }
@@ -1358,16 +1661,16 @@ Bruce
 > +       }
 > +
 > +@@ -528,7 +543,9 @@ func (b *Bucket) spill() error {
-> +       b.rootNode = b.rootNode.root()
+> +       b.rootNode =3D b.rootNode.root()
 > +
 > +       // Update the root node for this bucket.
 > +-      _assert(b.rootNode.pgid < b.tx.meta.pgid, "pgid (%d) above high
 > water mark (%d)", b.rootNode.pgid, b.tx.meta.pgid)
-> ++      if b.rootNode.pgid >= b.tx.meta.pgid {
+> ++      if b.rootNode.pgid >=3D b.tx.meta.pgid {
 > ++              panic(fmt.Sprintf("pgid (%d) above high water mark (%d)",
 > b.rootNode.pgid, b.tx.meta.pgid))
 > ++      }
-> +       b.root = b.rootNode.pgid
+> +       b.root =3D b.rootNode.pgid
 > +
 > +       return nil
 > +@@ -659,7 +676,9 @@ func (b *Bucket) pageNode(id pgid) (*page, *node) {
@@ -1375,14 +1678,15 @@ Bruce
 > treat them
 > +       // differently. We'll return the rootNode (if available) or the
 > fake page.
-> +       if b.root == 0 {
-> +-              _assert(id == 0, "inline bucket non-zero page access(2):
-> %d != 0", id)
-> ++              if id != 0 {
+> +       if b.root =3D=3D 0 {
+> +-              _assert(id =3D=3D 0, "inline bucket non-zero page access(=
+2):
+> %d !=3D 0", id)
+> ++              if id !=3D 0 {
 > ++                      panic(fmt.Sprintf("inline bucket non-zero page
-> access(2): %d != 0", id))
+> access(2): %d !=3D 0", id))
 > ++              }
-> +               if b.rootNode != nil {
+> +               if b.rootNode !=3D nil {
 > +                       return nil, b.rootNode
 > +               }
 > +diff --git a/vendor/src/github.com/boltdb/bolt/cursor.go b/vendor/src/
@@ -1399,7 +1703,7 @@ Bruce
 > + )
 > +
 > +@@ -9,6 +10,8 @@ import (
-> + // Cursors see nested buckets with value == nil.
+> + // Cursors see nested buckets with value =3D=3D nil.
 > + // Cursors can be obtained from a transaction and are valid as long as
 > the transaction is open.
 > + //
@@ -1419,8 +1723,8 @@ Bruce
 > ++// The returned key and value are only valid for the life of the
 > transaction.
 > + func (c *Cursor) First() (key []byte, value []byte) {
-> +       _assert(c.bucket.tx.db != nil, "tx closed")
-> +       c.stack = c.stack[:0]
+> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
+> +       c.stack =3D c.stack[:0]
 > +@@ -40,6 +44,7 @@ func (c *Cursor) First() (key []byte, value []byte) {
 > +
 > + // Last moves the cursor to the last item in the bucket and returns its
@@ -1429,8 +1733,8 @@ Bruce
 > ++// The returned key and value are only valid for the life of the
 > transaction.
 > + func (c *Cursor) Last() (key []byte, value []byte) {
-> +       _assert(c.bucket.tx.db != nil, "tx closed")
-> +       c.stack = c.stack[:0]
+> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
+> +       c.stack =3D c.stack[:0]
 > +@@ -57,6 +62,7 @@ func (c *Cursor) Last() (key []byte, value []byte) {
 > +
 > + // Next moves the cursor to the next item in the bucket and returns its
@@ -1440,8 +1744,8 @@ Bruce
 > ++// The returned key and value are only valid for the life of the
 > transaction.
 > + func (c *Cursor) Next() (key []byte, value []byte) {
-> +       _assert(c.bucket.tx.db != nil, "tx closed")
-> +       k, v, flags := c.next()
+> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
+> +       k, v, flags :=3D c.next()
 > +@@ -68,6 +74,7 @@ func (c *Cursor) Next() (key []byte, value []byte) {
 > +
 > + // Prev moves the cursor to the previous item in the bucket and returns
@@ -1451,7 +1755,7 @@ Bruce
 > ++// The returned key and value are only valid for the life of the
 > transaction.
 > + func (c *Cursor) Prev() (key []byte, value []byte) {
-> +       _assert(c.bucket.tx.db != nil, "tx closed")
+> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
 > +
 > +@@ -99,6 +106,7 @@ func (c *Cursor) Prev() (key []byte, value []byte) {
 > + // Seek moves the cursor to a given key and returns it.
@@ -1460,23 +1764,25 @@ Bruce
 > ++// The returned key and value are only valid for the life of the
 > transaction.
 > + func (c *Cursor) Seek(seek []byte) (key []byte, value []byte) {
-> +       k, v, flags := c.seek(seek)
+> +       k, v, flags :=3D c.seek(seek)
 > +
 > +@@ -228,8 +236,8 @@ func (c *Cursor) next() (key []byte, value []byte,
 > flags uint32) {
-> + // search recursively performs a binary search against a given page/node
+> + // search recursively performs a binary search against a given page/nod=
+e
 > until it finds a given key.
 > + func (c *Cursor) search(key []byte, pgid pgid) {
-> +       p, n := c.bucket.pageNode(pgid)
-> +-      if p != nil {
-> +-              _assert((p.flags&(branchPageFlag|leafPageFlag)) != 0,
+> +       p, n :=3D c.bucket.pageNode(pgid)
+> +-      if p !=3D nil {
+> +-              _assert((p.flags&(branchPageFlag|leafPageFlag)) !=3D 0,
 > "invalid page type: %d: %x", p.id, p.flags)
-> ++      if p != nil && (p.flags&(branchPageFlag|leafPageFlag)) == 0 {
+> ++      if p !=3D nil && (p.flags&(branchPageFlag|leafPageFlag)) =3D=3D 0=
+ {
 > ++              panic(fmt.Sprintf("invalid page type: %d: %x", p.id,
 > p.flags))
 > +       }
-> +       e := elemRef{page: p, node: n}
-> +       c.stack = append(c.stack, e)
+> +       e :=3D elemRef{page: p, node: n}
+> +       c.stack =3D append(c.stack, e)
 > +diff --git a/vendor/src/github.com/boltdb/bolt/db.go b/vendor/src/
 > github.com/boltdb/bolt/db.go
 > +index 6c45736..d39c4aa 100644
@@ -1487,19 +1793,19 @@ Bruce
 > + )
 > +
 > +-// The smallest size that the mmap can be.
-> +-const minMmapSize = 1 << 22 // 4MB
+> +-const minMmapSize =3D 1 << 22 // 4MB
 > +-
 > + // The largest step that can be taken when remapping the mmap.
-> + const maxMmapStep = 1 << 30 // 1GB
+> + const maxMmapStep =3D 1 << 30 // 1GB
 > +
-> +@@ -30,6 +27,12 @@ const magic uint32 = 0xED0CDAED
+> +@@ -30,6 +27,12 @@ const magic uint32 =3D 0xED0CDAED
 > + // must be synchronzied using the msync(2) syscall.
-> + const IgnoreNoSync = runtime.GOOS == "openbsd"
+> + const IgnoreNoSync =3D runtime.GOOS =3D=3D "openbsd"
 > +
 > ++// Default values if not set in a DB instance.
 > ++const (
-> ++      DefaultMaxBatchSize  int = 1000
-> ++      DefaultMaxBatchDelay     = 10 * time.Millisecond
+> ++      DefaultMaxBatchSize  int =3D 1000
+> ++      DefaultMaxBatchDelay     =3D 10 * time.Millisecond
 > ++)
 > ++
 > + // DB represents a collection of buckets persisted to a file on disk.
@@ -1513,7 +1819,8 @@ Bruce
 > +
 > ++      // When true, skips the truncate call when growing the database.
 > ++      // Setting this to true is only safe on non-ext3/ext4 systems.
-> ++      // Skipping truncation avoids preallocation of hard drive space and
+> ++      // Skipping truncation avoids preallocation of hard drive space a=
+nd
 > ++      // bypasses a truncate() and fsync() syscall on remapping.
 > ++      //
 > ++      // https://github.com/boltdb/bolt/issues/284
@@ -1522,7 +1829,7 @@ Bruce
 > ++      // MaxBatchSize is the maximum size of a batch. Default value is
 > ++      // copied from DefaultMaxBatchSize in Open.
 > ++      //
-> ++      // If <=0, disables batching.
+> ++      // If <=3D0, disables batching.
 > ++      //
 > ++      // Do not change concurrently with calls to Batch.
 > ++      MaxBatchSize int
@@ -1530,7 +1837,7 @@ Bruce
 > ++      // MaxBatchDelay is the maximum delay before a batch starts.
 > ++      // Default value is copied from DefaultMaxBatchDelay in Open.
 > ++      //
-> ++      // If <=0, effectively disables batching.
+> ++      // If <=3D0, effectively disables batching.
 > ++      //
 > ++      // Do not change concurrently with calls to Batch.
 > ++      MaxBatchDelay time.Duration
@@ -1566,30 +1873,30 @@ Bruce
 > + // Path returns the path to currently open database file.
 > +@@ -101,20 +135,34 @@ func Open(path string, mode os.FileMode, options
 > *Options) (*DB, error) {
-> +       if options == nil {
-> +               options = DefaultOptions
+> +       if options =3D=3D nil {
+> +               options =3D DefaultOptions
 > +       }
-> ++      db.NoGrowSync = options.NoGrowSync
+> ++      db.NoGrowSync =3D options.NoGrowSync
 > ++
 > ++      // Set default values for later DB operations.
-> ++      db.MaxBatchSize = DefaultMaxBatchSize
-> ++      db.MaxBatchDelay = DefaultMaxBatchDelay
+> ++      db.MaxBatchSize =3D DefaultMaxBatchSize
+> ++      db.MaxBatchDelay =3D DefaultMaxBatchDelay
 > ++
-> ++      flag := os.O_RDWR
+> ++      flag :=3D os.O_RDWR
 > ++      if options.ReadOnly {
-> ++              flag = os.O_RDONLY
-> ++              db.readOnly = true
+> ++              flag =3D os.O_RDONLY
+> ++              db.readOnly =3D true
 > ++      }
 > +
 > +       // Open data file and separate sync handler for metadata writes.
-> +       db.path = path
+> +       db.path =3D path
 > +-
 > +       var err error
-> +-      if db.file, err = os.OpenFile(db.path, os.O_RDWR|os.O_CREATE,
-> mode); err != nil {
-> ++      if db.file, err = os.OpenFile(db.path, flag|os.O_CREATE, mode);
-> err != nil {
-> +               _ = db.close()
+> +-      if db.file, err =3D os.OpenFile(db.path, os.O_RDWR|os.O_CREATE,
+> mode); err !=3D nil {
+> ++      if db.file, err =3D os.OpenFile(db.path, flag|os.O_CREATE, mode);
+> err !=3D nil {
+> +               _ =3D db.close()
 > +               return nil, err
 > +       }
 > +
@@ -1598,10 +1905,12 @@ Bruce
 > +-      // at the same time. This would cause corruption since the two
 > processes
 > +-      // would write meta pages and free pages separately.
-> +-      if err := flock(db.file, options.Timeout); err != nil {
-> ++      // Lock file so that other processes using Bolt in read-write mode
+> +-      if err :=3D flock(db.file, options.Timeout); err !=3D nil {
+> ++      // Lock file so that other processes using Bolt in read-write mod=
+e
 > cannot
-> ++      // use the database  at the same time. This would cause corruption
+> ++      // use the database  at the same time. This would cause corruptio=
+n
 > since
 > ++      // the two processes would write meta pages and free pages
 > separately.
@@ -1612,9 +1921,10 @@ Bruce
 > one process may
 > ++      // hold a lock at the same time) otherwise (options.ReadOnly is
 > set).
-> ++      if err := flock(db.file, !db.readOnly, options.Timeout); err !=
+> ++      if err :=3D flock(db.file, !db.readOnly, options.Timeout); err !=
+=3D
 > nil {
-> +               _ = db.close()
+> +               _ =3D db.close()
 > +               return nil, err
 > +       }
 > +@@ -162,16 +210,6 @@ func (db *DB) mmap(minsz int) error {
@@ -1622,61 +1932,64 @@ Bruce
 > +       defer db.mmaplock.Unlock()
 > +
 > +-      // Dereference all mmap references before unmapping.
-> +-      if db.rwtx != nil {
+> +-      if db.rwtx !=3D nil {
 > +-              db.rwtx.root.dereference()
 > +-      }
 > +-
 > +-      // Unmap existing data before continuing.
-> +-      if err := db.munmap(); err != nil {
+> +-      if err :=3D db.munmap(); err !=3D nil {
 > +-              return err
 > +-      }
 > +-
-> +       info, err := db.file.Stat()
-> +       if err != nil {
+> +       info, err :=3D db.file.Stat()
+> +       if err !=3D nil {
 > +               return fmt.Errorf("mmap stat error: %s", err)
 > +@@ -184,7 +222,20 @@ func (db *DB) mmap(minsz int) error {
 > +       if size < minsz {
-> +               size = minsz
+> +               size =3D minsz
 > +       }
-> +-      size = db.mmapSize(size)
-> ++      size, err = db.mmapSize(size)
-> ++      if err != nil {
+> +-      size =3D db.mmapSize(size)
+> ++      size, err =3D db.mmapSize(size)
+> ++      if err !=3D nil {
 > ++              return err
 > ++      }
 > ++
 > ++      // Dereference all mmap references before unmapping.
-> ++      if db.rwtx != nil {
+> ++      if db.rwtx !=3D nil {
 > ++              db.rwtx.root.dereference()
 > ++      }
 > ++
 > ++      // Unmap existing data before continuing.
-> ++      if err := db.munmap(); err != nil {
+> ++      if err :=3D db.munmap(); err !=3D nil {
 > ++              return err
 > ++      }
 > +
 > +       // Memory-map the data file as a byte slice.
-> +       if err := mmap(db, size); err != nil {
+> +       if err :=3D mmap(db, size); err !=3D nil {
 > +@@ -215,22 +266,40 @@ func (db *DB) munmap() error {
 > + }
 > +
 > + // mmapSize determines the appropriate size for the mmap given the
 > current size
-> +-// of the database. The minimum size is 4MB and doubles until it reaches
+> +-// of the database. The minimum size is 4MB and doubles until it reache=
+s
 > 1GB.
 > +-func (db *DB) mmapSize(size int) int {
-> +-      if size <= minMmapSize {
+> +-      if size <=3D minMmapSize {
 > +-              return minMmapSize
 > +-      } else if size < maxMmapStep {
-> +-              size *= 2
+> +-              size *=3D 2
 > +-      } else {
-> +-              size += maxMmapStep
-> ++// of the database. The minimum size is 1MB and doubles until it reaches
+> +-              size +=3D maxMmapStep
+> ++// of the database. The minimum size is 1MB and doubles until it reache=
+s
 > 1GB.
-> ++// Returns an error if the new mmap size is greater than the max allowed.
+> ++// Returns an error if the new mmap size is greater than the max allowe=
+d.
 > ++func (db *DB) mmapSize(size int) (int, error) {
 > ++      // Double the size from 32KB until 1GB.
-> ++      for i := uint(15); i <= 30; i++ {
-> ++              if size <= 1<<i {
+> ++      for i :=3D uint(15); i <=3D 30; i++ {
+> ++              if size <=3D 1<<i {
 > ++                      return 1 << i, nil
 > ++              }
 > ++      }
@@ -1687,24 +2000,24 @@ Bruce
 > ++      }
 > ++
 > ++      // If larger than 1GB then grow by 1GB at a time.
-> ++      sz := int64(size)
-> ++      if remainder := sz % int64(maxMmapStep); remainder > 0 {
-> ++              sz += int64(maxMmapStep) - remainder
+> ++      sz :=3D int64(size)
+> ++      if remainder :=3D sz % int64(maxMmapStep); remainder > 0 {
+> ++              sz +=3D int64(maxMmapStep) - remainder
 > +       }
 > +
 > +       // Ensure that the mmap size is a multiple of the page size.
-> +-      if (size % db.pageSize) != 0 {
-> +-              size = ((size / db.pageSize) + 1) * db.pageSize
+> +-      if (size % db.pageSize) !=3D 0 {
+> +-              size =3D ((size / db.pageSize) + 1) * db.pageSize
 > ++      // This should always be true since we're incrementing in MBs.
-> ++      pageSize := int64(db.pageSize)
-> ++      if (sz % pageSize) != 0 {
-> ++              sz = ((sz / pageSize) + 1) * pageSize
+> ++      pageSize :=3D int64(db.pageSize)
+> ++      if (sz % pageSize) !=3D 0 {
+> ++              sz =3D ((sz / pageSize) + 1) * pageSize
 > ++      }
 > ++
 > ++      // If we've exceeded the max size then only grow up to the max
 > size.
 > ++      if sz > maxMapSize {
-> ++              sz = maxMapSize
+> ++              sz =3D maxMapSize
 > +       }
 > +
 > +-      return size
@@ -1713,13 +2026,13 @@ Bruce
 > +
 > + // init creates a new database file and initializes its meta pages.
 > +@@ -250,7 +319,6 @@ func (db *DB) init() error {
-> +               m.magic = magic
-> +               m.version = version
-> +               m.pageSize = uint32(db.pageSize)
-> +-              m.version = version
-> +               m.freelist = 2
-> +               m.root = bucket{root: 3}
-> +               m.pgid = 4
+> +               m.magic =3D magic
+> +               m.version =3D version
+> +               m.pageSize =3D uint32(db.pageSize)
+> +-              m.version =3D version
+> +               m.freelist =3D 2
+> +               m.root =3D bucket{root: 3}
+> +               m.pgid =3D 4
 > +@@ -283,8 +351,15 @@ func (db *DB) init() error {
 > + // Close releases all database resources.
 > + // All transactions must be closed before closing the database.
@@ -1739,17 +2052,17 @@ Bruce
 > +@@ -304,8 +379,11 @@ func (db *DB) close() error {
 > +
 > +       // Close file handles.
-> +       if db.file != nil {
+> +       if db.file !=3D nil {
 > +-              // Unlock the file.
-> +-              _ = funlock(db.file)
+> +-              _ =3D funlock(db.file)
 > ++              // No need to unlock read-only file.
 > ++              if !db.readOnly {
 > ++                      // Unlock the file.
-> ++                      _ = funlock(db.file)
+> ++                      _ =3D funlock(db.file)
 > ++              }
 > +
 > +               // Close the file descriptor.
-> +               if err := db.file.Close(); err != nil {
+> +               if err :=3D db.file.Close(); err !=3D nil {
 > +@@ -323,6 +401,11 @@ func (db *DB) close() error {
 > + // will cause the calls to block and be serialized until the current
 > write
@@ -1758,7 +2071,8 @@ Bruce
 > ++// Transactions should not be depedent on one another. Opening a read
 > ++// transaction and a write transaction in the same goroutine can cause
 > the
-> ++// writer to deadlock because the database periodically needs to re-mmap
+> ++// writer to deadlock because the database periodically needs to re-mma=
+p
 > itself
 > ++// as it grows and it cannot do that while a read transaction is open.
 > ++//
@@ -1776,7 +2090,8 @@ Bruce
 > ++              return nil, ErrDatabaseReadOnly
 > ++      }
 > ++
-> +       // Obtain writer lock. This is released by the transaction when it
+> +       // Obtain writer lock. This is released by the transaction when i=
+t
 > closes.
 > +       // This enforces only one writer transaction at a time.
 > +       db.rwlock.Lock()
@@ -1807,7 +2122,8 @@ Bruce
 > database.
 > + type Options struct {
 > +       // Timeout is the amount of time to wait to obtain a file lock.
-> +       // When set to zero it will wait indefinitely. This option is only
+> +       // When set to zero it will wait indefinitely. This option is onl=
+y
 > +       // available on Darwin and Linux.
 > +       Timeout time.Duration
 > ++
@@ -1824,7 +2140,7 @@ Bruce
 > into Open().
 > + // No timeout is used which will cause Bolt to wait indefinitely for a
 > lock.
-> + var DefaultOptions = &Options{
+> + var DefaultOptions =3D &Options{
 > +-      Timeout: 0,
 > ++      Timeout:    0,
 > ++      NoGrowSync: false,
@@ -1840,17 +2156,17 @@ Bruce
 > water mark (%d)", m.root.root, m.pgid)
 > +-      _assert(m.freelist < m.pgid, "freelist pgid (%d) above high water
 > mark (%d)", m.freelist, m.pgid)
-> ++      if m.root.root >= m.pgid {
+> ++      if m.root.root >=3D m.pgid {
 > ++              panic(fmt.Sprintf("root bucket pgid (%d) above high water
 > mark (%d)", m.root.root, m.pgid))
-> ++      } else if m.freelist >= m.pgid {
+> ++      } else if m.freelist >=3D m.pgid {
 > ++              panic(fmt.Sprintf("freelist pgid (%d) above high water
 > mark (%d)", m.freelist, m.pgid))
 > ++      }
 > +
 > +       // Page id is either going to be 0 or 1 which we can determine by
 > the transaction ID.
-> +       p.id = pgid(m.txid % 2)
+> +       p.id =3D pgid(m.txid % 2)
 > +@@ -675,13 +783,8 @@ func _assert(condition bool, msg string, v
 > ...interface{}) {
 > +       }
@@ -1863,13 +2179,14 @@ Bruce
 > +-func warnf(msg string, v ...interface{}) {
 > +-      fmt.Fprintf(os.Stderr, msg+"\n", v...)
 > +-}
-> ++func warn(v ...interface{})              { fmt.Fprintln(os.Stderr, v...)
+> ++func warn(v ...interface{})              { fmt.Fprintln(os.Stderr, v...=
+)
 > }
 > ++func warnf(msg string, v ...interface{}) { fmt.Fprintf(os.Stderr,
 > msg+"\n", v...) }
 > +
 > + func printstack() {
-> +       stack := strings.Join(strings.Split(string(debug.Stack()),
+> +       stack :=3D strings.Join(strings.Split(string(debug.Stack()),
 > "\n")[2:], "\n")
 > +diff --git a/vendor/src/github.com/boltdb/bolt/errors.go b/vendor/src/
 > github.com/boltdb/bolt/errors.go
@@ -1880,12 +2197,13 @@ Bruce
 > +       // ErrTxClosed is returned when committing or rolling back a
 > transaction
 > +       // that has already been committed or rolled back.
-> +       ErrTxClosed = errors.New("tx closed")
+> +       ErrTxClosed =3D errors.New("tx closed")
 > ++
 > ++      // ErrDatabaseReadOnly is returned when a mutating transaction is
 > started on a
 > ++      // read-only database.
-> ++      ErrDatabaseReadOnly = errors.New("database is in read-only mode")
+> ++      ErrDatabaseReadOnly =3D errors.New("database is in read-only mode=
+")
 > + )
 > +
 > + // These errors can occur when putting or deleting a value or a bucket.
@@ -1907,13 +2225,13 @@ Bruce
 > + // all returns a list of all free ids and all pending ids in one sorted
 > list.
 > + func (f *freelist) all() []pgid {
-> +-      ids := make([]pgid, len(f.ids))
+> +-      ids :=3D make([]pgid, len(f.ids))
 > +-      copy(ids, f.ids)
-> ++      m := make(pgids, 0)
+> ++      m :=3D make(pgids, 0)
 > +
-> +       for _, list := range f.pending {
-> +-              ids = append(ids, list...)
-> ++              m = append(m, list...)
+> +       for _, list :=3D range f.pending {
+> +-              ids =3D append(ids, list...)
+> ++              m =3D append(m, list...)
 > +       }
 > +
 > +-      sort.Sort(pgids(ids))
@@ -1927,27 +2245,27 @@ Bruce
 > +@@ -67,7 +67,9 @@ func (f *freelist) allocate(n int) pgid {
 > +
 > +       var initial, previd pgid
-> +       for i, id := range f.ids {
+> +       for i, id :=3D range f.ids {
 > +-              _assert(id > 1, "invalid page allocation: %d", id)
-> ++              if id <= 1 {
+> ++              if id <=3D 1 {
 > ++                      panic(fmt.Sprintf("invalid page allocation: %d",
 > id))
 > ++              }
 > +
 > +               // Reset initial page if this is not contiguous.
-> +               if previd == 0 || id-previd != 1 {
+> +               if previd =3D=3D 0 || id-previd !=3D 1 {
 > +@@ -103,13 +105,17 @@ func (f *freelist) allocate(n int) pgid {
 > + // free releases a page and its overflow for a given transaction id.
 > + // If the page is already free then a panic will occur.
 > + func (f *freelist) free(txid txid, p *page) {
 > +-      _assert(p.id > 1, "cannot free page 0 or 1: %d", p.id)
-> ++      if p.id <= 1 {
+> ++      if p.id <=3D 1 {
 > ++              panic(fmt.Sprintf("cannot free page 0 or 1: %d", p.id))
 > ++      }
 > +
 > +       // Free page and all its overflow pages.
-> +       var ids = f.pending[txid]
-> +       for id := p.id; id <= p.id+pgid(p.overflow); id++ {
+> +       var ids =3D f.pending[txid]
+> +       for id :=3D p.id; id <=3D p.id+pgid(p.overflow); id++ {
 > +               // Verify that page is not already free.
 > +-              _assert(!f.cache[id], "page %d already freed", id)
 > ++              if f.cache[id] {
@@ -1955,27 +2273,27 @@ Bruce
 > ++              }
 > +
 > +               // Add to the freelist and cache.
-> +               ids = append(ids, id)
+> +               ids =3D append(ids, id)
 > +@@ -120,15 +126,17 @@ func (f *freelist) free(txid txid, p *page) {
 > +
 > + // release moves all page ids for a transaction id (or older) to the
 > freelist.
 > + func (f *freelist) release(txid txid) {
-> ++      m := make(pgids, 0)
-> +       for tid, ids := range f.pending {
-> +               if tid <= txid {
+> ++      m :=3D make(pgids, 0)
+> +       for tid, ids :=3D range f.pending {
+> +               if tid <=3D txid {
 > +                       // Move transaction's pending pages to the
 > available freelist.
 > +                       // Don't remove from the cache since the page is
 > still free.
-> +-                      f.ids = append(f.ids, ids...)
-> ++                      m = append(m, ids...)
+> +-                      f.ids =3D append(f.ids, ids...)
+> ++                      m =3D append(m, ids...)
 > +                       delete(f.pending, tid)
 > +               }
 > +       }
 > +-      sort.Sort(pgids(f.ids))
 > ++      sort.Sort(m)
-> ++      f.ids = pgids(f.ids).merge(m)
+> ++      f.ids =3D pgids(f.ids).merge(m)
 > + }
 > +
 > + // rollback removes the pages from a given pending tx.
@@ -2013,33 +2331,33 @@ Bruce
 > mark (%d)", pgid, n.bucket.tx.meta.pgid)
 > +-      _assert(len(oldKey) > 0, "put: zero-length old key")
 > +-      _assert(len(newKey) > 0, "put: zero-length new key")
-> ++      if pgid >= n.bucket.tx.meta.pgid {
+> ++      if pgid >=3D n.bucket.tx.meta.pgid {
 > ++              panic(fmt.Sprintf("pgid (%d) above high water mark (%d)",
 > pgid, n.bucket.tx.meta.pgid))
-> ++      } else if len(oldKey) <= 0 {
+> ++      } else if len(oldKey) <=3D 0 {
 > ++              panic("put: zero-length old key")
-> ++      } else if len(newKey) <= 0 {
+> ++      } else if len(newKey) <=3D 0 {
 > ++              panic("put: zero-length new key")
 > ++      }
 > +
 > +       // Find insertion index.
-> +       index := sort.Search(len(n.inodes), func(i int) bool { return
-> bytes.Compare(n.inodes[i].key, oldKey) != -1 })
+> +       index :=3D sort.Search(len(n.inodes), func(i int) bool { return
+> bytes.Compare(n.inodes[i].key, oldKey) !=3D -1 })
 > +@@ -189,7 +196,9 @@ func (n *node) write(p *page) {
-> +               p.flags |= branchPageFlag
+> +               p.flags |=3D branchPageFlag
 > +       }
 > +
-> +-      _assert(len(n.inodes) < 0xFFFF, "inode overflow: %d (pgid=%d)",
+> +-      _assert(len(n.inodes) < 0xFFFF, "inode overflow: %d (pgid=3D%d)",
 > len(n.inodes), p.id)
-> ++      if len(n.inodes) >= 0xFFFF {
-> ++              panic(fmt.Sprintf("inode overflow: %d (pgid=%d)",
+> ++      if len(n.inodes) >=3D 0xFFFF {
+> ++              panic(fmt.Sprintf("inode overflow: %d (pgid=3D%d)",
 > len(n.inodes), p.id))
 > ++      }
-> +       p.count = uint16(len(n.inodes))
+> +       p.count =3D uint16(len(n.inodes))
 > +
 > +       // Loop over each item and write it to the page.
 > +@@ -212,11 +221,20 @@ func (n *node) write(p *page) {
-> +                       _assert(elem.pgid != p.id, "write: circular
+> +                       _assert(elem.pgid !=3D p.id, "write: circular
 > dependency occurred")
 > +               }
 > +
@@ -2048,18 +2366,19 @@ Bruce
 > ++              // then we need to reallocate the byte array pointer.
 > ++              //
 > ++              // See: https://github.com/boltdb/bolt/pull/335
-> ++              klen, vlen := len(item.key), len(item.value)
+> ++              klen, vlen :=3D len(item.key), len(item.value)
 > ++              if len(b) < klen+vlen {
-> ++                      b = (*[maxAllocSize]byte)(unsafe.Pointer(&b[0]))[:]
+> ++                      b =3D (*[maxAllocSize]byte)(unsafe.Pointer(&b[0])=
+)[:]
 > ++              }
 > ++
 > +               // Write data for the element to the end of the page.
 > +               copy(b[0:], item.key)
-> +-              b = b[len(item.key):]
-> ++              b = b[klen:]
+> +-              b =3D b[len(item.key):]
+> ++              b =3D b[klen:]
 > +               copy(b[0:], item.value)
-> +-              b = b[len(item.value):]
-> ++              b = b[vlen:]
+> +-              b =3D b[len(item.value):]
+> ++              b =3D b[vlen:]
 > +       }
 > +
 > +       // DEBUG ONLY: n.dump()
@@ -2069,13 +2388,14 @@ Bruce
 > +               // Write the node.
 > +-              _assert(p.id < tx.meta.pgid, "pgid (%d) above high water
 > mark (%d)", p.id, tx.meta.pgid)
-> ++              if p.id >= tx.meta.pgid {
-> ++                      panic(fmt.Sprintf("pgid (%d) above high water mark
+> ++              if p.id >=3D tx.meta.pgid {
+> ++                      panic(fmt.Sprintf("pgid (%d) above high water mar=
+k
 > (%d)", p.id, tx.meta.pgid))
 > ++              }
-> +               node.pgid = p.id
+> +               node.pgid =3D p.id
 > +               node.write(p)
-> +               node.spilled = true
+> +               node.spilled =3D true
 > +diff --git a/vendor/src/github.com/boltdb/bolt/page.go b/vendor/src/
 > github.com/boltdb/bolt/page.go
 > +index b3dc473..818aa1b 100644
@@ -2089,32 +2409,34 @@ Bruce
 > +       "unsafe"
 > + )
 > +
-> + const pageHeaderSize = int(unsafe.Offsetof(((*page)(nil)).ptr))
+> + const pageHeaderSize =3D int(unsafe.Offsetof(((*page)(nil)).ptr))
 > +
-> +-const maxAllocSize = 0xFFFFFFF
-> + const minKeysPerPage = 2
+> +-const maxAllocSize =3D 0xFFFFFFF
+> + const minKeysPerPage =3D 2
 > +
-> + const branchPageElementSize = int(unsafe.Sizeof(branchPageElement{}))
+> + const branchPageElementSize =3D int(unsafe.Sizeof(branchPageElement{}))
 > +@@ -97,7 +97,7 @@ type branchPageElement struct {
 > + // key returns a byte slice of the node key.
 > + func (n *branchPageElement) key() []byte {
-> +       buf := (*[maxAllocSize]byte)(unsafe.Pointer(n))
+> +       buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n))
 > +-      return buf[n.pos : n.pos+n.ksize]
-> ++      return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksize]
+> ++      return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksiz=
+e]
 > + }
 > +
 > + // leafPageElement represents a node on a leaf page.
 > +@@ -111,13 +111,13 @@ type leafPageElement struct {
 > + // key returns a byte slice of the node key.
 > + func (n *leafPageElement) key() []byte {
-> +       buf := (*[maxAllocSize]byte)(unsafe.Pointer(n))
+> +       buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n))
 > +-      return buf[n.pos : n.pos+n.ksize]
-> ++      return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksize]
+> ++      return (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksiz=
+e]
 > + }
 > +
 > + // value returns a byte slice of the node value.
 > + func (n *leafPageElement) value() []byte {
-> +       buf := (*[maxAllocSize]byte)(unsafe.Pointer(n))
+> +       buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n))
 > +-      return buf[n.pos+n.ksize : n.pos+n.ksize+n.vsize]
 > ++      return
 > (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos+n.ksize]))[:n.vsize]
@@ -2123,44 +2445,46 @@ Bruce
 > + // PageInfo represents human readable information about a page.
 > +@@ -133,3 +133,40 @@ type pgids []pgid
 > + func (s pgids) Len() int           { return len(s) }
-> + func (s pgids) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
+> + func (s pgids) Swap(i, j int)      { s[i], s[j] =3D s[j], s[i] }
 > + func (s pgids) Less(i, j int) bool { return s[i] < s[j] }
 > ++
 > ++// merge returns the sorted union of a and b.
 > ++func (a pgids) merge(b pgids) pgids {
 > ++      // Return the opposite slice if one is nil.
-> ++      if len(a) == 0 {
+> ++      if len(a) =3D=3D 0 {
 > ++              return b
-> ++      } else if len(b) == 0 {
+> ++      } else if len(b) =3D=3D 0 {
 > ++              return a
 > ++      }
 > ++
 > ++      // Create a list to hold all elements from both lists.
-> ++      merged := make(pgids, 0, len(a)+len(b))
+> ++      merged :=3D make(pgids, 0, len(a)+len(b))
 > ++
-> ++      // Assign lead to the slice with a lower starting value, follow to
+> ++      // Assign lead to the slice with a lower starting value, follow t=
+o
 > the higher value.
-> ++      lead, follow := a, b
+> ++      lead, follow :=3D a, b
 > ++      if b[0] < a[0] {
-> ++              lead, follow = b, a
+> ++              lead, follow =3D b, a
 > ++      }
 > ++
 > ++      // Continue while there are elements in the lead.
 > ++      for len(lead) > 0 {
-> ++              // Merge largest prefix of lead that is ahead of follow[0].
-> ++              n := sort.Search(len(lead), func(i int) bool { return
+> ++              // Merge largest prefix of lead that is ahead of follow[0=
+].
+> ++              n :=3D sort.Search(len(lead), func(i int) bool { return
 > lead[i] > follow[0] })
-> ++              merged = append(merged, lead[:n]...)
-> ++              if n >= len(lead) {
+> ++              merged =3D append(merged, lead[:n]...)
+> ++              if n >=3D len(lead) {
 > ++                      break
 > ++              }
 > ++
 > ++              // Swap lead and follow.
-> ++              lead, follow = follow, lead[n:]
+> ++              lead, follow =3D follow, lead[n:]
 > ++      }
 > ++
 > ++      // Append what's left in follow.
-> ++      merged = append(merged, follow...)
+> ++      merged =3D append(merged, follow...)
 > ++
 > ++      return merged
 > ++}
@@ -2173,7 +2497,8 @@ Bruce
 > +
 > + // Bucket retrieves a bucket by name.
 > + // Returns nil if the bucket does not exist.
-> ++// The bucket instance is only valid for the lifetime of the transaction.
+> ++// The bucket instance is only valid for the lifetime of the transactio=
+n.
 > + func (tx *Tx) Bucket(name []byte) *Bucket {
 > +       return tx.root.Bucket(name)
 > + }
@@ -2181,7 +2506,8 @@ Bruce
 > + // CreateBucket creates a new bucket.
 > + // Returns an error if the bucket already exists, if the bucket name is
 > blank, or if the bucket name is too long.
-> ++// The bucket instance is only valid for the lifetime of the transaction.
+> ++// The bucket instance is only valid for the lifetime of the transactio=
+n.
 > + func (tx *Tx) CreateBucket(name []byte) (*Bucket, error) {
 > +       return tx.root.CreateBucket(name)
 > + }
@@ -2190,7 +2516,8 @@ Bruce
 > exist.
 > + // Returns an error if the bucket name is blank, or if the bucket name
 > is too long.
-> ++// The bucket instance is only valid for the lifetime of the transaction.
+> ++// The bucket instance is only valid for the lifetime of the transactio=
+n.
 > + func (tx *Tx) CreateBucketIfNotExists(name []byte) (*Bucket, error) {
 > +       return tx.root.CreateBucketIfNotExists(name)
 > + }
@@ -2203,7 +2530,7 @@ Bruce
 > ++// called on a read-only transaction.
 > + func (tx *Tx) Commit() error {
 > +       _assert(!tx.managed, "managed tx commit not allowed")
-> +       if tx.db == nil {
+> +       if tx.db =3D=3D nil {
 > +@@ -203,7 +207,8 @@ func (tx *Tx) Commit() error {
 > +       return nil
 > + }
@@ -2214,14 +2541,14 @@ Bruce
 > ++// transactions must be rolled back and not committed.
 > + func (tx *Tx) Rollback() error {
 > +       _assert(!tx.managed, "managed tx rollback not allowed")
-> +       if tx.db == nil {
+> +       if tx.db =3D=3D nil {
 > +@@ -234,7 +239,8 @@ func (tx *Tx) close() {
-> +               var freelistPendingN = tx.db.freelist.pending_count()
-> +               var freelistAlloc = tx.db.freelist.size()
+> +               var freelistPendingN =3D tx.db.freelist.pending_count()
+> +               var freelistAlloc =3D tx.db.freelist.size()
 > +
 > +-              // Remove writer lock.
 > ++              // Remove transaction ref & writer lock.
-> ++              tx.db.rwtx = nil
+> ++              tx.db.rwtx =3D nil
 > +               tx.db.rwlock.Unlock()
 > +
 > +               // Merge statistics.
@@ -2231,10 +2558,10 @@ Bruce
 > +       }
 > ++
 > ++      // Clear all references.
-> +       tx.db = nil
-> ++      tx.meta = nil
-> ++      tx.root = Bucket{tx: tx}
-> ++      tx.pages = nil
+> +       tx.db =3D nil
+> ++      tx.meta =3D nil
+> ++      tx.root =3D Bucket{tx: tx}
+> ++      tx.pages =3D nil
 > + }
 > +
 > + // Copy writes the entire database to a writer.
@@ -2246,21 +2573,24 @@ Bruce
 > + func (tx *Tx) Copy(w io.Writer) error {
 > +-      var f *os.File
 > +-      var err error
-> ++      _, err := tx.WriteTo(w)
+> ++      _, err :=3D tx.WriteTo(w)
 > ++      return err
 > ++}
 > +
 > ++// WriteTo writes the entire database to a writer.
-> ++// If err == nil then exactly tx.Size() bytes will be written into the
+> ++// If err =3D=3D nil then exactly tx.Size() bytes will be written into =
+the
 > writer.
 > ++func (tx *Tx) WriteTo(w io.Writer) (n int64, err error) {
 > +       // Attempt to open reader directly.
 > ++      var f *os.File
-> +       if f, err = os.OpenFile(tx.db.path, os.O_RDONLY|odirect, 0); err
-> != nil {
+> +       if f, err =3D os.OpenFile(tx.db.path, os.O_RDONLY|odirect, 0); er=
+r
+> !=3D nil {
 > +               // Fallback to a regular open if that doesn't work.
-> +               if f, err = os.OpenFile(tx.db.path, os.O_RDONLY, 0); err
-> != nil {
+> +               if f, err =3D os.OpenFile(tx.db.path, os.O_RDONLY, 0); er=
+r
+> !=3D nil {
 > +-                      return err
 > ++                      return 0, err
 > +               }
@@ -2268,22 +2598,22 @@ Bruce
 > +
 > +       // Copy the meta pages.
 > +       tx.db.metalock.Lock()
-> +-      _, err = io.CopyN(w, f, int64(tx.db.pageSize*2))
-> ++      n, err = io.CopyN(w, f, int64(tx.db.pageSize*2))
+> +-      _, err =3D io.CopyN(w, f, int64(tx.db.pageSize*2))
+> ++      n, err =3D io.CopyN(w, f, int64(tx.db.pageSize*2))
 > +       tx.db.metalock.Unlock()
-> +       if err != nil {
-> +               _ = f.Close()
+> +       if err !=3D nil {
+> +               _ =3D f.Close()
 > +-              return fmt.Errorf("meta copy: %s", err)
 > ++              return n, fmt.Errorf("meta copy: %s", err)
 > +       }
 > +
 > +       // Copy data pages.
-> +-      if _, err := io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2));
-> err != nil {
-> ++      wn, err := io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2))
-> ++      n += wn
-> ++      if err != nil {
-> +               _ = f.Close()
+> +-      if _, err :=3D io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2));
+> err !=3D nil {
+> ++      wn, err :=3D io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2))
+> ++      n +=3D wn
+> ++      if err !=3D nil {
+> +               _ =3D f.Close()
 > +-              return err
 > ++              return n, err
 > +       }
@@ -2295,29 +2625,31 @@ Bruce
 > + // CopyFile copies the entire database to file at the given path.
 > +@@ -416,15 +432,39 @@ func (tx *Tx) write() error {
 > +       // Write pages to disk in order.
-> +       for _, p := range pages {
-> +               size := (int(p.overflow) + 1) * tx.db.pageSize
-> +-              buf := (*[maxAllocSize]byte)(unsafe.Pointer(p))[:size]
-> +               offset := int64(p.id) * int64(tx.db.pageSize)
-> +-              if _, err := tx.db.ops.writeAt(buf, offset); err != nil {
+> +       for _, p :=3D range pages {
+> +               size :=3D (int(p.overflow) + 1) * tx.db.pageSize
+> +-              buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(p))[:size]
+> +               offset :=3D int64(p.id) * int64(tx.db.pageSize)
+> +-              if _, err :=3D tx.db.ops.writeAt(buf, offset); err !=3D n=
+il {
 > +-                      return err
 > +-              }
 > +
 > +-              // Update statistics.
 > +-              tx.stats.Write++
 > ++              // Write out page in "max allocation" sized chunks.
-> ++              ptr := (*[maxAllocSize]byte)(unsafe.Pointer(p))
+> ++              ptr :=3D (*[maxAllocSize]byte)(unsafe.Pointer(p))
 > ++              for {
 > ++                      // Limit our write to our max allocation size.
-> ++                      sz := size
+> ++                      sz :=3D size
 > ++                      if sz > maxAllocSize-1 {
-> ++                              sz = maxAllocSize - 1
+> ++                              sz =3D maxAllocSize - 1
 > ++                      }
 > ++
 > ++                      // Write chunk to disk.
-> ++                      buf := ptr[:sz]
-> ++                      if _, err := tx.db.ops.writeAt(buf, offset); err
-> != nil {
+> ++                      buf :=3D ptr[:sz]
+> ++                      if _, err :=3D tx.db.ops.writeAt(buf, offset); er=
+r
+> !=3D nil {
 > ++                              return err
 > ++                      }
 > ++
@@ -2326,27 +2658,28 @@ Bruce
 > ++
 > ++                      // Exit inner for loop if we've written all the
 > chunks.
-> ++                      size -= sz
-> ++                      if size == 0 {
+> ++                      size -=3D sz
+> ++                      if size =3D=3D 0 {
 > ++                              break
 > ++                      }
 > ++
 > ++                      // Otherwise move offset forward and move pointer
 > to next chunk.
-> ++                      offset += int64(sz)
-> ++                      ptr =
+> ++                      offset +=3D int64(sz)
+> ++                      ptr =3D
 > (*[maxAllocSize]byte)(unsafe.Pointer(&ptr[sz]))
 > ++              }
 > +       }
 > ++
 > ++      // Ignore file sync if flag is set on DB.
 > +       if !tx.db.NoSync || IgnoreNoSync {
-> +               if err := fdatasync(tx.db); err != nil {
+> +               if err :=3D fdatasync(tx.db); err !=3D nil {
 > +                       return err
 > +--
 > +1.9.1
 > +
-> diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patch
+> diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patc=
+h
 > b/recipes-containers/docker/files/disable_sha1sum_startup.patch
 > index 580ca23..cafd83d 100644
 > --- a/recipes-containers/docker/files/disable_sha1sum_startup.patch
@@ -2386,7 +2719,7 @@ Bruce
 >   func isValidDockerInitPath(target string, selfPath string) bool { //
 > target and selfPath should be absolute (InitPath and SelfPath already do
 > this)
->         if target == "" {
+>         if target =3D=3D "" {
 >                 return false
 > -@@ -110,7 +95,7 @@
 > +@@ -77,7 +61,7 @@ func isValidDockerInitPath(target string, selfPath
@@ -2405,69 +2738,465 @@ Bruce
 > 1.8.3.2
 >
 >
+>
+>
+>
+> --
+>
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
+>
 
 
--- 
+
+--=20
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a113c352ce07f8e0530cdceeb
+--001a114772b2f9245f0530db8253
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@nxp.com</=
-a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
-order-left-style:solid;padding-left:1ex">Hi Bruce.<br>
+te">On Tue, Apr 19, 2016 at 3:29 AM, Wei Lu <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:W.Lu@nxp.com" target=3D"_blank">W.Lu@nxp.com</a>&gt;</span> wrot=
+e:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">
+
+
+
+
+
+<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Hello,<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0</span></p></div></div><=
+/blockquote><div><br></div><div>Thanks. I&#39;ve queued this locally. If my=
+ testing passes, I&#39;ll follow up when it has been</div><div>pushed.</div=
+><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><div lang=3D"EN-US" link=3D"blue" vlink=3D"purple"><div><p class=3D"Ms=
+oNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sa=
+ns-serif;color:#1f497d"><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">For Docker running on ARM64, we need =
+enable below configures, these extra configures are not enabled in default =
+kernel, so we need open it manually.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_DEBUG=3Dy<u></u><u></u>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_FREEZER=3Dy<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_DEVICE=3Dy<u></u><u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CPUSETS=3Dy<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_CPUACCT=3Dy<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_PERF=3Dy<u></u><u></u><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BLK_CGROUP=3Dy<u></u><u></u></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_DEBUG_BLK_CGROUP=3Dy<u></u><u>=
+</u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_UTS_NS=3Dy<u></u><u></u></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IPC_NS=3Dy<u></u><u></u></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_USER_NS=3Dy<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IPV6=3Dy<u></u><u></u></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE=3Dy<u></u><u></u></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_VLAN_8021Q=3Dy<u></u><u></u></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_VLAN_8021Q_GVRP=3Dy<u></u><u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_VLAN_8021Q_MVRP=3Dy<u></u><u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_MACVLAN=3Dy<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_MACVTAP=3Dy<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_VETH=3Dy<u></u><u></u></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_DEVPTS_MULTIPLE_INSTANCES=3Dy<=
+u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT2_FS_XATTR=3Dy<u></u><u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT2_FS_POSIX_ACL=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT3_FS_POSIX_ACL=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT4_FS_POSIX_ACL=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_TMPFS_POSIX_ACL=3Dy<u></u><u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_SECCOMP=3Dy<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BLK_DEV_THROTTLING=3Dy<u></u><=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_CFQ_GROUP_IOSCHED=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_OVERLAY_FS=3Dy<u></u><u></u></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_TMPFS_POSIX_ACL=3Dy<u></u><u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_TMPFS_XATTR=3Dy<u></u><u></u><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER=3Dy<u></u><u></u></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_ADVANCED=3Dy<u></u><=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_NETFILTER=3Dm<u></u><u>=
+</u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_NETLINK=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK=3Dy<u></u><u></u>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_MARK=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_PROCFS=3Dy<u></u>=
+<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT=3Dy<u></u><u></u></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT_NEEDED=3Dy<u></u><u></u=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_TABLES=3Dy<u></u><u></u></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_CT=3Dy<u></u><u></u></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_RBTREE=3Dy<u></u><u></u></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_MASQ=3Dy<u></u><u></u></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_NAT=3Dy<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_COMPAT=3Dy<u></u><u></u></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XTABLES=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_CONNMARK=3Dy<u></=
+u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_TARGET_CONNMARK=
+=3Dy<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_NAT=3Dy<u></u><u>=
+</u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=3D=
+y<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_MATCH_CONNMARK=3D=
+y<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_MATCH_CONNTRACK=
+=3Dy<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_DEFRAG_IPV4=3Dy<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_IPV4=3Dy<u></u><u=
+></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_PROC_COMPAT=3Dy<u=
+></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_TABLES_IPV4=3Dy<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT_IPV4=3Dy<u></u><u></u><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT_MASQUERADE_IPV4=3Dy<u><=
+/u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_IPTABLES=3Dy<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_FILTER=3Dy<u></u><u></u>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_NAT=3Dy<u></u><u></u></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_TARGET_MASQUERADE=3Dy<u>=
+</u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_MANGLE=3Dy<u></u><u></u>=
+</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_TABLES_BRIDGE=3Dy<u></u><u>=
+</u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_NF_EBTABLES=3Dy<u></u><=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_EBT_T_NAT=3Dy<u></u><u>=
+</u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_EBT_DNAT=3Dy<u></u><u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_EBT_SNAT=3Dy<u></u><u><=
+/u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Test steps on ARM64:<u></u><u></u></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker daemon &amp;<u></u><u></u></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker =C2=A0login docker hub<u></u><=
+u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker search arm64<u></u><u></u></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker pull $ARM64_images<u></u><u></=
+u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker run -d -p 30081:80 --name=3Dsa=
+ndbox1 -h sandbox1 $ARM64_images bash -c &quot;lighttpd -f /etc/lighttpd/li=
+ghttpd.conf -D&quot;<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker logout<u></u><u></u></span></p=
+>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker ps =E2=80=93a<u></u><u></u></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker images<u></u><u></u></span></p=
+>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker stop sandbox1<u></u><u></u></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">docker rm sandbox1<u></u><u></u></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Regards<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Lu Wei<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<div>
+<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
+;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
+font-family:&quot;Calibri&quot;,sans-serif"> Zongchun Yu
+<br>
+<b>Sent:</b> Tuesday, April 19, 2016 11:18 AM<br>
+<b>To:</b> Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
+arget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;; Wei Lu &lt;<a href=3D"ma=
+ilto:W.Lu@nxp.com" target=3D"_blank">W.Lu@nxp.com</a>&gt;<br>
+<b>Cc:</b> <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=
+=3D"_blank">meta-virtualization@yoctoproject.org</a><br>
+<b>Subject:</b> RE: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0=
+<u></u><u></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Okay.=C2=A0 Let me add Lu wei.<u></u>=
+<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Hi Lu wei.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Can you help to provide the arm64 tes=
+t and configure message to Bruce?<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Thank you.<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Best Regards<u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Zongchun<u></u><u></u></span></p>
+<div style=3D"border:none;border-top:solid #b5c4df 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
+;Tahoma&quot;,sans-serif">From:</span></b><span style=3D"font-size:10.0pt;f=
+ont-family:&quot;Tahoma&quot;,sans-serif"> Bruce Ashfield [<a href=3D"mailt=
+o:bruce.ashfield@gmail.com" target=3D"_blank">mailto:bruce.ashfield@gmail.c=
+om</a>]
+<br>
+<b>Sent:</b> Tuesday, April 19, 2016 11:10 AM<br>
+<b>To:</b> Zongchun Yu<br>
+<b>Cc:</b> <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=
+=3D"_blank">meta-virtualization@yoctoproject.org</a><br>
+<b>Subject:</b> Re: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0=
+<u></u><u></u></span></p>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<p class=3D"MsoNormal">On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu &lt;<a=
+ href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@nxp.com<=
+/a>&gt; wrote:<u></u><u></u></p>
+<p class=3D"MsoNormal">Hi Bruce.<br>
 <br>
 May I know if you have comments about this v2 patch? If not. Can you help t=
-o apply the patch?<br></blockquote><div><br></div><div><br></div><div>I&#39=
-;m waiting to hear from Bogdan P: .. you said the following:</div><div><br>=
-</div><div>------------</div><div><br></div><div><p class=3D"MsoNormal" sty=
-le=3D"font-size:12.8px"><span style=3D"font-size:11pt;font-family:Calibri,s=
-ans-serif;color:rgb(31,73,125)">Hi Bogdan P.<u></u><u></u></span></p><p cla=
-ss=3D"MsoNormal" style=3D"font-size:12.8px"><span style=3D"font-size:11pt;f=
-ont-family:Calibri,sans-serif;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></s=
-pan></p><p class=3D"MsoNormal" style=3D"font-size:12.8px"><span style=3D"fo=
-nt-size:11pt;font-family:Calibri,sans-serif;color:rgb(31,73,125)">Can you h=
-elp to provide the arm64 test and configure messages to Bruce?</span></p></=
-div><div>=C2=A0</div><div>-----------</div><div><br></div><div>And I see no=
- other email on the subject .. so I&#39;m not sure why I&#39;d have started=
- to merge a new version.</div><div><br></div><div>Bruce</div><div><br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;=
-padding-left:1ex">
-<br>
+o apply the patch?<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">I&#39;m waiting to hear from Bogdan P: .. you said t=
+he following:<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">------------<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Hi Bogdan P.</span><span style=3D"fon=
+t-size:9.5pt"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">=C2=A0</span><span style=3D"font-size=
+:9.5pt"><u></u><u></u></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
+libri&quot;,sans-serif;color:#1f497d">Can you help to provide the arm64 tes=
+t and configure messages to Bruce?</span><span style=3D"font-size:9.5pt"><u=
+></u><u></u></span></p>
+</div>
+<div>
+<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">-----------<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">And I see no other email on the subject .. so I&#39;=
+m not sure why I&#39;d have started to merge a new version.<u></u><u></u></=
+p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Bruce<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0i=
+n 0in 0in 6.0pt;margin-left:4.8pt;margin-top:5.0pt;margin-right:0in;margin-=
+bottom:5.0pt">
+<p class=3D"MsoNormal"><br>
 Thanks.<br>
 <br>
 Best Regards<br>
-Zongchun<br>
-<div class=3D""><div class=3D"h5">-----Original Message-----<br>
-From: <a href=3D"mailto:zongchun.yu@nxp.com">zongchun.yu@nxp.com</a> [mailt=
-o:<a href=3D"mailto:zongchun.yu@nxp.com">zongchun.yu@nxp.com</a>]<br>
+Zongchun<u></u><u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt">-----Original Message=
+-----<br>
+From: <a href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@=
+nxp.com</a> [mailto:<a href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank=
+">zongchun.yu@nxp.com</a>]<br>
 Sent: Tuesday, April 12, 2016 4:36 PM<br>
-To: <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiza=
-tion@yoctoproject.org</a><br>
-Cc: <a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a=
->; Zongchun Yu<br>
+To: <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_blan=
+k">meta-virtualization@yoctoproject.org</a><br>
+Cc: <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ash=
+field@gmail.com</a>; Zongchun Yu<br>
 Subject: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0<br>
 <br>
-From: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com">zongchun.yu@nx=
-p.com</a>&gt;<br>
+From: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com" target=3D"_bla=
+nk">zongchun.yu@nxp.com</a>&gt;<br>
 <br>
 Uprev to 1.9.0.<br>
 Enable build support for arm64.<br>
 The libcontainer is removed from the source in the new version. drop the ns=
 init install lines.<br>
 <br>
-Signed-off-by: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com">zongc=
-hun.yu@nxp.com</a>&gt;<br>
+Signed-off-by: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com" targe=
+t=3D"_blank">zongchun.yu@nxp.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">docker_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A038 +-<br>
+=C2=A0recipes-containers/docker/<a href=3D"http://docker_git.bb" target=3D"=
+_blank">docker_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A038 +-<br>
 =C2=A0.../docker/files/Bump-bolt-to-v1.1.0.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0| 1828 ++++++++++++++++++++<br>
 =C2=A0.../docker/files/disable_sha1sum_startup.patch=C2=A0 =C2=A0 =C2=A0|=
@@ -2476,15 +3205,14 @@ eferrer" target=3D"_blank">docker_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =C2=A0create mode 100644 recipes-containers/docker/files/Bump-bolt-to-v1.1.=
 0.patch<br>
 <br>
-diff --git a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">docker_git.bb</a> b/recipes-containers/do=
-cker/<a href=3D"http://docker_git.bb" rel=3D"noreferrer" target=3D"_blank">=
-docker_git.bb</a><br>
+diff --git a/recipes-containers/docker/<a href=3D"http://docker_git.bb" tar=
+get=3D"_blank">docker_git.bb</a> b/recipes-containers/docker/<a href=3D"htt=
+p://docker_git.bb" target=3D"_blank">docker_git.bb</a><br>
 index 2672b22..19fdef0 100644<br>
---- a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">docker_git.bb</a><br>
-+++ b/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">docker_git.bb</a><br>
+--- a/recipes-containers/docker/<a href=3D"http://docker_git.bb" target=3D"=
+_blank">docker_git.bb</a><br>
++++ b/recipes-containers/docker/<a href=3D"http://docker_git.bb" target=3D"=
+_blank">docker_git.bb</a><br>
 @@ -18,23 +18,23 @@ DESCRIPTION =3D &quot;Linux container runtime \<br>
 =C2=A0 subtle and/or glaring issues. \<br>
 =C2=A0 &quot;<br>
@@ -2494,25 +3222,25 @@ eferrer" target=3D"_blank">docker_git.bb</a><br>
 +SRCREV =3D &quot;76d6bc9a9f1690e16f3721ba165364688b626de2&quot;<br>
 =C2=A0SRC_URI =3D &quot;\<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/docker/docke=
-r.git;branch=3D${SRCBRANCH};nobranch=3D1" rel=3D"noreferrer" target=3D"_bla=
-nk">github.com/docker/docker.git;branch=3D${SRCBRANCH};nobranch=3D1</a> \<b=
-r>
+r.git;branch=3D$%7bSRCBRANCH%7d;nobranch=3D1" target=3D"_blank">github.com/=
+docker/docker.git;branch=3D${SRCBRANCH};nobranch=3D1</a> \<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/docker/docke=
-r.git;nobranch=3D1" rel=3D"noreferrer" target=3D"_blank">github.com/docker/=
-docker.git;nobranch=3D1</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.service \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.init \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://hi.Dockerfile \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://disable_sha1sum_startup.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://Bump-bolt-to-v1.1.0.patch \<br>
+r.git;nobranch=3D1" target=3D"_blank">github.com/docker/docker.git;nobranch=
+=3D1</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://docker.service</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://docker.init</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://hi.Dockerfile</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://disable_sha1sum_startup.patch</a> \<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0<a>file://Bump-bolt-to-v1.1.0.patch</a> \<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 <br>
 =C2=A0# Apache-2.0 for docker<br>
 =C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1cc0497778922bfd6cb48721de=
-b80dc7&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dcc2221abf0b96ea39dd68141b7=
-0f7937&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;<a>file://LICENSE;md5=3D1cc0497778922bfd6cb4872=
+1deb80dc7</a>&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;<a>file://LICENSE;md5=3Dcc2221abf0b96ea39dd6814=
+1b70f7937</a>&quot;<br>
 <br>
 =C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
 <br>
@@ -2525,8 +3253,8 @@ b80dc7&quot;<br>
 s&quot;<br>
 =C2=A0RRECOMMENDS_${PN} +=3D &quot; kernel-module-dm-thin-pool kernel-modul=
 e-nf-nat&quot;<br>
-=C2=A0DOCKER_PKG=3D&quot;<a href=3D"http://github.com/docker/docker" rel=3D=
-"noreferrer" target=3D"_blank">github.com/docker/docker</a>&quot;<br>
+=C2=A0DOCKER_PKG=3D&quot;<a href=3D"http://github.com/docker/docker" target=
+=3D"_blank">github.com/docker/docker</a>&quot;<br>
 <br>
 -do_configure() {<br>
 -}<br>
@@ -2575,8 +3303,9 @@ sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${BUILDSDK_LDFLAGS} =
 --sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0# in order to exclude devicemapper and btrfs - =
-<a href=3D"https://github.com/docker/docker/issues/14056" rel=3D"noreferrer=
-" target=3D"_blank">https://github.com/docker/docker/issues/14056</a><br>
+<a href=3D"https://github.com/docker/docker/issues/14056" target=3D"_blank"=
+>
+https://github.com/docker/docker/issues/14056</a><br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_graphdri=
 ver_btrfs exclude_graphdriver_devicemapper&#39;<br>
 <br>
@@ -2589,8 +3318,8 @@ r>
 -<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0# make nsinit from libcontainer<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0go install <a href=3D"http://github.com/docker/=
-libcontainer/nsinit/" rel=3D"noreferrer" target=3D"_blank">github.com/docke=
-r/libcontainer/nsinit/</a><br>
+libcontainer/nsinit/" target=3D"_blank">
+github.com/docker/libcontainer/nsinit/</a><br>
 =C2=A0}<br>
 <br>
 =C2=A0inherit systemd update-rc.d<br>
@@ -2619,142 +3348,139 @@ index 0000000..ca4ad81<br>
 +++ b/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch<br>
 @@ -0,0 +1,1828 @@<br>
 +From a41917c2c88bd7f694d141ac67f4a194aaa16fa1 Mon Sep 17 00:00:00 2001<br>
-+From: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com">h.huangqi=
-ang@huawei.com</a>&gt;<br>
++From: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com" target=3D=
+"_blank">h.huangqiang@huawei.com</a>&gt;<br>
 +Date: Wed, 28 Oct 2015 08:49:45 +0800<br>
 +Subject: [PATCH] Bump bolt to v1.1.0<br>
 +<br>
 +It adds ARM64, ppc64le, s390x, solaris support, and a bunch of<br>
 +bugfixs.<br>
 +<br>
-+Signed-off-by: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com">=
-h.huangqiang@huawei.com</a>&gt;<br>
++Signed-off-by: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com" =
+target=3D"_blank">h.huangqiang@huawei.com</a>&gt;<br>
 +---<br>
 + hack/vendor.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
 =C2=A0 =C2=A02 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/.gitignore</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" rel=3D"nor=
-eferrer" target=3D"_blank">github.com/boltdb/bolt/README.md</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 250 +++++++++++++++++++--<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" rel=3D"nore=
-ferrer" target=3D"_blank">github.com/boltdb/bolt/batch.go</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0| 138 ++++++++++++<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" rel=3D"n=
-oreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a>=C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" rel=3D=
-"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a>=C2=
-=A0 =C2=A0 |=C2=A0 =C2=A03 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" rel=3D"n=
-oreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a>=C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A05 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" rel=3D=
-"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a>=C2=
-=A0 =C2=A0 |=C2=A0 =C2=A09 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a=
->=C2=A0 |=C2=A0 =C2=A09 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" rel=3D=
-"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a>=C2=
-=A0 =C2=A0 |=C2=A0 =C2=A09 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" rel=3D"=
-noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a>=C2=A0=
- =C2=A0 =C2=A0|=C2=A0 37 ++-<br>
-+ .../<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solaris.go" rel=3D=
-"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go<=
-/a>=C2=A0 =C2=A0 | 101 +++++++++<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a=
->=C2=A0 |=C2=A0 10 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" rel=3D"nor=
-eferrer" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 29 ++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" rel=3D"nor=
-eferrer" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 12 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" rel=3D"norefer=
-rer" target=3D"_blank">github.com/boltdb/bolt/db.go</a>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 | 195 ++++++++++++----<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" rel=3D"nor=
-eferrer" target=3D"_blank">github.com/boltdb/bolt/errors.go</a>=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" rel=3D"n=
-oreferrer" target=3D"_blank">github.com/boltdb/bolt/freelist.go</a>=C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 28 ++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" rel=3D"noref=
-errer" target=3D"_blank">github.com/boltdb/bolt/node.go</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 36 ++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" rel=3D"noref=
-errer" target=3D"_blank">github.com/boltdb/bolt/page.go</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 45 +++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" rel=3D"norefer=
-rer" target=3D"_blank">github.com/boltdb/bolt/tx.go</a>=C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 80 +++++--<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" target=3D=
+"_blank">github.com/boltdb/bolt/.gitignore</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 =C2=A01 +<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" target=3D"=
+_blank">github.com/boltdb/bolt/README.md</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2=
+50 +++++++++++++++++++--<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" target=3D"_=
+blank">github.com/boltdb/bolt/batch.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 138 ++++++++++++<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a>=C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A05 +-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a>=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A03 +<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a>=C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 =C2=A05 +-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a>=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A09 +<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go" targ=
+et=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a>=C2=A0 |=C2=A0 =C2=
+=A09 +<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a>=C2=A0 =C2=A0 |=C2=A0 =
+=C2=A09 +<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a>=C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 37 ++-<br>
++ .../<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solaris.go" target=
+=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go</a>=C2=A0 =C2=A0 | =
+101 +++++++++<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go" targ=
+et=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a>=C2=A0 |=C2=A0 10 +=
+-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" target=3D"=
+_blank">github.com/boltdb/bolt/bucket.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 29 ++-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" target=3D"=
+_blank">github.com/boltdb/bolt/cursor.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 12 +-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" target=3D"_bla=
+nk">github.com/boltdb/bolt/db.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 195 ++++++++++++----<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" target=3D"=
+_blank">github.com/boltdb/bolt/errors.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 =C2=A04 +<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" target=
+=3D"_blank">github.com/boltdb/bolt/freelist.go</a>=C2=A0 =C2=A0 =C2=A0 |=C2=
+=A0 28 ++-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" target=3D"_b=
+lank">github.com/boltdb/bolt/node.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 36 ++-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" target=3D"_b=
+lank">github.com/boltdb/bolt/page.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+|=C2=A0 45 +++-<br>
++ vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" target=3D"_bla=
+nk">github.com/boltdb/bolt/tx.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 80 +++++--<br>
 + 21 files changed, 886 insertions(+), 122 deletions(-)<br>
 + create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/ba=
-tch.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/batch.g=
-o</a><br>
+tch.go" target=3D"_blank">github.com/boltdb/bolt/batch.go</a><br>
 + create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_arm64.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bo=
-lt_arm64.go</a><br>
+lt_arm64.go" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a><br>
 + create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_ppc64le.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/=
-bolt_ppc64le.go</a><br>
+lt_ppc64le.go" target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a>=
+<br>
 + create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_s390x.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bo=
-lt_s390x.go</a><br>
+lt_s390x.go" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a><br>
 + create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_unix_solaris.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/=
-bolt/bolt_unix_solaris.go</a><br>
+lt_unix_solaris.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_sola=
+ris.go</a><br>
 +<br>
 +diff --git a/hack/vendor.sh b/hack/vendor.sh<br>
 +index d872d4a..c28e677 100755<br>
 +--- a/hack/vendor.sh<br>
 ++++ b/hack/vendor.sh<br>
-+@@ -36,7 +36,7 @@ clone git <a href=3D"http://github.com/coreos/etcd" rel=
-=3D"noreferrer" target=3D"_blank">github.com/coreos/etcd</a> v2.2.0<br>
-+ fix_rewritten_imports <a href=3D"http://github.com/coreos/etcd" rel=3D"no=
-referrer" target=3D"_blank">github.com/coreos/etcd</a><br>
-+ clone git <a href=3D"http://github.com/ugorji/go" rel=3D"noreferrer" targ=
-et=3D"_blank">github.com/ugorji/go</a> 5abd4e96a45c386928ed2ca2a7ef63e2533e=
-18ec<br>
-+ clone git <a href=3D"http://github.com/hashicorp/consul" rel=3D"noreferre=
-r" target=3D"_blank">github.com/hashicorp/consul</a> v0.5.2<br>
-+-clone git <a href=3D"http://github.com/boltdb/bolt" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/boltdb/bolt</a> v1.0<br>
-++clone git <a href=3D"http://github.com/boltdb/bolt" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/boltdb/bolt</a> v1.1.0<br>
++@@ -36,7 +36,7 @@ clone git <a href=3D"http://github.com/coreos/etcd" targ=
+et=3D"_blank">
+github.com/coreos/etcd</a> v2.2.0<br>
++ fix_rewritten_imports <a href=3D"http://github.com/coreos/etcd" target=3D=
+"_blank">github.com/coreos/etcd</a><br>
++ clone git <a href=3D"http://github.com/ugorji/go" target=3D"_blank">githu=
+b.com/ugorji/go</a> 5abd4e96a45c386928ed2ca2a7ef63e2533e18ec<br>
++ clone git <a href=3D"http://github.com/hashicorp/consul" target=3D"_blank=
+">github.com/hashicorp/consul</a> v0.5.2<br>
++-clone git <a href=3D"http://github.com/boltdb/bolt" target=3D"_blank">git=
+hub.com/boltdb/bolt</a> v1.0<br>
+++clone git <a href=3D"http://github.com/boltdb/bolt" target=3D"_blank">git=
+hub.com/boltdb/bolt</a> v1.1.0<br>
 +<br>
 + # get graph and distribution packages<br>
-+ clone git <a href=3D"http://github.com/docker/distribution" rel=3D"norefe=
-rrer" target=3D"_blank">github.com/docker/distribution</a> 20c4b7a1805a5275=
-3dfd593ee1cc35558722a0ce # docker/1.9 branch<br>
++ clone git <a href=3D"http://github.com/docker/distribution" target=3D"_bl=
+ank">github.com/docker/distribution</a> 20c4b7a1805a52753dfd593ee1cc3555872=
+2a0ce # docker/1.9 branch<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignor=
-e" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/.gitignore</=
-a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" rel=3D=
-"noreferrer" target=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
+e" target=3D"_blank">github.com/boltdb/bolt/.gitignore</a> b/vendor/src/<a =
+href=3D"http://github.com/boltdb/bolt/.gitignore" target=3D"_blank">github.=
+com/boltdb/bolt/.gitignore</a><br>
 +index b2bb382..c7bd2b7 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" targ=
+et=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" targ=
+et=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
 +@@ -1,3 +1,4 @@<br>
 + *.prof<br>
 + *.test<br>
 ++*.swp<br>
 + /bin/<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md=
-" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/README.md</a>=
- b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
+" target=3D"_blank">github.com/boltdb/bolt/README.md</a> b/vendor/src/<a hr=
+ef=3D"http://github.com/boltdb/bolt/README.md" target=3D"_blank">github.com=
+/boltdb/bolt/README.md</a><br>
 +index 727e977..0a33ebc 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" targe=
+t=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" targe=
+t=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
 +@@ -16,7 +16,7 @@ and setting values. That&#39;s it.<br>
 +<br>
 + ## Project Status<br>
@@ -3071,15 +3797,13 @@ y: true})<br>
 g articles:<br>
 +<br>
 + * [Intro to BoltDB: Painless Performant Persistence](<a href=3D"http://np=
-f.io/2014/07/intro-to-boltdb-painless-performant-persistence/" rel=3D"noref=
-errer" target=3D"_blank">http://npf.io/2014/07/intro-to-boltdb-painless-per=
-formant-persistence/</a>) by [Nate Finch](<a href=3D"https://github.com/nat=
-efinch" rel=3D"noreferrer" target=3D"_blank">https://github.com/natefinch</=
-a>).<br>
+f.io/2014/07/intro-to-boltdb-painless-performant-persistence/" target=3D"_b=
+lank">http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence=
+/</a>) by [Nate Finch](<a href=3D"https://github.com/natefinch" target=3D"_=
+blank">https://github.com/natefinch</a>).<br>
 ++* [Bolt -- an embedded key/value database for Go](<a href=3D"https://www.=
-progville.com/go/bolt-embedded-db-golang/" rel=3D"noreferrer" target=3D"_bl=
-ank">https://www.progville.com/go/bolt-embedded-db-golang/</a>) by Progvill=
-e<br>
+progville.com/go/bolt-embedded-db-golang/" target=3D"_blank">https://www.pr=
+ogville.com/go/bolt-embedded-db-golang/</a>) by Progville<br>
 ++<br>
 ++<br>
 ++## Comparison with other databases<br>
@@ -3218,92 +3942,87 @@ hunks of data<br>
 llocation].<br>
 ++<br>
 ++[page-allocation]: <a href=3D"https://github.com/boltdb/bolt/issues/308#i=
-ssuecomment-74811638" rel=3D"noreferrer" target=3D"_blank">https://github.c=
-om/boltdb/bolt/issues/308#issuecomment-74811638</a><br>
+ssuecomment-74811638" target=3D"_blank">
+https://github.com/boltdb/bolt/issues/308#issuecomment-74811638</a><br>
 +<br>
 +<br>
 + ## Other Projects Using Bolt<br>
 +<br>
 + Below is a list of public, open source projects that use Bolt:<br>
 +<br>
-+-* [Bazil](<a href=3D"https://github.com/bazillion/bazil" rel=3D"noreferre=
-r" target=3D"_blank">https://github.com/bazillion/bazil</a>) - A file syste=
-m that lets your data reside where it is most convenient for it to reside.<=
-br>
-++* [Operation Go: A Routine Mission](<a href=3D"http://gocode.io" rel=3D"n=
-oreferrer" target=3D"_blank">http://gocode.io</a>) - An online programming =
-game for Golang using Bolt for user accounts and a leaderboard.<br>
-++* [Bazil](<a href=3D"https://bazil.org/" rel=3D"noreferrer" target=3D"_bl=
-ank">https://bazil.org/</a>) - A file system that lets your data reside whe=
-re it is most convenient for it to reside.<br>
-+ * [DVID](<a href=3D"https://github.com/janelia-flyem/dvid" rel=3D"norefer=
-rer" target=3D"_blank">https://github.com/janelia-flyem/dvid</a>) - Added B=
-olt as optional storage engine and testing it against Basho-tuned leveldb.<=
-br>
-+ * [Skybox Analytics](<a href=3D"https://github.com/skybox/skybox" rel=3D"=
-noreferrer" target=3D"_blank">https://github.com/skybox/skybox</a>) - A sta=
-ndalone funnel analysis tool for web analytics.<br>
-+ * [Scuttlebutt](<a href=3D"https://github.com/benbjohnson/scuttlebutt" re=
-l=3D"noreferrer" target=3D"_blank">https://github.com/benbjohnson/scuttlebu=
-tt</a>) - Uses Bolt to store and process all Twitter mentions of GitHub pro=
-jects.<br>
++-* [Bazil](<a href=3D"https://github.com/bazillion/bazil" target=3D"_blank=
+">https://github.com/bazillion/bazil</a>) - A file system that lets your da=
+ta reside where it is most convenient for it to reside.<br>
+++* [Operation Go: A Routine Mission](<a href=3D"http://gocode.io" target=
+=3D"_blank">http://gocode.io</a>) - An online programming game for Golang u=
+sing Bolt for user accounts and a leaderboard.<br>
+++* [Bazil](<a href=3D"https://bazil.org/" target=3D"_blank">https://bazil.=
+org/</a>) - A file system that lets your data reside where it is most conve=
+nient for it to reside.<br>
++ * [DVID](<a href=3D"https://github.com/janelia-flyem/dvid" target=3D"_bla=
+nk">https://github.com/janelia-flyem/dvid</a>) - Added Bolt as optional sto=
+rage engine and testing it against Basho-tuned leveldb.<br>
++ * [Skybox Analytics](<a href=3D"https://github.com/skybox/skybox" target=
+=3D"_blank">https://github.com/skybox/skybox</a>) - A standalone funnel ana=
+lysis tool for web analytics.<br>
++ * [Scuttlebutt](<a href=3D"https://github.com/benbjohnson/scuttlebutt" ta=
+rget=3D"_blank">https://github.com/benbjohnson/scuttlebutt</a>) - Uses Bolt=
+ to store and process all Twitter mentions of GitHub projects.<br>
 +@@ -450,6 +656,16 @@ Below is a list of public, open source projects that =
 use Bolt:<br>
-+ * [bleve](<a href=3D"http://www.blevesearch.com/" rel=3D"noreferrer" targ=
-et=3D"_blank">http://www.blevesearch.com/</a>) - A pure Go search engine si=
-milar to ElasticSearch that uses Bolt as the default storage backend.<br>
-+ * [tentacool](<a href=3D"https://github.com/optiflows/tentacool" rel=3D"n=
-oreferrer" target=3D"_blank">https://github.com/optiflows/tentacool</a>) - =
-REST api server to manage system stuff (IP, DNS, Gateway...) on a linux ser=
-ver.<br>
-+ * [SkyDB](<a href=3D"https://github.com/skydb/sky" rel=3D"noreferrer" tar=
-get=3D"_blank">https://github.com/skydb/sky</a>) - Behavioral analytics dat=
-abase.<br>
++ * [bleve](<a href=3D"http://www.blevesearch.com/" target=3D"_blank">http:=
+//www.blevesearch.com/</a>) - A pure Go search engine similar to ElasticSea=
+rch that uses Bolt as the default storage backend.<br>
++ * [tentacool](<a href=3D"https://github.com/optiflows/tentacool" target=
+=3D"_blank">https://github.com/optiflows/tentacool</a>) - REST api server t=
+o manage system stuff (IP, DNS, Gateway...) on a linux server.<br>
++ * [SkyDB](<a href=3D"https://github.com/skydb/sky" target=3D"_blank">http=
+s://github.com/skydb/sky</a>) - Behavioral analytics database.<br>
 ++* [Seaweed File System](<a href=3D"https://github.com/chrislusf/weed-fs" =
-rel=3D"noreferrer" target=3D"_blank">https://github.com/chrislusf/weed-fs</=
-a>) - Highly scalable distributed key~file system with O(1) disk read.<br>
-++* [InfluxDB](<a href=3D"http://influxdb.com" rel=3D"noreferrer" target=3D=
-"_blank">http://influxdb.com</a>) - Scalable datastore for metrics, events,=
- and real-time analytics.<br>
-++* [Freehold](<a href=3D"http://tshannon.bitbucket.org/freehold/" rel=3D"n=
-oreferrer" target=3D"_blank">http://tshannon.bitbucket.org/freehold/</a>) -=
- An open, secure, and lightweight platform for your files and data.<br>
+target=3D"_blank">https://github.com/chrislusf/weed-fs</a>) - Highly scalab=
+le distributed key~file system with O(1) disk read.<br>
+++* [InfluxDB](<a href=3D"http://influxdb.com" target=3D"_blank">http://inf=
+luxdb.com</a>) - Scalable datastore for metrics, events, and real-time anal=
+ytics.<br>
+++* [Freehold](<a href=3D"http://tshannon.bitbucket.org/freehold/" target=
+=3D"_blank">http://tshannon.bitbucket.org/freehold/</a>) - An open, secure,=
+ and lightweight platform for your files and data.<br>
 ++* [Prometheus Annotation Server](<a href=3D"https://github.com/oliver006/=
-prom_annotation_server" rel=3D"noreferrer" target=3D"_blank">https://github=
-.com/oliver006/prom_annotation_server</a>) - Annotation server for PromDash=
- &amp; Prometheus service monitoring system.<br>
-++* [Consul](<a href=3D"https://github.com/hashicorp/consul" rel=3D"norefer=
-rer" target=3D"_blank">https://github.com/hashicorp/consul</a>) - Consul is=
- service discovery and configuration made easy. Distributed, highly availab=
-le, and datacenter-aware.<br>
-++* [Kala](<a href=3D"https://github.com/ajvb/kala" rel=3D"noreferrer" targ=
-et=3D"_blank">https://github.com/ajvb/kala</a>) - Kala is a modern job sche=
-duler optimized to run on a single node. It is persistent, JSON over HTTP A=
-PI, ISO 8601 duration notation, and dependent jobs.<br>
-++* [drive](<a href=3D"https://github.com/odeke-em/drive" rel=3D"noreferrer=
-" target=3D"_blank">https://github.com/odeke-em/drive</a>) - drive is an un=
-official Google Drive command line client for \*NIX operating systems.<br>
-++* [stow](<a href=3D"https://github.com/djherbis/stow" rel=3D"noreferrer" =
-target=3D"_blank">https://github.com/djherbis/stow</a>) -=C2=A0 a persisten=
-ce manager for objects<br>
+prom_annotation_server" target=3D"_blank">https://github.com/oliver006/prom=
+_annotation_server</a>) - Annotation server for PromDash &amp; Prometheus s=
+ervice monitoring system.<br>
+++* [Consul](<a href=3D"https://github.com/hashicorp/consul" target=3D"_bla=
+nk">https://github.com/hashicorp/consul</a>) - Consul is service discovery =
+and configuration made easy. Distributed, highly available, and datacenter-=
+aware.<br>
+++* [Kala](<a href=3D"https://github.com/ajvb/kala" target=3D"_blank">https=
+://github.com/ajvb/kala</a>) - Kala is a modern job scheduler optimized to =
+run on a single node. It is persistent, JSON over HTTP API, ISO 8601 durati=
+on notation, and dependent jobs.<br>
+++* [drive](<a href=3D"https://github.com/odeke-em/drive" target=3D"_blank"=
+>https://github.com/odeke-em/drive</a>) - drive is an unofficial Google Dri=
+ve command line client for \*NIX operating systems.<br>
+++* [stow](<a href=3D"https://github.com/djherbis/stow" target=3D"_blank">h=
+ttps://github.com/djherbis/stow</a>) -=C2=A0 a persistence manager for obje=
+cts<br>
 ++=C2=A0 backed by boltdb.<br>
-++* [buckets](<a href=3D"https://github.com/joyrexus/buckets" rel=3D"norefe=
-rrer" target=3D"_blank">https://github.com/joyrexus/buckets</a>) - a bolt w=
-rapper streamlining<br>
+++* [buckets](<a href=3D"https://github.com/joyrexus/buckets" target=3D"_bl=
+ank">https://github.com/joyrexus/buckets</a>) - a bolt wrapper streamlining=
+<br>
 ++=C2=A0 simple tx and key scans.<br>
 +<br>
 + If you are using Bolt in a project please send a pull request to add it t=
 o the list.<br>
 +-<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go"=
- rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/batch.go</a> b=
-/vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" rel=3D"noref=
-errer" target=3D"_blank">github.com/boltdb/bolt/batch.go</a><br>
+ target=3D"_blank">github.com/boltdb/bolt/batch.go</a> b/vendor/src/<a href=
+=3D"http://github.com/boltdb/bolt/batch.go" target=3D"_blank">github.com/bo=
+ltdb/bolt/batch.go</a><br>
 +new file mode 100644<br>
 +index 0000000..84acae6<br>
 +--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" rel=3D=
-"noreferrer" target=3D"_blank">github.com/boltdb/bolt/batch.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" target=
+=3D"_blank">github.com/boltdb/bolt/batch.go</a><br>
 +@@ -0,0 +1,138 @@<br>
 ++package bolt<br>
 ++<br>
@@ -3381,8 +4100,8 @@ n, err: errCh})<br>
 ++<br>
 ++// trigger runs the batch if it hasn&#39;t already been run.<br>
 ++func (b *batch) trigger() {<br>
-++=C2=A0 =C2=A0 =C2=A0 <a href=3D"http://b.start.Do" rel=3D"noreferrer" tar=
-get=3D"_blank">b.start.Do</a>(b.run)<br>
+++=C2=A0 =C2=A0 =C2=A0 <a href=3D"http://b.start.Do" target=3D"_blank">b.st=
+art.Do</a>(b.run)<br>
 ++}<br>
 ++<br>
 ++// run performs the transactions in the batch and communicates results<br=
@@ -3489,17 +4208,14 @@ br>
 ++=C2=A0 =C2=A0 =C2=A0 return fn(tx)<br>
 ++}<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.=
-go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go=
-</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br=
->
+go" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a> b/vendor/src/<=
+a href=3D"http://github.com/boltdb/bolt/bolt_386.go" target=3D"_blank">gith=
+ub.com/boltdb/bolt/bolt_386.go</a><br>
 +index 856f401..e659bfb 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br=
->
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br=
->
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" tar=
+get=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" tar=
+get=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br>
 +@@ -1,4 +1,7 @@<br>
 + package bolt<br>
 +<br>
@@ -3510,17 +4226,14 @@ go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go=
 ++// maxAllocSize is the size used when creating array pointers.<br>
 ++const maxAllocSize =3D 0xFFFFFFF<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd6=
-4.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_amd6=
-4.go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.g=
-o" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.g=
-o</a><br>
+4.go" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a> b/vendor/s=
+rc/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" target=3D"_blank=
+">github.com/boltdb/bolt/bolt_amd64.go</a><br>
 +index 4262932..cca6b7e 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" r=
-el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a=
-><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" r=
-el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a=
-><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" t=
+arget=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" t=
+arget=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a><br>
 +@@ -2,3 +2,6 @@ package bolt<br>
 +<br>
 + // maxMapSize represents the largest mmap size supported by Bolt.<br>
@@ -3529,17 +4242,14 @@ el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a=
 ++// maxAllocSize is the size used when creating array pointers.<br>
 ++const maxAllocSize =3D 0x7FFFFFFF<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.=
-go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go=
-</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br=
->
+go" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a> b/vendor/src/<=
+a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" target=3D"_blank">gith=
+ub.com/boltdb/bolt/bolt_arm.go</a><br>
 +index 856f401..e659bfb 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br=
->
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br=
->
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" tar=
+get=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" tar=
+get=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br>
 +@@ -1,4 +1,7 @@<br>
 + package bolt<br>
 +<br>
@@ -3550,16 +4260,14 @@ go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go=
 ++// maxAllocSize is the size used when creating array pointers.<br>
 ++const maxAllocSize =3D 0xFFFFFFF<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm6=
-4.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm6=
-4.go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.g=
-o" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.g=
-o</a><br>
+4.go" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a> b/vendor/s=
+rc/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" target=3D"_blank=
+">github.com/boltdb/bolt/bolt_arm64.go</a><br>
 +new file mode 100644<br>
 +index 0000000..6d23093<br>
 +--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" r=
-el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a=
-><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" t=
+arget=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a><br>
 +@@ -0,0 +1,9 @@<br>
 ++// +build arm64<br>
 ++<br>
@@ -3571,16 +4279,14 @@ el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a=
 ++// maxAllocSize is the size used when creating array pointers.<br>
 ++const maxAllocSize =3D 0x7FFFFFFF<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc6=
-4le.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_pp=
-c64le.go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc=
-64le.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_p=
-pc64le.go</a><br>
+4le.go" target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a> b/vend=
+or/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go" target=3D"=
+_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a><br>
 +new file mode 100644<br>
 +index 0000000..8351e12<br>
 +--- /dev/null<br>
 ++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go"=
- rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.g=
-o</a><br>
+ target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a><br>
 +@@ -0,0 +1,9 @@<br>
 ++// +build ppc64le<br>
 ++<br>
@@ -3592,16 +4298,14 @@ o</a><br>
 ++// maxAllocSize is the size used when creating array pointers.<br>
 ++const maxAllocSize =3D 0x7FFFFFFF<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390=
-x.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_s390=
-x.go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.g=
-o" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.g=
-o</a><br>
+x.go" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a> b/vendor/s=
+rc/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" target=3D"_blank=
+">github.com/boltdb/bolt/bolt_s390x.go</a><br>
 +new file mode 100644<br>
 +index 0000000..f4dd26b<br>
 +--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" r=
-el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a=
-><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" t=
+arget=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a><br>
 +@@ -0,0 +1,9 @@<br>
 ++// +build s390x<br>
 ++<br>
@@ -3613,17 +4317,14 @@ el=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a=
 ++// maxAllocSize is the size used when creating array pointers.<br>
 ++const maxAllocSize =3D 0x7FFFFFFF<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix=
-.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.=
-go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" =
-rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a=
-><br>
+.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a> b/vendor/src=
+/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" target=3D"_blank">g=
+ithub.com/boltdb/bolt/bolt_unix.go</a><br>
 +index 95647a7..6eef6b2 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" re=
-l=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a><=
-br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" re=
-l=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a><=
-br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" ta=
+rget=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" ta=
+rget=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a><br>
 +@@ -1,8 +1,9 @@<br>
 +-// +build !windows,!plan9<br>
 ++// +build !windows,!plan9,!solaris<br>
@@ -3678,8 +4379,7 @@ syscall.EWOULDBLOCK {<br>
 ++=C2=A0 =C2=A0 =C2=A0 // Truncate and fsync to ensure file size metadata i=
 s flushed.<br>
 ++=C2=A0 =C2=A0 =C2=A0 // <a href=3D"https://github.com/boltdb/bolt/issues/=
-284" rel=3D"noreferrer" target=3D"_blank">https://github.com/boltdb/bolt/is=
-sues/284</a><br>
+284" target=3D"_blank">https://github.com/boltdb/bolt/issues/284</a><br>
 ++=C2=A0 =C2=A0 =C2=A0 if !db.NoGrowSync &amp;&amp; !db.readOnly {<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Trun=
 cate(int64(sz)); err !=3D nil {<br>
@@ -3729,16 +4429,14 @@ intptr(unsafe.Pointer(&amp;b[0])), uintptr(len(b)), uintptr(advice))<br>
 ++=C2=A0 =C2=A0 =C2=A0 return<br>
 ++}<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix=
-_solaris.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bo=
-lt_unix_solaris.go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bol=
-t/bolt_unix_solaris.go" rel=3D"noreferrer" target=3D"_blank">github.com/bol=
-tdb/bolt/bolt_unix_solaris.go</a><br>
+_solaris.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go<=
+/a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solaris=
+.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go</a><br>
 +new file mode 100644<br>
 +index 0000000..f480ee7<br>
 +--- /dev/null<br>
 ++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solari=
-s.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_unix=
-_solaris.go</a><br>
+s.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go</a><br>
 +@@ -0,0 +1,101 @@<br>
 ++<br>
 ++package bolt<br>
@@ -3749,8 +4447,8 @@ _solaris.go</a><br>
 ++=C2=A0 =C2=A0 =C2=A0 &quot;syscall&quot;<br>
 ++=C2=A0 =C2=A0 =C2=A0 &quot;time&quot;<br>
 ++=C2=A0 =C2=A0 =C2=A0 &quot;unsafe&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"http://golang.org/x/sys/unix" rel=
-=3D"noreferrer" target=3D"_blank">golang.org/x/sys/unix</a>&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"http://golang.org/x/sys/unix" targe=
+t=3D"_blank">golang.org/x/sys/unix</a>&quot;<br>
 ++)<br>
 ++<br>
 ++// flock acquires an advisory lock on a file descriptor.<br>
@@ -3817,8 +4515,7 @@ _SETLK, &amp;lock)<br>
 ++=C2=A0 =C2=A0 =C2=A0 // Truncate and fsync to ensure file size metadata i=
 s flushed.<br>
 ++=C2=A0 =C2=A0 =C2=A0 // <a href=3D"https://github.com/boltdb/bolt/issues/=
-284" rel=3D"noreferrer" target=3D"_blank">https://github.com/boltdb/bolt/is=
-sues/284</a><br>
+284" target=3D"_blank">https://github.com/boltdb/bolt/issues/284</a><br>
 ++=C2=A0 =C2=A0 =C2=A0 if !db.NoGrowSync &amp;&amp; !db.readOnly {<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Trun=
 cate(int64(sz)); err !=3D nil {<br>
@@ -3871,17 +4568,14 @@ b[0]))<br>
 ++=C2=A0 =C2=A0 =C2=A0 return err<br>
 ++}<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_wind=
-ows.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_wi=
-ndows.go</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_win=
-dows.go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_w=
-indows.go</a><br>
+ows.go" target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a> b/vend=
+or/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go" target=3D"=
+_blank">github.com/boltdb/bolt/bolt_windows.go</a><br>
 +index c8539d4..8b782be 100644<br>
 +--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go"=
- rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_windows.g=
-o</a><br>
+ target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a><br>
 ++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go"=
- rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bolt_windows.g=
-o</a><br>
+ target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a><br>
 +@@ -16,7 +16,7 @@ func fdatasync(db *DB) error {<br>
 + }<br>
 +<br>
@@ -3893,8 +4587,8 @@ o</a><br>
 +<br>
 +@@ -28,9 +28,11 @@ func funlock(f *os.File) error {<br>
 + // mmap memory maps a DB&#39;s data file.<br>
-+ // Based on: <a href=3D"https://github.com/edsrzf/mmap-go" rel=3D"norefer=
-rer" target=3D"_blank">https://github.com/edsrzf/mmap-go</a><br>
++ // Based on: <a href=3D"https://github.com/edsrzf/mmap-go" target=3D"_bla=
+nk">https://github.com/edsrzf/mmap-go</a><br>
 + func mmap(db *DB, sz int) error {<br>
 +-=C2=A0 =C2=A0 =C2=A0 // Truncate the database to the size of the mmap.<br=
 >
@@ -3914,14 +4608,14 @@ cate(int64(sz)); err !=3D nil {<br>
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0// Open a file mapping handle.<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go=
-" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a>=
- b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
+" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a> b/vendor/src/<a hr=
+ef=3D"http://github.com/boltdb/bolt/bucket.go" target=3D"_blank">github.com=
+/boltdb/bolt/bucket.go</a><br>
 +index 2630800..2925288 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" targe=
+t=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" targe=
+t=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
 +@@ -99,6 +99,7 @@ func (b *Bucket) Cursor() *Cursor {<br>
 +<br>
 + // Bucket retrieves a nested bucket by name.<br>
@@ -4059,14 +4753,14 @@ nil {<br>
 =A0 =C2=A0return nil, b.rootNode<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go=
-" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a>=
- b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
+" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a> b/vendor/src/<a hr=
+ef=3D"http://github.com/boltdb/bolt/cursor.go" target=3D"_blank">github.com=
+/boltdb/bolt/cursor.go</a><br>
 +index 3bfc2f1..006c548 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" targe=
+t=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" targe=
+t=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
 +@@ -2,6 +2,7 @@ package bolt<br>
 +<br>
 + import (<br>
@@ -4153,26 +4847,25 @@ until it finds a given key.<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0p, n :=3D c.bucket.pageNode(pgid)<br>
 +-=C2=A0 =C2=A0 =C2=A0 if p !=3D nil {<br>
 +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert((p.flags&amp;(br=
-anchPageFlag|leafPageFlag)) !=3D 0, &quot;invalid page type: %d: %x&quot;, =
-<a href=3D"http://p.id" rel=3D"noreferrer" target=3D"_blank">p.id</a>, p.fl=
-ags)<br>
+anchPageFlag|leafPageFlag)) !=3D 0, &quot;invalid page type: %d: %x&quot;,
+<a href=3D"http://p.id" target=3D"_blank">p.id</a>, p.flags)<br>
 ++=C2=A0 =C2=A0 =C2=A0 if p !=3D nil &amp;&amp; (p.flags&amp;(branchPageFla=
 g|leafPageFlag)) =3D=3D 0 {<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-invalid page type: %d: %x&quot;, <a href=3D"http://p.id" rel=3D"noreferrer"=
- target=3D"_blank">p.id</a>, p.flags))<br>
+invalid page type: %d: %x&quot;, <a href=3D"http://p.id" target=3D"_blank">
+p.id</a>, p.flags))<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0e :=3D elemRef{page: p, node: n}<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0c.stack =3D append(c.stack, e)<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" re=
-l=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/db.go</a> b/vendo=
-r/src/<a href=3D"http://github.com/boltdb/bolt/db.go" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/boltdb/bolt/db.go</a><br>
++diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" ta=
+rget=3D"_blank">github.com/boltdb/bolt/db.go</a> b/vendor/src/<a href=3D"ht=
+tp://github.com/boltdb/bolt/db.go" target=3D"_blank">github.com/boltdb/bolt=
+/db.go</a><br>
 +index 6c45736..d39c4aa 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/db.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/db.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" target=3D=
+"_blank">github.com/boltdb/bolt/db.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" target=3D=
+"_blank">github.com/boltdb/bolt/db.go</a><br>
 +@@ -12,9 +12,6 @@ import (<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;unsafe&quot;<br>
 + )<br>
@@ -4213,8 +4906,7 @@ drive space and<br>
 pping.<br>
 ++=C2=A0 =C2=A0 =C2=A0 //<br>
 ++=C2=A0 =C2=A0 =C2=A0 // <a href=3D"https://github.com/boltdb/bolt/issues/=
-284" rel=3D"noreferrer" target=3D"_blank">https://github.com/boltdb/bolt/is=
-sues/284</a><br>
+284" target=3D"_blank">https://github.com/boltdb/bolt/issues/284</a><br>
 ++=C2=A0 =C2=A0 =C2=A0 NoGrowSync bool<br>
 ++<br>
 ++=C2=A0 =C2=A0 =C2=A0 // MaxBatchSize is the maximum size of a batch. Defa=
@@ -4604,8 +5296,8 @@ r>
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0// Page id is either going to be 0 or 1 which w=
 e can determine by the transaction ID.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://p.id" rel=3D"noreferrer" targ=
-et=3D"_blank">p.id</a> =3D pgid(m.txid % 2)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://p.id" target=3D"_blank">p.id<=
+/a> =3D pgid(m.txid % 2)<br>
 +@@ -675,13 +783,8 @@ func _assert(condition bool, msg string, v ...interfa=
 ce{}) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
@@ -4627,14 +5319,14 @@ ot;\n&quot;, v...) }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0stack :=3D strings.Join(strings.Split(string(de=
 bug.Stack()), &quot;\n&quot;)[2:], &quot;\n&quot;)<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go=
-" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/errors.go</a>=
- b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
+" target=3D"_blank">github.com/boltdb/bolt/errors.go</a> b/vendor/src/<a hr=
+ef=3D"http://github.com/boltdb/bolt/errors.go" target=3D"_blank">github.com=
+/boltdb/bolt/errors.go</a><br>
 +index aa504f1..6883786 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" targe=
+t=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" targe=
+t=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
 +@@ -36,6 +36,10 @@ var (<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0// ErrTxClosed is returned when committing or r=
 olling back a transaction<br>
@@ -4653,17 +5345,14 @@ ransaction is started on a<br>
 + // These errors can occur when putting or deleting a value or a bucket.<b=
 r>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.=
-go" rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/freelist.go=
-</a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br=
->
+go" target=3D"_blank">github.com/boltdb/bolt/freelist.go</a> b/vendor/src/<=
+a href=3D"http://github.com/boltdb/bolt/freelist.go" target=3D"_blank">gith=
+ub.com/boltdb/bolt/freelist.go</a><br>
 +index 150e3e6..0161948 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br=
->
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" rel=
-=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br=
->
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" tar=
+get=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" tar=
+get=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br>
 +@@ -1,6 +1,7 @@<br>
 + package bolt<br>
 +<br>
@@ -4715,21 +5404,22 @@ ge if this is not contiguous.<br>
 + // free releases a page and its overflow for a given transaction id.<br>
 + // If the page is already free then a panic will occur.<br>
 + func (f *freelist) free(txid txid, p *page) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(<a href=3D"http://p.id" rel=3D"noreferrer" t=
-arget=3D"_blank">p.id</a> &gt; 1, &quot;cannot free page 0 or 1: %d&quot;, =
-<a href=3D"http://p.id" rel=3D"noreferrer" target=3D"_blank">p.id</a>)<br>
-++=C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://p.id" rel=3D"noreferrer" target=
-=3D"_blank">p.id</a> &lt;=3D 1 {<br>
++-=C2=A0 =C2=A0 =C2=A0 _assert(<a href=3D"http://p.id" target=3D"_blank">p.=
+id</a> &gt; 1, &quot;cannot free page 0 or 1: %d&quot;,
+<a href=3D"http://p.id" target=3D"_blank">p.id</a>)<br>
+++=C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://p.id" target=3D"_blank">p.id</a=
+> &lt;=3D 1 {<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-cannot free page 0 or 1: %d&quot;, <a href=3D"http://p.id" rel=3D"noreferre=
-r" target=3D"_blank">p.id</a>))<br>
+cannot free page 0 or 1: %d&quot;, <a href=3D"http://p.id" target=3D"_blank=
+">
+p.id</a>))<br>
 ++=C2=A0 =C2=A0 =C2=A0 }<br>
 +<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0// Free page and all its overflow pages.<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0var ids =3D f.pending[txid]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for id :=3D <a href=3D"http://p.id" rel=3D"nore=
-ferrer" target=3D"_blank">p.id</a>; id &lt;=3D <a href=3D"http://p.id" rel=
-=3D"noreferrer" target=3D"_blank">p.id</a>+pgid(p.overflow); id++ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for id :=3D <a href=3D"http://p.id" target=3D"_=
+blank">p.id</a>; id &lt;=3D <a href=3D"http://p.id" target=3D"_blank">
+p.id</a>+pgid(p.overflow); id++ {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Verify that page=
  is not already free.<br>
 +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(!f.cache[id], &q=
@@ -4773,14 +5463,14 @@ br>
 +<br>
 + // rollback removes the pages from a given pending tx.<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" =
-rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/node.go</a> b/v=
-endor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" rel=3D"noreferr=
-er" target=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
+target=3D"_blank">github.com/boltdb/bolt/node.go</a> b/vendor/src/<a href=
+=3D"http://github.com/boltdb/bolt/node.go" target=3D"_blank">github.com/bol=
+tdb/bolt/node.go</a><br>
 +index c204c39..c9fb21c 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" rel=3D"=
-noreferrer" target=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" rel=3D"=
-noreferrer" target=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" target=
+=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" target=
+=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
 +@@ -2,6 +2,7 @@ package bolt<br>
 +<br>
 + import (<br>
@@ -4835,12 +5525,13 @@ PageFlag<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +<br>
 +-=C2=A0 =C2=A0 =C2=A0 _assert(len(n.inodes) &lt; 0xFFFF, &quot;inode overf=
-low: %d (pgid=3D%d)&quot;, len(n.inodes), <a href=3D"http://p.id" rel=3D"no=
-referrer" target=3D"_blank">p.id</a>)<br>
+low: %d (pgid=3D%d)&quot;, len(n.inodes),
+<a href=3D"http://p.id" target=3D"_blank">p.id</a>)<br>
 ++=C2=A0 =C2=A0 =C2=A0 if len(n.inodes) &gt;=3D 0xFFFF {<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
 inode overflow: %d (pgid=3D%d)&quot;, len(n.inodes), <a href=3D"http://p.id=
-" rel=3D"noreferrer" target=3D"_blank">p.id</a>))<br>
+" target=3D"_blank">
+p.id</a>))<br>
 ++=C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0p.count =3D uint16(len(n.inodes))<br>
 +<br>
@@ -4848,9 +5539,8 @@ inode overflow: %d (pgid=3D%d)&quot;, len(n.inodes), <a href=3D"http://p.id=
 .<br>
 +@@ -212,11 +221,20 @@ func (n *node) write(p *page) {<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0_assert(elem.pgid !=3D <a href=3D"http://p.id" rel=3D"noreferrer"=
- target=3D"_blank">p.id</a>, &quot;write: circular dependency occurred&quot=
-;)<br>
+=A0 =C2=A0_assert(elem.pgid !=3D <a href=3D"http://p.id" target=3D"_blank">
+p.id</a>, &quot;write: circular dependency occurred&quot;)<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
 +<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // If the length of key+=
@@ -4859,8 +5549,8 @@ value is larger than the max allocation size<br>
 ocate the byte array pointer.<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 //<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // See: <a href=3D"https=
-://github.com/boltdb/bolt/pull/335" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://github.com/boltdb/bolt/pull/335</a><br>
+://github.com/boltdb/bolt/pull/335" target=3D"_blank">
+https://github.com/boltdb/bolt/pull/335</a><br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 klen, vlen :=3D len(item=
 .key), len(item.value)<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(b) &lt; klen+vlen=
@@ -4890,30 +5580,29 @@ lue)<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Write the node.<=
 br>
 +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(<a href=3D"http:=
-//p.id" rel=3D"noreferrer" target=3D"_blank">p.id</a> &lt; tx.meta.pgid, &q=
-uot;pgid (%d) above high water mark (%d)&quot;, <a href=3D"http://p.id" rel=
-=3D"noreferrer" target=3D"_blank">p.id</a>, tx.meta.pgid)<br>
+//p.id" target=3D"_blank">p.id</a> &lt; tx.meta.pgid, &quot;pgid (%d) above=
+ high water mark (%d)&quot;,
+<a href=3D"http://p.id" target=3D"_blank">p.id</a>, tx.meta.pgid)<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://p.i=
-d" rel=3D"noreferrer" target=3D"_blank">p.id</a> &gt;=3D tx.meta.pgid {<br>
+d" target=3D"_blank">p.id</a> &gt;=3D tx.meta.pgid {<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;pgid (%d) above high water mark (%d)&quot;, <a =
-href=3D"http://p.id" rel=3D"noreferrer" target=3D"_blank">p.id</a>, tx.meta=
-.pgid))<br>
+=A0 panic(fmt.Sprintf(&quot;pgid (%d) above high water mark (%d)&quot;,
+<a href=3D"http://p.id" target=3D"_blank">p.id</a>, tx.meta.pgid))<br>
 ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0node.pgid =3D <a hr=
-ef=3D"http://p.id" rel=3D"noreferrer" target=3D"_blank">p.id</a><br>
+ef=3D"http://p.id" target=3D"_blank">p.id</a><br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0node.write(p)<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0node.spilled =3D tr=
 ue<br>
 +diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" =
-rel=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/page.go</a> b/v=
-endor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" rel=3D"noreferr=
-er" target=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
+target=3D"_blank">github.com/boltdb/bolt/page.go</a> b/vendor/src/<a href=
+=3D"http://github.com/boltdb/bolt/page.go" target=3D"_blank">github.com/bol=
+tdb/bolt/page.go</a><br>
 +index b3dc473..818aa1b 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" rel=3D"=
-noreferrer" target=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" rel=3D"=
-noreferrer" target=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" target=
+=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" target=
+=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
 +@@ -3,12 +3,12 @@ package bolt<br>
 + import (<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;fmt&quot;<br>
@@ -5015,15 +5704,15 @@ ead), func(i int) bool { return lead[i] &gt; follow[0] })<br>
 ++<br>
 ++=C2=A0 =C2=A0 =C2=A0 return merged<br>
 ++}<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" re=
-l=3D"noreferrer" target=3D"_blank">github.com/boltdb/bolt/tx.go</a> b/vendo=
-r/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" rel=3D"noreferrer" ta=
-rget=3D"_blank">github.com/boltdb/bolt/tx.go</a><br>
++diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" ta=
+rget=3D"_blank">github.com/boltdb/bolt/tx.go</a> b/vendor/src/<a href=3D"ht=
+tp://github.com/boltdb/bolt/tx.go" target=3D"_blank">github.com/boltdb/bolt=
+/tx.go</a><br>
 +index c041d73..fe6c287 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/tx.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" rel=3D"no=
-referrer" target=3D"_blank">github.com/boltdb/bolt/tx.go</a><br>
++--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" target=3D=
+"_blank">github.com/boltdb/bolt/tx.go</a><br>
+++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" target=3D=
+"_blank">github.com/boltdb/bolt/tx.go</a><br>
 +@@ -87,18 +87,21 @@ func (tx *Tx) Stats() TxStats {<br>
 +<br>
 + // Bucket retrieves a bucket by name.<br>
@@ -5177,8 +5866,8 @@ erflow) + 1) * tx.db.pageSize<br>
 +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf :=3D (*[maxAllocSize=
 ]byte)(unsafe.Pointer(p))[:size]<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0offset :=3D int64(<=
-a href=3D"http://p.id" rel=3D"noreferrer" target=3D"_blank">p.id</a>) * int=
-64(tx.db.pageSize)<br>
+a href=3D"http://p.id" target=3D"_blank">p.id</a>) * int64(tx.db.pageSize)<=
+br>
 +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if _, err :=3D tx.db.ops=
 .writeAt(buf, offset); err !=3D nil {<br>
 +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
@@ -5257,7 +5946,7 @@ index 580ca23..cafd83d 100644<br>
 @@ -12,20 +12,23 @@ of the binary instead.<br>
 <br>
 =C2=A0Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@windriver.com"=
->amy.fong@windriver.com</a>&gt;<br>
+ target=3D"_blank">amy.fong@windriver.com</a>&gt;<br>
 =C2=A0---<br>
 - utils/utils.go |=C2=A0 =C2=A017 +----------------<br>
 - 1 file changed, 1 insertion(+), 16 deletions(-)<br>
@@ -5287,7 +5976,7 @@ index 580ca23..cafd83d 100644<br>
 =C2=A0 }<br>
 <br>
 @@ -46,7 +49,7 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
-ndriver.com">amy.fong@windriver.com</a>&gt;<br>
+ndriver.com" target=3D"_blank">amy.fong@windriver.com</a>&gt;<br>
 =C2=A0 func isValidDockerInitPath(target string, selfPath string) bool { //=
  target and selfPath should be absolute (InitPath and SelfPath already do t=
 his)<br>
@@ -5301,7 +5990,7 @@ g) bool { // target and<br>
 targetFileInfo, selfPathFileInfo)<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
 @@ -54,4 +57,4 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
-ndriver.com">amy.fong@windriver.com</a>&gt;<br>
+ndriver.com" target=3D"_blank">amy.fong@windriver.com</a>&gt;<br>
 =C2=A0+=C2=A0 =C2=A0 =C2=A0 return true<br>
 =C2=A0 }<br>
 <br>
@@ -5309,11 +5998,30 @@ ndriver.com">amy.fong@windriver.com</a>&gt;<br>
 + // DockerInitPath figures out the path of our dockerinit (which may be Se=
 lfPath())<br>
 --<br>
-1.8.3.2<br>
-<br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
-, for chaos and madness await thee at its end&quot;</div>
+1.8.3.2<u></u><u></u></p>
+</div>
+</div>
+</blockquote>
+</div>
+<p class=3D"MsoNormal"><br>
+<br clear=3D"all">
+<u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<p class=3D"MsoNormal">-- <u></u><u></u></p>
+<div>
+<p class=3D"MsoNormal">&quot;Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end&quot;<u></u><u></u></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
+=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
+s and madness await thee at its end&quot;</div>
 </div></div>
 
---001a113c352ce07f8e0530cdceeb--
+--001a114772b2f9245f0530db8253--
