@@ -1,17 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CC582E00DE4; Mon, 11 Apr 2016 05:30:39 -0700 (PDT)
+	id 51C25E00CAD; Mon, 18 Apr 2016 20:09:51 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.218.51 listed in list.dnswl.org]
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.218.53 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,48 +20,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-oi0-f51.google.com (mail-oi0-f51.google.com
-	[209.85.218.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DEF1DE0052B
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 26BB2E0092C
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 11 Apr 2016 05:30:30 -0700 (PDT)
-Received: by mail-oi0-f51.google.com with SMTP id p188so204680418oih.2
+	Mon, 18 Apr 2016 20:09:41 -0700 (PDT)
+Received: by mail-oi0-f53.google.com with SMTP id k142so3325761oib.1
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 11 Apr 2016 05:30:30 -0700 (PDT)
+	Mon, 18 Apr 2016 20:09:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=swQhbgVAJsGwy8djpD3XVtY5X8Q23vCTCEmFvnoFv8k=;
-	b=gYdcpjxpqdJmhcrHVHkzytn1b3MbvBuR6uWAtnq2oVv13hSIiS+8OXnuHRSS+CxUJ3
-	vj5A4uFFptfZtw6z0CmSKod8MutGrFbwSqRYXEOnL+Vgj7NUgOEB8RLdrFOVEO3jZ9Rm
-	0NVqIQkuKKQwwNN6QIPtvacfh5JNGAFxQaV2wexHfJfjrk2Rf8fj8fAzqQ9gzxKlwp6l
-	5Z/a9YaHtHuJ2WUSLuS+X6ck5jssyoC8omV3QFlgW0HyxtHFvfDQCPHvXo/QMP9fAPz5
-	x41ymctlmRPqYDVREJxZhqDT6BoUqg/8OthsT4kaNJE8CURT1VRvuxalQCfe1tHoqS0P
-	jYAw==
+	:cc; bh=UhlSU9qTktfDnwMJCqe2XlNQKWE6WEevmjhHp9UofPY=;
+	b=dGfnV7/pYZImEAoZah+iPoTf3fv1f0Gs8i1BRebVIw2SUd/gzSNvy2EvN92r8XJ0z/
+	49/tyqc7uuBGSW365p5qHVU3tvqrCcCwyw/sbQ05vACkEoAw74X7NpzvHyJCGyfwtYSD
+	FRIzqoZZP4l377yDbqXq+fNrO50olBBgcrvWxNnb2Co2G3f0zFe604azySRURI4pHnqv
+	NiPTc8Qn8nkxIDI21NiaB3Wku59t6TxXHcwSSqfeTe79xjRj2jBtUvuktFNFCbr/xpO5
+	HFLEcNqo2juxaqzEgV5JDQ7eKKMZkqqJ9qNrZ4aF6OITI/dz3q9lVfsGsFGw8tZupLS5
+	uxZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=swQhbgVAJsGwy8djpD3XVtY5X8Q23vCTCEmFvnoFv8k=;
-	b=EGEB2zMcJ38MrEgIkfAAjCK2vJ/LXBOMKAttWWJIX6gXVBTCLqb6bydNB0dGYdWFum
-	ufKxWn4FRjZAXNu0a1y4vhex92dcFVfj5BTmJyeVxw2z5/sxY0BuwH8LIltYUUgExlE/
-	PlIy0dC/wIzsUXW3pLTnhBODA/RaIhy+9eru7GiuERWGP+u6YM4wL+YHVQfhzsic91eO
-	DwI2tuI06VFF42AozOBP1kGJLet7w6zhPUrs1dGZzz/+gwluAsmJ/NN7BHBeanutj3a2
-	XCp0RbpdeiAgkEoKSqsihJRExqKpR401nZMKxAp37pvNt0AB9OZiKjVanq6hf1aJLsVE
-	VAyQ==
-X-Gm-Message-State: AD7BkJKLF73CgQKAlOiayNuthuQieY9Gpvuf0hGBK8aV0Jj6+giVb0yRA3hu0nOxq5mFr+epRT6mg+y1ntJxtA==
+	bh=UhlSU9qTktfDnwMJCqe2XlNQKWE6WEevmjhHp9UofPY=;
+	b=V7CsVsrpeigevWBtgaAHig6uE5UIhXQOsR/g9U1F1jGhWrVBMQZ0Z0iuUNaEl/AFwX
+	XTBaOa1nIMXpqWlU/DhOvoDOGUONUBYWehYr+0bIrcNZ3B23eayrR8FPzmfpJ1N01C9w
+	nfIIHHugL5P6pubhryNu0QOayMpHXJvip3cq7ZQ3RDCOr3/pR/MQDqi4fyKkuRgjhqr4
+	gRY+TAYIKt5f7OLeW15t7EnqAo5Dl4ppmwzDCPPX3vSPaCql4TedcqHdFC9Esz9H5pug
+	vjSgerJ86QZmA6E48hLa3aJanJu+4HHz8S7PORvLw+CZaila9vC26vHa3PoSzybVbIoK
+	DLaQ==
+X-Gm-Message-State: AOPr4FWV4TbizxUyl8o721EMGVsExOsJOSlWtmiVp5FFLW0P6DBh7TZAjw3H2XuOYR5X20KUKzwWB0MeAuFyew==
 MIME-Version: 1.0
-X-Received: by 10.202.90.3 with SMTP id o3mr9598978oib.96.1460377829776; Mon,
-	11 Apr 2016 05:30:29 -0700 (PDT)
-Received: by 10.157.5.101 with HTTP; Mon, 11 Apr 2016 05:30:29 -0700 (PDT)
-In-Reply-To: <1459850045-22838-1-git-send-email-zongchun.yu@nxp.com>
-References: <1459850045-22838-1-git-send-email-zongchun.yu@nxp.com>
-Message-ID: <CADkTA4N0wpvShX0r=vNy6qFiziPW=wg9WF7nBjuA7DBe6Hzy8w@mail.gmail.com>
+X-Received: by 10.202.170.65 with SMTP id t62mr194425oie.60.1461035380796;
+	Mon, 18 Apr 2016 20:09:40 -0700 (PDT)
+Received: by 10.157.5.101 with HTTP; Mon, 18 Apr 2016 20:09:40 -0700 (PDT)
+In-Reply-To: <HE1PR04MB2170BADC77C7DC4781349639FD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
+References: <1460450138-16240-1-git-send-email-zongchun.yu@nxp.com>
+	<HE1PR04MB2170BADC77C7DC4781349639FD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
+Message-ID: <CADkTA4NdArOKj2cqgVj2i2qfLf_-DQpoMT3mfAQycMEGwP7p4w@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: zongchun.yu@nxp.com
+To: Zongchun Yu <zongchun.yu@nxp.com>
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] docker: uprev to 1.9.0
+Subject: Re: [PATCH][v2] docker: uprev to 1.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,43 +75,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Mon, 11 Apr 2016 12:30:39 -0000
-X-Original-Date: Mon, 11 Apr 2016 08:30:29 -0400
-X-List-Received-Date: Mon, 11 Apr 2016 12:30:39 -0000
-Content-Type: multipart/alternative; boundary=001a113d5edcc827de053034b524
+Date: Tue, 19 Apr 2016 03:09:51 -0000
+X-Original-Date: Mon, 18 Apr 2016 23:09:40 -0400
+X-List-Received-Date: Tue, 19 Apr 2016 03:09:51 -0000
+Content-Type: multipart/alternative; boundary=001a113c352ce07f8e0530cdceeb
 
---001a113d5edcc827de053034b524
+--001a113c352ce07f8e0530cdceeb
 Content-Type: text/plain; charset=UTF-8
 
-On Tue, Apr 5, 2016 at 5:54 AM, <zongchun.yu@nxp.com> wrote:
+On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu <zongchun.yu@nxp.com> wrote:
 
-> From: Zongchun Yu <zongchun.yu@nxp.com>
+> Hi Bruce.
+>
+> May I know if you have comments about this v2 patch? If not. Can you help
+> to apply the patch?
 >
 
 
-I've been working on a similar update myself over the past few weeks, but
-wasn't quite
-done yet. So I'd like to get some extra details in this commit. Your
-changes are different
-than the approach I was taking .. so I need your help for that information.
+I'm waiting to hear from Bogdan P: .. you said the following:
 
-In this commit message, can we capture the version of the update, and what
-testing
-was done ? That's vital information for the next person that does and uprev
-and for
-me when doing maintenance.
+------------
 
-Also, we should justify the version choice. i.e. why 1.9.0 versus 1.10 ?
+Hi Bogdan P.
 
 
+
+Can you help to provide the arm64 test and configure messages to Bruce?
+
+-----------
+
+And I see no other email on the subject .. so I'm not sure why I'd have
+started to merge a new version.
+
+Bruce
+
+
+> Thanks.
+>
+> Best Regards
+> Zongchun
+> -----Original Message-----
+> From: zongchun.yu@nxp.com [mailto:zongchun.yu@nxp.com]
+> Sent: Tuesday, April 12, 2016 4:36 PM
+> To: meta-virtualization@yoctoproject.org
+> Cc: bruce.ashfield@gmail.com; Zongchun Yu
+> Subject: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0
+>
+> From: Zongchun Yu <zongchun.yu@nxp.com>
+>
+> Uprev to 1.9.0.
+> Enable build support for arm64.
+> The libcontainer is removed from the source in the new version. drop the
+> nsinit install lines.
 >
 > Signed-off-by: Zongchun Yu <zongchun.yu@nxp.com>
 > ---
 >  recipes-containers/docker/docker_git.bb            |   38 +-
 >  .../docker/files/Bump-bolt-to-v1.1.0.patch         | 1828
 > ++++++++++++++++++++
->  .../docker/files/disable_sha1sum_startup.patch     |   41 +-
->  3 files changed, 1863 insertions(+), 44 deletions(-)
+>  .../docker/files/disable_sha1sum_startup.patch     |   21 +-
+>  3 files changed, 1855 insertions(+), 32 deletions(-)
 >  create mode 100644
 > recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
 >
@@ -126,15 +150,6 @@ Also, we should justify the version choice. i.e. why 1.9.0 versus 1.10 ?
 > -SRCREV = "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
 > -SRCBRANCH = "v1.6.2"
 > +SRCREV = "76d6bc9a9f1690e16f3721ba165364688b626de2"
->
-
-Rather than just a SRCREV, can you also supply a comment that documents the
-version ?
-The SRCREV won't mean anything to us on a glance, but a comment # v1.9.0
-above it
-will.
-
-
 >  SRC_URI = "\
 > -       git://github.com/docker/docker.git;branch=${SRCBRANCH};nobranch=1
 > \
@@ -150,11 +165,6 @@ will.
 >  LICENSE = "Apache-2.0"
 > -LIC_FILES_CHKSUM = "file://LICENSE;md5=1cc0497778922bfd6cb48721deb80dc7"
 > +LIC_FILES_CHKSUM = "file://LICENSE;md5=cc2221abf0b96ea39dd68141b70f7937"
->
-
-Any idea why this changed ?
-
-
 >
 >  S = "${WORKDIR}/git"
 >
@@ -184,13 +194,6 @@ Any idea why this changed ?
 > +               export GOARCH="arm64"
 > +       fi
 >
-
-Since you are declaring ARM64 support .. that's why I'm looking for test
-logs and a test
-summary above. Just so we can document a baseline working config.
-
-
->
 >         # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
 >         # docker to download its dependencies but rather
 > @@ -84,21 +84,19 @@ do_compile() {
@@ -214,11 +217,6 @@ summary above. Just so we can document a baseline working config.
 > +       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
 > exclude_graphdriver_devicemapper'
 >
-
-very nice, and with an explanation .. I was working on something similar :)
-
-
->
 >         # this is the unsupported built structure
 >         # that doesn't rely on an existing docker
 >         # to build this:
@@ -227,13 +225,6 @@ very nice, and with an explanation .. I was working on something similar :)
 > -
 > -       # make nsinit from libcontainer
 > -       go install github.com/docker/libcontainer/nsinit/
-
-
-Why isn't this required any more ? Not used ? I'd just like to document why
-it is being dropped.
-
-
->
 >  }
 >
 >  inherit systemd update-rc.d
@@ -265,13 +256,6 @@ it is being dropped.
 > +
 > +It adds ARM64, ppc64le, s390x, solaris support, and a bunch of
 > +bugfixs.
->
-
-Is this patch from an upstream/public repository somewhere ? Since it
-doesn't have your signed-off-by,
-we need to link to the upstream source.
-
-
 > +
 > +Signed-off-by: Qiang Huang <h.huangqiang@huawei.com>
 > +---
@@ -2364,39 +2348,12 @@ we need to link to the upstream source.
 > +
 > diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patch
 > b/recipes-containers/docker/files/disable_sha1sum_startup.patch
-> index 580ca23..d37d7a0 100644
+> index 580ca23..cafd83d 100644
 > --- a/recipes-containers/docker/files/disable_sha1sum_startup.patch
 > +++ b/recipes-containers/docker/files/disable_sha1sum_startup.patch
-> @@ -1,31 +1,27 @@
-> -docker engine not running
-> +From 12fd6388a033ab5ec9b3a7b144c4976031e6aa52 Mon Sep 17 00:00:00 2001
-> +From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
-> +Date: Fri, 20 Nov 2015 10:02:09 +0000
-> +Subject: [PATCH] disable sha1sum startup
+> @@ -12,20 +12,23 @@ of the binary instead.
 >
-> -In yocto builds, preprocessing of binaries can happen after the install
-> phase.
-> -Some of these can modify the size/sha1sum of the binaries.
-> -e.g. A new .gnu_debuglink can happen
-> -
-> -docker will not start because of these modifications. Docker initially
-> -does a sha1sum of dockerinit to identify the dockerinit that it was built
-> -with, this is done for security and for compatibility reasons. Since
-> -this checking is disabled, we should rely on rpm tests for validation
-> -of the binary instead.
-> -
-> -Signed-off-by: Amy Fong <amy.fong@windriver.com>
-> +Signed-off-by: Bogdan Purcareata <bogdan.purcareata@freescale.com>
->
-
-I'm confused .. why is this patch's Signed-off-by being changed ? And you
-are dropping
-the entire explanation of what the patch does .. that doesn't look right at
-all.
-
-Bruce
-
-
+>  Signed-off-by: Amy Fong <amy.fong@windriver.com>
 >  ---
 > - utils/utils.go |   17 +----------------
 > - 1 file changed, 1 insertion(+), 16 deletions(-)
@@ -2425,7 +2382,7 @@ Bruce
 >         return path
 >   }
 >
-> @@ -46,7 +42,7 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> @@ -46,7 +49,7 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
 >   func isValidDockerInitPath(target string, selfPath string) bool { //
 > target and selfPath should be absolute (InitPath and SelfPath already do
 > this)
@@ -2437,16 +2394,13 @@ Bruce
 >                 }
 >                 return os.SameFile(targetFileInfo, selfPathFileInfo)
 >         }
-> @@ -54,4 +50,7 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
+> @@ -54,4 +57,4 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
 >  +      return true
 >   }
 >
 > - // Figure out the path of our dockerinit (which may be SelfPath())
 > + // DockerInitPath figures out the path of our dockerinit (which may be
 > SelfPath())
-> +--
-> +1.9.1
-> +
 > --
 > 1.8.3.2
 >
@@ -2457,27 +2411,56 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a113d5edcc827de053034b524
+--001a113c352ce07f8e0530cdceeb
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Apr 5, 2016 at 5:54 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailt=
-o:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@nxp.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">From: Zongchun Yu &lt;<a href=3D"=
-mailto:zongchun.yu@nxp.com">zongchun.yu@nxp.com</a>&gt;<br></blockquote><di=
-v><br></div><div><br></div><div>I&#39;ve been working on a similar update m=
-yself over the past few weeks, but wasn&#39;t quite</div><div>done yet. So =
-I&#39;d like to get some extra details in this commit. Your changes are dif=
-ferent</div><div>than the approach I was taking .. so I need your help for =
-that information.</div><div><br></div><div>In this commit message, can we c=
-apture the version of the update, and what testing</div><div>was done ? Tha=
-t&#39;s vital information for the next person that does and uprev and for</=
-div><div>me when doing maintenance.</div><div><br></div><div>Also, we shoul=
-d justify the version choice. i.e. why 1.9.0 versus 1.10 ?</div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">
+te">On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu <span dir=3D"ltr">&lt;<a =
+href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@nxp.com</=
+a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-color:rgb(204,204,204);b=
+order-left-style:solid;padding-left:1ex">Hi Bruce.<br>
+<br>
+May I know if you have comments about this v2 patch? If not. Can you help t=
+o apply the patch?<br></blockquote><div><br></div><div><br></div><div>I&#39=
+;m waiting to hear from Bogdan P: .. you said the following:</div><div><br>=
+</div><div>------------</div><div><br></div><div><p class=3D"MsoNormal" sty=
+le=3D"font-size:12.8px"><span style=3D"font-size:11pt;font-family:Calibri,s=
+ans-serif;color:rgb(31,73,125)">Hi Bogdan P.<u></u><u></u></span></p><p cla=
+ss=3D"MsoNormal" style=3D"font-size:12.8px"><span style=3D"font-size:11pt;f=
+ont-family:Calibri,sans-serif;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></s=
+pan></p><p class=3D"MsoNormal" style=3D"font-size:12.8px"><span style=3D"fo=
+nt-size:11pt;font-family:Calibri,sans-serif;color:rgb(31,73,125)">Can you h=
+elp to provide the arm64 test and configure messages to Bruce?</span></p></=
+div><div>=C2=A0</div><div>-----------</div><div><br></div><div>And I see no=
+ other email on the subject .. so I&#39;m not sure why I&#39;d have started=
+ to merge a new version.</div><div><br></div><div>Bruce</div><div><br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left-width:1px;border-left-color:rgb(204,204,204);border-left-style:solid;=
+padding-left:1ex">
+<br>
+Thanks.<br>
+<br>
+Best Regards<br>
+Zongchun<br>
+<div class=3D""><div class=3D"h5">-----Original Message-----<br>
+From: <a href=3D"mailto:zongchun.yu@nxp.com">zongchun.yu@nxp.com</a> [mailt=
+o:<a href=3D"mailto:zongchun.yu@nxp.com">zongchun.yu@nxp.com</a>]<br>
+Sent: Tuesday, April 12, 2016 4:36 PM<br>
+To: <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiza=
+tion@yoctoproject.org</a><br>
+Cc: <a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a=
+>; Zongchun Yu<br>
+Subject: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0<br>
+<br>
+From: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com">zongchun.yu@nx=
+p.com</a>&gt;<br>
+<br>
+Uprev to 1.9.0.<br>
+Enable build support for arm64.<br>
+The libcontainer is removed from the source in the new version. drop the ns=
+init install lines.<br>
 <br>
 Signed-off-by: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com">zongc=
 hun.yu@nxp.com</a>&gt;<br>
@@ -2488,8 +2471,8 @@ eferrer" target=3D"_blank">docker_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =C2=A0.../docker/files/Bump-bolt-to-v1.1.0.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
  =C2=A0| 1828 ++++++++++++++++++++<br>
 =C2=A0.../docker/files/disable_sha1sum_startup.patch=C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A041 +-<br>
-=C2=A03 files changed, 1863 insertions(+), 44 deletions(-)<br>
+=C2=A0 =C2=A021 +-<br>
+=C2=A03 files changed, 1855 insertions(+), 32 deletions(-)<br>
 =C2=A0create mode 100644 recipes-containers/docker/files/Bump-bolt-to-v1.1.=
 0.patch<br>
 <br>
@@ -2508,12 +2491,7 @@ eferrer" target=3D"_blank">docker_git.bb</a><br>
 <br>
 -SRCREV =3D &quot;7c8fca2ddb58c8d2c4fb4df31c242886df7dd257&quot;<br>
 -SRCBRANCH =3D &quot;v1.6.2&quot;<br>
-+SRCREV =3D &quot;76d6bc9a9f1690e16f3721ba165364688b626de2&quot;<br></block=
-quote><div><br></div><div>Rather than just a SRCREV, can you also supply a =
-comment that documents the version ?</div><div>The SRCREV won&#39;t mean an=
-ything to us on a glance, but a comment # v1.9.0 above it</div><div>will.</=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++SRCREV =3D &quot;76d6bc9a9f1690e16f3721ba165364688b626de2&quot;<br>
 =C2=A0SRC_URI =3D &quot;\<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/docker/docke=
 r.git;branch=3D${SRCBRANCH};nobranch=3D1" rel=3D"noreferrer" target=3D"_bla=
@@ -2534,9 +2512,7 @@ docker.git;nobranch=3D1</a> \<br>
 -LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1cc0497778922bfd6cb48721de=
 b80dc7&quot;<br>
 +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dcc2221abf0b96ea39dd68141b7=
-0f7937&quot;<br></blockquote><div><br></div><div>Any idea why this changed =
-?=C2=A0</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+0f7937&quot;<br>
 <br>
 =C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
 <br>
@@ -2572,11 +2548,7 @@ ot;amd64&quot;<br>
 64&quot; ]; then<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH=3D&qu=
 ot;arm64&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br></blockquote><div><br></div><div>Since yo=
-u are declaring ARM64 support .. that&#39;s why I&#39;m looking for test lo=
-gs and a test</div><div>summary above. Just so we can document a baseline w=
-orking config.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
 <br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Set GOPATH. See &#39;PACKAGERS.md&#39;. Don&#=
 39;t rely on<br>
@@ -2606,10 +2578,7 @@ sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
 <a href=3D"https://github.com/docker/docker/issues/14056" rel=3D"noreferrer=
 " target=3D"_blank">https://github.com/docker/docker/issues/14056</a><br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_graphdri=
-ver_btrfs exclude_graphdriver_devicemapper&#39;<br></blockquote><div><br></=
-div><div>very nice, and with an explanation .. I was working on something s=
-imilar :)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+ver_btrfs exclude_graphdriver_devicemapper&#39;<br>
 <br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # this is the unsupported built structure<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # that doesn&#39;t rely on an existing docker<b=
@@ -2621,10 +2590,7 @@ r>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0# make nsinit from libcontainer<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0go install <a href=3D"http://github.com/docker/=
 libcontainer/nsinit/" rel=3D"noreferrer" target=3D"_blank">github.com/docke=
-r/libcontainer/nsinit/</a></blockquote><div><br></div><div>Why isn&#39;t th=
-is required any more ? Not used ? I&#39;d just like to document why it is b=
-eing dropped.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+r/libcontainer/nsinit/</a><br>
 =C2=A0}<br>
 <br>
 =C2=A0inherit systemd update-rc.d<br>
@@ -2659,11 +2625,7 @@ ang@huawei.com</a>&gt;<br>
 +Subject: [PATCH] Bump bolt to v1.1.0<br>
 +<br>
 +It adds ARM64, ppc64le, s390x, solaris support, and a bunch of<br>
-+bugfixs.<br></blockquote><div><br></div><div>Is this patch from an upstrea=
-m/public repository somewhere ? Since it doesn&#39;t have your signed-off-b=
-y,</div><div>we need to link to the upstream source.</div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
++bugfixs.<br>
 +<br>
 +Signed-off-by: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com">=
 h.huangqiang@huawei.com</a>&gt;<br>
@@ -5289,38 +5251,13 @@ nc(tx.db); err !=3D nil {<br>
 +<br>
 diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patch =
 b/recipes-containers/docker/files/disable_sha1sum_startup.patch<br>
-index 580ca23..d37d7a0 100644<br>
+index 580ca23..cafd83d 100644<br>
 --- a/recipes-containers/docker/files/disable_sha1sum_startup.patch<br>
 +++ b/recipes-containers/docker/files/disable_sha1sum_startup.patch<br>
-@@ -1,31 +1,27 @@<br>
--docker engine not running<br>
-+From 12fd6388a033ab5ec9b3a7b144c4976031e6aa52 Mon Sep 17 00:00:00 2001<br>
-+From: Bogdan Purcareata &lt;<a href=3D"mailto:bogdan.purcareata@freescale.=
-com">bogdan.purcareata@freescale.com</a>&gt;<br>
-+Date: Fri, 20 Nov 2015 10:02:09 +0000<br>
-+Subject: [PATCH] disable sha1sum startup<br>
+@@ -12,20 +12,23 @@ of the binary instead.<br>
 <br>
--In yocto builds, preprocessing of binaries can happen after the install ph=
-ase.<br>
--Some of these can modify the size/sha1sum of the binaries.<br>
--e.g. A new .gnu_debuglink can happen<br>
--<br>
--docker will not start because of these modifications. Docker initially<br>
--does a sha1sum of dockerinit to identify the dockerinit that it was built<=
-br>
--with, this is done for security and for compatibility reasons. Since<br>
--this checking is disabled, we should rely on rpm tests for validation<br>
--of the binary instead.<br>
--<br>
--Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@windriver.com">amy.=
-fong@windriver.com</a>&gt;<br>
-+Signed-off-by: Bogdan Purcareata &lt;<a href=3D"mailto:bogdan.purcareata@f=
-reescale.com">bogdan.purcareata@freescale.com</a>&gt;<br></blockquote><div>=
-<br></div><div>I&#39;m confused .. why is this patch&#39;s Signed-off-by be=
-ing changed ? And you are dropping</div><div>the entire explanation of what=
- the patch does .. that doesn&#39;t look right at all.</div><div><br></div>=
-<div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+=C2=A0Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@windriver.com"=
+>amy.fong@windriver.com</a>&gt;<br>
 =C2=A0---<br>
 - utils/utils.go |=C2=A0 =C2=A017 +----------------<br>
 - 1 file changed, 1 insertion(+), 16 deletions(-)<br>
@@ -5349,7 +5286,7 @@ ing changed ? And you are dropping</div><div>the entire explanation of what=
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return path<br>
 =C2=A0 }<br>
 <br>
-@@ -46,7 +42,7 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
+@@ -46,7 +49,7 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
 ndriver.com">amy.fong@windriver.com</a>&gt;<br>
 =C2=A0 func isValidDockerInitPath(target string, selfPath string) bool { //=
  target and selfPath should be absolute (InitPath and SelfPath already do t=
@@ -5363,7 +5300,7 @@ g) bool { // target and<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return os.SameFile(=
 targetFileInfo, selfPathFileInfo)<br>
 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-@@ -54,4 +50,7 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
+@@ -54,4 +57,4 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
 ndriver.com">amy.fong@windriver.com</a>&gt;<br>
 =C2=A0+=C2=A0 =C2=A0 =C2=A0 return true<br>
 =C2=A0 }<br>
@@ -5371,15 +5308,12 @@ ndriver.com">amy.fong@windriver.com</a>&gt;<br>
 - // Figure out the path of our dockerinit (which may be SelfPath())<br>
 + // DockerInitPath figures out the path of our dockerinit (which may be Se=
 lfPath())<br>
-+--<br>
-+1.9.1<br>
-+<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+--<br>
 1.8.3.2<br>
 <br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
-er, for chaos and madness await thee at its end&quot;</div>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer=
+, for chaos and madness await thee at its end&quot;</div>
 </div></div>
 
---001a113d5edcc827de053034b524--
+--001a113c352ce07f8e0530cdceeb--
