@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 47C4DE00D23; Fri, 20 May 2016 09:32:09 -0700 (PDT)
+	id 4088EE00D23; Fri, 20 May 2016 09:33:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.218.65 listed in list.dnswl.org]
+	*      [209.85.218.66 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,48 +20,48 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-oi0-f65.google.com (mail-oi0-f65.google.com
-	[209.85.218.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B1FD0E00CE1
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AA6D3E00CE1
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 May 2016 09:32:06 -0700 (PDT)
-Received: by mail-oi0-f65.google.com with SMTP id m198so6827146oig.0
+	Fri, 20 May 2016 09:33:24 -0700 (PDT)
+Received: by mail-oi0-f66.google.com with SMTP id m198so6836047oig.0
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 May 2016 09:32:06 -0700 (PDT)
+	Fri, 20 May 2016 09:33:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=ok4Iid+y6MoqFkpzimuFQwxNcuGMxLwhrQh8rqoKLnc=;
-	b=Ad+My/OaPNvJE6dTAGmsI6R66HO6m32hwVOmZxtzXqk6PCx05NX3QlJLBKblODpgzw
-	dUGpl800iYoTFOUfASUkzmXVFQnXMAFl9aDKs6jTWqoJ/rNYXCl05pg3dV640IEWb7EU
-	OWnhHTYWJbU1a24dpMEtlW95YW3FrRVoY0egbSVOZWNX9xT3lpuk6sre6wSy1uoFMna4
-	JRQrTLUUPSKpAMq/qeBjiG3CkiTEqLURhHmK6rWkkMEA2kkhvHYw3ul4JgQFhB1/Asz9
-	laLjTTEXJk+j0Aho2oiEfFa5MW48ZHKpOtJCCmP5UOkJZtMpVncRKBF/RPcZAUMsGa9L
-	YnaQ==
+	:cc; bh=vsOKFn0KMGCig+EUk6CO/hIAfbEKRtDY91YTrP+tfng=;
+	b=07smtLMP+MPQLbFpKpeBOPILaRvwzi9Y/Y7AeDvgEpQfYhMWi2cQHCDzysmzyRZroo
+	b7s3ywTRA14Xh07nQxSlkx2OoV4Ms7kSpfwVJUmvXs9txN0enOJEuY9nWHqiUodkBYTU
+	sPsUayklOsvyMidihbm5h7VekxYlM7isCioOMh5PR1NhllaHTgK/nkuwUZizks1kjXDy
+	e9QAsCRET6g5yITS0V+GJJeX4RU8INia6cel0Zi+E/JmKQyGOdmZwyPcx36hivEC/90t
+	8dPZ/bI//fWlfhREXx7Kqkg6JnJuER8tP1NCDaZYwyFLnWseB1gwDj4P0cXRdwM9f0qe
+	vzcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:date
 	:message-id:subject:from:to:cc;
-	bh=ok4Iid+y6MoqFkpzimuFQwxNcuGMxLwhrQh8rqoKLnc=;
-	b=cHV6HOOeHLZH6ssXlptaiAWniQETRhhh4r/W6hr/n7lbdqIPD1goYnhFPhBBroYaZl
-	N6Q1Yr/sdQzIj7vj6A5Gkcnke5gXFZijGj5CqWVyuBbH6YHpbsrJg5tDIpYdgxGsFcLt
-	PYND5V+BQvSogK4/C0xsswp1ZDPFo+ocbWd0Q1C2wUU05VbNOl4gksazJnjNk+Hpd/FA
-	sVBIMey3t4FA0USZP3ZTVDHSsThiO3Mpnu8FgA+Fz8bCJfLTDVrTjSz3TJsJIpQlcomn
-	gR4YYzeG/nCKsB3muMc/gjkJRt5sz485fK8wg4ztlqciM1bzrsdOn51S/QR+tK2BgD1g
-	k05w==
-X-Gm-Message-State: AOPr4FUoQrVOjsc5T9cncmp7vWqyXf63au4Nx2gNf8KLGhvYpYZcR4NoZFOGQQp44D8Tw/5+Y3ASrLOu3GcmjQ==
+	bh=vsOKFn0KMGCig+EUk6CO/hIAfbEKRtDY91YTrP+tfng=;
+	b=F+xWKRVvt2LENkORZWIriZIQnMfeB+GKnsvNPJQ9B0We1BOALcJOsCcqApw0ggaFi/
+	32FDsuS7XlGXK5Q7V9rXRcO/cYgjhKKhRoD8PKmSiuxtrK3EERBnUh/2EXZsCx0jOXWi
+	5OaCdfEDBSqCiM5e2IOUlbzOceaWu5q1u0iiJau0zCckYOQXy00oKl1xKwg6EfodBqBa
+	VBZuRIfe2GkD8Wk7FqO1/Qt9ZyWvHQoenf7oLsFYEgBVflbRozs6I2nhHK0ygRqKC7ES
+	dIl8XZIzTHV3lImvbXMWlNo5nC4kSbHsl3J1g0z5Vdp4QqwoN/OCrbmQ2g9bv80ksqXc
+	QUEg==
+X-Gm-Message-State: AOPr4FVGDzLHyhUSXteBZtpMZSaBAJfGT68dDlz8+7YftYa3wonbGZy+Cvb8S6awMkU7Q7P/7a8er03c/3PU6A==
 MIME-Version: 1.0
-X-Received: by 10.157.46.67 with SMTP id c3mr2456772otd.14.1463761925197; Fri,
-	20 May 2016 09:32:05 -0700 (PDT)
-Received: by 10.157.32.198 with HTTP; Fri, 20 May 2016 09:32:05 -0700 (PDT)
-In-Reply-To: <1463644024-217045-1-git-send-email-xulin.sun@windriver.com>
-References: <1463644024-217045-1-git-send-email-xulin.sun@windriver.com>
-Date: Fri, 20 May 2016 12:32:05 -0400
-Message-ID: <CADkTA4MiCLPhXd50wLXANXVQw4k_HX8qbJTZmpSXiAhgLfqbjw@mail.gmail.com>
+X-Received: by 10.202.74.17 with SMTP id x17mr2250357oia.143.1463762003866;
+	Fri, 20 May 2016 09:33:23 -0700 (PDT)
+Received: by 10.157.32.198 with HTTP; Fri, 20 May 2016 09:33:23 -0700 (PDT)
+In-Reply-To: <1463726055-4807-1-git-send-email-zhe.he@windriver.com>
+References: <1463726055-4807-1-git-send-email-zhe.he@windriver.com>
+Date: Fri, 20 May 2016 12:33:23 -0400
+Message-ID: <CADkTA4OP4Xr3jMtvY4k23BJsatKTbGM4X5aas33fzrQ_0arPkw@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Xulin Sun <xulin.sun@windriver.com>
+To: He Zhe <zhe.he@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] cloud-init: fix installed-vs-shipped issue by creating a separate package
+Subject: Re: [meta-cloud-services][PATCH] python-repoze: Add license to avoid warning
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,59 +74,94 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 May 2016 16:32:09 -0000
-Content-Type: multipart/alternative; boundary=001a113d10ec96625c053348a18c
+X-List-Received-Date: Fri, 20 May 2016 16:33:27 -0000
+Content-Type: multipart/alternative; boundary=001a1134fe7c46baba053348a6b0
 
---001a113d10ec96625c053348a18c
+--001a1134fe7c46baba053348a6b0
 Content-Type: text/plain; charset=UTF-8
 
 merged to master.
 
 Bruce
 
-On Thu, May 19, 2016 at 3:47 AM, Xulin Sun <xulin.sun@windriver.com> wrote:
+On Fri, May 20, 2016 at 2:34 AM, <zhe.he@windriver.com> wrote:
 
-> This solves the following issue by creating a separate package to put the
-> below files:
+> From: He Zhe <zhe.he@windriver.com>
 >
-> QA Issue: cloud-init: Files/directories were installed but not shipped
-> in any package:
->  /lib
->  /lib/systemd
->  /lib/systemd/system
->  /lib/systemd/system/cloud-init.service
->  /lib/systemd/system/cloud-config.target
->  /lib/systemd/system/cloud-config.service
->  /lib/systemd/system/cloud-init-local.service
->  /lib/systemd/system/cloud-final.service
+> "WARNING: python-repoze.who: No generic license file exists for:
+> BSD-derived in
+> any provider"
 >
-> Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
+> Add BSD Modification Variant license
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
 > ---
->  meta-openstack/recipes-extended/cloud-init/cloud-init_0.7.6.bb | 4 ++++
->  1 file changed, 4 insertions(+)
+>  meta-openstack/licenses/BSD-Modification           | 35
+> ++++++++++++++++++++++
+>  .../python/python-repoze.who_2.2.bb                |  2 +-
+>  2 files changed, 36 insertions(+), 1 deletion(-)
+>  create mode 100644 meta-openstack/licenses/BSD-Modification
 >
-> diff --git a/meta-openstack/recipes-extended/cloud-init/
-> cloud-init_0.7.6.bb b/meta-openstack/recipes-extended/cloud-init/
-> cloud-init_0.7.6.bb
-> index ea6752c..457ff93 100644
-> --- a/meta-openstack/recipes-extended/cloud-init/cloud-init_0.7.6.bb
-> +++ b/meta-openstack/recipes-extended/cloud-init/cloud-init_0.7.6.bb
-> @@ -42,9 +42,13 @@ CHEF_SERVICES_CONF_FILES := " \
->      ${sysconfdir}/cloud/cloud.cfg \
->      "
->
-> +PACKAGES += "${PN}-systemd"
+> diff --git a/meta-openstack/licenses/BSD-Modification
+> b/meta-openstack/licenses/BSD-Modification
+> new file mode 100644
+> index 0000000..f74b496
+> --- /dev/null
+> +++ b/meta-openstack/licenses/BSD-Modification
+> @@ -0,0 +1,35 @@
+> +Redistribution and use in source and binary forms, with or without
+> +modification, are permitted provided that the following conditions are
+> +met:
 > +
->  FILES_${PN} += "${sysconfdir}/* \
->                  ${datadir}/*"
->
-> +FILES_${PN}-systemd += "${systemd_unitdir}/*"
+> +1.  Redistributions in source code must retain the accompanying
+> +    copyright notice, this list of conditions, and the following
+> +    disclaimer.
 > +
->  INITSCRIPT_PACKAGES = "${PN}"
->  INITSCRIPT_NAME_${BPN} = "cloud-init"
+> +2.  Redistributions in binary form must reproduce the accompanying
+> +    copyright notice, this list of conditions, and the following
+> +    disclaimer in the documentation and/or other materials provided
+> +    with the distribution.
+> +
+> +3.  Names of the copyright holders must not be used to endorse or
+> +    promote products derived from this software without prior
+> +    written permission from the copyright holders.
+> +
+> +4.  If any files are modified, you must cause the modified files to
+> +    carry prominent notices stating that you changed the files and
+> +    the date of any change.
+> +
+> +Disclaimer
+> +
+> +  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND
+> +  ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+> +  TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+> +  PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+> +  HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+> +  EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+> +  TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+> +  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+> +  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
+> +  TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
+> +  THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+> +  SUCH DAMAGE.
+> diff --git a/meta-openstack/recipes-devtools/python/
+> python-repoze.who_2.2.bb b/meta-openstack/recipes-devtools/python/
+> python-repoze.who_2.2.bb
+> index 35e5821..0bd1d42 100644
+> --- a/meta-openstack/recipes-devtools/python/python-repoze.who_2.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-repoze.who_2.2.bb
+> @@ -1,7 +1,7 @@
+>  DESCRIPTION = "An identification and authentication framework for WSGI"
+>  HOMEPAGE = "http://repoze.org/"
+>  SECTION = "devel/python"
+> -LICENSE = "BSD-derived"
+> +LICENSE = "BSD-Modification"
+>  LIC_FILES_CHKSUM =
+> "file://LICENSE.txt;md5=2c33cdbc6bc9ae6e5d64152fdb754292"
+>
 >
 > --
-> 2.8.1
+> 1.9.1
 >
 > --
 > _______________________________________________
@@ -141,67 +176,116 @@ On Thu, May 19, 2016 at 3:47 AM, Xulin Sun <xulin.sun@windriver.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a113d10ec96625c053348a18c
+--001a1134fe7c46baba053348a6b0
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">merged to master.<div><br></div><div>Bruce</div></div><div=
- class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, May 19, 2016 =
-at 3:47 AM, Xulin Sun <span dir=3D"ltr">&lt;<a href=3D"mailto:xulin.sun@win=
-driver.com" target=3D"_blank">xulin.sun@windriver.com</a>&gt;</span> wrote:=
-<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">This solves the following issue by creat=
-ing a separate package to put the<br>
-below files:<br>
+ class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, May 20, 2016 =
+at 2:34 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailto:zhe.he@windriver.com" =
+target=3D"_blank">zhe.he@windriver.com</a>&gt;</span> wrote:<br><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex">From: He Zhe &lt;<a href=3D"mailto:zhe.he@windriver.com=
+">zhe.he@windriver.com</a>&gt;<br>
 <br>
-QA Issue: cloud-init: Files/directories were installed but not shipped<br>
-in any package:<br>
-=C2=A0/lib<br>
-=C2=A0/lib/systemd<br>
-=C2=A0/lib/systemd/system<br>
-=C2=A0/lib/systemd/system/cloud-init.service<br>
-=C2=A0/lib/systemd/system/cloud-config.target<br>
-=C2=A0/lib/systemd/system/cloud-config.service<br>
-=C2=A0/lib/systemd/system/cloud-init-local.service<br>
-=C2=A0/lib/systemd/system/cloud-final.service<br>
+&quot;WARNING: python-repoze.who: No generic license file exists for: BSD-d=
+erived in<br>
+any provider&quot;<br>
 <br>
-Signed-off-by: Xulin Sun &lt;<a href=3D"mailto:xulin.sun@windriver.com">xul=
-in.sun@windriver.com</a>&gt;<br>
+Add BSD Modification Variant license<br>
+<br>
+Signed-off-by: He Zhe &lt;<a href=3D"mailto:zhe.he@windriver.com">zhe.he@wi=
+ndriver.com</a>&gt;<br>
 ---<br>
-=C2=A0meta-openstack/recipes-extended/cloud-init/<a href=3D"http://cloud-in=
-it_0.7.6.bb" rel=3D"noreferrer" target=3D"_blank">cloud-init_0.7.6.bb</a> |=
- 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
+=C2=A0meta-openstack/licenses/BSD-Modification=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 35 ++++++++++++++++++++++<br>
+=C2=A0.../python/<a href=3D"http://python-repoze.who_2.2.bb" rel=3D"norefer=
+rer" target=3D"_blank">python-repoze.who_2.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
+=C2=A02 files changed, 36 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 meta-openstack/licenses/BSD-Modification<br>
 <br>
-diff --git a/meta-openstack/recipes-extended/cloud-init/<a href=3D"http://c=
-loud-init_0.7.6.bb" rel=3D"noreferrer" target=3D"_blank">cloud-init_0.7.6.b=
-b</a> b/meta-openstack/recipes-extended/cloud-init/<a href=3D"http://cloud-=
-init_0.7.6.bb" rel=3D"noreferrer" target=3D"_blank">cloud-init_0.7.6.bb</a>=
-<br>
-index ea6752c..457ff93 100644<br>
---- a/meta-openstack/recipes-extended/cloud-init/<a href=3D"http://cloud-in=
-it_0.7.6.bb" rel=3D"noreferrer" target=3D"_blank">cloud-init_0.7.6.bb</a><b=
-r>
-+++ b/meta-openstack/recipes-extended/cloud-init/<a href=3D"http://cloud-in=
-it_0.7.6.bb" rel=3D"noreferrer" target=3D"_blank">cloud-init_0.7.6.bb</a><b=
-r>
-@@ -42,9 +42,13 @@ CHEF_SERVICES_CONF_FILES :=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0${sysconfdir}/cloud/cloud.cfg \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-+PACKAGES +=3D &quot;${PN}-systemd&quot;<br>
+diff --git a/meta-openstack/licenses/BSD-Modification b/meta-openstack/lice=
+nses/BSD-Modification<br>
+new file mode 100644<br>
+index 0000000..f74b496<br>
+--- /dev/null<br>
++++ b/meta-openstack/licenses/BSD-Modification<br>
+@@ -0,0 +1,35 @@<br>
++Redistribution and use in source and binary forms, with or without<br>
++modification, are permitted provided that the following conditions are<br>
++met:<br>
 +<br>
-=C2=A0FILES_${PN} +=3D &quot;${sysconfdir}/* \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${datadir}/*&=
-quot;<br>
++1.=C2=A0 Redistributions in source code must retain the accompanying<br>
++=C2=A0 =C2=A0 copyright notice, this list of conditions, and the following=
 <br>
-+FILES_${PN}-systemd +=3D &quot;${systemd_unitdir}/*&quot;<br>
++=C2=A0 =C2=A0 disclaimer.<br>
 +<br>
-=C2=A0INITSCRIPT_PACKAGES =3D &quot;${PN}&quot;<br>
-=C2=A0INITSCRIPT_NAME_${BPN} =3D &quot;cloud-init&quot;<br>
++2.=C2=A0 Redistributions in binary form must reproduce the accompanying<br=
+>
++=C2=A0 =C2=A0 copyright notice, this list of conditions, and the following=
+<br>
++=C2=A0 =C2=A0 disclaimer in the documentation and/or other materials provi=
+ded<br>
++=C2=A0 =C2=A0 with the distribution.<br>
++<br>
++3.=C2=A0 Names of the copyright holders must not be used to endorse or<br>
++=C2=A0 =C2=A0 promote products derived from this software without prior<br=
+>
++=C2=A0 =C2=A0 written permission from the copyright holders.<br>
++<br>
++4.=C2=A0 If any files are modified, you must cause the modified files to<b=
+r>
++=C2=A0 =C2=A0 carry prominent notices stating that you changed the files a=
+nd<br>
++=C2=A0 =C2=A0 the date of any change.<br>
++<br>
++Disclaimer<br>
++<br>
++=C2=A0 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS&#39;&#39=
+; AND<br>
++=C2=A0 ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED<br>
++=C2=A0 TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A<br>
++=C2=A0 PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT<=
+br>
++=C2=A0 HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,<br=
+>
++=C2=A0 EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED<br>
++=C2=A0 TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,<br>
++=C2=A0 DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON<b=
+r>
++=C2=A0 ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR<=
+br>
++=C2=A0 TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF<=
+br>
++=C2=A0 THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF<br>
++=C2=A0 SUCH DAMAGE.<br>
+diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
+n-repoze.who_2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-repoze.who=
+_2.2.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://pyth=
+on-repoze.who_2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-repoze.wh=
+o_2.2.bb</a><br>
+index 35e5821..0bd1d42 100644<br>
+--- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-repoz=
+e.who_2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-repoze.who_2.2.bb=
+</a><br>
++++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-repoz=
+e.who_2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-repoze.who_2.2.bb=
+</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0DESCRIPTION =3D &quot;An identification and authentication framework =
+for WSGI&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://repoze.org/" rel=3D"noreferrer" =
+target=3D"_blank">http://repoze.org/</a>&quot;<br>
+=C2=A0SECTION =3D &quot;devel/python&quot;<br>
+-LICENSE =3D &quot;BSD-derived&quot;<br>
++LICENSE =3D &quot;BSD-Modification&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D2c33cdbc6bc9ae6e5=
+d64152fdb754292&quot;<br>
 <span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
 --<br>
-2.8.1<br>
+1.9.1<br>
 <br>
 --<br>
 _______________________________________________<br>
@@ -216,4 +300,4 @@ r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
 er, for chaos and madness await thee at its end&quot;</div>
 </div>
 
---001a113d10ec96625c053348a18c--
+--001a1134fe7c46baba053348a6b0--
