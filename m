@@ -1,36 +1,60 @@
-Return-Path: <Rongqing.Li@windriver.com>
+Return-Path: <vomegaz@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 516E2E00972; Mon, 23 May 2016 22:28:12 -0700 (PDT)
+	id 84489E00CDC; Wed, 25 May 2016 01:32:49 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [74.125.82.66 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 20338E00948
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ACB8DE00CD0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 23 May 2016 22:28:08 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u4O5S7TP003851
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 25 May 2016 01:32:48 -0700 (PDT)
+Received: by mail-wm0-f66.google.com with SMTP id 67so13106691wmg.0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 23 May 2016 22:28:07 -0700 (PDT)
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.248.2; Mon, 23 May 2016 22:28:06 -0700
-From: <rongqing.li@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 24 May 2016 13:28:00 +0800
-Message-ID: <1464067680-18093-1-git-send-email-rongqing.li@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [PATCH] libvirt-python: backport a patch to fix crash in getAllDomainStats
+	Wed, 25 May 2016 01:32:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=M2wVAACvMVExiNSUs3xC/Pf0wmjyRdmI2+mjt6aj2aE=;
+	b=IJPJfr/U1bEa9UpFLPgJQRcXPnwMyHMuInvBOaHCc68S6I/qn0DPGYHJK7BfXkEoh7
+	wZZvgVVObMqGslW7v4v8ATIo1cd1tfAPEILgXcDasscVslnfwrcd4hKnpfJ82ST3ZoWy
+	teZUjU3amQaf7Mtt8bLhjljgUeOBAiPcEauPo0WHzYse2uBzHeHIKF23e7sVfwQDwFPY
+	gQnZZpjp+1W4nMC9rpFNkcIdwW+qDaN89wqD4jwXlMFtK4SCtOhVrv5zHgJ6PfQHTrc+
+	SjhP8FcPHi9HoM/7a2KGJr7uT+63MFRitwjNQKJeV122rLOtykBs+Gj9yPtyurONTzUU
+	61mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=M2wVAACvMVExiNSUs3xC/Pf0wmjyRdmI2+mjt6aj2aE=;
+	b=hG9mEzbS08rrQH8JYUp29Wbmay8YoziUcoMQbuKVi8P2BWGPoYTpN6ShT8mtnhaqF0
+	1LcKVieTtA233LMiccdtZhd3phQf6q1u/TyHVs31WEDRjXylmeA8FikkUOhlWG99o6hY
+	Kmjur2oqND0sP5JsPlo52hcFqaIJqoEE8nYRDenvA9s3aoC4Nqel/ED5xjjVCnO9wz0k
+	b5gydXBDEZszHzHW22ivELd37BFbqvbqIuC7rSSJ1vl2G+weputHKAVBMj/7PaEKnQ5I
+	VTv9Xd4vPFqxCaoIakUuLqhmKlmwWR0WZVUxGIIjU4qGycncuZ/TEPLPQwODXk+SL3ui
+	POqQ==
+X-Gm-Message-State: ALyK8tLhNXqrXCnZ4z1OVJh7OTeOToXOfBmQXxhjdPPfxxldJ2g5t/MHA3iBycYyJpU5Jg==
+X-Received: by 10.28.175.143 with SMTP id y137mr2001342wme.21.1464165167907;
+	Wed, 25 May 2016 01:32:47 -0700 (PDT)
+Received: from sgxcmp131.sigfox.io ([217.114.201.133])
+	by smtp.gmail.com with ESMTPSA id
+	x124sm7896765wmg.24.2016.05.25.01.32.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 25 May 2016 01:32:46 -0700 (PDT)
+Sender: Thomas PERROT <vomegaz@gmail.com>
+From: Thomas Perrot <thomas.perrot@tupi.fr>
+To: meta-virtualization@yoctoproject.org
+Date: Wed, 25 May 2016 10:32:44 +0200
+Message-Id: <1464165164-27601-1-git-send-email-thomas.perrot@tupi.fr>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] Use bb.utils.contains instead of base_contains because it is deprecated
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,94 +67,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 May 2016 05:28:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 25 May 2016 08:32:49 -0000
 
-From: Roy Li <rongqing.li@windriver.com>
-
-Signed-off-by: Roy Li <rongqing.li@windriver.com>
+Signed-off-by: Thomas Perrot <thomas.perrot@tupi.fr>
 ---
- recipes-extended/libvirt/libvirt-python.inc        |  1 +
- .../0001-fix-crash-in-getAllDomainStats.patch      | 57 ++++++++++++++++++++++
- 2 files changed, 58 insertions(+)
- create mode 100644 recipes-extended/libvirt/libvirt/0001-fix-crash-in-getAllDomainStats.patch
+ recipes-containers/containerd/containerd_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index c1dafe9..405d5f7 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -17,6 +17,7 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+diff --git a/recipes-containers/containerd/containerd_git.bb b/recipes-containers/containerd/containerd_git.bb
+index 46b9dc1..1a2c445 100644
+--- a/recipes-containers/containerd/containerd_git.bb
++++ b/recipes-containers/containerd/containerd_git.bb
+@@ -59,8 +59,8 @@ do_compile() {
  
- SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
- SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
-+SRC_URI += "file://0001-fix-crash-in-getAllDomainStats.patch;patchdir=../libvirt-python-${PV}"
+ # Note: disabled for now, since docker is launching containerd
+ # inherit systemd
+-# SYSTEMD_PACKAGES = "${@base_contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
+-# SYSTEMD_SERVICE_${PN} = "${@base_contains('DISTRO_FEATURES','systemd','containerd.service','',d)}"
++# SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
++# SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','containerd.service','',d)}"
  
- SRC_URI[libvirt_python.md5sum] = "ed018c714d7ddbe93221c796dff283ed"
- SRC_URI[libvirt_python.sha256sum] = "6d35ae9e7801573393b9c92471f39e6700d479f10b641df81d041b469f160bf8"
-diff --git a/recipes-extended/libvirt/libvirt/0001-fix-crash-in-getAllDomainStats.patch b/recipes-extended/libvirt/libvirt/0001-fix-crash-in-getAllDomainStats.patch
-new file mode 100644
-index 0000000..0583a94
---- /dev/null
-+++ b/recipes-extended/libvirt/libvirt/0001-fix-crash-in-getAllDomainStats.patch
-@@ -0,0 +1,57 @@
-+From e9c4e2abffef007a28112ebb40a9586b0128f10b Mon Sep 17 00:00:00 2001
-+From: Pavel Hrdina <phrdina@redhat.com>
-+Date: Mon, 18 Apr 2016 16:53:50 +0200
-+Subject: [PATCH] fix crash in getAllDomainStats
-+
-+Upstream-Status: Backport
-+
-+Commits 1d39dbaf and 827ed9b4 broke the libvirt-python API by removing
-+virDomainRef() and virDomainFree().  virDomainStatsRecordListFree() will
-+free that domain pointer and later when virDomain (python object) call
-+its destructor and tries to free that same pointer again.
-+
-+Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1326839
-+
-+Signed-off-by: Pavel Hrdina <phrdina@redhat.com>
-+---
-+ libvirt-override.c | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
-+
-+diff --git a/libvirt-override.c b/libvirt-override.c
-+index 4640ed5..2de95ce 100644
-+--- a/libvirt-override.c
-++++ b/libvirt-override.c
-+@@ -8381,6 +8381,7 @@ convertDomainStatsRecord(virDomainStatsRecordPtr *records,
-+     PyObject *py_retval;
-+     PyObject *py_record;
-+     PyObject *py_record_stats = NULL;
-++    virDomainPtr dom = NULL;
-+     size_t i;
-+ 
-+     if (!(py_retval = PyList_New(nrecords)))
-+@@ -8392,9 +8393,12 @@ convertDomainStatsRecord(virDomainStatsRecordPtr *records,
-+ 
-+         VIR_PY_LIST_SET_GOTO(py_retval, i, py_record, error);
-+ 
-++        dom = records[i]->dom;
-++        virDomainRef(dom);
-+         VIR_PY_TUPLE_SET_GOTO(py_record, 0,
-+-                              libvirt_virDomainPtrWrap(records[i]->dom),
-++                              libvirt_virDomainPtrWrap(dom),
-+                               error);
-++        dom = NULL;
-+ 
-+         if (!(py_record_stats = getPyVirTypedParameter(records[i]->params,
-+                                                        records[i]->nparams)))
-+@@ -8406,6 +8410,8 @@ convertDomainStatsRecord(virDomainStatsRecordPtr *records,
-+     return py_retval;
-+ 
-+  error:
-++    if (dom)
-++        virDomainFree(dom);
-+     Py_XDECREF(py_retval);
-+     return NULL;
-+ }
-+-- 
-+2.8.1
-+
+ do_install() {
+ 	mkdir -p ${D}/${bindir}
+@@ -73,7 +73,7 @@ do_install() {
+ 	ln -sf containerd-shim ${D}/${bindir}/docker-containerd-shim
+ 	ln -sf containerd-ctr ${D}/${bindir}/docker-containerd-ctr
+ 
+-	if ${@base_contains('DISTRO_FEATURES','systemd','true','false',d)}; then
++	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+ 		install -d ${D}${systemd_unitdir}/system
+ 		install -m 644 ${S}/hack/containerd.service ${D}/${systemd_unitdir}/system
+ 	        # adjust from /usr/local/bin to /usr/bin/
 -- 
-2.8.1
+2.1.4
 
 
