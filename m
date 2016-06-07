@@ -1,33 +1,67 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9E615E00B97; Mon,  6 Jun 2016 22:48:06 -0700 (PDT)
+	id 5A2A8E00BCE; Tue,  7 Jun 2016 06:23:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 61521E00B5F
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.218.66 listed in list.dnswl.org]
+Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
+	[209.85.218.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A3CE7E00B5F
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  6 Jun 2016 22:48:01 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u575lxFT003924
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
-	Mon, 6 Jun 2016 22:48:00 -0700
-Received: from PEK-ZHE-D1.wrs.com (128.224.162.234) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Mon, 6 Jun 2016 22:47:58 -0700
-From: <zhe.he@windriver.com>
-To: <bruce.ashfield@gmail.com>
-Date: Tue, 7 Jun 2016 13:47:56 +0800
-Message-ID: <1465278476-9876-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Tue,  7 Jun 2016 06:23:03 -0700 (PDT)
+Received: by mail-oi0-f66.google.com with SMTP id n3so14520237oig.3
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 07 Jun 2016 06:23:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=rqi3eqEnd2MubRsti17NmyEOmA7UQu0mykhTxkXgCCE=;
+	b=fTWjln/ReahTjywCSRy31eik6pJ+bdgs2OXohqeQZciR/z//k+YMo6w8HVDc8/cu97
+	W6GP0BF6MbeT1XiK8qdgKZ2Y4rOOedsBObS2RobS2wh92CiKHPD6QIt3Le0BrjG0Kke4
+	ytrpGCLHqq10dRsDTM/qFZ5zHQ/w6rFFMKiuPhKLfWiTDQy4HeA4jxhq+1BFQoOvz3SP
+	NNTuFCrHZ3YTV3UFIQMFBEOmvHhKEOctHXkvKM0/bEA+yJrVu+DqpGPl+6LwPMVRMTre
+	JqP42cSw2WCPevYBL1vrM4WJNghuN2WsQ6alfmhNzw2Vp0TGLPSusuv8cOd0heV2/IL2
+	EHng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=rqi3eqEnd2MubRsti17NmyEOmA7UQu0mykhTxkXgCCE=;
+	b=R9tB2apy8ZOAUnDlOvlgtFFvw7PMzCX0VEL0/AiJPXNd9T5NohUl69WuOdC7odSlvo
+	LE3cJJv9IT2e3YtYz2tPeLXfNcP3LpwaO0AA5ehrlsjri6xv0s500/HtLuXv+YXX1+dV
+	tQ+qlZNJWM0vapQtp4Zsx3foSB6Xgp9FTjqMpVrO2blhNp2V0TKD5SBf8v9I1N3qkNCW
+	+3jU0MMrjwaFXy5vPm6YkV+0QL126PZqbLeoBHNmid7gnFnXjGAN3LCQ1B5Yqb0dbGQE
+	GUamTHFPshupRChi9UeHyXNUjvJIhGyhRIQdhffPn6tf9PdPKj3yLtwbTV4Y34ANSiN/
+	a0eg==
+X-Gm-Message-State: ALyK8tKkvbTgjQGy1Hqk/zFdOmqMbkOQ8qzwW+L3vici4aty70/7Fttkc+LW8en6AO23CvertLvmUMPaoIVnww==
+X-Received: by 10.157.51.21 with SMTP id f21mr10717684otc.8.1465305782419;
+	Tue, 07 Jun 2016 06:23:02 -0700 (PDT)
 MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org
-Subject: [meta-cloud-services] [PATCH] python-repoze.lru: Add license to avoid warning
+Received: by 10.157.33.117 with HTTP; Tue, 7 Jun 2016 06:23:01 -0700 (PDT)
+In-Reply-To: <1465264026-66571-1-git-send-email-xulin.sun@windriver.com>
+References: <1465264026-66571-1-git-send-email-xulin.sun@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 7 Jun 2016 09:23:01 -0400
+Message-ID: <CADkTA4P1cJ=v0sW6rRjJt8oQ20kox=gnuJtX0DcBTwb2HkLpqw@mail.gmail.com>
+To: Xulin Sun <xulin.sun@windriver.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] python-keystone: fix QA warning of host uid contamination
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -40,84 +74,140 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jun 2016 05:48:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 07 Jun 2016 13:23:05 -0000
+Content-Type: multipart/alternative; boundary=001a113e1bf0a605190534b016ab
 
-From: He Zhe <zhe.he@windriver.com>
+--001a113e1bf0a605190534b016ab
+Content-Type: text/plain; charset=UTF-8
 
-"WARNING: python-repoze.lru: No generic license file exists for:
-BSD-derived in any provider"
+On Mon, Jun 6, 2016 at 9:47 PM, Xulin Sun <xulin.sun@windriver.com> wrote:
 
-Add BSD Modification Variant license with copyright descriptions.
+> QA Issue: python-keystone:
+>
+> /keystone/usr/share/openstack-dashboard/openstack_dashboard/api/keystone-httpd.py
+> is owned by gid 100, which is the same as the user running bitbake. This
+> may be
+> due to host contamination [host-user-contaminated]
+>
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta-openstack/licenses/BSD-Modification-copyright | 41 ++++++++++++++++++++++
- .../python/python-repoze.lru_0.6.bb                |  2 +-
- 2 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta-openstack/licenses/BSD-Modification-copyright
+merged.
 
-diff --git a/meta-openstack/licenses/BSD-Modification-copyright b/meta-openstack/licenses/BSD-Modification-copyright
-new file mode 100644
-index 0000000..5ced96e
---- /dev/null
-+++ b/meta-openstack/licenses/BSD-Modification-copyright
-@@ -0,0 +1,41 @@
-+License
-+
-+  A copyright notice accompanies this license document that identifies
-+  the copyright holders.
-+
-+  Redistribution and use in source and binary forms, with or without
-+  modification, are permitted provided that the following conditions are
-+  met:
-+
-+  1.  Redistributions in source code must retain the accompanying
-+      copyright notice, this list of conditions, and the following
-+      disclaimer.
-+
-+  2.  Redistributions in binary form must reproduce the accompanying
-+      copyright notice, this list of conditions, and the following
-+      disclaimer in the documentation and/or other materials provided
-+      with the distribution.
-+
-+  3.  Names of the copyright holders must not be used to endorse or
-+      promote products derived from this software without prior
-+      written permission from the copyright holders.
-+
-+  4.  If any files are modified, you must cause the modified files to
-+      carry prominent notices stating that you changed the files and
-+      the date of any change.
-+
-+  Disclaimer
-+
-+    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND
-+    ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
-+    TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
-+    PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-+    HOLDERS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-+    EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
-+    TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-+    DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
-+    ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
-+    TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF
-+    THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-+    SUCH DAMAGE.
-+
-diff --git a/meta-openstack/recipes-devtools/python/python-repoze.lru_0.6.bb b/meta-openstack/recipes-devtools/python/python-repoze.lru_0.6.bb
-index 60a749f..bdf2f25 100644
---- a/meta-openstack/recipes-devtools/python/python-repoze.lru_0.6.bb
-+++ b/meta-openstack/recipes-devtools/python/python-repoze.lru_0.6.bb
-@@ -5,7 +5,7 @@ than keys and values that are used frequently. \
- "
- HOMEPAGE = "https://pypi.python.org/pypi/repoze.lru"
- SECTION = "devel/python"
--LICENSE = "BSD-derived"
-+LICENSE = "BSD-Modification-copyright"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2c33cdbc6bc9ae6e5d64152fdb754292"
- 
- SRCNAME = "repoze.lru"
+Bruce
+
+
+>
+> Signed-off-by: Xulin Sun <xulin.sun@windriver.com>
+> ---
+>  meta-openstack/recipes-devtools/python/python-keystone_git.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
+> b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
+> index a8d1181..4bd739a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
+> @@ -91,11 +91,11 @@ do_install_append() {
+>          ${KEYSTONE_CONF_DIR}/policy.json
+>      install -m 644 ${S}${sysconfdir}/keystone-paste.ini \
+>          ${KEYSTONE_CONF_DIR}/keystone-paste.ini
+> -    install -g users -m 644 ${S}/httpd/keystone.py \
+> +    install -m 644 ${S}/httpd/keystone.py \
+>          ${KEYSTONE_PY_DIR}/keystone-httpd.py
+> -    install -g users -m 644 ${S}/httpd/keystone.py \
+> +    install -m 644 ${S}/httpd/keystone.py \
+>          ${KEYSTONE_CGI_DIR}/admin
+> -    install -g users -m 644 ${S}/httpd/keystone.py \
+> +    install -m 644 ${S}/httpd/keystone.py \
+>          ${KEYSTONE_CGI_DIR}/main
+>
+>      cp -r ${S}/examples ${KEYSTONE_PACKAGE_DIR}
+> --
+> 2.5.0
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+
+
 -- 
-2.8.1
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a113e1bf0a605190534b016ab
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Mon, Jun 6, 2016 at 9:47 PM, Xulin Sun <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:xulin.sun@windriver.com" target=3D"_blank">xulin.sun@windriver.c=
+om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">QA Issue: python=
+-keystone:<br>
+/keystone/usr/share/openstack-dashboard/openstack_dashboard/api/keystone-ht=
+tpd.py<br>
+is owned by gid 100, which is the same as the user running bitbake. This ma=
+y be<br>
+due to host contamination [host-user-contaminated]<br></blockquote><div><br=
+></div><div>merged.<br><br></div><div>Bruce<br></div><div>=C2=A0</div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">
+<br>
+Signed-off-by: Xulin Sun &lt;<a href=3D"mailto:xulin.sun@windriver.com">xul=
+in.sun@windriver.com</a>&gt;<br>
+---<br>
+=C2=A0meta-openstack/recipes-devtools/python/<a href=3D"http://python-keyst=
+one_git.bb" rel=3D"noreferrer" target=3D"_blank">python-keystone_git.bb</a>=
+ | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
+n-keystone_git.bb" rel=3D"noreferrer" target=3D"_blank">python-keystone_git=
+.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-k=
+eystone_git.bb" rel=3D"noreferrer" target=3D"_blank">python-keystone_git.bb=
+</a><br>
+index a8d1181..4bd739a 100644<br>
+--- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-keyst=
+one_git.bb" rel=3D"noreferrer" target=3D"_blank">python-keystone_git.bb</a>=
+<br>
++++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-keyst=
+one_git.bb" rel=3D"noreferrer" target=3D"_blank">python-keystone_git.bb</a>=
+<br>
+@@ -91,11 +91,11 @@ do_install_append() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${KEYSTONE_CONF_DIR}/policy.json<br>
+=C2=A0 =C2=A0 =C2=A0install -m 644 ${S}${sysconfdir}/keystone-paste.ini \<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${KEYSTONE_CONF_DIR}/keystone-paste.ini<b=
+r>
+-=C2=A0 =C2=A0 install -g users -m 644 ${S}/httpd/keystone.py \<br>
++=C2=A0 =C2=A0 install -m 644 ${S}/httpd/keystone.py \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${KEYSTONE_PY_DIR}/keystone-httpd.py<br>
+-=C2=A0 =C2=A0 install -g users -m 644 ${S}/httpd/keystone.py \<br>
++=C2=A0 =C2=A0 install -m 644 ${S}/httpd/keystone.py \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${KEYSTONE_CGI_DIR}/admin<br>
+-=C2=A0 =C2=A0 install -g users -m 644 ${S}/httpd/keystone.py \<br>
++=C2=A0 =C2=A0 install -m 644 ${S}/httpd/keystone.py \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${KEYSTONE_CGI_DIR}/main<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0cp -r ${S}/examples ${KEYSTONE_PACKAGE_DIR}<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.5.0<br>
+<br>
+--<br>
+_______________________________________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/listinfo/m=
+eta-virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
+ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
+t;</div>
+</div></div>
+
+--001a113e1bf0a605190534b016ab--
