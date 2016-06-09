@@ -1,37 +1,59 @@
-Return-Path: <Kexin.Hao@windriver.com>
+Return-Path: <fabio.berton@ossystems.com.br>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2B6E2E00CF1; Wed,  8 Jun 2016 16:25:49 -0700 (PDT)
+	id 5A6AAE00D44; Thu,  9 Jun 2016 05:48:23 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HTML_MESSAGE,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.215.51 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C0007E00CE8
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
+	[209.85.215.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F4200E00D3B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  8 Jun 2016 16:25:45 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u58NPhES000226
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  9 Jun 2016 05:48:19 -0700 (PDT)
+Received: by mail-lf0-f51.google.com with SMTP id u74so25560691lff.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 8 Jun 2016 16:25:44 -0700 (PDT)
-Received: from pek-lpggp4.wrs.com (128.224.153.77) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 8 Jun 2016 16:25:42 -0700
-From: Kevin Hao <kexin.hao@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, Bruce Ashfield
-	<bruce.ashfield@windriver.com>
-Date: Thu, 9 Jun 2016 07:25:34 +0800
-Message-ID: <1465428334-137696-1-git-send-email-kexin.hao@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Thu, 09 Jun 2016 05:48:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=+Tjunb5ibPWJgBzYyfk0U+8KI4T6IsatLFE0ZHz6Txc=;
+	b=Obxsxxe531RxMmIDpx83wbdMPuCsdwsUKH0k4p4NPO/ns66CZmuEm8ZwLIrG35+aJo
+	v37WaaIYCdM9vlQzi1UA9Ng/t932VkdadLVfNGJsAhmvO05xwL0dYCnBsWvpOnHNRWCC
+	V9HsEI2wQG5Rl5Qh0uidp9FxGd5FxCaeacVF9vztSICmCWbXIac8eXG+EPz2aBCFj3j9
+	CHqSjNTTAedf/aGKmIuTQXaNfVxZQduR9rj30kHXiQEJ5SQQV790NszQCmE6Cv3DHA2/
+	a7N3XCfDrLylBPT3eA/m6Sha4b1Vs8Y885njeG20h6Tb3OzuJSN4xdECwspDLJ53PDNQ
+	D7/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=+Tjunb5ibPWJgBzYyfk0U+8KI4T6IsatLFE0ZHz6Txc=;
+	b=gmxwKKgcubog7PuLx+1wPeZ2eNImzMBhRJFRPT1ZWa/KKDXrnqZIMHq37qzauGZ0QS
+	eSmVZ5exHXTvo7kS1kkPR0ART2X5j6bt2hMUnrTPJyp5iLVh0b+NG9+4SPRaTk9t6t8H
+	2uy0MCicXm7Mmg1xia179J3aEI0YzeO/zc8bSxmTE/9yKrezpq/V0xGlruIo03mLWbZG
+	6yIXYqAwSwI0R6ejORTO+ktS0bUtjZecb3A+nMX0UpOHmJCsOS5bFPQhfFcyT1l3rl/V
+	6AOfWiFCWgpV283Qjk9+V4ATEY6fT5iD0KsglJ7l61mXlXR7p8+DEXARVKu8WBnMOBZ8
+	wXAA==
+X-Gm-Message-State: ALyK8tLKHTfRXHsg0PCb2DB0hRTgLYF863M2bXi7JN7wwihfJGIcUqOWA6ZspWnXdFsgX/RhEAZHJCWlTNl7yA==
+X-Received: by 10.25.15.213 with SMTP id 82mr2683843lfp.126.1465476497593;
+	Thu, 09 Jun 2016 05:48:17 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] Remove the duplicated recipe of iscsi-initiator-utils
+Received: by 10.25.5.215 with HTTP; Thu, 9 Jun 2016 05:47:48 -0700 (PDT)
+X-Originating-IP: [187.23.154.250]
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Thu, 9 Jun 2016 09:47:48 -0300
+Message-ID: <CAAPZna21uUF=ZgfWdd5B2aKjmoox0QnCzEz=LDC7=Grx8J4CnA@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: [krogoth] Golang errors when building Docker
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,560 +66,142 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jun 2016 23:25:49 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 Jun 2016 12:48:23 -0000
+Content-Type: multipart/alternative; boundary=001a113fb78a10e9c10534d7d6d7
 
-The iscsi-initiator-utils recipe has already been integrated into
-meta-networking layer. We have no reason to keep a duplicated one
-in meta-cloud-services layer. It also kill two QA warnings caused
-by this recipe.
+--001a113fb78a10e9c10534d7d6d7
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
----
- .../iscsi-initiator-utils/files/initd.debian       | 119 ----------
- .../iscsi-initiator-utils-dont-use-static.patch    |  20 --
- .../iscsi-initiator-utils-use-var-for-config.patch | 239 ---------------------
- .../iscsi-initiator-utils.inc                      | 109 ----------
- .../iscsi-initiator-utils_2.0-873.bb               |  14 --
- 5 files changed, 501 deletions(-)
- delete mode 100644 meta-openstack/recipes-extended/iscsi-initiator-utils/files/initd.debian
- delete mode 100644 meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-dont-use-static.patch
- delete mode 100644 meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-use-var-for-config.patch
- delete mode 100644 meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils.inc
- delete mode 100644 meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils_2.0-873.bb
+Hi all!
 
-diff --git a/meta-openstack/recipes-extended/iscsi-initiator-utils/files/initd.debian b/meta-openstack/recipes-extended/iscsi-initiator-utils/files/initd.debian
-deleted file mode 100644
-index eb8eea714528..000000000000
---- a/meta-openstack/recipes-extended/iscsi-initiator-utils/files/initd.debian
-+++ /dev/null
-@@ -1,119 +0,0 @@
--#! /bin/sh
--### BEGIN INIT INFO
--# Provides:
--# Required-Start:
--# Required-Stop:
--# Default-Start:
--# Default-Stop:
--# Short-Description: Starts and stops the iSCSI initiator services and logins to default targets
--### END INIT INFO
--#set -x
--PATH=/sbin:/bin:/usr/sbin:/usr/bin
--DAEMON=/sbin/iscsid
--ADM=/sbin/iscsiadm
--PIDFILE=/var/run/iscsid.pid
--
--[ -x "$DAEMON" ] || exit 0
--
--if [ ! -d /sys/class/ ]; then
--  echo "Failure:" "iSCSI requires a mounted sysfs, not started."
--  exit 1
--fi
--
--nodestartup_re='s/^node\.conn\[0]\.startup[ 	]*=[ 	]*//p'
--
--RETVAL=0
--
--start() {
--	echo "Starting iSCSI initiator service" "iscsid"
--	modprobe -q iscsi_tcp 2>/dev/null || :
--	modprobe -q ib_iser 2>/dev/null || :
--	if [ ! -f /etc/iscsi/initiatorname.iscsi ]; then
--		INITIATORNAME=$(iscsi-iname)
--		cat >/etc/iscsi/initiatorname.iscsi <<EOF
--## DO NOT EDIT OR REMOVE THIS FILE!
--## If you remove this file, the iSCSI daemon will not start.
--## If you change the InitiatorName, existing access control lists
--## may reject this initiator.  The InitiatorName must be unique
--## for each iSCSI initiator.  Do NOT duplicate iSCSI InitiatorNames.
--InitiatorName=$INITIATORNAME
--EOF
--	fi
--	start-stop-daemon --start --quiet --pidfile $PIDFILE --exec $DAEMON
--	RETVAL=$?
--	starttargets
--}
--
--starttargets() {
--	echo "Setting up iSCSI targets"
--	$ADM -m node --loginall=automatic
--}
--
--stoptargets() {
--	echo "Disconnecting iSCSI targets"
--	sync
--	$ADM -m node --logoutall=all
--	RETVAL=$?
--	#if RETVAL is 21, means no active sessions, consider ok
--	if [ "$RETVAL" = "21" ]; then
--		RETVAL=0
--	fi
--}
--
--stop() {
--	stoptargets
--	if [ $RETVAL -ne 0 ]; then
--		echo "Failure:" "Could not stop all targets, try again later"
--		return $RETVAL
--	fi
--
--	echo "Stopping iSCSI initiator service"
--	start-stop-daemon --stop --quiet --pidfile $PIDFILE --exec $DAEMON
--	rm -f $PIDFILE
--	status=0
--	modprobe -r ib_iser 2>/dev/null
--	if [ "$?" -ne "0" -a "$?" -ne "1" ]; then
--		status=1
--	fi
--	modprobe -r iscsi_tcp 2>/dev/null
--	if [ "$?" -ne "0" -a "$?" -ne "1" ]; then
--		status=1
--	fi
--}
--
--restart() {
--	stop
--	if [ $RETVAL -ne 0 ]; then
--		echo "Failure:" "Stopping iSCSI initiator service failed, not starting"
--		return $RETVAL
--	fi
--	start
--}
--
--restarttargets() {
--	stoptargets
--	if [ $RETVAL -ne 0 ]; then
--		echo "Failure:" "Could not stop all targets, try again later"
--		return $RETVAL
--	fi
--	starttargets
--}
--
--status() {
--	#XXX FIXME: what to do here?
--	#status iscsid
--	# list active sessions
--	echo Current active iSCSI sessions:
--	$ADM -m session
--}
--
--case "$1" in
--	start|starttargets|stop|stoptargets|restart|restarttargets|status)
--		$1
--		;;
--	*)
--		echo "Usage: $0 {start|stop|restart|status}"
--		exit 1
--		;;
--esac
--exit $RETVAL
-diff --git a/meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-dont-use-static.patch b/meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-dont-use-static.patch
-deleted file mode 100644
-index 8645587e2310..000000000000
---- a/meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-dont-use-static.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--iscsi-initiator-utils not to use static
--
--This patch is from fedora17.
--
--Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
--Signed-off-by: Vu Tran <vu.tran@windriver.com>
--
--diff --git a/usr/Makefile b/usr/Makefile
--index 673b7f1..fd14a10 100644
----- a/usr/Makefile
--+++ b/usr/Makefile
--@@ -61,7 +61,7 @@ iscsiadm: $(ISCSI_LIB_SRCS) $(DISCOVERY_SRCS) iscsiadm.o session_mgmt.o
-- 
-- iscsistart: $(ISCSI_LIB_SRCS) $(INITIATOR_SRCS) $(FW_BOOT_SRCS) \
-- 		iscsistart.o statics.o
---	$(CC) $(CFLAGS) -static $^ -o $@
--+	$(CC) $(CFLAGS) $^ -o $@
-- clean:
-- 	rm -f *.o $(PROGRAMS) .depend $(LIBSYS)
-- 
-diff --git a/meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-use-var-for-config.patch b/meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-use-var-for-config.patch
-deleted file mode 100644
-index b0ce88960d4b..000000000000
---- a/meta-openstack/recipes-extended/iscsi-initiator-utils/files/iscsi-initiator-utils-use-var-for-config.patch
-+++ /dev/null
-@@ -1,239 +0,0 @@
--iscsi-initiator-utils to use var for config
--
--This patch is from fedora.
--
--Use /var/lib/iscsi/ instead of /etc/iscsi/ for holding
--state files.
--
--Signed-off-by: Yao Zhao <yao.zhao@windriver.com>
--Signed-off-by: Vu Tran <vu.tran@windriver.com>
--
--diff --git a/README b/README
--index 7364b2d..5e8bff8 100644
----- a/README
--+++ b/README
--@@ -164,10 +164,10 @@ available on all Linux installations.
-- 
-- The database contains two tables:
-- 
---- Discovery table (/etc/iscsi/send_targets);
---- Node table (/etc/iscsi/nodes).
--+- Discovery table (/var/lib/iscsi/send_targets);
--+- Node table (/var/lib/iscsi/nodes).
-- 
---The regular place for iSCSI database files: /etc/iscsi/nodes
--+The regular place for iSCSI database files: /var/lib/iscsi/nodes
-- 
-- The iscsiadm utility is a command-line tool to manage (update, delete,
-- insert, query) the persistent database.
--@@ -444,7 +444,7 @@ a scsi_host per HBA port).
-- To manage both types of initiator stacks, iscsiadm uses the interface (iface)
-- structure. For each HBA port or for software iscsi for each network
-- device (ethX) or NIC, that you wish to bind sessions to you must create
---a iface config /etc/iscsi/ifaces.
--+a iface config /var/lib/iscsi/ifaces.
-- 
-- Prep:
-- 
--@@ -478,29 +478,29 @@ Running:
-- iface0 qla4xxx,00:c0:dd:08:63:e8,20.15.0.7,default,iqn.2005-06.com.redhat:madmax
-- iface1 qla4xxx,00:c0:dd:08:63:ea,20.15.0.9,default,iqn.2005-06.com.redhat:madmax
-- 
---Will report iface configurations that are setup in /etc/iscsi/ifaces.
--+Will report iface configurations that are setup in /var/lib/iscsi/ifaces.
-- The format is:
-- 
-- iface_name transport_name,hwaddress,ipaddress,net_ifacename,initiatorname
-- 
-- For software iscsi, you can create the iface configs by hand, but it is
-- reccomended that you use iscsiadm's iface mode. There is a iface.example in
---/etc/iscsi/ifaces which can be used as a template for the daring.
--+/var/lib/iscsi/ifaces which can be used as a template for the daring.
-- 
-- For each network object you wish to bind a session to you must create
---a seperate iface config in /etc/iscsi/ifaces and each iface config file
--+a seperate iface config in /var/lib/iscsi/ifaces and each iface config file
-- must have a unique name which is less than or equal to 64 characters.
-- 
-- Example:
-- 
-- If you have NIC1 with MAC address 00:0F:1F:92:6B:BF and NIC2 with
-- MAC address 00:C0:DD:08:63:E7 and you wanted to do software iscsi over
---TCP/IP. Then in /etc/iscsi/ifaces/iface0 you would enter:
--+TCP/IP. Then in /var/lib/iscsi/ifaces/iface0 you would enter:
-- 
-- iface.transport_name = tcp
-- iface.hwaddress = 00:0F:1F:92:6B:BF
-- 
---and in /etc/iscsi/ifaces/iface1 you would enter:
--+and in /var/lib/iscsi/ifaces/iface1 you would enter:
-- 
-- iface.transport_name = tcp
-- iface.hwaddress = 00:C0:DD:08:63:E7
--@@ -550,7 +550,7 @@ cxgb3i.00:07:43:05:97:07 cxgb3i,00:07:43:05:97:07,<empty>,<empty>,<empty>
-- qla4xxx.00:0e:1e:04:8b:2e qla4xxx,00:0e:1e:04:8b:2e,<empty>,<empty>,<empty>
-- 
-- 
---Will report iface configurations that are setup in /etc/iscsi/ifaces.
--+Will report iface configurations that are setup in /var/lib/iscsi/ifaces.
-- The format is:
-- 
-- iface_name transport_name,hwaddress,ipaddress,net_ifacename,initiatorname
--@@ -636,7 +636,7 @@ need a seperate network connection to the target for discovery purposes.
-- *This will be fixed in the next version of open-iscsi*
-- 
-- For compatibility reasons, when you run iscsiadm to do discovery, it
---will check for interfaces in /etc/iscsi/iscsi/ifaces that are using
--+will check for interfaces in /var/lib/iscsi/iscsi/ifaces that are using
-- tcp for the iface.transport and it will bind the portals that are discovered
-- so that they will be logged in through those ifaces. This behavior can also
-- be overriden by passing in the interfaces you want to use. For the case
--@@ -654,7 +654,7 @@ we do not bind a session to a iface, then you can use the special iface
-- 
-- iscsiadm -m discoverydb -t st -p ip:port -I default --discover -P 1
-- 
---And if you did not define any interfaces in /etc/iscsi/ifaces and do
--+And if you did not define any interfaces in /var/lib/iscsi/ifaces and do
-- not pass anything into iscsiadm, running iscsiadm will do the default
-- behavior, where we allow the network subsystem to decide which
-- device to use.
--@@ -696,7 +696,7 @@ To now log into targets it is the same as with sofware iscsi. See section
-- 
-- 	    ./iscsiadm -m discoverydb -t st -p 192.168.1.1:3260 --discover
-- 
---	This will search /etc/iscsi/send_targets for a record with the
--+	This will search /var/lib/iscsi/send_targets for a record with the
-- 	ID [portal = 192.168.1.1:3260 and type = sendtargets. If found it
-- 	will perform discovery using the settings stored in the record.
-- 	If a record does not exist, it will be created using the iscsid.conf
--@@ -705,7 +705,7 @@ To now log into targets it is the same as with sofware iscsi. See section
-- 	The argument to -p may also be a hostname instead of an address.
-- 	    ./iscsiadm -m discoverydb -t st -p smoehost --discover
-- 
---	For the ifaces, iscsiadm will first search /etc/iscsi/ifaces for
--+	For the ifaces, iscsiadm will first search /var/lib/iscsi/ifaces for
-- 	interfaces using software iscsi. If any are found then nodes found
-- 	during discovery will be setup so that they can logged in through
-- 	those interfaces. To specify a specific iface, pass the
--@@ -761,7 +761,7 @@ To now log into targets it is the same as with sofware iscsi. See section
-- 	This command will perform discovery, but not manipulate the node DB.
-- 
--   - SendTargets iSCSI Discovery with a specific interface. If you
---	wish to only use a subset of the interfaces in /etc/iscsi/ifaces
--+	wish to only use a subset of the interfaces in /var/lib/iscsi/ifaces
-- 	then you can pass them in during discovery:
-- 
-- 	     ./iscsiadm -m discoverydb -t sendtargets -p 192.168.1.1:3260 \
--@@ -1072,8 +1072,8 @@ where targetname is the name of the target and ip_address:port is the address
-- and port of the portal. tpgt, is the portal group tag of
-- the portal, and is not used in iscsiadm commands except for static
-- record creation. And iface name is the name of the iscsi interface
---defined in /etc/iscsi/ifaces. If no interface was defined in
---/etc/iscsi/ifaces or passed in, the default behavior is used.
--+defined in /var/lib/iscsi/ifaces. If no interface was defined in
--+/var/lib/iscsi/ifaces or passed in, the default behavior is used.
-- Default here is iscsi_tcp/tcp to be used over which ever NIC the
-- network layer decides is best.
-- 
--@@ -1188,7 +1188,7 @@ If set, iscsid will perform discovery to the address every
-- discovery.isns.discoveryd_poll_inval or
-- discovery.sendtargets.discoveryd_poll_inval seconds,
-- and it will log into any portals found from the discovery source using
---the ifaces in /etc/iscsi/ifaces.
--+the ifaces in /var/lib/iscsi/ifaces.
-- 
-- Note that for iSNS the poll_interval does not have to be set. If not set,
-- iscsid will only perform rediscovery when it gets a SCN from the server.
--diff --git a/doc/iscsiadm.8 b/doc/iscsiadm.8
--index 7c209f6..e94cca0 100644
----- a/doc/iscsiadm.8
--+++ b/doc/iscsiadm.8
--@@ -89,7 +89,7 @@ This option is only valid for ping submode.
-- .TP
-- \fB\-I\fR, \fB\-\-interface=\fI[iface]\fR
-- The interface argument specifies the iSCSI interface to use for the operation.
---iSCSI interfaces (iface) are defined in /etc/iscsi/ifaces. For hardware
--+iSCSI interfaces (iface) are defined in /var/lib/iscsi/ifaces. For hardware
-- iSCSI (qla4xxx) the iface config must have the hardware address
-- (iface.hwaddress = port's MAC address)
-- and the driver/transport_name (iface.transport_name). The iface's name is
--@@ -166,7 +166,7 @@ If no other options are specified: for \fIdiscoverydb\fR and \fInode\fR, all
-- of their respective records are displayed; for \fIsession\fR, all active
-- sessions and connections are displayed; for \fIfw\fR, all boot firmware
-- values are displayed; for \fIhost\fR, all iSCSI hosts are displayed; and
---for \fIiface\fR, all ifaces setup in /etc/iscsi/ifaces are displayed.
--+for \fIiface\fR, all ifaces setup in /var/lib/iscsi/ifaces are displayed.
-- 
-- .TP
-- \fB\-n\fR, \fB\-\-name=\fIname\fR
--@@ -535,10 +535,10 @@ The configuration file read by \fBiscsid\fR and \fBiscsiadm\fR on startup.
-- The file containing the iSCSI InitiatorName and InitiatorAlias read by
-- \fBiscsid\fR and \fBiscsiadm\fR on startup.
-- .TP
---/etc/iscsi/nodes/
--+/var/lib/iscsi/nodes/
-- This directory contains the nodes with their targets.
-- .TP
---/etc/iscsi/send_targets
--+/var/lib/iscsi/send_targets
-- This directory contains the portals.
-- 
-- .SH "SEE ALSO"
--diff --git a/usr/idbm.c b/usr/idbm.c
--index 4d30aa9..316e54f 100644
----- a/usr/idbm.c
--+++ b/usr/idbm.c
--@@ -2468,9 +2468,9 @@ free_info:
-- int idbm_init(idbm_get_config_file_fn *fn)
-- {
-- 	/* make sure root db dir is there */
---	if (access(ISCSI_CONFIG_ROOT, F_OK) != 0) {
---		if (mkdir(ISCSI_CONFIG_ROOT, 0660) != 0) {
---			log_error("Could not make %s %d\n", ISCSI_CONFIG_ROOT,
--+	if (access(ISCSIVAR, F_OK) != 0) {
--+		if (mkdir(ISCSIVAR, 0660) != 0) {
--+			log_error("Could not make %s %d\n", ISCSIVAR,
-- 				   errno);
-- 			return errno;
-- 		}
--diff --git a/usr/idbm.h b/usr/idbm.h
--index 245f046..f45e86e 100644
----- a/usr/idbm.h
--+++ b/usr/idbm.h
--@@ -28,12 +28,16 @@
-- #include "config.h"
-- #include "list.h"
-- 
---#define NODE_CONFIG_DIR		ISCSI_CONFIG_ROOT"nodes"
---#define SLP_CONFIG_DIR		ISCSI_CONFIG_ROOT"slp"
---#define ISNS_CONFIG_DIR		ISCSI_CONFIG_ROOT"isns"
---#define STATIC_CONFIG_DIR	ISCSI_CONFIG_ROOT"static"
---#define FW_CONFIG_DIR		ISCSI_CONFIG_ROOT"fw"
---#define ST_CONFIG_DIR		ISCSI_CONFIG_ROOT"send_targets"
--+#define ISCSIVAR			"/var/lib/iscsi/"
--+
--+#define NODE_CONFIG_DIR    ISCSIVAR"nodes"
--+#define SLP_CONFIG_DIR     ISCSIVAR"slp"
--+#define ISNS_CONFIG_DIR    ISCSIVAR"isns"
--+#define STATIC_CONFIG_DIR  ISCSIVAR"static"
--+#define FW_CONFIG_DIR      ISCSIVAR"fw"
--+#define ST_CONFIG_DIR      ISCSIVAR"send_targets"
--+
--+
-- #define ST_CONFIG_NAME		"st_config"
-- #define ISNS_CONFIG_NAME	"isns_config"
-- 
--diff --git a/usr/iface.h b/usr/iface.h
--index 01f7074..2c6ef72 100644
----- a/usr/iface.h
--+++ b/usr/iface.h
--@@ -20,7 +20,8 @@
-- #ifndef ISCSI_IFACE_H
-- #define ISCSI_IFACE_H
-- 
---#define IFACE_CONFIG_DIR	ISCSI_CONFIG_ROOT"ifaces"
--+#include "idbm.h"
--+#define IFACE_CONFIG_DIR	ISCSIVAR"ifaces"
-- 
-- struct iface_rec;
-- struct list_head;
-diff --git a/meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils.inc b/meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils.inc
-deleted file mode 100644
-index 30dcffc8efad..000000000000
---- a/meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils.inc
-+++ /dev/null
-@@ -1,109 +0,0 @@
--#
--# Copyright (C) 2014 Wind River Systems, Inc.
--#
--SUMMARY = "iSCSI daemon and utility programs"
--DESCRIPTION = \
--"Open-iSCSI project is a high performance, transport independent, \
--multi-platform implementation of RFC3720. The iscsi package provides \
--the server daemon for the iSCSI protocol, as well as the utility \
--programs used to manage it. iSCSI is a protocol for distributed \
--disk access using SCSI commands sent over Internet Protocol networks."
--SECTION = "console/network"
--
--HOMEPAGE = "http://www.open-iscsi.org/"
--INC_PR = "r4"
--
--UPSTREAM_name = "open-iscsi"
--
--#iscsi-initiator-utils-{use-var-for-config}.patch are from fedora
--#change nodes,send_targets... from /etc/iscsi to /var/lib/iscsi
--SRC_URI = "http://www.open-iscsi.org/bits/${UPSTREAM_name}-${PV}.tar.gz \
--	   file://iscsi-initiator-utils-use-var-for-config.patch \
--	   file://iscsi-initiator-utils-dont-use-static.patch	\
--	   file://initd.debian	\
--"
--S = "${WORKDIR}/${UPSTREAM_name}-${PV}"
--TARGET_CC_ARCH += "${LDFLAGS}"
--
--#utils/fwparam_ibft/prom_parse.y utils/fwparam_ibft/prom_lex.l
--#already parsed in source 2.0 but still depends on flex and bison 
--#native in case future version they are not parsed
--DEPENDS += "openssl flex-native bison-native"
--
--PACKAGES =+ "${PN}-tests"
--
--FILES_${PN}-tests = "/opt/${BPN}-tests/*"
--RDEPENDS_${PN}-tests = "perl"
--
--inherit update-rc.d
--
--do_configure () {
--	#need to support cross-compiling in open-isns only
--	(cd utils/open-isns; \
--	 ./configure --host=${TARGET_SYS} --build=${BUILD_SYS} --with-security=no )
--}
--
--do_compile () {
--	#make iscsistart one of PROGRAMS if install_user in do_install
--	#sed -i -e '/^PROGRAMS = /s;$; usr/iscsistart;' Makefile
--
--	#fix the ar used in open-isns
--	sed -i -e 's:ar cr :$(AR) cr :' ${S}/utils/open-isns/Makefile
--	oe_runmake user
--
--}
--
--do_install () {
--	#completely override the install_user as bugs in Makefile
--	#oe_runmake DESTDIR="${D}" install_user
--
--	#install necessary directories
--	install -d ${D}${base_sbindir} \
--		${D}${sysconfdir}/init.d \
--		${D}${sysconfdir}/iscsi \
--		${D}${localstatedir}/lib/iscsi/nodes \
--		${D}${localstatedir}/lib/iscsi/send_targets \
--		${D}${localstatedir}/lib/iscsi/static \
--		${D}${localstatedir}/lib/iscsi/isns \
--		${D}${localstatedir}/lib/iscsi/slp \
--		${D}${localstatedir}/lib/iscsi/ifaces \
--		${D}${localstatedir}/lock/iscsi ${D}/${mandir}/man8
--
--	install -p -m 755 ${S}/usr/iscsid ${S}/usr/iscsiadm \
--		${S}/utils/iscsi-iname \
--		${S}/usr/iscsistart ${D}/${base_sbindir}
--
--	install -p -m 644 ${S}/doc/iscsiadm.8 ${S}/doc/iscsid.8 ${D}/${mandir}/man8
--	install -p -m 644 ${S}/etc/iscsid.conf ${D}${sysconfdir}/iscsi
--	install -p -m 755 ${WORKDIR}/initd.debian ${D}${sysconfdir}/init.d/iscsid
--
--	#install regression tests
--	[ ! -d ${D}/opt/${BPN}-tests ] && mkdir -p ${D}/opt/${BPN}-tests
--	install ${S}/test/regression.dat ${S}/test/regression.sh ${D}/opt/${BPN}-tests/
--
--	#open-isns tests
--	mkdir -p ${D}/opt/${BPN}-tests/isns-tests
--	install ${S}/utils/open-isns/tests/*.pl ${D}/opt/${BPN}-tests/isns-tests/
--	install ${S}/utils/open-isns/tests/genkey \
--		${S}/utils/open-isns/tests/client.conf \
--		${S}/utils/open-isns/tests/server.conf \
--		${D}/opt/${BPN}-tests/isns-tests/
--	cp -a ${S}/utils/open-isns/tests/data ${D}/opt/${BPN}-tests/isns-tests/
--}
--
--pkg_postinst_${PN}() {
--	#default there is no initiatorname.iscsi installed
--	#but it is needed or iscsid will fail
--	
--	#will run only when postinst on target
--	if [ "x$D" != "x" ]; then
--		exit 1
--	fi
--	if [ ! -f ${sysconfdir}/iscsi/initiatorname.iscsi ]; then
--		echo "InitiatorName=$(${base_sbindir}/iscsi-iname)" > \
--		${sysconfdir}/iscsi/initiatorname.iscsi
--	fi
--}
--
--INITSCRIPT_NAME = "iscsid"
--INITSCRIPT_PARAMS = "start 30 1 2 3 4 5 . stop 70 0 1 2 3 4 5 6 ."
-diff --git a/meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils_2.0-873.bb b/meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils_2.0-873.bb
-deleted file mode 100644
-index cb7429ddd264..000000000000
---- a/meta-openstack/recipes-extended/iscsi-initiator-utils/iscsi-initiator-utils_2.0-873.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--#
--# Copyright (C) 2014 Wind River Systems, Inc.
--#
--LICENSE = "GPLv2 & LGPLv2.1"
--LIC_FILES_CHKSUM = \
--	"file://COPYING;md5=393a5ca445f6965873eca0259a17f833 \
--	 file://utils/open-isns/COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
--
--PR = "${INC_PR}.0"
--
--SRC_URI[md5sum] = "8b8316d7c9469149a6cc6234478347f7"
--SRC_URI[sha256sum] = "7dd9f2f97da417560349a8da44ea4fcfe98bfd5ef284240a2cc4ff8e88ac7cd9"
--
--require ${PN}.inc
--- 
-2.8.1
+I'm getting some errors when building Docker. First, go-cross and go-native
+print these messages:
 
+-----------------------------------------------------------------------
+ERROR: go-cross-1.5.2-r0 do_populate_sysroot_setscene:
+'('patchelf-uninative',
+'--set-interpreter',
+'/home/user/src/prj/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2',
+'/home/user/src/prj/build/tmp/work/x86_64-linux/go-cross/1.5.2-r0/sstate-install-populate_sysroot/x86_64-linux/usr/bin/aarch64-prj-linux/go')'
+failed with exit code 1 and the following output:
+cannot find section .rela.dyn
 
+WARNING: Logfile for failed setscene task is
+/home/user/src/prj/build/tmp/work/x86_64-linux/go-cross/1.5.2-r0/temp/log.do_populate_sysroot_setscene.28109
+WARNING: Setscene task 458
+(/home/user/src/prj/sources/meta-virtualization/recipes-devtools/go-cross/
+go-cross_1.5.bb,
+do_populate_sysroot_setscene) failed with exit code '1' - real task will be
+run
+instead
+-----------------------------------------------------------------------
+
+ERROR: go-native-1.4.3-r0 do_populate_sysroot_setscene:
+'('patchelf-uninative',
+'--set-interpreter',
+'/home/user/src/prj/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2',
+'/home/user/src/prj/build/tmp/work/x86_64-linux/go-native/1.4.3-r0/sstate-install-populate_sysroot/x86_64-linux/usr/lib/go/bin/go')'
+failed with exit code 1 and the following output:
+cannot find section .rela.dyn
+
+WARNING: Logfile for failed setscene task is
+/home/user/src/prj/build/tmp/work/x86_64-linux/go-native/1.4.3-r0/temp/log.do_populate_sysroot_setscene.29146
+WARNING: Setscene task 908
+(/home/user/src/prj/sources/meta-virtualization/recipes-devtools/go-cross/
+go-native_1.4.bb,
+do_populate_sysroot_setscene) failed with exit code '1' - real task will be
+run
+instead
+-----------------------------------------------------------------------
+
+And there are two Docker dependencies, go-net and go-sqlite, that cannot
+fetch
+sources.
+
+-----------------------------------------------------------------------
+WARNING: go-net-hg-r0 do_fetch: Failed to fetch URL hg://
+code.google.com/p;module=go.net, attempting MIRRORS if available
+ERROR: go-net-hg-r0 do_fetch: Fetcher failure: Fetch command failed with
+exit code 255, output:
+abort: HTTP Error 404: Not Found
+
+ERROR: go-net-hg-r0 do_fetch: Function failed: Fetcher failure for URL:
+'hg://code.google.com/p;module=go.net'. Unable to fetch URL from any source.
+-----------------------------------------------------------------------
+
+WARNING: go-sqlite-hg-r0 do_fetch: Failed to fetch URL hg://
+code.google.com/p;module=gosqlite, attempting MIRRORS if available
+ERROR: go-sqlite-hg-r0 do_fetch: Fetcher failure: Fetch command failed with
+exit code 255, output:
+abort: HTTP Error 404: Not Found
+
+ERROR: go-sqlite-hg-r0 do_fetch: Function failed: Fetcher failure for URL:
+'hg://code.google.com/p;module=gosqlite'. Unable to fetch URL from any
+source.
+-----------------------------------------------------------------------
+
+Can someone help me to resolve these errors? I'm using krogoth branch for
+oe-core, meta-oe and meta-virtualization.
+
+Regards,
+
+Fabio
+
+--001a113fb78a10e9c10534d7d6d7
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small">Hi all!<br><br>I&#39;m getting some errors whe=
+n building Docker. First, go-cross and go-native<br>print these messages:<b=
+r><br>---------------------------------------------------------------------=
+--<br>ERROR: go-cross-1.5.2-r0 do_populate_sysroot_setscene: &#39;(&#39;pat=
+chelf-uninative&#39;,<br>&#39;--set-interpreter&#39;,<br>&#39;/home/user/sr=
+c/prj/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2&#3=
+9;,<br>&#39;/home/user/src/prj/build/tmp/work/x86_64-linux/go-cross/1.5.2-r=
+0/sstate-install-populate_sysroot/x86_64-linux/usr/bin/aarch64-prj-linux/go=
+&#39;)&#39;<br>failed with exit code 1 and the following output:<br>cannot =
+find section .rela.dyn<br><br>WARNING: Logfile for failed setscene task is<=
+br>/home/user/src/prj/build/tmp/work/x86_64-linux/go-cross/1.5.2-r0/temp/lo=
+g.do_populate_sysroot_setscene.28109<br>WARNING: Setscene task 458<br>(/hom=
+e/user/src/prj/sources/meta-virtualization/recipes-devtools/go-cross/<a hre=
+f=3D"http://go-cross_1.5.bb">go-cross_1.5.bb</a>,<br>do_populate_sysroot_se=
+tscene) failed with exit code &#39;1&#39; - real task will be run<br>instea=
+d<br>----------------------------------------------------------------------=
+-<br><br>ERROR: go-native-1.4.3-r0 do_populate_sysroot_setscene: &#39;(&#39=
+;patchelf-uninative&#39;,<br>&#39;--set-interpreter&#39;,<br>&#39;/home/use=
+r/src/prj/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.=
+2&#39;,<br>&#39;/home/user/src/prj/build/tmp/work/x86_64-linux/go-native/1.=
+4.3-r0/sstate-install-populate_sysroot/x86_64-linux/usr/lib/go/bin/go&#39;)=
+&#39;<br>failed with exit code 1 and the following output:<br>cannot find s=
+ection .rela.dyn<br><br>WARNING: Logfile for failed setscene task is<br>/ho=
+me/user/src/prj/build/tmp/work/x86_64-linux/go-native/1.4.3-r0/temp/log.do_=
+populate_sysroot_setscene.29146<br>WARNING: Setscene task 908<br>(/home/use=
+r/src/prj/sources/meta-virtualization/recipes-devtools/go-cross/<a href=3D"=
+http://go-native_1.4.bb">go-native_1.4.bb</a>,<br>do_populate_sysroot_setsc=
+ene) failed with exit code &#39;1&#39; - real task will be run<br>instead<b=
+r>-----------------------------------------------------------------------<b=
+r><br>And there are two Docker dependencies, go-net and go-sqlite, that can=
+not fetch<br>sources.<br><br>----------------------------------------------=
+-------------------------<br>WARNING: go-net-hg-r0 do_fetch: Failed to fetc=
+h URL hg://<a href=3D"http://code.google.com/p;module=3Dgo.net">code.google=
+.com/p;module=3Dgo.net</a>, attempting MIRRORS if available<br>ERROR: go-ne=
+t-hg-r0 do_fetch: Fetcher failure: Fetch command failed with exit code 255,=
+ output:<br>abort: HTTP Error 404: Not Found<br><br>ERROR: go-net-hg-r0 do_=
+fetch: Function failed: Fetcher failure for URL: &#39;hg://<a href=3D"http:=
+//code.google.com/p;module=3Dgo.net">code.google.com/p;module=3Dgo.net</a>&=
+#39;. Unable to fetch URL from any source.<br>-----------------------------=
+------------------------------------------<br><br>WARNING: go-sqlite-hg-r0 =
+do_fetch: Failed to fetch URL hg://<a href=3D"http://code.google.com/p;modu=
+le=3Dgosqlite">code.google.com/p;module=3Dgosqlite</a>, attempting MIRRORS =
+if available<br>ERROR: go-sqlite-hg-r0 do_fetch: Fetcher failure: Fetch com=
+mand failed with exit code 255, output:<br>abort: HTTP Error 404: Not Found=
+<br><br>ERROR: go-sqlite-hg-r0 do_fetch: Function failed: Fetcher failure f=
+or URL: &#39;hg://<a href=3D"http://code.google.com/p;module=3Dgosqlite">co=
+de.google.com/p;module=3Dgosqlite</a>&#39;. Unable to fetch URL from any so=
+urce.<br>------------------------------------------------------------------=
+-----<br><br>Can someone help me to resolve these errors? I&#39;m using kro=
+goth branch for oe-core, meta-oe and meta-virtualization.<br><br>Regards,<b=
+r><br>Fabio<br></div></div>
+
+--001a113fb78a10e9c10534d7d6d7--
