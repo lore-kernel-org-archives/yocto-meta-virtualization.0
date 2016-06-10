@@ -1,6 +1,6 @@
 Return-Path: <alejandro.delcastillo@ni.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B77A0E00D72; Thu,  9 Jun 2016 14:29:13 -0700 (PDT)
+	id F1DE2E00D86; Fri, 10 Jun 2016 08:58:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,37 +8,37 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [130.164.80.23 listed in list.dnswl.org]
+	*      [130.164.80.24 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 1782 seconds by postgrey-1.32 at yocto-www;
-	Thu, 09 Jun 2016 14:29:08 PDT
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 858FBE00D69
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 79B7DE00CE6
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  9 Jun 2016 14:29:08 -0700 (PDT)
+	Fri, 10 Jun 2016 08:58:35 -0700 (PDT)
 Received: from us-aus-mgwout2.amer.corp.natinst.com (nb-snip2-1338.natinst.com
 	[130.164.19.135])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
-	u59KxQln032714 for <meta-virtualization@yoctoproject.org>;
-	Thu, 9 Jun 2016 15:59:26 -0500
+	by us-aus-skprod3.natinst.com (8.15.0.59/8.15.0.59) with ESMTP id
+	u5AFwZVi011411 for <meta-virtualization@yoctoproject.org>;
+	Fri, 10 Jun 2016 10:58:35 -0500
 Received: from delcastillo2.natinst.com ([130.164.14.198])
 	by us-aus-mgwout2.amer.corp.natinst.com (Lotus Domino Release 8.5.3FP6
-	HF1218) with ESMTP id 2016060915592641-722020 ;
-	Thu, 9 Jun 2016 15:59:26 -0500 
+	HF1218) with ESMTP id 2016061010583516-753941 ;
+	Fri, 10 Jun 2016 10:58:35 -0500 
 From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu, 9 Jun 2016 15:59:24 -0500
-Message-Id: <1465505964-21008-1-git-send-email-alejandro.delcastillo@ni.com>
+Date: Fri, 10 Jun 2016 10:58:28 -0500
+Message-Id: <1465574308-31633-1-git-send-email-alejandro.delcastillo@ni.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1465505964-21008-1-git-send-email-alejandro.delcastillo@ni.com>
+References: <1465505964-21008-1-git-send-email-alejandro.delcastillo@ni.com>
 X-MIMETrack: Itemize by SMTP Server on US-AUS-MGWOut2/AUS/H/NIC(Release
-	8.5.3FP6 HF1218|December 12, 2014) at 06/09/2016 03:59:26 PM,
+	8.5.3FP6 HF1218|December 12, 2014) at 06/10/2016 10:58:35 AM,
 	Serialize by Router on US-AUS-MGWOut2/AUS/H/NIC(Release 8.5.3FP6
-	HF1218|December 12, 2014) at 06/09/2016 03:59:26 PM,
-	Serialize complete at 06/09/2016 03:59:26 PM
+	HF1218|December 12, 2014) at 06/10/2016 10:58:35 AM,
+	Serialize complete at 06/10/2016 10:58:35 AM
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-06-09_07:, , signatures=0
-Subject: [PATCH] salt: upgrade to 2016.3
+	definitions=2016-06-10_10:, , signatures=0
+Subject: [PATCH v2] salt: upgrade to 2016.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,7 +51,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jun 2016 21:29:13 -0000
+X-List-Received-Date: Fri, 10 Jun 2016 15:58:41 -0000
 
 * Update conffiles
 * Add PKGCONFIG options for zeromq and TCP transports.
@@ -1630,7 +1630,7 @@ diff --git a/meta-openstack/recipes-support/salt/salt_2015.8.0.bb b/meta-opensta
 similarity index 88%
 rename from meta-openstack/recipes-support/salt/salt_2015.8.0.bb
 rename to meta-openstack/recipes-support/salt/salt_2016.3.0.bb
-index b22b827..c5620c6 100644
+index b22b827..f3bbdba 100644
 --- a/meta-openstack/recipes-support/salt/salt_2015.8.0.bb
 +++ b/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
 @@ -1,18 +1,20 @@
@@ -1654,7 +1654,7 @@ index b22b827..c5620c6 100644
 +
  SRCNAME = "salt"
 -SRC_URI = "http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
-+SRC_URI = "http://pypi.python.org/packages/75/db/c072687e77ad616ba395cc8be50fff093fb71b7fc1f5c225f42eee130bf5/${SRCNAME}-${PV}.tar.gz \
++SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
             file://set_python_location_hashbang.patch \
             file://minion \
             file://salt-minion \
