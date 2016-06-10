@@ -1,17 +1,18 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 94764E007D2; Wed, 20 Apr 2016 13:47:14 -0700 (PDT)
+	id A7EA7E00D86; Fri, 10 Jun 2016 09:32:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.218.50 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_LOW, WEIRD_PORT autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.218.48 listed in list.dnswl.org]
+	*  0.0 WEIRD_PORT URI: Uses non-standard port number for HTTP
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,54 +21,49 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4F25CE007D2
+Received: from mail-oi0-f48.google.com (mail-oi0-f48.google.com
+	[209.85.218.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EEEC7E00CE6
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Apr 2016 13:47:02 -0700 (PDT)
-Received: by mail-oi0-f50.google.com with SMTP id k142so54742216oib.1
+	Fri, 10 Jun 2016 09:32:15 -0700 (PDT)
+Received: by mail-oi0-f48.google.com with SMTP id k23so120426284oih.0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Apr 2016 13:47:02 -0700 (PDT)
+	Fri, 10 Jun 2016 09:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:date:message-id:subject:from:to
-	:cc; bh=CHZsHAGNcXtC3VigMz7igT7Pkj9QentTYPfco/O4Wcg=;
-	b=lrZGaUuqmSdNIl6TpqC5Pky+KZYnyOH2F/aWMzDW3DLFqTxE4cBwlWRVOVcVXhGgbp
-	zLE2yg1pKRqbpLmbPFg13pQOWxwxD+joFsii+XecnJ37G2cKHMttij8BNfUVlp7VF9XW
-	kAuHKLZ4uiyzzJSZe1Dac7X0waXnzHYRTu6th6Z5MQQV079IBokhdDuuQb5RjjiAcMiq
-	eYJw/SWSqJnOxYpbSZ5HOi3SiZknQOJN2TTYdqGNMg3NIEKxk0fOslCICxbTX+ivyfON
-	lmQIBWiArpjTNlQF+Rk7PZJkF671kqAeK6MKNcfdSsdirj29NfRnuoRXMb8PIZiI+20X
-	uj4A==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=aI7TkF7TvsgCGEMHg9Uo8QrOXRQwuGnlJAqE7cgJ6pI=;
+	b=PiifF4ECaDoJZQ5OB+rXZ5VNGySRa4/QThA3uDTKKENbVzvaG1PUkQb8cEhovCe7uW
+	5EXHLogQ6x1BUeFQQGPbw4OeUPlmWSbELnMDS6KK6gGMtpTkwWOoiupk8y2hbgABM/ld
+	pIfChpN9o7Niyrty0ROLmaRS72gAiwMwU7FXb5l+TbA0Lwb4ng/Q9w5dMU8ULyP96obR
+	y8AiFo2wA+u1fzT1TV5KZHSCtktL4K/oEt/hHgihsYOEA13uJJXyxz6I/vktoW4sEVhc
+	V+GXdm7Zfg/1HrvMHwsK+darhUVW5m56StndUFliJzfIDL6NVE5sc5a2gdZlIBm0v7zU
+	uU3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:date
-	:message-id:subject:from:to:cc;
-	bh=CHZsHAGNcXtC3VigMz7igT7Pkj9QentTYPfco/O4Wcg=;
-	b=GpCiipHvNl4+uEqwGLXXBzu8qPEqlWNUGzcPzVgEoBPdvjH4vJq7yBnVX+2KuwRny6
-	7HLszWHNtka4AgM57ySRYuV4d2e31jUBhXn7mdo/rVd/18faGrzY7ZcXFnsnlpRMe71S
-	Vr4yW2P7i7KWj4zAPGLvLoZ/4jW2qVhI03TM4MVF3IUiGD8IZ5o4Vik0Ogas7Pz8+1Dd
-	40Lm9Qnqh8PmlBOnSiWCjv/hftXvjbvI/nBqpguWYfKvR+wTD5LYgog01NrZM1xJsOTu
-	+ZekKFDMiG8xtflM5W2AVnwxKsEvA9GnmgkPDDIyEWEFaDrxOQv+TGJQE54qLzEY8U4N
-	uQhA==
-X-Gm-Message-State: AOPr4FUlr9/NB96shPJt9KLLe2gcfAMrdlNmuL+pYtfflmkpagYFU1ZY/0tW36UOeR/vjO3oXRti5hzH2/N0Hw==
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=aI7TkF7TvsgCGEMHg9Uo8QrOXRQwuGnlJAqE7cgJ6pI=;
+	b=L6ZNQkS0wwRuxO1Jsxkqmdnaz5XNRSXe83ISOzil+UwlYRZyWKKnw5ON3ckOBuSfoX
+	yhxAGgaLWi57FfjWhzNuco3PXpMLK0VStft8jWEXDsc+0+myhTqdJjwdULGrQT2cK0Uk
+	YRpLsV+CybJl+XO/grE+I1FthpJQG84TEWfhV4v8fqsv4oKeQf0HXSNa0ckSCla9hM2s
+	0RjBG1K5YbtFO85hdTGO65dV+2r43T0+V5l/qwIqneX2ow+F8UCgTbBTbFb76v3BvkDA
+	QA/DmZAVqdfSH5IkdH7uQDiDYyQN32ZLOD+WuY/C7BJZuHIun4nXFCKvatgUy7spDTRO
+	nh0Q==
+X-Gm-Message-State: ALyK8tJxERbj40dHswARxYitzcwrZ4nRX5DWxOFcMCAxG/Jr7ddbpmPHvOfw1v1BaPd1bmKq9xhl1hxyhPsOEQ==
+X-Received: by 10.157.3.134 with SMTP id f6mr1657127otf.144.1465576334649;
+	Fri, 10 Jun 2016 09:32:14 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 10.202.190.65 with SMTP id o62mr4560518oif.109.1461185221864;
-	Wed, 20 Apr 2016 13:47:01 -0700 (PDT)
-Received: by 10.157.32.135 with HTTP; Wed, 20 Apr 2016 13:47:01 -0700 (PDT)
-In-Reply-To: <CADkTA4OO1Ha3nDfO7T=sgrQ9vef4wjOJyPvUqQuDVinBRzVK9Q@mail.gmail.com>
-References: <1460450138-16240-1-git-send-email-zongchun.yu@nxp.com>
-	<HE1PR04MB2170BADC77C7DC4781349639FD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
-	<CADkTA4NdArOKj2cqgVj2i2qfLf_-DQpoMT3mfAQycMEGwP7p4w@mail.gmail.com>
-	<HE1PR04MB2170699B2D798054BA45765EFD6C0@HE1PR04MB2170.eurprd04.prod.outlook.com>
-	<AM3PR04MB40313AB152240F2495C7B0F936C0@AM3PR04MB403.eurprd04.prod.outlook.com>
-	<CADkTA4OO1Ha3nDfO7T=sgrQ9vef4wjOJyPvUqQuDVinBRzVK9Q@mail.gmail.com>
-Message-ID: <CADkTA4MAKMzBqW+azTEJpA9-d9DUmLHBFoNqT=Rq5a28J3_deg@mail.gmail.com>
+Received: by 10.157.33.117 with HTTP; Fri, 10 Jun 2016 09:32:13 -0700 (PDT)
+In-Reply-To: <575AE283.9010802@ni.com>
+References: <1465505964-21008-1-git-send-email-alejandro.delcastillo@ni.com>
+	<575AE283.9010802@ni.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Wei Lu <W.Lu@nxp.com>
+Message-ID: <CADkTA4M+oTKhj6Hy3BHB_Zp1TEHhLQe2eBBGjN-uOcJbPVov2Q@mail.gmail.com>
+To: Alejandro del Castillo <alejandro.delcastillo@ni.com>
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Bogdan Purcareata <bogdan.purcareata@nxp.com>
-Subject: Re: [PATCH][v2] docker: uprev to 1.9.0
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] salt: upgrade to 2016.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -80,6021 +76,4390 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Wed, 20 Apr 2016 20:47:14 -0000
-X-Original-Date: Wed, 20 Apr 2016 16:47:01 -0400
-X-List-Received-Date: Wed, 20 Apr 2016 20:47:14 -0000
-Content-Type: multipart/alternative; boundary=001a113d706219b7eb0530f0b278
+Date: Fri, 10 Jun 2016 16:32:24 -0000
+X-Original-Date: Fri, 10 Jun 2016 12:32:13 -0400
+X-List-Received-Date: Fri, 10 Jun 2016 16:32:24 -0000
+Content-Type: multipart/alternative; boundary=94eb2c056214d1717c0534ef14fc
 
---001a113d706219b7eb0530f0b278
+--94eb2c056214d1717c0534ef14fc
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 19, 2016 at 3:30 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
+On Fri, Jun 10, 2016 at 11:53 AM, Alejandro del Castillo <
+alejandro.delcastillo@ni.com> wrote:
 
+> Just realized that pypi still have predictable URL's (without hashes):
 >
 >
-> On Tue, Apr 19, 2016 at 3:29 AM, Wei Lu <W.Lu@nxp.com> wrote:
+> https://bitbucket.org/pypa/pypi/issues/438/backwards-compatible-un-hashed-package
 >
->> Hello,
->>
->>
->>
->
-> Thanks. I've queued this locally. If my testing passes, I'll follow up
-> when it has been
-> pushed.
+> Will send a v2 shortly.
 >
 
-I had to fix some other go 1.x applications, but I can confirm that this
-also worked for
-x86-64.
+Gmail is driving me nuts with the threading of this series.
 
-The changes are now pushed.
+
+Does this second patch replace the first, or is it in addition to the first
+patch ? I have
+one from 19 hours ago, one from 32 minutes ago, all being threaded
+together. So I
+can't tell if this send (and your v2) replace the one from 19 hours ago, or
+are in addition
+to it.
 
 Bruce
 
 
 >
-> Bruce
->
->
->> For Docker running on ARM64, we need enable below configures, these extr=
-a
->> configures are not enabled in default kernel, so we need open it manuall=
-y.
->>
->> CONFIG_CGROUP_DEBUG=3Dy
->>
->> CONFIG_CGROUP_FREEZER=3Dy
->>
->> CONFIG_CGROUP_DEVICE=3Dy
->>
->> CONFIG_CPUSETS=3Dy
->>
->> CONFIG_CGROUP_CPUACCT=3Dy
->>
->> CONFIG_CGROUP_PERF=3Dy
->>
->> CONFIG_BLK_CGROUP=3Dy
->>
->> CONFIG_DEBUG_BLK_CGROUP=3Dy
->>
->> CONFIG_UTS_NS=3Dy
->>
->> CONFIG_IPC_NS=3Dy
->>
->> CONFIG_USER_NS=3Dy
->>
->> CONFIG_IPV6=3Dy
->>
->> CONFIG_BRIDGE=3Dy
->>
->> CONFIG_VLAN_8021Q=3Dy
->>
->> CONFIG_VLAN_8021Q_GVRP=3Dy
->>
->> CONFIG_VLAN_8021Q_MVRP=3Dy
->>
->> CONFIG_MACVLAN=3Dy
->>
->> CONFIG_MACVTAP=3Dy
->>
->> CONFIG_VETH=3Dy
->>
->> CONFIG_DEVPTS_MULTIPLE_INSTANCES=3Dy
->>
->> CONFIG_EXT2_FS_XATTR=3Dy
->>
->> CONFIG_EXT2_FS_POSIX_ACL=3Dy
->>
->> CONFIG_EXT3_FS_POSIX_ACL=3Dy
->>
->> CONFIG_EXT4_FS_POSIX_ACL=3Dy
->>
->> CONFIG_TMPFS_POSIX_ACL=3Dy
->>
->> CONFIG_SECCOMP=3Dy
->>
->> CONFIG_BLK_DEV_THROTTLING=3Dy
->>
->> CONFIG_CFQ_GROUP_IOSCHED=3Dy
->>
->> CONFIG_OVERLAY_FS=3Dy
->>
->> CONFIG_TMPFS_POSIX_ACL=3Dy
->>
->> CONFIG_TMPFS_XATTR=3Dy
->>
->> CONFIG_NETFILTER=3Dy
->>
->> CONFIG_NETFILTER_ADVANCED=3Dy
->>
->> CONFIG_BRIDGE_NETFILTER=3Dm
->>
->> CONFIG_NETFILTER_NETLINK=3Dy
->>
->> CONFIG_NF_CONNTRACK=3Dy
->>
->> CONFIG_NF_CONNTRACK_MARK=3Dy
->>
->> CONFIG_NF_CONNTRACK_PROCFS=3Dy
->>
->> CONFIG_NF_NAT=3Dy
->>
->> CONFIG_NF_NAT_NEEDED=3Dy
->>
->> CONFIG_NF_TABLES=3Dy
->>
->> CONFIG_NFT_CT=3Dy
->>
->> CONFIG_NFT_RBTREE=3Dy
->>
->> CONFIG_NFT_MASQ=3Dy
->>
->> CONFIG_NFT_NAT=3Dy
->>
->> CONFIG_NFT_COMPAT=3Dy
->>
->> CONFIG_NETFILTER_XTABLES=3Dy
->>
->> CONFIG_NETFILTER_XT_CONNMARK=3Dy
->>
->> CONFIG_NETFILTER_XT_TARGET_CONNMARK=3Dy
->>
->> CONFIG_NETFILTER_XT_NAT=3Dy
->>
->> CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=3Dy
->>
->> CONFIG_NETFILTER_XT_MATCH_CONNMARK=3Dy
->>
->> CONFIG_NETFILTER_XT_MATCH_CONNTRACK=3Dy
->>
->> CONFIG_NF_DEFRAG_IPV4=3Dy
->>
->> CONFIG_NF_CONNTRACK_IPV4=3Dy
->>
->> CONFIG_NF_CONNTRACK_PROC_COMPAT=3Dy
->>
->> CONFIG_NF_TABLES_IPV4=3Dy
->>
->> CONFIG_NF_NAT_IPV4=3Dy
->>
->> CONFIG_NF_NAT_MASQUERADE_IPV4=3Dy
->>
->> CONFIG_IP_NF_IPTABLES=3Dy
->>
->> CONFIG_IP_NF_FILTER=3Dy
->>
->> CONFIG_IP_NF_NAT=3Dy
->>
->> CONFIG_IP_NF_TARGET_MASQUERADE=3Dy
->>
->> CONFIG_IP_NF_MANGLE=3Dy
->>
->> CONFIG_NF_TABLES_BRIDGE=3Dy
->>
->> CONFIG_BRIDGE_NF_EBTABLES=3Dy
->>
->> CONFIG_BRIDGE_EBT_T_NAT=3Dy
->>
->> CONFIG_BRIDGE_EBT_DNAT=3Dy
->>
->> CONFIG_BRIDGE_EBT_SNAT=3Dy
->>
->>
->>
->> Test steps on ARM64:
->>
->> docker daemon &
->>
->> docker  login docker hub
->>
->> docker search arm64
->>
->> docker pull $ARM64_images
->>
->> docker run -d -p 30081:80 --name=3Dsandbox1 -h sandbox1 $ARM64_images ba=
-sh
->> -c "lighttpd -f /etc/lighttpd/lighttpd.conf -D"
->>
->> docker logout
->>
->> docker ps =E2=80=93a
->>
->> docker images
->>
->> docker stop sandbox1
->>
->> docker rm sandbox1
->>
->>
->>
->>
->>
->> Regards
->>
->> Lu Wei
->>
->>
->>
->> *From:* Zongchun Yu
->> *Sent:* Tuesday, April 19, 2016 11:18 AM
->> *To:* Bruce Ashfield <bruce.ashfield@gmail.com>; Wei Lu <W.Lu@nxp.com>
->> *Cc:* meta-virtualization@yoctoproject.org
->> *Subject:* RE: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0
->>
->>
->>
->> Okay.  Let me add Lu wei.
->>
->>
->>
->> Hi Lu wei.
->>
->>
->>
->> Can you help to provide the arm64 test and configure message to Bruce?
->>
->>
->>
->>
->>
->> Thank you.
->>
->>
->>
->> Best Regards
->>
->> Zongchun
->>
->> *From:* Bruce Ashfield [mailto:bruce.ashfield@gmail.com
->> <bruce.ashfield@gmail.com>]
->> *Sent:* Tuesday, April 19, 2016 11:10 AM
->> *To:* Zongchun Yu
->> *Cc:* meta-virtualization@yoctoproject.org
->> *Subject:* Re: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0
->>
->>
->>
->>
->>
->>
->>
->> On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu <zongchun.yu@nxp.com>
->> wrote:
->>
->> Hi Bruce.
->>
->> May I know if you have comments about this v2 patch? If not. Can you hel=
-p
->> to apply the patch?
->>
->>
->>
->>
->>
->> I'm waiting to hear from Bogdan P: .. you said the following:
->>
->>
->>
->> ------------
->>
->>
->>
->> Hi Bogdan P.
->>
->>
->>
->> Can you help to provide the arm64 test and configure messages to Bruce?
->>
->>
->>
->> -----------
->>
->>
->>
->> And I see no other email on the subject .. so I'm not sure why I'd have
->> started to merge a new version.
->>
->>
->>
->> Bruce
->>
->>
->>
->>
->> Thanks.
->>
->> Best Regards
->> Zongchun
->>
->> -----Original Message-----
->> From: zongchun.yu@nxp.com [mailto:zongchun.yu@nxp.com]
->> Sent: Tuesday, April 12, 2016 4:36 PM
->> To: meta-virtualization@yoctoproject.org
->> Cc: bruce.ashfield@gmail.com; Zongchun Yu
->> Subject: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0
->>
->> From: Zongchun Yu <zongchun.yu@nxp.com>
->>
->> Uprev to 1.9.0.
->> Enable build support for arm64.
->> The libcontainer is removed from the source in the new version. drop the
->> nsinit install lines.
->>
->> Signed-off-by: Zongchun Yu <zongchun.yu@nxp.com>
->> ---
->>  recipes-containers/docker/docker_git.bb            |   38 +-
->>  .../docker/files/Bump-bolt-to-v1.1.0.patch         | 1828
->> ++++++++++++++++++++
->>  .../docker/files/disable_sha1sum_startup.patch     |   21 +-
->>  3 files changed, 1855 insertions(+), 32 deletions(-)
->>  create mode 100644
->> recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
->>
->> diff --git a/recipes-containers/docker/docker_git.bb
->> b/recipes-containers/docker/docker_git.bb
->> index 2672b22..19fdef0 100644
->> --- a/recipes-containers/docker/docker_git.bb
->> +++ b/recipes-containers/docker/docker_git.bb
->> @@ -18,23 +18,23 @@ DESCRIPTION =3D "Linux container runtime \
->>   subtle and/or glaring issues. \
->>   "
->>
->> -SRCREV =3D "7c8fca2ddb58c8d2c4fb4df31c242886df7dd257"
->> -SRCBRANCH =3D "v1.6.2"
->> +SRCREV =3D "76d6bc9a9f1690e16f3721ba165364688b626de2"
->>  SRC_URI =3D "\
->> -       git://github.com/docker/docker.git;branch=3D${SRCBRANCH};nobranc=
-h=3D1
->> <http://github.com/docker/docker.git;branch=3D$%7bSRCBRANCH%7d;nobranch=
-=3D1>
->> \
->> +       git://github.com/docker/docker.git;nobranch=3D1 \
->>         file://docker.service \
->>         file://docker.init \
->>         file://hi.Dockerfile \
->>         file://disable_sha1sum_startup.patch \
->> +       file://Bump-bolt-to-v1.1.0.patch \
->>         "
->>
->>  # Apache-2.0 for docker
->>  LICENSE =3D "Apache-2.0"
->> -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1cc0497778922bfd6cb48721deb8=
-0dc7"
->> +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dcc2221abf0b96ea39dd68141b70f=
-7937"
->>
->>  S =3D "${WORKDIR}/git"
->>
->> -DOCKER_VERSION =3D "1.6.2"
->> +DOCKER_VERSION =3D "1.9.0"
->>  PV =3D "${DOCKER_VERSION}+git${SRCREV}"
->>
->>  DEPENDS =3D "go-cross \
->> @@ -62,17 +62,17 @@ RRECOMMENDS_${PN} =3D "lxc docker-registry rt-tests"
->>  RRECOMMENDS_${PN} +=3D " kernel-module-dm-thin-pool kernel-module-nf-na=
-t"
->>  DOCKER_PKG=3D"github.com/docker/docker"
->>
->> -do_configure() {
->> -}
->> +do_configure[noexec] =3D "1"
->>
->>  do_compile() {
->> -       export PATH=3D${STAGING_BINDIR_NATIVE}/${HOST_SYS}/go-1.3:$PATH
->> -
->>         export GOARCH=3D"${TARGET_ARCH}"
->> -       # supported amd64, 386, arm
->> +       # supported amd64, 386, arm arm64
->>         if [ "${TARGET_ARCH}" =3D "x86_64" ]; then
->>                 export GOARCH=3D"amd64"
->>         fi
->> +       if [ "${TARGET_ARCH}" =3D "aarch64" ]; then
->> +               export GOARCH=3D"arm64"
->> +       fi
->>
->>         # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
->>         # docker to download its dependencies but rather
->> @@ -84,21 +84,19 @@ do_compile() {
->>         export
->> GOPATH=3D"${S}/.gopath:${S}/vendor:${STAGING_DIR_TARGET}/${prefix}/local=
-/go"
->>         cd -
->>
->> -       export CGO_ENABLED=3D"1"
->> -
->>         # Pass the needed cflags/ldflags so that cgo
->>         # can find the needed headers files and libraries
->> -       export CGO_CFLAGS=3D"${BUILDSDK_CFLAGS}"
->> -       export CGO_LDFLAGS=3D"${BUILDSDK_LDFLAGS}"
->> +       export CGO_ENABLED=3D"1"
->> +       export CGO_CFLAGS=3D"${BUILDSDK_CFLAGS}
->> --sysroot=3D${STAGING_DIR_TARGET}"
->> +       export CGO_LDFLAGS=3D"${BUILDSDK_LDFLAGS}
->> --sysroot=3D${STAGING_DIR_TARGET}"
->> +       # in order to exclude devicemapper and btrfs -
->> https://github.com/docker/docker/issues/14056
->> +       export DOCKER_BUILDTAGS=3D'exclude_graphdriver_btrfs
->> exclude_graphdriver_devicemapper'
->>
->>         # this is the unsupported built structure
->>         # that doesn't rely on an existing docker
->>         # to build this:
->>         DOCKER_GITCOMMIT=3D"${SRCREV}" \
->>           ./hack/make.sh dynbinary
->> -
->> -       # make nsinit from libcontainer
->> -       go install github.com/docker/libcontainer/nsinit/
->>  }
->>
->>  inherit systemd update-rc.d
->> @@ -127,12 +125,6 @@ do_install() {
->>              install -m 0755 ${WORKDIR}/docker.init
->> ${D}${sysconfdir}/init.d/docker.init
->>         fi
->>
->> -       if [ -d ${S}/vendor/bin/linux_* ]; then
->> -               cp ${S}/vendor/bin/linux_*/* ${D}/${bindir}
->> -       else
->> -               cp ${S}/vendor/bin/* ${D}/${bindir}
->> -       fi
->> -
->>         mkdir -p ${D}/usr/share/docker/
->>         cp ${WORKDIR}/hi.Dockerfile ${D}/usr/share/docker/
->>  }
->> diff --git a/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
->> b/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
->> new file mode 100644
->> index 0000000..ca4ad81
->> --- /dev/null
->> +++ b/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch
->> @@ -0,0 +1,1828 @@
->> +From a41917c2c88bd7f694d141ac67f4a194aaa16fa1 Mon Sep 17 00:00:00 2001
->> +From: Qiang Huang <h.huangqiang@huawei.com>
->> +Date: Wed, 28 Oct 2015 08:49:45 +0800
->> +Subject: [PATCH] Bump bolt to v1.1.0
->> +
->> +It adds ARM64, ppc64le, s390x, solaris support, and a bunch of
->> +bugfixs.
->> +
->> +Signed-off-by: Qiang Huang <h.huangqiang@huawei.com>
->> +---
->> + hack/vendor.sh                                     |   2 +-
->> + vendor/src/github.com/boltdb/bolt/.gitignore       |   1 +
->> + vendor/src/github.com/boltdb/bolt/README.md        | 250
->> +++++++++++++++++++--
->> + vendor/src/github.com/boltdb/bolt/batch.go         | 138 ++++++++++++
->> + vendor/src/github.com/boltdb/bolt/bolt_386.go      |   5 +-
->> + vendor/src/github.com/boltdb/bolt/bolt_amd64.go    |   3 +
->> + vendor/src/github.com/boltdb/bolt/bolt_arm.go      |   5 +-
->> + vendor/src/github.com/boltdb/bolt/bolt_arm64.go    |   9 +
->> + vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go  |   9 +
->> + vendor/src/github.com/boltdb/bolt/bolt_s390x.go    |   9 +
->> + vendor/src/github.com/boltdb/bolt/bolt_unix.go     |  37 ++-
->> + .../github.com/boltdb/bolt/bolt_unix_solaris.go    | 101 +++++++++
->> + vendor/src/github.com/boltdb/bolt/bolt_windows.go  |  10 +-
->> + vendor/src/github.com/boltdb/bolt/bucket.go        |  29 ++-
->> + vendor/src/github.com/boltdb/bolt/cursor.go        |  12 +-
->> + vendor/src/github.com/boltdb/bolt/db.go            | 195
->> ++++++++++++----
->> + vendor/src/github.com/boltdb/bolt/errors.go        |   4 +
->> + vendor/src/github.com/boltdb/bolt/freelist.go      |  28 ++-
->> + vendor/src/github.com/boltdb/bolt/node.go          |  36 ++-
->> + vendor/src/github.com/boltdb/bolt/page.go          |  45 +++-
->> + vendor/src/github.com/boltdb/bolt/tx.go            |  80 +++++--
->> + 21 files changed, 886 insertions(+), 122 deletions(-)
->> + create mode 100644 vendor/src/github.com/boltdb/bolt/batch.go
->> + create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_arm64.go
->> + create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
->> + create mode 100644 vendor/src/github.com/boltdb/bolt/bolt_s390x.go
->> + create mode 100644 vendor/src/
->> github.com/boltdb/bolt/bolt_unix_solaris.go
->> +
->> +diff --git a/hack/vendor.sh b/hack/vendor.sh
->> +index d872d4a..c28e677 100755
->> +--- a/hack/vendor.sh
->> ++++ b/hack/vendor.sh
->> +@@ -36,7 +36,7 @@ clone git github.com/coreos/etcd v2.2.0
->> + fix_rewritten_imports github.com/coreos/etcd
->> + clone git github.com/ugorji/go 5abd4e96a45c386928ed2ca2a7ef63e2533e18e=
-c
->> + clone git github.com/hashicorp/consul v0.5.2
->> +-clone git github.com/boltdb/bolt v1.0
->> ++clone git github.com/boltdb/bolt v1.1.0
->> +
->> + # get graph and distribution packages
->> + clone git github.com/docker/distribution
->> 20c4b7a1805a52753dfd593ee1cc35558722a0ce # docker/1.9 branch
->> +diff --git a/vendor/src/github.com/boltdb/bolt/.gitignore b/vendor/src/
->> github.com/boltdb/bolt/.gitignore
->> +index b2bb382..c7bd2b7 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/.gitignore
->> ++++ b/vendor/src/github.com/boltdb/bolt/.gitignore
->> +@@ -1,3 +1,4 @@
->> + *.prof
->> + *.test
->> ++*.swp
->> + /bin/
->> +diff --git a/vendor/src/github.com/boltdb/bolt/README.md b/vendor/src/
->> github.com/boltdb/bolt/README.md
->> +index 727e977..0a33ebc 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/README.md
->> ++++ b/vendor/src/github.com/boltdb/bolt/README.md
->> +@@ -16,7 +16,7 @@ and setting values. That's it.
->> +
->> + ## Project Status
->> +
->> +-Bolt is stable and the API is fixed. Full unit test coverage and
->> randomized
->> ++Bolt is stable and the API is fixed. Full unit test coverage and
->> randomized
->> + black box testing are used to ensure database consistency and thread
->> safety.
->> + Bolt is currently in high-load production environments serving
->> databases as
->> + large as 1TB. Many companies such as Shopify and Heroku use Bolt-backe=
-d
->> +@@ -87,6 +87,11 @@ are not thread safe. To work with data in multiple
->> goroutines you must start
->> + a transaction for each one or use locking to ensure only one goroutine
->> accesses
->> + a transaction at a time. Creating transaction from the `DB` is thread
->> safe.
->> +
->> ++Read-only transactions and read-write transactions should not depend o=
-n
->> one
->> ++another and generally shouldn't be opened simultaneously in the same
->> goroutine.
->> ++This can cause a deadlock as the read-write transaction needs to
->> periodically
->> ++re-map the data file but it cannot do so while a read-only transaction
->> is open.
->> ++
->> +
->> + #### Read-write transactions
->> +
->> +@@ -120,12 +125,88 @@ err :=3D db.View(func(tx *bolt.Tx) error {
->> + })
->> + ```
->> +
->> +-You also get a consistent view of the database within this closure,
->> however,
->> ++You also get a consistent view of the database within this closure,
->> however,
->> + no mutating operations are allowed within a read-only transaction. You
->> can only
->> + retrieve buckets, retrieve values, and copy the database within a
->> read-only
->> + transaction.
->> +
->> +
->> ++#### Batch read-write transactions
->> ++
->> ++Each `DB.Update()` waits for disk to commit the writes. This overhead
->> ++can be minimized by combining multiple updates with the `DB.Batch()`
->> ++function:
->> ++
->> ++```go
->> ++err :=3D db.Batch(func(tx *bolt.Tx) error {
->> ++      ...
->> ++      return nil
->> ++})
->> ++```
->> ++
->> ++Concurrent Batch calls are opportunistically combined into larger
->> ++transactions. Batch is only useful when there are multiple goroutines
->> ++calling it.
->> ++
->> ++The trade-off is that `Batch` can call the given
->> ++function multiple times, if parts of the transaction fail. The
->> ++function must be idempotent and side effects must take effect only
->> ++after a successful return from `DB.Batch()`.
->> ++
->> ++For example: don't display messages from inside the function, instead
->> ++set variables in the enclosing scope:
->> ++
->> ++```go
->> ++var id uint64
->> ++err :=3D db.Batch(func(tx *bolt.Tx) error {
->> ++      // Find last key in bucket, decode as bigendian uint64, incremen=
-t
->> ++      // by one, encode back to []byte, and add new key.
->> ++      ...
->> ++      id =3D newValue
->> ++      return nil
->> ++})
->> ++if err !=3D nil {
->> ++      return ...
->> ++}
->> ++fmt.Println("Allocated ID %d", id)
->> ++```
->> ++
->> ++
->> ++#### Managing transactions manually
->> ++
->> ++The `DB.View()` and `DB.Update()` functions are wrappers around the
->> `DB.Begin()`
->> ++function. These helper functions will start the transaction, execute a
->> function,
->> ++and then safely close your transaction if an error is returned. This i=
-s
->> the
->> ++recommended way to use Bolt transactions.
->> ++
->> ++However, sometimes you may want to manually start and end your
->> transactions.
->> ++You can use the `Tx.Begin()` function directly but _please_ be sure to
->> close the
->> ++transaction.
->> ++
->> ++```go
->> ++// Start a writable transaction.
->> ++tx, err :=3D db.Begin(true)
->> ++if err !=3D nil {
->> ++    return err
->> ++}
->> ++defer tx.Rollback()
->> ++
->> ++// Use the transaction...
->> ++_, err :=3D tx.CreateBucket([]byte("MyBucket"))
->> ++if err !=3D nil {
->> ++    return err
->> ++}
->> ++
->> ++// Commit the transaction and check for error.
->> ++if err :=3D tx.Commit(); err !=3D nil {
->> ++    return err
->> ++}
->> ++```
->> ++
->> ++The first argument to `DB.Begin()` is a boolean stating if the
->> transaction
->> ++should be writable.
->> ++
->> ++
->> + ### Using buckets
->> +
->> + Buckets are collections of key/value pairs within the database. All
->> keys in a
->> +@@ -175,13 +256,61 @@ db.View(func(tx *bolt.Tx) error {
->> + ```
->> +
->> + The `Get()` function does not return an error because its operation is
->> +-guarenteed to work (unless there is some kind of system failure). If
->> the key
->> ++guaranteed to work (unless there is some kind of system failure). If
->> the key
->> + exists then it will return its byte slice value. If it doesn't exist
->> then it
->> + will return `nil`. It's important to note that you can have a
->> zero-length value
->> + set to a key which is different than the key not existing.
->> +
->> + Use the `Bucket.Delete()` function to delete a key from the bucket.
->> +
->> ++Please note that values returned from `Get()` are only valid while the
->> ++transaction is open. If you need to use a value outside of the
->> transaction
->> ++then you must use `copy()` to copy it to another byte slice.
->> ++
->> ++
->> ++### Autoincrementing integer for the bucket
->> ++By using the NextSequence() function, you can let Bolt determine a
->> sequence
->> ++which can be used as the unique identifier for your key/value pairs.
->> See the
->> ++example below.
->> ++
->> ++```go
->> ++// CreateUser saves u to the store. The new user ID is set on u once
->> the data is persisted.
->> ++func (s *Store) CreateUser(u *User) error {
->> ++    return s.db.Update(func(tx *bolt.Tx) error {
->> ++        // Retrieve the users bucket.
->> ++        // This should be created when the DB is first opened.
->> ++        b :=3D tx.Bucket([]byte("users"))
->> ++
->> ++        // Generate ID for the user.
->> ++        // This returns an error only if the Tx is closed or not
->> writeable.
->> ++        // That can't happen in an Update() call so I ignore the error
->> check.
->> ++        id, _ =3D b.NextSequence()
->> ++        u.ID =3D int(id)
->> ++
->> ++        // Marshal user data into bytes.
->> ++        buf, err :=3D json.Marshal(u)
->> ++        if err !=3D nil {
->> ++            return err
->> ++        }
->> ++
->> ++        // Persist bytes to users bucket.
->> ++        return b.Put(itob(u.ID), buf)
->> ++    })
->> ++}
->> ++
->> ++// itob returns an 8-byte big endian representation of v.
->> ++func itob(v int) []byte {
->> ++    b :=3D make([]byte, 8)
->> ++    binary.BigEndian.PutUint64(b, uint64(v))
->> ++    return b
->> ++}
->> ++
->> ++type User struct {
->> ++    ID int
->> ++    ...
->> ++}
->> ++
->> ++```
->> +
->> + ### Iterating over keys
->> +
->> +@@ -254,7 +383,7 @@ db.View(func(tx *bolt.Tx) error {
->> +       max :=3D []byte("2000-01-01T00:00:00Z")
->> +
->> +       // Iterate over the 90's.
->> +-      for k, v :=3D c.Seek(min); k !=3D nil && bytes.Compare(k, max) !=
-=3D -1;
->> k, v =3D c.Next() {
->> ++      for k, v :=3D c.Seek(min); k !=3D nil && bytes.Compare(k, max) <=
-=3D 0;
->> k, v =3D c.Next() {
->> +               fmt.Printf("%s: %s\n", k, v)
->> +       }
->> +
->> +@@ -294,7 +423,7 @@ func (*Bucket) DeleteBucket(key []byte) error
->> +
->> + ### Database backups
->> +
->> +-Bolt is a single file so it's easy to backup. You can use the
->> `Tx.Copy()`
->> ++Bolt is a single file so it's easy to backup. You can use the
->> `Tx.WriteTo()`
->> + function to write a consistent view of the database to a writer. If yo=
-u
->> call
->> + this from a read-only transaction, it will perform a hot backup and no=
-t
->> block
->> + your other database reads and writes. It will also use `O_DIRECT` when
->> available
->> +@@ -305,11 +434,12 @@ do database backups:
->> +
->> + ```go
->> + func BackupHandleFunc(w http.ResponseWriter, req *http.Request) {
->> +-      err :=3D db.View(func(tx bolt.Tx) error {
->> ++      err :=3D db.View(func(tx *bolt.Tx) error {
->> +               w.Header().Set("Content-Type", "application/octet-stream=
-")
->> +               w.Header().Set("Content-Disposition", `attachment;
->> filename=3D"my.db"`)
->> +               w.Header().Set("Content-Length",
->> strconv.Itoa(int(tx.Size())))
->> +-              return tx.Copy(w)
->> ++              _, err :=3D tx.WriteTo(w)
->> ++              return err
->> +       })
->> +       if err !=3D nil {
->> +               http.Error(w, err.Error(), http.StatusInternalServerErro=
-r)
->> +@@ -351,14 +481,13 @@ go func() {
->> +               // Grab the current stats and diff them.
->> +               stats :=3D db.Stats()
->> +               diff :=3D stats.Sub(&prev)
->> +-
->> ++
->> +               // Encode stats to JSON and print to STDERR.
->> +               json.NewEncoder(os.Stderr).Encode(diff)
->> +
->> +               // Save stats for the next loop.
->> +               prev =3D stats
->> +       }
->> +-}
->> + }()
->> + ```
->> +
->> +@@ -366,25 +495,83 @@ It's also useful to pipe these stats to a service
->> such as statsd for monitoring
->> + or to provide an HTTP endpoint that will perform a fixed-length sample=
-.
->> +
->> +
->> ++### Read-Only Mode
->> ++
->> ++Sometimes it is useful to create a shared, read-only Bolt database. To
->> this,
->> ++set the `Options.ReadOnly` flag when opening your database. Read-only
->> mode
->> ++uses a shared lock to allow multiple processes to read from the
->> database but
->> ++it will block any processes from opening the database in read-write
->> mode.
->> ++
->> ++```go
->> ++db, err :=3D bolt.Open("my.db", 0666, &bolt.Options{ReadOnly: true})
->> ++if err !=3D nil {
->> ++      log.Fatal(err)
->> ++}
->> ++```
->> ++
->> ++
->> + ## Resources
->> +
->> + For more information on getting started with Bolt, check out the
->> following articles:
->> +
->> + * [Intro to BoltDB: Painless Performant Persistence](
->> http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence/)
->> by [Nate Finch](https://github.com/natefinch).
->> ++* [Bolt -- an embedded key/value database for Go](
->> https://www.progville.com/go/bolt-embedded-db-golang/) by Progville
->> ++
->> ++
->> ++## Comparison with other databases
->> ++
->> ++### Postgres, MySQL, & other relational databases
->> ++
->> ++Relational databases structure data into rows and are only accessible
->> through
->> ++the use of SQL. This approach provides flexibility in how you store an=
-d
->> query
->> ++your data but also incurs overhead in parsing and planning SQL
->> statements. Bolt
->> ++accesses all data by a byte slice key. This makes Bolt fast to read an=
-d
->> write
->> ++data by key but provides no built-in support for joining values
->> together.
->> ++
->> ++Most relational databases (with the exception of SQLite) are standalon=
-e
->> servers
->> ++that run separately from your application. This gives your systems
->> ++flexibility to connect multiple application servers to a single databa=
-se
->> ++server but also adds overhead in serializing and transporting data ove=
-r
->> the
->> ++network. Bolt runs as a library included in your application so all
->> data access
->> ++has to go through your application's process. This brings data closer
->> to your
->> ++application but limits multi-process access to the data.
->> ++
->> ++
->> ++### LevelDB, RocksDB
->> +
->> ++LevelDB and its derivatives (RocksDB, HyperLevelDB) are similar to Bol=
-t
->> in that
->> ++they are libraries bundled into the application, however, their
->> underlying
->> ++structure is a log-structured merge-tree (LSM tree). An LSM tree
->> optimizes
->> ++random writes by using a write ahead log and multi-tiered, sorted file=
-s
->> called
->> ++SSTables. Bolt uses a B+tree internally and only a single file. Both
->> approaches
->> ++have trade offs.
->> +
->> ++If you require a high random write throughput (>10,000 w/sec) or you
->> need to use
->> ++spinning disks then LevelDB could be a good choice. If your applicatio=
-n
->> is
->> ++read-heavy or does a lot of range scans then Bolt could be a good
->> choice.
->> +
->> +-## Comparing Bolt to LMDB
->> ++One other important consideration is that LevelDB does not have
->> transactions.
->> ++It supports batch writing of key/values pairs and it supports read
->> snapshots
->> ++but it will not give you the ability to do a compare-and-swap operatio=
-n
->> safely.
->> ++Bolt supports fully serializable ACID transactions.
->> ++
->> ++
->> ++### LMDB
->> +
->> + Bolt was originally a port of LMDB so it is architecturally similar.
->> Both use
->> +-a B+tree, have ACID semanetics with fully serializable transactions,
->> and support
->> ++a B+tree, have ACID semantics with fully serializable transactions, an=
-d
->> support
->> + lock-free MVCC using a single writer and multiple readers.
->> +
->> + The two projects have somewhat diverged. LMDB heavily focuses on raw
->> performance
->> + while Bolt has focused on simplicity and ease of use. For example, LMD=
-B
->> allows
->> +-several unsafe actions such as direct writes and append writes for the
->> sake of
->> +-performance. Bolt opts to disallow actions which can leave the databas=
-e
->> in a
->> +-corrupted state. The only exception to this in Bolt is `DB.NoSync`.
->> ++several unsafe actions such as direct writes for the sake of
->> performance. Bolt
->> ++opts to disallow actions which can leave the database in a corrupted
->> state. The
->> ++only exception to this in Bolt is `DB.NoSync`.
->> ++
->> ++There are also a few differences in API. LMDB requires a maximum mmap
->> size when
->> ++opening an `mdb_env` whereas Bolt will handle incremental mmap resizin=
-g
->> ++automatically. LMDB overloads the getter and setter functions with
->> multiple
->> ++flags whereas Bolt splits these specialized cases into their own
->> functions.
->> +
->> +
->> + ## Caveats & Limitations
->> +@@ -425,14 +612,33 @@ Here are a few things to note when evaluating and
->> using Bolt:
->> +   can in memory and will release memory as needed to other processes.
->> This means
->> +   that Bolt can show very high memory usage when working with large
->> databases.
->> +   However, this is expected and the OS will release memory as needed.
->> Bolt can
->> +-  handle databases much larger than the available physical RAM.
->> ++  handle databases much larger than the available physical RAM,
->> provided its
->> ++  memory-map fits in the process virtual address space. It may be
->> problematic
->> ++  on 32-bits systems.
->> ++
->> ++* The data structures in the Bolt database are memory mapped so the
->> data file
->> ++  will be endian specific. This means that you cannot copy a Bolt file
->> from a
->> ++  little endian machine to a big endian machine and have it work. For
->> most
->> ++  users this is not a concern since most modern CPUs are little endian=
-.
->> ++
->> ++* Because of the way pages are laid out on disk, Bolt cannot truncate
->> data files
->> ++  and return free pages back to the disk. Instead, Bolt maintains a
->> free list
->> ++  of unused pages within its data file. These free pages can be reused
->> by later
->> ++  transactions. This works well for many use cases as databases
->> generally tend
->> ++  to grow. However, it's important to note that deleting large chunks
->> of data
->> ++  will not allow you to reclaim that space on disk.
->> ++
->> ++  For more information on page allocation, [see this
->> comment][page-allocation].
->> ++
->> ++[page-allocation]:
->> https://github.com/boltdb/bolt/issues/308#issuecomment-74811638
->> +
->> +
->> + ## Other Projects Using Bolt
->> +
->> + Below is a list of public, open source projects that use Bolt:
->> +
->> +-* [Bazil](https://github.com/bazillion/bazil) - A file system that
->> lets your data reside where it is most convenient for it to reside.
->> ++* [Operation Go: A Routine Mission](http://gocode.io) - An online
->> programming game for Golang using Bolt for user accounts and a leaderboa=
-rd.
->> ++* [Bazil](https://bazil.org/) - A file system that lets your data
->> reside where it is most convenient for it to reside.
->> + * [DVID](https://github.com/janelia-flyem/dvid) - Added Bolt as
->> optional storage engine and testing it against Basho-tuned leveldb.
->> + * [Skybox Analytics](https://github.com/skybox/skybox) - A standalone
->> funnel analysis tool for web analytics.
->> + * [Scuttlebutt](https://github.com/benbjohnson/scuttlebutt) - Uses
->> Bolt to store and process all Twitter mentions of GitHub projects.
->> +@@ -450,6 +656,16 @@ Below is a list of public, open source projects
->> that use Bolt:
->> + * [bleve](http://www.blevesearch.com/) - A pure Go search engine
->> similar to ElasticSearch that uses Bolt as the default storage backend.
->> + * [tentacool](https://github.com/optiflows/tentacool) - REST api
->> server to manage system stuff (IP, DNS, Gateway...) on a linux server.
->> + * [SkyDB](https://github.com/skydb/sky) - Behavioral analytics
->> database.
->> ++* [Seaweed File System](https://github.com/chrislusf/weed-fs) - Highly
->> scalable distributed key~file system with O(1) disk read.
->> ++* [InfluxDB](http://influxdb.com) - Scalable datastore for metrics,
->> events, and real-time analytics.
->> ++* [Freehold](http://tshannon.bitbucket.org/freehold/) - An open,
->> secure, and lightweight platform for your files and data.
->> ++* [Prometheus Annotation Server](
->> https://github.com/oliver006/prom_annotation_server) - Annotation server
->> for PromDash & Prometheus service monitoring system.
->> ++* [Consul](https://github.com/hashicorp/consul) - Consul is service
->> discovery and configuration made easy. Distributed, highly available, an=
-d
->> datacenter-aware.
->> ++* [Kala](https://github.com/ajvb/kala) - Kala is a modern job
->> scheduler optimized to run on a single node. It is persistent, JSON over
->> HTTP API, ISO 8601 duration notation, and dependent jobs.
->> ++* [drive](https://github.com/odeke-em/drive) - drive is an unofficial
->> Google Drive command line client for \*NIX operating systems.
->> ++* [stow](https://github.com/djherbis/stow) -  a persistence manager
->> for objects
->> ++  backed by boltdb.
->> ++* [buckets](https://github.com/joyrexus/buckets) - a bolt wrapper
->> streamlining
->> ++  simple tx and key scans.
->> +
->> + If you are using Bolt in a project please send a pull request to add i=
-t
->> to the list.
->> +-
->> +diff --git a/vendor/src/github.com/boltdb/bolt/batch.go b/vendor/src/
->> github.com/boltdb/bolt/batch.go
->> +new file mode 100644
->> +index 0000000..84acae6
->> +--- /dev/null
->> ++++ b/vendor/src/github.com/boltdb/bolt/batch.go
->> +@@ -0,0 +1,138 @@
->> ++package bolt
->> ++
->> ++import (
->> ++      "errors"
->> ++      "fmt"
->> ++      "sync"
->> ++      "time"
->> ++)
->> ++
->> ++// Batch calls fn as part of a batch. It behaves similar to Update,
->> ++// except:
->> ++//
->> ++// 1. concurrent Batch calls can be combined into a single Bolt
->> ++// transaction.
->> ++//
->> ++// 2. the function passed to Batch may be called multiple times,
->> ++// regardless of whether it returns error or not.
->> ++//
->> ++// This means that Batch function side effects must be idempotent and
->> ++// take permanent effect only after a successful return is seen in
->> ++// caller.
->> ++//
->> ++// The maximum batch size and delay can be adjusted with DB.MaxBatchSi=
-ze
->> ++// and DB.MaxBatchDelay, respectively.
->> ++//
->> ++// Batch is only useful when there are multiple goroutines calling it.
->> ++func (db *DB) Batch(fn func(*Tx) error) error {
->> ++      errCh :=3D make(chan error, 1)
->> ++
->> ++      db.batchMu.Lock()
->> ++      if (db.batch =3D=3D nil) || (db.batch !=3D nil && len(db.batch.c=
-alls)
->> >=3D db.MaxBatchSize) {
->> ++              // There is no existing batch, or the existing batch is
->> full; start a new one.
->> ++              db.batch =3D &batch{
->> ++                      db: db,
->> ++              }
->> ++              db.batch.timer =3D time.AfterFunc(db.MaxBatchDelay,
->> db.batch.trigger)
->> ++      }
->> ++      db.batch.calls =3D append(db.batch.calls, call{fn: fn, err: errC=
-h})
->> ++      if len(db.batch.calls) >=3D db.MaxBatchSize {
->> ++              // wake up batch, it's ready to run
->> ++              go db.batch.trigger()
->> ++      }
->> ++      db.batchMu.Unlock()
->> ++
->> ++      err :=3D <-errCh
->> ++      if err =3D=3D trySolo {
->> ++              err =3D db.Update(fn)
->> ++      }
->> ++      return err
->> ++}
->> ++
->> ++type call struct {
->> ++      fn  func(*Tx) error
->> ++      err chan<- error
->> ++}
->> ++
->> ++type batch struct {
->> ++      db    *DB
->> ++      timer *time.Timer
->> ++      start sync.Once
->> ++      calls []call
->> ++}
->> ++
->> ++// trigger runs the batch if it hasn't already been run.
->> ++func (b *batch) trigger() {
->> ++      b.start.Do(b.run)
->> ++}
->> ++
->> ++// run performs the transactions in the batch and communicates results
->> ++// back to DB.Batch.
->> ++func (b *batch) run() {
->> ++      b.db.batchMu.Lock()
->> ++      b.timer.Stop()
->> ++      // Make sure no new work is added to this batch, but don't break
->> ++      // other batches.
->> ++      if b.db.batch =3D=3D b {
->> ++              b.db.batch =3D nil
->> ++      }
->> ++      b.db.batchMu.Unlock()
->> ++
->> ++retry:
->> ++      for len(b.calls) > 0 {
->> ++              var failIdx =3D -1
->> ++              err :=3D b.db.Update(func(tx *Tx) error {
->> ++                      for i, c :=3D range b.calls {
->> ++                              if err :=3D safelyCall(c.fn, tx); err !=
-=3D
->> nil {
->> ++                                      failIdx =3D i
->> ++                                      return err
->> ++                              }
->> ++                      }
->> ++                      return nil
->> ++              })
->> ++
->> ++              if failIdx >=3D 0 {
->> ++                      // take the failing transaction out of the batch=
-.
->> it's
->> ++                      // safe to shorten b.calls here because db.batch
->> no longer
->> ++                      // points to us, and we hold the mutex anyway.
->> ++                      c :=3D b.calls[failIdx]
->> ++                      b.calls[failIdx], b.calls =3D
->> b.calls[len(b.calls)-1], b.calls[:len(b.calls)-1]
->> ++                      // tell the submitter re-run it solo, continue
->> with the rest of the batch
->> ++                      c.err <- trySolo
->> ++                      continue retry
->> ++              }
->> ++
->> ++              // pass success, or bolt internal errors, to all callers
->> ++              for _, c :=3D range b.calls {
->> ++                      if c.err !=3D nil {
->> ++                              c.err <- err
->> ++                      }
->> ++              }
->> ++              break retry
->> ++      }
->> ++}
->> ++
->> ++// trySolo is a special sentinel error value used for signaling that a
->> ++// transaction function should be re-run. It should never be seen by
->> ++// callers.
->> ++var trySolo =3D errors.New("batch function returned an error and shoul=
-d
->> be re-run solo")
->> ++
->> ++type panicked struct {
->> ++      reason interface{}
->> ++}
->> ++
->> ++func (p panicked) Error() string {
->> ++      if err, ok :=3D p.reason.(error); ok {
->> ++              return err.Error()
->> ++      }
->> ++      return fmt.Sprintf("panic: %v", p.reason)
->> ++}
->> ++
->> ++func safelyCall(fn func(*Tx) error, tx *Tx) (err error) {
->> ++      defer func() {
->> ++              if p :=3D recover(); p !=3D nil {
->> ++                      err =3D panicked{p}
->> ++              }
->> ++      }()
->> ++      return fn(tx)
->> ++}
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_386.go b/vendor/src=
-/
->> github.com/boltdb/bolt/bolt_386.go
->> +index 856f401..e659bfb 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/bolt_386.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_386.go
->> +@@ -1,4 +1,7 @@
->> + package bolt
->> +
->> + // maxMapSize represents the largest mmap size supported by Bolt.
->> +-const maxMapSize =3D 0xFFFFFFF // 256MB
->> ++const maxMapSize =3D 0x7FFFFFFF // 2GB
->> ++
->> ++// maxAllocSize is the size used when creating array pointers.
->> ++const maxAllocSize =3D 0xFFFFFFF
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
->> +index 4262932..cca6b7e 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_amd64.go
->> +@@ -2,3 +2,6 @@ package bolt
->> +
->> + // maxMapSize represents the largest mmap size supported by Bolt.
->> + const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
->> ++
->> ++// maxAllocSize is the size used when creating array pointers.
->> ++const maxAllocSize =3D 0x7FFFFFFF
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_arm.go b/vendor/src=
-/
->> github.com/boltdb/bolt/bolt_arm.go
->> +index 856f401..e659bfb 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/bolt_arm.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_arm.go
->> +@@ -1,4 +1,7 @@
->> + package bolt
->> +
->> + // maxMapSize represents the largest mmap size supported by Bolt.
->> +-const maxMapSize =3D 0xFFFFFFF // 256MB
->> ++const maxMapSize =3D 0x7FFFFFFF // 2GB
->> ++
->> ++// maxAllocSize is the size used when creating array pointers.
->> ++const maxAllocSize =3D 0xFFFFFFF
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
->> +new file mode 100644
->> +index 0000000..6d23093
->> +--- /dev/null
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_arm64.go
->> +@@ -0,0 +1,9 @@
->> ++// +build arm64
->> ++
->> ++package bolt
->> ++
->> ++// maxMapSize represents the largest mmap size supported by Bolt.
->> ++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
->> ++
->> ++// maxAllocSize is the size used when creating array pointers.
->> ++const maxAllocSize =3D 0x7FFFFFFF
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
->> +new file mode 100644
->> +index 0000000..8351e12
->> +--- /dev/null
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_ppc64le.go
->> +@@ -0,0 +1,9 @@
->> ++// +build ppc64le
->> ++
->> ++package bolt
->> ++
->> ++// maxMapSize represents the largest mmap size supported by Bolt.
->> ++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
->> ++
->> ++// maxAllocSize is the size used when creating array pointers.
->> ++const maxAllocSize =3D 0x7FFFFFFF
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
->> +new file mode 100644
->> +index 0000000..f4dd26b
->> +--- /dev/null
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_s390x.go
->> +@@ -0,0 +1,9 @@
->> ++// +build s390x
->> ++
->> ++package bolt
->> ++
->> ++// maxMapSize represents the largest mmap size supported by Bolt.
->> ++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB
->> ++
->> ++// maxAllocSize is the size used when creating array pointers.
->> ++const maxAllocSize =3D 0x7FFFFFFF
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_unix.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_unix.go
->> +index 95647a7..6eef6b2 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/bolt_unix.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_unix.go
->> +@@ -1,8 +1,9 @@
->> +-// +build !windows,!plan9
->> ++// +build !windows,!plan9,!solaris
->> +
->> + package bolt
->> +
->> + import (
->> ++      "fmt"
->> +       "os"
->> +       "syscall"
->> +       "time"
->> +@@ -10,7 +11,7 @@ import (
->> + )
->> +
->> + // flock acquires an advisory lock on a file descriptor.
->> +-func flock(f *os.File, timeout time.Duration) error {
->> ++func flock(f *os.File, exclusive bool, timeout time.Duration) error {
->> +       var t time.Time
->> +       for {
->> +               // If we're beyond our timeout then return an error.
->> +@@ -20,9 +21,13 @@ func flock(f *os.File, timeout time.Duration) error =
-{
->> +               } else if timeout > 0 && time.Since(t) > timeout {
->> +                       return ErrTimeout
->> +               }
->> ++              flag :=3D syscall.LOCK_SH
->> ++              if exclusive {
->> ++                      flag =3D syscall.LOCK_EX
->> ++              }
->> +
->> +               // Otherwise attempt to obtain an exclusive lock.
->> +-              err :=3D syscall.Flock(int(f.Fd()),
->> syscall.LOCK_EX|syscall.LOCK_NB)
->> ++              err :=3D syscall.Flock(int(f.Fd()), flag|syscall.LOCK_NB=
-)
->> +               if err =3D=3D nil {
->> +                       return nil
->> +               } else if err !=3D syscall.EWOULDBLOCK {
->> +@@ -41,11 +46,28 @@ func funlock(f *os.File) error {
->> +
->> + // mmap memory maps a DB's data file.
->> + func mmap(db *DB, sz int) error {
->> ++      // Truncate and fsync to ensure file size metadata is flushed.
->> ++      // https://github.com/boltdb/bolt/issues/284
->> ++      if !db.NoGrowSync && !db.readOnly {
->> ++              if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
->> ++                      return fmt.Errorf("file resize error: %s", err)
->> ++              }
->> ++              if err :=3D db.file.Sync(); err !=3D nil {
->> ++                      return fmt.Errorf("file sync error: %s", err)
->> ++              }
->> ++      }
->> ++
->> ++      // Map the data file to memory.
->> +       b, err :=3D syscall.Mmap(int(db.file.Fd()), 0, sz,
->> syscall.PROT_READ, syscall.MAP_SHARED)
->> +       if err !=3D nil {
->> +               return err
->> +       }
->> +
->> ++      // Advise the kernel that the mmap is accessed randomly.
->> ++      if err :=3D madvise(b, syscall.MADV_RANDOM); err !=3D nil {
->> ++              return fmt.Errorf("madvise: %s", err)
->> ++      }
->> ++
->> +       // Save the original byte slice and convert to a byte array
->> pointer.
->> +       db.dataref =3D b
->> +       db.data =3D (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
->> +@@ -67,3 +89,12 @@ func munmap(db *DB) error {
->> +       db.datasz =3D 0
->> +       return err
->> + }
->> ++
->> ++// NOTE: This function is copied from stdlib because it is not
->> available on darwin.
->> ++func madvise(b []byte, advice int) (err error) {
->> ++      _, _, e1 :=3D syscall.Syscall(syscall.SYS_MADVISE,
->> uintptr(unsafe.Pointer(&b[0])), uintptr(len(b)), uintptr(advice))
->> ++      if e1 !=3D 0 {
->> ++              err =3D e1
->> ++      }
->> ++      return
->> ++}
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go
->> +new file mode 100644
->> +index 0000000..f480ee7
->> +--- /dev/null
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_unix_solaris.go
->> +@@ -0,0 +1,101 @@
->> ++
->> ++package bolt
->> ++
->> ++import (
->> ++      "fmt"
->> ++      "os"
->> ++      "syscall"
->> ++      "time"
->> ++      "unsafe"
->> ++      "golang.org/x/sys/unix"
->> ++)
->> ++
->> ++// flock acquires an advisory lock on a file descriptor.
->> ++func flock(f *os.File, exclusive bool, timeout time.Duration) error {
->> ++      var t time.Time
->> ++      for {
->> ++              // If we're beyond our timeout then return an error.
->> ++              // This can only occur after we've attempted a flock onc=
-e.
->> ++              if t.IsZero() {
->> ++                      t =3D time.Now()
->> ++              } else if timeout > 0 && time.Since(t) > timeout {
->> ++                      return ErrTimeout
->> ++              }
->> ++              var lock syscall.Flock_t
->> ++              lock.Start =3D 0
->> ++              lock.Len =3D 0
->> ++              lock.Pid =3D 0
->> ++              lock.Whence =3D 0
->> ++              lock.Pid =3D 0
->> ++              if exclusive {
->> ++                      lock.Type =3D syscall.F_WRLCK
->> ++              } else {
->> ++                      lock.Type =3D syscall.F_RDLCK
->> ++              }
->> ++              err :=3D syscall.FcntlFlock(f.Fd(), syscall.F_SETLK, &lo=
-ck)
->> ++              if err =3D=3D nil {
->> ++                      return nil
->> ++              } else if err !=3D syscall.EAGAIN {
->> ++                      return err
->> ++              }
->> ++
->> ++              // Wait for a bit and try again.
->> ++              time.Sleep(50 * time.Millisecond)
->> ++      }
->> ++}
->> ++
->> ++// funlock releases an advisory lock on a file descriptor.
->> ++func funlock(f *os.File) error {
->> ++      var lock syscall.Flock_t
->> ++      lock.Start =3D 0
->> ++      lock.Len =3D 0
->> ++      lock.Type =3D syscall.F_UNLCK
->> ++      lock.Whence =3D 0
->> ++      return syscall.FcntlFlock(uintptr(f.Fd()), syscall.F_SETLK, &loc=
-k)
->> ++}
->> ++
->> ++// mmap memory maps a DB's data file.
->> ++func mmap(db *DB, sz int) error {
->> ++      // Truncate and fsync to ensure file size metadata is flushed.
->> ++      // https://github.com/boltdb/bolt/issues/284
->> ++      if !db.NoGrowSync && !db.readOnly {
->> ++              if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
->> ++                      return fmt.Errorf("file resize error: %s", err)
->> ++              }
->> ++              if err :=3D db.file.Sync(); err !=3D nil {
->> ++                      return fmt.Errorf("file sync error: %s", err)
->> ++              }
->> ++      }
->> ++
->> ++      // Map the data file to memory.
->> ++      b, err :=3D unix.Mmap(int(db.file.Fd()), 0, sz, syscall.PROT_REA=
-D,
->> syscall.MAP_SHARED)
->> ++      if err !=3D nil {
->> ++              return err
->> ++      }
->> ++
->> ++      // Advise the kernel that the mmap is accessed randomly.
->> ++      if err :=3D unix.Madvise(b, syscall.MADV_RANDOM); err !=3D nil {
->> ++              return fmt.Errorf("madvise: %s", err)
->> ++      }
->> ++
->> ++      // Save the original byte slice and convert to a byte array
->> pointer.
->> ++      db.dataref =3D b
->> ++      db.data =3D (*[maxMapSize]byte)(unsafe.Pointer(&b[0]))
->> ++      db.datasz =3D sz
->> ++      return nil
->> ++}
->> ++
->> ++// munmap unmaps a DB's data file from memory.
->> ++func munmap(db *DB) error {
->> ++      // Ignore the unmap if we have no mapped data.
->> ++      if db.dataref =3D=3D nil {
->> ++              return nil
->> ++      }
->> ++
->> ++      // Unmap using the original byte slice.
->> ++      err :=3D unix.Munmap(db.dataref)
->> ++      db.dataref =3D nil
->> ++      db.data =3D nil
->> ++      db.datasz =3D 0
->> ++      return err
->> ++}
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bolt_windows.go
->> b/vendor/src/github.com/boltdb/bolt/bolt_windows.go
->> +index c8539d4..8b782be 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/bolt_windows.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/bolt_windows.go
->> +@@ -16,7 +16,7 @@ func fdatasync(db *DB) error {
->> + }
->> +
->> + // flock acquires an advisory lock on a file descriptor.
->> +-func flock(f *os.File, _ time.Duration) error {
->> ++func flock(f *os.File, _ bool, _ time.Duration) error {
->> +       return nil
->> + }
->> +
->> +@@ -28,9 +28,11 @@ func funlock(f *os.File) error {
->> + // mmap memory maps a DB's data file.
->> + // Based on: https://github.com/edsrzf/mmap-go
->> + func mmap(db *DB, sz int) error {
->> +-      // Truncate the database to the size of the mmap.
->> +-      if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
->> +-              return fmt.Errorf("truncate: %s", err)
->> ++      if !db.readOnly {
->> ++              // Truncate the database to the size of the mmap.
->> ++              if err :=3D db.file.Truncate(int64(sz)); err !=3D nil {
->> ++                      return fmt.Errorf("truncate: %s", err)
->> ++              }
->> +       }
->> +
->> +       // Open a file mapping handle.
->> +diff --git a/vendor/src/github.com/boltdb/bolt/bucket.go b/vendor/src/
->> github.com/boltdb/bolt/bucket.go
->> +index 2630800..2925288 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/bucket.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/bucket.go
->> +@@ -99,6 +99,7 @@ func (b *Bucket) Cursor() *Cursor {
->> +
->> + // Bucket retrieves a nested bucket by name.
->> + // Returns nil if the bucket does not exist.
->> ++// The bucket instance is only valid for the lifetime of the
->> transaction.
->> + func (b *Bucket) Bucket(name []byte) *Bucket {
->> +       if b.buckets !=3D nil {
->> +               if child :=3D b.buckets[string(name)]; child !=3D nil {
->> +@@ -148,6 +149,7 @@ func (b *Bucket) openBucket(value []byte) *Bucket {
->> +
->> + // CreateBucket creates a new bucket at the given key and returns the
->> new bucket.
->> + // Returns an error if the key already exists, if the bucket name is
->> blank, or if the bucket name is too long.
->> ++// The bucket instance is only valid for the lifetime of the
->> transaction.
->> + func (b *Bucket) CreateBucket(key []byte) (*Bucket, error) {
->> +       if b.tx.db =3D=3D nil {
->> +               return nil, ErrTxClosed
->> +@@ -192,6 +194,7 @@ func (b *Bucket) CreateBucket(key []byte) (*Bucket,
->> error) {
->> +
->> + // CreateBucketIfNotExists creates a new bucket if it doesn't already
->> exist and returns a reference to it.
->> + // Returns an error if the bucket name is blank, or if the bucket name
->> is too long.
->> ++// The bucket instance is only valid for the lifetime of the
->> transaction.
->> + func (b *Bucket) CreateBucketIfNotExists(key []byte) (*Bucket, error) =
-{
->> +       child, err :=3D b.CreateBucket(key)
->> +       if err =3D=3D ErrBucketExists {
->> +@@ -252,6 +255,7 @@ func (b *Bucket) DeleteBucket(key []byte) error {
->> +
->> + // Get retrieves the value for a key in the bucket.
->> + // Returns a nil value if the key does not exist or if the key is a
->> nested bucket.
->> ++// The returned value is only valid for the life of the transaction.
->> + func (b *Bucket) Get(key []byte) []byte {
->> +       k, v, flags :=3D b.Cursor().seek(key)
->> +
->> +@@ -332,6 +336,12 @@ func (b *Bucket) NextSequence() (uint64, error) {
->> +               return 0, ErrTxNotWritable
->> +       }
->> +
->> ++      // Materialize the root node if it hasn't been already so that t=
-he
->> ++      // bucket will be saved during commit.
->> ++      if b.rootNode =3D=3D nil {
->> ++              _ =3D b.node(b.root, nil)
->> ++      }
->> ++
->> +       // Increment and return the sequence.
->> +       b.bucket.sequence++
->> +       return b.bucket.sequence, nil
->> +@@ -339,7 +349,8 @@ func (b *Bucket) NextSequence() (uint64, error) {
->> +
->> + // ForEach executes a function for each key/value pair in a bucket.
->> + // If the provided function returns an error then the iteration is
->> stopped and
->> +-// the error is returned to the caller.
->> ++// the error is returned to the caller. The provided function must not
->> modify
->> ++// the bucket; this will result in undefined behavior.
->> + func (b *Bucket) ForEach(fn func(k, v []byte) error) error {
->> +       if b.tx.db =3D=3D nil {
->> +               return ErrTxClosed
->> +@@ -511,8 +522,12 @@ func (b *Bucket) spill() error {
->> +               // Update parent node.
->> +               var c =3D b.Cursor()
->> +               k, _, flags :=3D c.seek([]byte(name))
->> +-              _assert(bytes.Equal([]byte(name), k), "misplaced bucket
->> header: %x -> %x", []byte(name), k)
->> +-              _assert(flags&bucketLeafFlag !=3D 0, "unexpected bucket
->> header flag: %x", flags)
->> ++              if !bytes.Equal([]byte(name), k) {
->> ++                      panic(fmt.Sprintf("misplaced bucket header: %x -=
->
->> %x", []byte(name), k))
->> ++              }
->> ++              if flags&bucketLeafFlag =3D=3D 0 {
->> ++                      panic(fmt.Sprintf("unexpected bucket header flag=
-:
->> %x", flags))
->> ++              }
->> +               c.node().put([]byte(name), []byte(name), value, 0,
->> bucketLeafFlag)
->> +       }
->> +
->> +@@ -528,7 +543,9 @@ func (b *Bucket) spill() error {
->> +       b.rootNode =3D b.rootNode.root()
->> +
->> +       // Update the root node for this bucket.
->> +-      _assert(b.rootNode.pgid < b.tx.meta.pgid, "pgid (%d) above high
->> water mark (%d)", b.rootNode.pgid, b.tx.meta.pgid)
->> ++      if b.rootNode.pgid >=3D b.tx.meta.pgid {
->> ++              panic(fmt.Sprintf("pgid (%d) above high water mark (%d)"=
-,
->> b.rootNode.pgid, b.tx.meta.pgid))
->> ++      }
->> +       b.root =3D b.rootNode.pgid
->> +
->> +       return nil
->> +@@ -659,7 +676,9 @@ func (b *Bucket) pageNode(id pgid) (*page, *node) {
->> +       // Inline buckets have a fake page embedded in their value so
->> treat them
->> +       // differently. We'll return the rootNode (if available) or the
->> fake page.
->> +       if b.root =3D=3D 0 {
->> +-              _assert(id =3D=3D 0, "inline bucket non-zero page access=
-(2):
->> %d !=3D 0", id)
->> ++              if id !=3D 0 {
->> ++                      panic(fmt.Sprintf("inline bucket non-zero page
->> access(2): %d !=3D 0", id))
->> ++              }
->> +               if b.rootNode !=3D nil {
->> +                       return nil, b.rootNode
->> +               }
->> +diff --git a/vendor/src/github.com/boltdb/bolt/cursor.go b/vendor/src/
->> github.com/boltdb/bolt/cursor.go
->> +index 3bfc2f1..006c548 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/cursor.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/cursor.go
->> +@@ -2,6 +2,7 @@ package bolt
->> +
->> + import (
->> +       "bytes"
->> ++      "fmt"
->> +       "sort"
->> + )
->> +
->> +@@ -9,6 +10,8 @@ import (
->> + // Cursors see nested buckets with value =3D=3D nil.
->> + // Cursors can be obtained from a transaction and are valid as long as
->> the transaction is open.
->> + //
->> ++// Keys and values returned from the cursor are only valid for the lif=
-e
->> of the transaction.
->> ++//
->> + // Changing data while traversing with a cursor may cause it to be
->> invalidated
->> + // and return unexpected keys and/or values. You must reposition your
->> cursor
->> + // after mutating data.
->> +@@ -24,6 +27,7 @@ func (c *Cursor) Bucket() *Bucket {
->> +
->> + // First moves the cursor to the first item in the bucket and returns
->> its key and value.
->> + // If the bucket is empty then a nil key and value are returned.
->> ++// The returned key and value are only valid for the life of the
->> transaction.
->> + func (c *Cursor) First() (key []byte, value []byte) {
->> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
->> +       c.stack =3D c.stack[:0]
->> +@@ -40,6 +44,7 @@ func (c *Cursor) First() (key []byte, value []byte) {
->> +
->> + // Last moves the cursor to the last item in the bucket and returns it=
-s
->> key and value.
->> + // If the bucket is empty then a nil key and value are returned.
->> ++// The returned key and value are only valid for the life of the
->> transaction.
->> + func (c *Cursor) Last() (key []byte, value []byte) {
->> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
->> +       c.stack =3D c.stack[:0]
->> +@@ -57,6 +62,7 @@ func (c *Cursor) Last() (key []byte, value []byte) {
->> +
->> + // Next moves the cursor to the next item in the bucket and returns it=
-s
->> key and value.
->> + // If the cursor is at the end of the bucket then a nil key and value
->> are returned.
->> ++// The returned key and value are only valid for the life of the
->> transaction.
->> + func (c *Cursor) Next() (key []byte, value []byte) {
->> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
->> +       k, v, flags :=3D c.next()
->> +@@ -68,6 +74,7 @@ func (c *Cursor) Next() (key []byte, value []byte) {
->> +
->> + // Prev moves the cursor to the previous item in the bucket and return=
-s
->> its key and value.
->> + // If the cursor is at the beginning of the bucket then a nil key and
->> value are returned.
->> ++// The returned key and value are only valid for the life of the
->> transaction.
->> + func (c *Cursor) Prev() (key []byte, value []byte) {
->> +       _assert(c.bucket.tx.db !=3D nil, "tx closed")
->> +
->> +@@ -99,6 +106,7 @@ func (c *Cursor) Prev() (key []byte, value []byte) {
->> + // Seek moves the cursor to a given key and returns it.
->> + // If the key does not exist then the next key is used. If no keys
->> + // follow, a nil key is returned.
->> ++// The returned key and value are only valid for the life of the
->> transaction.
->> + func (c *Cursor) Seek(seek []byte) (key []byte, value []byte) {
->> +       k, v, flags :=3D c.seek(seek)
->> +
->> +@@ -228,8 +236,8 @@ func (c *Cursor) next() (key []byte, value []byte,
->> flags uint32) {
->> + // search recursively performs a binary search against a given
->> page/node until it finds a given key.
->> + func (c *Cursor) search(key []byte, pgid pgid) {
->> +       p, n :=3D c.bucket.pageNode(pgid)
->> +-      if p !=3D nil {
->> +-              _assert((p.flags&(branchPageFlag|leafPageFlag)) !=3D 0,
->> "invalid page type: %d: %x", p.id, p.flags)
->> ++      if p !=3D nil && (p.flags&(branchPageFlag|leafPageFlag)) =3D=3D =
-0 {
->> ++              panic(fmt.Sprintf("invalid page type: %d: %x", p.id,
->> p.flags))
->> +       }
->> +       e :=3D elemRef{page: p, node: n}
->> +       c.stack =3D append(c.stack, e)
->> +diff --git a/vendor/src/github.com/boltdb/bolt/db.go b/vendor/src/
->> github.com/boltdb/bolt/db.go
->> +index 6c45736..d39c4aa 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/db.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/db.go
->> +@@ -12,9 +12,6 @@ import (
->> +       "unsafe"
->> + )
->> +
->> +-// The smallest size that the mmap can be.
->> +-const minMmapSize =3D 1 << 22 // 4MB
->> +-
->> + // The largest step that can be taken when remapping the mmap.
->> + const maxMmapStep =3D 1 << 30 // 1GB
->> +
->> +@@ -30,6 +27,12 @@ const magic uint32 =3D 0xED0CDAED
->> + // must be synchronzied using the msync(2) syscall.
->> + const IgnoreNoSync =3D runtime.GOOS =3D=3D "openbsd"
->> +
->> ++// Default values if not set in a DB instance.
->> ++const (
->> ++      DefaultMaxBatchSize  int =3D 1000
->> ++      DefaultMaxBatchDelay     =3D 10 * time.Millisecond
->> ++)
->> ++
->> + // DB represents a collection of buckets persisted to a file on disk.
->> + // All data access is performed through transactions which can be
->> obtained through the DB.
->> + // All the functions on DB will return a ErrDatabaseNotOpen if accesse=
-d
->> before Open() is called.
->> +@@ -52,9 +55,33 @@ type DB struct {
->> +       // THIS IS UNSAFE. PLEASE USE WITH CAUTION.
->> +       NoSync bool
->> +
->> ++      // When true, skips the truncate call when growing the database.
->> ++      // Setting this to true is only safe on non-ext3/ext4 systems.
->> ++      // Skipping truncation avoids preallocation of hard drive space
->> and
->> ++      // bypasses a truncate() and fsync() syscall on remapping.
->> ++      //
->> ++      // https://github.com/boltdb/bolt/issues/284
->> ++      NoGrowSync bool
->> ++
->> ++      // MaxBatchSize is the maximum size of a batch. Default value is
->> ++      // copied from DefaultMaxBatchSize in Open.
->> ++      //
->> ++      // If <=3D0, disables batching.
->> ++      //
->> ++      // Do not change concurrently with calls to Batch.
->> ++      MaxBatchSize int
->> ++
->> ++      // MaxBatchDelay is the maximum delay before a batch starts.
->> ++      // Default value is copied from DefaultMaxBatchDelay in Open.
->> ++      //
->> ++      // If <=3D0, effectively disables batching.
->> ++      //
->> ++      // Do not change concurrently with calls to Batch.
->> ++      MaxBatchDelay time.Duration
->> ++
->> +       path     string
->> +       file     *os.File
->> +-      dataref  []byte
->> ++      dataref  []byte // mmap'ed readonly, write throws SEGV
->> +       data     *[maxMapSize]byte
->> +       datasz   int
->> +       meta0    *meta
->> +@@ -66,6 +93,9 @@ type DB struct {
->> +       freelist *freelist
->> +       stats    Stats
->> +
->> ++      batchMu sync.Mutex
->> ++      batch   *batch
->> ++
->> +       rwlock   sync.Mutex   // Allows only one writer at a time.
->> +       metalock sync.Mutex   // Protects meta page access.
->> +       mmaplock sync.RWMutex // Protects mmap access during remapping.
->> +@@ -74,6 +104,10 @@ type DB struct {
->> +       ops struct {
->> +               writeAt func(b []byte, off int64) (n int, err error)
->> +       }
->> ++
->> ++      // Read only mode.
->> ++      // When true, Update() and Begin(true) return ErrDatabaseReadOnl=
-y
->> immediately.
->> ++      readOnly bool
->> + }
->> +
->> + // Path returns the path to currently open database file.
->> +@@ -101,20 +135,34 @@ func Open(path string, mode os.FileMode, options
->> *Options) (*DB, error) {
->> +       if options =3D=3D nil {
->> +               options =3D DefaultOptions
->> +       }
->> ++      db.NoGrowSync =3D options.NoGrowSync
->> ++
->> ++      // Set default values for later DB operations.
->> ++      db.MaxBatchSize =3D DefaultMaxBatchSize
->> ++      db.MaxBatchDelay =3D DefaultMaxBatchDelay
->> ++
->> ++      flag :=3D os.O_RDWR
->> ++      if options.ReadOnly {
->> ++              flag =3D os.O_RDONLY
->> ++              db.readOnly =3D true
->> ++      }
->> +
->> +       // Open data file and separate sync handler for metadata writes.
->> +       db.path =3D path
->> +-
->> +       var err error
->> +-      if db.file, err =3D os.OpenFile(db.path, os.O_RDWR|os.O_CREATE,
->> mode); err !=3D nil {
->> ++      if db.file, err =3D os.OpenFile(db.path, flag|os.O_CREATE, mode)=
-;
->> err !=3D nil {
->> +               _ =3D db.close()
->> +               return nil, err
->> +       }
->> +
->> +-      // Lock file so that other processes using Bolt cannot use the
->> database
->> +-      // at the same time. This would cause corruption since the two
->> processes
->> +-      // would write meta pages and free pages separately.
->> +-      if err :=3D flock(db.file, options.Timeout); err !=3D nil {
->> ++      // Lock file so that other processes using Bolt in read-write
->> mode cannot
->> ++      // use the database  at the same time. This would cause
->> corruption since
->> ++      // the two processes would write meta pages and free pages
->> separately.
->> ++      // The database file is locked exclusively (only one process can
->> grab the lock)
->> ++      // if !options.ReadOnly.
->> ++      // The database file is locked using the shared lock (more than
->> one process may
->> ++      // hold a lock at the same time) otherwise (options.ReadOnly is
->> set).
->> ++      if err :=3D flock(db.file, !db.readOnly, options.Timeout); err !=
-=3D
->> nil {
->> +               _ =3D db.close()
->> +               return nil, err
->> +       }
->> +@@ -162,16 +210,6 @@ func (db *DB) mmap(minsz int) error {
->> +       db.mmaplock.Lock()
->> +       defer db.mmaplock.Unlock()
->> +
->> +-      // Dereference all mmap references before unmapping.
->> +-      if db.rwtx !=3D nil {
->> +-              db.rwtx.root.dereference()
->> +-      }
->> +-
->> +-      // Unmap existing data before continuing.
->> +-      if err :=3D db.munmap(); err !=3D nil {
->> +-              return err
->> +-      }
->> +-
->> +       info, err :=3D db.file.Stat()
->> +       if err !=3D nil {
->> +               return fmt.Errorf("mmap stat error: %s", err)
->> +@@ -184,7 +222,20 @@ func (db *DB) mmap(minsz int) error {
->> +       if size < minsz {
->> +               size =3D minsz
->> +       }
->> +-      size =3D db.mmapSize(size)
->> ++      size, err =3D db.mmapSize(size)
->> ++      if err !=3D nil {
->> ++              return err
->> ++      }
->> ++
->> ++      // Dereference all mmap references before unmapping.
->> ++      if db.rwtx !=3D nil {
->> ++              db.rwtx.root.dereference()
->> ++      }
->> ++
->> ++      // Unmap existing data before continuing.
->> ++      if err :=3D db.munmap(); err !=3D nil {
->> ++              return err
->> ++      }
->> +
->> +       // Memory-map the data file as a byte slice.
->> +       if err :=3D mmap(db, size); err !=3D nil {
->> +@@ -215,22 +266,40 @@ func (db *DB) munmap() error {
->> + }
->> +
->> + // mmapSize determines the appropriate size for the mmap given the
->> current size
->> +-// of the database. The minimum size is 4MB and doubles until it
->> reaches 1GB.
->> +-func (db *DB) mmapSize(size int) int {
->> +-      if size <=3D minMmapSize {
->> +-              return minMmapSize
->> +-      } else if size < maxMmapStep {
->> +-              size *=3D 2
->> +-      } else {
->> +-              size +=3D maxMmapStep
->> ++// of the database. The minimum size is 1MB and doubles until it
->> reaches 1GB.
->> ++// Returns an error if the new mmap size is greater than the max
->> allowed.
->> ++func (db *DB) mmapSize(size int) (int, error) {
->> ++      // Double the size from 32KB until 1GB.
->> ++      for i :=3D uint(15); i <=3D 30; i++ {
->> ++              if size <=3D 1<<i {
->> ++                      return 1 << i, nil
->> ++              }
->> ++      }
->> ++
->> ++      // Verify the requested size is not above the maximum allowed.
->> ++      if size > maxMapSize {
->> ++              return 0, fmt.Errorf("mmap too large")
->> ++      }
->> ++
->> ++      // If larger than 1GB then grow by 1GB at a time.
->> ++      sz :=3D int64(size)
->> ++      if remainder :=3D sz % int64(maxMmapStep); remainder > 0 {
->> ++              sz +=3D int64(maxMmapStep) - remainder
->> +       }
->> +
->> +       // Ensure that the mmap size is a multiple of the page size.
->> +-      if (size % db.pageSize) !=3D 0 {
->> +-              size =3D ((size / db.pageSize) + 1) * db.pageSize
->> ++      // This should always be true since we're incrementing in MBs.
->> ++      pageSize :=3D int64(db.pageSize)
->> ++      if (sz % pageSize) !=3D 0 {
->> ++              sz =3D ((sz / pageSize) + 1) * pageSize
->> ++      }
->> ++
->> ++      // If we've exceeded the max size then only grow up to the max
->> size.
->> ++      if sz > maxMapSize {
->> ++              sz =3D maxMapSize
->> +       }
->> +
->> +-      return size
->> ++      return int(sz), nil
->> + }
->> +
->> + // init creates a new database file and initializes its meta pages.
->> +@@ -250,7 +319,6 @@ func (db *DB) init() error {
->> +               m.magic =3D magic
->> +               m.version =3D version
->> +               m.pageSize =3D uint32(db.pageSize)
->> +-              m.version =3D version
->> +               m.freelist =3D 2
->> +               m.root =3D bucket{root: 3}
->> +               m.pgid =3D 4
->> +@@ -283,8 +351,15 @@ func (db *DB) init() error {
->> + // Close releases all database resources.
->> + // All transactions must be closed before closing the database.
->> + func (db *DB) Close() error {
->> ++      db.rwlock.Lock()
->> ++      defer db.rwlock.Unlock()
->> ++
->> +       db.metalock.Lock()
->> +       defer db.metalock.Unlock()
->> ++
->> ++      db.mmaplock.RLock()
->> ++      defer db.mmaplock.RUnlock()
->> ++
->> +       return db.close()
->> + }
->> +
->> +@@ -304,8 +379,11 @@ func (db *DB) close() error {
->> +
->> +       // Close file handles.
->> +       if db.file !=3D nil {
->> +-              // Unlock the file.
->> +-              _ =3D funlock(db.file)
->> ++              // No need to unlock read-only file.
->> ++              if !db.readOnly {
->> ++                      // Unlock the file.
->> ++                      _ =3D funlock(db.file)
->> ++              }
->> +
->> +               // Close the file descriptor.
->> +               if err :=3D db.file.Close(); err !=3D nil {
->> +@@ -323,6 +401,11 @@ func (db *DB) close() error {
->> + // will cause the calls to block and be serialized until the current
->> write
->> + // transaction finishes.
->> + //
->> ++// Transactions should not be depedent on one another. Opening a read
->> ++// transaction and a write transaction in the same goroutine can cause
->> the
->> ++// writer to deadlock because the database periodically needs to
->> re-mmap itself
->> ++// as it grows and it cannot do that while a read transaction is open.
->> ++//
->> + // IMPORTANT: You must close read-only transactions after you are
->> finished or
->> + // else the database will not reclaim old pages.
->> + func (db *DB) Begin(writable bool) (*Tx, error) {
->> +@@ -371,6 +454,11 @@ func (db *DB) beginTx() (*Tx, error) {
->> + }
->> +
->> + func (db *DB) beginRWTx() (*Tx, error) {
->> ++      // If the database was opened with Options.ReadOnly, return an
->> error.
->> ++      if db.readOnly {
->> ++              return nil, ErrDatabaseReadOnly
->> ++      }
->> ++
->> +       // Obtain writer lock. This is released by the transaction when
->> it closes.
->> +       // This enforces only one writer transaction at a time.
->> +       db.rwlock.Lock()
->> +@@ -501,6 +589,12 @@ func (db *DB) View(fn func(*Tx) error) error {
->> +       return nil
->> + }
->> +
->> ++// Sync executes fdatasync() against the database file handle.
->> ++//
->> ++// This is not necessary under normal operation, however, if you use
->> NoSync
->> ++// then it allows you to force the database file to sync against the
->> disk.
->> ++func (db *DB) Sync() error { return fdatasync(db) }
->> ++
->> + // Stats retrieves ongoing performance stats for the database.
->> + // This is only updated when a transaction closes.
->> + func (db *DB) Stats() Stats {
->> +@@ -561,18 +655,30 @@ func (db *DB) allocate(count int) (*page, error) =
-{
->> +       return p, nil
->> + }
->> +
->> ++func (db *DB) IsReadOnly() bool {
->> ++      return db.readOnly
->> ++}
->> ++
->> + // Options represents the options that can be set when opening a
->> database.
->> + type Options struct {
->> +       // Timeout is the amount of time to wait to obtain a file lock.
->> +       // When set to zero it will wait indefinitely. This option is on=
-ly
->> +       // available on Darwin and Linux.
->> +       Timeout time.Duration
->> ++
->> ++      // Sets the DB.NoGrowSync flag before memory mapping the file.
->> ++      NoGrowSync bool
->> ++
->> ++      // Open database in read-only mode. Uses flock(..., LOCK_SH
->> |LOCK_NB) to
->> ++      // grab a shared lock (UNIX).
->> ++      ReadOnly bool
->> + }
->> +
->> + // DefaultOptions represent the options used if nil options are passed
->> into Open().
->> + // No timeout is used which will cause Bolt to wait indefinitely for a
->> lock.
->> + var DefaultOptions =3D &Options{
->> +-      Timeout: 0,
->> ++      Timeout:    0,
->> ++      NoGrowSync: false,
->> + }
->> +
->> + // Stats represents statistics about the database.
->> +@@ -647,9 +753,11 @@ func (m *meta) copy(dest *meta) {
->> +
->> + // write writes the meta onto a page.
->> + func (m *meta) write(p *page) {
->> +-
->> +-      _assert(m.root.root < m.pgid, "root bucket pgid (%d) above high
->> water mark (%d)", m.root.root, m.pgid)
->> +-      _assert(m.freelist < m.pgid, "freelist pgid (%d) above high wate=
-r
->> mark (%d)", m.freelist, m.pgid)
->> ++      if m.root.root >=3D m.pgid {
->> ++              panic(fmt.Sprintf("root bucket pgid (%d) above high wate=
-r
->> mark (%d)", m.root.root, m.pgid))
->> ++      } else if m.freelist >=3D m.pgid {
->> ++              panic(fmt.Sprintf("freelist pgid (%d) above high water
->> mark (%d)", m.freelist, m.pgid))
->> ++      }
->> +
->> +       // Page id is either going to be 0 or 1 which we can determine b=
-y
->> the transaction ID.
->> +       p.id =3D pgid(m.txid % 2)
->> +@@ -675,13 +783,8 @@ func _assert(condition bool, msg string, v
->> ...interface{}) {
->> +       }
->> + }
->> +
->> +-func warn(v ...interface{}) {
->> +-      fmt.Fprintln(os.Stderr, v...)
->> +-}
->> +-
->> +-func warnf(msg string, v ...interface{}) {
->> +-      fmt.Fprintf(os.Stderr, msg+"\n", v...)
->> +-}
->> ++func warn(v ...interface{})              { fmt.Fprintln(os.Stderr,
->> v...) }
->> ++func warnf(msg string, v ...interface{}) { fmt.Fprintf(os.Stderr,
->> msg+"\n", v...) }
->> +
->> + func printstack() {
->> +       stack :=3D strings.Join(strings.Split(string(debug.Stack()),
->> "\n")[2:], "\n")
->> +diff --git a/vendor/src/github.com/boltdb/bolt/errors.go b/vendor/src/
->> github.com/boltdb/bolt/errors.go
->> +index aa504f1..6883786 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/errors.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/errors.go
->> +@@ -36,6 +36,10 @@ var (
->> +       // ErrTxClosed is returned when committing or rolling back a
->> transaction
->> +       // that has already been committed or rolled back.
->> +       ErrTxClosed =3D errors.New("tx closed")
->> ++
->> ++      // ErrDatabaseReadOnly is returned when a mutating transaction i=
-s
->> started on a
->> ++      // read-only database.
->> ++      ErrDatabaseReadOnly =3D errors.New("database is in read-only mod=
-e")
->> + )
->> +
->> + // These errors can occur when putting or deleting a value or a bucket=
-.
->> +diff --git a/vendor/src/github.com/boltdb/bolt/freelist.go b/vendor/src=
-/
->> github.com/boltdb/bolt/freelist.go
->> +index 150e3e6..0161948 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/freelist.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/freelist.go
->> +@@ -1,6 +1,7 @@
->> + package bolt
->> +
->> + import (
->> ++      "fmt"
->> +       "sort"
->> +       "unsafe"
->> + )
->> +@@ -47,15 +48,14 @@ func (f *freelist) pending_count() int {
->> +
->> + // all returns a list of all free ids and all pending ids in one sorte=
-d
->> list.
->> + func (f *freelist) all() []pgid {
->> +-      ids :=3D make([]pgid, len(f.ids))
->> +-      copy(ids, f.ids)
->> ++      m :=3D make(pgids, 0)
->> +
->> +       for _, list :=3D range f.pending {
->> +-              ids =3D append(ids, list...)
->> ++              m =3D append(m, list...)
->> +       }
->> +
->> +-      sort.Sort(pgids(ids))
->> +-      return ids
->> ++      sort.Sort(m)
->> ++      return pgids(f.ids).merge(m)
->> + }
->> +
->> + // allocate returns the starting page id of a contiguous list of pages
->> of a given size.
->> +@@ -67,7 +67,9 @@ func (f *freelist) allocate(n int) pgid {
->> +
->> +       var initial, previd pgid
->> +       for i, id :=3D range f.ids {
->> +-              _assert(id > 1, "invalid page allocation: %d", id)
->> ++              if id <=3D 1 {
->> ++                      panic(fmt.Sprintf("invalid page allocation: %d",
->> id))
->> ++              }
->> +
->> +               // Reset initial page if this is not contiguous.
->> +               if previd =3D=3D 0 || id-previd !=3D 1 {
->> +@@ -103,13 +105,17 @@ func (f *freelist) allocate(n int) pgid {
->> + // free releases a page and its overflow for a given transaction id.
->> + // If the page is already free then a panic will occur.
->> + func (f *freelist) free(txid txid, p *page) {
->> +-      _assert(p.id > 1, "cannot free page 0 or 1: %d", p.id)
->> ++      if p.id <=3D 1 {
->> ++              panic(fmt.Sprintf("cannot free page 0 or 1: %d", p.id))
->> ++      }
->> +
->> +       // Free page and all its overflow pages.
->> +       var ids =3D f.pending[txid]
->> +       for id :=3D p.id; id <=3D p.id+pgid(p.overflow); id++ {
->> +               // Verify that page is not already free.
->> +-              _assert(!f.cache[id], "page %d already freed", id)
->> ++              if f.cache[id] {
->> ++                      panic(fmt.Sprintf("page %d already freed", id))
->> ++              }
->> +
->> +               // Add to the freelist and cache.
->> +               ids =3D append(ids, id)
->> +@@ -120,15 +126,17 @@ func (f *freelist) free(txid txid, p *page) {
->> +
->> + // release moves all page ids for a transaction id (or older) to the
->> freelist.
->> + func (f *freelist) release(txid txid) {
->> ++      m :=3D make(pgids, 0)
->> +       for tid, ids :=3D range f.pending {
->> +               if tid <=3D txid {
->> +                       // Move transaction's pending pages to the
->> available freelist.
->> +                       // Don't remove from the cache since the page is
->> still free.
->> +-                      f.ids =3D append(f.ids, ids...)
->> ++                      m =3D append(m, ids...)
->> +                       delete(f.pending, tid)
->> +               }
->> +       }
->> +-      sort.Sort(pgids(f.ids))
->> ++      sort.Sort(m)
->> ++      f.ids =3D pgids(f.ids).merge(m)
->> + }
->> +
->> + // rollback removes the pages from a given pending tx.
->> +diff --git a/vendor/src/github.com/boltdb/bolt/node.go b/vendor/src/
->> github.com/boltdb/bolt/node.go
->> +index c204c39..c9fb21c 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/node.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/node.go
->> +@@ -2,6 +2,7 @@ package bolt
->> +
->> + import (
->> +       "bytes"
->> ++      "fmt"
->> +       "sort"
->> +       "unsafe"
->> + )
->> +@@ -70,7 +71,9 @@ func (n *node) pageElementSize() int {
->> +
->> + // childAt returns the child node at a given index.
->> + func (n *node) childAt(index int) *node {
->> +-      _assert(!n.isLeaf, "invalid childAt(%d) on a leaf node", index)
->> ++      if n.isLeaf {
->> ++              panic(fmt.Sprintf("invalid childAt(%d) on a leaf node",
->> index))
->> ++      }
->> +       return n.bucket.node(n.inodes[index].pgid, n)
->> + }
->> +
->> +@@ -111,9 +114,13 @@ func (n *node) prevSibling() *node {
->> +
->> + // put inserts a key/value.
->> + func (n *node) put(oldKey, newKey, value []byte, pgid pgid, flags
->> uint32) {
->> +-      _assert(pgid < n.bucket.tx.meta.pgid, "pgid (%d) above high wate=
-r
->> mark (%d)", pgid, n.bucket.tx.meta.pgid)
->> +-      _assert(len(oldKey) > 0, "put: zero-length old key")
->> +-      _assert(len(newKey) > 0, "put: zero-length new key")
->> ++      if pgid >=3D n.bucket.tx.meta.pgid {
->> ++              panic(fmt.Sprintf("pgid (%d) above high water mark (%d)"=
-,
->> pgid, n.bucket.tx.meta.pgid))
->> ++      } else if len(oldKey) <=3D 0 {
->> ++              panic("put: zero-length old key")
->> ++      } else if len(newKey) <=3D 0 {
->> ++              panic("put: zero-length new key")
->> ++      }
->> +
->> +       // Find insertion index.
->> +       index :=3D sort.Search(len(n.inodes), func(i int) bool { return
->> bytes.Compare(n.inodes[i].key, oldKey) !=3D -1 })
->> +@@ -189,7 +196,9 @@ func (n *node) write(p *page) {
->> +               p.flags |=3D branchPageFlag
->> +       }
->> +
->> +-      _assert(len(n.inodes) < 0xFFFF, "inode overflow: %d (pgid=3D%d)"=
-,
->> len(n.inodes), p.id)
->> ++      if len(n.inodes) >=3D 0xFFFF {
->> ++              panic(fmt.Sprintf("inode overflow: %d (pgid=3D%d)",
->> len(n.inodes), p.id))
->> ++      }
->> +       p.count =3D uint16(len(n.inodes))
->> +
->> +       // Loop over each item and write it to the page.
->> +@@ -212,11 +221,20 @@ func (n *node) write(p *page) {
->> +                       _assert(elem.pgid !=3D p.id, "write: circular
->> dependency occurred")
->> +               }
->> +
->> ++              // If the length of key+value is larger than the max
->> allocation size
->> ++              // then we need to reallocate the byte array pointer.
->> ++              //
->> ++              // See: https://github.com/boltdb/bolt/pull/335
->> ++              klen, vlen :=3D len(item.key), len(item.value)
->> ++              if len(b) < klen+vlen {
->> ++                      b =3D
->> (*[maxAllocSize]byte)(unsafe.Pointer(&b[0]))[:]
->> ++              }
->> ++
->> +               // Write data for the element to the end of the page.
->> +               copy(b[0:], item.key)
->> +-              b =3D b[len(item.key):]
->> ++              b =3D b[klen:]
->> +               copy(b[0:], item.value)
->> +-              b =3D b[len(item.value):]
->> ++              b =3D b[vlen:]
->> +       }
->> +
->> +       // DEBUG ONLY: n.dump()
->> +@@ -348,7 +366,9 @@ func (n *node) spill() error {
->> +               }
->> +
->> +               // Write the node.
->> +-              _assert(p.id < tx.meta.pgid, "pgid (%d) above high water
->> mark (%d)", p.id, tx.meta.pgid)
->> ++              if p.id >=3D tx.meta.pgid {
->> ++                      panic(fmt.Sprintf("pgid (%d) above high water
->> mark (%d)", p.id, tx.meta.pgid))
->> ++              }
->> +               node.pgid =3D p.id
->> +               node.write(p)
->> +               node.spilled =3D true
->> +diff --git a/vendor/src/github.com/boltdb/bolt/page.go b/vendor/src/
->> github.com/boltdb/bolt/page.go
->> +index b3dc473..818aa1b 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/page.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/page.go
->> +@@ -3,12 +3,12 @@ package bolt
->> + import (
->> +       "fmt"
->> +       "os"
->> ++      "sort"
->> +       "unsafe"
->> + )
->> +
->> + const pageHeaderSize =3D int(unsafe.Offsetof(((*page)(nil)).ptr))
->> +
->> +-const maxAllocSize =3D 0xFFFFFFF
->> + const minKeysPerPage =3D 2
->> +
->> + const branchPageElementSize =3D int(unsafe.Sizeof(branchPageElement{})=
-)
->> +@@ -97,7 +97,7 @@ type branchPageElement struct {
->> + // key returns a byte slice of the node key.
->> + func (n *branchPageElement) key() []byte {
->> +       buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n))
->> +-      return buf[n.pos : n.pos+n.ksize]
->> ++      return
->> (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksize]
->> + }
->> +
->> + // leafPageElement represents a node on a leaf page.
->> +@@ -111,13 +111,13 @@ type leafPageElement struct {
->> + // key returns a byte slice of the node key.
->> + func (n *leafPageElement) key() []byte {
->> +       buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n))
->> +-      return buf[n.pos : n.pos+n.ksize]
->> ++      return
->> (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos]))[:n.ksize]
->> + }
->> +
->> + // value returns a byte slice of the node value.
->> + func (n *leafPageElement) value() []byte {
->> +       buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n))
->> +-      return buf[n.pos+n.ksize : n.pos+n.ksize+n.vsize]
->> ++      return
->> (*[maxAllocSize]byte)(unsafe.Pointer(&buf[n.pos+n.ksize]))[:n.vsize]
->> + }
->> +
->> + // PageInfo represents human readable information about a page.
->> +@@ -133,3 +133,40 @@ type pgids []pgid
->> + func (s pgids) Len() int           { return len(s) }
->> + func (s pgids) Swap(i, j int)      { s[i], s[j] =3D s[j], s[i] }
->> + func (s pgids) Less(i, j int) bool { return s[i] < s[j] }
->> ++
->> ++// merge returns the sorted union of a and b.
->> ++func (a pgids) merge(b pgids) pgids {
->> ++      // Return the opposite slice if one is nil.
->> ++      if len(a) =3D=3D 0 {
->> ++              return b
->> ++      } else if len(b) =3D=3D 0 {
->> ++              return a
->> ++      }
->> ++
->> ++      // Create a list to hold all elements from both lists.
->> ++      merged :=3D make(pgids, 0, len(a)+len(b))
->> ++
->> ++      // Assign lead to the slice with a lower starting value, follow
->> to the higher value.
->> ++      lead, follow :=3D a, b
->> ++      if b[0] < a[0] {
->> ++              lead, follow =3D b, a
->> ++      }
->> ++
->> ++      // Continue while there are elements in the lead.
->> ++      for len(lead) > 0 {
->> ++              // Merge largest prefix of lead that is ahead of
->> follow[0].
->> ++              n :=3D sort.Search(len(lead), func(i int) bool { return
->> lead[i] > follow[0] })
->> ++              merged =3D append(merged, lead[:n]...)
->> ++              if n >=3D len(lead) {
->> ++                      break
->> ++              }
->> ++
->> ++              // Swap lead and follow.
->> ++              lead, follow =3D follow, lead[n:]
->> ++      }
->> ++
->> ++      // Append what's left in follow.
->> ++      merged =3D append(merged, follow...)
->> ++
->> ++      return merged
->> ++}
->> +diff --git a/vendor/src/github.com/boltdb/bolt/tx.go b/vendor/src/
->> github.com/boltdb/bolt/tx.go
->> +index c041d73..fe6c287 100644
->> +--- a/vendor/src/github.com/boltdb/bolt/tx.go
->> ++++ b/vendor/src/github.com/boltdb/bolt/tx.go
->> +@@ -87,18 +87,21 @@ func (tx *Tx) Stats() TxStats {
->> +
->> + // Bucket retrieves a bucket by name.
->> + // Returns nil if the bucket does not exist.
->> ++// The bucket instance is only valid for the lifetime of the
->> transaction.
->> + func (tx *Tx) Bucket(name []byte) *Bucket {
->> +       return tx.root.Bucket(name)
->> + }
->> +
->> + // CreateBucket creates a new bucket.
->> + // Returns an error if the bucket already exists, if the bucket name i=
-s
->> blank, or if the bucket name is too long.
->> ++// The bucket instance is only valid for the lifetime of the
->> transaction.
->> + func (tx *Tx) CreateBucket(name []byte) (*Bucket, error) {
->> +       return tx.root.CreateBucket(name)
->> + }
->> +
->> + // CreateBucketIfNotExists creates a new bucket if it doesn't already
->> exist.
->> + // Returns an error if the bucket name is blank, or if the bucket name
->> is too long.
->> ++// The bucket instance is only valid for the lifetime of the
->> transaction.
->> + func (tx *Tx) CreateBucketIfNotExists(name []byte) (*Bucket, error) {
->> +       return tx.root.CreateBucketIfNotExists(name)
->> + }
->> +@@ -127,7 +130,8 @@ func (tx *Tx) OnCommit(fn func()) {
->> + }
->> +
->> + // Commit writes all changes to disk and updates the meta page.
->> +-// Returns an error if a disk write error occurs.
->> ++// Returns an error if a disk write error occurs, or if Commit is
->> ++// called on a read-only transaction.
->> + func (tx *Tx) Commit() error {
->> +       _assert(!tx.managed, "managed tx commit not allowed")
->> +       if tx.db =3D=3D nil {
->> +@@ -203,7 +207,8 @@ func (tx *Tx) Commit() error {
->> +       return nil
->> + }
->> +
->> +-// Rollback closes the transaction and ignores all previous updates.
->> ++// Rollback closes the transaction and ignores all previous updates.
->> Read-only
->> ++// transactions must be rolled back and not committed.
->> + func (tx *Tx) Rollback() error {
->> +       _assert(!tx.managed, "managed tx rollback not allowed")
->> +       if tx.db =3D=3D nil {
->> +@@ -234,7 +239,8 @@ func (tx *Tx) close() {
->> +               var freelistPendingN =3D tx.db.freelist.pending_count()
->> +               var freelistAlloc =3D tx.db.freelist.size()
->> +
->> +-              // Remove writer lock.
->> ++              // Remove transaction ref & writer lock.
->> ++              tx.db.rwtx =3D nil
->> +               tx.db.rwlock.Unlock()
->> +
->> +               // Merge statistics.
->> +@@ -248,41 +254,51 @@ func (tx *Tx) close() {
->> +       } else {
->> +               tx.db.removeTx(tx)
->> +       }
->> ++
->> ++      // Clear all references.
->> +       tx.db =3D nil
->> ++      tx.meta =3D nil
->> ++      tx.root =3D Bucket{tx: tx}
->> ++      tx.pages =3D nil
->> + }
->> +
->> + // Copy writes the entire database to a writer.
->> +-// A reader transaction is maintained during the copy so it is safe to
->> continue
->> +-// using the database while a copy is in progress.
->> +-// Copy will write exactly tx.Size() bytes into the writer.
->> ++// This function exists for backwards compatibility. Use WriteTo() in
->> + func (tx *Tx) Copy(w io.Writer) error {
->> +-      var f *os.File
->> +-      var err error
->> ++      _, err :=3D tx.WriteTo(w)
->> ++      return err
->> ++}
->> +
->> ++// WriteTo writes the entire database to a writer.
->> ++// If err =3D=3D nil then exactly tx.Size() bytes will be written into=
- the
->> writer.
->> ++func (tx *Tx) WriteTo(w io.Writer) (n int64, err error) {
->> +       // Attempt to open reader directly.
->> ++      var f *os.File
->> +       if f, err =3D os.OpenFile(tx.db.path, os.O_RDONLY|odirect, 0); e=
-rr
->> !=3D nil {
->> +               // Fallback to a regular open if that doesn't work.
->> +               if f, err =3D os.OpenFile(tx.db.path, os.O_RDONLY, 0); e=
-rr
->> !=3D nil {
->> +-                      return err
->> ++                      return 0, err
->> +               }
->> +       }
->> +
->> +       // Copy the meta pages.
->> +       tx.db.metalock.Lock()
->> +-      _, err =3D io.CopyN(w, f, int64(tx.db.pageSize*2))
->> ++      n, err =3D io.CopyN(w, f, int64(tx.db.pageSize*2))
->> +       tx.db.metalock.Unlock()
->> +       if err !=3D nil {
->> +               _ =3D f.Close()
->> +-              return fmt.Errorf("meta copy: %s", err)
->> ++              return n, fmt.Errorf("meta copy: %s", err)
->> +       }
->> +
->> +       // Copy data pages.
->> +-      if _, err :=3D io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2))=
-;
->> err !=3D nil {
->> ++      wn, err :=3D io.CopyN(w, f, tx.Size()-int64(tx.db.pageSize*2))
->> ++      n +=3D wn
->> ++      if err !=3D nil {
->> +               _ =3D f.Close()
->> +-              return err
->> ++              return n, err
->> +       }
->> +
->> +-      return f.Close()
->> ++      return n, f.Close()
->> + }
->> +
->> + // CopyFile copies the entire database to file at the given path.
->> +@@ -416,15 +432,39 @@ func (tx *Tx) write() error {
->> +       // Write pages to disk in order.
->> +       for _, p :=3D range pages {
->> +               size :=3D (int(p.overflow) + 1) * tx.db.pageSize
->> +-              buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(p))[:size]
->> +               offset :=3D int64(p.id) * int64(tx.db.pageSize)
->> +-              if _, err :=3D tx.db.ops.writeAt(buf, offset); err !=3D =
-nil {
->> +-                      return err
->> +-              }
->> +
->> +-              // Update statistics.
->> +-              tx.stats.Write++
->> ++              // Write out page in "max allocation" sized chunks.
->> ++              ptr :=3D (*[maxAllocSize]byte)(unsafe.Pointer(p))
->> ++              for {
->> ++                      // Limit our write to our max allocation size.
->> ++                      sz :=3D size
->> ++                      if sz > maxAllocSize-1 {
->> ++                              sz =3D maxAllocSize - 1
->> ++                      }
->> ++
->> ++                      // Write chunk to disk.
->> ++                      buf :=3D ptr[:sz]
->> ++                      if _, err :=3D tx.db.ops.writeAt(buf, offset); e=
-rr
->> !=3D nil {
->> ++                              return err
->> ++                      }
->> ++
->> ++                      // Update statistics.
->> ++                      tx.stats.Write++
->> ++
->> ++                      // Exit inner for loop if we've written all the
->> chunks.
->> ++                      size -=3D sz
->> ++                      if size =3D=3D 0 {
->> ++                              break
->> ++                      }
->> ++
->> ++                      // Otherwise move offset forward and move pointe=
-r
->> to next chunk.
->> ++                      offset +=3D int64(sz)
->> ++                      ptr =3D
->> (*[maxAllocSize]byte)(unsafe.Pointer(&ptr[sz]))
->> ++              }
->> +       }
->> ++
->> ++      // Ignore file sync if flag is set on DB.
->> +       if !tx.db.NoSync || IgnoreNoSync {
->> +               if err :=3D fdatasync(tx.db); err !=3D nil {
->> +                       return err
->> +--
->> +1.9.1
->> +
->> diff --git
->> a/recipes-containers/docker/files/disable_sha1sum_startup.patch
->> b/recipes-containers/docker/files/disable_sha1sum_startup.patch
->> index 580ca23..cafd83d 100644
->> --- a/recipes-containers/docker/files/disable_sha1sum_startup.patch
->> +++ b/recipes-containers/docker/files/disable_sha1sum_startup.patch
->> @@ -12,20 +12,23 @@ of the binary instead.
->>
->>  Signed-off-by: Amy Fong <amy.fong@windriver.com>
->>  ---
->> - utils/utils.go |   17 +----------------
->> - 1 file changed, 1 insertion(+), 16 deletions(-)
->> + utils/utils.go | 18 +-----------------
->> + 1 file changed, 1 insertion(+), 17 deletions(-)
->>
->> +diff --git a/utils/utils.go b/utils/utils.go
->> +index a17ab9d..3fc514a 100644
->>  --- a/utils/utils.go
->>  +++ b/utils/utils.go
->> -@@ -3,7 +3,6 @@
->> +@@ -2,8 +2,6 @@ package utils
->> +
->>   import (
->>         "bufio"
->> -       "bytes"
->>  -      "crypto/sha1"
->> -       "crypto/sha256"
->> -       "encoding/hex"
->> +-      "encoding/hex"
->>         "fmt"
->> -@@ -75,20 +74,6 @@
->> +       "io"
->> +       "io/ioutil"
->> +@@ -42,20 +40,6 @@ func SelfPath() string {
->>         return path
->>   }
->>
->> @@ -46,7 +49,7 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
->>   func isValidDockerInitPath(target string, selfPath string) bool { //
->> target and selfPath should be absolute (InitPath and SelfPath already do
->> this)
->>         if target =3D=3D "" {
->>                 return false
->> -@@ -110,7 +95,7 @@
->> +@@ -77,7 +61,7 @@ func isValidDockerInitPath(target string, selfPath
->> string) bool { // target and
->>                 }
->>                 return os.SameFile(targetFileInfo, selfPathFileInfo)
->>         }
->> @@ -54,4 +57,4 @@ Signed-off-by: Amy Fong <amy.fong@windriver.com>
->>  +      return true
->>   }
->>
->> - // Figure out the path of our dockerinit (which may be SelfPath())
->> + // DockerInitPath figures out the path of our dockerinit (which may be
->> SelfPath())
->> --
->> 1.8.3.2
->>
->>
->>
->>
->>
->> --
->>
->> "Thou shalt not follow the NULL pointer, for chaos and madness await the=
-e
->> at its end"
->>
->
->
+> On 06/09/2016 03:59 PM, Alejandro del Castillo wrote:
+> > * Update conffiles
+> > * Add PKGCONFIG options for zeromq and TCP transports.
+> >
+> > Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+> > ---
+> >  meta-openstack/recipes-support/salt/files/cloud    |   7 +-
+> >  meta-openstack/recipes-support/salt/files/master   | 541
+> ++++++++++++++++-----
+> >  meta-openstack/recipes-support/salt/files/minion   | 366 ++++++++++----
+> >  meta-openstack/recipes-support/salt/files/roster   |   1 +
+> >  .../salt/{salt_2015.8.0.bb => salt_2016.3.0.bb}    |  22 +-
+> >  5 files changed, 718 insertions(+), 219 deletions(-)
+> >  rename meta-openstack/recipes-support/salt/{salt_2015.8.0.bb =>
+> salt_2016.3.0.bb} (88%)
+> >
+> > diff --git a/meta-openstack/recipes-support/salt/files/cloud
+> b/meta-openstack/recipes-support/salt/files/cloud
+> > index 2ea54f1..5bd28df 100644
+> > --- a/meta-openstack/recipes-support/salt/files/cloud
+> > +++ b/meta-openstack/recipes-support/salt/files/cloud
+> > @@ -1,4 +1,4 @@
+> > -# This file should normally be installed at: /etc/salt/cloud
+> > +# This file should normally be installed at: /etc/salt/cloud
+> >
+> >
+> >  ##########################################
+> > @@ -28,6 +28,9 @@
+> >  # The level of messages to send to the console.
+> >  # One of 'garbage', 'trace', 'debug', info', 'warning', 'error',
+> 'critical'.
+> >  #
+> > +# The following log levels are considered INSECURE and may log
+> sensitive data:
+> > +# ['garbage', 'trace', 'debug']
+> > +#
+> >  # Default: 'info'
+> >  #
+> >  #log_level: info
+> > @@ -65,7 +68,9 @@
+> >  # the coloring of the messages, these color formatters also include
+> padding as
+> >  # well.  Color LogRecord attributes are only available for console
+> logging.
+> >  #
+> > +#log_fmt_console: '%(colorlevel)s %(colormsg)s'
+> >  #log_fmt_console: '[%(levelname)-8s] %(message)s'
+> > +#
+> >  #log_fmt_logfile: '%(asctime)s,%(msecs)03.0f
+> [%(name)-17s][%(levelname)-8s] %(message)s'
+> >
+> >
+> > diff --git a/meta-openstack/recipes-support/salt/files/master
+> b/meta-openstack/recipes-support/salt/files/master
+> > index 8129a4f..821f5fc 100644
+> > --- a/meta-openstack/recipes-support/salt/files/master
+> > +++ b/meta-openstack/recipes-support/salt/files/master
+> > @@ -1,125 +1,235 @@
+> >  ##### Primary configuration settings #####
+> >  ##########################################
+> > -# This configuration file is used to manage the behavior of the Salt
+> Master
+> > -# Values that are commented out but have no space after the comment are
+> > -# defaults that need not be set in the config. If there is a space
+> after the
+> > -# comment that the value is presented as an example and is not the
+> default.
+> > +# This configuration file is used to manage the behavior of the Salt
+> Master.
+> > +# Values that are commented out but have an empty line after the
+> comment are
+> > +# defaults that do not need to be set in the config. If there is no
+> blank line
+> > +# after the comment then the value is presented as an example and is
+> not the
+> > +# default.
+> >
+> >  # Per default, the master will automatically include all config files
+> >  # from master.d/*.conf (master.d is a directory in the same directory
+> > -# as the main master config file)
+> > +# as the main master config file).
+> >  #default_include: master.d/*.conf
+> >
+> > -# The address of the interface to bind to
+> > +# The address of the interface to bind to:
+> >  #interface: 0.0.0.0
+> >
+> >  # Whether the master should listen for IPv6 connections. If this is set
+> to True,
+> > -# the interface option must be adjusted too (for example: "interface:
+> '::'")
+> > +# the interface option must be adjusted, too. (For example: "interface:
+> '::'")
+> >  #ipv6: False
+> >
+> > -# The tcp port used by the publisher
+> > +# The tcp port used by the publisher:
+> >  #publish_port: 4505
+> >
+> > -# The user to run the salt-master as. Salt will update all permissions
+> to
+> > -# allow the specified user to run the master. If the modified files
+> cause
+> > -# conflicts set verify_env to False.
+> > +# The user under which the salt master will run. Salt will update all
+> > +# permissions to allow the specified user to run the master. The
+> exception is
+> > +# the job cache, which must be deleted if this user is changed. If the
+> > +# modified files cause conflicts, set verify_env to False.
+> >  #user: root
+> >
+> > -# Max open files
+> > -# Each minion connecting to the master uses AT LEAST one file
+> descriptor, the
+> > -# master subscription connection. If enough minions connect you might
+> start
+> > -# seeing on the console(and then salt-master crashes):
+> > -#   Too many open files (tcp_listener.cpp:335)
+> > -#   Aborted (core dumped)
+> > -#
+> > -# By default this value will be the one of `ulimit -Hn`, ie, the hard
+> limit for
+> > -# max open files.
+> > -#
+> > -# If you wish to set a different value than the default one, uncomment
+> and
+> > -# configure this setting. Remember that this value CANNOT be higher
+> than the
+> > -# hard limit. Raising the hard limit depends on your OS and/or
+> distribution,
+> > -# a good way to find the limit is to search the internet for(for
+> example):
+> > -#   raise max open files hard limit debian
+> > -#
+> > -#max_open_files: 100000
+> > -
+> > -# The number of worker threads to start, these threads are used to
+> manage
+> > -# return calls made from minions to the master, if the master seems to
+> be
+> > -# running slowly, increase the number of threads
+> > -#worker_threads: 5
+> > -
+> >  # The port used by the communication interface. The ret (return) port
+> is the
+> > -# interface used for the file server, authentication, job returnes, etc.
+> > +# interface used for the file server, authentication, job returns, etc.
+> >  #ret_port: 4506
+> >
+> > -# Specify the location of the daemon process ID file
+> > +# Specify the location of the daemon process ID file:
+> >  #pidfile: /var/run/salt-master.pid
+> >
+> >  # The root directory prepended to these options: pki_dir, cachedir,
+> > -# sock_dir, log_file, autosign_file, extension_modules, key_logfile,
+> pidfile.
+> > +# sock_dir, log_file, autosign_file, autoreject_file, extension_modules,
+> > +# key_logfile, pidfile:
+> >  #root_dir: /
+> >
+> > -# Directory used to store public key data
+> > +# Directory used to store public key data:
+> >  #pki_dir: /etc/salt/pki/master
+> >
+> > -# Directory to store job and cache data
+> > +# Directory to store job and cache data:
+> > +# This directory may contain sensitive data and should be protected
+> accordingly.
+> > +#
+> >  #cachedir: /var/cache/salt/master
+> >
+> > -# Verify and set permissions on configuration directories at startup
+> > +# Directory for custom modules. This directory can contain
+> subdirectories for
+> > +# each of Salt's module types such as "runners", "output", "wheel",
+> "modules",
+> > +# "states", "returners", etc.
+> > +#extension_modules: <no default>
+> > +
+> > +# Directory for custom modules. This directory can contain
+> subdirectories for
+> > +# each of Salt's module types such as "runners", "output", "wheel",
+> "modules",
+> > +# "states", "returners", etc.
+> > +# Like 'extension_modules' but can take an array of paths
+> > +#module_dirs: <no default>
+> > +#   - /var/cache/salt/minion/extmods
+> > +
+> > +# Verify and set permissions on configuration directories at startup:
+> >  #verify_env: True
+> >
+> > -# Set the number of hours to keep old job information in the job cache
+> > +# Set the number of hours to keep old job information in the job cache:
+> >  #keep_jobs: 24
+> >
+> > -# Set the default timeout for the salt command and api, the default is 5
+> > -# seconds
+> > +# Set the default timeout for the salt command and api. The default is 5
+> > +# seconds.
+> >  #timeout: 5
+> >
+> > -# The loop_interval option controls the seconds for the master's
+> maintinance
+> > +# The loop_interval option controls the seconds for the master's
+> maintenance
+> >  # process check cycle. This process updates file server backends,
+> cleans the
+> >  # job cache and executes the scheduler.
+> >  #loop_interval: 60
+> >
+> > -# Set the default outputter used by the salt command. The default is
+> "nested"
+> > +# Set the default outputter used by the salt command. The default is
+> "nested".
+> >  #output: nested
+> >
+> > -# By default output is colored, to disable colored output set the color
+> value
+> > -# to False
+> > +# Return minions that timeout when running commands like test.ping
+> > +#show_timeout: True
+> > +
+> > +# By default, output is colored. To disable colored output, set the
+> color value
+> > +# to False.
+> >  #color: True
+> >
+> > -# Set the directory used to hold unix sockets
+> > +# Do not strip off the colored output from nested results and state
+> outputs
+> > +# (true by default).
+> > +# strip_colors: False
+> > +
+> > +# Set the directory used to hold unix sockets:
+> >  #sock_dir: /var/run/salt/master
+> >
+> >  # The master can take a while to start up when lspci and/or dmidecode
+> is used
+> >  # to populate the grains for the master. Enable if you want to see GPU
+> hardware
+> >  # data for your master.
+> > -#
+> >  # enable_gpu_grains: False
+> >
+> > -# The master maintains a job cache, while this is a great addition it
+> can be
+> > +# The master maintains a job cache. While this is a great addition, it
+> can be
+> >  # a burden on the master for larger deployments (over 5000 minions).
+> >  # Disabling the job cache will make previously executed jobs
+> unavailable to
+> >  # the jobs system and is not generally recommended.
+> > -#
+> >  #job_cache: True
+> >
+> >  # Cache minion grains and pillar data in the cachedir.
+> >  #minion_data_cache: True
+> >
+> > +# Store all returns in the given returner.
+> > +# Setting this option requires that any returner-specific configuration
+> also
+> > +# be set. See various returners in salt/returners for details on
+> required
+> > +# configuration values. (See also, event_return_queue below.)
+> > +#
+> > +#event_return: mysql
+> > +
+> > +# On busy systems, enabling event_returns can cause a considerable load
+> on
+> > +# the storage system for returners. Events can be queued on the master
+> and
+> > +# stored in a batched fashion using a single transaction for multiple
+> events.
+> > +# By default, events are not queued.
+> > +#event_return_queue: 0
+> > +
+> > +# Only events returns matching tags in a whitelist
+> > +# event_return_whitelist:
+> > +#   - salt/master/a_tag
+> > +#   - salt/master/another_tag
+> > +
+> > +# Store all event returns _except_ the tags in a blacklist
+> > +# event_return_blacklist:
+> > +#   - salt/master/not_this_tag
+> > +#   - salt/master/or_this_one
+> > +
+> > +# Passing very large events can cause the minion to consume large
+> amounts of
+> > +# memory. This value tunes the maximum size of a message allowed onto
+> the
+> > +# master event bus. The value is expressed in bytes.
+> > +#max_event_size: 1048576
+> > +
+> > +# By default, the master AES key rotates every 24 hours. The next
+> command
+> > +# following a key rotation will trigger a key refresh from the minion
+> which may
+> > +# result in minions which do not respond to the first command after a
+> key refresh.
+> > +#
+> > +# To tell the master to ping all minions immediately after an AES key
+> refresh, set
+> > +# ping_on_rotate to True. This should mitigate the issue where a minion
+> does not
+> > +# appear to initially respond after a key is rotated.
+> > +#
+> > +# Note that ping_on_rotate may cause high load on the master
+> immediately after
+> > +# the key rotation event as minions reconnect. Consider this carefully
+> if this
+> > +# salt master is managing a large number of minions.
+> > +#
+> > +# If disabled, it is recommended to handle this event by listening for
+> the
+> > +# 'aes_key_rotate' event with the 'key' tag and acting appropriately.
+> > +# ping_on_rotate: False
+> > +
+> > +# By default, the master deletes its cache of minion data when the key
+> for that
+> > +# minion is removed. To preserve the cache after key deletion, set
+> > +# 'preserve_minion_cache' to True.
+> > +#
+> > +# WARNING: This may have security implications if compromised minions
+> auth with
+> > +# a previous deleted minion ID.
+> > +#preserve_minion_cache: False
+> > +
+> > +# If max_minions is used in large installations, the master might
+> experience
+> > +# high-load situations because of having to check the number of
+> connected
+> > +# minions for every authentication. This cache provides the minion-ids
+> of
+> > +# all connected minions to all MWorker-processes and greatly improves
+> the
+> > +# performance of max_minions.
+> > +# con_cache: False
+> > +
+> >  # The master can include configuration from other files. To enable this,
+> >  # pass a list of paths to this option. The paths can be either relative
+> or
+> >  # absolute; if relative, they are considered to be relative to the
+> directory
+> >  # the main master configuration file lives in (this file). Paths can
+> make use
+> >  # of shell-style globbing. If no files are matched by a path passed to
+> this
+> > -# option then the master will log a warning message.
+> > -#
+> > +# option, then the master will log a warning message.
+> >  #
+> >  # Include a config file from some other path:
+> > -#include: /etc/salt/extra_config
+> > +# include: /etc/salt/extra_config
+> >  #
+> >  # Include config from several files and directories:
+> > -#include:
+> > -#  - /etc/salt/extra_config
+> > +# include:
+> > +#   - /etc/salt/extra_config
+> > +
+> > +
+> > +#####  Large-scale tuning settings   #####
+> > +##########################################
+> > +# Max open files
+> > +#
+> > +# Each minion connecting to the master uses AT LEAST one file
+> descriptor, the
+> > +# master subscription connection. If enough minions connect you might
+> start
+> > +# seeing on the console (and then salt-master crashes):
+> > +#   Too many open files (tcp_listener.cpp:335)
+> > +#   Aborted (core dumped)
+> > +#
+> > +# By default this value will be the one of `ulimit -Hn`, ie, the hard
+> limit for
+> > +# max open files.
+> > +#
+> > +# If you wish to set a different value than the default one, uncomment
+> and
+> > +# configure this setting. Remember that this value CANNOT be higher
+> than the
+> > +# hard limit. Raising the hard limit depends on your OS and/or
+> distribution,
+> > +# a good way to find the limit is to search the internet. For example:
+> > +#   raise max open files hard limit debian
+> > +#
+> > +#max_open_files: 100000
+> > +
+> > +# The number of worker threads to start. These threads are used to
+> manage
+> > +# return calls made from minions to the master. If the master seems to
+> be
+> > +# running slowly, increase the number of threads. This setting can not
+> be
+> > +# set lower than 3.
+> > +#worker_threads: 5
+> > +
+> > +# Set the ZeroMQ high water marks
+> > +# http://api.zeromq.org/3-2:zmq-setsockopt
+> > +
+> > +# The publisher interface ZeroMQPubServerChannel
+> > +#pub_hwm: 1000
+> > +
+> > +# These two ZMQ HWM settings, salt_event_pub_hwm and
+> event_publisher_pub_hwm
+> > +# are significant for masters with thousands of minions.  When these are
+> > +# insufficiently high it will manifest in random responses missing in
+> the CLI
+> > +# and even missing from the job cache.  Masters that have fast CPUs and
+> many
+> > +# cores with appropriate worker_threads will not need these set as high.
+> > +
+> > +# On deployment with 8,000 minions, 2.4GHz CPUs, 24 cores, 32GiB memory
+> has
+> > +# these settings:
+> > +#
+> > +#   salt_event_pub_hwm: 128000
+> > +#   event_publisher_pub_hwm: 64000
+> > +
+> > +# ZMQ high-water-mark for SaltEvent pub socket
+> > +#salt_event_pub_hwm: 20000
+> > +
+> > +# ZMQ high-water-mark for EventPublisher pub socket
+> > +#event_publisher_pub_hwm: 10000
+> > +
+> >
+> >
+> >  #####        Security settings       #####
+> > @@ -134,53 +244,68 @@
+> >  # public keys from the minions. Note that this is insecure.
+> >  #auto_accept: False
+> >
+> > -# If the autosign_file is specified only incoming keys specified in
+> > -# the autosign_file will be automatically accepted. This is insecure.
+> > -# Regular expressions as well as globing lines are supported.
+> > +# Time in minutes that a incoming public key with a matching name found
+> in
+> > +# pki_dir/minion_autosign/keyid is automatically accepted. Expired
+> autosign keys
+> > +# are removed when the master checks the minion_autosign directory.
+> > +# 0 equals no timeout
+> > +# autosign_timeout: 120
+> > +
+> > +# If the autosign_file is specified, incoming keys specified in the
+> > +# autosign_file will be automatically accepted. This is insecure.
+> Regular
+> > +# expressions as well as globing lines are supported.
+> >  #autosign_file: /etc/salt/autosign.conf
+> >
+> > -# Enable permissive access to the salt keys.  This allows you to run the
+> > +# Works like autosign_file, but instead allows you to specify minion
+> IDs for
+> > +# which keys will automatically be rejected. Will override both
+> membership in
+> > +# the autosign_file and the auto_accept setting.
+> > +#autoreject_file: /etc/salt/autoreject.conf
+> > +
+> > +# Enable permissive access to the salt keys. This allows you to run the
+> >  # master or minion as root, but have a non-root group be given access to
+> > -# your pki_dir.  To make the access explicit, root must belong to the
+> group
+> > -# you've given access to.  This is potentially quite insecure.
+> > -# If an autosign_file is specified, enabling permissive_pki_access will
+> allow group access
+> > -# to that specific file.
+> > +# your pki_dir. To make the access explicit, root must belong to the
+> group
+> > +# you've given access to. This is potentially quite insecure. If an
+> autosign_file
+> > +# is specified, enabling permissive_pki_access will allow group access
+> to that
+> > +# specific file.
+> >  #permissive_pki_access: False
+> >
+> >  # Allow users on the master access to execute specific commands on
+> minions.
+> >  # This setting should be treated with care since it opens up execution
+> >  # capabilities to non root users. By default this capability is
+> completely
+> >  # disabled.
+> > -#
+> > -#client_acl:
+> > +#pulisher_acl:
+> >  #  larry:
+> >  #    - test.ping
+> >  #    - network.*
+> >  #
+> > -
+> >  # Blacklist any of the following users or modules
+> >  #
+> >  # This example would blacklist all non sudo users, including root from
+> >  # running any commands. It would also blacklist any use of the "cmd"
+> > -# module.
+> > -# This is completely disabled by default.
+> > +# module. This is completely disabled by default.
+> >  #
+> > -#client_acl_blacklist:
+> > +#publisher_acl_blacklist:
+> >  #  users:
+> >  #    - root
+> >  #    - '^(?!sudo_).*$'   #  all non sudo users
+> >  #  modules:
+> >  #    - cmd
+> > +#
+> > +# WARNING: client_acl and client_acl_blacklist options are deprecated
+> and will
+> > +# be removed in the future releases. Use publisher_acl and
+> > +# publisher_acl_blacklist instead.
+> > +
+> > +# Enforce publisher_acl & publisher_acl_blacklist when users have sudo
+> > +# access to the salt command.
+> > +#
+> > +#sudo_acl: False
+> >
+> >  # The external auth system uses the Salt auth modules to authenticate
+> and
+> >  # validate users to access areas of the Salt system.
+> > -#
+> >  #external_auth:
+> >  #  pam:
+> >  #    fred:
+> >  #      - test.*
+> >  #
+> > -
+> >  # Time (in seconds) for a newly generated token to live. Default: 12
+> hours
+> >  #token_expire: 43200
+> >
+> > @@ -188,6 +313,10 @@
+> >  # security purposes.
+> >  #file_recv: False
+> >
+> > +# Set a hard-limit on the size of the files that can be pushed to the
+> master.
+> > +# It will be interpreted as megabytes. Default: 100
+> > +#file_recv_max_size: 100
+> > +
+> >  # Signature verification on messages published from the master.
+> >  # This causes the master to cryptographically sign all messages
+> published to its event
+> >  # bus, and minions then verify that signature before acting on the
+> message.
+> > @@ -199,20 +328,30 @@
+> >  # no signature, it will still be accepted, and a warning message will
+> be logged.
+> >  # Conversely, if sign_pub_messages is False, but a minion receives a
+> signed
+> >  # message it will be accepted, the signature will not be checked, and a
+> warning message
+> > -# will be logged.  This behavior will go away in Salt 0.17.6 (or
+> Hydrogen RC1, whichever
+> > -# comes first) and these two situations will cause minion to throw an
+> exception and
+> > -# drop the message.
+> > -#
+> > +# will be logged. This behavior went away in Salt 2014.1.0 and these
+> two situations
+> > +# will cause minion to throw an exception and drop the message.
+> >  # sign_pub_messages: False
+> >
+> > +#####     Salt-SSH Configuration     #####
+> > +##########################################
+> > +
+> > +# Pass in an alternative location for the salt-ssh roster file
+> > +#roster_file: /etc/salt/roster
+> > +
+> > +# Pass in minion option overrides that will be inserted into the SHIM
+> for
+> > +# salt-ssh calls. The local minion config is not used for salt-ssh. Can
+> be
+> > +# overridden on a per-minion basis in the roster (`minion_opts`)
+> > +#ssh_minion_opts:
+> > +#  gpg_keydir: /root/gpg
+> > +
+> >  #####    Master Module Management    #####
+> >  ##########################################
+> > -# Manage how master side modules are loaded
+> > +# Manage how master side modules are loaded.
+> >
+> > -# Add any additional locations to look for master runners
+> > +# Add any additional locations to look for master runners:
+> >  #runner_dirs: []
+> >
+> > -# Enable Cython for master side modules
+> > +# Enable Cython for master side modules:
+> >  #cython_enable: False
+> >
+> >
+> > @@ -226,6 +365,7 @@
+> >  # The master_tops option replaces the external_nodes option by creating
+> >  # a plugable system for the generation of external top data. The
+> external_nodes
+> >  # option is deprecated by the master_tops option.
+> > +#
+> >  # To gain the capabilities of the classic external_nodes system, use the
+> >  # following configuration:
+> >  # master_tops:
+> > @@ -242,6 +382,19 @@
+> >  # The renderer to use on the minions to render the state data
+> >  #renderer: yaml_jinja
+> >
+> > +# The Jinja renderer can strip extra carriage returns and whitespace
+> > +# See http://jinja.pocoo.org/docs/api/#high-level-api
+> > +#
+> > +# If this is set to True the first newline after a Jinja block is
+> removed
+> > +# (block, not variable tag!). Defaults to False, corresponds to the
+> Jinja
+> > +# environment init variable "trim_blocks".
+> > +#jinja_trim_blocks: False
+> > +#
+> > +# If this is set to True leading spaces and tabs are stripped from the
+> start
+> > +# of a line to a block. Defaults to False, corresponds to the Jinja
+> > +# environment init variable "lstrip_blocks".
+> > +#jinja_lstrip_blocks: False
+> > +
+> >  # The failhard option tells the minions to stop immediately after the
+> first
+> >  # failure detected in the state execution, defaults to False
+> >  #failhard: False
+> > @@ -256,8 +409,22 @@
+> >  # output for each changed state if set to 'full', but if set to 'terse'
+> >  # the output will be shortened to a single line.  If set to 'mixed',
+> the output
+> >  # will be terse unless a state failed, in which case that output will
+> be full.
+> > +# If set to 'changes', the output will be full unless the state didn't
+> change.
+> >  #state_output: full
+> >
+> > +# Automatically aggregate all states that have support for
+> mod_aggregate by
+> > +# setting to 'True'. Or pass a list of state module names to
+> automatically
+> > +# aggregate just those types.
+> > +#
+> > +# state_aggregate:
+> > +#   - pkg
+> > +#
+> > +#state_aggregate: False
+> > +
+> > +# Send progress events as each function in a state run completes
+> execution
+> > +# by setting to 'True'. Progress events are in the format
+> > +# 'salt/job/<JID>/prog/<MID>/<RUN NUM>'.
+> > +#state_events: False
+> >
+> >  #####      File Server settings      #####
+> >  ##########################################
+> > @@ -279,14 +446,34 @@
+> >  #   prod:
+> >  #     - /srv/salt/prod/services
+> >  #     - /srv/salt/prod/states
+> > -
+> > +#
+> >  #file_roots:
+> >  #  base:
+> >  #    - /srv/salt
+> > +#
+> > +
+> > +# When using multiple environments, each with their own top file, the
+> > +# default behaviour is an unordered merge. To prevent top files from
+> > +# being merged together and instead to only use the top file from the
+> > +# requested environment, set this value to 'same'.
+> > +#top_file_merging_strategy: merge
+> > +
+> > +# To specify the order in which environments are merged, set the
+> ordering
+> > +# in the env_order option. Given a conflict, the last matching value
+> will
+> > +# win.
+> > +#env_order: ['base', 'dev', 'prod']
+> > +
+> > +# If top_file_merging_strategy is set to 'same' and an environment does
+> not
+> > +# contain a top file, the top file in the environment specified by
+> default_top
+> > +# will be used instead.
+> > +#default_top: base
+> >
+> >  # The hash_type is the hash to use when discovering the hash of a file
+> on
+> >  # the master server. The default is md5, but sha1, sha224, sha256,
+> sha384
+> >  # and sha512 are also supported.
+> > +#
+> > +# Prior to changing this value, the master should be stopped and all
+> Salt
+> > +# caches should be cleared.
+> >  #hash_type: md5
+> >
+> >  # The buffer size in the file server can be adjusted here:
+> > @@ -298,7 +485,6 @@
+> >  # For example, if you manage your custom modules and states in
+> subversion
+> >  # and don't want all the '.svn' folders and content synced to your
+> minions,
+> >  # you could set this to '/\.svn($|/)'. By default nothing is ignored.
+> > -#
+> >  #file_ignore_regex:
+> >  #  - '/\.svn($|/)'
+> >  #  - '/\.git($|/)'
+> > @@ -307,58 +493,83 @@
+> >  # path before syncing the modules and states to the minions. This is
+> similar
+> >  # to file_ignore_regex above, but works on globs instead of regex. By
+> default
+> >  # nothing is ignored.
+> > -#
+> >  # file_ignore_glob:
+> >  #  - '*.pyc'
+> >  #  - '*/somefolder/*.bak'
+> >  #  - '*.swp'
+> >
+> >  # File Server Backend
+> > +#
+> >  # Salt supports a modular fileserver backend system, this system allows
+> >  # the salt master to link directly to third party systems to gather and
+> >  # manage the files available to minions. Multiple backends can be
+> >  # configured and will be searched for the requested file in the order
+> in which
+> >  # they are defined here. The default setting only enables the standard
+> backend
+> >  # "roots" which uses the "file_roots" option.
+> > -#
+> >  #fileserver_backend:
+> >  #  - roots
+> >  #
+> >  # To use multiple backends list them in the order they are searched:
+> > -#
+> >  #fileserver_backend:
+> >  #  - git
+> >  #  - roots
+> >  #
+> > +# Uncomment the line below if you do not want the file_server to follow
+> > +# symlinks when walking the filesystem tree. This is set to True
+> > +# by default. Currently this only applies to the default roots
+> > +# fileserver_backend.
+> > +#fileserver_followsymlinks: False
+> > +#
+> > +# Uncomment the line below if you do not want symlinks to be
+> > +# treated as the files they are pointing to. By default this is set to
+> > +# False. By uncommenting the line below, any detected symlink while
+> listing
+> > +# files on the Master will not be returned to the Minion.
+> > +#fileserver_ignoresymlinks: True
+> > +#
+> >  # By default, the Salt fileserver recurses fully into all defined
+> environments
+> >  # to attempt to find files. To limit this behavior so that the
+> fileserver only
+> >  # traverses directories with SLS files and special Salt directories
+> like _modules,
+> >  # enable the option below. This might be useful for installations where
+> a file root
+> >  # has a very large number of files and performance is impacted. Default
+> is False.
+> > -#
+> >  # fileserver_limit_traversal: False
+> >  #
+> > -# Git fileserver backend configuration
+> > +# The fileserver can fire events off every time the fileserver is
+> updated,
+> > +# these are disabled by default, but can be easily turned on by setting
+> this
+> > +# flag to True
+> > +#fileserver_events: False
+> > +
+> > +# Git File Server Backend Configuration
+> > +#
+> > +# Gitfs can be provided by one of two python modules: GitPython or
+> pygit2. If
+> > +# using pygit2, both libgit2 and git must also be installed.
+> > +#gitfs_provider: gitpython
+> > +#
+> >  # When using the git fileserver backend at least one git remote needs
+> to be
+> >  # defined. The user running the salt master will need read access to
+> the repo.
+> >  #
+> > -#gitfs_remotes:
+> > -#  - git://github.com/saltstack/salt-states.git
+> > -#  - file:///var/git/saltmaster
+> > -#
+> >  # The repos will be searched in order to find the file requested by a
+> client
+> >  # and the first repo to have the file will return it.
+> >  # When using the git backend branches and tags are translated into salt
+> >  # environments.
+> >  # Note:  file:// repos will be treated as a remote, so refs you want
+> used must
+> >  # exist in that repo as *local* refs.
+> > +#gitfs_remotes:
+> > +#  - git://github.com/saltstack/salt-states.git
+> > +#  - file:///var/git/saltmaster
+> > +#
+> > +# The gitfs_ssl_verify option specifies whether to ignore ssl
+> certificate
+> > +# errors when contacting the gitfs backend. You might want to set this
+> to
+> > +# false if you're using a git backend that uses a self-signed
+> certificate but
+> > +# keep in mind that setting this flag to anything other than the
+> default of True
+> > +# is a security concern, you may want to try using the ssh transport.
+> > +#gitfs_ssl_verify: True
+> >  #
+> >  # The gitfs_root option gives the ability to serve files from a
+> subdirectory
+> >  # within the repository. The path is defined relative to the root of the
+> >  # repository and defaults to the repository root.
+> >  #gitfs_root: somefolder/otherfolder
+> > -
+> > -
+> > +#
+> > +#
+> >  #####         Pillar settings        #####
+> >  ##########################################
+> >  # Salt Pillars allow for the building of global data that can be made
+> selectively
+> > @@ -366,28 +577,59 @@
+> >  # Pillar is laid out in the same fashion as the file server, with
+> environments,
+> >  # a top file and sls files. However, pillar data does not need to be in
+> the
+> >  # highstate format, and is generally just key/value pairs.
+> > -
+> >  #pillar_roots:
+> >  #  base:
+> >  #    - /srv/pillar
+> > -
+> > +#
+> >  #ext_pillar:
+> >  #  - hiera: /etc/hiera.yaml
+> >  #  - cmd_yaml: cat /etc/salt/yaml
+> >
+> > +# The ext_pillar_first option allows for external pillar sources to
+> populate
+> > +# before file system pillar. This allows for targeting file system
+> pillar from
+> > +# ext_pillar.
+> > +#ext_pillar_first: False
+> > +
+> > +# The pillar_gitfs_ssl_verify option specifies whether to ignore ssl
+> certificate
+> > +# errors when contacting the pillar gitfs backend. You might want to
+> set this to
+> > +# false if you're using a git backend that uses a self-signed
+> certificate but
+> > +# keep in mind that setting this flag to anything other than the
+> default of True
+> > +# is a security concern, you may want to try using the ssh transport.
+> > +#pillar_gitfs_ssl_verify: True
+> > +
+> >  # The pillar_opts option adds the master configuration file data to a
+> dict in
+> >  # the pillar called "master". This is used to set simple configurations
+> in the
+> >  # master config file that can then be used on minions.
+> > -#pillar_opts: True
+> > +#pillar_opts: False
+> > +
+> > +# The pillar_safe_render_error option prevents the master from passing
+> pillar
+> > +# render errors to the minion. This is set on by default because the
+> error could
+> > +# contain templating data which would give that minion information it
+> shouldn't
+> > +# have, like a password! When set true the error message will only show:
+> > +#   Rendering SLS 'my.sls' failed. Please see master log for details.
+> > +#pillar_safe_render_error: True
+> > +
+> > +# The pillar_source_merging_strategy option allows you to configure
+> merging strategy
+> > +# between different sources. It accepts four values: recurse,
+> aggregate, overwrite,
+> > +# or smart. Recurse will merge recursively mapping of data. Aggregate
+> instructs
+> > +# aggregation of elements between sources that use the #!yamlex
+> renderer. Overwrite
+> > +# will verwrite elements according the order in which they are
+> processed. This is
+> > +# behavior of the 2014.1 branch and earlier. Smart guesses the best
+> strategy based
+> > +# on the "renderer" setting and is the default value.
+> > +#pillar_source_merging_strategy: smart
+> > +
+> > +# Recursively merge lists by aggregating them instead of replacing them.
+> > +#pillar_merge_lists: False
+> >
+> >
+> >  #####          Syndic settings       #####
+> >  ##########################################
+> >  # The Salt syndic is used to pass commands through a master from a
+> higher
+> > -# master. Using the syndic is simple, if this is a master that will have
+> > -# syndic servers(s) below it set the "order_masters" setting to True,
+> if this
+> > -# is a master that will be running a syndic daemon for passthrough the
+> > -# "syndic_master" setting needs to be set to the location of the master
+> server
+> > +# master. Using the syndic is simple. If this is a master that will have
+> > +# syndic servers(s) below it, then set the "order_masters" setting to
+> True.
+> > +#
+> > +# If this is a master that will be running a syndic daemon for
+> passthrough, then
+> > +# the "syndic_master" setting needs to be set to the location of the
+> master server
+> >  # to receive commands from.
+> >
+> >  # Set the order_masters setting to True if this master will command
+> lower
+> > @@ -398,15 +640,16 @@
+> >  # this master where to receive commands from.
+> >  #syndic_master: masterofmaster
+> >
+> > -# This is the 'ret_port' of the MasterOfMaster
+> > +# This is the 'ret_port' of the MasterOfMaster:
+> >  #syndic_master_port: 4506
+> >
+> > -# PID file of the syndic daemon
+> > +# PID file of the syndic daemon:
+> >  #syndic_pidfile: /var/run/salt-syndic.pid
+> >
+> > -# LOG file of the syndic daemon
+> > +# LOG file of the syndic daemon:
+> >  #syndic_log_file: syndic.log
+> >
+> > +
+> >  #####      Peer Publish settings     #####
+> >  ##########################################
+> >  # Salt minions can send commands to other minions, but only if the
+> minion is
+> > @@ -418,14 +661,12 @@
+> >  # of regular expressions to match functions. The following will allow
+> the
+> >  # minion authenticated as foo.example.com to execute functions from
+> the test
+> >  # and pkg modules.
+> > -#
+> >  #peer:
+> >  #  foo.example.com:
+> >  #    - test.*
+> >  #    - pkg.*
+> >  #
+> >  # This will allow all minions to execute all commands:
+> > -#
+> >  #peer:
+> >  #  .*:
+> >  #    - .*
+> > @@ -440,16 +681,34 @@
+> >  #
+> >  # All peer runner support is turned off by default and must be enabled
+> before
+> >  # using. This will enable all peer runners for all minions:
+> > -#
+> >  #peer_run:
+> >  #  .*:
+> >  #    - .*
+> >  #
+> >  # To enable just the manage.up runner for the minion foo.example.com:
+> > -#
+> >  #peer_run:
+> >  #  foo.example.com:
+> >  #    - manage.up
+> > +#
+> > +#
+> > +#####         Mine settings     #####
+> > +#####################################
+> > +# Restrict mine.get access from minions. By default any minion has a
+> full access
+> > +# to get all mine data from master cache. In acl definion below, only
+> pcre matches
+> > +# are allowed.
+> > +# mine_get:
+> > +#   .*:
+> > +#     - .*
+> > +#
+> > +# The example below enables minion foo.example.com to get
+> 'network.interfaces' mine
+> > +# data only, minions web* to get all network.* and disk.* mine data and
+> all other
+> > +# minions won't get any mine data.
+> > +# mine_get:
+> > +#   foo.example.com:
+> > +#     - network.interfaces
+> > +#   web.*:
+> > +#     - network.*
+> > +#     - disk.*
+> >
+> >
+> >  #####         Logging settings       #####
+> > @@ -468,10 +727,15 @@
+> >
+> >  # The level of messages to send to the console.
+> >  # One of 'garbage', 'trace', 'debug', info', 'warning', 'error',
+> 'critical'.
+> > +#
+> > +# The following log levels are considered INSECURE and may log
+> sensitive data:
+> > +# ['garbage', 'trace', 'debug']
+> > +#
+> >  #log_level: warning
+> >
+> >  # The level of messages to send to the log file.
+> >  # One of 'garbage', 'trace', 'debug', info', 'warning', 'error',
+> 'critical'.
+> > +# If using 'log_granular_levels' this must be set to the highest
+> desired level.
+> >  #log_level_logfile: warning
+> >
+> >  # The date and time format used in log messages. Allowed date/time
+> formating
+> > @@ -481,24 +745,37 @@
+> >
+> >  # The format of the console logging messages. Allowed formatting
+> options can
+> >  # be seen here:
+> http://docs.python.org/library/logging.html#logrecord-attributes
+> > +#
+> > +# Console log colors are specified by these additional formatters:
+> > +#
+> > +# %(colorlevel)s
+> > +# %(colorname)s
+> > +# %(colorprocess)s
+> > +# %(colormsg)s
+> > +#
+> > +# Since it is desirable to include the surrounding brackets, '[' and
+> ']', in
+> > +# the coloring of the messages, these color formatters also include
+> padding as
+> > +# well.  Color LogRecord attributes are only available for console
+> logging.
+> > +#
+> > +#log_fmt_console: '%(colorlevel)s %(colormsg)s'
+> >  #log_fmt_console: '[%(levelname)-8s] %(message)s'
+> > +#
+> >  #log_fmt_logfile: '%(asctime)s,%(msecs)03.0f
+> [%(name)-17s][%(levelname)-8s] %(message)s'
+> >
+> >  # This can be used to control logging levels more specificically.  This
+> >  # example sets the main salt library at the 'warning' level, but sets
+> >  # 'salt.modules' to log at the 'debug' level:
+> >  #   log_granular_levels:
+> > -#     'salt': 'warning',
+> > +#     'salt': 'warning'
+> >  #     'salt.modules': 'debug'
+> >  #
+> >  #log_granular_levels: {}
+> >
+> >
+> > -#####         Node Groups           #####
+> > +#####         Node Groups           ######
+> >  ##########################################
+> > -# Node groups allow for logical groupings of minion nodes.
+> > -# A group consists of a group name and a compound target.
+> > -#
+> > +# Node groups allow for logical groupings of minion nodes. A group
+> consists of a group
+> > +# name and a compound target.
+> >  #nodegroups:
+> >  #  group1: 'L@foo.domain.com,bar.domain.com,baz.domain.com and bl*.
+> domain.com'
+> >  #  group2: 'G@os:Debian and foo.domain.com'
+> > @@ -507,19 +784,43 @@
+> >  #####     Range Cluster settings     #####
+> >  ##########################################
+> >  # The range server (and optional port) that serves your cluster
+> information
+> > -#
+> https://github.com/grierj/range/wiki/Introduction-to-Range-with-YAML-files
+> > +#
+> https://github.com/ytoolshed/range/wiki/%22yamlfile%22-module-file-spec
+> >  #
+> >  #range_server: range:80
+> >
+> >
+> > -#####     Windows Software Repo settings #####
+> > -##############################################
+> > -# Location of the repo on the master
+> > -#win_repo: '/srv/salt/win/repo'
+> > +#####  Windows Software Repo settings #####
+> > +###########################################
+> > +# Location of the repo on the master:
+> > +#winrepo_dir_ng: '/srv/salt/win/repo-ng'
+> > +#
+> > +# List of git repositories to include with the local repo:
+> > +#winrepo_remotes_ng:
+> > +#  - 'https://github.com/saltstack/salt-winrepo-ng.git'
+> >
+> > -# Location of the master's repo cache file
+> > -#win_repo_mastercachefile: '/srv/salt/win/repo/winrepo.p'
+> >
+> > -# List of git repositories to include with the local repo
+> > -#win_gitrepos:
+> > +#####  Windows Software Repo settings - Pre 2015.8 #####
+> > +########################################################
+> > +# Legacy repo settings for pre-2015.8 Windows minions.
+> > +#
+> > +# Location of the repo on the master:
+> > +#winrepo_dir: '/srv/salt/win/repo'
+> > +#
+> > +# Location of the master's repo cache file:
+> > +#winrepo_mastercachefile: '/srv/salt/win/repo/winrepo.p'
+> > +#
+> > +# List of git repositories to include with the local repo:
+> > +#winrepo_remotes:
+> >  #  - 'https://github.com/saltstack/salt-winrepo.git'
+> > +
+> > +
+> > +#####      Returner settings          ######
+> > +############################################
+> > +# Which returner(s) will be used for minion's result:
+> > +#return: mysql
+> > +
+> > +
+> > +######    Miscellaneous  settings     ######
+> > +############################################
+> > +# Default match type for filtering events tags: startswith, endswith,
+> find, regex, fnmatch
+> > +#event_match_type: startswith
+> > diff --git a/meta-openstack/recipes-support/salt/files/minion
+> b/meta-openstack/recipes-support/salt/files/minion
+> > index 8fdde14..bd97c43 100644
+> > --- a/meta-openstack/recipes-support/salt/files/minion
+> > +++ b/meta-openstack/recipes-support/salt/files/minion
+> > @@ -1,16 +1,52 @@
+> >  ##### Primary configuration settings #####
+> >  ##########################################
+> > +# This configuration file is used to manage the behavior of the Salt
+> Minion.
+> > +# With the exception of the location of the Salt Master Server, values
+> that are
+> > +# commented out but have an empty line after the comment are defaults
+> that need
+> > +# not be set in the config. If there is no blank line after the
+> comment, the
+> > +# value is presented as an example and is not the default.
+> >
+> >  # Per default the minion will automatically include all config files
+> >  # from minion.d/*.conf (minion.d is a directory in the same directory
+> >  # as the main minion config file).
+> >  #default_include: minion.d/*.conf
+> >
+> > -# Set the location of the salt master server, if the master server
+> cannot be
+> > +# Set the location of the salt master server. If the master server
+> cannot be
+> >  # resolved, then the minion will fail to start.
+> >  #master: salt
+> >
+> > -# Set whether the minion should connect to the master via IPv6
+> > +# Set http proxy information for the minion when doing requests
+> > +#proxy_host:
+> > +#proxy_port:
+> > +#proxy_username:
+> > +#proxy_password:
+> > +
+> > +# If multiple masters are specified in the 'master' setting, the
+> default behavior
+> > +# is to always try to connect to them in the order they are listed. If
+> random_master is
+> > +# set to True, the order will be randomized instead. This can be
+> helpful in distributing
+> > +# the load of many minions executing salt-call requests, for example,
+> from a cron job.
+> > +# If only one master is listed, this setting is ignored and a warning
+> will be logged.
+> > +# NOTE: If master_type is set to failover, use master_shuffle instead.
+> > +#random_master: False
+> > +
+> > +# Use if master_type is set to failover.
+> > +#master_shuffle: False
+> > +
+> > +# Minions can connect to multiple masters simultaneously (all masters
+> > +# are "hot"), or can be configured to failover if a master becomes
+> > +# unavailable.  Multiple hot masters are configured by setting this
+> > +# value to "str".  Failover masters can be requested by setting
+> > +# to "failover".  MAKE SURE TO SET master_alive_interval if you are
+> > +# using failover.
+> > +# master_type: str
+> > +
+> > +# Poll interval in seconds for checking if the master is still there.
+> Only
+> > +# respected if master_type above is "failover". To disable the interval
+> entirely,
+> > +# set the value to -1. (This may be necessary on machines which have
+> high numbers
+> > +# of TCP connections, such as load balancers.)
+> > +# master_alive_interval: 30
+> > +
+> > +# Set whether the minion should connect to the master via IPv6:
+> >  #ipv6: False
+> >
+> >  # Set the number of seconds to wait before attempting to resolve
+> > @@ -18,13 +54,19 @@
+> >  # Set to zero if the minion should shutdown and not retry.
+> >  # retry_dns: 30
+> >
+> > -# Set the port used by the master reply and authentication server
+> > +# Set the port used by the master reply and authentication server.
+> >  #master_port: 4506
+> >
+> > -# The user to run salt
+> > +# The user to run salt.
+> >  #user: root
+> >
+> > -# Specify the location of the daemon process ID file
+> > +# Setting sudo_user will cause salt to run all execution modules under
+> an sudo
+> > +# to the user given in sudo_user.  The user under which the salt minion
+> process
+> > +# itself runs will still be that provided in the user config above, but
+> all
+> > +# execution modules run by the minion will be rerouted through sudo.
+> > +#sudo_user: saltdev
+> > +
+> > +# Specify the location of the daemon process ID file.
+> >  #pidfile: /var/run/salt-minion.pid
+> >
+> >  # The root directory prepended to these options: pki_dir, cachedir,
+> log_file,
+> > @@ -48,7 +90,7 @@
+> >
+> >  # Custom static grains for this minion can be specified here and used
+> in SLS
+> >  # files just like all other grains. This example sets 4 custom grains,
+> with
+> > -# the 'roles' grain having two values that can be matched against:
+> > +# the 'roles' grain having two values that can be matched against.
+> >  #grains:
+> >  #  roles:
+> >  #    - webserver
+> > @@ -56,36 +98,40 @@
+> >  #  deployment: datacenter4
+> >  #  cabinet: 13
+> >  #  cab_u: 14-15
+> > -
+> > -# Where cache data goes
+> > +#
+> > +# Where cache data goes.
+> > +# This data may contain sensitive data and should be protected
+> accordingly.
+> >  #cachedir: /var/cache/salt/minion
+> >
+> > -# Verify and set permissions on configuration directories at startup
+> > +# Verify and set permissions on configuration directories at startup.
+> >  #verify_env: True
+> >
+> >  # The minion can locally cache the return data from jobs sent to it,
+> this
+> >  # can be a good way to keep track of jobs the minion has executed
+> > -# (on the minion side). By default this feature is disabled, to enable
+> > -# set cache_jobs to True
+> > +# (on the minion side). By default this feature is disabled, to enable,
+> set
+> > +# cache_jobs to True.
+> >  #cache_jobs: False
+> >
+> > -# set the directory used to hold unix sockets
+> > +# Set the directory used to hold unix sockets.
+> >  #sock_dir: /var/run/salt/minion
+> >
+> >  # Set the default outputter used by the salt-call command. The default
+> is
+> > -# "nested"
+> > +# "nested".
+> >  #output: nested
+> >  #
+> > -# By default output is colored, to disable colored output set the color
+> value
+> > -# to False
+> > +# By default output is colored. To disable colored output, set the
+> color value
+> > +# to False.
+> >  #color: True
+> >
+> > +# Do not strip off the colored output from nested results and state
+> outputs
+> > +# (true by default).
+> > +# strip_colors: False
+> > +
+> >  # Backup files that are replaced by file.managed and file.recurse under
+> >  # 'cachedir'/file_backups relative to their original location and
+> appended
+> >  # with a timestamp. The only valid setting is "minion". Disabled by
+> default.
+> >  #
+> >  # Alternatively this can be specified for each file in state files:
+> > -#
+> >  # /etc/ssh/sshd_config:
+> >  #   file.managed:
+> >  #     - source: salt://ssh/sshd_config
+> > @@ -103,27 +149,55 @@
+> >  # set to zero, the time between reconnection attempts will stay
+> constant.
+> >  #acceptance_wait_time_max: 0
+> >
+> > +# If the master rejects the minion's public key, retry instead of
+> exiting.
+> > +# Rejected keys will be handled the same as waiting on acceptance.
+> > +#rejected_retry: False
+> > +
+> >  # When the master key changes, the minion will try to re-auth itself to
+> receive
+> >  # the new master key. In larger environments this can cause a SYN flood
+> on the
+> >  # master because all minions try to re-auth immediately. To prevent
+> this and
+> >  # have a minion wait for a random amount of time, use this optional
+> parameter.
+> > -# The wait-time will be a random number of seconds between
+> > -# 0 and the defined value.
+> > +# The wait-time will be a random number of seconds between 0 and the
+> defined value.
+> >  #random_reauth_delay: 60
+> >
+> > +# When waiting for a master to accept the minion's public key, salt will
+> > +# continuously attempt to reconnect until successful. This is the
+> timeout value,
+> > +# in seconds, for each individual attempt. After this timeout expires,
+> the minion
+> > +# will wait for acceptance_wait_time seconds before trying again.
+> Unless your master
+> > +# is under unusually heavy load, this should be left at the default.
+> > +#auth_timeout: 60
+> > +
+> > +# Number of consecutive SaltReqTimeoutError that are acceptable when
+> trying to
+> > +# authenticate.
+> > +#auth_tries: 7
+> > +
+> > +# If authentication fails due to SaltReqTimeoutError during a
+> ping_interval,
+> > +# cause sub minion process to restart.
+> > +#auth_safemode: False
+> > +
+> > +# Ping Master to ensure connection is alive (minutes).
+> > +#ping_interval: 0
+> > +
+> > +# To auto recover minions if master changes IP address (DDNS)
+> > +#    auth_tries: 10
+> > +#    auth_safemode: False
+> > +#    ping_interval: 90
+> > +#
+> > +# Minions won't know master is missing until a ping fails. After the
+> ping fail,
+> > +# the minion will attempt authentication and likely fails out and cause
+> a restart.
+> > +# When the minion restarts it will resolve the masters IP and attempt
+> to reconnect.
+> >
+> > -# If you don't have any problems with syn-floods, dont bother with the
+> > +# If you don't have any problems with syn-floods, don't bother with the
+> >  # three recon_* settings described below, just leave the defaults!
+> >  #
+> >  # The ZeroMQ pull-socket that binds to the masters publishing interface
+> tries
+> >  # to reconnect immediately, if the socket is disconnected (for example
+> if
+> >  # the master processes are restarted). In large setups this will have
+> all
+> >  # minions reconnect immediately which might flood the master (the
+> ZeroMQ-default
+> > -# is usually a 100ms delay). To prevent this, these three recon_*
+> settings
+> > +# is usually a 100ms delay). To prevent this, these three recon_*
+> settings
+> >  # can be used.
+> > -#
+> > -# recon_default: the interval in milliseconds that the socket should
+> wait before
+> > -#                trying to reconnect to the master (100ms = 1 second)
+> > +# recon_default: the interval in milliseconds that the socket should
+> wait before
+> > +#                trying to reconnect to the master (1000ms = 1 second)
+> >  #
+> >  # recon_max: the maximum time a socket should wait. each interval the
+> time to wait
+> >  #            is calculated by doubling the previous time. if recon_max
+> is reached,
+> > @@ -136,29 +210,26 @@
+> >  #            reconnect 5: value from previous interval * 2
+> >  #            reconnect x: if value >= recon_max, it starts again with
+> recon_default
+> >  #
+> > -# recon_randomize: generate a random wait time on minion start. The
+> wait time will
+> > -#                  be a random value between recon_default and
+> recon_default +
+> > -#                  recon_max. Having all minions reconnect with the
+> same recon_default
+> > -#                  and recon_max value kind of defeats the purpose of
+> being able to
+> > -#                  change these settings. If all minions have the same
+> values and your
+> > -#                  setup is quite large (several thousand minions),
+> they will still
+> > -#                  flood the master. The desired behaviour is to have
+> timeframe within
+> > -#                  all minions try to reconnect.
+> > -
+> > -# Example on how to use these settings:
+> > -# The goal: have all minions reconnect within a 60 second timeframe on
+> a disconnect
+> > -#
+> > -# The settings:
+> > -#recon_default: 1000
+> > -#recon_max: 59000
+> > -#recon_randomize: True
+> > +# recon_randomize: generate a random wait time on minion start. The
+> wait time will
+> > +#                  be a random value between recon_default and
+> recon_default +
+> > +#                  recon_max. Having all minions reconnect with the
+> same recon_default
+> > +#                  and recon_max value kind of defeats the purpose of
+> being able to
+> > +#                  change these settings. If all minions have the same
+> values and your
+> > +#                  setup is quite large (several thousand minions),
+> they will still
+> > +#                  flood the master. The desired behavior is to have
+> timeframe within
+> > +#                  all minions try to reconnect.
+> > +#
+> > +# Example on how to use these settings. The goal: have all minions
+> reconnect within a
+> > +# 60 second timeframe on a disconnect.
+> > +# recon_default: 1000
+> > +# recon_max: 59000
+> > +# recon_randomize: True
+> >  #
+> >  # Each minion will have a randomized reconnect value between
+> 'recon_default'
+> >  # and 'recon_default + recon_max', which in this example means between
+> 1000ms
+> > -# 60000ms (or between 1 and 60 seconds). The generated random-value
+> will be
+> > -# doubled after each attempt to reconnect. Lets say the generated random
+> > -# value is 11 seconds (or 11000ms).
+> > -#
+> > +# 60000ms (or between 1 and 60 seconds). The generated random-value
+> will be
+> > +# doubled after each attempt to reconnect. Lets say the generated random
+> > +# value is 11 seconds (or 11000ms).
+> >  # reconnect 1: wait 11 seconds
+> >  # reconnect 2: wait 22 seconds
+> >  # reconnect 3: wait 33 seconds
+> > @@ -172,29 +243,68 @@
+> >  #
+> >  # In a setup with ~6000 thousand hosts these settings would average the
+> reconnects
+> >  # to about 100 per second and all hosts would be reconnected within 60
+> seconds.
+> > -#recon_default: 100
+> > -#recon_max: 5000
+> > -#recon_randomize: False
+> > -
+> > +# recon_default: 100
+> > +# recon_max: 5000
+> > +# recon_randomize: False
+> > +#
+> > +#
+> >  # The loop_interval sets how long in seconds the minion will wait
+> between
+> >  # evaluating the scheduler and running cleanup tasks. This defaults to a
+> >  # sane 60 seconds, but if the minion scheduler needs to be evaluated
+> more
+> >  # often lower this value
+> >  #loop_interval: 60
+> >
+> > -# When healing, a dns_check is run. This is to make sure that the
+> originally
+> > -# resolved dns has not changed. If this is something that does not
+> happen in
+> > -# your environment, set this value to False.
+> > -#dns_check: True
+> > +# The grains can be merged, instead of overridden, using this option.
+> > +# This allows custom grains to defined different subvalues of a
+> dictionary
+> > +# grain. By default this feature is disabled, to enable set
+> grains_deep_merge
+> > +# to ``True``.
+> > +#grains_deep_merge: False
+> > +
+> > +# The grains_refresh_every setting allows for a minion to periodically
+> check
+> > +# its grains to see if they have changed and, if so, to inform the
+> master
+> > +# of the new grains. This operation is moderately expensive, therefore
+> > +# care should be taken not to set this value too low.
+> > +#
+> > +# Note: This value is expressed in __minutes__!
+> > +#
+> > +# A value of 10 minutes is a reasonable default.
+> > +#
+> > +# If the value is set to zero, this check is disabled.
+> > +#grains_refresh_every: 1
+> > +
+> > +# Cache grains on the minion. Default is False.
+> > +#grains_cache: False
+> > +
+> > +# Cache rendered pillar data on the minion. Default is False.
+> > +# This may cause 'cachedir'/pillar to contain sensitive data that
+> should be
+> > +# protected accordingly.
+> > +#minion_pillar_cache: False
+> > +
+> > +# Grains cache expiration, in seconds. If the cache file is older than
+> this
+> > +# number of seconds then the grains cache will be dumped and fully
+> re-populated
+> > +# with fresh data. Defaults to 5 minutes. Will have no effect if
+> 'grains_cache'
+> > +# is not enabled.
+> > +# grains_cache_expiration: 300
+> >
+> >  # Windows platforms lack posix IPC and must rely on slower TCP based
+> inter-
+> >  # process communications. Set ipc_mode to 'tcp' on such systems
+> >  #ipc_mode: ipc
+> > -#
+> > +
+> >  # Overwrite the default tcp ports used by the minion when in tcp mode
+> >  #tcp_pub_port: 4510
+> >  #tcp_pull_port: 4511
+> >
+> > +# Passing very large events can cause the minion to consume large
+> amounts of
+> > +# memory. This value tunes the maximum size of a message allowed onto
+> the
+> > +# minion event bus. The value is expressed in bytes.
+> > +#max_event_size: 1048576
+> > +
+> > +# To detect failed master(s) and fire events on connect/disconnect, set
+> > +# master_alive_interval to the number of seconds to poll the masters for
+> > +# connection events.
+> > +#
+> > +#master_alive_interval: 30
+> > +
+> >  # The minion can include configuration from other files. To enable this,
+> >  # pass a list of paths to this option. The paths can be either relative
+> or
+> >  # absolute; if relative, they are considered to be relative to the
+> directory
+> > @@ -202,7 +312,6 @@
+> >  # of shell-style globbing. If no files are matched by a path passed to
+> this
+> >  # option then the minion will log a warning message.
+> >  #
+> > -#
+> >  # Include a config file from some other path:
+> >  # include: /etc/salt/extra_config
+> >  #
+> > @@ -210,11 +319,13 @@
+> >  #include:
+> >  #  - /etc/salt/extra_config
+> >  #  - /etc/roles/webserver
+> > -
+> > +#
+> > +#
+> > +#
+> >  #####   Minion module management     #####
+> >  ##########################################
+> >  # Disable specific modules. This allows the admin to limit the level of
+> > -# access the master has to the minion
+> > +# access the master has to the minion.
+> >  #disable_modules: [cmd,test]
+> >  #disable_returners: []
+> >  #
+> > @@ -226,18 +337,22 @@
+> >  #returner_dirs: []
+> >  #states_dirs: []
+> >  #render_dirs: []
+> > +#utils_dirs: []
+> >  #
+> >  # A module provider can be statically overwritten or extended for the
+> minion
+> >  # via the providers option, in this case the default module will be
+> >  # overwritten by the specified module. In this example the pkg module
+> will
+> >  # be provided by the yumpkg5 module instead of the system default.
+> > -#
+> >  #providers:
+> >  #  pkg: yumpkg5
+> >  #
+> >  # Enable Cython modules searching and loading. (Default: False)
+> >  #cython_enable: False
+> >  #
+> > +# Specify a max size (in bytes) for modules on import. This feature is
+> currently
+> > +# only supported on *nix operating systems and requires psutil.
+> > +# modules_max_memory: -1
+> > +
+> >
+> >  #####    State Management Settings    #####
+> >  ###########################################
+> > @@ -256,21 +371,19 @@
+> >  #renderer: yaml_jinja
+> >  #
+> >  # The failhard option tells the minions to stop immediately after the
+> first
+> > -# failure detected in the state execution, defaults to False
+> > +# failure detected in the state execution. Defaults to False.
+> >  #failhard: False
+> >  #
+> > -# autoload_dynamic_modules Turns on automatic loading of modules found
+> in the
+> > -# environments on the master. This is turned on by default, to turn of
+> > -# autoloading modules when states run set this value to False
+> > +# Reload the modules prior to a highstate run.
+> >  #autoload_dynamic_modules: True
+> >  #
+> >  # clean_dynamic_modules keeps the dynamic modules on the minion in sync
+> with
+> >  # the dynamic modules on the master, this means that if a dynamic
+> module is
+> > -# not on the master it will be deleted from the minion. By default this
+> is
+> > -# enabled and can be disabled by changing this value to False
+> > +# not on the master it will be deleted from the minion. By default,
+> this is
+> > +# enabled and can be disabled by changing this value to False.
+> >  #clean_dynamic_modules: True
+> >  #
+> > -# Normally the minion is not isolated to any single environment on the
+> master
+> > +# Normally, the minion is not isolated to any single environment on the
+> master
+> >  # when running states, but the environment can be isolated on the
+> minion side
+> >  # by statically setting it. Remember that the recommended way to manage
+> >  # environments is to isolate via the top file.
+> > @@ -286,14 +399,23 @@
+> >  # 'top' -- Read top_file option and execute based on that file on the
+> Master
+> >  #startup_states: ''
+> >  #
+> > -# list of states to run when the minion starts up if startup_states is
+> 'sls'
+> > +# List of states to run when the minion starts up if startup_states is
+> 'sls':
+> >  #sls_list:
+> >  #  - edit.vim
+> >  #  - hyper
+> >  #
+> > -# top file to execute if startup_states is 'top'
+> > +# Top file to execute if startup_states is 'top':
+> >  #top_file: ''
+> >
+> > +# Automatically aggregate all states that have support for
+> mod_aggregate by
+> > +# setting to True. Or pass a list of state module names to automatically
+> > +# aggregate just those types.
+> > +#
+> > +# state_aggregate:
+> > +#   - pkg
+> > +#
+> > +#state_aggregate: False
+> > +
+> >  #####     File Directory Settings    #####
+> >  ##########################################
+> >  # The Salt Minion can redirect all file server operations to a local
+> directory,
+> > @@ -303,7 +425,8 @@
+> >
+> >  # Set the file client. The client defaults to looking on the master
+> server for
+> >  # files, but can be directed to look at the local file directory setting
+> > -# defined below by setting it to local.
+> > +# defined below by setting it to "local". Setting a local file_client
+> runs the
+> > +# minion in masterless mode.
+> >  #file_client: remote
+> >
+> >  # The file directory works on environments passed to the minion, each
+> environment
+> > @@ -329,15 +452,16 @@
+> >  # to attempt to find files. To limit this behavior so that the
+> fileserver only
+> >  # traverses directories with SLS files and special Salt directories
+> like _modules,
+> >  # enable the option below. This might be useful for installations where
+> a file root
+> > -# has a very large number of files and performance is negatively
+> impacted.
+> > -#
+> > -# Default is False.
+> > -#
+> > -# fileserver_limit_traversal: False
+> > +# has a very large number of files and performance is negatively
+> impacted. Default
+> > +# is False.
+> > +#fileserver_limit_traversal: False
+> >
+> >  # The hash_type is the hash to use when discovering the hash of a file
+> in
+> >  # the local fileserver. The default is md5, but sha1, sha224, sha256,
+> sha384
+> >  # and sha512 are also supported.
+> > +#
+> > +# Warning: Prior to changing this value, the minion should be stopped
+> and all
+> > +# Salt caches should be cleared.
+> >  #hash_type: md5
+> >
+> >  # The Salt pillar is searched for locally if file_client is set to
+> local. If
+> > @@ -346,7 +470,8 @@
+> >  #pillar_roots:
+> >  #  base:
+> >  #    - /srv/pillar
+> > -
+> > +#
+> > +#
+> >  ######        Security settings       #####
+> >  ###########################################
+> >  # Enable "open mode", this mode still maintains encryption, but turns
+> off
+> > @@ -366,23 +491,34 @@
+> >  # The state_verbose setting can be set to True or False, when set to
+> False
+> >  # all data that has a result of True and no changes will be suppressed.
+> >  #state_verbose: True
+> > -#
+> > +
+> >  # The state_output setting changes if the output is the full multi line
+> >  # output for each changed state if set to 'full', but if set to 'terse'
+> >  # the output will be shortened to a single line.
+> >  #state_output: full
+> > -#
+> > -# Fingerprint of the master public key to double verify the master is
+> valid,
+> > -# the master fingerprint can be found by running "salt-key -F master"
+> on the
+> > -# salt master.
+> > +
+> > +# The state_output_diff setting changes whether or not the output from
+> > +# successful states is returned. Useful when even the terse output of
+> these
+> > +# states is cluttering the logs. Set it to True to ignore them.
+> > +#state_output_diff: False
+> > +
+> > +# The state_output_profile setting changes whether profile information
+> > +# will be shown for each state run.
+> > +#state_output_profile: True
+> > +
+> > +# Fingerprint of the master public key to validate the identity of your
+> Salt master
+> > +# before the initial key exchange. The master fingerprint can be found
+> by running
+> > +# "salt-key -F master" on the Salt master.
+> >  #master_finger: ''
+> >
+> > +
+> >  ######         Thread settings        #####
+> >  ###########################################
+> >  # Disable multiprocessing support, by default when a minion receives a
+> >  # publication a new process is spawned and the command is executed
+> therein.
+> >  #multiprocessing: True
+> >
+> > +
+> >  #####         Logging settings       #####
+> >  ##########################################
+> >  # The location of the minion log file
+> > @@ -396,14 +532,19 @@
+> >  #
+> >  #log_file: /var/log/salt/minion
+> >  #key_logfile: /var/log/salt/key
+> > -#
+> > +
+> >  # The level of messages to send to the console.
+> >  # One of 'garbage', 'trace', 'debug', info', 'warning', 'error',
+> 'critical'.
+> > +#
+> > +# The following log levels are considered INSECURE and may log
+> sensitive data:
+> > +# ['garbage', 'trace', 'debug']
+> > +#
+> >  # Default: 'warning'
+> >  #log_level: warning
+> > -#
+> > +
+> >  # The level of messages to send to the log file.
+> >  # One of 'garbage', 'trace', 'debug', info', 'warning', 'error',
+> 'critical'.
+> > +# If using 'log_granular_levels' this must be set to the highest
+> desired level.
+> >  # Default: 'warning'
+> >  #log_level_logfile:
+> >
+> > @@ -411,21 +552,54 @@
+> >  # can be seen here:
+> http://docs.python.org/library/time.html#time.strftime
+> >  #log_datefmt: '%H:%M:%S'
+> >  #log_datefmt_logfile: '%Y-%m-%d %H:%M:%S'
+> > -#
+> > +
+> >  # The format of the console logging messages. Allowed formatting
+> options can
+> >  # be seen here:
+> http://docs.python.org/library/logging.html#logrecord-attributes
+> > +#
+> > +# Console log colors are specified by these additional formatters:
+> > +#
+> > +# %(colorlevel)s
+> > +# %(colorname)s
+> > +# %(colorprocess)s
+> > +# %(colormsg)s
+> > +#
+> > +# Since it is desirable to include the surrounding brackets, '[' and
+> ']', in
+> > +# the coloring of the messages, these color formatters also include
+> padding as
+> > +# well.  Color LogRecord attributes are only available for console
+> logging.
+> > +#
+> > +#log_fmt_console: '%(colorlevel)s %(colormsg)s'
+> >  #log_fmt_console: '[%(levelname)-8s] %(message)s'
+> > -#log_fmt_logfile: '%(asctime)s,%(msecs)03.0f
+> [%(name)-17s][%(levelname)-8s] %(message)s'
+> >  #
+> > +#log_fmt_logfile: '%(asctime)s,%(msecs)03.0f
+> [%(name)-17s][%(levelname)-8s] %(message)s'
+> > +
+> >  # This can be used to control logging levels more specificically.  This
+> >  # example sets the main salt library at the 'warning' level, but sets
+> >  # 'salt.modules' to log at the 'debug' level:
+> >  #   log_granular_levels:
+> > -#     'salt': 'warning',
+> > +#     'salt': 'warning'
+> >  #     'salt.modules': 'debug'
+> >  #
+> >  #log_granular_levels: {}
+> >
+> > +# To diagnose issues with minions disconnecting or missing returns,
+> ZeroMQ
+> > +# supports the use of monitor sockets to log connection events. This
+> > +# feature requires ZeroMQ 4.0 or higher.
+> > +#
+> > +# To enable ZeroMQ monitor sockets, set 'zmq_monitor' to 'True' and log
+> at a
+> > +# debug level or higher.
+> > +#
+> > +# A sample log event is as follows:
+> > +#
+> > +# [DEBUG   ] ZeroMQ event: {'endpoint': 'tcp://127.0.0.1:4505',
+> 'event': 512,
+> > +# 'value': 27, 'description': 'EVENT_DISCONNECTED'}
+> > +#
+> > +# All events logged will include the string 'ZeroMQ event'. A
+> connection event
+> > +# should be logged as the minion starts up and initially connects to the
+> > +# master. If not, check for debug log level and that the necessary
+> version of
+> > +# ZeroMQ is installed.
+> > +#
+> > +#zmq_monitor: False
+> > +
+> >  ######      Module configuration      #####
+> >  ###########################################
+> >  # Salt allows for modules to be passed arbitrary configuration data,
+> any data
+> > @@ -445,8 +619,8 @@
+> >  #
+> >  # A dict for the test module:
+> >  #test.baz: {spam: sausage, cheese: bread}
+> > -
+> > -
+> > +#
+> > +#
+> >  ######      Update settings          ######
+> >  ###########################################
+> >  # Using the features in Esky, a salt minion can both run as a frozen
+> app and
+> > @@ -468,27 +642,39 @@
+> >  # the risk that it could tear down the connection the master and minion
+> >  # without informing either party that their connection has been taken
+> away.
+> >  # Enabling TCP Keepalives prevents this from happening.
+> > -#
+> > +
+> >  # Overall state of TCP Keepalives, enable (1 or True), disable (0 or
+> False)
+> >  # or leave to the OS defaults (-1), on Linux, typically disabled.
+> Default True, enabled.
+> >  #tcp_keepalive: True
+> > -#
+> > +
+> >  # How long before the first keepalive should be sent in seconds.
+> Default 300
+> >  # to send the first keepalive after 5 minutes, OS default (-1) is
+> typically 7200 seconds
+> >  # on Linux see /proc/sys/net/ipv4/tcp_keepalive_time.
+> >  #tcp_keepalive_idle: 300
+> > -#
+> > +
+> >  # How many lost probes are needed to consider the connection lost.
+> Default -1
+> >  # to use OS defaults, typically 9 on Linux, see
+> /proc/sys/net/ipv4/tcp_keepalive_probes.
+> >  #tcp_keepalive_cnt: -1
+> > -#
+> > +
+> >  # How often, in seconds, to send keepalives after the first one.
+> Default -1 to
+> >  # use OS defaults, typically 75 seconds on Linux, see
+> >  # /proc/sys/net/ipv4/tcp_keepalive_intvl.
+> >  #tcp_keepalive_intvl: -1
+> >
+> >
+> > -######      Windows Software settings ######
+> > +######   Windows Software settings    ######
+> >  ############################################
+> > -# Location of the repository cache file on the master
+> > +# Location of the repository cache file on the master:
+> >  #win_repo_cachefile: 'salt://win/repo/winrepo.p'
+> > +
+> > +
+> > +######      Returner  settings        ######
+> > +############################################
+> > +# Which returner(s) will be used for minion's result:
+> > +#return: mysql
+> > +
+> > +
+> > +######    Miscellaneous  settings     ######
+> > +############################################
+> > +# Default match type for filtering events tags: startswith, endswith,
+> find, regex, fnmatch
+> > +#event_match_type: startswith
+> > diff --git a/meta-openstack/recipes-support/salt/files/roster
+> b/meta-openstack/recipes-support/salt/files/roster
+> > index 3eac2fa..e5a8318 100644
+> > --- a/meta-openstack/recipes-support/salt/files/roster
+> > +++ b/meta-openstack/recipes-support/salt/files/roster
+> > @@ -6,3 +6,4 @@
+> >  #  sudo: True         # Whether to sudo to root, not enabled by default
+> >  #web2:
+> >  #  host: 192.168.42.2
+> > +
+> > diff --git a/meta-openstack/recipes-support/salt/salt_2015.8.0.bb
+> b/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
+> > similarity index 88%
+> > rename from meta-openstack/recipes-support/salt/salt_2015.8.0.bb
+> > rename to meta-openstack/recipes-support/salt/salt_2016.3.0.bb
+> > index b22b827..c5620c6 100644
+> > --- a/meta-openstack/recipes-support/salt/salt_2015.8.0.bb
+> > +++ b/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
+> > @@ -1,18 +1,20 @@
+> >  HOMEPAGE = "http://saltstack.com/"
+> >  SECTION = "admin"
+> >  LICENSE = "Apache-2.0"
+> > -LIC_FILES_CHKSUM = "file://LICENSE;md5=b59c9134761722281bb895f65cb15e9a"
+> > +LIC_FILES_CHKSUM = "file://LICENSE;md5=fb92f464675f6b5df90f540d60237915"
+> >  DEPENDS = "\
+> >             python-msgpack \
+> >             python-pyyaml \
+> >             python-jinja2 \
+> >             python-markupsafe \
+> > -           python-pyzmq \
+> > -           python-pycrypto \
+> >  "
+> >
+> > +PACKAGECONFIG ??= "zeromq"
+> > +PACKAGECONFIG[zeromq] = ",,python-pyzmq python-pycrypto,"
+> > +PACKAGECONFIG[tcp] = ",,python-pycrypto"
+> > +
+> >  SRCNAME = "salt"
+> > -SRC_URI = "
+> http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz
+> \
+> > +SRC_URI = "
+> http://pypi.python.org/packages/75/db/c072687e77ad616ba395cc8be50fff093fb71b7fc1f5c225f42eee130bf5/${SRCNAME}-${PV}.tar.gz
+> \
+> >             file://set_python_location_hashbang.patch \
+> >             file://minion \
+> >             file://salt-minion \
+> > @@ -26,8 +28,8 @@ SRC_URI = "
+> http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.
+> >             file://roster \
+> >  "
+> >
+> > -SRC_URI[md5sum] = "a15842ef0582cca9d26143fe0a6180b7"
+> > -SRC_URI[sha256sum] =
+> "71e1cb2eb1d4b30f3247f5590c00a2089190b8f9a90c9330dc9a65fae517ec9b"
+> > +SRC_URI[md5sum] = "8ed82cfb3f9b1764a035edbdacf0fea9"
+> > +SRC_URI[sha256sum] =
+> "e316dd103b7faeaa97820197e4d0d7d358519f0ca2a6dcb1d9b718eea801ed30"
+> >
+> >  S = "${WORKDIR}/${SRCNAME}-${PV}"
+> >
+> > @@ -77,7 +79,9 @@ Between the remote execution system, and state
+> management Salt addresses the bac
+> >
+> >  SUMMARY_${PN}-minion = "client package for salt, the distributed remote
+> execution system"
+> >  DESCRIPTION_${PN}-minion = "${DESCRIPTION_COMMON} This particular
+> package provides the worker agent for salt."
+> > -RDEPENDS_${PN}-minion = "python (>=2.6), ${PN}-common (= ${EXTENDPKGV})
+> python-pycrypto python-msgpack python-pyzmq (>= 13.1.0)"
+> > +RDEPENDS_${PN}-minion = "python (>=2.6), ${PN}-common (= ${EXTENDPKGV})
+> python-msgpack"
+> > +RDEPENDS_${PN}-minion += "${@bb.utils.contains('PACKAGECONFIG',
+> 'zeromq', 'python-pycrypto python-pyzmq (>= 13.1.0)', '',d)}"
+> > +RDEPENDS_${PN}-minion += "${@bb.utils.contains('PACKAGECONFIG', 'tcp',
+> 'python-pycrypto', '',d)}"
+> >  RRECOMMENDS_${PN}-minion_append_x64 = "dmidecode"
+> >  RSUGGESTS_${PN}-minion = "python-augeas"
+> >  CONFFILES_${PN}-minion = "${sysconfdir}/${PN}/minion
+> ${sysconfdir}/init.d/${PN}-minion"
+> > @@ -118,7 +122,9 @@ INITSCRIPT_PARAMS_${PN}-api = "defaults"
+> >
+> >  SUMMARY_${PN}-master = "remote manager to administer servers via salt"
+> >  DESCRIPTION_${PN}-master ="${DESCRIPTION_COMMON} This particular
+> package provides the salt controller."
+> > -RDEPENDS_${PN}-master = "python (>= 2.6) ${PN}-common (= ${EXTENDPKGV})
+> python-pycrypto python-msgpack python-pyzmq (>= 13.1.0)"
+> > +RDEPENDS_${PN}-master = "python (>= 2.6) ${PN}-common (= ${EXTENDPKGV})
+> python-msgpack"
+> > +RDEPENDS_${PN}-master += "${@bb.utils.contains('PACKAGECONFIG',
+> 'zeromq', 'python-pycrypto python-pyzmq (>= 13.1.0)', '',d)}"
+> > +RDEPENDS_${PN}-master += "${@bb.utils.contains('PACKAGECONFIG', 'tcp',
+> 'python-pycrypto', '',d)}"
+> >  CONFFILES_${PN}-master="${sysconfdir}/init.d/${PN}-master
+> ${sysconfdir}/${PN}/master"
+> >  RSUGGESTS_${PN}-master = "python-git"
+> >  FILES_${PN}-master = "${bindir}/${PN} ${bindir}/${PN}-cp
+> ${bindir}/${PN}-key ${bindir}/${PN}-master ${bindir}/${PN}-run
+> ${bindir}/${PN}-unity ${bindir}/spm ${CONFFILES_${PN}-master}"
+> >
 >
 > --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
+> Cheers,
+>
+> Alejandro
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
 
 
 
---=20
+-- 
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a113d706219b7eb0530f0b278
+--94eb2c056214d1717c0534ef14fc
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Tue, Apr 19, 2016 at 3:30 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield=
-@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=
-=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On T=
-ue, Apr 19, 2016 at 3:29 AM, Wei Lu <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:W.Lu@nxp.com" target=3D"_blank">W.Lu@nxp.com</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">
-
-
-
-
-
-<div lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Hello,<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0</span></p></div></div><=
-/blockquote><div><br></div><div>Thanks. I&#39;ve queued this locally. If my=
- testing passes, I&#39;ll follow up when it has been</div><div>pushed.</div=
-></div></div></div></blockquote><div><br></div><div>I had to fix some other=
- go 1.x applications, but I can confirm that this also worked for</div><div=
->x86-64.=C2=A0</div><div><br></div><div>The changes are now pushed.</div><d=
-iv><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><d=
-iv><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-"><div lang=3D"EN-US" link=3D"blue" vlink=3D"purple"><div><p class=3D"MsoNo=
-rmal"><span style=3D"font-size:11.0pt;font-family:&quot;Calibri&quot;,sans-=
-serif;color:#1f497d"><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">For Docker running on ARM64, we need =
-enable below configures, these extra configures are not enabled in default =
-kernel, so we need open it manually.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_DEBUG=3Dy<u></u><u></u>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_FREEZER=3Dy<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_DEVICE=3Dy<u></u><u></u=
-></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CPUSETS=3Dy<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_CPUACCT=3Dy<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CGROUP_PERF=3Dy<u></u><u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BLK_CGROUP=3Dy<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_DEBUG_BLK_CGROUP=3Dy<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_UTS_NS=3Dy<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IPC_NS=3Dy<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_USER_NS=3Dy<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IPV6=3Dy<u></u><u></u></span><=
-/p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE=3Dy<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_VLAN_8021Q=3Dy<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_VLAN_8021Q_GVRP=3Dy<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_VLAN_8021Q_MVRP=3Dy<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_MACVLAN=3Dy<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_MACVTAP=3Dy<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_VETH=3Dy<u></u><u></u></span><=
-/p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_DEVPTS_MULTIPLE_INSTANCES=3Dy<=
-u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT2_FS_XATTR=3Dy<u></u><u></u=
-></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT2_FS_POSIX_ACL=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT3_FS_POSIX_ACL=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_EXT4_FS_POSIX_ACL=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_TMPFS_POSIX_ACL=3Dy<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_SECCOMP=3Dy<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BLK_DEV_THROTTLING=3Dy<u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_CFQ_GROUP_IOSCHED=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_OVERLAY_FS=3Dy<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_TMPFS_POSIX_ACL=3Dy<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_TMPFS_XATTR=3Dy<u></u><u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER=3Dy<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_ADVANCED=3Dy<u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_NETFILTER=3Dm<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_NETLINK=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK=3Dy<u></u><u></u>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_MARK=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_PROCFS=3Dy<u></u>=
-<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT=3Dy<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT_NEEDED=3Dy<u></u><u></u=
-></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_TABLES=3Dy<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_CT=3Dy<u></u><u></u></span=
-></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_RBTREE=3Dy<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_MASQ=3Dy<u></u><u></u></sp=
-an></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_NAT=3Dy<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NFT_COMPAT=3Dy<u></u><u></u></=
-span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XTABLES=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_CONNMARK=3Dy<u></=
-u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_TARGET_CONNMARK=
-=3Dy<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_NAT=3Dy<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=3D=
-y<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_MATCH_CONNMARK=3D=
-y<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NETFILTER_XT_MATCH_CONNTRACK=
-=3Dy<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_DEFRAG_IPV4=3Dy<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_IPV4=3Dy<u></u><u=
-></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_CONNTRACK_PROC_COMPAT=3Dy<u=
-></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_TABLES_IPV4=3Dy<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT_IPV4=3Dy<u></u><u></u><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_NAT_MASQUERADE_IPV4=3Dy<u><=
-/u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_IPTABLES=3Dy<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_FILTER=3Dy<u></u><u></u>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_NAT=3Dy<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_TARGET_MASQUERADE=3Dy<u>=
-</u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_IP_NF_MANGLE=3Dy<u></u><u></u>=
-</span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_NF_TABLES_BRIDGE=3Dy<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_NF_EBTABLES=3Dy<u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_EBT_T_NAT=3Dy<u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_EBT_DNAT=3Dy<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">CONFIG_BRIDGE_EBT_SNAT=3Dy<u></u><u><=
-/u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Test steps on ARM64:<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker daemon &amp;<u></u><u></u></sp=
-an></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker =C2=A0login docker hub<u></u><=
-u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker search arm64<u></u><u></u></sp=
-an></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker pull $ARM64_images<u></u><u></=
-u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker run -d -p 30081:80 --name=3Dsa=
-ndbox1 -h sandbox1 $ARM64_images bash -c &quot;lighttpd -f /etc/lighttpd/li=
-ghttpd.conf -D&quot;<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker logout<u></u><u></u></span></p=
->
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker ps =E2=80=93a<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker images<u></u><u></u></span></p=
->
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker stop sandbox1<u></u><u></u></s=
-pan></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">docker rm sandbox1<u></u><u></u></spa=
-n></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Regards<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Lu Wei<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<div>
-<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:11.0pt;font-family:&quot=
-;Calibri&quot;,sans-serif">From:</span></b><span style=3D"font-size:11.0pt;=
-font-family:&quot;Calibri&quot;,sans-serif"> Zongchun Yu
+te">On Fri, Jun 10, 2016 at 11:53 AM, Alejandro del Castillo <span dir=3D"l=
+tr">&lt;<a href=3D"mailto:alejandro.delcastillo@ni.com" target=3D"_blank">a=
+lejandro.delcastillo@ni.com</a>&gt;</span> wrote:<br><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex">Just realized that pypi still have predictable URL&#39;s (without =
+hashes):<br>
 <br>
-<b>Sent:</b> Tuesday, April 19, 2016 11:18 AM<br>
-<b>To:</b> Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" t=
-arget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;; Wei Lu &lt;<a href=3D"ma=
-ilto:W.Lu@nxp.com" target=3D"_blank">W.Lu@nxp.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=
-=3D"_blank">meta-virtualization@yoctoproject.org</a><br>
-<b>Subject:</b> RE: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0=
-<u></u><u></u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Okay.=C2=A0 Let me add Lu wei.<u></u>=
-<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Hi Lu wei.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Can you help to provide the arm64 tes=
-t and configure message to Bruce?<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Thank you.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Best Regards<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Zongchun<u></u><u></u></span></p>
-<div style=3D"border:none;border-top:solid #b5c4df 1.0pt;padding:3.0pt 0in =
-0in 0in">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:10.0pt;font-family:&quot=
-;Tahoma&quot;,sans-serif">From:</span></b><span style=3D"font-size:10.0pt;f=
-ont-family:&quot;Tahoma&quot;,sans-serif"> Bruce Ashfield [<a href=3D"mailt=
-o:bruce.ashfield@gmail.com" target=3D"_blank">mailto:bruce.ashfield@gmail.c=
-om</a>]
+<a href=3D"https://bitbucket.org/pypa/pypi/issues/438/backwards-compatible-=
+un-hashed-package" rel=3D"noreferrer" target=3D"_blank">https://bitbucket.o=
+rg/pypa/pypi/issues/438/backwards-compatible-un-hashed-package</a><br>
 <br>
-<b>Sent:</b> Tuesday, April 19, 2016 11:10 AM<br>
-<b>To:</b> Zongchun Yu<br>
-<b>Cc:</b> <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=
-=3D"_blank">meta-virtualization@yoctoproject.org</a><br>
-<b>Subject:</b> Re: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0=
-<u></u><u></u></span></p>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal">On Mon, Apr 18, 2016 at 10:26 PM, Zongchun Yu &lt;<a=
- href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@nxp.com<=
-/a>&gt; wrote:<u></u><u></u></p>
-<p class=3D"MsoNormal">Hi Bruce.<br>
-<br>
-May I know if you have comments about this v2 patch? If not. Can you help t=
-o apply the patch?<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">I&#39;m waiting to hear from Bogdan P: .. you said t=
-he following:<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">------------<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Hi Bogdan P.</span><span style=3D"fon=
-t-size:9.5pt"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">=C2=A0</span><span style=3D"font-size=
-:9.5pt"><u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:11.0pt;font-family:&quot;Ca=
-libri&quot;,sans-serif;color:#1f497d">Can you help to provide the arm64 tes=
-t and configure messages to Bruce?</span><span style=3D"font-size:9.5pt"><u=
-></u><u></u></span></p>
-</div>
-<div>
-<p class=3D"MsoNormal">=C2=A0<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">-----------<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">And I see no other email on the subject .. so I&#39;=
-m not sure why I&#39;d have started to merge a new version.<u></u><u></u></=
-p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">Bruce<u></u><u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0i=
-n 0in 0in 6.0pt;margin-left:4.8pt;margin-top:5.0pt;margin-right:0in;margin-=
-bottom:5.0pt">
-<p class=3D"MsoNormal"><br>
-Thanks.<br>
-<br>
-Best Regards<br>
-Zongchun<u></u><u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt">-----Original Message=
------<br>
-From: <a href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank">zongchun.yu@=
-nxp.com</a> [mailto:<a href=3D"mailto:zongchun.yu@nxp.com" target=3D"_blank=
-">zongchun.yu@nxp.com</a>]<br>
-Sent: Tuesday, April 12, 2016 4:36 PM<br>
-To: <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_blan=
-k">meta-virtualization@yoctoproject.org</a><br>
-Cc: <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ash=
-field@gmail.com</a>; Zongchun Yu<br>
-Subject: [meta-virtualization][PATCH][v2] docker: uprev to 1.9.0<br>
-<br>
-From: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com" target=3D"_bla=
-nk">zongchun.yu@nxp.com</a>&gt;<br>
-<br>
-Uprev to 1.9.0.<br>
-Enable build support for arm64.<br>
-The libcontainer is removed from the source in the new version. drop the ns=
-init install lines.<br>
-<br>
-Signed-off-by: Zongchun Yu &lt;<a href=3D"mailto:zongchun.yu@nxp.com" targe=
-t=3D"_blank">zongchun.yu@nxp.com</a>&gt;<br>
----<br>
-=C2=A0recipes-containers/docker/<a href=3D"http://docker_git.bb" target=3D"=
-_blank">docker_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A038 +-<br>
-=C2=A0.../docker/files/Bump-bolt-to-v1.1.0.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0| 1828 ++++++++++++++++++++<br>
-=C2=A0.../docker/files/disable_sha1sum_startup.patch=C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A021 +-<br>
-=C2=A03 files changed, 1855 insertions(+), 32 deletions(-)<br>
-=C2=A0create mode 100644 recipes-containers/docker/files/Bump-bolt-to-v1.1.=
-0.patch<br>
-<br>
-diff --git a/recipes-containers/docker/<a href=3D"http://docker_git.bb" tar=
-get=3D"_blank">docker_git.bb</a> b/recipes-containers/docker/<a href=3D"htt=
-p://docker_git.bb" target=3D"_blank">docker_git.bb</a><br>
-index 2672b22..19fdef0 100644<br>
---- a/recipes-containers/docker/<a href=3D"http://docker_git.bb" target=3D"=
-_blank">docker_git.bb</a><br>
-+++ b/recipes-containers/docker/<a href=3D"http://docker_git.bb" target=3D"=
-_blank">docker_git.bb</a><br>
-@@ -18,23 +18,23 @@ DESCRIPTION =3D &quot;Linux container runtime \<br>
-=C2=A0 subtle and/or glaring issues. \<br>
-=C2=A0 &quot;<br>
-<br>
--SRCREV =3D &quot;7c8fca2ddb58c8d2c4fb4df31c242886df7dd257&quot;<br>
--SRCBRANCH =3D &quot;v1.6.2&quot;<br>
-+SRCREV =3D &quot;76d6bc9a9f1690e16f3721ba165364688b626de2&quot;<br>
-=C2=A0SRC_URI =3D &quot;\<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/docker/docke=
-r.git;branch=3D$%7bSRCBRANCH%7d;nobranch=3D1" target=3D"_blank">github.com/=
-docker/docker.git;branch=3D${SRCBRANCH};nobranch=3D1</a> \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/docker/docke=
-r.git;nobranch=3D1" target=3D"_blank">github.com/docker/docker.git;nobranch=
-=3D1</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://docker.service</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://docker.init</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://hi.Dockerfile</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>file://disable_sha1sum_startup.patch</a> \<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0<a>file://Bump-bolt-to-v1.1.0.patch</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0# Apache-2.0 for docker<br>
-=C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;<a>file://LICENSE;md5=3D1cc0497778922bfd6cb4872=
-1deb80dc7</a>&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;<a>file://LICENSE;md5=3Dcc2221abf0b96ea39dd6814=
-1b70f7937</a>&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
--DOCKER_VERSION =3D &quot;1.6.2&quot;<br>
-+DOCKER_VERSION =3D &quot;1.9.0&quot;<br>
-=C2=A0PV =3D &quot;${DOCKER_VERSION}+git${SRCREV}&quot;<br>
-<br>
-=C2=A0DEPENDS =3D &quot;go-cross \<br>
-@@ -62,17 +62,17 @@ RRECOMMENDS_${PN} =3D &quot;lxc docker-registry rt-test=
-s&quot;<br>
-=C2=A0RRECOMMENDS_${PN} +=3D &quot; kernel-module-dm-thin-pool kernel-modul=
-e-nf-nat&quot;<br>
-=C2=A0DOCKER_PKG=3D&quot;<a href=3D"http://github.com/docker/docker" target=
-=3D"_blank">github.com/docker/docker</a>&quot;<br>
-<br>
--do_configure() {<br>
--}<br>
-+do_configure[noexec] =3D &quot;1&quot;<br>
-<br>
-=C2=A0do_compile() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export PATH=3D${STAGING_BINDIR_NATIVE}/${HOST_S=
-YS}/go-1.3:$PATH<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export GOARCH=3D&quot;${TARGET_ARCH}&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# supported amd64, 386, arm<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# supported amd64, 386, arm arm64<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${TARGET_ARCH}&quot; =3D &quot;x86_6=
-4&quot; ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export GOARCH=3D&qu=
-ot;amd64&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${TARGET_ARCH}&quot; =3D &quot;aarch=
-64&quot; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH=3D&qu=
-ot;arm64&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Set GOPATH. See &#39;PACKAGERS.md&#39;. Don&#=
-39;t rely on<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # docker to download its dependencies but rathe=
-r<br>
-@@ -84,21 +84,19 @@ do_compile() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export GOPATH=3D&quot;${S}/.gopath:${S}/vendor:=
-${STAGING_DIR_TARGET}/${prefix}/local/go&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cd -<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D&quot;1&quot;<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Pass the needed cflags/ldflags so that cgo<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # can find the needed headers files and librari=
-es<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D&quot;${BUILDSDK_CFLAGS}&qu=
-ot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${BUILDSDK_LDFLAGS}&=
-quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D&quot;1&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D&quot;${BUILDSDK_CFLAGS} --=
-sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${BUILDSDK_LDFLAGS} =
---sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# in order to exclude devicemapper and btrfs - =
-<a href=3D"https://github.com/docker/docker/issues/14056" target=3D"_blank"=
->
-https://github.com/docker/docker/issues/14056</a><br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_graphdri=
-ver_btrfs exclude_graphdriver_devicemapper&#39;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # this is the unsupported built structure<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # that doesn&#39;t rely on an existing docker<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to build this:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 DOCKER_GITCOMMIT=3D&quot;${SRCREV}&quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ./hack/make.sh dynbinary<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# make nsinit from libcontainer<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0go install <a href=3D"http://github.com/docker/=
-libcontainer/nsinit/" target=3D"_blank">
-github.com/docker/libcontainer/nsinit/</a><br>
-=C2=A0}<br>
-<br>
-=C2=A0inherit systemd update-rc.d<br>
-@@ -127,12 +125,6 @@ do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755 ${WORKDIR}/=
-docker.init ${D}${sysconfdir}/init.d/docker.init<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d ${S}/vendor/bin/linux_* ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp ${S}/vendor/bin/=
-linux_*/* ${D}/${bindir}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp ${S}/vendor/bin/=
-* ${D}/${bindir}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p ${D}/usr/share/docker/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${WORKDIR}/hi.Dockerfile ${D}/usr/share/dock=
-er/<br>
-=C2=A0}<br>
-diff --git a/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch b/re=
-cipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch<br>
-new file mode 100644<br>
-index 0000000..ca4ad81<br>
---- /dev/null<br>
-+++ b/recipes-containers/docker/files/Bump-bolt-to-v1.1.0.patch<br>
-@@ -0,0 +1,1828 @@<br>
-+From a41917c2c88bd7f694d141ac67f4a194aaa16fa1 Mon Sep 17 00:00:00 2001<br>
-+From: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com" target=3D=
-"_blank">h.huangqiang@huawei.com</a>&gt;<br>
-+Date: Wed, 28 Oct 2015 08:49:45 +0800<br>
-+Subject: [PATCH] Bump bolt to v1.1.0<br>
-+<br>
-+It adds ARM64, ppc64le, s390x, solaris support, and a bunch of<br>
-+bugfixs.<br>
-+<br>
-+Signed-off-by: Qiang Huang &lt;<a href=3D"mailto:h.huangqiang@huawei.com" =
-target=3D"_blank">h.huangqiang@huawei.com</a>&gt;<br>
-+---<br>
-+ hack/vendor.sh=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A02 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" target=3D=
-"_blank">github.com/boltdb/bolt/.gitignore</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+Will send a v2 shortly.<br></blockquote><div><br></div><div>Gmail is drivin=
+g me nuts with the threading of this series.<br><br><br></div><div>Does thi=
+s second patch replace the first, or is it in addition to the first patch ?=
+ I have<br></div><div>one from 19 hours ago, one from 32 minutes ago, all b=
+eing threaded together. So I<br></div><div>can&#39;t tell if this send (and=
+ your v2) replace the one from 19 hours ago, or are in addition<br></div><d=
+iv>to it.<br><br></div><div>Bruce<br></div><div>=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex">
+<div><div class=3D"h5"><br>
+On 06/09/2016 03:59 PM, Alejandro del Castillo wrote:<br>
+&gt; * Update conffiles<br>
+&gt; * Add PKGCONFIG options for zeromq and TCP transports.<br>
+&gt;<br>
+&gt; Signed-off-by: Alejandro del Castillo &lt;<a href=3D"mailto:alejandro.=
+delcastillo@ni.com">alejandro.delcastillo@ni.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta-openstack/recipes-support/salt/files/cloud=C2=A0 =C2=A0 |=
+=C2=A0 =C2=A07 +-<br>
+&gt;=C2=A0 meta-openstack/recipes-support/salt/files/master=C2=A0 =C2=A0| 5=
+41 ++++++++++++++++-----<br>
+&gt;=C2=A0 meta-openstack/recipes-support/salt/files/minion=C2=A0 =C2=A0| 3=
+66 ++++++++++----<br>
+&gt;=C2=A0 meta-openstack/recipes-support/salt/files/roster=C2=A0 =C2=A0|=
 =C2=A0 =C2=A01 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" target=3D"=
-_blank">github.com/boltdb/bolt/README.md</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2=
-50 +++++++++++++++++++--<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" target=3D"_=
-blank">github.com/boltdb/bolt/batch.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0| 138 ++++++++++++<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a>=C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A05 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a>=C2=A0 =C2=A0 |=C2=A0 =
-=C2=A03 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a>=C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 =C2=A05 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a>=C2=A0 =C2=A0 |=C2=A0 =
-=C2=A09 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go" targ=
-et=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a>=C2=A0 |=C2=A0 =C2=
-=A09 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a>=C2=A0 =C2=A0 |=C2=A0 =
-=C2=A09 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a>=C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 37 ++-<br>
-+ .../<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solaris.go" target=
-=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go</a>=C2=A0 =C2=A0 | =
-101 +++++++++<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go" targ=
-et=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a>=C2=A0 |=C2=A0 10 +=
--<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" target=3D"=
-_blank">github.com/boltdb/bolt/bucket.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 29 ++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" target=3D"=
-_blank">github.com/boltdb/bolt/cursor.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 12 +-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" target=3D"_bla=
-nk">github.com/boltdb/bolt/db.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 195 ++++++++++++----<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" target=3D"=
-_blank">github.com/boltdb/bolt/errors.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A04 +<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" target=
-=3D"_blank">github.com/boltdb/bolt/freelist.go</a>=C2=A0 =C2=A0 =C2=A0 |=C2=
-=A0 28 ++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" target=3D"_b=
-lank">github.com/boltdb/bolt/node.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 36 ++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" target=3D"_b=
-lank">github.com/boltdb/bolt/page.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-|=C2=A0 45 +++-<br>
-+ vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" target=3D"_bla=
-nk">github.com/boltdb/bolt/tx.go</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 80 +++++--<br>
-+ 21 files changed, 886 insertions(+), 122 deletions(-)<br>
-+ create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/ba=
-tch.go" target=3D"_blank">github.com/boltdb/bolt/batch.go</a><br>
-+ create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_arm64.go" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a><br>
-+ create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_ppc64le.go" target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a>=
+&gt;=C2=A0 .../salt/{<a href=3D"http://salt_2015.8.0.bb" rel=3D"noreferrer"=
+ target=3D"_blank">salt_2015.8.0.bb</a> =3D&gt; <a href=3D"http://salt_2016=
+.3.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2016.3.0.bb</a>}=C2=A0 =
+=C2=A0 |=C2=A0 22 +-<br>
+&gt;=C2=A0 5 files changed, 718 insertions(+), 219 deletions(-)<br>
+&gt;=C2=A0 rename meta-openstack/recipes-support/salt/{<a href=3D"http://sa=
+lt_2015.8.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2015.8.0.bb</a> =
+=3D&gt; <a href=3D"http://salt_2016.3.0.bb" rel=3D"noreferrer" target=3D"_b=
+lank">salt_2016.3.0.bb</a>} (88%)<br>
+&gt;<br>
+&gt; diff --git a/meta-openstack/recipes-support/salt/files/cloud b/meta-op=
+enstack/recipes-support/salt/files/cloud<br>
+&gt; index 2ea54f1..5bd28df 100644<br>
+&gt; --- a/meta-openstack/recipes-support/salt/files/cloud<br>
+&gt; +++ b/meta-openstack/recipes-support/salt/files/cloud<br>
+&gt; @@ -1,4 +1,4 @@<br>
+&gt; -# This file should normally be installed at: /etc/salt/cloud<br>
+&gt; +# This file should normally be installed at: /etc/salt/cloud<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 ##########################################<br>
+&gt; @@ -28,6 +28,9 @@<br>
+&gt;=C2=A0 # The level of messages to send to the console.<br>
+&gt;=C2=A0 # One of &#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;, in=
+fo&#39;, &#39;warning&#39;, &#39;error&#39;, &#39;critical&#39;.<br>
+&gt;=C2=A0 #<br>
+&gt; +# The following log levels are considered INSECURE and may log sensit=
+ive data:<br>
+&gt; +# [&#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;]<br>
+&gt; +#<br>
+&gt;=C2=A0 # Default: &#39;info&#39;<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 #log_level: info<br>
+&gt; @@ -65,7 +68,9 @@<br>
+&gt;=C2=A0 # the coloring of the messages, these color formatters also incl=
+ude padding as<br>
+&gt;=C2=A0 # well.=C2=A0 Color LogRecord attributes are only available for =
+console logging.<br>
+&gt;=C2=A0 #<br>
+&gt; +#log_fmt_console: &#39;%(colorlevel)s %(colormsg)s&#39;<br>
+&gt;=C2=A0 #log_fmt_console: &#39;[%(levelname)-8s] %(message)s&#39;<br>
+&gt; +#<br>
+&gt;=C2=A0 #log_fmt_logfile: &#39;%(asctime)s,%(msecs)03.0f [%(name)-17s][%=
+(levelname)-8s] %(message)s&#39;<br>
+&gt;<br>
+&gt;<br>
+&gt; diff --git a/meta-openstack/recipes-support/salt/files/master b/meta-o=
+penstack/recipes-support/salt/files/master<br>
+&gt; index 8129a4f..821f5fc 100644<br>
+&gt; --- a/meta-openstack/recipes-support/salt/files/master<br>
+&gt; +++ b/meta-openstack/recipes-support/salt/files/master<br>
+&gt; @@ -1,125 +1,235 @@<br>
+&gt;=C2=A0 ##### Primary configuration settings #####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt; -# This configuration file is used to manage the behavior of the Salt =
+Master<br>
+&gt; -# Values that are commented out but have no space after the comment a=
+re<br>
+&gt; -# defaults that need not be set in the config. If there is a space af=
+ter the<br>
+&gt; -# comment that the value is presented as an example and is not the de=
+fault.<br>
+&gt; +# This configuration file is used to manage the behavior of the Salt =
+Master.<br>
+&gt; +# Values that are commented out but have an empty line after the comm=
+ent are<br>
+&gt; +# defaults that do not need to be set in the config. If there is no b=
+lank line<br>
+&gt; +# after the comment then the value is presented as an example and is =
+not the<br>
+&gt; +# default.<br>
+&gt;<br>
+&gt;=C2=A0 # Per default, the master will automatically include all config =
+files<br>
+&gt;=C2=A0 # from master.d/*.conf (master.d is a directory in the same dire=
+ctory<br>
+&gt; -# as the main master config file)<br>
+&gt; +# as the main master config file).<br>
+&gt;=C2=A0 #default_include: master.d/*.conf<br>
+&gt;<br>
+&gt; -# The address of the interface to bind to<br>
+&gt; +# The address of the interface to bind to:<br>
+&gt;=C2=A0 #interface: 0.0.0.0<br>
+&gt;<br>
+&gt;=C2=A0 # Whether the master should listen for IPv6 connections. If this=
+ is set to True,<br>
+&gt; -# the interface option must be adjusted too (for example: &quot;inter=
+face: &#39;::&#39;&quot;)<br>
+&gt; +# the interface option must be adjusted, too. (For example: &quot;int=
+erface: &#39;::&#39;&quot;)<br>
+&gt;=C2=A0 #ipv6: False<br>
+&gt;<br>
+&gt; -# The tcp port used by the publisher<br>
+&gt; +# The tcp port used by the publisher:<br>
+&gt;=C2=A0 #publish_port: 4505<br>
+&gt;<br>
+&gt; -# The user to run the salt-master as. Salt will update all permission=
+s to<br>
+&gt; -# allow the specified user to run the master. If the modified files c=
+ause<br>
+&gt; -# conflicts set verify_env to False.<br>
+&gt; +# The user under which the salt master will run. Salt will update all=
 <br>
-+ create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_s390x.go" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a><br>
-+ create mode 100644 vendor/src/<a href=3D"http://github.com/boltdb/bolt/bo=
-lt_unix_solaris.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_sola=
-ris.go</a><br>
-+<br>
-+diff --git a/hack/vendor.sh b/hack/vendor.sh<br>
-+index d872d4a..c28e677 100755<br>
-+--- a/hack/vendor.sh<br>
-++++ b/hack/vendor.sh<br>
-+@@ -36,7 +36,7 @@ clone git <a href=3D"http://github.com/coreos/etcd" targ=
-et=3D"_blank">
-github.com/coreos/etcd</a> v2.2.0<br>
-+ fix_rewritten_imports <a href=3D"http://github.com/coreos/etcd" target=3D=
-"_blank">github.com/coreos/etcd</a><br>
-+ clone git <a href=3D"http://github.com/ugorji/go" target=3D"_blank">githu=
-b.com/ugorji/go</a> 5abd4e96a45c386928ed2ca2a7ef63e2533e18ec<br>
-+ clone git <a href=3D"http://github.com/hashicorp/consul" target=3D"_blank=
-">github.com/hashicorp/consul</a> v0.5.2<br>
-+-clone git <a href=3D"http://github.com/boltdb/bolt" target=3D"_blank">git=
-hub.com/boltdb/bolt</a> v1.0<br>
-++clone git <a href=3D"http://github.com/boltdb/bolt" target=3D"_blank">git=
-hub.com/boltdb/bolt</a> v1.1.0<br>
-+<br>
-+ # get graph and distribution packages<br>
-+ clone git <a href=3D"http://github.com/docker/distribution" target=3D"_bl=
-ank">github.com/docker/distribution</a> 20c4b7a1805a52753dfd593ee1cc3555872=
-2a0ce # docker/1.9 branch<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignor=
-e" target=3D"_blank">github.com/boltdb/bolt/.gitignore</a> b/vendor/src/<a =
-href=3D"http://github.com/boltdb/bolt/.gitignore" target=3D"_blank">github.=
-com/boltdb/bolt/.gitignore</a><br>
-+index b2bb382..c7bd2b7 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" targ=
-et=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/.gitignore" targ=
-et=3D"_blank">github.com/boltdb/bolt/.gitignore</a><br>
-+@@ -1,3 +1,4 @@<br>
-+ *.prof<br>
-+ *.test<br>
-++*.swp<br>
-+ /bin/<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md=
-" target=3D"_blank">github.com/boltdb/bolt/README.md</a> b/vendor/src/<a hr=
-ef=3D"http://github.com/boltdb/bolt/README.md" target=3D"_blank">github.com=
-/boltdb/bolt/README.md</a><br>
-+index 727e977..0a33ebc 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" targe=
-t=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/README.md" targe=
-t=3D"_blank">github.com/boltdb/bolt/README.md</a><br>
-+@@ -16,7 +16,7 @@ and setting values. That&#39;s it.<br>
-+<br>
-+ ## Project Status<br>
-+<br>
-+-Bolt is stable and the API is fixed. Full unit test coverage and randomiz=
-ed<br>
-++Bolt is stable and the API is fixed. Full unit test coverage and randomiz=
-ed<br>
-+ black box testing are used to ensure database consistency and thread safe=
-ty.<br>
-+ Bolt is currently in high-load production environments serving databases =
-as<br>
-+ large as 1TB. Many companies such as Shopify and Heroku use Bolt-backed<b=
+&gt; +# permissions to allow the specified user to run the master. The exce=
+ption is<br>
+&gt; +# the job cache, which must be deleted if this user is changed. If th=
+e<br>
+&gt; +# modified files cause conflicts, set verify_env to False.<br>
+&gt;=C2=A0 #user: root<br>
+&gt;<br>
+&gt; -# Max open files<br>
+&gt; -# Each minion connecting to the master uses AT LEAST one file descrip=
+tor, the<br>
+&gt; -# master subscription connection. If enough minions connect you might=
+ start<br>
+&gt; -# seeing on the console(and then salt-master crashes):<br>
+&gt; -#=C2=A0 =C2=A0Too many open files (tcp_listener.cpp:335)<br>
+&gt; -#=C2=A0 =C2=A0Aborted (core dumped)<br>
+&gt; -#<br>
+&gt; -# By default this value will be the one of `ulimit -Hn`, ie, the hard=
+ limit for<br>
+&gt; -# max open files.<br>
+&gt; -#<br>
+&gt; -# If you wish to set a different value than the default one, uncommen=
+t and<br>
+&gt; -# configure this setting. Remember that this value CANNOT be higher t=
+han the<br>
+&gt; -# hard limit. Raising the hard limit depends on your OS and/or distri=
+bution,<br>
+&gt; -# a good way to find the limit is to search the internet for(for exam=
+ple):<br>
+&gt; -#=C2=A0 =C2=A0raise max open files hard limit debian<br>
+&gt; -#<br>
+&gt; -#max_open_files: 100000<br>
+&gt; -<br>
+&gt; -# The number of worker threads to start, these threads are used to ma=
+nage<br>
+&gt; -# return calls made from minions to the master, if the master seems t=
+o be<br>
+&gt; -# running slowly, increase the number of threads<br>
+&gt; -#worker_threads: 5<br>
+&gt; -<br>
+&gt;=C2=A0 # The port used by the communication interface. The ret (return)=
+ port is the<br>
+&gt; -# interface used for the file server, authentication, job returnes, e=
+tc.<br>
+&gt; +# interface used for the file server, authentication, job returns, et=
+c.<br>
+&gt;=C2=A0 #ret_port: 4506<br>
+&gt;<br>
+&gt; -# Specify the location of the daemon process ID file<br>
+&gt; +# Specify the location of the daemon process ID file:<br>
+&gt;=C2=A0 #pidfile: /var/run/salt-master.pid<br>
+&gt;<br>
+&gt;=C2=A0 # The root directory prepended to these options: pki_dir, cached=
+ir,<br>
+&gt; -# sock_dir, log_file, autosign_file, extension_modules, key_logfile, =
+pidfile.<br>
+&gt; +# sock_dir, log_file, autosign_file, autoreject_file, extension_modul=
+es,<br>
+&gt; +# key_logfile, pidfile:<br>
+&gt;=C2=A0 #root_dir: /<br>
+&gt;<br>
+&gt; -# Directory used to store public key data<br>
+&gt; +# Directory used to store public key data:<br>
+&gt;=C2=A0 #pki_dir: /etc/salt/pki/master<br>
+&gt;<br>
+&gt; -# Directory to store job and cache data<br>
+&gt; +# Directory to store job and cache data:<br>
+&gt; +# This directory may contain sensitive data and should be protected a=
+ccordingly.<br>
+&gt; +#<br>
+&gt;=C2=A0 #cachedir: /var/cache/salt/master<br>
+&gt;<br>
+&gt; -# Verify and set permissions on configuration directories at startup<=
+br>
+&gt; +# Directory for custom modules. This directory can contain subdirecto=
+ries for<br>
+&gt; +# each of Salt&#39;s module types such as &quot;runners&quot;, &quot;=
+output&quot;, &quot;wheel&quot;, &quot;modules&quot;,<br>
+&gt; +# &quot;states&quot;, &quot;returners&quot;, etc.<br>
+&gt; +#extension_modules: &lt;no default&gt;<br>
+&gt; +<br>
+&gt; +# Directory for custom modules. This directory can contain subdirecto=
+ries for<br>
+&gt; +# each of Salt&#39;s module types such as &quot;runners&quot;, &quot;=
+output&quot;, &quot;wheel&quot;, &quot;modules&quot;,<br>
+&gt; +# &quot;states&quot;, &quot;returners&quot;, etc.<br>
+&gt; +# Like &#39;extension_modules&#39; but can take an array of paths<br>
+&gt; +#module_dirs: &lt;no default&gt;<br>
+&gt; +#=C2=A0 =C2=A0- /var/cache/salt/minion/extmods<br>
+&gt; +<br>
+&gt; +# Verify and set permissions on configuration directories at startup:=
+<br>
+&gt;=C2=A0 #verify_env: True<br>
+&gt;<br>
+&gt; -# Set the number of hours to keep old job information in the job cach=
+e<br>
+&gt; +# Set the number of hours to keep old job information in the job cach=
+e:<br>
+&gt;=C2=A0 #keep_jobs: 24<br>
+&gt;<br>
+&gt; -# Set the default timeout for the salt command and api, the default i=
+s 5<br>
+&gt; -# seconds<br>
+&gt; +# Set the default timeout for the salt command and api. The default i=
+s 5<br>
+&gt; +# seconds.<br>
+&gt;=C2=A0 #timeout: 5<br>
+&gt;<br>
+&gt; -# The loop_interval option controls the seconds for the master&#39;s =
+maintinance<br>
+&gt; +# The loop_interval option controls the seconds for the master&#39;s =
+maintenance<br>
+&gt;=C2=A0 # process check cycle. This process updates file server backends=
+, cleans the<br>
+&gt;=C2=A0 # job cache and executes the scheduler.<br>
+&gt;=C2=A0 #loop_interval: 60<br>
+&gt;<br>
+&gt; -# Set the default outputter used by the salt command. The default is =
+&quot;nested&quot;<br>
+&gt; +# Set the default outputter used by the salt command. The default is =
+&quot;nested&quot;.<br>
+&gt;=C2=A0 #output: nested<br>
+&gt;<br>
+&gt; -# By default output is colored, to disable colored output set the col=
+or value<br>
+&gt; -# to False<br>
+&gt; +# Return minions that timeout when running commands like test.ping<br=
+>
+&gt; +#show_timeout: True<br>
+&gt; +<br>
+&gt; +# By default, output is colored. To disable colored output, set the c=
+olor value<br>
+&gt; +# to False.<br>
+&gt;=C2=A0 #color: True<br>
+&gt;<br>
+&gt; -# Set the directory used to hold unix sockets<br>
+&gt; +# Do not strip off the colored output from nested results and state o=
+utputs<br>
+&gt; +# (true by default).<br>
+&gt; +# strip_colors: False<br>
+&gt; +<br>
+&gt; +# Set the directory used to hold unix sockets:<br>
+&gt;=C2=A0 #sock_dir: /var/run/salt/master<br>
+&gt;<br>
+&gt;=C2=A0 # The master can take a while to start up when lspci and/or dmid=
+ecode is used<br>
+&gt;=C2=A0 # to populate the grains for the master. Enable if you want to s=
+ee GPU hardware<br>
+&gt;=C2=A0 # data for your master.<br>
+&gt; -#<br>
+&gt;=C2=A0 # enable_gpu_grains: False<br>
+&gt;<br>
+&gt; -# The master maintains a job cache, while this is a great addition it=
+ can be<br>
+&gt; +# The master maintains a job cache. While this is a great addition, i=
+t can be<br>
+&gt;=C2=A0 # a burden on the master for larger deployments (over 5000 minio=
+ns).<br>
+&gt;=C2=A0 # Disabling the job cache will make previously executed jobs una=
+vailable to<br>
+&gt;=C2=A0 # the jobs system and is not generally recommended.<br>
+&gt; -#<br>
+&gt;=C2=A0 #job_cache: True<br>
+&gt;<br>
+&gt;=C2=A0 # Cache minion grains and pillar data in the cachedir.<br>
+&gt;=C2=A0 #minion_data_cache: True<br>
+&gt;<br>
+&gt; +# Store all returns in the given returner.<br>
+&gt; +# Setting this option requires that any returner-specific configurati=
+on also<br>
+&gt; +# be set. See various returners in salt/returners for details on requ=
+ired<br>
+&gt; +# configuration values. (See also, event_return_queue below.)<br>
+&gt; +#<br>
+&gt; +#event_return: mysql<br>
+&gt; +<br>
+&gt; +# On busy systems, enabling event_returns can cause a considerable lo=
+ad on<br>
+&gt; +# the storage system for returners. Events can be queued on the maste=
+r and<br>
+&gt; +# stored in a batched fashion using a single transaction for multiple=
+ events.<br>
+&gt; +# By default, events are not queued.<br>
+&gt; +#event_return_queue: 0<br>
+&gt; +<br>
+&gt; +# Only events returns matching tags in a whitelist<br>
+&gt; +# event_return_whitelist:<br>
+&gt; +#=C2=A0 =C2=A0- salt/master/a_tag<br>
+&gt; +#=C2=A0 =C2=A0- salt/master/another_tag<br>
+&gt; +<br>
+&gt; +# Store all event returns _except_ the tags in a blacklist<br>
+&gt; +# event_return_blacklist:<br>
+&gt; +#=C2=A0 =C2=A0- salt/master/not_this_tag<br>
+&gt; +#=C2=A0 =C2=A0- salt/master/or_this_one<br>
+&gt; +<br>
+&gt; +# Passing very large events can cause the minion to consume large amo=
+unts of<br>
+&gt; +# memory. This value tunes the maximum size of a message allowed onto=
+ the<br>
+&gt; +# master event bus. The value is expressed in bytes.<br>
+&gt; +#max_event_size: 1048576<br>
+&gt; +<br>
+&gt; +# By default, the master AES key rotates every 24 hours. The next com=
+mand<br>
+&gt; +# following a key rotation will trigger a key refresh from the minion=
+ which may<br>
+&gt; +# result in minions which do not respond to the first command after a=
+ key refresh.<br>
+&gt; +#<br>
+&gt; +# To tell the master to ping all minions immediately after an AES key=
+ refresh, set<br>
+&gt; +# ping_on_rotate to True. This should mitigate the issue where a mini=
+on does not<br>
+&gt; +# appear to initially respond after a key is rotated.<br>
+&gt; +#<br>
+&gt; +# Note that ping_on_rotate may cause high load on the master immediat=
+ely after<br>
+&gt; +# the key rotation event as minions reconnect. Consider this carefull=
+y if this<br>
+&gt; +# salt master is managing a large number of minions.<br>
+&gt; +#<br>
+&gt; +# If disabled, it is recommended to handle this event by listening fo=
+r the<br>
+&gt; +# &#39;aes_key_rotate&#39; event with the &#39;key&#39; tag and actin=
+g appropriately.<br>
+&gt; +# ping_on_rotate: False<br>
+&gt; +<br>
+&gt; +# By default, the master deletes its cache of minion data when the ke=
+y for that<br>
+&gt; +# minion is removed. To preserve the cache after key deletion, set<br=
+>
+&gt; +# &#39;preserve_minion_cache&#39; to True.<br>
+&gt; +#<br>
+&gt; +# WARNING: This may have security implications if compromised minions=
+ auth with<br>
+&gt; +# a previous deleted minion ID.<br>
+&gt; +#preserve_minion_cache: False<br>
+&gt; +<br>
+&gt; +# If max_minions is used in large installations, the master might exp=
+erience<br>
+&gt; +# high-load situations because of having to check the number of conne=
+cted<br>
+&gt; +# minions for every authentication. This cache provides the minion-id=
+s of<br>
+&gt; +# all connected minions to all MWorker-processes and greatly improves=
+ the<br>
+&gt; +# performance of max_minions.<br>
+&gt; +# con_cache: False<br>
+&gt; +<br>
+&gt;=C2=A0 # The master can include configuration from other files. To enab=
+le this,<br>
+&gt;=C2=A0 # pass a list of paths to this option. The paths can be either r=
+elative or<br>
+&gt;=C2=A0 # absolute; if relative, they are considered to be relative to t=
+he directory<br>
+&gt;=C2=A0 # the main master configuration file lives in (this file). Paths=
+ can make use<br>
+&gt;=C2=A0 # of shell-style globbing. If no files are matched by a path pas=
+sed to this<br>
+&gt; -# option then the master will log a warning message.<br>
+&gt; -#<br>
+&gt; +# option, then the master will log a warning message.<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # Include a config file from some other path:<br>
+&gt; -#include: /etc/salt/extra_config<br>
+&gt; +# include: /etc/salt/extra_config<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # Include config from several files and directories:<br>
+&gt; -#include:<br>
+&gt; -#=C2=A0 - /etc/salt/extra_config<br>
+&gt; +# include:<br>
+&gt; +#=C2=A0 =C2=A0- /etc/salt/extra_config<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +#####=C2=A0 Large-scale tuning settings=C2=A0 =C2=A0#####<br>
+&gt; +##########################################<br>
+&gt; +# Max open files<br>
+&gt; +#<br>
+&gt; +# Each minion connecting to the master uses AT LEAST one file descrip=
+tor, the<br>
+&gt; +# master subscription connection. If enough minions connect you might=
+ start<br>
+&gt; +# seeing on the console (and then salt-master crashes):<br>
+&gt; +#=C2=A0 =C2=A0Too many open files (tcp_listener.cpp:335)<br>
+&gt; +#=C2=A0 =C2=A0Aborted (core dumped)<br>
+&gt; +#<br>
+&gt; +# By default this value will be the one of `ulimit -Hn`, ie, the hard=
+ limit for<br>
+&gt; +# max open files.<br>
+&gt; +#<br>
+&gt; +# If you wish to set a different value than the default one, uncommen=
+t and<br>
+&gt; +# configure this setting. Remember that this value CANNOT be higher t=
+han the<br>
+&gt; +# hard limit. Raising the hard limit depends on your OS and/or distri=
+bution,<br>
+&gt; +# a good way to find the limit is to search the internet. For example=
+:<br>
+&gt; +#=C2=A0 =C2=A0raise max open files hard limit debian<br>
+&gt; +#<br>
+&gt; +#max_open_files: 100000<br>
+&gt; +<br>
+&gt; +# The number of worker threads to start. These threads are used to ma=
+nage<br>
+&gt; +# return calls made from minions to the master. If the master seems t=
+o be<br>
+&gt; +# running slowly, increase the number of threads. This setting can no=
+t be<br>
+&gt; +# set lower than 3.<br>
+&gt; +#worker_threads: 5<br>
+&gt; +<br>
+&gt; +# Set the ZeroMQ high water marks<br>
+&gt; +# <a href=3D"http://api.zeromq.org/3-2:zmq-setsockopt" rel=3D"norefer=
+rer" target=3D"_blank">http://api.zeromq.org/3-2:zmq-setsockopt</a><br>
+&gt; +<br>
+&gt; +# The publisher interface ZeroMQPubServerChannel<br>
+&gt; +#pub_hwm: 1000<br>
+&gt; +<br>
+&gt; +# These two ZMQ HWM settings, salt_event_pub_hwm and event_publisher_=
+pub_hwm<br>
+&gt; +# are significant for masters with thousands of minions.=C2=A0 When t=
+hese are<br>
+&gt; +# insufficiently high it will manifest in random responses missing in=
+ the CLI<br>
+&gt; +# and even missing from the job cache.=C2=A0 Masters that have fast C=
+PUs and many<br>
+&gt; +# cores with appropriate worker_threads will not need these set as hi=
+gh.<br>
+&gt; +<br>
+&gt; +# On deployment with 8,000 minions, 2.4GHz CPUs, 24 cores, 32GiB memo=
+ry has<br>
+&gt; +# these settings:<br>
+&gt; +#<br>
+&gt; +#=C2=A0 =C2=A0salt_event_pub_hwm: 128000<br>
+&gt; +#=C2=A0 =C2=A0event_publisher_pub_hwm: 64000<br>
+&gt; +<br>
+&gt; +# ZMQ high-water-mark for SaltEvent pub socket<br>
+&gt; +#salt_event_pub_hwm: 20000<br>
+&gt; +<br>
+&gt; +# ZMQ high-water-mark for EventPublisher pub socket<br>
+&gt; +#event_publisher_pub_hwm: 10000<br>
+&gt; +<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 =C2=A0 Security settings=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0#####<br>
+&gt; @@ -134,53 +244,68 @@<br>
+&gt;=C2=A0 # public keys from the minions. Note that this is insecure.<br>
+&gt;=C2=A0 #auto_accept: False<br>
+&gt;<br>
+&gt; -# If the autosign_file is specified only incoming keys specified in<b=
 r>
-+@@ -87,6 +87,11 @@ are not thread safe. To work with data in multiple goro=
-utines you must start<br>
-+ a transaction for each one or use locking to ensure only one goroutine ac=
-cesses<br>
-+ a transaction at a time. Creating transaction from the `DB` is thread saf=
+&gt; -# the autosign_file will be automatically accepted. This is insecure.=
+<br>
+&gt; -# Regular expressions as well as globing lines are supported.<br>
+&gt; +# Time in minutes that a incoming public key with a matching name fou=
+nd in<br>
+&gt; +# pki_dir/minion_autosign/keyid is automatically accepted. Expired au=
+tosign keys<br>
+&gt; +# are removed when the master checks the minion_autosign directory.<b=
+r>
+&gt; +# 0 equals no timeout<br>
+&gt; +# autosign_timeout: 120<br>
+&gt; +<br>
+&gt; +# If the autosign_file is specified, incoming keys specified in the<b=
+r>
+&gt; +# autosign_file will be automatically accepted. This is insecure.=C2=
+=A0 Regular<br>
+&gt; +# expressions as well as globing lines are supported.<br>
+&gt;=C2=A0 #autosign_file: /etc/salt/autosign.conf<br>
+&gt;<br>
+&gt; -# Enable permissive access to the salt keys.=C2=A0 This allows you to=
+ run the<br>
+&gt; +# Works like autosign_file, but instead allows you to specify minion =
+IDs for<br>
+&gt; +# which keys will automatically be rejected. Will override both membe=
+rship in<br>
+&gt; +# the autosign_file and the auto_accept setting.<br>
+&gt; +#autoreject_file: /etc/salt/autoreject.conf<br>
+&gt; +<br>
+&gt; +# Enable permissive access to the salt keys. This allows you to run t=
+he<br>
+&gt;=C2=A0 # master or minion as root, but have a non-root group be given a=
+ccess to<br>
+&gt; -# your pki_dir.=C2=A0 To make the access explicit, root must belong t=
+o the group<br>
+&gt; -# you&#39;ve given access to.=C2=A0 This is potentially quite insecur=
 e.<br>
-+<br>
-++Read-only transactions and read-write transactions should not depend on o=
-ne<br>
-++another and generally shouldn&#39;t be opened simultaneously in the same =
-goroutine.<br>
-++This can cause a deadlock as the read-write transaction needs to periodic=
-ally<br>
-++re-map the data file but it cannot do so while a read-only transaction is=
- open.<br>
-++<br>
-+<br>
-+ #### Read-write transactions<br>
-+<br>
-+@@ -120,12 +125,88 @@ err :=3D db.View(func(tx *bolt.Tx) error {<br>
-+ })<br>
-+ ```<br>
-+<br>
-+-You also get a consistent view of the database within this closure, howev=
-er,<br>
-++You also get a consistent view of the database within this closure, howev=
-er,<br>
-+ no mutating operations are allowed within a read-only transaction. You ca=
-n only<br>
-+ retrieve buckets, retrieve values, and copy the database within a read-on=
-ly<br>
-+ transaction.<br>
-+<br>
-+<br>
-++#### Batch read-write transactions<br>
-++<br>
-++Each `DB.Update()` waits for disk to commit the writes. This overhead<br>
-++can be minimized by combining multiple updates with the `DB.Batch()`<br>
-++function:<br>
-++<br>
-++```go<br>
-++err :=3D db.Batch(func(tx *bolt.Tx) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 ...<br>
-++=C2=A0 =C2=A0 =C2=A0 return nil<br>
-++})<br>
-++```<br>
-++<br>
-++Concurrent Batch calls are opportunistically combined into larger<br>
-++transactions. Batch is only useful when there are multiple goroutines<br>
-++calling it.<br>
-++<br>
-++The trade-off is that `Batch` can call the given<br>
-++function multiple times, if parts of the transaction fail. The<br>
-++function must be idempotent and side effects must take effect only<br>
-++after a successful return from `DB.Batch()`.<br>
-++<br>
-++For example: don&#39;t display messages from inside the function, instead=
-<br>
-++set variables in the enclosing scope:<br>
-++<br>
-++```go<br>
-++var id uint64<br>
-++err :=3D db.Batch(func(tx *bolt.Tx) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Find last key in bucket, decode as bigendian uint=
-64, increment<br>
-++=C2=A0 =C2=A0 =C2=A0 // by one, encode back to []byte, and add new key.<b=
+&gt; -# If an autosign_file is specified, enabling permissive_pki_access wi=
+ll allow group access<br>
+&gt; -# to that specific file.<br>
+&gt; +# your pki_dir. To make the access explicit, root must belong to the =
+group<br>
+&gt; +# you&#39;ve given access to. This is potentially quite insecure. If =
+an autosign_file<br>
+&gt; +# is specified, enabling permissive_pki_access will allow group acces=
+s to that<br>
+&gt; +# specific file.<br>
+&gt;=C2=A0 #permissive_pki_access: False<br>
+&gt;<br>
+&gt;=C2=A0 # Allow users on the master access to execute specific commands =
+on minions.<br>
+&gt;=C2=A0 # This setting should be treated with care since it opens up exe=
+cution<br>
+&gt;=C2=A0 # capabilities to non root users. By default this capability is =
+completely<br>
+&gt;=C2=A0 # disabled.<br>
+&gt; -#<br>
+&gt; -#client_acl:<br>
+&gt; +#pulisher_acl:<br>
+&gt;=C2=A0 #=C2=A0 larry:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - test.ping<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - network.*<br>
+&gt;=C2=A0 #<br>
+&gt; -<br>
+&gt;=C2=A0 # Blacklist any of the following users or modules<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # This example would blacklist all non sudo users, including roo=
+t from<br>
+&gt;=C2=A0 # running any commands. It would also blacklist any use of the &=
+quot;cmd&quot;<br>
+&gt; -# module.<br>
+&gt; -# This is completely disabled by default.<br>
+&gt; +# module. This is completely disabled by default.<br>
+&gt;=C2=A0 #<br>
+&gt; -#client_acl_blacklist:<br>
+&gt; +#publisher_acl_blacklist:<br>
+&gt;=C2=A0 #=C2=A0 users:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - root<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - &#39;^(?!sudo_).*$&#39;=C2=A0 =C2=A0#=C2=A0 all=
+ non sudo users<br>
+&gt;=C2=A0 #=C2=A0 modules:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - cmd<br>
+&gt; +#<br>
+&gt; +# WARNING: client_acl and client_acl_blacklist options are deprecated=
+ and will<br>
+&gt; +# be removed in the future releases. Use publisher_acl and<br>
+&gt; +# publisher_acl_blacklist instead.<br>
+&gt; +<br>
+&gt; +# Enforce publisher_acl &amp; publisher_acl_blacklist when users have=
+ sudo<br>
+&gt; +# access to the salt command.<br>
+&gt; +#<br>
+&gt; +#sudo_acl: False<br>
+&gt;<br>
+&gt;=C2=A0 # The external auth system uses the Salt auth modules to authent=
+icate and<br>
+&gt;=C2=A0 # validate users to access areas of the Salt system.<br>
+&gt; -#<br>
+&gt;=C2=A0 #external_auth:<br>
+&gt;=C2=A0 #=C2=A0 pam:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 fred:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 - test.*<br>
+&gt;=C2=A0 #<br>
+&gt; -<br>
+&gt;=C2=A0 # Time (in seconds) for a newly generated token to live. Default=
+: 12 hours<br>
+&gt;=C2=A0 #token_expire: 43200<br>
+&gt;<br>
+&gt; @@ -188,6 +313,10 @@<br>
+&gt;=C2=A0 # security purposes.<br>
+&gt;=C2=A0 #file_recv: False<br>
+&gt;<br>
+&gt; +# Set a hard-limit on the size of the files that can be pushed to the=
+ master.<br>
+&gt; +# It will be interpreted as megabytes. Default: 100<br>
+&gt; +#file_recv_max_size: 100<br>
+&gt; +<br>
+&gt;=C2=A0 # Signature verification on messages published from the master.<=
+br>
+&gt;=C2=A0 # This causes the master to cryptographically sign all messages =
+published to its event<br>
+&gt;=C2=A0 # bus, and minions then verify that signature before acting on t=
+he message.<br>
+&gt; @@ -199,20 +328,30 @@<br>
+&gt;=C2=A0 # no signature, it will still be accepted, and a warning message=
+ will be logged.<br>
+&gt;=C2=A0 # Conversely, if sign_pub_messages is False, but a minion receiv=
+es a signed<br>
+&gt;=C2=A0 # message it will be accepted, the signature will not be checked=
+, and a warning message<br>
+&gt; -# will be logged.=C2=A0 This behavior will go away in Salt 0.17.6 (or=
+ Hydrogen RC1, whichever<br>
+&gt; -# comes first) and these two situations will cause minion to throw an=
+ exception and<br>
+&gt; -# drop the message.<br>
+&gt; -#<br>
+&gt; +# will be logged. This behavior went away in Salt 2014.1.0 and these =
+two situations<br>
+&gt; +# will cause minion to throw an exception and drop the message.<br>
+&gt;=C2=A0 # sign_pub_messages: False<br>
+&gt;<br>
+&gt; +#####=C2=A0 =C2=A0 =C2=A0Salt-SSH Configuration=C2=A0 =C2=A0 =C2=A0##=
+###<br>
+&gt; +##########################################<br>
+&gt; +<br>
+&gt; +# Pass in an alternative location for the salt-ssh roster file<br>
+&gt; +#roster_file: /etc/salt/roster<br>
+&gt; +<br>
+&gt; +# Pass in minion option overrides that will be inserted into the SHIM=
+ for<br>
+&gt; +# salt-ssh calls. The local minion config is not used for salt-ssh. C=
+an be<br>
+&gt; +# overridden on a per-minion basis in the roster (`minion_opts`)<br>
+&gt; +#ssh_minion_opts:<br>
+&gt; +#=C2=A0 gpg_keydir: /root/gpg<br>
+&gt; +<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 Master Module Management=C2=A0 =C2=A0 #####<b=
 r>
-++=C2=A0 =C2=A0 =C2=A0 ...<br>
-++=C2=A0 =C2=A0 =C2=A0 id =3D newValue<br>
-++=C2=A0 =C2=A0 =C2=A0 return nil<br>
-++})<br>
-++if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 return ...<br>
-++}<br>
-++fmt.Println(&quot;Allocated ID %d&quot;, id)<br>
-++```<br>
-++<br>
-++<br>
-++#### Managing transactions manually<br>
-++<br>
-++The `DB.View()` and `DB.Update()` functions are wrappers around the `DB.B=
-egin()`<br>
-++function. These helper functions will start the transaction, execute a fu=
-nction,<br>
-++and then safely close your transaction if an error is returned. This is t=
-he<br>
-++recommended way to use Bolt transactions.<br>
-++<br>
-++However, sometimes you may want to manually start and end your transactio=
-ns.<br>
-++You can use the `Tx.Begin()` function directly but _please_ be sure to cl=
-ose the<br>
-++transaction.<br>
-++<br>
-++```go<br>
-++// Start a writable transaction.<br>
-++tx, err :=3D db.Begin(true)<br>
-++if err !=3D nil {<br>
-++=C2=A0 =C2=A0 return err<br>
-++}<br>
-++defer tx.Rollback()<br>
-++<br>
-++// Use the transaction...<br>
-++_, err :=3D tx.CreateBucket([]byte(&quot;MyBucket&quot;))<br>
-++if err !=3D nil {<br>
-++=C2=A0 =C2=A0 return err<br>
-++}<br>
-++<br>
-++// Commit the transaction and check for error.<br>
-++if err :=3D tx.Commit(); err !=3D nil {<br>
-++=C2=A0 =C2=A0 return err<br>
-++}<br>
-++```<br>
-++<br>
-++The first argument to `DB.Begin()` is a boolean stating if the transactio=
-n<br>
-++should be writable.<br>
-++<br>
-++<br>
-+ ### Using buckets<br>
-+<br>
-+ Buckets are collections of key/value pairs within the database. All keys =
-in a<br>
-+@@ -175,13 +256,61 @@ db.View(func(tx *bolt.Tx) error {<br>
-+ ```<br>
-+<br>
-+ The `Get()` function does not return an error because its operation is<br=
+&gt;=C2=A0 ##########################################<br>
+&gt; -# Manage how master side modules are loaded<br>
+&gt; +# Manage how master side modules are loaded.<br>
+&gt;<br>
+&gt; -# Add any additional locations to look for master runners<br>
+&gt; +# Add any additional locations to look for master runners:<br>
+&gt;=C2=A0 #runner_dirs: []<br>
+&gt;<br>
+&gt; -# Enable Cython for master side modules<br>
+&gt; +# Enable Cython for master side modules:<br>
+&gt;=C2=A0 #cython_enable: False<br>
+&gt;<br>
+&gt;<br>
+&gt; @@ -226,6 +365,7 @@<br>
+&gt;=C2=A0 # The master_tops option replaces the external_nodes option by c=
+reating<br>
+&gt;=C2=A0 # a plugable system for the generation of external top data. The=
+ external_nodes<br>
+&gt;=C2=A0 # option is deprecated by the master_tops option.<br>
+&gt; +#<br>
+&gt;=C2=A0 # To gain the capabilities of the classic external_nodes system,=
+ use the<br>
+&gt;=C2=A0 # following configuration:<br>
+&gt;=C2=A0 # master_tops:<br>
+&gt; @@ -242,6 +382,19 @@<br>
+&gt;=C2=A0 # The renderer to use on the minions to render the state data<br=
 >
-+-guarenteed to work (unless there is some kind of system failure). If the =
-key<br>
-++guaranteed to work (unless there is some kind of system failure). If the =
-key<br>
-+ exists then it will return its byte slice value. If it doesn&#39;t exist =
-then it<br>
-+ will return `nil`. It&#39;s important to note that you can have a zero-le=
-ngth value<br>
-+ set to a key which is different than the key not existing.<br>
-+<br>
-+ Use the `Bucket.Delete()` function to delete a key from the bucket.<br>
-+<br>
-++Please note that values returned from `Get()` are only valid while the<br=
+&gt;=C2=A0 #renderer: yaml_jinja<br>
+&gt;<br>
+&gt; +# The Jinja renderer can strip extra carriage returns and whitespace<=
+br>
+&gt; +# See <a href=3D"http://jinja.pocoo.org/docs/api/#high-level-api" rel=
+=3D"noreferrer" target=3D"_blank">http://jinja.pocoo.org/docs/api/#high-lev=
+el-api</a><br>
+&gt; +#<br>
+&gt; +# If this is set to True the first newline after a Jinja block is rem=
+oved<br>
+&gt; +# (block, not variable tag!). Defaults to False, corresponds to the J=
+inja<br>
+&gt; +# environment init variable &quot;trim_blocks&quot;.<br>
+&gt; +#jinja_trim_blocks: False<br>
+&gt; +#<br>
+&gt; +# If this is set to True leading spaces and tabs are stripped from th=
+e start<br>
+&gt; +# of a line to a block. Defaults to False, corresponds to the Jinja<b=
+r>
+&gt; +# environment init variable &quot;lstrip_blocks&quot;.<br>
+&gt; +#jinja_lstrip_blocks: False<br>
+&gt; +<br>
+&gt;=C2=A0 # The failhard option tells the minions to stop immediately afte=
+r the first<br>
+&gt;=C2=A0 # failure detected in the state execution, defaults to False<br>
+&gt;=C2=A0 #failhard: False<br>
+&gt; @@ -256,8 +409,22 @@<br>
+&gt;=C2=A0 # output for each changed state if set to &#39;full&#39;, but if=
+ set to &#39;terse&#39;<br>
+&gt;=C2=A0 # the output will be shortened to a single line.=C2=A0 If set to=
+ &#39;mixed&#39;, the output<br>
+&gt;=C2=A0 # will be terse unless a state failed, in which case that output=
+ will be full.<br>
+&gt; +# If set to &#39;changes&#39;, the output will be full unless the sta=
+te didn&#39;t change.<br>
+&gt;=C2=A0 #state_output: full<br>
+&gt;<br>
+&gt; +# Automatically aggregate all states that have support for mod_aggreg=
+ate by<br>
+&gt; +# setting to &#39;True&#39;. Or pass a list of state module names to =
+automatically<br>
+&gt; +# aggregate just those types.<br>
+&gt; +#<br>
+&gt; +# state_aggregate:<br>
+&gt; +#=C2=A0 =C2=A0- pkg<br>
+&gt; +#<br>
+&gt; +#state_aggregate: False<br>
+&gt; +<br>
+&gt; +# Send progress events as each function in a state run completes exec=
+ution<br>
+&gt; +# by setting to &#39;True&#39;. Progress events are in the format<br>
+&gt; +# &#39;salt/job/&lt;JID&gt;/prog/&lt;MID&gt;/&lt;RUN NUM&gt;&#39;.<br=
 >
-++transaction is open. If you need to use a value outside of the transactio=
+&gt; +#state_events: False<br>
+&gt;<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 File Server settings=C2=A0 =C2=A0 =C2=
+=A0 #####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt; @@ -279,14 +446,34 @@<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0prod:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0- /srv/salt/prod/services<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0- /srv/salt/prod/states<br>
+&gt; -<br>
+&gt; +#<br>
+&gt;=C2=A0 #file_roots:<br>
+&gt;=C2=A0 #=C2=A0 base:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - /srv/salt<br>
+&gt; +#<br>
+&gt; +<br>
+&gt; +# When using multiple environments, each with their own top file, the=
+<br>
+&gt; +# default behaviour is an unordered merge. To prevent top files from<=
+br>
+&gt; +# being merged together and instead to only use the top file from the=
+<br>
+&gt; +# requested environment, set this value to &#39;same&#39;.<br>
+&gt; +#top_file_merging_strategy: merge<br>
+&gt; +<br>
+&gt; +# To specify the order in which environments are merged, set the orde=
+ring<br>
+&gt; +# in the env_order option. Given a conflict, the last matching value =
+will<br>
+&gt; +# win.<br>
+&gt; +#env_order: [&#39;base&#39;, &#39;dev&#39;, &#39;prod&#39;]<br>
+&gt; +<br>
+&gt; +# If top_file_merging_strategy is set to &#39;same&#39; and an enviro=
+nment does not<br>
+&gt; +# contain a top file, the top file in the environment specified by de=
+fault_top<br>
+&gt; +# will be used instead.<br>
+&gt; +#default_top: base<br>
+&gt;<br>
+&gt;=C2=A0 # The hash_type is the hash to use when discovering the hash of =
+a file on<br>
+&gt;=C2=A0 # the master server. The default is md5, but sha1, sha224, sha25=
+6, sha384<br>
+&gt;=C2=A0 # and sha512 are also supported.<br>
+&gt; +#<br>
+&gt; +# Prior to changing this value, the master should be stopped and all =
+Salt<br>
+&gt; +# caches should be cleared.<br>
+&gt;=C2=A0 #hash_type: md5<br>
+&gt;<br>
+&gt;=C2=A0 # The buffer size in the file server can be adjusted here:<br>
+&gt; @@ -298,7 +485,6 @@<br>
+&gt;=C2=A0 # For example, if you manage your custom modules and states in s=
+ubversion<br>
+&gt;=C2=A0 # and don&#39;t want all the &#39;.svn&#39; folders and content =
+synced to your minions,<br>
+&gt;=C2=A0 # you could set this to &#39;/\.svn($|/)&#39;. By default nothin=
+g is ignored.<br>
+&gt; -#<br>
+&gt;=C2=A0 #file_ignore_regex:<br>
+&gt;=C2=A0 #=C2=A0 - &#39;/\.svn($|/)&#39;<br>
+&gt;=C2=A0 #=C2=A0 - &#39;/\.git($|/)&#39;<br>
+&gt; @@ -307,58 +493,83 @@<br>
+&gt;=C2=A0 # path before syncing the modules and states to the minions. Thi=
+s is similar<br>
+&gt;=C2=A0 # to file_ignore_regex above, but works on globs instead of rege=
+x. By default<br>
+&gt;=C2=A0 # nothing is ignored.<br>
+&gt; -#<br>
+&gt;=C2=A0 # file_ignore_glob:<br>
+&gt;=C2=A0 #=C2=A0 - &#39;*.pyc&#39;<br>
+&gt;=C2=A0 #=C2=A0 - &#39;*/somefolder/*.bak&#39;<br>
+&gt;=C2=A0 #=C2=A0 - &#39;*.swp&#39;<br>
+&gt;<br>
+&gt;=C2=A0 # File Server Backend<br>
+&gt; +#<br>
+&gt;=C2=A0 # Salt supports a modular fileserver backend system, this system=
+ allows<br>
+&gt;=C2=A0 # the salt master to link directly to third party systems to gat=
+her and<br>
+&gt;=C2=A0 # manage the files available to minions. Multiple backends can b=
+e<br>
+&gt;=C2=A0 # configured and will be searched for the requested file in the =
+order in which<br>
+&gt;=C2=A0 # they are defined here. The default setting only enables the st=
+andard backend<br>
+&gt;=C2=A0 # &quot;roots&quot; which uses the &quot;file_roots&quot; option=
+.<br>
+&gt; -#<br>
+&gt;=C2=A0 #fileserver_backend:<br>
+&gt;=C2=A0 #=C2=A0 - roots<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # To use multiple backends list them in the order they are searc=
+hed:<br>
+&gt; -#<br>
+&gt;=C2=A0 #fileserver_backend:<br>
+&gt;=C2=A0 #=C2=A0 - git<br>
+&gt;=C2=A0 #=C2=A0 - roots<br>
+&gt;=C2=A0 #<br>
+&gt; +# Uncomment the line below if you do not want the file_server to foll=
+ow<br>
+&gt; +# symlinks when walking the filesystem tree. This is set to True<br>
+&gt; +# by default. Currently this only applies to the default roots<br>
+&gt; +# fileserver_backend.<br>
+&gt; +#fileserver_followsymlinks: False<br>
+&gt; +#<br>
+&gt; +# Uncomment the line below if you do not want symlinks to be<br>
+&gt; +# treated as the files they are pointing to. By default this is set t=
+o<br>
+&gt; +# False. By uncommenting the line below, any detected symlink while l=
+isting<br>
+&gt; +# files on the Master will not be returned to the Minion.<br>
+&gt; +#fileserver_ignoresymlinks: True<br>
+&gt; +#<br>
+&gt;=C2=A0 # By default, the Salt fileserver recurses fully into all define=
+d environments<br>
+&gt;=C2=A0 # to attempt to find files. To limit this behavior so that the f=
+ileserver only<br>
+&gt;=C2=A0 # traverses directories with SLS files and special Salt director=
+ies like _modules,<br>
+&gt;=C2=A0 # enable the option below. This might be useful for installation=
+s where a file root<br>
+&gt;=C2=A0 # has a very large number of files and performance is impacted. =
+Default is False.<br>
+&gt; -#<br>
+&gt;=C2=A0 # fileserver_limit_traversal: False<br>
+&gt;=C2=A0 #<br>
+&gt; -# Git fileserver backend configuration<br>
+&gt; +# The fileserver can fire events off every time the fileserver is upd=
+ated,<br>
+&gt; +# these are disabled by default, but can be easily turned on by setti=
+ng this<br>
+&gt; +# flag to True<br>
+&gt; +#fileserver_events: False<br>
+&gt; +<br>
+&gt; +# Git File Server Backend Configuration<br>
+&gt; +#<br>
+&gt; +# Gitfs can be provided by one of two python modules: GitPython or py=
+git2. If<br>
+&gt; +# using pygit2, both libgit2 and git must also be installed.<br>
+&gt; +#gitfs_provider: gitpython<br>
+&gt; +#<br>
+&gt;=C2=A0 # When using the git fileserver backend at least one git remote =
+needs to be<br>
+&gt;=C2=A0 # defined. The user running the salt master will need read acces=
+s to the repo.<br>
+&gt;=C2=A0 #<br>
+&gt; -#gitfs_remotes:<br>
+&gt; -#=C2=A0 - git://<a href=3D"http://github.com/saltstack/salt-states.gi=
+t" rel=3D"noreferrer" target=3D"_blank">github.com/saltstack/salt-states.gi=
+t</a><br>
+&gt; -#=C2=A0 - file:///var/git/saltmaster<br>
+&gt; -#<br>
+&gt;=C2=A0 # The repos will be searched in order to find the file requested=
+ by a client<br>
+&gt;=C2=A0 # and the first repo to have the file will return it.<br>
+&gt;=C2=A0 # When using the git backend branches and tags are translated in=
+to salt<br>
+&gt;=C2=A0 # environments.<br>
+&gt;=C2=A0 # Note:=C2=A0 file:// repos will be treated as a remote, so refs=
+ you want used must<br>
+&gt;=C2=A0 # exist in that repo as *local* refs.<br>
+&gt; +#gitfs_remotes:<br>
+&gt; +#=C2=A0 - git://<a href=3D"http://github.com/saltstack/salt-states.gi=
+t" rel=3D"noreferrer" target=3D"_blank">github.com/saltstack/salt-states.gi=
+t</a><br>
+&gt; +#=C2=A0 - file:///var/git/saltmaster<br>
+&gt; +#<br>
+&gt; +# The gitfs_ssl_verify option specifies whether to ignore ssl certifi=
+cate<br>
+&gt; +# errors when contacting the gitfs backend. You might want to set thi=
+s to<br>
+&gt; +# false if you&#39;re using a git backend that uses a self-signed cer=
+tificate but<br>
+&gt; +# keep in mind that setting this flag to anything other than the defa=
+ult of True<br>
+&gt; +# is a security concern, you may want to try using the ssh transport.=
+<br>
+&gt; +#gitfs_ssl_verify: True<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # The gitfs_root option gives the ability to serve files from a =
+subdirectory<br>
+&gt;=C2=A0 # within the repository. The path is defined relative to the roo=
+t of the<br>
+&gt;=C2=A0 # repository and defaults to the repository root.<br>
+&gt;=C2=A0 #gitfs_root: somefolder/otherfolder<br>
+&gt; -<br>
+&gt; -<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Pillar settings=C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 #####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # Salt Pillars allow for the building of global data that can be=
+ made selectively<br>
+&gt; @@ -366,28 +577,59 @@<br>
+&gt;=C2=A0 # Pillar is laid out in the same fashion as the file server, wit=
+h environments,<br>
+&gt;=C2=A0 # a top file and sls files. However, pillar data does not need t=
+o be in the<br>
+&gt;=C2=A0 # highstate format, and is generally just key/value pairs.<br>
+&gt; -<br>
+&gt;=C2=A0 #pillar_roots:<br>
+&gt;=C2=A0 #=C2=A0 base:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - /srv/pillar<br>
+&gt; -<br>
+&gt; +#<br>
+&gt;=C2=A0 #ext_pillar:<br>
+&gt;=C2=A0 #=C2=A0 - hiera: /etc/hiera.yaml<br>
+&gt;=C2=A0 #=C2=A0 - cmd_yaml: cat /etc/salt/yaml<br>
+&gt;<br>
+&gt; +# The ext_pillar_first option allows for external pillar sources to p=
+opulate<br>
+&gt; +# before file system pillar. This allows for targeting file system pi=
+llar from<br>
+&gt; +# ext_pillar.<br>
+&gt; +#ext_pillar_first: False<br>
+&gt; +<br>
+&gt; +# The pillar_gitfs_ssl_verify option specifies whether to ignore ssl =
+certificate<br>
+&gt; +# errors when contacting the pillar gitfs backend. You might want to =
+set this to<br>
+&gt; +# false if you&#39;re using a git backend that uses a self-signed cer=
+tificate but<br>
+&gt; +# keep in mind that setting this flag to anything other than the defa=
+ult of True<br>
+&gt; +# is a security concern, you may want to try using the ssh transport.=
+<br>
+&gt; +#pillar_gitfs_ssl_verify: True<br>
+&gt; +<br>
+&gt;=C2=A0 # The pillar_opts option adds the master configuration file data=
+ to a dict in<br>
+&gt;=C2=A0 # the pillar called &quot;master&quot;. This is used to set simp=
+le configurations in the<br>
+&gt;=C2=A0 # master config file that can then be used on minions.<br>
+&gt; -#pillar_opts: True<br>
+&gt; +#pillar_opts: False<br>
+&gt; +<br>
+&gt; +# The pillar_safe_render_error option prevents the master from passin=
+g pillar<br>
+&gt; +# render errors to the minion. This is set on by default because the =
+error could<br>
+&gt; +# contain templating data which would give that minion information it=
+ shouldn&#39;t<br>
+&gt; +# have, like a password! When set true the error message will only sh=
+ow:<br>
+&gt; +#=C2=A0 =C2=A0Rendering SLS &#39;my.sls&#39; failed. Please see maste=
+r log for details.<br>
+&gt; +#pillar_safe_render_error: True<br>
+&gt; +<br>
+&gt; +# The pillar_source_merging_strategy option allows you to configure m=
+erging strategy<br>
+&gt; +# between different sources. It accepts four values: recurse, aggrega=
+te, overwrite,<br>
+&gt; +# or smart. Recurse will merge recursively mapping of data. Aggregate=
+ instructs<br>
+&gt; +# aggregation of elements between sources that use the #!yamlex rende=
+rer. Overwrite<br>
+&gt; +# will verwrite elements according the order in which they are proces=
+sed. This is<br>
+&gt; +# behavior of the 2014.1 branch and earlier. Smart guesses the best s=
+trategy based<br>
+&gt; +# on the &quot;renderer&quot; setting and is the default value.<br>
+&gt; +#pillar_source_merging_strategy: smart<br>
+&gt; +<br>
+&gt; +# Recursively merge lists by aggregating them instead of replacing th=
+em.<br>
+&gt; +#pillar_merge_lists: False<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 Syndic settings=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0#####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # The Salt syndic is used to pass commands through a master from=
+ a higher<br>
+&gt; -# master. Using the syndic is simple, if this is a master that will h=
+ave<br>
+&gt; -# syndic servers(s) below it set the &quot;order_masters&quot; settin=
+g to True, if this<br>
+&gt; -# is a master that will be running a syndic daemon for passthrough th=
+e<br>
+&gt; -# &quot;syndic_master&quot; setting needs to be set to the location o=
+f the master server<br>
+&gt; +# master. Using the syndic is simple. If this is a master that will h=
+ave<br>
+&gt; +# syndic servers(s) below it, then set the &quot;order_masters&quot; =
+setting to True.<br>
+&gt; +#<br>
+&gt; +# If this is a master that will be running a syndic daemon for passth=
+rough, then<br>
+&gt; +# the &quot;syndic_master&quot; setting needs to be set to the locati=
+on of the master server<br>
+&gt;=C2=A0 # to receive commands from.<br>
+&gt;<br>
+&gt;=C2=A0 # Set the order_masters setting to True if this master will comm=
+and lower<br>
+&gt; @@ -398,15 +640,16 @@<br>
+&gt;=C2=A0 # this master where to receive commands from.<br>
+&gt;=C2=A0 #syndic_master: masterofmaster<br>
+&gt;<br>
+&gt; -# This is the &#39;ret_port&#39; of the MasterOfMaster<br>
+&gt; +# This is the &#39;ret_port&#39; of the MasterOfMaster:<br>
+&gt;=C2=A0 #syndic_master_port: 4506<br>
+&gt;<br>
+&gt; -# PID file of the syndic daemon<br>
+&gt; +# PID file of the syndic daemon:<br>
+&gt;=C2=A0 #syndic_pidfile: /var/run/salt-syndic.pid<br>
+&gt;<br>
+&gt; -# LOG file of the syndic daemon<br>
+&gt; +# LOG file of the syndic daemon:<br>
+&gt;=C2=A0 #syndic_log_file: syndic.log<br>
+&gt;<br>
+&gt; +<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 Peer Publish settings=C2=A0 =C2=A0 =C2=
+=A0#####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # Salt minions can send commands to other minions, but only if t=
+he minion is<br>
+&gt; @@ -418,14 +661,12 @@<br>
+&gt;=C2=A0 # of regular expressions to match functions. The following will =
+allow the<br>
+&gt;=C2=A0 # minion authenticated as <a href=3D"http://foo.example.com" rel=
+=3D"noreferrer" target=3D"_blank">foo.example.com</a> to execute functions =
+from the test<br>
+&gt;=C2=A0 # and pkg modules.<br>
+&gt; -#<br>
+&gt;=C2=A0 #peer:<br>
+&gt;=C2=A0 #=C2=A0 <a href=3D"http://foo.example.com" rel=3D"noreferrer" ta=
+rget=3D"_blank">foo.example.com</a>:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - test.*<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - pkg.*<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # This will allow all minions to execute all commands:<br>
+&gt; -#<br>
+&gt;=C2=A0 #peer:<br>
+&gt;=C2=A0 #=C2=A0 .*:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - .*<br>
+&gt; @@ -440,16 +681,34 @@<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # All peer runner support is turned off by default and must be e=
+nabled before<br>
+&gt;=C2=A0 # using. This will enable all peer runners for all minions:<br>
+&gt; -#<br>
+&gt;=C2=A0 #peer_run:<br>
+&gt;=C2=A0 #=C2=A0 .*:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - .*<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # To enable just the manage.up runner for the minion <a href=3D"=
+http://foo.example.com" rel=3D"noreferrer" target=3D"_blank">foo.example.co=
+m</a>:<br>
+&gt; -#<br>
+&gt;=C2=A0 #peer_run:<br>
+&gt;=C2=A0 #=C2=A0 <a href=3D"http://foo.example.com" rel=3D"noreferrer" ta=
+rget=3D"_blank">foo.example.com</a>:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - manage.up<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt; +#####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Mine settings=C2=A0 =C2=A0 =C2=
+=A0#####<br>
+&gt; +#####################################<br>
+&gt; +# Restrict mine.get access from minions. By default any minion has a =
+full access<br>
+&gt; +# to get all mine data from master cache. In acl definion below, only=
+ pcre matches<br>
+&gt; +# are allowed.<br>
+&gt; +# mine_get:<br>
+&gt; +#=C2=A0 =C2=A0.*:<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0- .*<br>
+&gt; +#<br>
+&gt; +# The example below enables minion <a href=3D"http://foo.example.com"=
+ rel=3D"noreferrer" target=3D"_blank">foo.example.com</a> to get &#39;netwo=
+rk.interfaces&#39; mine<br>
+&gt; +# data only, minions web* to get all network.* and disk.* mine data a=
+nd all other<br>
+&gt; +# minions won&#39;t get any mine data.<br>
+&gt; +# mine_get:<br>
+&gt; +#=C2=A0 =C2=A0<a href=3D"http://foo.example.com" rel=3D"noreferrer" t=
+arget=3D"_blank">foo.example.com</a>:<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0- network.interfaces<br>
+&gt; +#=C2=A0 =C2=A0web.*:<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0- network.*<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0- disk.*<br>
+&gt;<br>
+&gt;<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Logging settings=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0#####<br>
+&gt; @@ -468,10 +727,15 @@<br>
+&gt;<br>
+&gt;=C2=A0 # The level of messages to send to the console.<br>
+&gt;=C2=A0 # One of &#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;, in=
+fo&#39;, &#39;warning&#39;, &#39;error&#39;, &#39;critical&#39;.<br>
+&gt; +#<br>
+&gt; +# The following log levels are considered INSECURE and may log sensit=
+ive data:<br>
+&gt; +# [&#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;]<br>
+&gt; +#<br>
+&gt;=C2=A0 #log_level: warning<br>
+&gt;<br>
+&gt;=C2=A0 # The level of messages to send to the log file.<br>
+&gt;=C2=A0 # One of &#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;, in=
+fo&#39;, &#39;warning&#39;, &#39;error&#39;, &#39;critical&#39;.<br>
+&gt; +# If using &#39;log_granular_levels&#39; this must be set to the high=
+est desired level.<br>
+&gt;=C2=A0 #log_level_logfile: warning<br>
+&gt;<br>
+&gt;=C2=A0 # The date and time format used in log messages. Allowed date/ti=
+me formating<br>
+&gt; @@ -481,24 +745,37 @@<br>
+&gt;<br>
+&gt;=C2=A0 # The format of the console logging messages. Allowed formatting=
+ options can<br>
+&gt;=C2=A0 # be seen here: <a href=3D"http://docs.python.org/library/loggin=
+g.html#logrecord-attributes" rel=3D"noreferrer" target=3D"_blank">http://do=
+cs.python.org/library/logging.html#logrecord-attributes</a><br>
+&gt; +#<br>
+&gt; +# Console log colors are specified by these additional formatters:<br=
+>
+&gt; +#<br>
+&gt; +# %(colorlevel)s<br>
+&gt; +# %(colorname)s<br>
+&gt; +# %(colorprocess)s<br>
+&gt; +# %(colormsg)s<br>
+&gt; +#<br>
+&gt; +# Since it is desirable to include the surrounding brackets, &#39;[&#=
+39; and &#39;]&#39;, in<br>
+&gt; +# the coloring of the messages, these color formatters also include p=
+adding as<br>
+&gt; +# well.=C2=A0 Color LogRecord attributes are only available for conso=
+le logging.<br>
+&gt; +#<br>
+&gt; +#log_fmt_console: &#39;%(colorlevel)s %(colormsg)s&#39;<br>
+&gt;=C2=A0 #log_fmt_console: &#39;[%(levelname)-8s] %(message)s&#39;<br>
+&gt; +#<br>
+&gt;=C2=A0 #log_fmt_logfile: &#39;%(asctime)s,%(msecs)03.0f [%(name)-17s][%=
+(levelname)-8s] %(message)s&#39;<br>
+&gt;<br>
+&gt;=C2=A0 # This can be used to control logging levels more specificically=
+.=C2=A0 This<br>
+&gt;=C2=A0 # example sets the main salt library at the &#39;warning&#39; le=
+vel, but sets<br>
+&gt;=C2=A0 # &#39;salt.modules&#39; to log at the &#39;debug&#39; level:<br=
+>
+&gt;=C2=A0 #=C2=A0 =C2=A0log_granular_levels:<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0&#39;salt&#39;: &#39;warning&#39;,<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0&#39;salt&#39;: &#39;warning&#39;<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0&#39;salt.modules&#39;: &#39;debug&#39;<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 #log_granular_levels: {}<br>
+&gt;<br>
+&gt;<br>
+&gt; -#####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Node Groups=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0#####<br>
+&gt; +#####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Node Groups=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0######<br>
+&gt;=C2=A0 ##########################################<br>
+&gt; -# Node groups allow for logical groupings of minion nodes.<br>
+&gt; -# A group consists of a group name and a compound target.<br>
+&gt; -#<br>
+&gt; +# Node groups allow for logical groupings of minion nodes. A group co=
+nsists of a group<br>
+&gt; +# name and a compound target.<br>
+&gt;=C2=A0 #nodegroups:<br>
+&gt;=C2=A0 #=C2=A0 group1: &#39;<a href=3D"mailto:L@foo.domain.com">L@foo.d=
+omain.com</a>,<a href=3D"http://bar.domain.com" rel=3D"noreferrer" target=
+=3D"_blank">bar.domain.com</a>,<a href=3D"http://baz.domain.com" rel=3D"nor=
+eferrer" target=3D"_blank">baz.domain.com</a> and bl*.<a href=3D"http://dom=
+ain.com" rel=3D"noreferrer" target=3D"_blank">domain.com</a>&#39;<br>
+&gt;=C2=A0 #=C2=A0 group2: &#39;G@os:Debian and <a href=3D"http://foo.domai=
+n.com" rel=3D"noreferrer" target=3D"_blank">foo.domain.com</a>&#39;<br>
+&gt; @@ -507,19 +784,43 @@<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0Range Cluster settings=C2=A0 =C2=A0 =C2=
+=A0#####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # The range server (and optional port) that serves your cluster =
+information<br>
+&gt; -# <a href=3D"https://github.com/grierj/range/wiki/Introduction-to-Ran=
+ge-with-YAML-files" rel=3D"noreferrer" target=3D"_blank">https://github.com=
+/grierj/range/wiki/Introduction-to-Range-with-YAML-files</a><br>
+&gt; +# <a href=3D"https://github.com/ytoolshed/range/wiki/%22yamlfile%22-m=
+odule-file-spec" rel=3D"noreferrer" target=3D"_blank">https://github.com/yt=
+oolshed/range/wiki/%22yamlfile%22-module-file-spec</a><br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 #range_server: range:80<br>
+&gt;<br>
+&gt;<br>
+&gt; -#####=C2=A0 =C2=A0 =C2=A0Windows Software Repo settings #####<br>
+&gt; -##############################################<br>
+&gt; -# Location of the repo on the master<br>
+&gt; -#win_repo: &#39;/srv/salt/win/repo&#39;<br>
+&gt; +#####=C2=A0 Windows Software Repo settings #####<br>
+&gt; +###########################################<br>
+&gt; +# Location of the repo on the master:<br>
+&gt; +#winrepo_dir_ng: &#39;/srv/salt/win/repo-ng&#39;<br>
+&gt; +#<br>
+&gt; +# List of git repositories to include with the local repo:<br>
+&gt; +#winrepo_remotes_ng:<br>
+&gt; +#=C2=A0 - &#39;<a href=3D"https://github.com/saltstack/salt-winrepo-n=
+g.git" rel=3D"noreferrer" target=3D"_blank">https://github.com/saltstack/sa=
+lt-winrepo-ng.git</a>&#39;<br>
+&gt;<br>
+&gt; -# Location of the master&#39;s repo cache file<br>
+&gt; -#win_repo_mastercachefile: &#39;/srv/salt/win/repo/winrepo.p&#39;<br>
+&gt;<br>
+&gt; -# List of git repositories to include with the local repo<br>
+&gt; -#win_gitrepos:<br>
+&gt; +#####=C2=A0 Windows Software Repo settings - Pre 2015.8 #####<br>
+&gt; +########################################################<br>
+&gt; +# Legacy repo settings for pre-2015.8 Windows minions.<br>
+&gt; +#<br>
+&gt; +# Location of the repo on the master:<br>
+&gt; +#winrepo_dir: &#39;/srv/salt/win/repo&#39;<br>
+&gt; +#<br>
+&gt; +# Location of the master&#39;s repo cache file:<br>
+&gt; +#winrepo_mastercachefile: &#39;/srv/salt/win/repo/winrepo.p&#39;<br>
+&gt; +#<br>
+&gt; +# List of git repositories to include with the local repo:<br>
+&gt; +#winrepo_remotes:<br>
+&gt;=C2=A0 #=C2=A0 - &#39;<a href=3D"https://github.com/saltstack/salt-winr=
+epo.git" rel=3D"noreferrer" target=3D"_blank">https://github.com/saltstack/=
+salt-winrepo.git</a>&#39;<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +#####=C2=A0 =C2=A0 =C2=A0 Returner settings=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ######<br>
+&gt; +############################################<br>
+&gt; +# Which returner(s) will be used for minion&#39;s result:<br>
+&gt; +#return: mysql<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +######=C2=A0 =C2=A0 Miscellaneous=C2=A0 settings=C2=A0 =C2=A0 =C2=A0#=
+#####<br>
+&gt; +############################################<br>
+&gt; +# Default match type for filtering events tags: startswith, endswith,=
+ find, regex, fnmatch<br>
+&gt; +#event_match_type: startswith<br>
+&gt; diff --git a/meta-openstack/recipes-support/salt/files/minion b/meta-o=
+penstack/recipes-support/salt/files/minion<br>
+&gt; index 8fdde14..bd97c43 100644<br>
+&gt; --- a/meta-openstack/recipes-support/salt/files/minion<br>
+&gt; +++ b/meta-openstack/recipes-support/salt/files/minion<br>
+&gt; @@ -1,16 +1,52 @@<br>
+&gt;=C2=A0 ##### Primary configuration settings #####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt; +# This configuration file is used to manage the behavior of the Salt =
+Minion.<br>
+&gt; +# With the exception of the location of the Salt Master Server, value=
+s that are<br>
+&gt; +# commented out but have an empty line after the comment are defaults=
+ that need<br>
+&gt; +# not be set in the config. If there is no blank line after the comme=
+nt, the<br>
+&gt; +# value is presented as an example and is not the default.<br>
+&gt;<br>
+&gt;=C2=A0 # Per default the minion will automatically include all config f=
+iles<br>
+&gt;=C2=A0 # from minion.d/*.conf (minion.d is a directory in the same dire=
+ctory<br>
+&gt;=C2=A0 # as the main minion config file).<br>
+&gt;=C2=A0 #default_include: minion.d/*.conf<br>
+&gt;<br>
+&gt; -# Set the location of the salt master server, if the master server ca=
+nnot be<br>
+&gt; +# Set the location of the salt master server. If the master server ca=
+nnot be<br>
+&gt;=C2=A0 # resolved, then the minion will fail to start.<br>
+&gt;=C2=A0 #master: salt<br>
+&gt;<br>
+&gt; -# Set whether the minion should connect to the master via IPv6<br>
+&gt; +# Set http proxy information for the minion when doing requests<br>
+&gt; +#proxy_host:<br>
+&gt; +#proxy_port:<br>
+&gt; +#proxy_username:<br>
+&gt; +#proxy_password:<br>
+&gt; +<br>
+&gt; +# If multiple masters are specified in the &#39;master&#39; setting, =
+the default behavior<br>
+&gt; +# is to always try to connect to them in the order they are listed. I=
+f random_master is<br>
+&gt; +# set to True, the order will be randomized instead. This can be help=
+ful in distributing<br>
+&gt; +# the load of many minions executing salt-call requests, for example,=
+ from a cron job.<br>
+&gt; +# If only one master is listed, this setting is ignored and a warning=
+ will be logged.<br>
+&gt; +# NOTE: If master_type is set to failover, use master_shuffle instead=
+.<br>
+&gt; +#random_master: False<br>
+&gt; +<br>
+&gt; +# Use if master_type is set to failover.<br>
+&gt; +#master_shuffle: False<br>
+&gt; +<br>
+&gt; +# Minions can connect to multiple masters simultaneously (all masters=
+<br>
+&gt; +# are &quot;hot&quot;), or can be configured to failover if a master =
+becomes<br>
+&gt; +# unavailable.=C2=A0 Multiple hot masters are configured by setting t=
+his<br>
+&gt; +# value to &quot;str&quot;.=C2=A0 Failover masters can be requested b=
+y setting<br>
+&gt; +# to &quot;failover&quot;.=C2=A0 MAKE SURE TO SET master_alive_interv=
+al if you are<br>
+&gt; +# using failover.<br>
+&gt; +# master_type: str<br>
+&gt; +<br>
+&gt; +# Poll interval in seconds for checking if the master is still there.=
+=C2=A0 Only<br>
+&gt; +# respected if master_type above is &quot;failover&quot;. To disable =
+the interval entirely,<br>
+&gt; +# set the value to -1. (This may be necessary on machines which have =
+high numbers<br>
+&gt; +# of TCP connections, such as load balancers.)<br>
+&gt; +# master_alive_interval: 30<br>
+&gt; +<br>
+&gt; +# Set whether the minion should connect to the master via IPv6:<br>
+&gt;=C2=A0 #ipv6: False<br>
+&gt;<br>
+&gt;=C2=A0 # Set the number of seconds to wait before attempting to resolve=
+<br>
+&gt; @@ -18,13 +54,19 @@<br>
+&gt;=C2=A0 # Set to zero if the minion should shutdown and not retry.<br>
+&gt;=C2=A0 # retry_dns: 30<br>
+&gt;<br>
+&gt; -# Set the port used by the master reply and authentication server<br>
+&gt; +# Set the port used by the master reply and authentication server.<br=
+>
+&gt;=C2=A0 #master_port: 4506<br>
+&gt;<br>
+&gt; -# The user to run salt<br>
+&gt; +# The user to run salt.<br>
+&gt;=C2=A0 #user: root<br>
+&gt;<br>
+&gt; -# Specify the location of the daemon process ID file<br>
+&gt; +# Setting sudo_user will cause salt to run all execution modules unde=
+r an sudo<br>
+&gt; +# to the user given in sudo_user.=C2=A0 The user under which the salt=
+ minion process<br>
+&gt; +# itself runs will still be that provided in the user config above, b=
+ut all<br>
+&gt; +# execution modules run by the minion will be rerouted through sudo.<=
+br>
+&gt; +#sudo_user: saltdev<br>
+&gt; +<br>
+&gt; +# Specify the location of the daemon process ID file.<br>
+&gt;=C2=A0 #pidfile: /var/run/salt-minion.pid<br>
+&gt;<br>
+&gt;=C2=A0 # The root directory prepended to these options: pki_dir, cached=
+ir, log_file,<br>
+&gt; @@ -48,7 +90,7 @@<br>
+&gt;<br>
+&gt;=C2=A0 # Custom static grains for this minion can be specified here and=
+ used in SLS<br>
+&gt;=C2=A0 # files just like all other grains. This example sets 4 custom g=
+rains, with<br>
+&gt; -# the &#39;roles&#39; grain having two values that can be matched aga=
+inst:<br>
+&gt; +# the &#39;roles&#39; grain having two values that can be matched aga=
+inst.<br>
+&gt;=C2=A0 #grains:<br>
+&gt;=C2=A0 #=C2=A0 roles:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - webserver<br>
+&gt; @@ -56,36 +98,40 @@<br>
+&gt;=C2=A0 #=C2=A0 deployment: datacenter4<br>
+&gt;=C2=A0 #=C2=A0 cabinet: 13<br>
+&gt;=C2=A0 #=C2=A0 cab_u: 14-15<br>
+&gt; -<br>
+&gt; -# Where cache data goes<br>
+&gt; +#<br>
+&gt; +# Where cache data goes.<br>
+&gt; +# This data may contain sensitive data and should be protected accord=
+ingly.<br>
+&gt;=C2=A0 #cachedir: /var/cache/salt/minion<br>
+&gt;<br>
+&gt; -# Verify and set permissions on configuration directories at startup<=
+br>
+&gt; +# Verify and set permissions on configuration directories at startup.=
+<br>
+&gt;=C2=A0 #verify_env: True<br>
+&gt;<br>
+&gt;=C2=A0 # The minion can locally cache the return data from jobs sent to=
+ it, this<br>
+&gt;=C2=A0 # can be a good way to keep track of jobs the minion has execute=
+d<br>
+&gt; -# (on the minion side). By default this feature is disabled, to enabl=
+e<br>
+&gt; -# set cache_jobs to True<br>
+&gt; +# (on the minion side). By default this feature is disabled, to enabl=
+e, set<br>
+&gt; +# cache_jobs to True.<br>
+&gt;=C2=A0 #cache_jobs: False<br>
+&gt;<br>
+&gt; -# set the directory used to hold unix sockets<br>
+&gt; +# Set the directory used to hold unix sockets.<br>
+&gt;=C2=A0 #sock_dir: /var/run/salt/minion<br>
+&gt;<br>
+&gt;=C2=A0 # Set the default outputter used by the salt-call command. The d=
+efault is<br>
+&gt; -# &quot;nested&quot;<br>
+&gt; +# &quot;nested&quot;.<br>
+&gt;=C2=A0 #output: nested<br>
+&gt;=C2=A0 #<br>
+&gt; -# By default output is colored, to disable colored output set the col=
+or value<br>
+&gt; -# to False<br>
+&gt; +# By default output is colored. To disable colored output, set the co=
+lor value<br>
+&gt; +# to False.<br>
+&gt;=C2=A0 #color: True<br>
+&gt;<br>
+&gt; +# Do not strip off the colored output from nested results and state o=
+utputs<br>
+&gt; +# (true by default).<br>
+&gt; +# strip_colors: False<br>
+&gt; +<br>
+&gt;=C2=A0 # Backup files that are replaced by file.managed and file.recurs=
+e under<br>
+&gt;=C2=A0 # &#39;cachedir&#39;/file_backups relative to their original loc=
+ation and appended<br>
+&gt;=C2=A0 # with a timestamp. The only valid setting is &quot;minion&quot;=
+. Disabled by default.<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # Alternatively this can be specified for each file in state fil=
+es:<br>
+&gt; -#<br>
+&gt;=C2=A0 # /etc/ssh/sshd_config:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0file.managed:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0- source: salt://ssh/sshd_config<br>
+&gt; @@ -103,27 +149,55 @@<br>
+&gt;=C2=A0 # set to zero, the time between reconnection attempts will stay =
+constant.<br>
+&gt;=C2=A0 #acceptance_wait_time_max: 0<br>
+&gt;<br>
+&gt; +# If the master rejects the minion&#39;s public key, retry instead of=
+ exiting.<br>
+&gt; +# Rejected keys will be handled the same as waiting on acceptance.<br=
+>
+&gt; +#rejected_retry: False<br>
+&gt; +<br>
+&gt;=C2=A0 # When the master key changes, the minion will try to re-auth it=
+self to receive<br>
+&gt;=C2=A0 # the new master key. In larger environments this can cause a SY=
+N flood on the<br>
+&gt;=C2=A0 # master because all minions try to re-auth immediately. To prev=
+ent this and<br>
+&gt;=C2=A0 # have a minion wait for a random amount of time, use this optio=
+nal parameter.<br>
+&gt; -# The wait-time will be a random number of seconds between<br>
+&gt; -# 0 and the defined value.<br>
+&gt; +# The wait-time will be a random number of seconds between 0 and the =
+defined value.<br>
+&gt;=C2=A0 #random_reauth_delay: 60<br>
+&gt;<br>
+&gt; +# When waiting for a master to accept the minion&#39;s public key, sa=
+lt will<br>
+&gt; +# continuously attempt to reconnect until successful. This is the tim=
+eout value,<br>
+&gt; +# in seconds, for each individual attempt. After this timeout expires=
+, the minion<br>
+&gt; +# will wait for acceptance_wait_time seconds before trying again. Unl=
+ess your master<br>
+&gt; +# is under unusually heavy load, this should be left at the default.<=
+br>
+&gt; +#auth_timeout: 60<br>
+&gt; +<br>
+&gt; +# Number of consecutive SaltReqTimeoutError that are acceptable when =
+trying to<br>
+&gt; +# authenticate.<br>
+&gt; +#auth_tries: 7<br>
+&gt; +<br>
+&gt; +# If authentication fails due to SaltReqTimeoutError during a ping_in=
+terval,<br>
+&gt; +# cause sub minion process to restart.<br>
+&gt; +#auth_safemode: False<br>
+&gt; +<br>
+&gt; +# Ping Master to ensure connection is alive (minutes).<br>
+&gt; +#ping_interval: 0<br>
+&gt; +<br>
+&gt; +# To auto recover minions if master changes IP address (DDNS)<br>
+&gt; +#=C2=A0 =C2=A0 auth_tries: 10<br>
+&gt; +#=C2=A0 =C2=A0 auth_safemode: False<br>
+&gt; +#=C2=A0 =C2=A0 ping_interval: 90<br>
+&gt; +#<br>
+&gt; +# Minions won&#39;t know master is missing until a ping fails. After =
+the ping fail,<br>
+&gt; +# the minion will attempt authentication and likely fails out and cau=
+se a restart.<br>
+&gt; +# When the minion restarts it will resolve the masters IP and attempt=
+ to reconnect.<br>
+&gt;<br>
+&gt; -# If you don&#39;t have any problems with syn-floods, dont bother wit=
+h the<br>
+&gt; +# If you don&#39;t have any problems with syn-floods, don&#39;t bothe=
+r with the<br>
+&gt;=C2=A0 # three recon_* settings described below, just leave the default=
+s!<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # The ZeroMQ pull-socket that binds to the masters publishing in=
+terface tries<br>
+&gt;=C2=A0 # to reconnect immediately, if the socket is disconnected (for e=
+xample if<br>
+&gt;=C2=A0 # the master processes are restarted). In large setups this will=
+ have all<br>
+&gt;=C2=A0 # minions reconnect immediately which might flood the master (th=
+e ZeroMQ-default<br>
+&gt; -# is usually a 100ms delay). To prevent this, these three recon_* set=
+tings<br>
+&gt; +# is usually a 100ms delay). To prevent this, these three recon_* set=
+tings<br>
+&gt;=C2=A0 # can be used.<br>
+&gt; -#<br>
+&gt; -# recon_default: the interval in milliseconds that the socket should =
+wait before<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trying to re=
+connect to the master (100ms =3D 1 second)<br>
+&gt; +# recon_default: the interval in milliseconds that the socket should =
+wait before<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trying to re=
+connect to the master (1000ms =3D 1 second)<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # recon_max: the maximum time a socket should wait. each interva=
+l the time to wait<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 is calculated by doub=
+ling the previous time. if recon_max is reached,<br>
+&gt; @@ -136,29 +210,26 @@<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reconnect 5: value fr=
+om previous interval * 2<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 reconnect x: if value=
+ &gt;=3D recon_max, it starts again with recon_default<br>
+&gt;=C2=A0 #<br>
+&gt; -# recon_randomize: generate a random wait time on minion start. The w=
+ait time will<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 be a =
+random value between recon_default and recon_default +<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recon=
+_max. Having all minions reconnect with the same recon_default<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 and r=
+econ_max value kind of defeats the purpose of being able to<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chang=
+e these settings. If all minions have the same values and your<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 setup=
+ is quite large (several thousand minions), they will still<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 flood=
+ the master. The desired behaviour is to have timeframe within<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 all m=
+inions try to reconnect.<br>
+&gt; -<br>
+&gt; -# Example on how to use these settings:<br>
+&gt; -# The goal: have all minions reconnect within a 60 second timeframe o=
+n a disconnect<br>
+&gt; -#<br>
+&gt; -# The settings:<br>
+&gt; -#recon_default: 1000<br>
+&gt; -#recon_max: 59000<br>
+&gt; -#recon_randomize: True<br>
+&gt; +# recon_randomize: generate a random wait time on minion start. The w=
+ait time will<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 be a =
+random value between recon_default and recon_default +<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 recon=
+_max. Having all minions reconnect with the same recon_default<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 and r=
+econ_max value kind of defeats the purpose of being able to<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chang=
+e these settings. If all minions have the same values and your<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 setup=
+ is quite large (several thousand minions), they will still<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 flood=
+ the master. The desired behavior is to have timeframe within<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 all m=
+inions try to reconnect.<br>
+&gt; +#<br>
+&gt; +# Example on how to use these settings. The goal: have all minions re=
+connect within a<br>
+&gt; +# 60 second timeframe on a disconnect.<br>
+&gt; +# recon_default: 1000<br>
+&gt; +# recon_max: 59000<br>
+&gt; +# recon_randomize: True<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # Each minion will have a randomized reconnect value between &#3=
+9;recon_default&#39;<br>
+&gt;=C2=A0 # and &#39;recon_default + recon_max&#39;, which in this example=
+ means between 1000ms<br>
+&gt; -# 60000ms (or between 1 and 60 seconds). The generated random-value w=
+ill be<br>
+&gt; -# doubled after each attempt to reconnect. Lets say the generated ran=
+dom<br>
+&gt; -# value is 11 seconds (or 11000ms).<br>
+&gt; -#<br>
+&gt; +# 60000ms (or between 1 and 60 seconds). The generated random-value w=
+ill be<br>
+&gt; +# doubled after each attempt to reconnect. Lets say the generated ran=
+dom<br>
+&gt; +# value is 11 seconds (or 11000ms).<br>
+&gt;=C2=A0 # reconnect 1: wait 11 seconds<br>
+&gt;=C2=A0 # reconnect 2: wait 22 seconds<br>
+&gt;=C2=A0 # reconnect 3: wait 33 seconds<br>
+&gt; @@ -172,29 +243,68 @@<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # In a setup with ~6000 thousand hosts these settings would aver=
+age the reconnects<br>
+&gt;=C2=A0 # to about 100 per second and all hosts would be reconnected wit=
+hin 60 seconds.<br>
+&gt; -#recon_default: 100<br>
+&gt; -#recon_max: 5000<br>
+&gt; -#recon_randomize: False<br>
+&gt; -<br>
+&gt; +# recon_default: 100<br>
+&gt; +# recon_max: 5000<br>
+&gt; +# recon_randomize: False<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt;=C2=A0 # The loop_interval sets how long in seconds the minion will wai=
+t between<br>
+&gt;=C2=A0 # evaluating the scheduler and running cleanup tasks. This defau=
+lts to a<br>
+&gt;=C2=A0 # sane 60 seconds, but if the minion scheduler needs to be evalu=
+ated more<br>
+&gt;=C2=A0 # often lower this value<br>
+&gt;=C2=A0 #loop_interval: 60<br>
+&gt;<br>
+&gt; -# When healing, a dns_check is run. This is to make sure that the ori=
+ginally<br>
+&gt; -# resolved dns has not changed. If this is something that does not ha=
+ppen in<br>
+&gt; -# your environment, set this value to False.<br>
+&gt; -#dns_check: True<br>
+&gt; +# The grains can be merged, instead of overridden, using this option.=
+<br>
+&gt; +# This allows custom grains to defined different subvalues of a dicti=
+onary<br>
+&gt; +# grain. By default this feature is disabled, to enable set grains_de=
+ep_merge<br>
+&gt; +# to ``True``.<br>
+&gt; +#grains_deep_merge: False<br>
+&gt; +<br>
+&gt; +# The grains_refresh_every setting allows for a minion to periodicall=
+y check<br>
+&gt; +# its grains to see if they have changed and, if so, to inform the ma=
+ster<br>
+&gt; +# of the new grains. This operation is moderately expensive, therefor=
+e<br>
+&gt; +# care should be taken not to set this value too low.<br>
+&gt; +#<br>
+&gt; +# Note: This value is expressed in __minutes__!<br>
+&gt; +#<br>
+&gt; +# A value of 10 minutes is a reasonable default.<br>
+&gt; +#<br>
+&gt; +# If the value is set to zero, this check is disabled.<br>
+&gt; +#grains_refresh_every: 1<br>
+&gt; +<br>
+&gt; +# Cache grains on the minion. Default is False.<br>
+&gt; +#grains_cache: False<br>
+&gt; +<br>
+&gt; +# Cache rendered pillar data on the minion. Default is False.<br>
+&gt; +# This may cause &#39;cachedir&#39;/pillar to contain sensitive data =
+that should be<br>
+&gt; +# protected accordingly.<br>
+&gt; +#minion_pillar_cache: False<br>
+&gt; +<br>
+&gt; +# Grains cache expiration, in seconds. If the cache file is older tha=
+n this<br>
+&gt; +# number of seconds then the grains cache will be dumped and fully re=
+-populated<br>
+&gt; +# with fresh data. Defaults to 5 minutes. Will have no effect if &#39=
+;grains_cache&#39;<br>
+&gt; +# is not enabled.<br>
+&gt; +# grains_cache_expiration: 300<br>
+&gt;<br>
+&gt;=C2=A0 # Windows platforms lack posix IPC and must rely on slower TCP b=
+ased inter-<br>
+&gt;=C2=A0 # process communications. Set ipc_mode to &#39;tcp&#39; on such =
+systems<br>
+&gt;=C2=A0 #ipc_mode: ipc<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # Overwrite the default tcp ports used by the minion when in tcp=
+ mode<br>
+&gt;=C2=A0 #tcp_pub_port: 4510<br>
+&gt;=C2=A0 #tcp_pull_port: 4511<br>
+&gt;<br>
+&gt; +# Passing very large events can cause the minion to consume large amo=
+unts of<br>
+&gt; +# memory. This value tunes the maximum size of a message allowed onto=
+ the<br>
+&gt; +# minion event bus. The value is expressed in bytes.<br>
+&gt; +#max_event_size: 1048576<br>
+&gt; +<br>
+&gt; +# To detect failed master(s) and fire events on connect/disconnect, s=
+et<br>
+&gt; +# master_alive_interval to the number of seconds to poll the masters =
+for<br>
+&gt; +# connection events.<br>
+&gt; +#<br>
+&gt; +#master_alive_interval: 30<br>
+&gt; +<br>
+&gt;=C2=A0 # The minion can include configuration from other files. To enab=
+le this,<br>
+&gt;=C2=A0 # pass a list of paths to this option. The paths can be either r=
+elative or<br>
+&gt;=C2=A0 # absolute; if relative, they are considered to be relative to t=
+he directory<br>
+&gt; @@ -202,7 +312,6 @@<br>
+&gt;=C2=A0 # of shell-style globbing. If no files are matched by a path pas=
+sed to this<br>
+&gt;=C2=A0 # option then the minion will log a warning message.<br>
+&gt;=C2=A0 #<br>
+&gt; -#<br>
+&gt;=C2=A0 # Include a config file from some other path:<br>
+&gt;=C2=A0 # include: /etc/salt/extra_config<br>
+&gt;=C2=A0 #<br>
+&gt; @@ -210,11 +319,13 @@<br>
+&gt;=C2=A0 #include:<br>
+&gt;=C2=A0 #=C2=A0 - /etc/salt/extra_config<br>
+&gt;=C2=A0 #=C2=A0 - /etc/roles/webserver<br>
+&gt; -<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0Minion module management=C2=A0 =C2=A0 =C2=A0##=
+###<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # Disable specific modules. This allows the admin to limit the l=
+evel of<br>
+&gt; -# access the master has to the minion<br>
+&gt; +# access the master has to the minion.<br>
+&gt;=C2=A0 #disable_modules: [cmd,test]<br>
+&gt;=C2=A0 #disable_returners: []<br>
+&gt;=C2=A0 #<br>
+&gt; @@ -226,18 +337,22 @@<br>
+&gt;=C2=A0 #returner_dirs: []<br>
+&gt;=C2=A0 #states_dirs: []<br>
+&gt;=C2=A0 #render_dirs: []<br>
+&gt; +#utils_dirs: []<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # A module provider can be statically overwritten or extended fo=
+r the minion<br>
+&gt;=C2=A0 # via the providers option, in this case the default module will=
+ be<br>
+&gt;=C2=A0 # overwritten by the specified module. In this example the pkg m=
+odule will<br>
+&gt;=C2=A0 # be provided by the yumpkg5 module instead of the system defaul=
+t.<br>
+&gt; -#<br>
+&gt;=C2=A0 #providers:<br>
+&gt;=C2=A0 #=C2=A0 pkg: yumpkg5<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # Enable Cython modules searching and loading. (Default: False)<=
+br>
+&gt;=C2=A0 #cython_enable: False<br>
+&gt;=C2=A0 #<br>
+&gt; +# Specify a max size (in bytes) for modules on import. This feature i=
+s currently<br>
+&gt; +# only supported on *nix operating systems and requires psutil.<br>
+&gt; +# modules_max_memory: -1<br>
+&gt; +<br>
+&gt;<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 State Management Settings=C2=A0 =C2=A0 #####<=
+br>
+&gt;=C2=A0 ###########################################<br>
+&gt; @@ -256,21 +371,19 @@<br>
+&gt;=C2=A0 #renderer: yaml_jinja<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # The failhard option tells the minions to stop immediately afte=
+r the first<br>
+&gt; -# failure detected in the state execution, defaults to False<br>
+&gt; +# failure detected in the state execution. Defaults to False.<br>
+&gt;=C2=A0 #failhard: False<br>
+&gt;=C2=A0 #<br>
+&gt; -# autoload_dynamic_modules Turns on automatic loading of modules foun=
+d in the<br>
+&gt; -# environments on the master. This is turned on by default, to turn o=
+f<br>
+&gt; -# autoloading modules when states run set this value to False<br>
+&gt; +# Reload the modules prior to a highstate run.<br>
+&gt;=C2=A0 #autoload_dynamic_modules: True<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # clean_dynamic_modules keeps the dynamic modules on the minion =
+in sync with<br>
+&gt;=C2=A0 # the dynamic modules on the master, this means that if a dynami=
+c module is<br>
+&gt; -# not on the master it will be deleted from the minion. By default th=
+is is<br>
+&gt; -# enabled and can be disabled by changing this value to False<br>
+&gt; +# not on the master it will be deleted from the minion. By default, t=
+his is<br>
+&gt; +# enabled and can be disabled by changing this value to False.<br>
+&gt;=C2=A0 #clean_dynamic_modules: True<br>
+&gt;=C2=A0 #<br>
+&gt; -# Normally the minion is not isolated to any single environment on th=
+e master<br>
+&gt; +# Normally, the minion is not isolated to any single environment on t=
+he master<br>
+&gt;=C2=A0 # when running states, but the environment can be isolated on th=
+e minion side<br>
+&gt;=C2=A0 # by statically setting it. Remember that the recommended way to=
+ manage<br>
+&gt;=C2=A0 # environments is to isolate via the top file.<br>
+&gt; @@ -286,14 +399,23 @@<br>
+&gt;=C2=A0 # &#39;top&#39; -- Read top_file option and execute based on tha=
+t file on the Master<br>
+&gt;=C2=A0 #startup_states: &#39;&#39;<br>
+&gt;=C2=A0 #<br>
+&gt; -# list of states to run when the minion starts up if startup_states i=
+s &#39;sls&#39;<br>
+&gt; +# List of states to run when the minion starts up if startup_states i=
+s &#39;sls&#39;:<br>
+&gt;=C2=A0 #sls_list:<br>
+&gt;=C2=A0 #=C2=A0 - edit.vim<br>
+&gt;=C2=A0 #=C2=A0 - hyper<br>
+&gt;=C2=A0 #<br>
+&gt; -# top file to execute if startup_states is &#39;top&#39;<br>
+&gt; +# Top file to execute if startup_states is &#39;top&#39;:<br>
+&gt;=C2=A0 #top_file: &#39;&#39;<br>
+&gt;<br>
+&gt; +# Automatically aggregate all states that have support for mod_aggreg=
+ate by<br>
+&gt; +# setting to True. Or pass a list of state module names to automatica=
+lly<br>
+&gt; +# aggregate just those types.<br>
+&gt; +#<br>
+&gt; +# state_aggregate:<br>
+&gt; +#=C2=A0 =C2=A0- pkg<br>
+&gt; +#<br>
+&gt; +#state_aggregate: False<br>
+&gt; +<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0File Directory Settings=C2=A0 =C2=A0 ##=
+###<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # The Salt Minion can redirect all file server operations to a l=
+ocal directory,<br>
+&gt; @@ -303,7 +425,8 @@<br>
+&gt;<br>
+&gt;=C2=A0 # Set the file client. The client defaults to looking on the mas=
+ter server for<br>
+&gt;=C2=A0 # files, but can be directed to look at the local file directory=
+ setting<br>
+&gt; -# defined below by setting it to local.<br>
+&gt; +# defined below by setting it to &quot;local&quot;. Setting a local f=
+ile_client runs the<br>
+&gt; +# minion in masterless mode.<br>
+&gt;=C2=A0 #file_client: remote<br>
+&gt;<br>
+&gt;=C2=A0 # The file directory works on environments passed to the minion,=
+ each environment<br>
+&gt; @@ -329,15 +452,16 @@<br>
+&gt;=C2=A0 # to attempt to find files. To limit this behavior so that the f=
+ileserver only<br>
+&gt;=C2=A0 # traverses directories with SLS files and special Salt director=
+ies like _modules,<br>
+&gt;=C2=A0 # enable the option below. This might be useful for installation=
+s where a file root<br>
+&gt; -# has a very large number of files and performance is negatively impa=
+cted.<br>
+&gt; -#<br>
+&gt; -# Default is False.<br>
+&gt; -#<br>
+&gt; -# fileserver_limit_traversal: False<br>
+&gt; +# has a very large number of files and performance is negatively impa=
+cted. Default<br>
+&gt; +# is False.<br>
+&gt; +#fileserver_limit_traversal: False<br>
+&gt;<br>
+&gt;=C2=A0 # The hash_type is the hash to use when discovering the hash of =
+a file in<br>
+&gt;=C2=A0 # the local fileserver. The default is md5, but sha1, sha224, sh=
+a256, sha384<br>
+&gt;=C2=A0 # and sha512 are also supported.<br>
+&gt; +#<br>
+&gt; +# Warning: Prior to changing this value, the minion should be stopped=
+ and all<br>
+&gt; +# Salt caches should be cleared.<br>
+&gt;=C2=A0 #hash_type: md5<br>
+&gt;<br>
+&gt;=C2=A0 # The Salt pillar is searched for locally if file_client is set =
+to local. If<br>
+&gt; @@ -346,7 +470,8 @@<br>
+&gt;=C2=A0 #pillar_roots:<br>
+&gt;=C2=A0 #=C2=A0 base:<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 - /srv/pillar<br>
+&gt; -<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt;=C2=A0 ######=C2=A0 =C2=A0 =C2=A0 =C2=A0 Security settings=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0#####<br>
+&gt;=C2=A0 ###########################################<br>
+&gt;=C2=A0 # Enable &quot;open mode&quot;, this mode still maintains encryp=
+tion, but turns off<br>
+&gt; @@ -366,23 +491,34 @@<br>
+&gt;=C2=A0 # The state_verbose setting can be set to True or False, when se=
+t to False<br>
+&gt;=C2=A0 # all data that has a result of True and no changes will be supp=
+ressed.<br>
+&gt;=C2=A0 #state_verbose: True<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # The state_output setting changes if the output is the full mul=
+ti line<br>
+&gt;=C2=A0 # output for each changed state if set to &#39;full&#39;, but if=
+ set to &#39;terse&#39;<br>
+&gt;=C2=A0 # the output will be shortened to a single line.<br>
+&gt;=C2=A0 #state_output: full<br>
+&gt; -#<br>
+&gt; -# Fingerprint of the master public key to double verify the master is=
+ valid,<br>
+&gt; -# the master fingerprint can be found by running &quot;salt-key -F ma=
+ster&quot; on the<br>
+&gt; -# salt master.<br>
+&gt; +<br>
+&gt; +# The state_output_diff setting changes whether or not the output fro=
+m<br>
+&gt; +# successful states is returned. Useful when even the terse output of=
+ these<br>
+&gt; +# states is cluttering the logs. Set it to True to ignore them.<br>
+&gt; +#state_output_diff: False<br>
+&gt; +<br>
+&gt; +# The state_output_profile setting changes whether profile informatio=
 n<br>
-++then you must use `copy()` to copy it to another byte slice.<br>
-++<br>
-++<br>
-++### Autoincrementing integer for the bucket<br>
-++By using the NextSequence() function, you can let Bolt determine a sequen=
-ce<br>
-++which can be used as the unique identifier for your key/value pairs. See =
+&gt; +# will be shown for each state run.<br>
+&gt; +#state_output_profile: True<br>
+&gt; +<br>
+&gt; +# Fingerprint of the master public key to validate the identity of yo=
+ur Salt master<br>
+&gt; +# before the initial key exchange. The master fingerprint can be foun=
+d by running<br>
+&gt; +# &quot;salt-key -F master&quot; on the Salt master.<br>
+&gt;=C2=A0 #master_finger: &#39;&#39;<br>
+&gt;<br>
+&gt; +<br>
+&gt;=C2=A0 ######=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Thread settings=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 #####<br>
+&gt;=C2=A0 ###########################################<br>
+&gt;=C2=A0 # Disable multiprocessing support, by default when a minion rece=
+ives a<br>
+&gt;=C2=A0 # publication a new process is spawned and the command is execut=
+ed therein.<br>
+&gt;=C2=A0 #multiprocessing: True<br>
+&gt;<br>
+&gt; +<br>
+&gt;=C2=A0 #####=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Logging settings=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0#####<br>
+&gt;=C2=A0 ##########################################<br>
+&gt;=C2=A0 # The location of the minion log file<br>
+&gt; @@ -396,14 +532,19 @@<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 #log_file: /var/log/salt/minion<br>
+&gt;=C2=A0 #key_logfile: /var/log/salt/key<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # The level of messages to send to the console.<br>
+&gt;=C2=A0 # One of &#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;, in=
+fo&#39;, &#39;warning&#39;, &#39;error&#39;, &#39;critical&#39;.<br>
+&gt; +#<br>
+&gt; +# The following log levels are considered INSECURE and may log sensit=
+ive data:<br>
+&gt; +# [&#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;]<br>
+&gt; +#<br>
+&gt;=C2=A0 # Default: &#39;warning&#39;<br>
+&gt;=C2=A0 #log_level: warning<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # The level of messages to send to the log file.<br>
+&gt;=C2=A0 # One of &#39;garbage&#39;, &#39;trace&#39;, &#39;debug&#39;, in=
+fo&#39;, &#39;warning&#39;, &#39;error&#39;, &#39;critical&#39;.<br>
+&gt; +# If using &#39;log_granular_levels&#39; this must be set to the high=
+est desired level.<br>
+&gt;=C2=A0 # Default: &#39;warning&#39;<br>
+&gt;=C2=A0 #log_level_logfile:<br>
+&gt;<br>
+&gt; @@ -411,21 +552,54 @@<br>
+&gt;=C2=A0 # can be seen here: <a href=3D"http://docs.python.org/library/ti=
+me.html#time.strftime" rel=3D"noreferrer" target=3D"_blank">http://docs.pyt=
+hon.org/library/time.html#time.strftime</a><br>
+&gt;=C2=A0 #log_datefmt: &#39;%H:%M:%S&#39;<br>
+&gt;=C2=A0 #log_datefmt_logfile: &#39;%Y-%m-%d %H:%M:%S&#39;<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # The format of the console logging messages. Allowed formatting=
+ options can<br>
+&gt;=C2=A0 # be seen here: <a href=3D"http://docs.python.org/library/loggin=
+g.html#logrecord-attributes" rel=3D"noreferrer" target=3D"_blank">http://do=
+cs.python.org/library/logging.html#logrecord-attributes</a><br>
+&gt; +#<br>
+&gt; +# Console log colors are specified by these additional formatters:<br=
+>
+&gt; +#<br>
+&gt; +# %(colorlevel)s<br>
+&gt; +# %(colorname)s<br>
+&gt; +# %(colorprocess)s<br>
+&gt; +# %(colormsg)s<br>
+&gt; +#<br>
+&gt; +# Since it is desirable to include the surrounding brackets, &#39;[&#=
+39; and &#39;]&#39;, in<br>
+&gt; +# the coloring of the messages, these color formatters also include p=
+adding as<br>
+&gt; +# well.=C2=A0 Color LogRecord attributes are only available for conso=
+le logging.<br>
+&gt; +#<br>
+&gt; +#log_fmt_console: &#39;%(colorlevel)s %(colormsg)s&#39;<br>
+&gt;=C2=A0 #log_fmt_console: &#39;[%(levelname)-8s] %(message)s&#39;<br>
+&gt; -#log_fmt_logfile: &#39;%(asctime)s,%(msecs)03.0f [%(name)-17s][%(leve=
+lname)-8s] %(message)s&#39;<br>
+&gt;=C2=A0 #<br>
+&gt; +#log_fmt_logfile: &#39;%(asctime)s,%(msecs)03.0f [%(name)-17s][%(leve=
+lname)-8s] %(message)s&#39;<br>
+&gt; +<br>
+&gt;=C2=A0 # This can be used to control logging levels more specificically=
+.=C2=A0 This<br>
+&gt;=C2=A0 # example sets the main salt library at the &#39;warning&#39; le=
+vel, but sets<br>
+&gt;=C2=A0 # &#39;salt.modules&#39; to log at the &#39;debug&#39; level:<br=
+>
+&gt;=C2=A0 #=C2=A0 =C2=A0log_granular_levels:<br>
+&gt; -#=C2=A0 =C2=A0 =C2=A0&#39;salt&#39;: &#39;warning&#39;,<br>
+&gt; +#=C2=A0 =C2=A0 =C2=A0&#39;salt&#39;: &#39;warning&#39;<br>
+&gt;=C2=A0 #=C2=A0 =C2=A0 =C2=A0&#39;salt.modules&#39;: &#39;debug&#39;<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 #log_granular_levels: {}<br>
+&gt;<br>
+&gt; +# To diagnose issues with minions disconnecting or missing returns, Z=
+eroMQ<br>
+&gt; +# supports the use of monitor sockets to log connection events. This<=
+br>
+&gt; +# feature requires ZeroMQ 4.0 or higher.<br>
+&gt; +#<br>
+&gt; +# To enable ZeroMQ monitor sockets, set &#39;zmq_monitor&#39; to &#39=
+;True&#39; and log at a<br>
+&gt; +# debug level or higher.<br>
+&gt; +#<br>
+&gt; +# A sample log event is as follows:<br>
+&gt; +#<br>
+&gt; +# [DEBUG=C2=A0 =C2=A0] ZeroMQ event: {&#39;endpoint&#39;: &#39;tcp://=
+<a href=3D"http://127.0.0.1:4505" rel=3D"noreferrer" target=3D"_blank">127.=
+0.0.1:4505</a>&#39;, &#39;event&#39;: 512,<br>
+&gt; +# &#39;value&#39;: 27, &#39;description&#39;: &#39;EVENT_DISCONNECTED=
+&#39;}<br>
+&gt; +#<br>
+&gt; +# All events logged will include the string &#39;ZeroMQ event&#39;. A=
+ connection event<br>
+&gt; +# should be logged as the minion starts up and initially connects to =
 the<br>
-++example below.<br>
-++<br>
-++```go<br>
-++// CreateUser saves u to the store. The new user ID is set on u once the =
-data is persisted.<br>
-++func (s *Store) CreateUser(u *User) error {<br>
-++=C2=A0 =C2=A0 return s.db.Update(func(tx *bolt.Tx) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // Retrieve the users bucket.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // This should be created when the DB is firs=
-t opened.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 b :=3D tx.Bucket([]byte(&quot;users&quot;))<b=
-r>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // Generate ID for the user.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // This returns an error only if the Tx is cl=
-osed or not writeable.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // That can&#39;t happen in an Update() call =
-so I ignore the error check.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 id, _ =3D b.NextSequence()<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 u.ID =3D int(id)<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // Marshal user data into bytes.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 buf, err :=3D json.Marshal(u)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 // Persist bytes to users bucket.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return b.Put(itob(u.ID), buf)<br>
-++=C2=A0 =C2=A0 })<br>
-++}<br>
-++<br>
-++// itob returns an 8-byte big endian representation of v.<br>
-++func itob(v int) []byte {<br>
-++=C2=A0 =C2=A0 b :=3D make([]byte, 8)<br>
-++=C2=A0 =C2=A0 binary.BigEndian.PutUint64(b, uint64(v))<br>
-++=C2=A0 =C2=A0 return b<br>
-++}<br>
-++<br>
-++type User struct {<br>
-++=C2=A0 =C2=A0 ID int<br>
-++=C2=A0 =C2=A0 ...<br>
-++}<br>
-++<br>
-++```<br>
-+<br>
-+ ### Iterating over keys<br>
-+<br>
-+@@ -254,7 +383,7 @@ db.View(func(tx *bolt.Tx) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0max :=3D []byte(&quot;2000-01-01T00:00:00Z&quot=
-;)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Iterate over the 90&#39;s.<br>
-+-=C2=A0 =C2=A0 =C2=A0 for k, v :=3D c.Seek(min); k !=3D nil &amp;&amp; byt=
-es.Compare(k, max) !=3D -1; k, v =3D c.Next() {<br>
-++=C2=A0 =C2=A0 =C2=A0 for k, v :=3D c.Seek(min); k !=3D nil &amp;&amp; byt=
-es.Compare(k, max) &lt;=3D 0; k, v =3D c.Next() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fmt.Printf(&quot;%s=
-: %s\n&quot;, k, v)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+@@ -294,7 +423,7 @@ func (*Bucket) DeleteBucket(key []byte) error<br>
-+<br>
-+ ### Database backups<br>
-+<br>
-+-Bolt is a single file so it&#39;s easy to backup. You can use the `Tx.Cop=
-y()`<br>
-++Bolt is a single file so it&#39;s easy to backup. You can use the `Tx.Wri=
-teTo()`<br>
-+ function to write a consistent view of the database to a writer. If you c=
-all<br>
-+ this from a read-only transaction, it will perform a hot backup and not b=
-lock<br>
-+ your other database reads and writes. It will also use `O_DIRECT` when av=
-ailable<br>
-+@@ -305,11 +434,12 @@ do database backups:<br>
-+<br>
-+ ```go<br>
-+ func BackupHandleFunc(w http.ResponseWriter, req *http.Request) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 err :=3D db.View(func(tx bolt.Tx) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 err :=3D db.View(func(tx *bolt.Tx) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0w.Header().Set(&quo=
-t;Content-Type&quot;, &quot;application/octet-stream&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0w.Header().Set(&quo=
-t;Content-Disposition&quot;, `attachment; filename=3D&quot;my.db&quot;`)<br=
+&gt; +# master. If not, check for debug log level and that the necessary ve=
+rsion of<br>
+&gt; +# ZeroMQ is installed.<br>
+&gt; +#<br>
+&gt; +#zmq_monitor: False<br>
+&gt; +<br>
+&gt;=C2=A0 ######=C2=A0 =C2=A0 =C2=A0 Module configuration=C2=A0 =C2=A0 =C2=
+=A0 #####<br>
+&gt;=C2=A0 ###########################################<br>
+&gt;=C2=A0 # Salt allows for modules to be passed arbitrary configuration d=
+ata, any data<br>
+&gt; @@ -445,8 +619,8 @@<br>
+&gt;=C2=A0 #<br>
+&gt;=C2=A0 # A dict for the test module:<br>
+&gt;=C2=A0 #test.baz: {spam: sausage, cheese: bread}<br>
+&gt; -<br>
+&gt; -<br>
+&gt; +#<br>
+&gt; +#<br>
+&gt;=C2=A0 ######=C2=A0 =C2=A0 =C2=A0 Update settings=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 ######<br>
+&gt;=C2=A0 ###########################################<br>
+&gt;=C2=A0 # Using the features in Esky, a salt minion can both run as a fr=
+ozen app and<br>
+&gt; @@ -468,27 +642,39 @@<br>
+&gt;=C2=A0 # the risk that it could tear down the connection the master and=
+ minion<br>
+&gt;=C2=A0 # without informing either party that their connection has been =
+taken away.<br>
+&gt;=C2=A0 # Enabling TCP Keepalives prevents this from happening.<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # Overall state of TCP Keepalives, enable (1 or True), disable (=
+0 or False)<br>
+&gt;=C2=A0 # or leave to the OS defaults (-1), on Linux, typically disabled=
+. Default True, enabled.<br>
+&gt;=C2=A0 #tcp_keepalive: True<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # How long before the first keepalive should be sent in seconds.=
+ Default 300<br>
+&gt;=C2=A0 # to send the first keepalive after 5 minutes, OS default (-1) i=
+s typically 7200 seconds<br>
+&gt;=C2=A0 # on Linux see /proc/sys/net/ipv4/tcp_keepalive_time.<br>
+&gt;=C2=A0 #tcp_keepalive_idle: 300<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # How many lost probes are needed to consider the connection los=
+t. Default -1<br>
+&gt;=C2=A0 # to use OS defaults, typically 9 on Linux, see /proc/sys/net/ip=
+v4/tcp_keepalive_probes.<br>
+&gt;=C2=A0 #tcp_keepalive_cnt: -1<br>
+&gt; -#<br>
+&gt; +<br>
+&gt;=C2=A0 # How often, in seconds, to send keepalives after the first one.=
+ Default -1 to<br>
+&gt;=C2=A0 # use OS defaults, typically 75 seconds on Linux, see<br>
+&gt;=C2=A0 # /proc/sys/net/ipv4/tcp_keepalive_intvl.<br>
+&gt;=C2=A0 #tcp_keepalive_intvl: -1<br>
+&gt;<br>
+&gt;<br>
+&gt; -######=C2=A0 =C2=A0 =C2=A0 Windows Software settings ######<br>
+&gt; +######=C2=A0 =C2=A0Windows Software settings=C2=A0 =C2=A0 ######<br>
+&gt;=C2=A0 ############################################<br>
+&gt; -# Location of the repository cache file on the master<br>
+&gt; +# Location of the repository cache file on the master:<br>
+&gt;=C2=A0 #win_repo_cachefile: &#39;salt://win/repo/winrepo.p&#39;<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +######=C2=A0 =C2=A0 =C2=A0 Returner=C2=A0 settings=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ######<br>
+&gt; +############################################<br>
+&gt; +# Which returner(s) will be used for minion&#39;s result:<br>
+&gt; +#return: mysql<br>
+&gt; +<br>
+&gt; +<br>
+&gt; +######=C2=A0 =C2=A0 Miscellaneous=C2=A0 settings=C2=A0 =C2=A0 =C2=A0#=
+#####<br>
+&gt; +############################################<br>
+&gt; +# Default match type for filtering events tags: startswith, endswith,=
+ find, regex, fnmatch<br>
+&gt; +#event_match_type: startswith<br>
+&gt; diff --git a/meta-openstack/recipes-support/salt/files/roster b/meta-o=
+penstack/recipes-support/salt/files/roster<br>
+&gt; index 3eac2fa..e5a8318 100644<br>
+&gt; --- a/meta-openstack/recipes-support/salt/files/roster<br>
+&gt; +++ b/meta-openstack/recipes-support/salt/files/roster<br>
+&gt; @@ -6,3 +6,4 @@<br>
+&gt;=C2=A0 #=C2=A0 sudo: True=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Whether to=
+ sudo to root, not enabled by default<br>
+&gt;=C2=A0 #web2:<br>
+&gt;=C2=A0 #=C2=A0 host: 192.168.42.2<br>
+&gt; +<br>
+&gt; diff --git a/meta-openstack/recipes-support/salt/<a href=3D"http://sal=
+t_2015.8.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2015.8.0.bb</a> b/=
+meta-openstack/recipes-support/salt/<a href=3D"http://salt_2016.3.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">salt_2016.3.0.bb</a><br>
+&gt; similarity index 88%<br>
+&gt; rename from meta-openstack/recipes-support/salt/<a href=3D"http://salt=
+_2015.8.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2015.8.0.bb</a><br>
+&gt; rename to meta-openstack/recipes-support/salt/<a href=3D"http://salt_2=
+016.3.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2016.3.0.bb</a><br>
+&gt; index b22b827..c5620c6 100644<br>
+&gt; --- a/meta-openstack/recipes-support/salt/<a href=3D"http://salt_2015.=
+8.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2015.8.0.bb</a><br>
+&gt; +++ b/meta-openstack/recipes-support/salt/<a href=3D"http://salt_2016.=
+3.0.bb" rel=3D"noreferrer" target=3D"_blank">salt_2016.3.0.bb</a><br>
+&gt; @@ -1,18 +1,20 @@<br>
+&gt;=C2=A0 HOMEPAGE =3D &quot;<a href=3D"http://saltstack.com/" rel=3D"nore=
+ferrer" target=3D"_blank">http://saltstack.com/</a>&quot;<br>
+&gt;=C2=A0 SECTION =3D &quot;admin&quot;<br>
+&gt;=C2=A0 LICENSE =3D &quot;Apache-2.0&quot;<br>
+&gt; -LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Db59c9134761722281bb89=
+5f65cb15e9a&quot;<br>
+&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Dfb92f464675f6b5df90f5=
+40d60237915&quot;<br>
+&gt;=C2=A0 DEPENDS =3D &quot;\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-msgpack \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-pyyaml \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-jinja2 \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-markupsafe \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-pyzmq \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-pycrypto \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;<br>
+&gt; +PACKAGECONFIG ??=3D &quot;zeromq&quot;<br>
+&gt; +PACKAGECONFIG[zeromq] =3D &quot;,,python-pyzmq python-pycrypto,&quot;=
+<br>
+&gt; +PACKAGECONFIG[tcp] =3D &quot;,,python-pycrypto&quot;<br>
+&gt; +<br>
+&gt;=C2=A0 SRCNAME =3D &quot;salt&quot;<br>
+&gt; -SRC_URI =3D &quot;<a href=3D"http://pypi.python.org/packages/source/s=
+/${SRCNAME}/${SRCNAME}-${PV}.tar.gz" rel=3D"noreferrer" target=3D"_blank">h=
+ttp://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${PV}.tar.gz<=
+/a> \<br>
+&gt; +SRC_URI =3D &quot;<a href=3D"http://pypi.python.org/packages/75/db/c0=
+72687e77ad616ba395cc8be50fff093fb71b7fc1f5c225f42eee130bf5/${SRCNAME}-${PV}=
+.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://pypi.python.org/packag=
+es/75/db/c072687e77ad616ba395cc8be50fff093fb71b7fc1f5c225f42eee130bf5/${SRC=
+NAME}-${PV}.tar.gz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://set_python_locat=
+ion_hashbang.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://minion \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://salt-minion \<br=
 >
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0w.Header().Set(&quo=
-t;Content-Length&quot;, strconv.Itoa(int(tx.Size())))<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return tx.Copy(w)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _, err :=3D tx.WriteTo(w=
-)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0})<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0http.Error(w, err.E=
-rror(), http.StatusInternalServerError)<br>
-+@@ -351,14 +481,13 @@ go func() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Grab the current=
- stats and diff them.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0stats :=3D db.Stats=
-()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0diff :=3D stats.Sub=
-(&amp;prev)<br>
-+-<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Encode stats to =
-JSON and print to STDERR.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0json.NewEncoder(os.=
-Stderr).Encode(diff)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Save stats for t=
-he next loop.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0prev =3D stats<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-}<br>
-+ }()<br>
-+ ```<br>
-+<br>
-+@@ -366,25 +495,83 @@ It&#39;s also useful to pipe these stats to a servic=
-e such as statsd for monitoring<br>
-+ or to provide an HTTP endpoint that will perform a fixed-length sample.<b=
-r>
-+<br>
-+<br>
-++### Read-Only Mode<br>
-++<br>
-++Sometimes it is useful to create a shared, read-only Bolt database. To th=
-is,<br>
-++set the `Options.ReadOnly` flag when opening your database. Read-only mod=
-e<br>
-++uses a shared lock to allow multiple processes to read from the database =
-but<br>
-++it will block any processes from opening the database in read-write mode.=
-<br>
-++<br>
-++```go<br>
-++db, err :=3D bolt.Open(&quot;my.db&quot;, 0666, &amp;bolt.Options{ReadOnl=
-y: true})<br>
-++if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 log.Fatal(err)<br>
-++}<br>
-++```<br>
-++<br>
-++<br>
-+ ## Resources<br>
-+<br>
-+ For more information on getting started with Bolt, check out the followin=
-g articles:<br>
-+<br>
-+ * [Intro to BoltDB: Painless Performant Persistence](<a href=3D"http://np=
-f.io/2014/07/intro-to-boltdb-painless-performant-persistence/" target=3D"_b=
-lank">http://npf.io/2014/07/intro-to-boltdb-painless-performant-persistence=
-/</a>) by [Nate Finch](<a href=3D"https://github.com/natefinch" target=3D"_=
-blank">https://github.com/natefinch</a>).<br>
-++* [Bolt -- an embedded key/value database for Go](<a href=3D"https://www.=
-progville.com/go/bolt-embedded-db-golang/" target=3D"_blank">https://www.pr=
-ogville.com/go/bolt-embedded-db-golang/</a>) by Progville<br>
-++<br>
-++<br>
-++## Comparison with other databases<br>
-++<br>
-++### Postgres, MySQL, &amp; other relational databases<br>
-++<br>
-++Relational databases structure data into rows and are only accessible thr=
-ough<br>
-++the use of SQL. This approach provides flexibility in how you store and q=
-uery<br>
-++your data but also incurs overhead in parsing and planning SQL statements=
-. Bolt<br>
-++accesses all data by a byte slice key. This makes Bolt fast to read and w=
-rite<br>
-++data by key but provides no built-in support for joining values together.=
-<br>
-++<br>
-++Most relational databases (with the exception of SQLite) are standalone s=
-ervers<br>
-++that run separately from your application. This gives your systems<br>
-++flexibility to connect multiple application servers to a single database<=
-br>
-++server but also adds overhead in serializing and transporting data over t=
-he<br>
-++network. Bolt runs as a library included in your application so all data =
-access<br>
-++has to go through your application&#39;s process. This brings data closer=
- to your<br>
-++application but limits multi-process access to the data.<br>
-++<br>
-++<br>
-++### LevelDB, RocksDB<br>
-+<br>
-++LevelDB and its derivatives (RocksDB, HyperLevelDB) are similar to Bolt i=
-n that<br>
-++they are libraries bundled into the application, however, their underlyin=
-g<br>
-++structure is a log-structured merge-tree (LSM tree). An LSM tree optimize=
-s<br>
-++random writes by using a write ahead log and multi-tiered, sorted files c=
-alled<br>
-++SSTables. Bolt uses a B+tree internally and only a single file. Both appr=
-oaches<br>
-++have trade offs.<br>
-+<br>
-++If you require a high random write throughput (&gt;10,000 w/sec) or you n=
-eed to use<br>
-++spinning disks then LevelDB could be a good choice. If your application i=
-s<br>
-++read-heavy or does a lot of range scans then Bolt could be a good choice.=
-<br>
-+<br>
-+-## Comparing Bolt to LMDB<br>
-++One other important consideration is that LevelDB does not have transacti=
-ons.<br>
-++It supports batch writing of key/values pairs and it supports read snapsh=
-ots<br>
-++but it will not give you the ability to do a compare-and-swap operation s=
-afely.<br>
-++Bolt supports fully serializable ACID transactions.<br>
-++<br>
-++<br>
-++### LMDB<br>
-+<br>
-+ Bolt was originally a port of LMDB so it is architecturally similar. Both=
- use<br>
-+-a B+tree, have ACID semanetics with fully serializable transactions, and =
-support<br>
-++a B+tree, have ACID semantics with fully serializable transactions, and s=
-upport<br>
-+ lock-free MVCC using a single writer and multiple readers.<br>
-+<br>
-+ The two projects have somewhat diverged. LMDB heavily focuses on raw perf=
-ormance<br>
-+ while Bolt has focused on simplicity and ease of use. For example, LMDB a=
-llows<br>
-+-several unsafe actions such as direct writes and append writes for the sa=
-ke of<br>
-+-performance. Bolt opts to disallow actions which can leave the database i=
-n a<br>
-+-corrupted state. The only exception to this in Bolt is `DB.NoSync`.<br>
-++several unsafe actions such as direct writes for the sake of performance.=
- Bolt<br>
-++opts to disallow actions which can leave the database in a corrupted stat=
-e. The<br>
-++only exception to this in Bolt is `DB.NoSync`.<br>
-++<br>
-++There are also a few differences in API. LMDB requires a maximum mmap siz=
-e when<br>
-++opening an `mdb_env` whereas Bolt will handle incremental mmap resizing<b=
-r>
-++automatically. LMDB overloads the getter and setter functions with multip=
-le<br>
-++flags whereas Bolt splits these specialized cases into their own function=
-s.<br>
-+<br>
-+<br>
-+ ## Caveats &amp; Limitations<br>
-+@@ -425,14 +612,33 @@ Here are a few things to note when evaluating and us=
-ing Bolt:<br>
-+=C2=A0 =C2=A0can in memory and will release memory as needed to other proc=
-esses. This means<br>
-+=C2=A0 =C2=A0that Bolt can show very high memory usage when working with l=
-arge databases.<br>
-+=C2=A0 =C2=A0However, this is expected and the OS will release memory as n=
-eeded. Bolt can<br>
-+-=C2=A0 handle databases much larger than the available physical RAM.<br>
-++=C2=A0 handle databases much larger than the available physical RAM, prov=
-ided its<br>
-++=C2=A0 memory-map fits in the process virtual address space. It may be pr=
-oblematic<br>
-++=C2=A0 on 32-bits systems.<br>
-++<br>
-++* The data structures in the Bolt database are memory mapped so the data =
-file<br>
-++=C2=A0 will be endian specific. This means that you cannot copy a Bolt fi=
-le from a<br>
-++=C2=A0 little endian machine to a big endian machine and have it work. Fo=
-r most<br>
-++=C2=A0 users this is not a concern since most modern CPUs are little endi=
-an.<br>
-++<br>
-++* Because of the way pages are laid out on disk, Bolt cannot truncate dat=
-a files<br>
-++=C2=A0 and return free pages back to the disk. Instead, Bolt maintains a =
-free list<br>
-++=C2=A0 of unused pages within its data file. These free pages can be reus=
-ed by later<br>
-++=C2=A0 transactions. This works well for many use cases as databases gene=
-rally tend<br>
-++=C2=A0 to grow. However, it&#39;s important to note that deleting large c=
-hunks of data<br>
-++=C2=A0 will not allow you to reclaim that space on disk.<br>
-++<br>
-++=C2=A0 For more information on page allocation, [see this comment][page-a=
-llocation].<br>
-++<br>
-++[page-allocation]: <a href=3D"https://github.com/boltdb/bolt/issues/308#i=
-ssuecomment-74811638" target=3D"_blank">
-https://github.com/boltdb/bolt/issues/308#issuecomment-74811638</a><br>
-+<br>
-+<br>
-+ ## Other Projects Using Bolt<br>
-+<br>
-+ Below is a list of public, open source projects that use Bolt:<br>
-+<br>
-+-* [Bazil](<a href=3D"https://github.com/bazillion/bazil" target=3D"_blank=
-">https://github.com/bazillion/bazil</a>) - A file system that lets your da=
-ta reside where it is most convenient for it to reside.<br>
-++* [Operation Go: A Routine Mission](<a href=3D"http://gocode.io" target=
-=3D"_blank">http://gocode.io</a>) - An online programming game for Golang u=
-sing Bolt for user accounts and a leaderboard.<br>
-++* [Bazil](<a href=3D"https://bazil.org/" target=3D"_blank">https://bazil.=
-org/</a>) - A file system that lets your data reside where it is most conve=
-nient for it to reside.<br>
-+ * [DVID](<a href=3D"https://github.com/janelia-flyem/dvid" target=3D"_bla=
-nk">https://github.com/janelia-flyem/dvid</a>) - Added Bolt as optional sto=
-rage engine and testing it against Basho-tuned leveldb.<br>
-+ * [Skybox Analytics](<a href=3D"https://github.com/skybox/skybox" target=
-=3D"_blank">https://github.com/skybox/skybox</a>) - A standalone funnel ana=
-lysis tool for web analytics.<br>
-+ * [Scuttlebutt](<a href=3D"https://github.com/benbjohnson/scuttlebutt" ta=
-rget=3D"_blank">https://github.com/benbjohnson/scuttlebutt</a>) - Uses Bolt=
- to store and process all Twitter mentions of GitHub projects.<br>
-+@@ -450,6 +656,16 @@ Below is a list of public, open source projects that =
-use Bolt:<br>
-+ * [bleve](<a href=3D"http://www.blevesearch.com/" target=3D"_blank">http:=
-//www.blevesearch.com/</a>) - A pure Go search engine similar to ElasticSea=
-rch that uses Bolt as the default storage backend.<br>
-+ * [tentacool](<a href=3D"https://github.com/optiflows/tentacool" target=
-=3D"_blank">https://github.com/optiflows/tentacool</a>) - REST api server t=
-o manage system stuff (IP, DNS, Gateway...) on a linux server.<br>
-+ * [SkyDB](<a href=3D"https://github.com/skydb/sky" target=3D"_blank">http=
-s://github.com/skydb/sky</a>) - Behavioral analytics database.<br>
-++* [Seaweed File System](<a href=3D"https://github.com/chrislusf/weed-fs" =
-target=3D"_blank">https://github.com/chrislusf/weed-fs</a>) - Highly scalab=
-le distributed key~file system with O(1) disk read.<br>
-++* [InfluxDB](<a href=3D"http://influxdb.com" target=3D"_blank">http://inf=
-luxdb.com</a>) - Scalable datastore for metrics, events, and real-time anal=
-ytics.<br>
-++* [Freehold](<a href=3D"http://tshannon.bitbucket.org/freehold/" target=
-=3D"_blank">http://tshannon.bitbucket.org/freehold/</a>) - An open, secure,=
- and lightweight platform for your files and data.<br>
-++* [Prometheus Annotation Server](<a href=3D"https://github.com/oliver006/=
-prom_annotation_server" target=3D"_blank">https://github.com/oliver006/prom=
-_annotation_server</a>) - Annotation server for PromDash &amp; Prometheus s=
-ervice monitoring system.<br>
-++* [Consul](<a href=3D"https://github.com/hashicorp/consul" target=3D"_bla=
-nk">https://github.com/hashicorp/consul</a>) - Consul is service discovery =
-and configuration made easy. Distributed, highly available, and datacenter-=
-aware.<br>
-++* [Kala](<a href=3D"https://github.com/ajvb/kala" target=3D"_blank">https=
-://github.com/ajvb/kala</a>) - Kala is a modern job scheduler optimized to =
-run on a single node. It is persistent, JSON over HTTP API, ISO 8601 durati=
-on notation, and dependent jobs.<br>
-++* [drive](<a href=3D"https://github.com/odeke-em/drive" target=3D"_blank"=
->https://github.com/odeke-em/drive</a>) - drive is an unofficial Google Dri=
-ve command line client for \*NIX operating systems.<br>
-++* [stow](<a href=3D"https://github.com/djherbis/stow" target=3D"_blank">h=
-ttps://github.com/djherbis/stow</a>) -=C2=A0 a persistence manager for obje=
-cts<br>
-++=C2=A0 backed by boltdb.<br>
-++* [buckets](<a href=3D"https://github.com/joyrexus/buckets" target=3D"_bl=
-ank">https://github.com/joyrexus/buckets</a>) - a bolt wrapper streamlining=
-<br>
-++=C2=A0 simple tx and key scans.<br>
-+<br>
-+ If you are using Bolt in a project please send a pull request to add it t=
-o the list.<br>
-+-<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go"=
- target=3D"_blank">github.com/boltdb/bolt/batch.go</a> b/vendor/src/<a href=
-=3D"http://github.com/boltdb/bolt/batch.go" target=3D"_blank">github.com/bo=
-ltdb/bolt/batch.go</a><br>
-+new file mode 100644<br>
-+index 0000000..84acae6<br>
-+--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/batch.go" target=
-=3D"_blank">github.com/boltdb/bolt/batch.go</a><br>
-+@@ -0,0 +1,138 @@<br>
-++package bolt<br>
-++<br>
-++import (<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;errors&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;sync&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;time&quot;<br>
-++)<br>
-++<br>
-++// Batch calls fn as part of a batch. It behaves similar to Update,<br>
-++// except:<br>
-++//<br>
-++// 1. concurrent Batch calls can be combined into a single Bolt<br>
-++// transaction.<br>
-++//<br>
-++// 2. the function passed to Batch may be called multiple times,<br>
-++// regardless of whether it returns error or not.<br>
-++//<br>
-++// This means that Batch function side effects must be idempotent and<br>
-++// take permanent effect only after a successful return is seen in<br>
-++// caller.<br>
-++//<br>
-++// The maximum batch size and delay can be adjusted with DB.MaxBatchSize<=
-br>
-++// and DB.MaxBatchDelay, respectively.<br>
-++//<br>
-++// Batch is only useful when there are multiple goroutines calling it.<br=
+&gt; @@ -26,8 +28,8 @@ SRC_URI =3D &quot;<a href=3D"http://pypi.python.org/=
+packages/source/s/${SRCNAME}/${SRCNAME}-${PV}" rel=3D"noreferrer" target=3D=
+"_blank">http://pypi.python.org/packages/source/s/${SRCNAME}/${SRCNAME}-${P=
+V}</a>.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://roster \<br>
+&gt;=C2=A0 &quot;<br>
+&gt;<br>
+&gt; -SRC_URI[md5sum] =3D &quot;a15842ef0582cca9d26143fe0a6180b7&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;71e1cb2eb1d4b30f3247f5590c00a2089190b8f9=
+a90c9330dc9a65fae517ec9b&quot;<br>
+&gt; +SRC_URI[md5sum] =3D &quot;8ed82cfb3f9b1764a035edbdacf0fea9&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;e316dd103b7faeaa97820197e4d0d7d358519f0c=
+a2a6dcb1d9b718eea801ed30&quot;<br>
+&gt;<br>
+&gt;=C2=A0 S =3D &quot;${WORKDIR}/${SRCNAME}-${PV}&quot;<br>
+&gt;<br>
+&gt; @@ -77,7 +79,9 @@ Between the remote execution system, and state manag=
+ement Salt addresses the bac<br>
+&gt;<br>
+&gt;=C2=A0 SUMMARY_${PN}-minion =3D &quot;client package for salt, the dist=
+ributed remote execution system&quot;<br>
+&gt;=C2=A0 DESCRIPTION_${PN}-minion =3D &quot;${DESCRIPTION_COMMON} This pa=
+rticular package provides the worker agent for salt.&quot;<br>
+&gt; -RDEPENDS_${PN}-minion =3D &quot;python (&gt;=3D2.6), ${PN}-common (=
+=3D ${EXTENDPKGV}) python-pycrypto python-msgpack python-pyzmq (&gt;=3D 13.=
+1.0)&quot;<br>
+&gt; +RDEPENDS_${PN}-minion =3D &quot;python (&gt;=3D2.6), ${PN}-common (=
+=3D ${EXTENDPKGV}) python-msgpack&quot;<br>
+&gt; +RDEPENDS_${PN}-minion +=3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;zeromq&#39;, &#39;python-pycrypto python-pyzmq (&gt;=3D 13.1=
+.0)&#39;, &#39;&#39;,d)}&quot;<br>
+&gt; +RDEPENDS_${PN}-minion +=3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;tcp&#39;, &#39;python-pycrypto&#39;, &#39;&#39;,d)}&quot;<br=
 >
-++func (db *DB) Batch(fn func(*Tx) error) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 errCh :=3D make(chan error, 1)<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 db.batchMu.Lock()<br>
-++=C2=A0 =C2=A0 =C2=A0 if (db.batch =3D=3D nil) || (db.batch !=3D nil &amp;=
-&amp; len(db.batch.calls) &gt;=3D db.MaxBatchSize) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // There is no existing =
-batch, or the existing batch is full; start a new one.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 db.batch =3D &amp;batch{=
+&gt;=C2=A0 RRECOMMENDS_${PN}-minion_append_x64 =3D &quot;dmidecode&quot;<br=
+>
+&gt;=C2=A0 RSUGGESTS_${PN}-minion =3D &quot;python-augeas&quot;<br>
+&gt;=C2=A0 CONFFILES_${PN}-minion =3D &quot;${sysconfdir}/${PN}/minion ${sy=
+sconfdir}/init.d/${PN}-minion&quot;<br>
+&gt; @@ -118,7 +122,9 @@ INITSCRIPT_PARAMS_${PN}-api =3D &quot;defaults&quo=
+t;<br>
+&gt;<br>
+&gt;=C2=A0 SUMMARY_${PN}-master =3D &quot;remote manager to administer serv=
+ers via salt&quot;<br>
+&gt;=C2=A0 DESCRIPTION_${PN}-master =3D&quot;${DESCRIPTION_COMMON} This par=
+ticular package provides the salt controller.&quot;<br>
+&gt; -RDEPENDS_${PN}-master =3D &quot;python (&gt;=3D 2.6) ${PN}-common (=
+=3D ${EXTENDPKGV}) python-pycrypto python-msgpack python-pyzmq (&gt;=3D 13.=
+1.0)&quot;<br>
+&gt; +RDEPENDS_${PN}-master =3D &quot;python (&gt;=3D 2.6) ${PN}-common (=
+=3D ${EXTENDPKGV}) python-msgpack&quot;<br>
+&gt; +RDEPENDS_${PN}-master +=3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;zeromq&#39;, &#39;python-pycrypto python-pyzmq (&gt;=3D 13.1=
+.0)&#39;, &#39;&#39;,d)}&quot;<br>
+&gt; +RDEPENDS_${PN}-master +=3D &quot;${@bb.utils.contains(&#39;PACKAGECON=
+FIG&#39;, &#39;tcp&#39;, &#39;python-pycrypto&#39;, &#39;&#39;,d)}&quot;<br=
+>
+&gt;=C2=A0 CONFFILES_${PN}-master=3D&quot;${sysconfdir}/init.d/${PN}-master=
+=C2=A0 ${sysconfdir}/${PN}/master&quot;<br>
+&gt;=C2=A0 RSUGGESTS_${PN}-master =3D &quot;python-git&quot;<br>
+&gt;=C2=A0 FILES_${PN}-master =3D &quot;${bindir}/${PN} ${bindir}/${PN}-cp =
+${bindir}/${PN}-key ${bindir}/${PN}-master ${bindir}/${PN}-run ${bindir}/${=
+PN}-unity ${bindir}/spm ${CONFFILES_${PN}-master}&quot;<br>
+&gt;<br>
 <br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 db: db,<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 db.batch.timer =3D time.=
-AfterFunc(db.MaxBatchDelay, db.batch.trigger)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 db.batch.calls =3D append(db.batch.calls, call{fn: f=
-n, err: errCh})<br>
-++=C2=A0 =C2=A0 =C2=A0 if len(db.batch.calls) &gt;=3D db.MaxBatchSize {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // wake up batch, it&#39=
-;s ready to run<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 go db.batch.trigger()<br=
->
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 db.batchMu.Unlock()<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 err :=3D &lt;-errCh<br>
-++=C2=A0 =C2=A0 =C2=A0 if err =3D=3D trySolo {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D db.Update(fn)<br=
->
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 return err<br>
-++}<br>
-++<br>
-++type call struct {<br>
-++=C2=A0 =C2=A0 =C2=A0 fn=C2=A0 func(*Tx) error<br>
-++=C2=A0 =C2=A0 =C2=A0 err chan&lt;- error<br>
-++}<br>
-++<br>
-++type batch struct {<br>
-++=C2=A0 =C2=A0 =C2=A0 db=C2=A0 =C2=A0 *DB<br>
-++=C2=A0 =C2=A0 =C2=A0 timer *time.Timer<br>
-++=C2=A0 =C2=A0 =C2=A0 start sync.Once<br>
-++=C2=A0 =C2=A0 =C2=A0 calls []call<br>
-++}<br>
-++<br>
-++// trigger runs the batch if it hasn&#39;t already been run.<br>
-++func (b *batch) trigger() {<br>
-++=C2=A0 =C2=A0 =C2=A0 <a href=3D"http://b.start.Do" target=3D"_blank">b.st=
-art.Do</a>(b.run)<br>
-++}<br>
-++<br>
-++// run performs the transactions in the batch and communicates results<br=
->
-++// back to DB.Batch.<br>
-++func (b *batch) run() {<br>
-++=C2=A0 =C2=A0 =C2=A0 b.db.batchMu.Lock()<br>
-++=C2=A0 =C2=A0 =C2=A0 b.timer.Stop()<br>
-++=C2=A0 =C2=A0 =C2=A0 // Make sure no new work is added to this batch, but=
- don&#39;t break<br>
-++=C2=A0 =C2=A0 =C2=A0 // other batches.<br>
-++=C2=A0 =C2=A0 =C2=A0 if b.db.batch =3D=3D b {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b.db.batch =3D nil<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 b.db.batchMu.Unlock()<br>
-++<br>
-++retry:<br>
-++=C2=A0 =C2=A0 =C2=A0 for len(b.calls) &gt; 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var failIdx =3D -1<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err :=3D b.db.Update(fun=
-c(tx *Tx) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 for i, c :=3D range b.calls {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D safelyCall(c.fn, tx); err !=3D =
-nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 failIdx =3D i<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return nil<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 })<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if failIdx &gt;=3D 0 {<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // take the failing transaction out of the batch. it&#39;s<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // safe to shorten b.calls here because db.batch no longer<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // points to us, and we hold the mutex anyway.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 c :=3D b.calls[failIdx]<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 b.calls[failIdx], b.calls =3D b.calls[len(b.calls)-1], b.calls[:len(b.c=
-alls)-1]<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // tell the submitter re-run it solo, continue with the rest of the bat=
-ch<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 c.err &lt;- trySolo<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 continue retry<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // pass success, or bolt=
- internal errors, to all callers<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for _, c :=3D range b.ca=
-lls {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if c.err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c.err &lt;- err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break retry<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++}<br>
-++<br>
-++// trySolo is a special sentinel error value used for signaling that a<br=
->
-++// transaction function should be re-run. It should never be seen by<br>
-++// callers.<br>
-++var trySolo =3D errors.New(&quot;batch function returned an error and sho=
-uld be re-run solo&quot;)<br>
-++<br>
-++type panicked struct {<br>
-++=C2=A0 =C2=A0 =C2=A0 reason interface{}<br>
-++}<br>
-++<br>
-++func (p panicked) Error() string {<br>
-++=C2=A0 =C2=A0 =C2=A0 if err, ok :=3D p.reason.(error); ok {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err.Error()<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 return fmt.Sprintf(&quot;panic: %v&quot;, p.reason)<=
-br>
-++}<br>
-++<br>
-++func safelyCall(fn func(*Tx) error, tx *Tx) (err error) {<br>
-++=C2=A0 =C2=A0 =C2=A0 defer func() {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if p :=3D recover(); p !=
-=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 err =3D panicked{p}<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 }()<br>
-++=C2=A0 =C2=A0 =C2=A0 return fn(tx)<br>
-++}<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.=
-go" target=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a> b/vendor/src/<=
-a href=3D"http://github.com/boltdb/bolt/bolt_386.go" target=3D"_blank">gith=
-ub.com/boltdb/bolt/bolt_386.go</a><br>
-+index 856f401..e659bfb 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" tar=
-get=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_386.go" tar=
-get=3D"_blank">github.com/boltdb/bolt/bolt_386.go</a><br>
-+@@ -1,4 +1,7 @@<br>
-+ package bolt<br>
-+<br>
-+ // maxMapSize represents the largest mmap size supported by Bolt.<br>
-+-const maxMapSize =3D 0xFFFFFFF // 256MB<br>
-++const maxMapSize =3D 0x7FFFFFFF // 2GB<br>
-++<br>
-++// maxAllocSize is the size used when creating array pointers.<br>
-++const maxAllocSize =3D 0xFFFFFFF<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd6=
-4.go" target=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a> b/vendor/s=
-rc/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" target=3D"_blank=
-">github.com/boltdb/bolt/bolt_amd64.go</a><br>
-+index 4262932..cca6b7e 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" t=
-arget=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_amd64.go" t=
-arget=3D"_blank">github.com/boltdb/bolt/bolt_amd64.go</a><br>
-+@@ -2,3 +2,6 @@ package bolt<br>
-+<br>
-+ // maxMapSize represents the largest mmap size supported by Bolt.<br>
-+ const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB<br>
-++<br>
-++// maxAllocSize is the size used when creating array pointers.<br>
-++const maxAllocSize =3D 0x7FFFFFFF<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.=
-go" target=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a> b/vendor/src/<=
-a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" target=3D"_blank">gith=
-ub.com/boltdb/bolt/bolt_arm.go</a><br>
-+index 856f401..e659bfb 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" tar=
-get=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm.go" tar=
-get=3D"_blank">github.com/boltdb/bolt/bolt_arm.go</a><br>
-+@@ -1,4 +1,7 @@<br>
-+ package bolt<br>
-+<br>
-+ // maxMapSize represents the largest mmap size supported by Bolt.<br>
-+-const maxMapSize =3D 0xFFFFFFF // 256MB<br>
-++const maxMapSize =3D 0x7FFFFFFF // 2GB<br>
-++<br>
-++// maxAllocSize is the size used when creating array pointers.<br>
-++const maxAllocSize =3D 0xFFFFFFF<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm6=
-4.go" target=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a> b/vendor/s=
-rc/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" target=3D"_blank=
-">github.com/boltdb/bolt/bolt_arm64.go</a><br>
-+new file mode 100644<br>
-+index 0000000..6d23093<br>
-+--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_arm64.go" t=
-arget=3D"_blank">github.com/boltdb/bolt/bolt_arm64.go</a><br>
-+@@ -0,0 +1,9 @@<br>
-++// +build arm64<br>
-++<br>
-++package bolt<br>
-++<br>
-++// maxMapSize represents the largest mmap size supported by Bolt.<br>
-++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB<br>
-++<br>
-++// maxAllocSize is the size used when creating array pointers.<br>
-++const maxAllocSize =3D 0x7FFFFFFF<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc6=
-4le.go" target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a> b/vend=
-or/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go" target=3D"=
-_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a><br>
-+new file mode 100644<br>
-+index 0000000..8351e12<br>
-+--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_ppc64le.go"=
- target=3D"_blank">github.com/boltdb/bolt/bolt_ppc64le.go</a><br>
-+@@ -0,0 +1,9 @@<br>
-++// +build ppc64le<br>
-++<br>
-++package bolt<br>
-++<br>
-++// maxMapSize represents the largest mmap size supported by Bolt.<br>
-++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB<br>
-++<br>
-++// maxAllocSize is the size used when creating array pointers.<br>
-++const maxAllocSize =3D 0x7FFFFFFF<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390=
-x.go" target=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a> b/vendor/s=
-rc/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" target=3D"_blank=
-">github.com/boltdb/bolt/bolt_s390x.go</a><br>
-+new file mode 100644<br>
-+index 0000000..f4dd26b<br>
-+--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_s390x.go" t=
-arget=3D"_blank">github.com/boltdb/bolt/bolt_s390x.go</a><br>
-+@@ -0,0 +1,9 @@<br>
-++// +build s390x<br>
-++<br>
-++package bolt<br>
-++<br>
-++// maxMapSize represents the largest mmap size supported by Bolt.<br>
-++const maxMapSize =3D 0xFFFFFFFFFFFF // 256TB<br>
-++<br>
-++// maxAllocSize is the size used when creating array pointers.<br>
-++const maxAllocSize =3D 0x7FFFFFFF<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix=
-.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a> b/vendor/src=
-/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" target=3D"_blank">g=
-ithub.com/boltdb/bolt/bolt_unix.go</a><br>
-+index 95647a7..6eef6b2 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" ta=
-rget=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix.go" ta=
-rget=3D"_blank">github.com/boltdb/bolt/bolt_unix.go</a><br>
-+@@ -1,8 +1,9 @@<br>
-+-// +build !windows,!plan9<br>
-++// +build !windows,!plan9,!solaris<br>
-+<br>
-+ package bolt<br>
-+<br>
-+ import (<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;os&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;syscall&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;time&quot;<br>
-+@@ -10,7 +11,7 @@ import (<br>
-+ )<br>
-+<br>
-+ // flock acquires an advisory lock on a file descriptor.<br>
-+-func flock(f *os.File, timeout time.Duration) error {<br>
-++func flock(f *os.File, exclusive bool, timeout time.Duration) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0var t time.Time<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// If we&#39;re bey=
-ond our timeout then return an error.<br>
-+@@ -20,9 +21,13 @@ func flock(f *os.File, timeout time.Duration) error {<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if timeout &=
-gt; 0 &amp;&amp; time.Since(t) &gt; timeout {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return ErrTimeout<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 flag :=3D syscall.LOCK_S=
-H<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if exclusive {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 flag =3D syscall.LOCK_EX<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Otherwise attemp=
-t to obtain an exclusive lock.<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err :=3D syscall.Flock(i=
-nt(f.Fd()), syscall.LOCK_EX|syscall.LOCK_NB)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err :=3D syscall.Flock(i=
-nt(f.Fd()), flag|syscall.LOCK_NB)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err =3D=3D nil {=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return nil<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0} else if err !=3D =
-syscall.EWOULDBLOCK {<br>
-+@@ -41,11 +46,28 @@ func funlock(f *os.File) error {<br>
-+<br>
-+ // mmap memory maps a DB&#39;s data file.<br>
-+ func mmap(db *DB, sz int) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Truncate and fsync to ensure file size metadata i=
-s flushed.<br>
-++=C2=A0 =C2=A0 =C2=A0 // <a href=3D"https://github.com/boltdb/bolt/issues/=
-284" target=3D"_blank">https://github.com/boltdb/bolt/issues/284</a><br>
-++=C2=A0 =C2=A0 =C2=A0 if !db.NoGrowSync &amp;&amp; !db.readOnly {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Trun=
-cate(int64(sz)); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return fmt.Errorf(&quot;file resize error: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Sync=
-(); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return fmt.Errorf(&quot;file sync error: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Map the data file to memory.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0b, err :=3D syscall.Mmap(int(db.file.Fd()), 0, =
-sz, syscall.PROT_READ, syscall.MAP_SHARED)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-++=C2=A0 =C2=A0 =C2=A0 // Advise the kernel that the mmap is accessed rando=
-mly.<br>
-++=C2=A0 =C2=A0 =C2=A0 if err :=3D madvise(b, syscall.MADV_RANDOM); err !=
-=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return fmt.Errorf(&quot;=
-madvise: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Save the original byte slice and convert to =
-a byte array pointer.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.dataref =3D b<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.data =3D (*[maxMapSize]byte)(unsafe.Pointer(=
-&amp;b[0]))<br>
-+@@ -67,3 +89,12 @@ func munmap(db *DB) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.datasz =3D 0<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return err<br>
-+ }<br>
-++<br>
-++// NOTE: This function is copied from stdlib because it is not available =
-on darwin.<br>
-++func madvise(b []byte, advice int) (err error) {<br>
-++=C2=A0 =C2=A0 =C2=A0 _, _, e1 :=3D syscall.Syscall(syscall.SYS_MADVISE, u=
-intptr(unsafe.Pointer(&amp;b[0])), uintptr(len(b)), uintptr(advice))<br>
-++=C2=A0 =C2=A0 =C2=A0 if e1 !=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err =3D e1<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 return<br>
-++}<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix=
-_solaris.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go<=
-/a> b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solaris=
-.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go</a><br>
-+new file mode 100644<br>
-+index 0000000..f480ee7<br>
-+--- /dev/null<br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_unix_solari=
-s.go" target=3D"_blank">github.com/boltdb/bolt/bolt_unix_solaris.go</a><br>
-+@@ -0,0 +1,101 @@<br>
-++<br>
-++package bolt<br>
-++<br>
-++import (<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;os&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;syscall&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;time&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;unsafe&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;<a href=3D"http://golang.org/x/sys/unix" targe=
-t=3D"_blank">golang.org/x/sys/unix</a>&quot;<br>
-++)<br>
-++<br>
-++// flock acquires an advisory lock on a file descriptor.<br>
-++func flock(f *os.File, exclusive bool, timeout time.Duration) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 var t time.Time<br>
-++=C2=A0 =C2=A0 =C2=A0 for {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // If we&#39;re beyond o=
-ur timeout then return an error.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // This can only occur a=
-fter we&#39;ve attempted a flock once.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if t.IsZero() {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 t =3D time.Now()<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if timeout &gt; 0=
- &amp;&amp; time.Since(t) &gt; timeout {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return ErrTimeout<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 var lock syscall.Flock_t=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock.Start =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock.Len =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock.Pid =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock.Whence =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock.Pid =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if exclusive {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 lock.Type =3D syscall.F_WRLCK<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 lock.Type =3D syscall.F_RDLCK<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 err :=3D syscall.FcntlFl=
-ock(f.Fd(), syscall.F_SETLK, &amp;lock)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err =3D=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return nil<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if err !=3D sysca=
-ll.EAGAIN {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Wait for a bit and tr=
-y again.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 time.Sleep(50 * time.Mil=
-lisecond)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++}<br>
-++<br>
-++// funlock releases an advisory lock on a file descriptor.<br>
-++func funlock(f *os.File) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 var lock syscall.Flock_t<br>
-++=C2=A0 =C2=A0 =C2=A0 lock.Start =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 lock.Len =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 lock.Type =3D syscall.F_UNLCK<br>
-++=C2=A0 =C2=A0 =C2=A0 lock.Whence =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 return syscall.FcntlFlock(uintptr(f.Fd()), syscall.F=
-_SETLK, &amp;lock)<br>
-++}<br>
-++<br>
-++// mmap memory maps a DB&#39;s data file.<br>
-++func mmap(db *DB, sz int) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Truncate and fsync to ensure file size metadata i=
-s flushed.<br>
-++=C2=A0 =C2=A0 =C2=A0 // <a href=3D"https://github.com/boltdb/bolt/issues/=
-284" target=3D"_blank">https://github.com/boltdb/bolt/issues/284</a><br>
-++=C2=A0 =C2=A0 =C2=A0 if !db.NoGrowSync &amp;&amp; !db.readOnly {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Trun=
-cate(int64(sz)); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return fmt.Errorf(&quot;file resize error: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Sync=
-(); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return fmt.Errorf(&quot;file sync error: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Map the data file to memory.<br>
-++=C2=A0 =C2=A0 =C2=A0 b, err :=3D unix.Mmap(int(db.file.Fd()), 0, sz, sysc=
-all.PROT_READ, syscall.MAP_SHARED)<br>
-++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Advise the kernel that the mmap is accessed rando=
-mly.<br>
-++=C2=A0 =C2=A0 =C2=A0 if err :=3D unix.Madvise(b, syscall.MADV_RANDOM); er=
-r !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return fmt.Errorf(&quot;=
-madvise: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Save the original byte slice and convert to a byt=
-e array pointer.<br>
-++=C2=A0 =C2=A0 =C2=A0 db.dataref =3D b<br>
-++=C2=A0 =C2=A0 =C2=A0 db.data =3D (*[maxMapSize]byte)(unsafe.Pointer(&amp;=
-b[0]))<br>
-++=C2=A0 =C2=A0 =C2=A0 db.datasz =3D sz<br>
-++=C2=A0 =C2=A0 =C2=A0 return nil<br>
-++}<br>
-++<br>
-++// munmap unmaps a DB&#39;s data file from memory.<br>
-++func munmap(db *DB) error {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Ignore the unmap if we have no mapped data.<br>
-++=C2=A0 =C2=A0 =C2=A0 if db.dataref =3D=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return nil<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Unmap using the original byte slice.<br>
-++=C2=A0 =C2=A0 =C2=A0 err :=3D unix.Munmap(db.dataref)<br>
-++=C2=A0 =C2=A0 =C2=A0 db.dataref =3D nil<br>
-++=C2=A0 =C2=A0 =C2=A0 db.data =3D nil<br>
-++=C2=A0 =C2=A0 =C2=A0 db.datasz =3D 0<br>
-++=C2=A0 =C2=A0 =C2=A0 return err<br>
-++}<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_wind=
-ows.go" target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a> b/vend=
-or/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go" target=3D"=
-_blank">github.com/boltdb/bolt/bolt_windows.go</a><br>
-+index c8539d4..8b782be 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go"=
- target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bolt_windows.go"=
- target=3D"_blank">github.com/boltdb/bolt/bolt_windows.go</a><br>
-+@@ -16,7 +16,7 @@ func fdatasync(db *DB) error {<br>
-+ }<br>
-+<br>
-+ // flock acquires an advisory lock on a file descriptor.<br>
-+-func flock(f *os.File, _ time.Duration) error {<br>
-++func flock(f *os.File, _ bool, _ time.Duration) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return nil<br>
-+ }<br>
-+<br>
-+@@ -28,9 +28,11 @@ func funlock(f *os.File) error {<br>
-+ // mmap memory maps a DB&#39;s data file.<br>
-+ // Based on: <a href=3D"https://github.com/edsrzf/mmap-go" target=3D"_bla=
-nk">https://github.com/edsrzf/mmap-go</a><br>
-+ func mmap(db *DB, sz int) error {<br>
-+-=C2=A0 =C2=A0 =C2=A0 // Truncate the database to the size of the mmap.<br=
->
-+-=C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Truncate(int64(sz)); err !=3D ni=
-l {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return fmt.Errorf(&quot;=
-truncate: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 if !db.readOnly {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Truncate the database=
- to the size of the mmap.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if err :=3D db.file.Trun=
-cate(int64(sz)); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return fmt.Errorf(&quot;truncate: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Open a file mapping handle.<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go=
-" target=3D"_blank">github.com/boltdb/bolt/bucket.go</a> b/vendor/src/<a hr=
-ef=3D"http://github.com/boltdb/bolt/bucket.go" target=3D"_blank">github.com=
-/boltdb/bolt/bucket.go</a><br>
-+index 2630800..2925288 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" targe=
-t=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/bucket.go" targe=
-t=3D"_blank">github.com/boltdb/bolt/bucket.go</a><br>
-+@@ -99,6 +99,7 @@ func (b *Bucket) Cursor() *Cursor {<br>
-+<br>
-+ // Bucket retrieves a nested bucket by name.<br>
-+ // Returns nil if the bucket does not exist.<br>
-++// The bucket instance is only valid for the lifetime of the transaction.=
-<br>
-+ func (b *Bucket) Bucket(name []byte) *Bucket {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if b.buckets !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if child :=3D b.buc=
-kets[string(name)]; child !=3D nil {<br>
-+@@ -148,6 +149,7 @@ func (b *Bucket) openBucket(value []byte) *Bucket {<br=
->
-+<br>
-+ // CreateBucket creates a new bucket at the given key and returns the new=
- bucket.<br>
-+ // Returns an error if the key already exists, if the bucket name is blan=
-k, or if the bucket name is too long.<br>
-++// The bucket instance is only valid for the lifetime of the transaction.=
-<br>
-+ func (b *Bucket) CreateBucket(key []byte) (*Bucket, error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if b.tx.db =3D=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, ErrTxCl=
-osed<br>
-+@@ -192,6 +194,7 @@ func (b *Bucket) CreateBucket(key []byte) (*Bucket, er=
-ror) {<br>
-+<br>
-+ // CreateBucketIfNotExists creates a new bucket if it doesn&#39;t already=
- exist and returns a reference to it.<br>
-+ // Returns an error if the bucket name is blank, or if the bucket name is=
- too long.<br>
-++// The bucket instance is only valid for the lifetime of the transaction.=
-<br>
-+ func (b *Bucket) CreateBucketIfNotExists(key []byte) (*Bucket, error) {<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0child, err :=3D b.CreateBucket(key)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err =3D=3D ErrBucketExists {<br>
-+@@ -252,6 +255,7 @@ func (b *Bucket) DeleteBucket(key []byte) error {<br>
-+<br>
-+ // Get retrieves the value for a key in the bucket.<br>
-+ // Returns a nil value if the key does not exist or if the key is a neste=
-d bucket.<br>
-++// The returned value is only valid for the life of the transaction.<br>
-+ func (b *Bucket) Get(key []byte) []byte {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0k, v, flags :=3D b.Cursor().seek(key)<br>
-+<br>
-+@@ -332,6 +336,12 @@ func (b *Bucket) NextSequence() (uint64, error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0, ErrTxNotW=
-ritable<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-++=C2=A0 =C2=A0 =C2=A0 // Materialize the root node if it hasn&#39;t been a=
-lready so that the<br>
-++=C2=A0 =C2=A0 =C2=A0 // bucket will be saved during commit.<br>
-++=C2=A0 =C2=A0 =C2=A0 if b.rootNode =3D=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _ =3D b.node(b.root, nil=
-)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Increment and return the sequence.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0b.bucket.sequence++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return b.bucket.sequence, nil<br>
-+@@ -339,7 +349,8 @@ func (b *Bucket) NextSequence() (uint64, error) {<br>
-+<br>
-+ // ForEach executes a function for each key/value pair in a bucket.<br>
-+ // If the provided function returns an error then the iteration is stoppe=
-d and<br>
-+-// the error is returned to the caller.<br>
-++// the error is returned to the caller. The provided function must not mo=
-dify<br>
-++// the bucket; this will result in undefined behavior.<br>
-+ func (b *Bucket) ForEach(fn func(k, v []byte) error) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if b.tx.db =3D=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ErrTxClosed<=
-br>
-+@@ -511,8 +522,12 @@ func (b *Bucket) spill() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Update parent no=
-de.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0var c =3D b.Cursor(=
-)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0k, _, flags :=3D c.=
-seek([]byte(name))<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(bytes.Equal([]by=
-te(name), k), &quot;misplaced bucket header: %x -&gt; %x&quot;, []byte(name=
-), k)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(flags&amp;bucket=
-LeafFlag !=3D 0, &quot;unexpected bucket header flag: %x&quot;, flags)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if !bytes.Equal([]byte(n=
-ame), k) {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;misplaced bucket header: %x -&gt; %x&quot;, []b=
-yte(name), k))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if flags&amp;bucketLeafF=
-lag =3D=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;unexpected bucket header flag: %x&quot;, flags)=
-)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0c.node().put([]byte=
-(name), []byte(name), value, 0, bucketLeafFlag)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+@@ -528,7 +543,9 @@ func (b *Bucket) spill() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0b.rootNode =3D b.rootNode.root()<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Update the root node for this bucket.<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(b.rootNode.pgid &lt; b.tx.meta.pgid, &quot;p=
-gid (%d) above high water mark (%d)&quot;, b.rootNode.pgid, b.tx.meta.pgid)=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 if b.rootNode.pgid &gt;=3D b.tx.meta.pgid {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-pgid (%d) above high water mark (%d)&quot;, b.rootNode.pgid, b.tx.meta.pgid=
-))<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0b.root =3D b.rootNode.pgid<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return nil<br>
-+@@ -659,7 +676,9 @@ func (b *Bucket) pageNode(id pgid) (*page, *node) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Inline buckets have a fake page embedded in =
-their value so treat them<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// differently. We&#39;ll return the rootNode (=
-if available) or the fake page.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if b.root =3D=3D 0 {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(id =3D=3D 0, &qu=
-ot;inline bucket non-zero page access(2): %d !=3D 0&quot;, id)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if id !=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;inline bucket non-zero page access(2): %d !=3D =
-0&quot;, id))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if b.rootNode !=3D =
-nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return nil, b.rootNode<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go=
-" target=3D"_blank">github.com/boltdb/bolt/cursor.go</a> b/vendor/src/<a hr=
-ef=3D"http://github.com/boltdb/bolt/cursor.go" target=3D"_blank">github.com=
-/boltdb/bolt/cursor.go</a><br>
-+index 3bfc2f1..006c548 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" targe=
-t=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/cursor.go" targe=
-t=3D"_blank">github.com/boltdb/bolt/cursor.go</a><br>
-+@@ -2,6 +2,7 @@ package bolt<br>
-+<br>
-+ import (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;bytes&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;sort&quot;<br>
-+ )<br>
-+<br>
-+@@ -9,6 +10,8 @@ import (<br>
-+ // Cursors see nested buckets with value =3D=3D nil.<br>
-+ // Cursors can be obtained from a transaction and are valid as long as th=
-e transaction is open.<br>
-+ //<br>
-++// Keys and values returned from the cursor are only valid for the life o=
-f the transaction.<br>
-++//<br>
-+ // Changing data while traversing with a cursor may cause it to be invali=
-dated<br>
-+ // and return unexpected keys and/or values. You must reposition your cur=
-sor<br>
-+ // after mutating data.<br>
-+@@ -24,6 +27,7 @@ func (c *Cursor) Bucket() *Bucket {<br>
-+<br>
-+ // First moves the cursor to the first item in the bucket and returns its=
- key and value.<br>
-+ // If the bucket is empty then a nil key and value are returned.<br>
-++// The returned key and value are only valid for the life of the transact=
-ion.<br>
-+ func (c *Cursor) First() (key []byte, value []byte) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_assert(c.bucket.tx.db !=3D nil, &quot;tx close=
-d&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0c.stack =3D c.stack[:0]<br>
-+@@ -40,6 +44,7 @@ func (c *Cursor) First() (key []byte, value []byte) {<br=
->
-+<br>
-+ // Last moves the cursor to the last item in the bucket and returns its k=
-ey and value.<br>
-+ // If the bucket is empty then a nil key and value are returned.<br>
-++// The returned key and value are only valid for the life of the transact=
-ion.<br>
-+ func (c *Cursor) Last() (key []byte, value []byte) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_assert(c.bucket.tx.db !=3D nil, &quot;tx close=
-d&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0c.stack =3D c.stack[:0]<br>
-+@@ -57,6 +62,7 @@ func (c *Cursor) Last() (key []byte, value []byte) {<br>
-+<br>
-+ // Next moves the cursor to the next item in the bucket and returns its k=
-ey and value.<br>
-+ // If the cursor is at the end of the bucket then a nil key and value are=
- returned.<br>
-++// The returned key and value are only valid for the life of the transact=
-ion.<br>
-+ func (c *Cursor) Next() (key []byte, value []byte) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_assert(c.bucket.tx.db !=3D nil, &quot;tx close=
-d&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0k, v, flags :=3D c.next()<br>
-+@@ -68,6 +74,7 @@ func (c *Cursor) Next() (key []byte, value []byte) {<br>
-+<br>
-+ // Prev moves the cursor to the previous item in the bucket and returns i=
-ts key and value.<br>
-+ // If the cursor is at the beginning of the bucket then a nil key and val=
-ue are returned.<br>
-++// The returned key and value are only valid for the life of the transact=
-ion.<br>
-+ func (c *Cursor) Prev() (key []byte, value []byte) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_assert(c.bucket.tx.db !=3D nil, &quot;tx close=
-d&quot;)<br>
-+<br>
-+@@ -99,6 +106,7 @@ func (c *Cursor) Prev() (key []byte, value []byte) {<br=
->
-+ // Seek moves the cursor to a given key and returns it.<br>
-+ // If the key does not exist then the next key is used. If no keys<br>
-+ // follow, a nil key is returned.<br>
-++// The returned key and value are only valid for the life of the transact=
-ion.<br>
-+ func (c *Cursor) Seek(seek []byte) (key []byte, value []byte) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0k, v, flags :=3D c.seek(seek)<br>
-+<br>
-+@@ -228,8 +236,8 @@ func (c *Cursor) next() (key []byte, value []byte, fla=
-gs uint32) {<br>
-+ // search recursively performs a binary search against a given page/node =
-until it finds a given key.<br>
-+ func (c *Cursor) search(key []byte, pgid pgid) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0p, n :=3D c.bucket.pageNode(pgid)<br>
-+-=C2=A0 =C2=A0 =C2=A0 if p !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert((p.flags&amp;(br=
-anchPageFlag|leafPageFlag)) !=3D 0, &quot;invalid page type: %d: %x&quot;,
-<a href=3D"http://p.id" target=3D"_blank">p.id</a>, p.flags)<br>
-++=C2=A0 =C2=A0 =C2=A0 if p !=3D nil &amp;&amp; (p.flags&amp;(branchPageFla=
-g|leafPageFlag)) =3D=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-invalid page type: %d: %x&quot;, <a href=3D"http://p.id" target=3D"_blank">
-p.id</a>, p.flags))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0e :=3D elemRef{page: p, node: n}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0c.stack =3D append(c.stack, e)<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" ta=
-rget=3D"_blank">github.com/boltdb/bolt/db.go</a> b/vendor/src/<a href=3D"ht=
-tp://github.com/boltdb/bolt/db.go" target=3D"_blank">github.com/boltdb/bolt=
-/db.go</a><br>
-+index 6c45736..d39c4aa 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" target=3D=
-"_blank">github.com/boltdb/bolt/db.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/db.go" target=3D=
-"_blank">github.com/boltdb/bolt/db.go</a><br>
-+@@ -12,9 +12,6 @@ import (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;unsafe&quot;<br>
-+ )<br>
-+<br>
-+-// The smallest size that the mmap can be.<br>
-+-const minMmapSize =3D 1 &lt;&lt; 22 // 4MB<br>
-+-<br>
-+ // The largest step that can be taken when remapping the mmap.<br>
-+ const maxMmapStep =3D 1 &lt;&lt; 30 // 1GB<br>
-+<br>
-+@@ -30,6 +27,12 @@ const magic uint32 =3D 0xED0CDAED<br>
-+ // must be synchronzied using the msync(2) syscall.<br>
-+ const IgnoreNoSync =3D runtime.GOOS =3D=3D &quot;openbsd&quot;<br>
-+<br>
-++// Default values if not set in a DB instance.<br>
-++const (<br>
-++=C2=A0 =C2=A0 =C2=A0 DefaultMaxBatchSize=C2=A0 int =3D 1000<br>
-++=C2=A0 =C2=A0 =C2=A0 DefaultMaxBatchDelay=C2=A0 =C2=A0 =C2=A0=3D 10 * tim=
-e.Millisecond<br>
-++)<br>
-++<br>
-+ // DB represents a collection of buckets persisted to a file on disk.<br>
-+ // All data access is performed through transactions which can be obtaine=
-d through the DB.<br>
-+ // All the functions on DB will return a ErrDatabaseNotOpen if accessed b=
-efore Open() is called.<br>
-+@@ -52,9 +55,33 @@ type DB struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// THIS IS UNSAFE. PLEASE USE WITH CAUTION.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0NoSync bool<br>
-+<br>
-++=C2=A0 =C2=A0 =C2=A0 // When true, skips the truncate call when growing t=
-he database.<br>
-++=C2=A0 =C2=A0 =C2=A0 // Setting this to true is only safe on non-ext3/ext=
-4 systems.<br>
-++=C2=A0 =C2=A0 =C2=A0 // Skipping truncation avoids preallocation of hard =
-drive space and<br>
-++=C2=A0 =C2=A0 =C2=A0 // bypasses a truncate() and fsync() syscall on rema=
-pping.<br>
-++=C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 // <a href=3D"https://github.com/boltdb/bolt/issues/=
-284" target=3D"_blank">https://github.com/boltdb/bolt/issues/284</a><br>
-++=C2=A0 =C2=A0 =C2=A0 NoGrowSync bool<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // MaxBatchSize is the maximum size of a batch. Defa=
-ult value is<br>
-++=C2=A0 =C2=A0 =C2=A0 // copied from DefaultMaxBatchSize in Open.<br>
-++=C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 // If &lt;=3D0, disables batching.<br>
-++=C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 // Do not change concurrently with calls to Batch.<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 MaxBatchSize int<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // MaxBatchDelay is the maximum delay before a batch=
- starts.<br>
-++=C2=A0 =C2=A0 =C2=A0 // Default value is copied from DefaultMaxBatchDelay=
- in Open.<br>
-++=C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 // If &lt;=3D0, effectively disables batching.<br>
-++=C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 // Do not change concurrently with calls to Batch.<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 MaxBatchDelay time.Duration<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0path=C2=A0 =C2=A0 =C2=A0string<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file=C2=A0 =C2=A0 =C2=A0*os.File<br>
-+-=C2=A0 =C2=A0 =C2=A0 dataref=C2=A0 []byte<br>
-++=C2=A0 =C2=A0 =C2=A0 dataref=C2=A0 []byte // mmap&#39;ed readonly, write =
-throws SEGV<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0data=C2=A0 =C2=A0 =C2=A0*[maxMapSize]byte<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0datasz=C2=A0 =C2=A0int<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0meta0=C2=A0 =C2=A0 *meta<br>
-+@@ -66,6 +93,9 @@ type DB struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0freelist *freelist<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0stats=C2=A0 =C2=A0 Stats<br>
-+<br>
-++=C2=A0 =C2=A0 =C2=A0 batchMu sync.Mutex<br>
-++=C2=A0 =C2=A0 =C2=A0 batch=C2=A0 =C2=A0*batch<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0rwlock=C2=A0 =C2=A0sync.Mutex=C2=A0 =C2=A0// Al=
-lows only one writer at a time.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0metalock sync.Mutex=C2=A0 =C2=A0// Protects met=
-a page access.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mmaplock sync.RWMutex // Protects mmap access d=
-uring remapping.<br>
-+@@ -74,6 +104,10 @@ type DB struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ops struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0writeAt func(b []by=
-te, off int64) (n int, err error)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Read only mode.<br>
-++=C2=A0 =C2=A0 =C2=A0 // When true, Update() and Begin(true) return ErrDat=
-abaseReadOnly immediately.<br>
-++=C2=A0 =C2=A0 =C2=A0 readOnly bool<br>
-+ }<br>
-+<br>
-+ // Path returns the path to currently open database file.<br>
-+@@ -101,20 +135,34 @@ func Open(path string, mode os.FileMode, options *Op=
-tions) (*DB, error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if options =3D=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0options =3D Default=
-Options<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++=C2=A0 =C2=A0 =C2=A0 db.NoGrowSync =3D options.NoGrowSync<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Set default values for later DB operations.<br>
-++=C2=A0 =C2=A0 =C2=A0 db.MaxBatchSize =3D DefaultMaxBatchSize<br>
-++=C2=A0 =C2=A0 =C2=A0 db.MaxBatchDelay =3D DefaultMaxBatchDelay<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 flag :=3D os.O_RDWR<br>
-++=C2=A0 =C2=A0 =C2=A0 if options.ReadOnly {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 flag =3D os.O_RDONLY<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 db.readOnly =3D true<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Open data file and separate sync handler for=
- metadata writes.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.path =3D path<br>
-+-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0var err error<br>
-+-=C2=A0 =C2=A0 =C2=A0 if db.file, err =3D os.OpenFile(db.path, os.O_RDWR|o=
-s.O_CREATE, mode); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 if db.file, err =3D os.OpenFile(db.path, flag|os.O_C=
-REATE, mode); err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_ =3D db.close()<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 // Lock file so that other processes using Bolt cann=
-ot use the database<br>
-+-=C2=A0 =C2=A0 =C2=A0 // at the same time. This would cause corruption sin=
-ce the two processes<br>
-+-=C2=A0 =C2=A0 =C2=A0 // would write meta pages and free pages separately.=
-<br>
-+-=C2=A0 =C2=A0 =C2=A0 if err :=3D flock(db.file, options.Timeout); err !=
-=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Lock file so that other processes using Bolt in r=
-ead-write mode cannot<br>
-++=C2=A0 =C2=A0 =C2=A0 // use the database=C2=A0 at the same time. This wou=
-ld cause corruption since<br>
-++=C2=A0 =C2=A0 =C2=A0 // the two processes would write meta pages and free=
- pages separately.<br>
-++=C2=A0 =C2=A0 =C2=A0 // The database file is locked exclusively (only one=
- process can grab the lock)<br>
-++=C2=A0 =C2=A0 =C2=A0 // if !options.ReadOnly.<br>
-++=C2=A0 =C2=A0 =C2=A0 // The database file is locked using the shared lock=
- (more than one process may<br>
-++=C2=A0 =C2=A0 =C2=A0 // hold a lock at the same time) otherwise (options.=
-ReadOnly is set).<br>
-++=C2=A0 =C2=A0 =C2=A0 if err :=3D flock(db.file, !db.readOnly, options.Tim=
-eout); err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_ =3D db.close()<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return nil, err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+@@ -162,16 +210,6 @@ func (db *DB) mmap(minsz int) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.mmaplock.Lock()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0defer db.mmaplock.Unlock()<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 // Dereference all mmap references before unmapping.=
-<br>
-+-=C2=A0 =C2=A0 =C2=A0 if db.rwtx !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 db.rwtx.root.dereference=
-()<br>
-+-=C2=A0 =C2=A0 =C2=A0 }<br>
-+-<br>
-+-=C2=A0 =C2=A0 =C2=A0 // Unmap existing data before continuing.<br>
-+-=C2=A0 =C2=A0 =C2=A0 if err :=3D db.munmap(); err !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-+-=C2=A0 =C2=A0 =C2=A0 }<br>
-+-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0info, err :=3D db.file.Stat()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return fmt.Errorf(&=
-quot;mmap stat error: %s&quot;, err)<br>
-+@@ -184,7 +222,20 @@ func (db *DB) mmap(minsz int) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if size &lt; minsz {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size =3D minsz<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 =C2=A0 size =3D db.mmapSize(size)<br>
-++=C2=A0 =C2=A0 =C2=A0 size, err =3D db.mmapSize(size)<br>
-++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Dereference all mmap references before unmapping.=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 if db.rwtx !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 db.rwtx.root.dereference=
-()<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Unmap existing data before continuing.<br>
-++=C2=A0 =C2=A0 =C2=A0 if err :=3D db.munmap(); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Memory-map the data file as a byte slice.<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err :=3D mmap(db, size); err !=3D nil {<br>
-+@@ -215,22 +266,40 @@ func (db *DB) munmap() error {<br>
-+ }<br>
-+<br>
-+ // mmapSize determines the appropriate size for the mmap given the curren=
-t size<br>
-+-// of the database. The minimum size is 4MB and doubles until it reaches =
-1GB.<br>
-+-func (db *DB) mmapSize(size int) int {<br>
-+-=C2=A0 =C2=A0 =C2=A0 if size &lt;=3D minMmapSize {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return minMmapSize<br>
-+-=C2=A0 =C2=A0 =C2=A0 } else if size &lt; maxMmapStep {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size *=3D 2<br>
-+-=C2=A0 =C2=A0 =C2=A0 } else {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size +=3D maxMmapStep<br=
->
-++// of the database. The minimum size is 1MB and doubles until it reaches =
-1GB.<br>
-++// Returns an error if the new mmap size is greater than the max allowed.=
-<br>
-++func (db *DB) mmapSize(size int) (int, error) {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Double the size from 32KB until 1GB.<br>
-++=C2=A0 =C2=A0 =C2=A0 for i :=3D uint(15); i &lt;=3D 30; i++ {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if size &lt;=3D 1&lt;&lt=
-;i {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return 1 &lt;&lt; i, nil<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Verify the requested size is not above the maximu=
-m allowed.<br>
-++=C2=A0 =C2=A0 =C2=A0 if size &gt; maxMapSize {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0, fmt.Errorf(&qu=
-ot;mmap too large&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // If larger than 1GB then grow by 1GB at a time.<br=
->
-++=C2=A0 =C2=A0 =C2=A0 sz :=3D int64(size)<br>
-++=C2=A0 =C2=A0 =C2=A0 if remainder :=3D sz % int64(maxMmapStep); remainder=
- &gt; 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sz +=3D int64(maxMmapSte=
-p) - remainder<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Ensure that the mmap size is a multiple of t=
-he page size.<br>
-+-=C2=A0 =C2=A0 =C2=A0 if (size % db.pageSize) !=3D 0 {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 size =3D ((size / db.pag=
-eSize) + 1) * db.pageSize<br>
-++=C2=A0 =C2=A0 =C2=A0 // This should always be true since we&#39;re increm=
-enting in MBs.<br>
-++=C2=A0 =C2=A0 =C2=A0 pageSize :=3D int64(db.pageSize)<br>
-++=C2=A0 =C2=A0 =C2=A0 if (sz % pageSize) !=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sz =3D ((sz / pageSize) =
-+ 1) * pageSize<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // If we&#39;ve exceeded the max size then only grow=
- up to the max size.<br>
-++=C2=A0 =C2=A0 =C2=A0 if sz &gt; maxMapSize {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sz =3D maxMapSize<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 return size<br>
-++=C2=A0 =C2=A0 =C2=A0 return int(sz), nil<br>
-+ }<br>
-+<br>
-+ // init creates a new database file and initializes its meta pages.<br>
-+@@ -250,7 +319,6 @@ func (db *DB) init() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.magic =3D magic<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.version =3D versi=
-on<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.pageSize =3D uint=
-32(db.pageSize)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m.version =3D version<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.freelist =3D 2<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.root =3D bucket{r=
-oot: 3}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0m.pgid =3D 4<br>
-+@@ -283,8 +351,15 @@ func (db *DB) init() error {<br>
-+ // Close releases all database resources.<br>
-+ // All transactions must be closed before closing the database.<br>
-+ func (db *DB) Close() error {<br>
-++=C2=A0 =C2=A0 =C2=A0 db.rwlock.Lock()<br>
-++=C2=A0 =C2=A0 =C2=A0 defer db.rwlock.Unlock()<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.metalock.Lock()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0defer db.metalock.Unlock()<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 db.mmaplock.RLock()<br>
-++=C2=A0 =C2=A0 =C2=A0 defer db.mmaplock.RUnlock()<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return db.close()<br>
-+ }<br>
-+<br>
-+@@ -304,8 +379,11 @@ func (db *DB) close() error {<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Close file handles.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if db.file !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Unlock the file.<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _ =3D funlock(db.file)<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // No need to unlock rea=
-d-only file.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if !db.readOnly {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // Unlock the file.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 _ =3D funlock(db.file)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Close the file d=
-escriptor.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err :=3D db.file=
-.Close(); err !=3D nil {<br>
-+@@ -323,6 +401,11 @@ func (db *DB) close() error {<br>
-+ // will cause the calls to block and be serialized until the current writ=
-e<br>
-+ // transaction finishes.<br>
-+ //<br>
-++// Transactions should not be depedent on one another. Opening a read<br>
-++// transaction and a write transaction in the same goroutine can cause th=
-e<br>
-++// writer to deadlock because the database periodically needs to re-mmap =
-itself<br>
-++// as it grows and it cannot do that while a read transaction is open.<br=
->
-++//<br>
-+ // IMPORTANT: You must close read-only transactions after you are finishe=
-d or<br>
-+ // else the database will not reclaim old pages.<br>
-+ func (db *DB) Begin(writable bool) (*Tx, error) {<br>
-+@@ -371,6 +454,11 @@ func (db *DB) beginTx() (*Tx, error) {<br>
-+ }<br>
-+<br>
-+ func (db *DB) beginRWTx() (*Tx, error) {<br>
-++=C2=A0 =C2=A0 =C2=A0 // If the database was opened with Options.ReadOnly,=
- return an error.<br>
-++=C2=A0 =C2=A0 =C2=A0 if db.readOnly {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return nil, ErrDatabaseR=
-eadOnly<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Obtain writer lock. This is released by the =
-transaction when it closes.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// This enforces only one writer transaction at=
- a time.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0db.rwlock.Lock()<br>
-+@@ -501,6 +589,12 @@ func (db *DB) View(fn func(*Tx) error) error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return nil<br>
-+ }<br>
-+<br>
-++// Sync executes fdatasync() against the database file handle.<br>
-++//<br>
-++// This is not necessary under normal operation, however, if you use NoSy=
-nc<br>
-++// then it allows you to force the database file to sync against the disk=
-.<br>
-++func (db *DB) Sync() error { return fdatasync(db) }<br>
-++<br>
-+ // Stats retrieves ongoing performance stats for the database.<br>
-+ // This is only updated when a transaction closes.<br>
-+ func (db *DB) Stats() Stats {<br>
-+@@ -561,18 +655,30 @@ func (db *DB) allocate(count int) (*page, error) {<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return p, nil<br>
-+ }<br>
-+<br>
-++func (db *DB) IsReadOnly() bool {<br>
-++=C2=A0 =C2=A0 =C2=A0 return db.readOnly<br>
-++}<br>
-++<br>
-+ // Options represents the options that can be set when opening a database=
-.<br>
-+ type Options struct {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Timeout is the amount of time to wait to obt=
-ain a file lock.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// When set to zero it will wait indefinitely. =
-This option is only<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// available on Darwin and Linux.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0Timeout time.Duration<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Sets the DB.NoGrowSync flag before memory mapping=
- the file.<br>
-++=C2=A0 =C2=A0 =C2=A0 NoGrowSync bool<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Open database in read-only mode. Uses flock(..., =
-LOCK_SH |LOCK_NB) to<br>
-++=C2=A0 =C2=A0 =C2=A0 // grab a shared lock (UNIX).<br>
-++=C2=A0 =C2=A0 =C2=A0 ReadOnly bool<br>
-+ }<br>
-+<br>
-+ // DefaultOptions represent the options used if nil options are passed in=
-to Open().<br>
-+ // No timeout is used which will cause Bolt to wait indefinitely for a lo=
-ck.<br>
-+ var DefaultOptions =3D &amp;Options{<br>
-+-=C2=A0 =C2=A0 =C2=A0 Timeout: 0,<br>
-++=C2=A0 =C2=A0 =C2=A0 Timeout:=C2=A0 =C2=A0 0,<br>
-++=C2=A0 =C2=A0 =C2=A0 NoGrowSync: false,<br>
-+ }<br>
-+<br>
-+ // Stats represents statistics about the database.<br>
-+@@ -647,9 +753,11 @@ func (m *meta) copy(dest *meta) {<br>
-+<br>
-+ // write writes the meta onto a page.<br>
-+ func (m *meta) write(p *page) {<br>
-+-<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(m.root.root &lt; m.pgid, &quot;root bucket p=
-gid (%d) above high water mark (%d)&quot;, m.root.root, m.pgid)<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(m.freelist &lt; m.pgid, &quot;freelist pgid =
-(%d) above high water mark (%d)&quot;, m.freelist, m.pgid)<br>
-++=C2=A0 =C2=A0 =C2=A0 if m.root.root &gt;=3D m.pgid {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-root bucket pgid (%d) above high water mark (%d)&quot;, m.root.root, m.pgid=
-))<br>
-++=C2=A0 =C2=A0 =C2=A0 } else if m.freelist &gt;=3D m.pgid {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-freelist pgid (%d) above high water mark (%d)&quot;, m.freelist, m.pgid))<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Page id is either going to be 0 or 1 which w=
-e can determine by the transaction ID.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://p.id" target=3D"_blank">p.id<=
-/a> =3D pgid(m.txid % 2)<br>
-+@@ -675,13 +783,8 @@ func _assert(condition bool, msg string, v ...interfa=
-ce{}) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+ }<br>
-+<br>
-+-func warn(v ...interface{}) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 fmt.Fprintln(os.Stderr, v...)<br>
-+-}<br>
-+-<br>
-+-func warnf(msg string, v ...interface{}) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 fmt.Fprintf(os.Stderr, msg+&quot;\n&quot;, v...)<br>
-+-}<br>
-++func warn(v ...interface{})=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 { fmt.Fprintln(os.Stderr, v...) }<br>
-++func warnf(msg string, v ...interface{}) { fmt.Fprintf(os.Stderr, msg+&qu=
-ot;\n&quot;, v...) }<br>
-+<br>
-+ func printstack() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0stack :=3D strings.Join(strings.Split(string(de=
-bug.Stack()), &quot;\n&quot;)[2:], &quot;\n&quot;)<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go=
-" target=3D"_blank">github.com/boltdb/bolt/errors.go</a> b/vendor/src/<a hr=
-ef=3D"http://github.com/boltdb/bolt/errors.go" target=3D"_blank">github.com=
-/boltdb/bolt/errors.go</a><br>
-+index aa504f1..6883786 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" targe=
-t=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/errors.go" targe=
-t=3D"_blank">github.com/boltdb/bolt/errors.go</a><br>
-+@@ -36,6 +36,10 @@ var (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// ErrTxClosed is returned when committing or r=
-olling back a transaction<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// that has already been committed or rolled ba=
-ck.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ErrTxClosed =3D errors.New(&quot;tx closed&quot=
-;)<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // ErrDatabaseReadOnly is returned when a mutating t=
-ransaction is started on a<br>
-++=C2=A0 =C2=A0 =C2=A0 // read-only database.<br>
-++=C2=A0 =C2=A0 =C2=A0 ErrDatabaseReadOnly =3D errors.New(&quot;database is=
- in read-only mode&quot;)<br>
-+ )<br>
-+<br>
-+ // These errors can occur when putting or deleting a value or a bucket.<b=
-r>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.=
-go" target=3D"_blank">github.com/boltdb/bolt/freelist.go</a> b/vendor/src/<=
-a href=3D"http://github.com/boltdb/bolt/freelist.go" target=3D"_blank">gith=
-ub.com/boltdb/bolt/freelist.go</a><br>
-+index 150e3e6..0161948 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" tar=
-get=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/freelist.go" tar=
-get=3D"_blank">github.com/boltdb/bolt/freelist.go</a><br>
-+@@ -1,6 +1,7 @@<br>
-+ package bolt<br>
-+<br>
-+ import (<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;sort&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;unsafe&quot;<br>
-+ )<br>
-+@@ -47,15 +48,14 @@ func (f *freelist) pending_count() int {<br>
-+<br>
-+ // all returns a list of all free ids and all pending ids in one sorted l=
-ist.<br>
-+ func (f *freelist) all() []pgid {<br>
-+-=C2=A0 =C2=A0 =C2=A0 ids :=3D make([]pgid, len(f.ids))<br>
-+-=C2=A0 =C2=A0 =C2=A0 copy(ids, f.ids)<br>
-++=C2=A0 =C2=A0 =C2=A0 m :=3D make(pgids, 0)<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for _, list :=3D range f.pending {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ids =3D append(ids, list=
-...)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 m =3D append(m, list...)=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 sort.Sort(pgids(ids))<br>
-+-=C2=A0 =C2=A0 =C2=A0 return ids<br>
-++=C2=A0 =C2=A0 =C2=A0 sort.Sort(m)<br>
-++=C2=A0 =C2=A0 =C2=A0 return pgids(f.ids).merge(m)<br>
-+ }<br>
-+<br>
-+ // allocate returns the starting page id of a contiguous list of pages of=
- a given size.<br>
-+@@ -67,7 +67,9 @@ func (f *freelist) allocate(n int) pgid {<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0var initial, previd pgid<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for i, id :=3D range f.ids {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(id &gt; 1, &quot=
-;invalid page allocation: %d&quot;, id)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if id &lt;=3D 1 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;invalid page allocation: %d&quot;, id))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Reset initial pa=
-ge if this is not contiguous.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if previd =3D=3D 0 =
-|| id-previd !=3D 1 {<br>
-+@@ -103,13 +105,17 @@ func (f *freelist) allocate(n int) pgid {<br>
-+ // free releases a page and its overflow for a given transaction id.<br>
-+ // If the page is already free then a panic will occur.<br>
-+ func (f *freelist) free(txid txid, p *page) {<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(<a href=3D"http://p.id" target=3D"_blank">p.=
-id</a> &gt; 1, &quot;cannot free page 0 or 1: %d&quot;,
-<a href=3D"http://p.id" target=3D"_blank">p.id</a>)<br>
-++=C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://p.id" target=3D"_blank">p.id</a=
-> &lt;=3D 1 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-cannot free page 0 or 1: %d&quot;, <a href=3D"http://p.id" target=3D"_blank=
-">
-p.id</a>))<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Free page and all its overflow pages.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0var ids =3D f.pending[txid]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for id :=3D <a href=3D"http://p.id" target=3D"_=
-blank">p.id</a>; id &lt;=3D <a href=3D"http://p.id" target=3D"_blank">
-p.id</a>+pgid(p.overflow); id++ {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Verify that page=
- is not already free.<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(!f.cache[id], &q=
-uot;page %d already freed&quot;, id)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if f.cache[id] {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;page %d already freed&quot;, id))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Add to the freel=
-ist and cache.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ids =3D append(ids,=
- id)<br>
-+@@ -120,15 +126,17 @@ func (f *freelist) free(txid txid, p *page) {<br>
-+<br>
-+ // release moves all page ids for a transaction id (or older) to the free=
-list.<br>
-+ func (f *freelist) release(txid txid) {<br>
-++=C2=A0 =C2=A0 =C2=A0 m :=3D make(pgids, 0)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for tid, ids :=3D range f.pending {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if tid &lt;=3D txid=
- {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0// Move transaction&#39;s pending pages to the available freelist=
-.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0// Don&#39;t remove from the cache since the page is still free.<=
-br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 f.ids =3D append(f.ids, ids...)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 m =3D append(m, ids...)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0delete(f.pending, tid)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+-=C2=A0 =C2=A0 =C2=A0 sort.Sort(pgids(f.ids))<br>
-++=C2=A0 =C2=A0 =C2=A0 sort.Sort(m)<br>
-++=C2=A0 =C2=A0 =C2=A0 f.ids =3D pgids(f.ids).merge(m)<br>
-+ }<br>
-+<br>
-+ // rollback removes the pages from a given pending tx.<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" =
-target=3D"_blank">github.com/boltdb/bolt/node.go</a> b/vendor/src/<a href=
-=3D"http://github.com/boltdb/bolt/node.go" target=3D"_blank">github.com/bol=
-tdb/bolt/node.go</a><br>
-+index c204c39..c9fb21c 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" target=
-=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/node.go" target=
-=3D"_blank">github.com/boltdb/bolt/node.go</a><br>
-+@@ -2,6 +2,7 @@ package bolt<br>
-+<br>
-+ import (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;bytes&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;sort&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;unsafe&quot;<br>
-+ )<br>
-+@@ -70,7 +71,9 @@ func (n *node) pageElementSize() int {<br>
-+<br>
-+ // childAt returns the child node at a given index.<br>
-+ func (n *node) childAt(index int) *node {<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(!n.isLeaf, &quot;invalid childAt(%d) on a le=
-af node&quot;, index)<br>
-++=C2=A0 =C2=A0 =C2=A0 if n.isLeaf {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-invalid childAt(%d) on a leaf node&quot;, index))<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return n.bucket.node(n.inodes[index].pgid, n)<b=
-r>
-+ }<br>
-+<br>
-+@@ -111,9 +114,13 @@ func (n *node) prevSibling() *node {<br>
-+<br>
-+ // put inserts a key/value.<br>
-+ func (n *node) put(oldKey, newKey, value []byte, pgid pgid, flags uint32)=
- {<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(pgid &lt; n.bucket.tx.meta.pgid, &quot;pgid =
-(%d) above high water mark (%d)&quot;, pgid, n.bucket.tx.meta.pgid)<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(len(oldKey) &gt; 0, &quot;put: zero-length o=
-ld key&quot;)<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(len(newKey) &gt; 0, &quot;put: zero-length n=
-ew key&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 if pgid &gt;=3D n.bucket.tx.meta.pgid {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-pgid (%d) above high water mark (%d)&quot;, pgid, n.bucket.tx.meta.pgid))<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 } else if len(oldKey) &lt;=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(&quot;put: zero-le=
-ngth old key&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 } else if len(newKey) &lt;=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(&quot;put: zero-le=
-ngth new key&quot;)<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Find insertion index.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0index :=3D sort.Search(len(n.inodes), func(i in=
-t) bool { return bytes.Compare(n.inodes[i].key, oldKey) !=3D -1 })<br>
-+@@ -189,7 +196,9 @@ func (n *node) write(p *page) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0p.flags |=3D branch=
-PageFlag<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 _assert(len(n.inodes) &lt; 0xFFFF, &quot;inode overf=
-low: %d (pgid=3D%d)&quot;, len(n.inodes),
-<a href=3D"http://p.id" target=3D"_blank">p.id</a>)<br>
-++=C2=A0 =C2=A0 =C2=A0 if len(n.inodes) &gt;=3D 0xFFFF {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 panic(fmt.Sprintf(&quot;=
-inode overflow: %d (pgid=3D%d)&quot;, len(n.inodes), <a href=3D"http://p.id=
-" target=3D"_blank">
-p.id</a>))<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0p.count =3D uint16(len(n.inodes))<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Loop over each item and write it to the page=
-.<br>
-+@@ -212,11 +221,20 @@ func (n *node) write(p *page) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0_assert(elem.pgid !=3D <a href=3D"http://p.id" target=3D"_blank">
-p.id</a>, &quot;write: circular dependency occurred&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // If the length of key+=
-value is larger than the max allocation size<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // then we need to reall=
-ocate the byte array pointer.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 //<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // See: <a href=3D"https=
-://github.com/boltdb/bolt/pull/335" target=3D"_blank">
-https://github.com/boltdb/bolt/pull/335</a><br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 klen, vlen :=3D len(item=
-.key), len(item.value)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if len(b) &lt; klen+vlen=
- {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 b =3D (*[maxAllocSize]byte)(unsafe.Pointer(&amp;b[0]))[:]<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Write data for t=
-he element to the end of the page.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0copy(b[0:], item.ke=
-y)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D b[len(item.key):]<=
-br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D b[klen:]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0copy(b[0:], item.va=
-lue)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D b[len(item.value):=
-]<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 b =3D b[vlen:]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// DEBUG ONLY: n.dump()<br>
-+@@ -348,7 +366,9 @@ func (n *node) spill() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Write the node.<=
-br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _assert(<a href=3D"http:=
-//p.id" target=3D"_blank">p.id</a> &lt; tx.meta.pgid, &quot;pgid (%d) above=
- high water mark (%d)&quot;,
-<a href=3D"http://p.id" target=3D"_blank">p.id</a>, tx.meta.pgid)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if <a href=3D"http://p.i=
-d" target=3D"_blank">p.id</a> &gt;=3D tx.meta.pgid {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 panic(fmt.Sprintf(&quot;pgid (%d) above high water mark (%d)&quot;,
-<a href=3D"http://p.id" target=3D"_blank">p.id</a>, tx.meta.pgid))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0node.pgid =3D <a hr=
-ef=3D"http://p.id" target=3D"_blank">p.id</a><br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0node.write(p)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0node.spilled =3D tr=
-ue<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" =
-target=3D"_blank">github.com/boltdb/bolt/page.go</a> b/vendor/src/<a href=
-=3D"http://github.com/boltdb/bolt/page.go" target=3D"_blank">github.com/bol=
-tdb/bolt/page.go</a><br>
-+index b3dc473..818aa1b 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" target=
-=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/page.go" target=
-=3D"_blank">github.com/boltdb/bolt/page.go</a><br>
-+@@ -3,12 +3,12 @@ package bolt<br>
-+ import (<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;fmt&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;os&quot;<br>
-++=C2=A0 =C2=A0 =C2=A0 &quot;sort&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;unsafe&quot;<br>
-+ )<br>
-+<br>
-+ const pageHeaderSize =3D int(unsafe.Offsetof(((*page)(nil)).ptr))<br>
-+<br>
-+-const maxAllocSize =3D 0xFFFFFFF<br>
-+ const minKeysPerPage =3D 2<br>
-+<br>
-+ const branchPageElementSize =3D int(unsafe.Sizeof(branchPageElement{}))<b=
-r>
-+@@ -97,7 +97,7 @@ type branchPageElement struct {<br>
-+ // key returns a byte slice of the node key.<br>
-+ func (n *branchPageElement) key() []byte {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n=
-))<br>
-+-=C2=A0 =C2=A0 =C2=A0 return buf[n.pos : n.pos+n.ksize]<br>
-++=C2=A0 =C2=A0 =C2=A0 return (*[maxAllocSize]byte)(unsafe.Pointer(&amp;buf=
-[n.pos]))[:n.ksize]<br>
-+ }<br>
-+<br>
-+ // leafPageElement represents a node on a leaf page.<br>
-+@@ -111,13 +111,13 @@ type leafPageElement struct {<br>
-+ // key returns a byte slice of the node key.<br>
-+ func (n *leafPageElement) key() []byte {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n=
-))<br>
-+-=C2=A0 =C2=A0 =C2=A0 return buf[n.pos : n.pos+n.ksize]<br>
-++=C2=A0 =C2=A0 =C2=A0 return (*[maxAllocSize]byte)(unsafe.Pointer(&amp;buf=
-[n.pos]))[:n.ksize]<br>
-+ }<br>
-+<br>
-+ // value returns a byte slice of the node value.<br>
-+ func (n *leafPageElement) value() []byte {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0buf :=3D (*[maxAllocSize]byte)(unsafe.Pointer(n=
-))<br>
-+-=C2=A0 =C2=A0 =C2=A0 return buf[n.pos+n.ksize : n.pos+n.ksize+n.vsize]<br=
->
-++=C2=A0 =C2=A0 =C2=A0 return (*[maxAllocSize]byte)(unsafe.Pointer(&amp;buf=
-[n.pos+n.ksize]))[:n.vsize]<br>
-+ }<br>
-+<br>
-+ // PageInfo represents human readable information about a page.<br>
-+@@ -133,3 +133,40 @@ type pgids []pgid<br>
-+ func (s pgids) Len() int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{ return=
- len(s) }<br>
-+ func (s pgids) Swap(i, j int)=C2=A0 =C2=A0 =C2=A0 { s[i], s[j] =3D s[j], =
-s[i] }<br>
-+ func (s pgids) Less(i, j int) bool { return s[i] &lt; s[j] }<br>
-++<br>
-++// merge returns the sorted union of a and b.<br>
-++func (a pgids) merge(b pgids) pgids {<br>
-++=C2=A0 =C2=A0 =C2=A0 // Return the opposite slice if one is nil.<br>
-++=C2=A0 =C2=A0 =C2=A0 if len(a) =3D=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return b<br>
-++=C2=A0 =C2=A0 =C2=A0 } else if len(b) =3D=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return a<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Create a list to hold all elements from both list=
-s.<br>
-++=C2=A0 =C2=A0 =C2=A0 merged :=3D make(pgids, 0, len(a)+len(b))<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Assign lead to the slice with a lower starting va=
-lue, follow to the higher value.<br>
-++=C2=A0 =C2=A0 =C2=A0 lead, follow :=3D a, b<br>
-++=C2=A0 =C2=A0 =C2=A0 if b[0] &lt; a[0] {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lead, follow =3D b, a<br=
->
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Continue while there are elements in the lead.<br=
->
-++=C2=A0 =C2=A0 =C2=A0 for len(lead) &gt; 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Merge largest prefix =
-of lead that is ahead of follow[0].<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 n :=3D sort.Search(len(l=
-ead), func(i int) bool { return lead[i] &gt; follow[0] })<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 merged =3D append(merged=
-, lead[:n]...)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if n &gt;=3D len(lead) {=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 break<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Swap lead and follow.=
-<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lead, follow =3D follow,=
- lead[n:]<br>
-++=C2=A0 =C2=A0 =C2=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Append what&#39;s left in follow.<br>
-++=C2=A0 =C2=A0 =C2=A0 merged =3D append(merged, follow...)<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 return merged<br>
-++}<br>
-+diff --git a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" ta=
-rget=3D"_blank">github.com/boltdb/bolt/tx.go</a> b/vendor/src/<a href=3D"ht=
-tp://github.com/boltdb/bolt/tx.go" target=3D"_blank">github.com/boltdb/bolt=
-/tx.go</a><br>
-+index c041d73..fe6c287 100644<br>
-+--- a/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" target=3D=
-"_blank">github.com/boltdb/bolt/tx.go</a><br>
-++++ b/vendor/src/<a href=3D"http://github.com/boltdb/bolt/tx.go" target=3D=
-"_blank">github.com/boltdb/bolt/tx.go</a><br>
-+@@ -87,18 +87,21 @@ func (tx *Tx) Stats() TxStats {<br>
-+<br>
-+ // Bucket retrieves a bucket by name.<br>
-+ // Returns nil if the bucket does not exist.<br>
-++// The bucket instance is only valid for the lifetime of the transaction.=
-<br>
-+ func (tx *Tx) Bucket(name []byte) *Bucket {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return tx.root.Bucket(name)<br>
-+ }<br>
-+<br>
-+ // CreateBucket creates a new bucket.<br>
-+ // Returns an error if the bucket already exists, if the bucket name is b=
-lank, or if the bucket name is too long.<br>
-++// The bucket instance is only valid for the lifetime of the transaction.=
-<br>
-+ func (tx *Tx) CreateBucket(name []byte) (*Bucket, error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return tx.root.CreateBucket(name)<br>
-+ }<br>
-+<br>
-+ // CreateBucketIfNotExists creates a new bucket if it doesn&#39;t already=
- exist.<br>
-+ // Returns an error if the bucket name is blank, or if the bucket name is=
- too long.<br>
-++// The bucket instance is only valid for the lifetime of the transaction.=
-<br>
-+ func (tx *Tx) CreateBucketIfNotExists(name []byte) (*Bucket, error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return tx.root.CreateBucketIfNotExists(name)<br=
->
-+ }<br>
-+@@ -127,7 +130,8 @@ func (tx *Tx) OnCommit(fn func()) {<br>
-+ }<br>
-+<br>
-+ // Commit writes all changes to disk and updates the meta page.<br>
-+-// Returns an error if a disk write error occurs.<br>
-++// Returns an error if a disk write error occurs, or if Commit is<br>
-++// called on a read-only transaction.<br>
-+ func (tx *Tx) Commit() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_assert(!tx.managed, &quot;managed tx commit no=
-t allowed&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if tx.db =3D=3D nil {<br>
-+@@ -203,7 +207,8 @@ func (tx *Tx) Commit() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0return nil<br>
-+ }<br>
-+<br>
-+-// Rollback closes the transaction and ignores all previous updates.<br>
-++// Rollback closes the transaction and ignores all previous updates. Read=
--only<br>
-++// transactions must be rolled back and not committed.<br>
-+ func (tx *Tx) Rollback() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0_assert(!tx.managed, &quot;managed tx rollback =
-not allowed&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if tx.db =3D=3D nil {<br>
-+@@ -234,7 +239,8 @@ func (tx *Tx) close() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0var freelistPending=
-N =3D tx.db.freelist.pending_count()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0var freelistAlloc =
-=3D tx.db.freelist.size()<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Remove writer lock.<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Remove transaction re=
-f &amp; writer lock.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tx.db.rwtx =3D nil<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tx.db.rwlock.Unlock=
-()<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Merge statistics=
-.<br>
-+@@ -248,41 +254,51 @@ func (tx *Tx) close() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tx.db.removeTx(tx)<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Clear all references.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0tx.db =3D nil<br>
-++=C2=A0 =C2=A0 =C2=A0 tx.meta =3D nil<br>
-++=C2=A0 =C2=A0 =C2=A0 tx.root =3D Bucket{tx: tx}<br>
-++=C2=A0 =C2=A0 =C2=A0 tx.pages =3D nil<br>
-+ }<br>
-+<br>
-+ // Copy writes the entire database to a writer.<br>
-+-// A reader transaction is maintained during the copy so it is safe to co=
-ntinue<br>
-+-// using the database while a copy is in progress.<br>
-+-// Copy will write exactly tx.Size() bytes into the writer.<br>
-++// This function exists for backwards compatibility. Use WriteTo() in<br>
-+ func (tx *Tx) Copy(w io.Writer) error {<br>
-+-=C2=A0 =C2=A0 =C2=A0 var f *os.File<br>
-+-=C2=A0 =C2=A0 =C2=A0 var err error<br>
-++=C2=A0 =C2=A0 =C2=A0 _, err :=3D tx.WriteTo(w)<br>
-++=C2=A0 =C2=A0 =C2=A0 return err<br>
-++}<br>
-+<br>
-++// WriteTo writes the entire database to a writer.<br>
-++// If err =3D=3D nil then exactly tx.Size() bytes will be written into th=
-e writer.<br>
-++func (tx *Tx) WriteTo(w io.Writer) (n int64, err error) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Attempt to open reader directly.<br>
-++=C2=A0 =C2=A0 =C2=A0 var f *os.File<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if f, err =3D os.OpenFile(tx.db.path, os.O_RDON=
-LY|odirect, 0); err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// Fallback to a re=
-gular open if that doesn&#39;t work.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if f, err =3D os.Op=
-enFile(tx.db.path, os.O_RDONLY, 0); err !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return 0, err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Copy the meta pages.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0tx.db.metalock.Lock()<br>
-+-=C2=A0 =C2=A0 =C2=A0 _, err =3D io.CopyN(w, f, int64(tx.db.pageSize*2))<b=
-r>
-++=C2=A0 =C2=A0 =C2=A0 n, err =3D io.CopyN(w, f, int64(tx.db.pageSize*2))<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0tx.db.metalock.Unlock()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_ =3D f.Close()<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return fmt.Errorf(&quot;=
-meta copy: %s&quot;, err)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return n, fmt.Errorf(&qu=
-ot;meta copy: %s&quot;, err)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Copy data pages.<br>
-+-=C2=A0 =C2=A0 =C2=A0 if _, err :=3D io.CopyN(w, f, tx.Size()-int64(tx.db.=
-pageSize*2)); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 wn, err :=3D io.CopyN(w, f, tx.Size()-int64(tx.db.pa=
-geSize*2))<br>
-++=C2=A0 =C2=A0 =C2=A0 n +=3D wn<br>
-++=C2=A0 =C2=A0 =C2=A0 if err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0_ =3D f.Close()<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return n, err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 return f.Close()<br>
-++=C2=A0 =C2=A0 =C2=A0 return n, f.Close()<br>
-+ }<br>
-+<br>
-+ // CopyFile copies the entire database to file at the given path.<br>
-+@@ -416,15 +432,39 @@ func (tx *Tx) write() error {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0// Write pages to disk in order.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0for _, p :=3D range pages {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size :=3D (int(p.ov=
-erflow) + 1) * tx.db.pageSize<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buf :=3D (*[maxAllocSize=
-]byte)(unsafe.Pointer(p))[:size]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0offset :=3D int64(<=
-a href=3D"http://p.id" target=3D"_blank">p.id</a>) * int64(tx.db.pageSize)<=
-br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if _, err :=3D tx.db.ops=
-.writeAt(buf, offset); err !=3D nil {<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 return err<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Update statistics.<br=
->
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tx.stats.Write++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // Write out page in &qu=
-ot;max allocation&quot; sized chunks.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ptr :=3D (*[maxAllocSize=
-]byte)(unsafe.Pointer(p))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 for {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // Limit our write to our max allocation size.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 sz :=3D size<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if sz &gt; maxAllocSize-1 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sz =3D maxAllocSize - 1<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // Write chunk to disk.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 buf :=3D ptr[:sz]<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if _, err :=3D tx.db.ops.writeAt(buf, offset); err !=3D nil {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return err<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // Update statistics.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 tx.stats.Write++<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // Exit inner for loop if we&#39;ve written all the chunks.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 size -=3D sz<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if size =3D=3D 0 {<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 }<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 // Otherwise move offset forward and move pointer to next chunk.<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 offset +=3D int64(sz)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 ptr =3D (*[maxAllocSize]byte)(unsafe.Pointer(&amp;ptr[sz]))<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-++<br>
-++=C2=A0 =C2=A0 =C2=A0 // Ignore file sync if flag is set on DB.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if !tx.db.NoSync || IgnoreNoSync {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if err :=3D fdatasy=
-nc(tx.db); err !=3D nil {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0return err<br>
-+--<br>
-+1.9.1<br>
-+<br>
-diff --git a/recipes-containers/docker/files/disable_sha1sum_startup.patch =
-b/recipes-containers/docker/files/disable_sha1sum_startup.patch<br>
-index 580ca23..cafd83d 100644<br>
---- a/recipes-containers/docker/files/disable_sha1sum_startup.patch<br>
-+++ b/recipes-containers/docker/files/disable_sha1sum_startup.patch<br>
-@@ -12,20 +12,23 @@ of the binary instead.<br>
-<br>
-=C2=A0Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@windriver.com"=
- target=3D"_blank">amy.fong@windriver.com</a>&gt;<br>
-=C2=A0---<br>
-- utils/utils.go |=C2=A0 =C2=A017 +----------------<br>
-- 1 file changed, 1 insertion(+), 16 deletions(-)<br>
-+ utils/utils.go | 18 +-----------------<br>
-+ 1 file changed, 1 insertion(+), 17 deletions(-)<br>
-<br>
-+diff --git a/utils/utils.go b/utils/utils.go<br>
-+index a17ab9d..3fc514a 100644<br>
-=C2=A0--- a/utils/utils.go<br>
-=C2=A0+++ b/utils/utils.go<br>
--@@ -3,7 +3,6 @@<br>
-+@@ -2,8 +2,6 @@ package utils<br>
-+<br>
-=C2=A0 import (<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;bufio&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;bytes&quot;<br>
-=C2=A0-=C2=A0 =C2=A0 =C2=A0 &quot;crypto/sha1&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;crypto/sha256&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;encoding/hex&quot;<br>
-+-=C2=A0 =C2=A0 =C2=A0 &quot;encoding/hex&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;fmt&quot;<br>
--@@ -75,20 +74,6 @@<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;io&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;io/ioutil&quot;<br>
-+@@ -42,20 +40,6 @@ func SelfPath() string {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return path<br>
-=C2=A0 }<br>
-<br>
-@@ -46,7 +49,7 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
-ndriver.com" target=3D"_blank">amy.fong@windriver.com</a>&gt;<br>
-=C2=A0 func isValidDockerInitPath(target string, selfPath string) bool { //=
- target and selfPath should be absolute (InitPath and SelfPath already do t=
-his)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if target =3D=3D &quot;&quot; {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return false<br>
--@@ -110,7 +95,7 @@<br>
-+@@ -77,7 +61,7 @@ func isValidDockerInitPath(target string, selfPath strin=
-g) bool { // target and<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return os.SameFile(=
-targetFileInfo, selfPathFileInfo)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-@@ -54,4 +57,4 @@ Signed-off-by: Amy Fong &lt;<a href=3D"mailto:amy.fong@wi=
-ndriver.com" target=3D"_blank">amy.fong@windriver.com</a>&gt;<br>
-=C2=A0+=C2=A0 =C2=A0 =C2=A0 return true<br>
-=C2=A0 }<br>
-<br>
-- // Figure out the path of our dockerinit (which may be SelfPath())<br>
-+ // DockerInitPath figures out the path of our dockerinit (which may be Se=
-lfPath())<br>
 --<br>
-1.8.3.2<u></u><u></u></p>
-</div>
-</div>
-</blockquote>
-</div>
-<p class=3D"MsoNormal"><br>
-<br clear=3D"all">
-<u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<span class=3D"HOEnZb"><font color=3D"#=
-888888"><u></u></font></span></p><span class=3D"HOEnZb"><font color=3D"#888=
-888">
-</font></span></div><span class=3D"HOEnZb"><font color=3D"#888888">
-<p class=3D"MsoNormal">-- <u></u><u></u></p>
-<div>
-<p class=3D"MsoNormal">&quot;Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end&quot;<u></u><u></u></p>
-</div>
-</font></span></div><span class=3D"HOEnZb"><font color=3D"#888888">
-</font></span></div><span class=3D"HOEnZb"><font color=3D"#888888">
-</font></span></div><span class=3D"HOEnZb"><font color=3D"#888888">
-</font></span></div><span class=3D"HOEnZb"><font color=3D"#888888">
-
-</font></span></blockquote></div><span class=3D"HOEnZb"><font color=3D"#888=
-888"><br><br clear=3D"all"><div><br></div>-- <br><div>&quot;Thou shalt not =
-follow the NULL pointer, for chaos and madness await thee at its end&quot;<=
-/div>
-</font></span></div></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature">&quot;Thou shalt not follow the NULL pointer, for chao=
-s and madness await thee at its end&quot;</div>
+</div></div>Cheers,<br>
+<br>
+Alejandro<br>
+<div class=3D"HOEnZb"><div class=3D"h5">--<br>
+_______________________________________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/listinfo/m=
+eta-virtualization</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
+t follow the NULL pointer, for chaos and madness await thee at its end&quot=
+;</div>
 </div></div>
 
---001a113d706219b7eb0530f0b278--
+--94eb2c056214d1717c0534ef14fc--
