@@ -1,67 +1,70 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <fabio.berton@ossystems.com.br>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D21C4E00B1A; Tue, 14 Jun 2016 08:04:02 -0700 (PDT)
+	id A4CF7E00C1D; Tue, 14 Jun 2016 09:39:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,HTML_MESSAGE,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.218.66 listed in list.dnswl.org]
-Received: from mail-oi0-f66.google.com (mail-oi0-f66.google.com
-	[209.85.218.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D57FE00AF2
+	*      [209.85.215.47 listed in list.dnswl.org]
+Received: from mail-lf0-f47.google.com (mail-lf0-f47.google.com
+	[209.85.215.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5340AE00BFF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Jun 2016 08:03:56 -0700 (PDT)
-Received: by mail-oi0-f66.google.com with SMTP id e205so25844608oig.0
+	Tue, 14 Jun 2016 09:39:53 -0700 (PDT)
+Received: by mail-lf0-f47.google.com with SMTP id f6so87111509lfg.0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Jun 2016 08:03:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	Tue, 14 Jun 2016 09:39:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=fOhmYz47EnZD5W2L3adWLCHJQyyxKqABWAgUYVixN/4=;
-	b=OPuY2edq7gWDT7lv4ijIAg+0CFAdIlt8NTeIj4HmhRLbV6Q6hZGfa3RUT/IMMCMab8
-	iJQZNPsm+vk67gOuoKsKBp+YRPisvP8s+F/zTjfzAkd5GWKGqsnnobgXcU7puMG9aI2N
-	QMLoBiDEupMMjlR1ZiCTiI2NXlv+dNzeqGH5YZxrOjsIThpNsPfwfhN1gkKTvy74gEmB
-	MPAokEwL6wxCv4KqgkDMf4U/HEHYRlh1DsyQq8+26dO5erErjyPEXBDMk1swkFPcjTdl
-	Z9Sc0ypyzDxB1HNY/JG2Pm5pTax0ACZDbYGe95CHOfeyirmtKiNExLqo0eVpcS0LxQmE
-	kDnA==
+	:cc; bh=6DWenMwgXVUXnXbIX9rDciMOyUpbNgdiz5wHT80YrEE=;
+	b=tXFWADR+2uh5lVO6zKPmgEv2YUVduUYaKZG4jr8gn9aVc4DzXzv19rkUdAPl4muShm
+	TrwsNY9KuJ5Em+xMrZto9jVLiSY2x78IgnHbfnnjrcOc+0BAN6Sciurk2A22UiBWD3dU
+	NSLmNFw1iay9r1tcTFHkezojXCK9oH0YGHKI2UT+XIFm0J4vCT9cvvgcQgggrNrgZ4AH
+	fDSmVCjS/0uYjhf/LDylsaixLl/1NuMmiNAaToc0zPca9rDbO754HDuNtgvjpwMMnbot
+	r1QT+xp+AmzMZqzMZ82XNfaucdeXYfuKYr9TWsFMNe7xC0iS/3pWOx3BzyE8zXTTATmV
+	UQmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=fOhmYz47EnZD5W2L3adWLCHJQyyxKqABWAgUYVixN/4=;
-	b=JASVXDQZ6QdgZbeJoLLXnpaoqBNh3WACPhoLBwornAIFTrwVqM3Jo1qe6hpDuTmB/5
-	IQRY3WY6u59Dkg1ZBG/H13Py1TJaYU9mNOnPIXgmelP+MYUu4Gd3mbtWYz+njJAlHvrI
-	vw6bhQ26V3vKgaB2AeQztU4OKOISVUSxdXiO4VWCfmOqdCIlA5df2JCKongbiCOuOqYG
-	6e8QAyMMxhEVoaVV7HZWRRV/+CG4asFUnDI+RhO/wzOHyJ80sej5lrqIkjhAdn81pado
-	0S9NHvhPsWZ2NPevBp4gtCsxoqrF+gnbAfyGd2rN8kFRNgYWYAFGmVNPigUzUIHSyO2X
-	zo4w==
-X-Gm-Message-State: ALyK8tKKcV5+vSERQ62Sf+/+9eftu8G1fQejD47IDjmxXvalI4K9lFbv26H0vNx2HquQfhXmSdboeIHCl+oXEA==
-X-Received: by 10.157.46.121 with SMTP id c54mr10050545otd.14.1465916634608;
-	Tue, 14 Jun 2016 08:03:54 -0700 (PDT)
+	bh=6DWenMwgXVUXnXbIX9rDciMOyUpbNgdiz5wHT80YrEE=;
+	b=lZaMe4jj4Z0QsOfyqGncjFnyOPsTyDUfbsjOC9UMzB+AVgY+l/xqqYbFdrVVpi5H6a
+	Bynr/FRhmkQ85JzMCYrA56AKHBIXiJCB0AZc0OriQDQJhPwKqZO7ysG8YhRGNPAGQ+AY
+	edETsNtHPMhMgOjc1483iDmn3XiWvbkMlqljP7yh98gNGFLBgCX3W61gAu/ELgdfiobU
+	IDJu6vjccTrwb9Nx2miDrEzBqSlPTvOfRW8MViffyaF+rIrv6pUoWZIIMMK24XkyZJSx
+	9gJ0lBGk/QtUistvgx2gHuJbk3p9mSGpUhgbOllqjBThyIAXdPpAUfLfK6NIVPBEUa2J
+	S8eQ==
+X-Gm-Message-State: ALyK8tLBsvTPJ148xRmQiR19LSclE4gbBNz0AqeGoy5ikvbFytzkSmvEKP6Xe8V++wZHn0HyVKbKg6V6kBz1zw==
+X-Received: by 10.25.32.85 with SMTP id g82mr2337517lfg.184.1465922391268;
+	Tue, 14 Jun 2016 09:39:51 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.33.117 with HTTP; Tue, 14 Jun 2016 08:03:53 -0700 (PDT)
-In-Reply-To: <1465802595-11295-1-git-send-email-zhe.he@windriver.com>
-References: <1465802595-11295-1-git-send-email-zhe.he@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 14 Jun 2016 11:03:53 -0400
-Message-ID: <CADkTA4P_sfmDA0CH-S2T=r8zCJ0bCc+s8Q+apHJu2ZZ6AU2EUQ@mail.gmail.com>
-To: He Zhe <zhe.he@windriver.com>
+Received: by 10.25.5.215 with HTTP; Tue, 14 Jun 2016 09:39:21 -0700 (PDT)
+X-Originating-IP: [187.23.154.250]
+In-Reply-To: <CADkTA4M80cc=Bee0temd7KAW9ReytAogqnyWtjLfc5wLvU98Og@mail.gmail.com>
+References: <CAAPZna21uUF=ZgfWdd5B2aKjmoox0QnCzEz=LDC7=Grx8J4CnA@mail.gmail.com>
+	<CADkTA4MRfu2eFEhzeiqWUxoX4dubUqXn-_QQoCPPQLdnAd-e5Q@mail.gmail.com>
+	<CAAPZna0tO+C2r66YyfV2YNqM6468V6fNOzu=YH_htoY_6AdXQg@mail.gmail.com>
+	<CADkTA4PgXwQwffnXCTxzy9++px_Tc4JdoN9vU74K6HN_Ds6=RQ@mail.gmail.com>
+	<CAAPZna372EhYt_3xzb_4HZTJo00Mk25FyL_pkUkKySYvvdk17g@mail.gmail.com>
+	<CADkTA4PC2QHp1FXCvMjJ6LA5U8VF-XaYYDtMt3XezdQi5DGPEg@mail.gmail.com>
+	<CADkTA4M80cc=Bee0temd7KAW9ReytAogqnyWtjLfc5wLvU98Og@mail.gmail.com>
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+Date: Tue, 14 Jun 2016 13:39:21 -0300
+Message-ID: <CAAPZna3dixAW3QUgFoynQ9vFJthW4vEtp5v+tqVfaQACNBWmHA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services] [PATCH] python-cinder: Move tgt config files to avoid confliction
+Subject: Re: [krogoth] Golang errors when building Docker
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,136 +77,122 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2016 15:04:02 -0000
-Content-Type: multipart/alternative; boundary=001a1139585646de4c05353e500a
+X-List-Received-Date: Tue, 14 Jun 2016 16:39:56 -0000
+Content-Type: multipart/alternative; boundary=001a1140220e6675d805353fa755
 
---001a1139585646de4c05353e500a
+--001a1140220e6675d805353fa755
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Jun 13, 2016 at 3:23 AM, <zhe.he@windriver.com> wrote:
+I tested and worked for me.
 
-> From: He Zhe <zhe.he@windriver.com>
->
-> We might have the following warning and error since both tgt and python-
-> cinder create /etc/tgt/targets.conf. This patch creates conf.d/
-> under /etc/tgt/ and puts python-cinder's config file there. tgt's
-> config file will include it automatically.
->
-> warning: Removing tgt-1.0.63+git0+eca74a72d2-r0.0@corei7_64 due to
-> file /etc/tgt/targets.conf conflicting with
-> python-cinder-7.0.0+git0+61026d4e4f-r0.0@corei7_64
-> error: tgt-dev-1.0.63+git0+eca74a72d2-r0.0 requires tgt =
-> 1.0.63+git0+eca74a72d2-r0.0
->
+Thanks.
 
-
-merged.
-
-Bruce
-
+On Tue, Jun 14, 2016 at 12:00 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
 
 >
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  meta-openstack/recipes-devtools/python/python-cinder_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> index 3b8200e..9620e83 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> @@ -107,8 +107,8 @@ do_install_append() {
+> On Mon, Jun 13, 2016 at 11:47 AM, Bruce Ashfield <bruce.ashfield@gmail.com
+> > wrote:
 >
->      #Create cinder volume group backing file
->      sed
-> 's/%CINDER_LVM_VOLUME_BACKING_FILE_SIZE%/${CINDER_LVM_VOLUME_BACKING_FILE_SIZE}/g'
-> -i ${D}/etc/cinder/drivers/lvm_iscsi_setup.sh
-> -    mkdir -p ${D}/etc/tgt/
-> -    echo "include /etc/cinder/data/volumes/*" > ${D}/etc/tgt/targets.conf
-> +    mkdir -p ${D}/etc/tgt/conf.d/
-> +    echo "include /etc/cinder/data/volumes/*" >
-> ${D}/etc/tgt/conf.d/python-cinder.conf
+>>
+>>
+>> On Fri, Jun 10, 2016 at 2:40 PM, Fabio Berton <
+>> fabio.berton@ossystems.com.br> wrote:
+>>
+>>> I'm working with Krogoth and cherry-picked commits from master:
+>>>
+>>> 677f359 go-cross: allow tmp directory to already exist
+>>> 3a45dc4 go-native: don't use host /var/tmp for temp build artifacts
+>>> f17e1ed go-cross: don't use host /var/tmp for temporary build artifacts
+>>> fb7349e go: add go-cross 1.6
+>>> d687655 docker: drop obselete dependencies
+>>>
+>>> It works fine and I don't get any errors. I think this commits should be
+>>> backported to Krogroth.
+>>>
+>>
+>> Thanks for the report.
+>>
+>> I've queued the changes here, and will confirm the results myself. Once
+>> that is done,
+>> I'll push to the repo.
+>>
 >
->      # Create Cinder nfs_share config file with default nfs server
->      echo "${CINDER_NFS_VOLUME_SERVERS}" > ${D}/etc/cinder/nfs_shares
+> I've now validated the changes locally, and the krogoth branch is updated.
+>
+> Bruce
+>
+>
+>>
+>> Bruce
+>>
+>>
+>>
+>>
+>> --
+>> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+>> at its end"
+>>
+>
+>
+>
 > --
-> 2.8.1
+> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> at its end"
 >
->
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a1139585646de4c05353e500a
+--001a1140220e6675d805353fa755
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Jun 13, 2016 at 3:23 AM,  <span dir=3D"ltr">&lt;<a href=3D"mail=
-to:zhe.he@windriver.com" target=3D"_blank">zhe.he@windriver.com</a>&gt;</sp=
-an> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">From: He Zhe &lt;<a href=3D"ma=
-ilto:zhe.he@windriver.com">zhe.he@windriver.com</a>&gt;<br>
-<br>
-We might have the following warning and error since both tgt and python-<br=
->
-cinder create /etc/tgt/targets.conf. This patch creates conf.d/<br>
-under /etc/tgt/ and puts python-cinder&#39;s config file there. tgt&#39;s<b=
-r>
-config file will include it automatically.<br>
-<br>
-warning: Removing tgt-1.0.63+git0+eca74a72d2-r0.0@corei7_64 due to<br>
-file /etc/tgt/targets.conf conflicting with<br>
-python-cinder-7.0.0+git0+61026d4e4f-r0.0@corei7_64<br>
-error: tgt-dev-1.0.63+git0+eca74a72d2-r0.0 requires tgt =3D<br>
-1.0.63+git0+eca74a72d2-r0.0<br></blockquote><div><br><br></div><div>merged.=
-<br><br></div><div>Bruce<br>=C2=A0<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Signed-off-by: He Zhe &lt;<a href=3D"mailto:zhe.he@windriver.com">zhe.he@wi=
-ndriver.com</a>&gt;<br>
----<br>
-=C2=A0meta-openstack/recipes-devtools/python/<a href=3D"http://python-cinde=
-r_git.bb" rel=3D"noreferrer" target=3D"_blank">python-cinder_git.bb</a> | 4=
- ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n-cinder_git.bb" rel=3D"noreferrer" target=3D"_blank">python-cinder_git.bb<=
-/a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-cinde=
-r_git.bb" rel=3D"noreferrer" target=3D"_blank">python-cinder_git.bb</a><br>
-index 3b8200e..9620e83 100644<br>
---- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-cinde=
-r_git.bb" rel=3D"noreferrer" target=3D"_blank">python-cinder_git.bb</a><br>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-cinde=
-r_git.bb" rel=3D"noreferrer" target=3D"_blank">python-cinder_git.bb</a><br>
-@@ -107,8 +107,8 @@ do_install_append() {<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0#Create cinder volume group backing file<br>
-=C2=A0 =C2=A0 =C2=A0sed &#39;s/%CINDER_LVM_VOLUME_BACKING_FILE_SIZE%/${CIND=
-ER_LVM_VOLUME_BACKING_FILE_SIZE}/g&#39; -i ${D}/etc/cinder/drivers/lvm_iscs=
-i_setup.sh<br>
--=C2=A0 =C2=A0 mkdir -p ${D}/etc/tgt/<br>
--=C2=A0 =C2=A0 echo &quot;include /etc/cinder/data/volumes/*&quot; &gt; ${D=
-}/etc/tgt/targets.conf<br>
-+=C2=A0 =C2=A0 mkdir -p ${D}/etc/tgt/conf.d/<br>
-+=C2=A0 =C2=A0 echo &quot;include /etc/cinder/data/volumes/*&quot; &gt; ${D=
-}/etc/tgt/conf.d/python-cinder.conf<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0# Create Cinder nfs_share config file with default nfs =
-server<br>
-=C2=A0 =C2=A0 =C2=A0echo &quot;${CINDER_NFS_VOLUME_SERVERS}&quot; &gt; ${D}=
-/etc/cinder/nfs_shares<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.8.1<br>
-<br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
-s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
-ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
-t;</div>
-</div></div>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:monospac=
+e,monospace;font-size:small">I tested and worked for me.<br><br></div><div =
+class=3D"gmail_default" style=3D"font-family:monospace,monospace;font-size:=
+small">Thanks.<br></div></div><div class=3D"gmail_extra"><br><div class=3D"=
+gmail_quote">On Tue, Jun 14, 2016 at 12:00 PM, Bruce Ashfield <span dir=3D"=
+ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruc=
+e.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_q=
+uote"><span class=3D"">On Mon, Jun 13, 2016 at 11:47 AM, Bruce Ashfield <sp=
+an dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_b=
+lank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div clas=
+s=3D"gmail_quote"><div><div>On Fri, Jun 10, 2016 at 2:40 PM, Fabio Berton <=
+span dir=3D"ltr">&lt;<a href=3D"mailto:fabio.berton@ossystems.com.br" targe=
+t=3D"_blank">fabio.berton@ossystems.com.br</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex"><div dir=3D"ltr"><div style=3D"font-family:monospac=
+e,monospace;font-size:small">I&#39;m working with Krogoth and cherry-picked=
+ commits from master:<br><br>677f359 go-cross: allow tmp directory to alrea=
+dy exist<br>3a45dc4 go-native: don&#39;t use host /var/tmp for temp build a=
+rtifacts<br>f17e1ed go-cross: don&#39;t use host /var/tmp for temporary bui=
+ld artifacts<br>fb7349e go: add go-cross 1.6<br>d687655 docker: drop obsele=
+te dependencies<br><br></div><div style=3D"font-family:monospace,monospace;=
+font-size:small">It works fine and I don&#39;t get any errors. I think this=
+ commits should be backported to Krogroth.<br></div></div></blockquote><div=
+><br></div></div></div><div>Thanks for the report.<br><br></div><div>I&#39;=
+ve queued the changes here, and will confirm the results myself. Once that =
+is done,<br></div><div>I&#39;ll push to the repo.<span><font color=3D"#8888=
+88"><br></font></span></div></div></div></div></blockquote><div><br></div><=
+/span><div>I&#39;ve now validated the changes locally, and the krogoth bran=
+ch is updated.<span class=3D"HOEnZb"><font color=3D"#888888"><br><br></font=
+></span></div><span class=3D"HOEnZb"><font color=3D"#888888"><div>Bruce<br>=
+</div></font></span><span class=3D""><div>=C2=A0</div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
+left:1ex"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_q=
+uote"><div><span><font color=3D"#888888"><br></font></span></div><span><fon=
+t color=3D"#888888"><div>Bruce<br></div><div>=C2=A0</div></font></span></di=
+v><span><br><br clear=3D"all"><br>-- <br><div data-smartmail=3D"gmail_signa=
+ture">&quot;Thou shalt not follow the NULL pointer, for chaos and madness a=
+wait thee at its end&quot;</div>
+</span></div></div>
+</blockquote></span></div><span class=3D""><br><br clear=3D"all"><br>-- <br=
+><div data-smartmail=3D"gmail_signature">&quot;Thou shalt not follow the NU=
+LL pointer, for chaos and madness await thee at its end&quot;</div>
+</span></div></div>
+</blockquote></div><br></div>
 
---001a1139585646de4c05353e500a--
+--001a1140220e6675d805353fa755--
