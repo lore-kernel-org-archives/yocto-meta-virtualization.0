@@ -1,6 +1,6 @@
-Return-Path: <fabio.berton@ossystems.com.br>
+Return-Path: <paul.betafive@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3A85DE00C29; Tue, 14 Jun 2016 10:59:34 -0700 (PDT)
+	id B6FD2E00D84; Thu, 16 Jun 2016 12:06:14 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,55 +8,54 @@ X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	http://www.dnswl.org/, low *      trust
-	*      [209.85.192.65 listed in list.dnswl.org]
+	*      [74.125.82.68 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qg0-f65.google.com (mail-qg0-f65.google.com
-	[209.85.192.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 78C0EE00C1D
+Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 480CCE00D84
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Jun 2016 10:59:30 -0700 (PDT)
-Received: by mail-qg0-f65.google.com with SMTP id 78so5046475qgt.3
+	Thu, 16 Jun 2016 12:06:12 -0700 (PDT)
+Received: by mail-wm0-f68.google.com with SMTP id 187so11634799wmz.1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Jun 2016 10:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=iaFMX4TPFOiCJ2zqozHmeCMyo5cnRBNOCmr48pcAWTE=;
-	b=vyOGuIA0/XgWRoJ1VRmWfZn2b+ktJhp4W4mFfw1+8rfTNSa2kpwzIxSWBaM0eLSntI
-	XMuN9G4d8y7TFdaFGf3fWr35k1C/BjXq0ZVyUT2QZKshVXuIksVKjemc1gtXM/N/zSsl
-	zHa4bszgfh7ga1RwXuKQgQbeQATuyU0O2B508w4bXgI0DyH1Aicpdqa/xpfbHFF3bgcy
-	Y5axtZYgEotwsyfwX2DleABHUMqaP35wY6J8Gnk+oo/ocX5FAGEDqDddfBL3gszg+ZP2
-	Vxp2iwVPGyx2igD5F15fTx2rpbDx2JeXlQEY0XWKdKOCoDbRlaLygQKKal9N+L7wKfZ3
-	X2LA==
+	Thu, 16 Jun 2016 12:06:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=f3W6WH0FyKZuHEDAdxh1dT4gbu5JwQ/Q3dx8N75Q8Z0=;
+	b=t7A2VwY+FreQHot3ELxKfyVbeBdsF6c6pUkoYnHomO2GtOAAwxxDHQ4Pak3zya+Gtg
+	qnCsX6p0ZoqfVaOg/7QBsUBK0Yz3zwgBwlBjY7iHvRkshMMc5IyrjDEpGyA9063OKLmR
+	O9ZEiPWIE4F6QSisLFngFZ1jl1RmZFINLRK564OloNmfSBHdYkLotIMcr0XxDmRgv8r7
+	BKeIN5vOtA14ybxmk31y1naj1skod2n6Rq+Q2JhHM3mj2ZF++jjlnt34+wZKluFOZZI/
+	pFX6yuWqyDTl/3sJOt3LfInt72sc9MMcZqMP89NSR7hXk19uNcl5JZLEucCG2Eb1DQa0
+	xMJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=iaFMX4TPFOiCJ2zqozHmeCMyo5cnRBNOCmr48pcAWTE=;
-	b=bzOWA9MfeNdzvB31ucvcHchexkUZC4rYoDvuL08t8TjX44OYY4Rs/kZkXPEsyuf1j6
-	Pjx3VK1ZIliV3qdDowAl/SqT2wYckpCPdgeKhGGimSXhZTL+leYfO3gmVUpRzDpRmTXc
-	eFZP/8b5C5QOY22B6mYIfWKijMZGvlpP7PIli0gbwQX9fie8dhhQuC+MsSxCJhkwcign
-	K5yTyEVo0aIBRPARI6S8+CJVzi9bMzpC/6dN2SAakVFpL+RLsPGxvexn21GDt4DhkeHT
-	1eDzwM/qxJPug7GxuWrBeHHGJki7y8g//TNgGcLdbVxxkJ7WGwDnn5je1wJFLapbxORD
-	AeTw==
-X-Gm-Message-State: ALyK8tJW5IR0fd1sEM1KoWvEfuifTGt2KwWjnUx/XcOHM1PiLtFinkO5V7YUjH6P9weMpg==
-X-Received: by 10.140.19.15 with SMTP id 15mr11264953qgg.91.1465927169858;
-	Tue, 14 Jun 2016 10:59:29 -0700 (PDT)
-Received: from monster.lab.ossystems.com.br ([187.23.154.250])
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=f3W6WH0FyKZuHEDAdxh1dT4gbu5JwQ/Q3dx8N75Q8Z0=;
+	b=k2bpwLp80QkDOulhG8TsR7IHAWfImwgJSB1FNEHwHgUaT1icvKxhRtp+h52xeRZAnw
+	lMYR8pGDgHt3AVNNvE/Rd26jxIiIam87lUMB0ICQkCLOBSa/HrNBsd9qja9kcDcx8vNI
+	MUHgJKKosCX+9BUo9y0HGQNXnSlrj03oEyxblXacVZH5BChwQVS+LyTOd/m2EwrR3hmC
+	GCrIbL/bOl3Q4N1J/aSM3tP16dxu7majfP/+LBuqgwVBZz2I5wXC7KDeU8xnhPISiqvg
+	VJpS5512QMxYVIVySOVcxyfx6PAVa/grZPIf7BL9YKr8odiTZHR6jrbzi8d1VTEE8aoh
+	pqkg==
+X-Gm-Message-State: ALyK8tJvwjMtB0T7NHIRr16q2HfpYn6CfI3AQpMrFV9RYax8dq9AeQeZkB7PM8tG4wMAdA==
+X-Received: by 10.28.199.139 with SMTP id x133mr16067938wmf.45.1466103971998; 
+	Thu, 16 Jun 2016 12:06:11 -0700 (PDT)
+Received: from dev-jessie.betafive.co.uk
+	(cpc11-shep11-2-0-cust130.8-3.cable.virginm.net. [86.27.96.131])
 	by smtp.gmail.com with ESMTPSA id
-	b34sm8636770qtd.32.2016.06.14.10.59.26
+	r6sm16243317wme.14.2016.06.16.12.06.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 14 Jun 2016 10:59:28 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
+	Thu, 16 Jun 2016 12:06:11 -0700 (PDT)
+Sender: Paul Barker <paul.betafive@gmail.com>
+From: Paul Barker <paul@paulbarker.me.uk>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 14 Jun 2016 14:59:12 -0300
-Message-Id: <1465927152-2796-1-git-send-email-fabio.berton@ossystems.com.br>
+Date: Thu, 16 Jun 2016 20:06:28 +0100
+Message-Id: <1466103989-25752-1-git-send-email-paul@paulbarker.me.uk>
 X-Mailer: git-send-email 2.1.4
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] docker-registry: Make version dependence compatible with opkg
+Subject: [PATCH 1/2] runc: Backport fix for building against musl
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -69,76 +68,81 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jun 2016 17:59:34 -0000
+X-List-Received-Date: Thu, 16 Jun 2016 19:06:14 -0000
 
-Some recipes in RDEPENDS are installing specific version of package, for
-example:
-  gunicorn (= 19.1.1)
-
-If usigin ipk for PACKAGE_CLASSES, opkg prints error:
-
-Collected errors:
- * satisfy_dependencies_for: Cannot satisfy the following dependencies
- for docker:
- *      gunicorn (= 19.1.1) *
- * opkg_install: Cannot install package docker.
-
-This error is caused because opkg appends package revision to version.
-In this case:
-  gunicorn_19.1.1-r0.1
-
-If we use comparator >= this error doesn't appear.
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
 ---
- .../docker-registry/docker-registry_git.bb         | 26 +++++++++++-----------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ .../0001-nsexec-fix-build-against-musl-libc.patch  | 48 ++++++++++++++++++++++
+ recipes-containers/runc/runc_git.bb                |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 recipes-containers/runc/runc/0001-nsexec-fix-build-against-musl-libc.patch
 
-diff --git a/recipes-containers/docker-registry/docker-registry_git.bb b/recipes-containers/docker-registry/docker-registry_git.bb
-index 3d8d74b..0320440 100644
---- a/recipes-containers/docker-registry/docker-registry_git.bb
-+++ b/recipes-containers/docker-registry/docker-registry_git.bb
-@@ -24,27 +24,27 @@ PV = "0.9.1+git${SRCREV}"
+diff --git a/recipes-containers/runc/runc/0001-nsexec-fix-build-against-musl-libc.patch b/recipes-containers/runc/runc/0001-nsexec-fix-build-against-musl-libc.patch
+new file mode 100644
+index 0000000..aa57636
+--- /dev/null
++++ b/recipes-containers/runc/runc/0001-nsexec-fix-build-against-musl-libc.patch
+@@ -0,0 +1,48 @@
++From ac6bd953192fa6752a07be7501f69f7cffe33e8e Mon Sep 17 00:00:00 2001
++From: Natanael Copa <natanael.copa@docker.com>
++Date: Tue, 19 Apr 2016 10:43:00 +0200
++Subject: [PATCH] nsexec: fix build against musl libc
++
++Remove a wrongly added include which was added in commit 3c2e77ee (Add a
++compatibility header for CentOS/RHEL 6, 2016-01-29) apparently to
++fix this compile error on centos 6:
++
++> In file included from
++> Godeps/_workspace/src/github.com/opencontainers/runc/libcontainer/nsenter/nsexec.c:20:
++> /usr/include/linux/netlink.h:35: error: expected specifier-qualifier-list before 'sa_family_t'
++
++The glibc bits/sockaddr.h says that this header should never be included
++directly[1]. Instead, sys/socket.h should be used.
++
++The problem was correctly fixed later, in commit 394fb55 (Fix build
++error on centos6, 2016-03-02) so the incorrect bits/sockaddr.h can
++safely be removed.
++
++This is needed to build musl libc.
++
++Fixes #761
++
++[1]: https://github.molgen.mpg.de/git-mirror/glibc/blob/20003c49884422da7ffbc459cdeee768a6fee07b/bits/sockaddr.h#L20
++
++Signed-off-by: Natanael Copa <natanael.copa@docker.com>
++Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
++Upstream-status: Backport
++---
++ libcontainer/nsenter/nsexec.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/libcontainer/nsenter/nsexec.c b/libcontainer/nsenter/nsexec.c
++index 8f37d6c..40a8f89 100644
++--- a/libcontainer/nsenter/nsexec.c
+++++ b/libcontainer/nsenter/nsexec.c
++@@ -18,7 +18,6 @@
++ #include <unistd.h>
++ #include <grp.h>
++ 
++-#include <bits/sockaddr.h>
++ #include <linux/types.h>
++ 
++ // All arguments should be above the stack because it grows down
++-- 
++2.1.4
++
+diff --git a/recipes-containers/runc/runc_git.bb b/recipes-containers/runc/runc_git.bb
+index 30a4640..b47914e 100644
+--- a/recipes-containers/runc/runc_git.bb
++++ b/recipes-containers/runc/runc_git.bb
+@@ -7,6 +7,7 @@ DESCRIPTION = "runc is a CLI tool for spawning and running containers according
+ SRCREV = "baf6536d6259209c3edfa2b22237af82942d3dfa"
+ SRC_URI = "\
+ 	git://github.com/opencontainers/runc;branch=master \
++	file://0001-nsexec-fix-build-against-musl-libc.patch \
+ 	"
  
- RDEPENDS_${PN} += "\
-   docker \
--  gunicorn (= 19.1.1) \
-+  gunicorn (>= 19.1.1) \
-   python-pip \
-   python-distribute \
--  python-m2crypto (= 0.22.3) \
--  python-pyyaml (= 3.11) \
--  python-flask (= 0.10.1) \
--  python-gevent (= 1.0.1) \
-+  python-m2crypto (>= 0.22.3) \
-+  python-pyyaml (>= 3.11) \
-+  python-flask (>= 0.10.1) \
-+  python-gevent (>= 1.0.1) \
-   python-requests \
-   python-sqlalchemy (>= 0.9.4) \
--  python-blinker (= 1.3) \
--  python-backports-lzma (= 0.0.3) \
--  python-flask-cors (= 1.10.3) \
--  python-bugsnag (= 2.0.2) \
--  python-docker-registry-core (= 2.0.3) \
--  python-newrelic (= 2.22.0.19) \
-+  python-blinker (>= 1.3) \
-+  python-backports-lzma (>= 0.0.3) \
-+  python-flask-cors (>= 1.10.3) \
-+  python-bugsnag (>= 2.0.2) \
-+  python-docker-registry-core (>= 2.0.3) \
-+  python-newrelic (>= 2.22.0.19) \
-   python-itsdangerous (>= 0.21) \
-   python-jinja2 (>= 2.4) \
-   python-werkzeug (>= 0.7) \
-   python-simplejson (>= 3.6.2) \
--  python-redis (= 2.10.3) \
--  python-boto (= 2.34.0) \
-+  python-redis (>= 2.10.3) \
-+  python-boto (>= 2.34.0) \
-   python-webob \
-   "
- # OFFICIAL REQ:
+ # Apache-2.0 for containerd
 -- 
 2.1.4
 
