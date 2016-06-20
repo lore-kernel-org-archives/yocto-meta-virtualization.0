@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EEF96E006B3; Mon, 20 Jun 2016 05:10:24 -0700 (PDT)
+	id 595FAE006B3; Mon, 20 Jun 2016 05:11:51 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.220.193 listed in list.dnswl.org]
+	*      [209.85.220.171 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,48 +20,48 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AB091E00474
+Received: from mail-qk0-f171.google.com (mail-qk0-f171.google.com
+	[209.85.220.171])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC302E00474
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 20 Jun 2016 05:10:17 -0700 (PDT)
-Received: by mail-qk0-f193.google.com with SMTP id l81so23143393qke.3
+	Mon, 20 Jun 2016 05:11:49 -0700 (PDT)
+Received: by mail-qk0-f171.google.com with SMTP id p10so158451715qke.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 20 Jun 2016 05:10:17 -0700 (PDT)
+	Mon, 20 Jun 2016 05:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xM0KYWMSjOJX8vGWzHfXTCfwvhRxOqmQ/ZUtB8PcL7s=;
-	b=OCalZtm/41Zx0OgzgMTRyyTLboLlQNZ2R+s+rnHgk+rirz1jL3i9V3vUx84XYe3KO9
-	oP0Guu2S/MrknEkLPs1IbiywFJIbAPU5FDvLSX6lZV7t8IAItJPkCM2XFNkvLV8EqkYB
-	Hbr+fF9S4WdrdGz5dBT7RyRp0Arq1YSK0JNW9uX9AzK5pCi8r40jUSZUsYvT86csyzLJ
-	8QiWEFvCFqp9fkknFCNwV7vmblpAD0Bpvh8i0vWHr6ikdcYZJC+A/kYzJdwUf42zICQ/
-	9YaSRrSNZ8ljwIwSxxyqEsl0BKNbBJ/T1HfDIKoku2kF9AQfa8stgmaDw3Mg6q8HFU4g
-	KWAg==
+	:cc; bh=ZxS+ygb9C7HT2hqxOS0d97Jb4UxcM6V1xKUpXp81UZo=;
+	b=VxEBEi/22ex4LObXFS09wuCXvbdVv88/wlVuz/27w9HBsjOAIjVcS1tISKV10xmtII
+	OY9Gk5+/13utbht8cP5z5tsc740c87pR2ONvpg6gbm0Sryx2B0luKc3tm/hCzE8t+3i0
+	MPMlZApO9OKaxyvwixNTj27LKmOnmmPnzANKyU3z8Tel8Mpy6hBkiuwld2RDmT9GM93x
+	UNaib7KGtnz3eT0fJF47e7111MCljMxwKcGdLa4k/gJc5DHCHUd/JdAXq+mhg9Ff56ye
+	azlkEbuwfYhFq8ytKUq5pW/FPn5B1vBGKzF6aXZfuAeT0zT+zwGrSvUsg7ojdOjhP5lC
+	oF2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=xM0KYWMSjOJX8vGWzHfXTCfwvhRxOqmQ/ZUtB8PcL7s=;
-	b=L2w4i4fZly6/N+qn5Qf1DS1x6BJpMof2Wga95Dm4p2H/vTE+bVBg8IfPRJTi53jzml
-	R9Xb8bYitV8YV2Q3etvHc2q4La5pGOBZrSQZqj0ccfCor6+WXlxDXQ3vw2scMO6J7nG5
-	O2QYQX2bqN+PYYR4XHSXjy/jRdRg+t13DGgKZFg+QUE5E3XmnTT6K+4Q8fNG4GvMehGp
-	OgiASRPzJ2wbLyWhc3k/xtHP2UiNAsay/5tSxWxGlDeMXEGaSQfBYiak/WXqFXQAAB7N
-	7KGSn16edv7V6Pi5HldbkzQ74R+dUFPx+sdKfeIxAdd7//5Y4rDE/LuE9rx9A/o8ANKz
-	6Yzw==
-X-Gm-Message-State: ALyK8tKMfIG+72iar9zqGOknRRh++W5Rbc7GfKYXmnhOu0I7rGXUtcXZ+dPpL42iXwP9PCNjs6ciD45pm41w4A==
-X-Received: by 10.233.223.5 with SMTP id t5mr20088174qkf.35.1466424617197;
-	Mon, 20 Jun 2016 05:10:17 -0700 (PDT)
+	bh=ZxS+ygb9C7HT2hqxOS0d97Jb4UxcM6V1xKUpXp81UZo=;
+	b=D+lbTs/dEO9yqc52XhjkUUyuXGO88EzhfwDu5iaFqECP0wO+VgzRCdaBWf4T9L3FIO
+	/ynkU5/NnrdtqNxITyfmNOESb5zY1Z4urqufUU9Vhk10P89Yjr8UGLQxHAWL6ZH/UPI0
+	m8j9jHHv27y181niFb3Paiu7v9JuP7OONnNtbvE1k2jXPHjf9Ax04bsBGrkExfQEH37u
+	/I/m2jpgr5AtTxRaNPN/uDECOnlNoBH16qb1qsom/rO1cOSt0z8dv4KAOdU7WwO2KrYX
+	kW6/h5gmyGoeJXun0K8Kvmup8yuewKCMIN+eXlavdEF/ZdUtDVoO3Ba6fhtze2MtNkQd
+	joQg==
+X-Gm-Message-State: ALyK8tKukeNGCQd6OmU7GH1IaPeDDynvL1nwHSZcJeA0B1thWoOIrJGvP/SsM+W775JAMnTcHAveBr2c2u3OuA==
+X-Received: by 10.200.48.147 with SMTP id v19mr21723892qta.68.1466424709217;
+	Mon, 20 Jun 2016 05:11:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.200.52.184 with HTTP; Mon, 20 Jun 2016 05:10:16 -0700 (PDT)
-In-Reply-To: <1466326126-21949-1-git-send-email-paul@paulbarker.me.uk>
-References: <1466326126-21949-1-git-send-email-paul@paulbarker.me.uk>
+Received: by 10.200.52.184 with HTTP; Mon, 20 Jun 2016 05:11:48 -0700 (PDT)
+In-Reply-To: <20160619095507.4c1f84cd@nuc.betafive.co.uk>
+References: <20160619095507.4c1f84cd@nuc.betafive.co.uk>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 20 Jun 2016 08:10:16 -0400
-Message-ID: <CADkTA4O=_N47swa_-oDjdaEZrkp9Uj6M9BsSYN1UP=OvMeKDSQ@mail.gmail.com>
+Date: Mon, 20 Jun 2016 08:11:48 -0400
+Message-ID: <CADkTA4M38pcOVFatxRLpmCPn0OTc12uNCfChs0spzeYMMk0sXA@mail.gmail.com>
 To: Paul Barker <paul@paulbarker.me.uk>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] netns: New recipe
+Subject: Re: Dependency on oe-meta-go
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,97 +74,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jun 2016 12:10:25 -0000
-Content-Type: multipart/alternative; boundary=94eb2c04394865e3bc0535b4966f
+X-List-Received-Date: Mon, 20 Jun 2016 12:11:51 -0000
+Content-Type: multipart/alternative; boundary=001a1143a83ee208ed0535b49bff
 
---94eb2c04394865e3bc0535b4966f
+--001a1143a83ee208ed0535b49bff
 Content-Type: text/plain; charset=UTF-8
 
-On Sun, Jun 19, 2016 at 4:48 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
+On Sun, Jun 19, 2016 at 4:55 AM, Paul Barker <paul@paulbarker.me.uk> wrote:
 
-> netns is a runc hook for setting up simple bridge networking within
-> containers.
+> Hi all,
 >
-> See README.md (or https://github.com/jfrazelle/netns/blob/master/README.md)
-> for
-> instructions on how to use netns.
+> The meta-virtualization README file says that one of the dependencies
+> is:
 >
+>         URI: git://github.com/errordeveloper/oe-meta-go.git
+>         branch: master
+>         revision: HEAD
+>
+> However, that repository seems a bit out-of-date and I can build the
+> software I'm using from meta-virtualization without using that layer.
+>
+> Is this still a valid dependency or does the README need an update?
+>
+>
+It is still the goal that it is a valid dependency. We've have trouble
+getting changes into
+that layer (or in a timely fashion) .. so instead things have been flowing
+into meta-virt.
 
-I've been using the same thing here for my simple configs.
+But yes, you can build without it present due to the amount of changes
+we've queued.
 
-I'll queue this and ensure it is a drop in replacement.
+I'll keep that dependency around for a little bit longer, as a show of good
+faith :D
 
 Bruce
 
 
->
-> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
-> ---
->  recipes-networking/netns/netns_git.bb | 44
-> +++++++++++++++++++++++++++++++++++
->  1 file changed, 44 insertions(+)
->  create mode 100644 recipes-networking/netns/netns_git.bb
->
-> diff --git a/recipes-networking/netns/netns_git.bb
-> b/recipes-networking/netns/netns_git.bb
-> new file mode 100644
-> index 0000000..073022e
-> --- /dev/null
-> +++ b/recipes-networking/netns/netns_git.bb
-> @@ -0,0 +1,44 @@
-> +HOMEPAGE = "https://github.com/jfrazelle/netns"
-> +SUMMARY = "Runc hook for setting up default bridge networking."
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=20ce4c6a4f32d6ee4a68e3a7506db3f1"
-> +DEPENDS = "go-cross"
-> +
-> +SRC_URI = "git://github.com/jfrazelle/netns;branch=master"
-> +SRCREV = "2804050eeab661bfa75c3aa06bdcf60273b02ca7"
-> +PV = "0.1.0+git${SRCPV}"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit go-osarchmap
-> +
-> +do_compile() {
-> +       export GOARCH="${TARGET_GOARCH}"
-> +
-> +       # Setup vendor directory so that it can be used in GOPATH.
-> +       #
-> +       # Go looks in a src directory under any directory in GOPATH but
-> netns
-> +       # uses 'vendor' instead of 'vendor/src'. We can fix this with a
-> symlink.
-> +       #
-> +       # We also need to link in the ipallocator directory as that is not
-> under
-> +       # a src directory.
-> +       ln -sfn . "${S}/vendor/src"
-> +       mkdir -p "${S}/vendor/src/github.com/jfrazelle/netns"
-> +       ln -sfn "${S}/ipallocator" "${S}/vendor/src/
-> github.com/jfrazelle/netns/ipallocator"
-> +       export GOPATH="${S}/vendor"
-> +
-> +       # Pass the needed cflags/ldflags so that cgo
-> +       # can find the needed headers files and libraries
-> +       export CGO_ENABLED="1"
-> +       export CFLAGS=""
-> +       export LDFLAGS=""
-> +       export CGO_CFLAGS="${BUILDSDK_CFLAGS}
-> --sysroot=${STAGING_DIR_TARGET}"
-> +       export CGO_LDFLAGS="${BUILDSDK_LDFLAGS}
-> --sysroot=${STAGING_DIR_TARGET}"
-> +
-> +       oe_runmake static
-> +}
-> +
-> +do_install() {
-> +       install -d ${D}/${sbindir}
-> +       install ${S}/netns ${D}/${sbindir}/netns
-> +}
-> --
-> 2.1.4
->
+> Thanks,
+> Paul Barker
 > --
 > _______________________________________________
 > meta-virtualization mailing list
@@ -178,115 +126,42 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---94eb2c04394865e3bc0535b4966f
+--001a1143a83ee208ed0535b49bff
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Sun, Jun 19, 2016 at 4:48 AM, Paul Barker <span dir=3D"ltr">&lt;<a h=
+te">On Sun, Jun 19, 2016 at 4:55 AM, Paul Barker <span dir=3D"ltr">&lt;<a h=
 ref=3D"mailto:paul@paulbarker.me.uk" target=3D"_blank">paul@paulbarker.me.u=
 k</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">netns is a runc h=
-ook for setting up simple bridge networking within containers.<br>
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Hi all,<br>
 <br>
-See README.md (or <a href=3D"https://github.com/jfrazelle/netns/blob/master=
-/README.md" rel=3D"noreferrer" target=3D"_blank">https://github.com/jfrazel=
-le/netns/blob/master/README.md</a>) for<br>
-instructions on how to use netns.<br></blockquote><div><br></div><div>I&#39=
-;ve been using the same thing here for my simple configs.</div><div><br></d=
-iv><div>I&#39;ll queue this and ensure it is a drop in replacement.</div><d=
-iv><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
+The meta-virtualization README file says that one of the dependencies<br>
+is:<br>
 <br>
-Signed-off-by: Paul Barker &lt;<a href=3D"mailto:paul@paulbarker.me.uk">pau=
-l@paulbarker.me.uk</a>&gt;<br>
----<br>
-=C2=A0recipes-networking/netns/<a href=3D"http://netns_git.bb" rel=3D"noref=
-errer" target=3D"_blank">netns_git.bb</a> | 44 ++++++++++++++++++++++++++++=
-+++++++<br>
-=C2=A01 file changed, 44 insertions(+)<br>
-=C2=A0create mode 100644 recipes-networking/netns/<a href=3D"http://netns_g=
-it.bb" rel=3D"noreferrer" target=3D"_blank">netns_git.bb</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 URI: git://<a href=3D"http://github.com/errorde=
+veloper/oe-meta-go.git" rel=3D"noreferrer" target=3D"_blank">github.com/err=
+ordeveloper/oe-meta-go.git</a><br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 branch: master<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 revision: HEAD<br>
 <br>
-diff --git a/recipes-networking/netns/<a href=3D"http://netns_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">netns_git.bb</a> b/recipes-networking/net=
-ns/<a href=3D"http://netns_git.bb" rel=3D"noreferrer" target=3D"_blank">net=
-ns_git.bb</a><br>
-new file mode 100644<br>
-index 0000000..073022e<br>
---- /dev/null<br>
-+++ b/recipes-networking/netns/<a href=3D"http://netns_git.bb" rel=3D"noref=
-errer" target=3D"_blank">netns_git.bb</a><br>
-@@ -0,0 +1,44 @@<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://github.com/jfrazelle/netns" rel=3D"n=
-oreferrer" target=3D"_blank">https://github.com/jfrazelle/netns</a>&quot;<b=
+However, that repository seems a bit out-of-date and I can build the<br>
+software I&#39;m using from meta-virtualization without using that layer.<b=
 r>
-+SUMMARY =3D &quot;Runc hook for setting up default bridge networking.&quot=
-;<br>
-+LICENSE =3D &quot;MIT&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D20ce4c6a4f32d6ee4a68e3a750=
-6db3f1&quot;<br>
-+DEPENDS =3D &quot;go-cross&quot;<br>
-+<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://github.com/jfrazelle/netns;branc=
-h=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github.com/jfrazelle/netns=
-;branch=3Dmaster</a>&quot;<br>
-+SRCREV =3D &quot;2804050eeab661bfa75c3aa06bdcf60273b02ca7&quot;<br>
-+PV =3D &quot;0.1.0+git${SRCPV}&quot;<br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-+inherit go-osarchmap<br>
-+<br>
-+do_compile() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH=3D&quot;${TARGET_GOARCH}&quot;<br=
->
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Setup vendor directory so that it can be used=
- in GOPATH.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Go looks in a src directory under any directo=
-ry in GOPATH but netns<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# uses &#39;vendor&#39; instead of &#39;vendor/=
-src&#39;. We can fix this with a symlink.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0#<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# We also need to link in the ipallocator direc=
-tory as that is not under<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# a src directory.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sfn . &quot;${S}/vendor/src&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p &quot;${S}/vendor/src/<a href=3D"http:=
-//github.com/jfrazelle/netns" rel=3D"noreferrer" target=3D"_blank">github.c=
-om/jfrazelle/netns</a>&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sfn &quot;${S}/ipallocator&quot; &quot;${S}=
-/vendor/src/<a href=3D"http://github.com/jfrazelle/netns/ipallocator" rel=
-=3D"noreferrer" target=3D"_blank">github.com/jfrazelle/netns/ipallocator</a=
->&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOPATH=3D&quot;${S}/vendor&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Pass the needed cflags/ldflags so that cgo<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# can find the needed headers files and librari=
-es<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D&quot;1&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CFLAGS=3D&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export LDFLAGS=3D&quot;&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D&quot;${BUILDSDK_CFLAGS} --=
-sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${BUILDSDK_LDFLAGS} =
---sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake static<br>
-+}<br>
-+<br>
-+do_install() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}/${sbindir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install ${S}/netns ${D}/${sbindir}/netns<br>
-+}<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
 <br>
---<br>
+Is this still a valid dependency or does the README need an update?<br>
+<br></blockquote><div><br></div><div>It is still the goal that it is a vali=
+d dependency. We&#39;ve have trouble getting changes into</div><div>that la=
+yer (or in a timely fashion) .. so instead things have been flowing into me=
+ta-virt.</div><div><br></div><div>But yes, you can build without it present=
+ due to the amount of changes we&#39;ve queued.</div><div><br></div><div>I&=
+#39;ll keep that dependency around for a little bit longer, as a show of go=
+od faith :D</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">
+Thanks,<br>
+Paul Barker<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
 _______________________________________________<br>
 meta-virtualization mailing list<br>
 <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
@@ -300,4 +175,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div></div>
 
---94eb2c04394865e3bc0535b4966f--
+--001a1143a83ee208ed0535b49bff--
