@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9C146E00E0F; Thu,  4 Aug 2016 18:46:27 -0700 (PDT)
+	id A7C7BE00D8F; Mon,  8 Aug 2016 07:22:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,49 +19,47 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
 	low *      trust
-	*      [209.85.220.196 listed in list.dnswl.org]
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 07B43E00E29
-	for <meta-virtualization@yoctoproject.org>;
-	Thu,  4 Aug 2016 18:46:23 -0700 (PDT)
-Received: by mail-qk0-f196.google.com with SMTP id x67so4523057qke.1
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 04 Aug 2016 18:46:23 -0700 (PDT)
+	*      [209.85.220.194 listed in list.dnswl.org]
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5A596E00D1E;
+	Mon,  8 Aug 2016 07:22:37 -0700 (PDT)
+Received: by mail-qk0-f194.google.com with SMTP id x185so13457436qkc.3;
+	Mon, 08 Aug 2016 07:22:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vmDVNOgZ1y0/VUpxqlHpsnhIxVU7V3ee/O0uxwq7K78=;
-	b=WJWPVTI0qsehcM73PeHX33nRsaXQpFUgkg6LrwFmhfsUiE2GD9Ovd4S1Vzq30Uu8wg
-	gz3/VbAiNupTvj86cHkZsfsG3MIHOxFqi8QwzCOzWWjGVYnd932CPnZEh7RHLkK/0DWO
-	xcWnO0ObmHSDCxiPWr0TWQXBIZxaqXnqtM4tgTEoWFR2GaThpE0cqZ/BSAzquVfxbCTv
-	4DBoO0Ho3VzHmIfnax3V+udbYrNfEsvkGceh1O9rkgPxY+rZdLMuQO95oKKC/vXKwOjV
-	9wa4bKyL+dmJqsuIB6HqqEbC+gljAVONn9gWdEETnCL1dhmaiymG+Bnw2T9W0puYp/wO
-	F57w==
+	:cc; bh=nvFfJnXuzNcd6nCGi3ZShtUhu5T5+9shQGe8VQtMTUc=;
+	b=gWs2lonblfS+Qt1aAn5mGSTaemK9eOvdFWrQVEoUY0GFYwfezOlIdtighId6C/FKNc
+	HOQ4PuECXocA5T9VoAZS2tZ7YdH7xbFnmEjlZYooQodcyACL9nIE83Lj5GXEratNPD5i
+	7luyqiYl1NtVkpVIZfTdOdS8MA9jwpUmNnvNhu/UV+Z0dwoeMbMNQyCIAOID7yEL3Pbu
+	mZo6WAJUm81rsEafq+zMOIbpggndWBhDuPXFuR5lASV1Wh6yETYwFCbN0U1VaE5E4smN
+	W9LA8XQa8fR4+aPjhKueg/ZgNGGMA6FqWnqKr7xCU28KMOqnaNSucpJ+5ORWM8PxopXb
+	jNbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=vmDVNOgZ1y0/VUpxqlHpsnhIxVU7V3ee/O0uxwq7K78=;
-	b=EnXxQqX7IQ1Hvfcq6+prA47IUXKI5uGCtdH7znkh+F8LdXHiYaeIrENXZvYf8p7+Tb
-	TJs2+4mfHTuF9b/0GYDv01qFEy5NnHY5ApoWX6zH/KyjQZ3QFT508Y/ptoGRT38LTXgK
-	Q1hFEc3fpm8zn5o5xxG0xxG99jtYRIW1Y20ocJ329D6X6loU0U4xSlN4i/zHOckGH3Tz
-	sOTTWVDVcYvcAa/GA+1tyiPNJR7eJMPh8npL4YAvY6fxsY4Fyg8E4g1p+qmcc2zGeIny
-	N2skXNgNwearxQBgfO+axyurqT2Bjsf32YAPA6zOeXh87GiA3NL3NQ0fz7kVzy7LHSl/
-	R/Tg==
-X-Gm-Message-State: AEkooutUjA9HFUSHBVpRCHWlxpqSg5MZtNfX0Q/KJFP74AFvzU5+KpVsRXtF85Kk3mcLmRfT8M3Azi5E3+VQWA==
-X-Received: by 10.55.122.65 with SMTP id v62mr10230581qkc.120.1470361583496;
-	Thu, 04 Aug 2016 18:46:23 -0700 (PDT)
+	bh=nvFfJnXuzNcd6nCGi3ZShtUhu5T5+9shQGe8VQtMTUc=;
+	b=Bp/BRe7LbQejTzwLeY9jmL7IC+UeY0AZovp4v+q9Zchj/vYcC+zFNX5edbtIX131jL
+	WLouO1ivKjOTWqmGDW8yFPLcXk5HQHCR9eFJVFxOGoOVyB+xkhzGUMnyIgpyHDPSvCqs
+	iC+LBRHNpKBT4dgHTPsCXoNlCqejaGBmB1JXeUbmbDdwWZp5mgAJC7ylVUipwQkX+NSd
+	2ISqZnU4VvQVdzpXuH3bqRfZYjGVz0XqOObxGq/OL3JIzUpv3PwAp9KobZBIutNUhhaq
+	RZKVAq2OCYk0hyfWJQzYhcJxnJFAJ/IiCDgjsoDRdm47kFBavVWBioBeomiCFpNxcbf4
+	5Nww==
+X-Gm-Message-State: AEkoouvkCvMzMkpLuUZNg4c9HhKKSnjW1Y1TaRa6i9FL4winsWrxTkIzDEhW425vJcJlLgvTcecGn3AJZ7xT5Q==
+X-Received: by 10.55.139.4 with SMTP id n4mr29239648qkd.161.1470666157351;
+	Mon, 08 Aug 2016 07:22:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.200.50.137 with HTTP; Thu, 4 Aug 2016 18:46:22 -0700 (PDT)
-In-Reply-To: <1470027611-26666-1-git-send-email-jpuhlman@mvista.com>
-References: <1470027611-26666-1-git-send-email-jpuhlman@mvista.com>
+Received: by 10.200.50.137 with HTTP; Mon, 8 Aug 2016 07:22:36 -0700 (PDT)
+In-Reply-To: <20160808023321.7604-1-kai.kang@windriver.com>
+References: <20160808023321.7604-1-kai.kang@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 4 Aug 2016 21:46:22 -0400
-Message-ID: <CADkTA4N-G8LmOm8-tyE-35spv+oH=mEE66q=Ht8rqPZZokwNTg@mail.gmail.com>
-To: Jeremy Puhlman <jpuhlman@mvista.com>
-Cc: "meta-virtualization@yoctoproject.org"
+Date: Mon, 8 Aug 2016 10:22:36 -0400
+Message-ID: <CADkTA4OhawujfzgoCVJWiB9JPs+x+Qz1KkYXutHXn_5ETfeusA@mail.gmail.com>
+To: Kang Kai <kai.kang@windriver.com>, "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Fix python install in multilib case.
+Cc: Yocto Project Discussion <yocto@yoctoproject.org>
+Subject: Re: [yocto] [PATCH] Fix build error for arm
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,57 +72,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Aug 2016 01:46:27 -0000
-Content-Type: multipart/alternative; boundary=94eb2c05e0ece035220539493be8
+X-List-Received-Date: Mon, 08 Aug 2016 14:22:41 -0000
+Content-Type: multipart/alternative; boundary=001a114f8344e469bc0539902530
 
---94eb2c05e0ece035220539493be8
+--001a114f8344e469bc0539902530
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+On Sun, Aug 7, 2016 at 10:33 PM, <kai.kang@windriver.com> wrote:
+
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> When build for qemuarm, it fails to do compile_ptest_base.
+>
+>
+Wrong mailing list (use meta-virtualization@yoctoproject.org).
+
+But I've grabbed this and merged it anyway.
 
 Bruce
 
-On Mon, Aug 1, 2016 at 1:00 AM, Jeremy Puhlman <jpuhlman@mvista.com> wrote:
 
-> Currently libvirt python builds in the multilib case, but fails to
-> install. Switch from PN to BPN, and fix compile to be consistent.
-> ---
->  recipes-extended/libvirt/libvirt-python.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Kai Kang (1):
+>   libvirt: fix build error for arm
 >
-> diff --git a/recipes-extended/libvirt/libvirt-python.inc
-> b/recipes-extended/libvirt/libvirt-python.inc
-> index 405d5f7..7a7a4cc 100644
-> --- a/recipes-extended/libvirt/libvirt-python.inc
-> +++ b/recipes-extended/libvirt/libvirt-python.inc
-> @@ -42,14 +42,14 @@ python __anonymous () {
+>  .../0001-nsslinktest-also-build-virAtomic.h.patch  | 40
+> ++++++++++++++++++++++
+>  recipes-extended/libvirt/libvirt_1.3.5.bb          |  1 +
+>  2 files changed, 41 insertions(+)
+>  create mode 100644 recipes-extended/libvirt/
+> libvirt/0001-nsslinktest-also-build-virAtomic.h.patch
 >
->  do_compile_append() {
->         if [ "${LIBVIRT_PYTHON_ENABLE}" = "1" ]; then
-> -               cd ${WORKDIR}/libvirt-python-${PV} && \
-> +               cd ${WORKDIR}/${BPN}-python-${PV} && \
->                   ${STAGING_BINDIR_NATIVE}/python-native/python setup.py
-> build
->         fi
->  }
->
->  do_install_append() {
->         if [ "${LIBVIRT_PYTHON_ENABLE}" = "1" ]; then
-> -               cd ${WORKDIR}/${PN}-python-${PV} && \
-> +               cd ${WORKDIR}/${BPN}-python-${PV} && \
->                   ${STAGING_BINDIR_NATIVE}/python-native/python setup.py
-> install \
->                         --install-lib=${D}/${PYTHON_SITEPACKAGES_DIR}
-> ${LIBVIRT_INSTALL_ARGS}
->         fi
 > --
-> 2.6.2
+> 2.9.2.368.g08bb350
 >
 > --
 > _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> yocto mailing list
+> yocto@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/yocto
 >
 
 
@@ -133,69 +118,50 @@ On Mon, Aug 1, 2016 at 1:00 AM, Jeremy Puhlman <jpuhlman@mvista.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---94eb2c05e0ece035220539493be8
+--001a114f8344e469bc0539902530
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>merged.<br><br></div>Bruce<br></div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On Mon, Aug 1, 2016 at 1:00 AM, Je=
-remy Puhlman <span dir=3D"ltr">&lt;<a href=3D"mailto:jpuhlman@mvista.com" t=
-arget=3D"_blank">jpuhlman@mvista.com</a>&gt;</span> wrote:<br><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
-padding-left:1ex">Currently libvirt python builds in the multilib case, but=
- fails to<br>
-install. Switch from PN to BPN, and fix compile to be consistent.<br>
----<br>
-=C2=A0recipes-extended/libvirt/libvirt-python.inc | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Sun, Aug 7, 2016 at 10:33 PM,  <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;=
+</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
+8ex;border-left:1px #ccc solid;padding-left:1ex">From: Kai Kang &lt;<a href=
+=3D"mailto:kai.kang@windriver.com">kai.kang@windriver.com</a>&gt;<br>
 <br>
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended=
-/libvirt/libvirt-python.inc<br>
-index 405d5f7..7a7a4cc 100644<br>
---- a/recipes-extended/libvirt/libvirt-python.inc<br>
-+++ b/recipes-extended/libvirt/libvirt-python.inc<br>
-@@ -42,14 +42,14 @@ python __anonymous () {<br>
+When build for qemuarm, it fails to do compile_ptest_base.<br>
+<br></blockquote><div><br></div><div>Wrong mailing list (use <a href=3D"mai=
+lto:meta-virtualization@yoctoproject.org">meta-virtualization@yoctoproject.=
+org</a>).<br><br></div><div>But I&#39;ve grabbed this and merged it anyway.=
+<br><br></div><div>Bruce<br></div><div>=C2=A0</div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
+t:1ex">
+Kai Kang (1):<br>
+=C2=A0 libvirt: fix build error for arm<br>
 <br>
-=C2=A0do_compile_append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${LIBVIRT_PYTHON_ENABLE}&quot; =3D &=
-quot;1&quot; ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/libvi=
-rt-python-${PV} &amp;&amp; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/${BPN=
-}-python-${PV} &amp;&amp; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${STAGING_BI=
-NDIR_NATIVE}/python-native/python setup.py build<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
-<br>
-=C2=A0do_install_append() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ &quot;${LIBVIRT_PYTHON_ENABLE}&quot; =3D &=
-quot;1&quot; ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/${PN}=
--python-${PV} &amp;&amp; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${WORKDIR}/${BPN=
-}-python-${PV} &amp;&amp; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${STAGING_BI=
-NDIR_NATIVE}/python-native/python setup.py install \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 --install-lib=3D${D}/${PYTHON_SITEPACKAGES_DIR} ${LIBVIRT_INSTAL=
-L_ARGS}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.6.2<br>
+=C2=A0.../0001-nsslinktest-also-<wbr>build-virAtomic.h.patch=C2=A0 | 40 +++=
++++++++++++++++++++<br>
+=C2=A0recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libvi<wbr>rt_1.3.5.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 1 +<br>
+=C2=A02 files changed, 41 insertions(+)<br>
+=C2=A0create mode 100644 recipes-extended/libvirt/<wbr>libvirt/0001-nsslink=
+test-also-<wbr>build-virAtomic.h.patch<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+2.9.2.368.g08bb350<br>
 <br>
 --<br>
-_______________________________________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/listinfo/m=
-eta-virtualization</a><br>
+______________________________<wbr>_________________<br>
+yocto mailing list<br>
+<a href=3D"mailto:yocto@yoctoproject.org">yocto@yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/yocto" rel=3D"noreferrer=
+" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listinfo/yocto</a><=
+br>
 </font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
 s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
 ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
 t;</div>
-</div>
+</div></div>
 
---94eb2c05e0ece035220539493be8--
+--001a114f8344e469bc0539902530--
