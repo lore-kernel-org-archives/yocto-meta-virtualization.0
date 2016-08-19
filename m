@@ -1,82 +1,65 @@
-Return-Path: <Emil.Mihaylov@spirent.com>
+Return-Path: <dhananjaysathe@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BAB3DE00AD8; Wed,  1 Jun 2016 18:08:38 -0700 (PDT)
+	id 03400E00EF1; Fri, 19 Aug 2016 02:18:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_40,DKIM_SIGNED,
-	DKIM_VALID, HTML_MESSAGE, RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [157.56.110.134 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -0.0 BAYES_40 BODY: Bayes spam probability is 20 to 40%
-	*      [score: 0.2555]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (dhananjaysathe[at]gmail.com)
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-X-Greylist: delayed 1962 seconds by postgrey-1.32 at yocto-www;
-	Wed, 01 Jun 2016 18:08:35 PDT
-Received: from na01-bn1-obe.outbound.protection.outlook.com
-	(mail-bn1on0134.outbound.protection.outlook.com [157.56.110.134])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0AA36E0071E
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.192.196 listed in list.dnswl.org]
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2ECC6E00E94
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  1 Jun 2016 18:08:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=spirent1.onmicrosoft.com; s=selector1-spirent-com;
-	h=From:To:Date:Subject:Message-ID:Content-Type:MIME-Version;
-	bh=nRDUC6jybvwpHotuKIsTtMDKfT5aGnuZAvYxGZue5xs=;
-	b=VJg2NstvEJWAqy6V31vFnBx4CAA2ZBvdFC3xIPc8nSGzaWDz/vuCgmhwxkpM4BHDEJbcNEjkuKx6MN/YJFflI3XV+uWOw+wiWX/1HPiCCftdJV20RK9Bfa9qIUUfyJsdy4DGcCcFm6jadLbFBOyWwZKtbW7NrXzHMdxSTJqys7Q=
-Received: from CY1PR1001MB1177.namprd10.prod.outlook.com (10.165.2.143) by
-	CY1PR1001MB1177.namprd10.prod.outlook.com (10.165.2.143) with Microsoft
-	SMTP Server (TLS) id 15.1.506.9; Thu, 2 Jun 2016 00:35:51 +0000
-Received: from CY1PR1001MB1177.namprd10.prod.outlook.com ([10.165.2.143]) by
-	CY1PR1001MB1177.namprd10.prod.outlook.com ([10.165.2.143]) with mapi id
-	15.01.0506.013; Thu, 2 Jun 2016 00:35:51 +0000
-From: "Mihaylov, Emil" <Emil.Mihaylov@spirent.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: Re: [meta-virtualization] interest to integrate virt-manager?
-Thread-Index: AdG8ZnB1rm5MCr3xTveaVhGgFwXhcQ==
-Message-ID: <CY1PR1001MB1177059D6AA467CB45C659F4F0580@CY1PR1001MB1177.namprd10.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: yoctoproject.org; dkim=none (message not signed)
-	header.d=none;yoctoproject.org; dmarc=none action=none
-	header.from=spirent.com;
-x-originating-ip: [74.62.253.130]
-x-ms-office365-filtering-correlation-id: ffc90737-6e5d-4dfa-88a9-08d38a7dd944
-x-microsoft-exchange-diagnostics: 1; CY1PR1001MB1177;
-	5:Z4EdDI5pWeFDM67z1pKa/WscEZSfGa1Q3TZEMhy0v/AgOVDD4XemL2ACWHUzeHdDW7VhK+OmO+uoBM3huV3iMZw4GwAg/B+N3FinaBAUVqlYp1aCDeHiGKR9HHC+LEOP0PE2G5EPiF+lJ0WAQCuWxw==;
-	24:t5OUqT9OFyb1YbXGJ2wK9x9R3EE3cUUOmumQUhggc7HejCQJIrma+8WMho9DA8al1v0GC8BiN30mzxGfPjtgQMgcTqckD43iEX8OUdIHSxo=;
-	7:yAPDQSrFeqaOJOzW6JA6cofSeKiyhOqYWiiG6oDs6M+JBZnmyvYDI0QEc4GsIt77wPJodlbV9wSWKxyDqbOLo6GRaLskjNkpJhSUxIGz07rtue2wnltZNogtqGZeTiqpXPfMN9RMYA79RZo3+/yaC34Awa/0+jQa1sEfOu7om9M7DKlu/sqGeatIihX8VwxC
-x-microsoft-antispam: UriScan:;BCL:0;PCL:0;RULEID:;SRVR:CY1PR1001MB1177;
-x-disclaimer: Yes
-x-microsoft-antispam-prvs: <CY1PR1001MB1177647A4B14B2849D0FCEAAF0580@CY1PR1001MB1177.namprd10.prod.outlook.com>
-x-exchange-antispam-report-test: UriScan:(21748063052155);
-x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
-	RULEID:(601004)(2401047)(5005006)(8121501046)(10201501046)(3002001);
-	SRVR:CY1PR1001MB1177; BCL:0; PCL:0; RULEID:;
-	SRVR:CY1PR1001MB1177; 
-x-forefront-prvs: 0961DF5286
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(6009001)(85714005)(3660700001)(19300405004)(5004730100002)(86362001)(3280700002)(66066001)(5630700001)(99286002)(9686002)(50986999)(5002640100001)(790700001)(450100001)(19625215002)(122556002)(102836003)(6116002)(3846002)(15975445007)(19580395003)(2906002)(586003)(9326002)(54356999)(5008740100001)(77096005)(5640700001)(8676002)(8936002)(92566002)(107886002)(81166006)(189998001)(16236675004)(76576001)(10400500002)(87936001)(110136002)(2501003)(74316001)(5003600100002)(11100500001)(2900100001)(33656002)(2351001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:CY1PR1001MB1177;
-	H:CY1PR1001MB1177.namprd10.prod.outlook.com; FPR:; SPF:None;
-	MLV:ovrnspm; PTR:InfoNoRecords; LANG:en; 
-spamdiagnosticoutput: 1:23
-spamdiagnosticmetadata: NSPM
-MIME-Version: 1.0
-X-OriginatorOrg: spirent.com
-X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Jun 2016 00:35:50.8032 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eb68cad0-6bd5-483f-a802-0f72f974373f
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY1PR1001MB1177
+	Fri, 19 Aug 2016 02:18:34 -0700 (PDT)
+Received: by mail-pf0-f196.google.com with SMTP id g202so1199204pfb.1
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 19 Aug 2016 02:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=from:to:cc:subject:date:message-id;
+	bh=6u+4hQJBHPc9B+1f09RjwXPcm/amt286d1BUx8oqcGk=;
+	b=pYxY1Uv0TA7wnSHjVeKsJyYQ4kBfFvTTTR7mS+Bz00HO7kiOPzKeqEx8jroLbkTCBa
+	FRvhTQI8dRrOaC0fKegylX8sTMC/mg3pIKq6Xj22IKd61MMOA9tIPHnJkweYnoBPjhtp
+	8EQBH+QOe97smBf/T1xEdgkGITnepJ/fhJAjdz4bwp+V/QIg/EWzjeFEYv/bryCHEkg7
+	6Xcicu8LDjLSz2VOKMJ+3LD4ATH2u4zS3nFbCv94yAkNDio0GV10JcQKYX5f/wkV5JS8
+	dKP4FWgFcYoKy0b9zh6QAwSlQ0KrkruP7AcRWd8UWjaf4GjZXyfnHtx868utlWRekoMe
+	zhQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6u+4hQJBHPc9B+1f09RjwXPcm/amt286d1BUx8oqcGk=;
+	b=NmrJxtOSv/+DACMnou+7kV6hefeOLoO5EiMk4hq4s+h5a/KSiyNWgRaa7vSxDMPUP5
+	vDJPDr4q8gh+8brvLiN4XaV1GTGziDd5oNE2wuRVxAmBHQr8CN//8G2UMDSwrlysP2Ne
+	E3xY/VRGfkXToDcRovoqrptpwkxC03o5jatuxIqaTuWj36wxQFKuxCJKOsx4fCB2tl6Y
+	JfRb5ibmgWcW1p7A3UASkoL2I4Z8FEG1Fg1A56TLN/v5S6D1ufUO+F/Qy9pdrVMJexJv
+	Su93dBuCB3BXpg5WUFguw9NUol3oFpbe8pHyNQgLT/LzIdk97G+r/rikiMaLVPPUMtP9
+	Jh8g==
+X-Gm-Message-State: AEkoousOs01Luj3w6SIxjN6svGfmFohqcpN5jUHx/omHvTQrrTeS35o0jaPBo/JkXZBu7g==
+X-Received: by 10.98.95.129 with SMTP id t123mr12471100pfb.148.1471598314322; 
+	Fri, 19 Aug 2016 02:18:34 -0700 (PDT)
+Received: from localhost.localdomain ([106.51.39.217])
+	by smtp.gmail.com with ESMTPSA id ao6sm9792783pac.8.2016.08.19.02.18.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 19 Aug 2016 02:18:32 -0700 (PDT)
+From: Dhananjay Sathe <dhananjaysathe@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Message-Id: <1471598307-26529-1-git-send-email-dhananjaysathe@gmail.com>
+X-Mailer: git-send-email 2.7.4
 X-Mailman-Approved-At: Fri, 23 Dec 2016 16:01:39 -0800
-Subject: Re: interest to integrate virt-manager?
+Cc: Dhananjay Sathe <dhananjay.sathe@rapyuta-robotics.com>
+Subject: [meta-cloud-services][meta-openstack][PATCH] Add necessary dependencies to get salt running on a clean install
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -89,143 +72,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-Date: Thu, 02 Jun 2016 01:08:38 -0000
-X-Original-Date: Thu, 2 Jun 2016 00:35:50 +0000
-X-List-Received-Date: Thu, 02 Jun 2016 01:08:38 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_CY1PR1001MB1177059D6AA467CB45C659F4F0580CY1PR1001MB1177_"
+Date: Fri, 19 Aug 2016 09:18:38 -0000
+X-Original-Date: Fri, 19 Aug 2016 14:48:27 +0530
+X-List-Received-Date: Fri, 19 Aug 2016 09:18:38 -0000
 
---_000_CY1PR1001MB1177059D6AA467CB45C659F4F0580CY1PR1001MB1177_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+From: Dhananjay Sathe <dhananjay.sathe@rapyuta-robotics.com>
 
-Hi
-anybody added virt-viewer/virt-manager  receipt to  meta-virtualization
-Thanks Emil
+The python package on yocto is broken into a number of smaller packages (http://git.yoctoproject.org/cgit.cgi/poky/plain/meta/recipes-devtools/python/python-2.7-manifest.inc)
+To get salt running on a clean device i found it necessary to install the following packages
+ * python-resource
+ * python-unixadmin
+ * python-profile
+ * python-terminal
+---
+ meta-openstack/recipes-support/salt/salt_2016.3.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta-openstack/recipes-support/salt/salt_2016.3.0.bb b/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
+index 7024f42..7e2f246 100644
+--- a/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
++++ b/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
+@@ -102,7 +102,7 @@ INITSCRIPT_PARAMS_${PN}-minion = "defaults"
+ SUMMARY_${PN}-common = "shared libraries that salt requires for all packages"
+ DESCRIPTION_${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
+ salt-master, salt-minion, and salt-syndic require to function."
+-RDEPENDS_${PN}-common = "python (>= 2.7.5-5) python (< 2.8) python-dateutil python-jinja2 python-pyyaml python-requests (>= 1.0.0) python-tornado (>= 4.2.1)"
++RDEPENDS_${PN}-common = "python (>= 2.7.5-5) python (< 2.8) python-dateutil python-jinja2 python-pyyaml python-resource python-unixadmin python-profile python-terminal python-requests (>= 1.0.0) python-tornado (>= 4.2.1)"
+ RRECOMMENDS_${PN}-common = "lsb python-futures"
+ RSUGGESTS_${PN}-common = "python-mako python-git"
+ RCONFLICTS_${PN}-common = "python-mako (< 0.7.0)"
+--
+2.7.4
 
 
-
-
-
-Spirent Communications e-mail confidentiality.
-------------------------------------------------------------------------
-This e-mail contains confidential and / or privileged information belonging=
- to Spirent Communications plc, its affiliates and / or subsidiaries. If yo=
-u are not the intended recipient, you are hereby notified that any disclosu=
-re, copying, distribution and / or the taking of any action based upon reli=
-ance on the contents of this transmission is strictly forbidden. If you hav=
-e received this message in error please notify the sender by return e-mail =
-and delete it from your system.
-
-Spirent Communications plc
-Northwood Park, Gatwick Road, Crawley, West Sussex, RH10 9XN, United Kingdo=
-m.
-Tel No. +44 (0) 1293 767676
-Fax No. +44 (0) 1293 767677
-
-Registered in England Number 470893
-Registered at Northwood Park, Gatwick Road, Crawley, West Sussex, RH10 9XN,=
- United Kingdom.
-
-Or if within the US,
-
-Spirent Communications,
-27349 Agoura Road, Calabasas, CA, 91301, USA.
-Tel No. 1-818-676- 2300
-
---_000_CY1PR1001MB1177059D6AA467CB45C659F4F0580CY1PR1001MB1177_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 14 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri","sans-serif";}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri","sans-serif";
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri","sans-serif";}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"blue" vlink=3D"purple">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi <o:p></o:p></p>
-<p class=3D"MsoNormal">anybody added virt-viewer/virt-manager &nbsp;receipt=
- to &nbsp;meta-virtualization<o:p></o:p></p>
-<p class=3D"MsoNormal">Thanks Emil<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p></o:p></p>
-</div>
-<br>
-<br>
-<br>
-<br>
-<div><font size=3D"1">Spirent Communications e-mail confidentiality.<br>
-------------------------------------------------------------------------<br=
->
-This e-mail contains confidential and / or privileged information belonging=
- to Spirent Communications plc, its affiliates and / or subsidiaries. If yo=
-u are not the intended recipient, you are hereby notified that any disclosu=
-re, copying, distribution and /
- or the taking of any action based upon reliance on the contents of this tr=
-ansmission is strictly forbidden. If you have received this message in erro=
-r please notify the sender by return e-mail and delete it from your system.=
-<br>
-<br>
-Spirent Communications plc<br>
-Northwood Park, Gatwick Road, Crawley, West Sussex, RH10 9XN, United Kingdo=
-m.<br>
-Tel No. &#43;44 (0) 1293 767676<br>
-Fax No. &#43;44 (0) 1293 767677<br>
-<br>
-Registered in England Number 470893<br>
-Registered at Northwood Park, Gatwick Road, Crawley, West Sussex, RH10 9XN,=
- United Kingdom.<br>
-<br>
-Or if within the US, <br>
-<br>
-Spirent Communications,<br>
-27349 Agoura Road, Calabasas, CA, 91301, USA.<br>
-Tel No. 1-818-676- 2300 <br>
-</font></div>
-</body>
-</html>
-
---_000_CY1PR1001MB1177059D6AA467CB45C659F4F0580CY1PR1001MB1177_--
