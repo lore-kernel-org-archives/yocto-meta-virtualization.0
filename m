@@ -1,6 +1,6 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 40D90E009BF; Wed, 31 Aug 2016 13:36:34 -0700 (PDT)
+	id 8EDC9E009CB; Wed, 31 Aug 2016 13:56:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,28 +8,28 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D83C6E00990
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BE4AAE009BF
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 31 Aug 2016 13:36:32 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u7VKaVmW027864
+	Wed, 31 Aug 2016 13:56:41 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u7VKuexv018919
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 31 Aug 2016 13:36:31 -0700 (PDT)
-Received: from server.local (147.11.116.125) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 31 Aug 2016 13:36:30 -0700
+	Wed, 31 Aug 2016 13:56:40 -0700 (PDT)
+Received: from server.local (147.11.116.125) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 31 Aug 2016 13:56:39 -0700
 To: Mark Asselstine <mark.asselstine@windriver.com>
 References: <1472667583-9767-1-git-send-email-mark.asselstine@windriver.com>
 	<1472667583-9767-2-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <8f0b1f5f-33c8-492c-ff31-1c1388b4759c@windriver.com>
-Date: Wed, 31 Aug 2016 16:36:29 -0400
+Message-ID: <e3ddf5db-afef-7dde-f8d8-42c6c4958a12@windriver.com>
+Date: Wed, 31 Aug 2016 16:56:38 -0400
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)
 	Gecko/20100101 Thunderbird/45.2.0
 MIME-Version: 1.0
@@ -48,7 +48,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 20:36:34 -0000
+X-List-Received-Date: Wed, 31 Aug 2016 20:56:44 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
@@ -57,12 +57,8 @@ On 2016-08-31 2:19 PM, Mark Asselstine wrote:
 > Apache version 2 so no worries about having to update the LICENSE
 > string for the recipe.
 
-docker is a git hash, so there's no way this could actually happen.
-Not to mention, I just did a clean build (cleanall -> build) and the
-existing license checksum is fine.
-
-Something strange is happening in your setup and we need to sort out
-what it is.
+Or is this using a common LIC file which changed ? My oe-core is
+about two weeks out of date.
 
 Bruce
 
