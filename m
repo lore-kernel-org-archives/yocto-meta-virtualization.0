@@ -1,68 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B457DE00A64; Wed, 31 Aug 2016 14:27:38 -0700 (PDT)
+	id E499AE00A64; Wed, 31 Aug 2016 14:30:10 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.220.195 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
-	[209.85.220.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6296FE00A08
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 198B5E00A08
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 31 Aug 2016 14:27:36 -0700 (PDT)
-Received: by mail-qk0-f195.google.com with SMTP id o1so4415411qkd.2
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 31 Aug 2016 14:27:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=0s7DB3CEbKR/IdAjFSpSEVO/kdIOB6R5O8k6+lf/eJA=;
-	b=gE6GD1MsLP05gb5ViBQEz/ycX0pkMBQy3ntpS2/3+HIdydiSRMqAappcTXmJpNoZuZ
-	JppDtbcx8sEsYum3v9SJpdc0JGTrUFLn8Qv5qM/J7P0e1WhjCgxTI48fDEVuGGB+Lb+c
-	rzUjGyU62DXWHyZudXoVT4kJBV/d705yDKxFy2fQQsxS8zZr+GyOnJzXDEveRKrGQvC/
-	DtzVuLR7Y8r6Q5Y9wi/F2jdbgh7It4ZCX4GCjQ+bZ0S7lA1APro8Ui4TMQT7mXltf4Gc
-	ywgVXe0CSRs6E0T/OLIOTp9MEpbhpfd2z1OpDIKLlDHXZvH1jL8UxoS+0Sx8EbmDg3OT
-	t5Ng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=0s7DB3CEbKR/IdAjFSpSEVO/kdIOB6R5O8k6+lf/eJA=;
-	b=lcO+9t2z4c5VVNKEs2AYRStoEYQykMFuo1mhCvmCtHJ0yVE3OstDa783lI0kqcRYZp
-	99pzUqaBbDfe30EvC9WFJEH23JGmJh4EATc3ggtNqRX9Z/xSHfBtxJWSsh5GBejWboG7
-	qAkQ427R/ca76Wyr8N9Og5A2tIUsYTs7b2AvYABTBelen/QneDvci+SakaqR7O7qsrHg
-	QSgEIUDfLqLAaB2UqoAiQStnewhozBSrcU1vRIl/B+TPoDNnPbjbs6Mx2oms7SQgDdM4
-	4PnkRrK9WGkiZ7VgN/8RzhOAj2dSNtUF8S7zZrKWYbya330pdPLor4uxuZlNCNgewmVD
-	3fsg==
-X-Gm-Message-State: AE9vXwO/6bESEh9phrzOW9thIiRK36KxbOaJah/D6Rj5/cWmiWtvXEiS+uUyqAQU6plUn7FoeYX229AZQA75Gg==
-X-Received: by 10.55.143.134 with SMTP id r128mr13688092qkd.161.1472678855626; 
-	Wed, 31 Aug 2016 14:27:35 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.237.53.83 with HTTP; Wed, 31 Aug 2016 14:27:34 -0700 (PDT)
-In-Reply-To: <CADkTA4P1D9_QqsweNfQPFWkKG4E-XwsE-GoQns9=_ipx0SD1eA@mail.gmail.com>
+	Wed, 31 Aug 2016 14:30:07 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u7VLU5HC015376
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK);
+	Wed, 31 Aug 2016 14:30:06 -0700
+Received: from tal.localnet (128.224.20.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 31 Aug 2016 14:30:04 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 31 Aug 2016 17:30:04 -0400
+Message-ID: <2235570.MPKlLZhv0K@tal>
+Organization: Wind River 
+User-Agent: KMail/4.13.3 (Linux/3.13.0-88-generic; KDE/4.13.3; x86_64; ; )
+In-Reply-To: <CADkTA4OXW0B-mX2nFjOHjZYiz9rao2v=WaEZW8TBWMUCD65u2Q@mail.gmail.com>
 References: <1472667583-9767-1-git-send-email-mark.asselstine@windriver.com>
-	<e3ddf5db-afef-7dde-f8d8-42c6c4958a12@windriver.com>
-	<3047881.Lfg8Ytdqov@tal> <5574955.TienvFM2l3@tal>
-	<CADkTA4NhdqBgHBaSrGrYV-hKH15P8ro6g74GGu=DrEBcSMQWzw@mail.gmail.com>
 	<CADkTA4P1D9_QqsweNfQPFWkKG4E-XwsE-GoQns9=_ipx0SD1eA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 31 Aug 2016 17:27:34 -0400
-Message-ID: <CADkTA4OXW0B-mX2nFjOHjZYiz9rao2v=WaEZW8TBWMUCD65u2Q@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+	<CADkTA4OXW0B-mX2nFjOHjZYiz9rao2v=WaEZW8TBWMUCD65u2Q@mail.gmail.com>
+MIME-Version: 1.0
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH 2/2] docker: update license md5sum
@@ -78,266 +46,124 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 31 Aug 2016 21:27:38 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0834540edcc0053b64c4ef
+X-List-Received-Date: Wed, 31 Aug 2016 21:30:11 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
---94eb2c0834540edcc0053b64c4ef
-Content-Type: text/plain; charset=UTF-8
-
-On Wed, Aug 31, 2016 at 5:17 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
-
->
->
-> On Wed, Aug 31, 2016 at 5:13 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+On August 31, 2016 17:27:34 Bruce Ashfield wrote:
+> On Wed, Aug 31, 2016 at 5:17 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+> 
 > wrote:
->
->>
->>
->> On Wed, Aug 31, 2016 at 5:11 PM, Mark Asselstine <
->> mark.asselstine@windriver.com> wrote:
->>
->>> On August 31, 2016 17:09:45 Mark Asselstine wrote:
->>> > On August 31, 2016 16:56:38 Bruce Ashfield wrote:
->>> > > On 2016-08-31 2:19 PM, Mark Asselstine wrote:
->>> > > > Seems upstream adjusted their LICENSE file. The license is still
->>> > > > Apache version 2 so no worries about having to update the LICENSE
->>> > > > string for the recipe.
->>> > >
->>> > > Or is this using a common LIC file which changed ? My oe-core is
->>> > > about two weeks out of date.
->>> >
->>> > Has nothing to do with the SRC_URI, it is a changed md5sum on the
->>> fetched
->>> > content, in this case the file named LICENSE.
->>>
->>> OH, I see why you tied it back to the git hash. That just means that this
->>> mismatch has existed since that hash was changed. Again, just masked by
->>> the
->>> manipulation of ERROR_QA.
->>>
->>
->> Nope. Shouldn't be that.
->>
->> I just did a cleanall and re-build. The checksum matches.
->>
->
-> ... and I just realized that cleanall doesn't get sstate, so I'd better
-> remove that as well!
->
+> > On Wed, Aug 31, 2016 at 5:13 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+> > 
+> > wrote:
+> >> On Wed, Aug 31, 2016 at 5:11 PM, Mark Asselstine <
+> >> 
+> >> mark.asselstine@windriver.com> wrote:
+> >>> On August 31, 2016 17:09:45 Mark Asselstine wrote:
+> >>> > On August 31, 2016 16:56:38 Bruce Ashfield wrote:
+> >>> > > On 2016-08-31 2:19 PM, Mark Asselstine wrote:
+> >>> > > > Seems upstream adjusted their LICENSE file. The license is still
+> >>> > > > Apache version 2 so no worries about having to update the LICENSE
+> >>> > > > string for the recipe.
+> >>> > > 
+> >>> > > Or is this using a common LIC file which changed ? My oe-core is
+> >>> > > about two weeks out of date.
+> >>> > 
+> >>> > Has nothing to do with the SRC_URI, it is a changed md5sum on the
+> >>> 
+> >>> fetched
+> >>> 
+> >>> > content, in this case the file named LICENSE.
+> >>> 
+> >>> OH, I see why you tied it back to the git hash. That just means that
+> >>> this
+> >>> mismatch has existed since that hash was changed. Again, just masked by
+> >>> the
+> >>> manipulation of ERROR_QA.
+> >> 
+> >> Nope. Shouldn't be that.
+> >> 
+> >> I just did a cleanall and re-build. The checksum matches.
+> > 
+> > ... and I just realized that cleanall doesn't get sstate, so I'd better
+> > remove that as well!
+> 
+> Sure enough, it was sstate that was the difference, skipped tasks on my
+> recent build.
+> 
+> I'm seeing this now.   So I'll apply this as-is.
+> 
+> Shows how many people are tracking meta-virt master :D
 
-Sure enough, it was sstate that was the difference, skipped tasks on my
-recent build.
+and building docker.
 
-I'm seeing this now.   So I'll apply this as-is.
+Glad you were able to see it, had me scratching my head earlier today as well 
+since it wasn't touched in so long and my meta-overc build was not seeing it.
 
-Shows how many people are tracking meta-virt master :D
+Mark
 
-Bruce
-
-
->
+> 
 > Bruce
->
->
->>
->> Bruce
->>
->>
->>>
->>> Mark
->>>
->>> >
->>> > You are not seeing the issue because I am guessing you are building
->>> with
->>> > meta- overc, which we restrict the ERROR_QA and thus don't include
->>> > 'license- checksum'. Add 'license-checksum' to ERROR_QA in local.conf
->>> or
->>> > meta- overc/conf/distro/overc.conf and you will see this.
->>> >
->>> > Mark
->>> >
->>> > > Bruce
->>> > >
->>> > > > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
->>> > > > ---
->>> > > >
->>> > > >  recipes-containers/docker/docker_git.bb | 2 +-
->>> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
->>> > > >
->>> > > > diff --git a/recipes-containers/docker/docker_git.bb
->>> > > > b/recipes-containers/docker/docker_git.bb index 4f85193..4be5e47
->>> 100644
->>> > > > --- a/recipes-containers/docker/docker_git.bb
->>> > > > +++ b/recipes-containers/docker/docker_git.bb
->>> > > > @@ -28,7 +28,7 @@ SRC_URI = "\
->>> > > >
->>> > > >  # Apache-2.0 for docker
->>> > > >  LICENSE = "Apache-2.0"
->>> > > >
->>> > > > -LIC_FILES_CHKSUM =
->>> > > > "file://LICENSE;md5=cc2221abf0b96ea39dd68141b70f7937"
->>> > > > +LIC_FILES_CHKSUM =
->>> > > > "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
->>> > > >
->>> > > >  S = "${WORKDIR}/git"
->>>
->>> --
->>> _______________________________________________
->>> meta-virtualization mailing list
->>> meta-virtualization@yoctoproject.org
->>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>>
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
->> at its end"
->>
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
->
+> 
+> > Bruce
+> > 
+> >> Bruce
+> >> 
+> >>> Mark
+> >>> 
+> >>> > You are not seeing the issue because I am guessing you are building
+> >>> 
+> >>> with
+> >>> 
+> >>> > meta- overc, which we restrict the ERROR_QA and thus don't include
+> >>> > 'license- checksum'. Add 'license-checksum' to ERROR_QA in local.conf
+> >>> 
+> >>> or
+> >>> 
+> >>> > meta- overc/conf/distro/overc.conf and you will see this.
+> >>> > 
+> >>> > Mark
+> >>> > 
+> >>> > > Bruce
+> >>> > > 
+> >>> > > > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> >>> > > > ---
+> >>> > > > 
+> >>> > > >  recipes-containers/docker/docker_git.bb | 2 +-
+> >>> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>> > > > 
+> >>> > > > diff --git a/recipes-containers/docker/docker_git.bb
+> >>> > > > b/recipes-containers/docker/docker_git.bb index 4f85193..4be5e47
+> >>> 
+> >>> 100644
+> >>> 
+> >>> > > > --- a/recipes-containers/docker/docker_git.bb
+> >>> > > > +++ b/recipes-containers/docker/docker_git.bb
+> >>> > > > @@ -28,7 +28,7 @@ SRC_URI = "\
+> >>> > > > 
+> >>> > > >  # Apache-2.0 for docker
+> >>> > > >  LICENSE = "Apache-2.0"
+> >>> > > > 
+> >>> > > > -LIC_FILES_CHKSUM =
+> >>> > > > "file://LICENSE;md5=cc2221abf0b96ea39dd68141b70f7937"
+> >>> > > > +LIC_FILES_CHKSUM =
+> >>> > > > "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
+> >>> > > > 
+> >>> > > >  S = "${WORKDIR}/git"
+> >>> 
+> >>> --
+> >>> _______________________________________________
+> >>> meta-virtualization mailing list
+> >>> meta-virtualization@yoctoproject.org
+> >>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >> 
+> >> --
+> >> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> >> at its end"
+> > 
+> > --
+> > "Thou shalt not follow the NULL pointer, for chaos and madness await thee
+> > at its end"
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c0834540edcc0053b64c4ef
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Aug 31, 2016 at 5:17 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfield=
-@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=
-=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"><spa=
-n class=3D"">On Wed, Aug 31, 2016 at 5:13 PM, Bruce Ashfield <span dir=3D"l=
-tr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce=
-.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
-><div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
-ote"><span>On Wed, Aug 31, 2016 at 5:11 PM, Mark Asselstine <span dir=3D"lt=
-r">&lt;<a href=3D"mailto:mark.asselstine@windriver.com" target=3D"_blank">m=
-ark.asselstine@windriver.com</a><wbr>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex"><span>On August 31, 2016 17:09:45 Mark Asselstine wrote:<br>
-&gt; On August 31, 2016 16:56:38 Bruce Ashfield wrote:<br>
-&gt; &gt; On 2016-08-31 2:19 PM, Mark Asselstine wrote:<br>
-&gt; &gt; &gt; Seems upstream adjusted their LICENSE file. The license is s=
-till<br>
-&gt; &gt; &gt; Apache version 2 so no worries about having to update the LI=
-CENSE<br>
-&gt; &gt; &gt; string for the recipe.<br>
-&gt; &gt;<br>
-&gt; &gt; Or is this using a common LIC file which changed ? My oe-core is<=
-br>
-&gt; &gt; about two weeks out of date.<br>
-&gt;<br>
-&gt; Has nothing to do with the SRC_URI, it is a changed md5sum on the fetc=
-hed<br>
-&gt; content, in this case the file named LICENSE.<br>
-<br>
-</span>OH, I see why you tied it back to the git hash. That just means that=
- this<br>
-mismatch has existed since that hash was changed. Again, just masked by the=
-<br>
-manipulation of ERROR_QA.<br></blockquote><div><br></div></span><div>Nope. =
-Shouldn&#39;t be that.=C2=A0</div><div><br></div><div>I just did a cleanall=
- and re-build. The checksum matches.</div></div></div></div></blockquote><d=
-iv><br></div></span><div>... and I just realized that cleanall doesn&#39;t =
-get sstate, so I&#39;d better remove that as well!</div></div></div></div><=
-/blockquote><div><br></div><div>Sure enough, it was sstate that was the dif=
-ference, skipped tasks on my recent build.</div><div><br></div><div>I&#39;m=
- seeing this now. =C2=A0 So I&#39;ll apply this as-is.</div><div><br></div>=
-<div>Shows how many people are tracking meta-virt master :D</div><div><br><=
-/div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div d=
-ir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><span clas=
-s=3D"HOEnZb"><font color=3D"#888888"><div><br></div><div>Bruce</div></font>=
-</span><div><div class=3D"h5"><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x"><div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote"><=
-div><br></div><div>Bruce</div><div><div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex">
-<span><font color=3D"#888888"><br>
-Mark<br>
-</font></span><div><div><br>
-&gt;<br>
-&gt; You are not seeing the issue because I am guessing you are building wi=
-th<br>
-&gt; meta- overc, which we restrict the ERROR_QA and thus don&#39;t include=
-<br>
-&gt; &#39;license- checksum&#39;. Add &#39;license-checksum&#39; to ERROR_Q=
-A in local.conf or<br>
-&gt; meta- overc/conf/distro/overc.conf and you will see this.<br>
-&gt;<br>
-&gt; Mark<br>
-&gt;<br>
-&gt; &gt; Bruce<br>
-&gt; &gt;<br>
-&gt; &gt; &gt; Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.as=
-selstine@windriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>=
-<wbr>&gt;<br>
-&gt; &gt; &gt; ---<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 recipes-containers/docker/<a href=3D"http://docker_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">dock<wbr>er_git.bb</a> | 2 +-<br>
-&gt; &gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; diff --git a/recipes-containers/docker/<a href=3D"http://doc=
-ker_git.bb" rel=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
-&gt; &gt; &gt; b/recipes-containers/docker/<a href=3D"http://docker_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a> index 4f85193.=
-.4be5e47 100644<br>
-&gt; &gt; &gt; --- a/recipes-containers/docker/<a href=3D"http://docker_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
-&gt; &gt; &gt; +++ b/recipes-containers/docker/<a href=3D"http://docker_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
-&gt; &gt; &gt; @@ -28,7 +28,7 @@ SRC_URI =3D &quot;\<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 # Apache-2.0 for docker<br>
-&gt; &gt; &gt;=C2=A0 LICENSE =3D &quot;Apache-2.0&quot;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; -LIC_FILES_CHKSUM =3D<br>
-&gt; &gt; &gt; &quot;file://LICENSE;md5=3Dcc2221abf0<wbr>b96ea39dd68141b70f=
-7937&quot;<br>
-&gt; &gt; &gt; +LIC_FILES_CHKSUM =3D<br>
-&gt; &gt; &gt; &quot;file://LICENSE;md5=3Daadc30f9c1<wbr>4d876ded7bedc0afd2=
-d3d7&quot;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_blank">m=
-eta-virtualization@yoctoproje<wbr>ct.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org<wbr>/listi=
-nfo/meta-virtualization</a><br>
-</div></div></blockquote></div></div></div><span><font color=3D"#888888"><b=
-r><br clear=3D"all"><div><br></div>-- <br><div data-smartmail=3D"gmail_sign=
-ature">&quot;Thou shalt not follow the NULL pointer, for chaos and madness =
-await thee at its end&quot;</div>
-</font></span></div></div>
-</blockquote></div></div></div><div><div class=3D"h5"><br><br clear=3D"all"=
-><div><br></div>-- <br><div data-smartmail=3D"gmail_signature">&quot;Thou s=
-halt not follow the NULL pointer, for chaos and madness await thee at its e=
-nd&quot;</div>
-</div></div></div></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
-</div></div>
-
---94eb2c0834540edcc0053b64c4ef--
