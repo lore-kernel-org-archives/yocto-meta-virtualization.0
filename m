@@ -1,6 +1,6 @@
-Return-Path: <venkat.mandela@ti.com>
+Return-Path: <Zhe.He@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8E643E00C05; Fri,  2 Sep 2016 20:20:06 -0700 (PDT)
+	id B62A7E00A6D; Sun,  4 Sep 2016 23:53:32 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,26 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from arroyo.ext.ti.com (arroyo.ext.ti.com [198.47.19.12])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8E20E00BEB
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5B8CBE009F8
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  2 Sep 2016 20:20:03 -0700 (PDT)
-Received: from dflxv15.itg.ti.com ([128.247.5.124])
-	by arroyo.ext.ti.com (8.13.7/8.13.7) with ESMTP id u833K1ms005602
+	Sun,  4 Sep 2016 23:53:28 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u856rR1u026259
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 2 Sep 2016 22:20:01 -0500
-Received: from DFLE73.ent.ti.com (dfle73.ent.ti.com [128.247.5.110])
-	by dflxv15.itg.ti.com (8.14.3/8.13.8) with ESMTP id u833K1c0031055
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 2 Sep 2016 22:20:01 -0500
-Received: from dflp32.itg.ti.com (10.64.6.15) by DFLE73.ent.ti.com
-	(128.247.5.110) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 2 Sep 2016 22:20:00 -0500
-Received: from uda0393778.dhcp.ti.com (ileax41-snat.itg.ti.com
-	[10.172.224.153])	by dflp32.itg.ti.com (8.14.3/8.13.8) with ESMTP id
-	u833JxYF024734;	Fri, 2 Sep 2016 22:20:00 -0500
-From: Venkateswara Rao Mandela <venkat.mandela@ti.com>
+	Sun, 4 Sep 2016 23:53:27 -0700
+Received: from PEK-ZHE-D1.wrs.com (128.224.162.234) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.248.2;
+	Sun, 4 Sep 2016 23:53:26 -0700
+From: <zhe.he@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Sat, 3 Sep 2016 08:49:36 +0530
-Message-ID: <20160903031936.7436-1-venkat.mandela@ti.com>
-X-Mailer: git-send-email 2.9.3
+Date: Mon, 5 Sep 2016 14:52:49 +0800
+Message-ID: <1473058369-7710-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] protobuf: fix source location
+Subject: [PATCH] libvirt: Add missing test helpers and remove windows 1252
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,90 +40,106 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 03 Sep 2016 03:20:06 -0000
+X-List-Received-Date: Mon, 05 Sep 2016 06:53:32 -0000
 Content-Type: text/plain
 
-The file locations listed in the recipes for protobuf, protobuf-c
-are not currently available. Updating the recipe to
+From: He Zhe <zhe.he@windriver.com>
 
-1. Point URI's to valid locations.
-2. Update checksums and increment version numbers.
+Add missing test helpers
+We don't support windows encoding so remove that case
 
-Signed-off-by: Venkateswara Rao Mandela <venkat.mandela@ti.com>
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- recipes-devtools/protobuf/protobuf-c_0.15.bb       | 6 +++---
- recipes-devtools/protobuf/protobuf-native_2.5.0.bb | 8 ++++----
- recipes-devtools/protobuf/protobuf_2.5.0.bb        | 9 ++++-----
- 3 files changed, 11 insertions(+), 12 deletions(-)
+ ...move-Windows-1252-check-from-esxutilstest.patch | 28 +++++++++++++++++++++
+ .../0001-ptest-add-missing-test_helper-files.patch | 29 ++++++++++++++++++++++
+ recipes-extended/libvirt/libvirt_1.3.5.bb          |  2 ++
+ 3 files changed, 59 insertions(+)
+ create mode 100644 recipes-extended/libvirt/libvirt/0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch
 
-diff --git a/recipes-devtools/protobuf/protobuf-c_0.15.bb b/recipes-devtools/protobuf/protobuf-c_0.15.bb
-index 91dcb3b..4876d33 100644
---- a/recipes-devtools/protobuf/protobuf-c_0.15.bb
-+++ b/recipes-devtools/protobuf/protobuf-c_0.15.bb
-@@ -6,14 +6,14 @@ LICENSE = "Apache-2.0"
+diff --git a/recipes-extended/libvirt/libvirt/0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch b/recipes-extended/libvirt/libvirt/0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch
+new file mode 100644
+index 0000000..217bdbc
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch
+@@ -0,0 +1,28 @@
++From ffc71da15c3da068f85d16617b6e0c0175fc0110 Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Tue, 23 Aug 2016 02:28:47 -0400
++Subject: [PATCH] ptest: Remove Windows-1252 check from esxutilstest
++
++Currently we use iconv from glibc-locale and it does not support
++Windows-1252 and we don't need support windows character encoding.
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ tests/esxutilstest.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/tests/esxutilstest.c b/tests/esxutilstest.c
++index 44bdc84..3223de3 100644
++--- a/tests/esxutilstest.c
+++++ b/tests/esxutilstest.c
++@@ -258,7 +258,6 @@ mymain(void)
++     DO_TEST(ParseDatastorePath);
++     DO_TEST(ConvertDateTimeToCalendarTime);
++     DO_TEST(EscapeDatastoreItem);
++-    DO_TEST(ConvertWindows1252ToUTF8);
++ 
++     return result == 0 ? EXIT_SUCCESS : EXIT_FAILURE;
++ }
++-- 
++2.8.1
++
+diff --git a/recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch b/recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch
+new file mode 100644
+index 0000000..b4f1e27
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch
+@@ -0,0 +1,29 @@
++From e625a42caca492fe7d52b70bbbf83ae4d99cb15e Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Tue, 23 Aug 2016 02:16:20 -0400
++Subject: [PATCH] ptest: add missing test_helper files
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ tests/Makefile.am | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 1c85656..2f8b9eb 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -1422,8 +1422,10 @@ install-ptest:
++ 	@(for file in $(PTESTS); do \
++ 		if [ -f .libs/$$file ]; then \
++ 			install .libs/$$file $(DEST_DIR)/tests; \
++-		else \
+++		elif [ -f $(srcdir)/$$file ]; then \
++ 			install $(srcdir)/$$file $(DEST_DIR)/tests; \
+++		else \
+++			install $(builddir)/$$file $(DEST_DIR)/tests; \
++ 		fi; \
++ 	done;)
++ 	@(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
++-- 
++2.8.1
++
+diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb b/recipes-extended/libvirt/libvirt_1.3.5.bb
+index 7271ebe..3eff58d 100644
+--- a/recipes-extended/libvirt/libvirt_1.3.5.bb
++++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
+@@ -35,6 +35,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+            file://install-missing-file.patch \
+            file://0001-nsslinktest-also-build-virAtomic.h.patch \
+            file://0001-qemu-Let-empty-default-VNC-password-work-as-document.patch \
++           file://0001-ptest-add-missing-test_helper-files.patch \
++           file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
+           "
  
- LIC_FILES_CHKSUM = "file://src/google/protobuf-c/protobuf-c.c;endline=33;md5=333140fae7cf8a38dc5f980ddb63704b"
- 
--PR = "r0"
-+PR = "r1"
- 
- DEPENDS = "protobuf"
- 
- SRC_URI[md5sum] = "73ff0c8df50d2eee75269ad8f8c07dc8"
- SRC_URI[sha256sum] = "8fcb538e13a5431c46168fc8f2e6ad2574e2db9b684c0c72b066e24f010a0036"
--SRC_URI = "http://protobuf-c.googlecode.com/files/protobuf-c-${PV}.tar.gz \
--	file://disable_tests.patch"
-+SRC_URI = "https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/protobuf-c/protobuf-c-${PV}.tar.gz \
-+        file://disable_tests.patch"
- 
- inherit autotools
- 
-diff --git a/recipes-devtools/protobuf/protobuf-native_2.5.0.bb b/recipes-devtools/protobuf/protobuf-native_2.5.0.bb
-index 61b18a7..47acdae 100644
---- a/recipes-devtools/protobuf/protobuf-native_2.5.0.bb
-+++ b/recipes-devtools/protobuf/protobuf-native_2.5.0.bb
-@@ -8,11 +8,11 @@ LICENSE = "BSD-3-Clause"
- 
- LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af6809583bfde9a31595a58bb4a24514"
- 
--PR = "r0"
-+PR = "r1"
- 
--SRC_URI[md5sum] = "b751f772bdeb2812a2a8e7202bf1dae8"
--SRC_URI[sha256sum] = "c55aa3dc538e6fd5eaf732f4eb6b98bdcb7cedb5b91d3b5bdcf29c98c293f58e"
--SRC_URI = "http://protobuf.googlecode.com/files/protobuf-${PV}.tar.gz \
-+SRC_URI[md5sum] = "9c21577a03adc1879aba5b52d06e25cf"
-+SRC_URI[sha256sum] = "c2665a7aa2ac1a206e61b28e014486e3de59009ea2be2bde9182e0847f38b62f"
-+SRC_URI = "https://github.com/google/protobuf/archive/v${PV}.tar.gz \
- 	"
- 
- EXTRA_OECONF += " --with-protoc=echo --disable-shared"
-diff --git a/recipes-devtools/protobuf/protobuf_2.5.0.bb b/recipes-devtools/protobuf/protobuf_2.5.0.bb
-index 23b74a7..b503a35 100644
---- a/recipes-devtools/protobuf/protobuf_2.5.0.bb
-+++ b/recipes-devtools/protobuf/protobuf_2.5.0.bb
-@@ -8,16 +8,15 @@ LICENSE = "BSD-3-Clause"
- 
- LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af6809583bfde9a31595a58bb4a24514"
- 
--PR = "r0"
-+PR = "r1"
- EXCLUDE_FROM_WORLD = "1"
- 
--SRC_URI[md5sum] = "b751f772bdeb2812a2a8e7202bf1dae8"
--SRC_URI[sha256sum] = "c55aa3dc538e6fd5eaf732f4eb6b98bdcb7cedb5b91d3b5bdcf29c98c293f58e"
--SRC_URI = "http://protobuf.googlecode.com/files/protobuf-${PV}.tar.gz \
-+SRC_URI[md5sum] = "9c21577a03adc1879aba5b52d06e25cf"
-+SRC_URI[sha256sum] = "c2665a7aa2ac1a206e61b28e014486e3de59009ea2be2bde9182e0847f38b62f"
-+SRC_URI = "https://github.com/google/protobuf/archive/v${PV}.tar.gz \
- 	file://protobuf-allow-running-python-scripts-from-anywhere.patch \
- 	file://run-ptest"
- 
--
- EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
- inherit autotools setuptools ptest
- 
+ SRC_URI[libvirt.md5sum] = "f9dc1e63d559eca50ae0ee798a4c6c6d"
 -- 
-2.9.3
+2.8.3
 
 
