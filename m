@@ -1,6 +1,6 @@
 Return-Path: <Jianchuan.Wang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0BC29E00FFC; Wed,  7 Sep 2016 01:10:06 -0700 (PDT)
+	id 5EA61E00FFC; Wed,  7 Sep 2016 01:10:08 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,29 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C04AEE00E39
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EE833E00FFC
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  7 Sep 2016 01:10:01 -0700 (PDT)
+	Wed,  7 Sep 2016 01:10:03 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u878A06j002518
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id u878A3YZ025711
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 7 Sep 2016 01:10:00 -0700 (PDT)
+	Wed, 7 Sep 2016 01:10:03 -0700 (PDT)
 Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 7 Sep 2016 01:09:59 -0700
+	Wed, 7 Sep 2016 01:10:01 -0700
 From: <jianchuan.wang@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 7 Sep 2016 04:09:56 -0400
-Message-ID: <1473235798-3525-1-git-send-email-jianchuan.wang@windriver.com>
+Date: Wed, 7 Sep 2016 04:09:57 -0400
+Message-ID: <1473235798-3525-2-git-send-email-jianchuan.wang@windriver.com>
 X-Mailer: git-send-email 2.8.1
+In-Reply-To: <1473235798-3525-1-git-send-email-jianchuan.wang@windriver.com>
+References: <1473235798-3525-1-git-send-email-jianchuan.wang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] protobuf: uprev 3.0.0 from 2.6.1
+Subject: [PATCH 2/3] protobuf-c: uprev to 1.2.1 from 1.1.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,283 +45,120 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Sep 2016 08:10:06 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 08:10:08 -0000
 Content-Type: text/plain
 
 From: Jianchuan Wang <jianchuan.wang@windriver.com>
 
 Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
 ---
- .../criu/protobuf-native_2.6.1.bb                  | 21 -----
- .../criu/protobuf-native_3.0.0.bb                  | 21 +++++
- .../recipes-containers/criu/protobuf_2.6.1.bb      | 97 ----------------------
- .../recipes-containers/criu/protobuf_3.0.0.bb      | 97 ++++++++++++++++++++++
- 4 files changed, 118 insertions(+), 118 deletions(-)
- delete mode 100644 meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb
- create mode 100644 meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb
- delete mode 100644 meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb
- create mode 100644 meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb
+ .../files/Omit-google-apputils-dependency.patch    | 25 -------------------
+ .../recipes-containers/criu/protobuf-c_1.1.1.bb    | 28 ----------------------
+ .../recipes-containers/criu/protobuf-c_1.2.1.bb    | 28 ++++++++++++++++++++++
+ 3 files changed, 28 insertions(+), 53 deletions(-)
+ delete mode 100644 meta-virtualization/recipes-containers/criu/files/Omit-google-apputils-dependency.patch
+ delete mode 100644 meta-virtualization/recipes-containers/criu/protobuf-c_1.1.1.bb
+ create mode 100644 meta-virtualization/recipes-containers/criu/protobuf-c_1.2.1.bb
 
-diff --git a/meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb b/meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb
+diff --git a/meta-virtualization/recipes-containers/criu/files/Omit-google-apputils-dependency.patch b/meta-virtualization/recipes-containers/criu/files/Omit-google-apputils-dependency.patch
 deleted file mode 100644
-index e88c9e7..0000000
---- a/meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb
+index ef60fc0..0000000
+--- a/meta-virtualization/recipes-containers/criu/files/Omit-google-apputils-dependency.patch
 +++ /dev/null
-@@ -1,21 +0,0 @@
--SUMMARY = "protobuf"
--DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
--an efficient yet extensible format. Google uses Protocol Buffers for \
--almost all of its internal RPC protocols and file formats."
--HOMEPAGE = "http://code.google.com/p/protobuf/"
--SECTION = "console/tools"
--LICENSE = "BSD-3-Clause"
+@@ -1,25 +0,0 @@
+-From f8b7c90f6da90b67bdd7d5301894c5c28bd9d076 Mon Sep 17 00:00:00 2001
+-From: Jianchuan Wang <jianchuan.wang@windriver.com>
+-Date: Mon, 10 Aug 2015 11:23:31 +0800
+-Subject: [PATCH] Omit google-apputils dependency
 -
--LIC_FILES_CHKSUM = "file://LICENSE;md5=af6809583bfde9a31595a58bb4a24514"
+-Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+----
+- python/setup.py | 1 -
+- 1 file changed, 1 deletion(-)
 -
--PR = "r0"
+-diff --git a/python/setup.py b/python/setup.py
+-index 2450a77..6f6bffb 100755
+---- a/python/setup.py
+-+++ b/python/setup.py
+-@@ -189,7 +189,6 @@ if __name__ == '__main__':
+-           'google.protobuf.text_format'],
+-         cmdclass = { 'clean': clean, 'build_py': build_py },
+-         install_requires = ['setuptools'],
+--        setup_requires = ['google-apputils'],
+-         ext_modules = ext_module_list,
+-         url = 'https://developers.google.com/protocol-buffers/',
+-         maintainer = maintainer_email,
+--- 
+-1.9.1
 -
--SRC_URI[md5sum] = "af05b2cca289f7b86eef2734a0cdc8b9"
--SRC_URI[sha256sum] = "2667b7cda4a6bc8a09e5463adf3b5984e08d94e72338277affa8594d8b6e5cd1"
--SRC_URI = "https://github.com/google/protobuf/archive/v2.6.1.tar.gz;downloadfilename=protobuf-2.6.1.tar.gz \
--	"
--
--EXTRA_OECONF += " --with-protoc=echo --disable-shared"
--
--inherit native autotools
--
-diff --git a/meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb b/meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb
-new file mode 100644
-index 0000000..33467b3
---- /dev/null
-+++ b/meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb
-@@ -0,0 +1,21 @@
-+SUMMARY = "protobuf"
-+DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
-+an efficient yet extensible format. Google uses Protocol Buffers for \
-+almost all of its internal RPC protocols and file formats."
-+HOMEPAGE = "http://code.google.com/p/protobuf/"
-+SECTION = "console/tools"
-+LICENSE = "BSD-3-Clause"
-+
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=35953c752efc9299b184f91bef540095"
-+
-+PR = "r0"
-+
-+SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
-+SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082e8fc3bda50038ac3dff787650795734146"
-+SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.gz;downloadfilename=protobuf-3.0.0.tar.gz \
-+	"
-+
-+EXTRA_OECONF += " --with-protoc=echo --disable-shared"
-+
-+inherit native autotools
-+
-diff --git a/meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb b/meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb
+diff --git a/meta-virtualization/recipes-containers/criu/protobuf-c_1.1.1.bb b/meta-virtualization/recipes-containers/criu/protobuf-c_1.1.1.bb
 deleted file mode 100644
-index 1b7ab20..0000000
---- a/meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb
+index 0d03ebe..0000000
+--- a/meta-virtualization/recipes-containers/criu/protobuf-c_1.1.1.bb
 +++ /dev/null
-@@ -1,97 +0,0 @@
--SUMMARY = "protobuf"
--DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
--an efficient yet extensible format. Google uses Protocol Buffers for \
--almost all of its internal RPC protocols and file formats."
--HOMEPAGE = "http://code.google.com/p/protobuf/"
+@@ -1,28 +0,0 @@
+-SUMMARY = "protobuf-c"
+-DESCRIPTION = "This package provides a code generator and runtime libraries to use Protocol Buffers from pure C"
+-HOMEPAGE = "http://code.google.com/p/protobuf-c/"
 -SECTION = "console/tools"
--LICENSE = "BSD-3-Clause"
+-LICENSE = "Apache-2.0"
 -
--LIC_FILES_CHKSUM = "file://LICENSE;md5=af6809583bfde9a31595a58bb4a24514"
--
--PR = "r0"
--EXCLUDE_FROM_WORLD = "1"
--
--SRC_URI[md5sum] = "af05b2cca289f7b86eef2734a0cdc8b9"
--SRC_URI[sha256sum] = "2667b7cda4a6bc8a09e5463adf3b5984e08d94e72338277affa8594d8b6e5cd1"
--SRC_URI = "https://github.com/google/protobuf/archive/v2.6.1.tar.gz;downloadfilename=protobuf-2.6.1.tar.gz\
--	file://protobuf-allow-running-python-scripts-from-anywhere.patch \
--	file://Omit-google-apputils-dependency.patch \
--	file://run-ptest"
+-LIC_FILES_CHKSUM = "file://protobuf-c/protobuf-c.c;endline=28;md5=0feb44cc63eacef97219b0174967492f"
 -
 -COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 -
--EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
--inherit autotools setuptools ptest
+-DEPENDS = "protobuf protobuf-c-native"
 -
--DEPENDS += "protobuf-native"
+-SRC_URI[md5sum] = "41d437677ea16f9d3611d98841c4af3b"
+-SRC_URI[sha256sum] = "09c5bb187b7a8e86bc0ff860f7df86370be9e8661cdb99c1072dcdab0763562c"
+-SRC_URI = "https://github.com/protobuf-c/protobuf-c/releases/download/v1.1.1/protobuf-c-1.1.1.tar.gz "
+-SRC_URI_append_class-target ="file://0001-protobuf-c-Remove-the-rules-which-depend-on-the-nati.patch"
 -
--PYTHON_SRC_DIR="python"
--TEST_SRC_DIR="examples"
--LANG_SUPPORT="cpp python"
+-inherit autotools pkgconfig
 -
--do_compile() {
--	# Compile protoc compiler
--	base_do_compile
+-BBCLASSEXTEND = "native nativesdk"
+-
+-do_configure_prepend_class-target() {
+-    export PKG_CONFIG_PATH="${STAGING_LIBDIR_NATIVE}/pkgconfig:${PKG_CONFIG_PATH}"
 -}
 -
--do_compile_ptest() {
--	# Modify makefile to use the cross-compiler
--	sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
--
--	mkdir -p "${B}/${TEST_SRC_DIR}"
--
--	# Add the location of the cross-compiled header and library files
--	# which haven't been installed yet.
--	cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
--	sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
--	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
--	sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
--	export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
--
--	# Save the pkgcfg sysroot variable, and update it to nothing so
--	# that it doesn't append the sysroot to the beginning of paths.
--	# The header and library files aren't installed to the target
--	# system yet.  So the absolute paths were specified above.
--	save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
--	export PKG_CONFIG_SYSROOT_DIR=
--
--	# Compile the tests
--	for lang in ${LANG_SUPPORT}; do
--		oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
--	done
--
--	# Restore the pkgconfig sysroot variable
--	export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
+-do_install_append_class-native() {
+-    install -m 755 ${B}/t/generated-code2/cxx-generate-packed-data ${D}/${bindir}
 -}
--
--do_install() {
--	local olddir=`pwd`
--
--	# Install protoc compiler
--	autotools_do_install
--
--	# Install header files
--	export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
--	cd "${S}/${PYTHON_SRC_DIR}"
--	distutils_do_install
--
--	cd "$olddir"
--}
--
--do_install_ptest() {
--	local olddir=`pwd`
--
--	cd "${S}/${TEST_SRC_DIR}"
--	install -d "${D}/${PTEST_PATH}"
--	for i in add_person* list_people*; do
--		if [ -x "$i" ]; then
--			install "$i" "${D}/${PTEST_PATH}"
--		fi
--	done
--	cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
--	
--	cd "$olddir"
--}
--
--BBCLASSEXTEND = "nativesdk"
--
-diff --git a/meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb b/meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb
+diff --git a/meta-virtualization/recipes-containers/criu/protobuf-c_1.2.1.bb b/meta-virtualization/recipes-containers/criu/protobuf-c_1.2.1.bb
 new file mode 100644
-index 0000000..e1deeac
+index 0000000..ff2499e
 --- /dev/null
-+++ b/meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb
-@@ -0,0 +1,97 @@
-+SUMMARY = "protobuf"
-+DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
-+an efficient yet extensible format. Google uses Protocol Buffers for \
-+almost all of its internal RPC protocols and file formats."
-+HOMEPAGE = "http://code.google.com/p/protobuf/"
++++ b/meta-virtualization/recipes-containers/criu/protobuf-c_1.2.1.bb
+@@ -0,0 +1,28 @@
++SUMMARY = "protobuf-c"
++DESCRIPTION = "This package provides a code generator and runtime libraries to use Protocol Buffers from pure C"
++HOMEPAGE = "http://code.google.com/p/protobuf-c/"
 +SECTION = "console/tools"
-+LICENSE = "BSD-3-Clause"
++LICENSE = "Apache-2.0"
 +
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=35953c752efc9299b184f91bef540095"
-+
-+PR = "r0"
-+EXCLUDE_FROM_WORLD = "1"
-+
-+SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
-+SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082e8fc3bda50038ac3dff787650795734146"
-+SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.gz;downloadfilename=protobuf-3.0.0.tar.gz\
-+	        file://protobuf-allow-running-python-scripts-from-anywhere.patch \
-+	        file://run-ptest \
-+            "
++LIC_FILES_CHKSUM = "file://LICENSE;md5=235c3195a3968524dc1524b4ebea0c0e"
 +
 +COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 +
-+EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
-+inherit autotools setuptools ptest
++DEPENDS = "protobuf protobuf-c-native"
 +
-+DEPENDS += "protobuf-native"
++SRC_URI[md5sum] = "e544249c329391fff512c3874895cfbe"
++SRC_URI[sha256sum] = "846eb4846f19598affdc349d817a8c4c0c68fd940303e6934725c889f16f00bd"
++SRC_URI = "https://github.com/protobuf-c/protobuf-c/releases/download/v1.2.1/protobuf-c-1.2.1.tar.gz "
++#SRC_URI_append_class-target ="file://0001-protobuf-c-Remove-the-rules-which-depend-on-the-nati.patch"
 +
-+PYTHON_SRC_DIR="python"
-+TEST_SRC_DIR="examples"
-+LANG_SUPPORT="cpp python"
++inherit autotools pkgconfig
 +
-+do_compile() {
-+	# Compile protoc compiler
-+	base_do_compile
++BBCLASSEXTEND = "native nativesdk"
++
++do_configure_prepend_class-target() {
++    export PKG_CONFIG_PATH="${STAGING_LIBDIR_NATIVE}/pkgconfig:${PKG_CONFIG_PATH}"
 +}
 +
-+do_compile_ptest() {
-+	# Modify makefile to use the cross-compiler
-+	sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
-+
-+	mkdir -p "${B}/${TEST_SRC_DIR}"
-+
-+	# Add the location of the cross-compiled header and library files
-+	# which haven't been installed yet.
-+	cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
-+	sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
-+	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
-+	sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
-+	export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
-+
-+	# Save the pkgcfg sysroot variable, and update it to nothing so
-+	# that it doesn't append the sysroot to the beginning of paths.
-+	# The header and library files aren't installed to the target
-+	# system yet.  So the absolute paths were specified above.
-+	save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
-+	export PKG_CONFIG_SYSROOT_DIR=
-+
-+	# Compile the tests
-+	for lang in ${LANG_SUPPORT}; do
-+		oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
-+	done
-+
-+	# Restore the pkgconfig sysroot variable
-+	export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
++do_install_append_class-native() {
++    install -m 755 ${B}/t/generated-code2/cxx-generate-packed-data ${D}/${bindir}
 +}
-+
-+do_install() {
-+	local olddir=`pwd`
-+
-+	# Install protoc compiler
-+	autotools_do_install
-+
-+	# Install header files
-+	export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
-+	cd "${S}/${PYTHON_SRC_DIR}"
-+	distutils_do_install
-+
-+	cd "$olddir"
-+}
-+
-+do_install_ptest() {
-+	local olddir=`pwd`
-+
-+	cd "${S}/${TEST_SRC_DIR}"
-+	install -d "${D}/${PTEST_PATH}"
-+	for i in add_person* list_people*; do
-+		if [ -x "$i" ]; then
-+			install "$i" "${D}/${PTEST_PATH}"
-+		fi
-+	done
-+	cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
-+	
-+	cd "$olddir"
-+}
-+
-+BBCLASSEXTEND = "nativesdk"
-+
 -- 
 2.8.1
 
