@@ -1,41 +1,36 @@
-Return-Path: <stefan@agner.ch>
+Return-Path: <Jianchuan.Wang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8FB63E00DC2; Tue,  6 Sep 2016 11:51:25 -0700 (PDT)
+	id 0BC29E00FFC; Wed,  7 Sep 2016 01:10:06 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [178.209.48.109 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0F088E00CD5
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C04AEE00E39
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Sep 2016 11:51:23 -0700 (PDT)
-Received: from seahawk.toradex.int
-	(75-146-58-181-Washington.hfc.comcastbusiness.net [75.146.58.181])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 8EAD85C0C2C;
-	Tue,  6 Sep 2016 20:46:10 +0200 (CEST)
-From: Stefan Agner <stefan@agner.ch>
-To: meta-virtualization@yoctoproject.org
-Date: Tue,  6 Sep 2016 11:51:40 -0700
-Message-Id: <1473187900-1335-1-git-send-email-stefan@agner.ch>
-X-Mailer: git-send-email 1.9.1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1473187571; bh=4VUhoMQ2hQic5cRkBdgzniGQ4NxM3y8sImn9I8H8SgQ=;
-	h=From:To:Cc:Subject:Date:Message-Id;
-	b=HvG7Rnxnnb8AJrxdx1rP1URdQncWFJ1XL0KXYiQmluW02Xgz+RYBzgt1Ubb8dq8Rg4xmIz3lPoCTvH+07yO6X6q5erQ9tQ6/qpQB7W1ftIoc8E5TK1CgJwrZulgKnt2btK5ig0ha+psOsfDCiD7AmDo2EOcTWSEG0KyJo/s1Q/4=
-Subject: [PATCH] kvmtool: add lightweight hypervisor native Linux KVM tool
+	Wed,  7 Sep 2016 01:10:01 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id u878A06j002518
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 7 Sep 2016 01:10:00 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
+	Wed, 7 Sep 2016 01:09:59 -0700
+From: <jianchuan.wang@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 7 Sep 2016 04:09:56 -0400
+Message-ID: <1473235798-3525-1-git-send-email-jianchuan.wang@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH 1/3] protobuf: uprev 3.0.0 from 2.6.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,86 +43,284 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 06 Sep 2016 18:51:25 -0000
+X-List-Received-Date: Wed, 07 Sep 2016 08:10:06 -0000
+Content-Type: text/plain
 
-Add Native Linux KVM tool, a lightweight tool for hosting KVM guests
-maintained by the Linux kernel community.
+From: Jianchuan Wang <jianchuan.wang@windriver.com>
 
-Signed-off-by: Stefan Agner <stefan@agner.ch>
+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
 ---
- .../kvmtool/files/external-crosscompiler.patch     | 31 ++++++++++++++++++++++
- recipes-extended/kvmtool/kvmtool.bb                | 23 ++++++++++++++++
- 2 files changed, 54 insertions(+)
- create mode 100644 recipes-extended/kvmtool/files/external-crosscompiler.patch
- create mode 100644 recipes-extended/kvmtool/kvmtool.bb
+ .../criu/protobuf-native_2.6.1.bb                  | 21 -----
+ .../criu/protobuf-native_3.0.0.bb                  | 21 +++++
+ .../recipes-containers/criu/protobuf_2.6.1.bb      | 97 ----------------------
+ .../recipes-containers/criu/protobuf_3.0.0.bb      | 97 ++++++++++++++++++++++
+ 4 files changed, 118 insertions(+), 118 deletions(-)
+ delete mode 100644 meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb
+ create mode 100644 meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb
+ delete mode 100644 meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb
+ create mode 100644 meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb
 
-diff --git a/recipes-extended/kvmtool/files/external-crosscompiler.patch b/recipes-extended/kvmtool/files/external-crosscompiler.patch
+diff --git a/meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb b/meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb
+deleted file mode 100644
+index e88c9e7..0000000
+--- a/meta-virtualization/recipes-containers/criu/protobuf-native_2.6.1.bb
++++ /dev/null
+@@ -1,21 +0,0 @@
+-SUMMARY = "protobuf"
+-DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+-an efficient yet extensible format. Google uses Protocol Buffers for \
+-almost all of its internal RPC protocols and file formats."
+-HOMEPAGE = "http://code.google.com/p/protobuf/"
+-SECTION = "console/tools"
+-LICENSE = "BSD-3-Clause"
+-
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=af6809583bfde9a31595a58bb4a24514"
+-
+-PR = "r0"
+-
+-SRC_URI[md5sum] = "af05b2cca289f7b86eef2734a0cdc8b9"
+-SRC_URI[sha256sum] = "2667b7cda4a6bc8a09e5463adf3b5984e08d94e72338277affa8594d8b6e5cd1"
+-SRC_URI = "https://github.com/google/protobuf/archive/v2.6.1.tar.gz;downloadfilename=protobuf-2.6.1.tar.gz \
+-	"
+-
+-EXTRA_OECONF += " --with-protoc=echo --disable-shared"
+-
+-inherit native autotools
+-
+diff --git a/meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb b/meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb
 new file mode 100644
-index 0000000..75cef3b
+index 0000000..33467b3
 --- /dev/null
-+++ b/recipes-extended/kvmtool/files/external-crosscompiler.patch
-@@ -0,0 +1,31 @@
-+Upstream-Status: Inappropriate [embedded specific]
++++ b/meta-virtualization/recipes-containers/criu/protobuf-native_3.0.0.bb
+@@ -0,0 +1,21 @@
++SUMMARY = "protobuf"
++DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
++an efficient yet extensible format. Google uses Protocol Buffers for \
++almost all of its internal RPC protocols and file formats."
++HOMEPAGE = "http://code.google.com/p/protobuf/"
++SECTION = "console/tools"
++LICENSE = "BSD-3-Clause"
 +
-+This allows OpenEmbedded to pass in cross compiler configuration using
-+the default envirnment variables. It is required so that kvmtool can
-+be linked against the cross-compiled libfdt library.
++LIC_FILES_CHKSUM = "file://LICENSE;md5=35953c752efc9299b184f91bef540095"
 +
-+diff --git a/Makefile b/Makefile
-+index 1f0196f..8bfb068 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -14,11 +14,6 @@ export E Q
-+ include config/utilities.mak
-+ include config/feature-tests.mak
-+ 
-+-CC	:= $(CROSS_COMPILE)gcc
-+-CFLAGS	:=
-+-LD	:= $(CROSS_COMPILE)ld
-+-LDFLAGS	:=
-+-
-+ FIND	:= find
-+ CSCOPE	:= cscope
-+ TAGS	:= ctags
-+@@ -297,7 +292,7 @@ $(warning No static libc found. Skipping guest init)
-+ endif
-+ 
-+ ifeq (y,$(ARCH_WANT_LIBFDT))
-+-	ifneq ($(call try-build,$(SOURCE_LIBFDT),$(CFLAGS),-lfdt),y)
-++	ifneq ($(call try-build,$(SOURCE_LIBFDT),$(CPPFLAGS) $(CFLAGS),-lfdt),y)
-+           $(error No libfdt found. Please install libfdt-dev package)
-+ 	else
-+ 		CFLAGS_DYNOPT	+= -DCONFIG_HAS_LIBFDT
-diff --git a/recipes-extended/kvmtool/kvmtool.bb b/recipes-extended/kvmtool/kvmtool.bb
++PR = "r0"
++
++SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
++SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082e8fc3bda50038ac3dff787650795734146"
++SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.gz;downloadfilename=protobuf-3.0.0.tar.gz \
++	"
++
++EXTRA_OECONF += " --with-protoc=echo --disable-shared"
++
++inherit native autotools
++
+diff --git a/meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb b/meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb
+deleted file mode 100644
+index 1b7ab20..0000000
+--- a/meta-virtualization/recipes-containers/criu/protobuf_2.6.1.bb
++++ /dev/null
+@@ -1,97 +0,0 @@
+-SUMMARY = "protobuf"
+-DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+-an efficient yet extensible format. Google uses Protocol Buffers for \
+-almost all of its internal RPC protocols and file formats."
+-HOMEPAGE = "http://code.google.com/p/protobuf/"
+-SECTION = "console/tools"
+-LICENSE = "BSD-3-Clause"
+-
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=af6809583bfde9a31595a58bb4a24514"
+-
+-PR = "r0"
+-EXCLUDE_FROM_WORLD = "1"
+-
+-SRC_URI[md5sum] = "af05b2cca289f7b86eef2734a0cdc8b9"
+-SRC_URI[sha256sum] = "2667b7cda4a6bc8a09e5463adf3b5984e08d94e72338277affa8594d8b6e5cd1"
+-SRC_URI = "https://github.com/google/protobuf/archive/v2.6.1.tar.gz;downloadfilename=protobuf-2.6.1.tar.gz\
+-	file://protobuf-allow-running-python-scripts-from-anywhere.patch \
+-	file://Omit-google-apputils-dependency.patch \
+-	file://run-ptest"
+-
+-COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
+-
+-EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
+-inherit autotools setuptools ptest
+-
+-DEPENDS += "protobuf-native"
+-
+-PYTHON_SRC_DIR="python"
+-TEST_SRC_DIR="examples"
+-LANG_SUPPORT="cpp python"
+-
+-do_compile() {
+-	# Compile protoc compiler
+-	base_do_compile
+-}
+-
+-do_compile_ptest() {
+-	# Modify makefile to use the cross-compiler
+-	sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
+-
+-	mkdir -p "${B}/${TEST_SRC_DIR}"
+-
+-	# Add the location of the cross-compiled header and library files
+-	# which haven't been installed yet.
+-	cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
+-	sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+-	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+-	sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
+-	export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
+-
+-	# Save the pkgcfg sysroot variable, and update it to nothing so
+-	# that it doesn't append the sysroot to the beginning of paths.
+-	# The header and library files aren't installed to the target
+-	# system yet.  So the absolute paths were specified above.
+-	save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
+-	export PKG_CONFIG_SYSROOT_DIR=
+-
+-	# Compile the tests
+-	for lang in ${LANG_SUPPORT}; do
+-		oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
+-	done
+-
+-	# Restore the pkgconfig sysroot variable
+-	export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
+-}
+-
+-do_install() {
+-	local olddir=`pwd`
+-
+-	# Install protoc compiler
+-	autotools_do_install
+-
+-	# Install header files
+-	export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
+-	cd "${S}/${PYTHON_SRC_DIR}"
+-	distutils_do_install
+-
+-	cd "$olddir"
+-}
+-
+-do_install_ptest() {
+-	local olddir=`pwd`
+-
+-	cd "${S}/${TEST_SRC_DIR}"
+-	install -d "${D}/${PTEST_PATH}"
+-	for i in add_person* list_people*; do
+-		if [ -x "$i" ]; then
+-			install "$i" "${D}/${PTEST_PATH}"
+-		fi
+-	done
+-	cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
+-	
+-	cd "$olddir"
+-}
+-
+-BBCLASSEXTEND = "nativesdk"
+-
+diff --git a/meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb b/meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb
 new file mode 100644
-index 0000000..3f299dd
+index 0000000..e1deeac
 --- /dev/null
-+++ b/recipes-extended/kvmtool/kvmtool.bb
-@@ -0,0 +1,23 @@
-+SUMMARY = "Native Linux KVM tool"
-+DESCRIPTION = "kvmtool is a lightweight tool for hosting KVM guests."
++++ b/meta-virtualization/recipes-containers/criu/protobuf_3.0.0.bb
+@@ -0,0 +1,97 @@
++SUMMARY = "protobuf"
++DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
++an efficient yet extensible format. Google uses Protocol Buffers for \
++almost all of its internal RPC protocols and file formats."
++HOMEPAGE = "http://code.google.com/p/protobuf/"
++SECTION = "console/tools"
++LICENSE = "BSD-3-Clause"
 +
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=35953c752efc9299b184f91bef540095"
 +
-+DEPENDS = "dtc libaio zlib"
++PR = "r0"
++EXCLUDE_FROM_WORLD = "1"
 +
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/will/kvmtool.git \
-+           file://external-crosscompiler.patch \
-+    "
++SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
++SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082e8fc3bda50038ac3dff787650795734146"
++SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.gz;downloadfilename=protobuf-3.0.0.tar.gz\
++	        file://protobuf-allow-running-python-scripts-from-anywhere.patch \
++	        file://run-ptest \
++            "
 +
-+SRCREV = "0093df80d754e1a05b016e5a4ccd4b51a00c562c"
-+PV = "3.18.0+git${SRCREV}"
++COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
 +
-+S = "${WORKDIR}/git"
++EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
++inherit autotools setuptools ptest
 +
-+EXTRA_OEMAKE='ARCH="${TARGET_ARCH}" V=1'
++DEPENDS += "protobuf-native"
++
++PYTHON_SRC_DIR="python"
++TEST_SRC_DIR="examples"
++LANG_SUPPORT="cpp python"
++
++do_compile() {
++	# Compile protoc compiler
++	base_do_compile
++}
++
++do_compile_ptest() {
++	# Modify makefile to use the cross-compiler
++	sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
++
++	mkdir -p "${B}/${TEST_SRC_DIR}"
++
++	# Add the location of the cross-compiled header and library files
++	# which haven't been installed yet.
++	cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
++	sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
++	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
++	sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/protobuf.pc"
++	export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
++
++	# Save the pkgcfg sysroot variable, and update it to nothing so
++	# that it doesn't append the sysroot to the beginning of paths.
++	# The header and library files aren't installed to the target
++	# system yet.  So the absolute paths were specified above.
++	save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
++	export PKG_CONFIG_SYSROOT_DIR=
++
++	# Compile the tests
++	for lang in ${LANG_SUPPORT}; do
++		oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
++	done
++
++	# Restore the pkgconfig sysroot variable
++	export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
++}
 +
 +do_install() {
-+    install -d ${D}${bindir}
-+    install -m 0755 ${S}/lkvm ${D}${bindir}/
++	local olddir=`pwd`
++
++	# Install protoc compiler
++	autotools_do_install
++
++	# Install header files
++	export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
++	cd "${S}/${PYTHON_SRC_DIR}"
++	distutils_do_install
++
++	cd "$olddir"
 +}
++
++do_install_ptest() {
++	local olddir=`pwd`
++
++	cd "${S}/${TEST_SRC_DIR}"
++	install -d "${D}/${PTEST_PATH}"
++	for i in add_person* list_people*; do
++		if [ -x "$i" ]; then
++			install "$i" "${D}/${PTEST_PATH}"
++		fi
++	done
++	cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
++	
++	cd "$olddir"
++}
++
++BBCLASSEXTEND = "nativesdk"
++
 -- 
-1.9.1
+2.8.1
 
 
