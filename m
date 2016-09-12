@@ -1,35 +1,71 @@
-Return-Path: <Jianchuan.Wang@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A1FE9E01211; Wed,  7 Sep 2016 22:36:09 -0700 (PDT)
+	id E4257E006D2; Mon, 12 Sep 2016 07:04:12 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	HTML_OBFUSCATE_05_10, 
+	RCVD_IN_DNSWL_LOW,RCVD_IN_SORBS_SPAM autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.216.174 listed in list.dnswl.org]
+	* 0.3 HTML_OBFUSCATE_05_10 BODY: Message is 5% to 10% HTML obfuscation
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4F2E9E00C6E
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.0 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.174 listed in dnsbl.sorbs.net]
+Received: from mail-qt0-f174.google.com (mail-qt0-f174.google.com
+	[209.85.216.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D6309E00444
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  7 Sep 2016 22:36:06 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id u885a6u7028839
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 12 Sep 2016 07:03:43 -0700 (PDT)
+Received: by mail-qt0-f174.google.com with SMTP id 93so72775359qtg.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 7 Sep 2016 22:36:06 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.248.2;
-	Wed, 7 Sep 2016 22:36:05 -0700
-From: <jianchuan.wang@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 8 Sep 2016 01:36:00 -0400
-Message-ID: <1473312960-115788-3-git-send-email-jianchuan.wang@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Mon, 12 Sep 2016 07:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=BaRM4dfeeYq7C3atpCasRk/NBSlPxVYu4Dh07gXhZHA=;
+	b=YEKvJGCgmYJSjzKDLCl4XPBD7KXbulJi1K4+DxQ87T8rFiojP9W5e8ewCktadEoZPV
+	NTmFFLYEmspRnXP640LsU6QRY4U92d2PBkrNuj1ycO3GCer18kFPJKJ0yhvoL2eN2tcH
+	S8wnrSHF/GEc2fDidvTNAxtOYh7k/WRlp8ly+c4IrFyDUCEdlMwxhf8N4PnPaTFzmdZd
+	BaGmOpNCMi60ZO30sm1dJx/qUKwUjS63zBwb3dSv/X/YWS9AOyLl46H5ON0jpkTiTO2w
+	Jz79yJFFHhUGYYA0HAxg+QRRMj/QYxT/gIq9+WyZkx51SWB9pWmTK9fLKJ6bcqF27ekO
+	D5vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20130820;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=BaRM4dfeeYq7C3atpCasRk/NBSlPxVYu4Dh07gXhZHA=;
+	b=iWbGZVSxQ8+NAMkh36mEiN3LqC4HyHhf4k2hkAc6v0bNCOq0PD9mT+xCweAuxJvs3Y
+	A1aStByRmVjlVmTdaXiLKfNcdwXqXuLY2j7yCLTziO2Z7saNLagVZskRbHdxy4BcJnGI
+	6G2bJp8aXgRUwaXP8G34MWoqeWKGz2RFtbHvRQYI6Dl8c5Duk2rKxpVR38qC9fnDko90
+	iqA6OXQaWa0lObrOIttmGoouXwZJZXshWG+3gsAywP3gMdAtirCyVop0ulhlT9T50IPB
+	l+vDXsBcsBuNHzeHZ/n7Cqe4WdjM0od/qNCIWUXIkhpWO4i970DE5bBtxYzBiygYfhdH
+	GXBg==
+X-Gm-Message-State: AE9vXwNAIo5RAiIoiyGAvihwvk7DyzblVMBmTlv+Yur6/atn7Z8dZPk33QW4s1VYC536n9w4RqiyJJ9/DPh3Aw==
+X-Received: by 10.200.33.183 with SMTP id 52mr20098130qty.128.1473689022350;
+	Mon, 12 Sep 2016 07:03:42 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 10.237.38.166 with HTTP; Mon, 12 Sep 2016 07:03:40 -0700 (PDT)
 In-Reply-To: <1473312960-115788-1-git-send-email-jianchuan.wang@windriver.com>
 References: <1473312960-115788-1-git-send-email-jianchuan.wang@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] criu: uprev to 2.5
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 12 Sep 2016 10:03:40 -0400
+Message-ID: <CADkTA4O4HATc65vFYJ40FaTN-VjjK+1VFdz-u=bLrJa3nHxPCw@mail.gmail.com>
+To: jianchuan.wang@windriver.com
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 1/3] protobuf: uprev 3.0.0 from 2.6.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,346 +78,739 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Sep 2016 05:36:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 12 Sep 2016 14:04:13 -0000
+Content-Type: multipart/alternative; boundary=001a113fde42afe053053c4ff6b4
 
-From: Jianchuan Wang <jianchuan.wang@windriver.com>
+--001a113fde42afe053053c4ff6b4
+Content-Type: text/plain; charset=UTF-8
 
-Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
----
- recipes-containers/criu/criu_git.bb                |  22 +++--
- ...1-criu-Change-libraries-install-directory.patch |  63 ++++++------
- .../files/0001-criu-Fix-toolchain-hardcode.patch   | 108 +++++++++++++++++----
- .../0002-criu-Skip-documentation-install.patch     |  29 +++---
- 4 files changed, 140 insertions(+), 82 deletions(-)
+On Thu, Sep 8, 2016 at 1:35 AM, <jianchuan.wang@windriver.com> wrote:
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-index c8be78f..dc0bdbe 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_git.bb
-@@ -11,11 +11,11 @@ LICENSE = "GPLv2"
- 
- EXCLUDE_FROM_WORLD = "1"
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=5cc804625b8b491b6b4312f0c9cb5efa"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
- 
--SRCREV = "4c5b23e52c1dc4e3fbbc7472b92e7b1ce9d22f02"
-+SRCREV = "c031417255f6a5c4409d15ff0b36af5f6e90c559"
- PR = "r0"
--PV = "1.6+git${SRCPV}"
-+PV = "2.5+git${SRCPV}"
- 
- SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
-            file://0001-criu-Fix-toolchain-hardcode.patch \
-@@ -26,7 +26,7 @@ SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
- 
- COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
- 
--DEPENDS += "protobuf-c-native protobuf-c libbsd"
-+DEPENDS += "libnl libcap protobuf-c-native protobuf-c"
- 
- S = "${WORKDIR}/git"
- 
-@@ -35,14 +35,16 @@ S = "${WORKDIR}/git"
- # if the ARCH is ARMv7 or ARMv6.
- # ARM BSPs need set CRIU_BUILD_ARCH variable for building CRIU.
- #
--EXTRA_OEMAKE_arm += "ARCH=${CRIU_BUILD_ARCH} WERROR=0"
--EXTRA_OEMAKE_x86-64 += "ARCH=${TARGET_ARCH} WERROR=0"
--EXTRA_OEMAKE_aarch64 += "ARCH=${TARGET_ARCH} WERROR=0"
-+EXTRA_OEMAKE_arm += "ARCH=arm UNAME-M=${CRIU_BUILD_ARCH} WERROR=0"
-+EXTRA_OEMAKE_x86-64 += "ARCH=x86 WERROR=0"
-+EXTRA_OEMAKE_aarch64 += "ARCH=arm64 WERROR=0"
- 
- EXTRA_OEMAKE_append += "SBINDIR=${sbindir} LIBDIR=${libdir} INCLUDEDIR=${includedir} PIEGEN=no"
- EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unitdir}"
- 
--CFLAGS += "-D__USE_GNU -D_GNU_SOURCE"
-+CFLAGS += "-D__USE_GNU -D_GNU_SOURCE " 
-+
-+CFLAGS += " -I${STAGING_INCDIR} -I${STAGING_INCDIR}/libnl3"
- 
- # overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
- export LDFLAGS=""
-@@ -56,8 +58,8 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[selinux] = ",,libselinux"
- 
- do_compile_prepend() {
--    rm -rf ${S}/protobuf/google/protobuf/descriptor.proto
--    ln -s  ${PKG_CONFIG_SYSROOT_DIR}/usr/include/google/protobuf/descriptor.proto ${S}/protobuf/google/protobuf/descriptor.proto
-+    rm -rf ${S}/images/google/protobuf/descriptor.proto
-+    ln -s  ${PKG_CONFIG_SYSROOT_DIR}/usr/include/google/protobuf/descriptor.proto ${S}/images/google/protobuf/descriptor.proto
- }
- 
- do_compile () {
-diff --git a/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch b/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-index 28d638b..a721405 100644
---- a/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-+++ b/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-@@ -1,48 +1,39 @@
--From cb9933dc34af0b4d52c4584332600114ac65c402 Mon Sep 17 00:00:00 2001
-+From 7ebde06e00b591a88397dad74a1aa47fd562eb50 Mon Sep 17 00:00:00 2001
- From: Jianchuan Wang <jianchuan.wang@windriver.com>
--Date: Tue, 4 Aug 2015 17:45:51 +0800
--Subject: [PATCH] criu: Change libraries install directory
-+Date: Tue, 16 Aug 2016 09:48:08 +0800
-+Subject: [PATCH 1/2] criu: Change libraries install directory
- 
--Install the libraries into /usr/lib(/usr/lib64)
-+Install the libraries into /usr/lib(or /usr/lib64)
- 
- Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
- ---
-- Makefile     | 2 +-
-- Makefile.inc | 9 ---------
-- 2 files changed, 1 insertion(+), 10 deletions(-)
-+ Makefile.install | 13 -------------
-+ 1 file changed, 13 deletions(-)
- 
--diff --git a/Makefile b/Makefile
--index 7f5c890..6dbc436 100644
----- a/Makefile
--+++ b/Makefile
--@@ -351,7 +351,7 @@ install-man:
-+diff --git a/Makefile.install b/Makefile.install
-+index dbc22e1..a30dc96 100644
-+--- a/Makefile.install
-++++ b/Makefile.install
-+@@ -11,19 +11,6 @@ LIBDIR		?= $(PREFIX)/lib
-+ INCLUDEDIR	?= $(PREFIX)/include/criu
-+ LIBEXECDIR	?= $(PREFIX)/libexec
-  
-- install-crit: crit
-- 	$(E) "  INSTALL crit"
---	$(Q) python scripts/crit-setup.py install --root=$(DESTDIR) --prefix=$(PREFIX)
--+	$(Q) python scripts/crit-setup.py install --root=$(DESTDIR) --prefix=$(PREFIX) --install-lib=$(LIBDIR)
-- 
-- .PHONY: install install-man install-crit install-criu
-- 
--diff --git a/Makefile.inc b/Makefile.inc
--index 5496f41..ba70aea 100644
----- a/Makefile.inc
--+++ b/Makefile.inc
--@@ -17,14 +17,5 @@ MANDIR		:= $(PREFIX)/share/man
-- SYSTEMDUNITDIR	:= $(PREFIX)/lib/systemd/system/
-- LOGROTATEDIR	:= $(PREFIX)/etc/logrotate.d/
-- LIBDIR		:= $(PREFIX)/lib
---# For recent Debian/Ubuntu with multiarch support
---DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture \
---			-qDEB_HOST_MULTIARCH 2>/dev/null)
-+-#
-+-# For recent Debian/Ubuntu with multiarch support.
-+-DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH 2>/dev/null)
- -ifneq "$(DEB_HOST_MULTIARCH)" ""
---LIBDIR		:= $(PREFIX)/lib/$(DEB_HOST_MULTIARCH)
---# For most other systems
---else ifeq "$(shell uname -m)" "x86_64"
---LIBDIR		:= $(PREFIX)/lib64
-+-        LIBDIR			?= $(PREFIX)/lib/$(DEB_HOST_MULTIARCH)
-+-else
-+-        #
-+-        # For most other systems
-+-        ifeq "$(shell uname -m)" "x86_64"
-+-                LIBDIR		?= $(PREFIX)/lib64
-+-        endif
- -endif
-+-
-+ export BINDIR SBINDIR MANDIR SYSTEMDUNITDIR LOGROTATEDIR
-+ export INCLUDEDIR LIBDIR DESTDIR PREFIX LIBEXECDIR
-  
-- INCLUDEDIR	:= $(PREFIX)/include/criu
- -- 
--1.9.1
-+2.7.4
- 
-diff --git a/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch b/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch
-index 2fabe0a..d30f2ac 100644
---- a/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch
-+++ b/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch
-@@ -1,46 +1,112 @@
--From 3d4f112fdb434712eba09239a468842323f1af4c Mon Sep 17 00:00:00 2001
--From: Yang Shi <yang.shi@windriver.com>
--Date: Tue, 26 Aug 2014 14:42:42 -0700
--Subject: [PATCH 1/2] criu: Fix toolchain hardcode
-+From 057d30f15e81dcc4162d6fbee06f126564596397 Mon Sep 17 00:00:00 2001
-+From: Jianchuan Wang <jianchuan.wang@windriver.com>
-+Date: Wed, 7 Sep 2016 23:55:15 -0400
-+Subject: [PATCH] criu: Fix toolchain hardcode
- 
- Replace ":=" to "?=" so that the toolchain used by bitbake build system will
- be taken.
- 
- Signed-off-by: Yang Shi <yang.shi@windriver.com>
--Signed-off-by: Nam Ninh <nam.ninh@windriver.com>
-+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
- ---
-- Makefile | 18 +++++++++---------
-- 1 file changed, 9 insertions(+), 9 deletions(-)
-+ Makefile                       |  2 +-
-+ criu/pie/Makefile              |  2 +-
-+ scripts/nmk/scripts/include.mk |  2 +-
-+ scripts/nmk/scripts/tools.mk   | 40 ++++++++++++++++++++--------------------
-+ 4 files changed, 23 insertions(+), 23 deletions(-)
- 
- diff --git a/Makefile b/Makefile
--index f1c8784..43252ec 100644
-+index 52cbd6a..f66279b 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -23,15 +23,15 @@ export VERSION_SO_MAJOR VERSION_SO_MINOR
-- # Common definitions
-+@@ -60,7 +60,7 @@ LDARCH			?= $(SRCARCH)
-+ 
-+ export SRCARCH LDARCH VDSO
-+ 
-+-UNAME-M := $(shell uname -m)
-++UNAME-M ?= $(shell uname -m)
-+ export UNAME-M
-+ 
-+ ifeq ($(ARCH),arm)
-+diff --git a/criu/pie/Makefile b/criu/pie/Makefile
-+index 125b02f..9975871 100644
-+--- a/criu/pie/Makefile
-++++ b/criu/pie/Makefile
-+@@ -17,7 +17,7 @@ restorer-obj-e		+= ./$(ARCH_DIR)/syscalls.built-in.o
-  #
-+ CFLAGS			:= $(filter-out -pg $(CFLAGS-GCOV),$(CFLAGS))
-+ CFLAGS			+= -iquote $(SRC_DIR)/criu/pie/piegen
-+-CFLAGS			+= -iquote $(SRC_DIR)/criu/arch/$(ARCH)/include
-++CFLAGS			+= -iquote $(SRC_DIR)/criu/arch/$(SRCARCH)/include
-+ CFLAGS			+= -iquote $(SRC_DIR)/criu/include
-+ CFLAGS			+= -iquote $(SRC_DIR)
-  
---FIND		:= find
---CSCOPE		:= cscope
-+diff --git a/scripts/nmk/scripts/include.mk b/scripts/nmk/scripts/include.mk
-+index 4c496f7..a7250cd 100644
-+--- a/scripts/nmk/scripts/include.mk
-++++ b/scripts/nmk/scripts/include.mk
-+@@ -20,7 +20,7 @@ SUBARCH := $(shell uname -m | sed       \
-+                 -e s/aarch64.*/arm64/)
-+ 
-+ ARCH		?= $(SUBARCH)
-+-SRCARCH 	:= $(ARCH)
-++SRCARCH 	?= $(ARCH)
-+ 
-+ export SUBARCH ARCH SRCARCH
-+ 
-+diff --git a/scripts/nmk/scripts/tools.mk b/scripts/nmk/scripts/tools.mk
-+index 0538dde..e4af068 100644
-+--- a/scripts/nmk/scripts/tools.mk
-++++ b/scripts/nmk/scripts/tools.mk
-+@@ -2,28 +2,28 @@ ifndef ____nmk_defined__tools
-+ 
-+ #
-+ # System tools shorthands
- -RM		:= rm -f
- -LD		:= $(CROSS_COMPILE)ld
- -CC		:= $(CROSS_COMPILE)gcc
-+-CPP		:= $(CC) -E
-+-AS		:= $(CROSS_COMPILE)as
-+-AR		:= $(CROSS_COMPILE)ar
-+-STRIP		:= $(CROSS_COMPILE)strip
-+-OBJCOPY		:= $(CROSS_COMPILE)objcopy
-+-OBJDUMP		:= $(CROSS_COMPILE)objdump
- -NM		:= $(CROSS_COMPILE)nm
---SH		:= bash
- -MAKE		:= make
---OBJCOPY		:= $(CROSS_COMPILE)objcopy
--+FIND		?= find
--+CSCOPE		?= cscope
-+-MKDIR		:= mkdir -p
-+-AWK		:= awk
-+-PERL		:= perl
-+-PYTHON		:= python
-+-FIND		:= find
-+-SH		:= $(shell if [ -x "$$BASH" ]; then echo $$BASH;        \
- +RM		?= rm -f
- +LD		?= $(CROSS_COMPILE)ld
- +CC		?= $(CROSS_COMPILE)gcc
-++CPP		?= $(CC) -E
-++AS		?= $(CROSS_COMPILE)as
-++AR		?= $(CROSS_COMPILE)ar
-++STRIP		?= $(CROSS_COMPILE)strip
-++OBJCOPY		?= $(CROSS_COMPILE)objcopy
-++OBJDUMP		?= $(CROSS_COMPILE)objdump
- +NM		?= $(CROSS_COMPILE)nm
--+SH		?= bash
- +MAKE		?= make
--+OBJCOPY		?= $(CROSS_COMPILE)objcopy
-- 
-- CFLAGS		+= $(USERCFLAGS)
-++MKDIR		?= mkdir -p
-++AWK		?= awk
-++PERL		?= perl
-++PYTHON		?= python
-++FIND		?= find
-++SH		?= $(shell if [ -x "$$BASH" ]; then echo $$BASH;        \
-+                         else if [ -x /bin/bash ]; then echo /bin/bash;  \
-+                         else echo sh; fi ; fi)
-+-CSCOPE		:= cscope
-+-ETAGS		:= etags
-+-CTAGS		:= ctags
-++CSCOPE		?= cscope
-++ETAGS		?= etags
-++CTAGS		?= ctags
-  
-+ export RM LD CC CPP AS AR STRIP OBJCOPY OBJDUMP
-+ export NM SH MAKE MKDIR AWK PERL PYTHON SH CSCOPE
- -- 
--2.0.2
-+2.8.1
- 
-diff --git a/recipes-containers/criu/files/0002-criu-Skip-documentation-install.patch b/recipes-containers/criu/files/0002-criu-Skip-documentation-install.patch
-index eaf8160..ba414d9 100644
---- a/recipes-containers/criu/files/0002-criu-Skip-documentation-install.patch
-+++ b/recipes-containers/criu/files/0002-criu-Skip-documentation-install.patch
-@@ -1,29 +1,28 @@
--From e9c2a94b9eb37ad24672b10caa398bd18282b962 Mon Sep 17 00:00:00 2001
--From: Yang Shi <yang.shi@windriver.com>
--Date: Tue, 26 Aug 2014 14:44:51 -0700
-+From 07d9b3d0c372e45127dd51781d9564e8bee90dbe Mon Sep 17 00:00:00 2001
-+From: Jianchuan Wang <jianchuan.wang@windriver.com>
-+Date: Tue, 16 Aug 2016 09:42:24 +0800
- Subject: [PATCH 2/2] criu: Skip documentation install
- 
- asciidoc is needed to generate CRIU documentation, so skip it in install.
- 
--Signed-off-by: Yang Shi <yang.shi@windriver.com>
--Signed-off-by: Nam Ninh <nam.ninh@windriver.com>
-+Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
- ---
-- Makefile | 2 +-
-+ Makefile.install | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/Makefile b/Makefile
--index 43252ec..e25edcc 100644
----- a/Makefile
--+++ b/Makefile
--@@ -265,7 +265,7 @@ install: $(PROGRAM) install-man
-- 	$(Q) install -m 644 scripts/logrotate.d/criu-service $(DESTDIR)$(LOGROTATEDIR)
-+diff --git a/Makefile.install b/Makefile.install
-+index a30dc96..33143fb 100644
-+--- a/Makefile.install
-++++ b/Makefile.install
-+@@ -22,7 +22,7 @@ install-tree:
-+ .PHONY: install-tree
-  
-  install-man:
- -	$(Q) $(MAKE) -C Documentation install
- +#	$(Q) $(MAKE) -C Documentation install
-+ .PHONY: install-man
-  
-- .PHONY: install install-man
-- 
-+ install-lib: lib
- -- 
--2.0.2
-+2.7.4
- 
+> From: Jianchuan Wang <jianchuan.wang@windriver.com>
+>
+>
+This series is merged.
+
+Bruce
+
+
+> Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+> ---
+>  recipes-devtools/protobuf/protobuf-native_2.5.0.bb | 20 -----
+>  recipes-devtools/protobuf/protobuf-native_3.0.0.bb | 21 +++++
+>  recipes-devtools/protobuf/protobuf_2.5.0.bb        | 95
+> ---------------------
+>  recipes-devtools/protobuf/protobuf_3.0.0.bb        | 97
+> ++++++++++++++++++++++
+>  4 files changed, 118 insertions(+), 115 deletions(-)
+>  delete mode 100644 recipes-devtools/protobuf/protobuf-native_2.5.0.bb
+>  create mode 100644 recipes-devtools/protobuf/protobuf-native_3.0.0.bb
+>  delete mode 100644 recipes-devtools/protobuf/protobuf_2.5.0.bb
+>  create mode 100644 recipes-devtools/protobuf/protobuf_3.0.0.bb
+>
+> diff --git a/recipes-devtools/protobuf/protobuf-native_2.5.0.bb
+> b/recipes-devtools/protobuf/protobuf-native_2.5.0.bb
+> deleted file mode 100644
+> index 47acdae..0000000
+> --- a/recipes-devtools/protobuf/protobuf-native_2.5.0.bb
+> +++ /dev/null
+> @@ -1,20 +0,0 @@
+> -SUMMARY = "protobuf"
+> -DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> -an efficient yet extensible format. Google uses Protocol Buffers for \
+> -almost all of its internal RPC protocols and file formats."
+> -HOMEPAGE = "http://code.google.com/p/protobuf/"
+> -SECTION = "console/tools"
+> -LICENSE = "BSD-3-Clause"
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af6809583bfde9a31595a58bb4a245
+> 14"
+> -
+> -PR = "r1"
+> -
+> -SRC_URI[md5sum] = "9c21577a03adc1879aba5b52d06e25cf"
+> -SRC_URI[sha256sum] = "c2665a7aa2ac1a206e61b28e014486
+> e3de59009ea2be2bde9182e0847f38b62f"
+> -SRC_URI = "https://github.com/google/protobuf/archive/v${PV}.tar.gz \
+> -       "
+> -
+> -EXTRA_OECONF += " --with-protoc=echo --disable-shared"
+> -
+> -inherit native autotools
+> diff --git a/recipes-devtools/protobuf/protobuf-native_3.0.0.bb
+> b/recipes-devtools/protobuf/protobuf-native_3.0.0.bb
+> new file mode 100644
+> index 0000000..33467b3
+> --- /dev/null
+> +++ b/recipes-devtools/protobuf/protobuf-native_3.0.0.bb
+> @@ -0,0 +1,21 @@
+> +SUMMARY = "protobuf"
+> +DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> +an efficient yet extensible format. Google uses Protocol Buffers for \
+> +almost all of its internal RPC protocols and file formats."
+> +HOMEPAGE = "http://code.google.com/p/protobuf/"
+> +SECTION = "console/tools"
+> +LICENSE = "BSD-3-Clause"
+> +
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=35953c752efc9299b184f91bef540095"
+> +
+> +PR = "r0"
+> +
+> +SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
+> +SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082
+> e8fc3bda50038ac3dff787650795734146"
+> +SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.
+> gz;downloadfilename=protobuf-3.0.0.tar.gz \
+> +       "
+> +
+> +EXTRA_OECONF += " --with-protoc=echo --disable-shared"
+> +
+> +inherit native autotools
+> +
+> diff --git a/recipes-devtools/protobuf/protobuf_2.5.0.bb
+> b/recipes-devtools/protobuf/protobuf_2.5.0.bb
+> deleted file mode 100644
+> index b503a35..0000000
+> --- a/recipes-devtools/protobuf/protobuf_2.5.0.bb
+> +++ /dev/null
+> @@ -1,95 +0,0 @@
+> -SUMMARY = "protobuf"
+> -DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> -an efficient yet extensible format. Google uses Protocol Buffers for \
+> -almost all of its internal RPC protocols and file formats."
+> -HOMEPAGE = "http://code.google.com/p/protobuf/"
+> -SECTION = "console/tools"
+> -LICENSE = "BSD-3-Clause"
+> -
+> -LIC_FILES_CHKSUM = "file://COPYING.txt;md5=af6809583bfde9a31595a58bb4a245
+> 14"
+> -
+> -PR = "r1"
+> -EXCLUDE_FROM_WORLD = "1"
+> -
+> -SRC_URI[md5sum] = "9c21577a03adc1879aba5b52d06e25cf"
+> -SRC_URI[sha256sum] = "c2665a7aa2ac1a206e61b28e014486
+> e3de59009ea2be2bde9182e0847f38b62f"
+> -SRC_URI = "https://github.com/google/protobuf/archive/v${PV}.tar.gz \
+> -       file://protobuf-allow-running-python-scripts-from-anywhere.patch \
+> -       file://run-ptest"
+> -
+> -EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
+> -inherit autotools setuptools ptest
+> -
+> -DEPENDS += "protobuf-native"
+> -RDEPENDS_${PN}-ptest = "bash python"
+> -
+> -PYTHON_SRC_DIR="python"
+> -TEST_SRC_DIR="examples"
+> -LANG_SUPPORT="python"
+> -
+> -do_compile() {
+> -       # Compile protoc compiler
+> -       base_do_compile
+> -}
+> -
+> -do_compile_ptest() {
+> -       # Modify makefile to use the cross-compiler
+> -       sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
+> -
+> -       mkdir -p "${B}/${TEST_SRC_DIR}"
+> -
+> -       # Add the location of the cross-compiled header and library files
+> -       # which haven't been installed yet.
+> -       cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> -       sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i
+> "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> -       sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/
+> protobuf.pc"
+> -       sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/
+> protobuf.pc"
+> -       export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
+> -
+> -       # Save the pkgcfg sysroot variable, and update it to nothing so
+> -       # that it doesn't append the sysroot to the beginning of paths.
+> -       # The header and library files aren't installed to the target
+> -       # system yet.  So the absolute paths were specified above.
+> -       save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
+> -       export PKG_CONFIG_SYSROOT_DIR=
+> -
+> -       # Compile the tests
+> -       for lang in ${LANG_SUPPORT}; do
+> -               oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
+> -       done
+> -
+> -       # Restore the pkgconfig sysroot variable
+> -       export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
+> -}
+> -
+> -do_install() {
+> -       local olddir=`pwd`
+> -
+> -       # Install protoc compiler
+> -       autotools_do_install
+> -
+> -       # Install header files
+> -       export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
+> -       cd "${S}/${PYTHON_SRC_DIR}"
+> -       distutils_do_install
+> -
+> -       cd "$olddir"
+> -}
+> -
+> -do_install_ptest() {
+> -       local olddir=`pwd`
+> -
+> -       cd "${S}/${TEST_SRC_DIR}"
+> -       install -d "${D}/${PTEST_PATH}"
+> -       for i in add_person* list_people*; do
+> -               if [ -x "$i" ]; then
+> -                       install "$i" "${D}/${PTEST_PATH}"
+> -               fi
+> -       done
+> -       cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
+> -
+> -       cd "$olddir"
+> -}
+> -
+> -BBCLASSEXTEND = "nativesdk"
+> -
+> diff --git a/recipes-devtools/protobuf/protobuf_3.0.0.bb
+> b/recipes-devtools/protobuf/protobuf_3.0.0.bb
+> new file mode 100644
+> index 0000000..e1deeac
+> --- /dev/null
+> +++ b/recipes-devtools/protobuf/protobuf_3.0.0.bb
+> @@ -0,0 +1,97 @@
+> +SUMMARY = "protobuf"
+> +DESCRIPTION = "Protocol Buffers are a way of encoding structured data in \
+> +an efficient yet extensible format. Google uses Protocol Buffers for \
+> +almost all of its internal RPC protocols and file formats."
+> +HOMEPAGE = "http://code.google.com/p/protobuf/"
+> +SECTION = "console/tools"
+> +LICENSE = "BSD-3-Clause"
+> +
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=35953c752efc9299b184f91bef540095"
+> +
+> +PR = "r0"
+> +EXCLUDE_FROM_WORLD = "1"
+> +
+> +SRC_URI[md5sum] = "d4f6ca65aadc6310b3872ee421e79fa6"
+> +SRC_URI[sha256sum] = "f5b3563f118f1d3d6e001705fa7082
+> e8fc3bda50038ac3dff787650795734146"
+> +SRC_URI = "https://github.com/google/protobuf/archive/v3.0.0.tar.
+> gz;downloadfilename=protobuf-3.0.0.tar.gz\
+> +               file://protobuf-allow-running-
+> python-scripts-from-anywhere.patch \
+> +               file://run-ptest \
+> +            "
+> +
+> +COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
+> +
+> +EXTRA_OECONF += " --with-protoc=${STAGING_BINDIR_NATIVE}/protoc"
+> +inherit autotools setuptools ptest
+> +
+> +DEPENDS += "protobuf-native"
+> +
+> +PYTHON_SRC_DIR="python"
+> +TEST_SRC_DIR="examples"
+> +LANG_SUPPORT="cpp python"
+> +
+> +do_compile() {
+> +       # Compile protoc compiler
+> +       base_do_compile
+> +}
+> +
+> +do_compile_ptest() {
+> +       # Modify makefile to use the cross-compiler
+> +       sed -e "s|c++|${CXX}|g" -i "${S}/${TEST_SRC_DIR}/Makefile"
+> +
+> +       mkdir -p "${B}/${TEST_SRC_DIR}"
+> +
+> +       # Add the location of the cross-compiled header and library files
+> +       # which haven't been installed yet.
+> +       cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> +       sed -e 's|libdir=|libdir=${PKG_CONFIG_SYSROOT_DIR}|' -i
+> "${B}/${TEST_SRC_DIR}/protobuf.pc"
+> +       sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/
+> protobuf.pc"
+> +       sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/
+> protobuf.pc"
+> +       export PKG_CONFIG_PATH="${B}/${TEST_SRC_DIR}"
+> +
+> +       # Save the pkgcfg sysroot variable, and update it to nothing so
+> +       # that it doesn't append the sysroot to the beginning of paths.
+> +       # The header and library files aren't installed to the target
+> +       # system yet.  So the absolute paths were specified above.
+> +       save_pkg_config_sysroot_dir=$PKG_CONFIG_SYSROOT_DIR
+> +       export PKG_CONFIG_SYSROOT_DIR=
+> +
+> +       # Compile the tests
+> +       for lang in ${LANG_SUPPORT}; do
+> +               oe_runmake -C "${S}/${TEST_SRC_DIR}" ${lang}
+> +       done
+> +
+> +       # Restore the pkgconfig sysroot variable
+> +       export PKG_CONFIG_SYSROOT_DIR=$save_pkg_config_sysroot_dir
+> +}
+> +
+> +do_install() {
+> +       local olddir=`pwd`
+> +
+> +       # Install protoc compiler
+> +       autotools_do_install
+> +
+> +       # Install header files
+> +       export PROTOC="${STAGING_BINDIR_NATIVE}/protoc"
+> +       cd "${S}/${PYTHON_SRC_DIR}"
+> +       distutils_do_install
+> +
+> +       cd "$olddir"
+> +}
+> +
+> +do_install_ptest() {
+> +       local olddir=`pwd`
+> +
+> +       cd "${S}/${TEST_SRC_DIR}"
+> +       install -d "${D}/${PTEST_PATH}"
+> +       for i in add_person* list_people*; do
+> +               if [ -x "$i" ]; then
+> +                       install "$i" "${D}/${PTEST_PATH}"
+> +               fi
+> +       done
+> +       cp "${S}/${TEST_SRC_DIR}/addressbook_pb2.py" "${D}/${PTEST_PATH}"
+> +
+> +       cd "$olddir"
+> +}
+> +
+> +BBCLASSEXTEND = "nativesdk"
+> +
+> --
+> 2.8.1
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+
+
 -- 
-2.8.1
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a113fde42afe053053c4ff6b4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Sep 8, 2016 at 1:35 AM,  <span dir=3D"ltr">&lt;<a href=3D"mailt=
+o:jianchuan.wang@windriver.com" target=3D"_blank">jianchuan.wang@windriver.=
+com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"mar=
+gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"=
+">From: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang@windriver.com">=
+jianchuan.wang@windriver.com</a>&gt;<br>
+<br></span></blockquote><div><br></div><div>This series is merged.<br><br><=
+/div><div>Bruce<br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><s=
+pan class=3D"">
+Signed-off-by: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang@windrive=
+r.com">jianchuan.wang@windriver.com</a>&gt;<br>
+---<br>
+</span>=C2=A0recipes-devtools/protobuf/<a href=3D"http://protobuf-native_2.=
+5.0.bb" rel=3D"noreferrer" target=3D"_blank">prot<wbr>obuf-native_2.5.0.bb<=
+/a> | 20 -----<br>
+=C2=A0recipes-devtools/protobuf/<a href=3D"http://protobuf-native_3.0.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">prot<wbr>obuf-native_3.0.0.bb</a> | 2=
+1 +++++<br>
+=C2=A0recipes-devtools/protobuf/<a href=3D"http://protobuf_2.5.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">prot<wbr>obuf_2.5.0.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 95 ---------------------<br>
+=C2=A0recipes-devtools/protobuf/<a href=3D"http://protobuf_3.0.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">prot<wbr>obuf_3.0.0.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 97 ++++++++++++++++++++++<br>
+=C2=A04 files changed, 118 insertions(+), 115 deletions(-)<br>
+=C2=A0delete mode 100644 recipes-devtools/protobuf/<a href=3D"http://protob=
+uf-native_2.5.0.bb" rel=3D"noreferrer" target=3D"_blank">prot<wbr>obuf-nati=
+ve_2.5.0.bb</a><br>
+=C2=A0create mode 100644 recipes-devtools/protobuf/<a href=3D"http://protob=
+uf-native_3.0.0.bb" rel=3D"noreferrer" target=3D"_blank">prot<wbr>obuf-nati=
+ve_3.0.0.bb</a><br>
+=C2=A0delete mode 100644 recipes-devtools/protobuf/<a href=3D"http://protob=
+uf_2.5.0.bb" rel=3D"noreferrer" target=3D"_blank">prot<wbr>obuf_2.5.0.bb</a=
+><br>
+=C2=A0create mode 100644 recipes-devtools/protobuf/<a href=3D"http://protob=
+uf_3.0.0.bb" rel=3D"noreferrer" target=3D"_blank">prot<wbr>obuf_3.0.0.bb</a=
+><br>
+<br>
+diff --git a/recipes-devtools/protobuf/<a href=3D"http://protobuf-native_2.=
+5.0.bb" rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf-native_2.5.0.bb<=
+/a> b/recipes-devtools/protobuf/<a href=3D"http://protobuf-native_2.5.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf-native_2.5.0.bb</a><br>
+deleted file mode 100644<br>
+index 47acdae..0000000<br>
+--- a/recipes-devtools/protobuf/<a href=3D"http://protobuf-native_2.5.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf-native_2.5.0.bb</a><br>
++++ /dev/null<br>
+@@ -1,20 +0,0 @@<br>
+<span class=3D"">-SUMMARY =3D &quot;protobuf&quot;<br>
+-DESCRIPTION =3D &quot;Protocol Buffers are a way of encoding structured da=
+ta in \<br>
+-an efficient yet extensible format. Google uses Protocol Buffers for \<br>
+-almost all of its internal RPC protocols and file formats.&quot;<br>
+-HOMEPAGE =3D &quot;<a href=3D"http://code.google.com/p/protobuf/" rel=3D"n=
+oreferrer" target=3D"_blank">http://code.google.com/p/<wbr>protobuf/</a>&qu=
+ot;<br>
+-SECTION =3D &quot;console/tools&quot;<br>
+-LICENSE =3D &quot;BSD-3-Clause&quot;<br>
+-<br>
+</span>-LIC_FILES_CHKSUM =3D &quot;file://COPYING.txt;md5=3D<wbr>af6809583b=
+fde9a31595a58bb4a245<wbr>14&quot;<br>
+-<br>
+-PR =3D &quot;r1&quot;<br>
+-<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>9c21577a03adc1879aba5b52d06e25<wbr>cf&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>c2665a7aa2ac1a206e61b28e014486<wbr>e3de5=
+9009ea2be2bde9182e0847f38<wbr>b62f&quot;<br>
+-SRC_URI =3D &quot;<a href=3D"https://github.com/google/protobuf/archive/v$=
+{PV}.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://github.com/google=
+/<wbr>protobuf/archive/v${PV}.tar.gz</a> \<br>
+<span class=3D"">-=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+-<br>
+-EXTRA_OECONF +=3D &quot; --with-protoc=3Decho --disable-shared&quot;<br>
+-<br>
+-inherit native autotools<br>
+</span>diff --git a/recipes-devtools/protobuf/<a href=3D"http://protobuf-na=
+tive_3.0.0.bb" rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf-native_3.=
+0.0.bb</a> b/recipes-devtools/protobuf/<a href=3D"http://protobuf-native_3.=
+0.0.bb" rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf-native_3.0.0.bb<=
+/a><br>
+<span class=3D"">new file mode 100644<br>
+index 0000000..33467b3<br>
+--- /dev/null<br>
+</span>+++ b/recipes-devtools/protobuf/<a href=3D"http://protobuf-native_3.=
+0.0.bb" rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf-native_3.0.0.bb<=
+/a><br>
+<span class=3D"">@@ -0,0 +1,21 @@<br>
++SUMMARY =3D &quot;protobuf&quot;<br>
++DESCRIPTION =3D &quot;Protocol Buffers are a way of encoding structured da=
+ta in \<br>
++an efficient yet extensible format. Google uses Protocol Buffers for \<br>
++almost all of its internal RPC protocols and file formats.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"http://code.google.com/p/protobuf/" rel=3D"n=
+oreferrer" target=3D"_blank">http://code.google.com/p/<wbr>protobuf/</a>&qu=
+ot;<br>
++SECTION =3D &quot;console/tools&quot;<br>
++LICENSE =3D &quot;BSD-3-Clause&quot;<br>
++<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>35953c752efc9299b184f=
+91bef5400<wbr>95&quot;<br>
++<br>
++PR =3D &quot;r0&quot;<br>
++<br>
++SRC_URI[md5sum] =3D &quot;<wbr>d4f6ca65aadc6310b3872ee421e79f<wbr>a6&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>f5b3563f118f1d3d6e001705fa7082<wbr>e8fc3=
+bda50038ac3dff78765079573<wbr>4146&quot;<br>
++SRC_URI =3D &quot;<a href=3D"https://github.com/google/protobuf/archive/v3=
+.0.0.tar.gz;downloadfilename=3Dprotobuf-3.0.0.tar.gz" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://github.com/google/<wbr>protobuf/archive/v3.0.0.tar.=
+<wbr>gz;downloadfilename=3Dprotobuf-<wbr>3.0.0.tar.gz</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
++<br>
++EXTRA_OECONF +=3D &quot; --with-protoc=3Decho --disable-shared&quot;<br>
++<br>
++inherit native autotools<br>
++<br>
+</span>diff --git a/recipes-devtools/protobuf/<a href=3D"http://protobuf_2.=
+5.0.bb" rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf_2.5.0.bb</a> b/r=
+ecipes-devtools/protobuf/<a href=3D"http://protobuf_2.5.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">pr<wbr>otobuf_2.5.0.bb</a><br>
+deleted file mode 100644<br>
+index b503a35..0000000<br>
+--- a/recipes-devtools/protobuf/<a href=3D"http://protobuf_2.5.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">pr<wbr>otobuf_2.5.0.bb</a><br>
++++ /dev/null<br>
+@@ -1,95 +0,0 @@<br>
+<span class=3D"">-SUMMARY =3D &quot;protobuf&quot;<br>
+-DESCRIPTION =3D &quot;Protocol Buffers are a way of encoding structured da=
+ta in \<br>
+-an efficient yet extensible format. Google uses Protocol Buffers for \<br>
+-almost all of its internal RPC protocols and file formats.&quot;<br>
+-HOMEPAGE =3D &quot;<a href=3D"http://code.google.com/p/protobuf/" rel=3D"n=
+oreferrer" target=3D"_blank">http://code.google.com/p/<wbr>protobuf/</a>&qu=
+ot;<br>
+-SECTION =3D &quot;console/tools&quot;<br>
+-LICENSE =3D &quot;BSD-3-Clause&quot;<br>
+-<br>
+</span>-LIC_FILES_CHKSUM =3D &quot;file://COPYING.txt;md5=3D<wbr>af6809583b=
+fde9a31595a58bb4a245<wbr>14&quot;<br>
+-<br>
+-PR =3D &quot;r1&quot;<br>
+-EXCLUDE_FROM_WORLD =3D &quot;1&quot;<br>
+-<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>9c21577a03adc1879aba5b52d06e25<wbr>cf&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>c2665a7aa2ac1a206e61b28e014486<wbr>e3de5=
+9009ea2be2bde9182e0847f38<wbr>b62f&quot;<br>
+-SRC_URI =3D &quot;<a href=3D"https://github.com/google/protobuf/archive/v$=
+{PV}.tar.gz" rel=3D"noreferrer" target=3D"_blank">https://github.com/google=
+/<wbr>protobuf/archive/v${PV}.tar.gz</a> \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://protobuf-allow-running-<wbr>python-scrip=
+ts-from-anywhere.<wbr>patch \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest&quot;<br>
+<span class=3D"">-<br>
+-EXTRA_OECONF +=3D &quot; --with-protoc=3D${STAGING_<wbr>BINDIR_NATIVE}/pro=
+toc&quot;<br>
+-inherit autotools setuptools ptest<br>
+-<br>
+-DEPENDS +=3D &quot;protobuf-native&quot;<br>
+</span>-RDEPENDS_${PN}-ptest =3D &quot;bash python&quot;<br>
+<span class=3D"">-<br>
+-PYTHON_SRC_DIR=3D&quot;python&quot;<br>
+-TEST_SRC_DIR=3D&quot;examples&quot;<br>
+</span>-LANG_SUPPORT=3D&quot;python&quot;<br>
+<div><div class=3D"h5">-<br>
+-do_compile() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile protoc compiler<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0base_do_compile<br>
+-}<br>
+-<br>
+-do_compile_ptest() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Modify makefile to use the cross-compiler<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &quot;s|c++|${CXX}|g&quot; -i &quot;${S}=
+/${TEST_SRC_DIR}/<wbr>Makefile&quot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p &quot;${B}/${TEST_SRC_DIR}&quot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Add the location of the cross-compiled header=
+ and library files<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# which haven&#39;t been installed yet.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cp &quot;${B}/protobuf.pc&quot; &quot;${B}/${TE=
+ST_SRC_DIR}/<wbr>protobuf.pc&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s|libdir=3D|libdir=3D${PKG_<wbr>CON=
+FIG_SYSROOT_DIR}|&#39; -i &quot;${B}/${TEST_SRC_DIR}/<wbr>protobuf.pc&quot;=
+<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s|Cflags:|Cflags: -I${S}/src|&#39; =
+-i &quot;${B}/${TEST_SRC_DIR}/<wbr>protobuf.pc&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s|Libs:|Libs: -L${B}/src/.libs|&#39=
+; -i &quot;${B}/${TEST_SRC_DIR}/<wbr>protobuf.pc&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_PATH=3D&quot;${B}/${TEST_<wbr=
+>SRC_DIR}&quot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Save the pkgcfg sysroot variable, and update =
+it to nothing so<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# that it doesn&#39;t append the sysroot to the=
+ beginning of paths.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# The header and library files aren&#39;t insta=
+lled to the target<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# system yet.=C2=A0 So the absolute paths were =
+specified above.<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0save_pkg_config_sysroot_dir=3D$<wbr>PKG_CONFIG_=
+SYSROOT_DIR<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_SYSROOT_DIR=3D<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile the tests<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0for lang in ${LANG_SUPPORT}; do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake -C &quot=
+;${S}/${TEST_SRC_DIR}&quot; ${lang}<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Restore the pkgconfig sysroot variable<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_SYSROOT_DIR=3D$save_<wbr>pkg_=
+config_sysroot_dir<br>
+-}<br>
+-<br>
+-do_install() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0local olddir=3D`pwd`<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Install protoc compiler<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0autotools_do_install<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0# Install header files<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export PROTOC=3D&quot;${STAGING_BINDIR_<wbr>NAT=
+IVE}/protoc&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;${S}/${PYTHON_SRC_DIR}&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0distutils_do_install<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;$olddir&quot;<br>
+-}<br>
+-<br>
+-do_install_ptest() {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0local olddir=3D`pwd`<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;${S}/${TEST_SRC_DIR}&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d &quot;${D}/${PTEST_PATH}&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in add_person* list_people*; do<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -x &quot;$i&qu=
+ot; ]; then<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0install &quot;$i&quot; &quot;${D}/${PTEST_PATH}&quot;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cp &quot;${S}/${TEST_SRC_DIR}/<wbr>addressbook_=
+pb2.py&quot; &quot;${D}/${PTEST_PATH}&quot;<br>
+-<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;$olddir&quot;<br>
+-}<br>
+-<br>
+-BBCLASSEXTEND =3D &quot;nativesdk&quot;<br>
+-<br>
+</div></div>diff --git a/recipes-devtools/protobuf/<a href=3D"http://protob=
+uf_3.0.0.bb" rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf_3.0.0.bb</a=
+> b/recipes-devtools/protobuf/<a href=3D"http://protobuf_3.0.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">pr<wbr>otobuf_3.0.0.bb</a><br>
+<span class=3D"">new file mode 100644<br>
+index 0000000..e1deeac<br>
+--- /dev/null<br>
+</span>+++ b/recipes-devtools/protobuf/<a href=3D"http://protobuf_3.0.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">pr<wbr>otobuf_3.0.0.bb</a><br>
+<div><div class=3D"h5">@@ -0,0 +1,97 @@<br>
++SUMMARY =3D &quot;protobuf&quot;<br>
++DESCRIPTION =3D &quot;Protocol Buffers are a way of encoding structured da=
+ta in \<br>
++an efficient yet extensible format. Google uses Protocol Buffers for \<br>
++almost all of its internal RPC protocols and file formats.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"http://code.google.com/p/protobuf/" rel=3D"n=
+oreferrer" target=3D"_blank">http://code.google.com/p/<wbr>protobuf/</a>&qu=
+ot;<br>
++SECTION =3D &quot;console/tools&quot;<br>
++LICENSE =3D &quot;BSD-3-Clause&quot;<br>
++<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>35953c752efc9299b184f=
+91bef5400<wbr>95&quot;<br>
++<br>
++PR =3D &quot;r0&quot;<br>
++EXCLUDE_FROM_WORLD =3D &quot;1&quot;<br>
++<br>
++SRC_URI[md5sum] =3D &quot;<wbr>d4f6ca65aadc6310b3872ee421e79f<wbr>a6&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>f5b3563f118f1d3d6e001705fa7082<wbr>e8fc3=
+bda50038ac3dff78765079573<wbr>4146&quot;<br>
++SRC_URI =3D &quot;<a href=3D"https://github.com/google/protobuf/archive/v3=
+.0.0.tar.gz;downloadfilename=3Dprotobuf-3.0.0.tar.gz\" rel=3D"noreferrer" t=
+arget=3D"_blank">https://github.com/google/<wbr>protobuf/archive/v3.0.0.tar=
+.<wbr>gz;downloadfilename=3Dprotobuf-<wbr>3.0.0.tar.gz\</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://protobuf-all=
+ow-running-<wbr>python-scripts-from-anywhere.<wbr>patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<=
+br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
++<br>
++COMPATIBLE_HOST =3D &quot;(x86_64|arm|aarch64).*-linux&quot;<br>
++<br>
++EXTRA_OECONF +=3D &quot; --with-protoc=3D${STAGING_<wbr>BINDIR_NATIVE}/pro=
+toc&quot;<br>
++inherit autotools setuptools ptest<br>
++<br>
++DEPENDS +=3D &quot;protobuf-native&quot;<br>
++<br>
++PYTHON_SRC_DIR=3D&quot;python&quot;<br>
++TEST_SRC_DIR=3D&quot;examples&quot;<br>
++LANG_SUPPORT=3D&quot;cpp python&quot;<br>
++<br>
++do_compile() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile protoc compiler<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0base_do_compile<br>
++}<br>
++<br>
++do_compile_ptest() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Modify makefile to use the cross-compiler<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &quot;s|c++|${CXX}|g&quot; -i &quot;${S}=
+/${TEST_SRC_DIR}/<wbr>Makefile&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p &quot;${B}/${TEST_SRC_DIR}&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Add the location of the cross-compiled header=
+ and library files<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# which haven&#39;t been installed yet.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cp &quot;${B}/protobuf.pc&quot; &quot;${B}/${TE=
+ST_SRC_DIR}/<wbr>protobuf.pc&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s|libdir=3D|libdir=3D${PKG_<wbr>CON=
+FIG_SYSROOT_DIR}|&#39; -i &quot;${B}/${TEST_SRC_DIR}/<wbr>protobuf.pc&quot;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s|Cflags:|Cflags: -I${S}/src|&#39; =
+-i &quot;${B}/${TEST_SRC_DIR}/<wbr>protobuf.pc&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -e &#39;s|Libs:|Libs: -L${B}/src/.libs|&#39=
+; -i &quot;${B}/${TEST_SRC_DIR}/<wbr>protobuf.pc&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_PATH=3D&quot;${B}/${TEST_<wbr=
+>SRC_DIR}&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Save the pkgcfg sysroot variable, and update =
+it to nothing so<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# that it doesn&#39;t append the sysroot to the=
+ beginning of paths.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# The header and library files aren&#39;t insta=
+lled to the target<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# system yet.=C2=A0 So the absolute paths were =
+specified above.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0save_pkg_config_sysroot_dir=3D$<wbr>PKG_CONFIG_=
+SYSROOT_DIR<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_SYSROOT_DIR=3D<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile the tests<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for lang in ${LANG_SUPPORT}; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake -C &quot=
+;${S}/${TEST_SRC_DIR}&quot; ${lang}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Restore the pkgconfig sysroot variable<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export PKG_CONFIG_SYSROOT_DIR=3D$save_<wbr>pkg_=
+config_sysroot_dir<br>
++}<br>
++<br>
++do_install() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0local olddir=3D`pwd`<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Install protoc compiler<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0autotools_do_install<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# Install header files<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export PROTOC=3D&quot;${STAGING_BINDIR_<wbr>NAT=
+IVE}/protoc&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;${S}/${PYTHON_SRC_DIR}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0distutils_do_install<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;$olddir&quot;<br>
++}<br>
++<br>
++do_install_ptest() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0local olddir=3D`pwd`<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;${S}/${TEST_SRC_DIR}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d &quot;${D}/${PTEST_PATH}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for i in add_person* list_people*; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -x &quot;$i&qu=
+ot; ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0install &quot;$i&quot; &quot;${D}/${PTEST_PATH}&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cp &quot;${S}/${TEST_SRC_DIR}/<wbr>addressbook_=
+pb2.py&quot; &quot;${D}/${PTEST_PATH}&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd &quot;$olddir&quot;<br>
++}<br>
++<br>
++BBCLASSEXTEND =3D &quot;nativesdk&quot;<br>
++<br>
+--<br>
+</div></div>2.8.1<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+--<br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+</div></div></blockquote></div><br><br clear=3D"all"><br>-- <br><div class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
+t follow the NULL pointer, for chaos and madness await thee at its end&quot=
+;</div>
+</div></div>
+
+--001a113fde42afe053053c4ff6b4--
