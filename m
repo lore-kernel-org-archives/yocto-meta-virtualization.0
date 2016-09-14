@@ -1,6 +1,6 @@
 Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 57956E009C9; Tue, 13 Sep 2016 22:30:15 -0700 (PDT)
+	id 7CB4FE009C9; Tue, 13 Sep 2016 22:31:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,30 +10,30 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3D2A4E009BB
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED5E8E009BB
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Sep 2016 22:30:13 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10963371"
+	Tue, 13 Sep 2016 22:31:38 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="10963424"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2016 13:30:12 +0800
+	by heian.cn.fujitsu.com with ESMTP; 14 Sep 2016 13:31:38 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0EC514623461
+	by cn.fujitsu.com (Postfix) with ESMTP id 4183A4623461
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Sep 2016 13:30:13 +0800 (CST)
+	Wed, 14 Sep 2016 13:31:33 +0800 (CST)
 Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.279.2; Wed, 14 Sep 2016 13:30:11 +0800
+	Server (TLS) id 14.3.279.2; Wed, 14 Sep 2016 13:31:31 +0800
 From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 14 Sep 2016 01:30:03 -0400
-Message-ID: <1473831003-3489-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
+Date: Wed, 14 Sep 2016 01:31:28 -0400
+Message-ID: <1473831088-3555-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.120]
-X-yoursite-MailScanner-ID: 0EC514623461.A3467
+X-yoursite-MailScanner-ID: 4183A4623461.A37EF
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
-Subject: [meta-networking][PATCH] python-eventlet: 0.17.4 -> 0.18.4
+Subject: [PATCH] python-eventlet: 0.17.4 -> 0.18.4
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -46,7 +46,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Sep 2016 05:30:15 -0000
+X-List-Received-Date: Wed, 14 Sep 2016 05:31:40 -0000
 Content-Type: text/plain
 
 Upgrade python-eventlet from 0.17.4 to 0.18.4.
