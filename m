@@ -1,55 +1,41 @@
-Return-Path: <Adrian.Dudau@enea.com>
+Return-Path: <wangxin2015.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E74ECE00C7C; Fri, 16 Sep 2016 07:12:36 -0700 (PDT)
+	id 055E4E0097C; Sun, 18 Sep 2016 21:55:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [185.38.180.37 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from smtp-out10.electric.net (smtp-out10.electric.net
-	[185.38.180.37])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B575BE00BC1
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D0EA6E0090A
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 16 Sep 2016 07:12:32 -0700 (PDT)
-Received: from 1bktsT-0000Bh-V6 by out10d.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <Adrian.Dudau@enea.com>) id 1bktsU-0000Ch-UR
-	for meta-virtualization@yoctoproject.org;
-	Fri, 16 Sep 2016 07:12:30 -0700
-Received: by emcmailer; Fri, 16 Sep 2016 07:12:30 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out10d.electric.net with esmtps (TLSv1:AES128-SHA:128) (Exim 4.87)
-	(envelope-from <Adrian.Dudau@enea.com>) id 1bktsT-0000Bh-V6
-	for meta-virtualization@yoctoproject.org;
-	Fri, 16 Sep 2016 07:12:29 -0700
-Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.294.0;
-	Fri, 16 Sep 2016 16:12:29 +0200
-Received: by sestofb11.enea.se (Postfix, from userid 4451)	id 4F6AD441B91;
-	Fri, 16 Sep 2016 16:12:29 +0200 (CEST)
-From: Adrian Dudau <adrian.dudau@enea.com>
+	Sun, 18 Sep 2016 21:55:17 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="11094026"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Sep 2016 12:55:12 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 21ED3404243E
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 19 Sep 2016 12:55:11 +0800 (CST)
+Received: from ubuntu.g08.fujitsu.local (10.167.226.120) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.279.2; Mon, 19 Sep 2016 12:55:14 +0800
+From: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 16 Sep 2016 16:12:29 +0200
-Message-ID: <1474035149-23539-1-git-send-email-adrian.dudau@enea.com>
+Date: Mon, 19 Sep 2016 00:54:57 -0400
+Message-ID: <1474260897-12865-1-git-send-email-wangxin2015.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <CAPuovEKXxaP_K+x_3udNPBgwbgLu3Y9T=3u5hhHzzo8pw-+P1Q@mail.gmail.com>
+References: <CAPuovEKXxaP_K+x_3udNPBgwbgLu3Y9T=3u5hhHzzo8pw-+P1Q@mail.gmail.com>
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: adrian.dudau@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: Adrian.Dudau@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:AES128-SHA:128
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [meta-cloud-services][PATCH] openstackchef_inc.bbclass: Update python synthax for except
+X-Originating-IP: [10.167.226.120]
+X-yoursite-MailScanner-ID: 21ED3404243E.A509D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangxin2015.fnst@cn.fujitsu.com
+Subject: ][PATCH v2] tgt: 1.0.63 -> 1.0.67
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,39 +48,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Sep 2016 14:12:36 -0000
+X-List-Received-Date: Mon, 19 Sep 2016 04:55:21 -0000
 Content-Type: text/plain
 
-The synthax used is deprecated and causes errors.
-
-Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
+Signed-off-by: Wang Xin <wangxin2015.fnst@cn.fujitsu.com>
 ---
- meta-openstack/classes/openstackchef_inc.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...rrect-the-path-of-header-files-check-in-Yocto-buil.patch | 13 +++++++------
+ meta-openstack/recipes-support/tgt/tgt_git.bb               |  4 ++--
+ 2 files changed, 9 insertions(+), 8 deletions(-)
 
-diff --git a/meta-openstack/classes/openstackchef_inc.bbclass b/meta-openstack/classes/openstackchef_inc.bbclass
-index b8757be..048fce6 100644
---- a/meta-openstack/classes/openstackchef_inc.bbclass
-+++ b/meta-openstack/classes/openstackchef_inc.bbclass
-@@ -248,7 +248,7 @@ def deploychef_make_startup_shutdown_list(d):
-                     raise bb.build.FuncFailed(msg)
-             hStartup.close()
-             hShutdown.close()
--        except IOError, e:
-+        except IOError as e:
-             bb.error("Error opening startup/shutdown files %s %s,  %s %s" % \
-             (startup_file, shutdown_file, d.getVar('FILE'), e))
-     else:
-@@ -381,7 +381,7 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
-                         deploychef_make_substitutions(d, sub_dict, attr_file, file_name)
-                     else:
-                         bb.build.FuncFailed(msg)
--        except IOError, e:
-+        except IOError as e:
-             bb.error("Could not write to attribute file %s: in %s,  %s" % \
-             (attr_file, d.getVar('FILE'), e))
+diff --git a/meta-openstack/recipes-support/tgt/files/0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch b/meta-openstack/recipes-support/tgt/files/0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch
+index 6106b90..6630163 100644
+--- a/meta-openstack/recipes-support/tgt/files/0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch
++++ b/meta-openstack/recipes-support/tgt/files/0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch
+@@ -21,21 +21,22 @@ diff --git a/usr/Makefile b/usr/Makefile
+ index 453eb1a..191503d 100644
+ --- a/usr/Makefile
+ +++ b/usr/Makefile
+-@@ -1,10 +1,10 @@
++@@ -1,11 +1,11 @@
+  sbindir ?= $(PREFIX)/sbin
+- 
++ libdir ?= $(PREFIX)/lib/tgt
++
+ -ifneq ($(shell test -e /usr/include/linux/signalfd.h && echo 1),)
+ +ifneq ($(shell test -e $(SYSROOT)/usr/include/linux/signalfd.h && echo 1),)
+  CFLAGS += -DUSE_SIGNALFD
+  endif
+  
+--ifneq ($(shell test -e /usr/include/sys/timerfd.h && echo 1),)
+-+ifneq ($(shell test -e $(SYSROOT)/usr/include/sys/timerfd.h && echo 1),)
++-ifneq ($(shell test -n $(shell find /usr/include -name "timerfd.h" | head -n1) && echo 1),)
+++ifneq ($(shell test -n $(shell find $(SYSROOT)/usr/include -name "timerfd.h" | head -n1) && echo 1),)
+  CFLAGS += -DUSE_TIMERFD
+  endif
+  
+-@@ -18,7 +18,7 @@ TGTD_OBJS += bs_rbd.o
+- LIBS += -lrados -lrbd
++@@ -25,7 +25,7 @@ TGTD_OBJS += bs_rbd.o
++ CFLAGS += -DUSE_TIMERFD
+  endif
+  
+ -ifneq ($(shell test -e /usr/include/sys/eventfd.h && test -e /usr/include/libaio.h && echo 1),)
+diff --git a/meta-openstack/recipes-support/tgt/tgt_git.bb b/meta-openstack/recipes-support/tgt/tgt_git.bb
+index ac240f0..af4aa4b 100644
+--- a/meta-openstack/recipes-support/tgt/tgt_git.bb
++++ b/meta-openstack/recipes-support/tgt/tgt_git.bb
+@@ -4,8 +4,8 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://scripts/tgtd.spec;beginline=7;endline=7;md5=21c19ea7dad04648b9c2f791b6e29b4c"
+ DEPENDS = "sg3-utils"
  
+-SRCREV = "eca74a72d2595f126a020111943928c3ea9e6fe8"
+-PV = "1.0.63+git${SRCPV}"
++SRCREV = "cb7971cfeecaa43c15eed4719dc82516d7e87b6c"
++PV = "1.0.67+git${SRCPV}"
+ 
+ SRC_URI = "git://github.com/fujita/tgt.git \
+ 	file://0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch \
 -- 
-1.9.1
+2.7.4
+
+
 
 
