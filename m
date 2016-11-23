@@ -1,69 +1,69 @@
 Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0AAC3E008CA; Wed, 23 Nov 2016 11:53:10 -0800 (PST)
+	id 68BA0E00CAF; Wed, 23 Nov 2016 11:53:53 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.193 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.161.193 listed in dnsbl.sorbs.net]
+X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.161.195 listed in dnsbl.sorbs.net]
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.161.195 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
-	[209.85.161.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D92BFE0050B
+Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
+	[209.85.161.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A581EE0050B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 23 Nov 2016 11:53:06 -0800 (PST)
-Received: by mail-yw0-f193.google.com with SMTP id b66so1183976ywh.2
+	Wed, 23 Nov 2016 11:53:50 -0800 (PST)
+Received: by mail-yw0-f195.google.com with SMTP id s68so1195924ywg.0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 23 Nov 2016 11:53:06 -0800 (PST)
+	Wed, 23 Nov 2016 11:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
 	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=qDI03tEvOWXu3r+h7TLjFgM3TJLbsuisxeapyOEiFHs=;
-	b=MZaHco7RLUzUqIJ6JFB4ixkUYHdUIB7IMPJBblmkEFGfzU+DqRUHLh500rN424mtue
-	qWyQ3SdaiY0rZjNeLopRHA+9YZnXgjI/N8Pf4fcGY2do7unTG/QrXwQDOPX+1StQlINd
-	Soi2XxwsKbBnG+eOJO6tklFbOGNECntXAlJBg9gsGrZOUJQT6OErLLo0NTyrqAduiK7U
-	Zk8sVVWavkpImOa69yx6q+qQV67QSaKPY9V3B4psX5IbaJ6G9T9MYjNoz/9yP2oVP+Tt
-	m4CLRH5wQOYYVrYfskYbBUJ6VPmUOvO4h2HWHFgNZOB0AJO5AEmTMSFldiqD4U4C33Wv
-	1khg==
+	bh=6iKetIbsheMTOr/hz36831JBAfXQ2cHLX8zP0KUZ4NI=;
+	b=gFIeioyU2mwuAKVGliFKVoO2n4wdhb60uLQpnJgpDsl/S6xg4nlZUcHfoPlraXFmWF
+	yqYiRrQ1T/Cbern/DTHZEmjmZJZcpeEnMenI51Wm4zBsRLX9hXSMysiXTmcc01qsBy8D
+	RZqaknSQ5Pi04AC19r51XdVRdxZUM3MXLlbJKXwsXL59Nz2eWr1uCRmdgNb0IFyLWhYj
+	qT7rIiZQIvYr51suD2MFa6IsFZOy5Yxbl2mGv3M2w0rsdktVdC1hkh8FE3wT3e76Vew+
+	ru09+5ReMP82YNIO+zwnQEYoA9IHo5qVb8oap7QO9a0yuUdNpz0+L0iqpSM0lNqprF/y
+	ebVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20130820;
 	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
 	:references:from:date:message-id:subject:to:cc;
-	bh=qDI03tEvOWXu3r+h7TLjFgM3TJLbsuisxeapyOEiFHs=;
-	b=KEpCUAJVXYEyyUDMXjSEPoIbs3v/n1GdF6iFpEickrsJPebaD9K0i0p7Wc6gfdaODd
-	9aNbDy8dqDBpY398Ta0zMupYiVCBp9m7d8N1Jf/NsS+1SGBVxMQEIrkWKPkJTSnUjqtL
-	jq6tiTgNc5V3I3io/fi+/ToKKcYyBK4J1mL2Kj0kvq1RnDNfywASXt2lRktRc04pN50Q
-	WnIWiyp92YB1P75civKV07IGCfyLMWpa4u4yc8XTVNpjFQ0rjDcT8/6SdEiIuqRTf/gu
-	HereZqG25rSDaDEKcBmYDyz7bAsoRGNfYGr7Hq+1z5/fRVBIQvGc0gXp3cK3fqt8g1Yv
-	GFZQ==
-X-Gm-Message-State: AKaTC0098MxqrhUgnLNlEBXEag5nwStbQh7voEtxEYRWTH100SIzlT2uepMbf8mWUOi+hJzE3AzHwERPFP10MQ==
-X-Received: by 10.129.99.195 with SMTP id x186mr5487166ywb.182.1479930785724; 
-	Wed, 23 Nov 2016 11:53:05 -0800 (PST)
+	bh=6iKetIbsheMTOr/hz36831JBAfXQ2cHLX8zP0KUZ4NI=;
+	b=jb0R35WbOS8BmQ3zU6ykFijO9vj80WYXNgskjS0aqZg/YhMw/DH2NG5VzS9DpIgRbB
+	763mmkYdZNoJfTEhyNsp3RHdwu1A4i8GykuwvI3YsoBl/9gA11aEozvz5IV+BNFWoix2
+	QK6KTp3NNXZCmHmi0U4GrVvODnE7HbaFHMU6denvUXLpQ9UoX3XalrWb3b22/FY3UM/0
+	/gTZxvaiS23jPvrSfAvsi+L62PHOT1JyoPeFCxtFAt84av8ctQneKt7DqHWjmnkeE0N2
+	7BtBDSqik3ZndF5WDgTqPFFopOLlNlFm2XTI8XQv0xE3sjwJmPBmjAIFslfczLGzHNBU
+	hL1w==
+X-Gm-Message-State: AKaTC02v68zLs+fMHmyP0thCOQUiWOQnISzLFUpe6d4aBoTJVYheNLhIFm9CNcWS6dUa6Kh/3o/t3fPk/goMEQ==
+X-Received: by 10.13.197.68 with SMTP id h65mr5519135ywd.84.1479930830203;
+	Wed, 23 Nov 2016 11:53:50 -0800 (PST)
 MIME-Version: 1.0
 Sender: asselsm@gmail.com
-Received: by 10.37.171.82 with HTTP; Wed, 23 Nov 2016 11:53:05 -0800 (PST)
-In-Reply-To: <CADkTA4P335iwDjNTQrw=22YaLYQnpx+fD7zB4giKGSqi5CPxdg@mail.gmail.com>
+Received: by 10.37.171.82 with HTTP; Wed, 23 Nov 2016 11:53:49 -0800 (PST)
+In-Reply-To: <CADkTA4NnjFPBL9H1cnRp0ew4B_WBLAhVmLh+7-oTvtPCQ_FSAA@mail.gmail.com>
 References: <1479840976-10540-1-git-send-email-mark.asselstine@windriver.com>
-	<1479840976-10540-4-git-send-email-mark.asselstine@windriver.com>
-	<CADkTA4P335iwDjNTQrw=22YaLYQnpx+fD7zB4giKGSqi5CPxdg@mail.gmail.com>
+	<1479840976-10540-2-git-send-email-mark.asselstine@windriver.com>
+	<CADkTA4NnjFPBL9H1cnRp0ew4B_WBLAhVmLh+7-oTvtPCQ_FSAA@mail.gmail.com>
 From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Wed, 23 Nov 2016 14:53:05 -0500
-X-Google-Sender-Auth: 9fc848UzADIgfb91AT4Nz1WLZsk
-Message-ID: <CAPuovE+HxNKaAJVm0WQL_RMDa6rfp0DiFJU1eLZq5t-DV5DE5g@mail.gmail.com>
+Date: Wed, 23 Nov 2016 14:53:49 -0500
+X-Google-Sender-Auth: F80BXX7Tex4lu060FFkysZ-jDHA
+Message-ID: <CAPuovEKfVEN5qZs0sKbu-hjLGPp=0LZ+cVGJTO-aTcG2GmGcPA@mail.gmail.com>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 3/4] libvirt: change how we make updates to the dnsmasq configuration
+Subject: Re: [PATCH 1/4] lxc: updates to allow the creation of lxcbr0 with systemd
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,135 +77,177 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Nov 2016 19:53:10 -0000
+X-List-Received-Date: Wed, 23 Nov 2016 19:53:53 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Wed, Nov 23, 2016 at 2:24 PM, Bruce Ashfield
+On Wed, Nov 23, 2016 at 2:17 PM, Bruce Ashfield
 <bruce.ashfield@gmail.com> wrote:
 >
 >
 > On Tue, Nov 22, 2016 at 1:56 PM, Mark Asselstine
 > <mark.asselstine@windriver.com> wrote:
 >>
->> Our old approach of making the default configuration of dnsmasq use
->> 'bind-dynamic' has some negative side effects. ie. by making this
->> change when meta-virtualization is used but when libvirtd is not
->> installed in the rootfs we prevent dnsmasq from binding to all
->> interfaces (which is the expected/builtin default behavior of
->> dnsmasq). The results can also be non-deterministic when multiple
->> instances of dnsmasq are being run (which instance configured with
->> bind-dynamic should attend to new network interfaces?)
->>
->> Additionally our approach modifies the default dnsmasq configuration
->> file which ideally should have now changes, allowing dnsmasq to be
->> configured using its builtin configuration values and also allowing
->> for other instances of dnsmasq to better reuse the default
->> configuration file.
->>
->> These changes allow for better coexistence of libvirt with packages
->> like lxc which run their own instances of dnsmasq.
+>> The recipe is setup to create lxcbr0 when used with sysvinit but there
+>> are some gaps to getting this bridge working when the system is built
+>> with systemd. Using parts found in the upstream package as well as
+>> configurations hints from other distros we can fill in the gaps to
+>> allow lxcbr0 to be created at startup, with the lxc-networking package
+>> is included in the rootfs.
 >>
 >> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 >> ---
->>  recipes-extended/libvirt/libvirt/dnsmasq.libvirt-daemon | 2 ++
->>  recipes-extended/libvirt/libvirt_1.3.5.bb               | 6 ++++++
->>  2 files changed, 8 insertions(+)
->>  create mode 100644
->> recipes-extended/libvirt/libvirt/dnsmasq.libvirt-daemon
+>>  recipes-containers/lxc/files/default.lxc-net | 30
+>> ++++++++++++++++++++++++++++
+>>  recipes-containers/lxc/files/dnsmasq.lxc     |  5 +++++
+>>  recipes-containers/lxc/lxc_2.0.0.bb          | 16 +++++++++++++--
+>>  3 files changed, 49 insertions(+), 2 deletions(-)
+>>  create mode 100644 recipes-containers/lxc/files/default.lxc-net
+>>  create mode 100644 recipes-containers/lxc/files/dnsmasq.lxc
 >>
->> diff --git a/recipes-extended/libvirt/libvirt/dnsmasq.libvirt-daemon
->> b/recipes-extended/libvirt/libvirt/dnsmasq.libvirt-daemon
+>> diff --git a/recipes-containers/lxc/files/default.lxc-net
+>> b/recipes-containers/lxc/files/default.lxc-net
 >> new file mode 100644
->> index 0000000..a7c3059
+>> index 0000000..8013453
 >> --- /dev/null
->> +++ b/recipes-extended/libvirt/libvirt/dnsmasq.libvirt-daemon
->> @@ -0,0 +1,2 @@
+>> +++ b/recipes-containers/lxc/files/default.lxc-net
+>> @@ -0,0 +1,30 @@
+>> +# Sourced from package lxc.spec file
+>> +#
+>> +# Leave USE_LXC_BRIDGE as "true" if you want to use lxcbr0 for your
+>> +# containers.  Set to "false" if you'll use virbr0 or another existing
+>> +# bridge, or mavlan to your host's NIC.
+>> +USE_LXC_BRIDGE="true"
+>> +
+>> +# If you change the LXC_BRIDGE to something other than lxcbr0, then
+>> +# you will also need to update your /etc/lxc/default.conf as well as the
+>> +# configuration (/var/lib/lxc/<container>/config) for any containers
+>> +# already created using the default config to reflect the new bridge
+>> +# name.
+>> +# If you have the dnsmasq daemon installed, you'll also have to update
+>> +# /etc/dnsmasq.d/lxc and restart the system wide dnsmasq daemon.
+>> +LXC_BRIDGE="lxcbr0"
+>> +LXC_ADDR="10.0.3.1"
+>> +LXC_NETMASK="255.255.255.0"
+>> +LXC_NETWORK="10.0.3.0/24"
+>> +LXC_DHCP_RANGE="10.0.3.2,10.0.3.254"
+>> +LXC_DHCP_MAX="253"
+>> +# Uncomment the next line if you'd like to use a conf-file for the lxcbr0
+>> +# dnsmasq.  For instance, you can use 'dhcp-host=mail1,10.0.3.100' to
+>> have
+>> +# container 'mail1' always get ip address 10.0.3.100.
+>> +#LXC_DHCP_CONFILE=/etc/lxc/dnsmasq.conf
+>> +
+>> +# Uncomment the next line if you want lxcbr0's dnsmasq to resolve the
+>> .lxc
+>> +# domain.  You can then add "server=/lxc/10.0.3.1' (or your actual
+>> $LXC_ADDR)
+>> +# to /etc/dnsmasq.conf, after which 'container1.lxc' will resolve on your
+>> +# host.
+>> +#LXC_DOMAIN="lxc"
+>> diff --git a/recipes-containers/lxc/files/dnsmasq.lxc
+>> b/recipes-containers/lxc/files/dnsmasq.lxc
+>> new file mode 100644
+>> index 0000000..36be353
+>> --- /dev/null
+>> +++ b/recipes-containers/lxc/files/dnsmasq.lxc
+>> @@ -0,0 +1,5 @@
+>> +# Tell any system-wide dnsmasq instance to make sure to bind to
+>> interfaces
+>> +# instead of listening on 0.0.0.0
+>> +# WARNING: changes to this file will get lost if lxc is removed.
 >> +bind-interfaces
->> +except-interface=virbr0
->> diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb
->> b/recipes-extended/libvirt/libvirt_1.3.5.bb
->> index c848c99..b8e8159 100644
->> --- a/recipes-extended/libvirt/libvirt_1.3.5.bb
->> +++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
->> @@ -37,6 +37,7 @@ SRC_URI =
->> "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+>> +except-interface=lxcbr0
+>> diff --git a/recipes-containers/lxc/lxc_2.0.0.bb
+>> b/recipes-containers/lxc/lxc_2.0.0.bb
+>> index 5e45949..9e15508 100644
+>> --- a/recipes-containers/lxc/lxc_2.0.0.bb
+>> +++ b/recipes-containers/lxc/lxc_2.0.0.bb
+>> @@ -30,6 +30,8 @@ SRC_URI =
+>> "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>>         file://lxc-fix-B-S.patch \
+>>         file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
+>>         file://logs-optionally-use-base-filenames-to-report-src-fil.patch
+>> \
+>> +       file://default.lxc-net \
+>> +       file://dnsmasq.lxc \
+>>         "
 >>
->> file://0001-qemu-Let-empty-default-VNC-password-work-as-document.patch \
->>             file://0001-ptest-add-missing-test_helper-files.patch \
->>
->> file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
->> +           file://dnsmasq.libvirt-daemon \
->>            "
->>
->>  SRC_URI[libvirt.md5sum] = "f9dc1e63d559eca50ae0ee798a4c6c6d"
->> @@ -112,6 +113,7 @@ FILES_${PN}-libvirtd = " \
->>         ${sbindir}/libvirtd \
->>         ${systemd_unitdir}/system/* \
->>         ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '',
->> '${libexecdir}/libvirt-guests.sh', d)} \
->> +       ${sysconfdir}/dnsmasq.d/libvirt-daemon \
+>>  SRC_URI[md5sum] = "04a7245a614cd3296b0ae9ceeeb83fbb"
+>> @@ -40,7 +42,7 @@ S = "${WORKDIR}/${BPN}-${PV}"
+>>  # Let's not configure for the host distro.
+>>  #
+>>  PTEST_CONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest',
+>> '--enable-tests', '', d)}"
+>> -EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+>> +EXTRA_OECONF += "--with-distro=yocto ${PTEST_CONF}"
 >
 >
-> I'm not a packaging expert .. but should one package be installing config
-> files for another ?
-> Wouldn't this imply that libvirt really needs to be a distro feature, and
-> then we can make all
-> the behaviour changes trigger off a single variable ?
->
-> My point is .. from the libvirt package, I'm not aware of how dnsmasq sees
-> this file "libvirt-daemon".. what exactly does it do ? Does it match on the
-> executable
-> name ? Are all the files in dnsmasq.d always processed on startup of dnsmasq
-> ?
-> .. what if there are competing settings from other packages ?
+> Is there a reason why ${DISTRO} doesn't work here ? I don't think we want to
+> hardcode
+> yocto as a distro.
 
-Basically dnsmasq "offers" the /etc/dnsmasq.d directory for other packages
-to put configuration snippets. One of the changes I sent to meta-openembedded
-(which I mention in my 0 of N) includes the change that dnsmasq will look
-for snippets in this directory. Previously they were creating the
-directory but not
-doing anything with it. With this in place it is expected and acceptable that
-other packages contribute config snippets.
+---Replying to All this time---
 
-An example might help. If I have a rootfs with dnsmasq installed but
-no lxc or libvirt the
-dnsmasq configuration will have dnsmasq listen on all interfaces. Now
-if I have a rootfs
-with dnsmasq and libvirt both installed we can't allow dnsmasq to
-listen on all interfaces
-as this will conflict on virbr0, for example. So libvirt contributes
-this fragment that will
-change the default instance of dnsmasq to only listen on specified interfaces
-(bind-interfaces).
+Damn, I meant to revert this. Originally I was experimenting with patching LXC
+to know about disto other than the usual ubu, redhat... but I didn't
+go that route
+and so this change is unneeded. I will be sure to drop this from my V2.
 
-Not to use the 'if your friends jump off the bridge are you going to
-too' argument that my
-mother used to make, but this is inline with other distros and as far
-as I can tell is the
-expected behavior.
+Thanks for catching this.
 
 Mark
 
-
+>
+>>
+>>
+>>  EXTRA_OECONF += "--with-init-script=\
+>>  ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
+>> @@ -76,6 +78,10 @@ SYSTEMD_PACKAGES = "${PN}-setup"
+>>  SYSTEMD_SERVICE_${PN}-setup = "lxc.service"
+>>  SYSTEMD_AUTO_ENABLE_${PN}-setup = "disable"
+>>
+>> +SYSTEMD_PACKAGES += "${PN}-networking"
+>> +SYSTEMD_SERVICE_${PN}-networking = "lxc-net.service"
+>> +SYSTEMD_AUTO_ENABLE_${PN}-networking = "enable"
+>> +
+>>  INITSCRIPT_PACKAGES = "${PN}-setup"
+>>  INITSCRIPT_NAME_{PN}-setup = "lxc"
+>>  INITSCRIPT_PARAMS_${PN}-setup = "${OS_DEFAULT_INITSCRIPT_PARAMS}"
+>> @@ -89,7 +95,8 @@ PACKAGES =+ "${PN}-templates ${PN}-setup
+>> ${PN}-networking"
+>>  FILES_${PN}-templates += "${datadir}/lxc/templates"
+>>  RDEPENDS_${PN}-templates += "bash"
+>>
+>> -ALLOW_EMPTY_${PN}-networking = "1"
+>> +FILES_${PN}-networking += "/etc/default/lxc-net"
+>> +FILES_${PN}-networking += "/etc/dnsmasq.d/lxc"
+>>
+>>  FILES_${PN}-setup += "/etc/tmpfiles.d"
+>>  FILES_${PN}-setup += "/lib/systemd/system"
+>> @@ -126,6 +133,11 @@ do_install_append() {
+>>             if [ -d ${D}${exec_prefix}/lib/python* ]; then mv
+>> ${D}${exec_prefix}/lib/python* ${D}${libdir}/; fi
+>>             rmdir --ignore-fail-on-non-empty ${D}${exec_prefix}/lib
+>>         fi
+>> +
+>> +       install -d ${D}${sysconfdir}/default
+>> +       install -d ${D}${sysconfdir}/dnsmasq.d
+>> +       install -m 644 ${WORKDIR}/default.lxc-net
+>> ${D}${sysconfdir}/default/lxc-net
+>> +       install -m 644 ${WORKDIR}/dnsmasq.lxc
+>> ${D}${sysconfdir}/dnsmasq.d/lxc
+>
+>
+> Everything else looks good to me. If you install the -networking packge ..
+> you get
+> the networking configuration.
 >
 > Bruce
 >
 >>
->>          "
->>
->>  FILES_${PN}-virsh = "${bindir}/virsh"
->> @@ -258,6 +260,10 @@ do_install_append() {
->>         for i in `find ${D}${libdir} -type f -name *.la`; do
->>             sed -i -e 's#-L${B}/src/.libs##g' $i
->>         done
->> +
->> +       # ensure dnsmasq doesn't default to listenning on all interfaces
->> +       install -d ${D}/${sysconfdir}/dnsmasq.d
->> +       install -m 644 ${WORKDIR}/dnsmasq.libvirt-daemon
->> ${D}/${sysconfdir}/dnsmasq.d/libvirt-daemon
 >>  }
 >>
->>  EXTRA_OECONF += " \
+>>  EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
 >> --
 >> 2.7.4
 >>
