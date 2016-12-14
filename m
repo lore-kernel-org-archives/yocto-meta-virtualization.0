@@ -1,68 +1,50 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <alejandro.delcastillo@ni.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 04163E00C59; Tue, 13 Dec 2016 12:00:51 -0800 (PST)
+	id 14D4DE00D82; Wed, 14 Dec 2016 13:32:34 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.213.193 listed in list.dnswl.org]
+	*      [130.164.80.23 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yb0-f193.google.com (mail-yb0-f193.google.com
-	[209.85.213.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ECCF8E00C41
+X-Greylist: delayed 3252 seconds by postgrey-1.32 at yocto-www;
+	Wed, 14 Dec 2016 13:32:30 PST
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5E5A2E00D7E
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Dec 2016 12:00:43 -0800 (PST)
-Received: by mail-yb0-f193.google.com with SMTP id h184so2765047ybb.1
+	Wed, 14 Dec 2016 13:32:30 -0800 (PST)
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
+	uBEKcHnE022361
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Dec 2016 12:00:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20120113;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=sALO+UHqzpLasmszqzmvZCkdCHziY0HPc9K2X/ko7WQ=;
-	b=QTNCmOfGWc0yhpT4fPqcbEIjiiWBojdnri5k8eu5IaLlpYrxZXeyKfljdRHpH0cDRT
-	h70gzEp0z1POlqkypV0+DvkXTy+7Jhd5T60o9fCZwfhT3hR5eA1KDNmRgZ0flloG5lcn
-	e03ZgVWgcrgOYYB5RNQlwHohvyoBPyihRuiIa4x8p0wPEY5GswHLkFnhrWVVcHcb2w9s
-	1TwiYb05VJ0VF7lxyS9CVbQZ+QaK+17KVk70gNUU1P5+Zast720njugiKtR+K+y7uCpL
-	l4ytCpEqCI8CH/wGH9565ArSxzXeQAbbyy7BiXkMFAvY4FncFzhpsA9ph29q8Y1fSijm
-	7Epw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20130820;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=sALO+UHqzpLasmszqzmvZCkdCHziY0HPc9K2X/ko7WQ=;
-	b=WgMEqc7M0v6dfMCrUCFzOFArX2z/AmoLdAb+5VXp1LyuZb3wPXIGVGjhsWPhaKxT/F
-	Ew0FiXuW1bRbN9Q/9sGI5UDND8+IQtbjVFid+GQGvwYvrSaCst2vIES6YWHxXNBz6xwr
-	E7WHHaiKeDeJan/8xMolLATo1ptKzfYovlALJKvtzlJxvKJ20WnfnrEUdGkRNNF8hLtL
-	o3Su344nBkdbwruGsIZQGOaT7DL8RZuJ4L8HzSptuvDxzIrC+DhOKeM2bsK8GJ7J4rAG
-	ZRls9pqIObAuwj8bfdsuwC8tiOu4t2W9+cmExQdWIeWedHBfsrpWqvN1vl9dqAnv10rq
-	UFlA==
-X-Gm-Message-State: AKaTC029REXcNWW6Zyjk8Q6uyRV7sbxkt5JzI1Vk3eJOfjX5XLfGeT+VNJVc24PSCW0xVd2oSaUugp49OMb7/g==
-X-Received: by 10.13.232.199 with SMTP id r190mr93668018ywe.152.1481659242170; 
-	Tue, 13 Dec 2016 12:00:42 -0800 (PST)
+	Wed, 14 Dec 2016 14:38:17 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Wed, 14 Dec 2016 14:38:16 -0600
+Received: from delcastillo2.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Wed, 14 Dec 2016 14:38:16 -0600
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 14 Dec 2016 14:38:14 -0600
+Message-ID: <1481747894-12911-1-git-send-email-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 10.37.171.82 with HTTP; Tue, 13 Dec 2016 12:00:41 -0800 (PST)
-In-Reply-To: <CAPuovEKGTCJi7O_JEA4cxPZ7CWrUAx5gtVgKRLN3OK2vAKiA7w@mail.gmail.com>
-References: <40BA76AD6F30624D8838040F50FAE7093A9ACE96@chn-hclt-mbs04.HCLT.CORP.HCL.IN>
-	<40BA76AD6F30624D8838040F50FAE7093A9ACECB@chn-hclt-mbs04.HCLT.CORP.HCL.IN>
-	<CAPuovEKkLPPas5SKExJzkkapNeZpv9P4QM+htW92aLO2A1aSAw@mail.gmail.com>
-	<40BA76AD6F30624D8838040F50FAE7093A9AE1B4@chn-hclt-mbs04.HCLT.CORP.HCL.IN>
-	<CAPuovEKGTCJi7O_JEA4cxPZ7CWrUAx5gtVgKRLN3OK2vAKiA7w@mail.gmail.com>
-From: "M. Asselstine" <asselsm@mcmaster.ca>
-Date: Tue, 13 Dec 2016 15:00:41 -0500
-X-Google-Sender-Auth: xI_2kuN9d3P5y4nEB6yJOdsjXzI
-Message-ID: <CAPuovE+xKhYE+4MSZ_N=Nxftju_q3qSzex3-tTyMspgS+=04mw@mail.gmail.com>
-To: Manikandan E <manikandan.e@hcl.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: FW: docker build issues meta-virtualization (Krogoth)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-12-14_13:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=1
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1609300000
+	definitions=main-1612140314
+Subject: [PATCH] salt: upgrade to 2016.11
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,1084 +57,860 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Dec 2016 20:00:51 -0000
-X-Groupsio-MsgNum: 2146
-Content-Type: multipart/mixed; boundary=94eb2c0870faceeb7f05438fac2b
+X-List-Received-Date: Wed, 14 Dec 2016 21:32:34 -0000
+Content-Type: text/plain
 
---94eb2c0870faceeb7f05438fac2b
-Content-Type: text/plain; charset=UTF-8
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ meta-openstack/recipes-support/salt/files/cloud    |   6 +-
+ meta-openstack/recipes-support/salt/files/master   | 276 ++++++++++++++++++---
+ meta-openstack/recipes-support/salt/files/minion   | 156 ++++++++++--
+ .../salt/files/salt-common.logrotate               |  21 +-
+ .../salt/{salt_2016.3.0.bb => salt_2016.11.0.bb}   |   4 +-
+ 5 files changed, 403 insertions(+), 60 deletions(-)
+ rename meta-openstack/recipes-support/salt/{salt_2016.3.0.bb => salt_2016.11.0.bb} (98%)
 
-On Tue, Dec 13, 2016 at 10:23 AM, M. Asselstine <asselsm@mcmaster.ca> wrote:
-> On Fri, Dec 9, 2016 at 2:18 AM, Manikandan E <manikandan.e@hcl.com> wrote:
->> Hi ,
->>
->>
->>
->>
->>                HostOS           : Ubuntu 14.04(X86_64)
->>                Target             : Xilinx zynqmp(aarch64)
->>                yocto version  :  Krogoth
->>
->
->
-> Thanks,
->
-> I will try to carve out some time to look into this and provide you
-> with some suggestions.
+diff --git a/meta-openstack/recipes-support/salt/files/cloud b/meta-openstack/recipes-support/salt/files/cloud
+index 5bd28df..921cc04 100644
+--- a/meta-openstack/recipes-support/salt/files/cloud
++++ b/meta-openstack/recipes-support/salt/files/cloud
+@@ -1,4 +1,4 @@
+-# This file should normally be installed at: /etc/salt/cloud 
++# This file should normally be installed at: /etc/salt/cloud
+ 
+ 
+ ##########################################
+@@ -44,7 +44,7 @@
+ #log_level_logfile: info
+ 
+ 
+-# The date and time format used in log messages. Allowed date/time formating
++# The date and time format used in log messages. Allowed date/time formatting
+ # can be seen here:
+ #
+ #	http://docs.python.org/library/time.html#time.strftime
+@@ -71,7 +71,7 @@
+ #log_fmt_console: '%(colorlevel)s %(colormsg)s'
+ #log_fmt_console: '[%(levelname)-8s] %(message)s'
+ #
+-#log_fmt_logfile: '%(asctime)s,%(msecs)03.0f [%(name)-17s][%(levelname)-8s] %(message)s'
++#log_fmt_logfile: '%(asctime)s,%(msecs)03d [%(name)-17s][%(levelname)-8s] %(message)s'
+ 
+ 
+ # Logger levels can be used to tweak specific loggers logging levels.
+diff --git a/meta-openstack/recipes-support/salt/files/master b/meta-openstack/recipes-support/salt/files/master
+index 821f5fc..4ecb160 100644
+--- a/meta-openstack/recipes-support/salt/files/master
++++ b/meta-openstack/recipes-support/salt/files/master
+@@ -39,12 +39,22 @@
+ # key_logfile, pidfile:
+ #root_dir: /
+ 
++# The path to the master's configuration file.
++#conf_file: /etc/salt/master
++
+ # Directory used to store public key data:
+ #pki_dir: /etc/salt/pki/master
+ 
++# Key cache. Increases master speed for large numbers of accepted
++# keys. Available options: 'sched'. (Updates on a fixed schedule.)
++# Note that enabling this feature means that minions will not be
++# available to target for up to the length of the maintanence loop
++# which by default is 60s.
++#key_cache: ''
++
+ # Directory to store job and cache data:
+ # This directory may contain sensitive data and should be protected accordingly.
+-# 
++#
+ #cachedir: /var/cache/salt/master
+ 
+ # Directory for custom modules. This directory can contain subdirectories for
+@@ -54,7 +64,7 @@
+ 
+ # Directory for custom modules. This directory can contain subdirectories for
+ # each of Salt's module types such as "runners", "output", "wheel", "modules",
+-# "states", "returners", etc.
++# "states", "returners", "engines", etc.
+ # Like 'extension_modules' but can take an array of paths
+ #module_dirs: <no default>
+ #   - /var/cache/salt/minion/extmods
+@@ -65,6 +75,10 @@
+ # Set the number of hours to keep old job information in the job cache:
+ #keep_jobs: 24
+ 
++# The number of seconds to wait when the client is requesting information
++# about running jobs.
++#gather_job_timeout: 10
++
+ # Set the default timeout for the salt command and api. The default is 5
+ # seconds.
+ #timeout: 5
+@@ -77,6 +91,11 @@
+ # Set the default outputter used by the salt command. The default is "nested".
+ #output: nested
+ 
++# Set the default output file used by the salt command. Default is to output
++# to the CLI and not to a file. Functions the same way as the "--out-file"
++# CLI option, only sets this to a single file for all salt commands.
++#output_file: None
++
+ # Return minions that timeout when running commands like test.ping
+ #show_timeout: True
+ 
+@@ -88,6 +107,12 @@
+ # (true by default).
+ # strip_colors: False
+ 
++# To display a summary of the number of minions targeted, the number of
++# minions returned, and the number of minions that did not return, set the
++# cli_summary value to True. (False by default.)
++#
++#cli_summary: False
++
+ # Set the directory used to hold unix sockets:
+ #sock_dir: /var/run/salt/master
+ 
+@@ -106,7 +131,7 @@
+ #minion_data_cache: True
+ 
+ # Store all returns in the given returner.
+-# Setting this option requires that any returner-specific configuration also 
++# Setting this option requires that any returner-specific configuration also
+ # be set. See various returners in salt/returners for details on required
+ # configuration values. (See also, event_return_queue below.)
+ #
+@@ -118,15 +143,15 @@
+ # By default, events are not queued.
+ #event_return_queue: 0
+ 
+-# Only events returns matching tags in a whitelist
+-# event_return_whitelist:
+-#   - salt/master/a_tag
+-#   - salt/master/another_tag
++# Only return events matching tags in a whitelist, supports glob matches.
++#event_return_whitelist:
++#  - salt/master/a_tag
++#  - salt/run/*/ret
+ 
+-# Store all event returns _except_ the tags in a blacklist
+-# event_return_blacklist:
+-#   - salt/master/not_this_tag
+-#   - salt/master/or_this_one
++# Store all event returns **except** the tags in a blacklist, supports globs.
++#event_return_blacklist:
++#  - salt/master/not_this_tag
++#  - salt/wheel/*/ret
+ 
+ # Passing very large events can cause the minion to consume large amounts of
+ # memory. This value tunes the maximum size of a message allowed onto the
+@@ -145,12 +170,12 @@
+ # the key rotation event as minions reconnect. Consider this carefully if this
+ # salt master is managing a large number of minions.
+ #
+-# If disabled, it is recommended to handle this event by listening for the 
++# If disabled, it is recommended to handle this event by listening for the
+ # 'aes_key_rotate' event with the 'key' tag and acting appropriately.
+ # ping_on_rotate: False
+ 
+ # By default, the master deletes its cache of minion data when the key for that
+-# minion is removed. To preserve the cache after key deletion, set 
++# minion is removed. To preserve the cache after key deletion, set
+ # 'preserve_minion_cache' to True.
+ #
+ # WARNING: This may have security implications if compromised minions auth with
+@@ -230,6 +255,14 @@
+ # ZMQ high-water-mark for EventPublisher pub socket
+ #event_publisher_pub_hwm: 10000
+ 
++# The master may allocate memory per-event and not
++# reclaim it.
++# To set a high-water mark for memory allocation, use
++# ipc_write_buffer to set a high-water mark for message
++# buffering.
++# Value: In bytes. Set to 'dynamic' to have Salt select
++# a value for you. Default is disabled.
++# ipc_write_buffer: 'dynamic'
+ 
+ 
+ #####        Security settings       #####
+@@ -244,7 +277,7 @@
+ # public keys from the minions. Note that this is insecure.
+ #auto_accept: False
+ 
+-# Time in minutes that a incoming public key with a matching name found in
++# Time in minutes that an incoming public key with a matching name found in
+ # pki_dir/minion_autosign/keyid is automatically accepted. Expired autosign keys
+ # are removed when the master checks the minion_autosign directory.
+ # 0 equals no timeout
+@@ -272,7 +305,7 @@
+ # This setting should be treated with care since it opens up execution
+ # capabilities to non root users. By default this capability is completely
+ # disabled.
+-#pulisher_acl:
++#publisher_acl:
+ #  larry:
+ #    - test.ping
+ #    - network.*
+@@ -283,6 +316,11 @@
+ # running any commands. It would also blacklist any use of the "cmd"
+ # module. This is completely disabled by default.
+ #
++#
++# Check the list of configured users in client ACL against users on the
++# system and throw errors if they do not exist.
++#client_acl_verify: True
++#
+ #publisher_acl_blacklist:
+ #  users:
+ #    - root
+@@ -295,7 +333,7 @@
+ # publisher_acl_blacklist instead.
+ 
+ # Enforce publisher_acl & publisher_acl_blacklist when users have sudo
+-# access to the salt command. 
++# access to the salt command.
+ #
+ #sudo_acl: False
+ 
+@@ -308,6 +346,18 @@
+ #
+ # Time (in seconds) for a newly generated token to live. Default: 12 hours
+ #token_expire: 43200
++#
++# Allow eauth users to specify the expiry time of the tokens they generate.
++# A boolean applies to all users or a dictionary of whitelisted eauth backends
++# and usernames may be given.
++# token_expire_user_override:
++#   pam:
++#     - fred
++#     - tom
++#   ldap:
++#     - gary
++#
++#token_expire_user_override: False
+ 
+ # Allow minions to push files to the master. This is disabled by default, for
+ # security purposes.
+@@ -344,6 +394,10 @@
+ #ssh_minion_opts:
+ #  gpg_keydir: /root/gpg
+ 
++# Set this to True to default to using ~/.ssh/id_rsa for salt-ssh
++# authentication with minions
++#ssh_use_home_key: False
++
+ #####    Master Module Management    #####
+ ##########################################
+ # Manage how master side modules are loaded.
+@@ -455,7 +509,7 @@
+ # When using multiple environments, each with their own top file, the
+ # default behaviour is an unordered merge. To prevent top files from
+ # being merged together and instead to only use the top file from the
+-# requested environment, set this value to 'same'. 
++# requested environment, set this value to 'same'.
+ #top_file_merging_strategy: merge
+ 
+ # To specify the order in which environments are merged, set the ordering
+@@ -469,12 +523,15 @@
+ #default_top: base
+ 
+ # The hash_type is the hash to use when discovering the hash of a file on
+-# the master server. The default is md5, but sha1, sha224, sha256, sha384
++# the master server. The default is md5 but sha1, sha224, sha256, sha384
+ # and sha512 are also supported.
+ #
+-# Prior to changing this value, the master should be stopped and all Salt 
++# WARNING: While md5 is also supported, do not use it due to the high chance
++# of possible collisions and thus security breach.
++#
++# Prior to changing this value, the master should be stopped and all Salt
+ # caches should be cleared.
+-#hash_type: md5
++#hash_type: sha256
+ 
+ # The buffer size in the file server can be adjusted here:
+ #file_buffer_size: 1048576
+@@ -540,10 +597,37 @@
+ 
+ # Git File Server Backend Configuration
+ #
+-# Gitfs can be provided by one of two python modules: GitPython or pygit2. If
+-# using pygit2, both libgit2 and git must also be installed.
+-#gitfs_provider: gitpython
+-#
++# Optional parameter used to specify the provider to be used for gitfs. Must
++# be one of the following: pygit2, gitpython, or dulwich. If unset, then each
++# will be tried in that same order, and the first one with a compatible
++# version installed will be the provider that is used.
++#gitfs_provider: pygit2
++
++# Along with gitfs_password, is used to authenticate to HTTPS remotes.
++# gitfs_user: ''
++
++# Along with gitfs_user, is used to authenticate to HTTPS remotes.
++# This parameter is not required if the repository does not use authentication.
++#gitfs_password: ''
++
++# By default, Salt will not authenticate to an HTTP (non-HTTPS) remote.
++# This parameter enables authentication over HTTP. Enable this at your own risk.
++#gitfs_insecure_auth: False
++
++# Along with gitfs_privkey (and optionally gitfs_passphrase), is used to
++# authenticate to SSH remotes. This parameter (or its per-remote counterpart)
++# is required for SSH remotes.
++#gitfs_pubkey: ''
++
++# Along with gitfs_pubkey (and optionally gitfs_passphrase), is used to
++# authenticate to SSH remotes. This parameter (or its per-remote counterpart)
++# is required for SSH remotes.
++#gitfs_privkey: ''
++
++# This parameter is optional, required only when the SSH key being used to
++# authenticate is protected by a passphrase.
++#gitfs_passphrase: ''
++
+ # When using the git fileserver backend at least one git remote needs to be
+ # defined. The user running the salt master will need read access to the repo.
+ #
+@@ -551,7 +635,7 @@
+ # and the first repo to have the file will return it.
+ # When using the git backend branches and tags are translated into salt
+ # environments.
+-# Note:  file:// repos will be treated as a remote, so refs you want used must
++# Note: file:// repos will be treated as a remote, so refs you want used must
+ # exist in that repo as *local* refs.
+ #gitfs_remotes:
+ #  - git://github.com/saltstack/salt-states.git
+@@ -610,10 +694,10 @@
+ #pillar_safe_render_error: True
+ 
+ # The pillar_source_merging_strategy option allows you to configure merging strategy
+-# between different sources. It accepts four values: recurse, aggregate, overwrite,
+-# or smart. Recurse will merge recursively mapping of data. Aggregate instructs
+-# aggregation of elements between sources that use the #!yamlex renderer. Overwrite
+-# will verwrite elements according the order in which they are processed. This is
++# between different sources. It accepts five values: none, recurse, aggregate, overwrite,
++# or smart. None will not do any merging at all. Recurse will merge recursively mapping of data.
++# Aggregate instructs aggregation of elements between sources that use the #!yamlex renderer. Overwrite
++# will overwrite elements according the order in which they are processed. This is
+ # behavior of the 2014.1 branch and earlier. Smart guesses the best strategy based
+ # on the "renderer" setting and is the default value.
+ #pillar_source_merging_strategy: smart
+@@ -621,6 +705,107 @@
+ # Recursively merge lists by aggregating them instead of replacing them.
+ #pillar_merge_lists: False
+ 
++# Set this option to 'True' to force a 'KeyError' to be raised whenever an
++# attempt to retrieve a named value from pillar fails. When this option is set
++# to 'False', the failed attempt returns an empty string. Default is 'False'.
++#pillar_raise_on_missing: False
++
++# Git External Pillar (git_pillar) Configuration Options
++#
++# Specify the provider to be used for git_pillar. Must be either pygit2 or
++# gitpython. If unset, then both will be tried in that same order, and the
++# first one with a compatible version installed will be the provider that
++# is used.
++#git_pillar_provider: pygit2
++
++# If the desired branch matches this value, and the environment is omitted
++# from the git_pillar configuration, then the environment for that git_pillar
++# remote will be base.
++#git_pillar_base: master
++
++# If the branch is omitted from a git_pillar remote, then this branch will
++# be used instead
++#git_pillar_branch: master
++
++# Environment to use for git_pillar remotes. This is normally derived from
++# the branch/tag (or from a per-remote env parameter), but if set this will
++# override the process of deriving the env from the branch/tag name.
++#git_pillar_env: ''
++
++# Path relative to the root of the repository where the git_pillar top file
++# and SLS files are located.
++#git_pillar_root: ''
++
++# Specifies whether or not to ignore SSL certificate errors when contacting
++# the remote repository.
++#git_pillar_ssl_verify: False
++
++# When set to False, if there is an update/checkout lock for a git_pillar
++# remote and the pid written to it is not running on the master, the lock
++# file will be automatically cleared and a new lock will be obtained.
++#git_pillar_global_lock: True
++
++# Git External Pillar Authentication Options
++#
++# Along with git_pillar_password, is used to authenticate to HTTPS remotes.
++#git_pillar_user: ''
++
++# Along with git_pillar_user, is used to authenticate to HTTPS remotes.
++# This parameter is not required if the repository does not use authentication.
++#git_pillar_password: ''
++
++# By default, Salt will not authenticate to an HTTP (non-HTTPS) remote.
++# This parameter enables authentication over HTTP.
++#git_pillar_insecure_auth: False
++
++# Along with git_pillar_privkey (and optionally git_pillar_passphrase),
++# is used to authenticate to SSH remotes.
++#git_pillar_pubkey: ''
++
++# Along with git_pillar_pubkey (and optionally git_pillar_passphrase),
++# is used to authenticate to SSH remotes.
++#git_pillar_privkey: ''
++
++# This parameter is optional, required only when the SSH key being used
++# to authenticate is protected by a passphrase.
++#git_pillar_passphrase: ''
++
++# A master can cache pillars locally to bypass the expense of having to render them
++# for each minion on every request. This feature should only be enabled in cases
++# where pillar rendering time is known to be unsatisfactory and any attendant security
++# concerns about storing pillars in a master cache have been addressed.
++#
++# When enabling this feature, be certain to read through the additional ``pillar_cache_*``
++# configuration options to fully understand the tunable parameters and their implications.
++#
++# Note: setting ``pillar_cache: True`` has no effect on targeting Minions with Pillars.
++# See https://docs.saltstack.com/en/latest/topics/targeting/pillar.html
++#pillar_cache: False
++
++# If and only if a master has set ``pillar_cache: True``, the cache TTL controls the amount
++# of time, in seconds, before the cache is considered invalid by a master and a fresh
++# pillar is recompiled and stored.
++#pillar_cache_ttl: 3600
++
++# If and only if a master has set `pillar_cache: True`, one of several storage providers
++# can be utililzed.
++#
++# `disk`: The default storage backend. This caches rendered pillars to the master cache.
++#         Rendered pillars are serialized and deserialized as msgpack structures for speed.
++#         Note that pillars are stored UNENCRYPTED. Ensure that the master cache
++#         has permissions set appropriately. (Same defaults are provided.)
++#
++# memory: [EXPERIMENTAL] An optional backend for pillar caches which uses a pure-Python
++#         in-memory data structure for maximal performance. There are several caveats,
++#         however. First, because each master worker contains its own in-memory cache,
++#         there is no guarantee of cache consistency between minion requests. This
++#         works best in situations where the pillar rarely if ever changes. Secondly,
++#         and perhaps more importantly, this means that unencrypted pillars will
++#         be accessible to any process which can examine the memory of the ``salt-master``!
++#         This may represent a substantial security risk.
++#
++#pillar_cache_backend: disk
++
+ 
+ #####          Syndic settings       #####
+ ##########################################
+@@ -649,6 +834,12 @@
+ # LOG file of the syndic daemon:
+ #syndic_log_file: syndic.log
+ 
++# The behaviour of the multi-syndic when connection to a master of masters failed.
++# Can specify ``random`` (default) or ``ordered``. If set to ``random``, masters
++# will be iterated in random order. If ``ordered`` is specified, the configured
++# order will be used.
++#syndic_failover: random
++
+ 
+ #####      Peer Publish settings     #####
+ ##########################################
+@@ -738,7 +929,7 @@
+ # If using 'log_granular_levels' this must be set to the highest desired level.
+ #log_level_logfile: warning
+ 
+-# The date and time format used in log messages. Allowed date/time formating
++# The date and time format used in log messages. Allowed date/time formatting
+ # can be seen here: http://docs.python.org/library/time.html#time.strftime
+ #log_datefmt: '%H:%M:%S'
+ #log_datefmt_logfile: '%Y-%m-%d %H:%M:%S'
+@@ -760,7 +951,7 @@
+ #log_fmt_console: '%(colorlevel)s %(colormsg)s'
+ #log_fmt_console: '[%(levelname)-8s] %(message)s'
+ #
+-#log_fmt_logfile: '%(asctime)s,%(msecs)03.0f [%(name)-17s][%(levelname)-8s] %(message)s'
++#log_fmt_logfile: '%(asctime)s,%(msecs)03d [%(name)-17s][%(levelname)-8s] %(message)s'
+ 
+ # This can be used to control logging levels more specificically.  This
+ # example sets the main salt library at the 'warning' level, but sets
+@@ -774,11 +965,18 @@
+ 
+ #####         Node Groups           ######
+ ##########################################
+-# Node groups allow for logical groupings of minion nodes. A group consists of a group
+-# name and a compound target.
++# Node groups allow for logical groupings of minion nodes. A group consists of
++# a group name and a compound target. Nodgroups can reference other nodegroups
++# with 'N@' classifier. Ensure that you do not have circular references.
++#
+ #nodegroups:
+-#  group1: 'L@foo.domain.com,bar.domain.com,baz.domain.com and bl*.domain.com'
++#  group1: 'L@foo.domain.com,bar.domain.com,baz.domain.com or bl*.domain.com'
+ #  group2: 'G@os:Debian and foo.domain.com'
++#  group3: 'G@os:Debian and N@group1'
++#  group4:
++#    - 'G@foo:bar'
++#    - 'or'
++#    - 'G@foo:baz'
+ 
+ 
+ #####     Range Cluster settings     #####
+@@ -824,3 +1022,13 @@
+ ############################################
+ # Default match type for filtering events tags: startswith, endswith, find, regex, fnmatch
+ #event_match_type: startswith
++
++# Save runner returns to the job cache
++#runner_returns: True
++
++# Permanently include any available Python 3rd party modules into Salt Thin
++# when they are generated for Salt-SSH or other purposes.
++# The modules should be named by the names they are actually imported inside the Python.
++# The value of the parameters can be either one module or a comma separated list of them.
++#thin_extra_mods: foo,bar
++
+diff --git a/meta-openstack/recipes-support/salt/files/minion b/meta-openstack/recipes-support/salt/files/minion
+index bd97c43..ad7a374 100644
+--- a/meta-openstack/recipes-support/salt/files/minion
++++ b/meta-openstack/recipes-support/salt/files/minion
+@@ -38,6 +38,8 @@
+ # value to "str".  Failover masters can be requested by setting
+ # to "failover".  MAKE SURE TO SET master_alive_interval if you are
+ # using failover.
++# Setting master_type to 'disable' let's you have a running minion (with engines and
++# beacons) without a master connection
+ # master_type: str
+ 
+ # Poll interval in seconds for checking if the master is still there.  Only
+@@ -46,6 +48,16 @@
+ # of TCP connections, such as load balancers.)
+ # master_alive_interval: 30
+ 
++# If the minion is in multi-master mode and the master_type configuration option
++# is set to "failover", this setting can be set to "True" to force the minion
++# to fail back to the first master in the list if the first master is back online.
++#master_failback: False
++
++# If the minion is in multi-master mode, the "master_type" configuration is set to
++# "failover", and the "master_failback" option is enabled, the master failback
++# interval can be set to ping the top master with this interval, in seconds.
++#master_failback_interval: 0
++
+ # Set whether the minion should connect to the master via IPv6:
+ #ipv6: False
+ 
+@@ -60,11 +72,15 @@
+ # The user to run salt.
+ #user: root
+ 
+-# Setting sudo_user will cause salt to run all execution modules under an sudo
+-# to the user given in sudo_user.  The user under which the salt minion process
+-# itself runs will still be that provided in the user config above, but all
+-# execution modules run by the minion will be rerouted through sudo.
+-#sudo_user: saltdev
++# The user to run salt remote execution commands as via sudo. If this option is
++# enabled then sudo will be used to change the active user executing the remote
++# command. If enabled the user will need to be allowed access via the sudoers
++# file for the user that the salt minion is configured to run as. The most
++# common option would be to use the root user. If this option is set the user
++# option should also be set to a non-root user. If migrating from a root minion
++# to a non root minion the minion cache should be cleared and the minion pki
++# directory will need to be changed to the ownership of the new user.
++#sudo_user: root
+ 
+ # Specify the location of the daemon process ID file.
+ #pidfile: /var/run/salt-minion.pid
+@@ -73,6 +89,9 @@
+ # sock_dir, pidfile.
+ #root_dir: /
+ 
++# The path to the minion's configuration file.
++#conf_file: /etc/salt/minion
++
+ # The directory to store the pki information in
+ #pki_dir: /etc/salt/pki/minion
+ 
+@@ -83,6 +102,13 @@
+ # clusters.
+ #id:
+ 
++# Cache the minion id to a file when the minion's id is not statically defined
++# in the minion config. Defaults to "True". This setting prevents potential
++# problems when automatic minion id resolution changes, which can cause the
++# minion to lose connection with the master. To turn off minion id caching,
++# set this config to ``False``.
++#minion_id_caching: True
++
+ # Append a domain to a hostname in the event that it does not exist.  This is
+ # useful for systems where socket.getfqdn() does not actually result in a
+ # FQDN (for instance, Solaris).
+@@ -103,6 +129,13 @@
+ # This data may contain sensitive data and should be protected accordingly.
+ #cachedir: /var/cache/salt/minion
+ 
++# Append minion_id to these directories.  Helps with
++# multiple proxies and minions running on the same machine.
++# Allowed elements in the list: pki_dir, cachedir, extension_modules
++# Normally not needed unless running several proxies and/or minions on the same machine
++# Defaults to ['cachedir'] for proxies, [] (empty list) for regular minions
++#append_minionid_config_dirs:
++
+ # Verify and set permissions on configuration directories at startup.
+ #verify_env: True
+ 
+@@ -171,6 +204,20 @@
+ # authenticate.
+ #auth_tries: 7
+ 
++# The number of attempts to connect to a master before giving up.
++# Set this to -1 for unlimited attempts. This allows for a master to have
++# downtime and the minion to reconnect to it later when it comes back up.
++# In 'failover' mode, it is the number of attempts for each set of masters.
++# In this mode, it will cycle through the list of masters for each attempt.
++#
++# This is different than auth_tries because auth_tries attempts to
++# retry auth attempts with a single master. auth_tries is under the
++# assumption that you can connect to the master but not gain
++# authorization from it. master_tries will still cycle through all
++# the masters in a given try, so it is appropriate if you expect
++# occasional downtime from the master(s).
++#master_tries: 1
++
+ # If authentication fails due to SaltReqTimeoutError during a ping_interval,
+ # cause sub minion process to restart.
+ #auth_safemode: False
+@@ -249,10 +296,17 @@
+ #
+ #
+ # The loop_interval sets how long in seconds the minion will wait between
+-# evaluating the scheduler and running cleanup tasks. This defaults to a
+-# sane 60 seconds, but if the minion scheduler needs to be evaluated more
+-# often lower this value
+-#loop_interval: 60
++# evaluating the scheduler and running cleanup tasks.  This defaults to 1
++# second on the minion scheduler.
++#loop_interval: 1
++
++# Some installations choose to start all job returns in a cache or a returner
++# and forgo sending the results back to a master. In this workflow, jobs
++# are most often executed with --async from the Salt CLI and then results
++# are evaluated by examining job caches on the minions or any configured returners.
++# WARNING: Setting this to False will **disable** returns back to the master.
++#pub_ret: True
++
+ 
+ # The grains can be merged, instead of overridden, using this option.
+ # This allows custom grains to defined different subvalues of a dictionary
+@@ -286,6 +340,26 @@
+ # is not enabled.
+ # grains_cache_expiration: 300
+ 
++# Determines whether or not the salt minion should run scheduled mine updates.
++# Defaults to "True". Set to "False" to disable the scheduled mine updates
++# (this essentially just does not add the mine update function to the minion's
++# scheduler).
++#mine_enabled: True
++
++# Determines whether or not scheduled mine updates should be accompanied by a job
++# return for the job cache. Defaults to "False". Set to "True" to include job
++# returns in the job cache for mine updates.
++#mine_return_job: False
++
++# Example functions that can be run via the mine facility
++# NO mine functions are established by default.
++# Note these can be defined in the minion's pillar as well.
++#mine_functions:
++#  test.ping: []
++#  network.ip_addrs:
++#    interface: eth0
++#    cidr: '10.0.0.0/8'
++
+ # Windows platforms lack posix IPC and must rely on slower TCP based inter-
+ # process communications. Set ipc_mode to 'tcp' on such systems
+ #ipc_mode: ipc
+@@ -319,16 +393,33 @@
+ #include:
+ #  - /etc/salt/extra_config
+ #  - /etc/roles/webserver
++
++# The syndic minion can verify that it is talking to the correct master via the
++# key fingerprint of the higher-level master with the "syndic_finger" config.
++#syndic_finger: ''
+ #
+ #
+ #
+ #####   Minion module management     #####
+ ##########################################
+ # Disable specific modules. This allows the admin to limit the level of
+-# access the master has to the minion.
+-#disable_modules: [cmd,test]
++# access the master has to the minion.  The default here is the empty list,
++# below is an example of how this needs to be formatted in the config file
++#disable_modules:
++#  - cmdmod
++#  - test
+ #disable_returners: []
+-#
++
++# This is the reverse of disable_modules.  The default, like disable_modules, is the empty list,
++# but if this option is set to *anything* then *only* those modules will load.
++# Note that this is a very large hammer and it can be quite difficult to keep the minion working
++# the way you think it should since Salt uses many modules internally itself.  At a bare minimum
++# you need the following enabled or else the minion won't start.
++#whitelist_modules:
++#  - cmdmod
++#  - test
++#  - config
++
+ # Modules can be loaded from arbitrary paths. This enables the easy deployment
+ # of third party modules. Modules for returners and minions can be loaded.
+ # Specify a list of extra directories to search for minion modules and
+@@ -389,6 +480,15 @@
+ # environments is to isolate via the top file.
+ #environment: None
+ #
++# Isolates the pillar environment on the minion side. This functions the same
++# as the environment setting, but for pillar instead of states.
++#pillarenv: None
++#
++# Set this option to 'True' to force a 'KeyError' to be raised whenever an
++# attempt to retrieve a named value from pillar fails. When this option is set
++# to 'False', the failed attempt returns an empty string. Default is 'False'.
++#pillar_raise_on_missing: False
++#
+ # If using the local file directory, then the state top file name needs to be
+ # defined, by default this is top.sls.
+ #state_top: top.sls
+@@ -448,6 +548,18 @@
+ #  base:
+ #    - /srv/salt
+ 
++# Uncomment the line below if you do not want the file_server to follow
++# symlinks when walking the filesystem tree. This is set to True
++# by default. Currently this only applies to the default roots
++# fileserver_backend.
++#fileserver_followsymlinks: False
++#
++# Uncomment the line below if you do not want symlinks to be
++# treated as the files they are pointing to. By default this is set to
++# False. By uncommenting the line below, any detected symlink while listing
++# files on the Master will not be returned to the Minion.
++#fileserver_ignoresymlinks: True
++#
+ # By default, the Salt fileserver recurses fully into all defined environments
+ # to attempt to find files. To limit this behavior so that the fileserver only
+ # traverses directories with SLS files and special Salt directories like _modules,
+@@ -456,13 +568,19 @@
+ # is False.
+ #fileserver_limit_traversal: False
+ 
+-# The hash_type is the hash to use when discovering the hash of a file in
++# The hash_type is the hash to use when discovering the hash of a file on
+ # the local fileserver. The default is md5, but sha1, sha224, sha256, sha384
+ # and sha512 are also supported.
+ #
++# WARNING: While md5 and sha1 are also supported, do not use it due to the high chance
++# of possible collisions and thus security breach.
++#
++# WARNING: While md5 is also supported, do not use it due to the high chance
++# of possible collisions and thus security breach.
++#
+ # Warning: Prior to changing this value, the minion should be stopped and all
+ # Salt caches should be cleared.
+-#hash_type: md5
++#hash_type: sha256
+ 
+ # The Salt pillar is searched for locally if file_client is set to local. If
+ # this is the case, and pillar data is defined, then the pillar_roots need to
+@@ -470,6 +588,10 @@
+ #pillar_roots:
+ #  base:
+ #    - /srv/pillar
++
++# Set a hard-limit on the size of the files that can be pushed to the master.
++# It will be interpreted as megabytes. Default: 100
++#file_recv_max_size: 100
+ #
+ #
+ ######        Security settings       #####
+@@ -508,7 +630,7 @@
+ 
+ # Fingerprint of the master public key to validate the identity of your Salt master
+ # before the initial key exchange. The master fingerprint can be found by running
+-# "salt-key -F master" on the Salt master.
++# "salt-key -f master.pub" on the Salt master.
+ #master_finger: ''
+ 
+ 
+@@ -548,7 +670,7 @@
+ # Default: 'warning'
+ #log_level_logfile:
+ 
+-# The date and time format used in log messages. Allowed date/time formating
++# The date and time format used in log messages. Allowed date/time formatting
+ # can be seen here: http://docs.python.org/library/time.html#time.strftime
+ #log_datefmt: '%H:%M:%S'
+ #log_datefmt_logfile: '%Y-%m-%d %H:%M:%S'
+@@ -570,7 +692,7 @@
+ #log_fmt_console: '%(colorlevel)s %(colormsg)s'
+ #log_fmt_console: '[%(levelname)-8s] %(message)s'
+ #
+-#log_fmt_logfile: '%(asctime)s,%(msecs)03.0f [%(name)-17s][%(levelname)-8s] %(message)s'
++#log_fmt_logfile: '%(asctime)s,%(msecs)03d [%(name)-17s][%(levelname)-8s] %(message)s'
+ 
+ # This can be used to control logging levels more specificically.  This
+ # example sets the main salt library at the 'warning' level, but sets
+diff --git a/meta-openstack/recipes-support/salt/files/salt-common.logrotate b/meta-openstack/recipes-support/salt/files/salt-common.logrotate
+index dcfd268..3cd0023 100644
+--- a/meta-openstack/recipes-support/salt/files/salt-common.logrotate
++++ b/meta-openstack/recipes-support/salt/files/salt-common.logrotate
+@@ -1,7 +1,20 @@
+-/var/log/salt/master
+-/var/log/salt/minion
+-/var/log/salt/*.log
+-{
++/var/log/salt/master {
++	weekly
++	missingok
++	rotate 7
++	compress
++	notifempty
++}
++
++/var/log/salt/minion {
++	weekly
++	missingok
++	rotate 7
++	compress
++	notifempty
++}
++
++/var/log/salt/key {
+ 	weekly
+ 	missingok
+ 	rotate 7
+diff --git a/meta-openstack/recipes-support/salt/salt_2016.3.0.bb b/meta-openstack/recipes-support/salt/salt_2016.11.0.bb
+similarity index 98%
+rename from meta-openstack/recipes-support/salt/salt_2016.3.0.bb
+rename to meta-openstack/recipes-support/salt/salt_2016.11.0.bb
+index 7024f42..ba1def7 100644
+--- a/meta-openstack/recipes-support/salt/salt_2016.3.0.bb
++++ b/meta-openstack/recipes-support/salt/salt_2016.11.0.bb
+@@ -28,8 +28,8 @@ SRC_URI = "https://files.pythonhosted.org/packages/source/s/${SRCNAME}/${SRCNAME
+            file://roster \
+ "
+ 
+-SRC_URI[md5sum] = "8ed82cfb3f9b1764a035edbdacf0fea9"
+-SRC_URI[sha256sum] = "e316dd103b7faeaa97820197e4d0d7d358519f0ca2a6dcb1d9b718eea801ed30"
++SRC_URI[md5sum] = "eced07a652cc6a31870fc098d5325a9c"
++SRC_URI[sha256sum] = "b516285926ee95cedc64ecddab05d14422b7c8819c9f6d046a431c41d608e6bc"
+ 
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
+ 
+-- 
+2.7.4
 
-I was able to build docker and go-native without encountering this
-issue. Using what I hope is a representation of your setup, with the
-meta-xilinx layer and MACHINE = "zcu102-zynqmp". I did this in a
-Ubu14.04 container and have attached a package list for your
-reference.
 
-My BBLAYERS in bblayers.conf is as follows
-
-BBLAYERS ?= " \
- /home/wrlbuild/docker/poky/meta \
- /home/wrlbuild/docker/poky/meta-poky \
- /home/wrlbuild/docker/poky/meta-yocto-bsp \
- /home/wrlbuild/docker/poky/layers/meta-xilinx \
- /home/wrlbuild/docker/poky/layers/meta-openembedded/meta-oe \
- /home/wrlbuild/docker/poky/layers/meta-openembedded/meta-networking \
- /home/wrlbuild/docker/poky/layers/meta-openembedded/meta-filesystems \
- /home/wrlbuild/docker/poky/layers/meta-openembedded/meta-python \
- /home/wrlbuild/docker/poky/layers/meta-virtualization \
- /home/wrlbuild/docker/poky/layers/openembedded-core/meta \
-"
-
-Using this information can you maybe find some differences when
-compared to your setup?
-
-Lacking a reproducer I will find some time to work backwards from the error.
-
-Mark
-
->
-> Mark
->
->>
->>
->>
->> Regards
->> Manikandan
->> ________________________________________
->> From: asselsm@gmail.com [asselsm@gmail.com] on behalf of M. Asselstine [asselsm@mcmaster.ca]
->> Sent: Friday, December 09, 2016 9:32 AM
->> To: Manikandan E
->> Cc: meta-virtualization@yoctoproject.org
->> Subject: Re: [meta-virtualization] FW: docker build issues meta-virtualization (Krogoth)
->>
->> On Wed, Dec 7, 2016 at 6:34 AM, Manikandan E <manikandan.e@hcl.com> wrote:
->>> Hi All,
->>>
->>>   We are trying to compile docker with core-image minimal image on Krogoth
->>> version and facing the below issues when compiling go-native package.
->>>
->>> Log:
->>> -------------------
->>> | DEBUG: Executing shell function do_compile
->>> | # Building C bootstrap tool.
->>> | cmd/dist
->>> | go tool dist: unknown $GOOS ${BUILD_GOOS}
->>> | WARNING: exit code 1 from a shell command.
->>> | ERROR: Function failed: do_compile (log file is located at
->>> /media/csp/HMI/zcu_morty/build/tmp/work/x86_64-linux/go-native/1.4.3-r0/temp/log.do_compile.16340)
->>>
->>
->> Can you provide details about your build host OS?
->>
->> Mark
->>
->>
->>>
->>>
->>> Kindly provide your suggestion.
->>>
->>>
->>> Regards
->>> Manikandan
->>>
->>>
->>>
->>> ::DISCLAIMER::
->>> ----------------------------------------------------------------------------------------------------------------------------------------------------
->>>
->>> The contents of this e-mail and any attachment(s) are confidential and
->>> intended for the named recipient(s) only.
->>> E-mail transmission is not guaranteed to be secure or error-free as
->>> information could be intercepted, corrupted,
->>> lost, destroyed, arrive late or incomplete, or may contain viruses in
->>> transmission. The e mail and its contents
->>> (with or without referred errors) shall therefore not attach any liability
->>> on the originator or HCL or its affiliates.
->>> Views or opinions, if any, presented in this email are solely those of the
->>> author and may not necessarily reflect the
->>> views or opinions of HCL or its affiliates. Any form of reproduction,
->>> dissemination, copying, disclosure, modification,
->>> distribution and / or publication of this message without the prior written
->>> consent of authorized representative of
->>> HCL is strictly prohibited. If you have received this email in error please
->>> delete it and notify the sender immediately.
->>> Before opening any email and/or attachments, please check them for viruses
->>> and other defects.
->>>
->>> ----------------------------------------------------------------------------------------------------------------------------------------------------
->>>
->>>
->>> --
->>> _______________________________________________
->>> meta-virtualization mailing list
->>> meta-virtualization@yoctoproject.org
->>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>>
-
---94eb2c0870faceeb7f05438fac2b
-Content-Type: text/plain; charset=US-ASCII; name="packages.txt"
-Content-Disposition: attachment; filename="packages.txt"
-Content-Transfer-Encoding: base64
-X-Attachment-Id: f_iwnxcqae0
-
-RGVzaXJlZD1Vbmtub3duL0luc3RhbGwvUmVtb3ZlL1B1cmdlL0hvbGQKfCBTdGF0dXM9Tm90L0lu
-c3QvQ29uZi1maWxlcy9VbnBhY2tlZC9oYWxGLWNvbmYvSGFsZi1pbnN0L3RyaWctYVdhaXQvVHJp
-Zy1wZW5kCnwvIEVycj89KG5vbmUpL1JlaW5zdC1yZXF1aXJlZCAoU3RhdHVzLEVycjogdXBwZXJj
-YXNlPWJhZCkKfHwvIE5hbWUgICAgICAgICAgICAgICAgICAgICAgICAgICAgVmVyc2lvbiAgICAg
-ICAgICAgICAgICAgICAgICAgICAgQXJjaGl0ZWN0dXJlIERlc2NyaXB0aW9uCisrKy09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09LT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-LT09PT09PT09PT09PS09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CmlpICBhZGR1c2VyICAgICAgICAg
-ICAgICAgICAgICAgICAgIDMuMTEzK25tdTN1YnVudHUzICAgICAgICAgICAgICAgIGFsbCAgICAg
-ICAgICBhZGQgYW5kIHJlbW92ZSB1c2VycyBhbmQgZ3JvdXBzCmlpICBhcHQgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIDEuMC4xdWJ1bnR1Mi4xNCAgICAgICAgICAgICAgICAgIGFtZDY0ICAg
-ICAgICBjb21tYW5kbGluZSBwYWNrYWdlIG1hbmFnZXIKaWkgIGFwdC11dGlscyAgICAgICAgICAg
-ICAgICAgICAgICAgMS4wLjF1YnVudHUyLjE0ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAg
-IHBhY2thZ2UgbWFuYWdlbWVudCByZWxhdGVkIHV0aWxpdHkgcHJvZ3JhbXMKaWkgIGJhc2UtZmls
-ZXMgICAgICAgICAgICAgICAgICAgICAgNy4ydWJ1bnR1NS40ICAgICAgICAgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIERlYmlhbiBiYXNlIHN5c3RlbSBtaXNjZWxsYW5lb3VzIGZpbGVzCmlpICBi
-YXNlLXBhc3N3ZCAgICAgICAgICAgICAgICAgICAgIDMuNS4zMyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIGFtZDY0ICAgICAgICBEZWJpYW4gYmFzZSBzeXN0ZW0gbWFzdGVyIHBhc3N3b3JkIGFu
-ZCBncm91cCBmaWxlcwppaSAgYmFzaCAgICAgICAgICAgICAgICAgICAgICAgICAgICA0LjMtN3Vi
-dW50dTEuNSAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIEJvdXJuZSBBZ2FpbiBT
-SGVsbAppaSAgYmludXRpbHMgICAgICAgICAgICAgICAgICAgICAgICAyLjI0LTV1YnVudHUxNC4x
-ICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIGFzc2VtYmxlciwgbGlua2VyIGFuZCBi
-aW5hcnkgdXRpbGl0aWVzCmlpICBic2R1dGlscyAgICAgICAgICAgICAgICAgICAgICAgIDE6Mi4y
-MC4xLTUuMXVidW50dTIwLjcgICAgICAgICAgIGFtZDY0ICAgICAgICBCYXNpYyB1dGlsaXRpZXMg
-ZnJvbSA0LjRCU0QtTGl0ZQppaSAgYnVzeWJveC1pbml0cmFtZnMgICAgICAgICAgICAgICAxOjEu
-MjEuMC0xdWJ1bnR1MSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgU3RhbmRhbG9uZSBzaGVs
-bCBzZXR1cCBmb3IgaW5pdHJhbWZzCmlpICBiemlwMiAgICAgICAgICAgICAgICAgICAgICAgICAg
-IDEuMC42LTUgICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBoaWdoLXF1YWxp
-dHkgYmxvY2stc29ydGluZyBmaWxlIGNvbXByZXNzb3IgLSB1dGlsaXRpZXMKaWkgIGNocnBhdGgg
-ICAgICAgICAgICAgICAgICAgICAgICAgMC4xNC0zdWJ1bnR1MSAgICAgICAgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIFRvb2wgdG8gZWRpdCB0aGUgcnBhdGggaW4gRUxGIGJpbmFyaWVzCmlpICBj
-b25zb2xlLXNldHVwICAgICAgICAgICAgICAgICAgIDEuNzB1YnVudHU4ICAgICAgICAgICAgICAg
-ICAgICAgIGFsbCAgICAgICAgICBjb25zb2xlIGZvbnQgYW5kIGtleW1hcCBzZXR1cCBwcm9ncmFt
-CmlpICBjb3JldXRpbHMgICAgICAgICAgICAgICAgICAgICAgIDguMjEtMXVidW50dTUuNCAgICAg
-ICAgICAgICAgICAgIGFtZDY0ICAgICAgICBHTlUgY29yZSB1dGlsaXRpZXMKaWkgIGNwaW8gICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgMi4xMStkZnNnLTF1YnVudHUxLjIgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIEdOVSBjcGlvIC0tIGEgcHJvZ3JhbSB0byBtYW5hZ2UgYXJjaGl2ZXMgb2Yg
-ZmlsZXMKaWkgIGNwcCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgNDo0LjguMi0xdWJ1bnR1
-NiAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBDIHByZXByb2Nlc3NvciAoY3BwKQpp
-aSAgY3BwLTQuOCAgICAgICAgICAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4z
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIEMgcHJlcHJvY2Vzc29yCmlpICBjcm9uICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIDMuMHBsMS0xMjR1YnVudHUyICAgICAgICAgICAgICAgIGFt
-ZDY0ICAgICAgICBwcm9jZXNzIHNjaGVkdWxpbmcgZGFlbW9uCmlpICBjdXJsICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIDcuMzUuMC0xdWJ1bnR1Mi42ICAgICAgICAgICAgICAgIGFtZDY0ICAg
-ICAgICBjb21tYW5kIGxpbmUgdG9vbCBmb3IgdHJhbnNmZXJyaW5nIGRhdGEgd2l0aCBVUkwgc3lu
-dGF4CmlpICBkYXNoICAgICAgICAgICAgICAgICAgICAgICAgICAgIDAuNS43LTR1YnVudHUxICAg
-ICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBQT1NJWC1jb21wbGlhbnQgc2hlbGwKaWkgIGRl
-YmNvbmYgICAgICAgICAgICAgICAgICAgICAgICAgMS41LjUxdWJ1bnR1MiAgICAgICAgICAgICAg
-ICAgICAgYWxsICAgICAgICAgIERlYmlhbiBjb25maWd1cmF0aW9uIG1hbmFnZW1lbnQgc3lzdGVt
-CmlpICBkZWJjb25mLWkxOG4gICAgICAgICAgICAgICAgICAgIDEuNS41MXVidW50dTIgICAgICAg
-ICAgICAgICAgICAgIGFsbCAgICAgICAgICBmdWxsIGludGVybmF0aW9uYWxpemF0aW9uIHN1cHBv
-cnQgZm9yIGRlYmNvbmYKaWkgIGRlYmlhbnV0aWxzICAgICAgICAgICAgICAgICAgICAgNC40ICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIE1pc2NlbGxhbmVvdXMgdXRp
-bGl0aWVzIHNwZWNpZmljIHRvIERlYmlhbgppaSAgZGgtcHl0aG9uICAgICAgICAgICAgICAgICAg
-ICAgICAxLjIwMTQwMTI4LTF1YnVudHU4LjIgICAgICAgICAgICBhbGwgICAgICAgICAgRGViaWFu
-IGhlbHBlciB0b29scyBmb3IgcGFja2FnaW5nIFB5dGhvbiBsaWJyYXJpZXMgYW5kIGFwcGxpY2F0
-aW9ucwppaSAgZGlmZnN0YXQgICAgICAgICAgICAgICAgICAgICAgICAxLjU4LTEgICAgICAgICAg
-ICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgcHJvZHVjZXMgZ3JhcGggb2YgY2hhbmdlcyBp
-bnRyb2R1Y2VkIGJ5IGEgZGlmZiBmaWxlCmlpICBkaWZmdXRpbHMgICAgICAgICAgICAgICAgICAg
-ICAgIDE6My4zLTEgICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBGaWxlIGNv
-bXBhcmlzb24gdXRpbGl0aWVzCmlpICBkbXNldHVwICAgICAgICAgICAgICAgICAgICAgICAgIDI6
-MS4wMi43Ny02dWJ1bnR1MiAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBMaW51eCBLZXJuZWwg
-RGV2aWNlIE1hcHBlciB1c2Vyc3BhY2UgbGlicmFyeQppaSAgZHBrZyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAxLjE3LjV1YnVudHU1LjcgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAg
-RGViaWFuIHBhY2thZ2UgbWFuYWdlbWVudCBzeXN0ZW0KaWkgIGUyZnNsaWJzOmFtZDY0ICAgICAg
-ICAgICAgICAgICAgMS40Mi45LTN1YnVudHUxLjMgICAgICAgICAgICAgICAgYW1kNjQgICAgICAg
-IGV4dDIvZXh0My9leHQ0IGZpbGUgc3lzdGVtIGxpYnJhcmllcwppaSAgZTJmc3Byb2dzICAgICAg
-ICAgICAgICAgICAgICAgICAxLjQyLjktM3VidW50dTEuMyAgICAgICAgICAgICAgICBhbWQ2NCAg
-ICAgICAgZXh0Mi9leHQzL2V4dDQgZmlsZSBzeXN0ZW0gdXRpbGl0aWVzCmlpICBlamVjdCAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIDIuMS41K2RlYjErY3ZzMjAwODExMDQtMTMuMSAgICAgIGFt
-ZDY0ICAgICAgICBlamVjdHMgQ0RzIGFuZCBvcGVyYXRlcyBDRC1DaGFuZ2VycyB1bmRlciBMaW51
-eAppaSAgZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAxOjUuMTQtMnVidW50dTMuMyAg
-ICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgRGV0ZXJtaW5lcyBmaWxlIHR5cGUgdXNpbmcgIm1h
-Z2ljIiBudW1iZXJzCmlpICBmaW5kdXRpbHMgICAgICAgICAgICAgICAgICAgICAgIDQuNC4yLTcg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICB1dGlsaXRpZXMgZm9yIGZpbmRp
-bmcgZmlsZXMtLWZpbmQsIHhhcmdzCmlpICBmb250Y29uZmlnICAgICAgICAgICAgICAgICAgICAg
-IDIuMTEuMC0wdWJ1bnR1NC4xICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBnZW5lcmljIGZv
-bnQgY29uZmlndXJhdGlvbiBsaWJyYXJ5IC0gc3VwcG9ydCBiaW5hcmllcwppaSAgZm9udGNvbmZp
-Zy1jb25maWcgICAgICAgICAgICAgICAyLjExLjAtMHVidW50dTQuMSAgICAgICAgICAgICAgICBh
-bGwgICAgICAgICAgZ2VuZXJpYyBmb250IGNvbmZpZ3VyYXRpb24gbGlicmFyeSAtIGNvbmZpZ3Vy
-YXRpb24KaWkgIGZvbnRzLWRlamF2dS1jb3JlICAgICAgICAgICAgICAgMi4zNC0xdWJ1bnR1MSAg
-ICAgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIFZlcmEgZm9udCBmYW1pbHkgZGVyaXZhdGUg
-d2l0aCBhZGRpdGlvbmFsIGNoYXJhY3RlcnMKaWkgIGcrKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgNDo0LjguMi0xdWJ1bnR1NiAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBD
-KysgY29tcGlsZXIKaWkgIGcrKy00LjggICAgICAgICAgICAgICAgICAgICAgICAgNC44LjQtMnVi
-dW50dTF+MTQuMDQuMyAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBDKysgY29tcGlsZXIKaWkg
-IGdhd2sgICAgICAgICAgICAgICAgICAgICAgICAgICAgMTo0LjAuMStkZnNnLTIuMXVidW50dTIg
-ICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBhd2ssIGEgcGF0dGVybiBzY2FubmluZyBhbmQgcHJv
-Y2Vzc2luZyBsYW5ndWFnZQppaSAgZ2NjICAgICAgICAgICAgICAgICAgICAgICAgICAgICA0OjQu
-OC4yLTF1YnVudHU2ICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIEMgY29tcGlsZXIK
-aWkgIGdjYy00LjggICAgICAgICAgICAgICAgICAgICAgICAgNC44LjQtMnVidW50dTF+MTQuMDQu
-MyAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBDIGNvbXBpbGVyCmlpICBnY2MtNC44LWJhc2U6
-YW1kNjQgICAgICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAgICAgIGFtZDY0
-ICAgICAgICBHQ0MsIHRoZSBHTlUgQ29tcGlsZXIgQ29sbGVjdGlvbiAoYmFzZSBwYWNrYWdlKQpp
-aSAgZ2NjLTQuOC1tdWx0aWxpYiAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4z
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIEMgY29tcGlsZXIgKG11bHRpbGliIGZpbGVzKQpp
-aSAgZ2NjLTQuOS1iYXNlOmFtZDY0ICAgICAgICAgICAgICA0LjkuMy0wdWJ1bnR1NCAgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgR0NDLCB0aGUgR05VIENvbXBpbGVyIENvbGxlY3Rpb24g
-KGJhc2UgcGFja2FnZSkKaWkgIGdjYy00LjktYmFzZTppMzg2ICAgICAgICAgICAgICAgNC45LjMt
-MHVidW50dTQgICAgICAgICAgICAgICAgICAgaTM4NiAgICAgICAgIEdDQywgdGhlIEdOVSBDb21w
-aWxlciBDb2xsZWN0aW9uIChiYXNlIHBhY2thZ2UpCmlpICBnY2MtbXVsdGlsaWIgICAgICAgICAg
-ICAgICAgICAgIDQ6NC44LjItMXVidW50dTYgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBH
-TlUgQyBjb21waWxlciAobXVsdGlsaWIgZmlsZXMpCmlpICBnaXQgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIDE6MS45LjEtMXVidW50dTAuMyAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBm
-YXN0LCBzY2FsYWJsZSwgZGlzdHJpYnV0ZWQgcmV2aXNpb24gY29udHJvbCBzeXN0ZW0KaWkgIGdp
-dC1jb3JlICAgICAgICAgICAgICAgICAgICAgICAgMToxLjkuMS0xdWJ1bnR1MC4zICAgICAgICAg
-ICAgICAgYWxsICAgICAgICAgIGZhc3QsIHNjYWxhYmxlLCBkaXN0cmlidXRlZCByZXZpc2lvbiBj
-b250cm9sIHN5c3RlbSAob2Jzb2xldGUpCmlpICBnaXQtbWFuICAgICAgICAgICAgICAgICAgICAg
-ICAgIDE6MS45LjEtMXVidW50dTAuMyAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBmYXN0LCBz
-Y2FsYWJsZSwgZGlzdHJpYnV0ZWQgcmV2aXNpb24gY29udHJvbCBzeXN0ZW0gKG1hbnVhbCBwYWdl
-cykKaWkgIGdudXBnICAgICAgICAgICAgICAgICAgICAgICAgICAgMS40LjE2LTF1YnVudHUyLjMg
-ICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBwcml2YWN5IGd1YXJkIC0gYSBmcmVlIFBH
-UCByZXBsYWNlbWVudAppaSAgZ3BndiAgICAgICAgICAgICAgICAgICAgICAgICAgICAxLjQuMTYt
-MXVidW50dTIuMyAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIHByaXZhY3kgZ3VhcmQg
-LSBzaWduYXR1cmUgdmVyaWZpY2F0aW9uIHRvb2wKaWkgIGdyZXAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgMi4xNi0xICAgICAgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdO
-VSBncmVwLCBlZ3JlcCBhbmQgZmdyZXAKaWkgIGd6aXAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgMS42LTN1YnVudHUxICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBjb21w
-cmVzc2lvbiB1dGlsaXRpZXMKaWkgIGhlbHAybWFuICAgICAgICAgICAgICAgICAgICAgICAgMS40
-NC4xICAgICAgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEF1dG9tYXRpYyBtYW5w
-YWdlIGdlbmVyYXRvcgppaSAgaG9zdG5hbWUgICAgICAgICAgICAgICAgICAgICAgICAzLjE1dWJ1
-bnR1MSAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgdXRpbGl0eSB0byBzZXQvc2hv
-dyB0aGUgaG9zdCBuYW1lIG9yIGRvbWFpbiBuYW1lCmlpICBpZnVwZG93biAgICAgICAgICAgICAg
-ICAgICAgICAgIDAuNy40Ny4ydWJ1bnR1NC40ICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBo
-aWdoIGxldmVsIHRvb2xzIHRvIGNvbmZpZ3VyZSBuZXR3b3JrIGludGVyZmFjZXMKaWkgIGluaXQt
-c3lzdGVtLWhlbHBlcnMgICAgICAgICAgICAgMS4xNCAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgYWxsICAgICAgICAgIGhlbHBlciB0b29scyBmb3IgYWxsIGluaXQgc3lzdGVtcwppaSAgaW5p
-dHJhbWZzLXRvb2xzICAgICAgICAgICAgICAgICAwLjEwM3VidW50dTQuMyAgICAgICAgICAgICAg
-ICAgICBhbGwgICAgICAgICAgdG9vbHMgZm9yIGdlbmVyYXRpbmcgYW4gaW5pdHJhbWZzCmlpICBp
-bml0cmFtZnMtdG9vbHMtYmluICAgICAgICAgICAgIDAuMTAzdWJ1bnR1NC4zICAgICAgICAgICAg
-ICAgICAgIGFtZDY0ICAgICAgICBiaW5hcmllcyB1c2VkIGJ5IGluaXRyYW1mcy10b29scwppaSAg
-aW5pdHNjcmlwdHMgICAgICAgICAgICAgICAgICAgICAyLjg4ZHNmLTQxdWJ1bnR1Ni4zICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgc2NyaXB0cyBmb3IgaW5pdGlhbGl6aW5nIGFuZCBzaHV0dGlu
-ZyBkb3duIHRoZSBzeXN0ZW0KaWkgIGluc3NlcnYgICAgICAgICAgICAgICAgICAgICAgICAgMS4x
-NC4wLTV1YnVudHUyICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGJvb3Qgc2VxdWVuY2Ug
-b3JnYW5pemVyIHVzaW5nIExTQiBpbml0LmQgc2NyaXB0IGRlcGVuZGVuY3kgaW5mb3JtYXRpb24K
-aWkgIGlwcm91dGUyICAgICAgICAgICAgICAgICAgICAgICAgMy4xMi4wLTJ1YnVudHUxICAgICAg
-ICAgICAgICAgICAgYW1kNjQgICAgICAgIG5ldHdvcmtpbmcgYW5kIHRyYWZmaWMgY29udHJvbCB0
-b29scwppaSAgaXB1dGlscy1waW5nICAgICAgICAgICAgICAgICAgICAzOjIwMTIxMjIxLTR1YnVu
-dHUxLjEgICAgICAgICAgICBhbWQ2NCAgICAgICAgVG9vbHMgdG8gdGVzdCB0aGUgcmVhY2hhYmls
-aXR5IG9mIG5ldHdvcmsgaG9zdHMKaWkgIGlzYy1kaGNwLWNsaWVudCAgICAgICAgICAgICAgICAg
-NC4yLjQtN3VidW50dTEyLjQgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIElTQyBESENQIGNs
-aWVudAppaSAgaXNjLWRoY3AtY29tbW9uICAgICAgICAgICAgICAgICA0LjIuNC03dWJ1bnR1MTIu
-NCAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgY29tbW9uIGZpbGVzIHVzZWQgYnkgYWxsIHRo
-ZSBpc2MtZGhjcCogcGFja2FnZXMKaWkgIGtiZCAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-MS4xNS41LTF1YnVudHUxICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIExpbnV4IGNvbnNv
-bGUgZm9udCBhbmQga2V5dGFibGUgdXRpbGl0aWVzCmlpICBrZXlib2FyZC1jb25maWd1cmF0aW9u
-ICAgICAgICAgIDEuNzB1YnVudHU4ICAgICAgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBz
-eXN0ZW0td2lkZSBrZXlib2FyZCBwcmVmZXJlbmNlcwppaSAga2xpYmMtdXRpbHMgICAgICAgICAg
-ICAgICAgICAgICAyLjAuMy0wdWJ1bnR1MS4xNC4wNC4xICAgICAgICAgICBhbWQ2NCAgICAgICAg
-c21hbGwgdXRpbGl0aWVzIGJ1aWx0IHdpdGgga2xpYmMgZm9yIGVhcmx5IGJvb3QKaWkgIGttb2Qg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgMTUtMHVidW50dTYgICAgICAgICAgICAgICAgICAg
-ICAgYW1kNjQgICAgICAgIHRvb2xzIGZvciBtYW5hZ2luZyBMaW51eCBrZXJuZWwgbW9kdWxlcwpp
-aSAgbGVzcyAgICAgICAgICAgICAgICAgICAgICAgICAgICA0NTgtMiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgcGFnZXIgcHJvZ3JhbSBzaW1pbGFyIHRvIG1vcmUKaWkg
-IGxpYjMyYXNhbjAgICAgICAgICAgICAgICAgICAgICAgNC44LjQtMnVidW50dTF+MTQuMDQuMyAg
-ICAgICAgICAgYW1kNjQgICAgICAgIEFkZHJlc3NTYW5pdGl6ZXIgLS0gYSBmYXN0IG1lbW9yeSBl
-cnJvciBkZXRlY3RvciAoMzJiaXQpCmlpICBsaWIzMmF0b21pYzEgICAgICAgICAgICAgICAgICAg
-IDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAgICBzdXBwb3J0IGxp
-YnJhcnkgcHJvdmlkaW5nIF9fYXRvbWljIGJ1aWx0LWluIGZ1bmN0aW9ucyAoMzJiaXQpCmlpICBs
-aWIzMmdjYy00LjgtZGV2ICAgICAgICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAg
-ICAgICAgIGFtZDY0ICAgICAgICBHQ0Mgc3VwcG9ydCBsaWJyYXJ5ICgzMiBiaXQgZGV2ZWxvcG1l
-bnQgZmlsZXMpCmlpICBsaWIzMmdjYzEgICAgICAgICAgICAgICAgICAgICAgIDE6NC45LjMtMHVi
-dW50dTQgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBHQ0Mgc3VwcG9ydCBsaWJyYXJ5ICgz
-MiBiaXQgVmVyc2lvbikKaWkgIGxpYjMyZ29tcDEgICAgICAgICAgICAgICAgICAgICAgNC44LjQt
-MnVidW50dTF+MTQuMDQuMyAgICAgICAgICAgYW1kNjQgICAgICAgIEdDQyBPcGVuTVAgKEdPTVAp
-IHN1cHBvcnQgbGlicmFyeSAoMzJiaXQpCmlpICBsaWIzMml0bTEgICAgICAgICAgICAgICAgICAg
-ICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAgICBHTlUgVHJh
-bnNhY3Rpb25hbCBNZW1vcnkgTGlicmFyeSAoMzJiaXQpCmlpICBsaWIzMnF1YWRtYXRoMCAgICAg
-ICAgICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAg
-ICBHQ0MgUXVhZC1QcmVjaXNpb24gTWF0aCBMaWJyYXJ5ICgzMmJpdCkKaWkgIGxpYmFjbDE6YW1k
-NjQgICAgICAgICAgICAgICAgICAgMi4yLjUyLTEgICAgICAgICAgICAgICAgICAgICAgICAgYW1k
-NjQgICAgICAgIEFjY2VzcyBjb250cm9sIGxpc3Qgc2hhcmVkIGxpYnJhcnkKaWkgIGxpYmFwcjE6
-YW1kNjQgICAgICAgICAgICAgICAgICAgMS41LjAtMSAgICAgICAgICAgICAgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIEFwYWNoZSBQb3J0YWJsZSBSdW50aW1lIExpYnJhcnkKaWkgIGxpYmFwcnV0
-aWwxOmFtZDY0ICAgICAgICAgICAgICAgMS41LjMtMSAgICAgICAgICAgICAgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIEFwYWNoZSBQb3J0YWJsZSBSdW50aW1lIFV0aWxpdHkgTGlicmFyeQppaSAg
-bGliYXB0LWluc3QxLjU6YW1kNjQgICAgICAgICAgICAxLjAuMXVidW50dTIuMTQgICAgICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgZGViIHBhY2thZ2UgZm9ybWF0IHJ1bnRpbWUgbGlicmFyeQpp
-aSAgbGliYXB0LXBrZzQuMTI6YW1kNjQgICAgICAgICAgICAxLjAuMXVidW50dTIuMTQgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgcGFja2FnZSBtYW5hZ2VtZW50IHJ1bnRpbWUgbGlicmFy
-eQppaSAgbGliYXJjaGl2ZS1leHRyYWN0LXBlcmwgICAgICAgICAwLjcwLTEgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBhbGwgICAgICAgICAgZ2VuZXJpYyBhcmNoaXZlIGV4dHJhY3RpbmcgbW9k
-dWxlCmlpICBsaWJhc2FuMDphbWQ2NCAgICAgICAgICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0
-LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAgICBBZGRyZXNzU2FuaXRpemVyIC0tIGEgZmFzdCBt
-ZW1vcnkgZXJyb3IgZGV0ZWN0b3IKaWkgIGxpYmFzbjEtOC1oZWltZGFsOmFtZDY0ICAgICAgICAg
-MS42fmdpdDIwMTMxMjA3K2Rmc2ctMXVidW50dTEuMSAgYW1kNjQgICAgICAgIEhlaW1kYWwgS2Vy
-YmVyb3MgLSBBU04uMSBsaWJyYXJ5CmlpICBsaWJhc291bmQyOmFtZDY0ICAgICAgICAgICAgICAg
-IDEuMC4yNy4yLTN1YnVudHU3ICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBzaGFyZWQgbGli
-cmFyeSBmb3IgQUxTQSBhcHBsaWNhdGlvbnMKaWkgIGxpYmFzb3VuZDItZGF0YSAgICAgICAgICAg
-ICAgICAgMS4wLjI3LjItM3VidW50dTcgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIENvbmZp
-Z3VyYXRpb24gZmlsZXMgYW5kIHByb2ZpbGVzIGZvciBBTFNBIGRyaXZlcnMKaWkgIGxpYmFzb3Vu
-ZDItZGV2OmFtZDY0ICAgICAgICAgICAgMS4wLjI3LjItM3VidW50dTcgICAgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIHNoYXJlZCBsaWJyYXJ5IGZvciBBTFNBIGFwcGxpY2F0aW9ucyAtLSBkZXZl
-bG9wbWVudCBmaWxlcwppaSAgbGliYXN5bmNuczA6YW1kNjQgICAgICAgICAgICAgICAwLjgtNHVi
-dW50dTIgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgQXN5bmNocm9ub3VzIG5hbWUg
-c2VydmljZSBxdWVyeSBsaWJyYXJ5CmlpICBsaWJhdGsxLjAtMDphbWQ2NCAgICAgICAgICAgICAg
-IDIuMTAuMC0ydWJ1bnR1MiAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBBVEsgYWNjZXNz
-aWJpbGl0eSB0b29sa2l0CmlpICBsaWJhdGsxLjAtZGF0YSAgICAgICAgICAgICAgICAgIDIuMTAu
-MC0ydWJ1bnR1MiAgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBDb21tb24gZmlsZXMgZm9y
-IHRoZSBBVEsgYWNjZXNzaWJpbGl0eSB0b29sa2l0CmlpICBsaWJhdG9taWMxOmFtZDY0ICAgICAg
-ICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAgICBz
-dXBwb3J0IGxpYnJhcnkgcHJvdmlkaW5nIF9fYXRvbWljIGJ1aWx0LWluIGZ1bmN0aW9ucwppaSAg
-bGliYXR0cjE6YW1kNjQgICAgICAgICAgICAgICAgICAxOjIuNC40Ny0xdWJ1bnR1MSAgICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgRXh0ZW5kZWQgYXR0cmlidXRlIHNoYXJlZCBsaWJyYXJ5Cmlp
-ICBsaWJhdWRpdC1jb21tb24gICAgICAgICAgICAgICAgIDE6Mi4zLjItMnVidW50dTEgICAgICAg
-ICAgICAgICAgIGFsbCAgICAgICAgICBEeW5hbWljIGxpYnJhcnkgZm9yIHNlY3VyaXR5IGF1ZGl0
-aW5nIC0gY29tbW9uIGZpbGVzCmlpICBsaWJhdWRpdDE6YW1kNjQgICAgICAgICAgICAgICAgIDE6
-Mi4zLjItMnVidW50dTEgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBEeW5hbWljIGxpYnJh
-cnkgZm9yIHNlY3VyaXR5IGF1ZGl0aW5nCmlpICBsaWJhdmFoaS1jbGllbnQtZGV2ICAgICAgICAg
-ICAgIDAuNi4zMS00dWJ1bnR1MSAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBEZXZlbG9w
-bWVudCBmaWxlcyBmb3IgdGhlIEF2YWhpIGNsaWVudCBsaWJyYXJ5CmlpICBsaWJhdmFoaS1jbGll
-bnQzOmFtZDY0ICAgICAgICAgIDAuNi4zMS00dWJ1bnR1MSAgICAgICAgICAgICAgICAgIGFtZDY0
-ICAgICAgICBBdmFoaSBjbGllbnQgbGlicmFyeQppaSAgbGliYXZhaGktY29tbW9uLWRhdGE6YW1k
-NjQgICAgICAwLjYuMzEtNHVidW50dTEgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgQXZh
-aGkgY29tbW9uIGRhdGEgZmlsZXMKaWkgIGxpYmF2YWhpLWNvbW1vbi1kZXYgICAgICAgICAgICAg
-MC42LjMxLTR1YnVudHUxICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIERldmVsb3BtZW50
-IGZpbGVzIGZvciB0aGUgQXZhaGkgY29tbW9uIGxpYnJhcnkKaWkgIGxpYmF2YWhpLWNvbW1vbjM6
-YW1kNjQgICAgICAgICAgMC42LjMxLTR1YnVudHUxICAgICAgICAgICAgICAgICAgYW1kNjQgICAg
-ICAgIEF2YWhpIGNvbW1vbiBsaWJyYXJ5CmlpICBsaWJibGtpZDE6YW1kNjQgICAgICAgICAgICAg
-ICAgIDIuMjAuMS01LjF1YnVudHUyMC43ICAgICAgICAgICAgIGFtZDY0ICAgICAgICBibG9jayBk
-ZXZpY2UgaWQgbGlicmFyeQppaSAgbGliYnNkMDphbWQ2NCAgICAgICAgICAgICAgICAgICAwLjYu
-MC0ydWJ1bnR1MSAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgdXRpbGl0eSBmdW5jdGlv
-bnMgZnJvbSBCU0Qgc3lzdGVtcyAtIHNoYXJlZCBsaWJyYXJ5CmlpICBsaWJiejItMS4wOmFtZDY0
-ICAgICAgICAgICAgICAgIDEuMC42LTUgICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAg
-ICAgICBoaWdoLXF1YWxpdHkgYmxvY2stc29ydGluZyBmaWxlIGNvbXByZXNzb3IgbGlicmFyeSAt
-IHJ1bnRpbWUKaWkgIGxpYmMtYmluICAgICAgICAgICAgICAgICAgICAgICAgMi4xOS0wdWJ1bnR1
-Ni45ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEVtYmVkZGVkIEdOVSBDIExpYnJhcnk6
-IEJpbmFyaWVzCmlpICBsaWJjLWRldi1iaW4gICAgICAgICAgICAgICAgICAgIDIuMTktMHVidW50
-dTYuOSAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBFbWJlZGRlZCBHTlUgQyBMaWJyYXJ5
-OiBEZXZlbG9wbWVudCBiaW5hcmllcwppaSAgbGliYzY6YW1kNjQgICAgICAgICAgICAgICAgICAg
-ICAyLjE5LTB1YnVudHU2LjkgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgRW1iZWRkZWQg
-R05VIEMgTGlicmFyeTogU2hhcmVkIGxpYnJhcmllcwppaSAgbGliYzY6aTM4NiAgICAgICAgICAg
-ICAgICAgICAgICAyLjE5LTB1YnVudHU2LjkgICAgICAgICAgICAgICAgICBpMzg2ICAgICAgICAg
-RW1iZWRkZWQgR05VIEMgTGlicmFyeTogU2hhcmVkIGxpYnJhcmllcwppaSAgbGliYzYtZGV2OmFt
-ZDY0ICAgICAgICAgICAgICAgICAyLjE5LTB1YnVudHU2LjkgICAgICAgICAgICAgICAgICBhbWQ2
-NCAgICAgICAgRW1iZWRkZWQgR05VIEMgTGlicmFyeTogRGV2ZWxvcG1lbnQgTGlicmFyaWVzIGFu
-ZCBIZWFkZXIgRmlsZXMKaWkgIGxpYmM2LWRldi1pMzg2ICAgICAgICAgICAgICAgICAgMi4xOS0w
-dWJ1bnR1Ni45ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEVtYmVkZGVkIEdOVSBDIExp
-YnJhcnk6IDMyLWJpdCBkZXZlbG9wbWVudCBsaWJyYXJpZXMgZm9yIEFNRDY0CmlpICBsaWJjNi1k
-ZXYteDMyICAgICAgICAgICAgICAgICAgIDIuMTktMHVidW50dTYuOSAgICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBFbWJlZGRlZCBHTlUgQyBMaWJyYXJ5OiBYMzIgQUJJIERldmVsb3BtZW50
-IExpYnJhcmllcyBmb3IgQU1ENjQKaWkgIGxpYmM2LWkzODYgICAgICAgICAgICAgICAgICAgICAg
-Mi4xOS0wdWJ1bnR1Ni45ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEVtYmVkZGVkIEdO
-VSBDIExpYnJhcnk6IDMyLWJpdCBzaGFyZWQgbGlicmFyaWVzIGZvciBBTUQ2NAppaSAgbGliYzYt
-eDMyICAgICAgICAgICAgICAgICAgICAgICAyLjE5LTB1YnVudHU2LjkgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgRW1iZWRkZWQgR05VIEMgTGlicmFyeTogWDMyIEFCSSBTaGFyZWQgbGli
-cmFyaWVzIGZvciBBTUQ2NAppaSAgbGliY2FjYS1kZXYgICAgICAgICAgICAgICAgICAgICAwLjk5
-LmJldGExOC0xdWJ1bnR1NSAgICAgICAgICAgICBhbWQ2NCAgICAgICAgZGV2ZWxvcG1lbnQgZmls
-ZXMgZm9yIGxpYmNhY2EKaWkgIGxpYmNhY2EwOmFtZDY0ICAgICAgICAgICAgICAgICAgMC45OS5i
-ZXRhMTgtMXVidW50dTUgICAgICAgICAgICAgYW1kNjQgICAgICAgIGNvbG91ciBBU0NJSSBhcnQg
-bGlicmFyeQppaSAgbGliY2Fpcm8yOmFtZDY0ICAgICAgICAgICAgICAgICAxLjEzLjB+MjAxNDAy
-MDQtMHVidW50dTEuMSAgICAgICBhbWQ2NCAgICAgICAgVGhlIENhaXJvIDJEIHZlY3RvciBncmFw
-aGljcyBsaWJyYXJ5CmlpICBsaWJjYXAyOmFtZDY0ICAgICAgICAgICAgICAgICAgIDE6Mi4yNC0w
-dWJ1bnR1MiAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBzdXBwb3J0IGZvciBnZXR0aW5n
-L3NldHRpbmcgUE9TSVguMWUgY2FwYWJpbGl0aWVzCmlpICBsaWJjYXAyLWJpbiAgICAgICAgICAg
-ICAgICAgICAgIDE6Mi4yNC0wdWJ1bnR1MiAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBi
-YXNpYyB1dGlsaXR5IHByb2dyYW1zIGZvciB1c2luZyBjYXBhYmlsaXRpZXMKaWkgIGxpYmNnbWFu
-YWdlcjA6YW1kNjQgICAgICAgICAgICAgMC4yNC0wdWJ1bnR1Ny41ICAgICAgICAgICAgICAgICAg
-YW1kNjQgICAgICAgIENlbnRyYWwgY2dyb3VwIG1hbmFnZXIgZGFlbW9uIChjbGllbnQgbGlicmFy
-eSkKaWkgIGxpYmNsb29nLWlzbDQ6YW1kNjQgICAgICAgICAgICAgMC4xOC4yLTEgICAgICAgICAg
-ICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIENodW5reSBMb29wIEdlbmVyYXRvciAocnVudGlt
-ZSBsaWJyYXJ5KQppaSAgbGliY29tZXJyMjphbWQ2NCAgICAgICAgICAgICAgICAxLjQyLjktM3Vi
-dW50dTEuMyAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgY29tbW9uIGVycm9yIGRlc2NyaXB0
-aW9uIGxpYnJhcnkKaWkgIGxpYmN1cHMyOmFtZDY0ICAgICAgICAgICAgICAgICAgMS43LjItMHVi
-dW50dTEuNyAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIENvbW1vbiBVTklYIFByaW50aW5n
-IFN5c3RlbSh0bSkgLSBDb3JlIGxpYnJhcnkKaWkgIGxpYmN1cmwzOmFtZDY0ICAgICAgICAgICAg
-ICAgICAgNy4zNS4wLTF1YnVudHUyLjYgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGVhc3kt
-dG8tdXNlIGNsaWVudC1zaWRlIFVSTCB0cmFuc2ZlciBsaWJyYXJ5IChPcGVuU1NMIGZsYXZvdXIp
-CmlpICBsaWJjdXJsMy1nbnV0bHM6YW1kNjQgICAgICAgICAgIDcuMzUuMC0xdWJ1bnR1Mi42ICAg
-ICAgICAgICAgICAgIGFtZDY0ICAgICAgICBlYXN5LXRvLXVzZSBjbGllbnQtc2lkZSBVUkwgdHJh
-bnNmZXIgbGlicmFyeSAoR251VExTIGZsYXZvdXIpCmlpICBsaWJkYXRyaWUxOmFtZDY0ICAgICAg
-ICAgICAgICAgIDAuMi44LTEgICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBE
-b3VibGUtYXJyYXkgdHJpZSBsaWJyYXJ5CmlpICBsaWJkYjUuMzphbWQ2NCAgICAgICAgICAgICAg
-ICAgIDUuMy4yOC0zdWJ1bnR1MyAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBCZXJrZWxl
-eSB2NS4zIERhdGFiYXNlIExpYnJhcmllcyBbcnVudGltZV0KaWkgIGxpYmRidXMtMS0zOmFtZDY0
-ICAgICAgICAgICAgICAgMS42LjE4LTB1YnVudHU0LjMgICAgICAgICAgICAgICAgYW1kNjQgICAg
-ICAgIHNpbXBsZSBpbnRlcnByb2Nlc3MgbWVzc2FnaW5nIHN5c3RlbSAobGlicmFyeSkKaWkgIGxp
-YmRidXMtMS1kZXY6YW1kNjQgICAgICAgICAgICAgMS42LjE4LTB1YnVudHU0LjMgICAgICAgICAg
-ICAgICAgYW1kNjQgICAgICAgIHNpbXBsZSBpbnRlcnByb2Nlc3MgbWVzc2FnaW5nIHN5c3RlbSAo
-ZGV2ZWxvcG1lbnQgaGVhZGVycykKaWkgIGxpYmRlYmNvbmZjbGllbnQwOmFtZDY0ICAgICAgICAg
-MC4xODd1YnVudHUxICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIERlYmlhbiBDb25m
-aWd1cmF0aW9uIE1hbmFnZW1lbnQgU3lzdGVtIChDLWltcGxlbWVudGF0aW9uIGxpYnJhcnkpCmlp
-ICBsaWJkZXZtYXBwZXIxLjAyLjE6YW1kNjQgICAgICAgIDI6MS4wMi43Ny02dWJ1bnR1MiAgICAg
-ICAgICAgICAgIGFtZDY0ICAgICAgICBMaW51eCBLZXJuZWwgRGV2aWNlIE1hcHBlciB1c2Vyc3Bh
-Y2UgbGlicmFyeQppaSAgbGliZHJtLWFtZGdwdTE6YW1kNjQgICAgICAgICAgICAyLjQuNjQtMX51
-YnVudHUxNC4wNC4xICAgICAgICAgICBhbWQ2NCAgICAgICAgVXNlcnNwYWNlIGludGVyZmFjZSB0
-byBhbWRncHUtc3BlY2lmaWMga2VybmVsIERSTSBzZXJ2aWNlcyAtLSBydW50aW1lCmlpICBsaWJk
-cm0tZGV2OmFtZDY0ICAgICAgICAgICAgICAgIDIuNC42NC0xfnVidW50dTE0LjA0LjEgICAgICAg
-ICAgIGFtZDY0ICAgICAgICBVc2Vyc3BhY2UgaW50ZXJmYWNlIHRvIGtlcm5lbCBEUk0gc2Vydmlj
-ZXMgLS0gZGV2ZWxvcG1lbnQgZmlsZXMKaWkgIGxpYmRybS1pbnRlbDE6YW1kNjQgICAgICAgICAg
-ICAgMi40LjY0LTF+dWJ1bnR1MTQuMDQuMSAgICAgICAgICAgYW1kNjQgICAgICAgIFVzZXJzcGFj
-ZSBpbnRlcmZhY2UgdG8gaW50ZWwtc3BlY2lmaWMga2VybmVsIERSTSBzZXJ2aWNlcyAtLSBydW50
-aW1lCmlpICBsaWJkcm0tbm91dmVhdTI6YW1kNjQgICAgICAgICAgIDIuNC42NC0xfnVidW50dTE0
-LjA0LjEgICAgICAgICAgIGFtZDY0ICAgICAgICBVc2Vyc3BhY2UgaW50ZXJmYWNlIHRvIG5vdXZl
-YXUtc3BlY2lmaWMga2VybmVsIERSTSBzZXJ2aWNlcyAtLSBydW50aW1lCmlpICBsaWJkcm0tcmFk
-ZW9uMTphbWQ2NCAgICAgICAgICAgIDIuNC42NC0xfnVidW50dTE0LjA0LjEgICAgICAgICAgIGFt
-ZDY0ICAgICAgICBVc2Vyc3BhY2UgaW50ZXJmYWNlIHRvIHJhZGVvbi1zcGVjaWZpYyBrZXJuZWwg
-RFJNIHNlcnZpY2VzIC0tIHJ1bnRpbWUKaWkgIGxpYmRybTI6YW1kNjQgICAgICAgICAgICAgICAg
-ICAgMi40LjY0LTF+dWJ1bnR1MTQuMDQuMSAgICAgICAgICAgYW1kNjQgICAgICAgIFVzZXJzcGFj
-ZSBpbnRlcmZhY2UgdG8ga2VybmVsIERSTSBzZXJ2aWNlcyAtLSBydW50aW1lCmlpICBsaWJlZGl0
-MjphbWQ2NCAgICAgICAgICAgICAgICAgIDMuMS0yMDEzMDcxMi0yICAgICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBCU0QgZWRpdGxpbmUgYW5kIGhpc3RvcnkgbGlicmFyaWVzCmlpICBsaWJl
-bGZnMDphbWQ2NCAgICAgICAgICAgICAgICAgIDAuOC4xMy01ICAgICAgICAgICAgICAgICAgICAg
-ICAgIGFtZDY0ICAgICAgICBhbiBFTEYgb2JqZWN0IGZpbGUgYWNjZXNzIGxpYnJhcnkKaWkgIGxp
-YmVycm9yLXBlcmwgICAgICAgICAgICAgICAgICAgMC4xNy0xLjEgICAgICAgICAgICAgICAgICAg
-ICAgICAgYWxsICAgICAgICAgIFBlcmwgbW9kdWxlIGZvciBlcnJvci9leGNlcHRpb24gaGFuZGxp
-bmcgaW4gYW4gT08taXNoIHdheQppaSAgbGliZXN0cjAgICAgICAgICAgICAgICAgICAgICAgICAw
-LjEuOS0wdWJ1bnR1MiAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgSGVscGVyIGZ1bmN0
-aW9ucyBmb3IgaGFuZGxpbmcgc3RyaW5ncyAobGliKQppaSAgbGliZXhwYXQxOmFtZDY0ICAgICAg
-ICAgICAgICAgICAyLjEuMC00dWJ1bnR1MS4zICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAg
-WE1MIHBhcnNpbmcgQyBsaWJyYXJ5IC0gcnVudGltZSBsaWJyYXJ5CmlpICBsaWJmZmk2OmFtZDY0
-ICAgICAgICAgICAgICAgICAgIDMuMX5yYzErcjMuMC4xMy0xMnVidW50dTAuMSAgICAgIGFtZDY0
-ICAgICAgICBGb3JlaWduIEZ1bmN0aW9uIEludGVyZmFjZSBsaWJyYXJ5IHJ1bnRpbWUKaWkgIGxp
-YmZsYWM4OmFtZDY0ICAgICAgICAgICAgICAgICAgMS4zLjAtMnVidW50dTAuMTQuMDQuMSAgICAg
-ICAgICAgYW1kNjQgICAgICAgIEZyZWUgTG9zc2xlc3MgQXVkaW8gQ29kZWMgLSBydW50aW1lIEMg
-bGlicmFyeQppaSAgbGliZm9udGNvbmZpZzE6YW1kNjQgICAgICAgICAgICAyLjExLjAtMHVidW50
-dTQuMSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgZ2VuZXJpYyBmb250IGNvbmZpZ3VyYXRp
-b24gbGlicmFyeSAtIHJ1bnRpbWUKaWkgIGxpYmZyZWV0eXBlNjphbWQ2NCAgICAgICAgICAgICAg
-Mi41LjItMXVidW50dTIuNSAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEZyZWVUeXBlIDIg
-Zm9udCBlbmdpbmUsIHNoYXJlZCBsaWJyYXJ5IGZpbGVzCmlpICBsaWJmcmliaWRpMDphbWQ2NCAg
-ICAgICAgICAgICAgIDAuMTkuNi0xICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAg
-ICBGcmVlIEltcGxlbWVudGF0aW9uIG9mIHRoZSBVbmljb2RlIEJpRGkgYWxnb3JpdGhtCmlpICBs
-aWJnY2MtNC44LWRldjphbWQ2NCAgICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAg
-ICAgICAgIGFtZDY0ICAgICAgICBHQ0Mgc3VwcG9ydCBsaWJyYXJ5IChkZXZlbG9wbWVudCBmaWxl
-cykKaWkgIGxpYmdjYzE6YW1kNjQgICAgICAgICAgICAgICAgICAgMTo0LjkuMy0wdWJ1bnR1NCAg
-ICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdDQyBzdXBwb3J0IGxpYnJhcnkKaWkgIGxpYmdj
-YzE6aTM4NiAgICAgICAgICAgICAgICAgICAgMTo0LjkuMy0wdWJ1bnR1NCAgICAgICAgICAgICAg
-ICAgaTM4NiAgICAgICAgIEdDQyBzdXBwb3J0IGxpYnJhcnkKaWkgIGxpYmdjcnlwdDExOmFtZDY0
-ICAgICAgICAgICAgICAgMS41LjMtMnVidW50dTQuMyAgICAgICAgICAgICAgICAgYW1kNjQgICAg
-ICAgIExHUEwgQ3J5cHRvIGxpYnJhcnkgLSBydW50aW1lIGxpYnJhcnkKaWkgIGxpYmdkYm0zOmFt
-ZDY0ICAgICAgICAgICAgICAgICAgMS44LjMtMTJidWlsZDEgICAgICAgICAgICAgICAgICAgYW1k
-NjQgICAgICAgIEdOVSBkYm0gZGF0YWJhc2Ugcm91dGluZXMgKHJ1bnRpbWUgdmVyc2lvbikKaWkg
-IGxpYmdkay1waXhidWYyLjAtMDphbWQ2NCAgICAgICAgMi4zMC43LTB1YnVudHUxLjIgICAgICAg
-ICAgICAgICAgYW1kNjQgICAgICAgIEdESyBQaXhidWYgbGlicmFyeQppaSAgbGliZ2RrLXBpeGJ1
-ZjIuMC1jb21tb24gICAgICAgICAyLjMwLjctMHVidW50dTEuMiAgICAgICAgICAgICAgICBhbGwg
-ICAgICAgICAgR0RLIFBpeGJ1ZiBsaWJyYXJ5IC0gZGF0YSBmaWxlcwppaSAgbGliZ2wxLW1lc2Et
-ZGV2ICAgICAgICAgICAgICAgICAxMC4xLjMtMHVidW50dTAuNiAgICAgICAgICAgICAgICBhbWQ2
-NCAgICAgICAgZnJlZSBpbXBsZW1lbnRhdGlvbiBvZiB0aGUgT3BlbkdMIEFQSSAtLSBHTFggZGV2
-ZWxvcG1lbnQgZmlsZXMKaWkgIGxpYmdsMS1tZXNhLWdseDphbWQ2NCAgICAgICAgICAgMTAuMS4z
-LTB1YnVudHUwLjYgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGZyZWUgaW1wbGVtZW50YXRp
-b24gb2YgdGhlIE9wZW5HTCBBUEkgLS0gR0xYIHJ1bnRpbWUKaWkgIGxpYmdsYXBpLW1lc2E6YW1k
-NjQgICAgICAgICAgICAgMTAuMS4zLTB1YnVudHUwLjYgICAgICAgICAgICAgICAgYW1kNjQgICAg
-ICAgIGZyZWUgaW1wbGVtZW50YXRpb24gb2YgdGhlIEdMIEFQSSAtLSBzaGFyZWQgbGlicmFyeQpp
-aSAgbGliZ2xpYjIuMC0wOmFtZDY0ICAgICAgICAgICAgICAyLjQwLjItMHVidW50dTEgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgR0xpYiBsaWJyYXJ5IG9mIEMgcm91dGluZXMKaWkgIGxp
-YmdsaWIyLjAtYmluICAgICAgICAgICAgICAgICAgMi40MC4yLTB1YnVudHUxICAgICAgICAgICAg
-ICAgICAgYW1kNjQgICAgICAgIFByb2dyYW1zIGZvciB0aGUgR0xpYiBsaWJyYXJ5CmlpICBsaWJn
-bGliMi4wLWRhdGEgICAgICAgICAgICAgICAgIDIuNDAuMi0wdWJ1bnR1MSAgICAgICAgICAgICAg
-ICAgIGFsbCAgICAgICAgICBDb21tb24gZmlsZXMgZm9yIEdMaWIgbGlicmFyeQppaSAgbGliZ2xp
-YjIuMC1kZXYgICAgICAgICAgICAgICAgICAyLjQwLjItMHVidW50dTEgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgRGV2ZWxvcG1lbnQgZmlsZXMgZm9yIHRoZSBHTGliIGxpYnJhcnkKaWkg
-IGxpYmdsdTEtbWVzYTphbWQ2NCAgICAgICAgICAgICAgOS4wLjAtMiAgICAgICAgICAgICAgICAg
-ICAgICAgICAgYW1kNjQgICAgICAgIE1lc2EgT3BlbkdMIHV0aWxpdHkgbGlicmFyeSAoR0xVKQpp
-aSAgbGliZ2x1MS1tZXNhLWRldiAgICAgICAgICAgICAgICA5LjAuMC0yICAgICAgICAgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgTWVzYSBPcGVuR0wgdXRpbGl0eSBsaWJyYXJ5IC0tIGRl
-dmVsb3BtZW50IGZpbGVzCmlpICBsaWJnbXAxMDphbWQ2NCAgICAgICAgICAgICAgICAgIDI6NS4x
-LjMrZGZzZy0xdWJ1bnR1MSAgICAgICAgICAgIGFtZDY0ICAgICAgICBNdWx0aXByZWNpc2lvbiBh
-cml0aG1ldGljIGxpYnJhcnkKaWkgIGxpYmdudXRscy1vcGVuc3NsMjc6YW1kNjQgICAgICAgMi4x
-Mi4yMy0xMnVidW50dTIuNSAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBUTFMgbGlicmFy
-eSAtIE9wZW5TU0wgd3JhcHBlcgppaSAgbGliZ251dGxzMjY6YW1kNjQgICAgICAgICAgICAgICAy
-LjEyLjIzLTEydWJ1bnR1Mi41ICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIFRMUyBsaWJy
-YXJ5IC0gcnVudGltZSBsaWJyYXJ5CmlpICBsaWJnb21wMTphbWQ2NCAgICAgICAgICAgICAgICAg
-IDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAgICBHQ0MgT3Blbk1Q
-IChHT01QKSBzdXBwb3J0IGxpYnJhcnkKaWkgIGxpYmdwZy1lcnJvcjA6YW1kNjQgICAgICAgICAg
-ICAgMS4xMi0wLjJ1YnVudHUxICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGxpYnJhcnkg
-Zm9yIGNvbW1vbiBlcnJvciB2YWx1ZXMgYW5kIG1lc3NhZ2VzIGluIEdudVBHIGNvbXBvbmVudHMK
-aWkgIGxpYmdyYXBoaXRlMi0zOmFtZDY0ICAgICAgICAgICAgMS4zLjYtMXVidW50dTAuMTQuMDQu
-MSAgICAgICAgICAgYW1kNjQgICAgICAgIEZvbnQgcmVuZGVyaW5nIGVuZ2luZSBmb3IgQ29tcGxl
-eCBTY3JpcHRzIC0tIGxpYnJhcnkKaWkgIGxpYmdzc2FwaS1rcmI1LTI6YW1kNjQgICAgICAgICAg
-MS4xMitkZnNnLTJ1YnVudHU1LjIgICAgICAgICAgICAgYW1kNjQgICAgICAgIE1JVCBLZXJiZXJv
-cyBydW50aW1lIGxpYnJhcmllcyAtIGtyYjUgR1NTLUFQSSBNZWNoYW5pc20KaWkgIGxpYmdzc2Fw
-aTMtaGVpbWRhbDphbWQ2NCAgICAgICAgMS42fmdpdDIwMTMxMjA3K2Rmc2ctMXVidW50dTEuMSAg
-YW1kNjQgICAgICAgIEhlaW1kYWwgS2VyYmVyb3MgLSBHU1NBUEkgc3VwcG9ydCBsaWJyYXJ5Cmlp
-ICBsaWJndGsyLjAtMDphbWQ2NCAgICAgICAgICAgICAgIDIuMjQuMjMtMHVidW50dTEuNCAgICAg
-ICAgICAgICAgIGFtZDY0ICAgICAgICBHVEsrIGdyYXBoaWNhbCB1c2VyIGludGVyZmFjZSBsaWJy
-YXJ5CmlpICBsaWJndGsyLjAtY29tbW9uICAgICAgICAgICAgICAgIDIuMjQuMjMtMHVidW50dTEu
-NCAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBjb21tb24gZmlsZXMgZm9yIHRoZSBHVEsrIGdy
-YXBoaWNhbCB1c2VyIGludGVyZmFjZSBsaWJyYXJ5CmlpICBsaWJoYXJmYnV6ejBiOmFtZDY0ICAg
-ICAgICAgICAgIDAuOS4yNy0xdWJ1bnR1MSAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBP
-cGVuVHlwZSB0ZXh0IHNoYXBpbmcgZW5naW5lIChzaGFyZWQgbGlicmFyeSkKaWkgIGxpYmhjcnlw
-dG80LWhlaW1kYWw6YW1kNjQgICAgICAgMS42fmdpdDIwMTMxMjA3K2Rmc2ctMXVidW50dTEuMSAg
-YW1kNjQgICAgICAgIEhlaW1kYWwgS2VyYmVyb3MgLSBjcnlwdG8gbGlicmFyeQppaSAgbGliaGVp
-bWJhc2UxLWhlaW1kYWw6YW1kNjQgICAgICAxLjZ+Z2l0MjAxMzEyMDcrZGZzZy0xdWJ1bnR1MS4x
-ICBhbWQ2NCAgICAgICAgSGVpbWRhbCBLZXJiZXJvcyAtIEJhc2UgbGlicmFyeQppaSAgbGliaGVp
-bW50bG0wLWhlaW1kYWw6YW1kNjQgICAgICAxLjZ+Z2l0MjAxMzEyMDcrZGZzZy0xdWJ1bnR1MS4x
-ICBhbWQ2NCAgICAgICAgSGVpbWRhbCBLZXJiZXJvcyAtIE5UTE0gc3VwcG9ydCBsaWJyYXJ5Cmlp
-ICBsaWJoeDUwOS01LWhlaW1kYWw6YW1kNjQgICAgICAgIDEuNn5naXQyMDEzMTIwNytkZnNnLTF1
-YnVudHUxLjEgIGFtZDY0ICAgICAgICBIZWltZGFsIEtlcmJlcm9zIC0gWDUwOSBzdXBwb3J0IGxp
-YnJhcnkKaWkgIGxpYmlkbjExOmFtZDY0ICAgICAgICAgICAgICAgICAgMS4yOC0xdWJ1bnR1MiAg
-ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSBMaWJpZG4gbGlicmFyeSwgaW1wbGVt
-ZW50YXRpb24gb2YgSUVURiBJRE4gc3BlY2lmaWNhdGlvbnMKaWkgIGxpYmludGwtcGVybCAgICAg
-ICAgICAgICAgICAgICAgMS4yMy0xYnVpbGQxICAgICAgICAgICAgICAgICAgICAgYWxsICAgICAg
-ICAgIFVuaWZvcnVtIG1lc3NhZ2UgdHJhbnNsYXRpb25zIHN5c3RlbSBjb21wYXRpYmxlIGkxOG4g
-bGlicmFyeQppaSAgbGliaXNsMTA6YW1kNjQgICAgICAgICAgICAgICAgICAwLjEyLjItMSAgICAg
-ICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgbWFuaXB1bGF0aW5nIHNldHMgYW5kIHJl
-bGF0aW9ucyBvZiBpbnRlZ2VyIHBvaW50cyBib3VuZGVkIGJ5IGxpbmVhciBjb25zdHJhaW50cwpp
-aSAgbGliaXRtMTphbWQ2NCAgICAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4z
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIFRyYW5zYWN0aW9uYWwgTWVtb3J5IExpYnJhcnkK
-aWkgIGxpYmphc3BlcjE6YW1kNjQgICAgICAgICAgICAgICAgMS45MDAuMS0xNHVidW50dTMuMyAg
-ICAgICAgICAgICAgYW1kNjQgICAgICAgIEphc1BlciBKUEVHLTIwMDAgcnVudGltZSBsaWJyYXJ5
-CmlpICBsaWJqYmlnMDphbWQ2NCAgICAgICAgICAgICAgICAgIDIuMC0ydWJ1bnR1NC4xICAgICAg
-ICAgICAgICAgICAgIGFtZDY0ICAgICAgICBKQklHa2l0IGxpYnJhcmllcwppaSAgbGlianBlZy10
-dXJibzg6YW1kNjQgICAgICAgICAgICAxLjMuMC0wdWJ1bnR1MiAgICAgICAgICAgICAgICAgICBh
-bWQ2NCAgICAgICAgSUpHIEpQRUcgY29tcGxpYW50IHJ1bnRpbWUgbGlicmFyeS4KaWkgIGxpYmpw
-ZWc4OmFtZDY0ICAgICAgICAgICAgICAgICAgOGMtMnVidW50dTggICAgICAgICAgICAgICAgICAg
-ICAgYW1kNjQgICAgICAgIEluZGVwZW5kZW50IEpQRUcgR3JvdXAncyBKUEVHIHJ1bnRpbWUgbGli
-cmFyeSAoZGVwZW5kZW5jeSBwYWNrYWdlKQppaSAgbGlianNvbi1jMjphbWQ2NCAgICAgICAgICAg
-ICAgICAwLjExLTN1YnVudHUxLjIgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgSlNPTiBt
-YW5pcHVsYXRpb24gbGlicmFyeSAtIHNoYXJlZCBsaWJyYXJ5CmlpICBsaWJqc29uMDphbWQ2NCAg
-ICAgICAgICAgICAgICAgIDAuMTEtM3VidW50dTEuMiAgICAgICAgICAgICAgICAgIGFtZDY0ICAg
-ICAgICBKU09OIG1hbmlwdWxhdGlvbiBsaWJyYXJ5ICh0cmFuc2l0aW9uYWwgcGFja2FnZSkKaWkg
-IGxpYms1Y3J5cHRvMzphbWQ2NCAgICAgICAgICAgICAgMS4xMitkZnNnLTJ1YnVudHU1LjIgICAg
-ICAgICAgICAgYW1kNjQgICAgICAgIE1JVCBLZXJiZXJvcyBydW50aW1lIGxpYnJhcmllcyAtIENy
-eXB0byBMaWJyYXJ5CmlpICBsaWJrZXl1dGlsczE6YW1kNjQgICAgICAgICAgICAgIDEuNS42LTEg
-ICAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBMaW51eCBLZXkgTWFuYWdlbWVu
-dCBVdGlsaXRpZXMgKGxpYnJhcnkpCmlpICBsaWJrbGliYyAgICAgICAgICAgICAgICAgICAgICAg
-IDIuMC4zLTB1YnVudHUxLjE0LjA0LjEgICAgICAgICAgIGFtZDY0ICAgICAgICBtaW5pbWFsIGxp
-YmMgc3Vic2V0IGZvciB1c2Ugd2l0aCBpbml0cmFtZnMKaWkgIGxpYmttb2QyOmFtZDY0ICAgICAg
-ICAgICAgICAgICAgMTUtMHVidW50dTYgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAg
-IGxpYmttb2Qgc2hhcmVkIGxpYnJhcnkKaWkgIGxpYmtyYjUtMjYtaGVpbWRhbDphbWQ2NCAgICAg
-ICAgMS42fmdpdDIwMTMxMjA3K2Rmc2ctMXVidW50dTEuMSAgYW1kNjQgICAgICAgIEhlaW1kYWwg
-S2VyYmVyb3MgLSBsaWJyYXJpZXMKaWkgIGxpYmtyYjUtMzphbWQ2NCAgICAgICAgICAgICAgICAg
-MS4xMitkZnNnLTJ1YnVudHU1LjIgICAgICAgICAgICAgYW1kNjQgICAgICAgIE1JVCBLZXJiZXJv
-cyBydW50aW1lIGxpYnJhcmllcwppaSAgbGlia3JiNXN1cHBvcnQwOmFtZDY0ICAgICAgICAgICAx
-LjEyK2Rmc2ctMnVidW50dTUuMiAgICAgICAgICAgICBhbWQ2NCAgICAgICAgTUlUIEtlcmJlcm9z
-IHJ1bnRpbWUgbGlicmFyaWVzIC0gU3VwcG9ydCBsaWJyYXJ5CmlpICBsaWJsZGFwLTIuNC0yOmFt
-ZDY0ICAgICAgICAgICAgIDIuNC4zMS0xK25tdTJ1YnVudHU4LjIgICAgICAgICAgIGFtZDY0ICAg
-ICAgICBPcGVuTERBUCBsaWJyYXJpZXMKaWkgIGxpYmxvY2FsZS1nZXR0ZXh0LXBlcmwgICAgICAg
-ICAgMS4wNS03YnVpbGQzICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIG1vZHVsZSB1
-c2luZyBsaWJjIGZ1bmN0aW9ucyBmb3IgaW50ZXJuYXRpb25hbGl6YXRpb24gaW4gUGVybAppaSAg
-bGlibG9ja2ZpbGUtYmluICAgICAgICAgICAgICAgICAxLjA5LTZ1YnVudHUxICAgICAgICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgc3VwcG9ydCBiaW5hcmllcyBmb3IgYW5kIGNsaSB1dGlsaXRp
-ZXMgYmFzZWQgb24gbGlibG9ja2ZpbGUKaWkgIGxpYmxvY2tmaWxlMTphbWQ2NCAgICAgICAgICAg
-ICAgMS4wOS02dWJ1bnR1MSAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIE5GUy1zYWZl
-IGxvY2tpbmcgbGlicmFyeQppaSAgbGlibG9nLW1lc3NhZ2Utc2ltcGxlLXBlcmwgICAgICAwLjEw
-LTEgICAgICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgc2ltcGxpZmllZCBpbnRl
-cmZhY2UgdG8gTG9nOjpNZXNzYWdlCmlpICBsaWJsem1hNTphbWQ2NCAgICAgICAgICAgICAgICAg
-IDUuMS4xYWxwaGErMjAxMjA2MTQtMnVidW50dTIgICAgIGFtZDY0ICAgICAgICBYWi1mb3JtYXQg
-Y29tcHJlc3Npb24gbGlicmFyeQppaSAgbGlibWFnaWMxOmFtZDY0ICAgICAgICAgICAgICAgICAx
-OjUuMTQtMnVidW50dTMuMyAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgRmlsZSB0eXBlIGRl
-dGVybWluYXRpb24gbGlicmFyeSB1c2luZyAibWFnaWMiIG51bWJlcnMKaWkgIGxpYm1vZHVsZS1w
-bHVnZ2FibGUtcGVybCAgICAgICAgNS4xLTEgICAgICAgICAgICAgICAgICAgICAgICAgICAgYWxs
-ICAgICAgICAgIG1vZHVsZSBmb3IgZ2l2aW5nICBtb2R1bGVzIHRoZSBhYmlsaXR5IHRvIGhhdmUg
-cGx1Z2lucwppaSAgbGlibW91bnQxOmFtZDY0ICAgICAgICAgICAgICAgICAyLjIwLjEtNS4xdWJ1
-bnR1MjAuNyAgICAgICAgICAgICBhbWQ2NCAgICAgICAgYmxvY2sgZGV2aWNlIGlkIGxpYnJhcnkK
-aWkgIGxpYm1wYzM6YW1kNjQgICAgICAgICAgICAgICAgICAgMS4wLjEtMXVidW50dTEgICAgICAg
-ICAgICAgICAgICAgYW1kNjQgICAgICAgIG11bHRpcGxlIHByZWNpc2lvbiBjb21wbGV4IGZsb2F0
-aW5nLXBvaW50IGxpYnJhcnkKaWkgIGxpYm1wZGVjMjphbWQ2NCAgICAgICAgICAgICAgICAgMi40
-LjAtNiAgICAgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGxpYnJhcnkgZm9yIGRl
-Y2ltYWwgZmxvYXRpbmcgcG9pbnQgYXJpdGhtZXRpYyAocnVudGltZSBsaWJyYXJ5KQppaSAgbGli
-bXBmcjQ6YW1kNjQgICAgICAgICAgICAgICAgICAzLjEuMi0xICAgICAgICAgICAgICAgICAgICAg
-ICAgICBhbWQ2NCAgICAgICAgbXVsdGlwbGUgcHJlY2lzaW9uIGZsb2F0aW5nLXBvaW50IGNvbXB1
-dGF0aW9uCmlpICBsaWJuY3Vyc2VzNTphbWQ2NCAgICAgICAgICAgICAgIDUuOSsyMDE0MDExOC0x
-dWJ1bnR1MSAgICAgICAgICAgIGFtZDY0ICAgICAgICBzaGFyZWQgbGlicmFyaWVzIGZvciB0ZXJt
-aW5hbCBoYW5kbGluZwppaSAgbGlibmN1cnNlczU6aTM4NiAgICAgICAgICAgICAgICA1LjkrMjAx
-NDAxMTgtMXVidW50dTEgICAgICAgICAgICBpMzg2ICAgICAgICAgc2hhcmVkIGxpYnJhcmllcyBm
-b3IgdGVybWluYWwgaGFuZGxpbmcKaWkgIGxpYm5jdXJzZXN3NTphbWQ2NCAgICAgICAgICAgICAg
-NS45KzIwMTQwMTE4LTF1YnVudHUxICAgICAgICAgICAgYW1kNjQgICAgICAgIHNoYXJlZCBsaWJy
-YXJpZXMgZm9yIHRlcm1pbmFsIGhhbmRsaW5nICh3aWRlIGNoYXJhY3RlciBzdXBwb3J0KQppaSAg
-bGlibmV3dDAuNTI6YW1kNjQgICAgICAgICAgICAgICAwLjUyLjE1LTJ1YnVudHU1ICAgICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgTm90IEVyaWsncyBXaW5kb3dpbmcgVG9vbGtpdCAtIHRleHQg
-bW9kZSB3aW5kb3dpbmcgd2l0aCBzbGFuZwppaSAgbGlibmloLWRidXMxOmFtZDY0ICAgICAgICAg
-ICAgICAxLjAuMy00dWJ1bnR1MjUgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgTklIIEQt
-QnVzIEJpbmRpbmdzIExpYnJhcnkKaWkgIGxpYm5paDE6YW1kNjQgICAgICAgICAgICAgICAgICAg
-MS4wLjMtNHVidW50dTI1ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIE5JSCBVdGlsaXR5
-IExpYnJhcnkKaWkgIGxpYm9nZzA6YW1kNjQgICAgICAgICAgICAgICAgICAgMS4zLjEtMXVidW50
-dTEgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIE9nZyBiaXRzdHJlYW0gbGlicmFyeQpp
-aSAgbGlicDExLWtpdDA6YW1kNjQgICAgICAgICAgICAgICAwLjIwLjItMnVidW50dTIgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgTGlicmFyeSBmb3IgbG9hZGluZyBhbmQgY29vcmRpbmF0
-aW5nIGFjY2VzcyB0byBQS0NTIzExIG1vZHVsZXMgLSBydW50aW1lCmlpICBsaWJwYW0tY2FwOmFt
-ZDY0ICAgICAgICAgICAgICAgIDE6Mi4yNC0wdWJ1bnR1MiAgICAgICAgICAgICAgICAgIGFtZDY0
-ICAgICAgICBQQU0gbW9kdWxlIGZvciBpbXBsZW1lbnRpbmcgY2FwYWJpbGl0aWVzCmlpICBsaWJw
-YW0tbW9kdWxlczphbWQ2NCAgICAgICAgICAgIDEuMS44LTF1YnVudHUyLjIgICAgICAgICAgICAg
-ICAgIGFtZDY0ICAgICAgICBQbHVnZ2FibGUgQXV0aGVudGljYXRpb24gTW9kdWxlcyBmb3IgUEFN
-CmlpICBsaWJwYW0tbW9kdWxlcy1iaW4gICAgICAgICAgICAgIDEuMS44LTF1YnVudHUyLjIgICAg
-ICAgICAgICAgICAgIGFtZDY0ICAgICAgICBQbHVnZ2FibGUgQXV0aGVudGljYXRpb24gTW9kdWxl
-cyBmb3IgUEFNIC0gaGVscGVyIGJpbmFyaWVzCmlpICBsaWJwYW0tcnVudGltZSAgICAgICAgICAg
-ICAgICAgIDEuMS44LTF1YnVudHUyLjIgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBSdW50
-aW1lIHN1cHBvcnQgZm9yIHRoZSBQQU0gbGlicmFyeQppaSAgbGlicGFtMGc6YW1kNjQgICAgICAg
-ICAgICAgICAgICAxLjEuOC0xdWJ1bnR1Mi4yICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAg
-UGx1Z2dhYmxlIEF1dGhlbnRpY2F0aW9uIE1vZHVsZXMgbGlicmFyeQppaSAgbGlicGFuZ28tMS4w
-LTA6YW1kNjQgICAgICAgICAgICAxLjM2LjMtMXVidW50dTEuMSAgICAgICAgICAgICAgICBhbWQ2
-NCAgICAgICAgTGF5b3V0IGFuZCByZW5kZXJpbmcgb2YgaW50ZXJuYXRpb25hbGl6ZWQgdGV4dApp
-aSAgbGlicGFuZ29jYWlyby0xLjAtMDphbWQ2NCAgICAgICAxLjM2LjMtMXVidW50dTEuMSAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgTGF5b3V0IGFuZCByZW5kZXJpbmcgb2YgaW50ZXJuYXRp
-b25hbGl6ZWQgdGV4dAppaSAgbGlicGFuZ29mdDItMS4wLTA6YW1kNjQgICAgICAgICAxLjM2LjMt
-MXVidW50dTEuMSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgTGF5b3V0IGFuZCByZW5kZXJp
-bmcgb2YgaW50ZXJuYXRpb25hbGl6ZWQgdGV4dAppaSAgbGlicGNpYWNjZXNzMDphbWQ2NCAgICAg
-ICAgICAgICAwLjEzLjItMSAgICAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR2Vu
-ZXJpYyBQQ0kgYWNjZXNzIGxpYnJhcnkgZm9yIFgKaWkgIGxpYnBjcmUzOmFtZDY0ICAgICAgICAg
-ICAgICAgICAgMTo4LjMxLTJ1YnVudHUyLjMgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFBl
-cmwgNSBDb21wYXRpYmxlIFJlZ3VsYXIgRXhwcmVzc2lvbiBMaWJyYXJ5IC0gcnVudGltZSBmaWxl
-cwppaSAgbGlicGNyZTMtZGV2OmFtZDY0ICAgICAgICAgICAgICAxOjguMzEtMnVidW50dTIuMyAg
-ICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgUGVybCA1IENvbXBhdGlibGUgUmVndWxhciBFeHBy
-ZXNzaW9uIExpYnJhcnkgLSBkZXZlbG9wbWVudCBmaWxlcwppaSAgbGlicGNyZWNwcDA6YW1kNjQg
-ICAgICAgICAgICAgICAxOjguMzEtMnVidW50dTIuMyAgICAgICAgICAgICAgICBhbWQ2NCAgICAg
-ICAgUGVybCA1IENvbXBhdGlibGUgUmVndWxhciBFeHByZXNzaW9uIExpYnJhcnkgLSBDKysgcnVu
-dGltZSBmaWxlcwppaSAgbGlicGl4bWFuLTEtMDphbWQ2NCAgICAgICAgICAgICAwLjMwLjItMnVi
-dW50dTEuMSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgcGl4ZWwtbWFuaXB1bGF0aW9uIGxp
-YnJhcnkgZm9yIFggYW5kIGNhaXJvCmlpICBsaWJwbHltb3V0aDI6YW1kNjQgICAgICAgICAgICAg
-IDAuOC44LTB1YnVudHUxNy4xICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBncmFwaGljYWwg
-Ym9vdCBhbmltYXRpb24gYW5kIGxvZ2dlciAtIHNoYXJlZCBsaWJyYXJpZXMKaWkgIGxpYnBuZzEy
-LTA6YW1kNjQgICAgICAgICAgICAgICAgMS4yLjUwLTF1YnVudHUyLjE0LjA0LjIgICAgICAgICAg
-YW1kNjQgICAgICAgIFBORyBsaWJyYXJ5IC0gcnVudGltZQppaSAgbGlicG5nMTItZGV2ICAgICAg
-ICAgICAgICAgICAgICAxLjIuNTAtMXVidW50dTIuMTQuMDQuMiAgICAgICAgICBhbWQ2NCAgICAg
-ICAgUE5HIGxpYnJhcnkgLSBkZXZlbG9wbWVudAppaSAgbGlicG9kLWxhdGV4LXBlcmwgICAgICAg
-ICAgICAgICAwLjYxLTEgICAgICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgbW9k
-dWxlIHRvIGNvbnZlcnQgUG9kIGRhdGEgdG8gZm9ybWF0dGVkIExhVGVYCmlpICBsaWJwb3B0MDph
-bWQ2NCAgICAgICAgICAgICAgICAgIDEuMTYtOHVidW50dTEgICAgICAgICAgICAgICAgICAgIGFt
-ZDY0ICAgICAgICBsaWIgZm9yIHBhcnNpbmcgY21kbGluZSBwYXJhbWV0ZXJzCmlpICBsaWJwcm9j
-cHMzOmFtZDY0ICAgICAgICAgICAgICAgIDE6My4zLjktMXVidW50dTIuMiAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBsaWJyYXJ5IGZvciBhY2Nlc3NpbmcgcHJvY2VzcyBpbmZvcm1hdGlvbiBm
-cm9tIC9wcm9jCmlpICBsaWJwdGhyZWFkLXN0dWJzMC1kZXY6YW1kNjQgICAgIDAuMy00ICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBwdGhyZWFkIHN0dWJzIG5vdCBwcm92
-aWRlZCBieSBuYXRpdmUgbGliYywgZGV2ZWxvcG1lbnQgZmlsZXMKaWkgIGxpYnB1bHNlLWRldjph
-bWQ2NCAgICAgICAgICAgICAgMTo0LjAtMHVidW50dTExLjEgICAgICAgICAgICAgICAgYW1kNjQg
-ICAgICAgIFB1bHNlQXVkaW8gY2xpZW50IGRldmVsb3BtZW50IGhlYWRlcnMgYW5kIGxpYnJhcmll
-cwppaSAgbGlicHVsc2UtbWFpbmxvb3AtZ2xpYjA6YW1kNjQgICAxOjQuMC0wdWJ1bnR1MTEuMSAg
-ICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgUHVsc2VBdWRpbyBjbGllbnQgbGlicmFyaWVzIChn
-bGliIHN1cHBvcnQpCmlpICBsaWJwdWxzZTA6YW1kNjQgICAgICAgICAgICAgICAgIDE6NC4wLTB1
-YnVudHUxMS4xICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBQdWxzZUF1ZGlvIGNsaWVudCBs
-aWJyYXJpZXMKaWkgIGxpYnB5dGhvbi1zdGRsaWI6YW1kNjQgICAgICAgICAgMi43LjUtNXVidW50
-dTMgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGludGVyYWN0aXZlIGhpZ2gtbGV2ZWwg
-b2JqZWN0LW9yaWVudGVkIGxhbmd1YWdlIChkZWZhdWx0IHB5dGhvbiB2ZXJzaW9uKQppaSAgbGli
-cHl0aG9uMi43LW1pbmltYWw6YW1kNjQgICAgICAyLjcuNi04dWJ1bnR1MC4yICAgICAgICAgICAg
-ICAgICBhbWQ2NCAgICAgICAgTWluaW1hbCBzdWJzZXQgb2YgdGhlIFB5dGhvbiBsYW5ndWFnZSAo
-dmVyc2lvbiAyLjcpCmlpICBsaWJweXRob24yLjctc3RkbGliOmFtZDY0ICAgICAgIDIuNy42LTh1
-YnVudHUwLjIgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBJbnRlcmFjdGl2ZSBoaWdoLWxl
-dmVsIG9iamVjdC1vcmllbnRlZCBsYW5ndWFnZSAoc3RhbmRhcmQgbGlicmFyeSwgdmVyc2lvbiAy
-LjcpCmlpICBsaWJweXRob24zLXN0ZGxpYjphbWQ2NCAgICAgICAgIDMuNC4wLTB1YnVudHUyICAg
-ICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBpbnRlcmFjdGl2ZSBoaWdoLWxldmVsIG9iamVj
-dC1vcmllbnRlZCBsYW5ndWFnZSAoZGVmYXVsdCBweXRob24zIHZlcnNpb24pCmlpICBsaWJweXRo
-b24zLjQtbWluaW1hbDphbWQ2NCAgICAgIDMuNC4zLTF1YnVudHUxfjE0LjA0LjMgICAgICAgICAg
-IGFtZDY0ICAgICAgICBNaW5pbWFsIHN1YnNldCBvZiB0aGUgUHl0aG9uIGxhbmd1YWdlICh2ZXJz
-aW9uIDMuNCkKaWkgIGxpYnB5dGhvbjMuNC1zdGRsaWI6YW1kNjQgICAgICAgMy40LjMtMXVidW50
-dTF+MTQuMDQuMyAgICAgICAgICAgYW1kNjQgICAgICAgIEludGVyYWN0aXZlIGhpZ2gtbGV2ZWwg
-b2JqZWN0LW9yaWVudGVkIGxhbmd1YWdlIChzdGFuZGFyZCBsaWJyYXJ5LCB2ZXJzaW9uIDMuNCkK
-aWkgIGxpYnF1YWRtYXRoMDphbWQ2NCAgICAgICAgICAgICAgNC44LjQtMnVidW50dTF+MTQuMDQu
-MyAgICAgICAgICAgYW1kNjQgICAgICAgIEdDQyBRdWFkLVByZWNpc2lvbiBNYXRoIExpYnJhcnkK
-aWkgIGxpYnJlYWRsaW5lNjphbWQ2NCAgICAgICAgICAgICAgNi4zLTR1YnVudHUyICAgICAgICAg
-ICAgICAgICAgICAgYW1kNjQgICAgICAgIEdOVSByZWFkbGluZSBhbmQgaGlzdG9yeSBsaWJyYXJp
-ZXMsIHJ1bi10aW1lIGxpYnJhcmllcwppaSAgbGlicm9rZW4xOC1oZWltZGFsOmFtZDY0ICAgICAg
-ICAxLjZ+Z2l0MjAxMzEyMDcrZGZzZy0xdWJ1bnR1MS4xICBhbWQ2NCAgICAgICAgSGVpbWRhbCBL
-ZXJiZXJvcyAtIHJva2VuIHN1cHBvcnQgbGlicmFyeQppaSAgbGlicnRtcDA6YW1kNjQgICAgICAg
-ICAgICAgICAgICAyLjQrMjAxMjEyMzAuZ2l0ZGY2YzUxOC0xICAgICAgICBhbWQ2NCAgICAgICAg
-dG9vbGtpdCBmb3IgUlRNUCBzdHJlYW1zIChzaGFyZWQgbGlicmFyeSkKaWkgIGxpYnNhc2wyLTI6
-YW1kNjQgICAgICAgICAgICAgICAgMi4xLjI1LmRmc2cxLTE3YnVpbGQxICAgICAgICAgICAgYW1k
-NjQgICAgICAgIEN5cnVzIFNBU0wgLSBhdXRoZW50aWNhdGlvbiBhYnN0cmFjdGlvbiBsaWJyYXJ5
-CmlpICBsaWJzYXNsMi1tb2R1bGVzLWRiOmFtZDY0ICAgICAgIDIuMS4yNS5kZnNnMS0xN2J1aWxk
-MSAgICAgICAgICAgIGFtZDY0ICAgICAgICBDeXJ1cyBTQVNMIC0gcGx1Z2dhYmxlIGF1dGhlbnRp
-Y2F0aW9uIG1vZHVsZXMgKERCKQppaSAgbGlic2RsMS4yLWRldiAgICAgICAgICAgICAgICAgICAx
-LjIuMTUtOHVidW50dTEuMSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgU2ltcGxlIERpcmVj
-dE1lZGlhIExheWVyIGRldmVsb3BtZW50IGZpbGVzCmlpICBsaWJzZGwxLjJkZWJpYW46YW1kNjQg
-ICAgICAgICAgIDEuMi4xNS04dWJ1bnR1MS4xICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBT
-aW1wbGUgRGlyZWN0TWVkaWEgTGF5ZXIKaWkgIGxpYnNlbGludXgxOmFtZDY0ICAgICAgICAgICAg
-ICAgMi4yLjItMXVidW50dTAuMSAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFNFTGludXgg
-cnVudGltZSBzaGFyZWQgbGlicmFyaWVzCmlpICBsaWJzZW1hbmFnZS1jb21tb24gICAgICAgICAg
-ICAgIDIuMi0xICAgICAgICAgICAgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBDb21tb24g
-ZmlsZXMgZm9yIFNFTGludXggcG9saWN5IG1hbmFnZW1lbnQgbGlicmFyaWVzCmlpICBsaWJzZW1h
-bmFnZTE6YW1kNjQgICAgICAgICAgICAgIDIuMi0xICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBTRUxpbnV4IHBvbGljeSBtYW5hZ2VtZW50IGxpYnJhcnkKaWkgIGxpYnNl
-cG9sMTphbWQ2NCAgICAgICAgICAgICAgICAgMi4yLTF1YnVudHUwLjEgICAgICAgICAgICAgICAg
-ICAgYW1kNjQgICAgICAgIFNFTGludXggbGlicmFyeSBmb3IgbWFuaXB1bGF0aW5nIGJpbmFyeSBz
-ZWN1cml0eSBwb2xpY2llcwppaSAgbGlic2VyZi0xLTE6YW1kNjQgICAgICAgICAgICAgICAxLjMu
-My0xdWJ1bnR1MC4xICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgaGlnaC1wZXJmb3JtYW5j
-ZSBhc3luY2hyb25vdXMgSFRUUCBjbGllbnQgbGlicmFyeQppaSAgbGlic2lnc2VndjI6YW1kNjQg
-ICAgICAgICAgICAgICAyLjEwLTIgICAgICAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAg
-ICAgTGlicmFyeSBmb3IgaGFuZGxpbmcgcGFnZSBmYXVsdHMgaW4gYSBwb3J0YWJsZSB3YXkKaWkg
-IGxpYnNsYW5nMjphbWQ2NCAgICAgICAgICAgICAgICAgMi4yLjQtMTV1YnVudHUxICAgICAgICAg
-ICAgICAgICAgYW1kNjQgICAgICAgIFMtTGFuZyBwcm9ncmFtbWluZyBsaWJyYXJ5IC0gcnVudGlt
-ZSB2ZXJzaW9uCmlpICBsaWJzbGFuZzItZGV2OmFtZDY0ICAgICAgICAgICAgIDIuMi40LTE1dWJ1
-bnR1MSAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBTLUxhbmcgcHJvZ3JhbW1pbmcgbGli
-cmFyeSwgZGV2ZWxvcG1lbnQgdmVyc2lvbgppaSAgbGlic25kZmlsZTE6YW1kNjQgICAgICAgICAg
-ICAgICAxLjAuMjUtN3VidW50dTIuMSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgTGlicmFy
-eSBmb3IgcmVhZGluZy93cml0aW5nIGF1ZGlvIGZpbGVzCmlpICBsaWJzcWxpdGUzLTA6YW1kNjQg
-ICAgICAgICAgICAgIDMuOC4yLTF1YnVudHUyLjEgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAg
-ICBTUUxpdGUgMyBzaGFyZWQgbGlicmFyeQppaSAgbGlic3MyOmFtZDY0ICAgICAgICAgICAgICAg
-ICAgICAxLjQyLjktM3VidW50dTEuMyAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgY29tbWFu
-ZC1saW5lIGludGVyZmFjZSBwYXJzaW5nIGxpYnJhcnkKaWkgIGxpYnNzbDEuMC4wOmFtZDY0ICAg
-ICAgICAgICAgICAgMS4wLjFmLTF1YnVudHUyLjE5ICAgICAgICAgICAgICAgYW1kNjQgICAgICAg
-IFNlY3VyZSBTb2NrZXRzIExheWVyIHRvb2xraXQgLSBzaGFyZWQgbGlicmFyaWVzCmlpICBsaWJz
-dGRjKystNC44LWRldjphbWQ2NCAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAg
-ICAgIGFtZDY0ICAgICAgICBHTlUgU3RhbmRhcmQgQysrIExpYnJhcnkgdjMgKGRldmVsb3BtZW50
-IGZpbGVzKQppaSAgbGlic3RkYysrNjphbWQ2NCAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1
-MX4xNC4wNC4zICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIFN0YW5kYXJkIEMrKyBMaWJyYXJ5
-IHYzCmlpICBsaWJzdm4xOmFtZDY0ICAgICAgICAgICAgICAgICAgIDEuOC44LTF1YnVudHUzLjIg
-ICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBTaGFyZWQgbGlicmFyaWVzIHVzZWQgYnkgQXBh
-Y2hlIFN1YnZlcnNpb24KaWkgIGxpYnRhc24xLTY6YW1kNjQgICAgICAgICAgICAgICAgMy40LTN1
-YnVudHUwLjQgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIE1hbmFnZSBBU04uMSBzdHJ1
-Y3R1cmVzIChydW50aW1lKQppaSAgbGlidGVybS11aS1wZXJsICAgICAgICAgICAgICAgICAwLjQy
-LTEgICAgICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgVGVybTo6UmVhZExpbmUg
-VUkgbWFkZSBlYXN5CmlpICBsaWJ0ZXh0LWNoYXJ3aWR0aC1wZXJsICAgICAgICAgIDAuMDQtN2J1
-aWxkMyAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBnZXQgZGlzcGxheSB3aWR0aHMg
-b2YgY2hhcmFjdGVycyBvbiB0aGUgdGVybWluYWwKaWkgIGxpYnRleHQtaWNvbnYtcGVybCAgICAg
-ICAgICAgICAgMS43LTVidWlsZDIgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGNv
-bnZlcnRzIGJldHdlZW4gY2hhcmFjdGVyIHNldHMgaW4gUGVybAppaSAgbGlidGV4dC1zb3VuZGV4
-LXBlcmwgICAgICAgICAgICAzLjQtMWJ1aWxkMSAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAg
-ICAgICAgaW1wbGVtZW50YXRpb24gb2YgdGhlIHNvdW5kZXggYWxnb3JpdGhtCmlpICBsaWJ0ZXh0
-LXVuaWRlY29kZS1wZXJsICAgICAgICAgIDAuMDQtMiAgICAgICAgICAgICAgICAgICAgICAgICAg
-IGFsbCAgICAgICAgICBUZXh0OjpVbmlkZWNvZGUgLS0gVVMtQVNDSUkgdHJhbnNsaXRlcmF0aW9u
-cyBvZiBVbmljb2RlIHRleHQKaWkgIGxpYnRleHQtd3JhcGkxOG4tcGVybCAgICAgICAgICAgMC4w
-Ni03ICAgICAgICAgICAgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIGludGVybmF0aW9uYWxp
-emVkIHN1YnN0aXR1dGUgb2YgVGV4dDo6V3JhcAppaSAgbGlidGhhaS1kYXRhICAgICAgICAgICAg
-ICAgICAgICAwLjEuMjAtMyAgICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgRGF0
-YSBmaWxlcyBmb3IgVGhhaSBsYW5ndWFnZSBzdXBwb3J0IGxpYnJhcnkKaWkgIGxpYnRoYWkwOmFt
-ZDY0ICAgICAgICAgICAgICAgICAgMC4xLjIwLTMgICAgICAgICAgICAgICAgICAgICAgICAgYW1k
-NjQgICAgICAgIFRoYWkgbGFuZ3VhZ2Ugc3VwcG9ydCBsaWJyYXJ5CmlpICBsaWJ0aWZmNTphbWQ2
-NCAgICAgICAgICAgICAgICAgIDQuMC4zLTd1YnVudHUwLjQgICAgICAgICAgICAgICAgIGFtZDY0
-ICAgICAgICBUYWcgSW1hZ2UgRmlsZSBGb3JtYXQgKFRJRkYpIGxpYnJhcnkKaWkgIGxpYnRpbmZv
-NTphbWQ2NCAgICAgICAgICAgICAgICAgNS45KzIwMTQwMTE4LTF1YnVudHUxICAgICAgICAgICAg
-YW1kNjQgICAgICAgIHNoYXJlZCBsb3ctbGV2ZWwgdGVybWluZm8gbGlicmFyeSBmb3IgdGVybWlu
-YWwgaGFuZGxpbmcKaWkgIGxpYnRpbmZvNTppMzg2ICAgICAgICAgICAgICAgICAgNS45KzIwMTQw
-MTE4LTF1YnVudHUxICAgICAgICAgICAgaTM4NiAgICAgICAgIHNoYXJlZCBsb3ctbGV2ZWwgdGVy
-bWluZm8gbGlicmFyeSBmb3IgdGVybWluYWwgaGFuZGxpbmcKaWkgIGxpYnRzYW4wOmFtZDY0ICAg
-ICAgICAgICAgICAgICAgNC44LjQtMnVidW50dTF+MTQuMDQuMyAgICAgICAgICAgYW1kNjQgICAg
-ICAgIFRocmVhZFNhbml0aXplciAtLSBhIFZhbGdyaW5kLWJhc2VkIGRldGVjdG9yIG9mIGRhdGEg
-cmFjZXMgKHJ1bnRpbWUpCmlpICBsaWJ1ZGV2MTphbWQ2NCAgICAgICAgICAgICAgICAgIDIwNC01
-dWJ1bnR1MjAuMTkgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBsaWJ1ZGV2IHNoYXJlZCBs
-aWJyYXJ5CmlpICBsaWJ1c2ItMC4xLTQ6YW1kNjQgICAgICAgICAgICAgIDI6MC4xLjEyLTIzLjN1
-YnVudHUxICAgICAgICAgICAgIGFtZDY0ICAgICAgICB1c2Vyc3BhY2UgVVNCIHByb2dyYW1taW5n
-IGxpYnJhcnkKaWkgIGxpYnVzdHItMS4wLTE6YW1kNjQgICAgICAgICAgICAgMS4wLjQtM3VidW50
-dTIgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIE1pY3JvIHN0cmluZyBsaWJyYXJ5OiBz
-aGFyZWQgbGlicmFyeQppaSAgbGlidXVpZDE6YW1kNjQgICAgICAgICAgICAgICAgICAyLjIwLjEt
-NS4xdWJ1bnR1MjAuNyAgICAgICAgICAgICBhbWQ2NCAgICAgICAgVW5pdmVyc2FsbHkgVW5pcXVl
-IElEIGxpYnJhcnkKaWkgIGxpYnZvcmJpczBhOmFtZDY0ICAgICAgICAgICAgICAgMS4zLjItMS4z
-dWJ1bnR1MSAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFRoZSBWb3JiaXMgR2VuZXJhbCBB
-dWRpbyBDb21wcmVzc2lvbiBDb2RlYyAoRGVjb2RlciBsaWJyYXJ5KQppaSAgbGlidm9yYmlzZW5j
-MjphbWQ2NCAgICAgICAgICAgICAxLjMuMi0xLjN1YnVudHUxICAgICAgICAgICAgICAgICBhbWQ2
-NCAgICAgICAgVGhlIFZvcmJpcyBHZW5lcmFsIEF1ZGlvIENvbXByZXNzaW9uIENvZGVjIChFbmNv
-ZGVyIGxpYnJhcnkpCmlpICBsaWJ3aW5kMC1oZWltZGFsOmFtZDY0ICAgICAgICAgIDEuNn5naXQy
-MDEzMTIwNytkZnNnLTF1YnVudHUxLjEgIGFtZDY0ICAgICAgICBIZWltZGFsIEtlcmJlcm9zIC0g
-c3RyaW5ncHJlcCBpbXBsZW1lbnRhdGlvbgppaSAgbGlid3JhcDA6YW1kNjQgICAgICAgICAgICAg
-ICAgICA3LjYucS0yNSAgICAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgV2lldHNl
-IFZlbmVtYSdzIFRDUCB3cmFwcGVycyBsaWJyYXJ5CmlpICBsaWJ4MTEtNjphbWQ2NCAgICAgICAg
-ICAgICAgICAgIDI6MS42LjItMXVidW50dTIgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBY
-MTEgY2xpZW50LXNpZGUgbGlicmFyeQppaSAgbGlieDExLWRhdGEgICAgICAgICAgICAgICAgICAg
-ICAyOjEuNi4yLTF1YnVudHUyICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgWDExIGNsaWVu
-dC1zaWRlIGxpYnJhcnkKaWkgIGxpYngxMS1kZXY6YW1kNjQgICAgICAgICAgICAgICAgMjoxLjYu
-Mi0xdWJ1bnR1MiAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFgxMSBjbGllbnQtc2lkZSBs
-aWJyYXJ5IChkZXZlbG9wbWVudCBoZWFkZXJzKQppaSAgbGlieDExLXhjYi1kZXY6YW1kNjQgICAg
-ICAgICAgICAyOjEuNi4yLTF1YnVudHUyICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWGxp
-Yi9YQ0IgaW50ZXJmYWNlIGxpYnJhcnkgKGRldmVsb3BtZW50IGhlYWRlcnMpCmlpICBsaWJ4MTEt
-eGNiMTphbWQ2NCAgICAgICAgICAgICAgIDI6MS42LjItMXVidW50dTIgICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBYbGliL1hDQiBpbnRlcmZhY2UgbGlicmFyeQppaSAgbGlieDMyYXNhbjAg
-ICAgICAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4zICAgICAgICAgICBhbWQ2
-NCAgICAgICAgQWRkcmVzc1Nhbml0aXplciAtLSBhIGZhc3QgbWVtb3J5IGVycm9yIGRldGVjdG9y
-ICh4MzIpCmlpICBsaWJ4MzJhdG9taWMxICAgICAgICAgICAgICAgICAgIDQuOC40LTJ1YnVudHUx
-fjE0LjA0LjMgICAgICAgICAgIGFtZDY0ICAgICAgICBzdXBwb3J0IGxpYnJhcnkgcHJvdmlkaW5n
-IF9fYXRvbWljIGJ1aWx0LWluIGZ1bmN0aW9ucyAoeDMyKQppaSAgbGlieDMyZ2NjLTQuOC1kZXYg
-ICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4zICAgICAgICAgICBhbWQ2NCAgICAg
-ICAgR0NDIHN1cHBvcnQgbGlicmFyeSAoeDMyIGRldmVsb3BtZW50IGZpbGVzKQppaSAgbGlieDMy
-Z2NjMSAgICAgICAgICAgICAgICAgICAgICAxOjQuOS4zLTB1YnVudHU0ICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgR0NDIHN1cHBvcnQgbGlicmFyeSAoeDMyKQppaSAgbGlieDMyZ29tcDEg
-ICAgICAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4zICAgICAgICAgICBhbWQ2
-NCAgICAgICAgR0NDIE9wZW5NUCAoR09NUCkgc3VwcG9ydCBsaWJyYXJ5ICh4MzIpCmlpICBsaWJ4
-MzJpdG0xICAgICAgICAgICAgICAgICAgICAgIDQuOC40LTJ1YnVudHUxfjE0LjA0LjMgICAgICAg
-ICAgIGFtZDY0ICAgICAgICBHTlUgVHJhbnNhY3Rpb25hbCBNZW1vcnkgTGlicmFyeSAoeDMyKQpp
-aSAgbGlieDMycXVhZG1hdGgwICAgICAgICAgICAgICAgICA0LjguNC0ydWJ1bnR1MX4xNC4wNC4z
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgR0NDIFF1YWQtUHJlY2lzaW9uIE1hdGggTGlicmFyeSAo
-eDMyKQppaSAgbGlieGF1LWRldjphbWQ2NCAgICAgICAgICAgICAgICAxOjEuMC44LTEgICAgICAg
-ICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWDExIGF1dGhvcmlzYXRpb24gbGlicmFyeSAo
-ZGV2ZWxvcG1lbnQgaGVhZGVycykKaWkgIGxpYnhhdTY6YW1kNjQgICAgICAgICAgICAgICAgICAg
-MToxLjAuOC0xICAgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFgxMSBhdXRob3Jp
-c2F0aW9uIGxpYnJhcnkKaWkgIGxpYnhjYi1kcmkyLTA6YW1kNjQgICAgICAgICAgICAgMS4xMC0y
-dWJ1bnR1MSAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFggQyBCaW5kaW5nLCBkcmky
-IGV4dGVuc2lvbgppaSAgbGlieGNiLWRyaTItMC1kZXY6YW1kNjQgICAgICAgICAxLjEwLTJ1YnVu
-dHUxICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWCBDIEJpbmRpbmcsIGRyaTIgZXh0
-ZW5zaW9uLCBkZXZlbG9wbWVudCBmaWxlcwppaSAgbGlieGNiLWRyaTMtMDphbWQ2NCAgICAgICAg
-ICAgICAxLjEwLTJ1YnVudHUxICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWCBDIEJp
-bmRpbmcsIGRyaTMgZXh0ZW5zaW9uCmlpICBsaWJ4Y2ItZHJpMy1kZXY6YW1kNjQgICAgICAgICAg
-IDEuMTAtMnVidW50dTEgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBYIEMgQmluZGlu
-ZywgZHJpMyBleHRlbnNpb24sIGRldmVsb3BtZW50IGZpbGVzCmlpICBsaWJ4Y2ItZ2x4MDphbWQ2
-NCAgICAgICAgICAgICAgIDEuMTAtMnVidW50dTEgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAg
-ICAgICBYIEMgQmluZGluZywgZ2x4IGV4dGVuc2lvbgppaSAgbGlieGNiLWdseDAtZGV2OmFtZDY0
-ICAgICAgICAgICAxLjEwLTJ1YnVudHUxICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAg
-WCBDIEJpbmRpbmcsIGdseCBleHRlbnNpb24sIGRldmVsb3BtZW50IGZpbGVzCmlpICBsaWJ4Y2It
-cHJlc2VudC1kZXY6YW1kNjQgICAgICAgIDEuMTAtMnVidW50dTEgICAgICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBYIEMgQmluZGluZywgcHJlc2VudCBleHRlbnNpb24sIGRldmVsb3BtZW50
-IGZpbGVzCmlpICBsaWJ4Y2ItcHJlc2VudDA6YW1kNjQgICAgICAgICAgIDEuMTAtMnVidW50dTEg
-ICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBYIEMgQmluZGluZywgcHJlc2VudCBleHRl
-bnNpb24KaWkgIGxpYnhjYi1yYW5kcjA6YW1kNjQgICAgICAgICAgICAgMS4xMC0ydWJ1bnR1MSAg
-ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFggQyBCaW5kaW5nLCByYW5kciBleHRlbnNp
-b24KaWkgIGxpYnhjYi1yYW5kcjAtZGV2OmFtZDY0ICAgICAgICAgMS4xMC0ydWJ1bnR1MSAgICAg
-ICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFggQyBCaW5kaW5nLCByYW5kciBleHRlbnNpb24s
-IGRldmVsb3BtZW50IGZpbGVzCmlpICBsaWJ4Y2ItcmVuZGVyMDphbWQ2NCAgICAgICAgICAgIDEu
-MTAtMnVidW50dTEgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBYIEMgQmluZGluZywg
-cmVuZGVyIGV4dGVuc2lvbgppaSAgbGlieGNiLXJlbmRlcjAtZGV2OmFtZDY0ICAgICAgICAxLjEw
-LTJ1YnVudHUxICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWCBDIEJpbmRpbmcsIHJl
-bmRlciBleHRlbnNpb24sIGRldmVsb3BtZW50IGZpbGVzCmlpICBsaWJ4Y2Itc2hhcGUwOmFtZDY0
-ICAgICAgICAgICAgIDEuMTAtMnVidW50dTEgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAg
-ICBYIEMgQmluZGluZywgc2hhcGUgZXh0ZW5zaW9uCmlpICBsaWJ4Y2Itc2hhcGUwLWRldjphbWQ2
-NCAgICAgICAgIDEuMTAtMnVidW50dTEgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBY
-IEMgQmluZGluZywgc2hhcGUgZXh0ZW5zaW9uLCBkZXZlbG9wbWVudCBmaWxlcwppaSAgbGlieGNi
-LXNobTA6YW1kNjQgICAgICAgICAgICAgICAxLjEwLTJ1YnVudHUxICAgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgWCBDIEJpbmRpbmcsIHNobSBleHRlbnNpb24KaWkgIGxpYnhjYi1zeW5j
-LWRldjphbWQ2NCAgICAgICAgICAgMS4xMC0ydWJ1bnR1MSAgICAgICAgICAgICAgICAgICAgYW1k
-NjQgICAgICAgIFggQyBCaW5kaW5nLCBzeW5jIGV4dGVuc2lvbiwgZGV2ZWxvcG1lbnQgZmlsZXMK
-aWkgIGxpYnhjYi1zeW5jMTphbWQ2NCAgICAgICAgICAgICAgMS4xMC0ydWJ1bnR1MSAgICAgICAg
-ICAgICAgICAgICAgYW1kNjQgICAgICAgIFggQyBCaW5kaW5nLCBzeW5jIGV4dGVuc2lvbgppaSAg
-bGlieGNiLXhmaXhlczA6YW1kNjQgICAgICAgICAgICAxLjEwLTJ1YnVudHUxICAgICAgICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgWCBDIEJpbmRpbmcsIHhmaXhlcyBleHRlbnNpb24KaWkgIGxp
-YnhjYi14Zml4ZXMwLWRldjphbWQ2NCAgICAgICAgMS4xMC0ydWJ1bnR1MSAgICAgICAgICAgICAg
-ICAgICAgYW1kNjQgICAgICAgIFggQyBCaW5kaW5nLCB4Zml4ZXMgZXh0ZW5zaW9uLCBkZXZlbG9w
-bWVudCBmaWxlcwppaSAgbGlieGNiMTphbWQ2NCAgICAgICAgICAgICAgICAgICAxLjEwLTJ1YnVu
-dHUxICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWCBDIEJpbmRpbmcKaWkgIGxpYnhj
-YjEtZGV2OmFtZDY0ICAgICAgICAgICAgICAgMS4xMC0ydWJ1bnR1MSAgICAgICAgICAgICAgICAg
-ICAgYW1kNjQgICAgICAgIFggQyBCaW5kaW5nLCBkZXZlbG9wbWVudCBmaWxlcwppaSAgbGlieGNv
-bXBvc2l0ZTE6YW1kNjQgICAgICAgICAgICAxOjAuNC40LTEgICAgICAgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgWDExIENvbXBvc2l0ZSBleHRlbnNpb24gbGlicmFyeQppaSAgbGlieGN1
-cnNvcjE6YW1kNjQgICAgICAgICAgICAgICAxOjEuMS4xNC0xICAgICAgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgWCBjdXJzb3IgbWFuYWdlbWVudCBsaWJyYXJ5CmlpICBsaWJ4ZGFtYWdl
-LWRldjphbWQ2NCAgICAgICAgICAgIDE6MS4xLjQtMXVidW50dTEgICAgICAgICAgICAgICAgIGFt
-ZDY0ICAgICAgICBYMTEgZGFtYWdlZCByZWdpb24gZXh0ZW5zaW9uIGxpYnJhcnkgKGRldmVsb3Bt
-ZW50IGhlYWRlcnMpCmlpICBsaWJ4ZGFtYWdlMTphbWQ2NCAgICAgICAgICAgICAgIDE6MS4xLjQt
-MXVidW50dTEgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBYMTEgZGFtYWdlZCByZWdpb24g
-ZXh0ZW5zaW9uIGxpYnJhcnkKaWkgIGxpYnhkbWNwLWRldjphbWQ2NCAgICAgICAgICAgICAgMTox
-LjEuMS0xICAgICAgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFgxMSBhdXRob3Jpc2F0
-aW9uIGxpYnJhcnkgKGRldmVsb3BtZW50IGhlYWRlcnMpCmlpICBsaWJ4ZG1jcDY6YW1kNjQgICAg
-ICAgICAgICAgICAgIDE6MS4xLjEtMSAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAg
-ICBYMTEgRGlzcGxheSBNYW5hZ2VyIENvbnRyb2wgUHJvdG9jb2wgbGlicmFyeQppaSAgbGlieGV4
-dC1kZXY6YW1kNjQgICAgICAgICAgICAgICAyOjEuMy4yLTF1YnVudHUwLjAuMTQuMDQuMSAgICAg
-ICBhbWQ2NCAgICAgICAgWDExIG1pc2NlbGxhbmVvdXMgZXh0ZW5zaW9ucyBsaWJyYXJ5IChkZXZl
-bG9wbWVudCBoZWFkZXJzKQppaSAgbGlieGV4dDY6YW1kNjQgICAgICAgICAgICAgICAgICAyOjEu
-My4yLTF1YnVudHUwLjAuMTQuMDQuMSAgICAgICBhbWQ2NCAgICAgICAgWDExIG1pc2NlbGxhbmVv
-dXMgZXh0ZW5zaW9uIGxpYnJhcnkKaWkgIGxpYnhmaXhlcy1kZXY6YW1kNjQgICAgICAgICAgICAg
-MTo1LjAuMS0xdWJ1bnR1MS4xICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFgxMSBtaXNjZWxs
-YW5lb3VzICdmaXhlcycgZXh0ZW5zaW9uIGxpYnJhcnkgKGRldmVsb3BtZW50IGhlYWRlcnMpCmlp
-ICBsaWJ4Zml4ZXMzOmFtZDY0ICAgICAgICAgICAgICAgIDE6NS4wLjEtMXVidW50dTEuMSAgICAg
-ICAgICAgICAgIGFtZDY0ICAgICAgICBYMTEgbWlzY2VsbGFuZW91cyAnZml4ZXMnIGV4dGVuc2lv
-biBsaWJyYXJ5CmlpICBsaWJ4aTY6YW1kNjQgICAgICAgICAgICAgICAgICAgIDI6MS43LjEuOTAx
-LTF1YnVudHUxLjEgICAgICAgICAgIGFtZDY0ICAgICAgICBYMTEgSW5wdXQgZXh0ZW5zaW9uIGxp
-YnJhcnkKaWkgIGxpYnhpbmVyYW1hMTphbWQ2NCAgICAgICAgICAgICAgMjoxLjEuMy0xICAgICAg
-ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFgxMSBYaW5lcmFtYSBleHRlbnNpb24gbGli
-cmFyeQppaSAgbGlieG1sLWxpYnhtbC1wZXJsICAgICAgICAgICAgICAyLjAxMDgrZGZzZy0xdWJ1
-bnR1MC4xICAgICAgICAgICBhbWQ2NCAgICAgICAgUGVybCBpbnRlcmZhY2UgdG8gdGhlIGxpYnht
-bDIgbGlicmFyeQppaSAgbGlieG1sLW5hbWVzcGFjZXN1cHBvcnQtcGVybCAgICAxLjExLTEgICAg
-ICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgUGVybCBtb2R1bGUgZm9yIHN1cHBv
-cnRpbmcgc2ltcGxlIGdlbmVyaWMgbmFtZXNwYWNlcwppaSAgbGlieG1sLXNheC1iYXNlLXBlcmwg
-ICAgICAgICAgICAxLjA3LTEgICAgICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAg
-YmFzZSBjbGFzcyBmb3IgU0FYIGRyaXZlcnMgYW5kIGZpbHRlcnMKaWkgIGxpYnhtbC1zYXgtcGVy
-bCAgICAgICAgICAgICAgICAgMC45OStkZnNnLTJ1YnVudHUxICAgICAgICAgICAgICAgYWxsICAg
-ICAgICAgIFBlcmwgbW9kdWxlIGZvciB1c2luZyBhbmQgYnVpbGRpbmcgUGVybCBTQVgyIFhNTCBw
-cm9jZXNzb3JzCmlpICBsaWJ4bWwyOmFtZDY0ICAgICAgICAgICAgICAgICAgIDIuOS4xK2Rmc2cx
-LTN1YnVudHU0LjggICAgICAgICAgIGFtZDY0ICAgICAgICBHTk9NRSBYTUwgbGlicmFyeQppaSAg
-bGlieHJhbmRyMjphbWQ2NCAgICAgICAgICAgICAgICAyOjEuNC4yLTEgICAgICAgICAgICAgICAg
-ICAgICAgICBhbWQ2NCAgICAgICAgWDExIFJhbmRSIGV4dGVuc2lvbiBsaWJyYXJ5CmlpICBsaWJ4
-cmVuZGVyMTphbWQ2NCAgICAgICAgICAgICAgIDE6MC45LjgtMWJ1aWxkMC4xNC4wNC4xICAgICAg
-ICAgIGFtZDY0ICAgICAgICBYIFJlbmRlcmluZyBFeHRlbnNpb24gY2xpZW50IGxpYnJhcnkKaWkg
-IGxpYnhzaG1mZW5jZS1kZXY6YW1kNjQgICAgICAgICAgMS4xLTIgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgYW1kNjQgICAgICAgIFggc2hhcmVkIG1lbW9yeSBmZW5jZXMgLSBkZXZlbG9wbWVu
-dCBmaWxlcwppaSAgbGlieHNobWZlbmNlMTphbWQ2NCAgICAgICAgICAgICAxLjEtMiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgWCBzaGFyZWQgbWVtb3J5IGZlbmNlcyAt
-IHNoYXJlZCBsaWJyYXJ5CmlpICBsaWJ4eGY4NnZtLWRldjphbWQ2NCAgICAgICAgICAgIDE6MS4x
-LjMtMSAgICAgICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBYMTEgWEZyZWU4NiB2aWRl
-byBtb2RlIGV4dGVuc2lvbiBsaWJyYXJ5IChkZXZlbG9wbWVudCBoZWFkZXJzKQppaSAgbGlieHhm
-ODZ2bTE6YW1kNjQgICAgICAgICAgICAgICAxOjEuMS4zLTEgICAgICAgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgWDExIFhGcmVlODYgdmlkZW8gbW9kZSBleHRlbnNpb24gbGlicmFyeQpp
-aSAgbGludXgtbGliYy1kZXY6YW1kNjQgICAgICAgICAgICAzLjEzLjAtODguMTM1ICAgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgTGludXggS2VybmVsIEhlYWRlcnMgZm9yIGRldmVsb3Bt
-ZW50CmlpICBsb2NhbGVzICAgICAgICAgICAgICAgICAgICAgICAgIDIuMTMrZ2l0MjAxMjAzMDYt
-MTIuMSAgICAgICAgICAgIGFsbCAgICAgICAgICBjb21tb24gZmlsZXMgZm9yIGxvY2FsZSBzdXBw
-b3J0CmlpICBsb2NrZmlsZS1wcm9ncyAgICAgICAgICAgICAgICAgIDAuMS4xNyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBQcm9ncmFtcyBmb3IgbG9ja2luZyBhbmQgdW5s
-b2NraW5nIGZpbGVzIGFuZCBtYWlsYm94ZXMKaWkgIGxvZ2luICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgMTo0LjEuNS4xLTF1YnVudHU5LjIgICAgICAgICAgICAgYW1kNjQgICAgICAgIHN5c3Rl
-bSBsb2dpbiB0b29scwppaSAgbG9ncm90YXRlICAgICAgICAgICAgICAgICAgICAgICAzLjguNy0x
-dWJ1bnR1MSAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgTG9nIHJvdGF0aW9uIHV0aWxp
-dHkKaWkgIGxzYi1iYXNlICAgICAgICAgICAgICAgICAgICAgICAgNC4xK0RlYmlhbjExdWJ1bnR1
-Ni4xICAgICAgICAgICAgYWxsICAgICAgICAgIExpbnV4IFN0YW5kYXJkIEJhc2UgNC4xIGluaXQg
-c2NyaXB0IGZ1bmN0aW9uYWxpdHkKaWkgIGxzYi1yZWxlYXNlICAgICAgICAgICAgICAgICAgICAg
-NC4xK0RlYmlhbjExdWJ1bnR1Ni4xICAgICAgICAgICAgYWxsICAgICAgICAgIExpbnV4IFN0YW5k
-YXJkIEJhc2UgdmVyc2lvbiByZXBvcnRpbmcgdXRpbGl0eQppaSAgbWFrZSAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAzLjgxLTguMnVidW50dTMgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAg
-ICAgQW4gdXRpbGl0eSBmb3IgRGlyZWN0aW5nIGNvbXBpbGF0aW9uLgppaSAgbWFrZWRldiAgICAg
-ICAgICAgICAgICAgICAgICAgICAyLjMuMS05M3VidW50dTEgICAgICAgICAgICAgICAgICBhbGwg
-ICAgICAgICAgY3JlYXRlcyBkZXZpY2UgZmlsZXMgaW4gL2RldgppaSAgbWF3ayAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAxLjMuMy0xN3VidW50dTIgICAgICAgICAgICAgICAgICBhbWQ2NCAg
-ICAgICAgYSBwYXR0ZXJuIHNjYW5uaW5nIGFuZCB0ZXh0IHByb2Nlc3NpbmcgbGFuZ3VhZ2UKaWkg
-IG1lc2EtY29tbW9uLWRldiAgICAgICAgICAgICAgICAgMTAuMS4zLTB1YnVudHUwLjYgICAgICAg
-ICAgICAgICAgYW1kNjQgICAgICAgIERldmVsb3BlciBkb2N1bWVudGF0aW9uIGZvciBNZXNhCmlp
-ICBtaW1lLXN1cHBvcnQgICAgICAgICAgICAgICAgICAgIDMuNTR1YnVudHUxLjEgICAgICAgICAg
-ICAgICAgICAgIGFsbCAgICAgICAgICBNSU1FIGZpbGVzICdtaW1lLnR5cGVzJyAmICdtYWlsY2Fw
-JywgYW5kIHN1cHBvcnQgcHJvZ3JhbXMKaWkgIG1vZHVsZS1pbml0LXRvb2xzICAgICAgICAgICAg
-ICAgMTUtMHVidW50dTYgICAgICAgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIHRyYW5zaXRp
-b25hbCBkdW1teSBwYWNrYWdlIChtb2R1bGUtaW5pdC10b29scyB0byBrbW9kKQppaSAgbW91bnQg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAyLjIwLjEtNS4xdWJ1bnR1MjAuNyAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgVG9vbHMgZm9yIG1vdW50aW5nIGFuZCBtYW5pcHVsYXRpbmcgZmlsZXN5
-c3RlbXMKaWkgIG1vdW50YWxsICAgICAgICAgICAgICAgICAgICAgICAgMi41MyAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGZpbGVzeXN0ZW0gbW91bnRpbmcgdG9vbApp
-aSAgbXVsdGlhcmNoLXN1cHBvcnQgICAgICAgICAgICAgICAyLjE5LTB1YnVudHU2LjkgICAgICAg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgVHJhbnNpdGlvbmFsIHBhY2thZ2UgdG8gZW5zdXJlIG11
-bHRpYXJjaCBjb21wYXRpYmlsaXR5CmlpICBuY3Vyc2VzLWJhc2UgICAgICAgICAgICAgICAgICAg
-IDUuOSsyMDE0MDExOC0xdWJ1bnR1MSAgICAgICAgICAgIGFsbCAgICAgICAgICBiYXNpYyB0ZXJt
-aW5hbCB0eXBlIGRlZmluaXRpb25zCmlpICBuY3Vyc2VzLWJpbiAgICAgICAgICAgICAgICAgICAg
-IDUuOSsyMDE0MDExOC0xdWJ1bnR1MSAgICAgICAgICAgIGFtZDY0ICAgICAgICB0ZXJtaW5hbC1y
-ZWxhdGVkIHByb2dyYW1zIGFuZCBtYW4gcGFnZXMKaWkgIG5ldC10b29scyAgICAgICAgICAgICAg
-ICAgICAgICAgMS42MC0yNXVidW50dTIuMSAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFRo
-ZSBORVQtMyBuZXR3b3JraW5nIHRvb2xraXQKaWkgIG5ldGJhc2UgICAgICAgICAgICAgICAgICAg
-ICAgICAgNS4yICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIEJhc2lj
-IFRDUC9JUCBuZXR3b3JraW5nIHN5c3RlbQppaSAgbmV0Y2F0LW9wZW5ic2QgICAgICAgICAgICAg
-ICAgICAxLjEwNS03dWJ1bnR1MSAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgVENQL0lQ
-IHN3aXNzIGFybXkga25pZmUKaWkgIG50cGRhdGUgICAgICAgICAgICAgICAgICAgICAgICAgMTo0
-LjIuNi5wNStkZnNnLTN1YnVudHUyLjE0LjA0LjggYW1kNjQgICAgICAgIGNsaWVudCBmb3Igc2V0
-dGluZyBzeXN0ZW0gdGltZSBmcm9tIE5UUCBzZXJ2ZXJzCmlpICBvcGVuc3NoLWNsaWVudCAgICAg
-ICAgICAgICAgICAgIDE6Ni42cDEtMnVidW50dTIuNyAgICAgICAgICAgICAgIGFtZDY0ICAgICAg
-ICBzZWN1cmUgc2hlbGwgKFNTSCkgY2xpZW50LCBmb3Igc2VjdXJlIGFjY2VzcyB0byByZW1vdGUg
-bWFjaGluZXMKaWkgIHBhc3N3ZCAgICAgICAgICAgICAgICAgICAgICAgICAgMTo0LjEuNS4xLTF1
-YnVudHU5LjIgICAgICAgICAgICAgYW1kNjQgICAgICAgIGNoYW5nZSBhbmQgYWRtaW5pc3RlciBw
-YXNzd29yZCBhbmQgZ3JvdXAgZGF0YQppaSAgcGF0Y2ggICAgICAgICAgICAgICAgICAgICAgICAg
-ICAyLjcuMS00dWJ1bnR1Mi4zICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgQXBwbHkgYSBk
-aWZmIGZpbGUgdG8gYW4gb3JpZ2luYWwKaWkgIHBlcmwgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgNS4xOC4yLTJ1YnVudHUxLjEgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIExhcnJ5IFdh
-bGwncyBQcmFjdGljYWwgRXh0cmFjdGlvbiBhbmQgUmVwb3J0IExhbmd1YWdlCmlpICBwZXJsLWJh
-c2UgICAgICAgICAgICAgICAgICAgICAgIDUuMTguMi0ydWJ1bnR1MS4xICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBtaW5pbWFsIFBlcmwgc3lzdGVtCmlpICBwZXJsLW1vZHVsZXMgICAgICAg
-ICAgICAgICAgICAgIDUuMTguMi0ydWJ1bnR1MS4xICAgICAgICAgICAgICAgIGFsbCAgICAgICAg
-ICBDb3JlIFBlcmwgbW9kdWxlcwppaSAgcGtnLWNvbmZpZyAgICAgICAgICAgICAgICAgICAgICAw
-LjI2LTF1YnVudHU0ICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgbWFuYWdlIGNvbXBp
-bGUgYW5kIGxpbmsgZmxhZ3MgZm9yIGxpYnJhcmllcwppaSAgcGx5bW91dGggICAgICAgICAgICAg
-ICAgICAgICAgICAwLjguOC0wdWJ1bnR1MTcuMSAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAg
-Z3JhcGhpY2FsIGJvb3QgYW5pbWF0aW9uIGFuZCBsb2dnZXIgLSBtYWluIHBhY2thZ2UKaWkgIHBy
-b2NwcyAgICAgICAgICAgICAgICAgICAgICAgICAgMTozLjMuOS0xdWJ1bnR1Mi4yICAgICAgICAg
-ICAgICAgYW1kNjQgICAgICAgIC9wcm9jIGZpbGUgc3lzdGVtIHV0aWxpdGllcwppaSAgcHl0aG9u
-ICAgICAgICAgICAgICAgICAgICAgICAgICAyLjcuNS01dWJ1bnR1MyAgICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgaW50ZXJhY3RpdmUgaGlnaC1sZXZlbCBvYmplY3Qtb3JpZW50ZWQgbGFu
-Z3VhZ2UgKGRlZmF1bHQgdmVyc2lvbikKaWkgIHB5dGhvbi1jYWlybyAgICAgICAgICAgICAgICAg
-ICAgMS44LjgtMXVidW50dTUgICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFB5dGhvbiBi
-aW5kaW5ncyBmb3IgdGhlIENhaXJvIHZlY3RvciBncmFwaGljcyBsaWJyYXJ5CmlpICBweXRob24t
-Z29iamVjdC0yICAgICAgICAgICAgICAgIDIuMjguNi0xMmJ1aWxkMSAgICAgICAgICAgICAgICAg
-IGFtZDY0ICAgICAgICBkZXByZWNhdGVkIHN0YXRpYyBQeXRob24gYmluZGluZ3MgZm9yIHRoZSBH
-T2JqZWN0IGxpYnJhcnkKaWkgIHB5dGhvbi1ndGsyICAgICAgICAgICAgICAgICAgICAgMi4yNC4w
-LTN1YnVudHUzICAgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIFB5dGhvbiBiaW5kaW5ncyBm
-b3IgdGhlIEdUSysgd2lkZ2V0IHNldAppaSAgcHl0aG9uLW1pbmltYWwgICAgICAgICAgICAgICAg
-ICAyLjcuNS01dWJ1bnR1MyAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgbWluaW1hbCBz
-dWJzZXQgb2YgdGhlIFB5dGhvbiBsYW5ndWFnZSAoZGVmYXVsdCB2ZXJzaW9uKQppaSAgcHl0aG9u
-Mi43ICAgICAgICAgICAgICAgICAgICAgICAyLjcuNi04dWJ1bnR1MC4yICAgICAgICAgICAgICAg
-ICBhbWQ2NCAgICAgICAgSW50ZXJhY3RpdmUgaGlnaC1sZXZlbCBvYmplY3Qtb3JpZW50ZWQgbGFu
-Z3VhZ2UgKHZlcnNpb24gMi43KQppaSAgcHl0aG9uMi43LW1pbmltYWwgICAgICAgICAgICAgICAy
-LjcuNi04dWJ1bnR1MC4yICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgTWluaW1hbCBzdWJz
-ZXQgb2YgdGhlIFB5dGhvbiBsYW5ndWFnZSAodmVyc2lvbiAyLjcpCmlpICBweXRob24zICAgICAg
-ICAgICAgICAgICAgICAgICAgIDMuNC4wLTB1YnVudHUyICAgICAgICAgICAgICAgICAgIGFtZDY0
-ICAgICAgICBpbnRlcmFjdGl2ZSBoaWdoLWxldmVsIG9iamVjdC1vcmllbnRlZCBsYW5ndWFnZSAo
-ZGVmYXVsdCBweXRob24zIHZlcnNpb24pCmlpICBweXRob24zLW1pbmltYWwgICAgICAgICAgICAg
-ICAgIDMuNC4wLTB1YnVudHUyICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBtaW5pbWFs
-IHN1YnNldCBvZiB0aGUgUHl0aG9uIGxhbmd1YWdlIChkZWZhdWx0IHB5dGhvbjMgdmVyc2lvbikK
-aWkgIHB5dGhvbjMuNCAgICAgICAgICAgICAgICAgICAgICAgMy40LjMtMXVidW50dTF+MTQuMDQu
-MyAgICAgICAgICAgYW1kNjQgICAgICAgIEludGVyYWN0aXZlIGhpZ2gtbGV2ZWwgb2JqZWN0LW9y
-aWVudGVkIGxhbmd1YWdlICh2ZXJzaW9uIDMuNCkKaWkgIHB5dGhvbjMuNC1taW5pbWFsICAgICAg
-ICAgICAgICAgMy40LjMtMXVidW50dTF+MTQuMDQuMyAgICAgICAgICAgYW1kNjQgICAgICAgIE1p
-bmltYWwgc3Vic2V0IG9mIHRoZSBQeXRob24gbGFuZ3VhZ2UgKHZlcnNpb24gMy40KQppaSAgcmVh
-ZGxpbmUtY29tbW9uICAgICAgICAgICAgICAgICA2LjMtNHVidW50dTIgICAgICAgICAgICAgICAg
-ICAgICBhbGwgICAgICAgICAgR05VIHJlYWRsaW5lIGFuZCBoaXN0b3J5IGxpYnJhcmllcywgY29t
-bW9uIGZpbGVzCmlpICByZXNvbHZjb25mICAgICAgICAgICAgICAgICAgICAgIDEuNjl1YnVudHUx
-LjEgICAgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBuYW1lIHNlcnZlciBpbmZvcm1hdGlv
-biBoYW5kbGVyCmlpICByc3lzbG9nICAgICAgICAgICAgICAgICAgICAgICAgIDcuNC40LTF1YnVu
-dHUyLjYgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICByZWxpYWJsZSBzeXN0ZW0gYW5kIGtl
-cm5lbCBsb2dnaW5nIGRhZW1vbgppaSAgc2NyZWVuICAgICAgICAgICAgICAgICAgICAgICAgICA0
-LjEuMH4yMDEyMDMyMGdpdGRiNTk3MDQtOSAgICAgICBhbWQ2NCAgICAgICAgdGVybWluYWwgbXVs
-dGlwbGV4ZXIgd2l0aCBWVDEwMC9BTlNJIHRlcm1pbmFsIGVtdWxhdGlvbgppaSAgc2VkICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICA0LjIuMi00dWJ1bnR1MSAgICAgICAgICAgICAgICAgICBh
-bWQ2NCAgICAgICAgVGhlIEdOVSBzZWQgc3RyZWFtIGVkaXRvcgppaSAgc2Vuc2libGUtdXRpbHMg
-ICAgICAgICAgICAgICAgICAwLjAuOSAgICAgICAgICAgICAgICAgICAgICAgICAgICBhbGwgICAg
-ICAgICAgVXRpbGl0aWVzIGZvciBzZW5zaWJsZSBhbHRlcm5hdGl2ZSBzZWxlY3Rpb24KaWkgIHNo
-YXJlZC1taW1lLWluZm8gICAgICAgICAgICAgICAgMS4yLTB1YnVudHUzICAgICAgICAgICAgICAg
-ICAgICAgYW1kNjQgICAgICAgIEZyZWVEZXNrdG9wLm9yZyBzaGFyZWQgTUlNRSBkYXRhYmFzZSBh
-bmQgc3BlYwppaSAgc3VidmVyc2lvbiAgICAgICAgICAgICAgICAgICAgICAxLjguOC0xdWJ1bnR1
-My4yICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgQWR2YW5jZWQgdmVyc2lvbiBjb250cm9s
-IHN5c3RlbQppaSAgc3VkbyAgICAgICAgICAgICAgICAgICAgICAgICAgICAxLjguOXA1LTF1YnVu
-dHUxLjIgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgUHJvdmlkZSBsaW1pdGVkIHN1cGVyIHVz
-ZXIgcHJpdmlsZWdlcyB0byBzcGVjaWZpYyB1c2VycwppaSAgc3lzdi1yYyAgICAgICAgICAgICAg
-ICAgICAgICAgICAyLjg4ZHNmLTQxdWJ1bnR1Ni4zICAgICAgICAgICAgICBhbGwgICAgICAgICAg
-U3lzdGVtLVYtbGlrZSBydW5sZXZlbCBjaGFuZ2UgbWVjaGFuaXNtCmlpICBzeXN2aW5pdC11dGls
-cyAgICAgICAgICAgICAgICAgIDIuODhkc2YtNDF1YnVudHU2LjMgICAgICAgICAgICAgIGFtZDY0
-ICAgICAgICBTeXN0ZW0tVi1saWtlIHV0aWxpdGllcwppaSAgdGFyICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAxLjI3LjEtMSAgICAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAg
-R05VIHZlcnNpb24gb2YgdGhlIHRhciBhcmNoaXZpbmcgdXRpbGl0eQppaSAgdGV4aTJodG1sICAg
-ICAgICAgICAgICAgICAgICAgICAxLjgyK2Rmc2cxLTMgICAgICAgICAgICAgICAgICAgICBhbGwg
-ICAgICAgICAgQ29udmVydCBUZXhpbmZvIGZpbGVzIHRvIEhUTUwKaWkgIHRleGluZm8gICAgICAg
-ICAgICAgICAgICAgICAgICAgNS4yLjAuZGZzZy4xLTIgICAgICAgICAgICAgICAgICAgYW1kNjQg
-ICAgICAgIERvY3VtZW50YXRpb24gc3lzdGVtIGZvciBvbi1saW5lIGluZm9ybWF0aW9uIGFuZCBw
-cmludGVkIG91dHB1dAppaSAgdGltZSAgICAgICAgICAgICAgICAgICAgICAgICAgICAxLjctMjQg
-ICAgICAgICAgICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgR05VIHRpbWUgcHJvZ3JhbSBm
-b3IgbWVhc3VyaW5nIENQVSByZXNvdXJjZSB1c2FnZQppaSAgdHpkYXRhICAgICAgICAgICAgICAg
-ICAgICAgICAgICAyMDE2ZC0wdWJ1bnR1MC4xNC4wNCAgICAgICAgICAgICBhbGwgICAgICAgICAg
-dGltZSB6b25lIGFuZCBkYXlsaWdodC1zYXZpbmcgdGltZSBkYXRhCmlpICB1YnVudHUta2V5cmlu
-ZyAgICAgICAgICAgICAgICAgIDIwMTIuMDUuMTkgICAgICAgICAgICAgICAgICAgICAgIGFsbCAg
-ICAgICAgICBHbnVQRyBrZXlzIG9mIHRoZSBVYnVudHUgYXJjaGl2ZQppaSAgdWJ1bnR1LW1pbmlt
-YWwgICAgICAgICAgICAgICAgICAxLjMyNSAgICAgICAgICAgICAgICAgICAgICAgICAgICBhbWQ2
-NCAgICAgICAgTWluaW1hbCBjb3JlIG9mIFVidW50dQppaSAgdWNmICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAzLjAwMjcrbm11MSAgICAgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAg
-VXBkYXRlIENvbmZpZ3VyYXRpb24gRmlsZShzKTogcHJlc2VydmUgdXNlciBjaGFuZ2VzIHRvIGNv
-bmZpZyBmaWxlcwppaSAgdWRldiAgICAgICAgICAgICAgICAgICAgICAgICAgICAyMDQtNXVidW50
-dTIwLjE5ICAgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgL2Rldi8gYW5kIGhvdHBsdWcgbWFu
-YWdlbWVudCBkYWVtb24KaWkgIHVwc3RhcnQgICAgICAgICAgICAgICAgICAgICAgICAgMS4xMi4x
-LTB1YnVudHU0LjIgICAgICAgICAgICAgICAgYW1kNjQgICAgICAgIGV2ZW50LWJhc2VkIGluaXQg
-ZGFlbW9uCmlpICB1cmVhZGFoZWFkICAgICAgICAgICAgICAgICAgICAgIDAuMTAwLjAtMTYgICAg
-ICAgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBSZWFkIHJlcXVpcmVkIGZpbGVzIGluIGFk
-dmFuY2UKaWkgIHV0aWwtbGludXggICAgICAgICAgICAgICAgICAgICAgMi4yMC4xLTUuMXVidW50
-dTIwLjcgICAgICAgICAgICAgYW1kNjQgICAgICAgIE1pc2NlbGxhbmVvdXMgc3lzdGVtIHV0aWxp
-dGllcwppaSAgdmltLWNvbW1vbiAgICAgICAgICAgICAgICAgICAgICAyOjcuNC4wNTItMXVidW50
-dTMgICAgICAgICAgICAgICBhbWQ2NCAgICAgICAgVmkgSU1wcm92ZWQgLSBDb21tb24gZmlsZXMK
-aWkgIHZpbS10aW55ICAgICAgICAgICAgICAgICAgICAgICAgMjo3LjQuMDUyLTF1YnVudHUzICAg
-ICAgICAgICAgICAgYW1kNjQgICAgICAgIFZpIElNcHJvdmVkIC0gZW5oYW5jZWQgdmkgZWRpdG9y
-IC0gY29tcGFjdCB2ZXJzaW9uCmlpICB3Z2V0ICAgICAgICAgICAgICAgICAgICAgICAgICAgIDEu
-MTUtMXVidW50dTEuMTQuMDQuMiAgICAgICAgICAgIGFtZDY0ICAgICAgICByZXRyaWV2ZXMgZmls
-ZXMgZnJvbSB0aGUgd2ViCmlpICB3aGlwdGFpbCAgICAgICAgICAgICAgICAgICAgICAgIDAuNTIu
-MTUtMnVidW50dTUgICAgICAgICAgICAgICAgIGFtZDY0ICAgICAgICBEaXNwbGF5cyB1c2VyLWZy
-aWVuZGx5IGRpYWxvZyBib3hlcyBmcm9tIHNoZWxsIHNjcmlwdHMKaWkgIHgxMXByb3RvLWNvcmUt
-ZGV2ICAgICAgICAgICAgICAgNy4wLjI2LTF+dWJ1bnR1MiAgICAgICAgICAgICAgICAgYWxsICAg
-ICAgICAgIFgxMSBjb3JlIHdpcmUgcHJvdG9jb2wgYW5kIGF1eGlsaWFyeSBoZWFkZXJzCmlpICB4
-MTFwcm90by1kYW1hZ2UtZGV2ICAgICAgICAgICAgIDE6MS4yLjEtMiAgICAgICAgICAgICAgICAg
-ICAgICAgIGFsbCAgICAgICAgICBYMTEgRGFtYWdlIGV4dGVuc2lvbiB3aXJlIHByb3RvY29sCmlp
-ICB4MTFwcm90by1kcmkyLWRldiAgICAgICAgICAgICAgIDIuOC0yICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgIGFsbCAgICAgICAgICBYMTEgRFJJMiBleHRlbnNpb24gd2lyZSBwcm90b2NvbApp
-aSAgeDExcHJvdG8tZml4ZXMtZGV2ICAgICAgICAgICAgICAxOjUuMC0ydWJ1bnR1MiAgICAgICAg
-ICAgICAgICAgICBhbGwgICAgICAgICAgWDExIEZpeGVzIGV4dGVuc2lvbiB3aXJlIHByb3RvY29s
-CmlpICB4MTFwcm90by1nbC1kZXYgICAgICAgICAgICAgICAgIDEuNC4xNy0xICAgICAgICAgICAg
-ICAgICAgICAgICAgIGFsbCAgICAgICAgICBYMTEgT3BlbkdMIGV4dGVuc2lvbiB3aXJlIHByb3Rv
-Y29sCmlpICB4MTFwcm90by1pbnB1dC1kZXYgICAgICAgICAgICAgIDIuMy0xICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBYMTEgSW5wdXQgZXh0ZW5zaW9uIHdpcmUgcHJv
-dG9jb2wKaWkgIHgxMXByb3RvLWtiLWRldiAgICAgICAgICAgICAgICAgMS4wLjYtMiAgICAgICAg
-ICAgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIFgxMSBYS0IgZXh0ZW5zaW9uIHdpcmUgcHJv
-dG9jb2wKaWkgIHgxMXByb3RvLXhleHQtZGV2ICAgICAgICAgICAgICAgNy4zLjAtMSAgICAgICAg
-ICAgICAgICAgICAgICAgICAgYWxsICAgICAgICAgIFgxMSB2YXJpb3VzIGV4dGVuc2lvbiB3aXJl
-IHByb3RvY29sCmlpICB4MTFwcm90by14Zjg2dmlkbW9kZS1kZXYgICAgICAgIDIuMy4xLTIgICAg
-ICAgICAgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBYMTEgVmlkZW8gTW9kZSBleHRlbnNp
-b24gd2lyZSBwcm90b2NvbAppaSAgeGtiLWRhdGEgICAgICAgICAgICAgICAgICAgICAgICAyLjEw
-LjEtMXVidW50dTEgICAgICAgICAgICAgICAgICBhbGwgICAgICAgICAgWCBLZXlib2FyZCBFeHRl
-bnNpb24gKFhLQikgY29uZmlndXJhdGlvbiBkYXRhCmlpICB4b3JnLXNnbWwtZG9jdG9vbHMgICAg
-ICAgICAgICAgIDE6MS4xMS0xICAgICAgICAgICAgICAgICAgICAgICAgIGFsbCAgICAgICAgICBD
-b21tb24gdG9vbHMgZm9yIGJ1aWxkaW5nIFguT3JnIFNHTUwgZG9jdW1lbnRhdGlvbgppaSAgeHRy
-YW5zLWRldiAgICAgICAgICAgICAgICAgICAgICAxLjMuNS0xfnVidW50dTE0LjA0LjEgICAgICAg
-ICAgICBhbGwgICAgICAgICAgWCB0cmFuc3BvcnQgbGlicmFyeSAoZGV2ZWxvcG1lbnQgZmlsZXMp
-CmlpICB4ei11dGlscyAgICAgICAgICAgICAgICAgICAgICAgIDUuMS4xYWxwaGErMjAxMjA2MTQt
-MnVidW50dTIgICAgIGFtZDY0ICAgICAgICBYWi1mb3JtYXQgY29tcHJlc3Npb24gdXRpbGl0aWVz
-CmlpICB6bGliMWc6YW1kNjQgICAgICAgICAgICAgICAgICAgIDE6MS4yLjguZGZzZy0xdWJ1bnR1
-MSAgICAgICAgICAgIGFtZDY0ICAgICAgICBjb21wcmVzc2lvbiBsaWJyYXJ5IC0gcnVudGltZQpp
-aSAgemxpYjFnLWRldjphbWQ2NCAgICAgICAgICAgICAgICAxOjEuMi44LmRmc2ctMXVidW50dTEg
-ICAgICAgICAgICBhbWQ2NCAgICAgICAgY29tcHJlc3Npb24gbGlicmFyeSAtIGRldmVsb3BtZW50
-Cg==
-
---94eb2c0870faceeb7f05438fac2b--
