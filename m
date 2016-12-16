@@ -1,6 +1,6 @@
 Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 39FDCE00E4C; Fri, 16 Dec 2016 09:08:19 -0800 (PST)
+	id 470FDE00E9A; Fri, 16 Dec 2016 09:27:20 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -16,53 +16,53 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.214.67 listed in list.dnswl.org]
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 64B6FE00E47
+	*      [209.85.214.68 listed in list.dnswl.org]
+Received: from mail-it0-f68.google.com (mail-it0-f68.google.com
+	[209.85.214.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0D1B4E00E8E
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 16 Dec 2016 09:08:15 -0800 (PST)
-Received: by mail-it0-f67.google.com with SMTP id n68so3261078itn.3
+	Fri, 16 Dec 2016 09:27:16 -0800 (PST)
+Received: by mail-it0-f68.google.com with SMTP id 75so3334160ite.1
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 16 Dec 2016 09:08:15 -0800 (PST)
+	Fri, 16 Dec 2016 09:27:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
-	h=subject:references:to:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to;
-	bh=vittpECfQTzT9+gKxp/hW50G5LkPnupXX6DGlhHh67s=;
-	b=Z+rZ7blsxmzkMfY7eEG6MspJDO8wRtvrDz52nNHubzsZ6FKrdFm6P3uEugYsnQ4PiB
-	wxZPhjA24HHWgl2kUkfz7Sc6tiRXvKvVxJ6LhVVdRkLT0+0PSeKHoySHpMB4uFpV51TX
-	yOgl3FTCMs4h9Eam0J/TlkB9rL6gvi5ZdW6pc=
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to; bh=/Vrg4Qe/3HEuoZe0F6PQGOyPKqcU6750SfEm00S3t+Y=;
+	b=dFEMwHLFWQ88PiGLwOO49PNtF2a5LujpGMXIbxYNi7rdrN9hbwJKI/5flDsJe4O1mz
+	bUCVvmVbxg0Kf2GNbiKADe4etVN01k9u9isvU/43XshmV2wamwdkSCnPtS5BajhWfYGJ
+	h4lkBqEC4Dc9kgNg3pPOIlwhquPaROZUDg5Es=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:references:to:cc:from:message-id:date
+	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=vittpECfQTzT9+gKxp/hW50G5LkPnupXX6DGlhHh67s=;
-	b=Vxhk50EeFmOKBJBt66jAFo30pfTi0tkhP0hAGfepzSBJBjXWES4n3e9w8nbtltjIWx
-	5P6lWPnflXx+MYT59x+pwxeAIOSPgXkj6w6natos9b40wcLYf0ndo94XJQP5N6TSbgEQ
-	cJiTcI1spFyOz50izXVd73whmp9rkjoOQNmpRJ+VpVvS4wOc/MD3RqwRjZnVQ/fxcoNy
-	qI3piV6F314mo7OZ5fpbszEE8mcUkXH/nNTxCOVBScA/lxkwILN4hgskKjyfMKzgsykz
-	TASadpCfiGqIptVIEfcLXEFVhgRVI4iGIiDLhkkF2hBgGB9BBX4Tyybib39mbOY/kJDf
-	Eiqg==
-X-Gm-Message-State: AKaTC000K0HxKuWoGeuh1XQYaIrgjh1xEnESz7zYW2WpQ4br3j2jbwBZJlu22Nzyr7XYfw==
-X-Received: by 10.36.200.10 with SMTP id w10mr3621057itf.21.1481908095048;
-	Fri, 16 Dec 2016 09:08:15 -0800 (PST)
+	bh=/Vrg4Qe/3HEuoZe0F6PQGOyPKqcU6750SfEm00S3t+Y=;
+	b=Wyla0CqaL8tRVs1n4jyh3BvUENRPEQYZ38LRnX/Yg0XiF7ynElgU6ZT21AOpis04ia
+	a+3LanTy5wsSnSoYGoJ4SBRGP0f+CkexhJFbHfkS44uc9aUfXnrSz+zAyCQg+KlI6mSD
+	dhq8NRzx/H/TGj0ffw5P2CwjAzGX3SG+9e03LDRMTC8iPw5ifA7AjVc19UsSQI8HaUFZ
+	zJVz+38wuTrODzJdhyvDiPXxBUB6fU8DSE6vGiWLjzT0hFS6fzg28XksgsuVdsxLCB88
+	jHUS5JEEpf+SbDyWFDv0G/ehUdp0PptZgviAM6I1JPNL03DU+19FhTvcOzd4qB+2C1Tg
+	e4Aw==
+X-Gm-Message-State: AKaTC03eZq/7nEh/fUB0EhxidSzqBf9fLrEZj5cgFybBNofdjtQx9bA7prs/SBYGhOCnbA==
+X-Received: by 10.36.245.9 with SMTP id k9mr4721077ith.65.1481909235829;
+	Fri, 16 Dec 2016 09:27:15 -0800 (PST)
 Received: from doug-macbook.hsv.starlab.io
 	(c-68-32-173-93.hsd1.al.comcast.net. [68.32.173.93])
 	by smtp.googlemail.com with ESMTPSA id
-	h76sm2988802ioi.43.2016.12.16.09.08.13
+	e68sm3010781ioj.39.2016.12.16.09.27.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 16 Dec 2016 09:08:13 -0800 (PST)
-References: <1453525283-3307-1-git-send-email-cardoe@cardoe.com>
+	Fri, 16 Dec 2016 09:27:11 -0800 (PST)
 To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
+	<meta-virtualization@yoctoproject.org>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1453525067-2109-1-git-send-email-cardoe@cardoe.com>
 From: Doug Goldstein <cardoe@cardoe.com>
-Message-ID: <64868386-9609-58b5-ebc5-6b85b07843c0@cardoe.com>
-Date: Fri, 16 Dec 2016 11:08:10 -0600
+Message-ID: <38074716-dc39-3395-baee-04d2a8cd1aa4@cardoe.com>
+Date: Fri, 16 Dec 2016 11:27:07 -0600
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
 	Gecko/20100101 Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <1453525283-3307-1-git-send-email-cardoe@cardoe.com>
-Subject: Re: [PATCH] README: make it easier to copy and paste send command
+In-Reply-To: <1453525067-2109-1-git-send-email-cardoe@cardoe.com>
+Subject: Re: [PATCH] xen-image-minimal: if DISTRO_FEATURES is missing xen error
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,68 +75,82 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Dec 2016 17:08:19 -0000
-X-Groupsio-MsgNum: 2148
+X-List-Received-Date: Fri, 16 Dec 2016 17:27:20 -0000
+X-Groupsio-MsgNum: 2149
 Content-Type: multipart/signed; micalg=pgp-sha512;
 	protocol="application/pgp-signature";
-	boundary="L1rKDdwPtj9T06mabd8bMktbLss9tUHH3"
+	boundary="XFhRQAX4Elvjt8MgKfOQwtSs89PR71m6l"
 
---L1rKDdwPtj9T06mabd8bMktbLss9tUHH3
-Content-Type: multipart/mixed; boundary="8mgNtW587LicB4qdsxTQa4go5WQFjtHLG";
+--XFhRQAX4Elvjt8MgKfOQwtSs89PR71m6l
+Content-Type: multipart/mixed; boundary="8TVuvVm2HiWNL1mBj2LdBtu79vNkN8GxI";
  protected-headers="v1"
 From: Doug Goldstein <cardoe@cardoe.com>
 To: "meta-virtualization@yoctoproject.org"
- <meta-virtualization@yoctoproject.org>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-Message-ID: <64868386-9609-58b5-ebc5-6b85b07843c0@cardoe.com>
-Subject: Re: [meta-virtualization][PATCH] README: make it easier to copy and
- paste send command
-References: <1453525283-3307-1-git-send-email-cardoe@cardoe.com>
-In-Reply-To: <1453525283-3307-1-git-send-email-cardoe@cardoe.com>
+ <meta-virtualization@yoctoproject.org>,
+ Bruce Ashfield <bruce.ashfield@gmail.com>
+Message-ID: <38074716-dc39-3395-baee-04d2a8cd1aa4@cardoe.com>
+Subject: Re: [meta-virtualization][PATCH] xen-image-minimal: if
+ DISTRO_FEATURES is missing xen error
+References: <1453525067-2109-1-git-send-email-cardoe@cardoe.com>
+In-Reply-To: <1453525067-2109-1-git-send-email-cardoe@cardoe.com>
 
---8mgNtW587LicB4qdsxTQa4go5WQFjtHLG
+--8TVuvVm2HiWNL1mBj2LdBtu79vNkN8GxI
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-On 1/22/16 11:01 PM, Doug Goldstein wrote:
-> The git send-email command on most shells requires the subject-prefix t=
-o
-> be quoted and with the trailing quote I always think it is from the
-> README and then realize after the fact I have to edit it. I used $ to
-> imply the shell prompt since that seems pretty common across the
-> internet.
+On 1/22/16 10:57 PM, Doug Goldstein wrote:
+> It can be confusing to users why things are failing with missing kernel=
+
+> dependencies when you don't have 'xen' in your DISTRO_FEATURES. This
+> should provide them with some better info.
 >=20
 > Signed-off-by: Doug Goldstein <cardoe@cardoe.com>
 > ---
->  README | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >=20
-> diff --git a/README b/README
-> index c60044d..2578f90 100644
-> --- a/README
-> +++ b/README
-> @@ -42,7 +42,7 @@ Maintainers: Raymond Danks <ray.danks@se-eng.com>
->               Bruce Ashfield <bruce.ashfield@gmail.com>
+> The result of this change is the following output:
+>=20
+> | DEBUG: Executing shell function do_check_xen_state
+> | ERROR: DISTRO_FEATURES does not contain 'xen'
+> | WARNING: exit code 1 from a shell command.
+>=20
+> ---
+>  recipes-extended/images/xen-image-minimal.bb | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+>=20
+> diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-ext=
+ended/images/xen-image-minimal.bb
+> index 26b6d06..b8c2002 100644
+> --- a/recipes-extended/images/xen-image-minimal.bb
+> +++ b/recipes-extended/images/xen-image-minimal.bb
+> @@ -20,6 +20,14 @@ LICENSE =3D "MIT"
 > =20
->  When sending single patches, please using something like:
-> -'git send-email -1 --to meta-virtualization@yoctoproject.org --subject=
--prefix=3Dmeta-virtualization][PATCH'
-> +$ git send-email -1 --to meta-virtualization@yoctoproject.org --subjec=
-t-prefix=3D'meta-virtualization][PATCH'
+>  inherit core-image
 > =20
->  License
->  -------
+> +do_check_xen_state() {
+> +    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' yes', 'no',=
+ d)}" =3D "no" ]; then
+> +        die "DISTRO_FEATURES does not contain 'xen'"
+> +    fi
+> +}
+> +
+> +addtask check_xen_state before do_rootfs
+> +
+>  syslinux_iso_populate_append() {
+>  	install -m 0444 ${STAGING_DATADIR}/syslinux/libcom32.c32 ${ISODIR}${I=
+SOLINUXDIR}
+>  	install -m 0444 ${STAGING_DATADIR}/syslinux/mboot.c32 ${ISODIR}${ISOL=
+INUXDIR}
 >=20
 
-Ping? Yes/no?
+Ping? This would have solved Andrew Stuart's thread from 11/11/16.
 
 --=20
 Doug Goldstein
 
 
---8mgNtW587LicB4qdsxTQa4go5WQFjtHLG--
+--8TVuvVm2HiWNL1mBj2LdBtu79vNkN8GxI--
 
---L1rKDdwPtj9T06mabd8bMktbLss9tUHH3
+--XFhRQAX4Elvjt8MgKfOQwtSs89PR71m6l
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -144,21 +158,21 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG/MacGPG2 v2.0
 
-iQJ8BAEBCgBmBQJYVB99XxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+iQJ8BAEBCgBmBQJYVCPtXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
 ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
-MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUpXEQAJCcoUKYtlXf+7affoZI1mnp
-fQ/IIU+YD7fxK7Aq6SUnSCCk2/Xd3yTJaCXgwnboE+9gRkzJpKQXiBax7gNi9y2f
-0/LuUp6sQGfYlriXXcYCabCC3kSkTlPZcPDlLEl8jk/rc1OD3VQ/BWaPn7oyt8MZ
-4fNgpF1hntbKBOG3WY0veXUFoMHdy7LdkGH9BKyfZF2Gf8Byy4ONtATz2a75YTQF
-1jD81RtsELlueBefBtf/+XZcuwGInaew6gHIoA/eNDdbyiX2YikGV6i2hv4G7Esf
-C2HpbC0GQ1rci8V//YUoFK/M0AZBh5qzwlfrL9kuH6BgOsSgkbPoVlqi192D7nHd
-K669fCgy/zkDXA1IDBojq/aNOI9yMK+8hAsVWGFJykSfyw3OWs9myKKUslYFMniW
-4cftWmgYXw9vAhhcmZ6HEDm3TnJYkjCXzBmKnzDaJ3gOkuIEu0T41OTIBgXDn99E
-oAj5OwO0PUvhJCe0zAWplSho9Dqj8Q2PCAE5pocC+3jnTem2FfImyCk13YWKyqct
-7pHhX27b9CtPGf8p/TfdzaWL0oIGLTO8xpdIXLNwRIdOW/IprbWL1rXH7+fVS/aH
-en1Zp067n0HRgnvYfsQTe4E5gFegFIKCdOEE2Oe73KRa1b7iHFXmSTTAMweVEp2H
-kOmj/H7KalFxUsjlZZNK
-=r/Ys
+MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvU8SIQAIATSGwPNxJsG1gHuzj/dJMl
+f0SdeRMEGYy/WE25EDxPq14rIQYhrkRX3gRAhbpzX/EIGIXJpbHTvXKbDcboU1U8
+4xdZrixYGLx1ckx3a+5bltLtOxC4JyRkMBcgMOx9IY9AnS4aACQgWFkCnWAcBZhh
+nU1aBHw0bDBaSWMQajyeLEVO/seCQY+ZcNwq+ENY57Nqk+Qk+SWYl89x9HATdjPr
+quoi58CkaX2ktR07ESOH0rfS8rG+IMnxrDNYl0XIl/SAvOwTuSltiHpFYBrRqnRH
+uECPueP1TE3nhTfGf9AmVKTRYplW3M1UcYDMl5DCc0d6aTsJEOsJTkmjIb+HEXb6
+4LTEBC1+fjN4rbZKdzBCgzG53A1EOS3TWGHA/jOiUL+QYHkCzo7jModC+uF+BmOr
+PVx8IyNZsxMYVDGk8roHmvlz0p0vAj+xkPNFXbieICe80nsFhpZc4nRf11wz532A
+p9NIMZ662roAZUjhoW6lbvPQxKsMZBJo9Gykdr97nTljtmqOA3o/nPBt4y6guJ7U
+/9rlulYnOYaBOwIz3ge8iijY54jw7eF9iCdJ0+iP95S4vZWsSksZ7NtS/mxJF/NZ
+4tJ8YGl9ia8qfDJ40XjaZSs9ZrDRgNC2YxVFnYqamo0pwp9yQEyP2DjsfQXC/hKo
+VkEDX6UN1imvXn4MSxfA
+=q4CB
 -----END PGP SIGNATURE-----
 
---L1rKDdwPtj9T06mabd8bMktbLss9tUHH3--
+--XFhRQAX4Elvjt8MgKfOQwtSs89PR71m6l--
