@@ -1,60 +1,37 @@
-Return-Path: <fathi.boudra@linaro.org>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 82628E00E5C; Mon, 19 Dec 2016 07:31:03 -0800 (PST)
+	id 9AC23E00563; Mon, 19 Dec 2016 12:10:42 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [74.125.82.54 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f54.google.com (mail-wm0-f54.google.com [74.125.82.54])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1D64BE00E49
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5B508E004E5
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 19 Dec 2016 07:31:00 -0800 (PST)
-Received: by mail-wm0-f54.google.com with SMTP id a197so96312086wmd.0
+	Mon, 19 Dec 2016 12:10:39 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBJKAcKl015814
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 19 Dec 2016 07:31:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=doktVeMGtikTPW5ft4oSE+m3Ve+iwqwSKNX4A7wJFDs=;
-	b=MIiVAM01Dqb2/pvX2k/nuaCMgPObliJ/a/+G2vsLPTzYfq9QpeNRzOBzd0FIyVw3G2
-	+g01y0D9YaWkeT9VQmlrFbgPPIsrhyKjrQmT4OwwkRgKETFvhGlbelgGuCdd8J5K4WII
-	CM/xZU9CulNVCK3I3dA4ZhHysxyzqatLj/Hng=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=doktVeMGtikTPW5ft4oSE+m3Ve+iwqwSKNX4A7wJFDs=;
-	b=FEzk3L44hab8HXh9+IZ4fdK8dNYcffgHmyfsqcdZvh+yvhhaf3MjxPvXTbpgkkug0F
-	to/ohBd72ckx5OViE9eJG71GJ3lgXwiK13Ro6UC/79/TTN6/zNzE9zqBYICXu5RtEh6A
-	25/1+vEVpXIMtCi36CmHJILAy6bF04YqYTqugy26bKV31VUtSEDP24AucItkTR5OLe96
-	GDAJm61Ek9lhLuQSMGE6wF/r2nn6egwqhV6tFz1/AlsFSvO3nHrth17tuKihQQ6t1WD/
-	dZsxQtOwz6khSkiTs2Zzit4zJtwHR3JARMAbX4Hs9TPZ1I651o1fHw/wVqPsgsLUNP4p
-	X/dQ==
-X-Gm-Message-State: AIkVDXI3pWTuGuiKxmiFwnYXjV+3HOJhoRjmIvjgan9AjPKq1E2AqDIPxnf0fS2Pj8sIpP47bdHDZTMGRdzfHWKo
-X-Received: by 10.28.88.11 with SMTP id m11mr13576775wmb.45.1482161459442;
-	Mon, 19 Dec 2016 07:30:59 -0800 (PST)
+	Mon, 19 Dec 2016 12:10:38 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Mon, 19 Dec 2016 12:10:37 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Mon, 19 Dec 2016 15:10:37 -0500
+Message-ID: <1482178237-20876-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.28.19.69 with HTTP; Mon, 19 Dec 2016 07:30:58 -0800 (PST)
-In-Reply-To: <cee56134-5baa-c21d-54be-878f2b17f163@windriver.com>
-References: <20161219075858.30738-1-fathi.boudra@linaro.org>
-	<cee56134-5baa-c21d-54be-878f2b17f163@windriver.com>
-From: Fathi Boudra <fathi.boudra@linaro.org>
-Date: Mon, 19 Dec 2016 17:30:58 +0200
-Message-ID: <CAGNsrLD+259+Yi5h3e+31BSVUwap8dwu-L3Chui572G4_6ue8Q@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: meta-virtualization@yoctoproject.org, Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH] docker: update to docker 1.12.5 release
+Cc: meta-virtualization@yoctoproject.org
+Subject: [[m-c-s][PATCH] housekeeping: drop usage of bb.data.getVar()
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -67,184 +44,204 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 15:31:03 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 19 Dec 2016 20:10:42 -0000
+Content-Type: text/plain
 
-On 19 December 2016 at 16:02, Bruce Ashfield
-<bruce.ashfield@windriver.com> wrote:
-> On 2016-12-19 02:58 AM, Fathi Boudra wrote:
->>
->> * update description:
->>   - reword docker officially supported hosts section
->>   - bump minimal required kernel from 3.8 to 3.10
->> * update SRCREV to match docker 1.12.5 tag
->> * set GOHOSTOS and GOOS explicitely
->> * use a switch to set GOARCH based on TARGET_ARCH value. It also allows to
->>   tune arm architecture and set GOARM as appropriate.
->> * add zfs graphdriver exclusion to DOCKER_BUILDTAGS
->
->
-> Is the zfs issue something new with 1.12.5 ? Or is it just due to
-> a different use case ?
->
-> I'd like to avoid mixing changes that are not related to the version
-> bump with the patch that does the bump .. since I've had no ends of
-> trouble with docker breaking on corner cases. Smaller patches let
-> me more easily bisect issues.
->
-> I was wondering the same thing about the GOHOSTOS/GOOS
->
->> * cosmetic:
->>   - align all the DEPENDS
->>   - fix indentation in do_install(): space -> tab
->
->
-> We could/should probably split this into the uprev and then the
-> smaller patches
->
-> i.e.
->
->  - version bump
->  - doc/description update
->  - zfs
->  - go build cleanup and arch selection
->  - cosmetic
->
-> If you don't think you'll have time to get to the split, I can have
-> a go at it myself .. just let me know so I can make the time to do
-> the split.
+Similar to oe-core commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939 the
+bb.data.getVar() have been deprecated for enough time now that it has
+been removed. We need to switch to the new getVar() to get things
+working again.
 
-I have time to split the changes. I'll follow up.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta-openstack/classes/monitor.bbclass            | 22 +++++++++---------
+ meta-openstack/classes/openstackchef_inc.bbclass  | 28 +++++++++++------------
+ meta-openstack/recipes-devtools/erlang/erlang.inc |  2 +-
+ 3 files changed, 26 insertions(+), 26 deletions(-)
 
-> Thanks for the update, I was slowly getting around to doing this
-> myself so it is nice to get the patch.
->
-> Cheers,
->
-> Bruce
->
->
->>
->> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
->> ---
->>  recipes-containers/docker/docker_git.bb | 57
->> ++++++++++++++++++++++-----------
->>  1 file changed, 38 insertions(+), 19 deletions(-)
->>
->> diff --git a/recipes-containers/docker/docker_git.bb
->> b/recipes-containers/docker/docker_git.bb
->> index 2cff6f1..6d7145e 100644
->> --- a/recipes-containers/docker/docker_git.bb
->> +++ b/recipes-containers/docker/docker_git.bb
->> @@ -9,16 +9,16 @@ DESCRIPTION = "Linux container runtime \
->>   large-scale web deployments, database clusters, continuous deployment \
->>   systems, private PaaS, service-oriented architectures, etc. \
->>   . \
->> - This package contains the daemon and client. Using docker.io on
->> non-amd64 \
->> - hosts is not supported at this time. Please be careful when using it \
->> - on anything besides amd64. \
->> + This package contains the daemon and client. Using docker.io is \
->> + officially supported on x86_64 and arm (32-bit) hosts. \
->> + Other architectures are considered experimental. \
->>   . \
->> - Also, note that kernel version 3.8 or above is required for proper \
->> + Also, note that kernel version 3.10 or above is required for proper \
->>   operation of the daemon process, and that any lower versions may have \
->>   subtle and/or glaring issues. \
->>   "
->>
->> -SRCREV = "34d9a8240914d30f3a8fe28c1b7d1d4e36d0657b"
->> +SRCREV = "7392c3b0ce0f9d3e918a321c66668c5d1ef4f689"
->>  SRC_URI = "\
->>         git://github.com/docker/docker.git;nobranch=1 \
->>         file://docker.service \
->> @@ -32,10 +32,11 @@ LIC_FILES_CHKSUM =
->> "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
->>
->>  S = "${WORKDIR}/git"
->>
->> -DOCKER_VERSION = "1.12.0"
->> +DOCKER_VERSION = "1.12.5"
->>  PV = "${DOCKER_VERSION}+git${SRCREV}"
->>
->> -DEPENDS = "go-cross \
->> +DEPENDS = " \
->> +    go-cross \
->>      go-cli \
->>      go-pty \
->>      go-context \
->> @@ -66,14 +67,32 @@ DOCKER_PKG="github.com/docker/docker"
->>  do_configure[noexec] = "1"
->>
->>  do_compile() {
->> -       export GOARCH="${TARGET_ARCH}"
->> -       # supported amd64, 386, arm arm64
->> -       if [ "${TARGET_ARCH}" = "x86_64" ]; then
->> -               export GOARCH="amd64"
->> -       fi
->> -       if [ "${TARGET_ARCH}" = "aarch64" ]; then
->> -               export GOARCH="arm64"
->> -       fi
->> +       GOHOSTOS="linux"
->> +       GOOS="linux"
->> +
->> +       case "${TARGET_ARCH}" in
->> +               arm)
->> +                       GOARCH=arm
->> +                       case "${TUNE_PKGARCH}" in
->> +                               cortexa*)
->> +                                       export GOARM=7
->> +                               ;;
->> +                       esac
->> +               ;;
->> +               aarch64)
->> +                       GOARCH=arm64
->> +               ;;
->> +               i586|i686)
->> +                       GOARCH=386
->> +               ;;
->> +               x86_64)
->> +                       GOARCH=amd64
->> +               ;;
->> +               *)
->> +                       GOARCH="${TARGET_ARCH}"
->> +               ;;
->> +       esac
->> +       export GOHOSTOS GOOS GOARCH
->>
->>         # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
->>         # docker to download its dependencies but rather
->> @@ -92,7 +111,7 @@ do_compile() {
->>         export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
->>         export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
->>         # in order to exclude devicemapper and btrfs -
->> https://github.com/docker/docker/issues/14056
->> -       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
->> exclude_graphdriver_devicemapper'
->> +       export DOCKER_BUILDTAGS='exclude_graphdriver_zfs
->> exclude_graphdriver_btrfs exclude_graphdriver_devicemapper'
->>
->>         # this is the unsupported built structure
->>         # that doesn't rely on an existing docker
->> @@ -121,9 +140,9 @@ do_install() {
->>                 install -m 644 ${S}/contrib/init/systemd/docker.*
->> ${D}/${systemd_unitdir}/system
->>                 # replaces one copied from above with one that uses the
->> local registry for a mirror
->>                 install -m 644 ${WORKDIR}/docker.service
->> ${D}/${systemd_unitdir}/system
->> -        else
->> -            install -d ${D}${sysconfdir}/init.d
->> -            install -m 0755 ${WORKDIR}/docker.init
->> ${D}${sysconfdir}/init.d/docker.init
->> +       else
->> +               install -d ${D}${sysconfdir}/init.d
->> +               install -m 0755 ${WORKDIR}/docker.init
->> ${D}${sysconfdir}/init.d/docker.init
->>         fi
->>
->>         mkdir -p ${D}/usr/share/docker/
->>
->
+diff --git a/meta-openstack/classes/monitor.bbclass b/meta-openstack/classes/monitor.bbclass
+index a959f09..e916137 100644
+--- a/meta-openstack/classes/monitor.bbclass
++++ b/meta-openstack/classes/monitor.bbclass
+@@ -12,7 +12,7 @@ addtask monitor_clean before do_clean
+ def copy_check_files(d, check_var_name, src, dest):
+     import shutil
+ 
+-    mon_checks = bb.data.getVar(check_var_name, d, 1)
++    mon_checks = d.getVar(check_var_name, 1)
+     if mon_checks != None:
+         if not os.path.exists(dest):
+             os.makedirs(dest)
+@@ -29,9 +29,9 @@ python do_monitor_install() {
+         bb.debug(1, 'OpenStack monitoring feature is disabled, skipping do_monitor_install')
+         return
+ 
+-    mon_dir = bb.data.getVar('MONITOR_STAGING_DIR', d, 1)
+-    mon_services_dir = bb.data.getVar('MONITOR_STAGING_SERVICES_DIR', d, 1)
+-    mon_checks_dir = bb.data.getVar('MONITOR_STAGING_CHECKS_DIR', d, 1)
++    mon_dir = d.getVar('MONITOR_STAGING_DIR', 1)
++    mon_services_dir = d.getVar('MONITOR_STAGING_SERVICES_DIR', 1)
++    mon_checks_dir = d.getVar('MONITOR_STAGING_CHECKS_DIR', 1)
+     if not os.path.exists(mon_dir):
+         os.makedirs(mon_dir)
+     if not os.path.exists(mon_services_dir):
+@@ -41,13 +41,13 @@ python do_monitor_install() {
+     workdir = d.getVar('WORKDIR', True)
+ 
+     # Process monitor SERVICE catagory
+-    mon_service_pkgs = bb.data.getVar('MONITOR_SERVICE_PACKAGES', d, 1)
++    mon_service_pkgs = d.getVar('MONITOR_SERVICE_PACKAGES', 1)
+     if mon_service_pkgs != None:
+         for pkg in mon_service_pkgs.split():
+             f_name = os.path.join(mon_services_dir, pkg + '.service')
+             if os.path.exists(f_name):
+                 os.remove(f_name)
+-            data = bb.data.getVar('MONITOR_SERVICE_' + pkg, d, 1)
++            data = d.getVar('MONITOR_SERVICE_' + pkg, 1)
+             if data != None:
+                 f = open(f_name, 'w')
+                 f.write(d.getVar('MONITOR_SERVICE_' + pkg))
+@@ -62,14 +62,14 @@ python do_monitor_install() {
+ python do_monitor_clean() {
+     import shutil
+ 
+-    mon_dir = bb.data.getVar('MONITOR_STAGING_DIR', d, 1)
+-    mon_services_dir = bb.data.getVar('MONITOR_STAGING_SERVICES_DIR', d, 1)
+-    mon_checks_dir = bb.data.getVar('MONITOR_STAGING_CHECKS_DIR', d, 1)
++    mon_dir = d.getVar('MONITOR_STAGING_DIR', 1)
++    mon_services_dir = d.getVar('MONITOR_STAGING_SERVICES_DIR', 1)
++    mon_checks_dir = d.getVar('MONITOR_STAGING_CHECKS_DIR', 1)
+     if not os.path.exists(mon_dir):
+         return
+ 
+     # Clean up monitor SERVICE catagory
+-    mon_service_pkgs = bb.data.getVar('MONITOR_SERVICE_PACKAGES', d, 1)
++    mon_service_pkgs = d.getVar('MONITOR_SERVICE_PACKAGES', 1)
+     if mon_service_pkgs != None and os.path.exists(mon_services_dir):
+         for pkg in mon_service_pkgs.split():
+             f_name = os.path.join(mon_services_dir, pkg + '.service')
+@@ -80,7 +80,7 @@ python do_monitor_clean() {
+     packages = (d.getVar('PACKAGES', True) or "").split()
+     if len(packages) >= 1 and os.path.exists(mon_checks_dir):
+         for pkg in packages:
+-            if bb.data.getVar('MONITOR_CHECKS_' + pkg, d, 1) != None:
++            if d.getVar('MONITOR_CHECKS_' + pkg, 1) != None:
+                 shutil.rmtree(mon_checks_dir + "/" + pkg, True)
+ }
+ 
+diff --git a/meta-openstack/classes/openstackchef_inc.bbclass b/meta-openstack/classes/openstackchef_inc.bbclass
+index 048fce6..91adb41 100644
+--- a/meta-openstack/classes/openstackchef_inc.bbclass
++++ b/meta-openstack/classes/openstackchef_inc.bbclass
+@@ -184,12 +184,12 @@ def deploychef_make_startup_shutdown_list(d):
+ 
+     import os
+     if d.getVar('INITSCRIPT_PACKAGES') or d.getVar('INITSCRIPT_NAME'):
+-        #script_list = bb.data.getVar('INITSCRIPT_PACKAGES', d , 1)
++        #script_list = d.getVar('INITSCRIPT_PACKAGES', 1)
+         script_list = d.getVar('INITSCRIPT_PACKAGES', True) or \ 
+          d.getVar('INITSCRIPT_NAME', True)  #Some package do not define INITSCRIPT_PACKAGES
+         msg="list of start/stop services: %s" % str(script_list)
+         bb.debug(2, msg)
+-        base_dir = bb.data.getVar('CHEF_TEMPLATE_BASE', d, 1 )
++        base_dir = d.getVar('CHEF_TEMPLATE_BASE', 1 )
+         if not os.path.exists(base_dir):
+             os.mkdir(base_dir)
+         startup_file = os.path.join(base_dir, d.getVar('SRCNAME', True) +'-startup-list')
+@@ -311,15 +311,15 @@ def deploychef_make_substitutions(d, sub_dict, attr_filename, sed_filename):
+             hFile.close()
+             if False:
+                 msg = "Cannot read/write to attributes file %s as expected:%s"\
+-                % (attr_filename, bb.data.getVar('FILE', d))
++                % (attr_filename, d.getVar('FILE'))
+                 bb.build.FuncFailed(msg)
+         else:
+             msg = "The substitution dictionary variable sub_dict is not set  %s as expected "\
+-            % bb.data.getVar('FILE')
++            % d.getVar('FILE')
+             bb.error(msg)
+     else:
+         msg = "Null file names passsed to function %s %s "\
+-        % (bb.data.getVar('FUNC',d), bb.data.getVar('FILE', d))
++        % (d.getVar('FUNC'), d.getVar('FILE'))
+         bb.error(msg)
+ 
+ 
+@@ -338,7 +338,7 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
+ 
+     if len(conf_tuple):
+         import os, ast
+-        base_dir = bb.data.getVar('CHEF_TEMPLATE_BASE', d, 1 )
++        base_dir = d.getVar('CHEF_TEMPLATE_BASE', 1 )
+         attr_file = os.path.join(base_dir, d.getVar('SRCNAME', True) + '-attributes.rb')
+         msg ="Default attributes saved to %s" % attr_file
+         if os.path.exists(attr_file):
+@@ -357,9 +357,9 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
+                 
+                 #Make the necessary susbstitutions using the default
+                 #substitutiin dictionary
+-                sub_dict = bb.data.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', d , 1)
++                sub_dict = d.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', 1)
+                 msg = "The variable %s is not set in %s as a dictionary as expected "\
+-                % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', bb.data.getVar('FILE', d))
++                % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', d.getVar('FILE'))
+                 if sub_dict:
+                     #Safely retrieve our python data structure
+                     sub_dict = ast.literal_eval(sub_dict)
+@@ -371,11 +371,11 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
+                     raise bb.build.FuncFailed(msg)
+                 #Make the necessary susbstitutions using auxilliary dictionary
+                 #if provided by inheriting class
+-                sub_dict = bb.data.getVar('CHEF_SERVICES_CONF_SUBS', d , 1)
++                sub_dict = d.getVar('CHEF_SERVICES_CONF_SUBS', 1)
+                 if sub_dict:
+                     sub_dict = ast.literal_eval(sub_dict)
+                     msg = "The variable %s is not set in %s as a dictionary as expected "\
+-                    % ('CHEF_SERVICES_CONF_SUB', bb.data.getVar('FILE', d))
++                    % ('CHEF_SERVICES_CONF_SUB', d.getVar('FILE'))
+                     if type(sub_dict) is dict:
+                         pass
+                         deploychef_make_substitutions(d, sub_dict, attr_file, file_name)
+@@ -530,11 +530,11 @@ def deploychef_postinst_substitutions(d, sub_dict, postinst):
+                 hFile.close()
+         else:
+             msg = "The substitution dictionary variable sub_dict is not set  %s as expected "\
+-            % bb.data.getVar('FILE')
++            % d.getVar('FILE')
+             bb.build.FuncFailed(msg)
+     else:
+         msg = "Null string passsed to function %s %s "\
+-        % (bb.data.getVar('FUNC',d), bb.data.getVar('FILE', d))
++        % (d.getVar('FUNC'), d.getVar('FILE'))
+         bb.build.FuncFailed(msg)
+     return postinst
+ 
+@@ -565,9 +565,9 @@ def deploychef_update_package_postinsts(d):
+             overrides = d.getVar("OVERRIDES", True)
+             msg = "%s The override variable is %s :\n %s " % (pkg, overrides, postinst)
+             bb.note(msg)
+-            sub_dict = bb.data.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', d , 1)
++            sub_dict = d.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', 1)
+             msg = "The variable %s is not set in %s as a dictionary as expected "\
+-            % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', bb.data.getVar('FILE', d))
++            % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', d.getVar('FILE'))
+             if sub_dict:
+                 import ast
+                 #Safely retrieve our python data structure
+diff --git a/meta-openstack/recipes-devtools/erlang/erlang.inc b/meta-openstack/recipes-devtools/erlang/erlang.inc
+index 8a7bd5a..37446d7 100644
+--- a/meta-openstack/recipes-devtools/erlang/erlang.inc
++++ b/meta-openstack/recipes-devtools/erlang/erlang.inc
+@@ -6,7 +6,7 @@ PRIORITY = "optional"
+ LICENSE = "ErlPL-1.1"
+ LIC_FILES_CHKSUM = "file://EPLICENCE;md5=09f9063ea35bc5bd124df2fda1d9d2c7"
+ 
+-UPSTREAM_VERSION = "${@bb.data.getVar('PV', d, 1).replace('.', '-')}"
++UPSTREAM_VERSION = "${@d.getVar('PV', 1).replace('.', '-')}"
+ 
+ SRC_URI = "http://erlang.org/download/otp_src_${UPSTREAM_VERSION}.tar.gz \
+     file://erlang-fix-build-issue-in-Yocto.patch \
+-- 
+2.7.4
+
 
