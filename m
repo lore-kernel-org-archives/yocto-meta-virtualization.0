@@ -1,6 +1,6 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7C45AE00C22; Tue, 20 Dec 2016 14:25:48 -0800 (PST)
+	id 67798E00C22; Tue, 20 Dec 2016 14:29:51 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,29 +12,29 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4C538E00BC0
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5DDE9E00BC0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 14:25:44 -0800 (PST)
+	Tue, 20 Dec 2016 14:29:48 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBKMPghp013712
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 20 Dec 2016 14:25:42 -0800 (PST)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBKMTmN8014295
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 20 Dec 2016 14:29:48 -0800 (PST)
 Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 20 Dec 2016 14:25:41 -0800
-To: Fathi Boudra <fathi.boudra@linaro.org>,
-	<meta-virtualization@yoctoproject.org>
-References: <20161220092535.9066-1-fathi.boudra@linaro.org>
+	Tue, 20 Dec 2016 14:29:47 -0800
+To: Mark Asselstine <mark.asselstine@windriver.com>
+References: <1482178237-20876-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <ea69cab7-5732-8307-535f-187e535de134@windriver.com>
-Date: Tue, 20 Dec 2016 17:25:41 -0500
+Message-ID: <d9885469-2d75-a1c1-e3bb-44d0f76148ff@windriver.com>
+Date: Tue, 20 Dec 2016 17:29:47 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <20161220092535.9066-1-fathi.boudra@linaro.org>
-Cc: koen.kooi@linaro.org
-Subject: Re: [PATCH v2 1/4] docker: update to docker 1.12.5 release
+In-Reply-To: <1482178237-20876-1-git-send-email-mark.asselstine@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [[m-c-s][PATCH] housekeeping: drop usage of bb.data.getVar()
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,44 +47,210 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 22:25:48 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 22:29:51 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Looks good to me.
+On 2016-12-19 03:10 PM, Mark Asselstine wrote:
+> Similar to oe-core commit 2864ff6a4b3c3f9b3bbb6d2597243cc5d3715939 the
+> bb.data.getVar() have been deprecated for enough time now that it has
+> been removed. We need to switch to the new getVar() to get things
+> working again.
 
-I'll do a quick sanity build and get this merged/pushed out on Wednesday.
+merged
 
 Bruce
 
-On 2016-12-20 04:25 AM, Fathi Boudra wrote:
-> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
->  recipes-containers/docker/docker_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  meta-openstack/classes/monitor.bbclass            | 22 +++++++++---------
+>  meta-openstack/classes/openstackchef_inc.bbclass  | 28 +++++++++++------------
+>  meta-openstack/recipes-devtools/erlang/erlang.inc |  2 +-
+>  3 files changed, 26 insertions(+), 26 deletions(-)
 >
-> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-> index 2cff6f1..f50f25a 100644
-> --- a/recipes-containers/docker/docker_git.bb
-> +++ b/recipes-containers/docker/docker_git.bb
-> @@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
->   subtle and/or glaring issues. \
->   "
+> diff --git a/meta-openstack/classes/monitor.bbclass b/meta-openstack/classes/monitor.bbclass
+> index a959f09..e916137 100644
+> --- a/meta-openstack/classes/monitor.bbclass
+> +++ b/meta-openstack/classes/monitor.bbclass
+> @@ -12,7 +12,7 @@ addtask monitor_clean before do_clean
+>  def copy_check_files(d, check_var_name, src, dest):
+>      import shutil
 >
-> -SRCREV = "34d9a8240914d30f3a8fe28c1b7d1d4e36d0657b"
-> +SRCREV = "7392c3b0ce0f9d3e918a321c66668c5d1ef4f689"
->  SRC_URI = "\
->  	git://github.com/docker/docker.git;nobranch=1 \
->  	file://docker.service \
-> @@ -32,7 +32,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
+> -    mon_checks = bb.data.getVar(check_var_name, d, 1)
+> +    mon_checks = d.getVar(check_var_name, 1)
+>      if mon_checks != None:
+>          if not os.path.exists(dest):
+>              os.makedirs(dest)
+> @@ -29,9 +29,9 @@ python do_monitor_install() {
+>          bb.debug(1, 'OpenStack monitoring feature is disabled, skipping do_monitor_install')
+>          return
 >
->  S = "${WORKDIR}/git"
+> -    mon_dir = bb.data.getVar('MONITOR_STAGING_DIR', d, 1)
+> -    mon_services_dir = bb.data.getVar('MONITOR_STAGING_SERVICES_DIR', d, 1)
+> -    mon_checks_dir = bb.data.getVar('MONITOR_STAGING_CHECKS_DIR', d, 1)
+> +    mon_dir = d.getVar('MONITOR_STAGING_DIR', 1)
+> +    mon_services_dir = d.getVar('MONITOR_STAGING_SERVICES_DIR', 1)
+> +    mon_checks_dir = d.getVar('MONITOR_STAGING_CHECKS_DIR', 1)
+>      if not os.path.exists(mon_dir):
+>          os.makedirs(mon_dir)
+>      if not os.path.exists(mon_services_dir):
+> @@ -41,13 +41,13 @@ python do_monitor_install() {
+>      workdir = d.getVar('WORKDIR', True)
 >
-> -DOCKER_VERSION = "1.12.0"
-> +DOCKER_VERSION = "1.12.5"
->  PV = "${DOCKER_VERSION}+git${SRCREV}"
+>      # Process monitor SERVICE catagory
+> -    mon_service_pkgs = bb.data.getVar('MONITOR_SERVICE_PACKAGES', d, 1)
+> +    mon_service_pkgs = d.getVar('MONITOR_SERVICE_PACKAGES', 1)
+>      if mon_service_pkgs != None:
+>          for pkg in mon_service_pkgs.split():
+>              f_name = os.path.join(mon_services_dir, pkg + '.service')
+>              if os.path.exists(f_name):
+>                  os.remove(f_name)
+> -            data = bb.data.getVar('MONITOR_SERVICE_' + pkg, d, 1)
+> +            data = d.getVar('MONITOR_SERVICE_' + pkg, 1)
+>              if data != None:
+>                  f = open(f_name, 'w')
+>                  f.write(d.getVar('MONITOR_SERVICE_' + pkg))
+> @@ -62,14 +62,14 @@ python do_monitor_install() {
+>  python do_monitor_clean() {
+>      import shutil
 >
->  DEPENDS = "go-cross \
+> -    mon_dir = bb.data.getVar('MONITOR_STAGING_DIR', d, 1)
+> -    mon_services_dir = bb.data.getVar('MONITOR_STAGING_SERVICES_DIR', d, 1)
+> -    mon_checks_dir = bb.data.getVar('MONITOR_STAGING_CHECKS_DIR', d, 1)
+> +    mon_dir = d.getVar('MONITOR_STAGING_DIR', 1)
+> +    mon_services_dir = d.getVar('MONITOR_STAGING_SERVICES_DIR', 1)
+> +    mon_checks_dir = d.getVar('MONITOR_STAGING_CHECKS_DIR', 1)
+>      if not os.path.exists(mon_dir):
+>          return
+>
+>      # Clean up monitor SERVICE catagory
+> -    mon_service_pkgs = bb.data.getVar('MONITOR_SERVICE_PACKAGES', d, 1)
+> +    mon_service_pkgs = d.getVar('MONITOR_SERVICE_PACKAGES', 1)
+>      if mon_service_pkgs != None and os.path.exists(mon_services_dir):
+>          for pkg in mon_service_pkgs.split():
+>              f_name = os.path.join(mon_services_dir, pkg + '.service')
+> @@ -80,7 +80,7 @@ python do_monitor_clean() {
+>      packages = (d.getVar('PACKAGES', True) or "").split()
+>      if len(packages) >= 1 and os.path.exists(mon_checks_dir):
+>          for pkg in packages:
+> -            if bb.data.getVar('MONITOR_CHECKS_' + pkg, d, 1) != None:
+> +            if d.getVar('MONITOR_CHECKS_' + pkg, 1) != None:
+>                  shutil.rmtree(mon_checks_dir + "/" + pkg, True)
+>  }
+>
+> diff --git a/meta-openstack/classes/openstackchef_inc.bbclass b/meta-openstack/classes/openstackchef_inc.bbclass
+> index 048fce6..91adb41 100644
+> --- a/meta-openstack/classes/openstackchef_inc.bbclass
+> +++ b/meta-openstack/classes/openstackchef_inc.bbclass
+> @@ -184,12 +184,12 @@ def deploychef_make_startup_shutdown_list(d):
+>
+>      import os
+>      if d.getVar('INITSCRIPT_PACKAGES') or d.getVar('INITSCRIPT_NAME'):
+> -        #script_list = bb.data.getVar('INITSCRIPT_PACKAGES', d , 1)
+> +        #script_list = d.getVar('INITSCRIPT_PACKAGES', 1)
+>          script_list = d.getVar('INITSCRIPT_PACKAGES', True) or \
+>           d.getVar('INITSCRIPT_NAME', True)  #Some package do not define INITSCRIPT_PACKAGES
+>          msg="list of start/stop services: %s" % str(script_list)
+>          bb.debug(2, msg)
+> -        base_dir = bb.data.getVar('CHEF_TEMPLATE_BASE', d, 1 )
+> +        base_dir = d.getVar('CHEF_TEMPLATE_BASE', 1 )
+>          if not os.path.exists(base_dir):
+>              os.mkdir(base_dir)
+>          startup_file = os.path.join(base_dir, d.getVar('SRCNAME', True) +'-startup-list')
+> @@ -311,15 +311,15 @@ def deploychef_make_substitutions(d, sub_dict, attr_filename, sed_filename):
+>              hFile.close()
+>              if False:
+>                  msg = "Cannot read/write to attributes file %s as expected:%s"\
+> -                % (attr_filename, bb.data.getVar('FILE', d))
+> +                % (attr_filename, d.getVar('FILE'))
+>                  bb.build.FuncFailed(msg)
+>          else:
+>              msg = "The substitution dictionary variable sub_dict is not set  %s as expected "\
+> -            % bb.data.getVar('FILE')
+> +            % d.getVar('FILE')
+>              bb.error(msg)
+>      else:
+>          msg = "Null file names passsed to function %s %s "\
+> -        % (bb.data.getVar('FUNC',d), bb.data.getVar('FILE', d))
+> +        % (d.getVar('FUNC'), d.getVar('FILE'))
+>          bb.error(msg)
+>
+>
+> @@ -338,7 +338,7 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
+>
+>      if len(conf_tuple):
+>          import os, ast
+> -        base_dir = bb.data.getVar('CHEF_TEMPLATE_BASE', d, 1 )
+> +        base_dir = d.getVar('CHEF_TEMPLATE_BASE', 1 )
+>          attr_file = os.path.join(base_dir, d.getVar('SRCNAME', True) + '-attributes.rb')
+>          msg ="Default attributes saved to %s" % attr_file
+>          if os.path.exists(attr_file):
+> @@ -357,9 +357,9 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
+>
+>                  #Make the necessary susbstitutions using the default
+>                  #substitutiin dictionary
+> -                sub_dict = bb.data.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', d , 1)
+> +                sub_dict = d.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', 1)
+>                  msg = "The variable %s is not set in %s as a dictionary as expected "\
+> -                % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', bb.data.getVar('FILE', d))
+> +                % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', d.getVar('FILE'))
+>                  if sub_dict:
+>                      #Safely retrieve our python data structure
+>                      sub_dict = ast.literal_eval(sub_dict)
+> @@ -371,11 +371,11 @@ def deploychef_make_templates( d, conf_tuple=tuple()):
+>                      raise bb.build.FuncFailed(msg)
+>                  #Make the necessary susbstitutions using auxilliary dictionary
+>                  #if provided by inheriting class
+> -                sub_dict = bb.data.getVar('CHEF_SERVICES_CONF_SUBS', d , 1)
+> +                sub_dict = d.getVar('CHEF_SERVICES_CONF_SUBS', 1)
+>                  if sub_dict:
+>                      sub_dict = ast.literal_eval(sub_dict)
+>                      msg = "The variable %s is not set in %s as a dictionary as expected "\
+> -                    % ('CHEF_SERVICES_CONF_SUB', bb.data.getVar('FILE', d))
+> +                    % ('CHEF_SERVICES_CONF_SUB', d.getVar('FILE'))
+>                      if type(sub_dict) is dict:
+>                          pass
+>                          deploychef_make_substitutions(d, sub_dict, attr_file, file_name)
+> @@ -530,11 +530,11 @@ def deploychef_postinst_substitutions(d, sub_dict, postinst):
+>                  hFile.close()
+>          else:
+>              msg = "The substitution dictionary variable sub_dict is not set  %s as expected "\
+> -            % bb.data.getVar('FILE')
+> +            % d.getVar('FILE')
+>              bb.build.FuncFailed(msg)
+>      else:
+>          msg = "Null string passsed to function %s %s "\
+> -        % (bb.data.getVar('FUNC',d), bb.data.getVar('FILE', d))
+> +        % (d.getVar('FUNC'), d.getVar('FILE'))
+>          bb.build.FuncFailed(msg)
+>      return postinst
+>
+> @@ -565,9 +565,9 @@ def deploychef_update_package_postinsts(d):
+>              overrides = d.getVar("OVERRIDES", True)
+>              msg = "%s The override variable is %s :\n %s " % (pkg, overrides, postinst)
+>              bb.note(msg)
+> -            sub_dict = bb.data.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', d , 1)
+> +            sub_dict = d.getVar('CHEF_SERVICES_DEFAULT_CONF_SUBS', 1)
+>              msg = "The variable %s is not set in %s as a dictionary as expected "\
+> -            % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', bb.data.getVar('FILE', d))
+> +            % ('CHEF_SERVICES_DEFAULT_CONF_SUBS', d.getVar('FILE'))
+>              if sub_dict:
+>                  import ast
+>                  #Safely retrieve our python data structure
+> diff --git a/meta-openstack/recipes-devtools/erlang/erlang.inc b/meta-openstack/recipes-devtools/erlang/erlang.inc
+> index 8a7bd5a..37446d7 100644
+> --- a/meta-openstack/recipes-devtools/erlang/erlang.inc
+> +++ b/meta-openstack/recipes-devtools/erlang/erlang.inc
+> @@ -6,7 +6,7 @@ PRIORITY = "optional"
+>  LICENSE = "ErlPL-1.1"
+>  LIC_FILES_CHKSUM = "file://EPLICENCE;md5=09f9063ea35bc5bd124df2fda1d9d2c7"
+>
+> -UPSTREAM_VERSION = "${@bb.data.getVar('PV', d, 1).replace('.', '-')}"
+> +UPSTREAM_VERSION = "${@d.getVar('PV', 1).replace('.', '-')}"
+>
+>  SRC_URI = "http://erlang.org/download/otp_src_${UPSTREAM_VERSION}.tar.gz \
+>      file://erlang-fix-build-issue-in-Yocto.patch \
 >
 
 
