@@ -1,51 +1,40 @@
-Return-Path: <adrian.ratiu@ni.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2CA19E0053B; Tue, 20 Dec 2016 10:00:46 -0800 (PST)
+	id 7C45AE00C22; Tue, 20 Dec 2016 14:25:48 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [130.164.80.23 listed in list.dnswl.org]
-X-Greylist: delayed 1625 seconds by postgrey-1.32 at yocto-www;
-	Tue, 20 Dec 2016 10:00:42 PST
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E08FBE0049D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4C538E00BC0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 10:00:42 -0800 (PST)
-Received: from us-aus-exhub2.ni.corp.natinst.com
-	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	uBKHXa13019212
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 11:33:36 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 20 Dec 2016 11:33:36 -0600
-Received: from adi-pc-linux.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Tue, 20 Dec 2016 11:33:35 -0600
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 20 Dec 2016 19:31:51 +0200
-Message-ID: <20161220173151.2143-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.11.0
+	Tue, 20 Dec 2016 14:25:44 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id uBKMPghp013712
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 20 Dec 2016 14:25:42 -0800 (PST)
+Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 20 Dec 2016 14:25:41 -0800
+To: Fathi Boudra <fathi.boudra@linaro.org>,
+	<meta-virtualization@yoctoproject.org>
+References: <20161220092535.9066-1-fathi.boudra@linaro.org>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <ea69cab7-5732-8307-535f-187e535de134@windriver.com>
+Date: Tue, 20 Dec 2016 17:25:41 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.5.1
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2016-12-20_12:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=1
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
-	definitions=main-1612200221
-Subject: [PATCH] meta-openstack: add python-pika git based recipe
+In-Reply-To: <20161220092535.9066-1-fathi.boudra@linaro.org>
+Cc: koen.kooi@linaro.org
+Subject: Re: [PATCH v2 1/4] docker: update to docker 1.12.5 release
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -58,39 +47,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 18:00:46 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Dec 2016 22:25:48 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This package provides a RabbitMQ/AMQP python client library.
+Looks good to me.
 
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
----
- meta-openstack/recipes-devtools/python/python-pika_git.bb | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-pika_git.bb
+I'll do a quick sanity build and get this merged/pushed out on Wednesday.
 
-diff --git a/meta-openstack/recipes-devtools/python/python-pika_git.bb b/meta-openstack/recipes-devtools/python/python-pika_git.bb
-new file mode 100644
-index 0000000..6d2e55a
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-pika_git.bb
-@@ -0,0 +1,15 @@
-+SUMMARY = "Pure Python RabbitMQ/AMQP 0-9-1 client library"
-+HOMEPAGE = "https://github.com/pika/pika"
-+SECTION = "devel/python"
-+
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=fb26c37045f9e0d2c5e24b711bd7f01c"
-+
-+PV = "0.10.0+git${SRCPV}"
-+SRCREV = "b907f91415169b7f590174ab5d228e75a1b273e6"
-+
-+SRC_URI = "git://github.com/pika/pika"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit setuptools
--- 
-2.11.0
+Bruce
+
+On 2016-12-20 04:25 AM, Fathi Boudra wrote:
+> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+> ---
+>  recipes-containers/docker/docker_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+> index 2cff6f1..f50f25a 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
+>   subtle and/or glaring issues. \
+>   "
+>
+> -SRCREV = "34d9a8240914d30f3a8fe28c1b7d1d4e36d0657b"
+> +SRCREV = "7392c3b0ce0f9d3e918a321c66668c5d1ef4f689"
+>  SRC_URI = "\
+>  	git://github.com/docker/docker.git;nobranch=1 \
+>  	file://docker.service \
+> @@ -32,7 +32,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
+>
+>  S = "${WORKDIR}/git"
+>
+> -DOCKER_VERSION = "1.12.0"
+> +DOCKER_VERSION = "1.12.5"
+>  PV = "${DOCKER_VERSION}+git${SRCREV}"
+>
+>  DEPENDS = "go-cross \
+>
 
 
