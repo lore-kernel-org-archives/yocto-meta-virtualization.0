@@ -1,6 +1,6 @@
 Return-Path: <fathi.boudra@linaro.org>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 283E5E00DF0; Tue, 20 Dec 2016 01:25:59 -0800 (PST)
+	id 38980E00D9D; Tue, 20 Dec 2016 01:25:59 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,46 +19,46 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
 	[209.85.215.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 56167E00D9D
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 54D86E00E04
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 01:25:46 -0800 (PST)
-Received: by mail-lf0-f51.google.com with SMTP id c13so71989190lfg.0
+	Tue, 20 Dec 2016 01:25:43 -0800 (PST)
+Received: by mail-lf0-f51.google.com with SMTP id y21so71868031lfa.1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 01:25:46 -0800 (PST)
+	Tue, 20 Dec 2016 01:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=jTQMc17MV0MOfVd26CICCkKVU6f75DVVfJe2UiM+gqs=;
-	b=OZO6mRNNEyX4jYHK07x1IJMItK+3+LesUq7WogsP4GO/vQNmFCzX1gze9mBu848U7k
-	ebdgaxFZvrNHDzRnsLNEV/PYYlqOMwLl/FySJw6Joh5jVOGcoT5tprIDZKN5qLren9+j
-	JY2pMrBJqlkze5FJzXH3kQcgQnQKNA2rAzfFQ=
+	bh=50QBDk8CXiBkEdKp0vBi08R/M+QFbC6FaJR6+9k6oQc=;
+	b=FvLHE/O1VHFprztk58J7onqH4HWaR3dy2mknRC7jEMqCTd3Ho5duFYffKMiH+ZHFVk
+	lvkqtH43MqWs/mZk0zm9pxOthxRFuRjn2crzzT1MbCNvmuJbFZfFYZ7zD5B4XACf54NC
+	RlBnpg/wbuCxDvGtO/sZHawQXHep3FY97IKOA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=jTQMc17MV0MOfVd26CICCkKVU6f75DVVfJe2UiM+gqs=;
-	b=mKqBFKtBCDzCgHpLuJc1lZQXz+Wl+xwjOHhaBrJlZnvyDVOlXL+FQoTEZo4ewrOVN8
-	qA3jJ+rTlPAOx40fKMOCvMD7NJAQjBdfZoUHYHjU4vGDtuCxhiXyyjIWL7K+qVLS0cUG
-	FsRoV7L9xwmGTGrvXFpHIQ8/vF7fW4jprKElgAGUE7NWO2zUwN8D87VVJwjPoEmpJhio
-	w8Ep6uoRDmUbdaPy+4s1SiaHoewPOdkT6+K/6j6NfQwHlNGl+e3cjKKPJWDGYELM/I0J
-	qgAJVZY2kgcIvPIM472Jw9Ts2XEsemIuDUQqX+bDVHA+mKkH/Ukb6zkOikmDRFn3nM2l
-	Wq0w==
-X-Gm-Message-State: AIkVDXJ2ey08MwDXYz2MAGUlaXHMkIjx12fwfcQdN2LSzzeCg3OmNfOJnu1bIWv/X/nVtJs2
-X-Received: by 10.25.56.7 with SMTP id f7mr2329035lfa.17.1482225945232;
-	Tue, 20 Dec 2016 01:25:45 -0800 (PST)
+	bh=50QBDk8CXiBkEdKp0vBi08R/M+QFbC6FaJR6+9k6oQc=;
+	b=UOuB6XgSV/AwL/upz7BlO06mKhPvQKWEhQbRR3HvoPSh7LjJfpXJ9e0AX62VSKjGgS
+	9puB1jo0otC+O6k9HdhHC54n4s70OsMvfW8Ri0ved+Z9ZHlswwNkiJHv7I6CevUlKh8N
+	UGAOqZhQVabO5OYEPEZYY493q0jGv9gEBEXknZkbG0IKgdxKy6qrSb8z221FaE6A+/eW
+	jv5OowU2cim+z03Oa7Lmto1HkWNORcmonODiMB58DnzYfn4l+SdIriMxOqQLzEIZT5m5
+	J7j69De25cy8Wtn4frdHy5ql2//xCmxIpBnF0KTGoySTxz1wQjw8kKSpLZwbK/KajVlv
+	x3dw==
+X-Gm-Message-State: AKaTC00pDJaa45BQtrYGDP8pAxx/TrC3R7HPDYkqREqZ5gaedx2Arz2n40GudfBpfKE/xF5Z
+X-Received: by 10.25.80.4 with SMTP id e4mr7615030lfb.89.1482225942814;
+	Tue, 20 Dec 2016 01:25:42 -0800 (PST)
 Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
 	[91.156.68.16]) by smtp.gmail.com with ESMTPSA id
-	l135sm4558020lfe.10.2016.12.20.01.25.44
+	l135sm4558020lfe.10.2016.12.20.01.25.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Dec 2016 01:25:44 -0800 (PST)
+	Tue, 20 Dec 2016 01:25:41 -0800 (PST)
 From: Fathi Boudra <fathi.boudra@linaro.org>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 20 Dec 2016 11:25:35 +0200
-Message-Id: <20161220092535.9066-4-fathi.boudra@linaro.org>
+Date: Tue, 20 Dec 2016 11:25:33 +0200
+Message-Id: <20161220092535.9066-2-fathi.boudra@linaro.org>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20161220092535.9066-1-fathi.boudra@linaro.org>
 References: <20161220092535.9066-1-fathi.boudra@linaro.org>
 Cc: bruce.ashfield@windriver.com, koen.kooi@linaro.org
-Subject: [PATCH v2 4/4] docker: cosmetic - fix indentation
+Subject: [PATCH v2 2/4] docker: update description
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,42 +73,34 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 X-List-Received-Date: Tue, 20 Dec 2016 09:25:59 -0000
 
-cosmetic only, no changes in behavior:
-* align all the DEPENDS, better readability
-* fix indentation in do_install(): space -> tab
+* reword docker officially supported hosts section
+* bump minimal required kernel from 3.8 to 3.10
 
 Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- recipes-containers/docker/docker_git.bb | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ recipes-containers/docker/docker_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index d163b13..62a016a 100644
+index f50f25a..37df3c4 100644
 --- a/recipes-containers/docker/docker_git.bb
 +++ b/recipes-containers/docker/docker_git.bb
-@@ -35,7 +35,8 @@ S = "${WORKDIR}/git"
- DOCKER_VERSION = "1.12.5"
- PV = "${DOCKER_VERSION}+git${SRCREV}"
- 
--DEPENDS = "go-cross \
-+DEPENDS = " \
-+    go-cross \
-     go-cli \
-     go-pty \
-     go-context \
-@@ -136,9 +137,9 @@ do_install() {
- 		install -m 644 ${S}/contrib/init/systemd/docker.* ${D}/${systemd_unitdir}/system
- 		# replaces one copied from above with one that uses the local registry for a mirror
- 		install -m 644 ${WORKDIR}/docker.service ${D}/${systemd_unitdir}/system
--        else
--            install -d ${D}${sysconfdir}/init.d
--            install -m 0755 ${WORKDIR}/docker.init ${D}${sysconfdir}/init.d/docker.init
-+	else
-+		install -d ${D}${sysconfdir}/init.d
-+		install -m 0755 ${WORKDIR}/docker.init ${D}${sysconfdir}/init.d/docker.init
- 	fi
- 
- 	mkdir -p ${D}/usr/share/docker/
+@@ -9,11 +9,11 @@ DESCRIPTION = "Linux container runtime \
+  large-scale web deployments, database clusters, continuous deployment \
+  systems, private PaaS, service-oriented architectures, etc. \
+  . \
+- This package contains the daemon and client. Using docker.io on non-amd64 \
+- hosts is not supported at this time. Please be careful when using it \
+- on anything besides amd64. \
++ This package contains the daemon and client. Using docker.io is \
++ officially supported on x86_64 and arm (32-bit) hosts. \
++ Other architectures are considered experimental. \
+  . \
+- Also, note that kernel version 3.8 or above is required for proper \
++ Also, note that kernel version 3.10 or above is required for proper \
+  operation of the daemon process, and that any lower versions may have \
+  subtle and/or glaring issues. \
+  "
 -- 
 2.11.0
 
