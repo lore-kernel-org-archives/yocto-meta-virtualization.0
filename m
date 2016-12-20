@@ -1,34 +1,63 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <fathi.boudra@linaro.org>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 90A45E00563; Mon, 19 Dec 2016 12:19:01 -0800 (PST)
+	id 189DBE00DA7; Tue, 20 Dec 2016 01:25:56 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_LOW,
+	RCVD_IN_SORBS_SPAM autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.215.54 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3321CE004E5
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.215.54 listed in dnsbl.sorbs.net]
+Received: from mail-lf0-f54.google.com (mail-lf0-f54.google.com
+	[209.85.215.54])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 319B4E00D92
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 19 Dec 2016 12:18:59 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id uBJKIulp024333
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Tue, 20 Dec 2016 01:25:42 -0800 (PST)
+Received: by mail-lf0-f54.google.com with SMTP id t196so71960659lff.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 19 Dec 2016 12:18:58 -0800
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 19 Dec 2016 12:18:53 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Mon, 19 Dec 2016 15:18:47 -0500
-Message-ID: <1482178727-31463-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org
-Subject: [m-c-s][PATCH] python-greenlet: update checksums
+	Tue, 20 Dec 2016 01:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=cdJoOtmCU/KysbccjxzY5cY55IDwEq7Pkx0MF4sJcc0=;
+	b=fW+m6rtQHL/eXCC1xmJ/sA5s4X5EIioTIbLGrYzbL+Apwnjpe1n7a2CI2bAykM5o2l
+	/LhWIfagecHhOCqKJtzEZXtYZtIdigP1v72AhRcBUxh6aMWXyA4RxhSOKYswRHmJVR80
+	TnH//kbj7k1//HD8eBFWmYRa6VAk9IqNNEMM0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=cdJoOtmCU/KysbccjxzY5cY55IDwEq7Pkx0MF4sJcc0=;
+	b=Vi4Xrj2iujVZy5Da8/CBTaDo5NogJHtR0ioR73qwexFkGi+0fg7B6iZH2Pivmjlt42
+	+c7J7Q0pV69pgE9gWGhdsJmNusezObloASnNInOB7k1/7hJ4QIpxq4tuECg/aRinb8MM
+	MO0IpQjDtk+4UZp3QgO+2Ve61ILdn49whVT5TjfNzsM6nqxOS2mmQYldUOxbiSY8HjB3
+	VFahQf1izwuiXT5/pEb7RIiJXXFT3Es8FHP59CsxROSmPwo1ghIK8L5Z/npHuwX+eX3f
+	AhoaS46hlP+BSZ3S9TTzl7PSvGhrHt1S+jdffXQTxmqR0qfstrwCMrs4ZnA1rgQlYH8L
+	nptw==
+X-Gm-Message-State: AKaTC00QzjPsqp334jSFhayUtHX7qyrpdfMzrkTczBs7SpkrBx9JH9I8tWsTxAe+c5668OuU
+X-Received: by 10.25.199.198 with SMTP id x189mr7524843lff.164.1482225941640; 
+	Tue, 20 Dec 2016 01:25:41 -0800 (PST)
+Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
+	[91.156.68.16]) by smtp.gmail.com with ESMTPSA id
+	l135sm4558020lfe.10.2016.12.20.01.25.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 20 Dec 2016 01:25:40 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 20 Dec 2016 11:25:32 +0200
+Message-Id: <20161220092535.9066-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: bruce.ashfield@windriver.com, koen.kooi@linaro.org
+Subject: [PATCH v2 1/4] docker: update to docker 1.12.5 release
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,35 +70,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Dec 2016 20:19:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 20 Dec 2016 09:25:56 -0000
 
-Upstream updated the zip file which resulted in the checksums
-changing. The new checksum can be confirmed via
-https://pypi.python.org/pypi/greenlet/0.4.5 to confirm that this is
-done on the up and up, and not malicious.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
 ---
- meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb | 4 ++--
+ recipes-containers/docker/docker_git.bb | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb b/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb
-index a6db8ab..fa6f047 100644
---- a/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb
-+++ b/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb
-@@ -5,8 +5,8 @@ LICENSE = "MIT & PSF"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=03143d7a1a9f5d8a0fee825f24ca9c36 \
-                     file://LICENSE.PSF;md5=c106931d9429eda0492617f037b8f69a"
- SRC_URI = "http://pypi.python.org/packages/source/g/greenlet/greenlet-${PV}.zip"
--SRC_URI[md5sum] = "c2deda75bdda59c38cae12a77cc53adc"
--SRC_URI[sha256sum] = "ea671592f8460541286b133ed46a6cf5311a6b75051cc31b53e2bc38992b775a"
-+SRC_URI[md5sum] = "ce383f6475e6311cf8932ea779938703"
-+SRC_URI[sha256sum] = "b990f00f120c4cfb6672eec2acd32210990a2c7b70b815c034d1d8cbf08e2dbe"
+diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+index 2cff6f1..f50f25a 100644
+--- a/recipes-containers/docker/docker_git.bb
++++ b/recipes-containers/docker/docker_git.bb
+@@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
+  subtle and/or glaring issues. \
+  "
  
- S = "${WORKDIR}/greenlet-${PV}"
+-SRCREV = "34d9a8240914d30f3a8fe28c1b7d1d4e36d0657b"
++SRCREV = "7392c3b0ce0f9d3e918a321c66668c5d1ef4f689"
+ SRC_URI = "\
+ 	git://github.com/docker/docker.git;nobranch=1 \
+ 	file://docker.service \
+@@ -32,7 +32,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
  
+ S = "${WORKDIR}/git"
+ 
+-DOCKER_VERSION = "1.12.0"
++DOCKER_VERSION = "1.12.5"
+ PV = "${DOCKER_VERSION}+git${SRCREV}"
+ 
+ DEPENDS = "go-cross \
 -- 
-2.7.4
+2.11.0
 
 
