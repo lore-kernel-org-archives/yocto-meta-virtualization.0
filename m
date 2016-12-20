@@ -1,64 +1,51 @@
-Return-Path: <fathi.boudra@linaro.org>
+Return-Path: <adrian.ratiu@ni.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 38980E00D9D; Tue, 20 Dec 2016 01:25:59 -0800 (PST)
+	id 2CA19E0053B; Tue, 20 Dec 2016 10:00:46 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.215.51 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 54D86E00E04
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [130.164.80.23 listed in list.dnswl.org]
+X-Greylist: delayed 1625 seconds by postgrey-1.32 at yocto-www;
+	Tue, 20 Dec 2016 10:00:42 PST
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E08FBE0049D
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 01:25:43 -0800 (PST)
-Received: by mail-lf0-f51.google.com with SMTP id y21so71868031lfa.1
+	Tue, 20 Dec 2016 10:00:42 -0800 (PST)
+Received: from us-aus-exhub2.ni.corp.natinst.com
+	(us-aus-exhub2.ni.corp.natinst.com [130.164.68.32])
+	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
+	uBKHXa13019212
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Dec 2016 01:25:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=50QBDk8CXiBkEdKp0vBi08R/M+QFbC6FaJR6+9k6oQc=;
-	b=FvLHE/O1VHFprztk58J7onqH4HWaR3dy2mknRC7jEMqCTd3Ho5duFYffKMiH+ZHFVk
-	lvkqtH43MqWs/mZk0zm9pxOthxRFuRjn2crzzT1MbCNvmuJbFZfFYZ7zD5B4XACf54NC
-	RlBnpg/wbuCxDvGtO/sZHawQXHep3FY97IKOA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=50QBDk8CXiBkEdKp0vBi08R/M+QFbC6FaJR6+9k6oQc=;
-	b=UOuB6XgSV/AwL/upz7BlO06mKhPvQKWEhQbRR3HvoPSh7LjJfpXJ9e0AX62VSKjGgS
-	9puB1jo0otC+O6k9HdhHC54n4s70OsMvfW8Ri0ved+Z9ZHlswwNkiJHv7I6CevUlKh8N
-	UGAOqZhQVabO5OYEPEZYY493q0jGv9gEBEXknZkbG0IKgdxKy6qrSb8z221FaE6A+/eW
-	jv5OowU2cim+z03Oa7Lmto1HkWNORcmonODiMB58DnzYfn4l+SdIriMxOqQLzEIZT5m5
-	J7j69De25cy8Wtn4frdHy5ql2//xCmxIpBnF0KTGoySTxz1wQjw8kKSpLZwbK/KajVlv
-	x3dw==
-X-Gm-Message-State: AKaTC00pDJaa45BQtrYGDP8pAxx/TrC3R7HPDYkqREqZ5gaedx2Arz2n40GudfBpfKE/xF5Z
-X-Received: by 10.25.80.4 with SMTP id e4mr7615030lfb.89.1482225942814;
-	Tue, 20 Dec 2016 01:25:42 -0800 (PST)
-Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
-	[91.156.68.16]) by smtp.gmail.com with ESMTPSA id
-	l135sm4558020lfe.10.2016.12.20.01.25.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 20 Dec 2016 01:25:41 -0800 (PST)
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: meta-virtualization@yoctoproject.org
-Date: Tue, 20 Dec 2016 11:25:33 +0200
-Message-Id: <20161220092535.9066-2-fathi.boudra@linaro.org>
+	Tue, 20 Dec 2016 11:33:36 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server (TLS) id 15.0.1156.6; Tue, 20 Dec 2016 11:33:36 -0600
+Received: from adi-pc-linux.natinst.com (130.164.49.7) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1156.6 via Frontend Transport; Tue, 20 Dec 2016 11:33:35 -0600
+From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 20 Dec 2016 19:31:51 +0200
+Message-ID: <20161220173151.2143-1-adrian.ratiu@ni.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20161220092535.9066-1-fathi.boudra@linaro.org>
-References: <20161220092535.9066-1-fathi.boudra@linaro.org>
-Cc: bruce.ashfield@windriver.com, koen.kooi@linaro.org
-Subject: [PATCH v2 2/4] docker: update description
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
+	definitions=2016-12-20_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+	suspectscore=1
+	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
+	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
+	definitions=main-1612200221
+Subject: [PATCH] meta-openstack: add python-pika git based recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -71,36 +58,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Dec 2016 09:25:59 -0000
+X-List-Received-Date: Tue, 20 Dec 2016 18:00:46 -0000
+Content-Type: text/plain
 
-* reword docker officially supported hosts section
-* bump minimal required kernel from 3.8 to 3.10
+This package provides a RabbitMQ/AMQP python client library.
 
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
 ---
- recipes-containers/docker/docker_git.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta-openstack/recipes-devtools/python/python-pika_git.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-pika_git.bb
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index f50f25a..37df3c4 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -9,11 +9,11 @@ DESCRIPTION = "Linux container runtime \
-  large-scale web deployments, database clusters, continuous deployment \
-  systems, private PaaS, service-oriented architectures, etc. \
-  . \
-- This package contains the daemon and client. Using docker.io on non-amd64 \
-- hosts is not supported at this time. Please be careful when using it \
-- on anything besides amd64. \
-+ This package contains the daemon and client. Using docker.io is \
-+ officially supported on x86_64 and arm (32-bit) hosts. \
-+ Other architectures are considered experimental. \
-  . \
-- Also, note that kernel version 3.8 or above is required for proper \
-+ Also, note that kernel version 3.10 or above is required for proper \
-  operation of the daemon process, and that any lower versions may have \
-  subtle and/or glaring issues. \
-  "
+diff --git a/meta-openstack/recipes-devtools/python/python-pika_git.bb b/meta-openstack/recipes-devtools/python/python-pika_git.bb
+new file mode 100644
+index 0000000..6d2e55a
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python-pika_git.bb
+@@ -0,0 +1,15 @@
++SUMMARY = "Pure Python RabbitMQ/AMQP 0-9-1 client library"
++HOMEPAGE = "https://github.com/pika/pika"
++SECTION = "devel/python"
++
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=fb26c37045f9e0d2c5e24b711bd7f01c"
++
++PV = "0.10.0+git${SRCPV}"
++SRCREV = "b907f91415169b7f590174ab5d228e75a1b273e6"
++
++SRC_URI = "git://github.com/pika/pika"
++
++S = "${WORKDIR}/git"
++
++inherit setuptools
 -- 
 2.11.0
 
