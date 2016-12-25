@@ -1,6 +1,6 @@
 Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A4A3CE00510; Sun, 25 Dec 2016 10:12:18 -0800 (PST)
+	id 21CB9E00519; Sun, 25 Dec 2016 10:16:56 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,57 +8,58 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.213.178 listed in list.dnswl.org]
+	*      [209.85.161.194 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yb0-f178.google.com (mail-yb0-f178.google.com
-	[209.85.213.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 06BE5E004D2
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5539BE0050B
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Dec 2016 10:12:15 -0800 (PST)
-Received: by mail-yb0-f178.google.com with SMTP id l23so10491638ybj.2
+	Sun, 25 Dec 2016 10:16:54 -0800 (PST)
+Received: by mail-yw0-f194.google.com with SMTP id a10so19666088ywa.1
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Dec 2016 10:12:15 -0800 (PST)
+	Sun, 25 Dec 2016 10:16:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=GIt5Nv9gwvG/oaYSm51u47Q3L0Rd1t0lOa6fUjeAT+I=;
-	b=J4v0LM7AXSXS8VCaxS4SAElBIKrY6L1DZRDRz9SNpS/+4HHmsk786to5CYCN9uqYin
-	deAug9xa2cy/SWNw9kn1abJDhRsUOpsIG6EvVdL1eNQFzhJyVJZBVCHMj5nvH39VSrbm
-	NH2IPCyQ0nj/bEO/yIJHAhErkjodaYpfl5DjHQHVJJ7hoTJ32rb7kyRmzKf14Q/Vr16P
-	6duKAE6APnmWcTMJ+vrWxXSRfocU1GoGaISZyNmhhHBGfLS7//Z2rLklTszkAbRhjiqw
-	hNTh+pHdBvTvpaA3F9Tw1FlU9T6G5Kz0xGNE4KUQsOEuW8DpzMIevRALbqulRTXqBetl
-	3tFA==
+	bh=+J23bK8jNnO805HMbVTfzkNOVTlx4P8k815McqKXUcQ=;
+	b=LPNoVRTr9jcu6anIdPpwZnQSP1e6OkUpQWnY7HLmFoacSB69dF6euO34J9aBohrU9G
+	2EOGAOvb8TCrv/gGOiRGXRmb320b6OeWY8H2bmK6v0eDbosvUlyb2gSA2pgNxuZPjbsb
+	RY2iy/UZ7koeWqCxG23I/7t5DNmsU7qeN01RNsuLksfZmzkAd/eAnfD68bhKjFzS2+d/
+	pCEg8Z9ewcCMyS/sPhE3hoffctsAzM3j8tb1gsAz1U8274DvSLScq8iqUiOlPCXW2H92
+	JWkDXoAOby97ksuR7JECPOYRJcNCpr0d/7uLBPK+Kzr86H7s51DUqlpsri/tePLJ00f9
+	5ibg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
 	:references:from:date:message-id:subject:to:cc;
-	bh=GIt5Nv9gwvG/oaYSm51u47Q3L0Rd1t0lOa6fUjeAT+I=;
-	b=JaEI7tHBPHSAVbr7YEaj1cfX4SD4F5/xo3KCKHgeSJpcbxB1MVUM/GYLIl8oHoMJKY
-	KEUnXIaE4Wsf17V2xnk9oMGHVysHpKos24zOMOq95ypMw+1qne+82joBlHrCR0PHf1yM
-	nL4nvBk7m3n4hLYaFX2J3FeTLRiUCfKUPd3IptIF2+tCqFVCJNZC7SiK3q2rhSpiBXS7
-	RHbk9XvVGX1xaBd/8BtoFbKsrv5TcBJelfZHAW55KyERPah36eE0E0EFBfNvpi5wTxmd
-	d1nq4GTW5YfOysdAsaSYGdovVjw87iz9kMprBh4Ep/Y+lY+ZCmYighuZ3bU8DaBLuFTp
-	5tYQ==
-X-Gm-Message-State: AIkVDXLa/ojA0fO8LiLr3ObwHhdpmFD10Jent6MfYSoXPi5Mg7H98MnDB07yHqHeILr7n4EZ33AlqP0w+TO8Mg==
-X-Received: by 10.37.203.215 with SMTP id b206mr17213203ybg.110.1482689534793; 
-	Sun, 25 Dec 2016 10:12:14 -0800 (PST)
+	bh=+J23bK8jNnO805HMbVTfzkNOVTlx4P8k815McqKXUcQ=;
+	b=i3viO7ucAzctjxrcEzdWAzMmRGB8mzkZ7UCEd80L4lzuIAEMnw8E/4AXmTaDN888GD
+	AaVdOkl19rym0HDrRP1MRuDA9uqdJcrg0ys4VWbekLeovr64fBVtg8w6IIKncyc+f2M9
+	auY7EwplXdxGSIuNYj0O0oo4Y9/FRnRXjfTw3eADUfUbx7Px1EPXe9rwWpaZpYBlzZ6y
+	FDS2aYkUcR/y9G9B5TGnN8K1Xl6OAEfVl96GcmRgvnQuT1xwICX+04HbB8izs99Gxpw8
+	OGKVMapAqnfM7ZUzijJ9puJ18FfMJSWBmdTaDHXTqJC7Ru+1UtgRHnTxTtS6o8w1hvBT
+	+UFw==
+X-Gm-Message-State: AIkVDXJ4ZVLuunBwWYkAZ9TH9SSDuEkbwyR0/fZ3eX09JIHOhMxuHJDycPZo6hudDmhpL2eNaEwiUWCa5EICsg==
+X-Received: by 10.13.224.129 with SMTP id j123mr14852503ywe.181.1482689813921; 
+	Sun, 25 Dec 2016 10:16:53 -0800 (PST)
 MIME-Version: 1.0
 Sender: asselsm@gmail.com
-Received: by 10.37.171.82 with HTTP; Sun, 25 Dec 2016 10:12:14 -0800 (PST)
-In-Reply-To: <1416973638-18967-1-git-send-email-b40869@freescale.com>
-References: <1416973638-18967-1-git-send-email-b40869@freescale.com>
+Received: by 10.37.171.82 with HTTP; Sun, 25 Dec 2016 10:16:53 -0800 (PST)
+In-Reply-To: <CAPuovELsykZqBXJ1tYz-w6tJjtqi+0w8HLcFXxS8P4zFj-rXvg@mail.gmail.com>
+References: <1401414421-25902-1-git-send-email-akuster@mvista.com>
+	<CAPuovELsykZqBXJ1tYz-w6tJjtqi+0w8HLcFXxS8P4zFj-rXvg@mail.gmail.com>
 From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Sun, 25 Dec 2016 13:12:14 -0500
-X-Google-Sender-Auth: 15jNJc1SXV6cUS6MJx6kE6WtFQo
-Message-ID: <CAPuovEKaeWuG7iac4uEYfUzYoZUtL-DgJf8ztOcM0YDQiM7bpA@mail.gmail.com>
-To: YangHaibo <b40869@freescale.com>
+Date: Sun, 25 Dec 2016 13:16:53 -0500
+X-Google-Sender-Auth: owUHGwj8fOV0-jamyg68PFh-az4
+Message-ID: <CAPuovE+xJZcTBNjES0ijs1DZmG-ButLbs0ub+Qeoxopa-eLBDQ@mail.gmail.com>
+To: Armin Kuster <akuster@mvista.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] puppet: add recipe for puppet 3.7.3
+	<meta-virtualization@yoctoproject.org>, akuster808@gmail.com
+Subject: Re: [PATCH] python-barbican fix fetch error.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,97 +73,71 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Dec 2016 18:12:18 -0000
+X-List-Received-Date: Sun, 25 Dec 2016 18:16:56 -0000
 Content-Type: text/plain; charset=UTF-8
 
-We already include a recipe for puppet 3.7.3 in meta-cloud-services
-(since it is not specific to openstack it is not in meta-openstack).
-Without a proper long log I am unable to determine what your intention
-is here. Can you explain what is being accomplished with this commit?
+Please ignore my previous message. I see gmail decided to pull a
+number on me and move old email from 2014 to the top of my
+meta-virtualization folder.
 
-Thanks,
 Mark
 
-On Tue, Nov 25, 2014 at 10:47 PM, YangHaibo <b40869@freescale.com> wrote:
-> ---
->  .../puppet/puppet/add_puppet_gemspec.patch         | 23 ++++++++++++++++
->  .../recipes-support/puppet/puppet_3.7.3.bb         | 31 ++++++++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
->  create mode 100644 meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
+On Sun, Dec 25, 2016 at 1:05 PM, Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+> Be sure to include [mcs] in your subject to ensure Bruce doesn't have
+> to search to determine which repo to apply the change to.
 >
-> diff --git a/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch b/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
-> new file mode 100644
-> index 0000000..a5c8e3b
-> --- /dev/null
-> +++ b/meta-openstack/recipes-support/puppet/puppet/add_puppet_gemspec.patch
-> @@ -0,0 +1,23 @@
-> +diff -urN puppet-3.7.3_ori/puppet.gemspec puppet-3.7.3/puppet.gemspec
-> +--- puppet-3.7.3_ori/puppet.gemspec    1970-01-01 08:00:00.000000000 +0800
-> ++++ puppet-3.7.3/puppet.gemspec        2014-11-12 14:30:07.000000000 +0800
-> +@@ -0,0 +1,19 @@
-> ++$:.unshift(File.dirname(__FILE__) + '/lib')
-> ++require 'puppet/version'
-> ++
-> ++Gem::Specification.new do |s|
-> ++  s.name = 'puppet'
-> ++  s.version = Puppet::PUPPETVERSION
-> ++  s.platform = Gem::Platform::RUBY
-> ++  s.summary = 'Open source Puppet is a configuration management system'
-> ++  s.description = s.summary
-> ++  s.author = 'Yang Haibo'
-> ++  s.email = 'b40869@freescale.com'
-> ++  s.homepage = 'https://puppetlabs.com/puppet/puppet-open-source'
-> ++  s.license = 'Apache 2.0'
-> ++
-> ++  s.bindir       = 'bin'
-> ++  s.executables  = ['puppet', 'extlookup2hiera']
-> ++  s.require_path = 'lib'
-> ++  s.files = %w(LICENSE README.md Rakefile) + Dir.glob('{lib,spec}/**/*')
-> ++end
-> diff --git a/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb b/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
-> new file mode 100644
-> index 0000000..afd9a23
-> --- /dev/null
-> +++ b/meta-openstack/recipes-support/puppet/puppet_3.7.3.bb
-> @@ -0,0 +1,31 @@
-> +SUMMARY = "Open source Puppet is a configuration management system"
-> +HOMEPAGE = "https://puppetlabs.com/puppet/puppet-open-source"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=f257790c70561550fd666c6e0044fd89"
-> +
-> +SRC_URI = " \
-> +    https://downloads.puppetlabs.com/puppet/puppet-${PV}.tar.gz \
-> +    file://add_puppet_gemspec.patch \
-> +"
-> +SRC_URI[md5sum] = "cc294da1d51df07bcc7f6cf78bd90ce0"
-> +SRC_URI[sha256sum] = "4a3bd7ddb51072c3dd898a8de158cde204a2d8fd0b84e8ac806b84c074348637"
-> +
-> +inherit ruby
-> +
-> +DEPENDS += " \
-> +        ruby \
-> +        facter \
-> +        hiera \
-> +"
-> +
-> +RUBY_INSTALL_GEMS = "puppet-${PV}.gem"
-> +
-> +do_install_append() {
-> +    install -d ${D}${sysconfdir}/puppet
-> +    install -d ${D}${sysconfdir}/puppet/manifests
-> +    install -d ${D}${sysconfdir}/puppet/modules
-> +
-> +    install -m 655 ${S}/conf/auth.conf ${D}${sysconfdir}/puppet/
-> +    install -m 655 ${S}/conf/fileserver.conf ${D}${sysconfdir}/puppet/
-> +    install -m 655 ${S}/conf/tagmail.conf ${D}${sysconfdir}/puppet/
-> +}
-> --
-> 1.9.2
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> On Thu, May 29, 2014 at 9:47 PM, Armin Kuster <akuster@mvista.com> wrote:
+>> It appears the that git repo has moved. This is causing a do_fetch error.
+>>
+>> Signed-off-by: Armin Kuster <akuster@mvista.com>
+>> ---
+>>  meta-openstack/recipes-devtools/python/python-barbican_git.bb | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta-openstack/recipes-devtools/python/python-barbican_git.bb b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
+>> index bc12fcd..8ae0b21 100644
+>> --- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
+>> +++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
+>> @@ -4,10 +4,10 @@ SECTION = "devel/python"
+>>  LICENSE = "Apache-2.0"
+>>  LIC_FILES_CHKSUM = "file://LICENSE;md5=fc8be9e7dffe97390d1216b01fd0be01"
+>>
+>> -PR = "r0"
+>> +PR = "r1"
+>
+> You can drop the PR, since the advent of the PR server assigning a PR
+> number is not necessary and is actually unwanted.
+>
+>
+>>  SRCNAME = "barbican"
+>>
+>> -SRC_URI = "git://github.com/stackforge/barbican.git;branch=master \
+>> +SRC_URI = "git://github.com/cloudkeep/barbican.git;branch=master \
+>>             file://barbican.init \
+>>            "
+>>
+>
+> This is step backwards as this repo even declares:
+> Barbican moved to openstack/barbican. https://github.com/openstack/barbican
+>
+> Additionally the current recipe doesn't use 'branch=master' so this
+> patch will not apply, do you have local changes?
+>
+> I am in the process of resurrecting meta-cloud-services so you might
+> get this fetching issue fixed for free in the coming days if you want
+> to wait for me, otherwise feel free to send out a V2 with the above
+> corrected.
+>
+> Mark
+>
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
