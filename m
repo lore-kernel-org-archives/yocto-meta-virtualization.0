@@ -1,64 +1,68 @@
 Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BA380E0071E; Sun, 25 Dec 2016 10:05:48 -0800 (PST)
+	id 44E6DE00726; Sun, 25 Dec 2016 10:07:13 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.194 listed in list.dnswl.org]
+	*      [209.85.213.195 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.213.195 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 867D8E00655
+Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
+	[209.85.213.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D7953E0071C
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Dec 2016 10:05:45 -0800 (PST)
-Received: by mail-yw0-f194.google.com with SMTP id r204so19698459ywb.3
+	Sun, 25 Dec 2016 10:07:10 -0800 (PST)
+Received: by mail-yb0-f195.google.com with SMTP id h184so5610125ybb.1
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Dec 2016 10:05:45 -0800 (PST)
+	Sun, 25 Dec 2016 10:07:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=mM8+dOHITgH2VWJDkvnaoDhbjdWRPBWS4hoiqvvUvKA=;
-	b=G3BjQLamGwMwvqiNVHbtrh7br624nfjTYztsazRf1tUavzPIjzgao0qHYAfbDc9VzU
-	VzO7p3mCvuwdmnD/VmUY158X8Aghr8vHUWO4iwZ+PPjTrVVe/topMVIpWnEAqbuIbSYc
-	GHgtY5VUa359evfgyUo/18NNBKtMcH4pGpqjec090K29gOvVAdYNTGCZAIeO1UVUjKTd
-	J2qp4E0rQvKZNAA3NtiEYjq/EeB8dPrcpks4mKo4HyKGq+j7CBieQzuf6qE+BUPz4adv
-	TLMOJMcqGGpxqSXrGf939ZjHG2runrTB5cLluddxBcyMKj1p+/mW37kaLfy5+smnnO7/
-	DHlg==
+	bh=apaQyR+HTmCFCyDWt1UkDhYro5gsh65ERvUf/2WThmk=;
+	b=B8uMolffp2NYpR34irOxmrWbDUeT5FG5Eq6Vz2d1MhvPxEVg95G4xWallfRvZhzMbw
+	XnnSH6SpZYUREZr1rr3hFUaWo1FFdbIJ5BRMlqPNBrI6tsMlp6RyT2lSeto6dIskRn6Z
+	MIjsq1DHETuXwTZiLbzSbQDowz4WV2JN3Xc1H6zU1sjrH0StwQ5bUzTuWgjvRJ8yO1Cy
+	QupRtvx7s7r3kDutRt+tjFidgQdzbmcsCKhNqjiSQbZapESzDtah2BzHRn8Mo3fesEDE
+	M3mcQzDV3uZzB7yVqh693Y4zopboLZ0fJP5orzAsZL1wbZF4s/zkXEF6jtem9hCz2NcU
+	AGIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
 	:references:from:date:message-id:subject:to:cc;
-	bh=mM8+dOHITgH2VWJDkvnaoDhbjdWRPBWS4hoiqvvUvKA=;
-	b=sLRAqyzNtkQocj8dyyC2usqD8cQDY6Tx0mJ7BHWX2727SF39TyoKOr2F0+oI0xO4fZ
-	L4E7u0t8yyOzprBQDIIh+zF9Phgtk3qxB3ELIMqZY61FDwB0X3SxaX9/WCWgpPYDxgBu
-	BgFVFs1hPc72x9x7ebFjAALY1boV7uueWk3g//HOKB47tCAQDxC3zaIoH2MtV15l/wrd
-	G928Z6zoW9XqttuIEO3lvqiHFeei/KCF2QCjVzf7yKQATOiOXfWmqLEK+kqX1IFUlQFe
-	UW6f7h6YYA4zaITdIKBEJH51ChrtGDgUq2TolETNz4z7s1CM2uWBe3A7ZiptZ1g1KzD3
-	7g3Q==
-X-Gm-Message-State: AIkVDXLaUyTcER6b2yKJep4qTxkJrk/5hNGNTu1QpyJBUBwjvxZGtK35+U12KzI8oBxP0iCIjbeA5hWT9u1v/A==
-X-Received: by 10.13.197.68 with SMTP id h65mr18369756ywd.84.1482689144519;
-	Sun, 25 Dec 2016 10:05:44 -0800 (PST)
+	bh=apaQyR+HTmCFCyDWt1UkDhYro5gsh65ERvUf/2WThmk=;
+	b=igol2IYSQ2wR/iAx59kbgR4+Juv0ECq/CmfT4hTA46hmHc26rwv4X79GgL0ToTlmsR
+	iC2+n94EJpVHDZ8ZiwgtT7Hz6gC8r3FhpbGUNuObCTpUqYs4nM3pdioENzJshkFWUm+a
+	4jpFLJKjKACurhlMneXs8GPBdHlimSTUVxWASg9n2Ximfn/Ga+5kJvbXlOgyjE//3h//
+	xXJ8sBNXpslDjjYvnOAiT1HiDYtDpFVdnkzWNgkt7c8iv85QnuMlIu/8FhLQgI9DjfqU
+	5pO9RU4AxGepENMuRs0SFkkN4KMRyzL2XYhcY0ZCCGe4MWkMyUT1Tx+Skb1/0zmFjAs2
+	CKBg==
+X-Gm-Message-State: AIkVDXLv635smMnvwEjs5DUmditruRYU0ZXyeUT/m/L1xjykYh2+TNKW1BSi9Y7HH+Up3rg412wXlaq4b31RSw==
+X-Received: by 10.37.29.131 with SMTP id d125mr17294281ybd.89.1482689229532;
+	Sun, 25 Dec 2016 10:07:09 -0800 (PST)
 MIME-Version: 1.0
 Sender: asselsm@gmail.com
-Received: by 10.37.171.82 with HTTP; Sun, 25 Dec 2016 10:05:44 -0800 (PST)
-In-Reply-To: <1401414421-25902-1-git-send-email-akuster@mvista.com>
-References: <1401414421-25902-1-git-send-email-akuster@mvista.com>
+Received: by 10.37.171.82 with HTTP; Sun, 25 Dec 2016 10:07:09 -0800 (PST)
+In-Reply-To: <1404741470-4980-2-git-send-email-Alexandru.Vaduva@enea.com>
+References: <1404741470-4980-1-git-send-email-Alexandru.Vaduva@enea.com>
+	<1404741470-4980-2-git-send-email-Alexandru.Vaduva@enea.com>
 From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Sun, 25 Dec 2016 13:05:44 -0500
-X-Google-Sender-Auth: X7HxbzsMBvOfQ0g4eGanyBuqAfI
-Message-ID: <CAPuovELsykZqBXJ1tYz-w6tJjtqi+0w8HLcFXxS8P4zFj-rXvg@mail.gmail.com>
-To: Armin Kuster <akuster@mvista.com>
+Date: Sun, 25 Dec 2016 13:07:09 -0500
+X-Google-Sender-Auth: wbGqnUvXWqLCUonthtcLd_EcBC0
+Message-ID: <CAPuovEJhj8V4L7VEBxQUhyTdrYD5y-UmUCHzaZOEoi+MqLUFag@mail.gmail.com>
+To: "Alexandru.Vaduva" <Alexandru.Vaduva@enea.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, akuster808@gmail.com
-Subject: Re: [PATCH] python-barbican fix fetch error.
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] multipath-tools: added support for autotools-brokensep.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,57 +76,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 25 Dec 2016 18:05:48 -0000
+X-List-Received-Date: Sun, 25 Dec 2016 18:07:13 -0000
 Content-Type: text/plain; charset=UTF-8
 
-Be sure to include [mcs] in your subject to ensure Bruce doesn't have
-to search to determine which repo to apply the change to.
+On Mon, Jul 7, 2014 at 9:57 AM, Alexandru.Vaduva
+<Alexandru.Vaduva@enea.com> wrote:
+> Separed build dir caused problem, the autotools support needs fixing.
 
-
-On Thu, May 29, 2014 at 9:47 PM, Armin Kuster <akuster@mvista.com> wrote:
-> It appears the that git repo has moved. This is causing a do_fetch error.
->
-> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> ---
->  meta-openstack/recipes-devtools/python/python-barbican_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-barbican_git.bb b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> index bc12fcd..8ae0b21 100644
-> --- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> @@ -4,10 +4,10 @@ SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=fc8be9e7dffe97390d1216b01fd0be01"
->
-> -PR = "r0"
-> +PR = "r1"
-
-You can drop the PR, since the advent of the PR server assigning a PR
-number is not necessary and is actually unwanted.
-
-
->  SRCNAME = "barbican"
->
-> -SRC_URI = "git://github.com/stackforge/barbican.git;branch=master \
-> +SRC_URI = "git://github.com/cloudkeep/barbican.git;branch=master \
->             file://barbican.init \
->            "
->
-
-This is step backwards as this repo even declares:
-Barbican moved to openstack/barbican. https://github.com/openstack/barbican
-
-Additionally the current recipe doesn't use 'branch=master' so this
-patch will not apply, do you have local changes?
-
-I am in the process of resurrecting meta-cloud-services so you might
-get this fetching issue fixed for free in the coming days if you want
-to wait for me, otherwise feel free to send out a V2 with the above
-corrected.
+It is best to take the time to describe the problem in the commit log,
+no need to keep it a mystery.
 
 Mark
 
+
+>
+> Signed-off-by: Alexandru.Vaduva <Alexandru.Vaduva@enea.com>
+> ---
+>  recipes-extended/multipath-tools/multipath-tools_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-extended/multipath-tools/multipath-tools_git.bb b/recipes-extended/multipath-tools/multipath-tools_git.bb
+> index 633b9f2..e2076d3 100644
+> --- a/recipes-extended/multipath-tools/multipath-tools_git.bb
+> +++ b/recipes-extended/multipath-tools/multipath-tools_git.bb
+> @@ -15,7 +15,7 @@ SRC_URI = "git://git.opensvc.com/multipath-tools/.git;protocol=http"
+>  SRCREV = "d3683ab18b386e9b3b54b59a122c689e9ebdf5cf"
+>  PV = "0.4.9+gitr${SRCPV}"
+>
+> -inherit autotools
+> +inherit autotools-brokensep
+>
+>  EXTRA_OEMAKE="LIB=${libdir} exec_prefix=${exec_prefix} libdir=${libdir}"
+>
 > --
 > 1.9.1
 >
