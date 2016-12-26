@@ -1,69 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 46CF7E00519; Sun, 25 Dec 2016 17:45:32 -0800 (PST)
+	id ED187E00524; Sun, 25 Dec 2016 17:54:20 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.220.175 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
-	[209.85.220.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 00CC2E0050B
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BE16AE00510
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Dec 2016 17:45:28 -0800 (PST)
-Received: by mail-qk0-f175.google.com with SMTP id u25so177722308qki.2
+	Sun, 25 Dec 2016 17:54:17 -0800 (PST)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id uBQ1sAvd022132
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Dec 2016 17:45:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nrocQ+stJJeIoPFz9K3baXbJ5m+wXgXbwBX2Khb1OWo=;
-	b=cI6KIG5f5tdGQC9TDBJqQiXBgQoLrObJ1+IKYsOOyxT3ZcUPC5Ei+erJxNGiklBpK7
-	RBMPWKGMnFhz0AKTEvv8Z+pN23jFaN9QqsE8SKZkz99O6Hc8mLBbGjYIck55zPmkuALj
-	dSwRaru7/xkhj7uz3Kjqs3VB1BkqYhNkH9V4QrCuKJ6pGC64nlD+NpLyyutk5jHlaMu2
-	ZZIIDEsyEK8zkF3lzMXk1gjZhm/c2JkdA1J4FIM6xT+gNouaoCptPmJCTiSMKBY+fvgm
-	Gva4Q67bxc5fKr/nroZwTBqKjAiqdAfI/yrSqa/S0/fLhlHJ4T6cXxJHOvYzpybASXGN
-	sboQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=nrocQ+stJJeIoPFz9K3baXbJ5m+wXgXbwBX2Khb1OWo=;
-	b=fcWlfyVSCZkcjCEl6Km8PwcoVsmE5ZSnfLrajA6OHwnKnzBLmOcrywnT11SJ4ua42L
-	03lv0xHb7yqHbmpEXkHHbxLomWzIpPZf6NzRTtNeWUaEcI6ZQ0tMChQv7aCHlbP1OJWA
-	P8+UjZZbUZSifFGvoIw0HZtD5TFgj9TKi0FxVRzJv8DJQzLAljwqomsYdJ/9cEoxgcxF
-	4Rx1DdtIHNlK9fgOkNfg6fF1cHF3ErJeSfzeNyCyQNaWG2lMfNJ2Ud/OrSqz5zGZ1Qm/
-	/uFmZsuJrDpaMR+nB1TiB1ZiwiVD6o42Z1nuc/V7GsRCSaR1lGG9idTbRY8yDoU5mSmI
-	OhfQ==
-X-Gm-Message-State: AIkVDXL1jve9Jqk4zdweu9yss/VHDTBEoAqOmAI40WCidRK55X0dgt6HG4R0Est7GaTLMtpGzl+muXa2+h0VTQ==
-X-Received: by 10.233.221.135 with SMTP id r129mr24400178qkf.56.1482716728277; 
-	Sun, 25 Dec 2016 17:45:28 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.12.129.227 with HTTP; Sun, 25 Dec 2016 17:45:27 -0800 (PST)
-In-Reply-To: <CAPuovE+xJZcTBNjES0ijs1DZmG-ButLbs0ub+Qeoxopa-eLBDQ@mail.gmail.com>
-References: <1401414421-25902-1-git-send-email-akuster@mvista.com>
-	<CAPuovELsykZqBXJ1tYz-w6tJjtqi+0w8HLcFXxS8P4zFj-rXvg@mail.gmail.com>
-	<CAPuovE+xJZcTBNjES0ijs1DZmG-ButLbs0ub+Qeoxopa-eLBDQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 25 Dec 2016 20:45:27 -0500
-Message-ID: <CADkTA4PD-5dkxv-pi225hokLYFP5s0nsA24DD+8-Oy6asbcexg@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: akuster808 <akuster808@gmail.com>, "meta-virtualization@yoctoproject.org"
+	Sun, 25 Dec 2016 17:54:13 -0800 (PST)
+Received: from bruce-ashfields-macbook.local (128.224.20.100) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.294.0; Sun, 25 Dec 2016 17:54:09 -0800
+To: Mark Asselstine <mark.asselstine@windriver.com>,
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-barbican fix fetch error.
+References: <1482507418-26713-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <58607840.7020100@windriver.com>
+Date: Sun, 25 Dec 2016 20:54:08 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.7; rv:38.0)
+	Gecko/20100101 Thunderbird/38.5.0
+MIME-Version: 1.0
+In-Reply-To: <1482507418-26713-1-git-send-email-mark.asselstine@windriver.com>
+Subject: Re: [mcs][PATCH] meta-openstack: layer.conf: update the preferred versions
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,221 +47,47 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Dec 2016 01:45:32 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0438a8e4471a054485e3f2
+X-List-Received-Date: Mon, 26 Dec 2016 01:54:21 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c0438a8e4471a054485e3f2
-Content-Type: text/plain; charset=UTF-8
-
-It did the same thing to me .. and I nearly replied to a few myself. Not
-cool gmail .. not cool!
+merged
 
 Bruce
 
-On Sun, Dec 25, 2016 at 1:16 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
-
-> Please ignore my previous message. I see gmail decided to pull a
-> number on me and move old email from 2014 to the top of my
-> meta-virtualization folder.
+On 16-12-23 10:36 AM, Mark Asselstine wrote:
+> Many of the packages we have preferred versions for no longer have
+> recipes available for the defined versions, or the preferred version
+> was incorrect. Set the preferred versions to something that actually
+> exists. Since meta-openstack is currently not buildable there is no
+> way to test these changes, other than 'it builds' and 'no more
+> warnings about mismatched preferred versions' but there is more work
+> being done currently which will eventually be merged and allow us to
+> revisit these to ensure they are correctly set.
 >
-> Mark
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>   meta-openstack/conf/layer.conf | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> On Sun, Dec 25, 2016 at 1:05 PM, Mark Asselstine
-> <mark.asselstine@windriver.com> wrote:
-> > Be sure to include [mcs] in your subject to ensure Bruce doesn't have
-> > to search to determine which repo to apply the change to.
-> >
-> >
-> > On Thu, May 29, 2014 at 9:47 PM, Armin Kuster <akuster@mvista.com>
-> wrote:
-> >> It appears the that git repo has moved. This is causing a do_fetch
-> error.
-> >>
-> >> Signed-off-by: Armin Kuster <akuster@mvista.com>
-> >> ---
-> >>  meta-openstack/recipes-devtools/python/python-barbican_git.bb | 4 ++--
-> >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/meta-openstack/recipes-devtools/python/python-
-> barbican_git.bb b/meta-openstack/recipes-devtools/python/python-
-> barbican_git.bb
-> >> index bc12fcd..8ae0b21 100644
-> >> --- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> >> +++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> >> @@ -4,10 +4,10 @@ SECTION = "devel/python"
-> >>  LICENSE = "Apache-2.0"
-> >>  LIC_FILES_CHKSUM = "file://LICENSE;md5=fc8be9e7dffe97390d1216b01fd0be
-> 01"
-> >>
-> >> -PR = "r0"
-> >> +PR = "r1"
-> >
-> > You can drop the PR, since the advent of the PR server assigning a PR
-> > number is not necessary and is actually unwanted.
-> >
-> >
-> >>  SRCNAME = "barbican"
-> >>
-> >> -SRC_URI = "git://github.com/stackforge/barbican.git;branch=master \
-> >> +SRC_URI = "git://github.com/cloudkeep/barbican.git;branch=master \
-> >>             file://barbican.init \
-> >>            "
-> >>
-> >
-> > This is step backwards as this repo even declares:
-> > Barbican moved to openstack/barbican. https://github.com/openstack/
-> barbican
-> >
-> > Additionally the current recipe doesn't use 'branch=master' so this
-> > patch will not apply, do you have local changes?
-> >
-> > I am in the process of resurrecting meta-cloud-services so you might
-> > get this fetching issue fixed for free in the coming days if you want
-> > to wait for me, otherwise feel free to send out a V2 with the above
-> > corrected.
-> >
-> > Mark
-> >
-> >> --
-> >> 1.9.1
-> >>
-> >> --
-> >> _______________________________________________
-> >> meta-virtualization mailing list
-> >> meta-virtualization@yoctoproject.org
-> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+> index 1406e4e..19e3cb1 100644
+> --- a/meta-openstack/conf/layer.conf
+> +++ b/meta-openstack/conf/layer.conf
+> @@ -11,10 +11,10 @@ BBFILE_PRIORITY_openstack-layer = "5"
+>   BB_DANGLINGAPPENDS_WARNONLY ?= "true"
+>
+>   # pre 0.4.0 greenlet versions segfault python
+> -PREFERRED_VERSION_python-greenlet = "0.4.1"
+> -PREFERRED_VERSION_python-sqlalchemy = "0.9.7"
+> +PREFERRED_VERSION_python-greenlet = "0.4.5"
+> +PREFERRED_VERSION_python-sqlalchemy = "1.0.8"
+>   PREFERRED_VERSION_python-pexpect = "3.3"
+> -PREFERRED_VERSION_python-futures = "3.0.3"
+> +PREFERRED_VERSION_python-futures = "3.0.3%"
+>   PREFERRED_VERSION_python-django = "1.8.6"
+>
+>   LICENSE_PATH += "${LAYERDIR}/licenses"
 >
 
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c0438a8e4471a054485e3f2
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">It did the same thing to me .. and I nearly replied to a f=
-ew myself. Not cool gmail .. not cool!<div><br></div><div>Bruce</div></div>=
-<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Dec 25, 2=
-016 at 1:16 PM, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mar=
-k.asselstine@windriver.com" target=3D"_blank">mark.asselstine@windriver.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Please ignore my p=
-revious message. I see gmail decided to pull a<br>
-number on me and move old email from 2014 to the top of my<br>
-meta-virtualization folder.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Mark<br>
-</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
-On Sun, Dec 25, 2016 at 1:05 PM, Mark Asselstine<br>
-&lt;<a href=3D"mailto:mark.asselstine@windriver.com">mark.asselstine@windri=
-ver.com</a><wbr>&gt; wrote:<br>
-&gt; Be sure to include [mcs] in your subject to ensure Bruce doesn&#39;t h=
-ave<br>
-&gt; to search to determine which repo to apply the change to.<br>
-&gt;<br>
-&gt;<br>
-&gt; On Thu, May 29, 2014 at 9:47 PM, Armin Kuster &lt;<a href=3D"mailto:ak=
-uster@mvista.com">akuster@mvista.com</a>&gt; wrote:<br>
-&gt;&gt; It appears the that git repo has moved. This is causing a do_fetch=
- error.<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster@mvista.c=
-om">akuster@mvista.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http:=
-//python-barbican_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>=
-barbican_git.bb</a> | 4 ++--<br>
-&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=
-=3D"http://python-barbican_git.bb" rel=3D"noreferrer" target=3D"_blank">pyt=
-hon-<wbr>barbican_git.bb</a> b/meta-openstack/recipes-<wbr>devtools/python/=
-<a href=3D"http://python-barbican_git.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">python-<wbr>barbican_git.bb</a><br>
-&gt;&gt; index bc12fcd..8ae0b21 100644<br>
-&gt;&gt; --- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http:=
-//python-barbican_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>=
-barbican_git.bb</a><br>
-&gt;&gt; +++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http:=
-//python-barbican_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>=
-barbican_git.bb</a><br>
-&gt;&gt; @@ -4,10 +4,10 @@ SECTION =3D &quot;devel/python&quot;<br>
-&gt;&gt;=C2=A0 LICENSE =3D &quot;Apache-2.0&quot;<br>
-&gt;&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>fc8be9e=
-7dffe97390d1216b01fd0be<wbr>01&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; -PR =3D &quot;r0&quot;<br>
-&gt;&gt; +PR =3D &quot;r1&quot;<br>
-&gt;<br>
-&gt; You can drop the PR, since the advent of the PR server assigning a PR<=
-br>
-&gt; number is not necessary and is actually unwanted.<br>
-&gt;<br>
-&gt;<br>
-&gt;&gt;=C2=A0 SRCNAME =3D &quot;barbican&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; -SRC_URI =3D &quot;git://<a href=3D"http://github.com/stackforge/b=
-arbican.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github.co=
-m/stackforge/<wbr>barbican.git;branch=3Dmaster</a> \<br>
-&gt;&gt; +SRC_URI =3D &quot;git://<a href=3D"http://github.com/cloudkeep/ba=
-rbican.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github.com=
-/cloudkeep/<wbr>barbican.git;branch=3Dmaster</a> \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://barbican.ini=
-t \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; This is step backwards as this repo even declares:<br>
-&gt; Barbican moved to openstack/barbican. <a href=3D"https://github.com/op=
-enstack/barbican" rel=3D"noreferrer" target=3D"_blank">https://github.com/o=
-penstack/<wbr>barbican</a><br>
-&gt;<br>
-&gt; Additionally the current recipe doesn&#39;t use &#39;branch=3Dmaster&#=
-39; so this<br>
-&gt; patch will not apply, do you have local changes?<br>
-&gt;<br>
-&gt; I am in the process of resurrecting meta-cloud-services so you might<b=
-r>
-&gt; get this fetching issue fixed for free in the coming days if you want<=
-br>
-&gt; to wait for me, otherwise feel free to send out a V2 with the above<br=
->
-&gt; corrected.<br>
-&gt;<br>
-&gt; Mark<br>
-&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; 1.9.1<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; ______________________________<wbr>_________________<br>
-&gt;&gt; meta-virtualization mailing list<br>
-&gt;&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtu=
-alization@<wbr>yoctoproject.org</a><br>
-&gt;&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualiza=
-tion" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>=
-org/listinfo/meta-<wbr>virtualization</a><br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
-u shalt not follow the NULL pointer, for chaos and madness await thee at it=
-s end&quot;</div>
-</div>
-
---94eb2c0438a8e4471a054485e3f2--
