@@ -1,47 +1,36 @@
-Return-Path: <adrian.ratiu@ni.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6BCB7E0034A; Tue,  3 Jan 2017 10:05:50 -0800 (PST)
+	id 00111E003E1; Wed,  4 Jan 2017 13:27:36 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [130.164.80.23 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from ni.com (skprod2.natinst.com [130.164.80.23])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D030CE0030B
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8988E0034A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Jan 2017 10:05:48 -0800 (PST)
-Received: from us-aus-exch2.ni.corp.natinst.com
-	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
-	by us-aus-skprod2.natinst.com (8.15.0.59/8.15.0.59) with ESMTPS id
-	v03I5ctM004415
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 3 Jan 2017 12:05:46 -0600
-Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
-	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
-	Server (TLS) id 15.0.1156.6; Tue, 3 Jan 2017 12:04:35 -0600
-Received: from adi-pc-linux.natinst.com (130.164.49.7) by
-	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
-	Server
-	id 15.0.1156.6 via Frontend Transport; Tue, 3 Jan 2017 12:04:34 -0600
-From: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
-Date: Tue, 3 Jan 2017 20:02:32 +0200
-Message-ID: <20170103180232.22291-1-adrian.ratiu@ni.com>
-X-Mailer: git-send-email 2.11.0
+	Wed,  4 Jan 2017 13:27:35 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v04LRYLI029119
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 4 Jan 2017 13:27:34 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 4 Jan 2017 13:27:33 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 4 Jan 2017 16:27:29 -0500
+Message-ID: <1483565249-15968-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10432:, ,
-	definitions=2017-01-03_15:, , signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
-	suspectscore=8
-	malwarescore=0 phishscore=0 adultscore=0 bulkscore=0 classifier=spam
-	adjust=0 reason=mlx scancount=1 engine=8.0.1-1612050000
-	definitions=main-1701030275
-Subject: [PATCH v3] meta-openstack: add new python-avahi recipe
+Subject: [PATCH] openvswitch: update licence checksum
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -54,66 +43,33 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Jan 2017 18:05:50 -0000
+X-List-Received-Date: Wed, 04 Jan 2017 21:27:37 -0000
 Content-Type: text/plain
 
-OE-core commit 36e9ed89950 ("avahi-ui: remove support for building a python
-module") removed the python avahi bindings because nothing in OE-core used
-them. These bindings are very useful however when configuring targets from
-salt using the zeroconf protocol.
+Upstream commit a489b16854b5 [conntrack: New userspace connection
+tracker.] classified new files under existing licenses in COPYING,
+resulting in no change to the overall licenses but requires a new
+checksum.
 
-An added benefit of having a python-avahi recipe separate from avahi-ui is
-that we don't need X11 in DISTRO_FEATURES anymore to use python-avahi, it's
-just two simple python files, there was no need for all that complexity in
-avahi-ui in the first place to get the python avahi bindings.
-
-Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../recipes-devtools/python/python-avahi_0.6.32.bb | 34 ++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-avahi_0.6.32.bb
+ recipes-networking/openvswitch/openvswitch_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-avahi_0.6.32.bb b/meta-openstack/recipes-devtools/python/python-avahi_0.6.32.bb
-new file mode 100644
-index 0000000..c129337
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-avahi_0.6.32.bb
-@@ -0,0 +1,34 @@
-+SUMMARY = "Python bindings for the avahi zeroconf client"
-+HOMEPAGE = "https://github.com/lathiat/avahi"
-+SECTION = "devel/python"
-+
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
-+
-+SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "22b5e705d3eabb31d26f2e1e7b074013"
-+SRC_URI[sha256sum] = "d54991185d514a0aba54ebeb408d7575b60f5818a772e28fa0e18b98bc1db454"
-+
-+S = "${WORKDIR}/avahi-${PV}"
-+
-+inherit python-dir pythonnative
-+
-+# we only need the python bindings
-+do_install () {
-+	install -d ${D}${PYTHON_SITEPACKAGES_DIR}/avahi
-+
-+	sed -i'' -e "s,@PYTHON\@,${bindir}/python,g" \
-+		${S}/avahi-python/avahi/__init__.py  \
-+		${S}/avahi-python/avahi-bookmarks.in
-+
-+	install -m 0775 ${S}/avahi-python/avahi/__init__.py \
-+		${D}${PYTHON_SITEPACKAGES_DIR}/avahi/__init__.py
-+
-+	install -m 0775 ${S}/avahi-python/avahi-bookmarks.in \
-+		${D}${PYTHON_SITEPACKAGES_DIR}/avahi/avahi-bookmarks
-+}
-+
-+RDEPENDS_${PN} += "python-core python-dbus"
-+
-+FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/avahi"
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index 1c6252a..4fd58bd 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -27,7 +27,7 @@ SRC_URI += "\
+ 	file://openvswitch-ptest-Fix-python-path.patch \
+ 	"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=247d8817aece26b21a8cd6791b3ea994"
++LIC_FILES_CHKSUM = "file://COPYING;md5=17b2c9d4c70853a09c0e143137754b35"
+ 
+ PACKAGECONFIG ?= ""
+ PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}/opt/dpdk/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
 -- 
-2.11.0
+2.7.4
 
 
