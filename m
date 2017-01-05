@@ -1,70 +1,75 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 12AEEE00566; Wed,  4 Jan 2017 19:35:29 -0800 (PST)
+	id BAE81E00A64; Thu,  5 Jan 2017 08:41:04 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.216.193 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.216.193 listed in dnsbl.sorbs.net]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_LOW,
+	RCVD_IN_SORBS_SPAM autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9B8DFE0049F
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.214.45 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.214.45 listed in dnsbl.sorbs.net]
+Received: from mail-it0-f45.google.com (mail-it0-f45.google.com
+	[209.85.214.45])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8EB29E0052B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  4 Jan 2017 19:35:26 -0800 (PST)
-Received: by mail-qt0-f193.google.com with SMTP id 3so41994787qtr.2
+	Thu,  5 Jan 2017 08:41:03 -0800 (PST)
+Received: by mail-it0-f45.google.com with SMTP id c20so96712656itb.0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 04 Jan 2017 19:35:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ZoCbT3Z8IB6UDeSKvIpJ1LBhvE4/wIFcXNYIcZF+y9g=;
-	b=O21GENKAuvbchP3tviLLJF7CSvHw8r4ot9HhJPHI33FIqP8WcpfyVOeFfZ1ZNoJgBj
-	M38iANNxAZMyD3elNIeBWXGuitigNiKcQ77SwmCkJV7vkCy7dboYa+8MjCDLeIC/fYmt
-	mrpgki5k6v+fKwqrMfm9ZG2w6w9f+E9+IUzpLE4vehrMw34eYnFFHT0YHnTjkby/798C
-	w8Y4IjeqShcgQESB/LiBTNkvBUOgppnsjMO3/hGAOOdpXDrkOf+YBR4wtasAKkY5yy1m
-	Hvz/U0yO3OPUzYdXmBvrP+ol08/ST5coMJxehybklExt2+pGlIGZtCiuUlR54crB3J9a
-	EXbw==
+	Thu, 05 Jan 2017 08:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
+	h=subject:to:references:cc:from:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=68yvQAtxJ3XHNfMFy3gPZpbEw0iPHuIMffoWw9wvXnw=;
+	b=cNmv4xS3wYXCHiFLQ7svK5hdA5QNMBcTU1teagWfhkBophwIqQLflZsKP9b7NdIu3Z
+	WBeUMErUwyInDJuDWn+IDa2573LLKXE0EP3Zgwh38LX8Zz+68BYKdbc9ElbGAL7rEiZt
+	LAPokjFZkyq7xlkoz/3tU19vgRS0oRqpXKB0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ZoCbT3Z8IB6UDeSKvIpJ1LBhvE4/wIFcXNYIcZF+y9g=;
-	b=ZuPJgPIYxNmCUUj9+aOIMuw2zYHuVdtvG4egdRV3ZQ1XZWBivDjmWIyqsl/aqdx4/T
-	32klCqEEDNuPt7gODRLuCNF5SD09JRCD/SErB6A5s6U5b892IAq5PVUzLPy0tB0NPW6+
-	LERbUitBOdFHKYMa7wFb9LCDfucAqlUPjulKpgINIJU/VUCuhkHSaPXRg0OeRWeHaLga
-	BSL3qSQhay4C65wWKRbgAfg3szO7TvebYO/AZvgmhhxvn+0AXokIO8aWyq80N88l9sfx
-	0Ks+b1LyR2Y9IOYGY6xQPkr/3lKI0ZaJ/HYpKrgWTFi4FlSagzmvCrN8azCOllmRbIkD
-	0kWg==
-X-Gm-Message-State: AIkVDXKLYNO3J9dQNOjxLweVOlvVd4MJHDUVt5I0p2NqWpfdDUBpxJM0aXY6x4IRekbhxXE9xDmgd6t8PIExCw==
-X-Received: by 10.200.58.231 with SMTP id x94mr156748qte.87.1483587325658;
-	Wed, 04 Jan 2017 19:35:25 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+	:user-agent:mime-version:in-reply-to;
+	bh=68yvQAtxJ3XHNfMFy3gPZpbEw0iPHuIMffoWw9wvXnw=;
+	b=eWBLBAvQQqcEvz7SG5ipfjg415YCQBOUStGDkjv1e6liknmGJhOsORUmiUmL4NZwDA
+	MTDvGXlF/isYJ2ifjK3hB1qPFg6QvIB8XAui0eKHhYKCYQKEX+yWHSzH27haZINvN3S4
+	vGtxovB2VV5BJHwQczRY8V4sot7SGFOL5iw+CwLaWE311lRtPzhx0+Ls0FpqhIPQsE+n
+	FCxNt5+2QVVo/BSwIOp1VDG1YJ1sH6xS3Fvc0TyaYVPksOr+ppmMUQWP99WgOuQQVYjJ
+	IDVnwHpXSSJpppjG6c9h1qfsMCjFbwwPcaObvPBB19ETOMjV/3b5z6tg4x0KPptZNV6D
+	tKoA==
+X-Gm-Message-State: AIkVDXKeCEMgOHNGXnp+KpN88NpVRiim+P6OUj42GdklZM2AyXyTd1qe/tVIzk1kT6GS7Q==
+X-Received: by 10.36.87.203 with SMTP id u194mr61656592ita.100.1483634462601; 
+	Thu, 05 Jan 2017 08:41:02 -0800 (PST)
+Received: from doug-macbook.hsv.starlab.io
+	(c-68-32-173-93.hsd1.al.comcast.net. [68.32.173.93])
+	by smtp.googlemail.com with ESMTPSA id
+	i187sm817781ioi.31.2017.01.05.08.41.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 05 Jan 2017 08:41:01 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <20170103044754.15012-1-cardoe@cardoe.com>
+	<CADkTA4Oc0BCLmhAw7vFLspt4eMN-BAeCEv8ij0cmDuEAUDSUVg@mail.gmail.com>
+	<e0ad95d4-a453-d6c1-7ee2-d1fdc7c23072@cardoe.com>
+	<CADkTA4MD+oLkJ_5-O9e9uBazXBM_g0G3Exb2Uz8+2vEPTA_N=A@mail.gmail.com>
+	<CADkTA4Puo1bP8ENg9SsVQEXV76kasr4OLJ5hYy3Uz+HFpnc0EQ@mail.gmail.com>
+From: Doug Goldstein <cardoe@cardoe.com>
+Message-ID: <ea445771-cb42-29ab-77cd-27c1e9978256@cardoe.com>
+Date: Thu, 5 Jan 2017 10:40:58 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.6.0
 MIME-Version: 1.0
-Received: by 10.12.129.227 with HTTP; Wed, 4 Jan 2017 19:35:25 -0800 (PST)
-In-Reply-To: <1483565249-15968-1-git-send-email-mark.asselstine@windriver.com>
-References: <1483565249-15968-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 4 Jan 2017 22:35:25 -0500
-Message-ID: <CADkTA4NA5JocJ4HbXf_uGr38PD-KAURx0UD+Hre6sBQDm0WZqA@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+In-Reply-To: <CADkTA4Puo1bP8ENg9SsVQEXV76kasr4OLJ5hYy3Uz+HFpnc0EQ@mail.gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] openvswitch: update licence checksum
+Subject: Re: [meta-virtualization (krogoth)][PATCH 1/5] xen: switch to updated download URL
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,119 +82,69 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Jan 2017 03:35:29 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1254c88a14370545509749
+X-List-Received-Date: Thu, 05 Jan 2017 16:41:04 -0000
+X-Groupsio-MsgNum: 2250
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="Qk02oHwa9WL8S0NwNQuKTcmTaKRmPGMK5"
 
---94eb2c1254c88a14370545509749
-Content-Type: text/plain; charset=UTF-8
+--Qk02oHwa9WL8S0NwNQuKTcmTaKRmPGMK5
+Content-Type: multipart/mixed; boundary="TXvtFpSL3TE1lS7TIo9cHnJVMhewbBqsG";
+ protected-headers="v1"
+From: Doug Goldstein <cardoe@cardoe.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+ <meta-virtualization@yoctoproject.org>
+Message-ID: <ea445771-cb42-29ab-77cd-27c1e9978256@cardoe.com>
+Subject: Re: [meta-virtualization] [meta-virtualization (krogoth)][PATCH 1/5]
+ xen: switch to updated download URL
+References: <20170103044754.15012-1-cardoe@cardoe.com>
+ <CADkTA4Oc0BCLmhAw7vFLspt4eMN-BAeCEv8ij0cmDuEAUDSUVg@mail.gmail.com>
+ <e0ad95d4-a453-d6c1-7ee2-d1fdc7c23072@cardoe.com>
+ <CADkTA4MD+oLkJ_5-O9e9uBazXBM_g0G3Exb2Uz8+2vEPTA_N=A@mail.gmail.com>
+ <CADkTA4Puo1bP8ENg9SsVQEXV76kasr4OLJ5hYy3Uz+HFpnc0EQ@mail.gmail.com>
+In-Reply-To: <CADkTA4Puo1bP8ENg9SsVQEXV76kasr4OLJ5hYy3Uz+HFpnc0EQ@mail.gmail.com>
 
-merged.
-
-Bruce
-
-On Wed, Jan 4, 2017 at 4:27 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
-
-> Upstream commit a489b16854b5 [conntrack: New userspace connection
-> tracker.] classified new files under existing licenses in COPYING,
-> resulting in no change to the overall licenses but requires a new
-> checksum.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->  recipes-networking/openvswitch/openvswitch_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb
-> b/recipes-networking/openvswitch/openvswitch_git.bb
-> index 1c6252a..4fd58bd 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -27,7 +27,7 @@ SRC_URI += "\
->         file://openvswitch-ptest-Fix-python-path.patch \
->         "
->
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=247d8817aece26b21a8cd6791b3ea994"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=17b2c9d4c70853a09c0e143137754b35"
->
->  PACKAGECONFIG ?= ""
->  PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_
-> TARGET}/opt/dpdk/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c1254c88a14370545509749
-Content-Type: text/html; charset=UTF-8
+--TXvtFpSL3TE1lS7TIo9cHnJVMhewbBqsG
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Wed, Jan 4, 2017 at 4:27 PM,=
- Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@wi=
-ndriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">Upstream commit a489b16854b5 [con=
-ntrack: New userspace connection<br>
-tracker.] classified new files under existing licenses in COPYING,<br>
-resulting in no change to the overall licenses but requires a new<br>
-checksum.<br>
-<br>
-Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
-ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
----<br>
-=C2=A0recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswi=
-tch_git.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a> b/r=
-ecipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
-index 1c6252a..4fd58bd 100644<br>
---- a/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
-+++ b/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
-@@ -27,7 +27,7 @@ SRC_URI +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://openvswitch-ptest-Fix-<wbr>python-path.p=
-atch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
--LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>247d8817aece26b21a8cd=
-6791b3ea9<wbr>94&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>17b2c9d4c70853a09c0e1=
-43137754b<wbr>35&quot;<br>
-<br>
-=C2=A0PACKAGECONFIG ?=3D &quot;&quot;<br>
-=C2=A0PACKAGECONFIG[dpdk] =3D &quot;--with-dpdk=3D${STAGING_DIR_<wbr>TARGET=
-}/opt/dpdk/${TARGET_<wbr>ARCH}-native-linuxapp-gcc,,<wbr>dpdk,&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
+On 1/4/17 9:34 PM, Bruce Ashfield wrote:
+> All the xen patches should now be merged. Let me know if I managed to
+> muck up the branches.
+>=20
 
---94eb2c1254c88a14370545509749--
+Looks good Bruce. Thanks!
+
+--=20
+Doug Goldstein
+
+
+--TXvtFpSL3TE1lS7TIo9cHnJVMhewbBqsG--
+
+--Qk02oHwa9WL8S0NwNQuKTcmTaKRmPGMK5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG/MacGPG2 v2.0
+
+iQJ8BAEBCgBmBQJYbncdXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
+MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUIZ4P/3qLPH+0pQhTfvWVtcA0Tolu
+tKsAMDslpbAIj2e4EcoU5T5FVQ5yEt4iDmjd+pdPC15c/OCixULid1dE3O3ZOzPd
+pC8HIdMwqrd9Y4e5yabY1MvVpQz/VWWt5XLZd+23Rsd0UvB0F2UmG9VDDaaPGN7Y
+42AI4ZC0v8JGUrw8L/ZtB9e8mJGjnDS3Y7c4xHF9Xl0UXXhkcplmUhA3GDuTicxI
+FpQWhDEPR790ag2P3Cd2q3gK4t75cGaC2cfde2vj9orxxj1uQRNeY2RMCc1kjJ6h
+SIGj0FZggFzPay36T5jKagetkguxXs6D+4Th3m8g3Bu331dE0n7kHycB12sT/znp
+HDdOUNWHkDVMzs8o1830RMQKhEbmR7j1p57vIK6diraAmENDU+g3ikxBBIuVUsvI
+sinlizWgUpiugZCpvtDEpZIK7eL7C1Ewatlmudzcjyr8Tp4DUovYOvd+qI17GaIq
+KShuRirpkeEnqx7Z1SxEvn4ArEKUZFqunOZl0WY7q0qauEx/EhnlVsJyqnRqoCdN
+Foufs5E5oSV9px4wHkGXwv2fr+mFbvtQRgoBwaAa5s1+DeBXQmyUqYDiCAplJUco
+YBAWq3dzzkbKVR/nN4G7hv+F4pv5zYloRP19o+/XKEc1GTYchzGT3iRb8LrWB71i
+mjO8gMfptKBZ7nTarHue
+=UyOh
+-----END PGP SIGNATURE-----
+
+--Qk02oHwa9WL8S0NwNQuKTcmTaKRmPGMK5--
