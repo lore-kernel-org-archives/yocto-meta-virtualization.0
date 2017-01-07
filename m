@@ -1,67 +1,71 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6F5D1E0083D; Fri,  6 Jan 2017 19:12:26 -0800 (PST)
+	id A1198E00890; Fri,  6 Jan 2017 19:12:41 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+	HTML_OBFUSCATE_10_20, 
+	RCVD_IN_DNSWL_LOW,RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.220.193 listed in list.dnswl.org]
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [209.85.216.178 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* 0.1 HTML_OBFUSCATE_10_20 BODY: Message is 10% to 20% HTML obfuscation
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 04928E007EB
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.178 listed in dnsbl.sorbs.net]
+Received: from mail-qt0-f178.google.com (mail-qt0-f178.google.com
+	[209.85.216.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2F3B3E00828
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  6 Jan 2017 19:12:22 -0800 (PST)
-Received: by mail-qk0-f193.google.com with SMTP id u25so64439308qki.2
+	Fri,  6 Jan 2017 19:12:37 -0800 (PST)
+Received: by mail-qt0-f178.google.com with SMTP id x49so29216562qtc.2
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 06 Jan 2017 19:12:22 -0800 (PST)
+	Fri, 06 Jan 2017 19:12:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=rU6TNCHS00PUprvrhfIeEHF7FqVQr1QD8F68ORCwoNk=;
-	b=Z5HjNNuXAU9FyWcnRDedDbzSyKiAkuDL8xvIli9WMgWG5quDigdHHx5ThYDvugoY3B
-	ldYeYv0CK95Hct0vCeiNSdF1IdL/n7mMrDK15DuRz3IYcHdQaT8JgNp9XJWxi3qGjeNd
-	XSzRhQrNR7S7TLhJi+Bt0zdENJzRd8IBUmJbkoS5rOPQnR3piZpmgdeKZ4wBtvJ1zmv3
-	0/GErdw4KVNjI4TcVGk5WFgNYpfMRczIGghOxZunSAv98+rL7S7VCHVCktMLER49eWcu
-	/bqPLeRCfaMooFTNTRTQ/BSg6VHnp8b5WefWp7uk6UoRn12a2lIaJfSzml/iBFfOxVJ9
-	A8NQ==
+	:cc; bh=n2Gns4OZczkDDyfjLMZbwIuBOaMB708tObTKzju9KqI=;
+	b=BxGbZAt6ai7CenXQcBdjFumpm8DrnSX1JtlXngbc1Dnetg8M/Gd9mTqf6GCLASC6j3
+	TMbvhDvp+rs9TRjpuV+ZNb3dMXSitBqGDGTknUY8Ddp+pX7ETJ4AylK8vNmN98CXFpa8
+	AUBzGzhMFIdAMU/ZjNM1QwZNk1gOAUK6jZfaZ6e/SO4FWrRFYZH+W5bYKfkqx5hbhP2r
+	zsrMSyDXPcyRfqjJ+w+jIk2htvBF4hwUIusYOtN6yvF+E1yy9KnQbiMuPMQi7Z6q5rbI
+	RhilNezf6zK10tL5UxKyT1EzEVzv7GgiL2ZF1OKCt39diFrqq7uPaiA8xhBo9hOQQj4F
+	P9+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=rU6TNCHS00PUprvrhfIeEHF7FqVQr1QD8F68ORCwoNk=;
-	b=stHRHfXH48VHT4nYg27IU/trfI70UxJdy4dYqCze17GZ8UoixxEe9QHSlUu8Cqt5Yl
-	tIffogFxazB5pIoK39sr1FlpNIs/9Bw1XsHnuij0uA/dJ8jRtf/xdN2oBL3UYIeAiBdy
-	yrZfKAxyg+MBuXvdGcNR3OClJxSkZj7AGkNbdlnzEFNpECgwsXpuKOi2LvzuJORxyrRj
-	CNODuttED3ry5hXhAf4UDoe4IPSrdfKV3ubwvsu+V/mYCjsrVUDxIL3z0nnH7NXot5iN
-	tday49RtEtP01RYUiR4V8i2UurQwFWUx6tpRqsNLu+s6JnLsQ9EQPSMJBOTOBlUpz/65
-	4N3g==
-X-Gm-Message-State: AIkVDXK86BRiJ72xqGEkSFvlEcfbUWY7nhdna2AZQvIPc5fI/TIhtX1hPi7ry1wpnu53y4ygsqLtP4T4v8TIOA==
-X-Received: by 10.55.169.216 with SMTP id s207mr14942171qke.211.1483758741690; 
-	Fri, 06 Jan 2017 19:12:21 -0800 (PST)
+	bh=n2Gns4OZczkDDyfjLMZbwIuBOaMB708tObTKzju9KqI=;
+	b=WRbZ9KLO4/W+lSDGStpA7dnfFuHSqHH2kFfRHNSWZDHFenIBrlSLDxhThgim3llgyz
+	B3eeFa82Nehvg3VP2T8fVXDA4bADtZb7VgfPUm+mkNAABEKN1lioTyNamf2xLfSFywa9
+	Qzzy2OzBV9jjzR3jP6fB18bgHwzd8OI3sCsc/hTUJ72hJo1aKXJA2EPgvkzRWl2WH4ru
+	djSEvdeK5/i8Wc8aJsr6BeJhsllxXztbQoU1TgPXDkkBNDXr1oxMbzX4aB+N19MWdXk5
+	03AERGukM46ovkRxfY1+Q5dDrazNGXeClRk3FqJ9YG2dzq8hxfbU+g0XHRvxCqh0OQ0b
+	EPgA==
+X-Gm-Message-State: AIkVDXJrlISHPPLH6MX1Hqxs4sJtYsG98ePREvqLKB36qv2ijUrbynvO20ZmcI+hwUxD5qCnxjGQ0LDHDqPO6Q==
+X-Received: by 10.200.43.212 with SMTP id n20mr3173746qtn.117.1483758757009;
+	Fri, 06 Jan 2017 19:12:37 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.135.153 with HTTP; Fri, 6 Jan 2017 19:12:21 -0800 (PST)
-In-Reply-To: <20170105170523.1318-1-cardoe@cardoe.com>
-References: <20170105170523.1318-1-cardoe@cardoe.com>
+Received: by 10.12.135.153 with HTTP; Fri, 6 Jan 2017 19:12:36 -0800 (PST)
+In-Reply-To: <1483721458-14568-1-git-send-email-mark.asselstine@windriver.com>
+References: <1483721458-14568-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Jan 2017 22:12:21 -0500
-Message-ID: <CADkTA4MkzPcJic_n4UsKLc9yk9zQfM7PX8uqvH+40mjmtaGZgA@mail.gmail.com>
-To: Doug Goldstein <cardoe@cardoe.com>
+Date: Fri, 6 Jan 2017 22:12:36 -0500
+Message-ID: <CADkTA4MRVMDDnQqLvaMJ-YreGyqWpTSJXG4xRoef4ed9KxEuqQ@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 0/3] more Xen updates
+Subject: Re: [mcs][PATCH] housekeeping: update Poky LICENSE checksum
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,44 +78,161 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Jan 2017 03:12:26 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0544d2bb1dcd0545788021
+X-List-Received-Date: Sat, 07 Jan 2017 03:12:41 -0000
+Content-Type: multipart/alternative; boundary=001a1135b98ea52f2b0545788161
 
---94eb2c0544d2bb1dcd0545788021
+--001a1135b98ea52f2b0545788161
 Content-Type: text/plain; charset=UTF-8
 
-On Thu, Jan 5, 2017 at 12:05 PM, Doug Goldstein <cardoe@cardoe.com> wrote:
-
-> Here are some updates for master and morty. The README is something that I
-> hope
-> is ok to try and provide users some more info when they work with Xen.
->
-
-merged.
-
-I think I got the right README patch. As much as I like gmail, I detest the
-way it threads messages with the same subject.
+all three patches are merged.
 
 Bruce
 
+On Fri, Jan 6, 2017 at 11:50 AM, Mark Asselstine <
+mark.asselstine@windriver.com> wrote:
 
+> The Poky LICENSE file was updated at the beginning of 2014 and we have
+> yet to update the md5 to reflect this.
 >
-> Doug Goldstein (3):
->   xen: update license checksum
->   xen: remove unused patch
->   xen: add a README to provide info for users
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>  .../recipes-extended/packagegroups/packagegroup-cloud-benchmarking.bb
+>  | 2 +-
+>  .../recipes-extended/packagegroups/packagegroup-cloud-compute.bb
+> | 2 +-
+>  .../recipes-extended/packagegroups/packagegroup-cloud-controller.bb
+>  | 2 +-
+>  .../recipes-extended/packagegroups/packagegroup-cloud-debug.bb
+> | 2 +-
+>  .../recipes-extended/packagegroups/packagegroup-cloud-extras.bb
+>  | 2 +-
+>  .../recipes-extended/packagegroups/packagegroup-cloud-network.bb
+> | 2 +-
+>  6 files changed, 6 insertions(+), 6 deletions(-)
 >
->  recipes-extended/xen/README                        | 23 +++++++++
->  ...l-compilation-warning-fix-for-arm-aarch64.patch | 58
-> ----------------------
->  recipes-extended/xen/xen.inc                       |  2 +-
->  3 files changed, 24 insertions(+), 59 deletions(-)
->  create mode 100644 recipes-extended/xen/README
->  delete mode 100644 recipes-extended/xen/files/
-> libxl-compilation-warning-fix-for-arm-aarch64.patch
+> diff --git a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-benchmarking.bb b/meta-openstack/recipes-
+> extended/packagegroups/packagegroup-cloud-benchmarking.bb
+> index 46f18fb..6310b8f 100644
+> --- a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-benchmarking.bb
+> +++ b/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-benchmarking.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Add benchmarking capabilities to cloud images"
+>  PR = "r0"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 3f40d7994397109285ec7b81fdeb3b58 \
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
 >
+>  inherit packagegroup
+> diff --git a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-compute.bb b/meta-openstack/recipes-extended/packagegroups/
+> packagegroup-cloud-compute.bb
+> index 7563792..21f8f10 100644
+> --- a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-compute.bb
+> +++ b/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-compute.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Configuration for OpenStack Compute node"
+>  PR = "r0"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 3f40d7994397109285ec7b81fdeb3b58 \
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
+>
+>  inherit packagegroup
+> diff --git a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-controller.bb b/meta-openstack/recipes-extended/packagegroups/
+> packagegroup-cloud-controller.bb
+> index 653a493..f172839 100644
+> --- a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-controller.bb
+> +++ b/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-controller.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Configuration for OpenStack Controller node"
+>  PR = "r0"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 3f40d7994397109285ec7b81fdeb3b58 \
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
+>
+>  inherit packagegroup
+> diff --git a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-debug.bb b/meta-openstack/recipes-extended/packagegroups/
+> packagegroup-cloud-debug.bb
+> index eb3cb50..e5517d2 100644
+> --- a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-debug.bb
+> +++ b/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-debug.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Add debugging capabilities to cloud images"
+>  PR = "r0"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 3f40d7994397109285ec7b81fdeb3b58 \
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
+>
+>  inherit packagegroup
+> diff --git a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-extras.bb b/meta-openstack/recipes-extended/packagegroups/
+> packagegroup-cloud-extras.bb
+> index 2fcad8b..6fb6045 100644
+> --- a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-extras.bb
+> +++ b/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-extras.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Extra packages that improve the usability of compute/control
+> nodes"
+>  PR = "r0"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 3f40d7994397109285ec7b81fdeb3b58 \
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
+>
+>  inherit packagegroup
+> diff --git a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-network.bb b/meta-openstack/recipes-extended/packagegroups/
+> packagegroup-cloud-network.bb
+> index 6134124..f5b07a2 100644
+> --- a/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-network.bb
+> +++ b/meta-openstack/recipes-extended/packagegroups/package
+> group-cloud-network.bb
+> @@ -1,7 +1,7 @@
+>  SUMMARY = "Configuration for OpenStack Network node"
+>  PR = "r0"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 3f40d7994397109285ec7b81fdeb3b58 \
+> +LIC_FILES_CHKSUM = "file://${COREBASE}/LICENSE;md5=
+> 4d92cd373abda3937c2bc47fbc49d690 \
+>                      file://${COREBASE}/meta/COPYING.MIT;md5=
+> 3da9cfbcb788c80a0384361b4de20420"
+>
+>  inherit packagegroup
 > --
-> 2.10.2
+> 2.7.4
 >
 > --
 > _______________________________________________
@@ -126,41 +247,200 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---94eb2c0544d2bb1dcd0545788021
+--001a1135b98ea52f2b0545788161
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Jan 5, 2017 at 12:05 PM, Doug Goldstein <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:cardoe@cardoe.com" target=3D"_blank">cardoe@cardoe.com</a>=
-&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
- 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Here are some updates =
-for master and morty. The README is something that I hope<br>
-is ok to try and provide users some more info when they work with Xen.<br><=
-/blockquote><div><br></div><div>merged.</div><div><br></div><div>I think I =
-got the right README patch. As much as I like gmail, I detest the way it th=
-reads messages with the same subject.</div><div><br></div><div>Bruce</div><=
-div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">
+<div dir=3D"ltr">all three patches are merged.<div><br></div><div>Bruce</di=
+v></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, J=
+an 6, 2017 at 11:50 AM, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"ma=
+ilto:mark.asselstine@windriver.com" target=3D"_blank">mark.asselstine@windr=
+iver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The Poky=
+ LICENSE file was updated at the beginning of 2014 and we have<br>
+yet to update the md5 to reflect this.<br>
 <br>
-Doug Goldstein (3):<br>
-=C2=A0 xen: update license checksum<br>
-=C2=A0 xen: remove unused patch<br>
-=C2=A0 xen: add a README to provide info for users<br>
+Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
+ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
+---<br>
+=C2=A0.../recipes-extended/<wbr>packagegroups/<a href=3D"http://packagegrou=
+p-cloud-benchmarking.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-=
+<wbr>cloud-benchmarking.bb</a>=C2=A0 =C2=A0| 2 +-<br>
+=C2=A0.../recipes-extended/<wbr>packagegroups/<a href=3D"http://packagegrou=
+p-cloud-compute.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr>=
+cloud-compute.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0.../recipes-extended/<wbr>packagegroups/<a href=3D"http://packagegrou=
+p-cloud-controller.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<w=
+br>cloud-controller.bb</a>=C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A0.../recipes-extended/<wbr>packagegroups/<a href=3D"http://packagegrou=
+p-cloud-debug.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr>cl=
+oud-debug.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0.../recipes-extended/<wbr>packagegroups/<a href=3D"http://packagegrou=
+p-cloud-extras.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr>c=
+loud-extras.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+=C2=A0.../recipes-extended/<wbr>packagegroups/<a href=3D"http://packagegrou=
+p-cloud-network.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-<wbr>=
+cloud-network.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A06 files changed, 6 insertions(+), 6 deletions(-)<br>
 <br>
-=C2=A0recipes-extended/xen/README=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 23 +++++++++<br>
-=C2=A0...l-compilation-warning-fix-<wbr>for-arm-aarch64.patch | 58 --------=
---------------<br>
-=C2=A0recipes-extended/xen/xen.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 +-<br>
-=C2=A03 files changed, 24 insertions(+), 59 deletions(-)<br>
-=C2=A0create mode 100644 recipes-extended/xen/README<br>
-=C2=A0delete mode 100644 recipes-extended/xen/files/<wbr>libxl-compilation-=
-warning-fix-<wbr>for-arm-aarch64.patch<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.10.2<br>
+diff --git a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"=
+http://packagegroup-cloud-benchmarking.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">package<wbr>group-cloud-benchmarking.bb</a> b/meta-openstack/recipes-<=
+wbr>extended/packagegroups/<a href=3D"http://packagegroup-cloud-benchmarkin=
+g.bb" rel=3D"noreferrer" target=3D"_blank">package<wbr>group-cloud-benchmar=
+king.bb</a><br>
+index 46f18fb..6310b8f 100644<br>
+--- a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-benchmarking.bb" rel=3D"noreferrer" target=3D"_blank">pa=
+ckage<wbr>group-cloud-benchmarking.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-benchmarking.bb" rel=3D"noreferrer" target=3D"_blank">pa=
+ckage<wbr>group-cloud-benchmarking.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0SUMMARY =3D &quot;Add benchmarking capabilities to cloud images&quot;=
+<br>
+=C2=A0PR =3D &quot;r0&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>3f40=
+d7994397109285ec7b81fdeb3b<wbr>58 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>4d92=
+cd373abda3937c2bc47fbc49d6<wbr>90 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D<wbr>3da9cfbcb788c80a0384=
+361b4de204<wbr>20&quot;<br>
+<br>
+=C2=A0inherit packagegroup<br>
+diff --git a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"=
+http://packagegroup-cloud-compute.bb" rel=3D"noreferrer" target=3D"_blank">=
+package<wbr>group-cloud-compute.bb</a> b/meta-openstack/recipes-<wbr>extend=
+ed/packagegroups/<a href=3D"http://packagegroup-cloud-compute.bb" rel=3D"no=
+referrer" target=3D"_blank">package<wbr>group-cloud-compute.bb</a><br>
+index 7563792..21f8f10 100644<br>
+--- a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-compute.bb" rel=3D"noreferrer" target=3D"_blank">package=
+<wbr>group-cloud-compute.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-compute.bb" rel=3D"noreferrer" target=3D"_blank">package=
+<wbr>group-cloud-compute.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0SUMMARY =3D &quot;Configuration for OpenStack Compute node&quot;<br>
+=C2=A0PR =3D &quot;r0&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>3f40=
+d7994397109285ec7b81fdeb3b<wbr>58 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>4d92=
+cd373abda3937c2bc47fbc49d6<wbr>90 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D<wbr>3da9cfbcb788c80a0384=
+361b4de204<wbr>20&quot;<br>
+<br>
+=C2=A0inherit packagegroup<br>
+diff --git a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"=
+http://packagegroup-cloud-controller.bb" rel=3D"noreferrer" target=3D"_blan=
+k">package<wbr>group-cloud-controller.bb</a> b/meta-openstack/recipes-<wbr>=
+extended/packagegroups/<a href=3D"http://packagegroup-cloud-controller.bb" =
+rel=3D"noreferrer" target=3D"_blank">package<wbr>group-cloud-controller.bb<=
+/a><br>
+index 653a493..f172839 100644<br>
+--- a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-controller.bb" rel=3D"noreferrer" target=3D"_blank">pack=
+age<wbr>group-cloud-controller.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-controller.bb" rel=3D"noreferrer" target=3D"_blank">pack=
+age<wbr>group-cloud-controller.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0SUMMARY =3D &quot;Configuration for OpenStack Controller node&quot;<b=
+r>
+=C2=A0PR =3D &quot;r0&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>3f40=
+d7994397109285ec7b81fdeb3b<wbr>58 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>4d92=
+cd373abda3937c2bc47fbc49d6<wbr>90 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D<wbr>3da9cfbcb788c80a0384=
+361b4de204<wbr>20&quot;<br>
+<br>
+=C2=A0inherit packagegroup<br>
+diff --git a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"=
+http://packagegroup-cloud-debug.bb" rel=3D"noreferrer" target=3D"_blank">pa=
+ckage<wbr>group-cloud-debug.bb</a> b/meta-openstack/recipes-<wbr>extended/p=
+ackagegroups/<a href=3D"http://packagegroup-cloud-debug.bb" rel=3D"noreferr=
+er" target=3D"_blank">package<wbr>group-cloud-debug.bb</a><br>
+index eb3cb50..e5517d2 100644<br>
+--- a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-debug.bb" rel=3D"noreferrer" target=3D"_blank">package<w=
+br>group-cloud-debug.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-debug.bb" rel=3D"noreferrer" target=3D"_blank">package<w=
+br>group-cloud-debug.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0SUMMARY =3D &quot;Add debugging capabilities to cloud images&quot;<br=
+>
+=C2=A0PR =3D &quot;r0&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>3f40=
+d7994397109285ec7b81fdeb3b<wbr>58 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>4d92=
+cd373abda3937c2bc47fbc49d6<wbr>90 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D<wbr>3da9cfbcb788c80a0384=
+361b4de204<wbr>20&quot;<br>
+<br>
+=C2=A0inherit packagegroup<br>
+diff --git a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"=
+http://packagegroup-cloud-extras.bb" rel=3D"noreferrer" target=3D"_blank">p=
+ackage<wbr>group-cloud-extras.bb</a> b/meta-openstack/recipes-<wbr>extended=
+/packagegroups/<a href=3D"http://packagegroup-cloud-extras.bb" rel=3D"noref=
+errer" target=3D"_blank">package<wbr>group-cloud-extras.bb</a><br>
+index 2fcad8b..6fb6045 100644<br>
+--- a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-extras.bb" rel=3D"noreferrer" target=3D"_blank">package<=
+wbr>group-cloud-extras.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-extras.bb" rel=3D"noreferrer" target=3D"_blank">package<=
+wbr>group-cloud-extras.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0SUMMARY =3D &quot;Extra packages that improve the usability of comput=
+e/control nodes&quot;<br>
+=C2=A0PR =3D &quot;r0&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>3f40=
+d7994397109285ec7b81fdeb3b<wbr>58 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>4d92=
+cd373abda3937c2bc47fbc49d6<wbr>90 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D<wbr>3da9cfbcb788c80a0384=
+361b4de204<wbr>20&quot;<br>
+<br>
+=C2=A0inherit packagegroup<br>
+diff --git a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"=
+http://packagegroup-cloud-network.bb" rel=3D"noreferrer" target=3D"_blank">=
+package<wbr>group-cloud-network.bb</a> b/meta-openstack/recipes-<wbr>extend=
+ed/packagegroups/<a href=3D"http://packagegroup-cloud-network.bb" rel=3D"no=
+referrer" target=3D"_blank">package<wbr>group-cloud-network.bb</a><br>
+index 6134124..f5b07a2 100644<br>
+--- a/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-network.bb" rel=3D"noreferrer" target=3D"_blank">package=
+<wbr>group-cloud-network.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>extended/packagegroups/<a href=3D"http://=
+packagegroup-cloud-network.bb" rel=3D"noreferrer" target=3D"_blank">package=
+<wbr>group-cloud-network.bb</a><br>
+@@ -1,7 +1,7 @@<br>
+=C2=A0SUMMARY =3D &quot;Configuration for OpenStack Network node&quot;<br>
+=C2=A0PR =3D &quot;r0&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>3f40=
+d7994397109285ec7b81fdeb3b<wbr>58 \<br>
++LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/LICENSE;<wbr>md5=3D<wbr>4d92=
+cd373abda3937c2bc47fbc49d6<wbr>90 \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0file://${COREBASE}/meta/<wbr>COPYING.MIT;md5=3D<wbr>3da9cfbcb788c80a0384=
+361b4de204<wbr>20&quot;<br>
+<br>
+=C2=A0inherit packagegroup<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
 <br>
 --<br>
 ______________________________<wbr>_________________<br>
@@ -174,6 +454,6 @@ nfo/meta-<wbr>virtualization</a><br>
 r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
 hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
-</div></div>
+</div>
 
---94eb2c0544d2bb1dcd0545788021--
+--001a1135b98ea52f2b0545788161--
