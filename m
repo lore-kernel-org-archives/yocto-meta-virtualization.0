@@ -1,37 +1,40 @@
 Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 555B0E00443; Mon,  9 Jan 2017 09:24:52 -0800 (PST)
+	id 369CDE0050B; Mon,  9 Jan 2017 09:25:05 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BF89EE003E4
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BA997E0043B
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Jan 2017 09:24:51 -0800 (PST)
+	Mon,  9 Jan 2017 09:25:03 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v09HOpS3017350
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v09HP2hn025810
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 9 Jan 2017 09:24:51 -0800
+	Mon, 9 Jan 2017 09:25:02 -0800 (PST)
 Received: from [128.224.56.48] (128.224.56.48) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Mon, 9 Jan 2017 09:24:50 -0800
+	Mon, 9 Jan 2017 09:25:01 -0800
 To: Mark Asselstine <mark.asselstine@windriver.com>
-References: <1483974277-17378-1-git-send-email-mark.asselstine@windriver.com>
+References: <1483974263-17029-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <e31d73a8-8dcd-e680-6f6e-e275ad7f0a3c@windriver.com>
-Date: Mon, 9 Jan 2017 12:24:50 -0500
+Message-ID: <e42179e9-6a13-1084-bd55-63d3a64167c9@windriver.com>
+Date: Mon, 9 Jan 2017 12:25:01 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.5.1
 MIME-Version: 1.0
-In-Reply-To: <1483974277-17378-1-git-send-email-mark.asselstine@windriver.com>
+In-Reply-To: <1483974263-17029-1-git-send-email-mark.asselstine@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [mcs][PATCH] python-horizon: cleanup QA warnings
+Subject: Re: [mcs][PATCH] tgt: ensure build LDFLAGS apply to all executables
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,42 +47,108 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Jan 2017 17:24:52 -0000
+X-List-Received-Date: Mon, 09 Jan 2017 17:25:05 -0000
 Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 2017-01-09 10:04 AM, Mark Asselstine wrote:
-> Currently we are seeing warnings like:
->
->     .../horizon.scss is owned by gid 1001, which is the same as the
->     user running bitbake.
->
-> These are caused by using 'cp -a' in this case, by excluding the
-> 'ownership' part of -a we can avoid these QA issues.
->
+> Some of the tgt executables were not being built with the gnu-hash
+> causing a QA error. There is no apparent reason to have differences in
+> how the tgt executables are built so ensure they all use the LDFLAGS.
 
 merged.
 
 Bruce
 
+>
 > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-horizon_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../tgt/files/0001-usr-Makefile-WARNING-fix.patch  |  2 +-
+>  ...Makefile-apply-LDFLAGS-to-all-executables.patch | 35 ++++++++++++++++++++++
+>  meta-openstack/recipes-support/tgt/tgt_git.bb      |  8 +++--
+>  3 files changed, 41 insertions(+), 4 deletions(-)
+>  create mode 100644 meta-openstack/recipes-support/tgt/files/usr-Makefile-apply-LDFLAGS-to-all-executables.patch
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-horizon_git.bb b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> index 5a23930..d2cb345 100644
-> --- a/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> @@ -124,7 +124,7 @@ do_install_append() {
+> diff --git a/meta-openstack/recipes-support/tgt/files/0001-usr-Makefile-WARNING-fix.patch b/meta-openstack/recipes-support/tgt/files/0001-usr-Makefile-WARNING-fix.patch
+> index 15f5482..f749101 100644
+> --- a/meta-openstack/recipes-support/tgt/files/0001-usr-Makefile-WARNING-fix.patch
+> +++ b/meta-openstack/recipes-support/tgt/files/0001-usr-Makefile-WARNING-fix.patch
+> @@ -22,7 +22,7 @@ index 1fae7e7..2db109c 100644
+>   TGTD_DEP = $(TGTD_OBJS:.o=.d)
 >
->      # the following are setup required for horizon-apache
->      install -d ${DASHBOARD_SHARE_DIR}
-> -    cp -a ${S}/openstack_dashboard  ${DASHBOARD_SHARE_DIR}
-> +    cp -a --no-preserve=ownership ${S}/openstack_dashboard  ${DASHBOARD_SHARE_DIR}
->      cp ${S}/manage.py  ${DASHBOARD_SHARE_DIR}
+>  -LDFLAGS = -Wl,-E,-rpath=$(libdir)
+> -+LDFLAGS = -Wl,-E
+> ++LDFLAGS += -Wl,-E
 >
->      install -D -m 644 ${WORKDIR}/local_settings.py \
+>   .PHONY:all
+>   all: $(PROGRAMS) $(MODULES)
+> diff --git a/meta-openstack/recipes-support/tgt/files/usr-Makefile-apply-LDFLAGS-to-all-executables.patch b/meta-openstack/recipes-support/tgt/files/usr-Makefile-apply-LDFLAGS-to-all-executables.patch
+> new file mode 100644
+> index 0000000..d480ef7
+> --- /dev/null
+> +++ b/meta-openstack/recipes-support/tgt/files/usr-Makefile-apply-LDFLAGS-to-all-executables.patch
+> @@ -0,0 +1,35 @@
+> +From a815ac8ee16b344d9e24b445957f32bf2aafa532 Mon Sep 17 00:00:00 2001
+> +From: Mark Asselstine <mark.asselstine@windriver.com>
+> +Date: Thu, 5 Jan 2017 11:07:51 -0500
+> +Subject: [PATCH] usr/Makefile: apply LDFLAGS to all executables
+> +
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> +---
+> + usr/Makefile | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/usr/Makefile b/usr/Makefile
+> +index cc8df11..c55fd68 100644
+> +--- a/usr/Makefile
+> ++++ b/usr/Makefile
+> +@@ -78,7 +78,7 @@ TGTADM_OBJS = tgtadm.o concat_buf.o
+> + TGTADM_DEP = $(TGTADM_OBJS:.o=.d)
+> +
+> + tgtadm: $(TGTADM_OBJS)
+> +-	$(CC) $^ -o $@
+> ++	$(CC) $^ -o $@ $(LDFLAGS)
+> +
+> + -include $(TGTADM_DEP)
+> +
+> +@@ -86,7 +86,7 @@ TGTIMG_OBJS = tgtimg.o libssc.o libcrc32c.o
+> + TGTIMG_DEP = $(TGTIMG_OBJS:.o=.d)
+> +
+> + tgtimg: $(TGTIMG_OBJS)
+> +-	$(CC) $^ -o $@
+> ++	$(CC) $^ -o $@ $(LDFLAGS)
+> +
+> + -include $(TGTIMG_DEP)
+> +
+> +--
+> +2.7.4
+> +
+> diff --git a/meta-openstack/recipes-support/tgt/tgt_git.bb b/meta-openstack/recipes-support/tgt/tgt_git.bb
+> index 5c594b1..9ca181a 100644
+> --- a/meta-openstack/recipes-support/tgt/tgt_git.bb
+> +++ b/meta-openstack/recipes-support/tgt/tgt_git.bb
+> @@ -10,6 +10,7 @@ PV = "1.0.67+git${SRCPV}"
+>  SRC_URI = "git://github.com/fujita/tgt.git \
+>  	file://0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch \
+>          file://0001-usr-Makefile-WARNING-fix.patch \
+> +        file://usr-Makefile-apply-LDFLAGS-to-all-executables.patch \
+>  "
+>  SRC_URI += "file://tgtd.init"
+>
+> @@ -21,9 +22,10 @@ inherit update-rc.d
+>
+>  CFLAGS += ' -I. -DUSE_SIGNALFD -DUSE_TIMERFD -D_GNU_SOURCE -DTGT_VERSION=\\"1.0.63\\" -DBSDIR=\\"${libdir}/backing-store\\"'
+>
+> -do_compile() {
+> -    oe_runmake SYSROOT="${STAGING_DIR_TARGET}" -e programs conf scripts
+> -}
+> +#do_compile() {
+> +#    oe_runmake SYSROOT="${STAGING_DIR_TARGET}" -e programs conf scripts
+> +#}
+> +EXTRA_OEMAKE = "-e programs conf scripts"
+>
+>  do_install() {
+>      oe_runmake -e DESTDIR="${D}" install-programs install-conf install-scripts
 >
 
 
