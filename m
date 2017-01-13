@@ -1,6 +1,6 @@
 Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7B764E0034A; Fri, 13 Jan 2017 00:39:27 -0800 (PST)
+	id 6367FE00BC0; Fri, 13 Jan 2017 01:21:07 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,33 +9,31 @@ X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-X-Greylist: delayed 63 seconds by postgrey-1.32 at yocto-www;
-	Fri, 13 Jan 2017 00:39:24 PST
 Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED541E0030B
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EEEEBE00BAD
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 13 Jan 2017 00:39:24 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14745380"
+	Fri, 13 Jan 2017 01:20:58 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14747104"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Jan 2017 16:38:20 +0800
+	by heian.cn.fujitsu.com with ESMTP; 13 Jan 2017 17:20:48 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 279DF47B1500
+	by cn.fujitsu.com (Postfix) with ESMTP id EB4BB47B1501
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 13 Jan 2017 16:38:18 +0800 (CST)
+	Fri, 13 Jan 2017 17:20:48 +0800 (CST)
 Received: from localhost.localdomain (10.167.226.81) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.319.2; Fri, 13 Jan 2017 16:38:19 +0800
+	Server (TLS) id 14.3.319.2; Fri, 13 Jan 2017 17:20:49 +0800
 From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 13 Jan 2017 16:38:01 +0800
-Message-ID: <1484296681-949-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+Date: Fri, 13 Jan 2017 17:20:29 +0800
+Message-ID: <1484299229-1132-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
 X-Originating-IP: [10.167.226.81]
-X-yoursite-MailScanner-ID: 279DF47B1500.A8073
+X-yoursite-MailScanner-ID: EB4BB47B1501.A778B
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-Subject: [PATCH] python-sphinx: 1.3.1 -> 1.4.1
+Subject: [PATCH V2] python-sphinx: 1.3.1 -> 1.4.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,7 +46,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Jan 2017 08:39:27 -0000
+X-List-Received-Date: Fri, 13 Jan 2017 09:21:07 -0000
 Content-Type: text/plain
 
 1) Upgrade python-sphinx from 1.3.1 to 1.4.1
