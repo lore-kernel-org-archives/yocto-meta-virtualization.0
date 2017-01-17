@@ -1,39 +1,37 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3DF53E00938; Tue, 17 Jan 2017 10:05:53 -0800 (PST)
+	id 4D54BE00935; Tue, 17 Jan 2017 10:05:53 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01B0FE00826
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 08E0FE008D3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Jan 2017 10:05:48 -0800 (PST)
+	Tue, 17 Jan 2017 10:05:44 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0HI5mTj023232
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v0HI5hJL016317
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Jan 2017 10:05:48 -0800 (PST)
+	Tue, 17 Jan 2017 10:05:44 -0800 (PST)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Tue, 17 Jan 2017 10:05:47 -0800
+	Tue, 17 Jan 2017 10:05:42 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <bruce.ashfield@windriver.com>
-Date: Tue, 17 Jan 2017 13:05:38 -0500
-Message-ID: <1484676338-4704-2-git-send-email-mark.asselstine@windriver.com>
+Date: Tue, 17 Jan 2017 13:05:37 -0500
+Message-ID: <1484676338-4704-1-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1484676338-4704-1-git-send-email-mark.asselstine@windriver.com>
-References: <1484676338-4704-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
 Cc: meta-virtualization@yoctoproject.org
-Subject: [m-c-s][PATCH 2/2] python-debtcollector: uprev to 1.10.0
+Subject: [m-c-s][PATCH 1/2] python-funcsigs: add new dependency for python-debtcollector
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,83 +47,39 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Tue, 17 Jan 2017 18:05:53 -0000
 Content-Type: text/plain
 
-This uprev is required for the python-oslo.config uprev (to
-stable/newton) and other package. This requires the introduction of
-the python-funcsigs package.
+The uprev of python-debtcollector to version 1.10.0 requires this
+package.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../python/python-debtcollector_0.10.0.bb          | 26 ---------------------
- .../python/python-debtcollector_1.10.0.bb          | 27 ++++++++++++++++++++++
- 2 files changed, 27 insertions(+), 26 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-debtcollector_0.10.0.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python-debtcollector_1.10.0.bb
+ .../recipes-devtools/python/python-funcsigs_1.0.2.bb   | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-funcsigs_1.0.2.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector_0.10.0.bb b/meta-openstack/recipes-devtools/python/python-debtcollector_0.10.0.bb
-deleted file mode 100644
-index 3a54eec..0000000
---- a/meta-openstack/recipes-devtools/python/python-debtcollector_0.10.0.bb
-+++ /dev/null
-@@ -1,26 +0,0 @@
--DESCRIPTION = "A collection of Python deprecation patterns and strategies that help you collect your technical debt in a non-destructive manner."
--HOMEPAGE = "http://docs.openstack.org/developer/debtcollector/"
--SECTION = "devel/python"
--LICENSE = "Apache-2"
--LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
--
--SRCNAME = "debtcollector"
--
--SRC_URI = "https://pypi.python.org/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "aaf95f5e44af17be4d6421512d4cf6c3"
--SRC_URI[sha256sum] = "8cc22cf2223af7789692ef0b1cb5c0c3a00da7d6e34cbfce125a956cb4d2f21e"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--inherit setuptools
--
--DEPENDS += " \
--        python-pip \
--        python-pbr \
--        "
--
--# RDEPENDS_default:
--RDEPENDS_${PN} += " \
--        python-pbr \
--        "
-diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector_1.10.0.bb b/meta-openstack/recipes-devtools/python/python-debtcollector_1.10.0.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-funcsigs_1.0.2.bb b/meta-openstack/recipes-devtools/python/python-funcsigs_1.0.2.bb
 new file mode 100644
-index 0000000..bdb36f9
+index 0000000..07f53da
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-debtcollector_1.10.0.bb
-@@ -0,0 +1,27 @@
-+DESCRIPTION = "A collection of Python deprecation patterns and strategies that help you collect your technical debt in a non-destructive manner."
-+HOMEPAGE = "http://docs.openstack.org/developer/debtcollector/"
++++ b/meta-openstack/recipes-devtools/python/python-funcsigs_1.0.2.bb
+@@ -0,0 +1,18 @@
++DESCRIPTION = "Python function signatures from PEP362 for Python 2.6, 2.7 and 3.2+"
++HOMEPAGE = "http://funcsigs.readthedocs.org"
 +SECTION = "devel/python"
-+LICENSE = "Apache-2"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=d6bc91dc8e5793892189fe7481a2d354"
 +
-+SRCNAME = "debtcollector"
++SRCNAME = "funcsigs"
++SRC_URI = "https://pypi.io/packages/source/f/${SRCNAME}/${SRCNAME}-${PV}.tar.gz \
++"
 +
-+SRC_URI = "https://pypi.io/packages/source/d/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "c85d9e0e7d4d00577695214cb425c5b4"
-+SRC_URI[sha256sum] = "1a3bd886d6aea3775e5366d7335c856449144c0218209af6c660f6be111714a3"
++SRC_URI[md5sum] = "7e583285b1fb8a76305d6d68f4ccc14e"
++SRC_URI[sha256sum] = "a7bb0f2cf3a3fd1ab2732cb49eba4252c2af4240442415b4abce3b87022a8f50"
 +
 +S = "${WORKDIR}/${SRCNAME}-${PV}"
 +
 +inherit setuptools
 +
-+DEPENDS += " \
-+        python-pip \
-+        python-pbr \
-+        "
-+
-+# RDEPENDS_default:
-+RDEPENDS_${PN} += " \
-+        python-pbr \
-+        python-funcsigs \
-+        "
++CLEANBROKEN = "1"
 -- 
 2.7.4
 
