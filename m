@@ -1,14 +1,20 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9D520E00A9B; Fri, 20 Jan 2017 06:01:02 -0800 (PST)
+	id 8E6BDE00AAA; Fri, 20 Jan 2017 06:01:41 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE, 
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.161.182 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.161.182 listed in dnsbl.sorbs.net]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -17,51 +23,48 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.213.177 listed in list.dnswl.org]
-Received: from mail-yb0-f177.google.com (mail-yb0-f177.google.com
-	[209.85.213.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 67E10E00A3B
+Received: from mail-yw0-f182.google.com (mail-yw0-f182.google.com
+	[209.85.161.182])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E94FCE00A9B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 Jan 2017 06:00:58 -0800 (PST)
-Received: by mail-yb0-f177.google.com with SMTP id w194so54802510ybe.0
+	Fri, 20 Jan 2017 06:01:39 -0800 (PST)
+Received: by mail-yw0-f182.google.com with SMTP id w75so87654291ywg.1
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 Jan 2017 06:00:58 -0800 (PST)
+	Fri, 20 Jan 2017 06:01:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=vUXSZjoRpYpqL58LC5Xj9o1ugxiVX3G9QWbZH5GeTOc=;
-	b=RcOcPbRHykD8aRxnwPGyt6GwFaeas0JrQqh6f5ii7aJ0RkfASCX+X4QkHq19H3hI5y
-	saalCBEuOYIU/3OowsttOyvipgzgSzVuHYB0o1goEvpySIe3M0x11rlWebglcJKrKxmx
-	W0/+2yVmRR6bKxn+GRrpCx7YdXPuW0kVs80j0paQbfgQZt9apm9vETKsINMjDLNOnNJM
-	rj0AzmigC0aCHM032WQKH4T6NJgPJpCzRkW1nMudBmCTZJDhXLuZzAr8/+dszOhMMtnV
-	pkxEj0df8zeiIB6lj+x1rl0c3SvVex21ZpE6vpunwj9BYS3P4OPpr65f7iNCC2ktVrlS
-	I84g==
+	:cc; bh=dOR6XdBI67CWDSjbDjviIBJ/R7/nAqgaYrjk263Mpxk=;
+	b=u3lB82czggdO1f+174EOhpesZ1pINcxeRJkWsdizZH1BVBvo+9EmsBw0RQWp6qhPZw
+	XXQ0Q5Usa7PV8Ozh1GQAqmfWwCz31FglP08+N/8bqxp5UmIqIbsZuO5qkCyCe7LxEKTB
+	2ApUjecx1xpLJPzRN6LtatXAa0s3YP2qFDs4GtFVGkUZeDWKYqHw+aZNuXggWIfyoOJ/
+	GSujjAySCxn8ePyqLcKT40A6hTbYtWj2JWRzT6jeWEXYugpZUm/yLOLboUaMQEMDyktv
+	aLRdAox9UvZhMKKM/U+0oF1YlvsPv0tmdAewNWeydLkXx73TuOkW5t4f8+Lx06gPtupN
+	FB4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=vUXSZjoRpYpqL58LC5Xj9o1ugxiVX3G9QWbZH5GeTOc=;
-	b=p92xdyZXj+RO/5/sNd3+YJrQ80wMfQt7K0q8dqjDA0oDxztAqf+vp1TShQELSiio/u
-	uwwAi8/K0PfcHM506ySlYcP5mcfembV7ic7pkuDWr6VcMQ2X24FtB9xmBVKfAwLxZlCl
-	lU3uPVHf2lRX8nyuFzALGuDCe47Lq9vshLpN56dNWl3xy0mCUPGJzfqkqgUk4k24N6ND
-	PwJc5Ex+sAdOmQl/0dnQzGRGM/Kr4BCr4qe0VWt3/pt4nSJwghXfGvgLKoR2EAh7t5RC
-	Se6kGZRL490Nn1etyD4psjperejeuZJLDOt3ZW4Sf3NB7dtIQvcnFJ5b+Tai+rHjgWrB
-	Ra3w==
-X-Gm-Message-State: AIkVDXJuC8D/YMfRXvjbKZn2yXjEqT6Mz2maHH0+3u/hFpqhactwwAbm/Z1S0MoYZHCezU6pnwJ4ws6tRztNlQ==
-X-Received: by 10.237.38.65 with SMTP id z59mr12101414qtc.5.1484920858368;
-	Fri, 20 Jan 2017 06:00:58 -0800 (PST)
+	bh=dOR6XdBI67CWDSjbDjviIBJ/R7/nAqgaYrjk263Mpxk=;
+	b=cq+EwdKLrTicSEWc6CNQdXy2Pa2L2nDwLxRyPYWBsEF6M3kufYqqENmjV9OOH+V4a3
+	54v+tkscKZs+bm7o57ERl9H0L2gkwjFV9vaoAOzIsGXIxWfEW2ys90Z5JYyumNZmZmk9
+	meypSMmBCGsFHZbfd1OjpYb07RfzS86HijYtQVr15e+1P6VfkImLd8znea0ImsHp3m9o
+	w8Ytj5Zd0vqDrqyJPTS3qERAmQuDVXsDR84qECA98JcMIcDfQfpBSHdTatDBgeF0DrB4
+	s1NhFjJyYiWfaX1zz+skx7LfCvAf/hLgkXPx6HXSZVp7eEsxrQzw2GaILys78H7MXzcl
+	8QDA==
+X-Gm-Message-State: AIkVDXK254UdIKqsOySoTw2Swoh36b3Xc2tkBQx2MqkMwOuzDIG9sP+RcGQ36A19BMNtKX7opNO5glm+laTdOQ==
+X-Received: by 10.55.101.194 with SMTP id z185mr2159361qkb.318.1484920899333; 
+	Fri, 20 Jan 2017 06:01:39 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.135.153 with HTTP; Fri, 20 Jan 2017 06:00:57 -0800 (PST)
-In-Reply-To: <1484854386-3400-1-git-send-email-mark.asselstine@windriver.com>
-References: <1484854386-3400-1-git-send-email-mark.asselstine@windriver.com>
+Received: by 10.12.135.153 with HTTP; Fri, 20 Jan 2017 06:01:36 -0800 (PST)
+In-Reply-To: <1484905455-1488-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+References: <1484905455-1488-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 20 Jan 2017 09:00:57 -0500
-Message-ID: <CADkTA4MJGZ9xORLd52hHAh8YK6WkVj7dOPsEitmEndnR5+-gww@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Fri, 20 Jan 2017 09:01:36 -0500
+Message-ID: <CADkTA4Ocuas4RiiBp0U9Fi8w059f3s69CZBw-3ABbhbvFbhUyw@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [0/2] python-sqlalchemy uprev / new version
+Subject: Re: [meta-cloud-services] [PATCH] python-routes: 1.13 -> 2.4.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,37 +77,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 14:01:02 -0000
-Content-Type: multipart/alternative; boundary=94eb2c122e58486301054687142f
+X-List-Received-Date: Fri, 20 Jan 2017 14:01:41 -0000
+Content-Type: multipart/alternative; boundary=94eb2c05e1deb9745e05468716cb
 
---94eb2c122e58486301054687142f
+--94eb2c05e1deb9745e05468716cb
 Content-Type: text/plain; charset=UTF-8
 
-merged.
+All the meta-cloud-services uprevs should now be merged. If I missed any
+changes,
+resend the patches.
+
+Cheers,
 
 Bruce
 
-On Thu, Jan 19, 2017 at 2:33 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
+On Fri, Jan 20, 2017 at 4:44 AM, Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+wrote:
 
-> There are two distinct active release series of the python sqlalchemy
-> package (1.0.x and 1.1.x). For some packages, like docker-registry
-> there appears to be no incompatibility issues when using the 1.0.x vs
-> the 1.1.x series, however, there are openstack packages which are only
-> compatible with the 1.0.x series. As such we can add the recipes to
-> build the 1.1.x series but for now we will leave the 1.0.x series in
-> place for those packages which require it.
+> 1) Upgrade python-routes from 1.13 to 2.4.1.
+> 2) Change the License file's name and checksum,since the license file is
+> changed.
 >
-> Huang Qiyu's original uprev to 1.1.5 has been modified to leave 1.0.9
-> in place and I have included a second commit to uprev to the latest
-> stable release in the 1.0.x series.
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+> ---
+>  meta-openstack/recipes-devtools/python/python-routes_git.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> Huang Qiyu please have a look and agree to these changes, since I left
-> your signoff in place I don't want Bruce to merge this until you are
-> comfortable with my changes.
+> diff --git a/meta-openstack/recipes-devtools/python/python-routes_git.bb
+> b/meta-openstack/recipes-devtools/python/python-routes_git.bb
+> index 814339b..408f0a8 100644
+> --- a/meta-openstack/recipes-devtools/python/python-routes_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-routes_git.bb
+> @@ -2,10 +2,10 @@ DESCRIPTION = "A Python re-implementation of the Rails
+> routes system."
+>  HOMEPAGE = "http://routes.groovie.org"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=aa6285dc7b7c93b3905bb2757f33eb62"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=90976c1a0e3029278f882cfe2e84a6
+> ae"
 >
-> Regards,
-> Mark
+> -PV = "1.13+git${SRCPV}"
+> -SRCREV = "467501d5fcfa265b3dfae615e7f0dcda8ce79d4e"
+> +PV = "2.4.1+git${SRCPV}"
+> +SRCREV = "2dcef8079cf09f427eeb0be62374f6c1a52bf59d"
+>
+>  SRCNAME = "Routes"
+>  SRC_URI = "git://github.com/bbangert/routes.git"
+> --
+> 2.7.4
+>
+>
+>
 > --
 > _______________________________________________
 > meta-virtualization mailing list
@@ -118,37 +142,69 @@ mark.asselstine@windriver.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---94eb2c122e58486301054687142f
+--94eb2c05e1deb9745e05468716cb
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>merged.<br><br></div>Bruce<br></div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On Thu, Jan 19, 2017 at 2:33 PM, M=
-ark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@wind=
-river.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span> w=
-rote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">There are two distinct active relea=
-se series of the python sqlalchemy<br>
-package (1.0.x and 1.1.x). For some packages, like docker-registry<br>
-there appears to be no incompatibility issues when using the 1.0.x vs<br>
-the 1.1.x series, however, there are openstack packages which are only<br>
-compatible with the 1.0.x series. As such we can add the recipes to<br>
-build the 1.1.x series but for now we will leave the 1.0.x series in<br>
-place for those packages which require it.<br>
+<div dir=3D"ltr"><div><div><div>All the meta-cloud-services uprevs should n=
+ow be merged. If I missed any changes,<br></div>resend the patches.<br><br>=
+</div>Cheers,<br><br></div>Bruce<br></div><div class=3D"gmail_extra"><br><d=
+iv class=3D"gmail_quote">On Fri, Jan 20, 2017 at 4:44 AM, Huang Qiyu <span =
+dir=3D"ltr">&lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com" target=3D"_b=
+lank">huangqy.fnst@cn.fujitsu.com</a>&gt;</span> wrote:<br><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
+ding-left:1ex">1) Upgrade python-routes from 1.13 to 2.4.1.<br>
+2) Change the License file&#39;s name and checksum,since the license file i=
+s changed.<br>
 <br>
-Huang Qiyu&#39;s original uprev to 1.1.5 has been modified to leave 1.0.9<b=
-r>
-in place and I have included a second commit to uprev to the latest<br>
-stable release in the 1.0.x series.<br>
+Signed-off-by: Huang Qiyu &lt;<a href=3D"mailto:huangqy.fnst@cn.fujitsu.com=
+">huangqy.fnst@cn.fujitsu.com</a>&gt;<br>
+---<br>
+=C2=A0meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://python-=
+routes_git.bb" rel=3D"noreferrer" target=3D"_blank">python-routes_<wbr>git.=
+bb</a> | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
 <br>
-Huang Qiyu please have a look and agree to these changes, since I left<br>
-your signoff in place I don&#39;t want Bruce to merge this until you are<br=
->
-comfortable with my changes.<br>
+diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://=
+python-routes_git.bb" rel=3D"noreferrer" target=3D"_blank">python-routes_<w=
+br>git.bb</a> b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http=
+://python-routes_git.bb" rel=3D"noreferrer" target=3D"_blank">python-routes=
+_<wbr>git.bb</a><br>
+index 814339b..408f0a8 100644<br>
+--- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://python-=
+routes_git.bb" rel=3D"noreferrer" target=3D"_blank">python-routes_<wbr>git.=
+bb</a><br>
++++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://python-=
+routes_git.bb" rel=3D"noreferrer" target=3D"_blank">python-routes_<wbr>git.=
+bb</a><br>
+@@ -2,10 +2,10 @@ DESCRIPTION =3D &quot;A Python re-implementation of the R=
+ails routes system.&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://routes.groovie.org" rel=3D"noref=
+errer" target=3D"_blank">http://routes.groovie.org</a>&quot;<br>
+=C2=A0SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>aa6285dc7b7c93b3905bb=
+2757f33eb<wbr>62&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D<wbr>90976c1a0e3029278=
+f882cfe2e84a6<wbr>ae&quot;<br>
 <br>
-Regards,<br>
-Mark<br>
+-PV =3D &quot;1.13+git${SRCPV}&quot;<br>
+-SRCREV =3D &quot;<wbr>467501d5fcfa265b3dfae615e7f0dc<wbr>da8ce79d4e&quot;<=
+br>
++PV =3D &quot;2.4.1+git${SRCPV}&quot;<br>
++SRCREV =3D &quot;<wbr>2dcef8079cf09f427eeb0be62374f6<wbr>c1a52bf59d&quot;<=
+br>
+<br>
+=C2=A0SRCNAME =3D &quot;Routes&quot;<br>
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/bbangert/routes.=
+git" rel=3D"noreferrer" target=3D"_blank">github.com/bbangert/<wbr>routes.g=
+it</a>&quot;<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+<br>
+<br>
+--<br>
 ______________________________<wbr>_________________<br>
 meta-virtualization mailing list<br>
 <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
@@ -162,4 +218,4 @@ ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
 t;</div>
 </div>
 
---94eb2c122e58486301054687142f--
+--94eb2c05e1deb9745e05468716cb--
