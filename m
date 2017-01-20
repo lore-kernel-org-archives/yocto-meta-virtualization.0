@@ -1,63 +1,39 @@
-Return-Path: <fathi.boudra@linaro.org>
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 58D0EE00480; Fri, 20 Jan 2017 00:34:25 -0800 (PST)
+	id CA698E00AA2; Fri, 20 Jan 2017 01:44:43 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_LOW,
-	RCVD_IN_SORBS_SPAM autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.215.49 listed in dnsbl.sorbs.net]
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.215.49 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CA3BAE003E1
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2C262E00A6B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 Jan 2017 00:34:23 -0800 (PST)
-Received: by mail-lf0-f49.google.com with SMTP id v186so52738560lfa.1
+	Fri, 20 Jan 2017 01:44:40 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="14950074"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 20 Jan 2017 17:44:35 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id C0CE447B0CBF
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 Jan 2017 00:34:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=A5jf+sAkWplQmTy9gBdilhw/QLCgIK+Sj3hHfDtIN7c=;
-	b=FPyTecyOEE8jcsAqw0lhyZIKWx78wyXK6kckz0FC+EtsLvW1mC8DB0wC9yk5XqA6lA
-	d4UkQIJomgQ9vq80LHYez7ppk8k+WYVII4iBI8JHo8orZlAghqiViAFKXnmARgvjNlDY
-	4EcjCVmQkdl7qrhv6/2ukY8W9497Jgz6ZiFOs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=A5jf+sAkWplQmTy9gBdilhw/QLCgIK+Sj3hHfDtIN7c=;
-	b=ZjHX9A/Ch9sKk3Wly03AEzVgwcB9P4ye1bftonXMQG91L2LcfoasYz3Bwx+ROvBWf/
-	u1CeOSiVGm34AJ3wODh1iIuKl73xf9xEJvI8uDAb5Bc70c9KcZYfFXkb/C2eLzOBmCbC
-	VQvsIeH9La1XYBc7H2yDJ4CTKqtaniu+bzsdCjWWGsVk6fQLjEZCm3gb4Drpe3ctJowq
-	1VeoH9uSn5Qh+yiDQ1+HLQnW6OqO0nt9Q770rJCdhOooI9fFNR16nx4GXJozygvRSAP1
-	x75sWjtaY0OGEYIKfJoBUQFQZ9tPg+QKmcz2R2maf5FwM1boQyANpjUUQFNamgAVRCZ9
-	eMtw==
-X-Gm-Message-State: AIkVDXKGKyZHC6CflNmN/wxSVU8wepbn3XWWhwOQrUBw+SeJYxH0BTg4UyThKKTODYJclSNK
-X-Received: by 10.25.204.197 with SMTP id c188mr3852596lfg.107.1484901262076; 
-	Fri, 20 Jan 2017 00:34:22 -0800 (PST)
-Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
-	[91.156.68.16])
-	by smtp.gmail.com with ESMTPSA id v26sm3041155ljd.9.2017.01.20.00.34.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Jan 2017 00:34:20 -0800 (PST)
-From: Fathi Boudra <fathi.boudra@linaro.org>
-To: meta-virtualization@yoctoproject.org
-Date: Fri, 20 Jan 2017 10:34:15 +0200
-Message-Id: <20170120083415.5677-1-fathi.boudra@linaro.org>
-X-Mailer: git-send-email 2.11.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-Subject: [PATCH] docker: update to 1.13.0 release
+	Fri, 20 Jan 2017 17:44:35 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Fri, 20 Jan 2017 17:44:36 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 20 Jan 2017 17:44:15 +0800
+Message-ID: <1484905455-1488-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: C0CE447B0CBF.A9B53
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+Subject: [meta-cloud-services] [PATCH] python-routes: 1.13 -> 2.4.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -70,38 +46,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Jan 2017 08:34:25 -0000
+X-List-Received-Date: Fri, 20 Jan 2017 09:44:43 -0000
+Content-Type: text/plain
 
-Adjust SRCREV and DOCKER_VERSION to match docker 1.13.0 release.
+1) Upgrade python-routes from 1.13 to 2.4.1.
+2) Change the License file's name and checksum,since the license file is changed.
 
-Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- recipes-containers/docker/docker_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-openstack/recipes-devtools/python/python-routes_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index 62a016a..1eb24a5 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
-  subtle and/or glaring issues. \
-  "
+diff --git a/meta-openstack/recipes-devtools/python/python-routes_git.bb b/meta-openstack/recipes-devtools/python/python-routes_git.bb
+index 814339b..408f0a8 100644
+--- a/meta-openstack/recipes-devtools/python/python-routes_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-routes_git.bb
+@@ -2,10 +2,10 @@ DESCRIPTION = "A Python re-implementation of the Rails routes system."
+ HOMEPAGE = "http://routes.groovie.org"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=aa6285dc7b7c93b3905bb2757f33eb62"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=90976c1a0e3029278f882cfe2e84a6ae"
  
--SRCREV = "7392c3b0ce0f9d3e918a321c66668c5d1ef4f689"
-+SRCREV = "49bf474f9ed7ce7143a59d1964ff7b7fd9b52178"
- SRC_URI = "\
- 	git://github.com/docker/docker.git;nobranch=1 \
- 	file://docker.service \
-@@ -32,7 +32,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
+-PV = "1.13+git${SRCPV}"
+-SRCREV = "467501d5fcfa265b3dfae615e7f0dcda8ce79d4e"
++PV = "2.4.1+git${SRCPV}"
++SRCREV = "2dcef8079cf09f427eeb0be62374f6c1a52bf59d"
  
- S = "${WORKDIR}/git"
- 
--DOCKER_VERSION = "1.12.5"
-+DOCKER_VERSION = "1.13.0"
- PV = "${DOCKER_VERSION}+git${SRCREV}"
- 
- DEPENDS = " \
+ SRCNAME = "Routes"
+ SRC_URI = "git://github.com/bbangert/routes.git"
 -- 
-2.11.0
+2.7.4
+
+
 
 
