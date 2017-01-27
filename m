@@ -1,41 +1,60 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <kevron.m.rees@intel.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C3AB0E0091A; Wed, 25 Jan 2017 14:08:32 -0800 (PST)
+	id DA3BEE003DB; Fri, 27 Jan 2017 08:36:46 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [74.125.82.178 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 61F5EE00833
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [74.125.82.178 listed in list.dnswl.org]
+Received: from mail-ot0-f178.google.com (mail-ot0-f178.google.com
+	[74.125.82.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A819FE0030B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 25 Jan 2017 14:08:30 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v0PM7xOY027356
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 25 Jan 2017 14:07:59 -0800 (PST)
-Received: from yow-masselst-lx1.localnet (128.224.21.121) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.294.0; Wed, 25 Jan 2017 14:07:58 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 25 Jan 2017 17:07:57 -0500
-Message-ID: <2964403.UCI0HIUZlp@yow-masselst-lx1>
-Organization: Wind River
-User-Agent: KMail/5.2.3 (Linux/4.8.0-34-generic; KDE/5.26.0; x86_64; ; )
-In-Reply-To: <CADkTA4P5=dc5C4whpS+zGUPGwEcZu+Wc2wHy-=vVoW1nA+xVJw@mail.gmail.com>
-References: <1485227341-30506-1-git-send-email-mark.asselstine@windriver.com>
-	<CADkTA4P5=dc5C4whpS+zGUPGwEcZu+Wc2wHy-=vVoW1nA+xVJw@mail.gmail.com>
+	Fri, 27 Jan 2017 08:36:39 -0800 (PST)
+Received: by mail-ot0-f178.google.com with SMTP id f9so201217301otd.1
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 27 Jan 2017 08:36:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=EeA1rsS+loT9/J3yZ9Swn+XH9Ul69VGUj885TVKk6TU=;
+	b=Ob0RujQfX46KKuSKUGLeTALjMFXA1hVo/2jUG+mnNMs17vXd0iaGgIc2zOD1tOw0/v
+	+pCWz74kYjM5SeW2w3MmKh8U2zdlBmhp6Z0f2ptpYShZpOYEZ4guYPhadR/j8LM+fBHH
+	8R2+2p4jy6pxD8lHWJ4rMUHeNRTi3zuoB78OBB39XLD7gZPbeJEi5GtbmjKULX9T/dlf
+	o+2M+/vTIq8/YM+c3pRZnvkW+9aHNvKErvf+vYNzRDBuCLlojZwoRtZ34eRsr8YmryHJ
+	RK7NEWNOdwVO+v9MsI69zXQleSwqsMyeH6/SNttwpJnouYktw5J9Rk59pFgkHBEXstII
+	lslw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=EeA1rsS+loT9/J3yZ9Swn+XH9Ul69VGUj885TVKk6TU=;
+	b=X0ooFvyaadDuiPD8WFGk4rZQyaWAEqCzYOppqSQLZS7etAL719aiKKrUpkVCy86h/0
+	fJOymPLw3nm1/RB3eBk6a6RhqQUwAbj+xjQXMfFlI5USsJbAx324SBik4KGtGpGr1yr5
+	9t0qQ9mLTTJZWklRT+peWht/UJXrt3z+RljiNyz8eBSMJJRRj/rfWF7oNndwkiWQbUnQ
+	kOwExcgJAvcbAAy/l8tEK4FoTAU5wjmAvqG4sQO/W4VdaMXlksYQD3F89NDk0WL5Khut
+	ElCyOFn4pvZ4HTHqRmHSnPXj4xA1CdmDSIsxAOhvZjN9EHi6UNPveh7bHgMFHNLXq1/5
+	0xhQ==
+X-Gm-Message-State: AIkVDXKVmPoS8xGuo1D1li8YnQSsTw1bQoOVJndOPPsFMc5IydPUL7G/PQ7EuMYI9Ly+RdXNUGZdq9Cse8dgYkDF
+X-Received: by 10.157.62.203 with SMTP id b69mr4121007otc.30.1485534999112;
+	Fri, 27 Jan 2017 08:36:39 -0800 (PST)
 MIME-Version: 1.0
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [m-c-s][PATCH] python-osc-lib: initial version
+Received: by 10.157.39.199 with HTTP; Fri, 27 Jan 2017 08:36:38 -0800 (PST)
+From: "Rees, Kevron" <kevron.m.rees@intel.com>
+Date: Fri, 27 Jan 2017 08:36:38 -0800
+Message-ID: <CAFW5wYbS2P61xOMy0rpOJzYXwPfXdLBO=CUdLG6D_GfT51dd6Q@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: using lxc-create in yocto environment
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,97 +67,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 25 Jan 2017 22:08:32 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Fri, 27 Jan 2017 16:36:46 -0000
+Content-Type: text/plain; charset=UTF-8
 
-On Wednesday, January 25, 2017 2:31:46 PM EST Bruce Ashfield wrote:
-> Everything should now be merged. I found that one of the patches wouldn't
-> apply, since I had missed a change from one of your older series.
-> 
-> ... so if you can rebase your queue against master, you'll probably find
-> something that I mucked up. Resend those and I'll get them merged.
+I'm trying to call "lxc-create" to create an unprivileged container
+within the yocto environment.  I am using a config file containing
+uid/gid mappings that seems to work on my host system:
 
-Looks like you got everything. Outside of my core openstack uprevs that I am 
-queuing up and haven't sent yet everything seems present and accounted for. I 
-had applied lots of Huang's changes and they are rebased cleanly as well.
+lxc.include = /etc/lxc/default.conf
+lxc.id_map = u 0 100000 65536
+lxc.id_map = g 0 100000 65536
 
-Keep moving forward we go...
+The command I'm using in my bitbake recipe is as follows:
 
-Mark
+lxc-create -l DEBUG -o muhlog.lob \
+              --config=${S}/default.conf --lxcpath=${S}/var/lib/lxc \
+              -t download --name=safety -- -d ubuntu -r xenial -a amd64 \
+              --no-validate
 
-> 
-> Bruce
-> 
-> On Mon, Jan 23, 2017 at 10:09 PM, Mark Asselstine <
-> 
-> mark.asselstine@windriver.com> wrote:
-> > This is required for the uprev of python-heatclient to
-> > stable/newton. The version is selected based on all version
-> > requirements.
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> >  .../python/python-osc-lib_1.1.0.bb                 | 32
-> > 
-> > ++++++++++++++++++++++
-> > 
-> >  1 file changed, 32 insertions(+)
-> >  create mode 100644 meta-openstack/recipes-devtools/python/python-osc-
-> > 
-> > lib_1.1.0.bb
-> > 
-> > diff --git a/meta-openstack/recipes-devtools/python/python-osc-
-> > lib_1.1.0.bb b/meta-openstack/recipes-devtools/python/python-osc-
-> > lib_1.1.0.bb
-> > new file mode 100644
-> > index 0000000..70582f7
-> > --- /dev/null
-> > +++ b/meta-openstack/recipes-devtools/python/python-osc-lib_1.1.0.bb
-> > @@ -0,0 +1,32 @@
-> > +DESCRIPTION = "OpenStackClient Library"
-> > +HOMEPAGE = "http://opensource.perlig.de/rcssmin/"
-> > +SECTION = "devel/python"
-> > +LICENSE = "Apache-2.0"
-> > +LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
-> > +
-> > +SRCNAME = "osc-lib"
-> > +
-> > +SRC_URI = "https://pypi.io/packages/source/o/${SRCNAME}/${SRCNAME}
-> > -${PV}.tar.gz \
-> > +"
-> > +
-> > +SRC_URI[md5sum] = "08bf2b46089da52240893d99a3892897"
-> > +SRC_URI[sha256sum] = "e06ca111b2702d442f5cf70c754b63
-> > 31cc7742231f0fe0b634cbd03c502610ba"
-> > +
-> > +S = "${WORKDIR}/${SRCNAME}-${PV}"
-> > +
-> > +inherit setuptools
-> > +
-> > +RDEPENDS_${PN} += " \
-> > +        python-pbr \
-> > +        python-six \
-> > +        python-babel \
-> > +        python-cliff \
-> > +        python-keystoneauth1 \
-> > +        python-os-client-config \
-> > +        python-oslo.i18n \
-> > +        python-oslo.utils \
-> > +        python-simplejson \
-> > +        python-stevedore \
-> > +        "
-> > +
-> > +CLEANBROKEN = "1"
-> > --
-> > 2.7.4
-> > 
-> > --
-> > _______________________________________________
-> > meta-virtualization mailing list
-> > meta-virtualization@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+"${S}" points to my working directory that has default.conf in it.
 
+The output is as follows:
 
+| DEBUG: Executing shell function do_compile
+| newuidmap: write to uid_map failed: Operation not permitted
+| error mapping child
+| setgid: Invalid argument
+| lxc-create: safety: lxccontainer.c: do_create_container_dir: 985
+Failed to chown container dir
+| lxc-create: safety: tools/lxc_create.c: main: 318 Error creating
+container safety
+
+The "error mapping child" error comes from
+src/lxc/tools/lxc_usernsexec.c:370 when calling lxc_map_ids().
+
+Any hints on why newuidmap would fail?  I'm hoping that's the root
+issue here and the subsequent messages are just the result.
+
+cheers,
+-Kevron
 
