@@ -1,42 +1,71 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1B65AE009A5; Wed,  8 Feb 2017 09:53:42 -0800 (PST)
+	id 89194E00655; Wed,  8 Feb 2017 10:38:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.213.193 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1447E006C6
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.213.193 listed in list.dnswl.org]
+Received: from mail-yb0-f193.google.com (mail-yb0-f193.google.com
+	[209.85.213.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 65C01E004D8
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  8 Feb 2017 09:53:39 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v18Hrc1T004925
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  8 Feb 2017 10:38:13 -0800 (PST)
+Received: by mail-yb0-f193.google.com with SMTP id j82so6464138ybg.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 8 Feb 2017 09:53:38 -0800 (PST)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 8 Feb 2017 09:53:38 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>
-Date: Wed, 8 Feb 2017 12:53:28 -0500
-Message-ID: <1486576408-24433-3-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1486576408-24433-1-git-send-email-mark.asselstine@windriver.com>
-References: <1486576408-24433-1-git-send-email-mark.asselstine@windriver.com>
+	Wed, 08 Feb 2017 10:38:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:reply-to:sender:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ZrAHG8KFmmUgezS1JJsm3u4hJJvI8kKYgkPtGdrwgGA=;
+	b=tJccOHDsKyXJw3VB6JyfRBhl1WVRyUniZFkU4OY0R7Sn7x3ydulLoCfz4oKUYTIR3i
+	phqiGNsYtjCGi5rT7zw4/40u3Q4AnlXuezDBpH1MkTe0esqN2GRipddJyoW3Mi8ttIwP
+	tt7N/rbUgYdTV4qZXI7or1mnbtTtiH67oA/puoOOCRzl8xsv/A2R/Dc1ZrVGJm+3LxFY
+	rqIGk2SvgOb5XI/NUU+b2sPwRtaw/uR9+RLKMQ++8GfK671cbA2x1qCCJP/J4l8UhO5N
+	KD2+EpdYQgaoOlF1O9wpxeE78oEaGQwftpcghjuRqF1FgBXjVZQ+tI0IEBXhaMMz6SIc
+	1+0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
+	:references:from:date:message-id:subject:to:cc;
+	bh=ZrAHG8KFmmUgezS1JJsm3u4hJJvI8kKYgkPtGdrwgGA=;
+	b=S79MfUpzTvkvhpB/cVMw1DhF9kmh8Z6i9fFLOXM3/124YLffrv9wBWF1ZqobYwxOEN
+	0fjh/MseCXWNiy+AuR/VI26LtCl5kavoHNx6di5dQMwGvvvT5ueop+ozU5lovu+E7TDW
+	pbfNTlxvxW0EdgMGV2YCzNaoKpJlXj672RLXLS/jPUotkHEFoyVlYjNrrsF46BAo+SMW
+	3mMlduY2ApYV3T/vWcoeRpOPRl31x5GN6YqSLbPaGor61PIZPHzl3C3ngdldKDaapieZ
+	bvwNlnfppx+EIHsrknhXSdxhPQOXYA3Va2ziPRG/65AlMrqwgvlYqL1D1qV8d4bU1gVt
+	y6Fg==
+X-Gm-Message-State: AMke39nJgkOas+Lo7UCiCRYweTmyM2XsbpWtojSC3PLri+JhTzqeJMMX3b320GL6Wp/M7qwtlcc0Qoo+Wf2lBQ==
+X-Received: by 10.37.177.167 with SMTP id h39mr16050313ybj.110.1486579092240; 
+	Wed, 08 Feb 2017 10:38:12 -0800 (PST)
 MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org
-Subject: [PATCH 3/3] docker: fixup failing build
+Sender: asselsm@gmail.com
+Received: by 10.37.21.66 with HTTP; Wed, 8 Feb 2017 10:38:11 -0800 (PST)
+In-Reply-To: <1486573071-2022-1-git-send-email-amarnath.valluri@intel.com>
+References: <1486573071-2022-1-git-send-email-amarnath.valluri@intel.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Wed, 8 Feb 2017 13:38:11 -0500
+X-Google-Sender-Auth: KJopA3UgaEg4mC6QcLLw2jim94I
+Message-ID: <CAPuovEJ5aUwU6TUzJc6KZUxcQnEKwew4-XikKTRu+QW54kNcBA@mail.gmail.com>
+To: Amarnath Valluri <amarnath.valluri@intel.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH v2] libvirt: Place systemd units at appropriate location.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -46,399 +75,116 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Feb 2017 17:53:42 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Feb 2017 18:38:16 -0000
+Content-Type: text/plain; charset=UTF-8
 
-Docker is failing to build because it is attempting to download
-missing go dependencies. Add new recipes for missing dependencies and
-update existing recipes to ensure the version defined in docker's
-vendor.conf is available.
+On Wed, Feb 8, 2017 at 11:57 AM, Amarnath Valluri
+<amarnath.valluri@intel.com> wrote:
+> Systemd untis should be placed as per ${systemd_system_unitdir}.
+>
+> Patched the source code to support configure variable to set the systemd units
+> directory.
+>
+> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+> ---
 
-Note that this fixes the build only. At this time many docker
-functions are working, such as 'docker image', 'docker pull' and more,
-but 'docker run' is currently failing.
+Thanks for making the change, these are good updates.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- recipes-containers/docker/docker_git.bb            |  6 +++-
- recipes-devtools/go/compose-file_git.bb            | 41 ++++++++++++++++++++++
- recipes-devtools/go/go-capability_git.bb           |  3 +-
- recipes-devtools/go/go-connections_git.bb          | 39 ++++++++++++++++++++
- recipes-devtools/go/go-dbus_git.bb                 |  6 ++--
- ...bution-digest_git.bb => go-distribution_git.bb} | 15 +++++---
- recipes-devtools/go/go-fsnotify_git.bb             |  4 +--
- recipes-devtools/go/go-libtrust_git.bb             |  3 +-
- recipes-devtools/go/go-logrus_git.bb               |  4 +--
- recipes-devtools/go/go-patricia_git.bb             |  4 +--
- recipes-devtools/go/go-systemd_git.bb              |  8 +++--
- recipes-devtools/go/grpc-go_git.bb                 | 41 ++++++++++++++++++++++
- recipes-devtools/go/notary_git.bb                  | 39 ++++++++++++++++++++
- 13 files changed, 195 insertions(+), 18 deletions(-)
- create mode 100644 recipes-devtools/go/compose-file_git.bb
- create mode 100644 recipes-devtools/go/go-connections_git.bb
- rename recipes-devtools/go/{go-distribution-digest_git.bb => go-distribution_git.bb} (58%)
- create mode 100644 recipes-devtools/go/grpc-go_git.bb
- create mode 100644 recipes-devtools/go/notary_git.bb
+Mark
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index d264166..75f95f1 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -51,7 +51,11 @@ DEPENDS = " \
-     go-systemd \
-     btrfs-tools \
-     sqlite3 \
--    go-distribution-digest \
-+    go-distribution \
-+    compose-file \
-+    go-connections \
-+    notary \
-+    grpc-go \
-     "
- 
- PACKAGES =+ "${PN}-contrib"
-diff --git a/recipes-devtools/go/compose-file_git.bb b/recipes-devtools/go/compose-file_git.bb
-new file mode 100644
-index 0000000..bcf8c3d
---- /dev/null
-+++ b/recipes-devtools/go/compose-file_git.bb
-@@ -0,0 +1,41 @@
-+DESCRIPTION = "Parser for the Compose file format (version 3)"
-+HOMEPAGE = "https://github.com/aanand/compose-file"
-+SECTION = "devel/go"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=9cd86830b557232ce55e2a6b47387471"
-+
-+SRCNAME = "compose-file"
-+
-+PKG_NAME = "github.com/aanand/${SRCNAME}"
-+SRC_URI = "git://${PKG_NAME}.git;destsuffix=git/src/${PKG_NAME}"
-+
-+SRCREV = "a3e58764f50597b6217fec07e9bff7225c4a1719"
-+PV = "3.0+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+# NO-OP the do compile rule because this recipe is source only.
-+do_compile() {
-+}
-+
-+do_install() {
-+	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
-+	for j in $(cd ${S} && find src/${PKG_NAME} -name "*.go"); do
-+	    if [ ! -d ${D}${prefix}/local/go/$(dirname $j) ]; then
-+	        mkdir -p ${D}${prefix}/local/go/$(dirname $j)
-+	    fi
-+	    cp $j ${D}${prefix}/local/go/$j
-+	done
-+	cp -r ${S}/src/${PKG_NAME}/LICENSE ${D}${prefix}/local/go/src/${PKG_NAME}/
-+}
-+
-+SYSROOT_PREPROCESS_FUNCS += "go_compose_file_sysroot_preprocess"
-+
-+go_compose_file_sysroot_preprocess () {
-+    install -d ${SYSROOT_DESTDIR}${prefix}/local/go/src/${PKG_NAME}
-+    cp -r ${D}${prefix}/local/go/src/${PKG_NAME} ${SYSROOT_DESTDIR}${prefix}/local/go/src/$(dirname ${PKG_NAME})
-+}
-+
-+FILES_${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
-+
-+CLEANBROKEN = "1"
-\ No newline at end of file
-diff --git a/recipes-devtools/go/go-capability_git.bb b/recipes-devtools/go/go-capability_git.bb
-index 4f8f431..8524af6 100644
---- a/recipes-devtools/go/go-capability_git.bb
-+++ b/recipes-devtools/go/go-capability_git.bb
-@@ -9,7 +9,8 @@ SRCNAME = "gocapability"
- PKG_NAME = "github.com/syndtr/${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "8e4cdcb3c22b40d5e330ade0b68cb2e2a3cf6f98"
-+SRCREV = "2c00daeb6c3b45114c80ac44119e7b8801fdd852"
-+PV = "0.0+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/go-connections_git.bb b/recipes-devtools/go/go-connections_git.bb
-new file mode 100644
-index 0000000..5d071b0
---- /dev/null
-+++ b/recipes-devtools/go/go-connections_git.bb
-@@ -0,0 +1,39 @@
-+DESCRIPTION = "Utility package to work with network connections"
-+HOMEPAGE = "https://github.com/docker/connections"
-+SECTION = "devel/go"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=04424bc6f5a5be60691b9824d65c2ad8"
-+
-+SRCNAME = "go-connections"
-+
-+PKG_NAME = "github.com/docker/${SRCNAME}"
-+SRC_URI = "git://${PKG_NAME}.git;destsuffix=git/src/${PKG_NAME}"
-+
-+SRCREV = "4ccf312bf1d35e5dbda654e57a9be4c3f3cd0366"
-+PV = "0.2.1+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+# NO-OP the do compile rule because this recipe is source only.
-+do_compile() {
-+}
-+
-+do_install() {
-+	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
-+	for j in $(cd ${S} && find src/${PKG_NAME} -name "*.go"); do
-+	    if [ ! -d ${D}${prefix}/local/go/$(dirname $j) ]; then
-+	        mkdir -p ${D}${prefix}/local/go/$(dirname $j)
-+	    fi
-+	    cp $j ${D}${prefix}/local/go/$j
-+	done
-+	cp -r ${S}/src/${PKG_NAME}/LICENSE ${D}${prefix}/local/go/src/${PKG_NAME}/
-+}
-+
-+SYSROOT_PREPROCESS_FUNCS += "go_connections_sysroot_preprocess"
-+
-+go_connections_sysroot_preprocess () {
-+    install -d ${SYSROOT_DESTDIR}${prefix}/local/go/src/${PKG_NAME}
-+    cp -r ${D}${prefix}/local/go/src/${PKG_NAME} ${SYSROOT_DESTDIR}${prefix}/local/go/src/$(dirname ${PKG_NAME})
-+}
-+
-+FILES_${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
-diff --git a/recipes-devtools/go/go-dbus_git.bb b/recipes-devtools/go/go-dbus_git.bb
-index 092bd50..9b206a1 100644
---- a/recipes-devtools/go/go-dbus_git.bb
-+++ b/recipes-devtools/go/go-dbus_git.bb
-@@ -2,15 +2,15 @@ DESCRIPTION = "Native Go bindings for D-Bus"
- HOMEPAGE = "https://github.com/godbus/dbus"
- SECTION = "devel/go"
- LICENSE = "BSD-2-Clause"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=b5ac622301483800715d770434e27e5b"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=09042bd5c6c96a2b9e45ddf1bc517eed"
- 
- SRCNAME = "dbus"
- 
- PKG_NAME = "github.com/godbus/${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "88765d85c0fdadcd98a54e30694fa4e4f5b51133"
--PV = "2+git${SRCREV}"
-+SRCREV = "5f6efc7ef2759c81b7ba876593971bfce311eab3"
-+PV = "4.0.0+git${SRCREV}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/go-distribution-digest_git.bb b/recipes-devtools/go/go-distribution_git.bb
-similarity index 58%
-rename from recipes-devtools/go/go-distribution-digest_git.bb
-rename to recipes-devtools/go/go-distribution_git.bb
-index 2a803da..9e3f209 100644
---- a/recipes-devtools/go/go-distribution-digest_git.bb
-+++ b/recipes-devtools/go/go-distribution_git.bb
-@@ -2,14 +2,15 @@ DESCRIPTION = "The Docker toolset to pack, ship, store, and deliver content"
- HOMEPAGE = "https://github.com/docker/distribution"
- SECTION = "devel/go"
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
-+LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=d2794c0df5b907fdace235a619d80314"
- 
- SRCNAME = "distribution"
- 
- PKG_NAME = "github.com/docker/${SRCNAME}"
--SRC_URI = "git://${PKG_NAME}.git"
-+SRC_URI = "git://${PKG_NAME}.git;branch=docker/1.13;destsuffix=git/src/${PKG_NAME}"
- 
--SRCREV = "d957768537c5af40e4f4cd96871f7b2bde9e2923"
-+SRCREV = "28602af35aceda2f8d571bad7ca37a54cf0250bc"
-+PV = "2.6.0+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
-@@ -19,7 +20,13 @@ do_compile() {
- 
- do_install() {
- 	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
--	cp -r ${S}/LICENSE ${S}/digest ${D}${prefix}/local/go/src/${PKG_NAME}/
-+	for j in $(cd ${S} && find src/${PKG_NAME} -name "*.go"); do
-+	    if [ ! -d ${D}${prefix}/local/go/$(dirname $j) ]; then
-+	        mkdir -p ${D}${prefix}/local/go/$(dirname $j)
-+	    fi
-+	    cp $j ${D}${prefix}/local/go/$j
-+	done
-+	cp -r ${S}/src/${PKG_NAME}/LICENSE ${D}${prefix}/local/go/src/${PKG_NAME}/
- }
- 
- SYSROOT_PREPROCESS_FUNCS += "go_distribution_digeset_sysroot_preprocess"
-diff --git a/recipes-devtools/go/go-fsnotify_git.bb b/recipes-devtools/go/go-fsnotify_git.bb
-index e18f574..e5bcf14 100644
---- a/recipes-devtools/go/go-fsnotify_git.bb
-+++ b/recipes-devtools/go/go-fsnotify_git.bb
-@@ -9,8 +9,8 @@ SRCNAME = "fsnotify"
- PKG_NAME = "github.com/go-fsnotify/${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "ca50e738d35a862c379baf8fffbc3bfd080b3cff"
--PV = "1.0.4+git${SRCREV}"
-+SRCREV = "836bfd95fecc0f1511dd66bdbf2b5b61ab8b00b6"
-+PV = "1.2.11+git${SRCREV}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/go-libtrust_git.bb b/recipes-devtools/go/go-libtrust_git.bb
-index f2acfb4..5565946 100644
---- a/recipes-devtools/go/go-libtrust_git.bb
-+++ b/recipes-devtools/go/go-libtrust_git.bb
-@@ -9,7 +9,8 @@ SRCNAME = "libtrust"
- PKG_NAME = "github.com/docker/${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "230dfd18c2326f1e9d08238710e67a1040187d07"
-+SRCREV = "9cbd2a1374f46905c68a4eb3694a130610adc62a"
-+PV = "0.0+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/go-logrus_git.bb b/recipes-devtools/go/go-logrus_git.bb
-index 082c1a6..5c0c359 100644
---- a/recipes-devtools/go/go-logrus_git.bb
-+++ b/recipes-devtools/go/go-logrus_git.bb
-@@ -9,8 +9,8 @@ SRCNAME = "logrus"
- PKG_NAME = "github.com/Sirupsen/${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "3fc34d061b9c78a70db853c7cb6b0576b6d4f32d"
--PV = "0.7.1+git${SRCREV}"
-+SRCREV = "d26492970760ca5d33129d2d799e34be5c4782eb"
-+PV = "0.11.0+git${SRCREV}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/go-patricia_git.bb b/recipes-devtools/go/go-patricia_git.bb
-index 18c188d..8c1e10d 100644
---- a/recipes-devtools/go/go-patricia_git.bb
-+++ b/recipes-devtools/go/go-patricia_git.bb
-@@ -9,8 +9,8 @@ SRCNAME = "go-patricia"
- PKG_NAME = "github.com/tchap/${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "f64d0a63cd3363481c898faa9339de04d12213f9"
--PV = "1.0.1+git${SRCPV}"
-+SRCREV = "666120de432aea38ab06bd5c818f04f4129882c9"
-+PV = "2.2.6+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/go-systemd_git.bb b/recipes-devtools/go/go-systemd_git.bb
-index 358e6bb..5cbab92 100644
---- a/recipes-devtools/go/go-systemd_git.bb
-+++ b/recipes-devtools/go/go-systemd_git.bb
-@@ -9,8 +9,12 @@ SRCNAME = "systemd"
- PKG_NAME = "github.com/coreos/go-${SRCNAME}"
- SRC_URI = "git://${PKG_NAME}.git"
- 
--SRCREV = "f743bc15d6bddd23662280b4ad20f7c874cdd5ad"
--PV = "2+git${SRCREV}"
-+SRCREV = "b4a58d95188dd092ae20072bac14cece0e67c388"
-+PV = "4+git${SRCREV}"
-+
-+DEPENDS += " \
-+    bash \
-+"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/recipes-devtools/go/grpc-go_git.bb b/recipes-devtools/go/grpc-go_git.bb
-new file mode 100644
-index 0000000..48c4249
---- /dev/null
-+++ b/recipes-devtools/go/grpc-go_git.bb
-@@ -0,0 +1,41 @@
-+DESCRIPTION = "The Go language implementation of gRPC. HTTP/2 based RPC"
-+HOMEPAGE = "https://github.com/grpc/grpc-go"
-+SECTION = "devel/go"
-+LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=a4bad33881612090c6035d8393175996"
-+
-+SRCNAME = "grpc-go"
-+
-+PKG_NAME = "google.golang.org/grpc"
-+SRC_URI = "git://github.com/grpc/${SRCNAME}.git;destsuffix=git/src/${PKG_NAME}"
-+
-+SRCREV = "777daa17ff9b5daef1cfdf915088a2ada3332bf0"
-+PV = "1.4.0+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+# NO-OP the do compile rule because this recipe is source only.
-+do_compile() {
-+}
-+
-+do_install() {
-+	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
-+	for j in $(cd ${S} && find src/${PKG_NAME} -name "*.go"); do
-+	    if [ ! -d ${D}${prefix}/local/go/$(dirname $j) ]; then
-+	        mkdir -p ${D}${prefix}/local/go/$(dirname $j)
-+	    fi
-+	    cp $j ${D}${prefix}/local/go/$j
-+	done
-+	cp -r ${S}/src/${PKG_NAME}/LICENSE ${D}${prefix}/local/go/src/${PKG_NAME}/
-+}
-+
-+SYSROOT_PREPROCESS_FUNCS += "go_grpc_sysroot_preprocess"
-+
-+go_grpc_sysroot_preprocess () {
-+    install -d ${SYSROOT_DESTDIR}${prefix}/local/go/src/${PKG_NAME}
-+    cp -r ${D}${prefix}/local/go/src/${PKG_NAME} ${SYSROOT_DESTDIR}${prefix}/local/go/src/$(dirname ${PKG_NAME})
-+}
-+
-+FILES_${PN} += " \
-+    ${prefix}/local/go/src/${PKG_NAME}/* \
-+"
-diff --git a/recipes-devtools/go/notary_git.bb b/recipes-devtools/go/notary_git.bb
-new file mode 100644
-index 0000000..d638dc1
---- /dev/null
-+++ b/recipes-devtools/go/notary_git.bb
-@@ -0,0 +1,39 @@
-+DESCRIPTION = "Notary is a Docker project that allows anyone to have trust over arbitrary collections of data"
-+HOMEPAGE = "https://github.com/docker/notary"
-+SECTION = "devel/go"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=771ddb425ba03c8fab49e5bd9854a4a2"
-+
-+SRCNAME = "notary"
-+
-+PKG_NAME = "github.com/docker/${SRCNAME}"
-+SRC_URI = "git://${PKG_NAME}.git;destsuffix=git/src/${PKG_NAME}"
-+
-+SRCREV = "c8aa8cf53cbcda2e92def0c9291e25d770493494"
-+PV = "0.4.2+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+# NO-OP the do compile rule because this recipe is source only.
-+do_compile() {
-+}
-+
-+do_install() {
-+	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
-+	for j in $(cd ${S} && find src/${PKG_NAME} -name "*.go"); do
-+	    if [ ! -d ${D}${prefix}/local/go/$(dirname $j) ]; then
-+	        mkdir -p ${D}${prefix}/local/go/$(dirname $j)
-+	    fi
-+	    cp $j ${D}${prefix}/local/go/$j
-+	done
-+	cp -r ${S}/src/${PKG_NAME}/LICENSE ${D}${prefix}/local/go/src/${PKG_NAME}/
-+}
-+
-+SYSROOT_PREPROCESS_FUNCS += "go_notary_sysroot_preprocess"
-+
-+go_notary_sysroot_preprocess () {
-+    install -d ${SYSROOT_DESTDIR}${prefix}/local/go/src/${PKG_NAME}
-+    cp -r ${D}${prefix}/local/go/src/${PKG_NAME} ${SYSROOT_DESTDIR}${prefix}/local/go/src/$(dirname ${PKG_NAME})
-+}
-+
-+FILES_${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
--- 
-2.7.4
-
+>  ...gure-variable-for-placing-systemd-untis-l.patch | 55 ++++++++++++++++++++++
+>  recipes-extended/libvirt/libvirt_1.3.5.bb          |  3 +-
+>  2 files changed, 57 insertions(+), 1 deletion(-)
+>  create mode 100644 recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch
+>
+> diff --git a/recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch b/recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch
+> new file mode 100644
+> index 0000000..a64739c
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch
+> @@ -0,0 +1,55 @@
+> +From 531178d7fbb5d4b3404766cfd0fc999398cccd58 Mon Sep 17 00:00:00 2001
+> +From: Amarnath Valluri <amarnath.valluri@intel.com>
+> +Date: Wed, 8 Feb 2017 18:39:48 +0200
+> +Subject: [PATCH] Added configure variable for placing systemd untis location
+> +
+> +Upstream-Status: Pending
+> +
+> +Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+> +---
+> + configure.ac       | 3 +++
+> + daemon/Makefile.am | 1 -
+> + tools/Makefile.am  | 1 -
+> + 3 files changed, 3 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index 0e5b8e3..5a6408c 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -2687,6 +2687,9 @@ AC_DEFINE_UNQUOTED([isbase64],[libvirt_gl_isbase64],[Hack to avoid symbol clash]
+> + AC_DEFINE_UNQUOTED([base64_encode],[libvirt_gl_base64_encode],[Hack to avoid symbol clash])
+> + AC_DEFINE_UNQUOTED([base64_encode_alloc],[libvirt_gl_base64_encode_alloc],[Hack to avoid symbol clash])
+> +
+> ++AC_ARG_VAR(SYSTEMD_UNIT_DIR, 'location for systemd units, defautls to /lib/systemd/system')
+> ++AS_IF([test "x$SYSTEMD_UNIT_DIR" = "x"], [SYSTEMD_UNIT_DIR="/lib/systemd/system"])
+> ++
+> + AC_CONFIG_FILES([run],
+> +                 [chmod +x,-w run])
+> + AC_CONFIG_FILES([\
+> +diff --git a/daemon/Makefile.am b/daemon/Makefile.am
+> +index edb75e8..2ab42a6 100644
+> +--- a/daemon/Makefile.am
+> ++++ b/daemon/Makefile.am
+> +@@ -449,7 +449,6 @@ endif ! LIBVIRT_INIT_SCRIPT_UPSTART
+> +
+> + if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> +
+> +-SYSTEMD_UNIT_DIR = /lib/systemd/system
+> + BUILT_SOURCES += libvirtd.service
+> +
+> + install-init-systemd: install-sysconfig libvirtd.service
+> +diff --git a/tools/Makefile.am b/tools/Makefile.am
+> +index 27ecbf1..8cefe1a 100644
+> +--- a/tools/Makefile.am
+> ++++ b/tools/Makefile.am
+> +@@ -380,7 +380,6 @@ libvirt-guests.init: libvirt-guests.init.in libvirt-guests.sh
+> +
+> +
+> + EXTRA_DIST += libvirt-guests.service.in
+> +-SYSTEMD_UNIT_DIR = /lib/systemd/system
+> +
+> + if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> + install-systemd: libvirt-guests.service install-sysconfig libvirt-guests.sh
+> +--
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb b/recipes-extended/libvirt/libvirt_1.3.5.bb
+> index c848c99..152130d 100644
+> --- a/recipes-extended/libvirt/libvirt_1.3.5.bb
+> +++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
+> @@ -37,6 +37,7 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+>             file://0001-qemu-Let-empty-default-VNC-password-work-as-document.patch \
+>             file://0001-ptest-add-missing-test_helper-files.patch \
+>             file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
+> +          file://0001-Added-configure-variable-for-placing-systemd-untis-l.patch \
+>            "
+>
+>  SRC_URI[libvirt.md5sum] = "f9dc1e63d559eca50ae0ee798a4c6c6d"
+> @@ -264,7 +265,7 @@ EXTRA_OECONF += " \
+>      --with-init-script=systemd \
+>      "
+>
+> -EXTRA_OEMAKE = "BUILD_DIR=${B} DEST_DIR=${D}${PTEST_PATH} PTEST_DIR=${PTEST_PATH}"
+> +EXTRA_OEMAKE = "BUILD_DIR=${B} DEST_DIR=${D}${PTEST_PATH} PTEST_DIR=${PTEST_PATH} SYSTEMD_UNIT_DIR=${systemd_system_unitdir}"
+>
+>  do_compile_ptest() {
+>         oe_runmake -C tests buildtest-TESTS
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
