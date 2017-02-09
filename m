@@ -1,41 +1,61 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <fathi.boudra@linaro.org>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 696CDE009CF; Thu,  9 Feb 2017 06:53:00 -0800 (PST)
+	id B08C4E009BC; Thu,  9 Feb 2017 13:54:09 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.215.52 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2EA27E006D8
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-lf0-f52.google.com (mail-lf0-f52.google.com
+	[209.85.215.52])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36859E0094C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  9 Feb 2017 06:52:57 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v19Equcu023457
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 Feb 2017 06:52:56 -0800 (PST)
-Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 9 Feb 2017 06:52:55 -0800
-To: Fathi Boudra <fathi.boudra@linaro.org>
-References: <20170209072501.19696-1-fathi.boudra@linaro.org>
-	<1269f062-84ce-cce9-b242-73853573593f@windriver.com>
-	<CAGNsrLDKAe9SXyBanU2zSvABho3Wa5KoNhecJ6UGicYLginvMw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <93d15804-5015-d147-25d5-c6e1ea860e30@windriver.com>
-Date: Thu, 9 Feb 2017 09:52:54 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAGNsrLDKAe9SXyBanU2zSvABho3Wa5KoNhecJ6UGicYLginvMw@mail.gmail.com>
-Cc: meta-virtualization@yoctoproject.org, Koen Kooi <koen.kooi@linaro.org>
-Subject: Re: [PATCH] docker: downgrade lxc/docker-registry/rt-tests to suggests
+	Thu,  9 Feb 2017 13:54:04 -0800 (PST)
+Received: by mail-lf0-f52.google.com with SMTP id x1so10644125lff.0
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 09 Feb 2017 13:54:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=XJssUPh/ckvIEM46P366grw6j2DgplZ5r7oFypqbcoc=;
+	b=XhuO5o4fmQ+Mkesa0GCW+AtDe0HEuxKT9BFmyJcGZ4f5ERtHTd8GBvupU+CDMFne6P
+	rKH5o/gR7AAajS8hIKnI26JB1ED2l9lcc4asxxGCUiVWF6/9KFL7cwLWKH9Zepx9HVa8
+	dsvMieZrBlN8HXgwsfrqKzWtSkIT6rwYH5QSc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XJssUPh/ckvIEM46P366grw6j2DgplZ5r7oFypqbcoc=;
+	b=VJT08ap/X3FkP0/Q3lAxnnF3Uj+gc0OVuSaFpAg9nS6aT78m6tO7zY9yCI2miqSbpE
+	9SrYidJ3y9voz54FvmsEMPEsrUl5RTH5CdjdLLs4U7BozGEt5yEiydfhiQbWSdDo5tsa
+	92u3hDjeQILunJN0+YaWnIcLMPnSKxbIgWvNM7UF32KEmRZq1PIcFHn8xUNoHaEqHjGm
+	Uwm5ZKVP43tJse+raOjsNK/cTjiejQiZfZvhOqIIb2vS9ES0MEzEeKFP4cY5HCIta8Q0
+	MPKIdCAivRgZLYUTOYPDqaaNcSgPoHH2v4r7nxaqPbjWyVGzh/eYMRjxa9jIpe0+hzkW
+	D4bg==
+X-Gm-Message-State: AMke39kUbPOZK69A7Y/1KgQqxjIw4/tUsiN/ONSfPOQZYhp1w1ojpLEMwfsXsrzW5frCTnqM
+X-Received: by 10.25.25.8 with SMTP id 8mr1965544lfz.164.1486677243567;
+	Thu, 09 Feb 2017 13:54:03 -0800 (PST)
+Received: from localhost.localdomain (a91-156-68-16.elisa-laajakaista.fi.
+	[91.156.68.16]) by smtp.gmail.com with ESMTPSA id
+	b18sm3878607lje.13.2017.02.09.13.54.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 09 Feb 2017 13:54:02 -0800 (PST)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: meta-virtualization@yoctoproject.org
+Date: Thu,  9 Feb 2017 23:53:58 +0200
+Message-Id: <20170209215358.4272-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.11.0
+Cc: bruce.ashfield@windriver.com, koen.kooi@linaro.org
+Subject: [PATCH] docker: update to 1.13.1 release
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,65 +68,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2017 14:53:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Feb 2017 21:54:09 -0000
 
-On 2017-02-09 09:52 AM, Fathi Boudra wrote:
-> On 9 February 2017 at 15:56, Bruce Ashfield
-> <bruce.ashfield@windriver.com> wrote:
->> On 2017-02-09 02:25 AM, Fathi Boudra wrote:
->>>
->>> Regular users don't need lxc, docker-registry and rt-tests on the target.
->>> These tools aren't even needed or provide additional features when running
->>> docker at runtime. They also increase the size of the image uneccessarily.
->>
->>
->> They can also just inhibit the installation of rrecommends (which is
->> what I do).
->>
->> But yes, I'm ok with making sure that these aren't slipping into more
->> builds than necessary.
->
-> yes, that's what I thought too but I think it's worth fixing to avoid
-> everybody using docker to fallback using BAD_RECOMMENDATIONS,
-> NO_RECOMMENDATIONS or PACKAGE_EXCLUDE.
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ recipes-containers/docker/docker_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Agreed. It isn't obvious why lxc appears on the target when you
-just want docker :D
-
-This is now merged.
-
-Bruce
-
->
->> Bruce
->>
->>
->>>
->>> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
->>> ---
->>>  recipes-containers/docker/docker_git.bb | 4 ++--
->>>  1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/recipes-containers/docker/docker_git.bb
->>> b/recipes-containers/docker/docker_git.bb
->>> index c208a02..81fd4d4 100644
->>> --- a/recipes-containers/docker/docker_git.bb
->>> +++ b/recipes-containers/docker/docker_git.bb
->>> @@ -61,8 +61,8 @@ RDEPENDS_${PN} = "curl aufs-util git util-linux iptables
->>> \
->>>
->>> ${@bb.utils.contains('DISTRO_FEATURES','systemd','','cgroup-lite',d)} \
->>>                   "
->>>  RDEPENDS_${PN} += "containerd runc"
->>> -RRECOMMENDS_${PN} = "lxc docker-registry rt-tests"
->>> -RRECOMMENDS_${PN} += " kernel-module-dm-thin-pool kernel-module-nf-nat"
->>> +RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat"
->>> +RSUGGESTS_${PN} = "lxc docker-registry rt-tests"
->>>  DOCKER_PKG="github.com/docker/docker"
->>>
->>>  do_configure[noexec] = "1"
->>>
+diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+index 009fe9f..d288898 100644
+--- a/recipes-containers/docker/docker_git.bb
++++ b/recipes-containers/docker/docker_git.bb
+@@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
+  subtle and/or glaring issues. \
+  "
+ 
+-SRCREV = "49bf474f9ed7ce7143a59d1964ff7b7fd9b52178"
++SRCREV = "092cba3727bb9b4a2f0e922cd6c0f93ea270e363"
+ SRC_URI = "\
+ 	git://github.com/docker/docker.git;nobranch=1 \
+ 	file://docker.service \
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DOCKER_VERSION = "1.13.0"
++DOCKER_VERSION = "1.13.1"
+ PV = "${DOCKER_VERSION}+git${SRCREV}"
+ 
+ DEPENDS = " \
+-- 
+2.11.0
 
 
