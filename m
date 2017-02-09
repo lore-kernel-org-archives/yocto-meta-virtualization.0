@@ -1,40 +1,70 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5D98CE00A51; Thu,  9 Feb 2017 06:16:02 -0800 (PST)
+	id 48A0EE00A51; Thu,  9 Feb 2017 06:16:37 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE, 
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.220.194 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.220.194 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D50D9E00A3B
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
+	[209.85.220.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E4B6AE00A3B
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  9 Feb 2017 06:15:59 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v19EFtoA027968
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  9 Feb 2017 06:16:35 -0800 (PST)
+Received: by mail-qk0-f194.google.com with SMTP id i34so734672qkh.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 9 Feb 2017 06:15:55 -0800 (PST)
-Received: from [128.224.56.214] (128.224.56.214) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Thu, 9 Feb 2017 06:15:54 -0800
-To: Mark Asselstine <mark.asselstine@windriver.com>
-References: <1486576408-24433-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <b7e4db56-9375-5c35-7232-cf7bb1958edd@windriver.com>
-Date: Thu, 9 Feb 2017 09:15:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.7.0
+	Thu, 09 Feb 2017 06:16:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=TFvdrlVZt5c/6YdWn4qOvo3jowNhojdjM3AWw1efmZw=;
+	b=I6yFqO3026hnjvpLb41TIf6Qwq04wH1S8j0vRQ6mA2CC5d1aYjsZJfXV1BdLs9GxD2
+	9tZIh9nbCBZWUiIlSMlY9MlFpr6sLfDvkZUnAHAzekCadGLimal54jL/RzRha0lBfgSM
+	7nDG/QeF0XScUS3GcCf/7wuiCBdGtpoLoKsVFpUYrzhF6uZJj5ps2CQdPgoZRehGMiFN
+	Oe9H2rUzqNTRNsWek+Bc1seGAB8VdskyDkdac8CsBL4+2qR9wYtmDlln3fDT1vicEidQ
+	cf0JzpAcPCDDKxUuRnGObdETiGrGBCniDaOAtsWTds++tkK64RdGEDOyLBUCjztguwdB
+	K+gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=TFvdrlVZt5c/6YdWn4qOvo3jowNhojdjM3AWw1efmZw=;
+	b=tJBV/NSMSzncxrD2EUvUPfdYDKTO4cQ0fHpHr/ZDR7QnDqBaFvswEB9MXra3GH0ECJ
+	fA443bJnk6hCcRPPIxfu4PvFOhMKtr3tFtYdHXIp3dT7ed2pIcoqqY3GYzmDrIezMvg/
+	o2iXF6e1r2z0ScafqYhP0lrPyp/b6zF/CgLzKfyQuZrYUs/De3CpbnLhVR7izcvmCfkq
+	CfGUJ46gvkJ+hCOJUW5jTFh16uxYFhEXqzWgJ1aX11tvmCneu2gThFP653xzvsbH7z2U
+	SjESgzm80VRv57wvKRkq6Bg/JVMVN1QBcWuwRaQiIcIYdbz5virYs47nRw5wGqJ0Q6/c
+	Etqw==
+X-Gm-Message-State: AMke39lmqONkUBpmnk8CcVthuYFADeUDyQyl0gjNRItTqIROQ2U+bVc8qkYqyPFdBcGUzw32Re0IiT5DfzcS3Q==
+X-Received: by 10.55.22.97 with SMTP id g94mr2889910qkh.287.1486649794872;
+	Thu, 09 Feb 2017 06:16:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1486576408-24433-1-git-send-email-mark.asselstine@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/3] go-native: rename to go-initial-native
+Received: by 10.12.135.153 with HTTP; Thu, 9 Feb 2017 06:16:34 -0800 (PST)
+In-Reply-To: <1486561594-24053-1-git-send-email-amarnath.valluri@intel.com>
+References: <1486561594-24053-1-git-send-email-amarnath.valluri@intel.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 9 Feb 2017 09:16:34 -0500
+Message-ID: <CADkTA4MWW-B0qcu2n_atNAO+jHLZ7E_Pmak5GebbVUL6dGZ-rA@mail.gmail.com>
+To: Amarnath Valluri <amarnath.valluri@intel.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 1/4] containerd: Replace /lib/systemd/system with ${systemd_system_unitdir}
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,61 +77,108 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Feb 2017 14:16:02 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 Feb 2017 14:16:37 -0000
+Content-Type: multipart/alternative; boundary=001a114967eaedd0c4054819a07b
 
-I've merged the 3 patches in this series.
+--001a114967eaedd0c4054819a07b
+Content-Type: text/plain; charset=UTF-8
+
+All 4 patches in this series are now merged.
 
 Bruce
 
-On 2017-02-08 12:53 PM, Mark Asselstine wrote:
-> With the new per recipe sysroots we were having build issues since the
-> bootstrap version of go (go-native 1.4) was being found and not the
-> go-cross (1.6) we are expecting. This results in errors such as the
-> following when building packages such as containerd:
+On Wed, Feb 8, 2017 at 8:46 AM, Amarnath Valluri <amarnath.valluri@intel.com
+> wrote:
+
+> Make use of bitbake variable where appropriate, this makes the recipe
+> portable.
 >
->   _cgo_.o: decoding dwarf section info at offset 0x4: unsupported version 0
->
-> This is caused by the dependency tree built up to prepare the per
-> recipe sysroot. Since recipes like containerd DEPEND on go-cross and
-> go-cross DEPENDS on go-native both are installed but unlike the old
-> global sysroot the dependency parsing order results in go-native being
-> last, overwriting go-cross. You can see this by running a devshell for
-> containerd and running 'go version'.
->
-> By adding '-initial' in the name we exploit functionality in
-> sstate.bbclass that is already in place to handle gcc-initial and
-> similar. This results in only explicit DEPENDS on go-native being
-> enforced, so in the case of containerd we only get a dependency on
-> go-cross and we therefor get go 1.6 as expected.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
 > ---
->  recipes-devtools/go-cross/go-cross.inc                                | 4 +++-
->  .../go-cross/{go-native_1.4.bb => go-initial-native_1.4.bb}           | 0
->  2 files changed, 3 insertions(+), 1 deletion(-)
->  rename recipes-devtools/go-cross/{go-native_1.4.bb => go-initial-native_1.4.bb} (100%)
+>  recipes-containers/containerd/containerd_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-devtools/go-cross/go-cross.inc b/recipes-devtools/go-cross/go-cross.inc
-> index 7f74903..857fbd5 100644
-> --- a/recipes-devtools/go-cross/go-cross.inc
-> +++ b/recipes-devtools/go-cross/go-cross.inc
-> @@ -1,7 +1,9 @@
->  inherit cross
+> diff --git a/recipes-containers/containerd/containerd_git.bb
+> b/recipes-containers/containerd/containerd_git.bb
+> index ca99e55..77c3e93 100644
+> --- a/recipes-containers/containerd/containerd_git.bb
+> +++ b/recipes-containers/containerd/containerd_git.bb
+> @@ -83,6 +83,6 @@ do_install() {
+>         fi
+>  }
 >
->  # libgcc is required for the target specific libraries to build properly
-> -DEPENDS += "go-native libgcc virtual/${TARGET_PREFIX}gcc"
-> +DEPENDS += "go-initial-native libgcc virtual/${TARGET_PREFIX}gcc"
-> +
-> +do_compile[depends] += "go-initial-native:do_populate_sysroot"
+> -FILES_${PN} += "/lib/systemd/system/*"
+> +FILES_${PN} += "${systemd_system_unitdir}/*"
 >
->  # Prevent runstrip from running because you get errors when the host arch != target arch
->  #INHIBIT_PACKAGE_STRIP = "1"
-> diff --git a/recipes-devtools/go-cross/go-native_1.4.bb b/recipes-devtools/go-cross/go-initial-native_1.4.bb
-> similarity index 100%
-> rename from recipes-devtools/go-cross/go-native_1.4.bb
-> rename to recipes-devtools/go-cross/go-initial-native_1.4.bb
+>  INHIBIT_PACKAGE_STRIP = "1"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
 
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a114967eaedd0c4054819a07b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>All 4 patches in this series are now merged.<br><br><=
+/div>Bruce<br></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
+e">On Wed, Feb 8, 2017 at 8:46 AM, Amarnath Valluri <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:amarnath.valluri@intel.com" target=3D"_blank">amarnath.val=
+luri@intel.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Make=
+ use of bitbake variable where appropriate, this makes the recipe portable.=
+<br>
+<br>
+Signed-off-by: Amarnath Valluri &lt;<a href=3D"mailto:amarnath.valluri@inte=
+l.com">amarnath.valluri@intel.com</a>&gt;<br>
+---<br>
+=C2=A0recipes-containers/containerd/<a href=3D"http://containerd_git.bb" re=
+l=3D"noreferrer" target=3D"_blank"><wbr>containerd_git.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/recipes-containers/<wbr>containerd/<a href=3D"http://container=
+d_git.bb" rel=3D"noreferrer" target=3D"_blank">containerd_git.bb</a> b/reci=
+pes-containers/<wbr>containerd/<a href=3D"http://containerd_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">containerd_git.bb</a><br>
+index ca99e55..77c3e93 100644<br>
+--- a/recipes-containers/<wbr>containerd/<a href=3D"http://containerd_git.b=
+b" rel=3D"noreferrer" target=3D"_blank">containerd_git.bb</a><br>
++++ b/recipes-containers/<wbr>containerd/<a href=3D"http://containerd_git.b=
+b" rel=3D"noreferrer" target=3D"_blank">containerd_git.bb</a><br>
+@@ -83,6 +83,6 @@ do_install() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+=C2=A0}<br>
+<br>
+-FILES_${PN} +=3D &quot;/lib/systemd/system/*&quot;<br>
++FILES_${PN} +=3D &quot;${systemd_system_unitdir}/*&quot;<br>
+<br>
+=C2=A0INHIBIT_PACKAGE_STRIP =3D &quot;1&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
+ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
+t;</div>
+</div>
+
+--001a114967eaedd0c4054819a07b--
