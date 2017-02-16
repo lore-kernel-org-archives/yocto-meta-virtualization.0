@@ -1,41 +1,47 @@
-Return-Path: <jan.kiszka@siemens.com>
+Return-Path: <Muhammad_Sheheryar@mentor.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A8A2BE008D0; Tue, 14 Feb 2017 01:49:15 -0800 (PST)
+	id 6C383E00A0C; Wed, 15 Feb 2017 23:20:55 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [192.35.17.28 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [192.94.38.131 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4B4ABE0086E
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2DAEAE009CF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Feb 2017 01:49:10 -0800 (PST)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id v1E9n6vj029668
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 14 Feb 2017 10:49:06 +0100
-Received: from md1f2u6c.ww002.siemens.net (md1d7d7c.ww300.siemens.net
-	[139.22.47.104])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v1E9n6LJ026404;
-	Tue, 14 Feb 2017 10:49:06 +0100
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <91a2ecd5-1f2d-25c4-ee68-972b8920d67c@siemens.com>
-	<CADkTA4NxjSQZi06Dniog3H6U5xPWq+ZP_UeA9Oigxg_L6E-cUA@mail.gmail.com>
-From: Jan Kiszka <jan.kiszka@siemens.com>
-Message-ID: <88626e0b-e944-751e-9885-c84b74220bd0@siemens.com>
-Date: Tue, 14 Feb 2017 10:49:06 +0100
-User-Agent: Mozilla/5.0 (X11; U; Linux i686 (x86_64); de; rv:1.8.1.12)
-	Gecko/20080226 SUSE/2.0.0.12-1.1 Thunderbird/2.0.0.12 Mnenhy/0.7.5.666
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4NxjSQZi06Dniog3H6U5xPWq+ZP_UeA9Oigxg_L6E-cUA@mail.gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
+	Wed, 15 Feb 2017 23:20:53 -0800 (PST)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-04.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ceGN3-0004Lr-38 from Muhammad_Sheheryar@mentor.com 
+	for meta-virtualization@yoctoproject.org;
+	Wed, 15 Feb 2017 23:20:53 -0800
+Received: from SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) by
+	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Thu, 16 Feb 2017 07:20:50 +0000
+Received: from SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f]) by
+	SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f%22]) with
+	mapi id 15.00.1210.000; Thu, 16 Feb 2017 07:20:50 +0000
+From: "Sheheryar, Muhammad" <Muhammad_Sheheryar@mentor.com>
+To: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] containerd: Fix build on 386
+Thread-Topic: Building docker.
+Thread-Index: AQHSiCUHSCM4slISW0evUZYaUN3+pQ==
+Date: Thu, 16 Feb 2017 07:20:50 +0000
+Message-ID: <1487229649771.51087@mentor.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
+MIME-Version: 1.0
+Subject: Building docker.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,71 +54,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Feb 2017 09:49:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Feb 2017 07:20:55 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_148722964977151087mentorcom_"
 
-On 2017-02-10 22:17, Bruce Ashfield wrote:
-> applied.
-> 
-> Bruce
-> 
+--_000_148722964977151087mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks. Will it go into stable as well? At least morty.
+Hi,
 
-Jan
 
-> On Fri, Feb 10, 2017 at 7:14 AM, Jan Kiszka <jan.kiszka@siemens.com
-> <mailto:jan.kiszka@siemens.com>> wrote:
-> 
->     Go only understands "386" as target arch, not "i586". Adjust this.
-> 
->     Signed-off-by: Jan Kiszka <jan.kiszka@siemens.com
->     <mailto:jan.kiszka@siemens.com>>
->     ---
-> 
->     Found while building meta-virtualization for an Intel Quark target.
-> 
->      recipes-containers/containerd/containerd_git.bb
->     <http://containerd_git.bb> | 3 +++
->      1 file changed, 3 insertions(+)
-> 
->     diff --git a/recipes-containers/containerd/containerd_git.bb
->     <http://containerd_git.bb>
->     b/recipes-containers/containerd/containerd_git.bb
->     <http://containerd_git.bb>
->     index c257355..5b94dde 100644
->     --- a/recipes-containers/containerd/containerd_git.bb
->     <http://containerd_git.bb>
->     +++ b/recipes-containers/containerd/containerd_git.bb
->     <http://containerd_git.bb>
->     @@ -35,6 +35,9 @@ do_compile() {
->             if [ "${TARGET_ARCH}" = "aarch64" ]; then
->                     export GOARCH="arm64"
->             fi
->     +       if [ "${TARGET_ARCH}" = "i586" ]; then
->     +               export GOARCH="386"
->     +       fi
-> 
->             # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
->             # docker to download its dependencies but rather
-> 
->     --
->     _______________________________________________
->     meta-virtualization mailing list
->     meta-virtualization@yoctoproject.org
->     <mailto:meta-virtualization@yoctoproject.org>
->     https://lists.yoctoproject.org/listinfo/meta-virtualization
->     <https://lists.yoctoproject.org/listinfo/meta-virtualization>
-> 
-> 
-> 
-> 
-> -- 
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
+I am trying to build docker in yocto project (fido). For this I have added =
+the 'fido' branch of meta-virtualization layer and its dependencies. Howeve=
+r, the build is failing because the do_compile function for go cross-compli=
+er is failing. Can you help me with this issue?
 
--- 
-Siemens AG, Corporate Technology, CT RDA ITP SES-DE
-Corporate Competence Center Embedded Linux
 
+Regards,
+
+
+Muhammad Sheheryar Qureshi
+
+--_000_148722964977151087mentorcom_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
+ottom:0;} --></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
+FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
+<p>Hi,</p>
+<p><br>
+</p>
+<p>I am trying to build docker in yocto project (fido). For this I have add=
+ed the 'fido' branch of meta-virtualization layer and its dependencies. How=
+ever, the build is failing because the do_compile function for go cross-com=
+plier is failing. Can you help me
+ with this issue?</p>
+<p><br>
+</p>
+<p>Regards,</p>
+<p><br>
+</p>
+<p>Muhammad Sheheryar Qureshi <br>
+</p>
+</body>
+</html>
+
+--_000_148722964977151087mentorcom_--
