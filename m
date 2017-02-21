@@ -1,17 +1,20 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <nitishjha16@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AC04AE008D0; Tue, 21 Feb 2017 11:23:45 -0800 (PST)
+	id 3C07DE0094C; Tue, 21 Feb 2017 14:50:45 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE, 
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.220.173 listed in list.dnswl.org]
+	mail provider *      (nitishjha16[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.214.65 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.214.65 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,48 +23,48 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f173.google.com (mail-qk0-f173.google.com
-	[209.85.220.173])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 750AAE00524
+Received: from mail-it0-f65.google.com (mail-it0-f65.google.com
+	[209.85.214.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 82929E008D0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 21 Feb 2017 11:23:41 -0800 (PST)
-Received: by mail-qk0-f173.google.com with SMTP id s186so131856686qkb.1
+	Tue, 21 Feb 2017 14:50:44 -0800 (PST)
+Received: by mail-it0-f65.google.com with SMTP id r141so18437518ita.1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 21 Feb 2017 11:23:41 -0800 (PST)
+	Tue, 21 Feb 2017 14:50:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=JRrGIY3W3y/HlM8apEFIf/Jcd7a6aTxbby6Iddrn+5E=;
-	b=ZWyRgznDSTW7G7wAMTFq1Zco66djsK9UTw5dLr/zDhR2oC4CAnvx30X9vHDJ4XdqE7
-	XlSk88Hlrdn5+Xfz8Wn35He7DKt3/Q/s6neTICmYpHNPqq7sZzUMIFZdJjMlsgLQRqFI
-	oThjGi0wJwstN/ZWiKGTDZLBk5JNJ/OMtFR4vhXRuXJyf0TE0kUOUrCcZKM74Noa37P7
-	D+coU9/qEgEgHtcRgRkY64uXH9PRqBugNmlfu7vEfivg33agBUZ3CMDep6UnaDJagEjI
-	zRyr5IjKlVGxrTq9v1trbY7SHVuIMNBPgVB0jflPHmMW1YqKAw3H8wUUGyHVNpT8BPbh
-	oRlg==
+	:cc; bh=B1/b5MT9g9SyL07jazalxEghV+jSjJh6XZC3MtIWYGA=;
+	b=Zv8g+GUDnSkO+Oa4WUYsuZaAzPvue9OcU+T5OSs0Pc6fjwfexfNDfrjkXWd+V523+D
+	Jdx5suevTUiSVjhVthPB3B1iS7Na2/BAdTrc3rrCz6JMmQcEJouFC1mFkt9zbOBSj3Ai
+	pkNtcvkfU1BRTIx19z9mJTJv1v2frHqBx4TIsem9qD4p8WpUuF0gvdtFB+KgeoQeo/aw
+	LPpEc6Y0YxnwX6EUQKD2CVPONYfvsH7hE+1wACU9bqye6O1MgufZno20D0TBKaHVUd6b
+	YfjYK39QyCVgIZibuGYKoR3Y0MKp4ty2gvxhViwq8sfzSJwi2/Xykrz2rw8GLOVjs7sH
+	EYbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=JRrGIY3W3y/HlM8apEFIf/Jcd7a6aTxbby6Iddrn+5E=;
-	b=S3D9g6F1bkbpNTmtkxwbsHby7QyL+qppNNZYTecruNgCFEAzS7+PuLp8x9llvc5Muk
-	Gp3RDfR8kD4M+x8reCF/5oG+ZdcOKK8uMCIm3PcAnQum472mE0lTHfrMf5FePW9NJY4U
-	K9n8f+zsITFfDCkIGc5hAC2ria5a1mqXQGDN4lSO3VmQyqk6PD4JcQNFXnvj/6R7UoU7
-	t9olicotrnahwmpDbuxZLolZAID9QO3k9vp7RnQvl90BoCKBz3r2LiTChcDtciy9+0wg
-	vN4gsQoO4Kz0bD/V5eyOzAMzdC8pcZZqijzav1EtEw3vbKTtjS1QzsxhL3KjErKIi6al
-	Q0ew==
-X-Gm-Message-State: AMke39mpgMjkhCawKcut/O2a5NMeY4qLCOWi88g4n2tFHQdFQj8FA9q40Fj0pZBlKmvP6fuAGr4ShboeTzzUIQ==
-X-Received: by 10.55.97.143 with SMTP id v137mr25988562qkb.211.1487705021024; 
-	Tue, 21 Feb 2017 11:23:41 -0800 (PST)
+	bh=B1/b5MT9g9SyL07jazalxEghV+jSjJh6XZC3MtIWYGA=;
+	b=NI12pkF3HYybrq+ZP7H3FnRCTn9ow5VCJ57MxupyWOCYJxwrBJoFaFgeqH4tfgMduD
+	3E4R83TDG1mbbi91+gKWG04kmPTpi3DthcH+upEVGY9liXwrl29rcnuMTckPpmxbBSBQ
+	HoxAubmIG5V+LgkibFGp+DkeGL3tZi+Jz5nuIfUQZJ04pWpvC3jpAMPsmZW76MPq9fYO
+	9bsrXVkfzsEDFhLC5Nb+eeGt3r9OYDraFPnIJx6FZ1FLpfRppBceIffjC6cDKJ4FecdM
+	klQdRpzI4YxtgpaJx1AByK+PnVNV1AeTNc+a+ZpX21h3TIkpvbsR8qJeMG/szOFcfeul
+	TmNQ==
+X-Gm-Message-State: AMke39l2E+9i6nRnaSJ8/KI4uYlPlw9GUVc9YT4B+Zk3zTEUOFOAZZTLUr96fCG8ihxn2H0L31t8IoF0qPsdrg==
+X-Received: by 10.36.104.15 with SMTP id v15mr28788106itb.104.1487717443467;
+	Tue, 21 Feb 2017 14:50:43 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.135.153 with HTTP; Tue, 21 Feb 2017 11:23:40 -0800 (PST)
-In-Reply-To: <1486741468-4476-1-git-send-email-mark.asselstine@windriver.com>
-References: <1486741468-4476-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 21 Feb 2017 14:23:40 -0500
-Message-ID: <CADkTA4P9KCy4qZmRNwUtTiwan+XQdkCtRo7vrjgfzS_Pa+jRCQ@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 0/2] get docker working again (broken by per recipe sysroots)
+Received: by 10.107.142.205 with HTTP; Tue, 21 Feb 2017 14:50:43 -0800 (PST)
+In-Reply-To: <a88bb8cc-1232-6493-fbd2-7020cc373df9@cardoe.com>
+References: <CABh+foZ_SRHRa8Q296ESxS4Woj0AcoBbWSmuSJ=Z=W_Sy3raDQ@mail.gmail.com>
+	<a88bb8cc-1232-6493-fbd2-7020cc373df9@cardoe.com>
+From: nitish jha <nitishjha16@gmail.com>
+Date: Tue, 21 Feb 2017 23:50:43 +0100
+Message-ID: <CABh+foapVgHwE40xENUqCegSsJ_Bqep-p+TQwV8rhDnF00bT1g@mail.gmail.com>
+To: Doug Goldstein <cardoe@cardoe.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: Error Building xen-image-minimal
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,173 +77,191 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Feb 2017 19:23:45 -0000
-Content-Type: multipart/alternative; boundary=94eb2c0578304f131505490f5104
+X-List-Received-Date: Tue, 21 Feb 2017 22:50:45 -0000
+Content-Type: multipart/alternative; boundary=001a113f6848be8e61054912351c
 
---94eb2c0578304f131505490f5104
+--001a113f6848be8e61054912351c
 Content-Type: text/plain; charset=UTF-8
 
-Following up to the list. I did finally merge this change after creating a
-virtual/run
-and virtual/containerd namespace for these two packages.
+Hello Doug
 
-I've made the default preferred provider to be runc-docker, but for someone
-that wants
-to build the tip of the opencontainers tree, there is also a
-runc-opencontainers. A
-similar split exists within containerd.
+I again tried compiling morty, meta-openmebedded and meta-vertualization
 
-Once docker and the opencontainer equivalent become one, I can undo the
-virtual/*
-namespace changes.
+And I am facing same Issue for glibc-locale-2.24-r0
 
-Bruce
+command I am using to down load package is
 
-On Fri, Feb 10, 2017 at 10:44 AM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
+git clone -b morty https://git.yoctoproject.org/git/poky
 
+git clone -b morty https://github.com/openembedded/meta-openembedded.git
+
+git clone -b morty https://git.yoctoproject.org/git/meta-virtualization
+
+my bblayers.conf looks like
+
+BBLAYERS ?= " \
+  /home/njking/yocto/poky/meta \
+  /home/njking/yocto/poky/meta-yocto \
+  /home/njking/yocto/poky/meta-yocto-bsp \
+  "
+
+
+BBLAYERS_NON_REMOVABLE ?= " \
+  /home/njking/yocto/poky/meta \
+  /home/njking/yocto/poky/meta-yocto \
+  "
+
+BBLAYERS += "/home/njking/yocto/meta-virtualization"
+BBLAYERS += "/home/njking/yocto/meta-openembedded/meta-oe"
+BBLAYERS += "/home/njking/yocto/meta-openembedded/meta-networking"
+BBLAYERS += "/home/njking/yocto/meta-openembedded/meta-python"
+BBLAYERS += "/home/njking/yocto/meta-openembedded/meta-filesystems"
+
+
+and I have added following lines to the local.conf
+
+EXTRA_IMAGE_FEATURES += "ssh-server-openssh"
+MACHINE ?= "qemux86-64"
+DISTRO_FEATURES += "xen"
+
+
+It would be great help if you could tel me which poky, meta-openembedded
+and meta-virtualization version i should checkout so that i could build my
+xen-image-minmal successfully.
+
+Thanks and Regards
+
+Nitish
+
+
+
+
+On Sun, Feb 12, 2017 at 11:28 PM, Doug Goldstein <cardoe@cardoe.com> wrote:
+
+> On 2/11/17 9:57 AM, nitish jha wrote:
+> > Hello All,
+> >
+> > I am tryin to build xen-image-minimal
+> >
+> > but I am getting following error
+> >
+> > ERROR: glibc-locale-2.24-r0 do_package: QA Issue: glibc-locale:
+> > Files/directories were installed but not shipped in any package:
 >
-> By uprev'ing runc and containerd to the versions specified by docker's
-> vendor.conf file we are able to get the docker runtime back to a fully
-> functional state (ie. it now passes some basic usecases)
+> <snip>
 >
-> This series is applied on top of the commit sent by Jan Kiszka
-> [containerd: Fix build on 386] but should apply with our without that
-> merged.
+> > Please set FILES such that these items are packaged. Alternatively if
+> > they are unneeded, avoid installing them or delete them within
+> do_install.
+> > glibc-locale: 820 installed and not shipped files. [installed-vs-shipped]
+> > ERROR: glibc-locale-2.24-r0 do_package: Fatal QA errors found, failing
+> task.
+> > ERROR: glibc-locale-2.24-r0 do_package: Function failed: do_package
+> > ERROR: Logfile of failure stored in:
+> > /home/njking/yocto_morty/build_xen_qemu/tmp/work/core2-
+> 64-poky-linux/glibc-locale/2.24-r0/temp/log.do_package.17564
+> > ERROR: Task
+> > (/home/njking/yocto_morty/poky/meta/recipes-core/glibc/
+> glibc-locale_2.24.bb:do_package)
+> > failed with exit code '1'
+> >
 >
-> It is highly unfortunate that docker is forking runc. Although we only
-> have docker using runc at the moment this has the potential to cause
-> issues if/when we get other runc users integrated.
+> Unfortunately this issue is with the glibc package. Which does not live
+> in meta-virtualization. I'm at a loss why you would see that since I
+> build morty fairly regularly and haven't seen this. I would make sure
+> you are on the latest versions.
 >
-> With these changes we can now run docker pull, docker run, docker
-> images, docker ps -a,... successfully. Running 'docker run
-> hello-world' produces the expected results:
->
-> ----
->   Hello from Docker!
->   This message shows that your installation appears to be working
-> correctly.
->
->   To generate this message, Docker took the following steps:
->   1. The Docker client contacted the Docker daemon.
->   2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
->   3. The Docker daemon created a new container from that image which runs
-> the
->      executable that produces the output you are currently reading.
->   4. The Docker daemon streamed that output to the Docker client, which
-> sent it
->      to your terminal.
->
->   To try something more ambitious, you can run an Ubuntu container with:
->   $ docker run -it ubuntu bash
->
->   Share images, automate workflows, and more with a free Docker ID:
->   https://cloud.docker.com/
->
->   For more examples and ideas, visit:
->   https://docs.docker.com/engine/userguide/
-> ----
->
-> Running 'docker info' we also see that there is no longer a mismatch
-> reported for these dependencies.
->
-> Mark
 > --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> Doug Goldstein
+>
 >
 
 
+--
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c0578304f131505490f5104
+--001a113f6848be8e61054912351c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div><div><div><div><div><div><div>Following up to the lis=
-t. I did finally merge this change after creating a virtual/run<br></div>an=
-d virtual/containerd namespace for these two packages.<br><br></div>I&#39;v=
-e made the default preferred provider to be runc-docker, but for someone th=
-at wants<br></div>to build the tip of the opencontainers tree, there is als=
-o a runc-opencontainers. A <br></div>similar split exists within containerd=
-.<br><br></div>Once docker and the opencontainer equivalent become one, I c=
-an undo the virtual/*<br></div>namespace changes.<br><br></div>Bruce<br></d=
-iv><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Fri, Feb 10=
-, 2017 at 10:44 AM, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto=
-:mark.asselstine@windriver.com" target=3D"_blank">mark.asselstine@windriver=
-.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-By uprev&#39;ing runc and containerd to the versions specified by docker&#3=
-9;s<br>
-vendor.conf file we are able to get the docker runtime back to a fully<br>
-functional state (ie. it now passes some basic usecases)<br>
+<div dir=3D"ltr">Hello Doug<div><br></div><div>I again tried compiling mort=
+y, meta-openmebedded and meta-vertualization</div><div><br></div><div>And I=
+ am facing same Issue for glibc-locale-2.24-r0</div><div><br></div><div>com=
+mand I am using to down load package is=C2=A0</div><div><br></div><div>git =
+clone -b morty <a href=3D"https://git.yoctoproject.org/git/poky">https://gi=
+t.yoctoproject.org/git/poky</a><br></div><div><br></div><div>git clone -b m=
+orty <a href=3D"https://github.com/openembedded/meta-openembedded.git">http=
+s://github.com/openembedded/meta-openembedded.git</a><br></div><div><br></d=
+iv><div>git clone -b morty <a href=3D"https://git.yoctoproject.org/git/meta=
+-virtualization">https://git.yoctoproject.org/git/meta-virtualization</a><b=
+r></div><div><br></div><div>my bblayers.conf looks like</div><div><br></div=
+><div><div>BBLAYERS ?=3D &quot; \</div><div>=C2=A0 /home/njking/yocto/poky/=
+meta \</div><div>=C2=A0 /home/njking/yocto/poky/meta-yocto \</div><div>=C2=
+=A0 /home/njking/yocto/poky/meta-yocto-bsp \</div><div>=C2=A0 &quot;</div><=
+div><br></div><div><br></div><div>BBLAYERS_NON_REMOVABLE ?=3D &quot; \</div=
+><div>=C2=A0 /home/njking/yocto/poky/meta \</div><div>=C2=A0 /home/njking/y=
+octo/poky/meta-yocto \</div><div>=C2=A0 &quot;</div><div><br></div><div>BBL=
+AYERS +=3D &quot;/home/njking/yocto/meta-virtualization&quot;</div><div>BBL=
+AYERS +=3D &quot;/home/njking/yocto/meta-openembedded/meta-oe&quot;</div><d=
+iv>BBLAYERS +=3D &quot;/home/njking/yocto/meta-openembedded/meta-networking=
+&quot;</div><div>BBLAYERS +=3D &quot;/home/njking/yocto/meta-openembedded/m=
+eta-python&quot;</div><div>BBLAYERS +=3D &quot;/home/njking/yocto/meta-open=
+embedded/meta-filesystems&quot;</div></div><div><br></div><div><br></div><d=
+iv>and I have added following lines to the local.conf</div><div><br></div><=
+div><div>EXTRA_IMAGE_FEATURES +=3D &quot;ssh-server-openssh&quot;</div><div=
+>MACHINE ?=3D &quot;qemux86-64&quot;</div><div>DISTRO_FEATURES +=3D &quot;x=
+en&quot;</div></div><div><br></div><div><br></div><div>It would be great he=
+lp if you could tel me which poky, meta-openembedded and meta-virtualizatio=
+n version i should checkout so that i could build my xen-image-minmal succe=
+ssfully.</div><div><br></div><div>Thanks and Regards</div><div><br></div><d=
+iv>Nitish =C2=A0</div><div><br></div><div><br></div><div><br></div><div cla=
+ss=3D"gmail_extra"><br><div class=3D"gmail_quote">On Sun, Feb 12, 2017 at 1=
+1:28 PM, Doug Goldstein <span dir=3D"ltr">&lt;<a href=3D"mailto:cardoe@card=
+oe.com" target=3D"_blank">cardoe@cardoe.com</a>&gt;</span> wrote:<br><block=
+quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
+px solid rgb(204,204,204);padding-left:1ex"><span class=3D"gmail-">On 2/11/=
+17 9:57 AM, nitish jha wrote:<br>
+&gt; Hello All,<br>
+&gt;<br>
+&gt; I am tryin to build xen-image-minimal<br>
+&gt;<br>
+&gt; but I am getting following error<br>
+&gt;<br>
+&gt; ERROR: glibc-locale-2.24-r0 do_package: QA Issue: glibc-locale:<br>
+&gt; Files/directories were installed but not shipped in any package:<br>
 <br>
-This series is applied on top of the commit sent by Jan Kiszka<br>
-[containerd: Fix build on 386] but should apply with our without that<br>
-merged.<br>
-<br>
-It is highly unfortunate that docker is forking runc. Although we only<br>
-have docker using runc at the moment this has the potential to cause<br>
-issues if/when we get other runc users integrated.<br>
-<br>
-With these changes we can now run docker pull, docker run, docker<br>
-images, docker ps -a,... successfully. Running &#39;docker run<br>
-hello-world&#39; produces the expected results:<br>
-<br>
-----<br>
-=C2=A0 Hello from Docker!<br>
-=C2=A0 This message shows that your installation appears to be working corr=
-ectly.<br>
-<br>
-=C2=A0 To generate this message, Docker took the following steps:<br>
-=C2=A0 1. The Docker client contacted the Docker daemon.<br>
-=C2=A0 2. The Docker daemon pulled the &quot;hello-world&quot; image from t=
-he Docker Hub.<br>
-=C2=A0 3. The Docker daemon created a new container from that image which r=
-uns the<br>
-=C2=A0 =C2=A0 =C2=A0executable that produces the output you are currently r=
-eading.<br>
-=C2=A0 4. The Docker daemon streamed that output to the Docker client, whic=
-h sent it<br>
-=C2=A0 =C2=A0 =C2=A0to your terminal.<br>
-<br>
-=C2=A0 To try something more ambitious, you can run an Ubuntu container wit=
-h:<br>
-=C2=A0 $ docker run -it ubuntu bash<br>
-<br>
-=C2=A0 Share images, automate workflows, and more with a free Docker ID:<br=
+</span>&lt;snip&gt;<br>
+<span class=3D"gmail-"><br>
+&gt; Please set FILES such that these items are packaged. Alternatively if<=
+br>
+&gt; they are unneeded, avoid installing them or delete them within do_inst=
+all.<br>
+&gt; glibc-locale: 820 installed and not shipped files. [installed-vs-shipp=
+ed]<br>
+&gt; ERROR: glibc-locale-2.24-r0 do_package: Fatal QA errors found, failing=
+ task.<br>
+&gt; ERROR: glibc-locale-2.24-r0 do_package: Function failed: do_package<br=
 >
-=C2=A0 <a href=3D"https://cloud.docker.com/" rel=3D"noreferrer" target=3D"_=
-blank">https://cloud.docker.com/</a><br>
+&gt; ERROR: Logfile of failure stored in:<br>
+&gt; /home/njking/yocto_morty/<wbr>build_xen_qemu/tmp/work/core2-<wbr>64-po=
+ky-linux/glibc-locale/2.<wbr>24-r0/temp/log.do_package.<wbr>17564<br>
+&gt; ERROR: Task<br>
+&gt; (/home/njking/yocto_morty/<wbr>poky/meta/recipes-core/glibc/<wbr>glibc=
+-locale_2.24.bb:do_<wbr>package)<br>
+&gt; failed with exit code &#39;1&#39;<br>
+&gt;<br>
 <br>
-=C2=A0 For more examples and ideas, visit:<br>
-=C2=A0 <a href=3D"https://docs.docker.com/engine/userguide/" rel=3D"norefer=
-rer" target=3D"_blank">https://docs.docker.com/<wbr>engine/userguide/</a><b=
+</span>Unfortunately this issue is with the glibc package. Which does not l=
+ive<br>
+in meta-virtualization. I&#39;m at a loss why you would see that since I<br=
+>
+build morty fairly regularly and haven&#39;t seen this. I would make sure<b=
 r>
-----<br>
-<br>
-Running &#39;docker info&#39; we also see that there is no longer a mismatc=
-h<br>
-reported for these dependencies.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Mark<br>
+you are on the latest versions.<br>
+<span class=3D"gmail-HOEnZb"><font color=3D"#888888"><br>
 --<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
-s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
-ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
-t;</div>
-</div>
+Doug Goldstein<br>
+<br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>--=20
+</div></div>
 
---94eb2c0578304f131505490f5104--
+--001a113f6848be8e61054912351c--
