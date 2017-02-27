@@ -1,61 +1,46 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <Muhammad_Sheheryar@mentor.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 900ABE00970; Sun, 26 Feb 2017 16:59:22 -0800 (PST)
+	id AE71BE00970; Sun, 26 Feb 2017 22:49:12 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.213.180 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yb0-f180.google.com (mail-yb0-f180.google.com
-	[209.85.213.180])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 586BCE00874
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [192.94.38.131 listed in list.dnswl.org]
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8BCB4E007BA
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 26 Feb 2017 16:59:19 -0800 (PST)
-Received: by mail-yb0-f180.google.com with SMTP id d88so15753788ybi.0
-	for <meta-virtualization@yoctoproject.org>;
-	Sun, 26 Feb 2017 16:59:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=FMIAxlqUlxqh/Nfjc6kvnUXMR1nT8r0EFlpL+IaHcqE=;
-	b=DoTIQgfdr4Ho25pve0Ngy2kOvFxsEg/1WioJnmga+5BXQCxxFLPNihcFGyIhuNZZ0Q
-	AyGBCte5gxjL8Thsexvui82HteWWdb5MtV/fq7UtnxAwQK6PMavmvyotCq7AscCatvmU
-	zYL8USsZHFxILXEmgq54l4LleI0NhpsyDQMNNx5r77LGlTrwvb9zhvGIhRX5tuH8a7vw
-	WEtLtpeUNfqD9UpiMaauKbRMP8GSYfmBwS750nK2C12/UoxN4hkZnh1Kb3u4F5UDydXY
-	98jy5jPphWeogFyTbgxBdztnHRpqCwRr845OhrinxPxhutQdn0CmldOYfy/Ojg+PY7Sr
-	uBeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=FMIAxlqUlxqh/Nfjc6kvnUXMR1nT8r0EFlpL+IaHcqE=;
-	b=UkkcYH/cBFHCByUZ65FJ0ZPLeesU52OnoKVtDA2j2LRAMONaHWfjD5cXfXVberx0IE
-	hc+jzJn/5yd+tulh/HclhlwETS4BLHQdeTr9/LpFth2Facu8eCIfPnQnqF1rIEcx86+P
-	IU9gQFC/DuuXqlm0onxKkAsapZOPxby3S6Q7jQ5QQKc7USg4cYPATsE7fG7C/kx6fpG7
-	n9lVu8dyY5kKxMtCiF/AxhgFod6S6r03DUTieKyHcCjKfnFxN7TQuIXdsgoRl3NGaOKV
-	F/YUyp0s3mzwIfb9CGLJ3q+VKORfDJhLnzU8qF4YgCs2yVyeHRbChpqRXrbN9QVn9iNc
-	TVrg==
-X-Gm-Message-State: AMke39lyUOh/L2VPy5l55TR4hevSoS31lz9C4ZtfjMYSn7hjOw9HVTq3jz3xJnrR85xvcX4EcOnEXIJUM1kRPQ==
-X-Received: by 10.37.44.22 with SMTP id s22mr2015469ybs.115.1488157158518;
-	Sun, 26 Feb 2017 16:59:18 -0800 (PST)
+	Sun, 26 Feb 2017 22:49:08 -0800 (PST)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=svr-ies-mbx-02.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1ciF7L-0000Dx-K4 from Muhammad_Sheheryar@mentor.com ;
+	Sun, 26 Feb 2017 22:49:07 -0800
+Received: from SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) by
+	svr-ies-mbx-02.mgc.mentorg.com (139.181.222.2) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Mon, 27 Feb 2017 06:49:04 +0000
+Received: from SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f]) by
+	SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f%22]) with
+	mapi id 15.00.1210.000; Mon, 27 Feb 2017 06:49:04 +0000
+From: "Sheheryar, Muhammad" <Muhammad_Sheheryar@mentor.com>
+To: "M. Asselstine" <asselsm@mcmaster.ca>
+Thread-Topic: [meta-virtualization] Building docker
+Thread-Index: AQHSjOC21S9WUKNr/06RzWqb66GCBaF8D7AAgABheAA=
+Date: Mon, 27 Feb 2017 06:49:04 +0000
+Message-ID: <1488178144346.37842@mentor.com>
+References: <cc3dc371bff6438ea13431dfe77b2531@SVR-IES-MBX-04.mgc.mentorg.com>,
+	<CAPuovELn54FBCEv12XCQ9xvxvmrWBFUwBYNJJHGcY0E8Z45pLg@mail.gmail.com>
+In-Reply-To: <CAPuovELn54FBCEv12XCQ9xvxvmrWBFUwBYNJJHGcY0E8Z45pLg@mail.gmail.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 10.37.174.74 with HTTP; Sun, 26 Feb 2017 16:59:18 -0800 (PST)
-In-Reply-To: <cc3dc371bff6438ea13431dfe77b2531@SVR-IES-MBX-04.mgc.mentorg.com>
-References: <cc3dc371bff6438ea13431dfe77b2531@SVR-IES-MBX-04.mgc.mentorg.com>
-From: "M. Asselstine" <asselsm@mcmaster.ca>
-Date: Sun, 26 Feb 2017 19:59:18 -0500
-X-Google-Sender-Auth: qH-CMT7KVj-vbtfTrU_4nakXgIA
-Message-ID: <CAPuovELn54FBCEv12XCQ9xvxvmrWBFUwBYNJJHGcY0E8Z45pLg@mail.gmail.com>
-To: "Sheheryar, Muhammad" <Muhammad_Sheheryar@mentor.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: Building docker
@@ -71,103 +56,135 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Feb 2017 00:59:22 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 27 Feb 2017 06:49:12 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 22, 2017 at 2:53 AM, Sheheryar, Muhammad
-<Muhammad_Sheheryar@mentor.com> wrote:
-> Hi Peter,
->
-> Thanks for getting back. I am receiving the following error when trying to
-> build docker
->
-> ERROR: Function failed: do_compile (log file is located at
-> /var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linux/golang-cross/1.3-r0/temp/log.do_compile.4734)
-> ERROR: Logfile of failure stored in:
-> /var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linux/golang-cross/1.3-r0/temp/log.do_compile.4734
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | GOARCH i586
-> | CC_FOR_TARGET gcc
-> | + set -e
-> | + [ ! -f run.bash ]
-> | + uname
-> | + ld --version
-> | + grep gold.* 2\.20
-> | + [ -d /selinux -a -f /selinux/booleans/allow_execstack -a -x
-> /usr/sbin/selinuxenabled ]
-> | + [ -d /sys/fs/selinux -a -f /sys/fs/selinux/booleans/allow_execstack -a
-> -x /usr/sbin/selinuxenabled ]
-> | + uname -s
-> | + [ Linux == GNU/kFreeBSD ]
-> | ./make.bash: 104: [: Linux: unexpected operator
-
-What OS and version as you using as the build host?
-
-Regards,
-Mark
-
-> | + rm -f ./pkg/runtime/runtime_defs.go
-> | + echo # Building C bootstrap tool.
-> | # Building C bootstrap tool.
-> | + echo cmd/dist
-> | cmd/dist
-> | + cd ..
-> | + pwd
-> | + export
-> GOROOT=/var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linux/golang-cross/1.3-r0/go
-> | +
-> GOROOT_FINAL=/var/mshehery/Documents/git/new_fido/poky/build/tmp/sysroots/x86_64-linux/usr/lib/i586-poky-linux/go
-> | +
-> DEFGOROOT=-DGOROOT_FINAL="/var/mshehery/Documents/git/new_fido/poky/build/tmp/sysroots/x86_64-linux/usr/lib/i586-poky-linux/go"
-> | + mflag=
-> | + uname
-> | + [ Linux == Darwin ]
-> | ./make.bash: 124: [: Linux: unexpected operator
-> | + type -t gcc
-> | + type -t clang
-> | + [ -z gcc  -a -z -t: not found
-> | gcc is /usr/bin/gcc -a -n -t: not found
-> | clang: not found ]
-> | + gcc -O2 -Wall -Werror -o cmd/dist/dist -Icmd/dist
-> -DGOROOT_FINAL="/var/mshehery/Documents/git/new_fido/poky/build/tmp/sysroots/x86_64-linux/usr/lib/i586-poky-linux/go"
-> cmd/dist/arm.c cmd/dist/buf.c cmd/dist/build.c cmd/dist/buildgc.c
-> cmd/dist/buildgo.c cmd/dist/buildruntime.c cmd/dist/goc2c.c cmd/dist/main.c
-> cmd/dist/plan9.c cmd/dist/unix.c cmd/dist/windows.c
-> | + ./cmd/dist/dist env -p
-> | go tool dist: unknown $GOARCH i586
-> | + echo FAIL=true
-> | + eval FAIL=true
-> | + FAIL=true
-> | + [ true = true ]
-> | + exit 1
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_compile (log file is located at
-> /var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linux/golang-cross/1.3-r0/temp/log.do_compile.4734)
-> ERROR: Task 104
-> (/var/mshehery/Documents/git/new_fido/poky/meta-virtualization/recipes-devtools/go/golang-cross_1.3.bb,
-> do_compile) failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 1617 tasks of which 1486 didn't need to be
-> rerun and 1 failed.
-> Waiting for 0 running tasks to finish:
->
-> Summary: 1 task failed:
->
-> /var/mshehery/Documents/git/new_fido/poky/meta-virtualization/recipes-devtools/go/golang-cross_1.3.bb,
-> do_compile
-> Summary: There were 2 WARNING messages shown.
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->
-> Regards,
->
-> Muhammad Sheheryar Qureshi
->
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+Hi,=0A=
+=0A=
+I am using Ubuntu 16.04 and the fido branch of yocto project for building d=
+ocker.=0A=
+=0A=
+Regards,=0A=
+=0A=
+Muhammad Sheheryar Qureshi=0A=
+________________________________________=0A=
+From: asselsm@gmail.com <asselsm@gmail.com> on behalf of M. Asselstine <ass=
+elsm@mcmaster.ca>=0A=
+Sent: Monday, February 27, 2017 5:59 AM=0A=
+To: Sheheryar, Muhammad=0A=
+Cc: meta-virtualization@yoctoproject.org=0A=
+Subject: Re: [meta-virtualization] Building docker=0A=
+=0A=
+On Wed, Feb 22, 2017 at 2:53 AM, Sheheryar, Muhammad=0A=
+<Muhammad_Sheheryar@mentor.com> wrote:=0A=
+> Hi Peter,=0A=
+>=0A=
+> Thanks for getting back. I am receiving the following error when trying t=
+o=0A=
+> build docker=0A=
+>=0A=
+> ERROR: Function failed: do_compile (log file is located at=0A=
+> /var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linu=
+x/golang-cross/1.3-r0/temp/log.do_compile.4734)=0A=
+> ERROR: Logfile of failure stored in:=0A=
+> /var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linu=
+x/golang-cross/1.3-r0/temp/log.do_compile.4734=0A=
+> Log data follows:=0A=
+> | DEBUG: Executing shell function do_compile=0A=
+> | GOARCH i586=0A=
+> | CC_FOR_TARGET gcc=0A=
+> | + set -e=0A=
+> | + [ ! -f run.bash ]=0A=
+> | + uname=0A=
+> | + ld --version=0A=
+> | + grep gold.* 2\.20=0A=
+> | + [ -d /selinux -a -f /selinux/booleans/allow_execstack -a -x=0A=
+> /usr/sbin/selinuxenabled ]=0A=
+> | + [ -d /sys/fs/selinux -a -f /sys/fs/selinux/booleans/allow_execstack -=
+a=0A=
+> -x /usr/sbin/selinuxenabled ]=0A=
+> | + uname -s=0A=
+> | + [ Linux =3D=3D GNU/kFreeBSD ]=0A=
+> | ./make.bash: 104: [: Linux: unexpected operator=0A=
+=0A=
+What OS and version as you using as the build host?=0A=
+=0A=
+Regards,=0A=
+Mark=0A=
+=0A=
+> | + rm -f ./pkg/runtime/runtime_defs.go=0A=
+> | + echo # Building C bootstrap tool.=0A=
+> | # Building C bootstrap tool.=0A=
+> | + echo cmd/dist=0A=
+> | cmd/dist=0A=
+> | + cd ..=0A=
+> | + pwd=0A=
+> | + export=0A=
+> GOROOT=3D/var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-=
+poky-linux/golang-cross/1.3-r0/go=0A=
+> | +=0A=
+> GOROOT_FINAL=3D/var/mshehery/Documents/git/new_fido/poky/build/tmp/sysroo=
+ts/x86_64-linux/usr/lib/i586-poky-linux/go=0A=
+> | +=0A=
+> DEFGOROOT=3D-DGOROOT_FINAL=3D"/var/mshehery/Documents/git/new_fido/poky/b=
+uild/tmp/sysroots/x86_64-linux/usr/lib/i586-poky-linux/go"=0A=
+> | + mflag=3D=0A=
+> | + uname=0A=
+> | + [ Linux =3D=3D Darwin ]=0A=
+> | ./make.bash: 124: [: Linux: unexpected operator=0A=
+> | + type -t gcc=0A=
+> | + type -t clang=0A=
+> | + [ -z gcc  -a -z -t: not found=0A=
+> | gcc is /usr/bin/gcc -a -n -t: not found=0A=
+> | clang: not found ]=0A=
+> | + gcc -O2 -Wall -Werror -o cmd/dist/dist -Icmd/dist=0A=
+> -DGOROOT_FINAL=3D"/var/mshehery/Documents/git/new_fido/poky/build/tmp/sys=
+roots/x86_64-linux/usr/lib/i586-poky-linux/go"=0A=
+> cmd/dist/arm.c cmd/dist/buf.c cmd/dist/build.c cmd/dist/buildgc.c=0A=
+> cmd/dist/buildgo.c cmd/dist/buildruntime.c cmd/dist/goc2c.c cmd/dist/main=
+.c=0A=
+> cmd/dist/plan9.c cmd/dist/unix.c cmd/dist/windows.c=0A=
+> | + ./cmd/dist/dist env -p=0A=
+> | go tool dist: unknown $GOARCH i586=0A=
+> | + echo FAIL=3Dtrue=0A=
+> | + eval FAIL=3Dtrue=0A=
+> | + FAIL=3Dtrue=0A=
+> | + [ true =3D true ]=0A=
+> | + exit 1=0A=
+> | WARNING: exit code 1 from a shell command.=0A=
+> | ERROR: Function failed: do_compile (log file is located at=0A=
+> /var/mshehery/Documents/git/new_fido/poky/build/tmp/work/x86_64-poky-linu=
+x/golang-cross/1.3-r0/temp/log.do_compile.4734)=0A=
+> ERROR: Task 104=0A=
+> (/var/mshehery/Documents/git/new_fido/poky/meta-virtualization/recipes-de=
+vtools/go/golang-cross_1.3.bb,=0A=
+> do_compile) failed with exit code '1'=0A=
+> NOTE: Tasks Summary: Attempted 1617 tasks of which 1486 didn't need to be=
+=0A=
+> rerun and 1 failed.=0A=
+> Waiting for 0 running tasks to finish:=0A=
+>=0A=
+> Summary: 1 task failed:=0A=
+>=0A=
+> /var/mshehery/Documents/git/new_fido/poky/meta-virtualization/recipes-dev=
+tools/go/golang-cross_1.3.bb,=0A=
+> do_compile=0A=
+> Summary: There were 2 WARNING messages shown.=0A=
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.=
+=0A=
+>=0A=
+> Regards,=0A=
+>=0A=
+> Muhammad Sheheryar Qureshi=0A=
+>=0A=
+>=0A=
+>=0A=
+> --=0A=
+> _______________________________________________=0A=
+> meta-virtualization mailing list=0A=
+> meta-virtualization@yoctoproject.org=0A=
+> https://lists.yoctoproject.org/listinfo/meta-virtualization=0A=
+>=0A=
 
