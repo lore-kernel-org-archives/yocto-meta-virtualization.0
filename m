@@ -1,6 +1,6 @@
 Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6AABDE0050B; Mon,  6 Mar 2017 16:20:12 -0800 (PST)
+	id A442BE00519; Mon,  6 Mar 2017 16:22:46 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -21,49 +21,49 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
 	[209.85.161.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 179F8E00985
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2A8FEE0033D
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  6 Mar 2017 16:20:10 -0800 (PST)
-Received: by mail-yw0-f194.google.com with SMTP id p77so5156895ywg.0
+	Mon,  6 Mar 2017 16:22:45 -0800 (PST)
+Received: by mail-yw0-f194.google.com with SMTP id h11so10194ywa.2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 06 Mar 2017 16:20:10 -0800 (PST)
+	Mon, 06 Mar 2017 16:22:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=a6WM8G4eQ90V/GiYuom3tgCAVEWR+duhciu1+8RRnvU=;
-	b=LGsxsOmMbXk5ONYXhCQEN9epd1nT4W/BDImFqjO0F6jZPl26aJCW+OUCvdUF8q49OV
-	kG3Vyhcafk0HQjJevqXon6umDYwq7uzvcLCbJZ+03OT8AnSV3Elxqc522d62Tak3149S
-	sRja2xgY8mmO6voAir3401R99M5rDZr5XcPE0=
+	:in-reply-to; bh=Qe1E+T7I7PfjZ8Wqk3Xft+Si0Ib0Q/JdtGznG+EKlJ8=;
+	b=KpEQ6Gyh4hhck9Gz4MBUna33E/fP47bPHfaOrcBgOOjof6V/W9IF74zKFk2WMtYiS4
+	XXL48YAII5Aq7hn1VbXJaq7kmy9xyVKqkpnlwy70EWYbfsGod7tHa8xeaHA8Sp9VEKBG
+	7Qu+eDdGdZv+zml+ZE0srzDci5rk5e94EW6cg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=a6WM8G4eQ90V/GiYuom3tgCAVEWR+duhciu1+8RRnvU=;
-	b=jpt9peZpXeguoroUnpeh4fVkDoPSV/9SLnNqZH5nyLA0SPlRFHzU423yumYv+BVWvI
-	lAvKpao+9em8mn99sMabcl+44W49TI0BFAEO+goDiC2hCT2Dn0oVYlK69FXeQfJlyESq
-	9OO7OJw6MfvDTB27V+ljNIWuug0KK97k7dnEPxMSbQ+KjzypkuGTZrp21BH9sajkqQ5c
-	iUd9Z9bbAGZzTWE4NXCoIkED2dHfDr+aFy3cntJsVCfy75pNQrZV/sfOdVQGxy27K5u0
-	MWVC99hs1Ux2BpCzFeHKOjye6cJyUligLJKOGjKudpbN0zy4yc5h9vnxNqDxkVTuKcv+
-	ALpQ==
-X-Gm-Message-State: AMke39lxJ5Y/JG42EOlqR1JF5PIB/QxrIR+0w70DoB0A5hT+6eXytj3keD4tPdSjnevQow==
-X-Received: by 10.129.183.18 with SMTP id v18mr12867813ywh.217.1488846010143; 
-	Mon, 06 Mar 2017 16:20:10 -0800 (PST)
+	bh=Qe1E+T7I7PfjZ8Wqk3Xft+Si0Ib0Q/JdtGznG+EKlJ8=;
+	b=Ve6KSM9XNj+H/R5v0arpPenvmPeA2z6D/pfqJwy2mMeBo4ClxKUs/YWwDSmuLc7c7i
+	0hPagMZ9LEv7EnAuTvBKDkMwS2+4nUdV/lyhW6klDf1G66AQHaSqM8KwL5+km1Z8uEWK
+	PsS3BR3maVxnIFUXryGhnLUHctihztqXMZRcqc2L43SIJ62KNUZyIODhVWguxmElOvYl
+	QYjrX3TA4aoaoJTYHAbzPeKds/kERo126EUZzDPMQ6wM83Fa4jpg6bfEisquQ7gljMxs
+	VdOAvnJhnQk1XfV5cXseTUGv9hyNZ5JHjbUQAsfAP6n+iEioRRBLfxCYQrXca7vzE0+Z
+	aSqw==
+X-Gm-Message-State: AMke39np2QPwG4VUrLY10JNsnEnC3FchwW1H2++zv/FJDIQnFNPJtaR61IlptfFmtWf3sg==
+X-Received: by 10.37.39.202 with SMTP id n193mr7704734ybn.127.1488846164590;
+	Mon, 06 Mar 2017 16:22:44 -0800 (PST)
 Received: from doug-macbook.local
 	(104-179-196-18.lightspeed.brhmal.sbcglobal.net. [104.179.196.18])
 	by smtp.googlemail.com with ESMTPSA id
-	y144sm8429273ywa.46.2017.03.06.16.20.09
+	d11sm8449066ywc.22.2017.03.06.16.22.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Mar 2017 16:20:09 -0800 (PST)
+	Mon, 06 Mar 2017 16:22:44 -0800 (PST)
 To: Pello Heriz <pello.heriz@alumni.mondragon.edu>,
-	meta-xilinx@yoctoproject.org, meta-xilinx-request@yoctoproject.org,
-	meta-virtualization@yoctoproject.org
-References: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
+	meta-xilinx@yoctoproject.org, meta-virtualization@yoctoproject.org,
+	meta-xilinx-request@yoctoproject.org
+References: <CAFL6qn47o85GDVoJeVMB62tpcug-=1nysU+OvWVMseS+3_Qpfg@mail.gmail.com>
 From: Doug Goldstein <cardoe@cardoe.com>
-Message-ID: <038d9c8c-28be-3bd2-018f-9c8ac5b57269@cardoe.com>
-Date: Mon, 6 Mar 2017 18:20:08 -0600
+Message-ID: <c8089081-78ef-0885-74a8-57da4c134788@cardoe.com>
+Date: Mon, 6 Mar 2017 18:22:41 -0600
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
 	Gecko/20100101 Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
+In-Reply-To: <CAFL6qn47o85GDVoJeVMB62tpcug-=1nysU+OvWVMseS+3_Qpfg@mail.gmail.com>
 Subject: Re: Building xen image on yocto
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
@@ -77,63 +77,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 00:20:12 -0000
-X-Groupsio-MsgNum: 2461
+X-List-Received-Date: Tue, 07 Mar 2017 00:22:46 -0000
+X-Groupsio-MsgNum: 2462
 Content-Type: multipart/signed; micalg=pgp-sha512;
 	protocol="application/pgp-signature";
-	boundary="UWqagg7JghStWJW5fbJWqOmjwGinCnfFr"
+	boundary="nuqDU0hSaPePbWtixfBHQAs7h7whioMul"
 
---UWqagg7JghStWJW5fbJWqOmjwGinCnfFr
-Content-Type: multipart/mixed; boundary="p6Ri40GimPeT3HtrD7piQ6xWr55Xschre";
+--nuqDU0hSaPePbWtixfBHQAs7h7whioMul
+Content-Type: multipart/mixed; boundary="koRgijsK7lQev7BhhTefU0E4lvHfErmc1";
  protected-headers="v1"
 From: Doug Goldstein <cardoe@cardoe.com>
 To: Pello Heriz <pello.heriz@alumni.mondragon.edu>,
- meta-xilinx@yoctoproject.org, meta-xilinx-request@yoctoproject.org,
- meta-virtualization@yoctoproject.org
-Message-ID: <038d9c8c-28be-3bd2-018f-9c8ac5b57269@cardoe.com>
+ meta-xilinx@yoctoproject.org, meta-virtualization@yoctoproject.org,
+ meta-xilinx-request@yoctoproject.org
+Message-ID: <c8089081-78ef-0885-74a8-57da4c134788@cardoe.com>
 Subject: Re: [meta-virtualization] Building xen image on yocto
-References: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
-In-Reply-To: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
+References: <CAFL6qn47o85GDVoJeVMB62tpcug-=1nysU+OvWVMseS+3_Qpfg@mail.gmail.com>
+In-Reply-To: <CAFL6qn47o85GDVoJeVMB62tpcug-=1nysU+OvWVMseS+3_Qpfg@mail.gmail.com>
 
---p6Ri40GimPeT3HtrD7piQ6xWr55Xschre
+--koRgijsK7lQev7BhhTefU0E4lvHfErmc1
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-On 3/6/17 3:28 AM, Pello Heriz wrote:
-> Hi all,
+On 3/6/17 4:23 AM, Pello Heriz wrote:
+> Hi,
 >=20
-> is it necessary to add meta-petalinux layer to build a xen image for
-> zcu102 board using Yocto?
->=20
-> I have read this information in the next link:=20
-> http://www.wiki.xilinx.com/Xen+Hypervisor+through+Yocto+Flow
->=20
-> The think is that if I include this layer to my project, when I try
-> bitbake, I get the next result:
->=20
-> Txertatutako irudia 1
->=20
-> What I have to do in order to solve the issue?
+> I have read that I need to include "xen" in the DISTRO_FEATURES
+> variable, is this necessary at all? If it is, where can I add this to m=
+y
+> project?
 >=20
 > Thanks,
-> Pello
->=20
-> =20
 >=20
 >=20
 
-I wouldn't use meta-petalinux for the target you are trying to build
-for. I am fairly certain that patches for the zcu102 with Xen have not
-been upstreamed into meta-virtualization. Patches are certainly welcome
-(as is hardware that I can test with).
+So that's a pretty fundamental question when working with Yocto. I would
+recommend reading through the Quick Start Guide [1] and then refer to
+the Reference Manual [2] for more info about DISTRO_FEATURES.
+
+[1]
+http://www.yoctoproject.org/docs/2.2.1/yocto-project-qs/yocto-project-qs.=
+html
+[2]
+https://www.yoctoproject.org/docs/2.2.1/ref-manual/ref-manual.html#ref-fe=
+atures-distro
 
 --=20
 Doug Goldstein
 
 
---p6Ri40GimPeT3HtrD7piQ6xWr55Xschre--
+--koRgijsK7lQev7BhhTefU0E4lvHfErmc1--
 
---UWqagg7JghStWJW5fbJWqOmjwGinCnfFr
+--nuqDU0hSaPePbWtixfBHQAs7h7whioMul
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -141,21 +136,21 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG/MacGPG2 v2.0
 
-iQJ8BAEBCgBmBQJYvfy4XxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+iQJ8BAEBCgBmBQJYvf1SXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
 ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
-MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvULpIQAJF9T2rj6HJZm2d5OFKHZkmV
-p7Z9lDcCMn3gFvT2LzFTjZGD/Xwppfq/sDVNyzAzTB0gx+2P/66sTrZraGNlaPAT
-NIqjxLkWlSZzmstAPG52/cT+46pWI6lbLrrj9lnfxGMlSTaVz1BKHL9ggTVTbtmJ
-9qjYxc0FYPafLpAapW6doHuUxlGaRvJ57bb14BYptU2T0VQrhinpQ6Bj3z1RgqtV
-yrX3uJdy/eAuXilzo2dqyuwI/yDkStVSv8ec42ph06Ciy+Igt9fhTKjpH/SW9m6R
-0chnclej6NTsgFCHPk51WtpnFZ6FJrx6yDhAgtPg71oPHhQ1SPHqwNHrbJsyaJ0S
-hv3xc1+eP7FzhHIpwH2huGP3JyaelYAWbKSe8u64oyhnvsdFFo4Z6Vdk7bnK1AW5
-iLtgqNdBo6oZNSbIgNf6EDO/g9D4fwFfcgnnbjg5PHbuZKQ8x/DlIpN03crk4LOS
-bHoCB0cJj8iVTD7pSiFroWK4Y5B/6rDl+svUKjuKpwset6+q/zxJ/0ZzH6jYIFs8
-lrnvp5A+0TY/RNyYy9DQR2CLw67sIRaPf/VMCn5ftiRC3CYXM8JjoLj9Wt+mFXeE
-GW6v2Llk5/ces1m87NOIn0qWkUGgr49eQynaGzvOWl9kEdESgLI9Ahxe25Ar0KqV
-Y+Y/KcBcUKsoe9FSwZAH
-=hEyX
+MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUcbsP/1W1fOXWihokqEzslrWsP20o
+xkHrPvv75wou7KZttXRIKy7mKa7m42XlJ4h6cCKq6UliIzZmw5XIjJSGmBQdww0B
+NYGvB4dxLEao7NPfO6Yysg2b4OFqJ0yDbzh2oK8vizdaORDntAu3556iv8sRsvSo
+KhiI5dqhvTcqivYv4GeucHEe87MvNml1WJjtV8ZavkIuEJqYSe8y0oGANxqii/FB
+uFt4x2wKxdUAoAR29MLxfy4C3QjiaXl2k288e7o4MClvVpp3hFsfSr2NiOX/vTmc
+EO7HRs5Yqtxh2MbFbgQmIYPR5v7ENSRSXNyVYSGPmkuPkfOHX/MJstK5nJw+NoZs
+Qjf5H7jAKn+MxBjkZbQqAGjU4pJTjC2ttB/jsTq1HrxzEPfFmqr1hUCizjqTBXOO
+uiZYydpiVOaL+DOWSRJQs42PAgVYlY59jU6vL/SefLBG5lKISKTCiNwzK8i/nOZW
+KgyGrRvzBibGlW/teoCKipkBwptz1/dvPtqIxH/V0a5LDqPFbQkToevtypPUylNU
+gq6NRt203tevqjORv8nhHGEjGNvF+lxbFli0KC72p0bH+geNj/5shWMdLLaXOs1w
+NasSmPraOMqNVrsuG4yLgknSXGt9vLjGbwh8VqiRt9GaIDc2GerEv5dsJw3g3nTi
+bdr1G+ZuPGtIdzOHoWGp
+=XP31
 -----END PGP SIGNATURE-----
 
---UWqagg7JghStWJW5fbJWqOmjwGinCnfFr--
+--nuqDU0hSaPePbWtixfBHQAs7h7whioMul--
