@@ -1,14 +1,17 @@
 Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id ACC42E003C1; Mon,  6 Mar 2017 16:17:36 -0800 (PST)
+	id 6AABDE0050B; Mon,  6 Mar 2017 16:20:12 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.161.178 listed in dnsbl.sorbs.net]
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.161.194 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.161.194 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -16,53 +19,52 @@ X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.161.178 listed in list.dnswl.org]
-Received: from mail-yw0-f178.google.com (mail-yw0-f178.google.com
-	[209.85.161.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3040EE0030B
+Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
+	[209.85.161.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 179F8E00985
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  6 Mar 2017 16:17:35 -0800 (PST)
-Received: by mail-yw0-f178.google.com with SMTP id v76so34595772ywg.0
+	Mon,  6 Mar 2017 16:20:10 -0800 (PST)
+Received: by mail-yw0-f194.google.com with SMTP id p77so5156895ywg.0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 06 Mar 2017 16:17:35 -0800 (PST)
+	Mon, 06 Mar 2017 16:20:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
 	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to; bh=4WbsOn4CP4RcMC1mBr1NQIikX5iZLbawAVKb68xNTC0=;
-	b=gkeX/QxydvF+CngnMsEQZ3/Tlg5Hcei14C4CT3hGJNyfLw2OcaeqcLoikTsUsDBLZW
-	Qpj/0piQ4c7KP5fEjafKXWhcPh+iOU7GY0BL6a9ibVwOSRJrnTOXiuKrGFS/gnoor7V6
-	/dqPuc8OjpKBgbefKm6NBVHwYRsOfpw+iyYM4=
+	:in-reply-to; bh=a6WM8G4eQ90V/GiYuom3tgCAVEWR+duhciu1+8RRnvU=;
+	b=LGsxsOmMbXk5ONYXhCQEN9epd1nT4W/BDImFqjO0F6jZPl26aJCW+OUCvdUF8q49OV
+	kG3Vyhcafk0HQjJevqXon6umDYwq7uzvcLCbJZ+03OT8AnSV3Elxqc522d62Tak3149S
+	sRja2xgY8mmO6voAir3401R99M5rDZr5XcPE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to;
-	bh=4WbsOn4CP4RcMC1mBr1NQIikX5iZLbawAVKb68xNTC0=;
-	b=SP4tWinpm8728SFeIaA3vzcR44eIs7iU2g4lu1vi8DDkab7dJcj+doje7BoUV5p08S
-	kquYr3wBTgiGTP6ZaCy00FfmT7ah735xEBHxTlNCboweqXrYINj3onNE96HjTqCFEGTY
-	7i+MXI2TAmftnY8FUbfL0UV0cl8FhfTPwQ7v6K4AXCiqSQkKF7Tv7uYTOqAI6yldStXK
-	HE0RFbf/RKThwJnbbbGuEWfd0lXnJEgyVZSoEhk91My5oqYWwE+0WLxWmopaitsoVA6t
-	WE6stt0qOZAm+JlmnmVVcC5/7RU5wewJQd7hzv2T6Qb3mwXFawqQTKXBFOOgqlBoGRHY
-	CydA==
-X-Gm-Message-State: AMke39mplmrOxpKzwRspph66oovTlqimirpfdIas8E0mxy17IV9bfjKy8vCbh+7e42onwQ==
-X-Received: by 10.37.17.6 with SMTP id 6mr12888435ybr.62.1488845854866;
-	Mon, 06 Mar 2017 16:17:34 -0800 (PST)
+	bh=a6WM8G4eQ90V/GiYuom3tgCAVEWR+duhciu1+8RRnvU=;
+	b=jpt9peZpXeguoroUnpeh4fVkDoPSV/9SLnNqZH5nyLA0SPlRFHzU423yumYv+BVWvI
+	lAvKpao+9em8mn99sMabcl+44W49TI0BFAEO+goDiC2hCT2Dn0oVYlK69FXeQfJlyESq
+	9OO7OJw6MfvDTB27V+ljNIWuug0KK97k7dnEPxMSbQ+KjzypkuGTZrp21BH9sajkqQ5c
+	iUd9Z9bbAGZzTWE4NXCoIkED2dHfDr+aFy3cntJsVCfy75pNQrZV/sfOdVQGxy27K5u0
+	MWVC99hs1Ux2BpCzFeHKOjye6cJyUligLJKOGjKudpbN0zy4yc5h9vnxNqDxkVTuKcv+
+	ALpQ==
+X-Gm-Message-State: AMke39lxJ5Y/JG42EOlqR1JF5PIB/QxrIR+0w70DoB0A5hT+6eXytj3keD4tPdSjnevQow==
+X-Received: by 10.129.183.18 with SMTP id v18mr12867813ywh.217.1488846010143; 
+	Mon, 06 Mar 2017 16:20:10 -0800 (PST)
 Received: from doug-macbook.local
 	(104-179-196-18.lightspeed.brhmal.sbcglobal.net. [104.179.196.18])
 	by smtp.googlemail.com with ESMTPSA id
-	p4sm8439998ywe.53.2017.03.06.16.17.33
+	y144sm8429273ywa.46.2017.03.06.16.20.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 Mar 2017 16:17:34 -0800 (PST)
-To: nitish jha <nitishjha16@gmail.com>, meta-virtualization@yoctoproject.org
-References: <CABh+foZe-UwGBX9T3Dcp9XBJMnHmxEh5qnbruTSfR7yDrZP81Q@mail.gmail.com>
+	Mon, 06 Mar 2017 16:20:09 -0800 (PST)
+To: Pello Heriz <pello.heriz@alumni.mondragon.edu>,
+	meta-xilinx@yoctoproject.org, meta-xilinx-request@yoctoproject.org,
+	meta-virtualization@yoctoproject.org
+References: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
 From: Doug Goldstein <cardoe@cardoe.com>
-Message-ID: <37ab2894-7609-5162-80b6-24c9c2d778b9@cardoe.com>
-Date: Mon, 6 Mar 2017 18:17:29 -0600
+Message-ID: <038d9c8c-28be-3bd2-018f-9c8ac5b57269@cardoe.com>
+Date: Mon, 6 Mar 2017 18:20:08 -0600
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
 	Gecko/20100101 Thunderbird/45.7.1
 MIME-Version: 1.0
-In-Reply-To: <CABh+foZe-UwGBX9T3Dcp9XBJMnHmxEh5qnbruTSfR7yDrZP81Q@mail.gmail.com>
-Subject: Re: Xen-image-minimal: xl tool error
+In-Reply-To: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
+Subject: Re: Building xen image on yocto
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,65 +77,63 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Mar 2017 00:17:36 -0000
-X-Groupsio-MsgNum: 2460
+X-List-Received-Date: Tue, 07 Mar 2017 00:20:12 -0000
+X-Groupsio-MsgNum: 2461
 Content-Type: multipart/signed; micalg=pgp-sha512;
 	protocol="application/pgp-signature";
-	boundary="9j4dxD9IrcNhm3wbWSqBSOJoUoLpKdCPb"
+	boundary="UWqagg7JghStWJW5fbJWqOmjwGinCnfFr"
 
---9j4dxD9IrcNhm3wbWSqBSOJoUoLpKdCPb
-Content-Type: multipart/mixed; boundary="n9rdUXgTmlwPBRwadIl3Sb3W55DN1Lsmi";
+--UWqagg7JghStWJW5fbJWqOmjwGinCnfFr
+Content-Type: multipart/mixed; boundary="p6Ri40GimPeT3HtrD7piQ6xWr55Xschre";
  protected-headers="v1"
 From: Doug Goldstein <cardoe@cardoe.com>
-To: nitish jha <nitishjha16@gmail.com>, meta-virtualization@yoctoproject.org
-Message-ID: <37ab2894-7609-5162-80b6-24c9c2d778b9@cardoe.com>
-Subject: Re: [meta-virtualization] Xen-image-minimal: xl tool error
-References: <CABh+foZe-UwGBX9T3Dcp9XBJMnHmxEh5qnbruTSfR7yDrZP81Q@mail.gmail.com>
-In-Reply-To: <CABh+foZe-UwGBX9T3Dcp9XBJMnHmxEh5qnbruTSfR7yDrZP81Q@mail.gmail.com>
+To: Pello Heriz <pello.heriz@alumni.mondragon.edu>,
+ meta-xilinx@yoctoproject.org, meta-xilinx-request@yoctoproject.org,
+ meta-virtualization@yoctoproject.org
+Message-ID: <038d9c8c-28be-3bd2-018f-9c8ac5b57269@cardoe.com>
+Subject: Re: [meta-virtualization] Building xen image on yocto
+References: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
+In-Reply-To: <CAFL6qn7tXPcm-cSjtGsPFPZcqQWhPVyJkJZOnQO3c+ut7g5Gcw@mail.gmail.com>
 
---n9rdUXgTmlwPBRwadIl3Sb3W55DN1Lsmi
+--p6Ri40GimPeT3HtrD7piQ6xWr55Xschre
 Content-Type: text/plain; charset=windows-1252
 Content-Transfer-Encoding: quoted-printable
 
-On 3/1/17 4:49 AM, nitish jha wrote:
-> Hi All,
+On 3/6/17 3:28 AM, Pello Heriz wrote:
+> Hi all,
 >=20
-> I somehow build xen-image-minimal successfully.
+> is it necessary to add meta-petalinux layer to build a xen image for
+> zcu102 board using Yocto?
 >=20
-> Machine type used is qemux86-64
+> I have read this information in the next link:=20
+> http://www.wiki.xilinx.com/Xen+Hypervisor+through+Yocto+Flow
 >=20
-> But inside qemu when I try to run *xl list *command, it gives error :
->  Could not obtain handle on privileged command interface
+> The think is that if I include this layer to my project, when I try
+> bitbake, I get the next result:
 >=20
-> I am already logged in with root.
+> Txertatutako irudia 1
 >=20
-> What I am not understanding is once we build xen-image-minimal, is xl
-> tool not included in that?
+> What I have to do in order to solve the issue?
 >=20
-> if yes then what else I am missing to make it work
+> Thanks,
+> Pello
 >=20
-> Is there any wiki page which gives details on how to use xen with yocto=
-
->=20
-> Thanks and Regards
-> --=20
-> Nitish Jha
->=20
->=20
+> =20
 >=20
 >=20
 
-You either didn't enable 'xen' in your DISTRO_FEATURES so your kernel
-doesn't have the necessary xen drivers or you didn't actually boot the
-xen hypervisor and instead directly booted into Linux.
+I wouldn't use meta-petalinux for the target you are trying to build
+for. I am fairly certain that patches for the zcu102 with Xen have not
+been upstreamed into meta-virtualization. Patches are certainly welcome
+(as is hardware that I can test with).
 
 --=20
 Doug Goldstein
 
 
---n9rdUXgTmlwPBRwadIl3Sb3W55DN1Lsmi--
+--p6Ri40GimPeT3HtrD7piQ6xWr55Xschre--
 
---9j4dxD9IrcNhm3wbWSqBSOJoUoLpKdCPb
+--UWqagg7JghStWJW5fbJWqOmjwGinCnfFr
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
@@ -141,21 +141,21 @@ Content-Disposition: attachment; filename="signature.asc"
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG/MacGPG2 v2.0
 
-iQJ8BAEBCgBmBQJYvfwcXxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+iQJ8BAEBCgBmBQJYvfy4XxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
 ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXRBNTM5MEQ2RTNFMTkyNzlCNzVDMzIwOTVB
-MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvUjFcP/2raVUnMUA0ZqxT8l/zKLGRx
-gkSExebsySqJR9YHOKLr9WYFUJZa9rOp7dE/KNC7GO1yGeFKfDb7Y0IEMpLEJ8PZ
-RzIxRApFUwqoP0rkmtFw538KB+Grd9RMoMWD/FI8h/Zcu3Pdv8rBOoXR7hzyzo7i
-apEP1VItxnRXa8UXUx9SMI6mXOCx6BDsLcqo0uF8YuK4tnpEPrca6JXrom6Pp0+U
-RyYNfjegfp5QIcKZwNkZfkp0V0ApvJ91pzy9y2nO/MLbVb1qOWupyZQvitkaHpea
-uAlYOiBCx+9peXq5S8HlGB+hifIZWdnlQMzltgsgTzTxqway2r5k52SONrr0ETDT
-rocLkmx8zmbMMweZigoCGJgJdvfuofElcmVam1myHDoAvqIel/tT9Ur/4RbcMTyo
-8VgWwl/42Ieuj1hDoIiccE/R21vrIqdB+yoELOFDmUseHqdLUPpbxCOGC2thX66o
-bRZ8MFYU70lXF/sBOFwZvSJq8UavC5nwwHPTaW2yx7e67HpONsvhojXUCrbuWtkM
-1lS4tXx0ygpy+hHEjn56SUzXoxilOIczG+b4Sr9JMmxo5r177/Y8Zk90o3cpkC8S
-211txW1YtQK+hD9L9r/vGGhSVXQsyI0MXsKChEuby1UI7/bJsTpTRHWu8lbqnuGM
-vhTmPlJHHbXY5l6UUHP3
-=O60c
+MkJDMDNEQzg3RUQxQkQ0AAoJEKK8A9yH7RvULpIQAJF9T2rj6HJZm2d5OFKHZkmV
+p7Z9lDcCMn3gFvT2LzFTjZGD/Xwppfq/sDVNyzAzTB0gx+2P/66sTrZraGNlaPAT
+NIqjxLkWlSZzmstAPG52/cT+46pWI6lbLrrj9lnfxGMlSTaVz1BKHL9ggTVTbtmJ
+9qjYxc0FYPafLpAapW6doHuUxlGaRvJ57bb14BYptU2T0VQrhinpQ6Bj3z1RgqtV
+yrX3uJdy/eAuXilzo2dqyuwI/yDkStVSv8ec42ph06Ciy+Igt9fhTKjpH/SW9m6R
+0chnclej6NTsgFCHPk51WtpnFZ6FJrx6yDhAgtPg71oPHhQ1SPHqwNHrbJsyaJ0S
+hv3xc1+eP7FzhHIpwH2huGP3JyaelYAWbKSe8u64oyhnvsdFFo4Z6Vdk7bnK1AW5
+iLtgqNdBo6oZNSbIgNf6EDO/g9D4fwFfcgnnbjg5PHbuZKQ8x/DlIpN03crk4LOS
+bHoCB0cJj8iVTD7pSiFroWK4Y5B/6rDl+svUKjuKpwset6+q/zxJ/0ZzH6jYIFs8
+lrnvp5A+0TY/RNyYy9DQR2CLw67sIRaPf/VMCn5ftiRC3CYXM8JjoLj9Wt+mFXeE
+GW6v2Llk5/ces1m87NOIn0qWkUGgr49eQynaGzvOWl9kEdESgLI9Ahxe25Ar0KqV
+Y+Y/KcBcUKsoe9FSwZAH
+=hEyX
 -----END PGP SIGNATURE-----
 
---9j4dxD9IrcNhm3wbWSqBSOJoUoLpKdCPb--
+--UWqagg7JghStWJW5fbJWqOmjwGinCnfFr--
