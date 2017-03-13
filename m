@@ -1,71 +1,36 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <Fupan.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CB625E008F2; Sat, 11 Mar 2017 15:03:09 -0800 (PST)
+	id C7A73E00A53; Mon, 13 Mar 2017 00:39:22 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.196 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.161.196 listed in dnsbl.sorbs.net]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
-	[209.85.161.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 48CA9E0077F
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5F9B1E00655
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 11 Mar 2017 15:03:07 -0800 (PST)
-Received: by mail-yw0-f196.google.com with SMTP id 2so6617975ywn.3
+	Mon, 13 Mar 2017 00:39:19 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2D7dIRC026265
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 11 Mar 2017 15:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=WErMcszK8f4H0AS+jxrcBoYpzDCaEni+opcDL4tguT4=;
-	b=Ff7kJmuqrXY19R/QmOl2rspv4Bi4QyqbrwmJK3XUsE4S39bsPpTD3zshdi/iwejnw8
-	EFK1PXia08914jDchlLnKPy1mW6V4jPRo2z2qXF5IP4Kf91ye5lOAahvqifcDbkMGHVM
-	HnRauOn2K10ZLWZ6sGI2/f7x9WFgZ8ZwtmrhxqXMla9716/l9aBSj7B2ORX1CHAbeV0P
-	WLBitMQvF27rGfY8oGZU8Io/77GSanpSY4hgpimGefE6AO7nfvQr9RJZraxr+PPeqBk3
-	+laGFPH71v4JcAWhDng6TCjesQoCMECriV0dGptmZHy1x3MQaPLk9ECKbKEC7S6fsom/
-	9C7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to:cc;
-	bh=WErMcszK8f4H0AS+jxrcBoYpzDCaEni+opcDL4tguT4=;
-	b=DOvgNA+VQta2TzjVTKFyMc5szt/TJOboxKAzgHgaIIuulm1ldt9lhZ6N2ILy1oZ4Dq
-	yosXIIzSPtjQGqq9jMEtdU7CVPTGK9+x/rn+bBFQP34C6xTm8e7YYLPkea1FvHWN59kP
-	rsMZNcpOTbOCBunlhrx1FhRw6Psih9vFzN4wndmcdjuShC1qox51UdBsHpl67Ne0CJ6u
-	kcQLrlkl2tdd+HmtUc8j1Dh1VPe5MfGMI86NKX7sTUAEkDH2538RSLIKGEg+QRRxJ18J
-	rqt2TsePELwX6dbqCNPXbNza7vh7TjTnXET7RfF2Pm6zbUuUvuoQRkwNkJ9GZuQxgzIm
-	yaKw==
-X-Gm-Message-State: AMke39kFZlFmtxYdgr4pE/Ji75occc/Yecsaa6fmCIZW+8cjMtR7vzilW23RSWvWuSmeu2IM9dwWma09TzKT2A==
-X-Received: by 10.37.44.22 with SMTP id s22mr12785092ybs.115.1489273387073;
-	Sat, 11 Mar 2017 15:03:07 -0800 (PST)
+	Mon, 13 Mar 2017 00:39:18 -0700
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Mon, 13 Mar 2017 00:39:17 -0700
+From: <fupan.li@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 13 Mar 2017 00:39:16 -0700
+Message-ID: <20170313073917.348626-1-fupan.li@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 10.37.174.25 with HTTP; Sat, 11 Mar 2017 15:03:06 -0800 (PST)
-In-Reply-To: <1489271489-5903-1-git-send-email-mark.asselstine@windriver.com>
-References: <1489271489-5903-1-git-send-email-mark.asselstine@windriver.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Sat, 11 Mar 2017 18:03:06 -0500
-X-Google-Sender-Auth: Z3u0XGYeMgLcUUVEEwZ8s9Fkt_4
-Message-ID: <CAPuovEJmJKJOQy=vo15YFjPfPRZ-Yd8nXrKugzV47Zj+1FGXNg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] openvswitch: add missing depends on coreutils-native
+Subject: [PATCH] qpid: fix the wrong python dir issue
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -75,55 +40,77 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Mar 2017 23:03:09 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 13 Mar 2017 07:39:22 -0000
+Content-Type: text/plain
 
-Additional information
+From: fli <fupan.li@windriver.com>
 
-Note that this seems to be related to the following (subject: State of
-bitbake world, Failed tasks 2017-03-11)
-https://www.mail-archive.com/openembedded-devel@lists.openembedded.org/msg52129.html
+qpid used the wrong python path and thus cannot
+package the files installed. This commit will fix
+the following warning issue:
 
-Since cksum was already installed on my build host I believe this
-patch is still required. I just wanted to follow up as the information
-in the linked email might be of interest with this recent round of
-build failures.
+WARNING: QA Issue: qpid: Files/directories were installed but not shipped in any package:
+  /usr/lib/python2.7/site-packages/qmfengine.py
+  /usr/lib/python2.7/site-packages/qmf.py
+  /usr/lib/python2.7/site-packages/_qmfengine.so
+  /usr/lib/python2.7/site-packages/_qmfengine.la
+  /usr/lib/python2.7/site-packages/qmfengine.pyo
+  /usr/lib/python2.7/site-packages/qmf.pyo
+  /usr/lib/python2.7/site-packages/cqpid.py
+  /usr/lib/python2.7/site-packages/_cqpid.so
+  /usr/lib/python2.7/site-packages/_cqpid.la
+  /usr/lib/python2.7/site-packages/cqpid.pyo
+  /usr/lib/python2.7/site-packages/qmf2.py
+  /usr/lib/python2.7/site-packages/cqmf2.py
+  /usr/lib/python2.7/site-packages/_cqmf2.so
+  /usr/lib/python2.7/site-packages/_cqmf2.la
+  /usr/lib/python2.7/site-packages/qmf2.pyo
+  /usr/lib/python2.7/site-packages/cqmf2.pyo
+  /usr/lib/python2.7/site-packages/qmfgen
+  /usr/lib/python2.7/site-packages/qmfgen/__init__.py
+  /usr/lib/python2.7/site-packages/qmfgen/generate.py
+  /usr/lib/python2.7/site-packages/qmfgen/schema.py
+  /usr/lib/python2.7/site-packages/qmfgen/management-types.xml
+  /usr/lib/python2.7/site-packages/qmfgen/__init__.pyo
+  /usr/lib/python2.7/site-packages/qmfgen/generate.pyo
+  /usr/lib/python2.7/site-packages/qmfgen/schema.pyo
+  /usr/lib/python2.7/site-packages/qmfgen/templates
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Args.h
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Class.cpp
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Class.h
+  /usr/lib/python2.7/site-packages/qmfgen/templates/CMakeLists.cmake
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Event.cpp
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Event.h
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Makefile.mk
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Package.cpp
+  /usr/lib/python2.7/site-packages/qmfgen/templates/Package.h
+  /usr/lib/python2.7/site-packages/qmfgen/templates/V2Package.cpp
+  /usr/lib/python2.7/site-packages/qmfgen/templates/V2Package.h
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+qpid: 36 installed and not shipped files. [installed-vs-shipped]
 
-Mark
+Signed-off-by: fli <fupan.li@windriver.com>
+---
+ meta-openstack/recipes-extended/qpid/qpid_0.20.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-On Sat, Mar 11, 2017 at 5:31 PM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> I was getting the following error when building the latest master:
->
->   ../git/build-aux/calculate-schema-cksum: cksum: not found
->   ../git/build-aux/calculate-schema-cksum: cksum: not found
->
-> Adding coreutils-native which supplies 'cksum' resolved this.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->  recipes-networking/openvswitch/openvswitch.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-> index 71c746f..1f0b52b 100644
-> --- a/recipes-networking/openvswitch/openvswitch.inc
-> +++ b/recipes-networking/openvswitch/openvswitch.inc
-> @@ -11,7 +11,7 @@ HOMEPAGE = "http://openvswitch.org/"
->  SECTION = "networking"
->  LICENSE = "Apache-2"
->
-> -DEPENDS += "bridge-utils openssl python perl python-six-native"
-> +DEPENDS += "bridge-utils openssl python perl python-six-native coreutils-native"
->
->  RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
->         python perl perl-module-strict ${PN}-switch \
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+diff --git a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
+index 5e6ae2d..b76f76d 100644
+--- a/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
++++ b/meta-openstack/recipes-extended/qpid/qpid_0.20.bb
+@@ -27,7 +27,10 @@ export PERL_ARCHLIB = "${STAGING_LIBDIR}${PERL_OWN_DIR}/perl/${@get_perl_version
+ export PERL="${STAGING_BINDIR}/perl"
+ 
+ EXTRA_OECONF += " --without-help2man SASL_PASSWD=/usr/sbin/saslpasswd2"
+-EXTRA_OEMAKE += " CPPFLAGS=-Wno-unused-function "
++EXTRA_OEMAKE += " CPPFLAGS=-Wno-unused-function \
++        pyexecdir=${PYTHON_SITEPACKAGES_DIR} \
++        pythondir=${PYTHON_SITEPACKAGES_DIR} \
++"
+ 
+ do_install_append() {
+      install -d ${D}${sysconfdir}/init.d
+-- 
+2.11.0
+
 
