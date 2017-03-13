@@ -1,31 +1,36 @@
 Return-Path: <Fupan.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C7A73E00A53; Mon, 13 Mar 2017 00:39:22 -0700 (PDT)
+	id D6E62E00A51; Mon, 13 Mar 2017 00:39:22 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5F9B1E00655
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 59F72E00A48
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 13 Mar 2017 00:39:19 -0700 (PDT)
+	Mon, 13 Mar 2017 00:39:21 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v2D7dIRC026265
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2D7dK1i013332
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 13 Mar 2017 00:39:18 -0700
+	Mon, 13 Mar 2017 00:39:20 -0700 (PDT)
 Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.294.0; Mon, 13 Mar 2017 00:39:17 -0700
+	14.3.294.0; Mon, 13 Mar 2017 00:39:19 -0700
 From: <fupan.li@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 13 Mar 2017 00:39:16 -0700
-Message-ID: <20170313073917.348626-1-fupan.li@windriver.com>
+Date: Mon, 13 Mar 2017 00:39:17 -0700
+Message-ID: <20170313073917.348626-2-fupan.li@windriver.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170313073917.348626-1-fupan.li@windriver.com>
+References: <20170313073917.348626-1-fupan.li@windriver.com>
 MIME-Version: 1.0
 Subject: [PATCH] qpid: fix the wrong python dir issue
 X-BeenThere: meta-virtualization@yoctoproject.org
