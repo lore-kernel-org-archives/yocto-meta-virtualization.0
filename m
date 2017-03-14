@@ -1,61 +1,40 @@
-Return-Path: <pello.heriz@alumni.mondragon.edu>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3A2D9E009B8; Tue, 14 Mar 2017 01:57:29 -0700 (PDT)
+	id 622F8E00901; Tue, 14 Mar 2017 05:07:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, HTML_MESSAGE, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [74.125.82.179 listed in dnsbl.sorbs.net]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [74.125.82.179 listed in list.dnswl.org]
-Received: from mail-ot0-f179.google.com (mail-ot0-f179.google.com
-	[74.125.82.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 470B3E00939
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DFDCBE0050B
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Mar 2017 01:57:24 -0700 (PDT)
-Received: by mail-ot0-f179.google.com with SMTP id 19so129319426oti.0
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Mar 2017 01:57:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=alumni.mondragon.edu; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=jjX6m9dEFTT9wXzqiRgBunz6uiaMj8nM1aKXuf08v1c=;
-	b=ZhEFKJ7/fov5bwO14JzHxr8lM+8hn7f4rLZCWz+ksovq35VOXENHJBuIbjX8F5lEQ6
-	nqguGAwHfBrradbqFUNORqTDa2Nn5kkwbg3yPuJSu9Q0rYgCZl1sEz8G4qiIXrvztPyi
-	BSSh7UAPHTiuTc2tCz5ocQS5YzTII74Xd4khI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=jjX6m9dEFTT9wXzqiRgBunz6uiaMj8nM1aKXuf08v1c=;
-	b=DBpR2NhiQp8PhiSnSkjFEQ1hz9AOMxJar81jXRqE/vWeL8y3Iugm/NXlQ/8EWATca/
-	8ToCK4SkmvoCEo23B2hwP7iQwtl/Os5ftqCTn4lxguS6QIAjnLVx7u8E35YsgpfTOJ8k
-	I7qqjhgItxcrzS1upEBtlnjM4Ch9PCeYtxAmJ+a8QoaQ8kmocRzTt0h/BvgKs1AdzqAl
-	uNO8qL31z6z4ONT/475wR+WeksyPbwmDGg+KJJ2wppixHoiilhxw3qqGkjK4I55phvZ+
-	IbBd2yo/9MvAq5j/amSe7C1B60imTc+bQFGTsiTrzG+7tYE+jjp/oxA7mvU1H4MbH4e1
-	2plQ==
-X-Gm-Message-State: AFeK/H0sWipVLqEPhEvK7CjksVn5jN7vlY6K3M7+JNHucwnA/d8+qIXsLz4v/oK3sfyczKbrYx1P7BRPeTQJ9G9m
-X-Received: by 10.157.21.4 with SMTP id u4mr18479732otf.229.1489481843947;
-	Tue, 14 Mar 2017 01:57:23 -0700 (PDT)
+	Tue, 14 Mar 2017 05:07:22 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2EC7KZW013993
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 Mar 2017 05:07:20 -0700 (PDT)
+Received: from server.local (128.224.23.12) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.294.0;
+	Tue, 14 Mar 2017 05:07:19 -0700
+To: Fathi Boudra <fathi.boudra@linaro.org>
+References: <20170209072501.19696-1-fathi.boudra@linaro.org>
+	<CAGNsrLDDmdv9tgxN5MAtmNQ32t=_rt92_sQprTPU3QCJzeC9uw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <a5610e3e-2ae4-8610-ee31-859aae9dfd3e@windriver.com>
+Date: Tue, 14 Mar 2017 08:07:18 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
 MIME-Version: 1.0
-Received: by 10.157.68.138 with HTTP; Tue, 14 Mar 2017 01:57:23 -0700 (PDT)
-From: Pello Heriz <pello.heriz@alumni.mondragon.edu>
-Date: Tue, 14 Mar 2017 09:57:23 +0100
-Message-ID: <CAFL6qn48eNqHgE-oZFfac-a9pNUkiimfSobkgcW-FEQV9i=_uQ@mail.gmail.com>
-To: meta-xilinx@yoctoproject.org, meta-xilinx-request@yoctoproject.org, 
-	meta-virtualization@yoctoproject.org
-Subject: Booting ZCU102 SD image on QEMU
+In-Reply-To: <CAGNsrLDDmdv9tgxN5MAtmNQ32t=_rt92_sQprTPU3QCJzeC9uw@mail.gmail.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] docker: downgrade lxc/docker-registry/rt-tests to suggests
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -68,67 +47,54 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Mar 2017 08:57:29 -0000
-Content-Type: multipart/alternative; boundary=94eb2c1918e8354e9c054aad0450
+X-List-Received-Date: Tue, 14 Mar 2017 12:07:24 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
---94eb2c1918e8354e9c054aad0450
-Content-Type: text/plain; charset=UTF-8
+On 2017-03-14 3:17 AM, Fathi Boudra wrote:
+> Bruce, can you cherry-pick this patch in Morty branch?
+> or do you prefer I send a patch for the branch?
 
-Hi,
+No need for a patch, this is definitely good enough!
 
-I'm trying to launch QEMU from my SD card but I'm having some problems.
+They cherry pick and push is now done for morty.
 
-I have followed the instructions that appears on page 37 in the next link:
-https://japan.xilinx.com/support/documentation/sw_manuals_j/xilinx2016_2/ug1169-zynqmp-qemu.pdf
+Cheers,
 
-All the process was fine until arriving into step number 4. When I tried to
-boot QEMU from the SD card, I can see in the terminal that the machine that
-I'm trying to use is not supported. Here is the report:
+Bruce
 
-pello@pello-VirtualBox:/opt/yocto_GE/yocto_master/poky/build$
-qemu-system-aarch64 -M arm-generic-fdt -nographic -device
-loader,file=/opt/yocto_GE/yocto_master/poky/build/tmp/deploy/images/zcu102-zynqmp/fsbl.elf,cpu=0
--dtb
-/opt/yocto_GE/yocto_master/poky/build/tmp/deploy/images/zcu102-zynqmp/Image--4.6-xilinx-v2016.4+git0+2762bc9163-r0-zynqmp-zcu102-revB-20170306094246.dtb
--device loader,addr=0xfd1a0104,data=0x8000000e,data-len=4 -drive
-file=/media/pello/5A08-C4B7/zynqmp_master.img,if=sd,format=raw,index=0-boot
-mode=3
-qemu-system-aarch64: -drive
-file=/media/pello/5A08-C4B7/zynqmp_master.img,if=sd,format=raw,index=0-boot:
-unsupported machine type
-Use -machine help to list supported machines
-pello@pello-VirtualBox:/opt/yocto_GE/yocto_master/poky/build$
+>
+> On 9 February 2017 at 09:25, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+>> Regular users don't need lxc, docker-registry and rt-tests on the target.
+>> These tools aren't even needed or provide additional features when running
+>> docker at runtime. They also increase the size of the image uneccessarily.
+>>
+>> Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+>> ---
+>>  recipes-containers/docker/docker_git.bb | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+>> index c208a02..81fd4d4 100644
+>> --- a/recipes-containers/docker/docker_git.bb
+>> +++ b/recipes-containers/docker/docker_git.bb
+>> @@ -61,8 +61,8 @@ RDEPENDS_${PN} = "curl aufs-util git util-linux iptables \
+>>                    ${@bb.utils.contains('DISTRO_FEATURES','systemd','','cgroup-lite',d)} \
+>>                   "
+>>  RDEPENDS_${PN} += "containerd runc"
+>> -RRECOMMENDS_${PN} = "lxc docker-registry rt-tests"
+>> -RRECOMMENDS_${PN} += " kernel-module-dm-thin-pool kernel-module-nf-nat"
+>> +RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat"
+>> +RSUGGESTS_${PN} = "lxc docker-registry rt-tests"
+>>  DOCKER_PKG="github.com/docker/docker"
+>>
+>>  do_configure[noexec] = "1"
+>> --
+>> 2.11.0
+>>
+>
+> Cheers,
+> Fathi
+>
 
-What can I do?
 
-Thanks,
-Pello
-
---94eb2c1918e8354e9c054aad0450
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>I&#39;m trying to launch QEMU from =
-my SD card but I&#39;m having some problems.</div><div><br></div><div>I hav=
-e followed the instructions that appears on page 37 in the next link:</div>=
-<div><a href=3D"https://japan.xilinx.com/support/documentation/sw_manuals_j=
-/xilinx2016_2/ug1169-zynqmp-qemu.pdf">https://japan.xilinx.com/support/docu=
-mentation/sw_manuals_j/xilinx2016_2/ug1169-zynqmp-qemu.pdf</a><br></div><di=
-v><br></div><div>All the process was fine until arriving into step number 4=
-. When I tried to boot QEMU from the SD card, I can see in the terminal tha=
-t the machine that I&#39;m trying to use is not supported. Here is the repo=
-rt:</div><div><br></div><div><div>pello@pello-VirtualBox:/opt/yocto_GE/yoct=
-o_master/poky/build$ qemu-system-aarch64 -M arm-generic-fdt -nographic -dev=
-ice loader,file=3D/opt/yocto_GE/yocto_master/poky/build/tmp/deploy/images/z=
-cu102-zynqmp/fsbl.elf,cpu=3D0 -dtb /opt/yocto_GE/yocto_master/poky/build/tm=
-p/deploy/images/zcu102-zynqmp/Image--4.6-xilinx-v2016.4+git0+2762bc9163-r0-=
-zynqmp-zcu102-revB-20170306094246.dtb -device loader,addr=3D0xfd1a0104,data=
-=3D0x8000000e,data-len=3D4 -drive file=3D/media/pello/5A08-C4B7/zynqmp_mast=
-er.img,if=3Dsd,format=3Draw,index=3D0-boot mode=3D3</div><div>qemu-system-a=
-arch64: -drive file=3D/media/pello/5A08-C4B7/zynqmp_master.img,if=3Dsd,form=
-at=3Draw,index=3D0-boot: unsupported machine type</div><div>Use -machine he=
-lp to list supported machines</div><div>pello@pello-VirtualBox:/opt/yocto_G=
-E/yocto_master/poky/build$=C2=A0</div></div><div><br></div><div>What can I =
-do?</div><div><br></div><div>Thanks,</div><div>Pello</div></div>
-
---94eb2c1918e8354e9c054aad0450--
