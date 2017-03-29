@@ -1,67 +1,37 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 45377E00B01; Tue, 28 Mar 2017 06:10:51 -0700 (PDT)
+	id 0CAACE007B5; Wed, 29 Mar 2017 08:26:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.216.193 listed in list.dnswl.org]
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 08E1BE00A51
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A287DE0050B
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Mar 2017 06:10:41 -0700 (PDT)
-Received: by mail-qt0-f193.google.com with SMTP id r45so11956431qte.0
+	Wed, 29 Mar 2017 08:26:21 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v2TFQKti017838
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Mar 2017 06:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=q0AhuMOJQblIu9uTrASgVQN22A3zl6rIk2qn5Y9uT+o=;
-	b=WJKzDNT/OhN5i6VtLfB/oUt+hESe+ZvrRqRlhSEHpP8ed/4fRy+gOvIIAfkF5XIvqy
-	CAcazA6GGQ12MjqyS1YcKb8akdv2BAZ0UOb4my6Mm8XCKReaA01JIWiwCYEHv8nXqOB4
-	gqx+fLnbAR2EN4PJvdzLN0NIQVnYcdnDITV0OHtV9mHCiSYiacwjQSThfXOcvKUeYaRB
-	5RhJLQeiQJ5o5In6SDkLwpn722MuMcMibTjSwfC/2DwA0BdpRjY+SQ7ZVhXSpj2rWTph
-	LJdeS2MQjfkS/Kw8Ua/hYcOOYQv+CMswiuRLIo9p81JsbqDWBWigm6htLLXCgSpuu3CZ
-	ISzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=q0AhuMOJQblIu9uTrASgVQN22A3zl6rIk2qn5Y9uT+o=;
-	b=QDWfD3x9uuqiJc2lOlE0BC+wjHgtDzey022DYURwzzYw5kBH3Mp0zudAbYCiAfDJmU
-	wQRTD1snC192tWGVlYtKIA/moeyuzRJqFv/TRc8ZG/x7in3RShvZc2hZtRcuWRCRdx5A
-	7CuddjpR9xV1D9Z0P7mi6Zyi3FKxYyOaLBIRT/QVatWhJ+z1bftp3F+NrLTzGEXLwtF3
-	PwdfltSOFLebi5BcphIpxCymq2WGsvd9zPhdjRgxVaTjk4sr4Mr1DgxfsDm3OOYU+7iW
-	eNujDSZM9AWs8ya4FLOxWr2s7tKVA8hyAc5mPydevR5ou0LJqF5LdgPZkS1yjPqr/52b
-	WMcg==
-X-Gm-Message-State: AFeK/H1OHkTkJjXK2TuwHvuaSIFkdZXuypmLA7BLEn2pAHX1l2KJd4/M5R8C5l/LDjTivh/4/wLo8/lZjiDpMg==
-X-Received: by 10.200.54.136 with SMTP id a8mr28059627qtc.185.1490706640286;
-	Tue, 28 Mar 2017 06:10:40 -0700 (PDT)
+	Wed, 29 Mar 2017 08:26:20 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 29 Mar 2017 08:26:20 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>
+Date: Wed, 29 Mar 2017 11:26:15 -0400
+Message-ID: <1490801175-27419-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.12.163.69 with HTTP; Tue, 28 Mar 2017 06:10:39 -0700 (PDT)
-In-Reply-To: <20170327064330.20815-1-jonatan.palsson@pelagicore.com>
-References: <20170327064330.20815-1-jonatan.palsson@pelagicore.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 28 Mar 2017 09:10:39 -0400
-Message-ID: <CADkTA4M2MhaKTWdd2_JEsjP+F+aqzRYb0BLac-qoEsnCoWLGqw@mail.gmail.com>
-To: =?UTF-8?Q?Jonatan_P=C3=A5lsson?= <jonatan.palsson@pelagicore.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] lxc: Add lua to PACKAGECONFIG
+Cc: meta-virtualization@yoctoproject.org
+Subject: [PATCH] openvswitch: uprev to the recently released v2.7.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,152 +44,530 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Mar 2017 13:10:51 -0000
-Content-Type: multipart/alternative; boundary=001a1142833cc289cc054bca2fe3
+X-List-Received-Date: Wed, 29 Mar 2017 15:26:29 -0000
+Content-Type: text/plain
 
---001a1142833cc289cc054bca2fe3
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+This version of OVS was released on Feb. 21. Bringing our recipe up to
+date with the latest release ensure we have all the latest CVE fixes
+as well as any new functionality that folks might be looking
+for. Additionally we are better situated to support up to date
+releases of DPDK (v16.11 in this case). No surprises with the uprev,
+it passes all usecase tests (meta-overc) and ptest results are much
+the same as the results we had in v2.6.1. While completing the uprev I
+took the opportunity to do some cleanup of patches that were no longer
+used or required.
 
-merged.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ ...itch-add-more-target-python-substitutions.patch |  50 ---------
+ ...on-make-remaining-scripts-use-usr-bin-env.patch | 113 +++++++++++++++++++--
+ ...-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch | 110 ++++++++++++++++++++
+ ...-f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3.patch | 110 --------------------
+ .../openvswitch-ptest-Fix-python-path.patch        |  30 ------
+ recipes-networking/openvswitch/openvswitch_git.bb  |   7 +-
+ 6 files changed, 219 insertions(+), 201 deletions(-)
+ delete mode 100644 recipes-networking/openvswitch/files/openvswitch-add-more-target-python-substitutions.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch
+ delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3.patch
+ delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-ptest-Fix-python-path.patch
 
-Bruce
+diff --git a/recipes-networking/openvswitch/files/openvswitch-add-more-target-python-substitutions.patch b/recipes-networking/openvswitch/files/openvswitch-add-more-target-python-substitutions.patch
+deleted file mode 100644
+index 2b87a11..0000000
+--- a/recipes-networking/openvswitch/files/openvswitch-add-more-target-python-substitutions.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From d1ab2f62a03c2c977de6fed5fca8de63e328a870 Mon Sep 17 00:00:00 2001
+-Message-Id: <d1ab2f62a03c2c977de6fed5fca8de63e328a870.1391527986.git.Jim.Somerville@windriver.com>
+-From: Jim Somerville <Jim.Somerville@windriver.com>
+-Date: Tue, 4 Feb 2014 15:30:41 +0000
+-Subject: [PATCH 1/1] openvswitch: add more target python substitutions
+-
+-The TARGET_PYTHON variable is used for script
+-substitutions to ensure the scripts will be able to properly execute
+-if the target system has a different path for the python.
+-
+-Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
+----
+- ovsdb/ovsdb-dot.in         | 2 +-
+- ovsdb/ovsdb-idlc.in        | 2 +-
+- utilities/ovs-dpctl-top.in | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/ovsdb/ovsdb-dot.in b/ovsdb/ovsdb-dot.in
+-index 85c126d..402a77c 100755
+---- a/ovsdb/ovsdb-dot.in
+-+++ b/ovsdb/ovsdb-dot.in
+-@@ -1,4 +1,4 @@
+--#! @PYTHON@
+-+#! @TARGET_PYTHON@
+- 
+- from datetime import date
+- import ovs.db.error
+-diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
+-index ec1c655..f5c135f 100755
+---- a/ovsdb/ovsdb-idlc.in
+-+++ b/ovsdb/ovsdb-idlc.in
+-@@ -1,4 +1,4 @@
+--#! @PYTHON@
+-+#! @TARGET_PYTHON@
+- 
+- import getopt
+- import os
+-diff --git a/utilities/ovs-dpctl-top.in b/utilities/ovs-dpctl-top.in
+-index f43fdeb..8475118 100755
+---- a/utilities/ovs-dpctl-top.in
+-+++ b/utilities/ovs-dpctl-top.in
+-@@ -1,4 +1,4 @@
+--#! @PYTHON@
+-+#! @TARGET_PYTHON@
+- #
+- # Copyright (c) 2013 Nicira, Inc.
+- #
+--- 
+-1.8.3.4
+-
+diff --git a/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch b/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch
+index 6091930..68f46ff 100644
+--- a/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch
++++ b/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch
+@@ -1,4 +1,4 @@
+-From 33769657e951da855b9258eb91fa9838373023ad Mon Sep 17 00:00:00 2001
++From 04ad1c3d9f47cfdf4ad9b5d685e953ec094326ff Mon Sep 17 00:00:00 2001
+ From: Mark Asselstine <mark.asselstine@windriver.com>
+ Date: Fri, 13 Jan 2017 16:12:55 -0500
+ Subject: [PATCH] python: make remaining scripts use /usr/bin/env
+@@ -13,11 +13,110 @@ make use of /usr/bin/env to increase the chances of finding python.
+ 
+ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+ ---
+- ovsdb/ovsdb-dot.in               | 2 +-
+- ovsdb/ovsdb-idlc.in              | 2 +-
+- utilities/bugtool/ovs-bugtool.in | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
++ build-aux/check-structs                  | 2 +-
++ build-aux/extract-ofp-actions            | 2 +-
++ build-aux/extract-ofp-errors             | 2 +-
++ build-aux/extract-ofp-fields             | 2 +-
++ build-aux/extract-ofp-msgs               | 2 +-
++ build-aux/xml2nroff                      | 2 +-
++ ovn/utilities/ovn-docker-overlay-driver  | 2 +-
++ ovn/utilities/ovn-docker-underlay-driver | 2 +-
++ ovsdb/ovsdb-doc                          | 2 +-
++ ovsdb/ovsdb-dot.in                       | 2 +-
++ ovsdb/ovsdb-idlc.in                      | 2 +-
++ utilities/bugtool/ovs-bugtool.in         | 2 +-
++ 12 files changed, 12 insertions(+), 12 deletions(-)
+ 
++diff --git a/build-aux/check-structs b/build-aux/check-structs
++index f79f235..c7b8730 100755
++--- a/build-aux/check-structs
+++++ b/build-aux/check-structs
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ import os.path
++ import sys
++diff --git a/build-aux/extract-ofp-actions b/build-aux/extract-ofp-actions
++index 184447b..92ea18d 100755
++--- a/build-aux/extract-ofp-actions
+++++ b/build-aux/extract-ofp-actions
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ import sys
++ import os.path
++diff --git a/build-aux/extract-ofp-errors b/build-aux/extract-ofp-errors
++index 9642593..11e6de7 100755
++--- a/build-aux/extract-ofp-errors
+++++ b/build-aux/extract-ofp-errors
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ import sys
++ import os.path
++diff --git a/build-aux/extract-ofp-fields b/build-aux/extract-ofp-fields
++index 498b887..5d6bcec 100755
++--- a/build-aux/extract-ofp-fields
+++++ b/build-aux/extract-ofp-fields
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ import getopt
++ import sys
++diff --git a/build-aux/extract-ofp-msgs b/build-aux/extract-ofp-msgs
++index 1813638..e9e3c25 100755
++--- a/build-aux/extract-ofp-msgs
+++++ b/build-aux/extract-ofp-msgs
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ import sys
++ import os.path
++diff --git a/build-aux/xml2nroff b/build-aux/xml2nroff
++index bd4e879..9d81503 100755
++--- a/build-aux/xml2nroff
+++++ b/build-aux/xml2nroff
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ # Copyright (c) 2010, 2011, 2012, 2013, 2014, 2015, 2016 Nicira, Inc.
++ #
++diff --git a/ovn/utilities/ovn-docker-overlay-driver b/ovn/utilities/ovn-docker-overlay-driver
++index 52de3db..c90f02b 100755
++--- a/ovn/utilities/ovn-docker-overlay-driver
+++++ b/ovn/utilities/ovn-docker-overlay-driver
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ # Copyright (C) 2015 Nicira, Inc.
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++diff --git a/ovn/utilities/ovn-docker-underlay-driver b/ovn/utilities/ovn-docker-underlay-driver
++index 2c9c4b6..89b804c 100755
++--- a/ovn/utilities/ovn-docker-underlay-driver
+++++ b/ovn/utilities/ovn-docker-underlay-driver
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ # Copyright (C) 2015 Nicira, Inc.
++ #
++ # Licensed under the Apache License, Version 2.0 (the "License");
++diff --git a/ovsdb/ovsdb-doc b/ovsdb/ovsdb-doc
++index 5cf26ee..f76f4bd 100755
++--- a/ovsdb/ovsdb-doc
+++++ b/ovsdb/ovsdb-doc
++@@ -1,4 +1,4 @@
++-#! /usr/bin/python
+++#! /usr/bin/env python
++ 
++ # Copyright (c) 2010, 2011, 2012, 2013, 2014, 2015 Nicira, Inc.
++ #
+ diff --git a/ovsdb/ovsdb-dot.in b/ovsdb/ovsdb-dot.in
+ index 134ce22..893c408 100755
+ --- a/ovsdb/ovsdb-dot.in
+@@ -29,7 +128,7 @@ index 134ce22..893c408 100755
+  from datetime import date
+  import ovs.db.error
+ diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
+-index cd4532e..dceb02f 100755
++index 721ab50..bfbcf23 100755
+ --- a/ovsdb/ovsdb-idlc.in
+ +++ b/ovsdb/ovsdb-idlc.in
+ @@ -1,4 +1,4 @@
+@@ -39,7 +138,7 @@ index cd4532e..dceb02f 100755
+  import getopt
+  import os
+ diff --git a/utilities/bugtool/ovs-bugtool.in b/utilities/bugtool/ovs-bugtool.in
+-index bb771b0..152d171 100755
++index 963c50c..c84d7c2 100755
+ --- a/utilities/bugtool/ovs-bugtool.in
+ +++ b/utilities/bugtool/ovs-bugtool.in
+ @@ -1,4 +1,4 @@
+diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch
+new file mode 100644
+index 0000000..47c81dd
+--- /dev/null
++++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch
+@@ -0,0 +1,110 @@
++From a2a656e6976a60e5df3ade0d17a40b4ebdc2b41a Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Wed, 30 Mar 2016 06:23:45 -0400
++Subject: [PATCH] openvswitch: Add test-install rule to support ptest execution
++
++Signed-off-by: Radu Patriu <radu.patriu@enea.com>
++
++Fix ptest for v2.5
++ - Copy certain files from srcdir since it has been different from
++   build directory.
++ - Copy more necessary files for new added test cases.
++ - Modify config files for running on target.
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++---
++ Makefile.am |  1 +
++ test.mk     | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 73 insertions(+)
++ create mode 100644 test.mk
++
++diff --git a/Makefile.am b/Makefile.am
++index a4dd7b8..0bd32c7 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -429,3 +429,4 @@ include windows/automake.mk
++ include ovn/automake.mk
++ include selinux/automake.mk
++ include build-aux/automake.mk
+++include test.mk
++diff --git a/test.mk b/test.mk
++new file mode 100644
++index 0000000..b10a581
++--- /dev/null
+++++ b/test.mk
++@@ -0,0 +1,72 @@
+++TEST_DEST ?= ${prefix}/lib/openvswitch
+++TEST_ROOT ?= ${prefix}/lib/openvswitch
+++TEST_DEPEND =
+++
+++if HAVE_OPENSSL
+++TEST_DEPEND += $(TESTPKI_FILES)
+++endif
+++
+++test-install: $(TEST_DEPEND)
+++	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
+++	install -d $(TEST_DEST)/tests ;\
+++	install $(srcdir)/vtep/ovs-vtep $(TEST_DEST)/tests ;\
+++	install -d $(TEST_DEST)/python ;\
+++	install -d $(TEST_DEST)/python/ovs ;\
+++	install -d $(TEST_DEST)/python/ovs/db ;\
+++	install -d $(TEST_DEST)/python/ovs/unixctl ;\
+++	install -d $(TEST_DEST)/vswitchd ;\
+++	install $(srcdir)/vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
+++	install vswitchd/ovs-vswitchd $(TEST_DEST)/vswitchd ;\
+++	install -d $(TEST_DEST)/debian ;\
+++	install $(srcdir)/debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
+++	install -d $(TEST_DEST)/build-aux ;\
+++	install $(srcdir)/build-aux/check-structs $(TEST_DEST)/build-aux ;\
+++	install -d $(TEST_DEST)/xenserver ;\
+++	install $(srcdir)/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
+++	install $(srcdir)/xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
+++	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
+++	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
+++	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
+++	install -d $(TEST_DEST)/vtep ;\
+++	install $(srcdir)/vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
+++	install -d $(TEST_DEST)/ovn ;\
+++	install $(srcdir)/ovn/ovn-nb.ovsschema $(TEST_DEST)/ovn ;\
+++	install $(srcdir)/ovn/ovn-sb.ovsschema $(TEST_DEST)/ovn ;\
+++	install -d $(TEST_DEST)/utilities ;\
+++	install $(srcdir)/utilities/ovs-pcap.in $(TEST_DEST)/utilities ;\
+++	install $(srcdir)/utilities/ovs-pki.in $(TEST_DEST)/utilities ;\
+++	for p in $$list ; do \
+++	  echo $$p ;\
+++	  p=$${p#../git/} ;\
+++	  pre=$${p#tests\/} ;\
+++	  if test $$pre != $$p ; then \
+++	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
+++	    if test -f $$p ; then \
+++	      install $$p $(TEST_DEST)/tests/$$pre ;\
+++	    else \
+++	      install $(srcdir)/$$p $(TEST_DEST)/tests/$$pre ;\
+++	    fi ;\
+++	    continue ;\
+++	  fi ;\
+++	  pre=$${p#python\/ovs\/} ;\
+++	  if test $$pre != $$p ; then \
+++	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
+++	    if test -f $$p ; then \
+++	      install $$p $(TEST_DEST)/python/ovs/$$pre ;\
+++	    else \
+++	      install $(srcdir)/$$p $(TEST_DEST)/python/ovs/$$pre ;\
+++	    fi ;\
+++	    continue ;\
+++	  fi; \
+++	done ;\
+++	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|at_srcdir=.*|at_srcdir='"'"'.'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|at_top_srcdir=.*|at_top_srcdir='"'"'..'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|at_top_build_prefix=.*|at_top_build_prefix='"'"'../'"'"'|g' $(TEST_DEST)/tests/atconfig
+++	sed -i 's|^\(.*config\.log.*\)|#\1|g' $(TEST_DEST)/tests/testsuite
+++	sed -i 's|$$srcdir|$$abs_srcdir|g' $(TEST_DEST)/tests/testsuite
+++	sed -i 's|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+++	sed -i 's|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
++-- 
++2.7.4
++
+diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3.patch
+deleted file mode 100644
+index 7e74044..0000000
+--- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3.patch
++++ /dev/null
+@@ -1,110 +0,0 @@
+-From e20556d7cf0fc8258db77c1f3e0a160cf9fd4514 Mon Sep 17 00:00:00 2001
+-From: He Zhe <zhe.he@windriver.com>
+-Date: Wed, 30 Mar 2016 06:23:45 -0400
+-Subject: [PATCH] openvswitch: Add test-install rule to support ptest execution
+-
+-Signed-off-by: Radu Patriu <radu.patriu@enea.com>
+-
+-Fix ptest for v2.5
+- - Copy certain files from srcdir since it has been different from
+-   build directory.
+- - Copy more necessary files for new added test cases.
+- - Modify config files for running on target.
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- Makefile.am |  1 +
+- test.mk     | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+- 2 files changed, 73 insertions(+)
+- create mode 100644 test.mk
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index ed43c2f..f38d278 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -401,3 +401,4 @@ include datapath-windows/include/automake.mk
+- include windows/automake.mk
+- include ovn/automake.mk
+- include selinux/automake.mk
+-+include test.mk
+-diff --git a/test.mk b/test.mk
+-new file mode 100644
+-index 0000000..b10a581
+---- /dev/null
+-+++ b/test.mk
+-@@ -0,0 +1,72 @@
+-+TEST_DEST ?= ${prefix}/lib/openvswitch
+-+TEST_ROOT ?= ${prefix}/lib/openvswitch
+-+TEST_DEPEND =
+-+
+-+if HAVE_OPENSSL
+-+TEST_DEPEND += $(TESTPKI_FILES)
+-+endif
+-+
+-+test-install: $(TEST_DEPEND)
+-+	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
+-+	install -d $(TEST_DEST)/tests ;\
+-+	install $(srcdir)/vtep/ovs-vtep $(TEST_DEST)/tests ;\
+-+	install -d $(TEST_DEST)/python ;\
+-+	install -d $(TEST_DEST)/python/ovs ;\
+-+	install -d $(TEST_DEST)/python/ovs/db ;\
+-+	install -d $(TEST_DEST)/python/ovs/unixctl ;\
+-+	install -d $(TEST_DEST)/vswitchd ;\
+-+	install $(srcdir)/vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
+-+	install vswitchd/ovs-vswitchd $(TEST_DEST)/vswitchd ;\
+-+	install -d $(TEST_DEST)/debian ;\
+-+	install $(srcdir)/debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
+-+	install -d $(TEST_DEST)/build-aux ;\
+-+	install $(srcdir)/build-aux/check-structs $(TEST_DEST)/build-aux ;\
+-+	install -d $(TEST_DEST)/xenserver ;\
+-+	install $(srcdir)/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
+-+	install $(srcdir)/xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
+-+	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
+-+	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
+-+	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
+-+	install -d $(TEST_DEST)/vtep ;\
+-+	install $(srcdir)/vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
+-+	install -d $(TEST_DEST)/ovn ;\
+-+	install $(srcdir)/ovn/ovn-nb.ovsschema $(TEST_DEST)/ovn ;\
+-+	install $(srcdir)/ovn/ovn-sb.ovsschema $(TEST_DEST)/ovn ;\
+-+	install -d $(TEST_DEST)/utilities ;\
+-+	install $(srcdir)/utilities/ovs-pcap.in $(TEST_DEST)/utilities ;\
+-+	install $(srcdir)/utilities/ovs-pki.in $(TEST_DEST)/utilities ;\
+-+	for p in $$list ; do \
+-+	  echo $$p ;\
+-+	  p=$${p#../git/} ;\
+-+	  pre=$${p#tests\/} ;\
+-+	  if test $$pre != $$p ; then \
+-+	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
+-+	    if test -f $$p ; then \
+-+	      install $$p $(TEST_DEST)/tests/$$pre ;\
+-+	    else \
+-+	      install $(srcdir)/$$p $(TEST_DEST)/tests/$$pre ;\
+-+	    fi ;\
+-+	    continue ;\
+-+	  fi ;\
+-+	  pre=$${p#python\/ovs\/} ;\
+-+	  if test $$pre != $$p ; then \
+-+	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
+-+	    if test -f $$p ; then \
+-+	      install $$p $(TEST_DEST)/python/ovs/$$pre ;\
+-+	    else \
+-+	      install $(srcdir)/$$p $(TEST_DEST)/python/ovs/$$pre ;\
+-+	    fi ;\
+-+	    continue ;\
+-+	  fi; \
+-+	done ;\
+-+	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|at_srcdir=.*|at_srcdir='"'"'.'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|at_top_srcdir=.*|at_top_srcdir='"'"'..'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|at_top_build_prefix=.*|at_top_build_prefix='"'"'../'"'"'|g' $(TEST_DEST)/tests/atconfig
+-+	sed -i 's|^\(.*config\.log.*\)|#\1|g' $(TEST_DEST)/tests/testsuite
+-+	sed -i 's|$$srcdir|$$abs_srcdir|g' $(TEST_DEST)/tests/testsuite
+-+	sed -i 's|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+-+	sed -i 's|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
+--- 
+-1.9.1
+-
+diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-ptest-Fix-python-path.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-ptest-Fix-python-path.patch
+deleted file mode 100644
+index c75ebc5..0000000
+--- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-ptest-Fix-python-path.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 2a78bddb865e0d3377f437428ed6825195af0a14 Mon Sep 17 00:00:00 2001
+-From: He Zhe <zhe.he@windriver.com>
+-Date: Wed, 13 Apr 2016 03:13:01 -0400
+-Subject: [PATCH] openvswitch: ptest: Fix python path
+-
+-For now PYTHON just happens to be the same as TARGET_PYTHON so we get the right
+-python binary. This patch sets PYTHON to TARGET_PYTHON since ptest is going to
+-be run on target.
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- tests/atlocal.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tests/atlocal.in b/tests/atlocal.in
+-index 5815c6c..db2d2c9 100644
+---- a/tests/atlocal.in
+-+++ b/tests/atlocal.in
+-@@ -5,7 +5,7 @@ EGREP='@EGREP@'
+- PERL='@PERL@'
+- 
+- if test x"$PYTHON" = x; then
+--    PYTHON='@PYTHON@'
+-+    PYTHON='@TARGET_PYTHON@'
+- fi
+- 
+- PYTHONPATH=$abs_top_srcdir/python:$abs_top_builddir/tests:$PYTHONPATH
+--- 
+-1.9.1
+-
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index 0ead302..1fb82ae 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -12,21 +12,20 @@ RDEPENDS_${PN}-ptest += "\
+ 	"
+ 
+ S = "${WORKDIR}/git"
+-PV = "2.6.1+${SRCREV}"
++PV = "2.7.0+${SRCREV}"
+ 
+ FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
+ 
+-SRCREV = "f4b0e64cffb4777ff03d48621c3eadcf1d8c19f3"
++SRCREV = "c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1"
+ SRC_URI = "file://openvswitch-switch \
+            file://openvswitch-switch-setup \
+            file://openvswitch-testcontroller \
+            file://openvswitch-testcontroller-setup \
+-           git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.6 \
++           git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.7 \
+            file://openvswitch-add-ptest-${SRCREV}.patch \
+            file://run-ptest \
+            file://disable_m4_check.patch \
+            file://kernel_module.patch \
+-           file://openvswitch-ptest-Fix-python-path.patch \
+            file://python-make-remaining-scripts-use-usr-bin-env.patch \
+            file://0001-use-the-linux-if_packet.h-Interface-directly.patch \
+            file://0002-Define-WAIT_ANY-if-not-provided-by-system.patch \
+-- 
+2.7.4
 
-On Mon, Mar 27, 2017 at 2:43 AM, Jonatan P=C3=A5lsson <
-jonatan.palsson@pelagicore.com> wrote:
 
-> Lua support is automatically enabled when configuring LXC if lua is
-> available in the sysroot. The packaging step will fail since the lua
-> related files are not in FILES.
->
-> This patch explicitly enables/disables lua support using PACKAGECONFIG,
-> and also adds lua-related files to FILES.
->
-> Signed-off-by: Jonatan P=C3=A5lsson <jonatan.palsson@pelagicore.com>
-> ---
->  recipes-containers/lxc/lxc_2.0.0.bb | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/recipes-containers/lxc/lxc_2.0.0.bb b/recipes-containers/lxc=
-/
-> lxc_2.0.0.bb
-> index 250ac4d..c98d1a7 100644
-> --- a/recipes-containers/lxc/lxc_2.0.0.bb
-> +++ b/recipes-containers/lxc/lxc_2.0.0.bb
-> @@ -65,6 +65,7 @@ PACKAGECONFIG[templates] =3D ",,, ${PN}-templates"
->  PACKAGECONFIG[selinux] =3D "--enable-selinux,--disable-
-> selinux,libselinux,libselinux"
->  PACKAGECONFIG[seccomp] =3D"--enable-seccomp,--disable-
-> seccomp,libseccomp,libseccomp"
->  PACKAGECONFIG[python] =3D "--enable-python,--disable-
-> python,python3,python3-core"
-> +PACKAGECONFIG[lua] =3D "--enable-lua,--disable-lua,lua,lua"
->
->  # required by python3 to run setup.py
->  export BUILD_SYS
-> @@ -86,6 +87,9 @@ FILES_${PN}-doc =3D "${mandir} ${infodir}"
->  # For LXC the docdir only contains example configuration files and shoul=
-d
-> be included in the lxc package
->  FILES_${PN} +=3D "${docdir}"
->  FILES_${PN} +=3D "${libdir}/python3*"
-> +FILES_${PN} +=3D "${datadir}/lua/*"
-> +FILES_${PN} +=3D "${libdir}/lua/lxc/*"
-> +FILES_${PN}-dbg +=3D "${libdir}/lua/lxc/.debug"
->  FILES_${PN}-dbg +=3D "${libexecdir}/lxc/.debug ${libexecdir}/lxc/hooks/.
-> debug"
->  PACKAGES =3D+ "${PN}-templates ${PN}-setup ${PN}-networking"
->  FILES_${PN}-templates +=3D "${datadir}/lxc/templates"
-> --
-> 2.10.2
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a1142833cc289cc054bca2fe3
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>merged.<br><br></div>Bruce<br></div><div class=3D"gma=
-il_extra"><br><div class=3D"gmail_quote">On Mon, Mar 27, 2017 at 2:43 AM, J=
-onatan P=C3=A5lsson <span dir=3D"ltr">&lt;<a href=3D"mailto:jonatan.palsson=
-@pelagicore.com" target=3D"_blank">jonatan.palsson@pelagicore.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">Lua support is automatically=
- enabled when configuring LXC if lua is<br>
-available in the sysroot. The packaging step will fail since the lua<br>
-related files are not in FILES.<br>
-<br>
-This patch explicitly enables/disables lua support using PACKAGECONFIG,<br>
-and also adds lua-related files to FILES.<br>
-<br>
-Signed-off-by: Jonatan P=C3=A5lsson &lt;<a href=3D"mailto:jonatan.palsson@p=
-elagicore.com">jonatan.palsson@pelagicore.<wbr>com</a>&gt;<br>
----<br>
-=C2=A0recipes-containers/lxc/<a href=3D"http://lxc_2.0.0.bb" rel=3D"norefer=
-rer" target=3D"_blank">lxc_2.<wbr>0.0.bb</a> | 4 ++++<br>
-=C2=A01 file changed, 4 insertions(+)<br>
-<br>
-diff --git a/recipes-containers/lxc/<a href=3D"http://lxc_2.0.0.bb" rel=3D"=
-noreferrer" target=3D"_blank">lxc_<wbr>2.0.0.bb</a> b/recipes-containers/lx=
-c/<a href=3D"http://lxc_2.0.0.bb" rel=3D"noreferrer" target=3D"_blank">lxc_=
-<wbr>2.0.0.bb</a><br>
-index 250ac4d..c98d1a7 100644<br>
---- a/recipes-containers/lxc/<a href=3D"http://lxc_2.0.0.bb" rel=3D"norefer=
-rer" target=3D"_blank">lxc_<wbr>2.0.0.bb</a><br>
-+++ b/recipes-containers/lxc/<a href=3D"http://lxc_2.0.0.bb" rel=3D"norefer=
-rer" target=3D"_blank">lxc_<wbr>2.0.0.bb</a><br>
-@@ -65,6 +65,7 @@ PACKAGECONFIG[templates] =3D &quot;,,, ${PN}-templates&qu=
-ot;<br>
-=C2=A0PACKAGECONFIG[selinux] =3D &quot;--enable-selinux,--disable-<wbr>seli=
-nux,libselinux,libselinux&quot;<br>
-=C2=A0PACKAGECONFIG[seccomp] =3D&quot;--enable-seccomp,--disable-<wbr>secco=
-mp,libseccomp,libseccomp&quot;<br>
-=C2=A0PACKAGECONFIG[python] =3D &quot;--enable-python,--disable-<wbr>python=
-,python3,python3-core&quot;<br>
-+PACKAGECONFIG[lua] =3D &quot;--enable-lua,--disable-lua,<wbr>lua,lua&quot;=
-<br>
-<br>
-=C2=A0# required by python3 to run setup.py<br>
-=C2=A0export BUILD_SYS<br>
-@@ -86,6 +87,9 @@ FILES_${PN}-doc =3D &quot;${mandir} ${infodir}&quot;<br>
-=C2=A0# For LXC the docdir only contains example configuration files and sh=
-ould be included in the lxc package<br>
-=C2=A0FILES_${PN} +=3D &quot;${docdir}&quot;<br>
-=C2=A0FILES_${PN} +=3D &quot;${libdir}/python3*&quot;<br>
-+FILES_${PN} +=3D &quot;${datadir}/lua/*&quot;<br>
-+FILES_${PN} +=3D &quot;${libdir}/lua/lxc/*&quot;<br>
-+FILES_${PN}-dbg +=3D &quot;${libdir}/lua/lxc/.debug&quot;<br>
-=C2=A0FILES_${PN}-dbg +=3D &quot;${libexecdir}/lxc/.debug ${libexecdir}/lxc=
-/hooks/.<wbr>debug&quot;<br>
-=C2=A0PACKAGES =3D+ &quot;${PN}-templates ${PN}-setup ${PN}-networking&quot=
-;<br>
-=C2=A0FILES_${PN}-templates +=3D &quot;${datadir}/lxc/templates&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.10.2<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
-s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
-ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
-t;</div>
-</div>
-
---001a1142833cc289cc054bca2fe3--
