@@ -1,6 +1,6 @@
 Return-Path: <Adrian.Calianu@enea.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B1DDEE00AD5; Mon,  3 Apr 2017 00:38:50 -0700 (PDT)
+	id 635AEE00ADB; Mon,  3 Apr 2017 00:40:08 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,33 +8,31 @@ X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	http://www.dnswl.org/, low *      trust
-	*      [185.38.181.43 listed in list.dnswl.org]
+	*      [185.38.181.36 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 143 seconds by postgrey-1.32 at yocto-www;
-	Mon, 03 Apr 2017 00:38:46 PDT
 Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.43])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 63971E00AA5
+	[185.38.181.36])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BD49BE00AD0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  3 Apr 2017 00:38:46 -0700 (PDT)
-Received: from 1cuwZZ-0000fg-V9 by out11a.electric.net with emc1-ok (Exim 4.87)
+	Mon,  3 Apr 2017 00:40:02 -0700 (PDT)
+Received: from 1cuwXF-0006bv-Vx by out11d.electric.net with emc1-ok (Exim 4.87)
 	(envelope-from <Adrian.Calianu@enea.com>)
-	id 1cuwZZ-0000gK-W0; Mon, 03 Apr 2017 00:38:45 -0700
-Received: by emcmailer; Mon, 03 Apr 2017 00:38:45 -0700
+	id 1cuwXG-0006cr-TN; Mon, 03 Apr 2017 00:36:22 -0700
+Received: by emcmailer; Mon, 03 Apr 2017 00:36:22 -0700
 Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11a.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
+	by out11d.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
 	(Exim 4.87) (envelope-from <Adrian.Calianu@enea.com>)
-	id 1cuwZZ-0000fg-V9; Mon, 03 Apr 2017 00:38:45 -0700
+	id 1cuwXF-0006bv-Vx; Mon, 03 Apr 2017 00:36:21 -0700
 Received: from sestofb10.enea.se (172.21.3.145) by smtp.enea.com
 	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2; Mon, 3 Apr 2017
-	09:38:45 +0200
-Received: by sestofb10.enea.se (Postfix, from userid 4191)	id 7372228FE28;
-	Mon,  3 Apr 2017 09:38:45 +0200 (CEST)
+	09:36:21 +0200
+Received: by sestofb10.enea.se (Postfix, from userid 4191)	id A729128FE28;
+	Mon,  3 Apr 2017 09:36:21 +0200 (CEST)
 From: Adrian Calianu <adrian.calianu@enea.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 3 Apr 2017 09:38:45 +0200
-Message-ID: <1491205125-45147-1-git-send-email-adrian.calianu@enea.com>
+Date: Mon, 3 Apr 2017 09:36:21 +0200
+Message-ID: <1491204981-43695-1-git-send-email-adrian.calianu@enea.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 Received-SPF: None (SESTOEX08.enea.se: adrian.calianu@enea.com does not
@@ -62,7 +60,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 07:38:50 -0000
+X-List-Received-Date: Mon, 03 Apr 2017 07:40:08 -0000
 Content-Type: text/plain
 
 dpkg-deb does not accept RDEPENDS += "virtual/xxxx"
