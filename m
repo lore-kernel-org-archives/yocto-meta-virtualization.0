@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7885AE00AD0; Mon,  3 Apr 2017 04:11:41 -0700 (PDT)
+	id 552ECE00AE0; Mon,  3 Apr 2017 04:15:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,6 +10,11 @@ X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.216.193 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.193 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -18,54 +23,48 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.220.196 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.220.196 listed in dnsbl.sorbs.net]
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3141BE00A9A
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DA198E00A4C
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  3 Apr 2017 04:11:38 -0700 (PDT)
-Received: by mail-qk0-f196.google.com with SMTP id p22so18714343qka.0
+	Mon,  3 Apr 2017 04:15:43 -0700 (PDT)
+Received: by mail-qt0-f193.google.com with SMTP id n37so18357956qtb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 03 Apr 2017 04:11:38 -0700 (PDT)
+	Mon, 03 Apr 2017 04:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=KKt/eS24k7XR+t4eL8y7mUPfFnX6m1nEtUNKs77xvDs=;
-	b=mNciZYP1pvNMkXgScLZYl7PAyAfO+9R6ibahxiGiqTHZGoFEPEhXFsVeEVJyFOqyst
-	Y6g5MgoU8yrtUU0Y4fHKOXzPjw9wBmV+BTOPsfvRNV2eH65PTCUfvt6oBeztgg7yIXZP
-	1tsMD5uTnIDMYLOkajHSlpU1C8XrgWpb6QTtLnZqbtD44lJhK6sR8aJCLhKZ+I8T9Omj
-	npf+AFgo9sg+5RQLZnH4JDa/RA69ITqABCj2HJxm+6rPqcTNZ98I5hqqDTKlW1xhamzY
-	jl7RPvrJ+T5TpX1PfRQpasNdJyvDq/ESND5aCbP1I86R1/KkT2CohGktFAmwl7MLTp48
-	efBA==
+	:cc; bh=k9kNRcL/ud2eKC4mPXO0ILonPZe2TLF0nLOuTHP00d4=;
+	b=fUtpuXgb+mI1+7UXEjsI1UHNay9bl5WPxuDhxRJlfv5fAzVvOPXUH/QF9zBOOV1hh/
+	p/PyLn4ea5kL3pmHNnlgryUeOMYJYzDADUobTZz7aHt5AfoWWdQLiKm2hUtdgpNyWb2g
+	TAabgVkOGPjvOaLTevGDJ/tCezrVcxhrBxUFEnWELKYrpltvs7n5izzEV19LMpQlZsWo
+	MI7Kl/XrBTD2yFa9IA93zwXQgw+lZ5p/U+Qhi0hwCgEXCXPt3Cv5FeEgD1fpmzVdkdmD
+	vcCPzVu0u+bxtMDMUrJAGtD4aqRRYaSGpYilKLzoGF/XB+pdcbwTV+YtVz7vuLRqNeJ0
+	egDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=KKt/eS24k7XR+t4eL8y7mUPfFnX6m1nEtUNKs77xvDs=;
-	b=txbUdRI5IP8OdWfpq7cJxxfwLshEkUNvHfw6D25z43BKdy4/SE3o0Mv/fNgzT5/e6y
-	9uVatJlP+B9ulAKkeYE2/cLrl7xj1hOvB67HjkKBBPPRYie7A17MRaW0haE1FM+13Vfz
-	bjoIG33YbIuP8Rf4EKuE+TOXd26EhqNauIgE6HZOunpOW2MJKC5/hzqs7JJBDXxSUKtd
-	SW/0UBUUvcUmd3Kd1d1guPptnn0Dxhs2JDeUgr5F8M8yX437RHkSDm4gD3tu5s266sT9
-	UlRpDeJbGMTklj3OxJs/EOMACCniQrHQov/DmTcuk+5xQEaxzBtaOqavelu9VsqnjIGC
-	hMHw==
-X-Gm-Message-State: AFeK/H1oe41uJLdom5ucnZ3tvMJpqn0xLG4XOz3hcuut9uiZe6pknm1UpW/y62Mw9wyXXEs/YToGAnggPiSx1w==
-X-Received: by 10.233.221.196 with SMTP id r187mr14748375qkf.56.1491217898202; 
-	Mon, 03 Apr 2017 04:11:38 -0700 (PDT)
+	bh=k9kNRcL/ud2eKC4mPXO0ILonPZe2TLF0nLOuTHP00d4=;
+	b=CCYBNLNKgnKTQ9fUv+jb77i+GKmBxbS7nvQcmOEvLpI0nDgeTK3czSe/Uk9fQ07dY7
+	CJk6gL1fzMXF6chGiAqTamtyfJ24rRVdTq72N93VdHgdsU/5VqcYlwWyzXp21PirldRS
+	d7EWqP/cYKH50ksHQF9G4xzb9mNLcM85mZV129FM2g3jlFvSRpPfS5rdayTcIio12lNK
+	qaxZWxyz7v4R1b/N2yxYynJzWi/3uRre5RCqOA70o9svoizOg9SM6ND5MskPkDfLEbUD
+	PS1T1YPhVLvm5ItvXyIzHIvsgj0hihhl9Ha5V9W2MbPy6Qy5chvbnSWKVlJYipLOLPuf
+	gTVQ==
+X-Gm-Message-State: AFeK/H0DAwWZBkRcWl3mYZUIQuurfyDZ5GzY/gOCY3zBd+WNvsqDr+z0J6FABQe/pb7Jh3eT+vmtrW/xVudtew==
+X-Received: by 10.200.35.195 with SMTP id r3mr16559706qtr.282.1491218142657;
+	Mon, 03 Apr 2017 04:15:42 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.12.163.69 with HTTP; Mon, 3 Apr 2017 04:11:37 -0700 (PDT)
-In-Reply-To: <20170403102713.1536-4-pbarker@toganlabs.com>
-References: <20170403102713.1536-1-pbarker@toganlabs.com>
-	<20170403102713.1536-4-pbarker@toganlabs.com>
+Received: by 10.12.163.69 with HTTP; Mon, 3 Apr 2017 04:15:42 -0700 (PDT)
+In-Reply-To: <1491204611-40395-1-git-send-email-adrian.calianu@enea.com>
+References: <1491204611-40395-1-git-send-email-adrian.calianu@enea.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 3 Apr 2017 07:11:37 -0400
-Message-ID: <CADkTA4PkyDoWF5YivohNMSqkQyqaDusb799HQ8Rsti=QmQP+pg@mail.gmail.com>
-To: Paul Barker <pbarker@toganlabs.com>
-Cc: Paul Barker <paul@paulbarker.me.uk>, "meta-virtualization@yoctoproject.org"
+Date: Mon, 3 Apr 2017 07:15:42 -0400
+Message-ID: <CADkTA4NZ+VkDr+pRd8q97ovUrfn7ZdhKqU8ZBSA8UrVpp_pvPQ@mail.gmail.com>
+To: Adrian Calianu <adrian.calianu@enea.com>
+Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 3/4] runc-opencontainers: Drop unnecessary branch spec from SRC_URI
+Subject: Re: [PATCHv1 1/1] docker: fix dependency issues with deb packaging
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,123 +77,185 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Apr 2017 11:11:41 -0000
-Content-Type: multipart/alternative; boundary=94eb2c042efa1b018e054c41395e
+X-List-Received-Date: Mon, 03 Apr 2017 11:15:46 -0000
+Content-Type: multipart/alternative; boundary=001a1142c176ad002b054c41476d
 
---94eb2c042efa1b018e054c41395e
+--001a1142c176ad002b054c41476d
 Content-Type: text/plain; charset=UTF-8
 
-unnecessary, but I prefer it. since we are not always on master for
-this recipe.
+IMHO the deb backend (or a class to translate things) needs to happen here.
 
-I'll test the rest of the series, but I'll pass on this patch.
+With this change, I can no longer do a preferred provider and have the
+exclusion
+of the opencontainer and docker variants.
+
+So unless the above functionality can be provided, I don't see how I can
+merge
+this change.
+
+Also, how is the deb backend dealing with virtual/kernel, virtual/libc, etc
+?
 
 Bruce
 
-On Mon, Apr 3, 2017 at 6:27 AM, Paul Barker <pbarker@toganlabs.com> wrote:
+On Mon, Apr 3, 2017 at 3:30 AM, Adrian Calianu <adrian.calianu@enea.com>
+wrote:
 
-> From: Paul Barker <paul@paulbarker.me.uk>
+> dpkg-deb does not accept RDEPENDS += "virtual/xxxx"
 >
-> Signed-off-by: Paul Barker <paul@paulbarker.me.uk>
+> 'Provides' field, invalid package name 'virtual/containerd': character
+> '/' not allowed (only letters, digits and characters '-+._')
+>
+> Signed-off-by: Adrian Calianu <adrian.calianu@enea.com>
 > ---
->  recipes-containers/runc/runc-opencontainers_git.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  recipes-containers/containerd/containerd-docker_git.bb | 1 -
+>  recipes-containers/docker/docker_git.bb                | 2 +-
+>  recipeSs-containers/runc/runc-docker_git.bb             | 1 -
+>  3 files changed, 1 insertion(+), 3 deletions(-)
 >
-> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb
-> b/recipes-containers/runc/runc-opencontainers_git.bb
-> index 4a6e8cd..139e3bd 100644
-> --- a/recipes-containers/runc/runc-opencontainers_git.bb
-> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
-> @@ -1,8 +1,7 @@
->  include runc.inc
+> diff --git a/recipes-containers/containerd/containerd-docker_git.bb
+> b/recipes-containers/containerd/containerd-docker_git.bb
+> index f6dcaec..604ada3 100644
+> --- a/recipes-containers/containerd/containerd-docker_git.bb
+> +++ b/recipes-containers/containerd/containerd-docker_git.bb
+> @@ -7,4 +7,3 @@ SRC_URI = "\
+>  CONTAINERD_VERSION = "0.2.3"
 >
->  SRCREV = "75f8da7c889acc4509a0cf6f0d3a8f9584778375"
-> -SRC_URI = "git://github.com/opencontainers/runc;branch=master \
-> -          "
-> +SRC_URI = "git://github.com/opencontainers/runc"
->  RUNC_VERSION = "1.0.0-rc3"
+>  PROVIDES += "virtual/containerd"
+> -RPROVIDES_${PN} = "virtual/containerd"
+> diff --git a/recipes-containers/docker/docker_git.bb
+> b/recipes-containers/docker/docker_git.bb
+> index 6b73cf3..16d1dad 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -64,7 +64,7 @@ DEPENDS_append_class-target = " lvm2"
+>  RDEPENDS_${PN} = "curl aufs-util git util-linux iptables \
+>                    ${@bb.utils.contains('DISTRO_FEATURES','systemd','','cgroup-lite',d)}
+> \
+>                   "
+> -RDEPENDS_${PN} += "virtual/containerd virtual/runc"
+> +RDEPENDS_${PN} += "containerd-docker runc-docker"
+>
+>  RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat"
+>  RSUGGESTS_${PN} = "lxc rt-tests"
+> diff --git a/recipes-containers/runc/runc-docker_git.bb
+> b/recipes-containers/runc/runc-docker_git.bb
+> index 96d48ca..bf32953 100644
+> --- a/recipes-containers/runc/runc-docker_git.bb
+> +++ b/recipes-containers/runc/runc-docker_git.bb
+> @@ -8,4 +8,3 @@ SRC_URI = "git://github.com/docker/runc.git;nobranch=1 \
+>
+>  RUNC_VERSION = "1.0.0-rc2"
 >  PROVIDES += "virtual/runc"
->  RPROVIDES_${PN} = "virtual/runc"
+> -RPROVIDES_${PN} = "virtual/runc"
 > --
-> 2.11.0
+> 1.9.1
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
-
 
 
 -- 
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---94eb2c042efa1b018e054c41395e
+--001a1142c176ad002b054c41476d
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">unnecessary, but I prefer it. since we are not always on m=
-aster for<div>this recipe.</div><div><br></div><div>I&#39;ll test the rest =
-of the series, but I&#39;ll pass on this patch.</div><div><br></div><div>Br=
-uce<br><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Ap=
-r 3, 2017 at 6:27 AM, Paul Barker <span dir=3D"ltr">&lt;<a href=3D"mailto:p=
-barker@toganlabs.com" target=3D"_blank">pbarker@toganlabs.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">From: Paul Barker &lt;<a href=3D=
-"mailto:paul@paulbarker.me.uk">paul@paulbarker.me.uk</a>&gt;<br>
+<div dir=3D"ltr">IMHO the deb backend (or a class to translate things) need=
+s to happen here.<div><br></div><div>With this change, I can no longer do a=
+ preferred provider and have the exclusion</div><div>of the opencontainer a=
+nd docker variants.</div><div><br></div><div>So unless the above functional=
+ity can be provided, I don&#39;t see how I can merge</div><div>this change.=
+</div><div><br></div><div>Also, how is the deb backend dealing with virtual=
+/kernel, virtual/libc, etc ?</div><div><br></div><div>Bruce</div><div><div =
+class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, Apr 3, 2017 at=
+ 3:30 AM, Adrian Calianu <span dir=3D"ltr">&lt;<a href=3D"mailto:adrian.cal=
+ianu@enea.com" target=3D"_blank">adrian.calianu@enea.com</a>&gt;</span> wro=
+te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex">dpkg-deb does not accept RDEPENDS +=
+=3D &quot;virtual/xxxx&quot;<br>
 <br>
-Signed-off-by: Paul Barker &lt;<a href=3D"mailto:paul@paulbarker.me.uk">pau=
-l@paulbarker.me.uk</a>&gt;<br>
+&#39;Provides&#39; field, invalid package name &#39;virtual/containerd&#39;=
+: character<br>
+&#39;/&#39; not allowed (only letters, digits and characters &#39;-+._&#39;=
+)<br>
+<br>
+Signed-off-by: Adrian Calianu &lt;<a href=3D"mailto:adrian.calianu@enea.com=
+">adrian.calianu@enea.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-containers/runc/<a href=3D"http://runc-opencontainers_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">runc-<wbr>opencontainers_git.bb</a> |=
- 3 +--<br>
-=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+=C2=A0recipes-containers/containerd/<a href=3D"http://containerd-docker_git=
+.bb" rel=3D"noreferrer" target=3D"_blank"><wbr>containerd-docker_git.bb</a>=
+ | 1 -<br>
+=C2=A0recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">dock<wbr>er_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+=C2=A0recipeSs-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D=
+"noreferrer" target=3D"_blank">runc-<wbr>docker_git.bb</a>=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 -<br>
+=C2=A03 files changed, 1 insertion(+), 3 deletions(-)<br>
 <br>
-diff --git a/recipes-containers/runc/<a href=3D"http://runc-opencontainers_=
-git.bb" rel=3D"noreferrer" target=3D"_blank">runc<wbr>-opencontainers_git.b=
-b</a> b/recipes-containers/runc/<a href=3D"http://runc-opencontainers_git.b=
-b" rel=3D"noreferrer" target=3D"_blank">runc<wbr>-opencontainers_git.bb</a>=
+diff --git a/recipes-containers/<wbr>containerd/<a href=3D"http://container=
+d-docker_git.bb" rel=3D"noreferrer" target=3D"_blank">containerd-docker_<wb=
+r>git.bb</a> b/recipes-containers/<wbr>containerd/<a href=3D"http://contain=
+erd-docker_git.bb" rel=3D"noreferrer" target=3D"_blank">containerd-docker_<=
+wbr>git.bb</a><br>
+index f6dcaec..604ada3 100644<br>
+--- a/recipes-containers/<wbr>containerd/<a href=3D"http://containerd-docke=
+r_git.bb" rel=3D"noreferrer" target=3D"_blank">containerd-docker_<wbr>git.b=
+b</a><br>
++++ b/recipes-containers/<wbr>containerd/<a href=3D"http://containerd-docke=
+r_git.bb" rel=3D"noreferrer" target=3D"_blank">containerd-docker_<wbr>git.b=
+b</a><br>
+@@ -7,4 +7,3 @@ SRC_URI =3D &quot;\<br>
+=C2=A0CONTAINERD_VERSION =3D &quot;0.2.3&quot;<br>
 <br>
-index 4a6e8cd..139e3bd 100644<br>
---- a/recipes-containers/runc/<a href=3D"http://runc-opencontainers_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">runc<wbr>-opencontainers_git.bb</a><b=
-r>
-+++ b/recipes-containers/runc/<a href=3D"http://runc-opencontainers_git.bb"=
- rel=3D"noreferrer" target=3D"_blank">runc<wbr>-opencontainers_git.bb</a><b=
-r>
-@@ -1,8 +1,7 @@<br>
-=C2=A0include runc.inc<br>
+=C2=A0PROVIDES +=3D &quot;virtual/containerd&quot;<br>
+-RPROVIDES_${PN} =3D &quot;virtual/containerd&quot;<br>
+diff --git a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a> b/recipes-containe=
+rs/docker/<a href=3D"http://docker_git.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">do<wbr>cker_git.bb</a><br>
+index 6b73cf3..16d1dad 100644<br>
+--- a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
++++ b/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
+@@ -64,7 +64,7 @@ DEPENDS_append_class-target =3D &quot; lvm2&quot;<br>
+=C2=A0RDEPENDS_${PN} =3D &quot;curl aufs-util git util-linux iptables \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.=
+utils.contains(&#39;DISTRO_<wbr>FEATURES&#39;,&#39;systemd&#39;,&#39;&#39;,=
+&#39;<wbr>cgroup-lite&#39;,d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+-RDEPENDS_${PN} +=3D &quot;virtual/containerd virtual/runc&quot;<br>
++RDEPENDS_${PN} +=3D &quot;containerd-docker runc-docker&quot;<br>
 <br>
-=C2=A0SRCREV =3D &quot;<wbr>75f8da7c889acc4509a0cf6f0d3a8f<wbr>9584778375&q=
-uot;<br>
--SRC_URI =3D &quot;git://<a href=3D"http://github.com/opencontainers/runc;b=
-ranch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">github.com/<wbr>openco=
-ntainers/runc;branch=3D<wbr>master</a> \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://github.com/opencontainers/runc" =
-rel=3D"noreferrer" target=3D"_blank">github.com/<wbr>opencontainers/runc</a=
->&quot;<br>
-=C2=A0RUNC_VERSION =3D &quot;1.0.0-rc3&quot;<br>
+=C2=A0RRECOMMENDS_${PN} =3D &quot;kernel-module-dm-thin-pool kernel-module-=
+nf-nat&quot;<br>
+=C2=A0RSUGGESTS_${PN} =3D &quot;lxc rt-tests&quot;<br>
+diff --git a/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" =
+rel=3D"noreferrer" target=3D"_blank">runc<wbr>-docker_git.bb</a> b/recipes-=
+containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">runc<wbr>-docker_git.bb</a><br>
+index 96d48ca..bf32953 100644<br>
+--- a/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">runc<wbr>-docker_git.bb</a><br>
++++ b/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
+noreferrer" target=3D"_blank">runc<wbr>-docker_git.bb</a><br>
+@@ -8,4 +8,3 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/docker=
+/runc.git;nobranch=3D1" rel=3D"noreferrer" target=3D"_blank">github.com/doc=
+ker/runc.<wbr>git;nobranch=3D1</a> \<br>
+<br>
+=C2=A0RUNC_VERSION =3D &quot;1.0.0-rc2&quot;<br>
 =C2=A0PROVIDES +=3D &quot;virtual/runc&quot;<br>
-=C2=A0RPROVIDES_${PN} =3D &quot;virtual/runc&quot;<br>
+-RPROVIDES_${PN} =3D &quot;virtual/runc&quot;<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.11.0<br>
+1.9.1<br>
 <br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
 </font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
 r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
 hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div></div></div>
 
---94eb2c042efa1b018e054c41395e--
+--001a1142c176ad002b054c41476d--
