@@ -1,62 +1,47 @@
-Return-Path: <pello.heriz@alumni.mondragon.edu>
+Return-Path: <Muhammad_Sheheryar@mentor.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 11891E00A96; Mon, 10 Apr 2017 00:59:03 -0700 (PDT)
+	id 00E8AE009AA; Mon, 10 Apr 2017 02:51:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, HTML_MESSAGE, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.218.42 listed in dnsbl.sorbs.net]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.218.42 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [192.94.38.131 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-oi0-f42.google.com (mail-oi0-f42.google.com
-	[209.85.218.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7B2F5E00A31
+Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1B6C3E00546
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Apr 2017 00:59:01 -0700 (PDT)
-Received: by mail-oi0-f42.google.com with SMTP id f22so9029494oib.2
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Apr 2017 00:59:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=alumni.mondragon.edu; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=y3aKkw4yKEfEs/0ilCc4PQu1RMHIEak0SrEzDDjplyo=;
-	b=awlHsRXIdaECMWbPEnwVE87Jll50dTCuPJoWunOI0MxlOlHyK5H2iaYF3xpcyFskov
-	VLxIBr3D0XMDkUyVjOgP/2tl2WHoCig3fOiV816ka1PH5M5YibeZZZ7xG08Du0ImKWqM
-	wtn42V8HMiK8HXJZJEFokkE2RlU85ypB3bm7E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=y3aKkw4yKEfEs/0ilCc4PQu1RMHIEak0SrEzDDjplyo=;
-	b=WNfJ6zzQuf8hz1G5Iu6DlkTI2qWdKQPnm+QL1vTzJCwQoVnt2NVowm+8gwf6No87CP
-	UWxUKKI+/dwy2xOFFRohZSuH3r81UnQfVJ/FsU2o7VgdsjQZasQdtEPOeMwLURS4SX81
-	ThKI1TykV/sRXOVAG48Lp7G+7J6H876xUB85HVdY7YIA0h0GVXKRTcC7wrKaQofcJcdE
-	Bqv8hmqHzfccXZ1UXEgo6Q6GDcH7VezuYLheF8/oG86JVpmTHVLDvQhkezz4ATlCfrFj
-	zShuLoSxEllt/RoAF3BH57zzX1hi68ULB5e/Y9qBStY1PzKICyACzwr1TFMRI3hTOQMW
-	fYeQ==
-X-Gm-Message-State: AFeK/H3YYs8WbPDbfsV3Wv4YmpONWnJhm/kC6kZ6ITTJrjOI1yHh3eA+hR4lb574JZ4sVL36QaYXDBbrigyELL46
-X-Received: by 10.202.192.65 with SMTP id q62mr16088452oif.124.1491811140925; 
-	Mon, 10 Apr 2017 00:59:00 -0700 (PDT)
+	Mon, 10 Apr 2017 02:51:09 -0700 (PDT)
+Received: from nat-ies.mentorg.com ([192.94.31.2]
+	helo=SVR-IES-MBX-04.mgc.mentorg.com)
+	by relay1.mentorg.com with esmtp 
+	id 1cxVyW-000053-N5 from Muhammad_Sheheryar@mentor.com 
+	for meta-virtualization@yoctoproject.org;
+	Mon, 10 Apr 2017 02:51:09 -0700
+Received: from SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) by
+	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
+	Server (TLS) id 15.0.1210.3; Mon, 10 Apr 2017 10:51:05 +0100
+Received: from SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f]) by
+	SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f%22]) with
+	mapi id 15.00.1210.000; Mon, 10 Apr 2017 10:51:05 +0100
+From: "Sheheryar, Muhammad" <Muhammad_Sheheryar@mentor.com>
+To: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Thread-Topic: Errors in building docker
+Thread-Index: AQHSsd+l9g3VElpJGUqaKT/9Ruj6zw==
+Date: Mon, 10 Apr 2017 09:51:05 +0000
+Message-ID: <1491817865525.65707@mentor.com>
+Accept-Language: en-US, en-IE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [137.202.0.87]
 MIME-Version: 1.0
-Received: by 10.157.43.92 with HTTP; Mon, 10 Apr 2017 00:59:00 -0700 (PDT)
-From: Pello Heriz <pello.heriz@alumni.mondragon.edu>
-Date: Mon, 10 Apr 2017 09:59:00 +0200
-Message-ID: <CAFL6qn4COY_d-uRBe-ausjbW+7MOUkU6gU8kkqkHj_gokxxmEw@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org, yocto@yoctoproject.org, 
-	joe_macdonald@mentor.com, Philip Tricca <flihp@twobit.us>,
-	mark.hatle@windriver.com
-Subject: No recipes available for meta-selinux and meta-virtualization layers
+Subject: Errors in building docker
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -69,73 +54,215 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 07:59:03 -0000
-Content-Type: multipart/alternative; boundary=001a113dd53a209fc7054ccb5987
+X-List-Received-Date: Mon, 10 Apr 2017 09:51:12 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_149181786552565707mentorcom_"
 
---001a113dd53a209fc7054ccb5987
-Content-Type: text/plain; charset=UTF-8
+--_000_149181786552565707mentorcom_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
 Hi,
 
-I have tried to build a core-image-minimal image with master branch of
-Yocto and I have added the meta-virtualization layer and it's dependency
-layers in order to have virtualization functionalities enabled when
-creating the image.
 
-The problem is that the bitbake execution fails due to there are missing
-some recipes for meta-selinux and meta-virtualization layers. This is the
-message that I can see in the terminal when it fails the execution:
-
-pello@pello-VirtualBox:/opt/yocto_GE/yocto_master_xen/poky/build$ bitbake
-core-image-minimal
-Parsing recipes: 100%
-|##################################################################################|
-Time: 0:09:00
-Parsing of 1981 .bb files complete (0 cached, 1981 parsed). 2752 targets,
-204 skipped, 0 masked, 0 errors.
-ERROR: No recipes available for:
-
-/opt/yocto_GE/yocto_master_xen/poky/meta-selinux/recipes-devtools/rpm/rpm_5.4.16.bbappend
-
-/opt/yocto_GE/yocto_master_xen/poky/meta-selinux/recipes-extended/findutils/findutils_4.2.31.bbappend
-
-/opt/yocto_GE/yocto_master_xen/poky/meta-virtualization/recipes-kernel/linux/linux-yocto_4.8.bbappend
-
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+I am trying to build docker in my yocto project (fido branch). I am encount=
+ering the following errors
 
 
-How can be solved this error? Are you planned to update some patch for
-solving this issue?
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_containe=
+rs/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-gnue=
+abi/docker/1.5.0+git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/git
+| # WARNING! I don't seem to be running in the Docker container.
+| # The result of this command might be an incorrect build, and will not be
+| #   officially supported.
+| #
+| # Try this instead: make all
+| #
+|
+| bundles/1.5.0-dev already exists. Removing.
+|
+| ---> Making bundle: dynbinary (in bundles/1.5.0-dev/dynbinary)
+| Created binary: /var/mshehery/Release_7.3/duplicate_project_containers/sh=
+eheryar_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-ne=
+on-oe-linux-gnueabi/docker/1.5.0+git2243e32cbbf1c9809c262a7376d34ca43a7a36d=
+c-r0/git/bundles/1.5.0-dev/dynbinary/dockerinit-1.5.0-dev
+| # code.google.com/p/gosqlite/sqlite3
+| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_containe=
+rs/yocto/fido/build/mf0200/tmp-glibc/sysroots/x86_64-linux/usr/lib/libsqlit=
+e3.so: file not recognized: File format not recognized
+| collect2: error: ld returned 1 exit status
+| WARNING: /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar=
+_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-l=
+inux-gnueabi/docker/1.5.0+git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/te=
+mp/run.do_compile.32468:1 exit 1 from
+|   DOCKER_GITCOMMIT=3D"2243e32cbbf1c9809c262a7376d34ca43a7a36dc" ./hack/ma=
+ke.sh dynbinary
+| ERROR: Function failed: do_compile (log file is located at /var/mshehery/=
+Release_7.3/duplicate_project_containers/sheheryar_containers/yocto/fido/bu=
+ild/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-gnueabi/docker/1.5.0=
++git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/temp/log.do_compile.32468)
 
-Looking forward to your answer,
-Best regards,
-Pello
 
---001a113dd53a209fc7054ccb5987
-Content-Type: text/html; charset=UTF-8
+My instinct is that the errors are somehow related to go-sqlite package req=
+uired for docker. The fetcher for the package fails as its previous reposit=
+ory has been shifted or removed. Can someone help me out?
+
+
+Regards,
+
+
+Muhammad Sheheryar
+
+
+
+
+
+
+
+--_000_149181786552565707mentorcom_
+Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>I have tried to build a core-image-=
-minimal image with master branch of Yocto and I have added the meta-virtual=
-ization layer and it&#39;s dependency layers in order to have virtualizatio=
-n functionalities enabled when creating the image.</div><div><br></div><div=
->The problem is that the bitbake execution fails due to there are missing s=
-ome recipes for meta-selinux and meta-virtualization layers. This is the me=
-ssage that I can see in the terminal when it fails the execution:</div><div=
-><br></div><div><div>pello@pello-VirtualBox:/opt/yocto_GE/yocto_master_xen/=
-poky/build$ bitbake core-image-minimal</div><div>Parsing recipes: 100% |###=
-###########################################################################=
-####| Time: 0:09:00</div><div>Parsing of 1981 .bb files complete (0 cached,=
- 1981 parsed). 2752 targets, 204 skipped, 0 masked, 0 errors.</div><div>ERR=
-OR: No recipes available for:</div><div>=C2=A0 /opt/yocto_GE/yocto_master_x=
-en/poky/meta-selinux/recipes-devtools/rpm/rpm_5.4.16.bbappend</div><div>=C2=
-=A0 /opt/yocto_GE/yocto_master_xen/poky/meta-selinux/recipes-extended/findu=
-tils/findutils_4.2.31.bbappend</div><div>=C2=A0 /opt/yocto_GE/yocto_master_=
-xen/poky/meta-virtualization/recipes-kernel/linux/linux-yocto_4.8.bbappend<=
-/div><div><br></div><div>Summary: There was 1 ERROR message shown, returnin=
-g a non-zero exit code.</div></div><div><br></div><div><br></div><div>How c=
-an be solved this error? Are you planned to update some patch for solving t=
-his issue?</div><div><br></div><div>Looking forward to your answer,</div><d=
-iv>Best regards,</div><div>Pello</div></div>
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
+ottom:0;} --></style>
+</head>
+<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
+FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
+<p>Hi,</p>
+<p><br>
+</p>
+<p>I am trying to build docker in my yocto project (fido branch). I am enco=
+untering the following errors</p>
+<p><br>
+</p>
+<p><span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-f=
+amily: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-se=
+rif;">Log data follows:</span></span></span><br style=3D"font-family: Helve=
+tica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| DEBUG: Executing shell function do_compile</span></span></span><br sty=
+le=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_conta=
+iners/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-g=
+nueabi/docker/1.5.0&#43;git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/git<=
+/span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| # WARNING! I don't seem to be running in the Docker container.</span><=
+/span></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| # The result of this command might be an incorrect build, and will not=
+ be</span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| #&nbsp;&nbsp; officially supported.</span></span></span><br style=3D"f=
+ont-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| #</span></span></span><br style=3D"font-family: Helvetica,sans-serif;"=
+>
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| # Try this instead: make all</span></span></span><br style=3D"font-fam=
+ily: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| #</span></span></span><br style=3D"font-family: Helvetica,sans-serif;"=
+>
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">|
+</span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| bundles/1.5.0-dev already exists. Removing.</span></span></span><br st=
+yle=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">|
+</span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| ---&gt; Making bundle: dynbinary (in bundles/1.5.0-dev/dynbinary)</spa=
+n></span></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| Created binary: /var/mshehery/Release_7.3/duplicate_project_containers=
+/sheheryar_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp=
+-neon-oe-linux-gnueabi/docker/1.5.0&#43;git2243e32cbbf1c9809c262a7376d34ca4=
+3a7a36dc-r0/git/bundles/1.5.0-dev/dynbinary/dockerinit-1.5.0-dev</span></sp=
+an></span><br style=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| # code.google.com/p/gosqlite/sqlite3</span></span></span><br style=3D"=
+font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_conta=
+iners/yocto/fido/build/mf0200/tmp-glibc/sysroots/x86_64-linux/usr/lib/libsq=
+lite3.so:
+ file not recognized: File format not recognized</span></span></span><br st=
+yle=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| collect2: error: ld returned 1 exit status</span></span></span><br sty=
+le=3D"font-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| WARNING: /var/mshehery/Release_7.3/duplicate_project_containers/sheher=
+yar_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-o=
+e-linux-gnueabi/docker/1.5.0&#43;git2243e32cbbf1c9809c262a7376d34ca43a7a36d=
+c-r0/temp/run.do_compile.32468:1
+ exit 1 from</span></span></span><br style=3D"font-family: Helvetica,sans-s=
+erif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">|&nbsp;&nbsp; DOCKER_GITCOMMIT=3D&quot;2243e32cbbf1c9809c262a7376d34ca43=
+a7a36dc&quot; ./hack/make.sh dynbinary</span></span></span><br style=3D"fon=
+t-family: Helvetica,sans-serif;">
+<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
+ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
+;">| ERROR: Function failed: do_compile (log file is located at /var/mshehe=
+ry/Release_7.3/duplicate_project_containers/sheheryar_containers/yocto/fido=
+/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-gnueabi/docker/1.=
+5.0&#43;git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/temp/log.do_compile.=
+32468)</span></span></span></p>
+<p><br>
+</p>
+<p>My instinct is that the errors are somehow related to go-sqlite package&=
+nbsp;required for docker. The fetcher for the package fails as its previous=
+ repository has been shifted or removed. Can someone&nbsp;help me out?</p>
+<p><br>
+</p>
+<p>Regards,</p>
+<p><br>
+</p>
+<p>Muhammad Sheheryar <br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+<p><br>
+</p>
+</body>
+</html>
 
---001a113dd53a209fc7054ccb5987--
+--_000_149181786552565707mentorcom_--
