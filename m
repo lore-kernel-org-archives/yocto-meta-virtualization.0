@@ -1,47 +1,70 @@
-Return-Path: <Muhammad_Sheheryar@mentor.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 00E8AE009AA; Mon, 10 Apr 2017 02:51:11 -0700 (PDT)
+	id 2E7A2E00924; Mon, 10 Apr 2017 05:48:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [192.94.38.131 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE, 
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
-Received: from relay1.mentorg.com (relay1.mentorg.com [192.94.38.131])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1B6C3E00546
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.220.175 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.220.175 listed in dnsbl.sorbs.net]
+Received: from mail-qk0-f175.google.com (mail-qk0-f175.google.com
+	[209.85.220.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 014C1E00924
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Apr 2017 02:51:09 -0700 (PDT)
-Received: from nat-ies.mentorg.com ([192.94.31.2]
-	helo=SVR-IES-MBX-04.mgc.mentorg.com)
-	by relay1.mentorg.com with esmtp 
-	id 1cxVyW-000053-N5 from Muhammad_Sheheryar@mentor.com 
-	for meta-virtualization@yoctoproject.org;
-	Mon, 10 Apr 2017 02:51:09 -0700
-Received: from SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) by
-	SVR-IES-MBX-04.mgc.mentorg.com (139.181.222.4) with Microsoft SMTP
-	Server (TLS) id 15.0.1210.3; Mon, 10 Apr 2017 10:51:05 +0100
-Received: from SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f]) by
-	SVR-IES-MBX-04.mgc.mentorg.com ([fe80::9dd6:2f1c:ad6:d35f%22]) with
-	mapi id 15.00.1210.000; Mon, 10 Apr 2017 10:51:05 +0100
-From: "Sheheryar, Muhammad" <Muhammad_Sheheryar@mentor.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: Errors in building docker
-Thread-Index: AQHSsd+l9g3VElpJGUqaKT/9Ruj6zw==
-Date: Mon, 10 Apr 2017 09:51:05 +0000
-Message-ID: <1491817865525.65707@mentor.com>
-Accept-Language: en-US, en-IE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.87]
+	Mon, 10 Apr 2017 05:48:25 -0700 (PDT)
+Received: by mail-qk0-f175.google.com with SMTP id p68so83996299qke.1
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 10 Apr 2017 05:48:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=nW0vkU7UnsiqHHkrzPVgZrYREQ8RMvcWHcEY8q7GTWY=;
+	b=hTrXE8T379ToK2DDe5xx/9c8lggc9DCgwq0sk60/W5MQ9V/+6td1B54dDr/0Boc1Dq
+	tDl0LLUBOtEXEHlVMKg5IJUTFmGHcqsXptbNGBaMbRt53H8RLqCg1YpmICVthW8RUPqS
+	ALZ3iBF0dIX6CQYWixgeo5C8W9MRpoCsMJj3micT+cIkUtqMgYVO/6x99awIM5Sqqeq4
+	wI5AapEkqJgxkJfTKWG0OSb9e/GY+LhIAs1GKakT554STHcP8w7RJ904owFif9iL8t32
+	foDmyjm6Oz2k556F1CDOZkGwtEqkRa9Xf3JNZ5Dm0SE29OSBrz2dV4tpmd/pGoyR0TqB
+	ui+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nW0vkU7UnsiqHHkrzPVgZrYREQ8RMvcWHcEY8q7GTWY=;
+	b=SEwF5ZhPW6pxgLKTHNGgoBdz31J+jCHv1O88mUYvoQGvp/qsIyBxV0FHu6ZWBHepbx
+	U33qu1a4UAX7z7zyOo1SdmgK6BrH41I3plAWwfHXYBm7dQ5ux2XYPByk1uZKpb+091Lt
+	+Z52qhOqHvM7ADntTVijCa7wslesJujUL0m7hqceX5fXVmi4e0eUa4WbALYOv1q+1XHh
+	z0b0xc6wgvNziPNgwad6xGmr0A6D2hfHAdUlPWpok7qnyXgX8KtfZyPv5AKWE7iSSAfU
+	jKdeE7Nwbqu6j1AIrVmDYsMPBBldEcHHD9ePfvXXj8PW5SsfPQ3iadXb1akfZwG66hBy
+	PRyg==
+X-Gm-Message-State: AFeK/H2hK+16D66Zj3cDbw7WO4jb8ru/m2rlXstli9aVWQKjyPHZl1najRZi1NZY3X8fI5gNmvbH1o9XNNS6Dg==
+X-Received: by 10.55.23.216 with SMTP id 85mr42702715qkx.157.1491828504624;
+	Mon, 10 Apr 2017 05:48:24 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Errors in building docker
+Received: by 10.12.163.69 with HTTP; Mon, 10 Apr 2017 05:48:24 -0700 (PDT)
+In-Reply-To: <20170403102713.1536-1-pbarker@toganlabs.com>
+References: <20170403102713.1536-1-pbarker@toganlabs.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 10 Apr 2017 08:48:24 -0400
+Message-ID: <CADkTA4PU8-cOV+WGwg5xKsKef9vdaAhL1yLpGYXiij7qmJ-oEA@mail.gmail.com>
+To: Paul Barker <pbarker@toganlabs.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 0/4] Updates for runc & associated tools
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -54,215 +77,106 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Apr 2017 09:51:12 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_149181786552565707mentorcom_"
+X-List-Received-Date: Mon, 10 Apr 2017 12:48:29 -0000
+Content-Type: multipart/alternative; boundary=001a1147a2f815829a054ccf64bc
 
---_000_149181786552565707mentorcom_
-Content-Type: text/plain; charset="iso-8859-1"
+--001a1147a2f815829a054ccf64bc
+Content-Type: text/plain; charset=UTF-8
+
+Sorry for the delay, I was traveling and didn't get a chance to test these
+until
+now.
+
+Everything worked and I've merged all but the branch spec patch
+
+Bruce
+
+On Mon, Apr 3, 2017 at 6:27 AM, Paul Barker <pbarker@toganlabs.com> wrote:
+
+> I've finally got back to playing around with runc and associated tools :)
+>
+> These patches have been tested on a raspberrypi3 and allow successful
+> creation
+> of a guest container using runc, netns and cgroup-lite.
+>
+> Paul Barker (4):
+>   netns: Update to latest HEAD
+>   runc-opencontainers: Update to v1.0.0-rc3
+>   runc-opencontainers: Drop unnecessary branch spec from SRC_URI
+>   cgroup-lite: Inherit allarch
+>
+>  recipes-containers/cgroup-lite/cgroup-lite_1.11.bb |  1 +
+>  recipes-containers/runc/runc-opencontainers_git.bb | 14 ++++++++++----
+>  recipes-networking/netns/netns_git.bb              |  8 ++++----
+>  3 files changed, 15 insertions(+), 8 deletions(-)
+>
+> --
+> 2.11.0
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a1147a2f815829a054ccf64bc
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+<div dir=3D"ltr"><div><div>Sorry for the delay, I was traveling and didn&#3=
+9;t get a chance to test these until<br></div>now.<br><br></div><div>Everyt=
+hing worked and I&#39;ve merged all but the branch spec patch<br><br></div>=
+<div>Bruce<br></div><div><div><div><div><div class=3D"gmail_extra"><br><div=
+ class=3D"gmail_quote">On Mon, Apr 3, 2017 at 6:27 AM, Paul Barker <span di=
+r=3D"ltr">&lt;<a href=3D"mailto:pbarker@toganlabs.com" target=3D"_blank">pb=
+arker@toganlabs.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
+>I&#39;ve finally got back to playing around with runc and associated tools=
+ :)<br>
+<br>
+These patches have been tested on a raspberrypi3 and allow successful creat=
+ion<br>
+of a guest container using runc, netns and cgroup-lite.<br>
+<br>
+Paul Barker (4):<br>
+=C2=A0 netns: Update to latest HEAD<br>
+=C2=A0 runc-opencontainers: Update to v1.0.0-rc3<br>
+=C2=A0 runc-opencontainers: Drop unnecessary branch spec from SRC_URI<br>
+=C2=A0 cgroup-lite: Inherit allarch<br>
+<br>
+=C2=A0recipes-containers/cgroup-<wbr>lite/<a href=3D"http://cgroup-lite_1.1=
+1.bb" rel=3D"noreferrer" target=3D"_blank">cgroup-lite_1.11.bb</a> |=C2=A0 =
+1 +<br>
+=C2=A0recipes-containers/runc/<a href=3D"http://runc-opencontainers_git.bb"=
+ rel=3D"noreferrer" target=3D"_blank">runc-<wbr>opencontainers_git.bb</a> |=
+ 14 ++++++++++----<br>
+=C2=A0recipes-networking/netns/<a href=3D"http://netns_git.bb" rel=3D"noref=
+errer" target=3D"_blank">netns<wbr>_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 ++++----<br>
+=C2=A03 files changed, 15 insertions(+), 8 deletions(-)<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+2.11.0<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><br>-- <br><div clas=
+s=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt n=
+ot follow the NULL pointer, for chaos and madness await thee at its end&quo=
+t;</div>
+</div></div></div></div></div></div>
 
-
-I am trying to build docker in my yocto project (fido branch). I am encount=
-ering the following errors
-
-
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_containe=
-rs/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-gnue=
-abi/docker/1.5.0+git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/git
-| # WARNING! I don't seem to be running in the Docker container.
-| # The result of this command might be an incorrect build, and will not be
-| #   officially supported.
-| #
-| # Try this instead: make all
-| #
-|
-| bundles/1.5.0-dev already exists. Removing.
-|
-| ---> Making bundle: dynbinary (in bundles/1.5.0-dev/dynbinary)
-| Created binary: /var/mshehery/Release_7.3/duplicate_project_containers/sh=
-eheryar_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-ne=
-on-oe-linux-gnueabi/docker/1.5.0+git2243e32cbbf1c9809c262a7376d34ca43a7a36d=
-c-r0/git/bundles/1.5.0-dev/dynbinary/dockerinit-1.5.0-dev
-| # code.google.com/p/gosqlite/sqlite3
-| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_containe=
-rs/yocto/fido/build/mf0200/tmp-glibc/sysroots/x86_64-linux/usr/lib/libsqlit=
-e3.so: file not recognized: File format not recognized
-| collect2: error: ld returned 1 exit status
-| WARNING: /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar=
-_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-l=
-inux-gnueabi/docker/1.5.0+git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/te=
-mp/run.do_compile.32468:1 exit 1 from
-|   DOCKER_GITCOMMIT=3D"2243e32cbbf1c9809c262a7376d34ca43a7a36dc" ./hack/ma=
-ke.sh dynbinary
-| ERROR: Function failed: do_compile (log file is located at /var/mshehery/=
-Release_7.3/duplicate_project_containers/sheheryar_containers/yocto/fido/bu=
-ild/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-gnueabi/docker/1.5.0=
-+git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/temp/log.do_compile.32468)
-
-
-My instinct is that the errors are somehow related to go-sqlite package req=
-uired for docker. The fetcher for the package fails as its previous reposit=
-ory has been shifted or removed. Can someone help me out?
-
-
-Regards,
-
-
-Muhammad Sheheryar
-
-
-
-
-
-
-
---_000_149181786552565707mentorcom_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none"><!--P{margin-top:0;margin-b=
-ottom:0;} --></style>
-</head>
-<body dir=3D"ltr" style=3D"font-size:12pt;color:#000000;background-color:#F=
-FFFFF;font-family:Calibri,Arial,Helvetica,sans-serif;">
-<p>Hi,</p>
-<p><br>
-</p>
-<p>I am trying to build docker in my yocto project (fido branch). I am enco=
-untering the following errors</p>
-<p><br>
-</p>
-<p><span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-f=
-amily: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-se=
-rif;">Log data follows:</span></span></span><br style=3D"font-family: Helve=
-tica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| DEBUG: Executing shell function do_compile</span></span></span><br sty=
-le=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_conta=
-iners/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-g=
-nueabi/docker/1.5.0&#43;git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/git<=
-/span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| # WARNING! I don't seem to be running in the Docker container.</span><=
-/span></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| # The result of this command might be an incorrect build, and will not=
- be</span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| #&nbsp;&nbsp; officially supported.</span></span></span><br style=3D"f=
-ont-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| #</span></span></span><br style=3D"font-family: Helvetica,sans-serif;"=
->
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| # Try this instead: make all</span></span></span><br style=3D"font-fam=
-ily: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| #</span></span></span><br style=3D"font-family: Helvetica,sans-serif;"=
->
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">|
-</span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| bundles/1.5.0-dev already exists. Removing.</span></span></span><br st=
-yle=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">|
-</span></span></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| ---&gt; Making bundle: dynbinary (in bundles/1.5.0-dev/dynbinary)</spa=
-n></span></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| Created binary: /var/mshehery/Release_7.3/duplicate_project_containers=
-/sheheryar_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp=
--neon-oe-linux-gnueabi/docker/1.5.0&#43;git2243e32cbbf1c9809c262a7376d34ca4=
-3a7a36dc-r0/git/bundles/1.5.0-dev/dynbinary/dockerinit-1.5.0-dev</span></sp=
-an></span><br style=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| # code.google.com/p/gosqlite/sqlite3</span></span></span><br style=3D"=
-font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| /var/mshehery/Release_7.3/duplicate_project_containers/sheheryar_conta=
-iners/yocto/fido/build/mf0200/tmp-glibc/sysroots/x86_64-linux/usr/lib/libsq=
-lite3.so:
- file not recognized: File format not recognized</span></span></span><br st=
-yle=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| collect2: error: ld returned 1 exit status</span></span></span><br sty=
-le=3D"font-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| WARNING: /var/mshehery/Release_7.3/duplicate_project_containers/sheher=
-yar_containers/yocto/fido/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-o=
-e-linux-gnueabi/docker/1.5.0&#43;git2243e32cbbf1c9809c262a7376d34ca43a7a36d=
-c-r0/temp/run.do_compile.32468:1
- exit 1 from</span></span></span><br style=3D"font-family: Helvetica,sans-s=
-erif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">|&nbsp;&nbsp; DOCKER_GITCOMMIT=3D&quot;2243e32cbbf1c9809c262a7376d34ca43=
-a7a36dc&quot; ./hack/make.sh dynbinary</span></span></span><br style=3D"fon=
-t-family: Helvetica,sans-serif;">
-<span style=3D"font-family: Helvetica,sans-serif;"><span style=3D"font-fami=
-ly: Helvetica,sans-serif;"><span style=3D"font-family: Helvetica,sans-serif=
-;">| ERROR: Function failed: do_compile (log file is located at /var/mshehe=
-ry/Release_7.3/duplicate_project_containers/sheheryar_containers/yocto/fido=
-/build/mf0200/tmp-glibc/work/cortexa9hf-vfp-neon-oe-linux-gnueabi/docker/1.=
-5.0&#43;git2243e32cbbf1c9809c262a7376d34ca43a7a36dc-r0/temp/log.do_compile.=
-32468)</span></span></span></p>
-<p><br>
-</p>
-<p>My instinct is that the errors are somehow related to go-sqlite package&=
-nbsp;required for docker. The fetcher for the package fails as its previous=
- repository has been shifted or removed. Can someone&nbsp;help me out?</p>
-<p><br>
-</p>
-<p>Regards,</p>
-<p><br>
-</p>
-<p>Muhammad Sheheryar <br>
-</p>
-<p><br>
-</p>
-<p><br>
-</p>
-<p><br>
-</p>
-<p><br>
-</p>
-<p><br>
-</p>
-<p><br>
-</p>
-</body>
-</html>
-
---_000_149181786552565707mentorcom_--
+--001a1147a2f815829a054ccf64bc--
