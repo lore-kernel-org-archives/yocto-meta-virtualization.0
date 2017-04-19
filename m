@@ -1,66 +1,36 @@
-Return-Path: <max.malisan.uk@gmail.com>
+Return-Path: <Rob.Woolley@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CEAB9E0094C; Tue, 18 Apr 2017 01:05:52 -0700 (PDT)
+	id 2EC76E00ACE; Wed, 19 Apr 2017 07:42:28 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (max.malisan.uk[at]gmail.com)
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.223.170 listed in dnsbl.sorbs.net]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.223.170 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-io0-f170.google.com (mail-io0-f170.google.com
-	[209.85.223.170])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 79158E00839
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E4BC5E00995
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Apr 2017 01:05:49 -0700 (PDT)
-Received: by mail-io0-f170.google.com with SMTP id a103so182033935ioj.1
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Apr 2017 01:05:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=2T3GOBo36c5oFxsNrXtp108hphH1WehfaVzaa1ODUFY=;
-	b=M/a2kbe+LUFImveiV+EZZ6Msr6431eWO6I2BdAncF2Or2aMM64jIFWV4oGLQoIP2m3
-	RmUi1E+OH7ejmno8tmiGPppcipWjPP9YY6ewk+5w5ee3qe8Xq4oaouMAfVbedzApCcTx
-	VKxT0wURos96h1RkC8T1neMHXvbpdjXkE5sWgVyHxAanRZJ4D1SEs9NgpciyWA0E7P40
-	f92AISI2LYkitX6aEdNkaIDTpbmfMK6uYQJYMpC8ka/63xvH7ZagVwM87TtQd2FK6wFe
-	CCxKAzcE8fe+WA5p9m/Q+XPUXDJr/4Bc9eirqMBV5DTsqBsaEl7KaZc2AOnxYG2W1nd2
-	xjww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=2T3GOBo36c5oFxsNrXtp108hphH1WehfaVzaa1ODUFY=;
-	b=NiVLVf3UZAr0GXiKgWYy7iPI58xX5zEd05rp1+ZPOK6ATq7HCIk3rv+UZWxuz0nBxQ
-	tk4nWpHi6QGEbSMiPDUFCNUk/O/9tLTWyIpTls/IfEZLwfvypZynEVTRkXBsRlBxu9a/
-	nPkclMpKWoIWNeVX47qbzEAFjynVAQt5fVX9O+JncFOJVU3K2PkjuYOw56fso5MHn649
-	6mXVXOgcnzCqFr59N+hA3W7zDREd8j87+/216PLNx1WC/EnkXI8zRPo5FqNnqIvAX0GT
-	xQL3fyKTC/n7i5ZmTJCybY1+q3c0QvGLn9QmPcAL9h8htVaIanDfwjBiEWC8WdkwRTvc
-	s2Kg==
-X-Gm-Message-State: AN3rC/7cvRb1PRHAVxWV9+Bg4juvtrSWBbbVedyRQFnOa4EtSN1o3m8e
-	DOCS4EWGHQ0EouoOMQDQUqKw9oYkuBluQ66LPw==
-X-Received: by 10.36.110.18 with SMTP id w18mr12312181itc.37.1492502749203;
-	Tue, 18 Apr 2017 01:05:49 -0700 (PDT)
+	Wed, 19 Apr 2017 07:42:23 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3JEgLCq010019
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Apr 2017 07:42:21 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
+	Wed, 19 Apr 2017 07:42:20 -0700
+From: Rob Woolley <rob.woolley@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <ray.danks@se-eng.com>,
+	<bruce.ashfield@gmail.com>
+Date: Wed, 19 Apr 2017 07:42:20 -0700
+Message-ID: <20170419144220.115501-1-rob.woolley@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Received: by 10.79.210.76 with HTTP; Tue, 18 Apr 2017 01:05:48 -0700 (PDT)
-From: Massimiliano Malisan <max.malisan.uk@gmail.com>
-Date: Tue, 18 Apr 2017 09:05:48 +0100
-Message-ID: <CADM9VcsY1xjqGuuzH_=Kky3wP8aB3Cj1gBbtcPHKPRp3TwiO4A@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Problems building criu recipe for morty
+Subject: [PATCH] libvirt: Fix conditional dependencies on polkit
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,166 +43,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Apr 2017 08:05:52 -0000
-Content-Type: multipart/alternative; boundary=001a114aa30431527b054d6c60e5
+X-List-Received-Date: Wed, 19 Apr 2017 14:42:28 -0000
+Content-Type: text/plain
 
---001a114aa30431527b054d6c60e5
-Content-Type: text/plain; charset=UTF-8
+The DIRFILES variable was a temporary workaround to resolve a do_rootfs
+RPM package conflict between libvirt and polkit.
 
-Hi all,
+This happened because of the different permissions and ownership that the
+packages placed on ${datadir}/usr/share/polkit-1/rules.d.
 
-Forewords:
-* I am learning to use Yocto, so maybe I am missing something that should
-be obvious..
-* I do not have any selinux support in my configuration as I don't need it
-atm (and I suppose it isn't necessary, otherwise it should be in the
-dependency list of the layer).
-* The system I am building for uses sysvinit and not systemd as init (just
-mentioning due to the systemd-related warning in the second problem, which
-I deem unrelated to the error I get..).
+The behaviour is now conditional based on how PACKAGECONFIG is set.  The
+polkit rules will be removed from the package if polkit is not enabled.
+If polkit is enabled the permissions and ownership are set to match those
+set by the polkit recipe.
 
-I've been trying to build the criu recipe for morty (I have all
-repositories: poky, meta-openembedded, meta-intel (I have a x86_64 Intel
-CPU) and meta-virtualization - on morty branch) but I have some issues:
+This uses the useradd enhancements for RSS.  It requires that shadow-native
+be included as a DEPENDS to provide the useradd command in the native
+sysroot.
 
-1) If I run the recipe "as is" I get the following error:
+Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
+---
+ recipes-extended/libvirt/libvirt_1.3.5.bb | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_patch: Command Error: 'quilt
---quiltrc /opt/yocto/virt-builder/meta-virt-builder/tmp/sysroots/x86_64-linux/etc/quiltrc
-push' exited with 0  Output:
-Applying patch disable-selinux.patch
-can't find file to patch at input line 15
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|Upstream-Status: Inappropriate [disable feature]
-|
-|It shows warning when build crius if libselinux has been built already:
-|
-|  WARNING: QA Issue: criu rdepends on libselinux, but it isn't a build
-dependency? [build-deps]
-|
-|Apply this patch to disable selinux support when 'selinux' is not in
-PACKAGECONF.
-|
-|Signed-off-by: Kai Kang <kai.kang@windriver.com>
-|
-|diff --git a/Makefile.config b/Makefile.config
-|index ce4b8d8..3ac2780 100644
-|--- a/Makefile.config
-|+++ b/Makefile.config
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-Patch disable-selinux.patch does not apply (enforce with -f)
-ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_patch: Function failed:
-patch_do_patch
-ERROR: Logfile of failure stored in: /opt/yocto/virt-builder/meta-
-virt-builder/tmp/work/corei7-64-poky-linux/criu/2.5+
-gitAUTOINC+c031417255-r0/temp/log.do_patch.24372
-ERROR: Task (/opt/yocto/repository/meta-virtualization/recipes-
-containers/criu/criu_git.bb:do_patch) failed with exit code '1'
-
-
-2) If I remove the patch reference from the recipe the compilation seems
-run fine but in the end I get this error:
-
-ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: QA Issue: criu: The
-compile log indicates that host include and/or library paths were used.
-         Please check the log '/opt/yocto/virt-builder/meta-
-virt-builder/tmp/work/corei7-64-poky-linux/criu/2.5+
-gitAUTOINC+c031417255-r0/temp/log.do_compile' for more information.
-[compile-host-path]
-WARNING: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: QA Issue:
-/usr/libexec/criu/scripts/systemd-autofs-restart.sh contained in package
-criu requires /bin/bash, but no providers found in RDEPENDS_criu?
-[file-rdeps]
-ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: QA run found fatal
-errors. Please consider fixing them.
-ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: Function failed:
-do_package_qa
-ERROR: Logfile of failure stored in: /opt/yocto/virt-builder/meta-
-virt-builder/tmp/work/corei7-64-poky-linux/criu/2.5+
-gitAUTOINC+c031417255-r0/temp/log.do_package_qa.27615
-ERROR: Task (/opt/yocto/repository/meta-virtualization/recipes-
-containers/criu/criu_git.bb:do_package_qa) failed with exit code '1'
+diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb b/recipes-extended/libvirt/libvirt_1.3.5.bb
+index 7b55ead..a8e6f3f 100644
+--- a/recipes-extended/libvirt/libvirt_1.3.5.bb
++++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
+@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SECTION = "console/tools"
+ 
+ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
+-	   iptables dnsmasq readline libtasn1 libxslt-native acl"
++	   iptables dnsmasq readline libtasn1 libxslt-native acl \
++	   ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'shadow-native', '', d)}"
+ 
+ # libvirt-guests.sh needs gettext.sh
+ #
+@@ -22,8 +23,6 @@ RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
+ #connman blocks the 53 port and libvirtd can't start its DNS service
+ RCONFLICTS_${PN}_libvirtd = "connman"
+ 
+-DIRFILES = ""
+-
+ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
+            file://tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch \
+            file://libvirtd.sh \
+@@ -120,7 +119,8 @@ FILES_${PN}-libvirtd = " \
+ FILES_${PN}-virsh = "${bindir}/virsh"
+ FILES_${PN} += "${libdir}/libvirt/connection-driver \
+ 	    ${datadir}/augeas \
+-	    ${datadir}/polkit-1"
++	    ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${datadir}/polkit-1', '', d)} \
++	    "
+ 
+ FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
+ FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a ${libdir}/libvirt/lock-driver/*.a"
+@@ -254,6 +254,15 @@ do_install_append() {
+ 	echo "d root root 0755 ${localstatedir}/run/libvirt/qemu none" \
+ 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
+ 
++	# Manually set permissions and ownership to match polkit recipe
++	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}; then
++		install -d -m 0700 ${D}/${datadir}/polkit-1/rules.d
++		chown polkitd ${D}/${datadir}/polkit-1/rules.d
++		chgrp root ${D}/${datadir}/polkit-1/rules.d
++	else
++		rm -rf ${D}/${datadir}/polkit-1
++	fi
++
+ 	# Add hook support for libvirt
+ 	mkdir -p ${D}/etc/libvirt/hooks
+ 
+-- 2.11.0
 
 
-Any idea on how to solve this?
-
-Best regards,
-    Max
-
---001a114aa30431527b054d6c60e5
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div style=3D"font-size:12.8px">Hi all,</div><div style=3D=
-"font-size:12.8px"><br></div><div style=3D"font-size:12.8px"><div>Forewords=
-:=C2=A0</div><div>* I am learning to use Yocto, so maybe I am missing somet=
-hing that should be obvious..=C2=A0</div><div>* I do not have any selinux s=
-upport in my configuration as I don&#39;t need it atm (and I suppose it isn=
-&#39;t necessary, otherwise it should be in the dependency list of the laye=
-r).</div></div><div style=3D"font-size:12.8px">* The system I am building f=
-or uses sysvinit and not systemd as init (just mentioning due to the system=
-d-related warning in the second problem, which I deem unrelated to the erro=
-r I get..).</div><div style=3D"font-size:12.8px"><br></div><div style=3D"fo=
-nt-size:12.8px">I&#39;ve been trying to build the criu recipe for morty (I =
-have all repositories: poky, meta-openembedded, meta-intel (I have a x86_64=
- Intel CPU) and meta-virtualization - on morty branch) but I have some issu=
-es:</div><div style=3D"font-size:12.8px"><br></div><div style=3D"font-size:=
-12.8px">1) If I run the recipe &quot;as is&quot; I get the following error:=
-</div><div style=3D"font-size:12.8px"><br></div><blockquote style=3D"font-s=
-ize:12.8px;margin:0px 0px 0px 40px;border:none;padding:0px"><div>ERROR: cri=
-u-2.5+gitAUTOINC+<wbr>c031417255-r0 do_patch: Command Error: &#39;quilt --q=
-uiltrc /opt/yocto/virt-builder/meta-<wbr>virt-builder/tmp/sysroots/x86_<wbr=
->64-linux/etc/quiltrc push&#39; exited with 0 =C2=A0Output:</div><div>Apply=
-ing patch disable-selinux.patch</div><div>can&#39;t find file to patch at i=
-nput line 15</div><div>Perhaps you used the wrong -p or --strip option?</di=
-v><div>The text leading up to this was:</div><div>-------------------------=
--</div><div>|Upstream-Status: Inappropriate [disable feature]</div><div>|</=
-div><div>|It shows warning when build crius if libselinux has been built al=
-ready:</div><div>|</div><div>| =C2=A0WARNING: QA Issue: criu rdepends on li=
-bselinux, but it isn&#39;t a build dependency? [build-deps]</div><div>|</di=
-v><div>|Apply this patch to disable selinux support when &#39;selinux&#39; =
-is not in PACKAGECONF.</div><div>|</div><div>|Signed-off-by: Kai Kang &lt;<=
-a href=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriv=
-er.com</a>&gt;</div><div>|</div><div>|diff --git a/Makefile.config b/Makefi=
-le.config</div><div>|index ce4b8d8..3ac2780 100644</div><div>|--- a/Makefil=
-e.config</div><div>|+++ b/Makefile.config</div><div>-----------------------=
----</div><div>No file to patch.=C2=A0 Skipping patch.</div><div>1 out of 1 =
-hunk ignored</div><div>Patch disable-selinux.patch does not apply (enforce =
-with -f)</div><div>ERROR: criu-2.5+gitAUTOINC+<wbr>c031417255-r0 do_patch: =
-Function failed: patch_do_patch</div><div>ERROR: Logfile of failure stored =
-in: /opt/yocto/virt-builder/meta-<wbr>virt-builder/tmp/work/corei7-<wbr>64-=
-poky-linux/criu/2.5+<wbr>gitAUTOINC+c031417255-r0/temp/<wbr>log.do_patch.24=
-372</div><div>ERROR: Task (/opt/yocto/repository/meta-<wbr>virtualization/r=
-ecipes-<wbr>containers/criu/criu_git.bb:do<wbr>_patch) failed with exit cod=
-e &#39;1&#39;</div></blockquote><div style=3D"font-size:12.8px"><br></div><=
-div style=3D"font-size:12.8px">2) If I remove the patch reference from the =
-recipe the compilation seems run fine but in the end I get this error:</div=
-><div style=3D"font-size:12.8px"><br></div><blockquote style=3D"font-size:1=
-2.8px;margin:0px 0px 0px 40px;border:none;padding:0px"><div>ERROR: criu-2.5=
-+gitAUTOINC+<wbr>c031417255-r0 do_package_qa: QA Issue: criu: The compile l=
-og indicates that host include and/or library paths were used.</div><div>=
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Please check the log &#39;/opt/yocto/virt=
--builder/meta-<wbr>virt-builder/tmp/work/corei7-<wbr>64-poky-linux/criu/2.5=
-+<wbr>gitAUTOINC+c031417255-r0/temp/<wbr>log.do_compile&#39; for more infor=
-mation. [compile-host-path]</div><div>WARNING: criu-2.5+gitAUTOINC+<wbr>c03=
-1417255-r0 do_package_qa: QA Issue: /usr/libexec/criu/scripts/<wbr>systemd-=
-autofs-restart.sh contained in package criu requires /bin/bash, but no prov=
-iders found in RDEPENDS_criu? [file-rdeps]</div><div>ERROR: criu-2.5+gitAUT=
-OINC+<wbr>c031417255-r0 do_package_qa: QA run found fatal errors. Please co=
-nsider fixing them.</div><div>ERROR: criu-2.5+gitAUTOINC+<wbr>c031417255-r0=
- do_package_qa: Function failed: do_package_qa</div><div>ERROR: Logfile of =
-failure stored in: /opt/yocto/virt-builder/meta-<wbr>virt-builder/tmp/work/=
-corei7-<wbr>64-poky-linux/criu/2.5+<wbr>gitAUTOINC+c031417255-r0/temp/<wbr>=
-log.do_package_qa.27615</div><div>ERROR: Task (/opt/yocto/repository/meta-<=
-wbr>virtualization/recipes-<wbr>containers/criu/criu_git.bb:do<wbr>_package=
-_qa) failed with exit code &#39;1&#39;</div></blockquote><div style=3D"font=
--size:12.8px"><br></div><div style=3D"font-size:12.8px">Any idea on how to =
-solve this?</div><div style=3D"font-size:12.8px"><br></div><div style=3D"fo=
-nt-size:12.8px">Best regards,</div><div style=3D"font-size:12.8px">=C2=A0 =
-=C2=A0 Max</div></div>
-
---001a114aa30431527b054d6c60e5--
