@@ -1,18 +1,14 @@
-Return-Path: <max.malisan.uk@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 85A82E00972; Thu, 20 Apr 2017 07:00:41 -0700 (PDT)
+	id 07F7BE0095F; Thu, 20 Apr 2017 08:10:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.223.177 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (max.malisan.uk[at]gmail.com)
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -21,46 +17,52 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.223.177 listed in dnsbl.sorbs.net]
-Received: from mail-io0-f177.google.com (mail-io0-f177.google.com
-	[209.85.223.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D4D8FE0092B
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.216.176 listed in list.dnswl.org]
+Received: from mail-qt0-f176.google.com (mail-qt0-f176.google.com
+	[209.85.216.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C71C4E0083D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 20 Apr 2017 07:00:39 -0700 (PDT)
-Received: by mail-io0-f177.google.com with SMTP id a103so72427920ioj.1
+	Thu, 20 Apr 2017 08:10:23 -0700 (PDT)
+Received: by mail-qt0-f176.google.com with SMTP id y33so47577059qta.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 20 Apr 2017 07:00:39 -0700 (PDT)
+	Thu, 20 Apr 2017 08:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=A7fEWMolvAk1g/dII8BRKob+1E/Dpxd3Ily+kXkI7fk=;
-	b=j0IPSbsYQHHkxd5drO5/2E8xlcUPSkQG910itHcb5kRdfnDRzCAxAKj0mZNQDeaKrP
-	TrLpdOCPGqBwzSKZT5fpHR0dKzLz0flXX4mDn9XXsLSWjNBwzUL3GJqeWiriiFjTN4Xm
-	XRARTUK1mgx5lJo8zVuGN/q64L+HRV/6mZSgQqxeVyasxQQTpZakp3AOuDDu46/Nrj/7
-	pmQEQt9vU+vFtnX7/QlfPeEbPE+I1MqyIBgPktSRWfAp2GDdLpSlIv6FuMi7qfA+BkOq
-	+1s1Gdc4xzSxQnDL7028NOeSZLVLx6zpYVp+ZWtbMvrr3gUyowR8VmHYECx7w93uHxN0
-	IyNA==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=/qkWnNTWFi6DglxlRK8Zh26HZysmybaJGABYxE/mgqE=;
+	b=tRBmMj8oMC1W14sUa7H+cK7THxikLG+QYISTV/sIEV3M5kOYm4asjNpPNZ+Jlvft8H
+	nmsNP5yZA8uEwWh8fLhFyYuPJDWuD2AHndJCnjfU0vz1t6GuBp0EeGvyfj/J5pwWgAG4
+	GuA9tVSH0aBwxktc2vaEog1jUbhnn9+cQYojB24OEX3u/GDO32aLpzkio0YrlhKkXK84
+	ztVgXs4IC+Jb1Mf9UIzSbguaq8/ZIga2K2g3paIOIvclhrjaKcQQzQKDo91tbOlheusk
+	ayIcjQr90zcugE2/bEx9EyJYHEy28UGWeizlZFnk9SG0BeQOS4QImvCz4AiJDGkHUNMT
+	elug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=A7fEWMolvAk1g/dII8BRKob+1E/Dpxd3Ily+kXkI7fk=;
-	b=CxOqk4sqYDIuYqh9BR+EvFb32C4Ql0NKkXzb1FNkxqHDOOceb1A+ByRLwuPXwaHuS8
-	DRd8n3n1+052lF7E20A9Yj8PdwsMx+CVtelNkkuu9ceVIhcHXUTffcPMSQF7M38A3TtG
-	4GHaEuBonCG5jpkR2Bkd4f9y2rKqKA6mquhZJLnfbrqy587Ic7P6aGz7qlvlDG3yZtlt
-	itUheX/eCSdmY2KacNY4NCcvBvipv/tSZQu2y1ZA492cPNbtbf96ER24UPG1b4E97fjo
-	xPtxPBb/Cu4/5BwSGynlLaVnfYUVMJvtFJlgv0jALm+8qd5zFuB5VRhmXeLsDPvVIhgK
-	NrGg==
-X-Gm-Message-State: AN3rC/5aRVI+SGzkSl4lWGIu5I9J7KGTmFqp6kYhuGAnZILIFqYti3Q4
-	IUSpdVS+qHAYP+6MaFFeIejvd4z4W0AD
-X-Received: by 10.107.142.201 with SMTP id q192mr8942473iod.138.1492696835136; 
-	Thu, 20 Apr 2017 07:00:35 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=/qkWnNTWFi6DglxlRK8Zh26HZysmybaJGABYxE/mgqE=;
+	b=Pgzpvg3IEaR/HMxvsjXMS3BX3r+hR7hWSC+jwzD4k0zHIwvmzWF3LCL0HDZkNwAJ1L
+	fGlXnQGa24d6fxfBfEaJZvT+/RCgwsepU9V9E85Yc4NZLQGqndADaYhA2DbxSOUlhQe8
+	fn2CpISjRlntTvJiLIOeuB1HKAUhr5ctQX6wYDPlbr+zPRcprhJ0H+ecjbaP97Hy9Y5O
+	ICkVjeg+zuGo3gAxNI2+HcTjNmPNNw90MySZbwRTk1/BN6soIRDMkW1ixvL4kA3Lp9Ra
+	nonif055E6gaFqGOI0CbwGZKRHZnjuHITNEQD+oGOptydMOeNZahjRcdcY14lIoDPbeZ
+	IuPw==
+X-Gm-Message-State: AN3rC/6iVdOmvaLyZ9uld1cKK+OhdSLdEMTIWi5jqf6u+JaxyzNcFduf
+	6IFPTUpdade+Lq1aPvradle5/E4x1A==
+X-Received: by 10.237.35.162 with SMTP id j31mr8295643qtc.117.1492701022652;
+	Thu, 20 Apr 2017 08:10:22 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.79.164.11 with HTTP; Thu, 20 Apr 2017 07:00:34 -0700 (PDT)
-From: Massimiliano Malisan <max.malisan.uk@gmail.com>
-Date: Thu, 20 Apr 2017 15:00:34 +0100
-Message-ID: <CADM9VctCY=M2_HeiXh-e7CqZ2cibt2V3mUFGhe7xHJ=Zevi7iA@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: LXD anyone?
+Received: by 10.12.163.69 with HTTP; Thu, 20 Apr 2017 08:10:22 -0700 (PDT)
+In-Reply-To: <CADM9VctCY=M2_HeiXh-e7CqZ2cibt2V3mUFGhe7xHJ=Zevi7iA@mail.gmail.com>
+References: <CADM9VctCY=M2_HeiXh-e7CqZ2cibt2V3mUFGhe7xHJ=Zevi7iA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 20 Apr 2017 11:10:22 -0400
+Message-ID: <CADkTA4N6_OQwYVyH1qZAyMzRwBHxhpJNshxbjumkuhvcvWmVRw@mail.gmail.com>
+To: Massimiliano Malisan <max.malisan.uk@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: LXD anyone?
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,34 +75,90 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Apr 2017 14:00:41 -0000
-Content-Type: multipart/alternative; boundary=001a114ec68c9dc337054d9990b5
+X-List-Received-Date: Thu, 20 Apr 2017 15:10:27 -0000
+Content-Type: multipart/alternative; boundary=001a113e7f54360f74054d9a8a35
 
---001a114ec68c9dc337054d9990b5
+--001a113e7f54360f74054d9a8a35
 Content-Type: text/plain; charset=UTF-8
 
-Hi all,
+On Thu, Apr 20, 2017 at 10:00 AM, Massimiliano Malisan <
+max.malisan.uk@gmail.com> wrote:
 
-is anyone currently working on creating a recipe for LXD?
+> Hi all,
+>
+> is anyone currently working on creating a recipe for LXD?
+>
 
-I have been working on one in the last days but I still have some issues to
-have it run properly; being quite new to Yocto I am not sure if they depend
-on something in my recipe or some other missing dependency or
-configuration, so any other voice is more than welcome.
+We started creating one about a year ago (and it was discussed, but I can't
+find a reference now) .. but that effort never did make it into the tree
+and has bit rotted now.
+
+So if you have something underway, and are looking for input, feel free to
+post RFC patches and we can see what's working (or not!).
 
 Cheers,
-    Max
 
---001a114ec68c9dc337054d9990b5
+Bruce
+
+
+>
+> I have been working on one in the last days but I still have some issues
+> to have it run properly; being quite new to Yocto I am not sure if they
+> depend on something in my recipe or some other missing dependency or
+> configuration, so any other voice is more than welcome.
+>
+> Cheers,
+>     Max
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a113e7f54360f74054d9a8a35
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi all,=C2=A0<br></div><div><br></div><div>is anyone =
-currently working on creating a recipe for LXD?<br></div><div><br></div><di=
-v>I have been working on one in the last days but I still have some issues =
-to have it run properly; being quite new to Yocto I am not sure if they dep=
-end on something in my recipe or some other missing dependency or configura=
-tion, so any other voice is more than welcome.</div><div><br></div><div>Che=
-ers,</div><div>=C2=A0 =C2=A0 Max</div></div>
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Thu, Apr 20, 2017 at 10:00 AM, Massimiliano Malisan <span dir=3D"ltr=
+">&lt;<a href=3D"mailto:max.malisan.uk@gmail.com" target=3D"_blank">max.mal=
+isan.uk@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote=
+" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><=
+div dir=3D"ltr"><div>Hi all,=C2=A0<br></div><div><br></div><div>is anyone c=
+urrently working on creating a recipe for LXD?<br></div></div></blockquote>=
+<div><br></div><div>We started creating one about a year ago (and it was di=
+scussed, but I can&#39;t find a reference now) .. but that effort never did=
+ make it into the tree and has bit rotted now.<br></div><div><br></div><div=
+>So if you have something underway, and are looking for input, feel free to=
+ post RFC patches and we can see what&#39;s working (or not!).</div><div><b=
+r></div><div>Cheers,</div><div><br></div><div>Bruce</div><div>=C2=A0</div><=
+blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
+ #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div></div><div><br></div><d=
+iv>I have been working on one in the last days but I still have some issues=
+ to have it run properly; being quite new to Yocto I am not sure if they de=
+pend on something in my recipe or some other missing dependency or configur=
+ation, so any other voice is more than welcome.</div><div><br></div><div>Ch=
+eers,</div><div>=C2=A0 =C2=A0 Max</div></div>
+<br>--<br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
+ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
+not follow the NULL pointer, for chaos and madness await thee at its end&qu=
+ot;</div>
+</div></div>
 
---001a114ec68c9dc337054d9990b5--
+--001a113e7f54360f74054d9a8a35--
