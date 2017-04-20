@@ -1,6 +1,6 @@
-Return-Path: <Rob.Woolley@windriver.com>
+Return-Path: <Yunguo.Wei@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2EC76E00ACE; Wed, 19 Apr 2017 07:42:28 -0700 (PDT)
+	id F015CE00AE6; Thu, 20 Apr 2017 00:53:17 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,25 +12,26 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E4BC5E00995
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BF4A2E00AE0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 19 Apr 2017 07:42:23 -0700 (PDT)
+	Thu, 20 Apr 2017 00:53:14 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3JEgLCq010019
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v3K7r72o017946
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 19 Apr 2017 07:42:21 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	Thu, 20 Apr 2017 00:53:07 -0700 (PDT)
+Received: from [128.224.179.203] (128.224.179.203) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.294.0;
-	Wed, 19 Apr 2017 07:42:20 -0700
-From: Rob Woolley <rob.woolley@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <ray.danks@se-eng.com>,
-	<bruce.ashfield@gmail.com>
-Date: Wed, 19 Apr 2017 07:42:20 -0700
-Message-ID: <20170419144220.115501-1-rob.woolley@windriver.com>
-X-Mailer: git-send-email 2.11.0
+	Thu, 20 Apr 2017 00:53:06 -0700
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>,
+	<cardoe@gentoo.org>
+From: Yunguo Wei <yunguo.wei@windriver.com>
+Message-ID: <75c6a75c-b2b6-c086-1a48-e7b6370a63a2@windriver.com>
+Date: Thu, 20 Apr 2017 15:53:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.8.0
 MIME-Version: 1.0
-Subject: [PATCH] libvirt: Fix conditional dependencies on polkit
+Subject: xen build error
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,78 +44,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Apr 2017 14:42:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 20 Apr 2017 07:53:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The DIRFILES variable was a temporary workaround to resolve a do_rootfs
-RPM package conflict between libvirt and polkit.
+Hi Guys,
 
-This happened because of the different permissions and ownership that the
-packages placed on ${datadir}/usr/share/polkit-1/rules.d.
+I'm building xen with latest poky and meta-virtualization, but running 
+into the following error on ubu1404/1604:
 
-The behaviour is now conditional based on how PACKAGECONFIG is set.  The
-polkit rules will be removed from the package if polkit is not enabled.
-If polkit is enabled the permissions and ownership are set to match those
-set by the polkit recipe.
+x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 
+--sysroot=/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot 
+-m32 -march=i686 -DBUILD_ID -fno-strict-aliasing -std=gnu99 -Wall 
+-Wstrict-prototypes -Wdeclaration-after-statement 
+-Wno-unused-but-set-variable -Wno-unused-local-typedefs   -O2 
+-fomit-frame-pointer 
+-D__XEN_INTERFACE_VERSION__=__XEN_LATEST_INTERFACE_VERSION__ -MMD -MF 
+.hvmloader.o.d -D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE 
+-mno-tls-direct-seg-refs  -DNDEBUG -Werror -fno-stack-protector 
+-fno-exceptions -fno-builtin -msoft-float 
+-I/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/xen-4.8.0/tools/firmware/hvmloader/../../../tools/include 
+-D__XEN_INTERFACE_VERSION__=__XEN_LATEST_INTERFACE_VERSION__ 
+-I../../libacpi  -c -o hvmloader.o hvmloader.c
+In file included from 
+/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot/usr/include/sys/cdefs.h:442:0,
+                  from 
+/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot/usr/include/features.h:410,
+                  from 
+/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot/usr/include/bits/libc-header-start.h:33,
+                  from 
+/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot/usr/include/stdint.h:26,
+                  from 
+/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot-native/usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/6.3.0/include/stdint.h:9,
+                  from util.h:5,
+                  from hvmloader.c:22:
+/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/recipe-sysroot/usr/include/bits/long-double.h:53:33: 
+fatal error: bits/long-double-32.h: No such file or directory
+  #include <bits/long-double-32.h>
+                                  ^
+compilation terminated.
+make[7]: *** [hvmloader.o] Error 1
+make[7]: Leaving directory 
+`/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/xen-4.8.0/tools/firmware/hvmloader'
+make[6]: *** [all] Error 2
+make[6]: Leaving directory 
+`/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/xen-4.8.0/tools/firmware/hvmloader'
+make[5]: *** [subdir-all-hvmloader] Error 2
+make[5]: Leaving directory 
+`/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/xen-4.8.0/tools/firmware'
+make[4]: *** [subdirs-all] Error 2
+make[4]: Leaving directory 
+`/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/xen-4.8.0/tools/firmware'
+make[3]: *** [all] Error 2
+make[3]: Leaving directory 
+`/buildarea/raid0/ywei/git-repos/poky/build/tmp/work/core2-64-poky-linux/xen/4.8.0-r0/xen-4.8.0/tools/firmware'
 
-This uses the useradd enhancements for RSS.  It requires that shadow-native
-be included as a DEPENDS to provide the useradd command in the native
-sysroot.
+Is there anyone see similar issue?
 
-Signed-off-by: Rob Woolley <rob.woolley@windriver.com>
----
- recipes-extended/libvirt/libvirt_1.3.5.bb | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb b/recipes-extended/libvirt/libvirt_1.3.5.bb
-index 7b55ead..a8e6f3f 100644
---- a/recipes-extended/libvirt/libvirt_1.3.5.bb
-+++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
-@@ -7,7 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SECTION = "console/tools"
- 
- DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux e2fsprogs pm-utils \
--	   iptables dnsmasq readline libtasn1 libxslt-native acl"
-+	   iptables dnsmasq readline libtasn1 libxslt-native acl \
-+	   ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'shadow-native', '', d)}"
- 
- # libvirt-guests.sh needs gettext.sh
- #
-@@ -22,8 +23,6 @@ RDEPENDS_libvirt-libvirtd_append_x86 = " dmidecode"
- #connman blocks the 53 port and libvirtd can't start its DNS service
- RCONFLICTS_${PN}_libvirtd = "connman"
- 
--DIRFILES = ""
--
- SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.gz;name=libvirt \
-            file://tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch \
-            file://libvirtd.sh \
-@@ -120,7 +119,8 @@ FILES_${PN}-libvirtd = " \
- FILES_${PN}-virsh = "${bindir}/virsh"
- FILES_${PN} += "${libdir}/libvirt/connection-driver \
- 	    ${datadir}/augeas \
--	    ${datadir}/polkit-1"
-+	    ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${datadir}/polkit-1', '', d)} \
-+	    "
- 
- FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
- FILES_${PN}-staticdev += "${libdir}/*.a ${libdir}/libvirt/connection-driver/*.a ${libdir}/libvirt/lock-driver/*.a"
-@@ -254,6 +254,15 @@ do_install_append() {
- 	echo "d root root 0755 ${localstatedir}/run/libvirt/qemu none" \
- 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
- 
-+	# Manually set permissions and ownership to match polkit recipe
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'polkit', 'true', 'false', d)}; then
-+		install -d -m 0700 ${D}/${datadir}/polkit-1/rules.d
-+		chown polkitd ${D}/${datadir}/polkit-1/rules.d
-+		chgrp root ${D}/${datadir}/polkit-1/rules.d
-+	else
-+		rm -rf ${D}/${datadir}/polkit-1
-+	fi
-+
- 	# Add hook support for libvirt
- 	mkdir -p ${D}/etc/libvirt/hooks
- 
--- 2.11.0
+Regards,
+
+Yunguo
 
 
