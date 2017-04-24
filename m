@@ -1,75 +1,72 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 15725E00852; Mon, 24 Apr 2017 05:29:32 -0700 (PDT)
+	id E8BFEE00AB6; Mon, 24 Apr 2017 09:46:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.213.195 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.213.195 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.220.181 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.220.181 listed in dnsbl.sorbs.net]
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 75FBBE0077F
+Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
+	[209.85.213.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 80A0AE00839
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 24 Apr 2017 05:29:03 -0700 (PDT)
-Received: by mail-qk0-f181.google.com with SMTP id h123so29761462qke.0
+	Mon, 24 Apr 2017 09:46:56 -0700 (PDT)
+Received: by mail-yb0-f195.google.com with SMTP id 19so9177168ybl.2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 24 Apr 2017 05:29:03 -0700 (PDT)
+	Mon, 24 Apr 2017 09:46:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=N6pjI6t1Y2GcBUaCP2m4PeK5wyd5HcHRcK6B9+keZpg=;
-	b=bFIKT4WCU/5cDu+MV6j3vGPobU7rg+TuQ0sQPBIabr6nhCwVHBRBFW2xFJd+CeMBmT
-	gO5+TaloF5i8NZXfFOHWqD0VE3w8s2rd/JuC07vOzV5bk39X5W1c3CQiiCqNY6F0iQf4
-	19pcHhDKxPAJ+Szuxd9LPz1dyVcGDw/nof6SDorBgcBPBUAeY5+IaW8UGd2+xXNMT+Ze
-	LBOml8nb14R7hcl9LL982m27+FNzkqzD4PJvXWbaxrne6efT9nhEOQpAduYO65UBQ2IT
-	cPcoLOH7O6ukqc9T9y4slfIHWeMLHACvDcpo+kOF6VTFHIKAHdUo7qZfv4eGSUkQYz0S
-	/spA==
+	h=mime-version:reply-to:sender:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=nwive84ML4qZX4WgCj0c3yLcNASY0MhyR8ct0HlwybI=;
+	b=Kxh8QVKfu7KZyFSlPSJ8BLqLaQLOvC/1r8qeyEOA2FZHxz7I/9DC79lmz7hD3Aaa67
+	j/GPQXRxeFvTgtBzd/yYsC8wdJTlHK4oUtVJEQrsosxSrxwF7H/EiXoCfBchqwtF+THh
+	8Cjh4fOtyDsmNMHzZupoKqpOnhTJGFkThkFpjpE1lZ255JRTC+LAPUbF/mam3xTuqPdY
+	OL+ifg2SX82bISRRTe2sThp52oZLIWHs8di43h0voNuyn+l9ipvaiyOQ/kdXhdl+7ASt
+	B4dYOOk7mEzQgoxYYasOqNc868sGXFmZ5jrios1mQtkNfbnq3OQuS39WLhPDhl1aErZx
+	+c2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=N6pjI6t1Y2GcBUaCP2m4PeK5wyd5HcHRcK6B9+keZpg=;
-	b=i2t0kSil4tfSzYgVo1IgLDcHR1Qn+rM/gTzlTPzYw4Y8He3NrpRBWJ31834OBKrxq8
-	dpfBVtVRCa/Nn/1APc+/bjKNzNYUvIv97YJQQG9nQHNMPP9rxn/OBsHhIeXaeMhCMbxn
-	6t/1O4orFt50vekXHI1sLjssx30+7T9qqWq0BRgogC8JVOYSoXshpDAEwqklGj3g0tSF
-	UzHOfUtL9mSF+zxl/u7N6aUbGsqTIl+qIP3RqMkwzmjIWRTUNpPE1BpVT5HMm3CMqUVA
-	CzZHiqhAv/MMaHONZhs4AknNSjU8xj3ma3guRbNVRMC+85c9G2pWOzw1f8Adl46zN/6M
-	EkEw==
-X-Gm-Message-State: AN3rC/4tk/6byyESqjQRUYuXKgLBEUGwN3JqHCyrLIfeXufjOpkBxYxY
-	x9T3RqV7FfyLOgeUNINboApGWHcBJQ==
-X-Received: by 10.55.21.154 with SMTP id 26mr17855570qkv.287.1493036942463;
-	Mon, 24 Apr 2017 05:29:02 -0700 (PDT)
+	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
+	:references:from:date:message-id:subject:to:cc;
+	bh=nwive84ML4qZX4WgCj0c3yLcNASY0MhyR8ct0HlwybI=;
+	b=XYyTMwisopwXniTKKHKWPlfscKbu3LJB2An0OVjpBRiWxnBeHDJGNVBv33d89SmV77
+	a/Np4MvGdUWAmivMFJs4KsCJA1n3yWLSFihsjH9Cuz4EbrQipBYubAcxbQA72AAMRdu+
+	PG2sCKmjFoKLgqPnuJ9WXHJOnSktetV0giOUR8iXAhArCpcLpkL86e8ODLHNBLtfM6vV
+	yacthQ0S5lCi5+DNSejJE6hKIxiwpjBwRMn/vnAS7rDr9CSLXMsBt4in7MO26lLooE//
+	9JolFPoOXR8WZXZ2bHFHyo4EutnFFPA33uPkKanM4CVdv66WATH/FBFdgaBW0cZnZTmx
+	5O/A==
+X-Gm-Message-State: AN3rC/5BweKGA3RMhcAO6fViqCb0jFD0pgu4mT3surTntr2HbjP2Jznf
+	fXPjQaYpyi0fnItsryBp8Y8SoYu6Bw==
+X-Received: by 10.37.173.146 with SMTP id z18mr5875660ybi.96.1493052416046;
+	Mon, 24 Apr 2017 09:46:56 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.12.145.143 with HTTP; Mon, 24 Apr 2017 05:29:02 -0700 (PDT)
-In-Reply-To: <CABORvUgP0PmxFUpj75FwuqkRsNxJPcQBS-3grpXJvbuVDdhRQA@mail.gmail.com>
-References: <CABORvUhYiNw4noLMiK=s10qucet3ZAJebFD8fDrELiSJpCQK3A@mail.gmail.com>
-	<CABORvUgP0PmxFUpj75FwuqkRsNxJPcQBS-3grpXJvbuVDdhRQA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 24 Apr 2017 08:29:02 -0400
-Message-ID: <CADkTA4P9Pj-1_AAnYGBF3BexShpKHQJ_EtPZHzeHYugn-NhuAA@mail.gmail.com>
-To: Theodor Gherzan <theodor@resin.io>
+Sender: asselsm@gmail.com
+Received: by 10.37.165.4 with HTTP; Mon, 24 Apr 2017 09:46:55 -0700 (PDT)
+In-Reply-To: <CADM9VcsY1xjqGuuzH_=Kky3wP8aB3Cj1gBbtcPHKPRp3TwiO4A@mail.gmail.com>
+References: <CADM9VcsY1xjqGuuzH_=Kky3wP8aB3Cj1gBbtcPHKPRp3TwiO4A@mail.gmail.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Mon, 24 Apr 2017 12:46:55 -0400
+X-Google-Sender-Auth: 6EWCzKnlKl9Q5jK8OYWVcbZdZvE
+Message-ID: <CAPuovEKxpUZsPZ5LknxfisUF59S6BpVAqLj9SHPReo=_xOg+Og@mail.gmail.com>
+To: Massimiliano Malisan <max.malisan.uk@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: oe-meta-go provider
+Subject: Re: Problems building criu recipe for morty
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -79,36 +76,102 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 12:29:32 -0000
-Content-Type: multipart/alternative; boundary=001a1147b35c979fcb054de8c0e4
-
---001a1147b35c979fcb054de8c0e4
+X-List-Received-Date: Mon, 24 Apr 2017 16:47:00 -0000
 Content-Type: text/plain; charset=UTF-8
 
-On Mon, Apr 24, 2017 at 6:36 AM, Theodor Gherzan <theodor@resin.io> wrote:
-
-> The oe-meta-go provider that this layer suggest (
-> https://github.com/errordeveloper/oe-meta-go) seems to no longer be
-> maintained. Is it safe to use a new version of it (
-> https://github.com/mem/oe-meta-go)? This was forked from the one your
-> layer suggest but is actually maintained.
+On Tue, Apr 18, 2017 at 4:05 AM, Massimiliano Malisan
+<max.malisan.uk@gmail.com> wrote:
+> Hi all,
 >
+> Forewords:
+> * I am learning to use Yocto, so maybe I am missing something that should be
+> obvious..
+> * I do not have any selinux support in my configuration as I don't need it
+> atm (and I suppose it isn't necessary, otherwise it should be in the
+> dependency list of the layer).
+> * The system I am building for uses sysvinit and not systemd as init (just
+> mentioning due to the systemd-related warning in the second problem, which I
+> deem unrelated to the error I get..).
+>
+> I've been trying to build the criu recipe for morty (I have all
+> repositories: poky, meta-openembedded, meta-intel (I have a x86_64 Intel
+> CPU) and meta-virtualization - on morty branch) but I have some issues:
+>
+> 1) If I run the recipe "as is" I get the following error:
+>
+> ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_patch: Command Error: 'quilt
+> --quiltrc
+> /opt/yocto/virt-builder/meta-virt-builder/tmp/sysroots/x86_64-linux/etc/quiltrc
+> push' exited with 0  Output:
 
 
-Depends on the branch you are using of meta-virt.
+I can confirm this issue. Possibly broken for some time now and nobody
+noticed. At any rate keep an eye out on the list I will try to get a
+fix sent.
 
-If it is anything but master, I haven't been testing it with anything but
-the go support we have in meta-virt.
+Mark
 
-If it is master, only oe-core is needed (and all that I've been testing).
-
-Bruce
-
-
+> Applying patch disable-selinux.patch
+> can't find file to patch at input line 15
+> Perhaps you used the wrong -p or --strip option?
+> The text leading up to this was:
+> --------------------------
+> |Upstream-Status: Inappropriate [disable feature]
+> |
+> |It shows warning when build crius if libselinux has been built already:
+> |
+> |  WARNING: QA Issue: criu rdepends on libselinux, but it isn't a build
+> dependency? [build-deps]
+> |
+> |Apply this patch to disable selinux support when 'selinux' is not in
+> PACKAGECONF.
+> |
+> |Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> |
+> |diff --git a/Makefile.config b/Makefile.config
+> |index ce4b8d8..3ac2780 100644
+> |--- a/Makefile.config
+> |+++ b/Makefile.config
+> --------------------------
+> No file to patch.  Skipping patch.
+> 1 out of 1 hunk ignored
+> Patch disable-selinux.patch does not apply (enforce with -f)
+> ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_patch: Function failed:
+> patch_do_patch
+> ERROR: Logfile of failure stored in:
+> /opt/yocto/virt-builder/meta-virt-builder/tmp/work/corei7-64-poky-linux/criu/2.5+gitAUTOINC+c031417255-r0/temp/log.do_patch.24372
+> ERROR: Task
+> (/opt/yocto/repository/meta-virtualization/recipes-containers/criu/criu_git.bb:do_patch)
+> failed with exit code '1'
+>
+>
+> 2) If I remove the patch reference from the recipe the compilation seems run
+> fine but in the end I get this error:
+>
+> ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: QA Issue: criu: The
+> compile log indicates that host include and/or library paths were used.
+>          Please check the log
+> '/opt/yocto/virt-builder/meta-virt-builder/tmp/work/corei7-64-poky-linux/criu/2.5+gitAUTOINC+c031417255-r0/temp/log.do_compile'
+> for more information. [compile-host-path]
+> WARNING: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: QA Issue:
+> /usr/libexec/criu/scripts/systemd-autofs-restart.sh contained in package
+> criu requires /bin/bash, but no providers found in RDEPENDS_criu?
+> [file-rdeps]
+> ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: QA run found fatal
+> errors. Please consider fixing them.
+> ERROR: criu-2.5+gitAUTOINC+c031417255-r0 do_package_qa: Function failed:
+> do_package_qa
+> ERROR: Logfile of failure stored in:
+> /opt/yocto/virt-builder/meta-virt-builder/tmp/work/corei7-64-poky-linux/criu/2.5+gitAUTOINC+c031417255-r0/temp/log.do_package_qa.27615
+> ERROR: Task
+> (/opt/yocto/repository/meta-virtualization/recipes-containers/criu/criu_git.bb:do_package_qa)
+> failed with exit code '1'
+>
+>
+> Any idea on how to solve this?
 >
 > Best regards,
-> Theodor Gherzan
->
+>     Max
 >
 > --
 > _______________________________________________
@@ -116,50 +179,4 @@ Bruce
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
->
 
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---001a1147b35c979fcb054de8c0e4
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Mon, Apr 24, 2017 at 6:36 AM, Theodor Gherzan <span dir=3D"ltr">&lt;=
-<a href=3D"mailto:theodor@resin.io" target=3D"_blank">theodor@resin.io</a>&=
-gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div c=
-lass=3D"gmail_quote"><div dir=3D"ltr"><div>The oe-meta-go provider that thi=
-s layer suggest (<a href=3D"https://github.com/errordeveloper/oe-meta-go" t=
-arget=3D"_blank">https://github.com/errordevel<wbr>oper/oe-meta-go</a>)=C2=
-=A0seems to no longer be maintained. Is it safe to use a new version of it =
-(<a href=3D"https://github.com/mem/oe-meta-go" target=3D"_blank">https://gi=
-thub.com/mem/oe-met<wbr>a-go</a>)? This=C2=A0was forked from the one your l=
-ayer suggest but is actually maintained.</div></div></div></div></blockquot=
-e><div><br></div><div><br></div><div>Depends on the branch you are using of=
- meta-virt.</div><div><br></div><div>If it is anything but master, I haven&=
-#39;t been testing it with anything but the go support we have in meta-virt=
-.</div><div><br></div><div>If it is master, only oe-core is needed (and all=
- that I&#39;ve been testing).</div><div><br></div><div>Bruce</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmai=
-l_quote"><div dir=3D"ltr"><div><br></div><div>Best regards,</div><div>Theod=
-or Gherzan</div><div><br></div></div></div></div>
-<br>--<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
-ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
-not follow the NULL pointer, for chaos and madness await thee at its end&qu=
-ot;</div>
-</div></div>
-
---001a1147b35c979fcb054de8c0e4--
