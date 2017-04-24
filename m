@@ -1,17 +1,15 @@
-Return-Path: <pello.heriz@alumni.mondragon.edu>
+Return-Path: <theodor@resin.io>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2A1EFE00AB6; Mon, 24 Apr 2017 01:43:43 -0700 (PDT)
+	id 36A22E007BA; Mon, 24 Apr 2017 03:38:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, HTML_MESSAGE, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.174 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.161.174 listed in dnsbl.sorbs.net]
+X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, HTML_MESSAGE, RCVD_IN_DNSWL_LOW,
+	RCVD_IN_SORBS_SPAM autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
+	http://www.dnswl.org/, low *      trust
+	*      [209.85.214.50 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,43 +18,46 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f174.google.com (mail-yw0-f174.google.com
-	[209.85.161.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 70452E007BA
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.214.50 listed in dnsbl.sorbs.net]
+Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
+	[209.85.214.50])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC192E00349
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 24 Apr 2017 01:43:39 -0700 (PDT)
-Received: by mail-yw0-f174.google.com with SMTP id l18so15189814ywh.3
+	Mon, 24 Apr 2017 03:38:27 -0700 (PDT)
+Received: by mail-it0-f50.google.com with SMTP id x188so49129104itb.0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 24 Apr 2017 01:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=alumni.mondragon.edu; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=kwp1wEQhy5LfqZfzmk+qY4vpvalCSXqn5ipK3omnQkU=;
-	b=I6JzaMqKM81bn8OAgCYMTyE3HHnqtiXde9BSerz0C7OzdOjD6/4f7fjwNNqnv5y1w6
-	JUfusO5ysW+Iqy1XbQqTy/j7V2PxkdjTbPrCdP2DxohTLmn1UjDEiXbkh0yydGH0GMY6
-	ELRrJSTIs9V7sBhWUwMBkWm07CbPe8G2xqEXk=
+	Mon, 24 Apr 2017 03:38:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=resin.io; s=googledkim;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to; 
+	bh=gakfHmuFULbtSr8tcdWGT7x6d7G1Hqyk/7NhGHitdUs=;
+	b=i7BfhqfrlIzgaKUSAfNkQn2sCZh38Nt7BH8Nk2n07O25nzcqBwtducJujX89ATzT2c
+	+u4u/LkiKdmMTn0uU7ZMooZt4WPVJT+CdhjgL87DlamEZRvmjwQJs5UVA2RoLQNaEg1/
+	AtmU43rCPwsvPtS6XhHN3AzkocEq/6+Cr1yS4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=kwp1wEQhy5LfqZfzmk+qY4vpvalCSXqn5ipK3omnQkU=;
-	b=GCdTps/x/LM4N9xr1Xk30Y6OK41XveY0t1c3iiSbvQFUgUT3gX4AsnauELYk7KNoIk
-	GMg0Pqz/RU6FqofdUa8kmKGpuCcqT1HXsKKs0+EI6GE6fhA9T1fNJJ3wj3AcWCZy5lti
-	o67YIwTQER+dxpw+KaLpvRofBSgOHpt43L6QG7nHbaQfqw/EU6RundCS8JR6kMkrgzX4
-	t7fMyxhUE3WaHxuGAnO0+FfGyp6UFHl94Ecca6BSpmSM8fHMjP+dXeZB/C89IO/SjVtR
-	sYPNjos9+3Lhox8dzrJdG2dbOw3/AjcOsqaCWu4OMRb+4AuIgr20nqp5rCFSZSFNc95n
-	mhaA==
-X-Gm-Message-State: AN3rC/74K8bTfwL1SA1rgiD3Xzby2LgsuH7IAWJ5+kTdTM4E/puqSQGP
-	6PfKbq/4BFUqMP7ub5Q7wFBpAC/+wTud
-X-Received: by 10.157.8.183 with SMTP id 52mr12241400otf.251.1493023419312;
-	Mon, 24 Apr 2017 01:43:39 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=gakfHmuFULbtSr8tcdWGT7x6d7G1Hqyk/7NhGHitdUs=;
+	b=A0dXXJy/TiFAYcr1TzbF9eD5NTf+ztUP7MgmPqw2L6cdFAxgXxmeUQqe5nk5pyY443
+	7U6ELUJ7WGmP36uSXkSOMPVfCWpI1oPnukJaFZ4Jw+IlNCMtzR1ABspP5a9rszUXH7wc
+	gxd8FB6+rqxT1VJqAb8kAceYWZ9fJq0z5qHOZu2XdV7gt8gnvpQwIn2bC3s2aISGIDrn
+	lBLxNLVDZvGE/ZfHyvU5ipYKRKcp8fADnmgjFwKp4ccNBOPK4wuLz/SLtEi83FL/llIv
+	FtgFg4wuKx8tkRRhfnola+jFHETZZXM/BmOxX8MltyyA2PArkJx+DCAxv140DhbA2xFt
+	p3IA==
+X-Gm-Message-State: AN3rC/7YNZ5qG7xfBz7cqHNGO17Zb2y5e4bQThbT15tuVLU4ypbAgf3W
+	1za+t3E0Mxn3MJvywLV2/pWgTxwiD/iZ
+X-Received: by 10.98.215.26 with SMTP id b26mr23921780pfh.162.1493030200343;
+	Mon, 24 Apr 2017 03:36:40 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.157.5.74 with HTTP; Mon, 24 Apr 2017 01:43:39 -0700 (PDT)
-From: Pello Heriz <pello.heriz@alumni.mondragon.edu>
-Date: Mon, 24 Apr 2017 10:43:39 +0200
-Message-ID: <CAFL6qn6ZwbuGK5fkr3GP--6GvYaHe58t65HegD5TiVGCuGHm_g@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org, meta-xilinx@yoctoproject.org, 
-	yocto@yoctoproject.org, wendy.liang@xilinx.com, open-amp@googlegroups.com
-Subject: Build a Yocto image to be the guest (Dom1) in a system that uses Xen hypervisor and petalinux image for Dom0
+Received: by 10.100.131.65 with HTTP; Mon, 24 Apr 2017 03:36:39 -0700 (PDT)
+In-Reply-To: <CABORvUhYiNw4noLMiK=s10qucet3ZAJebFD8fDrELiSJpCQK3A@mail.gmail.com>
+References: <CABORvUhYiNw4noLMiK=s10qucet3ZAJebFD8fDrELiSJpCQK3A@mail.gmail.com>
+From: Theodor Gherzan <theodor@resin.io>
+Date: Mon, 24 Apr 2017 11:36:39 +0100
+Message-ID: <CABORvUgP0PmxFUpj75FwuqkRsNxJPcQBS-3grpXJvbuVDdhRQA@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: oe-meta-go provider
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -69,44 +70,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Apr 2017 08:43:43 -0000
-Content-Type: multipart/alternative; boundary=001a113edd0c8cc2a5054de59a54
+X-List-Received-Date: Mon, 24 Apr 2017 10:38:33 -0000
+Content-Type: multipart/alternative; boundary=f403045eb1c6bb22dc054de72e6c
 
---001a113edd0c8cc2a5054de59a54
+--f403045eb1c6bb22dc054de72e6c
 Content-Type: text/plain; charset=UTF-8
 
-Hi all,
+The oe-meta-go provider that this layer suggest (https://github.com/
+errordeveloper/oe-meta-go) seems to no longer be maintained. Is it safe to
+use a new version of it (https://github.com/mem/oe-meta-go)? This was
+forked from the one your layer suggest but is actually maintained.
 
-Finally I have compiled an image using Yocto that includes the
-meta-virtualization layer with DISTRO_FEATURES_append = " xen" in the
-local.conf file. I understand that this must be used to build an image to
-work as a Dom0 image with Xen. If I want to have a Dom1 guest image, would
-be enough to change this DISTRO_FEATURES_append into " xen-guest" in the
-local.conf file?? Do I need to do anything more?
-
-In the other side, if I want to implement a system that is described in the
-tittle of the message, do I need to include the open-amp layer to the guest
-image that I want to build in Yocto? And has this layer enough support?
-
-Looking forward to an answer,
 Best regards,
-Pello
+Theodor Gherzan
 
---001a113edd0c8cc2a5054de59a54
+--f403045eb1c6bb22dc054de72e6c
 Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi all,<div><br></div><div>Finally I have compiled an imag=
-e using Yocto that includes the meta-virtualization layer with=C2=A0DISTRO_=
-FEATURES_append =3D &quot; xen&quot; in the local.conf file. I understand t=
-hat this must be used to build an image to work as a Dom0 image with Xen. I=
-f I want to have a Dom1 guest image, would be enough to change this DISTRO_=
-FEATURES_append into &quot; xen-guest&quot; in the local.conf file?? Do I n=
-eed to do anything more?</div><div><br></div><div>In the other side, if I w=
-ant to implement a system that is described in the tittle of the message, d=
-o I need to include the open-amp layer to the guest image that I want to bu=
-ild in Yocto? And has this layer enough support?</div><div><br></div><div>L=
-ooking forward to an answer,</div><div>Best regards,</div><div>Pello</div><=
-/div>
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr"><div>The oe-me=
+ta-go provider that this layer suggest (<a href=3D"https://github.com/error=
+developer/oe-meta-go" target=3D"_blank">https://github.com/<wbr>errordevelo=
+per/oe-meta-go</a>)=C2=A0<wbr>seems to no longer be maintained. Is it safe =
+to use a new version of it (<a href=3D"https://github.com/mem/oe-meta-go" t=
+arget=3D"_blank">https://github.com/mem/oe-<wbr>meta-go</a>)? This=C2=A0was=
+ forked from the one your layer suggest but is actually maintained.</div><d=
+iv><br></div><div>Best regards,</div><div>Theodor Gherzan</div><div><br></d=
+iv></div></div></div>
 
---001a113edd0c8cc2a5054de59a54--
+--f403045eb1c6bb22dc054de72e6c--
