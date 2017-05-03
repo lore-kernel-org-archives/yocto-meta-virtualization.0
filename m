@@ -1,74 +1,60 @@
-Return-Path: <nathan@nathanrossi.com>
+Return-Path: <pello.heriz@alumni.mondragon.edu>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A3B00E009C2; Tue,  2 May 2017 10:23:11 -0700 (PDT)
+	id 26336E00AE0; Wed,  3 May 2017 00:21:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.195 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.161.195 listed in dnsbl.sorbs.net]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f195.google.com (mail-yw0-f195.google.com
-	[209.85.161.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 342DAE00972
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.218.54 listed in list.dnswl.org]
+Received: from mail-oi0-f54.google.com (mail-oi0-f54.google.com
+	[209.85.218.54])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F2E2BE00AE0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  2 May 2017 10:23:09 -0700 (PDT)
-Received: by mail-yw0-f195.google.com with SMTP id 203so12300124ywe.0
+	Wed,  3 May 2017 00:21:20 -0700 (PDT)
+Received: by mail-oi0-f54.google.com with SMTP id b204so12422927oii.1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 02 May 2017 10:23:09 -0700 (PDT)
+	Wed, 03 May 2017 00:21:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yOC4Tyhwgx4BSKMLXhj3baYXAGKGb+mZczE32/l4sWU=;
-	b=fkGJE7Y8fGITB03FD1NrK917L+P92OAXN2pJNUEWq4PFEEtbcUUaOpOB5Si+xFsSNK
-	CfeTdFDcOz4mgmtPwD+JyIlRYr3cWIGGxuvKx6S2v+440fASkfyiaqPl8cjlx1+E02c4
-	kGD+pU4LI3nRkibphdQyS6W4jL85GhVllCWq3unU4V4m+hZnVlsJVoi9wouDtx7MwlvK
-	V6HEsEDMZ8Kw6fCPwP0om3JvqAWl+SGcA1r0wiYBh67NW1K6tUiRcnIHNUkajOFzbmv7
-	q5EFjvjKrKd0Fb+jOuWfpYZnHJa4tEvix4dc9SH5qm6r6Wk8RnV97C3i6zfOiK2cx0P6
-	/grA==
+	d=alumni.mondragon.edu; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=fdefRkasPPAH5Fbn3oPyD7CXBl2aX+4wrepuepKDcqY=;
+	b=GPbwMNdy7vQc+/+EzZ25KatbvmVN2TjMEIPuUb3WsyruRrB1OtnOkhX0I/wNGrd+H8
+	f8m74vWGFZJhbjxCeiCP4t2Q3KweQvGAoMymg7gSfHaZFrnvnrIQrQQ8SxwSQ/D3eTa2
+	/b5KmkAgWz0jIAcjUIFp23L567gqjQJemozyU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=yOC4Tyhwgx4BSKMLXhj3baYXAGKGb+mZczE32/l4sWU=;
-	b=dtoeud9u85b7Rb1fqfrY/v/NjD3Ac8a920fcUbOgtZYjr7Lso+M6HVNXn+nHoL24JQ
-	oApvYqVHa/IWDwNsFBrR0bGv3A7ds9zqjmjHOloZ+EuAShG7NjmkIRWaPLg85P9T3tvU
-	T0qWmeiITiZevgGBVofHYI/t1CNrC+Vb6YjzTw9qWpzzPaSpY5rZN8f9cNf8yphz+aNH
-	49gmREqFH0JaBb0AsbEYQA1VqtsAXrzcMl4GolGBm2IrV6MAZPMKmbNW92D10i2X5I6Q
-	VkS6Llh+uavBZQ4UMMy5Rz5TLxYHy9BYtUqrYEaEKphI3rsrgD+3Zp7biUQa1dhYppc8
-	ZsRQ==
-X-Gm-Message-State: AN3rC/7fpQ3+fh8HzZCLrA3rZ+IGDELlyQOXDfe7iJWjNRxLlnehBd54
-	WaPEIQS5EdCngFhcYCPnojbpsbAxAw==
-X-Received: by 10.129.69.13 with SMTP id s13mr28362492ywa.46.1493745788952;
-	Tue, 02 May 2017 10:23:08 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=fdefRkasPPAH5Fbn3oPyD7CXBl2aX+4wrepuepKDcqY=;
+	b=cZZLKcWguQPM/gJKu0DiNkLjQEQr62gUrvjcA16dUyo+83IR0La7bKxfJLOaEqrbNL
+	Xqf/KK1lWkbnvDmHcyhzkDXHUFUnheAiY+Q62DqpzC46AYy98t3TWKflghgv+51SNf0w
+	XrMjxCrYPqe+JljJRHKB/3BQYZdGD0b8H4LL8B5zWlY8f2vrxoHfaqZzCLZQ2iBzt8S6
+	2K9mohJftgbRE0GTXOEjXiZjn8hB/nQWx0Il0Nz8srIWdOJPUL1YiLD75wPLZR7Pmn1c
+	Bp4+5WFulxsDPp/YLXNsK0dgBJu0FHO/EBO5TlStcgC4G+h/omWrQmuN4eAkec59pHMH
+	3XSA==
+X-Gm-Message-State: AN3rC/41vSGjXN2vTmtYv0nJUMV5j+GIibvBXULE/DSjxDs+tdDdjP3h
+	XGKoKPz/WQf3Dugi7HpuwIl5IJfrwcbq
+X-Received: by 10.157.18.144 with SMTP id g16mr14974210otg.10.1493796080089;
+	Wed, 03 May 2017 00:21:20 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.37.52.79 with HTTP; Tue, 2 May 2017 10:23:08 -0700 (PDT)
-In-Reply-To: <14EB1FFCA0C8D24A8B04EDEC1EA78C2458A8CB02@XSJ-PSEXMBX01.xlnx.xilinx.com>
-References: <CAFL6qn5czUYrKRLPxhZbj7EEAgMu_dFr89WNsDBaYxVWKppM_w@mail.gmail.com>
-	<b383700f-54c5-7ff1-92a7-89916c413f1a@gmail.com>
-	<14EB1FFCA0C8D24A8B04EDEC1EA78C2458A8CB02@XSJ-PSEXMBX01.xlnx.xilinx.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Wed, 3 May 2017 03:23:08 +1000
-Message-ID: <CA+aJhH0VpaJsXyBMMN5XYVmOAu0BsUk87ep-WdC8bmiSBJ_A3g@mail.gmail.com>
-To: Manjukumar Harthikote Matha <manjukumar.harthikote-matha@xilinx.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"meta-xilinx@yoctoproject.org" <meta-xilinx@yoctoproject.org>,
-	Jason Wu <jason.wu.misc@gmail.com>, "meta-xilinx-request@yoctoproject.org"
-	<meta-xilinx-request@yoctoproject.org>
-Subject: Re: [meta-xilinx] xen-image-minimal testing
+Received: by 10.157.12.181 with HTTP; Wed, 3 May 2017 00:21:19 -0700 (PDT)
+From: Pello Heriz <pello.heriz@alumni.mondragon.edu>
+Date: Wed, 3 May 2017 09:21:19 +0200
+Message-ID: <CAFL6qn7SykziH4rvKmcw2Gd0z5SEafiimTYkkhOAGe13vm+-TA@mail.gmail.com>
+To: meta-xilinx@yoctoproject.org, yocto@yoctoproject.org, 
+	meta-virtualization@yoctoproject.org
+Subject: Redis on Yocto
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,58 +67,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 May 2017 17:23:11 -0000
+X-List-Received-Date: Wed, 03 May 2017 07:21:25 -0000
+Content-Type: multipart/alternative; boundary=94eb2c03bc6cb8edff054e99803b
+
+--94eb2c03bc6cb8edff054e99803b
 Content-Type: text/plain; charset=UTF-8
 
-On 3 May 2017 at 02:47, Manjukumar Harthikote Matha
-<manjukumar.harthikote-matha@xilinx.com> wrote:
->
->
->> -----Original Message-----
->> From: meta-xilinx-bounces@yoctoproject.org [mailto:meta-xilinx-
->> bounces@yoctoproject.org] On Behalf Of Jason Wu
->> Sent: Tuesday, May 02, 2017 2:16 AM
->> To: Pello Heriz <pello.heriz@alumni.mondragon.edu>; meta-
->> xilinx@yoctoproject.org; meta-xilinx-request@yoctoproject.org; meta-
->> virtualization@yoctoproject.org; yocto@yoctoproject.org
->> Subject: Re: [meta-xilinx] xen-image-minimal testing
->>
->>
->>
->> On 2/05/2017 4:33 PM, Pello Heriz wrote:
->> > Hi all,
->> >
->> > I have built an image using "xen-image-minimal" command with Yocto and
->> > I would want to know how can I test if xen functionalities are correct
->> > or not with Zynq MPSoC QEMU. How can I do this?
->> http://www.wiki.xilinx.com/Building+the+Xen+Hypervisor+with+PetaLinux+2016.4+
->> and+newer
->>
->> have look at the "TFTP Booting Xen and Dom0 2016.4" section and hope that helps.
->>
->> >
->> > Anyway, I have seen that sometimes in the QEMU terminal appears the
->> > next message when the mentioned image is launched by "runqemu zcu102".
->> >
->> > INIT: Id "X0" respawning too fast: disabled for 5 minutes
->> >
->> > What's the meaning of the message? Is it critical?
->> It is not critical if you don't need it. The reason you are getting this error message is
->> because the your inittab trying spawn a console when the device node (e.g. hvc0) for
->> Id "X0" does not exists.
->>
->
-> Is there a way to stop inittab from doing this?
-> Tried few options for initiab, for ex: using "once" instead of "spawn"
->
-> Any other good ideas on how we can disable it? Or what is a better approach to resolve this issue during runtime
+Hi,
 
-Change the sysvinit-inittab bbappend in meta-virtualization use
-start_getty instead of just getty, start_getty does a 'test -c' before
-starting getty on the device. This is how sysvinit-inittab handles
-SERIAL_CONSOLES. Alternatively the meta-virtualization bbappend could
-just expand SERIAL_CONSOLES.
+I want to implement Redis in an image that I have created with Yocto master
+branch. What I have understood is that there are some recipes into meta-oe
+layer that support to have Redis in the created image. Anyway, what steps
+do I need to do in order to install/start-up/execute Redis in the created
+image on MPSoC QEMU?
 
-Regards,
-Nathan
+Any answer will be welcome,
 
+Best regards,
+Pello
+
+--94eb2c03bc6cb8edff054e99803b
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>I want to implement Redis in an ima=
+ge that I have created with Yocto master branch. What I have understood is =
+that there are some recipes into meta-oe layer that support to have Redis i=
+n the created image. Anyway, what steps do I need to do in order to install=
+/start-up/execute Redis in the created image on MPSoC QEMU?</div><div><br><=
+/div><div>Any answer will be welcome,</div><div><br></div><div>Best regards=
+,</div><div>Pello</div></div>
+
+--94eb2c03bc6cb8edff054e99803b--
