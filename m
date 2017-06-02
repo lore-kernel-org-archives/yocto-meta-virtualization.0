@@ -1,72 +1,41 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 29EA3E00B49; Thu,  1 Jun 2017 09:00:05 -0700 (PDT)
+	id C7AA9E00B67; Thu,  1 Jun 2017 23:14:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.220.172 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.220.172 listed in dnsbl.sorbs.net]
-Received: from mail-qk0-f172.google.com (mail-qk0-f172.google.com
-	[209.85.220.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A0681E00B43
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+X-Greylist: delayed 64 seconds by postgrey-1.32 at yocto-www;
+	Thu, 01 Jun 2017 23:14:51 PDT
+Received: from heian.cn.fujitsu.com (unknown [59.151.112.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C9982E00B5C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  1 Jun 2017 09:00:03 -0700 (PDT)
-Received: by mail-qk0-f172.google.com with SMTP id 19so39975761qke.2
+	Thu,  1 Jun 2017 23:14:51 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.22,518,1449504000"; d="scan'208";a="19577151"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 02 Jun 2017 14:13:38 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id D4C0C47C6531
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 01 Jun 2017 09:00:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tafOQCK3xFqHsqATpaeyQQKkJT1KUZSAL1xSTdsOPVU=;
-	b=Fz88CwxFgGNn4gHHK8tA3yQwA15D5pW353qF8wE5SbTRrsk6pxb0lTvyu0GVb8jPWS
-	sE3JnxPNefEHurTBBEAIoff23AedZ9kDlLWUvv8GeD4APc6WAKuaypqPp+MJsQK7jcWA
-	J7CSD2UMP0NpMBapaf2JaTJrpgIrnrL7cOtBhWUKxcoRlR5s5o0L1RFRGYp92Gmp7hxV
-	2xPI9lmnP7iA2dA2eddVFu/Jdg6oJL8xCeOuZZ0Bh33xKjGLbgT2e59jVyuHUWAC18I8
-	hlGMdFk0UviID+mgVgf6r18O3OR3E96fVdVxordiGT0W1R6biUDFaEFAQrlJI+7HZ5yx
-	0oYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tafOQCK3xFqHsqATpaeyQQKkJT1KUZSAL1xSTdsOPVU=;
-	b=RAr50QoiNLEHGOj1HIG28Cb+SL/MJWiqcySp2H6kUi2TH4BkMTyy1bcCSSnQnkts0z
-	FRbBv9pz7sF53smd+AD9UpPoxyBeKuirsfTqt3g5UAp42vNwjhzDfRcFQlpzOvPekCjt
-	babhVTLGSB01oCErd1Pw08rlJF+ZkJYhug8xVwj/2vsiaJ6qXvFXPfYlWGC7fp9rDprk
-	QklsO4ZEdvVSTApU8tD9Ms7EBE89AruhwR7u5qxc0UXObGKtXecQqDwa+ef4gIXdjsh0
-	Vk+xJE8TzAqK8xkEnkjUxSTYa2HtovMaBN/Qg1srx9KFbP+fU0ve7wcoIUEoJqx12Zm5
-	wDjA==
-X-Gm-Message-State: AKS2vOyy3q73/TitmWSLUTUqxrLYAglrhwaWvyaFsSV0LO6mwIX3+Obz
-	ZNja44rdhF2cyqczvHPcnqeUNz1RxA==
-X-Received: by 10.55.118.199 with SMTP id r190mr2763059qkc.43.1496332802638;
-	Thu, 01 Jun 2017 09:00:02 -0700 (PDT)
+	Fri,  2 Jun 2017 14:13:39 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.81) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Fri, 2 Jun 2017 14:13:39 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 2 Jun 2017 14:13:22 +0800
+Message-ID: <1496384002-11812-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.12.182.109 with HTTP; Thu, 1 Jun 2017 09:00:02 -0700 (PDT)
-In-Reply-To: <CAPuovEKKWNCbadFVa3gViV_x2CcD-rSzV2dwO2smw7M7XQ85Tw@mail.gmail.com>
-References: <1495541635-40607-1-git-send-email-adrian.dudau@enea.com>
-	<CAPuovEKKWNCbadFVa3gViV_x2CcD-rSzV2dwO2smw7M7XQ85Tw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 1 Jun 2017 12:00:02 -0400
-Message-ID: <CADkTA4Mgp1b7DSqaLbn3HDF+C12-f5qaWZcphXsnZXmFxLrjAA@mail.gmail.com>
-To: "M. Asselstine" <asselsm@mcmaster.ca>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][PATCH] python: Inherit setuptools instead of distutils for several packages
+X-Originating-IP: [10.167.226.81]
+X-yoursite-MailScanner-ID: D4C0C47C6531.AA008
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+Subject: [PATCH] lxc: 2.0.0 -> 2.0.8
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -79,318 +48,432 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 01 Jun 2017 16:00:05 -0000
-Content-Type: multipart/alternative; boundary="94eb2c05e3642ac7f70550e8214b"
+X-List-Received-Date: Fri, 02 Jun 2017 06:14:56 -0000
+Content-Type: text/plain
 
---94eb2c05e3642ac7f70550e8214b
-Content-Type: text/plain; charset="UTF-8"
+1) Upgrade lxc from 2.0.0 to 2.0.8.
+2) Delete two patches, since it is integrated upstream.
+   Generate-lxc-restore-net-properly.patch
+   Use-AC_HEADER_MAJOR-to-detect-major-minor-makedev.patch
+3) Modify two patches, since the data has been changed.
+   automake-ensure-VPATH-builds-correctly.patch
+   runtest.patch
+4) Add new patch "glibc.patch".
 
-On Wed, May 31, 2017 at 1:14 PM, M. Asselstine <asselsm@mcmaster.ca> wrote:
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+---
+ .../files/Generate-lxc-restore-net-properly.patch  | 121 ---------------------
+ ...EADER_MAJOR-to-detect-major-minor-makedev.patch | 119 --------------------
+ .../automake-ensure-VPATH-builds-correctly.patch   |   2 +-
+ recipes-containers/lxc/files/glibc.patch           |  33 ++++++
+ recipes-containers/lxc/files/runtest.patch         |   2 +-
+ .../lxc/{lxc_2.0.0.bb => lxc_2.0.8.bb}             |  31 +++---
+ 6 files changed, 48 insertions(+), 260 deletions(-)
+ delete mode 100644 recipes-containers/lxc/files/Generate-lxc-restore-net-properly.patch
+ delete mode 100644 recipes-containers/lxc/files/Use-AC_HEADER_MAJOR-to-detect-major-minor-makedev.patch
+ create mode 100644 recipes-containers/lxc/files/glibc.patch
+ rename recipes-containers/lxc/{lxc_2.0.0.bb => lxc_2.0.8.bb} (87%)
 
-> On Tue, May 23, 2017 at 8:13 AM, Adrian Dudau <adrian.dudau@enea.com>
-> wrote:
-> > python-appdirs
-> > python-keystoneauth
-> > python-lesscpy
-> > python-os-client-config
-> >
-> > The setup scripts of these modules use setuptools instead of distutils,
-> > resulting in errors like this:
-> >
-> > |   File "setup.py", line 5, in <module>
-> > |     from setuptools import setup
-> > | ImportError: No module named setuptools
-> >
-> > Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
->
->
-> Agreed. The setup.py for all of these packages have some form of
-> 'import setuptools' so this is the correct change. I mentioned to
-> Bruce I would have a look at these as I know in the past we have had
-> some flip-flopping in this regard. Anyways, Bruce this change is fine
-> and at least in my mind OK to merge.
->
-
-Thanks for the review, I was looking for another opinion!
-
-This is now merged.
-
-Bruce
-
-
->
-> Mark
->
-> > ---
-> >  meta-openstack/recipes-devtools/python/python-appdirs_git.bb
-> | 2 +-
-> >  meta-openstack/recipes-devtools/python/python-keystoneauth1_2.18.0.bb
-> | 2 +-
-> >  meta-openstack/recipes-devtools/python/python-lesscpy_0.10.2.bb
->  | 2 +-
-> >  meta-openstack/recipes-devtools/python/python-os-client-config_git.bb
-> | 2 +-
-> >  4 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta-openstack/recipes-devtools/python/python-
-> appdirs_git.bb b/meta-openstack/recipes-devtools/python/python-
-> appdirs_git.bb
-> > index 8e40f26..2482871 100644
-> > --- a/meta-openstack/recipes-devtools/python/python-appdirs_git.bb
-> > +++ b/meta-openstack/recipes-devtools/python/python-appdirs_git.bb
-> > @@ -12,7 +12,7 @@ SRC_URI = "git://github.com/ActiveState/${SRCNAME}.git
-> "
-> >
-> >  S = "${WORKDIR}/git"
-> >
-> > -inherit distutils
-> > +inherit setuptools
-> >
-> >  DEPENDS += " \
-> >          python-pip \
-> > diff --git a/meta-openstack/recipes-devtools/python/python-
-> keystoneauth1_2.18.0.bb b/meta-openstack/recipes-devtools/python/python-
-> keystoneauth1_2.18.0.bb
-> > index 1fdf9e1..83582c5 100644
-> > --- a/meta-openstack/recipes-devtools/python/python-
-> keystoneauth1_2.18.0.bb
-> > +++ b/meta-openstack/recipes-devtools/python/python-
-> keystoneauth1_2.18.0.bb
-> > @@ -12,7 +12,7 @@ SRC_URI[sha256sum] = "075a9ca7a8877c5885fa2487699015
-> e45260c4e6be119683effe0ad2ab
-> >
-> >  S = "${WORKDIR}/${SRCNAME}-${PV}"
-> >
-> > -inherit distutils
-> > +inherit setuptools
-> >
-> >  DEPENDS += " \
-> >          python-pbr \
-> > diff --git a/meta-openstack/recipes-devtools/python/python-
-> lesscpy_0.10.2.bb b/meta-openstack/recipes-devtools/python/python-
-> lesscpy_0.10.2.bb
-> > index 61ae935..71e0dc0 100644
-> > --- a/meta-openstack/recipes-devtools/python/python-lesscpy_0.10.2.bb
-> > +++ b/meta-openstack/recipes-devtools/python/python-lesscpy_0.10.2.bb
-> > @@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "ccad1ad2a89ced1875c5ca4e16e547
-> 8b791d31fb187fe29f1541859318
-> >
-> >  S = "${WORKDIR}/${SRCNAME}-${PV}"
-> >
-> > -inherit distutils
-> > +inherit setuptools
-> >
-> >  DISTUTILS_INSTALL_ARGS = "--root=${D} \
-> >      --prefix=${prefix} \
-> > diff --git a/meta-openstack/recipes-devtools/python/python-os-
-> client-config_git.bb b/meta-openstack/recipes-devtools/python/python-os-
-> client-config_git.bb
-> > index 7b55dbb..5393bb7 100644
-> > --- a/meta-openstack/recipes-devtools/python/python-os-
-> client-config_git.bb
-> > +++ b/meta-openstack/recipes-devtools/python/python-os-
-> client-config_git.bb
-> > @@ -12,7 +12,7 @@ SRC_URI = "git://github.com/openstack/${
-> SRCNAME}.git;branch=stable/newton"
-> >
-> >  S = "${WORKDIR}/git"
-> >
-> > -inherit distutils
-> > +inherit setuptools
-> >
-> >  DEPENDS += " \
-> >          python-pbr \
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > meta-virtualization mailing list
-> > meta-virtualization@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/meta-virtualization
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
+diff --git a/recipes-containers/lxc/files/Generate-lxc-restore-net-properly.patch b/recipes-containers/lxc/files/Generate-lxc-restore-net-properly.patch
+deleted file mode 100644
+index 5adb730..0000000
+--- a/recipes-containers/lxc/files/Generate-lxc-restore-net-properly.patch
++++ /dev/null
+@@ -1,121 +0,0 @@
+-From e08f3573b3561f1f0490624f7ca95b7ccd8157cb Mon Sep 17 00:00:00 2001
+-Message-Id: <e08f3573b3561f1f0490624f7ca95b7ccd8157cb.1435177418.git.Jim.Somerville@windriver.com>
+-From: Jim Somerville <Jim.Somerville@windriver.com>
+-Date: Wed, 24 Jun 2015 16:16:38 -0400
+-Subject: [PATCH 1/1] Generate lxc-restore-net properly
+-
+-It's a script that should be run through the configure
+-mechanism the same as the others.  We simply rename it
+-to have a .in extension and add it to configure.ac .
+-
+-Also, by generating the script from a .in file, it gets
+-placed into the build directory.  This plays nice with
+-build systems that keep the src separate from the build
+-directory.  Without this change, the install step won't
+-find the lxc-restore-net script as it still just resides
+-in the src directory and not in the build directory.
+-
+-Upstream-Status: Not applicable.  This script has already
+-been rearchitected out of existence by
+-cba98d127bf490b018a016b792ae05fd2d29c5ee:
+-"c/r: use criu option instead of lxc-restore-net
+-
+-As of criu 1.5, the --veth-pair argument supports an additional parameter that
+-is the bridge name to attach to. This enables us to get rid of the goofy
+-action-script hack that passed bridge names as environment variables.
+-
+-This patch is on top of the systemd/lxcfs mount rework patch, as we probably
+-want to wait to use 1.5 options until it has been out for a while and is in
+-distros.
+-
+-Signed-off-by: Tycho Andersen <tycho.andersen@canonical.com>
+-Acked-by: Serge E. Hallyn <serge.hallyn@ubuntu.com>"
+-
+-Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
+----
+- configure.ac               |  1 +
+- src/lxc/lxc-restore-net    | 26 --------------------------
+- src/lxc/lxc-restore-net.in | 26 ++++++++++++++++++++++++++
+- 3 files changed, 27 insertions(+), 26 deletions(-)
+- delete mode 100755 src/lxc/lxc-restore-net
+- create mode 100755 src/lxc/lxc-restore-net.in
+-
+-diff --git a/configure.ac b/configure.ac
+-index 574b2cd..4972803 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -768,6 +768,7 @@ AC_CONFIG_FILES([
+- 	src/lxc/legacy/lxc-ls
+- 	src/lxc/lxc.functions
+- 	src/lxc/version.h
+-+	src/lxc/lxc-restore-net
+- 	src/python-lxc/Makefile
+- 	src/python-lxc/setup.py
+- 
+-diff --git a/src/lxc/lxc-restore-net b/src/lxc/lxc-restore-net
+-deleted file mode 100755
+-index 6ae3c19..0000000
+---- a/src/lxc/lxc-restore-net
+-+++ /dev/null
+-@@ -1,26 +0,0 @@
+--#!/bin/sh
+--
+--set -e
+--
+--i=0
+--while true; do
+--	eval "bridge=\$LXC_CRIU_BRIDGE$i"
+--	eval "veth=\$LXC_CRIU_VETH$i"
+--
+--	if [ -z "$bridge" ] || [ -z "$veth" ]; then
+--		exit 0
+--	fi
+--
+--	if [ "$CRTOOLS_SCRIPT_ACTION" = "network-lock" ]; then
+--		brctl delif $bridge $veth
+--	fi
+--
+--	if [ "$CRTOOLS_SCRIPT_ACTION" = "network-unlock" ]; then
+--		brctl addif $bridge $veth
+--		ip link set dev $veth up
+--	fi
+--
+--	i=$((i+1))
+--done
+--
+--exit 1
+-diff --git a/src/lxc/lxc-restore-net.in b/src/lxc/lxc-restore-net.in
+-new file mode 100755
+-index 0000000..6ae3c19
+---- /dev/null
+-+++ b/src/lxc/lxc-restore-net.in
+-@@ -0,0 +1,26 @@
+-+#!/bin/sh
+-+
+-+set -e
+-+
+-+i=0
+-+while true; do
+-+	eval "bridge=\$LXC_CRIU_BRIDGE$i"
+-+	eval "veth=\$LXC_CRIU_VETH$i"
+-+
+-+	if [ -z "$bridge" ] || [ -z "$veth" ]; then
+-+		exit 0
+-+	fi
+-+
+-+	if [ "$CRTOOLS_SCRIPT_ACTION" = "network-lock" ]; then
+-+		brctl delif $bridge $veth
+-+	fi
+-+
+-+	if [ "$CRTOOLS_SCRIPT_ACTION" = "network-unlock" ]; then
+-+		brctl addif $bridge $veth
+-+		ip link set dev $veth up
+-+	fi
+-+
+-+	i=$((i+1))
+-+done
+-+
+-+exit 1
+--- 
+-1.8.3.2
+-
+diff --git a/recipes-containers/lxc/files/Use-AC_HEADER_MAJOR-to-detect-major-minor-makedev.patch b/recipes-containers/lxc/files/Use-AC_HEADER_MAJOR-to-detect-major-minor-makedev.patch
+deleted file mode 100644
+index f9cecc0..0000000
+--- a/recipes-containers/lxc/files/Use-AC_HEADER_MAJOR-to-detect-major-minor-makedev.patch
++++ /dev/null
+@@ -1,119 +0,0 @@
+-From 5c957671a511441b112b137b88bf0b1f31adac20 Mon Sep 17 00:00:00 2001
+-From: Sergei Trofimovich <siarheit@google.com>
+-Date: Sat, 21 Jan 2017 11:57:13 +0000
+-Subject: [PATCH] Use AC_HEADER_MAJOR to detect major()/minor()/makedev()
+-
+-commit af6824fce9c9536fbcabef8d5547f6c486f55fdf from
+-git://github.com/lxc/lxc.git
+-
+-Before the change build failed on Gentoo as:
+-
+-  bdev/lxclvm.c: In function 'lvm_detect':
+-  bdev/lxclvm.c:140:4: error: implicit declaration of function 'major' [-Werror=implicit-function-declaration]
+-    major(statbuf.st_rdev), minor(statbuf.st_rdev));
+-    ^~~~~
+-  bdev/lxclvm.c:140:28: error: implicit declaration of function 'minor' [-Werror=implicit-function-declaration]
+-    major(statbuf.st_rdev), minor(statbuf.st_rdev));
+-                            ^~~~~
+-
+-glibc plans to remove <sys/sysmacros.h> from glibc's <sys/types.h>:
+-    https://sourceware.org/ml/libc-alpha/2015-11/msg00253.html
+-
+-Gentoo already applied glibc patch to experimental glibc-2.24
+-to start preparingfor the change.
+-
+-Autoconf has AC_HEADER_MAJOR to find out which header defines
+-reqiured macros:
+-    https://www.gnu.org/software/autoconf/manual/autoconf-2.69/html_node/Particular-Headers.html
+-
+-This change should also increase portability across other libcs.
+-
+-Bug: https://bugs.gentoo.org/604360
+-Signed-off-by: Sergei Trofimovich <siarheit@google.com>
+-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+----
+- configure.ac           | 3 +++
+- src/lxc/bdev/lxclvm.c  | 9 +++++++++
+- src/lxc/conf.c         | 8 ++++++++
+- src/lxc/lxccontainer.c | 8 ++++++++
+- 4 files changed, 28 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 8f31c29..924baa1 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -601,6 +601,9 @@ AC_CHECK_DECLS([PR_CAPBSET_DROP], [], [], [#include <sys/prctl.h>])
+- # Check for some headers
+- AC_CHECK_HEADERS([sys/signalfd.h pty.h ifaddrs.h sys/capability.h sys/personality.h utmpx.h sys/timerfd.h])
+- 
+-+# lookup major()/minor()/makedev()
+-+AC_HEADER_MAJOR
+-+
+- # Check for some syscalls functions
+- AC_CHECK_FUNCS([setns pivot_root sethostname unshare rand_r confstr faccessat])
+- 
+-diff --git a/src/lxc/bdev/lxclvm.c b/src/lxc/bdev/lxclvm.c
+-index 3d41b10..419d1c2 100644
+---- a/src/lxc/bdev/lxclvm.c
+-+++ b/src/lxc/bdev/lxclvm.c
+-@@ -32,10 +32,19 @@
+- #include <sys/wait.h>
+- 
+- #include "bdev.h"
+-+#include "config.h"
+- #include "log.h"
+- #include "lxclvm.h"
+- #include "utils.h"
+- 
+-+/* major()/minor() */
+-+#ifdef MAJOR_IN_MKDEV
+-+#    include <sys/mkdev.h>
+-+#endif
+-+#ifdef MAJOR_IN_SYSMACROS
+-+#    include <sys/sysmacros.h>
+-+#endif
+-+
+- lxc_log_define(lxclvm, lxc);
+- 
+- extern char *dir_new_path(char *src, const char *oldname, const char *name,
+-diff --git a/src/lxc/conf.c b/src/lxc/conf.c
+-index 3b023ef..53406ca 100644
+---- a/src/lxc/conf.c
+-+++ b/src/lxc/conf.c
+-@@ -39,6 +39,14 @@
+- #include <grp.h>
+- #include <time.h>
+- 
+-+/* makedev() */
+-+#ifdef MAJOR_IN_MKDEV
+-+#    include <sys/mkdev.h>
+-+#endif
+-+#ifdef MAJOR_IN_SYSMACROS
+-+#    include <sys/sysmacros.h>
+-+#endif
+-+
+- #ifdef HAVE_STATVFS
+- #include <sys/statvfs.h>
+- #endif
+-diff --git a/src/lxc/lxccontainer.c b/src/lxc/lxccontainer.c
+-index 9f12ca2..aa02833 100644
+---- a/src/lxc/lxccontainer.c
+-+++ b/src/lxc/lxccontainer.c
+-@@ -61,6 +61,14 @@
+- #include "utils.h"
+- #include "version.h"
+- 
+-+/* major()/minor() */
+-+#ifdef MAJOR_IN_MKDEV
+-+#    include <sys/mkdev.h>
+-+#endif
+-+#ifdef MAJOR_IN_SYSMACROS
+-+#    include <sys/sysmacros.h>
+-+#endif
+-+
+- #if HAVE_IFADDRS_H
+- #include <ifaddrs.h>
+- #else
+--- 
+-2.7.4
+-
+diff --git a/recipes-containers/lxc/files/automake-ensure-VPATH-builds-correctly.patch b/recipes-containers/lxc/files/automake-ensure-VPATH-builds-correctly.patch
+index 2b5c853..61c0e29 100644
+--- a/recipes-containers/lxc/files/automake-ensure-VPATH-builds-correctly.patch
++++ b/recipes-containers/lxc/files/automake-ensure-VPATH-builds-correctly.patch
+@@ -15,7 +15,7 @@ index d74c10d..6225f78 100644
+ @@ -66,7 +66,7 @@ buildtest-TESTS: $(TESTS)
+  install-ptest:
+  	install -d $(TEST_DIR)
+- 	install -D ../lxc/liblxc.so $(TEST_DIR)/../lxc/liblxc.so
++ 	install -D ../lxc/.libs/liblxc.so $(TEST_DIR)/../lxc/liblxc.so
+ -	install -D ../../config/test-driver $(TEST_DIR)/../../config/test-driver
+ +	install -D $(top_srcdir)/config/test-driver $(TEST_DIR)/../../config/test-driver
+  	cp Makefile $(TEST_DIR)
+diff --git a/recipes-containers/lxc/files/glibc.patch b/recipes-containers/lxc/files/glibc.patch
+new file mode 100644
+index 0000000..5beb6e1
+--- /dev/null
++++ b/recipes-containers/lxc/files/glibc.patch
+@@ -0,0 +1,33 @@
++diff -uNr lxc-2.0.5.orig/src/lxc/bdev/lxclvm.c lxc-2.0.5/src/lxc/bdev/lxclvm.c
++--- lxc-2.0.5.orig/src/lxc/bdev/lxclvm.c	2016-10-05 11:47:41.000000000 +0200
+++++ lxc-2.0.5/src/lxc/bdev/lxclvm.c	2017-02-03 19:45:06.461468704 +0100
++@@ -30,6 +30,7 @@
++ #include <string.h>
++ #include <unistd.h>
++ #include <sys/wait.h>
+++#include <sys/sysmacros.h>
++ 
++ #include "bdev.h"
++ #include "log.h"
++diff -uNr lxc-2.0.5.orig/src/lxc/conf.c lxc-2.0.5/src/lxc/conf.c
++--- lxc-2.0.5.orig/src/lxc/conf.c	2016-10-05 11:47:41.000000000 +0200
+++++ lxc-2.0.5/src/lxc/conf.c	2017-02-03 19:45:09.990469005 +0100
++@@ -35,6 +35,7 @@
++ #include <sys/wait.h>
++ #include <sys/syscall.h>
++ #include <sys/types.h>
+++#include <sys/sysmacros.h>
++ #include <pwd.h>
++ #include <grp.h>
++ #include <time.h>
++diff -uNr lxc-2.0.5.orig/src/lxc/lxccontainer.c lxc-2.0.5/src/lxc/lxccontainer.c
++--- lxc-2.0.5.orig/src/lxc/lxccontainer.c	2016-10-05 11:47:41.000000000 +0200
+++++ lxc-2.0.5/src/lxc/lxccontainer.c	2017-02-03 19:44:57.093467907 +0100
++@@ -36,6 +36,7 @@
++ #include <sys/mount.h>
++ #include <sys/syscall.h>
++ #include <sys/types.h>
+++#include <sys/sysmacros.h>
++ #include <sys/wait.h>
++ 
++ #include "attach.h"
+diff --git a/recipes-containers/lxc/files/runtest.patch b/recipes-containers/lxc/files/runtest.patch
+index e4e034b..6572265 100644
+--- a/recipes-containers/lxc/files/runtest.patch
++++ b/recipes-containers/lxc/files/runtest.patch
+@@ -19,7 +19,7 @@ diff -uNr a/src/tests/Makefile.am b/src/tests/Makefile.am
+ +
+ +install-ptest:
+ +	install -d $(TEST_DIR)
+-+	install -D ../lxc/liblxc.so $(TEST_DIR)/../lxc/liblxc.so
+++	install -D ../lxc/.libs/liblxc.so $(TEST_DIR)/../lxc/liblxc.so
+ +	install -D ../../config/test-driver $(TEST_DIR)/../../config/test-driver
+ +	cp Makefile $(TEST_DIR)
+ +	@(for file in $(TESTS); do install $$file $(TEST_DIR);  done;)
+diff --git a/recipes-containers/lxc/lxc_2.0.0.bb b/recipes-containers/lxc/lxc_2.0.8.bb
+similarity index 87%
+rename from recipes-containers/lxc/lxc_2.0.0.bb
+rename to recipes-containers/lxc/lxc_2.0.8.bb
+index c98d1a7..80c8da7 100644
+--- a/recipes-containers/lxc/lxc_2.0.0.bb
++++ b/recipes-containers/lxc/lxc_2.0.8.bb
+@@ -2,7 +2,6 @@ DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspac
+ SECTION = "console/utils"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-PRIORITY = "optional"
+ DEPENDS = "libxml2 libcap"
+ RDEPENDS_${PN} = " \
+ 		rsync \
+@@ -10,7 +9,6 @@ RDEPENDS_${PN} = " \
+ 		libcap-bin \
+ 		bridge-utils \
+ 		dnsmasq \
+-		initscripts \
+ 		perl-module-strict \
+ 		perl-module-getopt-long \
+ 		perl-module-vars \
+@@ -20,11 +18,7 @@ RDEPENDS_${PN} = " \
+ 		perl-module-overload \
+ 		perl-module-exporter-heavy \
+ "
+-RDEPENDS_${PN}_append_libc-glibc = "\
+-		glibc-utils \
+-"
+-
+-RDEPENDS_${PN}-ptest += "file make"
++RDEPENDS_${PN}-ptest += "file make gmp nettle gnutls"
+ 
+ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
+@@ -34,11 +28,10 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://lxc-fix-B-S.patch \
+ 	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
+ 	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
+-	file://Use-AC_HEADER_MAJOR-to-detect-major-minor-makedev.patch \
+ 	"
+ 
+-SRC_URI[md5sum] = "04a7245a614cd3296b0ae9ceeeb83fbb"
+-SRC_URI[sha256sum] = "5b737e114d8ef1feb193fba936d77a5697a7c8a10199a068cdd90d1bd27c10e4"
++SRC_URI[md5sum] = "7bfd95280522d7936c0979dfea92cdb5"
++SRC_URI[sha256sum] = "0d8e34b302cfe4c40c6c9ae5097096aa5cc2c1dfceea3f0f22e3e16c4a4e8494"
+ 
+ S = "${WORKDIR}/${BPN}-${PV}"
+ 
+@@ -87,19 +80,21 @@ FILES_${PN}-doc = "${mandir} ${infodir}"
+ # For LXC the docdir only contains example configuration files and should be included in the lxc package
+ FILES_${PN} += "${docdir}"
+ FILES_${PN} += "${libdir}/python3*"
+-FILES_${PN} += "${datadir}/lua/*"
+-FILES_${PN} += "${libdir}/lua/lxc/*"
+-FILES_${PN}-dbg += "${libdir}/lua/lxc/.debug"
+-FILES_${PN}-dbg += "${libexecdir}/lxc/.debug ${libexecdir}/lxc/hooks/.debug"
+-PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking"
++FILES_${PN} += "${datadir}/bash-completion"
++FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
++FILES_${PN}-dbg += "${libexecdir}/lxc/hooks/.debug"
++PACKAGES =+ "${PN}-templates ${PN}-setup ${PN}-networking ${PN}-lua"
++FILES_lua-${PN} = "${datadir}/lua ${libdir}/lua"
++FILES_lua-${PN}-dbg += "${libdir}/lua/lxc/.debug"
+ FILES_${PN}-templates += "${datadir}/lxc/templates"
+ RDEPENDS_${PN}-templates += "bash"
+ 
+ ALLOW_EMPTY_${PN}-networking = "1"
+ 
+-FILES_${PN}-setup += "${sysconfdir}/tmpfiles.d"
+-FILES_${PN}-setup += "${systemd_system_unitdir}"
+-FILES_${PN}-setup += "${sysconfdir}/init.d"
++FILES_${PN}-setup += "/etc/tmpfiles.d"
++FILES_${PN}-setup += "/lib/systemd/system"
++FILES_${PN}-setup += "/usr/lib/systemd/system"
++FILES_${PN}-setup += "/etc/init.d"
+ 
+ PRIVATE_LIBS_${PN}-ptest = "liblxc.so.1"
+ 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.7.4
 
---94eb2c05e3642ac7f70550e8214b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, May 31, 2017 at 1:14 PM, M. Asselstine <span dir=3D"ltr">&lt;<a=
- href=3D"mailto:asselsm@mcmaster.ca" target=3D"_blank">asselsm@mcmaster.ca<=
-/a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><span class=3D"">On=
- Tue, May 23, 2017 at 8:13 AM, Adrian Dudau &lt;<a href=3D"mailto:adrian.du=
-dau@enea.com">adrian.dudau@enea.com</a>&gt; wrote:<br>
-&gt; python-appdirs<br>
-&gt; python-keystoneauth<br>
-&gt; python-lesscpy<br>
-&gt; python-os-client-config<br>
-&gt;<br>
-&gt; The setup scripts of these modules use setuptools instead of distutils=
-,<br>
-&gt; resulting in errors like this:<br>
-&gt;<br>
-&gt; |=C2=A0 =C2=A0File &quot;setup.py&quot;, line 5, in &lt;module&gt;<br>
-&gt; |=C2=A0 =C2=A0 =C2=A0from setuptools import setup<br>
-&gt; | ImportError: No module named setuptools<br>
-&gt;<br>
-&gt; Signed-off-by: Adrian Dudau &lt;<a href=3D"mailto:adrian.dudau@enea.co=
-m">adrian.dudau@enea.com</a>&gt;<br>
-<br>
-<br>
-</span>Agreed. The setup.py for all of these packages have some form of<br>
-&#39;import setuptools&#39; so this is the correct change. I mentioned to<b=
-r>
-Bruce I would have a look at these as I know in the past we have had<br>
-some flip-flopping in this regard. Anyways, Bruce this change is fine<br>
-and at least in my mind OK to merge.<br></blockquote><div><br></div><div>Th=
-anks for the review, I was looking for another opinion!</div><div><br></div=
-><div>This is now merged.</div><div><br></div><div>Bruce</div><div>=C2=A0</=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
-<br>
-Mark<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-&gt; ---<br>
-&gt;=C2=A0 meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-appdirs_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>appdi=
-rs_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
-&gt;=C2=A0 meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-keystoneauth1_2.18.0.bb" rel=3D"noreferrer" target=3D"_blank">python-<=
-wbr>keystoneauth1_2.18.0.bb</a> | 2 +-<br>
-&gt;=C2=A0 meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-lesscpy_0.10.2.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>le=
-sscpy_0.10.2.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-&gt;=C2=A0 meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-os-client-config_git.bb" rel=3D"noreferrer" target=3D"_blank">python-o=
-s-<wbr>client-config_git.bb</a> | 2 +-<br>
-&gt;=C2=A0 4 files changed, 4 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"ht=
-tp://python-appdirs_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wb=
-r>appdirs_git.bb</a> b/meta-openstack/recipes-<wbr>devtools/python/<a href=
-=3D"http://python-appdirs_git.bb" rel=3D"noreferrer" target=3D"_blank">pyth=
-on-<wbr>appdirs_git.bb</a><br>
-&gt; index 8e40f26..2482871 100644<br>
-&gt; --- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-appdirs_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>appdi=
-rs_git.bb</a><br>
-&gt; +++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-appdirs_git.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>appdi=
-rs_git.bb</a><br>
-&gt; @@ -12,7 +12,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com=
-/ActiveState/${SRCNAME}.git" rel=3D"noreferrer" target=3D"_blank">github.co=
-m/ActiveState/<wbr>${SRCNAME}.git</a>&quot;<br>
-&gt;<br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;<br>
-&gt; -inherit distutils<br>
-&gt; +inherit setuptools<br>
-&gt;<br>
-&gt;=C2=A0 DEPENDS +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 python-pip \<br>
-&gt; diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"ht=
-tp://python-keystoneauth1_2.18.0.bb" rel=3D"noreferrer" target=3D"_blank">p=
-ython-<wbr>keystoneauth1_2.18.0.bb</a> b/meta-openstack/recipes-<wbr>devtoo=
-ls/python/<a href=3D"http://python-keystoneauth1_2.18.0.bb" rel=3D"noreferr=
-er" target=3D"_blank">python-<wbr>keystoneauth1_2.18.0.bb</a><br>
-&gt; index 1fdf9e1..83582c5 100644<br>
-&gt; --- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-keystoneauth1_2.18.0.bb" rel=3D"noreferrer" target=3D"_blank">python-<=
-wbr>keystoneauth1_2.18.0.bb</a><br>
-&gt; +++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-keystoneauth1_2.18.0.bb" rel=3D"noreferrer" target=3D"_blank">python-<=
-wbr>keystoneauth1_2.18.0.bb</a><br>
-&gt; @@ -12,7 +12,7 @@ SRC_URI[sha256sum] =3D &quot;<wbr>075a9ca7a8877c5885=
-fa2487699015<wbr>e45260c4e6be119683effe0ad2ab<br>
-&gt;<br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/${SRCNAME}-${PV}&quot;<br>
-&gt;<br>
-&gt; -inherit distutils<br>
-&gt; +inherit setuptools<br>
-&gt;<br>
-&gt;=C2=A0 DEPENDS +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 python-pbr \<br>
-&gt; diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"ht=
-tp://python-lesscpy_0.10.2.bb" rel=3D"noreferrer" target=3D"_blank">python-=
-<wbr>lesscpy_0.10.2.bb</a> b/meta-openstack/recipes-<wbr>devtools/python/<a=
- href=3D"http://python-lesscpy_0.10.2.bb" rel=3D"noreferrer" target=3D"_bla=
-nk">python-<wbr>lesscpy_0.10.2.bb</a><br>
-&gt; index 61ae935..71e0dc0 100644<br>
-&gt; --- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-lesscpy_0.10.2.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>le=
-sscpy_0.10.2.bb</a><br>
-&gt; +++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-lesscpy_0.10.2.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>le=
-sscpy_0.10.2.bb</a><br>
-&gt; @@ -17,7 +17,7 @@ SRC_URI[sha256sum] =3D &quot;<wbr>ccad1ad2a89ced1875=
-c5ca4e16e547<wbr>8b791d31fb187fe29f1541859318<br>
-&gt;<br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/${SRCNAME}-${PV}&quot;<br>
-&gt;<br>
-&gt; -inherit distutils<br>
-&gt; +inherit setuptools<br>
-&gt;<br>
-&gt;=C2=A0 DISTUTILS_INSTALL_ARGS =3D &quot;--root=3D${D} \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 --prefix=3D${prefix} \<br>
-&gt; diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"ht=
-tp://python-os-client-config_git.bb" rel=3D"noreferrer" target=3D"_blank">p=
-ython-os-<wbr>client-config_git.bb</a> b/meta-openstack/recipes-<wbr>devtoo=
-ls/python/<a href=3D"http://python-os-client-config_git.bb" rel=3D"noreferr=
-er" target=3D"_blank">python-os-<wbr>client-config_git.bb</a><br>
-&gt; index 7b55dbb..5393bb7 100644<br>
-&gt; --- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-os-client-config_git.bb" rel=3D"noreferrer" target=3D"_blank">python-o=
-s-<wbr>client-config_git.bb</a><br>
-&gt; +++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://py=
-thon-os-client-config_git.bb" rel=3D"noreferrer" target=3D"_blank">python-o=
-s-<wbr>client-config_git.bb</a><br>
-&gt; @@ -12,7 +12,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com=
-/openstack/${SRCNAME}.git;branch=3Dstable/newton" rel=3D"noreferrer" target=
-=3D"_blank">github.com/openstack/${<wbr>SRCNAME}.git;branch=3Dstable/<wbr>n=
-ewton</a>&quot;<br>
-&gt;<br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;<br>
-&gt; -inherit distutils<br>
-&gt; +inherit setuptools<br>
-&gt;<br>
-&gt;=C2=A0 DEPENDS +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 python-pbr \<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; meta-virtualization mailing list<br>
-&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
-ation@<wbr>yoctoproject.org</a><br>
-&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
-" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/=
-listinfo/meta-<wbr>virtualization</a><br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
-u shalt not follow the NULL pointer, for chaos and madness await thee at it=
-s end&quot;</div>
-</div></div>
 
---94eb2c05e3642ac7f70550e8214b--
+
