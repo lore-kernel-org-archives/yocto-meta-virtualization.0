@@ -1,57 +1,100 @@
-Return-Path: <Adrian.Dudau@enea.com>
+Return-Path: <pieter.cardoen@hotmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2DFA7E00AE6; Wed,  5 Jul 2017 06:30:06 -0700 (PDT)
+	id 835F2E00BE8; Fri,  7 Jul 2017 15:58:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FORGED_HOTMAIL_RCVD2,FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE,SPF_HELO_PASS autolearn=no version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (pieter.cardoen[at]hotmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [40.92.72.22 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	*  0.9 FORGED_HOTMAIL_RCVD2 hotmail.com 'From' address,
+	but no 'Received:'
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [185.38.181.37 listed in list.dnswl.org]
-X-Greylist: delayed 172 seconds by postgrey-1.32 at yocto-www;
-	Wed, 05 Jul 2017 06:30:02 PDT
-Received: from smtp-out11.electric.net (smtp-out11.electric.net
-	[185.38.181.37])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CEDE1E00A9C
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+X-Greylist: delayed 14448 seconds by postgrey-1.32 at yocto-www;
+	Fri, 07 Jul 2017 15:57:57 PDT
+Received: from EUR03-VE1-obe.outbound.protection.outlook.com
+	(mail-oln040092072022.outbound.protection.outlook.com [40.92.72.22])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1FF4DE00BDF
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Jul 2017 06:30:02 -0700 (PDT)
-Received: from 1dSkKi-0007K1-VZ by out11c.electric.net with emc1-ok (Exim 4.87)
-	(envelope-from <Adrian.Dudau@enea.com>) id 1dSkKi-0007KI-W9
-	for meta-virtualization@yoctoproject.org;
-	Wed, 05 Jul 2017 06:27:08 -0700
-Received: by emcmailer; Wed, 05 Jul 2017 06:27:08 -0700
-Received: from [192.36.1.72] (helo=mx-3.enea.com)
-	by out11c.electric.net with esmtps (TLSv1:ECDHE-RSA-AES256-SHA:256)
-	(Exim 4.87) (envelope-from <Adrian.Dudau@enea.com>)
-	id 1dSkKi-0007K1-VZ for meta-virtualization@yoctoproject.org;
-	Wed, 05 Jul 2017 06:27:08 -0700
-Received: from sestofb11.enea.se (172.21.3.152) by smtp.enea.com
-	(172.21.1.208) with Microsoft SMTP Server id 14.3.319.2; Wed, 5 Jul 2017
-	15:27:08 +0200
-Received: by sestofb11.enea.se (Postfix, from userid 4451)	id 89DA044104C;
-	Wed,  5 Jul 2017 15:27:08 +0200 (CEST)
-From: Adrian Dudau <adrian.dudau@enea.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 5 Jul 2017 15:27:08 +0200
-Message-ID: <1499261228-65117-1-git-send-email-adrian.dudau@enea.com>
-X-Mailer: git-send-email 2.7.4
+	Fri,  7 Jul 2017 15:57:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+	s=selector1; h=From:Date:Subject:Message-ID:Content-Type:MIME-Version; 
+	bh=f2i0k5t+zH2D/ujVbUPckWmhhIqX6zyZvcEjgpY90JU=;
+	b=af3/sDqR7Qh3cm57MLvJKv8yzMPcaE/4XLvDHtZVmWFz+PGj+e3Pc0IsNNVBYhR3DBpHLM9WxkqTtTF3CNagFdwAnidtahnQ4IGjbjUKA8qTeEXK/TLT6Q1Du5Dx/lzxEAusxnJ9XAa6mIsrxIklbrzpwpGoGiMKevQpsBu7YsRVgyVPRpCKFXhVLTa/ghIz8KIpXBPBSNhhzw17/Knm6nMY41eRE3xVrNdrYTAFeEgj45Zo/Wr5WmVB9byS6VFEFShlT9vawjRWnf8SctbcYoGcB3UCgKf5qA7OCf/HMonHpBIa99kNKR2GbSKGndes6uUoZBq1cB8MUDenSy1LrQ==
+Received: from VE1EUR03FT003.eop-EUR03.prod.protection.outlook.com
+	(10.152.18.52) by VE1EUR03HT212.eop-EUR03.prod.protection.outlook.com
+	(10.152.19.192) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.1220.9;
+	Thu, 6 Jul 2017 16:23:10 +0000
+Received: from DB5PR08MB0774.eurprd08.prod.outlook.com (10.152.18.52) by
+	VE1EUR03FT003.mail.protection.outlook.com (10.152.18.108) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1220.9 via Frontend Transport; Thu, 6 Jul 2017 16:23:10 +0000
+Received: from DB5PR08MB0774.eurprd08.prod.outlook.com
+	([fe80::d54a:d847:a1cb:4f95]) by
+	DB5PR08MB0774.eurprd08.prod.outlook.com
+	([fe80::d54a:d847:a1cb:4f95%13]) with mapi id 15.01.1240.013;
+	Thu, 6 Jul 2017 16:23:10 +0000
+From: Pieter Cardoen <pieter.cardoen@hotmail.com>
+To: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Thread-Topic: Container not found error
+Thread-Index: AQHS9nP8L+m2VbbZKUijKtJoEf5cYw==
+Date: Thu, 6 Jul 2017 16:23:10 +0000
+Message-ID: <DB5PR08MB0774FB29A185E93873FCE5F68ED50@DB5PR08MB0774.eurprd08.prod.outlook.com>
+Accept-Language: nl-BE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: yoctoproject.org; dkim=none (message not signed)
+	header.d=none;yoctoproject.org; dmarc=none action=none
+	header.from=hotmail.com;
+x-incomingtopheadermarker: OriginalChecksum:7C9F4F72E9B44636A4ED12769B03BFF61AC4A9C15FBDE20B9D7628451138A490;
+	UpperCasedChecksum:19C9BEC8AF825B41CFFBD4BDDAEA89B8DD086D7B9CA0818F63CAC27B6F13B7C3;
+	SizeAsReceived:7091; Count:43
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tmn: [vrV/TM+Al6OPk2MssFZkChoGG/xMLVQ/]
+x-ms-publictraffictype: Email
+x-microsoft-exchange-diagnostics: 1; VE1EUR03HT212;
+	7:Emd71tklRTB+ojgXz/Sq41km/hzqop/qoUMwry3ZTWKroRUaQWlAaSPNoiTKFxcH/J81uOAq4DhQqLmnnc6Imlwz5zszAoVhOZ1RgCIoYqOGbzxPkKS+wOQVwGqiSsx/YX6slvHs65hLBapowjbOQDwHotqnU8OfoYn4RtvBTDUkf9ngrz/PEUZMTuomrDUvdNdTHln+6xgGIWsMGhuZb32xYpY6d/vBEz3gs/rKsHosQya3w1vP0GJDKVs0V6DjvoC4DoT7+JG+nuXLMcmEpGQ1D1RoJNBchbGuITs/Lbsxm6kfgRm/HHXTPHClW7thAsOgLlxMVRWWdn2nB8AMym0jHgSrp0z+jyNEMDvRRlI1NBnwDQLC5Om2TYc86GzDGiL1yQyZ+6/NhAqem9WZk1HS6O4mZOoyFSMbHd6p2wrTmeWdwqiAnW/keeUAtFWxATYw55rSDWCjVdq0jDT3mKCaC4ZS8ed9XEMIZd6vRjqke2v0/4SPIisaFloiwwGQz2jGIyalpisgTALsvr1lpUMWIFmX1iwwRFGZDhKvoKqxKmF3UAn2xaRDFuqo1xD4lX0Vo/5h5+4ntkNfU24csVqTIJEXIDDufE2y5yWCVomMHYdcI3wt+LbjGKreSGk/qqEMBZBs/IvtX/UdYzkZ5r4+QtBtclHwKuLtRMmp03LkNvA7szbu51fRBZQLdovIrLQIZKR1MsAzBjApCV5pRJuitsIBTiRjuTltiTOFYl91rfSFH8o8iz7Orh0pTm9ZtwMnhLGNkTsbMSeOhINztw==
+x-incomingheadercount: 43
+x-eopattributedmessage: 0
+x-forefront-antispam-report: EFV:NLI; SFV:NSPM; SFS:(7070007)(98901004);
+	DIR:OUT; SFP:1901; SCL:1; SRVR:VE1EUR03HT212;
+	H:DB5PR08MB0774.eurprd08.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; 
+x-ms-office365-filtering-correlation-id: 1f7cb7e7-8e3d-45b6-9c47-08d4c48b4ada
+x-microsoft-antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(300000500095)(300135000095)(300000501095)(300135300095)(22001)(300000502095)(300135100095)(300000503095)(300135400095)(201702061074)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031324274)(2017031323274)(2017031322274)(1601125374)(1603101448)(1701031045)(300000504095)(300135200095)(300000505095)(300135600095)(300000506095)(300135500095);
+	SRVR:VE1EUR03HT212; 
+x-ms-traffictypediagnostic: VE1EUR03HT212:
+x-exchange-antispam-report-cfa-test: BCL:0; PCL:0;
+	RULEID:(100000700101)(100105000095)(100000701101)(100105300095)(100000702101)(100105100095)(444000031);
+	SRVR:VE1EUR03HT212; BCL:0; PCL:0;
+	RULEID:(100000800101)(100110000095)(100000801101)(100110300095)(100000802101)(100110100095)(100000803101)(100110400095)(100000804101)(100110200095)(100000805101)(100110500095);
+	SRVR:VE1EUR03HT212; 
+x-forefront-prvs: 03607C04F0
+spamdiagnosticoutput: 1:99
+spamdiagnosticmetadata: NSPM
 MIME-Version: 1.0
-Received-SPF: None (SESTOEX08.enea.se: adrian.dudau@enea.com does not
-	designate permitted sender hosts)
-X-Outbound-IP: 192.36.1.72
-X-Env-From: Adrian.Dudau@enea.com
-X-Proto: esmtps
-X-Revdns: mx-3.enea.com
-X-HELO: mx-3.enea.com
-X-TLS: TLSv1:ECDHE-RSA-AES256-SHA:256
-X-Authenticated_ID: 
-X-PolicySMART: 6551647
-X-Virus-Status: Scanned by VirusSMART (c)
-X-Virus-Status: Scanned by VirusSMART (s)
-Subject: [PATCH] python-requests: Drop recipe
+X-OriginatorOrg: hotmail.com
+X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Jul 2017 16:23:10.0891 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1EUR03HT212
+Subject: Container not found error
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -64,54 +107,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jul 2017 13:30:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Jul 2017 22:58:02 -0000
+Content-Language: nl-BE
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-There's a newer recipe (v2.13) maintained in meta-python. meta-openstack
-explicitly prefers that version over this one, so no point in keeping
-this recipe since nobody else is using this version.
+Dear
 
-Signed-off-by: Adrian Dudau <adrian.dudau@enea.com>
----
- recipes-devtools/python/python-requests_2.8.1.bb | 28 ------------------------
- 1 file changed, 28 deletions(-)
- delete mode 100644 recipes-devtools/python/python-requests_2.8.1.bb
+When I start a container using this command:
 
-diff --git a/recipes-devtools/python/python-requests_2.8.1.bb b/recipes-devtools/python/python-requests_2.8.1.bb
-deleted file mode 100644
-index 187f97a..0000000
---- a/recipes-devtools/python/python-requests_2.8.1.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--HOMEPAGE = "http://python-requests.org"
--SUMMARY = "Python HTTP for Humans."
--DESCRIPTION = "\
--  Requests is an Apache2 Licensed HTTP library, written in Python, \
--  for human beings. \
--  .      \
--  Most existing Python modules for sending HTTP requests are extremely \
--  verbose and cumbersome. Python's builtin urllib2 module provides most \
--  of the HTTP capabilities you should need, but the api is thoroughly \
--  broken.  It requires an enormous amount of work (even method overrides) \
--  to perform the simplest of tasks. \
--  .      \
--  Things shouldn't be this way. Not in Python \
--  "
--SECTION = "devel/python"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=58c7e163c9f8ee037246da101c6afd1e"
--
--SRCNAME = "requests"
--
--SRC_URI = "http://pypi.python.org/packages/source/r/requests/${SRCNAME}-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "a27ea3d72d7822906ddce5e252d6add9"
--SRC_URI[sha256sum] = "84fe8d5bf4dcdcc49002446c47a146d17ac10facf00d9086659064ac43b6c25b"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--inherit setuptools
--- 
-2.7.4
+ docker run -it alpine /bin/sh
 
+I got an error:
+
+ERRO[0231] Handler for POST /v1.24/containers/321f74a7c7ecc1614f62973dede23=
+92dbcdd3a5ee995e04b5ae472c9c1ab6e6c/resize returned error: rpc error: code =
+=3D 2 desc =3D containerd: container not found=20
+                                                                           =
+                                                                           =
+                                          =20
+WARN[0231] failed to close stdin: rpc error: code =3D 2 desc =3D containerd=
+: container not found
+
+I can't find a solution to start my containers.
+
+Thanks
+Pieter
+=20
+   =
 
