@@ -1,68 +1,50 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <brian.avery@intel.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 42D3CE00BC2; Mon, 10 Jul 2017 08:24:32 -0700 (PDT)
+	id AD753E00BC2; Mon, 10 Jul 2017 08:38:07 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.51 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.215.51 listed in dnsbl.sorbs.net]
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,HTML_MESSAGE,
+	RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [192.55.52.88 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f51.google.com (mail-lf0-f51.google.com
-	[209.85.215.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F12BFE00B8B
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7C2BAE00B8B
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Jul 2017 08:24:30 -0700 (PDT)
-Received: by mail-lf0-f51.google.com with SMTP id z78so64881165lff.0
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 10 Jul 2017 08:24:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=o7e985AIK3tNQM1L+81pgvs+Tn+8wAgBGVLS+nCn1xY=;
-	b=aBQqNgRIDargh/H/vbOYdn1f2BJ5cPBYCPXaQOTcHH0wawVfyxSob3CM/FMwVbU6Jj
-	f4YmLONtgHQt44Rpq+z41X4rMSJcpMqBIC2nReUNZBjBmdgCNEXX2kb8cG5bjZarLE9v
-	b9D1gV14bfP/KuR4XGfXStls2e2ZZdbUpgu4OU7/JEH/qvMLahjDMTfNPCQ87rBFPDdG
-	Edn7zI7Qy9vkga6zAT7BvramTjWjKKi0k5bVPtsiIzK3E/2LyISCDqamPeFnTGKacv50
-	Qocv+vZAUwnwhHVYi3iZ7UYX9GZvuNnrdgBIbnZ6bTMgiDUME7Nl3sWEWWDz5XkKyt9W
-	Hoyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=o7e985AIK3tNQM1L+81pgvs+Tn+8wAgBGVLS+nCn1xY=;
-	b=DCir1WftJUJQWkK03gwHjulpxbJZu/99gOfMAvTO8Itxl3w4KKj1/JLI411j4ztS3M
-	Vq1rJaBuJs9+LWySiFTVvSkwPn5WLdRWDlujCKf1HqTpzr+P629cIcsXL3i1HUuSEQuv
-	+npdKzxJ55LwXr19LQ6ISzkF3WgofqEW6+A3U1ocBtyqR6CuSbLvFXSPqrlOkzp6AoNS
-	SB6hHEnniyNNUkfXA68CbdF+sHaE/m7XoY63s45y7TH1uP/jn2Oddr9XKYPhnl2wwFxr
-	JL73RLbeh0lWD9R/tvADhP8CBK0577BZmwOzcLSEaobAoo9WON92YVz/8iVSqjjtxa4E
-	9/4Q==
-X-Gm-Message-State: AIVw1122ShWZeFaF+S74d+/ETrbwtIOTtnkajkCSTH7+owcNv0xwbbgY
-	ISP4ZgilyDAx+ju1Ff0yYCUJENTlpFUn
-X-Received: by 10.46.22.5 with SMTP id w5mr4767336ljd.26.1499700269409; Mon,
-	10 Jul 2017 08:24:29 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.9.137 with HTTP; Mon, 10 Jul 2017 08:24:28 -0700 (PDT)
-In-Reply-To: <1499470731-26466-1-git-send-email-brian.avery@intel.com>
+	Mon, 10 Jul 2017 08:38:02 -0700 (PDT)
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	10 Jul 2017 08:38:00 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.40,341,1496127600"; 
+	d="scan'208,217";a="1150027169"
+Received: from orsmsx106.amr.corp.intel.com ([10.22.225.133])
+	by orsmga001.jf.intel.com with ESMTP; 10 Jul 2017 08:38:00 -0700
+Received: from orsmsx114.amr.corp.intel.com (10.22.240.10) by
+	ORSMSX106.amr.corp.intel.com (10.22.225.133) with Microsoft SMTP Server
+	(TLS) id 14.3.319.2; Mon, 10 Jul 2017 08:38:00 -0700
+Received: from orsmsx104.amr.corp.intel.com ([169.254.4.205]) by
+	ORSMSX114.amr.corp.intel.com ([169.254.8.216]) with mapi id
+	14.03.0319.002; Mon, 10 Jul 2017 08:38:00 -0700
+From: "Avery, Brian" <brian.avery@intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [meta-virtualization] [PATCH] docker: add
+	NETFILTER_XT_MATCH_ADDRTYPE=m
+Thread-Index: AQHS+ZCrKRSqOOlbG0ORJoENAJW2fKJNMeYA
+Date: Mon, 10 Jul 2017 15:37:59 +0000
+Message-ID: <3CA7AF00-AEB9-46BC-9E5C-CB2586AAEA39@intel.com>
 References: <1499470731-26466-1-git-send-email-brian.avery@intel.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 10 Jul 2017 11:24:28 -0400
-Message-ID: <CADkTA4OBvGKf5zaNxOu00s01QThL0DmhVUtLTr-nx9K69BpM5w@mail.gmail.com>
-To: brian avery <brian.avery@intel.com>
+	<CADkTA4OBvGKf5zaNxOu00s01QThL0DmhVUtLTr-nx9K69BpM5w@mail.gmail.com>
+In-Reply-To: <CADkTA4OBvGKf5zaNxOu00s01QThL0DmhVUtLTr-nx9K69BpM5w@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.252.134.63]
+MIME-Version: 1.0
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] docker: add NETFILTER_XT_MATCH_ADDRTYPE=m
@@ -78,279 +60,326 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jul 2017 15:24:32 -0000
-Content-Type: multipart/alternative; boundary="f403045fbadad3ed710553f82de5"
+X-List-Received-Date: Mon, 10 Jul 2017 15:38:07 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_3CA7AF00AEB946BC9E5CCB2586AAEA39intelcom_"
 
---f403045fbadad3ed710553f82de5
-Content-Type: text/plain; charset="UTF-8"
+--_000_3CA7AF00AEB946BC9E5CCB2586AAEA39intelcom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Jul 7, 2017 at 7:38 PM, brian avery <brian.avery@intel.com> wrote:
+V29ya3MgZm9yIG1lLg0KdHkgOikNCi1iDQoNCnAucy4gd29ya2luZyBvbiB0aGlzIGRpZCBoaXQg
+YnVnIGh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9ODE5
+MSB3aGVuIEkgdHJpZWQgdG8gdXNlIGxpbnV4LWludGVsIGluc3RlYWQgb2YgbGludXgteW9jdG8u
+DQoNCg0KRnJvbTogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4NCkRh
+dGU6IE1vbmRheSwgSnVseSAxMCwgMjAxNyBhdCA4OjI0IEFNDQpUbzogIkF2ZXJ5LCBCcmlhbiIg
+PGJyaWFuLmF2ZXJ5QGludGVsLmNvbT4NCkNjOiAibWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3By
+b2plY3Qub3JnIiA8bWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qub3JnPg0KU3ViamVj
+dDogUmU6IFttZXRhLXZpcnR1YWxpemF0aW9uXSBbUEFUQ0hdIGRvY2tlcjogYWRkIE5FVEZJTFRF
+Ul9YVF9NQVRDSF9BRERSVFlQRT1tDQoNCg0KDQpPbiBGcmksIEp1bCA3LCAyMDE3IGF0IDc6Mzgg
+UE0sIGJyaWFuIGF2ZXJ5IDxicmlhbi5hdmVyeUBpbnRlbC5jb208bWFpbHRvOmJyaWFuLmF2ZXJ5
+QGludGVsLmNvbT4+IHdyb3RlOg0KRG9ja2VyIG5lZWRzIHRocyBfTkVURklMVEVSX1hUX01BVENI
+X0FERFJUWVBFIG1vZHVsZSBpbiBvcmRlciB0byBzdGFydA0KdXAgc3VjY2Vzc2Z1bGx5LiBUaGlz
+IHBhdGNoIGFkZHMgaXQgdG8gdGhlIHN1cHBvcnRlZCBrZXJuZWxzLg0KDQpTaWduZWQtb2ZmLWJ5
+OiBicmlhbiBhdmVyeSA8YnJpYW4uYXZlcnlAaW50ZWwuY29tPG1haWx0bzpicmlhbi5hdmVyeUBp
+bnRlbC5jb20+Pg0KLS0tDQogcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8vZG9ja2Vy
+LmNmZyAgICB8IDEgKw0KIHJlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvL2RvY2tlci5z
+Y2MgICAgfCA0ICsrKysNCiByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmJh
+cHBlbmQgIHwgMSArDQogcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xMC5iYmFw
+cGVuZCB8IDEgKw0KIHJlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuNC5iYmFwcGVu
+ZCAgfCAxICsNCiByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjkuYmJhcHBlbmQg
+IHwgMSArDQogNiBmaWxlcyBjaGFuZ2VkLCA5IGluc2VydGlvbnMoKykNCiBjcmVhdGUgbW9kZSAx
+MDA2NDQgcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8vZG9ja2VyLmNmZw0KIGNyZWF0
+ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9kb2NrZXIuc2Nj
+DQoNCmRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9kb2NrZXIu
+Y2ZnIGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8vZG9ja2VyLmNmZw0KbmV3IGZp
+bGUgbW9kZSAxMDA2NDQNCmluZGV4IDAwMDAwMDAuLmQwZWJiNjYNCi0tLSAvZGV2L251bGwNCisr
+KyBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvL2RvY2tlci5jZmcNCkBAIC0wLDAg
+KzEgQEANCitDT05GSUdfTkVURklMVEVSX1hUX01BVENIX0FERFJUWVBFPW0NCg0KDQpJIGNvdWxk
+IGhhdmUgc3dvcm4gdGhhdCBJIGFscmVhZHkgcG9ydGVkIGFuZCBtZXJnZWQgbXkgZG9ja2VyIGZy
+YWdtZW50IHRvIG1ldGEtdmlydCwNCmJ1dCBpdCBsb29rcyBsaWtlIEkgb25seSBzdGFnZWQgaXQg
+YW5kIG5ldmVyIGFjdHVhbGx5IGRpZCB0aGUgcGF0Y2guDQoNClRvIG1ha2UgdGhlIGZyYWdtZW50
+IGFzIHN0YW5kYWxvbmUgYXMgcG9zc2libGUsIEknbSBydW5uaW5nIHdpdGggdGhpczoNCg0KLS0t
+LS0tLS0tLS0tDQpDT05GSUdfTkVURklMVEVSX1hUX01BVENIX0FERFJUWVBFPW0NCkNPTkZJR19J
+UF9ORl9GSUxURVI9bQ0KQ09ORklHX05GX05BVD1tDQpDT05GSUdfTkZfQ09OTlRSQUNLX0lQVjQ9
+eQ0KQ09ORklHX0RNX1RISU5fUFJPVklTSU9OSU5HPW0NCkNPTkZJR19JUF9ORl9OQVQ9bQ0KQ09O
+RklHX0lQX05GX1RBUkdFVF9NQVNRVUVSQURFPW0NCkNPTkZJR19PVkVSTEFZX0ZTPXkNCi0tLS0t
+LS0tLS0tLS0NCg0KSSBwcm9wb3NlIHRvIHVwZGF0ZSB5b3VyIGZyYWdtZW50IHdpdGggdGhvc2Ug
+b3B0aW9ucyBhbmQgbWVyZ2UgdGhlIGNoYW5nZXMgdGhhdA0Kd2F5Lg0KDQpBbnkgb2JqZWN0aW9u
+cyA/DQoNCkJydWNlDQoNCmRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15
+b2N0by9kb2NrZXIuc2NjIGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8vZG9ja2Vy
+LnNjYw0KbmV3IGZpbGUgbW9kZSAxMDA2NDQNCmluZGV4IDAwMDAwMDAuLmUzMTc0NTYNCi0tLSAv
+ZGV2L251bGwNCisrKyBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvL2RvY2tlci5z
+Y2MNCkBAIC0wLDAgKzEsNCBAQA0KK2RlZmluZSBLRkVBVFVSRV9ERVNDUklQVElPTiAiRW5hYmxl
+IEZlYXR1cmVzIG5lZWRlZCBieSBkb2NrZXIgaW4gYWRkaXRpb24gdG8gTFhDIGZlYXR1cmVzIg0K
+K2RlZmluZSBLRkVBVFVSRV9DT01QQVRJQklMSVRZIGJvYXJkDQorDQora2NvbmYgbm9uLWhhcmR3
+YXJlIGRvY2tlci5jZmcNCmRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15
+b2N0b180LjEuYmJhcHBlbmQgYi9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEu
+YmJhcHBlbmQNCmluZGV4IGYzYmU4OWUuLmYxNjNmZGYgMTAwNjQ0DQotLS0gYS9yZWNpcGVzLWtl
+cm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmJhcHBlbmQNCisrKyBiL3JlY2lwZXMta2VybmVs
+L2xpbnV4L2xpbnV4LXlvY3RvXzQuMS5iYmFwcGVuZA0KQEAgLTQsNiArNCw3IEBAIFNSQ19VUkkg
+Kz0gImZpbGU6Ly94dC1jaGVja3N1bS5zY2MgXA0KICAgICAgICAgICAgIGZpbGU6Ly9lYnRhYmxl
+cy5zY2MgXA0KICAgICAgICAgICAgZmlsZTovL3Zzd2l0Y2guc2NjIFwNCiAgICAgICAgICAgIGZp
+bGU6Ly9seGMuc2NjIFwNCisgICAgICAgICAgICBmaWxlOi8vZG9ja2VyLnNjYyBcDQogICAgICAg
+ICAgICAiDQogS0VSTkVMX0ZFQVRVUkVTX2FwcGVuZCA9ICIgZmVhdHVyZXMva3ZtL3FlbXUta3Zt
+LWVuYWJsZS5zY2MiDQoNCmRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15
+b2N0b180LjEwLmJiYXBwZW5kIGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4x
+MC5iYmFwcGVuZA0KaW5kZXggZjNiZTg5ZS4uZjE2M2ZkZiAxMDA2NDQNCi0tLSBhL3JlY2lwZXMt
+a2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuMTAuYmJhcHBlbmQNCisrKyBiL3JlY2lwZXMta2Vy
+bmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuMTAuYmJhcHBlbmQNCkBAIC00LDYgKzQsNyBAQCBTUkNf
+VVJJICs9ICJmaWxlOi8veHQtY2hlY2tzdW0uc2NjIFwNCiAgICAgICAgICAgICBmaWxlOi8vZWJ0
+YWJsZXMuc2NjIFwNCiAgICAgICAgICAgIGZpbGU6Ly92c3dpdGNoLnNjYyBcDQogICAgICAgICAg
+ICBmaWxlOi8vbHhjLnNjYyBcDQorICAgICAgICAgICAgZmlsZTovL2RvY2tlci5zY2MgXA0KICAg
+ICAgICAgICAgIg0KIEtFUk5FTF9GRUFUVVJFU19hcHBlbmQgPSAiIGZlYXR1cmVzL2t2bS9xZW11
+LWt2bS1lbmFibGUuc2NjIg0KDQpkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGlu
+dXgteW9jdG9fNC40LmJiYXBwZW5kIGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9f
+NC40LmJiYXBwZW5kDQppbmRleCBmM2JlODllLi5mMTYzZmRmIDEwMDY0NA0KLS0tIGEvcmVjaXBl
+cy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC40LmJiYXBwZW5kDQorKysgYi9yZWNpcGVzLWtl
+cm5lbC9saW51eC9saW51eC15b2N0b180LjQuYmJhcHBlbmQNCkBAIC00LDYgKzQsNyBAQCBTUkNf
+VVJJICs9ICJmaWxlOi8veHQtY2hlY2tzdW0uc2NjIFwNCiAgICAgICAgICAgICBmaWxlOi8vZWJ0
+YWJsZXMuc2NjIFwNCiAgICAgICAgICAgIGZpbGU6Ly92c3dpdGNoLnNjYyBcDQogICAgICAgICAg
+ICBmaWxlOi8vbHhjLnNjYyBcDQorICAgICAgICAgICAgZmlsZTovL2RvY2tlci5zY2MgXA0KICAg
+ICAgICAgICAgIg0KIEtFUk5FTF9GRUFUVVJFU19hcHBlbmQgPSAiIGZlYXR1cmVzL2t2bS9xZW11
+LWt2bS1lbmFibGUuc2NjIg0KDQpkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGlu
+dXgteW9jdG9fNC45LmJiYXBwZW5kIGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9f
+NC45LmJiYXBwZW5kDQppbmRleCBmM2JlODllLi5mMTYzZmRmIDEwMDY0NA0KLS0tIGEvcmVjaXBl
+cy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC45LmJiYXBwZW5kDQorKysgYi9yZWNpcGVzLWtl
+cm5lbC9saW51eC9saW51eC15b2N0b180LjkuYmJhcHBlbmQNCkBAIC00LDYgKzQsNyBAQCBTUkNf
+VVJJICs9ICJmaWxlOi8veHQtY2hlY2tzdW0uc2NjIFwNCiAgICAgICAgICAgICBmaWxlOi8vZWJ0
+YWJsZXMuc2NjIFwNCiAgICAgICAgICAgIGZpbGU6Ly92c3dpdGNoLnNjYyBcDQogICAgICAgICAg
+ICBmaWxlOi8vbHhjLnNjYyBcDQorICAgICAgICAgICAgZmlsZTovL2RvY2tlci5zY2MgXA0KICAg
+ICAgICAgICAgIg0KIEtFUk5FTF9GRUFUVVJFU19hcHBlbmQgPSAiIGZlYXR1cmVzL2t2bS9xZW11
+LWt2bS1lbmFibGUuc2NjIg0KDQotLQ0KMS45LjENCg0KLS0NCl9fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fDQptZXRhLXZpcnR1YWxpemF0aW9uIG1haWxpbmcg
+bGlzdA0KbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qub3JnPG1haWx0bzptZXRhLXZp
+cnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmc+DQpodHRwczovL2xpc3RzLnlvY3RvcHJvamVj
+dC5vcmcvbGlzdGluZm8vbWV0YS12aXJ0dWFsaXphdGlvbg0KDQoNCg0KLS0NCiJUaG91IHNoYWx0
+IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0
+IHRoZWUgYXQgaXRzIGVuZCINCg==
 
-> Docker needs ths _NETFILTER_XT_MATCH_ADDRTYPE module in order to start
-> up successfully. This patch adds it to the supported kernels.
->
-> Signed-off-by: brian avery <brian.avery@intel.com>
-> ---
->  recipes-kernel/linux/linux-yocto/docker.cfg    | 1 +
->  recipes-kernel/linux/linux-yocto/docker.scc    | 4 ++++
->  recipes-kernel/linux/linux-yocto_4.1.bbappend  | 1 +
->  recipes-kernel/linux/linux-yocto_4.10.bbappend | 1 +
->  recipes-kernel/linux/linux-yocto_4.4.bbappend  | 1 +
->  recipes-kernel/linux/linux-yocto_4.9.bbappend  | 1 +
->  6 files changed, 9 insertions(+)
->  create mode 100644 recipes-kernel/linux/linux-yocto/docker.cfg
->  create mode 100644 recipes-kernel/linux/linux-yocto/docker.scc
->
-> diff --git a/recipes-kernel/linux/linux-yocto/docker.cfg
-> b/recipes-kernel/linux/linux-yocto/docker.cfg
-> new file mode 100644
-> index 0000000..d0ebb66
-> --- /dev/null
-> +++ b/recipes-kernel/linux/linux-yocto/docker.cfg
-> @@ -0,0 +1 @@
-> +CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=m
->
+--_000_3CA7AF00AEB946BC9E5CCB2586AAEA39intelcom_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <255C56BDE0988C47B865AD2ECDF47524@intel.com>
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6bz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6b2ZmaWNlIiB4
+bWxuczp3PSJ1cm46c2NoZW1hcy1taWNyb3NvZnQtY29tOm9mZmljZTp3b3JkIiB4bWxuczptPSJo
+dHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL29mZmljZS8yMDA0LzEyL29tbWwiIHhtbG5zPSJo
+dHRwOi8vd3d3LnczLm9yZy9UUi9SRUMtaHRtbDQwIj4NCjxoZWFkPg0KPG1ldGEgaHR0cC1lcXVp
+dj0iQ29udGVudC1UeXBlIiBjb250ZW50PSJ0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgiPg0KPG1l
+dGEgbmFtZT0iVGl0bGUiIGNvbnRlbnQ9IiI+DQo8bWV0YSBuYW1lPSJLZXl3b3JkcyIgY29udGVu
+dD0iIj4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUg
+KGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8N
+CkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0
+IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJ
+cGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAyIDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8N
+CnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWwsIGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBpbjsN
+CgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJZm9udC1zaXplOjEyLjBwdDsNCglmb250LWZhbWls
+eToiVGltZXMgTmV3IFJvbWFuIjt9DQphOmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1z
+dHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxp
+bmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1zb0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1w
+cmlvcml0eTo5OTsNCgljb2xvcjpwdXJwbGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9
+DQpzcGFuLmdtYWlsLWhvZW56Yg0KCXttc28tc3R5bGUtbmFtZTpnbWFpbC1ob2VuemI7fQ0Kc3Bh
+bi5FbWFpbFN0eWxlMTgNCgl7bXNvLXN0eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1m
+YW1pbHk6Q2FsaWJyaTsNCgljb2xvcjp3aW5kb3d0ZXh0O30NCnNwYW4ubXNvSW5zDQoJe21zby1z
+dHlsZS10eXBlOmV4cG9ydC1vbmx5Ow0KCW1zby1zdHlsZS1uYW1lOiIiOw0KCXRleHQtZGVjb3Jh
+dGlvbjp1bmRlcmxpbmU7DQoJY29sb3I6dGVhbDt9DQouTXNvQ2hwRGVmYXVsdA0KCXttc28tc3R5
+bGUtdHlwZTpleHBvcnQtb25seTsNCglmb250LXNpemU6MTAuMHB0O30NCkBwYWdlIFdvcmRTZWN0
+aW9uMQ0KCXtzaXplOjguNWluIDExLjBpbjsNCgltYXJnaW46MS4waW4gMS4waW4gMS4waW4gMS4w
+aW47fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxl
+Pg0KPC9oZWFkPg0KPGJvZHkgYmdjb2xvcj0id2hpdGUiIGxhbmc9IkVOLVVTIiBsaW5rPSJibHVl
+IiB2bGluaz0icHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0i
+TXNvTm9ybWFsIj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDYWxp
+YnJpIj5Xb3JrcyBmb3IgbWUuPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q2FsaWJyaSI+
+dHkgOik8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBz
+dHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTpDYWxpYnJpIj4tYjxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6
+MTEuMHB0O2ZvbnQtZmFtaWx5OkNhbGlicmkiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQt
+ZmFtaWx5OkNhbGlicmkiPnAucy4gd29ya2luZyBvbiB0aGlzIGRpZCBoaXQgYnVnDQo8YSBocmVm
+PSJodHRwczovL2J1Z3ppbGxhLnlvY3RvcHJvamVjdC5vcmcvc2hvd19idWcuY2dpP2lkPTgxOTEi
+Pmh0dHBzOi8vYnVnemlsbGEueW9jdG9wcm9qZWN0Lm9yZy9zaG93X2J1Zy5jZ2k/aWQ9ODE5MTwv
+YT4gd2hlbiBJIHRyaWVkIHRvIHVzZSBsaW51eC1pbnRlbCBpbnN0ZWFkIG9mIGxpbnV4LXlvY3Rv
+Lg0KPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5
+bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q2FsaWJyaSI+PG86cD4mbmJzcDs8L286
+cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6
+ZToxMS4wcHQ7Zm9udC1mYW1pbHk6Q2FsaWJyaSI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9w
+Pg0KPGRpdiBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjQjVDNERGIDEuMHB0
+O3BhZGRpbmc6My4wcHQgMGluIDBpbiAwaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+Im1hcmdpbi1sZWZ0Oi41aW4iPjxiPjxzcGFuIHN0eWxlPSJmb250LWZhbWlseTpDYWxpYnJpO2Nv
+bG9yOmJsYWNrIj5Gcm9tOg0KPC9zcGFuPjwvYj48c3BhbiBzdHlsZT0iZm9udC1mYW1pbHk6Q2Fs
+aWJyaTtjb2xvcjpibGFjayI+QnJ1Y2UgQXNoZmllbGQgJmx0O2JydWNlLmFzaGZpZWxkQGdtYWls
+LmNvbSZndDs8YnI+DQo8Yj5EYXRlOiA8L2I+TW9uZGF5LCBKdWx5IDEwLCAyMDE3IGF0IDg6MjQg
+QU08YnI+DQo8Yj5UbzogPC9iPiZxdW90O0F2ZXJ5LCBCcmlhbiZxdW90OyAmbHQ7YnJpYW4uYXZl
+cnlAaW50ZWwuY29tJmd0Ozxicj4NCjxiPkNjOiA8L2I+JnF1b3Q7bWV0YS12aXJ0dWFsaXphdGlv
+bkB5b2N0b3Byb2plY3Qub3JnJnF1b3Q7ICZsdDttZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJv
+amVjdC5vcmcmZ3Q7PGJyPg0KPGI+U3ViamVjdDogPC9iPlJlOiBbbWV0YS12aXJ0dWFsaXphdGlv
+bl0gW1BBVENIXSBkb2NrZXI6IGFkZCBORVRGSUxURVJfWFRfTUFUQ0hfQUREUlRZUEU9bTxvOnA+
+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0
+eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZu
+YnNwOzwvbzpwPjwvcD4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2lu
+LWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPk9uIEZyaSwgSnVsIDcsIDIwMTcgYXQgNzoz
+OCBQTSwgYnJpYW4gYXZlcnkgJmx0OzxhIGhyZWY9Im1haWx0bzpicmlhbi5hdmVyeUBpbnRlbC5j
+b20iIHRhcmdldD0iX2JsYW5rIj5icmlhbi5hdmVyeUBpbnRlbC5jb208L2E+Jmd0OyB3cm90ZTo8
+bzpwPjwvbzpwPjwvcD4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVm
+dDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGluIDBpbiAwaW4gNi4wcHQ7bWFyZ2luLWxl
+ZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBpbiI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0i
+bWFyZ2luLWxlZnQ6LjVpbiI+RG9ja2VyIG5lZWRzIHRocyBfTkVURklMVEVSX1hUX01BVENIX0FE
+RFJUWVBFIG1vZHVsZSBpbiBvcmRlciB0byBzdGFydDxicj4NCnVwIHN1Y2Nlc3NmdWxseS4gVGhp
+cyBwYXRjaCBhZGRzIGl0IHRvIHRoZSBzdXBwb3J0ZWQga2VybmVscy48YnI+DQo8YnI+DQpTaWdu
+ZWQtb2ZmLWJ5OiBicmlhbiBhdmVyeSAmbHQ7PGEgaHJlZj0ibWFpbHRvOmJyaWFuLmF2ZXJ5QGlu
+dGVsLmNvbSI+YnJpYW4uYXZlcnlAaW50ZWwuY29tPC9hPiZndDs8YnI+DQotLS08YnI+DQombmJz
+cDtyZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9kb2NrZXIuY2ZnJm5ic3A7ICZuYnNw
+OyB8IDEgJiM0Mzs8YnI+DQombmJzcDtyZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9k
+b2NrZXIuc2NjJm5ic3A7ICZuYnNwOyB8IDQgJiM0MzsmIzQzOyYjNDM7JiM0Mzs8YnI+DQombmJz
+cDtyZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmJhcHBlbmQmbmJzcDsgfCAx
+ICYjNDM7PGJyPg0KJm5ic3A7cmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xMC5i
+YmFwcGVuZCB8IDEgJiM0Mzs8YnI+DQombmJzcDtyZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15
+b2N0b180LjQuYmJhcHBlbmQmbmJzcDsgfCAxICYjNDM7PGJyPg0KJm5ic3A7cmVjaXBlcy1rZXJu
+ZWwvbGludXgvbGludXgteW9jdG9fNC45LmJiYXBwZW5kJm5ic3A7IHwgMSAmIzQzOzxicj4NCiZu
+YnNwOzYgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCYjNDM7KTxicj4NCiZuYnNwO2NyZWF0
+ZSBtb2RlIDEwMDY0NCByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9kb2NrZXIuY2Zn
+PGJyPg0KJm5ic3A7Y3JlYXRlIG1vZGUgMTAwNjQ0IHJlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4
+LXlvY3RvL2RvY2tlci5zY2M8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwv
+bGludXgvbGludXgteW9jdG8vZG9ja2VyLmNmZyBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4
+LXlvY3RvL2RvY2tlci5jZmc8YnI+DQpuZXcgZmlsZSBtb2RlIDEwMDY0NDxicj4NCmluZGV4IDAw
+MDAwMDAuLmQwZWJiNjY8YnI+DQotLS0gL2Rldi9udWxsPGJyPg0KJiM0MzsmIzQzOyYjNDM7IGIv
+cmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG8vZG9ja2VyLmNmZzxicj4NCkBAIC0wLDAg
+JiM0MzsxIEBAPGJyPg0KJiM0MztDT05GSUdfTkVURklMVEVSX1hUX01BVENIX0FERFJUWVBFPW08
+bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+IiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86
+cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBz
+dHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+SSBjb3VsZCBoYXZlIHN3b3JuIHRoYXQgSSBhbHJlYWR5
+IHBvcnRlZCBhbmQgbWVyZ2VkIG15IGRvY2tlciBmcmFnbWVudCB0byBtZXRhLXZpcnQsPG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
+Z2luLWxlZnQ6LjVpbiI+YnV0IGl0IGxvb2tzIGxpa2UgSSBvbmx5IHN0YWdlZCBpdCBhbmQgbmV2
+ZXIgYWN0dWFsbHkgZGlkIHRoZSBwYXRjaC48bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48bzpwPiZuYnNw
+OzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJt
+YXJnaW4tbGVmdDouNWluIj5UbyBtYWtlIHRoZSBmcmFnbWVudCBhcyBzdGFuZGFsb25lIGFzIHBv
+c3NpYmxlLCBJJ20gcnVubmluZyB3aXRoIHRoaXM6PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxk
+aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PG86cD4m
+bmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHls
+ZT0ibWFyZ2luLWxlZnQ6LjVpbiI+LS0tLS0tLS0tLS0tPG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+Q09O
+RklHX05FVEZJTFRFUl9YVF9NQVRDSF9BRERSVFlQRT1tPG86cD48L286cD48L3A+DQo8L2Rpdj4N
+CjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41
+aW4iPkNPTkZJR19JUF9ORl9GSUxURVI9bTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPkNPTkZJR19ORl9O
+QVQ9bTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIg
+c3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPkNPTkZJR19ORl9DT05OVFJBQ0tfSVBWND15PG86cD48
+L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
+Z2luLWxlZnQ6LjVpbiI+Q09ORklHX0RNX1RISU5fUFJPVklTSU9OSU5HPW08bzpwPjwvbzpwPjwv
+cD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVm
+dDouNWluIj5DT05GSUdfSVBfTkZfTkFUPW08bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4N
+CjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj5DT05GSUdfSVBf
+TkZfVEFSR0VUX01BU1FVRVJBREU9bTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
+Y2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPkNPTkZJR19PVkVSTEFZ
+X0ZTPXk8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPi0tLS0tLS0tLS0tLS08bzpwPjwvbzpw
+PjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4t
+bGVmdDouNWluIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNz
+PSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj5JIHByb3Bvc2UgdG8gdXBkYXRl
+IHlvdXIgZnJhZ21lbnQgd2l0aCB0aG9zZSBvcHRpb25zIGFuZCBtZXJnZSB0aGUgY2hhbmdlcyB0
+aGF0PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBz
+dHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+d2F5LjxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2
+Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9
+Im1hcmdpbi1sZWZ0Oi41aW4iPkFueSBvYmplY3Rpb25zID88bzpwPjwvbzpwPjwvcD4NCjwvZGl2
+Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiIHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj48
+bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwi
+IHN0eWxlPSJtYXJnaW4tbGVmdDouNWluIj5CcnVjZTxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8
+ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPiZuYnNw
+OzxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8YmxvY2txdW90ZSBzdHlsZT0iYm9yZGVyOm5vbmU7
+Ym9yZGVyLWxlZnQ6c29saWQgI0NDQ0NDQyAxLjBwdDtwYWRkaW5nOjBpbiAwaW4gMGluIDYuMHB0
+O21hcmdpbi1sZWZ0OjQuOHB0O21hcmdpbi1yaWdodDowaW4iPg0KPHAgY2xhc3M9Ik1zb05vcm1h
+bCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPmRpZmYgLS1naXQgYS9yZWNpcGVzLWtlcm5lbC9s
+aW51eC9saW51eC15b2N0by9kb2NrZXIuc2NjIGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgt
+eW9jdG8vZG9ja2VyLnNjYzxicj4NCm5ldyBmaWxlIG1vZGUgMTAwNjQ0PGJyPg0KaW5kZXggMDAw
+MDAwMC4uZTMxNzQ1Njxicj4NCi0tLSAvZGV2L251bGw8YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9y
+ZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9kb2NrZXIuc2NjPGJyPg0KQEAgLTAsMCAm
+IzQzOzEsNCBAQDxicj4NCiYjNDM7ZGVmaW5lIEtGRUFUVVJFX0RFU0NSSVBUSU9OICZxdW90O0Vu
+YWJsZSBGZWF0dXJlcyBuZWVkZWQgYnkgZG9ja2VyIGluIGFkZGl0aW9uIHRvIExYQyBmZWF0dXJl
+cyZxdW90Ozxicj4NCiYjNDM7ZGVmaW5lIEtGRUFUVVJFX0NPTVBBVElCSUxJVFkgYm9hcmQ8YnI+
+DQomIzQzOzxicj4NCiYjNDM7a2NvbmYgbm9uLWhhcmR3YXJlIGRvY2tlci5jZmc8YnI+DQpkaWZm
+IC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xLmJiYXBwZW5kIGIv
+cmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC4xLmJiYXBwZW5kPGJyPg0KaW5kZXgg
+ZjNiZTg5ZS4uZjE2M2ZkZiAxMDA2NDQ8YnI+DQotLS0gYS9yZWNpcGVzLWtlcm5lbC9saW51eC9s
+aW51eC15b2N0b180LjEuYmJhcHBlbmQ8YnI+DQomIzQzOyYjNDM7JiM0MzsgYi9yZWNpcGVzLWtl
+cm5lbC9saW51eC9saW51eC15b2N0b180LjEuYmJhcHBlbmQ8YnI+DQpAQCAtNCw2ICYjNDM7NCw3
+IEBAIFNSQ19VUkkgJiM0Mzs9ICZxdW90O2ZpbGU6Ly94dC1jaGVja3N1bS5zY2MgXDxicj4NCiZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwO2ZpbGU6Ly9lYnRh
+Ymxlcy5zY2MgXDxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7
+IGZpbGU6Ly92c3dpdGNoLnNjYyBcPGJyPg0KJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgZmlsZTovL2x4Yy5zY2MgXDxicj4NCiYjNDM7Jm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgZmlsZTovL2RvY2tlci5zY2MgXDxicj4NCiZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZxdW90Ozxicj4NCiZuYnNwO0tFUk5F
+TF9GRUFUVVJFU19hcHBlbmQgPSAmcXVvdDsgZmVhdHVyZXMva3ZtL3FlbXUta3ZtLWVuYWJsZS5z
+Y2MmcXVvdDs8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGlu
+dXgteW9jdG9fNC4xMC5iYmFwcGVuZCBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3Rv
+XzQuMTAuYmJhcHBlbmQ8YnI+DQppbmRleCBmM2JlODllLi5mMTYzZmRmIDEwMDY0NDxicj4NCi0t
+LSBhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuMTAuYmJhcHBlbmQ8YnI+DQom
+IzQzOyYjNDM7JiM0MzsgYi9yZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0b180LjEwLmJi
+YXBwZW5kPGJyPg0KQEAgLTQsNiAmIzQzOzQsNyBAQCBTUkNfVVJJICYjNDM7PSAmcXVvdDtmaWxl
+Oi8veHQtY2hlY2tzdW0uc2NjIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDtmaWxlOi8vZWJ0YWJsZXMuc2NjIFw8YnI+DQombmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmaWxlOi8vdnN3aXRjaC5zY2MgXDxicj4NCiZu
+YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpbGU6Ly9seGMuc2NjIFw8
+YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpbGU6
+Ly9kb2NrZXIuc2NjIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmcXVvdDs8YnI+DQombmJzcDtLRVJORUxfRkVBVFVSRVNfYXBwZW5kID0gJnF1b3Q7IGZl
+YXR1cmVzL2t2bS9xZW11LWt2bS1lbmFibGUuc2NjJnF1b3Q7PGJyPg0KPGJyPg0KZGlmZiAtLWdp
+dCBhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuNC5iYmFwcGVuZCBiL3JlY2lw
+ZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuNC5iYmFwcGVuZDxicj4NCmluZGV4IGYzYmU4
+OWUuLmYxNjNmZGYgMTAwNjQ0PGJyPg0KLS0tIGEvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgt
+eW9jdG9fNC40LmJiYXBwZW5kPGJyPg0KJiM0MzsmIzQzOyYjNDM7IGIvcmVjaXBlcy1rZXJuZWwv
+bGludXgvbGludXgteW9jdG9fNC40LmJiYXBwZW5kPGJyPg0KQEAgLTQsNiAmIzQzOzQsNyBAQCBT
+UkNfVVJJICYjNDM7PSAmcXVvdDtmaWxlOi8veHQtY2hlY2tzdW0uc2NjIFw8YnI+DQombmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtmaWxlOi8vZWJ0YWJsZXMu
+c2NjIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyBmaWxl
+Oi8vdnN3aXRjaC5zY2MgXDxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsg
+Jm5ic3A7IGZpbGU6Ly9seGMuc2NjIFw8YnI+DQomIzQzOyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZu
+YnNwOyAmbmJzcDsgJm5ic3A7IGZpbGU6Ly9kb2NrZXIuc2NjIFw8YnI+DQombmJzcDsgJm5ic3A7
+ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmcXVvdDs8YnI+DQombmJzcDtLRVJORUxfRkVB
+VFVSRVNfYXBwZW5kID0gJnF1b3Q7IGZlYXR1cmVzL2t2bS9xZW11LWt2bS1lbmFibGUuc2NjJnF1
+b3Q7PGJyPg0KPGJyPg0KZGlmZiAtLWdpdCBhL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlv
+Y3RvXzQuOS5iYmFwcGVuZCBiL3JlY2lwZXMta2VybmVsL2xpbnV4L2xpbnV4LXlvY3RvXzQuOS5i
+YmFwcGVuZDxicj4NCmluZGV4IGYzYmU4OWUuLmYxNjNmZGYgMTAwNjQ0PGJyPg0KLS0tIGEvcmVj
+aXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC45LmJiYXBwZW5kPGJyPg0KJiM0MzsmIzQz
+OyYjNDM7IGIvcmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fNC45LmJiYXBwZW5kPGJy
+Pg0KQEAgLTQsNiAmIzQzOzQsNyBAQCBTUkNfVVJJICYjNDM7PSAmcXVvdDtmaWxlOi8veHQtY2hl
+Y2tzdW0uc2NjIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
+OyAmbmJzcDtmaWxlOi8vZWJ0YWJsZXMuc2NjIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAm
+bmJzcDsgJm5ic3A7ICZuYnNwOyBmaWxlOi8vdnN3aXRjaC5zY2MgXDxicj4NCiZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpbGU6Ly9seGMuc2NjIFw8YnI+DQomIzQz
+OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7IGZpbGU6Ly9kb2NrZXIu
+c2NjIFw8YnI+DQombmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmcXVv
+dDs8YnI+DQombmJzcDtLRVJORUxfRkVBVFVSRVNfYXBwZW5kID0gJnF1b3Q7IGZlYXR1cmVzL2t2
+bS9xZW11LWt2bS1lbmFibGUuc2NjJnF1b3Q7PGJyPg0KPHNwYW4gc3R5bGU9ImNvbG9yOiM4ODg4
+ODgiPjxicj4NCjxzcGFuIGNsYXNzPSJnbWFpbC1ob2VuemIiPi0tPC9zcGFuPjxicj4NCjxzcGFu
+IGNsYXNzPSJnbWFpbC1ob2VuemIiPjEuOS4xPC9zcGFuPjxicj4NCjxicj4NCjxzcGFuIGNsYXNz
+PSJnbWFpbC1ob2VuemIiPi0tPC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJnbWFpbC1ob2VuemIi
+Pl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fPC9zcGFuPjxi
+cj4NCjxzcGFuIGNsYXNzPSJnbWFpbC1ob2VuemIiPm1ldGEtdmlydHVhbGl6YXRpb24gbWFpbGlu
+ZyBsaXN0PC9zcGFuPjxicj4NCjxzcGFuIGNsYXNzPSJnbWFpbC1ob2VuemIiPjxhIGhyZWY9Im1h
+aWx0bzptZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmciPm1ldGEtdmlydHVhbGl6
+YXRpb25AeW9jdG9wcm9qZWN0Lm9yZzwvYT48L3NwYW4+PGJyPg0KPHNwYW4gY2xhc3M9ImdtYWls
+LWhvZW56YiI+PGEgaHJlZj0iaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL2xpc3RpbmZv
+L21ldGEtdmlydHVhbGl6YXRpb24iIHRhcmdldD0iX2JsYW5rIj5odHRwczovL2xpc3RzLnlvY3Rv
+cHJvamVjdC5vcmcvbGlzdGluZm8vbWV0YS12aXJ0dWFsaXphdGlvbjwvYT48L3NwYW4+PC9zcGFu
+PjxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+PGJyPg0KPGJyIGNsZWFyPSJhbGwiPg0KPG86
+cD48L286cD48L3A+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1s
+ZWZ0Oi41aW4iPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIiBzdHlsZT0ibWFyZ2luLWxlZnQ6LjVpbiI+LS0gPG86cD48L286cD48L3A+DQo8ZGl2Pg0K
+PHAgY2xhc3M9Ik1zb05vcm1hbCIgc3R5bGU9Im1hcmdpbi1sZWZ0Oi41aW4iPiZxdW90O1Rob3Ug
+c2hhbHQgbm90IGZvbGxvdyB0aGUgTlVMTCBwb2ludGVyLCBmb3IgY2hhb3MgYW5kIG1hZG5lc3Mg
+YXdhaXQgdGhlZSBhdCBpdHMgZW5kJnF1b3Q7PG86cD48L286cD48L3A+DQo8L2Rpdj4NCjwvZGl2
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwvaHRtbD4NCg==
 
-I could have sworn that I already ported and merged my docker fragment to
-meta-virt,
-but it looks like I only staged it and never actually did the patch.
-
-To make the fragment as standalone as possible, I'm running with this:
-
-------------
-CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=m
-CONFIG_IP_NF_FILTER=m
-CONFIG_NF_NAT=m
-CONFIG_NF_CONNTRACK_IPV4=y
-CONFIG_DM_THIN_PROVISIONING=m
-CONFIG_IP_NF_NAT=m
-CONFIG_IP_NF_TARGET_MASQUERADE=m
-CONFIG_OVERLAY_FS=y
--------------
-
-I propose to update your fragment with those options and merge the changes
-that
-way.
-
-Any objections ?
-
-Bruce
-
-
-> diff --git a/recipes-kernel/linux/linux-yocto/docker.scc
-> b/recipes-kernel/linux/linux-yocto/docker.scc
-> new file mode 100644
-> index 0000000..e317456
-> --- /dev/null
-> +++ b/recipes-kernel/linux/linux-yocto/docker.scc
-> @@ -0,0 +1,4 @@
-> +define KFEATURE_DESCRIPTION "Enable Features needed by docker in addition
-> to LXC features"
-> +define KFEATURE_COMPATIBILITY board
-> +
-> +kconf non-hardware docker.cfg
-> diff --git a/recipes-kernel/linux/linux-yocto_4.1.bbappend
-> b/recipes-kernel/linux/linux-yocto_4.1.bbappend
-> index f3be89e..f163fdf 100644
-> --- a/recipes-kernel/linux/linux-yocto_4.1.bbappend
-> +++ b/recipes-kernel/linux/linux-yocto_4.1.bbappend
-> @@ -4,6 +4,7 @@ SRC_URI += "file://xt-checksum.scc \
->              file://ebtables.scc \
->             file://vswitch.scc \
->             file://lxc.scc \
-> +            file://docker.scc \
->             "
->  KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
->
-> diff --git a/recipes-kernel/linux/linux-yocto_4.10.bbappend
-> b/recipes-kernel/linux/linux-yocto_4.10.bbappend
-> index f3be89e..f163fdf 100644
-> --- a/recipes-kernel/linux/linux-yocto_4.10.bbappend
-> +++ b/recipes-kernel/linux/linux-yocto_4.10.bbappend
-> @@ -4,6 +4,7 @@ SRC_URI += "file://xt-checksum.scc \
->              file://ebtables.scc \
->             file://vswitch.scc \
->             file://lxc.scc \
-> +            file://docker.scc \
->             "
->  KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
->
-> diff --git a/recipes-kernel/linux/linux-yocto_4.4.bbappend
-> b/recipes-kernel/linux/linux-yocto_4.4.bbappend
-> index f3be89e..f163fdf 100644
-> --- a/recipes-kernel/linux/linux-yocto_4.4.bbappend
-> +++ b/recipes-kernel/linux/linux-yocto_4.4.bbappend
-> @@ -4,6 +4,7 @@ SRC_URI += "file://xt-checksum.scc \
->              file://ebtables.scc \
->             file://vswitch.scc \
->             file://lxc.scc \
-> +            file://docker.scc \
->             "
->  KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
->
-> diff --git a/recipes-kernel/linux/linux-yocto_4.9.bbappend
-> b/recipes-kernel/linux/linux-yocto_4.9.bbappend
-> index f3be89e..f163fdf 100644
-> --- a/recipes-kernel/linux/linux-yocto_4.9.bbappend
-> +++ b/recipes-kernel/linux/linux-yocto_4.9.bbappend
-> @@ -4,6 +4,7 @@ SRC_URI += "file://xt-checksum.scc \
->              file://ebtables.scc \
->             file://vswitch.scc \
->             file://lxc.scc \
-> +            file://docker.scc \
->             "
->  KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
->
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---f403045fbadad3ed710553f82de5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Jul 7, 2017 at 7:38 PM, brian avery <span dir=3D"ltr">&lt;<a hr=
-ef=3D"mailto:brian.avery@intel.com" target=3D"_blank">brian.avery@intel.com=
-</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->Docker needs ths _NETFILTER_XT_MATCH_ADDRTYPE module in order to start<br>
-up successfully. This patch adds it to the supported kernels.<br>
-<br>
-Signed-off-by: brian avery &lt;<a href=3D"mailto:brian.avery@intel.com">bri=
-an.avery@intel.com</a>&gt;<br>
----<br>
-=C2=A0recipes-kernel/linux/linux-<wbr>yocto/docker.cfg=C2=A0 =C2=A0 | 1 +<b=
-r>
-=C2=A0recipes-kernel/linux/linux-<wbr>yocto/docker.scc=C2=A0 =C2=A0 | 4 +++=
-+<br>
-=C2=A0recipes-kernel/linux/linux-<wbr>yocto_4.1.bbappend=C2=A0 | 1 +<br>
-=C2=A0recipes-kernel/linux/linux-<wbr>yocto_4.10.bbappend | 1 +<br>
-=C2=A0recipes-kernel/linux/linux-<wbr>yocto_4.4.bbappend=C2=A0 | 1 +<br>
-=C2=A0recipes-kernel/linux/linux-<wbr>yocto_4.9.bbappend=C2=A0 | 1 +<br>
-=C2=A06 files changed, 9 insertions(+)<br>
-=C2=A0create mode 100644 recipes-kernel/linux/linux-<wbr>yocto/docker.cfg<b=
-r>
-=C2=A0create mode 100644 recipes-kernel/linux/linux-<wbr>yocto/docker.scc<b=
-r>
-<br>
-diff --git a/recipes-kernel/linux/linux-<wbr>yocto/docker.cfg b/recipes-ker=
-nel/linux/linux-<wbr>yocto/docker.cfg<br>
-new file mode 100644<br>
-index 0000000..d0ebb66<br>
---- /dev/null<br>
-+++ b/recipes-kernel/linux/linux-<wbr>yocto/docker.cfg<br>
-@@ -0,0 +1 @@<br>
-+CONFIG_NETFILTER_XT_MATCH_<wbr>ADDRTYPE=3Dm<br></blockquote><div><br></div=
-><div><br></div><div>I could have sworn that I already ported and merged my=
- docker fragment to meta-virt,</div><div>but it looks like I only staged it=
- and never actually did the patch.</div><div><br></div><div>To make the fra=
-gment as standalone as possible, I&#39;m running with this:</div><div><br><=
-/div><div>------------</div><div>CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=3Dm<br>=
-</div><div><div>CONFIG_IP_NF_FILTER=3Dm</div><div>CONFIG_NF_NAT=3Dm</div><d=
-iv>CONFIG_NF_CONNTRACK_IPV4=3Dy</div><div>CONFIG_DM_THIN_PROVISIONING=3Dm<b=
-r></div><div>CONFIG_IP_NF_NAT=3Dm<br></div><div>CONFIG_IP_NF_TARGET_MASQUER=
-ADE=3Dm</div><div>CONFIG_OVERLAY_FS=3Dy<br></div></div><div>-------------</=
-div><div><br></div><div>I propose to update your fragment with those option=
-s and merge the changes that</div><div>way.</div><div><br></div><div>Any ob=
-jections ?</div><div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex">
-diff --git a/recipes-kernel/linux/linux-<wbr>yocto/docker.scc b/recipes-ker=
-nel/linux/linux-<wbr>yocto/docker.scc<br>
-new file mode 100644<br>
-index 0000000..e317456<br>
---- /dev/null<br>
-+++ b/recipes-kernel/linux/linux-<wbr>yocto/docker.scc<br>
-@@ -0,0 +1,4 @@<br>
-+define KFEATURE_DESCRIPTION &quot;Enable Features needed by docker in addi=
-tion to LXC features&quot;<br>
-+define KFEATURE_COMPATIBILITY board<br>
-+<br>
-+kconf non-hardware docker.cfg<br>
-diff --git a/recipes-kernel/linux/linux-<wbr>yocto_4.1.bbappend b/recipes-k=
-ernel/linux/linux-<wbr>yocto_4.1.bbappend<br>
-index f3be89e..f163fdf 100644<br>
---- a/recipes-kernel/linux/linux-<wbr>yocto_4.1.bbappend<br>
-+++ b/recipes-kernel/linux/linux-<wbr>yocto_4.1.bbappend<br>
-@@ -4,6 +4,7 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ebtables.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://vswitch.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://lxc.scc \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; features/kvm/qemu-kvm-enable.<wbr>s=
-cc&quot;<br>
-<br>
-diff --git a/recipes-kernel/linux/linux-<wbr>yocto_4.10.bbappend b/recipes-=
-kernel/linux/linux-<wbr>yocto_4.10.bbappend<br>
-index f3be89e..f163fdf 100644<br>
---- a/recipes-kernel/linux/linux-<wbr>yocto_4.10.bbappend<br>
-+++ b/recipes-kernel/linux/linux-<wbr>yocto_4.10.bbappend<br>
-@@ -4,6 +4,7 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ebtables.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://vswitch.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://lxc.scc \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; features/kvm/qemu-kvm-enable.<wbr>s=
-cc&quot;<br>
-<br>
-diff --git a/recipes-kernel/linux/linux-<wbr>yocto_4.4.bbappend b/recipes-k=
-ernel/linux/linux-<wbr>yocto_4.4.bbappend<br>
-index f3be89e..f163fdf 100644<br>
---- a/recipes-kernel/linux/linux-<wbr>yocto_4.4.bbappend<br>
-+++ b/recipes-kernel/linux/linux-<wbr>yocto_4.4.bbappend<br>
-@@ -4,6 +4,7 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ebtables.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://vswitch.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://lxc.scc \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; features/kvm/qemu-kvm-enable.<wbr>s=
-cc&quot;<br>
-<br>
-diff --git a/recipes-kernel/linux/linux-<wbr>yocto_4.9.bbappend b/recipes-k=
-ernel/linux/linux-<wbr>yocto_4.9.bbappend<br>
-index f3be89e..f163fdf 100644<br>
---- a/recipes-kernel/linux/linux-<wbr>yocto_4.9.bbappend<br>
-+++ b/recipes-kernel/linux/linux-<wbr>yocto_4.9.bbappend<br>
-@@ -4,6 +4,7 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://ebtables.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://vswitch.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://lxc.scc \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.scc \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-=C2=A0KERNEL_FEATURES_append =3D &quot; features/kvm/qemu-kvm-enable.<wbr>s=
-cc&quot;<br>
-<span class=3D"gmail-HOEnZb"><font color=3D"#888888"><br>
---<br>
-1.9.1<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature">&quot;Thou shalt not follow the NULL point=
-er, for chaos and madness await thee at its end&quot;</div>
-</div></div>
-
---f403045fbadad3ed710553f82de5--
+--_000_3CA7AF00AEB946BC9E5CCB2586AAEA39intelcom_--
