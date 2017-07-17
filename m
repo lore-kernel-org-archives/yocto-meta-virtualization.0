@@ -1,71 +1,33 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 68799E00C2E; Mon, 17 Jul 2017 11:24:40 -0700 (PDT)
+	id C33BBE00C34; Mon, 17 Jul 2017 13:04:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.67 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.215.67 listed in dnsbl.sorbs.net]
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1590FE00BC4
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 53AB0E00C2E
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 17 Jul 2017 11:24:36 -0700 (PDT)
-Received: by mail-lf0-f67.google.com with SMTP id t72so13822724lff.0
+	Mon, 17 Jul 2017 13:04:15 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6HK4Fhf004442
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 17 Jul 2017 11:24:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FOp/3q+hGJTOs3ypbH5jC41N4+O8IxvPoKKYSdlAuBs=;
-	b=K2Bmn3pCXMZ2gPYC5inokJNZiSfiCO3JXHGIz0RRd1++kxL9153ArLcmJdqy+Gat72
-	LWxFRVXXETE3POSDr6jUahDmfyZnt5jTeQ36RpITB77j/E2ZxB46vzpf1iFyBuKvk/5u
-	wPNLau/CQp6Had9fJhK0kZ/kNpOeESaEwQY/dtTHLftnQ7oGKtDVgdIOpkVtrj9gTGam
-	Tvpd3dduatYz33QlBkwiMj1P1w4osnhkeahXAgNvQs5ae4unQpiD7ZezoBUHQfBGRRdt
-	q7S7Jf4CvGCiIQ8FvHr9OXtRuZty6QFp7eFarhI0GTyC1ay2nHv0yUJ4KrqVXftMRWWn
-	mzYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=FOp/3q+hGJTOs3ypbH5jC41N4+O8IxvPoKKYSdlAuBs=;
-	b=DI2lP3WAkFbWtil8qNpcuioKwkJz+VHG6vrQMRinoPyNBwjHho3poH+ooZl6VSCIOp
-	K84zFY471qeoqyOQU+34YWGe+xD4nN8IgWTy6Kgjck/oT3D6Jo+QbesbymT2iGK+RclO
-	A/ya/TaOdr+qA7678pOQwWC7N9LkHcJ0b3zbk0IuQQSG2NkKS41XGBbN/ocnlgZ7I5jq
-	/+D3Li2S+Oc/F8g+NGNAfgGcE4tk4DAMCCbZMzBSkw7jahWqmFWFIA7O+d+oylqIcQtK
-	vy57RdA65CPy6ZwfmjDoaFyqdn861RSC0eeZ8Mn1HY3E1GBPOwh6j4Tc5yWSZxnRr9FF
-	yyQw==
-X-Gm-Message-State: AIVw113l5kPKCJk6lYLayzDRE/Vcy24oXcrOdw2E9VJi0tr0toJvX2v4
-	qS8hH4H/zNYW+JOt9BtzRrlTlW9uLg==
-X-Received: by 10.46.19.26 with SMTP id 26mr4793337ljt.100.1500315875538; Mon,
-	17 Jul 2017 11:24:35 -0700 (PDT)
+	Mon, 17 Jul 2017 13:04:15 -0700
+Received: from yow-bashfiel-d2.wrs.com (128.224.56.49) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.294.0; Mon, 17 Jul 2017 13:04:14 -0700
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 17 Jul 2017 16:04:01 -0400
+Message-ID: <1500321853-984-1-git-send-email-bruce.ashfield@windriver.com>
+X-Mailer: git-send-email 2.4.0.53.g8440f74
 MIME-Version: 1.0
-Received: by 10.46.9.137 with HTTP; Mon, 17 Jul 2017 11:24:35 -0700 (PDT)
-In-Reply-To: <1499893362-8251-1-git-send-email-mark.asselstine@windriver.com>
-References: <1499893362-8251-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 17 Jul 2017 14:24:35 -0400
-Message-ID: <CADkTA4M_A9TyWgDq=8AjQS7aw6quj=P+LHMjPcYA_gTGyCnbLg@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] openvswitch: uprev to v2.7.1
+Subject: [PATCH 00/12] FYI: consolidated merge series
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,351 +40,97 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jul 2017 18:24:40 -0000
-Content-Type: multipart/alternative; boundary="f4030436060acfffa405548782ac"
+X-List-Received-Date: Mon, 17 Jul 2017 20:04:16 -0000
+Content-Type: text/plain
 
---f4030436060acfffa405548782ac
-Content-Type: text/plain; charset="UTF-8"
+Hi all,
 
-These two patches are now staged.
+There's been some ongoing work to get OVS updated to a python3 only
+version, updates to get docker + runc to be something more recent and
+some other various fixes.
 
-I'll be sending a consolidated list of patches once I do the push of this +
-some other uprevs.
+All of these need to work together or we end up breaking docker, runc
+and users of the various runtimes that we don't know about.
+
+I just finished testing the latest runc + oci tools + docker + ovs py3
+and the smoke tests are passing.
+
+I'm sending out this FYI series which will merge shortly.
+
+Cheers,
 
 Bruce
 
-On Wed, Jul 12, 2017 at 5:02 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
 
-> Released at the end of June 2017 this is a bugfix release with no
-> major functional changes. Surprisingly the patch for CVE-2017-9263 is
-> still not applied upstream so we continue to carry this change.
->
-> The remaining patches were audited and cleaned up as needed.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->  ...gure-Only-link-against-libpcap-on-FreeBSD.patch | 70
-> ----------------------
->  ...b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc.patch} |  0
->  recipes-networking/openvswitch/openvswitch_git.bb  |  4 +-
->  3 files changed, 2 insertions(+), 72 deletions(-)
->  delete mode 100644 recipes-networking/openvswitch/files/configure-
-> Only-link-against-libpcap-on-FreeBSD.patch
->  rename recipes-networking/openvswitch/openvswitch-git/{
-> openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch =>
-> openvswitch-add-ptest-b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc.patch}
-> (100%)
->
-> diff --git a/recipes-networking/openvswitch/files/configure-
-> Only-link-against-libpcap-on-FreeBSD.patch b/recipes-networking/
-> openvswitch/files/configure-Only-link-against-libpcap-on-FreeBSD.patch
-> deleted file mode 100644
-> index 0a44b85..0000000
-> --- a/recipes-networking/openvswitch/files/configure-
-> Only-link-against-libpcap-on-FreeBSD.patch
-> +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -From d30e714ccb9d13caf39d14d5b2fc9523b678ed51 Mon Sep 17 00:00:00 2001
-> -From: Ben Pfaff <blp@nicira.com>
-> -Date: Thu, 14 Mar 2013 15:20:55 -0700
-> -Subject: [PATCH] configure: Only link against libpcap on FreeBSD.
-> -
-> -commit d30e714ccb9d13caf39d14d5b2fc9523b678ed51 upstream
-> -http://git.openvswitch.org/git/openvswitch
-> -
-> -On other platforms there is no benefit to linking against libpcap, because
-> -it is not used.
-> -
-> -Signed-off-by: Ben Pfaff <blp@nicira.com>
-> -CC: Ed Maste <emaste@freebsd.org>
-> ----
-> - acinclude.m4 | 7 ++++++-
-> - configure.ac | 3 +--
-> - 2 files changed, 7 insertions(+), 3 deletions(-)
-> -
-> -diff --git a/acinclude.m4 b/acinclude.m4
-> -index f0610c9..19a47dd 100644
-> ---- a/acinclude.m4
-> -+++ b/acinclude.m4
-> -@@ -1,6 +1,6 @@
-> - # -*- autoconf -*-
-> -
-> --# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.
-> -+# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.
-> - #
-> - # Licensed under the Apache License, Version 2.0 (the "License");
-> - # you may not use this file except in compliance with the License.
-> -@@ -295,6 +295,8 @@ AC_DEFUN([OVS_CHECK_IF_PACKET],
-> -    fi])
-> -
-> - dnl Checks for net/if_dl.h.
-> -+dnl
-> -+dnl (We use this as a proxy for checking whether we're building on
-> FreeBSD.)
-> - AC_DEFUN([OVS_CHECK_IF_DL],
-> -   [AC_CHECK_HEADER([net/if_dl.h],
-> -                    [HAVE_IF_DL=yes],
-> -@@ -303,6 +305,9 @@ AC_DEFUN([OVS_CHECK_IF_DL],
-> -    if test "$HAVE_IF_DL" = yes; then
-> -       AC_DEFINE([HAVE_IF_DL], [1],
-> -                 [Define to 1 if net/if_dl.h is available.])
-> -+
-> -+      # On FreeBSD we use libpcap to access network devices.
-> -+      AC_SEARCH_LIBS([pcap_open_live], [pcap])
-> -    fi])
-> -
-> - dnl Checks for buggy strtok_r.
-> -diff --git a/configure.ac b/configure.ac
-> -index 1cacd29..bd49179 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -1,4 +1,4 @@
-> --# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.
-> -+# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.
-> - #
-> - # Licensed under the Apache License, Version 2.0 (the "License");
-> - # you may not use this file except in compliance with the License.
-> -@@ -44,7 +44,6 @@ AC_SYS_LARGEFILE
-> - AC_SEARCH_LIBS([pow], [m])
-> - AC_SEARCH_LIBS([clock_gettime], [rt])
-> - AC_SEARCH_LIBS([timer_create], [rt])
-> --AC_SEARCH_LIBS([pcap_open_live], [pcap])
-> -
-> - OVS_CHECK_ESX
-> - OVS_CHECK_COVERAGE
-> ---
-> -1.8.3.2
-> -
-> diff --git a/recipes-networking/openvswitch/openvswitch-git/
-> openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch
-> b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-
-> b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc.patch
-> similarity index 100%
-> rename from recipes-networking/openvswitch/openvswitch-git/
-> openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch
-> rename to recipes-networking/openvswitch/openvswitch-git/
-> openvswitch-add-ptest-b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc.patch
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb
-> b/recipes-networking/openvswitch/openvswitch_git.bb
-> index a2893e9..3972607 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -12,11 +12,11 @@ RDEPENDS_${PN}-ptest += "\
->         "
->
->  S = "${WORKDIR}/git"
-> -PV = "2.7.0+${SRCREV}"
-> +PV = "2.7.1+${SRCREV}"
->
->  FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
->
-> -SRCREV = "c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1"
-> +SRCREV = "b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc"
->  SRC_URI = "file://openvswitch-switch \
->             file://openvswitch-switch-setup \
->             file://openvswitch-testcontroller \
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+Bruce Ashfield (3):
+  oci-runtime-tools: skip ld checks
+  docker: update version string to 17.06.0
+  containerd: uprev to latest 0.2.x
 
+Jan Kiszka (2):
+  lxc: Fix INITSCRIPT_PARAMS value
+  docker: Fix and update sysvinit script
 
+Jason Wessel (5):
+  runc-docker: Uprev to 1.0-rc3+
+  runc-docker: Add --console-socket=/dev/null
+  docker: Uprev to latest based on runc 1.0-rc3
+  oci-systemd-hook: Uprev hook to latest
+  oci-runtime-tools, oci-runtime-spec: Uprev to runc 1.0-rc3 versions
+
+Mark Asselstine (2):
+  openvswitch: uprev to v2.7.1
+  openvswitch: backport py3 fixups
+
+ .../containerd/containerd-docker_git.bb            |   14 +-
+ recipes-containers/containerd/containerd.inc       |   30 +-
+ .../containerd/files/containerd.service            |   11 +
+ recipes-containers/docker/docker_git.bb            |   18 +-
+ ...-golang.org-x-net-pkg-until-we-move-to-go.patch |   57 +-
+ recipes-containers/docker/files/docker.init        |    5 +-
+ recipes-containers/lxc/lxc_2.0.8.bb                |    2 +-
+ .../oci-runtime-spec/oci-runtime-spec_git.bb       |    6 +-
+ .../oci-runtime-tools/oci-runtime-tools_git.bb     |   14 +-
+ .../0001-selinux-drop-selinux-support.patch        |   35 +-
+ .../oci-systemd-hook/oci-systemd-hook_git.bb       |    2 +-
+ ...untime-spec-198f23f827eea397d4331d7eb048d.patch |   89 ++
+ .../0001-runc-Add-console-socket-dev-null.patch    |   33 +
+ ...-Remove-Platform-as-no-longer-in-OCI-spec.patch |   75 ++
+ ...date-memory-specs-to-use-int64-not-uint64.patch |  194 +++
+ recipes-containers/runc/runc-docker_git.bb         |   10 +-
+ recipes-containers/runc/runc.inc                   |    4 +
+ ...gure-Only-link-against-libpcap-on-FreeBSD.patch |   70 --
+ ...n3-compatibility-Convert-print-statements.patch | 1264 ++++++++++++++++++++
+ ...2-Python3-compatibility-exception-cleanup.patch |   79 ++
+ ...03-Python3-compatibility-execfile-to-exec.patch |   33 +
+ ...-Python3-compatibility-iteritems-to-items.patch |  102 ++
+ ...ython3-compatibility-fix-integer-problems.patch |   51 +
+ ...n3-compatibility-math-error-compatibility.patch |   56 +
+ ...0007-Python3-compatibility-unicode-to-str.patch |   51 +
+ .../0008-AUTHORS-Add-Jason-Wessel.patch            |   28 +
+ ...-b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc.patch |  110 ++
+ ...-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch |  110 --
+ recipes-networking/openvswitch/openvswitch.inc     |    1 -
+ recipes-networking/openvswitch/openvswitch_git.bb  |   17 +-
+ 30 files changed, 2283 insertions(+), 288 deletions(-)
+ create mode 100644 recipes-containers/containerd/files/containerd.service
+ create mode 100644 recipes-containers/runc/runc-docker/0001-Update-to-runtime-spec-198f23f827eea397d4331d7eb048d.patch
+ create mode 100644 recipes-containers/runc/runc-docker/0001-runc-Add-console-socket-dev-null.patch
+ create mode 100644 recipes-containers/runc/runc-docker/0002-Remove-Platform-as-no-longer-in-OCI-spec.patch
+ create mode 100644 recipes-containers/runc/runc-docker/0003-Update-memory-specs-to-use-int64-not-uint64.patch
+ delete mode 100644 recipes-networking/openvswitch/files/configure-Only-link-against-libpcap-on-FreeBSD.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0001-Python3-compatibility-Convert-print-statements.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0002-Python3-compatibility-exception-cleanup.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0003-Python3-compatibility-execfile-to-exec.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0004-Python3-compatibility-iteritems-to-items.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0005-Python3-compatibility-fix-integer-problems.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0006-Python3-compatibility-math-error-compatibility.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0007-Python3-compatibility-unicode-to-str.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0008-AUTHORS-Add-Jason-Wessel.patch
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-b29cb89e9e9fe3119b2e5dd5d4fb79141635b7cc.patch
+ delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-c298ef781c2d35d939fe163cbc2f41ea7b1cb8d1.patch
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.4.0.53.g8440f74
 
---f4030436060acfffa405548782ac
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">These two patches are now staged.<div><br></div><div>I&#39=
-;ll be sending a consolidated list of patches once I do the push of this + =
-some other uprevs.</div><div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Wed, Jul 12, 2017 at 5:02 PM=
-, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@w=
-indriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">Released at the end of June 2017=
- this is a bugfix release with no<br>
-major functional changes. Surprisingly the patch for CVE-2017-9263 is<br>
-still not applied upstream so we continue to carry this change.<br>
-<br>
-The remaining patches were audited and cleaned up as needed.<br>
-<br>
-Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
-ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
----<br>
-=C2=A0...gure-Only-link-against-<wbr>libpcap-on-FreeBSD.patch | 70 --------=
---------------<br>
-=C2=A0...<wbr>b29cb89e9e9fe3119b2e5dd5d4fb79<wbr>141635b7cc.patch} |=C2=A0 =
-0<br>
-=C2=A0recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a>=C2=A0 |=C2=
-=A0 4 +-<br>
-=C2=A03 files changed, 2 insertions(+), 72 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-networking/<wbr>openvswitch/files/configur=
-e-<wbr>Only-link-against-libpcap-on-<wbr>FreeBSD.patch<br>
-=C2=A0rename recipes-networking/<wbr>openvswitch/openvswitch-git/{<wbr>open=
-vswitch-add-ptest-<wbr>c298ef781c2d35d939fe163cbc2f41<wbr>ea7b1cb8d1.patch =
-=3D&gt; openvswitch-add-ptest-<wbr>b29cb89e9e9fe3119b2e5dd5d4fb79<wbr>14163=
-5b7cc.patch} (100%)<br>
-<br>
-diff --git a/recipes-networking/<wbr>openvswitch/files/configure-<wbr>Only-=
-link-against-libpcap-on-<wbr>FreeBSD.patch b/recipes-networking/<wbr>openvs=
-witch/files/configure-<wbr>Only-link-against-libpcap-on-<wbr>FreeBSD.patch<=
-br>
-deleted file mode 100644<br>
-index 0a44b85..0000000<br>
---- a/recipes-networking/<wbr>openvswitch/files/configure-<wbr>Only-link-ag=
-ainst-libpcap-on-<wbr>FreeBSD.patch<br>
-+++ /dev/null<br>
-@@ -1,70 +0,0 @@<br>
--From d30e714ccb9d13caf39d14d5b2fc95<wbr>23b678ed51 Mon Sep 17 00:00:00 200=
-1<br>
--From: Ben Pfaff &lt;<a href=3D"mailto:blp@nicira.com">blp@nicira.com</a>&g=
-t;<br>
--Date: Thu, 14 Mar 2013 15:20:55 -0700<br>
--Subject: [PATCH] configure: Only link against libpcap on FreeBSD.<br>
--<br>
--commit d30e714ccb9d13caf39d14d5b2fc95<wbr>23b678ed51 upstream<br>
--<a href=3D"http://git.openvswitch.org/git/openvswitch" rel=3D"noreferrer" =
-target=3D"_blank">http://git.openvswitch.org/<wbr>git/openvswitch</a><br>
--<br>
--On other platforms there is no benefit to linking against libpcap, because=
-<br>
--it is not used.<br>
--<br>
--Signed-off-by: Ben Pfaff &lt;<a href=3D"mailto:blp@nicira.com">blp@nicira.=
-com</a>&gt;<br>
--CC: Ed Maste &lt;<a href=3D"mailto:emaste@freebsd.org">emaste@freebsd.org<=
-/a>&gt;<br>
-----<br>
-- acinclude.m4 | 7 ++++++-<br>
-- <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">conf=
-igure.ac</a> | 3 +--<br>
-- 2 files changed, 7 insertions(+), 3 deletions(-)<br>
--<br>
--diff --git a/acinclude.m4 b/acinclude.m4<br>
--index f0610c9..19a47dd 100644<br>
----- a/acinclude.m4<br>
--+++ b/acinclude.m4<br>
--@@ -1,6 +1,6 @@<br>
-- # -*- autoconf -*-<br>
--<br>
---# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.<br>
--+# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.<br>
-- #<br>
-- # Licensed under the Apache License, Version 2.0 (the &quot;License&quot;=
-);<br>
-- # you may not use this file except in compliance with the License.<br>
--@@ -295,6 +295,8 @@ AC_DEFUN([OVS_CHECK_IF_PACKET]<wbr>,<br>
--=C2=A0 =C2=A0 fi])<br>
--<br>
-- dnl Checks for net/if_dl.h.<br>
--+dnl<br>
--+dnl (We use this as a proxy for checking whether we&#39;re building on Fr=
-eeBSD.)<br>
-- AC_DEFUN([OVS_CHECK_IF_DL],<br>
--=C2=A0 =C2=A0[AC_CHECK_HEADER([net/if_dl.h]<wbr>,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [HAV=
-E_IF_DL=3Dyes],<br>
--@@ -303,6 +305,9 @@ AC_DEFUN([OVS_CHECK_IF_DL],<br>
--=C2=A0 =C2=A0 if test &quot;$HAVE_IF_DL&quot; =3D yes; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0AC_DEFINE([HAVE_IF_DL], [1],<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[Define to 1=
- if net/if_dl.h is available.])<br>
--+<br>
--+=C2=A0 =C2=A0 =C2=A0 # On FreeBSD we use libpcap to access network device=
-s.<br>
--+=C2=A0 =C2=A0 =C2=A0 AC_SEARCH_LIBS([pcap_open_<wbr>live], [pcap])<br>
--=C2=A0 =C2=A0 fi])<br>
--<br>
-- dnl Checks for buggy strtok_r.<br>
--diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"=
-_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"noreferre=
-r" target=3D"_blank">configure.ac</a><br>
--index 1cacd29..bd49179 100644<br>
----- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a><br>
--+++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a><br>
--@@ -1,4 +1,4 @@<br>
---# Copyright (c) 2008, 2009, 2010, 2011, 2012 Nicira, Inc.<br>
--+# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013 Nicira, Inc.<br>
-- #<br>
-- # Licensed under the Apache License, Version 2.0 (the &quot;License&quot;=
-);<br>
-- # you may not use this file except in compliance with the License.<br>
--@@ -44,7 +44,6 @@ AC_SYS_LARGEFILE<br>
-- AC_SEARCH_LIBS([pow], [m])<br>
-- AC_SEARCH_LIBS([clock_gettime]<wbr>, [rt])<br>
-- AC_SEARCH_LIBS([timer_create], [rt])<br>
---AC_SEARCH_LIBS([pcap_open_<wbr>live], [pcap])<br>
--<br>
-- OVS_CHECK_ESX<br>
-- OVS_CHECK_COVERAGE<br>
----<br>
--1.8.3.2<br>
--<br>
-diff --git a/recipes-networking/<wbr>openvswitch/openvswitch-git/<wbr>openv=
-switch-add-ptest-<wbr>c298ef781c2d35d939fe163cbc2f41<wbr>ea7b1cb8d1.patch b=
-/recipes-networking/<wbr>openvswitch/openvswitch-git/<wbr>openvswitch-add-p=
-test-<wbr>b29cb89e9e9fe3119b2e5dd5d4fb79<wbr>141635b7cc.patch<br>
-similarity index 100%<br>
-rename from recipes-networking/<wbr>openvswitch/openvswitch-git/<wbr>openvs=
-witch-add-ptest-<wbr>c298ef781c2d35d939fe163cbc2f41<wbr>ea7b1cb8d1.patch<br=
->
-rename to recipes-networking/<wbr>openvswitch/openvswitch-git/<wbr>openvswi=
-tch-add-ptest-<wbr>b29cb89e9e9fe3119b2e5dd5d4fb79<wbr>141635b7cc.patch<br>
-diff --git a/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswi=
-tch_git.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a> b/r=
-ecipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
-index a2893e9..3972607 100644<br>
---- a/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
-+++ b/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
-@@ -12,11 +12,11 @@ RDEPENDS_${PN}-ptest +=3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
--PV =3D &quot;2.7.0+${SRCREV}&quot;<br>
-+PV =3D &quot;2.7.1+${SRCREV}&quot;<br>
-<br>
-=C2=A0FILESEXTRAPATHS_append :=3D &quot;${THISDIR}/${PN}-git:&quot;<br>
-<br>
--SRCREV =3D &quot;<wbr>c298ef781c2d35d939fe163cbc2f41<wbr>ea7b1cb8d1&quot;<=
-br>
-+SRCREV =3D &quot;<wbr>b29cb89e9e9fe3119b2e5dd5d4fb79<wbr>141635b7cc&quot;<=
-br>
-=C2=A0SRC_URI =3D &quot;file://openvswitch-switch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://openvswitch-switch-<wbr>se=
-tup \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://openvswitch-<wbr>testcontr=
-oller \<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
-
---f4030436060acfffa405548782ac--
