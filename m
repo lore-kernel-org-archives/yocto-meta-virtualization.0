@@ -1,40 +1,74 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 533A6E00BF8; Sun, 23 Jul 2017 23:08:57 -0700 (PDT)
+	id AD3B0E00C1C; Mon, 24 Jul 2017 12:29:57 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.161.193 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 35664E00BE9
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.161.193 listed in dnsbl.sorbs.net]
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 20B0DE00C19
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 23 Jul 2017 23:08:55 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6O68s7T020408
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 24 Jul 2017 12:29:56 -0700 (PDT)
+Received: by mail-yw0-f193.google.com with SMTP id h189so5601877ywf.4
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 23 Jul 2017 23:08:55 -0700
-Received: from [128.224.162.196] (128.224.162.196) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Sun, 23 Jul 2017 23:08:54 -0700
-To: <meta-virtualization@yoctoproject.org>
-References: <1500866837-1666-1-git-send-email-zhe.he@windriver.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <bd999f08-bffd-3779-6f64-ce45836f3b4a@windriver.com>
-Date: Mon, 24 Jul 2017 14:08:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Mon, 24 Jul 2017 12:29:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:reply-to:sender:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=eCdgvkOXqn6eY0wqtY4TIkdRtQoWGQvToswR/Gutrk4=;
+	b=qR5ECy8bdAxwsrs57KSUczMkMI/fBQRWFTQxg3KP5HkF+jQfe3Ms6lAhjbctE4ywwT
+	BB2omqOzWbnWYaUhJQdCcZ1P0M14onohPbZwK0rVD/Z2Afi1yJhep+BpJrqZQpSrFEDR
+	lJKP8Oas7gVjhTNSChO1QqtLryp78J1tHdrZVaC++q/LrbjFij/IBEZwWBLQXyBF3BMW
+	iuOEC7Ew2QiMR2ABzUQc7FmgxQmzTvFtcjDHV+KOUi3mEWIZTqRnkwxx3YnLprziUbQe
+	zg/rwTbHKqpsRZQi6gJ8UF2f82/5yC9ghxt6SdIyTGb23p9w4MT+kFNVYwFyeKAq77hd
+	+uDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
+	:references:from:date:message-id:subject:to:cc;
+	bh=eCdgvkOXqn6eY0wqtY4TIkdRtQoWGQvToswR/Gutrk4=;
+	b=eldFQETrwR4pf0G4UDvyo6aAuPV8kpivdoWr6S5FpCI5GN50g8uX37KvIg38wujNQS
+	0zCRHCI4oB8txdFBjMS+1w1ieQl2Fu9hoZ8MOs/2XS/lvgvUDuM+4mN7Uzcn7d873OxN
+	IJP2OEOW+g+nV8E2l9bTGuy4DtW/ttcGXjw9KhDZGd8Dt3gZZB+iDRkTIANywSGme4O6
+	e7jpsawZna6SVIznSXnfN+Uaej6zsRZx2zwFhibrqB9d7lHjV5ZOo016AVb36saxaCst
+	q5wclkN6thD77LjDvO6IEMaLriip3SrWDq8B8ramHfVaZvEsq5vyw2ZM9TkDI+qxSIyM
+	pWrg==
+X-Gm-Message-State: AIVw112qj8D66+AWSpy4JmmEoi5jfASFPMHs9noJ0FBOl+YGhUsA1Veq
+	Sl7cLv7Vi+yBErXkKo3RltE8SvRUsuWD
+X-Received: by 10.37.7.132 with SMTP id 126mr13878974ybh.97.1500924595888;
+	Mon, 24 Jul 2017 12:29:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1500866837-1666-1-git-send-email-zhe.he@windriver.com>
-X-Originating-IP: [128.224.162.196]
-Subject: Re: [PATCH] spice: Fix build failures
+Sender: asselsm@gmail.com
+Received: by 10.37.11.134 with HTTP; Mon, 24 Jul 2017 12:29:55 -0700 (PDT)
+In-Reply-To: <1500873264-24606-2-git-send-email-yi.zhao@windriver.com>
+References: <1500873264-24606-1-git-send-email-yi.zhao@windriver.com>
+	<1500873264-24606-2-git-send-email-yi.zhao@windriver.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Mon, 24 Jul 2017 15:29:55 -0400
+X-Google-Sender-Auth: phfpDSsYARP9_a5xj82fic-Ya9g
+Message-ID: <CAPuovEKujQt1p+5+03X30p0NVQSOUxh1RXtAi+pjdywZZsgA1Q@mail.gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [meta-cloud-services][PATCH 1/3] libibverbs: add new recpie
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -44,135 +78,70 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jul 2017 06:08:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 24 Jul 2017 19:29:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Actually this is for ｍｅｔａ-cloud-services.
-
-On 2017年07月24日 11:27, zhe.he@windriver.com wrote:
-> From: He Zhe <zhe.he@windriver.com>
+On Mon, Jul 24, 2017 at 1:14 AM, Yi Zhao <yi.zhao@windriver.com> wrote:
+> Libibverbs is a library that allows userspace processes to use
+> InfiniBand/RDMA 'verbs' directly.
 >
-> Backport 3cb746329ea4846bd9c65e0198e69423379b6f62 "Use PRI macros in printf to
-> keep compatibility between 32/64bit system" from upstream to fix the following
-> errors:
->
-> server/jpeg_encoder.c:639:17: error: format '%lu' expects argument of type 'long
-> unsigned int', but argument 12 has type 'uint64_t {aka long long unsigned int}'
-> [-Werror=format=]
->
-> server/mjpeg_encoder.c:639:17: error: format '%lu' expects argument of type
-> 'long unsigned int', but argument 13 has type 'uint64_t {aka long long unsigned
-> int}' [-Werror=format=]
->
-> server/mjpeg_encoder.c:706:21: error: format '%lu' expects argument of type
-> 'long unsigned int', but argument 6 has type 'uint64_t {aka long long unsigned
-> int}' [-Werror=format=]
->
-> server/mjpeg_encoder.c:706:21: error: format '%lu' expects argument of type
-> 'long unsigned int', but argument 7 has type 'uint64_t {aka long long unsigned
-> int}' [-Werror=format=]
->
-> server/mjpeg_encoder.c:936:75: error: integer overflow in expression
-> [-Werror=overflow]
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 > ---
->  ...ros-in-printf-to-keep-compatibility-betwe.patch | 72 ++++++++++++++++++++++
->  recipes-support/spice/spice_git.bb                 |  1 +
->  2 files changed, 73 insertions(+)
->  create mode 100644 recipes-support/spice/files/0001-Use-PRI-macros-in-printf-to-keep-compatibility-betwe.patch
+>  recipes-extended/libibverbs/libibverbs_1.1.7.bb | 27 +++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
+>  create mode 100644 recipes-extended/libibverbs/libibverbs_1.1.7.bb
 >
-> diff --git a/recipes-support/spice/files/0001-Use-PRI-macros-in-printf-to-keep-compatibility-betwe.patch b/recipes-support/spice/files/0001-Use-PRI-macros-in-printf-to-keep-compatibility-betwe.patch
+> diff --git a/recipes-extended/libibverbs/libibverbs_1.1.7.bb b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
 > new file mode 100644
-> index 0000000..18fa8fa
+> index 0000000..e75f90d
 > --- /dev/null
-> +++ b/recipes-support/spice/files/0001-Use-PRI-macros-in-printf-to-keep-compatibility-betwe.patch
-> @@ -0,0 +1,72 @@
-> +From 3cb746329ea4846bd9c65e0198e69423379b6f62 Mon Sep 17 00:00:00 2001
-> +From: =?UTF-8?q?=EC=86=8C=EB=B3=91=EC=B2=A0?= <byungchul.so@samsung.com>
-> +Date: Thu, 24 Apr 2014 12:26:32 +0000
-> +Subject: [PATCH] Use PRI macros in printf to keep compatibility between
-> + 32/64bit system
-> +
-> +gcc's some integer type definitions are different between 32/64bit system.
-> +This causes platform dependency problem with printf function. However,
-> +we can avoid this problem by using PRI macros that supports platform
-> +independent printf.
-> +---
-> + server/mjpeg_encoder.c | 7 ++++---
-> + server/red_worker.c    | 4 ++--
-> + 2 files changed, 6 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/server/mjpeg_encoder.c b/server/mjpeg_encoder.c
-> +index aea4964..f465d88 100644
-> +--- a/server/mjpeg_encoder.c
-> ++++ b/server/mjpeg_encoder.c
-> +@@ -23,6 +23,7 @@
-> + #include "mjpeg_encoder.h"
-> + #include <jerror.h>
-> + #include <jpeglib.h>
-> ++#include <inttypes.h>
-> + 
-> + #define MJPEG_MAX_FPS 25
-> + #define MJPEG_MIN_FPS 1
-> +@@ -66,7 +67,7 @@ static const int mjpeg_quality_samples[MJPEG_QUALITY_SAMPLE_NUM] = {20, 30, 40,
-> +  * are not necessarily related to mis-estimation of the bit rate, and we would
-> +  * like to wait till the stream stabilizes.
-> +  */
-> +-#define MJPEG_WARMUP_TIME 3000L // 3 sec
-> ++#define MJPEG_WARMUP_TIME 3000LL // 3 sec
-> + 
-> + enum {
-> +     MJPEG_QUALITY_EVAL_TYPE_SET,
-> +@@ -638,7 +639,7 @@ static void mjpeg_encoder_adjust_params_to_bit_rate(MJpegEncoder *encoder)
-> + 
-> +     spice_debug("cur-fps=%u new-fps=%u (new/old=%.2f) |"
-> +                 "bit-rate=%.2f (Mbps) latency=%u (ms) quality=%d |"
-> +-                " new-size-avg %lu , base-size %lu, (new/old=%.2f) ",
-> ++                " new-size-avg %"PRIu64" , base-size %"PRIu64", (new/old=%.2f) ",
-> +                 rate_control->fps, new_fps, ((double)new_fps)/rate_control->fps,
-> +                 ((double)rate_control->byte_rate*8)/1024/1024,
-> +                 latency,
-> +@@ -703,7 +704,7 @@ static void mjpeg_encoder_adjust_fps(MJpegEncoder *encoder, uint64_t now)
-> + 
-> +         avg_fps = ((double)rate_control->adjusted_fps_num_frames*1000) /
-> +                   adjusted_fps_time_passed;
-> +-        spice_debug("#frames-adjust=%lu #adjust-time=%lu avg-fps=%.2f",
-> ++        spice_debug("#frames-adjust=%"PRIu64" #adjust-time=%"PRIu64" avg-fps=%.2f",
-> +                     rate_control->adjusted_fps_num_frames, adjusted_fps_time_passed, avg_fps);
-> +         spice_debug("defined=%u old-adjusted=%.2f", rate_control->fps, rate_control->adjusted_fps);
-> +         fps_ratio = avg_fps / rate_control->fps;
-> +diff --git a/server/red_worker.c b/server/red_worker.c
-> +index 619f7bc..1871e13 100644
-> +--- a/server/red_worker.c
-> ++++ b/server/red_worker.c
-> +@@ -2594,8 +2594,8 @@ static void red_print_stream_stats(DisplayChannelClient *dcc, StreamAgent *agent
-> +         mjpeg_encoder_get_stats(agent->mjpeg_encoder, &encoder_stats);
-> +     }
-> + 
-> +-    spice_debug("stream=%ld dim=(%dx%d) #in-frames=%lu #in-avg-fps=%.2f #out-frames=%lu "
-> +-                "out/in=%.2f #drops=%lu (#pipe=%lu #fps=%lu) out-avg-fps=%.2f "
-> ++    spice_debug("stream=%"PRIdPTR" dim=(%dx%d) #in-frames=%"PRIu64" #in-avg-fps=%.2f #out-frames=%"PRIu64" "
-> ++                "out/in=%.2f #drops=%"PRIu64" (#pipe=%"PRIu64" #fps=%"PRIu64") out-avg-fps=%.2f "
-> +                 "passed-mm-time(sec)=%.2f size-total(MB)=%.2f size-per-sec(Mbps)=%.2f "
-> +                 "size-per-frame(KBpf)=%.2f avg-quality=%.2f "
-> +                 "start-bit-rate(Mbps)=%.2f end-bit-rate(Mbps)=%.2f",
-> +-- 
-> +2.10.2
-> +
-> diff --git a/recipes-support/spice/spice_git.bb b/recipes-support/spice/spice_git.bb
-> index 6f1be3a..cf5c569 100644
-> --- a/recipes-support/spice/spice_git.bb
-> +++ b/recipes-support/spice/spice_git.bb
-> @@ -36,6 +36,7 @@ SRC_URI += " \
->          file://configure.ac-add-subdir-objects-to-AM_INIT_AUTOMAKE.patch \
->          file://build-allow-separated-src-and-build-dirs.patch \
->          file://0001-red_parse_qxl-Fix-BITMAP_FMT_IS_RGB-defined-but-not-.patch \
-> +        file://0001-Use-PRI-macros-in-printf-to-keep-compatibility-betwe.patch \
->          "
->  
->  S = "${WORKDIR}/git"
+> +++ b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+> @@ -0,0 +1,27 @@
+> +SUMMARY = "Support InfiniBand verbs"
+> +DESCRIPTION = "Libibverbs is a library that allows userspace processes to use InfiniBand/RDMA 'verbs' directly."
+> +HOMEPAGE = "http://www.openfabrics.org/downloads/verbs/"
 
+I am fine with this series overall. It is nice to see an uprev to
+gluster and an effort to get it working again. I only have one
+request. The page above basically indicates that software which used
+libibverbs should transition to rdma_core and that this software is
+basically deprecated. Are we using this instead of rdma_core because
+Gluster has yet to make this transition? We need to capture whatever
+the reasons are in the commit log.
+
+Regards,
+Mark
+
+> +SECTION = "libs/devel"
+> +
+> +LICENSE = "BSD"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=7c557f27dd795ba77cc419dddc656b51"
+> +
+> +# Official repo is at git://git.kernel.org/pub/scm/libs/infiniband/libibverbs.git
+> +SRC_URI = "http://www.openfabrics.org/downloads/verbs/${BPN}-${PV}.tar.gz"
+> +
+> +SRC_URI[md5sum] = "5aea59e4766ae4548419010ac84032ff"
+> +SRC_URI[sha256sum] = "31b4114bf32d41c9fc81a862ec5febed1e982975f21fa177ea9c7516c9064690"
+> +
+> +inherit autotools
+> +
+> +PACKAGES += "${PN}-utils"
+> +FILES_${PN} = "${sysconfdir} ${libdir}/*.so.*"
+> +FILES_${PN}-utils = "${bindir}"
+> +
+> +PACKAGECONFIG ??= ""
+> +PACKAGECONFIG[valgrind] = "--with-valgrind,--without-valgrind,valgrind,"
+> +
+> +do_install_append() {
+> +        mkdir -p ${D}${sysconfdir}/libibverbs.d
+> +        rm -f ${D}${libdir}/libibverbs.la
+> +}
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
