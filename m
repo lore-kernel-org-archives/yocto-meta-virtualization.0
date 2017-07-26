@@ -1,40 +1,37 @@
 Return-Path: <Yi.Zhao@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 113B1E00BBC; Tue, 25 Jul 2017 17:41:54 -0700 (PDT)
+	id 3D480E00C12; Tue, 25 Jul 2017 17:42:01 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F16DFE00BBC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D1879E00BAF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 25 Jul 2017 17:41:52 -0700 (PDT)
+	Tue, 25 Jul 2017 17:41:55 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v6Q0fqLD021321
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6Q0ftZX015748
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 25 Jul 2017 17:41:52 -0700 (PDT)
+	Tue, 25 Jul 2017 17:41:55 -0700
 Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 25 Jul 2017 17:41:51 -0700
+	Tue, 25 Jul 2017 17:41:54 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
 To: <meta-virtualization@yoctoproject.org>, <mark.asselstine@windriver.com>,
 	<bruce.ashfield@windriver.com>
-Date: Wed, 26 Jul 2017 08:42:07 +0800
-Message-ID: <1501029729-15543-2-git-send-email-yi.zhao@windriver.com>
+Date: Wed, 26 Jul 2017 08:42:08 +0800
+Message-ID: <1501029729-15543-3-git-send-email-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1501029729-15543-1-git-send-email-yi.zhao@windriver.com>
 References: <1501029729-15543-1-git-send-email-yi.zhao@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.162.198]
-Subject: [meta-cloud-services][PATCH V2 1/3] libibverbs: add new recpie
+Subject: [meta-cloud-services][PATCH V2 2/3] librdmacm: add new recipe
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,57 +44,95 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 00:41:54 -0000
+X-List-Received-Date: Wed, 26 Jul 2017 00:42:01 -0000
 Content-Type: text/plain
 
-Libibverbs is a library that allows userspace processes to use
-InfiniBand/RDMA 'verbs' directly.
-
-libibverbs is now part of rdma-core and the standalone libibverbs
-project has been deprecated. Rough testing shows that we can move to use
-rdma-core however we have yet to perform extensive testing with this
-change. We therefor will continue to use the standalone libibverbs at
-this point in time. This is also inline with the upstream glusterfs
-project that still lists libibverbs as a dependency.
+User space RDMA 'socket' protocol and libraries for establising RDMA
+communication. Includes both Infiniband specific and general RDMA
+communication management libraries for unreliable datagram, reliable
+connected, and multicast data transfers.
 
 Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- recipes-extended/libibverbs/libibverbs_1.1.7.bb | 27 +++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
- create mode 100644 recipes-extended/libibverbs/libibverbs_1.1.7.bb
+ .../librdmacm/files/librdmacm-needs-libdl.patch    | 21 +++++++++++
+ recipes-extended/librdmacm/librdmacm_1.0.17.bb     | 41 ++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 recipes-extended/librdmacm/files/librdmacm-needs-libdl.patch
+ create mode 100644 recipes-extended/librdmacm/librdmacm_1.0.17.bb
 
-diff --git a/recipes-extended/libibverbs/libibverbs_1.1.7.bb b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+diff --git a/recipes-extended/librdmacm/files/librdmacm-needs-libdl.patch b/recipes-extended/librdmacm/files/librdmacm-needs-libdl.patch
 new file mode 100644
-index 0000000..e75f90d
+index 0000000..bf15bea
 --- /dev/null
-+++ b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
-@@ -0,0 +1,27 @@
-+SUMMARY = "Support InfiniBand verbs"
-+DESCRIPTION = "Libibverbs is a library that allows userspace processes to use InfiniBand/RDMA 'verbs' directly."
-+HOMEPAGE = "http://www.openfabrics.org/downloads/verbs/"
++++ b/recipes-extended/librdmacm/files/librdmacm-needs-libdl.patch
+@@ -0,0 +1,21 @@
++Librdmacm links against libibverbs, and the current version of libibverbs
++uses dlopen(), so librdmacm must also link against libdl.
++
++Upstream-Status: Pending
++
++Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
++---
++ configure.in |    2 ++
++ 1 file changed, 2 insertions(+)
++
++--- a/configure.in
+++++ b/configure.in
++@@ -39,6 +39,8 @@ AC_CHECK_SIZEOF(long)
++ dnl Checks for libraries
++ AC_CHECK_LIB(pthread, pthread_mutex_init, [],
++     AC_MSG_ERROR([pthread_mutex_init() not found.  librdmacm requires libpthread.]))
+++AC_CHECK_LIB(dl, dlsym, [],
+++    AC_MSG_ERROR([dlsym() not found.  librdmacm requires libdl.]))
++ if test "$disable_libcheck" != "yes"; then
++ AC_CHECK_LIB(ibverbs, ibv_get_device_list, [],
++     AC_MSG_ERROR([ibv_get_device_list() not found.  librdmacm requires libibverbs.]))
+diff --git a/recipes-extended/librdmacm/librdmacm_1.0.17.bb b/recipes-extended/librdmacm/librdmacm_1.0.17.bb
+new file mode 100644
+index 0000000..ba022b0
+--- /dev/null
++++ b/recipes-extended/librdmacm/librdmacm_1.0.17.bb
+@@ -0,0 +1,41 @@
++SUMMARY = "Userspace RDMA Connection Manager"
++DESCRIPTION = "\
++User space RDMA 'socket' protocol and libraries for establising RDMA\
++communication.  Includes both Infiniband specific and general RDMA\
++communication management libraries for unreliable datagram, reliable\
++connected, and multicast data transfers.\
++Also includes ACM (communication management assistant) service."
++
++HOMEPAGE = "http://www.openfabrics.org/downloads/rdmacm/"
 +SECTION = "libs/devel"
 +
 +LICENSE = "BSD"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=7c557f27dd795ba77cc419dddc656b51"
++LIC_FILES_CHKSUM = "file://COPYING;md5=39cc3044d68741f9005da73e9b92db95"
 +
-+# Official repo is at git://git.kernel.org/pub/scm/libs/infiniband/libibverbs.git
-+SRC_URI = "http://www.openfabrics.org/downloads/verbs/${BPN}-${PV}.tar.gz"
++DEPENDS = "libibverbs"
 +
-+SRC_URI[md5sum] = "5aea59e4766ae4548419010ac84032ff"
-+SRC_URI[sha256sum] = "31b4114bf32d41c9fc81a862ec5febed1e982975f21fa177ea9c7516c9064690"
++# Repo is at http://git.openfabrics.org/git?p=~shefty/librdmacm.git
++SRC_URI = "http://www.openfabrics.org/downloads/rdmacm/${BPN}-${PV}.tar.gz \
++           file://librdmacm-needs-libdl.patch"
++
++SRC_URI[md5sum] = "da6fad887e9c24cb01b74b75f8449cb1"
++SRC_URI[sha256sum] = "9381e1bf2c7079fc257b8eee74e731d3e7eec70e539bb4245084a7b05aeecb2a"
 +
 +inherit autotools
 +
++# Allow plug-in symlinks.
++INSANE_SKIP_${PN} += "dev-so"
++
 +PACKAGES += "${PN}-utils"
-+FILES_${PN} = "${sysconfdir} ${libdir}/*.so.*"
++FILES_${PN} = "${libdir}/*.so.* ${libdir}/rsocket/*.so*"
 +FILES_${PN}-utils = "${bindir}"
++FILES_${PN}-staticdev += "${libdir}/rsocket/librspreload.a"
++FILES_${PN}-dbg += "${libdir}/rsocket/.debug"
 +
 +PACKAGECONFIG ??= ""
 +PACKAGECONFIG[valgrind] = "--with-valgrind,--without-valgrind,valgrind,"
 +
 +do_install_append() {
-+        mkdir -p ${D}${sysconfdir}/libibverbs.d
-+        rm -f ${D}${libdir}/libibverbs.la
++        rm -f ${D}${libdir}/librdmacm.la
++        rm -f ${D}${libdir}/rsocket/librspreload.la
 +}
 -- 
 2.7.4
