@@ -1,6 +1,6 @@
 Return-Path: <Yi.Zhao@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 842D8E00B6F; Tue, 25 Jul 2017 17:06:09 -0700 (PDT)
+	id E59DAE00B6F; Tue, 25 Jul 2017 17:41:50 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,35 +9,27 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E7E3BE00B43
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C214BE00B43
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 25 Jul 2017 17:06:07 -0700 (PDT)
+	Tue, 25 Jul 2017 17:41:49 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6Q066KD015143
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v6Q0fmbj015744
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 25 Jul 2017 17:06:07 -0700
-Received: from [128.224.162.198] (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
+	Tue, 25 Jul 2017 17:41:48 -0700
+Received: from localhost (128.224.162.198) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.294.0;
-	Tue, 25 Jul 2017 17:06:06 -0700
-To: Mark Asselstine <mark.asselstine@windriver.com>
-References: <1500873264-24606-1-git-send-email-yi.zhao@windriver.com>
-	<CAPuovEKujQt1p+5+03X30p0NVQSOUxh1RXtAi+pjdywZZsgA1Q@mail.gmail.com>
-	<b5250488-6970-f6f8-3cbf-5666313b5fd9@windriver.com>
-	<5891948.Vm2DIDaPVG@yow-masselst-lx1>
+	Tue, 25 Jul 2017 17:41:47 -0700
 From: Yi Zhao <yi.zhao@windriver.com>
-Message-ID: <a652a6fc-aa25-7b84-5c8d-5fb24a5259fc@windriver.com>
-Date: Wed, 26 Jul 2017 08:06:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+To: <meta-virtualization@yoctoproject.org>, <mark.asselstine@windriver.com>,
+	<bruce.ashfield@windriver.com>
+Date: Wed, 26 Jul 2017 08:42:06 +0800
+Message-ID: <1501029729-15543-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <5891948.Vm2DIDaPVG@yow-masselst-lx1>
 X-Originating-IP: [128.224.162.198]
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	"meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][PATCH 1/3] libibverbs: add new recpie
+Subject: [meta-cloud-services][PATCH V2 0/3] glusterfs: upgrade to 3.11.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -50,105 +42,58 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jul 2017 00:06:09 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 26 Jul 2017 00:41:51 -0000
+Content-Type: text/plain
 
+Upgrade glusterfs from 3.4.2 to 3.11.1
+Add libiverbs and librdmacm recipes which is needed by glusterfs.
 
+Changes from V1:
+Update commit log for libibverbs as Mark's suggestion.
 
-在 2017年07月25日 20:44, Mark Asselstine 写道:
-> On Tuesday, July 25, 2017 3:38:24 PM EDT Yi Zhao wrote:
->> 在 2017年07月25日 03:29, Mark Asselstine 写道:
->>> On Mon, Jul 24, 2017 at 1:14 AM, Yi Zhao <yi.zhao@windriver.com> wrote:
->>>> Libibverbs is a library that allows userspace processes to use
->>>> InfiniBand/RDMA 'verbs' directly.
->>>>
->>>> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
->>>> ---
->>>>
->>>>    recipes-extended/libibverbs/libibverbs_1.1.7.bb | 27
->>>>    +++++++++++++++++++++++++ 1 file changed, 27 insertions(+)
->>>>    create mode 100644 recipes-extended/libibverbs/libibverbs_1.1.7.bb
->>>>
->>>> diff --git a/recipes-extended/libibverbs/libibverbs_1.1.7.bb
->>>> b/recipes-extended/libibverbs/libibverbs_1.1.7.bb new file mode 100644
->>>> index 0000000..e75f90d
->>>> --- /dev/null
->>>> +++ b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
->>>> @@ -0,0 +1,27 @@
->>>> +SUMMARY = "Support InfiniBand verbs"
->>>> +DESCRIPTION = "Libibverbs is a library that allows userspace processes
->>>> to use InfiniBand/RDMA 'verbs' directly." +HOMEPAGE =
->>>> "http://www.openfabrics.org/downloads/verbs/"
->>> I am fine with this series overall. It is nice to see an uprev to
->>> gluster and an effort to get it working again. I only have one
->>> request. The page above basically indicates that software which used
->>> libibverbs should transition to rdma_core and that this software is
->>> basically deprecated. Are we using this instead of rdma_core because
->>> Gluster has yet to make this transition? We need to capture whatever
->>> the reasons are in the commit log.
->> I checked the commit log for glusterfs, there is no explicit message
->> said it only depend on old libibverbs.
->> For rdma-core, it is a collection including libibverbs and librdmacm. I
->> did a quick test that glusterfs can be built when depending on it.
->> So maybe we could using rdma-core instead of libibverbs and librdmacm ?
-> I am fine with the current approach but please add the above to the commit log
-> for the libibverbs commit. Something like
->
-> "libibverbs is now part of rdma-core and the standalone libibverbs project has
-> been deprecated. Rough testing shows that we can move to use rdma-core however
-> we have yet to perform extensive testing with this change. We therefor will
-> continue to use the standalone libibverbs at this point in time. This is also
-> inline with the upstream glusterfs project that still lists libibverbs as a
-> dependency."
+Yi Zhao (3):
+  libibverbs: add new recpie
+  librdmacm: add new recipe
+  glusterfs: uprev to 3.11.1
 
-Thanks, Mark.  I will send V2
+ ...nt.glusterfs-not-accepting-version-argume.patch |  33 -----
+ ...c-allow-PYTHON-values-to-be-passed-via-en.patch |  67 ++++++++++
+ .../dependence-on-correct-header-file-path.patch   |  32 +++++
+ .../files/glusterd-change-port-range.patch         |  39 ++++++
+ .../files/{glusterd-ovp => glusterd.init}          |   6 +-
+ recipes-extended/glusterfs/files/glusterd.service  |  12 ++
+ ...fs-api-remove-unnecessary-library-options.patch |  31 +++++
+ .../glusterfs-change-default-nfs-port-number.patch |  49 +++++++
+ ...onfigure-automake-with-subdir-objects-for.patch |  37 ++++++
+ ...glusterfs-disable-default-startup-scripts.patch |  24 +++-
+ .../libglusterfs-Don-t-link-against-libfl.patch    |  46 +++++++
+ ...python-work-around-host-and-target-python.patch |  81 ++++++++++++
+ .../files/xlator-host-contamination-3.4.patch      |  34 +++--
+ recipes-extended/glusterfs/glusterfs.inc           | 142 ++++++++++++++++-----
+ recipes-extended/glusterfs/glusterfs_3.11.1.bb     |   6 +
+ recipes-extended/glusterfs/glusterfs_3.4.2.bb      |  12 --
+ recipes-extended/libibverbs/libibverbs_1.1.7.bb    |  27 ++++
+ .../librdmacm/files/librdmacm-needs-libdl.patch    |  21 +++
+ recipes-extended/librdmacm/librdmacm_1.0.17.bb     |  41 ++++++
+ 19 files changed, 639 insertions(+), 101 deletions(-)
+ delete mode 100644 recipes-extended/glusterfs/files/0001-Fix-for-mount.glusterfs-not-accepting-version-argume.patch
+ create mode 100644 recipes-extended/glusterfs/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
+ create mode 100644 recipes-extended/glusterfs/files/dependence-on-correct-header-file-path.patch
+ create mode 100644 recipes-extended/glusterfs/files/glusterd-change-port-range.patch
+ rename recipes-extended/glusterfs/files/{glusterd-ovp => glusterd.init} (92%)
+ create mode 100644 recipes-extended/glusterfs/files/glusterd.service
+ create mode 100644 recipes-extended/glusterfs/files/glusterfs-api-remove-unnecessary-library-options.patch
+ create mode 100644 recipes-extended/glusterfs/files/glusterfs-change-default-nfs-port-number.patch
+ create mode 100644 recipes-extended/glusterfs/files/glusterfs-configure-automake-with-subdir-objects-for.patch
+ create mode 100644 recipes-extended/glusterfs/files/libglusterfs-Don-t-link-against-libfl.patch
+ create mode 100644 recipes-extended/glusterfs/files/python-work-around-host-and-target-python.patch
+ create mode 100644 recipes-extended/glusterfs/glusterfs_3.11.1.bb
+ delete mode 100644 recipes-extended/glusterfs/glusterfs_3.4.2.bb
+ create mode 100644 recipes-extended/libibverbs/libibverbs_1.1.7.bb
+ create mode 100644 recipes-extended/librdmacm/files/librdmacm-needs-libdl.patch
+ create mode 100644 recipes-extended/librdmacm/librdmacm_1.0.17.bb
 
-Yi
-
->
-> MarkA
->
->> Regards,
->> Yi
->>
->>> Regards,
->>> Mark
->>>
->>>> +SECTION = "libs/devel"
->>>> +
->>>> +LICENSE = "BSD"
->>>> +LIC_FILES_CHKSUM = "file://COPYING;md5=7c557f27dd795ba77cc419dddc656b51"
->>>> +
->>>> +# Official repo is at
->>>> git://git.kernel.org/pub/scm/libs/infiniband/libibverbs.git +SRC_URI =
->>>> "http://www.openfabrics.org/downloads/verbs/${BPN}-${PV}.tar.gz" +
->>>> +SRC_URI[md5sum] = "5aea59e4766ae4548419010ac84032ff"
->>>> +SRC_URI[sha256sum] =
->>>> "31b4114bf32d41c9fc81a862ec5febed1e982975f21fa177ea9c7516c9064690" +
->>>> +inherit autotools
->>>> +
->>>> +PACKAGES += "${PN}-utils"
->>>> +FILES_${PN} = "${sysconfdir} ${libdir}/*.so.*"
->>>> +FILES_${PN}-utils = "${bindir}"
->>>> +
->>>> +PACKAGECONFIG ??= ""
->>>> +PACKAGECONFIG[valgrind] = "--with-valgrind,--without-valgrind,valgrind,"
->>>> +
->>>> +do_install_append() {
->>>> +        mkdir -p ${D}${sysconfdir}/libibverbs.d
->>>> +        rm -f ${D}${libdir}/libibverbs.la
->>>> +}
->>>> --
->>>> 2.7.4
->>>>
->>>> --
->>>> _______________________________________________
->>>> meta-virtualization mailing list
->>>> meta-virtualization@yoctoproject.org
->>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
+-- 
+2.7.4
 
 
