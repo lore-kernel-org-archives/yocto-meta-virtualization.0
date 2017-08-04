@@ -1,21 +1,20 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E8928E00C55; Thu,  3 Aug 2017 20:52:21 -0700 (PDT)
+	id 07A4EE00C5C; Thu,  3 Aug 2017 20:52:36 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	HTML_OBFUSCATE_05_10, 
-	RCVD_IN_DNSWL_NONE,RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
+	RCVD_IN_DNSWL_NONE, 
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
 	*      [209.85.215.66 listed in list.dnswl.org]
 	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
 	*      [209.85.215.66 listed in dnsbl.sorbs.net]
-	* 0.3 HTML_OBFUSCATE_05_10 BODY: Message is 5% to 10% HTML obfuscation
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -26,47 +25,47 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
 	[209.85.215.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0125EE00C49
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 08B47E00C55
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  3 Aug 2017 20:52:20 -0700 (PDT)
-Received: by mail-lf0-f66.google.com with SMTP id y15so321489lfd.5
+	Thu,  3 Aug 2017 20:52:35 -0700 (PDT)
+Received: by mail-lf0-f66.google.com with SMTP id 65so336877lfa.0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 03 Aug 2017 20:52:20 -0700 (PDT)
+	Thu, 03 Aug 2017 20:52:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=gt/BT4RNkbE35JaR83A9BBAcY6jK2ywMw1wVIg11iJA=;
-	b=CVsQ2laWzcu4Hig9ggG9xOeVvsIAtN1ctHzgXLoln2PfHi6z4ez+GdIfuP+Fuqwn/A
-	uPtgyaqvhgS0fiIdEmg6McGUDjKRcXaiATtngB/kPqT1wM3DAYJS2rAG/27MTbuciSuT
-	Rbqt33MehMsYC9g6eZPiwoNr8pfHBEFR4+ZXjIh9s6dsBSRDy044vFsXO2ChaGzcsw2r
-	aSlvzQjHgR8QDXcJ67HamlN8Frqpm122/x/c31KZXCPfuuaEErqGDWycudTiw3LRPVeG
-	MUtYSVAPSc9Lk74h88eSrPMu+5yU53AALIHELlS1fAu2l5FGoQWmj/gbaMqMruX858Gj
-	wC/Q==
+	:cc; bh=63WuHJQsq2EF75lUSJvjkgv8MxlU+3QcWh9v/eG6Gbk=;
+	b=Tzr0EQmTwbf/Sohl4SzTxn9tROxKOXMUuGdHnG6X/DsKs+SZcC6pY9a19s4PMj9KWO
+	5/1pe9sMup7cO/qrIRP9lt0wPJN5KseeK86mj49DRivTF8DfnEJ4+F34gWvygVKsROSd
+	u9kJsZCbtcWWUp1CZtFdt70iOdg7UF2w/mMBXOtF7Ub712tX/Bx3Jf/horE/MtYJuYNi
+	FvekvONXOBLw6S/aGybDH+7VSKL9RCHRtiq1+49Sv54FcsriTG1c6HmpNO/u1qaq5wZT
+	GtwHtR+9j8cE0CXx1q92rcFvpH/VDI1LGkFOGPv06fASBI2CMhmZun7b1qlVFxV8wJmG
+	TZfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=gt/BT4RNkbE35JaR83A9BBAcY6jK2ywMw1wVIg11iJA=;
-	b=H8Sip+Itl2YOX1gjYpgNYkd9FQm0+R4R1YMdx52ntoemQWc3VGTQ5knfg74KZcQ7Y+
-	8SIvgiC1twP8Te+06jZ5Et4OcaBXlYUUgBHojPc5ns0OYBKXrFA5zfx/etw4QY8nmFaX
-	XWcrrsMIU8ZCzeZeVetVjmY4GVPNlfhi8KnFFa58jP++9nLtUqu5Sn2ztfdhbuPyiMsi
-	az2Pts+c2nEEyPc6syeX8OhckeA7dtXhtQYCgLti6/QMHrg/Xf2POvQNXK3hLnBT4zAr
-	ich3VGebWo4lT+r25lcMdRzAlh4SA7FtKXYgqCqt4OmWqq93W0N7fTl2wbd9B5rHgbuj
-	DOFg==
-X-Gm-Message-State: AHYfb5iGiAcieLphBjtYSZ9234feRtdwSvRGKpUPwPzdaxe7AY85cT4v
-	VdPbESmy20uGaJ1oVz7h3o7hSZvyyg==
-X-Received: by 10.25.166.213 with SMTP id p204mr229214lfe.191.1501818739764;
-	Thu, 03 Aug 2017 20:52:19 -0700 (PDT)
+	bh=63WuHJQsq2EF75lUSJvjkgv8MxlU+3QcWh9v/eG6Gbk=;
+	b=WFVZyOAbp2bumVvlHC7htYqN4iEo3yfkxKihv5LIvuJ7Jzp1dBThpMjLANKPVTZjr6
+	v/WbyvKJ+9IQJ+UzopWn0iasw04CfKzewmN3c8aOra7jZkHaceINNrVWyPvZbmWjnJ/i
+	LAbMQyzlhjcor4iYeXjjXMdHUfbwjhCn4RdUGG9KW0LpoxNwIl7POKNwOgnrvKtjOPTH
+	ewOPHj11bXgDFeM7AOSGxLVwD1n9rzauZRf7nzFyxJttrOjpQUZkKesgIBz2jo97oji6
+	Q5VUo8puAtHBbDlIA7udIwL1YVAqBwUO2SxxwuN/z0gGQlklGg5fxGLX6PG9fO1OJtGT
+	KaKw==
+X-Gm-Message-State: AHYfb5iSqFfSp2bVaOIcXXR03I3ENQo4brC4DB++I2fF2YHfz4srI10X
+	FHxrf7pxDCwqPg7AYhL8j1nAPxiA4A==
+X-Received: by 10.25.145.71 with SMTP id y7mr320429lfj.17.1501818754236; Thu,
+	03 Aug 2017 20:52:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.14.18 with HTTP; Thu, 3 Aug 2017 20:52:19 -0700 (PDT)
-In-Reply-To: <1501654551-155594-1-git-send-email-fupan.li@windriver.com>
-References: <1501654551-155594-1-git-send-email-fupan.li@windriver.com>
+Received: by 10.46.14.18 with HTTP; Thu, 3 Aug 2017 20:52:33 -0700 (PDT)
+In-Reply-To: <20170804030100.10658-1-Qi.Chen@windriver.com>
+References: <20170804030100.10658-1-Qi.Chen@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 3 Aug 2017 23:52:19 -0400
-Message-ID: <CADkTA4PmW7H9TF_Nn8u7CVVYtVM+K69GEB4OG+1mBPST4GYamw@mail.gmail.com>
-To: Fupan Li <fupan.li@windriver.com>
+Date: Thu, 3 Aug 2017 23:52:33 -0400
+Message-ID: <CADkTA4PQZZadfRb3sB2P3xT1X9nHVh9Bq6yvhFHJkuBHLVk4Cg@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] meta-virtualization:remove inheritting class image-vm
+Subject: Re: [PATCH] openvswitch: fix dpdk PACKAGECONFIG
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -79,60 +78,52 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 04 Aug 2017 03:52:22 -0000
-Content-Type: multipart/alternative; boundary="001a114115848033c50555e56ca6"
+X-List-Received-Date: Fri, 04 Aug 2017 03:52:36 -0000
+Content-Type: multipart/alternative; boundary="94eb2c1cd06a5d07e50555e56da5"
 
---001a114115848033c50555e56ca6
+--94eb2c1cd06a5d07e50555e56da5
 Content-Type: text/plain; charset="UTF-8"
 
-Robert Yang had already sent this, so I skipped it. but patch 2/2 is
-applied.
+merged.
 
 Bruce
 
-On Wed, Aug 2, 2017 at 2:15 AM, Fupan Li <fupan.li@windriver.com> wrote:
+On Thu, Aug 3, 2017 at 11:01 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> oe-core had removed image-vm.bbclass in the commit of
-> 929ba563f1bc7195c4981b8e139c432b2cc388ea and using wic.vmdk
-> to replace vmdk in IMAGE_FSTYPES.
+> Add dpdk as a runtime dependency when 'dpdk' PACKAGECONFIG is enabled.
 >
-> Signed-off-by: Fupan Li <fupan.li@windriver.com>
+> Also, introduce a variable DPDK_INSTALL_DIR, and default it to /opt/dpdk.
+> This is because users might install DPDK into different locations,
+> e.g. /usr. And it would easy for users to override this variable
+> to make openvswitch build with dpdk correctly.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  recipes-extended/images/cloud-image-controller.bb | 3 +--
->  recipes-extended/images/cloud-image-guest.bb      | 3 +--
->  2 files changed, 2 insertions(+), 4 deletions(-)
+>  recipes-networking/openvswitch/openvswitch_git.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> diff --git a/recipes-extended/images/cloud-image-controller.bb
-> b/recipes-extended/images/cloud-image-controller.bb
-> index 0b2a67b..5eef302 100644
-> --- a/recipes-extended/images/cloud-image-controller.bb
-> +++ b/recipes-extended/images/cloud-image-controller.bb
-> @@ -26,9 +26,8 @@ IMAGE_INSTALL = "\
->      "
+> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb
+> b/recipes-networking/openvswitch/openvswitch_git.bb
+> index a3c586b..35f4ba8 100644
+> --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> @@ -48,8 +48,10 @@ SRC_URI += " \
 >
->  inherit core-image
-> -inherit image-vm
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=17b2c9d4c70853a09c0e143137754b35"
 >
-> -IMAGE_FSTYPES = "vmdk tar.gz"
-> +IMAGE_FSTYPES = "wic.vmdk tar.gz"
+> +DPDK_INSTALL_DIR ?= "/opt/dpdk"
+> +
+>  PACKAGECONFIG ?= ""
+> -PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_
+> TARGET}/opt/dpdk/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,"
+> +PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_
+> TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-
+> linuxapp-gcc,,dpdk,dpdk"
 >
->  # Ensure extra space for guest images
->  #IMAGE_ROOTFS_EXTRA_SPACE = "41943040"
-> diff --git a/recipes-extended/images/cloud-image-guest.bb
-> b/recipes-extended/images/cloud-image-guest.bb
-> index e24bf0d..5db25f0 100644
-> --- a/recipes-extended/images/cloud-image-guest.bb
-> +++ b/recipes-extended/images/cloud-image-guest.bb
-> @@ -13,6 +13,5 @@ IMAGE_INSTALL = "\
->      "
->
->  inherit core-image
-> -inherit image-vm
->
-> -IMAGE_FSTYPES += "vmdk"
-> +IMAGE_FSTYPES += "wic.vmdk"
+>  # Don't compile kernel modules by default since it heavily depends on
+>  # kernel version. Use the in-kernel module for now.
 > --
-> 2.7.4
+> 2.11.0
 >
 > --
 > _______________________________________________
@@ -147,70 +138,60 @@ On Wed, Aug 2, 2017 at 2:15 AM, Fupan Li <fupan.li@windriver.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a114115848033c50555e56ca6
+--94eb2c1cd06a5d07e50555e56da5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Robert Yang had already sent this, so I skipped it. but pa=
-tch 2/2 is applied.<div><br></div><div>Bruce</div></div><div class=3D"gmail=
-_extra"><br><div class=3D"gmail_quote">On Wed, Aug 2, 2017 at 2:15 AM, Fupa=
-n Li <span dir=3D"ltr">&lt;<a href=3D"mailto:fupan.li@windriver.com" target=
-=3D"_blank">fupan.li@windriver.com</a>&gt;</span> wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">oe-core had removed image-vm.bbclass in the commit of<br>
-929ba563f1bc7195c4981b8e139c43<wbr>2b2cc388ea and using wic.vmdk<br>
-to replace vmdk in IMAGE_FSTYPES.<br>
+<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On Thu, Aug 3, 2017 at 11:01 PM=
+, Chen Qi <span dir=3D"ltr">&lt;<a href=3D"mailto:Qi.Chen@windriver.com" ta=
+rget=3D"_blank">Qi.Chen@windriver.com</a>&gt;</span> wrote:<br><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">Add dpdk as a runtime dependency when &#39;dpdk&#39; PAC=
+KAGECONFIG is enabled.<br>
 <br>
-Signed-off-by: Fupan Li &lt;<a href=3D"mailto:fupan.li@windriver.com">fupan=
-.li@windriver.com</a>&gt;<br>
+Also, introduce a variable DPDK_INSTALL_DIR, and default it to /opt/dpdk.<b=
+r>
+This is because users might install DPDK into different locations,<br>
+e.g. /usr. And it would easy for users to override this variable<br>
+to make openvswitch build with dpdk correctly.<br>
+<br>
+Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen=
+@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-extended/images/<a href=3D"http://cloud-image-controller.bb" =
-rel=3D"noreferrer" target=3D"_blank">cloud-<wbr>image-controller.bb</a> | 3=
- +--<br>
-=C2=A0recipes-extended/images/<a href=3D"http://cloud-image-guest.bb" rel=
-=3D"noreferrer" target=3D"_blank">cloud-<wbr>image-guest.bb</a>=C2=A0 =C2=
-=A0 =C2=A0 | 3 +--<br>
-=C2=A02 files changed, 2 insertions(+), 4 deletions(-)<br>
+=C2=A0recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
+.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a> | 4 +++-<b=
+r>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/recipes-extended/images/<a href=3D"http://cloud-image-controll=
-er.bb" rel=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-controller.bb<=
-/a> b/recipes-extended/images/<a href=3D"http://cloud-image-controller.bb" =
-rel=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-controller.bb</a><br>
-index 0b2a67b..5eef302 100644<br>
---- a/recipes-extended/images/<a href=3D"http://cloud-image-controller.bb" =
-rel=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-controller.bb</a><br>
-+++ b/recipes-extended/images/<a href=3D"http://cloud-image-controller.bb" =
-rel=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-controller.bb</a><br>
-@@ -26,9 +26,8 @@ IMAGE_INSTALL =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
+diff --git a/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswi=
+tch_git.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a> b/r=
+ecipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git.bb" re=
+l=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
+index a3c586b..35f4ba8 100644<br>
+--- a/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
+.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
++++ b/recipes-networking/<wbr>openvswitch/<a href=3D"http://openvswitch_git=
+.bb" rel=3D"noreferrer" target=3D"_blank">openvswitch_git.bb</a><br>
+@@ -48,8 +48,10 @@ SRC_URI +=3D &quot; \<br>
 <br>
-=C2=A0inherit core-image<br>
--inherit image-vm<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D<wbr>17b2c9d4c70853a0=
+9c0e143137754b<wbr>35&quot;<br>
 <br>
--IMAGE_FSTYPES =3D &quot;vmdk tar.gz&quot;<br>
-+IMAGE_FSTYPES =3D &quot;wic.vmdk tar.gz&quot;<br>
++DPDK_INSTALL_DIR ?=3D &quot;/opt/dpdk&quot;<br>
++<br>
+=C2=A0PACKAGECONFIG ?=3D &quot;&quot;<br>
+-PACKAGECONFIG[dpdk] =3D &quot;--with-dpdk=3D${STAGING_DIR_<wbr>TARGET}/opt=
+/dpdk/${TARGET_<wbr>ARCH}-native-linuxapp-gcc,,<wbr>dpdk,&quot;<br>
++PACKAGECONFIG[dpdk] =3D &quot;--with-dpdk=3D${STAGING_DIR_<wbr>TARGET}${DP=
+DK_INSTALL_DIR}/<wbr>share/${TARGET_ARCH}-native-<wbr>linuxapp-gcc,,dpdk,dp=
+dk&quot;<br>
 <br>
-=C2=A0# Ensure extra space for guest images<br>
-=C2=A0#IMAGE_ROOTFS_EXTRA_SPACE =3D &quot;41943040&quot;<br>
-diff --git a/recipes-extended/images/<a href=3D"http://cloud-image-guest.bb=
-" rel=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-guest.bb</a> b/reci=
-pes-extended/images/<a href=3D"http://cloud-image-guest.bb" rel=3D"noreferr=
-er" target=3D"_blank">clou<wbr>d-image-guest.bb</a><br>
-index e24bf0d..5db25f0 100644<br>
---- a/recipes-extended/images/<a href=3D"http://cloud-image-guest.bb" rel=
-=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-guest.bb</a><br>
-+++ b/recipes-extended/images/<a href=3D"http://cloud-image-guest.bb" rel=
-=3D"noreferrer" target=3D"_blank">clou<wbr>d-image-guest.bb</a><br>
-@@ -13,6 +13,5 @@ IMAGE_INSTALL =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0inherit core-image<br>
--inherit image-vm<br>
-<br>
--IMAGE_FSTYPES +=3D &quot;vmdk&quot;<br>
-+IMAGE_FSTYPES +=3D &quot;wic.vmdk&quot;<br>
+=C2=A0# Don&#39;t compile kernel modules by default since it heavily depend=
+s on<br>
+=C2=A0# kernel version. Use the in-kernel module for now.<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
+2.11.0<br>
 <br>
 --<br>
 ______________________________<wbr>_________________<br>
@@ -226,4 +207,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---001a114115848033c50555e56ca6--
+--94eb2c1cd06a5d07e50555e56da5--
