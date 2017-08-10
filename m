@@ -1,6 +1,6 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DA2B4E00BA2; Wed,  9 Aug 2017 18:29:00 -0700 (PDT)
+	id 59E9CE00C78; Wed,  9 Aug 2017 18:29:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,9 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.192.194 listed in list.dnswl.org]
+	*      [74.125.83.65 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [74.125.83.65 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,55 +21,52 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.192.194 listed in dnsbl.sorbs.net]
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 83F7BE00C01
+Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9F22DE00C25
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Aug 2017 18:28:58 -0700 (PDT)
-Received: by mail-pf0-f194.google.com with SMTP id c65so7662356pfl.0
+	Wed,  9 Aug 2017 18:28:59 -0700 (PDT)
+Received: by mail-pg0-f65.google.com with SMTP id y129so7186543pgy.3
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 09 Aug 2017 18:28:58 -0700 (PDT)
+	Wed, 09 Aug 2017 18:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=CrEo7aP17SQJ2OxoMpVud+ilTKTiz2kGNQZa/WaXS3M=;
-	b=aLPkxIq3RvvY1dMLbTlbfhrHEAhT2XDo8ee2BiKaw2sYz/1b6Mb9KFtloccnfeKNm/
-	w4fBGxXFHNoBMsGwIh9L044PTFKkF6SBJO9lhs5rvMCAtH1Rr/THQiSQv6vsHvsX1Nqg
-	M+DSi/+l+Nx62xHDILoDNi+lSz+SwNlg20vXM5zSKQlkmuW1HSWXkG+n0I8pP4NcGNpk
-	Hu9DV0lIn1zWaFDgsOlA1nym562otr2erEwpPhHzEYD9q7pa3LdTCwaF0fCMxX8IZ/g9
-	T3btFDuqoF5KIpbxqVHpgzCPK1q4k9KixZy51rE6B6gEW92xn+Vr+06RK3r3S/1y2Vi2
-	CRXg==
+	bh=uQbUtYEOhJY1pbRZYm0njB9kgGH2bWzoB+JoRw5RUeY=;
+	b=SWSTV4wyGCb3LZxjoT5f2v0LOqrwSSconTlDL7RKeADLGC0oVRK4DexPWaQnGgjrsh
+	9BIdrY43LjQil6Jt6AEtgRTbU+MXkeFJa3LzsknN2De1YYsIqlUgrxPYAt5y7bz9DT4n
+	BbihiLOgI5LVOBxjypIEOt9m4JRYgeCULv6EkCySL4v248OdDCDcdZjOiDqy8LvHawoh
+	ylKw76toov6pKtnhekVVjLw8Dzu4NBzmsf2cL8DOqa2Gol+PJyN/FOq3boVG48lvYc2l
+	PXjXZ340pWNie6g/2SoaWIiOV4taxK7WDExel+v8+musxXFBYKvY3PSrDfP22wATxa0G
+	rTHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=CrEo7aP17SQJ2OxoMpVud+ilTKTiz2kGNQZa/WaXS3M=;
-	b=X6/bSyS+JKcnAYTExok1kJkDK2ZkGGNzxe49NgpOe7wMa+Qg4V6LEqxC5nHlDSxx8q
-	ykBbF3G2WZovCULqpi+0hEcjn/KnNCaz77cqQRi9lwzpOgPUx+LJ7tEMNtBWf/6wjoAF
-	KrGqRHdDXWi6FE1ZT+TZfzTFl0FlE8XP+AU26BJ8X1Bc2OIW8FObhT1VUWRMw2X0RlT4
-	2bwsDcmp24R3YHjhKq4GlIJKaDMZDZZA709wNJo+mrv7JgqgeFActOTt08qMMj+TC5U6
-	wTm01ht5opumSxDYmPri6IVCTcMPp1GJhhnFFpx+bGvj6Je8z4d3SDuhVsLTNoz8AoY5
-	61Ew==
-X-Gm-Message-State: AHYfb5iToTraTCG+WESsD6dLKrkTb4F0678iyoxklzcwaLcZcYzsYhHJ
-	T+1GtEWTXcJ+YRDFHqY=
-X-Received: by 10.98.217.10 with SMTP id s10mr10375848pfg.204.1502328537655;
-	Wed, 09 Aug 2017 18:28:57 -0700 (PDT)
+	bh=uQbUtYEOhJY1pbRZYm0njB9kgGH2bWzoB+JoRw5RUeY=;
+	b=RuuCPAqJXPEK+455hFg4cNWo1snm78+oOmQXC3ZM0bKRQ4Ku2zLyQCSsFR5xiqmJoO
+	x7EUTNCOHG25oj1sVYYcKF83du36iiZ98Rh0GVdzA1/2sFn6iQpJAezye3guPaEUPoPB
+	fTQKcrqZwkuW5fE4djIVXJmn+JYy0s/G04ISQDH7XiWOQlbIYxy5cM89EqIDLA6v+1IW
+	q2lY7EhIwPNynSJH5K8KLnhcCvI7FgOEZSx3zjQFryjvqBHfkkMnPxyCFbZ3Uei1g0hl
+	1xKGu8SlceAFv2Nsde3Plm/bjPbC52bD4PH2JJUvPr2ST+ZvQNyzFu1tAkxjRjathb6b
+	oSFg==
+X-Gm-Message-State: AHYfb5gmyP/BAghAX4PF3v1U/sK0RYUsOBd9TXbW5YXEsFtBtiD/gXug
+	IA8cA9i3yXzDzVYHUW4=
+X-Received: by 10.98.206.194 with SMTP id y185mr10352723pfg.312.1502328539355; 
+	Wed, 09 Aug 2017 18:28:59 -0700 (PDT)
 Received: from WorkStation-T3500.ice.pyrology.org
 	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
-	o17sm8642348pgn.52.2017.08.09.18.28.56
+	o17sm8642348pgn.52.2017.08.09.18.28.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Aug 2017 18:28:57 -0700 (PDT)
+	Wed, 09 Aug 2017 18:28:58 -0700 (PDT)
 From: christopher.w.clark@gmail.com
 To: meta-virtualization@yoctoproject.org
-Date: Wed,  9 Aug 2017 18:28:42 -0700
-Message-Id: <1502328524-4230-2-git-send-email-christopher.w.clark@gmail.com>
+Date: Wed,  9 Aug 2017 18:28:44 -0700
+Message-Id: <1502328524-4230-4-git-send-email-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
 References: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
 Cc: Christopher Clark <christopher.clark6@baesystems.com>, cardoe@gentoo.org
-Subject: [PATCH 1/3] xen: Package libxendevicemodel, introduced in Xen 4.9
+Subject: [PATCH 3/3] xen: add recipe for Xen 4.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -80,38 +79,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 01:29:00 -0000
+X-List-Received-Date: Thu, 10 Aug 2017 01:29:04 -0000
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/xen/xen.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ recipes-extended/xen/xen_4.9.0.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+ create mode 100644 recipes-extended/xen/xen_4.9.0.bb
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 6a0f226..274d0df 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -178,6 +178,8 @@ PACKAGES = "\
-     ${PN}-libxencall-dev \
-     ${PN}-libxenctrl \
-     ${PN}-libxenctrl-dev \
-+    ${PN}-libxendevicemodel \
-+    ${PN}-libxendevicemodel-dev \
-     ${PN}-libxenevtchn \
-     ${PN}-libxenevtchn-dev \
-     ${PN}-libxenforeignmemory \
-@@ -283,6 +285,9 @@ FILES_${PN}-libxencall-dev = "${libdir}/libxencall.so"
- FILES_${PN}-libxenctrl = "${libdir}/libxenctrl.so.*"
- FILES_${PN}-libxenctrl-dev = "${libdir}/libxenctrl.so"
- 
-+FILES_${PN}-libxendevicemodel = "${libdir}/libxendevicemodel.so.*"
-+FILES_${PN}-libxendevicemodel-dev = "${libdir}/libxendevicemodel.so"
+diff --git a/recipes-extended/xen/xen_4.9.0.bb b/recipes-extended/xen/xen_4.9.0.bb
+new file mode 100644
+index 0000000..0b20936
+--- /dev/null
++++ b/recipes-extended/xen/xen_4.9.0.bb
+@@ -0,0 +1,10 @@
++require xen.inc
 +
- FILES_${PN}-libxenevtchn = "${libdir}/libxenevtchn.so.*"
- FILES_${PN}-libxenevtchn-dev = "${libdir}/libxenevtchn.so"
- 
++SRC_URI = " \
++    https://downloads.xenproject.org/release/xen/${PV}/xen-${PV}.tar.gz \
++    "
++
++SRC_URI[md5sum] = "f0a753637630f982dfbdb64121fd71e1"
++SRC_URI[sha256sum] = "cade643fe3310d4d6f97d0c215c6fa323bc1130d7e64d7e2043ffaa73a96f33b"
++
++S = "${WORKDIR}/xen-${PV}"
 -- 
 2.7.4
 
