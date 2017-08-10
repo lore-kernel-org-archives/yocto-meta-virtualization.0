@@ -1,73 +1,69 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4685BE00C41; Wed,  9 Aug 2017 18:29:05 -0700 (PDT)
+	id 21C25E00C09; Thu, 10 Aug 2017 11:33:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.192.193 listed in list.dnswl.org]
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.216.196 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.196 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.192.193 listed in dnsbl.sorbs.net]
-Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
-	[209.85.192.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9120EE00C1C
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 145E9E00B8B
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Aug 2017 18:28:59 -0700 (PDT)
-Received: by mail-pf0-f193.google.com with SMTP id t83so7650994pfj.3
+	Thu, 10 Aug 2017 11:33:33 -0700 (PDT)
+Received: by mail-qt0-f196.google.com with SMTP id i19so1554333qte.1
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 09 Aug 2017 18:28:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=jM6jpivUdHqO5F1TfcD9ItRJgOjzSesAaHT1q54RK9s=;
-	b=SI9CfwYij0brRUOjUlYF2xa+5sBhmbKFkGJvLC9eSeSHZlnbNk15qw1zH3WH3AdRRe
-	Ties+qp5WzDUMqd+KgOlBhRGgkdirtaCeKTTrJuabpmXD5jWJkRt9OQEyMl/maE5SLwS
-	2kDhQ0KxJe1lS5DutVTSxKusSuB9Ub4kDL7NI5/tKcyXtgk4H5dMwrsHutkDNCsdYoOL
-	yRuVT5GkXq76QCt7FDTU/zbRJNpUIdSSiTzbGsNzgyY9HpClpTBbd/Whv/hdVQi4xJQo
-	IuVHUgz2fPTxK82oGjIHS2KMN3Xy0megituq88l4c6/QQj5mDSp6l1RGZ4Ch05VerdNt
-	TusQ==
+	Thu, 10 Aug 2017 11:33:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
+	h=sender:subject:to:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to;
+	bh=mvelvFKAxwWDkDuvS3m141wbwv//edpszJqkf3bBp98=;
+	b=Df3mNl5Kq8AGn4c0NNGTV3yS3iTYeInTw9XrlY37+uYte6cLVkgw3E0UhGtYkk7N3v
+	RW/Q5a9aM8Assv+WsMo4t6dEOtAuuUZ67cb6JiUBbrBCj++4vn+RNzegLp6ROaJT8Jbf
+	VSlYp+R1wrqsZGPNbKg7abhVjTEZ3BagixzLk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=jM6jpivUdHqO5F1TfcD9ItRJgOjzSesAaHT1q54RK9s=;
-	b=Fwrx/Aq8SioqyVr6PQtmSTcnAVsXcFxDPZux8pdHvMJs7bFlzDN3s4m9/dfd+KtnEV
-	+GuJh0xOFnhc23sKtd/oQfm5UfxjA8ir0NGcVS9gccVZ7Ohl3WVgIcSKvWEOoyas+9mg
-	Q5b/7tpR5iZBuvvjAOEkLrrh3ZIQMVok3MPPBXHjkbab+XeRysJOx+ucK7wz5bAjGUUh
-	VdwetpDqFXIxFBMnHmRX2RXzHbRHIT7ElNAFtl5O/p6BF3+25oho2dYO429BFXBpOo9S
-	wY1BYhyXl1VfoqUldV3fZ80Fhhn+uKq7lug+ewz5FXHOukAjMoxQbyy7Vz3/on6KTuKE
-	/f0g==
-X-Gm-Message-State: AHYfb5jUwCCg8eLTq74otD/WyuTQWfKKUIziuSys/uJYMvbKeuh77wLI
-	vWS8zSr8ELlhYssCJoo=
-X-Received: by 10.98.11.65 with SMTP id t62mr10260085pfi.119.1502328538543;
-	Wed, 09 Aug 2017 18:28:58 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	o17sm8642348pgn.52.2017.08.09.18.28.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 09 Aug 2017 18:28:58 -0700 (PDT)
-From: christopher.w.clark@gmail.com
-To: meta-virtualization@yoctoproject.org
-Date: Wed,  9 Aug 2017 18:28:43 -0700
-Message-Id: <1502328524-4230-3-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
+	h=x-gm-message-state:sender:subject:to:references:from:message-id
+	:date:user-agent:mime-version:in-reply-to;
+	bh=mvelvFKAxwWDkDuvS3m141wbwv//edpszJqkf3bBp98=;
+	b=jMw0I6CJTMiahYCuqLbdPhfc/rBCCcnqf8qSlOzZvMyDE+FbSHnEfnIWyNtPLxuO61
+	LQPIQJau/57KomoAOOwVQzjJXFrumGWBla8h97k1tK78VAhcpK+NO74qYpRW/UpimqIX
+	SxAQdJirZu7cA0PRv6QTJa4z3AWXIWTaMAa6Z4Z5G/ncd/a2dv5ZYOmIfdvLyn3BU0Hh
+	IYwy4OntWyPUATNFe7aKk1tgA3+l+aHuLpa1OrBlUAFTSprZNMeHAs9HK1enodWsDavd
+	9PMQNcSfT5cjNF9gWigymZvVABC8e9MsqLMPfOYLCrOhaGwmP+fHoNurn+SohNpmXtR9
+	H1tA==
+X-Gm-Message-State: AHYfb5jratZlxICab40P1LnZc3dZlhNf50Rw6BK3L5sV6KCBgHvmHxJk
+	LuJFGM7LOtbTYJy48Y/mvA==
+X-Received: by 10.200.54.210 with SMTP id b18mr18522716qtc.145.1502390013001; 
+	Thu, 10 Aug 2017 11:33:33 -0700 (PDT)
+Received: from doug-macbook.local
+	(104-179-196-18.lightspeed.brhmal.sbcglobal.net. [104.179.196.18])
+	by smtp.googlemail.com with ESMTPSA id
+	f6sm4064847qtb.69.2017.08.10.11.33.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 10 Aug 2017 11:33:32 -0700 (PDT)
+Sender: Doug Goldstein <cardoe@cardoe.com>
+To: christopher.w.clark@gmail.com, meta-virtualization@yoctoproject.org
 References: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
-Cc: Christopher Clark <christopher.clark6@baesystems.com>, cardoe@gentoo.org
-Subject: [PATCH 2/3] xen: Package .pc packageconfig files into dev packages
+From: Doug Goldstein <cardoe@gentoo.org>
+Message-ID: <eeb8f15b-bc35-022a-078f-0fb4ba8cb389@gentoo.org>
+Date: Thu, 10 Aug 2017 13:33:25 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:45.0)
+	Gecko/20100101 Thunderbird/45.8.0
+MIME-Version: 1.0
+In-Reply-To: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
+Subject: Re: [PATCH 0/3] xen: Add Xen recipe for 4.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -80,140 +76,69 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 10 Aug 2017 01:29:05 -0000
+X-List-Received-Date: Thu, 10 Aug 2017 18:33:35 -0000
+X-Groupsio-MsgNum: 2695
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature";
+	boundary="qcBDq2HGKqKd398e2dQHT7RX0DwKWOQGJ"
 
-From: Christopher Clark <christopher.w.clark@gmail.com>
+--qcBDq2HGKqKd398e2dQHT7RX0DwKWOQGJ
+Content-Type: multipart/mixed; boundary="G0085eTMKHGN5fHehQdb5jk1RcUswu140";
+ protected-headers="v1"
+From: Doug Goldstein <cardoe@gentoo.org>
+To: christopher.w.clark@gmail.com, meta-virtualization@yoctoproject.org
+Message-ID: <eeb8f15b-bc35-022a-078f-0fb4ba8cb389@gentoo.org>
+Subject: Re: [PATCH 0/3] xen: Add Xen recipe for 4.9.0
+References: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
+In-Reply-To: <1502328524-4230-1-git-send-email-christopher.w.clark@gmail.com>
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
- recipes-extended/xen/xen.inc | 75 +++++++++++++++++++++++++++++++++++---------
- 1 file changed, 60 insertions(+), 15 deletions(-)
+--G0085eTMKHGN5fHehQdb5jk1RcUswu140
+Content-Type: text/plain; charset=windows-1252
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 274d0df..cda737c 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -277,28 +277,52 @@ FILES_${PN}-staticdev += "\
-     "
- 
- FILES_${PN}-libblktapctl = "${libdir}/libblktapctl.so.*"
--FILES_${PN}-libblktapctl-dev = "${libdir}/libblktapctl.so"
-+FILES_${PN}-libblktapctl-dev = " \
-+    ${libdir}/libblktapctl.so \
-+    ${datadir}/pkgconfig/xenblktapctl.pc \
-+    "
- 
- FILES_${PN}-libxencall = "${libdir}/libxencall.so.*"
--FILES_${PN}-libxencall-dev = "${libdir}/libxencall.so"
-+FILES_${PN}-libxencall-dev = " \
-+    ${libdir}/libxencall.so \
-+    ${datadir}/pkgconfig/xencall.pc \
-+    "
- 
- FILES_${PN}-libxenctrl = "${libdir}/libxenctrl.so.*"
--FILES_${PN}-libxenctrl-dev = "${libdir}/libxenctrl.so"
-+FILES_${PN}-libxenctrl-dev = " \
-+    ${libdir}/libxenctrl.so \
-+    ${datadir}/pkgconfig/xencontrol.pc \
-+    "
- 
- FILES_${PN}-libxendevicemodel = "${libdir}/libxendevicemodel.so.*"
--FILES_${PN}-libxendevicemodel-dev = "${libdir}/libxendevicemodel.so"
-+FILES_${PN}-libxendevicemodel-dev = " \
-+    ${libdir}/libxendevicemodel.so \
-+    ${datadir}/pkgconfig/xendevicemodel.pc \
-+    "
- 
- FILES_${PN}-libxenevtchn = "${libdir}/libxenevtchn.so.*"
--FILES_${PN}-libxenevtchn-dev = "${libdir}/libxenevtchn.so"
-+FILES_${PN}-libxenevtchn-dev = " \
-+    ${libdir}/libxenevtchn.so \
-+    ${datadir}/pkgconfig/xenevtchn.pc \
-+    "
- 
- FILES_${PN}-libxenforeignmemory = "${libdir}/libxenforeignmemory.so.*"
--FILES_${PN}-libxenforeignmemory-dev = "${libdir}/libxenforeignmemory.so"
-+FILES_${PN}-libxenforeignmemory-dev = " \
-+    ${libdir}/libxenforeignmemory.so \
-+    ${datadir}/pkgconfig/xenforeignmemory.pc \
-+    "
- 
- FILES_${PN}-libxengnttab = "${libdir}/libxengnttab.so.*"
--FILES_${PN}-libxengnttab-dev = "${libdir}/libxengnttab.so"
-+FILES_${PN}-libxengnttab-dev = " \
-+    ${libdir}/libxengnttab.so \
-+    ${datadir}/pkgconfig/xengnttab.pc \
-+    "
- 
- FILES_${PN}-libxenguest = "${libdir}/libxenguest.so.*"
--FILES_${PN}-libxenguest-dev = "${libdir}/libxenguest.so"
-+FILES_${PN}-libxenguest-dev = " \
-+    ${libdir}/libxenguest.so \
-+    ${datadir}/pkgconfig/xenguest.pc \
-+    "
- 
- FILES_${PN}-libxenlight = "${libdir}/libxenlight.so.*"
- FILES_${PN}-libxenlight-dev = " \
-@@ -307,16 +331,28 @@ FILES_${PN}-libxenlight-dev = " \
-     "
- 
- FILES_${PN}-libxenstat = "${libdir}/libxenstat.so.*"
--FILES_${PN}-libxenstat-dev = "${libdir}/libxenstat.so"
-+FILES_${PN}-libxenstat-dev = " \
-+    ${libdir}/libxenstat.so \
-+    ${datadir}/pkgconfig/xenstat.pc \
-+    "
- 
- FILES_${PN}-libxenstore = "${libdir}/libxenstore.so.*"
--FILES_${PN}-libxenstore-dev = "${libdir}/libxenstore.so"
-+FILES_${PN}-libxenstore-dev = " \
-+    ${libdir}/libxenstore.so \
-+    ${datadir}/pkgconfig/xenstore.pc \
-+    "
- 
- FILES_${PN}-libxentoollog = "${libdir}/libxentoollog.so.*"
--FILES_${PN}-libxentoollog-dev = "${libdir}/libxentoollog.so"
-+FILES_${PN}-libxentoollog-dev = " \
-+    ${libdir}/libxentoollog.so \
-+    ${datadir}/pkgconfig/xentoollog.pc \
-+    "
- 
- FILES_${PN}-libxenvchan = "${libdir}/libxenvchan.so.*"
--FILES_${PN}-libxenvchan-dev = "${libdir}/libxenvchan.so"
-+FILES_${PN}-libxenvchan-dev = " \
-+    ${libdir}/libxenvchan.so \
-+    ${datadir}/pkgconfig/xenvchan.pc \
-+    "
- 
- FILES_${PN}-libxlutil = "${libdir}/libxlutil.so.*"
- FILES_${PN}-libxlutil-dev = " \
-@@ -324,13 +360,22 @@ FILES_${PN}-libxlutil-dev = " \
-     ${datadir}/pkgconfig/xlutil.pc \
-     "
- FILES_${PN}-libvhd = "${libdir}/libvhd.so.*"
--FILES_${PN}-libvhd-dev = "${libdir}/libvhd.so"
-+FILES_${PN}-libvhd-dev = " \
-+    ${libdir}/libvhd.so \
-+    ${datadir}/pkgconfig/vhd.pc \
-+    "
- 
- FILES_${PN}-libblktap = "${libdir}/libblktap.so.*"
--FILES_${PN}-libblktap-dev = "${libdir}/libblktap.so"
-+FILES_${PN}-libblktap-dev = " \
-+    ${libdir}/libblktap.so \
-+    ${datadir}/pkgconfig/blktap.pc \
-+    "
- 
- FILES_${PN}-libfsimage = "${libdir}/libfsimage.so.*"
--FILES_${PN}-libfsimage-dev = "${libdir}/libfsimage.so"
-+FILES_${PN}-libfsimage-dev = " \
-+    ${libdir}/libfsimage.so \
-+    ${datadir}/pkgconfig/fsimage.pc \
-+    "
- 
- FILES_${PN}-fsimage = "${libdir}/fs/*/*fsimage.so"
- 
--- 
-2.7.4
+On 8/9/17 8:28 PM, christopher.w.clark@gmail.com wrote:
+> From: Christopher Clark <christopher.w.clark@gmail.com>
+>=20
+> Add recipe for Xen 4.9.0 and update xen.inc to package new items.
+>=20
+> Christopher Clark (3):
+>   xen: Package libxendevicemodel, introduced in Xen 4.9
+>   xen: Package .pc packageconfig files into dev packages
+>   xen: add recipe for Xen 4.9.0
+>=20
+>  recipes-extended/xen/xen.inc      | 78 +++++++++++++++++++++++++++++++=
++-------
+>  recipes-extended/xen/xen_4.9.0.bb | 10 +++++
+>  2 files changed, 74 insertions(+), 14 deletions(-)
+>  create mode 100644 recipes-extended/xen/xen_4.9.0.bb
+>=20
+
+ACK to this series. We can drop the existing xen 4.8 recipe with the 3rd
+commit and just keep 4.9.0 in master.
+
+--=20
+Doug Goldstein
 
 
+--G0085eTMKHGN5fHehQdb5jk1RcUswu140--
+
+--qcBDq2HGKqKd398e2dQHT7RX0DwKWOQGJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG/MacGPG2 v2.0
+
+iQF8BAEBCgBmBQJZjKb5XxSAAAAAAC4AKGlzc3Vlci1mcHJAbm90YXRpb25zLm9w
+ZW5wZ3AuZmlmdGhob3JzZW1hbi5uZXQ1M0I3MDI5Qzk4NzZGNjVFNkVBQjgwM0M2
+QzRFNjIwNDMxQzk5ODBEAAoJEGxOYgQxyZgN72QIAIgcdQf/tu3LJT8o1rxOxXgk
+KkKY71cR/iIW6elkZoMeFwa0GgErOK1brTzVjerjVc/k3nML8jG7zOOnmR2kt/pN
+EiEN+rjWp7qACcRbA77lVYTD6kB5EGrXKOqwRnIyzwqPHXydyNL9Jmy9c3kOK7tZ
+sPLoVPM35b9ChF6+77rLDTIOB5iEZMOUxSuPzgRUqo6g9xdxdt5eEu6scRDqOKEo
+o3YiwSfuD2d+aDaZKnc0oOxOzLZ2nDdyq4QY2wAzzCk/lMRN860fmB3Q6Xn2nBP2
+9KKVSXP2UTCRWOX73Hf2mijUBfMaJF/+yLMGsooQ0fymNLYGnww149GWOnzD5uo=
+=iHxp
+-----END PGP SIGNATURE-----
+
+--qcBDq2HGKqKd398e2dQHT7RX0DwKWOQGJ--
