@@ -1,6 +1,6 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F2E7FE00C89; Tue, 15 Aug 2017 21:52:01 -0700 (PDT)
+	id 58307E00D25; Wed, 16 Aug 2017 22:49:54 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,26 +8,33 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4FAB5E00A39
+X-Greylist: delayed 64 seconds by postgrey-1.32 at yocto-www;
+	Wed, 16 Aug 2017 22:49:52 PDT
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3FA9BE00A9B
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Aug 2017 21:52:00 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v7G4pxAS003854
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Wed, 16 Aug 2017 22:49:52 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.41,386,1498492800"; d="scan'208";a="23863516"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Aug 2017 13:48:39 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id B4F29472438E
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 15 Aug 2017 21:51:59 -0700
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 15 Aug 2017 21:51:58 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Thu, 17 Aug 2017 13:48:37 +0800 (CST)
+Received: from localhost.localdomain (10.167.235.93) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.319.2; Thu, 17 Aug 2017 13:48:37 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 16 Aug 2017 12:51:22 +0800
-Message-ID: <20170816045122.23963-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.11.0
+Date: Thu, 17 Aug 2017 13:48:23 +0800
+Message-ID: <1502948903-3992-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] openvswitch: add libcap-ng PACKAGECONFIG
+X-Originating-IP: [10.167.235.93]
+X-yoursite-MailScanner-ID: B4F29472438E.A57DA
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+Subject: [meta-cloud-services][PATCH] nss-pam-ldapd: upgrade to 0.9.8
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -40,32 +47,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 16 Aug 2017 04:52:02 -0000
+X-List-Received-Date: Thu, 17 Aug 2017 05:49:54 -0000
 Content-Type: text/plain
 
-Add PACKAGECONFIG for libcap-ng, and default to enable it.
+Upgrade nss-pam-ldapd from 0.9.7 to 0.9.8.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- recipes-networking/openvswitch/openvswitch_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../nss-pam-ldapd/{nss-pam-ldapd_0.9.7.bb => nss-pam-ldapd_0.9.8.bb}  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-support/nss-pam-ldapd/{nss-pam-ldapd_0.9.7.bb => nss-pam-ldapd_0.9.8.bb} (91%)
 
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index 35f4ba8..b4aab35 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -50,8 +50,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=17b2c9d4c70853a09c0e143137754b35"
+diff --git a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.7.bb b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
+similarity index 91%
+rename from recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.7.bb
+rename to recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
+index fd73b9c..a309c1e 100644
+--- a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.7.bb
++++ b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
+@@ -22,8 +22,8 @@ SRC_URI = "\
  
- DPDK_INSTALL_DIR ?= "/opt/dpdk"
+ inherit autotools
  
--PACKAGECONFIG ?= ""
-+PACKAGECONFIG ?= "libcap-ng"
- PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,dpdk"
-+PACKAGECONFIG[libcap-ng] = "--enable-libcapng,--disable-libcapng,libcap-ng,"
+-SRC_URI[md5sum] = "912f2a5ead193d2defc6c525423e84e8"
+-SRC_URI[sha256sum] = "0db88d6518bf7ffb01b44f8f8841ece5162906982ce2c9e45e6afff90d3783eb"
++SRC_URI[md5sum] = "8c99fdc54f4bf9aca8c5f53fdb1403ff"
++SRC_URI[sha256sum] = "ef7362e7f2003da8c7beb7bcc03c30494acf712625aaac8badc6e7eb16f3453f"
  
- # Don't compile kernel modules by default since it heavily depends on
- # kernel version. Use the in-kernel module for now.
+ DEPENDS += "libpam openldap"
+ 
 -- 
-2.11.0
+2.7.4
+
+
 
 
