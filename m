@@ -1,20 +1,20 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0D86BE00D95; Thu, 17 Aug 2017 08:56:01 -0700 (PDT)
+	id 5D935E00C97; Sun, 20 Aug 2017 22:06:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_LOW, 
-	RCVD_IN_SORBS_SPAM,URIBL_SBL autolearn=no version=3.3.1
+	RCVD_IN_DNSWL_NONE, 
+	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.216.181 listed in list.dnswl.org]
-	*  1.6 URIBL_SBL Contains an URL's NS IP listed in the SBL blocklist
-	*      [URIs: yoctoproject.org]
+	mail provider *      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.161.181 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.161.181 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -23,52 +23,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.216.181 listed in dnsbl.sorbs.net]
-Received: from mail-qt0-f181.google.com (mail-qt0-f181.google.com
-	[209.85.216.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DBD2DE00D57
+Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
+	[209.85.161.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1A010E00B72
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 17 Aug 2017 08:55:59 -0700 (PDT)
-Received: by mail-qt0-f181.google.com with SMTP id t37so39816326qtg.5
+	Sun, 20 Aug 2017 22:06:38 -0700 (PDT)
+Received: by mail-yw0-f181.google.com with SMTP id s187so141289ywf.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 17 Aug 2017 08:55:59 -0700 (PDT)
+	Sun, 20 Aug 2017 22:06:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VTfTT4J6S039K87dxrtCy43KC6JJdqCoG8SW8jQPyPw=;
-	b=AYsWlYdEJVFFSTXyVfZYH0q053ZktgrJHNJFnbLRLyipTDlBk8SsuxzEa78NgktlCl
-	O8ZneHB/urWkAuJweO81YmpT5GygW4w9nFb/+O4KHJdpSjaDkmQNIokXao6+UL+wruWu
-	oktUyZWEojExALmht9hVBloNhSmw5SiktELdbjzj46NNDY2WrspAe7nE8m0plh2LXmPg
-	/t0LzR2tIFBfAShsvvCirNLMSf1N1oSmkw8irkAx1nNp+b7iaFdU51wzpx4PVghe/rof
-	tiHVDOvuF5J8t3iNa89rUEonZIbhz1OF1egt4C3RwkMyWFwxuUWCPl+c5d5VLD5/X+iz
-	aO2g==
+	:cc; bh=/9xreFYEY9cQHB6qg7NOIIK1waNIh0QwmhpmyGk0KBI=;
+	b=qxjgs+GTsjTm2gXxymJzM26w+S9HjZlme7ezyJFkf7u0IORomNA0iDhknd4KoIWoKp
+	vU5RX9MBB6696/k56bGqZPJ/i7EWFuYCMH4rO58VEN14Q4/+ONXnreLregPbJOX3rq32
+	iECv52683jD5TDw9fPkiFIdkm0J5U8FRL225QEO1cR7mYMepvniF9yRsC42uMZzbgJ1s
+	KO8OrVez7Dbz1LfW30c3OtAzJ4Ifu84JgTRhzSKtv+VwrBi57dlRrVRXHWgWwzQFfiCZ
+	piQD9KrwrV+pBtRLxPU7mMQIVqQ6xFhLFknE3oEfvwpzkxCkI3MXeuXjATFIgDHQ2G+Z
+	ASng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=VTfTT4J6S039K87dxrtCy43KC6JJdqCoG8SW8jQPyPw=;
-	b=d4ur/uNBhWTUbkCnd5pblJaXTTcjM9BWgEzF5W8wTyWW5znpNSZznEODLUcHMhsj+2
-	qM140Y9jZ7gvlRhkOKdMyQbMX2a3OjBp9mz9zraPIGZ5CrVnwezVObD5umtUcK7WbHpc
-	AvTgpmJRloleAft0XVpRPKySOyk9QteMVtD9Uvpva5KWElsyCllsAG93gheyqgqkfVQU
-	hQoD10U0WLSj7N1WoFaTbSH65p4icfCz6+unbOJzZJ+hg0gRotX5bnEunalTVy2MKDBF
-	ORAUkl/pJqjb/ZqhVYAJ5fquaKzhswtUedSpnUYQt5cng+trfuOBJQKpNUm6gTr3l0bq
-	1OCA==
-X-Gm-Message-State: AHYfb5g8KcqP/XBoQkwXlcn0q9hlclFnDFDNDM+juGBZwUFa3yud2mSU
-	Q/OOIfydbcehVAI8/i0QUHmF2ERf6w==
-X-Received: by 10.237.60.20 with SMTP id t20mr8258701qte.289.1502985358768;
-	Thu, 17 Aug 2017 08:55:58 -0700 (PDT)
+	bh=/9xreFYEY9cQHB6qg7NOIIK1waNIh0QwmhpmyGk0KBI=;
+	b=g2wxw7AtpcfGStmG6uqTpddwM2qY1LHdbOWzc+sQC9oB1HDsZXBi67sreh8vjCxIYR
+	RtEG0oBZ4nmKTRrglzKs0i1zZEFPhRpHYBj3geJO7gm8R+q/KceQVgpLMLzeYnW+qvlg
+	EYUtfWrtdwTHTbWw4sKfcVRTpOMVABrMNWFPAaf9aEOytLnCaki9u3mEoRMD20nhxK1q
+	RVm5VBzE7589AeKhds6NWJHJj9YQ02wu7AiMaUd/LPDccGAVx4Vawrw5sK42XRoCiXa6
+	Bp8tVrAzCaFT8DzRGjIrOZ4Ch5ArIlVs2qyQHD825lOzt/X/cyJoWTXc+UhysgYoyNdO
+	Jn5A==
+X-Gm-Message-State: AHYfb5hbrm/ZspP5yjb8iD/VclbPkM4Dz7CidU6TZqNzv427TjPgrVJQ
+	C7uYTn8d4rGB+nXkE9B14jVJiY9RJg==
+X-Received: by 10.37.172.75 with SMTP id r11mr13430299ybd.312.1503291997886;
+	Sun, 20 Aug 2017 22:06:37 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.12.194.139 with HTTP; Thu, 17 Aug 2017 08:55:58 -0700 (PDT)
-In-Reply-To: <1502976861-19480-1-git-send-email-bobadeshrikant@gmail.com>
-References: <1502976861-19480-1-git-send-email-bobadeshrikant@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 17 Aug 2017 11:55:58 -0400
-Message-ID: <CADkTA4OK+K-+9MQOzHXEy2beDLeC=z4B6_kY0MnoKeAaoVZ2pA@mail.gmail.com>
-To: Shrikant Bobade <bobadeshrikant@gmail.com>
+Received: by 10.37.175.4 with HTTP; Sun, 20 Aug 2017 22:06:37 -0700 (PDT)
+In-Reply-To: <DM5PR12MB154859E8836C5AC6A4884F9ECF890@DM5PR12MB1548.namprd12.prod.outlook.com>
+References: <DM5PR12MB154859E8836C5AC6A4884F9ECF890@DM5PR12MB1548.namprd12.prod.outlook.com>
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Sun, 20 Aug 2017 22:06:37 -0700
+Message-ID: <CACMJ4GbENnWuNJY8_SFqwqHzoTnXxsf+VgE0XbmNoYeUOUKFmA@mail.gmail.com>
+To: Mo Bah <mobahbay@outlook.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Shrikant Bobade <shrikant_bobade@mentor.com>
-Subject: Re: [meta-cloud-services][PATCH] rabbitmq-server: add systemd support
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: meta-virtualization branch to use for xen-image-minimal
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,140 +78,243 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 17 Aug 2017 15:56:01 -0000
-Content-Type: multipart/alternative; boundary="94eb2c0e6100697d990556f50c85"
+X-List-Received-Date: Mon, 21 Aug 2017 05:06:40 -0000
+Content-Type: multipart/alternative; boundary="f403045eb3de8722b005573c71a8"
 
---94eb2c0e6100697d990556f50c85
+--f403045eb3de8722b005573c71a8
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+Mo
 
-Bruce
+Just to give you an additional data point for your aim to build
+xen-image-minimal, I just tried building xen-image-minimal using krogoth
+since that's what you indicated was your plan, with success in the end but
+a couple of nudges are needed along the way.
 
-On Thu, Aug 17, 2017 at 9:34 AM, Shrikant Bobade <bobadeshrikant@gmail.com>
-wrote:
+note: I did not use the full set of layers that you mention, as I think the
+fewer layers involved, the greater the odds of success and I don't think
+the other layers are necessary.
 
-> From: Shrikant Bobade <shrikant_bobade@mentor.com>
+I used the "genericx86-64" MACHINE.
+
+The changes I needed were:
+* xen-image-minimal.bb needs SYSLINUXCFG changing to SYSLINUX_CFG
+* ipxe fetch source needs changing to https at the moment as git isn't
+currently working
+* vgabios recipe compiles a tool ("biossums") that it then uses on the host
+-- this seems iffy to me, but I was able to work around it by hand, by
+deleting the binary and compiling the tool using "make", which was enough
+to unblock progress for the rest of the build.
+
+Here are my notes:
+
+=========
+# Using 64-bit debian jessie:
+user@build-vm:~$ cat /etc/debian_version
+8.8
+user@build-vm:~$ uname -a
+Linux build-vm 3.16.0-4-amd64 #1 SMP Debian 3.16.43-2 (2017-04-30) x86_64
+GNU/Linux
+
+# as root:
+apt-get update
+apt-get install build-essential chrpath diffstat gawk git libncurses5-dev
+pkg-config subversion texi2html texinfo
+
+# as build user:
+cd /mnt/build
+git clone git://git.yoctoproject.org/poky.git -b krogoth
+cd poky
+
+git clone git://git.openembedded.org/meta-openembedded -b krogoth
+git clone git://git.yoctoproject.org/meta-virtualization -b krogoth
+
+source ./oem-init-build-env
+
+edit conf/bblayers.conf :
+----
+# POKY_BBLAYERS_CONF_VERSION is increased each time build/conf/bblayers.conf
+# changes incompatibly
+POKY_BBLAYERS_CONF_VERSION = "2"
+
+BBPATH = "${TOPDIR}"
+BBFILES ?= ""
+
+BBLAYERS ?= " \
+  /mnt/build/poky/meta \
+  /mnt/build/poky/meta-poky \
+  /mnt/build/poky/meta-yocto-bsp \
+  /mnt/build/poky/meta-openembedded/meta-oe \
+  /mnt/build/poky/meta-openembedded/meta-networking \
+  /mnt/build/poky/meta-openembedded/meta-python \
+  /mnt/build/poky/meta-virtualization \
+  "
+----
+
+edit conf/local.conf, append:
+----
+MACHINE = "genericx86-64"
+DISTRO_FEATURES_append = " xen"
+----
+
+# update the fetch source for ipxe as the git protocol is currently
+failing, so use https:
+sed 's,protocol=git,protocol=https,' -i ../meta-virtualization/recipes-
+extended/ipxe/ipxe_git.bb
+
+# fix SYSLINUXCFG => SYSLINUX_CFG in xen-image-minimal:
+sed 's/SYSLINUXCFG/SYSLINUX_CFG/' -i ../meta-virtualization/recipes-
+extended/images/xen-image-minimal.bb
+
+bitbake xen-image-minimal
+
+# vgabios build can fail if your host mismatches your target; if so, try
+this workaround:
+cd tmp/work/core2-64-poky-linux/vgabios/0.7a-r0/vgabios-0.7a
+rm biossums
+make biossums
+cd -
+bitbake vgabios
+
+bitbake xen-image-minimal
+# => build success!
+
+I may get some time to test building with a more recent branch later this
+week. pyro was ok when I was testing Xen 4.9 work last week, albeit that
+with a different MACHINE.
+
+Christopher
+
+
+On Fri, Aug 11, 2017 at 12:25 PM, Mo Bah <mobahbay@outlook.com> wrote:
+
+> Hi Everyone,
 >
-> add systemd support to bring-up out of box rabbitmq-server support.
-> rabbitmq-server-setup: essential setup required by rabbitmq-server
-> rabbitmq-server.service: systemd support service file
+> I am trying to build xen-image-minimal out of Yocto and I did checkout of
+> the master branch of the meta-virtualization layer.
 >
-> Signed-off-by: Shrikant Bobade <shrikant_bobade@mentor.com>
-> ---
->  .../rabbitmq/files/rabbitmq-server-setup           | 26
-> ++++++++++++++++++++++
->  .../rabbitmq/files/rabbitmq-server.service         | 13 +++++++++++
->  .../rabbitmq/rabbitmq-server_3.2.4.bb              | 14 +++++++++++-
->  3 files changed, 52 insertions(+), 1 deletion(-)
->  create mode 100755 meta-openstack/recipes-extended/rabbitmq/files/
-> rabbitmq-server-setup
->  create mode 100644 meta-openstack/recipes-extended/rabbitmq/files/
-> rabbitmq-server.service
 >
-> diff --git a/meta-openstack/recipes-extended/rabbitmq/files/rabbitmq-server-setup
-> b/meta-openstack/recipes-extended/rabbitmq/files/rabbitmq-server-setup
-> new file mode 100755
-> index 0000000..343c775
-> --- /dev/null
-> +++ b/meta-openstack/recipes-extended/rabbitmq/files/rabbitmq-server-setup
-> @@ -0,0 +1,26 @@
-> +#!/bin/sh
-> +#
-> +# rabbitmq-server-setup RabbitMQ broker setup
-> +#
-> +# description: To Enable AMQP server provided by RabbitMQ,
-> +#              this setup required before starting rabbitmq-server.
-> +#
-> +##
-> +
-> +
-> +# Ensure that HOME is set, since the erlang cookie file must be written
-> +# somewhere
-> +export HOME=/home/root
-> +
-> +USER=root
-> +ROTATE_SUFFIX=
-> +INIT_LOG_DIR=/var/log/rabbitmq
-> +
-> +# setup log dir and files for rabbitmq server
-> +if [ ! -d ${INIT_LOG_DIR} ]; then
-> +        mkdir ${INIT_LOG_DIR}
-> +        chmod 0755 ${INIT_LOG_DIR}
-> +        chown $USER:$USER ${INIT_LOG_DIR}
-> +        touch ${INIT_LOG_DIR}/startup_err
-> +        touch ${INIT_LOG_DIR}/startup_log
-> +fi
-> diff --git a/meta-openstack/recipes-extended/rabbitmq/files/rabbitmq-server.service
-> b/meta-openstack/recipes-extended/rabbitmq/files/rabbitmq-server.service
-> new file mode 100644
-> index 0000000..414ea50
-> --- /dev/null
-> +++ b/meta-openstack/recipes-extended/rabbitmq/files/
-> rabbitmq-server.service
-> @@ -0,0 +1,13 @@
-> +[Unit]
-> +Description=RabbitMQ Messaging broker/server service
-> +After=network.target
-> +
-> +[Service]
-> +Type=simple
-> +User=root
-> +ExecStartPre=/usr/bin/rabbitmq-server-setup
-> +ExecStart=/usr/bin/rabbitmq-server
-> +ExecStop=/usr/bin/rabbitmqctl stop
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> diff --git a/meta-openstack/recipes-extended/rabbitmq/rabbitmq-
-> server_3.2.4.bb b/meta-openstack/recipes-extended/rabbitmq/rabbitmq-
-> server_3.2.4.bb
-> index 101d098..8e4be5f 100644
-> --- a/meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.2.4.bb
-> +++ b/meta-openstack/recipes-extended/rabbitmq/rabbitmq-server_3.2.4.bb
-> @@ -10,6 +10,8 @@ SRC_URI = "http://www.rabbitmq.com/
-> releases/rabbitmq-server/v${PV}/${PN}-${PV}.t
->             file://rabbitmq-server \
->             file://remove-docs.patch \
->             file://cleanup_install.patch \
-> +           file://rabbitmq-server.service \
-> +           file://rabbitmq-server-setup \
->             "
+> But when doing, 'bitbake xen-image-minimal', I am seeing the following
+> error.
 >
->  SRC_URI[md5sum] = "09d1af64c005bc680d6790b90655d021"
-> @@ -44,9 +46,17 @@ do_install() {
->      mv ${D}/ebin ${RABBIT_LIB_DIR}/ebin
->      mv ${D}/include ${RABBIT_LIB_DIR}/include
->      mv ${D}/plugins ${RABBIT_LIB_DIR}/plugins
-> +
-> +    install -d ${D}${systemd_unitdir}/system
-> +    install -m 0644 ${WORKDIR}/rabbitmq-server.service
-> ${D}${systemd_unitdir}/system
-> +
-> +    if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)};
-> then
-> +       install -d ${D}${bindir}
-> +       install -m 0755 ${WORKDIR}/rabbitmq-server-setup ${D}${bindir}
-> +    fi
->  }
 >
-> -inherit useradd update-rc.d
-> +inherit useradd update-rc.d systemd
 >
->  USERADD_PACKAGES = "${PN}"
->  GROUPADD_PARAM_${PN} = "--system rabbitmq"
-> @@ -56,6 +66,8 @@ USERADD_PARAM_${PN}  = "--system --create-home --home
-> /var/lib/rabbitmq \
->  INITSCRIPT_NAME = "rabbitmq-server"
->  INITSCRIPT_PARAMS = "defaults"
 >
-> +SYSTEMD_SERVICE_${PN} = "rabbitmq-server.service"
-> +
->  FILES_${PN} += " ${libdir}/rabbitmq/lib/${PN}-${PV}/* \
->                   ${localstatedir}/* \
->                 "
-> --
-> 2.7.4
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+> *| make[5]: Leaving directory
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/arch/x86/cpu'
+> | make[4]: Leaving directory
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/arch/x86'
+> |
+> /home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/Rules.mk:166:
+> recipe for target
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/arch/x86/built_in.o'
+> failed | make[3]: ***
+> [/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/arch/x86/built_in.o]
+> Error 2 | make[3]: Leaving directory
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/arch/x86'
+> | Makefile:135: recipe for target
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/xen'
+> failed | make[2]: ***
+> [/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen/xen]
+> Error 2 | make[2]: Leaving directory
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen'
+> | Makefile:45: recipe for target 'install' failed | make[1]: *** [install]
+> Error 2 | make[1]: Leaving directory
+> '/home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/xen-4.8.0/xen'
+> | Makefile:97: recipe for target 'install-xen' failed | make: ***
+> [install-xen] Error 2 | ERROR: oe_runmake failed | WARNING: exit code 1
+> from a shell command. | ERROR: Function failed: do_compile (log file is
+> located at
+> /home/m/grxen/poky/build/tmp-glibc/work/core2-64-oe-linux/xen/4.8.0-r0/temp/log.do_compile.30351)
+> ERROR: Task
+> (/home/m/grxen/poky/meta-virtualization/recipes-extended/xen/xen_4.8.0.bb:do_compile)
+> failed with exit code '1' NOTE: Tasks Summary: Attempted 2081 tasks of
+> which 1387 didn't need to be rerun and 1 failed. Summary: 1 task failed:
+> /home/m/grxen/poky/meta-virtualization/recipes-extended/xen/xen_4.8.0.bb:do_compile
+> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.*
+>
+> Is the master branch of meta-virtualization layer having issues with
+> 'xen-image-minimal'?
+>
+> I tried the 'bitbake xen-image-minimal' by putting the *'MACHINE ?=
+> "intel-corei7-64"* and *MACHINE ?= "genericx86-64" *and *DISTRO_FEATURES_append
+> = " xen"* in the conf/local.conf.
+>
+> And the bblayers.conf looks like:
+> BBLAYERS ?= " \
+>   /home/m/grxen/poky/meta \
+>   /home/m/grxen/poky/meta-poky \
+>   /home/m/grxen/poky/meta-yocto-bsp \
+>   /home/m/grxen/poky/meta-openembedded/meta-oe \
+>   /home/m/grxen/poky/meta-openembedded/meta-python \
+>   /home/m/grxen/poky/meta-openembedded/meta-networking \
+>   /home/m/grxen/poky/meta-openembedded/meta-filesystems \
+>   /home/m/grxen/poky/meta-virtualization \
+>   /home/m/grxen/poky/oe-meta-go \
+>   /home/m/grxen/poky/openembedded-core/meta \
+>   /home/m/grxen/poky/openembedded-core/meta-selftest \
+>   /home/m/grxen/poky/openembedded-core/meta-skeleton \
+>   /home/m/grxen/poky/meta-selinux \
+>   "
+>
+> And all the layers have been downloaded as per documentation mentioned in
+> http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/about/
+>
+> meta-virtualization - Layer enabling hypervisor ...
+> <http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/about/>
+> git.yoctoproject.org
+> Layer enabling hypervisor, virtualization tool stack, and cloud support.
+> git repository hosting
+> Could you suggest which branch of meta-virtualization would work for
+> 'xen-image-minimal' while doing bitbake?
+> Currently, I am trying with git checkout -b krogoth origin/krogoth branch.
+>
+> Thanks
+> M
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
+>
 >
 > --
 > _______________________________________________
@@ -222,170 +322,247 @@ wrote:
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
+>
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---94eb2c0e6100697d990556f50c85
+--f403045eb3de8722b005573c71a8
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">merged.<div><br></div><div>Bruce<br><div class=3D"gmail_ex=
-tra"><br><div class=3D"gmail_quote">On Thu, Aug 17, 2017 at 9:34 AM, Shrika=
-nt Bobade <span dir=3D"ltr">&lt;<a href=3D"mailto:bobadeshrikant@gmail.com"=
- target=3D"_blank">bobadeshrikant@gmail.com</a>&gt;</span> wrote:<br><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex">From: Shrikant Bobade &lt;<a href=3D"mailto:shrika=
-nt_bobade@mentor.com">shrikant_bobade@mentor.com</a>&gt;<br>
+<div dir=3D"ltr"><div><div><div>Mo<br><br></div>Just to give you an additio=
+nal data point for your aim to build xen-image-minimal, I just tried buildi=
+ng xen-image-minimal using krogoth since that&#39;s what you indicated was =
+your plan, with success in the end but a couple of nudges are needed along =
+the way.<br><br>note: I did not use the full set of layers that you mention=
+, as I think the fewer layers involved, the greater the odds of success and=
+ I don&#39;t think the other layers are necessary.<br><br></div><div>I used=
+ the &quot;genericx86-64&quot; MACHINE.<br></div><div><br></div><div>The ch=
+anges I needed were:<br></div><div>* <a href=3D"http://xen-image-minimal.bb=
+">xen-image-minimal.bb</a> needs SYSLINUXCFG changing to SYSLINUX_CFG<br></=
+div><div>* ipxe fetch source needs changing to https at the moment as git i=
+sn&#39;t currently working<br></div><div>* vgabios recipe compiles a tool (=
+&quot;biossums&quot;) that it then uses on the host -- this seems iffy to m=
+e, but I was able to work around it by hand, by deleting the binary and com=
+piling the tool using &quot;make&quot;, which was enough to unblock progres=
+s for the rest of the build.<br><br></div><div>Here are my notes:<br><br>=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D<br># Using 64-bit debian jessie:<br>user@build-=
+vm:~$ cat /etc/debian_version <br>8.8<br>user@build-vm:~$ uname -a<br>Linux=
+ build-vm 3.16.0-4-amd64 #1 SMP Debian 3.16.43-2 (2017-04-30) x86_64 GNU/Li=
+nux<br><br># as root:<br>apt-get update<br>apt-get install build-essential =
+chrpath diffstat gawk git libncurses5-dev pkg-config subversion texi2html t=
+exinfo<br><br># as build user:<br>cd /mnt/build<br>git clone git://<a href=
+=3D"http://git.yoctoproject.org/poky.git" target=3D"_blank">git.yoctoprojec=
+t.org/<wbr>poky.git</a> -b krogoth<br></div><div>cd poky<br><br>git clone g=
+it://<a href=3D"http://git.openembedded.org/meta-openembedded" target=3D"_b=
+lank">git.openembedded.org/<wbr>meta-openembedded</a> -b krogoth<br></div><=
+div>git clone git://<a href=3D"http://git.yoctoproject.org/meta-virtualizat=
+ion" target=3D"_blank">git.yoctoproject.org/<wbr>meta-virtualization</a> -b=
+ krogoth<br></div><div><br>source ./oem-init-build-env<br><br>edit conf/bbl=
+ayers.conf :<br>----<br># POKY_BBLAYERS_CONF_VERSION is increased each time=
+ build/conf/bblayers.conf<br># changes incompatibly<br>POKY_BBLAYERS_CONF_V=
+ERSION =3D &quot;2&quot;<br><br>BBPATH =3D &quot;${TOPDIR}&quot;<br>BBFILES=
+ ?=3D &quot;&quot;<br><br>BBLAYERS ?=3D &quot; \<br>=C2=A0 /mnt/build/poky/=
+meta \<br>=C2=A0 /mnt/build/poky/meta-poky \<br>=C2=A0 /mnt/build/poky/meta=
+-yocto-bsp \<br>=C2=A0 /mnt/build/poky/meta-<wbr>openembedded/meta-oe \<br>=
+=C2=A0 /mnt/build/poky/meta-<wbr>openembedded/meta-networking \<br>=C2=A0 /=
+mnt/build/poky/meta-<wbr>openembedded/meta-python \<br>=C2=A0 /mnt/build/po=
+ky/meta-<wbr>virtualization \<br>=C2=A0 &quot;<br>----<br><br>edit conf/loc=
+al.conf, append:<br>----<br>MACHINE =3D &quot;genericx86-64&quot;<br>DISTRO=
+_FEATURES_append =3D &quot; xen&quot;<br>----<br><br># update the fetch sou=
+rce for ipxe as the git protocol is currently failing, so use https:<br>sed=
+ &#39;s,protocol=3Dgit,protocol=3D<wbr>https,&#39; -i ../meta-virtualizatio=
+n/recipes-<wbr>extended/ipxe/<a href=3D"http://ipxe_git.bb" target=3D"_blan=
+k">ipxe_git.bb</a><br><br># fix SYSLINUXCFG =3D&gt; SYSLINUX_CFG in xen-ima=
+ge-minimal:<br>sed &#39;s/SYSLINUXCFG/SYSLINUX_CFG/&#39; -i ../meta-virtual=
+ization/recipes-<wbr>extended/images/<a href=3D"http://xen-image-minimal.bb=
+" target=3D"_blank">xen-image-<wbr>minimal.bb</a><br><br>bitbake xen-image-=
+minimal<br><br># vgabios build can fail if your host mismatches your target=
+; if so, try this workaround:<br>cd tmp/<wbr>work/core2-64-poky-linux/<wbr>=
+vgabios/0.7a-r0/vgabios-0.7a<br>rm biossums<br>make biossums<br>cd -<br>bit=
+bake vgabios<br><br>bitbake xen-image-minimal<br></div><div># =3D&gt; build=
+ success!<br></div><br></div>I may get some time to test building with a mo=
+re recent branch later this week. pyro was ok when I was testing Xen 4.9 wo=
+rk last week, albeit that with a different MACHINE.<br><div><br>Christopher=
+<br><br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quot=
+e">On Fri, Aug 11, 2017 at 12:25 PM, Mo Bah <span dir=3D"ltr">&lt;<a href=
+=3D"mailto:mobahbay@outlook.com" target=3D"_blank">mobahbay@outlook.com</a>=
+&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0=
+ 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+
+
+
+
+<div dir=3D"ltr">
+Hi Everyone,
+<div id=3D"m_-8948539386113454725divtagdefaultwrapper" style=3D"font-size:1=
+2pt;color:rgb(0,0,0);font-family:Calibri,Helvetica,sans-serif,&quot;EmojiFo=
+nt&quot;,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,NotoColor=
+Emoji,&quot;Segoe UI Symbol&quot;,&quot;Android Emoji&quot;,EmojiSymbols" d=
+ir=3D"ltr">
+<p>I am trying to build xen-image-minimal out of Yocto and I did checkout o=
+f the master branch of the meta-virtualization layer.
 <br>
-add systemd support to bring-up out of box rabbitmq-server support.<br>
-rabbitmq-server-setup: essential setup required by rabbitmq-server<br>
-rabbitmq-server.service: systemd support service file<br>
-<br>
-Signed-off-by: Shrikant Bobade &lt;<a href=3D"mailto:shrikant_bobade@mentor=
-.com">shrikant_bobade@mentor.com</a>&gt;<br>
----<br>
-=C2=A0.../rabbitmq/files/rabbitmq-<wbr>server-setup=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 26 ++++++++++++++++++++++<br>
-=C2=A0.../rabbitmq/files/rabbitmq-<wbr>server.service=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| 13 +++++++++++<br>
-=C2=A0.../rabbitmq/<a href=3D"http://rabbitmq-server_3.2.4.bb" rel=3D"noref=
-errer" target=3D"_blank">rabbitmq-server_<wbr>3.2.4.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 14 +++++++++++-<br>
-=C2=A03 files changed, 52 insertions(+), 1 deletion(-)<br>
-=C2=A0create mode 100755 meta-openstack/recipes-<wbr>extended/rabbitmq/file=
-s/<wbr>rabbitmq-server-setup<br>
-=C2=A0create mode 100644 meta-openstack/recipes-<wbr>extended/rabbitmq/file=
-s/<wbr>rabbitmq-server.service<br>
-<br>
-diff --git a/meta-openstack/recipes-<wbr>extended/rabbitmq/files/<wbr>rabbi=
-tmq-server-setup b/meta-openstack/recipes-<wbr>extended/rabbitmq/files/<wbr=
->rabbitmq-server-setup<br>
-new file mode 100755<br>
-index 0000000..343c775<br>
---- /dev/null<br>
-+++ b/meta-openstack/recipes-<wbr>extended/rabbitmq/files/<wbr>rabbitmq-ser=
-ver-setup<br>
-@@ -0,0 +1,26 @@<br>
-+#!/bin/sh<br>
-+#<br>
-+# rabbitmq-server-setup RabbitMQ broker setup<br>
-+#<br>
-+# description: To Enable AMQP server provided by RabbitMQ,<br>
-+#=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 this setup required befo=
-re starting rabbitmq-server.<br>
-+#<br>
-+##<br>
-+<br>
-+<br>
-+# Ensure that HOME is set, since the erlang cookie file must be written<br=
+</p>
+<p><br>
+</p>
+<p>But when doing, &#39;bitbake xen-image-minimal&#39;, I am seeing the fol=
+lowing error.</p>
+<p><br>
+</p>
+<div><b>| make[5]: Leaving directory &#39;/home/m/grxen/poky/build/tmp-<wbr=
+>glibc/work/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen/<wbr>arch/x86=
+/cpu&#39;<br>
+| make[4]: Leaving directory &#39;/home/m/grxen/poky/build/tmp-<wbr>glibc/w=
+ork/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen/<wbr>arch/x86&#39;<br=
 >
-+# somewhere<br>
-+export HOME=3D/home/root<br>
-+<br>
-+USER=3Droot<br>
-+ROTATE_SUFFIX=3D<br>
-+INIT_LOG_DIR=3D/var/log/<wbr>rabbitmq<br>
-+<br>
-+# setup log dir and files for rabbitmq server<br>
-+if [ ! -d ${INIT_LOG_DIR} ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir ${INIT_LOG_DIR}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 chmod 0755 ${INIT_LOG_DIR}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 chown $USER:$USER ${INIT_LOG_DIR}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 touch ${INIT_LOG_DIR}/startup_err<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 touch ${INIT_LOG_DIR}/startup_log<br>
-+fi<br>
-diff --git a/meta-openstack/recipes-<wbr>extended/rabbitmq/files/<wbr>rabbi=
-tmq-server.service b/meta-openstack/recipes-<wbr>extended/rabbitmq/files/<w=
-br>rabbitmq-server.service<br>
-new file mode 100644<br>
-index 0000000..414ea50<br>
---- /dev/null<br>
-+++ b/meta-openstack/recipes-<wbr>extended/rabbitmq/files/<wbr>rabbitmq-ser=
-ver.service<br>
-@@ -0,0 +1,13 @@<br>
-+[Unit]<br>
-+Description=3DRabbitMQ Messaging broker/server service<br>
-+After=3Dnetwork.target<br>
-+<br>
-+[Service]<br>
-+Type=3Dsimple<br>
-+User=3Droot<br>
-+ExecStartPre=3D/usr/bin/<wbr>rabbitmq-server-setup<br>
-+ExecStart=3D/usr/bin/rabbitmq-<wbr>server<br>
-+ExecStop=3D/usr/bin/rabbitmqctl stop<br>
-+<br>
-+[Install]<br>
-+WantedBy=3Dmulti-user.target<br>
-diff --git a/meta-openstack/recipes-<wbr>extended/rabbitmq/<a href=3D"http:=
-//rabbitmq-server_3.2.4.bb" rel=3D"noreferrer" target=3D"_blank">rabbitmq-<=
-wbr>server_3.2.4.bb</a> b/meta-openstack/recipes-<wbr>extended/rabbitmq/<a =
-href=3D"http://rabbitmq-server_3.2.4.bb" rel=3D"noreferrer" target=3D"_blan=
-k">rabbitmq-<wbr>server_3.2.4.bb</a><br>
-index 101d098..8e4be5f 100644<br>
---- a/meta-openstack/recipes-<wbr>extended/rabbitmq/<a href=3D"http://rabbi=
-tmq-server_3.2.4.bb" rel=3D"noreferrer" target=3D"_blank">rabbitmq-<wbr>ser=
-ver_3.2.4.bb</a><br>
-+++ b/meta-openstack/recipes-<wbr>extended/rabbitmq/<a href=3D"http://rabbi=
-tmq-server_3.2.4.bb" rel=3D"noreferrer" target=3D"_blank">rabbitmq-<wbr>ser=
-ver_3.2.4.bb</a><br>
-@@ -10,6 +10,8 @@ SRC_URI =3D &quot;<a href=3D"http://www.rabbitmq.com/rele=
-ases/rabbitmq-server/v${PV}/${PN}-${PV}.t" rel=3D"noreferrer" target=3D"_bl=
-ank">http://www.rabbitmq.com/<wbr>releases/rabbitmq-server/v${<wbr>PV}/${PN=
-}-${PV}.t</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://rabbitmq-server \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://remove-docs.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://cleanup_install.patch \<br=
+| /home/m/grxen/poky/build/tmp-<wbr>glibc/work/core2-64-oe-linux/<wbr>xen/4=
+.8.0-r0/xen-4.8.0/xen/<wbr>Rules.mk:166: recipe for target &#39;/home/m/grx=
+en/poky/build/tmp-<wbr>glibc/work/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4=
+.8.0/xen/<wbr>arch/x86/built_in.o&#39; failed<br>
+| make[3]: *** [/home/m/grxen/poky/build/tmp-<wbr>glibc/work/core2-64-oe-li=
+nux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen/<wbr>arch/x86/built_in.o] Error 2<br>
+| make[3]: Leaving directory &#39;/home/m/grxen/poky/build/tmp-<wbr>glibc/w=
+ork/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen/<wbr>arch/x86&#39;<br=
 >
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rabbitmq-server.service \<=
-br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rabbitmq-server-setup \<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+| Makefile:135: recipe for target &#39;/home/m/grxen/poky/build/tmp-<wbr>gl=
+ibc/work/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen/<wbr>xen&#39; fa=
+iled<br>
+| make[2]: *** [/home/m/grxen/poky/build/tmp-<wbr>glibc/work/core2-64-oe-li=
+nux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen/<wbr>xen] Error 2<br>
+| make[2]: Leaving directory &#39;/home/m/grxen/poky/build/tmp-<wbr>glibc/w=
+ork/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen&#39;<br>
+| Makefile:45: recipe for target &#39;install&#39; failed<br>
+| make[1]: *** [install] Error 2<br>
+| make[1]: Leaving directory &#39;/home/m/grxen/poky/build/tmp-<wbr>glibc/w=
+ork/core2-64-oe-linux/<wbr>xen/4.8.0-r0/xen-4.8.0/xen&#39;<br>
+| Makefile:97: recipe for target &#39;install-xen&#39; failed<br>
+| make: *** [install-xen] Error 2<br>
+| ERROR: oe_runmake failed<br>
+| WARNING: exit code 1 from a shell command.<br>
+| ERROR: Function failed: do_compile (log file is located at /home/m/grxen/=
+poky/build/tmp-<wbr>glibc/work/core2-64-oe-linux/<wbr>xen/4.8.0-r0/temp/log=
+.do_<wbr>compile.30351)<br>
+ERROR: Task (/home/m/grxen/poky/meta-<wbr>virtualization/recipes-<wbr>exten=
+ded/xen/xen_4.8.0.bb:do_<wbr>compile) failed with exit code &#39;1&#39;<br>
+NOTE: Tasks Summary: Attempted 2081 tasks of which 1387 didn&#39;t need to =
+be rerun and 1 failed.<br>
 <br>
-=C2=A0SRC_URI[md5sum] =3D &quot;<wbr>09d1af64c005bc680d6790b90655d0<wbr>21&=
-quot;<br>
-@@ -44,9 +46,17 @@ do_install() {<br>
-=C2=A0 =C2=A0 =C2=A0mv ${D}/ebin ${RABBIT_LIB_DIR}/ebin<br>
-=C2=A0 =C2=A0 =C2=A0mv ${D}/include ${RABBIT_LIB_DIR}/include<br>
-=C2=A0 =C2=A0 =C2=A0mv ${D}/plugins ${RABBIT_LIB_DIR}/plugins<br>
-+<br>
-+=C2=A0 =C2=A0 install -d ${D}${systemd_unitdir}/system<br>
-+=C2=A0 =C2=A0 install -m 0644 ${WORKDIR}/rabbitmq-server.<wbr>service ${D}=
-${systemd_unitdir}/system<br>
-+<br>
-+=C2=A0 =C2=A0 if ${@bb.utils.contains(&#39;DISTRO_<wbr>FEATURES&#39;,&#39;=
-systemd&#39;,&#39;true&#39;,&#39;<wbr>false&#39;,d)}; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${bindir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755 ${WORKDIR}/rabbitmq-server-<wbr=
->setup ${D}${bindir}<br>
-+=C2=A0 =C2=A0 fi<br>
-=C2=A0}<br>
+Summary: 1 task failed:<br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>virtualization/recipes-<wbr>extended/xe=
+n/xen_4.8.0.bb:do_<wbr>compile<br>
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.=
+</b></div>
 <br>
--inherit useradd update-rc.d<br>
-+inherit useradd update-rc.d systemd<br>
+Is the master branch of meta-virtualization layer having issues with &#39;x=
+en-image-minimal&#39;?
 <br>
-=C2=A0USERADD_PACKAGES =3D &quot;${PN}&quot;<br>
-=C2=A0GROUPADD_PARAM_${PN} =3D &quot;--system rabbitmq&quot;<br>
-@@ -56,6 +66,8 @@ USERADD_PARAM_${PN}=C2=A0 =3D &quot;--system --create-hom=
-e --home /var/lib/rabbitmq \<br>
-=C2=A0INITSCRIPT_NAME =3D &quot;rabbitmq-server&quot;<br>
-=C2=A0INITSCRIPT_PARAMS =3D &quot;defaults&quot;<br>
 <br>
-+SYSTEMD_SERVICE_${PN} =3D &quot;rabbitmq-server.service&quot;<br>
-+<br>
-=C2=A0FILES_${PN} +=3D &quot; ${libdir}/rabbitmq/lib/${PN}-$<wbr>{PV}/* \<b=
-r>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${localstate=
-dir}/* \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
+I tried the &#39;bitbake xen-image-minimal&#39; by putting the <b>&#39;<spa=
+n>MACHINE ?=3D &quot;intel-corei7-64</span>&quot;</b> and
+<span><b>MACHINE ?=3D &quot;genericx86-64&quot; </b>and <span><span><b>DIST=
+RO_FEATURES_append =3D &quot; xen&quot;</b></span></span>
+<b></b>in the conf/local.conf.<br>
 <br>
---<br>
+And the bblayers.conf looks like:<br>
+<div>BBLAYERS ?=3D &quot; \<br>
+=C2=A0 /home/m/grxen/poky/meta \<br>
+=C2=A0 /home/m/grxen/poky/meta-poky \<br>
+=C2=A0 /home/m/grxen/poky/meta-yocto-<wbr>bsp \<br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>openembedded/meta-oe \ <br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>openembedded/meta-python \ <br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>openembedded/meta-networking \ <br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>openembedded/meta-filesystems \ <br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>virtualization \<br>
+=C2=A0 /home/m/grxen/poky/oe-meta-go \<br>
+=C2=A0 /home/m/grxen/poky/<wbr>openembedded-core/meta \ <br>
+=C2=A0 /home/m/grxen/poky/<wbr>openembedded-core/meta-<wbr>selftest \<br>
+=C2=A0 /home/m/grxen/poky/<wbr>openembedded-core/meta-<wbr>skeleton \ <br>
+=C2=A0 /home/m/grxen/poky/meta-<wbr>selinux \ <br>
+=C2=A0 &quot;<br>
+</div>
+<br>
+And all the layers have been downloaded as per documentation mentioned in <=
+a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/abo=
+ut/" class=3D"m_-8948539386113454725OWAAutoLink" id=3D"m_-89485393861134547=
+25LPlnk804212" target=3D"_blank">
+http://git.yoctoproject.org/<wbr>cgit/cgit.cgi/meta-<wbr>virtualization/abo=
+ut/</a> <br>
+<br>
+<div id=3D"m_-8948539386113454725LPBorder_GT_15024542053840.226445162272678=
+64" style=3D"margin-bottom:20px;overflow:auto;width:100%;text-indent:0px">
+<table id=3D"m_-8948539386113454725LPContainer_15024542053710.3007271333312=
+367" style=3D"width:90%;background-color:rgb(255,255,255);overflow:auto;pad=
+ding-top:20px;padding-bottom:20px;margin-top:20px;border-top:1px dotted rgb=
+(200,200,200);border-bottom:1px dotted rgb(200,200,200)" cellspacing=3D"0">
+<tbody>
+<tr style=3D"border-spacing:0px" valign=3D"top">
+<td id=3D"m_-8948539386113454725TextCell_15024542053750.7529949949566461" s=
+tyle=3D"vertical-align:top;padding:0px;display:table-cell" colspan=3D"2">
+<div id=3D"m_-8948539386113454725LPRemovePreviewContainer_15024542053760.90=
+21992851707933"></div>
+<div id=3D"m_-8948539386113454725LPTitle_15024542053760.9987794121240315" s=
+tyle=3D"color:rgb(0,120,215);font-weight:400;font-size:21px;font-family:&qu=
+ot;wf_segoe-ui_light&quot;,&quot;Segoe UI Light&quot;,&quot;Segoe WP Light&=
+quot;,&quot;Segoe UI&quot;,&quot;Segoe WP&quot;,Tahoma,Arial,sans-serif;lin=
+e-height:21px">
+<a id=3D"m_-8948539386113454725LPUrlAnchor_15024542053790.9569886343941635"=
+ style=3D"text-decoration:none" href=3D"http://git.yoctoproject.org/cgit/cg=
+it.cgi/meta-virtualization/about/" target=3D"_blank">meta-virtualization - =
+Layer enabling hypervisor ...</a></div>
+<div id=3D"m_-8948539386113454725LPMetadata_15024542053810.9906985067008547=
+" style=3D"margin:10px 0px 16px;color:rgb(102,102,102);font-weight:400;font=
+-family:&quot;wf_segoe-ui_normal&quot;,&quot;Segoe UI&quot;,&quot;Segoe WP&=
+quot;,Tahoma,Arial,sans-serif;font-size:14px;line-height:14px">
+<a href=3D"http://git.yoctoproject.org" target=3D"_blank">git.yoctoproject.=
+org</a></div>
+<div id=3D"m_-8948539386113454725LPDescription_15024542053820.5467038874994=
+977" style=3D"display:block;color:rgb(102,102,102);font-weight:400;font-fam=
+ily:&quot;wf_segoe-ui_normal&quot;,&quot;Segoe UI&quot;,&quot;Segoe WP&quot=
+;,Tahoma,Arial,sans-serif;font-size:14px;line-height:20px;max-height:100px;=
+overflow:hidden">
+Layer enabling hypervisor, virtualization tool stack, and cloud support. gi=
+t repository hosting</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+Could you suggest which branch of meta-virtualization would work for &#39;x=
+en-image-minimal&#39; while doing bitbake?<br>
+Currently, I am trying with <span>git checkout -b krogoth origin/krogoth</s=
+pan> branch.<br>
+<br>
+Thanks<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+M<br>
+<br>
+<br>
+<br>
+</font></span></span><br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<p></p>
+</div>
+</div>
+
+<br>--<br>
 ______________________________<wbr>_________________<br>
 meta-virtualization mailing list<br>
 <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
@@ -393,10 +570,6 @@ meta-virtualization mailing list<br>
 <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
 =3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
 nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div></div></div>
+<br></blockquote></div><br></div>
 
---94eb2c0e6100697d990556f50c85--
+--f403045eb3de8722b005573c71a8--
