@@ -1,6 +1,6 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 25E81E00D11; Mon, 21 Aug 2017 22:08:41 -0700 (PDT)
+	id 3FEE9E00D0F; Mon, 21 Aug 2017 22:08:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,9 +11,9 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [74.125.83.66 listed in list.dnswl.org]
+	*      [209.85.192.196 listed in list.dnswl.org]
 	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [74.125.83.66 listed in dnsbl.sorbs.net]
+	*      [209.85.192.196 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -21,52 +21,53 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CAA9BE00CF5
+Received: from mail-pf0-f196.google.com (mail-pf0-f196.google.com
+	[209.85.192.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 73D91E00D07
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 Aug 2017 22:08:39 -0700 (PDT)
-Received: by mail-pg0-f66.google.com with SMTP id u191so1573894pgc.0
+	Mon, 21 Aug 2017 22:08:40 -0700 (PDT)
+Received: by mail-pf0-f196.google.com with SMTP id k3so329181pfc.2
 	for <meta-virtualization@yoctoproject.org>;
 	Mon, 21 Aug 2017 22:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zIZoEVye06A7DzZ9rCIESvBVlSZkHMgjdYzw7J/YK3E=;
-	b=NwNdbpH6fL6nfr6iBpuinBkoUHLJZPaZpZskoGp5W3ar+VR8V6D1gOupXb3VlW4hWm
-	a1Ks/rIjNADToSsS+pM4MazT3L+m9YKrJAwfHsdTo4hKbzfee3Be19A/MuGJeElAdd0B
-	pTo7IBASVrnJvJJwjY3Pl/mM0kyRKQk3ig6K7BSPfeeH4AT6CCaAP9D5GlJeztPEVpnN
-	rTUFZTlwMGTC+GJC2zMsrNbIL8vWgfS6TB+IrGYiQwIbkFl/+lmgWkiN792LSS5hnbvf
-	Wspjme4ZiwJErKDkB5oCln4UcwrVpb5AMr+JSj9ct1TwSOSJ3r1zKR4sL2tUXNVNsUVI
-	Yxnw==
+	bh=RkM8Iznc5hnrka3SPMHxD2/NrtlalHOx9nzBbvlQu+M=;
+	b=rE8MBfwIhp4nV63RatoQEMewfRDVhUM3+q69ir+xTjJ1a/QrOAiJ/jdn+OSxyPMPwO
+	RWXhiddIXDw1pbP4lYoU0+OgH1d+xGa534QMwW621MgcUbeaHM5gX8i3mRkdRgu0nioa
+	LmRgKRaquV7aezXnCA+tZulsyZahRpbJxSCpuz6aA4QqdzOCR55zTfnCaMdwBnEiMnQ9
+	X1tZH1SRGNgU9JH880qj9Zm+Fh6g/GCKpJ6Zb+03FHgLrdXFRor9cDSadCCUC3A2E1r8
+	nNKpnv2eKWUapH1WXIH1jZmG61KL7muyDPY2DInWrQ9o1oVmwa1Q3X0Fo4BfSLFhDBDW
+	TtSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zIZoEVye06A7DzZ9rCIESvBVlSZkHMgjdYzw7J/YK3E=;
-	b=JqDuuFApKQTB/m7+eQtB8G+mEkzuXc7TMpwONQMxjozAcW7NWTbCUBygtCcPjpAPKm
-	W+gbHOwtj8t8RDd8l2VkmzL4A+ZIlQ1I7yTj9LBuSoje8H3IPWfSKxBwFuISidsxgFcV
-	GWc3esHfsxxg7IC7yw901RsbxacoSDK1EdTQ4EEtEHsgoTHW1HZti4mcwXHqd+02l+Se
-	R9WHLB8IXB54y76sa9zvfFSy0VipdHJtBnzqhYbPFkZfE1vYYAdqq6R+xZ0TUTJdkF4c
-	bYJFuPdvrGGJjDCvpgxZ1jT6BtKn2LgyFQtlQxXtUULrnmqmrDe4aUVXhISuJjDecKnQ
-	Em/w==
-X-Gm-Message-State: AHYfb5jMXG/xQBphcSDaRapEPDOJmiZjCU1D4KtnQVlHDS4fNxnNNLf6
-	ay3B6w7LZ+aV6DrsFgY=
-X-Received: by 10.98.14.143 with SMTP id 15mr19879608pfo.72.1503378518834;
-	Mon, 21 Aug 2017 22:08:38 -0700 (PDT)
+	bh=RkM8Iznc5hnrka3SPMHxD2/NrtlalHOx9nzBbvlQu+M=;
+	b=r5zs8uZbz+acrWaP4fkkaqYydSqgqXYIFKLK2FY7C3oshNuRgmffomf+U+LGQZ2Tai
+	eUXtjVbBpAEmcIH2ORNzZXS6Nkc4IOhnozJ8+sicsweXWL04frrF8F9RLmmQwW2wq10V
+	oyLvoe0j/2uWbUZqqP5L4+f4WedSAWGn0rUrdN972YFv7Mc6ptt0RFBl+SGNzk1WogLr
+	d78A+WL7sT5H0CmgYvRZqNkepdmsVA/vNraaUjxWNuPMI0Og4aivY+QWj90iYiyqyQB9
+	Ql1ObXGF1qd5h0Yky0e2n19HR1FXiDeQSp9KQsfTRLOQU7NvtR4Dpkp++R7UsU4BRL/b
+	c5cQ==
+X-Gm-Message-State: AHYfb5jAS3lIF4R/wduaNv9Iy8cHnKHH+IgqTUo8RED6vDnFLn11O4hq
+	q17lZHPZrz3ESVj6Cj8=
+X-Received: by 10.98.67.68 with SMTP id q65mr18819825pfa.175.1503378519546;
+	Mon, 21 Aug 2017 22:08:39 -0700 (PDT)
 Received: from WorkStation-T3500.ice.pyrology.org
 	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
 	b81sm10696128pfm.62.2017.08.21.22.08.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 21 Aug 2017 22:08:38 -0700 (PDT)
+	Mon, 21 Aug 2017 22:08:39 -0700 (PDT)
 From: christopher.w.clark@gmail.com
 To: meta-virtualization@yoctoproject.org
-Date: Mon, 21 Aug 2017 22:08:20 -0700
-Message-Id: <1503378503-23353-2-git-send-email-christopher.w.clark@gmail.com>
+Date: Mon, 21 Aug 2017 22:08:21 -0700
+Message-Id: <1503378503-23353-3-git-send-email-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1503378503-23353-1-git-send-email-christopher.w.clark@gmail.com>
 References: <1503378503-23353-1-git-send-email-christopher.w.clark@gmail.com>
 Cc: cardoe@gentoo.org
-Subject: [PATCH 1/4] vgabios : extract biossums tool and build it separately, native
+Subject: [PATCH 2/4] ipxe: fetch using https rather than git protocol
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -83,87 +84,27 @@ X-List-Received-Date: Tue, 22 Aug 2017 05:08:41 -0000
 
 From: Christopher Clark <christopher.clark6@baesystems.com>
 
-The biossums tool is used to generate the vgabios build product.
-
-This patch:
-* adds a separate recipe "biossums" for the tool
-* makes the vgabios recipe depend upon biossums-native 
-* makes the vgabios recipe use the native binary rather than a locally built one
+The git protocol isn't responding at the ipxe fetch source;
+https is, so use that instead.
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/vgabios/biossums_0.7a.bb | 37 +++++++++++++++++++++++++++++++
- recipes-extended/vgabios/vgabios_0.7a.bb  |  6 +++--
- 2 files changed, 41 insertions(+), 2 deletions(-)
- create mode 100644 recipes-extended/vgabios/biossums_0.7a.bb
+ recipes-extended/ipxe/ipxe_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-extended/vgabios/biossums_0.7a.bb b/recipes-extended/vgabios/biossums_0.7a.bb
-new file mode 100644
-index 0000000..276d037
---- /dev/null
-+++ b/recipes-extended/vgabios/biossums_0.7a.bb
-@@ -0,0 +1,37 @@
-+DESCRIPTION = "biossums tool for building Plex86/Bochs LGPL VGABios"
-+HOMEPAGE = "http://www.nongnu.org/vgabios/"
-+LICENSE = "LGPLv2.1"
-+SECTION = "firmware"
-+
-+LIC_FILES_CHKSUM = "file://COPYING;md5=dcf3c825659e82539645da41a7908589"
-+
-+SRC_URI =  "http://savannah.gnu.org/download/vgabios/vgabios-${PV}.tgz"
-+
-+SRC_URI[md5sum] = "2c0fe5c0ca08082a9293e3a7b23dc900"
-+SRC_URI[sha256sum] = "9d24c33d4bfb7831e2069cf3644936a53ef3de21d467872b54ce2ea30881b865"
-+
-+PR = "r0"
-+
-+BBCLASSEXTEND = "native"
-+
-+FILES_${PN} = "${bindir}/biossums"
-+
-+S = "${WORKDIR}/vgabios-${PV}"
-+
-+do_configure() {
-+    # Don't override the compiler or its flags:
-+    sed 's,^CC,DISABLED_CC,' -i Makefile
-+    sed 's,^CFLAGS,DISABLED_CFLAGS,' -i Makefile
-+    # Supply the C flags to the compiler:
-+    sed 's,-o biossums,$(CFLAGS) -o biossums,' -i Makefile
-+}
-+
-+do_compile() {
-+    oe_runmake clean
-+    oe_runmake biossums
-+}
-+
-+do_install() {
-+    mkdir -p "${D}${bindir}"
-+    install -m 0755 biossums "${D}${bindir}"
-+}
-diff --git a/recipes-extended/vgabios/vgabios_0.7a.bb b/recipes-extended/vgabios/vgabios_0.7a.bb
-index 0ed8bb4..8c89041 100644
---- a/recipes-extended/vgabios/vgabios_0.7a.bb
-+++ b/recipes-extended/vgabios/vgabios_0.7a.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.nongnu.org/vgabios/"
- LICENSE = "LGPLv2.1"
- SECTION = "firmware"
+diff --git a/recipes-extended/ipxe/ipxe_git.bb b/recipes-extended/ipxe/ipxe_git.bb
+index d52c567..c0c8a7b 100644
+--- a/recipes-extended/ipxe/ipxe_git.bb
++++ b/recipes-extended/ipxe/ipxe_git.bb
+@@ -8,7 +8,7 @@ SRCREV = "8c43891db4eb131d019360ccfb619f235b17eb58"
+ PV = "gitr${SRCPV}"
+ PR = "r0"
  
--DEPENDS = "dev86-native"
-+DEPENDS = "dev86-native biossums-native"
+-SRC_URI = "git://git.ipxe.org/ipxe.git;protocol=git"
++SRC_URI = "git://git.ipxe.org/ipxe.git;protocol=https"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=dcf3c825659e82539645da41a7908589"
+ FILES_${PN} = "/usr/share/firmware/*.rom"
  
-@@ -20,7 +20,9 @@ FILES_${PN}-dbg = "/usr/share/firmware/${PN}-${PV}*.debug.bin"
- S = "${WORKDIR}/${PN}-${PV}"
- 
- do_configure() {
--    echo "Skip do_configure"
-+    # Override to use the native-built biossums tool:
-+    sed 's,./biossums,biossums,' -i Makefile
-+    sed 's,$(CC) -o biossums biossums.c,touch biossums,' -i Makefile
- }
- 
- do_install() {
 -- 
 2.1.4
 
