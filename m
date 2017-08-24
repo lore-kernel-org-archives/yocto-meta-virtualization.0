@@ -1,71 +1,69 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A57F4E00BAB; Thu, 24 Aug 2017 06:59:45 -0700 (PDT)
+	id 11D59E00B3D; Thu, 24 Aug 2017 11:46:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+	mail provider *      (christopher.w.clark[at]gmail.com)
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [74.125.83.66 listed in dnsbl.sorbs.net]
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.217.172 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.217.172 listed in dnsbl.sorbs.net]
+	*      [74.125.83.66 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ua0-f172.google.com (mail-ua0-f172.google.com
-	[209.85.217.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC625E0090A
+Received: from mail-pg0-f66.google.com (mail-pg0-f66.google.com [74.125.83.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 61ADAE0090A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Aug 2017 06:59:44 -0700 (PDT)
-Received: by mail-ua0-f172.google.com with SMTP id h9so2322195uac.5
+	Thu, 24 Aug 2017 11:46:25 -0700 (PDT)
+Received: by mail-pg0-f66.google.com with SMTP id q16so302147pgc.0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Aug 2017 06:59:44 -0700 (PDT)
+	Thu, 24 Aug 2017 11:46:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=527QN8xkyAZICveDHwJ+ajBNS+4DVM4DMgMW0oo7YeU=;
-	b=CGyUpdDXMgZjfPqsRdIMBnH98hKqAJYJb2pf8m1SpLWnJgNQhubHH/93DJEM7EeTtc
-	Lgq5ZY6MUTXU/iW8V1sgXFl2BD807nvwvShj4hmyeGbfowx+fU86RS/2Z9KMJm3LpvFX
-	SYkG9oZj1Bnl3DyJXmdrRxcqkV2xkzoQ0h6eQTi/MmXZQIG0acyFsr4VMszNT3Fy99Ef
-	kyY20RsuS0Z3muQIgJDd0faMQAnWUfXHi4NNWZmVM6Mb485hM2qPVgXZhd+93fPrwt3j
-	I5/5r0D6y2ZaU7CuWtpmVQWoih+6RI27RugvWl5n3gvUWSlmUsswUCC/tWkm7KwItwiP
-	qs8g==
+	h=from:to:cc:subject:date:message-id;
+	bh=eVvkmo51VUH43/B5XKRGfFD1V+26rOVVDIJDjTBSZ7A=;
+	b=lGpHKIW/TnOmGlkGsqbHsUw+4SPA25Q2THznbfXw2/8MqzKq7Gf/6Zp51gbOBMD1mq
+	Wk+6/rSMMWB7MzlEtI4h8tg6i1DplFJ6f1iueKBrUHyLwKsn+yhd6j/qIp2I/H1sj+xo
+	cd4OJrZmBZARjIk9RRlDcnYhvgeu2KkvpmJREyD3eY+bLqKZ7bMh5zsqudjS+KbUG6K9
+	FWGeIp/9+Rtdfs5ZmAYtdh65HEfeQo42oTfTfFUnoyb6oregdnjHYMQAD4umf676mpZA
+	WclxU6WYI0ezbFCPxqfayohypPbdUWtayPvDq/WaFfybAGyG4WvygQZ63+eUaW3ygx4k
+	4KMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=527QN8xkyAZICveDHwJ+ajBNS+4DVM4DMgMW0oo7YeU=;
-	b=tl6OJiufhgUxO9HwCRrwEPZOHkJdz5k3w2yZMs0N8tPgVICTIfIRNO7AsCouE7J0oy
-	qOAYirBU6c4xH6ydZMFSSQ6Lrb4LKFdPVJMgxe4/CqLjVEZj29UFw8Any+y4oeomYH+K
-	7plcWZJ/625xjgHPtJIxuSBWgPSOQdNU9o1O3qeaVX4iO0xLWdSvWnMYD6aL/HO+ZAmq
-	7rt690Lx8vAezFyTW6ZZQitp74UG5+zWvBAxrfqPjfrxVzuSitKISqkif5WlCqoU5grY
-	j5NXoq6Gb/pzxSsmNyMgKerFu8drMUc83mGBeBcpw0sJaCS5xXSTuTBs8nUQgyOWGYy+
-	Z5nQ==
-X-Gm-Message-State: AHYfb5gJANl/X524Plo8KyL0jt1zhptT5d8GuQd4ZmidSRagpRPvU/C9
-	voQsXbTncj6uynP9KYFt7NUOSbBF5w==
-X-Received: by 10.176.86.9 with SMTP id y9mr3948245uaa.74.1503583184032; Thu,
-	24 Aug 2017 06:59:44 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Thu, 24 Aug 2017 06:59:43 -0700 (PDT)
-In-Reply-To: <1503516039-18494-1-git-send-email-mark.asselstine@windriver.com>
-References: <1503516039-18494-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 24 Aug 2017 09:59:43 -0400
-Message-ID: <CADkTA4NbGPKDjjc-ZpKkykZwPcBL7ZJK8N9-BPj7QGyUFzmscw@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [m-c-s][PATCH] erlang-native: Add DEPENDS for ncurses-native
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=eVvkmo51VUH43/B5XKRGfFD1V+26rOVVDIJDjTBSZ7A=;
+	b=nRzHO1abTX2h4DWGRP1pb7wB3wND5bb3xV5aMLQsDJi42YA0fpi8bzdK7I8iYEGJWF
+	3K2zj83JoeyoYGV9fITICI7yOmc5j3UNww23h46bQexBDfDhPnbiph4tcv6rC/o3PSmR
+	8vV/KxdG8cD7Spj7rq24+VtEPBRp9k3sRC/87A0bOsECD55YvztWXBECSh5WDAaUAbXT
+	z9KFwR9ECmiPyrdBMCFerO+9uA0p9mIRKRujrTPo1lFTnJ5ybqT1DoVoUnZmiXs0Nh/p
+	PmFnzXCVp0DZEelYRTeAe0LnkjLPTlIY5Ypj3CB3PyB6PoquWx6Grqu5jE/ydaOOq4Yz
+	mVUw==
+X-Gm-Message-State: AHYfb5jF2QiWdwcyIXshEgxioHtqz1qtR+mzyNwf4sn3YSz1YTimvLY2
+	+OiThFt8ssh1Iyx79/A=
+X-Received: by 10.99.165.83 with SMTP id r19mr7291073pgu.269.1503600385423;
+	Thu, 24 Aug 2017 11:46:25 -0700 (PDT)
+Received: from WorkStation-T3500.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+	by smtp.gmail.com with ESMTPSA id
+	q17sm8288192pge.71.2017.08.24.11.46.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 24 Aug 2017 11:46:24 -0700 (PDT)
+From: christopher.w.clark@gmail.com
+To: meta-virtualization@yoctoproject.org
+Date: Thu, 24 Aug 2017 11:46:14 -0700
+Message-Id: <1503600374-19479-1-git-send-email-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: cardoe@gentoo.org
+Subject: RFC : [PATCH] xen: remove xen-bootimg.inc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,131 +76,75 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 13:59:45 -0000
-Content-Type: multipart/alternative; boundary="f403045e33029319d00557803d6d"
+X-List-Received-Date: Thu, 24 Aug 2017 18:46:27 -0000
 
---f403045e33029319d00557803d6d
-Content-Type: text/plain; charset="UTF-8"
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-merged.
+This inc file has not been used within meta-virtualization since:
+    Date:   Tue Sep 10 21:02:41 2013 -0400
+    commit 214c4715f0ed53ba9c499932b0b6ee3f602ff89f
 
-Bruce
+and has needed updating since the changes in:
+    Date:   Wed Feb 24 01:23:58 2016 -0800
+    git://git.openembedded.org/openembedded-core
+    commit e38c94d6bf83ed3ca7f046d9503e81b927487bf2
 
-On Wed, Aug 23, 2017 at 3:20 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+---
 
-> This was most likely being provided by another pkg pulling in
-> ncurses-native before erlang-native was being built. With RSS this is
-> no longer the case and we need to add the explicit DEPENDS. Without
-> this we are seeing erlang-native fail to configure:
->
-> | checking for tgetent in -lncurses... no
-> | checking for tgetent in -lcurses... no
-> | checking for tgetent in -ltermcap... no
-> | checking for tgetent in -ltermlib... no
-> | configure: error: No curses library functions found
->
-> While we are at it we drop the setting of PR as this will be handled
-> by the PR server.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
->  meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> b/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> index ca6a48f..61fc027 100644
-> --- a/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> +++ b/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> @@ -2,7 +2,7 @@ include erlang.inc
->
->  inherit native
->
-> -PR = "r0"
-> +DEPENDS += "ncurses-native"
->
->  EXTRA_OECONF = '--without-ssl'
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+This inc file either needs updating to change SYSLINUXCFG to SYSLINUX_CFG
+or alternatively it could be removed. Since it is no longer used within
+meta-virtualization, and I cannot find a reference to it elsewhere via
+web search engine, it requires further work to test any change to this file.
+This patch just removes it.
 
 
+ recipes-extended/images/xen-bootimg.inc | 35 ---------------------------------
+ 1 file changed, 35 deletions(-)
+ delete mode 100644 recipes-extended/images/xen-bootimg.inc
 
+diff --git a/recipes-extended/images/xen-bootimg.inc b/recipes-extended/images/xen-bootimg.inc
+deleted file mode 100644
+index 093aa68..0000000
+--- a/recipes-extended/images/xen-bootimg.inc
++++ /dev/null
+@@ -1,35 +0,0 @@
+-SYSLINUX_TIMEOUT = "10"
+-SYSLINUX_LABEL = "boot"
+-SYSLINUX_XEN_APPEND = "dom0_mem=1048576"
+-SYSLINUX_KERNEL_APPEND = "ramdisk_size=32768 root=/dev/ram0 rw console=tty0 console=ttyS0,115200n8"
+-#LABELS_append = " ${SYSLINUX_LABEL} "
+-
+-INITRD = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.cpio.lzma"
+-
+-do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
+-
+-inherit bootimg
+-
+-syslinux_populate_append() {
+-	install -m 0444 ${STAGING_LIBDIR}/syslinux/mboot.c32 ${HDDDIR}${SYSLINUXDIR}/mboot.c32
+-}
+-
+-grubefi_populate_append() {
+-	install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz ${DEST}${EFIDIR}/xen.gz
+-}
+-
+-populate_append() {
+-	install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz ${DEST}/xen.gz
+-}
+-
+-build_syslinux_cfg() {
+-	echo ALLOWOPTIONS 1 > ${SYSLINUXCFG}
+-	echo SERIAL 0 115200 > ${SYSLINUXCFG}
+-	echo DEFAULT ${SYSLINUX_LABEL} >> ${SYSLINUXCFG}
+-	echo TIMEOUT ${SYSLINUX_TIMEOUT} >> ${SYSLINUXCFG}
+-	echo PROMPT 1 >> ${SYSLINUXCFG}
+-	echo LABEL ${SYSLINUX_LABEL} >> ${SYSLINUXCFG}
+-	echo KERNEL mboot.c32 >> ${SYSLINUXCFG}
+-	echo APPEND xen.gz ${SYSLINUX_XEN_APPEND} --- vmlinuz ${SYSLINUX_KERNEL_APPEND} --- initrd >> ${SYSLINUXCFG}
+-}
+-
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.7.4
 
---f403045e33029319d00557803d6d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Wed, Aug 23, 2017 at 3:20 PM=
-, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@w=
-indriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">This was most likely being provi=
-ded by another pkg pulling in<br>
-ncurses-native before erlang-native was being built. With RSS this is<br>
-no longer the case and we need to add the explicit DEPENDS. Without<br>
-this we are seeing erlang-native fail to configure:<br>
-<br>
-| checking for tgetent in -lncurses... no<br>
-| checking for tgetent in -lcurses... no<br>
-| checking for tgetent in -ltermcap... no<br>
-| checking for tgetent in -ltermlib... no<br>
-| configure: error: No curses library functions found<br>
-<br>
-While we are at it we drop the setting of PR as this will be handled<br>
-by the PR server.<br>
-<br>
-Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
-ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
----<br>
-=C2=A0meta-openstack/recipes-<wbr>devtools/erlang/erlang-native_<wbr>R16B03=
--1.bb | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta-openstack/recipes-<wbr>devtools/erlang/erlang-native_<wbr=
->R16B03-1.bb b/meta-openstack/recipes-<wbr>devtools/erlang/erlang-native_<w=
-br>R16B03-1.bb<br>
-index ca6a48f..61fc027 100644<br>
---- a/meta-openstack/recipes-<wbr>devtools/erlang/erlang-native_<wbr>R16B03=
--1.bb<br>
-+++ b/meta-openstack/recipes-<wbr>devtools/erlang/erlang-native_<wbr>R16B03=
--1.bb<br>
-@@ -2,7 +2,7 @@ include erlang.inc<br>
-<br>
-=C2=A0inherit native<br>
-<br>
--PR =3D &quot;r0&quot;<br>
-+DEPENDS +=3D &quot;ncurses-native&quot;<br>
-<br>
-=C2=A0EXTRA_OECONF =3D &#39;--without-ssl&#39;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
---<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
-
---f403045e33029319d00557803d6d--
