@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B925DE00BA2; Thu, 24 Aug 2017 06:57:40 -0700 (PDT)
+	id 71415E0090A; Thu, 24 Aug 2017 06:59:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.213.47 listed in list.dnswl.org]
+	*      [209.85.213.49 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,55 +20,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com
-	[209.85.213.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2B99EE0090A
+Received: from mail-vk0-f49.google.com (mail-vk0-f49.google.com
+	[209.85.213.49])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0E6F2E0090A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Aug 2017 06:57:39 -0700 (PDT)
-Received: by mail-vk0-f47.google.com with SMTP id j189so2211563vke.2
+	Thu, 24 Aug 2017 06:59:13 -0700 (PDT)
+Received: by mail-vk0-f49.google.com with SMTP id v15so2253316vkd.1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Aug 2017 06:57:39 -0700 (PDT)
+	Thu, 24 Aug 2017 06:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UkhS8BC9hztHHxfaT7LaIv3rocSCsZRyZkeL827Bl54=;
-	b=fS3nMpB+W4lbVE4DTY/CrG2xHYscH6k6r5Xx682Q/xhBMB4Wjt5WO9jWCDlAS1rXcC
-	NEpG+m/Z4ybNY5Q42XoEM3c+mx9XcifVZ/YOCfegN8vKnXGnPr4r7AY/Jg0Z2MARfmQb
-	mOtHp/4EuAqn8WRcQQTiNTzOMmAkIHFQw9mzXpcJ6N8MSDdom5tKPufgXBS0Vci42wji
-	MUycAb/wweltDGqYlSTSH93YjXaAe5qaMh90REPznf1z8bSZ7plD97ibMexCmiV355YG
-	g7xDLgBpXF+kvg9WW6vFZZ0oj5ekbZnqIp4pzLVvBJ2G8GjGTsRTWQCdwyzznAYKHGcV
-	Qd7Q==
+	:cc; bh=4dA+XXvCzXylU+EzpdRP6IFv5VNAF15dD2qRhfqBTsU=;
+	b=pHHS5IAaduvbw6JbyH5WcwG74e5MjHrnQqZYjCbletn9gL/dZqmfCnBO4FfTN2AgAg
+	CcFBEMimuAKJVGgGXxjmppFWPDzy0UNl7jaKNgHJJZUNPIP7bSgql5aMiJKTXAwvlzvA
+	1NpAIbJoaE7Z4TG0C4asA7J40ZCrcnqIaUp3g0WFsnZVwwBA1Qla+yttpCSl/84jJ+c4
+	rxvkJZw+j7YEOXkOmaBPkqxX8tHQbTDkNxL1UJ6HE7TJd8MP/TOuBw3o1vTXitBSctLN
+	mdGvUEycPrU3HH+Ciww2i4ETPel/FJrcjE8x9KUaUdxDnGCIZiGBZ08TlMfH97PrR3T/
+	prhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UkhS8BC9hztHHxfaT7LaIv3rocSCsZRyZkeL827Bl54=;
-	b=XVTE7amgrQu2hInXCUYpYUKowbwIPc9hrWdnVNDtGSvIr6PqFOaZ/5cti2RQipPJlU
-	CE/kPhNqMFArST1UVx0kFOnwCalDYh/monoPp0bjmQLqmkvmrUlKxOmvWzj8z1VcUBRQ
-	Xy+9Qj4D8A+/pB7zS1bhWqzuREUeq2zuHauCEaq8GCrISO4kXhP411/7LZjIGLPTcP1v
-	r0cHSZQ5e1yQZtlQAdZ4u4eLfbVGMI3izZ8U1KIv4dP/xrc+LfYQi8N19mwGdYBAC2aR
-	JJWVqcZn4YfXn2KrIsq2VOTbV+gNdSMehdTAy43Z8qu2Ly20ZhKG7FkFkAHiCmwaIGjg
-	9/TA==
-X-Gm-Message-State: AHYfb5gO9EJNLAumo6FcipTE/LsVqL1YDGzBlSzFFtXdb7kgPbpNgW0C
-	azMXWCBx5QXQDVUgvzSXF9lGZZYQzg==
-X-Received: by 10.31.209.71 with SMTP id i68mr3383888vkg.188.1503583059311;
-	Thu, 24 Aug 2017 06:57:39 -0700 (PDT)
+	bh=4dA+XXvCzXylU+EzpdRP6IFv5VNAF15dD2qRhfqBTsU=;
+	b=YH5uO4hICOROrEL9X/cxEZC7FX16tVunwzPHWi2qQf9HWlO56e3FqxwLWKYgjlUkr4
+	/nt1ongwy07A3IM19XptQfNUgV1yvhy17VMkOR2/fRYaS0xFw887F3zapfzjo97xx/41
+	qmjy86r7d0i+Hlvt6CFu86+fpeo8He1IwyeVQmwATYrnJi9kHzeIiFRHMYnxC92+aZ+U
+	+TjHeSwEfjflV9Ij1UDNGTKkFqubeHUjDnnIV92w4hvcPs17v4/UJWnBrgmQSz27VNvp
+	6dee3i8+XHF3Oow2DgEaAEJx+3bDFertPJ77uKISbwzFcHSY5rnLhtnCxkhGgosqV2Qm
+	emtA==
+X-Gm-Message-State: AHYfb5hJCrVaBp3gPjs0eIZf0kAws9bEnoIQ7Q+ux+xfSObdOrwtQZDX
+	NfERmw5k0OCzZVTgUml0+SlaXYuSnA==
+X-Received: by 10.31.198.135 with SMTP id w129mr3955663vkf.169.1503583153188; 
+	Thu, 24 Aug 2017 06:59:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Thu, 24 Aug 2017 06:57:38 -0700 (PDT)
-In-Reply-To: <CACMJ4Ga6aMP8=6B04TJ42S0nZTXkJ0b+aza4XaAMdXxEt4KN5w@mail.gmail.com>
-References: <1503378503-23353-1-git-send-email-christopher.w.clark@gmail.com>
-	<1503378503-23353-2-git-send-email-christopher.w.clark@gmail.com>
-	<CADkTA4MGpGfw_-mByH=VyUeg1a6pfMugww4YkSS2PfxJ02e-tQ@mail.gmail.com>
-	<CACMJ4GZumvFVR4FkJ9UO1b9SzL+fxwj4kcrGHsgayksOQcMngA@mail.gmail.com>
-	<CADkTA4OOmrktgV+BHS=K2dEKUvJ_scO5mfk1nW5myNeS17VzLw@mail.gmail.com>
-	<CACMJ4GYuq01TGd3Py-Twhi4Hs5iWO9S85hsH9aVBU1WyuRap4w@mail.gmail.com>
-	<CACMJ4Ga6aMP8=6B04TJ42S0nZTXkJ0b+aza4XaAMdXxEt4KN5w@mail.gmail.com>
+Received: by 10.159.34.235 with HTTP; Thu, 24 Aug 2017 06:59:12 -0700 (PDT)
+In-Reply-To: <1503511685-14836-1-git-send-email-mark.asselstine@windriver.com>
+References: <1503511685-14836-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 24 Aug 2017 09:57:38 -0400
-Message-ID: <CADkTA4OszS4+0jMxjpXBbO=K-P=1mqvt++AqPdtpWZxCUkrouA@mail.gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Thu, 24 Aug 2017 09:59:12 -0400
+Message-ID: <CADkTA4NoxxJ_XjOC8ie3fLtNDwxaM_DEdUocBgEwtkuJim4beg@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, Doug Goldstein <cardoe@gentoo.org>
-Subject: Re: [PATCH 1/4] vgabios : extract biossums tool and build it separately, native
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [m-c-s][PATCH] spice: fix builds with gcc 7.x
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,67 +75,137 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 13:57:40 -0000
-Content-Type: multipart/alternative; boundary="001a114e2482240142055780361b"
+X-List-Received-Date: Thu, 24 Aug 2017 13:59:15 -0000
+Content-Type: multipart/alternative; boundary="001a114d5b04bc821b0557803b7d"
 
---001a114e2482240142055780361b
+--001a114d5b04bc821b0557803b7d
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Aug 23, 2017 at 5:13 PM, Christopher Clark <
-christopher.w.clark@gmail.com> wrote:
-
-> On Wed, Aug 23, 2017 at 1:18 PM, Christopher Clark
-> <christopher.w.clark@gmail.com> wrote:
-> > On Wed, Aug 23, 2017 at 5:54 AM, Bruce Ashfield
-> > <bruce.ashfield@gmail.com> wrote:
-> >>
-> >>
-> >> On Wed, Aug 23, 2017 at 2:43 AM, Christopher Clark
-> >> <christopher.w.clark@gmail.com> wrote:
-> >>>
-> >>> On Tue, Aug 22, 2017 at 7:42 PM, Bruce Ashfield
-> >>> <bruce.ashfield@gmail.com> wrote:
-> >>> > On Tue, Aug 22, 2017 at 1:08 AM, <christopher.w.clark@gmail.com>
-> wrote:
-> >>> >> From: Christopher Clark <christopher.clark6@baesystems.com>
-> >>> >>
-> >>> >> The biossums tool is used to generate the vgabios build product.
-> >>> >>
-> >>> >> This patch:
-> >>> >> * adds a separate recipe "biossums" for the tool
-> >>> >> * makes the vgabios recipe depend upon biossums-native
-> >>> >> * makes the vgabios recipe use the native binary rather than a
-> locally
-> >>> >> built one
-> >
-> >>> >> +
-> >>> >> +do_compile() {
-> >>> >> +    oe_runmake clean
-> >>> >
-> >>> >
-> >>> > What actually happens if the clean isn't run before each compile ?
->
-> I figured it out: a 32-bit biossums binary is distributed inside the
-> upstream source tarball, and make decides that it doesn't need to
-> rebuild it since the timestamp is newer than the source code file.
->
-
-Aha. Thanks for the information .. gives more confidence in the approach.
-We could
-also just rm the files, but using the clean mechanism to take care of it
-properly makes
-sense.
-
-I've now merged the 4 patch series.
+merged.
 
 Bruce
 
+On Wed, Aug 23, 2017 at 2:08 PM, Mark Asselstine <
+mark.asselstine@windriver.com> wrote:
 
+> There is an upstream fix for this issue but it doesn't apply cleanly
+> and is rather simple so rather than backport it and turn it into
+> something unrecognizeable I simply created my own version of it. This
+> fixes builds which fail with:
 >
-> I think that makes the "clean" seem like a reasonable step to put
-> before compile.
+> | ../../git/server/reds.c: In function 'vdi_port_read_one_msg_from_
+> device':
+> | ../../git/server/reds.c:797:31: error: this statement may fall through
+> [-Werror=implicit-fallthrough=]
+> |              state->read_state = VDI_PORT_READ_STATE_GET_BUFF;
+> |              ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> | ../../git/server/reds.c:798:9: note: here
+> |          case VDI_PORT_READ_STATE_GET_BUFF: {
+> |          ^~~~
 >
-> Christopher
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>  .../spice/files/Fix-build-issues-with-gcc-7.patch  | 59
+> ++++++++++++++++++++++
+>  recipes-support/spice/spice_git.bb                 |  1 +
+>  2 files changed, 60 insertions(+)
+>  create mode 100644 recipes-support/spice/files/
+> Fix-build-issues-with-gcc-7.patch
+>
+> diff --git a/recipes-support/spice/files/Fix-build-issues-with-gcc-7.patch
+> b/recipes-support/spice/files/Fix-build-issues-with-gcc-7.patch
+> new file mode 100644
+> index 0000000..7fcafdc
+> --- /dev/null
+> +++ b/recipes-support/spice/files/Fix-build-issues-with-gcc-7.patch
+> @@ -0,0 +1,59 @@
+> +From 9f001b6818ac4baa1df010ccf4200ca56bfb11b2 Mon Sep 17 00:00:00 2001
+> +From: Mark Asselstine <mark.asselstine@windriver.com>
+> +Date: Wed, 23 Aug 2017 13:47:29 -0400
+> +Subject: [PATCH] Fix build issues with gcc 7
+> +
+> +gcc 7 checks for when a switch statement doesn't break between
+> +cases. When a break is not found you will see
+> +
+> +| ../../git/server/reds.c: In function 'vdi_port_read_one_msg_from_
+> device':
+> +| ../../git/server/reds.c:797:31: error: this statement may fall through
+> [-Werror=implicit-fallthrough=]
+> +|              state->read_state = VDI_PORT_READ_STATE_GET_BUFF;
+> +|              ~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +| ../../git/server/reds.c:798:9: note: here
+> +|          case VDI_PORT_READ_STATE_GET_BUFF: {
+> +|          ^~~~
+> +
+> +The 'fallthrough' comment will let gcc know this is done on purpose.
+> +
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> +---
+> + server/inputs_channel.c | 1 +
+> + server/reds.c           | 2 ++
+> + 2 files changed, 3 insertions(+)
+> +
+> +diff --git a/server/inputs_channel.c b/server/inputs_channel.c
+> +index 931dac1..534ab66 100644
+> +--- a/server/inputs_channel.c
+> ++++ b/server/inputs_channel.c
+> +@@ -321,6 +321,7 @@ static int inputs_channel_handle_parsed(RedChannelClient
+> *rcc, uint32_t size, ui
+> +             activate_modifiers_watch();
+> +         }
+> +     }
+> ++        /* fallthrough */
+> +     case SPICE_MSGC_INPUTS_KEY_UP: {
+> +         SpiceMsgcKeyDown *key_down = (SpiceMsgcKeyDown *)buf;
+> +         for (i = 0; i < 4; i++) {
+> +diff --git a/server/reds.c b/server/reds.c
+> +index 30d0652..8c80eb6 100644
+> +--- a/server/reds.c
+> ++++ b/server/reds.c
+> +@@ -795,6 +795,7 @@ static SpiceCharDeviceMsgToClient
+> *vdi_port_read_one_msg_from_device(SpiceCharDe
+> +             }
+> +             state->message_recive_len = state->vdi_chunk_header.size;
+> +             state->read_state = VDI_PORT_READ_STATE_GET_BUFF;
+> ++            /* fallthrough */
+> +         case VDI_PORT_READ_STATE_GET_BUFF: {
+> +             if (!(state->current_read_buf = vdi_port_read_buf_get())) {
+> +                 return NULL;
+> +@@ -806,6 +807,7 @@ static SpiceCharDeviceMsgToClient
+> *vdi_port_read_one_msg_from_device(SpiceCharDe
+> +             state->message_recive_len -= state->recive_len;
+> +             state->read_state = VDI_PORT_READ_STATE_READ_DATA;
+> +         }
+> ++            /* fallthrough */
+> +         case VDI_PORT_READ_STATE_READ_DATA:
+> +             n = sif->read(vdagent, state->recive_pos, state->recive_len);
+> +             if (!n) {
+> +--
+> +2.7.4
+> +
+> diff --git a/recipes-support/spice/spice_git.bb b/recipes-support/spice/
+> spice_git.bb
+> index cfb75d7..04e7a25 100644
+> --- a/recipes-support/spice/spice_git.bb
+> +++ b/recipes-support/spice/spice_git.bb
+> @@ -37,6 +37,7 @@ SRC_URI += " \
+>          file://build-allow-separated-src-and-build-dirs.patch \
+>          file://0001-red_parse_qxl-Fix-BITMAP_FMT_IS_RGB-defined-but-not-.patch
+> \
+>          file://0001-Use-PRI-macros-in-printf-to-keep-compatibility-betwe.patch
+> \
+> +        file://Fix-build-issues-with-gcc-7.patch \
+>          "
+>
+>  S = "${WORKDIR}/git"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
 
 
@@ -150,77 +214,171 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a114e2482240142055780361b
+--001a114d5b04bc821b0557803b7d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Wed, Aug 23, 2017 at 5:13 PM, Christopher Clark <span dir=3D"ltr">&l=
-t;<a href=3D"mailto:christopher.w.clark@gmail.com" target=3D"_blank">christ=
-opher.w.clark@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex">On Wed, Aug 23, 2017 at 1:18 PM, Christopher Clark<br>
-<span class=3D"">&lt;<a href=3D"mailto:christopher.w.clark@gmail.com">chris=
-topher.w.clark@gmail.com</a><wbr>&gt; wrote:<br>
-&gt; On Wed, Aug 23, 2017 at 5:54 AM, Bruce Ashfield<br>
-&gt; &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.c=
-om</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; On Wed, Aug 23, 2017 at 2:43 AM, Christopher Clark<br>
-&gt;&gt; &lt;<a href=3D"mailto:christopher.w.clark@gmail.com">christopher.w=
-.clark@gmail.com</a><wbr>&gt; wrote:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; On Tue, Aug 22, 2017 at 7:42 PM, Bruce Ashfield<br>
-&gt;&gt;&gt; &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield=
-@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;&gt; &gt; On Tue, Aug 22, 2017 at 1:08 AM, &lt;<a href=3D"mailto:ch=
-ristopher.w.clark@gmail.com">christopher.w.clark@gmail.com</a><wbr>&gt; wro=
-te:<br>
-&gt;&gt;&gt; &gt;&gt; From: Christopher Clark &lt;<a href=3D"mailto:christo=
-pher.clark6@baesystems.com">christopher.clark6@<wbr>baesystems.com</a>&gt;<=
-br>
-&gt;&gt;&gt; &gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; The biossums tool is used to generate the vgabios bui=
-ld product.<br>
-&gt;&gt;&gt; &gt;&gt;<br>
-&gt;&gt;&gt; &gt;&gt; This patch:<br>
-&gt;&gt;&gt; &gt;&gt; * adds a separate recipe &quot;biossums&quot; for the=
- tool<br>
-&gt;&gt;&gt; &gt;&gt; * makes the vgabios recipe depend upon biossums-nativ=
-e<br>
-&gt;&gt;&gt; &gt;&gt; * makes the vgabios recipe use the native binary rath=
-er than a locally<br>
-&gt;&gt;&gt; &gt;&gt; built one<br>
-&gt;<br>
-&gt;&gt;&gt; &gt;&gt; +<br>
-&gt;&gt;&gt; &gt;&gt; +do_compile() {<br>
-&gt;&gt;&gt; &gt;&gt; +=C2=A0 =C2=A0 oe_runmake clean<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt;<br>
-&gt;&gt;&gt; &gt; What actually happens if the clean isn&#39;t run before e=
-ach compile ?<br>
+<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On Wed, Aug 23, 2017 at 2:08 PM=
+, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@w=
+indriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span=
+> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
+rder-left:1px #ccc solid;padding-left:1ex">There is an upstream fix for thi=
+s issue but it doesn&#39;t apply cleanly<br>
+and is rather simple so rather than backport it and turn it into<br>
+something unrecognizeable I simply created my own version of it. This<br>
+fixes builds which fail with:<br>
 <br>
-</span>I figured it out: a 32-bit biossums binary is distributed inside the=
+| ../../git/server/reds.c: In function &#39;vdi_port_read_one_msg_from_<wbr=
+>device&#39;:<br>
+| ../../git/server/reds.c:797:<wbr>31: error: this statement may fall throu=
+gh [-Werror=3Dimplicit-fallthrough=3D<wbr>]<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;read_state =3D =
+VDI_PORT_READ_STATE_GET_BUFF;<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~~~~~~~~~~~~~~~~~~^~~~~~~=
+~~~~~<wbr>~~~~~~~~~~~~~~~~~~<br>
+| ../../git/server/reds.c:798:9: note: here<br>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case VDI_PORT_READ_STATE_GET_BUFF: {<br=
+>
+|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~<br>
 <br>
-upstream source tarball, and make decides that it doesn&#39;t need to<br>
-rebuild it since the timestamp is newer than the source code file.<br></blo=
-ckquote><div><br></div><div>Aha. Thanks for the information .. gives more c=
-onfidence in the approach. We could</div><div>also just rm the files, but u=
-sing the clean mechanism to take care of it properly makes</div><div>sense.=
-</div><div><br></div><div>I&#39;ve now merged the 4 patch series.</div><div=
-><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
+ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
+---<br>
+=C2=A0.../spice/files/Fix-build-<wbr>issues-with-gcc-7.patch=C2=A0 | 59 +++=
++++++++++++++++++++<br>
+=C2=A0recipes-support/spice/<a href=3D"http://spice_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">spice_<wbr>git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+=C2=A02 files changed, 60 insertions(+)<br>
+=C2=A0create mode 100644 recipes-support/spice/files/<wbr>Fix-build-issues-=
+with-gcc-7.<wbr>patch<br>
 <br>
-I think that makes the &quot;clean&quot; seem like a reasonable step to put=
+diff --git a/recipes-support/spice/files/<wbr>Fix-build-issues-with-gcc-7.<=
+wbr>patch b/recipes-support/spice/files/<wbr>Fix-build-issues-with-gcc-7.<w=
+br>patch<br>
+new file mode 100644<br>
+index 0000000..7fcafdc<br>
+--- /dev/null<br>
++++ b/recipes-support/spice/files/<wbr>Fix-build-issues-with-gcc-7.<wbr>pat=
+ch<br>
+@@ -0,0 +1,59 @@<br>
++From 9f001b6818ac4baa1df010ccf4200c<wbr>a56bfb11b2 Mon Sep 17 00:00:00 200=
+1<br>
++From: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windriver.com"=
+>mark.asselstine@windriver.com</a><wbr>&gt;<br>
++Date: Wed, 23 Aug 2017 13:47:29 -0400<br>
++Subject: [PATCH] Fix build issues with gcc 7<br>
++<br>
++gcc 7 checks for when a switch statement doesn&#39;t break between<br>
++cases. When a break is not found you will see<br>
++<br>
++| ../../git/server/reds.c: In function &#39;vdi_port_read_one_msg_from_<wb=
+r>device&#39;:<br>
++| ../../git/server/reds.c:797:<wbr>31: error: this statement may fall thro=
+ugh [-Werror=3Dimplicit-fallthrough=3D<wbr>]<br>
++|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 state-&gt;read_state =3D=
+ VDI_PORT_READ_STATE_GET_BUFF;<br>
++|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ~~~~~~~~~~~~~~~~~~^~~~~~=
+~~~~~~<wbr>~~~~~~~~~~~~~~~~~~<br>
++| ../../git/server/reds.c:798:9: note: here<br>
++|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case VDI_PORT_READ_STATE_GET_BUFF: {<b=
+r>
++|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^~~~<br>
++<br>
++The &#39;fallthrough&#39; comment will let gcc know this is done on purpos=
+e.<br>
++<br>
++Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windr=
+iver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
++---<br>
++ server/inputs_channel.c | 1 +<br>
++ server/reds.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 ++<br>
++ 2 files changed, 3 insertions(+)<br>
++<br>
++diff --git a/server/inputs_channel.c b/server/inputs_channel.c<br>
++index 931dac1..534ab66 100644<br>
++--- a/server/inputs_channel.c<br>
+++++ b/server/inputs_channel.c<br>
++@@ -321,6 +321,7 @@ static int inputs_channel_handle_parsed(<wbr>RedChanne=
+lClient *rcc, uint32_t size, ui<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0activate_modifiers_watch()=
+;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0}<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fallthrough */<br>
++=C2=A0 =C2=A0 =C2=A0case SPICE_MSGC_INPUTS_KEY_UP: {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SpiceMsgcKeyDown *key_down =3D (SpiceMsg=
+cKeyDown *)buf;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; 4; i++) {<br>
++diff --git a/server/reds.c b/server/reds.c<br>
++index 30d0652..8c80eb6 100644<br>
++--- a/server/reds.c<br>
+++++ b/server/reds.c<br>
++@@ -795,6 +795,7 @@ static SpiceCharDeviceMsgToClient *vdi_port_read_one_m=
+sg_from_<wbr>device(SpiceCharDe<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;message_recive_l=
+en =3D state-&gt;vdi_chunk_header.size;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;read_state =3D V=
+DI_PORT_READ_STATE_GET_BUFF;<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fallthrough */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case VDI_PORT_READ_STATE_GET_BUFF: {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(state-&gt;current_re=
+ad_buf =3D vdi_port_read_buf_get())) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;=
 <br>
-before compile.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Christopher<br>
++@@ -806,6 +807,7 @@ static SpiceCharDeviceMsgToClient *vdi_port_read_one_m=
+sg_from_<wbr>device(SpiceCharDe<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;message_recive_l=
+en -=3D state-&gt;recive_len;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0state-&gt;read_state =3D V=
+DI_PORT_READ_STATE_READ_DATA;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* fallthrough */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0case VDI_PORT_READ_STATE_READ_DATA:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0n =3D sif-&gt;read(vdagent=
+, state-&gt;recive_pos, state-&gt;recive_len);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!n) {<br>
++--<br>
++2.7.4<br>
++<br>
+diff --git a/recipes-support/spice/<a href=3D"http://spice_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">spice_<wbr>git.bb</a> b/recipes-support/spice/=
+<a href=3D"http://spice_git.bb" rel=3D"noreferrer" target=3D"_blank">spice_=
+<wbr>git.bb</a><br>
+index cfb75d7..04e7a25 100644<br>
+--- a/recipes-support/spice/<a href=3D"http://spice_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">spice_<wbr>git.bb</a><br>
++++ b/recipes-support/spice/<a href=3D"http://spice_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">spice_<wbr>git.bb</a><br>
+@@ -37,6 +37,7 @@ SRC_URI +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://build-allow-separated-<wbr>src-and=
+-build-dirs.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-red_parse_qxl-Fix-<wbr>BITMAP=
+_FMT_IS_RGB-defined-but-<wbr>not-.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Use-PRI-macros-in-<wbr>printf=
+-to-keep-compatibility-<wbr>betwe.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://Fix-build-issues-with-<wbr>gcc-7.patch =
+\<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
 </font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
 r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
 hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
-</div></div>
+</div>
 
---001a114e2482240142055780361b--
+--001a114d5b04bc821b0557803b7d--
