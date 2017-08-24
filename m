@@ -1,20 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5E897E0090A; Thu, 24 Aug 2017 06:56:37 -0700 (PDT)
+	id B925DE00BA2; Thu, 24 Aug 2017 06:57:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.217.195 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.217.195 listed in dnsbl.sorbs.net]
+	*      [209.85.213.47 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -23,50 +20,55 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
-	[209.85.217.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B2852E0090A
+Received: from mail-vk0-f47.google.com (mail-vk0-f47.google.com
+	[209.85.213.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2B99EE0090A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Aug 2017 06:56:36 -0700 (PDT)
-Received: by mail-ua0-f195.google.com with SMTP id c3so1127952uae.2
+	Thu, 24 Aug 2017 06:57:39 -0700 (PDT)
+Received: by mail-vk0-f47.google.com with SMTP id j189so2211563vke.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Aug 2017 06:56:36 -0700 (PDT)
+	Thu, 24 Aug 2017 06:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2piENwc9SzBD9DTDr+tw1PsnxJSI9I3ftyBWXvgrTI0=;
-	b=puvWbEktP2LjhizWBGQi+eFdITWZWq8nYSZKm3oYFxmhTRsd6FACbwhyhX25tMGLRn
-	iN1RKOlOOKiP7Bxda2IxTh1ce6xA7FTg9SjTd3Qcbe96ndkjkxtaPCmJhxRWiyHJmm49
-	mg8hV0HM7iJvpLbrWxBiNTRXw66fnJpIGtOAHAj88ovvXhOdCsCI0LyO3D+ZgwbSSoXe
-	n0ETTbwGwtH5yxsP9qYoHGJPNScmRchHgGVOwJpXKbsR7zIzyRjAEBAkV2aDGbLhY684
-	/8SzWTEB56sXGEcAQsE0bE34yGheoNR9G29eyvsez+RzHem2L8QuKVTjJqsrYWpXHGpo
-	4gmg==
+	:cc; bh=UkhS8BC9hztHHxfaT7LaIv3rocSCsZRyZkeL827Bl54=;
+	b=fS3nMpB+W4lbVE4DTY/CrG2xHYscH6k6r5Xx682Q/xhBMB4Wjt5WO9jWCDlAS1rXcC
+	NEpG+m/Z4ybNY5Q42XoEM3c+mx9XcifVZ/YOCfegN8vKnXGnPr4r7AY/Jg0Z2MARfmQb
+	mOtHp/4EuAqn8WRcQQTiNTzOMmAkIHFQw9mzXpcJ6N8MSDdom5tKPufgXBS0Vci42wji
+	MUycAb/wweltDGqYlSTSH93YjXaAe5qaMh90REPznf1z8bSZ7plD97ibMexCmiV355YG
+	g7xDLgBpXF+kvg9WW6vFZZ0oj5ekbZnqIp4pzLVvBJ2G8GjGTsRTWQCdwyzznAYKHGcV
+	Qd7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=2piENwc9SzBD9DTDr+tw1PsnxJSI9I3ftyBWXvgrTI0=;
-	b=YomdB5A5qPriHE2ORseRh8hCqFk4ZQgW3J/cXvAM2MTIuh6ZABPo2l92+eg1qaYonf
-	/zb1Dw+xx1c8jGYfTTmezky4vhZ810OjNuamNP4irt7swFD+ydjN87wMyaE8HCh9xDVH
-	W46gs10vcjTSjOgdkJoTVa8djorlDuP8omJzf4qdpkGU6OrLMyMPKviiyBf8Bu2pe/Dn
-	QLS2zYT9gw3TD00QB9Z7iV00GBGYQJ5f/5JAQigmtZXBdduam0VQSeI5+1QpXWpveRZj
-	DIRaIJ0tYzTJSDdtubsKn7CnTHwY/SuiXGw0DHTyV9QfIQqCy8aSWdWA7OX7hKZISAnr
-	jfJA==
-X-Gm-Message-State: AHYfb5iFPbgJnRAtvIalLhMS9m3W33jP9FjZiM8LSHU1z6lk8JADQ9Ui
-	1Jhqm78WxCZ3yqESuvJ0S8IoX69m7g==
-X-Received: by 10.176.74.193 with SMTP id t1mr3851232uae.41.1503582995772;
-	Thu, 24 Aug 2017 06:56:35 -0700 (PDT)
+	bh=UkhS8BC9hztHHxfaT7LaIv3rocSCsZRyZkeL827Bl54=;
+	b=XVTE7amgrQu2hInXCUYpYUKowbwIPc9hrWdnVNDtGSvIr6PqFOaZ/5cti2RQipPJlU
+	CE/kPhNqMFArST1UVx0kFOnwCalDYh/monoPp0bjmQLqmkvmrUlKxOmvWzj8z1VcUBRQ
+	Xy+9Qj4D8A+/pB7zS1bhWqzuREUeq2zuHauCEaq8GCrISO4kXhP411/7LZjIGLPTcP1v
+	r0cHSZQ5e1yQZtlQAdZ4u4eLfbVGMI3izZ8U1KIv4dP/xrc+LfYQi8N19mwGdYBAC2aR
+	JJWVqcZn4YfXn2KrIsq2VOTbV+gNdSMehdTAy43Z8qu2Ly20ZhKG7FkFkAHiCmwaIGjg
+	9/TA==
+X-Gm-Message-State: AHYfb5gO9EJNLAumo6FcipTE/LsVqL1YDGzBlSzFFtXdb7kgPbpNgW0C
+	azMXWCBx5QXQDVUgvzSXF9lGZZYQzg==
+X-Received: by 10.31.209.71 with SMTP id i68mr3383888vkg.188.1503583059311;
+	Thu, 24 Aug 2017 06:57:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Thu, 24 Aug 2017 06:56:35 -0700 (PDT)
-In-Reply-To: <1503556778-7536-1-git-send-email-yi.zhao@windriver.com>
-References: <1503556778-7536-1-git-send-email-yi.zhao@windriver.com>
+Received: by 10.159.34.235 with HTTP; Thu, 24 Aug 2017 06:57:38 -0700 (PDT)
+In-Reply-To: <CACMJ4Ga6aMP8=6B04TJ42S0nZTXkJ0b+aza4XaAMdXxEt4KN5w@mail.gmail.com>
+References: <1503378503-23353-1-git-send-email-christopher.w.clark@gmail.com>
+	<1503378503-23353-2-git-send-email-christopher.w.clark@gmail.com>
+	<CADkTA4MGpGfw_-mByH=VyUeg1a6pfMugww4YkSS2PfxJ02e-tQ@mail.gmail.com>
+	<CACMJ4GZumvFVR4FkJ9UO1b9SzL+fxwj4kcrGHsgayksOQcMngA@mail.gmail.com>
+	<CADkTA4OOmrktgV+BHS=K2dEKUvJ_scO5mfk1nW5myNeS17VzLw@mail.gmail.com>
+	<CACMJ4GYuq01TGd3Py-Twhi4Hs5iWO9S85hsH9aVBU1WyuRap4w@mail.gmail.com>
+	<CACMJ4Ga6aMP8=6B04TJ42S0nZTXkJ0b+aza4XaAMdXxEt4KN5w@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 24 Aug 2017 09:56:35 -0400
-Message-ID: <CADkTA4OVV2n6epc9YH2pN-iXn_zKYZBW0B_nCgzgq+YUJ3Bfqw@mail.gmail.com>
-To: Yi Zhao <yi.zhao@windriver.com>
+Date: Thu, 24 Aug 2017 09:57:38 -0400
+Message-ID: <CADkTA4OszS4+0jMxjpXBbO=K-P=1mqvt++AqPdtpWZxCUkrouA@mail.gmail.com>
+To: Christopher Clark <christopher.w.clark@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Mark Asselstine <mark.asselstine@windriver.com>
-Subject: Re: [PATCH V2] docker-distribution: update to 2.6.2
+	<meta-virtualization@yoctoproject.org>, Doug Goldstein <cardoe@gentoo.org>
+Subject: Re: [PATCH 1/4] vgabios : extract biossums tool and build it separately, native
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -79,153 +81,146 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Aug 2017 13:56:37 -0000
-Content-Type: multipart/alternative; boundary="f403045f90565a7c76055780324e"
+X-List-Received-Date: Thu, 24 Aug 2017 13:57:40 -0000
+Content-Type: multipart/alternative; boundary="001a114e2482240142055780361b"
 
---f403045f90565a7c76055780324e
+--001a114e2482240142055780361b
 Content-Type: text/plain; charset="UTF-8"
 
-v2 is merged.
+On Wed, Aug 23, 2017 at 5:13 PM, Christopher Clark <
+christopher.w.clark@gmail.com> wrote:
+
+> On Wed, Aug 23, 2017 at 1:18 PM, Christopher Clark
+> <christopher.w.clark@gmail.com> wrote:
+> > On Wed, Aug 23, 2017 at 5:54 AM, Bruce Ashfield
+> > <bruce.ashfield@gmail.com> wrote:
+> >>
+> >>
+> >> On Wed, Aug 23, 2017 at 2:43 AM, Christopher Clark
+> >> <christopher.w.clark@gmail.com> wrote:
+> >>>
+> >>> On Tue, Aug 22, 2017 at 7:42 PM, Bruce Ashfield
+> >>> <bruce.ashfield@gmail.com> wrote:
+> >>> > On Tue, Aug 22, 2017 at 1:08 AM, <christopher.w.clark@gmail.com>
+> wrote:
+> >>> >> From: Christopher Clark <christopher.clark6@baesystems.com>
+> >>> >>
+> >>> >> The biossums tool is used to generate the vgabios build product.
+> >>> >>
+> >>> >> This patch:
+> >>> >> * adds a separate recipe "biossums" for the tool
+> >>> >> * makes the vgabios recipe depend upon biossums-native
+> >>> >> * makes the vgabios recipe use the native binary rather than a
+> locally
+> >>> >> built one
+> >
+> >>> >> +
+> >>> >> +do_compile() {
+> >>> >> +    oe_runmake clean
+> >>> >
+> >>> >
+> >>> > What actually happens if the clean isn't run before each compile ?
+>
+> I figured it out: a 32-bit biossums binary is distributed inside the
+> upstream source tarball, and make decides that it doesn't need to
+> rebuild it since the timestamp is newer than the source code file.
+>
+
+Aha. Thanks for the information .. gives more confidence in the approach.
+We could
+also just rm the files, but using the clean mechanism to take care of it
+properly makes
+sense.
+
+I've now merged the 4 patch series.
 
 Bruce
 
-On Thu, Aug 24, 2017 at 2:39 AM, Yi Zhao <yi.zhao@windriver.com> wrote:
 
-> CVE-2017-11468 is fixed in this release.
 >
-> Reference:
-> https://nvd.nist.gov/vuln/detail/CVE-2017-11468
+> I think that makes the "clean" seem like a reasonable step to put
+> before compile.
 >
-> Release note:
-> https://github.com/docker/distribution/releases/tag/v2.6.2
+> Christopher
 >
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  recipes-containers/docker-distribution/docker-distribution_git.bb | 6
-> +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/recipes-containers/docker-distribution/docker-
-> distribution_git.bb b/recipes-containers/docker-distribution/docker-
-> distribution_git.bb
-> index 08b6d70..e2eac2e 100644
-> --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
-> +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> @@ -3,14 +3,14 @@ SUMMARY = "The Docker toolset to pack, ship, store, and
-> deliver content"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
->
-> -SRCREV_distribution="0810eba2adf048b77621472991211924d9ec31c5"
-> -SRC_URI = "git://github.com/docker/distribution.git;branch=
-> master;name=distribution;destsuffix=git/src/github.com/docker/distribution
-> \
-> +SRCREV_distribution="48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89"
-> +SRC_URI = "git://github.com/docker/distribution.git;branch=
-> release/2.6;name=distribution;destsuffix=git/src/github.com/
-> docker/distribution \
->             file://docker-registry.service \
->            "
->
->  PACKAGES =+ "docker-registry"
->
-> -PV = "v2.6.0-rc+git${SRCPV}"
-> +PV = "v2.6.2"
->  S = "${WORKDIR}/git/src/github.com/docker/distribution"
->
->  inherit goarch
-> --
-> 2.7.4
->
->
+
 
 
 -- 
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---f403045f90565a7c76055780324e
+--001a114e2482240142055780361b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">v2 is merged.<div><br></div><div>Bruce</div></div><div cla=
-ss=3D"gmail_extra"><br><div class=3D"gmail_quote">On Thu, Aug 24, 2017 at 2=
-:39 AM, Yi Zhao <span dir=3D"ltr">&lt;<a href=3D"mailto:yi.zhao@windriver.c=
-om" target=3D"_blank">yi.zhao@windriver.com</a>&gt;</span> wrote:<br><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex"><span class=3D"">CVE-2017-11468 is fixed in this r=
-elease.<br>
-<br>
-Reference:<br>
-<a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2017-11468" rel=3D"noreferr=
-er" target=3D"_blank">https://nvd.nist.gov/vuln/<wbr>detail/CVE-2017-11468<=
-/a><br>
-<br>
-Release note:<br>
-<a href=3D"https://github.com/docker/distribution/releases/tag/v2.6.2" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/docker/<wbr>distributi=
-on/releases/tag/v2.<wbr>6.2</a><br>
-<br>
-Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com">yi.zhao=
-@windriver.com</a>&gt;<br>
----<br>
-</span>=C2=A0recipes-containers/docker-<wbr>distribution/<a href=3D"http://=
-docker-distribution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-<wb=
-r>distribution_git.bb</a> | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/recipes-containers/docker-<wbr>distribution/<a href=3D"http://=
-docker-distribution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-<wb=
-r>distribution_git.bb</a> b/recipes-containers/docker-<wbr>distribution/<a =
-href=3D"http://docker-distribution_git.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">docker-<wbr>distribution_git.bb</a><br>
-index 08b6d70..e2eac2e 100644<br>
---- a/recipes-containers/docker-<wbr>distribution/<a href=3D"http://docker-=
-distribution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-<wbr>distr=
-ibution_git.bb</a><br>
-+++ b/recipes-containers/docker-<wbr>distribution/<a href=3D"http://docker-=
-distribution_git.bb" rel=3D"noreferrer" target=3D"_blank">docker-<wbr>distr=
-ibution_git.bb</a><br>
-@@ -3,14 +3,14 @@ SUMMARY =3D &quot;The Docker toolset to pack, ship, store=
-, and deliver content&quot;<br>
-<span class=3D"">=C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>d2794c0df5b907fd=
-ace235a619d803<wbr>14&quot;<br>
-<br>
--SRCREV_distribution=3D&quot;<wbr>0810eba2adf048b776214729912119<wbr>24d9ec=
-31c5&quot;<br>
--SRC_URI =3D &quot;git://<a href=3D"http://github.com/docker/distribution.g=
-it;branch=3Dmaster;name=3Ddistribution;destsuffix=3Dgit/src/github.com/dock=
-er/distribution" rel=3D"noreferrer" target=3D"_blank">github.com/docker/<wb=
-r>distribution.git;branch=3D<wbr>master;name=3Ddistribution;<wbr>destsuffix=
-=3Dgit/src/github.com/<wbr>docker/distribution</a> \<br>
-+SRCREV_distribution=3D&quot;<wbr>48294d928ced5dd9b378f7fd7c6f5d<wbr>a3ff3f=
-2c89&quot;<br>
-+SRC_URI =3D &quot;git://<a href=3D"http://github.com/docker/distribution.g=
-it;branch=3Drelease/2.6;name=3Ddistribution;destsuffix=3Dgit/src/github.com=
-/docker/distribution" rel=3D"noreferrer" target=3D"_blank">github.com/docke=
-r/<wbr>distribution.git;branch=3D<wbr>release/2.6;name=3Ddistribution;<wbr>=
-destsuffix=3Dgit/src/github.com/<wbr>docker/distribution</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker-registry.service \<=
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Aug 23, 2017 at 5:13 PM, Christopher Clark <span dir=3D"ltr">&l=
+t;<a href=3D"mailto:christopher.w.clark@gmail.com" target=3D"_blank">christ=
+opher.w.clark@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">On Wed, Aug 23, 2017 at 1:18 PM, Christopher Clark<br>
+<span class=3D"">&lt;<a href=3D"mailto:christopher.w.clark@gmail.com">chris=
+topher.w.clark@gmail.com</a><wbr>&gt; wrote:<br>
+&gt; On Wed, Aug 23, 2017 at 5:54 AM, Bruce Ashfield<br>
+&gt; &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.c=
+om</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; On Wed, Aug 23, 2017 at 2:43 AM, Christopher Clark<br>
+&gt;&gt; &lt;<a href=3D"mailto:christopher.w.clark@gmail.com">christopher.w=
+.clark@gmail.com</a><wbr>&gt; wrote:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; On Tue, Aug 22, 2017 at 7:42 PM, Bruce Ashfield<br>
+&gt;&gt;&gt; &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield=
+@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;&gt; &gt; On Tue, Aug 22, 2017 at 1:08 AM, &lt;<a href=3D"mailto:ch=
+ristopher.w.clark@gmail.com">christopher.w.clark@gmail.com</a><wbr>&gt; wro=
+te:<br>
+&gt;&gt;&gt; &gt;&gt; From: Christopher Clark &lt;<a href=3D"mailto:christo=
+pher.clark6@baesystems.com">christopher.clark6@<wbr>baesystems.com</a>&gt;<=
 br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;&gt;&gt; &gt;&gt;<br>
+&gt;&gt;&gt; &gt;&gt; The biossums tool is used to generate the vgabios bui=
+ld product.<br>
+&gt;&gt;&gt; &gt;&gt;<br>
+&gt;&gt;&gt; &gt;&gt; This patch:<br>
+&gt;&gt;&gt; &gt;&gt; * adds a separate recipe &quot;biossums&quot; for the=
+ tool<br>
+&gt;&gt;&gt; &gt;&gt; * makes the vgabios recipe depend upon biossums-nativ=
+e<br>
+&gt;&gt;&gt; &gt;&gt; * makes the vgabios recipe use the native binary rath=
+er than a locally<br>
+&gt;&gt;&gt; &gt;&gt; built one<br>
+&gt;<br>
+&gt;&gt;&gt; &gt;&gt; +<br>
+&gt;&gt;&gt; &gt;&gt; +do_compile() {<br>
+&gt;&gt;&gt; &gt;&gt; +=C2=A0 =C2=A0 oe_runmake clean<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt;<br>
+&gt;&gt;&gt; &gt; What actually happens if the clean isn&#39;t run before e=
+ach compile ?<br>
 <br>
-=C2=A0PACKAGES =3D+ &quot;docker-registry&quot;<br>
+</span>I figured it out: a 32-bit biossums binary is distributed inside the=
 <br>
--PV =3D &quot;v2.6.0-rc+git${SRCPV}&quot;<br>
-</span>+PV =3D &quot;v2.6.2&quot;<br>
-<div class=3D"HOEnZb"><div class=3D"h5">=C2=A0S =3D &quot;${WORKDIR}/git/sr=
-c/<a href=3D"http://github.com/docker/distribution" rel=3D"noreferrer" targ=
-et=3D"_blank">github.<wbr>com/docker/distribution</a>&quot;<br>
+upstream source tarball, and make decides that it doesn&#39;t need to<br>
+rebuild it since the timestamp is newer than the source code file.<br></blo=
+ckquote><div><br></div><div>Aha. Thanks for the information .. gives more c=
+onfidence in the approach. We could</div><div>also just rm the files, but u=
+sing the clean mechanism to take care of it properly makes</div><div>sense.=
+</div><div><br></div><div>I&#39;ve now merged the 4 patch series.</div><div=
+><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
 <br>
-=C2=A0inherit goarch<br>
---<br>
-2.7.4<br>
+I think that makes the &quot;clean&quot; seem like a reasonable step to put=
 <br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
-u shalt not follow the NULL pointer, for chaos and madness await thee at it=
-s end&quot;</div>
-</div>
+before compile.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Christopher<br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div></div>
 
---f403045f90565a7c76055780324e--
+--001a114e2482240142055780361b--
