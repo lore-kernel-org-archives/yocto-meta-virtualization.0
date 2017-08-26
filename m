@@ -1,36 +1,68 @@
-Return-Path: <jason.wessel@windriver.com>
+Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A9065E00CC6; Fri, 25 Aug 2017 13:13:06 -0700 (PDT)
+	id 7F776E00CB0; Fri, 25 Aug 2017 18:45:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.192.194 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED34CE00B1B
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
+	[209.85.192.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F1CECE00B1B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 25 Aug 2017 13:13:05 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v7PKD4nO016178
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 25 Aug 2017 18:45:04 -0700 (PDT)
+Received: by mail-pf0-f194.google.com with SMTP id g13so96364pfm.2
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 25 Aug 2017 13:13:05 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 25 Aug 2017 13:13:04 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 25 Aug 2017 13:13:04 -0700
-Message-ID: <20170825201304.47716-1-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] openvswitch: Fix compile problems with i586-nlp
+	Fri, 25 Aug 2017 18:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=UYtokEJnstcZxD1sO6OWH9BDDnXEeqR8NGMHcCj+2Co=;
+	b=ARSWC4NlZ3b7udLkWH97Ax8qw+Ut+LFrwdq3HDVDyil/VIVTfS/v2TYKxwOqI/QtYw
+	SQ9pFaY7w24yrsGsttoe6IbQYBLtdyDheUXkC96ui0V199c9N7CmF/Uvp4pOxbbubrL7
+	IqC7UWnqV7rRWJJRLmYDIT5EuaDnwwBiS5QUWo8qhuEPF/IVfsfD5xxSpAjDAMxKjSRF
+	6y06T4L+4w1PSp7dO0LdVNLjfzhLorWWXeurBM3bSVxkrR+RKVhz/WYdRn8AkQ3315xI
+	nwMreQVUSQ8seRyu3KBdCOopJN12pBdhAR28ngoERe8D1A/4PwKekZF/EYFYy4RHFLGl
+	HwaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=UYtokEJnstcZxD1sO6OWH9BDDnXEeqR8NGMHcCj+2Co=;
+	b=N7fQ63NyTmSZ0zY+YQwHLlwfymQMId8xnI8fRwcFiECcg6JKb6LMWpFDcbOYknXl3y
+	/dK1Z8ItHHdkaYF7WGuSAktRwye8Z706mwUXLDLYcsVbLg+qh48Le4x32vSKbFipcPKL
+	m6druZMJGvavFbVsm99X6c/+HPRRHyYufzERYcjKICOvoNOEotHEPvBT001NfenqiUkV
+	CFe+yHihQHGCNWerklIHpPPUWU5Gl4NYc2SevTITwtd2DxxrR12XFD6wB6VGn/vExuau
+	6YQqcJgxzQfP8x86KQgc4W1uqgKu/xQCmlE9DkRmcyRseoFVbVLEQ8IMvQvVkW2Uk1py
+	fNeA==
+X-Gm-Message-State: AHYfb5hJ1x/cHnUglJhpeZfpOTWYCb7nbku8jFKKat85FtvIlnutO3o6
+	0XPThjP/YyZEIYtti5E=
+X-Received: by 10.99.37.199 with SMTP id l190mr374837pgl.367.1503711903981;
+	Fri, 25 Aug 2017 18:45:03 -0700 (PDT)
+Received: from WorkStation-T3500.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+	by smtp.gmail.com with ESMTPSA id
+	184sm13192370pfg.2.2017.08.25.18.45.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 25 Aug 2017 18:45:03 -0700 (PDT)
+From: christopher.w.clark@gmail.com
+To: meta-virtualization@yoctoproject.org
+Date: Fri, 25 Aug 2017 18:44:52 -0700
+Message-Id: <1503711892-25162-1-git-send-email-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: cardoe@gentoo.org
+Subject: [PATCH] xen: Only generate long-double-32.h if absent
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,52 +75,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Aug 2017 20:13:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 26 Aug 2017 01:45:05 -0000
 
-If you have in your $CC from the compiler template any kind of
-directive which contains a comma character it is going to cause ovs to
-not build due to the macro expansion in the Makefile:
+From: Christopher Clark <christopher.clark6@baesystems.com>
 
-CC = $(if $(C),env REAL_CC="'"$CC"'" CHECK="$(SPARSE) -I $(top_srcdir)/include/sparse $(SPARSEFLAGS) $(SPARSE_EXTRA_INCLUDES) " cgcc $(CGCCFLAGS),'"$CC"
+Only copy long-double-64.h to create long-double-32.h if it is not
+already present.
 
-Put more simply:
+Compile tested with both ARM 32-bit build and x86 64-bit build.
 
-CC = $(if $(C), CONFIGURE_CC_DEFINITION, cgcc args CONFIGURE_CC_DEFINITION)
-
-The CONFIGURE_CC_DEFINITION for the i585-nlp definition had
-"-Wa,-momit-lock-prefix=yes".  The comma there caused a strings to
-"break" in the wrong place in the $(if) macro and the build of recipe
-will fail with the error shown below:
-
-/bin/sh: -c: line 1: unexpected EOF while looking for matching `"'
-/bin/sh: -c: line 3: syntax error: unexpected end of file
-
-The solution is to transform the "-Wa," -> "-Xassembler ".
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-networking/openvswitch/openvswitch.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
 
-diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-index ab5a7e4..58e0fcb 100644
---- a/recipes-networking/openvswitch/openvswitch.inc
-+++ b/recipes-networking/openvswitch/openvswitch.inc
-@@ -86,6 +86,12 @@ INITSCRIPT_PARAMS_${PN}-switch = "defaults 71"
- INITSCRIPT_NAME_${PN}-testcontroller = "openvswitch-testcontroller"
- INITSCRIPT_PARAMS_${PN}-testcontroller = "defaults 72"
+In fixing the 64-bit clean build, long-double-32.h was populated from
+the available long-double-64.h . Unfortunately this broke the 32-bit
+build where long-double-32.h is already present and long-double-64.h
+is not.
+
+ recipes-extended/xen/xen.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index b429c81..ab69987 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -912,7 +912,9 @@ do_configure() {
  
-+do_configure_prepend() {
-+	# Work around the for Makefile CC=$(if ....) by swapping out any
-+	# "-Wa," assembly directives with "-Xassembler
-+	CC=`echo '${CC}' | sed 's/-Wa,/-Xassembler /g'`
-+}
-+
- do_install_append() {
- 	install -d ${D}/${sysconfdir}/default/
- 	install -m 660 ${WORKDIR}/openvswitch-switch-setup ${D}/${sysconfdir}/default/openvswitch-switch
+     # do configure
+     oe_runconf
+-    cp ${STAGING_INCDIR}/bits/long-double-64.h ${STAGING_INCDIR}/bits/long-double-32.h
++    if [ ! -e ${STAGING_INCDIR}/bits/long-double-32.h ]; then
++        cp ${STAGING_INCDIR}/bits/long-double-64.h ${STAGING_INCDIR}/bits/long-double-32.h
++    fi
+ }
+ 
+ do_compile() {
 -- 
-2.11.0
+2.7.4
 
 
