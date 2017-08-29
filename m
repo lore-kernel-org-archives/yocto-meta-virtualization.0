@@ -1,19 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6743CE00C9E; Tue, 29 Aug 2017 05:43:56 -0700 (PDT)
+	id 02FE2E00C9F; Tue, 29 Aug 2017 05:44:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	HTML_OBFUSCATE_05_10, 
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.217.181 listed in list.dnswl.org]
-	* 0.3 HTML_OBFUSCATE_05_10 BODY: Message is 5% to 10% HTML obfuscation
+	*      [209.85.217.195 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -22,49 +20,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
-	[209.85.217.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9C8CDE00C9F
+Received: from mail-ua0-f195.google.com (mail-ua0-f195.google.com
+	[209.85.217.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A98FFE00C94
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Aug 2017 05:43:55 -0700 (PDT)
-Received: by mail-ua0-f181.google.com with SMTP id 105so9799551uad.3
+	Tue, 29 Aug 2017 05:44:09 -0700 (PDT)
+Received: by mail-ua0-f195.google.com with SMTP id 104so1372031uas.4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Aug 2017 05:43:55 -0700 (PDT)
+	Tue, 29 Aug 2017 05:44:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Mni1akb2UuSZZdjOQBa1/kvKoowIbgCJUjiz0Ki8L9A=;
-	b=QIcRtHHfSpYWIX6Fy1rgb/kc1bq2xdHle6/UW/1VQJZ7JM9kZt6YZ/rOjIlG/Cgngb
-	fEARhxJuJdqDtamzOTS/BupTRqr7sXybqzbOmmAxnq179XusttlwuEnjB5YrjeXm65m+
-	smQL8AvWqTjckp/dXydHklwmVkWMpad9rrgoc6d4j+O3JSm/LO2Ug9fjidBXSV9+4QZj
-	FlqZudx9zEADq4hB8v9LDGje2rp4AvFSxJTbYhG1dvfV3LGlsteQux8OvWIi0zRENNy5
-	UB5+rldnmgfq2mpSXDjcrtFko4GICQQ3K57tLl0NyAoYRvWkjLbGYQysUBwct1YG6NeF
-	Ii5w==
+	:cc; bh=w9FRjxPrT/yGAToeD42PfxEA2ydv95pAF8kHoH+6rL0=;
+	b=j2/RALo1PTWs45jtg3qQ9pEeFgMQtkf6pVOwJT6mbmxqJ6IUatrwpagUQGihm5eSoM
+	QZvfRYMhdDOgBUzOECQmaDORaZI3IKzD7KMygdTJuUfUCZt7pJ90V8L8SgprEPmxsTyW
+	pfNhBut8mo8xdXVOPjDjvOR1H2cvP8gpmzHUTSCOA9ftnVx1hJuS7z1dYvXDpolMDkLS
+	ryfs3qKLYuMgav6d/SxtqL/Z9mjAoM1h0XE4zAf5kUVOQWD21ROsezD/qOu1ch+OB4LF
+	h0K9m3A/IsYswTNsCQY8EZOXU+ZuM1BMI+9+e2pAzynyFhff+pSKrwddKfh4dq7CSacw
+	GW4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Mni1akb2UuSZZdjOQBa1/kvKoowIbgCJUjiz0Ki8L9A=;
-	b=nRaFgElmOPL/V7dKRoBef+MBG5Q+ge0z9RgoDyhqf+X9cYxLUD5yf+oubaVbkMebzL
-	cyDCd8fjLvfICKNmWu2tyZ7+fpdzq4mssZC77Rl258iv879R/5wqW1KuJ3ZwI15NQYUn
-	I+6AFWPbnQW/ACnx44IpJQo6W2RSk8yT+KCEo3g19rpnWG4udctldVbe2KerLAF0GFmH
-	U4malDoD+4d6fmFoTpAt2JFwDXInvDNa33ylSDQjEBaoaJK8F5bSinZ44ie6JHqIkJMz
-	rdIfQpsqnfPZijsOTOg1OkQ+G7FbzU10yMkVD9DTkoHCDC3Jy106X8ucExqIJlVkxRsZ
-	VH6g==
-X-Gm-Message-State: AHYfb5hj5o7laWB2OT/E5G/MEZMVQTGc+3WMc8E8B5/Aja27aLojLAWY
-	hKi+mDy52ExaRBolg46tBgRmwqG/gg==
-X-Received: by 10.176.92.85 with SMTP id a21mr105387uag.168.1504010634555;
-	Tue, 29 Aug 2017 05:43:54 -0700 (PDT)
+	bh=w9FRjxPrT/yGAToeD42PfxEA2ydv95pAF8kHoH+6rL0=;
+	b=icAAaT1t4UUqtfETnRi8oequBY2Ns6RrhhBswv2AzRVZTX8IK3lPfmJfbooqTyPZLG
+	q16JQZgL4nDBL23D3DBTx9QaxeGUxaGSNMH54g2rw3ZQ2IpenF1rY9qKolA9xPSAtnuT
+	5JMUbB/ZVqKsA0e/iOfhg/QNHtu9nGSQYjixwafi7FQHNL+Q/ry8WmGYpdy+5Kq9W+lP
+	lNTGLkZ2XIc5f/0UKnI5dbDnUmUrgs/Gbv1yY6AcQtW/MzXhpFOEfH1mRmTb2PtV5KCq
+	gPgliDzzmAtsdi011geoDiaSgqg7rBec5EsJvoBNWXktVjb4pP/ZTSR1BYhCz8HrcifW
+	/ClA==
+X-Gm-Message-State: AHYfb5i6cyrj8ufpopYSClfwWrLPAy3mVCtVRoae1MkiGzTTxSXBLniv
+	l502lUvlo1RiPgIyMyD/AGHUy2HNzg==
+X-Received: by 10.176.7.214 with SMTP id d22mr116682uaf.71.1504010648670; Tue,
+	29 Aug 2017 05:44:08 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Tue, 29 Aug 2017 05:43:53 -0700 (PDT)
-In-Reply-To: <1503901499-2486-1-git-send-email-B40290@freescale.com>
-References: <1503901499-2486-1-git-send-email-B40290@freescale.com>
+Received: by 10.159.34.235 with HTTP; Tue, 29 Aug 2017 05:44:08 -0700 (PDT)
+In-Reply-To: <1503711892-25162-1-git-send-email-christopher.w.clark@gmail.com>
+References: <1503711892-25162-1-git-send-email-christopher.w.clark@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 29 Aug 2017 08:43:53 -0400
-Message-ID: <CADkTA4N2TRJBMtJEcUtL2y06w=WcX2atDjB-feQxnPCzQ5WYBw@mail.gmail.com>
-To: Chunrong Guo <B40290@freescale.com>
+Date: Tue, 29 Aug 2017 08:44:08 -0400
+Message-ID: <CADkTA4P9AmLbD41mBfSj7fmYMMnEiFpGBCN00MDHUJkJ5LCSsw@mail.gmail.com>
+To: Christopher Clark <christopher.w.clark@gmail.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, chunrong.guo@nxp.com
-Subject: Re: [PATCH] libvirt: fix build failure, failing QA check
+	<meta-virtualization@yoctoproject.org>, Doug Goldstein <cardoe@gentoo.org>
+Subject: Re: [PATCH] xen: Only generate long-double-32.h if absent
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,50 +75,55 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 12:43:56 -0000
-Content-Type: multipart/alternative; boundary="f403043eb3409c78010557e3c3b1"
+X-List-Received-Date: Tue, 29 Aug 2017 12:44:11 -0000
+Content-Type: multipart/alternative; boundary="f403045f81f873d95f0557e3c4cf"
 
---f403043eb3409c78010557e3c3b1
+--f403045f81f873d95f0557e3c4cf
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+merged.
 
 Bruce
 
-On Mon, Aug 28, 2017 at 2:24 AM, Chunrong Guo <B40290@freescale.com> wrote:
+On Fri, Aug 25, 2017 at 9:44 PM, <christopher.w.clark@gmail.com> wrote:
 
-> From: Chunrong Guo <chunrong.guo@nxp.com>
+> From: Christopher Clark <christopher.clark6@baesystems.com>
 >
->   The build is failing due to a failing QA check:
+> Only copy long-double-64.h to create long-double-32.h if it is not
+> already present.
 >
->    ERROR: libvirt-1.3.5-r0 do_package_qa: QA Issue:
-> /usr/lib/libvirt/ptest/tests/tests/check-file-access.pl
->    contained in package libvirt-ptest requires /usr/bin/perl,
->    but no providers found in RDEPENDS_libvirt-ptest? [file-rdeps]
+> Compile tested with both ARM 32-bit build and x86 64-bit build.
 >
-> Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
+> Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 > ---
->  recipes-extended/libvirt/libvirt_1.3.5.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb
-> b/recipes-extended/libvirt/libvirt_1.3.5.bb
-> index 19b7567..8ed2505 100644
-> --- a/recipes-extended/libvirt/libvirt_1.3.5.bb
-> +++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
-> @@ -14,7 +14,7 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted
-> curl libpcap util-linux
->  #
->  RDEPENDS_${PN} = "gettext-runtime"
+> In fixing the 64-bit clean build, long-double-32.h was populated from
+> the available long-double-64.h . Unfortunately this broke the 32-bit
+> build where long-double-32.h is already present and long-double-64.h
+> is not.
 >
-> -RDEPENDS_${PN}-ptest += "make gawk"
-> +RDEPENDS_${PN}-ptest += "make gawk perl"
+>  recipes-extended/xen/xen.inc | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
->  RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq
-> netcat-openbsd"
->  RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index b429c81..ab69987 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -912,7 +912,9 @@ do_configure() {
+>
+>      # do configure
+>      oe_runconf
+> -    cp ${STAGING_INCDIR}/bits/long-double-64.h
+> ${STAGING_INCDIR}/bits/long-double-32.h
+> +    if [ ! -e ${STAGING_INCDIR}/bits/long-double-32.h ]; then
+> +        cp ${STAGING_INCDIR}/bits/long-double-64.h
+> ${STAGING_INCDIR}/bits/long-double-32.h
+> +    fi
+>  }
+>
+>  do_compile() {
 > --
-> 1.9.0
+> 2.7.4
 >
 > --
 > _______________________________________________
@@ -135,57 +138,57 @@ On Mon, Aug 28, 2017 at 2:24 AM, Chunrong Guo <B40290@freescale.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---f403043eb3409c78010557e3c3b1
+--f403045f81f873d95f0557e3c4cf
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">merged<div><br></div><div>Bruce</div></div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On Mon, Aug 28, 2017 at 2:24 AM,=
- Chunrong Guo <span dir=3D"ltr">&lt;<a href=3D"mailto:B40290@freescale.com"=
- target=3D"_blank">B40290@freescale.com</a>&gt;</span> wrote:<br><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
-id;padding-left:1ex">From: Chunrong Guo &lt;<a href=3D"mailto:chunrong.guo@=
-nxp.com">chunrong.guo@nxp.com</a>&gt;<br>
+<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On Fri, Aug 25, 2017 at 9:44 PM=
+,  <span dir=3D"ltr">&lt;<a href=3D"mailto:christopher.w.clark@gmail.com" t=
+arget=3D"_blank">christopher.w.clark@gmail.com</a>&gt;</span> wrote:<br><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
+ccc solid;padding-left:1ex">From: Christopher Clark &lt;<a href=3D"mailto:c=
+hristopher.clark6@baesystems.com">christopher.clark6@<wbr>baesystems.com</a=
+>&gt;<br>
 <br>
-=C2=A0 The build is failing due to a failing QA check:<br>
+Only copy long-double-64.h to create long-double-32.h if it is not<br>
+already present.<br>
 <br>
-=C2=A0 =C2=A0ERROR: libvirt-1.3.5-r0 do_package_qa: QA Issue: /usr/lib/libv=
-irt/ptest/tests/<wbr>tests/<a href=3D"http://check-file-access.pl" rel=3D"n=
-oreferrer" target=3D"_blank">check-file-access.pl</a><br>
-=C2=A0 =C2=A0contained in package libvirt-ptest requires /usr/bin/perl,<br>
-=C2=A0 =C2=A0but no providers found in RDEPENDS_libvirt-ptest? [file-rdeps]=
+Compile tested with both ARM 32-bit build and x86 64-bit build.<br>
 <br>
-<br>
-Signed-off-by: Chunrong Guo &lt;<a href=3D"mailto:chunrong.guo@nxp.com">chu=
-nrong.guo@nxp.com</a>&gt;<br>
+Signed-off-by: Christopher Clark &lt;<a href=3D"mailto:christopher.clark6@b=
+aesystems.com">christopher.clark6@<wbr>baesystems.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
-oreferrer" target=3D"_blank">libvi<wbr>rt_1.3.5.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-diff --git a/recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" r=
-el=3D"noreferrer" target=3D"_blank">lib<wbr>virt_1.3.5.bb</a> b/recipes-ext=
-ended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"noreferrer" target=
-=3D"_blank">lib<wbr>virt_1.3.5.bb</a><br>
-index 19b7567..8ed2505 100644<br>
---- a/recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
-oreferrer" target=3D"_blank">lib<wbr>virt_1.3.5.bb</a><br>
-+++ b/recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
-oreferrer" target=3D"_blank">lib<wbr>virt_1.3.5.bb</a><br>
-@@ -14,7 +14,7 @@ DEPENDS =3D &quot;bridge-utils gnutls libxml2 lvm2 avahi =
-parted curl libpcap util-linux<br>
-=C2=A0#<br>
-=C2=A0RDEPENDS_${PN} =3D &quot;gettext-runtime&quot;<br>
+In fixing the 64-bit clean build, long-double-32.h was populated from<br>
+the available long-double-64.h . Unfortunately this broke the 32-bit<br>
+build where long-double-32.h is already present and long-double-64.h<br>
+is not.<br>
 <br>
--RDEPENDS_${PN}-ptest +=3D &quot;make gawk&quot;<br>
-+RDEPENDS_${PN}-ptest +=3D &quot;make gawk perl&quot;<br>
+=C2=A0recipes-extended/xen/xen.inc | 4 +++-<br>
+=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
 <br>
-=C2=A0RDEPENDS_libvirt-libvirtd +=3D &quot;bridge-utils iptables pm-utils d=
-nsmasq netcat-openbsd&quot;<br>
-=C2=A0RDEPENDS_libvirt-libvirtd_<wbr>append_x86-64 =3D &quot; dmidecode&quo=
-t;<br>
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc<br=
+>
+index b429c81..ab69987 100644<br>
+--- a/recipes-extended/xen/xen.inc<br>
++++ b/recipes-extended/xen/xen.inc<br>
+@@ -912,7 +912,9 @@ do_configure() {<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0# do configure<br>
+=C2=A0 =C2=A0 =C2=A0oe_runconf<br>
+-=C2=A0 =C2=A0 cp ${STAGING_INCDIR}/bits/long-<wbr>double-64.h ${STAGING_IN=
+CDIR}/bits/long-<wbr>double-32.h<br>
++=C2=A0 =C2=A0 if [ ! -e ${STAGING_INCDIR}/bits/long-<wbr>double-32.h ]; th=
+en<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp ${STAGING_INCDIR}/bits/long-<wbr>double-64.=
+h ${STAGING_INCDIR}/bits/long-<wbr>double-32.h<br>
++=C2=A0 =C2=A0 fi<br>
+=C2=A0}<br>
+<br>
+=C2=A0do_compile() {<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-1.9.0<br>
+2.7.4<br>
 <br>
 --<br>
 ______________________________<wbr>_________________<br>
@@ -201,4 +204,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---f403043eb3409c78010557e3c3b1--
+--f403045f81f873d95f0557e3c4cf--
