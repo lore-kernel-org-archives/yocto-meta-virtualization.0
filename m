@@ -1,17 +1,19 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 14E2AE00C9F; Tue, 29 Aug 2017 05:43:47 -0700 (PDT)
+	id 6743CE00C9E; Tue, 29 Aug 2017 05:43:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	HTML_OBFUSCATE_05_10, 
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.213.68 listed in list.dnswl.org]
+	*      [209.85.217.181 listed in list.dnswl.org]
+	* 0.3 HTML_OBFUSCATE_05_10 BODY: Message is 5% to 10% HTML obfuscation
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,49 +22,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-vk0-f68.google.com (mail-vk0-f68.google.com
-	[209.85.213.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28CC5E00C94
+Received: from mail-ua0-f181.google.com (mail-ua0-f181.google.com
+	[209.85.217.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9C8CDE00C9F
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Aug 2017 05:43:44 -0700 (PDT)
-Received: by mail-vk0-f68.google.com with SMTP id s199so1271814vke.2
+	Tue, 29 Aug 2017 05:43:55 -0700 (PDT)
+Received: by mail-ua0-f181.google.com with SMTP id 105so9799551uad.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Aug 2017 05:43:44 -0700 (PDT)
+	Tue, 29 Aug 2017 05:43:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=datTAOVIT41+3FQzGpzaoRReJu1XKeKozUmDgJRJbrE=;
-	b=f8b3YAUzVMZ1lnORFKVmg5co/ZLkMrUEhkPG10yPK5FJeI7+yzpUutVW4r2E1CytMU
-	io0G4iIt7hCUGvfQMl+cLRicUJzK5xglWS83gBT7zbCDZe3jfcJBLhYexBaEjoYvsK/a
-	jjseSfE7LksYwjVg8qjZAM+qKlS8/XVpfndhZ4fnPajA1L959YuuS4mk460iTLxqByAy
-	LxQA3WHf1uUiqWX5QALxOJJQpYvj3UgbMxm+G0WNDhMdrbsYZgKgoejrEbklyQT2CpE9
-	oIKFQ3+iEMUcSPEQjpvCK2VMJY+/hG0fPTklFwDKPSxo0TAp/E85ioKlT018lyLjsv2y
-	Q+CA==
+	:cc; bh=Mni1akb2UuSZZdjOQBa1/kvKoowIbgCJUjiz0Ki8L9A=;
+	b=QIcRtHHfSpYWIX6Fy1rgb/kc1bq2xdHle6/UW/1VQJZ7JM9kZt6YZ/rOjIlG/Cgngb
+	fEARhxJuJdqDtamzOTS/BupTRqr7sXybqzbOmmAxnq179XusttlwuEnjB5YrjeXm65m+
+	smQL8AvWqTjckp/dXydHklwmVkWMpad9rrgoc6d4j+O3JSm/LO2Ug9fjidBXSV9+4QZj
+	FlqZudx9zEADq4hB8v9LDGje2rp4AvFSxJTbYhG1dvfV3LGlsteQux8OvWIi0zRENNy5
+	UB5+rldnmgfq2mpSXDjcrtFko4GICQQ3K57tLl0NyAoYRvWkjLbGYQysUBwct1YG6NeF
+	Ii5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=datTAOVIT41+3FQzGpzaoRReJu1XKeKozUmDgJRJbrE=;
-	b=pdCSkKBt3T5Qc58X6ldrWMn8jCLSNH5t31BHN753PpjyKKT6j/Q3DVnUASVSOIZtu0
-	MdnFuG9ZPl7I/rBdMkjxhJMo9NPeZ9K/S8INts5QolLtkcUrSFuij+v7LSdDAwkDfJUd
-	wTDzDBx79wf55xsh5WMVsE8CPutS9M5KCYOkC5pipaSse/y7F2so11PPrS4zUlf40EBC
-	nXBVR8PP+RUyYcGrHRmTgd38kuJtOUOtmjn7clxZBgBd2XVKlHmt/w/lP8R2p+7qchVK
-	BSfZ8kXOfyJqTdZvZ5voOKR2jfqXCpinNzGFMheJuTmlNGO+1PcDbxpHxThwEhVe/zbm
-	MCWg==
-X-Gm-Message-State: AHYfb5hldkPLylJ5/aRhtuFdvXqhYETtf+Fd0ML8TWxZgCNA068qgrS0
-	+flI5khsF79U6k801wPT3e8dnyPlEw==
-X-Received: by 10.31.47.67 with SMTP id v64mr115598vkv.144.1504010623990; Tue,
-	29 Aug 2017 05:43:43 -0700 (PDT)
+	bh=Mni1akb2UuSZZdjOQBa1/kvKoowIbgCJUjiz0Ki8L9A=;
+	b=nRaFgElmOPL/V7dKRoBef+MBG5Q+ge0z9RgoDyhqf+X9cYxLUD5yf+oubaVbkMebzL
+	cyDCd8fjLvfICKNmWu2tyZ7+fpdzq4mssZC77Rl258iv879R/5wqW1KuJ3ZwI15NQYUn
+	I+6AFWPbnQW/ACnx44IpJQo6W2RSk8yT+KCEo3g19rpnWG4udctldVbe2KerLAF0GFmH
+	U4malDoD+4d6fmFoTpAt2JFwDXInvDNa33ylSDQjEBaoaJK8F5bSinZ44ie6JHqIkJMz
+	rdIfQpsqnfPZijsOTOg1OkQ+G7FbzU10yMkVD9DTkoHCDC3Jy106X8ucExqIJlVkxRsZ
+	VH6g==
+X-Gm-Message-State: AHYfb5hj5o7laWB2OT/E5G/MEZMVQTGc+3WMc8E8B5/Aja27aLojLAWY
+	hKi+mDy52ExaRBolg46tBgRmwqG/gg==
+X-Received: by 10.176.92.85 with SMTP id a21mr105387uag.168.1504010634555;
+	Tue, 29 Aug 2017 05:43:54 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Tue, 29 Aug 2017 05:43:43 -0700 (PDT)
-In-Reply-To: <1503600374-19479-1-git-send-email-christopher.w.clark@gmail.com>
-References: <1503600374-19479-1-git-send-email-christopher.w.clark@gmail.com>
+Received: by 10.159.34.235 with HTTP; Tue, 29 Aug 2017 05:43:53 -0700 (PDT)
+In-Reply-To: <1503901499-2486-1-git-send-email-B40290@freescale.com>
+References: <1503901499-2486-1-git-send-email-B40290@freescale.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 29 Aug 2017 08:43:43 -0400
-Message-ID: <CADkTA4NG3SXB9vXdkU0A1o-u_rd+hcW6ooeBTP8O2kEOOtY7aQ@mail.gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Tue, 29 Aug 2017 08:43:53 -0400
+Message-ID: <CADkTA4N2TRJBMtJEcUtL2y06w=WcX2atDjB-feQxnPCzQ5WYBw@mail.gmail.com>
+To: Chunrong Guo <B40290@freescale.com>
 Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, Doug Goldstein <cardoe@gentoo.org>
-Subject: Re: RFC : [PATCH] xen: remove xen-bootimg.inc
+	<meta-virtualization@yoctoproject.org>, chunrong.guo@nxp.com
+Subject: Re: [PATCH] libvirt: fix build failure, failing QA check
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,95 +77,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 Aug 2017 12:43:47 -0000
-Content-Type: multipart/alternative; boundary="001a114385a6fb432d0557e3c23a"
+X-List-Received-Date: Tue, 29 Aug 2017 12:43:56 -0000
+Content-Type: multipart/alternative; boundary="f403043eb3409c78010557e3c3b1"
 
---001a114385a6fb432d0557e3c23a
+--f403043eb3409c78010557e3c3b1
 Content-Type: text/plain; charset="UTF-8"
 
-I didn't get any objections, so this is now merged.
-
+merged
 
 Bruce
 
-On Thu, Aug 24, 2017 at 2:46 PM, <christopher.w.clark@gmail.com> wrote:
+On Mon, Aug 28, 2017 at 2:24 AM, Chunrong Guo <B40290@freescale.com> wrote:
 
-> From: Christopher Clark <christopher.w.clark@gmail.com>
+> From: Chunrong Guo <chunrong.guo@nxp.com>
 >
-> This inc file has not been used within meta-virtualization since:
->     Date:   Tue Sep 10 21:02:41 2013 -0400
->     commit 214c4715f0ed53ba9c499932b0b6ee3f602ff89f
+>   The build is failing due to a failing QA check:
 >
-> and has needed updating since the changes in:
->     Date:   Wed Feb 24 01:23:58 2016 -0800
->     git://git.openembedded.org/openembedded-core
->     commit e38c94d6bf83ed3ca7f046d9503e81b927487bf2
+>    ERROR: libvirt-1.3.5-r0 do_package_qa: QA Issue:
+> /usr/lib/libvirt/ptest/tests/tests/check-file-access.pl
+>    contained in package libvirt-ptest requires /usr/bin/perl,
+>    but no providers found in RDEPENDS_libvirt-ptest? [file-rdeps]
 >
-> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+> Signed-off-by: Chunrong Guo <chunrong.guo@nxp.com>
 > ---
+>  recipes-extended/libvirt/libvirt_1.3.5.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> This inc file either needs updating to change SYSLINUXCFG to SYSLINUX_CFG
-> or alternatively it could be removed. Since it is no longer used within
-> meta-virtualization, and I cannot find a reference to it elsewhere via
-> web search engine, it requires further work to test any change to this
-> file.
-> This patch just removes it.
+> diff --git a/recipes-extended/libvirt/libvirt_1.3.5.bb
+> b/recipes-extended/libvirt/libvirt_1.3.5.bb
+> index 19b7567..8ed2505 100644
+> --- a/recipes-extended/libvirt/libvirt_1.3.5.bb
+> +++ b/recipes-extended/libvirt/libvirt_1.3.5.bb
+> @@ -14,7 +14,7 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted
+> curl libpcap util-linux
+>  #
+>  RDEPENDS_${PN} = "gettext-runtime"
 >
+> -RDEPENDS_${PN}-ptest += "make gawk"
+> +RDEPENDS_${PN}-ptest += "make gawk perl"
 >
->  recipes-extended/images/xen-bootimg.inc | 35
-> ---------------------------------
->  1 file changed, 35 deletions(-)
->  delete mode 100644 recipes-extended/images/xen-bootimg.inc
->
-> diff --git a/recipes-extended/images/xen-bootimg.inc
-> b/recipes-extended/images/xen-bootimg.inc
-> deleted file mode 100644
-> index 093aa68..0000000
-> --- a/recipes-extended/images/xen-bootimg.inc
-> +++ /dev/null
-> @@ -1,35 +0,0 @@
-> -SYSLINUX_TIMEOUT = "10"
-> -SYSLINUX_LABEL = "boot"
-> -SYSLINUX_XEN_APPEND = "dom0_mem=1048576"
-> -SYSLINUX_KERNEL_APPEND = "ramdisk_size=32768 root=/dev/ram0 rw
-> console=tty0 console=ttyS0,115200n8"
-> -#LABELS_append = " ${SYSLINUX_LABEL} "
-> -
-> -INITRD = "${DEPLOY_DIR_IMAGE}/${IMAGE_BASENAME}-${MACHINE}.cpio.lzma"
-> -
-> -do_bootimg[depends] += "${IMAGE_BASENAME}:do_rootfs"
-> -
-> -inherit bootimg
-> -
-> -syslinux_populate_append() {
-> -       install -m 0444 ${STAGING_LIBDIR}/syslinux/mboot.c32
-> ${HDDDIR}${SYSLINUXDIR}/mboot.c32
-> -}
-> -
-> -grubefi_populate_append() {
-> -       install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz
-> ${DEST}${EFIDIR}/xen.gz
-> -}
-> -
-> -populate_append() {
-> -       install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${MACHINE}.gz
-> ${DEST}/xen.gz
-> -}
-> -
-> -build_syslinux_cfg() {
-> -       echo ALLOWOPTIONS 1 > ${SYSLINUXCFG}
-> -       echo SERIAL 0 115200 > ${SYSLINUXCFG}
-> -       echo DEFAULT ${SYSLINUX_LABEL} >> ${SYSLINUXCFG}
-> -       echo TIMEOUT ${SYSLINUX_TIMEOUT} >> ${SYSLINUXCFG}
-> -       echo PROMPT 1 >> ${SYSLINUXCFG}
-> -       echo LABEL ${SYSLINUX_LABEL} >> ${SYSLINUXCFG}
-> -       echo KERNEL mboot.c32 >> ${SYSLINUXCFG}
-> -       echo APPEND xen.gz ${SYSLINUX_XEN_APPEND} --- vmlinuz
-> ${SYSLINUX_KERNEL_APPEND} --- initrd >> ${SYSLINUXCFG}
-> -}
-> -
+>  RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq
+> netcat-openbsd"
+>  RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
 > --
-> 2.7.4
+> 1.9.0
 >
 > --
 > _______________________________________________
@@ -178,102 +135,57 @@ On Thu, Aug 24, 2017 at 2:46 PM, <christopher.w.clark@gmail.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a114385a6fb432d0557e3c23a
+--f403043eb3409c78010557e3c3b1
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I didn&#39;t get any objections, so this is now merged.<di=
-v><br></div><div><br></div><div>Bruce</div></div><div class=3D"gmail_extra"=
-><br><div class=3D"gmail_quote">On Thu, Aug 24, 2017 at 2:46 PM,  <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:christopher.w.clark@gmail.com" target=3D"_bl=
-ank">christopher.w.clark@gmail.com</a>&gt;</span> wrote:<br><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
-dding-left:1ex">From: Christopher Clark &lt;<a href=3D"mailto:christopher.w=
-.clark@gmail.com">christopher.w.clark@gmail.com</a><wbr>&gt;<br>
+<div dir=3D"ltr">merged<div><br></div><div>Bruce</div></div><div class=3D"g=
+mail_extra"><br><div class=3D"gmail_quote">On Mon, Aug 28, 2017 at 2:24 AM,=
+ Chunrong Guo <span dir=3D"ltr">&lt;<a href=3D"mailto:B40290@freescale.com"=
+ target=3D"_blank">B40290@freescale.com</a>&gt;</span> wrote:<br><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc sol=
+id;padding-left:1ex">From: Chunrong Guo &lt;<a href=3D"mailto:chunrong.guo@=
+nxp.com">chunrong.guo@nxp.com</a>&gt;<br>
 <br>
-This inc file has not been used within meta-virtualization since:<br>
-=C2=A0 =C2=A0 Date:=C2=A0 =C2=A0Tue Sep 10 21:02:41 2013 -0400<br>
-=C2=A0 =C2=A0 commit 214c4715f0ed53ba9c499932b0b6ee<wbr>3f602ff89f<br>
+=C2=A0 The build is failing due to a failing QA check:<br>
 <br>
-and has needed updating since the changes in:<br>
-=C2=A0 =C2=A0 Date:=C2=A0 =C2=A0Wed Feb 24 01:23:58 2016 -0800<br>
-=C2=A0 =C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-cor=
-e" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/<wbr>openembed=
-ded-core</a><br>
-=C2=A0 =C2=A0 commit e38c94d6bf83ed3ca7f046d9503e81<wbr>b927487bf2<br>
+=C2=A0 =C2=A0ERROR: libvirt-1.3.5-r0 do_package_qa: QA Issue: /usr/lib/libv=
+irt/ptest/tests/<wbr>tests/<a href=3D"http://check-file-access.pl" rel=3D"n=
+oreferrer" target=3D"_blank">check-file-access.pl</a><br>
+=C2=A0 =C2=A0contained in package libvirt-ptest requires /usr/bin/perl,<br>
+=C2=A0 =C2=A0but no providers found in RDEPENDS_libvirt-ptest? [file-rdeps]=
 <br>
-Signed-off-by: Christopher Clark &lt;<a href=3D"mailto:christopher.w.clark@=
-gmail.com">christopher.w.clark@gmail.com</a><wbr>&gt;<br>
+<br>
+Signed-off-by: Chunrong Guo &lt;<a href=3D"mailto:chunrong.guo@nxp.com">chu=
+nrong.guo@nxp.com</a>&gt;<br>
 ---<br>
+=C2=A0recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
+oreferrer" target=3D"_blank">libvi<wbr>rt_1.3.5.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
 <br>
-This inc file either needs updating to change SYSLINUXCFG to SYSLINUX_CFG<b=
-r>
-or alternatively it could be removed. Since it is no longer used within<br>
-meta-virtualization, and I cannot find a reference to it elsewhere via<br>
-web search engine, it requires further work to test any change to this file=
-.<br>
-This patch just removes it.<br>
+diff --git a/recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" r=
+el=3D"noreferrer" target=3D"_blank">lib<wbr>virt_1.3.5.bb</a> b/recipes-ext=
+ended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"noreferrer" target=
+=3D"_blank">lib<wbr>virt_1.3.5.bb</a><br>
+index 19b7567..8ed2505 100644<br>
+--- a/recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
+oreferrer" target=3D"_blank">lib<wbr>virt_1.3.5.bb</a><br>
++++ b/recipes-extended/libvirt/<a href=3D"http://libvirt_1.3.5.bb" rel=3D"n=
+oreferrer" target=3D"_blank">lib<wbr>virt_1.3.5.bb</a><br>
+@@ -14,7 +14,7 @@ DEPENDS =3D &quot;bridge-utils gnutls libxml2 lvm2 avahi =
+parted curl libpcap util-linux<br>
+=C2=A0#<br>
+=C2=A0RDEPENDS_${PN} =3D &quot;gettext-runtime&quot;<br>
 <br>
+-RDEPENDS_${PN}-ptest +=3D &quot;make gawk&quot;<br>
++RDEPENDS_${PN}-ptest +=3D &quot;make gawk perl&quot;<br>
 <br>
-=C2=A0recipes-extended/images/xen-<wbr>bootimg.inc | 35 -------------------=
------------<wbr>---<br>
-=C2=A01 file changed, 35 deletions(-)<br>
-=C2=A0delete mode 100644 recipes-extended/images/xen-<wbr>bootimg.inc<br>
-<br>
-diff --git a/recipes-extended/images/xen-<wbr>bootimg.inc b/recipes-extende=
-d/images/xen-<wbr>bootimg.inc<br>
-deleted file mode 100644<br>
-index 093aa68..0000000<br>
---- a/recipes-extended/images/xen-<wbr>bootimg.inc<br>
-+++ /dev/null<br>
-@@ -1,35 +0,0 @@<br>
--SYSLINUX_TIMEOUT =3D &quot;10&quot;<br>
--SYSLINUX_LABEL =3D &quot;boot&quot;<br>
--SYSLINUX_XEN_APPEND =3D &quot;dom0_mem=3D1048576&quot;<br>
--SYSLINUX_KERNEL_APPEND =3D &quot;ramdisk_size=3D32768 root=3D/dev/ram0 rw =
-console=3Dtty0 console=3DttyS0,115200n8&quot;<br>
--#LABELS_append =3D &quot; ${SYSLINUX_LABEL} &quot;<br>
--<br>
--INITRD =3D &quot;${DEPLOY_DIR_IMAGE}/${IMAGE_<wbr>BASENAME}-${MACHINE}.cpi=
-o.<wbr>lzma&quot;<br>
--<br>
--do_bootimg[depends] +=3D &quot;${IMAGE_BASENAME}:do_rootfs&quot;<br>
--<br>
--inherit bootimg<br>
--<br>
--syslinux_populate_append() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0444 ${STAGING_LIBDIR}/syslinux/<wbr=
->mboot.c32 ${HDDDIR}${SYSLINUXDIR}/mboot.<wbr>c32<br>
--}<br>
--<br>
--grubefi_populate_append() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${<wbr>=
-MACHINE}.gz ${DEST}${EFIDIR}/xen.gz<br>
--}<br>
--<br>
--populate_append() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${DEPLOY_DIR_IMAGE}/xen-${<wbr>=
-MACHINE}.gz ${DEST}/xen.gz<br>
--}<br>
--<br>
--build_syslinux_cfg() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo ALLOWOPTIONS 1 &gt; ${SYSLINUXCFG}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo SERIAL 0 115200 &gt; ${SYSLINUXCFG}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo DEFAULT ${SYSLINUX_LABEL} &gt;&gt; ${SYSLI=
-NUXCFG}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo TIMEOUT ${SYSLINUX_TIMEOUT} &gt;&gt; ${SYS=
-LINUXCFG}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo PROMPT 1 &gt;&gt; ${SYSLINUXCFG}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo LABEL ${SYSLINUX_LABEL} &gt;&gt; ${SYSLINU=
-XCFG}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo KERNEL mboot.c32 &gt;&gt; ${SYSLINUXCFG}<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0echo APPEND xen.gz ${SYSLINUX_XEN_APPEND} --- v=
-mlinuz ${SYSLINUX_KERNEL_APPEND} --- initrd &gt;&gt; ${SYSLINUXCFG}<br>
--}<br>
--<br>
+=C2=A0RDEPENDS_libvirt-libvirtd +=3D &quot;bridge-utils iptables pm-utils d=
+nsmasq netcat-openbsd&quot;<br>
+=C2=A0RDEPENDS_libvirt-libvirtd_<wbr>append_x86-64 =3D &quot; dmidecode&quo=
+t;<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
+1.9.0<br>
 <br>
 --<br>
 ______________________________<wbr>_________________<br>
@@ -289,4 +201,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---001a114385a6fb432d0557e3c23a--
+--f403043eb3409c78010557e3c3b1--
