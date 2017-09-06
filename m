@@ -1,72 +1,70 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 55485E00C09; Tue,  5 Sep 2017 10:27:55 -0700 (PDT)
+	id 3CE0CE00D81; Wed,  6 Sep 2017 16:09:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.217.194 listed in list.dnswl.org]
+	*      [74.125.83.47 listed in list.dnswl.org]
 	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.217.194 listed in dnsbl.sorbs.net]
+	*      [74.125.83.47 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ua0-f194.google.com (mail-ua0-f194.google.com
-	[209.85.217.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 29230E009F5
+Received: from mail-pg0-f47.google.com (mail-pg0-f47.google.com [74.125.83.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CDCABE00BB7
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Sep 2017 10:27:53 -0700 (PDT)
-Received: by mail-ua0-f194.google.com with SMTP id g47so1485052uad.2
+	Wed,  6 Sep 2017 16:09:14 -0700 (PDT)
+Received: by mail-pg0-f47.google.com with SMTP id t3so17814196pgt.0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 05 Sep 2017 10:27:53 -0700 (PDT)
+	Wed, 06 Sep 2017 16:09:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6UwksfFbLIitmitaw0cJguHMmPhTDjQ/FC9ANTdRUKw=;
-	b=XXXYjKQH6z40Kd4Wa+/Oh9l/bogtnilY9BVBvZHaP0tZzWfQJ0cTiskbU+dLXkYcFH
-	7gaSxTzPmzvmjm5v4LwIlf8H5zofaJwj7R0plWmJnZuO6t3pLh6KRVSxrGyiI/7rKnqo
-	iNkvwjIWQsnjy6u9xmjw9QVTYGl8NxmTsnMW+y7mn4H4tDpkiAMyLP7gxFUPuCjsZZec
-	Xu2CKuAK4RZreT/sX2eLVn0cmP6YjGJCXmeKGsciWc+SZkbZsDyjMw47XhPpIYioYhZV
-	XAJknEqtc8C/KRK3tN4yy+TYXqdru3eRFy/3BYJeRCZE3bF6uEMPrYFvbJRR7JXQw7YF
-	Sc+g==
+	h=from:to:cc:subject:date:message-id;
+	bh=KsIHUZPhfE30MSNIV3c3chXl+/5SMBQz/+Ogn1x9PSk=;
+	b=Tm3A452IXOqraqv4mfjrJX/WvHyO9850ORHRqb/A6NLLzUlT2jRoOubDsLtXnGVskF
+	2hURjOX5GDa+1fvQNUfdWN9rvrpO2ox+7v3dQAaoZKuCqo0Ua1lUEFsEEVQHHdxrHQeb
+	J8Mfpa4y4toDgAZnbhbMtt4csM2Z6AqITx4AFVqTDM33D1FOZ7m3FPeRM2tWqlgiAtVB
+	RKYfNoop5rvo7BWteHPmOceXWi/bjpG4XdGqH7DwW8DD6GU8pLoRvD4lcuQCRcZRaFXG
+	O7b17ehV9BCRhiQU+chYfj+xIW7IU8QIxdIO3/1WlfIy3E/u8llPsWhtf3MAz983weaZ
+	kp/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6UwksfFbLIitmitaw0cJguHMmPhTDjQ/FC9ANTdRUKw=;
-	b=TzfptA77yNyn5Dhfb9DxQcmofRFzHrTsTMEJGbCwLQi90+F/TQgScABu0iPTLf+WL0
-	YBXirWsO2WFScEVJrexntR53cCs+c83Bt6o1uXSeeneOCag7BLXfnQZwPFUTteSX6Uql
-	sVANX5fkhyB8MNeZVbYgzcX1NTc1Fv1gtTco52x3nxcwBp8lQffQOVAS9m3UkBali0Gj
-	h9Y5KX8VC6+SzwhI7bGwa5FXqRg6CgXAmfuW40NurQMYdQjX1xKzcFVRBTWt63p6rNnH
-	W42nXM82FTE9S5zdMEt8Of3OIyMw4/++u76LdpxjWvV7j3Vm2ca/f/1zP9LlWaiAwP5/
-	F3hA==
-X-Gm-Message-State: AHPjjUglyYEUOBpHMsBSLuKorRar7DqZ4Y07r7L6Bsta6Zdhrpk4bDiz
-	YELhmFWDDZyW5raT35kiTPR/jELgSA==
-X-Google-Smtp-Source: ADKCNb44gp2LVcMdZvt5IcbtYKpcKz+kEwXhjgT80KWtot0hBd+JjVgEhPkO0Z/6tJ5zyw0sq3n0xex+djwl+xmDWjk=
-X-Received: by 10.176.91.156 with SMTP id y28mr3075905uae.71.1504632473273;
-	Tue, 05 Sep 2017 10:27:53 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Tue, 5 Sep 2017 10:27:52 -0700 (PDT)
-In-Reply-To: <1504278682-99314-1-git-send-email-tiniuc.alexandru@gmail.com>
-References: <1504278682-99314-1-git-send-email-tiniuc.alexandru@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 5 Sep 2017 13:27:52 -0400
-Message-ID: <CADkTA4Ox03go-yi=chaeq82QMdc+NxVhxcEm7mwgiNZqe9Uw2Q@mail.gmail.com>
-To: Alexandru Tiniuc <tiniuc.alexandru@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] singularity: Added dependency to e2fsprogs-mke2fs
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KsIHUZPhfE30MSNIV3c3chXl+/5SMBQz/+Ogn1x9PSk=;
+	b=mt2LXCEf6YBHmYEDE+H1RwurQGOLy+1fKLe0MWtWiFWXzLu2zBvD+1ddeFqiklz8Lj
+	po3TgNQjKBYT6MBMszsRqkO8DDfDFPsq9eyM2XwbvRNq/bs0pmmgZntSCaVlIFYCU+sX
+	HZS8Bap1Ugp7qBZpLaxZ9cSVZhyz87d/NUOiI+CyD+dNn7uE6kcmXIc+5K/THmmZ7ZKo
+	quluuo+r3ktgzaY6E1akVEamKYEK+Xv1pdq3+nHvWaabWlzO5EKglc1Uwy+BpoDpArRO
+	xB/o6DAuxZNPKcwhZNBWVIsBbqToPymkiU9YbMlHYFzb28B7ocgJD5SRMMptQnoQcfH+
+	8iZw==
+X-Gm-Message-State: AHPjjUiNiCh+45cq0FhGun31Km4+UM/YY1J2pR8s3G3PRvNC138HV/fy
+	eHL32OO4ejvOjZyql4U=
+X-Google-Smtp-Source: ADKCNb6bNUXU2QVccXIuQApGr7Ita32uhLCM8qeCNg1bQvr+ip6XxgA8UojlWamX6hCJ1HAwarJ8cg==
+X-Received: by 10.99.126.23 with SMTP id z23mr760482pgc.156.1504739353886;
+	Wed, 06 Sep 2017 16:09:13 -0700 (PDT)
+Received: from WorkStation-T3500.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+	by smtp.gmail.com with ESMTPSA id
+	i186sm1030487pfg.84.2017.09.06.16.09.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 06 Sep 2017 16:09:13 -0700 (PDT)
+From: christopher.w.clark@gmail.com
+To: meta-virtualization@yoctoproject.org
+Date: Wed,  6 Sep 2017 16:09:00 -0700
+Message-Id: <1504739341-28234-1-git-send-email-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: cardoe@gentoo.org, nathan.studer@dornerworks.com
+Subject: RFC [PATCH] fix non-x86 xen-guest-image-minimal
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -79,120 +77,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Sep 2017 17:27:55 -0000
-Content-Type: multipart/alternative; boundary="f403045f883e164bef0558748cb0"
+X-List-Received-Date: Wed, 06 Sep 2017 23:09:15 -0000
 
---f403045f883e164bef0558748cb0
-Content-Type: text/plain; charset="UTF-8"
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-merged.
+This RFC patch aims to fix xen-guest-image-minimal for non-x86 builds,
+whilst preserving compatibility with x86.
 
-Bruce
+x11 package inclusion is optional for both x86 and non-x86.
 
-On Fri, Sep 1, 2017 at 11:11 AM, Alexandru Tiniuc <
-tiniuc.alexandru@gmail.com> wrote:
+Re: May 2017 thread:
+"[meta-virtualization] [meta-xilinx] Trying to build xen-guest-image-minimal"
+https://lists.yoctoproject.org/pipermail/meta-virtualization/2017-May/002556.html
 
-> While the recipe was functional under an image based on core-image-
-> full-cmdline, when tested with core-image-minimal runtime issues
-> appeared: Singularity was unable to create a filesystem within the
-> container. This change fixes this issue.
->
-> Signed-off-by: Alexandru Tiniuc <tiniuc.alexandru@gmail.com>
-> ---
->  recipes-containers/singularity/singularity_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-containers/singularity/singularity_git.bb
-> b/recipes-containers/singularity/singularity_git.bb
-> index 8b97740..6fee8f3 100644
-> --- a/recipes-containers/singularity/singularity_git.bb
-> +++ b/recipes-containers/singularity/singularity_git.bb
-> @@ -2,7 +2,7 @@
->  # Singularity build / config: read up on the dev-so test for more info)
->  INSANE_SKIP_${PN} += "dev-so"
->
-> -RDEPENDS_${PN} += "glibc python3 ca-certificates openssl bash"
-> +RDEPENDS_${PN} += "glibc python3 ca-certificates openssl bash
-> e2fsprogs-mke2fs"
->  # Singularity expects to find python3 under the name python, therefore
-> both
->  # cannot be installed at the same time.
->  RCONFLICTS_${PN} = "python"
-> --
-> 2.1.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+Feedback would be appreciated, especially on:
 
+1) Whether this addresses the needs of meta-xzd, enabling replacement of
+   xzd-domu-image-minimal.bb with a bbappend of this recipe.
 
+2) The correctness of aspects of the patch:
+
+* It switches to use IMAGE_FEATURES rather than DISTRO_FEATURES for
+  specifying the inclusion of x11 packages in the image; this seems more
+  correct for an image recipe.
+  DISTRO_FEATURES appears to default to x11 enabled, IMAGE_FEATURES does not.
+
+* It introduces a bbappend for xserver-xorg to modify the default
+  Xserver configuration for non-x86 builds where DISTRO_FEATURES
+  includes 'xen', to drop dependencies on egl. In build tests, this has
+  simplified satisfying dependencies for building x11 for domU.
+
+* Compatibility with Xilinx hardware profiles and software layers.
+  I have not verified this. I have build tested x86 with
+  MACHINE=genericx86-64 and ARM with MACHINE=cubietruck, using meta-sunxi.
+
+Thanks for your interest and attention.
+
+Christopher Clark (1):
+  xen-guest-image-minimal: Fix non-x86. Select x11 via IMAGE_FEATURES.
+
+ recipes-extended/images/xen-guest-image-minimal.bb    | 16 +++++++++++++---
+ recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend | 14 ++++++++++++++
+ 2 files changed, 27 insertions(+), 3 deletions(-)
+ create mode 100644 recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.7.4
 
---f403045f883e164bef0558748cb0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Fri, Sep 1, 2017 at 11:11 AM=
-, Alexandru Tiniuc <span dir=3D"ltr">&lt;<a href=3D"mailto:tiniuc.alexandru=
-@gmail.com" target=3D"_blank">tiniuc.alexandru@gmail.com</a>&gt;</span> wro=
-te:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">While the recipe was functional under=
- an image based on core-image-<br>
-full-cmdline, when tested with core-image-minimal runtime issues<br>
-appeared: Singularity was unable to create a filesystem within the<br>
-container. This change fixes this issue.<br>
-<br>
-Signed-off-by: Alexandru Tiniuc &lt;<a href=3D"mailto:tiniuc.alexandru@gmai=
-l.com">tiniuc.alexandru@gmail.com</a>&gt;<br>
----<br>
-=C2=A0recipes-containers/<wbr>singularity/<a href=3D"http://singularity_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">singularity_git.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/recipes-containers/<wbr>singularity/<a href=3D"http://singular=
-ity_git.bb" rel=3D"noreferrer" target=3D"_blank">singularity_git.bb</a> b/r=
-ecipes-containers/<wbr>singularity/<a href=3D"http://singularity_git.bb" re=
-l=3D"noreferrer" target=3D"_blank">singularity_git.bb</a><br>
-index 8b97740..6fee8f3 100644<br>
---- a/recipes-containers/<wbr>singularity/<a href=3D"http://singularity_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">singularity_git.bb</a><br>
-+++ b/recipes-containers/<wbr>singularity/<a href=3D"http://singularity_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">singularity_git.bb</a><br>
-@@ -2,7 +2,7 @@<br>
-=C2=A0# Singularity build / config: read up on the dev-so test for more inf=
-o)<br>
-=C2=A0INSANE_SKIP_${PN} +=3D &quot;dev-so&quot;<br>
-<br>
--RDEPENDS_${PN} +=3D &quot;glibc python3 ca-certificates openssl bash&quot;=
-<br>
-+RDEPENDS_${PN} +=3D &quot;glibc python3 ca-certificates openssl bash e2fsp=
-rogs-mke2fs&quot;<br>
-=C2=A0# Singularity expects to find python3 under the name python, therefor=
-e both<br>
-=C2=A0# cannot be installed at the same time.<br>
-=C2=A0RCONFLICTS_${PN} =3D &quot;python&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.1.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
-
---f403045f883e164bef0558748cb0--
