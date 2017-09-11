@@ -1,36 +1,71 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7ADEFE00CD2; Fri,  8 Sep 2017 14:02:39 -0700 (PDT)
+	id 51ECCE00C44; Sun, 10 Sep 2017 19:36:34 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.213.48 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 22EBEE00B01
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
+	[209.85.213.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D28B1E00C01
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  8 Sep 2017 14:02:37 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v88L2a7o015581
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun, 10 Sep 2017 19:36:32 -0700 (PDT)
+Received: by mail-vk0-f48.google.com with SMTP id x85so8441196vkx.5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 8 Sep 2017 14:02:37 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 8 Sep 2017 14:02:35 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Fri, 8 Sep 2017 17:02:31 -0400
-Message-ID: <1504904551-18649-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Sun, 10 Sep 2017 19:36:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=4rKO3HyRcbVCEizd3lhuleJuzZCuC9W/vgsD/c2fftM=;
+	b=os0flm9G2gJRKIJAEKQQ9ASHsTgH0aRzDC4NBuAJ6GaXwugYbdPUxe6t7Fv+bRZDKq
+	ff0OKOechqdD/y1za5iPqxXBnyvz5AUBteYA7aA8E3qd80551nBmNq3YqSbqtj+unZVp
+	PJbfET88W5xZJ/0YQSqI28jIIKOrHW5FedZoMADaTPWB9t9TsbcTX965zb3x33U85iK0
+	XKFg/0rfI/Qj/lCaibAoGEbsRQUB5prQKq0/DldYKkxHnLGNykNe0tU4BowH/IEG47nu
+	+IgpyWWqk2vFJJWPTaC5575pAMLlhwQ2HsrNZEBuw7kkMGPqrM6ZXjWeYGqXpby7/teN
+	aqjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=4rKO3HyRcbVCEizd3lhuleJuzZCuC9W/vgsD/c2fftM=;
+	b=P4ah9brGhYRfrtwx79xynzCaq21i9zMc7iqlFPEhVwNsnp/KfUCknfUm/h1yaJWI5D
+	U4Cq6mlIMvARVFyhVRG3GgIqX5b1yPLKEbXP1YK/F+0Jt4xchA1WuCnPmp4vI9bNFlfs
+	3Ditv5NizpnJjTxjX0XyE7wBYHybxlT7NzzaXSs0BrAVoCYBWLUaapDP5il6UFdHtIgU
+	nuXGmxYoM83jhHLnuCcD3UOHJo/sUhKHeZrmsz9eBVABFRRK1gOvH66/0XTwkVrjsa3a
+	e7xM9pMl/LPqxlq6R928d2rcmag4y19tbq7SoatfPHSfblpIRiqvYjdGPL8IungIxSJL
+	W2Rw==
+X-Gm-Message-State: AHPjjUiot6nqezDlMKC6DQs1zHG1+tsPUW9ol0HWVYtIpqJLL6qZYLDC
+	1s5GxPLW9wMFlv2ht0+KrYx1CY00FQ==
+X-Google-Smtp-Source: AOwi7QBDAb2c0zk8/NvuQlnE7oVWJnJHcYR+Ld2gRiWcKrSjnm0iOenAxa5WkVW6WBjXQNOftHiwcbnieLZGSw8FrPc=
+X-Received: by 10.31.69.129 with SMTP id s123mr6190123vka.188.1505097391709;
+	Sun, 10 Sep 2017 19:36:31 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] criu: uprev to version 3.4
+Received: by 10.159.34.235 with HTTP; Sun, 10 Sep 2017 19:36:31 -0700 (PDT)
+In-Reply-To: <CAPuovE+1JDWEFLE2cegQ3DZq67ViPJdQp5Tv4jP-FytBG7tSyA@mail.gmail.com>
+References: <1504079755-13075-1-git-send-email-jianchuan.wang@windriver.com>
+	<CADkTA4OZtPHTTCY_WH0sioHcPEe=6_=WEJj9YCvugtdJcx4sLQ@mail.gmail.com>
+	<CAPuovE+1JDWEFLE2cegQ3DZq67ViPJdQp5Tv4jP-FytBG7tSyA@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 10 Sep 2017 22:36:31 -0400
+Message-ID: <CADkTA4P2z8tbEPjisiy4PQ-dHW6MHxDH02-iwARemxtT=jMbSg@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] criu: Correct the installation directory for python modules
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,328 +78,363 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Sep 2017 21:02:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 11 Sep 2017 02:36:34 -0000
+Content-Type: multipart/alternative; boundary="001a114da5c462a3e30558e0cbe3"
 
-Our current version of criu is about a year old and has some
-compilation issues with the latest gcc (currently it is
-unbuildable). Since the version of criu and the kernel version are
-fairly tightly coupled it wouldn't be surprising of this old criu
-would also be exhibiting some runtime issues with our fairly new
-kernel version.
+--001a114da5c462a3e30558e0cbe3
+Content-Type: text/plain; charset="UTF-8"
 
-With the above in mind we uprev to criu v3.4 which was recently
-released. This requires several of the patches to be updated (mostly
-context). We are able to drop the selinux related change as RSS
-prevents the situation this was working around from happenning.
+On Fri, Sep 8, 2017 at 2:17 PM, Mark Asselstine <
+mark.asselstine@windriver.com> wrote:
 
-This was validated using https://criu.org/Simple_loop (and a few
-variants).
+> On Thu, Aug 31, 2017 at 3:24 PM, Bruce Ashfield
+> <bruce.ashfield@gmail.com> wrote:
+> > merged
+>
+>
+> Bruce,
+>
+> Can you please revert this change? This will cause a patch failure for
+> the criu package as there is already a change which addresses this
+> issue (see commit d3c6004e92bf21f7f2b425d062b6276ff53c8c18 -- criu:
+> force python to install in ${libdir}).
+>
+> Unfortunately Jianchuan's commit log for the commit and the patch
+> itself provide no information on what is being fixed. The obvious
+> patch conflict leads me to believe this was not actually tested with
+> the existing fix.
+>
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
+Agreed. This is now reverted and your uprev pushed.
 
-Bruce, This depends on the revert of commit
-d3c6004e92bf21f7f2b425d062b6276ff53c8c18 per the email thread around
-that merge.
+Bruce
 
 
- recipes-containers/criu/criu_git.bb                | 13 +++--
- ...1-criu-Change-libraries-install-directory.patch | 25 +++++-----
- .../files/0001-criu-Fix-toolchain-hardcode.patch   | 57 +++++++++-------------
- .../criu/files/disable-selinux.patch               | 39 ---------------
- ...e-overwrite-install-lib-to-allow-multiarc.patch | 16 +++---
- 5 files changed, 52 insertions(+), 98 deletions(-)
- delete mode 100644 recipes-containers/criu/files/disable-selinux.patch
+>
+> Thanks,
+> Mark
+>
+>
+> >
+> > Bruce
+> >
+> > On Wed, Aug 30, 2017 at 3:55 AM, <jianchuan.wang@windriver.com> wrote:
+> >>
+> >> From: Jianchuan Wang <jianchuan.wang@windriver.com>
+> >>
+> >> Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+> >> ---
+> >>  recipes-containers/criu/criu_git.bb                |  2 ++
+> >>  ...t-the-installation-directory-for-python-m.patch | 29
+> >> ++++++++++++++++++++++
+> >>  2 files changed, 31 insertions(+)
+> >>  create mode 100644
+> >> recipes-containers/criu/files/0001-criu-Correct-the-
+> installation-directory-for-python-m.patch
+> >>
+> >> diff --git a/recipes-containers/criu/criu_git.bb
+> >> b/recipes-containers/criu/criu_git.bb
+> >> index 849a832..2df203e 100644
+> >> --- a/recipes-containers/criu/criu_git.bb
+> >> +++ b/recipes-containers/criu/criu_git.bb
+> >> @@ -21,6 +21,7 @@ SRC_URI = "git://github.com/xemul/criu.
+> git;protocol=git
+> >> \
+> >>             file://0001-criu-Fix-toolchain-hardcode.patch \
+> >>             file://0002-criu-Skip-documentation-install.patch \
+> >>             file://0001-criu-Change-libraries-install-directory.patch \
+> >> +
+> >> file://0001-criu-Correct-the-installation-directory-for-python-m.patch
+> \
+> >>             ${@bb.utils.contains('PACKAGECONFIG', 'selinux', '',
+> >> 'file://disable-selinux.patch', d)} \
+> >>
+> >> file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
+> >>            "
+> >> @@ -43,6 +44,7 @@ EXTRA_OEMAKE_aarch64 += "ARCH=arm64 WERROR=0"
+> >>
+> >>  EXTRA_OEMAKE_append += "SBINDIR=${sbindir} LIBDIR=${libdir}
+> >> INCLUDEDIR=${includedir} PIEGEN=no"
+> >>  EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir}
+> >> SYSTEMDUNITDIR=${systemd_unitdir}"
+> >> +EXTRA_OEMAKE_append +=
+> >> "PYTHON_SITEPACKAGES_DIR=${PYTHON_SITEPACKAGES_DIR}"
+> >>
+> >>  CFLAGS += "-D__USE_GNU -D_GNU_SOURCE "
+> >>
+> >> diff --git
+> >> a/recipes-containers/criu/files/0001-criu-Correct-the-
+> installation-directory-for-python-m.patch
+> >> b/recipes-containers/criu/files/0001-criu-Correct-the-
+> installation-directory-for-python-m.patch
+> >> new file mode 100644
+> >> index 0000000..0439b3c
+> >> --- /dev/null
+> >> +++
+> >> b/recipes-containers/criu/files/0001-criu-Correct-the-
+> installation-directory-for-python-m.patch
+> >> @@ -0,0 +1,29 @@
+> >> +From 29865b7e9288a60aca151df323ee89c0952e8158 Mon Sep 17 00:00:00 2001
+> >> +From: Jianchuan Wang <jianchuan.wang@windriver.com>
+> >> +Date: Thu, 3 Nov 2016 01:33:57 -0400
+> >> +Subject: [PATCH] criu: Correct the installation directory for python
+> >> module
+> >> + distributions
+> >> +
+> >> +Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
+> >> +---
+> >> + lib/Makefile | 4 ++--
+> >> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> >> +
+> >> +diff --git a/lib/Makefile b/lib/Makefile
+> >> +index f1c0821..c3003a5 100644
+> >> +--- a/lib/Makefile
+> >> ++++ b/lib/Makefile
+> >> +@@ -55,8 +55,8 @@ install: lib-c lib-py ../crit/crit c/criu.pc.in
+> >> +       $(Q) mkdir -p $(DESTDIR)$(LIBDIR)/pkgconfig
+> >> +       $(Q) sed -e 's,@version@,$(CRIU_VERSION),' -e
+> >> 's,@libdir@,$(LIBDIR),' -e 's,@includedir@,$(dir $(INCLUDEDIR)),'
+> >> c/criu.pc.in > c/criu.pc
+> >> +       $(Q) install -m 644 c/criu.pc $(DESTDIR)$(LIBDIR)/pkgconfig
+> >> +-      $(E) "  INSTALL " crit
+> >> +-      $(Q) python ../scripts/crit-setup.py install --root=$(DESTDIR)
+> >> --prefix=$(PREFIX) --record $(CRIT_SETUP_FILES)
+> >> ++      $(E) "  INSTALL " crit
+> >> ++      $(Q) python ../scripts/crit-setup.py install --root=$(DESTDIR)
+> >> --prefix=$(PREFIX) --install-lib=$(PYTHON_SITEPACKAGES_DIR) --record
+> >> $(CRIT_SETUP_FILES)
+> >> + .PHONY: install
+> >> +
+> >> + uninstall:
+> >> +--
+> >> +2.8.1
+> >> +
+> >> --
+> >> 2.7.4
+> >>
+> >> --
+> >> _______________________________________________
+> >> meta-virtualization mailing list
+> >> meta-virtualization@yoctoproject.org
+> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >
+> >
+> >
+> >
+> > --
+> > "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at
+> > its end"
+> >
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >
+>
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-index 849a832..3a02103 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_git.bb
-@@ -13,21 +13,19 @@ EXCLUDE_FROM_WORLD = "1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
- 
--SRCREV = "c031417255f6a5c4409d15ff0b36af5f6e90c559"
--PR = "r0"
--PV = "2.5+git${SRCPV}"
-+SRCREV = "a31c1854e10580a09621e539c3ec052b875a8e06"
-+PV = "3.4+git${SRCPV}"
- 
- SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
-            file://0001-criu-Fix-toolchain-hardcode.patch \
-            file://0002-criu-Skip-documentation-install.patch \
-            file://0001-criu-Change-libraries-install-directory.patch \
--           ${@bb.utils.contains('PACKAGECONFIG', 'selinux', '', 'file://disable-selinux.patch', d)} \
-            file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
-           "
- 
- COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
- 
--DEPENDS += "libnl libcap protobuf-c-native protobuf-c util-linux-native libbsd"
-+DEPENDS += "libnl libcap protobuf-c-native protobuf-c util-linux-native libbsd libnet"
- RDEPENDS_${PN} = "bash"
- 
- S = "${WORKDIR}/git"
-@@ -78,3 +76,8 @@ FILES_${PN} += "${systemd_unitdir}/ \
-             ${libdir}/pycriu/ \
-             ${libdir}/crit-0.0.1-py2.7.egg-info \
-             "
-+
-+FILES_${PN}-staticdev += " \
-+            ${libexecdir}/compel/std.lib.a \
-+            ${libexecdir}/compel/fds.lib.a \
-+            "
-diff --git a/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch b/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-index a721405..4908e47 100644
---- a/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-+++ b/recipes-containers/criu/files/0001-criu-Change-libraries-install-directory.patch
-@@ -1,26 +1,26 @@
--From 7ebde06e00b591a88397dad74a1aa47fd562eb50 Mon Sep 17 00:00:00 2001
--From: Jianchuan Wang <jianchuan.wang@windriver.com>
--Date: Tue, 16 Aug 2016 09:48:08 +0800
--Subject: [PATCH 1/2] criu: Change libraries install directory
-+From 78390305829316633acee2ca5607331b0e37a104 Mon Sep 17 00:00:00 2001
-+From: Mark Asselstine <mark.asselstine@windriver.com>
-+Date: Fri, 8 Sep 2017 15:11:31 -0400
-+Subject: [PATCH] criu: Change libraries install directory
- 
- Install the libraries into /usr/lib(or /usr/lib64)
- 
- Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
- ---
-  Makefile.install | 13 -------------
-  1 file changed, 13 deletions(-)
- 
- diff --git a/Makefile.install b/Makefile.install
--index dbc22e1..a30dc96 100644
-+index 3987bcc..73d98a4 100644
- --- a/Makefile.install
- +++ b/Makefile.install
--@@ -11,19 +11,6 @@ LIBDIR		?= $(PREFIX)/lib
-- INCLUDEDIR	?= $(PREFIX)/include/criu
-- LIBEXECDIR	?= $(PREFIX)/libexec
-+@@ -9,19 +9,6 @@ LIBEXECDIR	?= $(PREFIX)/libexec
-+ RUNDIR		?= /run
-  
---#
-+ #
- -# For recent Debian/Ubuntu with multiarch support.
---DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH 2>/dev/null)
-+-DEB_HOST_MULTIARCH := $(shell dpkg-architecture -qDEB_HOST_MULTIARCH 2>/dev/null)
- -ifneq "$(DEB_HOST_MULTIARCH)" ""
- -        LIBDIR			?= $(PREFIX)/lib/$(DEB_HOST_MULTIARCH)
- -else
-@@ -31,8 +31,9 @@ index dbc22e1..a30dc96 100644
- -        endif
- -endif
- -
-- export BINDIR SBINDIR MANDIR SYSTEMDUNITDIR LOGROTATEDIR
-- export INCLUDEDIR LIBDIR DESTDIR PREFIX LIBEXECDIR
-+-#
-+ # LIBDIR falls back to the standard path.
-+ LIBDIR ?= $(PREFIX)/lib
-  
- -- 
- 2.7.4
-diff --git a/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch b/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch
-index d30f2ac..dc5b897 100644
---- a/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch
-+++ b/recipes-containers/criu/files/0001-criu-Fix-toolchain-hardcode.patch
-@@ -1,6 +1,6 @@
--From 057d30f15e81dcc4162d6fbee06f126564596397 Mon Sep 17 00:00:00 2001
--From: Jianchuan Wang <jianchuan.wang@windriver.com>
--Date: Wed, 7 Sep 2016 23:55:15 -0400
-+From af679853a45fe63f680c99e70416c8ac620d23b8 Mon Sep 17 00:00:00 2001
-+From: Mark Asselstine <mark.asselstine@windriver.com>
-+Date: Fri, 8 Sep 2017 15:02:14 -0400
- Subject: [PATCH] criu: Fix toolchain hardcode
- 
- Replace ":=" to "?=" so that the toolchain used by bitbake build system will
-@@ -8,45 +8,32 @@ be taken.
- 
- Signed-off-by: Yang Shi <yang.shi@windriver.com>
- Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
- ---
-  Makefile                       |  2 +-
-- criu/pie/Makefile              |  2 +-
-  scripts/nmk/scripts/include.mk |  2 +-
-  scripts/nmk/scripts/tools.mk   | 40 ++++++++++++++++++++--------------------
-- 4 files changed, 23 insertions(+), 23 deletions(-)
-+ 3 files changed, 22 insertions(+), 22 deletions(-)
- 
- diff --git a/Makefile b/Makefile
--index 52cbd6a..f66279b 100644
-+index f2583a2..d7f51e5 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -60,7 +60,7 @@ LDARCH			?= $(SRCARCH)
-- 
-- export SRCARCH LDARCH VDSO
-+@@ -17,7 +17,7 @@ ifeq ($(origin HOSTCFLAGS), undefined)
-+         HOSTCFLAGS := $(CFLAGS) $(USERCFLAGS)
-+ endif
-  
- -UNAME-M := $(shell uname -m)
- +UNAME-M ?= $(shell uname -m)
-- export UNAME-M
-  
-- ifeq ($(ARCH),arm)
--diff --git a/criu/pie/Makefile b/criu/pie/Makefile
--index 125b02f..9975871 100644
----- a/criu/pie/Makefile
--+++ b/criu/pie/Makefile
--@@ -17,7 +17,7 @@ restorer-obj-e		+= ./$(ARCH_DIR)/syscalls.built-in.o
-  #
-- CFLAGS			:= $(filter-out -pg $(CFLAGS-GCOV),$(CFLAGS))
-- CFLAGS			+= -iquote $(SRC_DIR)/criu/pie/piegen
---CFLAGS			+= -iquote $(SRC_DIR)/criu/arch/$(ARCH)/include
--+CFLAGS			+= -iquote $(SRC_DIR)/criu/arch/$(SRCARCH)/include
-- CFLAGS			+= -iquote $(SRC_DIR)/criu/include
-- CFLAGS			+= -iquote $(SRC_DIR)
-- 
-+ # Supported Architectures
- diff --git a/scripts/nmk/scripts/include.mk b/scripts/nmk/scripts/include.mk
--index 4c496f7..a7250cd 100644
-+index 04ccb3a..0d63bc7 100644
- --- a/scripts/nmk/scripts/include.mk
- +++ b/scripts/nmk/scripts/include.mk
- @@ -20,7 +20,7 @@ SUBARCH := $(shell uname -m | sed       \
--                 -e s/aarch64.*/arm64/)
-+                 -e s/aarch64.*/aarch64/)
-  
-  ARCH		?= $(SUBARCH)
- -SRCARCH 	:= $(ARCH)
-@@ -55,16 +42,20 @@ index 4c496f7..a7250cd 100644
-  export SUBARCH ARCH SRCARCH
-  
- diff --git a/scripts/nmk/scripts/tools.mk b/scripts/nmk/scripts/tools.mk
--index 0538dde..e4af068 100644
-+index 56dba84..1698821 100644
- --- a/scripts/nmk/scripts/tools.mk
- +++ b/scripts/nmk/scripts/tools.mk
--@@ -2,28 +2,28 @@ ifndef ____nmk_defined__tools
-+@@ -2,30 +2,30 @@ ifndef ____nmk_defined__tools
-  
-  #
-  # System tools shorthands
- -RM		:= rm -f
---LD		:= $(CROSS_COMPILE)ld
---CC		:= $(CROSS_COMPILE)gcc
-++RM		?= rm -f
-+ HOSTLD		?= ld
-+-LD		:= $(CROSS_COMPILE)$(HOSTLD)
-++LD		?= $(CROSS_COMPILE)$(HOSTLD)
-+ HOSTCC		?= gcc
-+-CC		:= $(CROSS_COMPILE)$(HOSTCC)
- -CPP		:= $(CC) -E
- -AS		:= $(CROSS_COMPILE)as
- -AR		:= $(CROSS_COMPILE)ar
-@@ -79,9 +70,7 @@ index 0538dde..e4af068 100644
- -PYTHON		:= python
- -FIND		:= find
- -SH		:= $(shell if [ -x "$$BASH" ]; then echo $$BASH;        \
--+RM		?= rm -f
--+LD		?= $(CROSS_COMPILE)ld
--+CC		?= $(CROSS_COMPILE)gcc
-++CC		?= $(CROSS_COMPILE)$(HOSTCC)
- +CPP		?= $(CC) -E
- +AS		?= $(CROSS_COMPILE)as
- +AR		?= $(CROSS_COMPILE)ar
-@@ -105,8 +94,8 @@ index 0538dde..e4af068 100644
- +ETAGS		?= etags
- +CTAGS		?= ctags
-  
-- export RM LD CC CPP AS AR STRIP OBJCOPY OBJDUMP
-+ export RM HOSTLD LD HOSTCC CC CPP AS AR STRIP OBJCOPY OBJDUMP
-  export NM SH MAKE MKDIR AWK PERL PYTHON SH CSCOPE
- -- 
--2.8.1
-+2.7.4
- 
-diff --git a/recipes-containers/criu/files/disable-selinux.patch b/recipes-containers/criu/files/disable-selinux.patch
-deleted file mode 100644
-index 5d5d035..0000000
---- a/recipes-containers/criu/files/disable-selinux.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From bd2eeaddfc1f12f87184d870cc9a1adde1cf0b10 Mon Sep 17 00:00:00 2001
--From: Mark Asselstine <mark.asselstine@windriver.com>
--Date: Mon, 24 Apr 2017 13:08:48 -0400
--Subject: [PATCH] criu/Makefile.config: explicitly remove selinux support
--
--Upstream-Status: Inappropriate [disable feature]
--
--It shows warning when build crius if libselinux has been built already:
--
--  WARNING: QA Issue: criu rdepends on libselinux, but it isn't a build dependency? [build-deps]
--
--Apply this patch to disable selinux support when 'selinux' is not in PACKAGECONF.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--[MA: Context updated to apply against criu v2.5]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-----
-- criu/Makefile.config | 5 -----
-- 1 file changed, 5 deletions(-)
--
--diff --git a/criu/Makefile.config b/criu/Makefile.config
--index f531b3b..37216f8 100644
----- a/criu/Makefile.config
--+++ b/criu/Makefile.config
--@@ -7,11 +7,6 @@ ifeq ($(call try-cc,$(FEATURE_TEST_LIBBSD_DEV),-lbsd),true)
--         FEATURE_DEFINES	+= -DCONFIG_HAS_LIBBSD
-- endif
-- 
---ifeq ($(call pkg-config-check,libselinux),y)
---        LIBS		+= -lselinux
---        FEATURE_DEFINES	+= -DCONFIG_HAS_SELINUX
---endif
---
-- export DEFINES += $(FEATURE_DEFINES)
-- export CFLAGS += $(FEATURE_DEFINES)
-- 
---- 
--2.7.4
--
-diff --git a/recipes-containers/criu/files/lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch b/recipes-containers/criu/files/lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch
-index 8bda8c4..c2512a0 100644
---- a/recipes-containers/criu/files/lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch
-+++ b/recipes-containers/criu/files/lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch
-@@ -1,6 +1,6 @@
--From 2e0c5c66786016f6443da2c1ff15ad77f018ec9b Mon Sep 17 00:00:00 2001
-+From 89f9b87904bd312b817ffaa7d83abfd5e84d723d Mon Sep 17 00:00:00 2001
- From: Mark Asselstine <mark.asselstine@windriver.com>
--Date: Mon, 24 Apr 2017 16:12:05 -0400
-+Date: Fri, 8 Sep 2017 15:40:49 -0400
- Subject: [PATCH] lib/Makefile: overwrite install-lib, to allow multiarch
- 
- I am not sure why Yocto installs python modules in arch specific
-@@ -13,15 +13,15 @@ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/lib/Makefile b/lib/Makefile
--index f1c0821..c714d12 100644
-+index b1bb057..06f5c5d 100644
- --- a/lib/Makefile
- +++ b/lib/Makefile
--@@ -56,7 +56,7 @@ install: lib-c lib-py ../crit/crit c/criu.pc.in
-- 	$(Q) sed -e 's,@version@,$(CRIU_VERSION),' -e 's,@libdir@,$(LIBDIR),' -e 's,@includedir@,$(dir $(INCLUDEDIR)),' c/criu.pc.in > c/criu.pc
-- 	$(Q) install -m 644 c/criu.pc $(DESTDIR)$(LIBDIR)/pkgconfig
-+@@ -56,7 +56,7 @@ install: lib-c lib-py crit/crit lib/c/criu.pc.in
-+ 	$(Q) sed -e 's,@version@,$(CRIU_VERSION),' -e 's,@libdir@,$(LIBDIR),' -e 's,@includedir@,$(dir $(INCLUDEDIR)/criu/),' lib/c/criu.pc.in > lib/c/criu.pc
-+ 	$(Q) install -m 644 lib/c/criu.pc $(DESTDIR)$(LIBDIR)/pkgconfig
-  	$(E) "  INSTALL " crit
---	$(Q) python ../scripts/crit-setup.py install --root=$(DESTDIR) --prefix=$(PREFIX) --record $(CRIT_SETUP_FILES)
--+	$(Q) python ../scripts/crit-setup.py install --root=$(DESTDIR) --prefix=$(PREFIX) --record $(CRIT_SETUP_FILES) --install-lib=$(INSTALL_LIB)
-+-	$(Q) $(PYTHON_BIN) scripts/crit-setup.py install --prefix=$(DESTDIR)$(PREFIX) --record $(CRIT_SETUP_FILES)
-++	$(Q) $(PYTHON_BIN) scripts/crit-setup.py install --prefix=$(DESTDIR)$(PREFIX) --record $(CRIT_SETUP_FILES) --install-lib=$(DESTDIR)$(INSTALL_LIB)
-  .PHONY: install
-  
-  uninstall:
+
+
 -- 
-2.7.4
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
+--001a114da5c462a3e30558e0cbe3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Fri, Sep 8, 2017 at 2:17 PM, Mark Asselstine <span dir=3D"ltr">&lt;<=
+a href=3D"mailto:mark.asselstine@windriver.com" target=3D"_blank">mark.asse=
+lstine@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+">On Thu, Aug 31, 2017 at 3:24 PM, Bruce Ashfield<br>
+&lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a=
+>&gt; wrote:<br>
+&gt; merged<br>
+<br>
+<br>
+Bruce,<br>
+<br>
+Can you please revert this change? This will cause a patch failure for<br>
+the criu package as there is already a change which addresses this<br>
+issue (see commit d3c6004e92bf21f7f2b425d062b627<wbr>6ff53c8c18 -- criu:<br=
+>
+force python to install in ${libdir}).<br>
+<br>
+Unfortunately Jianchuan&#39;s commit log for the commit and the patch<br>
+itself provide no information on what is being fixed. The obvious<br>
+patch conflict leads me to believe this was not actually tested with<br>
+the existing fix.<br></blockquote><div><br></div><div>Agreed. This is now r=
+everted and your uprev pushed.</div><div><br></div><div>Bruce</div><div>=C2=
+=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">
+<br>
+Thanks,<br>
+Mark<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+<br>
+&gt;<br>
+&gt; Bruce<br>
+&gt;<br>
+&gt; On Wed, Aug 30, 2017 at 3:55 AM, &lt;<a href=3D"mailto:jianchuan.wang@=
+windriver.com">jianchuan.wang@windriver.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; From: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang@windrive=
+r.com">jianchuan.wang@windriver.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang=
+@windriver.com">jianchuan.wang@windriver.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">criu_<wbr>git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
+&gt;&gt;=C2=A0 ...t-the-installation-<wbr>directory-for-python-m.patch | 29=
+<br>
+&gt;&gt; ++++++++++++++++++++++<br>
+&gt;&gt;=C2=A0 2 files changed, 31 insertions(+)<br>
+&gt;&gt;=C2=A0 create mode 100644<br>
+&gt;&gt; recipes-containers/criu/files/<wbr>0001-criu-Correct-the-<wbr>inst=
+allation-directory-for-<wbr>python-m.patch<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/recipes-containers/criu/<a href=3D"http://criu_git.bb=
+" rel=3D"noreferrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
+&gt;&gt; b/recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=3D"no=
+referrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
+&gt;&gt; index 849a832..2df203e 100644<br>
+&gt;&gt; --- a/recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
+&gt;&gt; +++ b/recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
+&gt;&gt; @@ -21,6 +21,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github=
+.com/xemul/criu.git;protocol=3Dgit" rel=3D"noreferrer" target=3D"_blank">gi=
+thub.com/xemul/criu.<wbr>git;protocol=3Dgit</a><br>
+&gt;&gt; \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-criu-Fi=
+x-<wbr>toolchain-hardcode.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-criu-Sk=
+ip-<wbr>documentation-install.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-criu-Ch=
+ange-<wbr>libraries-install-directory.<wbr>patch \<br>
+&gt;&gt; +<br>
+&gt;&gt; file://0001-criu-Correct-the-<wbr>installation-directory-for-<wbr>=
+python-m.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contain=
+s(&#39;<wbr>PACKAGECONFIG&#39;, &#39;selinux&#39;, &#39;&#39;,<br>
+&gt;&gt; &#39;file://disable-selinux.patch&#39;<wbr>, d)} \<br>
+&gt;&gt;<br>
+&gt;&gt; file://lib-Makefile-overwrite-<wbr>install-lib-to-allow-multiarc.<=
+wbr>patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;&gt; @@ -43,6 +44,7 @@ EXTRA_OEMAKE_aarch64 +=3D &quot;ARCH=3Darm64 WER=
+ROR=3D0&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 EXTRA_OEMAKE_append +=3D &quot;SBINDIR=3D${sbindir} LIBDIR=
+=3D${libdir}<br>
+&gt;&gt; INCLUDEDIR=3D${includedir} PIEGEN=3Dno&quot;<br>
+&gt;&gt;=C2=A0 EXTRA_OEMAKE_append +=3D &quot;LOGROTATEDIR=3D${sysconfdir}<=
+br>
+&gt;&gt; SYSTEMDUNITDIR=3D${systemd_<wbr>unitdir}&quot;<br>
+&gt;&gt; +EXTRA_OEMAKE_append +=3D<br>
+&gt;&gt; &quot;PYTHON_SITEPACKAGES_DIR=3D${<wbr>PYTHON_SITEPACKAGES_DIR}&qu=
+ot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 CFLAGS +=3D &quot;-D__USE_GNU -D_GNU_SOURCE &quot;<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git<br>
+&gt;&gt; a/recipes-containers/criu/<wbr>files/0001-criu-Correct-the-<wbr>in=
+stallation-directory-for-<wbr>python-m.patch<br>
+&gt;&gt; b/recipes-containers/criu/<wbr>files/0001-criu-Correct-the-<wbr>in=
+stallation-directory-for-<wbr>python-m.patch<br>
+&gt;&gt; new file mode 100644<br>
+&gt;&gt; index 0000000..0439b3c<br>
+&gt;&gt; --- /dev/null<br>
+&gt;&gt; +++<br>
+&gt;&gt; b/recipes-containers/criu/<wbr>files/0001-criu-Correct-the-<wbr>in=
+stallation-directory-for-<wbr>python-m.patch<br>
+&gt;&gt; @@ -0,0 +1,29 @@<br>
+&gt;&gt; +From 29865b7e9288a60aca151df323ee89<wbr>c0952e8158 Mon Sep 17 00:=
+00:00 2001<br>
+&gt;&gt; +From: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang@windriv=
+er.com">jianchuan.wang@windriver.com</a>&gt;<br>
+&gt;&gt; +Date: Thu, 3 Nov 2016 01:33:57 -0400<br>
+&gt;&gt; +Subject: [PATCH] criu: Correct the installation directory for pyt=
+hon<br>
+&gt;&gt; module<br>
+&gt;&gt; + distributions<br>
+&gt;&gt; +<br>
+&gt;&gt; +Signed-off-by: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wan=
+g@windriver.com">jianchuan.wang@windriver.com</a>&gt;<br>
+&gt;&gt; +---<br>
+&gt;&gt; + lib/Makefile | 4 ++--<br>
+&gt;&gt; + 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt;&gt; +<br>
+&gt;&gt; +diff --git a/lib/Makefile b/lib/Makefile<br>
+&gt;&gt; +index f1c0821..c3003a5 100644<br>
+&gt;&gt; +--- a/lib/Makefile<br>
+&gt;&gt; ++++ b/lib/Makefile<br>
+&gt;&gt; +@@ -55,8 +55,8 @@ install: lib-c lib-py ../crit/crit c/<a href=3D=
+"http://criu.pc.in" rel=3D"noreferrer" target=3D"_blank">criu.pc.in</a><br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q) mkdir -p $(DESTDIR)$(LIBDIR)/pkgc=
+onfig<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q) sed -e &#39;s,@version@,$(CRIU_VE=
+RSION),&#39; -e<br>
+&gt;&gt; &#39;s,@libdir@,$(LIBDIR),&#39; -e &#39;s,@includedir@,$(dir $(INC=
+LUDEDIR)),&#39;<br>
+&gt;&gt; c/<a href=3D"http://criu.pc.in" rel=3D"noreferrer" target=3D"_blan=
+k">criu.pc.in</a> &gt; c/criu.pc<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q) install -m 644 c/criu.pc $(DESTDI=
+R)$(LIBDIR)/pkgconfig<br>
+&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 $(E) &quot;=C2=A0 INSTALL &quot; crit<br>
+&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 $(Q) python ../scripts/crit-setup.py instal=
+l --root=3D$(DESTDIR)<br>
+&gt;&gt; --prefix=3D$(PREFIX) --record $(CRIT_SETUP_FILES)<br>
+&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 $(E) &quot;=C2=A0 INSTALL &quot; crit<br>
+&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 $(Q) python ../scripts/crit-setup.py instal=
+l --root=3D$(DESTDIR)<br>
+&gt;&gt; --prefix=3D$(PREFIX) --install-lib=3D$(PYTHON_<wbr>SITEPACKAGES_DI=
+R) --record<br>
+&gt;&gt; $(CRIT_SETUP_FILES)<br>
+&gt;&gt; + .PHONY: install<br>
+&gt;&gt; +<br>
+&gt;&gt; + uninstall:<br>
+&gt;&gt; +--<br>
+&gt;&gt; +2.8.1<br>
+&gt;&gt; +<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.7.4<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; ______________________________<wbr>_________________<br>
+&gt;&gt; meta-virtualization mailing list<br>
+&gt;&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtu=
+alization@<wbr>yoctoproject.org</a><br>
+&gt;&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualiza=
+tion" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>=
+org/listinfo/meta-<wbr>virtualization</a><br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madness aw=
+ait thee at<br>
+&gt; its end&quot;<br>
+&gt;<br>
+&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; meta-virtualization mailing list<br>
+&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
+ation@<wbr>yoctoproject.org</a><br>
+&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
+" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/=
+listinfo/meta-<wbr>virtualization</a><br>
+&gt;<br>
+</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
+<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
+u shalt not follow the NULL pointer, for chaos and madness await thee at it=
+s end&quot;</div>
+</div></div>
+
+--001a114da5c462a3e30558e0cbe3--
