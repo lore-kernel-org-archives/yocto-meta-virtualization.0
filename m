@@ -1,71 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <pascal.bach@siemens.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 51ECCE00C44; Sun, 10 Sep 2017 19:36:34 -0700 (PDT)
+	id 842C2E00C1A; Wed, 13 Sep 2017 00:09:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.213.48 listed in list.dnswl.org]
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [192.35.17.14 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-vk0-f48.google.com (mail-vk0-f48.google.com
-	[209.85.213.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D28B1E00C01
+X-Greylist: delayed 547 seconds by postgrey-1.32 at yocto-www;
+	Wed, 13 Sep 2017 00:09:37 PDT
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 404D2E00BE8
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 10 Sep 2017 19:36:32 -0700 (PDT)
-Received: by mail-vk0-f48.google.com with SMTP id x85so8441196vkx.5
+	Wed, 13 Sep 2017 00:09:37 -0700 (PDT)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id v8D70Tj3006039
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 10 Sep 2017 19:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=4rKO3HyRcbVCEizd3lhuleJuzZCuC9W/vgsD/c2fftM=;
-	b=os0flm9G2gJRKIJAEKQQ9ASHsTgH0aRzDC4NBuAJ6GaXwugYbdPUxe6t7Fv+bRZDKq
-	ff0OKOechqdD/y1za5iPqxXBnyvz5AUBteYA7aA8E3qd80551nBmNq3YqSbqtj+unZVp
-	PJbfET88W5xZJ/0YQSqI28jIIKOrHW5FedZoMADaTPWB9t9TsbcTX965zb3x33U85iK0
-	XKFg/0rfI/Qj/lCaibAoGEbsRQUB5prQKq0/DldYKkxHnLGNykNe0tU4BowH/IEG47nu
-	+IgpyWWqk2vFJJWPTaC5575pAMLlhwQ2HsrNZEBuw7kkMGPqrM6ZXjWeYGqXpby7/teN
-	aqjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=4rKO3HyRcbVCEizd3lhuleJuzZCuC9W/vgsD/c2fftM=;
-	b=P4ah9brGhYRfrtwx79xynzCaq21i9zMc7iqlFPEhVwNsnp/KfUCknfUm/h1yaJWI5D
-	U4Cq6mlIMvARVFyhVRG3GgIqX5b1yPLKEbXP1YK/F+0Jt4xchA1WuCnPmp4vI9bNFlfs
-	3Ditv5NizpnJjTxjX0XyE7wBYHybxlT7NzzaXSs0BrAVoCYBWLUaapDP5il6UFdHtIgU
-	nuXGmxYoM83jhHLnuCcD3UOHJo/sUhKHeZrmsz9eBVABFRRK1gOvH66/0XTwkVrjsa3a
-	e7xM9pMl/LPqxlq6R928d2rcmag4y19tbq7SoatfPHSfblpIRiqvYjdGPL8IungIxSJL
-	W2Rw==
-X-Gm-Message-State: AHPjjUiot6nqezDlMKC6DQs1zHG1+tsPUW9ol0HWVYtIpqJLL6qZYLDC
-	1s5GxPLW9wMFlv2ht0+KrYx1CY00FQ==
-X-Google-Smtp-Source: AOwi7QBDAb2c0zk8/NvuQlnE7oVWJnJHcYR+Ld2gRiWcKrSjnm0iOenAxa5WkVW6WBjXQNOftHiwcbnieLZGSw8FrPc=
-X-Received: by 10.31.69.129 with SMTP id s123mr6190123vka.188.1505097391709;
-	Sun, 10 Sep 2017 19:36:31 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.159.34.235 with HTTP; Sun, 10 Sep 2017 19:36:31 -0700 (PDT)
-In-Reply-To: <CAPuovE+1JDWEFLE2cegQ3DZq67ViPJdQp5Tv4jP-FytBG7tSyA@mail.gmail.com>
-References: <1504079755-13075-1-git-send-email-jianchuan.wang@windriver.com>
-	<CADkTA4OZtPHTTCY_WH0sioHcPEe=6_=WEJj9YCvugtdJcx4sLQ@mail.gmail.com>
-	<CAPuovE+1JDWEFLE2cegQ3DZq67ViPJdQp5Tv4jP-FytBG7tSyA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 10 Sep 2017 22:36:31 -0400
-Message-ID: <CADkTA4P2z8tbEPjisiy4PQ-dHW6MHxDH02-iwARemxtT=jMbSg@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] criu: Correct the installation directory for python modules
+	Wed, 13 Sep 2017 09:00:29 +0200
+Received: from dev.sbt.siemens.com ([139.16.24.231])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id v8D70SBT018927;
+	Wed, 13 Sep 2017 09:00:28 +0200
+From: Pascal Bach <pascal.bach@siemens.com>
+To: meta-virtualization@yoctoproject.org
+Date: Wed, 13 Sep 2017 09:00:02 +0200
+Message-Id: <1505286002-4595-1-git-send-email-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.1.4
+Subject: [PATCH] python3-docker-compose: add version 1.16.1 + dependencies
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,363 +43,219 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Sep 2017 02:36:34 -0000
-Content-Type: multipart/alternative; boundary="001a114da5c462a3e30558e0cbe3"
+X-List-Received-Date: Wed, 13 Sep 2017 07:09:39 -0000
 
---001a114da5c462a3e30558e0cbe3
-Content-Type: text/plain; charset="UTF-8"
+This requires some packages as well as the pypi.bbclass from meta-python.
 
-On Fri, Sep 8, 2017 at 2:17 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
+It uses Python 3 as I don't think it makes sense to use Python 2 anymore.
 
-> On Thu, Aug 31, 2017 at 3:24 PM, Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
-> > merged
->
->
-> Bruce,
->
-> Can you please revert this change? This will cause a patch failure for
-> the criu package as there is already a change which addresses this
-> issue (see commit d3c6004e92bf21f7f2b425d062b6276ff53c8c18 -- criu:
-> force python to install in ${libdir}).
->
-> Unfortunately Jianchuan's commit log for the commit and the patch
-> itself provide no information on what is being fixed. The obvious
-> patch conflict leads me to believe this was not actually tested with
-> the existing fix.
->
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ .../0001-Allow-newer-versions-of-requests.patch    | 32 ++++++++++++++++++++++
+ .../python3-docker-compose_1.16.1.bb               | 31 +++++++++++++++++++++
+ .../python/python3-cached-property_1.3.0.bb        |  9 ++++++
+ recipes-devtools/python/python3-colorama_0.3.9.bb  |  9 ++++++
+ .../python/python3-docker-pycreds_0.2.1.bb         |  9 ++++++
+ recipes-devtools/python/python3-docker_2.5.1.bb    | 11 ++++++++
+ recipes-devtools/python/python3-dockerpty_0.4.1.bb |  9 ++++++
+ recipes-devtools/python/python3-texttable_0.9.1.bb |  9 ++++++
+ .../python/python3-websocket-client_0.44.0.bb      | 11 ++++++++
+ 9 files changed, 130 insertions(+)
+ create mode 100644 recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch
+ create mode 100644 recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb
+ create mode 100644 recipes-devtools/python/python3-cached-property_1.3.0.bb
+ create mode 100644 recipes-devtools/python/python3-colorama_0.3.9.bb
+ create mode 100644 recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+ create mode 100644 recipes-devtools/python/python3-docker_2.5.1.bb
+ create mode 100644 recipes-devtools/python/python3-dockerpty_0.4.1.bb
+ create mode 100644 recipes-devtools/python/python3-texttable_0.9.1.bb
+ create mode 100644 recipes-devtools/python/python3-websocket-client_0.44.0.bb
 
-Agreed. This is now reverted and your uprev pushed.
-
-Bruce
-
-
->
-> Thanks,
-> Mark
->
->
-> >
-> > Bruce
-> >
-> > On Wed, Aug 30, 2017 at 3:55 AM, <jianchuan.wang@windriver.com> wrote:
-> >>
-> >> From: Jianchuan Wang <jianchuan.wang@windriver.com>
-> >>
-> >> Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-> >> ---
-> >>  recipes-containers/criu/criu_git.bb                |  2 ++
-> >>  ...t-the-installation-directory-for-python-m.patch | 29
-> >> ++++++++++++++++++++++
-> >>  2 files changed, 31 insertions(+)
-> >>  create mode 100644
-> >> recipes-containers/criu/files/0001-criu-Correct-the-
-> installation-directory-for-python-m.patch
-> >>
-> >> diff --git a/recipes-containers/criu/criu_git.bb
-> >> b/recipes-containers/criu/criu_git.bb
-> >> index 849a832..2df203e 100644
-> >> --- a/recipes-containers/criu/criu_git.bb
-> >> +++ b/recipes-containers/criu/criu_git.bb
-> >> @@ -21,6 +21,7 @@ SRC_URI = "git://github.com/xemul/criu.
-> git;protocol=git
-> >> \
-> >>             file://0001-criu-Fix-toolchain-hardcode.patch \
-> >>             file://0002-criu-Skip-documentation-install.patch \
-> >>             file://0001-criu-Change-libraries-install-directory.patch \
-> >> +
-> >> file://0001-criu-Correct-the-installation-directory-for-python-m.patch
-> \
-> >>             ${@bb.utils.contains('PACKAGECONFIG', 'selinux', '',
-> >> 'file://disable-selinux.patch', d)} \
-> >>
-> >> file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
-> >>            "
-> >> @@ -43,6 +44,7 @@ EXTRA_OEMAKE_aarch64 += "ARCH=arm64 WERROR=0"
-> >>
-> >>  EXTRA_OEMAKE_append += "SBINDIR=${sbindir} LIBDIR=${libdir}
-> >> INCLUDEDIR=${includedir} PIEGEN=no"
-> >>  EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir}
-> >> SYSTEMDUNITDIR=${systemd_unitdir}"
-> >> +EXTRA_OEMAKE_append +=
-> >> "PYTHON_SITEPACKAGES_DIR=${PYTHON_SITEPACKAGES_DIR}"
-> >>
-> >>  CFLAGS += "-D__USE_GNU -D_GNU_SOURCE "
-> >>
-> >> diff --git
-> >> a/recipes-containers/criu/files/0001-criu-Correct-the-
-> installation-directory-for-python-m.patch
-> >> b/recipes-containers/criu/files/0001-criu-Correct-the-
-> installation-directory-for-python-m.patch
-> >> new file mode 100644
-> >> index 0000000..0439b3c
-> >> --- /dev/null
-> >> +++
-> >> b/recipes-containers/criu/files/0001-criu-Correct-the-
-> installation-directory-for-python-m.patch
-> >> @@ -0,0 +1,29 @@
-> >> +From 29865b7e9288a60aca151df323ee89c0952e8158 Mon Sep 17 00:00:00 2001
-> >> +From: Jianchuan Wang <jianchuan.wang@windriver.com>
-> >> +Date: Thu, 3 Nov 2016 01:33:57 -0400
-> >> +Subject: [PATCH] criu: Correct the installation directory for python
-> >> module
-> >> + distributions
-> >> +
-> >> +Signed-off-by: Jianchuan Wang <jianchuan.wang@windriver.com>
-> >> +---
-> >> + lib/Makefile | 4 ++--
-> >> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> >> +
-> >> +diff --git a/lib/Makefile b/lib/Makefile
-> >> +index f1c0821..c3003a5 100644
-> >> +--- a/lib/Makefile
-> >> ++++ b/lib/Makefile
-> >> +@@ -55,8 +55,8 @@ install: lib-c lib-py ../crit/crit c/criu.pc.in
-> >> +       $(Q) mkdir -p $(DESTDIR)$(LIBDIR)/pkgconfig
-> >> +       $(Q) sed -e 's,@version@,$(CRIU_VERSION),' -e
-> >> 's,@libdir@,$(LIBDIR),' -e 's,@includedir@,$(dir $(INCLUDEDIR)),'
-> >> c/criu.pc.in > c/criu.pc
-> >> +       $(Q) install -m 644 c/criu.pc $(DESTDIR)$(LIBDIR)/pkgconfig
-> >> +-      $(E) "  INSTALL " crit
-> >> +-      $(Q) python ../scripts/crit-setup.py install --root=$(DESTDIR)
-> >> --prefix=$(PREFIX) --record $(CRIT_SETUP_FILES)
-> >> ++      $(E) "  INSTALL " crit
-> >> ++      $(Q) python ../scripts/crit-setup.py install --root=$(DESTDIR)
-> >> --prefix=$(PREFIX) --install-lib=$(PYTHON_SITEPACKAGES_DIR) --record
-> >> $(CRIT_SETUP_FILES)
-> >> + .PHONY: install
-> >> +
-> >> + uninstall:
-> >> +--
-> >> +2.8.1
-> >> +
-> >> --
-> >> 2.7.4
-> >>
-> >> --
-> >> _______________________________________________
-> >> meta-virtualization mailing list
-> >> meta-virtualization@yoctoproject.org
-> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
-> >
-> >
-> >
-> >
-> > --
-> > "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at
-> > its end"
-> >
-> > --
-> > _______________________________________________
-> > meta-virtualization mailing list
-> > meta-virtualization@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/meta-virtualization
-> >
->
-
-
-
+diff --git a/recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch b/recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch
+new file mode 100644
+index 0000000..6fc7bb4
+--- /dev/null
++++ b/recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch
+@@ -0,0 +1,32 @@
++From 15cf1a31f5af8f09531bb837b92bd6ea49bd1744 Mon Sep 17 00:00:00 2001
++From: Pascal Bach <pascal.bach@siemens.com>
++Date: Wed, 13 Sep 2017 08:41:21 +0200
++Subject: [PATCH] Allow newer versions of requests
++
++docker compose has strict requirements to use requests < 2.12
++
++However it works without issues with newer versions, so this patch removes the check.
++
++Upstream-Status: Pending
++
++Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
++---
++ setup.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/setup.py b/setup.py
++index 192a0f6..f444757 100644
++--- a/setup.py
+++++ b/setup.py
++@@ -33,7 +33,7 @@ install_requires = [
++     'cached-property >= 1.2.0, < 2',
++     'docopt >= 0.6.1, < 0.7',
++     'PyYAML >= 3.10, < 4',
++-    'requests >= 2.6.1, != 2.11.0, < 2.12',
+++    'requests >= 2.6.1, != 2.11.0',
++     'texttable >= 0.9.0, < 0.10',
++     'websocket-client >= 0.32.0, < 1.0',
++     'docker >= 2.5.1, < 3.0',
++-- 
++2.1.4
++
+diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb b/recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb
+new file mode 100644
+index 0000000..50e76b7
+--- /dev/null
++++ b/recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb
+@@ -0,0 +1,31 @@
++SUMMARY = "Multi-container orchestration for Docker"
++HOMEPAGE = "https://www.docker.com/"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
++
++SRC_URI += "file://0001-Allow-newer-versions-of-requests.patch"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "8dcadf09143600fcb573b43f446c8f9a"
++SRC_URI[sha256sum] = "fb46a6a2c4d193a3ff1e4d7208eea920b629c81dc92257c87f3f93095cfb0bdf"
++
++RDEPENDS_${PN} = "\
++  ${PYTHON_PN}-cached-property \
++  ${PYTHON_PN}-certifi \
++  ${PYTHON_PN}-chardet \
++  ${PYTHON_PN}-colorama \
++  ${PYTHON_PN}-docker \
++  ${PYTHON_PN}-docker-pycreds \
++  ${PYTHON_PN}-dockerpty \
++  ${PYTHON_PN}-docopt \
++  ${PYTHON_PN}-enum \
++  ${PYTHON_PN}-idna \
++  ${PYTHON_PN}-jsonschema \
++  ${PYTHON_PN}-pyyaml \
++  ${PYTHON_PN}-requests \
++  ${PYTHON_PN}-six \
++  ${PYTHON_PN}-texttable \
++  ${PYTHON_PN}-urllib3 \
++  ${PYTHON_PN}-websocket-client \
++  "
+diff --git a/recipes-devtools/python/python3-cached-property_1.3.0.bb b/recipes-devtools/python/python3-cached-property_1.3.0.bb
+new file mode 100644
+index 0000000..f01aabd
+--- /dev/null
++++ b/recipes-devtools/python/python3-cached-property_1.3.0.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "A decorator for caching properties in classes."
++HOMEPAGE = "https://github.com/pydanny/cached-property"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=db7ff60c4e14f58534201242803d8abc"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "4a6039f7418007275505e355359396a8"
++SRC_URI[sha256sum] = "458e78b1c7286ece887d92c9bee829da85717994c5e3ddd253a40467f488bc81"
+diff --git a/recipes-devtools/python/python3-colorama_0.3.9.bb b/recipes-devtools/python/python3-colorama_0.3.9.bb
+new file mode 100644
+index 0000000..458b0db
+--- /dev/null
++++ b/recipes-devtools/python/python3-colorama_0.3.9.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "Cross-platform colored terminal text."
++HOMEPAGE = "https://github.com/tartley/colorama"
++LICENSE = "BSD-2-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=14d0b64047ed8f510b51ce0495995358"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "3a0e415259690f4dd7455c2683ee5850"
++SRC_URI[sha256sum] = "48eb22f4f8461b1df5734a074b57042430fb06e1d61bd1e11b078c0fe6d7a1f1"
+diff --git a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb b/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+new file mode 100644
+index 0000000..4038410
+--- /dev/null
++++ b/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "Python bindings for the docker credentials store API"
++HOMEPAGE = "https://github.com/shin-/dockerpy-creds"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "0d80d5aebab771faf7e422b759c3055b"
++SRC_URI[sha256sum] = "93833a2cf280b7d8abbe1b8121530413250c6cd4ffed2c1cf085f335262f7348"
+diff --git a/recipes-devtools/python/python3-docker_2.5.1.bb b/recipes-devtools/python/python3-docker_2.5.1.bb
+new file mode 100644
+index 0000000..ff8f89e
+--- /dev/null
++++ b/recipes-devtools/python/python3-docker_2.5.1.bb
+@@ -0,0 +1,11 @@
++SUMMARY = "A Python library for the Docker Engine API."
++HOMEPAGE = "https://github.com/docker/docker-py"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "7d917152976df075e6e90ee853df641f"
++SRC_URI[sha256sum] = "b876e6909d8d2360e0540364c3a952a62847137f4674f2439320ede16d6db880"
++
++DEPENDS += "${PYTHON_PN}-pip-native"
+diff --git a/recipes-devtools/python/python3-dockerpty_0.4.1.bb b/recipes-devtools/python/python3-dockerpty_0.4.1.bb
+new file mode 100644
+index 0000000..a40f2a3
+--- /dev/null
++++ b/recipes-devtools/python/python3-dockerpty_0.4.1.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "Python library to use the pseudo-tty of a docker container"
++HOMEPAGE = "https://github.com/d11wtq/dockerpty"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=afaf767baa20ac524dc12f1071ca493a"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "028bacb34536f3ee6a2ccd668c27e8e4"
++SRC_URI[sha256sum] = "69a9d69d573a0daa31bcd1c0774eeed5c15c295fe719c61aca550ed1393156ce"
+diff --git a/recipes-devtools/python/python3-texttable_0.9.1.bb b/recipes-devtools/python/python3-texttable_0.9.1.bb
+new file mode 100644
+index 0000000..25e402f
+--- /dev/null
++++ b/recipes-devtools/python/python3-texttable_0.9.1.bb
+@@ -0,0 +1,9 @@
++SUMMARY = "module for creating simple ASCII tables"
++HOMEPAGE = "https://github.com/foutaise/texttable/"
++LICENSE = "LGPL-3.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e6a600fd5e1d9cbde2d983680233ad02"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "a712b5a5464d51c5fc43c64d9d2cd0de"
++SRC_URI[sha256sum] = "119041773ff03596b56392532f9315cb3a3116e404fd6f36e76a7dc088d95c79"
+diff --git a/recipes-devtools/python/python3-websocket-client_0.44.0.bb b/recipes-devtools/python/python3-websocket-client_0.44.0.bb
+new file mode 100644
+index 0000000..8dfc95f
+--- /dev/null
++++ b/recipes-devtools/python/python3-websocket-client_0.44.0.bb
+@@ -0,0 +1,11 @@
++SUMMARY = "WebSocket client for python. hybi13 is supported."
++HOMEPAGE = "https://github.com/websocket-client/websocket-client.git"
++LICENSE = "LGPL-3.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=18b09a20dd186af4fd60f1a08311628c"
++
++inherit pypi setuptools3
++
++PYPI_PACKAGE = "websocket_client"
++
++SRC_URI[md5sum] = "73d87aa16a2212da448b30aca9c5bf3b"
++SRC_URI[sha256sum] = "15f585566e2ea7459136a632b9785aa081093064391878a448c382415e948d72"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+2.1.4
 
---001a114da5c462a3e30558e0cbe3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Sep 8, 2017 at 2:17 PM, Mark Asselstine <span dir=3D"ltr">&lt;<=
-a href=3D"mailto:mark.asselstine@windriver.com" target=3D"_blank">mark.asse=
-lstine@windriver.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">On Thu, Aug 31, 2017 at 3:24 PM, Bruce Ashfield<br>
-&lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a=
->&gt; wrote:<br>
-&gt; merged<br>
-<br>
-<br>
-Bruce,<br>
-<br>
-Can you please revert this change? This will cause a patch failure for<br>
-the criu package as there is already a change which addresses this<br>
-issue (see commit d3c6004e92bf21f7f2b425d062b627<wbr>6ff53c8c18 -- criu:<br=
->
-force python to install in ${libdir}).<br>
-<br>
-Unfortunately Jianchuan&#39;s commit log for the commit and the patch<br>
-itself provide no information on what is being fixed. The obvious<br>
-patch conflict leads me to believe this was not actually tested with<br>
-the existing fix.<br></blockquote><div><br></div><div>Agreed. This is now r=
-everted and your uprev pushed.</div><div><br></div><div>Bruce</div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">
-<br>
-Thanks,<br>
-Mark<br>
-<div class=3D"HOEnZb"><div class=3D"h5"><br>
-<br>
-&gt;<br>
-&gt; Bruce<br>
-&gt;<br>
-&gt; On Wed, Aug 30, 2017 at 3:55 AM, &lt;<a href=3D"mailto:jianchuan.wang@=
-windriver.com">jianchuan.wang@windriver.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; From: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang@windrive=
-r.com">jianchuan.wang@windriver.com</a>&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang=
-@windriver.com">jianchuan.wang@windriver.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">criu_<wbr>git.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 ++<br>
-&gt;&gt;=C2=A0 ...t-the-installation-<wbr>directory-for-python-m.patch | 29=
-<br>
-&gt;&gt; ++++++++++++++++++++++<br>
-&gt;&gt;=C2=A0 2 files changed, 31 insertions(+)<br>
-&gt;&gt;=C2=A0 create mode 100644<br>
-&gt;&gt; recipes-containers/criu/files/<wbr>0001-criu-Correct-the-<wbr>inst=
-allation-directory-for-<wbr>python-m.patch<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/recipes-containers/criu/<a href=3D"http://criu_git.bb=
-" rel=3D"noreferrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
-&gt;&gt; b/recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=3D"no=
-referrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
-&gt;&gt; index 849a832..2df203e 100644<br>
-&gt;&gt; --- a/recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
-&gt;&gt; +++ b/recipes-containers/criu/<a href=3D"http://criu_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">criu<wbr>_git.bb</a><br>
-&gt;&gt; @@ -21,6 +21,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github=
-.com/xemul/criu.git;protocol=3Dgit" rel=3D"noreferrer" target=3D"_blank">gi=
-thub.com/xemul/criu.<wbr>git;protocol=3Dgit</a><br>
-&gt;&gt; \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-criu-Fi=
-x-<wbr>toolchain-hardcode.patch \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-criu-Sk=
-ip-<wbr>documentation-install.patch \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-criu-Ch=
-ange-<wbr>libraries-install-directory.<wbr>patch \<br>
-&gt;&gt; +<br>
-&gt;&gt; file://0001-criu-Correct-the-<wbr>installation-directory-for-<wbr>=
-python-m.patch \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.utils.contain=
-s(&#39;<wbr>PACKAGECONFIG&#39;, &#39;selinux&#39;, &#39;&#39;,<br>
-&gt;&gt; &#39;file://disable-selinux.patch&#39;<wbr>, d)} \<br>
-&gt;&gt;<br>
-&gt;&gt; file://lib-Makefile-overwrite-<wbr>install-lib-to-allow-multiarc.<=
-wbr>patch \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt;&gt; @@ -43,6 +44,7 @@ EXTRA_OEMAKE_aarch64 +=3D &quot;ARCH=3Darm64 WER=
-ROR=3D0&quot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 EXTRA_OEMAKE_append +=3D &quot;SBINDIR=3D${sbindir} LIBDIR=
-=3D${libdir}<br>
-&gt;&gt; INCLUDEDIR=3D${includedir} PIEGEN=3Dno&quot;<br>
-&gt;&gt;=C2=A0 EXTRA_OEMAKE_append +=3D &quot;LOGROTATEDIR=3D${sysconfdir}<=
-br>
-&gt;&gt; SYSTEMDUNITDIR=3D${systemd_<wbr>unitdir}&quot;<br>
-&gt;&gt; +EXTRA_OEMAKE_append +=3D<br>
-&gt;&gt; &quot;PYTHON_SITEPACKAGES_DIR=3D${<wbr>PYTHON_SITEPACKAGES_DIR}&qu=
-ot;<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 CFLAGS +=3D &quot;-D__USE_GNU -D_GNU_SOURCE &quot;<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git<br>
-&gt;&gt; a/recipes-containers/criu/<wbr>files/0001-criu-Correct-the-<wbr>in=
-stallation-directory-for-<wbr>python-m.patch<br>
-&gt;&gt; b/recipes-containers/criu/<wbr>files/0001-criu-Correct-the-<wbr>in=
-stallation-directory-for-<wbr>python-m.patch<br>
-&gt;&gt; new file mode 100644<br>
-&gt;&gt; index 0000000..0439b3c<br>
-&gt;&gt; --- /dev/null<br>
-&gt;&gt; +++<br>
-&gt;&gt; b/recipes-containers/criu/<wbr>files/0001-criu-Correct-the-<wbr>in=
-stallation-directory-for-<wbr>python-m.patch<br>
-&gt;&gt; @@ -0,0 +1,29 @@<br>
-&gt;&gt; +From 29865b7e9288a60aca151df323ee89<wbr>c0952e8158 Mon Sep 17 00:=
-00:00 2001<br>
-&gt;&gt; +From: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wang@windriv=
-er.com">jianchuan.wang@windriver.com</a>&gt;<br>
-&gt;&gt; +Date: Thu, 3 Nov 2016 01:33:57 -0400<br>
-&gt;&gt; +Subject: [PATCH] criu: Correct the installation directory for pyt=
-hon<br>
-&gt;&gt; module<br>
-&gt;&gt; + distributions<br>
-&gt;&gt; +<br>
-&gt;&gt; +Signed-off-by: Jianchuan Wang &lt;<a href=3D"mailto:jianchuan.wan=
-g@windriver.com">jianchuan.wang@windriver.com</a>&gt;<br>
-&gt;&gt; +---<br>
-&gt;&gt; + lib/Makefile | 4 ++--<br>
-&gt;&gt; + 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;&gt; +<br>
-&gt;&gt; +diff --git a/lib/Makefile b/lib/Makefile<br>
-&gt;&gt; +index f1c0821..c3003a5 100644<br>
-&gt;&gt; +--- a/lib/Makefile<br>
-&gt;&gt; ++++ b/lib/Makefile<br>
-&gt;&gt; +@@ -55,8 +55,8 @@ install: lib-c lib-py ../crit/crit c/<a href=3D=
-"http://criu.pc.in" rel=3D"noreferrer" target=3D"_blank">criu.pc.in</a><br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q) mkdir -p $(DESTDIR)$(LIBDIR)/pkgc=
-onfig<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q) sed -e &#39;s,@version@,$(CRIU_VE=
-RSION),&#39; -e<br>
-&gt;&gt; &#39;s,@libdir@,$(LIBDIR),&#39; -e &#39;s,@includedir@,$(dir $(INC=
-LUDEDIR)),&#39;<br>
-&gt;&gt; c/<a href=3D"http://criu.pc.in" rel=3D"noreferrer" target=3D"_blan=
-k">criu.pc.in</a> &gt; c/criu.pc<br>
-&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(Q) install -m 644 c/criu.pc $(DESTDI=
-R)$(LIBDIR)/pkgconfig<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 $(E) &quot;=C2=A0 INSTALL &quot; crit<br>
-&gt;&gt; +-=C2=A0 =C2=A0 =C2=A0 $(Q) python ../scripts/crit-setup.py instal=
-l --root=3D$(DESTDIR)<br>
-&gt;&gt; --prefix=3D$(PREFIX) --record $(CRIT_SETUP_FILES)<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 $(E) &quot;=C2=A0 INSTALL &quot; crit<br>
-&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 $(Q) python ../scripts/crit-setup.py instal=
-l --root=3D$(DESTDIR)<br>
-&gt;&gt; --prefix=3D$(PREFIX) --install-lib=3D$(PYTHON_<wbr>SITEPACKAGES_DI=
-R) --record<br>
-&gt;&gt; $(CRIT_SETUP_FILES)<br>
-&gt;&gt; + .PHONY: install<br>
-&gt;&gt; +<br>
-&gt;&gt; + uninstall:<br>
-&gt;&gt; +--<br>
-&gt;&gt; +2.8.1<br>
-&gt;&gt; +<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.7.4<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; ______________________________<wbr>_________________<br>
-&gt;&gt; meta-virtualization mailing list<br>
-&gt;&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtu=
-alization@<wbr>yoctoproject.org</a><br>
-&gt;&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualiza=
-tion" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>=
-org/listinfo/meta-<wbr>virtualization</a><br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; --<br>
-&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madness aw=
-ait thee at<br>
-&gt; its end&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; ______________________________<wbr>_________________<br>
-&gt; meta-virtualization mailing list<br>
-&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
-ation@<wbr>yoctoproject.org</a><br>
-&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
-" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/=
-listinfo/meta-<wbr>virtualization</a><br>
-&gt;<br>
-</div></div></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br>=
-<div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Tho=
-u shalt not follow the NULL pointer, for chaos and madness await thee at it=
-s end&quot;</div>
-</div></div>
-
---001a114da5c462a3e30558e0cbe3--
