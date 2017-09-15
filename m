@@ -1,34 +1,33 @@
-Return-Path: <pascal.bach@siemens.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 53160E00C45; Fri, 15 Sep 2017 04:13:09 -0700 (PDT)
+	id A8D73E008D2; Fri, 15 Sep 2017 09:32:51 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [192.35.17.2 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 19684E00A9B
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2CB3DE0078E
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 15 Sep 2017 04:13:07 -0700 (PDT)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id v8FBD5JC008597
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Fri, 15 Sep 2017 09:32:50 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8FGWn54004221
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 15 Sep 2017 13:13:05 +0200
-Received: from dev.sbt.siemens.com (MD1FZU9C.ad001.siemens.net [139.16.76.177])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id v8FBD5Je025698;
-	Fri, 15 Sep 2017 13:13:05 +0200
-From: Pascal Bach <pascal.bach@siemens.com>
-To: meta-virtualization@yoctoproject.org
-Date: Fri, 15 Sep 2017 13:13:00 +0200
-Message-Id: <1505473980-21750-1-git-send-email-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.1.4
-Subject: [PATCHv2] python3-docker-compose: add version 1.16.1 + dependencies
+	Fri, 15 Sep 2017 09:32:50 -0700
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 15 Sep 2017 09:32:48 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Fri, 15 Sep 2017 12:32:25 -0400
+Message-ID: <1505493145-28718-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [m-c-s][PATCH] meta-openstack: qemu: match spice arch restrictions
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,246 +40,33 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Sep 2017 11:13:09 -0000
+X-List-Received-Date: Fri, 15 Sep 2017 16:32:51 -0000
+Content-Type: text/plain
 
-This requires some packages as well as the pypi.bbclass from meta-python.
+The spice recipe is restricted to Intel x86 and x86-64 so keep 'spice'
+out of the PACKAGECONFIG unless we are using one of these ARCHs.
 
-It uses Python 3 as I don't think it makes sense to use Python 2 anymore.
-
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../0001-Allow-newer-versions-of-requests.patch    | 32 ++++++++++++++++++++++
- .../python3-docker-compose_1.16.1.bb               | 31 +++++++++++++++++++++
- recipes-devtools/python/python-docopt.inc          |  9 ++++++
- .../python/python3-cached-property_1.3.0.bb        |  9 ++++++
- recipes-devtools/python/python3-colorama_0.3.9.bb  |  9 ++++++
- .../python/python3-docker-pycreds_0.2.1.bb         |  9 ++++++
- recipes-devtools/python/python3-docker_2.5.1.bb    | 11 ++++++++
- recipes-devtools/python/python3-dockerpty_0.4.1.bb |  9 ++++++
- recipes-devtools/python/python3-docopt_0.6.2.bb    |  2 ++
- recipes-devtools/python/python3-texttable_0.9.1.bb |  9 ++++++
- .../python/python3-websocket-client_0.44.0.bb      | 11 ++++++++
- 11 files changed, 141 insertions(+)
- create mode 100644 recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch
- create mode 100644 recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb
- create mode 100644 recipes-devtools/python/python-docopt.inc
- create mode 100644 recipes-devtools/python/python3-cached-property_1.3.0.bb
- create mode 100644 recipes-devtools/python/python3-colorama_0.3.9.bb
- create mode 100644 recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
- create mode 100644 recipes-devtools/python/python3-docker_2.5.1.bb
- create mode 100644 recipes-devtools/python/python3-dockerpty_0.4.1.bb
- create mode 100644 recipes-devtools/python/python3-docopt_0.6.2.bb
- create mode 100644 recipes-devtools/python/python3-texttable_0.9.1.bb
- create mode 100644 recipes-devtools/python/python3-websocket-client_0.44.0.bb
+ meta-openstack/recipes-devtools/qemu/qemu_2.%.bbappend | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch b/recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch
-new file mode 100644
-index 0000000..6fc7bb4
---- /dev/null
-+++ b/recipes-containers/docker-compose/files/0001-Allow-newer-versions-of-requests.patch
-@@ -0,0 +1,32 @@
-+From 15cf1a31f5af8f09531bb837b92bd6ea49bd1744 Mon Sep 17 00:00:00 2001
-+From: Pascal Bach <pascal.bach@siemens.com>
-+Date: Wed, 13 Sep 2017 08:41:21 +0200
-+Subject: [PATCH] Allow newer versions of requests
+diff --git a/meta-openstack/recipes-devtools/qemu/qemu_2.%.bbappend b/meta-openstack/recipes-devtools/qemu/qemu_2.%.bbappend
+index 9d774c4..ad1ea25 100644
+--- a/meta-openstack/recipes-devtools/qemu/qemu_2.%.bbappend
++++ b/meta-openstack/recipes-devtools/qemu/qemu_2.%.bbappend
+@@ -1,6 +1,9 @@
+ PACKAGECONFIG[spice] = "--enable-spice,--disable-spice,spice,"
+ PACKAGECONFIG[libseccomp] = "--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
+ 
+-PACKAGECONFIG ?= "fdt spice virtfs libcap-ng"
++PACKAGECONFIG ?= "fdt virtfs libcap-ng"
++PACKAGECONFIG_x86 ?= "fdt spice virtfs libcap-ng"
++PACKAGECONFIG_x86-64 ?= "fdt spice virtfs libcap-ng"
 +
-+docker compose has strict requirements to use requests < 2.12
-+
-+However it works without issues with newer versions, so this patch removes the check.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-+---
-+ setup.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/setup.py b/setup.py
-+index 192a0f6..f444757 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -33,7 +33,7 @@ install_requires = [
-+     'cached-property >= 1.2.0, < 2',
-+     'docopt >= 0.6.1, < 0.7',
-+     'PyYAML >= 3.10, < 4',
-+-    'requests >= 2.6.1, != 2.11.0, < 2.12',
-++    'requests >= 2.6.1, != 2.11.0',
-+     'texttable >= 0.9.0, < 0.10',
-+     'websocket-client >= 0.32.0, < 1.0',
-+     'docker >= 2.5.1, < 3.0',
-+-- 
-+2.1.4
-+
-diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb b/recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb
-new file mode 100644
-index 0000000..50e76b7
---- /dev/null
-+++ b/recipes-containers/docker-compose/python3-docker-compose_1.16.1.bb
-@@ -0,0 +1,31 @@
-+SUMMARY = "Multi-container orchestration for Docker"
-+HOMEPAGE = "https://www.docker.com/"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
-+
-+SRC_URI += "file://0001-Allow-newer-versions-of-requests.patch"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "8dcadf09143600fcb573b43f446c8f9a"
-+SRC_URI[sha256sum] = "fb46a6a2c4d193a3ff1e4d7208eea920b629c81dc92257c87f3f93095cfb0bdf"
-+
-+RDEPENDS_${PN} = "\
-+  ${PYTHON_PN}-cached-property \
-+  ${PYTHON_PN}-certifi \
-+  ${PYTHON_PN}-chardet \
-+  ${PYTHON_PN}-colorama \
-+  ${PYTHON_PN}-docker \
-+  ${PYTHON_PN}-docker-pycreds \
-+  ${PYTHON_PN}-dockerpty \
-+  ${PYTHON_PN}-docopt \
-+  ${PYTHON_PN}-enum \
-+  ${PYTHON_PN}-idna \
-+  ${PYTHON_PN}-jsonschema \
-+  ${PYTHON_PN}-pyyaml \
-+  ${PYTHON_PN}-requests \
-+  ${PYTHON_PN}-six \
-+  ${PYTHON_PN}-texttable \
-+  ${PYTHON_PN}-urllib3 \
-+  ${PYTHON_PN}-websocket-client \
-+  "
-diff --git a/recipes-devtools/python/python-docopt.inc b/recipes-devtools/python/python-docopt.inc
-new file mode 100644
-index 0000000..4f464c1
---- /dev/null
-+++ b/recipes-devtools/python/python-docopt.inc
-@@ -0,0 +1,9 @@
-+SUMMARY = "Pythonic argument parser, that will make you smile"
-+HOMEPAGE = "http://docopt.org/"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE-MIT;md5=09b77fb74986791a3d4a0e746a37d88f"
-+
-+inherit pypi
-+
-+SRC_URI[md5sum] = "4bc74561b37fad5d3e7d037f82a4c3b1"
-+SRC_URI[sha256sum] = "49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"
-diff --git a/recipes-devtools/python/python3-cached-property_1.3.0.bb b/recipes-devtools/python/python3-cached-property_1.3.0.bb
-new file mode 100644
-index 0000000..f01aabd
---- /dev/null
-+++ b/recipes-devtools/python/python3-cached-property_1.3.0.bb
-@@ -0,0 +1,9 @@
-+SUMMARY = "A decorator for caching properties in classes."
-+HOMEPAGE = "https://github.com/pydanny/cached-property"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=db7ff60c4e14f58534201242803d8abc"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "4a6039f7418007275505e355359396a8"
-+SRC_URI[sha256sum] = "458e78b1c7286ece887d92c9bee829da85717994c5e3ddd253a40467f488bc81"
-diff --git a/recipes-devtools/python/python3-colorama_0.3.9.bb b/recipes-devtools/python/python3-colorama_0.3.9.bb
-new file mode 100644
-index 0000000..458b0db
---- /dev/null
-+++ b/recipes-devtools/python/python3-colorama_0.3.9.bb
-@@ -0,0 +1,9 @@
-+SUMMARY = "Cross-platform colored terminal text."
-+HOMEPAGE = "https://github.com/tartley/colorama"
-+LICENSE = "BSD-2-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=14d0b64047ed8f510b51ce0495995358"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "3a0e415259690f4dd7455c2683ee5850"
-+SRC_URI[sha256sum] = "48eb22f4f8461b1df5734a074b57042430fb06e1d61bd1e11b078c0fe6d7a1f1"
-diff --git a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb b/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
-new file mode 100644
-index 0000000..4038410
---- /dev/null
-+++ b/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
-@@ -0,0 +1,9 @@
-+SUMMARY = "Python bindings for the docker credentials store API"
-+HOMEPAGE = "https://github.com/shin-/dockerpy-creds"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "0d80d5aebab771faf7e422b759c3055b"
-+SRC_URI[sha256sum] = "93833a2cf280b7d8abbe1b8121530413250c6cd4ffed2c1cf085f335262f7348"
-diff --git a/recipes-devtools/python/python3-docker_2.5.1.bb b/recipes-devtools/python/python3-docker_2.5.1.bb
-new file mode 100644
-index 0000000..ff8f89e
---- /dev/null
-+++ b/recipes-devtools/python/python3-docker_2.5.1.bb
-@@ -0,0 +1,11 @@
-+SUMMARY = "A Python library for the Docker Engine API."
-+HOMEPAGE = "https://github.com/docker/docker-py"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "7d917152976df075e6e90ee853df641f"
-+SRC_URI[sha256sum] = "b876e6909d8d2360e0540364c3a952a62847137f4674f2439320ede16d6db880"
-+
-+DEPENDS += "${PYTHON_PN}-pip-native"
-diff --git a/recipes-devtools/python/python3-dockerpty_0.4.1.bb b/recipes-devtools/python/python3-dockerpty_0.4.1.bb
-new file mode 100644
-index 0000000..a40f2a3
---- /dev/null
-+++ b/recipes-devtools/python/python3-dockerpty_0.4.1.bb
-@@ -0,0 +1,9 @@
-+SUMMARY = "Python library to use the pseudo-tty of a docker container"
-+HOMEPAGE = "https://github.com/d11wtq/dockerpty"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=afaf767baa20ac524dc12f1071ca493a"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "028bacb34536f3ee6a2ccd668c27e8e4"
-+SRC_URI[sha256sum] = "69a9d69d573a0daa31bcd1c0774eeed5c15c295fe719c61aca550ed1393156ce"
-diff --git a/recipes-devtools/python/python3-docopt_0.6.2.bb b/recipes-devtools/python/python3-docopt_0.6.2.bb
-new file mode 100644
-index 0000000..4637448
---- /dev/null
-+++ b/recipes-devtools/python/python3-docopt_0.6.2.bb
-@@ -0,0 +1,2 @@
-+inherit setuptools3
-+require python-docopt.inc
-diff --git a/recipes-devtools/python/python3-texttable_0.9.1.bb b/recipes-devtools/python/python3-texttable_0.9.1.bb
-new file mode 100644
-index 0000000..25e402f
---- /dev/null
-+++ b/recipes-devtools/python/python3-texttable_0.9.1.bb
-@@ -0,0 +1,9 @@
-+SUMMARY = "module for creating simple ASCII tables"
-+HOMEPAGE = "https://github.com/foutaise/texttable/"
-+LICENSE = "LGPL-3.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e6a600fd5e1d9cbde2d983680233ad02"
-+
-+inherit pypi setuptools3
-+
-+SRC_URI[md5sum] = "a712b5a5464d51c5fc43c64d9d2cd0de"
-+SRC_URI[sha256sum] = "119041773ff03596b56392532f9315cb3a3116e404fd6f36e76a7dc088d95c79"
-diff --git a/recipes-devtools/python/python3-websocket-client_0.44.0.bb b/recipes-devtools/python/python3-websocket-client_0.44.0.bb
-new file mode 100644
-index 0000000..8dfc95f
---- /dev/null
-+++ b/recipes-devtools/python/python3-websocket-client_0.44.0.bb
-@@ -0,0 +1,11 @@
-+SUMMARY = "WebSocket client for python. hybi13 is supported."
-+HOMEPAGE = "https://github.com/websocket-client/websocket-client.git"
-+LICENSE = "LGPL-3.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=18b09a20dd186af4fd60f1a08311628c"
-+
-+inherit pypi setuptools3
-+
-+PYPI_PACKAGE = "websocket_client"
-+
-+SRC_URI[md5sum] = "73d87aa16a2212da448b30aca9c5bf3b"
-+SRC_URI[sha256sum] = "15f585566e2ea7459136a632b9785aa081093064391878a448c382415e948d72"
+ PACKAGECONFIG_class-native = "fdt"
+ PACKAGECONFIG_class-nativesdk = "fdt"
 -- 
-2.1.4
+2.7.4
 
 
