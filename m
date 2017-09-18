@@ -1,6 +1,6 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 86872E00C89; Sun, 17 Sep 2017 18:21:52 -0700 (PDT)
+	id 5FC35E00CC4; Sun, 17 Sep 2017 18:22:30 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,9 +11,9 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.192.194 listed in list.dnswl.org]
+	*      [74.125.83.68 listed in list.dnswl.org]
 	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.192.194 listed in dnsbl.sorbs.net]
+	*      [74.125.83.68 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -21,51 +21,50 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-pf0-f194.google.com (mail-pf0-f194.google.com
-	[209.85.192.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 029E4E00C8A
+Received: from mail-pg0-f68.google.com (mail-pg0-f68.google.com [74.125.83.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 42282E00C8A
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 17 Sep 2017 18:21:45 -0700 (PDT)
-Received: by mail-pf0-f194.google.com with SMTP id f84so3934855pfj.3
+	Sun, 17 Sep 2017 18:22:14 -0700 (PDT)
+Received: by mail-pg0-f68.google.com with SMTP id d8so4440468pgt.3
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 17 Sep 2017 18:21:45 -0700 (PDT)
+	Sun, 17 Sep 2017 18:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=uBjBxIJ98w3DksNs3WJtHKhuH2HJZT2BpTGqrUCx+sI=;
-	b=hEo7TD/DuDvBppwXaopYDRyVgsNvogDthkEdWq45qcYpl+f7BK1Z4dkEpFOqq+Aha/
-	1gWjhD2gcYOs+nsbEN3zXzEl2zJn/c5djhbPa7X7gk76uucCYZmYpX7Xm0wtfDnKfJua
-	+hz2pnhHLnlt6EUIs1XBg4usKtYm5aky2XuBnpJ5wgc4g/DYkUiHVchvBkvhYVD4KQYR
-	U9daRo6WmVp0/4DntFdybcOjqV9aawDddly5dAs06iEGbjz3WNWaH6BGKmN6WQxxO0ZU
-	go+bMIPDyn4dkxVHvffOklJOhuOJDSdxcndue5OM9S46P5TWomxiqRbXx7J/gWxNoIt7
-	+Aqw==
+	bh=GZvB71qUUspyqIk2YfhA/cQl+RrebzVcay1TJbY9Frw=;
+	b=CxUFg6+Fq56lz1pHDDjYyq5qC8BJbcabRL9e/1TStFq+mV8cH59StIreqxHBjETp12
+	nHvG4cHaQB91psDhMimExtLBzOKsZ+Z5EavKmesAQ6YBH5j1xpBJHCBEAhO53yif4fBv
+	oXOl0XsR2lUx1LeCI/npL5jw4QpGo8z9G37WTAqpahxinTxHuCSFUsJFmZp4K7+hpibl
+	vKKGiOlvFTRgFMpRYCM2Y2cY2sXqPjAb6NL5fq3Lyl0zDib3HQY3cb5l8PQciNf/nXWx
+	aB98uXcdZ6T4VO9OmZXHa7jtWenStZc0fLtoy0cfhZXS739HBhvRl5u11Qnj1zNqdLVg
+	rfIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uBjBxIJ98w3DksNs3WJtHKhuH2HJZT2BpTGqrUCx+sI=;
-	b=ZdoXDTQ1NL7IvZ3SmiHxuDF5KxFxrz5MQfjheoLST59/Rg856L06Ag5+zJJnMvxvIo
-	CUibH9/SDJjv1CAz1jqmRqa/+ILour4nHhd/oTbY1G/lGFbnshYt3mzI8Y2wI6DwN3AK
-	p4Q8ccDHqyB6SXq1T/XpPt6a9dNr8R5lmgQDmHtm9iDkQpZnBR7MFNmyta8cZQl1oTnu
-	zvBx9G/ZuDZqxPY28dHu/mVJXrWHsVO7KH+pp7So+AKqHWwewplqLOgODwGjsPUQgOKF
-	vfww3SIhN0kH6idovMK+be8UpADTfXPL824yJlHJnuWU8kxVVj9Ik/95nXZ0V6wn8gLE
-	extQ==
-X-Gm-Message-State: AHPjjUjohifWy+hhgCcM3/L9WxeNr+lJN0sEsOEt6dzJ9KJ/fL1c2WPB
-	Qhg/pN7C0/s2TSiHN0g=
-X-Google-Smtp-Source: ADKCNb7fxqbPKnUrVB/C8eV32YFeLbJxSczOzQrxarmZ5qt+++XC8JthDUlw3Izo2bKvYTjKZPE8Zw==
-X-Received: by 10.84.232.76 with SMTP id f12mr33797462pln.297.1505697704952;
-	Sun, 17 Sep 2017 18:21:44 -0700 (PDT)
+	bh=GZvB71qUUspyqIk2YfhA/cQl+RrebzVcay1TJbY9Frw=;
+	b=roM3sB6jF41SFVB5JiMpO1z9FnPBa43bTfVddTNVEeN5l9jj7/t4MAG186H+YZKUPB
+	WNY5wAJo4+vDahj1M0aqWLSvrFG3i4+4qNmad6nzXJ/oUoxMLdUc14PGB2cP1sb7TDsc
+	1W0MOKEWtDO01Gq5N2oz/qnPUlMeUKjJQ+TLpML8gyvLdn4qlUyfvyfEQroS0L0KaGs9
+	g22hdSzXQqbwc0GRHF3z3wH50sJpLE3MBMz8UfO0uHMPKXBPO8KBpzozkr8rZD4Jg7k0
+	/bJzXXS49wDKJTufSS816+omORAFIYMKtCTJ9REp5HlHbvKpeG00bHuaIwI8MO4RhBV3
+	BoGQ==
+X-Gm-Message-State: AHPjjUj2bGloyIVWiM0LtmFiZwmE/U0RkJnfU+UflguQo5PwnTzkobZE
+	51iSlx0/dfdvPX/bHt8=
+X-Google-Smtp-Source: ADKCNb4v4O+xhdvuDBJl8UFMfDkYE5X8LKs4zGG/dqU5TeiA7yIuqbukg0Jdpyfr0M/01sK8eEVx5Q==
+X-Received: by 10.101.66.205 with SMTP id l13mr30428411pgp.278.1505697734363; 
+	Sun, 17 Sep 2017 18:22:14 -0700 (PDT)
 Received: from WorkStation-T3500.ice.pyrology.org
 	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
-	y83sm11883273pff.167.2017.09.17.18.21.43
+	5sm11286089pfr.151.2017.09.17.18.22.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Sep 2017 18:21:44 -0700 (PDT)
+	Sun, 17 Sep 2017 18:22:13 -0700 (PDT)
 From: christopher.w.clark@gmail.com
 To: meta-virtualization@yoctoproject.org
-Date: Sun, 17 Sep 2017 18:21:38 -0700
-Message-Id: <1505697698-15124-1-git-send-email-christopher.w.clark@gmail.com>
+Date: Sun, 17 Sep 2017 18:22:09 -0700
+Message-Id: <1505697729-17421-1-git-send-email-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.7.4
 Cc: cardoe@gentoo.org, nathan.studer@dornerworks.com
-Subject: [PATCH] xen-guest-image-minimal: Fix non-x86. Select x11 via IMAGE_FEATURES.
+Subject: [PATCH] xen: Replace 'inherit gettext' with explicit gettext-native dependency
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,91 +77,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 01:21:52 -0000
+X-List-Received-Date: Mon, 18 Sep 2017 01:22:30 -0000
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Fix the image for non-x86, both with and without x11 included.
+This fixes the build when libc-locale-code is not a DISTRO_FEATURE.
 
-* Only install xf86-video-vesa on x86 platforms as it is not
-  available elsewhere.
+xen's configure script checks for xgettext and will abort if not found.
 
-* In the absence of xf86-video-vesa (ie. on non-x86 platforms)
-  enable opengl and remove wayland from IMAGE_INSTALL to
-  satisfy build requirements for x11.
-
-* Use IMAGE_FEATURES instead of DISTRO_FEATURES to enable x11
-  inclusion in the image.
-
-* Verify the required DISTRO_FEATURE of 'xen' and if enabled, 'x11'.
-
-* When building the Xserver with Xen in DISTRO_FEATURES, on non-x86,
-  turn off glamor by default, to remove dependency on egl.
-  Introduces: xserver-xorg_%.bbappend
+xgettext is provided by the gettext-native package but not by
+gettext-minimal-native. This means that "inherit gettext" is not
+sufficient to satisfy Xen's build requirements: gettext-native is
+required.
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
 
-Changes in this non-RFC patch version: simplified the xorg-xserver bbappend.
-
 Please use my gmail address for any correspondence.
 
- recipes-extended/images/xen-guest-image-minimal.bb    | 16 +++++++++++++---
- recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend | 13 +++++++++++++
- 2 files changed, 26 insertions(+), 3 deletions(-)
- create mode 100644 recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
+ recipes-extended/xen/xen.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-extended/images/xen-guest-image-minimal.bb b/recipes-extended/images/xen-guest-image-minimal.bb
-index ab7e92c..bca6017 100644
---- a/recipes-extended/images/xen-guest-image-minimal.bb
-+++ b/recipes-extended/images/xen-guest-image-minimal.bb
-@@ -1,14 +1,24 @@
- DESCRIPTION = "A Xen guest image."
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 3ca38fb..cb314f8 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=bbb4b1bdc2c3b6743da3c39d03249095"
  
--inherit core-image
-+inherit core-image distro_features_check
+ COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux'
  
- IMAGE_INSTALL += " \
-     packagegroup-core-boot \
-     ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'kernel-module-xen-acpi-processor', '', d)} \
-     "
+-inherit autotools-brokensep gettext setuptools update-rc.d systemd deploy
++inherit autotools-brokensep setuptools update-rc.d systemd deploy
  
--IMAGE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' xf86-video-fbdev', '', d)}"
--IMAGE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
-+IMAGE_INSTALL += "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' xf86-video-fbdev', '', d)}"
-+
-+# Install xf86-video-vesa on x86 platforms.
-+IMAGE_INSTALL_append_x86-64 = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
-+IMAGE_INSTALL_append_x86    = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
-+
-+# When xf86-video-vesa is not present, add opengl and don't require wayland:
-+DISTRO_FEATURES_append = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', \
-+                             bb.utils.contains('IMAGE_INSTALL', 'xf86-video-vesa', '', ' opengl', d), '', d)}"
-+DISTRO_FEATURES_remove = "${@bb.utils.contains('IMAGE_INSTALL', 'xf86-video-vesa', '', 'wayland', d)}"
-+
-+REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' x11', '', d)} xen"
+ require xen-arch.inc
  
- LICENSE = "MIT"
- 
-diff --git a/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend b/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
-new file mode 100644
-index 0000000..9503404
---- /dev/null
-+++ b/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
-@@ -0,0 +1,13 @@
-+# Change the default Xserver OpenGL configuration for non-x86 distros with Xen: deselect 'glamor'.
-+# This removes the dependency on libegl to simplify the domU build.
-+#
-+# To override this (eg. if wanted for dom0 images) define:
-+#   REMOVED_OPENGL_PKGCONFIGS = ""
-+
-+XEN_REMOVED_OPENGL_PKGCONFIGS ?= "glamor"
-+XEN_REMOVED_OPENGL_PKGCONFIGS_x86 = ""
-+XEN_REMOVED_OPENGL_PKGCONFIGS_x86-64 = ""
-+
-+REMOVED_OPENGL_PKGCONFIGS ?= "${@bb.utils.contains('DISTRO_FEATURES', 'xen', "${XEN_REMOVED_OPENGL_PKGCONFIGS}", '', d)}"
-+
-+OPENGL_PKGCONFIGS_remove = "${REMOVED_OPENGL_PKGCONFIGS}"
+@@ -29,6 +29,7 @@ DEPENDS = " \
+     dev86-native \
+     flex-native \
+     file-native \
++    gettext-native \
+     iasl-native \
+     ncurses-native \
+     util-linux-native \
 -- 
 2.7.4
 
