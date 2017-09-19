@@ -1,69 +1,73 @@
-Return-Path: <alistair23@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A06ADE00C82; Mon, 18 Sep 2017 13:18:16 -0700 (PDT)
+	id 894D4E009F5; Tue, 19 Sep 2017 06:23:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE, 
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (alistair23[at]gmail.com)
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [74.125.82.65 listed in list.dnswl.org]
+	*      [209.85.216.193 listed in list.dnswl.org]
 	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [74.125.82.65 listed in dnsbl.sorbs.net]
+	*      [209.85.216.193 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f65.google.com (mail-wm0-f65.google.com [74.125.82.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EC7C2E009F5
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7D920E009F5
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 18 Sep 2017 13:18:15 -0700 (PDT)
-Received: by mail-wm0-f65.google.com with SMTP id r136so1960794wmf.3
+	Tue, 19 Sep 2017 06:23:28 -0700 (PDT)
+Received: by mail-qt0-f193.google.com with SMTP id t46so2294448qtj.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 18 Sep 2017 13:18:15 -0700 (PDT)
+	Tue, 19 Sep 2017 06:23:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=mNgroVF+IZR/F9f8rFZcYE9SeJJjxFb8HNSW6JKEPcA=;
-	b=mtTZ8e7BvakDKwVH/kaQo9z2qotOUtnaop7nxP17nM287TK6LxBric3quk/o1Pa7L7
-	t6Rf62U9B2lkLhqcV3NsB8OChLZff53xYFlyTyPq56eBL72HEAQA6vOmdc6UT0/CMZdE
-	ca32+VG3X+z/rOuhgt6XpMTswyTRlSakY1hwc3mGs0Ynaj6IdYmNPFquV7EiEEw2mhHH
-	HwDGsBHS/m7DXbfp+xWEq6d74PpNWpBmUhG1deQt7iOH1HB0Iki01ICyy+NzMgOdZez2
-	A5sSCVyj5BwdCKGsSL0zjb8t4BfrRgAUPuG5uYErkx11OLwnCdfI+DPCPeAfIQelx00f
-	q66w==
+	:cc; bh=ZKPWptA/nnuxzM3OTWWg5od8QfqyIO86Oqa/LHuWMaA=;
+	b=vA2d4W3qgLhB6THaOOxfDa7HtACM3/c7w+6JT+DQuXksEHTqsM0lFvhhTNiQiTfRK9
+	4wcY6+XNZ88yvguWQfnNOJ7uS4LPOXE20QdIKsarxWi9kaPb1TT/RH9hupLTiE8PfA+H
+	VaJf3eFHItoa5EJJlG7xhZHsxeK4MiOfpJyWb8YyfD8BA3dTCjnygK8QVd1GjKpndD3y
+	3uLulMbV0YG7QTM/msCuRv61nfAYSUOqHT9PGEfmRN1/MeyN70OS6Z5I1x5a6gQDf9NR
+	7DcUMh4GLtAEk2aeUg1kSUwGR94MQUMaQqdkbhPWcDd2EUY7/QB4k/vRNGigqMEGOnyn
+	8hhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=mNgroVF+IZR/F9f8rFZcYE9SeJJjxFb8HNSW6JKEPcA=;
-	b=ZAXlf0GjDlM7nCmVQdZLW817L0XoiYs+2av4LL45MpiM3ac9lOGEE2hv1gX8+shGBk
-	XTxwOqlA4OnyCBvsZIQXrSznkaM8PGdLub/uGRjN9+plk8e2QkjD2LFQtqWrdtZqdyTP
-	BIKEfB+fRsdxZdRfH3GWPTU09jNrqb4pnk2Zw+S9JRhPkEbLbZdcdqENHFtVd7J52Ol3
-	vTZJ19W98PJ+uiFSmercwAvrH3IvUfzekb6szl/EIf1QzfoXtJaayE0LwdiSl8O66Oe0
-	mgF7vCv9UV0RbMC6x40CbnMEi2oolK4FBUhaiVZtpt3XxEikMCqddPly6nYjFMg9sRmu
-	9Ufw==
-X-Gm-Message-State: AHPjjUgu9gNShzcvxef9bgk30e9eu3Y569ud5sKLmGkAyvIzKitrQ8Ch
-	uYjnSRYg3igkd/Q4c/u0LY9YFOQCjzWssJIYCmU=
-X-Google-Smtp-Source: AOwi7QD/Mqi8XP0m7xV6XRRR+dblwNaBgqcY+3dIFh9ySoBtGItMcVu6zzXkrVPYQ4R9RuHGu6++5LDjpXG0QRdsN8g=
-X-Received: by 10.28.135.209 with SMTP id j200mr9270365wmd.40.1505765894773;
-	Mon, 18 Sep 2017 13:18:14 -0700 (PDT)
+	bh=ZKPWptA/nnuxzM3OTWWg5od8QfqyIO86Oqa/LHuWMaA=;
+	b=eyZcQMbxIjApGsugkqFI20YaLxHJ9EX8yU4skLkMpr+3gLi0dbKZEjr8upxEOYYh1C
+	UrKJV/QGezvHGutEulYPORK7CnZGY+3zfi9ztpgNv71LLORzbjypMpZeNkrBrxL2JVJy
+	1NsrTmZKZqprBxQIB8hev6kmJq1DC+cH2Fzo2R9eooHiq/KH+6OE14hZanK8ZH+KaAdh
+	8GNo5Twx3P56F7fYrSwijsA5/WtqEa/opYMr84uCZ5BZUu8FHxLI0o4jcZEZssMujVPw
+	uLAj2H+HYa9I/HbgFvr6w22H26c5Ts+6D0aG6/XiRmHCpSP3LPJ3S9xfHIkC/xGx/F3j
+	5ASQ==
+X-Gm-Message-State: AHPjjUjnIxKLOca2Nk66YQ6SDBj+Ce8J8OKgs6/QtHjNqs2UhtLZbxHu
+	oolW0gF6vB6WhTxvwldQXOvtgoTZeZgt+UeRfvM=
+X-Google-Smtp-Source: AOwi7QB/VmpljXnQIKKWCg3LFl7eYUkz/tOVrCiBJ61bdqofCOPAfYYNvLa/rUWa8dtVL8QgycepAr3Ltd1bG+YZ25w=
+X-Received: by 10.200.28.117 with SMTP id j50mr2019975qtk.312.1505827407219;
+	Tue, 19 Sep 2017 06:23:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.28.191.130 with HTTP; Mon, 18 Sep 2017 13:17:44 -0700 (PDT)
-In-Reply-To: <1505697753-19300-1-git-send-email-christopher.w.clark@gmail.com>
-References: <1505697753-19300-1-git-send-email-christopher.w.clark@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 18 Sep 2017 13:17:44 -0700
-Message-ID: <CAKmqyKP_xL0-Y=1m+CE1dHgcLWkD3Gib_fJmF-sGCF8vxhigTQ@mail.gmail.com>
+Received: by 10.12.148.104 with HTTP; Tue, 19 Sep 2017 06:23:26 -0700 (PDT)
+In-Reply-To: <1505697698-15124-1-git-send-email-christopher.w.clark@gmail.com>
+References: <1505697698-15124-1-git-send-email-christopher.w.clark@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 19 Sep 2017 09:23:26 -0400
+Message-ID: <CADkTA4OkOKbv74DQN=DXBXpQxVr7d-XZ-5rqdjETRUak5eGpbg@mail.gmail.com>
 To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: nathan.studer@dornerworks.com, meta-virtualization@yoctoproject.org,
-	cardoe@gentoo.org
-Subject: Re: [PATCH] xen: patch to fix ARM libxc missing variable init
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>, Doug Goldstein <cardoe@gentoo.org>,
+	nathan.studer@dornerworks.com
+Subject: Re: [PATCH] xen-guest-image-minimal: Fix non-x86. Select x11 via IMAGE_FEATURES.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,96 +80,264 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Sep 2017 20:18:16 -0000
+X-List-Received-Date: Tue, 19 Sep 2017 13:23:29 -0000
+Content-Type: multipart/alternative; boundary="94eb2c114eeeb34fcd05598ac367"
+
+--94eb2c114eeeb34fcd05598ac367
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Sep 17, 2017 at 6:22 PM,  <christopher.w.clark@gmail.com> wrote:
+All outstanding Xen patches are now merged.
+
+Bruce
+
+On Sun, Sep 17, 2017 at 9:21 PM, <christopher.w.clark@gmail.com> wrote:
+
 > From: Christopher Clark <christopher.w.clark@gmail.com>
 >
-> Fix Xen 4.9.0 build error on ARM architecture with gcc 7:
-> Import upstream Xen patch 88bfbf90e35f1213f9967a97dee0b2039f9998a4
+> Fix the image for non-x86, both with and without x11 included.
 >
-> Error was:
-> xc_dom_arm.c:229:31: error: 'domctl.u.address_size.size' may be used
-> uninitialized in this function [-Werror=maybe-uninitialized]
+> * Only install xf86-video-vesa on x86 platforms as it is not
+>   available elsewhere.
+>
+> * In the absence of xf86-video-vesa (ie. on non-x86 platforms)
+>   enable opengl and remove wayland from IMAGE_INSTALL to
+>   satisfy build requirements for x11.
+>
+> * Use IMAGE_FEATURES instead of DISTRO_FEATURES to enable x11
+>   inclusion in the image.
+>
+> * Verify the required DISTRO_FEATURE of 'xen' and if enabled, 'x11'.
+>
+> * When building the Xserver with Xen in DISTRO_FEATURES, on non-x86,
+>   turn off glamor by default, to remove dependency on egl.
+>   Introduces: xserver-xorg_%.bbappend
 >
 > Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@xilinx.com>
-Tested-by: Alistair Francis <alistair.francis@xilinx.com>
-
-Thanks,
-Alistair
-
 > ---
 >
-> This patch has been requested for inclusion in the upstream 4.9 branch
-> and later Xen 4.9 releases.
+> Changes in this non-RFC patch version: simplified the xorg-xserver
+> bbappend.
 >
 > Please use my gmail address for any correspondence.
 >
->  ...x-libxc-xc_dom_arm-missing-initialization.patch | 36 ++++++++++++++++++++++
->  recipes-extended/xen/xen_4.9.0.bb                  |  2 ++
->  2 files changed, 38 insertions(+)
->  create mode 100644 recipes-extended/xen/files/fix-libxc-xc_dom_arm-missing-initialization.patch
+>  recipes-extended/images/xen-guest-image-minimal.bb    | 16
+> +++++++++++++---
+>  recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend | 13 +++++++++++++
+>  2 files changed, 26 insertions(+), 3 deletions(-)
+>  create mode 100644 recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
 >
-> diff --git a/recipes-extended/xen/files/fix-libxc-xc_dom_arm-missing-initialization.patch b/recipes-extended/xen/files/fix-libxc-xc_dom_arm-missing-initialization.patch
-> new file mode 100644
-> index 0000000..05016a7
-> --- /dev/null
-> +++ b/recipes-extended/xen/files/fix-libxc-xc_dom_arm-missing-initialization.patch
-> @@ -0,0 +1,36 @@
-> +commit 88bfbf90e35f1213f9967a97dee0b2039f9998a4
-> +Author: Bernd Kuhls <bernd.kuhls@t-online.de>
-> +Date:   Sat Aug 19 16:21:42 2017 +0200
-> +
-> +    tools/libxc/xc_dom_arm: add missing variable initialization
-> +
-> +    The variable domctl.u.address_size.size may remain uninitialized if
-> +    guest_type is not one of xen-3.0-aarch64 or xen-3.0-armv7l. And the
-> +    code precisely checks if this variable is still 0 to decide if the
-> +    guest type is supported or not.
-> +
-> +    This fixes the following build failure with gcc 7.x:
-> +
-> +    xc_dom_arm.c:229:31: error: 'domctl.u.address_size.size' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> +         if ( domctl.u.address_size.size == 0 )
-> +
-> +    Patch originally taken from
-> +    https://www.mail-archive.com/xen-devel@lists.xen.org/msg109313.html.
-> +
-> +    Signed-off-by: Bernd Kuhls <bernd.kuhls@t-online.de>
-> +    Signed-off-by: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
-> +    Acked-by: Wei Liu <wei.liu2@citrix.com>
-> +
-> +diff --git a/tools/libxc/xc_dom_arm.c b/tools/libxc/xc_dom_arm.c
-> +index e7d4bd0..e669fb0 100644
-> +--- a/tools/libxc/xc_dom_arm.c
-> ++++ b/tools/libxc/xc_dom_arm.c
-> +@@ -223,6 +223,8 @@ static int set_mode(xc_interface *xch, domid_t domid, char *guest_type)
-> +
-> +     domctl.domain = domid;
-> +     domctl.cmd    = XEN_DOMCTL_set_address_size;
-> ++    domctl.u.address_size.size = 0;
-> ++
-> +     for ( i = 0; i < ARRAY_SIZE(types); i++ )
-> +         if ( !strcmp(types[i].guest, guest_type) )
-> +             domctl.u.address_size.size = types[i].size;
-> diff --git a/recipes-extended/xen/xen_4.9.0.bb b/recipes-extended/xen/xen_4.9.0.bb
-> index 0b20936..8e9c802 100644
-> --- a/recipes-extended/xen/xen_4.9.0.bb
-> +++ b/recipes-extended/xen/xen_4.9.0.bb
-> @@ -1,7 +1,9 @@
-> +FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
->  require xen.inc
+> diff --git a/recipes-extended/images/xen-guest-image-minimal.bb
+> b/recipes-extended/images/xen-guest-image-minimal.bb
+> index ab7e92c..bca6017 100644
+> --- a/recipes-extended/images/xen-guest-image-minimal.bb
+> +++ b/recipes-extended/images/xen-guest-image-minimal.bb
+> @@ -1,14 +1,24 @@
+>  DESCRIPTION = "A Xen guest image."
 >
->  SRC_URI = " \
->      https://downloads.xenproject.org/release/xen/${PV}/xen-${PV}.tar.gz \
-> +    file://fix-libxc-xc_dom_arm-missing-initialization.patch \
+> -inherit core-image
+> +inherit core-image distro_features_check
+>
+>  IMAGE_INSTALL += " \
+>      packagegroup-core-boot \
+>      ${@bb.utils.contains('MACHINE_FEATURES', 'acpi',
+> 'kernel-module-xen-acpi-processor', '', d)} \
 >      "
 >
->  SRC_URI[md5sum] = "f0a753637630f982dfbdb64121fd71e1"
+> -IMAGE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '
+> xf86-video-fbdev', '', d)}"
+> -IMAGE_INSTALL += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '
+> xf86-video-vesa', '', d)}"
+> +IMAGE_INSTALL += "${@bb.utils.contains('IMAGE_FEATURES', 'x11', '
+> xf86-video-fbdev', '', d)}"
+> +
+> +# Install xf86-video-vesa on x86 platforms.
+> +IMAGE_INSTALL_append_x86-64 = "${@bb.utils.contains('IMAGE_FEATURES',
+> 'x11', ' xf86-video-vesa', '', d)}"
+> +IMAGE_INSTALL_append_x86    = "${@bb.utils.contains('IMAGE_FEATURES',
+> 'x11', ' xf86-video-vesa', '', d)}"
+> +
+> +# When xf86-video-vesa is not present, add opengl and don't require
+> wayland:
+> +DISTRO_FEATURES_append = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', \
+> +                             bb.utils.contains('IMAGE_INSTALL',
+> 'xf86-video-vesa', '', ' opengl', d), '', d)}"
+> +DISTRO_FEATURES_remove = "${@bb.utils.contains('IMAGE_INSTALL',
+> 'xf86-video-vesa', '', 'wayland', d)}"
+> +
+> +REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('IMAGE_FEATURES',
+> 'x11', ' x11', '', d)} xen"
+>
+>  LICENSE = "MIT"
+>
+> diff --git a/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
+> b/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
+> new file mode 100644
+> index 0000000..9503404
+> --- /dev/null
+> +++ b/recipes-graphics/xorg-xserver/xserver-xorg_%.bbappend
+> @@ -0,0 +1,13 @@
+> +# Change the default Xserver OpenGL configuration for non-x86 distros
+> with Xen: deselect 'glamor'.
+> +# This removes the dependency on libegl to simplify the domU build.
+> +#
+> +# To override this (eg. if wanted for dom0 images) define:
+> +#   REMOVED_OPENGL_PKGCONFIGS = ""
+> +
+> +XEN_REMOVED_OPENGL_PKGCONFIGS ?= "glamor"
+> +XEN_REMOVED_OPENGL_PKGCONFIGS_x86 = ""
+> +XEN_REMOVED_OPENGL_PKGCONFIGS_x86-64 = ""
+> +
+> +REMOVED_OPENGL_PKGCONFIGS ?= "${@bb.utils.contains('DISTRO_FEATURES',
+> 'xen', "${XEN_REMOVED_OPENGL_PKGCONFIGS}", '', d)}"
+> +
+> +OPENGL_PKGCONFIGS_remove = "${REMOVED_OPENGL_PKGCONFIGS}"
 > --
 > 2.7.4
 >
+>
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--94eb2c114eeeb34fcd05598ac367
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">All outstanding Xen patches are now merged.<div><br></div>=
+<div>Bruce</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
+ote">On Sun, Sep 17, 2017 at 9:21 PM,  <span dir=3D"ltr">&lt;<a href=3D"mai=
+lto:christopher.w.clark@gmail.com" target=3D"_blank">christopher.w.clark@gm=
+ail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D=
+"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Chris=
+topher Clark &lt;<a href=3D"mailto:christopher.w.clark@gmail.com">christoph=
+er.w.clark@gmail.com</a><wbr>&gt;<br>
+<br>
+Fix the image for non-x86, both with and without x11 included.<br>
+<br>
+* Only install xf86-video-vesa on x86 platforms as it is not<br>
+=C2=A0 available elsewhere.<br>
+<br>
+* In the absence of xf86-video-vesa (ie. on non-x86 platforms)<br>
+=C2=A0 enable opengl and remove wayland from IMAGE_INSTALL to<br>
+=C2=A0 satisfy build requirements for x11.<br>
+<br>
+* Use IMAGE_FEATURES instead of DISTRO_FEATURES to enable x11<br>
+=C2=A0 inclusion in the image.<br>
+<br>
+* Verify the required DISTRO_FEATURE of &#39;xen&#39; and if enabled, &#39;=
+x11&#39;.<br>
+<br>
+* When building the Xserver with Xen in DISTRO_FEATURES, on non-x86,<br>
+=C2=A0 turn off glamor by default, to remove dependency on egl.<br>
+=C2=A0 Introduces: xserver-xorg_%.bbappend<br>
+<br>
+Signed-off-by: Christopher Clark &lt;<a href=3D"mailto:christopher.clark6@b=
+aesystems.com">christopher.clark6@<wbr>baesystems.com</a>&gt;<br>
+---<br>
+<br>
+Changes in this non-RFC patch version: simplified the xorg-xserver bbappend=
+.<br>
+<br>
+Please use my gmail address for any correspondence.<br>
+<br>
+=C2=A0recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.bb"=
+ rel=3D"noreferrer" target=3D"_blank">xen-<wbr>guest-image-minimal.bb</a>=
+=C2=A0 =C2=A0 | 16 +++++++++++++---<br>
+=C2=A0recipes-graphics/xorg-xserver/<wbr>xserver-xorg_%.bbappend | 13 +++++=
+++++++++<br>
+=C2=A02 files changed, 26 insertions(+), 3 deletions(-)<br>
+=C2=A0create mode 100644 recipes-graphics/xorg-xserver/<wbr>xserver-xorg_%.=
+bbappend<br>
+<br>
+diff --git a/recipes-extended/images/<a href=3D"http://xen-guest-image-mini=
+mal.bb" rel=3D"noreferrer" target=3D"_blank">xen-<wbr>guest-image-minimal.b=
+b</a> b/recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.b=
+b" rel=3D"noreferrer" target=3D"_blank">xen-<wbr>guest-image-minimal.bb</a>=
+<br>
+index ab7e92c..bca6017 100644<br>
+--- a/recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.bb"=
+ rel=3D"noreferrer" target=3D"_blank">xen-<wbr>guest-image-minimal.bb</a><b=
+r>
++++ b/recipes-extended/images/<a href=3D"http://xen-guest-image-minimal.bb"=
+ rel=3D"noreferrer" target=3D"_blank">xen-<wbr>guest-image-minimal.bb</a><b=
+r>
+@@ -1,14 +1,24 @@<br>
+=C2=A0DESCRIPTION =3D &quot;A Xen guest image.&quot;<br>
+<br>
+-inherit core-image<br>
++inherit core-image distro_features_check<br>
+<br>
+=C2=A0IMAGE_INSTALL +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0packagegroup-core-boot \<br>
+=C2=A0 =C2=A0 =C2=A0${@bb.utils.contains(&#39;MACHINE_<wbr>FEATURES&#39;, &=
+#39;acpi&#39;, &#39;kernel-module-xen-acpi-<wbr>processor&#39;, &#39;&#39;,=
+ d)} \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+-IMAGE_INSTALL +=3D &quot;${@bb.utils.contains(&#39;DISTRO_<wbr>FEATURES&#3=
+9;, &#39;x11&#39;, &#39; xf86-video-fbdev&#39;, &#39;&#39;, d)}&quot;<br>
+-IMAGE_INSTALL +=3D &quot;${@bb.utils.contains(&#39;DISTRO_<wbr>FEATURES&#3=
+9;, &#39;x11&#39;, &#39; xf86-video-vesa&#39;, &#39;&#39;, d)}&quot;<br>
++IMAGE_INSTALL +=3D &quot;${@bb.utils.contains(&#39;IMAGE_<wbr>FEATURES&#39=
+;, &#39;x11&#39;, &#39; xf86-video-fbdev&#39;, &#39;&#39;, d)}&quot;<br>
++<br>
++# Install xf86-video-vesa on x86 platforms.<br>
++IMAGE_INSTALL_append_x86-64 =3D &quot;${@bb.utils.contains(&#39;IMAGE_<wbr=
+>FEATURES&#39;, &#39;x11&#39;, &#39; xf86-video-vesa&#39;, &#39;&#39;, d)}&=
+quot;<br>
++IMAGE_INSTALL_append_x86=C2=A0 =C2=A0 =3D &quot;${@bb.utils.contains(&#39;=
+IMAGE_<wbr>FEATURES&#39;, &#39;x11&#39;, &#39; xf86-video-vesa&#39;, &#39;&=
+#39;, d)}&quot;<br>
++<br>
++# When xf86-video-vesa is not present, add opengl and don&#39;t require wa=
+yland:<br>
++DISTRO_FEATURES_append =3D &quot;${@bb.utils.contains(&#39;IMAGE_<wbr>FEAT=
+URES&#39;, &#39;x11&#39;, \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bb.utils.contains(&#39;IMAGE_<wbr>INSTALL&#3=
+9;, &#39;xf86-video-vesa&#39;, &#39;&#39;, &#39; opengl&#39;, d), &#39;&#39=
+;, d)}&quot;<br>
++DISTRO_FEATURES_remove =3D &quot;${@bb.utils.contains(&#39;IMAGE_<wbr>INST=
+ALL&#39;, &#39;xf86-video-vesa&#39;, &#39;&#39;, &#39;wayland&#39;, d)}&quo=
+t;<br>
++<br>
++REQUIRED_DISTRO_FEATURES +=3D &quot;${@bb.utils.contains(&#39;IMAGE_<wbr>F=
+EATURES&#39;, &#39;x11&#39;, &#39; x11&#39;, &#39;&#39;, d)} xen&quot;<br>
+<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+<br>
+diff --git a/recipes-graphics/xorg-<wbr>xserver/xserver-xorg_%.<wbr>bbappen=
+d b/recipes-graphics/xorg-<wbr>xserver/xserver-xorg_%.<wbr>bbappend<br>
+new file mode 100644<br>
+index 0000000..9503404<br>
+--- /dev/null<br>
++++ b/recipes-graphics/xorg-<wbr>xserver/xserver-xorg_%.<wbr>bbappend<br>
+@@ -0,0 +1,13 @@<br>
++# Change the default Xserver OpenGL configuration for non-x86 distros with=
+ Xen: deselect &#39;glamor&#39;.<br>
++# This removes the dependency on libegl to simplify the domU build.<br>
++#<br>
++# To override this (eg. if wanted for dom0 images) define:<br>
++#=C2=A0 =C2=A0REMOVED_OPENGL_PKGCONFIGS =3D &quot;&quot;<br>
++<br>
++XEN_REMOVED_OPENGL_PKGCONFIGS ?=3D &quot;glamor&quot;<br>
++XEN_REMOVED_OPENGL_<wbr>PKGCONFIGS_x86 =3D &quot;&quot;<br>
++XEN_REMOVED_OPENGL_<wbr>PKGCONFIGS_x86-64 =3D &quot;&quot;<br>
++<br>
++REMOVED_OPENGL_PKGCONFIGS ?=3D &quot;${@bb.utils.contains(&#39;DISTRO_<wbr=
+>FEATURES&#39;, &#39;xen&#39;, &quot;${XEN_REMOVED_OPENGL_<wbr>PKGCONFIGS}&=
+quot;, &#39;&#39;, d)}&quot;<br>
++<br>
++OPENGL_PKGCONFIGS_remove =3D &quot;${REMOVED_OPENGL_PKGCONFIGS}&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
+2.7.4<br>
+<br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div>
+
+--94eb2c114eeeb34fcd05598ac367--
