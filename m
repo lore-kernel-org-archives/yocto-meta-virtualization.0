@@ -1,35 +1,36 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9B641E00D1A; Mon, 25 Sep 2017 01:27:59 -0700 (PDT)
+	id 46922E00CD1; Mon, 25 Sep 2017 01:42:19 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AB2AEE00CD5
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B6C4AE00BE8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 25 Sep 2017 01:27:57 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v8P8RuqK024641
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
+	Mon, 25 Sep 2017 01:42:18 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8P8gI7b024087
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 25 Sep 2017 01:27:56 -0700
+	Mon, 25 Sep 2017 01:42:18 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 25 Sep 2017 01:27:55 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 25 Sep 2017 01:42:17 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 25 Sep 2017 16:26:48 +0800
-Message-ID: <20170925082648.4382-3-Qi.Chen@windriver.com>
+Date: Mon, 25 Sep 2017 16:41:11 +0800
+Message-ID: <20170925084113.30094-1-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20170925082648.4382-1-Qi.Chen@windriver.com>
-References: <20170925082648.4382-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/3] README: update to include information about bbappend inclusion
+Subject: [PATCH V2 1/3] sanity-bbappend.bbclass: add class for bbappend files checking
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,34 +43,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Sep 2017 08:27:59 -0000
+X-List-Received-Date: Mon, 25 Sep 2017 08:42:19 -0000
 Content-Type: text/plain
 
-Update README file to include information about bbappend file inclusion,
-telling the users that 'virtualization' needs to be in DISTRO_FEATURES
-to make some bbappend files to be effective.
+Add a new class, sanity-bbappend.bbclass, to check for whether necessary
+settings are available for bbappend files in this layer to be effective,
+and warn users if not.
+
+In addition, a variable SKIP_SANITY_BBAPPEND_CHECK is added to enable users
+to explicitly skip the checking to avoid unwanted warnings.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- README | 5 +++++
- 1 file changed, 5 insertions(+)
+ classes/sanity-bbappend.bbclass | 10 ++++++++++
+ conf/layer.conf                 |  4 ++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 classes/sanity-bbappend.bbclass
 
-diff --git a/README b/README
-index 2578f90..49fda10 100644
---- a/README
-+++ b/README
-@@ -4,6 +4,11 @@ meta-virtualization
- This layer provides support for building Xen, KVM, Libvirt, and associated
- packages necessary for constructing OE-based virtualized solutions.
+diff --git a/classes/sanity-bbappend.bbclass b/classes/sanity-bbappend.bbclass
+new file mode 100644
+index 0000000..bd2b717
+--- /dev/null
++++ b/classes/sanity-bbappend.bbclass
+@@ -0,0 +1,10 @@
++addhandler virt_bbappend_distrocheck
++virt_bbappend_distrocheck[eventmask] = "bb.event.ConfigParsed"
++python virt_bbappend_distrocheck() {
++    skip_check = e.data.getVar('SKIP_SANITY_BBAPPEND_CHECK') == "1"
++    if 'virtualization' not in e.data.getVar('DISTRO_FEATURES').split() and not skip_check:
++        bb.warn("You have included the meta-virtualization layer, but \
++'virtualization' has not been enabled in your DISTRO_FEATURES. Some bbappend files \
++may not take effect. See the meta-virtualization README for details on enabling \
++virtualization support.")
++}
+diff --git a/conf/layer.conf b/conf/layer.conf
+index be08a98..341ad38 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -22,3 +22,7 @@ require conf/distro/include/virt_security_flags.inc
  
-+The bbappend files for some recipe (e.g. linux-yocto) in this layer need to
-+have 'virtualization' in DISTRO_FEATURES to have effect. To enable them, add
-+in configuration file the following line.
-+DISTRO_FEATURES_append = " virtualization"
+ PREFERRED_PROVIDER_virtual/runc ?= "runc-docker"
+ PREFERRED_PROVIDER_virtual/containerd ?= "containerd-docker"
 +
- Dependencies
- ------------
- This layer depends on:
++# Sanity check for application of bbappend files.
++# Setting SKIP_SANITY_BBAPPEND_CHECK to "1" would skip the check.
++INHERIT += "sanity-bbappend"
 -- 
 2.11.0
 
