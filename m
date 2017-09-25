@@ -1,6 +1,6 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2753AE00CD8; Mon, 25 Sep 2017 01:27:56 -0700 (PDT)
+	id 00C37E00CD5; Mon, 25 Sep 2017 01:27:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,29 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F085CE00CBA
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 18C9FE00CD1
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 25 Sep 2017 01:27:54 -0700 (PDT)
+	Mon, 25 Sep 2017 01:27:55 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id v8P8Rr60028149
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id v8P8RteC024030
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 25 Sep 2017 01:27:53 -0700 (PDT)
+	Mon, 25 Sep 2017 01:27:55 -0700 (PDT)
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.361.1; Mon, 25 Sep 2017 01:27:52 -0700
+	14.3.361.1; Mon, 25 Sep 2017 01:27:54 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 25 Sep 2017 16:26:46 +0800
-Message-ID: <20170925082648.4382-1-Qi.Chen@windriver.com>
+Date: Mon, 25 Sep 2017 16:26:47 +0800
+Message-ID: <20170925082648.4382-2-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20170925082648.4382-1-Qi.Chen@windriver.com>
+References: <20170925082648.4382-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] sanity-bbappend.bbclass: add class for bbappend files checking
+Subject: [PATCH 2/3] linux-yocto: make bbappend have effect conditionally
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,52 +45,156 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Sep 2017 08:27:56 -0000
+X-List-Received-Date: Mon, 25 Sep 2017 08:27:57 -0000
 Content-Type: text/plain
 
-Add a new class, sanity-bbappend.bbclass, to check for whether necessary
-settings are available for bbappend files in this layer to be effective,
-and warn users if not.
+Make these bbappend files to take effect only when DISTRO_FEATURES
+contain 'virtualization'. Otherwise, we would meet failure failure
+at system booting up qemux86. Related logs are as below.
 
-In addition, a variable SKIP_SANITY_BBAPPEND_CHECK is added to enable users
-to explicitly skip the checking to avoid unwanted warnings.
+ systemd-modules-load[113]: Failed to insert 'kvm_amd': Operation not supported
+ systemd-modules-load[113]: Failed to insert 'kvm_intel': Operation not supported
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- classes/sanity-bbappend.bbclass | 11 +++++++++++
- conf/layer.conf                 |  4 ++++
- 2 files changed, 15 insertions(+)
- create mode 100644 classes/sanity-bbappend.bbclass
+ recipes-kernel/linux/linux-yocto_4.10.bbappend      | 21 +--------------------
+ recipes-kernel/linux/linux-yocto_4.12.bbappend      | 21 +--------------------
+ recipes-kernel/linux/linux-yocto_4.4.bbappend       | 21 +--------------------
+ recipes-kernel/linux/linux-yocto_4.9.bbappend       | 21 +--------------------
+ recipes-kernel/linux/linux-yocto_virtualization.inc | 20 ++++++++++++++++++++
+ 5 files changed, 24 insertions(+), 80 deletions(-)
+ create mode 100644 recipes-kernel/linux/linux-yocto_virtualization.inc
 
-diff --git a/classes/sanity-bbappend.bbclass b/classes/sanity-bbappend.bbclass
+diff --git a/recipes-kernel/linux/linux-yocto_4.10.bbappend b/recipes-kernel/linux/linux-yocto_4.10.bbappend
+index f163fdf..617cacc 100644
+--- a/recipes-kernel/linux/linux-yocto_4.10.bbappend
++++ b/recipes-kernel/linux/linux-yocto_4.10.bbappend
+@@ -1,20 +1 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+-
+-SRC_URI += "file://xt-checksum.scc \
+-            file://ebtables.scc \
+-	    file://vswitch.scc \
+-	    file://lxc.scc \
+-            file://docker.scc \
+-	    "
+-KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+-
+-KERNEL_MODULE_AUTOLOAD += "openvswitch"
+-KERNEL_MODULE_AUTOLOAD += "kvm"
+-KERNEL_MODULE_AUTOLOAD += "kvm-amd"
+-KERNEL_MODULE_AUTOLOAD += "kvm-intel"
+-
+-# aufs kernel support required for xen-image-minimal
+-KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+-
+-# xen kernel support
+-SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-kernel/linux/linux-yocto_4.12.bbappend b/recipes-kernel/linux/linux-yocto_4.12.bbappend
+index f163fdf..617cacc 100644
+--- a/recipes-kernel/linux/linux-yocto_4.12.bbappend
++++ b/recipes-kernel/linux/linux-yocto_4.12.bbappend
+@@ -1,20 +1 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+-
+-SRC_URI += "file://xt-checksum.scc \
+-            file://ebtables.scc \
+-	    file://vswitch.scc \
+-	    file://lxc.scc \
+-            file://docker.scc \
+-	    "
+-KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+-
+-KERNEL_MODULE_AUTOLOAD += "openvswitch"
+-KERNEL_MODULE_AUTOLOAD += "kvm"
+-KERNEL_MODULE_AUTOLOAD += "kvm-amd"
+-KERNEL_MODULE_AUTOLOAD += "kvm-intel"
+-
+-# aufs kernel support required for xen-image-minimal
+-KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+-
+-# xen kernel support
+-SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-kernel/linux/linux-yocto_4.4.bbappend b/recipes-kernel/linux/linux-yocto_4.4.bbappend
+index f163fdf..617cacc 100644
+--- a/recipes-kernel/linux/linux-yocto_4.4.bbappend
++++ b/recipes-kernel/linux/linux-yocto_4.4.bbappend
+@@ -1,20 +1 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+-
+-SRC_URI += "file://xt-checksum.scc \
+-            file://ebtables.scc \
+-	    file://vswitch.scc \
+-	    file://lxc.scc \
+-            file://docker.scc \
+-	    "
+-KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+-
+-KERNEL_MODULE_AUTOLOAD += "openvswitch"
+-KERNEL_MODULE_AUTOLOAD += "kvm"
+-KERNEL_MODULE_AUTOLOAD += "kvm-amd"
+-KERNEL_MODULE_AUTOLOAD += "kvm-intel"
+-
+-# aufs kernel support required for xen-image-minimal
+-KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+-
+-# xen kernel support
+-SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-kernel/linux/linux-yocto_4.9.bbappend b/recipes-kernel/linux/linux-yocto_4.9.bbappend
+index f163fdf..617cacc 100644
+--- a/recipes-kernel/linux/linux-yocto_4.9.bbappend
++++ b/recipes-kernel/linux/linux-yocto_4.9.bbappend
+@@ -1,20 +1 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+-
+-SRC_URI += "file://xt-checksum.scc \
+-            file://ebtables.scc \
+-	    file://vswitch.scc \
+-	    file://lxc.scc \
+-            file://docker.scc \
+-	    "
+-KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
+-
+-KERNEL_MODULE_AUTOLOAD += "openvswitch"
+-KERNEL_MODULE_AUTOLOAD += "kvm"
+-KERNEL_MODULE_AUTOLOAD += "kvm-amd"
+-KERNEL_MODULE_AUTOLOAD += "kvm-intel"
+-
+-# aufs kernel support required for xen-image-minimal
+-KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+-
+-# xen kernel support
+-SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
 new file mode 100644
-index 0000000..22eef3f
+index 0000000..8b296d7
 --- /dev/null
-+++ b/classes/sanity-bbappend.bbclass
-@@ -0,0 +1,11 @@
-+addhandler virt_bbappend_distrocheck
-+virt_bbappend_distrocheck[eventmask] = "bb.event.ConfigParsed"
-+python virt_bbappend_distrocheck() {
-+    import oe
-+    skip_check = e.data.getVar('SKIP_SANITY_BBAPPEND_CHECK') == "1"
-+    if 'virtualization' not in e.data.getVar('DISTRO_FEATURES').split() and not skip_check:
-+        bb.warn("You have included the meta-virtualization layer, but \
-+'virtualization' has not been enabled in your DISTRO_FEATURES. Some bbappend files \
-+may not take effect. See the meta-virtualization README for details on enabling \
-+virtualization support.")
-+}
-diff --git a/conf/layer.conf b/conf/layer.conf
-index be08a98..341ad38 100644
---- a/conf/layer.conf
-+++ b/conf/layer.conf
-@@ -22,3 +22,7 @@ require conf/distro/include/virt_security_flags.inc
- 
- PREFERRED_PROVIDER_virtual/runc ?= "runc-docker"
- PREFERRED_PROVIDER_virtual/containerd ?= "containerd-docker"
++++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+@@ -0,0 +1,20 @@
++FILESEXTRAPATHS_prepend := "${THISDIR}/linux-yocto:"
 +
-+# Sanity check for application of bbappend files.
-+# Setting SKIP_SANITY_BBAPPEND_CHECK to "1" would skip the check.
-+INHERIT += "sanity-bbappend"
++SRC_URI += "file://xt-checksum.scc \
++            file://ebtables.scc \
++	    file://vswitch.scc \
++	    file://lxc.scc \
++            file://docker.scc \
++	    "
++KERNEL_FEATURES_append = " features/kvm/qemu-kvm-enable.scc"
++
++KERNEL_MODULE_AUTOLOAD += "openvswitch"
++KERNEL_MODULE_AUTOLOAD += "kvm"
++KERNEL_MODULE_AUTOLOAD += "kvm-amd"
++KERNEL_MODULE_AUTOLOAD += "kvm-intel"
++
++# aufs kernel support required for xen-image-minimal
++KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
++
++# xen kernel support
++SRC_URI += "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' file://xen.scc', '', d)}"
 -- 
 2.11.0
 
