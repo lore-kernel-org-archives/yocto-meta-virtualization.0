@@ -1,70 +1,35 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 15D17E00C44; Mon,  2 Oct 2017 12:47:53 -0700 (PDT)
+	id E5D8FE00D50; Tue,  3 Oct 2017 08:17:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [74.125.83.65 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [74.125.83.65 listed in dnsbl.sorbs.net]
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AE0DFE00BB7
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BAECFE00CF6
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  2 Oct 2017 12:47:52 -0700 (PDT)
-Received: by mail-pg0-f65.google.com with SMTP id y192so7105168pgd.5
+	Tue,  3 Oct 2017 08:17:51 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id v93FHoCJ008838
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 02 Oct 2017 12:47:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=aVTLNKRamUxsDA50tURMiY1757xFnU9swaAl2EWj5Q0=;
-	b=dhsU7biDTgVctXElyaGHLbEsa/hnjY/bE+6oqy4RdY+Wh9JNwz0Dil5Ugv4cynbI/6
-	FZ7yVhM1janjMoPYezDqJpistXeeTqygcKnxIPY8yls0YDorbiOI3qXpnF3UH5za6rKy
-	bp6wyogTZeg8sjQ6MrlrHTOrLsGUsyiqCwzKvThekmUqu+StMJSHdTABlT2sbtUCO9pb
-	HZhfE0fXlvvKdGL2AlMeiPC9TgHq4jaNyQajomfgLOVnUH4BGOtKew6hgO6xDa09SvbY
-	lp59LCHv9PHcdEWF7ZITbth4PILr4GbXxST8fK/8ZO/BDJFxnTwLNd2hKpJW5TFd+02s
-	za2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aVTLNKRamUxsDA50tURMiY1757xFnU9swaAl2EWj5Q0=;
-	b=Z0A20gl8gLwulWyYqRiPE6ABtuOf+owhFPYFRmBq4qQF2KxF4JC5X14P/d3eSeiXvO
-	bfVLXVhqzZhawMlBLRYTSvdCsxD3rj0Uodj6yiPKJndsF2TK1RNNRU+TLVtK2ACSKp/n
-	VJnvWVsE0eyCfisqBGj/MRKJUBuzFExIZ3kefJCv8jqVbP1ATfqvNeUXqhLPlFkGmtDI
-	Zgua3s/HtJhYTbMPZOG6ZzMUPmCQ4X0P2ESZl1TveIVv2oBi4TFiyHMUznxq9sOwgIQA
-	3aM0xXlaitn3GU/BC0AsEJx7GlY6yP9imzWfCraoZ/uP/qpHTquDBcmFzwlQmjgv1WOm
-	1GPA==
-X-Gm-Message-State: AMCzsaW2IF8w4Oc7qFv8plaGaWVXtZXjoMsN7+pay4AtwdBpcSQM0Y5r
-	caQ1S79zqYUs97Uogc2O+8QsfXHk
-X-Google-Smtp-Source: AOwi7QAaTIfb/+iz4TfxgQtPOdwGeDaGdHE6MjlxpxKLFJ58K88twDsPfIwOhBqpV3OZGI3TKm461w==
-X-Received: by 10.84.234.136 with SMTP id n8mr3118479plk.228.1506973671545;
-	Mon, 02 Oct 2017 12:47:51 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	s9sm18544698pfk.20.2017.10.02.12.47.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 02 Oct 2017 12:47:50 -0700 (PDT)
-From: christopher.w.clark@gmail.com
-To: meta-virtualization@yoctoproject.org
-Date: Mon,  2 Oct 2017 12:47:36 -0700
-Message-Id: <1506973656-11819-1-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: cardoe@gentoo.org
-Subject: [PATCH] xen-guest-image-minimal: fix making PCI a x86-only dependency
+	Tue, 3 Oct 2017 08:17:50 -0700
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Tue, 3 Oct 2017 08:17:49 -0700
+To: <meta-virtualization@yoctoproject.org>
+From: Mark Hatle <mark.hatle@windriver.com>
+Organization: Wind River Systems
+Message-ID: <1fb178e8-d4cd-6125-8d69-7d65ef34e1e6@windriver.com>
+Date: Tue, 3 Oct 2017 10:17:49 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.3.0
+MIME-Version: 1.0
+Subject: xen-guest-image-minimal.bb
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,62 +42,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Oct 2017 19:47:53 -0000
+X-List-Received-Date: Tue, 03 Oct 2017 15:17:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-From: Christopher Clark <christopher.w.clark@gmail.com>
+I had a user report to me a problem with this recipe.  They received a parsing
+error, which was due to effectively a recursion issue.
 
-The logic for restricting the xen-pciback kernel module to x86-only
-images was incorrect, resulting in the IMAGE_INSTALL_x86 and _x86-64
-variables causing the IMAGE_INSTALL variable contents to be
-overridden and incomplete.
+I looked at the recipe and noticed:
 
-This correction removes the specialized IMAGE_INSTALL_x86 and _x84-64
-variables. The replacement logic causes a value with
-conditionally-populated contents to be added to the IMAGE_INSTALL
-variable.
+# When xf86-video-vesa is not present, add opengl and don't require wayland:
+DISTRO_FEATURES_append = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', \
+                             bb.utils.contains('IMAGE_INSTALL',
+'xf86-video-vesa', '', ' opengl', d), '', d)}"
+DISTRO_FEATURES_remove = "${@bb.utils.contains('IMAGE_INSTALL',
+'xf86-video-vesa', '', 'wayland', d)}"
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
+The trigger for the fault the user sent me was this code..  But I question why
+the code is even in the recipe.
 
-The symptom prior to this patch was that the xen-image-minimal build on
-x86 would complete successfully, but would not include the expected
-contents. This is because the IMAGE_INSTALL variable _only_ included
-kernel-module-xen-pciback and was missing the other contents. The cause
-was the specialized _x86 and _x86-64 variables overriding the
-unspecialized IMAGE_INSTALL variable, rather than appending to it.
+DISTRO_FEATURE settings are global, while recipe context is local to that
+recipe.  So those DISTRO_FEATURES (append and remove) are effectively a no-op to
+the rest of the system and would only affect this particular recipe.  I believe
+that is incorrect.
+
+In addition changing the DISTRO_FEATURE based on the IMAGE_FEATURE is incorrect
+-- as often the IMAGE_FEATURES are defined by referencing the DISTRO_FEATURES
+(or MACHINE_FEATURES that reference DISTRO_FEATURES) which gets you into a
+variable recursion problem.
 
 
-Please use my gmail address for any correspondence.
+The design of the DISTRO_FEATURES is that they must be set in a globally loaded
+configuration file, so they are visible to all recipes/tasks -- otherwise they
+really have no effect.
 
- recipes-extended/images/xen-image-minimal.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+I'd offer a patch, but I don't understand what is being attempted here.
 
-diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
-index a01976e..827cc87 100644
---- a/recipes-extended/images/xen-image-minimal.bb
-+++ b/recipes-extended/images/xen-image-minimal.bb
-@@ -10,16 +10,16 @@ IMAGE_INSTALL += " \
-     kernel-module-xen-gntalloc \
-     kernel-module-xen-gntdev \
-     kernel-module-xen-netback \
-+    ${@bb.utils.contains('MACHINE_FEATURES', 'pci', "${XEN_PCIBACK_MODULE}", '', d)} \
-     kernel-module-xen-wdt \
-     xen-base \
-     qemu \
-     "
- 
- # Linux kernel option CONFIG_XEN_PCIDEV_BACKEND depends on X86
--IMAGE_INSTALL_x86 += " \
--    ${@bb.utils.contains('MACHINE_FEATURES', 'pci', 'kernel-module-xen-pciback', '', d)}"
--IMAGE_INSTALL_x86-64 += " \
--    ${@bb.utils.contains('MACHINE_FEATURES', 'pci', 'kernel-module-xen-pciback', '', d)}"
-+XEN_PCIBACK_MODULE = ""
-+XEN_PCIBACK_MODULE_x86    = "kernel-module-xen-pciback"
-+XEN_PCIBACK_MODULE_x86-64 = "kernel-module-xen-pciback"
- 
- LICENSE = "MIT"
- 
--- 
-2.7.4
-
+--Mark
 
