@@ -1,70 +1,61 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <pbarker@toganlabs.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2FF87E00D53; Tue,  3 Oct 2017 12:04:02 -0700 (PDT)
+	id C1077E00D57; Wed,  4 Oct 2017 03:41:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [74.125.83.65 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (christopher.w.clark[at]gmail.com)
+	*      [74.125.82.44 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [74.125.83.65 listed in dnsbl.sorbs.net]
-Received: from mail-pg0-f65.google.com (mail-pg0-f65.google.com [74.125.83.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 24B3EE00D48
+Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 65EC8E00D48
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Oct 2017 12:03:37 -0700 (PDT)
-Received: by mail-pg0-f65.google.com with SMTP id o1so9511271pga.4
+	Wed,  4 Oct 2017 03:41:18 -0700 (PDT)
+Received: by mail-wm0-f44.google.com with SMTP id 196so8972003wma.1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Oct 2017 12:03:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 04 Oct 2017 03:41:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=9ZQ9U3fyKPejqHBrrB+hSQm51I9mj0H8gb2EEjc4xcM=;
-	b=I3PMZtUnkPebiSipBDXKXXUOLYOc5rai4VbYZ5KHlswq8C/QFFb8LRyrnnXLyo6Y0k
-	TqPYweqiTsfKwBmv+KiqQs4g0d/oBAqUuqdyKDXt2vLW6CqijZDMKhXGjYRekC4u71Zi
-	sg+87O7ZW3AcGqZqN+Hsk8VZ6Ae6NSUWHqS1WT8On7VLFdLwUrEUjhn/zGGWixqwhJ44
-	y2rL7ERz5NRR7EiKFFMK+Jh6wBWWTntt0mFH1mFQbAeUSVJGJJ8DiI/zficPIq20z2Cq
-	T3owy/ApRFImU9t4DS6iDVcj5RDzOQCq55G/H4X4mZ/WrocargsQs26Ng5ggv332vB96
-	ba9A==
+	bh=Nu12XSfJ+SbO7nG2D4AXjUyoIneZsBSltg5gcchT1Fc=;
+	b=BTe0SJ477lYq/PhxoLpcdJvA0q6xB6LLHL2Mrpuq6wFwv+ikkjRm0FE5hK9tBPGRTr
+	H0LTBnoM3ph5q7HKdY4YDC6Hqh0AKHdBMUT2gC5uvxM55kQf+IpxyFbq5rW//herFD7k
+	xabHrWnZiWqbYJTdjWGKS+hxMSlZ2czXg2GzgxkvNLp/DVo/rHeHVzThAuG6cHTHVMhj
+	b2AyQDW+M75Q6Wky+/iliSMlRxGsSRigF28DpJ0bQt3p/1Qs0vx/F/qoUVvSReEb0I91
+	2t5rh4DmcKtLf0PEZAA93m0EM632RHJ4iJ5V7tn1B2sDdz1R1ysVxNHDrgfoVwu92ROq
+	+0bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=9ZQ9U3fyKPejqHBrrB+hSQm51I9mj0H8gb2EEjc4xcM=;
-	b=Cw7LI3sEt3TTdEPbn5oIldf+HNISAfScSOXrXpLyqT/0ljc+vEs5apUGK0NOJ+2UBy
-	pItphJU9x2Q0R3uk4DCA+bKTKvU1Vrz8pxAE9Ez0RBPviiQBDZB8OPskwAhd8QmdKCg0
-	jbHmbH9KMy79MnPeDtLEGnqzqMdgZo80EnjyI8biwDcPY/dG8bKmsv22jCzBbYBV9Fy4
-	ihEsjFHqWfGewYUdaWcGedVnKYgvKiLTVrRegKpMb4fXTKzK42JW3eFhPSP4pK5McIT9
-	D7mlb8TGu342dHK3A4mQSPi0pb6LqGIvaEbQJ7Ua6JbkpkvPWoppR+7IYGYlxtwoQOmc
-	B05g==
-X-Gm-Message-State: AHPjjUgLjM631cv4YrT5uzKkRBkXxwNxv7HBO5M172Ba4dIqeIinn8+L
-	vvStFtJ+eI+EIKftRyz6geQc34+s
-X-Google-Smtp-Source: AOwi7QBJ0VkQivUqbEKOTxCkR1tddbXqORw1duwpjkCvl1oMcsxkSzOH74na6PhJI1NqN3PFMItlAg==
-X-Received: by 10.84.235.198 with SMTP id m6mr17580923plt.57.1507057416915;
-	Tue, 03 Oct 2017 12:03:36 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	z126sm10651589pfz.70.2017.10.03.12.03.35
+	bh=Nu12XSfJ+SbO7nG2D4AXjUyoIneZsBSltg5gcchT1Fc=;
+	b=Y0d5oEhlefGH5M9Qz9leOmnkq0eTaumR5Wg1gn4dX8e4knsBJUUfGi28eYCeIU7fNf
+	6YzbwetdRtXdej9XF5mn+c5BprQ+wQAYk1pfm873YBnTWt12ND2+HLTRPJYIFBTLWv3/
+	I9msxohCdUrP2GT05YyFSK6ezNah0oCqVOvVCP1gBf0o7xl5dUg4oIc+hvJ+2bjFmfeU
+	HbAKVMuWA5ul+189MJT+fizUppjoYoTWp4MzjlWvNETvZVSMN5XY58frRV4In3tF6jY4
+	+WMYBrVQ4CjFlpoufddd2WoxztnvcQuG24eCU0Ldd9RR5zavWMOPQ0NjfITlEmPTVkNL
+	94mA==
+X-Gm-Message-State: AHPjjUimf7Ylm2NOimO+Oj1tMYh2zUbv9XxzM/KRjEEpnCmEzLxTWUul
+	RIi1k4v+c+4ScuQ2c7YsEFRUQIxD
+X-Google-Smtp-Source: AOwi7QDOU2aiGfT4sTpxTLFR5fJci9HAM7PlsgGmq62DEIJ4xZwgFNSCxgpsluM9IzjPbpqCQvzokg==
+X-Received: by 10.28.214.212 with SMTP id n203mr13800397wmg.10.1507113678076; 
+	Wed, 04 Oct 2017 03:41:18 -0700 (PDT)
+Received: from build1.toganlabs.com (build1.toganlabs.com. [88.99.240.167])
+	by smtp.gmail.com with ESMTPSA id v2sm7115456wmf.8.2017.10.04.03.41.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Oct 2017 12:03:36 -0700 (PDT)
-From: christopher.w.clark@gmail.com
+	Wed, 04 Oct 2017 03:41:17 -0700 (PDT)
+From: Paul Barker <pbarker@toganlabs.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue,  3 Oct 2017 12:03:26 -0700
-Message-Id: <1507057406-19771-1-git-send-email-christopher.w.clark@gmail.com>
+Date: Wed,  4 Oct 2017 10:40:24 +0000
+Message-Id: <1507113626-3022-1-git-send-email-pbarker@toganlabs.com>
 X-Mailer: git-send-email 2.7.4
-Cc: cardoe@gentoo.org
-Subject: [PATCH] xen-guest-image-minimal: remove lines modifying DISTRO_FEATURES
+Subject: [PATCH 0/2] runc-opencontainers updates
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,36 +68,18 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Oct 2017 19:04:02 -0000
+X-List-Received-Date: Wed, 04 Oct 2017 10:41:20 -0000
 
-From: Christopher Clark <christopher.w.clark@gmail.com>
+These changes fix the build for runc-opencontainers and upgrade to the latest
+version (v1.0.0-rc4).
 
-Remove recipe lines modifying DISTRO_FEATURES that were intended to
-simplify the non-x86 x11 image dependencies, but did not.
+Paul Barker (2):
+  runc-opencontainers: Update to v1.0.0-rc4
+  runc-opencontainers: go.bbclass compile fixes
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
-Reported-by: Mark Hatle <mark.hatle@windriver.com>
----
+ recipes-containers/runc/runc-opencontainers_git.bb | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
- recipes-extended/images/xen-guest-image-minimal.bb | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/recipes-extended/images/xen-guest-image-minimal.bb b/recipes-extended/images/xen-guest-image-minimal.bb
-index bca6017..d311eae 100644
---- a/recipes-extended/images/xen-guest-image-minimal.bb
-+++ b/recipes-extended/images/xen-guest-image-minimal.bb
-@@ -13,11 +13,6 @@ IMAGE_INSTALL += "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' xf86-video-fbd
- IMAGE_INSTALL_append_x86-64 = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
- IMAGE_INSTALL_append_x86    = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' xf86-video-vesa', '', d)}"
- 
--# When xf86-video-vesa is not present, add opengl and don't require wayland:
--DISTRO_FEATURES_append = "${@bb.utils.contains('IMAGE_FEATURES', 'x11', \
--                             bb.utils.contains('IMAGE_INSTALL', 'xf86-video-vesa', '', ' opengl', d), '', d)}"
--DISTRO_FEATURES_remove = "${@bb.utils.contains('IMAGE_INSTALL', 'xf86-video-vesa', '', 'wayland', d)}"
--
- REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('IMAGE_FEATURES', 'x11', ' x11', '', d)} xen"
- 
- LICENSE = "MIT"
 -- 
 2.7.4
 
