@@ -1,69 +1,62 @@
-Return-Path: <dariusz.pelowski@gmail.com>
+Return-Path: <pbarker@toganlabs.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 97794E00D7E; Thu,  5 Oct 2017 02:00:31 -0700 (PDT)
+	id A2C67E00D7E; Thu,  5 Oct 2017 06:39:03 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (dariusz.pelowski[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.65 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.128.172 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.215.65 listed in dnsbl.sorbs.net]
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E3D56E00D6D
+Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
+	[209.85.128.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 40CF6E00D69
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Oct 2017 02:00:30 -0700 (PDT)
-Received: by mail-lf0-f65.google.com with SMTP id g70so586055lfl.3
+	Thu,  5 Oct 2017 06:39:01 -0700 (PDT)
+Received: by mail-wr0-f172.google.com with SMTP id y44so5536029wrd.4
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Oct 2017 02:00:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 05 Oct 2017 06:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=uPsRV+FbvTrZxYHT06U/keSeQ0T03G3hMnrw3uR1AOY=;
-	b=eUNrtMkFPNxnjz+6Hg/OEBWl+UUTyvB61k2y7+xc/OVGcu7A3yexVf1rdZJeaWiXmB
-	xuYNLHFtBfoWKVdwEQrNPCtUXYyUga61Uj7irWlS/OSMeSN6OpMx4cCzMFPJ3opDlvBC
-	/HvoyU5RfXeAsU82layhrTmWis+/PJtm/WlFNzck51eOm43T16behThE6FKjCK+igKeS
-	vEHYxrczAbQXp14QlEIO4RG0f2X8UjNva33zQNr2O2q3CAgjQqHB9Ed3LNaksxfsrWMD
-	4x9d5Q+IsBNTUpMMh+OCSG3fZ50RioBECkJVVYz//984OwpF+R0a2fo6rBa39s6qpy2g
-	+RFw==
+	bh=KFRXdVrIIk70+3z/IunHHLXNyeSgVt2vEC8hwgakJn8=;
+	b=jh7Ojq7HBFcWpGr+mxJBxERkKRAu2AgtNSTdJRJe+V5ogjFaa6+7xNHmMEUU9ar31P
+	GV4xAXh/pnU2EH/ZRnYXlz8151vzif+QXpETX1nFs6tXtfVETKDjPnzmapwm+WDabAth
+	D0cCBcrWL9L6xPBOyaQGPAXayf3JD0KxKkLU3ltWUa3rYgkQA2XhJ50fsImDwiEoYj64
+	ZGWtGVj4GQuTJOKV47cJX85cfSvHa/MiDbzJ0vFhKifOpZoFbd719yr1kHPos6qCYMTY
+	8s2q2/xbzHlkBtLC9brZm/vj69IpcEVq0ie+y3fLsCeJMitt1GhWhwMqa+HpEEnfSgM2
+	plWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uPsRV+FbvTrZxYHT06U/keSeQ0T03G3hMnrw3uR1AOY=;
-	b=Gf75xZ9t6HM9mUxIBSdgyrOWDpHJPTig31dk95Ki+XDt2reNvX5TMXpsq+Swtx4qOa
-	13XXjrpRQ8Vgt6TinhbHg3bi6Scm23xNLF2DmVpGbnN9WSdg9cs3Ew2TTQUWpDxy3Cnl
-	6bPyDE1pXZFnqZOpxThkoi9la8cBQgoG6lZQX5UZ3qjUYnmeM072GQWytq5yA2O409zc
-	VEjnoKwyCPHD8GRhAYpPGz9sTXm+sCoa7LE+l+DPXjvDuP2QYuX7XCg9MBH3ToaT6M9Z
-	U9gUcrlkfGtyp6XOI0uw0kIrO4efhLnGZ6gH+UnRthevD/JMyk29KipKiEuuSfZ/Xfxz
-	133Q==
-X-Gm-Message-State: AHPjjUgSdIZYAiUo6iVFiUJS8no1fWBcmIGXINyjmcvQHrBCIfNdpDAF
-	JwGN72Xz5VFR3Uzv2TPQJNWFz+g3
-X-Google-Smtp-Source: AOwi7QAH6oeYn0d5ptxemFfAHoA6+2IxlliZNkjbR6ipzNCLssPVB7V5bbTpsMOVjuid+++ian2C4A==
-X-Received: by 10.25.25.203 with SMTP id 194mr7644689lfz.258.1507194029222;
-	Thu, 05 Oct 2017 02:00:29 -0700 (PDT)
-Received: from duzy.lan (user-5-173-14-53.play-internet.pl. [5.173.14.53])
-	by smtp.gmail.com with ESMTPSA id
-	i137sm2859907lfe.43.2017.10.05.02.00.27
+	bh=KFRXdVrIIk70+3z/IunHHLXNyeSgVt2vEC8hwgakJn8=;
+	b=pdFFJ5vNarEvw+5IWdI02jaS0nMANcEHNkJt4FlCVDaRCEDouT6k4M7WKoFWCSqMmU
+	OhcDsQh8y4vQJsuYc6ndYzgm2x0QSmXQmui7NrM9icoup2N1aD/qv55B/apldSRdcttJ
+	GZiZmNGTftVsSEjsKfmVJMvV6pQEiInhaT6v1OYAvzuhrPgJ4+Qvjri/57tvYj705hdM
+	EVDzAQ8pJVlhv8DYClj2PU4/M1YOF7XzYbLtpHzB/JGCWgiPfI6h1JALblvs3pLfgkul
+	k/LCNLmP/Iq6q7kMVOi2VW+1Pn0+YRKYW2G1CoL2VrWoHJXI7wM1LcvOoe7n6q7TJPw9
+	5KBw==
+X-Gm-Message-State: AMCzsaVklZuGsEm8iplk4QFr7dzuh8HJmiJil2uTg50LpgQr10TIMnKn
+	fdZKE1LyRVLVpqMkTLBqnYSipu3XqM4=
+X-Google-Smtp-Source: AOwi7QBDyj7QhuIDMZgk/GcWW8Zmcr5Q8Opid/3w7EIfi2Kyg/Czdcum/SIlVwsEPfKvOe5kDsI52A==
+X-Received: by 10.223.135.142 with SMTP id b14mr9296170wrb.277.1507210740698; 
+	Thu, 05 Oct 2017 06:39:00 -0700 (PDT)
+Received: from build1.toganlabs.com (build1.toganlabs.com. [88.99.240.167])
+	by smtp.gmail.com with ESMTPSA id v3sm6749043wra.39.2017.10.05.06.38.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 05 Oct 2017 02:00:28 -0700 (PDT)
-From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+	Thu, 05 Oct 2017 06:38:59 -0700 (PDT)
+From: Paul Barker <pbarker@toganlabs.com>
 To: meta-virtualization@yoctoproject.org
-Date: Thu,  5 Oct 2017 11:00:14 +0200
-Message-Id: <1507194014-6933-1-git-send-email-dariusz.pelowski@gmail.com>
+Date: Thu,  5 Oct 2017 13:38:15 +0000
+Message-Id: <1507210699-13911-1-git-send-email-pbarker@toganlabs.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] seabios: uri corrected to https
+Subject: [PATCH 0/4] netns update and runc fixes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,31 +69,33 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Oct 2017 09:00:31 -0000
+X-List-Received-Date: Thu, 05 Oct 2017 13:39:03 -0000
 
-There's a problem with fetching SeaBIOS source code via http.
-SeaBIOS server returns 308: Permanent Redirect which fails on
-wget 1.17.1. The official source code uri goes to https, this
-patch aligns SRC_URI to officialy provided by SeaBIOS team.
+* Update netns to the latest release.
 
-Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
----
- recipes-extended/seabios/seabios_1.9.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+* Fix runc compilation problems when targeting qemux86-64. Both runc-docker and
+  runc-opencontainers have been build tested with these changes.
 
-diff --git a/recipes-extended/seabios/seabios_1.9.1.bb b/recipes-extended/seabios/seabios_1.9.1.bb
-index 5c095ac..144b13c 100644
---- a/recipes-extended/seabios/seabios_1.9.1.bb
-+++ b/recipes-extended/seabios/seabios_1.9.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "LGPLv3"
- SECTION = "firmware"
- 
- SRC_URI = " \
--    http://code.coreboot.org/p/seabios/downloads/get/${PN}-${PV}.tar.gz \
-+    https://code.coreboot.org/p/seabios/downloads/get/${PN}-${PV}.tar.gz \
-     file://hostcc.patch \
-     "
- 
+* Drop an old patch which is no longer used.
+
+Paul Barker (4):
+  netns: Update to v0.2.1
+  runc: Drop obsolete patch
+  runc: Use correct go cross-compiler
+  runc: Don't override GOARCH or GOROOT
+
+ .../0001-Use-correct-go-cross-compiler.patch       | 85 ++++++++++++++++++++++
+ recipes-containers/runc/runc-docker_git.bb         |  3 +
+ .../0001-Use-correct-go-cross-compiler.patch       | 85 ++++++++++++++++++++++
+ recipes-containers/runc/runc-opencontainers_git.bb |  5 +-
+ recipes-containers/runc/runc.inc                   |  3 -
+ .../0001-nsexec-fix-build-against-musl-libc.patch  | 48 ------------
+ recipes-networking/netns/netns_git.bb              |  9 ++-
+ 7 files changed, 182 insertions(+), 56 deletions(-)
+ create mode 100644 recipes-containers/runc/runc-docker/0001-Use-correct-go-cross-compiler.patch
+ create mode 100644 recipes-containers/runc/runc-opencontainers/0001-Use-correct-go-cross-compiler.patch
+ delete mode 100644 recipes-containers/runc/runc/0001-nsexec-fix-build-against-musl-libc.patch
+
 -- 
 2.7.4
 
