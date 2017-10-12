@@ -1,71 +1,73 @@
-Return-Path: <limon.anibal@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0F8C4E00C78; Thu, 12 Oct 2017 12:22:12 -0700 (PDT)
+	id B5454E00CD4; Thu, 12 Oct 2017 15:14:36 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE, 
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (limon.anibal[at]gmail.com)
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [74.125.82.49 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [74.125.82.49 listed in dnsbl.sorbs.net]
+	*      [209.85.216.177 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2AFDAE00A9C
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.177 listed in dnsbl.sorbs.net]
+Received: from mail-qt0-f177.google.com (mail-qt0-f177.google.com
+	[209.85.216.177])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BE37FE00CA2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 12 Oct 2017 12:22:10 -0700 (PDT)
-Received: by mail-wm0-f49.google.com with SMTP id u138so16130069wmu.4
+	Thu, 12 Oct 2017 15:14:34 -0700 (PDT)
+Received: by mail-qt0-f177.google.com with SMTP id v41so6158110qtv.12
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 12 Oct 2017 12:22:10 -0700 (PDT)
+	Thu, 12 Oct 2017 15:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=YAnF4fQ6POhLKt2Kg6RtXramXnzMyJec1IzQtivfB4E=;
-	b=ELkxD4TvgsXOoWZ6O9vN83O6cZJQX93nvAOgoKR/6BTJSWs6kUIkXCTVHon5ti2kJa
-	jfVwIWBcby4uXC5Fk/0p2aN/tHqOKPOhRB294VsgvD55JO62nqJKKeTV2XXwPcxvnMWO
-	1Gd7pYA1zkfCDYLDSwL+QGmlyvWPoiARfFB7aIL+VF3KF5xRMCMnuHx+orT2v0RZUZ+v
-	TYd5ETNj2IeT/mUb7W2BBUmtaPjVDPa6vVHB4aHc39JeREE4TDQS746AW+P1Oq7/u46L
-	th9QofnIqAwxekni3igG9r+Xspz0Qv8l6Eag8g/DI8Y4Tfx/vY2cR6oG0zRCB91Qf7Xe
-	YhTA==
+	:cc; bh=6M3d8abv8eUs9V8WpM52Tkp3hHUGdevlI9hDJecrteA=;
+	b=XTVoeAyu6UdeoKGpwcjM8HU1XqoO5PcmgFTtNERJ0qxO+kmeEP1Gflq5+2UV7FOqaB
+	4LpJOdgTYbXqkhiG7XZdYhPLUDhithYz/Fn+DsnCzCX369dtIgSPqjKKEM7/7wnG3Ktf
+	ghsTEfPz9E03fqqgGkZdimGrSQ26K9KmKqfqFefJCXe8+om2oU2fXGYww2/qO9Fp4eRw
+	bClnyYaM7O37Gn/LOIIoF4OjMLYuMZz1zy4CzOU/XRxiK22c+ciwNLT3IiYJsFFh9HDY
+	Ii9smMd4aO3FvnP5tgi7SjMAT7slsrGeSkO/qiosic5SsfvE05qCC9wPIqEU1lSpCyvM
+	IHYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=YAnF4fQ6POhLKt2Kg6RtXramXnzMyJec1IzQtivfB4E=;
-	b=SHCE7uvsWqF9r+NsHkokGaGbgmeNr2eET40dZL+jwFaBQhlKr1KZ1lP6dN/4xQHxSr
-	TTtWOED+5JVCSyay3SGC9y9prf2FCU6qFfL7wkgBi5mjxVHx70Am9ZZdI/6KUpodlWpT
-	jwRFHoUnFOys0RvJP+Ie1yIDNSH/0Z/QvRcMWErT8EMOgZ+f1ujXs57Rcx3th6eR7NCJ
-	rtswEF/Wf9otkIMsAxd7+r7qASrBSmMBeMeOnr/9wxWApzAYXt5x3ZNc8lS3ekx8s9/K
-	cloje1b76nFMmbO9Wlry3U5n2dNjE142+o5CbWbow+8Tb89tQcpvfr9Efxj4kO13/1Cc
-	NomA==
-X-Gm-Message-State: AMCzsaU2ijTnZk4p8t5a8zR+Qgq4o4trDgovvv8AC2icF03kyZh35s7v
-	3JobJXaGK7K9hvgkXZ0Lza24LcGMb9K4d2ErU9c=
-X-Google-Smtp-Source: AOwi7QBbqHQ3vCE535bytnOZxOWAwiBWKeC0LbnsLdHBXmy2y/8vOQaxVoChkhmS9cLlOCcVP1d0rbDq6d8+/eSIIsY=
-X-Received: by 10.80.166.209 with SMTP id f17mr4067539edc.278.1507836129924;
-	Thu, 12 Oct 2017 12:22:09 -0700 (PDT)
+	bh=6M3d8abv8eUs9V8WpM52Tkp3hHUGdevlI9hDJecrteA=;
+	b=lBASJSE4OTptr+/4BzW6mD6uXaJR2mh80AW7gjZJKkXgiUw57a8sVFsCplD8sMD5kz
+	H2B/2vRq7Ba/5mjUKUaMVxZp25zRyVKFP18rLjk5RhH7iw5TUbiL7uxO4KxhsrY96GgX
+	MRU4/5gEpkpouLKhbwOv+s+4xhTBreO//G8jeGjXvYf1Soq3tBW+oD4f46Zm9t5T9fx4
+	BAbsxa3tIsJ01leqLlpw0f2kIqrH+wKY9QCgf7utJIlNXsRRa3eyFfzm3k0r7tEVXSjy
+	LnU1n0OdtJ86pMKBjNCBSdByOBCCqGO5J8npsNy6CgJE9HzHqTQqsQgy+8TLtb1zKrrL
+	agMg==
+X-Gm-Message-State: AMCzsaWe9mtTbwvVgrutsftLFXxnUfipQSmN2oXd3iShAeO8uvSbWXUG
+	+WsnsxHt45ShPzXZJtd2pru7U2oyMqDTmvZmue2FDA==
+X-Google-Smtp-Source: AOwi7QA2zAa+mQwiNPy6kcHBPFM45XSRMXujCoYLlcuUg+2avMlXS5IhpD0v6izCx+BcqdM8ko6rouHIDH+c5LdlxSA=
+X-Received: by 10.200.12.131 with SMTP id n3mr5990740qti.237.1507846473685;
+	Thu, 12 Oct 2017 15:14:33 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.80.142.72 with HTTP; Thu, 12 Oct 2017 12:22:09 -0700 (PDT)
-In-Reply-To: <1507826997-28383-4-git-send-email-pbarker@toganlabs.com>
+Received: by 10.12.215.197 with HTTP; Thu, 12 Oct 2017 15:14:33 -0700 (PDT)
+In-Reply-To: <CAPyrkgxXdMOVrekC_gFLdRY_1C4dcTnZ==57fkgWOg94Q+PPvg@mail.gmail.com>
 References: <1507826997-28383-1-git-send-email-pbarker@toganlabs.com>
-	<1507826997-28383-4-git-send-email-pbarker@toganlabs.com>
-From: =?UTF-8?Q?Anibal_Lim=C3=B3n?= <limon.anibal@gmail.com>
-Date: Thu, 12 Oct 2017 14:22:09 -0500
-Message-ID: <CAPS-YPATbLJstu6NybXDzk-mOfWqAQqGqB7nYp8N_coL+1vKqg@mail.gmail.com>
+	<1507826997-28383-5-git-send-email-pbarker@toganlabs.com>
+	<CADkTA4N07AyeVWHsTBNBde5a6=OvhY4d+PA1B-Lj2unV-HC9Ag@mail.gmail.com>
+	<CAPyrkgxXdMOVrekC_gFLdRY_1C4dcTnZ==57fkgWOg94Q+PPvg@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 12 Oct 2017 18:14:33 -0400
+Message-ID: <CADkTA4Nes_P-_=PMoVD55sXFDJ+-zaXj53gLB2D0i17BPqCJUg@mail.gmail.com>
 To: Paul Barker <pbarker@toganlabs.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 3/4] runc-docker: Disable building recvtty
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH 4/4] runc: Simplify recipes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,212 +80,165 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Oct 2017 19:22:12 -0000
-Content-Type: multipart/alternative; boundary="94eb2c198f2ae75ab3055b5e7419"
-
---94eb2c198f2ae75ab3055b5e7419
+X-List-Received-Date: Thu, 12 Oct 2017 22:14:36 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Oct 12, 2017 at 11:49 AM, Paul Barker <pbarker@toganlabs.com> wrote=
-:
+On Thu, Oct 12, 2017 at 2:13 PM, Paul Barker <pbarker@toganlabs.com> wrote:
+> On 12 Oct 2017 6:02 p.m., "Bruce Ashfield" <bruce.ashfield@gmail.com> wrote:
+>
+> On Thu, Oct 12, 2017 at 12:49 PM, Paul Barker <pbarker@toganlabs.com> wrote:
+>> * All common settings are merged into the runc.inc file.
+>>
+>> * SRC_URI and SRCREV settings are normalised, dropping unnecessary
+>> arguments.
+>
+> I'm going to keep the named SRCREVs, since we very often have multiple
+> different
+> git upstreams in a single build. You'll see that in my new recipes
+> that I've been
+> adding.
+>
+> It does no harm, so it stays.
+>
+>>
+>> * Variables in runc.inc are re-ordered slightly to make things clearer.
+>
+> Extra churn. I'd rather leave things be.
+>
+>>
+>> * Drop unused EXTRA_FLAGS variable in runc-docker which isn't picked up by
+>> the
+>>   runc Makefile anyway as it isn't exported.
+>
+> This could be a separate patch.
+>
+>>
+>> * Drop unnecessary do_compile_prepend in runc-opencontainers as the
+>> "vendor/src"
+>>   symlink is already created in do_compile in runc.inc.
+>
+> As could this.
+>
+> Bruce
+>
+>>
+>> Signed-off-by: Paul Barker <pbarker@toganlabs.com>
+>> ---
+>>  recipes-containers/runc/runc-docker_git.bb         | 10 ++--------
+>>  recipes-containers/runc/runc-opencontainers_git.bb | 19
+>> ++++---------------
+>>  recipes-containers/runc/runc.inc                   |  9 ++++++---
+>>  3 files changed, 12 insertions(+), 26 deletions(-)
+>>
+>> diff --git a/recipes-containers/runc/runc-docker_git.bb
+>> b/recipes-containers/runc/runc-docker_git.bb
+>> index 28232d9..b1fb624 100644
+>> --- a/recipes-containers/runc/runc-docker_git.bb
+>> +++ b/recipes-containers/runc/runc-docker_git.bb
+>> @@ -2,8 +2,8 @@ include runc.inc
+>>
+>>  # Note: this rev is before the required protocol field, update when all
+>> components
+>>  #       have been updated to match.
+>> -SRCREV_runc-docker = "9d6821d1b53908e249487741eccd567249ca1d99"
+>> -SRC_URI = "git://github.com/docker/runc.git;nobranch=1;name=runc-docker \
+>> +SRCREV = "9d6821d1b53908e249487741eccd567249ca1d99"
+>> +SRC_URI = "git://github.com/docker/runc.git \
+>>
+>> file://0001-Update-to-runtime-spec-198f23f827eea397d4331d7eb048d.patch \
+>>             file://0002-Remove-Platform-as-no-longer-in-OCI-spec.patch \
+>>             file://0003-Update-memory-specs-to-use-int64-not-uint64.patch
+>> \
+>> @@ -12,10 +12,4 @@ SRC_URI =
+>> "git://github.com/docker/runc.git;nobranch=1;name=runc-docker \
+>>             file://0001-Disable-building-recvtty.patch \
+>>            "
+>>
+>> -GO_IMPORT = "import"
+>> -
+>> -EXTRA_FLAGS = "-v -x -work"
+>> -
+>>  RUNC_VERSION = "1.0.0-rc3"
+>> -PROVIDES += "virtual/runc"
+>> -RPROVIDES_${PN} = "virtual/runc"
+>> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb
+>> b/recipes-containers/runc/runc-opencontainers_git.bb
+>> index 2cfceea..ea093ee 100644
+>> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+>> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+>> @@ -1,19 +1,8 @@
+>>  include runc.inc
+>>
+>>  SRCREV = "2e7cfe036e2c6dc51ccca6eb7fa3ee6b63976dcd"
+>> -SRC_URI = " \
+>> -    git://github.com/opencontainers/runc;branch=master \
+>> -    file://0001-Use-correct-go-cross-compiler.patch \
+>> -    "
+>> -RUNC_VERSION = "1.0.0-rc4"
+>> -PROVIDES += "virtual/runc"
+>> -RPROVIDES_${PN} = "virtual/runc"
+>> -
+>> -GO_IMPORT = "import"
+>> +SRC_URI = "git://github.com/opencontainers/runc \
+>> +           file://0001-Use-correct-go-cross-compiler.patch \
+>> +          "
+>>
+>> -do_compile_prepend() {
+>> -       # Go looks in a src directory under any directory in GOPATH but
+>> -       # runc-opencontainers uses 'vendor' instead of 'vendor/src'. We
+>> can fix
+>> -       # this with a symlink.
+>> -       ln -sfn . "${S}/src/import/vendor/src"
+>> -}
+>> +RUNC_VERSION = "1.0.0-rc4"
+>> diff --git a/recipes-containers/runc/runc.inc
+>> b/recipes-containers/runc/runc.inc
+>> index b1f2ba8..7901bc7 100644
+>> --- a/recipes-containers/runc/runc.inc
+>> +++ b/recipes-containers/runc/runc.inc
+>> @@ -2,6 +2,10 @@ HOMEPAGE = "https://github.com/opencontainers/runc"
+>>  SUMMARY = "runc container cli tools"
+>>  DESCRIPTION = "runc is a CLI tool for spawning and running containers
+>> according to the OCI specification."
+>>
+>> +PROVIDES += "virtual/runc"
+>> +RPROVIDES_${PN} = "virtual/runc"
+>> +RRECOMMENDS_${PN} = "lxc docker"
+>> +
+>>  # Apache-2.0 for containerd
+>>  LICENSE = "Apache-2.0"
+>>  LIC_FILES_CHKSUM =
+>> "file://src/import/LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
+>> @@ -11,14 +15,13 @@ S = "${WORKDIR}/git"
+>>  PV = "${RUNC_VERSION}+git${SRCREV}"
+>>
+>>  inherit go
+>> -RRECOMMENDS_${PN} = "lxc docker"
+>> +GO_IMPORT = "import"
+>>
+>>  LIBCONTAINER_PACKAGE="github.com/opencontainers/runc/libcontainer"
+>>
+>> -do_configure[noexec] = "1"
+>>  EXTRA_OEMAKE="BUILDTAGS=''"
+>>
+>> -inherit goarch
+>> +do_configure[noexec] = "1"
+>>
+>>  do_compile() {
+>>         # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
+>> --
+>
+>
+> I'll edit this a bit and resubmit as a couple of smaller commits. Do you
+> want to take 1-3 of this series rather than me resending the whole series?
 
-> The recvtty demo/reference application has cross compilation issues when
-> targeting aarch64 platforms. As it is just a demo application and is not
-> usually
-> used, we can just patch the Makefile to disable building this application=
-.
->
-> Signed-off-by: Paul Barker <pbarker@toganlabs.com>
->
-Acked-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+Absolutely. Don't resend 1-3, I'll grab them and merge them shortly.
 
-> ---
->  .../0001-Disable-building-recvtty.patch            | 26
-> ++++++++++++++++++++++
->  recipes-containers/runc/runc-docker_git.bb         |  1 +
->  2 files changed, 27 insertions(+)
->  create mode 100644 recipes-containers/runc/runc-
-> docker/0001-Disable-building-recvtty.patch
->
-> diff --git a/recipes-containers/runc/runc-docker/0001-Disable-building-re=
-cvtty.patch
-> b/recipes-containers/runc/runc-docker/0001-Disable-building-recvtty.patch
-> new file mode 100644
-> index 0000000..fa1f695
-> --- /dev/null
-> +++ b/recipes-containers/runc/runc-docker/0001-Disable-
-> building-recvtty.patch
-> @@ -0,0 +1,26 @@
-> +From aa2fc7b0eacba61175f083cc8d8adc233bcd0575 Mon Sep 17 00:00:00 2001
-> +From: Paul Barker <pbarker@toganlabs.com>
-> +Date: Thu, 12 Oct 2017 11:34:24 +0000
-> +Subject: [PATCH] Disable building recvtty
-> +
-> +Signed-off-by: Paul Barker <pbarker@toganlabs.com>
-> +Upstream-status: Inappropriate
-> +---
-> + Makefile | 1 -
-> + 1 file changed, 1 deletion(-)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 0fcf508..24f47dc 100644
-> +--- a/src/import/Makefile
-> ++++ b/src/import/Makefile
-> +@@ -38,7 +38,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)
-> +
-> + static: $(SOURCES)
-> +       CGO_ENABLED=3D1 $(GO) build -i $(EXTRA_FLAGS) -tags "$(BUILDTAGS)
-> cgo static_build" -ldflags "-w -extldflags -static -X
-> main.gitCommit=3D${COMMIT} -X main.version=3D${VERSION} $(EXTRA_LDFLAGS)"=
- -o
-> runc .
-> +-      CGO_ENABLED=3D1 $(GO) build -i $(EXTRA_FLAGS) -tags "$(BUILDTAGS)
-> cgo static_build" -ldflags "-w -extldflags -static -X
-> main.gitCommit=3D${COMMIT} -X main.version=3D${VERSION} $(EXTRA_LDFLAGS)"=
- -o
-> contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
-> +
-> + release:
-> +       @flag_list=3D(seccomp selinux apparmor static); \
-> +--
-> +2.7.4
-> +
-> diff --git a/recipes-containers/runc/runc-docker_git.bb
-> b/recipes-containers/runc/runc-docker_git.bb
-> index 0198652..28232d9 100644
-> --- a/recipes-containers/runc/runc-docker_git.bb
-> +++ b/recipes-containers/runc/runc-docker_git.bb
-> @@ -9,6 +9,7 @@ SRC_URI =3D "git://github.com/docker/runc.
-> git;nobranch=3D1;name=3Drunc-docker \
->             file://0003-Update-memory-specs-to-use-int64-not-uint64.patch
-> \
->             file://0001-runc-Add-console-socket-dev-null.patch \
->             file://0001-Use-correct-go-cross-compiler.patch \
-> +           file://0001-Disable-building-recvtty.patch \
->            "
->
->  GO_IMPORT =3D "import"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
+Bruce
 
---94eb2c198f2ae75ab3055b5e7419
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Oct 12, 2017 at 11:49 AM, Paul Barker <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:pbarker@toganlabs.com" target=3D"_blank">pbarker@toganlabs.c=
-om</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">The recvtty demo=
-/reference application has cross compilation issues when<br>
-targeting aarch64 platforms. As it is just a demo application and is not us=
-ually<br>
-used, we can just patch the Makefile to disable building this application.<=
-br>
-<br>
-Signed-off-by: Paul Barker &lt;<a href=3D"mailto:pbarker@toganlabs.com">pba=
-rker@toganlabs.com</a>&gt;<br></blockquote><div>Acked-by: An=C3=ADbal Lim=
-=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org">anibal.limon@linaro.=
-org</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 =
-0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
----<br>
-=C2=A0.../0001-Disable-building-<wbr>recvtty.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 26 ++++++++++++++++++++++<br>
-=C2=A0recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">runc-<wbr>docker_git.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
-=C2=A02 files changed, 27 insertions(+)<br>
-=C2=A0create mode 100644 recipes-containers/runc/runc-<wbr>docker/0001-Disa=
-ble-building-<wbr>recvtty.patch<br>
-<br>
-diff --git a/recipes-containers/runc/<wbr>runc-docker/0001-Disable-<wbr>bui=
-lding-recvtty.patch b/recipes-containers/runc/<wbr>runc-docker/0001-Disable=
--<wbr>building-recvtty.patch<br>
-new file mode 100644<br>
-index 0000000..fa1f695<br>
---- /dev/null<br>
-+++ b/recipes-containers/runc/<wbr>runc-docker/0001-Disable-<wbr>building-r=
-ecvtty.patch<br>
-@@ -0,0 +1,26 @@<br>
-+From aa2fc7b0eacba61175f083cc8d8adc<wbr>233bcd0575 Mon Sep 17 00:00:00 200=
-1<br>
-+From: Paul Barker &lt;<a href=3D"mailto:pbarker@toganlabs.com">pbarker@tog=
-anlabs.com</a>&gt;<br>
-+Date: Thu, 12 Oct 2017 11:34:24 +0000<br>
-+Subject: [PATCH] Disable building recvtty<br>
-+<br>
-+Signed-off-by: Paul Barker &lt;<a href=3D"mailto:pbarker@toganlabs.com">pb=
-arker@toganlabs.com</a>&gt;<br>
-+Upstream-status: Inappropriate<br>
-+---<br>
-+ Makefile | 1 -<br>
-+ 1 file changed, 1 deletion(-)<br>
-+<br>
-+diff --git a/Makefile b/Makefile<br>
-+index 0fcf508..24f47dc 100644<br>
-+--- a/src/import/Makefile<br>
-++++ b/src/import/Makefile<br>
-+@@ -38,7 +38,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)<br>
-+<br>
-+ static: $(SOURCES)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0CGO_ENABLED=3D1 $(GO) build -i $(EXTRA_FLAGS) -=
-tags &quot;$(BUILDTAGS) cgo static_build&quot; -ldflags &quot;-w -extldflag=
-s -static -X main.gitCommit=3D${COMMIT} -X main.version=3D${VERSION} $(EXTR=
-A_LDFLAGS)&quot; -o runc .<br>
-+-=C2=A0 =C2=A0 =C2=A0 CGO_ENABLED=3D1 $(GO) build -i $(EXTRA_FLAGS) -tags =
-&quot;$(BUILDTAGS) cgo static_build&quot; -ldflags &quot;-w -extldflags -st=
-atic -X main.gitCommit=3D${COMMIT} -X main.version=3D${VERSION} $(EXTRA_LDF=
-LAGS)&quot; -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty<br>
-+<br>
-+ release:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0@flag_list=3D(seccomp selinux apparmor static);=
- \<br>
-+--<br>
-+2.7.4<br>
-+<br>
-diff --git a/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">runc<wbr>-docker_git.bb</a> b/recipes-=
-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"noreferrer" ta=
-rget=3D"_blank">runc<wbr>-docker_git.bb</a><br>
-index 0198652..28232d9 100644<br>
---- a/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">runc<wbr>-docker_git.bb</a><br>
-+++ b/recipes-containers/runc/<a href=3D"http://runc-docker_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">runc<wbr>-docker_git.bb</a><br>
-@@ -9,6 +9,7 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.com/docker=
-/runc.git;nobranch=3D1;name=3Drunc-docker" rel=3D"noreferrer" target=3D"_bl=
-ank">github.com/docker/runc.<wbr>git;nobranch=3D1;name=3Drunc-<wbr>docker</=
-a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0003-Update-memory-<wbr>sp=
-ecs-to-use-int64-not-uint64.<wbr>patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-runc-Add-console-<wbr=
->socket-dev-null.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-Use-correct-go-<wbr>c=
-ross-compiler.patch \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Disable-building-<wbr=
->recvtty.patch \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-=C2=A0GO_IMPORT =3D &quot;import&quot;<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.7.4<br>
-<br>
---<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br></div></div>
 
---94eb2c198f2ae75ab3055b5e7419--
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
+
