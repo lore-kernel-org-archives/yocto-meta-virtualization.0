@@ -1,6 +1,6 @@
 Return-Path: <pbarker@toganlabs.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 270B4E00D12; Fri, 13 Oct 2017 12:27:35 -0700 (PDT)
+	id EA593E00D26; Fri, 13 Oct 2017 12:27:36 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -16,50 +16,50 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-wr0-f182.google.com (mail-wr0-f182.google.com
 	[209.85.128.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5AFF7E00CCC
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 13802E00D0E
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 13 Oct 2017 12:27:33 -0700 (PDT)
-Received: by mail-wr0-f182.google.com with SMTP id r79so1731404wrb.13
+	Fri, 13 Oct 2017 12:27:34 -0700 (PDT)
+Received: by mail-wr0-f182.google.com with SMTP id j14so1728784wre.8
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 13 Oct 2017 12:27:33 -0700 (PDT)
+	Fri, 13 Oct 2017 12:27:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=toganlabs-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=YKqhcS9Bbg7fk1+m//1TCdn++S7kbB5K11Jgzsrhp1E=;
-	b=tF6ADUJYnwKhrOwDSEuWnXk0Vtx1DD+4Go3WI3NwVhFj5Eht1zFGpj7rOKddr/mNkb
-	L4QtZ+XxbTubVI0t85UfdLFxRNL6TKXOLaYC8laHbkPFQ4Vk5kwdk6AQkgO2oAVUqDXV
-	LEbHl4goO8e1SaIPHBlgewM+CMKnJKbDTzF3HgJaIr0GLfR73ixKB9w9PYKoLo8YEDUN
-	dgC/cChzl39d+Df/mVvLrmlQD3kUqwpBYJCClB/IV3IjYJbTiOA+nKNre9lBVZLPvOIJ
-	kXNwLoLeCnPg/FOx5iOohmDNt64cXmQT5xOdLHHbZzbYI24ydoKmMMoY8OycPbYq4zvA
-	92tA==
+	bh=ah2B0k59b5mmSlmNLQOM/HSRnsGRHHY2x9V8VTPsKv4=;
+	b=JVu5SZknORzuwxT7+4vLts2XEvFqFDCYEar4efcnr2DJPSy3s5nS60zkjfHDQ5pQdW
+	jjChQ43tb6l4dg7NVurw6lZQeLfLgU/TOIn+Bi+NAJ4j4EgUEkOaFHiBwry6UJkZ5DWe
+	+oHci0xRkpm7eJ+o0+X+OE02VsBLhnCH8Ww5OObiiPzQoOJ6S0nE5p/fUoDdB/QSLbsV
+	gwwamylLBBbwruV/DgKyjPfqvY0NdCgL+XnXxsr9mUlymRmKpzluUB0CKGdFXpxvCmZv
+	tSFrYmusBMsayoHa3ZhfbprnbU1jsZ5XFOqMY1BeXOa2otxcHcr2l829sUG0Js4FEBq1
+	6RdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=YKqhcS9Bbg7fk1+m//1TCdn++S7kbB5K11Jgzsrhp1E=;
-	b=I1RxSPnradpE6RPto7SCIn/AlV3N9NeP82dErb7SlyOJdg3qOzZy7eHXzuvSl40zoE
-	XMOhrg6eP1WGs7O4T/N1QzGW1po80+txd8YBBQ5KqY6DJkLkIpIfffDvFl1KcThXqmxU
-	NPRS87QpFFb5yzW7VkCJfDcxjYk90/kMMlEpf/BSWXhsuRJtTTcFwf25iVQXbf0SYyAc
-	bJxhcWs/1Ae6Q2aeG+zFCqZj6xfALE8Yqo+jgUM+dCF8WWgaRnfEVWedgVgcf+WdTfiw
-	vReIOO2f7/Tk4/FSun1WjTDqMZjkv+CHgWJ7Zo9LckKdPua71eFCzj1V4AU0BAdEOVR+
-	S6mg==
-X-Gm-Message-State: AMCzsaXT2QEnPMet5GseqRlku72zZdCrkvv5b2JVw3nweNM32MgctH4o
-	uxBuU9FxMUfJrK1i2sB1hjMFzH33
-X-Google-Smtp-Source: AOwi7QCoi5jfSYcgKmEh+IDKQ3/V/tutE2/V9z9DVh8bVCCaQZ/Bo6XMFLMaPm7x8L6o5NsHs7bBTA==
-X-Received: by 10.223.139.82 with SMTP id v18mr2408802wra.55.1507922853019;
+	bh=ah2B0k59b5mmSlmNLQOM/HSRnsGRHHY2x9V8VTPsKv4=;
+	b=h+XyfULW/hQBbwQmHYb7lXynN0cHkH6ffwc3XvEsX6IXu+qj4Uf5yjjc+JAlYbjYD/
+	N6mirsiHhgvPq3usyPH+7Yn+KnppSmWvWCRKXvGTjIp2A2Ky0BMy2SJhXJfSSrr9dcKu
+	+UAa/dRAFETzobFQOiN7eCHg2UUUrkxUHjM7xm5ck1q7Sy8eLBYG15tVAyXZ7D10PTt1
+	LCOKc8Xfu1OcZ9K4oRbYNOhH1oOumKZJtorG/R0BPYQYGQKHoHWnWTtbgmRhIQheMapP
+	8gsEoKzL22q8TYkwn19iYhYPzA8s04qoxkFRytMGLJdCgiRQiYIlHVTkeBfhycuU91DK
+	E4rQ==
+X-Gm-Message-State: AMCzsaWJlb/FyZH5TlraBYG23pAlYPTOnpuaS9mqyBw13xP9dD+xqzqH
+	khSCKxnd3G1sJGGKfC3ujsL4fez/
+X-Google-Smtp-Source: AOwi7QDUyqldBGYDMnYc5bXLMCYe3W78Q7xYLcu360OK7Bhl780fc21dIrzpY8ekavQnmP0lUBwT1A==
+X-Received: by 10.223.151.9 with SMTP id r9mr2456919wrb.238.1507922853989;
 	Fri, 13 Oct 2017 12:27:33 -0700 (PDT)
 Received: from build1.toganlabs.com (build1.toganlabs.com. [88.99.240.167])
-	by smtp.gmail.com with ESMTPSA id 69sm1846839wmm.2.2017.10.13.12.27.32
+	by smtp.gmail.com with ESMTPSA id 69sm1846839wmm.2.2017.10.13.12.27.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 13 Oct 2017 12:27:32 -0700 (PDT)
+	Fri, 13 Oct 2017 12:27:33 -0700 (PDT)
 From: Paul Barker <pbarker@toganlabs.com>
 To: meta-virtualization@yoctoproject.org
-Date: Fri, 13 Oct 2017 19:27:14 +0000
-Message-Id: <1507922836-17295-4-git-send-email-pbarker@toganlabs.com>
+Date: Fri, 13 Oct 2017 19:27:15 +0000
+Message-Id: <1507922836-17295-5-git-send-email-pbarker@toganlabs.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1507922836-17295-1-git-send-email-pbarker@toganlabs.com>
 References: <1507922836-17295-1-git-send-email-pbarker@toganlabs.com>
-Subject: [PATCH 3/5] runc-docker: Drop unused EXTRA_FLAGS
+Subject: [PATCH 4/5] runc: Drop inherit goarch
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,28 +72,28 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Oct 2017 19:27:35 -0000
+X-List-Received-Date: Fri, 13 Oct 2017 19:27:37 -0000
 
-This variable isn't picked up by the runc Makefile anyway as it isn't exported.
+The go bbclass already inherits goarch.
 
 Signed-off-by: Paul Barker <pbarker@toganlabs.com>
 ---
- recipes-containers/runc/runc-docker_git.bb | 2 --
+ recipes-containers/runc/runc.inc | 2 --
  1 file changed, 2 deletions(-)
 
-diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-index 28232d9..b8754bd 100644
---- a/recipes-containers/runc/runc-docker_git.bb
-+++ b/recipes-containers/runc/runc-docker_git.bb
-@@ -14,8 +14,6 @@ SRC_URI = "git://github.com/docker/runc.git;nobranch=1;name=runc-docker \
+diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
+index b1f2ba8..c1ff08f 100644
+--- a/recipes-containers/runc/runc.inc
++++ b/recipes-containers/runc/runc.inc
+@@ -18,8 +18,6 @@ LIBCONTAINER_PACKAGE="github.com/opencontainers/runc/libcontainer"
+ do_configure[noexec] = "1"
+ EXTRA_OEMAKE="BUILDTAGS=''"
  
- GO_IMPORT = "import"
- 
--EXTRA_FLAGS = "-v -x -work"
+-inherit goarch
 -
- RUNC_VERSION = "1.0.0-rc3"
- PROVIDES += "virtual/runc"
- RPROVIDES_${PN} = "virtual/runc"
+ do_compile() {
+ 	# Set GOPATH. See 'PACKAGERS.md'. Don't rely on
+ 	# docker to download its dependencies but rather
 -- 
 2.7.4
 
