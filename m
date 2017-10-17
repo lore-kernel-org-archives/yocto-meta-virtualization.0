@@ -1,71 +1,65 @@
-Return-Path: <ricardo@opensourcefoundries.com>
+Return-Path: <cardoe@cardoe.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 12CDDE00C82; Mon, 16 Oct 2017 19:21:05 -0700 (PDT)
+	id D40F5E00D34; Tue, 17 Oct 2017 07:44:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
 	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.215.49 listed in list.dnswl.org]
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.215.49 listed in dnsbl.sorbs.net]
+	*      [209.85.216.196 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f49.google.com (mail-lf0-f49.google.com
-	[209.85.215.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7926DE00B67
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.196 listed in dnsbl.sorbs.net]
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D0D66E00BE8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Oct 2017 19:21:04 -0700 (PDT)
-Received: by mail-lf0-f49.google.com with SMTP id n69so246077lfn.2
+	Tue, 17 Oct 2017 07:44:03 -0700 (PDT)
+Received: by mail-qt0-f196.google.com with SMTP id n61so4000426qte.10
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Oct 2017 19:21:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=BOUTUkD8bTapssbqDr0t0KDYj7y6T4DI6wGPDJm5Q+s=;
-	b=J9wsaE5Y5zBvdkdaO5bPmMkg/OvDIiu1QIWbVjnIQZsGnrT22WnfS2d8vrHxz25d+A
-	M8BQVNuaxv24dFJRMsrZjT0RfXe1fM2vdrcnWNULRF1/9c3eo8LbkmEk0sRhbpOtM1Q1
-	tCU7vU26gB6mkm9WL4YrQ53SlxthsCZJkv+jyRssax7FSNew1qg4gRTf9jO3PlvHo1jF
-	PkLpt+NI7z/GJkZy7QFX7wCRD0/vetF2rhgWu4xB/MBa2XeUEe4sVLh6qxO9OsS2nplk
-	WzsFTJUaEivHXLpgTiRke1LjPlCpcSfriCj7yBbbVLMAdqHoe9Qru3DS5qQ5wWI42jE6
-	NksQ==
+	Tue, 17 Oct 2017 07:44:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cardoe.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=1Hm1JnePIp4Ln4WB6bOcLigMrbxuUIhQTTEulfHCc9I=;
+	b=P01iQLu727FB5SfRUUO8y7BFfeMmkZnshqY7u6KiJ2TcLqBvf/V1b8/r4vVi/LkRux
+	8tpEfreW4Sotqa/X54kYpNhOb/BCbSbKI+CXn8Ncj4vMhNyXdVy0DF2tuVS7lOTDL6AJ
+	sRHXx1YDgt7BUSUvUzK8MlgjeFv23u7KfoMoE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=BOUTUkD8bTapssbqDr0t0KDYj7y6T4DI6wGPDJm5Q+s=;
-	b=uFf0cO3q0phVB8rc+sPr2amZxJ1Ocz2ZOcWWkVkJfJOinBccRb36WxMg222zOFIeJS
-	LgZWkFuL7v5xb83BcRcVbzWRzYdHaYSuGrQnrHewxYZIoxjjSyQS3UP9ffp1PHEticsP
-	cjiHdvKUgiO6NudpT1dAcz0QzZVjOLwG+vNqIdIuyjV7QsZL1PV8MBK7NwbLlcJlHatv
-	Qj7sUtv4NZHw5eiFG2REA0te5QNZONbL2m5rauJEPgbWk5Q4kaxrk0/s1DZbtSgenXTu
-	lm4UxiIh01YICccTu24Iw/8RMjB0K64ysL/Pmv7DiXFiqK8vFf/5DngtaDK9hzE+m+Kx
-	8Y7w==
-X-Gm-Message-State: AMCzsaWoHNycxKqNxlswh9cesoCPsIlZokEKrCHiiVFv2oUIpX7nX3Zf
-	Z6Y33n58E4WeUnhz+ydLnF/x10ZpXTUPzVPbv/xD
-X-Google-Smtp-Source: ABhQp+Sc3um6FSB/hD+83asTlc8JEsOFEfPuO6HUPnuF+7icYYMsHg5MXJJeAVpHF+GooLsEM3Q6FxnTkZ5OBkYAbxc=
-X-Received: by 10.46.47.7 with SMTP id v7mr153565ljv.192.1508206863203; Mon,
-	16 Oct 2017 19:21:03 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.25.233.88 with HTTP; Mon, 16 Oct 2017 19:20:22 -0700 (PDT)
-In-Reply-To: <CADkTA4PgM=TSeVXXVWA4jDywQurymAS6RkKd1KLk6LN6Z_QXwQ@mail.gmail.com>
-References: <1508188679-11528-1-git-send-email-ricardo@opensourcefoundries.com>
-	<CADkTA4NDa9GFu1vv420trVz+wL=Fr7tUHgM7NZk1jNoUGNztkg@mail.gmail.com>
-	<CADkTA4MGDn9OuagD+8t2UVdqDza6N-hykwQ_GtNDLab40gTbvg@mail.gmail.com>
-	<CAAaKDhEiPZDEfVLSqaGGUig1iivJg2ymjQJ63G6VjLC+U62L3Q@mail.gmail.com>
-	<CADkTA4PgM=TSeVXXVWA4jDywQurymAS6RkKd1KLk6LN6Z_QXwQ@mail.gmail.com>
-From: Ricardo Salveti <ricardo@opensourcefoundries.com>
-Date: Tue, 17 Oct 2017 00:20:22 -0200
-Message-ID: <CAAaKDhHE_+dXCTXsMd-rJo-vNKeArCw0EfdnexooqHB99HHFjg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] runc-docker_git: use SRCREV instead of SRCREV_runc-docker
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1Hm1JnePIp4Ln4WB6bOcLigMrbxuUIhQTTEulfHCc9I=;
+	b=Djd5mNjfJRwE1UYorAGTKOiyP6957hUSGRRgUWz92yrd8JcdAcDJcVzPC9BzXLZrCP
+	IZy3AblP7xuG+w01Nh5HS3fkiVXNg2Guk1npwwllGucrrcg0bip6yF1aOBn4Qsj3oUey
+	mu0eau5Kpq3GZENyATSCyzMKE+CmCJ1eidEMVONxDCJg4HJM9pAD3Q1DpfE5XGb+xhxr
+	K4r0XoZJGfPLCmsJSSfZ1EvAS3gWZUypqxtOWuPxgY3Zh2JWt56kM+XzvcCSrnb/HGhZ
+	Wlv0nTkodRDK05GlaHVLrjqHi0JY5bXNYkWgQF6BWLLE+hWhOAaKH97YqTn+C3Ukf9hW
+	NiXw==
+X-Gm-Message-State: AMCzsaUANg0nhWJWunQ04TTAGVKosYBczZzxf3E6ZJSvgUVhpnqGApms
+	Lle3AWcVWCHQD8bKC55lNWZo1tMppBo=
+X-Google-Smtp-Source: AOwi7QDQbjDUdEbG570YLtOywp9ENkuvSzqgYmyem0DzTTAE14CKkc4myLh+ftEKc6W+1Bf4qci7ZA==
+X-Received: by 10.237.38.36 with SMTP id z33mr19358680qtc.258.1508251441853;
+	Tue, 17 Oct 2017 07:44:01 -0700 (PDT)
+Received: from swanson.localdomain
+	(104-179-196-18.lightspeed.brhmal.sbcglobal.net. [104.179.196.18])
+	by smtp.gmail.com with ESMTPSA id
+	a190sm6116473qkg.15.2017.10.17.07.44.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 17 Oct 2017 07:44:01 -0700 (PDT)
+From: Doug Goldstein <cardoe@cardoe.com>
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 17 Oct 2017 09:43:35 -0500
+Message-Id: <20171017144340.15635-1-cardoe@cardoe.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH 0/5] pyro backports for Xen
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -78,45 +72,21 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Oct 2017 02:21:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 17 Oct 2017 14:44:04 -0000
 
-On Tue, Oct 17, 2017 at 12:14 AM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Mon, Oct 16, 2017 at 9:07 PM, Ricardo Salveti
-> <ricardo@opensourcefoundries.com> wrote:
->> On Mon, Oct 16, 2017 at 11:01 PM, Bruce Ashfield
->> <bruce.ashfield@gmail.com> wrote:
->>> On Mon, Oct 16, 2017 at 8:50 PM, Bruce Ashfield
->>> <bruce.ashfield@gmail.com> wrote:
->>>> On Mon, Oct 16, 2017 at 5:17 PM, Ricardo Salveti
->>>> <ricardo@opensourcefoundries.com> wrote:
->>>>> runc.inc sets PV based on "${RUNC_VERSION}+git${SRCREV}", which is
->>>>> set correctly by runc-opencontainers but not by runc-docker (PV was set
->>>>> to 1.0.0-rc3+gitINVALID-r0 instead of using the SRCREV hash).
->>>>
->>>> Then I'll revert the .inc
->>>>
->>>> As I mentioned before, I'm keeping the named SRCREVs. I didn't notice that on
->>>> the way in.
->>>
->>> I see the issue. I won't take this patch, but will fix things up a
->>> different way.
->>
->> Cool, I didn't know if the idea was to use named SRCREV, but handing
->> that differently in the .inc should also fix the problem.
->
-> yah. I broke it quite some time ago when I had to split the docker and
-> open containers runc.
->
-> I should have switched to using SRCPV then .. which I just did now
-> (and tested both the docker and open-containers variants of runc).
+This backports are for the pyro branch to fix Xen issues identified.
 
-Awesome, just tested your patch and all good from my side as well.
+Christopher Clark (5):
+  xen: Package libxendevicemodel, introduced in Xen 4.9
+  xen: Package .pc packageconfig files into dev packages
+  xen: remove STAGING_DIR_HOST from the runtime search path for bios.bin
+  xen: Add menuconfig task and enable menuconfig from devshell
+  xen: Replace 'inherit gettext' with explicit gettext-native dependency
 
-Thanks for the fix!
+ recipes-extended/xen/xen.inc | 118 +++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 102 insertions(+), 16 deletions(-)
 
-Cheers,
 -- 
-Ricardo Salveti
+2.13.5
+
 
