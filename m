@@ -1,34 +1,40 @@
-Return-Path: <paul.eggleton@linux.intel.com>
+Return-Path: <huangqy.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 10136E00C45; Mon, 30 Oct 2017 15:54:22 -0700 (PDT)
+	id 81D47E00CA6; Mon, 30 Oct 2017 22:19:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [192.55.52.115 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6D1ABE009B4
+X-Greylist: delayed 63 seconds by postgrey-1.32 at yocto-www;
+	Mon, 30 Oct 2017 22:19:20 PDT
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A0714E00C62
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 30 Oct 2017 15:54:21 -0700 (PDT)
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Oct 2017 15:54:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.44,321,1505804400"; d="scan'208";a="167065933"
-Received: from wsclemen-mobl2.gar.corp.intel.com (HELO
-	peggleto-mobl.ger.corp.intel.com) ([10.255.139.19])
-	by orsmga005.jf.intel.com with ESMTP; 30 Oct 2017 15:54:18 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: meta-virtualization@yoctoproject.org
-Date: Tue, 31 Oct 2017 11:54:13 +1300
-Message-Id: <20171030225413.938-1-paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.9.5
-Subject: [PATCH] python-*: use https for pypi URLs
+	Mon, 30 Oct 2017 22:19:20 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="29761252"
+Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 31 Oct 2017 13:18:15 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 3E3D6481847F
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 31 Oct 2017 13:18:16 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.125) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Tue, 31 Oct 2017 13:18:13 +0800
+From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 31 Oct 2017 13:18:13 +0800
+Message-ID: <1509427093-808-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.125]
+X-yoursite-MailScanner-ID: 3E3D6481847F.A51EB
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
+Subject: [meta-cloud-services][PATCH] python-eventlet:upgrade to 0.21.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,75 +47,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Oct 2017 22:54:22 -0000
+X-List-Received-Date: Tue, 31 Oct 2017 05:19:21 -0000
+Content-Type: text/plain
 
-Several of the recipes here were using http URLs for source hosted on
-pypi - pypi apparently no longer supports http so switch to https
-instead.
+Upgrade python-eventlet from 0.18.4 to 0.21.0.
 
-Fixes [YOCTO #12286].
-
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 ---
- recipes-devtools/python/python-gevent_1.0.1.bb    | 2 +-
- recipes-devtools/python/python-m2crypto_0.22.3.bb | 2 +-
- recipes-devtools/python/python-sphinx_1.4.1.bb    | 2 +-
- recipes-devtools/python/python-webob_1.6.0.bb     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ .../python/{python-eventlet_0.18.4.bb => python-eventlet_0.21.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-eventlet_0.18.4.bb => python-eventlet_0.21.0.bb} (51%)
 
-diff --git a/recipes-devtools/python/python-gevent_1.0.1.bb b/recipes-devtools/python/python-gevent_1.0.1.bb
-index 47f1267..8ac1295 100644
---- a/recipes-devtools/python/python-gevent_1.0.1.bb
-+++ b/recipes-devtools/python/python-gevent_1.0.1.bb
-@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "python-greenlet python-mime python-pprint python-re"
+diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.18.4.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.21.0.bb
+similarity index 51%
+rename from meta-openstack/recipes-devtools/python/python-eventlet_0.18.4.bb
+rename to meta-openstack/recipes-devtools/python/python-eventlet_0.21.0.bb
+index 8c5e904..768759c 100644
+--- a/meta-openstack/recipes-devtools/python/python-eventlet_0.18.4.bb
++++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.21.0.bb
+@@ -6,10 +6,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
  
- SRCNAME = "gevent"
+ SRCNAME = "eventlet"
  
--SRC_URI = "http://pypi.python.org/packages/source/g/gevent/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/g/gevent/${SRCNAME}-${PV}.tar.gz"
- SRC_URI[md5sum] = "7b952591d1a0174d6eb6ac47bd975ab6"
- SRC_URI[sha256sum] = "4627e215d058f71d95e6b26d9e7be4c263788a4756bd2858a93775f6c072df43"
+-SRC_URI = "http://pypi.python.org/packages/source/e/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
++SRC_URI = "https://pypi.python.org/packages/cb/ec/eae487c106a7e38f86ac4cadafb3eec77d29996f64ca0c7015067538069b/${SRCNAME}-${PV}.tar.gz"
  
-diff --git a/recipes-devtools/python/python-m2crypto_0.22.3.bb b/recipes-devtools/python/python-m2crypto_0.22.3.bb
-index 95d6eec..9814d3d 100644
---- a/recipes-devtools/python/python-m2crypto_0.22.3.bb
-+++ b/recipes-devtools/python/python-m2crypto_0.22.3.bb
-@@ -14,7 +14,7 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://PKG-INFO;md5=0ccca7097c1d29fa42e75e9c15c6ff2e"
+-SRC_URI[md5sum] = "8d1c646d8cc10a4958c92fe8a30f3676"
+-SRC_URI[sha256sum] = "74ef11d67ee5e85e009b0fced733c907620bca1ab8e6b0489d9f247405ab2685"
++SRC_URI[md5sum] = "92aaac4c0abaddff9329f55d8f5bcd76"
++SRC_URI[sha256sum] = "08faffab88c1b08bd53ea28bf084a572c89f7e7648bd9d71e6116ac17a51a15d"
  
- SRCNAME = "M2Crypto"
--SRC_URI = "http://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
-+SRC_URI = "https://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
-            file://m2crypto-Fix-build-with-SWIG-3.0.5.patch \
- "
+ S = "${WORKDIR}/${SRCNAME}-${PV}"
  
-diff --git a/recipes-devtools/python/python-sphinx_1.4.1.bb b/recipes-devtools/python/python-sphinx_1.4.1.bb
-index 835b369..b4ae86b 100644
---- a/recipes-devtools/python/python-sphinx_1.4.1.bb
-+++ b/recipes-devtools/python/python-sphinx_1.4.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=72f034adc6f7b05b09bc00d1a05bb065"
- PR = "r0"
- SRCNAME = "Sphinx"
- 
--SRC_URI = "http://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "4c4988e0306a04cef8dccc384281e585"
- SRC_URI[sha256sum] = "c6871a784d24aba9270b6b28541537a57e2fcf4d7c799410eba18236bc76d6bc"
-diff --git a/recipes-devtools/python/python-webob_1.6.0.bb b/recipes-devtools/python/python-webob_1.6.0.bb
-index 71c74ff..93f2acf 100644
---- a/recipes-devtools/python/python-webob_1.6.0.bb
-+++ b/recipes-devtools/python/python-webob_1.6.0.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://docs/license.txt;md5=8ed3584bcc78c16da363747ccabc5af5
- PR = "r0"
- SRCNAME = "WebOb"
- 
--SRC_URI = "http://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "089d7fc6745f175737800237c7287802"
- SRC_URI[sha256sum] = "63d262d8f61b516321f786879c9277fa2209f7f57eb47b537eeecfea383d55b7"
 -- 
-2.9.5
+2.7.4
+
+
 
 
