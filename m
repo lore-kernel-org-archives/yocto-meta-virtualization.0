@@ -1,69 +1,45 @@
-Return-Path: <dariusz.pelowski@gmail.com>
+Return-Path: <Yunguo.Wei@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E0435E00C7B; Sun,  5 Nov 2017 04:16:31 -0800 (PST)
+	id F0D97E00D0D; Mon,  6 Nov 2017 01:45:58 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, RCVD_IN_DNSWL_NONE,
-	RCVD_IN_SORBS_SPAM autolearn=no version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (dariusz.pelowski[at]gmail.com)
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.215.65 listed in dnsbl.sorbs.net]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.65 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B6A2AE00AD7
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5D4DEE00CF7
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  5 Nov 2017 04:16:30 -0800 (PST)
-Received: by mail-lf0-f65.google.com with SMTP id a132so7644163lfa.7
-	for <meta-virtualization@yoctoproject.org>;
-	Sun, 05 Nov 2017 04:16:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=EUbbk2Fwc7r1II7e/FIqAvUhmr3O6t0ggFjEoSZoAgs=;
-	b=GgHZY+EPRuhQZlII9qu9FwqRGzAydUVXcR4AUeyLhX+xqVpt61l+fEwBAV/p5Fc2OU
-	EDUZcUZeYHcTiNoRSpjdhxErwAJ6RUmuT78UyTY9OMztpHEaL+v7kyiZQCpURh6+PXom
-	0GTXKQ/RHYsWNB09m81NkPq5b957YrSnZC7QwfrAySt+b3Fbh/YfbokxhnlGXNOYaV1u
-	dU3g/zJBMDoFK2zuhA6CpB+BFAJ3sCKMfmhNoEUIYpj5Ak1jVfPUljCNgz8yzdSlN8SI
-	EMvBEIiyvTG3oMKsUkE5lC9R3HRuG+q9jonR018RFg+BWbCiNFLG97iG08qEDTrhSu4a
-	vtww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EUbbk2Fwc7r1II7e/FIqAvUhmr3O6t0ggFjEoSZoAgs=;
-	b=otiEl3XK7BHAAVeL8u7NQfytyHBkFLJEcJ6u472t6BH5RQA/A8wc+zpAmdmP7EjFUS
-	WuAueInErYg/cyVj/WVcS/H6INAgysnXHl/Q/etpWEeZpxOaXP9DW70JD+XwvAEjrMWO
-	QtzwGk5V3ybTH4X28yhlHwp6Ao38JEXxKo3IBbyw9CvcOSFokbg+7R42ZIfYe4mfoDsY
-	DbbNu/RDFjDZI6zpeWDIqyBdMBxPef4uKTYnanIIZQOD4Nbjql2y9aYHDgUMBZ4kP4Vs
-	fTF6YxjXn96lzxjyJyREhcqiZF/5j4yLa8M6e7sHd+yAGtudERaKcu7GzK9szjCe79pX
-	SBSw==
-X-Gm-Message-State: AMCzsaW2KTlRdzC1KfdldQx6kQ3PROW76PKY42r3OZI7YTAuMPlYLDZG
-	3oYym+oMWWIcyqjOVSab8fCIsocu
-X-Google-Smtp-Source: ABhQp+SrenBZdpkf3LigvjTkZLhFmACB1tZmI5jgD3R6egqFPsxuP0JZfAmqS3hL9zlCADLzsGoeMw==
-X-Received: by 10.46.21.28 with SMTP id s28mr4900081ljd.70.1509884189014;
-	Sun, 05 Nov 2017 04:16:29 -0800 (PST)
-Received: from duzy.lan (user-188-33-218-82.play-internet.pl. [188.33.218.82])
-	by smtp.gmail.com with ESMTPSA id
-	x188sm1866986lfa.0.2017.11.05.04.16.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 05 Nov 2017 04:16:28 -0800 (PST)
-From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Sun,  5 Nov 2017 13:15:41 +0100
-Message-Id: <20171105121541.10625-1-dariusz.pelowski@gmail.com>
-X-Mailer: git-send-email 2.15.0
-Subject: [PATCH] kvmtool: fix compilation errors
+	Mon,  6 Nov 2017 01:45:57 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vA69juPP023467
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 6 Nov 2017 01:45:56 -0800 (PST)
+Received: from ALA-MBC.corp.ad.wrs.com ([169.254.1.97]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0361.001;
+	Mon, 6 Nov 2017 01:45:55 -0800
+From: "Wei, Yunguo (Bryan)" <Yunguo.Wei@windriver.com>
+To: Yan Yankovskyi <yan.yankovskyi@globallogic.com>,
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Thread-Topic: [meta-virtualization] [PATCH] xen: delete references to
+	xenstored.socket and xenstored_ro.socket in xen.inc
+Thread-Index: AQHTIW9TXuAgG/ZfLEe3131HA9kwo6MHhOoQ
+Date: Mon, 6 Nov 2017 09:45:54 +0000
+Message-ID: <9D17CA0E2F3FD24582A90F5363602C23011EB48C4E@ALA-MBC.corp.ad.wrs.com>
+References: <1504083795-20546-1-git-send-email-yan.yankovskyi@globallogic.com>
+In-Reply-To: <1504083795-20546-1-git-send-email-yan.yankovskyi@globallogic.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [128.224.162.147]
+MIME-Version: 1.0
+Subject: Re: [PATCH] xen: delete references to	xenstored.socket and xenstored_ro.socket in xen.inc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,122 +52,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 Nov 2017 12:16:31 -0000
+X-List-Received-Date: Mon, 06 Nov 2017 09:45:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Fixed issues:
-Usage of makedev requires including <sys/sysmacros.h> otherwise
-the error is raised due to multiple definition in <sys/types.h>.
+Hi Yan
 
-Add include path to kernel headers required to get kvmtool
-compilatioin successful.
+Do you know why this patch was not merged? I'm running into same problem.
 
-Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+Regards,
+Yunguo
+
+-----Original Message-----
+From: meta-virtualization-bounces@yoctoproject.org [mailto:meta-virtualizat=
+ion-bounces@yoctoproject.org] On Behalf Of Yan Yankovskyi
+Sent: Wednesday, August 30, 2017 5:03 PM
+To: meta-virtualization@yoctoproject.org
+Subject: [meta-virtualization] [PATCH] xen: delete references to xenstored.=
+socket and xenstored_ro.socket in xen.inc
+
+These files were removed since the following patch http://xenbits.xen.org/g=
+itweb/?p=3Dxen.git;a=3Dcommit;h=3D976ce01e103fc03bb3336cdbc6c951a709e285fe
+and are absent in xen 4.8.0 and further, which leads to the following error=
+ during the Xen build process:
+do_package: SYSTEMD_SERVICE_xen-xencommons value xenstored.socket does not =
+exist
+
+Signed-off-by: Yan Yankovskyi <yan.yankovskyi@globallogic.com>
 ---
- .../0001-kvmtool-9p-fixed-compilation-error.patch  | 27 ++++++++++++++++++++
- .../0002-kvmtool-add-EXTRA_CFLAGS-variable.patch   | 29 ++++++++++++++++++++++
- recipes-extended/kvmtool/kvmtool.bb                |  7 +++++-
- 3 files changed, 62 insertions(+), 1 deletion(-)
- create mode 100644 recipes-extended/kvmtool/files/0001-kvmtool-9p-fixed-compilation-error.patch
- create mode 100644 recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
+ recipes-extended/xen/xen.inc | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/recipes-extended/kvmtool/files/0001-kvmtool-9p-fixed-compilation-error.patch b/recipes-extended/kvmtool/files/0001-kvmtool-9p-fixed-compilation-error.patch
-new file mode 100644
-index 0000000..63911fc
---- /dev/null
-+++ b/recipes-extended/kvmtool/files/0001-kvmtool-9p-fixed-compilation-error.patch
-@@ -0,0 +1,27 @@
-+From bcd954ffdb9383030e02d356b51e09e4e2a7105a Mon Sep 17 00:00:00 2001
-+From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-+Date: Sun, 5 Nov 2017 12:39:52 +0100
-+Subject: [PATCH 1/2] kvmtool: 9p: fixed compilation error
-+
-+makedev is defined in sys/sysmacros.h
-+
-+Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-+---
-+ virtio/9p.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/virtio/9p.c b/virtio/9p.c
-+index 6acbfdd..1dee2c2 100644
-+--- a/virtio/9p.c
-++++ b/virtio/9p.c
-+@@ -15,6 +15,7 @@
-+ #include <string.h>
-+ #include <errno.h>
-+ #include <sys/vfs.h>
-++#include <sys/sysmacros.h>
-+ 
-+ #include <linux/virtio_ring.h>
-+ #include <linux/virtio_9p.h>
-+-- 
-+2.15.0
-+
-diff --git a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
-new file mode 100644
-index 0000000..262531c
---- /dev/null
-+++ b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
-@@ -0,0 +1,29 @@
-+From 977a4d41012d1814f5a5330cacc2e4944de387cc Mon Sep 17 00:00:00 2001
-+From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-+Date: Sun, 5 Nov 2017 12:39:21 +0100
-+Subject: [PATCH 2/2] kvmtool: add EXTRA_CFLAGS variable
-+
-+to avoid CFLAGS overriding introduce new EXTRA_CFLAGS variable
-+for setting via command argument
-+
-+Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-+---
-+ Makefile | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/Makefile b/Makefile
-+index 64a0a16..bca1b26 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -2,6 +2,8 @@
-+ # Define WERROR=0 to disable -Werror.
-+ #
-+ 
-++CFLAGS += $(EXTRA_CFLAGS)
-++
-+ ifeq ($(strip $(V)),)
-+ 	E = @echo
-+ 	Q = @
-+-- 
-+2.15.0
-+
-diff --git a/recipes-extended/kvmtool/kvmtool.bb b/recipes-extended/kvmtool/kvmtool.bb
-index b3bf202..33fec31 100644
---- a/recipes-extended/kvmtool/kvmtool.bb
-+++ b/recipes-extended/kvmtool/kvmtool.bb
-@@ -5,10 +5,15 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=fcb02dc552a041dee27e4b85c7396067"
- 
- DEPENDS = "dtc libaio zlib"
-+do_configure[depends] += "virtual/kernel:do_shared_workdir"
-+
-+inherit kernel-arch
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/will/kvmtool.git \
-            file://external-crosscompiler.patch \
-            file://0001-Avoid-pointers-for-address-of-packed-members.patch \
-+           file://0001-kvmtool-9p-fixed-compilation-error.patch \
-+           file://0002-kvmtool-add-EXTRA_CFLAGS-variable.patch \
-            "
- 
- SRCREV = "3fea89a924511f9f8fe05a892098fad77c1eca0d"
-@@ -16,7 +21,7 @@ PV = "3.18.0+git${SRCREV}"
- 
- S = "${WORKDIR}/git"
- 
--EXTRA_OEMAKE='ARCH="${TARGET_ARCH}" V=1'
-+EXTRA_OEMAKE='V=1 EXTRA_CFLAGS="-I${STAGING_KERNEL_DIR}/arch/${ARCH}/include -I${STAGING_KERNEL_BUILDDIR}/arch/${ARCH}/include/generated/"'
- 
- do_install() {
-     install -d ${D}${bindir}
--- 
-2.15.0
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc in=
+dex b5c5f03..717424b 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -687,8 +687,6 @@ FILES_${PN}-xencommons +=3D "\
+     ${systemd_unitdir}/system/xenconsoled.service \
+     ${systemd_unitdir}/system/xen-init-dom0.service \
+     ${systemd_unitdir}/system/xenstored.service \
+-    ${systemd_unitdir}/system/xenstored.socket \
+-    ${systemd_unitdir}/system/xenstored_ro.socket \
+     ${systemd_unitdir}/system/var-lib-xenstored.mount \
+     "
+=20
+@@ -728,8 +726,6 @@ SYSTEMD_SERVICE_${PN}-xencommons =3D " \
+     xenconsoled.service \
+     xen-init-dom0.service \
+     xenstored.service \
+-    xenstored.socket \
+-    xenstored_ro.socket \
+     "
+ SYSTEMD_SERVICE_${PN}-xendomains =3D "xendomains.service"
+=20
+--
+1.9.1
 
+--
+_______________________________________________
+meta-virtualization mailing list
+meta-virtualization@yoctoproject.org
+https://lists.yoctoproject.org/listinfo/meta-virtualization
 
