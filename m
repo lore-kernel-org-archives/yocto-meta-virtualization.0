@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DEBD7E00D17; Mon,  6 Nov 2017 05:53:12 -0800 (PST)
+	id 27B8EE00D17; Mon,  6 Nov 2017 05:53:23 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,9 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.216.196 listed in list.dnswl.org]
+	*      [209.85.216.172 listed in list.dnswl.org]
+	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
+	*      [209.85.216.172 listed in dnsbl.sorbs.net]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,52 +21,50 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.5 RCVD_IN_SORBS_SPAM RBL: SORBS: sender is a spam source
-	*      [209.85.216.196 listed in dnsbl.sorbs.net]
-Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
-	[209.85.216.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CFFB5E00D03
+Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
+	[209.85.216.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0856BE00D03
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  6 Nov 2017 05:53:11 -0800 (PST)
-Received: by mail-qt0-f196.google.com with SMTP id z28so10917230qtz.13
+	Mon,  6 Nov 2017 05:53:21 -0800 (PST)
+Received: by mail-qt0-f172.google.com with SMTP id j58so10971544qtj.0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 06 Nov 2017 05:53:11 -0800 (PST)
+	Mon, 06 Nov 2017 05:53:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QAmoaTm4OxWOBAhgfaCgLEKGruTDzvm3G09ST/jmqrQ=;
-	b=s3mnvKPjnRt49/QSOk8xFCFrC9UlNPAFOztmbnzf3WwTi3p+B6//soedF1f5FGJV8E
-	pwW+hq0zsQ4xj+EbEtmWIfjS4QjoYvCOsh8uZC5hq8tNCsfKDMtBS5iJMmRuZBUOwA6H
-	h+JZ/xHmw6mePw4GMPK+j7OCiiZwJRM5wufCL4CLtytIbKAaMlCGksUBSHekHcEspyEF
-	uu6fIuyvQ6PZWIgYKBLwlilSVS5QFDw2+vKoZucKeZ8nOOn70oDuEAi+VfatUPEhpNWJ
-	J9vkudize1sWPmSltpDti/7UF3o1gNsAYG+1ENKJeAmv+AmtntUQmeN2uqrP8ehaOQlG
-	3rjw==
+	:cc; bh=IIB+NIdEtopkgvKJEUOZnY2Xxh78uOiND6CE/hEU0BI=;
+	b=jBjKx1TIWSRGguY9aEPBJi2PCUR641Q8ZQy148ss8iUq4gf0vczK6lktsLuoPhYIkf
+	W3nY/8lkyGFm3XECCW1ixLOgr3WPXwSoqcwjsxeWoXrMa6iUKIbXnTW13cDzRijPcWG2
+	Q4GaUYOaykDkbgcN/BRZPiHEgsBETcW7olxYKkYE5uxaSZ313Ac1X5pYZKMPd/9vWTjS
+	YWt65to5Wc5f1MGP5vaGjTKL02MOvqemxxVopMRxgqeEbtsDCprDtD3+5m4kqh1Vqigf
+	Tvrn0vXIPa0Nx9tS0HQRNXfZ7dAWUuSMSyofnrjJLoHG4qqbzX/1Y9njMJW0j4HKC9TG
+	rPrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=QAmoaTm4OxWOBAhgfaCgLEKGruTDzvm3G09ST/jmqrQ=;
-	b=FR18C8mK6xhmqros/DkZDcZhy7/++XVPZkCILiWsPKVsPoTrcsP7vQjzRkZb6kvslF
-	rM05Upls5IQ5mSJQX8hTftXgpiVtsI1K2Jfoa5rMujECiIxiw2KfprFgr+IXlZ8IkdUr
-	K7bzgFJ1D4NJ31/tH0zYgCtfMz1xhDWk4w816xsyyv4vl0uEVMsxghRlC4ZbzuejO/VP
-	SgEZm88QV0HVqYBxhLFjD6eXQGTmMiVErOBfuvh9R89t78my1NQYWZ7VJhJR7Mcg6gnn
-	gDOzJADw6r/0nE9+vFu1qeJy89n759cgrTbeiXFf869GEF2hCOrODiGt8Q0phPV9gsB6
-	8FRw==
-X-Gm-Message-State: AMCzsaU+J6QtxeSSH502P49/30l4lxuMncrHn5pL48UvEAT33kAkqt7c
-	3Yzqeo025pxEIyMLcjklMOF6nRbhnTTRsaMhk5aBAA==
-X-Google-Smtp-Source: ABhQp+T0kQyGt37/9yLP5c6V2WWyTQJjXABPQqMlwcBBnzwTKv9GoyN5LASBo4UbSRxLrPYqgu0unQvTU2dNxbyyx1U=
-X-Received: by 10.200.3.111 with SMTP id w47mr22073958qtg.312.1509976390856;
-	Mon, 06 Nov 2017 05:53:10 -0800 (PST)
+	bh=IIB+NIdEtopkgvKJEUOZnY2Xxh78uOiND6CE/hEU0BI=;
+	b=HmQ+YvkkpQEzultFwvlY+k9zORHIhAJj8NhSY9Evdg0P+5Y7czbXcQ9OXA0fo4iUjx
+	Q921odVmFBrS++sp61hnG6A/2qQtoZN5xrc2e8MDwpIn0GxEAmmsB8HLVDHVnK7nS5oV
+	w7xQZan98AAs+GHcnV8poWNP/+p+HC3AzPjCFIl9938BoebOPowLJouRcZG/m3TOJvOf
+	8OFdwdv7vuVOQvp5ecO+djnaal0+tZqVI5xP9ZyHW2XSMV755lodTkTMtvc+fKdUKnWB
+	tH5FZMZQEg5v3Vh34lSwVtbvUKDNcySiED0yhvirUIQzioux0ZBuWWf3hKehWGb1ooYQ
+	uUqA==
+X-Gm-Message-State: AMCzsaXULrfCFrAMfECz+vsLIAVNQLJC9dVqyLngUT0bp9vblJFbT5+J
+	5kEIg2PiLIfPef5oOyE8ej5UAr7DPRvfUzge3B4brg==
+X-Google-Smtp-Source: ABhQp+QUCCcImWk4vXPf5AN7L5uPwt1RXqnxW7YmKL+7IXDAtROwXA4hXsTugueMXxJIDUglN1hnGdqlaPc2aXeyscY=
+X-Received: by 10.200.48.103 with SMTP id g36mr23167017qte.289.1509976401084; 
+	Mon, 06 Nov 2017 05:53:21 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.182.80 with HTTP; Mon, 6 Nov 2017 05:53:10 -0800 (PST)
-In-Reply-To: <1509810728-19704-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-References: <1509810728-19704-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Received: by 10.12.182.80 with HTTP; Mon, 6 Nov 2017 05:53:20 -0800 (PST)
+In-Reply-To: <1509810903-19796-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1509810903-19796-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 6 Nov 2017 08:53:10 -0500
-Message-ID: <CADkTA4O8G=vP9Gi2KQadAOoHaNO-X5q9_F-ZckP9LgDPJGixxg@mail.gmail.com>
+Date: Mon, 6 Nov 2017 08:53:20 -0500
+Message-ID: <CADkTA4Nq4vCn4oqXFYd_bL0fONJd0jMpdm+Zi-E6vhjw34RDPA@mail.gmail.com>
 To: zhengrq <zhengrq.fnst@cn.fujitsu.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services][PATCH]python-heatclient: upgrade to 1.9.0
+Subject: Re: [meta-cloud-services][PATCH]python-httplib2: upgrade to 0.10.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,36 +77,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Nov 2017 13:53:12 -0000
+X-List-Received-Date: Mon, 06 Nov 2017 13:53:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+merged.
 
 Bruce
 
-On Sat, Nov 4, 2017 at 11:52 AM, zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
-> Upgrade python-heatclient from 0.6.0 to 1.9.0.
+On Sat, Nov 4, 2017 at 11:55 AM, zhengrq <zhengrq.fnst@cn.fujitsu.com> wrote:
+> 1) Upgrade python-httplib2 from 0.9.2 to 0.10.3.
+>
+> 2) Modify LIC_FILES_CHKSUM as home-page in PKG-INFO has been changed from https://github.com/jcgregorio/httplib2 to https://github.com/httplib2/httplib2
 >
 > Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  .../{python-httplib2_0.9.2.bb => python-httplib2_0.10.3.bb}       | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-httplib2_0.9.2.bb => python-httplib2_0.10.3.bb} (52%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-> index 26d86be..6653b37 100644
-> --- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-> @@ -28,8 +28,8 @@ SRCNAME = "heatclient"
+> diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.9.2.bb b/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
+> similarity index 52%
+> rename from meta-openstack/recipes-devtools/python/python-httplib2_0.9.2.bb
+> rename to meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
+> index 711411b..e2b27e7 100644
+> --- a/meta-openstack/recipes-devtools/python/python-httplib2_0.9.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
+> @@ -2,14 +2,14 @@ DESCRIPTION = "A comprehensive HTTP client library"
+>  HOMEPAGE = "https://code.google.com/p/httplib2/"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=01abba5d32279f9ed6b3350390258547"
+> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=41a98bc55b04b2a38acdb5c8ab0ae6b2"
 >
->  SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
+>  SRCNAME = "httplib2"
 >
-> -PV = "0.6.0+git${SRCPV}"
-> -SRCREV = "7cca8394b8ab2f4dccb982ae789b1b2985627115"
-> +PV = "1.9.0+git${SRCPV}"
-> +SRCREV = "b80166d848dd26718cfe0627bfec22774213616b"
->  S = "${WORKDIR}/git"
+> -SRC_URI = "https://pypi.python.org/packages/ff/a9/5751cdf17a70ea89f6dde23ceb1705bfb638fd8cee00f845308bf8d26397/${SRCNAME}-${PV}.tar.gz"
+> +SRC_URI = "https://pypi.python.org/packages/e4/2e/a7e27d2c36076efeb8c0e519758968b20389adf57a9ce3af139891af2696/${SRCNAME}-${PV}.tar.gz"
 >
->  inherit setuptools
+> -SRC_URI[md5sum] = "bd1b1445b3b2dfa7276b09b1a07b7f0e"
+> -SRC_URI[sha256sum] = "c3aba1c9539711551f4d83e857b316b5134a1c4ddce98a875b7027be7dd6d988"
+> +SRC_URI[md5sum] = "709c305e1b00e9c0af49ee816429569c"
+> +SRC_URI[sha256sum] = "e404d3b7bd86c1bc931906098e7c1305d6a3a6dcef141b8bb1059903abb3ceeb"
+>
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
 > --
 > 2.7.4
 >
