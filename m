@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E32D1E00D3E; Tue,  7 Nov 2017 12:27:25 -0800 (PST)
+	id 5D16AE00AF9; Tue,  7 Nov 2017 12:38:47 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,27 +12,25 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 256A7E00C82
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 20B10E00A6A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  7 Nov 2017 12:27:22 -0800 (PST)
+	Tue,  7 Nov 2017 12:38:45 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vA7KRM1g017052
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vA7KcgHY018630
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 7 Nov 2017 12:27:22 -0800 (PST)
+	Tue, 7 Nov 2017 12:38:45 -0800 (PST)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 7 Nov 2017 12:27:21 -0800
+	Tue, 7 Nov 2017 12:38:41 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Tue, 7 Nov 2017 15:27:15 -0500
-Message-ID: <1510086435-19586-2-git-send-email-mark.asselstine@windriver.com>
+Date: Tue, 7 Nov 2017 15:38:28 -0500
+Message-ID: <1510087118-28132-1-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510086435-19586-1-git-send-email-mark.asselstine@windriver.com>
-References: <1510086435-19586-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH 2/2] python-xstatic-jquery-quicksearch: rename to python-xstatic-jquery.quicksearch
+Subject: [m-c-s][PATCH 0/n] uprev 'oslo' packages to stable/pike
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,23 +43,64 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Nov 2017 20:27:25 -0000
+X-List-Received-Date: Tue, 07 Nov 2017 20:38:47 -0000
 Content-Type: text/plain
 
-Rename to match upstream name as well as match name used in
-requirements.txt to allow easier automation of dependency checks.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- ...uicksearch_2.0.3.1.bb => python-xstatic-jquery.quicksearch_2.0.3.1.bb} | 0
- 1 file changed, 0 insertions(+), 0 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-xstatic-jquery-quicksearch_2.0.3.1.bb => python-xstatic-jquery.quicksearch_2.0.3.1.bb} (100%)
+Newton is now EOL'd and we never did manage to get all the uprev's
+complete to ensure newton was fully functional. Builds will start
+failing as the 'newton' branch has been renamed 'newton-eol', so if
+you haven't already fetched and try to build you will get nothing but
+screens of errors.
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-jquery-quicksearch_2.0.3.1.bb b/meta-openstack/recipes-devtools/python/python-xstatic-jquery.quicksearch_2.0.3.1.bb
-similarity index 100%
-rename from meta-openstack/recipes-devtools/python/python-xstatic-jquery-quicksearch_2.0.3.1.bb
-rename to meta-openstack/recipes-devtools/python/python-xstatic-jquery.quicksearch_2.0.3.1.bb
--- 
-2.7.4
+Pike has been out since Aug. and is the current stable branch so this
+is the start of getting things moved to the pike release. This set of
+changes will be followed by the uprev's to the core openstack
+components (hopefully in a few days).
 
+The following is the diffstat covering all 10 commits. Note that the
+majority of the changes are to the *oslo*bb files but as usual we had
+to do some initial changes to uprev and add new python packages, per
+the requirements.txt files found in the various packages.
+
+Mark
+
+--
+meta-openstack/conf/layer.conf                                             |  4 +---
+meta-openstack/recipes-devtools/python/python-amqp_1.4.9.bb                | 16 ----------------
+meta-openstack/recipes-devtools/python/python-amqp_2.1.4.bb                | 16 ----------------
+meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb                | 14 ++++++++++++++
+meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb           | 15 +++++++++++++++
+meta-openstack/recipes-devtools/python/python-kombu_3.0.37.bb              | 23 -----------------------
+meta-openstack/recipes-devtools/python/python-kombu_4.0.2.bb               | 20 --------------------
+meta-openstack/recipes-devtools/python/python-kombu_4.1.0.bb               | 16 ++++++++++++++++
+meta-openstack/recipes-devtools/python/python-os-client-config_git.bb      |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.cache_git.bb            |  4 ++--
+meta-openstack/recipes-devtools/python/python-oslo.concurrency_git.bb      |  8 +++-----
+meta-openstack/recipes-devtools/python/python-oslo.config_git.bb           |  8 +++++---
+meta-openstack/recipes-devtools/python/python-oslo.context_git.bb          |  7 ++++---
+meta-openstack/recipes-devtools/python/python-oslo.db_git.bb               | 10 +++-------
+meta-openstack/recipes-devtools/python/python-oslo.i18n_git.bb             |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.log_git.bb              |  7 ++++---
+meta-openstack/recipes-devtools/python/python-oslo.messaging_git.bb        | 12 ++++--------
+meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb       |  7 ++++---
+meta-openstack/recipes-devtools/python/python-oslo.policy_git.bb           |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.reports_git.bb          |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.rootwrap_git.bb         |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.serialization_git.bb    |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.service_git.bb          |  7 ++++---
+meta-openstack/recipes-devtools/python/python-oslo.utils_git.bb            |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.versionedobjects_git.bb |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslo.vmware_git.bb           |  6 +++---
+meta-openstack/recipes-devtools/python/python-oslotest_git.bb              |  9 ++++-----
+meta-openstack/recipes-devtools/python/python-requestsexceptions_1.1.3.bb  | 30 ------------------------------
+meta-openstack/recipes-devtools/python/python-requestsexceptions_1.3.0.bb  | 28 ++++++++++++++++++++++++++++
+meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.10.0.bb | 32 --------------------------------
+meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.11.0.bb | 22 ++++++++++++++++++++++
+meta-openstack/recipes-devtools/python/python-statsd_3.2.1.bb              | 15 +++++++++++++++
+meta-openstack/recipes-devtools/python/python-stevedore_1.19.1.bb          | 32 --------------------------------
+meta-openstack/recipes-devtools/python/python-stevedore_1.27.1.bb          | 20 ++++++++++++++++++++
+meta-openstack/recipes-devtools/python/python-tenacity_4.5.0.bb            | 18 ++++++++++++++++++
+meta-openstack/recipes-devtools/python/python-vine_1.1.4.bb                | 13 +++++++++++++
+36 files changed, 226 insertions(+), 241 deletions(-)
 
