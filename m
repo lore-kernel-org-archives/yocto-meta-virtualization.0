@@ -1,38 +1,64 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <vlsireddy@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0983AE00D67; Fri, 10 Nov 2017 13:31:23 -0800 (PST)
+	id D3D3BE00CF1; Fri, 10 Nov 2017 18:43:44 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (vlsireddy[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.128.169 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A688EE00D51
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-wr0-f169.google.com (mail-wr0-f169.google.com
+	[209.85.128.169])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01E53E00CEC
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 10 Nov 2017 13:31:13 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAALVDKJ021405
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 10 Nov 2017 18:43:43 -0800 (PST)
+Received: by mail-wr0-f169.google.com with SMTP id q66so10037795wrb.13
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 10 Nov 2017 13:31:13 -0800 (PST)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 10 Nov 2017 13:31:12 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Fri, 10 Nov 2017 16:31:00 -0500
-Message-ID: <1510349460-18777-6-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1510349460-18777-1-git-send-email-mark.asselstine@windriver.com>
-References: <1510349460-18777-1-git-send-email-mark.asselstine@windriver.com>
+	Fri, 10 Nov 2017 18:43:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=UAVqDXh3JTOhFeLoBKXYLK9HSPCP7tldqAD/4X0n4As=;
+	b=DNb4ovfZPHlp0b8dputajkdvefpyZN3h2SSBF6wHrijRYaYKuCAFInXoBusR4qVyz0
+	MvNQzZGDDD4t/ADA4Ffz9ERQLd5lPvfbQjomAg1nA0QHAkoV/rUqAQIEU7HGOltb7Xfy
+	3RVKYBV5x93kOsQd9jFii3Ko8PRwxjoyECdbrH+6sj6wxUBEKa2pUC7p/rmyme81m/sQ
+	ecNge7R6LS35xYxN1Pak+VdlX2mG7pULc3QXoKdbz4DlGvEFP4WvylbUmJk7bGeRVUf9
+	01HzMqnXs1JVgR/qUn92bM2X5Sfr5XK5jvpa2NLt5iruK2ZbFiFSPiCWz8EDuCd5manM
+	AFGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=UAVqDXh3JTOhFeLoBKXYLK9HSPCP7tldqAD/4X0n4As=;
+	b=L4qbRkiaG3OM7p1RdQynQUlWst4Mp1m0idj+pxW0rEY3CmTFgsf5AtpktTlHclBBFR
+	8W/qPlYp8Uk8lH0SYcx54UKhZE4Wnt4V3SPNnPUXlTjC6uRVOGp+Nyn3PYMeRm0R0Ulm
+	J6n7T34iLdyMZEGkKwDkXUG+BamjYbjBBoOFgv7lEcsrj2BATMwLNcfxa8wRwUQnVHKc
+	u9J+L8tMntYhr0tO0JnTC55Y9xHlS/l3p77PFGTPmYWJ8e4sbmL5lhjhCASBR+5lS09c
+	IRx/izxb9KZIzR518eH9Mizox1bIPZZAUgwidaKaX7o4E8vFd263EeQvvE29vTPIsUS0
+	dQFQ==
+X-Gm-Message-State: AJaThX73CCh2eOVErNMuP/uWjPSIWXVggC8zRfPazuR8qmYujz1SbOGI
+	vGTOftREv7iwEClHTvCvZzF3ECJnUsnu9x6N2qifkw==
+X-Google-Smtp-Source: AGs4zMYfJbStKmxK0B3FORsbz4tK5jGku5GU2VWUNwRGGG/01HtOSTILZvxJJFcdjxg2+qAPw7vNfpVYKFFJeaStpYo=
+X-Received: by 10.223.157.137 with SMTP id p9mr1936995wre.92.1510368222516;
+	Fri, 10 Nov 2017 18:43:42 -0800 (PST)
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH 5/5] python-keystone: uprev to latest stable/pike
+Received: by 10.28.87.208 with HTTP; Fri, 10 Nov 2017 18:43:41 -0800 (PST)
+From: Ravi chandra reddy <vlsireddy@gmail.com>
+Date: Fri, 10 Nov 2017 21:43:41 -0500
+Message-ID: <CAGQ4JX0waag2sfdSmPSvFe609-V6s2HTEYgrG=Qz9OSio1SWMA@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: Issue in irqbalance Code AARCH64-ARM-A53
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,138 +71,59 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Nov 2017 21:31:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 11 Nov 2017 02:43:44 -0000
+Content-Type: multipart/alternative; boundary="f403043a2794621e79055dac0199"
 
-Required updates to python-olso*, keystoneclient, keystonemiddleware
-and more. These updates have all been completed in commit prior to
-this uprev.
+--f403043a2794621e79055dac0199
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- .../recipes-devtools/python/python-keystone_git.bb | 65 ++++++++++++----------
- 1 file changed, 35 insertions(+), 30 deletions(-)
+Hi All,
 
-diff --git a/meta-openstack/recipes-devtools/python/python-keystone_git.bb b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-index 6dfdc93..79bd0c8 100644
---- a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
- 
- SRCNAME = "keystone"
- 
--SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
-+SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike \
-            file://keystone.conf \
-            file://identity.sh \
-            file://keystone \
-@@ -19,8 +19,8 @@ SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=master \
- # file://keystone-remove-git-commands-in-tests.patch 
- # file://keystone-explicitly-import-localcontext-from-oslo.me.patch
- 
--SRCREV = "8dcd82fb9c76d43f26338bee293b32f4af473ad9"
--PV = "8.0.0+git${SRCPV}"
-+SRCREV = "d07677aba54362a4a3aa2d165b155105ffe30d73"
-+PV = "12.0.0+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
-@@ -75,7 +75,7 @@ do_install_append() {
- 
-     install -d ${D}${localstatedir}/log/${SRCNAME}
-     install -m 755 -d ${KEYSTONE_CGI_DIR}
--    install -m 755 -d ${KEYSTONE_PY_DIR}
-+    #install -m 755 -d ${KEYSTONE_PY_DIR}
- 
-     # Apache needs to read the keystone.conf
-     install -m 644 ${WORKDIR}/keystone.conf ${KEYSTONE_CONF_DIR}/
-@@ -87,16 +87,16 @@ do_install_append() {
-     install -m 600 ${S}${sysconfdir}/keystone.conf.sample \
-         ${KEYSTONE_CONF_DIR}/keystone.conf.sample
-     # Apache user needs to read these files.
--    install -m 644 ${S}${sysconfdir}/policy.json \
--        ${KEYSTONE_CONF_DIR}/policy.json
-+    #install -m 644 ${S}${sysconfdir}/policy.json \
-+    #    ${KEYSTONE_CONF_DIR}/policy.json
-     install -m 644 ${S}${sysconfdir}/keystone-paste.ini \
-         ${KEYSTONE_CONF_DIR}/keystone-paste.ini
--    install -m 644 ${S}/httpd/keystone.py \
--        ${KEYSTONE_PY_DIR}/keystone-httpd.py
--    install -m 644 ${S}/httpd/keystone.py \
--        ${KEYSTONE_CGI_DIR}/admin
--    install -m 644 ${S}/httpd/keystone.py \
--        ${KEYSTONE_CGI_DIR}/main
-+    #install -m 644 ${S}/httpd/keystone.py \
-+    #    ${KEYSTONE_PY_DIR}/keystone-httpd.py
-+    #install -m 644 ${S}/httpd/keystone.py \
-+    #    ${KEYSTONE_CGI_DIR}/admin
-+    #install -m 644 ${S}/httpd/keystone.py \
-+    #    ${KEYSTONE_CGI_DIR}/main
- 
-     cp -r ${S}/examples ${KEYSTONE_PACKAGE_DIR}
- 
-@@ -249,37 +249,42 @@ DEPENDS += " \
-         "
- 
- RDEPENDS_${PN} += " \
--        python-pycadf \
--        python-oslo.db \
--        python-pam \
-+        python-babel \
-+        python-pbr \
-         python-webob \
--        python-eventlet \
--        python-greenlet \
-         python-pastedeploy \
-         python-paste \
-         python-routes \
-+        python-cryptography \
-+        python-six \
-         python-sqlalchemy \
-         python-sqlalchemy-migrate \
-+        python-stevedore \
-         python-passlib \
--        python-lxml \
--        python-iso8601 \
-         python-keystoneclient \
--        python-openstack-nose \
-+        python-keystonemiddleware \
-+        python-bcrypt \
-+        python-scrypt \
-+        python-oslo.cache \
-+        python-oslo.concurrency \
-         python-oslo.config \
--        python-dogpile.core \
--        python-dogpile.cache \
--        python-pbr \
--        python-pysaml2 \
-+        python-oslo.context \
-+        python-oslo.messaging \
-+        python-oslo.db \
-+        python-oslo.i18n \
-+        python-oslo.log \
-+        python-oslo.middleware \
-         python-oslo.policy \
-+        python-oslo.serialization \
-         python-oslo.utils \
-         python-oauthlib \
--        python-fixtures \
--        python-oslotest \
--        python-functools32 \
--        python-six \
--        python-routes \
-+        python-pysaml2 \
-+        python-dogpile.cache \
-+        python-jsonschema \
-         python-pycadf \
--        python-cryptography \
-+        python-msgpack \
-+        python-osprofiler \
-+        python-pytz \
-         "
- 
- RDEPENDS_${SRCNAME}-tests += " bash"
--- 
-2.7.4
+1. based on this link
 
+http://layers.openembedded.org/layerindex/branch/master/layer/meta-virtualization/
 
+2. i see the irqbalance is of version 1.1.0 [Dec 4, 2015]
+
+3. Building meta-virtualization library for irqbalance failed for AARHC64.
+
+4. The Issue is simple bug [i fixed in my downloaded, untar'ed code],looks
+someone also fixed the code and new version 1.2.0 does include this fix.
+
+[
+https://github.com/Irqbalance/irqbalance/commit/1dccd034a90b2f0221423632de65cbf84d05ebfb#diff-69b8dbcfbbf11746aa38c26a4604e551
+]
+
+5. Is there any reason why irqbalance is NOT updated to 1.2.0 in
+meta-virtualization.
+
+6. According to github, version 1.2.0 has Aarch64 support [
+https://github.com/Irqbalance/irqbalance/releases]
+
+Thanks
+RC Reddy
+
+--f403043a2794621e79055dac0199
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi All,<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0</div>=
+<div>1. based on this link</div><div><br></div><div><a href=3D"http://layer=
+s.openembedded.org/layerindex/branch/master/layer/meta-virtualization/">htt=
+p://layers.openembedded.org/layerindex/branch/master/layer/meta-virtualizat=
+ion/</a><br></div><div><br></div><div>2. i see the irqbalance is of version=
+ 1.1.0 [Dec 4, 2015]</div><div><br></div><div>3. Building meta-virtualizati=
+on library for irqbalance failed for AARHC64.</div><div><br></div><div>4. T=
+he Issue is simple bug [i fixed in my downloaded, untar&#39;ed code],looks =
+someone also fixed the code and new version 1.2.0 does include this fix.</d=
+iv><div><br></div><div>[<a href=3D"https://github.com/Irqbalance/irqbalance=
+/commit/1dccd034a90b2f0221423632de65cbf84d05ebfb#diff-69b8dbcfbbf11746aa38c=
+26a4604e551">https://github.com/Irqbalance/irqbalance/commit/1dccd034a90b2f=
+0221423632de65cbf84d05ebfb#diff-69b8dbcfbbf11746aa38c26a4604e551</a>]</div>=
+<div><br></div><div>5. Is there any reason why irqbalance is NOT updated to=
+ 1.2.0 in meta-virtualization.</div><div><br></div><div>6. According to git=
+hub, version 1.2.0 has Aarch64 support [<a href=3D"https://github.com/Irqba=
+lance/irqbalance/releases">https://github.com/Irqbalance/irqbalance/release=
+s</a>]</div><div><br></div><div>Thanks</div><div>RC Reddy</div></div>
+
+--f403043a2794621e79055dac0199--
