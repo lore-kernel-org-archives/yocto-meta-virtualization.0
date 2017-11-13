@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8BAB5E00DA8; Mon, 13 Nov 2017 11:32:47 -0800 (PST)
+	id 99651E00D97; Mon, 13 Nov 2017 11:32:47 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D57DE00D04
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 87F82E00DD9
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 13 Nov 2017 11:32:41 -0800 (PST)
+	Mon, 13 Nov 2017 11:32:40 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vADJWfxr019652
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vADJWeIV010409
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 13 Nov 2017 11:32:41 -0800 (PST)
+	Mon, 13 Nov 2017 11:32:40 -0800 (PST)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 13 Nov 2017 11:32:40 -0800
+	Mon, 13 Nov 2017 11:32:39 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Mon, 13 Nov 2017 14:32:25 -0500
-Message-ID: <1510601551-32245-6-git-send-email-mark.asselstine@windriver.com>
+Date: Mon, 13 Nov 2017 14:32:24 -0500
+Message-ID: <1510601551-32245-5-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1510601551-32245-1-git-send-email-mark.asselstine@windriver.com>
 References: <1510601551-32245-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH 05/11] python-glanceclient: uprev to latest stable/pike
+Subject: [m-c-s][PATCH 04/11] python-warlock: add v1.2.0 required by python-glanceclient
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,106 +48,53 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Mon, 13 Nov 2017 19:32:47 -0000
 Content-Type: text/plain
 
-Update runtime dependencies based on requirements.txt, drop old
-patches. Required a downrev of python-warlock as this verison is not
-compatible with v1.3.0.
+Keep the newer v1.3.0 around but we need to ensure this version is in
+use so set a PREF version.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../fix_glanceclient_memory_leak.patch             | 37 ----------------------
- .../python/python-glanceclient_git.bb              | 24 ++++++++------
- 2 files changed, 15 insertions(+), 46 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-glanceclient/fix_glanceclient_memory_leak.patch
+ meta-openstack/conf/layer.conf                      |  1 +
+ .../recipes-devtools/python/python-warlock_1.2.0.bb | 21 +++++++++++++++++++++
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-warlock_1.2.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-glanceclient/fix_glanceclient_memory_leak.patch b/meta-openstack/recipes-devtools/python/python-glanceclient/fix_glanceclient_memory_leak.patch
-deleted file mode 100644
-index 754d83f..0000000
---- a/meta-openstack/recipes-devtools/python/python-glanceclient/fix_glanceclient_memory_leak.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
-----
-- glanceclient/openstack/common/apiclient/client.py |   10 ++++++++++
-- 1 file changed, 10 insertions(+)
--
----- a/glanceclient/openstack/common/apiclient/client.py
--+++ b/glanceclient/openstack/common/apiclient/client.py
--@@ -90,6 +90,7 @@
--         self.user_agent = user_agent or self.user_agent
-- 
--         self.times = []  # [("item", starttime, endtime), ...]
--+        self.times_max_len = 200
--         self.timings = timings
-- 
--         # requests within the same session can reuse TCP connections from pool
--@@ -142,6 +143,12 @@
--     def reset_timings(self):
--         self.times = []
-- 
--+    def get_timings_max_len(self):
--+        return self.times_max_len
--+
--+    def set_timings_max_len(self, new_len):
--+        self.times_max_len = new_len
--+
--     def request(self, method, url, **kwargs):
--         """Send an http request with the specified characteristics.
-- 
--@@ -173,6 +180,9 @@
--         if self.timings:
--             self.times.append(("%s %s" % (method, url),
--                                start_time, time.time()))
--+            # remove oldest items until we maintain max length
--+            while len(self.times) > self.times_max_len:
--+                del self.times[0]
--         self._http_log_resp(resp)
-- 
--         if resp.status_code >= 400:
-diff --git a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-index 22dc854..00ea2ab 100644
---- a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
-@@ -9,12 +9,11 @@ DEPENDS += " \
-         python-pbr \
-         "
- 
--SRCREV = "86635868c1eb3aec0c065c12cb9928c613940f36"
--PV = "1.1.0+git${SRCPV}"
-+SRCREV = "13b25ff1fed908cfe7b4e719a97efd7121e3be96"
-+PV = "2.8.0+git${SRCPV}"
- 
- SRC_URI = "\
--	git://github.com/openstack/${BPN}.git;protocol=https \
--	file://fix_glanceclient_memory_leak.patch \
-+	git://github.com/openstack/${BPN}.git;branch=stable/pike \
- 	file://glance-api-check.sh \
- 	"
- 
-@@ -29,13 +28,20 @@ DEPENDS += " \
-     python-pbr-native \
-     "
- 
--RDEPENDS_${PN} = "gmp \
+diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+index 6859085..f2aa64e 100644
+--- a/meta-openstack/conf/layer.conf
++++ b/meta-openstack/conf/layer.conf
+@@ -20,4 +20,5 @@ PREFERRED_VERSION_python-netaddr = "0.7.19"
+ PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
+ PREFERRED_VERSION_python-requests = "2.13.0"
+ PREFERRED_VERSION_python-eventlet = "0.20.0"
++PREFERRED_VERSION_python-warlock = "1.2.0"
+ LICENSE_PATH += "${LAYERDIR}/licenses"
+diff --git a/meta-openstack/recipes-devtools/python/python-warlock_1.2.0.bb b/meta-openstack/recipes-devtools/python/python-warlock_1.2.0.bb
+new file mode 100644
+index 0000000..0839983
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python-warlock_1.2.0.bb
+@@ -0,0 +1,21 @@
++DESCRIPTION = "Build self-validating python objects using JSON schemas"
++HOMEPAGE = "http://github.com/bcwaldon/warlock"
++SECTION = "devel/python"
++LICENSE = "Apache-2"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
++
++DEPENDS += " \
++        python-jsonschema \
++        python-jsonpatch \
++        "
++
++SRC_URI[md5sum] = "8389225c589ada11a9094abc5d9053df"
++SRC_URI[sha256sum] = "7c0d17891e14cf77e13a598edecc9f4682a5bc8a219dc84c139c5ba02789ef5a"
++
++inherit setuptools pypi
++
 +RDEPENDS_${PN} += " \
-+   gmp \
-+   bash \
-+   python-pbr \
-+   python-babel \
-+   python-prettytable \
-+   python-keystoneauth1 \
-+   python-requests \
-    python-warlock \
-+   python-six \
-+   python-oslo.utils \
-+   python-oslo.i18n \
-+   python-wrapt \
-    python-pyopenssl \
--   python-prettytable \
--   python-setuptools-git \
--   python-pbr \
--   bash \
-    "
- 
- MONITOR_CHECKS_${PN} += "\
++        python-jsonschema \
++        python-jsonpatch \
++        python-six \
++        "
 -- 
 2.7.4
 
