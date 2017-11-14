@@ -1,69 +1,72 @@
 Return-Path: <vlsireddy@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F3A7CE00C77; Mon, 13 Nov 2017 18:57:28 -0800 (PST)
+	id 3649FE00BEA; Tue, 14 Nov 2017 05:52:15 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (vlsireddy[at]gmail.com)
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [209.85.216.179 listed in list.dnswl.org]
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.128.172 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qt0-f179.google.com (mail-qt0-f179.google.com
-	[209.85.216.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 43515E009B4
+Received: from mail-wr0-f172.google.com (mail-wr0-f172.google.com
+	[209.85.128.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 376FFE00928
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 13 Nov 2017 18:57:27 -0800 (PST)
-Received: by mail-qt0-f179.google.com with SMTP id r39so6070157qtr.13
+	Tue, 14 Nov 2017 05:52:13 -0800 (PST)
+Received: by mail-wr0-f172.google.com with SMTP id p96so17530527wrb.7
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 13 Nov 2017 18:57:27 -0800 (PST)
+	Tue, 14 Nov 2017 05:52:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=OHPXvwdtdT/IsjJjaqgmH43Op6PLoB8mYNXPvgWnYfI=;
-	b=CNKw6bnPv53KzMn0GfabKsfWz8iW1489QmGrOIQtYf9euZfTS1riWgQKhKdikycEZC
-	LQpwYUyvVhwcK8tRcQRGHWG0QIdwGetx+bt3wGdL1EqlpmSM4SxUkxr/1fPCTQ2r3Qu8
-	KcZ9SjYb9AeNhS7mok6NBJRoSk29H/YF8uf8cvOxl2r00L6r6LJpNIfwgmDxnToo8i5H
-	tkcSATZS3NqrJuNpqsOLCQ/x12r6zmseWfM+WbipOYI42Hk88re5jx7CNkLLfcDFTk2B
-	XV8tF/V8gLb5imavvAV4Sgm2kmro73P7MMCqdu6lEE7mxk6AkCQ6NN98OG5ccjakIIoB
-	u6xQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=F6u/W//sKzHNe5i2HHC9Q9o2Y1x96GowCzrACas+euQ=;
+	b=snt/kIlboNeKBloUVBR3SmoawNvWQiixc8vlat++8pDwbOX/JMJX2Ot7L1DwOL0mdL
+	RRM95VxHc++W1WuSX8Gea9GMYQtOZulMvKlDlUii8BVqquzjx85RNTbt8KAlqw8sm+On
+	TX/E8lF7z9DZZt4mnYjqAcfA1nofMGp54YaJaQmInf1Ku4Kn/Z3QxhiXtzIiNaWJ0KAc
+	8NkFz69xnbqrPOWHWd2gbgNuPbCuunw1L54l2+r0+N6blD1KIMDlEUcxTChfxpsMrcKw
+	JnCr4bXOY2hE20K3m+B+NF5irQd9m8RIrcwnzWbWVqRhSwDLHi5J21MHgVBlxrGIzIXE
+	/6kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=OHPXvwdtdT/IsjJjaqgmH43Op6PLoB8mYNXPvgWnYfI=;
-	b=omIQVMbvyIr+3lCd0efct5DN3NzohrJlISf36jI0aEP7WOlyuilMjx+dpWrkQG1ZLf
-	8pJ1b3FcsP4oZvtn1eOcj/38T6PuLCsY2cxb+fp0xZLy1H/21rLMReeI2GrLvwX/xLzl
-	Y/SWEkwO8WvpGgkAgupO0MGCPCBidgYDjByy27RhP5gsASvS537JvT5aVTx+P1MV5Lfy
-	oW+nvX8coNiutKGv8Ljh65AwMugwwdj651Oy0tCIFRBSYtJ++K5scy2yJYDrrAPkZONK
-	ZjslqZu2axtWikwR9zNEzDXpE07OTbf+fkLKD1kkKegGkameleMXq6ft1o5UJyBAA3aE
-	QBBg==
-X-Gm-Message-State: AJaThX7oe0zmn4424XtBdUrnVn6jljiBWElZw7ImPQbU6VrZ5AHMngLg
-	o6eRGNRm5CbjiXleOZnKqdSVsA==
-X-Google-Smtp-Source: AGs4zMZsKr9jYfFoKrFWmQUCmgxUyYBtEZEAdtC2HM2TBIbEcF7F86g6R+CPSflIbTpHDl4yt2onQg==
-X-Received: by 10.200.24.235 with SMTP id o40mr15331086qtk.91.1510628246741;
-	Mon, 13 Nov 2017 18:57:26 -0800 (PST)
-Received: from airvana.wirelessworld.airvananet.com
-	(host-131-239-32-100.customer.veroxity.net. [131.239.32.100])
-	by smtp.gmail.com with ESMTPSA id
-	x3sm11651068qke.82.2017.11.13.18.57.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 Nov 2017 18:57:25 -0800 (PST)
-From: RC Reddy <vlsireddy@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Mon, 13 Nov 2017 21:58:10 -0500
-Message-Id: <1510628290-9038-1-git-send-email-vlsireddy@gmail.com>
-X-Mailer: git-send-email 1.9.1
-Cc: RC Reddy <vlsireddy@gmail.com>
-Subject: [[PATCH]irqbalance updated to 1.3.0] irqbalance: fix compilation errors
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=F6u/W//sKzHNe5i2HHC9Q9o2Y1x96GowCzrACas+euQ=;
+	b=ZvEwoNV8cyu0zVyEDKNS9JeexcplTtMMk9Km9UB/Tj5gBb1guqkEVoY+jgm+/hGo/a
+	9xGZGHV2N1FPxZ0j8ATmGV4ljCurvIIDvGzZgaExyAwRvmBZi+52Ix++Ne1Vl6X17j1Y
+	tjsu1CyCH6aFL2lTXrCXfZmFtPiMNSbg8gQCfTqNT0lCnDC7bQQTZ88oBGsZ1Aj7Ya14
+	KQGMYIyH+mj/Q1nlwaebOdSczwtRh3QfSvDMoYfQ+unh/2Gp6CuH4W6Jow27lNuuZNAR
+	Xk76L/xTNfM/I9rdmu/pU1KFYb89jzue4vrO+eQrPluyE+WiOWnyX8m56pF411KBcx3z
+	9/pQ==
+X-Gm-Message-State: AJaThX582uQVrRZaEQMSh1fe7ksyC2sZ9NYY67/9Dk1jy5FxHB9XH4rl
+	Y8ybK0DODy5729Q2k4rb9G+CQk8zheC3kPhwD10=
+X-Google-Smtp-Source: AGs4zMbr01iX5NKSNyCPqY2H6kahcZTw0TK1zxZtav8iUTL9iEwYHtQjVBoRVamM5XmvC2rJ++M61vvFvM2SmdkyMX0=
+X-Received: by 10.223.166.103 with SMTP id k94mr10295925wrc.22.1510667533082; 
+	Tue, 14 Nov 2017 05:52:13 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.28.87.208 with HTTP; Tue, 14 Nov 2017 05:52:12 -0800 (PST)
+In-Reply-To: <CADkTA4OvvidGf6_eS-vBkpr3n+sEdYySGfHGXYDr8Y6Py+1WHQ@mail.gmail.com>
+References: <CAGQ4JX0waag2sfdSmPSvFe609-V6s2HTEYgrG=Qz9OSio1SWMA@mail.gmail.com>
+	<CADkTA4NXiDWTsmQHO+WtO4qxGCe4st4368=O54ApDF4J-QgTXQ@mail.gmail.com>
+	<CAGQ4JX2jzoZZPeJ0aWvf+Z3hU5Qh8gWJs2DxQ-0ZoN=oAxk24g@mail.gmail.com>
+	<CADkTA4OvvidGf6_eS-vBkpr3n+sEdYySGfHGXYDr8Y6Py+1WHQ@mail.gmail.com>
+From: Ravi chandra reddy <vlsireddy@gmail.com>
+Date: Tue, 14 Nov 2017 08:52:12 -0500
+Message-ID: <CAGQ4JX3z8uUmgo31VKssGVr2FyUaewTzZH5umOUVC7t+s3SQpQ@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: Issue in irqbalance Code AARCH64-ARM-A53
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,87 +79,247 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Nov 2017 02:57:29 -0000
+X-List-Received-Date: Tue, 14 Nov 2017 13:52:15 -0000
+Content-Type: multipart/alternative; boundary="f403045cf04eaee781055df1b19d"
 
-Fixed issues:
+--f403045cf04eaee781055df1b19d
+Content-Type: text/plain; charset="UTF-8"
 
-New features in this release:[From Neil Horman]
-=================================
-optimization of platform device irq detection
-Added sample udev rules to trigger irq rescans on device add/remove
-Made irqbalance ui an optional compile component
-Added support for Intel CoD
-Add -v | --version option to command line
+Hi Bruce,
+               1. Author released 1.3.0 and i compiled it with AARCH64 and
+it succeed.
+               2. submitted irqbalance_1.3.0.bb patch.
 
-Bug fixes in this release:
-==================================
-Misc compiler warning fixes and spelling errors
-Compilation error fix on aarch64
-Compilation error fix when using clang in c99 mode
-Unused variable cleanup
-Lots of memory leak cleanup in irqbalance-ui
-Prevent irqbalance from running in a container
-Fix irq affinity assignment in some cases to wrong numa node
-Fix oneshot mode
-exclude legacy irq 255
+Thanks
 
-Deprecations:
-=================================
-without-glib2 is removed, we just need it enough that we can't dummy it up anymore
+On Sun, Nov 12, 2017 at 8:23 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
 
-Tested:
-================================
-Tested on AARCH64 and it compiles
----
- recipes-extended/irqbalance/irqbalance_1.1.0.bb | 15 ---------------
- recipes-extended/irqbalance/irqbalance_1.3.0.bb | 15 +++++++++++++++
- 2 files changed, 15 insertions(+), 15 deletions(-)
- delete mode 100644 recipes-extended/irqbalance/irqbalance_1.1.0.bb
- create mode 100644 recipes-extended/irqbalance/irqbalance_1.3.0.bb
+> On Sat, Nov 11, 2017 at 11:03 PM, Ravi chandra reddy
+> <vlsireddy@gmail.com> wrote:
+> > Hi Bruce,
+> >               1. I downloaded 1.2.0 version and i tried to build on
+> AARCH64
+> > compiler and i see compilation failure.
+> >               2. issue is fixed on Jan 15 and file is compressed and put
+> as
+> > release on Jan 10. In other words, release 1.2.0 does NOT compile with
+> > AARCH64 same way as 1.1.0. [unless someone goes and fix in
+> >
+> > vi
+> > tmp/work/aarch64-xilinx-linux/irqbalance/1.2.0-r0/irqbalance-1.2.0/
+> procinterrupts.c
+> >
+> >               3. I have written to Author of new release package. I will
+> > await his response and post patch.
+> >               4. Let me know of other alternatives.
+>
+> upgrade to 1.2.0 and create a patch that fixes the compilation issues,
+> submit that
+> uprev + patch to the list.
+>
+> Bruce
+>
+> >
+> > Thanks
+> > RC Reddy
+> >
+> > On Fri, Nov 10, 2017 at 10:48 PM, Bruce Ashfield <
+> bruce.ashfield@gmail.com>
+> > wrote:
+> >>
+> >> On Fri, Nov 10, 2017 at 9:43 PM, Ravi chandra reddy <
+> vlsireddy@gmail.com>
+> >> wrote:
+> >> > Hi All,
+> >> >
+> >> > 1. based on this link
+> >> >
+> >> >
+> >> > http://layers.openembedded.org/layerindex/branch/master/
+> layer/meta-virtualization/
+> >> >
+> >> > 2. i see the irqbalance is of version 1.1.0 [Dec 4, 2015]
+> >> >
+> >> > 3. Building meta-virtualization library for irqbalance failed for
+> >> > AARHC64.
+> >> >
+> >> > 4. The Issue is simple bug [i fixed in my downloaded, untar'ed
+> >> > code],looks
+> >> > someone also fixed the code and new version 1.2.0 does include this
+> fix.
+> >> >
+> >> >
+> >> > [https://github.com/Irqbalance/irqbalance/commit/
+> 1dccd034a90b2f0221423632de65cbf84d05ebfb#diff-
+> 69b8dbcfbbf11746aa38c26a4604e551]
+> >> >
+> >> > 5. Is there any reason why irqbalance is NOT updated to 1.2.0 in
+> >> > meta-virtualization.
+> >>
+> >> Nope, no reason.
+> >>
+> >> Send a patch to upgrade it, and it'll be 1.2.0 :D
+> >>
+> >> Bruce
+> >>
+> >> >
+> >> > 6. According to github, version 1.2.0 has Aarch64 support
+> >> > [https://github.com/Irqbalance/irqbalance/releases]
+> >> >
+> >> > Thanks
+> >> > RC Reddy
+> >> >
+> >> > --
+> >> > _______________________________________________
+> >> > meta-virtualization mailing list
+> >> > meta-virtualization@yoctoproject.org
+> >> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >> >
+> >>
+> >>
+> >>
+> >> --
+> >> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> >> thee at its end"
+> >
+> >
+>
+>
+>
+> --
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
+>
 
-diff --git a/recipes-extended/irqbalance/irqbalance_1.1.0.bb b/recipes-extended/irqbalance/irqbalance_1.1.0.bb
-deleted file mode 100644
-index 16efa95..0000000
---- a/recipes-extended/irqbalance/irqbalance_1.1.0.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--#
--# Copyright (C) 2015 Wind River Systems, Inc.
--#
--
--require irqbalance.inc
--
--SRC_URI[md5sum] = "b15d975336080bcac4be0c1752d43cf3"
--SRC_URI[sha256sum] = "91506e638b03bf27cf5da7dc250d58a753ce8a0288a20265fc7ff0266040706b"
--
--SRC_URI = "https://github.com/Irqbalance/irqbalance/archive/v${PV}.tar.gz;downloadfilename=irqbalance-${PV}.tar.gz \
--           file://add-initscript.patch \
--           file://irqbalance-Add-status-and-reload-commands.patch \
--           file://fix-configure-libcap-ng.patch \
--           file://irqbalanced.service \
--          "
-diff --git a/recipes-extended/irqbalance/irqbalance_1.3.0.bb b/recipes-extended/irqbalance/irqbalance_1.3.0.bb
-new file mode 100644
-index 0000000..5581a8b
---- /dev/null
-+++ b/recipes-extended/irqbalance/irqbalance_1.3.0.bb
-@@ -0,0 +1,15 @@
-+#
-+# Copyright (C) 2015 Wind River Systems, Inc.
-+#
-+
-+require irqbalance.inc
-+
-+SRC_URI[md5sum] = "53ee393adcfbc8e5ab23cbbd920df687"
-+SRC_URI[sha256sum] = "41c2c0842d8fb24240d8069b389cd8d1669625a40009a17ad886967845dc6e43"
-+
-+SRC_URI = "https://github.com/Irqbalance/irqbalance/archive/v${PV}.tar.gz;downloadfilename=irqbalance-${PV}.tar.gz \
-+           file://add-initscript.patch \
-+           file://irqbalance-Add-status-and-reload-commands.patch \
-+           file://fix-configure-libcap-ng.patch \
-+           file://irqbalanced.service \
-+          "
--- 
-1.9.1
+--f403045cf04eaee781055df1b19d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">Hi Bruce,<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A01. Author released 1.3.0 and i compiled it with AARCH64 and it=
+ succeed.</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+2. submitted <a href=3D"http://irqbalance_1.3.0.bb">irqbalance_1.3.0.bb</a>=
+ patch.</div><div><br></div><div>Thanks</div></div><div class=3D"gmail_extr=
+a"><br><div class=3D"gmail_quote">On Sun, Nov 12, 2017 at 8:23 PM, Bruce As=
+hfield <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.ashfield@gmail.com" ta=
+rget=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span> wrote:<br><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
+lid;padding-left:1ex"><span class=3D"">On Sat, Nov 11, 2017 at 11:03 PM, Ra=
+vi chandra reddy<br>
+&lt;<a href=3D"mailto:vlsireddy@gmail.com">vlsireddy@gmail.com</a>&gt; wrot=
+e:<br>
+&gt; Hi Bruce,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A01. I downloaded =
+1.2.0 version and i tried to build on AARCH64<br>
+&gt; compiler and i see compilation failure.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A02. issue is fixe=
+d on Jan 15 and file is compressed and put as<br>
+&gt; release on Jan 10. In other words, release 1.2.0 does NOT compile with=
+<br>
+&gt; AARCH64 same way as 1.1.0. [unless someone goes and fix in<br>
+&gt;<br>
+&gt; vi<br>
+&gt; tmp/work/aarch64-xilinx-linux/<wbr>irqbalance/1.2.0-r0/<wbr>irqbalance=
+-1.2.0/<wbr>procinterrupts.c<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A03. I have writte=
+n to Author of new release package. I will<br>
+&gt; await his response and post patch.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A04. Let me know o=
+f other alternatives.<br>
+<br>
+</span>upgrade to 1.2.0 and create a patch that fixes the compilation issue=
+s,<br>
+submit that<br>
+uprev + patch to the list.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Bruce<br>
+</font></span><div class=3D"HOEnZb"><div class=3D"h5"><br>
+&gt;<br>
+&gt; Thanks<br>
+&gt; RC Reddy<br>
+&gt;<br>
+&gt; On Fri, Nov 10, 2017 at 10:48 PM, Bruce Ashfield &lt;<a href=3D"mailto=
+:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Fri, Nov 10, 2017 at 9:43 PM, Ravi chandra reddy &lt;<a href=3D=
+"mailto:vlsireddy@gmail.com">vlsireddy@gmail.com</a>&gt;<br>
+&gt;&gt; wrote:<br>
+&gt;&gt; &gt; Hi All,<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; 1. based on this link<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; <a href=3D"http://layers.openembedded.org/layerindex/branch/m=
+aster/layer/meta-virtualization/" rel=3D"noreferrer" target=3D"_blank">http=
+://layers.openembedded.<wbr>org/layerindex/branch/master/<wbr>layer/meta-vi=
+rtualization/</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; 2. i see the irqbalance is of version 1.1.0 [Dec 4, 2015]<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; 3. Building meta-virtualization library for irqbalance failed=
+ for<br>
+&gt;&gt; &gt; AARHC64.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; 4. The Issue is simple bug [i fixed in my downloaded, untar&#=
+39;ed<br>
+&gt;&gt; &gt; code],looks<br>
+&gt;&gt; &gt; someone also fixed the code and new version 1.2.0 does includ=
+e this fix.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; [<a href=3D"https://github.com/Irqbalance/irqbalance/commit/1=
+dccd034a90b2f0221423632de65cbf84d05ebfb#diff-69b8dbcfbbf11746aa38c26a4604e5=
+51" rel=3D"noreferrer" target=3D"_blank">https://github.com/<wbr>Irqbalance=
+/irqbalance/commit/<wbr>1dccd034a90b2f0221423632de65cb<wbr>f84d05ebfb#diff-=
+<wbr>69b8dbcfbbf11746aa38c26a4604e5<wbr>51</a>]<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; 5. Is there any reason why irqbalance is NOT updated to 1.2.0=
+ in<br>
+&gt;&gt; &gt; meta-virtualization.<br>
+&gt;&gt;<br>
+&gt;&gt; Nope, no reason.<br>
+&gt;&gt;<br>
+&gt;&gt; Send a patch to upgrade it, and it&#39;ll be 1.2.0 :D<br>
+&gt;&gt;<br>
+&gt;&gt; Bruce<br>
+&gt;&gt;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; 6. According to github, version 1.2.0 has Aarch64 support<br>
+&gt;&gt; &gt; [<a href=3D"https://github.com/Irqbalance/irqbalance/releases=
+" rel=3D"noreferrer" target=3D"_blank">https://github.com/<wbr>Irqbalance/i=
+rqbalance/releases</a><wbr>]<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Thanks<br>
+&gt;&gt; &gt; RC Reddy<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; ______________________________<wbr>_________________<br>
+&gt;&gt; &gt; meta-virtualization mailing list<br>
+&gt;&gt; &gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-=
+virtualization@<wbr>yoctoproject.org</a><br>
+&gt;&gt; &gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtu=
+alization" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.=
+<wbr>org/listinfo/meta-<wbr>virtualization</a><br>
+&gt;&gt; &gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; --<br>
+&gt;&gt; &quot;Thou shalt not follow the NULL pointer, for chaos and madnes=
+s await<br>
+&gt;&gt; thee at its end&quot;<br>
+&gt;<br>
+&gt;<br>
+<br>
+<br>
+<br>
+--<br>
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
+r>
+thee at its end&quot;<br>
+</div></div></blockquote></div><br></div>
 
+--f403045cf04eaee781055df1b19d--
