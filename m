@@ -1,68 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 80418E00CD4; Wed, 15 Nov 2017 11:19:05 -0800 (PST)
+	id DC2F4E00C45; Wed, 15 Nov 2017 11:22:38 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.216.193 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
-	[209.85.216.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28E2EE009B4
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4ADE3E009B4
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 Nov 2017 11:19:02 -0800 (PST)
-Received: by mail-qt0-f193.google.com with SMTP id n32so20753973qtb.2
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 Nov 2017 11:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7JnBM9qBpmRdBuPCAgrWaVxGUFPJzTtLjFPYcnYQfz4=;
-	b=Y4BvXm4ded30u6mxinyKFFSGHM+9ygUKu9y75FXN3U+W59Q9+H0mWuIoLOIwiF71QT
-	0NAxbsXGaFNFUyx7M5gc+H6KNRXdCHdoHvf3RD8K6zY2FQ9aknr9WaeZOPn4bIMiHuwl
-	gKbUBWepWd6xE2IHHCe1DHKxQ2McA/oba5+s6y8SRWRcFeRtQyxuNBJYdlr6Tc4LX+fB
-	DIq27fW/3K06GJztfLhPxgD3aLlm3IS/lsqjCbe3lrsTmHRE/mefGesXvJcDyf/0rdgA
-	qQ8LFZMqbtVYnRdwmK+yXdUJ5eMv+LTOB5xqCn4TNQnTkB/SMdg1/tOGXFNXZDzbkkLW
-	GYJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7JnBM9qBpmRdBuPCAgrWaVxGUFPJzTtLjFPYcnYQfz4=;
-	b=rjtUOs3rZK9NE3dqpilwRvwnQv3E+9CyjbRZLfMZEnDSQh2KgA2wvfAUu2ktWHvn2l
-	kGcXa4UufYQGKlW8Xw2eQtemzz/KGzRMcZwre0vMIVe8dRuy5WI95BOyFiycJfwZedCn
-	8KmHs4JJbJWssn9sEM4KPnQxWD83R2D8EFbuQ+d21AgHT3xrkEWEQBQ4rebExDHANl5M
-	O2Mzhip/zDr93/Td38FbfNi6tOPsF4lhqvK7Ehv6gHg03Uash37EJAITZRimcbEz+Teb
-	B919Pg/M2r+zUgwz3/A0mNfOMY4+yOw4zqe44mG7O7P21eheVYzZJAzI4LZSbbpI6XYd
-	R6IA==
-X-Gm-Message-State: AJaThX6YRrh/NZaYPoCWqHI9M+r6jnLwamWNB2NrKShPpChA7vIpDUdy
-	8MsQt5QxV2pYo/GDbkRJJ1NeiCQXAvE7aGrAekjHww==
-X-Google-Smtp-Source: AGs4zMZ4t/4uVI2np03BN8kI/5qD/2vvWt7ge5ShuaL3MH5MNa45DkMD4ms40G4+KbsNhZZtg6VlB7ii0n17iyfTHOQ=
-X-Received: by 10.55.121.2 with SMTP id u2mr24972935qkc.19.1510773542243; Wed,
-	15 Nov 2017 11:19:02 -0800 (PST)
+	Wed, 15 Nov 2017 11:22:37 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAFJMZ8E015087
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 Nov 2017 11:22:35 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 15 Nov 2017 11:22:34 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
+Date: Wed, 15 Nov 2017 14:22:26 -0500
+Message-ID: <1510773746-5134-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 10.12.182.80 with HTTP; Wed, 15 Nov 2017 11:19:01 -0800 (PST)
-In-Reply-To: <1510764261-37283-1-git-send-email-abdur_rehman@mentor.com>
-References: <1510764261-37283-1-git-send-email-abdur_rehman@mentor.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 15 Nov 2017 14:19:01 -0500
-Message-ID: <CADkTA4PD4=9sDAtYwwE9GoB26YxLhDeGj77r7L_GYBV4ck48WA@mail.gmail.com>
-To: Abdur Rehman <abdur_rehman@mentor.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] README: fix a couple of grammatical errors
+Subject: [m-c-s][PATCH] python-jsonschema: drop our recipe in favor of the one in meta-python
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,59 +42,57 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 19:19:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Nov 2017 19:22:38 -0000
+Content-Type: text/plain
 
-On Wed, Nov 15, 2017 at 11:44 AM, Abdur Rehman <abdur_rehman@mentor.com> wrote:
-> Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
-> ---
->  README | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/README b/README
-> index 7d84232..4181f5f 100644
-> --- a/README
-> +++ b/README
-> @@ -23,7 +23,7 @@ variable in your configuration:
->
->    SKIP_META_VIRT_SANITY_CHECK = 1
->
-> -Also note that there are kvm and xen specific distro flags/features that depending
-> +Also note that there are kvm and xen specific distro flags/features that depend
+The current v2.5.1 recipe is slightly broken (needs PYPI_PACKAGE_EXT =
+"zip" added). But regardless the current v2.5.1 recipe is unused since
+we are picking up the v2.6.0 in meta-python. Drop the unused/broken
+v2.5.1 recipe to clean things up. As with all our python recipes we
+will need to keep an eye on the version to ensure the are compatible,
+so add a PREF version to help track any skew that might develop.
 
-This isn't any better.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ meta-openstack/conf/layer.conf                          |  1 +
+ .../recipes-devtools/python/python-jsonschema_2.5.1.bb  | 17 -----------------
+ 2 files changed, 1 insertion(+), 17 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-jsonschema_2.5.1.bb
 
-It should probably read:
-
-Also note that there are kvm and xen specific distro flags/features
-that, depending on your use case, must be set.
-
-Bruce
-
->  on your use case.
->
->  Dependencies
-> @@ -63,7 +63,7 @@ Send pull requests, patches, comments or questions to meta-virtualization@yoctop
->  Maintainers: Raymond Danks <ray.danks@se-eng.com>
->               Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> -When sending single patches, please using something like:
-> +When sending single patches, please use something like:
->  $ git send-email -1 --to meta-virtualization@yoctoproject.org --subject-prefix='meta-virtualization][PATCH'
->
->  License
-> --
-> 2.8.1
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+index f2aa64e..838e7b0 100644
+--- a/meta-openstack/conf/layer.conf
++++ b/meta-openstack/conf/layer.conf
+@@ -21,4 +21,5 @@ PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
+ PREFERRED_VERSION_python-requests = "2.13.0"
+ PREFERRED_VERSION_python-eventlet = "0.20.0"
+ PREFERRED_VERSION_python-warlock = "1.2.0"
++PREFERRED_VERSION_python-jsonschema = "2.6.0"
+ LICENSE_PATH += "${LAYERDIR}/licenses"
+diff --git a/meta-openstack/recipes-devtools/python/python-jsonschema_2.5.1.bb b/meta-openstack/recipes-devtools/python/python-jsonschema_2.5.1.bb
+deleted file mode 100644
+index 1174795..0000000
+--- a/meta-openstack/recipes-devtools/python/python-jsonschema_2.5.1.bb
++++ /dev/null
+@@ -1,17 +0,0 @@
+-DESCRIPTION = "An implementation of JSON-Schema validation for Python"
+-HOMEPAGE = "http://pypi.python.org/pypi/jsonschema"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7a60a81c146ec25599a3e1dabb8610a8"
+-
+-SRC_URI[md5sum] = "e491298485bdefeecb0f1ca3d65e5292"
+-SRC_URI[sha256sum] = "9088494da4c74497a7a27842ae4ca9c3355b5f7754121edc440463eaf020f079"
+-
+-inherit setuptools pypi
+-
+-DEPENDS += "python-vcversioner"
+-
+-# Satisfy setup.py 'setup_requires'
+-DEPENDS += " \
+-        python-vcversioner-native \
+-        "
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.7.4
+
 
