@@ -1,70 +1,71 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id ACA2CE00C45; Wed, 15 Nov 2017 10:01:23 -0800 (PST)
+	id 80418E00CD4; Wed, 15 Nov 2017 11:19:05 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.194 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.216.193 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f194.google.com (mail-yw0-f194.google.com
-	[209.85.161.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 22258E009B4
+Received: from mail-qt0-f193.google.com (mail-qt0-f193.google.com
+	[209.85.216.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28E2EE009B4
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 Nov 2017 10:00:47 -0800 (PST)
-Received: by mail-yw0-f194.google.com with SMTP id d2so12640002ywb.11
+	Wed, 15 Nov 2017 11:19:02 -0800 (PST)
+Received: by mail-qt0-f193.google.com with SMTP id n32so20753973qtb.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 Nov 2017 10:00:47 -0800 (PST)
+	Wed, 15 Nov 2017 11:19:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to;
-	bh=Mvs01CUgbDNioHfLqddCkNCFmz0d32M/MtArFplPUsg=;
-	b=fu4l25jdoPiwv2aUsMil0cLFJ+0huTKLudtr0sgOeL3x9vPcytae/Typs0OPlPoxXw
-	m6AbGk5Nts/u79ZeKQ5O4LzW0qOxfp7uo+JuYRM9Ey4+1knIORWdmn81zQRxhAJ62LUT
-	TyXoaRa2yVSqtNtfAbYG8HSJbXYzXjgRaNj3DINxpdWUvaZg7dXqbHYfpi0JmXzg/8qb
-	9SwknbgZwiTtUW/EYsFWPAEZmblPpL1QmMos5FV661Hqf8mJtS/Y+ce47tM9LzKU6AW7
-	CGchacIwM5tmeCh9pDhuNTmXju/ACMXLAbJiPG2/SKqqJ0wrKPz24hx0qW40z7OUiujm
-	K5KQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7JnBM9qBpmRdBuPCAgrWaVxGUFPJzTtLjFPYcnYQfz4=;
+	b=Y4BvXm4ded30u6mxinyKFFSGHM+9ygUKu9y75FXN3U+W59Q9+H0mWuIoLOIwiF71QT
+	0NAxbsXGaFNFUyx7M5gc+H6KNRXdCHdoHvf3RD8K6zY2FQ9aknr9WaeZOPn4bIMiHuwl
+	gKbUBWepWd6xE2IHHCe1DHKxQ2McA/oba5+s6y8SRWRcFeRtQyxuNBJYdlr6Tc4LX+fB
+	DIq27fW/3K06GJztfLhPxgD3aLlm3IS/lsqjCbe3lrsTmHRE/mefGesXvJcDyf/0rdgA
+	qQ8LFZMqbtVYnRdwmK+yXdUJ5eMv+LTOB5xqCn4TNQnTkB/SMdg1/tOGXFNXZDzbkkLW
+	GYJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to;
-	bh=Mvs01CUgbDNioHfLqddCkNCFmz0d32M/MtArFplPUsg=;
-	b=nRgz6ER+ySGOVvhdOUKprKA33HpPEDAx67jfKhCzBWV2dd8a+i867V0zAOVrqU6L0A
-	Dn+QTbZuAwEzP9NmrrGvQnj7za4pfOI9sHLmMbD5jswIk8dKZhVozh9SRN+QMnuSequ4
-	SojDJWcGTHt/G5AjE7P/SbiPabOBvmnT0gYgXdU0NLzPgklBqqIgIea8S+HXL2W8NKGa
-	qH0G5iqqIp6skSXR48A2korKF0OznHY6BC3oijKRksEyFWy3pHkab05doNw0A+0PnbDU
-	gc7fplU7fJz8+8HGAD0xoGGJcM5RBs7yA1WNkCScoIL8QlbPuGUwFpj7NGBTKGs7+/Iv
-	yUBQ==
-X-Gm-Message-State: AJaThX5ViaCoUdrGeZGlR9wu8TWqUWFuxD9RX/HoVepX5s1702lAI4Pk
-	qz84v1JbXmz0WgSyuSfnppPDEK+yQu5TlcTSSNfNgw==
-X-Google-Smtp-Source: AGs4zMYakZmSyb8SGJbdBzbaG1m9fokv1m35+Swr3SfPS2+Yw2yhtLy8oHhs86+zFeTBM9aaw8/k7kH99KFHw0ec1h8=
-X-Received: by 10.37.12.4 with SMTP id 4mr10116877ybm.345.1510768845739; Wed,
-	15 Nov 2017 10:00:45 -0800 (PST)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7JnBM9qBpmRdBuPCAgrWaVxGUFPJzTtLjFPYcnYQfz4=;
+	b=rjtUOs3rZK9NE3dqpilwRvwnQv3E+9CyjbRZLfMZEnDSQh2KgA2wvfAUu2ktWHvn2l
+	kGcXa4UufYQGKlW8Xw2eQtemzz/KGzRMcZwre0vMIVe8dRuy5WI95BOyFiycJfwZedCn
+	8KmHs4JJbJWssn9sEM4KPnQxWD83R2D8EFbuQ+d21AgHT3xrkEWEQBQ4rebExDHANl5M
+	O2Mzhip/zDr93/Td38FbfNi6tOPsF4lhqvK7Ehv6gHg03Uash37EJAITZRimcbEz+Teb
+	B919Pg/M2r+zUgwz3/A0mNfOMY4+yOw4zqe44mG7O7P21eheVYzZJAzI4LZSbbpI6XYd
+	R6IA==
+X-Gm-Message-State: AJaThX6YRrh/NZaYPoCWqHI9M+r6jnLwamWNB2NrKShPpChA7vIpDUdy
+	8MsQt5QxV2pYo/GDbkRJJ1NeiCQXAvE7aGrAekjHww==
+X-Google-Smtp-Source: AGs4zMZ4t/4uVI2np03BN8kI/5qD/2vvWt7ge5ShuaL3MH5MNa45DkMD4ms40G4+KbsNhZZtg6VlB7ii0n17iyfTHOQ=
+X-Received: by 10.55.121.2 with SMTP id u2mr24972935qkc.19.1510773542243; Wed,
+	15 Nov 2017 11:19:02 -0800 (PST)
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 10.37.131.144 with HTTP; Wed, 15 Nov 2017 10:00:45 -0800 (PST)
-In-Reply-To: <1510768750-26619-1-git-send-email-mark.asselstine@windriver.com>
-References: <1510768750-26619-1-git-send-email-mark.asselstine@windriver.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Wed, 15 Nov 2017 13:00:45 -0500
-X-Google-Sender-Auth: 0VO42eU_jLMI9TDOrVVmhfweCoo
-Message-ID: <CAPuovEJ2Ftve5MDoDk6A-ax6oxFeWDZfYQKGF+i-gEUYfVKyuQ@mail.gmail.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, 
-	Bruce Ashfield <bruce.ashfield@windriver.com>
-Subject: Re: [PATCH] python-*: fixup postinst scripts
+Received: by 10.12.182.80 with HTTP; Wed, 15 Nov 2017 11:19:01 -0800 (PST)
+In-Reply-To: <1510764261-37283-1-git-send-email-abdur_rehman@mentor.com>
+References: <1510764261-37283-1-git-send-email-abdur_rehman@mentor.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 15 Nov 2017 14:19:01 -0500
+Message-ID: <CADkTA4PD4=9sDAtYwwE9GoB26YxLhDeGj77r7L_GYBV4ck48WA@mail.gmail.com>
+To: Abdur Rehman <abdur_rehman@mentor.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] README: fix a couple of grammatical errors
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -74,610 +75,59 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Nov 2017 18:01:23 -0000
+X-List-Received-Date: Wed, 15 Nov 2017 19:19:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Damn. Missed the [m-c-s] in the subject. Ignore this and I have resent
-for [m-c-s].
-
-On Wed, Nov 15, 2017 at 12:59 PM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
-> Checking for "$D" and doing an "exit 1" now results in errors such as:
->
-> [log_check] warning: %post(keystone-cronjobs-...) scriptlet failed, exit status 2
->
-> during image creation. Instead of escaping the script for "level-1"
-> (image creation postinst) we wrap the "level-2" (first boot) postinst
-> in an if statement. This also ensure the scriptlet in
-> indentity.bbclass is less prone to behaving differently based on the
-> postinsts defined in the classes which inherit 'identity'.
->
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+On Wed, Nov 15, 2017 at 11:44 AM, Abdur Rehman <abdur_rehman@mentor.com> wrote:
+> Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
 > ---
->  meta-openstack/classes/identity.bbclass            | 11 +++--
->  .../recipes-devtools/python/python-barbican_git.bb |  8 ++--
->  .../python/python-ceilometer_git.bb                | 24 +++++------
->  .../recipes-devtools/python/python-cinder_git.bb   | 48 ++++++++++-----------
->  .../recipes-devtools/python/python-glance_git.bb   | 24 +++++------
->  .../recipes-devtools/python/python-heat_git.bb     | 24 +++++------
->  .../recipes-devtools/python/python-keystone_git.bb | 50 +++++++++++-----------
->  .../recipes-devtools/python/python-neutron_git.bb  | 32 ++++++--------
->  .../recipes-devtools/python/python-nova_git.bb     | 42 ++++++++----------
->  .../recipes-devtools/python/python-rally_git.bb    | 28 ++++++------
->  .../recipes-devtools/python/python-swift_git.bb    | 40 ++++++++---------
->  .../recipes-devtools/python/python-trove_git.bb    | 45 ++++++++++---------
->  .../postgresql/postgresql_9.%.bbappend             | 14 +++---
->  13 files changed, 185 insertions(+), 205 deletions(-)
+>  README | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/classes/identity.bbclass b/meta-openstack/classes/identity.bbclass
-> index c4b1394..1f4f408 100644
-> --- a/meta-openstack/classes/identity.bbclass
-> +++ b/meta-openstack/classes/identity.bbclass
-> @@ -163,9 +163,11 @@ python populate_packages_append () {
+> diff --git a/README b/README
+> index 7d84232..4181f5f 100644
+> --- a/README
+> +++ b/README
+> @@ -23,7 +23,7 @@ variable in your configuration:
 >
->          postinst = d.getVar('pkg_postinst_%s' % pkg, True) or d.getVar('pkg_postinst', True)
->          if not postinst:
-> -            postinst = '    if [ "x$D" != "x" ]; then\n' + \
-> -                       '        exit 1\n' + \
-> -                       '    fi\n'
-> +            postinst = ''
-> +
-> +        # Only execute on target. Header.
-> +        postinst += '    if [ -z "$D" ]; then\n'
-> +
->          postinst += servicecreate_postinst_common_copy
+>    SKIP_META_VIRT_SANITY_CHECK = 1
 >
->          if d.getVar('USERCREATE_PARAM_%s' % pkg, True):
-> @@ -176,6 +178,9 @@ python populate_packages_append () {
->              servicecreate_postinst_service = servicecreate_postinst_service_copy.replace("SERVICECREATE_PARAM", servicecreate_param(d, pkg))
->              postinst += servicecreate_postinst_service
+> -Also note that there are kvm and xen specific distro flags/features that depending
+> +Also note that there are kvm and xen specific distro flags/features that depend
+
+This isn't any better.
+
+It should probably read:
+
+Also note that there are kvm and xen specific distro flags/features
+that, depending on your use case, must be set.
+
+Bruce
+
+>  on your use case.
 >
-> +        # Footer.
-> +        postinst += '    fi\n'
-> +
->          d.setVar('pkg_postinst_%s' % pkg, postinst)
->          bb.debug(1, 'pkg_postinst_%s = %s' % (pkg, d.getVar('pkg_postinst_%s' % pkg, True)))
->  }
-> diff --git a/meta-openstack/recipes-devtools/python/python-barbican_git.bb b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> index 0b3d768..579413c 100644
-> --- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-> @@ -85,12 +85,10 @@ FILES_${SRCNAME} = "${sysconfdir}/${SRCNAME}/* \
+>  Dependencies
+> @@ -63,7 +63,7 @@ Send pull requests, patches, comments or questions to meta-virtualization@yoctop
+>  Maintainers: Raymond Danks <ray.danks@se-eng.com>
+>               Bruce Ashfield <bruce.ashfield@gmail.com>
 >
->  ALLOW_EMPTY_${SRCNAME}-setup = "1"
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +        chown -R barbican:barbican ${sysconfdir}/${SRCNAME}
-> +        chown -R barbican:barbican ${localstatedir}/lib/barbican
->      fi
-> -
-> -    chown -R barbican:barbican ${sysconfdir}/${SRCNAME}
-> -    chown -R barbican:barbican ${localstatedir}/lib/barbican
->  }
+> -When sending single patches, please using something like:
+> +When sending single patches, please use something like:
+>  $ git send-email -1 --to meta-virtualization@yoctoproject.org --subject-prefix='meta-virtualization][PATCH'
 >
->  DEPENDS += " \
-> diff --git a/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb b/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
-> index 5645626..4b01022 100644
-> --- a/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-ceilometer_git.bb
-> @@ -108,20 +108,18 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +        # This is to make sure postgres is configured and running
-> +        if ! pidof postmaster > /dev/null; then
-> +           /etc/init.d/postgresql-init
-> +           /etc/init.d/postgresql start
-> +           sleep 2
-> +        fi
-> +
-> +        mkdir /var/log/ceilometer
-> +        sudo -u postgres createdb ceilometer
-> +        ceilometer-dbsync
->      fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -       sleep 2
-> -    fi
-> -
-> -    mkdir /var/log/ceilometer
-> -    sudo -u postgres createdb ceilometer
-> -    ceilometer-dbsync
->  }
->
->  inherit setuptools identity hosts update-rc.d default_configs monitor
-> diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> index e70a3aa..9f70beb 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> @@ -124,31 +124,29 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> -    fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -    fi
-> -
-> -    if [ ! -d /var/log/cinder ]; then
-> -       mkdir /var/log/cinder
-> -    fi
-> -
-> -    sudo -u postgres createdb cinder
-> -    cinder-manage db sync
-> -
-> -    # Create Cinder nfs_share config file with default nfs server
-> -    if [ ! -f /etc/cinder/nfs_shares ]; then
-> -        /bin/bash /etc/cinder/drivers/nfs_setup.sh
-> -    fi
-> -
-> -    # Create Cinder glusterfs_share config file with default glusterfs server
-> -    if [ ! -f /etc/cinder/glusterfs_shares ] && [ -f /usr/sbin/glusterfsd ]; then
-> -        /bin/bash /etc/cinder/drivers/glusterfs_setup.sh
-> +    if [ -z "$D" ]; then
-> +        # This is to make sure postgres is configured and running
-> +        if ! pidof postmaster > /dev/null; then
-> +           /etc/init.d/postgresql-init
-> +           /etc/init.d/postgresql start
-> +        fi
-> +
-> +        if [ ! -d /var/log/cinder ]; then
-> +           mkdir /var/log/cinder
-> +        fi
-> +
-> +        sudo -u postgres createdb cinder
-> +        cinder-manage db sync
-> +
-> +        # Create Cinder nfs_share config file with default nfs server
-> +        if [ ! -f /etc/cinder/nfs_shares ]; then
-> +            /bin/bash /etc/cinder/drivers/nfs_setup.sh
-> +        fi
-> +
-> +        # Create Cinder glusterfs_share config file with default glusterfs server
-> +        if [ ! -f /etc/cinder/glusterfs_shares ] && [ -f /usr/sbin/glusterfsd ]; then
-> +            /bin/bash /etc/cinder/drivers/glusterfs_setup.sh
-> +        fi
->      fi
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-glance_git.bb b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> index 27c33b9..4042f1b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> @@ -122,20 +122,18 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +          /etc/init.d/postgresql-init
-> +          /etc/init.d/postgresql start
-> +          sleep 5
-> +       fi
-> +
-> +       mkdir /var/log/glance
-> +       sudo -u postgres createdb glance
-> +       glance-manage db_sync
->      fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -       sleep 5
-> -    fi
-> -
-> -    mkdir /var/log/glance
-> -    sudo -u postgres createdb glance
-> -    glance-manage db_sync
->  }
->
->  PACKAGES += " ${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup ${SRCNAME}-api ${SRCNAME}-registry"
-> diff --git a/meta-openstack/recipes-devtools/python/python-heat_git.bb b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-> index cccaf0a..2cf7ce4 100644
-> --- a/meta-openstack/recipes-devtools/python/python-heat_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-> @@ -107,20 +107,18 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +          /etc/init.d/postgresql-init
-> +          /etc/init.d/postgresql start
-> +          sleep 2
-> +       fi
-> +
-> +       mkdir /var/log/heat
-> +       sudo -u postgres createdb heat
-> +       heat-manage db_sync
->      fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -       sleep 2
-> -    fi
-> -
-> -    mkdir /var/log/heat
-> -    sudo -u postgres createdb heat
-> -    heat-manage db_sync
->  }
->
->  inherit setuptools identity hosts update-rc.d default_configs monitor
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystone_git.bb b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> index 79bd0c8..a26c9bf 100644
-> --- a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> @@ -189,28 +189,26 @@ role_tree_dn = ou=Roles,${LDAP_DN} \
->
->  pkg_postinst_${SRCNAME}-setup () {
->      # python-keystone postinst start
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> -    fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -        /etc/init.d/postgresql-init
-> -        /etc/init.d/postgresql start
-> -        sleep 2
-> -    fi
-> -
-> -    # This is to make sure keystone is configured and running
-> -    PIDFILE="/var/run/keystone-all.pid"
-> -    if [ -z `cat $PIDFILE 2>/dev/null` ]; then
-> -        sudo -u postgres createdb keystone
-> -        keystone-manage db_sync
-> -        keystone-manage pki_setup --keystone-user=root --keystone-group=daemon
-> -
-> -        if ${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'true', 'false', d)}; then
-> -            /etc/init.d/openldap start
-> -        fi
-> -        /etc/init.d/keystone start
-> +    if [ -z "$D" ]; then
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +           /etc/init.d/postgresql-init
-> +           /etc/init.d/postgresql start
-> +           sleep 2
-> +       fi
-> +
-> +       # This is to make sure keystone is configured and running
-> +       PIDFILE="/var/run/keystone-all.pid"
-> +       if [ -z `cat $PIDFILE 2>/dev/null` ]; then
-> +           sudo -u postgres createdb keystone
-> +           keystone-manage db_sync
-> +           keystone-manage pki_setup --keystone-user=root --keystone-group=daemon
-> +
-> +           if ${@bb.utils.contains('DISTRO_FEATURES', 'OpenLDAP', 'true', 'false', d)}; then
-> +               /etc/init.d/openldap start
-> +           fi
-> +           /etc/init.d/keystone start
-> +       fi
->      fi
->  }
->
-> @@ -219,9 +217,11 @@ pkg_postinst_${SRCNAME}-setup () {
->  KEYSTONE_TOKEN_FLUSH_TIME ??= "0 0 */2 * *"
->
->  pkg_postinst_${SRCNAME}-cronjobs () {
-> -    # By default keystone expired tokens are not automatic removed out of the
-> -    # database.  So we create a cronjob for cleaning these expired tokens.
-> -    echo "${KEYSTONE_TOKEN_FLUSH_TIME} root /usr/bin/keystone-manage token_flush" >> /etc/crontab
-> +    if [ -z "$D" ]; then
-> +       # By default keystone expired tokens are not automatic removed out of the
-> +       # database.  So we create a cronjob for cleaning these expired tokens.
-> +       echo "${KEYSTONE_TOKEN_FLUSH_TIME} root /usr/bin/keystone-manage token_flush" >> /etc/crontab
-> +    fi
->  }
->
->  PACKAGES += " ${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup ${SRCNAME}-cronjobs"
-> diff --git a/meta-openstack/recipes-devtools/python/python-neutron_git.bb b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> index 51c2ac4..c837401 100644
-> --- a/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> @@ -138,29 +138,25 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +           /etc/init.d/postgresql-init
-> +           /etc/init.d/postgresql start
-> +           sleep 2
-> +       fi
-> +
-> +       sudo -u postgres createdb neutron
-> +       sudo neutron-db-manage --config-file /etc/neutron/neutron.conf  \
-> +                              --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
->      fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -        /etc/init.d/postgresql-init
-> -        /etc/init.d/postgresql start
-> -        sleep 2
-> -    fi
-> -
-> -    sudo -u postgres createdb neutron
-> -    sudo neutron-db-manage --config-file /etc/neutron/neutron.conf  \
-> -                           --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head
->  }
->
->  pkg_postinst_${SRCNAME}-plugin-openvswitch-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       /etc/init.d/openvswitch-switch start
-> +       ovs-vsctl --no-wait -- --may-exist add-br br-int
->      fi
-> -
-> -    /etc/init.d/openvswitch-switch start
-> -    ovs-vsctl --no-wait -- --may-exist add-br br-int
->  }
->
->  ALLOW_EMPTY_${SRCNAME}-setup = "1"
-> diff --git a/meta-openstack/recipes-devtools/python/python-nova_git.bb b/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> index f3a6b86..7b560a7 100644
-> --- a/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> @@ -160,33 +160,29 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +          /etc/init.d/postgresql-init
-> +          /etc/init.d/postgresql start
-> +          sleep 5
-> +       fi
-> +
-> +       sudo -u postgres createdb nova
-> +       sleep 2
-> +       nova-manage db sync
->      fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -       sleep 5
-> -    fi
-> -
-> -    sudo -u postgres createdb nova
-> -    sleep 2
-> -    nova-manage db sync
->  }
->
->  pkg_postinst_${SRCNAME}-common () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> -    fi
-> -
-> -    if [ -d  /home/root ]; then
-> -        echo "source /etc/nova/openrc" >> /home/root/.bashrc
-> -       echo "source /etc/nova/openrc" >> /home/root/.profile
-> -    else
-> -        echo "source /etc/nova/openrc" >> /root/.bashrc
-> -       echo "source /etc/nova/openrc" >> /root/.profile
-> +    if [ -z "$D" ]; then
-> +       if [ -d  /home/root ]; then
-> +           echo "source /etc/nova/openrc" >> /home/root/.bashrc
-> +           echo "source /etc/nova/openrc" >> /home/root/.profile
-> +       else
-> +           echo "source /etc/nova/openrc" >> /root/.bashrc
-> +           echo "source /etc/nova/openrc" >> /root/.profile
-> +       fi
->      fi
->  }
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-rally_git.bb b/meta-openstack/recipes-devtools/python/python-rally_git.bb
-> index d29e7cb..31d4242 100644
-> --- a/meta-openstack/recipes-devtools/python/python-rally_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-rally_git.bb
-> @@ -63,22 +63,20 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +          /etc/init.d/postgresql-init
-> +          /etc/init.d/postgresql start
-> +       fi
-> +
-> +       if [ ! -d /var/log/rally ]; then
-> +          mkdir /var/log/rally
-> +       fi
-> +
-> +       sudo -u postgres createdb rally
-> +       rally-manage db recreate
->      fi
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -    fi
-> -
-> -    if [ ! -d /var/log/rally ]; then
-> -       mkdir /var/log/rally
-> -    fi
-> -
-> -    sudo -u postgres createdb rally
-> -    rally-manage db recreate
->  }
->
->  PACKAGES += "${SRCNAME}-tests ${SRCNAME}-api ${SRCNAME} ${SRCNAME}-setup"
-> diff --git a/meta-openstack/recipes-devtools/python/python-swift_git.bb b/meta-openstack/recipes-devtools/python/python-swift_git.bb
-> index 8552ea7..fc7c258 100644
-> --- a/meta-openstack/recipes-devtools/python/python-swift_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-swift_git.bb
-> @@ -109,28 +109,26 @@ do_install_append() {
->  }
->
->  pkg_postinst_${SRCNAME}-setup () {
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "x$D" ]; then
-> +       CLUSTER_CONF=/etc/swift/cluster.conf
-> +       SWIFT_SETUP='/bin/bash /etc/swift/swift_setup.sh'
-> +
-> +       for i in `seq 1 3`; do
-> +           BACKING_FILE=/etc/swift/swift_backing_$i
-> +           if [ "x${SWIFT_BACKING_FILE_SIZE}" != "x0G" ]; then
-> +               truncate -s ${SWIFT_BACKING_FILE_SIZE} $BACKING_FILE
-> +               sed "s:%SWIFT_BACKING_FILE_${i}%:$BACKING_FILE:g" -i $CLUSTER_CONF
-> +           else
-> +               sed "s:%SWIFT_BACKING_FILE_${i}%::g" -i $CLUSTER_CONF
-> +           fi
-> +       done
-> +
-> +       $SWIFT_SETUP createrings
-> +       $SWIFT_SETUP formatdevs
-> +       $SWIFT_SETUP mountdevs
-> +       $SWIFT_SETUP -i "${CONTROLLER_IP}" adddevs
-> +       $SWIFT_SETUP unmountdevs
->      fi
-> -
-> -    CLUSTER_CONF=/etc/swift/cluster.conf
-> -    SWIFT_SETUP='/bin/bash /etc/swift/swift_setup.sh'
-> -
-> -    for i in `seq 1 3`; do
-> -        BACKING_FILE=/etc/swift/swift_backing_$i
-> -        if [ "x${SWIFT_BACKING_FILE_SIZE}" != "x0G" ]; then
-> -            truncate -s ${SWIFT_BACKING_FILE_SIZE} $BACKING_FILE
-> -            sed "s:%SWIFT_BACKING_FILE_${i}%:$BACKING_FILE:g" -i $CLUSTER_CONF
-> -        else
-> -            sed "s:%SWIFT_BACKING_FILE_${i}%::g" -i $CLUSTER_CONF
-> -        fi
-> -    done
-> -
-> -    $SWIFT_SETUP createrings
-> -    $SWIFT_SETUP formatdevs
-> -    $SWIFT_SETUP mountdevs
-> -    $SWIFT_SETUP -i "${CONTROLLER_IP}" adddevs
-> -    $SWIFT_SETUP unmountdevs
->  }
->
->  PACKAGES += "${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup"
-> diff --git a/meta-openstack/recipes-devtools/python/python-trove_git.bb b/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> index 830da92..b90e552 100755
-> --- a/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> @@ -146,30 +146,29 @@ do_install_append() {
->
->  pkg_postinst_${SRCNAME}-setup () {
->      # python-trove-setup postinst start
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       source /etc/nova/openrc
-> +
-> +       # This is to make sure postgres is configured and running
-> +       if ! pidof postmaster > /dev/null; then
-> +          /etc/init.d/postgresql-init
-> +          /etc/init.d/postgresql start
-> +          sleep 5
-> +       fi
-> +
-> +       mkdir /var/log/trove
-> +       # Create database for trove.
-> +       sudo -u postgres createdb trove
-> +
-> +       # Create default trove database.
-> +       trove-manage db_sync
-> +       # Create new datastore.
-> +       trove-manage datastore_update "postgresql" ""
-> +       # Set up new version
-> +       trove-manage datastore_version_update "postgresql" "9.1" "postgresql" 1 "postgresql-server-9.1" 1
-> +       # Set new default version.
-> +       trove-manage datastore_update "postgresql" "9.1"
->      fi
-> -    source /etc/nova/openrc
-> -
-> -    # This is to make sure postgres is configured and running
-> -    if ! pidof postmaster > /dev/null; then
-> -       /etc/init.d/postgresql-init
-> -       /etc/init.d/postgresql start
-> -       sleep 5
-> -    fi
-> -
-> -    mkdir /var/log/trove
-> -    # Create database for trove.
-> -    sudo -u postgres createdb trove
-> -
-> -    # Create default trove database.
-> -    trove-manage db_sync
-> -    # Create new datastore.
-> -    trove-manage datastore_update "postgresql" ""
-> -    # Set up new version
-> -    trove-manage datastore_version_update "postgresql" "9.1" "postgresql" 1 "postgresql-server-9.1" 1
-> -    # Set new default version.
-> -    trove-manage datastore_update "postgresql" "9.1"
->  }
->
->
-> diff --git a/meta-openstack/recipes-support/postgresql/postgresql_9.%.bbappend b/meta-openstack/recipes-support/postgresql/postgresql_9.%.bbappend
-> index 22dae71..b26054e 100644
-> --- a/meta-openstack/recipes-support/postgresql/postgresql_9.%.bbappend
-> +++ b/meta-openstack/recipes-support/postgresql/postgresql_9.%.bbappend
-> @@ -41,14 +41,12 @@ ALLOW_EMPTY_${PN}-setup = "1"
->
->  pkg_postinst_${PN}-setup () {
->      # postgres 9.2.4 postinst
-> -    if [ "x$D" != "x" ]; then
-> -        exit 1
-> -    fi
-> -
-> -    /etc/init.d/postgresql-init
-> -    if [ $? -ne 0 ]; then
-> -        echo "[ERROR] postgres: unable to create admin account"
-> -        exit 1
-> +    if [ -z "$D" ]; then
-> +       /etc/init.d/postgresql-init
-> +       if [ $? -ne 0 ]; then
-> +           echo "[ERROR] postgres: unable to create admin account"
-> +           exit 1
-> +       fi
->      fi
->  }
->
+>  License
 > --
-> 2.7.4
+> 2.8.1
 >
 > --
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
