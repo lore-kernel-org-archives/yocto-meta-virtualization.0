@@ -1,36 +1,43 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <paul.eggleton@linux.intel.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E849EE00CC4; Mon, 20 Nov 2017 08:17:51 -0800 (PST)
+	id 1C037E00B1A; Mon, 20 Nov 2017 12:20:49 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [192.55.52.93 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9C028E00BEA
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6ABF3E009CB
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 20 Nov 2017 08:17:51 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vAKGHpIO007979
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 20 Nov 2017 08:17:51 -0800 (PST)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 20 Nov 2017 08:17:50 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Mon, 20 Nov 2017 11:17:47 -0500
-Message-ID: <1511194667-32126-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 20 Nov 2017 12:20:48 -0800 (PST)
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Nov 2017 12:20:47 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.44,429,1505804400"; d="scan'208";a="10006295"
+Received: from bplee1-mobl1.gar.corp.intel.com (HELO
+	peggleto-mobl.ger.corp.intel.com) ([10.249.64.234])
+	by orsmga002.jf.intel.com with ESMTP; 20 Nov 2017 12:20:42 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Mark Asselstine <mark.asselstine@windriver.com>
+Date: Tue, 21 Nov 2017 09:20:38 +1300
+Message-ID: <1560592.BgqbcP64FP@peggleto-mobl.ger.corp.intel.com>
+Organization: Intel Corporation
+In-Reply-To: <CADkTA4OjsZ5cRyzDDUOhgx8oYx97XH9WdzHCxngb9mfVo_F2WQ@mail.gmail.com>
+References: <20171030225413.938-1-paul.eggleton@linux.intel.com>
+	<CAAPZna2fMCQ6qxZEKek=RdBsC7MdyxpiPOpMv4-y+OoDehvbAw@mail.gmail.com>
+	<CADkTA4OjsZ5cRyzDDUOhgx8oYx97XH9WdzHCxngb9mfVo_F2WQ@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH] python-eventlet: add RDEPENDS for enum-compat
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>,
+	Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: [PATCH] python-*: use https for pypi URLs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,30 +50,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Nov 2017 16:17:52 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 Nov 2017 20:20:49 -0000
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-The true dependency is for 'enum34' but if the system is checking
-against the requirements.txt it might complain if 'enum-compat' is not
-present.
+On Wednesday, 15 November 2017 6:33:31 AM NZDT Bruce Ashfield wrote:
+> On Tue, Nov 14, 2017 at 12:14 PM, Fabio Berton
+> <fabio.berton@ossystems.com.br> wrote:
+> > Hi,
+> >
+> > We have a customer using krogoth branch and is failing to fetch from pypi.
+> > And branches morty, pyro and rocko have http URLs for python recipes. This
+> > patch can be backported to older branches?
+> 
+> Does the pypi class take care of things in the old branches as well ?
+> If not, propose different patches for those branches, since as you'll
+> see in the thread:
+> 
+> "Bruce. Instead of merging this I will move any recipes that remain to
+> inherit pypi if that is alright with the two of you."
+> 
+> So that is the plan for master, not merging this patch as it sits.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+The pypi class used https URLs back in morty, FYI.
 
-diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb
-index f52d5af..1d51f1a 100644
---- a/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb
-@@ -11,5 +11,6 @@ inherit setuptools pypi pypi
- 
- RDEPENDS_${PN} += " \
-     python-enum34 \
-+    python-enum-compat \
-     python-greenlet \
-     "
+So just to clarify - you want pypi inherit patches going back to morty? I can 
+do that, but it's slightly less safe than just tweaking the URLs for the 
+stable branches. Let me know what you'd like me to do.
+
+Cheers,
+Paul
+
+
 -- 
-2.7.4
 
+Paul Eggleton
+Intel Open Source Technology Centre
 
