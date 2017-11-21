@@ -1,17 +1,19 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E4724E00A62; Tue, 21 Nov 2017 12:07:22 -0800 (PST)
+	id E6541E00A9C; Tue, 21 Nov 2017 12:08:26 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	HTML_OBFUSCATE_05_10, 
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.216.172 listed in list.dnswl.org]
+	*      [209.85.216.180 listed in list.dnswl.org]
+	* 0.3 HTML_OBFUSCATE_05_10 BODY: Message is 5% to 10% HTML obfuscation
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,50 +22,50 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qt0-f172.google.com (mail-qt0-f172.google.com
-	[209.85.216.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1B7F8E006CA
+Received: from mail-qt0-f180.google.com (mail-qt0-f180.google.com
+	[209.85.216.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 19EBFE006CA
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 21 Nov 2017 12:07:21 -0800 (PST)
-Received: by mail-qt0-f172.google.com with SMTP id r39so20814229qtr.13
+	Tue, 21 Nov 2017 12:08:25 -0800 (PST)
+Received: by mail-qt0-f180.google.com with SMTP id p44so20849790qtj.6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 21 Nov 2017 12:07:21 -0800 (PST)
+	Tue, 21 Nov 2017 12:08:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2IBZDHafTGR178mi6HWZcDlrsIT9OplYzju2xxl/+lo=;
-	b=ofscUrbB+axLgDwH1gLl/xHLahUfldPQkq86OIUDV1y8fir9Ib2dMgyfa1WHpZwfDi
-	meQXG5b60VdcQ4ElLHPQwMieSO9ecuVb2P7wO5mYZO/eHgdzAzbwRaF2mhb+fnQvhVhX
-	N7FcJP+9wLxa48tBIY0yd+nrihs/mE3s3KuOe3fabECGIyv17ab9897Bk4/Q29j6qPXh
-	f0VIGVxG+0XmjCSp50r4i6GXNnAfTm6/me0WIuH6VXuW8RvApc7dmw5teAo8dJjPv/jg
-	WjCNK56aiFkWA90z0Riog5lGo74J6XfU6hJELUMhy1HGYH60Jx6k0BX+18QJVrCypjZn
-	udiA==
+	:cc; bh=puXezhj3xUahcLA5cMbLU9UgKGKzmpZPg2l3g9Ihrpg=;
+	b=n0B+Zdu7SQPhzA38wxy88dHRusLBoQa6RTJo4ChPAgzCqh0EG2RiUr8YelPjUQAPrh
+	KhNqrTzBvFqrcUG7FtBGCJ8xpLqDiVcTRXrH+TwWQrDG952ARUvTRQfXeMMBVlBhGT3Y
+	5lPNd/6jfRUl1M0n2UeY9SgAf73tfew5Nm8yTPP6zCljeGdoAlcrkN0FufDEpQBkD7OK
+	tt+fd+j6Mx5YBSj5YudfEEuKRjf2mioBZYL9HL7wrxzvb01wR0cEfd0abjiI7cXChNrx
+	eBxVbGyEYv1zBb4cbD4NgDSyxo5KpGg9TkrnOQfWK/K+F03ViHNEb9KSmEoq9PTU+zhR
+	krnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=2IBZDHafTGR178mi6HWZcDlrsIT9OplYzju2xxl/+lo=;
-	b=DSTlX1qbYMZ16zkRimfa8Hxwcm2MGuVI7WjLO1+sN9j+Nj8dtDR1iS7VjZqcq1eqro
-	xYlxODp3IpJw1n+h1sNa3D2qOPv/ZYr0aHpYYTYiWRgqyz6EftVoExbdAAehErsf/SZ8
-	p92lC4aq907xHqTHwYPCX9qtnFECQB02nMuYoHzOQOJu3vARg4j+s6KkZuW/5P7hNIHm
-	aZgUekPSvKzrzlysKtWK+hmnOSrRnwN38skrSs8H4m/6wqLQ6jpVVvykxI54tyZUUh93
-	50BvZL7kLQPI2xCHc/nVWwB9rxzkV3hmjDclKCTJ28XjUe4JlXY/ezxDxOIe+rJXrmqh
-	Uumg==
-X-Gm-Message-State: AJaThX6iQrVJnnbaUv0Dtixu2RpSMhN5MpEUVXhAfLmB96qs5i0loIIo
-	+LYLASGtV8v6xz/6l4mmeqvvvOzdfDDZy+/v88dz1w==
-X-Google-Smtp-Source: AGs4zMYUJE5AaTdDSTzBRhOgVV//THf6I/itavfaKRDB82Owqdo6LbNDAQv3pKHbNyJt7MPG9m0eCqW/0ot1tnhX6kg=
-X-Received: by 10.237.55.74 with SMTP id i68mr9109499qtb.237.1511294841060;
-	Tue, 21 Nov 2017 12:07:21 -0800 (PST)
+	bh=puXezhj3xUahcLA5cMbLU9UgKGKzmpZPg2l3g9Ihrpg=;
+	b=VFqtdKGv4pi+C9Bz5f2aB4PMKNeIsybBWmXREyUE1C+FDuS5VDUHQUXV9KMsOZJtje
+	1qv60nnB64fdgJfpzR0Q33ZJ7Faa3vA0Gpj41AgrJ5nUgggak6Xh+z9lD+dkqCtzoauX
+	qIbc3MvMYGBspgf85zJzm4Zyv6xljnAVf26yZiy0PgOSz0UI6huKXyXyw+o+1/bQ/osN
+	dF9zEO2RabaKf2bHY4hkp7k5XIsOdZdkxPIIhAxeFgtYxKYoYXk5kOonxxa2CWLS+q3+
+	zZS62ludvXsmAHivyFO9PXsNLchjgMZU5/zMucSmJXIs0mCWEA3nS1GZTXO2P5Qk47fB
+	ri6Q==
+X-Gm-Message-State: AJaThX5AJ4+oErqLVHT8hPvCYT5vpFkP99B+steFSWpgmltOJhCoxut4
+	UQL/+ERgHgpPar15hIE82rlmbE2wRv4e+iJsDoE=
+X-Google-Smtp-Source: AGs4zMYTZTDER+KdbgsvPpJZHvCP3ycqcnf+graa3wbmxngz9SPh7hkevQhxveIwDrogDqJiDdRB8WayYmIuRy8cKyc=
+X-Received: by 10.200.41.249 with SMTP id 54mr29725711qtt.312.1511294905003;
+	Tue, 21 Nov 2017 12:08:25 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.182.96 with HTTP; Tue, 21 Nov 2017 12:07:20 -0800 (PST)
-In-Reply-To: <20171116224123.28383-1-alistair.francis@xilinx.com>
-References: <20171116224123.28383-1-alistair.francis@xilinx.com>
+Received: by 10.12.182.96 with HTTP; Tue, 21 Nov 2017 12:08:24 -0800 (PST)
+In-Reply-To: <1511194599-30533-1-git-send-email-mark.asselstine@windriver.com>
+References: <1511194599-30533-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 21 Nov 2017 15:07:20 -0500
-Message-ID: <CADkTA4PjjqEU-wj7qJnEnn2B-WpGpVVTqU1c-wD3A-Z-uxjNzw@mail.gmail.com>
-To: Alistair Francis <alistair.francis@xilinx.com>
+Date: Tue, 21 Nov 2017 15:08:24 -0500
+Message-ID: <CADkTA4Pn3w5Y8U_QZ61n7yHG7cA19oNn0rVhW+tn2FWxriH4cQ@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [RFC] xen: Enable compilation with external source
+Subject: Re: [m-c-s][PATCH] python-debtcollector: uprev to v1.17.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,66 +78,60 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Nov 2017 20:07:23 -0000
-Content-Type: multipart/alternative; boundary="001a11359c962708e0055e83c05b"
+X-List-Received-Date: Tue, 21 Nov 2017 20:08:27 -0000
+Content-Type: multipart/alternative; boundary="001a113f49b4f6c85e055e83c372"
 
---001a11359c962708e0055e83c05b
+--001a113f49b4f6c85e055e83c372
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Nov 16, 2017 at 5:41 PM, Alistair Francis <
-alistair.francis@xilinx.com> wrote:
-
-> When building Xen from an external source the compile step fails as
-> there is no Makefile (or anything else) copied into the Yocto
-> build directories.
->
-
-I can't say that I have an opinion on this, since I'm not up to speed on all
-the moving parts.
-
-I haven't seen any replies from the Xen folks, so replying in the hopes that
-they'll see this and notice the thread.
-
-One question though. When you say 'external source' are you talking about
-the oe-core "externalsrc" concept, or some Xen specific thing ?
+merged.
 
 Bruce
 
+On Mon, Nov 20, 2017 at 11:16 AM, Mark Asselstine <
+mark.asselstine@windriver.com> wrote:
 
+> Although the current version is OK as far as dependent
+> requirements.txt there appears to be some issues with the older
+> version. The uprev is due, so let's get to it.
 >
-> Signed-off-by: Alistair Francis <alistair.francis@xilinx.com>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
-> This seems really nasty, but it's the only way I can get external
-> source build working.
+>  ...{python-debtcollector_1.10.0.bb => python-debtcollector_1.17.1.bb} |
+> 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-
+> debtcollector_1.10.0.bb => python-debtcollector_1.17.1.bb} (79%)
 >
->  recipes-extended/xen/xen.inc | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+> diff --git a/meta-openstack/recipes-devtools/python/python-
+> debtcollector_1.10.0.bb b/meta-openstack/recipes-devtools/python/python-
+> debtcollector_1.17.1.bb
+> similarity index 79%
+> rename from meta-openstack/recipes-devtools/python/python-
+> debtcollector_1.10.0.bb
+> rename to meta-openstack/recipes-devtools/python/python-
+> debtcollector_1.17.1.bb
+> index d53960c..8d74ace 100644
+> --- a/meta-openstack/recipes-devtools/python/python-
+> debtcollector_1.10.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-
+> debtcollector_1.17.1.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "Apache-2"
+>  LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=
+> 0835ade698e0bcf8506ecda2f7b4f302"
 >
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index cb314f8..7a54416 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -901,7 +901,6 @@ EXTRA_OEMAKE += "XEN_CONFIG_EXPERT=y"
->  EXTRA_OEMAKE += "debug=n"
+> -SRC_URI[md5sum] = "c85d9e0e7d4d00577695214cb425c5b4"
+> -SRC_URI[sha256sum] = "1a3bd886d6aea3775e5366d7335c85
+> 6449144c0218209af6c660f6be111714a3"
+> +SRC_URI[md5sum] = "d43a2733f02549628fe9f716363a5b01"
+> +SRC_URI[sha256sum] = "1f751d74789baa82684f55bececf75
+> 4ebff1ad40e3fb1bee44fcf5c25a31e92d"
 >
->  do_configure() {
-> -
->      #./configure --enable-xsmpolicy does not set XSM_ENABLE must be done
-> manually
->      if [ "${XSM_ENABLED}" = "1" ]; then
->          echo "XSM_ENABLE := y" > ${S}/.config
-> @@ -920,6 +919,9 @@ do_configure() {
->  }
+>  inherit setuptools pypi
 >
->  do_compile() {
-> +    # If using external source we need to copy the code in
-> +    cp -rf ${S}/* ${B}/
-> +
->      # workaround for build bug when CFLAGS is exported
->      # https://www.mail-archive.com/xen-devel@lists.xen.org/msg67822.html
->      unset CFLAGS
 > --
-> 2.14.1
+> 2.7.4
 >
 > --
 > _______________________________________________
@@ -150,67 +146,71 @@ Bruce
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---001a11359c962708e0055e83c05b
+--001a113f49b4f6c85e055e83c372
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Nov 16, 2017 at 5:41 PM, Alistair Francis <span dir=3D"ltr">&lt=
-;<a href=3D"mailto:alistair.francis@xilinx.com" target=3D"_blank">alistair.=
-francis@xilinx.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-When building Xen from an external source the compile step fails as<br>
-there is no Makefile (or anything else) copied into the Yocto<br>
-build directories.<br></blockquote><div><br></div><div>I can&#39;t say that=
- I have an opinion on this, since I&#39;m not up to speed on all</div><div>=
-the moving parts.</div><div><br></div><div>I haven&#39;t seen any replies f=
-rom the Xen folks, so replying in the hopes that</div><div>they&#39;ll see =
-this and notice the thread.</div><div><br></div><div>One question though. W=
-hen you say &#39;external source&#39; are you talking about</div><div>the o=
-e-core &quot;externalsrc&quot; concept, or some Xen specific thing ?</div><=
-div><br></div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
-x">
+<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On Mon, Nov 20, 2017 at 11:16 A=
+M, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@=
+windriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</spa=
+n> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;b=
+order-left:1px #ccc solid;padding-left:1ex">Although the current version is=
+ OK as far as dependent<br>
+requirements.txt there appears to be some issues with the older<br>
+version. The uprev is due, so let&#39;s get to it.<br>
 <br>
-Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@xili=
-nx.com">alistair.francis@xilinx.com</a>&gt;<br>
+Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
+ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
 ---<br>
-This seems really nasty, but it&#39;s the only way I can get external<br>
-source build working.<br>
+=C2=A0...{<a href=3D"http://python-debtcollector_1.10.0.bb" rel=3D"noreferr=
+er" target=3D"_blank">python-debtcollector_1.10.<wbr>0.bb</a> =3D&gt; <a hr=
+ef=3D"http://python-debtcollector_1.17.1.bb" rel=3D"noreferrer" target=3D"_=
+blank">python-debtcollector_1.17.1.bb</a><wbr>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta-openstack/recipes-<wbr>devtools/python/{<a href=3D"http:/=
+/python-debtcollector_1.10.0.bb" rel=3D"noreferrer" target=3D"_blank">pytho=
+n-<wbr>debtcollector_1.10.0.bb</a> =3D&gt; <a href=3D"http://python-debtcol=
+lector_1.17.1.bb" rel=3D"noreferrer" target=3D"_blank">python-debtcollector=
+_1.17.1.bb</a><wbr>} (79%)<br>
 <br>
-=C2=A0recipes-extended/xen/xen.inc | 4 +++-<br>
-=C2=A01 file changed, 3 insertions(+), 1 deletion(-)<br>
+diff --git a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://=
+python-debtcollector_1.10.0.bb" rel=3D"noreferrer" target=3D"_blank">python=
+-<wbr>debtcollector_1.10.0.bb</a> b/meta-openstack/recipes-<wbr>devtools/py=
+thon/<a href=3D"http://python-debtcollector_1.17.1.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">python-<wbr>debtcollector_1.17.1.bb</a><br>
+similarity index 79%<br>
+rename from meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://p=
+ython-debtcollector_1.10.0.bb" rel=3D"noreferrer" target=3D"_blank">python-=
+<wbr>debtcollector_1.10.0.bb</a><br>
+rename to meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://pyt=
+hon-debtcollector_1.17.1.bb" rel=3D"noreferrer" target=3D"_blank">python-<w=
+br>debtcollector_1.17.1.bb</a><br>
+index d53960c..8d74ace 100644<br>
+--- a/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://python-=
+debtcollector_1.10.0.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>d=
+ebtcollector_1.10.0.bb</a><br>
++++ b/meta-openstack/recipes-<wbr>devtools/python/<a href=3D"http://python-=
+debtcollector_1.17.1.bb" rel=3D"noreferrer" target=3D"_blank">python-<wbr>d=
+ebtcollector_1.17.1.bb</a><br>
+@@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;Apache-2&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://${COMMON_LICENSE_DIR}/<wbr>MIT;md5=
+=3D<wbr>0835ade698e0bcf8506ecda2f7b4f3<wbr>02&quot;<br>
 <br>
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc<br=
->
-index cb314f8..7a54416 100644<br>
---- a/recipes-extended/xen/xen.inc<br>
-+++ b/recipes-extended/xen/xen.inc<br>
-@@ -901,7 +901,6 @@ EXTRA_OEMAKE +=3D &quot;XEN_CONFIG_EXPERT=3Dy&quot;<br>
-=C2=A0EXTRA_OEMAKE +=3D &quot;debug=3Dn&quot;<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>c85d9e0e7d4d00577695214cb425c5<wbr>b4&quot;=
 <br>
-=C2=A0do_configure() {<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0#./configure --enable-xsmpolicy does not set XSM_ENABLE=
- must be done manually<br>
-=C2=A0 =C2=A0 =C2=A0if [ &quot;${XSM_ENABLED}&quot; =3D &quot;1&quot; ]; th=
-en<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;XSM_ENABLE :=3D y&quot; &gt; $=
-{S}/.config<br>
-@@ -920,6 +919,9 @@ do_configure() {<br>
-=C2=A0}<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>1a3bd886d6aea3775e5366d7335c85<wbr>64491=
+44c0218209af6c660f6be1117<wbr>14a3&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>d43a2733f02549628fe9f716363a5b<wbr>01&quot;=
 <br>
-=C2=A0do_compile() {<br>
-+=C2=A0 =C2=A0 # If using external source we need to copy the code in<br>
-+=C2=A0 =C2=A0 cp -rf ${S}/* ${B}/<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0# workaround for build bug when CFLAGS is exported<br>
-=C2=A0 =C2=A0 =C2=A0# <a href=3D"https://www.mail-archive.com/xen-devel@lis=
-ts.xen.org/msg67822.html" rel=3D"noreferrer" target=3D"_blank">https://www.=
-mail-archive.com/<wbr>xen-devel@lists.xen.org/<wbr>msg67822.html</a><br>
-=C2=A0 =C2=A0 =C2=A0unset CFLAGS<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">--<br>
-2.14.1<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>1f751d74789baa82684f55bececf75<wbr>4ebff=
+1ad40e3fb1bee44fcf5c25a31<wbr>e92d&quot;<br>
+<br>
+=C2=A0inherit setuptools pypi<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+2.7.4<br>
 <br>
 --<br>
 ______________________________<wbr>_________________<br>
@@ -224,6 +224,6 @@ nfo/meta-<wbr>virtualization</a><br>
 r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
 hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
-</div></div>
+</div>
 
---001a11359c962708e0055e83c05b--
+--001a113f49b4f6c85e055e83c372--
