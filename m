@@ -1,40 +1,69 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 52F79E00C45; Mon, 27 Nov 2017 07:40:50 -0800 (PST)
+	id F39E7E00C45; Mon, 27 Nov 2017 07:43:02 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.220.179 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5ADA0E00AF2
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-qk0-f179.google.com (mail-qk0-f179.google.com
+	[209.85.220.179])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0ADC9E00AF2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 27 Nov 2017 07:40:48 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vARFemUN022608
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 27 Nov 2017 07:43:01 -0800 (PST)
+Received: by mail-qk0-f179.google.com with SMTP id j202so32964706qke.10
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 27 Nov 2017 07:40:48 -0800 (PST)
-Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Mon, 27 Nov 2017 07:40:47 -0800
-To: Mark Asselstine <mark.asselstine@windriver.com>,
-	<meta-virtualization@yoctoproject.org>
-References: <1511366817-5797-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <b19a4e2f-3b99-5382-60cf-f64273db4cc3@windriver.com>
-Date: Mon, 27 Nov 2017 10:40:46 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.4.0
+	Mon, 27 Nov 2017 07:43:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=Iv1Z+BDyekUEqwyi79/a/N+P3U+o20GIeh04eRm1RP8=;
+	b=EG63S39uE84agWWc928Ohs0JRarSADltAtsKD1SYIJou7kB9qYhR6wGXJF1z/Q2Ghr
+	tWHv7CnAqRB1P+a1QpK84DtL6OlFCn1RhnRqlW/K4MeA//DBxiS+Rp8m5LW8ie9lxZW9
+	bGEAi7hymNYSDaofcZxOG+5ep0CyqSsIPBPSSmf1bDEA1NETP5R3VVniF4Q6kAwGIeVw
+	p6+J3hTMbRJ0+Su9XXrcUUOSX2znK0UeGYbZHGb6FBmn/AvnhyvY9E0E89SRjsFLgsHL
+	cGqpOe34drB8o/sXIbWmtHO4MZKZXz9g/b1IIONItuUmpwrls2C/E2qxMHx2AZ7lAPXy
+	VUQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Iv1Z+BDyekUEqwyi79/a/N+P3U+o20GIeh04eRm1RP8=;
+	b=RHfhZ9q8RGTkwq8D9+mAWSbuR94/rAPsOFrATIdJvr7iUIISp+/KMh/uwoEg+gJj58
+	e2QRBJid5GBV2uer3M6RQC5ZnHUN0bdZu4GwDWka1O++c5uryTq9wXeRfxP+mjg58Swm
+	gvc2xPtUiQTOkizLzZFDwYi2JjuDYRxtC75AYMH9vBHGqlkpSRd401xcTi3t5U5oncL1
+	3GJCd5J8W/praWIoX0rGsGQOln/U65rBYgY6MEl1xuWcswaI+x+K4E8Xp7GitxaNsWlC
+	33jaLcCpKt5rAFAaawYEMDr++43KXbOWb61rPqCHCExJuk7a6ez/z2jpbDNvYeGPtFXY
+	5gDg==
+X-Gm-Message-State: AJaThX5x0Ereypge8U3kpOktGp/yEcAd77bY3AiQoJQ5b4QhAE1h2NDP
+	XBcdjQ9gUB3f1pB+A91Ii4z8Y8hG3RuERDV6boo=
+X-Google-Smtp-Source: AGs4zMbqKjK6DOxRiH6lYoQrXiRQp3khc2cEcSG0owsUVFJ1BYWUK5g3IRhKHqxHKSwpL7vh9vn1b6Bd7Dlu5p96RVE=
+X-Received: by 10.55.159.145 with SMTP id i139mr1771457qke.339.1511797381013; 
+	Mon, 27 Nov 2017 07:43:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1511366817-5797-1-git-send-email-mark.asselstine@windriver.com>
-Subject: Re: [m-c-s][PATCH] meta-openstack: initial move to use systemd
+Received: by 10.12.182.96 with HTTP; Mon, 27 Nov 2017 07:43:00 -0800 (PST)
+In-Reply-To: <1511447044-22828-1-git-send-email-yan.yankovskyi@globallogic.com>
+References: <1511447044-22828-1-git-send-email-yan.yankovskyi@globallogic.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 27 Nov 2017 10:43:00 -0500
+Message-ID: <CADkTA4Nu2K8-5+RNSoN5VkkPoajcM7Pnk2DKVBGwCa0SOHaFsg@mail.gmail.com>
+To: Yan Yankovskyi <yan.yankovskyi@globallogic.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] xen: delete references to xenstored.socket and xenstored_ro.socket in xen.inc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,189 +76,138 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Nov 2017 15:40:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 27 Nov 2017 15:43:03 -0000
+Content-Type: multipart/alternative; boundary="001a114d7f68de26ef055ef8c163"
 
-All the outstanding openstack changes are now merged.
+--001a114d7f68de26ef055ef8c163
+Content-Type: text/plain; charset="UTF-8"
+
+I see no complaints, so this is now merged.
 
 Bruce
 
-On 11/22/2017 11:06 AM, Mark Asselstine wrote:
-> Add instructions to the README.setup on how to configure the build to
-> use systemd. The remaining changes are a bit of hack and slash to get
-> the builds to succeed. The 'hacking' only touches core openstack
-> component recipes which are all in various states of broken anyways,
-> so these changes will not affect any current meta-cloud-services
-> users. All of these will be corrected shortly.
-> 
-> Most users of OpenStack have long ago made the move to systemd, by
-> following suit we can take advantage of the better support for service
-> files along with matching most OpenStack documentation. The remaining
-> sysvinit parts will be removed as we get the openstack components
-> updated and back to a working state.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+On Thu, Nov 23, 2017 at 9:24 AM, Yan Yankovskyi <
+yan.yankovskyi@globallogic.com> wrote:
+
+> These files were removed since the followine patch
+> http://xenbits.xen.org/gitweb/?p=xen.git;a=commit;h=
+> 976ce01e103fc03bb3336cdbc6c951a709e285fe
+> and are absent in xen 4.8.0 and further, which leads to
+> the following error during the Xen build process:
+> do_package: SYSTEMD_SERVICE_xen-xencommons value xenstored.socket does not
+> exist
+>
+> Signed-off-by: Yan Yankovskyi <yan.yankovskyi@globallogic.com>
 > ---
->   meta-openstack/README.setup                                | 14 ++++++++++++++
->   .../recipes-devtools/python/python-cinder_git.bb           |  4 ++++
->   .../recipes-devtools/python/python-glance_git.bb           |  2 ++
->   .../recipes-devtools/python/python-horizon_git.bb          |  1 +
->   .../recipes-devtools/python/python-keystone_git.bb         | 12 ++++++------
->   .../recipes-devtools/python/python-neutron_git.bb          |  1 +
->   meta-openstack/recipes-devtools/python/python-nova_git.bb  | 12 ++++++++++++
->   meta-openstack/recipes-devtools/python/python-trove_git.bb |  3 +++
->   8 files changed, 43 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta-openstack/README.setup b/meta-openstack/README.setup
-> index d55883f..b02ebf6 100644
-> --- a/meta-openstack/README.setup
-> +++ b/meta-openstack/README.setup
-> @@ -84,6 +84,20 @@ to the bblayers.conf file:
->       /meta-openembedded/meta-webserver \
->       /meta-openembedded/meta-ruby
->   
-> +* All images must use systemd init system. After the builddir has been
-> +initialized you have to append the necessary variables to ensure that
-> +systemd will be used in your images:
-> +
-> +    DISTRO_FEATURES_append = " systemd"
-> +    DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
-> +    VIRTUAL-RUNTIME_init_manager = "systemd"
-> +    VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
-> +
-> +Additionally activiate the meta-virtualization layer:
-> +
-> +    DISTRO_FEATURES_append += "virtualization kvm"
-> +
-> +
->   Package configurations
->   ----------------------
->   
-> diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> index 9f70beb..3523038 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
-> @@ -152,6 +152,10 @@ pkg_postinst_${SRCNAME}-setup () {
->   
->   PACKAGES += "${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup ${SRCNAME}-api ${SRCNAME}-volume ${SRCNAME}-scheduler ${SRCNAME}-backup"
->   ALLOW_EMPTY_${SRCNAME}-setup = "1"
-> +ALLOW_EMPTY_${SRCNAME}-backup = "1"
-> +ALLOW_EMPTY_${SRCNAME}-scheduler = "1"
-> +ALLOW_EMPTY_${SRCNAME}-volume = "1"
-> +ALLOW_EMPTY_${SRCNAME}-api = "1"
->   
->   RDEPENDS_${SRCNAME}-tests += " bash python"
->   
-> diff --git a/meta-openstack/recipes-devtools/python/python-glance_git.bb b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> index 4042f1b..4c408c9 100644
-> --- a/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-glance_git.bb
-> @@ -138,6 +138,8 @@ pkg_postinst_${SRCNAME}-setup () {
->   
->   PACKAGES += " ${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-setup ${SRCNAME}-api ${SRCNAME}-registry"
->   ALLOW_EMPTY_${SRCNAME}-setup = "1"
-> +ALLOW_EMPTY_${SRCNAME}-registry = "1"
-> +ALLOW_EMPTY_${SRCNAME}-api = "1"
->   
->   FILES_${PN} = " \
->       ${libdir}/* \
-> diff --git a/meta-openstack/recipes-devtools/python/python-horizon_git.bb b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> index 69d19f5..51025e7 100644
-> --- a/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
-> @@ -147,6 +147,7 @@ do_install_append() {
->   }
->   
->   PACKAGES += "${SRCNAME}-tests ${SRCNAME} ${SRCNAME}-apache ${SRCNAME}-standalone"
-> +ALLOW_EMPTY_${SRCNAME}-standalone = "1"
->   
->   RDEPENDS_${SRCNAME}-tests += " bash"
->   
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystone_git.bb b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> index a26c9bf..b5f92dd 100644
-> --- a/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-keystone_git.bb
-> @@ -128,12 +128,12 @@ do_install_append() {
->       sed -e "s:%TOKEN_FORMAT%:${TOKEN_FORMAT}:g" \
->   	-i ${KEYSTONE_CONF_DIR}/keystone.conf
->   
-> -    sed -e "s/%ADMIN_PASSWORD%/${ADMIN_PASSWORD}/g" \
-> -	-i ${D}${sysconfdir}/init.d/keystone
-> -    sed -e "s/%SERVICE_PASSWORD%/${SERVICE_PASSWORD}/g" \
-> -	-i ${D}${sysconfdir}/init.d/keystone
-> -    sed -e "s/%SERVICE_TENANT_NAME%/${SERVICE_TENANT_NAME}/g" \
-> -	-i ${D}${sysconfdir}/init.d/keystone
-> +#    sed -e "s/%ADMIN_PASSWORD%/${ADMIN_PASSWORD}/g" \
-> +#	-i ${D}${sysconfdir}/init.d/keystone
-> +#    sed -e "s/%SERVICE_PASSWORD%/${SERVICE_PASSWORD}/g" \
-> +#	-i ${D}${sysconfdir}/init.d/keystone
-> +#    sed -e "s/%SERVICE_TENANT_NAME%/${SERVICE_TENANT_NAME}/g" \
-> +#	-i ${D}${sysconfdir}/init.d/keystone
->       
->       install -d ${KEYSTONE_PACKAGE_DIR}/tests/tmp
->   
-> diff --git a/meta-openstack/recipes-devtools/python/python-neutron_git.bb b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> index c837401..f2a4baa 100644
-> --- a/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-neutron_git.bb
-> @@ -56,6 +56,7 @@ do_install_append() {
->       install -m 600 ${S}/etc/api-paste.ini ${NEUTRON_CONF_DIR}/
->       install -m 600 ${S}/etc/policy.json ${NEUTRON_CONF_DIR}/
->       install -m 600 ${TEMPLATE_CONF_DIR}/neutron/plugins/ml2/* ${NEUTRON_CONF_DIR}/plugins/ml2
-> +    install -m 600 ${WORKDIR}/metadata_agent.ini ${NEUTRON_CONF_DIR}/
->   
->       # Neutron.conf config changes (replace with .ini file editing)
->       sed -e "s:^# core_plugin.*:core_plugin = ml2:g" -i ${NEUTRON_CONF_DIR}/neutron.conf
-> diff --git a/meta-openstack/recipes-devtools/python/python-nova_git.bb b/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> index 7b560a7..115d198 100644
-> --- a/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-nova_git.bb
-> @@ -212,6 +212,18 @@ FILES_${BPN}-bash-completion = "${sysconfdir}/bash_completion.d/*"
->   
->   ALLOW_EMPTY_${SRCNAME}-setup = "1"
->   ALLOW_EMPTY_${SRCNAME}-ec2 = "1"
-> +ALLOW_EMPTY_${SRCNAME}-api = "1"
-> +ALLOW_EMPTY_${SRCNAME}-compute = "1"
-> +ALLOW_EMPTY_${SRCNAME}-controller = "1"
-> +ALLOW_EMPTY_${SRCNAME}-consoleauth = "1"
-> +ALLOW_EMPTY_${SRCNAME}-cert = "1"
-> +ALLOW_EMPTY_${SRCNAME}-conductor = "1"
-> +ALLOW_EMPTY_${SRCNAME}-network = "1"
-> +ALLOW_EMPTY_${SRCNAME}-novncproxy = "1"
-> +ALLOW_EMPTY_${SRCNAME}-scheduler = "1"
-> +ALLOW_EMPTY_${SRCNAME}-spicehtml5proxy = "1"
-> +
-> +
->   
->   FILES_${PN} = "${libdir}/*"
->   
-> diff --git a/meta-openstack/recipes-devtools/python/python-trove_git.bb b/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> index b90e552..e1f8ae0 100755
-> --- a/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-trove_git.bb
-> @@ -210,6 +210,7 @@ FILES_${SRCNAME} = " \
->   FILES_${SRCNAME}-api = " \
->       ${sysconfdir}/init.d/trove-api \
->       "
-> +ALLOW_EMPTY_${SRCNAME}-api = "1"
->   
->   FILES_${SRCNAME}-bin = " \
->       ${bindir}/* \
-> @@ -218,10 +219,12 @@ FILES_${SRCNAME}-bin = " \
->   FILES_${SRCNAME}-conductor = " \
->       ${sysconfdir}/init.d/trove-conductor \
->       "
-> +ALLOW_EMPTY_${SRCNAME}-conductor = "1"
->   
->   FILES_${SRCNAME}-taskmanager = " \
->       ${sysconfdir}/init.d/trove-taskmanager \
->       "
-> +ALLOW_EMPTY_${SRCNAME}-taskmanager = "1"
->   
->   FILES_${SRCNAME}-setup = " \
->       ${localstatedir}/* \
-> 
+>  recipes-extended/xen/xen.inc | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index cb314f8..4d56de9 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -739,8 +739,6 @@ FILES_${PN}-xencommons += "\
+>      ${systemd_unitdir}/system/xenconsoled.service \
+>      ${systemd_unitdir}/system/xen-init-dom0.service \
+>      ${systemd_unitdir}/system/xenstored.service \
+> -    ${systemd_unitdir}/system/xenstored.socket \
+> -    ${systemd_unitdir}/system/xenstored_ro.socket \
+>      ${systemd_unitdir}/system/var-lib-xenstored.mount \
+>      "
+>
+> @@ -780,8 +778,6 @@ SYSTEMD_SERVICE_${PN}-xencommons = " \
+>      xenconsoled.service \
+>      xen-init-dom0.service \
+>      xenstored.service \
+> -    xenstored.socket \
+> -    xenstored_ro.socket \
+>      "
+>  SYSTEMD_SERVICE_${PN}-xendomains = "xendomains.service"
+>
+> --
+> 1.9.1
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
 
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
+
+--001a114d7f68de26ef055ef8c163
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I see no complaints, so this is now merged.<div><br></div>=
+<div>Bruce</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
+ote">On Thu, Nov 23, 2017 at 9:24 AM, Yan Yankovskyi <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:yan.yankovskyi@globallogic.com" target=3D"_blank">yan.yan=
+kovskyi@globallogic.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex">These files were removed since the followine patch<br>
+<a href=3D"http://xenbits.xen.org/gitweb/?p=3Dxen.git;a=3Dcommit;h=3D976ce0=
+1e103fc03bb3336cdbc6c951a709e285fe" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://xenbits.xen.org/gitweb/<wbr>?p=3Dxen.git;a=3Dcommit;h=3D<wbr>976ce01e1=
+03fc03bb3336cdbc6c951<wbr>a709e285fe</a><br>
+and are absent in xen 4.8.0 and further, which leads to<br>
+the following error during the Xen build process:<br>
+do_package: SYSTEMD_SERVICE_xen-xencommons value xenstored.socket does not =
+exist<br>
+<br>
+Signed-off-by: Yan Yankovskyi &lt;<a href=3D"mailto:yan.yankovskyi@globallo=
+gic.com">yan.yankovskyi@globallogic.<wbr>com</a>&gt;<br>
+---<br>
+=C2=A0recipes-extended/xen/xen.inc | 4 ----<br>
+=C2=A01 file changed, 4 deletions(-)<br>
+<br>
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc<br=
+>
+index cb314f8..4d56de9 100644<br>
+--- a/recipes-extended/xen/xen.inc<br>
++++ b/recipes-extended/xen/xen.inc<br>
+@@ -739,8 +739,6 @@ FILES_${PN}-xencommons +=3D &quot;\<br>
+=C2=A0 =C2=A0 =C2=A0${systemd_unitdir}/system/<wbr>xenconsoled.service \<br=
+>
+=C2=A0 =C2=A0 =C2=A0${systemd_unitdir}/system/xen-<wbr>init-dom0.service \<=
+br>
+=C2=A0 =C2=A0 =C2=A0${systemd_unitdir}/system/<wbr>xenstored.service \<br>
+-=C2=A0 =C2=A0 ${systemd_unitdir}/system/<wbr>xenstored.socket \<br>
+-=C2=A0 =C2=A0 ${systemd_unitdir}/system/<wbr>xenstored_ro.socket \<br>
+=C2=A0 =C2=A0 =C2=A0${systemd_unitdir}/system/var-<wbr>lib-xenstored.mount =
+\<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+@@ -780,8 +778,6 @@ SYSTEMD_SERVICE_${PN}-<wbr>xencommons =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0xenconsoled.service \<br>
+=C2=A0 =C2=A0 =C2=A0xen-init-dom0.service \<br>
+=C2=A0 =C2=A0 =C2=A0xenstored.service \<br>
+-=C2=A0 =C2=A0 xenstored.socket \<br>
+-=C2=A0 =C2=A0 xenstored_ro.socket \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
+=C2=A0SYSTEMD_SERVICE_${PN}-<wbr>xendomains =3D &quot;xendomains.service&qu=
+ot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+--<br>
+1.9.1<br>
+<br>
+--<br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div>
+
+--001a114d7f68de26ef055ef8c163--
