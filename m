@@ -1,6 +1,6 @@
 Return-Path: <fabio.berton@ossystems.com.br>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 21A3EE00C0E; Tue, 28 Nov 2017 03:15:12 -0800 (PST)
+	id 649DCE00C0E; Tue, 28 Nov 2017 03:16:19 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,57 +8,57 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.220.193 listed in list.dnswl.org]
+	*      [209.85.220.196 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BCE69E00B1E
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A7F03E00B1E
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Nov 2017 03:15:10 -0800 (PST)
-Received: by mail-qk0-f193.google.com with SMTP id v137so36495299qkb.1
+	Tue, 28 Nov 2017 03:16:18 -0800 (PST)
+Received: by mail-qk0-f196.google.com with SMTP id j202so36533097qke.10
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Nov 2017 03:15:10 -0800 (PST)
+	Tue, 28 Nov 2017 03:16:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:organization;
-	bh=fM4QoeIk2JErhgOwnQfAmgrW7F6740EEcFIPK+hF3Bk=;
-	b=cMGNcoANfV8ZEEXpYhePyQ6GfOuv79zR9rROqPSu0hAGtQLk5V07dDuOjvBs90KerR
-	DT8+uUpk2i5g6CHUDz2axM8YvEkTQH9GbO5ICrvOPQvZ/CBO81dgobiyMYmSllZdLzCZ
-	+wA8ma+ZQSoYvC1gf9nj4biE3d/WOcRvbdXyrzrHZpOMVAOl78S+KNuJn67kH3om8YM8
-	Zzzfh8o639Iwet7Zk8WZj0HlyR0j1zlwTgcXnWwRUdULOclO9YSN3brO8tpFEKOYdknk
-	mWuiY13K97CwfSXc357BIJOivX+GWoBM1YyIP+Ptg5gL2/Jrc8XcNmdvduaHIFI+tS0U
-	BPgw==
+	bh=6NGF8FNpef1Q7n44ff8P5mRni1L2CDzImcRbAwygDKs=;
+	b=s2P8aN24Uoki112qeVc24Lsnn310wCg5gAvw/543JBlDzP2GJyr+6pauj1aEDGGnVM
+	JIB1vHCXmCS52KJRdwNn/yUCjEzxWgJsNM++CzZRWXRH9PaEWJY4c4WnyLoiiGKqb/h4
+	0gEZ3Vv05gljg9mT7eB5R7NvdG7Y6oWglP7Xg22Im9yA0kZ9WQR4FTl99d5RTRzRpxXJ
+	bskBjc1/Z7doKPmAtcmNNT+07aUDbQfcJI+u0QJEUIWnZfy7+t8XlRAKdVmKEQNzsHLi
+	NcWt6Vh3zcqN2WkLOdLBc/lMnIpxpeTDQE4V9hyF8w88s1w4lNnJ2CD2EZefu4T3k/te
+	M9+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=fM4QoeIk2JErhgOwnQfAmgrW7F6740EEcFIPK+hF3Bk=;
-	b=SgNQSm7YLXWMLvLC7FfGO7oD7693zoUJgnJEmIiEtqkPLyLAkmMO0TbDB5ONy1bh4d
-	OnbLkFKSX8a5j17kL7jnBmEmZirOYLzYoLj52RWhr3dnagqLoAKryQB6z4bgPJ3BLJ3D
-	BihxytLNVWLBTm9LnSpBEqWre+Qo0R4OAydpf3o9nSVWI2qFdaVqWJxW3bbeRr6US9El
-	bNGJvOdV1h0vCm0ER03iPLDnfKT1vPzYFTDWRWtxSYe9I2veNi8uuplomwlbVQub8MGg
-	DbyaUmUYuW77OGHeL4b01unRrBduewtUTyZyneXsNBu+DN+kqopBNwysA9BoPjPbkG1Y
-	5zCA==
-X-Gm-Message-State: AJaThX7j748RXzoQ0v+jx8Kx1GH3vgIHxNj64N/1OF3/Ts3L6KC7Mzhv
-	FWx1JG+zXdctMCIWqXSqTfwJ0u9R
-X-Google-Smtp-Source: AGs4zMZ0rumuIzwr5gIokqdbSyqG6254VUiCbQxdn4KMLs/X5Vy9CD7YXAvCnhmkZg/6OMrOIu2Rqw==
-X-Received: by 10.55.22.7 with SMTP id g7mr7869928qkh.82.1511867709490;
-	Tue, 28 Nov 2017 03:15:09 -0800 (PST)
+	bh=6NGF8FNpef1Q7n44ff8P5mRni1L2CDzImcRbAwygDKs=;
+	b=rJuxaKZNRlHWuCag8Ib/7/A21qJsc9Bbaazj382nu14OpXGDcrDiDH+SwuU3kL2A/k
+	WCRAOdVsgCEh35PReycokF8f09C4Ybu7pM1MNYWHzMBKY0C/aEhZi9VyKztRRhYUnxSw
+	zBDnCjH5Zf2vA22D3gcw9OZoBgSHdT8TgiTvFFEVmoeqCogt+UNXAT/xZ6uAiBQhD1tQ
+	S+BaiEqdg84kBAKr6m7JsdGD7KcxCMyBkLPEIRHowg2IF2F+ba10AlTMW7Br/WSN/i3I
+	l+0bx8iHu47jNST5qiNFYDTCEtDBCQgLsuE2peWR3X+n6qg3KDB0PcPFP6suJEl7X2nb
+	U/Gw==
+X-Gm-Message-State: AJaThX4Vw7ftVI9ToZyrAtwl8i4JZBXTuO6QTDZWOVmBuQHbVvVmkuxg
+	mfqdyLM+hk44Lpo9WVpK37cME1VF
+X-Google-Smtp-Source: AGs4zMaRzjqq0CdArLZQsk9sjHH6jF3C4AwYCxTEnBYuUsMg/jm8b008yuttclgvnUlp0BqsD5q3Wg==
+X-Received: by 10.233.216.70 with SMTP id u67mr67605597qkf.133.1511867777606; 
+	Tue, 28 Nov 2017 03:16:17 -0800 (PST)
 Received: from centrium.lab.ossystems ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	u26sm22056807qtb.1.2017.11.28.03.15.07
+	q1sm21952681qti.41.2017.11.28.03.16.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Nov 2017 03:15:08 -0800 (PST)
+	Tue, 28 Nov 2017 03:16:16 -0800 (PST)
 From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 28 Nov 2017 09:14:43 -0200
-Message-Id: <20171128111443.16257-1-fabio.berton@ossystems.com.br>
+Date: Tue, 28 Nov 2017 09:15:59 -0200
+Message-Id: <20171128111559.16462-1-fabio.berton@ossystems.com.br>
 X-Mailer: git-send-email 2.14.2
 Organization: O.S. Systems Software LTDA.
-Subject: [pyro][PATCH] python-*: use https for pypi URLs
+Subject: [morty][PATCH] python-*: use https for pypi URLs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -71,14 +71,13 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 11:15:12 -0000
+X-List-Received-Date: Tue, 28 Nov 2017 11:16:19 -0000
 
 Several of the recipes here were using http URLs for source hosted on
 pypi - pypi apparently no longer supports http so switch to https
 instead.
 
-Apply this commit [1] to pyro branch.
-
+Apply this commit [1] to morty branch.
 [1] https://www.mail-archive.com/meta-virtualization@yoctoproject.org/msg02821.html
 
 Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
@@ -87,8 +86,8 @@ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
  recipes-devtools/python/python-m2crypto_0.22.3.bb | 2 +-
  recipes-devtools/python/python-pyyaml_3.11.bb     | 2 +-
  recipes-devtools/python/python-requests_2.8.1.bb  | 2 +-
- recipes-devtools/python/python-sphinx_1.4.1.bb    | 2 +-
- recipes-devtools/python/python-webob_1.6.0.bb     | 2 +-
+ recipes-devtools/python/python-sphinx_1.3.1.bb    | 2 +-
+ recipes-devtools/python/python-webob_1.4.1.bb     | 2 +-
  6 files changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/recipes-devtools/python/python-gevent_1.0.1.bb b/recipes-devtools/python/python-gevent_1.0.1.bb
@@ -143,23 +142,23 @@ index 187f97a..d266780 100644
  
  SRC_URI[md5sum] = "a27ea3d72d7822906ddce5e252d6add9"
  SRC_URI[sha256sum] = "84fe8d5bf4dcdcc49002446c47a146d17ac10facf00d9086659064ac43b6c25b"
-diff --git a/recipes-devtools/python/python-sphinx_1.4.1.bb b/recipes-devtools/python/python-sphinx_1.4.1.bb
-index 835b369..b4ae86b 100644
---- a/recipes-devtools/python/python-sphinx_1.4.1.bb
-+++ b/recipes-devtools/python/python-sphinx_1.4.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=72f034adc6f7b05b09bc00d1a05bb065"
+diff --git a/recipes-devtools/python/python-sphinx_1.3.1.bb b/recipes-devtools/python/python-sphinx_1.3.1.bb
+index fe8ad94..d8cef30 100644
+--- a/recipes-devtools/python/python-sphinx_1.3.1.bb
++++ b/recipes-devtools/python/python-sphinx_1.3.1.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=6dd095eaa1e7a662b279daf80ecad7e6"
  PR = "r0"
  SRCNAME = "Sphinx"
  
 -SRC_URI = "http://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
 +SRC_URI = "https://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
- SRC_URI[md5sum] = "4c4988e0306a04cef8dccc384281e585"
- SRC_URI[sha256sum] = "c6871a784d24aba9270b6b28541537a57e2fcf4d7c799410eba18236bc76d6bc"
-diff --git a/recipes-devtools/python/python-webob_1.6.0.bb b/recipes-devtools/python/python-webob_1.6.0.bb
-index 71c74ff..93f2acf 100644
---- a/recipes-devtools/python/python-webob_1.6.0.bb
-+++ b/recipes-devtools/python/python-webob_1.6.0.bb
+ SRC_URI[md5sum] = "8786a194acf9673464c5455b11fd4332"
+ SRC_URI[sha256sum] = "1a6e5130c2b42d2de301693c299f78cc4bd3501e78b610c08e45efc70e2b5114"
+diff --git a/recipes-devtools/python/python-webob_1.4.1.bb b/recipes-devtools/python/python-webob_1.4.1.bb
+index 18b3806..e566363 100644
+--- a/recipes-devtools/python/python-webob_1.4.1.bb
++++ b/recipes-devtools/python/python-webob_1.4.1.bb
 @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://docs/license.txt;md5=8ed3584bcc78c16da363747ccabc5af5
  PR = "r0"
  SRCNAME = "WebOb"
@@ -167,8 +166,8 @@ index 71c74ff..93f2acf 100644
 -SRC_URI = "http://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
 +SRC_URI = "https://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
  
- SRC_URI[md5sum] = "089d7fc6745f175737800237c7287802"
- SRC_URI[sha256sum] = "63d262d8f61b516321f786879c9277fa2209f7f57eb47b537eeecfea383d55b7"
+ SRC_URI[md5sum] = "a5c6e8ba5431756e6a5d5ec56047ec94"
+ SRC_URI[sha256sum] = "12f8b98390befc47336d2c0e5bad9cc48609d808eabb3f8675dc1027a3a9e9db"
 -- 
 2.14.2
 
