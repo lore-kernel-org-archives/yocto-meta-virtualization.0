@@ -1,6 +1,6 @@
 Return-Path: <fabio.berton@ossystems.com.br>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 649DCE00C0E; Tue, 28 Nov 2017 03:16:19 -0800 (PST)
+	id B1EBCE00C0E; Tue, 28 Nov 2017 03:17:13 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,57 +8,57 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.220.196 listed in list.dnswl.org]
+	*      [209.85.216.195 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A7F03E00B1E
+Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
+	[209.85.216.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B3FFCE00B1E
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Nov 2017 03:16:18 -0800 (PST)
-Received: by mail-qk0-f196.google.com with SMTP id j202so36533097qke.10
+	Tue, 28 Nov 2017 03:17:12 -0800 (PST)
+Received: by mail-qt0-f195.google.com with SMTP id q13so31650767qtb.5
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Nov 2017 03:16:18 -0800 (PST)
+	Tue, 28 Nov 2017 03:17:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:organization;
-	bh=6NGF8FNpef1Q7n44ff8P5mRni1L2CDzImcRbAwygDKs=;
-	b=s2P8aN24Uoki112qeVc24Lsnn310wCg5gAvw/543JBlDzP2GJyr+6pauj1aEDGGnVM
-	JIB1vHCXmCS52KJRdwNn/yUCjEzxWgJsNM++CzZRWXRH9PaEWJY4c4WnyLoiiGKqb/h4
-	0gEZ3Vv05gljg9mT7eB5R7NvdG7Y6oWglP7Xg22Im9yA0kZ9WQR4FTl99d5RTRzRpxXJ
-	bskBjc1/Z7doKPmAtcmNNT+07aUDbQfcJI+u0QJEUIWnZfy7+t8XlRAKdVmKEQNzsHLi
-	NcWt6Vh3zcqN2WkLOdLBc/lMnIpxpeTDQE4V9hyF8w88s1w4lNnJ2CD2EZefu4T3k/te
-	M9+Q==
+	bh=QTzmV2FnGaMA3Azpk4r/hrl/JBujzmc7n5+ztV4zYMY=;
+	b=F8CI51f2vqrhDKEWdM0F8ePqusHj7Fh3OuEdll6MMMgcQXINecqR+DvATNIDw2s2O2
+	cZt2Gp/LBk5RbB4VkZ3PbzHo/Dpg8dutcBeIVzBCW+SkqYhsoSl0bUV79VClMOV7aD8w
+	ntXDHrIMGrw0RwgJxRZniPMlZdsiFdNr9s9tTkWrTIHCEX4J77FvdGgGlg7BOH1wxl0B
+	oyza0UKt7hpmu4UxeMefcm0bHu4gSWc2qSd/izl/nTg9J9PnU6o2mTHQCQsduWKWH8p7
+	S1l0GW+taeQQAakxWG/XkZYlXVFrobxgqTH7bD/skIxB3YTyEN5rb9huFx36XZbqN6YL
+	Cl7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=6NGF8FNpef1Q7n44ff8P5mRni1L2CDzImcRbAwygDKs=;
-	b=rJuxaKZNRlHWuCag8Ib/7/A21qJsc9Bbaazj382nu14OpXGDcrDiDH+SwuU3kL2A/k
-	WCRAOdVsgCEh35PReycokF8f09C4Ybu7pM1MNYWHzMBKY0C/aEhZi9VyKztRRhYUnxSw
-	zBDnCjH5Zf2vA22D3gcw9OZoBgSHdT8TgiTvFFEVmoeqCogt+UNXAT/xZ6uAiBQhD1tQ
-	S+BaiEqdg84kBAKr6m7JsdGD7KcxCMyBkLPEIRHowg2IF2F+ba10AlTMW7Br/WSN/i3I
-	l+0bx8iHu47jNST5qiNFYDTCEtDBCQgLsuE2peWR3X+n6qg3KDB0PcPFP6suJEl7X2nb
-	U/Gw==
-X-Gm-Message-State: AJaThX4Vw7ftVI9ToZyrAtwl8i4JZBXTuO6QTDZWOVmBuQHbVvVmkuxg
-	mfqdyLM+hk44Lpo9WVpK37cME1VF
-X-Google-Smtp-Source: AGs4zMaRzjqq0CdArLZQsk9sjHH6jF3C4AwYCxTEnBYuUsMg/jm8b008yuttclgvnUlp0BqsD5q3Wg==
-X-Received: by 10.233.216.70 with SMTP id u67mr67605597qkf.133.1511867777606; 
-	Tue, 28 Nov 2017 03:16:17 -0800 (PST)
+	bh=QTzmV2FnGaMA3Azpk4r/hrl/JBujzmc7n5+ztV4zYMY=;
+	b=cuLJSwbaJpzQE6UvUNcKIfbPr+nQN1IgkWlhdggjfue/V51n3v1vAFyh3NV8smyt9D
+	3j1Wp4rW0CtpjoKAkwnwxV3lGvRnmnYufJUqLdbmDWR4h2j6vnH1u+VOpMKZUHww0Dta
+	WN/2xZKQCFhkKMRlNewBNW99VQKWcV1SLrbNhco20nVwd90OHQh+/akxi346S07Ast9a
+	O+t1JEQ000LyyBk9QfTfoXc0rMTRAQGF76ba9C9Vw0sbnNdn3NW/vNzqZH+N6CzyNO5t
+	a9CgTUErAKlkRAzj+bg4hDON1OhqN88PQXsGgRIHuExSsom8J93gwsbWKM4dTTjGOzpy
+	ey4A==
+X-Gm-Message-State: AJaThX514/RZUfKvCZdThKObnFoVHOgYIhRKb8u4BOnO2pBkXrs4fSL5
+	6xaI7cOErLCshmcbtDF0AMqHxtFc
+X-Google-Smtp-Source: AGs4zMYtRQ3+cyaNkM1m701W6dWvyg7shmw/cQB6QcoAm7UZyqgGo9EeuRqei/SkZ9XrBrjUabY59Q==
+X-Received: by 10.237.62.153 with SMTP id n25mr60925071qtf.122.1511867831794; 
+	Tue, 28 Nov 2017 03:17:11 -0800 (PST)
 Received: from centrium.lab.ossystems ([181.220.79.73])
 	by smtp.gmail.com with ESMTPSA id
-	q1sm21952681qti.41.2017.11.28.03.16.15
+	k9sm21495509qkl.10.2017.11.28.03.17.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Nov 2017 03:16:16 -0800 (PST)
+	Tue, 28 Nov 2017 03:17:11 -0800 (PST)
 From: Fabio Berton <fabio.berton@ossystems.com.br>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 28 Nov 2017 09:15:59 -0200
-Message-Id: <20171128111559.16462-1-fabio.berton@ossystems.com.br>
+Date: Tue, 28 Nov 2017 09:16:53 -0200
+Message-Id: <20171128111653.16636-1-fabio.berton@ossystems.com.br>
 X-Mailer: git-send-email 2.14.2
 Organization: O.S. Systems Software LTDA.
-Subject: [morty][PATCH] python-*: use https for pypi URLs
+Subject: [krogoth][PATCH] python-*: use https for pypi URLs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -71,13 +71,14 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 11:16:19 -0000
+X-List-Received-Date: Tue, 28 Nov 2017 11:17:13 -0000
 
 Several of the recipes here were using http URLs for source hosted on
 pypi - pypi apparently no longer supports http so switch to https
 instead.
 
-Apply this commit [1] to morty branch.
+Apply this commit [1] to krogoth branch.
+
 [1] https://www.mail-archive.com/meta-virtualization@yoctoproject.org/msg02821.html
 
 Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
