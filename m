@@ -1,64 +1,36 @@
-Return-Path: <fabio.berton@ossystems.com.br>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B1EBCE00C0E; Tue, 28 Nov 2017 03:17:13 -0800 (PST)
+	id 11BECE00CF7; Fri,  1 Dec 2017 12:13:27 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.216.195 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qt0-f195.google.com (mail-qt0-f195.google.com
-	[209.85.216.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B3FFCE00B1E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DBA7FE00CE8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Nov 2017 03:17:12 -0800 (PST)
-Received: by mail-qt0-f195.google.com with SMTP id q13so31650767qtb.5
+	Fri,  1 Dec 2017 12:13:25 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id vB1KDPgf024865
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Nov 2017 03:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=QTzmV2FnGaMA3Azpk4r/hrl/JBujzmc7n5+ztV4zYMY=;
-	b=F8CI51f2vqrhDKEWdM0F8ePqusHj7Fh3OuEdll6MMMgcQXINecqR+DvATNIDw2s2O2
-	cZt2Gp/LBk5RbB4VkZ3PbzHo/Dpg8dutcBeIVzBCW+SkqYhsoSl0bUV79VClMOV7aD8w
-	ntXDHrIMGrw0RwgJxRZniPMlZdsiFdNr9s9tTkWrTIHCEX4J77FvdGgGlg7BOH1wxl0B
-	oyza0UKt7hpmu4UxeMefcm0bHu4gSWc2qSd/izl/nTg9J9PnU6o2mTHQCQsduWKWH8p7
-	S1l0GW+taeQQAakxWG/XkZYlXVFrobxgqTH7bD/skIxB3YTyEN5rb9huFx36XZbqN6YL
-	Cl7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=QTzmV2FnGaMA3Azpk4r/hrl/JBujzmc7n5+ztV4zYMY=;
-	b=cuLJSwbaJpzQE6UvUNcKIfbPr+nQN1IgkWlhdggjfue/V51n3v1vAFyh3NV8smyt9D
-	3j1Wp4rW0CtpjoKAkwnwxV3lGvRnmnYufJUqLdbmDWR4h2j6vnH1u+VOpMKZUHww0Dta
-	WN/2xZKQCFhkKMRlNewBNW99VQKWcV1SLrbNhco20nVwd90OHQh+/akxi346S07Ast9a
-	O+t1JEQ000LyyBk9QfTfoXc0rMTRAQGF76ba9C9Vw0sbnNdn3NW/vNzqZH+N6CzyNO5t
-	a9CgTUErAKlkRAzj+bg4hDON1OhqN88PQXsGgRIHuExSsom8J93gwsbWKM4dTTjGOzpy
-	ey4A==
-X-Gm-Message-State: AJaThX514/RZUfKvCZdThKObnFoVHOgYIhRKb8u4BOnO2pBkXrs4fSL5
-	6xaI7cOErLCshmcbtDF0AMqHxtFc
-X-Google-Smtp-Source: AGs4zMYtRQ3+cyaNkM1m701W6dWvyg7shmw/cQB6QcoAm7UZyqgGo9EeuRqei/SkZ9XrBrjUabY59Q==
-X-Received: by 10.237.62.153 with SMTP id n25mr60925071qtf.122.1511867831794; 
-	Tue, 28 Nov 2017 03:17:11 -0800 (PST)
-Received: from centrium.lab.ossystems ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	k9sm21495509qkl.10.2017.11.28.03.17.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 Nov 2017 03:17:11 -0800 (PST)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: meta-virtualization@yoctoproject.org
-Date: Tue, 28 Nov 2017 09:16:53 -0200
-Message-Id: <20171128111653.16636-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.14.2
-Organization: O.S. Systems Software LTDA.
-Subject: [krogoth][PATCH] python-*: use https for pypi URLs
+	Fri, 1 Dec 2017 12:13:25 -0800 (PST)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Fri, 1 Dec 2017 12:13:24 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
+Date: Fri, 1 Dec 2017 15:13:09 -0500
+Message-ID: <1512159189-4924-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [m-c-s][PATCH] memcached: uprev to v1.5.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -71,105 +43,221 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Nov 2017 11:17:13 -0000
+X-List-Received-Date: Fri, 01 Dec 2017 20:13:27 -0000
+Content-Type: text/plain
 
-Several of the recipes here were using http URLs for source hosted on
-pypi - pypi apparently no longer supports http so switch to https
-instead.
+Incorporate updates in the recipe found in meta-networking and add
+support for systemd.
 
-Apply this commit [1] to krogoth branch.
-
-[1] https://www.mail-archive.com/meta-virtualization@yoctoproject.org/msg02821.html
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-devtools/python/python-gevent_1.0.1.bb    | 2 +-
- recipes-devtools/python/python-m2crypto_0.22.3.bb | 2 +-
- recipes-devtools/python/python-pyyaml_3.11.bb     | 2 +-
- recipes-devtools/python/python-requests_2.8.1.bb  | 2 +-
- recipes-devtools/python/python-sphinx_1.3.1.bb    | 2 +-
- recipes-devtools/python/python-webob_1.4.1.bb     | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
+ .../memcached/memcached/configure.patch            | 13 ----
+ .../memcached/memcached-add-hugetlbfs-check.patch  | 32 ++++++++++
+ .../memcached/memcached/memcached-config.txt       |  5 ++
+ .../recipes-support/memcached/memcached_1.4.17.bb  | 44 --------------
+ .../recipes-support/memcached/memcached_1.5.3.bb   | 70 ++++++++++++++++++++++
+ 5 files changed, 107 insertions(+), 57 deletions(-)
+ delete mode 100644 meta-openstack/recipes-support/memcached/memcached/configure.patch
+ create mode 100644 meta-openstack/recipes-support/memcached/memcached/memcached-add-hugetlbfs-check.patch
+ create mode 100644 meta-openstack/recipes-support/memcached/memcached/memcached-config.txt
+ delete mode 100644 meta-openstack/recipes-support/memcached/memcached_1.4.17.bb
+ create mode 100644 meta-openstack/recipes-support/memcached/memcached_1.5.3.bb
 
-diff --git a/recipes-devtools/python/python-gevent_1.0.1.bb b/recipes-devtools/python/python-gevent_1.0.1.bb
-index 47f1267..8ac1295 100644
---- a/recipes-devtools/python/python-gevent_1.0.1.bb
-+++ b/recipes-devtools/python/python-gevent_1.0.1.bb
-@@ -13,7 +13,7 @@ RDEPENDS_${PN} += "python-greenlet python-mime python-pprint python-re"
- 
- SRCNAME = "gevent"
- 
--SRC_URI = "http://pypi.python.org/packages/source/g/gevent/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/g/gevent/${SRCNAME}-${PV}.tar.gz"
- SRC_URI[md5sum] = "7b952591d1a0174d6eb6ac47bd975ab6"
- SRC_URI[sha256sum] = "4627e215d058f71d95e6b26d9e7be4c263788a4756bd2858a93775f6c072df43"
- 
-diff --git a/recipes-devtools/python/python-m2crypto_0.22.3.bb b/recipes-devtools/python/python-m2crypto_0.22.3.bb
-index 95d6eec..9814d3d 100644
---- a/recipes-devtools/python/python-m2crypto_0.22.3.bb
-+++ b/recipes-devtools/python/python-m2crypto_0.22.3.bb
-@@ -14,7 +14,7 @@ LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://PKG-INFO;md5=0ccca7097c1d29fa42e75e9c15c6ff2e"
- 
- SRCNAME = "M2Crypto"
--SRC_URI = "http://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
-+SRC_URI = "https://pypi.python.org/packages/source/M/M2Crypto/${SRCNAME}-${PV}.tar.gz \
-            file://m2crypto-Fix-build-with-SWIG-3.0.5.patch \
- "
- 
-diff --git a/recipes-devtools/python/python-pyyaml_3.11.bb b/recipes-devtools/python/python-pyyaml_3.11.bb
-index cb1db8c..9a6f2f6 100644
---- a/recipes-devtools/python/python-pyyaml_3.11.bb
-+++ b/recipes-devtools/python/python-pyyaml_3.11.bb
-@@ -18,7 +18,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=6015f088759b10e0bc2bf64898d4ae17"
- 
- SRCNAME = "PyYAML"
--SRC_URI = "http://pyyaml.org/download/pyyaml/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pyyaml.org/download/pyyaml/${SRCNAME}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "f50e08ef0fe55178479d3a618efe21db"
- SRC_URI[sha256sum] = "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
-diff --git a/recipes-devtools/python/python-requests_2.8.1.bb b/recipes-devtools/python/python-requests_2.8.1.bb
-index 187f97a..d266780 100644
---- a/recipes-devtools/python/python-requests_2.8.1.bb
-+++ b/recipes-devtools/python/python-requests_2.8.1.bb
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=58c7e163c9f8ee037246da101c6afd1e"
- 
- SRCNAME = "requests"
- 
--SRC_URI = "http://pypi.python.org/packages/source/r/requests/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/r/requests/${SRCNAME}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "a27ea3d72d7822906ddce5e252d6add9"
- SRC_URI[sha256sum] = "84fe8d5bf4dcdcc49002446c47a146d17ac10facf00d9086659064ac43b6c25b"
-diff --git a/recipes-devtools/python/python-sphinx_1.3.1.bb b/recipes-devtools/python/python-sphinx_1.3.1.bb
-index fe8ad94..d8cef30 100644
---- a/recipes-devtools/python/python-sphinx_1.3.1.bb
-+++ b/recipes-devtools/python/python-sphinx_1.3.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=6dd095eaa1e7a662b279daf80ecad7e6"
- PR = "r0"
- SRCNAME = "Sphinx"
- 
--SRC_URI = "http://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "8786a194acf9673464c5455b11fd4332"
- SRC_URI[sha256sum] = "1a6e5130c2b42d2de301693c299f78cc4bd3501e78b610c08e45efc70e2b5114"
-diff --git a/recipes-devtools/python/python-webob_1.4.1.bb b/recipes-devtools/python/python-webob_1.4.1.bb
-index 18b3806..e566363 100644
---- a/recipes-devtools/python/python-webob_1.4.1.bb
-+++ b/recipes-devtools/python/python-webob_1.4.1.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://docs/license.txt;md5=8ed3584bcc78c16da363747ccabc5af5
- PR = "r0"
- SRCNAME = "WebOb"
- 
--SRC_URI = "http://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
-+SRC_URI = "https://pypi.python.org/packages/source/W/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
- 
- SRC_URI[md5sum] = "a5c6e8ba5431756e6a5d5ec56047ec94"
- SRC_URI[sha256sum] = "12f8b98390befc47336d2c0e5bad9cc48609d808eabb3f8675dc1027a3a9e9db"
+diff --git a/meta-openstack/recipes-support/memcached/memcached/configure.patch b/meta-openstack/recipes-support/memcached/memcached/configure.patch
+deleted file mode 100644
+index 7001a0e..0000000
+--- a/meta-openstack/recipes-support/memcached/memcached/configure.patch
++++ /dev/null
+@@ -1,13 +0,0 @@
+-Index: memcached-1.4.17/configure.ac
+-===================================================================
+---- memcached-1.4.17.orig/configure.ac	2013-12-20 21:44:49.000000000 +0000
+-+++ memcached-1.4.17/configure.ac	2014-07-18 07:17:00.593499483 +0000
+-@@ -4,7 +4,7 @@
+- AC_INIT(memcached, VERSION_NUMBER, memcached@googlegroups.com)
+- AC_CANONICAL_SYSTEM
+- AC_CONFIG_SRCDIR(memcached.c)
+--AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
+-+AM_INIT_AUTOMAKE([foreign])
+- AM_CONFIG_HEADER(config.h)
+- 
+- AC_PROG_CC
+diff --git a/meta-openstack/recipes-support/memcached/memcached/memcached-add-hugetlbfs-check.patch b/meta-openstack/recipes-support/memcached/memcached/memcached-add-hugetlbfs-check.patch
+new file mode 100644
+index 0000000..544b840
+--- /dev/null
++++ b/meta-openstack/recipes-support/memcached/memcached/memcached-add-hugetlbfs-check.patch
+@@ -0,0 +1,32 @@
++memcached: add knob to detect whether hugetlbfs are checked
++
++Add knob to detect whether hugetlbfs are checked or not.
++
++Upstream-Status: Pending
++
++Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
++---
++ configure.ac | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 7f22f21..21691b9 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -314,7 +314,12 @@ fi
++ dnl ----------------------------------------------------------------------------
++ 
++ AC_SEARCH_LIBS(umem_cache_create, umem)
++-AC_SEARCH_LIBS(gethugepagesizes, hugetlbfs)
+++AC_ARG_ENABLE(hugetlbfs,
+++  [AS_HELP_STRING([--enable-hugetlbfs],[Enable hugetlbfs])])
+++
+++if test "x$enable_hugetlbfs" = "xyes"; then
+++  AC_SEARCH_LIBS(gethugepagesizes, hugetlbfs)
+++fi
++ 
++ AC_HEADER_STDBOOL
++ AH_BOTTOM([#if HAVE_STDBOOL_H
++-- 
++1.8.3.4
++
+diff --git a/meta-openstack/recipes-support/memcached/memcached/memcached-config.txt b/meta-openstack/recipes-support/memcached/memcached/memcached-config.txt
+new file mode 100644
+index 0000000..7e6441e
+--- /dev/null
++++ b/meta-openstack/recipes-support/memcached/memcached/memcached-config.txt
+@@ -0,0 +1,5 @@
++PORT="11211"
++USER="nobody"
++MAXCONN="1024"
++CACHESIZE="64"
++OPTIONS=""
+diff --git a/meta-openstack/recipes-support/memcached/memcached_1.4.17.bb b/meta-openstack/recipes-support/memcached/memcached_1.4.17.bb
+deleted file mode 100644
+index 6097693..0000000
+--- a/meta-openstack/recipes-support/memcached/memcached_1.4.17.bb
++++ /dev/null
+@@ -1,44 +0,0 @@
+-SUMMARY = "A high-performance memory object caching system"
+-DESCRIPTION = "\
+- memcached optimizes specific high-load serving applications that are designed \
+- to take advantage of its versatile no-locking memory access system. Clients \
+- are available in several different programming languages, to suit the needs \
+- of the specific application. Traditionally this has been used in mod_perl \
+- apps to avoid storing large chunks of data in Apache memory, and to share \
+- this burden across several machines."
+-
+-HOMEPAGE = "http://memcached.org/"
+-LICENSE = "BSD-3-Clause"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=7e5ded7363d335e1bb18013ca08046ff"
+-
+-inherit autotools
+-
+-DEPENDS += "libevent"
+-RDEPENDS_${PN} += "bash perl perl-module-posix perl-module-autoloader perl-module-tie-hash"
+-
+-SRC_URI = "http://www.memcached.org/files/${BP}.tar.gz \
+-           file://configure.patch"
+-
+-SRC_URI[md5sum] = "46402dfbd7faadf6182283dbbd18b1a6"
+-SRC_URI[sha256sum] = "d9173ef6d99ba798c982ea4566cb4f0e64eb23859fdbf9926a89999d8cdc0458"
+-
+-python __anonymous () {
+-    endianness = d.getVar('SITEINFO_ENDIANNESS', True)
+-    if endianness == 'le':
+-        d.setVar('EXTRA_OECONF', "ac_cv_c_endian=little")
+-    else:
+-        d.setVar('EXTRA_OECONF', "ac_cv_c_endian=big")
+-}
+-
+-inherit update-rc.d
+-
+-INITSCRIPT_NAME = "memcached"
+-INITSCRIPT_PARAMS = "defaults"
+-
+-do_install_append() {
+-    install -D -m 755 ${S}/scripts/memcached-init ${D}${sysconfdir}/init.d/memcached
+-    mkdir -p ${D}/usr/share/memcached/scripts
+-    install -m 755 ${S}/scripts/memcached-tool ${D}/usr/share/memcached/scripts
+-    install -m 755 ${S}/scripts/start-memcached ${D}/usr/share/memcached/scripts
+-}
+diff --git a/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb b/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb
+new file mode 100644
+index 0000000..b2d776b
+--- /dev/null
++++ b/meta-openstack/recipes-support/memcached/memcached_1.5.3.bb
+@@ -0,0 +1,70 @@
++SUMMARY = "A high-performance memory object caching system"
++DESCRIPTION = "\
++ memcached optimizes specific high-load serving applications that are designed \
++ to take advantage of its versatile no-locking memory access system. Clients \
++ are available in several different programming languages, to suit the needs \
++ of the specific application. Traditionally this has been used in mod_perl \
++ apps to avoid storing large chunks of data in Apache memory, and to share \
++ this burden across several machines."
++SECTION = "web"
++HOMEPAGE = "http://memcached.org/"
++LICENSE = "BSD-3-Clause"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=7e5ded7363d335e1bb18013ca08046ff"
++
++inherit autotools systemd
++
++DEPENDS += "libevent"
++RDEPENDS_${PN} += "\
++    bash \
++    perl \
++    perl-module-posix \
++    perl-module-autoloader \
++    perl-module-tie-hash \
++    "
++
++SRC_URI = "http://www.memcached.org/files/${BP}.tar.gz \
++           file://memcached-add-hugetlbfs-check.patch \
++           file://memcached-config.txt \
++           "
++
++SRC_URI[md5sum] = "263819baf411388b3f72700a3212d4e2"
++SRC_URI[sha256sum] = "258cc3ddb7613685465acfd0215f827220a3bbdd167fd2c080632105b2d2f3ce"
++
++# set the same COMPATIBLE_HOST as libhugetlbfs
++COMPATIBLE_HOST = '(i.86|x86_64|powerpc|powerpc64|arm).*-linux'
++
++python __anonymous () {
++    endianness = d.getVar('SITEINFO_ENDIANNESS', True)
++    if endianness == 'le':
++        d.setVar('EXTRA_OECONF', "ac_cv_c_endian=little")
++    else:
++        d.setVar('EXTRA_OECONF', "ac_cv_c_endian=big")
++}
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[hugetlbfs] = "--enable-hugetlbfs, --disable-hugetlbfs, libhugetlbfs"
++
++inherit update-rc.d
++
++INITSCRIPT_NAME = "memcached"
++INITSCRIPT_PARAMS = "defaults"
++
++SYSTEMD_PACKAGES = "memcached"
++SYSTEMD_SERVICE_${PN} = "memcached.service"
++
++do_install_append() {
++    install -D -m 755 ${S}/scripts/memcached-init ${D}${sysconfdir}/init.d/memcached
++    
++    mkdir -p ${D}/usr/share/memcached/scripts
++    install -m 755 ${S}/scripts/memcached-tool ${D}/usr/share/memcached/scripts
++    install -m 755 ${S}/scripts/start-memcached ${D}/usr/share/memcached/scripts
++
++    install -d ${D}/${sysconfdir}/default
++    install -m 600 ${WORKDIR}/memcached-config.txt ${D}/${sysconfdir}/default/memcached
++
++    install -d ${D}/${systemd_system_unitdir}
++    install -m 644 ${S}/scripts/memcached.service ${D}/${systemd_system_unitdir}/.
++    sed -e "s@^EnvironmentFile=.*@EnvironmentFile=${sysconfdir}/default/memcached@" \
++        -i ${D}/${systemd_system_unitdir}/memcached.service
++}
 -- 
-2.14.2
+2.7.4
 
 
