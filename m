@@ -1,6 +1,6 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9B73BE00D75; Fri, 22 Dec 2017 13:03:11 -0800 (PST)
+	id B2550E00E16; Mon, 25 Dec 2017 17:23:21 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,25 +12,25 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3E1FBE00D1C
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2CE32E00DA5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 22 Dec 2017 13:03:10 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBML3AFH011478
+	Mon, 25 Dec 2017 17:23:14 -0800 (PST)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id vBQ1NEom009682
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 22 Dec 2017 13:03:10 -0800 (PST)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Fri, 22 Dec 2017 13:03:09 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
-Date: Fri, 22 Dec 2017 16:03:04 -0500
-Message-ID: <1513976584-12906-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 25 Dec 2017 17:23:14 -0800 (PST)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.361.1; Mon, 25 Dec 2017 17:22:56 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 26 Dec 2017 09:20:48 +0800
+Message-ID: <20171226012050.23647-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Subject: [PATCH] lxc: add missing RDEPENDS
+Subject: [PATCH 1/3] libibverbs: provide virtual/libibverbs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,37 +43,34 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Dec 2017 21:03:11 -0000
+X-List-Received-Date: Tue, 26 Dec 2017 01:23:21 -0000
 Content-Type: text/plain
 
-When attempting to create a container using
+dpdk-dev-libibverbs recipe provides the same library as what libibverbs
+provides. To avoid building these two recipes at the same time at one
+single build, we use the technique of 'virtual/libibverbs'.
 
-lxc-create -t download -n test -- no-validate --dist ubuntu --release \
-xenial --arch amd64
+Make libibverbs provide 'virtual/libibverbs' so that other recipes could
+use 'virtual/libibverbs' as their dependencies. In this way, potential
+conflicts are avoided.
 
-the container creation will fail due to missing 'xz' and in the case
-of 'tar' due to invalid options if the busybox version of 'tar' is
-used.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- recipes-containers/lxc/lxc_2.0.8.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-extended/libibverbs/libibverbs_1.1.7.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
-index b616e94..651eb72 100644
---- a/recipes-containers/lxc/lxc_2.0.8.bb
-+++ b/recipes-containers/lxc/lxc_2.0.8.bb
-@@ -6,6 +6,8 @@ DEPENDS = "libxml2 libcap"
- RDEPENDS_${PN} = " \
- 		rsync \
- 		gzip \
-+		xz \
-+		tar \
- 		libcap-bin \
- 		bridge-utils \
- 		dnsmasq \
+diff --git a/recipes-extended/libibverbs/libibverbs_1.1.7.bb b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+index 9fc0d6e..b3cd73f 100644
+--- a/recipes-extended/libibverbs/libibverbs_1.1.7.bb
++++ b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+@@ -26,4 +26,5 @@ do_install_append() {
+         rm -f ${D}${libdir}/libibverbs.la
+ }
+ 
+-RCONFLICTS_${PN} = "dpdk-dev-libibverbs"
++PROVIDES = "virtual/libibverbs"
++RPROVIDES_${PN} = "virtual/libibverbs"
 -- 
-2.7.4
+2.11.0
 
 
