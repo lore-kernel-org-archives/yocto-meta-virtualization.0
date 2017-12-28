@@ -1,17 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 36A04E00DB6; Thu, 28 Dec 2017 08:16:15 -0800 (PST)
+	id EB242E00D94; Thu, 28 Dec 2017 08:16:24 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
 	*      [209.85.220.195 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -21,47 +21,47 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-qk0-f195.google.com (mail-qk0-f195.google.com
 	[209.85.220.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E766AE00D89
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 55130E00D7B
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 28 Dec 2017 08:16:13 -0800 (PST)
-Received: by mail-qk0-f195.google.com with SMTP id d202so25654234qkc.9
+	Thu, 28 Dec 2017 08:16:24 -0800 (PST)
+Received: by mail-qk0-f195.google.com with SMTP id g81so20396885qke.1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 28 Dec 2017 08:16:13 -0800 (PST)
+	Thu, 28 Dec 2017 08:16:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=b4pNAcdPw0Vb2phrz0DyDzLRyWJQB0hPX8EhfDjoeSo=;
-	b=OohYtv7N/4/Wlvdr+6e/VA78/dbbqMTI+wF7AWgfbzsQOBtIOpO6nNHyUGTMcSpSqQ
-	59nIWEUaTRUb4du64iImiZ0PEvXhELa46sKyI7aiaEmOvD3Fq1Sm4Yzr5hM6gfLJecGN
-	0ETFNUyjwpZv4SXzT1++JPmDvMDMC9v/ceLFWlPn3bUDaEtp+yvTppaf4qn6XifU+afh
-	eLtVYCLx7i4Ig/xY/kaJSMEczYEkaWFPob+RZWydq6WHINv4otPlk3b/RNLjMLtLajYG
-	Eu6dDm+cOMKZ1sqKIsFMJqfNr4bNbRBSt7M8yfc8PoTR2+HUGeUrWkYIfdbMBp35yRp/
-	Fe9Q==
+	:cc; bh=1z7E7joI+53bzh/+m4G+UKDUHqXh09uBLGYoIAb8dQg=;
+	b=U+noVaePIXroroQcbSEsHf1nR1IcMG+KNeOJyh1uXwqx3lxCngoBrF4xY7yabZ41Cv
+	Ms4MkVi5J0Is8hlcZmZD3o5o2ApKwyHbfGKRLjmrfZEEUEkByXCYfJZJVCAcFmkBNCTL
+	yhW7wwHsceJhMPkF2bKHdwcDTwl6qJLRl4qgLxvZaDtUPmMRmbFGQJArUzqz/vIJ4Faj
+	ZnECe6Y4WBjkWfNWSHCqpztv/PQAbAJ8Y+p8Vh2btJbvx4WbSxmqY4tDOjPff46Y8t61
+	uwW1huvtGmR2TopXZxVunQh2nE/u296BplEirj0ohNUAPMzUMarE2f8XOapSDxWiO0hF
+	x6yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=b4pNAcdPw0Vb2phrz0DyDzLRyWJQB0hPX8EhfDjoeSo=;
-	b=Z70+f02dLIOQAuM61+k1ZSpGLFKbSYl4h/P4lcKuZ3eIgoNzpAt0BlR8EpgrN5TTSV
-	ZCuVWrG5JfaQDY0N8hsQG/41FPYvqkbqFPI4ejGvMrbmU5B+g32d6OQbJuq7CYA6cpwP
-	1/LbuL6B/zHSW2BikjtTWct81DWsYyC0jq4PGmbKrM95bwAF655lsRixf9vMD1TA5N7M
-	LqdRbJdruZsgmc0R+kX7KHcGkb1o5n7urLVlHWXA+7EO5O6SJntDTpGHlQtLs1XF6tDa
-	vbrDUObtvDHUgO98XcVQ1bh4aYexQdJi8Tf7L63Eb8j0P+w7Mc5dkAgOtzwEUCZjC/Ed
-	31Mw==
-X-Gm-Message-State: AKGB3mI6/r/HWpAtBvOe4UaMOKrpKS0y2I2SzjF6qxokNKh/Mv6GFQqS
-	yPxlXRNl8PDYIP1ZK5fvJeZkdtoqta1jF+M9l9k=
-X-Google-Smtp-Source: ACJfBova6+2A/5Qx4WJWGPvmuFAA/tBoLCiassGvl9FFGKMjq97kI76qNcNYeTJcRzj87NfJ62RCfClE3W1kA+jf4hs=
-X-Received: by 10.55.112.3 with SMTP id l3mr26815135qkc.94.1514477773003; Thu,
-	28 Dec 2017 08:16:13 -0800 (PST)
+	bh=1z7E7joI+53bzh/+m4G+UKDUHqXh09uBLGYoIAb8dQg=;
+	b=Nn8Uc9IChcRSAQgSVsuR8VAkO7PDbY49CRV+EJkAQcovfMvlzaf9zV2QSf2WZc4I86
+	3/OWk4M2APBJHR240IW4YobsykuPz859o3Mh7okD0gU+Dp1ceQyO2Anyj3lziyYVykSG
+	9QwRl5hlje7YHvQvKofaRfBj3XAdA2cJRaJ1SYeFS2vmRJqNpjw47liR3/TGzLHGyZjD
+	xzRqC8PnWbIf/McoU3mrYVGTv1vHqRg9VfbMc53wI9O97k1xYZ6bxE1y0RhJCnJLXEnm
+	Ty4lHg6EWBKi2dHhe5kHnLfgae6W90kxYF5pJOQ+33i2jGmMigysIpydrcn1y4zGtWQ+
+	AXcQ==
+X-Gm-Message-State: AKGB3mJ9JpmDacj+P0fWW7gbg/UxSVUMmBU8CP8HVxEp20QciwhW5Xk2
+	7HvhCUKAn5IsEYayZI5vzaMO557rDyhcdKoaoSVBwQ==
+X-Google-Smtp-Source: ACJfBosRhb7To587UK5LkiNn3jQDA+C2i+wptifSVqo6KTnzFL71zJqzlBw3xjg56BirkRnho7cOohOt97GmVVGjHzI=
+X-Received: by 10.55.94.130 with SMTP id s124mr21167417qkb.103.1514477783814; 
+	Thu, 28 Dec 2017 08:16:23 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.12.182.96 with HTTP; Thu, 28 Dec 2017 08:16:12 -0800 (PST)
-In-Reply-To: <1513742577-8379-1-git-send-email-mark.asselstine@windriver.com>
-References: <1513742577-8379-1-git-send-email-mark.asselstine@windriver.com>
+Received: by 10.12.182.96 with HTTP; Thu, 28 Dec 2017 08:16:23 -0800 (PST)
+In-Reply-To: <1513742590-8705-1-git-send-email-mark.asselstine@windriver.com>
+References: <1513742590-8705-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 28 Dec 2017 12:16:12 -0400
-Message-ID: <CADkTA4O_V6Yw1_h5iDj2CoA3VfGxTQbChj5G3_VxMh2g8+MJNw@mail.gmail.com>
+Date: Thu, 28 Dec 2017 12:16:23 -0400
+Message-ID: <CADkTA4N1QgELF6k8wWKG9QQdaY49_nkhxB4BjF=b8ZhkKyvLXA@mail.gmail.com>
 To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] kvm-image-minimal: drop remaining ROOTFS_PKGMANAGE_BOOTSTRAP
+Subject: Re: [PATCH] iptables: add to our list of RRECOMMENDS
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,41 +74,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Dec 2017 16:16:15 -0000
+X-List-Received-Date: Thu, 28 Dec 2017 16:16:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged.
 
 Bruce
 
-On Wed, Dec 20, 2017 at 12:02 AM, Mark Asselstine
+On Wed, Dec 20, 2017 at 12:03 AM, Mark Asselstine
 <mark.asselstine@windriver.com> wrote:
-> Commit 4eee02bd6405557c664f91b6079c2f203d48c545 [meta-virtualization:
-> Drop ROOTFS_PKGMANAGE_BOOTSTRAP] missed this instance so we are
-> removing this last reference to ROOTFS_PKGMANAGE_BOOTSTRAP now.
->
-> The ROOTFS_PKGMANAGE_BOOTSTRAP has been universally removed since
-> oe-core commit 697804229a172125ce7d3bfc9b343812d6fe3240
-> [run-postinsts: simplify the logic of whether to install it to
-> images].
+> Extend the list of RRECOMMENDS to include some essential kernel
+> modules needed to make iptables minimally useful. Specifically include
+> the common tables and conntrack, all of which are used by even basic
+> iptables configurations. While at it I also made things more
+> consistent for ipv4 vs ipv6.
 >
 > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
->  recipes-extended/images/kvm-image-minimal.bb | 1 -
->  1 file changed, 1 deletion(-)
+>  recipes-extended/iptables/iptables_1.%.bbappend | 13 ++++++++++++-
+>  1 file changed, 12 insertions(+), 1 deletion(-)
 >
-> diff --git a/recipes-extended/images/kvm-image-minimal.bb b/recipes-extended/images/kvm-image-minimal.bb
-> index c96edca..b28cc30 100644
-> --- a/recipes-extended/images/kvm-image-minimal.bb
-> +++ b/recipes-extended/images/kvm-image-minimal.bb
-> @@ -2,7 +2,6 @@ DESCRIPTION = "A minimal kvm image"
->
->  IMAGE_INSTALL = " \
->      packagegroup-core-boot \
-> -    ${ROOTFS_PKGMANAGE_BOOTSTRAP} \
->      qemu \
->      libvirt \
->      libvirt-libvirtd \
+> diff --git a/recipes-extended/iptables/iptables_1.%.bbappend b/recipes-extended/iptables/iptables_1.%.bbappend
+> index 52a4c4f..8fd521c 100644
+> --- a/recipes-extended/iptables/iptables_1.%.bbappend
+> +++ b/recipes-extended/iptables/iptables_1.%.bbappend
+> @@ -1,8 +1,19 @@
+>  RRECOMMENDS_${PN} += "kernel-module-ip6-tables \
+> +                      kernel-module-ip-tables \
+>                        kernel-module-ip6table-filter \
+> -                      kernel-module-xt-tcpudp \
+> +                      kernel-module-iptable-filter \
+> +                      kernel-module-ip6table-raw \
+> +                      kernel-module-iptable-raw \
+> +                      kernel-module-ip6table-nat \
+> +                      kernel-module-iptable-nat \
+> +                      kernel-module-ip6table-mangle \
+> +                      kernel-module-iptable-magle \
+> +                      kernel-module-ip6table-security \
+> +                      kernel-module-iptable-security \
+>                        kernel-module-ipt-reject \
+>                        kernel-module-iptable-mangle \
+>                        kernel-module-xt-checksum \
+> +                      kernel-module-xt-conntrack \
+>                        kernel-module-xt-state \
+> +                      kernel-module-xt-tcpudp \
+>                        "
 > --
 > 2.7.4
 >
