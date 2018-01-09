@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 58115E00E04; Tue,  9 Jan 2018 12:15:34 -0800 (PST)
+	id 68AA6E00E12; Tue,  9 Jan 2018 12:15:35 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52059E00CE8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1BDF1E00E23
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  9 Jan 2018 12:15:28 -0800 (PST)
+	Tue,  9 Jan 2018 12:15:29 -0800 (PST)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w09KFSJs016424
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w09KFSDi010269
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 9 Jan 2018 12:15:28 -0800 (PST)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Tue, 9 Jan 2018 12:15:27 -0800
+	Tue, 9 Jan 2018 12:15:28 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Tue, 9 Jan 2018 15:15:04 -0500
-Message-ID: <1515528906-6892-10-git-send-email-mark.asselstine@windriver.com>
+Date: Tue, 9 Jan 2018 15:15:05 -0500
+Message-ID: <1515528906-6892-11-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1515528906-6892-1-git-send-email-mark.asselstine@windriver.com>
 References: <1515528906-6892-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH 10/12] python-tinyrpc: initial version
+Subject: [m-c-s][PATCH 11/12] python-ryu: uprev to latest, v4.19
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,46 +45,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jan 2018 20:15:34 -0000
+X-List-Received-Date: Tue, 09 Jan 2018 20:15:35 -0000
 Content-Type: text/plain
 
-This is needed for the uprev of python-ryu. This requires new recipes
-for python-jsonext and python-gevent-websocket.
+This is required by the stable/pike version of python-neutron. This
+requires the introduction of python-tinyrpc and python-ovs.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../recipes-devtools/python/python-tinyrpc_0.6.bb  | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-tinyrpc_0.6.bb
+ meta-openstack/recipes-devtools/python/python-ryu_git.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-tinyrpc_0.6.bb b/meta-openstack/recipes-devtools/python/python-tinyrpc_0.6.bb
-new file mode 100644
-index 0000000..28e230d
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-tinyrpc_0.6.bb
-@@ -0,0 +1,22 @@
-+DESCRIPTION = "A small, modular, transport and protocol neutral \
-+RPC library that, among other things, supports JSON-RPC and zmq."
-+HOMEPAGE = "http://github.com/mbr/tinyrpc"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
-+
-+SRC_URI[md5sum] = "2663568ba3e1793da7b21003f0847fdd"
-+SRC_URI[sha256sum] = "b4d64227f023f1f0736ef137bd4c901c7652563e62c7a20329222c3a0b14d84f"
-+
-+inherit setuptools pypi
-+
-+RDEPENDS_${PN} += " \
-+        python-six \
-+        python-gevent \
-+        python-requests \
-+        python-websocket-client \
-+        python-jsonext \
-+        python-gevent-websocket \
-+        python-werkzeug \
-+        python-pyzmq \
-+        "
+diff --git a/meta-openstack/recipes-devtools/python/python-ryu_git.bb b/meta-openstack/recipes-devtools/python/python-ryu_git.bb
+index adf7957..b5ee113 100644
+--- a/meta-openstack/recipes-devtools/python/python-ryu_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-ryu_git.bb
+@@ -4,8 +4,8 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-PV = "3.27+git${SRCPV}"
+-SRCREV = "0aefad7048079656cdaad138be58f017e6b4f1ce"
++PV = "4.19+git${SRCPV}"
++SRCREV = "51a1130f6cdcb029a51b6a75d43ac5e4cdde7072"
+ 
+ SRCNAME = "ryu"
+ SRC_URI = "git://github.com/osrg/${SRCNAME}.git"
+@@ -26,7 +26,9 @@ RDEPENDS_${PN} += " \
+         python-msgpack \
+         python-netaddr \
+         python-oslo.config \
++        python-ovs \
+         python-routes \
+         python-six \
++        python-tinyrpc \
+         python-webob \
+         "
 -- 
 2.7.4
 
