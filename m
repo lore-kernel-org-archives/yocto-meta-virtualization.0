@@ -1,63 +1,67 @@
-Return-Path: <jkrishnanjanappa@mvista.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 85C82E00EB4; Tue, 16 Jan 2018 22:25:02 -0800 (PST)
+	id CBB4DE00DD2; Wed, 17 Jan 2018 05:10:27 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.216.196 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.192.195 listed in list.dnswl.org]
-Received: from mail-pf0-f195.google.com (mail-pf0-f195.google.com
-	[209.85.192.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 75884E008A4
+Received: from mail-qt0-f196.google.com (mail-qt0-f196.google.com
+	[209.85.216.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3279AE00EBB
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Jan 2018 22:25:01 -0800 (PST)
-Received: by mail-pf0-f195.google.com with SMTP id p1so11011146pfh.4
+	Wed, 17 Jan 2018 05:10:24 -0800 (PST)
+Received: by mail-qt0-f196.google.com with SMTP id i1so5572041qtj.8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Jan 2018 22:25:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=bphiYEuL72POAoK3GwlAUV8Yr0EcP3+Uo+AObRw6nbg=;
-	b=Vx2wGyfCrxolh5TL1RSldLZwrUuySBwtFlpEwOYvLp/R60M4Lj0tPWWo7mzNS6uJjo
-	2U9/3AclAR1xmZ8J6BhnodGkVeXMV3bvuaYw78/RE9w8IbgsyxfRUP+/iC92bKly4kMI
-	01z8CsQIpO7veQbJy2CyhZCg5aFSDsxUlDuorZGkeHMbf06ffAWssZDK9xkMi4ZCaGeO
-	irrhBuN8qk8OKKICBzRDWekIhRs5Dr6FQm0xetHFhsUP2FhkPlzfZp4qo8ArpuBoBylU
-	IrcOq93iYs6CNvBM03KeZh+eENJpllHcqnJ7rAkUAsCju/QM+IfzKg+VJDKCdDzt3Ke1
-	ODNg==
+	Wed, 17 Jan 2018 05:10:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=WulMwG16cZWx9HH2vtsmH/S7gWuin2+/pRNijEOCzM8=;
+	b=Bq6LuqAWaMQYe8qJn4OkKql49AtjeGJo+EppYr4Z0KjN2jk6VL+peGELS0X4IuvEwG
+	jsBQnX/9dt2QUXyfyNqkAJ+E5lWlUeG/WlyDI1cIaiX+N3ogo04yL3EhdP4LoQ1x40eS
+	6j8n5NxiI2BHbj7qdRq1e7+PnkRmO6eqirsL4KBR/8xe2KfUHCmP65kU2RLVc3p70O7T
+	P5cdgFEOy5vHh8xXmMq/2NZBDG1VUJKk1y+n2JX/8btbo/0vHlolhWXiYo4PQ9+KNRlG
+	fjSDhTg80a2VtZWrvbMP3nJDCO7uagzfDg2zcSMe1PEnxKR5cRKwuAxHmj3SrcqCOFJl
+	jeGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bphiYEuL72POAoK3GwlAUV8Yr0EcP3+Uo+AObRw6nbg=;
-	b=EEPF8uQgudAq15S2g+JV8IpGcaudm2McHpJ+ApHVRZXsEzBsw1RsopQBAiQNosztkw
-	oIvv2OSh8ditgMcoczmI9xKINA0jVIi0exhlFYMnFxqNrdqoRYo5oZiZUnUHQw3KkKW3
-	R7KQX8kOi4Zp6tiFCnphK4pQxfT6kZJVrwh12ZrTQIX4V3YUBtJG9Y1OIb5KvR7cIFsU
-	z5xQvqqq0t7s+beNt/uweKPjNTb9+kDVM2X4Ytb4Utjd8IXWllaI5dJ1oROScGU0KuKY
-	PjYM0/1oAAF6zshGjaSDQacU7NuBj1ShHO9/a8PSmcUlrAhXUphOJ0a7/vReHWA3r3S1
-	iENg==
-X-Gm-Message-State: AKGB3mIPxuZPqcE58eyIaegmRpAUAuDBeIK5guUkLjsIGCOkeBMvc5HO
-	H++I/8zKlI7zSmDbAem8OFVHnvRA
-X-Google-Smtp-Source: ACJfBosysQNn068AyqXbiRhaAq984j1nmcEl75U1OYX1tBlguQfXwb4k3ol4u3GYNyy63X8YdV9drA==
-X-Received: by 10.99.107.201 with SMTP id g192mr25344933pgc.295.1516170299705; 
-	Tue, 16 Jan 2018 22:24:59 -0800 (PST)
-Received: from jkrishnanjanappa-VPCEB26FG.mvista.com ([157.49.245.89])
-	by smtp.gmail.com with ESMTPSA id
-	e189sm5147329pfa.4.2018.01.16.22.24.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 16 Jan 2018 22:24:59 -0800 (PST)
-From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-To: meta-virtualization@yoctoproject.org
-Date: Wed, 17 Jan 2018 11:52:51 +0530
-Message-Id: <1516170171-9569-1-git-send-email-jkrishnanjanappa@mvista.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [master][rocko][PATCH] cni: fix build error for arm64
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=WulMwG16cZWx9HH2vtsmH/S7gWuin2+/pRNijEOCzM8=;
+	b=rr5H79q62Ite9fT4ss8mBQH6XnprKhEx9a4eP3NdtACY/AHU9W/1Fih5kspH+6AtLJ
+	UadgS2LH9pWYPC7jAabenTtsRueiDu0v9S/bE8RpEFF+5qi+kDhoumwsulix36nPjjpj
+	DYLl+ZT2xT22A01q0gJsmqmyq5Vmud62F4DN0YvGn4VlzdYgI3oBow87sq4ocIQ5CSE9
+	YQ8+NBOR8R7QeHrzSUWgeXAUU8FGo8+EvFCVM/oejB0mRUF8UE8iv9proJrYPnqu4AUf
+	NkfeZg7i2MNhghPcMccOefa6pf0ebrLQdMqyUiL1rwjRb0X1XaJoBUejSjXvmix9Ck5F
+	w5tg==
+X-Gm-Message-State: AKwxyte5tO8D3EHvFAvxO6dX3neOsA9Sq2PHfQ4KjR6Fdi9rTJyOMg0n
+	nZ6S+i6BL3Bj+oTIwoQBbaDe0kXviPB698edOtI=
+X-Google-Smtp-Source: ACJfBouDZ4hDltWJL/Xz6i+iQyYJMJf7uaByMLNY1FEQWNQ00TZR+PcFIpH0myRg/KFlXl88iwp5V3P+eG9HU4pE/Tk=
+X-Received: by 10.237.52.101 with SMTP id w92mr16327424qtd.204.1516194623972; 
+	Wed, 17 Jan 2018 05:10:23 -0800 (PST)
+MIME-Version: 1.0
+Received: by 10.12.182.82 with HTTP; Wed, 17 Jan 2018 05:10:23 -0800 (PST)
+In-Reply-To: <1516170171-9569-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1516170171-9569-1-git-send-email-jkrishnanjanappa@mvista.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 17 Jan 2018 08:10:23 -0500
+Message-ID: <CADkTA4NSPHKx-rfx1xCG4vN9avrYM9d8iUdANx+5TmA8cPTwWQ@mail.gmail.com>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [master][rocko][PATCH] cni: fix build error for arm64
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -70,42 +74,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jan 2018 06:25:02 -0000
+X-List-Received-Date: Wed, 17 Jan 2018 13:10:27 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Replace syscall.Dup2 calls with syscall.Dup3, as syscall.Dup2 is not
-supported for arm64.
+On Wed, Jan 17, 2018 at 1:22 AM, Jagadeesh Krishnanjanappa
+<jkrishnanjanappa@mvista.com> wrote:
+> Replace syscall.Dup2 calls with syscall.Dup3, as syscall.Dup2 is not
+> supported for arm64.
+>
+> Solves below error:
+> -- snip --
+> Log data follows:
+> | DEBUG: Executing shell function do_compile_ptest_base
+> ...
+> | # import/vendor/github.com/onsi/ginkgo/internal/remote
+> | ../../vendor/github.com/onsi/ginkgo/internal/remote/output_interceptor_unix.go:34:2: undefined: syscall.Dup2
+> | ../../vendor/github.com/onsi/ginkgo/internal/remote/output_interceptor_unix.go:35:2: undefined: syscall.Dup2
+> -- snip --
+>
+> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+> ---
+>  recipes-networking/cni/cni_git.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
+> index 427a812..c83a56e 100644
+> --- a/recipes-networking/cni/cni_git.bb
+> +++ b/recipes-networking/cni/cni_git.bb
+> @@ -29,6 +29,10 @@ inherit go
+>  inherit goarch
+>
+>  do_compile() {
+> +       if [ "${TARGET_GOARCH}" = "arm64" ]; then
+> +               sed -i "s:syscall.Dup2\(.*\))$:syscall.Dup3\1, 0):g" \
+> +               ${S}/src/import/vendor/github.com/onsi/ginkgo/internal/remote/output_interceptor_unix.go
+> +       fi
 
-Solves below error:
--- snip --
-Log data follows:
-| DEBUG: Executing shell function do_compile_ptest_base
-...
-| # import/vendor/github.com/onsi/ginkgo/internal/remote
-| ../../vendor/github.com/onsi/ginkgo/internal/remote/output_interceptor_unix.go:34:2: undefined: syscall.Dup2
-| ../../vendor/github.com/onsi/ginkgo/internal/remote/output_interceptor_unix.go:35:2: undefined: syscall.Dup2
--- snip --
+Even if this is in the vendor/ tree, it should be a patch, versus a
+sed operation.
+If it's a patch, I'll check it during each uprev of CNI, like this ..
+I'll never notice it.
 
-Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
----
- recipes-networking/cni/cni_git.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+Cheers,
 
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index 427a812..c83a56e 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -29,6 +29,10 @@ inherit go
- inherit goarch
- 
- do_compile() {
-+	if [ "${TARGET_GOARCH}" = "arm64" ]; then
-+		sed -i "s:syscall.Dup2\(.*\))$:syscall.Dup3\1, 0):g" \
-+		${S}/src/import/vendor/github.com/onsi/ginkgo/internal/remote/output_interceptor_unix.go 
-+	fi
- 	export GOARCH="${TARGET_GOARCH}"
- 	export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
- 	export GOPATH="${S}/src/import:${S}/src/import/vendor"
+Bruce
+
+>         export GOARCH="${TARGET_GOARCH}"
+>         export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+>         export GOPATH="${S}/src/import:${S}/src/import/vendor"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-2.7.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
