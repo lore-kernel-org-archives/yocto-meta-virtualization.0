@@ -1,6 +1,6 @@
-Return-Path: <fabio.berton@ossystems.com.br>
+Return-Path: <ricardo@opensourcefoundries.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8C3E8E00DCE; Tue, 30 Jan 2018 10:02:41 -0800 (PST)
+	id 50EF0E00E15; Tue, 30 Jan 2018 12:22:47 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,58 +8,56 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.220.194 listed in list.dnswl.org]
+	*      [209.85.220.193 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
-	[209.85.220.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1A795E00DBA
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 84FF8E00E47
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Jan 2018 10:02:39 -0800 (PST)
-Received: by mail-qk0-f194.google.com with SMTP id d21so11266118qkj.3
+	Tue, 30 Jan 2018 12:22:41 -0800 (PST)
+Received: by mail-qk0-f193.google.com with SMTP id d80so11841347qkg.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Jan 2018 10:02:39 -0800 (PST)
+	Tue, 30 Jan 2018 12:22:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:organization;
-	bh=Zb/0tjfE7nGD0kb9xJr/QPbVY0o6JPb6aQwy1Vg25HM=;
-	b=TeLb2+EIEFtorW9sxsCd7BXrJjki5yhW41u+14O8v3sFI/d/aUgmBLEnQxeR7qHcuf
-	yoH2JQtprCsKns9jDayjnmhUXbtITFqa5dN4lFIX0IMFH2nHcUfSshXZcbLxLbqt77s2
-	bHpzMH3gMeu1SZqwzPs/BuXSqF9C3nPeMdCVyGvLyUQXn+iHA8EGvuM37kRi+Bg+C7iY
-	2Q2iEPQaVIeia3JyDgu4juGWGzo8yzj2gsi9t65e3kZOj/4A1cxZGM2M03+DgpjxZ5wH
-	Zmp2gnwWBhPeNktcm85I33QFQ33uw952V1didWokNBr7I7eqvOD18l9WtP6cq0t7FaBG
-	yx2w==
+	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=kaG0id85fj/My0dhEc4Kt2Uv5MR8ypR3l7ZBPGr9/6M=;
+	b=rk5FmmizWxRHFjaMXke82mzAl6/JVnDp0mJe7fOYFdhU5K8m348PYPv0PkD++znfAe
+	Mid8FUnqApnb1lH38KoKKQ73rqfUQ5/6IZ/jSPlTHVUQLVNtFxqUmf8zfAo5u/Gwxq/K
+	a4wfy1U2YPiF/qFuJ4bJPOZrnJCLAyd7aliU6bK8EhM637t/38uv/v6vsQ7HWGFQoBot
+	B5dwnCoQcwHQo4+lN17OwD9KLNYs72mCz9n90nOMaTmTQPCEENzoZQZIGR1GmGr5LD9l
+	EPPBCI0x+At2b2Qvj3zSCHDpxn+yPnSPZ17v3yWIwCtD/oxI5G7w7PK7bmmhdJuVT6Yt
+	NHMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:organization;
-	bh=Zb/0tjfE7nGD0kb9xJr/QPbVY0o6JPb6aQwy1Vg25HM=;
-	b=C8f7Y7Ed4hNDdyo6nB0gjuRrHz7H5/5rfnL7BtAgMOShNOpsCHJyaLb0argMIMpA36
-	ik7HA9EOBBmWkj2hhXiKdTtkMxG8z7VfVEtVK6B9KklAg8ltKj8aCbMeGI7Rf4KwxVyn
-	g0XxFSXuUNyaqYDbJWBJtKLRzkGpljRpI6ASM6FRYCYQ/icoE5LQimh8TSyBHtHsDEF3
-	+H0iFnRymS31S2D1UMqYUJR4ShNjs1lGmmJRuAnNrS08wggeAyIrRwmSMERgRxGotU5q
-	e4kPifaDvaetSw59RNHnC1E8xIj4XpEFovB975gygTyY/m3M2/X7LFJCyEH/Vbq9Me1c
-	V8NA==
-X-Gm-Message-State: AKwxyte2bVJzTAKBj50g/2hjsOwDVP4pyWDd/ssjukqDpFBX7IHx2yc9
-	VWij0HSOam9GSj6lV1syq+Uy0v7j
-X-Google-Smtp-Source: AH8x225GXxQSoXo4S7bGJrVwbSvu2MaPbhkqsytyX9zoZU5v2zt28W8p+UT0Gb4qghDCUgVaR6xlgA==
-X-Received: by 10.55.103.205 with SMTP id b196mr43038174qkc.227.1517335358782; 
-	Tue, 30 Jan 2018 10:02:38 -0800 (PST)
-Received: from centrium.lab.ossystems ([181.220.79.73])
-	by smtp.gmail.com with ESMTPSA id
-	l24sm12379057qtb.65.2018.01.30.10.02.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Jan 2018 10:02:37 -0800 (PST)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=kaG0id85fj/My0dhEc4Kt2Uv5MR8ypR3l7ZBPGr9/6M=;
+	b=kRA65rD0ZaQySy5M0ujvtzRirstMzYxNj0C/MoPgg+eIOHMv7qg333BgSswr6vzi8R
+	TuEj6Dkm1Z51H1pYfIrDy8IwARGHOPLjNHOyB+k6CF/8MzJ+vvOg8YJTQbRfId9h9nA/
+	vukE834xX+8a/ZLnKslPCMEjCWFgt+Crd0h35lpy5gLd5UilYS8QHsabMmEYh2wFery0
+	cSZKjYTozu8WhT8xTLGnhokMdHykqTzst2P6f7zTu9rbyz7Thzjjzykw8eUUmktM0euy
+	CgejLxHg3i4OJR7AuffQ1Oki4xc10SAwO2b7gcCSndW7uN6ZENE0mRbUaijyxoILUSF2
+	Bp5g==
+X-Gm-Message-State: AKwxyte3yB5yXuhsxYCSC/iwI6sXXgi42SgbcWgN5maNYs/icFN5RW6C
+	HQ3TteKmpRlSSNTs4IkyeoorUnmjQQ==
+X-Google-Smtp-Source: AH8x22631GFEoxMrY7Ck/rmFMxXxkcqfeyHDL5FIUr3p5UQmTgAyklDppu40qfpu0bxskWuSxm2dww==
+X-Received: by 10.233.244.75 with SMTP id z11mr42188837qkl.68.1517343760180;
+	Tue, 30 Jan 2018 12:22:40 -0800 (PST)
+Received: from localhost.localdomain ([189.4.104.170])
+	by smtp.gmail.com with ESMTPSA id m1sm9615230qkf.8.2018.01.30.12.22.38
+	for <meta-virtualization@yoctoproject.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 30 Jan 2018 12:22:39 -0800 (PST)
+From: Ricardo Salveti <ricardo@opensourcefoundries.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 30 Jan 2018 16:02:20 -0200
-Message-Id: <20180130180220.10190-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.14.2
-Organization: O.S. Systems Software LTDA.
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>
-Subject: [krogoth][PATCH] docker: override GOROOT at build time
+Date: Tue, 30 Jan 2018 18:22:33 -0200
+Message-Id: <1517343753-17969-1-git-send-email-ricardo@opensourcefoundries.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] xen: use oe.utils.str_filter_out
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,43 +70,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 18:02:41 -0000
+X-List-Received-Date: Tue, 30 Jan 2018 20:22:47 -0000
 
-From: Yunguo Wei <yunguo.wei@windriver.com>
+oe_filter_out is not available in oe-core anymore so use
+oe.utils.str_filter_out instead.
 
-Usually $GOROOT is set by go tool, but if sstate is specified, $GOROOT
-is set to the path in the first project. If docker is built in the
-another project(with same SSTATE_DIR) later, and the first project is removed,
-the following error will be seen:
-
-| go: cannot find GOROOT directory:
-/path/to/previous/project/bitbake_build/tmp/sysroots/x86_64-linux/usr/lib/x86_64-wrs-linux/go
-
-This commit is overriding $GOROOT stored in the go tool in sstate cache,
-making sure it is set to the correct path in current project.
-
-See more information here: https://golang.org/doc/install#install
-
-Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-(cherry picked from commit 01aa8f18196d76d4554649c47348fb68277574c5)
+Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
 ---
- recipes-containers/docker/docker_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ recipes-extended/xen/xen.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index 42a336e..898957b 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -80,6 +80,7 @@ do_compile() {
- 	mkdir -p .gopath/src/"$(dirname "${DOCKER_PKG}")"
- 	ln -sf ../../../.. .gopath/src/"${DOCKER_PKG}"
- 	export GOPATH="${S}/.gopath:${S}/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
-+	export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
- 	cd -
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 15ec8cb..8dfe589 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -830,7 +830,7 @@ export LDFLAGS=""
+ # Yocto injects -mfpmath=sse for some machine types into the CFLAGS which
+ # conflicts with -mno-sse so instead we strip -mfpmath=sse instead of
+ # patching the build to be ok with this
+-TUNE_CCARGS := "${@oe_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
++TUNE_CCARGS := "${@oe.utils.str_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
  
- 	# Pass the needed cflags/ldflags so that cgo
+ EXTRA_OECONF += " \
+     --exec-prefix=/usr \
 -- 
-2.14.2
+2.7.4
 
 
