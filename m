@@ -1,67 +1,64 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <ricardo@opensourcefoundries.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D7FE3E00DB5; Tue, 30 Jan 2018 14:19:03 -0800 (PST)
+	id BB816E00E08; Thu,  1 Feb 2018 21:14:39 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.65 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E11ADE005A2
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.220.193 listed in list.dnswl.org]
+Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
+	[209.85.220.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2EA60E00D6A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Jan 2018 14:19:02 -0800 (PST)
-Received: by mail-lf0-f65.google.com with SMTP id t79so17729973lfe.3
+	Thu,  1 Feb 2018 21:14:38 -0800 (PST)
+Received: by mail-qk0-f193.google.com with SMTP id d125so1991374qkg.13
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 30 Jan 2018 14:19:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=dTieQipTOokSPNTHcab5xyLJbR8TS9ppo6b3Q7A0qOI=;
-	b=HXQdby4Zveh/aFqXpeycFcphz7ugTkevNMBadl2TyR+A/BgqnotAjpKVCLY1oed5Rq
-	M0IzVzfJ2f102UGkyzE+RUIrMQrW+KxO+/ST3O5j19j8OMIJaW5g5EihrKrC5CgIXT71
-	wB2vFcCmpk0MzfJSrPL7HAt+0gAyEE4rIu5U5J2xSPMDxOxCDrKZ6rTdAsHhSFEDqve1
-	6sshL6QGbbGzQIwJGwjb5gc9DYhyS3XVyOF9qimnSe74lMaUDQ3D7d/3gOp6KP+iav9u
-	VN9OcgLJ7y/0k6CkhFl7DhRasUl6tMvSFHd3j7I26XSrQIgU3OWMdetEd8fc9E9fBnl8
-	LxzQ==
+	Thu, 01 Feb 2018 21:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=rfrkuzqXyMRNWe3xt3a8qkwhSv8wRHurMphxrtEJvwI=;
+	b=om8mheygO/7uZpcUu4Wu2ZiW59m3GS4Iigl0kf6kHqzvZG1BKn8CMalXA+jD4C6zEG
+	kqqSXZKrT6q9P9jGkU35nQ5ei6YdG8o/+RaOggyJT0pL7LofVt+dEUv1GQtYT1MJNbVd
+	ntaqvZ3O+rvgZrREvTs+va3+tNr/xyq/Plp4we+bQmSzpXWwuof+jDXi6q6uZ1sKpg9j
+	MZ6tqfsiFEXFr0bIAqaFWt6lrohUQNZyr1OkxLC71kjUxnazCbDNvzrD8x464Xzvs4Yo
+	Pz6x3KRu/35OgFDl/dgEO3W5cAKbGyXN5dafN5mKSzri6Bern4jyVklKPRgN/lzS/AAj
+	KS+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=dTieQipTOokSPNTHcab5xyLJbR8TS9ppo6b3Q7A0qOI=;
-	b=Vd7u1wPXW+K910pKhtpfZfSDyxHbAcpd0DJnpvWsRh2FFBKZIdqsOPbr7DDZIlv81Q
-	zK+v/rZY87+vzbMgG0bFmHprDn3AqfeDYzboV46ylDkELQbpct5YXUTdy/8Ip98/KZO0
-	0n6KEMaZmoc7F5lb5ftV3/84uVd2Bv3BqywhRp1W30GNl3jT2cEbjnQGvbXkYjL0//Jm
-	dOYe5tKgJs3wwoJA58mIusv7mxY8mkQ6DNMxraRjybkntgV/JxtJGc4FXjmeMRvOfmvF
-	8ES6kfmoYaMrnQygN9/mZyNMHNrI/lyaxJgm7mmQwXzKzcaC+7msGcaRN5uGunog0p9C
-	D5yw==
-X-Gm-Message-State: AKwxytfJ1om3q/09G4I6T13X9k9NubFrSLQ34qbmmiHdxXy+G5q0zCze
-	AzbKi3buGz2IQUakOCrXUu4JvhT6BfdEs7byMxfqNQ==
-X-Google-Smtp-Source: AH8x225sbfYPuziPWwYJPFxD22wsvUvvl6ANTxzTQ4PG58R/OvOfco1RIYzXrVI0qDWE4YJqsBEkXF7hu8yW0IHtYEg=
-X-Received: by 10.46.29.6 with SMTP id d6mr4576550ljd.7.1517350741292; Tue, 30
-	Jan 2018 14:19:01 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.46.18.151 with HTTP; Tue, 30 Jan 2018 14:19:00 -0800 (PST)
-In-Reply-To: <1517343753-17969-1-git-send-email-ricardo@opensourcefoundries.com>
-References: <1517343753-17969-1-git-send-email-ricardo@opensourcefoundries.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 30 Jan 2018 17:19:00 -0500
-Message-ID: <CADkTA4NwDjeMguNOMU4VFimH1se4BHOqcDoWJXAxRLRLKos1hw@mail.gmail.com>
-To: Ricardo Salveti <ricardo@opensourcefoundries.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] xen: use oe.utils.str_filter_out
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rfrkuzqXyMRNWe3xt3a8qkwhSv8wRHurMphxrtEJvwI=;
+	b=omicPkySkvXNrZ5iOCYwvcnNxhcl6MTUWCJnuBfTy9b47PVlovEuro7RMBzwZcjBY9
+	Luo8Xb1GwyioSjggcrNVeEE6k0E8OZXUrQIJNcVN/+PIIUurbSHYOqoI3+dK2KcDqmEe
+	QndiiGxAw/FcjyMMpdJPA3eotpn/9aNjhZ9LI2BlFhnGk6XvKela6uck7YCpEn347lhS
+	k1KKrQ/CtKd6a2PElMAnkpEzpdoSb/+ynbPzyBxYCM2PyjCFU8b16d9/A95yr5MD7VbT
+	9Hr6ZPR6Zn5pXIKTSnlsvDzs666dBLa2QCLmzhbThovuL6tXNEqW6mMfgEJHp+8hDE3K
+	wKXQ==
+X-Gm-Message-State: AKwxytfp1efZY0FvUMgY4Ir/RDBltirMEwrXYZoBGiXxOSkj4/QpuwLX
+	+b7I/IxCljI8yBZMuPqvbuvSMdBZjQ==
+X-Google-Smtp-Source: AH8x2277DqI//ktmMWN2O0JmWQnQAjxOLGtETDe3ube8fP3wuHNsq1HOzFwq/o4JeKnUZbK7r0s3aA==
+X-Received: by 10.55.93.194 with SMTP id r185mr18443492qkb.109.1517548477741; 
+	Thu, 01 Feb 2018 21:14:37 -0800 (PST)
+Received: from localhost.localdomain ([189.4.104.170])
+	by smtp.gmail.com with ESMTPSA id
+	q186sm279102qkf.76.2018.02.01.21.14.35
+	for <meta-virtualization@yoctoproject.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 01 Feb 2018 21:14:36 -0800 (PST)
+From: Ricardo Salveti <ricardo@opensourcefoundries.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri,  2 Feb 2018 03:02:23 -0200
+Message-Id: <1517547743-30140-1-git-send-email-ricardo@opensourcefoundries.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] lxc: set systemdsystemunitdir with systemd
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,48 +71,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Jan 2018 22:19:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 02 Feb 2018 05:14:39 -0000
 
-merged.
+systemd unit dir can be customized by the distro (e.g. usrmerge), so
+make sure the correct unit dir path is set on configure.
 
-Bruce
+Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
+---
+ recipes-containers/lxc/lxc_2.0.8.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-On Tue, Jan 30, 2018 at 3:22 PM, Ricardo Salveti
-<ricardo@opensourcefoundries.com> wrote:
-> oe_filter_out is not available in oe-core anymore so use
-> oe.utils.str_filter_out instead.
->
-> Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
-> ---
->  recipes-extended/xen/xen.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 15ec8cb..8dfe589 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -830,7 +830,7 @@ export LDFLAGS=""
->  # Yocto injects -mfpmath=sse for some machine types into the CFLAGS which
->  # conflicts with -mno-sse so instead we strip -mfpmath=sse instead of
->  # patching the build to be ok with this
-> -TUNE_CCARGS := "${@oe_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
-> +TUNE_CCARGS := "${@oe.utils.str_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
->
->  EXTRA_OECONF += " \
->      --exec-prefix=/usr \
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
+diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
+index 651eb72..d8607f8 100644
+--- a/recipes-containers/lxc/lxc_2.0.8.bb
++++ b/recipes-containers/lxc/lxc_2.0.8.bb
+@@ -60,6 +60,7 @@ EXTRA_OECONF += "--enable-log-src-basename"
+ CFLAGS_append = " -Wno-error=deprecated-declarations"
+ 
+ PACKAGECONFIG ??= "templates \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+ "
+ PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
+@@ -68,6 +69,7 @@ PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparm
+ PACKAGECONFIG[templates] = ",,, ${PN}-templates"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
+ PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
++PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir,systemd,"
+ PACKAGECONFIG[python] = "--enable-python,--disable-python,python3,python3-core"
+ PACKAGECONFIG[lua] = "--enable-lua,--disable-lua,lua,lua"
+ 
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.7.4
+
 
