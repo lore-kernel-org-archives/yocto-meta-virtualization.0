@@ -1,64 +1,38 @@
-Return-Path: <ricardo@opensourcefoundries.com>
+Return-Path: <psaavedra@igalia.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BB816E00E08; Thu,  1 Feb 2018 21:14:39 -0800 (PST)
+	id 4E1A0E00E73; Mon,  5 Feb 2018 09:28:44 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.220.193 listed in list.dnswl.org]
-Received: from mail-qk0-f193.google.com (mail-qk0-f193.google.com
-	[209.85.220.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2EA60E00D6A
+X-Greylist: delayed 922 seconds by postgrey-1.32 at yocto-www;
+	Mon, 05 Feb 2018 09:28:40 PST
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 37367E0085E
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  1 Feb 2018 21:14:38 -0800 (PST)
-Received: by mail-qk0-f193.google.com with SMTP id d125so1991374qkg.13
+	Mon,  5 Feb 2018 09:28:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Message-Id:Date:Subject:To:From;
+	bh=ughaG3PCEZzoi3t9kKBWvVIXNRq7DvJ6i345b/4+PmM=; 
+	b=VqqaYfYzf0Wg0tp2d9Qo6xHUP5axNfztMYIstnOFyjUwuwnRXGtrjLg567X7yi437+0vhFXUeloOmo3Xnr6XFOJ0uBQvM2slxUxLWKIsr3+NbTVw2lCShs3LgLZz6WN/pPhczyG8UVF2Dy6/g/IOA6SqsY3ip7avguAA+GfE4lNbzWD26bbOOIOrI/CApq2XCnMN0qYFq5Pj8ucw5+KhCzdUFuOYGevQcvx7/3FYYDyTuc6uXWiJKR7ilkfiAo+MRcEfT8QXkKK3kPbRv2tR+/iw8BdFQIeEMgtmo48zVF3GTTtwi5Hcu0ywed2Zd6qNsOEErN+zc84UK+/u9tlHRA==;
+Received: from buildbox.local.igalia.com ([192.168.10.88])
+	by fanzine.igalia.com with esmtp (Exim) id 1eikKS-0005YM-Sj
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 01 Feb 2018 21:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=opensourcefoundries-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=rfrkuzqXyMRNWe3xt3a8qkwhSv8wRHurMphxrtEJvwI=;
-	b=om8mheygO/7uZpcUu4Wu2ZiW59m3GS4Iigl0kf6kHqzvZG1BKn8CMalXA+jD4C6zEG
-	kqqSXZKrT6q9P9jGkU35nQ5ei6YdG8o/+RaOggyJT0pL7LofVt+dEUv1GQtYT1MJNbVd
-	ntaqvZ3O+rvgZrREvTs+va3+tNr/xyq/Plp4we+bQmSzpXWwuof+jDXi6q6uZ1sKpg9j
-	MZ6tqfsiFEXFr0bIAqaFWt6lrohUQNZyr1OkxLC71kjUxnazCbDNvzrD8x464Xzvs4Yo
-	Pz6x3KRu/35OgFDl/dgEO3W5cAKbGyXN5dafN5mKSzri6Bern4jyVklKPRgN/lzS/AAj
-	KS+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=rfrkuzqXyMRNWe3xt3a8qkwhSv8wRHurMphxrtEJvwI=;
-	b=omicPkySkvXNrZ5iOCYwvcnNxhcl6MTUWCJnuBfTy9b47PVlovEuro7RMBzwZcjBY9
-	Luo8Xb1GwyioSjggcrNVeEE6k0E8OZXUrQIJNcVN/+PIIUurbSHYOqoI3+dK2KcDqmEe
-	QndiiGxAw/FcjyMMpdJPA3eotpn/9aNjhZ9LI2BlFhnGk6XvKela6uck7YCpEn347lhS
-	k1KKrQ/CtKd6a2PElMAnkpEzpdoSb/+ynbPzyBxYCM2PyjCFU8b16d9/A95yr5MD7VbT
-	9Hr6ZPR6Zn5pXIKTSnlsvDzs666dBLa2QCLmzhbThovuL6tXNEqW6mMfgEJHp+8hDE3K
-	wKXQ==
-X-Gm-Message-State: AKwxytfp1efZY0FvUMgY4Ir/RDBltirMEwrXYZoBGiXxOSkj4/QpuwLX
-	+b7I/IxCljI8yBZMuPqvbuvSMdBZjQ==
-X-Google-Smtp-Source: AH8x2277DqI//ktmMWN2O0JmWQnQAjxOLGtETDe3ube8fP3wuHNsq1HOzFwq/o4JeKnUZbK7r0s3aA==
-X-Received: by 10.55.93.194 with SMTP id r185mr18443492qkb.109.1517548477741; 
-	Thu, 01 Feb 2018 21:14:37 -0800 (PST)
-Received: from localhost.localdomain ([189.4.104.170])
-	by smtp.gmail.com with ESMTPSA id
-	q186sm279102qkf.76.2018.02.01.21.14.35
-	for <meta-virtualization@yoctoproject.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 01 Feb 2018 21:14:36 -0800 (PST)
-From: Ricardo Salveti <ricardo@opensourcefoundries.com>
+	Mon, 05 Feb 2018 18:13:16 +0100
+From: Pablo Saavedra <psaavedra@igalia.com>
 To: meta-virtualization@yoctoproject.org
-Date: Fri,  2 Feb 2018 03:02:23 -0200
-Message-Id: <1517547743-30140-1-git-send-email-ricardo@opensourcefoundries.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] lxc: set systemdsystemunitdir with systemd
+Date: Mon,  5 Feb 2018 18:13:06 +0100
+Message-Id: <20180205171306.2201-1-psaavedra@igalia.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] Added Yocto recipe for Puppet 4.10.9
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -71,37 +45,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 02 Feb 2018 05:14:39 -0000
+X-List-Received-Date: Mon, 05 Feb 2018 17:28:44 -0000
 
-systemd unit dir can be customized by the distro (e.g. usrmerge), so
-make sure the correct unit dir path is set on configure.
-
-Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
+Signed-off-by: Pablo Saavedra <psaavedra@igalia.com>
 ---
- recipes-containers/lxc/lxc_2.0.8.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-support/puppet/puppet_4.10.9.bb | 41 +++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+ create mode 100644 recipes-support/puppet/puppet_4.10.9.bb
 
-diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
-index 651eb72..d8607f8 100644
---- a/recipes-containers/lxc/lxc_2.0.8.bb
-+++ b/recipes-containers/lxc/lxc_2.0.8.bb
-@@ -60,6 +60,7 @@ EXTRA_OECONF += "--enable-log-src-basename"
- CFLAGS_append = " -Wno-error=deprecated-declarations"
- 
- PACKAGECONFIG ??= "templates \
-+    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
- "
- PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
-@@ -68,6 +69,7 @@ PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparm
- PACKAGECONFIG[templates] = ",,, ${PN}-templates"
- PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
- PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
-+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir,systemd,"
- PACKAGECONFIG[python] = "--enable-python,--disable-python,python3,python3-core"
- PACKAGECONFIG[lua] = "--enable-lua,--disable-lua,lua,lua"
- 
+diff --git a/recipes-support/puppet/puppet_4.10.9.bb b/recipes-support/puppet/puppet_4.10.9.bb
+new file mode 100644
+index 0000000..a335546
+--- /dev/null
++++ b/recipes-support/puppet/puppet_4.10.9.bb
+@@ -0,0 +1,41 @@
++SUMMARY = "Open source Puppet is a configuration management system"
++HOMEPAGE = "https://puppetlabs.com/puppet/puppet-open-source"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=7c9045ec00cc0d6b6e0e09ee811da4a0"
++
++SRC_URI = " \
++    https://downloads.puppetlabs.com/puppet/puppet-${PV}.tar.gz \
++    file://add_puppet_gemspec.patch \
++    file://puppet.conf \
++"
++SRC_URI[md5sum] = "8af3c2fec5dc4683d80aab4efc1614c6"
++SRC_URI[sha256sum] = "e667bd825e54bbc38c30534c25adc441ed638fc484fe0abe278f0335770cd161"
++
++inherit ruby
++
++DEPENDS += " \
++        ruby \
++        facter \
++        hiera \
++"
++
++RDEPENDS_${PN} += " \
++        ruby \
++        facter \
++        hiera \
++        ruby-shadow \
++        bash \
++"
++
++RUBY_INSTALL_GEMS = "puppet-${PV}.gem"
++
++do_install_append() {
++    install -d ${D}${sysconfdir}/puppet
++    install -d ${D}${sysconfdir}/puppet/manifests
++    install -d ${D}${sysconfdir}/puppet/modules
++
++    install -m 655 ${S}/conf/auth.conf ${D}${sysconfdir}/puppet/
++    install -m 655 ${S}/conf/fileserver.conf ${D}${sysconfdir}/puppet/
++    install -m 655 ${S}/conf/environment.conf ${D}${sysconfdir}/puppet/
++    install -m 655 ${WORKDIR}/puppet.conf ${D}${sysconfdir}/puppet/
++}
 -- 
-2.7.4
+2.11.0
 
 
