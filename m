@@ -1,6 +1,6 @@
 Return-Path: <kurt.bodiker@braintrust-us.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2D97BE00EAF; Mon,  5 Mar 2018 07:37:20 -0800 (PST)
+	id A98A1E00CE2; Mon,  5 Mar 2018 07:37:20 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -16,57 +16,57 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-qk0-f194.google.com (mail-qk0-f194.google.com
 	[209.85.220.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DE0D6E00E7D
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6763BE00CE2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  5 Mar 2018 07:36:30 -0800 (PST)
-Received: by mail-qk0-f194.google.com with SMTP id l206so21089333qke.1
+	Mon,  5 Mar 2018 07:36:33 -0800 (PST)
+Received: by mail-qk0-f194.google.com with SMTP id v124so21037310qkh.11
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 05 Mar 2018 07:36:30 -0800 (PST)
+	Mon, 05 Mar 2018 07:36:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=braintrust-us-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:from:to:subject:date:message-id:in-reply-to:references
 	:in-reply-to:references;
-	bh=3oIWSG3gtbL9R8EJrcLGERrQv4UBXmzX6XbsGQtOZMU=;
-	b=tg7XVFPDJimhbXnscF0fkDLfx88N6xRLbYosECROgrWQtHGt6cQBsDiJBr0IoVRuYp
-	C6qQ+RKGgQumZ8HkwsKNrAaGHnUME/mJ5laCit4Z8L52MDuZj4nS/Iky4fHFttHVU4/p
-	CEdsK3k222b9/0OpomzOALcJoTBe2owMpmmTJj+nF3DueNI76NEQazg1NcolBD+yii/H
-	hggMySkPuA06GS9On2Xbf2VaHOKmYWhUWWYnqa2uecnI4d+0KJmcbHcf3INQnu1+VblO
-	rc4Lg1rg42lwpWuez7y2tTvDtvVNf4JFbqAiZkEkeCTqbk3m5ynXdWkELSoglZ2R5kX2
-	e4fQ==
+	bh=AHkTNAXIEw+01yKA16v/QEU2lYlcHn9kRYd7Xzccleg=;
+	b=FKMWcgHIRHs23C37Zz8LGOnbA/x8UE5h0nEbAYPQ9UfxIedEQ+ZAJzlRL4RNQdeleK
+	wsFG0Zr2zYJBenWKljb6TBI2d8Stn1mt0ShJuAMuPCGYmYQvRtDDdsrHqMAbA9DpXt5S
+	yUvB87L/SEnrImyOzZagXWVD3RFJQG0aQZooyVjYGEEsGFgYXGCnb84XAxKX4ulvhxFu
+	ohIszMdfz/yGe9z0VI0iTc1ioSLuTJnVQDH57xbyXGBIbcLN3ntyXidvGTvCwE+5w17v
+	5iiQqDzaqiaKjx2tlBdpaG3E7QeCtndikTKAJgzXzCXyHJqD2cm0FF61pj0aVGC6b8Z9
+	i/Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:from:to:subject:date:message-id
 	:in-reply-to:references:in-reply-to:references;
-	bh=3oIWSG3gtbL9R8EJrcLGERrQv4UBXmzX6XbsGQtOZMU=;
-	b=mBWKs7hqXI6gxCX15T/5GJs2sJvVoD4nwYdECsQkUkPuYWDV3zbPv6X9rCi0d/Uphp
-	zKPsc1h2p6E4du/rUFLL6ZEARhwQ4NcjseMyMcO2xz/xfgy1PCU2a6phziiShd00Wrtu
-	nu2jjBRgpZuozSwQjmkOJHfUOiFXpBUdm6Xkq4iPOkfRxNj8GeBlnkQKVFjhQghjF+DP
-	J3B9B9wtvkWKgGLBVYMC6T/nx/QW7VxiaXdSbXlGtQOIyqSFSTtnHfDb7hfpaMTwcEzj
-	EbP3RC7kHM7rNot/6n6vi8HCuUDLTkpBFe+ZR7SmOB++Y5ivPoMM07iOFvTrBSd/twak
-	l+uQ==
-X-Gm-Message-State: AElRT7GDgaDATOfnY8zwGrnnSp2538P4soRXiGuUKoRfo4h0oY15M2tl
-	UZ0GURPsecCyzu3HgoHHLT9qvpxYusK8twWzt5wLG9JqKrWHHdj3e5EqaphKW0Halg6iz4ZX2f4
-	ttfxp8yJHxGXsGEc+SHWBnbGN3JAH
+	bh=AHkTNAXIEw+01yKA16v/QEU2lYlcHn9kRYd7Xzccleg=;
+	b=Z5NQMgIQbiryOvvZDLUT33sIy3EEG40hxqGlzOPbvuv8cRE4FXbH1Yg2l44UExZHGR
+	zNrjg19yNGmezSoSBX5p3J/nWz2jp5ihsY8iOLBN+43vgIA3vEVa9Azs/nq5HiebCocZ
+	8yh9HVpgAC2x+SoAtj56RbVq1nD9TACLy2kUraWq4xWUcBCdAAxsFE2vjrv3rndFoZRK
+	CnpOkXECFXO4wLrqTVMot7m5/IDNPUw8/WC09UaItw/cgv7Z7youdForyipVLJRAJa0j
+	mQBSw+gABsIQN9jQQwF1XHUv8vYPs1N4i2kPkg1sIYnwjdKktayQSNVRgVu7Evpmh/n4
+	CgxQ==
+X-Gm-Message-State: AElRT7EGORmAFRZPP4OSTsTPcWbBquLbuBYWhbHEFCqDDlEe3jiWSzPU
+	vRNacbbDfj+9HP7+FxAb2F/6QLywcqJUgIWQzDjXwJigov/d7XkyNRp6Y5Ergr4X+BawFBrISS2
+	RqZSIaK5Ee2u7Hbk07/GNeHLj2tDqSO9YFg==
 MIME-Version: 1.0
-X-Google-Smtp-Source: AG47ELsTHz1+eWA7jCJefVcI24i1JgD/fpjRTc3sE6SP/GcYHP+maG1BySP1m1pzo39EqO6KOwuPIA==
-X-Received: by 10.55.104.138 with SMTP id d132mr21721594qkc.306.1520264190105; 
-	Mon, 05 Mar 2018 07:36:30 -0800 (PST)
+X-Google-Smtp-Source: AG47ELuuMs+SwmipXp/jVTjBPedHtkLfTOFXK1gfqgEv97RkUluos3vWjbGPuPpSfG8tglUFRpfsLw==
+X-Received: by 10.55.49.74 with SMTP id x71mr21189016qkx.310.1520264191575;
+	Mon, 05 Mar 2018 07:36:31 -0800 (PST)
 Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:1126:b99c:ee44:103c])
 	by smtp.gmail.com with ESMTPSA id
-	n29sm9474962qtf.18.2018.03.05.07.36.27
+	n29sm9474962qtf.18.2018.03.05.07.36.30
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 05 Mar 2018 07:36:29 -0800 (PST)
+	Mon, 05 Mar 2018 07:36:31 -0800 (PST)
 From: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 To: kurt.bodiker@braintrust-us.com,
 	meta-virtualization@yoctoproject.org
-Date: Mon,  5 Mar 2018 10:35:04 -0500
-Message-Id: <ff49a2ee32a8f0593c308fa95f0ea39c8946ab2c.1519915283.git.kurt.bodiker@braintrust-us.com>
+Date: Mon,  5 Mar 2018 10:35:05 -0500
+Message-Id: <f136ff553cb449b3f28c3bd024975fd60216191c.1519915283.git.kurt.bodiker@braintrust-us.com>
 X-Mailer: git-send-email 2.14.3
 In-Reply-To: <cover.1519915283.git.kurt.bodiker@braintrust-us.com>
 References: <cover.1519915283.git.kurt.bodiker@braintrust-us.com>
 In-Reply-To: <cover.1519915283.git.kurt.bodiker@braintrust-us.com>
 References: <cover.1519915283.git.kurt.bodiker@braintrust-us.com>
-Subject: [PATCH 4/7] xen: PolarSSL recipe and patches for Xen stubdoms
+Subject: [PATCH 5/7] xen: GMP recipe for Xen stubdoms
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -84,104 +84,36 @@ Content-Type: text/plain; charset="US-ASCII"
 
 From: kebodiker <kurt.bodiker@braintrust-us.com>
 
-PolarSSL (now mbedTLS) is a lightweight SSL library optimized for
-embedded systems.  In the case of Xen stubdomains, we are using MiniOS.
-This PolarSSL recipe creates a static library that is cross-compiled
-against MiniOS, Xen, LWIP, and Newlib headers and subsequently used
-during the cross-compilation and linking of the stubdom specific GMP,
-TPM Emulator, and the Xen vTPM and vTPM Manager stubdomains.
+I didn't want to replicate a GMP recipe, but I couldn't figure out how
+to append or extend the existing GMP recipe without messing up GMP for
+the rest of the system.
+
+GMP is a fast precision arithmetic library targeted for cryptographic
+applications.  This GMP recipe creates a static library that is
+cross-compiled against that is cross-compiled against MiniOS, Xen, LWIP,
+Newlib, and PolarSSL headers and subsquently used during the
+cross-compilation and linking of the TPM Emulator and the Xen vTPM and
+vTPM Manager stubdomains.
 
 The current Xen source code is hardcoded to fetch a specific version of
-this package.  The patch files originate from the Xen/stubdom source
-tree. This recipe provides the flexibility to change version or modify
-the patches.
+this package.  Xen does not currently apply any patches to this package.
+This recipe provides the flexibility to change version or create patches
+if necessary.
 
 Signed-off-by: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 ---
- recipes-extended/xen/files/polarssl.patch | 64 +++++++++++++++++++++++++++++++
- recipes-extended/xen/polarssl.inc         | 25 ++++++++++++
- recipes-extended/xen/polarssl_1.1.4.bb    | 17 ++++++++
- 3 files changed, 106 insertions(+)
- create mode 100644 recipes-extended/xen/files/polarssl.patch
- create mode 100644 recipes-extended/xen/polarssl.inc
- create mode 100644 recipes-extended/xen/polarssl_1.1.4.bb
+ recipes-extended/xen/stubdom-gmp.inc      | 36 +++++++++++++++++++++++++++++++
+ recipes-extended/xen/stubdom-gmp_4.3.2.bb | 20 +++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 recipes-extended/xen/stubdom-gmp.inc
+ create mode 100644 recipes-extended/xen/stubdom-gmp_4.3.2.bb
 
-diff --git a/recipes-extended/xen/files/polarssl.patch b/recipes-extended/xen/files/polarssl.patch
+diff --git a/recipes-extended/xen/stubdom-gmp.inc b/recipes-extended/xen/stubdom-gmp.inc
 new file mode 100644
-index 0000000..d387d4e
+index 0000000..c4dd3f8
 --- /dev/null
-+++ b/recipes-extended/xen/files/polarssl.patch
-@@ -0,0 +1,64 @@
-+diff -Naur polarssl-1.1.4/include/polarssl/config.h polarssl-x86_64/include/polarssl/config.h
-+--- polarssl-1.1.4/include/polarssl/config.h	2011-12-22 05:06:27.000000000 -0500
-++++ polarssl-x86_64/include/polarssl/config.h	2012-10-30 17:18:07.567001000 -0400
-+@@ -164,8 +164,8 @@
-+  * application.
-+  *
-+  * Uncomment this macro to prevent loading of default entropy functions.
-+-#define POLARSSL_NO_DEFAULT_ENTROPY_SOURCES
-+  */
-++#define POLARSSL_NO_DEFAULT_ENTROPY_SOURCES
-+
-+ /**
-+  * \def POLARSSL_NO_PLATFORM_ENTROPY
-+@@ -175,8 +175,8 @@
-+  * standards like the /dev/urandom or Windows CryptoAPI.
-+  *
-+  * Uncomment this macro to disable the built-in platform entropy functions.
-+-#define POLARSSL_NO_PLATFORM_ENTROPY
-+  */
-++#define POLARSSL_NO_PLATFORM_ENTROPY
-+
-+ /**
-+  * \def POLARSSL_PKCS1_V21
-+@@ -426,8 +426,8 @@
-+  * Requires: POLARSSL_TIMING_C
-+  *
-+  * This module enables the HAVEGE random number generator.
-+- */
-+ #define POLARSSL_HAVEGE_C
-++ */
-+
-+ /**
-+  * \def POLARSSL_MD_C
-+@@ -490,7 +490,7 @@
-+  *
-+  * This module provides TCP/IP networking routines.
-+  */
-+-#define POLARSSL_NET_C
-++//#define POLARSSL_NET_C
-+
-+ /**
-+  * \def POLARSSL_PADLOCK_C
-+@@ -644,8 +644,8 @@
-+  * Caller:  library/havege.c
-+  *
-+  * This module is used by the HAVEGE random number generator.
-+- */
-+ #define POLARSSL_TIMING_C
-++ */
-+
-+ /**
-+  * \def POLARSSL_VERSION_C
-+diff -Naur polarssl-1.1.4/library/bignum.c polarssl-x86_64/library/bignum.c
-+--- polarssl-1.1.4/library/bignum.c	2012-04-29 16:15:55.000000000 -0400
-++++ polarssl-x86_64/library/bignum.c	2012-10-30 17:21:52.135000999 -0400
-+@@ -1101,7 +1101,7 @@
-+             Z.p[i - t - 1] = ~0;
-+         else
-+         {
-+-#if defined(POLARSSL_HAVE_LONGLONG)
-++#if 0 //defined(POLARSSL_HAVE_LONGLONG)
-+             t_udbl r;
-+
-+             r  = (t_udbl) X.p[i] << biL;
-diff --git a/recipes-extended/xen/polarssl.inc b/recipes-extended/xen/polarssl.inc
-new file mode 100644
-index 0000000..f90cd2f
---- /dev/null
-+++ b/recipes-extended/xen/polarssl.inc
-@@ -0,0 +1,25 @@
++++ b/recipes-extended/xen/stubdom-gmp.inc
+@@ -0,0 +1,36 @@
 +# Copyright (C) 2017 Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 +# Released under the MIT license (see COPYING.MIT for the terms)
 +
@@ -190,46 +122,60 @@ index 0000000..f90cd2f
 +DEPENDS += "\
 +    newlib \
 +"
-+STUBDOM_CFLAGS += "-Wno-memset-elt-size -Wno-implicit-fallthrough"
 +
-+# even though there's nothing to configure, we still need this to run the "make links" target in mini-os
-+do_configure(){
++# set ABI for x86_32 builds. Ripped from Xen/stubdom/Makefile.
++GMPEXT=""
++GMPEXT_gnutargetarch-i686 = "ABI=32"
++
++do_configure() {
++    # need to modify prefix here otherwise OE-level variables (prefix, libdir, includedir) defined in stubdom.inc get messed up
++    CPPFLAGS="-isystem ${STAGING_DIR_HOST}/cross-root-${XEN_TARGET_ARCH}/${GNU_TARGET_ARCH}-xen-elf/include ${STUBDOM_CPPFLAGS}" CFLAGS="${STUBDOM_CFLAGS}" CC="${HOST_PREFIX}gcc --sysroot=${RECIPE_SYSROOT} ${GMPEXT}" ${S}/configure \
++        --disable-shared \
++        --enable-static \
++        --disable-fft \
++        --without-readline \
++        --prefix=${prefix}/${GNU_TARGET_ARCH}-xen-elf \
++        --libdir=${libdir} \
++        --build=`$(CC) -dumpmachine` \
++        --host=${GNU_TARGET_ARCH}-xen-elf
++
++    sed -i 's/#define HAVE_OBSTACK_VPRINTF 1/\/\/#define HAVE_OBSTACK_VPRINTF 1/' ${S}/config.h
 +}
-+
++    
 +do_compile() {
-+    ${MAKE} CC="${HOST_PREFIX}gcc --sysroot=${RECIPE_SYSROOT} ${STUBDOM_CPPFLAGS} ${STUBDOM_CFLAGS}"
++    ${MAKE}
 +}
 +
 +do_install() {
-+    install -d ${D}${includedir}
-+    cp -r -t ${D}${includedir} ${S}/include/polarssl
-+
-+    install -d ${D}/${libdir}
-+    install -m 644 -t ${D}/${libdir} ${S}/library/libpolarssl.a
++    ${MAKE} DESTDIR=${D} install
++    rm -rf ${D}${prefix}/${GNU_TARGET_ARCH}-xen-elf/share
 +}
-diff --git a/recipes-extended/xen/polarssl_1.1.4.bb b/recipes-extended/xen/polarssl_1.1.4.bb
+diff --git a/recipes-extended/xen/stubdom-gmp_4.3.2.bb b/recipes-extended/xen/stubdom-gmp_4.3.2.bb
 new file mode 100644
-index 0000000..2d4c2e0
+index 0000000..bac3415
 --- /dev/null
-+++ b/recipes-extended/xen/polarssl_1.1.4.bb
-@@ -0,0 +1,17 @@
++++ b/recipes-extended/xen/stubdom-gmp_4.3.2.bb
+@@ -0,0 +1,20 @@
 +# Copyright (C) 2017 Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 +# Released under the MIT license (see COPYING.MIT for the terms)
 +
-+DESCRIPTION = "PolarSSL (now 'mbed TLS') is an open source, portable, easy to use, readable and flexible SSL library."
-+HOMEPAGE = "https://tls.mbed.org"
-+LICENSE = "GPLv2"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
++DESCRIPTION = "GMP library for Xen vTPM's."
++HOMEPAGE = "http://gmp"
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
 +
-+S="${WORKDIR}/${PN}"
-+B="${S}/library"
-+
++PROVIDES = "stubdom-gmp"
++RPROVIDES_${PN} = "stubdom-gmp"
 +SRC_URI += "\
-+    git://github.com/ARMmbed/mbedtls.git;protocol=https;rev=${PN}-${PV};destsuffix=${PN};nobranch=1;name=${PN} \
-+    file://polarssl.patch;striplevel=1 \
++    https://gmplib.org/download/gmp/archive/gmp-${PV}.tar.bz2 \
 +"
++SRC_URI[md5sum] = "dd60683d7057917e34630b4a787932e8"
++SRC_URI[sha256sum] = "936162c0312886c21581002b79932829aa048cfaf9937c6265aeaa14f1cd1775"
 +
-+require polarssl.inc
++S="${WORKDIR}/gmp-${PV}"
++B="${S}"
++
++require stubdom-gmp.inc
 -- 
 2.14.2
 
