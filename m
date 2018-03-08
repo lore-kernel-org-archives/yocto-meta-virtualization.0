@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CF7B3E00E27; Thu,  8 Mar 2018 13:20:28 -0800 (PST)
+	id 417B8E00E55; Thu,  8 Mar 2018 13:20:40 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -21,47 +21,48 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
 	[209.85.215.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1236FE00DFB
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 97D15E00E27
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  8 Mar 2018 13:20:27 -0800 (PST)
-Received: by mail-lf0-f68.google.com with SMTP id h127-v6so10324914lfg.12
+	Thu,  8 Mar 2018 13:20:39 -0800 (PST)
+Received: by mail-lf0-f68.google.com with SMTP id q69-v6so10337989lfi.10
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 08 Mar 2018 13:20:27 -0800 (PST)
+	Thu, 08 Mar 2018 13:20:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=omW/gmcKgvaP2emaXIi4LNA8jFUepkwQDqCxoiKEzi0=;
-	b=JVWiAsgYdkZYT2uTAmeHh0KjsP67qnsy3vvvJcFnvZesZTMgENbErwgjoggteom1iS
-	7n9+cSnppHbyOeXxcZaX1EcO7UUQGrcFAUaYS/ZEZQEvsgeXKfuMqTS6uLWefI7K3Tp+
-	fnAXWyoyY4D1XWJ8dRkpE5D4BMZ+EfiaIRlBBSUj3n7lxjGDjfq/adaZzB/fEUOuvK3l
-	fdBflgdsSlsBezc+naZjF+dFCXsYfQJ5hgt1dw2G0wA867KNVAXeOQH5ZTrmUFaETi5X
-	Ls6xB6h03VzmbA+vaG2iXcXpaVEiCQC+IiiEce4QrVIStIW1U0G+SpJ/e4wowrNvHglG
-	H53w==
+	:cc; bh=OBKzYolWv1dhokttJRLoKTW4SXtMM54jR7f5fbbuYeg=;
+	b=vT+L84d2YCqxryLceT6I+ENuq9mO0zUqEdI7XADJ3fWTQ7Uw2hJEYeDqC335z/+cJw
+	0lL7KYjhTLE+fu0QDseTzR2aq0PLn+Z8lA8/+cFm3t7UDLWffwMiCFioAqm9I47NxWkF
+	E378oDraSEF/VD88JTNHB4BF8m8ZfN3T9g6urVUgtPsWyBjRqt9hjELgXY1C1GujBMjy
+	yr68Yb4EBIspW66T0tlO6Z+rNFYo3yfFSHfGlJQnVLQjJ41qflujlGhIH8nROPl1oyQ8
+	MHnBHiftshNc/bIldmUKBJF4dpsJD96huloOGa5BoyfNRVIdAOlxwZ8ovrCibvlCsup0
+	DL3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=omW/gmcKgvaP2emaXIi4LNA8jFUepkwQDqCxoiKEzi0=;
-	b=OTQ4bG6FbFSKGWDiiGmj0pArth7iTjY37u/VjA55hh0x3lF5yYRvximrSYlgLfuvQr
-	AXDs1bFqv9sOD1eT745Iryqjsujxifn4Dxre3txXODDBgSebcQhg0Okz8WwHB36Vo0xE
-	u/wHs58uxsACXLb9Aur5EzzW/KXxSg2VFyt+ksjXiqSAat9YmuXQ8UBf6y+P29eKj0N7
-	DFKGqp4glI7OCKIP8SgLrqqTM+LIxkLe1tBqTKkYv9EFxfQp9N76AESb0IJHVPPOOVOl
-	paTxDDvqkrHJqpKzJOaXriowzOmK50VhH5inH1XMdpvoKwe9+dtbsQiATmzbUYdcReU8
-	/2Qg==
-X-Gm-Message-State: AElRT7ES/H06Pp/1umJPiYAizW16syYei+qf06FyOuNM5bu1HB6K0hLS
-	CxIdZh82cJPC2x1h/BTpAJTonTfBQpFl+CjcMiE=
-X-Google-Smtp-Source: AG47ELtElNlrrBGBtTsSnARIU82DNxJSiBOk5n1POSkyFpctLpiwCXsauAR6u4IHbOBfS4Dnd0jF/LCdWIgBUex2U/4=
-X-Received: by 10.25.215.197 with SMTP id q66mr18306689lfi.89.1520544026806;
-	Thu, 08 Mar 2018 13:20:26 -0800 (PST)
+	bh=OBKzYolWv1dhokttJRLoKTW4SXtMM54jR7f5fbbuYeg=;
+	b=mfU1xbXiGnBUv/1hVhKEPdn11ulCdGtbwcqRTaNbKm+yw7hC8z6jur9B9xRaAPhwNJ
+	Gb+dBhlrwssbKAnxIdqNWnzSYRreFzDbHLaPkZEtw/4krXmV9zRpQ3GH3yTTYRhBOfsI
+	v6U4NpP527W0ymuf/pIjQK05sX8wW2GTeI3L4Y5yYEx2hwWN1xdJZkC+c8vnfrlPmK8w
+	tiPLrayuLu5YN03aWmzd1ABQtm4Mx/csQpLnfbayPeqRGbSnlFmeshTxOxxvzNbVPxXi
+	NPkB7Zvbg7dEo90Vul8QF0oWG3AOd80bDkxi74ut6P6vkKdhBeMI7tC1zcTH9WlHT7PM
+	IY7g==
+X-Gm-Message-State: AElRT7E/0JCOAuYEVom1R2Vu8EpFLHXbdwCxx8WV4lYzHaZjWh6jIuN2
+	3ND6wS06oo9/kyP4D4YNveGQd7b0lOEGzV/XrUo=
+X-Google-Smtp-Source: AG47ELvaSoWkg+taHFYh8vRKp+6S1S3qs6cJgDFU9vXRW264/9ms/bIpGOpBElH9+3HroRmWq4JQ2UTXut02AeIkai0=
+X-Received: by 10.46.23.219 with SMTP id 88mr2864528ljx.49.1520544038449; Thu,
+	08 Mar 2018 13:20:38 -0800 (PST)
 MIME-Version: 1.0
-Received: by 10.46.48.4 with HTTP; Thu, 8 Mar 2018 13:20:26 -0800 (PST)
-In-Reply-To: <20180307170243.8155-1-jkrishnanjanappa@mvista.com>
+Received: by 10.46.48.4 with HTTP; Thu, 8 Mar 2018 13:20:37 -0800 (PST)
+In-Reply-To: <20180307170243.8155-2-jkrishnanjanappa@mvista.com>
 References: <20180307170243.8155-1-jkrishnanjanappa@mvista.com>
+	<20180307170243.8155-2-jkrishnanjanappa@mvista.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 8 Mar 2018 16:20:26 -0500
-Message-ID: <CADkTA4NdiJDcki72Y6QKfdtPZ7Gx8Mo-pgT7GoZBdfF6tjQO3g@mail.gmail.com>
+Date: Thu, 8 Mar 2018 16:20:37 -0500
+Message-ID: <CADkTA4P1G=V9yt0moFP5MD_o_x5_OLda7TFArE=KyjpU=iz57w@mail.gmail.com>
 To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [master][rocko][PATCH 1/2] vgabios: replace PN with BPN, to solve fetch failure while building for multilib
+Subject: Re: [master][rocko][PATCH 2/2] gunicorn: replace PN with BPN, to solve fetch failure while building for multilib
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,44 +75,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 08 Mar 2018 21:20:28 -0000
+X-List-Received-Date: Thu, 08 Mar 2018 21:20:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+merged
 
 Bruce
 
 On Wed, Mar 7, 2018 at 12:02 PM, Jagadeesh Krishnanjanappa
 <jkrishnanjanappa@mvista.com> wrote:
-> The multilib vgabios (for example lib32-vgabios) fetch fails with
+> The multilib gunicorn (for example lib32-gunicorn) fetch fails with
 > below error:
 > -- snip --
-> Location: http://nongnu.askapache.com/vgabios/lib32-vgabios-0.7a.tgz [following]
-> --2018-03-07 16:45:22-- http://nongnu.askapache.com/vgabios/lib32-vgabios-0.7a.tgz
-> Resolving nongnu.askapache.com... 192.185.42.228
-> Connecting to nongnu.askapache.com|192.185.42.228|:80... connected.
+> --2018-03-07 16:52:09-- https://pypi.python.org/packages/source/g/gunicorn/lib32-gunicorn-19.1.1.tar.gz
+> Resolving pypi.python.org... 151.101.0.223, 151.101.64.223, 151.101.128.223, ...
+> Connecting to pypi.python.org|151.101.0.223|:443... connected.
 > HTTP request sent, awaiting response... 404 Not Found
-> 2018-03-07 16:45:22 ERROR 404: Not Found.
+> 2018-03-07 16:52:09 ERROR 404: Not Found.
 > -- snip --
 >
 > Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 > ---
->  recipes-extended/vgabios/vgabios_0.7a.bb | 2 +-
+>  recipes-devtools/python/gunicorn_19.1.1.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-extended/vgabios/vgabios_0.7a.bb b/recipes-extended/vgabios/vgabios_0.7a.bb
-> index 8c89041..3394173 100644
-> --- a/recipes-extended/vgabios/vgabios_0.7a.bb
-> +++ b/recipes-extended/vgabios/vgabios_0.7a.bb
-> @@ -7,7 +7,7 @@ DEPENDS = "dev86-native biossums-native"
+> diff --git a/recipes-devtools/python/gunicorn_19.1.1.bb b/recipes-devtools/python/gunicorn_19.1.1.bb
+> index bbe03ea..5c8ea48 100644
+> --- a/recipes-devtools/python/gunicorn_19.1.1.bb
+> +++ b/recipes-devtools/python/gunicorn_19.1.1.bb
+> @@ -8,7 +8,7 @@ DESCRIPTION = "\
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=19a2e253a273e390cd1b91d19b6ee236"
 >
->  LIC_FILES_CHKSUM = "file://COPYING;md5=dcf3c825659e82539645da41a7908589"
+> -SRC_URI = "https://pypi.python.org/packages/source/g/gunicorn/${PN}-${PV}.tar.gz"
+> +SRC_URI = "https://pypi.python.org/packages/source/g/gunicorn/${BPN}-${PV}.tar.gz"
+>  SRC_URI[md5sum] = "eaa72bff5341c05169b76ce3dcbb8140"
+>  SRC_URI[sha256sum] = "82715511fb6246fad4ba66d812eb93416ae8371b464fa88bf3867c9c177daa14"
 >
-> -SRC_URI =  "http://savannah.gnu.org/download/vgabios/${PN}-${PV}.tgz"
-> +SRC_URI =  "http://savannah.gnu.org/download/vgabios/${BPN}-${PV}.tgz"
->
->  SRC_URI[md5sum] = "2c0fe5c0ca08082a9293e3a7b23dc900"
->  SRC_URI[sha256sum] = "9d24c33d4bfb7831e2069cf3644936a53ef3de21d467872b54ce2ea30881b865"
 > --
 > 2.11.1
 >
