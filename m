@@ -1,69 +1,78 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <persaur@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C14BEE01061; Thu,  8 Mar 2018 18:23:38 -0800 (PST)
+	id F0CBCE00DE0; Sun, 11 Mar 2018 22:58:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	MIME_QP_LONG_LINE, 
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (christopher.w.clark[at]gmail.com)
+	mail provider *      (persaur[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.220.181 listed in list.dnswl.org]
+	*      [209.85.220.176 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* 0.0 MIME_QP_LONG_LINE RAW: Quoted-printable line longer than 76 chars
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f181.google.com (mail-qk0-f181.google.com
-	[209.85.220.181])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8CD60E0106F
+Received: from mail-qk0-f176.google.com (mail-qk0-f176.google.com
+	[209.85.220.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 66716E00843
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  8 Mar 2018 18:23:35 -0800 (PST)
-Received: by mail-qk0-f181.google.com with SMTP id f25so2115800qkm.0
+	Sun, 11 Mar 2018 22:58:37 -0700 (PDT)
+Received: by mail-qk0-f176.google.com with SMTP id b198so1021968qkg.9
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 08 Mar 2018 18:23:35 -0800 (PST)
+	Sun, 11 Mar 2018 22:58:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=uVKLWt59e2BnqSa53c+2jsVIcfcshVlFm17q8vPeYh8=;
-	b=gAbFLBxVvmOiisbTRgNQne6CLGVF7Pr1KaOKzjLJJnvpnxJBzuh479/3lNWTbeXAFU
-	1VpV6xaVD0Z8V6SWRS2saXwaxqja6oLZKc/254U2UOakID3BmHQhQSHF+mnS/YkpI7y2
-	PQDSc3Z8H/jLbAxJlG7b8u2BxhAbO6GrJhDKqzCfjjQqt6pW+8EQJugv5kEAZbzLo15m
-	qofJFKASFuATpowkvzGDA89vqJg4WBwy8Jso9Q7acGoP898OfyYq+4EZ6mE0i80tuQKJ
-	/SBtKgjrXbXkauDrJ6V9SQXJhV+qDEsNwwEwH9nuxOTP9RujAySHG8Ymy72iRY1B7472
-	b9GA==
+	h=content-transfer-encoding:from:mime-version:message-id:date:subject
+	:to; bh=SifhZb4JODmIc4P1oCWtAASK7JJRpk9IItqmVZyY+O4=;
+	b=g3M7GoRdbrsw1AyrZ6nXAC+2/ddGgxUS8HgC3TeXWJmBjAZ6veinB+DqdjdEIilnkB
+	HFWxuL/l7gfnqBAyUenbxDqYOZzUBvPIf7bnAZz3+IvnlbZ4dpeQQWFzgpf6glWeTChz
+	QK6tdqmTm4zN/5qLTUA6aqRfunKoPnNMGqIdJknp6V2BT8XZQvNFqGAm1sxFKajCajyW
+	pBbH7e9yIqpsC+PKzvgPVRlb7dW6fOwEGl4iu8H6xbHi284ozfCiCXvw7lnCDPSjRjjL
+	WLGBbdxATmdVqGdk/SuubQzgfmljMl+OOuAOdI6nzHiUH4PQDIHBjVBxJwa2LgZxbVg8
+	JFVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=uVKLWt59e2BnqSa53c+2jsVIcfcshVlFm17q8vPeYh8=;
-	b=ctNZWM+oiOtbwsUZCmuip/YgmR5f5jfEIL9QXVdjjvr1Y2Jfa12jOg/isFNqeLz3sT
-	Un3fuDHVMX6d+yWR3i17C9+4FwTZWdSADv9M6hUiXKFf/iMSvDxR7fdwbHhSAlIFIau9
-	nKtAb4BXcSdeYupFL9JaLMhOyn/uOo/uqRWScI0GLcwwf2x0UOXEcUWoCOidvyZfTBHS
-	4Y9oRxaktHNhtP0EaEiwbZPU1q5CZtXa8xRLc5dPMIePfL4aZch6jrwXIw53VJxw1iWc
-	3+54TkTL4hWnd8h9jyF78/4hyq7QwpjHKWRQ8KzQOpj0xPpt7HrvMXZ/H9Qsrryu6OlS
-	Bqaw==
-X-Gm-Message-State: AElRT7EehNW3YZIhPCX5+Vd8XSrT/Hr4Hd+2vLnO+/ipGrbEFlURBzxx
-	kiMqZUIk6a8FnDBWdvBkziDKFGZNYUVVLft2BnI=
-X-Google-Smtp-Source: AG47ELuXXKxxgVo/pDDNqVVNsymV7VXSL4jampJTXjZPTAuGmF3cb0AYkxdg+SiUPrNsV156eQHA3nuXFKyNIrX/lfo=
-X-Received: by 10.55.182.68 with SMTP id g65mr26184042qkf.41.1520562214780;
-	Thu, 08 Mar 2018 18:23:34 -0800 (PST)
-MIME-Version: 1.0
-Received: by 10.140.98.178 with HTTP; Thu, 8 Mar 2018 18:23:34 -0800 (PST)
-In-Reply-To: <d59c1a4b1f58515ff9d4db9470019c630da4df5e.1519915283.git.kurt.bodiker@braintrust-us.com>
-References: <cover.1519915283.git.kurt.bodiker@braintrust-us.com>
-	<d59c1a4b1f58515ff9d4db9470019c630da4df5e.1519915283.git.kurt.bodiker@braintrust-us.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Thu, 8 Mar 2018 18:23:34 -0800
-Message-ID: <CACMJ4GYkqBL+zBnqfNOg+iy=7dqJF3EaMf743Wrwd44pQ2hhqA@mail.gmail.com>
-To: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/7] xen: Define the standard values needed for stubdoms
+	h=x-gm-message-state:content-transfer-encoding:from:mime-version
+	:message-id:date:subject:to;
+	bh=SifhZb4JODmIc4P1oCWtAASK7JJRpk9IItqmVZyY+O4=;
+	b=kaYfdXcLrd3y5EdguymZqq/3Tp75/sbIHwsZ3+e6uKZdHEzSOiMwGI9s5EA0/jFQjA
+	H56dRfkKYBsnkz9FIlQwdCO+frr7X8kFt64nKZ/y0kE/5SHALTVSWYQFHEtLbCiPC4i3
+	EoGFtgdRqCC+j75K+F+3D0GIYDizdiFrdtEQ9BKhmMPkpt7RXCUGKdRmdbLqzhkHB5yu
+	yEyFDsX699ZU0OCAtUSU2aipZdFC7bAdaHnXB/3XwWSMKe4SvbeG0nyEuzxA+jRpLliV
+	Yyg/8DYtKXu5xWdT+U0KnRzZPiyDB6xsgHJme/uoNJL4Vaj2w3wbrwSyVJJDPDFcLnWv
+	3U0A==
+X-Gm-Message-State: AElRT7GlNOmmcNhEVhIzyYEU1ZGOJCUaGHc3PisaVrV7P9mbTWpB/JOS
+	m40QJ3NBUJC4UvotKaYZcCIu4RfO
+X-Google-Smtp-Source: AG47ELvc76UqgzaKuLPUEcFxkmRj2yFFDWEpz6xLkTjZ6MugLowJcUji+SYdgE62yY9ON/Sb1+mUqw==
+X-Received: by 10.55.20.76 with SMTP id e73mr5543278qkh.236.1520834317157;
+	Sun, 11 Mar 2018 22:58:37 -0700 (PDT)
+Received: from [100.64.72.56] ([173.245.215.240])
+	by smtp.gmail.com with ESMTPSA id
+	h184sm3843213qkc.78.2018.03.11.22.58.36
+	for <meta-virtualization@yoctoproject.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 11 Mar 2018 22:58:36 -0700 (PDT)
+From: Rich Persaud <persaur@gmail.com>
+Mime-Version: 1.0 (1.0)
+Received: from [100.64.72.56] ([173.245.215.240]) by smtp.gmail.com with
+	ESMTPSA id l1sm1822906qtb.33.2018.03.11.22.49.03 for
+	<openxt@googlegroups.com> (version=TLS1_2
+	cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 11 Mar 2018 22:49:03 -0700 (PDT)
+Message-Id: <1BEE2C27-F0BE-4C0A-8D57-4EAFF95BC2D7@gmail.com>
+Date: Mon, 12 Mar 2018 01:58:35 -0400
+X-Mailer: iPad Mail (15D100)
+To: meta-virtualization@yoctoproject.org
+Subject: CFP: Platform Security Summit 2018: OpenXT, Xen Project and OpenEmbedded
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,172 +85,129 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 09 Mar 2018 02:23:38 -0000
-Content-Type: multipart/alternative; boundary="94eb2c060d1eabc88d0566f17aa4"
+X-List-Received-Date: Mon, 12 Mar 2018 05:58:39 -0000
+Content-Transfer-Encoding: 7bit
+Content-Type: multipart/alternative;
+	boundary=Apple-Mail-B5EC85F8-6349-4154-90AF-31257AC4D291
 
---94eb2c060d1eabc88d0566f17aa4
-Content-Type: text/plain; charset="UTF-8"
-
-On Mon, Mar 5, 2018 at 7:35 AM, Kurt Bodiker <kurt.bodiker@braintrust-us.com
-> wrote:
-
-> From: kebodiker <kurt.bodiker@braintrust-us.com>
->
-> This commit introduces the stubdom.inc file that is required for each
-> recipe that is/will be built for Xen stubdomains.
->
-
-
-
-> +# Couldn't find any other way to access the version of Xen used as a
-> dependency.
-> +# This version number needs changed to match version of Xen recipe  used
-> in builds.
-> +XEN_VERSION = "4.9.0"
->
-
-
-:( I understand the challenge here and sadly I don't have a better
-recommendation, but: would putting a scope on the DEPEND enable the build
-to fail fast in case
-of a mismatch?  ie:
-
-    DEPENDS = "xen (= ${XEN_VERSION}-r0)"
-
-I don't much like the "-r0" tail on that though -- anyone have any better
-suggestion?
-
-
-
-> +# Not sure if we need to (or even can) support 32-bit stubdoms
-> +# If we we do not need to support the 32-bit environment, then this
-> section and the
-> +# export statement afterwards can be removed.
->
-
-OpenXT uses 32-bit stubdomains - though they are not based on mini-os.
-32-bit PV domains have different isolation properties to 64-bit domains,
-due to the way the
-pagetables are managed and as seen by their differing Meltdown exposure, so
-please do leave the code to support 32-bit stubdoms in there as they are
-valued.
-
-I have a slight preference for dropping (or revising) the comment.
-
-
-> +STUBDOM_CPPFLAGS += "-isystem ${WORKDIR}/mini-os/include"
-> +STUBDOM_CPPFLAGS += "-D__MINIOS__ -DHAVE_LIBC"
-> +STUBDOM_CPPFLAGS += "-isystem ${WORKDIR}/mini-os/include/posix"
-> +STUBDOM_CPPFLAGS += "-isystem ${RECIPE_SYSROOT}/usr/include/
-> xenstore-compat"
-> +STUBDOM_CPPFLAGS += "-isystem ${WORKDIR}/mini-os/include/x86 -isystem
-> ${WORKDIR}/mini-os/include/x86/${XEN_TARGET_ARCH}"
-> +STUBDOM_CPPFLAGS += "-U __linux__ -U __FreeBSD__ -U __sun__"
-> +STUBDOM_CPPFLAGS += "-nostdinc"
-> +CPPFLAGS_INCLUDE_DIR = "-isystem ${RECIPE_SYSROOT}/cross-root-$
-> {XEN_TARGET_ARCH}/${GNU_TARGET_ARCH}-xen-elf/include"
-> +STUBDOM_CPPFLAGS += "${CPPFLAGS_INCLUDE_DIR}"
-> +STUBDOM_CPPFLAGS += "-isystem ${RECIPE_SYSROOT}/cross-root-${XEN_TARGET_ARCH}/lwip/include
-> -isystem ${RECIPE_SYSROOT}/cross-root-${XEN_TARGET_ARCH}/lwip/
-> include/ipv4"
-> +STUBDOM_CPPFLAGS += "-isystem ${RECIPE_SYSROOT}/usr/include/xen"
->
-
-The define for CPPFLAGS_INCLUDE_DIR in the middle of the above would better
-moved elsewhere.
-
-Would a multi-line define would be more OE-style than the series of lines
-all appending to the same variable?
-
-
-+
-> +STUBDOM_CFLAGS += "-mno-red-zone -O1 -fno-omit-frame-pointer -m64
-> -fno-reorder-blocks -fno-asynchronous-unwind-tables -DBUILD_ID
-> -fno-strict-aliasing -std=gnu99 -Wall -Wstrict-prototypes
-> -Wdeclaration-after-statement -Wno-unused-but-set-variable
-> -Wno-unused-local-typedefs -fno-stack-protector -fno-exceptions"
->
-
-The above would also be slightly nicer split over multiple (shorter) lines.
-
-thanks
-
-Christopher
-
---94eb2c060d1eabc88d0566f17aa4
-Content-Type: text/html; charset="UTF-8"
+--Apple-Mail-B5EC85F8-6349-4154-90AF-31257AC4D291
+Content-Type: text/plain;
+	charset=us-ascii
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_extra"><br><div class=3D"gmail_quote">=
-On Mon, Mar 5, 2018 at 7:35 AM, Kurt Bodiker <span dir=3D"ltr">&lt;<a href=
-=3D"mailto:kurt.bodiker@braintrust-us.com" target=3D"_blank">kurt.bodiker@b=
-raintrust-us.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">From: kebodiker &lt;<a href=3D"mailto:kurt.bodiker@braintr=
-ust-us.com">kurt.bodiker@braintrust-us.<wbr>com</a>&gt;<br>
-<br>
-This commit introduces the stubdom.inc file that is required for each<br>
-recipe that is/will be built for Xen stubdomains.<br></blockquote><div><br>=
-</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+#=
- Couldn&#39;t find any other way to access the version of Xen used as a dep=
-endency.<br>
-+# This version number needs changed to match version of Xen recipe=C2=A0 u=
-sed in builds.<br>
-+XEN_VERSION =3D &quot;4.9.0&quot;<br></blockquote><div><br></div><div><br>=
-</div><div><div>:( I understand the challenge here and sadly I don&#39;t ha=
-ve a better recommendation, but: would putting a scope on the DEPEND enable=
- the build to fail fast in case</div><div>of a mismatch?=C2=A0 ie:</div><di=
-v><br></div><div>=C2=A0 =C2=A0 DEPENDS =3D &quot;xen (=3D ${XEN_VERSION}-r0=
-)&quot;</div><div><br></div><div>I don&#39;t much like the &quot;-r0&quot; =
-tail on that though -- anyone have any better suggestion?</div></div><div><=
-br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-+# Not sure if we need to (or even can) support 32-bit stubdoms<br>
-+# If we we do not need to support the 32-bit environment, then this sectio=
-n and the<br>
-+# export statement afterwards can be removed.<br></blockquote><div><br></d=
-iv><div><div>OpenXT uses 32-bit stubdomains - though they are not based on =
-mini-os. 32-bit PV domains have different isolation properties to 64-bit do=
-mains, due to the way the</div><div>pagetables are managed and as seen by t=
-heir differing Meltdown exposure, so please do leave the code to support 32=
--bit stubdoms in there as they are valued.</div><div><br></div><div>I have =
-a slight preference for dropping (or revising) the comment.</div></div><div=
-><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-+STUBDOM_CPPFLAGS +=3D &quot;-isystem ${WORKDIR}/mini-os/include&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-D__MINIOS__ -DHAVE_LIBC&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-isystem ${WORKDIR}/mini-os/include/<wbr>posix=
-&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-isystem ${RECIPE_SYSROOT}/usr/include/<wbr>xe=
-nstore-compat&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-isystem ${WORKDIR}/mini-os/include/x86 -isyst=
-em ${WORKDIR}/mini-os/include/<wbr>x86/${XEN_TARGET_ARCH}&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-U __linux__ -U __FreeBSD__ -U __sun__&quot;<b=
-r>
-+STUBDOM_CPPFLAGS +=3D &quot;-nostdinc&quot;<br>
-+CPPFLAGS_INCLUDE_DIR =3D &quot;-isystem ${RECIPE_SYSROOT}/cross-root-$<wbr=
->{XEN_TARGET_ARCH}/${GNU_<wbr>TARGET_ARCH}-xen-elf/include&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;${CPPFLAGS_INCLUDE_DIR}&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-isystem ${RECIPE_SYSROOT}/cross-root-$<wbr>{X=
-EN_TARGET_ARCH}/lwip/include -isystem ${RECIPE_SYSROOT}/cross-root-$<wbr>{X=
-EN_TARGET_ARCH}/lwip/<wbr>include/ipv4&quot;<br>
-+STUBDOM_CPPFLAGS +=3D &quot;-isystem ${RECIPE_SYSROOT}/usr/include/<wbr>xe=
-n&quot;<br></blockquote><div><br></div><div>The define for CPPFLAGS_INCLUDE=
-_DIR in the middle of the above would better moved elsewhere.</div><div><br=
-></div><div>Would a multi-line define would be more OE-style than the serie=
-s of lines all appending to the same variable?</div><div><br></div><div><br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+STUBDOM_CFLAGS +=3D &quot;-mno-red-zone -O1 -fno-omit-frame-pointer -m64 -=
-fno-reorder-blocks -fno-asynchronous-unwind-<wbr>tables -DBUILD_ID -fno-str=
-ict-aliasing -std=3Dgnu99 -Wall -Wstrict-prototypes -Wdeclaration-after-sta=
-tement -Wno-unused-but-set-variable -Wno-unused-local-typedefs -fno-stack-p=
-rotector -fno-exceptions&quot;<br></blockquote><div><br></div><div>The abov=
-e would also be slightly nicer split over multiple (shorter) lines.</div><d=
-iv><br></div><div>thanks</div><div><br></div><div>Christopher</div><div><br=
-></div></div></div></div>
+If you are working on commercial, academic or open-source projects which use=
+ OpenXT, Xen Project or OpenEmbedded to implement platform components with w=
+ell-defined security properties, you are invited to present at Platform Secu=
+rity Summit 2018, which will take place on May 23-24 in Fairfax, VA, USA.
 
---94eb2c060d1eabc88d0566f17aa4--
+Topics of interest include:
+
+ - Virtualization-based isolation of open, proprietary and restricted code
+ - Architecture for disaggregation of Xen-based systems
+ - Mixed-criticality system design, testing and safety certification
+ - Scheduling, hardware partitioning and hypervisor nesting
+ - Xen PVH, PCI passthrough, PV-IOMMU, Qemu disaggregation
+
+ - Hardware-rooted security technologies (e.g. TPM, TEE, SGX)
+ - Measured launch, DRTM and SRTM deployment models
+ - Stateless VMs and unikernels with OpenEmbedded
+ - Reproducible, cross-compiled builds with OpenEmbedded
+ - Spectre/Meltdown mitigations, performance & security
+
+ - Inter-VM and Multi-Hypervisor Communication
+ - Networking technologies for mutually trusting systems
+ - Mandatory Access Control (e.g. SE Linux, Xen Security Modules)
+ - Fuzzing of Xen, OpenEmbedded and platform firmware
+ - GPU and co-processor virtualization=20
+
+The 2-day event will have a single track of presentations and discussions.  T=
+here is no cost to attend, but space will be limited.  If you would like to p=
+resent or attend, please respond to this message by Friday, 31st March, stat=
+ing your organization name and topics of interest.
+
+Rich=
+
+--Apple-Mail-B5EC85F8-6349-4154-90AF-31257AC4D291
+Content-Type: text/html;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto"><div><span></span></div><div><meta http-equ=
+iv=3D"content-type" content=3D"text/html; charset=3Dutf-8"><div><span></span=
+></div><div><div><span></span></div><div><meta http-equiv=3D"content-type" c=
+ontent=3D"text/html; charset=3Dutf-8"><div><span></span></div><div><meta htt=
+p-equiv=3D"content-type" content=3D"text/html; charset=3Dutf-8"><div><span><=
+/span></div><div><meta http-equiv=3D"content-type" content=3D"text/html; cha=
+rset=3Dutf-8"><div><span></span></div><div><meta http-equiv=3D"content-type"=
+ content=3D"text/html; charset=3Dutf-8"><p style=3D"margin: 0px; font-stretc=
+h: normal; line-height: normal; min-height: 13.8px;"><span style=3D"backgrou=
+nd-color: rgba(255, 255, 255, 0);">If you are working on commercial, academi=
+c or open-source projects which use OpenXT, Xen Project or OpenEmbedded to i=
+mplement platform components with well-defined security properties, you are i=
+nvited to present at <i>Platform Security Summit 2018</i>, which will take p=
+lace on May 23-24 in Fairfax, VA, USA.</span></p><p style=3D"margin: 0px; fo=
+nt-stretch: normal; line-height: normal; min-height: 13.8px;"><span style=3D=
+"background-color: rgba(255, 255, 255, 0);"><br></span></p><p style=3D"margi=
+n: 0px; font-stretch: normal; line-height: normal;"><span style=3D"backgroun=
+d-color: rgba(255, 255, 255, 0);">Topics of interest include:</span></p><p s=
+tyle=3D"margin: 0px; font-stretch: normal; line-height: normal; min-height: 1=
+3.8px;"><span style=3D"background-color: rgba(255, 255, 255, 0);"><br></span=
+></p><p style=3D"margin: 0px; font-stretch: normal; line-height: normal;"><s=
+pan style=3D"background-color: rgba(255, 255, 255, 0);">&nbsp;- Virtualizati=
+on-based isolation of open, proprietary and restricted code</span></p><p sty=
+le=3D"margin: 0px; font-stretch: normal; line-height: normal;"><span style=3D=
+"background-color: rgba(255, 255, 255, 0);">&nbsp;- Architecture for disaggr=
+egation of Xen-based systems</span></p><p style=3D"margin: 0px; font-stretch=
+: normal; line-height: normal;"><span style=3D"background-color: rgba(255, 2=
+55, 255, 0);">&nbsp;- Mixed-criticality system design, testing and safety ce=
+rtification</span></p><p style=3D"margin: 0px; font-stretch: normal; line-he=
+ight: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);">&nb=
+sp;- Scheduling, hardware partitioning and hypervisor nesting</span></p><p s=
+tyle=3D"margin: 0px; font-stretch: normal; line-height: normal;"><span style=
+=3D"background-color: rgba(255, 255, 255, 0);">&nbsp;- Xen PVH, PCI passthro=
+ugh, PV-IOMMU, Qemu disaggregation</span></p><p style=3D"margin: 0px; font-s=
+tretch: normal; line-height: normal; min-height: 13.8px;"><span style=3D"bac=
+kground-color: rgba(255, 255, 255, 0);"><br></span></p><p style=3D"margin: 0=
+px; font-stretch: normal; line-height: normal;"><span style=3D"background-co=
+lor: rgba(255, 255, 255, 0);">&nbsp;- Hardware-rooted security technologies (=
+e.g. TPM, TEE, SGX)</span></p><p style=3D"margin: 0px; font-stretch: normal;=
+ line-height: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0=
+);">&nbsp;- Measured launch, DRTM and SRTM deployment models</span></p><p st=
+yle=3D"margin: 0px; font-stretch: normal; line-height: normal;"><span style=3D=
+"background-color: rgba(255, 255, 255, 0);">&nbsp;- Stateless VMs and uniker=
+nels with OpenEmbedded</span></p><p style=3D"margin: 0px; font-stretch: norm=
+al; line-height: normal;"><span style=3D"background-color: rgba(255, 255, 25=
+5, 0);">&nbsp;- Reproducible, cross-compiled builds with OpenEmbedded</span>=
+</p><p style=3D"margin: 0px; font-stretch: normal; line-height: normal;"><sp=
+an style=3D"background-color: rgba(255, 255, 255, 0);">&nbsp;- Spectre/Meltd=
+own mitigations, performance &amp; security</span></p><p style=3D"margin: 0p=
+x; font-stretch: normal; line-height: normal; min-height: 13.8px;"><span sty=
+le=3D"background-color: rgba(255, 255, 255, 0);"><br></span></p><p style=3D"=
+margin: 0px; font-stretch: normal; line-height: normal;"><span style=3D"back=
+ground-color: rgba(255, 255, 255, 0);">&nbsp;- Inter-VM and Multi-Hypervisor=
+ Communication</span></p><p style=3D"margin: 0px; font-stretch: normal; line=
+-height: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);">=
+&nbsp;- Networking technologies for mutually trusting systems</span></p><p s=
+tyle=3D"margin: 0px; font-stretch: normal; line-height: normal;"><span style=
+=3D"background-color: rgba(255, 255, 255, 0);">&nbsp;- Mandatory Access Cont=
+rol (e.g. SE Linux, Xen Security Modules)</span></p><p style=3D"margin: 0px;=
+ font-stretch: normal; line-height: normal;"><span style=3D"background-color=
+: rgba(255, 255, 255, 0);">&nbsp;- Fuzzing of Xen, OpenEmbedded and platform=
+ firmware</span></p><p style=3D"margin: 0px; font-stretch: normal; line-heig=
+ht: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);">&nbsp=
+;- GPU and co-processor virtualization&nbsp;</span></p><p style=3D"margin: 0=
+px; font-stretch: normal; line-height: normal; min-height: 13.8px;"><span st=
+yle=3D"background-color: rgba(255, 255, 255, 0);"><br></span></p><p style=3D=
+"margin: 0px; font-stretch: normal; line-height: normal;"><span style=3D"bac=
+kground-color: rgba(255, 255, 255, 0);">The 2-day event will have a single t=
+rack of presentations and discussions.&nbsp;&nbsp;There is no cost to attend=
+, but space will be limited.&nbsp;&nbsp;If you would like to present or atte=
+nd, please respond to this message by Friday, 31st March, stating your organ=
+ization name and topics of interest.</span></p><p style=3D"margin: 0px; font=
+-stretch: normal; line-height: normal;"><br></p><p style=3D"margin: 0px; fon=
+t-stretch: normal; line-height: normal;"><span style=3D"background-color: rg=
+ba(255, 255, 255, 0);">Rich</span></p></div></div></div></div></div></div></=
+body></html>=
+
+--Apple-Mail-B5EC85F8-6349-4154-90AF-31257AC4D291--
