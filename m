@@ -1,55 +1,70 @@
-Return-Path: <pascal.bach@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2E772E00E0A; Wed, 14 Mar 2018 06:01:00 -0700 (PDT)
+	id 6B57FE00E39; Wed, 14 Mar 2018 06:07:49 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [194.138.37.40 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.215.48 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 759 seconds by postgrey-1.32 at yocto-www;
-	Wed, 14 Mar 2018 06:00:58 PDT
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2904E00DB1
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 310BDE00823
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Mar 2018 06:00:58 -0700 (PDT)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id w2ECmHgj015261
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 14 Mar 2018 13:48:17 +0100
-Received: from DEFTHW99ERKMSX.ww902.siemens.net
-	(defthw99erkmsx.ww902.siemens.net [139.22.70.147])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id w2ECmBkC015518
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 14 Mar 2018 13:48:16 +0100
-Received: from DEFTHW99ER3MSX.ww902.siemens.net (139.22.70.74) by
-	DEFTHW99ERKMSX.ww902.siemens.net (139.22.70.147) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Wed, 14 Mar 2018 13:48:00 +0100
-Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.4]) by
-	DEFTHW99ER3MSX.ww902.siemens.net ([139.22.70.74]) with mapi id
-	14.03.0361.001; Wed, 14 Mar 2018 13:48:00 +0100
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [meta-virtualization] [PATCH] docker: make aufs dependency
-	depend on distro feature
-Thread-Index: AQHTu5GtZazaE7QSYE+zHFjH9pZpLqPPreyw
-Date: Wed, 14 Mar 2018 12:48:00 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E61735E9EF@DEFTHW99EH4MSX.ww902.siemens.net>
-References: <20180314083912.16564-1-pascal.bach@siemens.com>
-	<CADkTA4PV1WJiK50qz0bC5eo0_jwBaM+Kb-7j=WXAuzNgw9Nwuw@mail.gmail.com>
-In-Reply-To: <CADkTA4PV1WJiK50qz0bC5eo0_jwBaM+Kb-7j=WXAuzNgw9Nwuw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.35]
+	Wed, 14 Mar 2018 06:07:46 -0700 (PDT)
+Received: by mail-lf0-f48.google.com with SMTP id h127-v6so4652385lfg.12
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 14 Mar 2018 06:07:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=hPl0jwTbVKVoUfzo3Ga/e7Teavox4f+wZFFTr6pcbsA=;
+	b=oL5SYZ3pC7hbwBlUk/7SkDU1ba9lpvf33XqEUaPAnH1l1aMkLmc5myQXyHfz87jj34
+	QzCW6/WNwk8scm11adugXDzywzTRTnmkFk9KcIl4v9o4On/qSzysVZPLtyqzWCS5+6eM
+	R5JJhiSSz9lFlU6CcKdjFETmZaMxY/haXVfr5Q6ePv4e5MSDMgNDgZid135ui32ZR8+E
+	SX9PeqdTMtOo8x9NaY47R7At/7BdNDwY9JGfHmAI9uoTSu0DgcVE2m8uC/fd9FM8V3a1
+	i1AsIf2+bwuDlEBHPB24q+ecsemHEwNb9YWzd4bdBm7YqfJMOHx0H0vwtTMJJ3Psv6AG
+	D/Bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=hPl0jwTbVKVoUfzo3Ga/e7Teavox4f+wZFFTr6pcbsA=;
+	b=du3k5NxjzWHR+++kMDLmo2AcbVPBvMa1ijZfpjcj+0F07SGH10yOqDmKqkdqR3y1zu
+	oj6tC7ctkBDUHSDDZFZU/mou3DoItelExaStX2AwE3T2Ma/iIk4dBpzvX1VRKlU0V9YB
+	+EastcEUZgvZf4DFSq/pugPZbAevxbSmcTVqts+8IJzn6012K4hnd7PgzseCqjnkUtAY
+	jG3dmU87vVOYowoMKOTr3O1n/AKE8OEZEOLFtQJg5TqjDP347lq/mLX0dVeGhxQbQUze
+	0BCVByc26fVNdUHulbwuxBkzpW31K1avvOdvUYRC8Hu98NFEwqj5cHyegCpWOmMILLEf
+	W3Tw==
+X-Gm-Message-State: AElRT7FOmwvVkJcsdTcxVJ465LNZ4RF+UVTPHWugwEFi/n1zUTSI0uFi
+	vb5UN3/9HbzEyerU9zcMF20brQKcM+oiUSPSioqIqQ==
+X-Google-Smtp-Source: AG47ELvUtHXldJrOIXgcLyA3VIpY1UTlkU4TEHPSdAQl5GIzBm6WK+DIQ5qKLvDJX8oimGmmstX+t/e3uWHPEm58IoU=
+X-Received: by 10.46.86.1 with SMTP id k1mr3227009ljb.28.1521032865481; Wed,
+	14 Mar 2018 06:07:45 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 10.46.25.8 with HTTP; Wed, 14 Mar 2018 06:07:44 -0700 (PDT)
+In-Reply-To: <355BE46A91031048906B695426A8D8E61735E9A1@DEFTHW99EH4MSX.ww902.siemens.net>
+References: <20180314083947.22458-1-pascal.bach@siemens.com>
+	<CADkTA4O1ze=NKO61dL_C-h99G5Bx49gXrEVrHXDz4+Z6nP7h2w@mail.gmail.com>
+	<355BE46A91031048906B695426A8D8E61735E9A1@DEFTHW99EH4MSX.ww902.siemens.net>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 14 Mar 2018 09:07:44 -0400
+Message-ID: <CADkTA4MBqwhW_Pe+v_5dgja+osuTkbd_wjdOvs8ZQ23bs9fxhQ@mail.gmail.com>
+To: "Bach, Pascal" <pascal.bach@siemens.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] docker: make aufs dependency depend on distro feature
+Subject: Re: [PATCH] containerd: remove redundant systemd detection
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,51 +77,57 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 13:01:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 14 Mar 2018 13:07:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQnJ1Y2UgQXNoZmllbGQg
-W21haWx0bzpicnVjZS5hc2hmaWVsZEBnbWFpbC5jb21dDQo+IFNlbnQ6IE1pdHR3b2NoLCAxNC4g
-TcOkcnogMjAxOCAxMzo0MQ0KPiBUbzogQmFjaCwgUGFzY2FsIChCVCBDUFMgUiZEIFpHIEZXIEND
-UCkgPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29tPg0KPiBDYzogbWV0YS12aXJ0dWFsaXphdGlvbkB5
-b2N0b3Byb2plY3Qub3JnDQo+IFN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0gW1BB
-VENIXSBkb2NrZXI6IG1ha2UgYXVmcyBkZXBlbmRlbmN5DQo+IGRlcGVuZCBvbiBkaXN0cm8gZmVh
-dHVyZQ0KPiANCj4gVGhlIHByb2JsZW0gaXMgLi4gdGhhdCB0aGlzIGlzIG5vdyBhIG1hZ2ljIGRp
-c3RybyBmZWF0dXJlIHRoYXQgbm8gb25lIGtub3dzDQo+IGFib3V0Lg0KPiANCj4gQXQgYSBtaW5p
-bXVtLCB0aGlzIG5ldyBkaXN0cm8gZmVhdHVyZSB1c2UgbmVlZHMgdG8gYmUgZG9jdW1lbnRlZCBp
-biB0aGUNCj4gbGF5ZXJzIFJFQURNRS4NCg0KVGhpcyBjaGVjayBpcyBhbHJlYWR5IHVzZWQgaW4g
-cmVjaXBlcy1rZXJuZWwvbGludXgvbGludXgteW9jdG9fdmlydHVhbGl6YXRpb24uaW5jIHdoZXJl
-IGl0IGVuYWJsZXMgYXVmcyBzdXBwb3J0IGluIHRoZSBrZXJuZWwuDQpCdXQgeW91IGFyZSByaWdo
-dCB0aGlzIHNob3VsZCBiZSBkb2N1bWVudGVkIGFzIGEgZGlzdHJvIGZlYXR1cmUgZm9yIHRoaXMg
-bGF5ZXIuDQoNClBhc2NhbA0KDQo+IEJydWNlDQo+IA0KPiBPbiBXZWQsIE1hciAxNCwgMjAxOCBh
-dCA0OjM5IEFNLCBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+DQo+IHdyb3Rl
-Og0KPiA+IE9ubHkgaW5jbHVkZSBhdWZzLXV0aWxzIGlmIHRoZSBjb3JyZXNwb25kaW5nIGRpc3Ry
-byBmZWF0dXJlIGlzIGVuYWJsZWQuDQo+ID4gV2l0aG91dCB0aGF0IHRoZSBhdWZzIGtlcm5lbCBk
-cml2ZXIgaXMgbm90IGluY2x1ZGVkIHRvby4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFBhc2Nh
-bCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4NCj4gPiAtLS0NCj4gPiAgcmVjaXBlcy1j
-b250YWluZXJzL2RvY2tlci9kb2NrZXJfZ2l0LmJiIHwgNSArKystLQ0KPiA+ICAxIGZpbGUgY2hh
-bmdlZCwgMyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdp
-dCBhL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXIvZG9ja2VyX2dpdC5iYg0KPiA+IGIvcmVjaXBl
-cy1jb250YWluZXJzL2RvY2tlci9kb2NrZXJfZ2l0LmJiDQo+ID4gaW5kZXggNWMyMTEzOC4uMjA2
-Yzg4NCAxMDA2NDQNCj4gPiAtLS0gYS9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlcl9n
-aXQuYmINCj4gPiArKysgYi9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyL2RvY2tlcl9naXQuYmIN
-Cj4gPiBAQCAtNjQsOCArNjQsOSBAQCBERVBFTkRTID0gIiBcDQo+ID4gIFBBQ0tBR0VTID0rICIk
-e1BOfS1jb250cmliIg0KPiA+DQo+ID4gIERFUEVORFNfYXBwZW5kX2NsYXNzLXRhcmdldCA9ICIg
-bHZtMiINCj4gPiAtUkRFUEVORFNfJHtQTn0gPSAiY3VybCBhdWZzLXV0aWwgZ2l0IHV0aWwtbGlu
-dXggaXB0YWJsZXMgXA0KPiA+IC0gICAgICAgICAgICAgICAgICAke0BiYi51dGlscy5jb250YWlu
-cygnRElTVFJPX0ZFQVRVUkVTJywnc3lzdGVtZCcsJycsJ2Nncm91cC0NCj4gbGl0ZScsZCl9IFwN
-Cj4gPiArUkRFUEVORFNfJHtQTn0gPSAidXRpbC1saW51eCBpcHRhYmxlcyBcDQo+ID4gKyAgICAg
-ICAgICAgICAgICAgICR7QGJiLnV0aWxzLmNvbnRhaW5zKCdESVNUUk9fRkVBVFVSRVMnLCAnYXVm
-cycsICdhdWZzLXV0aWwnLCAnJywgZCl9DQo+IFwNCj4gPiArICAgICAgICAgICAgICAgICAgJHtA
-YmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICdzeXN0ZW1kJywNCj4gPiArJycs
-ICdjZ3JvdXAtbGl0ZScsIGQpfSBcDQo+ID4gICAgICAgICAgICAgICAgICAgIg0KPiA+ICBSREVQ
-RU5EU18ke1BOfSArPSAidmlydHVhbC9jb250YWluZXJkIHZpcnR1YWwvcnVuYyINCj4gPg0KPiA+
-IC0tDQo+ID4gMi4xMS4wDQo+ID4NCj4gPiAtLQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gbWV0YS12aXJ0dWFsaXphdGlvbiBtYWlsaW5n
-IGxpc3QNCj4gPiBtZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmcNCj4gPiBodHRw
-czovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvbGlzdGluZm8vbWV0YS12aXJ0dWFsaXphdGlvbg0K
-PiANCj4gDQo+IA0KPiAtLQ0KPiAiVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50
-ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlDQo+IGF0IGl0cyBlbmQiDQo=
+On Wed, Mar 14, 2018 at 8:46 AM, Bach, Pascal <pascal.bach@siemens.com> wrote:
+>> On Wed, Mar 14, 2018 at 4:39 AM, Pascal Bach <pascal.bach@siemens.com>
+>> wrote:
+>> > The variables only take effect if systemd is enabled so the check can be
+>> removed.
+>> >
+>>
+>> Same comment.
+>>
+>> This layer, and many others, have always had this check since that's how the
+>> systemd classes worked before.
+>>
+>> Can you log the oe-core commit that changes the behaviour in the long log of
+>> the two cleanup patches ?
+>
+>  I cannot point you to a specific commit in oe-core. But I also don't see anything like this anywhere else.
+> All recipes in oe-core I had a look at just set these variables, no checks.
+>
+> So you make any observations that makes the check necessary in this layer but not in oe-core?
+
+Throughout the various systemd integrations, we've had services that
+didn't start/install when they should, we've had services that would start
+when the shouldn't, and all sorts of other combinations.
+
+Plus historically we supported both systemd and sysvinit, so both the
+packaging and install rules needed to be conditional on the init system.
+
+In those same recipes, the .service files aren't being installed if systemd
+isn't enabled.
+
+Although I haven't tested it lately, IIRC, that lack of .service file + the
+packaging being enabled triggers a warning or error.
+
+I'm actually fine in walking away from sysvinit support, but I know there are
+still some users of it, so I should first document it as depreciated, throw a
+warning and then remove it completely in the next release (i.e. not just these
+cleanups, but remove all the systemd init system checks).
+
+Bruce
+
+>
+> Pascal
+>
+>
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
