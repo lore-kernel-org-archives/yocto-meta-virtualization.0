@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8D110E00F08; Wed, 14 Mar 2018 05:39:41 -0700 (PDT)
+	id C0C9EE00F58; Wed, 14 Mar 2018 05:40:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.215.67 listed in list.dnswl.org]
+	*      [209.85.215.68 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,50 +19,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f67.google.com (mail-lf0-f67.google.com
-	[209.85.215.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EECFEE00823
+Received: from mail-lf0-f68.google.com (mail-lf0-f68.google.com
+	[209.85.215.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F1155E00823
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Mar 2018 05:39:40 -0700 (PDT)
-Received: by mail-lf0-f67.google.com with SMTP id p74-v6so4576542lfd.3
+	Wed, 14 Mar 2018 05:40:37 -0700 (PDT)
+Received: by mail-lf0-f68.google.com with SMTP id v9-v6so4533795lfa.11
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Mar 2018 05:39:40 -0700 (PDT)
+	Wed, 14 Mar 2018 05:40:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=pJU1smOc36Qosl2XObYAHgjNoOuwRZsyiIDokClKkVQ=;
-	b=AyBAraADuw7zYaJ4qd38e1rrIertZGjq1Y8UhjZFJScxVf/U5ui0wk3/SsLAeX4d+A
-	nh00UpptPh2ceyC6bYoxD9/WdY9CSYdkWaxYVZ1R0XUun/eLCaoU2AAol1iyXwU78dPW
-	RwITkgmYXFhxq2EnfruImYHmu4lKae7zODo8C+g4oGTfrbv75+Jw+a3j5I7XVeb63FDY
-	FSQkVuWgT1t5/1XRb8Yglfyh13IKtW8wtCxCTGLaE2KT2jQUV2JxqyA585KDoTXkvz/x
-	h656iNsy0NmQw5FwRSetot2LmTbGVpOqC0NToOqpxpEGAgZ+Ce+TLmz8J+JejMqDTvW9
-	2NCQ==
+	:cc; bh=o70GTK5rdaYda1MUHy1vza+u7tY4YV5TBITif2MbMCg=;
+	b=rwkNgWXVaWVnybb+VxDzvhZcr54DVwKINSIwKsbMFSAvpk/fqTjkm0oy0cp8D1Q7ZK
+	dk787u8g8k3bnS66VFfFLtx/qqlBjuWSD2cd5izYmUPpX69faPvhRX1g3MbnjSPQGyrT
+	1LCdXMaQqRq1eK8AL2hqelLzPGd1OqSYx0IekzpPAJpWoHM/tqmg8ytc6JbL4EobEQjx
+	vVRWYUGDD7SyQ6QznufeebgDJ2PZLruy59pEtZJ1gwt3F35pwSAjCxWQh21i4EEkShcS
+	u1Y+g+IgZErrJjyS2bPyi8vCtkI6FDJWHMWyIeNkxHDKsK3u9JTT+cwCFHAUBwnjHCHP
+	F4Dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=pJU1smOc36Qosl2XObYAHgjNoOuwRZsyiIDokClKkVQ=;
-	b=fjCzBwOriQH6i2YppM7H14ynA1PlEmEKlGhzlEy5C4JtsrpK/2mXbZRjptn1IkB0hm
-	q+jm/8GdGEFw6BQRHmcGnmdfw46Ry/+mgian2FoGMQj0Xy5gIeIlK/DX5ad9LIIY6qeh
-	+xX90rVHBxoKoHuEFmGbqRWIHV9ZhKu3Acx7N+L7D0zVgNwJPVLxzydnb+4g2TKxGDbi
-	9LAphll5G/0t6JxIbLf4mED0RxuvrMaKqWIFEZjz7WjguPHZ9Q8FJBf34bOiGvBpf0zh
-	tmxi3dTXHbMxb6nkJf8FrWvjR86yLDB0y3kI3+LDVoH5w3kKA/h0ZVGqSDqEYXCJpx6a
-	UUYA==
-X-Gm-Message-State: AElRT7FgNoq9jrzVGL56dOSCy5v989BEdsHCwgtUIw6U2HBU0X1va++Y
-	rjD0amsuG1wv9MEKgTw+x5I4jZNNMzZ9CbaXFVlQow==
-X-Google-Smtp-Source: AG47ELubuJ6v4daAsp0bIWoB5Vx3XsAjnJbBjfPYc/Cn+w6JAWhBec4rs9OimeboQbAPKdvKmCfwKRp5hZ564ppXY0k=
-X-Received: by 2002:a19:97d0:: with SMTP id
-	z199-v6mr3163007lfd.94.1521031179654; 
-	Wed, 14 Mar 2018 05:39:39 -0700 (PDT)
+	bh=o70GTK5rdaYda1MUHy1vza+u7tY4YV5TBITif2MbMCg=;
+	b=skGGJxjsd/GQdKtLKbk7keIkP8PgdqPLdQSLeqW5NLVzRN/GP9yfc8McRWcdOU5SbB
+	SufXB7Cs8FhRtZfQKIkRyQpsVyTwPtem8r+2dubS3mGgb87j/w4J4WGAXC94MHUGdNhy
+	ICLXhavtaRnXcSsW+hGGOvvHchUUoI45BFBAK9BuNDSY4wa6mROa26HAIJ0maRDMwkEN
+	OG+hVM+tTQu03JTUumpq4R7x3F5w5iLjAA6Qk8zA0xHb0IkCC0Ub58ASetN6DK0BsTSJ
+	7yFjDwJ02MS/AuyZErrtgE+LpD/N/7m+7BGWQ31w6Xjethw/xhOrWHyqRKs2mvqYNl/p
+	U4sg==
+X-Gm-Message-State: AElRT7EHs3vNmFpv3gvxLLRktE5zgu1iwwMxkR3zItr78Qopsh6jzlbe
+	DmAnpU3cehNKVwaT5e9qi8rgdRC2A0EbNxTri2Q=
+X-Google-Smtp-Source: AG47ELuOk2LbCxnCqphvBfQxzxpyJ2X2ZLBjkoB3Ux0UwqSs71i8Mzj5RlqmYjfPYZgsaVN/vm+WjCMUTrC4uEVsoLo=
+X-Received: by 10.46.20.30 with SMTP id u30mr3419109ljd.12.1521031236548; Wed,
+	14 Mar 2018 05:40:36 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Wed, 14 Mar 2018 05:39:39 -0700 (PDT)
-In-Reply-To: <20180314083947.22458-1-pascal.bach@siemens.com>
-References: <20180314083947.22458-1-pascal.bach@siemens.com>
+Received: by 10.46.25.8 with HTTP; Wed, 14 Mar 2018 05:40:36 -0700 (PDT)
+In-Reply-To: <20180314083912.16564-1-pascal.bach@siemens.com>
+References: <20180314083912.16564-1-pascal.bach@siemens.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 14 Mar 2018 08:39:39 -0400
-Message-ID: <CADkTA4O1ze=NKO61dL_C-h99G5Bx49gXrEVrHXDz4+Z6nP7h2w@mail.gmail.com>
+Date: Wed, 14 Mar 2018 08:40:36 -0400
+Message-ID: <CADkTA4PV1WJiK50qz0bC5eo0_jwBaM+Kb-7j=WXAuzNgw9Nwuw@mail.gmail.com>
 To: Pascal Bach <pascal.bach@siemens.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] containerd: remove redundant systemd detection
+Subject: Re: [PATCH] docker: make aufs dependency depend on distro feature
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,45 +74,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 12:39:41 -0000
+X-List-Received-Date: Wed, 14 Mar 2018 12:40:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Mar 14, 2018 at 4:39 AM, Pascal Bach <pascal.bach@siemens.com> wrote:
-> The variables only take effect if systemd is enabled so the check can be removed.
->
+The problem is .. that this is now a magic distro feature that no one
+knows about.
 
-Same comment.
-
-This layer, and many others, have always had this check since that's
-how the systemd
-classes worked before.
-
-Can you log the oe-core commit that changes the behaviour in the long
-log of the two
-cleanup patches ?
+At a minimum, this new distro feature use needs to be documented in the layers
+README.
 
 Bruce
 
+On Wed, Mar 14, 2018 at 4:39 AM, Pascal Bach <pascal.bach@siemens.com> wrote:
+> Only include aufs-utils if the corresponding distro feature is enabled.
+> Without that the aufs kernel driver is not included too.
+>
 > Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 > ---
->  recipes-containers/containerd/containerd.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  recipes-containers/docker/docker_git.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/recipes-containers/containerd/containerd.inc b/recipes-containers/containerd/containerd.inc
-> index f91e018..801ace1 100644
-> --- a/recipes-containers/containerd/containerd.inc
-> +++ b/recipes-containers/containerd/containerd.inc
-> @@ -53,8 +53,8 @@ do_compile() {
+> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+> index 5c21138..206c884 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -64,8 +64,9 @@ DEPENDS = " \
+>  PACKAGES =+ "${PN}-contrib"
 >
->  # Note: disabled for now, since docker is launching containerd
->  # inherit systemd
-> -# SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}','',d)}"
-> -# SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('DISTRO_FEATURES','systemd','containerd.service','',d)}"
-> +# SYSTEMD_PACKAGES = "${PN}"
-> +# SYSTEMD_SERVICE_${PN} = "containerd.service"
+>  DEPENDS_append_class-target = " lvm2"
+> -RDEPENDS_${PN} = "curl aufs-util git util-linux iptables \
+> -                  ${@bb.utils.contains('DISTRO_FEATURES','systemd','','cgroup-lite',d)} \
+> +RDEPENDS_${PN} = "util-linux iptables \
+> +                  ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
+> +                  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
+>                   "
+>  RDEPENDS_${PN} += "virtual/containerd virtual/runc"
 >
->  do_install() {
->      mkdir -p ${D}/${bindir}
 > --
 > 2.11.0
 >
