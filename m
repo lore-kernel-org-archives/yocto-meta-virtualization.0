@@ -1,6 +1,6 @@
 Return-Path: <pascal.bach@siemens.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DD389E00E51; Tue, 13 Mar 2018 08:37:55 -0700 (PDT)
+	id 80D58E00DE0; Wed, 14 Mar 2018 01:36:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,30 +11,27 @@ X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
 	*      [192.35.17.14 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 205 seconds by postgrey-1.32 at yocto-www;
-	Tue, 13 Mar 2018 08:37:53 PDT
 Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B5FB2E0084D
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6BB6BE00823
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Mar 2018 08:37:53 -0700 (PDT)
+	Wed, 14 Mar 2018 01:36:19 -0700 (PDT)
 Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w2DFYQBu003580
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id w2E8aIuT003052
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Mar 2018 16:34:26 +0100
-Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
-	[139.16.77.152])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w2DFYQ3G011334;
-	Tue, 13 Mar 2018 16:34:26 +0100
+	Wed, 14 Mar 2018 09:36:18 +0100
+Received: from dev.vm6.ccp.siemens.com ([167.87.15.61])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id w2E8aIKx003837;
+	Wed, 14 Mar 2018 09:36:18 +0100
 Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 7E59410D3F8A;
-	Tue, 13 Mar 2018 16:34:26 +0100 (CET)
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 8818B10D3F8A;
+	Wed, 14 Mar 2018 09:36:17 +0100 (CET)
 From: Pascal Bach <pascal.bach@siemens.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 13 Mar 2018 16:34:18 +0100
-Message-Id: <20180313153418.13771-1-pascal.bach@siemens.com>
+Date: Wed, 14 Mar 2018 09:36:09 +0100
+Message-Id: <20180314083609.7907-1-pascal.bach@siemens.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] README: remove reference to oe-meta-go
+Subject: [PATCH] linux-yocto: replace version specific appends
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,36 +44,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Mar 2018 15:37:56 -0000
+X-List-Received-Date: Wed, 14 Mar 2018 08:36:21 -0000
 
-It is no longer supported nor is it it needed as the support has
-landed in openembedded-core
+All append to the same anyway and as long that there is no difference it
+can be simplified by having only one append for all versions.
 
 Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- README | 6 +-----
- 1 file changed, 1 insertion(+), 5 deletions(-)
+ .../linux/{linux-yocto_4.12.bbappend => linux-yocto_%.bbappend}          | 0
+ recipes-kernel/linux/linux-yocto_4.14.bbappend                           | 1 -
+ recipes-kernel/linux/linux-yocto_4.15.bbappend                           | 1 -
+ 3 files changed, 2 deletions(-)
+ rename recipes-kernel/linux/{linux-yocto_4.12.bbappend => linux-yocto_%.bbappend} (100%)
+ delete mode 100644 recipes-kernel/linux/linux-yocto_4.14.bbappend
+ delete mode 100644 recipes-kernel/linux/linux-yocto_4.15.bbappend
 
-diff --git a/README b/README
-index d653f11..6d8fbe0 100644
---- a/README
-+++ b/README
-@@ -39,14 +39,10 @@ URI: git://github.com/openembedded/meta-openembedded.git
- branch: master
- revision: HEAD
- layers: meta-oe
--	meta-networking
-+        meta-networking
-         meta-filesystems
-         meta-python
- 
--URI: git://github.com/errordeveloper/oe-meta-go.git
--branch: master
--revision: HEAD
--
- BBFILE_PRIORITY_openembedded-layer = "4"
- 
- Required for Xen XSM policy:
+diff --git a/recipes-kernel/linux/linux-yocto_4.12.bbappend b/recipes-kernel/linux/linux-yocto_%.bbappend
+similarity index 100%
+rename from recipes-kernel/linux/linux-yocto_4.12.bbappend
+rename to recipes-kernel/linux/linux-yocto_%.bbappend
+diff --git a/recipes-kernel/linux/linux-yocto_4.14.bbappend b/recipes-kernel/linux/linux-yocto_4.14.bbappend
+deleted file mode 100644
+index 617cacc..0000000
+--- a/recipes-kernel/linux/linux-yocto_4.14.bbappend
++++ /dev/null
+@@ -1 +0,0 @@
+-require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-kernel/linux/linux-yocto_4.15.bbappend b/recipes-kernel/linux/linux-yocto_4.15.bbappend
+deleted file mode 100644
+index 617cacc..0000000
+--- a/recipes-kernel/linux/linux-yocto_4.15.bbappend
++++ /dev/null
+@@ -1 +0,0 @@
+-require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
 -- 
 2.11.0
 
