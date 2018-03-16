@@ -1,67 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <pascal.bach@siemens.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6B57FE00E39; Wed, 14 Mar 2018 06:07:49 -0700 (PDT)
+	id 0A429E00956; Fri, 16 Mar 2018 02:28:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.48 listed in list.dnswl.org]
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [192.35.17.2 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 310BDE00823
+Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A825BE00752
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Mar 2018 06:07:46 -0700 (PDT)
-Received: by mail-lf0-f48.google.com with SMTP id h127-v6so4652385lfg.12
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Mar 2018 06:07:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=hPl0jwTbVKVoUfzo3Ga/e7Teavox4f+wZFFTr6pcbsA=;
-	b=oL5SYZ3pC7hbwBlUk/7SkDU1ba9lpvf33XqEUaPAnH1l1aMkLmc5myQXyHfz87jj34
-	QzCW6/WNwk8scm11adugXDzywzTRTnmkFk9KcIl4v9o4On/qSzysVZPLtyqzWCS5+6eM
-	R5JJhiSSz9lFlU6CcKdjFETmZaMxY/haXVfr5Q6ePv4e5MSDMgNDgZid135ui32ZR8+E
-	SX9PeqdTMtOo8x9NaY47R7At/7BdNDwY9JGfHmAI9uoTSu0DgcVE2m8uC/fd9FM8V3a1
-	i1AsIf2+bwuDlEBHPB24q+ecsemHEwNb9YWzd4bdBm7YqfJMOHx0H0vwtTMJJ3Psv6AG
-	D/Bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=hPl0jwTbVKVoUfzo3Ga/e7Teavox4f+wZFFTr6pcbsA=;
-	b=du3k5NxjzWHR+++kMDLmo2AcbVPBvMa1ijZfpjcj+0F07SGH10yOqDmKqkdqR3y1zu
-	oj6tC7ctkBDUHSDDZFZU/mou3DoItelExaStX2AwE3T2Ma/iIk4dBpzvX1VRKlU0V9YB
-	+EastcEUZgvZf4DFSq/pugPZbAevxbSmcTVqts+8IJzn6012K4hnd7PgzseCqjnkUtAY
-	jG3dmU87vVOYowoMKOTr3O1n/AKE8OEZEOLFtQJg5TqjDP347lq/mLX0dVeGhxQbQUze
-	0BCVByc26fVNdUHulbwuxBkzpW31K1avvOdvUYRC8Hu98NFEwqj5cHyegCpWOmMILLEf
-	W3Tw==
-X-Gm-Message-State: AElRT7FOmwvVkJcsdTcxVJ465LNZ4RF+UVTPHWugwEFi/n1zUTSI0uFi
-	vb5UN3/9HbzEyerU9zcMF20brQKcM+oiUSPSioqIqQ==
-X-Google-Smtp-Source: AG47ELvUtHXldJrOIXgcLyA3VIpY1UTlkU4TEHPSdAQl5GIzBm6WK+DIQ5qKLvDJX8oimGmmstX+t/e3uWHPEm58IoU=
-X-Received: by 10.46.86.1 with SMTP id k1mr3227009ljb.28.1521032865481; Wed,
-	14 Mar 2018 06:07:45 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Wed, 14 Mar 2018 06:07:44 -0700 (PDT)
-In-Reply-To: <355BE46A91031048906B695426A8D8E61735E9A1@DEFTHW99EH4MSX.ww902.siemens.net>
+	Fri, 16 Mar 2018 02:28:33 -0700 (PDT)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id w2G9SVA8006934
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 16 Mar 2018 10:28:31 +0100
+Received: from DEFTHW99ERGMSX.ww902.siemens.net
+	(defthw99ergmsx.ww902.siemens.net [139.22.70.132])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id w2G9SJTM032487
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 16 Mar 2018 10:28:31 +0100
+Received: from DEFTHW99ERRMSX.ww902.siemens.net (139.22.70.199) by
+	DEFTHW99ERGMSX.ww902.siemens.net (139.22.70.132) with Microsoft SMTP
+	Server (TLS) id 14.3.361.1; Fri, 16 Mar 2018 10:27:55 +0100
+Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.4]) by
+	DEFTHW99ERRMSX.ww902.siemens.net ([139.22.70.199]) with mapi id
+	14.03.0361.001; Fri, 16 Mar 2018 10:27:54 +0100
+From: "Bach, Pascal" <pascal.bach@siemens.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [meta-virtualization] [PATCH] containerd: remove redundant
+	systemd detection
+Thread-Index: AQHTu5Gh/1lTOQ2feUm23GxlGgrFM6PPrESQ///2tgCAAvdukA==
+Date: Fri, 16 Mar 2018 09:27:54 +0000
+Message-ID: <355BE46A91031048906B695426A8D8E617361466@DEFTHW99EH4MSX.ww902.siemens.net>
 References: <20180314083947.22458-1-pascal.bach@siemens.com>
 	<CADkTA4O1ze=NKO61dL_C-h99G5Bx49gXrEVrHXDz4+Z6nP7h2w@mail.gmail.com>
 	<355BE46A91031048906B695426A8D8E61735E9A1@DEFTHW99EH4MSX.ww902.siemens.net>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 14 Mar 2018 09:07:44 -0400
-Message-ID: <CADkTA4MBqwhW_Pe+v_5dgja+osuTkbd_wjdOvs8ZQ23bs9fxhQ@mail.gmail.com>
-To: "Bach, Pascal" <pascal.bach@siemens.com>
+	<CADkTA4MBqwhW_Pe+v_5dgja+osuTkbd_wjdOvs8ZQ23bs9fxhQ@mail.gmail.com>
+In-Reply-To: <CADkTA4MBqwhW_Pe+v_5dgja+osuTkbd_wjdOvs8ZQ23bs9fxhQ@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [139.22.70.33]
+MIME-Version: 1.0
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: [PATCH] containerd: remove redundant systemd detection
@@ -77,57 +62,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Mar 2018 13:07:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 16 Mar 2018 09:28:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, Mar 14, 2018 at 8:46 AM, Bach, Pascal <pascal.bach@siemens.com> wrote:
->> On Wed, Mar 14, 2018 at 4:39 AM, Pascal Bach <pascal.bach@siemens.com>
->> wrote:
->> > The variables only take effect if systemd is enabled so the check can be
->> removed.
->> >
->>
->> Same comment.
->>
->> This layer, and many others, have always had this check since that's how the
->> systemd classes worked before.
->>
->> Can you log the oe-core commit that changes the behaviour in the long log of
->> the two cleanup patches ?
->
->  I cannot point you to a specific commit in oe-core. But I also don't see anything like this anywhere else.
-> All recipes in oe-core I had a look at just set these variables, no checks.
->
-> So you make any observations that makes the check necessary in this layer but not in oe-core?
-
-Throughout the various systemd integrations, we've had services that
-didn't start/install when they should, we've had services that would start
-when the shouldn't, and all sorts of other combinations.
-
-Plus historically we supported both systemd and sysvinit, so both the
-packaging and install rules needed to be conditional on the init system.
-
-In those same recipes, the .service files aren't being installed if systemd
-isn't enabled.
-
-Although I haven't tested it lately, IIRC, that lack of .service file + the
-packaging being enabled triggers a warning or error.
-
-I'm actually fine in walking away from sysvinit support, but I know there are
-still some users of it, so I should first document it as depreciated, throw a
-warning and then remove it completely in the next release (i.e. not just these
-cleanups, but remove all the systemd init system checks).
-
-Bruce
-
->
-> Pascal
->
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+SGkgQnJ1Y2UNCg0KPiA+PiBUaGlzIGxheWVyLCBhbmQgbWFueSBvdGhlcnMsIGhhdmUgYWx3YXlz
+IGhhZCB0aGlzIGNoZWNrIHNpbmNlIHRoYXQncw0KPiA+PiBob3cgdGhlIHN5c3RlbWQgY2xhc3Nl
+cyB3b3JrZWQgYmVmb3JlLg0KPiA+Pg0KPiA+PiBDYW4geW91IGxvZyB0aGUgb2UtY29yZSBjb21t
+aXQgdGhhdCBjaGFuZ2VzIHRoZSBiZWhhdmlvdXIgaW4gdGhlIGxvbmcNCj4gPj4gbG9nIG9mIHRo
+ZSB0d28gY2xlYW51cCBwYXRjaGVzID8NCj4gPg0KPiA+ICBJIGNhbm5vdCBwb2ludCB5b3UgdG8g
+YSBzcGVjaWZpYyBjb21taXQgaW4gb2UtY29yZS4gQnV0IEkgYWxzbyBkb24ndCBzZWUNCj4gYW55
+dGhpbmcgbGlrZSB0aGlzIGFueXdoZXJlIGVsc2UuDQo+ID4gQWxsIHJlY2lwZXMgaW4gb2UtY29y
+ZSBJIGhhZCBhIGxvb2sgYXQganVzdCBzZXQgdGhlc2UgdmFyaWFibGVzLCBubyBjaGVja3MuDQo+
+ID4NCj4gPiBTbyB5b3UgbWFrZSBhbnkgb2JzZXJ2YXRpb25zIHRoYXQgbWFrZXMgdGhlIGNoZWNr
+IG5lY2Vzc2FyeSBpbiB0aGlzIGxheWVyDQo+IGJ1dCBub3QgaW4gb2UtY29yZT8NCj4gDQo+IFRo
+cm91Z2hvdXQgdGhlIHZhcmlvdXMgc3lzdGVtZCBpbnRlZ3JhdGlvbnMsIHdlJ3ZlIGhhZCBzZXJ2
+aWNlcyB0aGF0IGRpZG4ndA0KPiBzdGFydC9pbnN0YWxsIHdoZW4gdGhleSBzaG91bGQsIHdlJ3Zl
+IGhhZCBzZXJ2aWNlcyB0aGF0IHdvdWxkIHN0YXJ0IHdoZW4gdGhlDQo+IHNob3VsZG4ndCwgYW5k
+IGFsbCBzb3J0cyBvZiBvdGhlciBjb21iaW5hdGlvbnMuDQo+IA0KPiBQbHVzIGhpc3RvcmljYWxs
+eSB3ZSBzdXBwb3J0ZWQgYm90aCBzeXN0ZW1kIGFuZCBzeXN2aW5pdCwgc28gYm90aCB0aGUNCj4g
+cGFja2FnaW5nIGFuZCBpbnN0YWxsIHJ1bGVzIG5lZWRlZCB0byBiZSBjb25kaXRpb25hbCBvbiB0
+aGUgaW5pdCBzeXN0ZW0uDQo+IA0KPiBJbiB0aG9zZSBzYW1lIHJlY2lwZXMsIHRoZSAuc2Vydmlj
+ZSBmaWxlcyBhcmVuJ3QgYmVpbmcgaW5zdGFsbGVkIGlmIHN5c3RlbWQgaXNuJ3QNCj4gZW5hYmxl
+ZC4NCj4gDQo+IEFsdGhvdWdoIEkgaGF2ZW4ndCB0ZXN0ZWQgaXQgbGF0ZWx5LCBJSVJDLCB0aGF0
+IGxhY2sgb2YgLnNlcnZpY2UgZmlsZSArIHRoZQ0KPiBwYWNrYWdpbmcgYmVpbmcgZW5hYmxlZCB0
+cmlnZ2VycyBhIHdhcm5pbmcgb3IgZXJyb3IuDQo+IA0KPiBJJ20gYWN0dWFsbHkgZmluZSBpbiB3
+YWxraW5nIGF3YXkgZnJvbSBzeXN2aW5pdCBzdXBwb3J0LCBidXQgSSBrbm93IHRoZXJlIGFyZQ0K
+PiBzdGlsbCBzb21lIHVzZXJzIG9mIGl0LCBzbyBJIHNob3VsZCBmaXJzdCBkb2N1bWVudCBpdCBh
+cyBkZXByZWNpYXRlZCwgdGhyb3cgYQ0KPiB3YXJuaW5nIGFuZCB0aGVuIHJlbW92ZSBpdCBjb21w
+bGV0ZWx5IGluIHRoZSBuZXh0IHJlbGVhc2UgKGkuZS4gbm90IGp1c3QNCj4gdGhlc2UgY2xlYW51
+cHMsIGJ1dCByZW1vdmUgYWxsIHRoZSBzeXN0ZW1kIGluaXQgc3lzdGVtIGNoZWNrcykuDQoNCkkg
+ZG9uJ3QgdGhpbmsgdGhlcmUgaXMgYSBuZWVkIHRvIGRyb3Agc3lzdmluaXQuIFRoZXkgY2FuIGNv
+ZXhpc3Qgd2l0aG91dCBwcm9ibGVtLg0KV2UgdXNlZCBtYW55IHJlY2lwZXMgdGhhdCBoYXZlIGJv
+dGggc3lzdmluaXQgYW5kIHN5c3RlbWQgc2VydmljZSBhbmQgbmV2ZXIgaGFkIGFueSBpc3N1ZXMg
+YXQgbGVhc3Qgc2luY2UgcHlyby4NCg0KUGFzY2FsDQo=
 
