@@ -1,38 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Yunguo.Wei@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D6ACBE00B28; Tue, 20 Mar 2018 16:03:29 -0700 (PDT)
+	id C2062E009D7; Wed, 21 Mar 2018 20:27:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA382E00708
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A67E2E00708
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 20 Mar 2018 16:03:27 -0700 (PDT)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-3) with ESMTPSA id
-	w2KN3LRU020417
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NOT); Tue, 20 Mar 2018 23:03:22 GMT
-Message-ID: <1521587001.25754.204.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Christopher Clark <christopher.w.clark@gmail.com>, Kurt Bodiker
-	<kurt.bodiker@braintrust-us.com>
-Date: Tue, 20 Mar 2018 23:03:21 +0000
-In-Reply-To: <CACMJ4GbGA+De1quOn_qa4FGNWuPdXmycrUbJcdoCdBzohTfmJA@mail.gmail.com>
-References: <cover.1519915283.git.kurt.bodiker@braintrust-us.com>
-	<d59c1a4b1f58515ff9d4db9470019c630da4df5e.1519915283.git.kurt.bodiker@braintrust-us.com>
-	<CACMJ4GYkqBL+zBnqfNOg+iy=7dqJF3EaMf743Wrwd44pQ2hhqA@mail.gmail.com>
-	<CACMJ4GbGA+De1quOn_qa4FGNWuPdXmycrUbJcdoCdBzohTfmJA@mail.gmail.com>
-X-Mailer: Evolution 3.18.5.2-0ubuntu3.2 
-Mime-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.99.3 at dan
-X-Virus-Status: Clean
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/7] xen: Define the standard values needed for stubdoms
+	Wed, 21 Mar 2018 20:27:20 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w2M3RJqI014937
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 21 Mar 2018 20:27:19 -0700 (PDT)
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Wed, 21 Mar 2018 20:27:18 -0700
+From: Yunguo Wei <yunguo.wei@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 21 Mar 2018 23:27:18 -0400
+Message-ID: <20180322032718.353177-1-yunguo.wei@windriver.com>
+X-Mailer: git-send-email 2.11.0
+MIME-Version: 1.0
+Subject: [PATCH] go-fsnotify: switch to new repository on github
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,22 +43,31 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 20 Mar 2018 23:03:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 22 Mar 2018 03:27:21 -0000
+Content-Type: text/plain
 
-On Tue, 2018-03-20 at 11:25 -0700, Christopher Clark wrote:
-> In testing, this constraint of package version doesn't produce the
-> build behaviour I was hoping for: bitbake doesn't enforce the version
-> constraint at build time and from earlier related posts on the
-> mailing list, this behaviour is known, so presumably is intentional.
+fsnotify is changed to new repository on gihub, so adapt this chanage
+accordingly to avoid fetch failure.
 
-"Intentional" isn't right. We want to support it but have never gotten
-around to it. Making DEPENDS support version info was the first step
-which we did, so we can add the info but nothing currently acts on it.
+Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
+---
+ recipes-devtools/go/go-fsnotify_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Cheers,
-
-Richard
+diff --git a/recipes-devtools/go/go-fsnotify_git.bb b/recipes-devtools/go/go-fsnotify_git.bb
+index e5bcf14..1d9fbdc 100644
+--- a/recipes-devtools/go/go-fsnotify_git.bb
++++ b/recipes-devtools/go/go-fsnotify_git.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=c38914c9a7ab03bb2b96d4baaee10769"
+ 
+ SRCNAME = "fsnotify"
+ 
+-PKG_NAME = "github.com/go-fsnotify/${SRCNAME}"
++PKG_NAME = "github.com/fsnotify/${SRCNAME}"
+ SRC_URI = "git://${PKG_NAME}.git"
+ 
+ SRCREV = "836bfd95fecc0f1511dd66bdbf2b5b61ab8b00b6"
+-- 
+2.11.0
 
 
