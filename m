@@ -1,43 +1,66 @@
-Return-Path: <huangqy.fnst@cn.fujitsu.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1A7FEE00CD9; Thu, 22 Mar 2018 20:30:15 -0700 (PDT)
+	id E18A3E00B30; Fri, 23 Mar 2018 06:11:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [183.91.158.132 listed in list.dnswl.org]
+	*      [209.85.161.193 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2409AE00C6B
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yw0-f193.google.com (mail-yw0-f193.google.com
+	[209.85.161.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D4F0FE008D2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 22 Mar 2018 20:30:06 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="38089878"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 23 Mar 2018 11:28:59 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1E6154D0EFF3
+	Fri, 23 Mar 2018 06:11:40 -0700 (PDT)
+Received: by mail-yw0-f193.google.com with SMTP id r145so3931391ywe.7
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 23 Mar 2018 11:28:54 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.125) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.361.1; Fri, 23 Mar 2018 11:28:53 +0800
-From: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 23 Mar 2018 11:28:54 +0800
-Message-ID: <1521775736-38102-5-git-send-email-huangqy.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 23 Mar 2018 06:11:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=PuV4yl43mgBUYnEcwXBwIZoar19+8iDBQ+sBc1yYSDE=;
+	b=kj40cVO4ucnXt/zIYINkfzBy6BDrnLFcSvIai0BHIAb6LmDsY3sbOlvflIYc41ifJf
+	tHSKqUYEcTZQoUUJl6ojTgKU9SQe7Jt0YNPuu8b35Of2dmEIF3YyTyemHhTepKdl3R3W
+	0JXb274tTri78csBMKwhypbbwuxSfXRrZhQ31cRWAAdzTD+LK9JoTgO8fcgVFvl6bFVN
+	9p3y9NWu6EYTQqqhlvheOO0ILl2qYhtEvmwTAafryth+/LdgbzqQM18Nh7Cs4RJ5YLhi
+	HUpf42MqFRTE6D7GMdoIeAn+A5jsWjMfOzd2SnlCkTIKaoz7qjDa1seWkN2+ktHBsrtO
+	GjkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=PuV4yl43mgBUYnEcwXBwIZoar19+8iDBQ+sBc1yYSDE=;
+	b=AQchIE4noXScQx6UE3QuvORelXrsGCceox6gH850vF5KIxCcOb3Izxis2A7Bk6B+C9
+	Dmk8+qiGMMiQM/S0CR/abwYgUG/aHsnFA9szySMNPd6D1U8n+1P8Dl3o8Sxhp2KWNvwb
+	TV2M9UAAp5PnZY/JttTsN0gtwypSStIVM1RunfsI0n5qDdUSZypxUn82zbg+MwyfI3aw
+	GaWMy5z+9BuZZ5kDFxikYoI6xfBxen2iPG5MyCPwdNemKdvU288WOIXv0Qs0v+QFXFiA
+	1C9zTXSjTsbE2Z8dnXIhujV+xROgXHKEO3NvmdNjY6CbjBmaXCzsV8iqwly33aUepClF
+	mK/Q==
+X-Gm-Message-State: AElRT7G6efDpl8ieaCiFld7kPfsb0E4HPvI8UtYO77+a7zkqwqc02pzJ
+	d9RhBNBciaSVGi/CAw/Hon/SOBMcOdQz/VMyUgo=
+X-Google-Smtp-Source: AG47ELuR3bduWhNJQEkXBDoo5pxphCUOUO5G1ZABEElBbsZDPXCnrPmOaPSTHnUPtKVNsbFyV1OcnR48w8RBLKRyJ/Y=
+X-Received: by 10.129.145.209 with SMTP id i200mr16963207ywg.364.1521810699610;
+	Fri, 23 Mar 2018 06:11:39 -0700 (PDT)
+MIME-Version: 1.0
+Sender: asselsm@gmail.com
+Received: by 2002:a25:dec6:0:0:0:0:0 with HTTP; Fri, 23 Mar 2018 06:11:38
+	-0700 (PDT)
 In-Reply-To: <1521775736-38102-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
 References: <1521775736-38102-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.125]
-X-yoursite-MailScanner-ID: 1E6154D0EFF3.A5C7F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: huangqy.fnst@cn.fujitsu.com
-Subject: [meta-cloud-services][PATCH] python-psycopg2: 2.6.2 -> 2.7.4
+From: "M. Asselstine" <asselsm@mcmaster.ca>
+Date: Fri, 23 Mar 2018 09:11:38 -0400
+X-Google-Sender-Auth: FEbzEmSaYrpgqWxsgiFGtx1DCWU
+Message-ID: <CAPuovE+SGSwYLxcjQkJF7cRzY1cfEkUb3nvKC6gPkT6-RAMjbA@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-cloud-services][PATCH] python-heatclient: 1.9.0 -> 1.14.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -50,70 +73,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 23 Mar 2018 03:30:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 23 Mar 2018 13:11:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-1.Upgrade python-psycopg2 from 2.6.2 to 2.7.4.
-2.Modify remove-pg-config.patch, since the data has been changed.
+Bruce, I will have a look at these on Monday to ensure they don't
+conflict with the uprev to OpenStack pike release. Unfortunately I
+don't have time today.
 
-Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
----
- .../recipes-devtools/python/python-psycopg2/remove-pg-config.patch | 7 ++++---
- .../python/{python-psycopg2_2.6.2.bb => python-psycopg2_2.7.4.bb}  | 4 ++--
- 2 files changed, 6 insertions(+), 5 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-psycopg2_2.6.2.bb => python-psycopg2_2.7.4.bb} (71%)
-
-diff --git a/meta-openstack/recipes-devtools/python/python-psycopg2/remove-pg-config.patch b/meta-openstack/recipes-devtools/python/python-psycopg2/remove-pg-config.patch
-index 37acc30..8f426f5 100644
---- a/meta-openstack/recipes-devtools/python/python-psycopg2/remove-pg-config.patch
-+++ b/meta-openstack/recipes-devtools/python/python-psycopg2/remove-pg-config.patch
-@@ -14,13 +14,14 @@ diff --git a/setup.cfg b/setup.cfg
- index d00ce92..4b45aac 100644
- --- a/setup.cfg
- +++ b/setup.cfg
--@@ -1,5 +1,6 @@
-+@@ -1,6 +1,6 @@
-  [build_ext]
-  define = 
-+-pg_config = 
- +pg_config="/bin/true"
-  use_pydatetime = 1
-+ mx_include_dir = 
-  have_ssl = 0
-- 
- diff --git a/setup.py b/setup.py
- index d71d489..b101696 100644
- --- a/setup.py
-@@ -42,7 +43,7 @@ index d71d489..b101696 100644
- +                pgversion = "9.4.4"
-  
-              verre = re.compile(
--                 r"(\d+)\.(\d+)(?:(?:\.(\d+))|(devel|(alpha|beta|rc)\d+))")
-+                 r"(\d+)(?:\.(\d+))?(?:(?:\.(\d+))|(devel|(?:alpha|beta|rc)\d+))?")
- -- 
- 2.7.4
- 
-diff --git a/meta-openstack/recipes-devtools/python/python-psycopg2_2.6.2.bb b/meta-openstack/recipes-devtools/python/python-psycopg2_2.7.4.bb
-similarity index 71%
-rename from meta-openstack/recipes-devtools/python/python-psycopg2_2.6.2.bb
-rename to meta-openstack/recipes-devtools/python/python-psycopg2_2.7.4.bb
-index 37a4bdd..674322d 100644
---- a/meta-openstack/recipes-devtools/python/python-psycopg2_2.6.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python-psycopg2_2.7.4.bb
-@@ -9,8 +9,8 @@ SRC_URI += " \
-            file://remove-pg-config.patch \
-           "
- 
--SRC_URI[md5sum] = "4a392949ba31a378a18ed3e775a4693f"
--SRC_URI[sha256sum] = "70490e12ed9c5c818ecd85d185d363335cc8a8cbf7212e3c185431c79ff8c05c"
-+SRC_URI[md5sum] = "70fc57072e084565a42689d416cf2c5c"
-+SRC_URI[sha256sum] = "8bf51191d60f6987482ef0cfe8511bbf4877a5aa7f313d7b488b53189cf26209"
- 
- inherit distutils pypi
- 
--- 
-2.7.4
-
-
-
+On Thu, Mar 22, 2018 at 11:28 PM, Huang Qiyu
+<huangqy.fnst@cn.fujitsu.com> wrote:
+> Upgrade python-heatclient from 1.9.0 to 1.14.0.
+>
+> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+> ---
+>  meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+> index 6653b37..baa1c2c 100644
+> --- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+> @@ -28,8 +28,8 @@ SRCNAME = "heatclient"
+>
+>  SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
+>
+> -PV = "1.9.0+git${SRCPV}"
+> -SRCREV = "b80166d848dd26718cfe0627bfec22774213616b"
+> +PV = "1.14.0+git${SRCPV}"
+> +SRCREV = "2ce6aa19a3a8936bc7c9737efadacbb4ae737dab"
+>  S = "${WORKDIR}/git"
+>
+>  inherit setuptools
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
