@@ -1,70 +1,67 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id ADD6EE00A0C; Thu, 29 Mar 2018 05:08:14 -0700 (PDT)
+	id D8949E008EE; Thu, 29 Mar 2018 05:48:49 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.215.65 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+	*      [209.85.161.181 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AE0F3E0084A
+Received: from mail-yw0-f181.google.com (mail-yw0-f181.google.com
+	[209.85.161.181])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AE914E008BF
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Mar 2018 05:08:13 -0700 (PDT)
-Received: by mail-lf0-f65.google.com with SMTP id p142-v6so8071225lfd.6
+	Thu, 29 Mar 2018 05:48:48 -0700 (PDT)
+Received: by mail-yw0-f181.google.com with SMTP id c20so1897121ywa.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Mar 2018 05:08:13 -0700 (PDT)
+	Thu, 29 Mar 2018 05:48:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=jhXJi2AWvakv0TPpcbc8ODB/a+5os2QDdO1FqeFP4Cg=;
-	b=B376S7Zwb+Ivys6LdRA07MVKtiq2pPs+/42IEdrnWvIfAqAAZgGLI2wGpkr3z72K7G
-	iNeou1+vq9ULTZJiA1uh04AUc7Hp1w5F3iUqFU8UCijipxU0H14ZDmeIz8BOQOWBE9Z4
-	bC7XFb6kPcNaAw3Lh1r+19KKOAGhfJjfnvZHpeFpGZvOY/fXrs4rz9AmdXB/cA7S3/dF
-	37LsrRxOOyTegCRxPk6eGqIQbV0qO+74Wi/RWmj9W7IKqsAbZR7NAvQn/yJVP0UIfQi/
-	5QyI87tyYVBvMJtOMNPn4ap24hWhbufaFsN9Up+Y4kaUL0OyleYyWUXgJujfB4V47FTc
-	DNyw==
+	h=mime-version:sender:in-reply-to:references:from:date:message-id
+	:subject:to:cc;
+	bh=y4I9IMxqcmMdadqXJgrBWJc3bzNFj7LQtF7UvjOIX9Y=;
+	b=gDGQZhQ/HlQoDho0AW9JqT93fRI1dk6POoa0X6itnOiwk6Cxt2085/YHcPSVXqbTyx
+	5sQaSk691ZAqGKjw7yK4T9cfF/wwS+i/SzFDO17ah1r228930B35cww8R0zfjLt9X0z0
+	IE7txzy3Rtwsay9GSP1G0gwyEPZi70aVP9ICHCTbPju77z3xLrOLgCaOMMNbZz+g6KqD
+	LCp1lMab5wGO5a16HBiqZQsQv/MuwV/V/JM2cuJTNIX6J9gXo+vEhkmUv7DRpEHLcq3c
+	qMz5Eh961wpORNzu9/CnFJUypdQAwXOm3eTLXYYlfqP9JvCogZ1cBGab9pwREapKtyWo
+	PvIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=jhXJi2AWvakv0TPpcbc8ODB/a+5os2QDdO1FqeFP4Cg=;
-	b=ZH7Utd50o+VpMRxmzVCOZwrzglaCrjlJD1D2sAf50bUGdVp5Ir79RvUY2CuXOcwEcf
-	T6fffhFn+P/5BJ6YmAD2NtTGGmOliMD6FM3QTQir8AWscT/RLnLguhCEuKB/x2m4AH7q
-	DPtuApogu5ddrlLtR2Tw8pXElOod8kL+3Bp4GLXQPKmCvc0Y2F6RQ3Zl27bT204KIdup
-	SxK8P+glXNBhxr0UUEjigJzAUXaOUPfJUfD9xB/lRE+03iFLeNAXYxtClUKQkXwoU/pN
-	P6Zqo7YpkgD/NKND0Zodnkdrv97eg+U8neGGhTELtnKpDmB5i1n0Lb7Jgv63OOBANlgs
-	EZmg==
-X-Gm-Message-State: AElRT7GGp3yltYZJRBIujL/9xofu3BaMKmWtYfPLVu06s3OSsWrIvgjm
-	k7Awgf8nD5qMSpGKlUtZEtcv+IycMYGjgyG6ZR/cPVAK
-X-Google-Smtp-Source: AIpwx4++MNIyXXAbjEpUwi9xJiqyoLrbuns5K9kTCbsuo+ZgKbzxyb/h5xoXlJWSDiuacUau7uzGyXwYKw+Agz5tQow=
-X-Received: by 10.46.134.25 with SMTP id a25mr5173755lji.87.1522325292394;
-	Thu, 29 Mar 2018 05:08:12 -0700 (PDT)
+	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
+	:date:message-id:subject:to:cc;
+	bh=y4I9IMxqcmMdadqXJgrBWJc3bzNFj7LQtF7UvjOIX9Y=;
+	b=W7eQvlH7diomEFhWDuM84ku4Cuoj3ND18A4WmUz6oPwNuEZiTnFRiCvUrn2QEe2Ijc
+	NHzm61mR3L1nmgNsVGL3pnsVpuMJgBfH5aaRsU7tDr8RXV3VO5hLZi/CGYOSoFGCed2K
+	1On8N6JmEOjzTE55VvbRgBy0lNgeOdpr9URaEC3O4UaUVsVF7oCIAhfXT50XCwUaBBWf
+	vGNx1QSW3OZyXNnMhNakHRnXtmz05HC7k2DRlYAVIuFhcaKx4PlyF4fm6wmJA2tiIUHZ
+	WoFHebn1U6kbSRBYzlzlLZzYsRh4G60uAKjEUP3/BfmPp2RUpVisiLvTRAQYxb2i1sEi
+	ze7w==
+X-Gm-Message-State: AElRT7GL4Quw8ldwfgexDxODoD41k1BmlPRip7A9Y/HtYG4ueNRVDjQr
+	YAF5Nrdfjxrvk7J3Hedy1wI3ZMwdWeePXc7AGjDEvQ==
+X-Google-Smtp-Source: AIpwx48SQpreC8KFpyW74UgbLkXRPVMEaHBq9WwQXn8V8MzYyaSzTSNiboHCSVjKcKm2UdfNelCOLg9Ji+O5btKzHyg=
+X-Received: by 10.13.226.206 with SMTP id l197mr4655551ywe.490.1522327727688; 
+	Thu, 29 Mar 2018 05:48:47 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Thu, 29 Mar 2018 05:08:11 -0700 (PDT)
-In-Reply-To: <1522100663-5563-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-References: <1522100663-5563-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 29 Mar 2018 08:08:11 -0400
-Message-ID: <CADkTA4MKWNcZdQwacNuXrM+-wfej4YNp4JCUoEY5b=TLw2j_Dg@mail.gmail.com>
-To: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
-Cc: Cyril Chemparathy <cyril.chemparathy@xilinx.com>,
-	Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>,
-	meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization~][PATCH] inittab: fix hypervisor console
+Sender: asselsm@gmail.com
+Received: by 2002:a25:dec6:0:0:0:0:0 with HTTP; Thu, 29 Mar 2018 05:48:47
+	-0700 (PDT)
+In-Reply-To: <CAPuovE+SGSwYLxcjQkJF7cRzY1cfEkUb3nvKC6gPkT6-RAMjbA@mail.gmail.com>
+References: <1521775736-38102-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<CAPuovE+SGSwYLxcjQkJF7cRzY1cfEkUb3nvKC6gPkT6-RAMjbA@mail.gmail.com>
+From: "M. Asselstine" <asselsm@mcmaster.ca>
+Date: Thu, 29 Mar 2018 08:48:47 -0400
+X-Google-Sender-Auth: 0W_GPs4YEkyewtTWeY4Hua7mWxo
+Message-ID: <CAPuovEJ-ymwWqfDjJiWi4ijuRDcvBg=qPmN04V9d5g2Pj83YLA@mail.gmail.com>
+To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-cloud-services][PATCH] python-heatclient: 1.9.0 -> 1.14.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,102 +74,54 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Mar 2018 12:08:14 -0000
+X-List-Received-Date: Thu, 29 Mar 2018 12:48:49 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-When I apply the patch to meta-virt master, I get:
-
-error: patch failed: recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend:1
-error: removal patch leaves file contents
-error: recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend: patch does not =
-apply
-
-While I could just remove the bbappend manually, that error implies
-that whatever
-you are testing is not the same as the current master branch.
-
-So can you rebase and resend the patch as a v2 ?
-
-Bruce
-
-
-On Mon, Mar 26, 2018 at 5:44 PM, Bhargava Sreekantappa Gayathri
-<bhargava.sreekantappa-gayathri@xilinx.com> wrote:
-> From: Cyril Chemparathy <cyril.chemparathy@xilinx.com>
+On Fri, Mar 23, 2018 at 9:11 AM, M. Asselstine <asselsm@mcmaster.ca> wrote:
+> Bruce, I will have a look at these on Monday to ensure they don't
+> conflict with the uprev to OpenStack pike release. Unfortunately I
+> don't have time today.
 >
-> This commit switches over to using existing SERIAL_CONSOLES mechanism
-> for hvc0 inittab entry generation.  This then results in
-> /bin/start_getty wrapper being used, which avoids the getty failure seen
-> when running a xen capable rootfs natively on linux.
->
-> Signed-off-by: Cyril Chemparathy <cyril.chemparathy@xilinx.com>
-> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-> Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gaya=
-thri@xilinx.com>
-> ---
->  conf/distro/include/virt_console.inc                | 1 +
->  conf/layer.conf                                     | 3 +++
->  recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend | 6 ------
->  3 files changed, 4 insertions(+), 6 deletions(-)
->  create mode 100644 conf/distro/include/virt_console.inc
->  delete mode 100644 recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend
->
-> diff --git a/conf/distro/include/virt_console.inc b/conf/distro/include/v=
-irt_console.inc
-> new file mode 100644
-> index 0000000..4d56806
-> --- /dev/null
-> +++ b/conf/distro/include/virt_console.inc
-> @@ -0,0 +1 @@
-> +SERIAL_CONSOLES_append =3D "${@bb.utils.contains('DISTRO_FEATURES', 'xen=
-', ' 115200;hvc0', '', d)}"
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index f71c117..461c73a 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -20,6 +20,9 @@ LAYERDEPENDS_virtualization-layer =3D "core networking-=
-layer"
->  # Override security flags
->  require conf/distro/include/virt_security_flags.inc
->
-> +# Add hypervisor console
-> +require conf/distro/include/virt_console.inc
-> +
->  PREFERRED_PROVIDER_virtual/runc ?=3D "runc-docker"
->  PREFERRED_PROVIDER_virtual/containerd ?=3D "containerd-docker"
->
-> diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend b/recipe=
-s-core/sysvinit/sysvinit-inittab_2.%.bbappend
-> deleted file mode 100644
-> index 1b89aec..0000000
-> --- a/recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend
-> +++ /dev/null
-> @@ -1,6 +0,0 @@
-> -do_install_append() {
-> -       if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
-> -               echo "" >> ${D}${sysconfdir}/inittab
-> -               echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >> ${D}${=
-sysconfdir}/inittab
-> -       fi
-> -}
-> --
-> 2.7.4
->
-> This email and any attachments are intended for the sole use of the named=
- recipient(s) and contain(s) confidential information that may be proprieta=
-ry, privileged or copyrighted under applicable law. If you are not the inte=
-nded recipient, do not read, copy, or forward this email message or any att=
-achments. Delete this email message and any attachments immediately.
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> On Thu, Mar 22, 2018 at 11:28 PM, Huang Qiyu
+> <huangqy.fnst@cn.fujitsu.com> wrote:
+>> Upgrade python-heatclient from 1.9.0 to 1.14.0.
+>>
+>> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
+>> ---
+
+Bruce,
+
+This should be OK to merge.
+
+Mark
 
 
-
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+>>  meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
+>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+>> index 6653b37..baa1c2c 100644
+>> --- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+>> +++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
+>> @@ -28,8 +28,8 @@ SRCNAME = "heatclient"
+>>
+>>  SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
+>>
+>> -PV = "1.9.0+git${SRCPV}"
+>> -SRCREV = "b80166d848dd26718cfe0627bfec22774213616b"
+>> +PV = "1.14.0+git${SRCPV}"
+>> +SRCREV = "2ce6aa19a3a8936bc7c9737efadacbb4ae737dab"
+>>  S = "${WORKDIR}/git"
+>>
+>>  inherit setuptools
+>> --
+>> 2.7.4
+>>
+>>
+>>
+>> --
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
