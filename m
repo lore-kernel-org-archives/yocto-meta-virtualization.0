@@ -1,69 +1,154 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <BSREEKAN@xilinx.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B9D7DE00A6A; Fri, 30 Mar 2018 06:41:43 -0700 (PDT)
+	id 720F4E008E4; Fri, 30 Mar 2018 11:40:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.42 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [104.47.40.84 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AF84BE00708
+X-Greylist: delayed 80297 seconds by postgrey-1.32 at yocto-www;
+	Fri, 30 Mar 2018 11:40:39 PDT
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-co1nam03on0084.outbound.protection.outlook.com [104.47.40.84])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CB0A6E00529
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Mar 2018 06:41:42 -0700 (PDT)
-Received: by mail-lf0-f42.google.com with SMTP id o102-v6so12620678lfg.8
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Mar 2018 06:41:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sQeuN2gBfjJ5uc24jLQ7wpcixjxkfZqk6yo7r9f99ck=;
-	b=Po4iwTUuLsE1OGqrFcq9fbiiy4cWY8RB6jIwhXoqO5C5E0K8ZKcC16ItpaGr2hqhaw
-	0XKk7Ln5JZPivtvvLFgN5jeZCgA9xA8e2R2IxDzGGa12LN8pXg+AsMbBULFPWt/4S10U
-	reuxFMA9NcD4T4i5pyzax8G+14OLqVxF2xqy0j7ySyBH0tnue6a7skLIEWNypDjoR268
-	7f+StIBa3qYot51/4pkWCTR8x0I60GtREnKPgQlLerqYTmAAdex0mWCUkVBCIV79x+/w
-	jnWb8NZW7VOFT1ICz8wFVUOe5aolGOtaeyK+gxsYzHrnhd3PkpGI8qnc1AZ70CnWBPzR
-	GWQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sQeuN2gBfjJ5uc24jLQ7wpcixjxkfZqk6yo7r9f99ck=;
-	b=jYhSLpwTCM1dXVCyusxgN4Q/iTrXx7SE9cHMap13IUnvKz2tMB7R3YEHuiHdt3k2Am
-	fzzKIDUQfUKntdxAIbZBUlE9umF/g9Vob/9tOBqUoJVmlPxVh8PSdzX3JEDPl8lvGsu5
-	NXc0ZI/gxN0xVCR8g4P+AAL2uD+zBUfv8oz46NYnnXCPiAMZS47qcSJWqWRZVWYK+Ug1
-	vg4DDmg7c6OpKrR9D55/w0+bj6104Ybfnzu1mmutA0WJ4I+B+SHefjr57VkBjzq5C2l/
-	qfCmBk3P3T1f8q4CP9EFDtLN4jtvydtVlLRkWlNRWb0B6x7mNiwpHtcqNt+XZkhtNL3v
-	8wuw==
-X-Gm-Message-State: AElRT7FWieNaARVrN2IBwsULgdvHqHciA6oxEqSxMtKaaIYNV5Qq9AHc
-	lw488ICbuhbJ2n9bDvxppTL0Ja1imj1g1epx6zs=
-X-Google-Smtp-Source: AIpwx4+/mkAdluelsIyGP735vJgAeVESuVYGOj3FZSHcr3RL3ttvmi44bd8zKi1IwxAUOKqMdPcfrpLfTqeOiAT+Twk=
-X-Received: by 10.46.117.2 with SMTP id q2mr8569558ljc.12.1522417301438; Fri,
-	30 Mar 2018 06:41:41 -0700 (PDT)
+	Fri, 30 Mar 2018 11:40:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version;
+	bh=ccvCaw/tL/ugOCiwQ/ZfcrGHQrpQ1ozafFqkPmk1MZk=;
+	b=lGKxbEtkOFMYKzjKNDfUbtSR/ICghh0kXe2dnc7tRqS/135ueUAKave8J6TzYikeNpls2ynY4UVeuMb8LZbU88dqcej47MArgOwaPHCUC4pSHMYWO4w3Q34nwTBNXQbY+EF1SRmaZMhO54ubAIGPjSkoxLWtvGxi7qLtu2SDrd0=
+Received: from BN6PR02CA0073.namprd02.prod.outlook.com (2603:10b6:405:60::14)
+	by MWHPR02MB2269.namprd02.prod.outlook.com (2603:10b6:300:5b::11)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id 15.20.609.10;
+	Fri, 30 Mar 2018 18:25:51 +0000
+Received: from CY1NAM02FT017.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e45::202) by BN6PR02CA0073.outlook.office365.com
+	(2603:10b6:405:60::14) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.631.10 via
+	Frontend Transport; Fri, 30 Mar 2018 18:25:51 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+	smtp.mailfrom=xilinx.com; gmail.com; dkim=none (message not signed)
+	header.d=none;gmail.com; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+	CY1NAM02FT017.mail.protection.outlook.com (10.152.75.181) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.631.7
+	via Frontend Transport; Fri, 30 Mar 2018 18:25:51 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:44881
+	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
+	(envelope-from <bhargava.sreekantappa-gayathri@xilinx.com>)
+	id 1f1yik-0004PM-Lb; Fri, 30 Mar 2018 11:25:50 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <bhargava.sreekantappa-gayathri@xilinx.com>)
+	id 1f1yif-00036R-Ic; Fri, 30 Mar 2018 11:25:45 -0700
+Received: from xsj-pvapsmtp01 (mailhub.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	w2UIPYbl023799; Fri, 30 Mar 2018 11:25:35 -0700
+Received: from [172.19.3.10] (helo=xsjbsreekan50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <bhargava.sreekantappa-gayathri@xilinx.com>)
+	id 1f1yiU-00035f-Qu; Fri, 30 Mar 2018 11:25:34 -0700
+From: Bhargava Sreekantappa Gayathri
+	<bhargava.sreekantappa-gayathri@xilinx.com>
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
+Date: Fri, 30 Mar 2018 11:25:26 -0700
+Message-ID: <1522434326-12321-1-git-send-email-bhargava.sreekantappa-gayathri@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(346002)(39380400002)(39860400002)(376002)(396003)(2980300002)(438002)(54534003)(199004)(189003)(426003)(2906002)(72206003)(8676002)(110136005)(9786002)(356003)(305945005)(486005)(16586007)(476003)(54906003)(36386004)(126002)(2616005)(316002)(8936002)(81166006)(486005)(50226002)(81156014)(77096007)(1857600001)(59450400001)(26005)(36756003)(106466001)(47776003)(107886003)(51416003)(7696005)(106002)(50466002)(63266004)(5660300001)(39060400002)(6666003)(478600001)(48376002)(336012)(186003)(4326008)(107986001)(5001870100001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2269; H:xsj-pvapsmtpgw02;
+	FPR:; SPF:Pass; PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com;
+	A:1; MX:1; LANG:en; 
+X-Microsoft-Exchange-Diagnostics: 1; CY1NAM02FT017;
+	1:vvxHLOfFAyOU2eBwt+hfduGGI/93YcxCmxYueelFwx4P9GRtDDbDuSkPZ8rjASLQTrWXJrjdVkoyVnRwBuQMOuRmf+ZedXisp3UMj5jbEduvN/jCuSnhINLk9yPup+ur
 MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Fri, 30 Mar 2018 06:41:40 -0700 (PDT)
-In-Reply-To: <f2b90721d130471e931ec671e5557f15@xch-rcd-011.cisco.com>
-References: <f2b90721d130471e931ec671e5557f15@xch-rcd-011.cisco.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Mar 2018 09:41:40 -0400
-Message-ID: <CADkTA4Pvh2wAc1-098_t1pX171t5Y9t1NGT0h5V1k_6n7v=3vQ@mail.gmail.com>
-To: "Shakthi Pradeep (tpradeep)" <tpradeep@cisco.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: Include Docker in core-image-full-cmdline
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4dca6c09-8b3e-453a-6057-08d5966baab8
+X-Microsoft-Antispam: UriScan:; BCL:0; PCL:0;
+	RULEID:(7020095)(4652020)(5600026)(4604075)(4608076)(4534165)(4627221)(201703031133081)(201702281549075)(2017052603328)(7153060);
+	SRVR:MWHPR02MB2269; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR02MB2269;
+	3:bLFwhBOTVL0Enu2xTLU+E9WiymxOSp3CbJGvHDerrpGFQCUoQ+LeEYlpAgynQkyPQTcBC0gwW0ST+E/xP1o7aonDruWGxVKm1PdPsYp0w+sLcJww+Wk7kSiLbd4nROQwPE9NeXqDIHrNVV9QxHwIoJXN2zCDSzdntICsEjU57ZZKS5eO8qCKjCVmqgizWiycgyjmvHp3j3abvhbOM/l3tM3PRxff49UfhMt06tX+OD6/zAoV3k7QSFzaqcTvonDTwhwq1Fw+A5sL4gny0v36cpgpl821CEoLcPCjCV3d+dO3wR07TajPd28gwaU0+PPqk//FMYrIh6c7d76AEC0IbYTs7Ub6q/ji1T0KvJCfoEg=;
+	25:4+eD66CPHMEB6bv70mrsk9Qekb52d0mLtFssgR7ljdNkd9MT1lJcYnf1QmrXpGw9K6wMsuDMhkA6oTkTaNAyIsGOSgOZIiWi7/AErLjms84j9y03oOtllzpIyRpjfrpOw6TLHx725GCjTy7HJ7F7j7uIzeb9W2bpfC9F/yp0unyK+uPGHcP5xiadX1lJXn7Uj05riSFx4MMfcGD5zPBj0xWkaoIZcl4/rix8+6VVRSkdq4KZ5IPnw+VUHg/74Is77maG56PkVAI6Ee6afDHBkuAv+TciSMQXhzfFd3OGlRlpqPbXxI1xpW9yytRgaekDovVJ39vNadjyNg4QbflMGg==
+X-MS-TrafficTypeDiagnostic: MWHPR02MB2269:
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR02MB2269;
+	31:KVySC6JAfHX9ojFP4m0nVHeuWwvLwAZ5SKh3XMNRbZdmGOy9c4cHtDJb95VCGDDR49XzPMyCVm2xtojnsaWfiNoJhDN6SzO65brv0lUsuWpC+GJRYR6p0jyTHPP7JMsZ5nx4qMpEaBrXd81gi5DDm7VZWQ8YnXlSPZuMKfHhxeqeFwGF5SrGbRuNvppd97DoKa/U9ofytR/QHt4eP/fVReP7/tJ5Z8FqJ/rxP8c+aRk=;
+	20:UNYorIGIAsO1R6xyN87rOA/44u/HwV2Bci0vsr1nPFgVSZsOd/Z0apA8o15yX9zb71Cx1jInzTJc99IcpYvv5WoHE4Dk9WB4grjL7VDN7eR2C5fwLrwsRuw3maE8sdmJ7GsdHRvlzU4uNDKZ86NzUJWsLPj0QqJrMKwKU2wHvXR4AapZpIgOM1BYsgr/5Tc6Q/SpmAg1xLdQBvUywrSJ+fhmr9r7gK1TTRoAV+gPkE3K0wbbNuDy2rTDNwWsarFb8yl0RXs1KK0g8HTPpN26u5BT/jFSAeWnEPxF/sQ54tFpTZCeE0Pv3Fk5gBV5hLel1wE4KKHsOzd+5FxtQXV96uTaVjae6MFjawMdWwrCekwQMImLvf1JWhLrSUO5wkFLrXq8T/CIqtbkROm3loiIF9zzCZGBbegokHs0bF+g6n52esceJ7t6F1tO1GFlC68U5w5KpNl9FU2asU+Hfs4zPggHBmqMyRGBhP4BrUcoRxQBhU6fKCJhWp84NJX4V9Jy
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <MWHPR02MB2269AD1BA09617C4BAB94D2AB0A10@MWHPR02MB2269.namprd02.prod.outlook.com>
+X-Exchange-Antispam-Report-Test: UriScan:(192374486261705)(192813158149592);
+X-Exchange-Antispam-Report-CFA-Test: BCL:0; PCL:0;
+	RULEID:(8211001083)(6040522)(2401047)(5005006)(8121501046)(10201501046)(3002001)(93006095)(93004095)(3231221)(944501327)(52105095)(6055026)(6041310)(201703131423095)(201702281528075)(20161123555045)(201703061421075)(201703061406153)(20161123560045)(20161123564045)(20161123558120)(20161123562045)(6072148)(201708071742011);
+	SRVR:MWHPR02MB2269; BCL:0; PCL:0; RULEID:; SRVR:MWHPR02MB2269; 
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR02MB2269;
+	4:vjHLl9dgVoxY0CKz4/5VdV/33K/rQzbYjF34gAT69R4ZHnBNqPWh0J/+5M1e2Bo7Y5RirCu8BVEEbNEQ07P/1Uoh0FoTZr/Eo0uQllF5w+Q3Ftluir8VC8TpyTfaTKTLzsDFn+nnL1iU2WJ1sXR06bPcE2O7/RZ1GJY/RcXLjU101NWIjyoMJAOdtObZ4MNaaW5sUWPi0/G3dr0wJ9gFLCN2Tj2bmR0GXLdnEGjMzS89JhOPSQPh7VzMb5PWUDeFsFFLbSJIBPTXebZinCjC+m48aEgBG2rv5UpxWW+IV2AX1Q4wOTXH5FO+8lXzIr1EWM/tKaf+rUgnik7b7TDyJGO1bbx6HnJaG76BS7VDNa8=
+X-Forefront-PRVS: 06274D1C43
+X-Microsoft-Exchange-Diagnostics: =?us-ascii?Q?1; MWHPR02MB2269;
+	23:HMDcl8VcrBhv7EZKtbw6J4Gn0mlNuxuY3jOMgCjTh?=
+	=?us-ascii?Q?A5eLFR0WNxSO94T/sTdfqn2Nc64Z20tgD0asqc7rPHs5rt9pgiyljsHD29ih?=
+	=?us-ascii?Q?tckDum9FwIXLKMBZwGeCdLZlW+VK1LGczh66HAUIo0/sPlYcQ1i73xafmp13?=
+	=?us-ascii?Q?bDhPPWamP0vMQEAVSF6eDbJctltXPRAbjryWNOcilW0CIVss/pSbqhF6VenM?=
+	=?us-ascii?Q?9kHHB9u1gOOp3xofgi/4GkZoYN9nwJYJL7TwPT9uEbMjEgJaxV+lNF40oAQp?=
+	=?us-ascii?Q?shy8AerPO7aA2NZQKSR2oNQ/TvHJFkJq0cGvi5vzwwNChn8tLedNQcnes8xj?=
+	=?us-ascii?Q?EcqHMjrtpOweJL2hE1IpsRD8GheTAz6AHSsN/oCqU+xhJ7XKwurEAemvjcO/?=
+	=?us-ascii?Q?3BZArcejKamUI+BhKW52x7h8vvREuhSnod8aq1HQNBQEpD+xC2oqL9Lcy12H?=
+	=?us-ascii?Q?5850Z8XSE2XdFa7naa7oS2h/aS4NmLeX4uZUGnZLyPNl28n2pWr+g1T4n0Gn?=
+	=?us-ascii?Q?A8DK2WSFKgU4tHm+x363+XYoWxAS88oGqquGiJ2e3fynLg1ACpy838HoTsvv?=
+	=?us-ascii?Q?gDN6hEznH1iOKGfxkJC5IURgun+Rtvq+kBfYpYNJb7Qz6pqbiwOmf4UOIgrW?=
+	=?us-ascii?Q?59SLV4LHzmR8j3hIe1D9x3cBayYyxsL4SBK1UnwVBdFrE1RcIj3ClTpx06If?=
+	=?us-ascii?Q?zpqC7gmNz6P1jXKmm5rQ9175foFK2sJoOwWyHXbbyn5fxlD84ncayVijFUr0?=
+	=?us-ascii?Q?Od4st6S3vBseU+8nIzlajcBCVqq1hP3y4fFCLFgsElePriRCaac/oXxvExfO?=
+	=?us-ascii?Q?4S4frpMtsLfFdYNxu1IJc2A3Dje5t30ox3TM9Aoj5xU3J/N9kl0qM+jv01Sg?=
+	=?us-ascii?Q?ompqo58k6kZGvNXI7Yw6FiNo65FSjZb/oN1EaP2IAz74S+JrIOTws+hFHuYv?=
+	=?us-ascii?Q?8St+LTFo9/pU5uVOK5eEEsMjtVbtO5i2yn0FPVVzorfkICDkuHezJAN2fgY8?=
+	=?us-ascii?Q?iTGxPx2MqnMEtJXdjfyPGMhIWd9mAmvWqbZHHOLNrB2Mi71/xbsXOj1IudBn?=
+	=?us-ascii?Q?P7Tnp3JgcYeAqWy0c1PbItIfMyk7WU9V+Cj2zE7jneaLbzyz86hFHgZQnR4N?=
+	=?us-ascii?Q?XgE1FXLwShlOGg5NsrRZBtXpallJ2PET6am8gcBVVkguZkQnEbu33dJ34J2I?=
+	=?us-ascii?Q?cY6859RbXL7T4C086ReGbM/hxudE3CJs3KnVTTfSqljc01qVYN5vZsodw=3D?=
+	=?us-ascii?Q?=3D?=
+X-Microsoft-Antispam-Message-Info: KcC52R/8DVw/V2uYMF6qM7vEinrvaPOi8nbCNTZA27r+FGK1wnvJnIrwBTf+vtjDhV+y8E/RSoLyW/xAlt/0vz8SW5WJPtBnJrflqegRa/kRR17PbTZ/Axh2GNxgsoSeGc+TlIBhtncuWi3ur3XVCenMdQjs4gOeKRtnF5itg7hl0cqWHRMugUAL3mIjo0Ej
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR02MB2269;
+	6:ulO6j0M6+nNF7gJ985XY1wU6CnaAxDrdC2o/DyG1SKLtRXqU0fXRpPgch8F8Ow1dkY8HIp21uBp2O7vjfKbd8Ks3UIdEj1hUzf43B2FIMvG/gFg51qjoaZ74eLtGNoacYUH9eL8rhI9T94/VSj/gShD5CgRTafPw9kOsY1AQhd6o2YCmOBlRt8fINj1FueVdslBL+PURMNiBiVZNc86iplsMQPYrPo7pjJzn8kHcjCxuBXg3eclkBVQt+OErR+z8csUzLu+1s0M7a3fCaGX2BGoEB1Hfaemko361D4o94tCDDoc3nONJqYkdqFsD8KQOQypHmldO7KnjHfu1w+7FY/RfovLc2UwudZQHiTNtOw/vISKNpujKirAz26bKkgklrg537sVlCJV6XwqIgkUTCLP7sHud4FP5+BiSluSXf2DBdqMqbm5hGI9sYAzYKw25cuvGcrS/Q48cOUzbTXuHUA==;
+	5:2UHeUMLR1Z/5sSs19Gn9iRdVWESan3qMWdGXUXg4lF//+t6LfGpYsfIulGED8y0weoSjZPjAfO9zL8NLv4v3do/YYXwjfLSt9E+CngWm53DoxHlZZWNAsZqAVmiz2xMd72hWSGIYnwWM1lWfzg6M2SCb12aOIjW73S4yP3D5Mp0=;
+	24:ehTtkwSnEBGHjva3kb5CtG6cYfCx8MT5buN/2CniS7Z7zQbX8G/IHhPmmF6wBklsA5Nl9NZGCMs3OmWj5vODlPDXlYHN+IpMOl4pqdiqaXg=
+SpamDiagnosticOutput: 1:99
+SpamDiagnosticMetadata: NSPM
+X-Microsoft-Exchange-Diagnostics: 1; MWHPR02MB2269;
+	7:Q1xH5rGD1DcY3oAa7aNbvEJ1MwGck6M3RbBZOcjLxbJ6RbGADhFXa9l4LYgNVchPmCpjUvrhM28oiM5usC3t9IDrMz6YNy0dbycgHsFaCcipPy7chdrOyPI+89CT6thA6E1yYR9cXvtHS1BhiFm/q2nJ1xk+/ETPEhGHcU1OepsGcitUAmXkf6NR9K04HpTNhwkNfdvQTC9uiqOVNWrlJnCZ9u3QDoIlR8SYO215eQyCMp1Q7k1ZsO2YuDMKJ3li
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Mar 2018 18:25:51.0795 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4dca6c09-8b3e-453a-6057-08d5966baab8
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2269
+Cc: Cyril Chemparathy <cyril.chemparathy@xilinx.com>,
+	Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
+Subject: [PATCH] inittab: fix hypervisor console
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,326 +161,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 13:41:43 -0000
-X-Groupsio-MsgNum: 3277
-Content-Type: multipart/related; boundary="089e082b46c87400840568a166a2"
+X-List-Received-Date: Fri, 30 Mar 2018 18:40:41 -0000
+Content-Type: text/plain
 
---089e082b46c87400840568a166a2
-Content-Type: multipart/alternative; boundary="089e082b46c87400810568a166a1"
+From: Cyril Chemparathy <cyril.chemparathy@xilinx.com>
 
---089e082b46c87400810568a166a1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This commit switches over to using existing SERIAL_CONSOLES mechanism
+for hvc0 inittab entry generation.  This then results in
+/bin/start_getty wrapper being used, which avoids the getty failure seen
+when running a xen capable rootfs natively on linux.
 
-On Fri, Mar 30, 2018 at 3:58 AM, Shakthi Pradeep (tpradeep) <
-tpradeep@cisco.com> wrote:
+Signed-off-by: Cyril Chemparathy <cyril.chemparathy@xilinx.com>
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+Signed-off-by: Bhargava Sreekantappa Gayathri <bhargava.sreekantappa-gayathri@xilinx.com>
+---
+Change log:
 
-> Hello Team,
->
->
->
-> I am trying to include Docker in my final image (core-image-full-cmdline)=
-.
->
->
->
-> Included virtualization in build/config/local.conf
->
->
->
-> DISTRO_FEATURES_append =3D " systemd virtualization"
->
->
->
-> With above change too I don=E2=80=99t see Docker in my final image.
->
->
->
-> Request you to point me to some document which explains how I can do it.
->
+v2: Fixed whitespace trashing in our email system which was causing the patch
+	to not apply.
+---
+ conf/distro/include/virt_console.inc                | 1 +
+ conf/layer.conf                                     | 3 +++
+ recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend | 6 ------
+ 3 files changed, 4 insertions(+), 6 deletions(-)
+ create mode 100644 conf/distro/include/virt_console.inc
+ delete mode 100644 recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend
 
-docker is a package like any other.
-
-You need to add it to your image install before it will actually make it
-into
-the final image.
-
-How you add it to the image, depends on the image you are using. The
-Yocto project docs have the details on extending an image with additional
-packages.
-
-Bruce
-
-
->
->
->
->
-> Regards,
->
-> Shakthi
->
->
->
->
->
-> [image:
-> http://www.cisco.com/c/dam/assets/email-signature-tool/logo_08.png?ct=3D1=
-437626746093]
->
-> *Shakthi Pradeep*
-> ENGINEER.SOFTWARE ENGINEERING
->
-> tpradeep@cisco.com
-> Phone: *+91 80 4426 8312 <+91%2080%204426%208312>*
-> Mobile: *+91 99 00 265 156*
->
->
-> Cisco.com <http://www.cisco.com/>
->
->
->
-> [image: http://www.cisco.com/assets/swa/img/thinkbeforeyouprint.gif] Thin=
-k
-> before you print.
->
-> This email may contain confidential and privileged material for the sole
-> use of the intended recipient. Any review, use, distribution or disclosur=
-e
-> by others is strictly prohibited. If you are not the intended recipient (=
-or
-> authorized to receive for the recipient), please contact the sender by
-> reply email and delete all copies of this message.
->
-> Please click here
-> <http://www.cisco.com/web/about/doing_business/legal/cri/index.html> for
-> Company Registration Information.
->
->
->
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
+diff --git a/conf/distro/include/virt_console.inc b/conf/distro/include/virt_console.inc
+new file mode 100644
+index 0000000..4d56806
+--- /dev/null
++++ b/conf/distro/include/virt_console.inc
+@@ -0,0 +1 @@
++SERIAL_CONSOLES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' 115200;hvc0', '', d)}"
+diff --git a/conf/layer.conf b/conf/layer.conf
+index f71c117..461c73a 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -20,6 +20,9 @@ LAYERDEPENDS_virtualization-layer = "core networking-layer"
+ # Override security flags
+ require conf/distro/include/virt_security_flags.inc
+ 
++# Add hypervisor console
++require conf/distro/include/virt_console.inc
++
+ PREFERRED_PROVIDER_virtual/runc ?= "runc-docker"
+ PREFERRED_PROVIDER_virtual/containerd ?= "containerd-docker"
+ 
+diff --git a/recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend b/recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend
+deleted file mode 100644
+index 1b89aec..0000000
+--- a/recipes-core/sysvinit/sysvinit-inittab_2.%.bbappend
++++ /dev/null
+@@ -1,6 +0,0 @@
+-do_install_append() {
+-	if echo "${DISTRO_FEATURES}" | grep -q 'xen'; then
+-		echo "" >> ${D}${sysconfdir}/inittab
+-		echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >> ${D}${sysconfdir}/inittab
+-	fi
+-}
+-- 
+2.7.4
 
 
---=20
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---089e082b46c87400810568a166a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Fri, Mar 30, 2018 at 3:58 AM, Shakthi Pradeep (tpradeep) <span dir=
-=3D"ltr">&lt;<a href=3D"mailto:tpradeep@cisco.com" target=3D"_blank">tprade=
-ep@cisco.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-
-
-
-
-
-<div lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"m_7368091002736997804WordSection1">
-<p class=3D"MsoNormal">Hello Team,<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">I am trying to include Docker in my final image (cor=
-e-image-full-cmdline).
-<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">Included virtualization in build/config/local.conf<u=
-></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">DISTRO_FEATURES_append =3D &quot; systemd virtualiza=
-tion&quot;<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">With above change too I don=E2=80=99t see Docker in =
-my final image.<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal">Request you to point me to some document which expla=
-ins how I can do it.</p></div></div></blockquote><div><br></div><div>docker=
- is a package like any other.</div><div><br></div><div>You need to add it t=
-o your image install before it will actually make it into</div><div>the fin=
-al image.</div><div><br></div><div>How you add it to the image, depends on =
-the image you are using. The</div><div>Yocto project docs have the details =
-on extending an image with additional</div><div>packages.</div><div><br></d=
-iv><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div lan=
-g=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72"><div class=3D"m_736809100273=
-6997804WordSection1"><p class=3D"MsoNormal"><u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif"><u></u>=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal">Regards,<u></u><u></u></p>
-<p class=3D"MsoNormal">Shakthi<u></u><u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<table class=3D"m_7368091002736997804MsoNormalTable" border=3D"0" cellspaci=
-ng=3D"0" cellpadding=3D"0" width=3D"0" style=3D"width:407.25pt">
-<tbody>
-<tr>
-<td colspan=3D"3" style=3D"padding:0in 0in 0in 0in">
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif"><img width=3D"110" height=3D"73" id=3D"m_7368091=
-002736997804Picture_x0020_1" src=3D"cid:image001.png@01D3C82B.08CE19B0" alt=
-=3D"http://www.cisco.com/c/dam/assets/email-signature-tool/logo_08.png?ct=
-=3D1437626746093"><u></u><u></u></span></p>
-</td>
-</tr>
-<tr>
-<td nowrap valign=3D"top" style=3D"padding:0in 0in 0in .25in">
-<p class=3D"MsoNormal"><b><span style=3D"font-size:8.5pt;font-family:&quot;=
-Arial&quot;,sans-serif;color:#666666">Shakthi Pradeep</span></b><span style=
-=3D"font-size:8.5pt;font-family:&quot;Arial&quot;,sans-serif;color:#666666"=
-><br>
-ENGINEER.SOFTWARE ENGINEERING<br>
-<br>
-<a href=3D"mailto:tpradeep@cisco.com" target=3D"_blank"><span style=3D"colo=
-r:#666666;text-decoration:none">tpradeep@cisco.com</span></a><br>
-Phone:=C2=A0<b><a href=3D"tel:+91%2080%204426%208312" value=3D"+91804426831=
-2" target=3D"_blank">+91 80 4426 8312</a></b><br>
-Mobile:=C2=A0<b>+91 99 00 265 156</b><u></u><u></u></span></p>
-</td>
-<td width=3D"50%" valign=3D"top" style=3D"width:50.0%;padding:11.25pt 0in 7=
-.5pt 15.0pt">
-<p class=3D"MsoNormal"><span style=3D"font-size:8.5pt;font-family:&quot;Ari=
-al&quot;,sans-serif;color:#666666"><br>
-<a href=3D"http://www.cisco.com/" target=3D"_blank"><span style=3D"color:#6=
-66666;text-decoration:none">Cisco.com</span></a><u></u><u></u></span></p>
-</td>
-<td style=3D"padding:0in 0in 0in 0in"></td>
-</tr>
-<tr>
-<td colspan=3D"3" style=3D"padding:0in 0in 0in 0in"></td>
-</tr>
-</tbody>
-</table>
-<p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif;display:none"><u></u>=C2=A0<u></u></span></p>
-<table class=3D"m_7368091002736997804MsoNormalTable" border=3D"0" cellspaci=
-ng=3D"0" cellpadding=3D"0" width=3D"0" style=3D"width:300.0pt">
-<tbody>
-<tr>
-<td style=3D"padding:3.75pt 15.0pt 0in .25in">
-<p class=3D"MsoNormal"><span style=3D"font-size:7.5pt;font-family:&quot;Ari=
-al&quot;,sans-serif;color:#009900"><img border=3D"0" width=3D"18" height=3D=
-"19" id=3D"m_7368091002736997804Picture_x0020_2" src=3D"cid:image002.gif@01=
-D3C82B.08CE19B0" alt=3D"http://www.cisco.com/assets/swa/img/thinkbeforeyoup=
-rint.gif">=C2=A0Think
- before you print.<u></u><u></u></span></p>
-</td>
-</tr>
-<tr>
-<td style=3D"padding:5.25pt 15.0pt 4.5pt .25in">
-<p class=3D"MsoNormal"><span style=3D"font-size:7.5pt;font-family:&quot;Ari=
-al&quot;,sans-serif;color:#999999">This email may contain confidential and =
-privileged material for the sole use of the intended recipient.
- Any review, use, distribution or disclosure by others is strictly prohibit=
-ed. If you are not the intended recipient (or authorized to receive for the=
- recipient), please contact the sender by reply email and delete all copies=
- of this message.<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:7.5pt;font-family:&quot;Ari=
-al&quot;,sans-serif;color:#999999">Please=C2=A0<a href=3D"http://www.cisco.=
-com/web/about/doing_business/legal/cri/index.html" title=3D"Legal Informati=
-on" target=3D"_blank"><span style=3D"color:#0e58a0">click
- here</span></a>=C2=A0for Company Registration Information.<u></u><u></u></=
-span></p>
-</td>
-</tr>
-</tbody>
-</table>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-</div>
-
-<br>--<br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
-ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
-not follow the NULL pointer, for chaos and madness await thee at its end&qu=
-ot;</div>
-</div></div>
-
---089e082b46c87400810568a166a1--
-
---089e082b46c87400840568a166a2
-Content-Type: image/png; name="image001.png"
-Content-Disposition: inline; filename="image001.png"
-Content-Transfer-Encoding: base64
-Content-ID: <image001.png@01D3C82B.08CE19B0>
-X-Attachment-Id: 570c8d1d7566d056_0.0.1
-
-iVBORw0KGgoAAAANSUhEUgAAAG4AAABJCAYAAADc8hN1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
-bWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
-bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
-eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0
-NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJo
-dHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlw
-dGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAv
-IiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RS
-ZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpD
-cmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoV2luZG93cykiIHhtcE1NOkluc3RhbmNl
-SUQ9InhtcC5paWQ6Mjk2MTRENjVCQTU1MTFFMzkxRDA4ODFFNUNDMzM3QzAiIHhtcE1NOkRvY3Vt
-ZW50SUQ9InhtcC5kaWQ6Mjk2MTRENjZCQTU1MTFFMzkxRDA4ODFFNUNDMzM3QzAiPiA8eG1wTU06
-RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDoyOTYxNEQ2M0JBNTUxMUUzOTFE
-MDg4MUU1Q0MzMzdDMCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDoyOTYxNEQ2NEJBNTUxMUUz
-OTFEMDg4MUU1Q0MzMzdDMCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1w
-bWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuJWD/MAAAbNSURBVHja7F1pbBVVFL7lvVbAFqxiXNis
-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
-Inf4R4ABACChbSCPwolvAAAAAElFTkSuQmCC
-
---089e082b46c87400840568a166a2
-Content-Type: image/gif; name="image002.gif"
-Content-Disposition: inline; filename="image002.gif"
-Content-Transfer-Encoding: base64
-Content-ID: <image002.gif@01D3C82B.08CE19B0>
-X-Attachment-Id: 570c8d1d7566d056_0.0.2
-
-R0lGODlhEgATAIEAAAAAAP///wCZAP///yH/C05FVFNDQVBFMi4wAwEBAAAh+QQBAAADACwAAAAA
-EgATAAAIRAADCBxIsKDBgwEECEB4UKFChgYfQiTocOHEhBUtTqx4ESNHiBkddpQ4MKTJkAJPqgSp
-MmPEliRLwny5smBLhCZZKgwIADs=
-
---089e082b46c87400840568a166a2--
