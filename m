@@ -1,6 +1,6 @@
 Return-Path: <tpradeep@cisco.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AA799E00944; Fri, 30 Mar 2018 01:00:03 -0700 (PDT)
+	id 8E111E00944; Fri, 30 Mar 2018 01:01:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-14.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	USER_IN_DEF_DKIM_WL autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
 	http://www.dnswl.org/, high *      trust
-	*      [173.37.86.72 listed in list.dnswl.org]
+	*      [173.37.86.80 listed in list.dnswl.org]
 	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -7.5 USER_IN_DEF_DKIM_WL From: address is in the default DKIM
 	white-list
@@ -21,58 +21,58 @@ X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-X-Greylist: delayed 61 seconds by postgrey-1.32 at yocto-www;
-	Fri, 30 Mar 2018 01:00:02 PDT
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 77BE9E00529
+Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6EF86E00529
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Mar 2018 01:00:02 -0700 (PDT)
+	Fri, 30 Mar 2018 01:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=13101; q=dns/txt;
-	s=iport; t=1522396802; x=1523606402;
-	h=from:to:subject:date:message-id:mime-version;
-	bh=vUuUFQgvoHUOocBzz6aV064Q7x4mPls37SFJfTRcPMM=;
-	b=myg+X5n0YUanvWQfPxaVbXux8qcTdrxZZn/bxYRYbvwjGrYFWzbT0+rF
-	ROy5z2+6FuHWpU6g4wBiKAIEsRSq8v0fDGbIb6CG691Uryyw4C8Tp1rpt
-	mS5iwr1SurkEqz+HmAmXUxZT4Sn3ap+0emUDqOZ1AUYMoZP71l4ZK+JER w=;
+	d=cisco.com; i=@cisco.com; l=15002; q=dns/txt;
+	s=iport; t=1522396892; x=1523606492;
+	h=from:to:subject:date:message-id:references:in-reply-to:
+	mime-version; bh=8d4uyHbCvKRsRWcQW+3tDoBpqHz8lJuJneFPoJJHm94=;
+	b=SZMmBCI87v0S4YKmdiJ/sQnvmBnsT/5aVgM/ip9Tj0/efj+6gBxt8TC7
+	LeIux6KIZKy5voEg7VSVyJG7TleJDFrYYptreKKQS+hI1nESN0pTHa8jN
+	Kn9Ag9F76vEWnuRFMe9dxS671qPvnOZi50LS0AlASrTI8ZR7flkInMPWJ 4=;
 X-Files: image001.png, image002.gif : 2649, 134
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AqAQBa7b1a/4cNJK1dGQEBAQEBAQE?=
-	=?us-ascii?q?BAQEBAQcBAQEBAYJNdWFvKAqLUo0CgRcBgWuNbYRkFIFmCAECJYFVgwoChCE?=
-	=?us-ascii?q?hNBgBAgEBAQEBAQJrHQuFMCAIATYjBAEPFgEBAR8JBRAEAgkMFBIBBBIBCAa?=
-	=?us-ascii?q?CVYIqD60CgmtRiEuCHw8Fhl97ghMlDoMPgxw4CwEBAQEYgQUKARIBJQYLH4R?=
-	=?us-ascii?q?+IAKHCwE2hGqEFoNuAYIZawgChQEBTYZHgg2BNzqDHYYfgQ6PUwIREwGBJAE?=
-	=?us-ascii?q?cOGFxcBWCfQkKkDpvAYxuDRiBCIEXAQE?=
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AQAQCO7r1a/4QNJK1dGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYJNdWFvKAqLUo0CgXSBD41thGQUgWYIAQIlgVWDCgKEISE?=
+	=?us-ascii?q?0GAECAQEBAQEBAmsdC4UkAQEBBAUgCAE2IwICAQgHCgQBAQYBAQEfBwIFEAQ?=
+	=?us-ascii?q?CCQwUCQgBAQQSAQgGglWCKg+tAYJrUYhLgh8PBYZfe4ITJQ6DD06CTjgLAQE?=
+	=?us-ascii?q?BARiBBQoBEgElBgQHH4R+IAKHCwE2hGqEFoNuAYIZawgChQEBTYZHgg2BNzq?=
+	=?us-ascii?q?DHYYfgQ6JFIY/AhETAYEkAQwQOGFxcBWCfQkKkDpvAYxuDRiBCIEXAQE?=
 X-IronPort-AV: E=Sophos;i="5.48,380,1517875200"; 
-	d="gif'147?png'147,150?scan'147,150,208,217,147,150";a="375570908"
-Received: from alln-core-2.cisco.com ([173.36.13.135])
-	by rcdn-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Mar 2018 07:59:00 +0000
-Received: from XCH-ALN-015.cisco.com (xch-aln-015.cisco.com [173.36.7.25])
-	by alln-core-2.cisco.com (8.14.5/8.14.5) with ESMTP id w2U7x07d026982
+	d="gif'147?png'147,150?scan'147,150,208,217,147,150";a="367467767"
+Received: from alln-core-10.cisco.com ([173.36.13.132])
+	by rcdn-iport-9.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Mar 2018 08:01:11 +0000
+Received: from XCH-RCD-013.cisco.com (xch-rcd-013.cisco.com [173.37.102.23])
+	by alln-core-10.cisco.com (8.14.5/8.14.5) with ESMTP id w2U81BJl030747
 	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Mar 2018 07:59:00 GMT
-Received: from xch-rcd-011.cisco.com (173.37.102.21) by XCH-ALN-015.cisco.com
-	(173.36.7.25) with Microsoft SMTP Server (TLS) id 15.0.1320.4;
-	Fri, 30 Mar 2018 02:58:59 -0500
+	Fri, 30 Mar 2018 08:01:11 GMT
+Received: from xch-rcd-011.cisco.com (173.37.102.21) by XCH-RCD-013.cisco.com
+	(173.37.102.23) with Microsoft SMTP Server (TLS) id 15.0.1320.4;
+	Fri, 30 Mar 2018 03:01:10 -0500
 Received: from xch-rcd-011.cisco.com ([173.37.102.21]) by
 	xch-rcd-011.cisco.com ([173.37.102.21]) with mapi id 15.00.1320.000;
-	Fri, 30 Mar 2018 02:58:53 -0500
+	Fri, 30 Mar 2018 03:01:10 -0500
 From: "Shakthi Pradeep (tpradeep)" <tpradeep@cisco.com>
 To: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Thread-Topic: Include Docker in core-image-full-cmdline
-Thread-Index: AdPH/LMUbIP5SERSQOq62BfHmWMf3g==
-Date: Fri, 30 Mar 2018 07:58:53 +0000
-Message-ID: <f2b90721d130471e931ec671e5557f15@xch-rcd-011.cisco.com>
+Thread-Index: AdPH/LMUbIP5SERSQOq62BfHmWMf3gAAIOqA
+Date: Fri, 30 Mar 2018 08:01:10 +0000
+Message-ID: <eb33258ba2e244a7841ae5cd27778aa9@xch-rcd-011.cisco.com>
+References: <f2b90721d130471e931ec671e5557f15@xch-rcd-011.cisco.com>
+In-Reply-To: <f2b90721d130471e931ec671e5557f15@xch-rcd-011.cisco.com>
 Accept-Language: en-GB, en-US
 X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.65.57.146]
 MIME-Version: 1.0
-Subject: Include Docker in core-image-full-cmdline
+Subject: Re: Include Docker in core-image-full-cmdline
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -85,20 +85,33 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Mar 2018 08:00:03 -0000
-X-Groupsio-MsgNum: 3271
+X-List-Received-Date: Fri, 30 Mar 2018 08:01:33 -0000
+X-Groupsio-MsgNum: 3272
 Content-Language: en-US
 Content-Type: multipart/related;
-	boundary="_005_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_";
+	boundary="_005_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_";
 	type="multipart/alternative"
 
---_005_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_
+--_005_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_
 Content-Type: multipart/alternative;
-	boundary="_000_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_"
+	boundary="_000_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_"
 
---_000_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_
+--_000_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+
+I followed the step given in below document
+
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/README
+
+Regards,
+Shakthi
+
+From: meta-virtualization-bounces@yoctoproject.org [mailto:meta-virtualizat=
+ion-bounces@yoctoproject.org] On Behalf Of Shakthi Pradeep (tpradeep)
+Sent: Friday, March 30, 2018 1:29 PM
+To: meta-virtualization@yoctoproject.org
+Subject: [meta-virtualization] Include Docker in core-image-full-cmdline
 
 Hello Team,
 
@@ -146,7 +159,7 @@ ndex.html> for Company Registration Information.
 
 
 
---_000_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_
+--_000_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_
 Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
@@ -185,12 +198,16 @@ a:visited, span.MsoHyperlinkFollowed
 	color:#954F72;
 	text-decoration:underline;}
 span.EmailStyle17
-	{mso-style-type:personal-compose;
+	{mso-style-type:personal;
 	font-family:"Calibri",sans-serif;
 	color:windowtext;}
+span.EmailStyle18
+	{mso-style-type:personal-reply;
+	font-family:"Calibri",sans-serif;
+	color:#1F497D;}
 .MsoChpDefault
 	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
+	font-size:10.0pt;}
 @page WordSection1
 	{size:8.5in 11.0in;
 	margin:1.0in 1.0in 1.0in 1.0in;}
@@ -205,6 +222,35 @@ div.WordSection1
 </head>
 <body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
 <div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">I followed the step gi=
+ven in below document<o:p></o:p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><a href=3D"http://git.=
+yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/README">http://git.=
+yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/README</a><o:p></o:=
+p></span></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">Regards,<o:p></o:p></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D">Shakthi<o:p></o:p></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"color:#1F497D"><o:p>&nbsp;</o:p></spa=
+n></p>
+<div>
+<div style=3D"border:none;border-top:solid #E1E1E1 1.0pt;padding:3.0pt 0in =
+0in 0in">
+<p class=3D"MsoNormal"><b>From:</b> meta-virtualization-bounces@yoctoprojec=
+t.org [mailto:meta-virtualization-bounces@yoctoproject.org]
+<b>On Behalf Of </b>Shakthi Pradeep (tpradeep)<br>
+<b>Sent:</b> Friday, March 30, 2018 1:29 PM<br>
+<b>To:</b> meta-virtualization@yoctoproject.org<br>
+<b>Subject:</b> [meta-virtualization] Include Docker in core-image-full-cmd=
+line<o:p></o:p></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
 <p class=3D"MsoNormal">Hello Team,<o:p></o:p></p>
 <p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
 <p class=3D"MsoNormal">I am trying to include Docker in my final image (cor=
@@ -235,10 +281,10 @@ mes New Roman&quot;,serif"><o:p>&nbsp;</o:p></span></p>
 <tr>
 <td colspan=3D"3" style=3D"padding:0in 0in 0in 0in">
 <p class=3D"MsoNormal"><span style=3D"font-size:12.0pt;font-family:&quot;Ti=
-mes New Roman&quot;,serif"><img width=3D"110" height=3D"73" id=3D"Picture_x=
-0020_1" src=3D"cid:image001.png@01D3C82B.08CE19B0" alt=3D"http://www.cisco.=
-com/c/dam/assets/email-signature-tool/logo_08.png?ct=3D1437626746093"><o:p>=
-</o:p></span></p>
+mes New Roman&quot;,serif"><img border=3D"0" width=3D"110" height=3D"73" id=
+=3D"Picture_x0020_1" src=3D"cid:image001.png@01D3C82B.5B2533B0" alt=3D"http=
+://www.cisco.com/c/dam/assets/email-signature-tool/logo_08.png?ct=3D1437626=
+746093"><o:p></o:p></span></p>
 </td>
 </tr>
 <tr>
@@ -278,7 +324,7 @@ mes New Roman&quot;,serif;display:none"><o:p>&nbsp;</o:p></span></p>
 <td style=3D"padding:3.75pt 15.0pt 0in .25in">
 <p class=3D"MsoNormal"><span style=3D"font-size:7.5pt;font-family:&quot;Ari=
 al&quot;,sans-serif;color:#009900"><img border=3D"0" width=3D"18" height=3D=
-"19" id=3D"Picture_x0020_2" src=3D"cid:image002.gif@01D3C82B.08CE19B0" alt=
+"19" id=3D"Picture_x0020_2" src=3D"cid:image002.gif@01D3C82B.5B2533B0" alt=
 =3D"http://www.cisco.com/assets/swa/img/thinkbeforeyouprint.gif">&nbsp;Thin=
 k
  before you print.<o:p></o:p></span></p>
@@ -311,15 +357,15 @@ n></p>
 </body>
 </html>
 
---_000_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_--
+--_000_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_--
 
---_005_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_
+--_005_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_
 Content-Type: image/png; name="image001.png"
 Content-Description: image001.png
 Content-Disposition: inline; filename="image001.png"; size=2649;
-	creation-date="Fri, 30 Mar 2018 07:58:52 GMT";
-	modification-date="Fri, 30 Mar 2018 07:58:52 GMT"
-Content-ID: <image001.png@01D3C82B.08CE19B0>
+	creation-date="Fri, 30 Mar 2018 08:01:08 GMT";
+	modification-date="Fri, 30 Mar 2018 08:01:08 GMT"
+Content-ID: <image001.png@01D3C82B.5B2533B0>
 Content-Transfer-Encoding: base64
 
 iVBORw0KGgoAAAANSUhEUgAAAG4AAABJCAYAAADc8hN1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
@@ -370,17 +416,17 @@ as+87g5gmL6RGqGadZpOykRIIZeTW0uIuctQaushGi0J0YArPdzuR8ArjHUybSpbOPeQy253WWfe
 QfN1PXO3dn0rxFyecxTp/zsQT+hGqgqnUOEUKpwKp1DhFCqcCqdQ4RQqnEKFU+EUKpxChVPhFCqc
 Inf4R4ABACChbSCPwolvAAAAAElFTkSuQmCC
 
---_005_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_
+--_005_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_
 Content-Type: image/gif; name="image002.gif"
 Content-Description: image002.gif
 Content-Disposition: inline; filename="image002.gif"; size=134;
-	creation-date="Fri, 30 Mar 2018 07:58:52 GMT";
-	modification-date="Fri, 30 Mar 2018 07:58:52 GMT"
-Content-ID: <image002.gif@01D3C82B.08CE19B0>
+	creation-date="Fri, 30 Mar 2018 08:01:09 GMT";
+	modification-date="Fri, 30 Mar 2018 08:01:09 GMT"
+Content-ID: <image002.gif@01D3C82B.5B2533B0>
 Content-Transfer-Encoding: base64
 
 R0lGODlhEgATAIEAAAAAAP///wCZAP///yH/C05FVFNDQVBFMi4wAwEBAAAh+QQBAAADACwAAAAA
 EgATAAAIRAADCBxIsKDBgwEECEB4UKFChgYfQiTocOHEhBUtTqx4ESNHiBkddpQ4MKTJkAJPqgSp
 MmPEliRLwny5smBLhCZZKgwIADs=
 
---_005_f2b90721d130471e931ec671e5557f15xchrcd011ciscocom_--
+--_005_eb33258ba2e244a7841ae5cd27778aa9xchrcd011ciscocom_--
