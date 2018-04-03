@@ -1,6 +1,6 @@
 Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C5F1EE00B28; Tue,  3 Apr 2018 07:04:56 -0700 (PDT)
+	id A6CEAE00905; Tue,  3 Apr 2018 07:06:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,59 +8,61 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.161.177 listed in list.dnswl.org]
+	*      [209.85.213.194 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yw0-f177.google.com (mail-yw0-f177.google.com
-	[209.85.161.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 34512E008D2
+Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
+	[209.85.213.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DAC21E008D2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Apr 2018 07:04:55 -0700 (PDT)
-Received: by mail-yw0-f177.google.com with SMTP id z82so6160003ywd.9
+	Tue,  3 Apr 2018 07:06:01 -0700 (PDT)
+Received: by mail-yb0-f194.google.com with SMTP id k199-v6so6208451ybk.12
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Apr 2018 07:04:55 -0700 (PDT)
+	Tue, 03 Apr 2018 07:06:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=ibljPXijZeVQLqtMXKY3i+rVK42Szjb1RGgi2a5h5GE=;
-	b=UsmYwYX5lymNvEsji2aUMZgWpQAD1SYp67s5k/3+V2oowFxTDdu1fKDtogU3mhGBVE
-	D76+ZC0LbcHV8iSa7FqgKkfpF8jy2OlccCR8jq3pV72Z8hm49lMG5KXM9nx5xde8ug7e
-	Qb0O3pPjOw5BrZor0LOlN8td4mFgeQe81KISDZ+5PuOM9ouz4bm/25wr+E8Jwz0dM0nY
-	4G44OS3pIYsEVVQT4IJTMTlY1zKS0cMXHM3ZFVcwWvImLq9Aj5t8wAo3EyRubnFeo3aE
-	n3zs3A9AbNyOBKiAO9Qz0hGzEBzrEVQTro4C1xGrU510yvrZtshghEkx1cnJ5kdIapqk
-	3njA==
+	bh=Txjqwdbn9x0Yj5OsZpKOO0MO2nMVzaGTngKOdMsc2u8=;
+	b=ATElZ2MNw/F3BpB9ddPWPp/CopdYJresEtXPFPrFzZsxPp+7CW1MqGp/Ems0xquNZm
+	QTYGgd4y26wp1Ja6eVDn48+v6rEsXQ0HbDknUK7/H+WL7XU4vMGa9EX9l9tTQVnxGCGz
+	4Jznzv7GczUI7LIUHHNaBDRXkEqLKRuNPXdnr058lu3yqSDM63h0sZN5Fn4r0vhEvVuM
+	KmeM0ISPGfzZH9ehsyBUBNYr9T9fC7IwObXcfx3KSGsOfenayHinzJfcMvvCHaqUx1qr
+	9F7kFMhWfsuuNJi5IvXdsKFH3rgSVCt0w6wrQ/je3d1Zh4oMavO/UGikpzC8MCTPnbIj
+	TZzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
 	:references:from:date:message-id:subject:to:cc;
-	bh=ibljPXijZeVQLqtMXKY3i+rVK42Szjb1RGgi2a5h5GE=;
-	b=XycJvdZ08YeMa/RZ4HlCUjLplTKjaJfOJLN7UK+VLCOoLJyyxMnrwU6lJvSJgGjHmb
-	08cu2xOVodpYxFf5sE38YvouiBH+SIlKOawlXa9UJodsJgz+t3DeDgJRzNUViZJTCCTN
-	oKa6h8jdnAK1C8GNDUQTCG+uJwUYRqZVRly9faVOVpjqmzBLGv9ojyAKyX8Obt9UsjJn
-	WXQJhpusfLOmdewXbJ8id3rw/gDRaHTi5iSceA3FNxOewiS5HlZGngANAM3lqypohJ/Z
-	svozyd3wLz8yCsdPHwj9L65D8g2GgUbB3oAkl95HjsvkC6Zd2qNqu/6Y0o/4l2wGGa5V
-	bU1g==
-X-Gm-Message-State: AElRT7HWXWzpqWmKYhe/Di6ddR49OANqGWupKQsWokv4qRXlM0cqdgIM
-	gN+yYyF7wKRl8fBaPz9GdOxe+pWC4TLEGNOmjAo=
-X-Google-Smtp-Source: AIpwx4+lryZr/ECEj9veXUI/tdRoYlAs6XmKIdXmkjJnoJrVLmoJf8bkCI5PanF8n1z06el7BaHauTIEQQ6r58rQwUQ=
-X-Received: by 10.13.212.200 with SMTP id w191mr7823688ywd.210.1522764295411; 
-	Tue, 03 Apr 2018 07:04:55 -0700 (PDT)
+	bh=Txjqwdbn9x0Yj5OsZpKOO0MO2nMVzaGTngKOdMsc2u8=;
+	b=IPtSNcmV0MbUmNyREu+3VDbgOIDTBuZPMKXlrMeF34NzqGaoDPy4RH+U38tdPhCuOf
+	1rLxZ8OBmeeSHAkvTl9qSeqT0A1aaHPuk+Ct6+zitM4Lnyn3MsbUBp6lBmnWTS1sSwQ9
+	mf4n+KNuTybVtc8Oo9aYkWZnX8b32zUvHa4Xx/RJ05AyzEA0eZ2lgvh2pTQJFBOOnMVD
+	dg2tuo/NarxDmt+97Cz+l8nouaD99yZTHpl8Gzd5WoRwA7jDsTPtEZgv7Eybe1X33saI
+	Ayy5+uc5OZ9De4rAdYwZdIH7pHxip9XfGf1rB0sBsAjQL7ez4J8bZabA1kwDNjewgDSa
+	91YQ==
+X-Gm-Message-State: ALQs6tAyaaJDa4T1RajdANwR2dpXcj2LGyt/YBQv2FwklsWSji/b96SK
+	8YL6O3ZlXvFyiu4X151ughl8bXCID1aqynfPLdQ=
+X-Google-Smtp-Source: AIpwx48TlA+Hx/TWV+1RWv7W2hAIJFGMpSUssdlxBgkcoDRWAw2nTzC5UMJL4r/jveD8YYfP5psjNcOBZ7Br1EwG0ig=
+X-Received: by 2002:a25:aea2:: with SMTP id
+	b34-v6mr7938960ybj.443.1522764360644; 
+	Tue, 03 Apr 2018 07:06:00 -0700 (PDT)
 MIME-Version: 1.0
 Sender: asselsm@gmail.com
 Received: by 2002:a25:dec6:0:0:0:0:0 with HTTP;
-	Tue, 3 Apr 2018 07:04:54 -0700 (PDT)
-In-Reply-To: <1522402120-7482-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	Tue, 3 Apr 2018 07:06:00 -0700 (PDT)
+In-Reply-To: <1522402120-7482-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
 References: <1522402120-7482-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
+	<1522402120-7482-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
 From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Tue, 3 Apr 2018 10:04:54 -0400
-X-Google-Sender-Auth: C80T88JH7ob_1TvwBr5YpHbMCUo
-Message-ID: <CAPuovELeRZkqRve4p_vPsnUWTMnzs8kgsbuTJAgCmWibau0Ftg@mail.gmail.com>
+Date: Tue, 3 Apr 2018 10:06:00 -0400
+X-Google-Sender-Auth: sXt-Nxez6aiXgrriYJcUwf8GVkM
+Message-ID: <CAPuovEJrFaE6PbcukgUPUt4nUZ5AEhAHgyD2XBm7oS1xptScaA@mail.gmail.com>
 To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-cloud-services][PATCH] python-testtools: 2.2.0 -> 2.3.0
+Subject: Re: [meta-cloud-services][PATCH] python-webtest: 2.0.21 -> 2.0.29
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,11 +76,13 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 14:04:56 -0000
+X-List-Received-Date: Tue, 03 Apr 2018 14:06:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Fri, Mar 30, 2018 at 5:28 AM, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-> Upgrade python-testtools from 2.2.0 to 2.3.0.
+> 1.Upgrade python-webtest from 2.0.21 to 2.0.29.
+> 2.Update the checksum of LIC_FILES_CHKSUM, since the README.rst has been changed.
+>   Changed from https://webtest.readthedocs.org/en/latest/ to https://webtest.readthedocs.io/en/latest/.
 >
 > Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
 > ---
@@ -87,28 +91,34 @@ Bruce, this looks safe to merge.
 
 Mark
 
->  .../python/{python-testtools_2.2.0.bb => python-testtools_2.3.0.bb}   | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-testtools_2.2.0.bb => python-testtools_2.3.0.bb} (76%)
+>  .../python/{python-webtest_2.0.21.bb => python-webtest_2.0.29.bb}   | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-webtest_2.0.21.bb => python-webtest_2.0.29.bb} (52%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-testtools_2.2.0.bb b/meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb
-> similarity index 76%
-> rename from meta-openstack/recipes-devtools/python/python-testtools_2.2.0.bb
-> rename to meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb
-> index af93ea8..bbf1d01 100644
-> --- a/meta-openstack/recipes-devtools/python/python-testtools_2.2.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+> diff --git a/meta-openstack/recipes-devtools/python/python-webtest_2.0.21.bb b/meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
+> similarity index 52%
+> rename from meta-openstack/recipes-devtools/python/python-webtest_2.0.21.bb
+> rename to meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
+> index c0f6c94..c075a55 100644
+> --- a/meta-openstack/recipes-devtools/python/python-webtest_2.0.21.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
+> @@ -2,13 +2,13 @@ DESCRIPTION = "Helper to test WSGI applications"
+>  HOMEPAGE = "https://pypi.python.org/pypi/WebTest/"
+>  SECTION = "devel/python"
 >  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=e2c9d3e8ba7141c83bfef190e0b9379a"
+> -LIC_FILES_CHKSUM = "file://README.rst;md5=7ddcdd3b8e69edc8c5ae7e6bb64f0bc5"
+> +LIC_FILES_CHKSUM = "file://README.rst;md5=c7fb282fc7269ea1ef7dd689470b528b"
 >
-> -SRC_URI[md5sum] = "adef817b07ba24fd6d807fd41a4f1ef4"
-> -SRC_URI[sha256sum] = "80f606607a6e4ce4d0e24e5b786562aa42c581906f3c070607a4265f3da65810"
-> +SRC_URI[md5sum] = "0f0feb915497816cb99e39437494217e"
-> +SRC_URI[sha256sum] = "5827ec6cf8233e0f29f51025addd713ca010061204fdea77484a2934690a0559"
+>  PYPI_PACKAGE = "WebTest"
+>
+>  RDEPENDS_${PN} += "python-beautifulsoup4"
+>
+> -SRC_URI[md5sum] = "98e8b59da3cc6c150cebca8c92b66041"
+> -SRC_URI[sha256sum] = "3dc92ecd7604e21fc7c97578e4c43aff2a67cebdd4884a2aa804d85e85b34b55"
+> +SRC_URI[md5sum] = "30b4cf0d340b9a5335fac4389e6f84fc"
+> +SRC_URI[sha256sum] = "dbbccc15ac2465066c95dc3a7de0d30cde3791e886ccbd7e91d5d2a2580c922d"
 >
 >  inherit setuptools pypi
->  DEPENDS += " \
 > --
 > 2.7.4
 >
