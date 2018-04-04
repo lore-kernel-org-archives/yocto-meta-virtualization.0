@@ -1,72 +1,66 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A6CEAE00905; Tue,  3 Apr 2018 07:06:02 -0700 (PDT)
+	id 2D75FE00938; Tue,  3 Apr 2018 20:14:13 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.213.194 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.215.42 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
-	[209.85.213.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DAC21E008D2
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 88926E008D2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Apr 2018 07:06:01 -0700 (PDT)
-Received: by mail-yb0-f194.google.com with SMTP id k199-v6so6208451ybk.12
+	Tue,  3 Apr 2018 20:14:12 -0700 (PDT)
+Received: by mail-lf0-f42.google.com with SMTP id q5-v6so23106233lff.12
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Apr 2018 07:06:01 -0700 (PDT)
+	Tue, 03 Apr 2018 20:14:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=Txjqwdbn9x0Yj5OsZpKOO0MO2nMVzaGTngKOdMsc2u8=;
-	b=ATElZ2MNw/F3BpB9ddPWPp/CopdYJresEtXPFPrFzZsxPp+7CW1MqGp/Ems0xquNZm
-	QTYGgd4y26wp1Ja6eVDn48+v6rEsXQ0HbDknUK7/H+WL7XU4vMGa9EX9l9tTQVnxGCGz
-	4Jznzv7GczUI7LIUHHNaBDRXkEqLKRuNPXdnr058lu3yqSDM63h0sZN5Fn4r0vhEvVuM
-	KmeM0ISPGfzZH9ehsyBUBNYr9T9fC7IwObXcfx3KSGsOfenayHinzJfcMvvCHaqUx1qr
-	9F7kFMhWfsuuNJi5IvXdsKFH3rgSVCt0w6wrQ/je3d1Zh4oMavO/UGikpzC8MCTPnbIj
-	TZzQ==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=LVY1KSTkUFqMAEl+jzDTwyLnzQ9SFt1PwOKHZrE64uk=;
+	b=cofeqwmraIc5LAQtIVzVtQmw3suX7BpbNloQxIT8yecjeS3AgCHkNWQ9jrC4UrPU9s
+	BFNZHQuo+Ivn26KSvQN3EgV/kW0ckceAQxfyb6iew1s/7CucihocAgVs7IwNHsxLRiX3
+	ZQT4/A87Gbrl7K+FZ1tBs/BPKIxsgdeRuvhBRvZ60N9J0Zbl1mNEewgN+ml11Cx6DdtJ
+	oV+4nkdNcg/pGpjCw7sLn1BQZvBlNgjtvrIDDL8PoSrgj+8n7gO+z7FCCXCX5jyUlpz2
+	JnMb7Ug/yxz4A1EvjoxKNZ/E6YQCtdun6h3PQH6Du1HbmBNnTjqgk/EEiQTsACmA0hbm
+	rP4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to:cc;
-	bh=Txjqwdbn9x0Yj5OsZpKOO0MO2nMVzaGTngKOdMsc2u8=;
-	b=IPtSNcmV0MbUmNyREu+3VDbgOIDTBuZPMKXlrMeF34NzqGaoDPy4RH+U38tdPhCuOf
-	1rLxZ8OBmeeSHAkvTl9qSeqT0A1aaHPuk+Ct6+zitM4Lnyn3MsbUBp6lBmnWTS1sSwQ9
-	mf4n+KNuTybVtc8Oo9aYkWZnX8b32zUvHa4Xx/RJ05AyzEA0eZ2lgvh2pTQJFBOOnMVD
-	dg2tuo/NarxDmt+97Cz+l8nouaD99yZTHpl8Gzd5WoRwA7jDsTPtEZgv7Eybe1X33saI
-	Ayy5+uc5OZ9De4rAdYwZdIH7pHxip9XfGf1rB0sBsAjQL7ez4J8bZabA1kwDNjewgDSa
-	91YQ==
-X-Gm-Message-State: ALQs6tAyaaJDa4T1RajdANwR2dpXcj2LGyt/YBQv2FwklsWSji/b96SK
-	8YL6O3ZlXvFyiu4X151ughl8bXCID1aqynfPLdQ=
-X-Google-Smtp-Source: AIpwx48TlA+Hx/TWV+1RWv7W2hAIJFGMpSUssdlxBgkcoDRWAw2nTzC5UMJL4r/jveD8YYfP5psjNcOBZ7Br1EwG0ig=
-X-Received: by 2002:a25:aea2:: with SMTP id
-	b34-v6mr7938960ybj.443.1522764360644; 
-	Tue, 03 Apr 2018 07:06:00 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=LVY1KSTkUFqMAEl+jzDTwyLnzQ9SFt1PwOKHZrE64uk=;
+	b=Di8BLY3NiTx+ZhEwbZV7rO3daEzpt1FgEIa3o7g5bKqQm6BeVf8YdAvVxxxKkg/Ep9
+	Qgj4N4+CtNy1q7IMJttXN9rpYqI0GK2mqXYd0ZIuGWIoz0yLDHSitWYs0EhdyEg7ysK2
+	1EoUX/rG98a/fTZt18sR99nAB96gQG9vj2oIJDhYwrrUjF5C/fz/bID4xRFSLGJluLoW
+	/htCxqG3qq34fjKYI1w0cQD3tiM5JhU2RxMR8rS4Nfi8365TNzSRqzHrcTvKoKAnjs8r
+	/KUUOH+o0wo8UPTbPDPZL+feqg+PHVC+MLIBd1LMH+riJ4LF7a/jlC/13WAr2gxBZjre
+	HTwA==
+X-Gm-Message-State: ALQs6tC+LmzXV4hXtLKrW95tPemwzoRMDDJ1eUprK29NpJZA8/5zCoPZ
+	NTRrEA2gHtPdEIUvrwLR/nDNWHRpF9CFGTgqf9G4OZT/
+X-Google-Smtp-Source: AIpwx4+mKxo52odTYIDvPxCDEyPzASE0HrLko9JhpeAgeJkGQFwC2NxsmnEgw4H9OwIpFj2JV5tftGuzQD7aHj1FMCk=
+X-Received: by 2002:a19:1b02:: with SMTP id b2-v6mr9465939lfb.3.1522811651011; 
+	Tue, 03 Apr 2018 20:14:11 -0700 (PDT)
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 2002:a25:dec6:0:0:0:0:0 with HTTP;
-	Tue, 3 Apr 2018 07:06:00 -0700 (PDT)
-In-Reply-To: <1522402120-7482-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-References: <1522402120-7482-1-git-send-email-huangqy.fnst@cn.fujitsu.com>
-	<1522402120-7482-3-git-send-email-huangqy.fnst@cn.fujitsu.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Tue, 3 Apr 2018 10:06:00 -0400
-X-Google-Sender-Auth: sXt-Nxez6aiXgrriYJcUwf8GVkM
-Message-ID: <CAPuovEJrFaE6PbcukgUPUt4nUZ5AEhAHgyD2XBm7oS1xptScaA@mail.gmail.com>
-To: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-cloud-services][PATCH] python-webtest: 2.0.21 -> 2.0.29
+Received: by 10.46.25.8 with HTTP; Tue, 3 Apr 2018 20:14:10 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 3 Apr 2018 23:14:10 -0400
+Message-ID: <CADkTA4OCesBQoAPuUOtBB=kzZ38hwH0HNVY=d68ciBe8Fsrp4A@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: RFT/FYI: docker/containerd/runc uprevs pushed to master
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -76,57 +70,49 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Apr 2018 14:06:02 -0000
+X-List-Received-Date: Wed, 04 Apr 2018 03:14:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Mar 30, 2018 at 5:28 AM, Huang Qiyu <huangqy.fnst@cn.fujitsu.com> wrote:
-> 1.Upgrade python-webtest from 2.0.21 to 2.0.29.
-> 2.Update the checksum of LIC_FILES_CHKSUM, since the README.rst has been changed.
->   Changed from https://webtest.readthedocs.org/en/latest/ to https://webtest.readthedocs.io/en/latest/.
->
-> Signed-off-by: Huang Qiyu <huangqy.fnst@cn.fujitsu.com>
-> ---
+Hi all,
 
-Bruce, this looks safe to merge.
+After spending a few days de-tangling the moby/docker/runc/containerd
+and oe-core go infrastructure changes, I was able to run
+docker/runc/containerd through a system/stress test and everything
+seems to be working.
 
-Mark
+There were a few regressions that I worked through, as well as
+build/packaging changes, but I'm no longer seeing any issues and all
+the patches/functionality have been carried forward.
 
->  .../python/{python-webtest_2.0.21.bb => python-webtest_2.0.29.bb}   | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-webtest_2.0.21.bb => python-webtest_2.0.29.bb} (52%)
->
-> diff --git a/meta-openstack/recipes-devtools/python/python-webtest_2.0.21.bb b/meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
-> similarity index 52%
-> rename from meta-openstack/recipes-devtools/python/python-webtest_2.0.21.bb
-> rename to meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
-> index c0f6c94..c075a55 100644
-> --- a/meta-openstack/recipes-devtools/python/python-webtest_2.0.21.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
-> @@ -2,13 +2,13 @@ DESCRIPTION = "Helper to test WSGI applications"
->  HOMEPAGE = "https://pypi.python.org/pypi/WebTest/"
->  SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://README.rst;md5=7ddcdd3b8e69edc8c5ae7e6bb64f0bc5"
-> +LIC_FILES_CHKSUM = "file://README.rst;md5=c7fb282fc7269ea1ef7dd689470b528b"
->
->  PYPI_PACKAGE = "WebTest"
->
->  RDEPENDS_${PN} += "python-beautifulsoup4"
->
-> -SRC_URI[md5sum] = "98e8b59da3cc6c150cebca8c92b66041"
-> -SRC_URI[sha256sum] = "3dc92ecd7604e21fc7c97578e4c43aff2a67cebdd4884a2aa804d85e85b34b55"
-> +SRC_URI[md5sum] = "30b4cf0d340b9a5335fac4389e6f84fc"
-> +SRC_URI[sha256sum] = "dbbccc15ac2465066c95dc3a7de0d30cde3791e886ccbd7e91d5d2a2580c922d"
->
->  inherit setuptools pypi
-> --
-> 2.7.4
->
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+One thing of note is that the docker and open containers containerd
+split/fork is no longer an issue, so I've modified the default to be
+the opencontainers variant. Similarly, the docker and opencontainers
+runc are very similar. I've kept both variants of both recipes for
+now, since I'd like to track things for a bit longer before declaring
+the split unnecessary.
+
+Also for those that care, I created a reference docker-ce recipe that
+tracks the docker-ce repo versus the components themselves.  Right now
+it is reference only, since it needs a bit more work, but I wanted to
+get it out there, in case someone really cares about docker-ce (I
+don't really, but someone might!).
+
+Summary: I just pushed the following changes to master:
+
+  d7d310ae4113 meta-virt: prefer containerd-opencontainers
+  935e3d969ef1 containerd: uprev to v1.0.2
+  f5fbfa8ac4db docker-ce: introduce reference recipe/build
+  a5074cecf18f docker: uprev to 18.03.0
+  e3d960f4fcd9 runc: uprev to 1.0.0-rc5
+
+If anyone sees regressions, build or architecture issues .. report
+them to me (and the list) and we'll get them fixed up.
+
+Cheers,
+
+Bruce
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
