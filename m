@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F4201E00932; Wed,  4 Apr 2018 13:03:13 -0700 (PDT)
+	id 72CCBE00BAA; Wed,  4 Apr 2018 13:03:14 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6785AE009C8
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C9534E008F2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  4 Apr 2018 13:03:11 -0700 (PDT)
+	Wed,  4 Apr 2018 13:03:12 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w34K3Ban019043
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w34K3CDC004217
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 4 Apr 2018 13:03:11 -0700 (PDT)
+	Wed, 4 Apr 2018 13:03:12 -0700 (PDT)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
-	Wed, 4 Apr 2018 13:03:10 -0700
+	Wed, 4 Apr 2018 13:03:11 -0700
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 4 Apr 2018 16:02:47 -0400
-Message-ID: <1522872176-22946-3-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 4 Apr 2018 16:02:48 -0400
+Message-ID: <1522872176-22946-4-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1522872176-22946-1-git-send-email-mark.asselstine@windriver.com>
 References: <1522872176-22946-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
 Cc: bruce.ashfield@windriver.com
-Subject: [m-c-s][PATCH 03/12] python-os-vif: initial version (v1.7.0)
+Subject: [m-c-s][PATCH 04/12] python-os-win: initial version (v2.2.0)
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,32 +48,32 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Wed, 04 Apr 2018 20:03:14 -0000
 Content-Type: text/plain
 
-Required by python-nova.
+Required by the stable/pike version of python-nova.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- .../recipes-devtools/python/python-os-vif_git.bb   | 33 ++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
- create mode 100644 meta-openstack/recipes-devtools/python/python-os-vif_git.bb
+ .../recipes-devtools/python/python-os-win_git.bb   | 30 ++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-os-win_git.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-os-vif_git.bb b/meta-openstack/recipes-devtools/python/python-os-vif_git.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-os-win_git.bb b/meta-openstack/recipes-devtools/python/python-os-win_git.bb
 new file mode 100644
-index 0000000..52fa05e
+index 0000000..a742506
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-os-vif_git.bb
-@@ -0,0 +1,33 @@
-+DESCRIPTION = "OpenStack integration library between network and compute providers."
-+HOMEPAGE = "https://github.com/openstack/os-vif"
++++ b/meta-openstack/recipes-devtools/python/python-os-win_git.bb
+@@ -0,0 +1,30 @@
++DESCRIPTION = "Windows / Hyper-V library for OpenStack projects."
++HOMEPAGE = "https://github.com/openstack/os-win"
 +SECTION = "devel/python"
 +LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
 +
 +SRC_URI = "\
-+	git://github.com/openstack/os-vif.git;branch=stable/pike \
++	git://github.com/openstack/os-win.git;branch=stable/pike \
 +	"
 +
-+PV = "1.7.0+git${SRCPV}"
-+SRCREV = "5184b7fc3b8d1689823eacb859087c8a943f9a09"
++PV = "2.2.0+git${SRCPV}"
++SRCREV = "b507ec4e7cb5eead7a008e4d002bc31b85359908"
 +S = "${WORKDIR}/git"
 +
 +inherit setuptools
@@ -84,18 +84,14 @@ index 0000000..52fa05e
 +
 +RDEPENDS_${PN} += " \
 +        python-pbr \
-+        python-netaddr \
++        python-babel \
++        python-eventlet \
 +        python-oslo.concurrency \
 +        python-oslo.config \
 +        python-oslo.log \
++        python-oslo.utils \
 +        python-oslo.i18n \
-+        python-oslo.privsep \
-+        python-oslo.versionedobjects \
-+        python-six \
-+        python-stevedore \
 +        "
-+	
-\ No newline at end of file
 -- 
 2.7.4
 
