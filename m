@@ -1,17 +1,18 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <tpradeep@cisco.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6AF5CE00ADB; Thu,  5 Apr 2018 07:14:16 -0700 (PDT)
+	id A8C49E00B18; Thu,  5 Apr 2018 08:55:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [74.125.82.49 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+X-Spam-Status: No, score=-14.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_HI, SPF_HELO_PASS,
+	USER_IN_DEF_DKIM_WL autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [173.37.142.91 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* -7.5 USER_IN_DEF_DKIM_WL From: address is in the default DKIM
+	white-list
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,41 +20,47 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f49.google.com (mail-wm0-f49.google.com [74.125.82.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DA1D4E00708
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 46A4CE00708
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Apr 2018 07:14:14 -0700 (PDT)
-Received: by mail-wm0-f49.google.com with SMTP id p9so6102676wmc.3
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Apr 2018 07:14:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=6cnBtzImi2OU8mUoIOL0jFVktphHZNt6moNayTia78o=;
-	b=PdburKvHVlmAsJtQnPz94Tb7byXon/NWi+DEBDHPywk5lE6M0J9eqigPkhu8uzbExm
-	iLzBSSxxrmVXNQI8YYXT1WKRnotq0LBnRjeyk7KU/qvFem+TX7s17Wp0zYIFliyc02uo
-	eQ0ZzZ93oIZm4TfRfu+63kaED33/1ktjr/1sBv+W0O5bHr4BFzYOVMjXSsaGLhnPAO18
-	SLFR8DAlhLgAg8wSdLDOEQ4kfB93EvUe7vFS5Al2i/l2eN9H4S0Ia49qeZSuPtBTwsQu
-	n/cutYKK5gvBXV9KnffTAywsvyCstvIjG1pSoS54A0akdKqtMbT2YQMeovUCWBX+lYbw
-	GEGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=6cnBtzImi2OU8mUoIOL0jFVktphHZNt6moNayTia78o=;
-	b=rCTEIx0HhP/bmCiRoStyq3komE8J8yYLL1G5NYYwt7l3vxzCwe3vbZ/Xa4qMk2tSs1
-	Hoh+vKWktNMsJQ8fbi0K0Nl7nWvaBQLag8ErOIxdu1S04hL867cKVbwPZfm083T+mnC+
-	9hvM5Yhr5ciew4U2et6EKo2Hv2odmvvHGFLjNzDZ6Be3hDZ/JcvNYPFWsbhs9/zIrMzi
-	4CvaxomxXURokmcW+sSWjs8OqvPhJDZCjf6UZfmz8lhAL8ZiMh1ySiG0oRKyv0Vd/mVV
-	w0DFF48X0Skc5rgpg36MrxcGbJP4yjUpJjmm9OQJz+hl1Atk4UwItBfZAW7dVn8x0NwP
-	UVyg==
-X-Gm-Message-State: ALQs6tDLFYujvWaefHYufBOv5QtSpuiSt6/h0FUgop5XsYqkX7bvpv81
-	WfsYIT7RtP+rj5bNC1DkM7eH6jVXkwRFyDED7R0=
-X-Google-Smtp-Source: AIpwx493AnhqFTl2IhGvI9PPX4xiKeoQswnkT7AfIq2Baf0GRMsEyXPhnIAs6sEMl3DAmSuQy6E9eTxh9i2kbD7HaxQ=
-X-Received: by 10.46.154.145 with SMTP id p17mr13956007lji.28.1522937653577;
-	Thu, 05 Apr 2018 07:14:13 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Thu, 5 Apr 2018 07:14:13 -0700 (PDT)
-In-Reply-To: <af590e1be5cf41549bd49691863a771a@xch-rcd-011.cisco.com>
+	Thu,  5 Apr 2018 08:55:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=14690; q=dns/txt;
+	s=iport; t=1522943740; x=1524153340;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-transfer-encoding:mime-version;
+	bh=+D9Vm+gQT0upM9BR56YBqaICGJ2UNqXgqcRlnKrw270=;
+	b=atshV21Q4MCF2GbbVc0+2FJbf/yxyAZ+I3oz/EhGQwzknvXbYIYAblB1
+	g5PwQ+ulmC8omMJ3cZUVR9qdQ6rE0CdB+5hvz12Iql486Rzd9C6HBbVtR
+	fsX8dPy/BegZUBi3GNPlNzS/djO5AN7wr2Cc62VzTE88ezvDYjAq50rSv 4=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0DJAAD4RcZa/5BdJa1dGQEBAQEBAQE?=
+	=?us-ascii?q?BAQEBAQcBAQEBAYNCYW8oCoNViACNCIF0dRqGYYt0gXoLGAuEYAIagxQhNBg?=
+	=?us-ascii?q?BAgEBAQEBAQJsHAyFIgEBAQECAQEBIREzBwsMBAIBCBEBAwEBAQICIwMCAgI?=
+	=?us-ascii?q?fBgEKFAECBggCBA4FCBKEWwMNCA+sD4IchwoNgSuCJYEJhmGCE4EMglA0gk9?=
+	=?us-ascii?q?CAQSBOQEBCC2CaYI0IAKHHoRXgR2KAiwIAoVRhQNegnWBOoNahzGHKYFxPIY?=
+	=?us-ascii?q?GAhETAYEkARw4gVJwFTqCQwmCFxcRgzSFFIU+bwGKZIEfgRcBAQ?=
+X-IronPort-AV: E=Sophos;i="5.48,411,1517875200"; d="scan'208";a="94665575"
+Received: from rcdn-core-8.cisco.com ([173.37.93.144])
+	by alln-iport-4.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Apr 2018 15:55:38 +0000
+Received: from XCH-RCD-014.cisco.com (xch-rcd-014.cisco.com [173.37.102.24])
+	by rcdn-core-8.cisco.com (8.14.5/8.14.5) with ESMTP id w35FtcMN030393
+	(version=TLSv1/SSLv3 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 5 Apr 2018 15:55:38 GMT
+Received: from xch-rcd-011.cisco.com (173.37.102.21) by XCH-RCD-014.cisco.com
+	(173.37.102.24) with Microsoft SMTP Server (TLS) id 15.0.1320.4;
+	Thu, 5 Apr 2018 10:55:37 -0500
+Received: from xch-rcd-011.cisco.com ([173.37.102.21]) by
+	xch-rcd-011.cisco.com ([173.37.102.21]) with mapi id 15.00.1320.000;
+	Thu, 5 Apr 2018 10:55:37 -0500
+From: "Shakthi Pradeep (tpradeep)" <tpradeep@cisco.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: [meta-virtualization] RFT/FYI: docker/containerd/runc uprevs
+	pushed to master
+Thread-Index: AQHTzBBK0HCU1uyqXUyzQ/F8vAFJLqPwiYFwgABf+QCAATeqwIAAWvQA//+sWWCAAGP/gP//yAaQ
+Date: Thu, 5 Apr 2018 15:55:37 +0000
+Message-ID: <b321979b614d4630bd92560bf0fd9e25@xch-rcd-011.cisco.com>
 References: <CADkTA4OCesBQoAPuUOtBB=kzZ38hwH0HNVY=d68ciBe8Fsrp4A@mail.gmail.com>
 	<7209206599d5475fae12e84333947025@xch-rcd-011.cisco.com>
 	<CADkTA4NkaZfVjiKe64s8ZEgt2UsJ4LOZCm2m8fDPZkYVAPGg9w@mail.gmail.com>
@@ -62,10 +69,14 @@ References: <CADkTA4OCesBQoAPuUOtBB=kzZ38hwH0HNVY=d68ciBe8Fsrp4A@mail.gmail.com>
 	<3fd5560f842540be9fbead290ade1792@xch-rcd-011.cisco.com>
 	<CADkTA4MDXyUDJGOkQec9d1y7JpsOPuKKx5VxhWbhYQGqXMVawA@mail.gmail.com>
 	<af590e1be5cf41549bd49691863a771a@xch-rcd-011.cisco.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 5 Apr 2018 10:14:13 -0400
-Message-ID: <CADkTA4OfAKVShbu-QhDrGHJ6uQq5PgeOGfgME5OBJ5ZK_ZBzBg@mail.gmail.com>
-To: "Shakthi Pradeep (tpradeep)" <tpradeep@cisco.com>
+	<CADkTA4OfAKVShbu-QhDrGHJ6uQq5PgeOGfgME5OBJ5ZK_ZBzBg@mail.gmail.com>
+In-Reply-To: <CADkTA4OfAKVShbu-QhDrGHJ6uQq5PgeOGfgME5OBJ5ZK_ZBzBg@mail.gmail.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.65.87.102]
+MIME-Version: 1.0
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
 Subject: Re: RFT/FYI: docker/containerd/runc uprevs pushed to master
@@ -81,303 +92,198 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Apr 2018 14:14:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 05 Apr 2018 15:55:41 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Apr 5, 2018 at 9:32 AM, Shakthi Pradeep (tpradeep)
-<tpradeep@cisco.com> wrote:
-> Hello Bruce,
->
-> I am actually working on a repo from Third Party. So here things are little outdated.
->
-> I found some info from http://git.yoctoproject.org
->
-> I am currently using Docker 1.13.0 which was committed on 2017-01-20
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/recipes-containers/docker?id=0b631bf01487d3d1be0c91ea7749168fb3c47dcb
->
-> I need to migrate to 18.03.0 which you committed 3 days ago
->
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/recipes-containers/docker?id=a5074cecf18faea1a325c8ac9220d2df41250af5
->
-> If I take recipe from above commit and update my workspace, will all the dependencies migrate to latest automatically?
-
-Nope. You'd need to pull in all the updates that I recently pushed for
-the dependencies, or you'll end up with runtime errors.
-Also note, that due to the different go versions and build
-infrastructure in oe-core, there's no guarantee that those new recipes
-will build properly on an older baseline.
-
-Bruce
-
->
-> Regards,
-> Shakthi
->
-> -----Original Message-----
-> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
-> Sent: Thursday, April 05, 2018 6:46 PM
-> To: Shakthi Pradeep (tpradeep) <tpradeep@cisco.com>
-> Cc: meta-virtualization@yoctoproject.org
-> Subject: Re: [meta-virtualization] RFT/FYI: docker/containerd/runc uprevs pushed to master
->
-> root@cube-server:~# docker --version
-> Docker version 18.03.0, build 0f1bb353423e
->
-> If you are building meta-virt master, the update should happen automatically since the PV of the updated recipe is higher than the old one. All the dependencies will follow after that.
->
-> Bruce
->
-> On Thu, Apr 5, 2018 at 9:02 AM, Shakthi Pradeep (tpradeep) <tpradeep@cisco.com> wrote:
->> Hello Bruce,
->>
->> Which version of Docker are you running.
->>
->> I just noticed I am running Docker 1.13.1 which is too old.
->>
->> How do I migrate to latest version of Docker & also corresponding dependencies.
->>
->> Regards,
->> Shakthi
->>
->> -----Original Message-----
->> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
->> Sent: Wednesday, April 04, 2018 6:45 PM
->> To: Shakthi Pradeep (tpradeep) <tpradeep@cisco.com>
->> Cc: meta-virtualization@yoctoproject.org
->> Subject: Re: [meta-virtualization] RFT/FYI: docker/containerd/runc
->> uprevs pushed to master
->>
->> Excellent news.
->>
->> Yes, everything is in master of meta-virtualization now. That way it will have time to soak a bit before the upcoming release.
->>
->> Cheers,
->>
->> Bruce
->>
->> On Wed, Apr 4, 2018 at 8:32 AM, Shakthi Pradeep (tpradeep) <tpradeep@cisco.com> wrote:
->>> Hello Bruce,
->>>
->>> Yes I was missing the bbappend for kernel config. Got it working after I wrote the mail to you.
->>>
->>> Are your changes committed to git repo? Is it in the master branch of Yocto?
->>>
->>> Regards,
->>> Shakthi
->>>
->>> -----Original Message-----
->>> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
->>> Sent: Wednesday, April 04, 2018 5:57 PM
->>> To: Shakthi Pradeep (tpradeep) <tpradeep@cisco.com>
->>> Cc: meta-virtualization@yoctoproject.org
->>> Subject: Re: [meta-virtualization] RFT/FYI: docker/containerd/runc
->>> uprevs pushed to master
->>>
->>> On Wed, Apr 4, 2018 at 12:57 AM, Shakthi Pradeep (tpradeep) <tpradeep@cisco.com> wrote:
->>>> Hello Bruce,
->>>>
->>>>
->>>>
->>>> Timing is Perfect !!!
->>>>
->>>>
->>>>
->>>> I am currently trying to get Docker CE to work with Yocto. I could
->>>> include the Docker executable in ISO but when I run it I get some errors.
->>>>
->>>>
->>>>
->>>> When I boot the image looks like Docker service start is failing due
->>>> to missing kernel modules. Please refer attached screenshot and
->>>> below error log.
->>>
->>> Do you have a bbappend for your 4.8 kernel that adds the docker configuration fragments ?
->>>
->>> That's the most likely reason for the issues.
->>>
->>> I was able to run a whole suite of tests against 4.12, 4.14 and 4.15 so those kernels + fragments are known to work.
->>>
->>> Bruce
->>>
->>>>
->>>>
->>>>
->>>> * docker.service - Docker Application Container Engine
->>>>
->>>>    Loaded: loaded (/lib/systemd/system/docker.service; enabled;
->>>> vendor
->>>> preset: enabled)
->>>>
->>>>    Active: failed (Result: exit-code) since Tue 2018-04-03 13:17:51
->>>> UTC; 17min ago
->>>>
->>>>      Docs: https://docs.docker.com
->>>>
->>>>   Process: 317 ExecStart=/usr/bin/dockerd -H fd:// (code=exited,
->>>> status=1/FAILURE)
->>>>
->>>> Main PID: 317 (code=exited, status=1/FAILURE)
->>>>
->>>>
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 dockerd[317]:
->>>> time="2018-04-03T13:17:51.035178755Z" level=warning msg="Running
->>>> modprobe xt_conntrack failed with message: `modprobe: WARNING:
->>>> Module xt_conntrack not found in directory
->>>> /lib/modules/4.8.24-WR9.0.0.10_standard`, error: exit status 1"
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 dockerd[317]:
->>>> time="2018-04-03T13:17:51.040727372Z" level=info msg="Firewalld running:
->>>> false"
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 dockerd[317]:
->>>> time="2018-04-03T13:17:51.170575344Z" level=warning msg="Could not
->>>> load necessary modules for IPSEC rules: Running modprobe xfrm_user
->>>> failed with
->>>> message: `modprobe: WARNING: Module xfrm_user not found in directory
->>>> /lib/modules/4.8.24-WR9.0.0.10_standard`, error: exit status 1"
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 dockerd[317]:
->>>> time="2018-04-03T13:17:51.172397913Z" level=info msg="Default bridge
->>>> (docker0) is assigned with an IP address 172.17.0.0/16. Daemon
->>>> option --bip can be used to set a preferred IP address"
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 dockerd[317]: Error starting daemon:
->>>> Error initializing network controller: Error creating default "bridge" network:
->>>> Failed to Setup IP tables: Unable to enable ACCEPT INCOMING rule:
->>>> (iptables
->>>> failed: iptables --wait -I FORWARD -o docker0 -m conntrack --ctstate
->>>> RELATED,ESTABLISHED -j ACCEPT: iptables: No chain/target/match by that name.
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 dockerd[317]:  (exit status 1))
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 systemd[1]: docker.service: Main
->>>> process exited, code=exited, status=1/FAILURE
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 systemd[1]: Failed to start Docker
->>>> Application Container Engine.
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 systemd[1]: docker.service: Unit
->>>> entered failed state.
->>>>
->>>> Apr 03 13:17:51 intel-x86-64 systemd[1]: docker.service: Failed with
->>>> result 'exit-code'.
->>>>
->>>>
->>>>
->>>> Regards,
->>>>
->>>> Shakthi
->>>>
->>>>
->>>>
->>>> -----Original Message-----
->>>> From: meta-virtualization-bounces@yoctoproject.org
->>>> [mailto:meta-virtualization-bounces@yoctoproject.org] On Behalf Of
->>>> Bruce Ashfield
->>>> Sent: Wednesday, April 04, 2018 8:44 AM
->>>> To: meta-virtualization@yoctoproject.org
->>>> Subject: [meta-virtualization] RFT/FYI: docker/containerd/runc
->>>> uprevs pushed to master
->>>>
->>>>
->>>>
->>>> Hi all,
->>>>
->>>>
->>>>
->>>> After spending a few days de-tangling the
->>>> moby/docker/runc/containerd and oe-core go infrastructure changes, I
->>>> was able to run docker/runc/containerd through a system/stress test and everything seems to be working.
->>>>
->>>>
->>>>
->>>> There were a few regressions that I worked through, as well as
->>>> build/packaging changes, but I'm no longer seeing any issues and all
->>>> the patches/functionality have been carried forward.
->>>>
->>>>
->>>>
->>>> One thing of note is that the docker and open containers containerd
->>>> split/fork is no longer an issue, so I've modified the default to be
->>>> the opencontainers variant. Similarly, the docker and opencontainers
->>>> runc are very similar. I've kept both variants of both recipes for
->>>> now, since I'd like to track things for a bit longer before
->>>> declaring the split unnecessary.
->>>>
->>>>
->>>>
->>>> Also for those that care, I created a reference docker-ce recipe
->>>> that tracks the docker-ce repo versus the components themselves.
->>>> Right now it is reference only, since it needs a bit more work, but
->>>> I wanted to get it out there, in case someone really cares about
->>>> docker-ce (I don't really, but someone might!).
->>>>
->>>>
->>>>
->>>> Summary: I just pushed the following changes to master:
->>>>
->>>>
->>>>
->>>>   d7d310ae4113 meta-virt: prefer containerd-opencontainers
->>>>
->>>>   935e3d969ef1 containerd: uprev to v1.0.2
->>>>
->>>>   f5fbfa8ac4db docker-ce: introduce reference recipe/build
->>>>
->>>>   a5074cecf18f docker: uprev to 18.03.0
->>>>
->>>>   e3d960f4fcd9 runc: uprev to 1.0.0-rc5
->>>>
->>>>
->>>>
->>>> If anyone sees regressions, build or architecture issues .. report
->>>> them to me (and the list) and we'll get them fixed up.
->>>>
->>>>
->>>>
->>>> Cheers,
->>>>
->>>>
->>>>
->>>> Bruce
->>>>
->>>>
->>>>
->>>> --
->>>>
->>>> "Thou shalt not follow the NULL pointer, for chaos and madness await
->>>> thee at its end"
->>>>
->>>> --
->>>>
->>>> _______________________________________________
->>>>
->>>> meta-virtualization mailing list
->>>>
->>>> meta-virtualization@yoctoproject.org
->>>>
->>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>>
->>>
->>>
->>> --
->>> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end"
->>
->>
->>
->> --
->> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end"
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee at its end"
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+SGVsbG8gQnJ1Y2UsDQoNCkkgcHVsbGVkIG1hc3RlciBicmFuY2ggZnJvbSBnaXQ6Ly9naXQueW9j
+dG9wcm9qZWN0Lm9yZy9wb2t5IGJ1dCBidWlsZCBmYWlscw0KDQpXaGVuIEkgcnVuICJiaXRiYWtl
+IGNvcmUtaW1hZ2UtZnVsbC1jbWRsaW5lIiBvciAiYml0YmFrZSBjb3JlLWltYWdlLW1pbmltYWwi
+IEkgZ2V0IGZvbGxvd2luZyBlcnJvcg0KDQpFUlJPUjogVGFzayAoL25vYmFja3VwL3RwcmFkZWVw
+L3BsYXlncm91bmQveW9jdG8vcG9reS9tZXRhL3JlY2lwZXMta2VybmVsL2xpbnV4LWxpYmMtaGVh
+ZGVycy9saW51eC1saWJjLWhlYWRlcnNfNC4xNS43LmJiOmRvX2luc3RhbGwpIGZhaWxlZCB3aXRo
+IGV4aXQgY29kZSAnMScNCkVSUk9SOiBUYXNrICgvbm9iYWNrdXAvdHByYWRlZXAvcGxheWdyb3Vu
+ZC95b2N0by9wb2t5L21ldGEvcmVjaXBlcy1kZXZ0b29scy9hdXRvY29uZi1hcmNoaXZlL2F1dG9j
+b25mLWFyY2hpdmVfMjAxNi4wOS4xNi5iYjpkb19pbnN0YWxsKSBmYWlsZWQgd2l0aCBleGl0IGNv
+ZGUgJzEnDQoNCkFueSBpZGVhIHdoeT8NCg0KUmVnYXJkcywNClNoYWt0aGkNCg0KLS0tLS1Pcmln
+aW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IEJydWNlIEFzaGZpZWxkIFttYWlsdG86YnJ1Y2UuYXNo
+ZmllbGRAZ21haWwuY29tXSANClNlbnQ6IFRodXJzZGF5LCBBcHJpbCAwNSwgMjAxOCA3OjQ0IFBN
+DQpUbzogU2hha3RoaSBQcmFkZWVwICh0cHJhZGVlcCkgPHRwcmFkZWVwQGNpc2NvLmNvbT4NCkNj
+OiBtZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmcNClN1YmplY3Q6IFJlOiBbbWV0
+YS12aXJ0dWFsaXphdGlvbl0gUkZUL0ZZSTogZG9ja2VyL2NvbnRhaW5lcmQvcnVuYyB1cHJldnMg
+cHVzaGVkIHRvIG1hc3Rlcg0KDQpPbiBUaHUsIEFwciA1LCAyMDE4IGF0IDk6MzIgQU0sIFNoYWt0
+aGkgUHJhZGVlcCAodHByYWRlZXApIDx0cHJhZGVlcEBjaXNjby5jb20+IHdyb3RlOg0KPiBIZWxs
+byBCcnVjZSwNCj4NCj4gSSBhbSBhY3R1YWxseSB3b3JraW5nIG9uIGEgcmVwbyBmcm9tIFRoaXJk
+IFBhcnR5LiBTbyBoZXJlIHRoaW5ncyBhcmUgbGl0dGxlIG91dGRhdGVkLg0KPg0KPiBJIGZvdW5k
+IHNvbWUgaW5mbyBmcm9tIGh0dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZw0KPg0KPiBJIGFtIGN1
+cnJlbnRseSB1c2luZyBEb2NrZXIgMS4xMy4wIHdoaWNoIHdhcyBjb21taXR0ZWQgb24gMjAxNy0w
+MS0yMA0KPg0KPiBodHRwOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9tZXRh
+LXZpcnR1YWxpemF0aW9uL2NvbW1pdC9yDQo+IGVjaXBlcy1jb250YWluZXJzL2RvY2tlcj9pZD0w
+YjYzMWJmMDE0ODdkM2QxYmUwYzkxZWE3NzQ5MTY4ZmIzYzQ3ZGNiDQo+DQo+IEkgbmVlZCB0byBt
+aWdyYXRlIHRvIDE4LjAzLjAgd2hpY2ggeW91IGNvbW1pdHRlZCAzIGRheXMgYWdvDQo+DQo+IGh0
+dHA6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL21ldGEtdmlydHVhbGl6YXRp
+b24vY29tbWl0L3INCj4gZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyP2lkPWE1MDc0Y2VjZjE4ZmFl
+YTFhMzI1YzhhYzkyMjBkMmRmNDEyNTBhZjUNCj4NCj4gSWYgSSB0YWtlIHJlY2lwZSBmcm9tIGFi
+b3ZlIGNvbW1pdCBhbmQgdXBkYXRlIG15IHdvcmtzcGFjZSwgd2lsbCBhbGwgdGhlIGRlcGVuZGVu
+Y2llcyBtaWdyYXRlIHRvIGxhdGVzdCBhdXRvbWF0aWNhbGx5Pw0KDQpOb3BlLiBZb3UnZCBuZWVk
+IHRvIHB1bGwgaW4gYWxsIHRoZSB1cGRhdGVzIHRoYXQgSSByZWNlbnRseSBwdXNoZWQgZm9yIHRo
+ZSBkZXBlbmRlbmNpZXMsIG9yIHlvdSdsbCBlbmQgdXAgd2l0aCBydW50aW1lIGVycm9ycy4NCkFs
+c28gbm90ZSwgdGhhdCBkdWUgdG8gdGhlIGRpZmZlcmVudCBnbyB2ZXJzaW9ucyBhbmQgYnVpbGQg
+aW5mcmFzdHJ1Y3R1cmUgaW4gb2UtY29yZSwgdGhlcmUncyBubyBndWFyYW50ZWUgdGhhdCB0aG9z
+ZSBuZXcgcmVjaXBlcyB3aWxsIGJ1aWxkIHByb3Blcmx5IG9uIGFuIG9sZGVyIGJhc2VsaW5lLg0K
+DQpCcnVjZQ0KDQo+DQo+IFJlZ2FyZHMsDQo+IFNoYWt0aGkNCj4NCj4gLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCj4gRnJvbTogQnJ1Y2UgQXNoZmllbGQgW21haWx0bzpicnVjZS5hc2hmaWVs
+ZEBnbWFpbC5jb21dDQo+IFNlbnQ6IFRodXJzZGF5LCBBcHJpbCAwNSwgMjAxOCA2OjQ2IFBNDQo+
+IFRvOiBTaGFrdGhpIFByYWRlZXAgKHRwcmFkZWVwKSA8dHByYWRlZXBAY2lzY28uY29tPg0KPiBD
+YzogbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qub3JnDQo+IFN1YmplY3Q6IFJlOiBb
+bWV0YS12aXJ0dWFsaXphdGlvbl0gUkZUL0ZZSTogZG9ja2VyL2NvbnRhaW5lcmQvcnVuYyANCj4g
+dXByZXZzIHB1c2hlZCB0byBtYXN0ZXINCj4NCj4gcm9vdEBjdWJlLXNlcnZlcjp+IyBkb2NrZXIg
+LS12ZXJzaW9uDQo+IERvY2tlciB2ZXJzaW9uIDE4LjAzLjAsIGJ1aWxkIDBmMWJiMzUzNDIzZQ0K
+Pg0KPiBJZiB5b3UgYXJlIGJ1aWxkaW5nIG1ldGEtdmlydCBtYXN0ZXIsIHRoZSB1cGRhdGUgc2hv
+dWxkIGhhcHBlbiBhdXRvbWF0aWNhbGx5IHNpbmNlIHRoZSBQViBvZiB0aGUgdXBkYXRlZCByZWNp
+cGUgaXMgaGlnaGVyIHRoYW4gdGhlIG9sZCBvbmUuIEFsbCB0aGUgZGVwZW5kZW5jaWVzIHdpbGwg
+Zm9sbG93IGFmdGVyIHRoYXQuDQo+DQo+IEJydWNlDQo+DQo+IE9uIFRodSwgQXByIDUsIDIwMTgg
+YXQgOTowMiBBTSwgU2hha3RoaSBQcmFkZWVwICh0cHJhZGVlcCkgPHRwcmFkZWVwQGNpc2NvLmNv
+bT4gd3JvdGU6DQo+PiBIZWxsbyBCcnVjZSwNCj4+DQo+PiBXaGljaCB2ZXJzaW9uIG9mIERvY2tl
+ciBhcmUgeW91IHJ1bm5pbmcuDQo+Pg0KPj4gSSBqdXN0IG5vdGljZWQgSSBhbSBydW5uaW5nIERv
+Y2tlciAxLjEzLjEgd2hpY2ggaXMgdG9vIG9sZC4NCj4+DQo+PiBIb3cgZG8gSSBtaWdyYXRlIHRv
+IGxhdGVzdCB2ZXJzaW9uIG9mIERvY2tlciAmIGFsc28gY29ycmVzcG9uZGluZyBkZXBlbmRlbmNp
+ZXMuDQo+Pg0KPj4gUmVnYXJkcywNCj4+IFNoYWt0aGkNCj4+DQo+PiAtLS0tLU9yaWdpbmFsIE1l
+c3NhZ2UtLS0tLQ0KPj4gRnJvbTogQnJ1Y2UgQXNoZmllbGQgW21haWx0bzpicnVjZS5hc2hmaWVs
+ZEBnbWFpbC5jb21dDQo+PiBTZW50OiBXZWRuZXNkYXksIEFwcmlsIDA0LCAyMDE4IDY6NDUgUE0N
+Cj4+IFRvOiBTaGFrdGhpIFByYWRlZXAgKHRwcmFkZWVwKSA8dHByYWRlZXBAY2lzY28uY29tPg0K
+Pj4gQ2M6IG1ldGEtdmlydHVhbGl6YXRpb25AeW9jdG9wcm9qZWN0Lm9yZw0KPj4gU3ViamVjdDog
+UmU6IFttZXRhLXZpcnR1YWxpemF0aW9uXSBSRlQvRllJOiBkb2NrZXIvY29udGFpbmVyZC9ydW5j
+IA0KPj4gdXByZXZzIHB1c2hlZCB0byBtYXN0ZXINCj4+DQo+PiBFeGNlbGxlbnQgbmV3cy4NCj4+
+DQo+PiBZZXMsIGV2ZXJ5dGhpbmcgaXMgaW4gbWFzdGVyIG9mIG1ldGEtdmlydHVhbGl6YXRpb24g
+bm93LiBUaGF0IHdheSBpdCB3aWxsIGhhdmUgdGltZSB0byBzb2FrIGEgYml0IGJlZm9yZSB0aGUg
+dXBjb21pbmcgcmVsZWFzZS4NCj4+DQo+PiBDaGVlcnMsDQo+Pg0KPj4gQnJ1Y2UNCj4+DQo+PiBP
+biBXZWQsIEFwciA0LCAyMDE4IGF0IDg6MzIgQU0sIFNoYWt0aGkgUHJhZGVlcCAodHByYWRlZXAp
+IDx0cHJhZGVlcEBjaXNjby5jb20+IHdyb3RlOg0KPj4+IEhlbGxvIEJydWNlLA0KPj4+DQo+Pj4g
+WWVzIEkgd2FzIG1pc3NpbmcgdGhlIGJiYXBwZW5kIGZvciBrZXJuZWwgY29uZmlnLiBHb3QgaXQg
+d29ya2luZyBhZnRlciBJIHdyb3RlIHRoZSBtYWlsIHRvIHlvdS4NCj4+Pg0KPj4+IEFyZSB5b3Vy
+IGNoYW5nZXMgY29tbWl0dGVkIHRvIGdpdCByZXBvPyBJcyBpdCBpbiB0aGUgbWFzdGVyIGJyYW5j
+aCBvZiBZb2N0bz8NCj4+Pg0KPj4+IFJlZ2FyZHMsDQo+Pj4gU2hha3RoaQ0KPj4+DQo+Pj4gLS0t
+LS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4+PiBGcm9tOiBCcnVjZSBBc2hmaWVsZCBbbWFpbHRv
+OmJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbV0NCj4+PiBTZW50OiBXZWRuZXNkYXksIEFwcmlsIDA0
+LCAyMDE4IDU6NTcgUE0NCj4+PiBUbzogU2hha3RoaSBQcmFkZWVwICh0cHJhZGVlcCkgPHRwcmFk
+ZWVwQGNpc2NvLmNvbT4NCj4+PiBDYzogbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qu
+b3JnDQo+Pj4gU3ViamVjdDogUmU6IFttZXRhLXZpcnR1YWxpemF0aW9uXSBSRlQvRllJOiBkb2Nr
+ZXIvY29udGFpbmVyZC9ydW5jIA0KPj4+IHVwcmV2cyBwdXNoZWQgdG8gbWFzdGVyDQo+Pj4NCj4+
+PiBPbiBXZWQsIEFwciA0LCAyMDE4IGF0IDEyOjU3IEFNLCBTaGFrdGhpIFByYWRlZXAgKHRwcmFk
+ZWVwKSA8dHByYWRlZXBAY2lzY28uY29tPiB3cm90ZToNCj4+Pj4gSGVsbG8gQnJ1Y2UsDQo+Pj4+
+DQo+Pj4+DQo+Pj4+DQo+Pj4+IFRpbWluZyBpcyBQZXJmZWN0ICEhIQ0KPj4+Pg0KPj4+Pg0KPj4+
+Pg0KPj4+PiBJIGFtIGN1cnJlbnRseSB0cnlpbmcgdG8gZ2V0IERvY2tlciBDRSB0byB3b3JrIHdp
+dGggWW9jdG8uIEkgY291bGQgDQo+Pj4+IGluY2x1ZGUgdGhlIERvY2tlciBleGVjdXRhYmxlIGlu
+IElTTyBidXQgd2hlbiBJIHJ1biBpdCBJIGdldCBzb21lIGVycm9ycy4NCj4+Pj4NCj4+Pj4NCj4+
+Pj4NCj4+Pj4gV2hlbiBJIGJvb3QgdGhlIGltYWdlIGxvb2tzIGxpa2UgRG9ja2VyIHNlcnZpY2Ug
+c3RhcnQgaXMgZmFpbGluZyANCj4+Pj4gZHVlIHRvIG1pc3Npbmcga2VybmVsIG1vZHVsZXMuIFBs
+ZWFzZSByZWZlciBhdHRhY2hlZCBzY3JlZW5zaG90IGFuZCANCj4+Pj4gYmVsb3cgZXJyb3IgbG9n
+Lg0KPj4+DQo+Pj4gRG8geW91IGhhdmUgYSBiYmFwcGVuZCBmb3IgeW91ciA0Ljgga2VybmVsIHRo
+YXQgYWRkcyB0aGUgZG9ja2VyIGNvbmZpZ3VyYXRpb24gZnJhZ21lbnRzID8NCj4+Pg0KPj4+IFRo
+YXQncyB0aGUgbW9zdCBsaWtlbHkgcmVhc29uIGZvciB0aGUgaXNzdWVzLg0KPj4+DQo+Pj4gSSB3
+YXMgYWJsZSB0byBydW4gYSB3aG9sZSBzdWl0ZSBvZiB0ZXN0cyBhZ2FpbnN0IDQuMTIsIDQuMTQg
+YW5kIDQuMTUgc28gdGhvc2Uga2VybmVscyArIGZyYWdtZW50cyBhcmUga25vd24gdG8gd29yay4N
+Cj4+Pg0KPj4+IEJydWNlDQo+Pj4NCj4+Pj4NCj4+Pj4NCj4+Pj4NCj4+Pj4gKiBkb2NrZXIuc2Vy
+dmljZSAtIERvY2tlciBBcHBsaWNhdGlvbiBDb250YWluZXIgRW5naW5lDQo+Pj4+DQo+Pj4+ICAg
+IExvYWRlZDogbG9hZGVkICgvbGliL3N5c3RlbWQvc3lzdGVtL2RvY2tlci5zZXJ2aWNlOyBlbmFi
+bGVkOyANCj4+Pj4gdmVuZG9yDQo+Pj4+IHByZXNldDogZW5hYmxlZCkNCj4+Pj4NCj4+Pj4gICAg
+QWN0aXZlOiBmYWlsZWQgKFJlc3VsdDogZXhpdC1jb2RlKSBzaW5jZSBUdWUgMjAxOC0wNC0wMyAx
+MzoxNzo1MSANCj4+Pj4gVVRDOyAxN21pbiBhZ28NCj4+Pj4NCj4+Pj4gICAgICBEb2NzOiBodHRw
+czovL2RvY3MuZG9ja2VyLmNvbQ0KPj4+Pg0KPj4+PiAgIFByb2Nlc3M6IDMxNyBFeGVjU3RhcnQ9
+L3Vzci9iaW4vZG9ja2VyZCAtSCBmZDovLyAoY29kZT1leGl0ZWQsDQo+Pj4+IHN0YXR1cz0xL0ZB
+SUxVUkUpDQo+Pj4+DQo+Pj4+IE1haW4gUElEOiAzMTcgKGNvZGU9ZXhpdGVkLCBzdGF0dXM9MS9G
+QUlMVVJFKQ0KPj4+Pg0KPj4+Pg0KPj4+Pg0KPj4+PiBBcHIgMDMgMTM6MTc6NTEgaW50ZWwteDg2
+LTY0IGRvY2tlcmRbMzE3XToNCj4+Pj4gdGltZT0iMjAxOC0wNC0wM1QxMzoxNzo1MS4wMzUxNzg3
+NTVaIiBsZXZlbD13YXJuaW5nIG1zZz0iUnVubmluZyANCj4+Pj4gbW9kcHJvYmUgeHRfY29ubnRy
+YWNrIGZhaWxlZCB3aXRoIG1lc3NhZ2U6IGBtb2Rwcm9iZTogV0FSTklORzoNCj4+Pj4gTW9kdWxl
+IHh0X2Nvbm50cmFjayBub3QgZm91bmQgaW4gZGlyZWN0b3J5IA0KPj4+PiAvbGliL21vZHVsZXMv
+NC44LjI0LVdSOS4wLjAuMTBfc3RhbmRhcmRgLCBlcnJvcjogZXhpdCBzdGF0dXMgMSINCj4+Pj4N
+Cj4+Pj4gQXByIDAzIDEzOjE3OjUxIGludGVsLXg4Ni02NCBkb2NrZXJkWzMxN106DQo+Pj4+IHRp
+bWU9IjIwMTgtMDQtMDNUMTM6MTc6NTEuMDQwNzI3MzcyWiIgbGV2ZWw9aW5mbyBtc2c9IkZpcmV3
+YWxsZCBydW5uaW5nOg0KPj4+PiBmYWxzZSINCj4+Pj4NCj4+Pj4gQXByIDAzIDEzOjE3OjUxIGlu
+dGVsLXg4Ni02NCBkb2NrZXJkWzMxN106DQo+Pj4+IHRpbWU9IjIwMTgtMDQtMDNUMTM6MTc6NTEu
+MTcwNTc1MzQ0WiIgbGV2ZWw9d2FybmluZyBtc2c9IkNvdWxkIG5vdCANCj4+Pj4gbG9hZCBuZWNl
+c3NhcnkgbW9kdWxlcyBmb3IgSVBTRUMgcnVsZXM6IFJ1bm5pbmcgbW9kcHJvYmUgeGZybV91c2Vy
+IA0KPj4+PiBmYWlsZWQgd2l0aA0KPj4+PiBtZXNzYWdlOiBgbW9kcHJvYmU6IFdBUk5JTkc6IE1v
+ZHVsZSB4ZnJtX3VzZXIgbm90IGZvdW5kIGluIA0KPj4+PiBkaXJlY3RvcnkgL2xpYi9tb2R1bGVz
+LzQuOC4yNC1XUjkuMC4wLjEwX3N0YW5kYXJkYCwgZXJyb3I6IGV4aXQgc3RhdHVzIDEiDQo+Pj4+
+DQo+Pj4+IEFwciAwMyAxMzoxNzo1MSBpbnRlbC14ODYtNjQgZG9ja2VyZFszMTddOg0KPj4+PiB0
+aW1lPSIyMDE4LTA0LTAzVDEzOjE3OjUxLjE3MjM5NzkxM1oiIGxldmVsPWluZm8gbXNnPSJEZWZh
+dWx0IA0KPj4+PiBicmlkZ2UNCj4+Pj4gKGRvY2tlcjApIGlzIGFzc2lnbmVkIHdpdGggYW4gSVAg
+YWRkcmVzcyAxNzIuMTcuMC4wLzE2LiBEYWVtb24gDQo+Pj4+IG9wdGlvbiAtLWJpcCBjYW4gYmUg
+dXNlZCB0byBzZXQgYSBwcmVmZXJyZWQgSVAgYWRkcmVzcyINCj4+Pj4NCj4+Pj4gQXByIDAzIDEz
+OjE3OjUxIGludGVsLXg4Ni02NCBkb2NrZXJkWzMxN106IEVycm9yIHN0YXJ0aW5nIGRhZW1vbjoN
+Cj4+Pj4gRXJyb3IgaW5pdGlhbGl6aW5nIG5ldHdvcmsgY29udHJvbGxlcjogRXJyb3IgY3JlYXRp
+bmcgZGVmYXVsdCAiYnJpZGdlIiBuZXR3b3JrOg0KPj4+PiBGYWlsZWQgdG8gU2V0dXAgSVAgdGFi
+bGVzOiBVbmFibGUgdG8gZW5hYmxlIEFDQ0VQVCBJTkNPTUlORyBydWxlOg0KPj4+PiAoaXB0YWJs
+ZXMNCj4+Pj4gZmFpbGVkOiBpcHRhYmxlcyAtLXdhaXQgLUkgRk9SV0FSRCAtbyBkb2NrZXIwIC1t
+IGNvbm50cmFjayANCj4+Pj4gLS1jdHN0YXRlIFJFTEFURUQsRVNUQUJMSVNIRUQgLWogQUNDRVBU
+OiBpcHRhYmxlczogTm8gY2hhaW4vdGFyZ2V0L21hdGNoIGJ5IHRoYXQgbmFtZS4NCj4+Pj4NCj4+
+Pj4gQXByIDAzIDEzOjE3OjUxIGludGVsLXg4Ni02NCBkb2NrZXJkWzMxN106ICAoZXhpdCBzdGF0
+dXMgMSkpDQo+Pj4+DQo+Pj4+IEFwciAwMyAxMzoxNzo1MSBpbnRlbC14ODYtNjQgc3lzdGVtZFsx
+XTogZG9ja2VyLnNlcnZpY2U6IE1haW4gDQo+Pj4+IHByb2Nlc3MgZXhpdGVkLCBjb2RlPWV4aXRl
+ZCwgc3RhdHVzPTEvRkFJTFVSRQ0KPj4+Pg0KPj4+PiBBcHIgMDMgMTM6MTc6NTEgaW50ZWwteDg2
+LTY0IHN5c3RlbWRbMV06IEZhaWxlZCB0byBzdGFydCBEb2NrZXIgDQo+Pj4+IEFwcGxpY2F0aW9u
+IENvbnRhaW5lciBFbmdpbmUuDQo+Pj4+DQo+Pj4+IEFwciAwMyAxMzoxNzo1MSBpbnRlbC14ODYt
+NjQgc3lzdGVtZFsxXTogZG9ja2VyLnNlcnZpY2U6IFVuaXQgDQo+Pj4+IGVudGVyZWQgZmFpbGVk
+IHN0YXRlLg0KPj4+Pg0KPj4+PiBBcHIgMDMgMTM6MTc6NTEgaW50ZWwteDg2LTY0IHN5c3RlbWRb
+MV06IGRvY2tlci5zZXJ2aWNlOiBGYWlsZWQgDQo+Pj4+IHdpdGggcmVzdWx0ICdleGl0LWNvZGUn
+Lg0KPj4+Pg0KPj4+Pg0KPj4+Pg0KPj4+PiBSZWdhcmRzLA0KPj4+Pg0KPj4+PiBTaGFrdGhpDQo+
+Pj4+DQo+Pj4+DQo+Pj4+DQo+Pj4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+Pj4+IEZy
+b206IG1ldGEtdmlydHVhbGl6YXRpb24tYm91bmNlc0B5b2N0b3Byb2plY3Qub3JnDQo+Pj4+IFtt
+YWlsdG86bWV0YS12aXJ0dWFsaXphdGlvbi1ib3VuY2VzQHlvY3RvcHJvamVjdC5vcmddIE9uIEJl
+aGFsZiBPZiANCj4+Pj4gQnJ1Y2UgQXNoZmllbGQNCj4+Pj4gU2VudDogV2VkbmVzZGF5LCBBcHJp
+bCAwNCwgMjAxOCA4OjQ0IEFNDQo+Pj4+IFRvOiBtZXRhLXZpcnR1YWxpemF0aW9uQHlvY3RvcHJv
+amVjdC5vcmcNCj4+Pj4gU3ViamVjdDogW21ldGEtdmlydHVhbGl6YXRpb25dIFJGVC9GWUk6IGRv
+Y2tlci9jb250YWluZXJkL3J1bmMgDQo+Pj4+IHVwcmV2cyBwdXNoZWQgdG8gbWFzdGVyDQo+Pj4+
+DQo+Pj4+DQo+Pj4+DQo+Pj4+IEhpIGFsbCwNCj4+Pj4NCj4+Pj4NCj4+Pj4NCj4+Pj4gQWZ0ZXIg
+c3BlbmRpbmcgYSBmZXcgZGF5cyBkZS10YW5nbGluZyB0aGUgDQo+Pj4+IG1vYnkvZG9ja2VyL3J1
+bmMvY29udGFpbmVyZCBhbmQgb2UtY29yZSBnbyBpbmZyYXN0cnVjdHVyZSBjaGFuZ2VzLCANCj4+
+Pj4gSSB3YXMgYWJsZSB0byBydW4gZG9ja2VyL3J1bmMvY29udGFpbmVyZCB0aHJvdWdoIGEgc3lz
+dGVtL3N0cmVzcyB0ZXN0IGFuZCBldmVyeXRoaW5nIHNlZW1zIHRvIGJlIHdvcmtpbmcuDQo+Pj4+
+DQo+Pj4+DQo+Pj4+DQo+Pj4+IFRoZXJlIHdlcmUgYSBmZXcgcmVncmVzc2lvbnMgdGhhdCBJIHdv
+cmtlZCB0aHJvdWdoLCBhcyB3ZWxsIGFzIA0KPj4+PiBidWlsZC9wYWNrYWdpbmcgY2hhbmdlcywg
+YnV0IEknbSBubyBsb25nZXIgc2VlaW5nIGFueSBpc3N1ZXMgYW5kIA0KPj4+PiBhbGwgdGhlIHBh
+dGNoZXMvZnVuY3Rpb25hbGl0eSBoYXZlIGJlZW4gY2FycmllZCBmb3J3YXJkLg0KPj4+Pg0KPj4+
+Pg0KPj4+Pg0KPj4+PiBPbmUgdGhpbmcgb2Ygbm90ZSBpcyB0aGF0IHRoZSBkb2NrZXIgYW5kIG9w
+ZW4gY29udGFpbmVycyBjb250YWluZXJkIA0KPj4+PiBzcGxpdC9mb3JrIGlzIG5vIGxvbmdlciBh
+biBpc3N1ZSwgc28gSSd2ZSBtb2RpZmllZCB0aGUgZGVmYXVsdCB0byANCj4+Pj4gYmUgdGhlIG9w
+ZW5jb250YWluZXJzIHZhcmlhbnQuIFNpbWlsYXJseSwgdGhlIGRvY2tlciBhbmQgDQo+Pj4+IG9w
+ZW5jb250YWluZXJzIHJ1bmMgYXJlIHZlcnkgc2ltaWxhci4gSSd2ZSBrZXB0IGJvdGggdmFyaWFu
+dHMgb2YgDQo+Pj4+IGJvdGggcmVjaXBlcyBmb3Igbm93LCBzaW5jZSBJJ2QgbGlrZSB0byB0cmFj
+ayB0aGluZ3MgZm9yIGEgYml0IA0KPj4+PiBsb25nZXIgYmVmb3JlIGRlY2xhcmluZyB0aGUgc3Bs
+aXQgdW5uZWNlc3NhcnkuDQo+Pj4+DQo+Pj4+DQo+Pj4+DQo+Pj4+IEFsc28gZm9yIHRob3NlIHRo
+YXQgY2FyZSwgSSBjcmVhdGVkIGEgcmVmZXJlbmNlIGRvY2tlci1jZSByZWNpcGUgDQo+Pj4+IHRo
+YXQgdHJhY2tzIHRoZSBkb2NrZXItY2UgcmVwbyB2ZXJzdXMgdGhlIGNvbXBvbmVudHMgdGhlbXNl
+bHZlcy4NCj4+Pj4gUmlnaHQgbm93IGl0IGlzIHJlZmVyZW5jZSBvbmx5LCBzaW5jZSBpdCBuZWVk
+cyBhIGJpdCBtb3JlIHdvcmssIGJ1dCANCj4+Pj4gSSB3YW50ZWQgdG8gZ2V0IGl0IG91dCB0aGVy
+ZSwgaW4gY2FzZSBzb21lb25lIHJlYWxseSBjYXJlcyBhYm91dCANCj4+Pj4gZG9ja2VyLWNlIChJ
+IGRvbid0IHJlYWxseSwgYnV0IHNvbWVvbmUgbWlnaHQhKS4NCj4+Pj4NCj4+Pj4NCj4+Pj4NCj4+
+Pj4gU3VtbWFyeTogSSBqdXN0IHB1c2hlZCB0aGUgZm9sbG93aW5nIGNoYW5nZXMgdG8gbWFzdGVy
+Og0KPj4+Pg0KPj4+Pg0KPj4+Pg0KPj4+PiAgIGQ3ZDMxMGFlNDExMyBtZXRhLXZpcnQ6IHByZWZl
+ciBjb250YWluZXJkLW9wZW5jb250YWluZXJzDQo+Pj4+DQo+Pj4+ICAgOTM1ZTNkOTY5ZWYxIGNv
+bnRhaW5lcmQ6IHVwcmV2IHRvIHYxLjAuMg0KPj4+Pg0KPj4+PiAgIGY1ZmJmYThhYzRkYiBkb2Nr
+ZXItY2U6IGludHJvZHVjZSByZWZlcmVuY2UgcmVjaXBlL2J1aWxkDQo+Pj4+DQo+Pj4+ICAgYTUw
+NzRjZWNmMThmIGRvY2tlcjogdXByZXYgdG8gMTguMDMuMA0KPj4+Pg0KPj4+PiAgIGUzZDk2MGY0
+ZmNkOSBydW5jOiB1cHJldiB0byAxLjAuMC1yYzUNCj4+Pj4NCj4+Pj4NCj4+Pj4NCj4+Pj4gSWYg
+YW55b25lIHNlZXMgcmVncmVzc2lvbnMsIGJ1aWxkIG9yIGFyY2hpdGVjdHVyZSBpc3N1ZXMgLi4g
+cmVwb3J0IA0KPj4+PiB0aGVtIHRvIG1lIChhbmQgdGhlIGxpc3QpIGFuZCB3ZSdsbCBnZXQgdGhl
+bSBmaXhlZCB1cC4NCj4+Pj4NCj4+Pj4NCj4+Pj4NCj4+Pj4gQ2hlZXJzLA0KPj4+Pg0KPj4+Pg0K
+Pj4+Pg0KPj4+PiBCcnVjZQ0KPj4+Pg0KPj4+Pg0KPj4+Pg0KPj4+PiAtLQ0KPj4+Pg0KPj4+PiAi
+VGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFk
+bmVzcyANCj4+Pj4gYXdhaXQgdGhlZSBhdCBpdHMgZW5kIg0KPj4+Pg0KPj4+PiAtLQ0KPj4+Pg0K
+Pj4+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPj4+
+Pg0KPj4+PiBtZXRhLXZpcnR1YWxpemF0aW9uIG1haWxpbmcgbGlzdA0KPj4+Pg0KPj4+PiBtZXRh
+LXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmcNCj4+Pj4NCj4+Pj4gaHR0cHM6Ly9saXN0
+cy55b2N0b3Byb2plY3Qub3JnL2xpc3RpbmZvL21ldGEtdmlydHVhbGl6YXRpb24NCj4+Pg0KPj4+
+DQo+Pj4NCj4+PiAtLQ0KPj4+ICJUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRl
+ciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZCINCj4+DQo+Pg0K
+Pj4NCj4+IC0tDQo+PiAiVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZv
+ciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQiDQo+DQo+DQo+DQo+IC0t
+DQo+ICJUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwgcG9pbnRlciwgZm9yIGNoYW9zIGFu
+ZCBtYWRuZXNzIGF3YWl0IHRoZWUgYXQgaXRzIGVuZCINCg0KDQoNCi0tDQoiVGhvdSBzaGFsdCBu
+b3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0
+aGVlIGF0IGl0cyBlbmQiDQo=
 
