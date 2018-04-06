@@ -1,67 +1,54 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <pascal.bach@siemens.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A3388E00AE4; Fri,  6 Apr 2018 06:47:49 -0700 (PDT)
+	id 0E345E00B8D; Fri,  6 Apr 2018 07:19:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.66 listed in list.dnswl.org]
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [194.138.37.40 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7A241E00A96
+Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9F4D9E008E4
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  6 Apr 2018 06:47:48 -0700 (PDT)
-Received: by mail-lf0-f66.google.com with SMTP id u3-v6so642890lff.5
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 06 Apr 2018 06:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=NhTYIeAWg0o5rDkbHcFDsU+VXgxK0yz2EClAHAoLU/k=;
-	b=AMlpwxTV9Sf0lFfPBzVObNWrNShwxP3Ozb6nxhEj2/LsJvOk9M5+cUuXOT0r3+j6Pb
-	Y/UN2awzXJC2FROFLqq4SZRyvGu9Jk243hBMCXD5gKUKBvsHKZ6mSDHduXYfoxJJs4Rg
-	otQ0kVsTP6El/BH3ymSeIdK4j2iM3DNPUpVE9U6s8j5bjCdPUmKJ7OiB+TPOAsqbi/UP
-	nP/YPDa+qq8uIIwKy8+zITAkhvYlvO/zCBrZCC7YfHLvwGZwbJ6Hcz1RWDSfwWRkFzj8
-	JLJ8sfQuBU+zzMGjbAWhHqgTjhEx74hfoT2qh+2fpIHvBeQg61LTDnZDJZ+CFNcSxacB
-	XrfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=NhTYIeAWg0o5rDkbHcFDsU+VXgxK0yz2EClAHAoLU/k=;
-	b=cmtHqYIN3C3arMYU4BvJ/8SB5kx+neQMx1DQUaaNGUjv6wDf92M76I+nwMrrIuoe/f
-	Dmfwv3VdUj34nqSaiqzPKQ7+5grQ0Jh16y7fK2dKODOD+3StGNnVD34n/wNgskHet2eo
-	Sbml+b90Q3bB3j3O7dj4KI0sn1Xm75CXoR3tUxRTNjaZmnO0by9Yse24mXB6O6HuFGn7
-	gYwCWlTH/W6uKpRitLfE4yBmkCLXcpvpmjW5RIIwmKd7DRi+62/DO5UDNdi9hmKGwL8x
-	91p34CSGVO6BNvljEYjOaVYjl4AB9Ppj7Yp+/wCmjuj9ShragVGNXkySphhu3F+oRfeh
-	l7PQ==
-X-Gm-Message-State: AElRT7GCDExZMj2N2oybUazCGrdXZ21sAB8PMCI502pHOpaB0sHXhjV3
-	0OnZQWjigqJmrHJFIi70CXw2aXqpMStc7g42U/O+qQ==
-X-Google-Smtp-Source: AIpwx49G1F91TzxL0RJUz1u6G47znht/BLE1eaVMoc3b2UQB5SjHrzQMkcf4sNmVbwLt0HK3tKrfn4HApCzOZNKCmL8=
-X-Received: by 10.46.23.202 with SMTP id 71mr16609150ljx.49.1523022467056;
-	Fri, 06 Apr 2018 06:47:47 -0700 (PDT)
+	Fri,  6 Apr 2018 07:19:41 -0700 (PDT)
+Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
+	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id w36EJdJX001980
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 6 Apr 2018 16:19:39 +0200
+Received: from DEFTHW99ERGMSX.ww902.siemens.net
+	(defthw99ergmsx.ww902.siemens.net [139.22.70.132])
+	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id w36EJKgf015580
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Fri, 6 Apr 2018 16:19:39 +0200
+Received: from DEFTHW99ERFMSX.ww902.siemens.net (139.22.70.67) by
+	DEFTHW99ERGMSX.ww902.siemens.net (139.22.70.132) with Microsoft SMTP
+	Server (TLS) id 14.3.389.1; Fri, 6 Apr 2018 16:19:29 +0200
+Received: from DEFTHW99EH4MSX.ww902.siemens.net ([169.254.2.244]) by
+	DEFTHW99ERFMSX.ww902.siemens.net ([139.22.70.67]) with mapi id
+	14.03.0389.001; Fri, 6 Apr 2018 16:19:28 +0200
+From: "Bach, Pascal" <pascal.bach@siemens.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Thread-Topic: docker-proxy links against host libraries
+Thread-Index: AdPNnTEYbmkGr99fRwit5W5DAx7Psv//7HUAgAACOYD//84N4A==
+Date: Fri, 6 Apr 2018 14:19:27 +0000
+Message-ID: <355BE46A91031048906B695426A8D8E61739229F@DEFTHW99EH4MSX.ww902.siemens.net>
+References: <d08821dd-51e6-f69c-c2c4-27798bcb7794@siemens.com>
+	<CADkTA4PmRh3uft80szZ7KqJU-V8wCcHpAAu6=3EFHcutWASHjA@mail.gmail.com>
+	<CADkTA4MCvT_Pdx2BF67+yT9dg5XWnwqcSCi5=5YbK452X9Yf-A@mail.gmail.com>
+In-Reply-To: <CADkTA4MCvT_Pdx2BF67+yT9dg5XWnwqcSCi5=5YbK452X9Yf-A@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [139.22.70.55]
 MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Fri, 6 Apr 2018 06:47:46 -0700 (PDT)
-In-Reply-To: <20180406134156.21533-1-pascal.bach@siemens.com>
-References: <20180406134156.21533-1-pascal.bach@siemens.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Apr 2018 09:47:46 -0400
-Message-ID: <CADkTA4OnjNg7NXbZ1GPWUv4Ajvim0TQBEr5dHc-pPo+2u0nYGw@mail.gmail.com>
-To: Pascal Bach <pascal.bach@siemens.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/2] docker-proxy: add recipe for docker-proxy
+Cc: Raymond Danks <ray.danks@se-eng.com>,
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: docker-proxy links against host libraries
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,76 +61,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Apr 2018 13:47:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Apr 2018 14:19:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Apr 6, 2018 at 9:41 AM, Pascal Bach <pascal.bach@siemens.com> wrote:
-> Before docker-proxy was built as part of the docker-recipe but there
-> in some situations when built for x86_64 under x86_64 it incorrectly
-> linked against host libraries.
-> This puts it into a separate recipe that makes use the go.bbclass to build
-> the binary properly.
->
-
-As I hinted, I'm going to figure out how to integrate / fix this in the main
-docker recipe.
-
-Having the various SRCREVs managed in multiple recipes is a maintenance
-pain and recipe for runtime errors.
-
-I'll dig into what the go class is doing that is so different from what I've
-been trying.
-
-Can you provide the output of your properly linked docker-proxy, so I can
-use it as a reference ?
-
-Bruce
-
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> ---
->  recipes-containers/docker/docker-proxy_git.bb | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
->  create mode 100644 recipes-containers/docker/docker-proxy_git.bb
->
-> diff --git a/recipes-containers/docker/docker-proxy_git.bb b/recipes-containers/docker/docker-proxy_git.bb
-> new file mode 100644
-> index 0000000..4271e58
-> --- /dev/null
-> +++ b/recipes-containers/docker/docker-proxy_git.bb
-> @@ -0,0 +1,21 @@
-> +DESCRIPTION = "Docker proxy binary to forward traffic between host and containers"
-> +HOMEPAGE = "https://github.com/docker/libnetwork"
-> +
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://src/github.com/docker/libnetwork/LICENSE;md5=d2794c0df5b907fdace235a619d80314"
-> +
-> +SRC_URI = "git://${GO_IMPORT}"
-> +SRCREV = "4cb38c2987c236dce03c868d99b57b1e28a4b81c"
-> +
-> +GO_IMPORT = "github.com/docker/libnetwork"
-> +GO_INSTALL = "${GO_IMPORT}/cmd/proxy"
-> +
-> +DOCKER_VERSION = "18.03.0"
-> +PV = "${DOCKER_VERSION}+git${SRCREV}"
-> +
-> +inherit go
-> +
-> +# The binary is expected to be called docker-proxy
-> +do_install_append() {
-> +    mv ${D}${bindir}/proxy ${D}${bindir}/${BPN}
-> +}
-> --
-> 2.11.0
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+SGkgQnJ1Y2UNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBCcnVjZSBB
+c2hmaWVsZCBbbWFpbHRvOmJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbV0NCj4gU2VudDogRnJlaXRh
+ZywgNi4gQXByaWwgMjAxOCAxNDo0Nw0KPiBUbzogQmFjaCwgUGFzY2FsIChCVCBDUFMgUiZEIFpH
+IEZXIENDUCkgPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29tPg0KPiBDYzogbWV0YS12aXJ0dWFsaXph
+dGlvbkB5b2N0b3Byb2plY3Qub3JnOyBSYXltb25kIERhbmtzIDxyYXkuZGFua3NAc2UtDQo+IGVu
+Zy5jb20+DQo+IFN1YmplY3Q6IFJlOiBkb2NrZXItcHJveHkgbGlua3MgYWdhaW5zdCBob3N0IGxp
+YnJhcmllcw0KPiANCj4gT24gRnJpLCBBcHIgNiwgMjAxOCBhdCA4OjM4IEFNLCBCcnVjZSBBc2hm
+aWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPg0KPiB3cm90ZToNCj4gPiBPbiBGcmksIEFw
+ciA2LCAyMDE4IGF0IDc6NDggQU0sIFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNv
+bT4NCj4gd3JvdGU6DQo+ID4+IEhlbGxvDQo+ID4+DQo+ID4+IEkgb2JzZXJ2ZWQgc29tZSBzdHJh
+bmdlIGxpbmtpbmcgcHJvYmxlbSB3aXRoIHRoZSAiZG9ja2VyLXByb3h5IiB3aGVuDQo+IGJ1aWxk
+aW5nIGZvciBxZW11eDg2LTY0Lg0KPiA+Pg0KPiA+PiBJdCBzZWVtcyB0aGF0IHRoZSBiaW5hcnkg
+aXMgbGlua2VkIGFnYWluc3QgdGhlIGhvc3QgdmVyc2lvbiBvZg0KPiA+Pg0KPiA+PiBgYGANCj4g
+Pj4gJCBmaWxlIGltYWdlL3Vzci9iaW4vZG9ja2VyLXByb3h5DQo+ID4+IGltYWdlL3Vzci9iaW4v
+ZG9ja2VyLXByb3h5OiBFTEYgNjQtYml0IExTQiBleGVjdXRhYmxlLCB4ODYtNjQsIHZlcnNpb24g
+MQ0KPiAoU1lTViksIGR5bmFtaWNhbGx5IGxpbmtlZCwgaW50ZXJwcmV0ZXIgL2xpYjY0L2xkLWxp
+bnV4LXg4Ni02NC5zby4yLCBub3QNCj4gc3RyaXBwZWQNCj4gPj4NCj4gPj4gXl5eXl5eIGBgYA0K
+PiA+Pg0KPiA+PiBJIG9ubHkgbm90aWNlZCB0aGUgaXNzdWUgb24gbXkgYnVpbGQgYXMgaXQgaXMg
+YSBtdWx0aSBsaWIgRGViaWFuIHdoZXJlIHRoZQ0KPiBsaWJyYXJpZXMgYXJlIHVuZGVyIC9saWI2
+NCBhbmQgL2xpYjMyLg0KPiA+PiBIb3dldmVyIG9uIHRoZSB0YXJnZXQgdGhlcmUgdGhlcmUgaXMg
+b25seSAvbGliIHRvIHRoZSBiaW5hcnkgZGlkIG5vdCB3b3JrDQo+IHRoZXJlLg0KPiA+Pg0KPiA+
+PiBPbmx5IHRoZSBkb2NrZXItcHJveHkgYmluYXJ5IGlzIGFmZmVjdGVkIGJ5IHRoaXMsIHRoZSBv
+dGhlciBiaW5hcmllcw0KPiAoZG9ja2VyLCBkb2NrZXJkKSBhcmUgZmluZS4NCj4gPj4NCj4gPj4g
+YGBgDQo+ID4+ICQgZmlsZSBpbWFnZS91c3IvYmluL2RvY2tlcg0KPiA+PiBpbWFnZS91c3IvYmlu
+L2RvY2tlcjogRUxGIDY0LWJpdCBMU0IgZXhlY3V0YWJsZSwgeDg2LTY0LCB2ZXJzaW9uIDENCj4g
+Pj4gKFNZU1YpLCBkeW5hbWljYWxseSBsaW5rZWQsIGludGVycHJldGVyIC9saWIvbGQtbGludXgt
+eDg2LTY0LnNvLjIsDQo+ID4+IGZvciBHTlUvTGludXggMy4yLjAsDQo+ID4+IEJ1aWxkSURbc2hh
+MV09YzExOGQyMzkzYzc5MzIxNzJjYTNlMTgzYmIzMDRmZTFjZmY3M2NlNSwgbm90IHN0cmlwcGVk
+DQo+ID4+IGBgYA0KPiA+Pg0KPiA+PiBJIHRyaWVkIHRvIGZpeCB0aGUgcmVjaXBlIGJ5IHJlcGxh
+Y2luZyB0aGUgYnVpbGQgY29tbWFuZCBmb3IgZG9ja2VyLXByb3h5DQo+IFsxXSB3aXRoIHRoZSBm
+b2xsb3dpbmcgbGluZToNCj4gPj4NCj4gPj4gYGBgDQo+ID4+ICR7R099IGJ1aWxkICR7R09CVUlM
+REZMQUdTfSAtbyAke1N9L3NyYy9pbXBvcnQvZG9ja2VyLXByb3h5DQo+ID4+IGdpdGh1Yi5jb20v
+ZG9ja2VyL2xpYm5ldHdvcmsvY21kL3Byb3h5DQo+ID4+IGBgYA0KPiA+Pg0KPiA+PiBCdXQgd2l0
+aG91dCBzdWNjZXNzIHRoZSBsaW5rZWQgbG9hZGVyIGlzIHN0aWxsIHdyb25nLg0KPiA+Pg0KPiA+
+PiBJdCBpcyBhbHNvIHdvcnRoIG1lbnRpb25pbmcgdGhhdCB0aGlzIG9ubHkgaGFwcGVucyB3aXRo
+IHg4Nl82NCBidWlsZHMNCj4gKHRyaWVkOiBxZW11eDg2LTY0LCBnZW5lcmljeDY0LTY0KSBidXQg
+bm90IHdpdGggb3RoZXIgYXJjaGl0ZWN0dXJlcyBsaWtlDQo+IGFybXY3Lg0KPiA+PiBJIHdhcyBh
+bHNvIGFibGUgdG8gcmVwcm9kdWNlIHRoaXMgb24gcG9reSBtYXN0ZXIgdG9kYXkgKGNvbW1pdDoN
+Cj4gOWVkMzRlMzE1YThkMmRiNThlMjEyYjA3NzBkZmE4ZjRhZDAwZjYzNykuDQo+ID4NCj4gPg0K
+PiA+IEJ1dCB3aGF0IG1ldGEtdmlydCBjb21taXQgaXMgeW91ciBoZWFkID8NCg0KU29ycnkgZm9y
+Z290IHRvIG1lbnRpb24sIEkgd2FzIHVzaW5nOiBlOWQ3NDE2MmE5YmZkYmYwYTUxZjIzMGFkOWJl
+ZGVhYjkyMDU1MmY0DQoNCj4gPj4NCj4gPj4NCj4gPj4gVGhlIG9ubHkgc29sdXRpb24gSSBmb3Vu
+ZCBzbyBmYXIgaXMgdG8gcHV0IHRoZSBkb2NrZXItcHJveHkgaW50byBhIHNlcGFyYXRlDQo+IHJl
+Y2lwZSBhbmQgYWRkIGl0IGFzIGEgUkRFUEVORFMgdG8gZG9ja2VyLg0KPiA+PiBJIHdpbGwgc3Vi
+bWl0IGEgcGF0Y2ggZm9yIHRoaXMgYW5kIHlvdSBjYW4gZGVjaWRlIGlmIHRoaXMgd291bGQgYmUg
+YW4NCj4gYWNjZXB0YWJsZSBzb2x1dGlvbi4NCj4gPg0KPiA+IEkgZG9uJ3Qgc2VlIHdoYXQgYSBz
+ZXBhcmF0ZSByZWNpcGUgaGFzIHRvIGRvIHdpdGggYSBmaXguIEknZCByYXRoZXINCj4gPiBrZWVw
+IHRoZSBidWlsZCBhbGwgaW4gb25lIHBsYWNlLg0KPiA+DQo+ID4gSSBndWVzcyBJIGNhbiB3YWl0
+IHRvIHNlZSB0aGUgcmVjaXBlLCBidXQgd2hhdCdzIGRpZmZlcmVudCBpbiB0aGF0DQo+ID4gcmVj
+aXBlIGluIHRoZSB3YXkgdGhhdCBkb2NrZXItcHJveHkgaXMgYnVpbHQsIHRoYXQgY2FuJ3QgYmUg
+ZG9uZSBpbg0KPiA+IHRoZSBleGlzdGluZyByZWNpcGUgPw0KPiA+DQpJIGd1ZXNzIHRoZXJlIGlz
+IG5vdGhpbmcgdGhhdCBjb3VsZCBub3QgYmUgZG9uZSBpbiB0aGUgY3VycmVudCByZWNpcGUuDQpI
+b3dldmVyIGFzIHRoZSBkb2NrZXItcHJveHkgaXMgYSBwcm9wZXIgZ28gcGFja2FnZSBpdCBjYW4g
+ZWFzaWx5IGJlIGJ1aWx0IHdpdGggYSBzaW1wbGUgcmVjaXBlIHVzaW5nIGdvLmJiY2xhc3MuIFNv
+IGZvciBtZSB0aGlzIHdhcyB0aGUgc2ltcGxlc3Qgc29sdXRpb24gYXMgSSBjb3VsZCBub3QgZmln
+dXJlIG91dCBob3cgdG8gY2FsbCBnbyBidWlsZCBwcm9wZXJseS4NCg0KPiBJIGNhbiBzZWUgYSBz
+aW1pbGFyIGxpbmsgcGF0dGVybiBoZXJlIChidXQgdGhpcyB3b3VsZCBoYXZlIGJlZW4gYW4gZXhp
+c3RpbmcNCj4gaXNzdWUsIHVucmVsYXRlZCB0byB0aGUgcmVjZW50IGRvY2tlciB1cHJldnMpLCBz
+byBJJ2xsIGhhdmUgYSBnbyBhdCBmaXhpbmcgaXQgdGhpcw0KPiBtb3JuaW5nLg0KDQpUaGUgaXNz
+dWUgd2FzIGFscmVhZHkgdGhlcmUgYmVmb3JlIDE4LjAzIHVwcmV2LiBTbyBJIGRvbid0IHRoaW5r
+IGl0IGlzIHJlbGF0ZWQuDQpJIHdhcyB1c2luZyBweXJvIGJlZm9yZSB3aXRoIGRvY2tlciAxLjF4
+IHNvbWV0aGluZyB3aGVyZSBJIGRpZG4ndCBub3RpY2UgdGhlIGlzc3VlIHRoZXJlLg0KDQpQYXNj
+YWwNCg==
 
