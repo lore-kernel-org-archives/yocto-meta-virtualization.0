@@ -1,70 +1,40 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 59FC2E00B9C; Mon,  9 Apr 2018 07:25:17 -0700 (PDT)
+	id CA7EDE00AF9; Mon,  9 Apr 2018 07:49:36 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.66 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7F4BCE00AE6
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8E72BE00A1C
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Apr 2018 07:25:15 -0700 (PDT)
-Received: by mail-lf0-f66.google.com with SMTP id q9-v6so6843264lfk.9
+	Mon,  9 Apr 2018 07:49:35 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w39EnYKo010258
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Apr 2018 07:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=ASK3h6Ayt6wT3cOl9FxYK0f07I0MF8a0orQQu3cfQxY=;
-	b=M8JOGvXgiKx0fT362At0hhMPvKyWuG/gKHHZt1k2k/w8vPWdDQj4mAZIOu55+T3vs0
-	nWv4jaPINtkISOlVV5GWVA6Ym7I5hL1l/PGBTl93dteMGd2Jx7Ym7Sqwxlawcbo3V8vM
-	1Wu94eK/s03H/sWGKeNeM+OLCWrJfah3pBdzOH6E9pOy/Yn3flmPgyyTG3A+UnnXuchX
-	JvSFivLX/VhHP52WSHOUk4Dt08LogjkX4ha0Ph+fxT8YQMf1RNyLFPLAeP5YdVw4j6NI
-	EL1AuqyENBSwiLvxa6xFRNODYD4qRP54zZR5uq067upSHVWy54FHLRA5nC7gnWCgqv9A
-	GMiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=ASK3h6Ayt6wT3cOl9FxYK0f07I0MF8a0orQQu3cfQxY=;
-	b=sh608DhmUqJoxWY/wjmDO6duEk2Q5J/kj48rZLqlOFKJf2nUYVX9Slse1cTnrJ61tj
-	GXhyuQXFDVxyBS4VzZkggd3cUbu1RW+7flpA5hpARyxAxqGy6iW6hdn7v2HbErhYwxKh
-	ewdR8obMVv9PgLLp9CErnL9k8SqzsvkI/W34YdMee0Aaw/vP2Z4Pr0ssWa0tDoGuk2ld
-	rnkh/MRE7Sz7+3o7fIcnvV3dAjuy1I6kOb11vBdSsLraE4CSqgOb256YjN1EJlCg/sTN
-	yqUkYyBw8lJaCM/4yUK78s2GyM4dU3Bl/dyZ+Hg84AiIIFQJLHqRRG0foskExgqvRm+W
-	AWTg==
-X-Gm-Message-State: ALQs6tC33xZDsKV9QwGrh3hXC0Kso2HoM61Mem2n86SBkh7Dtipdn067
-	O0fSvxjLY8GFbKZSN0FnI7uxDrn6wbKPixKwiEM=
-X-Google-Smtp-Source: AIpwx48BxEmxqLNwBjdW7Z3SDFz7N/UbxGCcmrgP29Qbk7g5kStOOGJx2hsGQbXKhz0cDs/+FrAT4DOUY/9umj7hOLg=
-X-Received: by 10.46.128.84 with SMTP id p20mr13069346ljg.12.1523283914929;
-	Mon, 09 Apr 2018 07:25:14 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.25.8 with HTTP; Mon, 9 Apr 2018 07:25:14 -0700 (PDT)
-In-Reply-To: <355BE46A91031048906B695426A8D8E6173922CB@DEFTHW99EH4MSX.ww902.siemens.net>
-References: <20180406134156.21533-1-pascal.bach@siemens.com>
-	<CADkTA4OnjNg7NXbZ1GPWUv4Ajvim0TQBEr5dHc-pPo+2u0nYGw@mail.gmail.com>
-	<355BE46A91031048906B695426A8D8E6173922CB@DEFTHW99EH4MSX.ww902.siemens.net>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 9 Apr 2018 10:25:14 -0400
-Message-ID: <CADkTA4NQGoRRsOxL9FisjV2Qz64AvmPRKiC5MxPK22hxF6bBSg@mail.gmail.com>
-To: "Bach, Pascal" <pascal.bach@siemens.com>
-Cc: "meta-virtualization@yoctoproject.org"
+	Mon, 9 Apr 2018 07:49:34 -0700
+Received: from [128.224.56.93] (128.224.56.93) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 9 Apr 2018 07:49:33 -0700
+To: Mark Asselstine <mark.asselstine@windriver.com>,
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 1/2] docker-proxy: add recipe for docker-proxy
+References: <1522872176-22946-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <386501d3-8d52-5987-c777-14fce1ac6a67@windriver.com>
+Date: Mon, 9 Apr 2018 10:49:33 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
+MIME-Version: 1.0
+In-Reply-To: <1522872176-22946-1-git-send-email-mark.asselstine@windriver.com>
+Subject: Re: [m-c-s][PATCH 01/12] python-websockify: uprev to v0.8.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,72 +47,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Apr 2018 14:25:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Apr 2018 14:49:36 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 6, 2018 at 10:23 AM, Bach, Pascal <pascal.bach@siemens.com> wrote:
-> Hi Bruce
->
->> -----Original Message-----
->> From: Bruce Ashfield [mailto:bruce.ashfield@gmail.com]
->> Sent: Freitag, 6. April 2018 15:48
->> To: Bach, Pascal (BT CPS R&D ZG FW CCP) <pascal.bach@siemens.com>
->> Cc: meta-virtualization@yoctoproject.org
->> Subject: Re: [meta-virtualization] [PATCH 1/2] docker-proxy: add recipe for
->> docker-proxy
->>
->> On Fri, Apr 6, 2018 at 9:41 AM, Pascal Bach <pascal.bach@siemens.com>
->> wrote:
->> > Before docker-proxy was built as part of the docker-recipe but there
->> > in some situations when built for x86_64 under x86_64 it incorrectly
->> > linked against host libraries.
->> > This puts it into a separate recipe that makes use the go.bbclass to
->> > build the binary properly.
->> >
->>
->> As I hinted, I'm going to figure out how to integrate / fix this in the main
->> docker recipe.
->>
->> Having the various SRCREVs managed in multiple recipes is a maintenance
->> pain and recipe for runtime errors.
->>
->> I'll dig into what the go class is doing that is so different from what I've been
->> trying.
->>
->> Can you provide the output of your properly linked docker-proxy, so I can
->> use it as a reference ?
->
-> I'm not sure what you mean by output?
-
-I sorted things out using the libnetwork Make infrastructure and some
-spelunking into go internals.
-I now have it using the sysroot infrastructure, and I can follow along
-with SRCREVs and any build internal changes to libnetwork:
-
-file bin/d*
-bin/dnet--amd64:         ELF 64-bit LSB executable, x86-64, version 1
-(SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2,
-for GNU/Linux 3.2.0,
-BuildID[sha1]=bc6059d72a9d6224049542214427bf3c62a41866, not stripped
-bin/docker-proxy--amd64: ELF 64-bit LSB executable, x86-64, version 1
-(SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2,
-for GNU/Linux 3.2.0,
-BuildID[sha1]=c52ed7c3b28284a683ade6b4c46ca4f6bad8d1fb, not stripped
-
-Cheers,
+All outstanding m-c-s and openstack patches are now merged
 
 Bruce
 
+On 04/04/2018 04:02 PM, Mark Asselstine wrote:
+> This version is required by the stable/pike version of python-nova.
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>   .../python/{python-websockify_0.6.0.bb => python-websockify_0.8.0.bb} | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta-openstack/recipes-devtools/python/{python-websockify_0.6.0.bb => python-websockify_0.8.0.bb} (69%)
+> 
+> diff --git a/meta-openstack/recipes-devtools/python/python-websockify_0.6.0.bb b/meta-openstack/recipes-devtools/python/python-websockify_0.8.0.bb
+> similarity index 69%
+> rename from meta-openstack/recipes-devtools/python/python-websockify_0.6.0.bb
+> rename to meta-openstack/recipes-devtools/python/python-websockify_0.8.0.bb
+> index 386a227..641caab 100644
+> --- a/meta-openstack/recipes-devtools/python/python-websockify_0.6.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-websockify_0.8.0.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>   LICENSE = "LGPLv3"
+>   LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=a3b5f97c9d64189899b91b3728bfd774"
+>   
+> -SRC_URI[md5sum] = "673a70d007c1a2445c8ef5c7a3067c07"
+> -SRC_URI[sha256sum] = "da4364f54fdcc5350059febe2e8fdf2b53d16cf04ee23c71315e561119f44529"
+> +SRC_URI[md5sum] = "8fa547ca4de84a96aa3472d55fbcdd59"
+> +SRC_URI[sha256sum] = "547d3d98c5081f2dc2872a2e4a3aef33e0ee5141d5f6209204aab2f4a41548d2"
+>   
+>   inherit setuptools pypi
+>   
+> 
 
->
-> Pascal
->
-> BTW you can also ping me on IRC #yocto as bachp might be quicker to clarify
->
-
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
 
