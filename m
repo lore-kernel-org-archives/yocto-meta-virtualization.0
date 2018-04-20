@@ -1,6 +1,6 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <akuster808@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 78F71E00C4F; Tue, 17 Apr 2018 11:00:26 -0700 (PDT)
+	id AF606E00BFD; Fri, 20 Apr 2018 07:35:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,9 +9,9 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.215.66 listed in list.dnswl.org]
+	*      [209.85.192.193 listed in list.dnswl.org]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+	provider *      (akuster808[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,52 +19,50 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5C18AE00B65
+Received: from mail-pf0-f193.google.com (mail-pf0-f193.google.com
+	[209.85.192.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 12AD1E00B49
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Apr 2018 11:00:22 -0700 (PDT)
-Received: by mail-lf0-f66.google.com with SMTP id r125-v6so11929298lfe.2
+	Fri, 20 Apr 2018 07:35:00 -0700 (PDT)
+Received: by mail-pf0-f193.google.com with SMTP id p6so4384603pfn.4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Apr 2018 11:00:22 -0700 (PDT)
+	Fri, 20 Apr 2018 07:35:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=k+xKkiE73zRy+sDbBcuqboe4d/YETsMDD5spEuz/5kU=;
-	b=bs8yrOOsJnvnzaWI7+9uNLONqe0kE8r/8STqgcRmdy6GRKWgrxdF06r0B1SRIUydG+
-	PKHjCKdDd1Yu1Ilz/Tmc+aFSOySQxeB/elSjv8Gfy0+mnf0iVokkIGHlU5mgA3VQou2W
-	gDcbjsO2z7rvcohPHv/reDdXld1Rb/wwc42zPPHIoCWQC8DOUWjEgpJHjBF3ZIiOe5SO
-	63HTnPLHFV2AB6azRBTmYbglmIVe24KipR6NE5AIqEqtWsLrH6dcBJ5LZQIsdPeUFxSt
-	2QV6hklwEREGE+Bh/7fPeBZTJVPkcmY6yUYwbvaeJvlwWjzCVRPolz/Q2rtSbPAQV3us
-	8usg==
+	h=from:to:subject:date:message-id;
+	bh=2olrGputfbMD9tntIWgNTE+/Hje352fhKWMlmiA6Bho=;
+	b=L39XuS84dgILPQGQ1kYH+Rs4FBOf73/GcQzEYjqU/cDrh6SEtKIOB4p/j22l43IA/O
+	CNaRFNVGS46Z/85Qumq5jrY1a++MPtqHLmQivIneIj297LqUrXwG6vMCa8cFPbCyIh2n
+	DvkTytZEle1fJn0AwugxQ+ZDObvbmQ9nc1xRWBNU5cw5wEdmhqeD2lLHu4G33GaD9MvG
+	VpQqyrpJ5zRopAry3UOGOEGE221ZDrcRp+BqPQwC18QLsr0JPZJf9Z/a+sTnbqu5netg
+	ig+8cZVdGbtKOFHbCYsGFJY2f/aUDX+cv+DztNPulJisd8+4bOhQD+5BxcBhzDvWvXTC
+	5LHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=k+xKkiE73zRy+sDbBcuqboe4d/YETsMDD5spEuz/5kU=;
-	b=kIZBL2cdobeP/Dh16kIANrlUPxJuLdVjnhRvWFLT5iJFqX/9xc8Vq1KLIu3JwBml2R
-	1NL1Tf+5NLmDZTnWjWRSTr+soeak/4mhEg8kHwks90j8bQkkdb3Xuy/MRBd/sV6O46tn
-	1K42KQfTOmkULNKqQf6DwnJkTyHe9TtOgf1A0U6mvct/zVH4AK2uAEgw0DKesX6F8Pii
-	NIkMwVZxiymKH/YT4V042Blj+UFjNZ15R4g2vU6Ec8BzrHNt3DnUORMph7Ff7bIr7Baj
-	7Z2g+7M4TWNEvfW1LH2xYVWH/6FBQz9NrzdOrbQf9VA+F6BCdvKrJ1HYvDZgNhzzwE/T
-	UuXw==
-X-Gm-Message-State: ALQs6tCtC25yBFBwOMS3SViQTbHhRlGcUCyx/nBpWyYKNUtEGi46PeW7
-	ZA97wFft+RchxoQU4zW4T2PjkhP3MdMMmq2t8DI=
-X-Google-Smtp-Source: AIpwx48Z9rhh+FTJuwpkTKE0alKYO2fUQu7gNgJ3bKbC9wvuQMfk/HJZ9HVLfnFiatxO/Pb+3PX0AqlCNg7RHYMStEc=
-X-Received: by 2002:a19:1895:: with SMTP id 21-v6mr2195540lfy.39.1523988021454;
-	Tue, 17 Apr 2018 11:00:21 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 10.46.2.22 with HTTP; Tue, 17 Apr 2018 11:00:21 -0700 (PDT)
-In-Reply-To: <CACMJ4GbGRod1n6fy-hsRcMLk3_XzOUNjbA4=yprhXPiHjYaxGw@mail.gmail.com>
-References: <cover.1522956183.git.kurt.bodiker@braintrust-us.com>
-	<CACMJ4GZUZhaVj3u2tP_HE_n21_MnGjot1reSpTrsuTQ2ZMwSvw@mail.gmail.com>
-	<CACMJ4GbGRod1n6fy-hsRcMLk3_XzOUNjbA4=yprhXPiHjYaxGw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 17 Apr 2018 14:00:21 -0400
-Message-ID: <CADkTA4NLkWub-mwO0=mUj1zYYScOUBBSX273W9iwjWFJ6rcS-Q@mail.gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@yoctoproject.org,
-	Kurt Bodiker <kurt.bodiker@braintrust-us.com>
-Subject: Re: [PATCH v2 0/8] xen: Xen vTPM stubdomains
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2olrGputfbMD9tntIWgNTE+/Hje352fhKWMlmiA6Bho=;
+	b=Bq93n8HqnnQmz4hlb31PQmgcO4vbv5MwevQQ/HAzYwYNVmvKA0Uic/UlQal6SUYAfJ
+	2JaOJQLYjGQiYLEF/z4YPHifr6nqoMVcsk+CzPrXEuMY0yFAEqJrjq5YFN61Wzi27u0O
+	0CYUuQwnQyCvhrQEmytALyl/SjOUpNf4va/P3Wh/FhCiWWQYjxziuZBPFSnOy+Y+cu2D
+	YJIr+4XqfdOGDfdIdnKoBs6QsC5iLbySPhmyaAtp6PUIxuuazwAccgE1MZrQJVpIrzC/
+	7bpGJKlOEwsgVzlRv0u4MvV7aKid2FYempeWWuH4VEpb3FAsbR/XIH8crdpl2B3Sr+6b
+	NKHw==
+X-Gm-Message-State: ALQs6tCq33eQurbsWI2mlRna3A9r/mYnt1G8UTpseNGcv6ZnNpgqqYr8
+	TaRt17a00X2LDnx5UGB/M2Cppw==
+X-Google-Smtp-Source: AIpwx4+S/PkOpXRNkX9w1UTliFx8RJ+Oq5erxq2q577J5TAbhZ+kE+1CtcbcTbbym0okz07P0+JZfA==
+X-Received: by 10.98.84.7 with SMTP id i7mr9909713pfb.174.1524234899806;
+	Fri, 20 Apr 2018 07:34:59 -0700 (PDT)
+Received: from pahoa2.kama-aina.net (c-71-197-71-93.hsd1.ca.comcast.net.
+	[71.197.71.93])
+	by smtp.gmail.com with ESMTPSA id b3sm2345084pga.7.2018.04.20.07.34.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 20 Apr 2018 07:34:57 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: akuster808@gmail.com,
+	meta-virtualization@yoctoproject.org
+Date: Fri, 20 Apr 2018 07:34:55 -0700
+Message-Id: <20180420143456.31128-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.14.1
+Subject: [PATCH 1/2] Refactor to conform to YP Compat requirements
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,66 +75,103 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Apr 2018 18:00:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 20 Apr 2018 14:35:00 -0000
 
-On Mon, Apr 16, 2018 at 4:17 PM, Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
-> On Mon, Apr 9, 2018 at 4:56 PM, Christopher Clark
-> <christopher.w.clark@gmail.com> wrote:
->>
->> Kurt,
->>
->> I've reviewed the patches today and all the improvements look good.
->>
->> Unfortunately, in performing a build with the patches applied to rocko, I
->> encountered a link error when attempting:
->>   bitbake xen-vtpm
->
->
->
-> This build breakage turned out to be a simple case of /bin/sh pointing to
-> dash: in that configuration, "echo -e" is broken by dash's builtin
-> implementation. Adding sed to inject the newlines makes it all work, as per
-> this patch below, and then it successfully builds to completion.
+This prevents the signature from being modified
 
-So can someone send me a new version of the series, either with this patch
-squashed, or on top of the queue ?
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ recipes-core/busybox/busybox_%.bbappend              | 11 +----------
+ recipes-core/busybox/busybox_virtualization.inc      | 10 ++++++++++
+ .../iptables/iptables-meta-virtualization.inc        | 19 +++++++++++++++++++
+ recipes-extended/iptables/iptables_1.%.bbappend      | 20 +-------------------
+ 4 files changed, 31 insertions(+), 29 deletions(-)
+ create mode 100644 recipes-core/busybox/busybox_virtualization.inc
+ create mode 100644 recipes-extended/iptables/iptables-meta-virtualization.inc
 
-Bruce
-
->
-> Christopher
->
->
-> diff --git a/recipes-extended/xen/xen-vtpm.inc
-> b/recipes-extended/xen/xen-vtpm.inc
-> index c201f25..4e78d16 100644
-> --- a/recipes-extended/xen/xen-vtpm.inc
-> +++ b/recipes-extended/xen/xen-vtpm.inc
-> @@ -52,7 +52,7 @@ do_configure() {
->      # 'sort -V' to natural sort version numbers
->      # 'head -n1' to capture the first line of output from sort command
->
-> -    if [ "${PV}" = `echo -e "${PV}\n4.9.999" | sort -V | head -n1` ]; then
-> +    if [ "${PV}" = "$(echo "${PV};4.9.999" | sed 's/;/\n/' | sort -V | head
-> -n1)" ] ; then
->          sed -i "s/^inline/static inline/g" ${B}/vtpmmgr/*.h
->      fi
->
->
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
+diff --git a/recipes-core/busybox/busybox_%.bbappend b/recipes-core/busybox/busybox_%.bbappend
+index 8369a03..617cacc 100644
+--- a/recipes-core/busybox/busybox_%.bbappend
++++ b/recipes-core/busybox/busybox_%.bbappend
+@@ -1,10 +1 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+-
+-SRC_URI += " \
+-	    file://lspci.cfg \
+-	    file://lsusb.cfg \
+-	    file://mdev.cfg \
+-	    file://mount-cifs.cfg \
+-	    file://ps-extras.cfg \
+-	    file://getopt.cfg \
+-           "
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-core/busybox/busybox_virtualization.inc b/recipes-core/busybox/busybox_virtualization.inc
+new file mode 100644
+index 0000000..d9c4e67
+--- /dev/null
++++ b/recipes-core/busybox/busybox_virtualization.inc
+@@ -0,0 +1,10 @@
++FILESEXTRAPATHS_prepend := "${THISDIR}/busybox:"
++
++SRC_URI += " \
++	    file://lspci.cfg \
++	    file://lsusb.cfg \
++	    file://mdev.cfg \
++	    file://mount-cifs.cfg \
++	    file://ps-extras.cfg \
++	    file://getopt.cfg \
++           "
+diff --git a/recipes-extended/iptables/iptables-meta-virtualization.inc b/recipes-extended/iptables/iptables-meta-virtualization.inc
+new file mode 100644
+index 0000000..8fd521c
+--- /dev/null
++++ b/recipes-extended/iptables/iptables-meta-virtualization.inc
+@@ -0,0 +1,19 @@
++RRECOMMENDS_${PN} += "kernel-module-ip6-tables \
++                      kernel-module-ip-tables \
++                      kernel-module-ip6table-filter \
++                      kernel-module-iptable-filter \
++                      kernel-module-ip6table-raw \
++                      kernel-module-iptable-raw \
++                      kernel-module-ip6table-nat \
++                      kernel-module-iptable-nat \
++                      kernel-module-ip6table-mangle \
++                      kernel-module-iptable-magle \
++                      kernel-module-ip6table-security \
++                      kernel-module-iptable-security \
++                      kernel-module-ipt-reject \
++                      kernel-module-iptable-mangle \
++                      kernel-module-xt-checksum \
++                      kernel-module-xt-conntrack \
++                      kernel-module-xt-state \
++                      kernel-module-xt-tcpudp \
++                      "
+diff --git a/recipes-extended/iptables/iptables_1.%.bbappend b/recipes-extended/iptables/iptables_1.%.bbappend
+index 8fd521c..9a15e60 100644
+--- a/recipes-extended/iptables/iptables_1.%.bbappend
++++ b/recipes-extended/iptables/iptables_1.%.bbappend
+@@ -1,19 +1 @@
+-RRECOMMENDS_${PN} += "kernel-module-ip6-tables \
+-                      kernel-module-ip-tables \
+-                      kernel-module-ip6table-filter \
+-                      kernel-module-iptable-filter \
+-                      kernel-module-ip6table-raw \
+-                      kernel-module-iptable-raw \
+-                      kernel-module-ip6table-nat \
+-                      kernel-module-iptable-nat \
+-                      kernel-module-ip6table-mangle \
+-                      kernel-module-iptable-magle \
+-                      kernel-module-ip6table-security \
+-                      kernel-module-iptable-security \
+-                      kernel-module-ipt-reject \
+-                      kernel-module-iptable-mangle \
+-                      kernel-module-xt-checksum \
+-                      kernel-module-xt-conntrack \
+-                      kernel-module-xt-state \
+-                      kernel-module-xt-tcpudp \
+-                      "
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}-meta-virtualization.inc', '', d)}
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.14.1
+
 
