@@ -1,17 +1,17 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 611E0E00831; Thu, 26 Apr 2018 15:08:49 -0700 (PDT)
+	id 5B361E008D2; Thu, 26 Apr 2018 15:10:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.215.44 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (christopher.w.clark[at]gmail.com)
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.215.42 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,51 +20,51 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f44.google.com (mail-lf0-f44.google.com
-	[209.85.215.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 71919E007F2
+Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
+	[209.85.215.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01FBCE007F2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 26 Apr 2018 15:08:48 -0700 (PDT)
-Received: by mail-lf0-f44.google.com with SMTP id r125-v6so32956423lfe.2
+	Thu, 26 Apr 2018 15:10:14 -0700 (PDT)
+Received: by mail-lf0-f42.google.com with SMTP id r125-v6so32960748lfe.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 26 Apr 2018 15:08:47 -0700 (PDT)
+	Thu, 26 Apr 2018 15:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=VAAlNsiwUfyNeyCtkBirIrIo21DLX3N9gzp/qfQkpT0=;
-	b=nTLUhONh3eRBGKcS8jiciGuLVFAawmPuEr4bFtv15BkntkQt9nkZExHeIFojOCHs7N
-	Y+nURthHRDAROuhb6uffWGSqhFtXZTt6h7LmJTY1/UrL2OX2g4WyqYh5nZmUhaELDfiP
-	+zb9Z6rG5lODE7d/hrOuSIsIj4xzM07mmDCAsV1rjZ5g7DEWvH8bGRZfjeXI6hp5i8+x
-	kWYqLBU0hrRVFWRaSNGONlSC+s7KtVxDP4bS6dl7dPVr+NaPNLjdD0l85AZyYjfBOpbJ
-	lRHSWIq/mab8kUgTVt3c4Nes/3f8bBHWS5Vk+fG8S/8QeEQExGqhKcjRMviQKBhnT8BO
-	D2HQ==
+	:cc; bh=QMHgC/osLljdV2gmljxmz3SlZHuFZTIYrIstlFVMzHc=;
+	b=qw1gcqCD/N1Qbzm9CPGTWLzk2Ae0+G/wZ2aGwzz8NGv1cziTGfL5C/Wf2//WbEVYfH
+	qgE63XBA5zqLWAmN4O4cf7ZyRrdlkHfjnU1wCoRbu42Qv6gj5+WtxBO5iXuwHv1fdTY0
+	AOHH1JRDiUYoKBAQMEvh+n8m298SKv7vXARl2j289hljvpr0hQFvELwEMvGFrc4+yVLE
+	ZIottykPWdqqWI14Il2DJO2250HzQwQjaIVwD1OS/5RNG1eYs11nASHlN8PKv/KEVyTO
+	n6gzs9dtYLoIzHgcF6O1Dff8a8wQ55fBGEAKBEqTdb8TQeoFKJ7ZJt95UQQlDomtUUG5
+	qNxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=VAAlNsiwUfyNeyCtkBirIrIo21DLX3N9gzp/qfQkpT0=;
-	b=DgfTbtMPKiaz4W/Zop/aroMx3tEoMVnHTypyMKQbX0LYiI+eJFRqtRUfbyuZOr5uXv
-	jHnW+hTjZahZVZd7uhrku4HVywHXCNhcK06rwiwBnZJePRup9jb+X/wW8a+DVo5gGltx
-	ZUMAqgsqmEZl1GbkUqiepYP23U+1KsN1sOoZ9qNHnVydz0tcGmRcnvliSseV+QUkFCzD
-	VAR++KkXfIO8pWmguIHfReMOG9g94oimQq8p0wUO0xvmP2REjNkXn75iFQ11aIBbK2ES
-	7xjW8kjAOLL+HjL7g3j/IoERxYuWTDMVths+Hc1jk3jgQ7clD4YXzcuiC98O0cRDyDfY
-	lQbQ==
-X-Gm-Message-State: ALQs6tBu0k4rpa+YcMc2IRG1szWws4VxRiJ+kBJ95h001CaJHa+n2g20
-	W7IARr8WMFuSnihbiAc4r7rwuHrZpcuJYi25kWM=
-X-Google-Smtp-Source: AB8JxZqZFK2QzRmcHqXxWY5ZzS9fTiE0aXvOJDfgteLMtLglUyBmgg8kzQVqFuMo48AHHRq8/0qQ1M69NIrMlJJi3xw=
-X-Received: by 2002:a19:5a1d:: with SMTP id
-	o29-v6mr17524501lfb.93.1524780527249; 
-	Thu, 26 Apr 2018 15:08:47 -0700 (PDT)
+	bh=QMHgC/osLljdV2gmljxmz3SlZHuFZTIYrIstlFVMzHc=;
+	b=CUMnWFdhM/cSNz/Y6bKH6HZWJ4v2QGrh1eXFy7BwUMfBXrpq3D3Os+P3+wgfhpjrwB
+	1t1Z1aL0Lg/uxvuSUIH2cUEboSM/HJ/3lmQ5hKzoYc6ZNMSSyjoS8r+5zzziLRSWR8Qo
+	kmm+YbQiYnznFnWjLqQE0lOH7Ng6+ephiIWc8BfOMPZnc68Uwb3/eIydccdsa4QKNctu
+	YPboImVDST1qowQyh0TpIPKly8xgHOG2MiIWOXWVt+K2awU5DxTV11l4I8HrfFoKAKy5
+	EGHTcFD6J9YnwYBFkT58aY+vr1nIkrc1LdQXzKTVFy8aRS9MQrDqsjXP17eh6FVdi2qY
+	kEuQ==
+X-Gm-Message-State: ALQs6tClDp//xUGmy0gdrFzF3v5NCLPkZRLnMO66ucZgsDpiCoG3TQtJ
+	rsSjPpbfOefeLoR6bn0E/Nm5NtYewrn30wERyRM=
+X-Google-Smtp-Source: AB8JxZqVD1kCpJFiQkFV5iE9N5LiM+xpTOXHLaAnP7Op8TEobyThUncg8y6l7jsGtSa1E6wI+536e63YbP3YWzXfTV4=
+X-Received: by 2002:a19:2ccd:: with SMTP id
+	s196-v6mr8206950lfs.18.1524780613741; 
+	Thu, 26 Apr 2018 15:10:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.145.78 with HTTP; Thu, 26 Apr 2018 15:08:46 -0700 (PDT)
-In-Reply-To: <6da6ddfac34fbf4fda5683ee2739c0308652a678.1524769930.git.kurt.bodiker@braintrust-us.com>
+Received: by 10.46.145.78 with HTTP; Thu, 26 Apr 2018 15:10:13 -0700 (PDT)
+In-Reply-To: <7d801cebe77874e9083de05626174ccd7db8f694.1524769930.git.kurt.bodiker@braintrust-us.com>
 References: <cover.1524769930.git.kurt.bodiker@braintrust-us.com>
-	<6da6ddfac34fbf4fda5683ee2739c0308652a678.1524769930.git.kurt.bodiker@braintrust-us.com>
+	<7d801cebe77874e9083de05626174ccd7db8f694.1524769930.git.kurt.bodiker@braintrust-us.com>
 From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Thu, 26 Apr 2018 15:08:46 -0700
-Message-ID: <CACMJ4GbZ9-EOjW2gZiWaNiP8DM8hVc0kDQftoRbE3=Xcj5TWiA@mail.gmail.com>
+Date: Thu, 26 Apr 2018 15:10:13 -0700
+Message-ID: <CACMJ4GbjW07A7sZPyM4L2hpiF8zBVAvo7AyKKD-POp+_cy8okg@mail.gmail.com>
 To: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH v3 4/8] xen: Newlib recipe and patches for Xen stubdoms
+Subject: Re: [PATCH v3 7/8] xen: TPM Emulator for Xen stubdoms
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,55 +77,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2018 22:08:49 -0000
-Content-Type: multipart/alternative; boundary="000000000000afecc6056ac7a1e5"
+X-List-Received-Date: Thu, 26 Apr 2018 22:10:16 -0000
+Content-Type: multipart/alternative; boundary="000000000000d7b191056ac7a693"
 
---000000000000afecc6056ac7a1e5
+--000000000000d7b191056ac7a693
 Content-Type: text/plain; charset="UTF-8"
 
 On Thu, Apr 26, 2018 at 1:15 PM, Kurt Bodiker <
 kurt.bodiker@braintrust-us.com> wrote:
 
-> Newlib provides a fast, C library optimized for embedded systems. In the
-> case of Xen stubdomains, we are using MiniOS. This Newlib recipe creates
-> static libraries that are cross-compiled against MiniOS, Xen, and LWIP
-> headers and subsequently used during the cross-compilation and linking
-> of PolarSSL, the stubdom specific GMP, TPM Emulator, and the Xen vTPM
-> and vTPM Manager stubdomains. The current Xen source code is hardcoded
-> to fetch a specific version of this package. The patch files originate
-> from the Xen/stubdom source tree. This recipe provides the flexibility
-> to change version or modify the patches.
+> TPM Emulator is a software-based TPM and MTM emulator. This TPM Emulator
+> recipe creates a static library that is cross-compiled against MiniOS,
+> Xen, LWIP, Newlib, PolarSSL, and the stubdom-specific GMP headers and
+> subsequently used during the cross-compilation and linking of the Xen
+> vTPM and vTPM Manager stubdomains.
+>
+> The current Xen source code is hardcoded to fetch a specific version of
+> this package. The patch files originate from the Xen/stubdom source
+> tree. This recipe provides the flexibility to change version or modify
+> the patches.
 >
 > Signed-off-by: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 > ---
 > Changes in v3:
->  - change cross-root-${XEN_TARGET_ARCH} to cross-root-${GNU_TARGET_ARCH}
+>  - none
 > Changes in v2:
->  - Multi-line variables formatted to match OE style guide
->  - SRC_URI formatted to use SRCREV rather than git tag
 >  - patches formatted to striplevel=1
 > ---
->  recipes-extended/xen/files/newlib-chk.patch        | 155 +++++
->  .../newlib-stdint-size_max-fix-from-1.17.0.patch   |  16 +
->  recipes-extended/xen/files/newlib.patch            | 727
+>  recipes-extended/xen/files/tpmemu-0.7.4.patch      |  12 ++
+>  recipes-extended/xen/files/vtpm-bufsize.patch      |  13 ++
+>  recipes-extended/xen/files/vtpm-cmake-Wextra.patch |  21 +++
+>  .../xen/files/vtpm-deepquote-anyloc.patch          | 127 +++++++++++++
+>  recipes-extended/xen/files/vtpm-deepquote.patch    | 187
+> ++++++++++++++++++++
+>  .../xen/files/vtpm-implicit-fallthrough.patch      |  10 ++
+>  recipes-extended/xen/files/vtpm-locality.patch     |  50 ++++++
+>  .../xen/files/vtpm-parent-sign-ek.patch            | 196
 > +++++++++++++++++++++
->  recipes-extended/xen/newlib.inc                    |  64 ++
->  recipes-extended/xen/newlib_1.16.0.bb              |  21 +
->  5 files changed, 983 insertions(+)
->  create mode 100644 recipes-extended/xen/files/newlib-chk.patch
->  create mode 100644 recipes-extended/xen/files/newlib-stdint-size_max-fix-
-> from-1.17.0.patch
->  create mode 100644 recipes-extended/xen/files/newlib.patch
->  create mode 100644 recipes-extended/xen/newlib.inc
->  create mode 100644 recipes-extended/xen/newlib_1.16.0.bb
+>  recipes-extended/xen/tpm-emulator.inc              |  37 ++++
+>  recipes-extended/xen/tpm-emulator_0.7.4.bb         |  26 +++
+>  10 files changed, 679 insertions(+)
+>  create mode 100644 recipes-extended/xen/files/tpmemu-0.7.4.patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-bufsize.patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-cmake-Wextra.patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-deepquote-anyloc.patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-deepquote.patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-implicit-fallthrough.
+> patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-locality.patch
+>  create mode 100644 recipes-extended/xen/files/vtpm-parent-sign-ek.patch
+>  create mode 100644 recipes-extended/xen/tpm-emulator.inc
+>  create mode 100644 recipes-extended/xen/tpm-emulator_0.7.4.bb
 >
 >
-Seeing whitespace damage in newlib.patch on:
+Seeing whitespace damage in vtpm-locality.patch on: tpm/tpm_emulator.h
 
-newlib/libc/machine/i386/i386mach.h
-newlib/libm/machine/i386/i386mach.h
-
---000000000000afecc6056ac7a1e5
+--000000000000d7b191056ac7a693
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -134,53 +141,69 @@ te">On Thu, Apr 26, 2018 at 1:15 PM, Kurt Bodiker <span dir=3D"ltr">&lt;<a =
 href=3D"mailto:kurt.bodiker@braintrust-us.com" target=3D"_blank">kurt.bodik=
 er@braintrust-us.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
 ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">Newlib provides a fast, C library optimized for embedd=
-ed systems. In the<br>
-case of Xen stubdomains, we are using MiniOS. This Newlib recipe creates<br=
->
-static libraries that are cross-compiled against MiniOS, Xen, and LWIP<br>
-headers and subsequently used during the cross-compilation and linking<br>
-of PolarSSL, the stubdom specific GMP, TPM Emulator, and the Xen vTPM<br>
-and vTPM Manager stubdomains. The current Xen source code is hardcoded<br>
-to fetch a specific version of this package. The patch files originate<br>
-from the Xen/stubdom source tree. This recipe provides the flexibility<br>
-to change version or modify the patches.<br>
+4);padding-left:1ex">TPM Emulator is a software-based TPM and MTM emulator.=
+ This TPM Emulator<br>
+recipe creates a static library that is cross-compiled against MiniOS,<br>
+Xen, LWIP, Newlib, PolarSSL, and the stubdom-specific GMP headers and<br>
+subsequently used during the cross-compilation and linking of the Xen<br>
+vTPM and vTPM Manager stubdomains.<br>
+<br>
+The current Xen source code is hardcoded to fetch a specific version of<br>
+this package. The patch files originate from the Xen/stubdom source<br>
+tree. This recipe provides the flexibility to change version or modify<br>
+the patches.<br>
 <br>
 Signed-off-by: Kurt Bodiker &lt;<a href=3D"mailto:kurt.bodiker@braintrust-u=
 s.com">kurt.bodiker@braintrust-us.<wbr>com</a>&gt;<br>
 ---<br>
 Changes in v3:<br>
-=C2=A0- change cross-root-${XEN_TARGET_ARCH} to cross-root-${GNU_TARGET_ARC=
-H}<br>
+=C2=A0- none<br>
 Changes in v2:<br>
-=C2=A0- Multi-line variables formatted to match OE style guide<br>
-=C2=A0- SRC_URI formatted to use SRCREV rather than git tag<br>
 =C2=A0- patches formatted to striplevel=3D1<br>
 ---<br>
-=C2=A0recipes-extended/xen/files/<wbr>newlib-chk.patch=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 155 +++++<br>
-=C2=A0.../newlib-stdint-size_max-<wbr>fix-from-1.17.0.patch=C2=A0 =C2=A0|=
-=C2=A0 16 +<br>
-=C2=A0recipes-extended/xen/files/<wbr>newlib.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 727 +++++++++++++++++++++<br>
-=C2=A0recipes-extended/xen/newlib.<wbr>inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 64 ++<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://newlib_1.16.0.bb" rel=3D"noref=
-errer" target=3D"_blank">newlib_1.<wbr>16.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 21 +<br>
-=C2=A05 files changed, 983 insertions(+)<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>newlib-chk.patch<b=
-r>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>newlib-stdint-size=
-_max-fix-<wbr>from-1.17.0.patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>newlib.patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/newlib.<wbr>inc<br>
-=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://newlib_1.16=
-.0.bb" rel=3D"noreferrer" target=3D"_blank">newlib_1.<wbr>16.0.bb</a><br>
+=C2=A0recipes-extended/xen/files/<wbr>tpmemu-0.7.4.patch=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 12 ++<br>
+=C2=A0recipes-extended/xen/files/<wbr>vtpm-bufsize.patch=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 13 ++<br>
+=C2=A0recipes-extended/xen/files/<wbr>vtpm-cmake-Wextra.patch |=C2=A0 21 ++=
++<br>
+=C2=A0.../xen/files/vtpm-deepquote-<wbr>anyloc.patch=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 | 127 +++++++++++++<br>
+=C2=A0recipes-extended/xen/files/<wbr>vtpm-deepquote.patch=C2=A0 =C2=A0 | 1=
+87 ++++++++++++++++++++<br>
+=C2=A0.../xen/files/vtpm-implicit-<wbr>fallthrough.patch=C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 10 ++<br>
+=C2=A0recipes-extended/xen/files/<wbr>vtpm-locality.patch=C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 50 ++++++<br>
+=C2=A0.../xen/files/vtpm-parent-<wbr>sign-ek.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 196 +++++++++++++++++++++<br>
+=C2=A0recipes-extended/xen/tpm-<wbr>emulator.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 |=C2=A0 37 ++++<br>
+=C2=A0recipes-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 26 +++<br>
+=C2=A010 files changed, 679 insertions(+)<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>tpmemu-0.7.4.patch=
 <br>
-</blockquote><div><br></div><div>Seeing whitespace damage in newlib.patch o=
-n:<br><br></div><div><div>newlib/libc/machine/i386/i386mach.h</div></div><d=
-iv>newlib/libm/machine/i386/i386mach.h<br></div><div><br></div></div></div>=
-</div>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-bufsize.patch=
+<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-cmake-Wextra.=
+patch<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-deepquote-any=
+loc.patch<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-deepquote.pat=
+ch<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-implicit-fall=
+through.<wbr>patch<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-locality.patc=
+h<br>
+=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-parent-sign-e=
+k.patch<br>
+=C2=A0create mode 100644 recipes-extended/xen/tpm-<wbr>emulator.inc<br>
+=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://tpm-emulato=
+r_0.7.4.bb" rel=3D"noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb=
+</a><br>
+<br></blockquote><div><br></div><div>Seeing whitespace damage in vtpm-local=
+ity.patch on:=C2=A0tpm/tpm_emulator.h</div></div></div></div>
 
---000000000000afecc6056ac7a1e5--
+--000000000000d7b191056ac7a693--
