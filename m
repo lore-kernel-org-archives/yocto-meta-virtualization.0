@@ -1,6 +1,6 @@
 Return-Path: <kurt.bodiker@braintrust-us.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 34837E009DC; Fri, 27 Apr 2018 08:12:35 -0700 (PDT)
+	id 2895CE0086B; Fri, 27 Apr 2018 08:12:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,59 +8,66 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.220.196 listed in list.dnswl.org]
+	*      [209.85.216.194 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
-	[209.85.220.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0F5A4E0073D
+Received: from mail-qt0-f194.google.com (mail-qt0-f194.google.com
+	[209.85.216.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C6725E0086B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 27 Apr 2018 08:12:33 -0700 (PDT)
-Received: by mail-qk0-f196.google.com with SMTP id d125so1629944qkb.8
+	Fri, 27 Apr 2018 08:12:36 -0700 (PDT)
+Received: by mail-qt0-f194.google.com with SMTP id m16-v6so2669973qtg.13
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 27 Apr 2018 08:12:33 -0700 (PDT)
+	Fri, 27 Apr 2018 08:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=braintrust-us-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:to:cc:subject:date:message-id;
-	bh=q7MFr/p23jXrHtSdsXSVdVa0Msi1L3ruJG5xy/l08AY=;
-	b=y9UAdOfobtzhMfmcGk4JyRiHHSrb6Afhk+t5sq2U7lIuaNxrLzbUlsuPxOcMAueygL
-	bMhPam4wxttJmG1FzWZnv7TOeVqFm+HmSA+ZVWTxxFnUbGD0/YH4ovr8PImqFaFqKK5O
-	RUUzXTaVPet9Q6swKuRujd48GivoTb1fOyY5KEtMwZfiK4LE5R12hjud8idOWSHqtkB1
-	g9ljFzQip4d0v9XDQD39BwWrhzFprkOHLE7cYlUoOtTVGOFBdBv+FOMSNdSltH0vlNdU
-	yOkCClsMXFPqsLmcVj06RpNZL0kFrQFcw13Ap4IRTDBgO7qwC1Eu6ZDfchZLU7CBVmhj
-	RQIQ==
+	h=mime-version:from:to:cc:subject:date:message-id:in-reply-to
+	:references:in-reply-to:references;
+	bh=QDU72DMsNhezqUQ/Daia6KfWVWO7if2nesD0LL/sosA=;
+	b=nS0lRXcjhcjPlP03mK+bQdURD74aHAkPe5QPlrL3kL7m6it3d4GVjDZVsmw7aJdD4+
+	WHZzikCwPVPdyLE5apSsQva6a3zFY2aVspwhaf4ys0HYS7bzwc4VEWRLv23/JvQLpmfd
+	WgufJFLzc789ypZ30hSaPyJcSqP/pGD34K5kwMzH1hv1qH+C5aPblsu97oc/v0KI7QTl
+	pQenk/jKXEOrNfkK+HYPp+H8Gq1n7f4XBM5d401jGuVfPwiRRw3PUUHVT/cL6HiJXkeY
+	PrAxwKtBV4Ypa8eIqLVqhxkzV3mhJmfRSHQZQkKIqvSy2KX5Yk/oVDEvSC+b6jzYSE+R
+	jWeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:to:cc:subject:date:message-id;
-	bh=q7MFr/p23jXrHtSdsXSVdVa0Msi1L3ruJG5xy/l08AY=;
-	b=Lsqz1cLeSbQtDmx5iZmGKRRrfOC2N5fUqkAjp8nsGA0QEL//kYGsIslfrRMfyEpIgp
-	pEongzDoqVuMgRdGAqxj/V1b4q0BoHsKL+RNpyD60ZCDHhsPjae9lChJLtfWglrg15GL
-	ClVe8GyLHYx2Vnw58onptFBfIhrZBUFFltQSuaCk0O4/CgTTyNQy5U4D3G5x8YE63qLO
-	o4rkYH8DU/TqPGbwt49BBn9VOxP9emvbaOaskEIJsb0B4C+aWgnZIpDhSs2iTe0m/K8R
-	3ZgkeEMU6ltWfzKlv+BRLaY+jQnJ8Y4VMDO0WS7W5lVBZlP1Ni7WgFdHE4ihSjP/MRMs
-	uayw==
-X-Gm-Message-State: ALQs6tCsxJ2sSX8KMHLIqhocWZEx5jvaTR+PV17KlDbGfgxOJiuUonmD
-	sEPVQb2p8yxmdHsFsjKcBGi5pOuYk9VYKdhl6N52GrF9C/Epqqq+Jl07qfs/YWGB/2iPophv3VG
-	Rn6EezhU8SRtTz1iddzsxmgqTRRTXr7k=
+	h=x-gm-message-state:mime-version:from:to:cc:subject:date:message-id
+	:in-reply-to:references:in-reply-to:references;
+	bh=QDU72DMsNhezqUQ/Daia6KfWVWO7if2nesD0LL/sosA=;
+	b=mWCmzvFz2yg711uyE3Ycl8fCFm+bZBhdy8xR3wa6eYIcX6JDYSzhVdSBvWKpPxqGia
+	/XOkDOJXISnsE3QxdWQng1bv0RWlVBmW/5idaEXQ63xSVIwK0xKkyXswO9Vg11TMJPL1
+	zVCiLsRbVIjD9H9SYRvpMyVEz8rivfJq0N+FeU0r7pM7IA0msp4cX+8scrhzU+D2rvEm
+	cek5IdiFkMj8gSLrq80FIUvvJGFYOZqc1Ow8YOJniY17v1xX+pRvUYgOudtNQ/JDBs08
+	rPukLg6Xxatf3cXFM0rsLgHRlLa2vxmBQD3fIsbYFwjSV4Jrg0EOHR9bjHX88sDL7yaD
+	5H2g==
+X-Gm-Message-State: ALQs6tBePDFqTCb1/W1BgjKJWLGatfQJvLIb1FSoXmZwzKpHkJahQ8Ki
+	LcW1y8ECrcTeQ/qoghmmiGWg9W0zRGqZkXET7K5QB5R5c4qLFKqOOWnC+d+rjhYAPlzMVOcSHX4
+	kTuWuNYvN7MPyl3jOR7uhcVGDEOq4IS8=
 MIME-Version: 1.0
-X-Google-Smtp-Source: AB8JxZoL3DJarvn7bM88SNwLUG3HVx4JPOzabHTzog5meaWB4s9ikV4R3N4fkn1MvU1s7YS0hmh/Zg==
-X-Received: by 10.55.127.70 with SMTP id a67mr2225425qkd.328.1524841952635;
-	Fri, 27 Apr 2018 08:12:32 -0700 (PDT)
+X-Google-Smtp-Source: AB8JxZq1/WXs+6/Hq4/gVrwpZhZSZuA3sxveq6qWEzOcxUqi3syPPjZk9Gfz6LSp42iXYu8bGgqUlw==
+X-Received: by 2002:ac8:7259:: with SMTP id
+	l25-v6mr2360154qtp.325.1524841955482; 
+	Fri, 27 Apr 2018 08:12:35 -0700 (PDT)
 Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:a4e3:fceb:d802:a79e])
 	by smtp.gmail.com with ESMTPSA id
-	k50-v6sm1303157qtb.31.2018.04.27.08.12.29
+	k50-v6sm1303157qtb.31.2018.04.27.08.12.32
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 27 Apr 2018 08:12:31 -0700 (PDT)
+	Fri, 27 Apr 2018 08:12:34 -0700 (PDT)
 From: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 To: meta-virtualization@yoctoproject.org
-Date: Fri, 27 Apr 2018 11:12:03 -0400
-Message-Id: <cover.1524834969.git.kurt.bodiker@braintrust-us.com>
+Date: Fri, 27 Apr 2018 11:12:04 -0400
+Message-Id: <060a76334525e5f6888ae92f08c8efd0965ff0b3.1524834969.git.kurt.bodiker@braintrust-us.com>
 X-Mailer: git-send-email 2.14.3
+In-Reply-To: <cover.1524834969.git.kurt.bodiker@braintrust-us.com>
+References: <cover.1524834969.git.kurt.bodiker@braintrust-us.com>
+In-Reply-To: <cover.1524834969.git.kurt.bodiker@braintrust-us.com>
+References: <cover.1524834969.git.kurt.bodiker@braintrust-us.com>
 Cc: kurt.bodiker@braintrust-us.com
-Subject: [PATCH v4 0/8] xen: Xen vTPM stubdomains
+Subject: [PATCH v4 1/8] xen: Define standard values needed to build stubdomains
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,140 +80,187 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Apr 2018 15:12:35 -0000
+X-List-Received-Date: Fri, 27 Apr 2018 15:12:38 -0000
 Content-Type: text/plain; charset="US-ASCII"
 
-This patchset introduces the basic recipes necessary to build Xen
-stubdomains, in particular the vTPM and vTPM Manager stubdomains. vTPM
-stubdomains provide Xen guest domains access to a virtualized TPM. The
-vTPM Manager stubdomain manages each of the vTPM domains and seals them
-to the physical TPM. The intention of this patchset is to provide the
-ability to build Xen stubdomains separately from the rest of the Xen
-components since the stubdomains have separate dependencies that are
-hard-coded within the Xen build and configuration files.  Separating the
-stubdomain recipes and dependencies from the rest of the Xen build gives
-the ability to use newer or different libraries than what is currently
-used.
+This commit introduces the stubdom.inc file that is required for each
+recipe that is/will be built for Xen stubdomains. This file defines the
+standard values to be used such as common dependencies, compiler and
+linker flags, and unsets every flag and build tool that is exported into
+the OE environment.
 
-The stubdom.inc file defines a set of CPPFLAGS, CFLAGS, and LDFLAGS
-common for building all Xen stubdomains. Xen stubdomains are
-cross-compiled with the MiniOS, which creates some issues when trying to
-compile stubdomains in an OpenEmbedded environment. To address these
-issues and to ensure the stubdoms are built as Xen had intended, all of
-the build flags and build tools that are exported into the environment
-by OE have been unset. Each of the new recipes introduced here then
-implements the build flags and the tools as though the build had been
-run in the bare-metal environment.
-
-Recipes to create slightly modified source packages for lwIP amd Mini-OS
-are introduced to standardize the dependency tree among stubdomain
-related recipes and to avoid the hassle of maintaining the same tasks
-within many recipes.
-
-Xen vTPM stubdomains have depencencies on static libraries for newlib,
-polarssl, gmp, and tpm emulator. Xen vTPM Manager stubdomain has
-dependencies on static libraries for newlib and polarssl.
-
-The newlib, polarssl, gmp, and tpm emulator recipes are constructed to
-behave the same as a bare-metal build. These recipes are cross-compiled
-against both the Xen and MiniOS source code.
-
-The xen-vtpm recipe is responsible for building and installing the vTPM
-and vTPM Manager stubdomain images into the Xen boot directory. xen-vtpm
-would need to be added to DISTRO_FEATURES the similar for what is done
-for Xen.
-
+Signed-off-by: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
 ---
 Changes in v4:
- - Fix whitespace errors in MiniOS, Newlib, and TPM Emulator patchfiles
- - Corrected type in Newlib recipe
+ - none
 Changes in v3:
  - Limit builds to 64-bit only through COMPATIBLE_HOST
- - Change Xen version comparison logic in xen-vtpm recipe
- - Introduce MiniOS patch for GCC v7 that was not backported into the
-   4.9.x releases
  - Change cross-root-${XEN_TARGET_ARCH} to cross-root-${GNU_TARGET_ARCH}
 Changes in v2:
  - Multi-line variables formatted to match OE style guide
- - SRC_URI formatted to use SRCREV rather than git tag
- - patches formatted to striplevel=1
- - introduced Mini-OS recipe
- - Removed Xen dependency since this is handled (mostly) by Mini-OS
- - Changed version number of xen-vtpm recipe to match Xen version
 ---
-
-Kurt Bodiker (8):
-  Define standard values needed to build stubdomains
-  LWIP source code with patches applied for stubdoms
-  Mini-OS source code with make links target applied
-  Newlib recipe and patches for Xen stubdoms
-  PolarSSL recipe and patches for Xen stubdoms
-  GMP recipe for Xen stubdoms
-  TPM Emulator for Xen stubdoms
-  vTPM and vTPM Manager stubdoms
-
- .../lwip.dhcp_create_request-hwaddr_len.patch      |   13 +
- recipes-extended/xen/files/lwip.patch-cvs          | 2398 ++++++++++++++++++++
- .../xen/files/mini-os_udivmoddi4-gcc7.patch        |   43 +
- recipes-extended/xen/files/newlib-chk.patch        |  155 ++
- .../newlib-stdint-size_max-fix-from-1.17.0.patch   |   16 +
- recipes-extended/xen/files/newlib.patch            |  727 ++++++
- recipes-extended/xen/files/polarssl.patch          |   64 +
- recipes-extended/xen/files/tpmemu-0.7.4.patch      |   12 +
- recipes-extended/xen/files/vtpm-bufsize.patch      |   13 +
- recipes-extended/xen/files/vtpm-cmake-Wextra.patch |   21 +
- .../xen/files/vtpm-deepquote-anyloc.patch          |  127 ++
- recipes-extended/xen/files/vtpm-deepquote.patch    |  187 ++
- .../xen/files/vtpm-implicit-fallthrough.patch      |   10 +
- recipes-extended/xen/files/vtpm-locality.patch     |   50 +
- .../xen/files/vtpm-parent-sign-ek.patch            |  196 ++
- recipes-extended/xen/lwip.inc                      |   24 +
- recipes-extended/xen/lwip_1.3.0.bb                 |   19 +
- recipes-extended/xen/mini-os.inc                   |   28 +
- recipes-extended/xen/mini-os_4.9.0.bb              |   18 +
- recipes-extended/xen/newlib.inc                    |   64 +
- recipes-extended/xen/newlib_1.16.0.bb              |   21 +
- recipes-extended/xen/polarssl.inc                  |   27 +
- recipes-extended/xen/polarssl_1.1.4.bb             |   19 +
- recipes-extended/xen/stubdom-gmp.inc               |   37 +
- recipes-extended/xen/stubdom-gmp_4.3.2.bb          |   20 +
- recipes-extended/xen/stubdom.inc                   |  152 ++
- recipes-extended/xen/tpm-emulator.inc              |   37 +
- recipes-extended/xen/tpm-emulator_0.7.4.bb         |   26 +
- recipes-extended/xen/xen-vtpm.inc                  |  111 +
- recipes-extended/xen/xen-vtpm_4.9.0.bb             |   21 +
- 30 files changed, 4656 insertions(+)
- create mode 100644 recipes-extended/xen/files/lwip.dhcp_create_request-hwaddr_len.patch
- create mode 100644 recipes-extended/xen/files/lwip.patch-cvs
- create mode 100644 recipes-extended/xen/files/mini-os_udivmoddi4-gcc7.patch
- create mode 100644 recipes-extended/xen/files/newlib-chk.patch
- create mode 100644 recipes-extended/xen/files/newlib-stdint-size_max-fix-from-1.17.0.patch
- create mode 100644 recipes-extended/xen/files/newlib.patch
- create mode 100644 recipes-extended/xen/files/polarssl.patch
- create mode 100644 recipes-extended/xen/files/tpmemu-0.7.4.patch
- create mode 100644 recipes-extended/xen/files/vtpm-bufsize.patch
- create mode 100644 recipes-extended/xen/files/vtpm-cmake-Wextra.patch
- create mode 100644 recipes-extended/xen/files/vtpm-deepquote-anyloc.patch
- create mode 100644 recipes-extended/xen/files/vtpm-deepquote.patch
- create mode 100644 recipes-extended/xen/files/vtpm-implicit-fallthrough.patch
- create mode 100644 recipes-extended/xen/files/vtpm-locality.patch
- create mode 100644 recipes-extended/xen/files/vtpm-parent-sign-ek.patch
- create mode 100644 recipes-extended/xen/lwip.inc
- create mode 100644 recipes-extended/xen/lwip_1.3.0.bb
- create mode 100644 recipes-extended/xen/mini-os.inc
- create mode 100644 recipes-extended/xen/mini-os_4.9.0.bb
- create mode 100644 recipes-extended/xen/newlib.inc
- create mode 100644 recipes-extended/xen/newlib_1.16.0.bb
- create mode 100644 recipes-extended/xen/polarssl.inc
- create mode 100644 recipes-extended/xen/polarssl_1.1.4.bb
- create mode 100644 recipes-extended/xen/stubdom-gmp.inc
- create mode 100644 recipes-extended/xen/stubdom-gmp_4.3.2.bb
+ recipes-extended/xen/stubdom.inc | 152 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 152 insertions(+)
  create mode 100644 recipes-extended/xen/stubdom.inc
- create mode 100644 recipes-extended/xen/tpm-emulator.inc
- create mode 100644 recipes-extended/xen/tpm-emulator_0.7.4.bb
- create mode 100644 recipes-extended/xen/xen-vtpm.inc
- create mode 100644 recipes-extended/xen/xen-vtpm_4.9.0.bb
 
+diff --git a/recipes-extended/xen/stubdom.inc b/recipes-extended/xen/stubdom.inc
+new file mode 100644
+index 0000000..81fda66
+--- /dev/null
++++ b/recipes-extended/xen/stubdom.inc
+@@ -0,0 +1,152 @@
++# Copyright (C) 2017 Kurt Bodiker <kurt.bodiker@braintrust-us.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux'
++
++require xen-arch.inc
++
++# many of the xen stubdom related recipes build and package static instead of shared libraries
++EXCLUDE_FROM_SHLIBS = "1"
++
++# base set of dependencies to be used for xen stubdom recipes
++DEPENDS += "\
++    lwip \
++    mini-os \
++"
++
++# unset EVERYTHING from the OE environment.
++# Weird things happen when these are exported into the environment.
++unset CFLAGS
++unset BUILD_CFLAGS
++unset TARGET_CFLAGS
++unset CFLAGS_FOR_BUILD
++
++unset CPPFLAGS
++unset BUILD_CPPFLAGS
++unset TARGET_CPPFLAGS
++unset CPPFLAGS_FOR_BUILD
++
++unset LDFLAGS
++unset BUILD_LDFLAGS
++unset TARGET_LDFLAGS
++unset LDFLAGS_FOR_BUILD
++
++unset CXXFLAGS
++unset TARGET_CXXFLAGS
++unset BUILD_CXXFLAGS
++unset CXXFLAGS_FOR_BUILD
++
++unset BUILD_CC
++unset BUILD_CPP
++unset BUILD_CXX
++unset BUILD_LD
++unset BUILD_AR
++unset BUILD_AS
++unset BUILD_CCLD
++unset BUILD_FC
++unset BUILD_RANLIB
++unset BUILD_NM
++unset BUILD_STRIP
++unset BUILD_READELF
++unset BUILD_OBJCOPY
++unset BUILD_OBJDUMP
++unset CC
++unset CPP
++unset CXX
++unset LD
++unset AR
++unset AS
++unset NM
++unset RANLIB
++unset STRIP
++unset STRINGS
++unset READELF
++unset OBJCOPY
++unset OBJDUMP
++unset READELF
++unset CCLD
++unset FC
++
++# Provide support to build both 32-bit and 64-bit stubdoms
++python () {
++    gnu_dict = {
++            'x86_32': 'i686',
++            'x86_64': 'x86_64',
++        }
++
++    if d.expand('${XEN_TARGET_ARCH}') == 'x86_32':
++        d.setVar("GNU_TARGET_ARCH",gnu_dict[d.expand('${XEN_TARGET_ARCH}')])
++        d.setVar("PACKAGE_ARCH","core2-32")
++    elif d.expand('${XEN_TARGET_ARCH}') == 'x86_64':
++        d.setVar("GNU_TARGET_ARCH",gnu_dict[d.expand('${XEN_TARGET_ARCH}')])
++}
++
++export GNU_TARGET_ARCH
++export XEN_TARGET_ARCH="${@map_xen_arch(d.getVar('TARGET_ARCH'), d)}"
++export XEN_COMPILE_ARCH="${@map_xen_arch(d.getVar('BUILD_ARCH'), d)}"
++
++LWIP_SRCDIR = "${RECIPE_SYSROOT}/cross-root-${GNU_TARGET_ARCH}/lwip"
++MINIOS_SRCDIR = "${RECIPE_SYSROOT}/cross-root-${GNU_TARGET_ARCH}/mini-os"
++
++# Base set of CPPFLAGS, CFLAGS needed for each component used to build MiniOS-based stubdoms
++# LDFLAGS are only used when building stubdoms, so only used in stubdom recipes
++# Generic name given because each library uses DEF_, BUILD_, TARGET_, and xxxFLAGS differently
++CPPFLAGS_INCLUDE_DIR = "-isystem ${RECIPE_SYSROOT}/cross-root-${GNU_TARGET_ARCH}/${GNU_TARGET_ARCH}-xen-elf/include"
++
++STUBDOM_CPPFLAGS += "\
++    -isystem ${MINIOS_SRCDIR}/include \
++    -D__MINIOS__ \
++    -DHAVE_LIBC \
++    -isystem ${MINIOS_SRCDIR}/include/posix \
++    -isystem ${MINIOS_SRCDIR}/include/xen \
++    -isystem ${MINIOS_SRCDIR}/include/x86 \
++    -isystem ${MINIOS_SRCDIR}/include/x86/${XEN_TARGET_ARCH} \
++    -U __linux__ \
++    -U __FreeBSD__ \
++    -U __sun__ \
++    -nostdinc \
++    ${CPPFLAGS_INCLUDE_DIR} \
++    -isystem ${LWIP_SRCDIR}/include \
++    -isystem ${LWIP_SRCDIR}/include/ipv4 \
++"
++
++STUBDOM_CFLAGS += "\
++    -mno-red-zone \
++    -O1 \
++    -fno-omit-frame-pointer \
++    -m64 \
++    -fno-reorder-blocks \
++    -fno-asynchronous-unwind-tables \
++    -DBUILD_ID \
++    -fno-strict-aliasing \
++    -std=gnu99 \
++    -Wall \
++    -Wstrict-prototypes \
++    -Wdeclaration-after-statement \
++    -Wno-unused-but-set-variable \
++    -Wno-unused-local-typedefs \
++    -fno-stack-protector \
++    -fno-exceptions \
++"
++
++STUBDOM_LDFLAGS = "\
++    -nostdlib \
++    -L${RECIPE_SYSROOT}/cross-root-${GNU_TARGET_ARCH}/${GNU_TARGET_ARCH}-xen-elf/lib \
++"
++
++# Need to redefine these for stubdom-related builds. It all starts because of
++# the prefix used in newlib and then continues because we don't want to
++# cross-contaminate stubdom-related recipes with headers and libraries found in
++# the OE-defined locations
++export prefix="/cross-root-${GNU_TARGET_ARCH}"
++export includedir="${prefix}/${GNU_TARGET_ARCH}-xen-elf/include"
++export libdir="${prefix}/${GNU_TARGET_ARCH}-xen-elf/lib"
++export libexecdir="${libdir}"
++export STAGING_INCDIR
++export STAGING_LIBDIR
++
++# Typically defined in Xen and Minios .mk files that aren't sourced/read,
++# defined to trigger some values and paths in Makefiles
++export debug="y"
++export stubdom="y"
++export XEN_OS="MiniOS"
 -- 
 2.14.2
 
