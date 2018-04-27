@@ -1,70 +1,66 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <kurt.bodiker@braintrust-us.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5B361E008D2; Thu, 26 Apr 2018 15:10:16 -0700 (PDT)
+	id 34837E009DC; Fri, 27 Apr 2018 08:12:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.42 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.220.196 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f42.google.com (mail-lf0-f42.google.com
-	[209.85.215.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01FBCE007F2
+Received: from mail-qk0-f196.google.com (mail-qk0-f196.google.com
+	[209.85.220.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0F5A4E0073D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 26 Apr 2018 15:10:14 -0700 (PDT)
-Received: by mail-lf0-f42.google.com with SMTP id r125-v6so32960748lfe.2
+	Fri, 27 Apr 2018 08:12:33 -0700 (PDT)
+Received: by mail-qk0-f196.google.com with SMTP id d125so1629944qkb.8
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 26 Apr 2018 15:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=QMHgC/osLljdV2gmljxmz3SlZHuFZTIYrIstlFVMzHc=;
-	b=qw1gcqCD/N1Qbzm9CPGTWLzk2Ae0+G/wZ2aGwzz8NGv1cziTGfL5C/Wf2//WbEVYfH
-	qgE63XBA5zqLWAmN4O4cf7ZyRrdlkHfjnU1wCoRbu42Qv6gj5+WtxBO5iXuwHv1fdTY0
-	AOHH1JRDiUYoKBAQMEvh+n8m298SKv7vXARl2j289hljvpr0hQFvELwEMvGFrc4+yVLE
-	ZIottykPWdqqWI14Il2DJO2250HzQwQjaIVwD1OS/5RNG1eYs11nASHlN8PKv/KEVyTO
-	n6gzs9dtYLoIzHgcF6O1Dff8a8wQ55fBGEAKBEqTdb8TQeoFKJ7ZJt95UQQlDomtUUG5
-	qNxA==
+	Fri, 27 Apr 2018 08:12:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=braintrust-us-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:to:cc:subject:date:message-id;
+	bh=q7MFr/p23jXrHtSdsXSVdVa0Msi1L3ruJG5xy/l08AY=;
+	b=y9UAdOfobtzhMfmcGk4JyRiHHSrb6Afhk+t5sq2U7lIuaNxrLzbUlsuPxOcMAueygL
+	bMhPam4wxttJmG1FzWZnv7TOeVqFm+HmSA+ZVWTxxFnUbGD0/YH4ovr8PImqFaFqKK5O
+	RUUzXTaVPet9Q6swKuRujd48GivoTb1fOyY5KEtMwZfiK4LE5R12hjud8idOWSHqtkB1
+	g9ljFzQip4d0v9XDQD39BwWrhzFprkOHLE7cYlUoOtTVGOFBdBv+FOMSNdSltH0vlNdU
+	yOkCClsMXFPqsLmcVj06RpNZL0kFrQFcw13Ap4IRTDBgO7qwC1Eu6ZDfchZLU7CBVmhj
+	RQIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=QMHgC/osLljdV2gmljxmz3SlZHuFZTIYrIstlFVMzHc=;
-	b=CUMnWFdhM/cSNz/Y6bKH6HZWJ4v2QGrh1eXFy7BwUMfBXrpq3D3Os+P3+wgfhpjrwB
-	1t1Z1aL0Lg/uxvuSUIH2cUEboSM/HJ/3lmQ5hKzoYc6ZNMSSyjoS8r+5zzziLRSWR8Qo
-	kmm+YbQiYnznFnWjLqQE0lOH7Ng6+ephiIWc8BfOMPZnc68Uwb3/eIydccdsa4QKNctu
-	YPboImVDST1qowQyh0TpIPKly8xgHOG2MiIWOXWVt+K2awU5DxTV11l4I8HrfFoKAKy5
-	EGHTcFD6J9YnwYBFkT58aY+vr1nIkrc1LdQXzKTVFy8aRS9MQrDqsjXP17eh6FVdi2qY
-	kEuQ==
-X-Gm-Message-State: ALQs6tClDp//xUGmy0gdrFzF3v5NCLPkZRLnMO66ucZgsDpiCoG3TQtJ
-	rsSjPpbfOefeLoR6bn0E/Nm5NtYewrn30wERyRM=
-X-Google-Smtp-Source: AB8JxZqVD1kCpJFiQkFV5iE9N5LiM+xpTOXHLaAnP7Op8TEobyThUncg8y6l7jsGtSa1E6wI+536e63YbP3YWzXfTV4=
-X-Received: by 2002:a19:2ccd:: with SMTP id
-	s196-v6mr8206950lfs.18.1524780613741; 
-	Thu, 26 Apr 2018 15:10:13 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:to:cc:subject:date:message-id;
+	bh=q7MFr/p23jXrHtSdsXSVdVa0Msi1L3ruJG5xy/l08AY=;
+	b=Lsqz1cLeSbQtDmx5iZmGKRRrfOC2N5fUqkAjp8nsGA0QEL//kYGsIslfrRMfyEpIgp
+	pEongzDoqVuMgRdGAqxj/V1b4q0BoHsKL+RNpyD60ZCDHhsPjae9lChJLtfWglrg15GL
+	ClVe8GyLHYx2Vnw58onptFBfIhrZBUFFltQSuaCk0O4/CgTTyNQy5U4D3G5x8YE63qLO
+	o4rkYH8DU/TqPGbwt49BBn9VOxP9emvbaOaskEIJsb0B4C+aWgnZIpDhSs2iTe0m/K8R
+	3ZgkeEMU6ltWfzKlv+BRLaY+jQnJ8Y4VMDO0WS7W5lVBZlP1Ni7WgFdHE4ihSjP/MRMs
+	uayw==
+X-Gm-Message-State: ALQs6tCsxJ2sSX8KMHLIqhocWZEx5jvaTR+PV17KlDbGfgxOJiuUonmD
+	sEPVQb2p8yxmdHsFsjKcBGi5pOuYk9VYKdhl6N52GrF9C/Epqqq+Jl07qfs/YWGB/2iPophv3VG
+	Rn6EezhU8SRtTz1iddzsxmgqTRRTXr7k=
 MIME-Version: 1.0
-Received: by 10.46.145.78 with HTTP; Thu, 26 Apr 2018 15:10:13 -0700 (PDT)
-In-Reply-To: <7d801cebe77874e9083de05626174ccd7db8f694.1524769930.git.kurt.bodiker@braintrust-us.com>
-References: <cover.1524769930.git.kurt.bodiker@braintrust-us.com>
-	<7d801cebe77874e9083de05626174ccd7db8f694.1524769930.git.kurt.bodiker@braintrust-us.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Thu, 26 Apr 2018 15:10:13 -0700
-Message-ID: <CACMJ4GbjW07A7sZPyM4L2hpiF8zBVAvo7AyKKD-POp+_cy8okg@mail.gmail.com>
-To: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH v3 7/8] xen: TPM Emulator for Xen stubdoms
+X-Google-Smtp-Source: AB8JxZoL3DJarvn7bM88SNwLUG3HVx4JPOzabHTzog5meaWB4s9ikV4R3N4fkn1MvU1s7YS0hmh/Zg==
+X-Received: by 10.55.127.70 with SMTP id a67mr2225425qkd.328.1524841952635;
+	Fri, 27 Apr 2018 08:12:32 -0700 (PDT)
+Received: from pm2-ws13.praxislan02.com ([2001:470:8:67e:a4e3:fceb:d802:a79e])
+	by smtp.gmail.com with ESMTPSA id
+	k50-v6sm1303157qtb.31.2018.04.27.08.12.29
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 27 Apr 2018 08:12:31 -0700 (PDT)
+From: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri, 27 Apr 2018 11:12:03 -0400
+Message-Id: <cover.1524834969.git.kurt.bodiker@braintrust-us.com>
+X-Mailer: git-send-email 2.14.3
+Cc: kurt.bodiker@braintrust-us.com
+Subject: [PATCH v4 0/8] xen: Xen vTPM stubdomains
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,133 +73,147 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Apr 2018 22:10:16 -0000
-Content-Type: multipart/alternative; boundary="000000000000d7b191056ac7a693"
+X-List-Received-Date: Fri, 27 Apr 2018 15:12:35 -0000
+Content-Type: text/plain; charset="US-ASCII"
 
---000000000000d7b191056ac7a693
-Content-Type: text/plain; charset="UTF-8"
+This patchset introduces the basic recipes necessary to build Xen
+stubdomains, in particular the vTPM and vTPM Manager stubdomains. vTPM
+stubdomains provide Xen guest domains access to a virtualized TPM. The
+vTPM Manager stubdomain manages each of the vTPM domains and seals them
+to the physical TPM. The intention of this patchset is to provide the
+ability to build Xen stubdomains separately from the rest of the Xen
+components since the stubdomains have separate dependencies that are
+hard-coded within the Xen build and configuration files.  Separating the
+stubdomain recipes and dependencies from the rest of the Xen build gives
+the ability to use newer or different libraries than what is currently
+used.
 
-On Thu, Apr 26, 2018 at 1:15 PM, Kurt Bodiker <
-kurt.bodiker@braintrust-us.com> wrote:
+The stubdom.inc file defines a set of CPPFLAGS, CFLAGS, and LDFLAGS
+common for building all Xen stubdomains. Xen stubdomains are
+cross-compiled with the MiniOS, which creates some issues when trying to
+compile stubdomains in an OpenEmbedded environment. To address these
+issues and to ensure the stubdoms are built as Xen had intended, all of
+the build flags and build tools that are exported into the environment
+by OE have been unset. Each of the new recipes introduced here then
+implements the build flags and the tools as though the build had been
+run in the bare-metal environment.
 
-> TPM Emulator is a software-based TPM and MTM emulator. This TPM Emulator
-> recipe creates a static library that is cross-compiled against MiniOS,
-> Xen, LWIP, Newlib, PolarSSL, and the stubdom-specific GMP headers and
-> subsequently used during the cross-compilation and linking of the Xen
-> vTPM and vTPM Manager stubdomains.
->
-> The current Xen source code is hardcoded to fetch a specific version of
-> this package. The patch files originate from the Xen/stubdom source
-> tree. This recipe provides the flexibility to change version or modify
-> the patches.
->
-> Signed-off-by: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
-> ---
-> Changes in v3:
->  - none
-> Changes in v2:
->  - patches formatted to striplevel=1
-> ---
->  recipes-extended/xen/files/tpmemu-0.7.4.patch      |  12 ++
->  recipes-extended/xen/files/vtpm-bufsize.patch      |  13 ++
->  recipes-extended/xen/files/vtpm-cmake-Wextra.patch |  21 +++
->  .../xen/files/vtpm-deepquote-anyloc.patch          | 127 +++++++++++++
->  recipes-extended/xen/files/vtpm-deepquote.patch    | 187
-> ++++++++++++++++++++
->  .../xen/files/vtpm-implicit-fallthrough.patch      |  10 ++
->  recipes-extended/xen/files/vtpm-locality.patch     |  50 ++++++
->  .../xen/files/vtpm-parent-sign-ek.patch            | 196
-> +++++++++++++++++++++
->  recipes-extended/xen/tpm-emulator.inc              |  37 ++++
->  recipes-extended/xen/tpm-emulator_0.7.4.bb         |  26 +++
->  10 files changed, 679 insertions(+)
->  create mode 100644 recipes-extended/xen/files/tpmemu-0.7.4.patch
->  create mode 100644 recipes-extended/xen/files/vtpm-bufsize.patch
->  create mode 100644 recipes-extended/xen/files/vtpm-cmake-Wextra.patch
->  create mode 100644 recipes-extended/xen/files/vtpm-deepquote-anyloc.patch
->  create mode 100644 recipes-extended/xen/files/vtpm-deepquote.patch
->  create mode 100644 recipes-extended/xen/files/vtpm-implicit-fallthrough.
-> patch
->  create mode 100644 recipes-extended/xen/files/vtpm-locality.patch
->  create mode 100644 recipes-extended/xen/files/vtpm-parent-sign-ek.patch
->  create mode 100644 recipes-extended/xen/tpm-emulator.inc
->  create mode 100644 recipes-extended/xen/tpm-emulator_0.7.4.bb
->
->
-Seeing whitespace damage in vtpm-locality.patch on: tpm/tpm_emulator.h
+Recipes to create slightly modified source packages for lwIP amd Mini-OS
+are introduced to standardize the dependency tree among stubdomain
+related recipes and to avoid the hassle of maintaining the same tasks
+within many recipes.
 
---000000000000d7b191056ac7a693
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Xen vTPM stubdomains have depencencies on static libraries for newlib,
+polarssl, gmp, and tpm emulator. Xen vTPM Manager stubdomain has
+dependencies on static libraries for newlib and polarssl.
 
-<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
-te">On Thu, Apr 26, 2018 at 1:15 PM, Kurt Bodiker <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:kurt.bodiker@braintrust-us.com" target=3D"_blank">kurt.bodik=
-er@braintrust-us.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">TPM Emulator is a software-based TPM and MTM emulator.=
- This TPM Emulator<br>
-recipe creates a static library that is cross-compiled against MiniOS,<br>
-Xen, LWIP, Newlib, PolarSSL, and the stubdom-specific GMP headers and<br>
-subsequently used during the cross-compilation and linking of the Xen<br>
-vTPM and vTPM Manager stubdomains.<br>
-<br>
-The current Xen source code is hardcoded to fetch a specific version of<br>
-this package. The patch files originate from the Xen/stubdom source<br>
-tree. This recipe provides the flexibility to change version or modify<br>
-the patches.<br>
-<br>
-Signed-off-by: Kurt Bodiker &lt;<a href=3D"mailto:kurt.bodiker@braintrust-u=
-s.com">kurt.bodiker@braintrust-us.<wbr>com</a>&gt;<br>
----<br>
-Changes in v3:<br>
-=C2=A0- none<br>
-Changes in v2:<br>
-=C2=A0- patches formatted to striplevel=3D1<br>
----<br>
-=C2=A0recipes-extended/xen/files/<wbr>tpmemu-0.7.4.patch=C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 12 ++<br>
-=C2=A0recipes-extended/xen/files/<wbr>vtpm-bufsize.patch=C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 13 ++<br>
-=C2=A0recipes-extended/xen/files/<wbr>vtpm-cmake-Wextra.patch |=C2=A0 21 ++=
-+<br>
-=C2=A0.../xen/files/vtpm-deepquote-<wbr>anyloc.patch=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 | 127 +++++++++++++<br>
-=C2=A0recipes-extended/xen/files/<wbr>vtpm-deepquote.patch=C2=A0 =C2=A0 | 1=
-87 ++++++++++++++++++++<br>
-=C2=A0.../xen/files/vtpm-implicit-<wbr>fallthrough.patch=C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 10 ++<br>
-=C2=A0recipes-extended/xen/files/<wbr>vtpm-locality.patch=C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 50 ++++++<br>
-=C2=A0.../xen/files/vtpm-parent-<wbr>sign-ek.patch=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 | 196 +++++++++++++++++++++<br>
-=C2=A0recipes-extended/xen/tpm-<wbr>emulator.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 37 ++++<br>
-=C2=A0recipes-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" rel=3D"=
-noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0|=C2=A0 26 +++<br>
-=C2=A010 files changed, 679 insertions(+)<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>tpmemu-0.7.4.patch=
-<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-bufsize.patch=
-<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-cmake-Wextra.=
-patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-deepquote-any=
-loc.patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-deepquote.pat=
-ch<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-implicit-fall=
-through.<wbr>patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-locality.patc=
-h<br>
-=C2=A0create mode 100644 recipes-extended/xen/files/<wbr>vtpm-parent-sign-e=
-k.patch<br>
-=C2=A0create mode 100644 recipes-extended/xen/tpm-<wbr>emulator.inc<br>
-=C2=A0create mode 100644 recipes-extended/xen/<a href=3D"http://tpm-emulato=
-r_0.7.4.bb" rel=3D"noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb=
-</a><br>
-<br></blockquote><div><br></div><div>Seeing whitespace damage in vtpm-local=
-ity.patch on:=C2=A0tpm/tpm_emulator.h</div></div></div></div>
+The newlib, polarssl, gmp, and tpm emulator recipes are constructed to
+behave the same as a bare-metal build. These recipes are cross-compiled
+against both the Xen and MiniOS source code.
 
---000000000000d7b191056ac7a693--
+The xen-vtpm recipe is responsible for building and installing the vTPM
+and vTPM Manager stubdomain images into the Xen boot directory. xen-vtpm
+would need to be added to DISTRO_FEATURES the similar for what is done
+for Xen.
+
+---
+Changes in v4:
+ - Fix whitespace errors in MiniOS, Newlib, and TPM Emulator patchfiles
+ - Corrected type in Newlib recipe
+Changes in v3:
+ - Limit builds to 64-bit only through COMPATIBLE_HOST
+ - Change Xen version comparison logic in xen-vtpm recipe
+ - Introduce MiniOS patch for GCC v7 that was not backported into the
+   4.9.x releases
+ - Change cross-root-${XEN_TARGET_ARCH} to cross-root-${GNU_TARGET_ARCH}
+Changes in v2:
+ - Multi-line variables formatted to match OE style guide
+ - SRC_URI formatted to use SRCREV rather than git tag
+ - patches formatted to striplevel=1
+ - introduced Mini-OS recipe
+ - Removed Xen dependency since this is handled (mostly) by Mini-OS
+ - Changed version number of xen-vtpm recipe to match Xen version
+---
+
+Kurt Bodiker (8):
+  Define standard values needed to build stubdomains
+  LWIP source code with patches applied for stubdoms
+  Mini-OS source code with make links target applied
+  Newlib recipe and patches for Xen stubdoms
+  PolarSSL recipe and patches for Xen stubdoms
+  GMP recipe for Xen stubdoms
+  TPM Emulator for Xen stubdoms
+  vTPM and vTPM Manager stubdoms
+
+ .../lwip.dhcp_create_request-hwaddr_len.patch      |   13 +
+ recipes-extended/xen/files/lwip.patch-cvs          | 2398 ++++++++++++++++++++
+ .../xen/files/mini-os_udivmoddi4-gcc7.patch        |   43 +
+ recipes-extended/xen/files/newlib-chk.patch        |  155 ++
+ .../newlib-stdint-size_max-fix-from-1.17.0.patch   |   16 +
+ recipes-extended/xen/files/newlib.patch            |  727 ++++++
+ recipes-extended/xen/files/polarssl.patch          |   64 +
+ recipes-extended/xen/files/tpmemu-0.7.4.patch      |   12 +
+ recipes-extended/xen/files/vtpm-bufsize.patch      |   13 +
+ recipes-extended/xen/files/vtpm-cmake-Wextra.patch |   21 +
+ .../xen/files/vtpm-deepquote-anyloc.patch          |  127 ++
+ recipes-extended/xen/files/vtpm-deepquote.patch    |  187 ++
+ .../xen/files/vtpm-implicit-fallthrough.patch      |   10 +
+ recipes-extended/xen/files/vtpm-locality.patch     |   50 +
+ .../xen/files/vtpm-parent-sign-ek.patch            |  196 ++
+ recipes-extended/xen/lwip.inc                      |   24 +
+ recipes-extended/xen/lwip_1.3.0.bb                 |   19 +
+ recipes-extended/xen/mini-os.inc                   |   28 +
+ recipes-extended/xen/mini-os_4.9.0.bb              |   18 +
+ recipes-extended/xen/newlib.inc                    |   64 +
+ recipes-extended/xen/newlib_1.16.0.bb              |   21 +
+ recipes-extended/xen/polarssl.inc                  |   27 +
+ recipes-extended/xen/polarssl_1.1.4.bb             |   19 +
+ recipes-extended/xen/stubdom-gmp.inc               |   37 +
+ recipes-extended/xen/stubdom-gmp_4.3.2.bb          |   20 +
+ recipes-extended/xen/stubdom.inc                   |  152 ++
+ recipes-extended/xen/tpm-emulator.inc              |   37 +
+ recipes-extended/xen/tpm-emulator_0.7.4.bb         |   26 +
+ recipes-extended/xen/xen-vtpm.inc                  |  111 +
+ recipes-extended/xen/xen-vtpm_4.9.0.bb             |   21 +
+ 30 files changed, 4656 insertions(+)
+ create mode 100644 recipes-extended/xen/files/lwip.dhcp_create_request-hwaddr_len.patch
+ create mode 100644 recipes-extended/xen/files/lwip.patch-cvs
+ create mode 100644 recipes-extended/xen/files/mini-os_udivmoddi4-gcc7.patch
+ create mode 100644 recipes-extended/xen/files/newlib-chk.patch
+ create mode 100644 recipes-extended/xen/files/newlib-stdint-size_max-fix-from-1.17.0.patch
+ create mode 100644 recipes-extended/xen/files/newlib.patch
+ create mode 100644 recipes-extended/xen/files/polarssl.patch
+ create mode 100644 recipes-extended/xen/files/tpmemu-0.7.4.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-bufsize.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-cmake-Wextra.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-deepquote-anyloc.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-deepquote.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-implicit-fallthrough.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-locality.patch
+ create mode 100644 recipes-extended/xen/files/vtpm-parent-sign-ek.patch
+ create mode 100644 recipes-extended/xen/lwip.inc
+ create mode 100644 recipes-extended/xen/lwip_1.3.0.bb
+ create mode 100644 recipes-extended/xen/mini-os.inc
+ create mode 100644 recipes-extended/xen/mini-os_4.9.0.bb
+ create mode 100644 recipes-extended/xen/newlib.inc
+ create mode 100644 recipes-extended/xen/newlib_1.16.0.bb
+ create mode 100644 recipes-extended/xen/polarssl.inc
+ create mode 100644 recipes-extended/xen/polarssl_1.1.4.bb
+ create mode 100644 recipes-extended/xen/stubdom-gmp.inc
+ create mode 100644 recipes-extended/xen/stubdom-gmp_4.3.2.bb
+ create mode 100644 recipes-extended/xen/stubdom.inc
+ create mode 100644 recipes-extended/xen/tpm-emulator.inc
+ create mode 100644 recipes-extended/xen/tpm-emulator_0.7.4.bb
+ create mode 100644 recipes-extended/xen/xen-vtpm.inc
+ create mode 100644 recipes-extended/xen/xen-vtpm_4.9.0.bb
+
+-- 
+2.14.2
+
+
+-- 
+
+*This email and all attachments are considered confidential and the 
+proprietary information of BrainTrust Holdings.  Unauthorized disclosure is 
+prohibited.  *
+
