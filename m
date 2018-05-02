@@ -1,68 +1,73 @@
-Return-Path: <kurt.bodiker@braintrust-us.com>
+Return-Path: <persaur@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2912EE009AC; Wed,  2 May 2018 06:08:46 -0700 (PDT)
+	id 50AA0E00A6A; Wed,  2 May 2018 11:30:01 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_LOW autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
-	http://www.dnswl.org/, low *      trust
-	*      [209.85.214.50 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, MIME_QP_LONG_LINE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (persaur[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* 0.0 MIME_QP_LONG_LINE RAW: Quoted-printable line longer than 76 chars
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-it0-f50.google.com (mail-it0-f50.google.com
-	[209.85.214.50])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA31FE00831
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.216.169 listed in list.dnswl.org]
+Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
+	[209.85.216.169])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4746DE00A1E
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 May 2018 06:08:44 -0700 (PDT)
-Received: by mail-it0-f50.google.com with SMTP id n202-v6so16696131ita.1
+	Wed,  2 May 2018 11:29:59 -0700 (PDT)
+Received: by mail-qt0-f169.google.com with SMTP id j42-v6so19625534qtj.12
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 02 May 2018 06:08:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=braintrust-us-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=tRAti3VVkbalKNonnXMmDpSC+jCKMx4J9S8rZlXIbHQ=;
-	b=Lj0p3N27wH1Hv3cRDIFmPOkkeBxNgMW1emnrFQWGR2MbfMbLPBx+mYSFqPVYFMdj02
-	6GKbttpottxtxyED0L13qaUvTnZv49NWyFHfbal2t+3EyjECOaoY3xSxHoRLacl2tj+f
-	nIxRuZmrwdou6UxyU7pPKQemxnmJLc7jl97OImdImfua/qHHTGx99olWjKMf+RUtaj3E
-	zXybgcMorFW1bAnldD0H0KXOaP3FdpDiQ23hKjpkzi3VNxhKk3VD3anLDi0boeNp5wzp
-	Ll7/aHzXgxJ6QyRpysl9437esSTgMaPgACvKRQ1Cn86Y2mUKGVkie8IrhARVG8au4B0r
-	D6Cg==
+	Wed, 02 May 2018 11:29:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=content-transfer-encoding:from:mime-version:subject:message-id:date
+	:to; bh=60gHiY2W+JolIWg7uBcl8wgkz70R998Ack+zT6FLfIc=;
+	b=nKlk0SFDt3O+XPCfgEg5Ojbc67qj0hN7scaPcBIAgN88yJO+l8zpf1Kj9bLFHtlySO
+	+5m1eBL78mhgXlwgZZh8xXDvcH8XtJMBH37LJ5uNv5igSR04oy8rw2eXZL5q4m+/vU3y
+	Ap6R04VXTZyzDFKr82+O2C2Sh9T3ChzCBCO9Vum4ogmp1vXMEimYPXw71UW+//h6Ngg9
+	EOvAJIMET1LU9KhbfQJhzmphXUgLX8D+YXTeEOlPwAenuR6hcFj1M/SxAot+57Avd541
+	IBD6/OIc/iGrB0bzatoQUuUwNqc7DlXewNtEgZChGX5XSGfdeljzJZOkFLTIObFgIoup
+	j4Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=tRAti3VVkbalKNonnXMmDpSC+jCKMx4J9S8rZlXIbHQ=;
-	b=I0ySQTwIiBEUKvbY0gCK/JZ30g1t9YgLJ8IaOF9p0dJE8OqDr1wydDyFL4+sgFrkvW
-	9KMToDBfzTmO+VicgvIqy1MODxlbbme8izE4fCwW8otrE4c+X1DFoIR7MyfnF7AJ+dBU
-	WirlktPA9hDwWsUeC0u6+RP+etTduFBjmkohJAzF1rfMwbKz/NTewtgj4ggYguSZe73+
-	dbuk0pHiMxpt8xcNg/ALjapLjDdwjCXBzeC6MzmqfcFsUr23mV7vBfTOgc/XdxhDbVS6
-	HXJU0fGb08Xxtat952/EYiBZH0kxNbxye9AKHeb1z8nTIdidAs7WThB38cnRzWoG99gW
-	mTHA==
-X-Gm-Message-State: ALQs6tAOEoeZRwArV1mkJbDbQD8dZL87bhFfvt7lpiUceScGfKombIUn
-	rq5vHS5p37Nnyi5u9gdQNSgRKSxWQiihdxCkTD5/Y94RacKq3Q+5tzGWEXlw5o1EMd7k1UDCSxv
-	yW5k8pqxkf5a0Hfj2pxjepm31kXoMsjeZ9BBEcb+Wgfa8
-X-Google-Smtp-Source: AB8JxZptTkG+D5U84UO1DxTKFiArIhDr9h0WxdBHXiQLtbyL+mN8dowwUjD+fFX3DaJNFQvxtA6FlurlUEQAhgv0Kqw=
-X-Received: by 2002:a24:64ce:: with SMTP id
-	t197-v6mr18870421itc.91.1525266523932; 
-	Wed, 02 May 2018 06:08:43 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a4f:4092:0:0:0:0:0 with HTTP;
-	Wed, 2 May 2018 06:08:43 -0700 (PDT)
-In-Reply-To: <CADkTA4OtS1rR9pcX5EHM5He_b0-zi3fZJw6AQp1hjY5R6ro_oQ@mail.gmail.com>
-References: <20180427164443.8590-1-kurt.bodiker@braintrust-us.com>
-	<CADkTA4OtS1rR9pcX5EHM5He_b0-zi3fZJw6AQp1hjY5R6ro_oQ@mail.gmail.com>
-From: "Bodiker, Kurt" <kurt.bodiker@braintrust-us.com>
-Date: Wed, 2 May 2018 09:08:43 -0400
-Message-ID: <CAGfCXKEWiFxVfSQcvi34aFeULcMA8Zegx5+BLSfLpw2NGmxjYg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/1] xen: TPM Emulator: Corrected license from GPL to GPLv2
+	h=x-gm-message-state:content-transfer-encoding:from:mime-version
+	:subject:message-id:date:to;
+	bh=60gHiY2W+JolIWg7uBcl8wgkz70R998Ack+zT6FLfIc=;
+	b=XpzGtqzcV/QvxChBQ696lSdOrSt6M3ITIeaYv6sNV80GNYUoD+Wg29cBG2t20uhJKp
+	y9CVaBs/guH0TKYhRadXb2AK5IZjzDAjxm5SPJ09VeYCdFlBOxvuIKoeOB5yTZ4dsfOc
+	1VV64rfYgcHbJimQ+ygeC+3DeTzG7AHyp4IY16i2fNZP0TvRwvay/jHUNOkCrlkht0D2
+	ddkhNylmIEvPsHING/pt5XyMI8oBYQCyo1Ea761KlrryeWuf/XzIEZM2baNAoWiagCHc
+	Z+dvjtqD9o+pycN3Vo9pjzOZg/A7COXhPIU7SXvgvRBhOUXcidITIjNFr4DIYj63XH9p
+	QQnw==
+X-Gm-Message-State: ALQs6tDtlHuuDx1EakBZleg9kUrTbcSaCiXY1WDz/Y7UMlN1VnGwHyhT
+	vqc5dFkS0i8Lp8S1MzpjB+Hpwe+PRdo=
+X-Google-Smtp-Source: AB8JxZoVIBMJDl11RP3ISF8vBOOqDiwj3ceexJwqaD5rvaBALZw4y0ajP2EJKk0IiHVqOschFmhruw==
+X-Received: by 2002:aed:3e19:: with SMTP id
+	l25-v6mr16487160qtf.143.1525285798526; 
+	Wed, 02 May 2018 11:29:58 -0700 (PDT)
+Received: from ?IPv6:2607:fb90:2428:880c:1c30:f738:eef6:e181?
+	([2607:fb90:2428:880c:1c30:f738:eef6:e181])
+	by smtp.gmail.com with ESMTPSA id
+	b13-v6sm7222190qtp.89.2018.05.02.11.29.57
+	for <meta-virtualization@yoctoproject.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 02 May 2018 11:29:57 -0700 (PDT)
+From: Rich Persaud <persaur@gmail.com>
+Mime-Version: 1.0 (1.0)
+Message-Id: <BB3BAB89-0582-47BD-B69F-6B01C6922237@gmail.com>
+Date: Wed, 2 May 2018 14:29:56 -0400
+To: meta-virtualization@yoctoproject.org
+X-Mailer: iPhone Mail (15E216)
+Subject: Platform Security Summit 2018
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,90 +80,22 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 13:08:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 02 May 2018 18:30:01 -0000
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-Bruce, I squashed that patch into the v5 series. Sorry for the confusion.
+PSEC 2018 brings together security researchers and developers from the open-=
+source ecosystems of OpenEmbedded, Xen Project and OpenXT, including present=
+ations by OE contributors Intel, Wind River and Star Lab.
 
-Kurt
+With a focus on hardware-based security and commercially extensible open sou=
+rce, this 2-day, single track event is for hardware and firmware engineers, V=
+MM and OS developers, security architects, integrators and senior technical s=
+taff. =20
 
-On Tue, May 1, 2018 at 11:18 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> After merging your v5 series, this doesn't look to be needed. Let me know=
- if
-> it does still need to be applied.
->
-> Bruce
->
-> On Fri, Apr 27, 2018 at 12:44 PM, Kurt Bodiker
-> <kurt.bodiker@braintrust-us.com> wrote:
->>
->> TPM Emulator is licensed under GPLv2.  Bitbake does not consider GPL a
->> valid license, so it throws a warning.  Fix that.
->>
->> Signed-off-by: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
->> ---
->> This patch is to be applied after applying the Xen vTPM patch series. It
->> corrects the license applicable to the TPM Emulator which I had
->> incorrectly listed in the recipe as GPL to the correct license type of
->> GPLv2.
->>
->>  recipes-extended/xen/tpm-emulator_0.7.4.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/recipes-extended/xen/tpm-emulator_0.7.4.bb
->> b/recipes-extended/xen/tpm-emulator_0.7.4.bb
->> index 7207676..f626929 100644
->> --- a/recipes-extended/xen/tpm-emulator_0.7.4.bb
->> +++ b/recipes-extended/xen/tpm-emulator_0.7.4.bb
->> @@ -3,7 +3,7 @@
->>
->>  DESCRIPTION =3D "TPM Emulator"
->>  HOMEPAGE =3D "http://xenbits.xen.org/xen-extfiles"
->> -LICENSE =3D "GPL"
->> +LICENSE =3D "GPLv2"
->>  LIC_FILES_CHKSUM =3D "file://README;md5=3Deeabd77cf8fd8a8bc42983884cb09=
-863"
->>
->>  SRC_URI =3D "\
->> --
->> 2.14.2
->>
->>
->> --
->>
->> *This email and all attachments are considered confidential and the
->> proprietary information of BrainTrust Holdings.  Unauthorized disclosure
->> is
->> prohibited.  *
->> --
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee=
- at
-> its end"
+Presentation abstracts, technical references and registration details are av=
+ailable at https://platformsecuritysummit.com
 
-
-
---=20
-Kurt Bodiker
-BrainTrust Holdings
-www.braintrust-us.com
-443-296-2186 office
-410-750-2119 fax
-
---=20
-
-*This email and all attachments are considered confidential and the=20
-proprietary information of BrainTrust Holdings.=C2=A0 Unauthorized disclosu=
-re is=20
-prohibited.=C2=A0 *
+Rich=
 
