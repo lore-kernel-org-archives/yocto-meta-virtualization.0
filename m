@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7A68CE009F4; Tue,  1 May 2018 20:18:14 -0700 (PDT)
+	id F1388E00A6A; Tue,  1 May 2018 20:18:53 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.215.48 listed in list.dnswl.org]
+	*      [209.85.215.50 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,53 +20,50 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
-	[209.85.215.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E8D54E009BC
+Received: from mail-lf0-f50.google.com (mail-lf0-f50.google.com
+	[209.85.215.50])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7FA22E00C6E
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  1 May 2018 20:18:11 -0700 (PDT)
-Received: by mail-lf0-f48.google.com with SMTP id j16-v6so18716596lfb.7
+	Tue,  1 May 2018 20:18:49 -0700 (PDT)
+Received: by mail-lf0-f50.google.com with SMTP id w8-v6so18749193lfe.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 01 May 2018 20:18:11 -0700 (PDT)
+	Tue, 01 May 2018 20:18:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=UIgl6/19UncGOlUwRmC2UZCeMVRHMiSmZbdGqjmPk38=;
-	b=VrIsSq9JL/F+UgIkbH81tj1OSJ6rjy/es2WPQfDHaAWb6bSuz3VCk23w2Y9ucGX/1M
-	ZR2WKgoY1hFSHP4NMG0SxNHGxSMqiCT05MLqhPuhmdKNWu186KSPCFFBouE1kBsTy5t1
-	AUEcSt/2WJnQpYF3/0bBKBb7/Hh+cw8r8+H3/JNpA3asMsLuNmKLb8jHQCtX+Z8GzCvK
-	J69WhgxQ68aMy8t9zcub2toSkAvCdRjJ4/yg7e5am3vYCYb1eZwekTUVg3ZW3FxheZc8
-	mHCB9bfbNA0QoGTOknTSF2IhKAqJC9JdBoOiqQmD4FcU92mBVFO3mKmw546Iz0lypAxX
-	QVCg==
+	:cc; bh=88mVdErk9JBY1fFiWDELuUDqUR+rHED/efaS7qAr5vg=;
+	b=f9EncJFeFDFICijCyjfTfx5w0D9FOYeII3MI1pMmBPKxk69krHC3VltXN1mhA1M7f9
+	SsTYUX9vRPE1nGjb3GzaHblnc6DsFIPRxk2h41sWHZmAp7jlgGjW+gMC7yYUGWTm01bO
+	mkakCC3fAmEW26/Z8MqOQUN742QInlRCdsnmf81NA2VnfNTfHBKfLgHxzPdaorTFGfo/
+	zYBGZOfFRe0E4BaliPG4jNapKh6Tc3yeWgMuTBSnVaJm8QRfLMMKNGmerR7dAFsDVSLb
+	A1pfLzkBe8u1z/0TSjzwiZhegbJCnjhALWbOxLKcpr6VPKQRWwm83dPbMLlcpkANbPGz
+	Nkig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=UIgl6/19UncGOlUwRmC2UZCeMVRHMiSmZbdGqjmPk38=;
-	b=n5WGIWcKxEb16jatveNjVqhr+s8OqtjKKfSRUNgAX2eK5Ob3lduC1ZSZxDHbqd2d2a
-	rGQByM2Wvxd0/YNnsRuieDTK6HTtZWNNSZkzzFlaphjr/SOHYtIuDLlX9wP8ue5JGDcr
-	4SVMHSQ3Cmm52JxTr6f4zVjsjmju4fbQPMwfi/XECiip75tYm/nvtYq4YTOFfIh3Tmo6
-	QEH5mBcz341ERh2KOyX13GlnQ2FR2qslHbD3wJecNEE82F3xNevOHK+/+lfFGRUkJwmF
-	jfdzD4j0vc7gfqlj4YJ9Qe1kyKl39SCKH5MzyGVDcKm+PeGr+4z9PoRDjXCV+Hd5Y8Il
-	bfbA==
-X-Gm-Message-State: ALQs6tA57b5DHcEtOcWU1Z1Tqsk1ZqchqyUZnRSDzyaKCWuVXfCq1quy
-	mzgwAPEpDA7S+f6ETPqG6gufAG+9F6wGi0M/lDE=
-X-Google-Smtp-Source: AB8JxZp5m0UJw7UjnYyBUrlvk9oXCggbojkhWM74MyCBNuUwkVZlO/H69EV428kek1be8Yiy1uJHj5vZQ7AnS4Wj8MU=
-X-Received: by 2002:a19:1895:: with SMTP id
-	21-v6mr10390686lfy.39.1525231090582; 
-	Tue, 01 May 2018 20:18:10 -0700 (PDT)
+	bh=88mVdErk9JBY1fFiWDELuUDqUR+rHED/efaS7qAr5vg=;
+	b=NkQRNo37qPGqsrNwaRV3/dw5IYT9QH3JUS6bcH2xxL99cNP55HOR47Uig55Kh6Za/z
+	Y4jzt62SOrqgoufUT6TV/FMTAn64+dXjtWb39oUZIREwgj2BLTFfM4sm7f6X9IkWzIsl
+	y6/uP0SiF4yOATw/mrFwhQ44mJyLywGJOZm9/+UtnGfO12ozz9zJzblumYYP3b0Xrzoj
+	MsQP81J5xiiYsCHF/MT0o1bbnSkXfp3q1dot1QVDbEjcMRPOkumBgb2LrwFZsrnCOA8M
+	MbwBq/aDSGJhDJp7BpdNIcnfiXkCKPdTquIir4YZsSY9q7H9Xw+8/FOWchLKtTs62GJ8
+	uaCg==
+X-Gm-Message-State: ALQs6tCVa4AbDLi9v9RsaifIIKRGaRdGJlYVKz1G+woc2eyzd7Ip+hz6
+	6zEOzn6YLTJuxm2HPN1MfetzJQdicyIQMXe0F4qtRQ==
+X-Google-Smtp-Source: AB8JxZrsJYA/cou4vdTubLcqwy0lfKsUJVf/USVtWHJH+hf206kE/tRU+bdms/RANN9WySjBPR1IsbUQGO9Pe1td8yc=
+X-Received: by 2002:a2e:82d6:: with SMTP id
+	n22-v6mr11663949ljh.142.1525231128186; 
+	Tue, 01 May 2018 20:18:48 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.51.7 with HTTP; Tue, 1 May 2018 20:18:10 -0700 (PDT)
-In-Reply-To: <CADkTA4MgBkyf15Mce33hp+pm4rkeb=pWvDaosb-uTqK-kCDV2w@mail.gmail.com>
-References: <cover.1525180972.git.kurt.bodiker@braintrust-us.com>
-	<CACMJ4GadnwJBVVMqVX5XRSdz8Gc_X0_aOHi8CeUfZ9eVf_g5cg@mail.gmail.com>
-	<CADkTA4MgBkyf15Mce33hp+pm4rkeb=pWvDaosb-uTqK-kCDV2w@mail.gmail.com>
+Received: by 10.46.51.7 with HTTP; Tue, 1 May 2018 20:18:47 -0700 (PDT)
+In-Reply-To: <20180427164443.8590-1-kurt.bodiker@braintrust-us.com>
+References: <20180427164443.8590-1-kurt.bodiker@braintrust-us.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 1 May 2018 23:18:10 -0400
-Message-ID: <CADkTA4OzfteRs4DnvuvzwX1oH847hb6HGGMTO7JvSQnscwfEeQ@mail.gmail.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@yoctoproject.org,
-	Kurt Bodiker <kurt.bodiker@braintrust-us.com>
-Subject: Re: [PATCH v5 0/8] xen: Xen vTPM stubdomains
+Date: Tue, 1 May 2018 23:18:47 -0400
+Message-ID: <CADkTA4OtS1rR9pcX5EHM5He_b0-zi3fZJw6AQp1hjY5R6ro_oQ@mail.gmail.com>
+To: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH 1/1] xen: TPM Emulator: Corrected license from GPL to GPLv2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -79,127 +76,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 03:18:14 -0000
-Content-Type: multipart/alternative; boundary="0000000000005ac9ac056b3089d3"
+X-List-Received-Date: Wed, 02 May 2018 03:18:54 -0000
+Content-Type: multipart/alternative; boundary="00000000000098955c056b308b24"
 
---0000000000005ac9ac056b3089d3
+--00000000000098955c056b308b24
 Content-Type: text/plain; charset="UTF-8"
 
-This is now merged.
+After merging your v5 series, this doesn't look to be needed. Let me know
+if it does still need to be applied.
 
 Bruce
 
-On Tue, May 1, 2018 at 1:49 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
+On Fri, Apr 27, 2018 at 12:44 PM, Kurt Bodiker <
+kurt.bodiker@braintrust-us.com> wrote:
 
-> Looks good to me as well.
+> TPM Emulator is licensed under GPLv2.  Bitbake does not consider GPL a
+> valid license, so it throws a warning.  Fix that.
 >
-> I'm out of the office on vacation, and am having trouble reaching my build
-> machines, so it will likely be Friday before I can get this merged.
+> Signed-off-by: Kurt Bodiker <kurt.bodiker@braintrust-us.com>
+> ---
+> This patch is to be applied after applying the Xen vTPM patch series. It
+> corrects the license applicable to the TPM Emulator which I had
+> incorrectly listed in the recipe as GPL to the correct license type of
+> GPLv2.
 >
-> Bruce
+>  recipes-extended/xen/tpm-emulator_0.7.4.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> On Tue, May 1, 2018 at 1:22 PM, Christopher Clark <
-> christopher.w.clark@gmail.com> wrote:
+> diff --git a/recipes-extended/xen/tpm-emulator_0.7.4.bb
+> b/recipes-extended/xen/tpm-emulator_0.7.4.bb
+> index 7207676..f626929 100644
+> --- a/recipes-extended/xen/tpm-emulator_0.7.4.bb
+> +++ b/recipes-extended/xen/tpm-emulator_0.7.4.bb
+> @@ -3,7 +3,7 @@
 >
->>
->>
->> On Tue, May 1, 2018 at 7:05 AM, Kurt Bodiker <
->> kurt.bodiker@braintrust-us.com> wrote:
->>
->>> This patchset introduces the basic recipes necessary to build Xen
->>> stubdomains, in particular the vTPM and vTPM Manager stubdomains. vTPM
->>> stubdomains provide Xen guest domains access to a virtualized TPM. The
->>> vTPM Manager stubdomain manages each of the vTPM domains and seals them
->>> to the physical TPM. The intention of this patchset is to provide the
->>> ability to build Xen stubdomains separately from the rest of the Xen
->>> components since the stubdomains have separate dependencies that are
->>> hard-coded within the Xen build and configuration files.  Separating the
->>> stubdomain recipes and dependencies from the rest of the Xen build gives
->>> the ability to use newer or different libraries than what is currently
->>> used.
->>>
->>> The stubdom.inc file defines a set of CPPFLAGS, CFLAGS, and LDFLAGS
->>> common for building all Xen stubdomains. Xen stubdomains are
->>> cross-compiled with the MiniOS, which creates some issues when trying to
->>> compile stubdomains in an OpenEmbedded environment. To address these
->>> issues and to ensure the stubdoms are built as Xen had intended, all of
->>> the build flags and build tools that are exported into the environment
->>> by OE have been unset. Each of the new recipes introduced here then
->>> implements the build flags and the tools as though the build had been
->>> run in the bare-metal environment.
->>>
->>> Recipes to create slightly modified source packages for lwIP amd Mini-OS
->>> are introduced to standardize the dependency tree among stubdomain
->>> related recipes and to avoid the hassle of maintaining the same tasks
->>> within many recipes.
->>>
->>> Xen vTPM stubdomains have depencencies on static libraries for newlib,
->>> polarssl, gmp, and tpm emulator. Xen vTPM Manager stubdomain has
->>> dependencies on static libraries for newlib and polarssl.
->>>
->>> The newlib, polarssl, gmp, and tpm emulator recipes are constructed to
->>> behave the same as a bare-metal build. These recipes are cross-compiled
->>> against both the Xen and MiniOS source code.
->>>
->>> The xen-vtpm recipe is responsible for building and installing the vTPM
->>> and vTPM Manager stubdomain images into the Xen boot directory. xen-vtpm
->>> would need to be added to DISTRO_FEATURES the similar for what is done
->>> for Xen.
->>>
->>> ---
->>> Changes in v5:
->>>  - Correct license in TPM Emulator recipe
->>>  - Remove aarch64 from COMPATIBLE_HOST in stubdom.inc
->>> Changes in v4:
->>>  - Fix whitespace errors in MiniOS, Newlib, and TPM Emulator patchfiles
->>>  - Corrected type in Newlib recipe
->>> Changes in v3:
->>>  - Limit builds to 64-bit only through COMPATIBLE_HOST
->>>  - Change Xen version comparison logic in xen-vtpm recipe
->>>  - Introduce MiniOS patch for GCC v7 that was not backported into the
->>>    4.9.x releases
->>>  - Change cross-root-${XEN_TARGET_ARCH} to cross-root-${GNU_TARGET_ARCH}
->>> Changes in v2:
->>>  - Multi-line variables formatted to match OE style guide
->>>  - SRC_URI formatted to use SRCREV rather than git tag
->>>  - patches formatted to striplevel=1
->>>  - introduced Mini-OS recipe
->>>  - Removed Xen dependency since this is handled (mostly) by Mini-OS
->>>  - Changed version number of xen-vtpm recipe to match Xen version
->>> ---
->>>
->>> Kurt Bodiker (8):
->>>   Define standard values needed to build stubdomains
->>>   LWIP source code with patches applied for stubdoms
->>>   Mini-OS source code with make links target applied
->>>   Newlib recipe and patches for Xen stubdoms
->>>   PolarSSL recipe and patches for Xen stubdoms
->>>   GMP recipe for Xen stubdoms
->>>   TPM Emulator for Xen stubdoms
->>>   vTPM and vTPM Manager stubdoms
->>>
->>>
->> For this whole series (v5):
->> Reviewed-by: Christopher Clark <christopher.clark6@baesystems.com>
->>
->> Thanks,
->>
->> Christopher
->>
->>
->> --
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>
->>
+>  DESCRIPTION = "TPM Emulator"
+>  HOMEPAGE = "http://xenbits.xen.org/xen-extfiles"
+> -LICENSE = "GPL"
+> +LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://README;md5=eeabd77cf8fd8a8bc42983884cb09863"
+>
+>  SRC_URI = "\
+> --
+> 2.14.2
 >
 >
 > --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await thee
-> at its end"
+>
+> *This email and all attachments are considered confidential and the
+> proprietary information of BrainTrust Holdings.  Unauthorized disclosure
+> is
+> prohibited.  *
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
 
 
@@ -208,135 +140,77 @@ wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---0000000000005ac9ac056b3089d3
+--00000000000098955c056b308b24
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">This is now merged.<div><br></div><div>Bruce</div></div><d=
-iv class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Tue, May 1, 2018=
- at 1:49 PM, Bruce Ashfield <span dir=3D"ltr">&lt;<a href=3D"mailto:bruce.a=
-shfield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;</span=
-> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr">Looks good to m=
-e as well.<div><br></div><div>I&#39;m out of the office on vacation, and am=
- having trouble reaching my build machines, so it will likely be Friday bef=
-ore I can get this merged.</div><div><br></div><div>Bruce</div></div><div c=
-lass=3D"gmail_extra"><br><div class=3D"gmail_quote"><div><div class=3D"h5">=
-On Tue, May 1, 2018 at 1:22 PM, Christopher Clark <span dir=3D"ltr">&lt;<a =
-href=3D"mailto:christopher.w.clark@gmail.com" target=3D"_blank">christopher=
-.w.clark@gmail.com</a><wbr>&gt;</span> wrote:<br></div></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><div><div class=3D"h5"><div dir=3D"ltr"><br><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote"><div><div class=3D"m_1570275457=
-985814892h5">On Tue, May 1, 2018 at 7:05 AM, Kurt Bodiker <span dir=3D"ltr"=
->&lt;<a href=3D"mailto:kurt.bodiker@braintrust-us.com" target=3D"_blank">ku=
-rt.bodiker@braintrust-us.co<wbr>m</a>&gt;</span> wrote:<br><blockquote clas=
-s=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pad=
-ding-left:1ex">This patchset introduces the basic recipes necessary to buil=
-d Xen<br>
-stubdomains, in particular the vTPM and vTPM Manager stubdomains. vTPM<br>
-stubdomains provide Xen guest domains access to a virtualized TPM. The<br>
-vTPM Manager stubdomain manages each of the vTPM domains and seals them<br>
-to the physical TPM. The intention of this patchset is to provide the<br>
-ability to build Xen stubdomains separately from the rest of the Xen<br>
-components since the stubdomains have separate dependencies that are<br>
-hard-coded within the Xen build and configuration files.=C2=A0 Separating t=
-he<br>
-stubdomain recipes and dependencies from the rest of the Xen build gives<br=
->
-the ability to use newer or different libraries than what is currently<br>
-used.<br>
+<div dir=3D"ltr">After merging your v5 series, this doesn&#39;t look to be =
+needed. Let me know if it does still need to be applied.<div><br></div><div=
+>Bruce</div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_quote"=
+>On Fri, Apr 27, 2018 at 12:44 PM, Kurt Bodiker <span dir=3D"ltr">&lt;<a hr=
+ef=3D"mailto:kurt.bodiker@braintrust-us.com" target=3D"_blank">kurt.bodiker=
+@braintrust-us.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
+TPM Emulator is licensed under GPLv2.=C2=A0 Bitbake does not consider GPL a=
 <br>
-The stubdom.inc file defines a set of CPPFLAGS, CFLAGS, and LDFLAGS<br>
-common for building all Xen stubdomains. Xen stubdomains are<br>
-cross-compiled with the MiniOS, which creates some issues when trying to<br=
->
-compile stubdomains in an OpenEmbedded environment. To address these<br>
-issues and to ensure the stubdoms are built as Xen had intended, all of<br>
-the build flags and build tools that are exported into the environment<br>
-by OE have been unset. Each of the new recipes introduced here then<br>
-implements the build flags and the tools as though the build had been<br>
-run in the bare-metal environment.<br>
+valid license, so it throws a warning.=C2=A0 Fix that.<br>
 <br>
-Recipes to create slightly modified source packages for lwIP amd Mini-OS<br=
->
-are introduced to standardize the dependency tree among stubdomain<br>
-related recipes and to avoid the hassle of maintaining the same tasks<br>
-within many recipes.<br>
-<br>
-Xen vTPM stubdomains have depencencies on static libraries for newlib,<br>
-polarssl, gmp, and tpm emulator. Xen vTPM Manager stubdomain has<br>
-dependencies on static libraries for newlib and polarssl.<br>
-<br>
-The newlib, polarssl, gmp, and tpm emulator recipes are constructed to<br>
-behave the same as a bare-metal build. These recipes are cross-compiled<br>
-against both the Xen and MiniOS source code.<br>
-<br>
-The xen-vtpm recipe is responsible for building and installing the vTPM<br>
-and vTPM Manager stubdomain images into the Xen boot directory. xen-vtpm<br=
->
-would need to be added to DISTRO_FEATURES the similar for what is done<br>
-for Xen.<br>
-<br>
+Signed-off-by: Kurt Bodiker &lt;<a href=3D"mailto:kurt.bodiker@braintrust-u=
+s.com">kurt.bodiker@braintrust-us.<wbr>com</a>&gt;<br>
 ---<br>
-Changes in v5:<br>
-=C2=A0- Correct license in TPM Emulator recipe<br>
-=C2=A0- Remove aarch64 from COMPATIBLE_HOST in stubdom.inc <br>
-Changes in v4:<br>
-=C2=A0- Fix whitespace errors in MiniOS, Newlib, and TPM Emulator patchfile=
-s<br>
-=C2=A0- Corrected type in Newlib recipe<br>
-Changes in v3:<br>
-=C2=A0- Limit builds to 64-bit only through COMPATIBLE_HOST <br>
-=C2=A0- Change Xen version comparison logic in xen-vtpm recipe<br>
-=C2=A0- Introduce MiniOS patch for GCC v7 that was not backported into the<=
-br>
-=C2=A0 =C2=A04.9.x releases<br>
-=C2=A0- Change cross-root-${XEN_TARGET_ARCH} to cross-root-${GNU_TARGET_ARC=
-H}<br>
-Changes in v2:<br>
-=C2=A0- Multi-line variables formatted to match OE style guide<br>
-=C2=A0- SRC_URI formatted to use SRCREV rather than git tag<br>
-=C2=A0- patches formatted to striplevel=3D1<br>
-=C2=A0- introduced Mini-OS recipe<br>
-=C2=A0- Removed Xen dependency since this is handled (mostly) by Mini-OS<br=
+This patch is to be applied after applying the Xen vTPM patch series. It<br=
 >
-=C2=A0- Changed version number of xen-vtpm recipe to match Xen version<br>
----<br>
+corrects the license applicable to the TPM Emulator which I had<br>
+incorrectly listed in the recipe as GPL to the correct license type of<br>
+GPLv2.<br>
 <br>
-Kurt Bodiker (8):<br>
-=C2=A0 Define standard values needed to build stubdomains<br>
-=C2=A0 LWIP source code with patches applied for stubdoms<br>
-=C2=A0 Mini-OS source code with make links target applied<br>
-=C2=A0 Newlib recipe and patches for Xen stubdoms<br>
-=C2=A0 PolarSSL recipe and patches for Xen stubdoms<br>
-=C2=A0 GMP recipe for Xen stubdoms<br>
-=C2=A0 TPM Emulator for Xen stubdoms<br>
-=C2=A0 vTPM and vTPM Manager stubdoms<br><span class=3D"m_15702754579858148=
-92m_1524131438155634729HOEnZb"><font color=3D"#888888"><br></font></span></=
-blockquote><div><br></div></div></div><div>For this whole series (v5):</div=
-><div>Reviewed-by: Christopher Clark &lt;<a href=3D"mailto:christopher.clar=
-k6@baesystems.com" target=3D"_blank">christopher.clark6@baesystems<wbr>.com=
-</a>&gt;</div><div><br></div><div>Thanks,</div><div><br></div><div>Christop=
-her=C2=A0</div></div><br></div></div>
-<br></div></div><span class=3D"">-- <br>
+=C2=A0recipes-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/recipes-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" =
+rel=3D"noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a> b/recip=
+es-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" rel=3D"noreferrer"=
+ target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a><br>
+index 7207676..f626929 100644<br>
+--- a/recipes-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a><br>
++++ b/recipes-extended/xen/<a href=3D"http://tpm-emulator_0.7.4.bb" rel=3D"=
+noreferrer" target=3D"_blank">tpm-<wbr>emulator_0.7.4.bb</a><br>
+@@ -3,7 +3,7 @@<br>
+<br>
+=C2=A0DESCRIPTION =3D &quot;TPM Emulator&quot;<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"http://xenbits.xen.org/xen-extfiles" re=
+l=3D"noreferrer" target=3D"_blank">http://xenbits.xen.org/xen-<wbr>extfiles=
+</a>&quot;<br>
+-LICENSE =3D &quot;GPL&quot;<br>
++LICENSE =3D &quot;GPLv2&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://README;md5=3D<wbr>eeabd77cf8fd8a8bc=
+42983884cb098<wbr>63&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;\<br>
+-- <br>
+2.14.2<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+<br>
+-- <br>
+<br>
+*This email and all attachments are considered confidential and the <br>
+proprietary information of BrainTrust Holdings.=C2=A0 Unauthorized disclosu=
+re is <br>
+prohibited.=C2=A0 *<br>
+-- <br>
 ______________________________<wbr>_________________<br>
 meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_blank">m=
-eta-virtualization@yoctoproje<wbr>ct.org</a><br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
 <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org<wbr>/listi=
-nfo/meta-virtualization</a><br>
-<br></span></blockquote></div><span class=3D"HOEnZb"><font color=3D"#888888=
-"><br><br clear=3D"all"><div><br></div>-- <br><div class=3D"m_1570275457985=
-814892gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
-not follow the NULL pointer, for chaos and madness await thee at its end&qu=
-ot;</div>
-</font></span></div>
-</blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div class=
-=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt no=
-t follow the NULL pointer, for chaos and madness await thee at its end&quot=
-;</div>
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
 </div>
 
---0000000000005ac9ac056b3089d3--
+--00000000000098955c056b308b24--
