@@ -1,73 +1,71 @@
-Return-Path: <persaur@gmail.com>
+Return-Path: <costamagna.gianfranco@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 50AA0E00A6A; Wed,  2 May 2018 11:30:01 -0700 (PDT)
+	id 33F71E0086B; Tue,  8 May 2018 03:28:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, MIME_QP_LONG_LINE,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (persaur[at]gmail.com)
+	mail provider *      (costamagna.gianfranco[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.128.193 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 MIME_QP_LONG_LINE RAW: Quoted-printable line longer than 76 chars
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.216.169 listed in list.dnswl.org]
-Received: from mail-qt0-f169.google.com (mail-qt0-f169.google.com
-	[209.85.216.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4746DE00A1E
+Received: from mail-wr0-f193.google.com (mail-wr0-f193.google.com
+	[209.85.128.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 87F46E005A9
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  2 May 2018 11:29:59 -0700 (PDT)
-Received: by mail-qt0-f169.google.com with SMTP id j42-v6so19625534qtj.12
+	Tue,  8 May 2018 03:28:20 -0700 (PDT)
+Received: by mail-wr0-f193.google.com with SMTP id g21-v6so31717449wrb.8
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 02 May 2018 11:29:59 -0700 (PDT)
+	Tue, 08 May 2018 03:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=content-transfer-encoding:from:mime-version:subject:message-id:date
-	:to; bh=60gHiY2W+JolIWg7uBcl8wgkz70R998Ack+zT6FLfIc=;
-	b=nKlk0SFDt3O+XPCfgEg5Ojbc67qj0hN7scaPcBIAgN88yJO+l8zpf1Kj9bLFHtlySO
-	+5m1eBL78mhgXlwgZZh8xXDvcH8XtJMBH37LJ5uNv5igSR04oy8rw2eXZL5q4m+/vU3y
-	Ap6R04VXTZyzDFKr82+O2C2Sh9T3ChzCBCO9Vum4ogmp1vXMEimYPXw71UW+//h6Ngg9
-	EOvAJIMET1LU9KhbfQJhzmphXUgLX8D+YXTeEOlPwAenuR6hcFj1M/SxAot+57Avd541
-	IBD6/OIc/iGrB0bzatoQUuUwNqc7DlXewNtEgZChGX5XSGfdeljzJZOkFLTIObFgIoup
-	j4Bg==
+	h=from:to:cc:subject:date:message-id;
+	bh=HTgQtde3zzmlbJBr8p2cGZWZUYsj+ug8lw0zHGmADeU=;
+	b=W9bA7lO5lUevDWJG9eWoUYk93fwj4rAB/7LHjfFVMTobh6o+a6XU0zZqKGC/E2TUs+
+	BPLMyaP9SiWBwmUmOH46esi6Xhaw3412qXli05xFpfwVs7SmRciLZOmJVtTkekq1eJvQ
+	ClcZh9viXPb2jtLkXlqAYZtcakLwuQMscD261qv1YSOZLyvctkOdegdg+c5dqCcI/pEQ
+	0tjN7KgsB4Qngf8MvZJJRbZjp4kjPSILIFi894IVPIl2xQCsbDYthZxCb6HvGdGD77ig
+	nTjvyOZ4fpDU4Ayt6D4dXtMV4fUxuAD32JiPImZHeIu0zqTY13xliuzSBLYhq8eYbJ/u
+	Swww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:content-transfer-encoding:from:mime-version
-	:subject:message-id:date:to;
-	bh=60gHiY2W+JolIWg7uBcl8wgkz70R998Ack+zT6FLfIc=;
-	b=XpzGtqzcV/QvxChBQ696lSdOrSt6M3ITIeaYv6sNV80GNYUoD+Wg29cBG2t20uhJKp
-	y9CVaBs/guH0TKYhRadXb2AK5IZjzDAjxm5SPJ09VeYCdFlBOxvuIKoeOB5yTZ4dsfOc
-	1VV64rfYgcHbJimQ+ygeC+3DeTzG7AHyp4IY16i2fNZP0TvRwvay/jHUNOkCrlkht0D2
-	ddkhNylmIEvPsHING/pt5XyMI8oBYQCyo1Ea761KlrryeWuf/XzIEZM2baNAoWiagCHc
-	Z+dvjtqD9o+pycN3Vo9pjzOZg/A7COXhPIU7SXvgvRBhOUXcidITIjNFr4DIYj63XH9p
-	QQnw==
-X-Gm-Message-State: ALQs6tDtlHuuDx1EakBZleg9kUrTbcSaCiXY1WDz/Y7UMlN1VnGwHyhT
-	vqc5dFkS0i8Lp8S1MzpjB+Hpwe+PRdo=
-X-Google-Smtp-Source: AB8JxZoVIBMJDl11RP3ISF8vBOOqDiwj3ceexJwqaD5rvaBALZw4y0ajP2EJKk0IiHVqOschFmhruw==
-X-Received: by 2002:aed:3e19:: with SMTP id
-	l25-v6mr16487160qtf.143.1525285798526; 
-	Wed, 02 May 2018 11:29:58 -0700 (PDT)
-Received: from ?IPv6:2607:fb90:2428:880c:1c30:f738:eef6:e181?
-	([2607:fb90:2428:880c:1c30:f738:eef6:e181])
-	by smtp.gmail.com with ESMTPSA id
-	b13-v6sm7222190qtp.89.2018.05.02.11.29.57
-	for <meta-virtualization@yoctoproject.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HTgQtde3zzmlbJBr8p2cGZWZUYsj+ug8lw0zHGmADeU=;
+	b=NL9vH3k2FKnrt2Eo8cXltCTLGW8PPXqTQJOHyL7hYybm+s5FC00FrBHaiLzeH4594t
+	dLG+MXamxsoSUaCmELYl0flHz9apR8U3zOMaRL7Z+6z5vObq1SlZv9BOBWz+EpMJaoZy
+	L8JfXCdbhcIoy6/3yammOt+7Owu0Ctk8MySgmQ3ZV0DnRJPx1DrjMaImRRgyJoRSRHUL
+	7IqCOqg+l/DTSQjolEvWHJim/hrMTc2Fh+QShAWQuxfm4LQNQ24XIWFuYqptONqzn69D
+	NPwORg5viBkCcO8GnSwqYXX2WFyLU7u14uYco4osx7CnVrOJfX00chB7hKj0WDZm7qYq
+	JZnw==
+X-Gm-Message-State: ALQs6tBeFdu955K2zdR9b63Fv6RgcvDoqiQYeWaFb4AiGQgKaedeN4L2
+	j9ukDmSHwipFQXzW/db4MbGSxi2U
+X-Google-Smtp-Source: AB8JxZquPfqD98JQjHlA7TPy1+La2bYrebBU0s/M86dRdJUSJxATjEmQZuqilKdtSPXLjT7baeE7yw==
+X-Received: by 2002:adf:c4c4:: with SMTP id
+	o4-v6mr32440573wrf.173.1525775298668; 
+	Tue, 08 May 2018 03:28:18 -0700 (PDT)
+Received: from localhost.localdomain (mi-18-46-152.service.infuturo.it.
+	[151.18.46.152]) by smtp.gmail.com with ESMTPSA id
+	b123-v6sm9948663wme.22.2018.05.08.03.28.16
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 02 May 2018 11:29:57 -0700 (PDT)
-From: Rich Persaud <persaur@gmail.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <BB3BAB89-0582-47BD-B69F-6B01C6922237@gmail.com>
-Date: Wed, 2 May 2018 14:29:56 -0400
+	Tue, 08 May 2018 03:28:17 -0700 (PDT)
+From: Gianfranco Costamagna <costamagna.gianfranco@gmail.com>
+X-Google-Original-From: Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
 To: meta-virtualization@yoctoproject.org
-X-Mailer: iPhone Mail (15E216)
-Subject: Platform Security Summit 2018
+Date: Tue,  8 May 2018 12:28:12 +0200
+Message-Id: <20180508102812.25246-1-costamagnagianfranco@yahoo.it>
+X-Mailer: git-send-email 2.14.1
+Cc: Gianfranco Costamagna <gianfranco.costamagna@abinsula.com>,
+	Gianfranco Costamagna <costamagnagianfranco@yahoo.it>
+Subject: [PATCH] lxc: enable fix apparmor feature name. A typo called it "apparmour", back in commit 7a62620ea09f01c1f2a730cbb1264202276f2b87 Changing the default to the right value
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -80,22 +78,27 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 02 May 2018 18:30:01 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+X-List-Received-Date: Tue, 08 May 2018 10:28:22 -0000
 
-PSEC 2018 brings together security researchers and developers from the open-=
-source ecosystems of OpenEmbedded, Xen Project and OpenXT, including present=
-ations by OE contributors Intel, Wind River and Star Lab.
+Signed-off-by: Gianfranco Costamagna <gianfranco.costamagna@abinsula.com>
+---
+ recipes-containers/lxc/lxc_2.0.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-With a focus on hardware-based security and commercially extensible open sou=
-rce, this 2-day, single track event is for hardware and firmware engineers, V=
-MM and OS developers, security architects, integrators and senior technical s=
-taff. =20
+diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
+index d8607f8..c87b875 100644
+--- a/recipes-containers/lxc/lxc_2.0.8.bb
++++ b/recipes-containers/lxc/lxc_2.0.8.bb
+@@ -65,7 +65,7 @@ PACKAGECONFIG ??= "templates \
+ "
+ PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
+ PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
+-PACKAGECONFIG[apparmour] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
++PACKAGECONFIG[apparmor] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+ PACKAGECONFIG[templates] = ",,, ${PN}-templates"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
+ PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
+-- 
+2.14.1
 
-Presentation abstracts, technical references and registration details are av=
-ailable at https://platformsecuritysummit.com
-
-Rich=
 
