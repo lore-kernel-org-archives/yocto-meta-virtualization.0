@@ -1,6 +1,6 @@
 Return-Path: <leimaohui@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C86BDE00C76; Sun, 20 May 2018 18:56:03 -0700 (PDT)
+	id 8A81DE00C88; Sun, 20 May 2018 18:56:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -13,32 +13,32 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	date * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F3760E00A51
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D3F90E00A51
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 20 May 2018 18:56:02 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40140964"
+	Sun, 20 May 2018 18:56:03 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40140966"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 21 May 2018 09:55:59 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7A4C74B3EF1F
+	by cn.fujitsu.com (Postfix) with ESMTP id 9B29F4B3EF2E
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 May 2018 09:55:54 +0800 (CST)
+	Mon, 21 May 2018 09:55:55 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.27) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Mon, 21 May 2018 09:55:56 +0800
+	Server (TLS) id 14.3.399.0; Mon, 21 May 2018 09:55:57 +0800
 From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 11 May 2018 10:03:04 -0700
-Message-ID: <1526058191-56109-2-git-send-email-leimaohui@cn.fujitsu.com>
+Date: Fri, 11 May 2018 10:03:06 -0700
+Message-ID: <1526058191-56109-4-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1526058191-56109-1-git-send-email-leimaohui@cn.fujitsu.com>
 References: <1526058191-56109-1-git-send-email-leimaohui@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.27]
-X-yoursite-MailScanner-ID: 7A4C74B3EF1F.AFC58
+X-yoursite-MailScanner-ID: 9B29F4B3EF2E.A1966
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-Subject: [oe-virtualization][meta-cloud-services][PATCH 1/8] python-debtcollector Fix buid error as following:
+Subject: [oe-virtualization][meta-cloud-services][PATCH 3/8] python-keystoneauth1: Fix build error as following:
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,21 +51,21 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2018 01:56:03 -0000
+X-List-Received-Date: Mon, 21 May 2018 01:56:04 -0000
 Content-Type: text/plain
 
 "distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('pbr>=2.0.0')"
 
 Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- .../recipes-devtools/python/python-debtcollector_1.17.1.bb           | 5 +++++
+ meta-openstack/recipes-devtools/python/python-keystoneauth1_3.2.0.bb | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector_1.17.1.bb b/meta-openstack/recipes-devtools/python/python-debtcollector_1.17.1.bb
-index 8d74ace..52b1319 100644
---- a/meta-openstack/recipes-devtools/python/python-debtcollector_1.17.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-debtcollector_1.17.1.bb
-@@ -14,6 +14,11 @@ DEPENDS += " \
+diff --git a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.2.0.bb b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.2.0.bb
+index 9f545c1..6466056 100644
+--- a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.2.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.2.0.bb
+@@ -13,6 +13,11 @@ DEPENDS += " \
          python-pbr \
          "
  
@@ -74,9 +74,9 @@ index 8d74ace..52b1319 100644
 +        python-pbr-native \
 +        "
 +
- # RDEPENDS_default:
  RDEPENDS_${PN} += " \
          python-pbr \
+         python-iso8601 \
 -- 
 1.9.1
 
