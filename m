@@ -1,6 +1,6 @@
 Return-Path: <leimaohui@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A48C8E00C5D; Thu, 24 May 2018 18:48:39 -0700 (PDT)
+	id DE5A2E007DA; Thu, 24 May 2018 18:48:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -13,32 +13,32 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	date * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5B6A9E007DA
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 36A00E006F1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 May 2018 18:48:35 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40347818"
+	Thu, 24 May 2018 18:48:36 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40347821"
 Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 25 May 2018 09:48:33 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 771E74D0EFFC
+	by cn.fujitsu.com (Postfix) with ESMTP id 61A754B40403
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 25 May 2018 09:48:27 +0800 (CST)
+	Fri, 25 May 2018 09:48:28 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.27) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Fri, 25 May 2018 09:48:28 +0800
+	Server (TLS) id 14.3.399.0; Fri, 25 May 2018 09:48:29 +0800
 From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 15 May 2018 09:55:47 -0700
-Message-ID: <1526403350-11091-6-git-send-email-leimaohui@cn.fujitsu.com>
+Date: Tue, 15 May 2018 09:55:48 -0700
+Message-ID: <1526403350-11091-7-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1526403350-11091-1-git-send-email-leimaohui@cn.fujitsu.com>
 References: <1526403350-11091-1-git-send-email-leimaohui@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.27]
-X-yoursite-MailScanner-ID: 771E74D0EFFC.A0113
+X-yoursite-MailScanner-ID: 61A754B40403.AAA47
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-Subject: [PATCH 5/8] python-oslo.middleware: Fix build error as following:
+Subject: [PATCH 6/8] python-sqlalchemy-migrate: Fix build error as following:
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,32 +51,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 01:48:39 -0000
+X-List-Received-Date: Fri, 25 May 2018 01:48:40 -0000
 Content-Type: text/plain
 
-"distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('pbr>=2.0.0')"
+distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('pbr>=2.0.0')
 
 Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ .../recipes-devtools/python/python-sqlalchemy-migrate_0.11.0.bb    | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb
-index b02d653..3a1d4d9 100644
---- a/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb
-@@ -20,6 +20,11 @@ DEPENDS += " \
-         python-pip \
-         python-pbr \
-         "
+diff --git a/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.11.0.bb b/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.11.0.bb
+index 715d2cd..f66476f 100644
+--- a/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.11.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-sqlalchemy-migrate_0.11.0.bb
+@@ -11,6 +11,11 @@ SRC_URI[sha256sum] = "e68af5e3e0561f629d4eb23d9d0ea77d2649747f2eff37fd29aece7461
+ 
+ inherit setuptools
+ 
 +# Satisfy setup.py 'setup_requires'
 +DEPENDS += " \
 +        python-pbr-native \
 +        "
 +
- 
- # RDEPENDS_default: 
  RDEPENDS_${PN} += " \
+         python-pbr \
+         python-sqlalchemy \
+@@ -19,4 +24,4 @@ RDEPENDS_${PN} += " \
+         python-sqlparse \
+         python-tempita \
+         "
+-	
+\ No newline at end of file
++	
 -- 
 1.9.1
 
