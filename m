@@ -1,44 +1,68 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
+Return-Path: <smithdm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5BA0DE00D64; Sun, 20 May 2018 18:56:20 -0700 (PDT)
+	id 62250E00C4B; Mon, 21 May 2018 07:07:07 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* 3.4 DATE_IN_PAST_96_XX Date: is 96 hours or more before Received:
-	date * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (smithdm[at]gmail.com)
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B1A72E00D8E
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [74.125.82.51 listed in list.dnswl.org]
+Received: from mail-wm0-f51.google.com (mail-wm0-f51.google.com [74.125.82.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A8CF5E00A4C
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 20 May 2018 18:56:12 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40140984"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 21 May 2018 09:56:11 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A694D4B3EF1F
+	Mon, 21 May 2018 07:07:06 -0700 (PDT)
+Received: by mail-wm0-f51.google.com with SMTP id l1-v6so26897070wmb.2
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 21 May 2018 09:56:05 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.27) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Mon, 21 May 2018 09:56:07 +0800
-From: Lei Maohui <leimaohui@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 11 May 2018 10:03:11 -0700
-Message-ID: <1526058191-56109-9-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1526058191-56109-1-git-send-email-leimaohui@cn.fujitsu.com>
-References: <1526058191-56109-1-git-send-email-leimaohui@cn.fujitsu.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.27]
-X-yoursite-MailScanner-ID: A694D4B3EF1F.A29ED
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-Subject: [oe-virtualization][meta-cloud-services][PATCH 8/8] python-novaclient: Fix build error as following:
+	Mon, 21 May 2018 07:07:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=os0blvFtZ9mtxCfhChwszqGNujuRXx3XqBBZa9QA02g=;
+	b=fZ5XdECVm5QjzEklRQ9jWhTCk2xgahhwDDDLWVfxIPvDOyNgELEXdc4yYYrzrVvqPj
+	fzjcKWG1pdJB526+Y37HRkMDvhQ7YVqmdqcbFdSaMz9h+S3bkg5QmE2D1e46hSQ2hs7r
+	0hKNopOU91IENfQqTtcY6daIWDRtZHEnmYfwIdRJnb2tOC/boHsNo/IA+ZevfJXkrrjo
+	DUabRt+ysxiPpFhd+QeqEU+38lWYF/DeiywwVbmhNO9kBqtQdQJKb58J5Y3ifl1AZWot
+	VEcjWdtpw6k5ymsczgPg8gNBuMqL9g5ePUHim860QcQnG1jnhwyrc/STWzs9ce59acs8
+	NMUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=os0blvFtZ9mtxCfhChwszqGNujuRXx3XqBBZa9QA02g=;
+	b=LbWvku3WuXxPKtxXsse5NYguJNe3X69eFeaf1kiiDb65jfv2AUpGU8Q7B7BMwcqrTS
+	ns2dK+H3o+Cls0/LkcL+mln+arzSQUCs8/SqPB4FLNi+K56kdBbgDHAPjrp3xL8v6ift
+	I3tbkqLYlVdfpRxR3ttNq0qb0/taFH7huvS8rNuumv220NQ3E5u5GqJJ4v1+pZgVEOIN
+	cShjSxgPIYqTeE3pEHrRI6aFSnFMI8K8ZfrtYQoHMkuPsKbbROTrZc210DQUMeiJXQJS
+	4wQz6qLw19RcOots2b9hX0snGWD3wVCbHSuA620Hcjo4xc2Cj3vyiEeEd/SvHdNBAzAn
+	dr+A==
+X-Gm-Message-State: ALKqPwf2tDHLXMjIIhDUd8a4PqrWyNn0yv/ex5rjxH8/uEAwquQO6VAG
+	RvJT+GUt9E0L9UD1H1wOqyDGeTlv
+X-Google-Smtp-Source: AB8JxZpt4hPx3s9wXUGuk2qGBLcLMpgFyU/kaLjVyKiB6QGsRILvVwTExQiTpyADEzstkDQmATYZBA==
+X-Received: by 2002:a50:a550:: with SMTP id
+	z16-v6mr23907668edb.103.1526911625186; 
+	Mon, 21 May 2018 07:07:05 -0700 (PDT)
+Received: from localhost.localdomain
+	(86-41-167-216-dynamic.agg2.bnc.chf-qkr.eircom.net. [86.41.167.216])
+	by smtp.gmail.com with ESMTPSA id
+	d18-v6sm7393430edb.97.2018.05.21.07.07.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 21 May 2018 07:07:04 -0700 (PDT)
+From: Dave Smith <smithdm@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Mon, 21 May 2018 15:07:01 +0100
+Message-Id: <20180521140701.51481-1-smithdm@gmail.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] LXC LICENSE is LGPLv2.1 not GPLv2.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,35 +75,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 21 May 2018 01:56:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 21 May 2018 14:07:07 -0000
 
-"distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('pbr>=2.0.0')"
+From: David Smith <smithdm@gmail.com>
 
-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+LXC is licensed under LGPLv2.1 not GPLv2. The COPYING file
+referenced in the LXC recipe on all branches have the same content,
+checksum  and all define LICENSE="GPLv2" rather than "LGPLv2.1".
 ---
- meta-openstack/recipes-devtools/python/python-novaclient_git.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ recipes-containers/lxc/lxc_2.0.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-novaclient_git.bb b/meta-openstack/recipes-devtools/python/python-novaclient_git.bb
-index dd89458..44f73fa 100644
---- a/meta-openstack/recipes-devtools/python/python-novaclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-novaclient_git.bb
-@@ -20,6 +20,11 @@ DEPENDS += " \
-         python-pbr \
-         "
- 
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        python-pbr-native \
-+        "
-+
- RDEPENDS_${PN} += " \
-         python-pbr \
-         python-keystoneauth1 \
+diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
+index c87b875..4918d91 100644
+--- a/recipes-containers/lxc/lxc_2.0.8.bb
++++ b/recipes-containers/lxc/lxc_2.0.8.bb
+@@ -1,6 +1,6 @@
+ DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
+ SECTION = "console/utils"
+-LICENSE = "GPLv2"
++LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ DEPENDS = "libxml2 libcap"
+ RDEPENDS_${PN} = " \
 -- 
-1.9.1
-
-
+2.17.0
 
 
