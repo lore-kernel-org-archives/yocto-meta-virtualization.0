@@ -1,66 +1,54 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <nicolai.weis@web.de>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 15287E00903; Tue, 22 May 2018 05:10:00 -0700 (PDT)
+	id D334CE009D4; Wed, 23 May 2018 04:20:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,FREEMAIL_FROM,
+	HTML_MESSAGE, MIME_HTML_ONLY,
+	RCVD_IN_DNSWL_LOW autolearn=no version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [74.125.82.44 listed in list.dnswl.org]
+	mail provider *      (nicolai.weis[at]web.de)
+	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
+	low *      trust
+	*      [212.227.17.12 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f44.google.com (mail-wm0-f44.google.com [74.125.82.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 39AB1E0086B
+	*  0.7 MIME_HTML_ONLY BODY: Message only has text/html MIME parts
+Received: from mout.web.de (mout.web.de [212.227.17.12])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 98C9DE00791
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 May 2018 05:09:58 -0700 (PDT)
-Received: by mail-wm0-f44.google.com with SMTP id w194-v6so31089698wmf.2
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 May 2018 05:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=HQghb1VErfdeHIlZ/59gi/ukEQAn5eWQ3tcG0kyzjXI=;
-	b=tpAmcKcFTB84xXMjjZfe8QSzJ+3WOszyVeZnWdTFN3cAuW8rOhAs5I4tKY4pDg+Y4S
-	mUh5X8c3dW0muiPP/FKu66AtqD4F/QVgCwx4LJO0uGpHh4W79TcWNMNDZjkwx9j5Zqt1
-	eMjR50Lt0OUg8NUwzvV8fSxF9PmtJaWW/j090+5NPs6gYItzTje61K1M9ZDlP9b2ezeH
-	8lzFBlcIqSRkYpBddh2X01Rj3z7RQLruyu9kk7fWPyPRzKtSjZjefbBTFXbx9C/GAzsS
-	lR0GWPMzO/qId+Y14zu6qNLhybfY7hFrugkaIEE+P0x+Igar3o2pEz4hSu1rYPBIt29H
-	QZ7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=HQghb1VErfdeHIlZ/59gi/ukEQAn5eWQ3tcG0kyzjXI=;
-	b=f1p1M6xFiUkFbcc3ZWNhlfl9rjdmk6ucTm6XxMDHHUMQlv/6Tq+L7nATU1KufZH6TM
-	K/wDrBGocwOIMIyxceBWk7bQHzLXMqaoYqLuDm0pLWON7r6G8AIA4eB9irHDU8YiophL
-	c/EhWOMqtgeeifwYF7qbOzyTF43+45I1nphbB9EO68RLfdrTLQZ7++ZWsKI7j2dt8tc0
-	ZT1lxGInfBM2znPk1Ru64zJSdybU0V8qkcFj3XvnTy7jberq5tZFBiIkUjbF/u5A64yM
-	D5w7+tmwjXP5Y/VvDFEwdr73kndTyLVBqx8b66W6iQp+x2QwguvKWLFXDBWeUH571hRi
-	0h2g==
-X-Gm-Message-State: ALKqPwdz9c3gtSAg8LS/KQEdaTgDwFPeQ01L4VJypeMR0JkKYJWyMYfc
-	1b8TprpzUBQ87dWgGgVWmI8Ga3OhfbBlqQZb4Uc=
-X-Google-Smtp-Source: AB8JxZrowCSZjmP8cFaZAvOk4eSxw2YK+OIhhorxFtnLegdQ3gLarCIQj5wwAR2mrYY5nG5r92BAWzXHMQwCCf8GXac=
-X-Received: by 2002:a2e:82d6:: with SMTP id
-	n22-v6mr14461891ljh.142.1526990997965; 
-	Tue, 22 May 2018 05:09:57 -0700 (PDT)
+	Wed, 23 May 2018 04:19:59 -0700 (PDT)
+Received: from [212.121.145.5] ([212.121.145.5]) by
+	3c-app-webde-bap48.server.lan (via HTTP);
+	Wed, 23 May 2018 13:19:57 +0200
 MIME-Version: 1.0
-Received: by 10.46.51.7 with HTTP; Tue, 22 May 2018 05:09:57 -0700 (PDT)
-In-Reply-To: <trinity-a3db492f-8222-4da7-866b-d0290300a2c4-1526989134941@3c-app-webde-bap43>
+Message-ID: <trinity-1641f8e9-1faa-4cb2-8cc2-99d2377a8751-1527074397717@3c-app-webde-bap48>
+From: "Nicolai Weis" <nicolai.weis@web.de>
+To: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 23 May 2018 13:19:57 +0200
+Importance: normal
+Sensitivity: Normal
+In-Reply-To: <CADkTA4OsWJoD5X9DuRZjoYA4aAAQ_qdT0WJSnKoTZGK83ojrQw@mail.gmail.com>
 References: <trinity-a3db492f-8222-4da7-866b-d0290300a2c4-1526989134941@3c-app-webde-bap43>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 22 May 2018 08:09:57 -0400
-Message-ID: <CADkTA4OsWJoD5X9DuRZjoYA4aAAQ_qdT0WJSnKoTZGK83ojrQw@mail.gmail.com>
-To: Nicolai Weis <nicolai.weis@web.de>
+	<CADkTA4OsWJoD5X9DuRZjoYA4aAAQ_qdT0WJSnKoTZGK83ojrQw@mail.gmail.com>
+X-UI-Message-Type: mail
+X-Priority: 3
+X-Provags-ID: V03:K1:MlOdvfy/8B+CxcW4gfYqsJ6uSYDXCSSjLTUI+nlxvR+
+	AsaX5+N3DNRlNpgqYOiXkq1Zfnkv0/4/OHFGSSqdiQuBcd4cSm
+	nS3TAoAPGGH9NLqwJ3Bzmfk4VzffC7nVEHm/lzrlDYQe7gFQ+H
+	ajv+ZZnARwohFdQpAZ9mbsrMyWiQAqPN/k3a1gPARANfgUkegO
+	S8gq9JsvrrhVZAFDkQ7IfwjLLaMzuwrO1R9CEhd50hIHhUN0Fy
+	8qGOTIphB50TP93Fu52p1WdD4vtMGIl1fVP/g4A1RGUJUUbJZQ hDBzkA=
+X-UI-Out-Filterresults: notjunk:1;V01:K0:C+Wa4k3M5QA=:hECjhEaD2W9dzRG1sYAUjd
+	f3Jelk1rTb+XbISvh2j4mpHbEgEyu0KSgO9jAAssVI7oNDAye9kxGMi2AuKQPfsDOXeQ7d7I7
+	qphz9aFggQIV7EcOG4OCw0y9c36ZCaHjw7qC5NoIDA5wX6CT2LO5jeanVv//5P5j2c7WBCB0t
+	GAIiLuueXr6dJuVQeB1IG3DGPvwWJk7/OUiZ7WFGsodZBeP/o+sJEhmmFpklGv5W7o5pNk2AG
+	V1cKSZkL0JXiBUKt1kdMtVeoe0mfnQ8ncbA76VY70OyE5de5JxIR9QJkW3Jm0n8Cp8u3DS/Xb
+	aEqDcHtg/qh5doJO8gHmqTygcis92zxSE43py75ED5/pvnRIHqzh+td66xCxDPXd5eWZNqckV
+	tLSpk6Lb9gT5VaYgvmZt/kkUfUvsDTpeJQSR+EZoWAB+ke6Wmjt2uJyQ0hvJIbXytOsn8cs05
+	tt77FzNB4i29iQokTZuv3QpgBOVvRNAOqJ6LMQFxr2sodUyZEo+p
 Cc: meta-virtualization@yoctoproject.org
 Subject: Re: Question Integration of LXC
 X-BeenThere: meta-virtualization@yoctoproject.org
@@ -75,135 +63,69 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 May 2018 12:10:00 -0000
-Content-Type: multipart/alternative; boundary="000000000000025064056cca4c4d"
+X-List-Received-Date: Wed, 23 May 2018 11:20:00 -0000
+Content-Type: text/html; charset=UTF-8
 
---000000000000025064056cca4c4d
-Content-Type: text/plain; charset="UTF-8"
+<html><head></head><body><div style="font-family: Verdana;font-size: 12.0px;"><div>
+<div>
+<pre>On Tue, May 22, 2018 at 7:38 AM, Nicolai Weis &lt;<a href="https://lists.yoctoproject.org/listinfo/meta-virtualization">nicolai.weis at web.de</a>&gt; wrote:
 
-On Tue, May 22, 2018 at 7:38 AM, Nicolai Weis <nicolai.weis@web.de> wrote:
+&gt;<i> </i>&gt;<i> Hi all,
+</i>&gt;<i> </i>&gt;<i>
+</i>&gt;<i> </i>&gt;<i> In a project I want to integrate lxc-containers into the
+</i>&gt;<i> </i>&gt;<i> core-image-minimal for the minnowboard turbot. Therefore I&#39;m using the
+</i>&gt;<i> </i>&gt;<i> krogoth branch (have to use this branch) for the meta-layers.
+</i>&gt;<i> </i>&gt;<i> As described in the README-file I add meta-virtualization, meta-oe,
+</i>&gt;<i> </i>&gt;<i> meta-networking, meta-filesystems and meta-python to the bblayers.conf. In
+</i>&gt;<i> </i>&gt;<i> the local.conf
+</i>&gt;<i> </i>&gt;<i> I added at the end of the file BBFILE_PRIORITY_openembedded-layer = &quot;4&quot;
+</i>&gt;<i> </i>&gt;<i> and IMAGE_INSTALL_append = &quot; lxc&quot; (lxc_2.0.0.bb).
+</i>&gt;<i> </i>&gt;<i>
+</i>&gt;<i> </i>&gt;<i> After the sucessful build I start the image and created with the
+</i>&gt;<i> </i>&gt;<i> busybox-template - should I use a different template? - a lxc-busybox
+</i>&gt;<i> </i>&gt;<i> container. I tried to start the container, but the error
+</i>&gt;<i> </i>&gt;<i> &quot;1079 failed initializing cgroup support&quot; appeared. lxc-checkconfig showed
+</i>&gt;<i> </i>&gt;<i> cgroup-namespaces: required. I tried to solve this with adding cgroup-lite
+</i>&gt;<i> </i>&gt;<i> to IMAGE_INSTALL_append, but it
+</i>&gt;<i> </i>&gt;<i> didn&#39;t change anything (only let cgroup-namespaces disappear and showed
+</i>&gt;<i> </i>&gt;<i> Cgroup clone_children flag: enabled). I&#39;m using sysvinit instead of systemd.
+</i>
+<i>
+</i>&gt;<i> </i>What kernel are you using ? This typically means that the kernel config
+&gt;<i> </i>isn&#39;t correct.
+&gt;<i> </i>If you aren&#39;t using linux-yocto, then the fragments we have in the layer
+&gt;<i> </i>are likely
+&gt;<i> </i>not being applied, and you&#39;ll need to manually configure your kernel with
+&gt;<i> </i>the right
+&gt;<i> </i>options.
 
-> Hi all,
->
-> In a project I want to integrate lxc-containers into the
-> core-image-minimal for the minnowboard turbot. Therefore I'm using the
-> krogoth branch (have to use this branch) for the meta-layers.
-> As described in the README-file I add meta-virtualization, meta-oe,
-> meta-networking, meta-filesystems and meta-python to the bblayers.conf. In
-> the local.conf
-> I added at the end of the file BBFILE_PRIORITY_openembedded-layer = "4"
-> and IMAGE_INSTALL_append = " lxc" (lxc_2.0.0.bb).
->
-> After the sucessful build I start the image and created with the
-> busybox-template - should I use a different template? - a lxc-busybox
-> container. I tried to start the container, but the error
-> "1079 failed initializing cgroup support" appeared. lxc-checkconfig showed
-> cgroup-namespaces: required. I tried to solve this with adding cgroup-lite
-> to IMAGE_INSTALL_append, but it
-> didn't change anything (only let cgroup-namespaces disappear and showed
-> Cgroup clone_children flag: enabled). I'm using sysvinit instead of systemd.
->
->
-What kernel are you using ? This typically means that the kernel config
-isn't correct.
-If you aren't using linux-yocto, then the fragments we have in the layer
-are likely
-not being applied, and you'll need to manually configure your kernel with
-the right
-options.
+In the minnowboard image I&#39;m using the kernel version 4.4.26-rt19-yocto-preempt-rt.
+I tried it with a qemux image with the kernel version 4.4.26-yocto-standard, too. 
 
-Otherwise, it could be that the cgroups are not being mounted properly by
-your
-recipe, so have a look and confirm if cgroups or cgroups2 are in fact
-mounted in
-your image.
+&gt;<i> </i>Otherwise, it could be that the cgroups are not being mounted properly by
+&gt;<i> </i>your
+&gt;<i> </i>recipe, so have a look and confirm if cgroups or cgroups2 are in fact
+&gt;<i> </i>mounted in
+&gt;<i> </i>your image.
 
-Bruce
+I did the mounting with the cgroups-mount script under the /bin directory (comming through adding cgroups-lite to the image). Inside /sys/fs/cgroup directory
+there are the mounted folders with blkio, cpu, cpuacct, cpuset, debug, devices, freezer, memory and net_cls. Furthermore I checked it with a cgroups_check-config.sh from docker.
+The output showed following missing configs, but I don&#39;t think they are the reason that the lxc-busybox container doesn&#39;t start:
+- Generally necessary - missing: CONFIG_VETH, CONFIG_IP_NF_TARGET_<wbr/>MASQUERADE, CONFIG_NETFILTER_XT_MATCH_<wbr/>ADDRTYPE, CONFIG_NETFILTER_XT_MATCH_<wbr/>IPVS, CONFIG_IP_NF_NAT,
+&nbsp;&nbsp; CONFIG_DEVPTS_MULTIPLE_<wbr/>INSTANCES
+- Optional Features - missing: CONFIG_CGROUP_PIDS, CONFIG_BLK_DEV_THROTTLING, CONFIG_CFQ_GROUP_IOSCHED, CONFIG_CGROUP_PERF, CONFIG_CGROUP_HUGETLB, CONFIG_CGROUP_NET_PRIO,
+&nbsp; CONFIG_CFS_BANDWIDTH, CONFIG_RT_GROUP_SCHED, CONFIG_IP_VS, CONFIG_IP_VS_NFCT, CONFIG_IP_VS_RR
 
+With lxc-start -n Test -F it showed that start.c: 1079 failed initializing cgroup support comes after cgfsng.c: 431 no systemd controller mountpoint found. If I try to mount systemd (I&#39;m using sysvinit and so mounting systemd makes no sense to me) there are a lot of other failures. 
 
-> Do I have to change some configurations in the lxc-recipe? I would be very
-> grateful if you can give me some information about it.
->
-> Thanks
-> Nicolai
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
+&gt;<i> </i>Bruce
 
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
+&gt;<i> </i>&gt;<i> Do I have to change some configurations in the lxc-recipe? I would be very
+</i>&gt;<i> </i>&gt;<i> grateful if you can give me some information about it.
+</i>&gt;<i> </i>&gt;<i>
+</i>&gt;<i> </i>&gt;<i> Thanks
+</i>&gt;<i> </i>&gt;<i> Nicolai</i></pre>
+</div>
+</div></div></body></html>
 
---000000000000025064056cca4c4d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_extra"><div class=3D"gmail_quote">On T=
-ue, May 22, 2018 at 7:38 AM, Nicolai Weis <span dir=3D"ltr">&lt;<a href=3D"=
-mailto:nicolai.weis@web.de" target=3D"_blank">nicolai.weis@web.de</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex"><div><div style=3D"font-fami=
-ly:Verdana;font-size:12px"><div>
-<div>Hi all,<br>
-=C2=A0</div>
-
-<div>In a project I want to integrate lxc-containers into the core-image-mi=
-nimal for the minnowboard turbot. Therefore I&#39;m using the krogoth branc=
-h (have to use this branch) for the meta-layers.</div>
-
-<div>As described in the README-file I add meta-virtualization, meta-oe, me=
-ta-networking, meta-filesystems and meta-python to the bblayers.conf. In th=
-e local.conf</div>
-
-<div>I added at the end of the file BBFILE_PRIORITY_openembedded-l<wbr>ayer=
- =3D &quot;4&quot; and IMAGE_INSTALL_append =3D &quot; lxc&quot; (<a href=
-=3D"http://lxc_2.0.0.bb" target=3D"_blank">lxc_2.0.0.bb</a>).<br>
-=C2=A0</div>
-
-<div>After the sucessful build I start the image and created with the busyb=
-ox-template - should I use a different template? - a lxc-busybox container.=
- I tried to start the container, but the error</div>
-
-<div>&quot;1079 failed initializing cgroup support&quot; appeared. lxc-chec=
-kconfig showed cgroup-namespaces: required. I tried to solve this with addi=
-ng cgroup-lite to IMAGE_INSTALL_append, but it</div>
-didn&#39;t change anything (only let cgroup-namespaces disappear and showed=
- Cgroup clone_children flag: enabled). I&#39;m using sysvinit instead of sy=
-stemd.<br>
-<br></div></div></div></blockquote><div><br></div><div>What kernel are you =
-using ? This typically means that the kernel config isn&#39;t correct.=C2=
-=A0</div><div>If you aren&#39;t using linux-yocto, then the fragments we ha=
-ve in the layer are likely</div><div>not being applied, and you&#39;ll need=
- to manually configure your kernel with the right</div><div>options.</div><=
-div><br></div><div>Otherwise, it could be that the cgroups are not being mo=
-unted properly by your</div><div>recipe, so have a look and confirm if cgro=
-ups or cgroups2 are in fact mounted in</div><div>your image.</div><div><br>=
-</div><div>Bruce</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div>=
-<div style=3D"font-family:Verdana;font-size:12px"><div>
-Do I have to change some configurations in the lxc-recipe? I would be very =
-grateful if you can give me some information about it.<br>
-<br>
-Thanks<span class=3D"gmail-HOEnZb"><font color=3D"#888888"><br>
-Nicolai</font></span></div></div></div>
-<br>-- <br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-<br></blockquote></div><br><br clear=3D"all"><div><br></div>-- <br><div cla=
-ss=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;Thou shalt =
-not follow the NULL pointer, for chaos and madness await thee at its end&qu=
-ot;</div>
-</div></div>
-
---000000000000025064056cca4c4d--
