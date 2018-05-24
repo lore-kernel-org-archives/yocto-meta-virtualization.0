@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 35176E007DA; Thu, 24 May 2018 13:09:47 -0700 (PDT)
+	id 45FE9E007AD; Thu, 24 May 2018 13:10:08 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.128.194 listed in list.dnswl.org]
+	*      [74.125.82.66 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,50 +20,49 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wr0-f194.google.com (mail-wr0-f194.google.com
-	[209.85.128.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 185F8E00720
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8A163E0044F
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 May 2018 13:09:45 -0700 (PDT)
-Received: by mail-wr0-f194.google.com with SMTP id 94-v6so5313880wrf.5
+	Thu, 24 May 2018 13:10:07 -0700 (PDT)
+Received: by mail-wm0-f66.google.com with SMTP id x2-v6so1356481wmh.5
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 May 2018 13:09:45 -0700 (PDT)
+	Thu, 24 May 2018 13:10:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=OjME0kjc00YxkvizoPGu7Co4AGDcTrq+GReCgM1cf48=;
-	b=s/WI1SHgjQPwdJQvUMU5uNAZd5g09YY6yuLCYtNqYlMDeFd8q7vBLx14pDFTKFkTB8
-	LTpZ96YO3svL3m/HI0fP5mnDfmI+rXSNPlV+m1cd8n/ml23O8VzMHPcyADqxdNfADOaa
-	rNEHoZm1tACFoYZruizrDHc4JfQ3Np7+SWeH+KL0of/2GIskWYGpLqVJ8cqsMYGqeyTE
-	PTXX+aaeEDGYV2GGzry0Jv3fRcACTBxt9yiNCfhow9eyUh028Q5j7IjTPOR6pkux2tKQ
-	1glsXmGxJATvnbFFpgy0uwiSyZZFjR5G1ptTPq7Nf50F9n/vrgkWmURmslDjWvswpMSk
-	s50A==
+	:cc; bh=JOXfqyvcQszV6w+gOVPvZPVs2jXB6vOpakaLDALDvew=;
+	b=BqBdLQFtYIAYpplrX3W+w6ip2dKIiA7foOhklZn1atZFwlNZS+F5UF37rmHB+owHdi
+	QhUmjW9dTrnU1NP0tGE+axsk6fUKpEEMJp3zeZoVp+ND+rg7+FfR/mm1O+WXRNllk3Xd
+	PZtGGQbj86U7tevo4EMgD8N5wlJ2ACt02b+ri3R9MagZvMY3M5wAxWqk61v419u3kAaO
+	8oaVohlapy0iKekIWXDCcUGh22LNdvKNzoGYStrODygniQlJB5xxsnilwJ/skFe6krk7
+	i7g08dB2RyTpRBgWlleMZaKht0OYXxqTurtTu7vEwS1fC5rR2mo2EwKALpcwFEgy6J+4
+	yiNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=OjME0kjc00YxkvizoPGu7Co4AGDcTrq+GReCgM1cf48=;
-	b=VuOUOlDscnJQmZhV4Df0yYXp3OhXOEDMu13kGFjUDfcbwiZ83n2LE8gMVmE4ZvlGC8
-	QAPSKDVyly7IflcK56N5Iij0qLlf0Y0599+jGARNlnpNH2AmnATL+f5G3hY2TWP3w+93
-	9KCmm+DT0pTlHuV458OMkoNDW6B2fu37wv4RnaOV2A7NweN7Xnb7d9KeLHdwrKTODxCa
-	Posw2jBCoTIViI4SQwn3Habis70tlaRmJAk/GqzZg7Q38es0rIiLsKh3tU3Vw5UMZvZz
-	OP65CtskwNeZf2E8yfeAEoUj3T8mDOyubqOS7/o3TCT0WLnwbYgb4v6Xbb3/9rlKl87Z
-	573g==
-X-Gm-Message-State: ALKqPwf/revjeGOzsWQoaWjVQcR54aZYsEmTXXHZzwVOrTLCTa4Upr4L
-	T3kd4HvSmM8qOkzszkTZVM/Xjd0k2GyCU0p/wb9Osg==
-X-Google-Smtp-Source: AB8JxZocTtchgACEe4Anoxxc9YFbQfGZOw1nnrDknHhxJzRWiP3AflclyxG6+vxDQGAOpeyjARAdcblWXXgWMYkQfSk=
-X-Received: by 2002:a19:14ca:: with SMTP id
-	71-v6mr5177886lfu.126.1527192584923; 
-	Thu, 24 May 2018 13:09:44 -0700 (PDT)
+	bh=JOXfqyvcQszV6w+gOVPvZPVs2jXB6vOpakaLDALDvew=;
+	b=opHsLv7xTOAyfXF1c4WhF7aZqzF9vBESSWG4SlgHupBIKejObThJ5P1mgAuVbP2B0u
+	p3UgNsSGHPpFp3U/h/HGbONAH266L4rXwB4+d28+hVBzVZxU5taqpbHOCHRBsnwGIz+m
+	Oh6GtVtMO88C8AV5ONTP3J1HIC3NPbLdhfZIEYS6budZ+PaedXJx50yTuYFA3ZXuAFAa
+	TD1INwFmGz2LaGvoRsrcGqUwRR1HcCusYBGrkt0sqQH+g8TtnVCF0Ck9d4iqRigyq0Vq
+	6vdYnTCIEjYIV+CjfxIdbVAX60etPGO3X+aCE3EMTEmqFDww+rE8m5b0pFMDYu00eViu
+	uGTQ==
+X-Gm-Message-State: ALKqPwf08BQaVcMDU5ZzElioTlbCP90cLCP6VVmEcq6jQ8ahNviqexjL
+	N16xneACuPpffLT8tH1Za96WmezM6z9+ggMvYQQ=
+X-Google-Smtp-Source: AB8JxZomMAyD9FU3OO9GN6HBlH9M98L68fT8ErOVP2XRVXi7Q1hMAjNgoVgVJnfa5RowF40QiMuf6PTWOXlkr5cP1ug=
+X-Received: by 2002:a2e:9b4a:: with SMTP id
+	o10-v6mr5689381ljj.49.1527192606279; 
+	Thu, 24 May 2018 13:10:06 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 10.46.51.7 with HTTP; Thu, 24 May 2018 13:09:44 -0700 (PDT)
-In-Reply-To: <1527102997-27793-1-git-send-email-mark.asselstine@windriver.com>
-References: <1527102997-27793-1-git-send-email-mark.asselstine@windriver.com>
+Received: by 10.46.51.7 with HTTP; Thu, 24 May 2018 13:10:05 -0700 (PDT)
+In-Reply-To: <1527102177-10064-1-git-send-email-mark.asselstine@windriver.com>
+References: <1527102177-10064-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 24 May 2018 16:09:44 -0400
-Message-ID: <CADkTA4P8uDenOt+5Aa26aDKwDVtxp5VbZbZ51FAcTd2c+j9Ehg@mail.gmail.com>
+Date: Thu, 24 May 2018 16:10:05 -0400
+Message-ID: <CADkTA4O74s1A8pHJk22k9R0s9uzDjc+bdWOp7UzZAeeLvpq2OQ@mail.gmail.com>
 To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] README: cleanup list of maintainers
+Subject: Re: [PATCH] layer.conf: match layer dependencies as documented in the layer README
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,46 +75,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 May 2018 20:09:47 -0000
-Content-Type: multipart/alternative; boundary="000000000000872e37056cf93b01"
+X-List-Received-Date: Thu, 24 May 2018 20:10:08 -0000
+Content-Type: multipart/alternative; boundary="000000000000cd0d66056cf93c5b"
 
---000000000000872e37056cf93b01
+--000000000000cd0d66056cf93c5b
 Content-Type: text/plain; charset="UTF-8"
 
 merged.
 
 Bruce
 
-On Wed, May 23, 2018 at 3:16 PM, Mark Asselstine <
+On Wed, May 23, 2018 at 3:02 PM, Mark Asselstine <
 mark.asselstine@windriver.com> wrote:
 
-> Raymond Danks <ray.danks@se-eng.com> hasn't contributed any changes to
-> meta-virtualization since 2012 and is listed on Linkedin as no longer
-> with Sage Electronics since March 2013, having moved to a completely
-> different profession (firefighting). So it is almost certain the
-> listed E-mail address is invalid and has been for a long time.
+> Several required layer dependencies have been added to the layer
+> README but didn't have corresponding entries added to
+> LAYERDEPENDS. Ensure these match.
+>
+> The 'selinux' layer dependency, is conditional on the 'xen'
+> DISTRO_FEATURE but I see no way to make a conditional LAYERDEPENDS so
+> this is left off for now.
 >
 > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 > ---
->  README | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+>  conf/layer.conf | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 >
-> diff --git a/README b/README
-> index f13de08..810f263 100644
-> --- a/README
-> +++ b/README
-> @@ -64,8 +64,7 @@ Maintenance
+> diff --git a/conf/layer.conf b/conf/layer.conf
+> index fa2e015..eaef1b7 100644
+> --- a/conf/layer.conf
+> +++ b/conf/layer.conf
+> @@ -15,7 +15,13 @@ LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
+>  # cause compatibility issues with other layers
+>  LAYERVERSION_virtualization-layer = "1"
+>  LAYERSERIES_COMPAT_virtualization-layer = "sumo"
+> -LAYERDEPENDS_virtualization-layer = "core networking-layer"
+> +LAYERDEPENDS_virtualization-layer = " \
+> +    core \
+> +    openembedded-layer \
+> +    networking-layer \
+> +    filesystems-layer \
+> +    meta-python \
+> +"
 >
->  Send pull requests, patches, comments or questions to
-> meta-virtualization@yoctoproject.org
->
-> -Maintainers: Raymond Danks <ray.danks@se-eng.com>
-> -             Bruce Ashfield <bruce.ashfield@gmail.com>
-> +Maintainer: Bruce Ashfield <bruce.ashfield@gmail.com>
->
->  When sending single patches, please using something like:
->  $ git send-email -1 -M --to meta-virtualization@yoctoproject.org
-> --subject-prefix='meta-virtualization][PATCH'
+>  # Override security flags
+>  require conf/distro/include/virt_security_flags.inc
 > --
 > 2.7.4
 >
@@ -132,50 +136,52 @@ mark.asselstine@windriver.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---000000000000872e37056cf93b01
+--000000000000cd0d66056cf93c5b
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Wed, May 23, 2018 at 3:16 PM=
+gmail_extra"><br><div class=3D"gmail_quote">On Wed, May 23, 2018 at 3:02 PM=
 , Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@w=
 indriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span=
 > wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">Raymond Danks &lt;<a href=3D"mai=
-lto:ray.danks@se-eng.com">ray.danks@se-eng.com</a>&gt; hasn&#39;t contribut=
-ed any changes to<br>
-meta-virtualization since 2012 and is listed on Linkedin as no longer<br>
-with Sage Electronics since March 2013, having moved to a completely<br>
-different profession (firefighting). So it is almost certain the<br>
-listed E-mail address is invalid and has been for a long time.<br>
+rder-left:1px #ccc solid;padding-left:1ex">Several required layer dependenc=
+ies have been added to the layer<br>
+README but didn&#39;t have corresponding entries added to<br>
+LAYERDEPENDS. Ensure these match.<br>
+<br>
+The &#39;selinux&#39; layer dependency, is conditional on the &#39;xen&#39;=
+<br>
+DISTRO_FEATURE but I see no way to make a conditional LAYERDEPENDS so<br>
+this is left off for now.<br>
 <br>
 Signed-off-by: Mark Asselstine &lt;<a href=3D"mailto:mark.asselstine@windri=
 ver.com">mark.asselstine@windriver.com</a><wbr>&gt;<br>
 ---<br>
-=C2=A0README | 3 +--<br>
-=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+=C2=A0conf/layer.conf | 8 +++++++-<br>
+=C2=A01 file changed, 7 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/README b/README<br>
-index f13de08..810f263 100644<br>
---- a/README<br>
-+++ b/README<br>
-@@ -64,8 +64,7 @@ Maintenance<br>
+diff --git a/conf/layer.conf b/conf/layer.conf<br>
+index fa2e015..eaef1b7 100644<br>
+--- a/conf/layer.conf<br>
++++ b/conf/layer.conf<br>
+@@ -15,7 +15,13 @@ LICENSE_PATH +=3D &quot;${LAYERDIR}/files/custom-<wbr>li=
+censes&quot;<br>
+=C2=A0# cause compatibility issues with other layers<br>
+=C2=A0LAYERVERSION_virtualization-<wbr>layer =3D &quot;1&quot;<br>
+=C2=A0LAYERSERIES_COMPAT_<wbr>virtualization-layer =3D &quot;sumo&quot;<br>
+-LAYERDEPENDS_virtualization-<wbr>layer =3D &quot;core networking-layer&quo=
+t;<br>
++LAYERDEPENDS_virtualization-<wbr>layer =3D &quot; \<br>
++=C2=A0 =C2=A0 core \<br>
++=C2=A0 =C2=A0 openembedded-layer \<br>
++=C2=A0 =C2=A0 networking-layer \<br>
++=C2=A0 =C2=A0 filesystems-layer \<br>
++=C2=A0 =C2=A0 meta-python \<br>
++&quot;<br>
 <br>
-=C2=A0Send pull requests, patches, comments or questions to <a href=3D"mail=
-to:meta-virtualization@yoctoproject.org">meta-virtualization@<wbr>yoctoproj=
-ect.org</a><br>
-<br>
--Maintainers: Raymond Danks &lt;<a href=3D"mailto:ray.danks@se-eng.com">ray=
-.danks@se-eng.com</a>&gt;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Bruce Ashfield &lt;<a href=
-=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</a>&gt;<br>
-+Maintainer: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com"=
->bruce.ashfield@gmail.com</a>&gt;<br>
-<br>
-=C2=A0When sending single patches, please using something like:<br>
-=C2=A0$ git send-email -1 -M --to <a href=3D"mailto:meta-virtualization@yoc=
-toproject.org">meta-virtualization@<wbr>yoctoproject.org</a> --subject-pref=
-ix=3D&#39;meta-<wbr>virtualization][PATCH&#39;<br>
+=C2=A0# Override security flags<br>
+=C2=A0require conf/distro/include/virt_<wbr>security_flags.inc<br>
 <span class=3D"gmail-HOEnZb"><font color=3D"#888888">-- <br>
 2.7.4<br>
 <br>
@@ -193,4 +199,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---000000000000872e37056cf93b01--
+--000000000000cd0d66056cf93c5b--
