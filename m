@@ -1,42 +1,40 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
+Return-Path: <pascal.bach@siemens.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BF6E9E007AD; Thu, 24 May 2018 22:19:53 -0700 (PDT)
+	id 67DA0E009CA; Fri, 25 May 2018 07:05:38 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=5.0 tests=BAYES_00,DATE_IN_PAST_96_XX,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* 3.4 DATE_IN_PAST_96_XX Date: is 96 hours or more before Received:
-	date * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Level: 
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [192.35.17.28 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 14196E006F1
+X-Greylist: delayed 418 seconds by postgrey-1.32 at yocto-www;
+	Fri, 25 May 2018 07:05:36 PDT
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F36EBE00942
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 May 2018 22:19:52 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40356608"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 25 May 2018 13:19:51 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 780274B31495
+	Fri, 25 May 2018 07:05:36 -0700 (PDT)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id w4PDwbdU005685
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 25 May 2018 13:19:46 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.27) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Fri, 25 May 2018 13:19:47 +0800
-From: Lei Maohui <leimaohui@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 15 May 2018 13:27:13 -0700
-Message-ID: <1526416033-11819-1-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.27]
-X-yoursite-MailScanner-ID: 780274B31495.ABFE9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-Subject: [oe-virtualization][meta-cloud-services][PATCH] nss-pam-ldapd: fix SRC_URI and DEPENDS
+	Fri, 25 May 2018 15:58:37 +0200
+Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
+	[139.16.79.187])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id w4PDwbko007632;
+	Fri, 25 May 2018 15:58:37 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id ED80B10D4969;
+	Fri, 25 May 2018 15:58:36 +0200 (CEST)
+From: Pascal Bach <pascal.bach@siemens.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri, 25 May 2018 15:58:19 +0200
+Message-Id: <20180525135820.9279-1-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] runc: allow enabling seccomp
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,42 +47,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 May 2018 05:19:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 May 2018 14:05:38 -0000
 
-- Fix SRC_URI, modified ${PN} to ${BPN}
-- Added krb5 into DEPENDS
+This requires libseccomp from meta-security so it is not enabled by default.
 
-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-containers/runc/runc.inc | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
-index a309c1e..404aeca 100644
---- a/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
-+++ b/recipes-support/nss-pam-ldapd/nss-pam-ldapd_0.9.8.bb
-@@ -15,7 +15,7 @@ SECTION = "base"
- FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
+index 9199cef..6d11a6e 100644
+--- a/recipes-containers/runc/runc.inc
++++ b/recipes-containers/runc/runc.inc
+@@ -12,6 +12,10 @@ PV = "${RUNC_VERSION}+git${SRCPV}"
  
- SRC_URI = "\
--	http://arthurdejong.org/nss-pam-ldapd/${PN}-${PV}.tar.gz \
-+	http://arthurdejong.org/nss-pam-ldapd/${BPN}-${PV}.tar.gz \
- 	file://nslcd.init \
- 	file://nslcd.service \
- 	"
-@@ -25,7 +25,7 @@ inherit autotools
- SRC_URI[md5sum] = "8c99fdc54f4bf9aca8c5f53fdb1403ff"
- SRC_URI[sha256sum] = "ef7362e7f2003da8c7beb7bcc03c30494acf712625aaac8badc6e7eb16f3453f"
+ inherit go
+ inherit goarch
++inherit pkgconfig
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
  
--DEPENDS += "libpam openldap"
-+DEPENDS += "libpam openldap krb5"
+ RRECOMMENDS_${PN} = "lxc docker"
+ PROVIDES += "virtual/runc"
+@@ -22,7 +26,7 @@ GO_IMPORT = "import"
+ LIBCONTAINER_PACKAGE="github.com/opencontainers/runc/libcontainer"
  
- EXTRA_OECONF = "\
- 	--disable-pynslcd \
+ do_configure[noexec] = "1"
+-EXTRA_OEMAKE="BUILDTAGS='' GO=${GO}"
++EXTRA_OEMAKE="BUILDTAGS='${PACKAGECONFIG_CONFARGS}' GO=${GO}"
+ 
+ do_compile() {
+ 	# Set GOPATH. See 'PACKAGERS.md'. Don't rely on
 -- 
-1.9.1
-
-
+2.11.0
 
 
