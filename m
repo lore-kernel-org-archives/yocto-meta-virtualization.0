@@ -1,6 +1,6 @@
 Return-Path: <leimaohui@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EB754E0114F; Mon,  4 Jun 2018 19:49:51 -0700 (PDT)
+	id 0A608E0114F; Mon,  4 Jun 2018 19:49:53 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,30 +13,32 @@ X-Spam-HAM-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at
 	date * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 78BF2E00DB6
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BA977E01152
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  4 Jun 2018 19:49:50 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40740048"
+	Mon,  4 Jun 2018 19:49:52 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="40740050"
 Received: from bogon (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Jun 2018 10:49:46 +0800
+	by heian.cn.fujitsu.com with ESMTP; 05 Jun 2018 10:49:52 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8EA6A4B41E79
+	by cn.fujitsu.com (Postfix) with ESMTP id 139F84B41E92
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Jun 2018 10:49:44 +0800 (CST)
+	Tue,  5 Jun 2018 10:49:51 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.27) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Tue, 5 Jun 2018 10:49:44 +0800
+	Server (TLS) id 14.3.399.0; Tue, 5 Jun 2018 10:49:51 +0800
 From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Sat, 26 May 2018 10:40:32 -0700
-Message-ID: <1527356442-65040-1-git-send-email-leimaohui@cn.fujitsu.com>
+Date: Sat, 26 May 2018 10:40:39 -0700
+Message-ID: <1527356442-65040-8-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1527356442-65040-1-git-send-email-leimaohui@cn.fujitsu.com>
+References: <1527356442-65040-1-git-send-email-leimaohui@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.27]
-X-yoursite-MailScanner-ID: 8EA6A4B41E79.A0D08
+X-yoursite-MailScanner-ID: 139F84B41E92.AF8A8
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-Subject: [oe-virtualization][meta-cloud-services][PATCH 1/2] Added python-pbr-native into DEPENDS to fix build error.
+Subject: [oe-virtualization][meta-cloud-services][PATCH 6/9] python-zaqarclient: Fix build error as following.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,22 +51,21 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 02:49:52 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 02:49:54 -0000
 Content-Type: text/plain
+
+"distutils.errors.DistutilsError: Could not find suitable distribution for Requirement.parse('pbr>=2.0.0')"
 
 Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- .../recipes-devtools/python/python-keystonemiddleware_git.bb         | 5 +++++
- meta-openstack/recipes-devtools/python/python-oslo.db_git.bb         | 5 +++++
- meta-openstack/recipes-devtools/python/python-oslo.reports_git.bb    | 5 +++++
- meta-openstack/recipes-devtools/python/python-troveclient_git.bb     | 5 +++++
- 4 files changed, 20 insertions(+)
+ meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb b/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
-index 7b7cb91..557a557 100644
---- a/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
-@@ -21,6 +21,11 @@ DEPENDS += " \
+diff --git a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+index b76f2e8..d3d24ea 100644
+--- a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+@@ -9,6 +9,11 @@ DEPENDS += " \
          python-pbr \
          "
  
@@ -73,57 +74,9 @@ index 7b7cb91..557a557 100644
 +        python-pbr-native \
 +        "
 +
- RDEPENDS_${PN} += " \
-         python-keystoneauth1 \
-         python-oslo.config \
-diff --git a/meta-openstack/recipes-devtools/python/python-oslo.db_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.db_git.bb
-index 53df106..d693570 100644
---- a/meta-openstack/recipes-devtools/python/python-oslo.db_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-oslo.db_git.bb
-@@ -19,6 +19,11 @@ DEPENDS += " \
+ RDEPENDS_${PN} +=" \
          python-pbr \
-         "
- 
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        python-pbr-native \
-+        "
-+
- RDEPENDS_${PN} += " \
-        python-six \
-        python-alembic \
-diff --git a/meta-openstack/recipes-devtools/python/python-oslo.reports_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.reports_git.bb
-index fd32326..2db5aae 100644
---- a/meta-openstack/recipes-devtools/python/python-oslo.reports_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-oslo.reports_git.bb
-@@ -19,6 +19,11 @@ DEPENDS += " \
-         python-pbr \
-         "
- 
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        python-pbr-native \
-+        "
-+
- # RDEPENDS_default: 
- RDEPENDS_${PN} += " \
-         python-pbr \
-diff --git a/meta-openstack/recipes-devtools/python/python-troveclient_git.bb b/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-index 251d9e0..95ec5ae 100644
---- a/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-troveclient_git.bb
-@@ -72,6 +72,11 @@ RDEPENDS_${SRCNAME} += " \
-     ${SRCNAME}-bin \
-     "
- 
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        python-pbr-native \
-+        "
-+
- RDEPENDS_${SRCNAME}-bin += " \
-     ${PN} \
-     "
+         python-requests \
 -- 
 1.9.1
 
