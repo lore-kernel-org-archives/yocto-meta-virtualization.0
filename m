@@ -1,32 +1,37 @@
-Return-Path: <maciej.pijanowski@3mdeb.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A7566E00A75; Mon, 28 May 2018 00:12:41 -0700 (PDT)
+	id 86CA5E00B57; Mon, 28 May 2018 06:15:23 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00 autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-X-Greylist: delayed 400 seconds by postgrey-1.32 at yocto-www;
-	Mon, 28 May 2018 00:12:39 PDT
-Received: from cloudserver096301.home.pl (cloudserver096301.home.pl
-	[79.96.179.35])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2D322E00972
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 533E2E00972
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 28 May 2018 00:12:39 -0700 (PDT)
-Received: from 109241231046.gdansk.vectranet.pl (109.241.231.46) (HELO
-	[192.168.3.103])
-	by 3mdeb.com (79.96.179.35) with SMTP (IdeaSmtpServer 0.83)
-	id 252be1768c641e10; Mon, 28 May 2018 09:05:57 +0200
-To: meta-virtualization@yoctoproject.org
-From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-Message-ID: <a14785ac-11ce-f8c5-7019-7d71da60377e@3mdeb.com>
-Date: Mon, 28 May 2018 09:05:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	Mon, 28 May 2018 06:15:20 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w4SDFKQD016058
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 28 May 2018 06:15:20 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.361.1;
+	Mon, 28 May 2018 06:15:19 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Mon, 28 May 2018 09:14:47 -0400
+Message-ID: <1527513289-5463-3-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1527513289-5463-1-git-send-email-mark.asselstine@windriver.com>
+References: <1527513289-5463-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: lxc build error: undefined reference to `__pthread_unwind'
+Subject: [PATCH 2/4] lxc: rename the lxc 'autostart' sysvinit script matching upstream
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -39,30 +44,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 May 2018 07:12:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 28 May 2018 13:15:23 -0000
+Content-Type: text/plain
 
-Hello,
+This was renamed back in v1.1.0 but I suppose most folks have been
+buiding for systemd or were not using this functionality and it went
+unnoticed.
 
-I'm in the middle of upgrading my build from pyro to sumo and I am 
-facing following build error:
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ recipes-containers/lxc/lxc_2.0.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://hastebin.3mdeb.com/erecefusux.tex
-
-I am building for Intel i7 machine. I tried upgrading the recipe to 
-2.1.1 and the same error appears.
-
-I'm unfamiliar with the lxc project so any hint pointing in the correct 
-direction is highly appreciated.
-My guess would be that the linking order matters there (this is static 
-build) and symbols from
-libpthread are not visible.
-
+diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
+index 547c44f..bf2a265 100644
+--- a/recipes-containers/lxc/lxc_2.0.8.bb
++++ b/recipes-containers/lxc/lxc_2.0.8.bb
+@@ -88,7 +88,7 @@ SYSTEMD_SERVICE_${PN}-networking = "lxc-net.service"
+ SYSTEMD_AUTO_ENABLE_${PN}-networking = "enable"
+ 
+ INITSCRIPT_PACKAGES = "${PN} ${PN}-networking"
+-INITSCRIPT_NAME_${PN} = "lxc"
++INITSCRIPT_NAME_${PN} = "lxc-containers"
+ INITSCRIPT_PARAMS_${PN} = "defaults"
+ INITSCRIPT_NAME_${PN}-networking = "lxc-net"
+ INITSCRIPT_PARAMS_${PN}-networking = "defaults"
 -- 
-Maciej Pijanowski
-Embedded Systems Engineer
-http://3mdeb.com | @3mdeb_com
+2.7.4
 
 
