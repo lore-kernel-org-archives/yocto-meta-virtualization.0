@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D9705E00B4C; Tue, 29 May 2018 07:25:59 -0700 (PDT)
+	id EE3E8E00BAF; Tue, 29 May 2018 07:26:08 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [74.125.82.68 listed in list.dnswl.org]
+	*      [74.125.82.66 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,50 +20,50 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f68.google.com (mail-wm0-f68.google.com [74.125.82.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E991BE009D4
+Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3DAB1E009D4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 May 2018 07:25:58 -0700 (PDT)
-Received: by mail-wm0-f68.google.com with SMTP id t11-v6so41216071wmt.0
+	Tue, 29 May 2018 07:26:07 -0700 (PDT)
+Received: by mail-wm0-f66.google.com with SMTP id f8-v6so41263790wmc.4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 May 2018 07:25:58 -0700 (PDT)
+	Tue, 29 May 2018 07:26:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=xDBJxqmScUbzWrJpmKcTsbfza9eomeVYdit+hg1qf6Q=;
-	b=Nxpse4wXBkitdcxer85ej5Awaa7QJHnVYMKiy39+kiqT+boDZApVzE4MozKAEpYyKa
-	nDNamAJSe/qMymaGBp4szOvJRpIojVo0w9gwq6vgP3KZA1vftBnK9xKsLXzWyliv0QM4
-	A8vpJQh4QwevPvv3QVEvCUE6su9yoMxUNsqeNlOZD28gFwSwWVCMw4ZjCwHdn/YUyh/b
-	N3l8iDf6b/hsgrHvgHM6kUg26g1CotdzhPRAOlBIowVDQQ/tUwsWm0+hN5UDzM0iiSkH
-	7W4C2U7rZXjQgXvBUrot5krcKaTU/d5XydoJuQ/UGAFBRNhO++bnB4WbCyc/f3EL9Igv
-	OMxA==
+	:cc; bh=yI653uSpsc5ulAXhKa1Dyi1Qpx+bljpCHpoczsye8Yc=;
+	b=M9blMogTRpk93+W7cnAN0M2NjGyWCuajMpe3xszkGadFYnUzqKFlqEGEW53cBs6GLf
+	fSIjJGzbjEweUqXU3I+qxfFXhhCNnhi6IHjpnV0X4P6yChVzs/QbsL+ImlbPs6MZB6kL
+	L8Dit/9hWbniKOpTRrtBmp92eTGsZ0QKm0XNaoinQ1RZg8OZ4/f+GdRc6XT+Jfii2Cqb
+	h6tfnaEMGM5dXBW5ZuHoLX3RkGsjKaLTr08HnP44bEtsKJCUaOyrHGucIET6ccPaPbHC
+	HaTD/MAksSkv20ZEk7tOmiuGPAEBXpAXHpCbf4VUCropTwS+5Ev0CLhL8sfAJJOQVhv4
+	/vjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=xDBJxqmScUbzWrJpmKcTsbfza9eomeVYdit+hg1qf6Q=;
-	b=gjeWK92SDz0oT7CVawBTQerjJLQjXkOV5EYyd6RPg//ohdM+ZSlrTXiCltD0ee2y/j
-	eCvuyQp9Pmsf1M6hljRHyuubRVv+qLnwQzo40rTMoy0K+H+Z6ZLu+nzSBswtgoIj5MQa
-	sY6EK72E4hzGUBNIjK10ggsIDNl3UkoLihfL7eqx24Q4XeW8GEVKsOhCz1V4oTKqX+S3
-	z5LgI0Q1hdbgR9G1WADOHiWUjGl9caRc66Xau/6tQdmh2tOKBF/uPQcjPnalg9EWAbTs
-	uAWC3d0R7lvVHFIu1NdQq/18YWL0vI44GYqhdzZpxxOwZ6iwU3ucuI/RDy/uFONeX4ya
-	1oxw==
-X-Gm-Message-State: ALKqPwf+zD4DZbzH3XOArd8KriVe3B5HBlI0PezFnwhtNyhWUVqgSUYP
-	4CT4YR+pbnBqUw6MkAxNIUsNC5DFOE//EzkHEY0=
-X-Google-Smtp-Source: ADUXVKIf6jagnBCMjzu3YMwhug/8ZOz+DvGxbAyU8zg9oO9qULLDnzW/MkfacxKcC8PEhax7RER6COzUyvrEFm7Kpm4=
-X-Received: by 2002:a2e:82d6:: with SMTP id
-	n22-v6mr11394140ljh.142.1527603957823; 
-	Tue, 29 May 2018 07:25:57 -0700 (PDT)
+	bh=yI653uSpsc5ulAXhKa1Dyi1Qpx+bljpCHpoczsye8Yc=;
+	b=Y+FHVObWWALjFmgb1k5YvcVp2fgQsXgVuxLsTiNjb+VM2u2oXnT4p6f9Z1TxHZtjuR
+	o7DGCjJiIQKz/h/+TbvhYq+mbyjvGDupAl9FzZcHHdilhOEYuvLoCFHXBNpKiGfbiMKg
+	7hV454fX/X33oqCliKVE1ynV74Uni1LOc/PTN3LrAUKYVl2iheDE/caEAsztC5aDAoEh
+	OflAj4BTMxyoPIdYeEoqljteJVMohjVRaFd2EJdd9jQC2eyoWyMnsvenmLB3/9SD+Qya
+	0TpVNgaIiITqZigKj39LhmohFTUUqZBHqSBtu8nfdzybxsPWUmizwjxXmErKhvjlfmmC
+	1+1w==
+X-Gm-Message-State: ALKqPwdc8QhSrL423+Kv/NwRnniqMHidbmARrPeNlEpd+xqHGtLI7c5z
+	Zk+2GyJNVgD/rtg4V+LUJx8hzR0TNVq1I3XsFYE=
+X-Google-Smtp-Source: ADUXVKLOJCaH4A9VvSF2vO2bDi5gUlL7wCIEEfnGOm9IYoKpk9iKKYJKc1lEL9KfUblbUSY7H6AsOp2VKDrAOu3fAFI=
+X-Received: by 2002:a2e:c41:: with SMTP id o1-v6mr11380264ljd.87.1527603967072;
+	Tue, 29 May 2018 07:26:07 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:3307:0:0:0:0:0 with HTTP; Tue, 29 May 2018 07:25:57
+Received: by 2002:a2e:3307:0:0:0:0:0 with HTTP; Tue, 29 May 2018 07:26:06
 	-0700 (PDT)
-In-Reply-To: <20180525135820.9279-1-pascal.bach@siemens.com>
+In-Reply-To: <20180525135820.9279-2-pascal.bach@siemens.com>
 References: <20180525135820.9279-1-pascal.bach@siemens.com>
+	<20180525135820.9279-2-pascal.bach@siemens.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 29 May 2018 10:25:57 -0400
-Message-ID: <CADkTA4POi2ym7_hXqNuwMT-4dCMnMBVWMkEsuvuhqVGNnym3EQ@mail.gmail.com>
+Date: Tue, 29 May 2018 10:26:06 -0400
+Message-ID: <CADkTA4PjzWoXFaVd3L_G_knGNeDGDMVMtk5c6EOXL0z+iW4P3g@mail.gmail.com>
 To: Pascal Bach <pascal.bach@siemens.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/2] runc: allow enabling seccomp
+Subject: Re: [PATCH 2/2] docker: allow enabling seccomp
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,10 +76,10 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 14:25:59 -0000
-Content-Type: multipart/alternative; boundary="000000000000437d9c056d59030b"
+X-List-Received-Date: Tue, 29 May 2018 14:26:09 -0000
+Content-Type: multipart/alternative; boundary="000000000000d09f2c056d59030d"
 
---000000000000437d9c056d59030b
+--000000000000d09f2c056d59030d
 Content-Type: text/plain; charset="UTF-8"
 
 merged.
@@ -94,34 +94,36 @@ wrote:
 >
 > Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 > ---
->  recipes-containers/runc/runc.inc | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  recipes-containers/docker/docker_git.bb | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
-> diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/
-> runc.inc
-> index 9199cef..6d11a6e 100644
-> --- a/recipes-containers/runc/runc.inc
-> +++ b/recipes-containers/runc/runc.inc
-> @@ -12,6 +12,10 @@ PV = "${RUNC_VERSION}+git${SRCPV}"
+> diff --git a/recipes-containers/docker/docker_git.bb
+> b/recipes-containers/docker/docker_git.bb
+> index e055a4f..790170e 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -62,6 +62,9 @@ DEPENDS = " \
+>      libtool \
+>      "
 >
->  inherit go
->  inherit goarch
-> +inherit pkgconfig
-> +
 > +PACKAGECONFIG ??= ""
 > +PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
+> +
+>  PACKAGES =+ "${PN}-contrib"
 >
->  RRECOMMENDS_${PN} = "lxc docker"
->  PROVIDES += "virtual/runc"
-> @@ -22,7 +26,7 @@ GO_IMPORT = "import"
->  LIBCONTAINER_PACKAGE="github.com/opencontainers/runc/libcontainer"
+>  DEPENDS_append_class-target = " lvm2"
+> @@ -105,7 +108,7 @@ do_compile() {
+>         export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+>         export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+>         # in order to exclude devicemapper and btrfs -
+> https://github.com/docker/docker/issues/14056
+> -       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
+> exclude_graphdriver_devicemapper'
+> +       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
+> exclude_graphdriver_devicemapper ${PACKAGECONFIG_CONFARGS}'
 >
->  do_configure[noexec] = "1"
-> -EXTRA_OEMAKE="BUILDTAGS='' GO=${GO}"
-> +EXTRA_OEMAKE="BUILDTAGS='${PACKAGECONFIG_CONFARGS}' GO=${GO}"
+>         export DISABLE_WARN_OUTSIDE_CONTAINER=1
 >
->  do_compile() {
->         # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
 > --
 > 2.11.0
 >
@@ -138,7 +140,7 @@ wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---000000000000437d9c056d59030b
+--000000000000d09f2c056d59030d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -153,39 +155,48 @@ t is not enabled by default.<br>
 Signed-off-by: Pascal Bach &lt;<a href=3D"mailto:pascal.bach@siemens.com">p=
 ascal.bach@siemens.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-containers/runc/runc.<wbr>inc | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
+=C2=A0recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">dock<wbr>er_git.bb</a> | 5 ++++-<br>
+=C2=A01 file changed, 4 insertions(+), 1 deletion(-)<br>
 <br>
-diff --git a/recipes-containers/runc/<wbr>runc.inc b/recipes-containers/run=
-c/<wbr>runc.inc<br>
-index 9199cef..6d11a6e 100644<br>
---- a/recipes-containers/runc/<wbr>runc.inc<br>
-+++ b/recipes-containers/runc/<wbr>runc.inc<br>
-@@ -12,6 +12,10 @@ PV =3D &quot;${RUNC_VERSION}+git${SRCPV}&quot;<br>
+diff --git a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a> b/recipes-containe=
+rs/docker/<a href=3D"http://docker_git.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">do<wbr>cker_git.bb</a><br>
+index e055a4f..790170e 100644<br>
+--- a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
++++ b/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
+eferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
+@@ -62,6 +62,9 @@ DEPENDS =3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0libtool \<br>
+=C2=A0 =C2=A0 =C2=A0&quot;<br>
 <br>
-=C2=A0inherit go<br>
-=C2=A0inherit goarch<br>
-+inherit pkgconfig<br>
-+<br>
 +PACKAGECONFIG ??=3D &quot;&quot;<br>
 +PACKAGECONFIG[seccomp] =3D &quot;seccomp,,libseccomp&quot;<br>
++<br>
+=C2=A0PACKAGES =3D+ &quot;${PN}-contrib&quot;<br>
 <br>
-=C2=A0RRECOMMENDS_${PN} =3D &quot;lxc docker&quot;<br>
-=C2=A0PROVIDES +=3D &quot;virtual/runc&quot;<br>
-@@ -22,7 +26,7 @@ GO_IMPORT =3D &quot;import&quot;<br>
-=C2=A0LIBCONTAINER_PACKAGE=3D&quot;<a href=3D"http://github.com/opencontain=
-ers/runc/libcontainer" rel=3D"noreferrer" target=3D"_blank">github.<wbr>com=
-/opencontainers/runc/<wbr>libcontainer</a>&quot;<br>
+=C2=A0DEPENDS_append_class-target =3D &quot; lvm2&quot;<br>
+@@ -105,7 +108,7 @@ do_compile() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_CFLAGS=3D&quot;${CFLAGS} --sysroot=
+=3D${STAGING_DIR_<wbr>TARGET}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_LDFLAGS=3D&quot;${LDFLAGS} --sysroot=
+=3D${STAGING_DIR_<wbr>TARGET}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 # in order to exclude devicemapper and btrfs - =
+<a href=3D"https://github.com/docker/docker/issues/14056" rel=3D"noreferrer=
+" target=3D"_blank">https://github.com/docker/<wbr>docker/issues/14056</a><=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_<wbr>gra=
+phdriver_btrfs exclude_graphdriver_<wbr>devicemapper&#39;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_<wbr>gra=
+phdriver_btrfs exclude_graphdriver_<wbr>devicemapper ${PACKAGECONFIG_CONFAR=
+GS}&#39;<br>
 <br>
-=C2=A0do_configure[noexec] =3D &quot;1&quot;<br>
--EXTRA_OEMAKE=3D&quot;BUILDTAGS=3D&#39;&#39; GO=3D${GO}&quot;<br>
-+EXTRA_OEMAKE=3D&quot;BUILDTAGS=3D&#39;${<wbr>PACKAGECONFIG_CONFARGS}&#39; =
-GO=3D${GO}&quot;<br>
-<br>
-=C2=A0do_compile() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Set GOPATH. See &#39;PACKAGERS.md&#39;. Don&#=
-39;t rely on<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 export DISABLE_WARN_OUTSIDE_<wbr>CONTAINER=3D1<=
+br>
+<span class=3D"HOEnZb"><font color=3D"#888888">=C2=A0<br>
+-- <br>
 2.11.0<br>
 <br>
 -- <br>
@@ -202,4 +213,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---000000000000437d9c056d59030b--
+--000000000000d09f2c056d59030d--
