@@ -1,43 +1,71 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 81151E00B57; Tue, 29 May 2018 06:07:00 -0700 (PDT)
+	id CCEEFE00A75; Tue, 29 May 2018 06:10:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.161.196 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5B6F2E009AC
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yw0-f196.google.com (mail-yw0-f196.google.com
+	[209.85.161.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9BE4FE009AC
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 May 2018 06:06:50 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w4TD5nAW008531
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 29 May 2018 06:06:04 -0700
-Received: from yow-masselst-lx1.localnet (128.224.60.223) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.361.1; Tue, 29 May 2018 06:05:38 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: Nicolai Weis <nicolai.weis@web.de>
-Date: Tue, 29 May 2018 09:05:37 -0400
-Message-ID: <2733784.4O7enH61Te@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <trinity-375847ef-5d15-4d33-ba70-a4dd5a8ac85f-1527597485908@3c-app-webde-bap21>
-References: <trinity-a3db492f-8222-4da7-866b-d0290300a2c4-1526989134941@3c-app-webde-bap43>
-	<trinity-ff36e0fa-466b-4d34-936f-97b6a19f73bb-1527597250966@3c-app-webde-bap21>
-	<trinity-375847ef-5d15-4d33-ba70-a4dd5a8ac85f-1527597485908@3c-app-webde-bap21>
+	Tue, 29 May 2018 06:10:14 -0700 (PDT)
+Received: by mail-yw0-f196.google.com with SMTP id q7-v6so4756034ywd.9
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 29 May 2018 06:10:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:reply-to:sender:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=Xy9EgbT8axWrm4PvuW1qZOIKr3Y5xXFr0DXakBgoJsU=;
+	b=o/ALvApvOJKami3eG8XOwHoVf2d4O+Nh+ZfYyWKEu3gZn3DvzG9l7DvTFSRRIjKF5u
+	LaF5OpEk61Yu/dkvtUc1GsWJIKiOSZJeIG93uMEa9nu6SNOTD9fAtapbw/+lR+UOY8WQ
+	/Mfc7mRfytwMX35he5PGGH5OxM+GDgGsTSEJ44ekops2WD435yFMt6UN1b9dRhw+JO5X
+	yxy9n8nTZVDXdwAvyVL/SK+WboEAwXnUrOLWMQUHGcP5TC9ZCZST6QFScsktfC1J9Ehp
+	2i0lci14sjHFzOG2G42Et4Js+9ZzgmKzpmKZTgFwBxowu87bGxHANVPGs4jcJhR3c0GA
+	4wbw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
+	:references:from:date:message-id:subject:to:cc;
+	bh=Xy9EgbT8axWrm4PvuW1qZOIKr3Y5xXFr0DXakBgoJsU=;
+	b=CRAz59dzeG2z/HhV/aLS9srLgsYIxebHF05EF9hJxNXho0dlC8DP4N0NmcY9iEUtwB
+	ISmuCeaBQT7uyfn2oHLSDblZHL7ZMQqX5aYidu4THzoacRTy4c1F6qOQbvwPi2nH+y/a
+	nd925huEGYOJthmhGGPUXWG9+JkU4Rw5zAg4ztvhVcM05IT0xOX+WqE/CyZMpPLQ4ovh
+	tZzV5Clz2/D8BstO5KtlInR7hCUPFFomtSCrpIaPAaka+sDFjdmqfqz0c9RPJM7XXS9x
+	L7KuYK6xrMRyaRWNfpBsvpkPBc9KnINuzvbvq/+aHhH0Jm9e6h9gWabA4ySkFPlcMy0x
+	yysA==
+X-Gm-Message-State: ALKqPweWWFIdimrTizIebyFsr2POTyHogsFEScO0WP9LyYNxaY5wGA4w
+	77pd4ViSTHFJ66md1aK8H8gqf4BzyB3kjNmnREyV6A==
+X-Google-Smtp-Source: ADUXVKJNIRG4SAvmw60QmHoYoXJq3hD0b5gKJoG9DXgHgII/Xs0VdRHW48B1e7o3YPfkU4xJzDg2EF7Ft6PV60lIC2I=
+X-Received: by 2002:a81:91c7:: with SMTP id
+	i190-v6mr2576350ywg.364.1527599413765; 
+	Tue, 29 May 2018 06:10:13 -0700 (PDT)
 MIME-Version: 1.0
+Sender: asselsm@gmail.com
+Received: by 2002:a25:3dc7:0:0:0:0:0 with HTTP; Tue, 29 May 2018 06:10:13
+	-0700 (PDT)
+In-Reply-To: <20180529110036.32285-1-hongl.fnst@cn.fujitsu.com>
+References: <20180529110036.32285-1-hongl.fnst@cn.fujitsu.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Tue, 29 May 2018 09:10:13 -0400
+X-Google-Sender-Auth: p4T1iIbYO_Gj7vjbVuwXUQhUOsQ
+Message-ID: <CAPuovE+sxDa6oHLx-YQyWdxDPK7jU4giLhXf9WYb5aNWKts-tw@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: Question Integration of LXC
+Subject: Re: [PATCH] [meta-cloud-services][PATCH] python-glanceclient: 2.8.0 -> 2.11.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -47,114 +75,53 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 13:07:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Tue, 29 May 2018 13:10:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Tuesday, May 29, 2018 8:38:05 AM EDT Nicolai Weis wrote:
-> >> I actually had a cgroup-lite uprev in flight which has now been sent
-> >> to the list. I also have plans to uprev LXC in the next week or so,
-> >> along with making some changes, such as dropping the lxc-setup package
-> >> which has its roots from early iterations of the systemd/sysvinit
-> >> split, which can be done differently now. If I find the time to get
-> >> this done you should see the series soon.
-> 
->  
-> The uprev cgroup-lite works fine. Now I don't have to mount systemd
-> manually. Thank you for that. 
+On Tue, May 29, 2018 at 7:00 AM, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+> Upgrade python-glanceclient from 2.8.0 to 2.11.0.
+>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> ---
+>  meta-openstack/recipes-devtools/python/python-glanceclient_git.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
+> index 00ea2ab..07cf42d 100644
+> --- a/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-glanceclient_git.bb
+> @@ -9,11 +9,11 @@ DEPENDS += " \
+>          python-pbr \
+>          "
+>
+> -SRCREV = "13b25ff1fed908cfe7b4e719a97efd7121e3be96"
+> -PV = "2.8.0+git${SRCPV}"
+> +SRCREV = "314a29f6a6e64f69fd07fd5a0fdcf7aeb5574c1b"
+> +PV = "2.11.0+git${SRCPV}"
+>
+>  SRC_URI = "\
+> -       git://github.com/openstack/${BPN}.git;branch=stable/pike \
+> +       git://github.com/openstack/${BPN}.git;branch=master \
 
-np
-
-> 
-> > Just to follow up on this. With the cgroup-lite change sent and merged
-> > yesterday I am able to create and run a container using the lxc busybox
-> > template.
-> > 
-> > I needed to update the template to 'binary_copy passwd' and adjust the
-> > 'chmod' path for this from '/bin/passwd' to '/usr/bin/passwd'.
-> 
->  
-> How do you change the lxc-busybox-template exactly? What code do I have to
-> change into binary_copy passwd? Do you mean the chmod path in the function
-> configure_busybox() { ... # passwd exec must be setuid chmod +s
-> $rootfs/bin/passwd ...} ? 
-
---- tmp/work/core2-64-poky-linux/lxc/2.0.8-r0/image/usr/share/lxc/templates/
-lxc-busybox 2018-05-25 15:19:53.143030528 -0400
-+++ /tmp/lxc-busybox    2018-05-29 08:57:31.291643488 -0400
-@@ -94,6 +94,7 @@
- 
-     mkdir -p $tree || return 1
-     chmod 755 $tree || return 1
-+    copy_binary passwd || return 1
- 
-     pushd $rootfs/dev > /dev/null || return 1
- 
-@@ -326,7 +327,7 @@
-     touch $rootfs/etc/fstab
- 
-     # passwd exec must be setuid
--    chmod +s $rootfs/bin/passwd
-+    chmod +s $rootfs/usr/bin/passwd
-     touch $rootfs/etc/shadow
- 
-     return 0
-
-
-> 
-> > Along with manually tweaking the memory cgroup (via 'echo 1 >
-> > /sys/fs/cgroup/memory/memory.use_hierarchy).
->  
-> In my case this isn't possible: write error: Device or resource busy.
-
-Do it as soon as the system boots and not after you attempt to create or start 
-the container.
-
-> 
-> > I will not consider
-> > digging in to fix these until I confirm they are still an issue after
-> > the LXC uprev.
-> > 
-> > The following are the only changes to my local.conf
-> > ---
-> > MACHINE = "qemux86-64"
-> > DISTRO_FEATURES += "virtualization"
-> > PACKAGE_CLASSES = "package_ipk"
-> > IMAGE_INSTALL_append += "cgroup-lite lxc"
-> > ---
-> 
->  
-> I got it working on the machine = "qemux86", too (Krogoth). I needed to add
-> under meta-virtualization/recipes-core/busybox a new Config-file with
-> "CONFIG_INIT=y" in it.  I can't access the running container with
-> lxc-console,  but with lxc-attach it works fine.
-
-For some of the templates you need to first run do 'lxc-execute -n <name> /
-bin/bash' then use 'passwd' to set a password and you should be able to use 
-lxc-console after this. But each template is different.
-
-> 
-> In my minnowboard image (machine = "intel-corei7-64" modified with
-> PREFERRED_PROVIDER_virtual/kernel = "linux-yocto-rt"
-> and MACHINE_EXTRA_RRECOMMENDS += "kernel-modules") this isn't enough. I got
-> the error:
->   [12208.261387] devpts: called with bogus options
->   lxc-start: conf.c: lxc_create_tty: 3284 No such file or directory - failed
-> to create pty #0 lxc-start: conf.c: lxc_setup: 3800 failed to create the
-> ttys
->   lxc-start: start.c: do_start: 819 failed to setup the container
->   lxc-start: sync.c: __sync_wait: 52 An error occurred in another process
-> (expected sequence number 2)
-> 
-> Any ideas?
-> In lxc-checkconfig there is Multiple /dev/pts instances: missing (in qemux
-> it is enabled). CONFIG_DEVPTS_MULTIPLE_INSTANCES=y is always set.
-
-Make sure lxc-enable.scc kernel feature is enabled. Compare against a working 
-qemux86-64 kernel. That's about all I can advise.
+We can't be moving these off of the stable/pike branch without a plan.
+You need to work with Bruce to figure something out. As is these are
+not acceptable in my view. What is the motivation for the uprevs? That
+might help with the assessment of these.
 
 Mark
 
 
-
+>         file://glance-api-check.sh \
+>         "
+>
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
