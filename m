@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EE3E8E00BAF; Tue, 29 May 2018 07:26:08 -0700 (PDT)
+	id AC4B0E00C61; Tue, 29 May 2018 07:28:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [74.125.82.66 listed in list.dnswl.org]
+	*      [209.85.128.178 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,50 +20,51 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-wm0-f66.google.com (mail-wm0-f66.google.com [74.125.82.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3DAB1E009D4
+Received: from mail-wr0-f178.google.com (mail-wr0-f178.google.com
+	[209.85.128.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8C8AEE00C4D
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 May 2018 07:26:07 -0700 (PDT)
-Received: by mail-wm0-f66.google.com with SMTP id f8-v6so41263790wmc.4
+	Tue, 29 May 2018 07:28:19 -0700 (PDT)
+Received: by mail-wr0-f178.google.com with SMTP id a15-v6so25904245wrm.0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 May 2018 07:26:07 -0700 (PDT)
+	Tue, 29 May 2018 07:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=yI653uSpsc5ulAXhKa1Dyi1Qpx+bljpCHpoczsye8Yc=;
-	b=M9blMogTRpk93+W7cnAN0M2NjGyWCuajMpe3xszkGadFYnUzqKFlqEGEW53cBs6GLf
-	fSIjJGzbjEweUqXU3I+qxfFXhhCNnhi6IHjpnV0X4P6yChVzs/QbsL+ImlbPs6MZB6kL
-	L8Dit/9hWbniKOpTRrtBmp92eTGsZ0QKm0XNaoinQ1RZg8OZ4/f+GdRc6XT+Jfii2Cqb
-	h6tfnaEMGM5dXBW5ZuHoLX3RkGsjKaLTr08HnP44bEtsKJCUaOyrHGucIET6ccPaPbHC
-	HaTD/MAksSkv20ZEk7tOmiuGPAEBXpAXHpCbf4VUCropTwS+5Ev0CLhL8sfAJJOQVhv4
-	/vjw==
+	:cc; bh=Qnz8ipOdu9oTkXyLxGVavLedlFtOZjRK0/mCz4TqITQ=;
+	b=os4BquuKVcyNzywF3rCcMyGBI/3W/vwqsjCpQDBESKBDVtzG+BgcxP21wkK4bx7ewV
+	pucANZXMti0ChWJ5VJHVdy9FCdoZIsgvA/SSJpY4dgS4xo8cLlMzI3NFLg78hjxV11Oq
+	B8wQ1ubEVi6Vm7PYC8+OZiPnhULThPFur1jW4ZJgUtaQXDyv7eLiIN9THkkqqROTqWI5
+	Kk3ORGCOwLpUAYwhtszHr+ZSm6f32CjukpX4TihfSXH7oMsuLo2VRoDCsKPG63Q3s9T6
+	GmYvLuKY6RjOHsJwVEneUDSRdFeUlONHiWq7RzfqlxeSvMvVaeUyVKyz7RMJmVhyuCaw
+	vYAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=yI653uSpsc5ulAXhKa1Dyi1Qpx+bljpCHpoczsye8Yc=;
-	b=Y+FHVObWWALjFmgb1k5YvcVp2fgQsXgVuxLsTiNjb+VM2u2oXnT4p6f9Z1TxHZtjuR
-	o7DGCjJiIQKz/h/+TbvhYq+mbyjvGDupAl9FzZcHHdilhOEYuvLoCFHXBNpKiGfbiMKg
-	7hV454fX/X33oqCliKVE1ynV74Uni1LOc/PTN3LrAUKYVl2iheDE/caEAsztC5aDAoEh
-	OflAj4BTMxyoPIdYeEoqljteJVMohjVRaFd2EJdd9jQC2eyoWyMnsvenmLB3/9SD+Qya
-	0TpVNgaIiITqZigKj39LhmohFTUUqZBHqSBtu8nfdzybxsPWUmizwjxXmErKhvjlfmmC
-	1+1w==
-X-Gm-Message-State: ALKqPwdc8QhSrL423+Kv/NwRnniqMHidbmARrPeNlEpd+xqHGtLI7c5z
-	Zk+2GyJNVgD/rtg4V+LUJx8hzR0TNVq1I3XsFYE=
-X-Google-Smtp-Source: ADUXVKLOJCaH4A9VvSF2vO2bDi5gUlL7wCIEEfnGOm9IYoKpk9iKKYJKc1lEL9KfUblbUSY7H6AsOp2VKDrAOu3fAFI=
-X-Received: by 2002:a2e:c41:: with SMTP id o1-v6mr11380264ljd.87.1527603967072;
-	Tue, 29 May 2018 07:26:07 -0700 (PDT)
+	bh=Qnz8ipOdu9oTkXyLxGVavLedlFtOZjRK0/mCz4TqITQ=;
+	b=Jd5w/Eyaaa4hXMAtAx+fGy0tcG0sutbR6xSv+RVNkMPbwhwGhOtiyVgHYR1QNjfU7p
+	KtOLMf89yDoridwF1SGCGeTfmiZxH2BXpcd/OQu0p5bZWYk3TKJBtza/tYFTV5oKWfoA
+	luaUp2Uh0e7XbjSWv9wew6B4UjfyUbzVEjbRFyHFyIfbVIhah8ui3V0+CuN77utbK6j3
+	baCK401WZwdiZROF2iFAObDFZztfQz+zmQbFPS7ep75QuC93kdnttScXcRQhPHlKvyzx
+	E4WQSOCNJDkHi6rP0vWYThK+Xe/OqvQNE27kjDfpHQ4k5edtc9V3KNWdowDO5JHkpaMc
+	GDgA==
+X-Gm-Message-State: ALKqPwevtarvbhyUxaD5V0qDfXltbtZkQ6Aa3H5VyXfLRZX8jrnr9Cbo
+	+H7L3TPGkBZWdNk1XGasuRde0EL5EmclHwjpmKBp9A==
+X-Google-Smtp-Source: ADUXVKI6tdOAIcK6sXQblp5gqlqo7cFxN4iUQ7ygCyPxGAGQ5ej1NLBknUALx+buOmWqhJ67TarFrA2jn7RhsvnydNU=
+X-Received: by 2002:a19:14ca:: with SMTP id
+	71-v6mr9343570lfu.126.1527604098439; 
+	Tue, 29 May 2018 07:28:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:3307:0:0:0:0:0 with HTTP; Tue, 29 May 2018 07:26:06
+Received: by 2002:a2e:3307:0:0:0:0:0 with HTTP; Tue, 29 May 2018 07:28:17
 	-0700 (PDT)
-In-Reply-To: <20180525135820.9279-2-pascal.bach@siemens.com>
-References: <20180525135820.9279-1-pascal.bach@siemens.com>
-	<20180525135820.9279-2-pascal.bach@siemens.com>
+In-Reply-To: <1527513289-5463-1-git-send-email-mark.asselstine@windriver.com>
+References: <1527513289-5463-1-git-send-email-mark.asselstine@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 29 May 2018 10:26:06 -0400
-Message-ID: <CADkTA4PjzWoXFaVd3L_G_knGNeDGDMVMtk5c6EOXL0z+iW4P3g@mail.gmail.com>
-To: Pascal Bach <pascal.bach@siemens.com>
+Date: Tue, 29 May 2018 10:28:17 -0400
+Message-ID: <CADkTA4N3bzQfBcJqq+480vjxevQYcgBCtCu7j5P+KFoVmAZ5_A@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 2/2] docker: allow enabling seccomp
+Subject: Re: [PATCH 0/4] lxc updates
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,57 +77,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 29 May 2018 14:26:09 -0000
-Content-Type: multipart/alternative; boundary="000000000000d09f2c056d59030d"
+X-List-Received-Date: Tue, 29 May 2018 14:28:20 -0000
+Content-Type: multipart/alternative; boundary="000000000000a51e9a056d590b50"
 
---000000000000d09f2c056d59030d
+--000000000000a51e9a056d590b50
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+They all look good to me.
+
+Thanks for the cleanup, these are now merged.
 
 Bruce
 
-On Fri, May 25, 2018 at 9:58 AM, Pascal Bach <pascal.bach@siemens.com>
-wrote:
+On Mon, May 28, 2018 at 9:14 AM, Mark Asselstine <
+mark.asselstine@windriver.com> wrote:
 
-> This requires libseccomp from meta-security so it is not enabled by
-> default.
 >
-> Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
-> ---
->  recipes-containers/docker/docker_git.bb | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Before doing an uprev of lxc I wanted to do some housekeeping on the
+> current version, the result of some runtime testing with sysvinit and
+> systemd along with some feedback from users. There were some
+> inconsistencies between the packaging and handling of the two init
+> systems which these change address, making the runtime experience
+> match more closely. This also addresses some of the bugs we have
+> recieved due to the -setup package which had (d)evolved from its
+> initial intent. There is nothing groundbreaking here, and the end
+> result should just be that there is less confusion when one wants to
+> get lxc up and running in an image. These changes were tested
+> thoroughly with 'cgroup-lite', 'lxc' and optionally 'lxc-networking'
+> packages added to core-image-minimal when either sysvinit or systemd
+> is in use.
 >
-> diff --git a/recipes-containers/docker/docker_git.bb
-> b/recipes-containers/docker/docker_git.bb
-> index e055a4f..790170e 100644
-> --- a/recipes-containers/docker/docker_git.bb
-> +++ b/recipes-containers/docker/docker_git.bb
-> @@ -62,6 +62,9 @@ DEPENDS = " \
->      libtool \
->      "
->
-> +PACKAGECONFIG ??= ""
-> +PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
-> +
->  PACKAGES =+ "${PN}-contrib"
->
->  DEPENDS_append_class-target = " lvm2"
-> @@ -105,7 +108,7 @@ do_compile() {
->         export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
->         export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
->         # in order to exclude devicemapper and btrfs -
-> https://github.com/docker/docker/issues/14056
-> -       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
-> exclude_graphdriver_devicemapper'
-> +       export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs
-> exclude_graphdriver_devicemapper ${PACKAGECONFIG_CONFARGS}'
->
->         export DISABLE_WARN_OUTSIDE_CONTAINER=1
->
-> --
-> 2.11.0
->
+> Mark Asselstine
 > --
 > _______________________________________________
 > meta-virtualization mailing list
@@ -140,65 +121,33 @@ wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---000000000000d09f2c056d59030d
+--000000000000a51e9a056d590b50
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Fri, May 25, 2018 at 9:58 AM=
-, Pascal Bach <span dir=3D"ltr">&lt;<a href=3D"mailto:pascal.bach@siemens.c=
-om" target=3D"_blank">pascal.bach@siemens.com</a>&gt;</span> wrote:<br><blo=
-ckquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #c=
-cc solid;padding-left:1ex">This requires libseccomp from meta-security so i=
-t is not enabled by default.<br>
-<br>
-Signed-off-by: Pascal Bach &lt;<a href=3D"mailto:pascal.bach@siemens.com">p=
-ascal.bach@siemens.com</a>&gt;<br>
----<br>
-=C2=A0recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">dock<wbr>er_git.bb</a> | 5 ++++-<br>
-=C2=A01 file changed, 4 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">do<wbr>cker_git.bb</a> b/recipes-containe=
-rs/docker/<a href=3D"http://docker_git.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">do<wbr>cker_git.bb</a><br>
-index e055a4f..790170e 100644<br>
---- a/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
-+++ b/recipes-containers/docker/<a href=3D"http://docker_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">do<wbr>cker_git.bb</a><br>
-@@ -62,6 +62,9 @@ DEPENDS =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0libtool \<br>
-=C2=A0 =C2=A0 =C2=A0&quot;<br>
-<br>
-+PACKAGECONFIG ??=3D &quot;&quot;<br>
-+PACKAGECONFIG[seccomp] =3D &quot;seccomp,,libseccomp&quot;<br>
-+<br>
-=C2=A0PACKAGES =3D+ &quot;${PN}-contrib&quot;<br>
-<br>
-=C2=A0DEPENDS_append_class-target =3D &quot; lvm2&quot;<br>
-@@ -105,7 +108,7 @@ do_compile() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_CFLAGS=3D&quot;${CFLAGS} --sysroot=
-=3D${STAGING_DIR_<wbr>TARGET}&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_LDFLAGS=3D&quot;${LDFLAGS} --sysroot=
-=3D${STAGING_DIR_<wbr>TARGET}&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # in order to exclude devicemapper and btrfs - =
-<a href=3D"https://github.com/docker/docker/issues/14056" rel=3D"noreferrer=
-" target=3D"_blank">https://github.com/docker/<wbr>docker/issues/14056</a><=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_<wbr>gra=
-phdriver_btrfs exclude_graphdriver_<wbr>devicemapper&#39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&#39;exclude_<wbr>gra=
-phdriver_btrfs exclude_graphdriver_<wbr>devicemapper ${PACKAGECONFIG_CONFAR=
-GS}&#39;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export DISABLE_WARN_OUTSIDE_<wbr>CONTAINER=3D1<=
-br>
-<span class=3D"HOEnZb"><font color=3D"#888888">=C2=A0<br>
--- <br>
-2.11.0<br>
-<br>
+<div dir=3D"ltr">They all look good to me.<div><br></div><div>Thanks for th=
+e cleanup, these are now merged.</div><div><br></div><div>Bruce</div></div>=
+<div class=3D"gmail_extra"><br><div class=3D"gmail_quote">On Mon, May 28, 2=
+018 at 9:14 AM, Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mar=
+k.asselstine@windriver.com" target=3D"_blank">mark.asselstine@windriver.com=
+</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Before doing an uprev of lxc I wanted to do some housekeeping on the<br>
+current version, the result of some runtime testing with sysvinit and<br>
+systemd along with some feedback from users. There were some<br>
+inconsistencies between the packaging and handling of the two init<br>
+systems which these change address, making the runtime experience<br>
+match more closely. This also addresses some of the bugs we have<br>
+recieved due to the -setup package which had (d)evolved from its<br>
+initial intent. There is nothing groundbreaking here, and the end<br>
+result should just be that there is less confusion when one wants to<br>
+get lxc up and running in an image. These changes were tested<br>
+thoroughly with &#39;cgroup-lite&#39;, &#39;lxc&#39; and optionally &#39;lx=
+c-networking&#39;<br>
+packages added to core-image-minimal when either sysvinit or systemd<br>
+is in use.<br>
+<span class=3D"HOEnZb"><font color=3D"#888888"><br>
+Mark Asselstine<br>
 -- <br>
 ______________________________<wbr>_________________<br>
 meta-virtualization mailing list<br>
@@ -213,4 +162,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---000000000000d09f2c056d59030d--
+--000000000000a51e9a056d590b50--
