@@ -1,70 +1,42 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 76F7CE00CFD; Sun,  3 Jun 2018 20:28:32 -0700 (PDT)
+	id 03CBCE00B4C; Mon,  4 Jun 2018 08:54:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.215.65 listed in list.dnswl.org]
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 307A9E00CE9
-	for <meta-virtualization@yoctoproject.org>;
-	Sun,  3 Jun 2018 20:28:30 -0700 (PDT)
-Received: by mail-lf0-f65.google.com with SMTP id i83-v6so10688727lfh.5
-	for <meta-virtualization@yoctoproject.org>;
-	Sun, 03 Jun 2018 20:28:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=9tiiHMkhptCBcrtvfIJeI2A/jMYEeZsKgug2MJ9Nq10=;
-	b=gF3gMnL2OyYK5Nic9n7KMfBx5XGoH3ZhH+KTzYwwZ6xc/zwmrbobOrYjrS+EW7EPk/
-	VQcEI1RJ4+dF0GLNkeXfW/NH1Jha6ju/5kBjhTFnIaonC6oVWcnNIOrcy3Y6zMfxLjNy
-	+bLdG7Vz1nF0PAYzUY7trQzu8qkdgQG//XIUZ3TupufxwK3bbIBB1GKs4lyVA2v8cNSn
-	0bwwW+sncdoUt+4sUGQV75YhfYKMxCZC553C+Yor4mfWfXsngTBgyX5+4IQX87GnmeKl
-	u7p2RPiAYLWU3wdAfHIgGGROnN6sz6s8M1WWg9M1JnQ9aXSdNZxzFJs0adhBDCgFmR5H
-	GkQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=9tiiHMkhptCBcrtvfIJeI2A/jMYEeZsKgug2MJ9Nq10=;
-	b=p2WAQ35cOoynVrySBesBCFyqDFU3QfHmDCZ9cdXM3sGrwJTxidwXO5CFiimpSIcItb
-	9Bi5Tidg82BKKlB/qI4i9vphnYOhTAIgGVSKg7JEZY8hFVd1mMAeJWFHo9m4cmLLghX8
-	n1qLIz+7DIRNZthrTcBcuTgJfzn9GxfG8WunqH0hi9WZfhYK1WEMFNoG4XTCCtrayvD4
-	e0/iF4eMPgDXFgYVv/vdhQEYX7N+qMrcC0+K6oW5PBGIuncnV7yBZaPWTbRH2LECPaft
-	X2qBpXjgNpmC4Xb/cyMRnZo8QwYXVbyJmt0vWm1sBWiPyKgl2p9LgcYTJ4gfr2tTy1a9
-	hlYg==
-X-Gm-Message-State: ALKqPwctg1+PNcjcK9ybstEOETEigZjzki2/W5mHnnA/VNVw+WKkGeIZ
-	wGoPmuAWLDmX+8dA8z6PuV9nLS2CexvDkc59tKbopA==
-X-Google-Smtp-Source: ADUXVKJEkRdYpYMW3wBjqds94Sy8Ej6YOKNQqKzJQLKwzDR4ZcdE+uAI0rt0wwjuM74ADDbZeLKv0L+sZtaMv/9v9IQ=
-X-Received: by 2002:a2e:5358:: with SMTP id
-	t24-v6mr14241072ljd.129.1528082910027; 
-	Sun, 03 Jun 2018 20:28:30 -0700 (PDT)
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0D7B2E0086B;
+	Mon,  4 Jun 2018 08:54:43 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w54Frawe022808
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 4 Jun 2018 08:53:52 -0700
+Received: from server.local (128.224.21.159) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
+	Mon, 4 Jun 2018 08:53:19 -0700
+To: Jakob Hasse <jakob.hasse@smart-home-technology.ch>, Yocto List
+	<yocto@yoctoproject.org>
+References: <783ff7cd-c1d8-1802-4b67-3aff339aae31@smart-home-technology.ch>
+	<6391ddea-802d-7f4d-26b3-44a79556c8a0@windriver.com>
+	<761e6979-b696-04f6-6e62-e325bc979c38@smart-home-technology.ch>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <80617b66-6714-03f6-f6e7-45afc4def6d5@windriver.com>
+Date: Mon, 4 Jun 2018 11:53:18 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.8.0
 MIME-Version: 1.0
-Received: by 2002:a2e:161a:0:0:0:0:0 with HTTP;
-	Sun, 3 Jun 2018 20:28:29 -0700 (PDT)
-In-Reply-To: <1527762666-30689-1-git-send-email-jkrishnanjanappa@mvista.com>
-References: <1527762666-30689-1-git-send-email-jkrishnanjanappa@mvista.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 3 Jun 2018 23:28:29 -0400
-Message-ID: <CADkTA4OSs9LVpRH+9zO7o66DcKRaTZz0AaYLaWW6PzXWj6rCkA@mail.gmail.com>
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][PATCH] tgt: specify -f option in order to load backing store device when tgtd is restarted
+In-Reply-To: <761e6979-b696-04f6-6e62-e325bc979c38@smart-home-technology.ch>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: cgroups and iptables problems running docker - maybe my config wrong?
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,108 +49,276 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 03:28:32 -0000
-Content-Type: multipart/alternative; boundary="0000000000000a250c056dc88796"
+X-List-Received-Date: Mon, 04 Jun 2018 15:54:46 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---0000000000000a250c056dc88796
-Content-Type: text/plain; charset="UTF-8"
+On 2018-06-01 12:15 PM, Jakob Hasse wrote:
+> Hello Bruce,
+> 
+> Thank you very much for the quick response. I tried to built in the 
+> kernel changes. But the iptables error persists.
 
-merged
+I double checked over the weekend, and I have no problems with
+linux-yocto + the meta-virtualization fragment and docker.
+
+Did you say that you confirmed on target via /proc/config.gz that
+all the options you tried to enable are still present in the running
+kernel ?
+
+> Eventually, I tried to enable systemd again and it still breaks my build 
+> -.-:
+> 
+> test$ bitbake core-image-base
+> NOTE: Started PRServer with DBfile: 
+> /home/build/test/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 40169, PID: 
+> 2335
+> Loading cache: 100% 
+> |########################################################################################################| 
+> Time: 0:00:00
+> Loaded 3023 entries from dependency cache.
+> Parsing recipes: 100% 
+> |######################################################################################################| 
+> Time: 0:00:01
+> Parsing of 2194 .bb files complete (2193 cached, 1 parsed). 3024 
+> targets, 146 skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
+> 
+> Build Configuration:
+> BB_VERSION           = "1.36.0"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "universal"
+> TARGET_SYS           = "arm-dey-linux-gnueabi"
+> MACHINE              = "ccimx6ulstarter"
+> DISTRO               = "dey"
+> DISTRO_VERSION       = "2.4-r1"
+> TUNE_FEATURES        = "arm armv7ve vfp thumb neon callconvention-hard 
+> cortexa7"
+> TARGET_FPU           = "hard"
+> meta
+> meta-poky
+> meta-yocto-bsp       = "HEAD:3befe6d7b7fa8c8481519aa8dd0cae52207ad339"
+> meta-oe
+> meta-python
+> meta-networking
+> meta-webserver       = "HEAD:dacfa2b1920e285531bec55cd2f08743390aaf57"
+> meta-qt5             = "HEAD:cfe02f26de53e5c20e6f9555059cbaaf5ab9b22f"
+> meta-swupdate        = "HEAD:6e4eab4f475b0129d6510815a3bbc4748c97dbbe"
+> meta-freescale       = "HEAD:d6141ea291a1ac9ab8fb1dd1110d408f840fda57"
+> meta-fsl-demos       = "HEAD:0ec6d7e206705702b5b534611754de0787f92b72"
+> meta-digi-arm
+> meta-digi-dey        = "HEAD:1246ecff2cecea9247d94f36385608ac844d7abb"
+> 
+> Initialising tasks: 100% 
+> |###################################################################################################| 
+> Time: 0:00:04
+> NOTE: Executing SetScene Tasks
+> NOTE: Executing RunQueue Tasks
+> ERROR: core-image-base-1.0-r0 do_rootfs: Could not invoke dnf. Command 
+> '/home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/recipe-sysroot-native/usr/bin/dnf 
+> -y -c 
+> /home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/rootfs/etc/dnf/dnf.conf 
+> --setopt=reposdir=/home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/rootfs/etc/yum.repos.d 
+> --repofrompath=oe-repo,/home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo 
+> --installroot=/home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/rootfs 
+> --setopt=logdir=/home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/temp 
+> -x udev-cache --nogpgcheck install locale-base-en-us locale-base-en-gb 
+> packagegroup-core-boot packagegroup-core-eclipse-debug run-postinsts 
+> packagegroup-dey-bluetooth psplash packagegroup-core-ssh-dropbear 
+> packagegroup-dey-network packagegroup-base-extended 
+> packagegroup-dey-audio packagegroup-dey-wireless rpm dnf' returned 1:
+> Added oe-repo repo from 
+> /home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/oe-rootfs-repo 
+> 
+> Last metadata expiration check: 0:00:00 ago on Fri 01 Jun 2018 03:49:44 
+> PM UTC.
+> Error:
+>   Problem: package packagegroup-base-1.0-r83.0.ccimx6ulstarter requires 
+> packagegroup-distro-base, but none of the providers can be installed
+>    - package packagegroup-base-extended-1.0-r83.0.ccimx6ulstarter 
+> requires packagegroup-base, but none of the providers can be installed
+>    - package packagegroup-distro-base-1.0-r83.0.ccimx6ulstarter requires 
+> packagegroup-dey-core, but none of the providers can be installed
+>    - conflicting requests
+>    - nothing provides busybox-hwclock needed by 
+> packagegroup-dey-core-1.0-r0.0.ccimx6ulstarter
+> 
+> ERROR: core-image-base-1.0-r0 do_rootfs: Function failed: do_rootfs
+> ERROR: Logfile of failure stored in: 
+> /home/build/test/tmp/work/ccimx6ulstarter-dey-linux-gnueabi/core-image-base/1.0-r0/temp/log.do_rootfs.2380 
+> 
+> ERROR: Task 
+> (/usr/local/dey-2.4/sources/poky/meta/recipes-core/images/core-image-base.bb:do_rootfs) 
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 4106 tasks of which 4105 didn't need to 
+> be rerun and 1 failed.
+> 
+> Summary: 1 task failed:
+> /usr/local/dey-2.4/sources/poky/meta/recipes-core/images/core-image-base.bb:do_rootfs 
+> 
+> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
+> 
+> Seems that the introduction of systemd "confuses" dnf. I found a quite 
+> similar description in this bugreport here:
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12025
+> only that I'm not using different machines. This bug doesn't seem to be 
+> resolved yet.
+> 
+> Our Yocto-distribution is DIGI Embedded Yocto. So non-standard.
+> Shall I still log a bug against oe-core?
+
+You could, but without a reproducer on oe-core, chances are that it
+won't be easily resolved.
+
+At a glance, it isn't clear to me how systemd is causing your 
+busybox-hwclock
+issue. But if you check the list, that particular package has recently
+been moved around/broken out. So I'd suggest making sure that all of
+your layers are on the correct branches and that releases aren't being
+mixed.
 
 Bruce
 
-On Thu, May 31, 2018 at 6:31 AM, Jagadeesh Krishnanjanappa <
-jkrishnanjanappa@mvista.com> wrote:
+> If someone here has some more helpful ideas, I would be very thankful.
+> 
+> All the Best,
+> Jakob
+> 
+> On 31.05.2018 13:44, Bruce Ashfield wrote:
+>> On 2018-05-31 7:00 AM, Jakob Hasse wrote:
+>>> Hello,
+>>
+>> Make sure to cc meta-virtualization on questions like this, since
+>> that is where you'll get more eyes that are running docker
+>> all the time.
+>>
+>>> I ran into trouble running docker on our target.
+>>> 1. When I want to start docker, I first have to re-mount cgroups:
+>>> root@target:~# cgroups-umount
+>>> root@target:~# cgroups-mount
+>>> Otherwise docker would produce an error:
+>>> ERRO[0002] Failed to built-in GetDriver graph btrfs /var/lib/docker
+>>>
+>>> 2. When I then start dockerd, it complains about a missing nat table:
+>>> root@target:~# dockerd
+>>> INFO[0000] libcontainerd: new containerd process, pid: 929
+>>> WARN[0000] containerd: low RLIMIT_NOFILE changing to max current=1024 
+>>> max=4096
+>>> INFO[0001] [graphdriver] using prior storage driver: overlay2
+>>> INFO[0001] Graph migration to content-addressability took 0.00 seconds
+>>> WARN[0001] Your kernel does not support cgroup memory limit
+>>> WARN[0001] Unable to find cpu cgroup in mounts
+>>> WARN[0001] Unable to find blkio cgroup in mounts
+>>> WARN[0001] Unable to find cpuset cgroup in mounts
+>>> WARN[0001] mountpoint for pids not found
+>>> INFO[0001] Loading containers: start.
+>>> WARN[0001] Running modprobe nf_nat failed with message: `modprobe: 
+>>> WARNING: Module nf_nat not found in directory 
+>>> /lib/modules/4.9.81-dey+g2c6ae4c`, error: exit status 1
+>>> WARN[0001] Running modprobe xt_conntrack failed with message: 
+>>> `modprobe: WARNING: Module xt_conntrack not found in directory 
+>>> /lib/modules/4.9.81-dey+g2c6ae4c`, error: exit status 1
+>>> Error starting daemon: Error initializing network controller: error 
+>>> obtaining controller instance: failed to create NAT chain: iptables 
+>>> failed: iptables --wait -t nat -N DOCKER: iptables v1.6.1: can't 
+>>> initialize iptables table `nat': Table does not exist (do you need to 
+>>> insmod?)
+>>> Perhaps iptables or your kernel needs to be upgraded.
+>>>   (exit status 3)
+>>>
+>>> Our configuration is as suggested here: 
+>>> https://wiki.yoctoproject.org/wiki/TipsAndTricks/DockerOnImage, except 
+>>
+>> I've never seen that wiki page before (or at least I don't remember
+>> seeing it), so I can't confirm or deny the validity of the content :)
+>>
+>>> that I don't include the system systemd stuff  (it lets my build fail) 
+>>
+>> If systemd is breaking your build, make sure to log a bugzilla against
+>> oe-core
+>>
+>>> and connman (using NetworkManager).
+>>> Furthermore, I added the following lines to the kernel bbappend file:
+>>>
+>>> # remove old defconfig
+>>> SRC_URI_remove = " defconfig"
+>>> # replace with new defconfig
+>>> SRC_URI_append = " file://defconfig"
+>>>
+>>> KERNEL_FEATURES_append = " features/cgroups/cgroups.scc "
+>>>
+>>> I also added a lot of configurations manually to the defconfig 
+>>> (mostly via menuconfig) to enable NAT:
+>>>
+>>> CONFIG_CGROUP_DEVICE=y
+>>> CONFIG_IP_MULTICAST=y
+>>> CONFIG_IP_ADVANCED_ROUTER=y
+>>> CONFIG_NETFILTER=y
+>>> CONFIG_NF_CONNTRACK=y
+>>> CONFIG_NF_TABLES=y
+>>> CONFIG_NF_NAT=y
+>>> CONFIG_NETFILTER_XT_MATCH_ADDRTYPE=y
+>>> CONFIG_NETFILTER_XT_MATCH_COMMENT=y
+>>> CONFIG_NETFILTER_XT_MATCH_HL=y
+>>> CONFIG_NETFILTER_XT_MATCH_IPRANGE=y
+>>> CONFIG_NETFILTER_XT_MATCH_LIMIT=y
+>>> CONFIG_NETFILTER_XT_MATCH_MULTIPORT=y
+>>> CONFIG_NETFILTER_XT_MATCH_RECENT=y
+>>> CONFIG_IP_VS=y
+>>> CONFIG_NF_TABLES_IPV4=y
+>>> CONFIG_IP_NF_IPTABLES=y
+>>> CONFIG_IP_NF_NAT=y
+>>> CONFIG_IP_NF_FILTER=y
+>>> CONFIG_IP_NF_MANGLE=y
+>>> CONFIG_IP6_NF_IPTABLES=y
+>>> CONFIG_IP6_NF_FILTER=y
+>>> CONFIG_IP6_NF_MANGLE=y
+>>> CONFIG_BTRFS_FS=y
+>>> CONFIG_OVERLAY_FS=y
+>>>
+>>> Apart from that, I added virtualization and aufs as DISTRO_FEATURE in 
+>>> local.conf and also enabled it in menuconfig.
+>>>
+>>> But I still keep getting the above mentioned iptables error when 
+>>> trying to start docker. All this hassle makes me suspicious, 
+>>> especially as I'm quite sure that I once had docker running already 
+>>> with an image on our target and it wasn't that hard. So maybe it's 
+>>> just a misconfiguration and I need to add something in local.conf or 
+>>> the kernel recipe? Is systemd necessary? Or am I missing some 
+>>> life-or-death kernel configuration? It would also be nice if I could 
+>>> avoid the cgroup re-mounting before starting docker.
+>>
+>> What release branch are you using ?
+>>
+>> I'm running docker from meta-virt every day, as are many others,
+>> but you have several differences in your configuration.
+>>
+>>  - most use systemd as the init manager, I know that I do. That
+>>    is going to impact how cgroups is set up on your 'host' image.
+>>    You shouldn't need to touch cgroups at all if systemd is used,
+>>    since it is correct out of the box.
+>>
+>>  - You are using a different kernel and kernel configuration.
+>>    linux-yocto + the configuration fragments in the layer are what
+>>    is routinely tested. Are you using linux-yocto, or something
+>>    different ? If it is different, all you can do is run the various
+>>    checks to make sure that the docker prereqs are in place.
+>>
+>>    The errors you see in dockerd tells me that the options you are
+>>    turning on, are not making it into the final kernel that is
+>>    running on target.
+>>
+>> Cheers,
+>>
+>> Bruce
+>>
+>>>
+>>> Thanks for every answer!
+>>> All the Best,
+>>> Jakob
+>>>
+>>
+> 
 
-> Specifying force option (-f) to tgt-admin, makes sure iscsi
-> backing devices mentioned under /etc/tgt/*.conf are listed, loaded and
-> activated when /etc/init.d/tgtd is restarted.
->
-> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-> ---
->  meta-openstack/recipes-support/tgt/files/tgtd.init | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-openstack/recipes-support/tgt/files/tgtd.init
-> b/meta-openstack/recipes-support/tgt/files/tgtd.init
-> index 52d98c3..350fd0c 100644
-> --- a/meta-openstack/recipes-support/tgt/files/tgtd.init
-> +++ b/meta-openstack/recipes-support/tgt/files/tgtd.init
-> @@ -39,7 +39,7 @@ start ()
->      # if it's not ready.
->      tgtadm --op update --mode sys --name State -v offline
->      # Configure the targets.
-> -    tgt-admin -e -c $TGTD_CONFIG
-> +    tgt-admin -f -e -c $TGTD_CONFIG
->      # Put tgtd into "ready" state.
->      tgtadm --op update --mode sys --name State -v ready
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
 
-
-
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end"
-
---0000000000000a250c056dc88796
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">merged<div><br></div><div>Bruce</div></div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On Thu, May 31, 2018 at 6:31 AM,=
- Jagadeesh Krishnanjanappa <span dir=3D"ltr">&lt;<a href=3D"mailto:jkrishna=
-njanappa@mvista.com" target=3D"_blank">jkrishnanjanappa@mvista.com</a>&gt;<=
-/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">Specifying force option (-f=
-) to tgt-admin, makes sure iscsi<br>
-backing devices mentioned under /etc/tgt/*.conf are listed, loaded and<br>
-activated when /etc/init.d/tgtd is restarted.<br>
-<br>
-Signed-off-by: Jagadeesh Krishnanjanappa &lt;<a href=3D"mailto:jkrishnanjan=
-appa@mvista.com">jkrishnanjanappa@mvista.com</a>&gt;<br>
----<br>
-=C2=A0meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init b/meta=
--openstack/recipes-<wbr>support/tgt/files/tgtd.init<br>
-index 52d98c3..350fd0c 100644<br>
---- a/meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init<br>
-+++ b/meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init<br>
-@@ -39,7 +39,7 @@ start ()<br>
-=C2=A0 =C2=A0 =C2=A0# if it&#39;s not ready.<br>
-=C2=A0 =C2=A0 =C2=A0tgtadm --op update --mode sys --name State -v offline<b=
-r>
-=C2=A0 =C2=A0 =C2=A0# Configure the targets.<br>
--=C2=A0 =C2=A0 tgt-admin -e -c $TGTD_CONFIG<br>
-+=C2=A0 =C2=A0 tgt-admin -f -e -c $TGTD_CONFIG<br>
-=C2=A0 =C2=A0 =C2=A0# Put tgtd into &quot;ready&quot; state.<br>
-=C2=A0 =C2=A0 =C2=A0tgtadm --op update --mode sys --name State -v ready<br>
-<span class=3D"HOEnZb"><font color=3D"#888888">=C2=A0<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-______________________________<wbr>_________________<br>
-meta-virtualization mailing list<br>
-<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
-@<wbr>yoctoproject.org</a><br>
-<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
-nfo/meta-<wbr>virtualization</a><br>
-</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
-r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
-hou shalt not follow the NULL pointer, for chaos and madness await thee at =
-its end&quot;</div>
-</div>
-
---0000000000000a250c056dc88796--
