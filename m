@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 30B77E00CD5; Sun,  3 Jun 2018 20:27:54 -0700 (PDT)
+	id 76F7CE00CFD; Sun,  3 Jun 2018 20:28:32 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.215.66 listed in list.dnswl.org]
+	*      [209.85.215.65 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -20,51 +20,51 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f66.google.com (mail-lf0-f66.google.com
-	[209.85.215.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 73399E00CC8
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 307A9E00CE9
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  3 Jun 2018 20:27:53 -0700 (PDT)
-Received: by mail-lf0-f66.google.com with SMTP id v135-v6so22858980lfa.9
+	Sun,  3 Jun 2018 20:28:30 -0700 (PDT)
+Received: by mail-lf0-f65.google.com with SMTP id i83-v6so10688727lfh.5
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 03 Jun 2018 20:27:53 -0700 (PDT)
+	Sun, 03 Jun 2018 20:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Wmcqb3GfdsPhbHd6gA+Q8rGHHYFdhvNc03Q9OJdvXjc=;
-	b=B83X3i7TIbJYlqTxieisiaR/GQ/13lc+pukmyEITYFTDWOpxa7VoF+QNcrStZ+KqPc
-	ZvMwFK+34Q3SAKPJ6VgkB7cvbGlzyQMqP2fLT5ekcbxvxxn3Q46YPaILVOtOCvGY7sDF
-	iVo9SlCp/HNyDEfcLBg39FjjXGE0aQ0RAEWjg0bQN7WgXP1MaxIYWJ3CZX5FetRzKcrC
-	eiNiCr5IGfKzjGsVXgyBixDHmToHpOjNEngOgSjiOgqPtUW53yE5PAohEbnHwwm4WVFB
-	RZdKktK2V0HE05Pw19GOFvSSpcG0p62IWUwLVglwTcFi0Wmx/r3WSgIunuvvazIa/DIl
-	4bnw==
+	:cc; bh=9tiiHMkhptCBcrtvfIJeI2A/jMYEeZsKgug2MJ9Nq10=;
+	b=gF3gMnL2OyYK5Nic9n7KMfBx5XGoH3ZhH+KTzYwwZ6xc/zwmrbobOrYjrS+EW7EPk/
+	VQcEI1RJ4+dF0GLNkeXfW/NH1Jha6ju/5kBjhTFnIaonC6oVWcnNIOrcy3Y6zMfxLjNy
+	+bLdG7Vz1nF0PAYzUY7trQzu8qkdgQG//XIUZ3TupufxwK3bbIBB1GKs4lyVA2v8cNSn
+	0bwwW+sncdoUt+4sUGQV75YhfYKMxCZC553C+Yor4mfWfXsngTBgyX5+4IQX87GnmeKl
+	u7p2RPiAYLWU3wdAfHIgGGROnN6sz6s8M1WWg9M1JnQ9aXSdNZxzFJs0adhBDCgFmR5H
+	GkQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Wmcqb3GfdsPhbHd6gA+Q8rGHHYFdhvNc03Q9OJdvXjc=;
-	b=pJzuO6xzi1ru1veME3mAjN0vkJ327jiuilo39ERwW3amVSXB0lW1pIFtSUKf1eqXYd
-	BH/0yszzCUVXDb1WifBj1rQAamxZcwOMmAv61DKJ6qpSCh19pSF4xbXudxiLlnzU4usX
-	jWrxRAwCw1+QCKy4AZqSfQlj7hGFlY4lI2zKVuHLZ8/vS64ZW+MPv/KvK1DJtXJgNIp4
-	sOJIVQHB934rOO1Wc7EFKpzM2XJ81nelMsBAttc2EcI8l26FyW78RsK9XiZ1GvIKlG2D
-	REAAdsmBA20K7y0z2QtEWk3FbMu9qveePvezP0s9eHDFKwH+QwRYc14LY4tZYi4Ls2pc
-	LqWA==
-X-Gm-Message-State: ALKqPwczilP4qCKA09aree3JJ6foDvbyWeNeppSfgI3eJcWEwnN5OVnv
-	AT+UFEGKt4dXu8QNqttbsuQjRvCpAOl2H4V0Xew=
-X-Google-Smtp-Source: ADUXVKLZYYq5/WutpDShsC57qOx06y7nxPRiCBJrA8T/R7a95Yj3v7PS+NwgY+vW6kqyzZp095Pq6eXy0ikVoruqHrs=
-X-Received: by 2002:a19:a68a:: with SMTP id
-	p132-v6mr11221810lfe.89.1528082872534; 
-	Sun, 03 Jun 2018 20:27:52 -0700 (PDT)
+	bh=9tiiHMkhptCBcrtvfIJeI2A/jMYEeZsKgug2MJ9Nq10=;
+	b=p2WAQ35cOoynVrySBesBCFyqDFU3QfHmDCZ9cdXM3sGrwJTxidwXO5CFiimpSIcItb
+	9Bi5Tidg82BKKlB/qI4i9vphnYOhTAIgGVSKg7JEZY8hFVd1mMAeJWFHo9m4cmLLghX8
+	n1qLIz+7DIRNZthrTcBcuTgJfzn9GxfG8WunqH0hi9WZfhYK1WEMFNoG4XTCCtrayvD4
+	e0/iF4eMPgDXFgYVv/vdhQEYX7N+qMrcC0+K6oW5PBGIuncnV7yBZaPWTbRH2LECPaft
+	X2qBpXjgNpmC4Xb/cyMRnZo8QwYXVbyJmt0vWm1sBWiPyKgl2p9LgcYTJ4gfr2tTy1a9
+	hlYg==
+X-Gm-Message-State: ALKqPwctg1+PNcjcK9ybstEOETEigZjzki2/W5mHnnA/VNVw+WKkGeIZ
+	wGoPmuAWLDmX+8dA8z6PuV9nLS2CexvDkc59tKbopA==
+X-Google-Smtp-Source: ADUXVKJEkRdYpYMW3wBjqds94Sy8Ej6YOKNQqKzJQLKwzDR4ZcdE+uAI0rt0wwjuM74ADDbZeLKv0L+sZtaMv/9v9IQ=
+X-Received: by 2002:a2e:5358:: with SMTP id
+	t24-v6mr14241072ljd.129.1528082910027; 
+	Sun, 03 Jun 2018 20:28:30 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:a2e:161a:0:0:0:0:0 with HTTP;
-	Sun, 3 Jun 2018 20:27:51 -0700 (PDT)
-In-Reply-To: <1527800886-29777-1-git-send-email-mark.asselstine@windriver.com>
-References: <1527800886-29777-1-git-send-email-mark.asselstine@windriver.com>
+	Sun, 3 Jun 2018 20:28:29 -0700 (PDT)
+In-Reply-To: <1527762666-30689-1-git-send-email-jkrishnanjanappa@mvista.com>
+References: <1527762666-30689-1-git-send-email-jkrishnanjanappa@mvista.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 3 Jun 2018 23:27:51 -0400
-Message-ID: <CADkTA4PXchFAXW5jKqZTA8Qv81RYpPB3XV=B8CSLeC2pFAMc6w@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Sun, 3 Jun 2018 23:28:29 -0400
+Message-ID: <CADkTA4OSs9LVpRH+9zO7o66DcKRaTZz0AaYLaWW6PzXWj6rCkA@mail.gmail.com>
+To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: meta-virtualization][PATCH 0/3] lxc: uprev to v3.0.0
+Subject: Re: [m-c-s][PATCH] tgt: specify -f option in order to load backing store device when tgtd is restarted
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,32 +77,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 04 Jun 2018 03:27:54 -0000
-Content-Type: multipart/alternative; boundary="000000000000ce0bec056dc884ec"
+X-List-Received-Date: Mon, 04 Jun 2018 03:28:32 -0000
+Content-Type: multipart/alternative; boundary="0000000000000a250c056dc88796"
 
---000000000000ce0bec056dc884ec
+--0000000000000a250c056dc88796
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Thu, May 31, 2018 at 5:08 PM, Mark Asselstine <
-mark.asselstine@windriver.com> wrote:
+On Thu, May 31, 2018 at 6:31 AM, Jagadeesh Krishnanjanappa <
+jkrishnanjanappa@mvista.com> wrote:
 
+> Specifying force option (-f) to tgt-admin, makes sure iscsi
+> backing devices mentioned under /etc/tgt/*.conf are listed, loaded and
+> activated when /etc/init.d/tgtd is restarted.
 >
-> The following brings us up to date with the latest upstream release of
-> lxc. Actually we get 3 things in this series.
-> 1. an uprev to v3.0.0
-> 2. working 'busybox' template (though I recommend you don't use it,
->    it is used for ptest but it is pretty useless otherwise).
-> 3. updated ptest approach
+> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+> ---
+>  meta-openstack/recipes-support/tgt/files/tgtd.init | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> This will break meta-overc so I will follow up with one or more
-> commits there which should be merged at the same time as this to avoid
-> breaking OverC builds.
+> diff --git a/meta-openstack/recipes-support/tgt/files/tgtd.init
+> b/meta-openstack/recipes-support/tgt/files/tgtd.init
+> index 52d98c3..350fd0c 100644
+> --- a/meta-openstack/recipes-support/tgt/files/tgtd.init
+> +++ b/meta-openstack/recipes-support/tgt/files/tgtd.init
+> @@ -39,7 +39,7 @@ start ()
+>      # if it's not ready.
+>      tgtadm --op update --mode sys --name State -v offline
+>      # Configure the targets.
+> -    tgt-admin -e -c $TGTD_CONFIG
+> +    tgt-admin -f -e -c $TGTD_CONFIG
+>      # Put tgtd into "ready" state.
+>      tgtadm --op update --mode sys --name State -v ready
 >
-> Mark
+> --
+> 2.7.4
+>
 > --
 > _______________________________________________
 > meta-virtualization mailing list
@@ -116,29 +129,44 @@ mark.asselstine@windriver.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---000000000000ce0bec056dc884ec
+--0000000000000a250c056dc88796
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">merged<div><br></div><div>Bruce</div></div><div class=3D"g=
-mail_extra"><br><div class=3D"gmail_quote">On Thu, May 31, 2018 at 5:08 PM,=
- Mark Asselstine <span dir=3D"ltr">&lt;<a href=3D"mailto:mark.asselstine@wi=
-ndriver.com" target=3D"_blank">mark.asselstine@windriver.com</a>&gt;</span>=
- wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex"><br>
-The following brings us up to date with the latest upstream release of<br>
-lxc. Actually we get 3 things in this series.<br>
-1. an uprev to v3.0.0<br>
-2. working &#39;busybox&#39; template (though I recommend you don&#39;t use=
- it,<br>
-=C2=A0 =C2=A0it is used for ptest but it is pretty useless otherwise).<br>
-3. updated ptest approach<br>
+mail_extra"><br><div class=3D"gmail_quote">On Thu, May 31, 2018 at 6:31 AM,=
+ Jagadeesh Krishnanjanappa <span dir=3D"ltr">&lt;<a href=3D"mailto:jkrishna=
+njanappa@mvista.com" target=3D"_blank">jkrishnanjanappa@mvista.com</a>&gt;<=
+/span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">Specifying force option (-f=
+) to tgt-admin, makes sure iscsi<br>
+backing devices mentioned under /etc/tgt/*.conf are listed, loaded and<br>
+activated when /etc/init.d/tgtd is restarted.<br>
 <br>
-This will break meta-overc so I will follow up with one or more<br>
-commits there which should be merged at the same time as this to avoid<br>
-breaking OverC builds.<br>
-<span class=3D"HOEnZb"><font color=3D"#888888"><br>
-Mark<br>
+Signed-off-by: Jagadeesh Krishnanjanappa &lt;<a href=3D"mailto:jkrishnanjan=
+appa@mvista.com">jkrishnanjanappa@mvista.com</a>&gt;<br>
+---<br>
+=C2=A0meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init b/meta=
+-openstack/recipes-<wbr>support/tgt/files/tgtd.init<br>
+index 52d98c3..350fd0c 100644<br>
+--- a/meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init<br>
++++ b/meta-openstack/recipes-<wbr>support/tgt/files/tgtd.init<br>
+@@ -39,7 +39,7 @@ start ()<br>
+=C2=A0 =C2=A0 =C2=A0# if it&#39;s not ready.<br>
+=C2=A0 =C2=A0 =C2=A0tgtadm --op update --mode sys --name State -v offline<b=
+r>
+=C2=A0 =C2=A0 =C2=A0# Configure the targets.<br>
+-=C2=A0 =C2=A0 tgt-admin -e -c $TGTD_CONFIG<br>
++=C2=A0 =C2=A0 tgt-admin -f -e -c $TGTD_CONFIG<br>
+=C2=A0 =C2=A0 =C2=A0# Put tgtd into &quot;ready&quot; state.<br>
+=C2=A0 =C2=A0 =C2=A0tgtadm --op update --mode sys --name State -v ready<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">=C2=A0<br>
+-- <br>
+2.7.4<br>
+<br>
 -- <br>
 ______________________________<wbr>_________________<br>
 meta-virtualization mailing list<br>
@@ -153,4 +181,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---000000000000ce0bec056dc884ec--
+--0000000000000a250c056dc88796--
