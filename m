@@ -1,39 +1,71 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 03387E01649; Tue,  5 Jun 2018 06:48:23 -0700 (PDT)
+	id EE625E0164C; Tue,  5 Jun 2018 06:57:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.213.174 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D1D91E00B18
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-yb0-f174.google.com (mail-yb0-f174.google.com
+	[209.85.213.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 38117E015D3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  5 Jun 2018 06:48:15 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w55DlNXQ022000
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  5 Jun 2018 06:57:50 -0700 (PDT)
+Received: by mail-yb0-f174.google.com with SMTP id x36-v6so806448ybi.0
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 5 Jun 2018 06:48:05 -0700
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 5 Jun 2018 06:47:44 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Tue, 5 Jun 2018 09:47:35 -0400
-Message-ID: <1528206455-6542-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 05 Jun 2018 06:57:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:reply-to:sender:in-reply-to:references:from:date
+	:message-id:subject:to;
+	bh=V2jHZ9J4p418+i5HsEuWmKJ87SPNyF+zI2qtIQGdh+M=;
+	b=Wx8K8Z7uJcuZgv6SnO57t2p2/6qhQ9pAq432BLbolveCxFRo23+VMpNcAcYESjd/8j
+	QWA2X64xktqbwyTMeynhshzvrddZRlapKYFnaKlsfcnL8P93EEJOeb+JRY1MqVVq3InL
+	X4rbaqduJTnEHdqg/dlpWuZDkaNP7lbeCILUOpz9aMoJ2fU79THgqpnRjAjS5HCXOqUh
+	ydq2LJ+8PEG4C1VcxT1d2PZ2GZb7szD0YP8CQCBip3Re+O9lMWLpCKwk19vSsLR7WL7N
+	l8zUcv5KsrSBtWYWviPJq7YPdRb0HpA5Vlq6aTTh2HcjjeC4KmftxEcFjoRPQpMZOsxn
+	H1/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
+	:references:from:date:message-id:subject:to;
+	bh=V2jHZ9J4p418+i5HsEuWmKJ87SPNyF+zI2qtIQGdh+M=;
+	b=Ae/U7b+nqGCtQW5+/Chn0/YDL6wsZYGopoh27VbzRgSyXw+qqmGVfasKsqCyc8Ac3r
+	wGObtSGA9Ugfuboi8soKEOxYmMNDX+cr31tMXI8Y/quECEZ78Xy9xZcwJIMZ04NQt990
+	3KwORE6+HoOKHCUEfBj/BS7uskW2kjBoGzjRBfrx4v1+cjyk0RHX5y9CIPtd4FWA8uKM
+	Xairpy9/usDyNbEPQA3r72YaVOBDPNkL+mRQg1RtvxtyU8BwavzttS2eIQ/ellEFob12
+	GAzsFweT5hrK23RhHN5M86Q0bb/TpfbLl/H5gG+bgWnzOwkyL3/Bm+YGVSmgl+6gw4w+
+	kE/Q==
+X-Gm-Message-State: ALKqPwf0gBvn845vu9eXqxwS/FTMlrRIngGN2OQXpmJT87d1vd24HqEr
+	Rc3QVrpCtObbpatj8WxRcVGCPNOEz0Z7LhPC1CgNaw==
+X-Google-Smtp-Source: ADUXVKIip8GTyM4R29dMGccbR9fPL7kqFe/6i5J+l/o8T24r35wjjzR4K9b+c/xmjLRPFXBo8ohvQ/la91gGI4QvF1c=
+X-Received: by 2002:a25:f822:: with SMTP id
+	u34-v6mr13476855ybd.129.1528207068905; 
+	Tue, 05 Jun 2018 06:57:48 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] openvswitch: remove unused patches
+Sender: asselsm@gmail.com
+Received: by 2002:a25:3dc7:0:0:0:0:0 with HTTP;
+	Tue, 5 Jun 2018 06:57:48 -0700 (PDT)
+In-Reply-To: <1528143775-18595-1-git-send-email-mark.asselstine@windriver.com>
+References: <1528143775-18595-1-git-send-email-mark.asselstine@windriver.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Tue, 5 Jun 2018 09:57:48 -0400
+X-Google-Sender-Auth: 2KP-jNRNsZVuTyA99HkDKh0Ryig
+Message-ID: <CAPuovEJzcmbZheey3m9r5yvBUbH1s6gEYWh0k8fSdD8DKGPKGw@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org, 
+	Bruce Ashfield <bruce.ashfield@windriver.com>
+Subject: Re: [PATCH] libvirt: uprev to the latest release, v4.3.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -43,1888 +75,1133 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Jun 2018 13:48:23 -0000
+X-List-Received-Date: Tue, 05 Jun 2018 13:57:53 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-commit 1fd1ff372014 [openvswitch: uprev to v2.9.2] left a bunch of
-unused patches in place. Remove unreferenced patches as they are no
-longer needed.
+On Mon, Jun 4, 2018 at 4:22 PM, Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+> We have been using the 1.3.x release series for a long time now which
+> has been great for stability but is slowly becoming harder and harder
+> to track and port bug and CVE fixes. This is a big jump to the latest
+> upstream release which gives us access to a myriad of fixes as well as
+> puts us in a better position to contribute to the upstream project
+> when issues are found.
+>
+> Several patches have been dropped as they are either no longer valid
+> against this release or have equivalent updates already applied to the
+> upstream project. Some patches were consolidated which should ease
+> future uprevs of this recipe. The majority of the updates were related
+> to ptest patches, which is not a huge surprise given this code has no
+> upstream equivalent.
+>
+> The overall runtime behavior remains much the same from v1.3.5 with
+> the only notable configuration change being for 'seccomp_sandbox'
+> which has been disabled here but should possibly be revisited in the
+> near future.
+>
+> As usual the normal runtime usecases for qemu/kvm and lxc have been
+> run successfully along with ptest results which are by and large OK:
+>
+>     ====================================
+>     Testsuite summary for libvirt 4.3.0
+>     ====================================
+>     # TOTAL: 119
+>     # PASS:  115
+>     # SKIP:  0
+>     # XFAIL: 0
+>     # FAIL:  4
+>     # XPASS: 0
+>     # ERROR: 0
+>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- ...n3-compatibility-Convert-print-statements.patch | 1262 --------------------
- ...-the-linux-if_packet.h-Interface-directly.patch |   33 -
- ...2-Python3-compatibility-exception-cleanup.patch |   77 --
- ...03-Python3-compatibility-execfile-to-exec.patch |   31 -
- ...-Python3-compatibility-iteritems-to-items.patch |  100 --
- ...ython3-compatibility-fix-integer-problems.patch |   49 -
- ...n3-compatibility-math-error-compatibility.patch |   54 -
- ...0007-Python3-compatibility-unicode-to-str.patch |   49 -
- .../0008-AUTHORS-Add-Jason-Wessel.patch            |   26 -
- ...-b8dcfbebee9e7dbc74ec5eecc9b45d335d6150c1.patch |  108 --
- 10 files changed, 1789 deletions(-)
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0001-Python3-compatibility-Convert-print-statements.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0001-use-the-linux-if_packet.h-Interface-directly.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0002-Python3-compatibility-exception-cleanup.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0003-Python3-compatibility-execfile-to-exec.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0004-Python3-compatibility-iteritems-to-items.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0005-Python3-compatibility-fix-integer-problems.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0006-Python3-compatibility-math-error-compatibility.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0007-Python3-compatibility-unicode-to-str.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/0008-AUTHORS-Add-Jason-Wessel.patch
- delete mode 100644 recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-b8dcfbebee9e7dbc74ec5eecc9b45d335d6150c1.patch
+I just realised that I missed some initial changes in a commit I
+missed when I squashed my development work together into this commit.
+I will resend a V2.
 
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0001-Python3-compatibility-Convert-print-statements.patch b/recipes-networking/openvswitch/openvswitch-git/0001-Python3-compatibility-Convert-print-statements.patch
-deleted file mode 100644
-index 7bdcc00..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0001-Python3-compatibility-Convert-print-statements.patch
-+++ /dev/null
-@@ -1,1262 +0,0 @@
--From 3658d861c3c83caab9040bec04b195be3f86d4ce Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: Convert print statements
--
--Commit d34a1cc02536f9a812517a71accec3fbd3c6c98b from
--https://github.com/openvswitch/ovs.git
--
--This patch fixes up all the print statements to work with python3 or
--python2.
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- build-aux/check-structs       |   4 +-
-- build-aux/extract-ofp-actions |  68 +++---
-- build-aux/extract-ofp-errors  |   2 +-
-- build-aux/extract-ofp-fields  |   2 +-
-- build-aux/extract-ofp-msgs    |   6 +-
-- ovsdb/ovsdb-doc               |   6 +-
-- ovsdb/ovsdb-idlc.in           | 523 +++++++++++++++++++++---------------------
-- 7 files changed, 306 insertions(+), 305 deletions(-)
--
--diff --git a/build-aux/check-structs b/build-aux/check-structs
--index 5129b72..cbb19b6 100755
----- a/build-aux/check-structs
--+++ b/build-aux/check-structs
--@@ -211,7 +211,7 @@ def checkStructs():
-- 
--     if '--help' in sys.argv:
--         argv0 = os.path.basename(sys.argv[0])
---        print '''\
--+        print('''\
-- %(argv0)s, for checking struct and struct member alignment
-- usage: %(argv0)s -Ipath HEADER [HEADER]...
-- 
--@@ -226,7 +226,7 @@ assertions using OFP_ASSERT.
-- 
-- This program is specialized for reading Open vSwitch's OpenFlow header
-- files.  It will not work on arbitrary header files without extensions.\
---''' % {"argv0": argv0}
--+''' % {"argv0": argv0})
--         sys.exit(0)
-- 
--     global fileName
--diff --git a/build-aux/extract-ofp-actions b/build-aux/extract-ofp-actions
--index ee8c4ff..67e3848 100755
----- a/build-aux/extract-ofp-actions
--+++ b/build-aux/extract-ofp-actions
--@@ -67,7 +67,7 @@ def fatal(msg):
-- 
-- def usage():
--     argv0 = os.path.basename(sys.argv[0])
---    print ('''\
--+    print('''\
-- %(argv0)s, for extracting OpenFlow action data
-- usage: %(argv0)s OFP_ACTIONS.C [--prototypes | --definitions]
-- 
--@@ -238,36 +238,36 @@ def extract_ofp_actions(fn, definitions):
--     if n_errors:
--         sys.exit(1)
-- 
---    print """\
--+    print("""\
-- /* Generated automatically; do not modify!     -*- buffer-read-only: t -*- */
---"""
--+""")
-- 
--     if definitions:
---        print "/* Verify that structs used as actions are reasonable sizes. */"
--+        print("/* Verify that structs used as actions are reasonable sizes. */")
--         for s in sorted(arg_structs):
---            print "BUILD_ASSERT_DECL(sizeof(%s) %% OFP_ACTION_ALIGN == 0);" % s
--+            print("BUILD_ASSERT_DECL(sizeof(%s) %% OFP_ACTION_ALIGN == 0);" % s)
-- 
---        print "\nstatic struct ofpact_raw_instance all_raw_instances[] = {"
--+        print("\nstatic struct ofpact_raw_instance all_raw_instances[] = {")
--         for vendor in domain:
--             for type_ in domain[vendor]:
--                 for version in domain[vendor][type_]:
--                     d = domain[vendor][type_][version]
---                    print "    { { 0x%08x, %2d, 0x%02x }, " % (
---                        vendor, type_, version)
---                    print "      %s," % d["enum"]
---                    print "      HMAP_NODE_NULL_INITIALIZER,"
---                    print "      HMAP_NODE_NULL_INITIALIZER,"
---                    print "      %s," % d["min_length"]
---                    print "      %s," % d["max_length"]
---                    print "      %s," % d["arg_ofs"]
---                    print "      %s," % d["arg_len"]
---                    print "      \"%s\"," % re.sub('_RAW[0-9]*', '', d["enum"], 1)
--+                    print("    { { 0x%08x, %2d, 0x%02x }, " % (
--+                        vendor, type_, version))
--+                    print("      %s," % d["enum"])
--+                    print("      HMAP_NODE_NULL_INITIALIZER,")
--+                    print("      HMAP_NODE_NULL_INITIALIZER,")
--+                    print("      %s," % d["min_length"])
--+                    print("      %s," % d["max_length"])
--+                    print("      %s," % d["arg_ofs"])
--+                    print("      %s," % d["arg_len"])
--+                    print("      \"%s\"," % re.sub('_RAW[0-9]*', '', d["enum"], 1))
--                     if d["deprecation"]:
---                        print "      \"%s\"," % re.sub(r'(["\\])', r'\\\1', d["deprecation"])
--+                        print("      \"%s\"," % re.sub(r'(["\\])', r'\\\1', d["deprecation"]))
--                     else:
---                        print "      NULL,"
---                    print "    },"
---        print "};";
--+                        print("      NULL,")
--+                    print("    },")
--+        print("};")
-- 
--     for versions in enums.values():
--         need_ofp_version = False
--@@ -314,11 +314,11 @@ def extract_ofp_actions(fn, definitions):
--             decl += "}"
--         else:
--             decl += ";"
---        print decl
---        print
--+        print(decl)
--+        print("")
-- 
--     if definitions:
---        print """\
--+        print("""\
-- static enum ofperr
-- ofpact_decode(const struct ofp_action_header *a, enum ofp_raw_action_type raw,
--               enum ofp_version version, uint64_t arg,
--@@ -326,14 +326,14 @@ ofpact_decode(const struct ofp_action_header *a, enum ofp_raw_action_type raw,
--               uint64_t *tlv_bitmap, struct ofpbuf *out)
-- {
--     switch (raw) {\
---"""
--+""")
--         for versions in enums.values():
--             enum = versions[0]["enum"]
---            print "    case %s:" % enum
--+            print("    case %s:" % enum)
--             base_argtype = versions[0]["base_argtype"]
--             arg_vl_mff_map = versions[0]["arg_vl_mff_map"]
--             if base_argtype == 'void':
---                print "        return decode_%s(out);" % enum
--+                print("        return decode_%s(out);" % enum)
--             else:
--                 if base_argtype.startswith('struct'):
--                     arg = "ALIGNED_CAST(const %s *, a)" % base_argtype
--@@ -344,16 +344,16 @@ ofpact_decode(const struct ofp_action_header *a, enum ofp_raw_action_type raw,
--                     else:
--                         arg = "arg"
--                 if arg_vl_mff_map:
---                    print "        return decode_%s(%s, version, vl_mff_map, tlv_bitmap, out);" % (enum, arg)
--+                    print("        return decode_%s(%s, version, vl_mff_map, tlv_bitmap, out);" % (enum, arg))
--                 else:
---                    print "        return decode_%s(%s, version, out);" % (enum, arg)
---            print
---        print """\
--+                    print("        return decode_%s(%s, version, out);" % (enum, arg))
--+            print("")
--+        print("""\
--     default:
--         OVS_NOT_REACHED();
--     }
-- }\
---"""
--+""")
--     else:
--         for versions in enums.values():
--             enum = versions[0]["enum"]
--@@ -368,15 +368,15 @@ ofpact_decode(const struct ofp_action_header *a, enum ofp_raw_action_type raw,
--                 if arg_vl_mff_map:
--                     prototype += 'const struct vl_mff_map *, uint64_t *, '
--             prototype += "struct ofpbuf *);"
---            print prototype
--+            print(prototype)
-- 
---        print """
--+        print("""
-- static enum ofperr ofpact_decode(const struct ofp_action_header *,
--                                  enum ofp_raw_action_type raw,
--                                  enum ofp_version version,
--                                  uint64_t arg, const struct vl_mff_map *vl_mff_map,
--                                  uint64_t *tlv_bitmap, struct ofpbuf *out);
---"""
--+""")
-- 
-- if __name__ == '__main__':
--     if '--help' in sys.argv:
--diff --git a/build-aux/extract-ofp-errors b/build-aux/extract-ofp-errors
--index e36444e..97d62d2 100755
----- a/build-aux/extract-ofp-errors
--+++ b/build-aux/extract-ofp-errors
--@@ -426,7 +426,7 @@ static const struct ofperr_domain %s = {
--                 vendor, type_, code = map[enum]
--                 if code == None:
--                     code = -1
---                print "        { %#8x, %2d, %3d }, /* %s */" % (vendor, type_, code, enum)
--+                print ("        { %#8x, %2d, %3d }, /* %s */" % (vendor, type_, code, enum))
--             else:
--                 print ("        {       -1, -1,  -1 }, /* %s */" % enum)
--         print ("""\
--diff --git a/build-aux/extract-ofp-fields b/build-aux/extract-ofp-fields
--index c248e76..80c7d35 100755
----- a/build-aux/extract-ofp-fields
--+++ b/build-aux/extract-ofp-fields
--@@ -728,7 +728,7 @@ def make_ovs_fields(meta_flow_h, meta_flow_xml):
-- ovs\-fields \- protocol header fields in OpenFlow and Open vSwitch
-- .
-- .PP
---''') % version
--+''' % version)
-- 
--     recursively_replace(doc, 'oxm_classes', make_oxm_classes_xml(document))
-- 
--diff --git a/build-aux/extract-ofp-msgs b/build-aux/extract-ofp-msgs
--index c2a91f9..92c4bda 100755
----- a/build-aux/extract-ofp-msgs
--+++ b/build-aux/extract-ofp-msgs
--@@ -56,14 +56,14 @@ def fatal(msg):
-- 
-- def usage():
--     argv0 = os.path.basename(sys.argv[0])
---    print '''\
--+    print('''\
-- %(argv0)s, for extracting OpenFlow message types from header files
-- usage: %(argv0)s INPUT OUTPUT
--   where INPUT is the name of the input header file
--     and OUTPUT is the output file name.
-- Despite OUTPUT, the output is written to stdout, and the OUTPUT argument
-- only controls #line directives in the output.\
---''' % {"argv0": argv0}
--+''' % {"argv0": argv0})
--     sys.exit(0)
-- 
-- def make_sizeof(s):
--@@ -378,5 +378,5 @@ if __name__ == '__main__':
--         line_number = 0
-- 
--         for line in extract_ofp_msgs(sys.argv[2]):
---            print line
--+            print(line)
--         
--diff --git a/ovsdb/ovsdb-doc b/ovsdb/ovsdb-doc
--index bdf2dcc..e82ad59 100755
----- a/ovsdb/ovsdb-doc
--+++ b/ovsdb/ovsdb-doc
--@@ -258,7 +258,7 @@ represent strong references; thin lines represent weak references.
--     return s
-- 
-- def usage():
---    print """\
--+    print("""\
-- %(argv0)s: ovsdb schema documentation generator
-- Prints documentation for an OVSDB schema as an nroff-formatted manpage.
-- usage: %(argv0)s [OPTIONS] SCHEMA XML
--@@ -269,7 +269,7 @@ The following options are also available:
--   --er-diagram=DIAGRAM.PIC    include E-R diagram from DIAGRAM.PIC
--   --version=VERSION           use VERSION to display on document footer
--   -h, --help                  display this help message\
---""" % {'argv0': argv0}
--+""" % {'argv0': argv0})
--     sys.exit(0)
-- 
-- if __name__ == "__main__":
--@@ -304,7 +304,7 @@ if __name__ == "__main__":
--         for line in s.split("\n"):
--             line = line.strip()
--             if len(line):
---                print line
--+                print(line)
-- 
--     except error.Error, e:
--         sys.stderr.write("%s: %s\n" % (argv0, e.msg))
--diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
--index bfbcf23..62442ee 100755
----- a/ovsdb/ovsdb-idlc.in
--+++ b/ovsdb/ovsdb-idlc.in
--@@ -1,5 +1,6 @@
-- #! /usr/bin/env @PYTHON@
-- 
--+from __future__ import print_function
-- import getopt
-- import os
-- import re
--@@ -123,7 +124,7 @@ def sorted_columns(table):
-- def printCIDLHeader(schemaFile):
--     schema = parseSchema(schemaFile)
--     prefix = schema.idlPrefix
---    print '''\
--+    print('''\
-- /* Generated automatically -- do not modify!    -*- buffer-read-only: t -*- */
-- 
-- #ifndef %(prefix)sIDL_HEADER
--@@ -135,39 +136,39 @@ def printCIDLHeader(schemaFile):
-- #include "ovsdb-data.h"
-- #include "ovsdb-idl-provider.h"
-- #include "smap.h"
---#include "uuid.h"''' % {'prefix': prefix.upper()}
--+#include "uuid.h"''' % {'prefix': prefix.upper()})
-- 
--     for tableName, table in sorted(schema.tables.iteritems()):
--         structName = "%s%s" % (prefix, tableName.lower())
-- 
---        print ""
---        print "/* %s table. */" % tableName
---        print "struct %s {" % structName
---        print "\tstruct ovsdb_idl_row header_;"
--+        print("")
--+        print("/* %s table. */" % tableName)
--+        print("struct %s {" % structName)
--+        print("\tstruct ovsdb_idl_row header_;")
--         for columnName, column in sorted_columns(table):
---            print "\n\t/* %s column. */" % columnName
--+            print("\n\t/* %s column. */" % columnName)
--             comment, members = cMembers(prefix, tableName,
--                                         columnName, column, False)
--             for member in members:
---                print "\t%(type)s%(name)s;%(comment)s" % member
---        print "};"
--+                print("\t%(type)s%(name)s;%(comment)s" % member)
--+        print("};")
-- 
--         # Column indexes.
--         printEnum("%s_column_id" % structName.lower(), ["%s_COL_%s" % (structName.upper(), columnName.upper())
--                                                         for columnName, column in sorted_columns(table)]
--                   + ["%s_N_COLUMNS" % structName.upper()])
-- 
---        print
--+        print("")
--         for columnName in table.columns:
---            print "#define %(s)s_col_%(c)s (%(s)s_columns[%(S)s_COL_%(C)s])" % {
--+            print("#define %(s)s_col_%(c)s (%(s)s_columns[%(S)s_COL_%(C)s])" % {
--                 's': structName,
--                 'S': structName.upper(),
--                 'c': columnName,
---                'C': columnName.upper()}
--+                'C': columnName.upper()})
-- 
---        print "\nextern struct ovsdb_idl_column %s_columns[%s_N_COLUMNS];" % (structName, structName.upper())
--+        print("\nextern struct ovsdb_idl_column %s_columns[%s_N_COLUMNS];" % (structName, structName.upper()))
-- 
---        print '''
--+        print('''
-- const struct %(s)s *%(s)s_get_for_uuid(const struct ovsdb_idl *, const struct uuid *);
-- const struct %(s)s *%(s)s_first(const struct ovsdb_idl *);
-- const struct %(s)s *%(s)s_next(const struct %(s)s *);
--@@ -205,87 +206,87 @@ void %(s)s_init(struct %(s)s *);
-- void %(s)s_delete(const struct %(s)s *);
-- struct %(s)s *%(s)s_insert(struct ovsdb_idl_txn *);
-- bool %(s)s_is_updated(const struct %(s)s *, enum %(s)s_column_id);
---''' % {'s': structName, 'S': structName.upper()}
--+''' % {'s': structName, 'S': structName.upper()})
-- 
--         for columnName, column in sorted_columns(table):
---            print 'void %(s)s_verify_%(c)s(const struct %(s)s *);' % {'s': structName, 'c': columnName}
--+            print('void %(s)s_verify_%(c)s(const struct %(s)s *);' % {'s': structName, 'c': columnName})
-- 
---        print
--+        print("")
--         for columnName, column in sorted_columns(table):
--             if column.type.value:
--                 valueParam = ', enum ovsdb_atomic_type value_type'
--             else:
--                 valueParam = ''
---            print 'const struct ovsdb_datum *%(s)s_get_%(c)s(const struct %(s)s *, enum ovsdb_atomic_type key_type%(v)s);' % {
---                's': structName, 'c': columnName, 'v': valueParam}
--+            print('const struct ovsdb_datum *%(s)s_get_%(c)s(const struct %(s)s *, enum ovsdb_atomic_type key_type%(v)s);' % {
--+                's': structName, 'c': columnName, 'v': valueParam})
-- 
---        print
--+        print("")
--         for columnName, column in sorted_columns(table):
---            print 'void %(s)s_set_%(c)s(const struct %(s)s *,' % {'s': structName, 'c': columnName},
--+            print('void %(s)s_set_%(c)s(const struct %(s)s *,' % {'s': structName, 'c': columnName}, end=' ')
--             if column.type.is_smap():
--                 args = ['const struct smap *']
--             else:
--                 comment, members = cMembers(prefix, tableName, columnName,
--                                             column, True)
--                 args = ['%(type)s%(name)s' % member for member in members]
---            print '%s);' % ', '.join(args)
--+            print('%s);' % ', '.join(args))
-- 
---        print
--+        print("")
--         for columnName, column in sorted_columns(table):
--             if column.type.is_map():
---                print 'void %(s)s_update_%(c)s_setkey(const struct %(s)s *, ' % {'s': structName, 'c': columnName},
---                print '%(coltype)s, %(valtype)s);' % {'coltype':column.type.key.to_const_c_type(prefix), 'valtype':column.type.value.to_const_c_type(prefix)}
---                print 'void %(s)s_update_%(c)s_delkey(const struct %(s)s *, ' % {'s': structName, 'c': columnName},
---                print '%(coltype)s);' % {'coltype':column.type.key.to_const_c_type(prefix)}
--+                print('void %(s)s_update_%(c)s_setkey(const struct %(s)s *, ' % {'s': structName, 'c': columnName}, end=' ')
--+                print('%(coltype)s, %(valtype)s);' % {'coltype':column.type.key.to_const_c_type(prefix), 'valtype':column.type.value.to_const_c_type(prefix)})
--+                print('void %(s)s_update_%(c)s_delkey(const struct %(s)s *, ' % {'s': structName, 'c': columnName}, end=' ')
--+                print('%(coltype)s);' % {'coltype':column.type.key.to_const_c_type(prefix)})
--             if column.type.is_set():
---                print 'void %(s)s_update_%(c)s_addvalue(const struct %(s)s *, ' % {'s': structName, 'c': columnName},
---                print '%(valtype)s);' % {'valtype':column.type.key.to_const_c_type(prefix)}
---                print 'void %(s)s_update_%(c)s_delvalue(const struct %(s)s *, ' % {'s': structName, 'c': columnName},
---                print '%(valtype)s);' % {'valtype':column.type.key.to_const_c_type(prefix)}
--+                print('void %(s)s_update_%(c)s_addvalue(const struct %(s)s *, ' % {'s': structName, 'c': columnName}, end=' ')
--+                print('%(valtype)s);' % {'valtype':column.type.key.to_const_c_type(prefix)})
--+                print('void %(s)s_update_%(c)s_delvalue(const struct %(s)s *, ' % {'s': structName, 'c': columnName}, end=' ')
--+                print('%(valtype)s);' % {'valtype':column.type.key.to_const_c_type(prefix)})
-- 
---            print 'void %(s)s_add_clause_%(c)s(struct ovsdb_idl_condition *, enum ovsdb_function function,' % {'s': structName, 'c': columnName},
--+            print('void %(s)s_add_clause_%(c)s(struct ovsdb_idl_condition *, enum ovsdb_function function,' % {'s': structName, 'c': columnName}, end=' ')
--             if column.type.is_smap():
--                 args = ['const struct smap *']
--             else:
--                 comment, members = cMembers(prefix, tableName, columnName,
--                                             column, True, refTable=False)
--                 args = ['%(type)s%(name)s' % member for member in members]
---            print '%s);' % ', '.join(args)
--+            print('%s);' % ', '.join(args))
-- 
---            print 'void %(s)s_set_condition(struct ovsdb_idl *, struct ovsdb_idl_condition *);' % {'s': structName},
--+            print('void %(s)s_set_condition(struct ovsdb_idl *, struct ovsdb_idl_condition *);' % {'s': structName})
-- 
---        print
--+        print("")
-- 
--     # Table indexes.
--     printEnum("%stable_id" % prefix.lower(), ["%sTABLE_%s" % (prefix.upper(), tableName.upper()) for tableName in sorted(schema.tables)] + ["%sN_TABLES" % prefix.upper()])
---    print
--+    print("")
--     for tableName in schema.tables:
---        print "#define %(p)stable_%(t)s (%(p)stable_classes[%(P)sTABLE_%(T)s])" % {
--+        print("#define %(p)stable_%(t)s (%(p)stable_classes[%(P)sTABLE_%(T)s])" % {
--             'p': prefix,
--             'P': prefix.upper(),
--             't': tableName.lower(),
---            'T': tableName.upper()}
---    print "\nextern struct ovsdb_idl_table_class %stable_classes[%sN_TABLES];" % (prefix, prefix.upper())
--+            'T': tableName.upper()})
--+    print("\nextern struct ovsdb_idl_table_class %stable_classes[%sN_TABLES];" % (prefix, prefix.upper()))
-- 
---    print "\nextern struct ovsdb_idl_class %sidl_class;" % prefix
--+    print("\nextern struct ovsdb_idl_class %sidl_class;" % prefix)
-- 
---    print "\nconst char * %sget_db_version(void);" % prefix
---    print "\n#endif /* %(prefix)sIDL_HEADER */" % {'prefix': prefix.upper()}
--+    print("\nconst char * %sget_db_version(void);" % prefix)
--+    print("\n#endif /* %(prefix)sIDL_HEADER */" % {'prefix': prefix.upper()})
-- 
-- def printEnum(type, members):
--     if len(members) == 0:
--         return
-- 
---    print "\nenum %s {" % type
--+    print("\nenum %s {" % type)
--     for member in members[:-1]:
---        print "    %s," % member
---    print "    %s" % members[-1]
---    print "};"
--+        print("    %s," % member)
--+    print("    %s" % members[-1])
--+    print("};")
-- 
-- def printCIDLSource(schemaFile):
--     schema = parseSchema(schemaFile)
--     prefix = schema.idlPrefix
---    print '''\
--+    print('''\
-- /* Generated automatically -- do not modify!    -*- buffer-read-only: t -*- */
-- 
-- #include <config.h>
--@@ -296,33 +297,33 @@ def printCIDLSource(schemaFile):
-- #include "ovsdb-error.h"
-- #include "util.h"
-- 
---''' % schema.idlHeader
--+''' % schema.idlHeader)
-- 
--     # Cast functions.
--     for tableName, table in sorted(schema.tables.iteritems()):
--         structName = "%s%s" % (prefix, tableName.lower())
---        print '''
--+        print('''
-- static struct %(s)s *
-- %(s)s_cast(const struct ovsdb_idl_row *row)
-- {
--     return row ? CONTAINER_OF(row, struct %(s)s, header_) : NULL;
-- }\
---''' % {'s': structName}
--+''' % {'s': structName})
-- 
-- 
--     for tableName, table in sorted(schema.tables.iteritems()):
--         structName = "%s%s" % (prefix, tableName.lower())
---        print ""
---        print "/* %s table. */" % (tableName)
--+        print("")
--+        print("/* %s table. */" % (tableName))
-- 
--         # Parse functions.
--         for columnName, column in sorted_columns(table):
---            print '''
--+            print('''
-- static void
-- %(s)s_parse_%(c)s(struct ovsdb_idl_row *row_, const struct ovsdb_datum *datum)
-- {
--     struct %(s)s *row = %(s)s_cast(row_);''' % {'s': structName,
---                                                'c': columnName}
--+                                                'c': columnName})
--             type = column.type
--             if type.value:
--                 keyVar = "row->key_%s" % columnName
--@@ -332,89 +333,89 @@ static void
--                 valueVar = None
-- 
--             if type.is_smap():
---                print "    smap_init(&row->%s);" % columnName
---                print "    for (size_t i = 0; i < datum->n; i++) {"
---                print "        smap_add(&row->%s," % columnName
---                print "                 datum->keys[i].string,"
---                print "                 datum->values[i].string);"
---                print "    }"
--+                print("    smap_init(&row->%s);" % columnName)
--+                print("    for (size_t i = 0; i < datum->n; i++) {")
--+                print("        smap_add(&row->%s," % columnName)
--+                print("                 datum->keys[i].string,")
--+                print("                 datum->values[i].string);")
--+                print("    }")
--             elif (type.n_min == 1 and type.n_max == 1) or type.is_optional_pointer():
---                print
---                print "    if (datum->n >= 1) {"
--+                print("")
--+                print("    if (datum->n >= 1) {")
--                 if not type.key.ref_table:
---                    print "        %s = datum->keys[0].%s;" % (keyVar, type.key.type.to_string())
--+                    print("        %s = datum->keys[0].%s;" % (keyVar, type.key.type.to_string()))
--                 else:
---                    print "        %s = %s%s_cast(ovsdb_idl_get_row_arc(row_, &%stable_%s, &datum->keys[0].uuid));" % (keyVar, prefix, type.key.ref_table.name.lower(), prefix, type.key.ref_table.name.lower())
--+                    print("        %s = %s%s_cast(ovsdb_idl_get_row_arc(row_, &%stable_%s, &datum->keys[0].uuid));" % (keyVar, prefix, type.key.ref_table.name.lower(), prefix, type.key.ref_table.name.lower()))
-- 
--                 if valueVar:
--                     if not type.value.ref_table:
---                        print "        %s = datum->values[0].%s;" % (valueVar, type.value.type.to_string())
--+                        print("        %s = datum->values[0].%s;" % (valueVar, type.value.type.to_string()))
--                     else:
---                        print "        %s = %s%s_cast(ovsdb_idl_get_row_arc(row_, &%stable_%s, &datum->values[0].uuid));" % (valueVar, prefix, type.value.ref_table.name.lower(), prefix, type.value.ref_table.name.lower())
---                print "    } else {"
---                print "        %s" % type.key.initCDefault(keyVar, type.n_min == 0)
--+                        print("        %s = %s%s_cast(ovsdb_idl_get_row_arc(row_, &%stable_%s, &datum->values[0].uuid));" % (valueVar, prefix, type.value.ref_table.name.lower(), prefix, type.value.ref_table.name.lower()))
--+                print("    } else {")
--+                print("        %s" % type.key.initCDefault(keyVar, type.n_min == 0))
--                 if valueVar:
---                    print "        %s" % type.value.initCDefault(valueVar, type.n_min == 0)
---                print "    }"
--+                    print("        %s" % type.value.initCDefault(valueVar, type.n_min == 0))
--+                print("    }")
--             else:
--                 if type.n_max != sys.maxint:
---                    print "    size_t n = MIN(%d, datum->n);" % type.n_max
--+                    print("    size_t n = MIN(%d, datum->n);" % type.n_max)
--                     nMax = "n"
--                 else:
--                     nMax = "datum->n"
---                print "    %s = NULL;" % keyVar
--+                print("    %s = NULL;" % keyVar)
--                 if valueVar:
---                    print "    %s = NULL;" % valueVar
---                print "    row->n_%s = 0;" % columnName
---                print "    for (size_t i = 0; i < %s; i++) {" % nMax
--+                    print("    %s = NULL;" % valueVar)
--+                print("    row->n_%s = 0;" % columnName)
--+                print("    for (size_t i = 0; i < %s; i++) {" % nMax)
--                 if type.key.ref_table:
---                    print """\
--+                    print("""\
--         struct %s%s *keyRow = %s%s_cast(ovsdb_idl_get_row_arc(row_, &%stable_%s, &datum->keys[i].uuid));
--         if (!keyRow) {
--             continue;
--         }\
---""" % (prefix, type.key.ref_table.name.lower(), prefix, type.key.ref_table.name.lower(), prefix, type.key.ref_table.name.lower())
--+""" % (prefix, type.key.ref_table.name.lower(), prefix, type.key.ref_table.name.lower(), prefix, type.key.ref_table.name.lower()))
--                     keySrc = "keyRow"
--                 else:
--                     keySrc = "datum->keys[i].%s" % type.key.type.to_string()
--                 if type.value and type.value.ref_table:
---                    print """\
--+                    print("""\
--         struct %s%s *valueRow = %s%s_cast(ovsdb_idl_get_row_arc(row_, &%stable_%s, &datum->values[i].uuid));
--         if (!valueRow) {
--             continue;
--         }\
---""" % (prefix, type.value.ref_table.name.lower(), prefix, type.value.ref_table.name.lower(), prefix, type.value.ref_table.name.lower())
--+""" % (prefix, type.value.ref_table.name.lower(), prefix, type.value.ref_table.name.lower(), prefix, type.value.ref_table.name.lower()))
--                     valueSrc = "valueRow"
--                 elif valueVar:
--                     valueSrc = "datum->values[i].%s" % type.value.type.to_string()
---                print "        if (!row->n_%s) {" % (columnName)
--+                print("        if (!row->n_%s) {" % (columnName))
-- 
---                print "            %s = xmalloc(%s * sizeof *%s);" % (
---                    keyVar, nMax, keyVar)
--+                print("            %s = xmalloc(%s * sizeof *%s);" % (
--+                    keyVar, nMax, keyVar))
--                 if valueVar:
---                    print "            %s = xmalloc(%s * sizeof *%s);" % (
---                        valueVar, nMax, valueVar)
---                print "        }"
---                print "        %s[row->n_%s] = %s;" % (keyVar, columnName, keySrc)
--+                    print("            %s = xmalloc(%s * sizeof *%s);" % (
--+                        valueVar, nMax, valueVar))
--+                print("        }")
--+                print("        %s[row->n_%s] = %s;" % (keyVar, columnName, keySrc))
--                 if valueVar:
---                    print "        %s[row->n_%s] = %s;" % (valueVar, columnName, valueSrc)
---                print "        row->n_%s++;" % columnName
---                print "    }"
---            print "}"
--+                    print("        %s[row->n_%s] = %s;" % (valueVar, columnName, valueSrc))
--+                print("        row->n_%s++;" % columnName)
--+                print("    }")
--+            print("}")
-- 
--         # Unparse functions.
--         for columnName, column in sorted_columns(table):
--             type = column.type
--             if type.is_smap() or (type.n_min != 1 or type.n_max != 1) and not type.is_optional_pointer():
---                print '''
--+                print('''
-- static void
-- %(s)s_unparse_%(c)s(struct ovsdb_idl_row *row_)
-- {
--     struct %(s)s *row = %(s)s_cast(row_);''' % {'s': structName,
---                                                'c': columnName}
--+                                                'c': columnName})
-- 
--                 if type.is_smap():
---                    print "    smap_destroy(&row->%s);" % columnName
--+                    print("    smap_destroy(&row->%s);" % columnName)
--                 else:
--                     if type.value:
--                         keyVar = "row->key_%s" % columnName
--@@ -422,45 +423,45 @@ static void
--                     else:
--                         keyVar = "row->%s" % columnName
--                         valueVar = None
---                    print "    free(%s);" % keyVar
--+                    print("    free(%s);" % keyVar)
--                     if valueVar:
---                        print "    free(%s);" % valueVar
---                print '}'
--+                        print("    free(%s);" % valueVar)
--+                print('}')
--             else:
---                print '''
--+                print('''
-- static void
-- %(s)s_unparse_%(c)s(struct ovsdb_idl_row *row OVS_UNUSED)
-- {
--     /* Nothing to do. */
---}''' % {'s': structName, 'c': columnName}
--+}''' % {'s': structName, 'c': columnName})
-- 
--         # Generic Row Initialization function.
---        print """
--+        print("""
-- static void
-- %(s)s_init__(struct ovsdb_idl_row *row)
-- {
--     %(s)s_init(%(s)s_cast(row));
---}""" % {'s': structName}
--+}""" % {'s': structName})
-- 
--         # Row Initialization function.
---        print """
--+        print("""
-- /* Clears the contents of 'row' in table "%(t)s". */
-- void
-- %(s)s_init(struct %(s)s *row)
-- {
---    memset(row, 0, sizeof *row); """ % {'s': structName, 't': tableName}
--+    memset(row, 0, sizeof *row); """ % {'s': structName, 't': tableName})
--         for columnName, column in sorted_columns(table):
--             if column.type.is_smap():
---                print "    smap_init(&row->%s);" % columnName
--+                print("    smap_init(&row->%s);" % columnName)
--             elif (column.type.n_min == 1 and
--                   column.type.n_max == 1 and
--                   column.type.key.type == ovs.db.types.StringType and
--                   not column.type.value):
---                print "    row->%s = \"\";" % columnName
---        print "}"
--+                print("    row->%s = \"\";" % columnName)
--+        print("}")
-- 
--         # First, next functions.
---        print '''
--+        print('''
-- /* Searches table "%(t)s" in 'idl' for a row with UUID 'uuid'.  Returns
--  * a pointer to the row if there is one, otherwise a null pointer.  */
-- const struct %(s)s *
--@@ -514,9 +515,9 @@ const struct %(s)s
--         'P': prefix.upper(),
--         't': tableName,
--         'tl': tableName.lower(),
---        'T': tableName.upper()}
--+        'T': tableName.upper()})
-- 
---        print '''
--+        print('''
-- 
-- /* Deletes 'row' from table "%(t)s".  'row' may be freed, so it must not be
--  * accessed afterward.
--@@ -550,11 +551,11 @@ bool
--         'P': prefix.upper(),
--         't': tableName,
--         'tl': tableName.lower(),
---        'T': tableName.upper()}
--+        'T': tableName.upper()})
-- 
--         # Verify functions.
--         for columnName, column in sorted_columns(table):
---            print '''
--+            print('''
-- /* Causes the original contents of column "%(c)s" in 'row' to be
--  * verified as a prerequisite to completing the transaction.  That is, if
--  * "%(c)s" in 'row' changed (or if 'row' was deleted) between the
--@@ -585,7 +586,7 @@ void
-- }''' % {'s': structName,
--         'S': structName.upper(),
--         'c': columnName,
---        'C': columnName.upper()}
--+        'C': columnName.upper()})
-- 
--         # Get functions.
--         for columnName, column in sorted_columns(table):
--@@ -597,7 +598,7 @@ void
--                 valueParam = ''
--                 valueType = ''
--                 valueComment = ''
---            print """
--+            print("""
-- /* Returns the "%(c)s" column's value from the "%(t)s" table in 'row'
--  * as a struct ovsdb_datum.  This is useful occasionally: for example,
--  * ovsdb_datum_find_key() is an easier and more efficient way to search
--@@ -625,7 +626,7 @@ const struct ovsdb_datum *
--     return ovsdb_idl_read(&row->header_, &%(s)s_col_%(c)s);
-- }""" % {'t': tableName, 's': structName, 'c': columnName,
--        'kt': column.type.key.toAtomicType(),
---       'v': valueParam, 'vt': valueType, 'vc': valueComment}
--+       'v': valueParam, 'vt': valueType, 'vc': valueComment})
-- 
--         # Set functions.
--         for columnName, column in sorted_columns(table):
--@@ -635,8 +636,8 @@ const struct ovsdb_datum *
--                                         column, True)
-- 
--             if type.is_smap():
---                print comment
---                print """void
--+                print(comment)
--+                print("""void
-- %(s)s_set_%(c)s(const struct %(s)s *row, const struct smap *%(c)s)
-- {
--     struct ovsdb_datum datum;
--@@ -654,7 +655,7 @@ const struct ovsdb_datum *
--        's': structName,
--        'S': structName.upper(),
--        'c': columnName,
---       'C': columnName.upper()}
--+       'C': columnName.upper()})
--                 continue
-- 
--             keyVar = members[0]['name']
--@@ -668,84 +669,84 @@ const struct ovsdb_datum *
--                 if len(members) > 1:
--                     nVar = members[1]['name']
-- 
---            print comment
---            print """\
--+            print(comment)
--+            print("""\
-- void
-- %(s)s_set_%(c)s(const struct %(s)s *row, %(args)s)
-- {
--     struct ovsdb_datum datum;""" % {'s': structName,
--         'c': columnName,
--         'args': ', '.join(['%(type)s%(name)s'
---                           % m for m in members])}
--+                           % m for m in members])})
--             if type.n_min == 1 and type.n_max == 1:
---                print "    union ovsdb_atom key;"
--+                print("    union ovsdb_atom key;")
--                 if type.value:
---                    print "    union ovsdb_atom value;"
---                print
---                print "    datum.n = 1;"
---                print "    datum.keys = &key;"
---                print "    " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar)
--+                    print("    union ovsdb_atom value;")
--+                print("")
--+                print("    datum.n = 1;")
--+                print("    datum.keys = &key;")
--+                print("    " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar))
--                 if type.value:
---                    print "    datum.values = &value;"
---                    print "    "+ type.value.assign_c_value_casting_away_const("value.%s" % type.value.type.to_string(), valueVar)
--+                    print("    datum.values = &value;")
--+                    print("    "+ type.value.assign_c_value_casting_away_const("value.%s" % type.value.type.to_string(), valueVar))
--                 else:
---                    print "    datum.values = NULL;"
--+                    print("    datum.values = NULL;")
--                 txn_write_func = "ovsdb_idl_txn_write_clone"
--             elif type.is_optional_pointer():
---                print "    union ovsdb_atom key;"
---                print
---                print "    if (%s) {" % keyVar
---                print "        datum.n = 1;"
---                print "        datum.keys = &key;"
---                print "        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar)
---                print "    } else {"
---                print "        datum.n = 0;"
---                print "        datum.keys = NULL;"
---                print "    }"
---                print "    datum.values = NULL;"
--+                print("    union ovsdb_atom key;")
--+                print("")
--+                print("    if (%s) {" % keyVar)
--+                print("        datum.n = 1;")
--+                print("        datum.keys = &key;")
--+                print("        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar))
--+                print("    } else {")
--+                print("        datum.n = 0;")
--+                print("        datum.keys = NULL;")
--+                print("    }")
--+                print("    datum.values = NULL;")
--                 txn_write_func = "ovsdb_idl_txn_write_clone"
--             elif type.n_max == 1:
---                print "    union ovsdb_atom key;"
---                print
---                print "    if (%s) {" % nVar
---                print "        datum.n = 1;"
---                print "        datum.keys = &key;"
---                print "        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), "*" + keyVar)
---                print "    } else {"
---                print "        datum.n = 0;"
---                print "        datum.keys = NULL;"
---                print "    }"
---                print "    datum.values = NULL;"
--+                print("    union ovsdb_atom key;")
--+                print("")
--+                print("    if (%s) {" % nVar)
--+                print("        datum.n = 1;")
--+                print("        datum.keys = &key;")
--+                print("        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), "*" + keyVar))
--+                print("    } else {")
--+                print("        datum.n = 0;")
--+                print("        datum.keys = NULL;")
--+                print("    }")
--+                print("    datum.values = NULL;")
--                 txn_write_func = "ovsdb_idl_txn_write_clone"
--             else:
---                print
---                print "    datum.n = %s;" % nVar
---                print "    datum.keys = %s ? xmalloc(%s * sizeof *datum.keys) : NULL;" % (nVar, nVar)
--+                print("")
--+                print("    datum.n = %s;" % nVar)
--+                print("    datum.keys = %s ? xmalloc(%s * sizeof *datum.keys) : NULL;" % (nVar, nVar))
--                 if type.value:
---                    print "    datum.values = xmalloc(%s * sizeof *datum.values);" % nVar
--+                    print("    datum.values = xmalloc(%s * sizeof *datum.values);" % nVar)
--                 else:
---                    print "    datum.values = NULL;"
---                print "    for (size_t i = 0; i < %s; i++) {" % nVar
---                print "        " + type.key.copyCValue("datum.keys[i].%s" % type.key.type.to_string(), "%s[i]" % keyVar)
--+                    print("    datum.values = NULL;")
--+                print("    for (size_t i = 0; i < %s; i++) {" % nVar)
--+                print("        " + type.key.copyCValue("datum.keys[i].%s" % type.key.type.to_string(), "%s[i]" % keyVar))
--                 if type.value:
---                    print "        " + type.value.copyCValue("datum.values[i].%s" % type.value.type.to_string(), "%s[i]" % valueVar)
---                print "    }"
--+                    print("        " + type.value.copyCValue("datum.values[i].%s" % type.value.type.to_string(), "%s[i]" % valueVar))
--+                print("    }")
--                 if type.value:
--                     valueType = type.value.toAtomicType()
--                 else:
--                     valueType = "OVSDB_TYPE_VOID"
--                 txn_write_func = "ovsdb_idl_txn_write"
---            print "    %(f)s(&row->header_, &%(s)s_col_%(c)s, &datum);" \
--+            print("    %(f)s(&row->header_, &%(s)s_col_%(c)s, &datum);" \
--                 % {'f': txn_write_func,
--                    's': structName,
--                    'S': structName.upper(),
---                   'c': columnName}
---            print "}"
--+                   'c': columnName})
--+            print("}")
--         # Update/Delete of partial map column functions
--         for columnName, column in sorted_columns(table):
--             type = column.type
--             if type.is_map():
---                print '''
--+                print('''
-- /* Sets an element of the "%(c)s" map column from the "%(t)s" table in 'row'
--  * to 'new_value' given the key value 'new_key'.
--  *
--@@ -761,17 +762,17 @@ void
--     datum->values = xmalloc(datum->n * sizeof *datum->values);
-- ''' % {'s': structName, 'c': columnName,'coltype':column.type.key.to_const_c_type(prefix),
--         'valtype':column.type.value.to_const_c_type(prefix), 'S': structName.upper(),
---        'C': columnName.upper(), 't': tableName}
--+        'C': columnName.upper(), 't': tableName})
-- 
---                print "    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "new_key")
---                print "    "+ type.value.copyCValue("datum->values[0].%s" % type.value.type.to_string(), "new_value")
---                print '''
--+                print("    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "new_key"))
--+                print("    "+ type.value.copyCValue("datum->values[0].%s" % type.value.type.to_string(), "new_value"))
--+                print('''
--     ovsdb_idl_txn_write_partial_map(&row->header_,
--                                     &%(s)s_col_%(c)s,
--                                     datum);
-- }''' % {'s': structName, 'c': columnName,'coltype':column.type.key.toCType(prefix),
---        'valtype':column.type.value.to_const_c_type(prefix), 'S': structName.upper()}
---                print '''
--+        'valtype':column.type.value.to_const_c_type(prefix), 'S': structName.upper()})
--+                print('''
-- /* Deletes an element of the "%(c)s" map column from the "%(t)s" table in 'row'
--  * given the key value 'delete_key'.
--  *
--@@ -787,19 +788,19 @@ void
--     datum->values = NULL;
-- ''' % {'s': structName, 'c': columnName,'coltype':column.type.key.to_const_c_type(prefix),
--         'valtype':column.type.value.to_const_c_type(prefix), 'S': structName.upper(),
---        'C': columnName.upper(), 't': tableName}
--+        'C': columnName.upper(), 't': tableName})
-- 
---                print "    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "delete_key")
---                print '''
--+                print("    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "delete_key"))
--+                print('''
--     ovsdb_idl_txn_delete_partial_map(&row->header_,
--                                     &%(s)s_col_%(c)s,
--                                     datum);
-- }''' % {'s': structName, 'c': columnName,'coltype':column.type.key.toCType(prefix),
---        'valtype':column.type.value.to_const_c_type(prefix), 'S': structName.upper()}
--+        'valtype':column.type.value.to_const_c_type(prefix), 'S': structName.upper()})
--         # End Update/Delete of partial maps
--         # Update/Delete of partial set column functions
--             if type.is_set():
---                print '''
--+                print('''
-- /* Adds the value 'new_value' to the "%(c)s" set column from the "%(t)s" table
--  * in 'row'.
--  *
--@@ -814,16 +815,16 @@ void
--     datum->keys = xmalloc(datum->n * sizeof *datum->values);
--     datum->values = NULL;
-- ''' % {'s': structName, 'c': columnName,
---        'valtype':column.type.key.to_const_c_type(prefix), 't': tableName}
--+        'valtype':column.type.key.to_const_c_type(prefix), 't': tableName})
-- 
---                print "    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "new_value")
---                print '''
--+                print("    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "new_value"))
--+                print('''
--     ovsdb_idl_txn_write_partial_set(&row->header_,
--                                     &%(s)s_col_%(c)s,
--                                     datum);
-- }''' % {'s': structName, 'c': columnName,'coltype':column.type.key.toCType(prefix),
---        'valtype':column.type.key.to_const_c_type(prefix), 'S': structName.upper()}
---                print '''
--+        'valtype':column.type.key.to_const_c_type(prefix), 'S': structName.upper()})
--+                print('''
-- /* Deletes the value 'delete_value' from the "%(c)s" set column from the
--  * "%(t)s" table in 'row'.
--  *
--@@ -839,15 +840,15 @@ void
--     datum->values = NULL;
-- ''' % {'s': structName, 'c': columnName,'coltype':column.type.key.to_const_c_type(prefix),
--         'valtype':column.type.key.to_const_c_type(prefix), 'S': structName.upper(),
---        'C': columnName.upper(), 't': tableName}
--+        'C': columnName.upper(), 't': tableName})
-- 
---                print "    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "delete_value")
---                print '''
--+                print("    "+ type.key.copyCValue("datum->keys[0].%s" % type.key.type.to_string(), "delete_value"))
--+                print('''
--     ovsdb_idl_txn_delete_partial_set(&row->header_,
--                                     &%(s)s_col_%(c)s,
--                                     datum);
-- }''' % {'s': structName, 'c': columnName,'coltype':column.type.key.toCType(prefix),
---        'valtype':column.type.key.to_const_c_type(prefix), 'S': structName.upper()}
--+        'valtype':column.type.key.to_const_c_type(prefix), 'S': structName.upper()})
--         # End Update/Delete of partial set
-- 
--         # Add clause functions.
--@@ -858,8 +859,8 @@ void
--                                         column, True, refTable=False)
-- 
--             if type.is_smap():
---                print comment
---                print """void
--+                print(comment)
--+                print("""void
-- %(s)s_add_clause_%(c)s(struct ovsdb_idl_condition *cond, enum ovsdb_function function, const struct smap *%(c)s)
-- {
--     struct ovsdb_datum datum;
--@@ -884,7 +885,7 @@ void
--        'P': prefix.upper(),
--        's': structName,
--        'S': structName.upper(),
---       'c': columnName}
--+       'c': columnName})
--                 continue
-- 
--             keyVar = members[0]['name']
--@@ -898,73 +899,73 @@ void
--                 if len(members) > 1:
--                     nVar = members[1]['name']
-- 
---            print comment
---            print 'void'
---            print '%(s)s_add_clause_%(c)s(struct ovsdb_idl_condition *cond, enum ovsdb_function function, %(args)s)' % \
--+            print(comment)
--+            print('void')
--+            print('%(s)s_add_clause_%(c)s(struct ovsdb_idl_condition *cond, enum ovsdb_function function, %(args)s)' % \
--                 {'s': structName, 'c': columnName,
---                 'args': ', '.join(['%(type)s%(name)s' % m for m in members])}
---            print "{"
---            print "    struct ovsdb_datum datum;"
--+                 'args': ', '.join(['%(type)s%(name)s' % m for m in members])})
--+            print("{")
--+            print("    struct ovsdb_datum datum;")
--             free = []
--             if type.n_min == 1 and type.n_max == 1:
---                print "    union ovsdb_atom key;"
--+                print("    union ovsdb_atom key;")
--                 if type.value:
---                    print "    union ovsdb_atom value;"
---                print
---                print "    datum.n = 1;"
---                print "    datum.keys = &key;"
---                print "    " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar, refTable=False)
--+                    print("    union ovsdb_atom value;")
--+                print("")
--+                print("    datum.n = 1;")
--+                print("    datum.keys = &key;")
--+                print("    " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar, refTable=False))
--                 if type.value:
---                    print "    datum.values = &value;"
---                    print "    "+ type.value.assign_c_value_casting_away_const("value.%s" % type.value.type.to_string(), valueVar, refTable=False)
--+                    print("    datum.values = &value;")
--+                    print("    "+ type.value.assign_c_value_casting_away_const("value.%s" % type.value.type.to_string(), valueVar, refTable=False))
--                 else:
---                    print "    datum.values = NULL;"
--+                    print("    datum.values = NULL;")
--             elif type.is_optional_pointer():
---                print "    union ovsdb_atom key;"
---                print
---                print "    if (%s) {" % keyVar
---                print "        datum.n = 1;"
---                print "        datum.keys = &key;"
---                print "        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar, refTable=False)
---                print "    } else {"
---                print "        datum.n = 0;"
---                print "        datum.keys = NULL;"
---                print "    }"
---                print "    datum.values = NULL;"
--+                print("    union ovsdb_atom key;")
--+                print("")
--+                print("    if (%s) {" % keyVar)
--+                print("        datum.n = 1;")
--+                print("        datum.keys = &key;")
--+                print("        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), keyVar, refTable=False))
--+                print("    } else {")
--+                print("        datum.n = 0;")
--+                print("        datum.keys = NULL;")
--+                print("    }")
--+                print("    datum.values = NULL;")
--             elif type.n_max == 1:
---                print "    union ovsdb_atom key;"
---                print
---                print "    if (%s) {" % nVar
---                print "        datum.n = 1;"
---                print "        datum.keys = &key;"
---                print "        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), "*" + keyVar, refTable=False)
---                print "    } else {"
---                print "        datum.n = 0;"
---                print "        datum.keys = NULL;"
---                print "    }"
---                print "    datum.values = NULL;"
--+                print("    union ovsdb_atom key;")
--+                print("")
--+                print("    if (%s) {" % nVar)
--+                print("        datum.n = 1;")
--+                print("        datum.keys = &key;")
--+                print("        " + type.key.assign_c_value_casting_away_const("key.%s" % type.key.type.to_string(), "*" + keyVar, refTable=False))
--+                print("    } else {")
--+                print("        datum.n = 0;")
--+                print("        datum.keys = NULL;")
--+                print("    }")
--+                print("    datum.values = NULL;")
--             else:
---                print "    datum.n = %s;" % nVar
---                print "    datum.keys = %s ? xmalloc(%s * sizeof *datum.keys) : NULL;" % (nVar, nVar)
--+                print("    datum.n = %s;" % nVar)
--+                print("    datum.keys = %s ? xmalloc(%s * sizeof *datum.keys) : NULL;" % (nVar, nVar))
--                 free += ['datum.keys']
--                 if type.value:
---                    print "    datum.values = xmalloc(%s * sizeof *datum.values);" % nVar
--+                    print("    datum.values = xmalloc(%s * sizeof *datum.values);" % nVar)
--                     free += ['datum.values']
--                 else:
---                    print "    datum.values = NULL;"
---                print "    for (size_t i = 0; i < %s; i++) {" % nVar
---                print "        " + type.key.assign_c_value_casting_away_const("datum.keys[i].%s" % type.key.type.to_string(), "%s[i]" % keyVar, refTable=False)
--+                    print("    datum.values = NULL;")
--+                print("    for (size_t i = 0; i < %s; i++) {" % nVar)
--+                print("        " + type.key.assign_c_value_casting_away_const("datum.keys[i].%s" % type.key.type.to_string(), "%s[i]" % keyVar, refTable=False))
--                 if type.value:
---                    print "        " + type.value.assign_c_value_casting_away_const("datum.values[i].%s" % type.value.type.to_string(), "%s[i]" % valueVar, refTable=False)
---                print "    }"
--+                    print("        " + type.value.assign_c_value_casting_away_const("datum.values[i].%s" % type.value.type.to_string(), "%s[i]" % valueVar, refTable=False))
--+                print("    }")
--                 if type.value:
--                     valueType = type.value.toAtomicType()
--                 else:
--                     valueType = "OVSDB_TYPE_VOID"
---                print "    ovsdb_datum_sort_unique(&datum, %s, %s);" % (
---                    type.key.toAtomicType(), valueType)
--+                print("    ovsdb_datum_sort_unique(&datum, %s, %s);" % (
--+                    type.key.toAtomicType(), valueType))
-- 
---            print"""    ovsdb_idl_condition_add_clause(cond,
--+            print("""    ovsdb_idl_condition_add_clause(cond,
--                           function,
--                           &%(s)s_col_%(c)s,
--                           &datum);\
--@@ -974,28 +975,28 @@ void
--        'P': prefix.upper(),
--        's': structName,
--        'S': structName.upper(),
---       'c': columnName}
--+       'c': columnName})
--             for var in free:
---                print "    free(%s);" % var
---            print "}"
--+                print("    free(%s);" % var)
--+            print("}")
-- 
---        print """
--+        print("""
-- void
-- %(s)s_set_condition(struct ovsdb_idl *idl, struct ovsdb_idl_condition *condition)
-- {
--     ovsdb_idl_set_condition(idl, &%(p)stable_%(tl)s, condition);
-- }""" % {'p': prefix,
--         's': structName,
---        'tl': tableName.lower()}
--+        'tl': tableName.lower()})
-- 
--         # Table columns.
--         for columnName, column in sorted_columns(table):
--             prereqs = []
--             x = column.type.cInitType("%s_col_%s" % (tableName, columnName), prereqs)
--             if prereqs:
---                print '\n'.join(prereqs)
---        print "\nstruct ovsdb_idl_column %s_columns[%s_N_COLUMNS] = {" % (
---            structName, structName.upper())
--+                print('\n'.join(prereqs))
--+        print("\nstruct ovsdb_idl_column %s_columns[%s_N_COLUMNS] = {" % (
--+            structName, structName.upper()))
--         for columnName, column in sorted_columns(table):
--             if column.mutable:
--                 mutable = "true"
--@@ -1003,7 +1004,7 @@ void
--                 mutable = "false"
--             type_init = '\n'.join("            " + x
--                                   for x in column.type.cInitType("%s_col_%s" % (tableName, columnName), prereqs))
---            print """\
--+            print("""\
--     [%(P)s%(T)s_COL_%(C)s] = {
--          .name = "%(c)s",
--          .type = {
--@@ -1018,38 +1019,38 @@ void
--                'C': columnName.upper(),
--                's': structName,
--                'mutable': mutable,
---               'type': type_init}
---        print "};"
--+               'type': type_init})
--+        print("};")
-- 
--     # Table classes.
---    print ""
---    print "struct ovsdb_idl_table_class %stable_classes[%sN_TABLES] = {" % (prefix, prefix.upper())
--+    print("")
--+    print("struct ovsdb_idl_table_class %stable_classes[%sN_TABLES] = {" % (prefix, prefix.upper()))
--     for tableName, table in sorted(schema.tables.iteritems()):
--         structName = "%s%s" % (prefix, tableName.lower())
--         if table.is_root:
--             is_root = "true"
--         else:
--             is_root = "false"
---        print "    {\"%s\", %s," % (tableName, is_root)
---        print "     %s_columns, ARRAY_SIZE(%s_columns)," % (
---            structName, structName)
---        print "     sizeof(struct %s), %s_init__}," % (structName, structName)
---    print "};"
--+        print("    {\"%s\", %s," % (tableName, is_root))
--+        print("     %s_columns, ARRAY_SIZE(%s_columns)," % (
--+            structName, structName))
--+        print("     sizeof(struct %s), %s_init__}," % (structName, structName))
--+    print("};")
-- 
--     # IDL class.
---    print "\nstruct ovsdb_idl_class %sidl_class = {" % prefix
---    print "    \"%s\", %stable_classes, ARRAY_SIZE(%stable_classes)" % (
---        schema.name, prefix, prefix)
---    print "};"
--+    print("\nstruct ovsdb_idl_class %sidl_class = {" % prefix)
--+    print("    \"%s\", %stable_classes, ARRAY_SIZE(%stable_classes)" % (
--+        schema.name, prefix, prefix))
--+    print("};")
-- 
---    print """
--+    print("""
-- /* Return the schema version.  The caller must not free the returned value. */
-- const char *
-- %sget_db_version(void)
-- {
--     return "%s";
-- }
---""" % (prefix, schema.version)
--+""" % (prefix, schema.version))
-- 
-- 
-- 
--@@ -1075,7 +1076,7 @@ def ovsdb_escape(string):
--     return re.sub(r'["\\\000-\037]', escape, string)
-- 
-- def usage():
---    print """\
--+    print("""\
-- %(argv0)s: ovsdb schema compiler
-- usage: %(argv0)s [OPTIONS] COMMAND ARG...
-- 
--@@ -1087,7 +1088,7 @@ The following commands are supported:
-- The following options are also available:
--   -h, --help                  display this help message
--   -V, --version               display version information\
---""" % {'argv0': argv0}
--+""" % {'argv0': argv0})
--     sys.exit(0)
-- 
-- if __name__ == "__main__":
--@@ -1105,7 +1106,7 @@ if __name__ == "__main__":
--             if key in ['-h', '--help']:
--                 usage()
--             elif key in ['-V', '--version']:
---                print "ovsdb-idlc (Open vSwitch) @VERSION@"
--+                print("ovsdb-idlc (Open vSwitch) @VERSION@")
--             elif key in ['-C', '--directory']:
--                 os.chdir(value)
--             else:
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0001-use-the-linux-if_packet.h-Interface-directly.patch b/recipes-networking/openvswitch/openvswitch-git/0001-use-the-linux-if_packet.h-Interface-directly.patch
-deleted file mode 100644
-index f1f9bef..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0001-use-the-linux-if_packet.h-Interface-directly.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 28b2d17de9414161d5edd67766bd4b452cd809ef Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 20 Mar 2017 12:12:51 -0700
--Subject: [PATCH] use the linux if_packet.h Interface directly
--
--Helps compiling with musl
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-----
-- lib/netdev-linux.c | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/lib/netdev-linux.c b/lib/netdev-linux.c
--index fccf88f..b703156 100644
----- a/lib/netdev-linux.c
--+++ b/lib/netdev-linux.c
--@@ -33,14 +33,13 @@
-- #include <linux/pkt_sched.h>
-- #include <linux/rtnetlink.h>
-- #include <linux/sockios.h>
--+#include <linux/if_packet.h>
-- #include <sys/types.h>
-- #include <sys/ioctl.h>
-- #include <sys/socket.h>
-- #include <sys/utsname.h>
---#include <netpacket/packet.h>
-- #include <net/if.h>
-- #include <net/if_arp.h>
---#include <net/if_packet.h>
-- #include <net/route.h>
-- #include <netinet/in.h>
-- #include <poll.h>
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0002-Python3-compatibility-exception-cleanup.patch b/recipes-networking/openvswitch/openvswitch-git/0002-Python3-compatibility-exception-cleanup.patch
-deleted file mode 100644
-index 70abd26..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0002-Python3-compatibility-exception-cleanup.patch
-+++ /dev/null
-@@ -1,77 +0,0 @@
--From c0ba116eab401431b4f11b66bd7d1b42741b03c3 Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: exception cleanup
--
--Commit 52e4a477f0b3c0a0ece7adeede6e06e07814f8b9 from
--https://github.com/openvswitch/ovs.git
--
--The exception syntax which is compatible with python2 and python3 is
--to use the "as" form for "except:".
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- build-aux/extract-ofp-fields | 2 +-
-- ovsdb/ovsdb-doc              | 4 ++--
-- ovsdb/ovsdb-idlc.in          | 4 ++--
-- 3 files changed, 5 insertions(+), 5 deletions(-)
--
--diff --git a/build-aux/extract-ofp-fields b/build-aux/extract-ofp-fields
--index 80c7d35..6286c9c 100755
----- a/build-aux/extract-ofp-fields
--+++ b/build-aux/extract-ofp-fields
--@@ -784,7 +784,7 @@ if __name__ == "__main__":
--     try:
--         options, args = getopt.gnu_getopt(sys.argv[1:], 'h',
--                                           ['help', 'ovs-version='])
---    except getopt.GetoptError, geo:
--+    except getopt.GetoptError as geo:
--         sys.stderr.write("%s: %s\n" % (argv0, geo.msg))
--         sys.exit(1)
-- 
--diff --git a/ovsdb/ovsdb-doc b/ovsdb/ovsdb-doc
--index e82ad59..9448713 100755
----- a/ovsdb/ovsdb-doc
--+++ b/ovsdb/ovsdb-doc
--@@ -278,7 +278,7 @@ if __name__ == "__main__":
--             options, args = getopt.gnu_getopt(sys.argv[1:], 'hV',
--                                               ['er-diagram=',
--                                                'version=', 'help'])
---        except getopt.GetoptError, geo:
--+        except getopt.GetoptError as geo:
--             sys.stderr.write("%s: %s\n" % (argv0, geo.msg))
--             sys.exit(1)
-- 
--@@ -306,7 +306,7 @@ if __name__ == "__main__":
--             if len(line):
--                 print(line)
-- 
---    except error.Error, e:
--+    except error.Error as e:
--         sys.stderr.write("%s: %s\n" % (argv0, e.msg))
--         sys.exit(1)
-- 
--diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
--index 62442ee..e7e1c6b 100755
----- a/ovsdb/ovsdb-idlc.in
--+++ b/ovsdb/ovsdb-idlc.in
--@@ -1098,7 +1098,7 @@ if __name__ == "__main__":
--                                               ['directory',
--                                                'help',
--                                                'version'])
---        except getopt.GetoptError, geo:
--+        except getopt.GetoptError as geo:
--             sys.stderr.write("%s: %s\n" % (argv0, geo.msg))
--             sys.exit(1)
-- 
--@@ -1136,7 +1136,7 @@ if __name__ == "__main__":
--             sys.exit(1)
-- 
--         func(*args[1:])
---    except ovs.db.error.Error, e:
--+    except ovs.db.error.Error as e:
--         sys.stderr.write("%s: %s\n" % (argv0, e))
--         sys.exit(1)
-- 
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0003-Python3-compatibility-execfile-to-exec.patch b/recipes-networking/openvswitch/openvswitch-git/0003-Python3-compatibility-execfile-to-exec.patch
-deleted file mode 100644
-index 98d77c8..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0003-Python3-compatibility-execfile-to-exec.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 8557d51e8c7325a17219911e9a65eeb3946e869f Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: execfile to exec
--
--Commit a4d10a7ca937d73873f6f98619d88682e69f5dbe from
--https://github.com/openvswitch/ovs.git
--
--Allow compability with python3 and python2 by changing execfile() to
--exec().
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- ovsdb/ovsdb-idlc.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
--index e7e1c6b..e1551f9 100755
----- a/ovsdb/ovsdb-idlc.in
--+++ b/ovsdb/ovsdb-idlc.in
--@@ -17,7 +17,7 @@ def parseSchema(filename):
-- 
-- def annotateSchema(schemaFile, annotationFile):
--     schemaJson = ovs.json.from_file(schemaFile)
---    execfile(annotationFile, globals(), {"s": schemaJson})
--+    exec(compile(open(annotationFile, "rb").read(), annotationFile, 'exec'), globals(), {"s": schemaJson})
--     ovs.json.to_stream(schemaJson, sys.stdout)
--     sys.stdout.write('\n')
-- 
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0004-Python3-compatibility-iteritems-to-items.patch b/recipes-networking/openvswitch/openvswitch-git/0004-Python3-compatibility-iteritems-to-items.patch
-deleted file mode 100644
-index 092c42d..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0004-Python3-compatibility-iteritems-to-items.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--From 7e4bd5c2af85b1293be0a92b18f7930bda2ab41a Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: iteritems to items
--
--Commit 4ab665623cbb4c6506e48b82e0c9fe8585f42e13 from
--https://github.com/openvswitch/ovs.git
--
--Allow compability with python3 and python2 by changing iteritems() to
--items().
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- build-aux/extract-ofp-actions | 2 +-
-- build-aux/extract-ofp-errors  | 2 +-
-- build-aux/extract-ofp-fields  | 2 +-
-- ovsdb/ovsdb-idlc.in           | 8 ++++----
-- 4 files changed, 7 insertions(+), 7 deletions(-)
--
--diff --git a/build-aux/extract-ofp-actions b/build-aux/extract-ofp-actions
--index 67e3848..c7858bd 100755
----- a/build-aux/extract-ofp-actions
--+++ b/build-aux/extract-ofp-actions
--@@ -13,7 +13,7 @@ version_map = {"1.0": 0x01,
--                "1.3": 0x04,
--                "1.4": 0x05,
--                "1.5": 0x06}
---version_reverse_map = dict((v, k) for (k, v) in version_map.iteritems())
--+version_reverse_map = dict((v, k) for (k, v) in version_map.items())
-- 
-- # Map from vendor name to the length of the action header.
-- vendor_map = {"OF": (0x00000000,  4),
--diff --git a/build-aux/extract-ofp-errors b/build-aux/extract-ofp-errors
--index 97d62d2..58ba006 100755
----- a/build-aux/extract-ofp-errors
--+++ b/build-aux/extract-ofp-errors
--@@ -14,7 +14,7 @@ version_map = {"1.0": 0x01,
--                "1.4": 0x05,
--                "1.5": 0x06,
--                "1.6": 0x07}
---version_reverse_map = dict((v, k) for (k, v) in version_map.iteritems())
--+version_reverse_map = dict((v, k) for (k, v) in version_map.items())
-- 
-- token = None
-- line = ""
--diff --git a/build-aux/extract-ofp-fields b/build-aux/extract-ofp-fields
--index 6286c9c..f624728 100755
----- a/build-aux/extract-ofp-fields
--+++ b/build-aux/extract-ofp-fields
--@@ -16,7 +16,7 @@ VERSION = {"1.0": 0x01,
--            "1.3": 0x04,
--            "1.4": 0x05,
--            "1.5": 0x06}
---VERSION_REVERSE = dict((v,k) for k, v in VERSION.iteritems())
--+VERSION_REVERSE = dict((v,k) for k, v in VERSION.items())
-- 
-- TYPES = {"u8":       (1,   False),
--          "be16":     (2,   False),
--diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
--index e1551f9..b70a599 100755
----- a/ovsdb/ovsdb-idlc.in
--+++ b/ovsdb/ovsdb-idlc.in
--@@ -138,7 +138,7 @@ def printCIDLHeader(schemaFile):
-- #include "smap.h"
-- #include "uuid.h"''' % {'prefix': prefix.upper()})
-- 
---    for tableName, table in sorted(schema.tables.iteritems()):
--+    for tableName, table in sorted(schema.tables.items()):
--         structName = "%s%s" % (prefix, tableName.lower())
-- 
--         print("")
--@@ -300,7 +300,7 @@ def printCIDLSource(schemaFile):
-- ''' % schema.idlHeader)
-- 
--     # Cast functions.
---    for tableName, table in sorted(schema.tables.iteritems()):
--+    for tableName, table in sorted(schema.tables.items()):
--         structName = "%s%s" % (prefix, tableName.lower())
--         print('''
-- static struct %(s)s *
--@@ -311,7 +311,7 @@ static struct %(s)s *
-- ''' % {'s': structName})
-- 
-- 
---    for tableName, table in sorted(schema.tables.iteritems()):
--+    for tableName, table in sorted(schema.tables.items()):
--         structName = "%s%s" % (prefix, tableName.lower())
--         print("")
--         print("/* %s table. */" % (tableName))
--@@ -1025,7 +1025,7 @@ void
--     # Table classes.
--     print("")
--     print("struct ovsdb_idl_table_class %stable_classes[%sN_TABLES] = {" % (prefix, prefix.upper()))
---    for tableName, table in sorted(schema.tables.iteritems()):
--+    for tableName, table in sorted(schema.tables.items()):
--         structName = "%s%s" % (prefix, tableName.lower())
--         if table.is_root:
--             is_root = "true"
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0005-Python3-compatibility-fix-integer-problems.patch b/recipes-networking/openvswitch/openvswitch-git/0005-Python3-compatibility-fix-integer-problems.patch
-deleted file mode 100644
-index d6f9364..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0005-Python3-compatibility-fix-integer-problems.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From d22c7f1c6ade82a0cd646cfcd8df9adda6cd1ad6 Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: fix integer problems
--
--Commit fa145f1a53943243f94a32ce98525db8494b0052 from
--https://github.com/openvswitch/ovs.git
--
--In python3 maxint is not defined, but maxsize is defined in both
--python2 and python3.
--
--The put_text() will not automatically use a value which came in as
--float due to a pior math function and python3 will throw an exception.
--The simple answer is to convert it with int() and move on.
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- ovsdb/ovsdb-idlc.in   | 2 +-
-- python/build/nroff.py | 2 ++
-- 2 files changed, 3 insertions(+), 1 deletion(-)
--
--diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
--index b70a599..3645275 100755
----- a/ovsdb/ovsdb-idlc.in
--+++ b/ovsdb/ovsdb-idlc.in
--@@ -358,7 +358,7 @@ static void
--                     print("        %s" % type.value.initCDefault(valueVar, type.n_min == 0))
--                 print("    }")
--             else:
---                if type.n_max != sys.maxint:
--+                if type.n_max != sys.maxsize:
--                     print("    size_t n = MIN(%d, datum->n);" % type.n_max)
--                     nMax = "n"
--                 else:
--diff --git a/python/build/nroff.py b/python/build/nroff.py
--index c23837f..401f699 100644
----- a/python/build/nroff.py
--+++ b/python/build/nroff.py
--@@ -148,6 +148,8 @@ def fatal(msg):
-- 
-- 
-- def put_text(text, x, y, s):
--+    x = int(x)
--+    y = int(y)
--     extend = x + len(s) - len(text[y])
--     if extend > 0:
--         text[y] += ' ' * extend
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0006-Python3-compatibility-math-error-compatibility.patch b/recipes-networking/openvswitch/openvswitch-git/0006-Python3-compatibility-math-error-compatibility.patch
-deleted file mode 100644
-index c53502b..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0006-Python3-compatibility-math-error-compatibility.patch
-+++ /dev/null
-@@ -1,54 +0,0 @@
--From 7f542122d62b20d11198bfdb0f2c6a460261b5e7 Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: math error compatibility
--
--Commit 3fa5aa4294377e0f35267936d0c5caea3e61db48 from
--https://github.com/openvswitch/ovs.git
--
--The way math is handled with typing is completely different in python3.
--
--% python2<<EOF
--x=10
--y=8
--print((x + (y - 1)) / y * y)
--EOF
--16
--
--python3<<EOF
--x=10
--y=8
--print((x + (y - 1)) / y * y)
--EOF
--17.0
--
--So we need to force an integer for the round function as follows and
--maintain compatibility with python2.
--
--python3<<EOF
--x=10
--y=8
--print(int((x + (y - 1)) / y) * y)
--EOF
--16
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- build-aux/extract-ofp-actions | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/build-aux/extract-ofp-actions b/build-aux/extract-ofp-actions
--index c7858bd..4d05ef9 100755
----- a/build-aux/extract-ofp-actions
--+++ b/build-aux/extract-ofp-actions
--@@ -35,7 +35,7 @@ line = ""
-- arg_structs = set()
-- 
-- def round_up(x, y):
---    return (x + (y - 1)) / y * y
--+    return int((x + (y - 1)) / y) * y
-- 
-- def open_file(fn):
--     global file_name
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0007-Python3-compatibility-unicode-to-str.patch b/recipes-networking/openvswitch/openvswitch-git/0007-Python3-compatibility-unicode-to-str.patch
-deleted file mode 100644
-index 753490f..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0007-Python3-compatibility-unicode-to-str.patch
-+++ /dev/null
-@@ -1,49 +0,0 @@
--From c78b39ae9ba6337210d6a9e4ccc4753cb1c3b48f Mon Sep 17 00:00:00 2001
--From: Jason Wessel <jason.wessel@windriver.com>
--Date: Thu, 29 Jun 2017 20:33:23 -0700
--Subject: [PATCH] Python3 compatibility: unicode to str
--
--Commit 7430959d4ad17db89b8387c3aef58c8b230cad10 from
--https://github.com/openvswitch/ovs.git
--
--When transitioning from python2 to python3 the following type class
--changes occured:
--
--python2 -> python3
--unicode -> str
--str -> bytes
--
--That means we have to check the python version and do the right type
--check python3 will throw an error when it tries to use the unicode
--type because it doesn't exist.
--
--Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- ovsdb/ovsdb-doc | 12 +++++++++---
-- 1 file changed, 9 insertions(+), 3 deletions(-)
--
--diff --git a/ovsdb/ovsdb-doc b/ovsdb/ovsdb-doc
--index 9448713..d55c6e6 100755
----- a/ovsdb/ovsdb-doc
--+++ b/ovsdb/ovsdb-doc
--@@ -65,9 +65,15 @@ def columnGroupToNroff(table, groupXml, documented_columns):
--                 if node.hasAttribute('type'):
--                     type_string = node.attributes['type'].nodeValue
--                     type_json = ovs.json.from_string(str(type_string))
---                    if type(type_json) in (str, unicode):
---                        raise error.Error("%s %s:%s has invalid 'type': %s" 
---                                          % (table.name, name, key, type_json))
--+                    # py2 -> py3 means str -> bytes and unicode -> str
--+                    try:
--+                        if type(type_json) in (str, unicode):
--+                            raise error.Error("%s %s:%s has invalid 'type': %s" 
--+                                              % (table.name, name, key, type_json))
--+                    except:
--+                        if type(type_json) in (bytes, str):
--+                            raise error.Error("%s %s:%s has invalid 'type': %s" 
--+                                              % (table.name, name, key, type_json))
--                     type_ = ovs.db.types.BaseType.from_json(type_json)
--                 else:
--                     type_ = column.type.value
-diff --git a/recipes-networking/openvswitch/openvswitch-git/0008-AUTHORS-Add-Jason-Wessel.patch b/recipes-networking/openvswitch/openvswitch-git/0008-AUTHORS-Add-Jason-Wessel.patch
-deleted file mode 100644
-index f55a5ca..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/0008-AUTHORS-Add-Jason-Wessel.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--From f8491645416952b31000f42777ff79486a7b0511 Mon Sep 17 00:00:00 2001
--From: Ben Pfaff <blp@ovn.org>
--Date: Thu, 6 Jul 2017 14:01:27 -0700
--Subject: [PATCH] AUTHORS: Add Jason Wessel.
--
--Commit a91c4cfaf863718bc94fb9c88939bd0b0385a6fe from
--https://github.com/openvswitch/ovs.git
--
--Signed-off-by: Ben Pfaff <blp@ovn.org>
--
-----
-- AUTHORS.rst | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/AUTHORS.rst b/AUTHORS.rst
--index 63e6a8d..d0dc70d 100644
----- a/AUTHORS.rst
--+++ b/AUTHORS.rst
--@@ -156,6 +156,7 @@ Jan Scheurich                   jan.scheurich@ericsson.com
-- Jan Vansteenkiste               jan@vstone.eu
-- Jarno Rajahalme                 jarno@ovn.org
-- Jason Kölker                    jason@koelker.net
--+Jason Wessel                    jason.wessel@windriver.com
-- Jasper Capel                    jasper@capel.tv
-- Jean Tourrilhes                 jt@hpl.hp.com
-- Jeremy Stribling                strib@nicira.com
-diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-b8dcfbebee9e7dbc74ec5eecc9b45d335d6150c1.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-b8dcfbebee9e7dbc74ec5eecc9b45d335d6150c1.patch
-deleted file mode 100644
-index 4ae86c3..0000000
---- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-b8dcfbebee9e7dbc74ec5eecc9b45d335d6150c1.patch
-+++ /dev/null
-@@ -1,108 +0,0 @@
--From fb68120ef8aed625b04b2fbd2cb78fc59a7b7432 Mon Sep 17 00:00:00 2001
--From: He Zhe <zhe.he@windriver.com>
--Date: Wed, 30 Mar 2016 06:23:45 -0400
--Subject: [PATCH] openvswitch: Add test-install rule to support ptest execution
--
--Signed-off-by: Radu Patriu <radu.patriu@enea.com>
--
--Fix ptest for v2.5
-- - Copy certain files from srcdir since it has been different from
--   build directory.
-- - Copy more necessary files for new added test cases.
-- - Modify config files for running on target.
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
--
-----
-- Makefile.am |  1 +
-- test.mk     | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-- 2 files changed, 73 insertions(+)
-- create mode 100644 test.mk
--
--diff --git a/Makefile.am b/Makefile.am
--index ea63acb..ff7d70a 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -429,3 +429,4 @@ include windows/automake.mk
-- include ovn/automake.mk
-- include selinux/automake.mk
-- include build-aux/automake.mk
--+include test.mk
--diff --git a/test.mk b/test.mk
--new file mode 100644
--index 0000000..b10a581
----- /dev/null
--+++ b/test.mk
--@@ -0,0 +1,72 @@
--+TEST_DEST ?= ${prefix}/lib/openvswitch
--+TEST_ROOT ?= ${prefix}/lib/openvswitch
--+TEST_DEPEND =
--+
--+if HAVE_OPENSSL
--+TEST_DEPEND += $(TESTPKI_FILES)
--+endif
--+
--+test-install: $(TEST_DEPEND)
--+	@list='$(noinst_PROGRAMS) $(EXTRA_DIST) $(dist_check_SCRIPTS) $(TEST_DEPEND) tests/atlocal tests/atconfig' ;\
--+	install -d $(TEST_DEST)/tests ;\
--+	install $(srcdir)/vtep/ovs-vtep $(TEST_DEST)/tests ;\
--+	install -d $(TEST_DEST)/python ;\
--+	install -d $(TEST_DEST)/python/ovs ;\
--+	install -d $(TEST_DEST)/python/ovs/db ;\
--+	install -d $(TEST_DEST)/python/ovs/unixctl ;\
--+	install -d $(TEST_DEST)/vswitchd ;\
--+	install $(srcdir)/vswitchd/vswitch.ovsschema $(TEST_DEST)/vswitchd ;\
--+	install vswitchd/ovs-vswitchd $(TEST_DEST)/vswitchd ;\
--+	install -d $(TEST_DEST)/debian ;\
--+	install $(srcdir)/debian/ovs-monitor-ipsec $(TEST_DEST)/debian ;\
--+	install -d $(TEST_DEST)/build-aux ;\
--+	install $(srcdir)/build-aux/check-structs $(TEST_DEST)/build-aux ;\
--+	install -d $(TEST_DEST)/xenserver ;\
--+	install $(srcdir)/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync $(TEST_DEST)/xenserver ;\
--+	install $(srcdir)/xenserver/opt_xensource_libexec_interface-reconfigure $(TEST_DEST)/xenserver ;\
--+	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigure.py $(TEST_DEST)/xenserver ;\
--+	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigureBridge.py $(TEST_DEST)/xenserver ;\
--+	install $(srcdir)/xenserver/opt_xensource_libexec_InterfaceReconfigureVswitch.py $(TEST_DEST)/xenserver ;\
--+	install -d $(TEST_DEST)/vtep ;\
--+	install $(srcdir)/vtep/vtep.ovsschema $(TEST_DEST)/vtep ;\
--+	install -d $(TEST_DEST)/ovn ;\
--+	install $(srcdir)/ovn/ovn-nb.ovsschema $(TEST_DEST)/ovn ;\
--+	install $(srcdir)/ovn/ovn-sb.ovsschema $(TEST_DEST)/ovn ;\
--+	install -d $(TEST_DEST)/utilities ;\
--+	install $(srcdir)/utilities/ovs-pcap.in $(TEST_DEST)/utilities ;\
--+	install $(srcdir)/utilities/ovs-pki.in $(TEST_DEST)/utilities ;\
--+	for p in $$list ; do \
--+	  echo $$p ;\
--+	  p=$${p#../git/} ;\
--+	  pre=$${p#tests\/} ;\
--+	  if test $$pre != $$p ; then \
--+	    echo installing $$p to $(TEST_DEST)/tests/$$pre ;\
--+	    if test -f $$p ; then \
--+	      install $$p $(TEST_DEST)/tests/$$pre ;\
--+	    else \
--+	      install $(srcdir)/$$p $(TEST_DEST)/tests/$$pre ;\
--+	    fi ;\
--+	    continue ;\
--+	  fi ;\
--+	  pre=$${p#python\/ovs\/} ;\
--+	  if test $$pre != $$p ; then \
--+	    echo installing $$p to $(TEST_DEST)/python/ovs/$$pre ;\
--+	    if test -f $$p ; then \
--+	      install $$p $(TEST_DEST)/python/ovs/$$pre ;\
--+	    else \
--+	      install $(srcdir)/$$p $(TEST_DEST)/python/ovs/$$pre ;\
--+	    fi ;\
--+	    continue ;\
--+	  fi; \
--+	done ;\
--+	sed -i 's|abs_builddir=.*|abs_builddir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|abs_srcdir=.*|abs_srcdir='"'"'$(TEST_ROOT)/tests'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|abs_top_srcdir=.*|abs_top_srcdir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|abs_top_builddir=.*|abs_top_builddir='"'"'$(TEST_ROOT)'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|at_srcdir=.*|at_srcdir='"'"'.'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|at_top_srcdir=.*|at_top_srcdir='"'"'..'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|at_top_build_prefix=.*|at_top_build_prefix='"'"'../'"'"'|g' $(TEST_DEST)/tests/atconfig
--+	sed -i 's|^\(.*config\.log.*\)|#\1|g' $(TEST_DEST)/tests/testsuite
--+	sed -i 's|$$srcdir|$$abs_srcdir|g' $(TEST_DEST)/tests/testsuite
--+	sed -i 's|ovs-appctl-bashcomp\.bash|/etc/bash_completion.d/ovs-appctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
--+	sed -i 's|ovs-vsctl-bashcomp\.bash|/etc/bash_completion.d/ovs-vsctl-bashcomp\.bash|g' $(TEST_DEST)/tests/testsuite
--- 
-2.7.4
+Mark
 
+
+>  ...gure-variable-for-placing-systemd-untis-l.patch |  55 ------------
+>  ...pty-default-VNC-password-work-as-document.patch |  81 -----------------
+>  .../Makefiles-Add-more-XDR_CFLAGS-as-needed.patch  |  62 -------------
+>  recipes-extended/libvirt/libvirt-python.inc        |   4 +-
+>  .../0001-nsslinktest-also-build-virAtomic.h.patch  |  40 ---------
+>  .../0001-ptest-add-missing-test_helper-files.patch |  29 ------
+>  .../0001-to-fix-build-error.patch                  |  27 +++---
+>  ...vert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch |  70 ---------------
+>  ...re.ac-search-for-rpc-rpc.h-in-the-sysroot.patch |  10 +--
+>  .../libvirt/libvirt/install-missing-file.patch     |  35 ++++----
+>  .../libvirt-use-pkg-config-to-locate-libcap.patch  |  48 +++++-----
+>  .../libvirt/libvirt/libvirt_api_xml_path.patch     |  26 +++---
+>  recipes-extended/libvirt/libvirt/runptest.patch    | 100 ++++++++++++---------
+>  .../tests-allow-separated-src-and-build-dirs.patch |  57 ------------
+>  ...ibvirt-net-rpc-to-virt-host-validate-when.patch |  34 +++----
+>  recipes-extended/libvirt/libvirt_4.3.0.bb          |  23 ++---
+>  16 files changed, 167 insertions(+), 534 deletions(-)
+>  delete mode 100644 recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch
+>  delete mode 100644 recipes-extended/libvirt/libvirt-1.3.5/0001-qemu-Let-empty-default-VNC-password-work-as-document.patch
+>  delete mode 100644 recipes-extended/libvirt/libvirt-1.3.5/Makefiles-Add-more-XDR_CFLAGS-as-needed.patch
+>  delete mode 100644 recipes-extended/libvirt/libvirt/0001-nsslinktest-also-build-virAtomic.h.patch
+>  delete mode 100644 recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch
+>  rename recipes-extended/libvirt/{libvirt-1.3.5 => libvirt}/0001-to-fix-build-error.patch (65%)
+>  delete mode 100644 recipes-extended/libvirt/libvirt/Revert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch
+>  rename recipes-extended/libvirt/{libvirt-1.3.5 => libvirt}/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch (85%)
+>  delete mode 100644 recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch
+>
+> diff --git a/recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch b/recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch
+> deleted file mode 100644
+> index a64739c..0000000
+> --- a/recipes-extended/libvirt/libvirt-1.3.5/0001-Added-configure-variable-for-placing-systemd-untis-l.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From 531178d7fbb5d4b3404766cfd0fc999398cccd58 Mon Sep 17 00:00:00 2001
+> -From: Amarnath Valluri <amarnath.valluri@intel.com>
+> -Date: Wed, 8 Feb 2017 18:39:48 +0200
+> -Subject: [PATCH] Added configure variable for placing systemd untis location
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
+> ----
+> - configure.ac       | 3 +++
+> - daemon/Makefile.am | 1 -
+> - tools/Makefile.am  | 1 -
+> - 3 files changed, 3 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/configure.ac b/configure.ac
+> -index 0e5b8e3..5a6408c 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -2687,6 +2687,9 @@ AC_DEFINE_UNQUOTED([isbase64],[libvirt_gl_isbase64],[Hack to avoid symbol clash]
+> - AC_DEFINE_UNQUOTED([base64_encode],[libvirt_gl_base64_encode],[Hack to avoid symbol clash])
+> - AC_DEFINE_UNQUOTED([base64_encode_alloc],[libvirt_gl_base64_encode_alloc],[Hack to avoid symbol clash])
+> -
+> -+AC_ARG_VAR(SYSTEMD_UNIT_DIR, 'location for systemd units, defautls to /lib/systemd/system')
+> -+AS_IF([test "x$SYSTEMD_UNIT_DIR" = "x"], [SYSTEMD_UNIT_DIR="/lib/systemd/system"])
+> -+
+> - AC_CONFIG_FILES([run],
+> -                 [chmod +x,-w run])
+> - AC_CONFIG_FILES([\
+> -diff --git a/daemon/Makefile.am b/daemon/Makefile.am
+> -index edb75e8..2ab42a6 100644
+> ---- a/daemon/Makefile.am
+> -+++ b/daemon/Makefile.am
+> -@@ -449,7 +449,6 @@ endif ! LIBVIRT_INIT_SCRIPT_UPSTART
+> -
+> - if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> -
+> --SYSTEMD_UNIT_DIR = /lib/systemd/system
+> - BUILT_SOURCES += libvirtd.service
+> -
+> - install-init-systemd: install-sysconfig libvirtd.service
+> -diff --git a/tools/Makefile.am b/tools/Makefile.am
+> -index 27ecbf1..8cefe1a 100644
+> ---- a/tools/Makefile.am
+> -+++ b/tools/Makefile.am
+> -@@ -380,7 +380,6 @@ libvirt-guests.init: libvirt-guests.init.in libvirt-guests.sh
+> -
+> -
+> - EXTRA_DIST += libvirt-guests.service.in
+> --SYSTEMD_UNIT_DIR = /lib/systemd/system
+> -
+> - if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> - install-systemd: libvirt-guests.service install-sysconfig libvirt-guests.sh
+> ---
+> -2.7.4
+> -
+> diff --git a/recipes-extended/libvirt/libvirt-1.3.5/0001-qemu-Let-empty-default-VNC-password-work-as-document.patch b/recipes-extended/libvirt/libvirt-1.3.5/0001-qemu-Let-empty-default-VNC-password-work-as-document.patch
+> deleted file mode 100644
+> index 1d13dd3..0000000
+> --- a/recipes-extended/libvirt/libvirt-1.3.5/0001-qemu-Let-empty-default-VNC-password-work-as-document.patch
+> +++ /dev/null
+> @@ -1,81 +0,0 @@
+> -Upstream-Status: Backport
+> -
+> -Backport patch to fix CVE-2016-5008 from:
+> -
+> -https://libvirt.org/git/?p=libvirt.git;a=commit;h=f32441c69bf450d6ac593c3acd621c37e120cdaf
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ----
+> -From f32441c69bf450d6ac593c3acd621c37e120cdaf Mon Sep 17 00:00:00 2001
+> -From: Jiri Denemark <jdenemar@redhat.com>
+> -Date: Tue, 28 Jun 2016 14:39:58 +0200
+> -Subject: [PATCH] qemu: Let empty default VNC password work as documented
+> -
+> -CVE-2016-5008
+> -
+> -Setting an empty graphics password is documented as a way to disable
+> -VNC/SPICE access, but QEMU does not always behaves like that. VNC would
+> -happily accept the empty password. Let's enforce the behavior by setting
+> -password expiration to "now".
+> -
+> -https://bugzilla.redhat.com/show_bug.cgi?id=1180092
+> -
+> -Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
+> -(cherry picked from commit bb848feec0f3f10e92dd8e5231ae7aa89b5598f3)
+> ----
+> - src/qemu/qemu_hotplug.c | 14 +++++++-------
+> - 1 file changed, 7 insertions(+), 7 deletions(-)
+> -
+> -diff --git a/src/qemu/qemu_hotplug.c b/src/qemu/qemu_hotplug.c
+> -index 5f12d77..fda28b0 100644
+> ---- a/src/qemu/qemu_hotplug.c
+> -+++ b/src/qemu/qemu_hotplug.c
+> -@@ -3547,6 +3547,7 @@ qemuDomainChangeGraphicsPasswords(virQEMUDriverPtr driver,
+> -     time_t now = time(NULL);
+> -     char expire_time [64];
+> -     const char *connected = NULL;
+> -+    const char *password;
+> -     int ret = -1;
+> -     virQEMUDriverConfigPtr cfg = virQEMUDriverGetConfig(driver);
+> -
+> -@@ -3554,16 +3555,14 @@ qemuDomainChangeGraphicsPasswords(virQEMUDriverPtr driver,
+> -         ret = 0;
+> -         goto cleanup;
+> -     }
+> -+    password = auth->passwd ? auth->passwd : defaultPasswd;
+> -
+> -     if (auth->connected)
+> -         connected = virDomainGraphicsAuthConnectedTypeToString(auth->connected);
+> -
+> -     if (qemuDomainObjEnterMonitorAsync(driver, vm, asyncJob) < 0)
+> -         goto cleanup;
+> --    ret = qemuMonitorSetPassword(priv->mon,
+> --                                 type,
+> --                                 auth->passwd ? auth->passwd : defaultPasswd,
+> --                                 connected);
+> -+    ret = qemuMonitorSetPassword(priv->mon, type, password, connected);
+> -
+> -     if (ret == -2) {
+> -         if (type != VIR_DOMAIN_GRAPHICS_TYPE_VNC) {
+> -@@ -3571,14 +3570,15 @@ qemuDomainChangeGraphicsPasswords(virQEMUDriverPtr driver,
+> -                            _("Graphics password only supported for VNC"));
+> -             ret = -1;
+> -         } else {
+> --            ret = qemuMonitorSetVNCPassword(priv->mon,
+> --                                            auth->passwd ? auth->passwd : defaultPasswd);
+> -+            ret = qemuMonitorSetVNCPassword(priv->mon, password);
+> -         }
+> -     }
+> -     if (ret != 0)
+> -         goto end_job;
+> -
+> --    if (auth->expires) {
+> -+    if (password[0] == '\0') {
+> -+        snprintf(expire_time, sizeof(expire_time), "now");
+> -+    } else if (auth->expires) {
+> -         time_t lifetime = auth->validTo - now;
+> -         if (lifetime <= 0)
+> -             snprintf(expire_time, sizeof(expire_time), "now");
+> ---
+> -2.9.0
+> -
+> diff --git a/recipes-extended/libvirt/libvirt-1.3.5/Makefiles-Add-more-XDR_CFLAGS-as-needed.patch b/recipes-extended/libvirt/libvirt-1.3.5/Makefiles-Add-more-XDR_CFLAGS-as-needed.patch
+> deleted file mode 100644
+> index 826cdd0..0000000
+> --- a/recipes-extended/libvirt/libvirt-1.3.5/Makefiles-Add-more-XDR_CFLAGS-as-needed.patch
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -From dcfc263db9e69e5381cb511c51836271dec577a3 Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Thu, 10 May 2018 13:27:47 -0400
+> -Subject: [PATCH] Makefiles: Add more $XDR_CFLAGS as needed
+> -
+> -When building with libtirpc instead of libc-xdr the include search
+> -path needs to be used. In several places this was missing and it was
+> -only looking in /usr/include and failing.
+> -
+> -Upstream-Status: Inappropriate [old release]
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ----
+> - src/Makefile.am   | 5 +++--
+> - tests/Makefile.am | 1 +
+> - 2 files changed, 4 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/src/Makefile.am b/src/Makefile.am
+> -index e9ce941..38114b7 100644
+> ---- a/src/Makefile.am
+> -+++ b/src/Makefile.am
+> -@@ -1157,7 +1157,7 @@ libvirt_la_BUILT_LIBADD += libvirt_driver.la
+> - libvirt_driver_la_SOURCES = $(DRIVER_SOURCES)
+> -
+> - libvirt_driver_la_CFLAGS = \
+> --              $(GNUTLS_CFLAGS) $(CURL_CFLAGS) \
+> -+              $(GNUTLS_CFLAGS) $(CURL_CFLAGS) $(XDR_CFLAGS) \
+> -               -I$(srcdir)/conf $(AM_CFLAGS)
+> - libvirt_driver_la_LIBADD = \
+> -               $(GNUTLS_LIBS) $(CURL_LIBS) $(DLOPEN_LIBS)
+> -@@ -1348,6 +1348,7 @@ endif ! WITH_DRIVER_MODULES
+> -
+> - libvirt_driver_qemu_impl_la_CFLAGS = \
+> -               $(GNUTLS_CFLAGS) \
+> -+              $(XDR_CFLAGS) \
+> -               $(LIBNL_CFLAGS) \
+> -               -I$(srcdir)/access \
+> -               -I$(srcdir)/conf \
+> -@@ -2306,7 +2307,7 @@ libvirt_lxc_la_LDFLAGS = \
+> -               $(CYGWIN_EXTRA_LDFLAGS) \
+> -               $(MINGW_EXTRA_LDFLAGS) \
+> -               $(NULL)
+> --libvirt_lxc_la_CFLAGS = $(AM_CFLAGS)
+> -+libvirt_lxc_la_CFLAGS = $(AM_CFLAGS) $(XDR_CFLAGS)
+> - libvirt_lxc_la_LIBADD = libvirt.la $(CYGWIN_EXTRA_LIBADD)
+> -
+> - # Since virt-login-shell will be setuid, we must do everything
+> -diff --git a/tests/Makefile.am b/tests/Makefile.am
+> -index 2f8b9eb..aec9a3e 100644
+> ---- a/tests/Makefile.am
+> -+++ b/tests/Makefile.am
+> -@@ -48,6 +48,7 @@ AM_CFLAGS = \
+> -       $(APPARMOR_CFLAGS) \
+> -       $(YAJL_CFLAGS) \
+> -       $(COVERAGE_CFLAGS) \
+> -+      $(XDR_CFLAGS) \
+> -       $(WARN_CFLAGS)
+> -
+> - AM_LDFLAGS = \
+> ---
+> -2.7.4
+> -
+> diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
+> index 15aa804..79beb95 100644
+> --- a/recipes-extended/libvirt/libvirt-python.inc
+> +++ b/recipes-extended/libvirt/libvirt-python.inc
+> @@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
+>  SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
+>  SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
+>
+> -SRC_URI[libvirt_python.md5sum] = "4dbd7ef9ee9c4dea5887b5b31eb04529"
+> -SRC_URI[libvirt_python.sha256sum] = "a0508a57637fd18a3584fb9d2322fb172f65708c9db16e0438a70eb0f36fa5c2"
+> +SRC_URI[libvirt_python.md5sum] = "2ea5f1871358e6a5788b52c2e1a0b809"
+> +SRC_URI[libvirt_python.sha256sum] = "efe384479a0bf74b1b83bba208887b263cc0061fd4f87759cf3067a403618ea9"
+>
+>  export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
+>  export LIBVIRT_CFLAGS = "-I${S}/include"
+> diff --git a/recipes-extended/libvirt/libvirt/0001-nsslinktest-also-build-virAtomic.h.patch b/recipes-extended/libvirt/libvirt/0001-nsslinktest-also-build-virAtomic.h.patch
+> deleted file mode 100644
+> index 6ab1c4e..0000000
+> --- a/recipes-extended/libvirt/libvirt/0001-nsslinktest-also-build-virAtomic.h.patch
+> +++ /dev/null
+> @@ -1,40 +0,0 @@
+> -Upstream-Status: Submitted [http://www.redhat.com/archives/libvir-list/2016-August/msg00389.html]
+> -
+> -When build for architecture that don't use gcc atomic ops but pthread,
+> -it fails to build for arm:
+> -
+> -| ../tools/nss/.libs/libnss_libvirt_impl.a(libvirt_nss_la-virobject.o): In function `virClassNew':
+> -| /buildarea2/kkang/builds/qemuarm-Aug03/bitbake_build/tmp/work/armv5e-wrs-linux-gnueabi/libvirt/1.3.5-r0/build/src/../../libvirt-1.3.5/src/util/virobject.c:153: undefined reference to `virAtomicLock'
+> -| ../tools/nss/.libs/libnss_libvirt_impl.a(libvirt_nss_la-virobject.o): In function `virObjectNew':
+> -| /buildarea2/kkang/builds/qemuarm-Aug03/bitbake_build/tmp/work/armv5e-wrs-linux-gnueabi/libvirt/1.3.5-r0/build/src/../../libvirt-1.3.5/src/util/virobject.c:205: undefined reference to `virAtomicLock'
+> -| ../tools/nss/.libs/libnss_libvirt_impl.a(libvirt_nss_la-virobject.o): In function `virObjectUnref':
+> -| /buildarea2/kkang/builds/qemuarm-Aug03/bitbake_build/tmp/work/armv5e-wrs-linux-gnueabi/libvirt/1.3.5-r0/build/src/../../libvirt-1.3.5/src/util/virobject.c:277: undefined reference to `virAtomicLock'
+> -| ../tools/nss/.libs/libnss_libvirt_impl.a(libvirt_nss_la-virobject.o): In function `virObjectRef':
+> -| /buildarea2/kkang/builds/qemuarm-Aug03/bitbake_build/tmp/work/armv5e-wrs-linux-gnueabi/libvirt/1.3.5-r0/build/src/../../libvirt-1.3.5/src/util/virobject.c:298: undefined reference to `virAtomicLock'
+> -| collect2: error: ld returned 1 exit status
+> -
+> -It is similar with:
+> -
+> -http://libvirt.org/git/?p=libvirt.git;a=commit;h=12dc729
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ----
+> - src/Makefile.am | 2 ++
+> - 1 file changed, 2 insertions(+)
+> -
+> -diff --git a/src/Makefile.am b/src/Makefile.am
+> -index 12b66c2..6e55972 100644
+> ---- a/src/Makefile.am
+> -+++ b/src/Makefile.am
+> -@@ -2989,6 +2989,8 @@ noinst_LTLIBRARIES += libvirt-nss.la
+> - libvirt_nss_la_SOURCES =              \
+> -               util/viralloc.c                 \
+> -               util/viralloc.h                 \
+> -+              util/viratomic.c                \
+> -+              util/viratomic.h                \
+> -               util/virbitmap.c                \
+> -               util/virbitmap.h                \
+> -               util/virbuffer.c                \
+> ---
+> -2.9.0
+> -
+> diff --git a/recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch b/recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch
+> deleted file mode 100644
+> index b4f1e27..0000000
+> --- a/recipes-extended/libvirt/libvirt/0001-ptest-add-missing-test_helper-files.patch
+> +++ /dev/null
+> @@ -1,29 +0,0 @@
+> -From e625a42caca492fe7d52b70bbbf83ae4d99cb15e Mon Sep 17 00:00:00 2001
+> -From: He Zhe <zhe.he@windriver.com>
+> -Date: Tue, 23 Aug 2016 02:16:20 -0400
+> -Subject: [PATCH] ptest: add missing test_helper files
+> -
+> -Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ----
+> - tests/Makefile.am | 4 +++-
+> - 1 file changed, 3 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/tests/Makefile.am b/tests/Makefile.am
+> -index 1c85656..2f8b9eb 100644
+> ---- a/tests/Makefile.am
+> -+++ b/tests/Makefile.am
+> -@@ -1422,8 +1422,10 @@ install-ptest:
+> -       @(for file in $(PTESTS); do \
+> -               if [ -f .libs/$$file ]; then \
+> -                       install .libs/$$file $(DEST_DIR)/tests; \
+> --              else \
+> -+              elif [ -f $(srcdir)/$$file ]; then \
+> -                       install $(srcdir)/$$file $(DEST_DIR)/tests; \
+> -+              else \
+> -+                      install $(builddir)/$$file $(DEST_DIR)/tests; \
+> -               fi; \
+> -       done;)
+> -       @(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
+> ---
+> -2.8.1
+> -
+> diff --git a/recipes-extended/libvirt/libvirt-1.3.5/0001-to-fix-build-error.patch b/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
+> similarity index 65%
+> rename from recipes-extended/libvirt/libvirt-1.3.5/0001-to-fix-build-error.patch
+> rename to recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
+> index 089ee33..c920139 100644
+> --- a/recipes-extended/libvirt/libvirt-1.3.5/0001-to-fix-build-error.patch
+> +++ b/recipes-extended/libvirt/libvirt/0001-to-fix-build-error.patch
+> @@ -15,16 +15,18 @@ The error likes as following
+>  Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+>  [ywei: rebased to libvirt-1.3.2]
+>  Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
+> +[MA: rebase to v4.3.0]
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>  ---
+> - docs/Makefile.am | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> + docs/Makefile.am | 5 ++---
+> + 1 file changed, 2 insertions(+), 3 deletions(-)
+>
+>  diff --git a/docs/Makefile.am b/docs/Makefile.am
+> -index 1b4353b..c199551 100644
+> +index 9620587..060a82b 100644
+>  --- a/docs/Makefile.am
+>  +++ b/docs/Makefile.am
+> -@@ -164,7 +164,7 @@ EXTRA_DIST=                                        \
+> -   todo.pl hvsupport.pl todo.cfg-example \
+> +@@ -183,7 +183,7 @@ EXTRA_DIST= \
+> +   hvsupport.pl \
+>     $(schema_DATA)
+>
+>  -acl_generated = aclperms.htmlinc
+> @@ -32,15 +34,16 @@ index 1b4353b..c199551 100644
+>
+>   $(srcdir)/aclperms.htmlinc: $(top_srcdir)/src/access/viraccessperm.h \
+>           $(srcdir)/genaclperms.pl Makefile.am
+> -@@ -221,7 +221,7 @@ $(srcdir)/hvsupport.html.in: $(srcdir)/hvsupport.pl $(api_DATA) \
+> +@@ -247,8 +247,7 @@ MAINTAINERCLEANFILES += \
+> + %.png: %.fig
+>         convert -rotate 90 $< $@
+>
+> - %.html.tmp: %.html.in site.xsl subsite.xsl page.xsl \
+> --              sitemap.html.in $(acl_generated)
+> -+              sitemap.html.in
+> -       @if [ -x $(XSLTPROC) ] ; then \
+> -         echo "Generating $@"; \
+> -         name=`echo $@ | sed -e 's/.tmp//'`; \
+> +-%.html.tmp: %.html.in site.xsl subsite.xsl page.xsl \
+> +-              $(acl_generated)
+> ++%.html.tmp: %.html.in site.xsl subsite.xsl page.xsl
+> +       $(AM_V_GEN)name=`echo $@ | sed -e 's/.tmp//'`; \
+> +         dir=`dirname $@` ; \
+> +         if test "$$dir" = "."; \
+>  --
+>  1.9.1
+>
+> diff --git a/recipes-extended/libvirt/libvirt/Revert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch b/recipes-extended/libvirt/libvirt/Revert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch
+> deleted file mode 100644
+> index 02ddf68..0000000
+> --- a/recipes-extended/libvirt/libvirt/Revert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch
+> +++ /dev/null
+> @@ -1,70 +0,0 @@
+> -Upstream-Status: Inappropriate [configuration]
+> -
+> -Update context for version 1.3.5.
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ----
+> -From dd915e7f70e676aea93f750c75d16ce646e71e4b Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Wed, 9 Sep 2015 11:52:44 -0400
+> -Subject: [PATCH] Revert "build: add $(prefix) to SYSTEMD_UNIT_DIR"
+> -
+> -This reverts upstream commit 00e9d6071b2450659ce01bc984f64ecb5d7ba62d
+> -with minor context changes to allow it to apply.
+> -
+> -Yocto based builds use /lib/systemd/system for systemd unit files and
+> -since upstream has chosen to use a mechanism for setting
+> -SYSTEMD_UNIT_DIR which is not flexible we have to resort to reverting
+> -this upstream commit to avoid having ${prefix} added to the path.
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> -[ywei: rebased to libvirt-1.3.2]
+> -Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
+> ----
+> - daemon/Makefile.am | 2 +-
+> - src/Makefile.am    | 2 +-
+> - tools/Makefile.am  | 2 +-
+> - 3 files changed, 3 insertions(+), 3 deletions(-)
+> -
+> -diff --git a/daemon/Makefile.am b/daemon/Makefile.am
+> -index 2dbe81b..41ea2db 100644
+> ---- a/daemon/Makefile.am
+> -+++ b/daemon/Makefile.am
+> -@@ -449,7 +449,7 @@ endif ! LIBVIRT_INIT_SCRIPT_UPSTART
+> -
+> - if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> -
+> --SYSTEMD_UNIT_DIR = $(prefix)/lib/systemd/system
+> -+SYSTEMD_UNIT_DIR = /lib/systemd/system
+> - BUILT_SOURCES += libvirtd.service
+> -
+> - install-init-systemd: install-sysconfig libvirtd.service
+> -diff --git a/src/Makefile.am b/src/Makefile.am
+> -index a316b4d..d271291 100644
+> ---- a/src/Makefile.am
+> -+++ b/src/Makefile.am
+> -@@ -2633,7 +2633,7 @@ EXTRA_DIST += \
+> - if WITH_LIBVIRTD
+> - if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> -
+> --SYSTEMD_UNIT_DIR = $(prefix)/lib/systemd/system
+> -+SYSTEMD_UNIT_DIR = /lib/systemd/system
+> -
+> - BUILT_SOURCES += virtlockd.service virtlockd.socket \
+> -                virtlogd.service virtlogd.socket
+> -diff --git a/tools/Makefile.am b/tools/Makefile.am
+> -index b3227a7..0e58f73 100644
+> ---- a/tools/Makefile.am
+> -+++ b/tools/Makefile.am
+> -@@ -380,7 +380,7 @@ libvirt-guests.init: libvirt-guests.init.in libvirt-guests.sh
+> -
+> -
+> - EXTRA_DIST += libvirt-guests.service.in
+> --SYSTEMD_UNIT_DIR = $(prefix)/lib/systemd/system
+> -+SYSTEMD_UNIT_DIR = /lib/systemd/system
+> -
+> - if LIBVIRT_INIT_SCRIPT_SYSTEMD
+> - install-systemd: libvirt-guests.service install-sysconfig libvirt-guests.sh
+> ---
+> -1.9.1
+> -
+> diff --git a/recipes-extended/libvirt/libvirt-1.3.5/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch b/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
+> similarity index 85%
+> rename from recipes-extended/libvirt/libvirt-1.3.5/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
+> rename to recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
+> index edbadb6..0a9d5f4 100644
+> --- a/recipes-extended/libvirt/libvirt-1.3.5/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
+> +++ b/recipes-extended/libvirt/libvirt/configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch
+> @@ -11,14 +11,14 @@ Upstream-Status: Inappropriate [old release]
+>
+>  Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>  ---
+> - configure.ac | 4 ++--
+> + m4/virt-xdr.m4 | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> -diff --git a/configure.ac b/configure.ac
+> +diff --git a/m4/virt-xdr.m4 b/m4/virt-xdr.m4
+>  index 5a6408c..6c19f6d 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -705,10 +705,10 @@ if test x"$with_remote" = x"yes" || test x"$with_libvirtd" = x"yes"; then
+> +--- a/m4/virt-xdr.m4
+> ++++ b/m4/virt-xdr.m4
+> +@@ -33,10 +33,10 @@ if test x"$with_remote" = x"yes" || test x"$with_libvirtd" = x"yes"; then
+>       dnl check for cygwin's variation in xdr function names
+>       AC_CHECK_FUNCS([xdr_u_int64_t],[],[],[#include <rpc/xdr.h>])
+>
+> diff --git a/recipes-extended/libvirt/libvirt/install-missing-file.patch b/recipes-extended/libvirt/libvirt/install-missing-file.patch
+> index ecd4a87..cb5a20e 100644
+> --- a/recipes-extended/libvirt/libvirt/install-missing-file.patch
+> +++ b/recipes-extended/libvirt/libvirt/install-missing-file.patch
+> @@ -1,11 +1,3 @@
+> -Upstream-Status: Inapproriate
+> -
+> -This patch is for ptest, so it is inapproriate to send to upstream.
+> -
+> -Update context for 1.3.5.
+> -
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ----
+>  From 0780181a3285511f166487a54ebc231fc657edfe Mon Sep 17 00:00:00 2001
+>  From: Catalin Enache <catalin.enache@windriver.com>
+>  Date: Mon, 25 Jul 2016 16:38:51 +0300
+> @@ -13,24 +5,30 @@ Subject: [PATCH] Install missing conf file
+>
+>  openvzutilstest.conf file is needed by openvzutilstest test.
+>
+> +Upstream-Status: Inapproriate
+> +
+>  Signed-off-by: Catalin Enache <catalin.enache@windriver.com>
+> +[KK: Update context for 1.3.5.]
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +[MA: Update context for v4.3.0]
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>  ---
+>   tests/Makefile.am | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+>  diff --git a/tests/Makefile.am b/tests/Makefile.am
+> -index 02e0dd8..187fbca 100644
+> +index 65f776e..8a6fd44 100644
+>  --- a/tests/Makefile.am
+>  +++ b/tests/Makefile.am
+> -@@ -170,6 +170,7 @@ EXTRA_DIST =               \
+> -       xml2vmxdata
+> +@@ -173,6 +173,7 @@ EXTRA_DIST = \
+> +       $(NULL)
+>
+> - test_helpers = commandhelper ssh virconftest
+> + test_helpers = commandhelper ssh
+>  +test_misc =
+>   test_programs = virshtest sockettest \
+> -       nodeinfotest virbuftest \
+> +       virhostcputest virbuftest \
+>         commandtest seclabeltest \
+> -@@ -259,6 +260,7 @@ endif WITH_LXC
+> +@@ -305,6 +306,7 @@ endif WITH_LXC
+>
+>   if WITH_OPENVZ
+>   test_programs += openvzutilstest
+> @@ -38,15 +36,16 @@ index 02e0dd8..187fbca 100644
+>   endif WITH_OPENVZ
+>
+>   if WITH_ESX
+> -@@ -1293,7 +1295,7 @@ endif ! WITH_CIL
+> +@@ -1488,7 +1490,7 @@ endif ! WITH_CIL
+>
+>   buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
+>
+> --PTESTS = $(TESTS) $(test_helpers) test-lib.sh schematestutils.sh
+> -+PTESTS = $(TESTS) $(test_helpers) $(test_misc) test-lib.sh schematestutils.sh
+> +-PTESTS = $(TESTS) $(test_helpers) test-lib.sh virschematest
+> ++PTESTS = $(TESTS) $(test_helpers) $(test_misc) test-lib.sh virschematest
+>
+>   install-ptest:
+> -       list='$(TESTS) $(test_helpers) test-lib.sh schematestutils.sh'
+> +       list='$(TESTS) $(test_helpers) test-lib.sh virschematest'
+> +
+>  --
+>  2.7.4
+>
+> diff --git a/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch b/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch
+> index 65b046e..635d1e8 100644
+> --- a/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch
+> +++ b/recipes-extended/libvirt/libvirt/libvirt-use-pkg-config-to-locate-libcap.patch
+> @@ -12,34 +12,34 @@ To fix this issue, we patch configure to use 'pkg-config libcap' to
+>  locate the correct libraries.
+>
+>  Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> +[MA: Update to apply agains v4.3.0]
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>  ---
+> - configure.ac | 6 +++---
+> + m4/virt-libpcap.m4 | 6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> -diff --git a/configure.ac b/configure.ac
+> -index f37047599b76..5f9b84363b96 100644
+> ---- a/configure.ac
+> -+++ b/configure.ac
+> -@@ -1553,7 +1553,7 @@ fi
+> - AM_CONDITIONAL([HAVE_NUMAD], [test "$with_numad" != "no"])
+> +diff --git a/m4/virt-libpcap.m4 b/m4/virt-libpcap.m4
+> +index 8fa4889..08b2f53 100644
+> +--- a/m4/virt-libpcap.m4
+> ++++ b/m4/virt-libpcap.m4
+> +@@ -23,14 +23,14 @@ AC_DEFUN([LIBVIRT_ARG_LIBPCAP], [
+>
+> - dnl pcap lib
+> --LIBPCAP_CONFIG="pcap-config"
+> -+LIBPCAP_CONFIG="pkg-config libpcap"
+> - LIBPCAP_CFLAGS=""
+> - LIBPCAP_LIBS=""
+> - LIBPCAP_FOUND="no"
+> -@@ -1563,8 +1563,8 @@ AC_ARG_WITH([libpcap], [AS_HELP_STRING([--with-libpcap=@<:@PFX@:>@],
+> - if test "$with_qemu" = "yes"; then
+> -   case $with_libpcap in
+> -     no)     LIBPCAP_CONFIG= ;;
+> --    ''|yes) LIBPCAP_CONFIG="pcap-config" ;;
+> --    *)      LIBPCAP_CONFIG="$with_libpcap/bin/pcap-config" ;;
+> -+    ''|yes) LIBPCAP_CONFIG="pkg-config libpcap" ;;
+> -+    *)      LIBPCAP_CONFIG="$with_libpcap/bin/pkg-config libpcap" ;;
+> -   esac
+> -   AS_IF([test "x$LIBPCAP_CONFIG" != "x"], [
+> -     AC_MSG_CHECKING(libpcap $LIBPCAP_CONFIG >= $LIBPCAP_REQUIRED )
+> + AC_DEFUN([LIBVIRT_CHECK_LIBPCAP], [
+> +   LIBPCAP_REQUIRED="1.0.0"
+> +-  LIBPCAP_CONFIG="pcap-config"
+> ++  LIBPCAP_CONFIG="pkg-config libpcap"
+> +   LIBPCAP_CFLAGS=""
+> +   LIBPCAP_LIBS=""
+> +
+> +   if test "x$with_libpcap" != "xno"; then
+> +     case $with_libpcap in
+> +-      ''|yes|check) LIBPCAP_CONFIG="pcap-config" ;;
+> +-      *)      LIBPCAP_CONFIG="$with_libpcap/bin/pcap-config" ;;
+> ++      ''|yes|check) LIBPCAP_CONFIG="pkg-config libpcap" ;;
+> ++      *)      LIBPCAP_CONFIG="$with_libpcap/bin/pkg-config libpcap" ;;
+> +     esac
+> +     AS_IF([test "x$LIBPCAP_CONFIG" != "x"], [
+> +       AC_MSG_CHECKING(libpcap $LIBPCAP_CONFIG >= $LIBPCAP_REQUIRED )
+>  --
+>  2.1.0
+>
+> diff --git a/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch b/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch
+> index 3c2622c..30c30e8 100644
+> --- a/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch
+> +++ b/recipes-extended/libvirt/libvirt/libvirt_api_xml_path.patch
+> @@ -13,14 +13,14 @@ Signed-off-by: Martin Kletzander <mkletzan redhat com>
+>  [ywei: rebased to 1.3.2]
+>  Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
+>  ---
+> - setup.py |   25 ++++++++++++++++++++++---
+> - 1 file changed, 22 insertions(+), 3 deletions(-)
+> + setup.py | 35 ++++++++++++++++++++++++-----------
+> + 1 file changed, 24 insertions(+), 11 deletions(-)
+>
+> -Index: libvirt-python-1.2.4/setup.py
+> -===================================================================
+> ---- libvirt-python-1.2.4.orig/setup.py
+> -+++ libvirt-python-1.2.4/setup.py
+> -@@ -40,13 +40,7 @@
+> +diff --git a/setup.py b/setup.py
+> +index eff9d54..48ec4fe 100755
+> +--- a/setup.py
+> ++++ b/setup.py
+> +@@ -43,13 +43,7 @@ def check_minimum_libvirt_version():
+>              "libvirt"])
+>
+>   def have_libvirt_lxc():
+> @@ -33,9 +33,9 @@ Index: libvirt-python-1.2.4/setup.py
+>  -        return False
+>  +    return True
+>
+> - def get_pkgconfig_data(args, mod, required=True):
+> -     """Run pkg-config to and return content associated with it"""
+> -@@ -68,7 +62,17 @@
+> + def have_libvirtaio():
+> +     # This depends on asyncio, which in turn depends on "yield from" syntax.
+> +@@ -77,7 +71,17 @@ def get_api_xml_files():
+>       """Check with pkg-config that libvirt is present and extract
+>       the API XML file paths we need from it"""
+>
+> @@ -54,7 +54,7 @@ Index: libvirt-python-1.2.4/setup.py
+>
+>       offset = libvirt_api.index("-api.xml")
+>       libvirt_qemu_api = libvirt_api[0:offset] + "-qemu-api.xml"
+> -@@ -88,8 +92,17 @@
+> +@@ -97,8 +101,17 @@ def get_module_lists():
+>
+>       c_modules = []
+>       py_modules = []
+> @@ -74,7 +74,7 @@ Index: libvirt-python-1.2.4/setup.py
+>
+>       module = Extension('libvirtmod',
+>                          sources = ['libvirt-override.c', 'build/libvirt.c', 'typewrappers.c', 'libvirt-utils.c'],
+> -@@ -138,7 +151,7 @@
+> +@@ -144,7 +157,7 @@ def get_module_lists():
+>   class my_build(build):
+>
+>       def run(self):
+> @@ -83,3 +83,5 @@ Index: libvirt-python-1.2.4/setup.py
+>           apis = get_api_xml_files()
+>
+>           self.spawn([sys.executable, "generator.py", "libvirt", apis[0]])
+> +--
+> +2.17.0
+> diff --git a/recipes-extended/libvirt/libvirt/runptest.patch b/recipes-extended/libvirt/libvirt/runptest.patch
+> index b7609a8..b900c01 100644
+> --- a/recipes-extended/libvirt/libvirt/runptest.patch
+> +++ b/recipes-extended/libvirt/libvirt/runptest.patch
+> @@ -1,20 +1,31 @@
+> -Update context for 1.3.5.
+> +From 94478517c4f9950b28be3a348387db6ede3db812 Mon Sep 17 00:00:00 2001
+> +From: Mark Asselstine <mark.asselstine@windriver.com>
+> +Date: Mon, 4 Jun 2018 11:55:37 -0400
+> +Subject: [PATCH] Add 'install-ptest' rule.
+>
+> -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ----
+> -Add 'install-ptest' rule.
+>  Change TESTS_ENVIRONMENT to allow running outside build dir.
+>
+> -Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
+>  Upstream-status: Pending
+> +Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
+> +[KK: Update context for 1.3.5.]
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +[MA: Allow separate source and build dirs]
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> +[ZH: add missing test_helper files]
+> +Signed-off-by: He Zhe <zhe.he@windriver.com>
+> +[MA: Update context for v4.3.0]
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>  ---
+> + tests/Makefile.am | 74 +++++++++++++++++++++++++++++++++++++++++++++----------
+> + 1 file changed, 61 insertions(+), 13 deletions(-)
+> +
+>  diff --git a/tests/Makefile.am b/tests/Makefile.am
+> -index 0c4ad3c..bb4e31a 100644
+> +index 7b93fbd..edc1eb9 100644
+>  --- a/tests/Makefile.am
+>  +++ b/tests/Makefile.am
+> -@@ -33,11 +33,13 @@ INCLUDES = \
+> -       -I$(top_srcdir)/src/conf \
+> -       $(GETTEXT_CPPFLAGS)
+> +@@ -35,11 +35,13 @@ INCLUDES = \
+> +
+> + WARN_CFLAGS += $(RELAXED_FRAME_LIMIT_CFLAGS)
+>
+>  +PTEST_DIR ?= $(libdir)/libvirt/ptest
+>  +
+> @@ -30,77 +41,81 @@ index 0c4ad3c..bb4e31a 100644
+>         $(LIBXML_CFLAGS) \
+>         $(LIBNL_CFLAGS) \
+>         $(GNUTLS_CFLAGS) \
+> -@@ -62,7 +64,7 @@ QEMULIB_LDFLAGS = \
+> +@@ -64,7 +66,7 @@ QEMULIB_LDFLAGS = \
+> +       $(MINGW_EXTRA_LDFLAGS)
+>
+> - if WITH_DRIVER_MODULES
+>   INCLUDES += \
+>  -      -DTEST_DRIVER_DIR=\"$(top_builddir)/src/.libs\"
+>  +      -DTEST_DRIVER_DIR=\"$(PTEST_DIR)/src/.libs\"
+> - endif WITH_DRIVER_MODULES
+>
+>   PROBES_O =
+> -@@ -483,17 +485,15 @@ TESTS = $(test_programs) \
+> + if WITH_DTRACE_PROBES
+> +@@ -466,17 +468,15 @@ TESTS = $(test_programs) \
+>   # Also, BSD sh doesn't like 'a=b b=$$a', so we can't use an
+>   # intermediate shell variable, but must do all the expansion in make
+>
+>  -lv_abs_top_builddir=$(shell cd '$(top_builddir)' && pwd)
+>  -
+>   VIR_TEST_EXPENSIVE ?= $(VIR_TEST_EXPENSIVE_DEFAULT)
+> - TESTS_ENVIRONMENT =                           \
+> --  abs_top_builddir=$(lv_abs_top_builddir)     \
+> --  abs_top_srcdir=`cd '$(top_srcdir)'; pwd`    \
+> --  abs_builddir=$(abs_builddir)                        \
+> --  abs_srcdir=$(abs_srcdir)                    \
+> --  CONFIG_HEADER="$(lv_abs_top_builddir)/config.h"     \
+> -+  abs_top_builddir="$(PTEST_DIR)"             \
+> -+  abs_top_srcdir="$(PTEST_DIR)"               \
+> -+  abs_builddir="$(PTEST_DIR)/tests"           \
+> -+  abs_srcdir="$(PTEST_DIR)/tests"             \
+> -+  CONFIG_HEADER="$(PTEST_DIR)/config.h"       \
+> -   SHELL="$(SHELL)"                            \
+> + TESTS_ENVIRONMENT = \
+> +-  abs_top_builddir=$(lv_abs_top_builddir) \
+> +-  abs_top_srcdir=`cd '$(top_srcdir)'; pwd` \
+> +-  abs_builddir=$(abs_builddir) \
+> +-  abs_srcdir=$(abs_srcdir) \
+> +-  CONFIG_HEADER="$(lv_abs_top_builddir)/config.h" \
+> ++  abs_top_builddir="$(PTEST_DIR)" \
+> ++  abs_top_srcdir="$(PTEST_DIR)" \
+> ++  abs_builddir="$(PTEST_DIR)/tests" \
+> ++  abs_srcdir="$(PTEST_DIR)/tests" \
+> ++  CONFIG_HEADER="$(PTEST_DIR)/config.h" \
+> +   SHELL="$(SHELL)" \
+>  -  LIBVIRT_DRIVER_DIR="$(lv_abs_top_builddir)/src/.libs" \
+>  +  LIBVIRT_DRIVER_DIR="$(PTEST_DIR)/src/.libs" \
+> -   LIBVIRT_AUTOSTART=0                         \
+> -   LC_ALL=C                                    \
+> -   VIR_TEST_EXPENSIVE=$(VIR_TEST_EXPENSIVE)    \
+> -@@ -1388,5 +1388,51 @@ else ! WITH_CIL
+> +   LIBVIRT_AUTOSTART=0 \
+> +   LC_ALL=C \
+> +   VIR_TEST_EXPENSIVE=$(VIR_TEST_EXPENSIVE) \
+> +@@ -1486,5 +1486,55 @@ else ! WITH_CIL
+>   EXTRA_DIST += objectlocking.ml
+>   endif ! WITH_CIL
+>
+>  +buildtest-TESTS: $(TESTS) $(test_libraries) $(test_helpers)
+>  +
+> -+PTESTS = $(TESTS) $(test_helpers) test-lib.sh schematestutils.sh
+> ++PTESTS = $(TESTS) $(test_helpers) test-lib.sh virschematest
+>  +
+>  +install-ptest:
+> -+      list='$(TESTS) $(test_helpers) test-lib.sh schematestutils.sh'
+> ++      list='$(TESTS) $(test_helpers) test-lib.sh virschematest'
+>  +      install -d $(DEST_DIR)/tools
+>  +      @(if [ -d ../tools/.libs ] ; then cd ../tools/.libs; fi; \
+>  +      install * $(DEST_DIR)/tools)
+>  +      install -d $(DEST_DIR)/src/network
+> -+      cp ../src/network/*.xml $(DEST_DIR)/src/network
+> ++      cp $(top_srcdir)/src/network/*.xml $(DEST_DIR)/src/network
+>  +      install -d $(DEST_DIR)/src/cpu
+> -+      cp ../src/cpu/*.xml $(DEST_DIR)/src/cpu
+> ++      cp $(top_srcdir)/src/cpu/*.xml $(DEST_DIR)/src/cpu
+>  +      install ../src/libvirt_iohelper $(DEST_DIR)/src
+> -+      install -D ../daemon/libvirtd $(DEST_DIR)/daemon/libvirtd
+> -+      install -D ../daemon/libvirtd.conf $(DEST_DIR)/daemon/libvirtd.conf
+> -+      @(if [ -d ../daemon/.libs ] ; then cd ../daemon/.libs; fi; \
+> -+      install * $(DEST_DIR)/daemon)
+> ++      install -D ../src/libvirtd $(DEST_DIR)/src/libvirtd
+> ++      install -d $(DEST_DIR)/src/remote
+> ++      install -D $(top_srcdir)/src/remote/libvirtd.conf $(DEST_DIR)/src/remote/libvirtd.conf
+> ++      install -d $(DEST_DIR)/src/remote/.libs
+> ++      @(if [ -d ../src/remote/.libs ] ; then cd ../src/remote/.libs; fi; \
+> ++      install * $(DEST_DIR)/src/remote/.libs)
+>  +      install -d $(DEST_DIR)/src/.libs
+>  +      @(if [ -d ../src/.libs ] ; then cd ../src/.libs; fi; \
+>  +      install * $(DEST_DIR)/src/.libs)
+>  +      install -d $(DEST_DIR)/docs/schemas
+> -+      cp ../docs/schemas/*.rng $(DEST_DIR)/docs/schemas
+> -+      cp -r ../build-aux $(DEST_DIR)
+> ++      cp $(top_srcdir)/docs/schemas/*.rng $(DEST_DIR)/docs/schemas
+> ++      cp -r $(top_srcdir)/build-aux $(DEST_DIR)
+>  +      install -d $(DEST_DIR)/examples/xml
+> -+      cp -r ../examples/xml/test $(DEST_DIR)/examples/xml
+> ++      cp -r $(top_srcdir)/examples/xml/test $(DEST_DIR)/examples/xml
+>  +      install -d $(DEST_DIR)/tests/.libs
+>  +      find . -type d -name "*xml2xml*" -exec cp -r {} $(DEST_DIR)/tests \;
+>  +      find . -type d -name "*data" -exec cp -r {} $(DEST_DIR)/tests \;
+>  +      @(for file in $(PTESTS); do \
+>  +              if [ -f .libs/$$file ]; then \
+>  +                      install .libs/$$file $(DEST_DIR)/tests; \
+> ++              elif [ -f $(srcdir)/$$file ]; then \
+> ++                      install $(srcdir)/$$file $(DEST_DIR)/tests; \
+>  +              else \
+> -+                      install $$file $(DEST_DIR)/tests; \
+> ++                      install $(builddir)/$$file $(DEST_DIR)/tests; \
+>  +              fi; \
+>  +      done;)
+>  +      @(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
+> @@ -115,3 +130,6 @@ index 0c4ad3c..bb4e31a 100644
+>  +
+>   CLEANFILES = *.cov *.gcov .libs/*.gcda .libs/*.gcno *.gcno *.gcda *.cmi *.cmx \
+>         objectlocking-files.txt
+> +--
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch b/recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch
+> deleted file mode 100644
+> index 3964865..0000000
+> --- a/recipes-extended/libvirt/libvirt/tests-allow-separated-src-and-build-dirs.patch
+> +++ /dev/null
+> @@ -1,57 +0,0 @@
+> -From 884b6e3724b75cd92766d5386455983e3557a286 Mon Sep 17 00:00:00 2001
+> -From: Mark Asselstine <mark.asselstine@windriver.com>
+> -Date: Fri, 2 May 2014 13:45:05 -0400
+> -Subject: [PATCH] tests: allow separated src and build dirs
+> -
+> -Fixup Makefile.am to search for static files back in srcdir.
+> -
+> -Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ----
+> - tests/Makefile.am | 14 +++++++-------
+> - 1 file changed, 7 insertions(+), 7 deletions(-)
+> -
+> -diff --git a/tests/Makefile.am b/tests/Makefile.am
+> -index 0da514b..b8d7c19 100644
+> ---- a/tests/Makefile.am
+> -+++ b/tests/Makefile.am
+> -@@ -1006,22 +1006,22 @@ install-ptest:
+> -       @(if [ -d ../tools/.libs ] ; then cd ../tools/.libs; fi; \
+> -       install * $(DEST_DIR)/tools)
+> -       install -d $(DEST_DIR)/src/network
+> --      cp ../src/network/*.xml $(DEST_DIR)/src/network
+> -+      cp $(top_srcdir)/src/network/*.xml $(DEST_DIR)/src/network
+> -       install -d $(DEST_DIR)/src/cpu
+> --      cp ../src/cpu/*.xml $(DEST_DIR)/src/cpu
+> -+      cp $(top_srcdir)/src/cpu/*.xml $(DEST_DIR)/src/cpu
+> -       install ../src/libvirt_iohelper $(DEST_DIR)/src
+> -       install -D ../daemon/libvirtd $(DEST_DIR)/daemon/libvirtd
+> --      install -D ../daemon/libvirtd.conf $(DEST_DIR)/daemon/libvirtd.conf
+> -+      install -D $(top_srcdir)/daemon/libvirtd.conf $(DEST_DIR)/daemon/libvirtd.conf
+> -       @(if [ -d ../daemon/.libs ] ; then cd ../daemon/.libs; fi; \
+> -       install * $(DEST_DIR)/daemon)
+> -       install -d $(DEST_DIR)/src/.libs
+> -       @(if [ -d ../src/.libs ] ; then cd ../src/.libs; fi; \
+> -       install * $(DEST_DIR)/src/.libs)
+> -       install -d $(DEST_DIR)/docs/schemas
+> --      cp ../docs/schemas/*.rng $(DEST_DIR)/docs/schemas
+> --      cp -r ../build-aux $(DEST_DIR)
+> -+      cp $(top_srcdir)/docs/schemas/*.rng $(DEST_DIR)/docs/schemas
+> -+      cp -r $(top_srcdir)/build-aux $(DEST_DIR)
+> -       install -d $(DEST_DIR)/examples/xml
+> --      cp -r ../examples/xml/test $(DEST_DIR)/examples/xml
+> -+      cp -r $(top_srcdir)/examples/xml/test $(DEST_DIR)/examples/xml
+> -       install -d $(DEST_DIR)/tests/.libs
+> -       find . -type d -name "*xml2xml*" -exec cp -r {} $(DEST_DIR)/tests \;
+> -       find . -type d -name "*data" -exec cp -r {} $(DEST_DIR)/tests \;
+> -@@ -1029,7 +1029,7 @@ install-ptest:
+> -               if [ -f .libs/$$file ]; then \
+> -                       install .libs/$$file $(DEST_DIR)/tests; \
+> -               else \
+> --                      install $$file $(DEST_DIR)/tests; \
+> -+                      install $(srcdir)/$$file $(DEST_DIR)/tests; \
+> -               fi; \
+> -       done;)
+> -       @(if [ -d .libs ]; then install .libs/*.so $(DEST_DIR)/tests/.libs; fi;)
+> ---
+> -1.8.3.2
+> -
+> diff --git a/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch b/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch
+> index a7fc727..5f6f950 100644
+> --- a/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch
+> +++ b/recipes-extended/libvirt/libvirt/tools-add-libvirt-net-rpc-to-virt-host-validate-when.patch
+> @@ -1,4 +1,4 @@
+> -From a790bfe8fa7b24b68cb6f9a1b7205fda2c6d558e Mon Sep 17 00:00:00 2001
+> +From f73c5c61c921bf773dcba5e4234e23afce5dbe7f Mon Sep 17 00:00:00 2001
+>  From: Bruce Ashfield <bruce.ashfield@windriver.com>
+>  Date: Fri, 2 Aug 2013 11:38:43 -0400
+>  Subject: [PATCH] tools: add libvirt-net-rpc to virt-host-validate when TLS is
+> @@ -11,18 +11,20 @@ link against libvirt-net-rpc which provides the implementation.
+>  Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>  [ywei: rebased to libvirt-1.3.2]
+>  Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
+> +[MA: rebase to v4.3.0]
+> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+>  ---
+>   examples/Makefile.am | 19 +++++++++++++++++++
+>   tools/Makefile.am    | 13 +++++++++++++
+>   2 files changed, 32 insertions(+)
+>
+>  diff --git a/examples/Makefile.am b/examples/Makefile.am
+> -index 2adcefb..fff49d4 100644
+> +index 7069d74..c8893e3 100644
+>  --- a/examples/Makefile.am
+>  +++ b/examples/Makefile.am
+> -@@ -39,6 +39,10 @@ INCLUDES = -I$(top_builddir)/include -I$(top_srcdir)/include -I$(top_srcdir) \
+> - LDADD = $(STATIC_BINARIES) $(WARN_CFLAGS) $(COVERAGE_LDFLAGS) \
+> -       $(top_builddir)/src/libvirt.la $(top_builddir)/gnulib/lib/libgnu.la
+> +@@ -39,6 +39,10 @@ LDADD = $(STATIC_BINARIES) $(WARN_CFLAGS) $(COVERAGE_LDFLAGS) \
+> +       $(top_builddir)/src/libvirt.la $(top_builddir)/gnulib/lib/libgnu.la \
+> +       $(top_builddir)/src/libvirt-admin.la
+>
+>  +if WITH_GNUTLS
+>  +LDADD += $(top_builddir)/src/libvirt-net-rpc.la
+> @@ -30,10 +32,10 @@ index 2adcefb..fff49d4 100644
+>  +
+>   noinst_PROGRAMS=dominfo/info1 dommigrate/dommigrate domsuspend/suspend \
+>         domtop/domtop hellolibvirt/hellolibvirt object-events/event-test \
+> -       openauth/openauth rename/rename
+> -@@ -52,6 +56,21 @@ object_events_event_test_SOURCES = object-events/event-test.c
+> - openauth_openauth_SOURCES = openauth/openauth.c
+> - rename_rename_SOURCES = rename/rename.c
+> +       openauth/openauth rename/rename admin/list_servers admin/list_clients \
+> +@@ -70,6 +74,21 @@ admin_logging_SOURCES = admin/logging.c
+> + INSTALL_DATA_LOCAL =
+> + UNINSTALL_LOCAL =
+>
+>  +if WITH_GNUTLS
+>  +dominfo_info1_LDADD = $(top_builddir)/src/libvirt-net-rpc.la  \
+> @@ -54,11 +56,11 @@ index 2adcefb..fff49d4 100644
+>   apparmordir = $(sysconfdir)/apparmor.d/
+>   apparmor_DATA = \
+>  diff --git a/tools/Makefile.am b/tools/Makefile.am
+> -index 0be3567..b3227a7 100644
+> +index 1452d98..204e772 100644
+>  --- a/tools/Makefile.am
+>  +++ b/tools/Makefile.am
+> -@@ -169,6 +169,13 @@ virt_host_validate_LDADD = \
+> -               ../gnulib/lib/libgnu.la                         \
+> +@@ -188,6 +188,13 @@ virt_host_validate_LDADD = \
+> +               ../gnulib/lib/libgnu.la \
+>                 $(NULL)
+>
+>  +if WITH_GNUTLS
+> @@ -69,9 +71,9 @@ index 0be3567..b3227a7 100644
+>  +
+>  +
+>   virt_host_validate_CFLAGS = \
+> -               $(LIBXML_CFLAGS)                                \
+> -               $(WARN_CFLAGS)                                  \
+> -@@ -256,6 +263,12 @@ virt_admin_CFLAGS =                                               \
+> +               $(AM_CFLAGS) \
+> +               $(NULL)
+> +@@ -268,6 +275,12 @@ virt_admin_CFLAGS = \
+>                 $(READLINE_CFLAGS)
+>   BUILT_SOURCES =
+>
+> @@ -85,5 +87,5 @@ index 0be3567..b3227a7 100644
+>   virsh_LDADD += virsh_win_icon.$(OBJEXT)
+>
+>  --
+> -1.9.1
+> +2.7.4
+>
+> diff --git a/recipes-extended/libvirt/libvirt_4.3.0.bb b/recipes-extended/libvirt/libvirt_4.3.0.bb
+> index d38f8cd..a9cc011 100644
+> --- a/recipes-extended/libvirt/libvirt_4.3.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_4.3.0.bb
+> @@ -14,7 +14,7 @@ DEPENDS = "bridge-utils gnutls libxml2 lvm2 avahi parted curl libpcap util-linux
+>  #
+>  RDEPENDS_${PN} = "gettext-runtime"
+>
+> -RDEPENDS_${PN}-ptest += "make gawk perl"
+> +RDEPENDS_${PN}-ptest += "make gawk perl bash"
+>
+>  RDEPENDS_libvirt-libvirtd += "bridge-utils iptables pm-utils dnsmasq netcat-openbsd"
+>  RDEPENDS_libvirt-libvirtd_append_x86-64 = " dmidecode"
+> @@ -30,18 +30,11 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
+>             file://dnsmasq.conf \
+>             file://runptest.patch \
+>             file://run-ptest \
+> -           file://tests-allow-separated-src-and-build-dirs.patch \
+>             file://libvirt-use-pkg-config-to-locate-libcap.patch \
+>             file://0001-to-fix-build-error.patch \
+> -           file://Revert-build-add-prefix-to-SYSTEMD_UNIT_DIR.patch \
+>             file://install-missing-file.patch \
+> -           file://0001-nsslinktest-also-build-virAtomic.h.patch \
+> -           file://0001-qemu-Let-empty-default-VNC-password-work-as-document.patch \
+> -           file://0001-ptest-add-missing-test_helper-files.patch \
+>             file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
+> -          file://0001-Added-configure-variable-for-placing-systemd-untis-l.patch \
+> -          file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
+> -          file://Makefiles-Add-more-XDR_CFLAGS-as-needed.patch \
+> +           file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
+>            "
+>
+>  SRC_URI[libvirt.md5sum] = "946cfa2558401612c4fcbc934ef9077b"
+> @@ -119,10 +112,16 @@ FILES_${PN}-libvirtd = " \
+>         ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', '', '${libexecdir}/libvirt-guests.sh', d)} \
+>          "
+>
+> -FILES_${PN}-virsh = "${bindir}/virsh"
+> +FILES_${PN}-virsh = " \
+> +    ${bindir}/virsh \
+> +    ${datadir}/bash-completion/completions/virsh \
+> +"
+> +
+>  FILES_${PN} += "${libdir}/libvirt/connection-driver \
+>             ${datadir}/augeas \
+>             ${@bb.utils.contains('PACKAGECONFIG', 'polkit', '${datadir}/polkit-1', '', d)} \
+> +           ${datadir}/bash-completion/completions/vsh \
+> +           ${datadir}/bash-completion/completions/virt-admin \
+>             "
+>
+>  FILES_${PN}-dbg += "${libdir}/libvirt/connection-driver/.debug ${libdir}/libvirt/lock-driver/.debug"
+> @@ -267,6 +266,10 @@ do_install_append() {
+>                 rm -rf ${D}/${datadir}/polkit-1
+>         fi
+>
+> +       # disable seccomp_sandbox
+> +       sed -i '/^#seccomp_sandbox = 1/aseccomp_sandbox = 0' \
+> +           ${D}${sysconfdir}/libvirt/qemu.conf
+> +
+>         # Add hook support for libvirt
+>         mkdir -p ${D}/etc/libvirt/hooks
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
