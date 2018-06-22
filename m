@@ -1,68 +1,69 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D8F41E00CEA; Fri, 22 Jun 2018 11:39:35 -0700 (PDT)
+	id 5F3AFE00D3F; Fri, 22 Jun 2018 11:39:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	HTML_OBFUSCATE_10_20 autolearn=no version=3.3.1
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.215.48 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.1 HTML_OBFUSCATE_10_20 BODY: Message is 10% to 20% HTML obfuscation
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
-	[209.85.208.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E2A53E00C5B
+Received: from mail-lf0-f48.google.com (mail-lf0-f48.google.com
+	[209.85.215.48])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CDBE1E00C5B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 22 Jun 2018 11:39:34 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id v25-v6so270570lji.4
+	Fri, 22 Jun 2018 11:39:50 -0700 (PDT)
+Received: by mail-lf0-f48.google.com with SMTP id a13-v6so9763060lfk.12
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 22 Jun 2018 11:39:34 -0700 (PDT)
+	Fri, 22 Jun 2018 11:39:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7BOAi5go8sbSnydE3J5T47GEtTX8r8AA2oDAF31/6nQ=;
-	b=ne/ByvanO9xYRo6VfCPNN9cmpdZaQ4GrXLhVcfrfpo1uGphYOk784K+AmCNCwV1+cg
-	1MHRcvRY/SgvEImiPkTLLXFkyL4gI9vZ1sM+zY7sFLGGWMxaZc14cCKTSTcw7vAjx0yx
-	z/cxhouyVyA3A6dN3Hll1XS6Ma3bWpWYqanIuuby0K9diRAOLv8x554696eViKER/qxr
-	RnKeoPXsJPw7Bee+3MMeLDNN/QkzA/2ZxWVOCROr0zLNPNd3HHMSpc32a2ow5bWCALlH
-	h1FcoQokuXrSC3ioHwj3M2c0uU69Lu8VjvZtE7GGSZH5+VDxIMipRu5pl+x9K//+x3mS
-	ImRw==
+	:cc; bh=A19jEg0jk/ND73QS1Es1AN7N7vpwi3RXon3ktgMzX3I=;
+	b=aSjoRC57+ZXDcOk+S09vJgiy37JBnoyOp+vFjEWJnyxLqLW2Hgbu6Dl8wHL7K4XHim
+	sWRskkXTJwyqJMVZgNNrO9qi9TaTqiR7ZuY4sTNxLm85m/MWEQSSwO73FI1VFMqLoe3x
+	9sYDa3x5px6rbvD1sSD2OSw2v4yKBwKRc3SUVYslM9/WiFb26QQDuqq9cP7kYB4R9D8v
+	DhY+of8QnxdYrDJsRnWOaqjctURG5dBIlvyaLCPAP5+MyMVe3XFR9btMhDCh/lXpzHhL
+	kq0CPuhlpTz+8FoCWF7LNCfiGKX/ZZr84RqgT+o/1Ne5HOEg7Eub7n/dunOfP3BXWSJr
+	4kUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=7BOAi5go8sbSnydE3J5T47GEtTX8r8AA2oDAF31/6nQ=;
-	b=SG5NBRF2hyO0yp42GiKQJFr3Z5jOiMgiAcXCdhe+7SP5eJ16DddoXkMAQinangJXzC
-	tyA4wN/ZnUWPJs8LKlaMEQSLioPtRBhHm3e3tc9xH5Ao5xfKuGgW7yzw33WA6zZjEHyq
-	Ux58D42bc+C8OyptJfq7xl096HBg3HKo7mVPFUQ5+JBu3xn9K8EWaQjm77BkHgc+QhaJ
-	dKr1E9vJ830gjk8HoGucMW0x0vhDMRT5UpAm1AOKuijbNuYIwgOkmfZgPXP4Mb9uzunA
-	iEXBRP7sh92wFQ58y0WOc/Tre2jWlUA26D0xYqZUuerJ73500gm//Uge07Aaqw4AGzjh
-	QaWA==
-X-Gm-Message-State: APt69E0aR1oIzpMtDIrRl3JNtG48dS3w86fOlK/GhJpSuxp30hEB0k0T
-	p3L6z6DMnnNpBKHOE+5wAl8NIeaebemC8BO7+OQRvw==
-X-Google-Smtp-Source: ADUXVKI0T4fUIO85h3e3zM7/gSXcWSRoD54yBXc9xdyWSQZKrfUBkvyVUSbO+ieLyJoXk7s22CcRqQ+W5ptfcRrLAAc=
-X-Received: by 2002:a2e:29cf:: with SMTP id
-	p76-v6mr1998820ljp.12.1529692773745; 
-	Fri, 22 Jun 2018 11:39:33 -0700 (PDT)
+	bh=A19jEg0jk/ND73QS1Es1AN7N7vpwi3RXon3ktgMzX3I=;
+	b=F5inAv/hKhPg33Xkl30QTafcASqhLveltdqnXVWXSFN9Wl+IoqaRRZxlHX3S2kI2y0
+	7hTQM7k9YrzjyGSqcDTYIqdFqgKz+9MxTRav7/jLPbKkM7/IG8ZUMz+mHdh1e/o8+fNd
+	yCZu1iuaPHt2YEnZQIx0SHyoRhXXTXJ8N81G60o1XTxOzrNQRaES7NLcX2gLD0Uf5Wtl
+	BaNIwdkvB+aO7yxYjWNUgYl2IiNMphTBELnFK8tS8wqCDoHWE+RDs2He18A2DoetA4gI
+	Sn2IFa+2KBhVfwC1LggBG9xmuhAuphtOiUiGyHlZI0nMMf0a6MkyxRNklS4JbNceO8mf
+	V6sA==
+X-Gm-Message-State: APt69E3We11pkaUoWin6OZj8wt7w/ngNkvjU34OjaNFWRvFnVGqmglpv
+	u3vh2z3q2shDqH473mBJfHnKuou/nzL3TZXbxYq8ZA==
+X-Google-Smtp-Source: ADUXVKIX8tmuMP2JnAiDkdexUzPZJhmyni2/6RObZtjTueVC0H+y4zmLUXWtcsafGUok36I7xD+iLU5yaeShKeoU8VE=
+X-Received: by 2002:a19:9115:: with SMTP id t21-v6mr2210lfd.94.1529692789714; 
+	Fri, 22 Jun 2018 11:39:49 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:17ca:0:0:0:0:0 with HTTP; Fri, 22 Jun 2018 11:39:33
+Received: by 2002:a2e:17ca:0:0:0:0:0 with HTTP; Fri, 22 Jun 2018 11:39:49
 	-0700 (PDT)
-In-Reply-To: <1529520415-13251-1-git-send-email-ricardo@opensourcefoundries.com>
-References: <1529520415-13251-1-git-send-email-ricardo@opensourcefoundries.com>
+In-Reply-To: <20180621082659.55476-1-psaavedra@igalia.com>
+References: <20180621082659.55476-1-psaavedra@igalia.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 22 Jun 2018 14:39:33 -0400
-Message-ID: <CADkTA4ObG1A_GmuPTQ0-fur1bTRqXfg7k4BWOV54m6o_KgqBsw@mail.gmail.com>
-To: Ricardo Salveti <ricardo@opensourcefoundries.com>
+Date: Fri, 22 Jun 2018 14:39:49 -0400
+Message-ID: <CADkTA4NKs3vPMAQuOxz73a-sP3Z5w2+E1jgpSHR634SSdnMJ6A@mail.gmail.com>
+To: Pablo Saavedra <psaavedra@igalia.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/2] python3-docker-pycreds: update to 0.3.0
+Subject: Re: [m-c-s][PATCH] Ruby-shadow upgrade to 2.5.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,49 +76,56 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 18:39:35 -0000
-Content-Type: multipart/alternative; boundary="0000000000006506f1056f3f5aa0"
+X-List-Received-Date: Fri, 22 Jun 2018 18:39:52 -0000
+Content-Type: multipart/alternative; boundary="00000000000058b755056f3f5b5a"
 
---0000000000006506f1056f3f5aa0
+--00000000000058b755056f3f5b5a
 Content-Type: text/plain; charset="UTF-8"
 
 merged.
 
 Bruce
 
-On Wed, Jun 20, 2018 at 2:46 PM, Ricardo Salveti <
-ricardo@opensourcefoundries.com> wrote:
+On Thu, Jun 21, 2018 at 4:26 AM, Pablo Saavedra <psaavedra@igalia.com>
+wrote:
 
-> Update python3-docker-pycreds from 0.2.1 to 0.3.0.
+> Ruby was upgraded to 2.5.0 in sumo. A upgrade in the ruby-shadow is
+> needed to build
 >
-> Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
+> Upstream changes:
+>
+> * Updates code source reference
+> * Fixes for rubinius and tests
+> * Add friendlier method names
+> * Start to add some smoke tests
+> * Provide info on implementation
+>
+> Finally, this version of the package is alrady added in Debian Buster
+> as well.
 > ---
->  ...ocker-pycreds_0.2.1.bb => python3-docker-pycreds_0.3.0.bb} | 4 ++--
+>  recipes-support/ruby-shadow/ruby-shadow_git.bb | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename recipes-devtools/python/{python3-docker-pycreds_0.2.1.bb =>
-> python3-docker-pycreds_0.3.0.bb} (63%)
 >
-> diff --git a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
-> b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-> similarity index 63%
-> rename from recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
-> rename to recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-> index 4038410..4d39f52 100644
-> --- a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
-> +++ b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-> @@ -5,5 +5,5 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=
-> 3b83ef96387f14655fc854ddc3c6bd57"
+> diff --git a/recipes-support/ruby-shadow/ruby-shadow_git.bb
+> b/recipes-support/ruby-shadow/ruby-shadow_git.bb
+> index 75588f3..e7db6d1 100644
+> --- a/recipes-support/ruby-shadow/ruby-shadow_git.bb
+> +++ b/recipes-support/ruby-shadow/ruby-shadow_git.bb
+> @@ -3,10 +3,10 @@ HOMEPAGE = "https://github.com/apalmblad/ruby-shadow"
+>  LICENSE = "PD"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=137882914e5269b7268f0fe8e28a3f89"
 >
->  inherit pypi setuptools3
+> -PV = "2.4.1"
+> +PV = "2.5.0"
 >
-> -SRC_URI[md5sum] = "0d80d5aebab771faf7e422b759c3055b"
-> -SRC_URI[sha256sum] = "93833a2cf280b7d8abbe1b81215304
-> 13250c6cd4ffed2c1cf085f335262f7348"
-> +SRC_URI[md5sum] = "2370ea3b62198b788a26231ab58844af"
-> +SRC_URI[sha256sum] = "8b0e956c8d206f832b06aa93a710ba
-> 2c3bcbacb5a314449c040b0b814355bbff"
+>  SRC_URI = "git://github.com/apalmblad/ruby-shadow.git"
+> -SRCREV = "4231a4838fd50022b112838f114ee0586e119605"
+> +SRCREV = "d2e822d8a8bda61f0774debbfce363a7347ed893"
+>  S = "${WORKDIR}/git"
+>
+>  inherit ruby
 > --
-> 2.17.1
+> 2.11.0
 >
 > --
 > _______________________________________________
@@ -132,66 +140,65 @@ ricardo@opensourcefoundries.com> wrote:
 "Thou shalt not follow the NULL pointer, for chaos and madness await thee
 at its end"
 
---0000000000006506f1056f3f5aa0
+--00000000000058b755056f3f5b5a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
-gmail_extra"><br><div class=3D"gmail_quote">On Wed, Jun 20, 2018 at 2:46 PM=
-, Ricardo Salveti <span dir=3D"ltr">&lt;<a href=3D"mailto:ricardo@opensourc=
-efoundries.com" target=3D"_blank">ricardo@opensourcefoundries.com</a>&gt;</=
-span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
-x;border-left:1px #ccc solid;padding-left:1ex">Update python3-docker-pycred=
-s from 0.2.1 to 0.3.0.<br>
+gmail_extra"><br><div class=3D"gmail_quote">On Thu, Jun 21, 2018 at 4:26 AM=
+, Pablo Saavedra <span dir=3D"ltr">&lt;<a href=3D"mailto:psaavedra@igalia.c=
+om" target=3D"_blank">psaavedra@igalia.com</a>&gt;</span> wrote:<br><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">Ruby was upgraded to 2.5.0 in sumo. A upgrade in th=
+e ruby-shadow is<br>
+needed to build<br>
 <br>
-Signed-off-by: Ricardo Salveti &lt;<a href=3D"mailto:ricardo@opensourcefoun=
-dries.com">ricardo@opensourcefoundries.<wbr>com</a>&gt;<br>
+Upstream changes:<br>
+<br>
+* Updates code source reference<br>
+* Fixes for rubinius and tests<br>
+* Add friendlier method names<br>
+* Start to add some smoke tests<br>
+* Provide info on implementation<br>
+<br>
+Finally, this version of the package is alrady added in Debian Buster<br>
+as well.<br>
 ---<br>
-=C2=A0...<a href=3D"http://ocker-pycreds_0.2.1.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">ocker-pycreds_0.2.1.bb</a> =3D&gt; <a href=3D"http://python3-d=
-ocker-pycreds_0.3.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker=
--pycreds_0.3.0.<wbr>bb</a>} | 4 ++--<br>
+=C2=A0recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">ru<wbr>by-shadow_git.bb</a> | 4 ++--<br>
 =C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename recipes-devtools/python/{<a href=3D"http://python3-docker-pycr=
-eds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">pytho<wbr>n3-docker-pycr=
-eds_0.2.1.bb</a> =3D&gt; <a href=3D"http://python3-docker-pycreds_0.3.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">python3-docker-pycreds_0.3.0.<wbr>bb<=
-/a>} (63%)<br>
 <br>
-diff --git a/recipes-devtools/python/<a href=3D"http://python3-docker-pycre=
-ds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-pycre=
-ds_0.2.1.bb</a> b/recipes-devtools/python/<a href=3D"http://python3-docker-=
-pycreds_0.3.0.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-=
-pycreds_0.3.0.bb</a><br>
-similarity index 63%<br>
-rename from recipes-devtools/python/<a href=3D"http://python3-docker-pycred=
-s_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python<wbr>3-docker-pycred=
-s_0.2.1.bb</a><br>
-rename to recipes-devtools/python/<a href=3D"http://python3-docker-pycreds_=
-0.3.0.bb" rel=3D"noreferrer" target=3D"_blank">python<wbr>3-docker-pycreds_=
-0.3.0.bb</a><br>
-index 4038410..4d39f52 100644<br>
---- a/recipes-devtools/python/<a href=3D"http://python3-docker-pycreds_0.2.=
-1.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-pycreds_0.2.=
-1.bb</a><br>
-+++ b/recipes-devtools/python/<a href=3D"http://python3-docker-pycreds_0.3.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-pycreds_0.3.=
-0.bb</a><br>
-@@ -5,5 +5,5 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>3b83ef=
-96387f14655fc854ddc3c6bd<wbr>57&quot;<br>
+diff --git a/recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.=
+bb" rel=3D"noreferrer" target=3D"_blank"><wbr>ruby-shadow_git.bb</a> b/reci=
+pes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=3D"norefe=
+rrer" target=3D"_blank"><wbr>ruby-shadow_git.bb</a><br>
+index 75588f3..e7db6d1 100644<br>
+--- a/recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=
+=3D"noreferrer" target=3D"_blank"><wbr>ruby-shadow_git.bb</a><br>
++++ b/recipes-support/ruby-shadow/<a href=3D"http://ruby-shadow_git.bb" rel=
+=3D"noreferrer" target=3D"_blank"><wbr>ruby-shadow_git.bb</a><br>
+@@ -3,10 +3,10 @@ HOMEPAGE =3D &quot;<a href=3D"https://github.com/apalmbla=
+d/ruby-shadow" rel=3D"noreferrer" target=3D"_blank">https://github.com/apal=
+mblad/<wbr>ruby-shadow</a>&quot;<br>
+=C2=A0LICENSE =3D &quot;PD&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>137882914e5269b7=
+268f0fe8e28a3f<wbr>89&quot;<br>
 <br>
-=C2=A0inherit pypi setuptools3<br>
+-PV =3D &quot;2.4.1&quot;<br>
++PV =3D &quot;2.5.0&quot;<br>
 <br>
--SRC_URI[md5sum] =3D &quot;<wbr>0d80d5aebab771faf7e422b759c305<wbr>5b&quot;=
+=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/apalmblad/ruby-s=
+hadow.git" rel=3D"noreferrer" target=3D"_blank">github.com/apalmblad/<wbr>r=
+uby-shadow.git</a>&quot;<br>
+-SRCREV =3D &quot;<wbr>4231a4838fd50022b112838f114ee0<wbr>586e119605&quot;<=
+br>
++SRCREV =3D &quot;<wbr>d2e822d8a8bda61f0774debbfce363<wbr>a7347ed893&quot;<=
+br>
+=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
 <br>
--SRC_URI[sha256sum] =3D &quot;<wbr>93833a2cf280b7d8abbe1b81215304<wbr>13250=
-c6cd4ffed2c1cf085f335262f<wbr>7348&quot;<br>
-+SRC_URI[md5sum] =3D &quot;<wbr>2370ea3b62198b788a26231ab58844<wbr>af&quot;=
-<br>
-+SRC_URI[sha256sum] =3D &quot;<wbr>8b0e956c8d206f832b06aa93a710ba<wbr>2c3bc=
-bacb5a314449c040b0b814355<wbr>bbff&quot;<br>
+=C2=A0inherit ruby<br>
 <span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
-2.17.1<br>
+2.11.0<br>
 <br>
 -- <br>
 ______________________________<wbr>_________________<br>
@@ -207,4 +214,4 @@ hou shalt not follow the NULL pointer, for chaos and madness await thee at =
 its end&quot;</div>
 </div>
 
---0000000000006506f1056f3f5aa0--
+--00000000000058b755056f3f5b5a--
