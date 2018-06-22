@@ -1,65 +1,68 @@
-Return-Path: <rpjday@crashcourse.ca>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DD611E00AE6; Fri, 22 Jun 2018 05:18:15 -0700 (PDT)
+	id D8F41E00CEA; Fri, 22 Jun 2018 11:39:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	T_DKIM_INVALID autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	HTML_OBFUSCATE_10_20 autolearn=no version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* 0.1 HTML_OBFUSCATE_10_20 BODY: Message is 10% to 20% HTML obfuscation
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	*  0.0 T_DKIM_INVALID DKIM-Signature header exists but is not valid
-X-Greylist: delayed 1795 seconds by postgrey-1.32 at yocto-www;
-	Fri, 22 Jun 2018 05:18:13 PDT
-Received: from cpanel4.indieserve.net (cpanel4.indieserve.net [199.212.143.9])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 06F1FE0097C
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+	[209.85.208.177])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E2A53E00C5B
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 22 Jun 2018 05:18:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crashcourse.ca; s=default;
-	h=Content-Type:MIME-Version:Message-ID:Subject:
-	To:From:Date:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=r8P99Pg0cY24IXITmc9YYGUEqlG0851vHQR6xPCZXig=;
-	b=L6s9Wak4rbL8bWEQYTRMYvdYHO
-	Hv8EBPhb8O16ww3vIuFeflyoKwNJ2zrnepCy4LTzeTK+2btM7o8yMNKR5sKIYIza7Osoc234/2Mha
-	78JW8Mnn70zZwgmTdxv/BW5XA40TxoLyL/LS5aDCeLgfBZ8EwhGcKIoJZCkrr/kJKpHzfFbleGizA
-	QXa5sjF8jPE+mYaqNJYfiSemapt9l48HJUeq0azyKXoT5FuEZ/IGMDhpAP6eZNX7DPVctUl3cLSjj
-	5Cnr7PY+eqz1xGpBjMwM//vVsTc1DtlElmzdoT+UlnRrSsQR9X5LF8I6z0nciglZrCPPAYYphobfn
-	DNFsdJtw==;
-Received: from cpeac202e043973-cmac202e043970.cpe.net.cable.rogers.com
-	([174.112.22.87]:46608 helo=localhost.localdomain)
-	by cpanel4.indieserve.net with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.91)
-	(envelope-from <rpjday@crashcourse.ca>) id 1fWKY1-00A3D5-VK
-	for meta-virtualization@yoctoproject.org;
-	Fri, 22 Jun 2018 07:48:16 -0400
-Date: Fri, 22 Jun 2018 07:48:12 -0400 (EDT)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: meta-virtualization@yoctoproject.org
-Message-ID: <alpine.LFD.2.21.1806220744150.31293@localhost.localdomain>
-User-Agent: Alpine 2.21 (LFD 202 2017-01-01)
+	Fri, 22 Jun 2018 11:39:34 -0700 (PDT)
+Received: by mail-lj1-f177.google.com with SMTP id v25-v6so270570lji.4
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 22 Jun 2018 11:39:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=7BOAi5go8sbSnydE3J5T47GEtTX8r8AA2oDAF31/6nQ=;
+	b=ne/ByvanO9xYRo6VfCPNN9cmpdZaQ4GrXLhVcfrfpo1uGphYOk784K+AmCNCwV1+cg
+	1MHRcvRY/SgvEImiPkTLLXFkyL4gI9vZ1sM+zY7sFLGGWMxaZc14cCKTSTcw7vAjx0yx
+	z/cxhouyVyA3A6dN3Hll1XS6Ma3bWpWYqanIuuby0K9diRAOLv8x554696eViKER/qxr
+	RnKeoPXsJPw7Bee+3MMeLDNN/QkzA/2ZxWVOCROr0zLNPNd3HHMSpc32a2ow5bWCALlH
+	h1FcoQokuXrSC3ioHwj3M2c0uU69Lu8VjvZtE7GGSZH5+VDxIMipRu5pl+x9K//+x3mS
+	ImRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=7BOAi5go8sbSnydE3J5T47GEtTX8r8AA2oDAF31/6nQ=;
+	b=SG5NBRF2hyO0yp42GiKQJFr3Z5jOiMgiAcXCdhe+7SP5eJ16DddoXkMAQinangJXzC
+	tyA4wN/ZnUWPJs8LKlaMEQSLioPtRBhHm3e3tc9xH5Ao5xfKuGgW7yzw33WA6zZjEHyq
+	Ux58D42bc+C8OyptJfq7xl096HBg3HKo7mVPFUQ5+JBu3xn9K8EWaQjm77BkHgc+QhaJ
+	dKr1E9vJ830gjk8HoGucMW0x0vhDMRT5UpAm1AOKuijbNuYIwgOkmfZgPXP4Mb9uzunA
+	iEXBRP7sh92wFQ58y0WOc/Tre2jWlUA26D0xYqZUuerJ73500gm//Uge07Aaqw4AGzjh
+	QaWA==
+X-Gm-Message-State: APt69E0aR1oIzpMtDIrRl3JNtG48dS3w86fOlK/GhJpSuxp30hEB0k0T
+	p3L6z6DMnnNpBKHOE+5wAl8NIeaebemC8BO7+OQRvw==
+X-Google-Smtp-Source: ADUXVKI0T4fUIO85h3e3zM7/gSXcWSRoD54yBXc9xdyWSQZKrfUBkvyVUSbO+ieLyJoXk7s22CcRqQ+W5ptfcRrLAAc=
+X-Received: by 2002:a2e:29cf:: with SMTP id
+	p76-v6mr1998820ljp.12.1529692773745; 
+	Fri, 22 Jun 2018 11:39:33 -0700 (PDT)
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=0.6
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel4.indieserve.net
-X-AntiAbuse: Original Domain - yoctoproject.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel4.indieserve.net: authenticated_id:
-	rpjday+crashcourse.ca/only user confirmed/virtual account not
-	confirmed
-X-Authenticated-Sender: cpanel4.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: build error, iasl-native, fully-updated fedora 28
+Received: by 2002:a2e:17ca:0:0:0:0:0 with HTTP; Fri, 22 Jun 2018 11:39:33
+	-0700 (PDT)
+In-Reply-To: <1529520415-13251-1-git-send-email-ricardo@opensourcefoundries.com>
+References: <1529520415-13251-1-git-send-email-ricardo@opensourcefoundries.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 22 Jun 2018 14:39:33 -0400
+Message-ID: <CADkTA4ObG1A_GmuPTQ0-fur1bTRqXfg7k4BWOV54m6o_KgqBsw@mail.gmail.com>
+To: Ricardo Salveti <ricardo@opensourcefoundries.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH 1/2] python3-docker-pycreds: update to 0.3.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,195 +75,136 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Jun 2018 12:18:15 -0000
-Content-Type: multipart/mixed; boundary="8323328-1394924706-1529668094=:31293"
+X-List-Received-Date: Fri, 22 Jun 2018 18:39:35 -0000
+Content-Type: multipart/alternative; boundary="0000000000006506f1056f3f5aa0"
 
---8323328-1394924706-1529668094=:31293
-Content-Type: text/plain; charset=ISO-8859-7
-Content-Transfer-Encoding: 8BIT
+--0000000000006506f1056f3f5aa0
+Content-Type: text/plain; charset="UTF-8"
+
+merged.
+
+Bruce
+
+On Wed, Jun 20, 2018 at 2:46 PM, Ricardo Salveti <
+ricardo@opensourcefoundries.com> wrote:
+
+> Update python3-docker-pycreds from 0.2.1 to 0.3.0.
+>
+> Signed-off-by: Ricardo Salveti <ricardo@opensourcefoundries.com>
+> ---
+>  ...ocker-pycreds_0.2.1.bb => python3-docker-pycreds_0.3.0.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename recipes-devtools/python/{python3-docker-pycreds_0.2.1.bb =>
+> python3-docker-pycreds_0.3.0.bb} (63%)
+>
+> diff --git a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
+> similarity index 63%
+> rename from recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> rename to recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
+> index 4038410..4d39f52 100644
+> --- a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> +++ b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
+> @@ -5,5 +5,5 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=
+> 3b83ef96387f14655fc854ddc3c6bd57"
+>
+>  inherit pypi setuptools3
+>
+> -SRC_URI[md5sum] = "0d80d5aebab771faf7e422b759c3055b"
+> -SRC_URI[sha256sum] = "93833a2cf280b7d8abbe1b81215304
+> 13250c6cd4ffed2c1cf085f335262f7348"
+> +SRC_URI[md5sum] = "2370ea3b62198b788a26231ab58844af"
+> +SRC_URI[sha256sum] = "8b0e956c8d206f832b06aa93a710ba
+> 2c3bcbacb5a314449c040b0b814355bbff"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
 
 
-  building with wind river's pulsar linux, target x86_64, and
-iasl-native build fails as below. this is with gcc-8.1.1, and this
-appears to be a generic enough issue that i thought i would ask about
-it here rather than at the pulsar linux github page.
 
-  thoughts?
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end"
 
-WARNING: Layer skeleton should set LAYERSERIES_COMPAT_skeleton in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer external-binaries should set LAYERSERIES_COMPAT_external-binaries in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer refkit-extra should set LAYERSERIES_COMPAT_refkit-extra in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer iot-cloud should set LAYERSERIES_COMPAT_iot-cloud in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer metagw should set LAYERSERIES_COMPAT_metagw in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer up-board should set LAYERSERIES_COMPAT_up-board in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer wrlabs-integration should set LAYERSERIES_COMPAT_wrlabs-integration in its conf/layer.conf file to list the core layer names it is compatible with.
-NOTE: Started PRServer with DBfile: /home/rpjday/github/pulsar/wr-core/build-intel-x86/cache/prserv.sqlite3, IP: 127.0.0.1, PORT: 35135, PID: 30586
-WARNING: Layer skeleton should set LAYERSERIES_COMPAT_skeleton in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer external-binaries should set LAYERSERIES_COMPAT_external-binaries in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer refkit-extra should set LAYERSERIES_COMPAT_refkit-extra in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer iot-cloud should set LAYERSERIES_COMPAT_iot-cloud in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer metagw should set LAYERSERIES_COMPAT_metagw in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer up-board should set LAYERSERIES_COMPAT_up-board in its conf/layer.conf file to list the core layer names it is compatible with.
-WARNING: Layer wrlabs-integration should set LAYERSERIES_COMPAT_wrlabs-integration in its conf/layer.conf file to list the core layer names it is compatible with.
-Loading cache...done.
-Loaded 4912 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 3683 .bb files complete (3679 cached, 4 parsed). 4916 targets, 89 skipped, 5 masked, 0 errors.
-WARNING: No recipes available for:
-  /home/rpjday/github/pulsar/wr-core/layers/meta-cloud-services/meta-openstack/recipes-extended/libvirt/libvirt_1.%.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-cloud-services/meta-openstack/recipes-kernel/linux/linux-yocto_4.10.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-cloud-services/meta-openstack/recipes-kernel/linux/linux-yocto_4.4.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-cloud-services/meta-openstack/recipes-kernel/linux/linux-yocto_4.9.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-gateway/recipes-core-luci/busybox/busybox_1.22.1.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-gateway/recipes-kernel/kernel/linux-yocto-rt_4.9.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-gateway/recipes-kernel/kernel/linux-yocto_4.9.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/meta-gateway/recipes-navigation/gpsd/gpsd_3.16.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-bsp/shim/shim_git.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-containers/lxc/lxc_2.0.%.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-core/dbus/dbus_1.10.20.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-core/util-linux/util-linux_2.30.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-extended/libsolv/libsolv_0.6.28.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-extended/libvirt/libvirt_1.3.5.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-extended/man-pages/man-pages_4.11.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-hac/haccmds/haccmds_1.0.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-kernel/linux/linux-yocto-rt_4.9.bbappend
-  /home/rpjday/github/pulsar/wr-core/layers/wrlabs-integration/recipes-kernel/linux/linux-yocto_4.9.bbappend
-NOTE: Multiple providers are available for iasl-native (iasl-native, acpica-native)
-Consider defining a PREFERRED_PROVIDER entry to match iasl-native
-NOTE: Resolving any missing task queue dependencies
+--0000000000006506f1056f3f5aa0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Build Configuration:
-BB_VERSION           = "1.39.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "fedora-28"
-TARGET_SYS           = "x86_64-wrs-linux"
-MACHINE              = "intel-corei7-64"
-DISTRO               = "Pulsar-Linux"
-DISTRO_VERSION       = "10.17.41.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 = "HEAD:b34e86b4ee13d53f09d558e613d5b66c845edde6"
-oe-meta-go           = "HEAD:b29b384eae4a40933d07cc64c51e890c289d9621"
-meta-virtualization  = "HEAD:8344dd9e9f55a5ea81f9c57c74bd9a8b9a04e8ad"
-external-binaries    = "HEAD:78d4168b29efe5e812c36502a1c300d3d4c45935"
-meta-xfce
-meta-webserver
-meta-perl
-meta-python
-meta-oe
-meta-gnome
-meta-multimedia
-meta-networking
-meta-filesystems
-meta-initramfs       = "HEAD:a4056a96ecc857b1d675b89dc35cf9ed8a876f80"
-meta-refkit-extra    = "HEAD:4ca2e7474b046fa0bd7813cd6da7cf455733d61c"
-meta-dpdk            = "HEAD:8a0f847836671111915088d2838e3ff6f3c7642c"
-meta-java            = "HEAD:aa276b00d8a6bbffffd59d1980153c99521ce6ea"
-meta-iot-cloud       = "HEAD:6039a7a8a9a0cad4e32736be3a05a529b65e126a"
-meta-security        = "HEAD:f9c5e2022b54097474e46d9efb54080bd0e4d606"
-meta-browser         = "HEAD:1cd38d701a49eade80a04140f70d3383117b9745"
-meta-openstack
-meta-cloud-services  = "HEAD:31e3086409b5055b8ce5962a614f1284003c513d"
-meta-cube            = "HEAD:62f03f7d42f784923a8b02ce9d30d62d6552a22b"
-meta-gateway         = "HEAD:48dae0603506cff9bde674755d963e5cf3e75244"
-meta-up-board        = "HEAD:024d0f5e404cb29789c2bba90aa72efd00f2a0e6"
-meta-intel           = "HEAD:fec5d45ec3978d4b7c9649bee45fe58f914bcee4"
-wrlabs-integration   = "HEAD:02e0f675db192294044ffbce6146ec25f34ffdba"
+<div dir=3D"ltr">merged.<div><br></div><div>Bruce</div></div><div class=3D"=
+gmail_extra"><br><div class=3D"gmail_quote">On Wed, Jun 20, 2018 at 2:46 PM=
+, Ricardo Salveti <span dir=3D"ltr">&lt;<a href=3D"mailto:ricardo@opensourc=
+efoundries.com" target=3D"_blank">ricardo@opensourcefoundries.com</a>&gt;</=
+span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex">Update python3-docker-pycred=
+s from 0.2.1 to 0.3.0.<br>
+<br>
+Signed-off-by: Ricardo Salveti &lt;<a href=3D"mailto:ricardo@opensourcefoun=
+dries.com">ricardo@opensourcefoundries.<wbr>com</a>&gt;<br>
+---<br>
+=C2=A0...<a href=3D"http://ocker-pycreds_0.2.1.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">ocker-pycreds_0.2.1.bb</a> =3D&gt; <a href=3D"http://python3-d=
+ocker-pycreds_0.3.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker=
+-pycreds_0.3.0.<wbr>bb</a>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename recipes-devtools/python/{<a href=3D"http://python3-docker-pycr=
+eds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">pytho<wbr>n3-docker-pycr=
+eds_0.2.1.bb</a> =3D&gt; <a href=3D"http://python3-docker-pycreds_0.3.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">python3-docker-pycreds_0.3.0.<wbr>bb<=
+/a>} (63%)<br>
+<br>
+diff --git a/recipes-devtools/python/<a href=3D"http://python3-docker-pycre=
+ds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-pycre=
+ds_0.2.1.bb</a> b/recipes-devtools/python/<a href=3D"http://python3-docker-=
+pycreds_0.3.0.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-=
+pycreds_0.3.0.bb</a><br>
+similarity index 63%<br>
+rename from recipes-devtools/python/<a href=3D"http://python3-docker-pycred=
+s_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python<wbr>3-docker-pycred=
+s_0.2.1.bb</a><br>
+rename to recipes-devtools/python/<a href=3D"http://python3-docker-pycreds_=
+0.3.0.bb" rel=3D"noreferrer" target=3D"_blank">python<wbr>3-docker-pycreds_=
+0.3.0.bb</a><br>
+index 4038410..4d39f52 100644<br>
+--- a/recipes-devtools/python/<a href=3D"http://python3-docker-pycreds_0.2.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-pycreds_0.2.=
+1.bb</a><br>
++++ b/recipes-devtools/python/<a href=3D"http://python3-docker-pycreds_0.3.=
+0.bb" rel=3D"noreferrer" target=3D"_blank">pyth<wbr>on3-docker-pycreds_0.3.=
+0.bb</a><br>
+@@ -5,5 +5,5 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D<wbr>3b83ef=
+96387f14655fc854ddc3c6bd<wbr>57&quot;<br>
+<br>
+=C2=A0inherit pypi setuptools3<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;<wbr>0d80d5aebab771faf7e422b759c305<wbr>5b&quot;=
+<br>
+-SRC_URI[sha256sum] =3D &quot;<wbr>93833a2cf280b7d8abbe1b81215304<wbr>13250=
+c6cd4ffed2c1cf085f335262f<wbr>7348&quot;<br>
++SRC_URI[md5sum] =3D &quot;<wbr>2370ea3b62198b788a26231ab58844<wbr>af&quot;=
+<br>
++SRC_URI[sha256sum] =3D &quot;<wbr>8b0e956c8d206f832b06aa93a710ba<wbr>2c3bc=
+bacb5a314449c040b0b814355<wbr>bbff&quot;<br>
+<span class=3D"HOEnZb"><font color=3D"#888888">-- <br>
+2.17.1<br>
+<br>
+-- <br>
+______________________________<wbr>_________________<br>
+meta-virtualization mailing list<br>
+<a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualization=
+@<wbr>yoctoproject.org</a><br>
+<a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization" rel=
+=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/listi=
+nfo/meta-<wbr>virtualization</a><br>
+</font></span></blockquote></div><br><br clear=3D"all"><div><br></div>-- <b=
+r><div class=3D"gmail_signature" data-smartmail=3D"gmail_signature">&quot;T=
+hou shalt not follow the NULL pointer, for chaos and madness await thee at =
+its end&quot;</div>
+</div>
 
-Initialising tasks...done.
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
-NOTE: Running task 94 of 98 (virtual:native:/home/rpjday/github/pulsar/wr-core/layers/meta-virtualization/recipes-extended/iasl/iasl_20160527.bb:do_compile)
-NOTE: recipe iasl-native-20160527-r0: task do_compile: Started
-ERROR: iasl-native-20160527-r0 do_compile: oe_runmake failed
-ERROR: iasl-native-20160527-r0 do_compile: Function failed: do_compile (log file is located at /home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/temp/log.do_compile.30670)
-ERROR: Logfile of failure stored in: /home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/temp/log.do_compile.30670
-Log data follows:
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 8 iasl NOOPT=TRUE NOFORTIFY=TRUE
-| make[1]: Entering directory '/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/acpica-unix-20160527/generate/unix/iasl'
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslanalyze.o ../../../source/compiler/aslanalyze.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslcodegen.o ../../../source/compiler/aslcodegen.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslpredef.o ../../../source/compiler/aslpredef.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslprepkg.o ../../../source/compiler/aslprepkg.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslprintf.o ../../../source/compiler/aslprintf.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslprune.o ../../../source/compiler/aslprune.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslresource.o ../../../source/compiler/aslresource.c
-| gcc  -c -isystem/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/recipe-sysroot-native/usr/include -O2 -pipe -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -D_CYGWIN -D_GNU_SOURCE -I../../../source/include -DACPI_ASL_COMPILER -I../../../source/compiler -Iobj -std=c99 -Wall -Wbad-function-cast -Wdeclaration-after-statement -Werror -Wformat=2 -Wmissing-declarations -Wmissing-prototypes -Wstrict-aliasing=0 -Wstrict-prototypes -Wswitch-default -Wpointer-arith -Wundef -Waddress -Waggregate-return -Winit-self -Winline -Wmissing-declarations -Wmissing-field-initializers -Wnested-externs -Wold-style-definition -Wno-format-nonliteral -Wredundant-decls -Wempty-body -Woverride-init -Wlogical-op -Wmissing-parameter-type -Wold-style-declaration -Wtype-limits -o obj/aslrestype1.o ../../../source/compiler/aslrestype1.c
-| In function ¡CgWriteTableHeader¢,
-|     inlined from ¡CgWriteNode¢ at ../../../source/compiler/aslcodegen.c:715:9,
-|     inlined from ¡CgAmlWriteWalk¢ at ../../../source/compiler/aslcodegen.c:207:5:
-| ../../../source/compiler/aslcodegen.c:500:5: error: ¡strncpy¢ specified bound 4 equals destination size [-Werror=stringop-truncation]
-|      strncpy (TableHeader.Signature, Child->Asl.Value.String, 4);
-|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslcodegen.c:517:5: error: ¡strncpy¢ specified bound 6 equals destination size [-Werror=stringop-truncation]
-|      strncpy (TableHeader.OemId, Child->Asl.Value.String, 6);
-|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslcodegen.c:522:5: error: ¡strncpy¢ specified bound 8 equals destination size [-Werror=stringop-truncation]
-|      strncpy (TableHeader.OemTableId, Child->Asl.Value.String, 8);
-|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslpredef.c: In function ¡ApCheckForPredefinedMethod¢:
-| ../../../source/compiler/aslpredef.c:237:33: error: ¡ required for ¢ directive writing 14 bytes into a region of size between 1 and 4096 [-Werror=format-overflow=]
-|              sprintf (MsgBuffer, "%s required for %4.4s",
-|                                  ^~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslpredef.c:237:13: note: ¡sprintf¢ output between 19 and 4114 bytes into a destination of size 4096
-|              sprintf (MsgBuffer, "%s required for %4.4s",
-|              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|                  StringBuffer, ThisName->Info.Name);
-|                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslanalyze.c: In function ¡AnCheckMethodReturnValue¢:
-| ../../../source/compiler/aslanalyze.c:431:17: error: ¡%s¢ directive writing up to 4095 bytes into a region of size 4080 [-Werror=format-overflow=]
-|                  "Method returns [%s], %s operator requires [%s]",
-|                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|                  StringBuffer, OpInfo->Name, StringBuffer2);
-|                  ~~~~~~~~~~~~
-| ../../../source/compiler/aslanalyze.c:430:13: note: ¡sprintf¢ output 41 or more bytes (assuming 8231) into a destination of size 4096
-|              sprintf (MsgBuffer,
-|              ^~~~~~~~~~~~~~~~~~~
-|                  "Method returns [%s], %s operator requires [%s]",
-|                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|                  StringBuffer, OpInfo->Name, StringBuffer2);
-|                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslpredef.c: In function ¡ApCheckObjectType¢:
-| ../../../source/compiler/aslpredef.c:780:29: error: ¡%s¢ directive writing up to 4095 bytes into a region of size between 4056 and 4071 [-Werror=format-overflow=]
-|          sprintf (MsgBuffer, "%4.4s: found %s at index %u, %s required",
-|                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|              PredefinedName, TypeName, PackageIndex, StringBuffer);
-|                                                      ~~~~~~~~~~~~
-| ../../../source/compiler/aslpredef.c:780:9: note: ¡sprintf¢ output 35 or more bytes (assuming 4145) into a destination of size 4096
-|          sprintf (MsgBuffer, "%4.4s: found %s at index %u, %s required",
-|          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|              PredefinedName, TypeName, PackageIndex, StringBuffer);
-|              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| ../../../source/compiler/aslpredef.c:775:29: error: ¡%s¢ directive writing up to 4095 bytes into a region of size between 4076 and 4082 [-Werror=format-overflow=]
-|          sprintf (MsgBuffer, "%4.4s: found %s, %s required",
-|                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|              PredefinedName, TypeName, StringBuffer);
-|                                        ~~~~~~~~~~~~
-| ../../../source/compiler/aslpredef.c:775:9: note: ¡sprintf¢ output 24 or more bytes (assuming 4125) into a destination of size 4096
-|          sprintf (MsgBuffer, "%4.4s: found %s, %s required",
-|          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-|              PredefinedName, TypeName, StringBuffer);
-|              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-| cc1: all warnings being treated as errors
-| make[1]: *** [../Makefile.rules:18: obj/aslcodegen.o] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| cc1: all warnings being treated as errors
-| make[1]: *** [../Makefile.rules:18: obj/aslanalyze.o] Error 1
-| cc1: all warnings being treated as errors
-| make[1]: *** [../Makefile.rules:18: obj/aslpredef.o] Error 1
-| make[1]: Leaving directory '/home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/acpica-unix-20160527/generate/unix/iasl'
-| make: *** [generate/unix/Makefile.common:25: iasl] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/temp/run.do_compile.30670:1 exit 1 from 'exit 1'
-| ERROR: Function failed: do_compile (log file is located at /home/rpjday/github/pulsar/wr-core/build-intel-x86/tmp/work/x86_64-linux/iasl-native/20160527-r0/temp/log.do_compile.30670)
-NOTE: recipe iasl-native-20160527-r0: task do_compile: Failed
-ERROR: Task (virtual:native:/home/rpjday/github/pulsar/wr-core/layers/meta-virtualization/recipes-extended/iasl/iasl_20160527.bb:do_compile) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 95 tasks of which 94 didn't need to be rerun and 1 failed.
-
-Summary: 1 task failed:
-  virtual:native:/home/rpjday/github/pulsar/wr-core/layers/meta-virtualization/recipes-extended/iasl/iasl_20160527.bb:do_compile
-Summary: There were 15 WARNING messages shown.
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
-
---8323328-1394924706-1529668094=:31293--
+--0000000000006506f1056f3f5aa0--
