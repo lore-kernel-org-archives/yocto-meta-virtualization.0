@@ -1,42 +1,41 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Return-Path: <ueba.takuma@jp.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8039AE00E0E; Tue,  3 Jul 2018 21:47:23 -0700 (PDT)
+	id C86EAE01139; Thu,  5 Jul 2018 23:05:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00, DATE_IN_FUTURE_06_12,
-	RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* 1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E797EE00A39
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [211.128.242.42 listed in list.dnswl.org]
+X-Greylist: delayed 676 seconds by postgrey-1.32 at yocto-www;
+	Thu, 05 Jul 2018 23:05:54 PDT
+Received: from mgwym03.jp.fujitsu.com (mgwym03.jp.fujitsu.com [211.128.242.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0DEC0E01132
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Jul 2018 21:47:21 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="41817633"
-Received: from localhost (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Jul 2018 12:47:19 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6E0354B4448E
+	Thu,  5 Jul 2018 23:05:54 -0700 (PDT)
+Received: from yt-mxoi1.gw.nic.fujitsu.com (unknown [192.168.229.67]) by
+	mgwym03.jp.fujitsu.com with smtp
+	id 60da_8991_a1a19c1a_9e7f_4d5c_a4d8_62bea2d02ce2;
+	Fri, 06 Jul 2018 14:54:30 +0900
+Received: from m3050.s.css.fujitsu.com (msm.b.css.fujitsu.com [10.134.21.208])
+	by yt-mxoi1.gw.nic.fujitsu.com (Postfix) with ESMTP id AF191AC0144
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  4 Jul 2018 12:47:17 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Wed, 4 Jul 2018 12:47:23 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 4 Jul 2018 20:36:34 +0800
-Message-ID: <1530707794-106222-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 6E0354B4448E.A6086
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Subject: [PATCH] [PATCH] criu: upgrade to 3.9
+	Fri,  6 Jul 2018 14:54:29 +0900 (JST)
+Received: from ueba-FMVA09006.utsfd.cs.fujitsu.co.jp
+	(ubi186.utsfd.cs.fujitsu.co.jp [10.24.19.186])
+	by m3050.s.css.fujitsu.com (Postfix) with ESMTP id 94072317;
+	Fri,  6 Jul 2018 14:54:29 +0900 (JST)
+From: Takuma Ueba <ueba.takuma@jp.fujitsu.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri,  6 Jul 2018 14:54:18 +0900
+Message-Id: <20180706055418.6952-1-ueba.takuma@jp.fujitsu.com>
+X-Mailer: git-send-email 2.17.1
+X-TM-AS-MML: disable
+Subject: [PATCH] fix license from Apache-2.0 to MIT
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,57 +48,28 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Jul 2018 04:47:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 06 Jul 2018 06:05:55 -0000
 
-Upgrade criu from 3.4 to 3.9.
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Takuma Ueba <ueba.takuma@jp.fujitsu.com>
 ---
- recipes-containers/criu/{criu_git.bb => criu_3.9.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename recipes-containers/criu/{criu_git.bb => criu_3.9.bb} (94%)
+ meta-openstack/recipes-devtools/python/python-wsme_0.9.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_3.9.bb
-similarity index 94%
-rename from recipes-containers/criu/criu_git.bb
-rename to recipes-containers/criu/criu_3.9.bb
-index 7d62f35..36c356d 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_3.9.bb
-@@ -13,15 +13,14 @@ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-openstack/recipes-devtools/python/python-wsme_0.9.2.bb b/meta-openstack/recipes-devtools/python/python-wsme_0.9.2.bb
+index 59e1ddb..15f46d4 100644
+--- a/meta-openstack/recipes-devtools/python/python-wsme_0.9.2.bb
++++ b/meta-openstack/recipes-devtools/python/python-wsme_0.9.2.bb
+@@ -1,7 +1,7 @@
+ DESCRIPTION = "Simplify the writing of REST APIs, and extend them with additional protocols"
+ HOMEPAGE = "https://pypi.python.org/pypi/WSME/"
+ SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
++LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=5a9126e7f56a0cf3247050de7f10d0f4"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
- 
--SRCREV = "a31c1854e10580a09621e539c3ec052b875a8e06"
--PV = "3.4+git${SRCPV}"
-+SRCREV = "202b7745bd0c37a1732ebe2fb009a157d338bf95"
-+PV = "3.9+git${SRCPV}"
- 
- SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
-            file://0001-criu-Fix-toolchain-hardcode.patch \
-            file://0002-criu-Skip-documentation-install.patch \
-            file://0001-criu-Change-libraries-install-directory.patch \
-            file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
--           file://fix-building-on-newest-glibc-and-kernel.patch \
-           "
- 
- COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
-@@ -46,9 +45,11 @@ EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unit
- CFLAGS += "-D__USE_GNU -D_GNU_SOURCE " 
- 
- CFLAGS += " -I${STAGING_INCDIR} -I${STAGING_INCDIR}/libnl3"
-+CFLAGS_arm += "-D__WORDSIZE"
- 
- # overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
- export LDFLAGS=""
-+export C_INCLUDE_PATH="${STAGING_INCDIR}/libnl3"
- 
- export BUILD_SYS
- export HOST_SYS
+ PYPI_PACKAGE = "WSME"
 -- 
-2.7.4
-
+2.17.1
 
 
 
