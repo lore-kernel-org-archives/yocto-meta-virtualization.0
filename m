@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 15FF8E009B2; Tue, 10 Jul 2018 06:54:50 -0700 (PDT)
+	id 85364E00EC7; Tue, 10 Jul 2018 06:58:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.215.65 listed in list.dnswl.org]
+	*      [209.85.208.196 listed in list.dnswl.org]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
@@ -19,51 +19,55 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
-	[209.85.215.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 612F9E00720
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8F601E00E9D
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 10 Jul 2018 06:54:49 -0700 (PDT)
-Received: by mail-lf0-f65.google.com with SMTP id u14-v6so18389145lfu.0
+	Tue, 10 Jul 2018 06:58:14 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id t7-v6so16810891ljj.6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 10 Jul 2018 06:54:49 -0700 (PDT)
+	Tue, 10 Jul 2018 06:58:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=FsBCRTOppYBMDg8phkFdTZ5kyG+uxQHKLb8wSm7Ic4k=;
-	b=tnKukQAGsqxgee2iiUpbf3qYAeJ3CXOZvasYPfrQLxT0YNppv4Ax0OM779cDvG429M
-	7lhAEpEVqXXeIU1bt2gAG47ygDW9U/gcUGpimCbd/kwgwpG1ZfPoMQB4vm4mzy/SHsmH
-	eODZSPmAzPun1VP1FqW9e7OBx8rEAafbQO7iZStwhSGLjAIH4hD6kF43hD7USUO5sNdi
-	FYEka9lLK/M5ctNdpzeyC7fcl7DcD8LlDpJIdA2l1lGeKZDhhZISMBxZujtLC+jGiAw+
-	vb5yurrbRD2oX/V4uyAVHEWxedqFdNwdIU1/j3yHgIAYSpL46f4agiXFSIg6c5uH1DZs
-	bDMg==
+	:cc; bh=1B5C3RFRdNkxkVrt/sNtAoCGzxkNeg8wSZTAf5uQY58=;
+	b=sHdAaXgJ/4yF+xGuLyeJJeBg8jg3wtthpdYotTfT0QHXuCsb3jHGEgGbkTV2P2ucZn
+	tiyoHXE6KcPjPL9eHEfGmgh0I0yZxZDH5EzV53v099UddORE6wddqrDz0rrE7AuQWw5q
+	1aDIr3etvgpJ+0HMz0NFO4+EWNZXNFRi7hfKr+6g50OnZIOWG+cG66JyEv1emh6DDGu0
+	K1mDRQnQlnPfceqVowJzwkHSXmFy8HTXxEBfqWvMldKoc+CIHdv+jH5RMj9Jv/+R23cI
+	m1/2auP2JHDLkmFGyZvf9kgvKEBYMBdZJo5ZYgV6WUiZwkco9LVU0lWIXrbAu+T6oaSZ
+	/NSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=FsBCRTOppYBMDg8phkFdTZ5kyG+uxQHKLb8wSm7Ic4k=;
-	b=ZONTpeE+kUC0UCZAYXkLpTd5jdJ6BLP3F73nuQBjUzZp45DGinaDsMgtrSKpjiXDVJ
-	AU2ZK1XXQLpjtDdN37SdetluoLf/97455XKOzsmWHeMEb0PQeUF89F0//0sVHBh+BeOf
-	iJKQabYwZqsyq4WloNtVPSqfdrhY+TDv+Mtv6HDsb/kT2dfuAJQEsZA4YdtMoQHJGfY7
-	ajWlJgm5A+VvyURa9XkwHmneelBoBQeRxio7X2ftB68jq9QHs+OaVK3tm+IkLIaTEdad
-	4nOqIuyskIHbEfOMzjI16LCppnlyzU+JOFqmoHd9i2procO6nKaiqDrZU04zjEUyki2F
-	vGKg==
-X-Gm-Message-State: APt69E1S7MQB6lO0y9DOp1JAfKQFKu6BDqCnf5JLFY6pt/Pjfbz1VT4K
-	1JFj4n7peCQkI1WrBjRyXWWrbcojy8dJSFaMfMFQDA==
-X-Google-Smtp-Source: AAOMgpfyQS8u37MLXxcB+PtrTF+WCqxWG2NgWC03IABivdwB924DF34edWfbZHkZWrkLGpPLPdQKBBHo3YRq4bjahDk=
-X-Received: by 2002:a19:5509:: with SMTP id
-	n9-v6mr3174942lfe.133.1531230888426; 
-	Tue, 10 Jul 2018 06:54:48 -0700 (PDT)
+	bh=1B5C3RFRdNkxkVrt/sNtAoCGzxkNeg8wSZTAf5uQY58=;
+	b=MU6Ymzr8VvnPKCDLQRDsT5SqGH69w/CPabPmJDt1/GbUoqyDHp/h7vzC0Qk/mZkcrJ
+	CkPebFn9sKXcR9mF4WDkckD7pgpxjfqfqu3hhEBOboH3vuR19wFacl8o+x2NtfEq8Xa5
+	zL3r2yqxd+4UH0+9ZxjC3nH00GmVzfSVLLflYnlmqQyy5SQvsI0v1vhS71Wpmwu+BqRu
+	wJgY+al6BKoxMfo3h8Zr/EHiDKzE3+QV+ve0QvMYaRRznDcLMzlB3RBEGC35ZPdRfEj+
+	7PtHKc1jws41KUh+c81Ouvvlgi2beb+0087mcweC+t2gKVpvpYMRsHUvUC2q1HWqAiY8
+	Ys6Q==
+X-Gm-Message-State: APt69E3VAsUQteZ8EqUfCHHcvHH3e9upHIyuqTPhFDOrqkGml/ncPatL
+	BGNIX0fUeaXdHRMY1oHDzLNl4rp3PVBLsyFKGR4=
+X-Google-Smtp-Source: AAOMgpdUrqcsk0S79DIJVOUBieeTYH0EPWMPFcWrO1iYZJA2fwXqTSaG+98Ap6CFQ4uxrvzeO+2Aykhj6nTC0A2WFz8=
+X-Received: by 2002:a2e:97c8:: with SMTP id m8-v6mr2394827ljj.52.1531231093596;
+	Tue, 10 Jul 2018 06:58:13 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 06:54:47
+Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 06:58:13
 	-0700 (PDT)
-In-Reply-To: <1530982957-5021-1-git-send-email-jkrishnanjanappa@mvista.com>
-References: <1530982957-5021-1-git-send-email-jkrishnanjanappa@mvista.com>
+In-Reply-To: <CADkTA4M2ZwHi19-v1WugZ1gYrE50dVKmcBZAjNCJEfDxWKFO5Q@mail.gmail.com>
+References: <20180706212320.6023-1-jpuhlman@mvista.com>
+	<CADkTA4Mp-8+d64xKwzungUpN9cHZAKS1=m-uo-5DqR=SzPkmJg@mail.gmail.com>
+	<fed63744-1059-e547-c8c7-7ed459508521@mvista.com>
+	<CADkTA4P0PWZP4-iKfPs6M8JTUGq3=EL4M+qifhwnj-cFAtfJDA@mail.gmail.com>
+	<bb7c7ba4-aeee-5465-cc2f-6a268f024e47@mvista.com>
+	<CADkTA4M2ZwHi19-v1WugZ1gYrE50dVKmcBZAjNCJEfDxWKFO5Q@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 10 Jul 2018 09:54:47 -0400
-Message-ID: <CADkTA4OfQud2N3SrFVaCCt4GN2=HvqA8e8mTTEfuLkQd8az2EQ@mail.gmail.com>
-To: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
+Date: Tue, 10 Jul 2018 09:58:13 -0400
+Message-ID: <CADkTA4P-aj9dYL0GeKBC-c2i_1obeAutnV_MYJX3zVr7i4ahXg@mail.gmail.com>
+To: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][master][sumo][rocko][PATCH] tgt: Use return instead of exit to restart tgtd, if tgtd is not running
+Subject: Re: [m-c-s][PATCH 1/2] libbsd: Remove dangling append that no longer is needed
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,50 +80,114 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Jul 2018 13:54:50 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 13:58:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+I went ahead and did the rename of the bbappend. At some distant point
+in the future
+we can determine if it really was necessary :D
 
 Bruce
 
-On Sat, Jul 7, 2018 at 1:02 PM, Jagadeesh Krishnanjanappa
-<jkrishnanjanappa@mvista.com> wrote:
-> If the tgtd daemon is stopped, then '/etc/init.d/tgtd.init restart'
-> does not start the new tgtd daemon, as the control comes out from the
-> stop function, if it finds tgtd is not running.
+On Sat, Jul 7, 2018 at 12:31 PM, Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+> On Fri, Jul 6, 2018 at 11:31 PM, Jeremy A. Puhlman <jpuhlman@mvista.com> wrote:
+>>
+>>
+>> On 7/6/2018 8:20 PM, Bruce Ashfield wrote:
+>>>
+>>> On Fri, Jul 6, 2018 at 10:50 PM, Jeremy A. Puhlman <jpuhlman@mvista.com>
+>>> wrote:
+>>>>
+>>>> Going back through the log I didn't see any indication of the problem it
+>>>> was
+>>>> trying to solve. I assumed it was
+>>>> a standard configure doesn't work with a split build. Currently it
+>>>> doesn't
+>>>> apply to master at all and I haven't
+>>>> seen any actual issues. What where the specific steps to reproduce?
+>>>
+>>> It would have been added when an incremental build was performed. i.e.
+>>> a build, an update and the rebuild triggered the error. They only
+>>> appear sporadically, so there's no set of steps to reproduce the issue
+>>> consistently.
+>>>
+>>> Unless this is actually breaking something, I tend to just leave them
+>>> in place rather than break some nightly build that someone may be
+>>> doing ..
+>>
+>>
+>> Fair enough. Then the append needs to be updated for the master version. You
+>> want me to send you a update to do that, or would
+>> you like to handle it?
 >
-> Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
-> ---
->  meta-openstack/recipes-support/tgt/files/tgtd.init | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> Either works. Probably easier if I just do it, so I'll add your
+> reported-by tag to the update of the bbappend.
 >
-> diff --git a/meta-openstack/recipes-support/tgt/files/tgtd.init b/meta-openstack/recipes-support/tgt/files/tgtd.init
-> index 350fd0c..4b0ce94 100644
-> --- a/meta-openstack/recipes-support/tgt/files/tgtd.init
-> +++ b/meta-openstack/recipes-support/tgt/files/tgtd.init
-> @@ -57,11 +57,11 @@ stop ()
->      RETVAL=$?
->      if [ "$RETVAL" -eq 107 ] ; then
->          if [ "$TASK" != "restart" ] ; then
-> -            exit 1
-> +            return 1
->          fi
->      elif [ "$RETVAL" -ne 0 ] ; then
->          echo "Some initiators are still connected - could not stop tgtd"
-> -        exit 2
-> +        return 2
->      fi
->      echo -n
->  }
+> Bruce
+>
+>>
+>>
+>>
+>>>
+>>> Bruce
+>>>
+>>>>
+>>>> On 7/6/2018 7:33 PM, Bruce Ashfield wrote:
+>>>>>
+>>>>> Can we log why it is no longer necessary ? i.e. which version of the
+>>>>> package has fixed
+>>>>> the old clean -> rebuild problem.
+>>>>>
+>>>>> Bruce
+>>>>>
+>>>>> On Fri, Jul 6, 2018 at 5:23 PM, Jeremy Puhlman <jpuhlman@mvista.com>
+>>>>> wrote:
+>>>>>>
+>>>>>> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+>>>>>> ---
+>>>>>>    meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend | 1 -
+>>>>>>    1 file changed, 1 deletion(-)
+>>>>>>    delete mode 100644
+>>>>>> meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
+>>>>>>
+>>>>>> diff --git
+>>>>>> a/meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
+>>>>>> b/meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
+>>>>>> deleted file mode 100644
+>>>>>> index 7447c56..0000000
+>>>>>> --- a/meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
+>>>>>> +++ /dev/null
+>>>>>> @@ -1 +0,0 @@
+>>>>>> -inherit autotools-brokensep
+>>>>>> --
+>>>>>> 2.11.1
+>>>>>>
+>>>>>> --
+>>>>>> _______________________________________________
+>>>>>> meta-virtualization mailing list
+>>>>>> meta-virtualization@yoctoproject.org
+>>>>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>>>>>
+>>>>>
+>>>>>
+>>>> --
+>>>> Jeremy A. Puhlman
+>>>> jpuhlman@mvista.com
+>>>>
+>>>
+>>>
+>>
+>> --
+>> Jeremy A. Puhlman
+>> jpuhlman@mvista.com
+>>
+>
+>
+>
 > --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 
 
 
