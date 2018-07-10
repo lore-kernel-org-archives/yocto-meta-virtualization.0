@@ -1,77 +1,71 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 61B0BE00D9E; Sat,  7 Jul 2018 19:35:42 -0700 (PDT)
+	id 19E64E00EC7; Tue, 10 Jul 2018 06:43:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.213.195 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.215.65 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-yb0-f195.google.com (mail-yb0-f195.google.com
-	[209.85.213.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 89749E006F1
+Received: from mail-lf0-f65.google.com (mail-lf0-f65.google.com
+	[209.85.215.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BDC2CE00CCC
 	for <meta-virtualization@yoctoproject.org>;
-	Sat,  7 Jul 2018 19:35:39 -0700 (PDT)
-Received: by mail-yb0-f195.google.com with SMTP id h127-v6so5977825ybg.12
+	Tue, 10 Jul 2018 06:43:02 -0700 (PDT)
+Received: by mail-lf0-f65.google.com with SMTP id m13-v6so18340678lfb.12
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 07 Jul 2018 19:35:39 -0700 (PDT)
+	Tue, 10 Jul 2018 06:43:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:reply-to:sender:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=3JzaLV9Wggd/VrRl/yTF/Ahrqk2P6qSbPGi/IY2fwIw=;
-	b=V4Cu8AX/eYNv6MUg2fDUpez/6lyZsrf1O+uY9HArYacLPxoqqJ07B5yND7+bvn+3Yn
-	bxfbu5L82Pwo3zX1HihNTUwOz7Ul21laU8wOjJdmUdlLCXz2bsYPlOgnqPT1rR/RDKFr
-	qDK0cOLRJwW831pfmWoTCtyWJZOIy8W3D3m0kAV2RbcpmQQXWN3FYu6nYz4NwjD0p++R
-	EsTuv078jfrOH29ygCg7hB3az33I/H2xQ5iRcrycNnSgyN9xg1GGqN0I9H4wX+q9+WWy
-	X1TxM07cA3AmkpIJCYB9JqV1ocPiSzMQMT/tJIf9SdbV3ZUqUZKDMM8JMz0RBevGNziH
-	LDIQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=CX+r9hRRxN95NbhdoGuYyvy1yXAX+3pVdRB8Ll52vEg=;
+	b=UDczvB8hsKaaE0d/7tQKBMJGIblgbCtA+wDCymeFSese0bR+EsMpZmIk93jejSdh57
+	u4uAGGq3ojBzbx+ytUMi5WU8OcvKcr8YRY3z/Z+rbFR+YoALHaokNoSfvEoXBDQWUMs5
+	oKGsMukY4QLJdzi9mcOaVqNjcMTiAJSEzT9J3hn1cHu9QftI0U5FSqcZoT1lilAHWroW
+	UEstzWWQ49riVG8+4AoftAZyQERKVVG15EX7MsQv1Rz+3nm89JVRauVZ+A7p3n305W6S
+	dQMO6bTdtAzA+y3agsIrVNkFfExn9qAY8Hpus4yHXTeQLwTexKo2VHrcsdWGCgnNc8Ud
+	tnmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
-	:references:from:date:message-id:subject:to:cc;
-	bh=3JzaLV9Wggd/VrRl/yTF/Ahrqk2P6qSbPGi/IY2fwIw=;
-	b=pS4SBo/yFL38JXJ53Tx+2x1M1gz8xhXkb/K3t1OliiwpDEzqIGGt33pp2/X9Q2LGva
-	ygETeJwZE6KwSOMhNGb51/lpZfP+HS5qLgjQ4uRGk8EzYCfuJSU2xc1YmasSD14RuzK7
-	yXlY1f2THm5htMILaViyWkuHned805Rjwp7xZQ7kc/g8wkZXn4MypiMcqvRADLir/wX1
-	kdg1v6daJvrkZMR1J5/5Z/LzDtWAFdbQrsFx5jasygCAdXAJzGRLgcV+hSrkSv3u+mal
-	y1aKuhOnFWg9o6KA0eDYFylJ5qcFGrt0yddOsfZeSdfoYnem0FKayMtIX1dc+HMqTtuH
-	10Gw==
-X-Gm-Message-State: APt69E0mCwo8nTiMOIFenm8wAbk4uVzz8kN+mNWvH4VrgRqbgtZYvnm8
-	nZaXRLZc9SkfuPzP79Wsxdgw3gI9CihQ7Pt+u8E=
-X-Google-Smtp-Source: AAOMgpe64WP1ad2bIT+mZCqhbdBGigTwAsxo9XC4zIuyZV6iLwi/MMmzPIahwJAXrERMH7W9OAHBzzm+cFENOwwcTmg=
-X-Received: by 2002:a25:5344:: with SMTP id
-	h65-v6mr7934632ybb.232.1531017338547; 
-	Sat, 07 Jul 2018 19:35:38 -0700 (PDT)
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=CX+r9hRRxN95NbhdoGuYyvy1yXAX+3pVdRB8Ll52vEg=;
+	b=b2Pe8MdwwQZZoGp9G8wm9YUtebOGEcLVBct7vbccGhtbzEmNqpVL7rJzIpXinkjt0+
+	pXZC9xX0P0lqIr3mL0XGiIUeYGj+dLZocL3f3prmOCVT39PzIfVMzspIR55Wk4J3e69s
+	FOr7kdwhAX7SUwX47lmAJtJjW14u6Z4ruYjGEYXOO4fY3V74214xdLRYiBi5u0JrzxZw
+	RDLPtP+EokZ936vXqtaDwkFl8d1GQGLxUIS/h3QZWOqdASu3fR2FgVy8GtmBbbL8BVbn
+	yX23amn4wIYXdJeD0twbdLvTkLwQnsE6VZW3upMNxjYYYoclHpUS3X27DEn3Ugzjei0L
+	dOqQ==
+X-Gm-Message-State: APt69E2PsPnI/NPIfSWQ3k0KexXL95q3xemynOI1QeoX5Eli/crdOOal
+	3dymsOUvoBqYvLdSEzt6s/k2GUW8c7C6hx0Mz1+IgQ==
+X-Google-Smtp-Source: AAOMgpcnrBv8gtjHCr9GWLvD3D2myjXSeQve+gXiYUiRfEY2W2hOGPK0jNSmOtq76ZoLWKdThPigFX8PTIoYHWE8loo=
+X-Received: by 2002:a19:c403:: with SMTP id u3-v6mr2825450lff.87.1531230181636;
+	Tue, 10 Jul 2018 06:43:01 -0700 (PDT)
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 2002:a5b:612:0:0:0:0:0 with HTTP;
-	Sat, 7 Jul 2018 19:35:38 -0700 (PDT)
-In-Reply-To: <CADkTA4M2ZwHi19-v1WugZ1gYrE50dVKmcBZAjNCJEfDxWKFO5Q@mail.gmail.com>
-References: <20180706212320.6023-1-jpuhlman@mvista.com>
-	<CADkTA4Mp-8+d64xKwzungUpN9cHZAKS1=m-uo-5DqR=SzPkmJg@mail.gmail.com>
-	<fed63744-1059-e547-c8c7-7ed459508521@mvista.com>
-	<CADkTA4P0PWZP4-iKfPs6M8JTUGq3=EL4M+qifhwnj-cFAtfJDA@mail.gmail.com>
-	<bb7c7ba4-aeee-5465-cc2f-6a268f024e47@mvista.com>
-	<CADkTA4M2ZwHi19-v1WugZ1gYrE50dVKmcBZAjNCJEfDxWKFO5Q@mail.gmail.com>
-From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Sat, 7 Jul 2018 22:35:38 -0400
-X-Google-Sender-Auth: Aqg636RqX50JByxwOllx0mPPdZs
-Message-ID: <CAPuovEKqEdUv1=0cQGE-K01sSpZdDxCs09PFeB4UpmeCPkZzRg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: "Jeremy A. Puhlman" <jpuhlman@mvista.com>,
-	meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][PATCH 1/2] libbsd: Remove dangling append that no longer is needed
+Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Tue, 10 Jul 2018 06:43:00
+	-0700 (PDT)
+In-Reply-To: <1530707794-106222-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1530707794-106222-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 10 Jul 2018 09:43:00 -0400
+Message-ID: <CADkTA4NCdxU5OYwNHMoDSyw=1MupjfC=RdgEVeTwaJHGkC1qJQ@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] [PATCH] criu: upgrade to 3.9
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
-Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -81,121 +75,86 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Jul 2018 02:35:42 -0000
+X-List-Received-Date: Tue, 10 Jul 2018 13:43:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, Jul 7, 2018 at 12:31 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Fri, Jul 6, 2018 at 11:31 PM, Jeremy A. Puhlman <jpuhlman@mvista.com> wrote:
->>
->>
->> On 7/6/2018 8:20 PM, Bruce Ashfield wrote:
->>>
->>> On Fri, Jul 6, 2018 at 10:50 PM, Jeremy A. Puhlman <jpuhlman@mvista.com>
->>> wrote:
->>>>
->>>> Going back through the log I didn't see any indication of the problem it
->>>> was
->>>> trying to solve. I assumed it was
->>>> a standard configure doesn't work with a split build. Currently it
->>>> doesn't
->>>> apply to master at all and I haven't
->>>> seen any actual issues. What where the specific steps to reproduce?
->>>
->>> It would have been added when an incremental build was performed. i.e.
->>> a build, an update and the rebuild triggered the error. They only
->>> appear sporadically, so there's no set of steps to reproduce the issue
->>> consistently.
->>>
->>> Unless this is actually breaking something, I tend to just leave them
->>> in place rather than break some nightly build that someone may be
->>> doing ..
->>
->>
->> Fair enough. Then the append needs to be updated for the master version. You
->> want me to send you a update to do that, or would
->> you like to handle it?
->
-> Either works. Probably easier if I just do it, so I'll add your
-> reported-by tag to the update of the bbappend.
->
-> Bruce
+Thanks for the uprev, but I have a few questions below.
 
-This dates back to the src/build split
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-cloud-services/commit/?id=b288eb5c2e5961caf57645b246143d3e2e596c55
+On Wed, Jul 4, 2018 at 8:36 AM, Zheng Ruoqin
+<zhengrq.fnst@cn.fujitsu.com> wrote:
+> Upgrade criu from 3.4 to 3.9.
+>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  recipes-containers/criu/{criu_git.bb => criu_3.9.bb} | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>  rename recipes-containers/criu/{criu_git.bb => criu_3.9.bb} (94%)
+>
+> diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_3.9.bb
+> similarity index 94%
+> rename from recipes-containers/criu/criu_git.bb
+> rename to recipes-containers/criu/criu_3.9.bb
+> index 7d62f35..36c356d 100644
+> --- a/recipes-containers/criu/criu_git.bb
+> +++ b/recipes-containers/criu/criu_3.9.bb
+> @@ -13,15 +13,14 @@ EXCLUDE_FROM_WORLD = "1"
+>
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
+>
+> -SRCREV = "a31c1854e10580a09621e539c3ec052b875a8e06"
+> -PV = "3.4+git${SRCPV}"
+> +SRCREV = "202b7745bd0c37a1732ebe2fb009a157d338bf95"
+> +PV = "3.9+git${SRCPV}"
+>
+>  SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
+>             file://0001-criu-Fix-toolchain-hardcode.patch \
+>             file://0002-criu-Skip-documentation-install.patch \
+>             file://0001-criu-Change-libraries-install-directory.patch \
+>             file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
+> -           file://fix-building-on-newest-glibc-and-kernel.patch \
 
-No clues in the project's commits to indicate an explicit fix being
-applied. I am 1/2 tempted to revert back to 0.6.0 and see what the
-error was to be able to properly drop this.
+I see this patch being removed from the SRC_URI, but not the delete of the
+patch, or an explanation of why it is no longer required.
 
-Mark
+>            "
+>
+>  COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
+> @@ -46,9 +45,11 @@ EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unit
+>  CFLAGS += "-D__USE_GNU -D_GNU_SOURCE "
+>
+>  CFLAGS += " -I${STAGING_INCDIR} -I${STAGING_INCDIR}/libnl3"
+> +CFLAGS_arm += "-D__WORDSIZE"
+
+Can we document why this is required, and what the error is without it ?
 
 >
->>
->>
->>
->>>
->>> Bruce
->>>
->>>>
->>>> On 7/6/2018 7:33 PM, Bruce Ashfield wrote:
->>>>>
->>>>> Can we log why it is no longer necessary ? i.e. which version of the
->>>>> package has fixed
->>>>> the old clean -> rebuild problem.
->>>>>
->>>>> Bruce
->>>>>
->>>>> On Fri, Jul 6, 2018 at 5:23 PM, Jeremy Puhlman <jpuhlman@mvista.com>
->>>>> wrote:
->>>>>>
->>>>>> Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
->>>>>> ---
->>>>>>    meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend | 1 -
->>>>>>    1 file changed, 1 deletion(-)
->>>>>>    delete mode 100644
->>>>>> meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
->>>>>>
->>>>>> diff --git
->>>>>> a/meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
->>>>>> b/meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
->>>>>> deleted file mode 100644
->>>>>> index 7447c56..0000000
->>>>>> --- a/meta-openstack/recipes-support/libbsd/libbsd_0.8.%.bbappend
->>>>>> +++ /dev/null
->>>>>> @@ -1 +0,0 @@
->>>>>> -inherit autotools-brokensep
->>>>>> --
->>>>>> 2.11.1
->>>>>>
->>>>>> --
->>>>>> _______________________________________________
->>>>>> meta-virtualization mailing list
->>>>>> meta-virtualization@yoctoproject.org
->>>>>> https://lists.yoctoproject.org/listinfo/meta-virtualization
->>>>>
->>>>>
->>>>>
->>>> --
->>>> Jeremy A. Puhlman
->>>> jpuhlman@mvista.com
->>>>
->>>
->>>
->>
->> --
->> Jeremy A. Puhlman
->> jpuhlman@mvista.com
->>
+>  # overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
+>  export LDFLAGS=""
+> +export C_INCLUDE_PATH="${STAGING_INCDIR}/libnl3"
+
+Likewise, we need to document why this is now required.
+
+Cheers,
+
+Bruce
+
 >
->
->
+>  export BUILD_SYS
+>  export HOST_SYS
 > --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
+> 2.7.4
+>
+>
+>
 > --
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
