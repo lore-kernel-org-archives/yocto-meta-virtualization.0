@@ -1,6 +1,6 @@
 Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8511AE01710; Mon, 16 Jul 2018 08:35:21 -0700 (PDT)
+	id 4CEACE010FE; Mon, 16 Jul 2018 08:41:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -16,52 +16,53 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 Received: from mail-yb0-f194.google.com (mail-yb0-f194.google.com
 	[209.85.213.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F160FE006B4
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 136DBE00C76
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Jul 2018 08:34:19 -0700 (PDT)
-Received: by mail-yb0-f194.google.com with SMTP id e84-v6so15586503ybb.0
+	Mon, 16 Jul 2018 08:41:38 -0700 (PDT)
+Received: by mail-yb0-f194.google.com with SMTP id x10-v6so15590582ybl.10
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Jul 2018 08:34:19 -0700 (PDT)
+	Mon, 16 Jul 2018 08:41:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:reply-to:sender:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=wZg70/Mf0E+Qdo8gaJttVwBfriiMJOBWSBKZyjb5Tz0=;
-	b=cm4nGhiHFt21xmPdzzrbAuqQVR5vgsTkxKdsF1LVZfdCMUIky5xMYEA/BSeFbSRmmK
-	2CpCpbPgaWB8euPfKa5I6GCdkgWvduv8JOHEfAfHqUosMEwuVGexDarOUC3tc0n26lbg
-	yiNe+FLzmmRUl18Rq05U7uth5kEfhfPsHlVrOJvma6jeUJjgne59dEUxrrODyMFqA04J
-	n7iBLL5TW42pidvS9S0MbYqa+A2Ch8FKR04HbgoXzroanJw7E83Vrxbv4Ye9eaUJH+Gf
-	oFunarj2C8FbbCzPR9Kd5KB1nCWJmXkXJ7JiV1L72cMhy9PKz8MyOf9pEriP+fQNAx+B
-	FDzA==
+	bh=I12+nxPiIkqpNBvd9MAGzL9KCyjRGx3hWj51YaQf+7k=;
+	b=hvf7JNxrCwG/B887tjOBeKJXmoFsnvKsHbTYk+NPsWE8FctFGStTIEQll6g7V4doH3
+	zJphoJUYYAulmQHZGMNEZITDY41ikpUYXlxMdbIc0GONtDa/uA2Dtyf9PMQdZIC++q1i
+	Rm0tUUNkpCDgJ3RLIhPmcRCZpGPmpHV8+MupdNi5X6yCdUU9eFJWDfEZVJo7EIMIxbQF
+	XHfSijqKG7b9A6C6b14ptMEn/TSk7LkWvPz6/hZoV6HO51/Chuj3+mjENff1d3GIpWgc
+	5o8fJcbKqVI1fcjFpG0zYFGy+kx/YAjglK0r9BoOP1Mxlb6wrq5hMsamCk49j3zGB4iy
+	YvRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:reply-to:sender:in-reply-to
 	:references:from:date:message-id:subject:to:cc;
-	bh=wZg70/Mf0E+Qdo8gaJttVwBfriiMJOBWSBKZyjb5Tz0=;
-	b=hznN+rsxHwPcS1dOBNsF0zrCHLYdiWOVZpKMjT/FF2yiFASwGTr0oxZg9l7m5R9GMM
-	1n4X13xVzErbRl94kLHjIhr/hFPp8Tl5uSgX71qTJSjc/HQ26LXgfs41a29bLPf0KsO7
-	377foSBkt68j22thKIcpK1jqIfXxK85myAUyZDecY6p0DuclcpZyZiwybBpYCiOZxsot
-	Opj+7m0+Vx+PywSl0EcgMA5oG7dla3vaDEUpqv5p/+3DW0afMxSFQGcYwb+gUoMFPSga
-	5QuX6Ep0DzNJK2S3/wlnnYP0bDGsp+MsykFXRwHb4RRdOf5OoMkrdZlyWf09AKXh5bAo
-	5qrg==
-X-Gm-Message-State: AOUpUlH8Cs6YaZcvjc/wYFnesNGONhxIBVZ/ipunfzn4VZyz2PZ9bLV5
-	OV9T4sV0O5OpaEm52bXmOsr898cf342zK873Ebc=
-X-Google-Smtp-Source: AAOMgpfRLTEZwzYeRM3pO3nRZkgK0k1o4Y3uI9PZKKuoNRXSkTrYI5UeOEH0z2hWMIkb/n3jPvbYw1YSPO6ie5WfcVI=
-X-Received: by 2002:a25:4103:: with SMTP id o3-v6mr8638951yba.48.1531755259256;
-	Mon, 16 Jul 2018 08:34:19 -0700 (PDT)
+	bh=I12+nxPiIkqpNBvd9MAGzL9KCyjRGx3hWj51YaQf+7k=;
+	b=ierbapgbpwt90YaCN36T9S2xQmlZiJIpqUPCFJo0e6cc9oOY14jOuHjIE1SIMxYt0e
+	borAsUOL+rvFWX0O/Bxff9CXMdEe1GkAoq/oUAH4WEZJJdnG6IKXKePUM6+HbvJbeYFl
+	rk1h1iqDy6vtcl+tqrbsjawG0QOr7CSa3ffaSj2g55EUG2BzLZV/P5MfvmaoAHjVdiQY
+	x4r775RwMg1+xHg6u3BFr/W61JkxW+6p5kVte9ffK/m3Hf3jJRaSiBBc83bhs6nEE4sv
+	ci8fF1qbXQVtMnh1V3nq914F5ZFGIjYG+LKibZGlV2jj5FvzZ4JwGZjvPJU9XMRZUByi
+	FszQ==
+X-Gm-Message-State: AOUpUlEqEPWsHyugAYI6z2ES6WPrPkLrOyN+9VmMJ/JN4w/LduEm964V
+	WCOt5QcJOZkG92Zj15DcRDIx0998GcLVA8qkRn0=
+X-Google-Smtp-Source: AAOMgpcaVhuKAy8a5z6ZuKFaI02Bddg/ajFC8gughmUOeSRcxVTl6atAVdT0p0+T0QwqiiHIADH0exJTexB6R0Mrntw=
+X-Received: by 2002:a25:ce49:: with SMTP id
+	x70-v6mr9164053ybe.18.1531755697442; 
+	Mon, 16 Jul 2018 08:41:37 -0700 (PDT)
 MIME-Version: 1.0
 Sender: asselsm@gmail.com
 Received: by 2002:a5b:612:0:0:0:0:0 with HTTP;
-	Mon, 16 Jul 2018 08:34:18 -0700 (PDT)
-In-Reply-To: <20180716093631.27024-3-hongl.fnst@cn.fujitsu.com>
+	Mon, 16 Jul 2018 08:41:36 -0700 (PDT)
+In-Reply-To: <20180716093631.27024-2-hongl.fnst@cn.fujitsu.com>
 References: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
-	<20180716093631.27024-3-hongl.fnst@cn.fujitsu.com>
+	<20180716093631.27024-2-hongl.fnst@cn.fujitsu.com>
 From: Mark Asselstine <mark.asselstine@windriver.com>
-Date: Mon, 16 Jul 2018 11:34:18 -0400
-X-Google-Sender-Auth: Ag2mOT-pcCz8x0XgjIxm5X2gfHw
-Message-ID: <CAPuovEK+=gbDkaF2t7=QS-kxfeeq9skkf9-xBHrVKZE8=YwSuA@mail.gmail.com>
+Date: Mon, 16 Jul 2018 11:41:36 -0400
+X-Google-Sender-Auth: 3Po7qPNIohKR9qC4Pyge_FIffR8
+Message-ID: <CAPuovEJ7sCGdzR9uh6SCO0cHQYCyaG+51WQTijotET2_-_pX9Q@mail.gmail.com>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] [meta-cloud-services][patch]:python-httpretty:0.8.14 -> 0.9.5
+Subject: Re: [PATCH] [meta-cloud-services][patch]:python-httplib2 : 0.10.3 -> 0.11.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,41 +76,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 15:35:21 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 15:41:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 On Mon, Jul 16, 2018 at 5:36 AM, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> 1.Upgrade python-httpretty from 0.8.14 to 0.9.5.
+> 1.Upgrade python-httplib2 from 0.10.3 to 0.11.3.
 >
 > Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
 
-This should be fine.
+Looking at the versions in requirements.txt for depends seems to
+indicate this should be OK.
 
-Mark
+MarkA
 
->  .../{python-httpretty_0.8.14.bb => python-httpretty_0.9.5.bb}       | 6 +++---
+
+>  .../python/{python-httplib2_0.10.3.bb => python-httplib2_0.11.3.bb} | 6 +++---
 >  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-httpretty_0.8.14.bb => python-httpretty_0.9.5.bb} (54%)
+>  rename meta-openstack/recipes-devtools/python/{python-httplib2_0.10.3.bb => python-httplib2_0.11.3.bb} (59%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-httpretty_0.8.14.bb b/meta-openstack/recipes-devtools/python/python-httpretty_0.9.5.bb
-> similarity index 54%
-> rename from meta-openstack/recipes-devtools/python/python-httpretty_0.8.14.bb
-> rename to meta-openstack/recipes-devtools/python/python-httpretty_0.9.5.bb
-> index a315fff..e39ad05 100644
-> --- a/meta-openstack/recipes-devtools/python/python-httpretty_0.8.14.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-httpretty_0.9.5.bb
-> @@ -5,10 +5,10 @@ DESCRIPTION = "HTTP client mock for Python"
->  HOMEPAGE = "https://pypi.python.org/pypi/httpretty"
+> diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb b/meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
+> similarity index 59%
+> rename from meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
+> rename to meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
+> index c5ced3f..f59aa5b 100644
+> --- a/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
+> @@ -2,10 +2,10 @@ DESCRIPTION = "A comprehensive HTTP client library"
+>  HOMEPAGE = "https://code.google.com/p/httplib2/"
 >  SECTION = "devel/python"
 >  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://COPYING;md5=88d874c445b42d9bcea5d211bbc6b8bd"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=113a91608a1d89039af9393c39bcaa2c"
+> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=41a98bc55b04b2a38acdb5c8ab0ae6b2"
+> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=4d159ceca4925adea3407818d4a87968"
 >
-> -SRC_URI[md5sum] = "2a6bbf270fafc77647b0479d95d0544c"
-> -SRC_URI[sha256sum] = "83c176bbac9d68a45a5cca54f2d5be7e6b16a063adf6f334e7fd0eee272e976e"
-> +SRC_URI[md5sum] = "e0e4294987c02181b1141c9ceb81783f"
-> +SRC_URI[sha256sum] = "543fa2bd9c319bfa1e1de9e37d7c9c08fa926a692b65b0be5df4b2f069fd0ad7"
+> -SRC_URI[md5sum] = "709c305e1b00e9c0af49ee816429569c"
+> -SRC_URI[sha256sum] = "e404d3b7bd86c1bc931906098e7c1305d6a3a6dcef141b8bb1059903abb3ceeb"
+> +SRC_URI[md5sum] = "9aa3e074da9a235cd675dd65e1fbcf39"
+> +SRC_URI[sha256sum] = "e71daed9a0e6373642db61166fa70beecc9bf04383477f84671348c02a04cbdf"
 >
 >  inherit setuptools pypi
 >
