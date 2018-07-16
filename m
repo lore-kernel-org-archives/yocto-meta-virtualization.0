@@ -1,6 +1,6 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5E586E014D7; Sun, 15 Jul 2018 18:33:03 -0700 (PDT)
+	id D1046E0163F; Mon, 16 Jul 2018 02:37:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,30 +12,30 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B3BEAE010FA
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0AF12E00D3D
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 15 Jul 2018 18:32:57 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42262289"
+	Mon, 16 Jul 2018 02:37:11 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42282883"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Jul 2018 09:32:56 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id E4C174B5CBEB
+	by heian.cn.fujitsu.com with ESMTP; 16 Jul 2018 17:37:04 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id C89934B66C12
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Jul 2018 09:32:51 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Mon, 16 Jul 2018 09:32:56 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+	Mon, 16 Jul 2018 17:37:04 +0800 (CST)
+Received: from localhost.local (10.167.225.78) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.399.0; Mon, 16 Jul 2018 17:37:05 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 16 Jul 2018 09:32:48 +0800
-Message-ID: <1531704768-17848-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Date: Mon, 16 Jul 2018 17:36:28 +0800
+Message-ID: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: E4C174B5CBEB.A9403
+X-Originating-IP: [10.167.225.78]
+X-yoursite-MailScanner-ID: C89934B66C12.ABB89
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Subject: [PATCH v2] criu: upgrade to 3.9
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+Subject: [PATCH] [meta-cloud-services][patch] python-amqp : 2.2.2 -> 2.3.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,72 +48,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 01:33:03 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 09:37:15 -0000
 Content-Type: text/plain
 
-1) Upgrade criu from 3.4 to 3.9.
+Upgrade python-amqp from 2.2.2 to 2.3.2.
 
-2) Delete fix-building-on-newest-glibc-and-kernel.patch for it has been merged in upstream.
-
-3) Add CFLAGS_arm += "-D__WORDSIZE"
-   add this CFLAGS to solve the compile problem for arm.
-   The log is as following:
-   | ....../tmp/work/armv5e-poky-linux-gnueabi/criu/3.9+gitAUTOINC+202b7745bd-r0/recipe-sysroot/usr/include/bits/wordsize.h:36:2: error: #error "__WORDSIZE is not defined"
-   |  #error "__WORDSIZE is not defined"
-   |   ^
-   | ....../tmp/work/armv5e-poky-linux-gnueabi/criu/3.9+gitAUTOINC+202b7745bd-r0/recipe-sysroot/usr/include/bits/wordsize.h:59:2: error: #
-
-4) Add export C_INCLUDE_PATH="${STAGING_INCDIR}/libnl3"
-   add C_INCLUDE_PATH to solve the compile problem for arm.
-   which is libnetlink.c can't find head file.
-   
-   | In file included from criu/libnetlink.c:5:
-   | ....../tmp/work/armv5e-p
-   | oky-linux-gnueabi/criu/3.9+gitAUTOINC+202b7745bd-r0/recipe-sysroot/usr/include/libnl3/netlink/attr.h:15:10: fatal error: netlink/netlink.h: No such file or directory  #include <netlink/netlink.h>
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- recipes-containers/criu/{criu_git.bb => criu_3.9.bb} | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
- rename recipes-containers/criu/{criu_git.bb => criu_3.9.bb} (94%)
+ .../python/{python-amqp_2.2.2.bb => python-amqp_2.3.2.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-amqp_2.2.2.bb => python-amqp_2.3.2.bb} (68%)
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_3.9.bb
-similarity index 94%
-rename from recipes-containers/criu/criu_git.bb
-rename to recipes-containers/criu/criu_3.9.bb
-index 7d62f35..36c356d 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_3.9.bb
-@@ -13,15 +13,14 @@ EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb b/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+similarity index 68%
+rename from meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb
+rename to meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+index 94979d3..395c81e 100644
+--- a/meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb
++++ b/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+@@ -4,8 +4,8 @@ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9d6ba772ac59c08a25a12ce15bd5f27b"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
+-SRC_URI[md5sum] = "0971a3fd2d635ded45c349cfc17106bd"
+-SRC_URI[sha256sum] = "cba1ace9d4ff6049b190d8b7991f9c1006b443a5238021aca96dd6ad2ac9da22"
++SRC_URI[md5sum] = "11fce0d01f4ee6886a02415c20cece80"
++SRC_URI[sha256sum] = "073dd02fdd73041bffc913b767866015147b61f2a9bc104daef172fc1a0066eb"
  
--SRCREV = "a31c1854e10580a09621e539c3ec052b875a8e06"
--PV = "3.4+git${SRCPV}"
-+SRCREV = "202b7745bd0c37a1732ebe2fb009a157d338bf95"
-+PV = "3.9+git${SRCPV}"
+ inherit setuptools pypi
  
- SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
-            file://0001-criu-Fix-toolchain-hardcode.patch \
-            file://0002-criu-Skip-documentation-install.patch \
-            file://0001-criu-Change-libraries-install-directory.patch \
-            file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
--           file://fix-building-on-newest-glibc-and-kernel.patch \
-           "
- 
- COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
-@@ -46,9 +45,11 @@ EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unit
- CFLAGS += "-D__USE_GNU -D_GNU_SOURCE " 
- 
- CFLAGS += " -I${STAGING_INCDIR} -I${STAGING_INCDIR}/libnl3"
-+CFLAGS_arm += "-D__WORDSIZE"
- 
- # overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
- export LDFLAGS=""
-+export C_INCLUDE_PATH="${STAGING_INCDIR}/libnl3"
- 
- export BUILD_SYS
- export HOST_SYS
 -- 
 2.7.4
 
