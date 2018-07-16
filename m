@@ -1,6 +1,6 @@
 Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D1046E0163F; Mon, 16 Jul 2018 02:37:15 -0700 (PDT)
+	id D9396E0163F; Mon, 16 Jul 2018 02:37:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,30 +12,32 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0AF12E00D3D
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3317BE00D5F
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Jul 2018 02:37:11 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42282883"
+	Mon, 16 Jul 2018 02:37:12 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="42282885"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 16 Jul 2018 17:37:04 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id C89934B66C12
+	by cn.fujitsu.com (Postfix) with ESMTP id 5EBAC4B66C17
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 16 Jul 2018 17:37:04 +0800 (CST)
+	Mon, 16 Jul 2018 17:37:05 +0800 (CST)
 Received: from localhost.local (10.167.225.78) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.399.0; Mon, 16 Jul 2018 17:37:05 +0800
+	Server (TLS) id 14.3.399.0; Mon, 16 Jul 2018 17:37:06 +0800
 From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 16 Jul 2018 17:36:28 +0800
-Message-ID: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
+Date: Mon, 16 Jul 2018 17:36:29 +0800
+Message-ID: <20180716093631.27024-2-hongl.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.14.3
+In-Reply-To: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
+References: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: C89934B66C12.ABB89
+X-yoursite-MailScanner-ID: 5EBAC4B66C17.A0672
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-Subject: [PATCH] [meta-cloud-services][patch] python-amqp : 2.2.2 -> 2.3.2
+Subject: [PATCH] [meta-cloud-services][patch]:python-httplib2 : 0.10.3 -> 0.11.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,32 +50,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Jul 2018 09:37:15 -0000
+X-List-Received-Date: Mon, 16 Jul 2018 09:37:16 -0000
 Content-Type: text/plain
 
-Upgrade python-amqp from 2.2.2 to 2.3.2.
+1.Upgrade python-httplib2 from 0.10.3 to 0.11.3.
 
 Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- .../python/{python-amqp_2.2.2.bb => python-amqp_2.3.2.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-amqp_2.2.2.bb => python-amqp_2.3.2.bb} (68%)
+ .../python/{python-httplib2_0.10.3.bb => python-httplib2_0.11.3.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-httplib2_0.10.3.bb => python-httplib2_0.11.3.bb} (59%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb b/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
-similarity index 68%
-rename from meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb
-rename to meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
-index 94979d3..395c81e 100644
---- a/meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
-@@ -4,8 +4,8 @@ SECTION = "devel/python"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=9d6ba772ac59c08a25a12ce15bd5f27b"
+diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb b/meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
+similarity index 59%
+rename from meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
+rename to meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
+index c5ced3f..f59aa5b 100644
+--- a/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
++++ b/meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
+@@ -2,10 +2,10 @@ DESCRIPTION = "A comprehensive HTTP client library"
+ HOMEPAGE = "https://code.google.com/p/httplib2/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://PKG-INFO;md5=41a98bc55b04b2a38acdb5c8ab0ae6b2"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=4d159ceca4925adea3407818d4a87968"
  
--SRC_URI[md5sum] = "0971a3fd2d635ded45c349cfc17106bd"
--SRC_URI[sha256sum] = "cba1ace9d4ff6049b190d8b7991f9c1006b443a5238021aca96dd6ad2ac9da22"
-+SRC_URI[md5sum] = "11fce0d01f4ee6886a02415c20cece80"
-+SRC_URI[sha256sum] = "073dd02fdd73041bffc913b767866015147b61f2a9bc104daef172fc1a0066eb"
+-SRC_URI[md5sum] = "709c305e1b00e9c0af49ee816429569c"
+-SRC_URI[sha256sum] = "e404d3b7bd86c1bc931906098e7c1305d6a3a6dcef141b8bb1059903abb3ceeb"
++SRC_URI[md5sum] = "9aa3e074da9a235cd675dd65e1fbcf39"
++SRC_URI[sha256sum] = "e71daed9a0e6373642db61166fa70beecc9bf04383477f84671348c02a04cbdf"
  
  inherit setuptools pypi
  
