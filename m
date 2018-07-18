@@ -1,6 +1,6 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 54A45E015E8; Wed, 18 Jul 2018 14:59:55 -0700 (PDT)
+	id 0DEE8E015E8; Wed, 18 Jul 2018 15:03:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.160.66 listed in list.dnswl.org]
+	*      [209.85.215.195 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,51 +19,52 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-pl0-f66.google.com (mail-pl0-f66.google.com
-	[209.85.160.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4FCEFE00AC5
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6CBC0E00AC5
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Jul 2018 14:59:54 -0700 (PDT)
-Received: by mail-pl0-f66.google.com with SMTP id f6-v6so2634631plo.1
+	Wed, 18 Jul 2018 15:03:57 -0700 (PDT)
+Received: by mail-pg1-f195.google.com with SMTP id n7-v6so2608576pgq.4
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Jul 2018 14:59:54 -0700 (PDT)
+	Wed, 18 Jul 2018 15:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=/Gp9PowapUDt0A8tYbxZzrKiredxwnmm6eE/i43ifDs=;
-	b=tuCu1siqiQGh9kuxNVYXhOqlP4yhsFE+RxXRapHB0V9+BoutG1o/oNETac4rZZ5jEl
-	5GnnJ38qxDRAuEyM+vgRfsX/RhbB3I1YC/3aYdJrS0zaDQjm3hXqwC7NNWAh0Opc0RYs
-	3YcJ4aV7oPiLsACjeRgogNvuFq4LbpAmXmumD6UD4k+vsHKU6fNwdzfn3djIFJfmuSms
-	9TlLkJpF+gdS79KsK2m2gKjaEAWJxoEtG7xnGTgb+7xvOivunE8Ly1a5s/DT/Of+rouI
-	67Qy1Ao0W9Al4NJNaROoEGLysol1kTcKm/OUcUkqtUfd1dsaCBRErWIjrVBz6hfA901X
-	guTA==
+	bh=BeN/HzcHhgw9LPp7iVKkKQeDSqznOpnLJur9OboDd68=;
+	b=dlfs4TcpUUW8SlvML0cm4NI1IxtYa6f2wyN4Vn8e/EaDSoIurfKryCazVMxgDvQ3GB
+	zdRuohn/z8/88CdvaNOoA7G6W2xPUeNt1RB7HXKZNOFGXPx+diGNGLmFZPZnvIy5LX3X
+	xtRI/aMvcWO4iWJqyCl/vZzYcECd/84Rcn7vZOPxx/v4qc8qlBUOu+VCiINTOKM1o+ZB
+	t5fLa8AhlgDrA6PmYlYjFtMTToNAiX9U4hhI9pWGc6gZumn14JIkrGVpn65+WUSMStbC
+	p6Yh+SiAtoAVZ+YwNo0TdFiTteDYrIvYOFljXo09ADUwIYZShyk//IpRPivqqOUVJ9xT
+	59hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/Gp9PowapUDt0A8tYbxZzrKiredxwnmm6eE/i43ifDs=;
-	b=QZV+FzLq4eOQFcaUyh7kuX66ivGE4mkoa9rwTnplx7bNKnCZ6x9M3QPe6B4nRhtVJ9
-	K1TA22gGbo8EqC+2L3CM5yIJjmOFFjtz/9r8k2wD0KWmsSpU1gymAvt/c1WnmbRboJop
-	GMArWw7ceRNgTDNgXcw2IIZU18Q/QF1/jb/dQQx0JahDEwvSWnvy7tKTbqYmCoYCoTpC
-	t9vjfB+hcowj/Fpa554UZZd/3ezcMtsgaDlmUiTodUhAEOlw4je9i5X39U0X6/9ybCEf
-	7G93xpjglBvEt+BYqhyuVeUJFRi3xQTBIkxJA4DNp7JYR6Eo7pQbHN+4NO5oPhKU4rmM
-	9mqQ==
-X-Gm-Message-State: AOUpUlFOAa4VhZIcnYxBF43aXCJoPlPgJ5cyB0nwX3RrJs9K3VTYgWQA
-	kLOAV4lA/+TgGJJaZnc5E8yosmtu
-X-Google-Smtp-Source: AAOMgpej7RiN5wpyfr8vCuVFptgM6s99Kxy4/fzIXKH6LtAzphRWK/krdEqqi+HFMN2aTB84LtcFbg==
-X-Received: by 2002:a17:902:59da:: with SMTP id
-	d26-v6mr7530406plj.42.1531951193544; 
-	Wed, 18 Jul 2018 14:59:53 -0700 (PDT)
+	bh=BeN/HzcHhgw9LPp7iVKkKQeDSqznOpnLJur9OboDd68=;
+	b=n4Co3eZwl82XHrNfXsEqkAXGZz4Mee+vcm/WAFFLqTZo8R91vBfHuoT68bZpNqwBF/
+	ntk8yEf8zQzt+RjMxyvoT5IU3lTB0ovPNbWpNd9HNxUccUFWAKovSUNaNI6h5M4up2F9
+	Voty8cUU7doMDX0XS247zTvrZ1llTCMLwt5QZgVyVJz5lofmKquZKhlEsS7eKiJDBq+X
+	mpwN3bVZ4J/QYW8rNJfrPtaSV/6vKVHW6GC1v4HNWYRwQYdLv04l8owNjuCQ9AniUJvK
+	2B+N4Gl4i3UcujvO8J1qQTFbw8GoQ07yEw9wkYd3ctDnVyzb/dgIz7/fOrGKoMMepbEs
+	TFfw==
+X-Gm-Message-State: AOUpUlEfCGIOUFoQ2EEpBojM6lGxK798L8Tj4ZZvKiNhMPIVIcJcO97A
+	mJQJHpzMgxgzIEGUHZ5lwtu+VlnJ
+X-Google-Smtp-Source: AAOMgpe+uNaCC3QymOUGuqUvXuGtt4JIhPRCGxELVHVWv3PDq/4VGacRaowYS9S8/KmM1nhkhnYYig==
+X-Received: by 2002:a63:be4a:: with SMTP id
+	g10-v6mr7283339pgo.378.1531951436608; 
+	Wed, 18 Jul 2018 15:03:56 -0700 (PDT)
 Received: from WorkStation-T3500.ice.pyrology.org
 	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
-	h24-v6sm10626745pfk.113.2018.07.18.14.59.51
+	h7-v6sm19341965pfd.155.2018.07.18.15.03.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 18 Jul 2018 14:59:52 -0700 (PDT)
+	Wed, 18 Jul 2018 15:03:55 -0700 (PDT)
 From: christopher.w.clark@gmail.com
 To: meta-virtualization@yoctoproject.org
-Date: Wed, 18 Jul 2018 14:59:44 -0700
-Message-Id: <1531951184-11446-1-git-send-email-christopher.w.clark@gmail.com>
+Date: Wed, 18 Jul 2018 15:03:41 -0700
+Message-Id: <1531951428-28983-1-git-send-email-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] seabios: fix SRC_URI from coreboot.org to avoid fetch failure
+Cc: cardoe@gentoo.org
+Subject: [PATCH 0/7] Xen: upgrade to 4.11.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,35 +77,73 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 21:59:55 -0000
+X-List-Received-Date: Wed, 18 Jul 2018 22:03:58 -0000
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Remove '/get/' from the seabios SRC_URI at coreboot.org.
+This patch series:
+* Fixes Xen recipe compatibility with gcc 8.1
+* Adds the Xen recipe for Xen's current version: 4.11.0
+* Upgrades the existing Xen recipe from 4.10.0 to 4.10.1
+    - provided to ease backport to older branches (eg. sumo)
+* Removes the 4.10.1 and 4.9.1 recipes
+    - superceded by version 4.11.0
+* Upgrades the vtpm stubdomains to Xen version 4.11.0
+* Applies a bug fix patch to the tpm emulator
+* Fixes whitespace patch fuzz on a vtpm patch
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
-Please use my gmail address for any correspondence to me.
+Christopher Clark (7):
+  xen: upgrade to 4.10.1, and apply patches for gcc 8.1 compatibility
+  xen: add recipe for 4.11.0
+  tpm-emulator: apply patch to fix memcmp defect found by gcc
+  xen-vtpm,mini-os : upgrade to Xen 4.11.0
+  xen-vtpm : fix patch fuzz, whitespace-only change
+  xen: remove 4.9.1 recipe and patches
+  xen: remove 4.10.1 recipe and patches
 
-The previous SRC_URI in the seabios recipe which includes "/get/"
-is causing fetcher failure (results in 404 Not Found).
+ ...check-to-see-if-removing-a-p2m-entry-actu.patch | 176 ---------------------
+ ...eturn-value-of-p2m_set_entry-when-decreas.patch | 109 -------------
+ .../xen/files/build-undef-object-vars.patch        |  24 +++
+ .../xen/files/mini-os_udivmoddi4-gcc7.patch        |  43 -----
+ .../xen/files/tools-xentop-vwprintw.patch          |  25 +++
+ .../xen/files/vtpm-deepquote-anyloc.patch          |   8 +-
+ .../xen/files/vtpm_TPM_ChangeAuthAsymFinish.patch  |  28 ++++
+ recipes-extended/xen/files/xsa246-4.9.patch        |  74 ---------
+ recipes-extended/xen/files/xsa248.patch            | 164 -------------------
+ recipes-extended/xen/files/xsa249.patch            |  42 -----
+ recipes-extended/xen/files/xsa250.patch            |  67 --------
+ recipes-extended/xen/files/xsa251.patch            |  21 ---
+ recipes-extended/xen/files/xsa253.patch            |  26 ---
+ recipes-extended/xen/mini-os_4.11.0.bb             |  17 ++
+ recipes-extended/xen/mini-os_4.9.0.bb              |  18 ---
+ recipes-extended/xen/tpm-emulator_0.7.4.bb         |   1 +
+ recipes-extended/xen/xen-vtpm_4.11.0.bb            |  21 +++
+ recipes-extended/xen/xen-vtpm_4.9.0.bb             |  21 ---
+ recipes-extended/xen/xen.inc                       |   7 +
+ recipes-extended/xen/xen_4.10.0.bb                 |  12 --
+ recipes-extended/xen/xen_4.11.0.bb                 |  13 ++
+ recipes-extended/xen/xen_4.9.1.bb                  |  18 ---
+ 22 files changed, 140 insertions(+), 795 deletions(-)
+ delete mode 100644 recipes-extended/xen/files/0001-p2m-Always-check-to-see-if-removing-a-p2m-entry-actu.patch
+ delete mode 100644 recipes-extended/xen/files/0002-p2m-Check-return-value-of-p2m_set_entry-when-decreas.patch
+ create mode 100644 recipes-extended/xen/files/build-undef-object-vars.patch
+ delete mode 100644 recipes-extended/xen/files/mini-os_udivmoddi4-gcc7.patch
+ create mode 100644 recipes-extended/xen/files/tools-xentop-vwprintw.patch
+ create mode 100644 recipes-extended/xen/files/vtpm_TPM_ChangeAuthAsymFinish.patch
+ delete mode 100644 recipes-extended/xen/files/xsa246-4.9.patch
+ delete mode 100644 recipes-extended/xen/files/xsa248.patch
+ delete mode 100644 recipes-extended/xen/files/xsa249.patch
+ delete mode 100644 recipes-extended/xen/files/xsa250.patch
+ delete mode 100644 recipes-extended/xen/files/xsa251.patch
+ delete mode 100644 recipes-extended/xen/files/xsa253.patch
+ create mode 100644 recipes-extended/xen/mini-os_4.11.0.bb
+ delete mode 100644 recipes-extended/xen/mini-os_4.9.0.bb
+ create mode 100644 recipes-extended/xen/xen-vtpm_4.11.0.bb
+ delete mode 100644 recipes-extended/xen/xen-vtpm_4.9.0.bb
+ delete mode 100644 recipes-extended/xen/xen_4.10.0.bb
+ create mode 100644 recipes-extended/xen/xen_4.11.0.bb
+ delete mode 100644 recipes-extended/xen/xen_4.9.1.bb
 
- recipes-extended/seabios/seabios_1.9.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/recipes-extended/seabios/seabios_1.9.1.bb b/recipes-extended/seabios/seabios_1.9.1.bb
-index 144b13c..9206046 100644
---- a/recipes-extended/seabios/seabios_1.9.1.bb
-+++ b/recipes-extended/seabios/seabios_1.9.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "LGPLv3"
- SECTION = "firmware"
- 
- SRC_URI = " \
--    https://code.coreboot.org/p/seabios/downloads/get/${PN}-${PV}.tar.gz \
-+    https://code.coreboot.org/p/seabios/downloads/${PN}-${PV}.tar.gz \
-     file://hostcc.patch \
-     "
- 
 -- 
 2.7.4
 
