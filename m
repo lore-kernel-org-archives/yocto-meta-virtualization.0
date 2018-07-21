@@ -1,75 +1,70 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2E206E015EB; Wed, 18 Jul 2018 15:04:11 -0700 (PDT)
+	id 05D87E00DE3; Fri, 20 Jul 2018 17:25:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.192.178 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (christopher.w.clark[at]gmail.com)
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.174 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-pf0-f178.google.com (mail-pf0-f178.google.com
-	[209.85.192.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B7F29E015E8
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+	[209.85.208.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 22B10E0080A
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Jul 2018 15:04:09 -0700 (PDT)
-Received: by mail-pf0-f178.google.com with SMTP id i26-v6so2825165pfo.12
+	Fri, 20 Jul 2018 17:25:18 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id q127-v6so12419314ljq.11
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Jul 2018 15:04:09 -0700 (PDT)
+	Fri, 20 Jul 2018 17:25:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=/YVcGZquo12fxt5UapMDau1AkpmUqX9uQNIFeU20hc8=;
-	b=YkKO55YRQRtNsVj1eDRDkwzngybIXtPJNi/8EkUq6rcVFQPvTlq/xU8apEA5BWQ0M8
-	wCcua56dasbwj23Q1rSFioNClHBBPGelNNJ/5AGObsXSx4+YFDEfUqU1Azy0nEGGbZh3
-	XkHSpbPbZRyBMujLBSx9dkVmy1lYb1ShgQyf9kkhedHxSJMDIEimflgj6uRLPIx9+P0u
-	qZeO9ov7gqDkvDqV760d4RNRKOChLtaTyimmjvxLAhP1q7Ua9JS6CJXuVLC940qQW+jy
-	yfgf4V4rOZs2SBqRyDF2HkCsYgKZ/lLy6mmQ1wsDGp9aC8VsC3tzRXQGqpNCQU1akk+y
-	+Bkg==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=tT/Uxw6HW6v+AgE6/NRYY9xs6t1IZAINDyI4gErbwuU=;
+	b=H8u1gomhzrdJ6KjD7fnhaCfWZkU81QdJZTYXXvldQuL5jKN5UEiIwqN7u+36mFI2vR
+	hCM3CyoRs0CimsIrUDsLUZJSxGN1jOESOwbnsZRwsTaoYlXzzZOuaTw+bIyOKTvDkA/x
+	X5QTfvaiKXAYEH0MoPlwG/CRWvLkLnYhLlJqfv9YqV26t5qp11tKb+bPcUepuNq4Cvvw
+	4FBt8Cg9zrvun9SZ+yGb04Ym7X4OJXTt0vvIRpArFu5MJR6V+ED29vnMyrcj4t1swhxL
+	01776MZ5tyiRkjt0TJk+tJyxFfHK1ULlnP4A5muFsugCvJVCwibGXiQRJFXfypPMtrGG
+	2qrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=/YVcGZquo12fxt5UapMDau1AkpmUqX9uQNIFeU20hc8=;
-	b=QP/+ZHHmhjHTYmFPXYcYOIAbA2OQOkVlTX3oNVmGkFR3bDKjJE01pancCCw6ZZs4XD
-	9dcykBO9fY7OPUlBjOpq6tUlGIiwuvmQpOXNLE85DW+BmwxYPHna8kqWWRXPu9dbRjPs
-	rUwvPbf88wPgeVvDP7VIZjpahKWcaAdaO616PDPwx9Hd6eebbkLMIJgVn3goaMQc1Eui
-	+aSE/hB+B7GZNs/k1JKJSsN6yAR10JIZVFjOKps6pAgv/9zikcowb6uCiAmnZ9rDWcB1
-	kPHtumdZrekKQavV0IXthJFwb8/fPbLxF8iQL0oz0meeePe+yLBvWCqvXmv26d4v4OBM
-	hstQ==
-X-Gm-Message-State: AOUpUlHHZwt2Zl0cUDH1h633Q4hxtBKAqQshCsDY+FsAF+6OlHJ3m1Ti
-	St5jV6in2nul79l5SbS/ttom4wIa
-X-Google-Smtp-Source: AAOMgpf2dlhAn9yFrdvCjVvIHgxGoz2hb9/uRyNODbdiW+/cnqsmYR9bWHPWoMJYKoqp9Ej44QDeVw==
-X-Received: by 2002:a62:c819:: with SMTP id
-	z25-v6mr6814469pff.44.1531951448694; 
-	Wed, 18 Jul 2018 15:04:08 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	h7-v6sm19341965pfd.155.2018.07.18.15.04.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 18 Jul 2018 15:04:07 -0700 (PDT)
-From: christopher.w.clark@gmail.com
-To: meta-virtualization@yoctoproject.org
-Date: Wed, 18 Jul 2018 15:03:48 -0700
-Message-Id: <1531951428-28983-8-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.7.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=tT/Uxw6HW6v+AgE6/NRYY9xs6t1IZAINDyI4gErbwuU=;
+	b=BLF1svU8Re/rUNhUuMp0UQFCN0QKTQvNw1zWVCBSGmwp64AUiRRDNXBUYH7SO5cmXW
+	6s1wsR3tp6VWy1O34XRZ4Fue+3ssbMlFyUcfsC6VecqcGuxBkVanfvGV9yTshTCx3RAS
+	BDy9MbGkb6kQ1XQ2w2AcLlixzGBOt0SohqehzI+75bfCdFiLVtmvqVq57K941HNyxAG+
+	5zYZ87NPBCpIeAFgU/VaDpJJdLUhKklNOPfJWoAmVv0anAhTuczG1305V4U+ZMXcHj0k
+	7MxWOI662eYu7tJFw1lXj+Lf4FJvLhszqlZmQAd2kN7L9Wztf3aECtYlRr44R6Y3NUWe
+	rQnw==
+X-Gm-Message-State: AOUpUlFzB2pnou5swb37YmRNN+LXwnxw18OpsZEUq9eOu2KJSqDd7iTz
+	0gNtYCOeDpco51RCWA/+2fqclR9AdadbdVTlwaKDRnvQ
+X-Google-Smtp-Source: AAOMgpeLTNlTz9ToHXI9VGngcvAkZBOW71QpmUSipen0Fr2VoTBqQoGEDHfbpoXtXZOUlvOoj7q4+7lCJ4kOqZ24YVg=
+X-Received: by 2002:a2e:2d2:: with SMTP id
+	y79-v6mr2814623lje.100.1532132717812; 
+	Fri, 20 Jul 2018 17:25:17 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:1955:0:0:0:0:0 with HTTP; Fri, 20 Jul 2018 17:25:17
+	-0700 (PDT)
 In-Reply-To: <1531951428-28983-1-git-send-email-christopher.w.clark@gmail.com>
 References: <1531951428-28983-1-git-send-email-christopher.w.clark@gmail.com>
-MIME-Version: 1.0
-Cc: cardoe@gentoo.org
-Subject: [PATCH 7/7] xen: remove 4.10.1 recipe and patches
+From: Christopher Clark <christopher.w.clark@gmail.com>
+Date: Fri, 20 Jul 2018 17:25:17 -0700
+Message-ID: <CACMJ4GbRicDU5iMyLyYN8QrzbYTvZq-+R4uDAMsDREzxU3VcmA@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Cc: Doug Goldstein <cardoe@gentoo.org>
+Subject: Re: [PATCH 0/7] Xen: upgrade to 4.11.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -82,398 +77,77 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Jul 2018 22:04:11 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 21 Jul 2018 00:25:20 -0000
+Content-Type: multipart/alternative; boundary="00000000000064debf057177728f"
 
-From: Christopher Clark <christopher.w.clark@gmail.com>
+--00000000000064debf057177728f
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystem.com>
----
-Please use my gmail address for any correspondence to me.
+On Wed, Jul 18, 2018 at 3:03 PM, <christopher.w.clark@gmail.com> wrote:
 
- ...ls-gdbsx-fix-Wstringop-truncation-warning.patch | 41 ------------
- ...tools-kdd-mute-spurious-gcc-warning-part1.patch | 47 --------------
- ...tools-kdd-mute-spurious-gcc-warning-part2.patch | 52 ---------------
- .../xen/files/tools-libxc-fix-strncpy-size.patch   | 44 -------------
- ...ols-misc-fix-hypothetical-buffer-overflow.patch | 46 --------------
- .../tools-xenpmd-fix-possible-0-truncation.patch   | 74 ----------------------
- recipes-extended/xen/xen_4.10.1.bb                 | 19 ------
- 7 files changed, 323 deletions(-)
- delete mode 100644 recipes-extended/xen/files/tools-gdbsx-fix-Wstringop-truncation-warning.patch
- delete mode 100644 recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part1.patch
- delete mode 100644 recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part2.patch
- delete mode 100644 recipes-extended/xen/files/tools-libxc-fix-strncpy-size.patch
- delete mode 100644 recipes-extended/xen/files/tools-misc-fix-hypothetical-buffer-overflow.patch
- delete mode 100644 recipes-extended/xen/files/tools-xenpmd-fix-possible-0-truncation.patch
- delete mode 100644 recipes-extended/xen/xen_4.10.1.bb
+> From: Christopher Clark <christopher.w.clark@gmail.com>
+>
+> This patch series:
+> * Fixes Xen recipe compatibility with gcc 8.1
+> * Adds the Xen recipe for Xen's current version: 4.11.0
+> * Upgrades the existing Xen recipe from 4.10.0 to 4.10.1
+>     - provided to ease backport to older branches (eg. sumo)
+> * Removes the 4.10.1 and 4.9.1 recipes
+>     - superceded by version 4.11.0
+> * Upgrades the vtpm stubdomains to Xen version 4.11.0
+> * Applies a bug fix patch to the tpm emulator
+> * Fixes whitespace patch fuzz on a vtpm patch
+>
+> Christopher Clark (7):
+>   xen: upgrade to 4.10.1, and apply patches for gcc 8.1 compatibility
+>   xen: add recipe for 4.11.0
+>   tpm-emulator: apply patch to fix memcmp defect found by gcc
+>   xen-vtpm,mini-os : upgrade to Xen 4.11.0
+>   xen-vtpm : fix patch fuzz, whitespace-only change
+>   xen: remove 4.9.1 recipe and patches
+>   xen: remove 4.10.1 recipe and patches
+>
+>
+Please hold off on merging this series for now as I'm intending to send a
+slightly updated version of it (should be next week).
 
-diff --git a/recipes-extended/xen/files/tools-gdbsx-fix-Wstringop-truncation-warning.patch b/recipes-extended/xen/files/tools-gdbsx-fix-Wstringop-truncation-warning.patch
-deleted file mode 100644
-index 2896d9f..0000000
---- a/recipes-extended/xen/files/tools-gdbsx-fix-Wstringop-truncation-warning.patch
-+++ /dev/null
-@@ -1,41 +0,0 @@
--From 7f601f7c341c80d554615556d60e3b8ed1e5ad4f Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
-- <marmarek@invisiblethingslab.com>
--Date: Thu, 5 Apr 2018 03:50:54 +0200
--Subject: [PATCH] tools/gdbsx: fix -Wstringop-truncation warning
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--gcc-8 complains:
--
--    gx_main.c: In function 'prepare_stop_reply':
--    gx_main.c:385:9: error: 'strncpy' output truncated before terminating nul copying 6 bytes from a string of the same length [-Werror=stringop-truncation]
--             strncpy(buf, "watch:", 6);
--             ^~~~~~~~~~~~~~~~~~~~~~~~~
--
--Since terminating '\0' isn't needed here at all, switch to memcpy.
--
--Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
--Acked-by: Wei Liu <wei.liu2@citrix.com>
--Release-Acked-by: Juergen Gross <jgross@suse.com>
-----
-- tools/debugger/gdbsx/gx/gx_main.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/debugger/gdbsx/gx/gx_main.c b/tools/debugger/gdbsx/gx/gx_main.c
--index a908c45..6dfa501 100644
----- a/tools/debugger/gdbsx/gx/gx_main.c
--+++ b/tools/debugger/gdbsx/gx/gx_main.c
--@@ -382,7 +382,7 @@ prepare_stop_reply(enum target_signal sig, char *buf, vcpuid_t vcpu)
-- 
--     /* TBD: check if we stopped because of watchpoint */
--     if (watchpoint_stop()) {
---        strncpy(buf, "watch:", 6);
--+        memcpy(buf, "watch:", 6);
--         buf += 6;
--         /* TBD: **/
--     }
---- 
--2.7.4
--
-diff --git a/recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part1.patch b/recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part1.patch
-deleted file mode 100644
-index f94d22c..0000000
---- a/recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part1.patch
-+++ /dev/null
-@@ -1,47 +0,0 @@
--From 437e00fea04becc91c1b6bc1c0baa636b067a5cc Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
-- <marmarek@invisiblethingslab.com>
--Date: Thu, 5 Apr 2018 03:50:55 +0200
--Subject: [PATCH] tools/kdd: mute spurious gcc warning
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--gcc-8 complains:
--
--    kdd.c:698:13: error: 'memcpy' offset [-204, -717] is out of the bounds [0, 216] of object 'ctrl' with type 'kdd_ctrl' {aka 'union <anonymous>'} [-Werror=array-bounds]
--                 memcpy(buf, ((uint8_t *)&ctrl.c32) + offset, len);
--                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--    kdd.c: In function 'kdd_select_callback':
--    kdd.c:642:14: note: 'ctrl' declared here
--         kdd_ctrl ctrl;
--                  ^~~~
--
--But this is impossible - 'offset' is unsigned and correctly validated
--few lines before.
--
--Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
--Acked-by: Wei Liu <wei.liu2@citrix.com>
--Release-Acked-by: Juergen Gross <jgross@suse.com>
-----
-- tools/debugger/kdd/kdd.c | 3 +++
-- 1 file changed, 3 insertions(+)
--
--diff --git a/tools/debugger/kdd/kdd.c b/tools/debugger/kdd/kdd.c
--index 1bd5dd5..61d769e 100644
----- a/tools/debugger/kdd/kdd.c
--+++ b/tools/debugger/kdd/kdd.c
--@@ -695,7 +695,10 @@ static void kdd_handle_read_ctrl(kdd_state *s)
--             KDD_LOG(s, "Request outside of known control space\n");
--             len = 0;
--         } else {
--+#pragma GCC diagnostic push
--+#pragma GCC diagnostic ignored "-Warray-bounds"
--             memcpy(buf, ((uint8_t *)&ctrl.c32) + offset, len);
--+#pragma GCC diagnostic pop
--         }
--     }
-- 
---- 
--2.7.4
--
-diff --git a/recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part2.patch b/recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part2.patch
-deleted file mode 100644
-index afd1423..0000000
---- a/recipes-extended/xen/files/tools-kdd-mute-spurious-gcc-warning-part2.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From 2de2b10b2252761baa5dd0077df384dbfcca8212 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
-- <marmarek@invisiblethingslab.com>
--Date: Tue, 22 May 2018 21:47:45 +0200
--Subject: [PATCH] tools/kdd: alternative way of muting spurious gcc warning
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Older gcc does not support #pragma GCC diagnostics, so use alternative
--approach - change variable type to uint32_t (this code handle 32-bit
--requests only anyway), which apparently also avoid gcc complaining about
--this (otherwise correct) code.
--
--Fixes 437e00fea04becc91c1b6bc1c0baa636b067a5cc "tools/kdd: mute spurious
--gcc warning"
--
--Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
--Acked-by: Wei Liu <wei.liu2@citrix.com>
--Release-acked-by: Juergen Gross <jgross@suse.com>
--Acked-by: Tim Deegan <tim@xen.org>
-----
-- tools/debugger/kdd/kdd.c | 5 +----
-- 1 file changed, 1 insertion(+), 4 deletions(-)
--
--diff --git a/tools/debugger/kdd/kdd.c b/tools/debugger/kdd/kdd.c
--index 61d769e..5a019a0 100644
----- a/tools/debugger/kdd/kdd.c
--+++ b/tools/debugger/kdd/kdd.c
--@@ -687,7 +687,7 @@ static void kdd_handle_read_ctrl(kdd_state *s)
--         }
--     } else {
--         /* 32-bit control-register space starts at 0x[2]cc, for 84 bytes */
---        uint64_t offset = addr;
--+        uint32_t offset = addr;
--         if (offset > 0x200)
--             offset -= 0x200;
--         offset -= 0xcc;
--@@ -695,10 +695,7 @@ static void kdd_handle_read_ctrl(kdd_state *s)
--             KDD_LOG(s, "Request outside of known control space\n");
--             len = 0;
--         } else {
---#pragma GCC diagnostic push
---#pragma GCC diagnostic ignored "-Warray-bounds"
--             memcpy(buf, ((uint8_t *)&ctrl.c32) + offset, len);
---#pragma GCC diagnostic pop
--         }
--     }
-- 
---- 
--2.7.4
--
-diff --git a/recipes-extended/xen/files/tools-libxc-fix-strncpy-size.patch b/recipes-extended/xen/files/tools-libxc-fix-strncpy-size.patch
-deleted file mode 100644
-index 2d606cd..0000000
---- a/recipes-extended/xen/files/tools-libxc-fix-strncpy-size.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From fa7789ef18bd2e716997937af71b2e4b5b00a159 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
-- <marmarek@invisiblethingslab.com>
--Date: Thu, 5 Apr 2018 03:50:49 +0200
--Subject: [PATCH] tools/libxc: fix strncpy size
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--gcc-8 warns about possible truncation of trailing '\0'.
--Final character is overridden by '\0' anyway, so don't bother to copy
--it.
--
--This fixes compile failure:
--
--    xc_pm.c: In function 'xc_set_cpufreq_gov':
--    xc_pm.c:308:5: error: 'strncpy' specified bound 16 equals destination size [-Werror=stringop-truncation]
--         strncpy(scaling_governor, govname, CPUFREQ_NAME_LEN);
--         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--    cc1: all warnings being treated as errors
--
--Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
--Acked-by: Wei Liu <wei.liu2@citrix.com>
--Release-Acked-by: Juergen Gross <jgross@suse.com>
-----
-- tools/libxc/xc_pm.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/libxc/xc_pm.c b/tools/libxc/xc_pm.c
--index 67e2418..6f8d548 100644
----- a/tools/libxc/xc_pm.c
--+++ b/tools/libxc/xc_pm.c
--@@ -305,7 +305,7 @@ int xc_set_cpufreq_gov(xc_interface *xch, int cpuid, char *govname)
--     sysctl.cmd = XEN_SYSCTL_pm_op;
--     sysctl.u.pm_op.cmd = SET_CPUFREQ_GOV;
--     sysctl.u.pm_op.cpuid = cpuid;
---    strncpy(scaling_governor, govname, CPUFREQ_NAME_LEN);
--+    strncpy(scaling_governor, govname, CPUFREQ_NAME_LEN - 1);
--     scaling_governor[CPUFREQ_NAME_LEN - 1] = '\0';
-- 
--     return xc_sysctl(xch, &sysctl);
---- 
--2.7.4
--
-diff --git a/recipes-extended/xen/files/tools-misc-fix-hypothetical-buffer-overflow.patch b/recipes-extended/xen/files/tools-misc-fix-hypothetical-buffer-overflow.patch
-deleted file mode 100644
-index a499861..0000000
---- a/recipes-extended/xen/files/tools-misc-fix-hypothetical-buffer-overflow.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 27751d89248c8c5eef6d8b56eb8f7d2084145080 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
-- <marmarek@invisiblethingslab.com>
--Date: Thu, 5 Apr 2018 03:50:50 +0200
--Subject: [PATCH] tools/misc: fix hypothetical buffer overflow in xen-lowmemd
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--gcc-8 complains:
--
--    xen-lowmemd.c: In function 'handle_low_mem':
--    xen-lowmemd.c:80:55: error: '%s' directive output may be truncated writing up to 511 bytes into a region of size 489 [-Werror=format-truncation=]
--             snprintf(error, BUFSZ,"Failed to write target %s to xenstore", data);
--                                                           ^~               ~~~~
--    xen-lowmemd.c:80:9: note: 'snprintf' output between 36 and 547 bytes into a destination of size 512
--             snprintf(error, BUFSZ,"Failed to write target %s to xenstore", data);
--             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--In practice it wouldn't happen, because 'data' contains string
--representation of 64-bit unsigned number (20 characters at most).
--But place a limit to mute gcc warning.
--
--Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
--Acked-by: Wei Liu <wei.liu2@citrix.com>
--Release-Acked-by: Juergen Gross <jgross@suse.com>
-----
-- tools/misc/xen-lowmemd.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/misc/xen-lowmemd.c b/tools/misc/xen-lowmemd.c
--index 865a54c..79ad34c 100644
----- a/tools/misc/xen-lowmemd.c
--+++ b/tools/misc/xen-lowmemd.c
--@@ -77,7 +77,7 @@ void handle_low_mem(void)
--     if (!xs_write(xs_handle, XBT_NULL, 
--             "/local/domain/0/memory/target", data, strlen(data)))
--     {
---        snprintf(error, BUFSZ,"Failed to write target %s to xenstore", data);
--+        snprintf(error, BUFSZ,"Failed to write target %.24s to xenstore", data);
--         perror(error);
--     }
-- }
---- 
--2.7.4
--
-diff --git a/recipes-extended/xen/files/tools-xenpmd-fix-possible-0-truncation.patch b/recipes-extended/xen/files/tools-xenpmd-fix-possible-0-truncation.patch
-deleted file mode 100644
-index 86a8e35..0000000
---- a/recipes-extended/xen/files/tools-xenpmd-fix-possible-0-truncation.patch
-+++ /dev/null
-@@ -1,74 +0,0 @@
--From 938c8f53b1f80175c6f7a1399efdb984abb0cb8b Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
-- <marmarek@invisiblethingslab.com>
--Date: Thu, 5 Apr 2018 03:50:53 +0200
--Subject: [PATCH] tools/xenpmd: fix possible '\0' truncation
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--gcc-8 complains:
--    xenpmd.c:207:9: error: 'strncpy' specified bound 32 equals destination size [-Werror=stringop-truncation]
--             strncpy(info->oem_info, attrib_value, 32);
--             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--    xenpmd.c:201:9: error: 'strncpy' specified bound 32 equals destination size [-Werror=stringop-truncation]
--             strncpy(info->battery_type, attrib_value, 32);
--             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--    xenpmd.c:195:9: error: 'strncpy' specified bound 32 equals destination size [-Werror=stringop-truncation]
--             strncpy(info->serial_number, attrib_value, 32);
--             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--    xenpmd.c:189:9: error: 'strncpy' specified bound 32 equals destination size [-Werror=stringop-truncation]
--             strncpy(info->model_number, attrib_value, 32);
--             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Copy 31 chars, then make sure terminating '\0' is present. Those fields
--are passed to strlen and as '%s' for snprintf later.
--
--Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
--Acked-by: Wei Liu <wei.liu2@citrix.com>
--Release-Acked-by: Juergen Gross <jgross@suse.com>
-----
-- tools/xenpmd/xenpmd.c | 12 ++++++++----
-- 1 file changed, 8 insertions(+), 4 deletions(-)
--
--diff --git a/tools/xenpmd/xenpmd.c b/tools/xenpmd/xenpmd.c
--index 689c8fd..56412a9 100644
----- a/tools/xenpmd/xenpmd.c
--+++ b/tools/xenpmd/xenpmd.c
--@@ -186,25 +186,29 @@ void set_attribute_battery_info(char *attrib_name,
-- 
--     if ( strstr(attrib_name, "model number") ) 
--     {
---        strncpy(info->model_number, attrib_value, 32);
--+        strncpy(info->model_number, attrib_value, 31);
--+        info->model_number[31] = '\0';
--         return;
--     }
-- 
--     if ( strstr(attrib_name, "serial number") ) 
--     {
---        strncpy(info->serial_number, attrib_value, 32);
--+        strncpy(info->serial_number, attrib_value, 31);
--+        info->serial_number[31] = '\0';
--         return;
--     }
-- 
--     if ( strstr(attrib_name, "battery type") ) 
--     {
---        strncpy(info->battery_type, attrib_value, 32);
--+        strncpy(info->battery_type, attrib_value, 31);
--+        info->battery_type[31] = '\0';
--         return;
--     }
-- 
--     if ( strstr(attrib_name, "OEM info") ) 
--     {
---        strncpy(info->oem_info, attrib_value, 32);
--+        strncpy(info->oem_info, attrib_value, 31);
--+        info->oem_info[31] = '\0';
--         return;
--     }
-- 
---- 
--2.7.4
--
-diff --git a/recipes-extended/xen/xen_4.10.1.bb b/recipes-extended/xen/xen_4.10.1.bb
-deleted file mode 100644
-index 7052f4a..0000000
---- a/recipes-extended/xen/xen_4.10.1.bb
-+++ /dev/null
-@@ -1,19 +0,0 @@
--FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
--require xen.inc
--
--SRC_URI = " \
--    https://downloads.xenproject.org/release/xen/${PV}/xen-${PV}.tar.gz \
--    file://tools-libxc-fix-strncpy-size.patch \
--    file://tools-misc-fix-hypothetical-buffer-overflow.patch \
--    file://tools-xentop-vwprintw.patch \
--    file://tools-xenpmd-fix-possible-0-truncation.patch \
--    file://tools-gdbsx-fix-Wstringop-truncation-warning.patch \
--    file://tools-kdd-mute-spurious-gcc-warning-part1.patch \
--    file://tools-kdd-mute-spurious-gcc-warning-part2.patch \
--    file://build-undef-object-vars.patch \
--    "
--
--SRC_URI[md5sum] = "d1b1d14ce76622062c9977d9c8ba772e"
--SRC_URI[sha256sum] = "570d654f357d4085accdf752989c1cbc33e2075feac8fcc505d68bdb81b1a0cf"
--
--S = "${WORKDIR}/xen-${PV}"
--- 
-2.7.4
+Christopher
 
+--00000000000064debf057177728f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><br><div class=3D"gmail_extra"><br><div class=3D"gmail_quo=
+te">On Wed, Jul 18, 2018 at 3:03 PM,  <span dir=3D"ltr">&lt;<a href=3D"mail=
+to:christopher.w.clark@gmail.com" target=3D"_blank">christopher.w.clark@gma=
+il.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Christ=
+opher Clark &lt;<a href=3D"mailto:christopher.w.clark@gmail.com">christophe=
+r.w.clark@gmail.com</a><wbr>&gt;<br>
+<br>
+This patch series:<br>
+* Fixes Xen recipe compatibility with gcc 8.1<br>
+* Adds the Xen recipe for Xen&#39;s current version: 4.11.0<br>
+* Upgrades the existing Xen recipe from 4.10.0 to 4.10.1<br>
+=C2=A0 =C2=A0 - provided to ease backport to older branches (eg. sumo)<br>
+* Removes the 4.10.1 and 4.9.1 recipes<br>
+=C2=A0 =C2=A0 - superceded by version 4.11.0<br>
+* Upgrades the vtpm stubdomains to Xen version 4.11.0<br>
+* Applies a bug fix patch to the tpm emulator<br>
+* Fixes whitespace patch fuzz on a vtpm patch<br>
+<br>
+Christopher Clark (7):<br>
+=C2=A0 xen: upgrade to 4.10.1, and apply patches for gcc 8.1 compatibility<=
+br>
+=C2=A0 xen: add recipe for 4.11.0<br>
+=C2=A0 tpm-emulator: apply patch to fix memcmp defect found by gcc<br>
+=C2=A0 xen-vtpm,mini-os : upgrade to Xen 4.11.0<br>
+=C2=A0 xen-vtpm : fix patch fuzz, whitespace-only change<br>
+=C2=A0 xen: remove 4.9.1 recipe and patches<br>
+=C2=A0 xen: remove 4.10.1 recipe and patches<br>
+<br></blockquote><div><br></div><div>Please hold off on merging this series=
+ for now as I&#39;m intending to send a slightly updated version of it (sho=
+uld be next week).</div><div><br></div><div>Christopher</div><div>=C2=A0</d=
+iv></div></div></div>
+
+--00000000000064debf057177728f--
