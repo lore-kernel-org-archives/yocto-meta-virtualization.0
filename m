@@ -1,6 +1,6 @@
 Return-Path: <koen@dominion.thruhere.net>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 612E1E00C80; Mon, 23 Jul 2018 07:48:58 -0700 (PDT)
+	id 4BF29E00C80; Mon, 23 Jul 2018 07:49:00 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,62 +8,62 @@ X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.208.66 listed in list.dnswl.org]
+	*      [209.85.208.65 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CE6ADE00C74
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AA94AE00C58
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 23 Jul 2018 07:48:57 -0700 (PDT)
-Received: by mail-ed1-f66.google.com with SMTP id e19-v6so1207870edq.7
+	Mon, 23 Jul 2018 07:48:56 -0700 (PDT)
+Received: by mail-ed1-f65.google.com with SMTP id r4-v6so1202803edp.9
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 23 Jul 2018 07:48:57 -0700 (PDT)
+	Mon, 23 Jul 2018 07:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=dominion-thruhere-net.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=n7zw91sB7I9CUIcqMd7yNOeujWmkWpOHL/eYYFe6d4o=;
-	b=wx0WZqb6wYhoADzS/h74V9Ki3W92p+sUZDegEOxvVzFK5Q41+wz0hwZnrcGEbf/sEJ
-	7oaZ4o+wN78ijrg+iwhaBZGsHlyhBDMbvHq6D9gGCW+8COEvwBvCzvNwEFm30rJEbwXn
-	V7EfuINm3HCV7pdJwxTnVEKKd5F0+7Ef7K55jzsuIQfTLLo32S/B5ol6JuWjdrUcsIqU
-	GOcalfcp9x5w47NkjvrsG6ZCxXJYdZgS2iWw5kVNvK2U/vay1DKumiDhsj6hsz7cpcPq
-	CcylziPZ1w+q8yOoa0wsAg46x0GdIlEmjXx4hQmYnar4gCNHjlwDze5XcRrBzunX7m/X
-	j/MQ==
+	bh=95Vf3VMCvzPMYSKm/BNlC3xW/ZL09qiP0TzBShiy8Os=;
+	b=khwSkh0bkIWYBjHM2T30SZbU7P84lgl+zvfsS/9GbXUpoB8qzI5T7mI4WxcPs1uoin
+	q/ZkMO4yZOwlHQz6Y2qzcRCvk3IApbFVhlns9CpOHE3X9OdYUrkvxG8XzupXddiv3qDt
+	whnWGJdYG/V9VKALiZcDRiSsxRIumgXrFoWgFKLr9xgmhkOBbrHh8Xct8hQQvI9K9u2j
+	c81MWa/au4aqW9U7amYmmWplo3zbkBbiu3Z+MvH2kK0dOXhT2aKIpyaOSguBpGrQW1Xy
+	Wz2YULFDDkSfmf8n/CTEY7M0rr4TLB8jNP1vSVz28XiEFM6NDGUivqFxK9po+c/tlE56
+	FxnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=n7zw91sB7I9CUIcqMd7yNOeujWmkWpOHL/eYYFe6d4o=;
-	b=TFUX8NDk0K1Eq7XG920ChRfB67m9Bx2eFLgIRwYEwhd7+JNcfpAXnmffLdUv7ehu1S
-	AdEfaksnKpTk6amkpd9pi3JxDFsNNoqC6IB+2OLa2Rk0hYwGZGZ2dnlyVcWO8JBlAiwL
-	PaI5+9iq8xuRvs9d1p1XpvHmOOqWJZc0C0mrSDTE6rDwegpyzITOoEfihDfSYpmXsJK7
-	RCMijVlcEjf/sVfeUkPRPrnC5JjwnePIpVnf7/PFbg30ZB3l+8/uS7/U5XjZKYNUJXrA
-	XGkYUROGG65gxr5N6hatls/luH4lmEXHPk4VPFWK0n/qRT+4h11qZdUnv49/mXeaBTbX
-	sCgQ==
-X-Gm-Message-State: AOUpUlEKtBhFCecrEW5TXssYhOTglu89Y5BL7l9hPnOuN5XCliPCzNl+
-	gNGqn3EpUP/Qp4hqoo5xeeDUPJSI5dY=
-X-Google-Smtp-Source: AAOMgpdRyW85Uc6SEw3lUkhoH7HAX/ayDmlanXrQXS8oDlbQyd6icpXZK5mAO+G86l8KACd+UqFhZw==
-X-Received: by 2002:a50:ae98:: with SMTP id
-	e24-v6mr14065043edd.16.1532357336908; 
-	Mon, 23 Jul 2018 07:48:56 -0700 (PDT)
+	bh=95Vf3VMCvzPMYSKm/BNlC3xW/ZL09qiP0TzBShiy8Os=;
+	b=jMegm9YGb9fCqwtLs5g3UOwwoDY1Mkk5Pto7lkozPz8l6fFzOXeD/5iZjYUsZFiYH4
+	y+CDn+kG5SrItGJ2JOtyiwIE4OFyMyoZRY0i4jT3tTHfb+r5nlO3b1yv01oxAp5em9ka
+	4YrXNjyFxFOAECFAOhzUlLRk4bkwot2QSsq/+Fic0Rd0ojDa5nlc1y92MsYLWPJOBpei
+	xApDqTsvSQzcQlCRBKO3otnilOPWfJftqH03VcZBtvKz1DCbVHK+nLgH7w5wtzzAu5y6
+	nuCYbwS28WHIythOdLb6RnXtFwGbSpzAXk0arO5GUNjImsF5gDjm8njUk/p2frM4KBMd
+	vfpw==
+X-Gm-Message-State: AOUpUlHHdGnED4nHGlxvrNuZD47g+NUOVfgaBD4RIo71Df237EbXAuX/
+	ppk93HQQrugGbgR/MD+hkpvSRTDrm6Q=
+X-Google-Smtp-Source: AAOMgpff4GjCfETkGig3+Ba2wNCPnAE+TUyePyOKV/BEige2MP+4M21e5uBZQODdDlGxEICbe3CjCg==
+X-Received: by 2002:a50:9154:: with SMTP id
+	f20-v6mr14217768eda.29.1532357335596; 
+	Mon, 23 Jul 2018 07:48:55 -0700 (PDT)
 Received: from localhost.localdomain ([82.163.40.65])
 	by smtp.gmail.com with ESMTPSA id
-	w26-v6sm4479189eds.7.2018.07.23.07.48.55
+	w26-v6sm4479189eds.7.2018.07.23.07.48.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 23 Jul 2018 07:48:55 -0700 (PDT)
+	Mon, 23 Jul 2018 07:48:54 -0700 (PDT)
 From: Koen Kooi <koen@dominion.thruhere.net>
 X-Google-Original-From: Koen Kooi <koen.kooi@linaro.org>
 To: meta-virtualization@yoctoproject.org
-Date: Mon, 23 Jul 2018 16:48:49 +0200
-Message-Id: <20180723144850.17279-3-koen.kooi@linaro.org>
+Date: Mon, 23 Jul 2018 16:48:48 +0200
+Message-Id: <20180723144850.17279-2-koen.kooi@linaro.org>
 X-Mailer: git-send-email 2.9.5
 In-Reply-To: <20180723144850.17279-1-koen.kooi@linaro.org>
 References: <20180723144850.17279-1-koen.kooi@linaro.org>
 Cc: Raymond Danks <ray.danks@se-eng.com>, Koen Kooi <koen.kooi@linaro.org>
-Subject: [PATCH 3/4] kubernetes: package remaining files into PN-misc
+Subject: [PATCH 2/4] kubernetes: build host tools using host toolchain
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,42 +76,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2018 14:48:58 -0000
+X-List-Received-Date: Mon, 23 Jul 2018 14:49:00 -0000
 
-A previous commit changed do_installed to install everything, not just
-kube*, adjust PACKAGES to keep ${PN} empty as it was before.
+From: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 
+Compile host tools such as deepcopy-gen, defaulter-gen, openapi-gen
+   for host architecture, to solve below error:
+-- snip --
+| +++ [0117 05:31:35] Building go targets for linux/arm64:
+|     ./vendor/k8s.io/code-generator/cmd/deepcopy-gen
+| touch: cannot touch '_output/bin/deepcopy-gen': No such file or directory
+| make[1]: *** [Makefile.generated_files:323: _output/bin/deepcopy-gen] Error 1
+| make: *** [Makefile:478: generated_files] Error 2
+
+Signed-off-by: Jagadeesh Krishnanjanappa <jkrishnanjanappa@mvista.com>
 Signed-off-by: Koen Kooi <koen.kooi@linaro.org>
 ---
- recipes-containers/kubernetes/kubernetes_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ recipes-containers/kubernetes/kubernetes_git.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index f23721c..bb80c3f 100644
+index 33cb933..f23721c 100644
 --- a/recipes-containers/kubernetes/kubernetes_git.bb
 +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -14,6 +14,7 @@ DEPENDS += "rsync-native \
-             coreutils-native \
-            "
+@@ -73,6 +73,12 @@ do_compile() {
+ 	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
  
-+PACKAGES =+ "${PN}-misc"
- PACKAGES =+ "kubeadm"
- PACKAGES =+ "kubectl"
- PACKAGES =+ "kubelet"
-@@ -100,11 +101,13 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES','systemd','kubelet','
- SYSTEMD_SERVICE_kubelet = "${@bb.utils.contains('DISTRO_FEATURES','systemd','kubelet.service','',d)}"
- SYSTEMD_AUTO_ENABLE_kubelet = "enable"
- 
-+FILES_${PN}-misc = "${bindir}"
- FILES_kubeadm = "${bindir}/kubeadm ${systemd_unitdir}/system/kubelet.service.d/*"
- FILES_kubectl = "${bindir}/kubectl"
- FILES_kube-proxy = "${bindir}/kube-proxy"
- FILES_kubelet = "${bindir}/kubelet ${systemd_unitdir}/system/kubelet.service ${sysconfdir}/kubernetes/manifests/"
- 
+ 	cd ${S}/src/import
++	# Build the host tools first, using the host compiler
++	export GOARCH="${BUILD_GOARCH}"
++	make generated_files KUBE_BUILD_PLATFORMS="${HOST_GOOS}/${BUILD_GOARCH}"
 +
- INHIBIT_PACKAGE_STRIP = "1"
- INSANE_SKIP_${PN} += "ldflags already-stripped"
- 
++	# Reset GOARCH to the target one
++	export GOARCH="${TARGET_GOARCH}"
+ 	# to limit what is built, use 'WHAT', i.e. make WHAT=cmd/kubelet
+ 	make cross KUBE_BUILD_PLATFORMS=${GOOS}/${GOARCH}
+ }
 -- 
 2.9.5
 
