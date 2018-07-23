@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 320C5E00AC5; Sun, 22 Jul 2018 20:21:36 -0700 (PDT)
+	id 5CDA7E00BAA; Sun, 22 Jul 2018 20:21:48 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,60 +11,59 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 84E97E008E0
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.182 listed in list.dnswl.org]
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
+	[209.85.208.182])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 07611E008E0
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 22 Jul 2018 20:21:35 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id v22-v6so5344812lfe.8
+	Sun, 22 Jul 2018 20:21:46 -0700 (PDT)
+Received: by mail-lj1-f182.google.com with SMTP id 203-v6so15548386ljj.13
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 22 Jul 2018 20:21:35 -0700 (PDT)
+	Sun, 22 Jul 2018 20:21:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=XO3LHKTCAf6g6R3mQn1vd794rm1ObODzPtjT0MmsQgE=;
-	b=s9Tn9aFBqbqPjJKA9TrX65/0t67CGTNpK60bp8VVhGKHGqAFuMCY0sJUcC4V1nXMib
-	x5rKLKbjNVqhrhMToPEGLhXoEzfIAuOtUOkvbeTaCEzcKbFL0i6nEd0YHRQ4tG5SX1C/
-	RTOSfe4Fx7kTY+o0xZWX378rYMRxH1RHFZvPIOTaWLh1JvmXzD9kLnTkotHQy9jLamX4
-	GJYhWOkyOYezUaxjo9kz94Ctf84Vl+Vj2ZdzhhX/rR0RxU3S7RiSDtjVcqYahUcuHxTm
-	5kQbXUKbWaNLSkEPzS2svxjsq/S7T/WSNzSrOxJuE9pHsox+SxMrVdQLEaXR1bndf7/6
-	ujrA==
+	:cc; bh=zBIuH89TSWtDSCsK20WdnM0trGCk3U+WzbytKmlAUDA=;
+	b=PpwdRoAHDDztVbQw5N1sUegNhLE7Sj8LQ2WmTljYPjVfDTXgURN+fK2hhgendnEAkm
+	tTmrE8d561F/ep3ACfFypsZ9cOT68hLdCm9I7UtL7RaSoNNUQs6NJgdthZSUZp0jeTGF
+	3muSHdpLf22VyCWgItJmO1YI4EqTw2B9IKLhDE+o0/QIDHrM4i4hCdeylONcFrlj2Xyq
+	WIDfK/CjVa0b2Jg7e4OOTuToZrU07q4d/ANk6VWByEdaGCQsJaNwOkzIJGS3NUtijxV3
+	6M3EIF/8QlnE9u4ROWXS8PT+dTjcSCMGXYwdIXGtHV8SkQud5Tv2d7yhWmIKl3Seomak
+	GhBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=XO3LHKTCAf6g6R3mQn1vd794rm1ObODzPtjT0MmsQgE=;
-	b=kun7eb1xvPJk1vaWxq2heSYYPw+ic14LTJWtSka/IVX0uonPuoUbauRLHHoHHqYko6
-	dWg9sS7PPYJz+rLSeFQeVKBQoCvC+8hXmKYIAHQynZI7CpEl1cBTuyx+OTOKAZhsqYw6
-	rNaF44o5hphWVcUzDQlWKfiDFdSY/7hed4Xh4XCZMxzSHl08Th7tXTH2vyycidvFFi6U
-	VIr/OhYU9LXxysl74Utp07fQMI38LBBTWGKCJFrwy32/uyHzXAEN1j1WIwph0YaHwIkA
-	yh4lWq23x/a/pJYB27d+WPvEETQsm1tNruz8hV1Gd2HqSNBa4ve4p7eJeEwhCljFt6j9
-	xOgQ==
-X-Gm-Message-State: AOUpUlEcF4GJ9eCz8sGh1tTfx+a2aNFbDJOkuRVbTu/6fIk2+K3U3wJ0
-	nCG8gC4lPXbYBgTLgKU4dJ5Aly5otnGmqwmt5aw=
-X-Google-Smtp-Source: AAOMgpe5TPQWNa3dJWBxBV2yg8WD5ptKjVQK5Jo2yqNfN3Km9K+l3AgbSD9Sca8WHmm8ezOe+7zYa9cLL/TUr8jt1J0=
-X-Received: by 2002:a19:ca09:: with SMTP id
-	a9-v6mr5866336lfg.142.1532316094517; 
-	Sun, 22 Jul 2018 20:21:34 -0700 (PDT)
+	bh=zBIuH89TSWtDSCsK20WdnM0trGCk3U+WzbytKmlAUDA=;
+	b=f9i9U3MUU5Vg6TO7N3Va1WZZ8HzjzHxgqU51EOLuTTnyV2xIypCwWdXVV1zcqHaLVL
+	F6KKbUEleKrYhu3/uedsIZA+YwEnzhjYjva52UK65iuxJrbIsAI/8OHpKkQaj9CpNg9t
+	kJxyuWa0GQanNXuToNOkgl2LR9ixh5Y1+piMzXEnG+OXBNS9IoQkAPc9X17it+jp4vlu
+	yUqbpZzMoyzNa7/HADc/KxXOak5zwAdZiWAszYZ6e+71HZuQTkj2YHCzbF/cRjTyQIap
+	kbtEFfXzwtHR3gW+Y3DVq+AJYKYrFnvGnb+PvUe3BOHNlzO5XusPpzBs0DGtA54UPUBi
+	QpYA==
+X-Gm-Message-State: AOUpUlEVYjWgEllPKHxskkHM7ri1Kn16sD2Qen+6AHeu2PucJNsRIBD/
+	WLwUyRLGHCwN2/S+j9jjZMPVBUBqTo7fFshS5mM=
+X-Google-Smtp-Source: AAOMgpd1IER4mG4aI50sphkvMX8ZL9cmVPenMqgrCpwCjCwaYwVVD+NiblJxbEowsJue+bae96SdE+dBRL7Z49DWuro=
+X-Received: by 2002:a2e:439b:: with SMTP id
+	z27-v6mr7399413lje.84.1532316105810; 
+	Sun, 22 Jul 2018 20:21:45 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Sun, 22 Jul 2018 20:21:34
+Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Sun, 22 Jul 2018 20:21:45
 	-0700 (PDT)
-In-Reply-To: <20180716093631.27024-2-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
 References: <20180716093631.27024-1-hongl.fnst@cn.fujitsu.com>
-	<20180716093631.27024-2-hongl.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 22 Jul 2018 23:21:34 -0400
-Message-ID: <CADkTA4N4-jLV2X8WHXu=pXLzpV05PwC2WvX9tXDcgFaMb-K45A@mail.gmail.com>
+Date: Sun, 22 Jul 2018 23:21:45 -0400
+Message-ID: <CADkTA4OnFso9KxCNu1BD77k1-Xqsv4dPMRbDJhArhC4i--uoqA@mail.gmail.com>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] [meta-cloud-services][patch]:python-httplib2 : 0.10.3 -> 0.11.3
+Subject: Re: [PATCH] [meta-cloud-services][patch] python-amqp : 2.2.2 -> 2.3.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,7 +76,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Jul 2018 03:21:36 -0000
+X-List-Received-Date: Mon, 23 Jul 2018 03:21:48 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 Merged.
@@ -85,32 +84,29 @@ Merged.
 Bruce
 
 On Mon, Jul 16, 2018 at 5:36 AM, Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
-> 1.Upgrade python-httplib2 from 0.10.3 to 0.11.3.
+> Upgrade python-amqp from 2.2.2 to 2.3.2.
 >
 > Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
->  .../python/{python-httplib2_0.10.3.bb => python-httplib2_0.11.3.bb} | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-httplib2_0.10.3.bb => python-httplib2_0.11.3.bb} (59%)
+>  .../python/{python-amqp_2.2.2.bb => python-amqp_2.3.2.bb}             | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-amqp_2.2.2.bb => python-amqp_2.3.2.bb} (68%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb b/meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
-> similarity index 59%
-> rename from meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
-> rename to meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
-> index c5ced3f..f59aa5b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-httplib2_0.10.3.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-httplib2_0.11.3.bb
-> @@ -2,10 +2,10 @@ DESCRIPTION = "A comprehensive HTTP client library"
->  HOMEPAGE = "https://code.google.com/p/httplib2/"
->  SECTION = "devel/python"
->  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=41a98bc55b04b2a38acdb5c8ab0ae6b2"
-> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=4d159ceca4925adea3407818d4a87968"
+> diff --git a/meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb b/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+> similarity index 68%
+> rename from meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb
+> rename to meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+> index 94979d3..395c81e 100644
+> --- a/meta-openstack/recipes-devtools/python/python-amqp_2.2.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "BSD-3-Clause"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=9d6ba772ac59c08a25a12ce15bd5f27b"
 >
-> -SRC_URI[md5sum] = "709c305e1b00e9c0af49ee816429569c"
-> -SRC_URI[sha256sum] = "e404d3b7bd86c1bc931906098e7c1305d6a3a6dcef141b8bb1059903abb3ceeb"
-> +SRC_URI[md5sum] = "9aa3e074da9a235cd675dd65e1fbcf39"
-> +SRC_URI[sha256sum] = "e71daed9a0e6373642db61166fa70beecc9bf04383477f84671348c02a04cbdf"
+> -SRC_URI[md5sum] = "0971a3fd2d635ded45c349cfc17106bd"
+> -SRC_URI[sha256sum] = "cba1ace9d4ff6049b190d8b7991f9c1006b443a5238021aca96dd6ad2ac9da22"
+> +SRC_URI[md5sum] = "11fce0d01f4ee6886a02415c20cece80"
+> +SRC_URI[sha256sum] = "073dd02fdd73041bffc913b767866015147b61f2a9bc104daef172fc1a0066eb"
 >
 >  inherit setuptools pypi
 >
