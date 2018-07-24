@@ -1,6 +1,6 @@
-Return-Path: <Hongzhi.Song@windriver.com>
+Return-Path: <zhe.he@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9B59CE009AA; Tue, 24 Jul 2018 03:12:31 -0700 (PDT)
+	id AF472E00DFE; Tue, 24 Jul 2018 04:08:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,29 +8,24 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BB33BE006F1
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A60BEE00DFA
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Jul 2018 03:12:29 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w6OACSpm004758
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Jul 2018 03:12:29 -0700
-Received: from ala-blade48.wrs.com (147.11.105.68) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.399.0;
-	Tue, 24 Jul 2018 03:12:28 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 24 Jul 2018 03:12:28 -0700
-Message-ID: <20180724101228.47140-1-hongzhi.song@windriver.com>
+	Tue, 24 Jul 2018 04:08:58 -0700 (PDT)
+Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w6OB8un7004990;
+	Tue, 24 Jul 2018 04:08:56 -0700 (PDT)
+Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
+	Tue, 24 Jul 2018 04:08:56 -0700
+From: He Zhe <zhe.he@windriver.com>
+To: meta-virtualization@yoctoproject.org, bruce.ashfield@gmail.com
+Date: Tue, 24 Jul 2018 04:08:55 -0700
+Message-Id: <20180724110856.925-1-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.11.0
-MIME-Version: 1.0
-Subject: [PATCH] libvmi: add a new recipe
+Subject: [PATCH] linux-yocto: Fix systemd-modules-load.service start failure
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,67 +38,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Jul 2018 10:12:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Jul 2018 11:08:59 -0000
 
-LibVMI is a C library with Python bindings that makes it easy to
-monitor the low-level details of a running virtual machine by
-viewing its memory, trapping on hardware events, and accessing
-the vCPU registers. This is called virtual machine introspection.
+systemd-modules-load.service bindly load whatever in modules-load.d/*.conf,
+in this case, kvm_intel and kvm_amd. One of them must fail on a specific
+board and causes the following failure.
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+This patches remove them from KERNEL_MODULE_AUTOLOAD and leaves them to udev.
+
+systemd-modules-load.service: Main process exited, code=exited, status=1/FAILURE
+Failed to start Load Kernel Modules.
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- recipes-extended/libvmi/libvmi_git.bb | 41 +++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
- create mode 100644 recipes-extended/libvmi/libvmi_git.bb
+ recipes-kernel/linux/linux-yocto_virtualization.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/recipes-extended/libvmi/libvmi_git.bb b/recipes-extended/libvmi/libvmi_git.bb
-new file mode 100644
-index 0000000..a746638
---- /dev/null
-+++ b/recipes-extended/libvmi/libvmi_git.bb
-@@ -0,0 +1,41 @@
-+DESCRIPTION = "An introspection library, written in C, focused on reading \
-+               and writing memory from virtual machines (VM's)."
-+HOMEPAGE = "https://github.com/libvmi/libvmi"
-+LICENSE = "LGPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
-+SECTION = "console/tools"
-+PV = "0.12.0"
-+
-+DEPENDS = "libvirt libcheck bison fuse"
-+
-+SRC_URI = "git://github.com/libvmi/libvmi.git \
-+"
-+
-+SRCREV = "6934e8a4758018983ec53ec791dd14a7d6ac31a9"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit autotools-brokensep pkgconfig
-+
-+# Noramlly dynamic libs would be of the form libXX.so.1.0.0 in which case
-+# bitbake should be able to properly populate the -dev package and the main
-+# packages. Since libvmi uses the form libXX.1.0.0.so it breaks this automatic
-+# packaging so we need to be more explicit about what goes where.
-+FILES_${PN} += "${libdir}/libvmi-0.9.so"
-+FILES_${PN}-dev = "${includedir} ${libdir}/${BPN}.so ${libdir}/*.la \
-+                ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
-+                ${datadir}/aclocal ${base_libdir}/*.o \
-+                ${libdir}/${BPN}/*.la ${base_libdir}/*.la"
-+
-+PACKAGECONFIG ??= "json-c"
-+PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,"
-+PACKAGECONFIG[json-c] = ",,json-c,"
-+
-+# We include a sample conf file to which we have added
-+do_install_append () {
-+	mkdir ${D}${sysconfdir}
-+	cp etc/*.conf ${D}${sysconfdir}
-+}
-+
-+# Construction of grammar.h is not parallel safe.
-+PARALLEL_MAKE = "-j1"
+diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
+index 9905ed9..c09b07c 100644
+--- a/recipes-kernel/linux/linux-yocto_virtualization.inc
++++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+@@ -10,8 +10,6 @@ KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'featu
+ 
+ KERNEL_MODULE_AUTOLOAD += "openvswitch"
+ KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm', '', d)}"
+-KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm-amd', '', d)}"
+-KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm-intel', '', d)}"
+ 
+ # aufs kernel support required for xen-image-minimal
+ KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
 -- 
 2.11.0
 
