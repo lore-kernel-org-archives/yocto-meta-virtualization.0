@@ -1,6 +1,6 @@
 Return-Path: <zhe.he@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AF472E00DFE; Tue, 24 Jul 2018 04:08:59 -0700 (PDT)
+	id DBE67E00DFD; Tue, 24 Jul 2018 04:08:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,20 +12,22 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A60BEE00DFA
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4BA56E00DFC
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Jul 2018 04:08:58 -0700 (PDT)
+	Tue, 24 Jul 2018 04:08:59 -0700 (PDT)
 Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
-	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w6OB8un7004990;
-	Tue, 24 Jul 2018 04:08:56 -0700 (PDT)
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id w6OB8vZ2004996;
+	Tue, 24 Jul 2018 04:08:57 -0700 (PDT)
 Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
-	Tue, 24 Jul 2018 04:08:56 -0700
+	Tue, 24 Jul 2018 04:08:57 -0700
 From: He Zhe <zhe.he@windriver.com>
 To: meta-virtualization@yoctoproject.org, bruce.ashfield@gmail.com
-Date: Tue, 24 Jul 2018 04:08:55 -0700
-Message-Id: <20180724110856.925-1-zhe.he@windriver.com>
+Date: Tue, 24 Jul 2018 04:08:56 -0700
+Message-Id: <20180724110856.925-2-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] linux-yocto: Fix systemd-modules-load.service start failure
+In-Reply-To: <20180724110856.925-1-zhe.he@windriver.com>
+References: <20180724110856.925-1-zhe.he@windriver.com>
+Subject: [PATCH] libvirt: Remove unsupported configure options and fix warning
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -40,33 +42,53 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 X-List-Received-Date: Tue, 24 Jul 2018 11:08:59 -0000
 
-systemd-modules-load.service bindly load whatever in modules-load.d/*.conf,
-in this case, kvm_intel and kvm_amd. One of them must fail on a specific
-board and causes the following failure.
+xen and xen-inotify have been removed from upstream. We change
+PACKAGECONFIG accordingly.
 
-This patches remove them from KERNEL_MODULE_AUTOLOAD and leaves them to udev.
+pkg_postinst has been deprecated, use pkg_postinst_ontarget instead.
 
-systemd-modules-load.service: Main process exited, code=exited, status=1/FAILURE
-Failed to start Load Kernel Modules.
+WARNING: wrlinux-image-ovp-kvm-1.0-r0 do_rootfs: Intentionally failing
+postinstall scriptlets of ['libvirt'] to defer them to first boot is
+deprecated. Please place them into pkg_postinst_ontarget_${PN} ().
 
 Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- recipes-kernel/linux/linux-yocto_virtualization.inc | 2 --
- 1 file changed, 2 deletions(-)
+ recipes-extended/libvirt/libvirt_4.3.0.bb | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
-index 9905ed9..c09b07c 100644
---- a/recipes-kernel/linux/linux-yocto_virtualization.inc
-+++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
-@@ -10,8 +10,6 @@ KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'featu
+diff --git a/recipes-extended/libvirt/libvirt_4.3.0.bb b/recipes-extended/libvirt/libvirt_4.3.0.bb
+index edd5261..e6dac5d 100644
+--- a/recipes-extended/libvirt/libvirt_4.3.0.bb
++++ b/recipes-extended/libvirt/libvirt_4.3.0.bb
+@@ -175,7 +175,7 @@ PRIVATE_LIBS_${PN}-ptest = " \
+ PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 lxc test \
+                    remote macvtap libvirtd netcf udev python ebtables \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit libcap-ng', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'xen libxl xen-inotify', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'libxl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
+                   "
  
- KERNEL_MODULE_AUTOLOAD += "openvswitch"
- KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm', '', d)}"
--KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm-amd', '', d)}"
--KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm-intel', '', d)}"
+@@ -183,10 +183,8 @@ PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 lxc test \
+ #
+ PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu,"
+ PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
+-PACKAGECONFIG[xen] = "--with-xen,--without-xen,xen,"
+ PACKAGECONFIG[xenapi] = "--with-xenapi,--without-xenapi,,"
+ PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,libxl,"
+-PACKAGECONFIG[xen-inotify] = "--with-xen-inotify,--without-xen-inotify,xen,"
+ PACKAGECONFIG[uml] = "--with-uml, --without-uml,,"
+ PACKAGECONFIG[openvz] = "--with-openvz,--without-openvz,,"
+ PACKAGECONFIG[vmware] = "--with-vmware,--without-vmware,,"
+@@ -305,7 +303,7 @@ do_install_ptest() {
+ 	done
+ }
  
- # aufs kernel support required for xen-image-minimal
- KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
+-pkg_postinst_libvirt() {
++pkg_postinst_ontarget_${PN}() {
+         if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+                 /etc/init.d/populate-volatile.sh update
+         fi
 -- 
 2.11.0
 
