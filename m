@@ -1,17 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 78A8EE00CEA; Thu, 26 Jul 2018 07:41:05 -0700 (PDT)
+	id 88AF8E00CEE; Thu, 26 Jul 2018 07:41:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.179 listed in list.dnswl.org]
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.167.68 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,51 +19,51 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E0638E00CDD
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A4F11E00CDD
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 26 Jul 2018 07:41:02 -0700 (PDT)
-Received: by mail-lj1-f179.google.com with SMTP id s12-v6so1732283ljj.0
+	Thu, 26 Jul 2018 07:41:19 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id b22-v6so1381294lfa.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 26 Jul 2018 07:41:02 -0700 (PDT)
+	Thu, 26 Jul 2018 07:41:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=nd3TWGXwj+FOBO/cemM4qUxzTMsGOj0WTulUiu2yJYI=;
-	b=kt28Y19pmxP1tDnoo8c29ekINal0yURRxA66octwnCLZtAVnGSF5R6B7pge59PsVUT
-	OTj1+bqDAcGAqzMJW4MebiWkG+9erUpHyF2E3Ir+/BR/76EK0t2gXxr0IiVMSHklW1b6
-	A3T+ieAiskjAEG5r49OWCMDPNvWCmpN4QsxBLGehadtFVXFjsthqvaBbG64wQA3f9woM
-	bCoLGof6eWFDicLTDQCGuaeQZX7UcVvEL87T1E6KAd+uXiFX6TeHSpFSvgMqyfKCJqlq
-	ofltp7uBHwQxP+2RKnihY0pxbvZ0OgZxZDEnYDU6bQ8FUDpWMTw5+KG9QpHsnLWCZiRj
-	2WBg==
+	:cc; bh=Ct4nlEX8h+Mv7pvHVTpB3rt+lPytGUaUY7AkoFYBGlo=;
+	b=ufRdnXZzDHBDUwhhAHdKzletOdXAwHDgWjZCwDgoz25RyUq2TJW5FiEfy3qywcrZzz
+	SUoT+dPgg8f2uOcNZJvkiIARcAcuQJUe4T0xNT/WesGOghADRMRWxJs88MYQfA5q44pH
+	pMcjj1TevzXN2sJQhEfPZIvZ5qe1Q/ORMRYiFgJSokNHcrGIrEMnFCU4R1nULniTpKoJ
+	sOLxpOF/zfFnRVeunkstAsgK0L6/hxCHW2xbnxNvxhBLEC/bTJnOvk5QtywyhpyptF14
+	mponXFgzU6/rKBSkhryVWM3LTbcgCSc4pIne7GDmsNtyiblEZAnXqJWRMAc8LhTO53nf
+	wjqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=nd3TWGXwj+FOBO/cemM4qUxzTMsGOj0WTulUiu2yJYI=;
-	b=MsftAGbnP0CPsx3YYCS+FWRONB4E9q5mZFlnAIhsKEhkYaguRRwSwyXmSosWtL036p
-	XpRWZngzeUBo54YkwO4slQ88y0Wb4Tp+ol+Xnb2Gmu3YdGL8K1jPb4J1KNzwy6gBKTZu
-	HhNKtI0PjYe2Q3wCxcIr+m/VUYU2WuyJXCLp7CliUN/q4hntp1auOUN1Y0uIOi05QNDW
-	gYRTPhUjZbchRy8IZE52Sa7raOD4gL2DiRbagvSIk72riv48DUgyXcXyj7sHnqf8XJvv
-	N2aRJvoZ8ZSrxSsqD5GyrIwaznMWfBv6dZaBZfXz1+R2wnRVvfv8Wyy8lAO1NB4zdgbE
-	pqLg==
-X-Gm-Message-State: AOUpUlHAFsmgDWjIBrTKKwwfE1K8AHGu3l1spCz23Re5WIg4th0pVZmh
-	po6IqLupzpkL9lONgexZtn5MSDB2Ln5AEy9+7j0=
-X-Google-Smtp-Source: AAOMgpdhaTj0cfFGjby5IvKMBHlJQtWGrOu90HSfdlw2QzYa52MIpA0Wr0csjLVGfjG0pS30yppWwAH0BBwYKbg3O20=
-X-Received: by 2002:a2e:195c:: with SMTP id
-	p89-v6mr1886063lje.138.1532616061925; 
-	Thu, 26 Jul 2018 07:41:01 -0700 (PDT)
+	bh=Ct4nlEX8h+Mv7pvHVTpB3rt+lPytGUaUY7AkoFYBGlo=;
+	b=TLGXvDEIn3BqhQlonhz4IAiyWTjZLhnGx4VOT9O8ERgMXjCSNS//x9y77z7wn7zMA0
+	drVibvT+JB/5IHLHh3r3eTkEGnUKXw1dwO4NUEHKMyTxyR2ZMHYgeGWAZLbU8m/UlGjX
+	viJ4Omq10Blc2mp025bXSJ/JeRV8DOsKcJUP8Oqc48HvTKtiiuakyiEs7GB6H+N81CUQ
+	yzoAZ3KW2o36v8sKi8oni8F1WuuapO55ORgYiShP6BqesBnm/ZNXMB29Tzpv5gciF3o5
+	tjR7TVSjnHlR1MTYgvyi3dAjD6CnBxRM7rBgzT+gMYR44AB6tGa8TS+tpnAepsB/PiiP
+	OqLA==
+X-Gm-Message-State: AOUpUlGaR+1+C+dC/JjStPk620pjXr8EYAxPEv2rBS4p5uBrdOC6hk5t
+	oa0K/Q2cSlNgeM32t/9ziY/rUS5wrOUBB8GlkUw=
+X-Google-Smtp-Source: AAOMgpfLUT9wS4iRIBF6XE9uZca0H2HqqzSRrS8MEibErwC2DL1c9WWFcNDx+rZkeJtOLqcq+JN1QiKPFCVHBUO/okM=
+X-Received: by 2002:a19:5509:: with SMTP id
+	n9-v6mr1701182lfe.133.1532616078502; 
+	Thu, 26 Jul 2018 07:41:18 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Thu, 26 Jul 2018 07:41:01
+Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Thu, 26 Jul 2018 07:41:18
 	-0700 (PDT)
-In-Reply-To: <20180724101228.47140-1-hongzhi.song@windriver.com>
-References: <20180724101228.47140-1-hongzhi.song@windriver.com>
+In-Reply-To: <20180724110856.925-1-zhe.he@windriver.com>
+References: <20180724110856.925-1-zhe.he@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 26 Jul 2018 10:41:01 -0400
-Message-ID: <CADkTA4NHcq0z3dHdY9+7CPOrp9h7RDFOAs_RN42GvnyQhqM+tQ@mail.gmail.com>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>
+Date: Thu, 26 Jul 2018 10:41:18 -0400
+Message-ID: <CADkTA4NEFB1pKFBmbHdNGRF1nKNdxUmqHvwEPqPA8HLsG8KQMQ@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] libvmi: add a new recipe
+Subject: Re: [PATCH] linux-yocto: Fix systemd-modules-load.service start failure
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,81 +76,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Jul 2018 14:41:05 -0000
+X-List-Received-Date: Thu, 26 Jul 2018 14:41:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+merged.
 
 Bruce
 
-On Tue, Jul 24, 2018 at 6:12 AM, Hongzhi.Song
-<hongzhi.song@windriver.com> wrote:
-> LibVMI is a C library with Python bindings that makes it easy to
-> monitor the low-level details of a running virtual machine by
-> viewing its memory, trapping on hardware events, and accessing
-> the vCPU registers. This is called virtual machine introspection.
+On Tue, Jul 24, 2018 at 7:08 AM, He Zhe <zhe.he@windriver.com> wrote:
+> systemd-modules-load.service bindly load whatever in modules-load.d/*.conf,
+> in this case, kvm_intel and kvm_amd. One of them must fail on a specific
+> board and causes the following failure.
 >
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> This patches remove them from KERNEL_MODULE_AUTOLOAD and leaves them to udev.
+>
+> systemd-modules-load.service: Main process exited, code=exited, status=1/FAILURE
+> Failed to start Load Kernel Modules.
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
 > ---
->  recipes-extended/libvmi/libvmi_git.bb | 41 +++++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
->  create mode 100644 recipes-extended/libvmi/libvmi_git.bb
+>  recipes-kernel/linux/linux-yocto_virtualization.inc | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/recipes-extended/libvmi/libvmi_git.bb b/recipes-extended/libvmi/libvmi_git.bb
-> new file mode 100644
-> index 0000000..a746638
-> --- /dev/null
-> +++ b/recipes-extended/libvmi/libvmi_git.bb
-> @@ -0,0 +1,41 @@
-> +DESCRIPTION = "An introspection library, written in C, focused on reading \
-> +               and writing memory from virtual machines (VM's)."
-> +HOMEPAGE = "https://github.com/libvmi/libvmi"
-> +LICENSE = "LGPLv3"
-> +LIC_FILES_CHKSUM = "file://COPYING.LESSER;md5=e6a600fd5e1d9cbde2d983680233ad02"
-> +SECTION = "console/tools"
-> +PV = "0.12.0"
-> +
-> +DEPENDS = "libvirt libcheck bison fuse"
-> +
-> +SRC_URI = "git://github.com/libvmi/libvmi.git \
-> +"
-> +
-> +SRCREV = "6934e8a4758018983ec53ec791dd14a7d6ac31a9"
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +inherit autotools-brokensep pkgconfig
-> +
-> +# Noramlly dynamic libs would be of the form libXX.so.1.0.0 in which case
-> +# bitbake should be able to properly populate the -dev package and the main
-> +# packages. Since libvmi uses the form libXX.1.0.0.so it breaks this automatic
-> +# packaging so we need to be more explicit about what goes where.
-> +FILES_${PN} += "${libdir}/libvmi-0.9.so"
-> +FILES_${PN}-dev = "${includedir} ${libdir}/${BPN}.so ${libdir}/*.la \
-> +                ${libdir}/*.o ${libdir}/pkgconfig ${datadir}/pkgconfig \
-> +                ${datadir}/aclocal ${base_libdir}/*.o \
-> +                ${libdir}/${BPN}/*.la ${base_libdir}/*.la"
-> +
-> +PACKAGECONFIG ??= "json-c"
-> +PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen,"
-> +PACKAGECONFIG[json-c] = ",,json-c,"
-> +
-> +# We include a sample conf file to which we have added
-> +do_install_append () {
-> +       mkdir ${D}${sysconfdir}
-> +       cp etc/*.conf ${D}${sysconfdir}
-> +}
-> +
-> +# Construction of grammar.h is not parallel safe.
-> +PARALLEL_MAKE = "-j1"
+> diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
+> index 9905ed9..c09b07c 100644
+> --- a/recipes-kernel/linux/linux-yocto_virtualization.inc
+> +++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+> @@ -10,8 +10,6 @@ KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'featu
+>
+>  KERNEL_MODULE_AUTOLOAD += "openvswitch"
+>  KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm', '', d)}"
+> -KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm-amd', '', d)}"
+> -KERNEL_MODULE_AUTOLOAD += "${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'kvm-intel', '', d)}"
+>
+>  # aufs kernel support required for xen-image-minimal
+>  KERNEL_FEATURES_append += "${@bb.utils.contains('DISTRO_FEATURES', 'aufs', ' features/aufs/aufs-enable.scc', '', d)}"
 > --
 > 2.11.0
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
 
