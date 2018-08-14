@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AC6A3E006B3; Tue, 14 Aug 2018 10:02:00 -0700 (PDT)
+	id 797BDE009C2; Tue, 14 Aug 2018 10:03:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
+	*      [209.85.167.65 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,51 +19,53 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 67D65E0049F
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AD471E00519
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Aug 2018 10:01:59 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id v22-v6so14267611lfe.8
+	Tue, 14 Aug 2018 10:03:00 -0700 (PDT)
+Received: by mail-lf1-f65.google.com with SMTP id f18-v6so14309216lfc.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 14 Aug 2018 10:01:59 -0700 (PDT)
+	Tue, 14 Aug 2018 10:03:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=Kw/P0pRKPQuRV7c4/t7ZvKTrlI6FFoBwXXmEV+mFg+w=;
-	b=r32n92rvhmeaXJQIGJMHjM1iSWHmPLDYC5XKJQ0PE6R8jfWU2+3TV/3lujY6rpF521
-	OYvua2UEL783dFKt7Nto7qiqK+eQkQUpdvWiYdGl4U7K2pjv1jrjvFIegQ7GnazqwwQn
-	WaBUmJy9WxH57JZ6c5DIgXnrqQpM63MwRQL1ak8rXIFSsDNf6ytQ8Q6BSNCxIatVZlTn
-	VnV50RHlClzwaGz5DxEUMGrGhnPU045F54Q6EoNonTEZJ75LLqZcWVkyRdLiM8nOIQXS
-	Fj1r+s99YmWFvN+AtIkmiQNobh/o1myBhO+6QpDViWjTbrp7Eo5g9+UD/KGFUOkmSz3D
-	uNnA==
+	:cc; bh=gd/tyhPfx7HIgCpgWoNDd5G4rsrxhyJz9nZUAbHG08A=;
+	b=QbQPSzSZkuA4o6BPyhRLEvB5TcuOiBNJy0p9g8QXTgl1caDkwPRu+PP11yoFkCMJzW
+	e2q0cavXNwhsgp/Zduosyly0V+mYC/TuVcL5TruDPLzSO00BEqcsRpYeLEFTOJPtGlSO
+	0VYamF1g4Bo5xfVHPWWZn2M7nfXQ7KrUwHP4Jv5KA6+78Nj3xj1HbTk/eqSDuuBM5xd5
+	8MiuE0gELcmsb9NuKm8z6hbH5yGTIljt7lyhIL9FGdx01/UwWF7HnDDE6JSEnGhQ9zCp
+	jst50B63N1YkJwU0E7FdtVdqjtqXXaorn9mvFJe5vKIGqKVnsV1Fx5uItdwWPV9rhduB
+	tIuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=Kw/P0pRKPQuRV7c4/t7ZvKTrlI6FFoBwXXmEV+mFg+w=;
-	b=aEdbDn6vDprQvU7zFIWeKcWEEWaDZEiwoWVOEmrG1wWVv4HW0UvVl8At9Dwqk+r3fi
-	7+6Bd8NwRJkuFBR4KcSJiWBed+zJJJf+7ZiK35RvJwIfKmjUXHpr0zloVL1uolPsDiKu
-	dblxECE1s1nO8Z7gYqWkVpTItVFpHZKU1j/Tk5PB6O96VfB08OHHdtvGsKvz2rdkYoMg
-	AfUoA7VSJwWNIpJnZ5qbBZHswGqSGX04HT4320F6Fs5iKSNNRvsBI7woncpYiFQZlg28
-	8ba65bAM7FAycXEBWtGmxTMKVkYSuI0XReCHvXyXL0POkuVNyK7n/TAnAv9FgWjMYBAt
-	ybKg==
-X-Gm-Message-State: AOUpUlEvtyiWCBdK5SwzKn9uvHdLvxke7pA6EORyCmjijdkzMNIdXkJZ
-	OTLhqjLHKH0is1DmIXMzKIcNSZRe6N9BtT3iZXSsfg==
-X-Google-Smtp-Source: AA+uWPyofkNDUOBKVV8IvPTegm9Kxv5KZnS2XNh8qC4rKe82AmzcMO/DIsWDOcCxmByRtYf4Nf6D9fmLEVQmaokzkCI=
-X-Received: by 2002:a19:f50d:: with SMTP id
-	j13-v6mr13853026lfb.127.1534266118338; 
-	Tue, 14 Aug 2018 10:01:58 -0700 (PDT)
+	bh=gd/tyhPfx7HIgCpgWoNDd5G4rsrxhyJz9nZUAbHG08A=;
+	b=s9i18lEWR5gEBgP65COt4iLiEOmI0Vq7d5vlDpgDfVlJESXA2AHEjtKj9g0O245pKY
+	tsIh2V8ncdxkaS3P0g0ydvutfqMvDRjITKqpvSIFaFY44VBTav2HNshWxiO/lUmoSiVU
+	qs5h7UVodWD9s9Sy+CE1RFYAz/ICN/Go1Sp9k+pYUy6KekK5mKcC1aSn8rgNXXLKD9EG
+	nvO2uGiwzrJgNnN3gtULsN0I8D4EgAxoOpKZ6doyE+vCqcsIeZhttmaAzgqjWgcCvuam
+	PeskhnB8Dv4/ayO0Q9CQWMaJ5J5xHIFZJnY2IlyDqzGhwWNbczzL11Wq7IXC4ekx5dMX
+	QaDA==
+X-Gm-Message-State: AOUpUlGJ8EgcEQk2as6w+BRvNoeMezXSP/Yfkpg0vey7paTb2/KnJVHu
+	YAVEBWMB1gVa0ISc8d8YZg5fj71vnIrLlC1Mhlc=
+X-Google-Smtp-Source: AA+uWPzyoIC1YrpLCI9ZkmUkLdOGS7evLWlq8VJlJHTe3Ld9HQe9IbA/UERP8h+JXIqw1MuZ4zubcQn5VsBkp76TkH0=
+X-Received: by 2002:a19:9481:: with SMTP id
+	o1-v6mr15309550lfk.38.1534266179845; 
+	Tue, 14 Aug 2018 10:02:59 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Tue, 14 Aug 2018 10:01:57
+Received: by 2002:a2e:9acd:0:0:0:0:0 with HTTP; Tue, 14 Aug 2018 10:02:59
 	-0700 (PDT)
-In-Reply-To: <1534200813-27685-1-git-send-email-christopher.w.clark@gmail.com>
-References: <1534200813-27685-1-git-send-email-christopher.w.clark@gmail.com>
+In-Reply-To: <CACMJ4GbzhGhOve-iY8gYGFNOwemuh0X88RwBS+Djw6h3YnZQBA@mail.gmail.com>
+References: <1533065750-25786-1-git-send-email-christopher.w.clark@gmail.com>
+	<CADkTA4MaDs7ondvm=qko7NdumuOb5OKo-xQ8MZnOXuYQUtopsA@mail.gmail.com>
+	<CACMJ4GbzhGhOve-iY8gYGFNOwemuh0X88RwBS+Djw6h3YnZQBA@mail.gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 14 Aug 2018 13:01:57 -0400
-Message-ID: <CADkTA4Pst76i6YOz9O4+BOU41opksv_H3TmbWo=1K9pHMmsiVg@mail.gmail.com>
+Date: Tue, 14 Aug 2018 13:02:59 -0400
+Message-ID: <CADkTA4OD2f++=eA2iQidxb1S_4_DQVjRUHqEkBFeH+TQbpB=yQ@mail.gmail.com>
 To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] seabios: update SRC_URI to: https://www.seabios.org/downloads/...
+Cc: meta-virtualization@yoctoproject.org, Doug Goldstein <cardoe@gentoo.org>
+Subject: Re: [PATCH v2 0/9] Xen: upgrade to 4.11.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,45 +78,50 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Aug 2018 17:02:00 -0000
+X-List-Received-Date: Tue, 14 Aug 2018 17:03:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I did some minor fixups on the older branches. But this is now merged.
+On Tue, Aug 14, 2018 at 12:25 AM, Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+>
+>
+> On Thu, Aug 2, 2018 at 7:59 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+> wrote:
+>>
+>> On Tue, Jul 31, 2018 at 4:35 PM,  <christopher.w.clark@gmail.com> wrote:
+>> > From: Christopher Clark <christopher.w.clark@gmail.com>
+>> >
+>> > This patch series:
+>> > * Fixes Xen recipe compatibility with gcc 8.1
+>> > * Adds the Xen recipe for Xen's current version: 4.11.0
+>> > * Upgrades the existing Xen recipe from 4.10.0 to 4.10.1
+>> >     - provided to ease backport to older branches (eg. sumo)
+>>
+>> This looks sane to me, and the series is now merged to master.
+>>
+>> If it is indeed needed on other branches, or specific patches should
+>> be backported, let me know.
+>
+>
+> For sumo: these three should go in:
+>
+> commit 6160783cc05769784781ecac7e04dbd4a15ad8f0
+>     xen-vtpm : fix patch fuzz, whitespace-only change
+>
+> commit f9650d8997505796883d0ef61bd8ad2a87c2b36e
+>     tpm-emulator: apply patch to fix memcmp defect found by gcc
+>
+> commit 9955e81b23eb6bb264b32c5bb02b326097a4ec02
+>     xen: upgrade to 4.10.1, and apply patches for gcc 8.1 compatibility
+
+These have been cherry picked and pushed.
 
 Bruce
 
-On Mon, Aug 13, 2018 at 6:53 PM,  <christopher.w.clark@gmail.com> wrote:
-> From: Christopher Clark <christopher.w.clark@gmail.com>
 >
-> According to the latest seabios download instructions,
-> this is now the preferred source for release downloads.
+> thanks
 >
-> Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
-> ---
->
-> This new SRC_URI is needed in: master, sumo, rocko, pyro, morty, krogoth
->
-> Referenced Seabios git commit:
-> https://git.seabios.org/cgit/seabios.git/commit/?id=95f850c2377968ad951121ceaab76d40a9eed593
->
->  recipes-extended/seabios/seabios_1.9.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-extended/seabios/seabios_1.9.1.bb b/recipes-extended/seabios/seabios_1.9.1.bb
-> index 9206046..77e8f34 100644
-> --- a/recipes-extended/seabios/seabios_1.9.1.bb
-> +++ b/recipes-extended/seabios/seabios_1.9.1.bb
-> @@ -4,7 +4,7 @@ LICENSE = "LGPLv3"
->  SECTION = "firmware"
->
->  SRC_URI = " \
-> -    https://code.coreboot.org/p/seabios/downloads/${PN}-${PV}.tar.gz \
-> +    https://www.seabios.org/downloads/${PN}-${PV}.tar.gz \
->      file://hostcc.patch \
->      "
->
-> --
-> 2.7.4
+> Christopher
 >
 
 
