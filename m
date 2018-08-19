@@ -1,6 +1,6 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 183C1E00890; Sat, 18 Aug 2018 18:37:32 -0700 (PDT)
+	id AFB98E00A25; Sat, 18 Aug 2018 18:37:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.223.195 listed in list.dnswl.org]
+	*      [209.85.223.169 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,52 +19,55 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
-	[209.85.223.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED70EE006B4
+Received: from mail-io0-f169.google.com (mail-io0-f169.google.com
+	[209.85.223.169])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B79B8E007EE
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 18 Aug 2018 18:37:30 -0700 (PDT)
-Received: by mail-io0-f195.google.com with SMTP id m4-v6so9918508iop.3
+	Sat, 18 Aug 2018 18:37:32 -0700 (PDT)
+Received: by mail-io0-f169.google.com with SMTP id e12-v6so1518664iok.12
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 18 Aug 2018 18:37:30 -0700 (PDT)
+	Sat, 18 Aug 2018 18:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=TXH2CMO4ZgOtjLAW2TlnJY1Vt5AM4EfXU+I1s/13XV8=;
-	b=KlEpC6hQmlVVyUSXq66kM3Gt8Pgci8tcK4gkpNMtMFCJBTC53Ji4i/HeNyq9Ge58nY
-	0v8SUt4Chv6nVtR/1m6UHqzcA4/XJn8jhN+S3vnJ7GBvXouCuiIJMSm0MU+EcpMqfR4P
-	U65hhMTG16D/dGqthObFZz2MEWZPjBSkNfSUwwL5voGsf6Hv3RiKNGN3qcJEd+QizNr1
-	18ELQZ5xtma/K9flihb+keID305rMaHTx8Gq3guhbVXTR/UI/ne3av4c7n3Jt53BCdfU
-	fkAnAzif/aUJM5wxRCbS7RZ8cJknlaAKQSMtE6p1BaPs1cb7ECnqnjakTlIabOc/R5D+
-	xlog==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=JOj42/NanXOPgLp31trkOWrHFrbkAzYOOspHCqJLMZ4=;
+	b=vEKx7Pre+DFAGZzsc+LIL/Q8h8of55DAohO0VByWzh0Rtu8e/LobwXcCvi/1frqmni
+	grmyMI+OjSwklfBpvgKRZxWN06PWjamN+K8yYeZZrdnpZ3sgETksg+vM79lk8+2nhGSn
+	6LTa83siJM4G+IezZJSTALh966/If5cAk/NuwsdAdSUwCw05mg2MNPDYhpHl5CuGtprP
+	jjh2r3R+lhVDpYe09+1/v4VG7mf9SgfvntFgDO9s0IynMFnlr/0FcSg1n+7kJ+jSJGK1
+	L8hwQkRK+7OQEEs5KvNAkaOXf3o+kgZuC/6FmX6+6SRAWM/n8Ajssb9NRYmv/2241ZAX
+	+h9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=TXH2CMO4ZgOtjLAW2TlnJY1Vt5AM4EfXU+I1s/13XV8=;
-	b=jyKWQ3YwNjhOYC283MgCtlFIHvwpEX2zv3rdBQQkF24HZX4R9qF4Q+hYVjPJ7SoSih
-	V188hTeFG0K5NpUvvll67w/vPYJb19XygIOByz+MB66FLCZL69GNxNPuAagnlKsZOxI6
-	zm5M9kfVbIP3p1PlDQ/WYNZ6IfT19Oev3nW/O1i2QY1AeCQu/NupGvYSEaNJKhLJZoaq
-	aTNpAoArP52/8pi6y5yCwnKQSu1RVlGiz+CqqHaDoTtM+ULWf3FeaA/EOEt2+7N0ZuY1
-	oYypxgs9eU05hGq90Ft6mCGSjcfVPF0UIL63oIPlefwukyNa4jjIPjWNZGnoAYTE7sEU
-	Y0oA==
-X-Gm-Message-State: AOUpUlE14QOludL5xPEfqPBK1wENw46cE4QxVOET2PrfDDSjmOsV6fpz
-	3QQ2K9JfjsKnN4eYFeWv3p2yw/Er
-X-Google-Smtp-Source: AA+uWPw35Sa3uuor+otlgelBY/sp4DjJiBnf8QAu+by4t47RU8Jc2euLSvG0/nJweueSyywFkwO7+A==
-X-Received: by 2002:a6b:1bd5:: with SMTP id
-	b204-v6mr35506293iob.240.1534642649995; 
-	Sat, 18 Aug 2018 18:37:29 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=JOj42/NanXOPgLp31trkOWrHFrbkAzYOOspHCqJLMZ4=;
+	b=IgG7PqJEKMgvF3YquPJqUHkUcl0GZ0wBU5V7Y0uoRdtXfLjzWT3DMntNKyCDT9x5uv
+	vPmgydwzA8+k3VSFMdVecGxQsC9+sjEXXgO0FkXG/7HSdgvjLJC4O2mvNduKWUT+4QaO
+	cVaxVE7DR9mzDPox9Nc4gQQpwQ/+1pMeSJCiK58ntqK7AYHYwzZXBaZuEGuQaz1aeAaw
+	GAhihHal7aoDpkU9uY0LhmVYPPN2ILdKoPWY4Jg2PI5R6QROUYsgeozcBCg9WA+9Ynuu
+	75QVrxSCGYTCd3cOBetalTNCjf+JhbVB1KPvzC9Zghb+dKXncG9F8LQbuJyEigrRBPH1
+	2a/Q==
+X-Gm-Message-State: APzg51Blc2ddwCBoHuxuKgC4rWswQrU+8+lwi2Ncr23zIxXfZfvpnTgA
+	pQ8RuLX7kZT96Y4jUx4sLOuP4OSK
+X-Google-Smtp-Source: ANB0VdYGPxZqM9scBeIm/BUYTP1ua64I/4sWDwgidoNO9x+Stvcqkz3loGObCczxpwNNIGR5I0zIBg==
+X-Received: by 2002:a5e:db43:: with SMTP id
+	r3-v6mr5600063iop.215.1534642651788; 
+	Sat, 18 Aug 2018 18:37:31 -0700 (PDT)
 Received: from WorkStation-T3500.ice.pyrology.org
 	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
 	by smtp.gmail.com with ESMTPSA id
-	i2-v6sm2198418ioh.80.2018.08.18.18.37.27
+	i2-v6sm2198418ioh.80.2018.08.18.18.37.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 18 Aug 2018 18:37:28 -0700 (PDT)
+	Sat, 18 Aug 2018 18:37:30 -0700 (PDT)
 From: Christopher Clark <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Date: Sat, 18 Aug 2018 18:37:12 -0700
-Message-Id: <1534642635-18305-1-git-send-email-christopher.w.clark@gmail.com>
+Date: Sat, 18 Aug 2018 18:37:13 -0700
+Message-Id: <1534642635-18305-2-git-send-email-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1534642635-18305-1-git-send-email-christopher.w.clark@gmail.com>
+References: <1534642635-18305-1-git-send-email-christopher.w.clark@gmail.com>
 Cc: cardoe@gentoo.org
-Subject: [PATCH 0/3] Xen on ARM: fix 64-bit and add 32-bit
+Subject: [PATCH 1/3] xen: fix build on aarch64 w/ gcc 8.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,32 +80,137 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 01:37:32 -0000
+X-List-Received-Date: Sun, 19 Aug 2018 01:37:33 -0000
 
-From: Christopher Clark <christopher.clark6@baesystems.com>
+Adds patch for compatibility with gcc 8.2, to fix string lengths
+for copied values to prevent array-bounds warnings.
 
-This series fixes the Xen build for 64-bit ARM targets with gcc 8.2
-with a minor patch to correct static string lengths, already reviewed
-upstream:
-https://lists.xenproject.org/archives/html/xen-devel/2018-08/msg01367.html
-
-and introduces 32-bit ARM compatibility, verified by testing with a cubietruck.
-This currently requires another tiny patch to suppress a new (false positive)
-compiler warning.
-
-Christopher Clark (3):
-  xen: Fix build on arm64 w/ gcc 8.2
-  xen: fix truncation warning in tools build for ARM 32-bit
-  xen: enable 32-bit ARM builds
-
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
  .../xen-4.11-arm-acpi-fix-string-lengths.patch     | 101 +++++++++++++++++++++
- .../xen/files/xen-tools-xenpmd-snprintf.patch      |  78 ++++++++++++++++
- recipes-extended/xen/xen.inc                       |   7 +-
- recipes-extended/xen/xen_4.11.0.bb                 |   2 +
- 4 files changed, 187 insertions(+), 1 deletion(-)
+ recipes-extended/xen/xen_4.11.0.bb                 |   1 +
+ 2 files changed, 102 insertions(+)
  create mode 100644 recipes-extended/xen/files/xen-4.11-arm-acpi-fix-string-lengths.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-xenpmd-snprintf.patch
 
+diff --git a/recipes-extended/xen/files/xen-4.11-arm-acpi-fix-string-lengths.patch b/recipes-extended/xen/files/xen-4.11-arm-acpi-fix-string-lengths.patch
+new file mode 100644
+index 0000000..ece6407
+--- /dev/null
++++ b/recipes-extended/xen/files/xen-4.11-arm-acpi-fix-string-lengths.patch
+@@ -0,0 +1,101 @@
++From 5e1a00969afe98a713bf14d1ba1902403b60e287 Mon Sep 17 00:00:00 2001
++From: Christopher Clark <christopher.w.clark@gmail.com>
++Date: Thu, 16 Aug 2018 13:04:52 -0700
++Subject: [PATCH v2] libxl/arm: Fix build on arm64 + acpi w/ gcc 8.2
++To: xen-devel@lists.xenproject.org
++Cc: wei.liu2@citrix.com,
++    ian.jackson@eu.citrix.com,
++    julien.grall@arm.com,
++    sstabellini@kernel.org
++
++[modified for Xen 4.11 to add required: #include <xen-tools/libs.h>]
++
++Add zero-padding to #defined ACPI table strings that are copied.
++Provides sufficient characters to satisfy the length required to
++fully populate the destination and prevent array-bounds warnings.
++Add BUILD_BUG_ON sizeof checks for compile-time length checking.
++
++Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
++Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
++Acked-by: Wei Liu <wei.liu2@citrix.com>
++---
++v2: add BUILD_BUG_ON length checks, requested by Wei.
++
++v1: Please add this patch to the backport list for the next minor
++    4.11 release.
++
++Prior to this: gcc 8.2 objects to memcpy past bounds:
++
++| libxl_arm_acpi.c: In function 'make_acpi_header':
++| libxl_arm_acpi.c:208:5: error: 'memcpy' forming offset [5, 6] is out
++of the bounds [0, 4] [-Werror=array-bounds]
++|      memcpy(h->oem_id, ACPI_OEM_ID, sizeof(h->oem_id));
++|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++| libxl_arm_acpi.c:209:5: error: 'memcpy' forming offset [5, 8] is out
++of the bounds [0, 4] [-Werror=array-bounds]
++|      memcpy(h->oem_table_id, ACPI_OEM_TABLE_ID,
++sizeof(h->oem_table_id));
++|
++^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++| libxl_arm_acpi.c:211:5: error: 'memcpy' forming offset 4 is out of the
++bounds [0, 3] [-Werror=array-bounds]
++|      memcpy(h->asl_compiler_id, ACPI_ASL_COMPILER_ID,
++|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++|             sizeof(h->asl_compiler_id));
++|             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
++| In function 'make_acpi_rsdp.isra.4',
++|     inlined from 'libxl__prepare_acpi' at libxl_arm_acpi.c:389:5:
++| libxl_arm_acpi.c:193:5: error: 'memcpy' forming offset [5, 6] is out
++of the bounds [0, 4] [-Werror=array-bounds]
++|      memcpy(rsdp->oem_id, ACPI_OEM_ID, sizeof(rsdp->oem_id));
++|      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++ tools/libxl/libxl_arm_acpi.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
++
++diff --git a/tools/libxl/libxl_arm_acpi.c b/tools/libxl/libxl_arm_acpi.c
++index 636f724..8924396 100644
++--- a/tools/libxl/libxl_arm_acpi.c
+++++ b/tools/libxl/libxl_arm_acpi.c
++@@ -29,6 +29,7 @@ typedef int64_t s64;
++ 
++ #include <acpi/acconfig.h>
++ #include <acpi/actbl.h>
+++#include <xen-tools/libs.h>
++ 
++ #ifndef BITS_PER_LONG
++ #ifdef _LP64
++@@ -48,9 +49,9 @@ extern const unsigned char dsdt_anycpu_arm[];
++ _hidden
++ extern const int dsdt_anycpu_arm_len;
++ 
++-#define ACPI_OEM_ID "Xen"
++-#define ACPI_OEM_TABLE_ID "ARM"
++-#define ACPI_ASL_COMPILER_ID "XL"
+++#define ACPI_OEM_ID "Xen\0\0"
+++#define ACPI_OEM_TABLE_ID "ARM\0\0\0\0"
+++#define ACPI_ASL_COMPILER_ID "XL\0"
++ 
++ enum {
++     RSDP,
++@@ -190,6 +191,7 @@ static void make_acpi_rsdp(libxl__gc *gc, struct xc_dom_image *dom,
++     struct acpi_table_rsdp *rsdp = (void *)dom->acpi_modules[0].data + offset;
++ 
++     memcpy(rsdp->signature, "RSD PTR ", sizeof(rsdp->signature));
+++    BUILD_BUG_ON(sizeof(ACPI_OEM_ID) != sizeof(rsdp->oem_id));
++     memcpy(rsdp->oem_id, ACPI_OEM_ID, sizeof(rsdp->oem_id));
++     rsdp->length = acpitables[RSDP].size;
++     rsdp->revision = 0x02;
++@@ -205,9 +207,12 @@ static void make_acpi_header(struct acpi_table_header *h, const char *sig,
++     memcpy(h->signature, sig, 4);
++     h->length = len;
++     h->revision = rev;
+++    BUILD_BUG_ON(sizeof(ACPI_OEM_ID) != sizeof(h->oem_id));
++     memcpy(h->oem_id, ACPI_OEM_ID, sizeof(h->oem_id));
+++    BUILD_BUG_ON(sizeof(ACPI_OEM_TABLE_ID) != sizeof(h->oem_table_id));
++     memcpy(h->oem_table_id, ACPI_OEM_TABLE_ID, sizeof(h->oem_table_id));
++     h->oem_revision = 0;
+++    BUILD_BUG_ON(sizeof(ACPI_ASL_COMPILER_ID) != sizeof(h->asl_compiler_id));
++     memcpy(h->asl_compiler_id, ACPI_ASL_COMPILER_ID,
++            sizeof(h->asl_compiler_id));
++     h->asl_compiler_revision = 0;
+diff --git a/recipes-extended/xen/xen_4.11.0.bb b/recipes-extended/xen/xen_4.11.0.bb
+index 7884194..d7cff32 100644
+--- a/recipes-extended/xen/xen_4.11.0.bb
++++ b/recipes-extended/xen/xen_4.11.0.bb
+@@ -4,6 +4,7 @@ require xen.inc
+ SRC_URI = " \
+     https://downloads.xenproject.org/release/xen/${PV}/xen-${PV}.tar.gz \
+     file://tools-xentop-vwprintw.patch \
++    file://xen-4.11-arm-acpi-fix-string-lengths.patch \
+     "
+ 
+ SRC_URI[md5sum] = "cbec0600284921744bc14119f4ed3fff"
 -- 
 2.7.4
 
