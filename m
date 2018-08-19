@@ -1,37 +1,70 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 12D77E00848; Fri, 17 Aug 2018 13:43:38 -0700 (PDT)
+	id 183C1E00890; Sat, 18 Aug 2018 18:37:32 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
+	mail provider *      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.223.195 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 00500E00848
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+Received: from mail-io0-f195.google.com (mail-io0-f195.google.com
+	[209.85.223.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED70EE006B4
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 17 Aug 2018 13:43:36 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w7HKhaX8019198
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sat, 18 Aug 2018 18:37:30 -0700 (PDT)
+Received: by mail-io0-f195.google.com with SMTP id m4-v6so9918508iop.3
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 17 Aug 2018 13:43:36 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.399.0;
-	Fri, 17 Aug 2018 13:43:35 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Fri, 17 Aug 2018 16:43:28 -0400
-Message-ID: <1534538608-15231-2-git-send-email-mark.asselstine@windriver.com>
+	Sat, 18 Aug 2018 18:37:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=TXH2CMO4ZgOtjLAW2TlnJY1Vt5AM4EfXU+I1s/13XV8=;
+	b=KlEpC6hQmlVVyUSXq66kM3Gt8Pgci8tcK4gkpNMtMFCJBTC53Ji4i/HeNyq9Ge58nY
+	0v8SUt4Chv6nVtR/1m6UHqzcA4/XJn8jhN+S3vnJ7GBvXouCuiIJMSm0MU+EcpMqfR4P
+	U65hhMTG16D/dGqthObFZz2MEWZPjBSkNfSUwwL5voGsf6Hv3RiKNGN3qcJEd+QizNr1
+	18ELQZ5xtma/K9flihb+keID305rMaHTx8Gq3guhbVXTR/UI/ne3av4c7n3Jt53BCdfU
+	fkAnAzif/aUJM5wxRCbS7RZ8cJknlaAKQSMtE6p1BaPs1cb7ECnqnjakTlIabOc/R5D+
+	xlog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=TXH2CMO4ZgOtjLAW2TlnJY1Vt5AM4EfXU+I1s/13XV8=;
+	b=jyKWQ3YwNjhOYC283MgCtlFIHvwpEX2zv3rdBQQkF24HZX4R9qF4Q+hYVjPJ7SoSih
+	V188hTeFG0K5NpUvvll67w/vPYJb19XygIOByz+MB66FLCZL69GNxNPuAagnlKsZOxI6
+	zm5M9kfVbIP3p1PlDQ/WYNZ6IfT19Oev3nW/O1i2QY1AeCQu/NupGvYSEaNJKhLJZoaq
+	aTNpAoArP52/8pi6y5yCwnKQSu1RVlGiz+CqqHaDoTtM+ULWf3FeaA/EOEt2+7N0ZuY1
+	oYypxgs9eU05hGq90Ft6mCGSjcfVPF0UIL63oIPlefwukyNa4jjIPjWNZGnoAYTE7sEU
+	Y0oA==
+X-Gm-Message-State: AOUpUlE14QOludL5xPEfqPBK1wENw46cE4QxVOET2PrfDDSjmOsV6fpz
+	3QQ2K9JfjsKnN4eYFeWv3p2yw/Er
+X-Google-Smtp-Source: AA+uWPw35Sa3uuor+otlgelBY/sp4DjJiBnf8QAu+by4t47RU8Jc2euLSvG0/nJweueSyywFkwO7+A==
+X-Received: by 2002:a6b:1bd5:: with SMTP id
+	b204-v6mr35506293iob.240.1534642649995; 
+	Sat, 18 Aug 2018 18:37:29 -0700 (PDT)
+Received: from WorkStation-T3500.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+	by smtp.gmail.com with ESMTPSA id
+	i2-v6sm2198418ioh.80.2018.08.18.18.37.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 18 Aug 2018 18:37:28 -0700 (PDT)
+From: Christopher Clark <christopher.w.clark@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Sat, 18 Aug 2018 18:37:12 -0700
+Message-Id: <1534642635-18305-1-git-send-email-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1534538608-15231-1-git-send-email-mark.asselstine@windriver.com>
-References: <1534538608-15231-1-git-send-email-mark.asselstine@windriver.com>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] libvirt: uprev to v4.5.0
+Cc: cardoe@gentoo.org
+Subject: [PATCH 0/3] Xen on ARM: fix 64-bit and add 32-bit
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,82 +77,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Aug 2018 20:43:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 19 Aug 2018 01:37:32 -0000
 
-Although v4.6.0 was just recently released we do not want to jump to
-it due to:
+From: Christopher Clark <christopher.clark6@baesystems.com>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1614569
+This series fixes the Xen build for 64-bit ARM targets with gcc 8.2
+with a minor patch to correct static string lengths, already reviewed
+upstream:
+https://lists.xenproject.org/archives/html/xen-devel/2018-08/msg01367.html
 
-Unfortunately the mess around the above defect basically renders that
-release useless. We will need to keep an eye for either a v4.7.0 or
-grab updates off of the 'v4.5-maint' over the coming weeks.
+and introduces 32-bit ARM compatibility, verified by testing with a cubietruck.
+This currently requires another tiny patch to suppress a new (false positive)
+compiler warning.
 
-As usual I have tested using qemu and lxc usecases (define, boot and
-'virsh console' onto a guest). The ptests results match those of
-v4.3.0:
+Christopher Clark (3):
+  xen: Fix build on arm64 w/ gcc 8.2
+  xen: fix truncation warning in tools build for ARM 32-bit
+  xen: enable 32-bit ARM builds
 
-  ======================================
-  Testsuite summary for libvirt 4.5.0
-  ======================================
-  # TOTAL: 119
-  # PASS:  114
-  # SKIP:  0
-  # XFAIL: 0
-  # FAIL:  5
-  # XPASS: 0
-  # ERROR: 0
+ .../xen-4.11-arm-acpi-fix-string-lengths.patch     | 101 +++++++++++++++++++++
+ .../xen/files/xen-tools-xenpmd-snprintf.patch      |  78 ++++++++++++++++
+ recipes-extended/xen/xen.inc                       |   7 +-
+ recipes-extended/xen/xen_4.11.0.bb                 |   2 +
+ 4 files changed, 187 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-extended/xen/files/xen-4.11-arm-acpi-fix-string-lengths.patch
+ create mode 100644 recipes-extended/xen/files/xen-tools-xenpmd-snprintf.patch
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
-
-NOTE: I was seeing an odd behavior while testing that I don't
-believe was libvirt but rather related to other packages on
-the system. Basically libvirtd would fail to fully start until
-I would perform a 'find / -name "*sock*"' on the system. I was
-not seeing this originally and it only manifested after I pulled
-updates for other layers.
-
-
- recipes-extended/libvirt/libvirt-python.inc                     | 4 ++--
- recipes-extended/libvirt/{libvirt_4.3.0.bb => libvirt_4.5.0.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename recipes-extended/libvirt/{libvirt_4.3.0.bb => libvirt_4.5.0.bb} (98%)
-
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index 79beb95..cdc5719 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
- SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
- SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
- 
--SRC_URI[libvirt_python.md5sum] = "2ea5f1871358e6a5788b52c2e1a0b809"
--SRC_URI[libvirt_python.sha256sum] = "efe384479a0bf74b1b83bba208887b263cc0061fd4f87759cf3067a403618ea9"
-+SRC_URI[libvirt_python.md5sum] = "0c1b66a8878d6436b036565060707f73"
-+SRC_URI[libvirt_python.sha256sum] = "ef35ed6bc24d76563b1ba9b068ef5a048016726dba62a9d057fe6dfbea6b0f60"
- 
- export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
- export LIBVIRT_CFLAGS = "-I${S}/include"
-diff --git a/recipes-extended/libvirt/libvirt_4.3.0.bb b/recipes-extended/libvirt/libvirt_4.5.0.bb
-similarity index 98%
-rename from recipes-extended/libvirt/libvirt_4.3.0.bb
-rename to recipes-extended/libvirt/libvirt_4.5.0.bb
-index bb4a256..9cfa74a 100644
---- a/recipes-extended/libvirt/libvirt_4.3.0.bb
-+++ b/recipes-extended/libvirt/libvirt_4.5.0.bb
-@@ -37,8 +37,8 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
-            file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
-           "
- 
--SRC_URI[libvirt.md5sum] = "946cfa2558401612c4fcbc934ef9077b"
--SRC_URI[libvirt.sha256sum] = "a531e22c8b985ecb2d1223b913fd6ec0f1800e3ebe02351924274885db20c2b7"
-+SRC_URI[libvirt.md5sum] = "692b2d00907438ed08a68813d3177cd3"
-+SRC_URI[libvirt.sha256sum] = "e7e95edc0ca553046761ed55a8d01a06a3a3a4238bbeaedb3ba34680a277ab09"
- 
- inherit autotools gettext update-rc.d pkgconfig ptest systemd
- 
 -- 
 2.7.4
 
