@@ -1,6 +1,6 @@
-Return-Path: <christopher.w.clark@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6FC05E00BC2; Sat, 18 Aug 2018 18:37:37 -0700 (PDT)
+	id 0EB4FE00A86; Mon, 20 Aug 2018 08:36:32 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,10 +8,10 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (christopher.w.clark[at]gmail.com)
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.214.67 listed in list.dnswl.org]
+	*      [209.85.208.196 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,55 +19,51 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-it0-f67.google.com (mail-it0-f67.google.com
-	[209.85.214.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 55364E00BDC
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8AC23E003D7
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 18 Aug 2018 18:37:36 -0700 (PDT)
-Received: by mail-it0-f67.google.com with SMTP id v71-v6so16380839itb.3
+	Mon, 20 Aug 2018 08:36:30 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id u7-v6so11951722lji.3
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 18 Aug 2018 18:37:36 -0700 (PDT)
+	Mon, 20 Aug 2018 08:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=BuvXFvIWG/vCIDbjGWS/wEbdt9KFZAOPH4eSnKLeKFI=;
-	b=YFwDCXeVxKma/dz6iRtcC6dCeqdufy7wa2ezibE9aHBp4p+KHwtXmRjxATgeTQOmzf
-	e+7HyuACEbB9Sb4nLJWMx6/sFFEFX56XWjfodfaLVBsuyH05avqR1I6CPwpF2/1KGWxe
-	HrSAhFIHxrgwLlnnpnkXTXMxtgK/aUfP4hYOYCF2iPwAg0vi1DLOrxLBXKEyxN+755v9
-	PwJiJUpLVtON++TXi8GI6W4EBTydqglprlSDxhcXxzwYJ/LlOIlJSt1mCFYMlcNThcO+
-	HaUHTLL6RXHC4FBnPioLvIx8OOIwjv+AA6pdQNrKI+pfD0NZynpYvg8XA0d9UrSrvcy/
-	UU0g==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=mJQLWR4GcOzOBQxAXa64vLqLkBw1KpU3+Zt/o1K3buQ=;
+	b=kocqUd8tsfOWzCfT3TEpqZx+xlWhdBm6J/QsFCky9IqOosydPtbIGlMxvCiJiibOA7
+	K2zWeY0hQyWyeHI/LaAjW7Jzt0xOhS7Mcd9TPbI73siMHd4UYJwUEILOWxg8/dTxuMzI
+	s2S7lHP1YB/L0A//9jKWNwBpZLj1lNP2Z6WgwgXrUQtwktRSAAsmeASDoNYRibNaokRj
+	Pm1gpGE+DmIxETalySHx81AimsWlHaFYG8o9eqXhIELfHOOFBuqKl7SzfeMbmzGQfjhg
+	wTLUE4awrHgW1z+Jmiy+VBzlXiUsTiTtv0DQICvOtgbjJaHidZcMmuRcq7h6SUtX1t+1
+	+ntA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=BuvXFvIWG/vCIDbjGWS/wEbdt9KFZAOPH4eSnKLeKFI=;
-	b=mwk6qL7wLYV3421Uk4/TbsnO6QAazeVTeVxhw0gdjvxSlQnpBk/phGFpDdE9tPBTcs
-	9oQ/dFT4D15KsmWb36t+VxpWP1A7dt4ZkmhCp6tfE+issRPjpnruNh0HveWGD7tWRqHk
-	dwuSEqazhF07zqMvRMspN9ErtUrDUEW+VtyQYrNpMfEls2s5Ds+evbTMfHeRD8RCuhi5
-	rtlUc8IIPj8ULEwq/Jgw0Q38+vf2a7Rf/P7CeNT8QNvZdZAAZAvNzFB6scpBqNytuJrI
-	myBRwwZgfF1HYcFin5l/dhrfInvn+wXkFzKw+NjwpGGr4h9LeFz8QNqnypg43sJDgOV1
-	N/Uw==
-X-Gm-Message-State: AOUpUlHOxEzG7HUaG9sfXUiu/yYP9MRfJN+CcRHCr1d8QVK93thNdBBV
-	DnQFV4BD/yF52+yAcQpDi45Hf2+1
-X-Google-Smtp-Source: AA+uWPzKVmDxd8/PKB6GJpYsQT2efeoNmb4DabWaJgczK3HioOgurEupFBBlDLzPG86OGFNKyQlcAA==
-X-Received: by 2002:a24:4118:: with SMTP id
-	x24-v6mr31140342ita.71.1534642655335; 
-	Sat, 18 Aug 2018 18:37:35 -0700 (PDT)
-Received: from WorkStation-T3500.ice.pyrology.org
-	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-	by smtp.gmail.com with ESMTPSA id
-	i2-v6sm2198418ioh.80.2018.08.18.18.37.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 18 Aug 2018 18:37:34 -0700 (PDT)
-From: Christopher Clark <christopher.w.clark@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Date: Sat, 18 Aug 2018 18:37:15 -0700
-Message-Id: <1534642635-18305-4-git-send-email-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.7.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=mJQLWR4GcOzOBQxAXa64vLqLkBw1KpU3+Zt/o1K3buQ=;
+	b=rJczZZJrZMo1yyqb3nEI1giwcnkI+gqRMRnNdgOORaeNV+30CuLA5Y6QKkpVB6AvUD
+	M/nnaHbHlt2VfmpcTAb2vsuKp4S3eGRAnYn2RqIfRFex5qF5CwzBGmwyRYMmf6n1171W
+	jaSAbcH3yEyg057TxO/QUB5q/ptA3vhzvDgjo99MsKL00zf81AluBIBufWoBnDDJoATU
+	ItbI3ftAOxibUgCyyC7hVM6KDub3fy3boKgEajL+UoJ5LiBzzlOPhnYK+WY0HewHs9nr
+	QP0cdz1ftVRWL/A33gE2vvyEOqBQ5HkTeP7B+bKFZZuiLTaPfvAkR9VX3F0B0Q+pq8LC
+	BRZQ==
+X-Gm-Message-State: AOUpUlFjRoyQkJ/9tjqD7x67Uod4sr1Fv7WyHcni+Z8sAxL5QdFnzdKg
+	W72SKll4ThSJ38BGIyDSQm8z/VB3zfrFbHd4LC0=
+X-Google-Smtp-Source: AA+uWPzSXv4qPkGM2sitz09RzPoaG4UyQGfjvb55WhwQtfkoBBCGwJbPvPQsrNXz8rNSiGqjTKISLVQE/QzT/AHNuQo=
+X-Received: by 2002:a2e:9854:: with SMTP id
+	e20-v6mr30962374ljj.143.1534779389522; 
+	Mon, 20 Aug 2018 08:36:29 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:8688:0:0:0:0:0 with HTTP; Mon, 20 Aug 2018 08:36:29
+	-0700 (PDT)
 In-Reply-To: <1534642635-18305-1-git-send-email-christopher.w.clark@gmail.com>
 References: <1534642635-18305-1-git-send-email-christopher.w.clark@gmail.com>
-Cc: cardoe@gentoo.org
-Subject: [PATCH 3/3] xen: enable 32-bit ARM builds
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 20 Aug 2018 11:36:29 -0400
+Message-ID: <CADkTA4O7Mn6iy3soxM1mU6UD42AzkgMYtU4R6=tJDhiM0o+ZNw@mail.gmail.com>
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization@yoctoproject.org, Doug Goldstein <cardoe@gentoo.org>
+Subject: Re: [PATCH 0/3] Xen on ARM: fix 64-bit and add 32-bit
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -80,42 +76,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Aug 2018 01:37:37 -0000
+X-List-Received-Date: Mon, 20 Aug 2018 15:36:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Enable recipe for COMPATIBLE_HOST = 'arm-.*-linux-gnueabi'
-Tested with a cubietruck, upstream's reference device for this class.
+merged.
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
----
- recipes-extended/xen/xen.inc | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Bruce
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 38cecd1..bf4b3c2 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -5,7 +5,7 @@ SECTION = "console/tools"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=bbb4b1bdc2c3b6743da3c39d03249095"
- 
--COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux'
-+COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
- 
- inherit autotools-brokensep setuptools update-rc.d systemd deploy
- 
-@@ -918,6 +918,11 @@ do_post_patch() {
-     fi
- }
- 
-+do_post_patch_append_arm()  {
-+    # The hypervisor binary must not be built with the hard floating point ABI.
-+    echo "CC := \$(filter-out ${TUNE_CCARGS},\$(CC))" >> ${B}/xen/arch/arm/Rules.mk
-+}
-+
- addtask post_patch after do_patch before do_configure
- 
- do_stubs() {
+On Sat, Aug 18, 2018 at 9:37 PM, Christopher Clark
+<christopher.w.clark@gmail.com> wrote:
+> From: Christopher Clark <christopher.clark6@baesystems.com>
+>
+> This series fixes the Xen build for 64-bit ARM targets with gcc 8.2
+> with a minor patch to correct static string lengths, already reviewed
+> upstream:
+> https://lists.xenproject.org/archives/html/xen-devel/2018-08/msg01367.html
+>
+> and introduces 32-bit ARM compatibility, verified by testing with a cubietruck.
+> This currently requires another tiny patch to suppress a new (false positive)
+> compiler warning.
+>
+> Christopher Clark (3):
+>   xen: Fix build on arm64 w/ gcc 8.2
+>   xen: fix truncation warning in tools build for ARM 32-bit
+>   xen: enable 32-bit ARM builds
+>
+>  .../xen-4.11-arm-acpi-fix-string-lengths.patch     | 101 +++++++++++++++++++++
+>  .../xen/files/xen-tools-xenpmd-snprintf.patch      |  78 ++++++++++++++++
+>  recipes-extended/xen/xen.inc                       |   7 +-
+>  recipes-extended/xen/xen_4.11.0.bb                 |   2 +
+>  4 files changed, 187 insertions(+), 1 deletion(-)
+>  create mode 100644 recipes-extended/xen/files/xen-4.11-arm-acpi-fix-string-lengths.patch
+>  create mode 100644 recipes-extended/xen/files/xen-tools-xenpmd-snprintf.patch
+>
+> --
+> 2.7.4
+>
+
+
+
 -- 
-2.7.4
-
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
