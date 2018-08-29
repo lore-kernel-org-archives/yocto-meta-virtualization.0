@@ -1,70 +1,66 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <sarayu@m5nv.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 662BDE0053F; Tue, 28 Aug 2018 05:22:35 -0700 (PDT)
+	id D652DE00939; Wed, 29 Aug 2018 04:52:47 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.65 listed in list.dnswl.org]
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, HTML_MESSAGE, RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.218.53 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 16626E0043F
+Received: from mail-oi0-f53.google.com (mail-oi0-f53.google.com
+	[209.85.218.53])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3B82BE00718
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Aug 2018 05:22:33 -0700 (PDT)
-Received: by mail-lf1-f65.google.com with SMTP id g9-v6so1217694lfh.1
+	Wed, 29 Aug 2018 04:52:47 -0700 (PDT)
+Received: by mail-oi0-f53.google.com with SMTP id r69-v6so8590105oie.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 28 Aug 2018 05:22:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 29 Aug 2018 04:52:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=m5nv-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=2NIH1JMwxB6h9YY88CjiBY/9SrZzDCOMNmhJYvIY5uY=;
-	b=aMZeV09Cj8enOeSQbc7tCHrUtRgQ2ddkxN1pxMUwsCq5k5hZXU6bEOdJ5Pr9V3gm8D
-	21yY5ehOmi240BnxoyI4CetKFtrtm2LC5KJ5JrRBR0GLV4RainKnuCrm3D0KnP9fA7b4
-	May76Nw9+vMnDxcTn1MChEnGzxovH1hOvkliFed1VPwzLTJCfDqsk/fG6m3CtPUATDwg
-	wLcfiCnvCwFW9sOW2Sh31MClNbt1t4cjd2IIXpwS8dVuD+I7m/p38rWevKrvzR1fQkfW
-	sHNucPe+KQPjqWrMVSNaB+43OqHg7t8HDl9jllBZ5dOkGvNW0FjUSC6us281+/9Lmv9f
-	4q0A==
+	:cc; bh=lIfxfnRzLVRemTkbWuneAUT3gc4CzWb6vzyUX+Am9V4=;
+	b=FIROUlSh9HHHVpGYg288Yqjicb14cK4sJuIxm4n9wLnng6SixA+lGxAybTXe491rtZ
+	YNhy1ArGBXXNZpCPD+1dHElezagS1zayeQ3i/64qRUd5SuAf+UE4NmfSCE3ef/3wDyrp
+	h/ETNIfnTdMCUKzrCF3I3t6n/Rqt47/ywzDVO7jbBBmQzPZl6IW7o1opqqw7tpjSOf8N
+	VYx4IePJnRuIy4g+9g2Q5cJV0y1l11MdLHgLoa5sbG7qZLhbLd8fJVlb3I2YEp+G5SW0
+	LuLukMVOQ9z2P7HLv9wR9WfuWpXovekdkcaanmDnAbFXs87359A6DhBWNWbQ2Xk9Dscy
+	PSOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=2NIH1JMwxB6h9YY88CjiBY/9SrZzDCOMNmhJYvIY5uY=;
-	b=gjspMrKOS4AaCWw+cqoMLcUQpJAEA8+uCsp0wZ46PqoLWZ7uXiEd3UaA7plyWxNAJE
-	I5bqYun3f62S1nSBZn/0AyuKnyRFUXicmYKlaRqFQjVsUuJMi3BAAj1unoQVTf0jbDUA
-	u0Ta/cbh4i+vr1rUVk1GeQZrL7Kirfomt/Lzf7lUJ7oYOYQgWmAQwSYr+9866r8CvazI
-	s3+WJerFaK0dXxIenBtfvSx2tAeMj04rxzAu6wFbKNIfXHdqrmU1wd7DFFl4WjJWnDjb
-	thIA7GwlpAO2lRmFLqEQWhmnGgJSxwbG9W9QNKS6d4wuHkNm6Cjz7EWtp/E2IXIJJjCC
-	Q4RA==
-X-Gm-Message-State: APzg51BktUw0SzOgdkmwJahg6UHB4FS5Jz2cdyg1GlzUpGOkAUum+glO
-	AtIzIgLMp+6j8fdPccKX3bcy3WVcRV2b/3A0IFQ=
-X-Google-Smtp-Source: ANB0VdZ183mBeFNaCq6VXfK954UUjIduVCc6lt/lOpFIMmr+CdNyKT2zLk20I02UHqq3+IcyxglEoAWhdXAdEWfnKAE=
-X-Received: by 2002:a19:7411:: with SMTP id
-	v17-v6mr1152823lfe.49.1535458952962; 
-	Tue, 28 Aug 2018 05:22:32 -0700 (PDT)
+	bh=lIfxfnRzLVRemTkbWuneAUT3gc4CzWb6vzyUX+Am9V4=;
+	b=n6S2rKAJzPkPoAtPum0Q4SP74qV9tNFXBxURvTE5TSl6mp4WDHvhhZ36Q9QEYy6gPF
+	M2YfUy0qAyxAdzT9jG25LbZwJsGK52Fw77AWcXjIfTPI7+r3QXnbga/2hVty8wy9vJY9
+	1wWfRJ2kminZTzp29sqeZuGVd0Zp2+XD2BG5tn0tj9cKLI5Kl3Iv5MOsf6qO6iS5Spe6
+	+A0HsmpvtuGqDb3MCkZ6BS7SOLbuiLNl7oOMA6LcvzBNorqS/wl8VC1hUpjg/B9PqS5R
+	pC7DL6Z5yzRaUFFauuXdXPdB54v+Ee67/XOh+UJa1L9SFrKfh7/ktMiqAAOtA3fBiCMX
+	/qRw==
+X-Gm-Message-State: APzg51C6P+AnYnpZfumbRj7+m4DhqsFvNVXUfNvupWqDzaG8YRyZbzDj
+	dFvZtiBJbB8/TqwuiCMu55DZYS2uyvxzZZZkEyHOwg==
+X-Google-Smtp-Source: ANB0VdY6g0h3Y8lrKP/en/BPJYvopjy2sXVZO8h6tuRBTiklp/R3Y6Y8yD8ZCs5e6PdLJDatlnITGr2UaPaPMI/J5x8=
+X-Received: by 2002:aca:ac54:: with SMTP id v81-v6mr2249180oie.1.1535543566592;
+	Wed, 29 Aug 2018 04:52:46 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a2e:86c9:0:0:0:0:0 with HTTP; Tue, 28 Aug 2018 05:22:32
+Received: by 2002:a9d:3da6:0:0:0:0:0 with HTTP; Wed, 29 Aug 2018 04:52:45
 	-0700 (PDT)
-In-Reply-To: <20180827121227.6950-2-adrian.ratiu@ni.com>
-References: <20180827121227.6950-1-adrian.ratiu@ni.com>
-	<20180827121227.6950-2-adrian.ratiu@ni.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 28 Aug 2018 08:22:32 -0400
-Message-ID: <CADkTA4P_vn6Ez9B-Oqv1r4GKdE_3Y+H2jQRC1AHv7_XZYrrOOw@mail.gmail.com>
-To: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
+In-Reply-To: <CADkTA4NjRAdfEyxFp5ZiRXKgpqEpfD6Os_ujeO2qsoPqsE+GEw@mail.gmail.com>
+References: <CAG3Cyz8_qsDW=53JVBNBVUrOMbhYk4Ou8P1P2qD8pBbizPNLLQ@mail.gmail.com>
+	<CADkTA4NjRAdfEyxFp5ZiRXKgpqEpfD6Os_ujeO2qsoPqsE+GEw@mail.gmail.com>
+From: Sarayu Sivanandam <sarayu@m5nv.com>
+Date: Wed, 29 Aug 2018 17:22:45 +0530
+Message-ID: <CAG3Cyz_RjQswemA0GDe7BNic6Q4DGtFu7juzy2sVcQieiMEPUw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-openstack][PATCH 2/2] python3-pika: add recipe
+Subject: Re: LXD on yocto
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,82 +73,97 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Aug 2018 12:22:35 -0000
+X-List-Received-Date: Wed, 29 Aug 2018 11:52:47 -0000
+Content-Type: multipart/alternative; boundary="000000000000d317010574919871"
+
+--000000000000d317010574919871
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+Thanks Bruce.
 
-Bruce
+Max,
+Can you please share any details regarding how to build LXD on yocto ?
 
-On Mon, Aug 27, 2018 at 8:12 AM, Ioan-Adrian Ratiu <adrian.ratiu@ni.com> wrote:
-> From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+On Wed, Aug 22, 2018 at 9:14 PM, Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
+
+> Max was posting about doing LXD work in april of last year. I've added him
+> here.
 >
-> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-> Signed-off-by: Ioan-Adrian Ratiu <adrian.ratiu@ni.com>
-> ---
->  .../recipes-devtools/python/python-pika.inc        | 13 +++++++++++++
->  .../recipes-devtools/python/python-pika_git.bb     | 14 +-------------
->  .../recipes-devtools/python/python3-pika_git.bb    |  3 +++
->  3 files changed, 17 insertions(+), 13 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-pika.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-pika_git.bb
+> Bruce
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-pika.inc b/meta-openstack/recipes-devtools/python/python-pika.inc
-> new file mode 100644
-> index 0000000..d33979d
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-pika.inc
-> @@ -0,0 +1,13 @@
-> +SUMMARY = "Pure Python RabbitMQ/AMQP 0-9-1 client library"
-> +HOMEPAGE = "https://github.com/pika/pika"
-> +SECTION = "devel/python"
-> +
-> +LICENSE = "BSD-3-Clause"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=fb26c37045f9e0d2c5e24b711bd7f01c"
-> +
-> +PV = "0.10.0+git${SRCPV}"
-> +SRCREV = "b907f91415169b7f590174ab5d228e75a1b273e6"
-> +
-> +SRC_URI = "git://github.com/pika/pika"
-> +
-> +S = "${WORKDIR}/git"
-> diff --git a/meta-openstack/recipes-devtools/python/python-pika_git.bb b/meta-openstack/recipes-devtools/python/python-pika_git.bb
-> index 6d2e55a..9d58184 100644
-> --- a/meta-openstack/recipes-devtools/python/python-pika_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-pika_git.bb
-> @@ -1,15 +1,3 @@
-> -SUMMARY = "Pure Python RabbitMQ/AMQP 0-9-1 client library"
-> -HOMEPAGE = "https://github.com/pika/pika"
-> -SECTION = "devel/python"
-> -
-> -LICENSE = "BSD-3-Clause"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=fb26c37045f9e0d2c5e24b711bd7f01c"
-> -
-> -PV = "0.10.0+git${SRCPV}"
-> -SRCREV = "b907f91415169b7f590174ab5d228e75a1b273e6"
-> -
-> -SRC_URI = "git://github.com/pika/pika"
-> -
-> -S = "${WORKDIR}/git"
-> +require python-pika.inc
+> On Wed, Aug 22, 2018 at 11:29 AM, Sarayu Sivanandam <sarayu@m5nv.com>
+> wrote:
+> > Hi all ,
+> >
+> > Is anyone currently working on a recipe for LXD .
+> >
+> > I am looking to create a LXD recipe and i am new to yocto so any inputs
+> on
+> > the same will be very helpful.
+> >
+> > Thanks and Regards
+> > Sarayu
+> >
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+> >
 >
->  inherit setuptools
-> diff --git a/meta-openstack/recipes-devtools/python/python3-pika_git.bb b/meta-openstack/recipes-devtools/python/python3-pika_git.bb
-> new file mode 100644
-> index 0000000..93f50b4
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-pika_git.bb
-> @@ -0,0 +1,3 @@
-> +require python-pika.inc
-> +
-> +inherit setuptools3
+>
+>
 > --
-> 2.18.0
+> "Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end"
 >
 
+--000000000000d317010574919871
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Thanks Bruce. <br></div><div><br></div><div>Max, <br>=
+</div><div>Can you please share any details regarding how to build LXD on y=
+octo ?<br></div></div><div class=3D"gmail_extra"><br><div class=3D"gmail_qu=
+ote">On Wed, Aug 22, 2018 at 9:14 PM, Bruce Ashfield <span dir=3D"ltr">&lt;=
+<a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.ashfiel=
+d@gmail.com</a>&gt;</span> wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Max was=
+ posting about doing LXD work in april of last year. I&#39;ve added him her=
+e.<br>
+<br>
+Bruce<br>
+<div class=3D"HOEnZb"><div class=3D"h5"><br>
+On Wed, Aug 22, 2018 at 11:29 AM, Sarayu Sivanandam &lt;<a href=3D"mailto:s=
+arayu@m5nv.com">sarayu@m5nv.com</a>&gt; wrote:<br>
+&gt; Hi all ,<br>
+&gt;<br>
+&gt; Is anyone currently working on a recipe for LXD .<br>
+&gt;<br>
+&gt; I am looking to create a LXD recipe and i am new to yocto so any input=
+s on<br>
+&gt; the same will be very helpful.<br>
+&gt;<br>
+&gt; Thanks and Regards<br>
+&gt; Sarayu<br>
+&gt;<br>
+</div></div><span class=3D"HOEnZb"><font color=3D"#888888">&gt; --<br>
+&gt; ______________________________<wbr>_________________<br>
+&gt; meta-virtualization mailing list<br>
+&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org">meta-virtualiz=
+ation@<wbr>yoctoproject.org</a><br>
+&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
+" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.<wbr>org/=
+listinfo/meta-<wbr>virtualization</a><br>
+&gt;<br>
+<br>
+<br>
+<br>
+-- <br>
+&quot;Thou shalt not follow the NULL pointer, for chaos and madness await<b=
+r>
+thee at its end&quot;<br>
+</font></span></blockquote></div><br></div>
 
--- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
-
+--000000000000d317010574919871--
