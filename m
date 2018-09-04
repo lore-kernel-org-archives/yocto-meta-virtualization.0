@@ -1,6 +1,6 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 66049E009CA; Mon,  3 Sep 2018 19:58:25 -0700 (PDT)
+	id B6D6BE0079D; Tue,  4 Sep 2018 02:34:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,31 +8,34 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
+	*      [183.91.158.132 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 50DBCE0080F
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C6787E00754
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  3 Sep 2018 19:58:12 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w842wBhH011603
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  4 Sep 2018 02:34:26 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="44439406"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 04 Sep 2018 17:34:24 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id D35E34B6EC75
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 3 Sep 2018 19:58:12 -0700
-Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Mon, 3 Sep 2018 19:58:11 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Tue,  4 Sep 2018 17:34:24 +0800 (CST)
+Received: from localhost.local (10.167.225.78) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Tue, 4 Sep 2018 17:34:23 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 4 Sep 2018 10:47:51 +0800
-Message-ID: <1536029271-11750-6-git-send-email-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1536029271-11750-1-git-send-email-Qi.Chen@windriver.com>
-References: <1536029271-11750-1-git-send-email-Qi.Chen@windriver.com>
+Date: Tue, 4 Sep 2018 17:34:19 +0800
+Message-ID: <20180904093420.30989-1-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.14.3
 MIME-Version: 1.0
-Subject: [PATCH 6/6] layer.conf: depend on meta-webserver as nagios-core depends on apache2
+X-Originating-IP: [10.167.225.78]
+X-yoursite-MailScanner-ID: D35E34B6EC75.A89A0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+Subject: [PATCH]=[meta-cloud-services][patch][python-sphinx:1.7.6:1.7.8]
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,27 +48,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 02:58:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Sep 2018 09:34:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Upgrade python-sphinx from 1.7.6 to 1.7.8.
+
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- conf/layer.conf | 1 +
- 1 file changed, 1 insertion(+)
+ .../python/{python-sphinx_1.7.6.bb => python-sphinx_1.7.8.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-devtools/python/{python-sphinx_1.7.6.bb => python-sphinx_1.7.8.bb} (63%)
 
-diff --git a/conf/layer.conf b/conf/layer.conf
-index eaef1b7..ad2c96e 100644
---- a/conf/layer.conf
-+++ b/conf/layer.conf
-@@ -21,6 +21,7 @@ LAYERDEPENDS_virtualization-layer = " \
-     networking-layer \
-     filesystems-layer \
-     meta-python \
-+    webserver \
- "
+diff --git a/recipes-devtools/python/python-sphinx_1.7.6.bb b/recipes-devtools/python/python-sphinx_1.7.8.bb
+similarity index 63%
+rename from recipes-devtools/python/python-sphinx_1.7.6.bb
+rename to recipes-devtools/python/python-sphinx_1.7.8.bb
+index 0200c9e..23fa3fe 100644
+--- a/recipes-devtools/python/python-sphinx_1.7.6.bb
++++ b/recipes-devtools/python/python-sphinx_1.7.8.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=89cbefcd0a80481e8b26a9a7d25be749"
  
- # Override security flags
+ PYPI_PACKAGE = "Sphinx"
+ 
+-SRC_URI[md5sum] = "8fbd77d80c8e0966964751ab31a0204a"
+-SRC_URI[sha256sum] = "217ad9ece2156ed9f8af12b5d2c82a499ddf2c70a33c5f81864a08d8c67b9efc"
++SRC_URI[md5sum] = "7dfb075d8bd6a53b652bce1e4394c6a1"
++SRC_URI[sha256sum] = "a07050845cc9a2f4026a6035cc8ed795a5ce7be6528bbc82032385c10807dfe7"
+ 
+ inherit setuptools pypi
 -- 
 2.7.4
+
+
 
 
