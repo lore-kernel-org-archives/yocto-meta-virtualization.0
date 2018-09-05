@@ -1,53 +1,39 @@
-Return-Path: <jesse.r.kleve@lmco.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 21DAEE00A64; Wed,  5 Sep 2018 11:08:46 -0700 (PDT)
+	id 30FBBE00A94; Wed,  5 Sep 2018 13:21:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [192.35.35.12 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mailfo02.lmco.com (mailfo02.lmco.com [192.35.35.12])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 48A90E009D9
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D99C7E00A64
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Sep 2018 11:08:45 -0700 (PDT)
-Received: from lmxpdend11w01.us.lmco.com (lmxpdend11w01.ems.lmco.com
-	[172.23.20.72])
-	by mailfo02.lmco.com (8.16.0.21/8.16.0.21) with ESMTP id w85I8fiC043964;
-	Wed, 5 Sep 2018 18:08:41 GMT
-Received: from lmxpdend11w03.us.lmco.com (172.23.20.74) by
-	lmxpdend11w01.us.lmco.com (172.23.20.72) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
-	15.1.1466.3; Wed, 5 Sep 2018 12:08:39 -0600
-Received: from lmxpdend11w03.us.lmco.com ([172.23.20.74]) by
-	lmxpdend11w03.us.lmco.com ([172.23.20.74]) with mapi id 15.01.1466.003;
-	Wed, 5 Sep 2018 12:08:39 -0600
-From: "Kleve, Jesse R" <jesse.r.kleve@lmco.com>
-To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>,
-	"meta-virtualization@yoctoproject.org"
+	Wed,  5 Sep 2018 13:21:22 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w85KLMsb007040
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 5 Sep 2018 13:21:22 -0700 (PDT)
+Received: from server.local (128.224.20.150) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 5 Sep 2018 13:21:21 -0700
+To: Mark Asselstine <mark.asselstine@windriver.com>,
 	<meta-virtualization@yoctoproject.org>
-Thread-Topic: EXTERNAL: RE: [meta-virtualization] xen-image-minimal: "No
-	package kernel-module-xen-* available"
-Thread-Index: AQHURUN5RWh4q7gKckyUT0QcToEYqQ==
-Date: Wed, 5 Sep 2018 18:08:39 +0000
-Message-ID: <5B145E04-A136-48A1-B146-A12B79C67A5D@lmco.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.10.0.180812
-x-originating-ip: [172.23.84.17]
+References: <1536091960-1686-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <30ee6d2c-1926-fdcd-03c3-b88a32513b75@windriver.com>
+Date: Wed, 5 Sep 2018 16:21:20 -0400
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:52.0)
+	Gecko/20100101 Thunderbird/52.9.1
 MIME-Version: 1.0
-X-LM-Outbound: External 172.23.20.72 cntry=**
-	g=s_RiDMU4p6kG4-qBxMIqbasjjyEFP9_w q=w85I8fiC043964 m=1
-X-LM-OSENDER: jesse.r.kleve@lmco.com
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2018-09-05_10:, , signatures=0
-Subject: Re: EXTERNAL: RE: xen-image-minimal: "No package kernel-module-xen-* available"
+In-Reply-To: <1536091960-1686-1-git-send-email-mark.asselstine@windriver.com>
+Subject: Re: [PATCH 1/2] openvswitch: uprev to v2.10.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -60,114 +46,205 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 18:08:46 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 20:21:24 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <080636BB48AE3548A2028ADAFB887653@exch.ems.lmco.com>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-TXkgbWlzdGFrZSB3YXMgSSB3YXMgd29ya2luZyBvZmYgb2YgcHlybyBpbnN0ZWFkIG9mIHJlbC12
-MjAxNy40IChiYXNlZCBvZmYgbW9ydHkpIGZvciBtZXRhLXhpbGlueC4gQ29tcGFyaW5nIHRoZSB0
-d28gaXQgbG9va3MgbGlrZSBweXJvIGRvZXNuJ3QgYWRkIHRvIEtFUk5FTF9GRUFUVVJFUyBmb3Ig
-enlucW1wLg0KDQpUaGFua3MgZm9yIHRoZSBoZWxwLg0KDQrvu79PbiA5LzQvMTgsIDc6MjAgUE0s
-ICJNYW5qdWt1bWFyIEhhcnRoaWtvdGUgTWF0aGEiIDxNQU5KVUtVTUB4aWxpbnguY29tPiB3cm90
-ZToNCg0KICAgIEhpIEplc3NlLA0KICAgIA0KICAgID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCiAgICA+IEZyb206IG1ldGEtdmlydHVhbGl6YXRpb24tYm91bmNlc0B5b2N0b3Byb2plY3Qu
-b3JnIFttYWlsdG86bWV0YS12aXJ0dWFsaXphdGlvbi0NCiAgICA+IGJvdW5jZXNAeW9jdG9wcm9q
-ZWN0Lm9yZ10gT24gQmVoYWxmIE9mIEtsZXZlLCBKZXNzZSBSDQogICAgPiBTZW50OiBUdWVzZGF5
-LCBTZXB0ZW1iZXIgMDQsIDIwMTggNToyOSBQTQ0KICAgID4gVG86IG1ldGEtdmlydHVhbGl6YXRp
-b25AeW9jdG9wcm9qZWN0Lm9yZw0KICAgID4gU3ViamVjdDogW21ldGEtdmlydHVhbGl6YXRpb25d
-IHhlbi1pbWFnZS1taW5pbWFsOiAiTm8gcGFja2FnZSBrZXJuZWwtbW9kdWxlLXhlbi0qDQogICAg
-PiBhdmFpbGFibGUiDQogICAgPiANCiAgICA+IFdoZW4gYnVpbGRpbmcgeGVuLWltYWdlLW1pbmlt
-YWwgZnJvbSBtZXRhLXZpcnR1YWxpemF0aW9uIChweXJvKSwgSSBnZXQgdGhlDQogICAgPiBmb2xs
-b3dpbmcgZXJyb3IgaW4gZG9fcm9vdGZzOg0KICAgID4gDQogICAgPiBFUlJPUjogQ291bGQgbm90
-IGludm9rZSBkbmYuIENvbW1hbmQgJy9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJv
-amVjdDctDQogICAgPiBuby1wZXRhbGludXgvc2RzLXlvY3RvL2J1aWxkX3pjdTEwMi16eW5xbXAv
-dG1wL3dvcmsvemN1MTAyX3p5bnFtcC1wb2t5LQ0KICAgID4gbGludXgveGVuLWltYWdlLW1pbmlt
-YWwvMS4wLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2RuZiAteSAtYw0KICAgID4g
-L2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby1wZXRhbGludXgvc2Rz
-LXlvY3RvL2J1aWxkX3pjdTEwMi0NCiAgICA+IHp5bnFtcC90bXAvd29yay96Y3UxMDJfenlucW1w
-LXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLQ0KICAgID4gcjAvcm9vdGZzL2V0Yy9k
-bmYvZG5mLmNvbmYgLS0NCiAgICA+IHNldG9wdD1yZXBvc2Rpcj0vZGlzazAxL3VzZXJzL2prbGV2
-ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMtDQogICAgPiB5b2N0by9idWls
-ZF96Y3UxMDItenlucW1wL3RtcC93b3JrL3pjdTEwMl96eW5xbXAtcG9reS1saW51eC94ZW4taW1h
-Z2UtDQogICAgPiBtaW5pbWFsLzEuMC1yMC9yb290ZnMvZXRjL3l1bS5yZXBvcy5kIC0tcmVwb2Zy
-b21wYXRoPW9lLQ0KICAgID4gcmVwbywvZGlzazAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3By
-b2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vYnVpbGRfemN1MTAyLQ0KICAgID4genlucW1w
-L3RtcC93b3JrL3pjdTEwMl96eW5xbXAtcG9reS1saW51eC94ZW4taW1hZ2UtbWluaW1hbC8xLjAt
-cjAvb2UtDQogICAgPiByb290ZnMtcmVwbyAtLWluc3RhbGxyb290PS9kaXNrMDEvdXNlcnMvamts
-ZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nkcy0NCiAgICA+IHlvY3RvL2J1
-aWxkX3pjdTEwMi16eW5xbXAvdG1wL3dvcmsvemN1MTAyX3p5bnFtcC1wb2t5LWxpbnV4L3hlbi1p
-bWFnZS0NCiAgICA+IG1pbmltYWwvMS4wLXIwL3Jvb3RmcyAtLXNldG9wdD1sb2dkaXI9L2Rpc2sw
-MS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby0NCiAgICA+IHBldGFsaW51eC9z
-ZHMteW9jdG8vYnVpbGRfemN1MTAyLXp5bnFtcC90bXAvd29yay96Y3UxMDJfenlucW1wLXBva3kt
-DQogICAgPiBsaW51eC94ZW4taW1hZ2UtbWluaW1hbC8xLjAtcjAvdGVtcCAtLW5vZ3BnY2hlY2sg
-aW5zdGFsbCBsb2NhbGUtYmFzZS1lbi11cyBsb2NhbGUtDQogICAgPiBiYXNlLWVuLWdiIHFlbXUg
-eGVuLWJhc2Uga2VybmVsLW1vZHVsZS14ZW4tZ250ZGV2IHBhY2thZ2Vncm91cC1jb3JlLWJvb3QN
-CiAgICA+IGxpYnZpcnQga2VybmVsLW1vZHVsZS14ZW4td2R0IGtlcm5lbC1tb2R1bGUteGVuLW5l
-dGJhY2sga2VybmVsLW1vZHVsZS14ZW4tDQogICAgPiBibGtiYWNrIGtlcm5lbC1tb2R1bGUteGVu
-LWdudGFsbG9jIHBhY2thZ2Vncm91cC1jb3JlLXNzaC1vcGVuc3NoIHJ1bi1wb3N0aW5zdHMnDQog
-ICAgPiByZXR1cm5lZCAxOg0KICAgID4gQWRkZWQgb2UtcmVwbyByZXBvIGZyb20gZmlsZTovLy9k
-aXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tDQogICAgPiBwZXRhbGlu
-dXgvc2RzLXlvY3RvL2J1aWxkX3pjdTEwMi16eW5xbXAvdG1wL3dvcmsvemN1MTAyX3p5bnFtcC1w
-b2t5LQ0KICAgID4gbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL29lLXJvb3Rmcy1yZXBv
-DQogICAgPiBMYXN0IG1ldGFkYXRhIGV4cGlyYXRpb24gY2hlY2s6IDA6MDA6MDEgYWdvIG9uIFdl
-ZCBTZXAgMDUgMDA6MTc6NTQgMjAxOCBVVEMuDQogICAgPiBObyBwYWNrYWdlIGtlcm5lbC1tb2R1
-bGUteGVuLWdudGRldiBhdmFpbGFibGUuDQogICAgPiBObyBwYWNrYWdlIGtlcm5lbC1tb2R1bGUt
-eGVuLXdkdCBhdmFpbGFibGUuDQogICAgPiBObyBwYWNrYWdlIGtlcm5lbC1tb2R1bGUteGVuLW5l
-dGJhY2sgYXZhaWxhYmxlLg0KICAgID4gTm8gcGFja2FnZSBrZXJuZWwtbW9kdWxlLXhlbi1ibGti
-YWNrIGF2YWlsYWJsZS4NCiAgICA+IE5vIHBhY2thZ2Uga2VybmVsLW1vZHVsZS14ZW4tZ250YWxs
-b2MgYXZhaWxhYmxlLg0KICAgID4gRXJyb3I6IFVuYWJsZSB0byBmaW5kIGEgbWF0Y2gNCiAgICA+
-IA0KICAgID4gDQogICAgPiANCiAgICA+IFdoZXJlIGRvIHRoZXNlIHBhY2thZ2VzIGV4aXN0PyBB
-bSBJIG1pc3NpbmcgYSBsYXllcj8gTXkgYmJsYXllcnMgaXMgc2V0IHRvOg0KICAgID4gDQogICAg
-PiAgIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4
-L3Nkcy0NCiAgICA+IHlvY3RvL3NvdXJjZXMvcG9reS9tZXRhIFwNCiAgICA+ICAgL2Rpc2swMS91
-c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby1wZXRhbGludXgvc2RzLQ0KICAgID4g
-eW9jdG8vc291cmNlcy9wb2t5L21ldGEtcG9reSBcDQogICAgPiAgIC9kaXNrMDEvdXNlcnMvamts
-ZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nkcy0NCiAgICA+IHlvY3RvL3Nv
-dXJjZXMvcG9reS9tZXRhLXlvY3RvLWJzcCBcDQogICAgPiAgIC9kaXNrMDEvdXNlcnMvamtsZXZl
-L3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEt
-DQogICAgPiBvcGVuZW1iZWRkZWQvbWV0YS1lZmwgXA0KICAgID4gICAvZGlzazAxL3VzZXJzL2pr
-bGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9t
-ZXRhLQ0KICAgID4gb3BlbmVtYmVkZGVkL21ldGEtZmlsZXN5c3RlbXMgXA0KICAgID4gICAvZGlz
-azAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9j
-dG8vc291cmNlcy9tZXRhLQ0KICAgID4gb3BlbmVtYmVkZGVkL21ldGEtZ25vbWUgXA0KICAgID4g
-ICAvZGlzazAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9z
-ZHMteW9jdG8vc291cmNlcy9tZXRhLQ0KICAgID4gb3BlbmVtYmVkZGVkL21ldGEtZ3BlIFwNCiAg
-ICA+ICAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby1wZXRhbGlu
-dXgvc2RzLXlvY3RvL3NvdXJjZXMvbWV0YS0NCiAgICA+IG9wZW5lbWJlZGRlZC9tZXRhLWluaXRy
-YW1mcyBcDQogICAgPiAgIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDct
-bm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtDQogICAgPiBvcGVuZW1iZWRkZWQv
-bWV0YS1tdWx0aW1lZGlhIFwNCiAgICA+ICAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nk
-cy9wcm9qZWN0Ny1uby1wZXRhbGludXgvc2RzLXlvY3RvL3NvdXJjZXMvbWV0YS0NCiAgICA+IG9w
-ZW5lbWJlZGRlZC9tZXRhLW5ldHdvcmtpbmcgXA0KICAgID4gICAvZGlzazAxL3VzZXJzL2prbGV2
-ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9tZXRh
-LQ0KICAgID4gb3BlbmVtYmVkZGVkL21ldGEtb2UgXA0KICAgID4gICAvZGlzazAxL3VzZXJzL2pr
-bGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9t
-ZXRhLQ0KICAgID4gb3BlbmVtYmVkZGVkL21ldGEtcGVybCBcDQogICAgPiAgIC9kaXNrMDEvdXNl
-cnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3Vy
-Y2VzL21ldGEtDQogICAgPiBvcGVuZW1iZWRkZWQvbWV0YS1weXRob24gXA0KICAgID4gICAvZGlz
-azAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9j
-dG8vc291cmNlcy9tZXRhLQ0KICAgID4gb3BlbmVtYmVkZGVkL21ldGEtcnVieSBcDQogICAgPiAg
-IC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nk
-cy15b2N0by9zb3VyY2VzL21ldGEtDQogICAgPiBvcGVuZW1iZWRkZWQvbWV0YS1zeXN0ZW1kIFwN
-CiAgICA+ICAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby1wZXRh
-bGludXgvc2RzLXlvY3RvL3NvdXJjZXMvbWV0YS0NCiAgICA+IG9wZW5lbWJlZGRlZC9tZXRhLXdl
-YnNlcnZlciBcDQogICAgPiAgIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVj
-dDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtDQogICAgPiBvcGVuZW1iZWRk
-ZWQvbWV0YS14ZmNlIFwNCiAgICA+ICAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9w
-cm9qZWN0Ny1uby1wZXRhbGludXgvc2RzLXlvY3RvL3NvdXJjZXMvbWV0YS0NCiAgICA+IHhpbGlu
-eCBcDQogICAgPiAgIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8t
-cGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtDQogICAgPiB2aXJ0dWFsaXphdGlvbg0K
-ICAgID4g4oCcDQogICAgPiANCiAgICA+IE15IGxvY2FsLmNvbmYgaXMgbW9zdGx5IGRlZmF1bHQg
-d2l0aCBhIGZldyBtb2RpZmljYXRpb25zLg0KICAgID4gDQogICAgPiBNQUNISU5FID0g4oCcemN1
-MTAyLXp5bnFtcOKAnQ0KICAgID4gSU1BR0VfSU5TVEFMTCArPSDigJxsaWJ2aXJ04oCdDQogICAg
-PiBESVNUUk8gPSDigJxwb2t54oCdDQogICAgPiBESVNUUk9fRkVBVFVSRVMgKz0g4oCceDExIHhl
-biB2aXJ0dWFsaXphdGlvbuKAnQ0KICAgIA0KICAgIEFyZSB5b3UgbWlzc2luZyBodHRwczovL2dp
-dGh1Yi5jb20vWGlsaW54L21ldGEteGlsaW54L2Jsb2IvbWFzdGVyL21ldGEteGlsaW54LWJzcC9y
-ZWNpcGVzLWtlcm5lbC9saW51eC94aWxpbngta21ldGEvYnNwL3hpbGlueC94ZW4uY2ZnID8NCiAg
-ICANCiAgICBJdCBzaG91bGQgaGF2ZSBiZWVuIGVuYWJsZWQgdXNpbmcgaHR0cHM6Ly9naXRodWIu
-Y29tL1hpbGlueC9tZXRhLXhpbGlueC9ibG9iL21hc3Rlci9tZXRhLXhpbGlueC1ic3AvcmVjaXBl
-cy1rZXJuZWwvbGludXgvbGludXgteGxueC5pbmMjTDQ1DQogICAgDQogICAgDQogICAgVGhhbmtz
-LA0KICAgIE1hbmp1DQogICAgDQoNCg==
+On 2018-09-04 4:12 PM, Mark Asselstine wrote:
+> The current version (v2.9.3) started to fail to build due to changes
+> in openssl. Upstream must have run into similar issues as this was
+> identified and addressed in v2.10.0 by including a copy of
+> 'dhparams.c' instead of relying on it being generated. (see commit
+> "dhparams: Add pregenerated .c file to the repository.")
+> 
+> Additionally v2.10.0 is better aligned for our kernel and dpdk
+> versions:
+> 
+
+Tests passed here, so this is now merged.
+
+Bruce
+
+> kernel
+> ===
+>   2.10.x       3.10 to 4.17
+> 
+> dpdk
+> ===
+>   2.10.x       17.11.3
+> 
+> The changes in this commit allow for the building of v2.10.0. A second
+> commit will be necessary to deal with a few runtime changes which
+> prevent ovsdb-server from starting correctly.
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>   .../python-switch-remaining-scripts-to-use-python3.patch     | 12 ++++++------
+>   ...add-ptest-5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch} | 12 ++++++------
+>   .../openvswitch-git/systemd-update-tool-paths.patch          |  8 ++++----
+>   recipes-networking/openvswitch/openvswitch_git.bb            |  8 ++++----
+>   4 files changed, 20 insertions(+), 20 deletions(-)
+>   rename recipes-networking/openvswitch/openvswitch-git/{openvswitch-add-ptest-7e614671cba3c4e338d1c5003b74a10047d7a8eb.patch => openvswitch-add-ptest-5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch} (94%)
+> 
+> diff --git a/recipes-networking/openvswitch/files/python-switch-remaining-scripts-to-use-python3.patch b/recipes-networking/openvswitch/files/python-switch-remaining-scripts-to-use-python3.patch
+> index 540bda6..64e0e3f 100644
+> --- a/recipes-networking/openvswitch/files/python-switch-remaining-scripts-to-use-python3.patch
+> +++ b/recipes-networking/openvswitch/files/python-switch-remaining-scripts-to-use-python3.patch
+> @@ -1,4 +1,4 @@
+> -From 39d1af836d844c89e625cfc908545e93977af8be Mon Sep 17 00:00:00 2001
+> +From 098d3927e928362f0ac60ea97e9c39b73871be21 Mon Sep 17 00:00:00 2001
+>   From: Mark Asselstine <mark.asselstine@windriver.com>
+>   Date: Wed, 3 May 2017 10:39:12 -0400
+>   Subject: [PATCH] python: switch remaining scripts to use python3
+> @@ -39,15 +39,15 @@ index d7854a1..f09defb 100755
+>    #
+>    # Licensed under the Apache License, Version 2.0 (the "License");
+>   diff --git a/utilities/checkpatch.py b/utilities/checkpatch.py
+> -index 26eb5c3..2e1932b 100755
+> +index f929714..e17a1cf 100755
+>   --- a/utilities/checkpatch.py
+>   +++ b/utilities/checkpatch.py
+>   @@ -1,4 +1,4 @@
+>   -#!/usr/bin/env python
+>   +#!/usr/bin/env python3
+>    # Copyright (c) 2016, 2017 Red Hat, Inc.
+> + # Copyright (c) 2018 Nicira, Inc.
+>    #
+> - # Licensed under the Apache License, Version 2.0 (the "License");
+>   diff --git a/utilities/ovs-dev.py b/utilities/ovs-dev.py
+>   index 9ce0f04..839e13e 100755
+>   --- a/utilities/ovs-dev.py
+> @@ -59,7 +59,7 @@ index 9ce0f04..839e13e 100755
+>    #
+>    # Licensed under the Apache License, Version 2.0 (the "License");
+>   diff --git a/utilities/ovs-pipegen.py b/utilities/ovs-pipegen.py
+> -index 4bf240f..2a8f13e 100755
+> +index ee57972..e9b99f5 100755
+>   --- a/utilities/ovs-pipegen.py
+>   +++ b/utilities/ovs-pipegen.py
+>   @@ -1,4 +1,4 @@
+> @@ -79,7 +79,7 @@ index e7404e3..5edad76 100755
+>    # xapi plugin script to update the cache of configuration items in the
+>    # ovs-vswitchd configuration that are managed in the xapi database when
+>   diff --git a/xenserver/opt_xensource_libexec_interface-reconfigure b/xenserver/opt_xensource_libexec_interface-reconfigure
+> -index ea4a742..c6745ee 100755
+> +index a82043f..9c20725 100755
+>   --- a/xenserver/opt_xensource_libexec_interface-reconfigure
+>   +++ b/xenserver/opt_xensource_libexec_interface-reconfigure
+>   @@ -1,4 +1,4 @@
+> @@ -89,7 +89,7 @@ index ea4a742..c6745ee 100755
+>    # Copyright (c) 2008,2009 Citrix Systems, Inc.
+>    #
+>   diff --git a/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync b/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync
+> -index a776c00..d5ff8af 100755
+> +index ecd6f6d..b8f2a42 100755
+>   --- a/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync
+>   +++ b/xenserver/usr_share_openvswitch_scripts_ovs-xapi-sync
+>   @@ -1,4 +1,4 @@
+> diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-7e614671cba3c4e338d1c5003b74a10047d7a8eb.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch
+> similarity index 94%
+> rename from recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-7e614671cba3c4e338d1c5003b74a10047d7a8eb.patch
+> rename to recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch
+> index 5b53f96..a8fc86c 100644
+> --- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-7e614671cba3c4e338d1c5003b74a10047d7a8eb.patch
+> +++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch
+> @@ -1,4 +1,4 @@
+> -From fb68120ef8aed625b04b2fbd2cb78fc59a7b7432 Mon Sep 17 00:00:00 2001
+> +From 37df262d2b0f0b8c177aa850623f2c5880484ff0 Mon Sep 17 00:00:00 2001
+>   From: He Zhe <zhe.he@windriver.com>
+>   Date: Wed, 30 Mar 2016 06:23:45 -0400
+>   Subject: [PATCH] openvswitch: Add test-install rule to support ptest execution
+> @@ -15,22 +15,22 @@ Signed-off-by: He Zhe <zhe.he@windriver.com>
+>   
+>   ---
+>    Makefile.am |  1 +
+> - test.mk     | 72 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> - 2 files changed, 73 insertions(+)
+> + test.mk     | 74 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> + 2 files changed, 75 insertions(+)
+>    create mode 100644 test.mk
+>   
+>   diff --git a/Makefile.am b/Makefile.am
+> -index ea63acb..ff7d70a 100644
+> +index 7889728..6435399 100644
+>   --- a/Makefile.am
+>   +++ b/Makefile.am
+> -@@ -429,3 +429,4 @@ include windows/automake.mk
+> +@@ -494,3 +494,4 @@ include windows/automake.mk
+>    include ovn/automake.mk
+>    include selinux/automake.mk
+>    include build-aux/automake.mk
+>   +include test.mk
+>   diff --git a/test.mk b/test.mk
+>   new file mode 100644
+> -index 0000000..b10a581
+> +index 0000000..0b4587c
+>   --- /dev/null
+>   +++ b/test.mk
+>   @@ -0,0 +1,74 @@
+> diff --git a/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch b/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch
+> index 9a792e6..ec1c111 100644
+> --- a/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch
+> +++ b/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch
+> @@ -1,4 +1,4 @@
+> -From f45c0a9d712113417e7b56c199f8576b470695ae Mon Sep 17 00:00:00 2001
+> +From 3dbfcb0fa944b57215fab46fe484b02e69ff6e03 Mon Sep 17 00:00:00 2001
+>   From: Mark Asselstine <mark.asselstine@windriver.com>
+>   Date: Tue, 29 May 2018 18:57:46 +0000
+>   Subject: [PATCH] systemd: update tool paths
+> @@ -28,15 +28,15 @@ index 11b34c6..94c48f8 100644
+>    ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
+>              --no-ovsdb-server --no-monitor --system-id=random \
+>   diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service b/rhel/usr_lib_systemd_system_ovsdb-server.service
+> -index 0fa57a9..75c9e02 100644
+> +index 70da1ec..c2c862f 100644
+>   --- a/rhel/usr_lib_systemd_system_ovsdb-server.service
+>   +++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
+>   @@ -10,7 +10,7 @@ Type=forking
+>    Restart=on-failure
+>    EnvironmentFile=/etc/openvswitch/default.conf
+>    EnvironmentFile=-/etc/sysconfig/openvswitch
+> --ExecStartPre=/usr/bin/chown ${OVS_USER_ID} /var/run/openvswitch
+> -+ExecStartPre=/bin/chown ${OVS_USER_ID} /var/run/openvswitch
+> +-ExecStartPre=/usr/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
+> ++ExecStartPre=/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
+>    ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /usr/bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" > /run/openvswitch/useropts; fi'
+>    EnvironmentFile=-/run/openvswitch/useropts
+>    ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
+> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+> index 9cdd484..edffdce 100644
+> --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> @@ -12,16 +12,16 @@ RDEPENDS_${PN}-ptest += "\
+>   	"
+>   
+>   S = "${WORKDIR}/git"
+> -PV = "2.9.2+${SRCREV}"
+> +PV = "2.10.0+${SRCREV}"
+>   
+>   FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
+>   
+> -SRCREV = "7e614671cba3c4e338d1c5003b74a10047d7a8eb"
+> +SRCREV = "5563e309b80bbea9bff538e71ecfd7e5e538bab9"
+>   SRC_URI = "file://openvswitch-switch \
+>              file://openvswitch-switch-setup \
+>              file://openvswitch-testcontroller \
+>              file://openvswitch-testcontroller-setup \
+> -           git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.9 \
+> +           git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.10 \
+>              file://openvswitch-add-ptest-${SRCREV}.patch \
+>              file://run-ptest \
+>              file://disable_m4_check.patch \
+> @@ -32,7 +32,7 @@ SRC_URI = "file://openvswitch-switch \
+>              file://systemd-update-tool-paths.patch \
+>              "
+>   
+> -LIC_FILES_CHKSUM = "file://COPYING;md5=17b2c9d4c70853a09c0e143137754b35"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
+>   
+>   DPDK_INSTALL_DIR ?= "/opt/dpdk"
+>   
+> 
+
 
