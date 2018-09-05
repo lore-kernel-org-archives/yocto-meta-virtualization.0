@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 30C9CE00A94; Wed,  5 Sep 2018 13:25:23 -0700 (PDT)
+	id A8AA3E00A94; Wed,  5 Sep 2018 13:32:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,7 +11,7 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
+	*      [209.85.167.67 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,51 +19,51 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5A7FDE00A64
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C3CA2E00A64
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Sep 2018 13:25:22 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id s12-v6so7397724ljj.0
+	Wed,  5 Sep 2018 13:32:19 -0700 (PDT)
+Received: by mail-lf1-f67.google.com with SMTP id g6-v6so7107284lfb.11
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 05 Sep 2018 13:25:22 -0700 (PDT)
+	Wed, 05 Sep 2018 13:32:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TCExem4pf8vRnYjE1IitCbX7AZEUfGw9PaMuO77+Nrk=;
-	b=sQnslWMRooQ62qsEqjXPylT74Af3roLZbkDAFUxCHzsDUppovmTrV9hTtxEZ1Chvzb
-	113VpzVLDttvW6Y5UMnIT95CJj7pMya0JoFoKrOl+CMlxk3UkRwbuZoKH1mVa80X21Kb
-	kTIH9CBTVQcKS6ohYvc2HvwjdA7mHl3QNCu7VEkTW8CJC5HlpqEl8XPqzAbDeaVlQ5J6
-	ioa0UObHf+X2VjSIgrv7tn+Y/+TxAGinGmXL3HglRem8uZLHdFKEe1UcZvzoty8pRVpN
-	CNBO3NgubEGEPeV7JE8OR35OUYjw9B6YjUw56MoktEF8iLp+Od+gFe7xcPJUWUfMG6yh
-	8h2w==
+	:cc; bh=Hyb72MsG4DxKBdBtWuiSbnCUgjQdLOLqstXoz2MrkZY=;
+	b=OeG/+Pza85PpZuQ07igoVvxhVOz69nzD1vKnIU35zV7hkfvBXEfz4lCiaiMf5sjJ0W
+	SedcROe5O4bgQ+Jo29jQnzm6Bp8hp/6F+pybybHrzo8+qFi8FbgBeC1qOa1locmOQB89
+	EDwGtvvAyHbWrfyvjgY096JsukOoV9qB0uwLyZvgIWf+/gVpJKltAVmm3SDz0oSZnfwq
+	rnbo1DlRM1zDDeL5ZB6I7TWCmCK5LaHVbbkXDKx8OoRs/gTcWGmvgoVb5LNUIDzpMJM7
+	xuztx/qt4yU3aa/UiqAqKTLcr7vjHTYwm0NfBjhh+w1J+Unw8qaxalDkzFzNiZWDcrCC
+	Y/Ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=TCExem4pf8vRnYjE1IitCbX7AZEUfGw9PaMuO77+Nrk=;
-	b=uX1KdUvhDOLbd72nqQx8swL73E5pJAJ7llp0FzgdC9RoXViS/CvkqDgLGk1gEiKftV
-	PGIVE6c4/2Vgai0ynNwPLM4cbSxq8MFBUCb8gtGAUVV9HCCvnPoeWfzi03mqqsjFCH19
-	QNC7kr/yFwg37tBaEixVHMIF+WKSrkKSSrVmkObINw+vGCWSGKKw1LljDERY6cb/pm9u
-	nz4GcKlms4yj1MXkCp+zjl8bHK67T7dvi6KpwTj3RqWxeRtajDCtg6zq5u/DiMHswWzD
-	qgoaZGSivzpGpKYGK7ZYHQjk8Iop59vUUtQWmO1c7noWL0C5heki7y6Z7xrqCwuS7C7d
-	Rr5Q==
-X-Gm-Message-State: APzg51Bu3Tq1xWDjlJD92oyjpavdqRjzSBqFEVQzV5cspm5ADvBWircn
-	VxpCwQol1FmQmxeE4wJWhKXziBprBlsS2b/fy9g=
-X-Google-Smtp-Source: ANB0VdYIwbEcfQrO/671bJSXNd5MGHgimINq5W2Z8IHGog+uXKvh7PYHjVef4lJ3j9XLkPQFf4vRDSsu1YQ8GT1HJto=
-X-Received: by 2002:a2e:800e:: with SMTP id
-	j14-v6mr5690200ljg.114.1536179121260; 
-	Wed, 05 Sep 2018 13:25:21 -0700 (PDT)
+	bh=Hyb72MsG4DxKBdBtWuiSbnCUgjQdLOLqstXoz2MrkZY=;
+	b=SxU0ZOYwH3je1rDY0CQ/eC3Wyd7JH+trnMvEdRxrxGPuqlr6fuu4ooPA36kAdibirn
+	Hp5MlA2pPGpzfwVbmmmhZxyiEkvMl8j4G3ldSEcD5n4hzB8mkV9Vb33YBRw75gdyWrzr
+	XbaVAhqhVo0EZWIbGjyQhj9cFx/Tzz3/1/4ZRPL+eiLRh2DtyKPrim7ernZ6fKaMHNfp
+	WqXdTedc0KoShIt5zMVsVye54jXvdv9OlA+vor161c07dlZxK6EBpf1vm6RyeYmL0+Dh
+	exAc8u4IrKW6lzSyYMW/E1pEl9MUzl3uhZaGrZiHeKJf9WHWy74GpDHz+ApdXPBnbWfV
+	4BXg==
+X-Gm-Message-State: APzg51DgPsxjcvvcQfYQu6T3GnLwXnKY5bqOP+D75apiHGbQwkeZ/qwo
+	ubOPMvjl9eWcaT/es9jM2LDYgTlqEgmbcr1V6RaXcw==
+X-Google-Smtp-Source: ANB0VdYeN309cRZqR3HpJFVt35+En3FudxqdaaoF+HIxFnGCLMIstj5a+/GKOcLAK6Fz2cZmnSCFkmXS+fhW+yJDEq8=
+X-Received: by 2002:a19:6b0b:: with SMTP id
+	d11-v6mr21371786lfa.99.1536179538759; 
+	Wed, 05 Sep 2018 13:32:18 -0700 (PDT)
 MIME-Version: 1.0
 Received: by 2002:a2e:86c9:0:0:0:0:0 with HTTP;
-	Wed, 5 Sep 2018 13:25:20 -0700 (PDT)
-In-Reply-To: <1536150724-171359-1-git-send-email-hongxu.jia@windriver.com>
-References: <1536150724-171359-1-git-send-email-hongxu.jia@windriver.com>
+	Wed, 5 Sep 2018 13:32:18 -0700 (PDT)
+In-Reply-To: <1535716934-203335-1-git-send-email-hongzhi.song@windriver.com>
+References: <1535716934-203335-1-git-send-email-hongzhi.song@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 5 Sep 2018 16:25:20 -0400
-Message-ID: <CADkTA4NotZQPS32w+R9YMKQOipohk1Mvex+O0y+WdtyH1Gj88A@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Wed, 5 Sep 2018 16:32:18 -0400
+Message-ID: <CADkTA4P2T4GzhL-ri_HoRxAb-2aL+K9oLDYN4FcitY6q0AjGSA@mail.gmail.com>
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] openvswitch: do not use 'exit 1' to postpone to first boot
+Subject: Re: [PATCH] diod/ops.c: add header file for makedev
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,55 +76,98 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 20:25:23 -0000
+X-List-Received-Date: Wed, 05 Sep 2018 20:32:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Wed, Sep 5, 2018 at 8:32 AM, Hongxu Jia <hongxu.jia@windriver.com> wrote:
-> Since `229f4e9 package.bbclass: add support for
-> pkg_postinst_ontarget()' applied in oe-core, use
-> pkg_postinst_ontarget to run postinst at first boot.
+On Fri, Aug 31, 2018 at 8:02 AM, Hongzhi.Song
+<hongzhi.song@windriver.com> wrote:
+> Error:
+> diod/ops.c:845: undefined reference to `makedev'
 >
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Fixed:
+> Glibc removes sys/sysmacros.h which defines makedev from sys/types.h
+> since v2.28. [Commit ID: e16deca62e16f]
+>
+> And then glibc suggestions us to include <sys/sysmacros.h> directly if
+> code needs it.
+>
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 > ---
->  recipes-networking/openvswitch/openvswitch.inc | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
+>  recipes-extended/diod/diod_1.0.24.bb               |  1 +
+>  ...01-diod-ops.c-add-header-file-for-makedev.patch | 40 ++++++++++++++++++++++
+>  2 files changed, 41 insertions(+)
+>  create mode 100644 recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch
 >
-> diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-> index 70ac5bc..8aab739 100644
-> --- a/recipes-networking/openvswitch/openvswitch.inc
-> +++ b/recipes-networking/openvswitch/openvswitch.inc
-> @@ -134,22 +134,13 @@ do_install_append() {
->         cp -r ${S}/python/ovstest/ ${D}${libdir}/python${PYTHON_BASEVERSION}/site-packages/
->  }
+> diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod/diod_1.0.24.bb
+> index a4d159a..bb5707e 100644
+> --- a/recipes-extended/diod/diod_1.0.24.bb
+> +++ b/recipes-extended/diod/diod_1.0.24.bb
+> @@ -15,6 +15,7 @@ SRC_URI = "git://github.com/chaos/diod.git;protocol=git \
+>             file://diod.conf \
+>             file://0001-build-allow-builds-to-work-with-separate-build-dir.patch \
+>             file://0002-auto.diod.in-remove-bashisms.patch \
+> +           file://0001-diod-ops.c-add-header-file-for-makedev.patch \
+>            "
+>  DEPENDS = "libcap ncurses tcp-wrappers lua"
 >
-> -pkg_postinst_${PN}-pki () {
-> -       # can't do this offline
-> -       if [ "x$D" != "x" ]; then
-> -               exit 1
-> -       fi
-> +pkg_postinst_ontarget_${PN}-pki () {
->         if test ! -d $D/${datadir}/${PN}/pki; then
->                 ovs-pki init --dir=$D/${datadir}/${PN}/pki
->         fi
->  }
->
-> -pkg_postinst_${PN}-testcontroller () {
-> -       # can't do this offline
-> -       if [ "x$D" != "x" ]; then
-> -               exit 1
-> -       fi
-> -
-> +pkg_postinst_ontarget_${PN}-testcontroller () {
->         if test ! -d $D/${datadir}/${PN}/pki; then
->                 ovs-pki init --dir=$D/${datadir}/${PN}/pki
->         fi
+> diff --git a/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch b/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch
+> new file mode 100644
+> index 0000000..e6f7ece
+> --- /dev/null
+> +++ b/recipes-extended/diod/files/0001-diod-ops.c-add-header-file-for-makedev.patch
+> @@ -0,0 +1,40 @@
+> +From f75836731d6051d85e6317eb4c12465bafb4973e Mon Sep 17 00:00:00 2001
+> +From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+> +Date: Fri, 31 Aug 2018 05:47:02 -0400
+> +Subject: [PATCH] diod/ops.c: add header file for makedev
+> +
+> +Error:
+> +diod/ops.c:845: undefined reference to `makedev'
+> +
+> +Fixed:
+> +Glibc removes sys/sysmacros.h which defines makedev from sys/types.h
+> +since v2.28. [Commit ID: e16deca62e16f]
+> +
+> +And then glibc suggestions us to include <sys/sysmacros.h> directly if
+> +code needs it.
+> +
+> +Upstream-Status: Submitted
+> +[diod:
+> +mail: v9fs-developer@lists.sourceforge.net
+> +author: hongzhi.song@windriver.com]
+> +
+> +Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> +---
+> + diod/ops.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/diod/ops.c b/diod/ops.c
+> +index c6c8291..469a502 100644
+> +--- a/diod/ops.c
+> ++++ b/diod/ops.c
+> +@@ -74,6 +74,7 @@
+> + #include <pthread.h>
+> + #include <errno.h>
+> + #include <sys/types.h>
+> ++#include <sys/sysmacros.h>
+> +
+> + #ifdef __FreeBSD__
+> + #if !__BSD_VISIBLE
+> +--
+> +2.8.1
+> +
 > --
 > 2.8.1
 >
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
 
