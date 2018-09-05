@@ -1,37 +1,53 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <jesse.r.kleve@lmco.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 68D62E009D9; Tue,  4 Sep 2018 13:13:13 -0700 (PDT)
+	id 2A98BE00A64; Tue,  4 Sep 2018 17:59:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
+	http://www.dnswl.org/, high *      trust
+	*      [192.35.35.12 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B48C9E009B2
+X-Greylist: delayed 1815 seconds by postgrey-1.32 at yocto-www;
+	Tue, 04 Sep 2018 17:59:32 PDT
+Received: from mailfo02.lmco.com (mailfo02.lmco.com [192.35.35.12])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 41B8DE00A39
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  4 Sep 2018 13:13:10 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w84KDAPK010276
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 4 Sep 2018 13:13:10 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 4 Sep 2018 13:12:48 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Tue, 4 Sep 2018 16:12:40 -0400
-Message-ID: <1536091960-1686-2-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1536091960-1686-1-git-send-email-mark.asselstine@windriver.com>
-References: <1536091960-1686-1-git-send-email-mark.asselstine@windriver.com>
+	Tue,  4 Sep 2018 17:59:32 -0700 (PDT)
+Received: from lmxpdend11w04.us.lmco.com (lmxpdend11w04.ems.lmco.com
+	[172.23.20.75])
+	by mailfo02.lmco.com (8.16.0.21/8.16.0.21) with ESMTP id w850TE5l002322
+	for <meta-virtualization@yoctoproject.org>; Wed, 5 Sep 2018 00:29:15 GMT
+Received: from lmxpdend11w03.us.lmco.com (172.23.20.74) by
+	lmxpdend11w04.us.lmco.com (172.23.20.75) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P256) id
+	15.1.1466.3; Tue, 4 Sep 2018 18:29:13 -0600
+Received: from lmxpdend11w03.us.lmco.com ([172.23.20.74]) by
+	lmxpdend11w03.us.lmco.com ([172.23.20.74]) with mapi id 15.01.1466.003;
+	Tue, 4 Sep 2018 18:29:13 -0600
+From: "Kleve, Jesse R" <jesse.r.kleve@lmco.com>
+To: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Thread-Topic: xen-image-minimal: "No package kernel-module-xen-* available"
+Thread-Index: AQHURK945mmR/fUrvEOphQRHtRV5OA==
+Date: Wed, 5 Sep 2018 00:29:13 +0000
+Message-ID: <58F40E73-9AC1-4BA3-A372-5E3BB48C4129@lmco.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/10.10.0.180812
+x-originating-ip: [172.23.20.17]
 MIME-Version: 1.0
-Subject: [PATCH 2/2] openvswitch: fixup the ovsdb-server.service
+X-LM-Outbound: External 172.23.20.75 cntry=**
+	g=DZnA5eycrS40b0bDUGXmH5H5WaYF1xFQ q=w850TE5l002322 m=1
+X-LM-OSENDER: jesse.r.kleve@lmco.com
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2018-09-04_14:, , signatures=0
+Subject: xen-image-minimal: "No package kernel-module-xen-* available"
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,116 +60,85 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Sep 2018 20:13:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 05 Sep 2018 00:59:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E1CE9ECFBD4B5F4CB65ABBD92422D824@exch.ems.lmco.com>
+Content-Transfer-Encoding: base64
 
-The service currently fails to run since the runtime directories
-aren't being created. Create the runtime directories and fixup the
-path to echo to get things working again.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- .../systemd-create-runtime-dirs.patch              | 31 ++++++++++++++++++++++
- .../systemd-update-tool-paths.patch                | 14 +++++-----
- recipes-networking/openvswitch/openvswitch_git.bb  |  1 +
- 3 files changed, 40 insertions(+), 6 deletions(-)
- create mode 100644 recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-dirs.patch
-
-diff --git a/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-dirs.patch b/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-dirs.patch
-new file mode 100644
-index 0000000..65290cf
---- /dev/null
-+++ b/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-dirs.patch
-@@ -0,0 +1,31 @@
-+From 219e7cf9f28fdf14747fdf674bec293f763fe8e3 Mon Sep 17 00:00:00 2001
-+From: Mark Asselstine <mark.asselstine@windriver.com>
-+Date: Tue, 4 Sep 2018 15:38:59 -0400
-+Subject: [PATCH] systemd: create runtime dirs
-+
-+The recommendation would be to make use of "RuntimeDirectory=" and
-+"RuntimeDirectoryMode=" instead of 'mkdir' and 'chown' but since the
-+upstream service file uses 'chown' we will match this by using
-+'mkdir'. Without this the service will fail to start since these
-+directories won't exist.
-+
-+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-+---
-+ rhel/usr_lib_systemd_system_ovsdb-server.service | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service b/rhel/usr_lib_systemd_system_ovsdb-server.service
-+index 694598f..0bb2274 100644
-+--- a/rhel/usr_lib_systemd_system_ovsdb-server.service
-++++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
-+@@ -10,6 +10,7 @@ Type=forking
-+ Restart=on-failure
-+ EnvironmentFile=/etc/openvswitch/default.conf
-+ EnvironmentFile=-/etc/sysconfig/openvswitch
-++ExecStartPre=-/bin/mkdir /var/run/openvswitch /var/log/openvswitch
-+ ExecStartPre=/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
-+ ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" > /run/openvswitch/useropts; fi'
-+ EnvironmentFile=-/run/openvswitch/useropts
-+-- 
-+2.7.4
-+
-diff --git a/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch b/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch
-index ec1c111..d7d4c15 100644
---- a/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch
-+++ b/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-paths.patch
-@@ -1,4 +1,4 @@
--From 3dbfcb0fa944b57215fab46fe484b02e69ff6e03 Mon Sep 17 00:00:00 2001
-+From 163020a5bba1323dc337d72d4771bb81d824b0dc Mon Sep 17 00:00:00 2001
- From: Mark Asselstine <mark.asselstine@windriver.com>
- Date: Tue, 29 May 2018 18:57:46 +0000
- Subject: [PATCH] systemd: update tool paths
-@@ -9,8 +9,8 @@ different path, update accordingly.
- Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
- ---
-  rhel/usr_lib_systemd_system_ovs-vswitchd.service.in | 4 ++--
-- rhel/usr_lib_systemd_system_ovsdb-server.service    | 2 +-
-- 2 files changed, 3 insertions(+), 3 deletions(-)
-+ rhel/usr_lib_systemd_system_ovsdb-server.service    | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
- 
- diff --git a/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in b/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in
- index 11b34c6..94c48f8 100644
-@@ -28,18 +28,20 @@ index 11b34c6..94c48f8 100644
-  ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
-            --no-ovsdb-server --no-monitor --system-id=random \
- diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service b/rhel/usr_lib_systemd_system_ovsdb-server.service
--index 70da1ec..c2c862f 100644
-+index 70da1ec..694598f 100644
- --- a/rhel/usr_lib_systemd_system_ovsdb-server.service
- +++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
--@@ -10,7 +10,7 @@ Type=forking
-+@@ -10,8 +10,8 @@ Type=forking
-  Restart=on-failure
-  EnvironmentFile=/etc/openvswitch/default.conf
-  EnvironmentFile=-/etc/sysconfig/openvswitch
- -ExecStartPre=/usr/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
-+-ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /usr/bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" > /run/openvswitch/useropts; fi'
- +ExecStartPre=/bin/chown ${OVS_USER_ID} /var/run/openvswitch /var/log/openvswitch
-- ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /usr/bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" > /run/openvswitch/useropts; fi'
-++ExecStartPre=/bin/sh -c 'rm -f /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" > /run/openvswitch/useropts; fi'
-  EnvironmentFile=-/run/openvswitch/useropts
-  ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
-+           --no-ovs-vswitchd --no-monitor --system-id=random \
- -- 
- 2.7.4
- 
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index edffdce..4a6002a 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -30,6 +30,7 @@ SRC_URI = "file://openvswitch-switch \
-            file://0002-Define-WAIT_ANY-if-not-provided-by-system.patch \
-            file://python-switch-remaining-scripts-to-use-python3.patch \
-            file://systemd-update-tool-paths.patch \
-+           file://systemd-create-runtime-dirs.patch \
-            "
- 
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
--- 
-2.7.4
-
+V2hlbiBidWlsZGluZyB4ZW4taW1hZ2UtbWluaW1hbCBmcm9tIG1ldGEtdmlydHVhbGl6YXRpb24g
+KHB5cm8pLCBJIGdldCB0aGUgZm9sbG93aW5nIGVycm9yIGluIGRvX3Jvb3RmczoNCg0KRVJST1I6
+IENvdWxkIG5vdCBpbnZva2UgZG5mLiBDb21tYW5kICcvZGlzazAxL3VzZXJzL2prbGV2ZS94aWxp
+bngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vYnVpbGRfemN1MTAyLXp5bnFt
+cC90bXAvd29yay96Y3UxMDJfenlucW1wLXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4w
+LXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL2RuZiAteSAtYyAvZGlzazAxL3VzZXJz
+L2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vYnVpbGRf
+emN1MTAyLXp5bnFtcC90bXAvd29yay96Y3UxMDJfenlucW1wLXBva3ktbGludXgveGVuLWltYWdl
+LW1pbmltYWwvMS4wLXIwL3Jvb3Rmcy9ldGMvZG5mL2RuZi5jb25mIC0tc2V0b3B0PXJlcG9zZGly
+PS9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nk
+cy15b2N0by9idWlsZF96Y3UxMDItenlucW1wL3RtcC93b3JrL3pjdTEwMl96eW5xbXAtcG9reS1s
+aW51eC94ZW4taW1hZ2UtbWluaW1hbC8xLjAtcjAvcm9vdGZzL2V0Yy95dW0ucmVwb3MuZCAtLXJl
+cG9mcm9tcGF0aD1vZS1yZXBvLC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVj
+dDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9idWlsZF96Y3UxMDItenlucW1wL3RtcC93b3JrL3pj
+dTEwMl96eW5xbXAtcG9reS1saW51eC94ZW4taW1hZ2UtbWluaW1hbC8xLjAtcjAvb2Utcm9vdGZz
+LXJlcG8gLS1pbnN0YWxscm9vdD0vZGlzazAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2pl
+Y3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vYnVpbGRfemN1MTAyLXp5bnFtcC90bXAvd29yay96
+Y3UxMDJfenlucW1wLXBva3ktbGludXgveGVuLWltYWdlLW1pbmltYWwvMS4wLXIwL3Jvb3RmcyAt
+LXNldG9wdD1sb2dkaXI9L2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1u
+by1wZXRhbGludXgvc2RzLXlvY3RvL2J1aWxkX3pjdTEwMi16eW5xbXAvdG1wL3dvcmsvemN1MTAy
+X3p5bnFtcC1wb2t5LWxpbnV4L3hlbi1pbWFnZS1taW5pbWFsLzEuMC1yMC90ZW1wIC0tbm9ncGdj
+aGVjayBpbnN0YWxsIGxvY2FsZS1iYXNlLWVuLXVzIGxvY2FsZS1iYXNlLWVuLWdiIHFlbXUgeGVu
+LWJhc2Uga2VybmVsLW1vZHVsZS14ZW4tZ250ZGV2IHBhY2thZ2Vncm91cC1jb3JlLWJvb3QgbGli
+dmlydCBrZXJuZWwtbW9kdWxlLXhlbi13ZHQga2VybmVsLW1vZHVsZS14ZW4tbmV0YmFjayBrZXJu
+ZWwtbW9kdWxlLXhlbi1ibGtiYWNrIGtlcm5lbC1tb2R1bGUteGVuLWdudGFsbG9jIHBhY2thZ2Vn
+cm91cC1jb3JlLXNzaC1vcGVuc3NoIHJ1bi1wb3N0aW5zdHMnIHJldHVybmVkIDE6DQpBZGRlZCBv
+ZS1yZXBvIHJlcG8gZnJvbSBmaWxlOi8vL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9w
+cm9qZWN0Ny1uby1wZXRhbGludXgvc2RzLXlvY3RvL2J1aWxkX3pjdTEwMi16eW5xbXAvdG1wL3dv
+cmsvemN1MTAyX3p5bnFtcC1wb2t5LWxpbnV4L3hlbi1pbWFnZS1taW5pbWFsLzEuMC1yMC9vZS1y
+b290ZnMtcmVwbw0KTGFzdCBtZXRhZGF0YSBleHBpcmF0aW9uIGNoZWNrOiAwOjAwOjAxIGFnbyBv
+biBXZWQgU2VwIDA1IDAwOjE3OjU0IDIwMTggVVRDLg0KTm8gcGFja2FnZSBrZXJuZWwtbW9kdWxl
+LXhlbi1nbnRkZXYgYXZhaWxhYmxlLg0KTm8gcGFja2FnZSBrZXJuZWwtbW9kdWxlLXhlbi13ZHQg
+YXZhaWxhYmxlLg0KTm8gcGFja2FnZSBrZXJuZWwtbW9kdWxlLXhlbi1uZXRiYWNrIGF2YWlsYWJs
+ZS4NCk5vIHBhY2thZ2Uga2VybmVsLW1vZHVsZS14ZW4tYmxrYmFjayBhdmFpbGFibGUuDQpObyBw
+YWNrYWdlIGtlcm5lbC1tb2R1bGUteGVuLWdudGFsbG9jIGF2YWlsYWJsZS4NCkVycm9yOiBVbmFi
+bGUgdG8gZmluZCBhIG1hdGNoDQoNCg0KDQpXaGVyZSBkbyB0aGVzZSBwYWNrYWdlcyBleGlzdD8g
+QW0gSSBtaXNzaW5nIGEgbGF5ZXI/IE15IGJibGF5ZXJzIGlzIHNldCB0bzoNCg0KICAvZGlzazAx
+L3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8v
+c291cmNlcy9wb2t5L21ldGEgXA0KICAvZGlzazAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3By
+b2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9wb2t5L21ldGEtcG9reSBcDQog
+IC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nk
+cy15b2N0by9zb3VyY2VzL3Bva3kvbWV0YS15b2N0by1ic3AgXA0KICAvZGlzazAxL3VzZXJzL2pr
+bGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9t
+ZXRhLW9wZW5lbWJlZGRlZC9tZXRhLWVmbCBcDQogIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlu
+eC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVt
+YmVkZGVkL21ldGEtZmlsZXN5c3RlbXMgXA0KICAvZGlzazAxL3VzZXJzL2prbGV2ZS94aWxpbngv
+c2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9tZXRhLW9wZW5lbWJl
+ZGRlZC9tZXRhLWdub21lIFwNCiAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9q
+ZWN0Ny1uby1wZXRhbGludXgvc2RzLXlvY3RvL3NvdXJjZXMvbWV0YS1vcGVuZW1iZWRkZWQvbWV0
+YS1ncGUgXA0KICAvZGlzazAxL3VzZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBl
+dGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9tZXRhLW9wZW5lbWJlZGRlZC9tZXRhLWluaXRyYW1m
+cyBcDQogIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxp
+bnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVtYmVkZGVkL21ldGEtbXVsdGltZWRpYSBc
+DQogIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4
+L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVtYmVkZGVkL21ldGEtbmV0d29ya2luZyBcDQog
+IC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nk
+cy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVtYmVkZGVkL21ldGEtb2UgXA0KICAvZGlzazAxL3Vz
+ZXJzL2prbGV2ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291
+cmNlcy9tZXRhLW9wZW5lbWJlZGRlZC9tZXRhLXBlcmwgXA0KICAvZGlzazAxL3VzZXJzL2prbGV2
+ZS94aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9tZXRh
+LW9wZW5lbWJlZGRlZC9tZXRhLXB5dGhvbiBcDQogIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlu
+eC9zZHMvcHJvamVjdDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVt
+YmVkZGVkL21ldGEtcnVieSBcDQogIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJv
+amVjdDctbm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVtYmVkZGVkL21l
+dGEtc3lzdGVtZCBcDQogIC9kaXNrMDEvdXNlcnMvamtsZXZlL3hpbGlueC9zZHMvcHJvamVjdDct
+bm8tcGV0YWxpbnV4L3Nkcy15b2N0by9zb3VyY2VzL21ldGEtb3BlbmVtYmVkZGVkL21ldGEtd2Vi
+c2VydmVyIFwNCiAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby1w
+ZXRhbGludXgvc2RzLXlvY3RvL3NvdXJjZXMvbWV0YS1vcGVuZW1iZWRkZWQvbWV0YS14ZmNlIFwN
+CiAgL2Rpc2swMS91c2Vycy9qa2xldmUveGlsaW54L3Nkcy9wcm9qZWN0Ny1uby1wZXRhbGludXgv
+c2RzLXlvY3RvL3NvdXJjZXMvbWV0YS14aWxpbnggXA0KICAvZGlzazAxL3VzZXJzL2prbGV2ZS94
+aWxpbngvc2RzL3Byb2plY3Q3LW5vLXBldGFsaW51eC9zZHMteW9jdG8vc291cmNlcy9tZXRhLXZp
+cnR1YWxpemF0aW9uDQrigJwNCg0KTXkgbG9jYWwuY29uZiBpcyBtb3N0bHkgZGVmYXVsdCB3aXRo
+IGEgZmV3IG1vZGlmaWNhdGlvbnMuDQoNCk1BQ0hJTkUgPSDigJx6Y3UxMDItenlucW1w4oCdDQpJ
+TUFHRV9JTlNUQUxMICs9IOKAnGxpYnZpcnTigJ0NCkRJU1RSTyA9IOKAnHBva3nigJ0NCkRJU1RS
+T19GRUFUVVJFUyArPSDigJx4MTEgeGVuIHZpcnR1YWxpemF0aW9u4oCdDQo=
 
