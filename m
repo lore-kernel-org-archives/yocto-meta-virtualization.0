@@ -1,6 +1,6 @@
-Return-Path: <jason.wessel@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 07BEDE00A85; Wed,  5 Sep 2018 15:44:48 -0700 (PDT)
+	id 4BAE5E00A9A; Wed,  5 Sep 2018 18:48:51 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,29 +8,35 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7E9F3E00A54
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E4FD0E00A85
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Sep 2018 15:44:47 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w85MikmU026587
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 5 Sep 2018 15:44:46 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 5 Sep 2018 15:44:45 -0700
-From: Jason Wessel <jason.wessel@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 5 Sep 2018 15:44:45 -0700
-Message-ID: <20180905224445.63319-1-jason.wessel@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Wed,  5 Sep 2018 18:48:50 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w861mnhr008247
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 5 Sep 2018 18:48:49 -0700 (PDT)
+Received: from [128.224.162.218] (128.224.162.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
+	Wed, 5 Sep 2018 18:48:48 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <1536029271-11750-1-git-send-email-Qi.Chen@windriver.com>
+	<1536029271-11750-6-git-send-email-Qi.Chen@windriver.com>
+	<CADkTA4O3Z3YjBGGb4hNUPBLAv2+hy8_T6ckfq13Er2OcZnTL6Q@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <e658453d-5f75-45be-7f65-66f70df19855@windriver.com>
+Date: Thu, 6 Sep 2018 09:53:41 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH] openvswitch: Turn off ssl integration by default
+In-Reply-To: <CADkTA4O3Z3YjBGGb4hNUPBLAv2+hy8_T6ckfq13Er2OcZnTL6Q@mail.gmail.com>
+X-Originating-IP: [128.224.162.218]
+Cc: meta-virtualization@yoctoproject.org, "Yang,
+	Zhangle \(Eric\)" <Zhangle.Yang@windriver.com>
+Subject: Re: [PATCH 6/6] layer.conf: depend on meta-webserver as nagios-core depends on apache2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,37 +49,74 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Sep 2018 22:44:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Sep 2018 01:48:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The openssl library is an optional component for the openvswitch.  The
-problem with it enabled by default is that it will consume system
-entropy to try to initialize the openssl library even though we are not
-using it by default.  With the 4.16 kernel and up there is not always
-enough entropy available at the early boot time which can cause a
-lengthy stall, while waiting to initialize the openvswitch.
+On 09/06/2018 04:43 AM, Bruce Ashfield wrote:
+> But nagios won't always be installed/used, so this is not a hard dependency of
+> meta-virtualization.
 
-If ssl is needed, it can of course be turned on with the package
-config option "ssl".
+If you don't think we should depend on webserver layer, ignore this patch.
+I agree that it's not a hard dependency.
 
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
----
- recipes-networking/openvswitch/openvswitch_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+> So while I don't mind this going into the README as a depends, I don't think it
+> belongs in the layer.conf.
 
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index 4a6002a..4cd82d7 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -40,6 +40,7 @@ DPDK_INSTALL_DIR ?= "/opt/dpdk"
- PACKAGECONFIG ?= "libcap-ng"
- PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,dpdk"
- PACKAGECONFIG[libcap-ng] = "--enable-libcapng,--disable-libcapng,libcap-ng,"
-+PACKAGECONFIG[ssl] = ",--disable-ssl,openssl,"
- 
- # Don't compile kernel modules by default since it heavily depends on
- # kernel version. Use the in-kernel module for now.
--- 
-2.17.1
+Should we consider using LAYERRECOMMENDS? I'll send out V2 with this change.
+
+> Also, can we have a README for how nagios works, and should be sanity tested ?
+> As it stands right now, I have no way to know how to build and test it.
+
+The runtime tests I did are:
+1. systemctl status nagios-core
+2. systemctl status nagios-nrpe
+3. systemctl status nagios-nsca
+
+These services started correctly without any error.
+
+I agree that maybe more detailed usage examples and tests are better.
+However, currently I don't have time for this.
+People interested in nagios could find sufficient documents on nagios's 
+official website.
+Also, we don't have substantial patches that could possibly affect the 
+service logic of nagios.
+
+Best Regards,
+Chen Qi
+
+
+> I'll wait for a v2 with those changes.
+>
+> Bruce
+>
+> On Mon, Sep 3, 2018 at 10:47 PM, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   conf/layer.conf | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/conf/layer.conf b/conf/layer.conf
+>> index eaef1b7..ad2c96e 100644
+>> --- a/conf/layer.conf
+>> +++ b/conf/layer.conf
+>> @@ -21,6 +21,7 @@ LAYERDEPENDS_virtualization-layer = " \
+>>       networking-layer \
+>>       filesystems-layer \
+>>       meta-python \
+>> +    webserver \
+>>   "
+>>
+>>   # Override security flags
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
 
 
