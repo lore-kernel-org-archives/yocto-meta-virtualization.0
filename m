@@ -1,6 +1,6 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1A716E00B6C; Wed,  5 Sep 2018 18:49:43 -0700 (PDT)
+	id 3B92DE00B21; Wed,  5 Sep 2018 18:49:49 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,30 +8,31 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
+	*      [192.103.53.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BCB92E00A94
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4018FE00ADF
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  5 Sep 2018 18:49:31 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w861nVqj009263
+	Wed,  5 Sep 2018 18:49:33 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w861nWup008732
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 5 Sep 2018 18:49:31 -0700 (PDT)
+	Wed, 5 Sep 2018 18:49:32 -0700
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.408.0; Wed, 5 Sep 2018 18:49:30 -0700
+	14.3.408.0; Wed, 5 Sep 2018 18:49:32 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 6 Sep 2018 09:38:59 +0800
-Message-ID: <1536197940-688-5-git-send-email-Qi.Chen@windriver.com>
+Date: Thu, 6 Sep 2018 09:39:00 +0800
+Message-ID: <1536197940-688-6-git-send-email-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1536197940-688-1-git-send-email-Qi.Chen@windriver.com>
 References: <1536197940-688-1-git-send-email-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 5/6] fs-perms-nagios.txt: add perms conf file
+Subject: [PATCH V2 6/6] layer.conf: recommend meta-webserver as nagios-core depends on apache2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,32 +45,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Sep 2018 01:49:43 -0000
+X-List-Received-Date: Thu, 06 Sep 2018 01:49:49 -0000
 Content-Type: text/plain
-
-Add this perms conf file to avoid do_rootfs failure due to conflicts
-among nagios packages.
-
-The error message is like below.
-
-Error: Transaction check error:
-  file /etc/nagios conflicts between attempted installs of \
-  nagios-core-4.0.8-r0.core2_64 and nagios-nrpe-plugin-2.15-r0.core2_64
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- files/fs-perms-nagios.txt | 2 ++
- 1 file changed, 2 insertions(+)
- create mode 100644 files/fs-perms-nagios.txt
+ conf/layer.conf | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/files/fs-perms-nagios.txt b/files/fs-perms-nagios.txt
-new file mode 100644
-index 0000000..1334cd1
---- /dev/null
-+++ b/files/fs-perms-nagios.txt
-@@ -0,0 +1,2 @@
-+${sysconfdir}/nagios                       0755    nagios    nagios    false - - -
-+${libdir}/nagios/plugins                   0755    nagios    nagios    true 0644 nagios nagios
+diff --git a/conf/layer.conf b/conf/layer.conf
+index eaef1b7..1ad0e38 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -23,6 +23,11 @@ LAYERDEPENDS_virtualization-layer = " \
+     meta-python \
+ "
+ 
++# webserver: naigos requires apache2
++LAYERRECOMMENDS_virtualization-layer = " \
++    webserver \
++"
++
+ # Override security flags
+ require conf/distro/include/virt_security_flags.inc
+ 
 -- 
 2.7.4
 
