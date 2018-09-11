@@ -1,6 +1,6 @@
 Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3D88FE00B6F; Tue, 11 Sep 2018 02:29:43 -0700 (PDT)
+	id 787F5E00B23; Tue, 11 Sep 2018 02:29:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,32 +12,30 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A987BE00B23
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 98AD5E00B31
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Sep 2018 02:29:41 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="44773845"
+	Tue, 11 Sep 2018 02:29:42 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="44773843"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
 	by heian.cn.fujitsu.com with ESMTP; 11 Sep 2018 17:29:37 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id AB0F44B6EC99
+	by cn.fujitsu.com (Postfix) with ESMTP id 888AF4B6EC83
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Sep 2018 17:29:37 +0800 (CST)
+	Tue, 11 Sep 2018 17:29:36 +0800 (CST)
 Received: from localhost.local (10.167.225.78) by
 	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 11 Sep 2018 17:29:37 +0800
+	Server (TLS) id 14.3.408.0; Tue, 11 Sep 2018 17:29:35 +0800
 From: Hong Liu <hongl.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 11 Sep 2018 17:29:16 +0800
-Message-ID: <20180911092917.25868-3-hongl.fnst@cn.fujitsu.com>
+Date: Tue, 11 Sep 2018 17:29:14 +0800
+Message-ID: <20180911092917.25868-1-hongl.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180911092917.25868-1-hongl.fnst@cn.fujitsu.com>
-References: <20180911092917.25868-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: AB0F44B6EC99.AB834
+X-yoursite-MailScanner-ID: 888AF4B6EC83.A18D2
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-Subject: =?UTF-8?B?W1BBVENIXSBbbWV0YS1jbG91ZC1zZXJ2aWNlc11bcGF0Y2hd77yacHl0aG9uLW1veDM6MC4yNS4wLT4wLjI2LjA=?=
+Subject: [PATCH] [meta-cloud-services][patch]:python-eventlet:0.21.0->0.24.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -51,35 +49,33 @@ List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Sep 2018 09:29:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Upgrade python-mox3 from 0.25.0 to 0.26.0.
+update python-eventlet from 0.21.0 to 0.24.0.
 
 Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 ---
- .../python/{python-mox3_0.25.0.bb => python-mox3_0.26.0.bb}           | 4 ++--
+ .../python/{python-eventlet_0.21.0.bb => python-eventlet_0.24.0.bb}   | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-mox3_0.25.0.bb => python-mox3_0.26.0.bb} (75%)
+ rename meta-openstack/recipes-devtools/python/{python-eventlet_0.21.0.bb => python-eventlet_0.24.0.bb} (63%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-mox3_0.25.0.bb b/meta-openstack/recipes-devtools/python/python-mox3_0.26.0.bb
-similarity index 75%
-rename from meta-openstack/recipes-devtools/python/python-mox3_0.25.0.bb
-rename to meta-openstack/recipes-devtools/python/python-mox3_0.26.0.bb
-index 062fc7c..73de2b3 100644
---- a/meta-openstack/recipes-devtools/python/python-mox3_0.25.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-mox3_0.26.0.bb
-@@ -4,8 +4,8 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://COPYING.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.21.0.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.24.0.bb
+similarity index 63%
+rename from meta-openstack/recipes-devtools/python/python-eventlet_0.21.0.bb
+rename to meta-openstack/recipes-devtools/python/python-eventlet_0.24.0.bb
+index 47f69ad..fb9d09d 100644
+--- a/meta-openstack/recipes-devtools/python/python-eventlet_0.21.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.24.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
  
--SRC_URI[md5sum] = "77bb9a6a57187b708d822bad05c51e0e"
--SRC_URI[sha256sum] = "b7476f7a2dfe4d7ad743e3cbbf04ade624b3a208a0042f3f8b2ae7b00559543a"
-+SRC_URI[md5sum] = "c05b14ecb25d040f00b0d5ef3b370e20"
-+SRC_URI[sha256sum] = "b13c0b8459d6fb0688f9a4e70feeec43fa2cca05b727fc01156789596e083bb1"
+-SRC_URI[md5sum] = "92aaac4c0abaddff9329f55d8f5bcd76"
+-SRC_URI[sha256sum] = "08faffab88c1b08bd53ea28bf084a572c89f7e7648bd9d71e6116ac17a51a15d"
++SRC_URI[md5sum] = "40acca39e1da2a79e983a696b9b390a3"
++SRC_URI[sha256sum] = "4c247db031ea374128e8c75a40fe5402c611e9a4798b9f90f095001192f22364"
  
  inherit setuptools pypi
- 
 -- 
 2.7.4
 
