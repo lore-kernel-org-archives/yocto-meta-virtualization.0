@@ -1,6 +1,6 @@
-Return-Path: <hongl.fnst@cn.fujitsu.com>
+Return-Path: <Zhe.He@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A9A87E00B81; Tue, 11 Sep 2018 02:29:43 -0700 (PDT)
+	id E87D7E00B31; Tue, 11 Sep 2018 02:48:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,36 +8,29 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C56B4E00B3E
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 917D9E00A85
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Sep 2018 02:29:42 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.43,368,1503331200"; d="scan'208";a="44773844"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Sep 2018 17:29:37 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 212F34B6EC85
+	Tue, 11 Sep 2018 02:48:11 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8B9mBCH011217
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 11 Sep 2018 17:29:37 +0800 (CST)
-Received: from localhost.local (10.167.225.78) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.408.0; Tue, 11 Sep 2018 17:29:36 +0800
-From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+	Tue, 11 Sep 2018 02:48:11 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 11 Sep 2018 02:48:10 -0700
+From: <zhe.he@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 11 Sep 2018 17:29:15 +0800
-Message-ID: <20180911092917.25868-2-hongl.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.14.3
-In-Reply-To: <20180911092917.25868-1-hongl.fnst@cn.fujitsu.com>
-References: <20180911092917.25868-1-hongl.fnst@cn.fujitsu.com>
+Date: Tue, 11 Sep 2018 17:48:09 +0800
+Message-ID: <1536659289-356263-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.78]
-X-yoursite-MailScanner-ID: 212F34B6EC85.AA175
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
-Subject: =?UTF-8?B?W1BBVENIXSBbbWV0YS1jbG91ZC1zZXJ2aWNlc11bcGF0Y2hd77yacHl0aG9uLWhlYXRjbGllbnQ6MS4xNC4wLT4xLjE2LjE=?=
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH] lxc: Make named avoid listening on lxc network interface
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -50,35 +43,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Sep 2018 09:29:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Sep 2018 09:48:11 -0000
+Content-Type: text/plain
 
-Upgrade python-heatclient from 1.14.0 to 1.16.1
+From: He Zhe <zhe.he@windriver.com>
 
-Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+lxc-net wants to take care of DNS itself using dnsmasq, while named in
+bind does the same thing on all network interfaces by default and causes
+the following error.
+
+dnsmasq: failed to create listening socket for 10.0.3.1: Address already in use
+Failed to setup lxc-net.
+
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- meta-openstack/recipes-devtools/python/python-heatclient_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-core/bind/bind_%.bbappend         | 1 +
+ recipes-core/bind/bind_virtualization.inc | 4 ++++
+ 2 files changed, 5 insertions(+)
+ create mode 100644 recipes-core/bind/bind_%.bbappend
+ create mode 100644 recipes-core/bind/bind_virtualization.inc
 
-diff --git a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-index baa1c2c..9440f95 100644
---- a/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-heatclient_git.bb
-@@ -28,8 +28,8 @@ SRCNAME = "heatclient"
- 
- SRC_URI = "git://github.com/openstack/python-heatclient.git;branch=master"
- 
--PV = "1.14.0+git${SRCPV}"
--SRCREV = "2ce6aa19a3a8936bc7c9737efadacbb4ae737dab"
-+PV = "1.16.1+git${SRCPV}"
-+SRCREV = "b5f3d34cd009445de9a6489828faad7ec624a1a6"
- S = "${WORKDIR}/git"
- 
- inherit setuptools
+diff --git a/recipes-core/bind/bind_%.bbappend b/recipes-core/bind/bind_%.bbappend
+new file mode 100644
+index 0000000..617cacc
+--- /dev/null
++++ b/recipes-core/bind/bind_%.bbappend
+@@ -0,0 +1 @@
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
+diff --git a/recipes-core/bind/bind_virtualization.inc b/recipes-core/bind/bind_virtualization.inc
+new file mode 100644
+index 0000000..b8f0b3f
+--- /dev/null
++++ b/recipes-core/bind/bind_virtualization.inc
+@@ -0,0 +1,4 @@
++# Tell named not to bother listening on the IP address that lxc handles itself.
++do_install_append() {
++	sed -i -e 's,^\( *options *{\)$,\1\n\t// lxc would take care of this address itself\n\tlisten-on { ! 10.0.3.1; any;};\n,' ${D}${sysconfdir}/bind/named.conf.options
++}
 -- 
 2.7.4
-
-
 
 
