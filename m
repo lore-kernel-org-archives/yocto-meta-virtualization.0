@@ -1,6 +1,6 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F187CE006C7; Thu, 13 Sep 2018 03:26:50 -0700 (PDT)
+	id DAA50E006AF; Thu, 13 Sep 2018 03:26:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,30 +8,29 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [192.103.53.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2431CE0053F
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9F32BE006C7
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Sep 2018 03:26:49 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8DAQnFj027080
+	Thu, 13 Sep 2018 03:26:58 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w8DAQbK3026575
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Sep 2018 03:26:49 -0700 (PDT)
+	Thu, 13 Sep 2018 03:26:47 -0700
 Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Thu, 13 Sep 2018 03:26:48 -0700
+	14.3.408.0; Thu, 13 Sep 2018 03:26:26 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 13 Sep 2018 18:15:37 +0800
-Message-ID: <1536833737-23284-2-git-send-email-Qi.Chen@windriver.com>
+Date: Thu, 13 Sep 2018 18:15:36 +0800
+Message-ID: <1536833737-23284-1-git-send-email-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1536833737-23284-1-git-send-email-Qi.Chen@windriver.com>
-References: <1536833737-23284-1-git-send-email-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH V2 2/2] glusterfs: fix CVE-2018-10841
+Subject: [m-c-s][PATCH V2 1/2] glusterfs: fix CVE-2018-1088
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,78 +43,394 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Sep 2018 10:26:51 -0000
+X-List-Received-Date: Thu, 13 Sep 2018 10:26:59 -0000
 Content-Type: text/plain
 
-Backport patch to fix the following CVE.
+Backport patches to fix the following CVE.
 
-CVE: CVE-2018-10841
+CVE: CVE-2018-1088
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- ...ccess-trusted-peer-group-via-remote-host-.patch | 43 ++++++++++++++++++++++
- recipes-extended/glusterfs/glusterfs.inc           |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 recipes-extended/glusterfs/files/0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch
+ ...age-Prevent-mounting-shared-storage-from-.patch |  70 ++++++
+ ...auth-add-option-for-strict-authentication.patch | 280 +++++++++++++++++++++
+ recipes-extended/glusterfs/glusterfs.inc           |   2 +
+ 3 files changed, 352 insertions(+)
+ create mode 100644 recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
+ create mode 100644 recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
 
-diff --git a/recipes-extended/glusterfs/files/0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch b/recipes-extended/glusterfs/files/0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch
+diff --git a/recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch b/recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
 new file mode 100644
-index 0000000..dcbb435
+index 0000000..0e24c56
 --- /dev/null
-+++ b/recipes-extended/glusterfs/files/0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch
-@@ -0,0 +1,43 @@
-+From e79741414777c25e5c2a08e6c31619a0fbaad058 Mon Sep 17 00:00:00 2001
-+From: Mohit Agrawal <moagrawa@redhat.com>
-+Date: Wed, 20 Jun 2018 16:13:00 +0530
-+Subject: [PATCH 3/3] glusterfs: access trusted peer group via remote-host
-+ command
++++ b/recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
+@@ -0,0 +1,70 @@
++From d1936056d77abcfda14386235a88ed553341a429 Mon Sep 17 00:00:00 2001
++From: Mohammed Rafi KC <rkavunga@redhat.com>
++Date: Mon, 26 Mar 2018 20:27:34 +0530
++Subject: [PATCH 1/3] shared storage: Prevent mounting shared storage from
++ non-trusted client
 +
-+Problem: In SSL environment the user is able to access volume
-+         via remote-host command without adding node in a trusted pool
++gluster shared storage is a volume used for internal storage for
++various features including ganesha, geo-rep, snapshot.
 +
-+Solution: Change the list of rpc program in glusterd.c at the
-+          time of initialization while SSL is enabled
++So this volume should not be exposed to the client, as it is
++a special volume for internal use.
 +
-+BUG: 1593232
-+Change-Id: I987e433b639e68ad17b77b6452df1e22dbe0f199
-+fixes: bz#1593232
-+Signed-off-by: Mohit Agrawal <moagrawa@redhat.com>
++This fix wont't generate non trusted volfile for shared storage volume.
++
++Change-Id: I8ffe30ae99ec05196d75466210b84db311611a4c
++fixes: bz#1568844
++BUG: 1568844
++Signed-off-by: Mohammed Rafi KC <rkavunga@redhat.com>
 +
 +Upstream-Status: Backport
-+Fix CVE-2018-10841
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ xlators/mgmt/glusterd/src/glusterd.c | 5 -----
-+ 1 file changed, 5 deletions(-)
++Fix CVE-2018-1088
 +
-+diff --git a/xlators/mgmt/glusterd/src/glusterd.c b/xlators/mgmt/glusterd/src/glusterd.c
-+index ef20689..5e0ed8d 100644
-+--- a/xlators/mgmt/glusterd/src/glusterd.c
-++++ b/xlators/mgmt/glusterd/src/glusterd.c
-+@@ -1646,11 +1646,6 @@ init (xlator_t *this)
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++---
++ xlators/mgmt/glusterd/src/glusterd-volgen.c | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
++
++diff --git a/xlators/mgmt/glusterd/src/glusterd-volgen.c b/xlators/mgmt/glusterd/src/glusterd-volgen.c
++index 0a0668e..308c41f 100644
++--- a/xlators/mgmt/glusterd/src/glusterd-volgen.c
+++++ b/xlators/mgmt/glusterd/src/glusterd-volgen.c
++@@ -5721,6 +5721,7 @@ generate_client_volfiles (glusterd_volinfo_t *volinfo,
++         int                i                  = 0;
++         int                ret                = -1;
++         char               filepath[PATH_MAX] = {0,};
+++        char               *volname           = NULL;
++         char               *types[]           = {NULL, NULL, NULL};
++         dict_t             *dict              = NULL;
++         xlator_t           *this              = NULL;
++@@ -5728,6 +5729,26 @@ generate_client_volfiles (glusterd_volinfo_t *volinfo,
++ 
++         this = THIS;
++ 
+++        volname = volinfo->is_snap_volume ?
+++                  volinfo->parent_volname : volinfo->volname;
+++
+++
+++        if (volname && !strcmp (volname, GLUSTER_SHARED_STORAGE) &&
+++             client_type != GF_CLIENT_TRUSTED) {
+++                /*
+++                 * shared storage volume cannot be mounted from non trusted
+++                 * nodes. So we are not creating volfiles for non-trusted
+++                 * clients for shared volumes as well as snapshot of shared
+++                 * volumes.
+++                 */
+++
+++                ret = 0;
+++                gf_msg_debug ("glusterd", 0, "Skipping the non-trusted volfile"
+++                               "creation for shared storage volume. Volume %s",
+++                               volname);
+++                goto out;
+++        }
+++
++         enumerate_transport_reqs (volinfo->transport_type, types);
++         dict = dict_new ();
++         if (!dict)
++-- 
++2.7.4
++
+diff --git a/recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch b/recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
+new file mode 100644
+index 0000000..8947f27
+--- /dev/null
++++ b/recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
+@@ -0,0 +1,280 @@
++From a74ab3ab169add1e86aae0a99855211b948be021 Mon Sep 17 00:00:00 2001
++From: Mohammed Rafi KC <rkavunga@redhat.com>
++Date: Mon, 2 Apr 2018 12:20:47 +0530
++Subject: [PATCH 2/3] server/auth: add option for strict authentication
++
++When this option is enabled, we will check for a matching
++username and password, if not found then the connection will
++be rejected. This also does a checksum validation of volfile
++
++The option is invalid when SSL/TLS is in use, at which point
++the SSL/TLS certificate user name is used to validate and
++hence authorize the right user. This expects TLS allow rules
++to be setup correctly rather than the default *.
++
++This option is not settable, as a result this cannot be enabled
++for volumes using the CLI. This is used with the shared storage
++volume, to restrict access to the same in non-SSL/TLS environments
++to the gluster peers only.
++
++Tested:
++  ./tests/bugs/protocol/bug-1321578.t
++  ./tests/features/ssl-authz.t
++  - Ran tests on volumes with and without strict auth
++    checking (as brick vol file needed to be edited to test,
++    or rather to enable the option)
++  - Ran tests on volumes to ensure existing mounts are
++    disconnected when we enable strict checking
++
++Change-Id: I2ac4f0cfa5b59cc789cc5a265358389b04556b59
++fixes: bz#1568844
++Signed-off-by: Mohammed Rafi KC <rkavunga@redhat.com>
++Signed-off-by: ShyamsundarR <srangana@redhat.com>
++
++Upstream-Status: Backport
++Fix CVE-2018-1088
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++
++---
++ xlators/mgmt/glusterd/src/glusterd-volgen.c    | 16 +++++++-
++ xlators/protocol/auth/login/src/login.c        | 51 ++++++++++++++++++++++----
++ xlators/protocol/server/src/authenticate.h     |  4 +-
++ xlators/protocol/server/src/server-handshake.c |  2 +-
++ xlators/protocol/server/src/server.c           | 18 +++++++++
++ xlators/protocol/server/src/server.h           |  2 +
++ 6 files changed, 81 insertions(+), 12 deletions(-)
++
++diff --git a/xlators/mgmt/glusterd/src/glusterd-volgen.c b/xlators/mgmt/glusterd/src/glusterd-volgen.c
++index 308c41f..8dd4907 100644
++--- a/xlators/mgmt/glusterd/src/glusterd-volgen.c
+++++ b/xlators/mgmt/glusterd/src/glusterd-volgen.c
++@@ -2250,6 +2250,7 @@ brick_graph_add_server (volgen_graph_t *graph, glusterd_volinfo_t *volinfo,
++         char            *password = NULL;
++         char            key[1024] = {0};
++         char            *ssl_user = NULL;
+++        char            *volname = NULL;
++         char            *address_family_data = NULL;
++ 
++         if (!graph || !volinfo || !set_dict || !brickinfo)
++@@ -2325,6 +2326,19 @@ brick_graph_add_server (volgen_graph_t *graph, glusterd_volinfo_t *volinfo,
++         if (ret)
++                 return -1;
++ 
+++        volname = volinfo->is_snap_volume ?
+++                  volinfo->parent_volname : volinfo->volname;
+++
+++
+++        if (volname && !strcmp (volname, GLUSTER_SHARED_STORAGE)) {
+++                memset (key, 0, sizeof (key));
+++                snprintf (key, sizeof (key), "strict-auth-accept");
+++
+++                ret = xlator_set_option (xl, key, "true");
+++                if (ret)
+++                        return -1;
+++        }
+++
++         if (dict_get_str (volinfo->dict, "auth.ssl-allow", &ssl_user) == 0) {
++                 memset (key, 0, sizeof (key));
++                 snprintf (key, sizeof (key), "auth.login.%s.ssl-allow",
++@@ -5734,7 +5748,7 @@ generate_client_volfiles (glusterd_volinfo_t *volinfo,
++ 
++ 
++         if (volname && !strcmp (volname, GLUSTER_SHARED_STORAGE) &&
++-             client_type != GF_CLIENT_TRUSTED) {
+++            client_type != GF_CLIENT_TRUSTED) {
++                 /*
++                  * shared storage volume cannot be mounted from non trusted
++                  * nodes. So we are not creating volfiles for non-trusted
++diff --git a/xlators/protocol/auth/login/src/login.c b/xlators/protocol/auth/login/src/login.c
++index e799dd2..da10d0b 100644
++--- a/xlators/protocol/auth/login/src/login.c
+++++ b/xlators/protocol/auth/login/src/login.c
++@@ -11,6 +11,16 @@
++ #include <fnmatch.h>
++ #include "authenticate.h"
++ 
+++/* Note on strict_auth
+++ * - Strict auth kicks in when authentication is using the username, password
+++ *   in the volfile to login
+++ * - If enabled, auth is rejected if the username and password is not matched
+++ *   or is not present
+++ * - When using SSL names, this is automatically strict, and allows only those
+++ *   names that are present in the allow list, IOW strict auth checking has no
+++ *   implication when using SSL names
+++*/
+++
++ auth_result_t gf_auth (dict_t *input_params, dict_t *config_params)
++ {
++         auth_result_t  result  = AUTH_DONT_CARE;
++@@ -27,6 +37,7 @@ auth_result_t gf_auth (dict_t *input_params, dict_t *config_params)
++         char            *tmp            = NULL;
++         char            *username_cpy   = NULL;
++         gf_boolean_t    using_ssl       = _gf_false;
+++        gf_boolean_t    strict_auth     = _gf_false;
++ 
++         username_data = dict_get (input_params, "ssl-name");
++         if (username_data) {
++@@ -35,16 +46,39 @@ auth_result_t gf_auth (dict_t *input_params, dict_t *config_params)
++                 using_ssl = _gf_true;
++         }
++         else {
+++                ret = dict_get_str_boolean (config_params, "strict-auth-accept",
+++                                            _gf_false);
+++                if (ret == -1)
+++                        strict_auth = _gf_false;
+++                else
+++                        strict_auth = ret;
+++
++                 username_data = dict_get (input_params, "username");
++                 if (!username_data) {
++-                        gf_log ("auth/login", GF_LOG_DEBUG,
++-                                "username not found, returning DONT-CARE");
+++                        if (strict_auth) {
+++                                gf_log ("auth/login", GF_LOG_DEBUG,
+++                                        "username not found, strict auth"
+++                                        " configured returning REJECT");
+++                                result = AUTH_REJECT;
+++                        } else {
+++                                gf_log ("auth/login", GF_LOG_DEBUG,
+++                                        "username not found, returning"
+++                                        " DONT-CARE");
+++                        }
 +                         goto out;
 +                 }
-+                 /*
-+-                 * With strong authentication, we can afford to allow
-+-                 * privileged operations over TCP.
-+-                 */
-+-                gd_inet_programs[1] = &gd_svc_cli_prog;
-+-                /*
-+                  * This is the only place where we want secure_srvr to reflect
-+                  * the management-plane setting.
++                 password_data = dict_get (input_params, "password");
++                 if (!password_data) {
++-                        gf_log ("auth/login", GF_LOG_WARNING,
++-                                "password not found, returning DONT-CARE");
+++                        if (strict_auth) {
+++                                gf_log ("auth/login", GF_LOG_DEBUG,
+++                                        "password not found, strict auth"
+++                                        " configured returning REJECT");
+++                                result = AUTH_REJECT;
+++                        } else {
+++                                gf_log ("auth/login", GF_LOG_WARNING,
+++                                        "password not found, returning"
+++                                        " DONT-CARE");
+++                        }
++                         goto out;
++                 }
++                 password = data_to_str (password_data);
++@@ -62,9 +96,10 @@ auth_result_t gf_auth (dict_t *input_params, dict_t *config_params)
++         ret = gf_asprintf (&searchstr, "auth.login.%s.%s", brick_name,
++                            using_ssl ? "ssl-allow" : "allow");
++         if (-1 == ret) {
++-                gf_log ("auth/login", GF_LOG_WARNING,
+++                gf_log ("auth/login", GF_LOG_ERROR,
++                         "asprintf failed while setting search string, "
++-                        "returning DONT-CARE");
+++                        "returning REJECT");
+++                result = AUTH_REJECT;
++                 goto out;
++         }
++ 
++@@ -92,8 +127,10 @@ auth_result_t gf_auth (dict_t *input_params, dict_t *config_params)
++                  * ssl-allow=* case as well) authorization is effectively
++                  * disabled, though authentication and encryption are still
++                  * active.
+++                 *
+++                 * Read NOTE on strict_auth above.
 +                  */
++-                if (using_ssl) {
+++                if (using_ssl || strict_auth) {
++                         result = AUTH_REJECT;
++                 }
++                 username_cpy = gf_strdup (allow_user->data);
++diff --git a/xlators/protocol/server/src/authenticate.h b/xlators/protocol/server/src/authenticate.h
++index 3f80231..5f92183 100644
++--- a/xlators/protocol/server/src/authenticate.h
+++++ b/xlators/protocol/server/src/authenticate.h
++@@ -37,10 +37,8 @@ typedef struct {
++         volume_opt_list_t *vol_opt;
++ } auth_handle_t;
++ 
++-auth_result_t gf_authenticate (dict_t *input_params,
++-                               dict_t *config_params,
++-                               dict_t *auth_modules);
++ int32_t gf_auth_init (xlator_t *xl, dict_t *auth_modules);
++ void gf_auth_fini (dict_t *auth_modules);
+++auth_result_t gf_authenticate (dict_t *, dict_t *, dict_t *);
++ 
++ #endif /* _AUTHENTICATE_H */
++diff --git a/xlators/protocol/server/src/server-handshake.c b/xlators/protocol/server/src/server-handshake.c
++index f00804a..392a101 100644
++--- a/xlators/protocol/server/src/server-handshake.c
+++++ b/xlators/protocol/server/src/server-handshake.c
++@@ -631,7 +631,7 @@ server_setvolume (rpcsvc_request_t *req)
++                         ret = dict_get_str (params, "volfile-key",
++                                             &volfile_key);
++                         if (ret)
++-                                gf_msg_debug (this->name, 0, "failed to set "
+++                                gf_msg_debug (this->name, 0, "failed to get "
++                                               "'volfile-key'");
++ 
++                         ret = _validate_volfile_checksum (this, volfile_key,
++diff --git a/xlators/protocol/server/src/server.c b/xlators/protocol/server/src/server.c
++index 202fe71..61c6194 100644
++--- a/xlators/protocol/server/src/server.c
+++++ b/xlators/protocol/server/src/server.c
++@@ -883,6 +883,10 @@ do_rpc:
++                 goto out;
++         }
++ 
+++        GF_OPTION_RECONF ("strict-auth-accept", conf->strict_auth_enabled,
+++                          options, bool, out);
+++
+++
++         GF_OPTION_RECONF ("dynamic-auth", conf->dync_auth, options,
++                         bool, out);
++ 
++@@ -1113,6 +1117,14 @@ init (xlator_t *this)
++                         "Failed to initialize group cache.");
++                 goto out;
++         }
+++
+++        ret = dict_get_str_boolean (this->options, "strict-auth-accept",
+++                                    _gf_false);
+++        if (ret == -1)
+++                conf->strict_auth_enabled = _gf_false;
+++        else
+++                conf->strict_auth_enabled = ret;
+++
++         ret = dict_get_str_boolean (this->options, "dynamic-auth",
++                         _gf_true);
++         if (ret == -1)
++@@ -1667,5 +1679,11 @@ struct volume_options options[] = {
++                            "transport connection immediately in response to "
++                            "*.allow | *.reject volume set options."
++         },
+++        { .key   = {"strict-auth-accept"},
+++          .type  = GF_OPTION_TYPE_BOOL,
+++          .default_value = "off",
+++          .description   = "strict-auth-accept reject connection with out"
+++                           "a valid username and password."
+++        },
++         { .key   = {NULL} },
++ };
++diff --git a/xlators/protocol/server/src/server.h b/xlators/protocol/server/src/server.h
++index 0b37eb1..7eea291 100644
++--- a/xlators/protocol/server/src/server.h
+++++ b/xlators/protocol/server/src/server.h
++@@ -24,6 +24,7 @@
++ #include "client_t.h"
++ #include "gidcache.h"
++ #include "defaults.h"
+++#include "authenticate.h"
++ 
++ #define DEFAULT_BLOCK_SIZE         4194304   /* 4MB */
++ #define DEFAULT_VOLUME_FILE_PATH   CONFDIR "/glusterfs.vol"
++@@ -105,6 +106,7 @@ struct server_conf {
++                                            * false, when child is down */
++ 
++         gf_lock_t               itable_lock;
+++        gf_boolean_t            strict_auth_enabled;
++ };
++ typedef struct server_conf server_conf_t;
++ 
 +-- 
 +2.7.4
 +
 diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-index 8bf5653..ab63a9a 100644
+index 02c8a6a..8bf5653 100644
 --- a/recipes-extended/glusterfs/glusterfs.inc
 +++ b/recipes-extended/glusterfs/glusterfs.inc
-@@ -22,6 +22,7 @@ SRC_URI += "file://glusterd.init \
+@@ -20,6 +20,8 @@ SRC_URI += "file://glusterd.init \
+             file://libglusterfs-Don-t-link-against-libfl.patch \
+             file://glusterd-change-port-range.patch \
              file://configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch \
-             file://0001-shared-storage-Prevent-mounting-shared-storage-from-.patch \
-             file://0002-server-auth-add-option-for-strict-authentication.patch \
-+            file://0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch \
++            file://0001-shared-storage-Prevent-mounting-shared-storage-from-.patch \
++            file://0002-server-auth-add-option-for-strict-authentication.patch \
             "
  
  LICENSE = "(LGPLv3+ | GPLv2) & GPLv3+ & LGPLv3+ & GPLv2+ & LGPLv2+ & LGPLv2.1+ & Apache-2.0"
