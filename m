@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 147E8E00C09; Tue, 18 Sep 2018 13:29:07 -0700 (PDT)
+	id 2FCFFE00BA2; Tue, 18 Sep 2018 13:29:07 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,30 +8,30 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4F9EAE00971
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 33D87E00B45
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Sep 2018 13:28:20 -0700 (PDT)
+	Tue, 18 Sep 2018 13:28:21 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8IKSK3D018809
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8IKSKVv001130
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
 	Tue, 18 Sep 2018 13:28:20 -0700 (PDT)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 18 Sep 2018 13:28:19 -0700
+	Tue, 18 Sep 2018 13:28:20 -0700
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 18 Sep 2018 16:27:29 -0400
-Message-ID: <1537302451-32569-5-git-send-email-mark.asselstine@windriver.com>
+Date: Tue, 18 Sep 2018 16:27:30 -0400
+Message-ID: <1537302451-32569-6-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1537302451-32569-1-git-send-email-mark.asselstine@windriver.com>
 References: <1537302451-32569-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH 4/6] consul: update to use go.bbclass
+Subject: [m-c-s][PATCH 5/6] consul-migrate: use SRC_URIs not DEPENDS
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -47,90 +47,62 @@ List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>,
 X-List-Received-Date: Tue, 18 Sep 2018 20:29:07 -0000
 Content-Type: text/plain
 
-We don't want meta-cloud-services to have to rely on meta-overc for
-access to golang.bbclass (which predates go.bbclass in oe-core/yocto)
-so switch to make use of go.bbclass.
+It is common to have two GO packages, A and B, and they both depend on
+a GO dependency, C. This can be satisfied using the current technique
+of writing recipes for each dependency.
 
-This requires the definition of GO_IMPORT and the dropping of some
-custom handling of 'configure' and others.
+BUT it is also common for GO packages to not only specify other
+packages in their GoDeps but also specific dependency versions. In the
+case that A and B share a dependency on C, but require different
+versions, there is no easy way to accomplish this using recipes.
 
-Since go.bbclass uses a slighly different directory structure than we
-used with golang.bbclass we have to adjust some paths accordingly,
-including those in patches.
+Since GO dependencies are also source dependencies and these
+dependencies are overwhelmingly useless on their own, writing recipes
+for each is overkill.
 
-We also need to expand the list of LICENSES to cover licenses of all
-the GO packages included in consul.
+We therefor replace DEPENDS with SRC_URIs and SRCREVs as a mechanism
+to provide build dependencies.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-connectivity/consul/consul_git.bb          | 22 +++++++---------------
- ...prepared_query-make-compatible-with-go1.5.patch |  8 ++++----
- 2 files changed, 11 insertions(+), 19 deletions(-)
+ recipes-connectivity/consul/consul-migrate_git.bb | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
 
-diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
-index 5f86597..a44e0b2 100644
---- a/recipes-connectivity/consul/consul_git.bb
-+++ b/recipes-connectivity/consul/consul_git.bb
-@@ -1,30 +1,22 @@
- DESCRIPTION = "A tool for discovering and configuring services in your infrastructure"
- HOMEPAGE = "https://www.consul.io/"
--LICENSE = "MPL-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=b278a92d2c1509760384428817710378"
-+LICENSE = "MPL-2.0 & BSD & Apache-2.0 & BSD-2-Clause & MIT"
-+LIC_FILES_CHKSUM = "file://src/github.com/hashicorp/consul/LICENSE;md5=b278a92d2c1509760384428817710378"
+diff --git a/recipes-connectivity/consul/consul-migrate_git.bb b/recipes-connectivity/consul/consul-migrate_git.bb
+index 4cc53b2..935d663 100644
+--- a/recipes-connectivity/consul/consul-migrate_git.bb
++++ b/recipes-connectivity/consul/consul-migrate_git.bb
+@@ -3,12 +3,28 @@ HOMEPAGE = "https://github.com/hashicorp/consul-migrate"
+ LICENSE = "MPL-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=b278a92d2c1509760384428817710378"
  
--PKG_NAME = "github.com/hashicorp/consul"
--SRC_URI = "git://${PKG_NAME}.git \
-+GO_IMPORT = "github.com/hashicorp/consul"
-+SRCREV = "f97afda8e15046b41d951bf3b4220372c45df7ab"
-+SRC_URI = "git://${GO_IMPORT}.git \
-            file://consul.service \
-            file://0001-prepared_query-make-compatible-with-go1.5.patch \
-           "
--SRCREV = "f97afda8e15046b41d951bf3b4220372c45df7ab"
+-DEPENDS += "raft raft-boltdb raft-mdb"
 -
--CCACHE = ""
+ PKG_NAME = "github.com/hashicorp/consul-migrate"
+ SRC_URI = "git://${PKG_NAME}.git"
+ SRCREV = "678fb10cdeae25ab309e99e655148f0bf65f9710"
  
--inherit systemd golang
-+S = "${WORKDIR}/git"
++SRCREV_raft = "057b893fd996696719e98b6c44649ea14968c811"
++SRCREV_go-metrics = "f303b03b91d770a11a39677f1d3b55da4002bbcb"
++SRCREV_raft-boltdb = "d1e82c1ec3f15ee991f7cc7ffd5b67ff6f5bbaee"
++SRCREV_raft-mdb = "4ec3694ffbc74d34f7532e70ef2e9c3546a0c0b0"
++SRCREV_gomdb = "151f2e08ef45cb0e57d694b2562f351955dff572"
++SRCREV_bolt = "c6ba97b89e0454fec9aa92e1d33a4e2c5fc1f631"
++SRCREV_go-msgpack = "fa3f63826f7c23912c15263591e65d54d080b458"
++
++SRC_URI += " \
++   git://github.com/hashicorp/raft;name=raft;destsuffix=git/src/github.com/hashicorp/raft \
++   git://github.com/armon/go-metrics;name=go-metrics;destsuffix=git/src/github.com/armon/go-metrics \
++   git://github.com/hashicorp/raft-boltdb;name=raft-boltdb;destsuffix=git/src/github.com/hashicorp/raft-boltdb \
++   git://github.com/hashicorp/raft-mdb;name=raft-mdb;destsuffix=git/src/github.com/hashicorp/raft-mdb \
++   git://github.com/armon/gomdb;name=gomdb;destsuffix=git/src/github.com/armon/gomdb \
++   git://github.com/boltdb/bolt;name=bolt;destsuffix=git/src/github.com/boltdb/bolt \
++   git://github.com/hashicorp/go-msgpack;name=go-msgpack;destsuffix=git/src/github.com/hashicorp/go-msgpack \
++"
++
+ inherit golang
  
--INSANE_SKIP_${PN} += "ldflags"
-+inherit systemd go
- 
- SYSTEMD_SERVICE_${PN} = "consul.service"
- SYSTEMD_AUTO_ENABLE_${PN} = "enable"
- 
--export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
--
--#Stops go from installing and testing the package
--do_configure(){
--}
--
- do_install_append() {
-     install -d ${D}/${systemd_unitdir}/system
-     cp ${WORKDIR}/consul.service ${D}/${systemd_unitdir}/system
-diff --git a/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch b/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
-index a66e1dc..324530b 100644
---- a/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
-+++ b/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
-@@ -8,13 +8,13 @@ lock contention, so we drop the copy and use the regex directly.
- 
- Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
- ---
-- consul/prepared_query/template.go | 4 ++--
-+ src/github.com/hashicorp/consul/consul/prepared_query/template.go | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
--diff --git a/consul/prepared_query/template.go b/consul/prepared_query/template.go
-+diff --git a/src/github.com/hashicorp/consul/consul/prepared_query/template.go b/src/github.com/hashicorp/consul/consul/prepared_query/template.go
- index 984f0bcf9cc6..1c61910c1526 100644
----- a/consul/prepared_query/template.go
--+++ b/consul/prepared_query/template.go
-+--- a/src/github.com/hashicorp/consul/consul/prepared_query/template.go
-++++ b/src/github.com/hashicorp/consul/consul/prepared_query/template.go
- @@ -116,8 +116,8 @@ func (ct *CompiledTemplate) Render(name string) (*structs.PreparedQuery, error)
-  	// from multiple goroutines.
-  	var matches []string
+ SYSROOT_PREPROCESS_FUNCS += "consul_migrate_sysroot_preprocess"
 -- 
 2.7.4
 
