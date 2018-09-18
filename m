@@ -1,6 +1,6 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0EBFEE0095C; Tue, 18 Sep 2018 13:28:01 -0700 (PDT)
+	id 2D536E00971; Tue, 18 Sep 2018 13:28:03 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,30 +8,30 @@ X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 048B2E0090A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0B8E1E00971
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Sep 2018 13:27:57 -0700 (PDT)
+	Tue, 18 Sep 2018 13:28:01 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w8IKRvCr018763
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8IKRwYg001127
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Sep 2018 13:27:57 -0700 (PDT)
+	Tue, 18 Sep 2018 13:27:58 -0700 (PDT)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Tue, 18 Sep 2018 13:27:56 -0700
+	Tue, 18 Sep 2018 13:27:57 -0700
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Tue, 18 Sep 2018 16:27:26 -0400
-Message-ID: <1537302451-32569-2-git-send-email-mark.asselstine@windriver.com>
+Date: Tue, 18 Sep 2018 16:27:27 -0400
+Message-ID: <1537302451-32569-3-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1537302451-32569-1-git-send-email-mark.asselstine@windriver.com>
 References: <1537302451-32569-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
-Subject: [m-c-s][PATCH 1/6] python-ansible: copy recipe from meta-overc (branch:master-oci)
+Subject: [m-c-s][PATCH 2/6] consul: consule-migrate: move from meta-overc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,1374 +44,189 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Sep 2018 20:28:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Sep 2018 20:28:03 -0000
+Content-Type: text/plain
 
-This recipe was part of meta-overc as ansible was originally used to
-configure things in the OverC framework. The use of ansible was
-dropped, however, due to size concerns, the limited functionality we
-were using, increased boot times and other factors. It no longer makes
-sense to host this recipe in meta-overc and thus we are making it
-available as part of meta-cloud-services as it is still a useful tool
-for cloud deployments.
+After several requests to make the consul recipe available outside of
+meta-overc and the OverC framework we are moving the consul recipes
+here. These are a copy from meta-overc (HEAD 6afe8d2c12ac).
+
+NOTE that not all the DEPENDS have been copied as we will follow this
+commit with work to make use of SRC_URIs for dependencies. See the
+associated commit(s) which will follow this one.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-devtools/python/python-ansible.inc         |   76 ++
- recipes-devtools/python/python-ansible_2.3.1.0.bb  |    4 +
- ...on3-ensure-py-scripts-use-py3-for-shebang.patch | 1232 ++++++++++++++++++++
- recipes-devtools/python/python3-ansible_2.3.1.0.bb |    8 +
- 4 files changed, 1320 insertions(+)
- create mode 100644 recipes-devtools/python/python-ansible.inc
- create mode 100644 recipes-devtools/python/python-ansible_2.3.1.0.bb
- create mode 100644 recipes-devtools/python/python3-ansible/python3-ensure-py-scripts-use-py3-for-shebang.patch
- create mode 100644 recipes-devtools/python/python3-ansible_2.3.1.0.bb
+ recipes-connectivity/consul/consul-migrate_git.bb  | 26 +++++++++
+ recipes-connectivity/consul/consul_git.bb          | 67 ++++++++++++++++++++++
+ ...prepared_query-make-compatible-with-go1.5.patch | 31 ++++++++++
+ recipes-connectivity/consul/files/consul.service   | 12 ++++
+ 4 files changed, 136 insertions(+)
+ create mode 100644 recipes-connectivity/consul/consul-migrate_git.bb
+ create mode 100644 recipes-connectivity/consul/consul_git.bb
+ create mode 100644 recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
+ create mode 100644 recipes-connectivity/consul/files/consul.service
 
-diff --git a/recipes-devtools/python/python-ansible.inc b/recipes-devtools/python/python-ansible.inc
+diff --git a/recipes-connectivity/consul/consul-migrate_git.bb b/recipes-connectivity/consul/consul-migrate_git.bb
 new file mode 100644
-index 0000000..f1b3771
+index 0000000..4cc53b2
 --- /dev/null
-+++ b/recipes-devtools/python/python-ansible.inc
-@@ -0,0 +1,76 @@
-+DESCRIPTION = "Ansible is a simple IT automation platform that makes your applications and systems easier to deploy."
-+HOMEPAGE = "https://github.com/ansible/ansible/"
-+SECTION = "devel/python"
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
++++ b/recipes-connectivity/consul/consul-migrate_git.bb
+@@ -0,0 +1,26 @@
++SUMMARY = "Provides data migration for Consul server nodes"
++HOMEPAGE = "https://github.com/hashicorp/consul-migrate"
++LICENSE = "MPL-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b278a92d2c1509760384428817710378"
 +
-+SRCNAME = "ansible"
++DEPENDS += "raft raft-boltdb raft-mdb"
 +
-+SRC_URI = "http://releases.ansible.com/ansible/${SRCNAME}-${PV}.tar.gz"
++PKG_NAME = "github.com/hashicorp/consul-migrate"
++SRC_URI = "git://${PKG_NAME}.git"
++SRCREV = "678fb10cdeae25ab309e99e655148f0bf65f9710"
 +
-+SRC_URI[md5sum] = "b1be8f05864a07c06b8a767dcd48ba1b"
-+SRC_URI[sha256sum] = "cd4b8f53720fcd0c351156b840fdd15ecfbec22c951b5406ec503de49d40b9f5"
++inherit golang
 +
++SYSROOT_PREPROCESS_FUNCS += "consul_migrate_sysroot_preprocess"
 +
-+S = "${WORKDIR}/${SRCNAME}-${PV}"
++export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
 +
-+ANSIBLE_WHITELIST_MODULES ?= "commands files system network/ovs __pycache__ service"
-+
-+do_install_append() {
-+    set +e
-+
-+    # install hosts and conf
-+    install -d ${D}/${sysconfdir}/ansible
-+
-+    # There is no default inventory configuration installed for ansible,
-+    # so we use the example as a template to improve OOBE.
-+    install ${S}/examples/hosts ${D}/${sysconfdir}/ansible/
-+    install ${S}/examples/ansible.cfg ${D}/${sysconfdir}/ansible/
-+
-+    # do not gather machine's information, which could reduce setup time
-+    sed -i "s|^#gathering = implicit|gathering = explicit|g" \
-+        ${D}/${sysconfdir}/ansible/ansible.cfg
-+
-+    for d in $(ls ${D}/${libdir}/python${PYTHON_BASEVERSION}/site-packages/ansible/modules); do
-+	if [ -d ${D}/${libdir}/python${PYTHON_BASEVERSION}/site-packages/ansible/modules/$d ]; then
-+	    match=
-+	    rm_target=
-+	    for w in ${ANSIBLE_WHITELIST_MODULES}; do
-+		m=$(echo $w | grep $d)
-+		if [ $? -eq 0 ]; then
-+		    match=t
-+		    match_word=$m
-+		fi
-+	    done
-+	    if [ -n "$match" ]; then
-+		echo $match_word | grep -q "/"
-+		if [ $? -eq 0 ]; then
-+		    for d2 in $(ls ${D}/${libdir}/python${PYTHON_BASEVERSION}/site-packages/ansible/modules/$d); do
-+			if [ -d ${D}/${libdir}/python${PYTHON_BASEVERSION}/site-packages/ansible/modules/$d/$d2 ]; then
-+			    sub_remove=t
-+			    for w in ${ANSIBLE_WHITELIST_MODULES}; do
-+				m=$(echo $w | grep $d2)
-+				if [ $? -eq 0 ]; then
-+				    sub_remove=
-+				fi
-+			    done
-+			    if [ -n "$sub_remove" ]; then
-+				echo "[info]: removing $d/$d2"
-+				rm -rf ${D}/${libdir}/python${PYTHON_BASEVERSION}/site-packages/ansible/modules/$d/$d2
-+			    else
-+				echo "[info]: whitlisting $d/$d2"
-+			    fi
-+			fi
-+		    done
-+		else
-+		    echo "[info]: whitlisting $d"
-+		fi
-+	    else
-+		echo "[info]: removing $d"
-+		rm -rf ${D}/${libdir}/python${PYTHON_BASEVERSION}/site-packages/ansible/modules/$d
-+	    fi
-+	fi
-+    done
++consul_migrate_sysroot_preprocess () {
++    install -d ${SYSROOT_DESTDIR}${prefix}/local/go/src/${PKG_NAME}
++    cp -a ${D}${prefix}/local/go/src/${PKG_NAME} ${SYSROOT_DESTDIR}${prefix}/local/go/src/$(dirname ${PKG_NAME})
++    install -d ${SYSROOT_DESTDIR}${prefix}/bin
++    cp -a ${D}${prefix}/bin/* ${SYSROOT_DESTDIR}${prefix}/bin/
 +}
 +
 +CLEANBROKEN = "1"
-diff --git a/recipes-devtools/python/python-ansible_2.3.1.0.bb b/recipes-devtools/python/python-ansible_2.3.1.0.bb
++INSANE_SKIP_${PN} = "ldflags"
+diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
 new file mode 100644
-index 0000000..b6659fc
+index 0000000..bcfb5aa
 --- /dev/null
-+++ b/recipes-devtools/python/python-ansible_2.3.1.0.bb
-@@ -0,0 +1,4 @@
-+inherit setuptools
-+require python-ansible.inc
++++ b/recipes-connectivity/consul/consul_git.bb
+@@ -0,0 +1,67 @@
++DESCRIPTION = "A tool for discovering and configuring services in your infrastructure"
++HOMEPAGE = "https://www.consul.io/"
++LICENSE = "MPL-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b278a92d2c1509760384428817710378"
 +
-+RDEPENDS_${PN} += "python-pyyaml python-jinja2 python-modules"
-diff --git a/recipes-devtools/python/python3-ansible/python3-ensure-py-scripts-use-py3-for-shebang.patch b/recipes-devtools/python/python3-ansible/python3-ensure-py-scripts-use-py3-for-shebang.patch
++DEPENDS += "circbuf \
++    consul-migrate \
++    go-checkpoint \
++    go-msgpack \
++    go-metrics \
++    go-bindata \
++    go-sys \
++    go-syslog \
++    dockerclient \
++    logutils \
++    memberlist \
++    raft \
++    raft-boltdb \
++    scada-client \
++    serf-go \
++    yamux \
++    muxado \
++    dns \
++    cli \
++    mapstructure \
++    copystructure \
++    reflectwalk \
++    columnize \
++    go-radix \
++    golang-lru \
++    hashicorp-hil \
++    hashicorp-hcl \
++    hashicorp-go-cleanhttp \
++    hashicorp-go-memdb \
++    hashicorp-go-reap \
++    hashicorp-go-uuid \
++    net-rpc-msgpackrpc \
++    "
++
++PKG_NAME = "github.com/hashicorp/consul"
++SRC_URI = "git://${PKG_NAME}.git \
++           file://consul.service \
++           file://0001-prepared_query-make-compatible-with-go1.5.patch \
++          "
++SRCREV = "f97afda8e15046b41d951bf3b4220372c45df7ab"
++
++CCACHE = ""
++
++inherit systemd golang
++
++INSANE_SKIP_${PN} += "ldflags"
++
++SYSTEMD_SERVICE_${PN} = "consul.service"
++SYSTEMD_AUTO_ENABLE_${PN} = "enable"
++
++export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
++
++#Stops go from installing and testing the package
++do_configure(){
++}
++
++do_install_append() {
++    install -d ${D}/${systemd_unitdir}/system
++    cp ${WORKDIR}/consul.service ${D}/${systemd_unitdir}/system
++}
++
++FILES_${PN} += "${systemd_unitdir}/system"
+diff --git a/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch b/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
 new file mode 100644
-index 0000000..e98eb46
+index 0000000..a66e1dc
 --- /dev/null
-+++ b/recipes-devtools/python/python3-ansible/python3-ensure-py-scripts-use-py3-for-shebang.patch
-@@ -0,0 +1,1232 @@
-+From 66b824da2fadfd5760040be244f89fa8320df55b Mon Sep 17 00:00:00 2001
-+From: Mark Asselstine <mark.asselstine@windriver.com>
-+Date: Thu, 13 Jul 2017 14:11:46 -0400
-+Subject: [PATCH] python3: ensure py scripts use py3 for shebang
++++ b/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
+@@ -0,0 +1,31 @@
++From fb11d9e31788c912f94faf8b188278d54dc9a8f1 Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@windriver.com>
++Date: Wed, 20 Apr 2016 16:34:50 -0400
++Subject: [PATCH] prepared_query: make compatible with go1.5
 +
-+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++The copying of a regex is only in go 1.6. We can take the chance of
++lock contention, so we drop the copy and use the regex directly.
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
 +---
-+ bin/ansible                                                           | 2 +-
-+ bin/ansible-connection                                                | 2 +-
-+ bin/ansible-console                                                   | 2 +-
-+ bin/ansible-doc                                                       | 2 +-
-+ bin/ansible-galaxy                                                    | 2 +-
-+ bin/ansible-playbook                                                  | 2 +-
-+ bin/ansible-pull                                                      | 2 +-
-+ bin/ansible-vault                                                     | 2 +-
-+ contrib/inventory/abiquo.py                                           | 2 +-
-+ contrib/inventory/apache-libcloud.py                                  | 2 +-
-+ contrib/inventory/apstra_aos.py                                       | 2 +-
-+ contrib/inventory/azure_rm.py                                         | 2 +-
-+ contrib/inventory/brook.py                                            | 2 +-
-+ contrib/inventory/cloudforms.py                                       | 2 +-
-+ contrib/inventory/cloudstack.py                                       | 2 +-
-+ contrib/inventory/cobbler.py                                          | 2 +-
-+ contrib/inventory/collins.py                                          | 2 +-
-+ contrib/inventory/consul_io.py                                        | 2 +-
-+ contrib/inventory/digital_ocean.py                                    | 2 +-
-+ contrib/inventory/docker.py                                           | 2 +-
-+ contrib/inventory/ec2.py                                              | 2 +-
-+ contrib/inventory/fleet.py                                            | 2 +-
-+ contrib/inventory/foreman.py                                          | 2 +-
-+ contrib/inventory/freeipa.py                                          | 2 +-
-+ contrib/inventory/gce.py                                              | 2 +-
-+ contrib/inventory/jail.py                                             | 2 +-
-+ contrib/inventory/landscape.py                                        | 2 +-
-+ contrib/inventory/libvirt_lxc.py                                      | 2 +-
-+ contrib/inventory/linode.py                                           | 2 +-
-+ contrib/inventory/lxc_inventory.py                                    | 2 +-
-+ contrib/inventory/mdt_dynamic_inventory.py                            | 2 +-
-+ contrib/inventory/nagios_livestatus.py                                | 2 +-
-+ contrib/inventory/nagios_ndo.py                                       | 2 +-
-+ contrib/inventory/nova.py                                             | 2 +-
-+ contrib/inventory/nsot.py                                             | 2 +-
-+ contrib/inventory/openshift.py                                        | 2 +-
-+ contrib/inventory/openstack.py                                        | 2 +-
-+ contrib/inventory/openvz.py                                           | 2 +-
-+ contrib/inventory/ovirt.py                                            | 2 +-
-+ contrib/inventory/ovirt4.py                                           | 2 +-
-+ contrib/inventory/packet_net.py                                       | 2 +-
-+ contrib/inventory/proxmox.py                                          | 2 +-
-+ contrib/inventory/rackhd.py                                           | 2 +-
-+ contrib/inventory/rax.py                                              | 2 +-
-+ contrib/inventory/rhv.py                                              | 2 +-
-+ contrib/inventory/rudder.py                                           | 2 +-
-+ contrib/inventory/serf.py                                             | 2 +-
-+ contrib/inventory/softlayer.py                                        | 2 +-
-+ contrib/inventory/spacewalk.py                                        | 2 +-
-+ contrib/inventory/ssh_config.py                                       | 2 +-
-+ contrib/inventory/stacki.py                                           | 2 +-
-+ contrib/inventory/vagrant.py                                          | 2 +-
-+ contrib/inventory/vbox.py                                             | 2 +-
-+ contrib/inventory/vmware.py                                           | 2 +-
-+ contrib/inventory/vmware_inventory.py                                 | 2 +-
-+ contrib/inventory/windows_azure.py                                    | 2 +-
-+ contrib/inventory/zabbix.py                                           | 2 +-
-+ contrib/inventory/zone.py                                             | 2 +-
-+ docs/docsite/rst/dev_guide/developing_api.rst                         | 2 +-
-+ hacking/dump_playbook_attributes.py                                   | 2 +-
-+ hacking/module_formatter.py                                           | 2 +-
-+ lib/ansible/modules/web_infrastructure/django_manage.py               | 2 +-
-+ lib/ansible/modules/windows/win_file_version.py                       | 2 +-
-+ lib/ansible/modules/windows/win_firewall_rule.py                      | 2 +-
-+ test/compile/compile.py                                               | 2 +-
-+ test/integration/cleanup_rax.py                                       | 2 +-
-+ .../targets/embedded_module/library/test_integration_module           | 2 +-
-+ test/integration/targets/module_utils/module_utils/foo.py             | 2 +-
-+ test/integration/targets/module_utils/module_utils/sub/bam.py         | 2 +-
-+ test/integration/targets/module_utils/module_utils/sub/bam/bam.py     | 2 +-
-+ test/integration/targets/module_utils/module_utils/sub/bar/bam.py     | 2 +-
-+ test/integration/targets/module_utils/module_utils/sub/bar/bar.py     | 2 +-
-+ test/integration/targets/service/files/ansible_test_service           | 2 +-
-+ test/runner/ansible-test                                              | 2 +-
-+ test/runner/injector/ansible                                          | 2 +-
-+ test/runner/injector/ansible-console                                  | 2 +-
-+ test/runner/injector/ansible-doc                                      | 2 +-
-+ test/runner/injector/ansible-galaxy                                   | 2 +-
-+ test/runner/injector/ansible-playbook                                 | 2 +-
-+ test/runner/injector/ansible-pull                                     | 2 +-
-+ test/runner/injector/ansible-vault                                    | 2 +-
-+ test/runner/injector/cover                                            | 2 +-
-+ test/runner/injector/cover2                                           | 2 +-
-+ test/runner/injector/cover2.4                                         | 2 +-
-+ test/runner/injector/cover2.6                                         | 2 +-
-+ test/runner/injector/cover2.7                                         | 2 +-
-+ test/runner/injector/cover3                                           | 2 +-
-+ test/runner/injector/cover3.5                                         | 2 +-
-+ test/runner/injector/cover3.6                                         | 2 +-
-+ test/runner/injector/injector.py                                      | 2 +-
-+ test/runner/injector/pytest                                           | 2 +-
-+ test/runner/injector/runner                                           | 2 +-
-+ test/runner/injector/runner2                                          | 2 +-
-+ test/runner/injector/runner2.4                                        | 2 +-
-+ test/runner/injector/runner2.6                                        | 2 +-
-+ test/runner/injector/runner2.7                                        | 2 +-
-+ test/runner/injector/runner3                                          | 2 +-
-+ test/runner/injector/runner3.5                                        | 2 +-
-+ test/runner/injector/runner3.6                                        | 2 +-
-+ test/runner/retry.py                                                  | 2 +-
-+ test/runner/test.py                                                   | 2 +-
-+ test/sanity/code-smell/ansible-var-precedence-check.py                | 2 +-
-+ test/sanity/code-smell/integration-aliases.py                         | 2 +-
-+ test/sanity/code-smell/shebang.sh                                     | 4 ++--
-+ test/sanity/validate-modules/test_validate_modules_regex.py           | 2 +-
-+ test/sanity/validate-modules/validate-modules                         | 2 +-
-+ test/units/executor/module_common/test_module_common.py               | 4 ++--
-+ test/units/modules/network/nxos/test_nxos_config.py                   | 2 +-
-+ test/utils/shippable/ansible-core-ci                                  | 2 +-
-+ test/utils/shippable/download.py                                      | 2 +-
-+ 121 files changed, 123 insertions(+), 123 deletions(-)
++ consul/prepared_query/template.go | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/bin/ansible b/bin/ansible
-+index 24550b9..0587499 100755
-+--- a/bin/ansible
-++++ b/bin/ansible
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/bin/ansible-connection b/bin/ansible-connection
-+index 93d787e..f0b9aa3 100755
-+--- a/bin/ansible-connection
-++++ b/bin/ansible-connection
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2016, Ansible, Inc. <support@ansible.com>
-+ #
-+diff --git a/bin/ansible-console b/bin/ansible-console
-+index 24550b9..0587499 100755
-+--- a/bin/ansible-console
-++++ b/bin/ansible-console
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/bin/ansible-doc b/bin/ansible-doc
-+index 24550b9..0587499 100755
-+--- a/bin/ansible-doc
-++++ b/bin/ansible-doc
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/bin/ansible-galaxy b/bin/ansible-galaxy
-+index 24550b9..0587499 100755
-+--- a/bin/ansible-galaxy
-++++ b/bin/ansible-galaxy
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/bin/ansible-playbook b/bin/ansible-playbook
-+index 24550b9..0587499 100755
-+--- a/bin/ansible-playbook
-++++ b/bin/ansible-playbook
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/bin/ansible-pull b/bin/ansible-pull
-+index 24550b9..0587499 100755
-+--- a/bin/ansible-pull
-++++ b/bin/ansible-pull
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/bin/ansible-vault b/bin/ansible-vault
-+index 24550b9..0587499 100755
-+--- a/bin/ansible-vault
-++++ b/bin/ansible-vault
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Michael DeHaan <michael.dehaan@gmail.com>
-+ #
-+diff --git a/contrib/inventory/abiquo.py b/contrib/inventory/abiquo.py
-+index 405bbbb..d318949 100755
-+--- a/contrib/inventory/abiquo.py
-++++ b/contrib/inventory/abiquo.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ 
-+ '''
-+diff --git a/contrib/inventory/apache-libcloud.py b/contrib/inventory/apache-libcloud.py
-+index 0120d2b..ce92843 100755
-+--- a/contrib/inventory/apache-libcloud.py
-++++ b/contrib/inventory/apache-libcloud.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2013, Sebastien Goasguen <runseb@gmail.com>
-+ #
-+diff --git a/contrib/inventory/apstra_aos.py b/contrib/inventory/apstra_aos.py
-+index 65838c0..48d293e 100755
-+--- a/contrib/inventory/apstra_aos.py
-++++ b/contrib/inventory/apstra_aos.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ #
-+ # (c) 2017 Apstra Inc, <community@apstra.com>
-+ #
-+diff --git a/contrib/inventory/azure_rm.py b/contrib/inventory/azure_rm.py
-+index 73b8b95..87b31b0 100755
-+--- a/contrib/inventory/azure_rm.py
-++++ b/contrib/inventory/azure_rm.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ #
-+ # Copyright (c) 2016 Matt Davis, <mdavis@ansible.com>
-+ #                    Chris Houseknecht, <house@redhat.com>
-+diff --git a/contrib/inventory/brook.py b/contrib/inventory/brook.py
-+index a7d4741..e4de982 100755
-+--- a/contrib/inventory/brook.py
-++++ b/contrib/inventory/brook.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # Copyright 2016 Doalitic.
-+ #
-+ # This file is part of Ansible
-+diff --git a/contrib/inventory/cloudforms.py b/contrib/inventory/cloudforms.py
-+index 69c149b..202a6c9 100755
-+--- a/contrib/inventory/cloudforms.py
-++++ b/contrib/inventory/cloudforms.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # vim: set fileencoding=utf-8 :
-+ #
-+ # Copyright (C) 2016 Guido Günther <agx@sigxcpu.org>
-+diff --git a/contrib/inventory/cloudstack.py b/contrib/inventory/cloudstack.py
-+index a9b6b9f..d7f05ff 100755
-+--- a/contrib/inventory/cloudstack.py
-++++ b/contrib/inventory/cloudstack.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ #
-+ # (c) 2015, René Moser <mail@renemoser.net>
-+diff --git a/contrib/inventory/cobbler.py b/contrib/inventory/cobbler.py
-+index 89f9bf7..f2a9ff7 100755
-+--- a/contrib/inventory/cobbler.py
-++++ b/contrib/inventory/cobbler.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ """
-+ Cobbler external inventory script
-+diff --git a/contrib/inventory/collins.py b/contrib/inventory/collins.py
-+index b7193e2..f0bc2a1 100755
-+--- a/contrib/inventory/collins.py
-++++ b/contrib/inventory/collins.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ """
-+ Collins external inventory script
-+diff --git a/contrib/inventory/consul_io.py b/contrib/inventory/consul_io.py
-+index 8106097..2cdc523 100755
-+--- a/contrib/inventory/consul_io.py
-++++ b/contrib/inventory/consul_io.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ #
-+ # (c) 2015, Steve Gargan <steve.gargan@gmail.com>
-+diff --git a/contrib/inventory/digital_ocean.py b/contrib/inventory/digital_ocean.py
-+index 07c124b..0b0e587 100755
-+--- a/contrib/inventory/digital_ocean.py
-++++ b/contrib/inventory/digital_ocean.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ '''
-+ DigitalOcean external inventory script
-+diff --git a/contrib/inventory/docker.py b/contrib/inventory/docker.py
-+index da051dd..9b88d0c 100755
-+--- a/contrib/inventory/docker.py
-++++ b/contrib/inventory/docker.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ #
-+ # (c) 2016 Paul Durivage <paul.durivage@gmail.com>
-+ #          Chris Houseknecht <house@redhat.com>
-+diff --git a/contrib/inventory/ec2.py b/contrib/inventory/ec2.py
-+index 03b9820..9c9b2e4 100755
-+--- a/contrib/inventory/ec2.py
-++++ b/contrib/inventory/ec2.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ '''
-+ EC2 external inventory script
-+diff --git a/contrib/inventory/fleet.py b/contrib/inventory/fleet.py
-+index 4db4ea1..8790f2b 100755
-+--- a/contrib/inventory/fleet.py
-++++ b/contrib/inventory/fleet.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """
-+ fleetctl base external inventory script. Automatically finds the IPs of the booted coreos instances and
-+ returns it under the host group 'coreos'
-+diff --git a/contrib/inventory/foreman.py b/contrib/inventory/foreman.py
-+index 9a87397..2483cce 100755
-+--- a/contrib/inventory/foreman.py
-++++ b/contrib/inventory/foreman.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # vim: set fileencoding=utf-8 :
-+ #
-+ # Copyright (C) 2016 Guido Günther <agx@sigxcpu.org>,
-+diff --git a/contrib/inventory/freeipa.py b/contrib/inventory/freeipa.py
-+index a72b774..1f092b2 100755
-+--- a/contrib/inventory/freeipa.py
-++++ b/contrib/inventory/freeipa.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ import argparse
-+ from ipalib import api
-+diff --git a/contrib/inventory/gce.py b/contrib/inventory/gce.py
-+index 5c58146..7616843 100755
-+--- a/contrib/inventory/gce.py
-++++ b/contrib/inventory/gce.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # Copyright 2013 Google Inc.
-+ #
-+ # This file is part of Ansible
-+diff --git a/contrib/inventory/jail.py b/contrib/inventory/jail.py
-+index 98b6acf..b12289c 100755
-+--- a/contrib/inventory/jail.py
-++++ b/contrib/inventory/jail.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2013, Michael Scherer <misc@zarb.org>
-+ #
-+diff --git a/contrib/inventory/landscape.py b/contrib/inventory/landscape.py
-+index 4b53171..7f52639 100755
-+--- a/contrib/inventory/landscape.py
-++++ b/contrib/inventory/landscape.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2015, Marc Abramowitz <marca@surveymonkey.com>
-+ #
-+diff --git a/contrib/inventory/libvirt_lxc.py b/contrib/inventory/libvirt_lxc.py
-+index 35ccf40..ba3496d 100755
-+--- a/contrib/inventory/libvirt_lxc.py
-++++ b/contrib/inventory/libvirt_lxc.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2013, Michael Scherer <misc@zarb.org>
-+ #
-+diff --git a/contrib/inventory/linode.py b/contrib/inventory/linode.py
-+index 6fd922f..cab7a70 100755
-+--- a/contrib/inventory/linode.py
-++++ b/contrib/inventory/linode.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ '''
-+ Linode external inventory script
-+diff --git a/contrib/inventory/lxc_inventory.py b/contrib/inventory/lxc_inventory.py
-+index d82bb61..f7ac67c 100755
-+--- a/contrib/inventory/lxc_inventory.py
-++++ b/contrib/inventory/lxc_inventory.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ #
-+ # (c) 2015-16 Florian Haas, hastexo Professional Services GmbH
-+ # <florian@hastexo.com>
-+diff --git a/contrib/inventory/mdt_dynamic_inventory.py b/contrib/inventory/mdt_dynamic_inventory.py
-+index 89ecc3e..5540a41 100755
-+--- a/contrib/inventory/mdt_dynamic_inventory.py
-++++ b/contrib/inventory/mdt_dynamic_inventory.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2016, Julian Barnett <jbarnett@tableau.com>
-+ #
-+diff --git a/contrib/inventory/nagios_livestatus.py b/contrib/inventory/nagios_livestatus.py
-+index e1c145e..3e250cb 100755
-+--- a/contrib/inventory/nagios_livestatus.py
-++++ b/contrib/inventory/nagios_livestatus.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2015, Yannig Perre <yannig.perre@gmail.com>
-+ #
-+diff --git a/contrib/inventory/nagios_ndo.py b/contrib/inventory/nagios_ndo.py
-+index 49ec563..cc10a51 100755
-+--- a/contrib/inventory/nagios_ndo.py
-++++ b/contrib/inventory/nagios_ndo.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2014, Jonathan Lestrelin <jonathan.lestrelin@gmail.com>
-+ #
-+diff --git a/contrib/inventory/nova.py b/contrib/inventory/nova.py
-+index f8c1617..d0ad7f0 100755
-+--- a/contrib/inventory/nova.py
-++++ b/contrib/inventory/nova.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2012, Marco Vito Moscaritolo <marco@agavee.com>
-+ #
-+diff --git a/contrib/inventory/nsot.py b/contrib/inventory/nsot.py
-+index 62be85a..0a8dc9b 100755
-+--- a/contrib/inventory/nsot.py
-++++ b/contrib/inventory/nsot.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ '''
-+ nsot
-+diff --git a/contrib/inventory/openshift.py b/contrib/inventory/openshift.py
-+index 479b808..dc398b5 100755
-+--- a/contrib/inventory/openshift.py
-++++ b/contrib/inventory/openshift.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2013, Michael Scherer <misc@zarb.org>
-+ #
-+diff --git a/contrib/inventory/openstack.py b/contrib/inventory/openstack.py
-+index 6679a2c..eb38742 100755
-+--- a/contrib/inventory/openstack.py
-++++ b/contrib/inventory/openstack.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # Copyright (c) 2012, Marco Vito Moscaritolo <marco@agavee.com>
-+ # Copyright (c) 2013, Jesse Keating <jesse.keating@rackspace.com>
-+diff --git a/contrib/inventory/openvz.py b/contrib/inventory/openvz.py
-+index 1ef8ab1..d4dfcde 100755
-+--- a/contrib/inventory/openvz.py
-++++ b/contrib/inventory/openvz.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ #
-+ # openvz.py
-+diff --git a/contrib/inventory/ovirt.py b/contrib/inventory/ovirt.py
-+index 7f505d9..ada01fa 100755
-+--- a/contrib/inventory/ovirt.py
-++++ b/contrib/inventory/ovirt.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # Copyright 2015 IIX Inc.
-+ #
-+ # This file is part of Ansible
-+diff --git a/contrib/inventory/ovirt4.py b/contrib/inventory/ovirt4.py
-+index 5ee5986..9d9e940 100755
-+--- a/contrib/inventory/ovirt4.py
-++++ b/contrib/inventory/ovirt4.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ #
-+ # Copyright (c) 2016 Red Hat, Inc.
-+diff --git a/contrib/inventory/packet_net.py b/contrib/inventory/packet_net.py
-+index c40c821..d23eba1 100755
-+--- a/contrib/inventory/packet_net.py
-++++ b/contrib/inventory/packet_net.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ '''
-+ Packet.net external inventory script
-+diff --git a/contrib/inventory/proxmox.py b/contrib/inventory/proxmox.py
-+index c0ffb0b..ef7a394 100755
-+--- a/contrib/inventory/proxmox.py
-++++ b/contrib/inventory/proxmox.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # Copyright (C) 2014  Mathieu GAUTHIER-LAFAYE <gauthierl@lapth.cnrs.fr>
-+ #
-+diff --git a/contrib/inventory/rackhd.py b/contrib/inventory/rackhd.py
-+index a89cb04..05b3ada 100755
-+--- a/contrib/inventory/rackhd.py
-++++ b/contrib/inventory/rackhd.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ import json
-+ import requests
-+diff --git a/contrib/inventory/rax.py b/contrib/inventory/rax.py
-+index d20a8ab..6c34753 100755
-+--- a/contrib/inventory/rax.py
-++++ b/contrib/inventory/rax.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2013, Jesse Keating <jesse.keating@rackspace.com,
-+ #           Paul Durivage <paul.durivage@rackspace.com>,
-+diff --git a/contrib/inventory/rhv.py b/contrib/inventory/rhv.py
-+index 5ee5986..9d9e940 100755
-+--- a/contrib/inventory/rhv.py
-++++ b/contrib/inventory/rhv.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ #
-+ # Copyright (c) 2016 Red Hat, Inc.
-+diff --git a/contrib/inventory/rudder.py b/contrib/inventory/rudder.py
-+index 5cf16c9..a669c37 100755
-+--- a/contrib/inventory/rudder.py
-++++ b/contrib/inventory/rudder.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # Copyright (c) 2015, Normation SAS
-+ #
-+diff --git a/contrib/inventory/serf.py b/contrib/inventory/serf.py
-+index e1340da..6242eda 100755
-+--- a/contrib/inventory/serf.py
-++++ b/contrib/inventory/serf.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2015, Marc Abramowitz <marca@surveymonkey.com>
-+ #
-+diff --git a/contrib/inventory/softlayer.py b/contrib/inventory/softlayer.py
-+index 3933eb4..519092f 100755
-+--- a/contrib/inventory/softlayer.py
-++++ b/contrib/inventory/softlayer.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """
-+ SoftLayer external inventory script.
-+ 
-+diff --git a/contrib/inventory/spacewalk.py b/contrib/inventory/spacewalk.py
-+index 2735a81..2da2720 100755
-+--- a/contrib/inventory/spacewalk.py
-++++ b/contrib/inventory/spacewalk.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ """
-+ Spacewalk external inventory script
-+diff --git a/contrib/inventory/ssh_config.py b/contrib/inventory/ssh_config.py
-+index ae41e58..05373ec 100755
-+--- a/contrib/inventory/ssh_config.py
-++++ b/contrib/inventory/ssh_config.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2014, Tomas Karasek <tomas.karasek@digile.fi>
-+ #
-+diff --git a/contrib/inventory/stacki.py b/contrib/inventory/stacki.py
-+index fd4cda5..d6acda3 100755
-+--- a/contrib/inventory/stacki.py
-++++ b/contrib/inventory/stacki.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # Copyright (c) 2016, Hugh Ma <hugh.ma@flextronics.com>
-+ #
-+diff --git a/contrib/inventory/vagrant.py b/contrib/inventory/vagrant.py
-+index 37a6741..86fc67d 100755
-+--- a/contrib/inventory/vagrant.py
-++++ b/contrib/inventory/vagrant.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """
-+ Vagrant external inventory script. Automatically finds the IP of the booted vagrant vm(s), and
-+ returns it under the host group 'vagrant'
-+diff --git a/contrib/inventory/vbox.py b/contrib/inventory/vbox.py
-+index 8905fab..141b01a 100755
-+--- a/contrib/inventory/vbox.py
-++++ b/contrib/inventory/vbox.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # This file is part of Ansible,
-+ #
-+diff --git a/contrib/inventory/vmware.py b/contrib/inventory/vmware.py
-+index 377c7cb..cee232a 100755
-+--- a/contrib/inventory/vmware.py
-++++ b/contrib/inventory/vmware.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ '''
-+ VMware Inventory Script
-+diff --git a/contrib/inventory/vmware_inventory.py b/contrib/inventory/vmware_inventory.py
-+index 58ee473..4300fe5 100755
-+--- a/contrib/inventory/vmware_inventory.py
-++++ b/contrib/inventory/vmware_inventory.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # Requirements
-+ #   - pyvmomi >= 6.0.0.2016.4
-+diff --git a/contrib/inventory/windows_azure.py b/contrib/inventory/windows_azure.py
-+index cceed36..f8777be 100755
-+--- a/contrib/inventory/windows_azure.py
-++++ b/contrib/inventory/windows_azure.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ '''
-+ Windows Azure external inventory script
-+diff --git a/contrib/inventory/zabbix.py b/contrib/inventory/zabbix.py
-+index f6b37b9..241823b 100755
-+--- a/contrib/inventory/zabbix.py
-++++ b/contrib/inventory/zabbix.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2013, Greg Buehler
-+ #
-+diff --git a/contrib/inventory/zone.py b/contrib/inventory/zone.py
-+index 893953e..b049fd7 100755
-+--- a/contrib/inventory/zone.py
-++++ b/contrib/inventory/zone.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2015, Dagobert Michelsen <dam@baltic-online.de>
-+ #
-+diff --git a/docs/docsite/rst/dev_guide/developing_api.rst b/docs/docsite/rst/dev_guide/developing_api.rst
-+index bb2cbc4..55d4212 100644
-+--- a/docs/docsite/rst/dev_guide/developing_api.rst
-++++ b/docs/docsite/rst/dev_guide/developing_api.rst
-+@@ -37,7 +37,7 @@ Python API 2.0
-+ In 2.0 things get a bit more complicated to start, but you end up with much more discrete and readable classes::
-+ 
-+ 
-+-    #!/usr/bin/env python
-++    #!/usr/bin/env python3
-+ 
-+     import json
-+     from collections import namedtuple
-+diff --git a/hacking/dump_playbook_attributes.py b/hacking/dump_playbook_attributes.py
-+index 204fe3f..9d86b66 100755
-+--- a/hacking/dump_playbook_attributes.py
-++++ b/hacking/dump_playbook_attributes.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ import optparse
-+ from jinja2 import Environment, FileSystemLoader
-+diff --git a/hacking/module_formatter.py b/hacking/module_formatter.py
-+index 4f132aa..1bee33a 100755
-+--- a/hacking/module_formatter.py
-++++ b/hacking/module_formatter.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # (c) 2012, Jan-Piet Mens <jpmens () gmail.com>
-+ # (c) 2012-2014, Michael DeHaan <michael@ansible.com> and others
-+ #
-+diff --git a/lib/ansible/modules/web_infrastructure/django_manage.py b/lib/ansible/modules/web_infrastructure/django_manage.py
-+index ac24829..90aee1b 100644
-+--- a/lib/ansible/modules/web_infrastructure/django_manage.py
-++++ b/lib/ansible/modules/web_infrastructure/django_manage.py
-+@@ -97,7 +97,7 @@ notes:
-+    - This module assumes English error messages for the 'createcachetable' command to detect table existence, unfortunately.
-+    - To be able to use the migrate command with django versions < 1.7, you must have south installed and added as an app in your settings.
-+    - To be able to use the collectstatic command, you must have enabled staticfiles in your settings.
-+-   - As of ansible 2.x, your I(manage.py) application must be executable (rwxr-xr-x), and must have a valid I(shebang), i.e. "#!/usr/bin/env python", for invoking the appropriate Python interpreter.
-++   - As of ansible 2.x, your I(manage.py) application must be executable (rwxr-xr-x), and must have a valid I(shebang), i.e. "#!/usr/bin/env python3", for invoking the appropriate Python interpreter.
-+ requirements: [ "virtualenv", "django" ]
-+ author: "Scott Anderson (@tastychutney)"
-+ '''
-+diff --git a/lib/ansible/modules/windows/win_file_version.py b/lib/ansible/modules/windows/win_file_version.py
-+index 399c978..1225a06 100644
-+--- a/lib/ansible/modules/windows/win_file_version.py
-++++ b/lib/ansible/modules/windows/win_file_version.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ 
-+ # Get DLL or EXE build version
-+diff --git a/lib/ansible/modules/windows/win_firewall_rule.py b/lib/ansible/modules/windows/win_firewall_rule.py
-+index e4ab1e4..456523d 100644
-+--- a/lib/ansible/modules/windows/win_firewall_rule.py
-++++ b/lib/ansible/modules/windows/win_firewall_rule.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2014, Timothy Vandenbrande <timothy.vandenbrande@gmail.com>
-+ #
-+diff --git a/test/compile/compile.py b/test/compile/compile.py
-+index 01144c6..6e332a9 100755
-+--- a/test/compile/compile.py
-++++ b/test/compile/compile.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Python syntax checker with lint friendly output."""
-+ 
-+ import os
-+diff --git a/test/integration/cleanup_rax.py b/test/integration/cleanup_rax.py
-+index 5c757f5..bc3448b 100755
-+--- a/test/integration/cleanup_rax.py
-++++ b/test/integration/cleanup_rax.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ import os
-+ import re
-+diff --git a/test/integration/targets/embedded_module/library/test_integration_module b/test/integration/targets/embedded_module/library/test_integration_module
-+index f564619..0d46d15 100644
-+--- a/test/integration/targets/embedded_module/library/test_integration_module
-++++ b/test/integration/targets/embedded_module/library/test_integration_module
-+@@ -1,3 +1,3 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ print('{"changed":false, "msg":"this is the embedded module"}')
-+diff --git a/test/integration/targets/module_utils/module_utils/foo.py b/test/integration/targets/module_utils/module_utils/foo.py
-+index 20698f1..0cd5c85 100644
-+--- a/test/integration/targets/module_utils/module_utils/foo.py
-++++ b/test/integration/targets/module_utils/module_utils/foo.py
-+@@ -1,3 +1,3 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ foo = "FOO FROM foo.py"
-+diff --git a/test/integration/targets/module_utils/module_utils/sub/bam.py b/test/integration/targets/module_utils/module_utils/sub/bam.py
-+index 566f8b7..0814485 100644
-+--- a/test/integration/targets/module_utils/module_utils/sub/bam.py
-++++ b/test/integration/targets/module_utils/module_utils/sub/bam.py
-+@@ -1,3 +1,3 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ bam = "BAM FROM sub/bam.py"
-+diff --git a/test/integration/targets/module_utils/module_utils/sub/bam/bam.py b/test/integration/targets/module_utils/module_utils/sub/bam/bam.py
-+index b7ed707..97f9eed 100644
-+--- a/test/integration/targets/module_utils/module_utils/sub/bam/bam.py
-++++ b/test/integration/targets/module_utils/module_utils/sub/bam/bam.py
-+@@ -1,3 +1,3 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ bam = "BAM FROM sub/bam/bam.py"
-+diff --git a/test/integration/targets/module_utils/module_utils/sub/bar/bam.py b/test/integration/targets/module_utils/module_utils/sub/bar/bam.py
-+index 02fafd4..3a93360 100644
-+--- a/test/integration/targets/module_utils/module_utils/sub/bar/bam.py
-++++ b/test/integration/targets/module_utils/module_utils/sub/bar/bam.py
-+@@ -1,3 +1,3 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ bam = "BAM FROM sub/bar/bam.py"
-+diff --git a/test/integration/targets/module_utils/module_utils/sub/bar/bar.py b/test/integration/targets/module_utils/module_utils/sub/bar/bar.py
-+index 8566901..40f0c94 100644
-+--- a/test/integration/targets/module_utils/module_utils/sub/bar/bar.py
-++++ b/test/integration/targets/module_utils/module_utils/sub/bar/bar.py
-+@@ -1,3 +1,3 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ bar = "BAR FROM sub/bar/bar.py"
-+diff --git a/test/integration/targets/service/files/ansible_test_service b/test/integration/targets/service/files/ansible_test_service
-+index 682edeb..e858909 100755
-+--- a/test/integration/targets/service/files/ansible_test_service
-++++ b/test/integration/targets/service/files/ansible_test_service
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # this is mostly based off of the code found here:
-+ # http://code.activestate.com/recipes/278731-creating-a-daemon-the-python-way/
-+diff --git a/test/runner/ansible-test b/test/runner/ansible-test
-+index 801f07f..804aa8f 100755
-+--- a/test/runner/ansible-test
-++++ b/test/runner/ansible-test
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # PYTHON_ARGCOMPLETE_OK
-+ """Test runner for all Ansible tests."""
-+ 
-+diff --git a/test/runner/injector/ansible b/test/runner/injector/ansible
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible
-++++ b/test/runner/injector/ansible
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/ansible-console b/test/runner/injector/ansible-console
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible-console
-++++ b/test/runner/injector/ansible-console
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/ansible-doc b/test/runner/injector/ansible-doc
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible-doc
-++++ b/test/runner/injector/ansible-doc
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/ansible-galaxy b/test/runner/injector/ansible-galaxy
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible-galaxy
-++++ b/test/runner/injector/ansible-galaxy
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/ansible-playbook b/test/runner/injector/ansible-playbook
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible-playbook
-++++ b/test/runner/injector/ansible-playbook
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/ansible-pull b/test/runner/injector/ansible-pull
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible-pull
-++++ b/test/runner/injector/ansible-pull
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/ansible-vault b/test/runner/injector/ansible-vault
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/ansible-vault
-++++ b/test/runner/injector/ansible-vault
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover b/test/runner/injector/cover
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover
-++++ b/test/runner/injector/cover
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover2 b/test/runner/injector/cover2
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover2
-++++ b/test/runner/injector/cover2
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover2.4 b/test/runner/injector/cover2.4
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover2.4
-++++ b/test/runner/injector/cover2.4
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover2.6 b/test/runner/injector/cover2.6
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover2.6
-++++ b/test/runner/injector/cover2.6
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover2.7 b/test/runner/injector/cover2.7
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover2.7
-++++ b/test/runner/injector/cover2.7
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover3 b/test/runner/injector/cover3
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover3
-++++ b/test/runner/injector/cover3
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover3.5 b/test/runner/injector/cover3.5
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover3.5
-++++ b/test/runner/injector/cover3.5
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/cover3.6 b/test/runner/injector/cover3.6
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/cover3.6
-++++ b/test/runner/injector/cover3.6
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/injector.py b/test/runner/injector/injector.py
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/injector.py
-++++ b/test/runner/injector/injector.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/pytest b/test/runner/injector/pytest
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/pytest
-++++ b/test/runner/injector/pytest
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner b/test/runner/injector/runner
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner
-++++ b/test/runner/injector/runner
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner2 b/test/runner/injector/runner2
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner2
-++++ b/test/runner/injector/runner2
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner2.4 b/test/runner/injector/runner2.4
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner2.4
-++++ b/test/runner/injector/runner2.4
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner2.6 b/test/runner/injector/runner2.6
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner2.6
-++++ b/test/runner/injector/runner2.6
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner2.7 b/test/runner/injector/runner2.7
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner2.7
-++++ b/test/runner/injector/runner2.7
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner3 b/test/runner/injector/runner3
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner3
-++++ b/test/runner/injector/runner3
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner3.5 b/test/runner/injector/runner3.5
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner3.5
-++++ b/test/runner/injector/runner3.5
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/injector/runner3.6 b/test/runner/injector/runner3.6
-+index 57241c9..c463946 100755
-+--- a/test/runner/injector/runner3.6
-++++ b/test/runner/injector/runner3.6
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ """Code coverage wrapper."""
-+ 
-+ from __future__ import absolute_import, print_function
-+diff --git a/test/runner/retry.py b/test/runner/retry.py
-+index 4972131..a9ffb07 100755
-+--- a/test/runner/retry.py
-++++ b/test/runner/retry.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # PYTHON_ARGCOMPLETE_OK
-+ """Automatically retry failed commands."""
-+ 
-+diff --git a/test/runner/test.py b/test/runner/test.py
-+index 801f07f..804aa8f 100755
-+--- a/test/runner/test.py
-++++ b/test/runner/test.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # PYTHON_ARGCOMPLETE_OK
-+ """Test runner for all Ansible tests."""
-+ 
-+diff --git a/test/sanity/code-smell/ansible-var-precedence-check.py b/test/sanity/code-smell/ansible-var-precedence-check.py
-+index e10c097..13c7a73 100755
-+--- a/test/sanity/code-smell/ansible-var-precedence-check.py
-++++ b/test/sanity/code-smell/ansible-var-precedence-check.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # A tool to check the order of precedence for ansible variables
-+ # https://github.com/ansible/ansible/blob/devel/test/integration/test_var_precedence.yml
-+diff --git a/test/sanity/code-smell/integration-aliases.py b/test/sanity/code-smell/integration-aliases.py
-+index 50301e3..ac53ca9 100755
-+--- a/test/sanity/code-smell/integration-aliases.py
-++++ b/test/sanity/code-smell/integration-aliases.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ import os
-+ import textwrap
-+diff --git a/test/sanity/code-smell/shebang.sh b/test/sanity/code-smell/shebang.sh
-+index 76d72c1..565a198 100755
-+--- a/test/sanity/code-smell/shebang.sh
-++++ b/test/sanity/code-smell/shebang.sh
-+@@ -8,11 +8,11 @@ grep '^#!' -rIn . \
-+     -e '^\./test/integration/targets/[^/]*/library/[^/]*:#!powershell$' \
-+     -e '^\./test/integration/targets/[^/]*/library/[^/]*:#!/usr/bin/python$' \
-+     -e '^\./test/integration/targets/module_precedence/.*lib.*:#!/usr/bin/python$' \
-+-    -e '^\./hacking/cherrypick.py:#!/usr/bin/env python3$' \
-++    -e '^\./hacking/cherrypick.py:#!/usr/bin/env python33$' \
-+     -e ':#!/bin/sh$' \
-+     -e ':#!/bin/bash( -[eux]|$)' \
-+     -e ':#!/usr/bin/make -f$' \
-+-    -e ':#!/usr/bin/env python$' \
-++    -e ':#!/usr/bin/env python3$' \
-+     -e ':#!/usr/bin/env bash$' \
-+     -e ':#!/usr/bin/env fish$' \
-+ 
-+diff --git a/test/sanity/validate-modules/test_validate_modules_regex.py b/test/sanity/validate-modules/test_validate_modules_regex.py
-+index 0e41ee7..8a86b07 100644
-+--- a/test/sanity/validate-modules/test_validate_modules_regex.py
-++++ b/test/sanity/validate-modules/test_validate_modules_regex.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # This is a standalone test for the regex inside validate-modules
-+ # It is not suitable to add to the make tests target because the
-+diff --git a/test/sanity/validate-modules/validate-modules b/test/sanity/validate-modules/validate-modules
-+index d03bff1..201cd41 100755
-+--- a/test/sanity/validate-modules/validate-modules
-++++ b/test/sanity/validate-modules/validate-modules
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # -*- coding: utf-8 -*-
-+ #
-+ # Copyright (C) 2015 Matt Martz <matt@sivel.net>
-+diff --git a/test/units/executor/module_common/test_module_common.py b/test/units/executor/module_common/test_module_common.py
-+index edbf836..1f3bb5a 100644
-+--- a/test/units/executor/module_common/test_module_common.py
-++++ b/test/units/executor/module_common/test_module_common.py
-+@@ -114,5 +114,5 @@ class TestGetShebang(object):
-+             (u'#!/usr/bin/python3 -tt -OO', u'/usr/bin/python3')
-+ 
-+     def test_python_via_env(self):
-+-        assert amc._get_shebang(u'/usr/bin/python', {u'ansible_python_interpreter': u'/usr/bin/env python'}) == \
-+-            (u'#!/usr/bin/env python', u'/usr/bin/env python')
-++        assert amc._get_shebang(u'/usr/bin/python', {u'ansible_python_interpreter': u'/usr/bin/env python3'}) == \
-++            (u'#!/usr/bin/env python3', u'/usr/bin/env python')
-+diff --git a/test/units/modules/network/nxos/test_nxos_config.py b/test/units/modules/network/nxos/test_nxos_config.py
-+index 8e3a59c..46764a8 100644
-+--- a/test/units/modules/network/nxos/test_nxos_config.py
-++++ b/test/units/modules/network/nxos/test_nxos_config.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ #
-+ # (c) 2016 Red Hat Inc.
-+ #
-+diff --git a/test/utils/shippable/ansible-core-ci b/test/utils/shippable/ansible-core-ci
-+index e91b426..44f8fb9 100755
-+--- a/test/utils/shippable/ansible-core-ci
-++++ b/test/utils/shippable/ansible-core-ci
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ 
-+ # (c) 2016 Matt Clay <matt@mystile.com>
-+ #
-+diff --git a/test/utils/shippable/download.py b/test/utils/shippable/download.py
-+index cbda144..e86c8e6 100755
-+--- a/test/utils/shippable/download.py
-++++ b/test/utils/shippable/download.py
-+@@ -1,4 +1,4 @@
-+-#!/usr/bin/env python
-++#!/usr/bin/env python3
-+ # PYTHON_ARGCOMPLETE_OK
-+ 
-+ # (c) 2016 Red Hat, Inc.
++diff --git a/consul/prepared_query/template.go b/consul/prepared_query/template.go
++index 984f0bcf9cc6..1c61910c1526 100644
++--- a/consul/prepared_query/template.go
+++++ b/consul/prepared_query/template.go
++@@ -116,8 +116,8 @@ func (ct *CompiledTemplate) Render(name string) (*structs.PreparedQuery, error)
++ 	// from multiple goroutines.
++ 	var matches []string
++ 	if ct.re != nil {
++-		re := ct.re.Copy()
++-		matches = re.FindStringSubmatch(name)
+++		// re := ct.re.Copy()
+++		matches = ct.re.FindStringSubmatch(name)
++ 	}
++ 
++ 	// Create a safe match function that can't fail at run time. It will
 +-- 
-+2.7.4
++2.4.0.53.g8440f74
 +
-diff --git a/recipes-devtools/python/python3-ansible_2.3.1.0.bb b/recipes-devtools/python/python3-ansible_2.3.1.0.bb
+diff --git a/recipes-connectivity/consul/files/consul.service b/recipes-connectivity/consul/files/consul.service
 new file mode 100644
-index 0000000..55dd118
+index 0000000..c9494e3
 --- /dev/null
-+++ b/recipes-devtools/python/python3-ansible_2.3.1.0.bb
-@@ -0,0 +1,8 @@
-+inherit setuptools3
-+require python-ansible.inc
++++ b/recipes-connectivity/consul/files/consul.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=Launch Consul Cluster
 +
-+RDEPENDS_${PN} += "python3-pyyaml python3-jinja2 python3-modules"
++[Service]
++Restart=on-failure
++RestartSec=45
++ExecStartPre=/bin/sh -c 'echo -ne \'{"data_dir":\"/var/consul","server":true,"bootstrap_expect":1,\' > /tmp/consul.conf'
++ExecStartPre=/bin/sh -c 'echo -ne \'"bind_addr":"\'$(ifconfig br0 | awk \'/inet addr/{print substr($2,6)}\')\'"}\' >> /tmp/consul.conf'
++ExecStart=/usr/bin/consul agent -config-file=/tmp/consul.conf
 +
-+SRC_URI += " \
-+    file://python3-ensure-py-scripts-use-py3-for-shebang.patch \
-+"
++[Install]
++WantedBy=multi-user.target
 -- 
 2.7.4
 
