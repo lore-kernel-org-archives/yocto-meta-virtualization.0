@@ -1,6 +1,6 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A87A4E00A4F; Wed, 19 Sep 2018 01:20:30 -0700 (PDT)
+	id D475CE00B4C; Wed, 19 Sep 2018 13:58:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -8,10 +8,10 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (bruce.ashfield[at]gmail.com)
+	mail provider *      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.48 listed in list.dnswl.org]
+	*      [209.85.215.193 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
@@ -19,50 +19,51 @@ X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
-	[209.85.167.48])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7107FE0095C
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 15653E00708
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 19 Sep 2018 01:20:29 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id g24-v6so4313004lfb.11
+	Wed, 19 Sep 2018 13:58:10 -0700 (PDT)
+Received: by mail-pg1-f193.google.com with SMTP id 205-v6so2365031pgd.2
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 19 Sep 2018 01:20:29 -0700 (PDT)
+	Wed, 19 Sep 2018 13:58:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=sc21/Suqd0AjyiLSHpXFoPZxRuoSWmbT0hN90GMEUFE=;
-	b=tDoCECQDV0n9aTdKivr+sIyoG4kC66bYbvxKJY30tiyseMDsA0rJz7rce6B6yOZOR0
-	nxUxRceVtPuy6VnN7LeT0dnVeFWyuPT72dpAZOgsiCjwL+W9Y3Hr6oH1Qa2Z6dnQ8I8U
-	fu/iA/dTh+UUjCJw9mdxmEjWrUlo4McBZKkxKxb0UVK70dhbpxreEWg9J0Pj+CcVD58n
-	FQ33nSi6z3ahg8DCtuX+0qHWX+prXvPh21doUKN0nzppGKRO16spl37qpj512fw/Cr+e
-	Gt1kwGYFY6KveZP9LEFbrVymEVaTNQJ0A81Egi8DG7XOwAWvDve+etIVuo4pLoF/VbLV
-	ssvw==
+	h=from:to:cc:subject:date:message-id;
+	bh=KeH/OWhcR05U2MNCMQQYetJcmWmCmgr5px1L5a6KMX0=;
+	b=GXdy24fign3DZtD0G+2lrbT/AcDzsnrJdhtXL2B4uqQ0OA3c/0Xx2oJHawqIXTtpcG
+	ZnK3B3hB4ZF7Z6ULC/jxHtEpY/dQC60RW+Yhz7/JgGjTITr677ZxGPbSdhf+hdVrqFix
+	0TiQiBTNZhtu18bajoJgbHGooZ1aUYc5EHQ4rzgbjMT8lM4qnpz5suJcycGgl0g0eBUB
+	dHhgM+zQDcvFQ2y5X92N/DjMJUsHNOoPKJoRKO1uOt3hXhRtcZhBwsV0hAkkOBVI75SV
+	ABedmyb4xvwM94GU2uYAKSOBdphPGWtI9C9zHL9qS0cyWg/36IRilQDGYNvl49BNNvej
+	6dCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=sc21/Suqd0AjyiLSHpXFoPZxRuoSWmbT0hN90GMEUFE=;
-	b=aC4MjcjIWg6dE9xILYm9d1bi+HQ/ev2u7sbfWMQfz/EsIWFzfqSBGD6HapsAn4t0Pz
-	CUfthJVDHjp0+H1/XtFhqvePoBcpz/mw34ZGJ7RM2MhEXFw9LLNIckbo6PTBzpRNqsxw
-	koaYai+RA4Sx49T6y52wzyp2e2MdcPAhmENFWFoQvt1INdhOwIeFrr8YFeNoxtAEbhU0
-	+aYQ4yBksygTZaWDFzFhc/Owky44qw0VyJ9wXbRRZfKvq2usn7qnWHtziZBPUqhNr3CE
-	Uq3yS4NokR2g6xcPGjQ81G/Pq0PPxJjq1j3BH2BNikjx/9WdugatiOINOP/uu+FVYi5e
-	sPpw==
-X-Gm-Message-State: APzg51BJxheFhQ0GCV2BS4EM2+Ph62ARwmQHbOdHnl4QGlY/EI1xS+uJ
-	3LW2NFPTdU4qpYP0yQKDz90PpEfSOZpehjp4k/c=
-X-Google-Smtp-Source: ANB0Vda4IKkP6iBcHgAZDLtBZleT9VTkEDE81CnpecMPkaRmEZgEXCjgJjnzfPiaiOXThMu4WxnyKZshM7rcYwPw+HI=
-X-Received: by 2002:a19:96:: with SMTP id 144-v6mr4499289lfa.101.1537345228180;
-	Wed, 19 Sep 2018 01:20:28 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a2e:86c9:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 01:20:27
-	-0700 (PDT)
-In-Reply-To: <A6954388-BBBA-4BD1-88DE-45DB7D49D3CB@gmail.com>
-References: <A6954388-BBBA-4BD1-88DE-45DB7D49D3CB@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 19 Sep 2018 04:20:27 -0400
-Message-ID: <CADkTA4MJ2rrKduuYsp++GHYoDEHuE=HCPYh0xV-oKfc9xtCs4Q@mail.gmail.com>
-To: Phillip Warren <warrenphd@gmail.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: Adding SSL support to RabbitMQ Server 3.2.4
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KeH/OWhcR05U2MNCMQQYetJcmWmCmgr5px1L5a6KMX0=;
+	b=q8JWOInzoVw0F5DAXUHrx5Xoh5wj83mBN7P+XCxF2uHN1M9qri7eAfpnHSbSMVSlJd
+	Ztsx95H0trYhgMr8T3Uq4Ap0tO+5ijAfhUat9+m6PreHd6IR8aKf4w+dxkgPk8Z63t07
+	hrtUbcl+OCsBCQtXGrEuAFKenD7j5oxQQsWcFzAj36Kj7HuyPjaKR0y1mDW4NNncTiM9
+	mRNcyHcdcM33uQ+sBWU3bR2OpCoQ/6MwmOYzunwEgXvGt5wBzbsl10LHkMEKw/9/zX8H
+	smuyeqshJ3ZyLtQyhf73Ga5u4Chzi/nbeDrDwKoP1chVQJ3LF5hNFEg4hZg+JZCqfkui
+	m7Zw==
+X-Gm-Message-State: APzg51AofVD168s2oQmnpLhPYKIWNQLge9fWsYmAxU4ayGFO5poknPzf
+	amtUA43AG/o7vzmYBd5iKTWQEC0O
+X-Google-Smtp-Source: ANB0VdaVQFEU0xxmUeHF3Ova4wbXxX/j+xHyrOS7g3sn6u2wcyrqtAuiKBGKpfB01N1Z8w7iavDeVA==
+X-Received: by 2002:a65:41c6:: with SMTP id
+	b6-v6mr34183101pgq.174.1537390689966; 
+	Wed, 19 Sep 2018 13:58:09 -0700 (PDT)
+Received: from WorkStation-T3500.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+	by smtp.gmail.com with ESMTPSA id
+	r18-v6sm26324825pgj.51.2018.09.19.13.58.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 19 Sep 2018 13:58:08 -0700 (PDT)
+From: christopher.w.clark@gmail.com
+To: meta-virtualization@yoctoproject.org
+Date: Wed, 19 Sep 2018 13:57:55 -0700
+Message-Id: <1537390675-29637-1-git-send-email-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] seabios: update to 1.11.2 and use github for SRC_URI
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,202 +76,136 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 08:20:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Sep 2018 20:58:11 -0000
 
-On Tue, Sep 18, 2018 at 10:00 PM, Phillip Warren <warrenphd@gmail.com> wrote:
-> Multipost from [yocto] as I just realized [meta-virtualization] is probably
-> the proper list for this question.
->
-> Hi, rookie here. I'm trying to enable SSL for Management Plugin for RabbitMQ
-> Server 3.2.4 on pyro.
->
-> Without modifying the build, I simply created /etc/rabbitmq/rabbitmq.config
-> with the following entries:
->
-> [
->
->   {rabbitmq_management,
->
->   [
->
->     {listener, [{port,     15671},
->
->                 {ip,       "0.0.0.0"},
->
->                 {ssl,      true},
->
->                 {ssl_opts, [{cacertfile, "/etc/rabbitmq/root-ca.pem"},
->
->                             {certfile,   "/etc/rabbitmq/dev.pem"},
->
->                             {keyfile,    "/etc/rabbitmq/dev-np.key"}]}]}
->
->   ]}
->
-> ].
->
->
-> and placed the cacertfile, certfile, and keyfile at /etc/rabbitmq/
->
->
-> RabbitMQ Server fails to start at boot.
-> /var/log/rabbitmq/rabbitmq@{hostname}.log shows the following error:
->
->
-> =ERROR REPORT==== 17-Sep-2018::20:13:16 ===
-> ** Generic server rabbit_web_dispatch_registry terminating
-> ** Last message in was {add,rabbit_mgmt,
->                            [{port,15671},
->                             {ip,"0.0.0.0"},
->                             {ssl,true},
->                             {ssl_opts,
->                                 [{cacertfile,"/etc/rabbitmq/root-ca.pem"},
->                                  {certfile,"/etc/rabbitmq/dcx-dev.pem"},
->
-> {keyfile,"/etc/rabbitmq/dcx-dev-np.key"}]}],
->                            #Fun<rabbit_web_dispatch.1.73001898>,
->                            #Fun<rabbit_mgmt_app.2.77843060>,
->                            {[],"RabbitMQ Management"}}
-> ** When Server state == undefined
-> ** Reason for termination ==
-> ** {could_not_start_listener,
->        [{port,15671},
->         {ip,"0.0.0.0"},
->         {ssl,true},
->         {ssl_opts,
->             [{cacertfile,"/etc/rabbitmq/root-ca.pem"},
->              {certfile,"/etc/rabbitmq/dcx-dev.pem"},
->              {keyfile,"/etc/rabbitmq/dcx-dev-np.key"}]}],
->        {'EXIT',
->            {{case_clause,{error,{"no such file or
-> directory","crypto.app"}}},
->             [{mochiweb,ensure_started,1,
->                  [{file,"mochiweb-wrapper/mochiweb-git/src/mochiweb.erl"},
->                   {line,71}]},
->              {mochiweb_socket_server,prep_ssl,1,
->                  [{file,
->
-> "mochiweb-wrapper/mochiweb-git/src/mochiweb_socket_server.erl"},
->                   {line,139}]},
->              {mochiweb_socket_server,start_server,2,
->                  [{file,
->
-> "mochiweb-wrapper/mochiweb-git/src/mochiweb_socket_server.erl"},
->                   {line,130}]},
->              {supervisor,do_start_child,2,
->                  [{file,"supervisor.erl"},{line,310}]},
->              {supervisor,handle_start_child,2,
->                  [{file,"supervisor.erl"},{line,681}]},
->
-> {supervisor,handle_call,3,[{file,"supervisor.erl"},{line,390}]},
->              {gen_server,handle_msg,5,[{file,"gen_server.erl"},{line,585}]},
->              {proc_lib,init_p_do_apply,3,
->                  [{file,"proc_lib.erl"},{line,239}]}]}}}
->
-> After googling around, I'm going down the path of trying to build Erlang
-> with SSL support. Please stop me if this isn't the proper approach!
->
-> I clearly see in
-> meta-cloud-services/meta-openstack/recipes-devtools/erlang/erlang-native_R16B03-1.bb
-> a line that says:
->
-> EXTRA_OECONF = '--without-ssl'
->
->
-> To alter this statement, I wrote an erlang-native_R16B03-1.bbappend in my
-> meta-layer and tried the following entries:
->
->
-> *****************************************************************************************************
->
-> DEPENDS += "ncurses-native openssl"
-> EXTRA_OECONF = '--with-ssl=/usr/bin/openssl'
->
-> This fails to build with the following error:
->
-> configure: error: Invalid path to option --with-ssl=PATH
->
-> configure: error: /bin/bash
-> 'build/tmp/work/x86_64-linux/erlang-native/R16B03-1-r0/otp_src_R16B03-1/erts/configure'
-> failed for erts
->
->
-> *****************************************************************************************************
->
->
-> DEPENDS += "ncurses-native openssl"
-> EXTRA_OECONF = '--with-ssl'
->
->
-> Builds successfully but produces the same error as above in
-> /var/log/rabbitmq/rabbitmq@{hostname}.log
->
-> *****************************************************************************************************
->
->
-> DEPENDS += "ncurses-native openssl"
-> EXTRA_OECONF = "--with-ssl=${STAGING_DIR_HOST}${layout_exec_prefix}"
->
-> Builds successfully but produces the same error as above in
-> /var/log/rabbitmq/rabbitmq@{hostname}.log
-> *****************************************************************************************************
->
-> DEPENDS += "ncurses-native openssl"
-> EXTRA_OECONF =  "--with-ssl use SSL"
->
-> Builds successfully but produces the same error as above in
-> /var/log/rabbitmq/rabbitmq@{hostname}.log
-> *****************************************************************************************************
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-I can't say that I've enabled this, or tried it myself. But what you
-need to keep in mind is that there seems to be different places you
-seem to be getting the error. build time and then runtime.
+Update to version 1.11.2 fixes compile errors encountered with 1.9.1.
 
-You shouldn't need to modify the -native erlang recipe for your issue,
-since that is what runs on the build process itself, what you
-configure there should not creep into the runtime erlang (unless there
-is some strange packaging going on .. I haven't looked recently). Or
-is it that erlang native is the boostrap for the target erlang and
-must have ssl enabled for it to make it into the runtime erlang ?
+Use the official QEMU github mirror of git.qemu.org/seabios as
+a stable, maintained, available SRC_URI for seabios releases.
 
-So my question is, have you tried modifying the target erlang versus
-the -native erlang ?
+While downloads.seabios.org is documented as the official source,
+it has not published tarballs for the most recent releases.
 
-For the build time, have you inspected the rabbitmq build itself to
-see if how ssl was detected and built into the module you are looking
-to add ?
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
 
-For the runtime error, what you are configuring in the the build, is
-not the location where ssl is going to be found on the target, so that
-is why the error is being thrown about it not being found.  The target
-erlang may need an RDEPENDS added for ssl to make sure that it is
-installed on the target in a location that can be found (there is
-already a DEPENDS on ssl in the target erlang, so it may be taken care
-of already).
+The prior version 1.9.1 was failing to build with current master of OE:
 
-Not much help, but some ideas to look into.
+| src/stacks.c: Assembler messages:
+| src/stacks.c:567: Error: found '(', expected: ')'
+| src/stacks.c:567: Error: junk `(%ebp))' after expression
+| src/stacks.c:568: Warning: indirect call without `*'
+| Makefile:133: recipe for target 'out/src/stacks.o' failed
+| make: *** [out/src/stacks.o] Error 1
 
-Bruce
+ recipes-extended/seabios/seabios_1.11.2.bb | 44 ++++++++++++++++++++++++++++++
+ recipes-extended/seabios/seabios_1.9.1.bb  | 43 -----------------------------
+ 2 files changed, 44 insertions(+), 43 deletions(-)
+ create mode 100644 recipes-extended/seabios/seabios_1.11.2.bb
+ delete mode 100644 recipes-extended/seabios/seabios_1.9.1.bb
 
-
->
-> Detailed help is greatly appreciated. Seems like I'm missing something
-> obvious.
->
-> Best Regards,
-> Phillip Warren
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
-
-
-
+diff --git a/recipes-extended/seabios/seabios_1.11.2.bb b/recipes-extended/seabios/seabios_1.11.2.bb
+new file mode 100644
+index 0000000..4ea9eb7
+--- /dev/null
++++ b/recipes-extended/seabios/seabios_1.11.2.bb
+@@ -0,0 +1,44 @@
++DESCRIPTION = "SeaBIOS"
++HOMEPAGE = "http://www.coreboot.org/SeaBIOS"
++LICENSE = "LGPLv3"
++SECTION = "firmware"
++
++SRC_URI = " \
++    https://github.com/qemu/seabios/archive/rel-${PV}.tar.gz \
++    file://hostcc.patch \
++    "
++S = "${WORKDIR}/${PN}-rel-${PV}"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504         \
++                    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6  \
++                    "
++
++SRC_URI[md5sum] = "3f78065837dbd8873513a1b7d5276e78"
++SRC_URI[sha256sum] = "73e73c8e406d97265782f6c942b3c1d178ed4f4afc9f381b22336c3968291693"
++
++FILES_${PN} = "/usr/share/firmware"
++
++DEPENDS = "util-linux-native file-native bison-native flex-native gettext-native iasl-native python-native"
++
++TUNE_CCARGS = ""
++EXTRA_OEMAKE += "HOSTCC='${BUILD_CC}'"
++EXTRA_OEMAKE += "CROSS_PREFIX=${TARGET_PREFIX}"
++
++COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
++
++do_configure() {
++    oe_runmake defconfig
++}
++
++do_compile() {
++    unset CPP
++    unset CPPFLAGS
++    oe_runmake
++}
++
++do_install() {
++    oe_runmake
++    install -d ${D}/usr/share/firmware
++    install -m 0644 out/bios.bin ${D}/usr/share/firmware/
++}
++
+diff --git a/recipes-extended/seabios/seabios_1.9.1.bb b/recipes-extended/seabios/seabios_1.9.1.bb
+deleted file mode 100644
+index 77e8f34..0000000
+--- a/recipes-extended/seabios/seabios_1.9.1.bb
++++ /dev/null
+@@ -1,43 +0,0 @@
+-DESCRIPTION = "SeaBIOS"
+-HOMEPAGE = "http://www.coreboot.org/SeaBIOS"
+-LICENSE = "LGPLv3"
+-SECTION = "firmware"
+-
+-SRC_URI = " \
+-    https://www.seabios.org/downloads/${PN}-${PV}.tar.gz \
+-    file://hostcc.patch \
+-    "
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504         \
+-                    file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6  \
+-                    "
+-
+-SRC_URI[md5sum] = "e21b6f3e54d492be837ef20d66617f81"
+-SRC_URI[sha256sum] = "8a2a562fe5cfd37fe8327cdc4a60accdfe441e235b29e6999fdeb442ba98d608"
+-
+-FILES_${PN} = "/usr/share/firmware"
+-
+-DEPENDS = "util-linux-native file-native bison-native flex-native gettext-native iasl-native python-native"
+-
+-TUNE_CCARGS = ""
+-EXTRA_OEMAKE += "HOSTCC='${BUILD_CC}'"
+-EXTRA_OEMAKE += "CROSS_PREFIX=${TARGET_PREFIX}"
+-
+-COMPATIBLE_HOST = "(i.86|x86_64).*-linux"
+-
+-do_configure() {
+-    oe_runmake defconfig
+-}
+-
+-do_compile() {
+-    unset CPP
+-    unset CPPFLAGS
+-    oe_runmake
+-}
+-
+-do_install() {
+-    oe_runmake
+-    install -d ${D}/usr/share/firmware
+-    install -m 0644 out/bios.bin ${D}/usr/share/firmware/
+-}
+-
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.7.4
+
 
