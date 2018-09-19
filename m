@@ -1,74 +1,70 @@
-Return-Path: <warrenphd@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6B363E00A4F; Tue, 18 Sep 2018 19:00:34 -0700 (PDT)
+	id 222F3E00A4F; Wed, 19 Sep 2018 00:59:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	MIME_QP_LONG_LINE, 
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * 0.0 FREEMAIL_FROM Sender email is commonly abused enduser
-	mail provider *      (warrenphd[at]gmail.com)
+	mail provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.218.50 listed in list.dnswl.org]
+	*      [209.85.208.179 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* 0.0 MIME_QP_LONG_LINE RAW: Quoted-printable line longer than 76 chars
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-Received: from mail-oi0-f50.google.com (mail-oi0-f50.google.com
-	[209.85.218.50])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 97552E0095C
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+	[209.85.208.179])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 79E02E0095C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Sep 2018 19:00:33 -0700 (PDT)
-Received: by mail-oi0-f50.google.com with SMTP id t68-v6so3612656oie.12
+	Wed, 19 Sep 2018 00:59:42 -0700 (PDT)
+Received: by mail-lj1-f179.google.com with SMTP id j19-v6so4148868ljc.7
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 18 Sep 2018 19:00:33 -0700 (PDT)
+	Wed, 19 Sep 2018 00:59:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:content-transfer-encoding:mime-version:date:subject:message-id
-	:to; bh=Ep3bDNvdSNWhKXVWGjOSPDIe7h9as0yfUihg8EuPyRc=;
-	b=BKd5DC0oc4C5/e9OYXhn90kBLGN04R4+g1YONK+U10pyEMDL6XKPpdwsHjdHTyGGtE
-	eb8phiIa0EQHAOnbjvbHQyX1iKn+lTUYyHJPuhqIeiz8BYWFAflaUYWVfnGJuXMLey1n
-	XFCBnwJ3PN+I5+D5/Q/b6R/y1UMpUXiDs6s2u0M3gcF5jG6ogpqfpECNCaryYPQrXAal
-	gjGS+fXqZIHUdE+KHJ3811J1+QyVO6ZJbDOxWa3u2WmSl6toP8Jzg0Qfc6Lp4V7dUpZD
-	qSbbvrAwjLQ9OTS/SPRdQAcGhScU+mTZZd4fex8D0KGOCII3UuR4y3hBNF0QVhdcuO5G
-	IfGQ==
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=MaFkLBxwCdzln4DxeVIu39XVdSxiHSgqvAK9J3sOR0M=;
+	b=R9+DhwEUxvsQ70WO/YQ11AKqwPs640gu/LRJodWrqD6tzbbMPpo3t8raOyKef/zaAX
+	fA9TkFluKLtBQwHgPOCYbgPDlh3Iq9A47FyAuX4j8t/xxiKpPbkk1PAE+mMGaGKz3fZI
+	pgxdjY0t4ny/WvTTcDsUt3dkFzi9zE7i35xVo1Onodvipum3bvnJJAO+/Z07qIe9S8gp
+	gD+FZUnIMKPrLbZ4v4Ww62leGpXxgCK2Z7RdfC7MJRF3KlWlvMvUk6UgxiqnPYmgmnLk
+	4dg9GLYLw1SUX5moLwPkm4m+VxCQHKbXDMBbHdoHX5yiJ3eDVw7dwHI8jh9tkRh8J8Dn
+	yNAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:content-transfer-encoding:mime-version:date
-	:subject:message-id:to;
-	bh=Ep3bDNvdSNWhKXVWGjOSPDIe7h9as0yfUihg8EuPyRc=;
-	b=nK9VsAKVNlZpDzIAZ43rGXP3uZCrJlk2Dl5EDUHWO6fUbEcHka4SRPNzCgql55S2wN
-	plpwf0oX6w35xWGDQjgsLnkkONF4Gpj6T4PQLPoZ2LAX0IkQ0asyCq8gcY8X7V46gaB7
-	rqZBgBArsnRTttyflspLdw9v5RJmzsJZ2IM4GTpPb4EDLw3MKi0svILLz9KyE1Fm8Yxf
-	0842UgiD6V9JfOxMBfvHLsMylE8jj+uuTcgSZVl3YfShgHPwL6C4EjLj3fQ7UdE6Sg8N
-	TD16T75VVdkwd4eVmy+Yid93Q+ZtIaNE2Qz5HfGV63TZdS7dAlB2xC4gDUO9FsWBFEJg
-	h68w==
-X-Gm-Message-State: APzg51Ba5oHzpkUjizn+dfmwIsDaLR4FNwvj/4nHZJ0+kzcJUSR0HjLE
-	jTkYpLxOR5Sgn4XGY0mkqQX77ncv
-X-Google-Smtp-Source: ANB0VdYVx8Qvfq/s2d2E/PqV5TVEtf6aIdHdH+e3CKwgse88TJUMivW5O0aJW4vj7mxj9zPwCQGEjA==
-X-Received: by 2002:aca:c0c1:: with SMTP id
-	q184-v6mr277577oif.61.1537322432844; 
-	Tue, 18 Sep 2018 19:00:32 -0700 (PDT)
-Received: from [10.0.1.248] (c-68-59-83-200.hsd1.fl.comcast.net.
-	[68.59.83.200]) by smtp.gmail.com with ESMTPSA id
-	j125-v6sm10870624oih.53.2018.09.18.19.00.31
-	for <meta-virtualization@yoctoproject.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Sep 2018 19:00:32 -0700 (PDT)
-From: Phillip Warren <warrenphd@gmail.com>
-Mime-Version: 1.0 (1.0)
-Date: Tue, 18 Sep 2018 21:00:31 -0500
-Message-Id: <A6954388-BBBA-4BD1-88DE-45DB7D49D3CB@gmail.com>
-To: meta-virtualization@yoctoproject.org
-X-Mailer: iPhone Mail (15G77)
-Subject: Adding SSL support to RabbitMQ Server 3.2.4
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=MaFkLBxwCdzln4DxeVIu39XVdSxiHSgqvAK9J3sOR0M=;
+	b=RFqMBZK/R1jJnphLjc5Bu1fdvSdSxV41/WGklBLBMkbMPsyPghBQNyNDqagyMTou87
+	oqYL5FIzOLg1Q/o4UVMGsGrhnx3XL6vLOiE+K6/2pKAlP5NMAU/GNLD3w07mBh3YblED
+	gEZn7+bE62iBlo3WFrUolCVzBHNZjbGDOolv7auQI8Fq7jv/3+d2PrY15+atbDyYehCG
+	1if4aMNYmW7nQs/yFmbPPWHDMS15pf2WNfgMTadbxmaXXRYF3OyK12Uu2KGr+oWlXSBD
+	DwZ11XIRkxVMZnPF4PmvA0yjb+iUQd/dEKoYLLpFv9OqG0XNV2aB+YSibJIeD7KisP9n
+	oPnw==
+X-Gm-Message-State: APzg51AGfEjOkAFGFyXGnIoJuxUVQG2ha8Fu9Otd3ItccYkX2k89EjlI
+	GtnVwVuL7QmgR/OyWFjUQBLs1X8S6jX5k3uihm6xug==
+X-Google-Smtp-Source: ANB0Vdboj5A4W1uj1Lvr/evWelcGHmfleoIMnkp9D7hmAuduHYhMhhp/E7XDk9AClXw9KKWXJ8xlnk4yr9iERjvR1nc=
+X-Received: by 2002:a2e:800e:: with SMTP id
+	j14-v6mr553130ljg.114.1537343980954; 
+	Wed, 19 Sep 2018 00:59:40 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a2e:86c9:0:0:0:0:0 with HTTP; Wed, 19 Sep 2018 00:59:40
+	-0700 (PDT)
+In-Reply-To: <dbf0876b-fa1e-4573-697d-901d201256da@windriver.com>
+References: <1536833737-23284-1-git-send-email-Qi.Chen@windriver.com>
+	<dbf0876b-fa1e-4573-697d-901d201256da@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 19 Sep 2018 03:59:40 -0400
+Message-ID: <CADkTA4ORUaC8xM=-Qy+o0c1eESRP-p-sHWbmQmgkTg2g19HkVg@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [m-c-s][PATCH V2 1/2] glusterfs: fix CVE-2018-1088
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,391 +77,479 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Sep 2018 02:00:34 -0000
-Content-Type: multipart/alternative;
-	boundary=Apple-Mail-B2F7D155-ADE2-476A-8B94-79C109373011
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Sep 2018 07:59:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 
---Apple-Mail-B2F7D155-ADE2-476A-8B94-79C109373011
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+I had merged, but not pushed this.
 
-Multipost from [yocto] as I just realized [meta-virtualization] is probably t=
-he proper list for this question.
+Sorry about that.
 
-Hi, rookie here. I'm trying to enable SSL for Management Plugin for RabbitMQ=
- Server 3.2.4 on pyro.
+It is now pushed.
 
-Without modifying the build, I simply created /etc/rabbitmq/rabbitmq.config w=
-ith the following entries:
+Bruce
 
-[
-  {rabbitmq_management,
-  [
-    {listener, [{port,     15671},
-                {ip,       "0.0.0.0"},
-                {ssl,      true},
-                {ssl_opts, [{cacertfile, "/etc/rabbitmq/root-ca.pem"},
-                            {certfile,   "/etc/rabbitmq/dev.pem"},
-                            {keyfile,    "/etc/rabbitmq/dev-np.key"}]}]}
-  ]}
-].
+On Mon, Sep 17, 2018 at 9:34 PM, ChenQi <Qi.Chen@windriver.com> wrote:
+> ping
+>
+>
+> On 09/13/2018 06:15 PM, Chen Qi wrote:
+>>
+>> Backport patches to fix the following CVE.
+>>
+>> CVE: CVE-2018-1088
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   ...age-Prevent-mounting-shared-storage-from-.patch |  70 ++++++
+>>   ...auth-add-option-for-strict-authentication.patch | 280
+>> +++++++++++++++++++++
+>>   recipes-extended/glusterfs/glusterfs.inc           |   2 +
+>>   3 files changed, 352 insertions(+)
+>>   create mode 100644
+>> recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
+>>   create mode 100644
+>> recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
+>>
+>> diff --git
+>> a/recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
+>> b/recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
+>> new file mode 100644
+>> index 0000000..0e24c56
+>> --- /dev/null
+>> +++
+>> b/recipes-extended/glusterfs/files/0001-shared-storage-Prevent-mounting-shared-storage-from-.patch
+>> @@ -0,0 +1,70 @@
+>> +From d1936056d77abcfda14386235a88ed553341a429 Mon Sep 17 00:00:00 2001
+>> +From: Mohammed Rafi KC <rkavunga@redhat.com>
+>> +Date: Mon, 26 Mar 2018 20:27:34 +0530
+>> +Subject: [PATCH 1/3] shared storage: Prevent mounting shared storage from
+>> + non-trusted client
+>> +
+>> +gluster shared storage is a volume used for internal storage for
+>> +various features including ganesha, geo-rep, snapshot.
+>> +
+>> +So this volume should not be exposed to the client, as it is
+>> +a special volume for internal use.
+>> +
+>> +This fix wont't generate non trusted volfile for shared storage volume.
+>> +
+>> +Change-Id: I8ffe30ae99ec05196d75466210b84db311611a4c
+>> +fixes: bz#1568844
+>> +BUG: 1568844
+>> +Signed-off-by: Mohammed Rafi KC <rkavunga@redhat.com>
+>> +
+>> +Upstream-Status: Backport
+>> +Fix CVE-2018-1088
+>> +
+>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> +
+>> +---
+>> + xlators/mgmt/glusterd/src/glusterd-volgen.c | 21 +++++++++++++++++++++
+>> + 1 file changed, 21 insertions(+)
+>> +
+>> +diff --git a/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> b/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> +index 0a0668e..308c41f 100644
+>> +--- a/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> ++++ b/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> +@@ -5721,6 +5721,7 @@ generate_client_volfiles (glusterd_volinfo_t
+>> *volinfo,
+>> +         int                i                  = 0;
+>> +         int                ret                = -1;
+>> +         char               filepath[PATH_MAX] = {0,};
+>> ++        char               *volname           = NULL;
+>> +         char               *types[]           = {NULL, NULL, NULL};
+>> +         dict_t             *dict              = NULL;
+>> +         xlator_t           *this              = NULL;
+>> +@@ -5728,6 +5729,26 @@ generate_client_volfiles (glusterd_volinfo_t
+>> *volinfo,
+>> +
+>> +         this = THIS;
+>> +
+>> ++        volname = volinfo->is_snap_volume ?
+>> ++                  volinfo->parent_volname : volinfo->volname;
+>> ++
+>> ++
+>> ++        if (volname && !strcmp (volname, GLUSTER_SHARED_STORAGE) &&
+>> ++             client_type != GF_CLIENT_TRUSTED) {
+>> ++                /*
+>> ++                 * shared storage volume cannot be mounted from non
+>> trusted
+>> ++                 * nodes. So we are not creating volfiles for
+>> non-trusted
+>> ++                 * clients for shared volumes as well as snapshot of
+>> shared
+>> ++                 * volumes.
+>> ++                 */
+>> ++
+>> ++                ret = 0;
+>> ++                gf_msg_debug ("glusterd", 0, "Skipping the non-trusted
+>> volfile"
+>> ++                               "creation for shared storage volume.
+>> Volume %s",
+>> ++                               volname);
+>> ++                goto out;
+>> ++        }
+>> ++
+>> +         enumerate_transport_reqs (volinfo->transport_type, types);
+>> +         dict = dict_new ();
+>> +         if (!dict)
+>> +--
+>> +2.7.4
+>> +
+>> diff --git
+>> a/recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
+>> b/recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
+>> new file mode 100644
+>> index 0000000..8947f27
+>> --- /dev/null
+>> +++
+>> b/recipes-extended/glusterfs/files/0002-server-auth-add-option-for-strict-authentication.patch
+>> @@ -0,0 +1,280 @@
+>> +From a74ab3ab169add1e86aae0a99855211b948be021 Mon Sep 17 00:00:00 2001
+>> +From: Mohammed Rafi KC <rkavunga@redhat.com>
+>> +Date: Mon, 2 Apr 2018 12:20:47 +0530
+>> +Subject: [PATCH 2/3] server/auth: add option for strict authentication
+>> +
+>> +When this option is enabled, we will check for a matching
+>> +username and password, if not found then the connection will
+>> +be rejected. This also does a checksum validation of volfile
+>> +
+>> +The option is invalid when SSL/TLS is in use, at which point
+>> +the SSL/TLS certificate user name is used to validate and
+>> +hence authorize the right user. This expects TLS allow rules
+>> +to be setup correctly rather than the default *.
+>> +
+>> +This option is not settable, as a result this cannot be enabled
+>> +for volumes using the CLI. This is used with the shared storage
+>> +volume, to restrict access to the same in non-SSL/TLS environments
+>> +to the gluster peers only.
+>> +
+>> +Tested:
+>> +  ./tests/bugs/protocol/bug-1321578.t
+>> +  ./tests/features/ssl-authz.t
+>> +  - Ran tests on volumes with and without strict auth
+>> +    checking (as brick vol file needed to be edited to test,
+>> +    or rather to enable the option)
+>> +  - Ran tests on volumes to ensure existing mounts are
+>> +    disconnected when we enable strict checking
+>> +
+>> +Change-Id: I2ac4f0cfa5b59cc789cc5a265358389b04556b59
+>> +fixes: bz#1568844
+>> +Signed-off-by: Mohammed Rafi KC <rkavunga@redhat.com>
+>> +Signed-off-by: ShyamsundarR <srangana@redhat.com>
+>> +
+>> +Upstream-Status: Backport
+>> +Fix CVE-2018-1088
+>> +
+>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> +
+>> +---
+>> + xlators/mgmt/glusterd/src/glusterd-volgen.c    | 16 +++++++-
+>> + xlators/protocol/auth/login/src/login.c        | 51
+>> ++++++++++++++++++++++----
+>> + xlators/protocol/server/src/authenticate.h     |  4 +-
+>> + xlators/protocol/server/src/server-handshake.c |  2 +-
+>> + xlators/protocol/server/src/server.c           | 18 +++++++++
+>> + xlators/protocol/server/src/server.h           |  2 +
+>> + 6 files changed, 81 insertions(+), 12 deletions(-)
+>> +
+>> +diff --git a/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> b/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> +index 308c41f..8dd4907 100644
+>> +--- a/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> ++++ b/xlators/mgmt/glusterd/src/glusterd-volgen.c
+>> +@@ -2250,6 +2250,7 @@ brick_graph_add_server (volgen_graph_t *graph,
+>> glusterd_volinfo_t *volinfo,
+>> +         char            *password = NULL;
+>> +         char            key[1024] = {0};
+>> +         char            *ssl_user = NULL;
+>> ++        char            *volname = NULL;
+>> +         char            *address_family_data = NULL;
+>> +
+>> +         if (!graph || !volinfo || !set_dict || !brickinfo)
+>> +@@ -2325,6 +2326,19 @@ brick_graph_add_server (volgen_graph_t *graph,
+>> glusterd_volinfo_t *volinfo,
+>> +         if (ret)
+>> +                 return -1;
+>> +
+>> ++        volname = volinfo->is_snap_volume ?
+>> ++                  volinfo->parent_volname : volinfo->volname;
+>> ++
+>> ++
+>> ++        if (volname && !strcmp (volname, GLUSTER_SHARED_STORAGE)) {
+>> ++                memset (key, 0, sizeof (key));
+>> ++                snprintf (key, sizeof (key), "strict-auth-accept");
+>> ++
+>> ++                ret = xlator_set_option (xl, key, "true");
+>> ++                if (ret)
+>> ++                        return -1;
+>> ++        }
+>> ++
+>> +         if (dict_get_str (volinfo->dict, "auth.ssl-allow", &ssl_user) ==
+>> 0) {
+>> +                 memset (key, 0, sizeof (key));
+>> +                 snprintf (key, sizeof (key), "auth.login.%s.ssl-allow",
+>> +@@ -5734,7 +5748,7 @@ generate_client_volfiles (glusterd_volinfo_t
+>> *volinfo,
+>> +
+>> +
+>> +         if (volname && !strcmp (volname, GLUSTER_SHARED_STORAGE) &&
+>> +-             client_type != GF_CLIENT_TRUSTED) {
+>> ++            client_type != GF_CLIENT_TRUSTED) {
+>> +                 /*
+>> +                  * shared storage volume cannot be mounted from non
+>> trusted
+>> +                  * nodes. So we are not creating volfiles for
+>> non-trusted
+>> +diff --git a/xlators/protocol/auth/login/src/login.c
+>> b/xlators/protocol/auth/login/src/login.c
+>> +index e799dd2..da10d0b 100644
+>> +--- a/xlators/protocol/auth/login/src/login.c
+>> ++++ b/xlators/protocol/auth/login/src/login.c
+>> +@@ -11,6 +11,16 @@
+>> + #include <fnmatch.h>
+>> + #include "authenticate.h"
+>> +
+>> ++/* Note on strict_auth
+>> ++ * - Strict auth kicks in when authentication is using the username,
+>> password
+>> ++ *   in the volfile to login
+>> ++ * - If enabled, auth is rejected if the username and password is not
+>> matched
+>> ++ *   or is not present
+>> ++ * - When using SSL names, this is automatically strict, and allows only
+>> those
+>> ++ *   names that are present in the allow list, IOW strict auth checking
+>> has no
+>> ++ *   implication when using SSL names
+>> ++*/
+>> ++
+>> + auth_result_t gf_auth (dict_t *input_params, dict_t *config_params)
+>> + {
+>> +         auth_result_t  result  = AUTH_DONT_CARE;
+>> +@@ -27,6 +37,7 @@ auth_result_t gf_auth (dict_t *input_params, dict_t
+>> *config_params)
+>> +         char            *tmp            = NULL;
+>> +         char            *username_cpy   = NULL;
+>> +         gf_boolean_t    using_ssl       = _gf_false;
+>> ++        gf_boolean_t    strict_auth     = _gf_false;
+>> +
+>> +         username_data = dict_get (input_params, "ssl-name");
+>> +         if (username_data) {
+>> +@@ -35,16 +46,39 @@ auth_result_t gf_auth (dict_t *input_params, dict_t
+>> *config_params)
+>> +                 using_ssl = _gf_true;
+>> +         }
+>> +         else {
+>> ++                ret = dict_get_str_boolean (config_params,
+>> "strict-auth-accept",
+>> ++                                            _gf_false);
+>> ++                if (ret == -1)
+>> ++                        strict_auth = _gf_false;
+>> ++                else
+>> ++                        strict_auth = ret;
+>> ++
+>> +                 username_data = dict_get (input_params, "username");
+>> +                 if (!username_data) {
+>> +-                        gf_log ("auth/login", GF_LOG_DEBUG,
+>> +-                                "username not found, returning
+>> DONT-CARE");
+>> ++                        if (strict_auth) {
+>> ++                                gf_log ("auth/login", GF_LOG_DEBUG,
+>> ++                                        "username not found, strict
+>> auth"
+>> ++                                        " configured returning REJECT");
+>> ++                                result = AUTH_REJECT;
+>> ++                        } else {
+>> ++                                gf_log ("auth/login", GF_LOG_DEBUG,
+>> ++                                        "username not found, returning"
+>> ++                                        " DONT-CARE");
+>> ++                        }
+>> +                         goto out;
+>> +                 }
+>> +                 password_data = dict_get (input_params, "password");
+>> +                 if (!password_data) {
+>> +-                        gf_log ("auth/login", GF_LOG_WARNING,
+>> +-                                "password not found, returning
+>> DONT-CARE");
+>> ++                        if (strict_auth) {
+>> ++                                gf_log ("auth/login", GF_LOG_DEBUG,
+>> ++                                        "password not found, strict
+>> auth"
+>> ++                                        " configured returning REJECT");
+>> ++                                result = AUTH_REJECT;
+>> ++                        } else {
+>> ++                                gf_log ("auth/login", GF_LOG_WARNING,
+>> ++                                        "password not found, returning"
+>> ++                                        " DONT-CARE");
+>> ++                        }
+>> +                         goto out;
+>> +                 }
+>> +                 password = data_to_str (password_data);
+>> +@@ -62,9 +96,10 @@ auth_result_t gf_auth (dict_t *input_params, dict_t
+>> *config_params)
+>> +         ret = gf_asprintf (&searchstr, "auth.login.%s.%s", brick_name,
+>> +                            using_ssl ? "ssl-allow" : "allow");
+>> +         if (-1 == ret) {
+>> +-                gf_log ("auth/login", GF_LOG_WARNING,
+>> ++                gf_log ("auth/login", GF_LOG_ERROR,
+>> +                         "asprintf failed while setting search string, "
+>> +-                        "returning DONT-CARE");
+>> ++                        "returning REJECT");
+>> ++                result = AUTH_REJECT;
+>> +                 goto out;
+>> +         }
+>> +
+>> +@@ -92,8 +127,10 @@ auth_result_t gf_auth (dict_t *input_params, dict_t
+>> *config_params)
+>> +                  * ssl-allow=* case as well) authorization is
+>> effectively
+>> +                  * disabled, though authentication and encryption are
+>> still
+>> +                  * active.
+>> ++                 *
+>> ++                 * Read NOTE on strict_auth above.
+>> +                  */
+>> +-                if (using_ssl) {
+>> ++                if (using_ssl || strict_auth) {
+>> +                         result = AUTH_REJECT;
+>> +                 }
+>> +                 username_cpy = gf_strdup (allow_user->data);
+>> +diff --git a/xlators/protocol/server/src/authenticate.h
+>> b/xlators/protocol/server/src/authenticate.h
+>> +index 3f80231..5f92183 100644
+>> +--- a/xlators/protocol/server/src/authenticate.h
+>> ++++ b/xlators/protocol/server/src/authenticate.h
+>> +@@ -37,10 +37,8 @@ typedef struct {
+>> +         volume_opt_list_t *vol_opt;
+>> + } auth_handle_t;
+>> +
+>> +-auth_result_t gf_authenticate (dict_t *input_params,
+>> +-                               dict_t *config_params,
+>> +-                               dict_t *auth_modules);
+>> + int32_t gf_auth_init (xlator_t *xl, dict_t *auth_modules);
+>> + void gf_auth_fini (dict_t *auth_modules);
+>> ++auth_result_t gf_authenticate (dict_t *, dict_t *, dict_t *);
+>> +
+>> + #endif /* _AUTHENTICATE_H */
+>> +diff --git a/xlators/protocol/server/src/server-handshake.c
+>> b/xlators/protocol/server/src/server-handshake.c
+>> +index f00804a..392a101 100644
+>> +--- a/xlators/protocol/server/src/server-handshake.c
+>> ++++ b/xlators/protocol/server/src/server-handshake.c
+>> +@@ -631,7 +631,7 @@ server_setvolume (rpcsvc_request_t *req)
+>> +                         ret = dict_get_str (params, "volfile-key",
+>> +                                             &volfile_key);
+>> +                         if (ret)
+>> +-                                gf_msg_debug (this->name, 0, "failed to
+>> set "
+>> ++                                gf_msg_debug (this->name, 0, "failed to
+>> get "
+>> +                                               "'volfile-key'");
+>> +
+>> +                         ret = _validate_volfile_checksum (this,
+>> volfile_key,
+>> +diff --git a/xlators/protocol/server/src/server.c
+>> b/xlators/protocol/server/src/server.c
+>> +index 202fe71..61c6194 100644
+>> +--- a/xlators/protocol/server/src/server.c
+>> ++++ b/xlators/protocol/server/src/server.c
+>> +@@ -883,6 +883,10 @@ do_rpc:
+>> +                 goto out;
+>> +         }
+>> +
+>> ++        GF_OPTION_RECONF ("strict-auth-accept",
+>> conf->strict_auth_enabled,
+>> ++                          options, bool, out);
+>> ++
+>> ++
+>> +         GF_OPTION_RECONF ("dynamic-auth", conf->dync_auth, options,
+>> +                         bool, out);
+>> +
+>> +@@ -1113,6 +1117,14 @@ init (xlator_t *this)
+>> +                         "Failed to initialize group cache.");
+>> +                 goto out;
+>> +         }
+>> ++
+>> ++        ret = dict_get_str_boolean (this->options, "strict-auth-accept",
+>> ++                                    _gf_false);
+>> ++        if (ret == -1)
+>> ++                conf->strict_auth_enabled = _gf_false;
+>> ++        else
+>> ++                conf->strict_auth_enabled = ret;
+>> ++
+>> +         ret = dict_get_str_boolean (this->options, "dynamic-auth",
+>> +                         _gf_true);
+>> +         if (ret == -1)
+>> +@@ -1667,5 +1679,11 @@ struct volume_options options[] = {
+>> +                            "transport connection immediately in response
+>> to "
+>> +                            "*.allow | *.reject volume set options."
+>> +         },
+>> ++        { .key   = {"strict-auth-accept"},
+>> ++          .type  = GF_OPTION_TYPE_BOOL,
+>> ++          .default_value = "off",
+>> ++          .description   = "strict-auth-accept reject connection with
+>> out"
+>> ++                           "a valid username and password."
+>> ++        },
+>> +         { .key   = {NULL} },
+>> + };
+>> +diff --git a/xlators/protocol/server/src/server.h
+>> b/xlators/protocol/server/src/server.h
+>> +index 0b37eb1..7eea291 100644
+>> +--- a/xlators/protocol/server/src/server.h
+>> ++++ b/xlators/protocol/server/src/server.h
+>> +@@ -24,6 +24,7 @@
+>> + #include "client_t.h"
+>> + #include "gidcache.h"
+>> + #include "defaults.h"
+>> ++#include "authenticate.h"
+>> +
+>> + #define DEFAULT_BLOCK_SIZE         4194304   /* 4MB */
+>> + #define DEFAULT_VOLUME_FILE_PATH   CONFDIR "/glusterfs.vol"
+>> +@@ -105,6 +106,7 @@ struct server_conf {
+>> +                                            * false, when child is down
+>> */
+>> +
+>> +         gf_lock_t               itable_lock;
+>> ++        gf_boolean_t            strict_auth_enabled;
+>> + };
+>> + typedef struct server_conf server_conf_t;
+>> +
+>> +--
+>> +2.7.4
+>> +
+>> diff --git a/recipes-extended/glusterfs/glusterfs.inc
+>> b/recipes-extended/glusterfs/glusterfs.inc
+>> index 02c8a6a..8bf5653 100644
+>> --- a/recipes-extended/glusterfs/glusterfs.inc
+>> +++ b/recipes-extended/glusterfs/glusterfs.inc
+>> @@ -20,6 +20,8 @@ SRC_URI += "file://glusterd.init \
+>>               file://libglusterfs-Don-t-link-against-libfl.patch \
+>>               file://glusterd-change-port-range.patch \
+>>
+>> file://configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch \
+>> +
+>> file://0001-shared-storage-Prevent-mounting-shared-storage-from-.patch \
+>> +
+>> file://0002-server-auth-add-option-for-strict-authentication.patch \
+>>              "
+>>     LICENSE = "(LGPLv3+ | GPLv2) & GPLv3+ & LGPLv3+ & GPLv2+ & LGPLv2+ &
+>> LGPLv2.1+ & Apache-2.0"
+>
+>
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-and placed the cacertfile, certfile, and keyfile at /etc/rabbitmq/
 
-RabbitMQ Server fails to start at boot. /var/log/rabbitmq/rabbitmq@{hostname=
-}.log shows the following error:
 
-=3DERROR REPORT=3D=3D=3D=3D 17-Sep-2018::20:13:16 =3D=3D=3D
-** Generic server rabbit_web_dispatch_registry terminating=20
-** Last message in was {add,rabbit_mgmt,
-                           [{port,15671},
-                            {ip,"0.0.0.0"},
-                            {ssl,true},
-                            {ssl_opts,
-                                [{cacertfile,"/etc/rabbitmq/root-ca.pem"},
-                                 {certfile,"/etc/rabbitmq/dcx-dev.pem"},
-                                 {keyfile,"/etc/rabbitmq/dcx-dev-np.key"}]}]=
-,
-                           #Fun<rabbit_web_dispatch.1.73001898>,
-                           #Fun<rabbit_mgmt_app.2.77843060>,
-                           {[],"RabbitMQ Management"}}
-** When Server state =3D=3D undefined
-** Reason for termination =3D=3D=20
-** {could_not_start_listener,
-       [{port,15671},
-        {ip,"0.0.0.0"},
-        {ssl,true},
-        {ssl_opts,
-            [{cacertfile,"/etc/rabbitmq/root-ca.pem"},
-             {certfile,"/etc/rabbitmq/dcx-dev.pem"},
-             {keyfile,"/etc/rabbitmq/dcx-dev-np.key"}]}],
-       {'EXIT',
-           {{case_clause,{error,{"no such file or directory","crypto.app"}}}=
-,
-            [{mochiweb,ensure_started,1,
-                 [{file,"mochiweb-wrapper/mochiweb-git/src/mochiweb.erl"},
-                  {line,71}]},
-             {mochiweb_socket_server,prep_ssl,1,
-                 [{file,
-                      "mochiweb-wrapper/mochiweb-git/src/mochiweb_socket_ser=
-ver.erl"},
-                  {line,139}]},
-             {mochiweb_socket_server,start_server,2,
-                 [{file,
-                      "mochiweb-wrapper/mochiweb-git/src/mochiweb_socket_ser=
-ver.erl"},
-                  {line,130}]},
-             {supervisor,do_start_child,2,
-                 [{file,"supervisor.erl"},{line,310}]},
-             {supervisor,handle_start_child,2,
-                 [{file,"supervisor.erl"},{line,681}]},
-             {supervisor,handle_call,3,[{file,"supervisor.erl"},{line,390}]}=
-,
-             {gen_server,handle_msg,5,[{file,"gen_server.erl"},{line,585}]},=
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
-             {proc_lib,init_p_do_apply,3,
-                 [{file,"proc_lib.erl"},{line,239}]}]}}}
-
-After googling around, I'm going down the path of trying to build Erlang wit=
-h SSL support. Please stop me if this isn't the proper approach!
-
-I clearly see in meta-cloud-services/meta-openstack/recipes-devtools/erlang/=
-erlang-native_R16B03-1.bb a line that says:
-
-EXTRA_OECONF =3D '--without-ssl'
-
-To alter this statement, I wrote an erlang-native_R16B03-1.bbappend in my me=
-ta-layer and tried the following entries:
-
-****************************************************************************=
-*************************
-
-DEPENDS +=3D "ncurses-native openssl"
-EXTRA_OECONF =3D '--with-ssl=3D/usr/bin/openssl'
-
-This fails to build with the following error:
-
-configure: error: Invalid path to option --with-ssl=3DPATH
-configure: error: /bin/bash 'build/tmp/work/x86_64-linux/erlang-native/R16B0=
-3-1-r0/otp_src_R16B03-1/erts/configure' failed for erts
-
-****************************************************************************=
-*************************
-
-DEPENDS +=3D "ncurses-native openssl"
-EXTRA_OECONF =3D '--with-ssl'
-
-Builds successfully but produces the same error as above in /var/log/rabbitm=
-q/rabbitmq@{hostname}.log
-****************************************************************************=
-*************************
-
-DEPENDS +=3D "ncurses-native openssl"
-EXTRA_OECONF =3D "--with-ssl=3D${STAGING_DIR_HOST}${layout_exec_prefix}"
-
-Builds successfully but produces the same error as above in /var/log/rabbitm=
-q/rabbitmq@{hostname}.log
-****************************************************************************=
-*************************
-
-DEPENDS +=3D "ncurses-native openssl"
-EXTRA_OECONF =3D  "--with-ssl use SSL"
-
-Builds successfully but produces the same error as above in /var/log/rabbitm=
-q/rabbitmq@{hostname}.log
-****************************************************************************=
-*************************
-
-Detailed help is greatly appreciated. Seems like I'm missing something obvio=
-us.
-
-Best Regards,
-Phillip Warren=
-
---Apple-Mail-B2F7D155-ADE2-476A-8B94-79C109373011
-Content-Type: text/html;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
-utf-8"></head><body dir=3D"auto"><span style=3D"background-color: rgba(255, 2=
-55, 255, 0);">Multipost from [yocto] as I just realized [meta-virtualization=
-] is probably the proper list for this question.</span><div><span style=3D"b=
-ackground-color: rgba(255, 255, 255, 0);"><br></span><div dir=3D"ltr"><font s=
-tyle=3D"background-color: rgba(255, 255, 255, 0);">Hi, rookie here. I'm tryi=
-ng to enable SSL for Management Plugin for RabbitMQ Server 3.2.4 on pyro.</f=
-ont></div><div dir=3D"ltr"><span style=3D"background-color: rgba(255, 255, 2=
-55, 0);"><br></span></div><div dir=3D"ltr"><font style=3D"background-color: r=
-gba(255, 255, 255, 0);">Without modifying the build, I simply created /etc/r=
-abbitmq/rabbitmq.config with the following entries:</font><div><span style=3D=
-"background-color: rgba(255, 255, 255, 0);"><br></span></div><div><p class=3D=
-"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-variant-=
-east-asian: normal; font-stretch: normal; line-height: normal;"><span style=3D=
-"background-color: rgba(255, 255, 255, 0);">[</span></p><p class=3D"gmail-p1=
-" style=3D"margin: 0px; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-stretch: normal; line-height: normal;"><span style=3D"backgr=
-ound-color: rgba(255, 255, 255, 0);"><span class=3D"gmail-Apple-converted-sp=
-ace">&nbsp;&nbsp;</span>{rabbitmq_management,</span></p><p class=3D"gmail-p1=
-" style=3D"margin: 0px; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-stretch: normal; line-height: normal;"><span style=3D"backgr=
-ound-color: rgba(255, 255, 255, 0);"><span class=3D"gmail-Apple-converted-sp=
-ace">&nbsp;&nbsp;</span>[</span></p><p class=3D"gmail-p1" style=3D"margin: 0=
-px; font-variant-numeric: normal; font-variant-east-asian: normal; font-stre=
-tch: normal; line-height: normal;"><span style=3D"background-color: rgba(255=
-, 255, 255, 0);"><span class=3D"gmail-Apple-converted-space">&nbsp; &nbsp;&n=
-bsp;</span>{listener, [{port,&nbsp;<span class=3D"gmail-Apple-converted-spac=
-e">&nbsp; &nbsp;&nbsp;</span><a href=3D"tel:15671" dir=3D"ltr" x-apple-data-=
-detectors=3D"true" x-apple-data-detectors-type=3D"telephone" x-apple-data-de=
-tectors-result=3D"0">15671</a>},</span></p><p class=3D"gmail-p1" style=3D"ma=
-rgin: 0px; font-variant-numeric: normal; font-variant-east-asian: normal; fo=
-nt-stretch: normal; line-height: normal;"><span style=3D"background-color: r=
-gba(255, 255, 255, 0);"><span class=3D"gmail-Apple-converted-space">&nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>{ip,&nbsp;<span c=
-lass=3D"gmail-Apple-converted-space">&nbsp; &nbsp; &nbsp;&nbsp;</span>"0.0.0=
-.0"},</span></p><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-num=
-eric: normal; font-variant-east-asian: normal; font-stretch: normal; line-he=
-ight: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);"><sp=
-an class=3D"gmail-Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp;&nbsp;</span>{ssl,<span class=3D"gmail-Apple-converted-sp=
-ace">&nbsp; &nbsp; &nbsp;&nbsp;</span>true},</span></p><p class=3D"gmail-p1"=
- style=3D"margin: 0px; font-variant-numeric: normal; font-variant-east-asian=
-: normal; font-stretch: normal; line-height: normal;"><span style=3D"backgro=
-und-color: rgba(255, 255, 255, 0);"><span class=3D"gmail-Apple-converted-spa=
-ce">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>{ssl=
-_opts, [{cacertfile, "/etc/rabbitmq/root-ca.pem"},</span></p><p class=3D"gma=
-il-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-variant-east=
--asian: normal; font-stretch: normal; line-height: normal;"><span style=3D"b=
-ackground-color: rgba(255, 255, 255, 0);"><span class=3D"gmail-Apple-convert=
-ed-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>{certfile,&nbsp;<span class=3D"g=
-mail-Apple-converted-space">&nbsp;&nbsp;</span>"/etc/rabbitmq/dev.pem"},</sp=
-an></p><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: nor=
-mal; font-variant-east-asian: normal; font-stretch: normal; line-height: nor=
-mal;"><span style=3D"background-color: rgba(255, 255, 255, 0);"><span class=3D=
-"gmail-Apple-converted-space">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</span>{keyfile,<sp=
-an class=3D"gmail-Apple-converted-space">&nbsp; &nbsp;&nbsp;</span>"/etc/rab=
-bitmq/dev-np.key"}]}]}</span></p><p class=3D"gmail-p1" style=3D"margin: 0px;=
- font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch=
-: normal; line-height: normal;"><span style=3D"background-color: rgba(255, 2=
-55, 255, 0);"><span class=3D"gmail-Apple-converted-space">&nbsp;&nbsp;</span=
->]}</span></p><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-numer=
-ic: normal; font-variant-east-asian: normal; font-stretch: normal; line-heig=
-ht: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);">].</s=
-pan></p><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: no=
-rmal; font-variant-east-asian: normal; font-stretch: normal; line-height: no=
-rmal;"><span style=3D"background-color: rgba(255, 255, 255, 0);"><br></span>=
-</p><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal=
-; font-variant-east-asian: normal; font-stretch: normal; line-height: normal=
-;"><span style=3D"background-color: rgba(255, 255, 255, 0);">and placed the&=
-nbsp;cacertfile, certfile, and keyfile&nbsp;at /etc/rabbitmq/</span></p><p c=
-lass=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-v=
-ariant-east-asian: normal; font-stretch: normal; line-height: normal;"><span=
- style=3D"background-color: rgba(255, 255, 255, 0);"><br></span></p><p class=
-=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-varia=
-nt-east-asian: normal; font-stretch: normal; line-height: normal;"><span sty=
-le=3D"background-color: rgba(255, 255, 255, 0);">RabbitMQ Server fails to st=
-art at boot. /var/log/rabbitmq/rabbitmq@{hostname}.log shows the following e=
-rror:</span></p><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-num=
-eric: normal; font-variant-east-asian: normal; font-stretch: normal; line-he=
-ight: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);"><br=
-></span></p><div><div><span style=3D"background-color: rgba(255, 255, 255, 0=
-);">=3DERROR REPORT=3D=3D=3D=3D 17-Sep-2018::20:13:16 =3D=3D=3D</span></div>=
-<div><span style=3D"background-color: rgba(255, 255, 255, 0);">** Generic se=
-rver rabbit_web_dispatch_registry terminating&nbsp;</span></div><div><span s=
-tyle=3D"background-color: rgba(255, 255, 255, 0);">** Last message in was {a=
-dd,rabbit_mgmt,</span></div><div><span style=3D"background-color: rgba(255, 2=
-55, 255, 0);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[{port,<a href=3D"tel:15671" dir=3D"ltr" x=
--apple-data-detectors=3D"true" x-apple-data-detectors-type=3D"telephone" x-a=
-pple-data-detectors-result=3D"3">15671</a>},</span></div><div><span style=3D=
-"background-color: rgba(255, 255, 255, 0);">&nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {ip,"0.0.0=
-.0"},</span></div><div><span style=3D"background-color: rgba(255, 255, 255, 0=
-);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp; &nbsp; &nbsp; {ssl,true},</span></div><div><span style=3D"backgr=
-ound-color: rgba(255, 255, 255, 0);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {ssl_opts,</span>=
-</div><div><span style=3D"background-color: rgba(255, 255, 255, 0);">&nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; [{cacertfile,"/etc/rabbitmq/root-ca.pem"},</span>=
-</div><div><span style=3D"background-color: rgba(255, 255, 255, 0);">&nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{certfile,"/etc/rabbitmq/dcx-dev.pem"},</sp=
-an></div><div><span style=3D"background-color: rgba(255, 255, 255, 0);">&nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{keyfile,"/etc/rabbitmq/dcx-dev-np.key=
-"}]}],</span></div><div><span style=3D"background-color: rgba(255, 255, 255,=
- 0);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp;#Fun&lt;rabbit_web_dispatch.1.73001898&gt;,</span>=
-</div><div><span style=3D"background-color: rgba(255, 255, 255, 0);">&nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp;#Fun&lt;rabbit_mgmt_app.2.77843060&gt;,</span></div><div><span s=
-tyle=3D"background-color: rgba(255, 255, 255, 0);">&nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{[],=
-"RabbitMQ Management"}}</span></div></div><span style=3D"background-color: r=
-gba(255, 255, 255, 0);">** When Server state =3D=3D undefined<br>** Reason f=
-or termination =3D=3D&nbsp;<br>** {could_not_start_listener,<br>&nbsp; &nbsp=
-; &nbsp; &nbsp;[{port,<a href=3D"tel:15671" dir=3D"ltr" x-apple-data-detecto=
-rs=3D"true" x-apple-data-detectors-type=3D"telephone" x-apple-data-detectors=
--result=3D"5">15671</a>},<br>&nbsp; &nbsp; &nbsp; &nbsp; {ip,"0.0.0.0"},<br>=
-&nbsp; &nbsp; &nbsp; &nbsp; {ssl,true},<br>&nbsp; &nbsp; &nbsp; &nbsp; {ssl_=
-opts,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [{cacertfile,"/etc/rabbit=
-mq/root-ca.pem"},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{certfi=
-le,"/etc/rabbitmq/dcx-dev.pem"},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp;{keyfile,"/etc/rabbitmq/dcx-dev-np.key"}]}],<br>&nbsp; &nbsp; &nbsp;=
- &nbsp;{'EXIT',<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{{case_clause,{e=
-rror,{"no such file or directory","crypto.app"}}},<br>&nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; [{mochiweb,ensure_started,1,<br>&nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[{file,"mochiweb-wrapper/mochiweb-git/=
-src/mochiweb.erl"},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; {line,71}]},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{m=
-ochiweb_socket_server,prep_ssl,1,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp;[{file,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "mochiweb-wrapper/mochiweb-git/src/mochiwe=
-b_socket_server.erl"},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; {line,139}]},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p;{mochiweb_socket_server,start_server,2,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp;[{file,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; "mochiweb-wrapper/mochiweb-git/sr=
-c/mochiweb_socket_server.erl"},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
- &nbsp; &nbsp; &nbsp; {line,130}]},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
-bsp; &nbsp;{supervisor,do_start_child,2,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp;[{file,"supervisor.erl"},{line,310}]},<br>&nbs=
-p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{supervisor,handle_start_child,2=
-,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;[{file,"s=
-upervisor.erl"},{line,681}]},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp;{supervisor,handle_call,3,[{file,"supervisor.erl"},{line,390}]},<br>&nb=
-sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;{gen_server,handle_msg,5,[{file=
-,"gen_server.erl"},{line,585}]},<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; &nbsp;{proc_lib,init_p_do_apply,3,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
-nbsp; &nbsp; &nbsp; &nbsp;[{file,"proc_lib.erl"},{line,239}]}]}}}</span></di=
-v><div><span style=3D"background-color: rgba(255, 255, 255, 0);"><br></span>=
-</div><div><span style=3D"background-color: rgba(255, 255, 255, 0);">After g=
-oogling around,&nbsp;I'm going down the path of trying to build Erlang with S=
-SL support. Please stop me if this isn't the proper approach!</span></div><d=
-iv><span style=3D"background-color: rgba(255, 255, 255, 0);"><br></span></di=
-v><div><span style=3D"background-color: rgba(255, 255, 255, 0);">I clearly s=
-ee in meta-cloud-services/meta-openstack/recipes-devtools/erlang/erlang-nati=
-ve_R16B03-1.bb a line that says:</span></div><div><span style=3D"background-=
-color: rgba(255, 255, 255, 0);"><br></span></div><div><p class=3D"gmail-p1" s=
-tyle=3D"margin: 0px; font-variant-numeric: normal; font-variant-east-asian: n=
-ormal; font-stretch: normal; line-height: normal;"><span style=3D"background=
--color: rgba(255, 255, 255, 0);">EXTRA_OECONF =3D '--without-ssl'</span></p>=
-<p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; fo=
-nt-variant-east-asian: normal; font-stretch: normal; line-height: normal;"><=
-span style=3D"background-color: rgba(255, 255, 255, 0);"><br></span></p><p c=
-lass=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-v=
-ariant-east-asian: normal; font-stretch: normal; line-height: normal;"><span=
- style=3D"background-color: rgba(255, 255, 255, 0);">To alter&nbsp;this stat=
-ement, I wrote an&nbsp;erlang-native_R16B03-1.bbappend in my meta-layer and t=
-ried the following&nbsp;entries:</span></p></div><div><span style=3D"backgro=
-und-color: rgba(255, 255, 255, 0);"><br class=3D"gmail-Apple-interchange-new=
-line">**********************************************************************=
-*******************************<br></span></div><div><span style=3D"backgrou=
-nd-color: rgba(255, 255, 255, 0);"><br></span></div><div><span style=3D"back=
-ground-color: rgba(255, 255, 255, 0);">DEPENDS&nbsp;+=3D "ncurses-native ope=
-nssl"</span></div><div><span style=3D"background-color: rgba(255, 255, 255, 0=
-);">EXTRA_OECONF =3D '--with-ssl=3D/usr/bin/openssl'</span></div><div><div><=
-span style=3D"background-color: rgba(255, 255, 255, 0);"><br class=3D"gmail-=
-Apple-interchange-newline">This fails to build with the following error:</sp=
-an></div><div><span style=3D"background-color: rgba(255, 255, 255, 0);"><br>=
-</span></div><div><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-n=
-umeric: normal; font-variant-east-asian: normal; font-stretch: normal; line-=
-height: normal;"><span style=3D"background-color: rgba(255, 255, 255, 0);">c=
-onfigure: error: Invalid path to option --with-ssl=3DPATH</span></p><p class=
-=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-varia=
-nt-east-asian: normal; font-stretch: normal; line-height: normal;"><span sty=
-le=3D"background-color: rgba(255, 255, 255, 0);">configure: error: /bin/bash=
- 'build/tmp/work/x86_64-linux/erlang-native/R16B03-1-r0/otp_src_R16B03-1/ert=
-s/configure' failed for erts</span></p><p class=3D"gmail-p1" style=3D"margin=
-: 0px; font-variant-numeric: normal; font-variant-east-asian: normal; font-s=
-tretch: normal; line-height: normal;"><span style=3D"background-color: rgba(=
-255, 255, 255, 0);"><br></span></p><p class=3D"gmail-p1" style=3D"margin: 0p=
-x; font-variant-numeric: normal; font-variant-east-asian: normal; font-stret=
-ch: normal; line-height: normal;"><span style=3D"background-color: rgba(255,=
- 255, 255, 0);">************************************************************=
-*****************************************</span></p></div></div><div><span s=
-tyle=3D"background-color: rgba(255, 255, 255, 0);"><br></span></div><div><di=
-v><span style=3D"background-color: rgba(255, 255, 255, 0);">DEPENDS&nbsp;+=3D=
- "ncurses-native openssl"</span></div><div><span style=3D"background-color: r=
-gba(255, 255, 255, 0);">EXTRA_OECONF =3D '--with-ssl'</span></div></div><div=
-><p class=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; f=
-ont-variant-east-asian: normal; font-stretch: normal; line-height: normal;">=
-<span style=3D"background-color: rgba(255, 255, 255, 0);"><br class=3D"gmail=
--Apple-interchange-newline">Builds successfully but produces the same error a=
-s above in&nbsp;/var/log/rabbitmq/rabbitmq@{hostname}.log<br></span></p><p c=
-lass=3D"gmail-p1" style=3D"margin: 0px; font-variant-numeric: normal; font-v=
-ariant-east-asian: normal; font-stretch: normal; line-height: normal;"><span=
- style=3D"background-color: rgba(255, 255, 255, 0);">***********************=
-****************************************************************************=
-**<br></span></p></div><div><span style=3D"background-color: rgba(255, 255, 2=
-55, 0);"><br></span></div><div><div><span style=3D"background-color: rgba(25=
-5, 255, 255, 0);">DEPENDS&nbsp;+=3D "ncurses-native openssl"</span></div><di=
-v><span style=3D"background-color: rgba(255, 255, 255, 0);">EXTRA_OECONF =3D=
- "--with-ssl=3D${STAGING_DIR_HOST}${layout_exec_prefix}"</span></div><div><s=
-pan style=3D"background-color: rgba(255, 255, 255, 0);"><br class=3D"gmail-A=
-pple-interchange-newline">Builds successfully but produces the same error as=
- above in&nbsp;/var/log/rabbitmq/rabbitmq@{hostname}.log<br></span></div></d=
-iv><div><span style=3D"background-color: rgba(255, 255, 255, 0);">**********=
-****************************************************************************=
-***************</span></div><div><span style=3D"background-color: rgba(255, 2=
-55, 255, 0);"><br></span><div><span style=3D"background-color: rgba(255, 255=
-, 255, 0);">DEPENDS&nbsp;+=3D "ncurses-native openssl"</span></div><span sty=
-le=3D"background-color: rgba(255, 255, 255, 0);">EXTRA_OECONF =3D&nbsp; "--w=
-ith-ssl use SSL"</span></div><div><span style=3D"background-color: rgba(255,=
- 255, 255, 0);"><br></span></div><div><span style=3D"background-color: rgba(=
-255, 255, 255, 0);">Builds successfully but produces the same error as above=
- in&nbsp;/var/log/rabbitmq/rabbitmq@{hostname}.log</span></div><div><span st=
-yle=3D"background-color: rgba(255, 255, 255, 0);">**************************=
-***************************************************************************<=
-br></span></div><div><span style=3D"background-color: rgba(255, 255, 255, 0)=
-;"><br></span></div><div><font style=3D"background-color: rgba(255, 255, 255=
-, 0);">Detailed help is greatly appreciated. Seems like I'm missing somethin=
-g obvious.</font></div></div></div><br><div><div><span class=3D"Apple-style-=
-span" style=3D"-webkit-tap-highlight-color: rgba(26, 26, 26, 0.294118);">Bes=
-t Regards,</span></div><div>Phillip Warren</div></div></body></html>=
-
---Apple-Mail-B2F7D155-ADE2-476A-8B94-79C109373011--
