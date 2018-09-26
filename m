@@ -1,69 +1,35 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 989FDE00718; Tue, 25 Sep 2018 14:41:17 -0700 (PDT)
+	id 8D62EE00718; Tue, 25 Sep 2018 19:48:14 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 78A0BE006AF
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D7E6DE006AF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 25 Sep 2018 14:41:15 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id y71-v6so6752958lje.9
+	Tue, 25 Sep 2018 19:48:13 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w8Q2mDYC026397
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 25 Sep 2018 14:41:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=tR1r+85H0nM+vLpQui8IYaCPdhXAnRyrQmw50Qhy59E=;
-	b=O1Fj6CYEMppSHGOjS3T27/oCzVDJDwgknyRcBs4dpap5nElgurb+iAaqyAr6vTwTMZ
-	0znKfUUUGg7qSn6g+Pfg886u+ozR08sFcnpQx/fEJb1Kn+6F4YXMssJUOSaqlfI59Lbk
-	nlNld/rFvrGmEkvp5z4nd7LvP/YzCQ0PQM20s0duGd8MPytvoDCe/WMKJg3mOBP84n09
-	DNCNVWQwQjIZcaQ+PQDuuguUKMDQ3coNe/xGmebdC+w01Bhl5zqCv9gcmcegtM1H7mJA
-	71tGliS2K612q8DXOvKZN1mQbuVmaAeDr0s0cZxxRuH6e8CYliz2XHySnPDlXbmnODww
-	ob4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=tR1r+85H0nM+vLpQui8IYaCPdhXAnRyrQmw50Qhy59E=;
-	b=b88VaH58FOJ8qUwT11Ud7G/iMb4XJjK1CaBvvyHZd4nbsvIYFnu/Fp8qRhFDqzIBCa
-	ZDXrvJXAzjpazv/vUIexms2QPaa+5RMv5q2AU4A/Rq/jbAC+kHejIDk+azqNBmYuOaA5
-	owhsL2dQmsX20Is2n5Tdha3tJNw5JaI8VWTvtTjIgkHNFFMcZulHmKW/WThfDCHA20e3
-	LEhh9+D7eCYp1iptepMqF27pf1Albr6ndSEtl6rpOgjPWZC47xj+UWqlLDS0GqDz+etO
-	CegbXQ9g8i+Su0PfqWLfYXjpks5FiD2g3AMFwko5nQXzqug8rnfXOWdVcBXCcIvluMy8
-	+vSQ==
-X-Gm-Message-State: ABuFfoiA/JR8R1aus8EKJJlSmPMs+Q7l44hKcxKGe631hlG5ojxz9fRA
-	u8rhsOKMqYksAFrXnrwcsZgMcvrk8fCoXbWw6RNkjw==
-X-Google-Smtp-Source: ACcGV62M957duyKEf8nEGBQLyboLq7pZu5/4KDU5DnaoKu6GW+AGWlGwORpEEsaOSziInZbPlOEwqLi9LQ8DpT1Dexg=
-X-Received: by 2002:a2e:4702:: with SMTP id
-	u2-v6mr2168235lja.147.1537911674242; 
-	Tue, 25 Sep 2018 14:41:14 -0700 (PDT)
+	Tue, 25 Sep 2018 19:48:13 -0700 (PDT)
+Received: from pek-hostel-deb01.wrs.com (128.224.153.151) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 25 Sep 2018 19:48:12 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 26 Sep 2018 10:36:25 +0800
+Message-ID: <1537929391-32035-1-git-send-email-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:a2e:9691:0:0:0:0:0 with HTTP; Tue, 25 Sep 2018 14:41:13
-	-0700 (PDT)
-In-Reply-To: <1537302451-32569-1-git-send-email-mark.asselstine@windriver.com>
-References: <1537302451-32569-1-git-send-email-mark.asselstine@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 25 Sep 2018 17:41:13 -0400
-Message-ID: <CADkTA4MDmDorsp3tNmqMEaiMLWRRvtm2qgZYctqjLQ4rD3009g@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][PATCH 0/6] Move recipes from meta-overc
+Subject: [m-c-s][PATCH 1/7] glusterfs: fix CVE-2018-10911
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,43 +42,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Sep 2018 21:41:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 26 Sep 2018 02:48:14 -0000
+Content-Type: text/plain
 
-merged!
+Backport patch to fix the following CVE.
 
-Bruce
+CVE: CVE-2018-10911
 
-On Tue, Sep 18, 2018 at 4:27 PM, Mark Asselstine
-<mark.asselstine@windriver.com> wrote:
->
-> There have been requests from people who are not interesting in
-> meta-overc to have more readily available access to these
-> recipes. Since meta-overc depends on meta-cloud-services and these
-> recipes have no specific bindings to OverC it is possible to locate
-> them here without affecting meta-overc or the OverC framework.
->
-> With all of these changes applied people will be able to build these
-> recipes without having to include meta-overc in the bblayers.conf. If
-> you do happen to apply only the initial copy and not the full set of
-> changes you will need to include meta-overc in your bblayers.conf.
->
-> NOTE that consul-migrate is specific to DB migrations for older
-> versions of consul and really is no longer applicable and should most
-> likely be dropped at some point. I am including it here for
-> completeness and will most likely follow up with a removal in the near
-> future.
->
-> Mark
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ ...-negative-key-value-length-while-unserial.patch | 39 ++++++++++++++++++++++
+ recipes-extended/glusterfs/glusterfs.inc           |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch
 
-
-
+diff --git a/recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch b/recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch
+new file mode 100644
+index 0000000..cb3400b
+--- /dev/null
++++ b/recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch
+@@ -0,0 +1,39 @@
++From 428ee988df7d6cbe6e18becffcee5cdfb0fa9d17 Mon Sep 17 00:00:00 2001
++From: Amar Tumballi <amarts@redhat.com>
++Date: Tue, 24 Jul 2018 13:25:12 +0530
++Subject: [PATCH 1/7] dict: handle negative key/value length while unserialize
++
++Fixes: bz#1625089
++Change-Id: Ie56df0da46c242846a1ba51ccb9e011af118b119
++Signed-off-by: Amar Tumballi <amarts@redhat.com>
++
++Upstream-Status: Backport
++
++Fix CVE-2018-10911
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ libglusterfs/src/dict.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libglusterfs/src/dict.c b/libglusterfs/src/dict.c
++index 839b426..ac0a677 100644
++--- a/libglusterfs/src/dict.c
+++++ b/libglusterfs/src/dict.c
++@@ -2751,6 +2751,13 @@ dict_unserialize (char *orig_buf, int32_t size, dict_t **fill)
++                 vallen = ntoh32 (hostord);
++                 buf += DICT_DATA_HDR_VAL_LEN;
++ 
+++                if ((keylen < 0) || (vallen < 0)) {
+++                        gf_msg_callingfn ("dict", GF_LOG_ERROR, 0,
+++                                          LG_MSG_UNDERSIZED_BUF,
+++                                          "undersized length passed "
+++                                          "key:%d val:%d", keylen, vallen);
+++                        goto out;
+++                }
++                 if ((buf + keylen) > (orig_buf + size)) {
++                         gf_msg_callingfn ("dict", GF_LOG_ERROR, 0,
++                                           LG_MSG_UNDERSIZED_BUF,
++-- 
++2.7.4
++
+diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
+index ab63a9a..ea5f2b7 100644
+--- a/recipes-extended/glusterfs/glusterfs.inc
++++ b/recipes-extended/glusterfs/glusterfs.inc
+@@ -23,6 +23,7 @@ SRC_URI += "file://glusterd.init \
+             file://0001-shared-storage-Prevent-mounting-shared-storage-from-.patch \
+             file://0002-server-auth-add-option-for-strict-authentication.patch \
+             file://0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch \
++            file://0001-dict-handle-negative-key-value-length-while-unserial.patch \
+            "
+ 
+ LICENSE = "(LGPLv3+ | GPLv2) & GPLv3+ & LGPLv3+ & GPLv2+ & LGPLv2+ & LGPLv2.1+ & Apache-2.0"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.7.4
+
 
