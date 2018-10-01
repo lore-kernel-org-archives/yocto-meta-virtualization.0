@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 528F5E00B58; Sun, 30 Sep 2018 18:15:19 -0700 (PDT)
+	id B6309E00B58; Sun, 30 Sep 2018 18:22:13 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,9 +9,6 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
@@ -19,49 +16,53 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      valid
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C028AE00901
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.194 listed in list.dnswl.org]
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3EB8BE00901
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 30 Sep 2018 18:15:17 -0700 (PDT)
-Received: by mail-lj1-f196.google.com with SMTP id u21-v6so3484472lja.8
+	Sun, 30 Sep 2018 18:22:12 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id p89-v6so10567718ljb.3
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 30 Sep 2018 18:15:17 -0700 (PDT)
+	Sun, 30 Sep 2018 18:22:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TeP8chqI4mJvrAy1UYS61FeYX8uNxT6wte8NRfLNLH8=;
-	b=ijt3KAifYPIQPIPesbOnCa22bk7Lo4NWVJ/sinhwKO9vzHCSE3veAMzdObM2SAYd58
-	YcOx2fqg8ZZJ/kcJkF952JvAaCuru9QSBW01P0iAWXpeM6NeGCHFFb/C4gFyRa5CnCqf
-	gyRayuhcTwInLR37GbH1OsuHncGQaE81YII+jtBVp6GC7rG6AxewYrMZxAxUwjeQIaJP
-	3lvQTQiqSP9HUy/9c9z/5U9GT68NbfPSo3f1fehjjv3W6k0HAMbF9Dzx3SonEb3i7Jm8
-	8n39kJn6RHq/M8R0MfnoJgJtXH1RgyTWpmTFsoBNjrI62w8Cwq3CAKcZKme6iaE4+HlG
-	S1Cw==
+	:cc; bh=iQHGaoIhkezhHdO3uzqPf0trMcVL15rljc6kTlkv6QI=;
+	b=WLV6WAz1KIumIn/muZLROhUHvj9G0VBHXbdNxlKOMpn+ruUdv5ZhBtNCWdIeReq9Zh
+	+T6+QYbxTBKEP87IagvfTbBDxTHpZIK7m3Q+9/4ZVGevO729ihN+zhe5sHPFkKVYgLVB
+	Fnvx9qgpy7p936aklffPFJzNmadceBvwiDVQRjLFWwFPLc2KUzPlyq0MZC/rVsMIqxIW
+	ywFY/vwXdWaf4KdTL+bS20lFCVpKdDkDUrkNGl+BxgXkCqw7hRCL0JkeKuwuVXlMDGHE
+	qxV5PcniBR/EiLtcmE6cEvvDRvw51u43vM2XbaCsyuESQONDCVsWANnB5LjtGcXh8ktU
+	tdmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=TeP8chqI4mJvrAy1UYS61FeYX8uNxT6wte8NRfLNLH8=;
-	b=SUDUKnUNx6jAeq3BHkGAzdIwXcMKMBd5KCLb/d2MOhy1e5lsewfLMTr0eN5XPksf9w
-	IpRpA6UyY9/C88is+1aC7AKrf6f15k1DeFbaDN/P9W4Goip0SLH+iztEjHzCTRFN5VNP
-	erAdHGF3KiZL4jEomorZwX7TbV51IsKA0Xqd54f1KUBoUFRNEG+sS0AfDjJt55An5wd0
-	lI3gZ207gB9vyegv9yerC63k1IvDtJ0JXtgl+kqlTHXUk2Rb3cKFElVM7gJd8JWSj01+
-	3TnCrH0/0OOg+DZcr9lJ/3ocxOABgc49S+psGN0WHB/+2IlqXpQYK3X+sWc+p6deYI6y
-	vdFw==
-X-Gm-Message-State: ABuFfogG6H1WDWQF+IuHLsIuXKb1r7iVL5wv/Ma0vgiEbuzAXKDFXRC8
-	71/XM4Ll3tHgcj/OHAK0sBNFmajY/2buCGW6qrdfMw==
-X-Google-Smtp-Source: ACcGV60dQvDLTVH3GMA27Lg8mgINJhmF45G1iVTpr3VM9jv8TZ073yjtioysasdtVzN6rmpgLYzUBNBwPag5kPTrZ34=
-X-Received: by 2002:a2e:8589:: with SMTP id
-	b9-v6mr4913795lji.122.1538356516366; 
-	Sun, 30 Sep 2018 18:15:16 -0700 (PDT)
+	bh=iQHGaoIhkezhHdO3uzqPf0trMcVL15rljc6kTlkv6QI=;
+	b=UZ6roWnXK/aIWSFpvuoy2NlQCEn2Dj65ynZyh9Wkbpoc2G0KgvknWvxIlx+0wN/8xK
+	PMVQMEBPke29RIhyVLg+HamtZa0+3egwnAC2rolgi1375yG/xUTsNf23dJ/jdmasAO/q
+	9txR5zA919+IiTHz2mJPdMhTUbJyJrE4YW5UWRmYyQzVWKtm83WyS75wVSwbsmtioBAy
+	+PgClHihMTWgBVExdPqEb4/C2mBj0VEMneaskeONXgKlnReWKgvOVW9g2c3f0sBFuBhq
+	4bSSF1SnU/H66q22hXguNewCnVRGd29O+mIA4lxQtGYnwkEa6A/m9IrXZ7XXHQqMjVIj
+	8BPA==
+X-Gm-Message-State: ABuFfogC/G4VbtCc4/NTpK7rtZRCCo3E/d38mIquXWATuIsceyQ8B3iS
+	lkqhMSHXMmuA413ScTfDPEyAQUXGCR7QJU5U5eJPmg==
+X-Google-Smtp-Source: ACcGV6100adlmqX5MOhfwNFa1/eytZWifXkvR/LpLXcUBtmPzvn9T+L1ahPFeTX1lb8Gr75q1xL9Z76R7teqmR7THAg=
+X-Received: by 2002:a2e:7809:: with SMTP id
+	t9-v6mr4321499ljc.120.1538356930920; 
+	Sun, 30 Sep 2018 18:22:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <1538277461-163634-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1538277461-163634-1-git-send-email-changqing.li@windriver.com>
+	<1538277461-163634-2-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1538277461-163634-2-git-send-email-changqing.li@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 30 Sep 2018 21:15:05 -0400
-Message-ID: <CADkTA4Nhu=48Rbm0MO=j-qBQstZqXgFPgOe7qxe=beygV2wfCQ@mail.gmail.com>
+Date: Sun, 30 Sep 2018 21:22:00 -0400
+Message-ID: <CADkTA4PWSA+Pf79s0CzxNaWpLo04CFkGBZEoPuqKFD3RSwxARQ@mail.gmail.com>
 To: changqing.li@windriver.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] docker-distribution: fix do package qa warning[ldflags]
+Subject: Re: [PATCH] docker-distribution: fix do package qa warning [textrel]
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,46 +75,99 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 01:15:19 -0000
+X-List-Received-Date: Mon, 01 Oct 2018 01:22:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-The shortlog of this isn't quite right.
-
-You are not really fixing the QA warning, but are making sure that it
-is masked in some sort of multlib configuration ?
-That needs to be clarified in the shortlog.
-
-On Sat, Sep 29, 2018 at 11:17 PM <changqing.li@windriver.com> wrote:
+On Sat, Sep 29, 2018 at 11:18 PM <changqing.li@windriver.com> wrote:
 >
 > From: Changqing Li <changqing.li@windriver.com>
 >
 > fix below warning:
-> do_package_qa: QA Issue: No GNU_HASH in the elf binary:
-> xxx/usr/sbin/registry' [ldflags]
+>
+> do_package_qa: QA Issue: ELF binary 'xxx/usr/sbin/registry'
+> has relocations in .text [textrel]
+>
+> Add GOBUILDFLAGS which have -buildmode=pie to fix it
 
-And the configuration explained here.
+This is not universally true, so your configuration needs more
+explanation. We haven't needed these flags before, and I've never seen
+the warnings.
+
+I just build docker and dumped the environment, my GOBUILDFLAGS do not
+have buildmode=pie
+
+So clearly, your config is different.
+
+I'm not against adding the extra variable, but we are taking a the
+risk of injecting build configurations that we haven't needed before,
+and may not want.
+
+So I need to understand what configuration you are building that is
+making them required, and then figure out what else is being injected
+that wasn't being injected before.
+
+Same comment applies for all the QA fixes.
 
 Bruce
 
 >
 > Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  recipes-containers/docker-distribution/docker-distribution_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../docker-distribution/docker-distribution_git.bb |  1 +
+>  .../files/0001-fix-do_package_qa-error.patch       | 32 ++++++++++++++++++++++
+>  2 files changed, 33 insertions(+)
+>  create mode 100644 recipes-containers/docker-distribution/files/0001-fix-do_package_qa-error.patch
 >
 > diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> index 7c7bce2..23d94c9 100644
+> index add5ce1..7c7bce2 100644
 > --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
 > +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-> @@ -58,7 +58,7 @@ do_install() {
->  }
+> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
+>  SRCREV_distribution="48294d928ced5dd9b378f7fd7c6f5da3ff3f2c89"
+>  SRC_URI = "git://github.com/docker/distribution.git;branch=release/2.6;name=distribution;destsuffix=git/src/github.com/docker/distribution \
+>             file://docker-registry.service \
+> +           file://0001-fix-do_package_qa-error.patch \
+>            "
 >
->  INSANE_SKIP_${PN} += "ldflags already-stripped"
-> -INSANE_SKIP_docker-registry += "ldflags already-stripped"
-> +INSANE_SKIP_${MLPREFIX}docker-registry += "ldflags already-stripped"
->
->  FILES_docker-registry = "${sbindir}/*"
->  FILES_docker-registry += "${systemd_unitdir}/system/docker-registry.service"
+>  PACKAGES =+ "docker-registry"
+> diff --git a/recipes-containers/docker-distribution/files/0001-fix-do_package_qa-error.patch b/recipes-containers/docker-distribution/files/0001-fix-do_package_qa-error.patch
+> new file mode 100644
+> index 0000000..269b0cd
+> --- /dev/null
+> +++ b/recipes-containers/docker-distribution/files/0001-fix-do_package_qa-error.patch
+> @@ -0,0 +1,32 @@
+> +From 4b9d701fabff8e7969db081406d00fa9fe46b3fd Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+> +Date: Thu, 27 Sep 2018 11:05:51 +0800
+> +Subject: [PATCH] fix do_package_qa error
+> +
+> +fix below error:
+> +do_package_qa: QA Issue: ELF binary 'xxx/usr/sbin/registry'
+> +has relocations in .text [textrel]
+> +
+> +Upstream-Status: Inappropriate [oe-specific]
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +---
+> + Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index 47b8f1d..13b0f92 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -39,7 +39,7 @@ GODEP=$(shell which godep || echo '')
+> +
+> + ${PREFIX}/bin/registry: $(GOFILES)
+> +       @echo "+ $@"
+> +-      @go build -tags "${DOCKER_BUILDTAGS}" -o $@ ${GO_LDFLAGS}  ${GO_GCFLAGS} ./cmd/registry
+> ++      @go build -tags "${DOCKER_BUILDTAGS}" -o $@ ${GO_LDFLAGS} ${GOBUILDFLAGS} ${GO_GCFLAGS} ./cmd/registry
+> +
+> + ${PREFIX}/bin/digest:  $(GOFILES)
+> +       @echo "+ $@"
+> +--
+> +2.7.4
+> +
 > --
 > 2.7.4
 >
