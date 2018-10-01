@@ -1,17 +1,17 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EBFF4E00B58; Sun, 30 Sep 2018 18:32:26 -0700 (PDT)
+	id 46314E00B58; Sun, 30 Sep 2018 18:32:45 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.208.196 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.49 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
@@ -19,51 +19,51 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      valid
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
-	[209.85.167.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8CCBE00901
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A7CFDE00901
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 30 Sep 2018 18:32:25 -0700 (PDT)
-Received: by mail-lf1-f49.google.com with SMTP id p34-v6so1281541lfg.10
+	Sun, 30 Sep 2018 18:32:44 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id p6-v6so10561036ljc.5
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 30 Sep 2018 18:32:25 -0700 (PDT)
+	Sun, 30 Sep 2018 18:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=j9GSHh6PA9B1Q+iJ5dDrAu8d6wqWB+kMo3a0av8cp74=;
-	b=MxlMXRdAOWCV5fIOwlpknxCMdQuSjbhbRtNhx2EX/a92WX6zI1Djf1l+DRkHNQA9WQ
-	fl1ndav+3WJx3ihxaHd0MfEmjgqX7GUORPCQkcbqEVCV3fvyvHO3WPqkw2um9oEflZSL
-	POqtAFoGe4Kw9p6thDjniG+H9HaMQGBdvWr+eUf9cm0siMKARajTLtkle8iWySCEcRC6
-	Bf26LPCHyRKTXl/Z38ntXbiKwI1ZbXTfvRmIIvmXqvBULfswGlt7TdWxAspUQu2UJguI
-	7lxR6BdczocRV82+WUOQZLj/RBpLXqYtAj/c6VYKeMKbdWli5LDj9kNpJ9ix8dAFeFx/
-	TuBQ==
+	:cc:content-transfer-encoding;
+	bh=KOnoSkEJ9Tf6Y4Aj3Oc7prsID1zVABtjtlYUcnIZQZ0=;
+	b=dhnL8j60uo9tLM4ZVUODnf2IU4jra3QOZu4vCrifCjNlAiSvYNjFjw9oLa8W6vuZd3
+	5QLV/QXyjWnxi3DQGzjt00nsrierKU+7NtNelpJ2gh/yls4PEXq5Kvax+FhpqvesIb0a
+	NouiXPGJL3lrwPm3NsPT0AVlHzyiGpL0mTGiDEG9CSt0mdPg3sMgoafQczvjRwamAtuv
+	DblrkF1fvzZ/gytzbvwVDhbBAD0Pg7dEsnjkbgzaua1Ex35QtmfTVpnX3gPAVHEFq0Rw
+	jpWWXmfuUIjh6y+nnJyfSbyP7/H1EigBED7FSTsHwmCDVDQpJrdFxRVLa9o/s7UHCw1P
+	1eSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=j9GSHh6PA9B1Q+iJ5dDrAu8d6wqWB+kMo3a0av8cp74=;
-	b=UfKthHPVDyVJHCWxXyNztiaedEF4jWhiPMnYPeeYV8m9tLuQNKaWZ5vgVbCewnB79T
-	vgkjl4PcF6QiZQovBMlkVuNn4bfEXTHiPlelpJkr1RaOgvLxvabewuJMveEJ2cpndIpI
-	HA8PsLYNkqgsm0yJkEG+pDFgqFjOV9fua/YVTZR0ek3bhJNYj3JsOPVYOrEfVymPPSWb
-	QCXgXZvtRyKzHV4910BLDRpnXHrcF0KdgDLYg9L2C/sTrsE+E2FuZyFB7DVzVo1k7uk8
-	9VWLlqxIK6gXxkr7jEwIijXN1DwpH/iKY2wGjIdhzbW7ItrpURIYgAZAqKm1xPP/g5QA
-	x/sg==
-X-Gm-Message-State: ABuFfogMk/RW/GCFsTlz+xAOv9cLZla7QtOOBBA2bFIsmLZuxP1PzuDC
-	uv6paiv+EZP4CGfJars3l7eKEt2n1mgtGdAwhsRN0Q==
-X-Google-Smtp-Source: ACcGV62DQFEht2BE2QNcbWzikDPK9beOp5tgy4AuMRsvlpFy5hkkxhNsDzymU4TQs9gYAerjthZ1WgrS9PzVBJ4HOiY=
-X-Received: by 2002:a19:c20e:: with SMTP id
-	l14-v6mr3966688lfc.113.1538357544611; 
-	Sun, 30 Sep 2018 18:32:24 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=KOnoSkEJ9Tf6Y4Aj3Oc7prsID1zVABtjtlYUcnIZQZ0=;
+	b=hdRVvycAyzYOYsQOyJ02KLWBBoqj4gYqiFOvxayHPgiTbOIslqtJAxm3gN2HUY7cOC
+	E8LMyoopn9a4uioBrA9Ipzt1DKfBWNE8bTN+wC5hof9jrXdsO1PBx9+AfhO9H5Y39iUV
+	RuueEAOafbk310ED/mOHF8DYuwDcj2oTtl2sKzbJBq/ddTubcgwf9m9BkOh4Vgh9aovK
+	lGXL20L9e/YXdb1drkTyNQ+a6B/5cx+HXLmbM1XlFUajmK6tdcMOCI/3wtqjomMROqwZ
+	4tLj0K+d1QX3MJs0t8BCR0wufTw1xmlrrWBNdXMLFa1BYTPeS6J/AVlKOfZnckuSkfJD
+	qhNg==
+X-Gm-Message-State: ABuFfojVImpZ0mqYJo61mcauT1K0tTwGPW72Yc1UqGxM5qPVQZRNCrJu
+	7n0qzYjqNSJlHHMdSVOv6hH2Kluh5+18lpTXDUs=
+X-Google-Smtp-Source: ACcGV63IMRklhvMaVSoRuAsrkwx4gIbUt4EmDj+NSWVYq55VHJuKdKmozW0E9o77VrwoclQXdhse9kN/RLPbhbvEbx4=
+X-Received: by 2002:a2e:8919:: with SMTP id
+	d25-v6mr5360216lji.69.1538357563590; 
+	Sun, 30 Sep 2018 18:32:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <1537929391-32035-1-git-send-email-Qi.Chen@windriver.com>
-	<195d65f8-15f6-41e7-c3bc-53aff2ddf57b@windriver.com>
-In-Reply-To: <195d65f8-15f6-41e7-c3bc-53aff2ddf57b@windriver.com>
+References: <1537961203-96269-1-git-send-email-zhe.he@windriver.com>
+	<ec120586-08fb-f9a9-54e2-9f94b94c5702@windriver.com>
+In-Reply-To: <ec120586-08fb-f9a9-54e2-9f94b94c5702@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 30 Sep 2018 21:32:13 -0400
-Message-ID: <CADkTA4PtYQu0u4c2XdOMDmNXAJievxdMk_Q5QMif5LFfceytNA@mail.gmail.com>
-To: ChenQi <Qi.Chen@windriver.com>
-Cc: meta-virtualization@yoctoproject.org,
-	Mark Asselstine <mark.asselstine@windriver.com>
-Subject: Re: [m-c-s][PATCH 1/7] glusterfs: fix CVE-2018-10911
+Date: Sun, 30 Sep 2018 21:32:32 -0400
+Message-ID: <CADkTA4O19TY_-vPAvwNbRTJCSOLGKPrSEN9iKyDJuD-oKf7ANw@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] kernel: forcedly load nf_conntrack_ipv6 to work around kernel module loading failure
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,99 +76,61 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Oct 2018 01:32:27 -0000
+X-List-Received-Date: Mon, 01 Oct 2018 01:32:45 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 I almost always let patches sit for 3 or more days to allow people
 time to comment.
 
-This is now merged.
+this is now merged
 
 Bruce
-On Fri, Sep 28, 2018 at 10:45 PM ChenQi <Qi.Chen@windriver.com> wrote:
+On Fri, Sep 28, 2018 at 10:01 PM He Zhe <zhe.he@windriver.com> wrote:
 >
-> ping
+> Kindly ping.
 >
-> On 09/26/2018 10:36 AM, Chen Qi wrote:
-> > Backport patch to fix the following CVE.
+> Zhe
+>
+> On 2018=E5=B9=B409=E6=9C=8826=E6=97=A5 19:26, zhe.he@windriver.com wrote:
+> > From: He Zhe <zhe.he@windriver.com>
 > >
-> > CVE: CVE-2018-10911
+> > In the v4.18 kernel, there is a problem with the locking and init seque=
+nce of
+> > the kernel modules. This would cause nf_conntrack_ipv6 failed to be loa=
+ded.
 > >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > In kernel v4.19, nf_conntrack_ipv6 has been merged to nf_conntrack and =
+the
+> > problematic code has gone. This patch just works around by forcedly loa=
+ding
+> > nf_conntrack_ipv6.
+> >
+> > Signed-off-by: He Zhe <zhe.he@windriver.com>
 > > ---
-> >   ...-negative-key-value-length-while-unserial.patch | 39 ++++++++++++++++++++++
-> >   recipes-extended/glusterfs/glusterfs.inc           |  1 +
-> >   2 files changed, 40 insertions(+)
-> >   create mode 100644 recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch
+> >  recipes-kernel/linux/linux-yocto_virtualization.inc | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
 > >
-> > diff --git a/recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch b/recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch
-> > new file mode 100644
-> > index 0000000..cb3400b
-> > --- /dev/null
-> > +++ b/recipes-extended/glusterfs/files/0001-dict-handle-negative-key-value-length-while-unserial.patch
-> > @@ -0,0 +1,39 @@
-> > +From 428ee988df7d6cbe6e18becffcee5cdfb0fa9d17 Mon Sep 17 00:00:00 2001
-> > +From: Amar Tumballi <amarts@redhat.com>
-> > +Date: Tue, 24 Jul 2018 13:25:12 +0530
-> > +Subject: [PATCH 1/7] dict: handle negative key/value length while unserialize
-> > +
-> > +Fixes: bz#1625089
-> > +Change-Id: Ie56df0da46c242846a1ba51ccb9e011af118b119
-> > +Signed-off-by: Amar Tumballi <amarts@redhat.com>
-> > +
-> > +Upstream-Status: Backport
-> > +
-> > +Fix CVE-2018-10911
-> > +
-> > +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > +---
-> > + libglusterfs/src/dict.c | 7 +++++++
-> > + 1 file changed, 7 insertions(+)
-> > +
-> > +diff --git a/libglusterfs/src/dict.c b/libglusterfs/src/dict.c
-> > +index 839b426..ac0a677 100644
-> > +--- a/libglusterfs/src/dict.c
-> > ++++ b/libglusterfs/src/dict.c
-> > +@@ -2751,6 +2751,13 @@ dict_unserialize (char *orig_buf, int32_t size, dict_t **fill)
-> > +                 vallen = ntoh32 (hostord);
-> > +                 buf += DICT_DATA_HDR_VAL_LEN;
-> > +
-> > ++                if ((keylen < 0) || (vallen < 0)) {
-> > ++                        gf_msg_callingfn ("dict", GF_LOG_ERROR, 0,
-> > ++                                          LG_MSG_UNDERSIZED_BUF,
-> > ++                                          "undersized length passed "
-> > ++                                          "key:%d val:%d", keylen, vallen);
-> > ++                        goto out;
-> > ++                }
-> > +                 if ((buf + keylen) > (orig_buf + size)) {
-> > +                         gf_msg_callingfn ("dict", GF_LOG_ERROR, 0,
-> > +                                           LG_MSG_UNDERSIZED_BUF,
-> > +--
-> > +2.7.4
-> > +
-> > diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-> > index ab63a9a..ea5f2b7 100644
-> > --- a/recipes-extended/glusterfs/glusterfs.inc
-> > +++ b/recipes-extended/glusterfs/glusterfs.inc
-> > @@ -23,6 +23,7 @@ SRC_URI += "file://glusterd.init \
-> >               file://0001-shared-storage-Prevent-mounting-shared-storage-from-.patch \
-> >               file://0002-server-auth-add-option-for-strict-authentication.patch \
-> >               file://0003-glusterfs-access-trusted-peer-group-via-remote-host-.patch \
-> > +            file://0001-dict-handle-negative-key-value-length-while-unserial.patch \
-> >              "
+> > diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/reci=
+pes-kernel/linux/linux-yocto_virtualization.inc
+> > index c09b07c..5d3cbc6 100644
+> > --- a/recipes-kernel/linux/linux-yocto_virtualization.inc
+> > +++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+> > @@ -8,7 +8,7 @@ SRC_URI +=3D "file://xt-checksum.scc \
+> >           "
+> >  KERNEL_FEATURES_append =3D " ${@bb.utils.contains('DISTRO_FEATURES', '=
+kvm', 'features/kvm/qemu-kvm-enable.scc', '', d)}"
 > >
-> >   LICENSE = "(LGPLv3+ | GPLv2) & GPLv3+ & LGPLv3+ & GPLv2+ & LGPLv2+ & LGPLv2.1+ & Apache-2.0"
+> > -KERNEL_MODULE_AUTOLOAD +=3D "openvswitch"
+> > +KERNEL_MODULE_AUTOLOAD +=3D "nf_conntrack_ipv6 openvswitch"
+> >  KERNEL_MODULE_AUTOLOAD +=3D "${@bb.utils.contains('DISTRO_FEATURES', '=
+kvm', 'kvm', '', d)}"
+> >
+> >  # aufs kernel support required for xen-image-minimal
 >
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
-
--- 
+--=20
 "Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end"
 
