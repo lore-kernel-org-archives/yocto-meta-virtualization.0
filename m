@@ -1,69 +1,35 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id ADC85E00994; Tue,  2 Oct 2018 11:42:38 -0700 (PDT)
+	id 814F5E00ADD; Tue,  2 Oct 2018 11:43:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.219.196 listed in list.dnswl.org]
-Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
-	[209.85.219.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 78E06E0095C
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 757B6E00971
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  2 Oct 2018 11:42:37 -0700 (PDT)
-Received: by mail-yb1-f196.google.com with SMTP id 5-v6so1242594ybf.3
+	Tue,  2 Oct 2018 11:43:55 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w92Ihst3009758
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 02 Oct 2018 11:42:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:sender:in-reply-to:references:from:date:message-id
-	:subject:to:cc;
-	bh=11dvW7BGNuPB4h/xrX9DNLItVwuUdac7LFhjmdDeCEw=;
-	b=OTkuLUgvRqWPJF1EeUUI5qqXDeXEU8gq8y0U2emKOlkGU+6WU7MGYjLP21w+CdaoLX
-	HzliVv7E6FczOSQLvGHXQHxs8tuICUcwwGA408wCVTLoRO1PizXRX5vXj2bbLAYU14lk
-	d5pCJ7BLH4p/e1tdOz8GEj4z6RLwjlLAPLEYR6FQ2wc03wpG21E9mAIAyxTJpsoWaJqB
-	Y5PaMiwwYsl4iQD1Sjwhdlkv4C3yAJA12Gq1xrdENwFT2mRXeLWskdvNG83DgvVzEJ/w
-	8BXBG4IGYZl/tqZReDb7HP61+2aGR+bTlokdn9KfTeugDFdzWYbRbyKG2m+Xh/iBfyw4
-	k/tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:sender:in-reply-to:references:from
-	:date:message-id:subject:to:cc;
-	bh=11dvW7BGNuPB4h/xrX9DNLItVwuUdac7LFhjmdDeCEw=;
-	b=b19SpdZmJ22vTeKCEDJSHoc0U2RWkRwsdd1oozX+JNacRRoJaUFbtRzeqINSpuoVFI
-	zYnreHLwoUVDXeJGmpiWIjWfVwR3eRbEkJQOkpuvMRpfuA4OoZC70diGZmFLkccWNdna
-	erJfKcam8DwSqwFjnuk3mbNdste2ani9w7vBs7KWNcRu7BvyUL8JG8DPCCcScZz3/JCq
-	3vFWrO06OVVK+QXzfeTs9BwQwTu17rpZ0VeXcT+mGU3amQbx8/snqU86YqSG2Talw6I7
-	yxXLGgHRXkHalfQ0wUl2pnCC/8hSkXg2BsryMuutPbUF4MDhG5K305GRte0ZyVPSHsGV
-	FJGg==
-X-Gm-Message-State: ABuFfohHFT4RFGnyA0+L24yalBsNue7OI2D8F5/EqqYDrY50Fwk4g3jN
-	QwPglD9Qi7rx1C+w/tvzelAdHVVjjrc2GuxjdeyP8g==
-X-Google-Smtp-Source: ACcGV60CsvqqOIETGeKaYXTxsPtlfvz5F2DhHcRmMnJufEFMl5Pdwc9KQNnuZWM5seETmZ2T50kWSvrKsDHyGkYNxVc=
-X-Received: by 2002:a25:8b88:: with SMTP id
-	j8-v6mr9781529ybl.183.1538505756618; 
-	Tue, 02 Oct 2018 11:42:36 -0700 (PDT)
+	Tue, 2 Oct 2018 11:43:54 -0700 (PDT)
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Tue, 2 Oct 2018 11:43:54 -0700
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Tue, 2 Oct 2018 14:43:46 -0400
+Message-ID: <1538505826-7045-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Sender: asselsm@gmail.com
-Received: by 2002:a25:be8b:0:0:0:0:0 with HTTP;
-	Tue, 2 Oct 2018 11:42:36 -0700 (PDT)
-In-Reply-To: <CADkTA4MVaJzEcerxbocVh8hqon96dYsSXf3sZ4tN-iaHoFETwg@mail.gmail.com>
-References: <1538277461-163634-1-git-send-email-changqing.li@windriver.com>
-	<1538277461-163634-3-git-send-email-changqing.li@windriver.com>
-	<CADkTA4MVaJzEcerxbocVh8hqon96dYsSXf3sZ4tN-iaHoFETwg@mail.gmail.com>
-From: "M. Asselstine" <asselsm@mcmaster.ca>
-Date: Tue, 2 Oct 2018 14:42:36 -0400
-X-Google-Sender-Auth: nUyLMx5kTHUTjs1jiEpM7I4bU9w
-Message-ID: <CAPuovEJts1fzd1NLO+rZp+6cDMv+yGVe37w1C9puBM=vUC00Hg@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] docker: fix package qa warning
+Subject: [PATCH] lxcfs: move recipe from meta-overc to here
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,109 +42,144 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Oct 2018 18:42:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Oct 2018 18:43:56 -0000
+Content-Type: text/plain
 
-On Sun, Sep 30, 2018 at 9:23 PM, Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
-> On Sat, Sep 29, 2018 at 11:18 PM <changqing.li@windriver.com> wrote:
->>
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> fix below warning:
->> do_package_qa: QA Issue: ELF binary 'xxx/usr/bin/docker'
->> has relocations in .text [textrel]
->>
->> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> ---
->>  recipes-containers/docker/docker_git.bb            |  1 +
->>  .../files/0001-fix-do_package_qa-error.patch       | 31 ++++++++++++++++++++++
->>  2 files changed, 32 insertions(+)
->>  create mode 100644 recipes-containers/docker/files/0001-fix-do_package_qa-error.patch
->>
->> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
->> index 73e0120..1a8d1a6 100644
->> --- a/recipes-containers/docker/docker_git.bb
->> +++ b/recipes-containers/docker/docker_git.bb
->> @@ -28,6 +28,7 @@ SRC_URI = "\
->>         file://docker.init \
->>         file://hi.Dockerfile \
->>          file://0001-libnetwork-use-GO-instead-of-go.patch \
->> +        file://0001-fix-do_package_qa-error.patch \
->>         "
->>
->>  # Apache-2.0 for docker
->> diff --git a/recipes-containers/docker/files/0001-fix-do_package_qa-error.patch b/recipes-containers/docker/files/0001-fix-do_package_qa-error.patch
->> new file mode 100644
->> index 0000000..79e71a5
->> --- /dev/null
->> +++ b/recipes-containers/docker/files/0001-fix-do_package_qa-error.patch
->> @@ -0,0 +1,31 @@
->> +From 56c865e2a7269d63f0780b4cd1ed6fdb18e3ff1b Mon Sep 17 00:00:00 2001
->> +From: Changqing Li <changqing.li@windriver.com>
->> +Date: Wed, 26 Sep 2018 17:41:59 +0800
->> +Subject: [PATCH] fix do_package_qa error
->> +
->> +fix below error:
->> +do_package_qa: QA Issue: ELF binary 'xxx/usr/bin/docker'
->> +has relocations in .text [textrel]
->> +
->> +Upstream-Status: Inappropriate [oe-specific]
->> +
->> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
->> +---
->> + cli/scripts/build/dynbinary | 2 +-
->> + 1 file changed, 1 insertion(+), 1 deletion(-)
->> +
->> +diff --git a/cli/scripts/build/dynbinary b/cli/scripts/build/dynbinary
->> +index 3c32ed3..938e086 100755
->> +--- a/cli/scripts/build/dynbinary
->> ++++ b/cli/scripts/build/dynbinary
->> +@@ -9,6 +9,6 @@ source ./scripts/build/.variables
->> +
->> + echo "Building dynamically linked $TARGET"
->> + export CGO_ENABLED=1
->> +-go build -o "${TARGET}" -tags pkcs11 --ldflags "${LDFLAGS}" "${SOURCE}"
->> ++go build -o "${TARGET}" -tags pkcs11 --ldflags "${LDFLAGS}" -buildmode=pie "${SOURCE}"
->
-> As I mentioned in my other replies, I've never seen these warnings
-> myself. So I need to understand the configuration better.
->
-> Since I've never seen this before, my first reaction is that any
-> change of the flags to include buildmode=pie needs to be conditional
-> on some other distro feature that is enabled in your configuration.
+This recipe was originally written and included in meta-overc as it
+was used by the overc framework so we implemented it there to sort out
+the kinks. Since this package is not specific to the OverC framework
+and people may be interested in including it in their images without
+having any interest in the OverC framework we are moving this recipe
+here, alongside lxc and other container related recipes.
 
-Most likely the security flags at play. Could also be that you don't
-have the check enabled. At any rate I agree the details need to be
-captured in the commit log.
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ ...ystemd-allow-for-distinct-build-directory.patch | 47 ++++++++++++++++++++++
+ .../systemd-ensure-var-lib-lxcfs-exists.patch      | 27 +++++++++++++
+ recipes-containers/lxcfs/lxcfs_3.0.1.bb            | 25 ++++++++++++
+ 3 files changed, 99 insertions(+)
+ create mode 100644 recipes-containers/lxcfs/files/systemd-allow-for-distinct-build-directory.patch
+ create mode 100644 recipes-containers/lxcfs/files/systemd-ensure-var-lib-lxcfs-exists.patch
+ create mode 100644 recipes-containers/lxcfs/lxcfs_3.0.1.bb
 
-MarkA
+diff --git a/recipes-containers/lxcfs/files/systemd-allow-for-distinct-build-directory.patch b/recipes-containers/lxcfs/files/systemd-allow-for-distinct-build-directory.patch
+new file mode 100644
+index 0000000..14228d6
+--- /dev/null
++++ b/recipes-containers/lxcfs/files/systemd-allow-for-distinct-build-directory.patch
+@@ -0,0 +1,47 @@
++From 66a71fbf94020651880f1dbb6e4663d93391b47c Mon Sep 17 00:00:00 2001
++From: Mark Asselstine <mark.asselstine@windriver.com>
++Date: Mon, 10 Sep 2018 13:14:07 -0400
++Subject: [PATCH] systemd: allow for distinct build directory
++
++The Makefile.am is currently written in a way that doesn't allow for a
++distinct build directory. As such we get the error:
++
++    install: cannot stat 'lxcfs.service': No such file or directory
++
++Make use of $(srcdir) to correct this.
++
++Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++---
++ config/init/systemd/Makefile.am | 2 +-
++ config/init/systemd/Makefile.in | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/config/init/systemd/Makefile.am b/config/init/systemd/Makefile.am
++index 79e96f5..d6933f9 100644
++--- a/config/init/systemd/Makefile.am
+++++ b/config/init/systemd/Makefile.am
++@@ -5,7 +5,7 @@ SYSTEMD_UNIT_DIR = /lib/systemd/system
++ 
++ install-systemd: lxcfs.service
++ 	$(MKDIR_P) $(DESTDIR)$(SYSTEMD_UNIT_DIR)
++-	$(INSTALL_DATA) lxcfs.service $(DESTDIR)$(SYSTEMD_UNIT_DIR)/
+++	$(INSTALL_DATA) $(srcdir)/lxcfs.service $(DESTDIR)$(SYSTEMD_UNIT_DIR)/
++ 
++ uninstall-systemd:
++ 	rm -f $(DESTDIR)$(SYSTEMD_UNIT_DIR)/lxcfs.service
++diff --git a/config/init/systemd/Makefile.in b/config/init/systemd/Makefile.in
++index d433e8a..430190c 100644
++--- a/config/init/systemd/Makefile.in
+++++ b/config/init/systemd/Makefile.in
++@@ -450,7 +450,7 @@ uninstall-am: uninstall-local
++ 
++ @INIT_SCRIPT_SYSTEMD_TRUE@install-systemd: lxcfs.service
++ @INIT_SCRIPT_SYSTEMD_TRUE@	$(MKDIR_P) $(DESTDIR)$(SYSTEMD_UNIT_DIR)
++-@INIT_SCRIPT_SYSTEMD_TRUE@	$(INSTALL_DATA) lxcfs.service $(DESTDIR)$(SYSTEMD_UNIT_DIR)/
+++@INIT_SCRIPT_SYSTEMD_TRUE@	$(INSTALL_DATA) $(srcdir)/lxcfs.service $(DESTDIR)$(SYSTEMD_UNIT_DIR)/
++ 
++ @INIT_SCRIPT_SYSTEMD_TRUE@uninstall-systemd:
++ @INIT_SCRIPT_SYSTEMD_TRUE@	rm -f $(DESTDIR)$(SYSTEMD_UNIT_DIR)/lxcfs.service
++-- 
++2.7.4
++
+diff --git a/recipes-containers/lxcfs/files/systemd-ensure-var-lib-lxcfs-exists.patch b/recipes-containers/lxcfs/files/systemd-ensure-var-lib-lxcfs-exists.patch
+new file mode 100644
+index 0000000..5e5673a
+--- /dev/null
++++ b/recipes-containers/lxcfs/files/systemd-ensure-var-lib-lxcfs-exists.patch
+@@ -0,0 +1,27 @@
++From 89bf4b64e810e174068e7861490e6d6ab2d14854 Mon Sep 17 00:00:00 2001
++From: Mark Asselstine <mark.asselstine@windriver.com>
++Date: Mon, 10 Sep 2018 15:01:54 -0400
++Subject: [PATCH] systemd: ensure /var/lib/lxcfs exists
++
++If the directory doesn't exist the service will fail to start.
++
++Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++---
++ config/init/systemd/lxcfs.service | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/config/init/systemd/lxcfs.service b/config/init/systemd/lxcfs.service
++index 95e3ee9..d887203 100644
++--- a/config/init/systemd/lxcfs.service
+++++ b/config/init/systemd/lxcfs.service
++@@ -5,6 +5,7 @@ Before=lxc.service
++ Documentation=man:lxcfs(1)
++ 
++ [Service]
+++ExecStartPre=-/bin/mkdir /var/lib/lxcfs
++ ExecStart=/usr/bin/lxcfs /var/lib/lxcfs/
++ KillMode=process
++ Restart=on-failure
++-- 
++2.7.4
++
+diff --git a/recipes-containers/lxcfs/lxcfs_3.0.1.bb b/recipes-containers/lxcfs/lxcfs_3.0.1.bb
+new file mode 100644
+index 0000000..576027f
+--- /dev/null
++++ b/recipes-containers/lxcfs/lxcfs_3.0.1.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "LXCFS is a userspace filesystem created to avoid kernel limitations"
++LICENSE = "Apache-2.0"
++
++inherit autotools pkgconfig systemd
++
++SRC_URI = " \
++    https://linuxcontainers.org/downloads/lxcfs/lxcfs-${PV}.tar.gz \
++    file://systemd-allow-for-distinct-build-directory.patch \
++    file://systemd-ensure-var-lib-lxcfs-exists.patch \
++"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
++SRC_URI[md5sum] = "fa49872fc45846125455199a2cce18f1"
++SRC_URI[sha256sum] = "016c317f13392bebccba338511f537332fb2fdbaf62a5f6d77307b38a348f41f"
++
++DEPENDS += "fuse"
++RDEPENDS_${PN} += "fuse"
++
++FILES_${PN} += "${datadir}/lxc/config/common.conf.d/*"
++
++CACHED_CONFIGUREVARS += "ac_cv_path_HELP2MAN='false // No help2man //'"
++EXTRA_OECONF += "--with-distro=unknown --with-init-script=${VIRTUAL-RUNTIME_init_manager}"
++
++SYSTEMD_PACKAGES = "${PN}"
++SYSTEMD_SERVICE_${PN} = "lxcfs.service"
+-- 
+2.7.4
 
->
-> Bruce
->
->> +
->> + ln -sf "$(basename "${TARGET}")" build/docker
->> +--
->> +2.7.4
->> +
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> meta-virtualization mailing list
->> meta-virtualization@yoctoproject.org
->> https://lists.yoctoproject.org/listinfo/meta-virtualization
->
->
->
-> --
-> "Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end"
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
