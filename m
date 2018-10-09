@@ -1,6 +1,6 @@
 Return-Path: <Changqing.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4C998E00B6C; Mon,  8 Oct 2018 20:14:45 -0700 (PDT)
+	id 5E327E00B5E; Mon,  8 Oct 2018 20:14:45 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,24 +13,24 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	*      [score: 0.0000]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C1247E00A86
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C24EAE00AD1
 	for <meta-virtualization@yoctoproject.org>;
 	Mon,  8 Oct 2018 20:14:43 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w993E6SI012133
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id w993E6SH012133
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Oct 2018 20:14:22 -0700
+	Mon, 8 Oct 2018 20:14:17 -0700
 Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.408.0;
-	Mon, 8 Oct 2018 20:14:12 -0700
+	Mon, 8 Oct 2018 20:13:55 -0700
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <1538277461-163634-1-git-send-email-changqing.li@windriver.com>
 	<1538277461-163634-2-git-send-email-changqing.li@windriver.com>
 	<CADkTA4PWSA+Pf79s0CzxNaWpLo04CFkGBZEoPuqKFD3RSwxARQ@mail.gmail.com>
 From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <21b404b8-1d6d-3ca0-86de-5f9db5c67f56@windriver.com>
-Date: Tue, 9 Oct 2018 11:14:09 +0800
+Message-ID: <caff70ef-6fa8-1b0e-2a20-b6639a349923@windriver.com>
+Date: Tue, 9 Oct 2018 11:13:52 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
@@ -51,12 +51,12 @@ List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
 X-List-Received-Date: Tue, 09 Oct 2018 03:14:45 -0000
-X-Groupsio-MsgNum: 3793
+X-Groupsio-MsgNum: 3794
 Content-Type: multipart/alternative;
-	boundary="------------41D1522EBBB657556B16323A"
+	boundary="------------A6E92DD74353C76981017CDB"
 Content-Language: en-US
 
---------------41D1522EBBB657556B16323A
+--------------A6E92DD74353C76981017CDB
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
 
@@ -119,8 +119,6 @@ to check lastest code, here is the patch.
 
 Do you think we need add the fix patch only for special arch? like
 SRC_URI_append_aarch64="file://0001-fix-do_package_qa-error.patch"
-
-//Sandy
 
 >
 >> Signed-off-by: Changqing Li <changqing.li@windriver.com>
@@ -198,11 +196,11 @@ Sandy(Li Changqing)
 Wind River Linux
 
 
---------------41D1522EBBB657556B16323A
+--------------A6E92DD74353C76981017CDB
 Content-Type: multipart/related;
-	boundary="------------75FDABEEE49DD8D5813E31EF"
+	boundary="------------BF7793A40630983F77A6C808"
 
---------------75FDABEEE49DD8D5813E31EF
+--------------BF7793A40630983F77A6C808
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
@@ -286,13 +284,11 @@ Bruce</pre>
     About GOBUILDFLAGS,  buildmode=pie is added to oe-core recently, so
     maybe you need<br>
     to check lastest code, here is the patch.<br>
-    <img src="cid:part1.0C171A3B.22F5F98E@windriver.com" alt=""><br>
+    <img src="cid:part1.55005EA8.2FCD0578@windriver.com" alt=""><br>
     <br>
     <br>
     Do you think we need add the fix patch only for special arch? like<br>
     SRC_URI_append_aarch64=<a class="moz-txt-link-rfc2396E" href="file://0001-fix-do_package_qa-error.patch">"file://0001-fix-do_package_qa-error.patch"</a><br>
-    <br>
-    //Sandy<br>
     <br>
     <blockquote type="cite"
 cite="mid:CADkTA4PWSA+Pf79s0CzxNaWpLo04CFkGBZEoPuqKFD3RSwxARQ@mail.gmail.com">
@@ -382,11 +378,11 @@ Wind River Linux</pre>
   </body>
 </html>
 
---------------75FDABEEE49DD8D5813E31EF
-Content-Type: image/png; name="kjbchpkfiaifpkbp.png"
+--------------BF7793A40630983F77A6C808
+Content-Type: image/png; name="nmeabbcbjjpodgbo.png"
 Content-Transfer-Encoding: base64
-Content-ID: <part1.0C171A3B.22F5F98E@windriver.com>
-Content-Disposition: inline; filename="kjbchpkfiaifpkbp.png"
+Content-ID: <part1.55005EA8.2FCD0578@windriver.com>
+Content-Disposition: inline; filename="nmeabbcbjjpodgbo.png"
 
 iVBORw0KGgoAAAANSUhEUgAABDkAAAATCAIAAAAVlEEAAAAAA3NCSVQICAjb4U/gAAAcJElEQVR4
 Xu1dfWxU15W/72veeGZgJrUdUzvNUEzwYrq26gWrWIojqEEaVOqihF0sFUSFpTWbwEZ1pAVFsFqo
@@ -517,6 +513,6 @@ WbNfPPajxwvDpvDSBVlQWPYL54BlaxOXylcpafG82QLHqXPvClhuiMPnEdtOOzyKWllfe0jr+axU
 RFO4pJHxRfgrhlPgRtitKu4i/ZvZGuWKYSUYafwO9+4F8/uXjaxtio2AjYCNgI2AjYCNwFIjYE/W
 i4pw/haUmdiFczDj/HdP/3+/1Ox5XcBYjAAAAABJRU5ErkJggg==
 
---------------75FDABEEE49DD8D5813E31EF--
+--------------BF7793A40630983F77A6C808--
 
---------------41D1522EBBB657556B16323A--
+--------------A6E92DD74353C76981017CDB--
