@@ -1,46 +1,35 @@
-Return-Path: <okaya@kernel.org>
+Return-Path: <Changqing.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 03E6BE00B6F; Tue,  9 Oct 2018 21:18:27 -0700 (PDT)
+	id 79829E00B6F; Tue,  9 Oct 2018 23:59:17 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-7.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_HI autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at http://www.dnswl.org/,
-	high *      trust
-	*      [198.145.29.99 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A8B42E0097C
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0CA6AE0097C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  9 Oct 2018 21:18:26 -0700 (PDT)
-Received: from
-	sinanubuntu1604.mkjiurmyylmellclgttazegk5f.bx.internal.cloudapp.net
-	(unknown [40.76.50.250])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by mail.kernel.org (Postfix) with ESMTPSA id 3691B2086D;
-	Wed, 10 Oct 2018 04:18:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=default; t=1539145106;
-	bh=+uFujYvPdbtzQmRxztE3StWV5DczKsCdQTDYdqTLFPY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=wynX3tKDX185IJTxkwweuGYw1/vlP2jXXMKquBQEvqwATfFU4irIcBCIjCroN7zqf
-	9rpQCijKV3ZC3n3/dmXVVY6w/7UICzDmq5YnVsbuC34I+zVFgPQFVFUdK3Ohqa3Dkx
-	TPiOEgeP1Oggy8b0AYEH61AFfei8bPjUVF4PliTc=
-From: Sinan Kaya <okaya@kernel.org>
-To: meta-virtualization@yoctoproject.org
-Date: Wed, 10 Oct 2018 04:18:24 +0000
-Message-Id: <20181010041824.7029-1-okaya@kernel.org>
-X-Mailer: git-send-email 2.19.0
+	Tue,  9 Oct 2018 23:59:16 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9A6xGww007069
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 9 Oct 2018 23:59:16 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.408.0; Tue, 9 Oct 2018 23:59:15 -0700
+From: <changqing.li@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 10 Oct 2018 14:59:09 +0800
+Message-ID: <1539154754-137572-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [sumo] [PATCH v2] docker: CVE-2018-10892
+Subject: [PATCH][meta-cloud-services] consul: add INSANE_SKIP for textrel
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -53,79 +42,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 04:18:27 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 10 Oct 2018 06:59:17 -0000
+Content-Type: text/plain
 
-* CVE-2018-10892
-Docker does not block /proc/acpi pathnames. The flaw allows an attacker to
-modify host's hardware like enabling/disabling Bluetooth or turning up/down
-keyboard brightness.
+From: Changqing Li <changqing.li@windriver.com>
 
-Affects < 18.03.01
+1. for i586, bitbake consul will have QA error of textrel.
+   consul-git-r0 do_package_qa: QA Issue: ELF binary i
+   'work/i586-wrs-linux/consul/git-r0/packages-split/consul/usr/bin/consul'
+   has relocations in .text [textrel]
 
-CVE: CVE-2018-10892
-Ref: https://access.redhat.com/security/cve/cve-2018-10892
-Signed-off-by: Sinan Kaya <okaya@kernel.org>
+   according to go doc:
+   -buildmode=pie
+   Build the listed main packages and everything they import into
+   position independent executables (PIE). Packages not named
+   main are ignored.
+
+   checked use command "eu-findtextrel ./consul", functions not
+   compiled with -fpic/-fPIC are from packages not named main, and
+   also not imported into package main.
+
+   so -buildmode=pie cannot reslove this problem. so refer commit
+   b689c72a of oe-core, just skip it.
+
+2. This problem is caused since security_flags.inc is used by default.
+   so alternative work around is:
+      SECURITY_CFLAGS_pn-consul = "${SECURITY_NOPIE_CFLAGS}"
+      SECURITY_LDFLAGS_pn-consul = ""
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- recipes-containers/docker/docker_git.bb       |  2 ++
- .../docker/files/CVE-2018-10892.patch         | 34 +++++++++++++++++++
- 2 files changed, 36 insertions(+)
- create mode 100644 recipes-containers/docker/files/CVE-2018-10892.patch
+ recipes-connectivity/consul/consul_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index e055a4f..7c7bd4c 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -30,6 +30,8 @@ SRC_URI = "\
-         file://0001-libnetwork-use-GO-instead-of-go.patch \
- 	"
+diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
+index a44e0b2..ee49c5e 100644
+--- a/recipes-connectivity/consul/consul_git.bb
++++ b/recipes-connectivity/consul/consul_git.bb
+@@ -23,3 +23,6 @@ do_install_append() {
+ }
  
-+SRC_URI_append_docker += "CVE-2018-10892.patch"
+ FILES_${PN} += "${systemd_unitdir}/system"
 +
- # Apache-2.0 for docker
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=9740d093a080530b5c5c6573df9af45a"
-diff --git a/recipes-containers/docker/files/CVE-2018-10892.patch b/recipes-containers/docker/files/CVE-2018-10892.patch
-new file mode 100644
-index 0000000..60d0496
---- /dev/null
-+++ b/recipes-containers/docker/files/CVE-2018-10892.patch
-@@ -0,0 +1,34 @@
-+From af52f266ea15e6000ed057b13d62d27ddd5441a0 Mon Sep 17 00:00:00 2001
-+From: Antonio Murdaca <runcom@redhat.com>
-+Date: Thu, 5 Jul 2018 17:06:08 +0200
-+Subject: [PATCH] Add /proc/acpi to masked paths
-+
-+The deafult OCI linux spec in oci/defaults{_linux}.go in Docker/Moby
-+from 1.11 to current upstream master does not block /proc/acpi pathnames
-+allowing attackers to modify host's hardware like enabling/disabling
-+bluetooth or turning up/down keyboard brightness. SELinux prevents all
-+of this if enabled.
-+
-+Signed-off-by: Antonio Murdaca <runcom@redhat.com>
-+CVE: CVE-2018-10892
-+Upstream-Status: Backport [https://github.com/moby/moby/pull/37404/commits/569b9702a59804617e1cd3611fbbe953e4247b3e]
-+Signed-off-by: Sinan Kaya<okaya@kernel.org>
-+---
-+ oci/defaults.go | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/oci/defaults.go b/oci/defaults.go
-+index 4145412dd..992157b0f 100644
-+--- a/oci/defaults.go
-++++ b/oci/defaults.go
-+@@ -114,6 +114,7 @@ func DefaultLinuxSpec() specs.Spec {
-+ 
-+ 	s.Linux = &specs.Linux{
-+ 		MaskedPaths: []string{
-++			"/proc/acpi",
-+ 			"/proc/kcore",
-+ 			"/proc/keys",
-+ 			"/proc/latency_stats",
-+-- 
-+2.19.0
-+
++#for i586, executable consul contains textrel
++INSANE_SKIP_${PN} += "textrel"
 -- 
-2.19.0
+2.7.4
 
 
