@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 219E2E00B92; Tue,  9 Oct 2018 20:24:13 -0700 (PDT)
+	id AB6F1E00B81; Tue,  9 Oct 2018 20:26:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
+	*      [209.85.167.68 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7011BE0097C
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F1BA1E0097C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  9 Oct 2018 20:24:12 -0700 (PDT)
-Received: by mail-lj1-f196.google.com with SMTP id p1-v6so3495889ljg.6
+	Tue,  9 Oct 2018 20:26:28 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id q39-v6so2837200lfi.8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 09 Oct 2018 20:24:12 -0700 (PDT)
+	Tue, 09 Oct 2018 20:26:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gyt+TyJKmS7pHDjREYU0+G4aiYgjgoZYOFi9N+Kx3Wk=;
-	b=a8C3r/S/3OhCL40leeLxJhw+JzboOKKMH84/0KqCOghR86pK5yX0AxVRm+j1x/5CVX
-	iKv/TaQbPRlmbzArBBpWoAEvNkEmB+1WodXuOBIpOdyFeQvkgAGccGjCIaf5eeXC35j7
-	+SnKg5YNJazC6wxAjpVgbcNSA+HhdRePQWT59XKKkiyCgDZz6mCbNIIXdGQwd2oItip9
-	Bkq9axddQc0Vjcj6G/Ic1hqT/myjoyVCzfT+MDcbG+H5Wss9HPanHyL4cR5JKdCZl5ub
-	t6Rvhnlw/k99zX3GJaD5B0GAnAbulV3Vc1vD3iF7ATG/0XStFPXFWVWFNmyOBWGnqgJF
-	ekRw==
+	:cc; bh=OCEHciYmxVakLgWO+PlXuzkyfFok6jaQrI0f0aqReVY=;
+	b=YXd/2JiWtbY2O08RWFCzcko3HshIgCfNkKZuU4oWjUkAy8cw+xY6R3AZceSoIxmuUZ
+	+s1BJmnrVs3ooWLEwSNli3tGhLasAtlvdvEJc4lZzRKjVnIZwySc63+QWp1ps0OCy4RY
+	NLy0/T8Nm7A5wZmGhNlrhTIpXBcaDTylCzXpbjTSvRxzl0NlRcrXN8UGLHqNjxbcIrpu
+	LomzUdZiS3ymLCE9ihDo1ES/dK/rMcIQFyWqF5RVLrf+++Rgem1ZbtVzsq+lo3gAkAXE
+	uUvUartSoNzazrSJs9IWaGF6U4Mo/ckejEI7g6/t1jrkd7xlhmmeEKgvPDd5UfIdea+l
+	eGDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=gyt+TyJKmS7pHDjREYU0+G4aiYgjgoZYOFi9N+Kx3Wk=;
-	b=qpt4L9c/yXNvtVxE+2oBbH1cjwlo5DUV+j64kUs+pSVmEjaCfB6Qw1EX9cabIkfUlK
-	fl/7aU+UpzrZwMD2649om2TnXsCLaLYfA0P90k0Sy1pzG5GiEeTwbMd2yFCcwsYF7yzS
-	8sMr3M+aDQJ5FxJsilGTS/+3zFiJheVY90nWy3YASid3xF0EWAphqTzmF/0lU+YWrSPY
-	frr33TdKXDIQK9vn88Ks2mXy52C+auhopySjjQcNItIhmiuKhIbG/ZTP9D1FAtEBM164
-	cff1lMHjf4400socgNi6Dbt36ulZK1pn1wm2PCx4UQMqEBujEwp0cnQVMqfpf65/uC8m
-	nrWA==
-X-Gm-Message-State: ABuFfohKzHdAbtwErLIm07NRkpc+D6hzfyYNlxERqI6lHJuoZacajWi5
-	g0EmQ3AN9CaZxUigCYSe89EOLgUFnpNCAt/CV7TL6Q==
-X-Google-Smtp-Source: ACcGV62IZvXr41YW6iSeYzYRYP0/uFM6lxdWdRggtIHg/8s0QwgxeN+oiBBU6B9F6Olh1lLZbAWWLn3948fdmzJEo00=
-X-Received: by 2002:a2e:5109:: with SMTP id
-	f9-v6mr19298670ljb.155.1539141851274; 
-	Tue, 09 Oct 2018 20:24:11 -0700 (PDT)
+	bh=OCEHciYmxVakLgWO+PlXuzkyfFok6jaQrI0f0aqReVY=;
+	b=sVTqIgY04RQzmF16LV+6O01MqaYiDxJn6MFqxLkS7HKutwrzNJOi3ToOPbtveEw0Y8
+	Wn7g9F5DzCz6BHyso6ID1srNyGi8bMaTXN5WITSTCTSOhddykuzaeAxpobCBL1iYXvsl
+	CPmgNMwzgL+hoSkwivDDSzNfuQy8yhS0tLhE5dyLpIrCSS9JI+HxuxMjsSciBJPhN/au
+	YWPUDQfPq0fxexjQeLkXzTRzxhP53ZC7a9wmdXwzY6qWRRsIPgQ8NVVSzAUL1y9UdF/G
+	/IvEyolgzix/ZiAYi+rMCmYtZlUCnEFM4xx2LFb5n9vWHKe+e003VgACELrMVo4cPHeX
+	SKPA==
+X-Gm-Message-State: ABuFfog2Qs350A4vyH0YPin/hP/3zRDSW9s/jAaTg0GRhi8weAanw3MV
+	RzAz76aQcrTnoE0pWGGGyizQ271JRN7YN8n1jDY=
+X-Google-Smtp-Source: ACcGV63g51clI3cjMGzOOOE4a5rw26HT7Vg2F6OSbTWeqZ41MEC7H7NdlJXdcP9DGiPeOS/lWa4G3SgFkOBfYDeGZpI=
+X-Received: by 2002:a19:e21c:: with SMTP id
+	z28-v6mr16653121lfg.20.1539141987756; 
+	Tue, 09 Oct 2018 20:26:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <1538968067-28655-1-git-send-email-hongxu.jia@windriver.com>
-In-Reply-To: <1538968067-28655-1-git-send-email-hongxu.jia@windriver.com>
+References: <1539136093-3457-1-git-send-email-dengke.du@windriver.com>
+In-Reply-To: <1539136093-3457-1-git-send-email-dengke.du@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 9 Oct 2018 23:24:00 -0400
-Message-ID: <CADkTA4MrtQDwm8S0P+NF+RNyZmTdihV8-WiTUnZcY-z8cMQXjA@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+Date: Tue, 9 Oct 2018 23:26:16 -0400
+Message-ID: <CADkTA4PtUQtntuRa9Ynbn6YLa8_wvE7a1_b8-BVO5HM1+WuOng@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][PATCH 1/3] conf/layer.conf: add `core' to LAYERDEPENDS
+Subject: Re: [PATCH V3] ceph: only support x86-64
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,37 +74,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 03:24:13 -0000
+X-List-Received-Date: Wed, 10 Oct 2018 03:26:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-all three patches are now merged.
+v3 is merged.
 
 Bruce
-On Sun, Oct 7, 2018 at 10:58 PM Hongxu Jia <hongxu.jia@windriver.com> wrote:
+
+On Tue, Oct 9, 2018 at 9:49 PM Dengke Du <dengke.du@windriver.com> wrote:
 >
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
 > ---
->  conf/layer.conf | 1 +
->  1 file changed, 1 insertion(+)
+>  0001-ceph-only-support-x86-64.patch  | 22 ++++++++++++++++++++++
+>  recipes-extended/ceph/ceph_13.2.1.bb |  1 +
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 0001-ceph-only-support-x86-64.patch
 >
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index 18b0feb..1a53886 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -8,3 +8,4 @@ BBFILE_COLLECTIONS += "cloud-services-layer"
->  BBFILE_PATTERN_cloud-services-layer := "^${LAYERDIR}/"
->  BBFILE_PRIORITY_cloud-services-layer = "5"
->  LAYERSERIES_COMPAT_cloud-services-layer = "sumo thud"
-> +LAYERDEPENDS_cloud-services-layer = "core"
+> diff --git a/0001-ceph-only-support-x86-64.patch b/0001-ceph-only-support-x86-64.patch
+> new file mode 100644
+> index 0000000..c907e23
+> --- /dev/null
+> +++ b/0001-ceph-only-support-x86-64.patch
+> @@ -0,0 +1,22 @@
+> +From c1410631e368569f8fa03a2a72938e603eb92578 Mon Sep 17 00:00:00 2001
+> +From: Dengke Du <dengke.du@windriver.com>
+> +Date: Mon, 8 Oct 2018 15:33:25 +0800
+> +Subject: [PATCH V2] ceph: only support x86-64
+> +
+> +Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> +---
+> + recipes-extended/ceph/ceph_13.2.1.bb | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/recipes-extended/ceph/ceph_13.2.1.bb b/recipes-extended/ceph/ceph_13.2.1.bb
+> +index d7186b9..7888e64 100644
+> +--- a/recipes-extended/ceph/ceph_13.2.1.bb
+> ++++ b/recipes-extended/ceph/ceph_13.2.1.bb
+> +@@ -60,3 +60,4 @@ FILES_${PN}-dev += "\
+> + RDEPENDS_${PN} += "\
+> +               python \
+> + "
+> ++COMPATIBLE_MACHINE = "(qemux86-64|intel-x86-64)"
+> +--
+> +2.7.4
+> +
+> diff --git a/recipes-extended/ceph/ceph_13.2.1.bb b/recipes-extended/ceph/ceph_13.2.1.bb
+> index d7186b9..e89bbeb 100644
+> --- a/recipes-extended/ceph/ceph_13.2.1.bb
+> +++ b/recipes-extended/ceph/ceph_13.2.1.bb
+> @@ -60,3 +60,4 @@ FILES_${PN}-dev += "\
+>  RDEPENDS_${PN} += "\
+>                 python \
+>  "
+> +COMPATIBLE_HOST = "(x86_64).*"
 > --
 > 2.7.4
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
