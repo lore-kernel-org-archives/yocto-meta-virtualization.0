@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B7993E00B92; Tue,  9 Oct 2018 20:21:02 -0700 (PDT)
+	id 219E2E00B92; Tue,  9 Oct 2018 20:24:13 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,56 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.194 listed in list.dnswl.org]
+	*      [209.85.208.196 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 575CDE0097C
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7011BE0097C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  9 Oct 2018 20:21:01 -0700 (PDT)
-Received: by mail-lj1-f194.google.com with SMTP id v6-v6so3473586ljc.11
+	Tue,  9 Oct 2018 20:24:12 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id p1-v6so3495889ljg.6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 09 Oct 2018 20:21:01 -0700 (PDT)
+	Tue, 09 Oct 2018 20:24:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=i1BofiQ1fyOyUAVuYrZRJ3pjC/3xunPaH/sMJFUUHdA=;
-	b=HeZAs5uDs72PdrlA0m7IKe3iZZj+XFgAgoSLA4mULAvNgDKCpZJOL4RRgpsMYR7527
-	o5pVHG7myQWPfAcwCON50d65SvCUxYHhBm79ry9FZGNc71l2+MkwA1vw/ZvyiX3bXx4t
-	UBPT/sKLjdxsd+a82kt+Ki0JPhGpL1jpyQokPtZK3AOPjQWUV2wnM8RF8I5bg0ZUw87c
-	dV671SWR5zfkxWQuo9jT137yo/H3QM5+hpdmqrO2BKX3T/J4yDApk2yVzOr9SMEBYV8k
-	DAop+gWwItx93DhLPhHe9/Ykx6nbge09u8SgDVjU+QY+XNxwPuWTbmrpjov87SEFgOTX
-	pONg==
+	:cc; bh=gyt+TyJKmS7pHDjREYU0+G4aiYgjgoZYOFi9N+Kx3Wk=;
+	b=a8C3r/S/3OhCL40leeLxJhw+JzboOKKMH84/0KqCOghR86pK5yX0AxVRm+j1x/5CVX
+	iKv/TaQbPRlmbzArBBpWoAEvNkEmB+1WodXuOBIpOdyFeQvkgAGccGjCIaf5eeXC35j7
+	+SnKg5YNJazC6wxAjpVgbcNSA+HhdRePQWT59XKKkiyCgDZz6mCbNIIXdGQwd2oItip9
+	Bkq9axddQc0Vjcj6G/Ic1hqT/myjoyVCzfT+MDcbG+H5Wss9HPanHyL4cR5JKdCZl5ub
+	t6Rvhnlw/k99zX3GJaD5B0GAnAbulV3Vc1vD3iF7ATG/0XStFPXFWVWFNmyOBWGnqgJF
+	ekRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=i1BofiQ1fyOyUAVuYrZRJ3pjC/3xunPaH/sMJFUUHdA=;
-	b=Y+7MMBxFUQNum7JhkaBdr6ZN5ZBqhGejCC+tLSZilpRZWm62x4osfqe2zTu0NqErcB
-	SV29HjJIBqQ2Zzejo896L07t/RfLf+/vxkFZoTiGR4uUPIacd27henrdX5Ohj+yccrsw
-	tdNsYlJLJe3HeBJ5GfrpuSDvwDtnmHW50xJK2DAGuHE6ThYZSD488XhdSUl6tGUEmpVK
-	tq3u8HZMDvD57wpKCAPeiCkI4juMaqwdZ+DoBhVAXV3jPnZcp+uaSV9n0PeSblNe18mY
-	SanVe4PbPrQnTKOsV4HzEekblf7Rbr7cYfJYPPHT/7ypVuOkv5E04tnMSuBvVOJr225t
-	QkpA==
-X-Gm-Message-State: ABuFfohU1k4k5j3xJBwfFTbGXaxqIvwKPld1emAKjG3b+7VF6ueSsJZw
-	8e/4kYr+GQ1jhUUpuk8K9Nl3P1GqaybfUVl2MpojyvvD
-X-Google-Smtp-Source: ACcGV609iL+azFz4NcU67yZEWbEo+Ib5iLbz/+o+iPzDlcK9kOGe3Kq6YyQZzMirK3xW998XPn27R/jvo7IczFxfF4c=
-X-Received: by 2002:a2e:501c:: with SMTP id
-	e28-v6mr19328728ljb.45.1539141660136; 
-	Tue, 09 Oct 2018 20:21:00 -0700 (PDT)
+	bh=gyt+TyJKmS7pHDjREYU0+G4aiYgjgoZYOFi9N+Kx3Wk=;
+	b=qpt4L9c/yXNvtVxE+2oBbH1cjwlo5DUV+j64kUs+pSVmEjaCfB6Qw1EX9cabIkfUlK
+	fl/7aU+UpzrZwMD2649om2TnXsCLaLYfA0P90k0Sy1pzG5GiEeTwbMd2yFCcwsYF7yzS
+	8sMr3M+aDQJ5FxJsilGTS/+3zFiJheVY90nWy3YASid3xF0EWAphqTzmF/0lU+YWrSPY
+	frr33TdKXDIQK9vn88Ks2mXy52C+auhopySjjQcNItIhmiuKhIbG/ZTP9D1FAtEBM164
+	cff1lMHjf4400socgNi6Dbt36ulZK1pn1wm2PCx4UQMqEBujEwp0cnQVMqfpf65/uC8m
+	nrWA==
+X-Gm-Message-State: ABuFfohKzHdAbtwErLIm07NRkpc+D6hzfyYNlxERqI6lHJuoZacajWi5
+	g0EmQ3AN9CaZxUigCYSe89EOLgUFnpNCAt/CV7TL6Q==
+X-Google-Smtp-Source: ACcGV62IZvXr41YW6iSeYzYRYP0/uFM6lxdWdRggtIHg/8s0QwgxeN+oiBBU6B9F6Olh1lLZbAWWLn3948fdmzJEo00=
+X-Received: by 2002:a2e:5109:: with SMTP id
+	f9-v6mr19298670ljb.155.1539141851274; 
+	Tue, 09 Oct 2018 20:24:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <fe502ba2-ec63-285a-9e43-1a72d8e9365d@kernel.org>
-	<f5dde7bb-cce9-1dfd-8c71-7a1b5fb4ed59@kernel.org>
-In-Reply-To: <f5dde7bb-cce9-1dfd-8c71-7a1b5fb4ed59@kernel.org>
+References: <1538968067-28655-1-git-send-email-hongxu.jia@windriver.com>
+In-Reply-To: <1538968067-28655-1-git-send-email-hongxu.jia@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 9 Oct 2018 23:20:48 -0400
-Message-ID: <CADkTA4NwvgW8w+2QfS5+czzH5dSg56nmJeY_fo+CFEc6fM5H6w@mail.gmail.com>
-To: okaya@kernel.org
+Date: Tue, 9 Oct 2018 23:24:00 -0400
+Message-ID: <CADkTA4MrtQDwm8S0P+NF+RNyZmTdihV8-WiTUnZcY-z8cMQXjA@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [sumo] [PATCH v1] docker: CVE-2018-10892
+Subject: Re: [m-c-s][PATCH 1/3] conf/layer.conf: add `core' to LAYERDEPENDS
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,105 +74,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 03:21:02 -0000
+X-List-Received-Date: Wed, 10 Oct 2018 03:24:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Your patch is coming through corrupted:
-
-----
-Applying: docker: CVE-2018-10892
-/home/bruce/poky/meta-virtualization/.git/rebase-apply/patch:44:
-trailing whitespace.
-Upstream-Status: Backport
-fatal: corrupt patch at line 45
-Patch failed at 0001 docker: CVE-2018-10892
-The copy of the patch that failed is found in:
-   /home/bruce/poky/meta-virtualization/.git/rebase-apply/patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-----
-
-Check your MTA and how you are sending the patch to the list.
+all three patches are now merged.
 
 Bruce
-
-On Fri, Oct 5, 2018 at 12:33 PM Sinan Kaya <okaya@kernel.org> wrote:
+On Sun, Oct 7, 2018 at 10:58 PM Hongxu Jia <hongxu.jia@windriver.com> wrote:
 >
-> * CVE-2018-10892
-> Docker does not block /proc/acpi pathnames. The flaw allows an attacker to
-> modify host's hardware like enabling/disabling Bluetooth or turning up/down
-> keyboard brightness.
->
-> Affects < 18.03.01
->
-> CVE: CVE-2018-10892
-> Ref: https://access.redhat.com/security/cve/cve-2018-10892
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->   recipes-containers/docker/docker_git.bb       |  2 ++
->   .../docker/files/CVE-2018-10892.patch         | 34 +++++++++++++++++++
->   2 files changed, 36 insertions(+)
->   create mode 100644 recipes-containers/docker/files/CVE-2018-10892.patch
+>  conf/layer.conf | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/recipes-containers/docker/docker_git.bb
-> b/recipes-containers/docker/docker_git.bb
-> index e055a4f..7c7bd4c 100644
-> --- a/recipes-containers/docker/docker_git.bb
-> +++ b/recipes-containers/docker/docker_git.bb
-> @@ -30,6 +30,8 @@ SRC_URI = "\
->           file://0001-libnetwork-use-GO-instead-of-go.patch \
->         "
->
-> +SRC_URI_append_docker += "CVE-2018-10892.patch"
-> +
->   # Apache-2.0 for docker
->   LICENSE = "Apache-2.0"
->   LIC_FILES_CHKSUM =
-> "file://src/import/LICENSE;md5=9740d093a080530b5c5c6573df9af45a"
-> diff --git a/recipes-containers/docker/files/CVE-2018-10892.patch
-> b/recipes-containers/docker/files/CVE-2018-10892.patch
-> new file mode 100644
-> index 0000000..60d0496
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2018-10892.patch
-> @@ -0,0 +1,34 @@
-> +From af52f266ea15e6000ed057b13d62d27ddd5441a0 Mon Sep 17 00:00:00 2001
-> +From: Antonio Murdaca <runcom@redhat.com>
-> +Date: Thu, 5 Jul 2018 17:06:08 +0200
-> +Subject: [PATCH] Add /proc/acpi to masked paths
-> +
-> +The deafult OCI linux spec in oci/defaults{_linux}.go in Docker/Moby
-> +from 1.11 to current upstream master does not block /proc/acpi pathnames
-> +allowing attackers to modify host's hardware like enabling/disabling
-> +bluetooth or turning up/down keyboard brightness. SELinux prevents all
-> +of this if enabled.
-> +
-> +Signed-off-by: Antonio Murdaca <runcom@redhat.com>
-> +CVE: CVE-2018-10892
-> +Upstream-Status: Backport
-> [https://github.com/moby/moby/pull/37404/commits/569b9702a59804617e1cd3611fbbe953e4247b3e]
-> +Signed-off-by: Sinan Kaya<okaya@kernel.org>
-> +---
-> + oci/defaults.go | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/oci/defaults.go b/oci/defaults.go
-> +index 4145412dd..992157b0f 100644
-> +--- a/oci/defaults.go
-> ++++ b/oci/defaults.go
-> +@@ -114,6 +114,7 @@ func DefaultLinuxSpec() specs.Spec {
-> +
-> +       s.Linux = &specs.Linux{
-> +               MaskedPaths: []string{
-> ++                      "/proc/acpi",
-> +                       "/proc/kcore",
-> +                       "/proc/keys",
-> +                       "/proc/latency_stats",
-> +--
-> +2.19.0
-> +
+> diff --git a/conf/layer.conf b/conf/layer.conf
+> index 18b0feb..1a53886 100644
+> --- a/conf/layer.conf
+> +++ b/conf/layer.conf
+> @@ -8,3 +8,4 @@ BBFILE_COLLECTIONS += "cloud-services-layer"
+>  BBFILE_PATTERN_cloud-services-layer := "^${LAYERDIR}/"
+>  BBFILE_PRIORITY_cloud-services-layer = "5"
+>  LAYERSERIES_COMPAT_cloud-services-layer = "sumo thud"
+> +LAYERDEPENDS_cloud-services-layer = "core"
 > --
-> 2.19.0
+> 2.7.4
 >
 > --
 > _______________________________________________
