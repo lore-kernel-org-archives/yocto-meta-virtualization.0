@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 64852E00A54; Thu, 11 Oct 2018 11:47:43 -0700 (PDT)
+	id 4586EE00A54; Thu, 11 Oct 2018 11:47:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -21,47 +21,48 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*      valid
 Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
 	[209.85.208.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1FB6FE00566
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4E038E00566
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:47:35 -0700 (PDT)
-Received: by mail-lj1-f194.google.com with SMTP id u21-v6so9160254lja.8
+	Thu, 11 Oct 2018 11:47:54 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id z21-v6so9196346ljz.0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:47:34 -0700 (PDT)
+	Thu, 11 Oct 2018 11:47:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=qSXk6893WHLCcM9T+J9h71v0hNng6uEFkwy/uepwxPI=;
-	b=dt2vaWPNHPv3IIstCjy7jCzY2PwkW+Wom1hxv1Is9BE0mid7ARXlFxXiZMjtDSqULB
-	jSkR4drmfNG79Ox3uWd2HJsqSb65EZTsZHDOoacm2rjyiGGRYnsMfBd/m3cVJ1b17IP9
-	D2ILoOWYCJRFTi6BFFHY2Joxc/DzeoPaoBrLDAy+GclBRCzNljVsqpLtQM8Wnnw3fBGR
-	BBaHJLFysknEEPuF/zGrwhE4MPK0mzv2bD4im30lPi4LuYKVwV7AOjlpdESe+7xMVhj1
-	Op5WtvRn6EtBBQugq3QojRwcNYTO8/p7NgGTMHKVY8X8hPT3yz4YaoyGlf1S1LX5CGb1
-	jUoQ==
+	:cc; bh=sqeCigLojrZEV7Zt6eS8859qrKyuk4a9hWaowH5nHpo=;
+	b=YnCqqKqZ6M34nZIjqJygSJ0dAi4gLENlbcKSSOehzrbdRJMrpmqhMAXosDu8FrnQAb
+	/FjGaYy6hF46tltehAhx/iyr8qstdI1IkGlvhCHixQDtJOltOpy7QlxJWg+EKpXQlfkI
+	WeU1oopKpk988BxpAtmbFPLy8F/T14d1c669hNir98IkVyozf4qDX6i+YASggs8qhjeF
+	/t2yVv4TxWpOD+/+Qw++slPjCoHRlJaDVbCnCKw3qeDCBJ4D5BVHvMFGRtmQWNcM+c/E
+	+Rt4u4saxO2zn+ptDeWFhAGiomk67xCuxYRqx2USZ6PtJ06wDGJQL77fI0sRBaL7DEP6
+	tNUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=qSXk6893WHLCcM9T+J9h71v0hNng6uEFkwy/uepwxPI=;
-	b=UptOtvhrMTqys8BbS+NUP+yUh+pRoLWbYhwB3Sz85txaF2xn1ULPm0XZ+hGFTf3BhX
-	3joH5P1b1GTqsbqMAvKW5tIsP4oQXUz2YwKw/WfDDBVcxgpjY9I5zDd/pqjZnRP0TuAw
-	s98sLJ/jLY3vAy6+S0S9gh02jcmrXRwAFG0ojfajxqeFLbjuyH80u95e87H4woNWeGe8
-	4dcxKELDd4nR2oicGknT37E/s+A6nhsaN3173tgCyH89A+jZAPhOK8HqYPqEyiVg+UVT
-	NJBmxLq2KJ+zgAApxf0S/mqlFiumn0T1aHkc6RzPi2dsJ4ke0tIzkB7w90bRNGxletJ4
-	nLzw==
-X-Gm-Message-State: ABuFfohS8CGpzXiIAOAGl/NdzXZNNLhYlbAz+zvW/3wGioDlHnmz2lBI
-	yRDAYwNtWGJxnAG4LlV1x+KkvDJSDRTIOCkfWds=
-X-Google-Smtp-Source: ACcGV626qTbmp3XHyns67+JM3TXE1y43C1NWsmoE43F6moHess7lCd+Ge0PBDnX3rN6p/6G18tGVk1VFFD0k1vL3tqs=
-X-Received: by 2002:a2e:8ec6:: with SMTP id
-	e6-v6mr1757668ljl.166.1539283653961; 
-	Thu, 11 Oct 2018 11:47:33 -0700 (PDT)
+	bh=sqeCigLojrZEV7Zt6eS8859qrKyuk4a9hWaowH5nHpo=;
+	b=Kegeuf/La80hF3rx8hIipmUXSmU+BaVNGBx/iN6KeUC4BJfFYRG2S+rRTAT3IKTdzC
+	4wZMD+r3B1OPHPylhD7DefyoTh6wp7/v2Vz6I2uFgsnd6gAfh44OD+5eg/kHRjhjvTku
+	BZA3HX7c1xqBoeLPf8g1kzl0tNA1o+mNxrV5bH1ZtYIAfmznuIJBWEKMfUAgSxVum7DF
+	dAYfarQegLA5xwr648k6d+va5/6O8CsKKZc5sAGoiOLfNPvkSK/FP4sdkPbZfaDxg4N5
+	WgoniSDpYGFKR1+AOYttvN343oezVaT/mzOlfTDWnq+JIBb0RR6RMtmfQIn/3CEVL2qS
+	pNpg==
+X-Gm-Message-State: ABuFfogJytMs/rt1q7GEFti6BULA3R6kHkVW+EpwYS4m216vyUOqhLg0
+	QzNlr8ZGL1BlY0RucNoorIZtxsUisgpVvtQB9sE=
+X-Google-Smtp-Source: ACcGV61S3xH4GWIowDYrjcSEDAMjR+ysVgEqRxSOIJ8RSFym153gIt2H8rpGAwjnuAhWLKmPjbxXEL3VoDAlkuXR/vA=
+X-Received: by 2002:a2e:501c:: with SMTP id
+	e28-v6mr1981198ljb.45.1539283673251; 
+	Thu, 11 Oct 2018 11:47:53 -0700 (PDT)
 MIME-Version: 1.0
 References: <1539229819-322989-1-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1539229819-322989-1-git-send-email-mingli.yu@windriver.com>
+	<1539229819-322989-3-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1539229819-322989-3-git-send-email-mingli.yu@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Oct 2018 14:47:23 -0400
-Message-ID: <CADkTA4MrEE+TgU9Mb=jFXKk6sPkS=8-UYTm3XnWSde36rZG80w@mail.gmail.com>
+Date: Thu, 11 Oct 2018 14:47:38 -0400
+Message-ID: <CADkTA4NhF6cV4wtsaN+Qh+ir4C41tkyM-XuX0RoA=P6F-w0APw@mail.gmail.com>
 To: "Yu, Mingli" <mingli.yu@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-openstack][PATCH 1/3] sanity-meta-openstack.bbclass: add class for bbappend files checking
+Subject: Re: [meta-openstack][PATCH 3/3] postgresql: make append version independent
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,97 +75,168 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 18:47:43 -0000
+X-List-Received-Date: Thu, 11 Oct 2018 18:47:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
-
-Note: this doesn't apply to my meta-openstack layer. So it was based
-on some version that I don't have. But since the change was simple
-enough, I resolved the issue and did the merge.
+merged
 
 Bruce
 On Wed, Oct 10, 2018 at 11:50 PM <mingli.yu@windriver.com> wrote:
 >
 > From: Mingli Yu <Mingli.Yu@windriver.com>
 >
-> Add a new class sanity-meta-openstack.bbclass,
-> to check whether necessary settings are available
-> for bbappend files and preferred version setting
-> in this layer to be effective and warn users if not.
->
-> In addition, a variable SKIP_SANITY_META_OPENSTACK_CHECK
-> is added to enable users to explicitly skip the
-> checking to avoid unwanted warnings.
+> Make bbappend version independent and only
+> effective when the openstack distro enabled.
 >
 > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->  meta-openstack/README                                | 19 +++++++++++++++++++
->  meta-openstack/classes/sanity-meta-openstack.bbclass | 10 ++++++++++
->  meta-openstack/conf/layer.conf                       |  4 ++++
->  3 files changed, 33 insertions(+)
->  create mode 100644 meta-openstack/classes/sanity-meta-openstack.bbclass
+>  .../recipes-dbs/postgresql/postgresql_%.bbappend   |  1 +
+>  .../recipes-dbs/postgresql/postgresql_9.%.bbappend | 60 ----------------------
+>  .../postgresql/postgresql_openstack.inc            | 60 ++++++++++++++++++++++
+>  3 files changed, 61 insertions(+), 60 deletions(-)
+>  create mode 100644 meta-openstack/recipes-dbs/postgresql/postgresql_%.bbappend
+>  delete mode 100644 meta-openstack/recipes-dbs/postgresql/postgresql_9.%.bbappend
+>  create mode 100644 meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
 >
-> diff --git a/meta-openstack/README b/meta-openstack/README
-> index 81b843b..8506250 100644
-> --- a/meta-openstack/README
-> +++ b/meta-openstack/README
-> @@ -5,6 +5,25 @@ This layer provides support for building the packages from the OpenStack project
->  The layer contains recipes for the nova, glance, keystone, cinder, quantum, swift
->  and horizon components.
->
-> +The bbappend files for some recipes (e.g. postgresql) and preferred version setting
-> +(e.g. python-networkx)in this layer need to have 'openstack' in DISTRO_FEATURES to
-> +have effect. To enable them, add in configuration file the following line.
-> +
-> +  DISTRO_FEATURES_append = " openstack"
-> +
-> +If meta-openstack is included, but openstack is not enabled as a
-> +distro feature a warning is printed at parse time:
-> +
-> +    You have included the meta-openstack layer, but
-> +    'openstack' has not been enabled in your DISTRO_FEATURES. Some bbappend files
-> +    and preferred version setting may not take effect. See the meta-openstack README
-> +    for details on enabling openstack support.
-> +
-> +If you know what you are doing, this warning can be disabled by setting the following
-> +variable in your configuration:
-> +
-> +  SKIP_META_OPENSTACK_SANITY_CHECK = 1
-> +
->  Dependencies
->  ------------
->
-> diff --git a/meta-openstack/classes/sanity-meta-openstack.bbclass b/meta-openstack/classes/sanity-meta-openstack.bbclass
+> diff --git a/meta-openstack/recipes-dbs/postgresql/postgresql_%.bbappend b/meta-openstack/recipes-dbs/postgresql/postgresql_%.bbappend
 > new file mode 100644
-> index 0000000..3d5e57b
+> index 0000000..025ee4e
 > --- /dev/null
-> +++ b/meta-openstack/classes/sanity-meta-openstack.bbclass
-> @@ -0,0 +1,10 @@
-> +addhandler openstack_bbappend_distrocheck
-> +openstack_bbappend_distrocheck[eventmask] = "bb.event.SanityCheck"
-> +python openstack_bbappend_distrocheck() {
-> +    skip_check = e.data.getVar('SKIP_META_OPENSTACK_SANITY_CHECK') == "1"
-> +    if 'openstack' not in e.data.getVar('DISTRO_FEATURES').split() and not skip_check:
-> +        bb.warn("You have included the meta-openstack layer, but \
-> +'openstack' has not been enabled in your DISTRO_FEATURES. Some bbappend files \
-> +and preferred version setting may not take effect. See the meta-openstack README \
-> +for details on enabling openstack support.")
-> +}
-> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
-> index 126f37f..f322bcd 100644
-> --- a/meta-openstack/conf/layer.conf
-> +++ b/meta-openstack/conf/layer.conf
-> @@ -35,5 +35,9 @@ PREFERRED_VERSION_python-jsonschema = "2.6.0"
->  PREFERRED_VERSION_python-networkx = "1.11"
->  PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
->
-> +# Sanity check for meta-openstack layer.
-> +# Setting SKIP_META_OPENSTACK_SANITY_CHECK to "1" would skip the bbappend files check.
-> +INHERIT += "sanity-meta-openstack"
+> +++ b/meta-openstack/recipes-dbs/postgresql/postgresql_%.bbappend
+> @@ -0,0 +1 @@
+> +require ${@bb.utils.contains('DISTRO_FEATURES', 'openstack', '${BPN}_openstack.inc', '', d)}
+> diff --git a/meta-openstack/recipes-dbs/postgresql/postgresql_9.%.bbappend b/meta-openstack/recipes-dbs/postgresql/postgresql_9.%.bbappend
+> deleted file mode 100644
+> index 5bf25e1..0000000
+> --- a/meta-openstack/recipes-dbs/postgresql/postgresql_9.%.bbappend
+> +++ /dev/null
+> @@ -1,60 +0,0 @@
+> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> -
+> -SRC_URI += " \
+> -    file://postgresql-init \
+> -    file://postgresql-init.service \
+> -    "
+> -
+> -inherit identity hosts
+> -
+> -SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+> -
+> -# default
+> -DB_DATADIR ?= "/var/lib/postgres/data"
+> -
+> -do_install_append() {
+> -    D_DEST_DIR=${D}${sysconfdir}/postgresql
+> -
+> -    install -d ${D_DEST_DIR}
+> -    install -m 0755 ${WORKDIR}/postgresql-init ${D_DEST_DIR}/postgresql-init
+> -
+> -    sed -e "s:%DB_DATADIR%:${DB_DATADIR}:g" -i ${D_DEST_DIR}/postgresql-init
+> -
+> -    sed -e "s:%DB_USER%:${DB_USER}:g" -i ${D_DEST_DIR}/postgresql-init
+> -    sed -e "s:%DB_PASSWORD%:${DB_PASSWORD}:g" -i ${D_DEST_DIR}/postgresql-init
+> -
+> -    sed -e "s:%CONTROLLER_IP%:${CONTROLLER_IP}:g" -i ${D_DEST_DIR}/postgresql-init
+> -    sed -e "s:%CONTROLLER_HOST%:${CONTROLLER_HOST}:g" -i ${D_DEST_DIR}/postgresql-init
+> -
+> -    sed -e "s:%COMPUTE_IP%:${COMPUTE_IP}:g" -i ${D_DEST_DIR}/postgresql-init
+> -    sed -e "s:%COMPUTE_HOST%:${COMPUTE_HOST}:g" -i ${D_DEST_DIR}/postgresql-init
+> -
+> -    install -d ${D}${systemd_unitdir}/system/
+> -    PG_INIT_SERVICE_FILE=${D}${systemd_unitdir}/system/postgresql-init.service
+> -    install -m 644 ${WORKDIR}/postgresql-init.service ${PG_INIT_SERVICE_FILE}
+> -    sed -e "s:%SYSCONFIGDIR%:${sysconfdir}:g" -i ${PG_INIT_SERVICE_FILE}
+> -
+> -    # Update PGDATA throughout
+> -    files="${D}${localstatedir}/lib/${BPN}/.bash_profile"
+> -    files="$files ${D}${systemd_unitdir}/system/postgresql.service"
+> -    files="$files ${D}${bindir}/${BPN}-setup"
+> -    files="$files ${D}${sysconfdir}/init.d/${BPN}-server"
+> -    for f in $files
+> -    do
+> -        sed -e "s:\(PGDATA=\).*$:\1${DB_DATADIR}:g" -i $f
+> -    done
+> -
+> -    # Ensure DB is initialize before we attempt to start the service
+> -    FILE=${D}${systemd_unitdir}/system/postgresql.service
+> -    sed -e '/ExecStart=.*/i ExecStartPre=-${sysconfdir}/postgresql/postgresql-init initdb' -i $FILE
+> -    sed -e '/ExecStartPre=.*/i PermissionsStartOnly=true' -i $FILE
+> -}
+> -
+> -PACKAGES += " ${PN}-setup"
+> -
+> -SYSTEMD_PACKAGES += "${PN}-setup"
+> -SYSTEMD_SERVICE_${PN}-setup = "postgresql-init.service"
+> -
+> -FILES_${PN}-setup = " \
+> -    ${systemd_unitdir}/system \
+> -"
+> diff --git a/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc b/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
+> new file mode 100644
+> index 0000000..5bf25e1
+> --- /dev/null
+> +++ b/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
+> @@ -0,0 +1,60 @@
+> +FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
 > +
->  LICENSE_PATH += "${LAYERDIR}/licenses"
->  LAYERRECOMMENDS_openstack-layer = "meta-openstack-dl (= 2.6)"
+> +SRC_URI += " \
+> +    file://postgresql-init \
+> +    file://postgresql-init.service \
+> +    "
+> +
+> +inherit identity hosts
+> +
+> +SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+> +
+> +# default
+> +DB_DATADIR ?= "/var/lib/postgres/data"
+> +
+> +do_install_append() {
+> +    D_DEST_DIR=${D}${sysconfdir}/postgresql
+> +
+> +    install -d ${D_DEST_DIR}
+> +    install -m 0755 ${WORKDIR}/postgresql-init ${D_DEST_DIR}/postgresql-init
+> +
+> +    sed -e "s:%DB_DATADIR%:${DB_DATADIR}:g" -i ${D_DEST_DIR}/postgresql-init
+> +
+> +    sed -e "s:%DB_USER%:${DB_USER}:g" -i ${D_DEST_DIR}/postgresql-init
+> +    sed -e "s:%DB_PASSWORD%:${DB_PASSWORD}:g" -i ${D_DEST_DIR}/postgresql-init
+> +
+> +    sed -e "s:%CONTROLLER_IP%:${CONTROLLER_IP}:g" -i ${D_DEST_DIR}/postgresql-init
+> +    sed -e "s:%CONTROLLER_HOST%:${CONTROLLER_HOST}:g" -i ${D_DEST_DIR}/postgresql-init
+> +
+> +    sed -e "s:%COMPUTE_IP%:${COMPUTE_IP}:g" -i ${D_DEST_DIR}/postgresql-init
+> +    sed -e "s:%COMPUTE_HOST%:${COMPUTE_HOST}:g" -i ${D_DEST_DIR}/postgresql-init
+> +
+> +    install -d ${D}${systemd_unitdir}/system/
+> +    PG_INIT_SERVICE_FILE=${D}${systemd_unitdir}/system/postgresql-init.service
+> +    install -m 644 ${WORKDIR}/postgresql-init.service ${PG_INIT_SERVICE_FILE}
+> +    sed -e "s:%SYSCONFIGDIR%:${sysconfdir}:g" -i ${PG_INIT_SERVICE_FILE}
+> +
+> +    # Update PGDATA throughout
+> +    files="${D}${localstatedir}/lib/${BPN}/.bash_profile"
+> +    files="$files ${D}${systemd_unitdir}/system/postgresql.service"
+> +    files="$files ${D}${bindir}/${BPN}-setup"
+> +    files="$files ${D}${sysconfdir}/init.d/${BPN}-server"
+> +    for f in $files
+> +    do
+> +        sed -e "s:\(PGDATA=\).*$:\1${DB_DATADIR}:g" -i $f
+> +    done
+> +
+> +    # Ensure DB is initialize before we attempt to start the service
+> +    FILE=${D}${systemd_unitdir}/system/postgresql.service
+> +    sed -e '/ExecStart=.*/i ExecStartPre=-${sysconfdir}/postgresql/postgresql-init initdb' -i $FILE
+> +    sed -e '/ExecStartPre=.*/i PermissionsStartOnly=true' -i $FILE
+> +}
+> +
+> +PACKAGES += " ${PN}-setup"
+> +
+> +SYSTEMD_PACKAGES += "${PN}-setup"
+> +SYSTEMD_SERVICE_${PN}-setup = "postgresql-init.service"
+> +
+> +FILES_${PN}-setup = " \
+> +    ${systemd_unitdir}/system \
+> +"
 > --
 > 2.7.4
 >
