@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3A241E00A54; Thu, 11 Oct 2018 11:35:51 -0700 (PDT)
+	id 5D64DE00A54; Thu, 11 Oct 2018 11:37:34 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,56 +13,56 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.65 listed in list.dnswl.org]
+	*      [209.85.208.196 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E8A19E00566
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 84567E00566
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:35:49 -0700 (PDT)
-Received: by mail-lf1-f65.google.com with SMTP id w21-v6so7451291lff.6
+	Thu, 11 Oct 2018 11:37:33 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id v6-v6so9124976ljc.11
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:35:49 -0700 (PDT)
+	Thu, 11 Oct 2018 11:37:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ly0wVjAurU1olX4mmytp5vBbYVu3ZV2igs1ZczMelKg=;
-	b=Ln7g4900ZudSXxM+rfQ8ZzuU+Txn/IlSqgR9aTGBE7daat73Z7o2II0M+Nm4rHrSOW
-	vM7vIfMJe6j8pyTltxpXfxuNApPc0TYX92Z8Go+mtau6CHoVLoME3UHbrwcM6B91UTXZ
-	sLNPZKv6ffnaPbgm029E3j6MqN0hLX/jcZp8JFBvNtUMdutA8bay+yS5lR2u5wHtq+Ww
-	jjB1gKOW0uwto9qTRY+Mz2Jibmz7uoKyOi6rDy5t66AgMJx/BYVfEGqi3WwhIqNFfb5j
-	pV4+zU2/dPYwrKnh160+w0vddxHbEgJ+9AJaLj+EChUEAmuVeewaXw8DdQkZZZ3ypQ6V
-	UNMw==
+	:cc; bh=FdkpYdLGIY9z3CQnfLIzpJwnRLzCs6n45HfZO4umjeQ=;
+	b=Tj7iH2QH29UnspZlczMXuPHberWktzvntKKx4IP1Qo5T0X+MUYNXRwtL+mdBGqXYga
+	E0SVAg4I3IgOdC0kJ19Nduh2ysAmKiV7fIiLP1noz7QapJ4/Y7cyCr3Rxuryv4qEsq7a
+	Mb9h6cdISjH2lQk8L8rqXbMP5aXIUAQ1hLwesCTTSev24Dv6fMS2Dkys19nZAZProO4z
+	GTYyuypOg+ssH8I7hveN2zM3Jq/NXAFecxWbz17FPwI+wiNRR+gWPlIEWBoUy/EaApN9
+	IiUgEKsSjYzetmztQAy+hDgyxAPEH/XGZxvEtdCuZcAxncoR3vx5m+Lu+8FLd9YHclpd
+	xdTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Ly0wVjAurU1olX4mmytp5vBbYVu3ZV2igs1ZczMelKg=;
-	b=FsKM4G1KeoidWo0wAePT7464NWawuaf1CopYoX6Gz4UxqHJqHvcEq4JFFdSe2l0SQR
-	dZ8oEf+y+w8KYn8ekNodaA4p3zzjvsyHIhJdSkptTxrpLA2dp3a/gdm7cn46qQOUYuRf
-	ylIB0lwuRWL3cmtjT8fQJAPbPIP4HWRwBI+szF0j1lCQMhSXsL90L5DfkHWU/JhRBaQY
-	I6GELuNlLjb26Ez0nIWv1I2/z7DG6hBX+6DYH7SXkaYoNO12OPdUfzkj/ZtWBnj3rR35
-	SQs67Ibrzbm/4WzB8ppvFnNY7T2o2lL0JAZjUmIAs0qoc1Te4zvjLvnJ9K4YtcapbYu3
-	U+8Q==
-X-Gm-Message-State: ABuFfoj0VJO4PLjU4Fj5wns68PkCzD7rx636WXux/7/zsgWR8mgiC/nD
-	iNacdFtx9owo2BelKoj8zyZmRvmcvyygIo6UITA=
-X-Google-Smtp-Source: ACcGV60+XGC+DN//5zlFxld38xTdIAax5lKw1DCJxDRu1asfLwbzXt30xH2QR+2Xm9rsrOEwk0AGakl8Pd8cJ4M3N68=
-X-Received: by 2002:a19:d824:: with SMTP id
-	p36-v6mr1802623lfg.23.1539282948768; 
-	Thu, 11 Oct 2018 11:35:48 -0700 (PDT)
+	bh=FdkpYdLGIY9z3CQnfLIzpJwnRLzCs6n45HfZO4umjeQ=;
+	b=HlsjVXxwylHZPd74HUyq+azvqOeUVXNZL//qwUTqrrdMpUmmTU0oMeMf8fyBwoBuVY
+	c5jrku04wT4l14B/CVZe1F0A6P7Yk4DC5DCTC/maHTy6anAkNQO/46jk5otU1bBWqv9m
+	HAbocNWvum0se5NdvfKjblK4RkCtkEd9ZVWFNg0f46Z6iqBDAAGdd0MVLEAN7tCjRERB
+	3AKLecoQdWoMgbQsD/VyQYoPNxn/Trfw9C3rX2E4I4+Ep2D29//x9b/hOQFQAdF4d26x
+	E9moi2/xSlGvuyjRzJ147O5LqwhA0xFGSrWerfkJ2H9B70zn5q3uJmlell/kOCgmd2jQ
+	atKw==
+X-Gm-Message-State: ABuFfoiWYRx6Nuwczvp9fbnQrXA5Dro/zZyOGJNj3qnvf65f8rMOk4T9
+	UORNGYS6rhT2ZazxZaNd8AXKmcjhbLM3vZlSL7E=
+X-Google-Smtp-Source: ACcGV61B7ke2eiYd58ASS+0GvTKSv0513dUFk7CzIVkuv/XwaPfNTCI/DohrnVxaj5gxRf0b+DEekuR2iEuOZXo9uiY=
+X-Received: by 2002:a2e:501c:: with SMTP id
+	e28-v6mr1962048ljb.45.1539283052344; 
+	Thu, 11 Oct 2018 11:37:32 -0700 (PDT)
 MIME-Version: 1.0
 References: <1539154754-137572-1-git-send-email-changqing.li@windriver.com>
-	<1539154754-137572-6-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1539154754-137572-6-git-send-email-changqing.li@windriver.com>
+	<1539154754-137572-2-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1539154754-137572-2-git-send-email-changqing.li@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Oct 2018 14:35:37 -0400
-Message-ID: <CADkTA4Pv__+YJpTxbLkTnAf7qQd0Js=BYrYRhy8rB19hU851Xw@mail.gmail.com>
+Date: Thu, 11 Oct 2018 14:37:20 -0400
+Message-ID: <CADkTA4P0Y_8+abXbYAEnR9r6Bb01YSgFa4H=t7_ZRju5GLSPqw@mail.gmail.com>
 To: changqing.li@windriver.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] oci-runtime-tools: fix do package qa warning
+Subject: Re: [PATCH] docker-distribution: fix do package qa warning[ldflags]
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,48 +75,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 18:35:51 -0000
+X-List-Received-Date: Thu, 11 Oct 2018 18:37:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+merged
 
 Bruce
-On Wed, Oct 10, 2018 at 3:00 AM <changqing.li@windriver.com> wrote:
+On Wed, Oct 10, 2018 at 2:59 AM <changqing.li@windriver.com> wrote:
 >
 > From: Changqing Li <changqing.li@windriver.com>
 >
-> 1. After security flag PIE is enabled by default, we might met
-> below QA warning on some arch, like aarch64, fix it by skip
-> textrel QA check refer commit b689c72a of oe-core
+> when bitbake lib32-docker-distribution, we might met below
+> warning:
 >
-> oci-runtime-tools-0.1.0+gitAUTOINC+6e7da8148f-r0 do_package_qa: QA Issue:
-> ELF binary 'work/aarch64-poky-linux/oci-runtime-tools/0.1.0+gitAUTOINC+6e7
-> da8148f-r0/packages-split/oci-runtime-tools/usr/sbin/oci-runtime-tool'
-> has relocations in .text [textrel]
+> lib32-docker-distribution-v2.6.2-r0 do_package_qa: QA Issue: No GNU_HASH
+> in the elf binary: 'work/core2-32-wrsmllib32-linux/lib32-docker-distribution
+> /v2.6.2-r0/packages-split/lib32-docker-registry/usr/sbin/registry' [ldflags]
 >
-> 2. This problem is caused since security_flags.inc is used by default.
->    so alternative work around is:
->       SECURITY_CFLAGS_pn-oci-runtime-tools = "${SECURITY_NOPIE_CFLAGS}"
->       SECURITY_LDFLAGS_pn-oci-runtime-tools = ""
+> which caused by "INSANE_SKIP_docker-registry += "ldflags already-stripped"
+> don't cover case for multilib, so add multilib prefix MLPREFIX
+> to fix it.
 >
 > Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb | 2 +-
+>  recipes-containers/docker-distribution/docker-distribution_git.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb b/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
-> index 61b68b5..adbfc1e 100644
-> --- a/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
-> +++ b/recipes-containers/oci-runtime-tools/oci-runtime-tools_git.bb
-> @@ -11,7 +11,7 @@ SRCREV = "6e7da8148f4de2c9e9c9d3b345576898d4f412cb"
->  PV = "0.1.0+git${SRCPV}"
->  GO_IMPORT = "import"
+> diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
+> index add5ce1..d4f8098 100644
+> --- a/recipes-containers/docker-distribution/docker-distribution_git.bb
+> +++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
+> @@ -57,7 +57,7 @@ do_install() {
+>  }
 >
-> -INSANE_SKIP_${PN} += "ldflags"
-> +INSANE_SKIP_${PN} += "ldflags textrel"
+>  INSANE_SKIP_${PN} += "ldflags already-stripped"
+> -INSANE_SKIP_docker-registry += "ldflags already-stripped"
+> +INSANE_SKIP_${MLPREFIX}docker-registry += "ldflags already-stripped"
 >
->  inherit goarch
->  inherit go
+>  FILES_docker-registry = "${sbindir}/*"
+>  FILES_docker-registry += "${systemd_unitdir}/system/docker-registry.service"
 > --
 > 2.7.4
 >
