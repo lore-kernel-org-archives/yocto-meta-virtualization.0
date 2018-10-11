@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 388B2E00A54; Thu, 11 Oct 2018 11:38:47 -0700 (PDT)
+	id 06B05E00A9B; Thu, 11 Oct 2018 11:38:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,56 +13,56 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
+	*      [209.85.208.194 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 975A4E00566
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 444FFE0090C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:38:46 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id d4-v6so7470635lfa.3
+	Thu, 11 Oct 2018 11:38:57 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id v6-v6so9128628ljc.11
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:38:46 -0700 (PDT)
+	Thu, 11 Oct 2018 11:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1PSv0ZS/JhXT79K5N9oXJSUCv5y15JtqWTYPY1yvkCo=;
-	b=EgK3+yHXQN5koELMkSFAIGWNbr1CGqTJDHDtgh1igM49WERfghbrx/pL0zlAjBZIRg
-	CYzrrnYDjHBQafyxvyoJGiBvgQx0xo2RSze11Z71yasd3w/kTySVqEpWCnIAUlcHsJYt
-	oxGyto3z+FWBw1J1LlZS4QO71Q0EZmTaxJEFCSqiJr7AX9jzmxmGPbSnx22iGYR3GdPq
-	scQcnjIzMtwDhrzKJfdxFRHTWBePaclv5lgFYQhNFFXvICZaMA9RL5xMGGlfvPKYv/0I
-	vpFjiNHh6uwa6Tgv5dAJfrEnx/e+GdvuXi9jjXFrWtM85kFflVSq82QKlQhcnVUUSKVD
-	L2VQ==
+	:cc; bh=koQ67PkjuIePxUpaDxuVsTjT0/s/d3/rDZ6XnU2ImpM=;
+	b=dvC6B82e82kO92ekm5zLufpv1Bapxh1i6MXnQkTG7UNPFFmJQJtEldkEVMoO8yiWiR
+	NS6C8L+U1UWmuYfzJYicTRofW0fARExpFIsIIE5LRFZmIAsZ+Woj/J9Z1c5Fa+ZrdxOW
+	XP12LMZFotsVqfjuxlskiA+PKawYgwelQqL5HraROCLAEPiamYEjlFKvrVxgnui2gODH
+	8Hke8nkJhMkEDImBbLf5t7I0QFojJ7dMfj1yNHfyYWzQju4zGpRG5T4X7gDAFrCk/IWG
+	9rT4YUGdCBOS22EOtSRVmSVNKpmJRO0VPtDlAx5fnnrfRKCMRAvj7qCGALfTj6Yr0FBU
+	ltgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=1PSv0ZS/JhXT79K5N9oXJSUCv5y15JtqWTYPY1yvkCo=;
-	b=j9jg21GAh1bK9YQqSnkrDWCFq+vNSe4BGiFR9yH55JVaFrI9hm1q15dtcpZcB+0vpF
-	USxzyiFiSJ55ZX3MuocyEg0E85WaWzR3wO3w8addHKDwLfprAOizSwAqdU0UkY2BTue+
-	8gLpu/XHzM5+nmHaSZ8XVR+NsbByA5UYpWUveHPmWQFzgCdV1IqdilDjcvsaj6GatdZ2
-	Knt4BZkcIPggzW95lIATQwCEJEf/40lZJHo0BMI5E2DzIOSBq8trA+uJtswzIIWN89tL
-	B3pSXjlexCyupEtB+KoC6czWdWjBoBqJehpasnqq5eVo4XJNWrTN2Up0MWib4R+tDa6x
-	A4gQ==
-X-Gm-Message-State: ABuFfoi50K1zP303QsnqYk9Al+RDhFlRUhepB5kxerJQDqTYkgwTW3BK
-	kep4BAwuDmez3GUEp8DN9VVrBTOVMtWvWsYdvlxCpw==
-X-Google-Smtp-Source: ACcGV60c52tHp8XcFx6UEhdSFReEV2sWBGsR07ocfs3ZKC2zz6CAzgMsztNsUukyYjEeNp4h1JYyOdQgqyBnLjiGPLQ=
-X-Received: by 2002:a19:504e:: with SMTP id
-	z14-v6mr1900286lfj.120.1539283125383; 
-	Thu, 11 Oct 2018 11:38:45 -0700 (PDT)
+	bh=koQ67PkjuIePxUpaDxuVsTjT0/s/d3/rDZ6XnU2ImpM=;
+	b=d7xiRIyNT5U+gmNYM2S5ymmJKdir9EXEO24Pz2Oa2zd9pDZG50qDpt3B5Au0DPYbMU
+	q+tGl0znJWzvN+Rkuw7oOPpxRACSAKckkvxd3uWWI3YEhgFi39wAPHfOaij7KYsBZuYe
+	y9wnPkp4Draae29qCeO24mNFJ+dz9aj+9VCy8baaqvuPTngnhh1ap0NkB/xbbimvh0OV
+	ORqOfmOm5MtbC6OaULPif3ageAfVFJADC8gv5/2njU+39OEb8DMCEK0ayB6yFeMgXetL
+	p6Z8mc4p+7BFDfb6tUhmHiXekw19MsR5rvOo4IvMajKByF6x/3+hHPA7ReBytsVsXGfZ
+	/YYw==
+X-Gm-Message-State: ABuFfog0Uzlq6qlB/HLlc8yD5AdXw8GRnBNkZ5An0EuNF++sZvtC9Zwn
+	I9ZuuTYYtXgsrxq3atAICD5Ps+NFfpPAnSt6KEx/jA==
+X-Google-Smtp-Source: ACcGV61xfR4KmJh/PyaQ+/VmViHigL1XkgjbrRaGQ7wzpbHcFl7NzQEknij5HrPvgIC1/VWcENv3IH6XzkCAGNQzRjQ=
+X-Received: by 2002:a2e:9e56:: with SMTP id
+	g22-v6mr1808608ljk.120.1539283136087; 
+	Thu, 11 Oct 2018 11:38:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <1539154754-137572-1-git-send-email-changqing.li@windriver.com>
-	<1539154754-137572-5-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1539154754-137572-5-git-send-email-changqing.li@windriver.com>
+	<1539154754-137572-4-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1539154754-137572-4-git-send-email-changqing.li@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Oct 2018 14:38:34 -0400
-Message-ID: <CADkTA4OQ7eSui4iqyP9zwKTYtPcWWfNjKAmakDvfiJ_XM4GiLw@mail.gmail.com>
+Date: Thu, 11 Oct 2018 14:38:44 -0400
+Message-ID: <CADkTA4MDjEEwyZuWipnTKYhGwAk+i7byoLnNyRY9oCkXnkM1KQ@mail.gmail.com>
 To: changqing.li@windriver.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] oci-image-tools: fix do package qa warning
+Subject: Re: [PATCH] docker: fix do package qa warning
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,13 +75,13 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 18:38:47 -0000
+X-List-Received-Date: Thu, 11 Oct 2018 18:38:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
-On Wed, Oct 10, 2018 at 2:59 AM <changqing.li@windriver.com> wrote:
+On Wed, Oct 10, 2018 at 3:00 AM <changqing.li@windriver.com> wrote:
 >
 > From: Changqing Li <changqing.li@windriver.com>
 >
@@ -89,29 +89,29 @@ On Wed, Oct 10, 2018 at 2:59 AM <changqing.li@windriver.com> wrote:
 > below QA warning on some arch, like aarch64, fix it by skip
 > textrel QA check refer commit b689c72a of oe-core
 >
-> oci-image-tools-0.2.0-dev+gitAUTOINC+4abe1a166f-r0 do_package_qa:
-> QA Issue: ELF binary 'work/aarch64-poky-linux/oci-image-tools/
-> 0.2.0-dev+gitAUTOINC+4abe1a166f-r0/packages-split/oci-image-tools/
-> usr/sbin/oci-image-tool' has relocations in .text [textrel]
+> WARNING: docker-18.03.0+git708b068d3095c6a6be939eb2da78c921d2e945e2-r0
+> do_package_qa: QA Issue: ELF binary 'work/aarch64-poky-linux/docker/
+> 18.03.0+git708b068d3095c6a6be939eb2da78c921d2e945e2-r0/packages-split/
+> docker/usr/bin/docker' has relocations in .text [textrel]
 >
 > 2. This problem is caused since security_flags.inc is used by default.
 >    so alternative work around is:
->       SECURITY_CFLAGS_pn-oci-image-tools = "${SECURITY_NOPIE_CFLAGS}"
->       SECURITY_LDFLAGS_pn-oci-image-tools = ""
+>       SECURITY_CFLAGS_pn-docker = "${SECURITY_NOPIE_CFLAGS}"
+>       SECURITY_LDFLAGS_pn-docker = ""
 >
 > Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  recipes-containers/oci-image-tools/oci-image-tools_git.bb | 2 +-
+>  recipes-containers/docker/docker_git.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/recipes-containers/oci-image-tools/oci-image-tools_git.bb b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> index 807ee26..8c41b6e 100644
-> --- a/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> +++ b/recipes-containers/oci-image-tools/oci-image-tools_git.bb
-> @@ -61,4 +61,4 @@ do_install() {
->         install ${S}/src/import/oci-image-tool ${D}/${sbindir}/
->  }
+> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+> index 73e0120..b3673d4 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -172,4 +172,4 @@ RDEPENDS_${PN}-contrib += "bash"
 >
+>  # DO NOT STRIP docker
+>  INHIBIT_PACKAGE_STRIP = "1"
 > -INSANE_SKIP_${PN} += "ldflags"
 > +INSANE_SKIP_${PN} += "ldflags textrel"
 > --
