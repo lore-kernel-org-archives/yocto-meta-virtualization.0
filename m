@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DE35AE00A54; Thu, 11 Oct 2018 11:11:34 -0700 (PDT)
+	id 7E134E00A54; Thu, 11 Oct 2018 11:34:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
+	*      [209.85.167.45 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ECAE8E00566
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+	[209.85.167.45])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B5E78E00566
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:11:33 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id 63-v6so9097746ljs.4
+	Thu, 11 Oct 2018 11:34:14 -0700 (PDT)
+Received: by mail-lf1-f45.google.com with SMTP id o21-v6so7469523lfe.0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:11:33 -0700 (PDT)
+	Thu, 11 Oct 2018 11:34:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZuDu+3OXjbf7uMyU55EmLjLtPjhivzWkpdau37tkenQ=;
-	b=t/K5ckpWcH8u8U7jYBOuCPQ4IgJU/nhvsuZB7KR9dqpi2RIVr4xirFaquBc4cvnKsX
-	Aar8VOwWX/ZPSOuEV3GNdzmiHunBi8Sz4OJ+pZHphb+MF2/cBFLr2tbUG9XJkO5V6Rm7
-	V8BKf6znQtDiVoq65wEH5tBK7GIiAXWF63AQNuv/hIsPAjFL1xX83sTbSpY4wcThU5zV
-	wijwZX8H+FAU4upe3i1Pm4CN4oQk8FNfdNhAgzhziHrVgYG4mVOxzkjJ11RXSYQeWHyN
-	0BVUDv+Nfn4dOyUi8QhXsENvRLWGoqBxBLpuBsWwqOkrKIaGXihNZAXn4I898pAQdzkJ
-	IQhQ==
+	:cc; bh=QJD/uG+y2WJ7KzfHdeQBXsoNiGCa43QYRn77AeG62Fg=;
+	b=CxyNG9hxriLAkRXW6BpyBImPL6/3GD2WhCnWMKcGMwHUTymabPaWoil00Azed5pay/
+	NZGulemyTlShPM+zqKA5v7qgDtI3Z0mRT8Tih6XC4obLL870e2uEU40JICqTPOKwj8Lc
+	Qz7q1PU5U0OtR8wtGEhq4O62FBhIfXN1wUXxXPyutYas8iy7tJwFZfZS39k41Tamzv7h
+	7BMz+W5G1JgKwbeW/id5IW+E9BXgvvvOFHF2Di4eIonWmB0n2cCXdKwqsnlViMrQ0iyB
+	CDnm/Ln9x/MlucFdTxaojlMpYNXaHoLUAYJ1ConEmYAelJulCKCcst1qTdlznHeioFhK
+	bX6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ZuDu+3OXjbf7uMyU55EmLjLtPjhivzWkpdau37tkenQ=;
-	b=NnFwC2BP8OtmIDtmAJRobQ2C9M/7SuY/L3PoFbYSeiz0qt5daSwFS3vQoZYRUjEXbY
-	vL7TXd/5M9ZCSkaDTJet9b+uUqVI3Bn4PGBpds1D/e0EgsacFd9qsWs1npL2z3k+KcS9
-	tHPYlKJEdEI6ekZA7lC1ycMqk+7olYHSA24lfeFjxdufG6dDzaJMxM1KicE4208D2eN2
-	2Zjy4ocaSFFoInPGWa9CYQUI4qOF/q0vY8oe/2EeYNLCKPO08dgeaN+GKieNzL4K4Ens
-	NLLR1JatcdXr2YaJfmPOEOYRl85Ov1PgPX8N6rl+OnGLownEtRoYzMAMoNVzTVZ20Yiz
-	qgOw==
-X-Gm-Message-State: ABuFfojHRiXyAGdfoL5m982nUgnwPs7SVazyrHAFN/GfVpB/xO2oebVa
-	j6b73TTSYTK6JjX3Q3jod2DOlsI74MCnWzaT0u/dSg==
-X-Google-Smtp-Source: ACcGV62DHwjpo89l5VLNcfnPehltz2do6ycuFQhHN0Audq26yZwzAtwxaVttxpVoI6ceowte6i4P/IACva2rXobzP7w=
-X-Received: by 2002:a2e:8ec6:: with SMTP id
-	e6-v6mr1694171ljl.166.1539281492643; 
-	Thu, 11 Oct 2018 11:11:32 -0700 (PDT)
+	bh=QJD/uG+y2WJ7KzfHdeQBXsoNiGCa43QYRn77AeG62Fg=;
+	b=Dw49/oUbw6Szcrh2+ueGKBvYA5NXl8KwAIQmTUZOh9tE19+2l2pvIURZ2q18bZ4muX
+	MiQUhEaDMcPUzGzQywsibG0KcUPD76c71i9XHl4lTyA2QB2l3DOpHhNki3YWXa9/y+CL
+	MFtcEAv5/b47LuPnS022Xu9A31pV33ylAEXb0ooAd9k/svP4Bc7UYr+eE8T+pgNFPTMQ
+	TcOcLLhRFgg9yWsV2X2Q45jyX7tDvvbLNHYxr5qGWP0mL22RccpOkEUo58VtbwPsOWvc
+	zup+uOynptK6xMhn6qrcYsr09+qkC3z9LZejO9i+c9iRa7I9MSd8ntvAHPG/Z/bCUTdk
+	havg==
+X-Gm-Message-State: ABuFfoiIjhThP+hmAP+8F2f0xB7frOMZHj73+4WMQ61zr52h4cUqkgOR
+	lhIDW52NtVtIWGwtvn76fyXICwk9FEX7qvpAhEw=
+X-Google-Smtp-Source: ACcGV62Tnup2YSzq2ArXAV1ojuHS+GXTAMKU99TKoJ6CraCJ4/Moi+l2N6o+5vjhQeW92J/jCYg3c6VlFuftfsKZSfc=
+X-Received: by 2002:a19:504e:: with SMTP id
+	z14-v6mr1891410lfj.120.1539282853481; 
+	Thu, 11 Oct 2018 11:34:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181010041824.7029-1-okaya@kernel.org>
-In-Reply-To: <20181010041824.7029-1-okaya@kernel.org>
+References: <1539154754-137572-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1539154754-137572-1-git-send-email-changqing.li@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Oct 2018 14:11:21 -0400
-Message-ID: <CADkTA4NoGCoM==CW5UNK9n9LXia1c_RVw8CMU=edtCVhZ-UPcw@mail.gmail.com>
-To: okaya@kernel.org
+Date: Thu, 11 Oct 2018 14:34:02 -0400
+Message-ID: <CADkTA4MC3LzLWYiThB6NLFRfNzVTxyzhYymi-m-VfSM4HK-NFg@mail.gmail.com>
+To: changqing.li@windriver.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [sumo] [PATCH v2] docker: CVE-2018-10892
+Subject: Re: [PATCH][meta-cloud-services] consul: add INSANE_SKIP for textrel
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,87 +74,57 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 18:11:34 -0000
+X-List-Received-Date: Thu, 11 Oct 2018 18:34:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-v2 works.
-
-merged.
+merged
 
 Bruce
-On Wed, Oct 10, 2018 at 12:18 AM Sinan Kaya <okaya@kernel.org> wrote:
+On Wed, Oct 10, 2018 at 2:59 AM <changqing.li@windriver.com> wrote:
 >
-> * CVE-2018-10892
-> Docker does not block /proc/acpi pathnames. The flaw allows an attacker to
-> modify host's hardware like enabling/disabling Bluetooth or turning up/down
-> keyboard brightness.
+> From: Changqing Li <changqing.li@windriver.com>
 >
-> Affects < 18.03.01
+> 1. for i586, bitbake consul will have QA error of textrel.
+>    consul-git-r0 do_package_qa: QA Issue: ELF binary i
+>    'work/i586-wrs-linux/consul/git-r0/packages-split/consul/usr/bin/consul'
+>    has relocations in .text [textrel]
 >
-> CVE: CVE-2018-10892
-> Ref: https://access.redhat.com/security/cve/cve-2018-10892
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+>    according to go doc:
+>    -buildmode=pie
+>    Build the listed main packages and everything they import into
+>    position independent executables (PIE). Packages not named
+>    main are ignored.
+>
+>    checked use command "eu-findtextrel ./consul", functions not
+>    compiled with -fpic/-fPIC are from packages not named main, and
+>    also not imported into package main.
+>
+>    so -buildmode=pie cannot reslove this problem. so refer commit
+>    b689c72a of oe-core, just skip it.
+>
+> 2. This problem is caused since security_flags.inc is used by default.
+>    so alternative work around is:
+>       SECURITY_CFLAGS_pn-consul = "${SECURITY_NOPIE_CFLAGS}"
+>       SECURITY_LDFLAGS_pn-consul = ""
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  recipes-containers/docker/docker_git.bb       |  2 ++
->  .../docker/files/CVE-2018-10892.patch         | 34 +++++++++++++++++++
->  2 files changed, 36 insertions(+)
->  create mode 100644 recipes-containers/docker/files/CVE-2018-10892.patch
+>  recipes-connectivity/consul/consul_git.bb | 3 +++
+>  1 file changed, 3 insertions(+)
 >
-> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-> index e055a4f..7c7bd4c 100644
-> --- a/recipes-containers/docker/docker_git.bb
-> +++ b/recipes-containers/docker/docker_git.bb
-> @@ -30,6 +30,8 @@ SRC_URI = "\
->          file://0001-libnetwork-use-GO-instead-of-go.patch \
->         "
+> diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
+> index a44e0b2..ee49c5e 100644
+> --- a/recipes-connectivity/consul/consul_git.bb
+> +++ b/recipes-connectivity/consul/consul_git.bb
+> @@ -23,3 +23,6 @@ do_install_append() {
+>  }
 >
-> +SRC_URI_append_docker += "CVE-2018-10892.patch"
+>  FILES_${PN} += "${systemd_unitdir}/system"
 > +
->  # Apache-2.0 for docker
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=9740d093a080530b5c5c6573df9af45a"
-> diff --git a/recipes-containers/docker/files/CVE-2018-10892.patch b/recipes-containers/docker/files/CVE-2018-10892.patch
-> new file mode 100644
-> index 0000000..60d0496
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/CVE-2018-10892.patch
-> @@ -0,0 +1,34 @@
-> +From af52f266ea15e6000ed057b13d62d27ddd5441a0 Mon Sep 17 00:00:00 2001
-> +From: Antonio Murdaca <runcom@redhat.com>
-> +Date: Thu, 5 Jul 2018 17:06:08 +0200
-> +Subject: [PATCH] Add /proc/acpi to masked paths
-> +
-> +The deafult OCI linux spec in oci/defaults{_linux}.go in Docker/Moby
-> +from 1.11 to current upstream master does not block /proc/acpi pathnames
-> +allowing attackers to modify host's hardware like enabling/disabling
-> +bluetooth or turning up/down keyboard brightness. SELinux prevents all
-> +of this if enabled.
-> +
-> +Signed-off-by: Antonio Murdaca <runcom@redhat.com>
-> +CVE: CVE-2018-10892
-> +Upstream-Status: Backport [https://github.com/moby/moby/pull/37404/commits/569b9702a59804617e1cd3611fbbe953e4247b3e]
-> +Signed-off-by: Sinan Kaya<okaya@kernel.org>
-> +---
-> + oci/defaults.go | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/oci/defaults.go b/oci/defaults.go
-> +index 4145412dd..992157b0f 100644
-> +--- a/oci/defaults.go
-> ++++ b/oci/defaults.go
-> +@@ -114,6 +114,7 @@ func DefaultLinuxSpec() specs.Spec {
-> +
-> +       s.Linux = &specs.Linux{
-> +               MaskedPaths: []string{
-> ++                      "/proc/acpi",
-> +                       "/proc/kcore",
-> +                       "/proc/keys",
-> +                       "/proc/latency_stats",
-> +--
-> +2.19.0
-> +
+> +#for i586, executable consul contains textrel
+> +INSANE_SKIP_${PN} += "textrel"
 > --
-> 2.19.0
+> 2.7.4
 >
 > --
 > _______________________________________________
