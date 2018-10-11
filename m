@@ -1,68 +1,67 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D211DE00AC8; Thu, 11 Oct 2018 11:39:34 -0700 (PDT)
+	id 64852E00A54; Thu, 11 Oct 2018 11:47:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	http://www.dnswl.org/, no *      trust
+	*      [209.85.208.194 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.177 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
-	[209.85.208.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 71A1AE00A54
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1FB6FE00566
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:39:33 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id z21-v6so9175009ljz.0
+	Thu, 11 Oct 2018 11:47:35 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id u21-v6so9160254lja.8
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Oct 2018 11:39:33 -0700 (PDT)
+	Thu, 11 Oct 2018 11:47:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=CVwSL9Bo8IANQb07YCm3aVp2o4xHS2ChB2IjQBLd2gc=;
-	b=CBNnDVdkEUUwsimlKHu5qWcCpxLooTYIdI3cnQL81nWKUbmaq232MAj3OdVR62iCNc
-	lmcNPrSlRhD+zD/cDEczqEgFNR/GXeLdHZhNfZ0YlyNfahS3WCRO/mfG1cpbs1ICsMUV
-	T7BMA8PEDoS75UfHNZ0cixPfqrqjaMkNpzJfc3NA/Irv+119FWPwc1UMdmDPu9QZsm2Q
-	ndDsPA55EaI/KxCuXQLxxlJkWWT/YsPpz7yB/moJ0sGOV+owgRw5vxOyn74Brkj8+4JC
-	VGD3C4LdHrs3w8SiK0/my9wEkpys3HR1ZR9Yv8+6dTrss1QKarqt5XwLkekGMpvPvz59
-	mSRA==
+	:cc; bh=qSXk6893WHLCcM9T+J9h71v0hNng6uEFkwy/uepwxPI=;
+	b=dt2vaWPNHPv3IIstCjy7jCzY2PwkW+Wom1hxv1Is9BE0mid7ARXlFxXiZMjtDSqULB
+	jSkR4drmfNG79Ox3uWd2HJsqSb65EZTsZHDOoacm2rjyiGGRYnsMfBd/m3cVJ1b17IP9
+	D2ILoOWYCJRFTi6BFFHY2Joxc/DzeoPaoBrLDAy+GclBRCzNljVsqpLtQM8Wnnw3fBGR
+	BBaHJLFysknEEPuF/zGrwhE4MPK0mzv2bD4im30lPi4LuYKVwV7AOjlpdESe+7xMVhj1
+	Op5WtvRn6EtBBQugq3QojRwcNYTO8/p7NgGTMHKVY8X8hPT3yz4YaoyGlf1S1LX5CGb1
+	jUoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=CVwSL9Bo8IANQb07YCm3aVp2o4xHS2ChB2IjQBLd2gc=;
-	b=VRimz/Afd8KSsqOwdfD23WsCvBMszUTPpPwncM7tXcV6NviL4R5efvWRKHpt+Pi/iX
-	7J/foN5RrMJmbQAgIeGij8VYhNKoskQz3CEdS0N6zqqyji8JGBYw0G3Hy/KjY8Ep6HuT
-	wkAb2yqTUg/fAubp6ILQeJB4EGcVp/DWG05ffBalEpXWg4UGYnnjkOA7vkUOO7ui/2Ew
-	cY2xf+icprvNbNQvsgG0umT6QVjgyU95AMkDpIepNDvwkf2O1XbabpBOOcORIbsb1FZJ
-	aIShnKpCX+8uljII21mNC4u3q/tEIzlziO6ph+WeZ8Zk1DUuOMz/8W0sjpi2+3eNFQV0
-	GN9w==
-X-Gm-Message-State: ABuFfoh8xtMqITKSxJlNrgSjPChl58/2xIPaD1KnXlFjWMerwN54BCfw
-	brvj+BIwYfEhcC7oOIg6lSEkEGebI73VWouHibw=
-X-Google-Smtp-Source: ACcGV62GLST+fMLNut2M8/1N0eQIwyQLhRHYo2nlJrpfXdwV9fHh/6wccncqHZYBfo4XDVFmDgf8sTvDxdaPhhR2gf8=
-X-Received: by 2002:a2e:5109:: with SMTP id
-	f9-v6mr1964821ljb.155.1539283172254; 
-	Thu, 11 Oct 2018 11:39:32 -0700 (PDT)
+	bh=qSXk6893WHLCcM9T+J9h71v0hNng6uEFkwy/uepwxPI=;
+	b=UptOtvhrMTqys8BbS+NUP+yUh+pRoLWbYhwB3Sz85txaF2xn1ULPm0XZ+hGFTf3BhX
+	3joH5P1b1GTqsbqMAvKW5tIsP4oQXUz2YwKw/WfDDBVcxgpjY9I5zDd/pqjZnRP0TuAw
+	s98sLJ/jLY3vAy6+S0S9gh02jcmrXRwAFG0ojfajxqeFLbjuyH80u95e87H4woNWeGe8
+	4dcxKELDd4nR2oicGknT37E/s+A6nhsaN3173tgCyH89A+jZAPhOK8HqYPqEyiVg+UVT
+	NJBmxLq2KJ+zgAApxf0S/mqlFiumn0T1aHkc6RzPi2dsJ4ke0tIzkB7w90bRNGxletJ4
+	nLzw==
+X-Gm-Message-State: ABuFfohS8CGpzXiIAOAGl/NdzXZNNLhYlbAz+zvW/3wGioDlHnmz2lBI
+	yRDAYwNtWGJxnAG4LlV1x+KkvDJSDRTIOCkfWds=
+X-Google-Smtp-Source: ACcGV626qTbmp3XHyns67+JM3TXE1y43C1NWsmoE43F6moHess7lCd+Ge0PBDnX3rN6p/6G18tGVk1VFFD0k1vL3tqs=
+X-Received: by 2002:a2e:8ec6:: with SMTP id
+	e6-v6mr1757668ljl.166.1539283653961; 
+	Thu, 11 Oct 2018 11:47:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1539271026-18249-1-git-send-email-cjp256@gmail.com>
-In-Reply-To: <1539271026-18249-1-git-send-email-cjp256@gmail.com>
+References: <1539229819-322989-1-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1539229819-322989-1-git-send-email-mingli.yu@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 11 Oct 2018 14:39:20 -0400
-Message-ID: <CADkTA4PrAMrrXUvJfBD-T8ujdzr=x=RUHNso7vTF8GNJ2O9ttg@mail.gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: meta-virtualization@yoctoproject.org,
-	Chris Patterson <pattersonc@ainfosec.com>
-Subject: Re: [PATCH] ipxe: recipe cleanup and uprev to current
+Date: Thu, 11 Oct 2018 14:47:23 -0400
+Message-ID: <CADkTA4MrEE+TgU9Mb=jFXKk6sPkS=8-UYTm3XnWSde36rZG80w@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-openstack][PATCH 1/3] sanity-meta-openstack.bbclass: add class for bbappend files checking
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,72 +74,100 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Oct 2018 18:39:34 -0000
+X-List-Received-Date: Thu, 11 Oct 2018 18:47:43 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+merged.
+
+Note: this doesn't apply to my meta-openstack layer. So it was based
+on some version that I don't have. But since the change was simple
+enough, I resolved the issue and did the merge.
 
 Bruce
-On Thu, Oct 11, 2018 at 11:17 AM Chris Patterson <cjp256@gmail.com> wrote:
+On Wed, Oct 10, 2018 at 11:50 PM <mingli.yu@windriver.com> wrote:
 >
-> From: Chris Patterson <pattersonc@ainfosec.com>
+> From: Mingli Yu <Mingli.Yu@windriver.com>
 >
-> - Use OE's cross compiler (was building with host's).
-> - Uprev to latest git (no releases)
-> - Update LICENSE file path and checksum
-> - Remove configure sed and set isolinux bin variable used in Makefile
-> - Scrub LDFLAGS and use LD
-> - Add xz depends
+> Add a new class sanity-meta-openstack.bbclass,
+> to check whether necessary settings are available
+> for bbappend files and preferred version setting
+> in this layer to be effective and warn users if not.
 >
-> Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
+> In addition, a variable SKIP_SANITY_META_OPENSTACK_CHECK
+> is added to enable users to explicitly skip the
+> checking to avoid unwanted warnings.
+>
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->  recipes-extended/ipxe/ipxe_git.bb | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
+>  meta-openstack/README                                | 19 +++++++++++++++++++
+>  meta-openstack/classes/sanity-meta-openstack.bbclass | 10 ++++++++++
+>  meta-openstack/conf/layer.conf                       |  4 ++++
+>  3 files changed, 33 insertions(+)
+>  create mode 100644 meta-openstack/classes/sanity-meta-openstack.bbclass
 >
-> diff --git a/recipes-extended/ipxe/ipxe_git.bb b/recipes-extended/ipxe/ipxe_git.bb
-> index c0c8a7b..18c92d2 100644
-> --- a/recipes-extended/ipxe/ipxe_git.bb
-> +++ b/recipes-extended/ipxe/ipxe_git.bb
-> @@ -1,10 +1,10 @@
->  DESCRIPTION = "Open source network boot firmware"
->  HOMEPAGE = "http://ipxe.org"
->  LICENSE = "GPLv2"
-> -DEPENDS = "binutils-native perl-native syslinux mtools-native cdrtools-native"
-> -LIC_FILES_CHKSUM = "file://../COPYING;md5=8ca43cbc842c2336e835926c2166c28b"
-> +DEPENDS = "binutils-native perl-native syslinux mtools-native cdrtools-native xz"
-> +LIC_FILES_CHKSUM = "file://../COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> diff --git a/meta-openstack/README b/meta-openstack/README
+> index 81b843b..8506250 100644
+> --- a/meta-openstack/README
+> +++ b/meta-openstack/README
+> @@ -5,6 +5,25 @@ This layer provides support for building the packages from the OpenStack project
+>  The layer contains recipes for the nova, glance, keystone, cinder, quantum, swift
+>  and horizon components.
 >
-> -SRCREV = "8c43891db4eb131d019360ccfb619f235b17eb58"
-> +SRCREV = "133f4c47baef6002b2ccb4904a035cda2303c6e5"
->  PV = "gitr${SRCPV}"
->  PR = "r0"
+> +The bbappend files for some recipes (e.g. postgresql) and preferred version setting
+> +(e.g. python-networkx)in this layer need to have 'openstack' in DISTRO_FEATURES to
+> +have effect. To enable them, add in configuration file the following line.
+> +
+> +  DISTRO_FEATURES_append = " openstack"
+> +
+> +If meta-openstack is included, but openstack is not enabled as a
+> +distro feature a warning is printed at parse time:
+> +
+> +    You have included the meta-openstack layer, but
+> +    'openstack' has not been enabled in your DISTRO_FEATURES. Some bbappend files
+> +    and preferred version setting may not take effect. See the meta-openstack README
+> +    for details on enabling openstack support.
+> +
+> +If you know what you are doing, this warning can be disabled by setting the following
+> +variable in your configuration:
+> +
+> +  SKIP_META_OPENSTACK_SANITY_CHECK = 1
+> +
+>  Dependencies
+>  ------------
 >
-> @@ -12,15 +12,10 @@ SRC_URI = "git://git.ipxe.org/ipxe.git;protocol=https"
+> diff --git a/meta-openstack/classes/sanity-meta-openstack.bbclass b/meta-openstack/classes/sanity-meta-openstack.bbclass
+> new file mode 100644
+> index 0000000..3d5e57b
+> --- /dev/null
+> +++ b/meta-openstack/classes/sanity-meta-openstack.bbclass
+> @@ -0,0 +1,10 @@
+> +addhandler openstack_bbappend_distrocheck
+> +openstack_bbappend_distrocheck[eventmask] = "bb.event.SanityCheck"
+> +python openstack_bbappend_distrocheck() {
+> +    skip_check = e.data.getVar('SKIP_META_OPENSTACK_SANITY_CHECK') == "1"
+> +    if 'openstack' not in e.data.getVar('DISTRO_FEATURES').split() and not skip_check:
+> +        bb.warn("You have included the meta-openstack layer, but \
+> +'openstack' has not been enabled in your DISTRO_FEATURES. Some bbappend files \
+> +and preferred version setting may not take effect. See the meta-openstack README \
+> +for details on enabling openstack support.")
+> +}
+> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+> index 126f37f..f322bcd 100644
+> --- a/meta-openstack/conf/layer.conf
+> +++ b/meta-openstack/conf/layer.conf
+> @@ -35,5 +35,9 @@ PREFERRED_VERSION_python-jsonschema = "2.6.0"
+>  PREFERRED_VERSION_python-networkx = "1.11"
+>  PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
 >
->  FILES_${PN} = "/usr/share/firmware/*.rom"
->
-> -EXTRA_OEMAKE = "NO_WERROR=1"
-> -#PARALLEL_MAKE=""
-> +EXTRA_OEMAKE = "NO_WERROR=1 ISOLINUX_BIN="${STAGING_DIR_TARGET}/usr/share/syslinux/isolinux.bin" CROSS_COMPILE="${TARGET_PREFIX}""
->
->  S = "${WORKDIR}/git/src"
->
-> -do_configure() {
-> -   sed -i s#^ISOLINUX_BIN[\ \\t]*=.*#ISOLINUX_BIN\ =\ ${STAGING_DIR_TARGET}/usr/lib/syslinux/isolinux.bin# arch/i386/Makefile
-> -}
-> -
->  do_compile() {
->     oe_runmake
->  }
+> +# Sanity check for meta-openstack layer.
+> +# Setting SKIP_META_OPENSTACK_SANITY_CHECK to "1" would skip the bbappend files check.
+> +INHERIT += "sanity-meta-openstack"
+> +
+>  LICENSE_PATH += "${LAYERDIR}/licenses"
+>  LAYERRECOMMENDS_openstack-layer = "meta-openstack-dl (= 2.6)"
 > --
-> 2.1.4
+> 2.7.4
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
