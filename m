@@ -1,67 +1,34 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5D4EDE00971; Wed, 10 Oct 2018 05:31:14 -0700 (PDT)
+	id 07E5BE00AB9; Wed, 10 Oct 2018 20:50:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BF3B4E00950
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 80D61E00718
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 10 Oct 2018 05:31:13 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id j4-v6so4688120ljc.12
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 10 Oct 2018 05:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4n4kwSRd/8s6tmEmonkP4xfeDLcbvZ9rId5KhlY33kA=;
-	b=VTDSmewk/gi5ehbd3QaydaEF3WV1N/7wllk7p1k44ja+1TfiAGtJ9CpZ0LGWnrW91z
-	wDUp+0pptvHi/KvxhZT8fwPMgCCiOA+GXmpCRUufbwLuxaC5YLluKKpD9Ap9lZ6FJuFP
-	LvVRScpZ8oChcFl/lHfy47WI+CHXXZN8DiBbC8XarPfmgcYRJNF3YN4pEypvKzyvhBSM
-	XqeyL8lWtvX3zjU+d+Od5eZRiNuzhlvF1fAgXKiW69A92NScaWsuLIQT1RnCa1Q3GbcH
-	kqbt9lik80Frcp9NyroTQ532EJctipPSZq8pLcmBgQmZAfMEav6DV5h6M6a7Dh0vfgkU
-	x9Bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=4n4kwSRd/8s6tmEmonkP4xfeDLcbvZ9rId5KhlY33kA=;
-	b=JTB3d4/h51qYlN16eiDjyPVIzqvg+Tup8Vb8O+anobR4ccSnywMQq7p3tcv0QT1O/s
-	4TVv25EnBoNBxk3tl4/XOetumdFqR5/ZKX2i2tXl8a9kpwdKZnU3JHhqu+tT930PZ8Pf
-	Vr1ffCF2fuy70ZCyMjRzd/xRBcJcdtxElnz9w06FKcbR171U8ygwWHHZV5xugTcg9yqF
-	4eHM7UVIFVbixj60rLvGHmLR1VBSwai1wLYotuZsvJGxSolrjccxzl+W1422+sPPFS+O
-	IEmfkhocZ9i39IfdzDA7rESURZfxvbmu8Df+6Zx78MPFLOI5tKf52EpjfF8DWw370vXl
-	OhPw==
-X-Gm-Message-State: ABuFfohLB9Q6eB6Qb7he3Ga25j6zZF02Xh9YN/qefQEk9SLzqDeAkBe2
-	L7qauHHrmhfc0adwmvILsoO74rID5wg4cNynKK6Lsw==
-X-Google-Smtp-Source: ACcGV62IUb5Y32aValSEs5UoWCmtPyHYkcRYG387Ai+CC3+Km14xzOjw3MMxz38lFl/7j+HELMjJyjZjDvDYN0/enaA=
-X-Received: by 2002:a2e:501c:: with SMTP id
-	e28-v6mr20548773ljb.45.1539174672446; 
-	Wed, 10 Oct 2018 05:31:12 -0700 (PDT)
+	Wed, 10 Oct 2018 20:50:22 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9B3oLVl017544
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Oct 2018 20:50:21 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Wed, 10 Oct 2018 20:50:20 -0700
+From: <mingli.yu@windriver.com>
+To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
+Date: Thu, 11 Oct 2018 11:50:17 +0800
+Message-ID: <1539229819-322989-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <1539163886-138214-1-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1539163886-138214-1-git-send-email-mingli.yu@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 10 Oct 2018 08:31:00 -0400
-Message-ID: <CADkTA4P_7bHiT265JP+pdpzgXV=awtSFeaq+=xC1iC86vBTfqg@mail.gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-openstack][PATCH] layer.conf: set PREFERRED_VERSION for python-networkx
+Subject: [meta-openstack][PATCH 1/3] sanity-meta-openstack.bbclass: add class for bbappend files checking
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,56 +41,89 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Oct 2018 12:31:14 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Oct 2018 03:50:24 -0000
+Content-Type: text/plain
 
-On Wed, Oct 10, 2018 at 5:31 AM <mingli.yu@windriver.com> wrote:
->
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> Only set PREFERRED_VERSION for python-networkx
-> when the openstack distro is enabled
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-If we are introducing a distro feature for openstack, there needs to
-be a warning
-generated if the layer is included, but the distro feature is not set.
+Add a new class sanity-meta-openstack.bbclass,
+to check whether necessary settings are available
+for bbappend files and preferred version setting
+in this layer to be effective and warn users if not.
 
-That preserves the existing behaviour (enabled by default) by letting the user
-know what they must enable in their config to get openstack building and the
-right versions.
+In addition, a variable SKIP_SANITY_META_OPENSTACK_CHECK
+is added to enable users to explicitly skip the
+checking to avoid unwanted warnings.
 
-We should also have a variable to inhibit the warning for those that want the
-layer, and know they haven't enabled it.
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ meta-openstack/README                                | 19 +++++++++++++++++++
+ meta-openstack/classes/sanity-meta-openstack.bbclass | 10 ++++++++++
+ meta-openstack/conf/layer.conf                       |  4 ++++
+ 3 files changed, 33 insertions(+)
+ create mode 100644 meta-openstack/classes/sanity-meta-openstack.bbclass
 
-See meta-virtualization for an example of how to do both.
-
-Bruce
-
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->  meta-openstack/conf/layer.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
-> index 126f37f..2dceb47 100644
-> --- a/meta-openstack/conf/layer.conf
-> +++ b/meta-openstack/conf/layer.conf
-> @@ -32,7 +32,7 @@ PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
->  PREFERRED_VERSION_python-eventlet = "0.20.0"
->  PREFERRED_VERSION_python-warlock = "1.2.0"
->  PREFERRED_VERSION_python-jsonschema = "2.6.0"
-> -PREFERRED_VERSION_python-networkx = "1.11"
-> +PREFERRED_VERSION_python-networkx = "${@bb.utils.contains('DISTRO_FEATURES', 'openstack', '1.11', '', d)}"
->  PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
->
->  LICENSE_PATH += "${LAYERDIR}/licenses"
-> --
-> 2.7.4
->
-
-
+diff --git a/meta-openstack/README b/meta-openstack/README
+index 81b843b..8506250 100644
+--- a/meta-openstack/README
++++ b/meta-openstack/README
+@@ -5,6 +5,25 @@ This layer provides support for building the packages from the OpenStack project
+ The layer contains recipes for the nova, glance, keystone, cinder, quantum, swift
+ and horizon components.
+ 
++The bbappend files for some recipes (e.g. postgresql) and preferred version setting
++(e.g. python-networkx)in this layer need to have 'openstack' in DISTRO_FEATURES to
++have effect. To enable them, add in configuration file the following line.
++
++  DISTRO_FEATURES_append = " openstack"
++
++If meta-openstack is included, but openstack is not enabled as a
++distro feature a warning is printed at parse time:
++
++    You have included the meta-openstack layer, but
++    'openstack' has not been enabled in your DISTRO_FEATURES. Some bbappend files
++    and preferred version setting may not take effect. See the meta-openstack README
++    for details on enabling openstack support.
++
++If you know what you are doing, this warning can be disabled by setting the following
++variable in your configuration:
++
++  SKIP_META_OPENSTACK_SANITY_CHECK = 1
++
+ Dependencies
+ ------------
+ 
+diff --git a/meta-openstack/classes/sanity-meta-openstack.bbclass b/meta-openstack/classes/sanity-meta-openstack.bbclass
+new file mode 100644
+index 0000000..3d5e57b
+--- /dev/null
++++ b/meta-openstack/classes/sanity-meta-openstack.bbclass
+@@ -0,0 +1,10 @@
++addhandler openstack_bbappend_distrocheck
++openstack_bbappend_distrocheck[eventmask] = "bb.event.SanityCheck"
++python openstack_bbappend_distrocheck() {
++    skip_check = e.data.getVar('SKIP_META_OPENSTACK_SANITY_CHECK') == "1"
++    if 'openstack' not in e.data.getVar('DISTRO_FEATURES').split() and not skip_check:
++        bb.warn("You have included the meta-openstack layer, but \
++'openstack' has not been enabled in your DISTRO_FEATURES. Some bbappend files \
++and preferred version setting may not take effect. See the meta-openstack README \
++for details on enabling openstack support.")
++}
+diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+index 126f37f..f322bcd 100644
+--- a/meta-openstack/conf/layer.conf
++++ b/meta-openstack/conf/layer.conf
+@@ -35,5 +35,9 @@ PREFERRED_VERSION_python-jsonschema = "2.6.0"
+ PREFERRED_VERSION_python-networkx = "1.11"
+ PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
+ 
++# Sanity check for meta-openstack layer.
++# Setting SKIP_META_OPENSTACK_SANITY_CHECK to "1" would skip the bbappend files check.
++INHERIT += "sanity-meta-openstack"
++
+ LICENSE_PATH += "${LAYERDIR}/licenses"
+ LAYERRECOMMENDS_openstack-layer = "meta-openstack-dl (= 2.6)"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.7.4
+
 
