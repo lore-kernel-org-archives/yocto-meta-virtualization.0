@@ -1,38 +1,67 @@
-Return-Path: <Bruce.Ashfield@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 12E30E00B6C; Fri, 12 Oct 2018 07:31:14 -0700 (PDT)
+	id 690DFE00A16; Fri, 12 Oct 2018 07:32:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2331CE00A0C
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.195 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AC0BEE00A0A
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 12 Oct 2018 07:31:11 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9CEVBf9022413
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 12 Oct 2018 07:31:11 -0700 (PDT)
-Received: from [128.224.56.49] (128.224.56.49) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 12 Oct 2018 07:31:10 -0700
-To: Sinan Kaya <okaya@kernel.org>, <meta-virtualization@yoctoproject.org>
-References: <20181011202832.20004-1-okaya@kernel.org>
-From: Bruce Ashfield <bruce.ashfield@windriver.com>
-Message-ID: <69417afa-d6aa-5d1d-7408-82e52403ae96@windriver.com>
-Date: Fri, 12 Oct 2018 10:31:09 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	Fri, 12 Oct 2018 07:32:24 -0700 (PDT)
+Received: by mail-lj1-f195.google.com with SMTP id u21-v6so11550281lja.8
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 12 Oct 2018 07:32:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FjUP8wLNlW3S6Eutd5Y2Nj2M+0oCqVfacKKtskl9B2Q=;
+	b=rLg9/NaMEGtDWg0U5G4s6UoQ6OXePqjh56561zgloATlTMP3AejjYrW7iaNusPqurY
+	etgo7a/2+DsTPbiaLLJ6e5qBoAn+BZXJ5tK6T3qsoGRq2d6eu5/agpqejovaeyqhAILY
+	u0KJsS8JwOMckBP2Ygla0ssLuv/MtBE7NH9yC/7YwZA1dovdxg2KMxTtfsFZKo/T20oi
+	1OIKt8Fj5OvwhCNTXgJGbY0ywPyW/S4qktw+VLuMInmPesImgoXTn3h+FxQUm044aJPV
+	6ldOPcpUtwV8Pxjq0Ctha0W2KKL9Fe5G3ihKtI55VCir+tujTEFsuv0+KVbO9k1hS16H
+	jgEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FjUP8wLNlW3S6Eutd5Y2Nj2M+0oCqVfacKKtskl9B2Q=;
+	b=bpeRNnKfW/sEASK1lCUw1aa0Dg1JDvpxC6CwVhTTXYF0aA9OTT9d1rixvNaqNLw48z
+	xRauRJ0pODE4bqv4WNFcQwznVQte5HpknPAQ9ywIdQhjlobarT9rgwfTcGfh85FJuS91
+	yWSDY3bz9/IhvladfDjv3AIsiR4msOH7b6u+NZqTQhGqjZOMscSIN/SMasdlR4zQPGEM
+	SDYxtwfuPQt2Tu534uWbpMQ4VX5M/aCQ0uJyiGLEp6BclwGpdQ0lGgF8D/ivpydhmNV+
+	39qfRoFGNOt/aO+cvD0816DVLBFyJnl+K6MEJ4/6md4rpy6vBnlzo9aJ67foHfVuM+w8
+	OOpw==
+X-Gm-Message-State: ABuFfogRLDXaJmyW031+B62vV6GAhen8+8uAdbxzYTuL/tBe3cZpGj2v
+	xpqgKi1Fkst2zwA+mSJ9b8b7EYQXRK8UiJNimBk=
+X-Google-Smtp-Source: ACcGV63Y/fSyWC2EMiagMx7dIsSaHyPG4nAHr33/uNEBA/1FVOuGtc1UQkPPQSl7z8Ntn2BH1sfhAJfqopuQ8AqoKus=
+X-Received: by 2002:a2e:8919:: with SMTP id
+	d25-v6mr4649613lji.69.1539354743437; 
+	Fri, 12 Oct 2018 07:32:23 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20181011202832.20004-1-okaya@kernel.org>
-Cc: Mark Asselstine <mark.asselstine@windriver.com>
-Subject: Re: [sumo] [PATCH v1 1/2] lxc: fixup 'download' template use
+References: <1539332115-342326-1-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1539332115-342326-1-git-send-email-mingli.yu@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 12 Oct 2018 10:32:12 -0400
+Message-ID: <CADkTA4OGMdRK=5VUyeTzYGHdqqfMw8CHEKDwSGcwY_uQa0UtwQ@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-cloud-services][PATCH v2 1/2] libibverbs: Update SRC_URI
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,97 +74,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Oct 2018 14:31:14 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Oct 2018 14:32:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-merged to sumo
+merged
 
 Bruce
-
-On 10/11/2018 04:28 PM, Sinan Kaya wrote:
-> From: Mark Asselstine <mark.asselstine@windriver.com>
-> 
-> We have a new dependency on 'mountpoint' which is now called in the
-> download template script. We also hit an upstream bug due to improper
-> use of 'mktemp', so we apply a patch to fix this and sent the fix
-> upstream as well.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> Signed-off-by: Sinan Kaya <okaya@kernel.org>
+On Fri, Oct 12, 2018 at 4:15 AM <mingli.yu@windriver.com> wrote:
+>
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+>
+> Update SRC_URI for libibverbs as the
+> previous one is invalid.
+>
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->   ...ually-create-DOWNLOAD_TEMP-directory.patch | 39 +++++++++++++++++++
->   recipes-containers/lxc/lxc_2.0.8.bb           |  2 +
->   2 files changed, 41 insertions(+)
->   create mode 100644 recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch
-> 
-> diff --git a/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch b/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch
-> new file mode 100644
-> index 0000000..2b1ab87
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch
-> @@ -0,0 +1,39 @@
-> +From 1d83b86a9bf017257c068c662ec3bf52ec0cfe90 Mon Sep 17 00:00:00 2001
-> +From: Mark Asselstine <mark.asselstine@windriver.com>
-> +Date: Thu, 31 May 2018 16:21:45 -0400
-> +Subject: [PATCH] templates: actually create DOWNLOAD_TEMP directory
-> +
-> +The way 'mktemp' is currently used you will get a temp directory in
-> +$TMPDIR or '/tmp' and DOWNLOAD_TEMP will not be pointing to an actual
-> +directory. This will result in the wget operations failing and the
-> +container will fail to create:
-> +
-> +    ERROR: Failed to download http://....
-> +
-> +Instead we want to use the '-p' option for mktemp to set the base path
-> +and this will ensure that the temp directory is created in the correct
-> +location and DOWNLOAD_TEMP will be consistent with this location.
-> +
-> +Upstream-Status: Pending
-> +
-> +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> +---
-> + templates/lxc-download.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/templates/lxc-download.in b/templates/lxc-download.in
-> +index f09475d..d6333ad 100644
-> +--- a/templates/lxc-download.in
-> ++++ b/templates/lxc-download.in
-> +@@ -310,7 +310,7 @@ if ! type mktemp >/dev/null 2>&1; then
-> +     DOWNLOAD_TEMP=/tmp/lxc-download.$$
-> +     mkdir -p $DOWNLOAD_TEMP
-> + else
-> +-    DOWNLOAD_TEMP=$(mktemp -d)
-> ++    DOWNLOAD_TEMP="$(mktemp -p ${DOWNLOAD_TEMP} -d)"
-> + fi
-> +
-> + # Simply list images
-> +--
-> +2.19.0
-> +
-> diff --git a/recipes-containers/lxc/lxc_2.0.8.bb b/recipes-containers/lxc/lxc_2.0.8.bb
-> index c87b875..facad2e 100644
-> --- a/recipes-containers/lxc/lxc_2.0.8.bb
-> +++ b/recipes-containers/lxc/lxc_2.0.8.bb
-> @@ -23,6 +23,7 @@ RDEPENDS_${PN} = " \
->   		libidn \
->   		gnutls \
->   		nettle \
-> +		util-linux-mountpoint \
->   "
->   
->   RDEPENDS_${PN}_append_libc-glibc = " glibc-utils"
-> @@ -38,6 +39,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
->   	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
->   	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
->   	file://cgroups-work-around-issue-in-gcc-7.patch \
-> +	file://templates-actually-create-DOWNLOAD_TEMP-directory.patch \
->   	file://dnsmasq.conf \
->   	"
->   
-> 
+>  recipes-extended/libibverbs/libibverbs_1.1.7.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-extended/libibverbs/libibverbs_1.1.7.bb b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+> index b3cd73f..e7e8d65 100644
+> --- a/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+> +++ b/recipes-extended/libibverbs/libibverbs_1.1.7.bb
+> @@ -7,7 +7,7 @@ LICENSE = "BSD"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=7c557f27dd795ba77cc419dddc656b51"
+>
+>  # Official repo is at git://git.kernel.org/pub/scm/libs/infiniband/libibverbs.git
+> -SRC_URI = "http://www.openfabrics.org/downloads/verbs/${BPN}-${PV}.tar.gz"
+> +SRC_URI = "https://www.openfabrics.org/downloads/verbs/${BPN}-${PV}.tar.gz"
+>
+>  SRC_URI[md5sum] = "5aea59e4766ae4548419010ac84032ff"
+>  SRC_URI[sha256sum] = "31b4114bf32d41c9fc81a862ec5febed1e982975f21fa177ea9c7516c9064690"
+> --
+> 2.7.4
+>
 
+
+-- 
+"Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end"
 
