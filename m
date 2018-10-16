@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7BF26E00950; Tue, 16 Oct 2018 07:27:54 -0700 (PDT)
+	id 731B1E00950; Tue, 16 Oct 2018 07:28:34 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	http://www.dnswl.org/, no *      trust
-	*      [209.85.167.65 listed in list.dnswl.org]
+	*      [209.85.167.68 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
@@ -19,51 +19,49 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 225A5E006AF
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2FA6BE006AF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Oct 2018 07:27:53 -0700 (PDT)
-Received: by mail-lf1-f65.google.com with SMTP id x24-v6so1355426lfe.5
+	Tue, 16 Oct 2018 07:28:33 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id s10-v6so17087555lfc.9
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Oct 2018 07:27:53 -0700 (PDT)
+	Tue, 16 Oct 2018 07:28:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=eptczYatjdicUZH5fuIwIweMCOL2u7Q/FKoCjX8a1mE=;
-	b=ax0fdqPqyemzWQysHXMkPhbKVyU2fty9E3ZiRsWo2GcVcsTJdKKXHqjJIRslQXOe3Q
-	2e943iZv/QmpDYn570WShHtwBrB8hr34c4ZzuM2QkvHtJARNukvWUST04jw3mweqf+ES
-	ELQwTWpDiCoIf8zZ96Sd9Flamr6rjfxrX2QftEAD2zrTKD5ikBDJTZkiVISDzimgcvJz
-	1+zw+ez16X0AUmNb8WCLWm1/gtsjlreZm2ZGK4YjsoNCrpHhzr5BTaiNo9jtIVTYcIvJ
-	hkZsLKeE2FQf2L3n93xEgsAdEotOIiFp05TnDfJAZNYQyfTq5dI4pGQB7YkCv82CHJwI
-	u26Q==
+	:cc; bh=S5eKbEiHstSOVAJ2en3wrAvbaZkczMPVt/xNUj675bY=;
+	b=aIFsHFcBwvtQmid4E8MYIttoIqFzqR6QdXwdoCsJQd8ReY2zuhDTwW2B3q02TQBGrZ
+	haWTiShT+96tJqrE4+kem+9QcDphoGIX1pwhd4YMZDvyf5yj5cHh8/bMRdUZYGO5gOk5
+	D8imDoV69q62T0Pm+6vLXkNvBOxU4wSlM09dUOXHTXtP/F9029Jj99WiBwhF6aCeLFHu
+	vjAQLL/rGPprVaI74YAFXKxu+R0YY3We4ojiyMyB965lRCO7oUmwZCiiWTAGXr1vZxsV
+	+UuyI/cNzOIhAzz8DB1ul0yn8Fr7KkhY/p30lXuzLDP7KSiw4tO6KW9JocQTK/jop3x9
+	8rgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=eptczYatjdicUZH5fuIwIweMCOL2u7Q/FKoCjX8a1mE=;
-	b=fl/HE0lXPfmQjNjGMGB6jVQOU7ryNdKcxRMEMxc12OFy9tNabZAq2I4fMKzZXSehpM
-	Sasfr+C7fZT9qhxiWYskPY4Zhcp4SVUl2haN5gLYDtw4SCNj2pb6GU8E5IAqW+q71YAo
-	Pl6GSOcQkqmtuLO++QC7V6WlW9vJghFibWpxYQmtmGbj9YFdHoFZ23LywkHMqQpxdhpS
-	rbHKLT5m3k2gb+mzQmqJRlpGZLOyb9E1KBSxZn/s3L/+4g6A3EJX/DnxGXyJuA3LW2qD
-	y6rSYlIXvLCMxIDZk1k8w7sXGRYTKsctqD/TkaFsaXEULEFvIc5d5EDkxvqcoBQc2+go
-	Ge5w==
-X-Gm-Message-State: ABuFfojWPwyf7xW14mMXncNXuTjKqWFh103nawQ8SS6JHS0Oc01HKPOD
-	jYFRqeXdELB9ljktwhzFys3Jf5IpqhtOnOqDi2Fl3A==
-X-Google-Smtp-Source: ACcGV60WHrCx5PobWIsQoyx3sv2BfVRQGbgQEB8XiZ6jYQkO7ZAsSMdT0jiMO2pMLrhiVux7Q17M27h+aATmL2obTcI=
-X-Received: by 2002:a19:d824:: with SMTP id
-	p36-v6mr12563938lfg.23.1539700072676; 
-	Tue, 16 Oct 2018 07:27:52 -0700 (PDT)
+	bh=S5eKbEiHstSOVAJ2en3wrAvbaZkczMPVt/xNUj675bY=;
+	b=GMJjshbFEqcYcTryXesiGHaZT8cQx46hONP2brlb4UFkczqfaK4hd6C9msbphO7q1v
+	VTF6aBrZ1s6WhDjPHNbqXJTSAR7DuD4bE5W/oC7PijTimCn6DLghPLF/TcCWl51W4rM2
+	1EZX8XvpC+4c83FQinFGDX9xnpnNdM4xb0qCHQTBdCH6dQSBhDf0dDH+5dkSqzUNYEij
+	uCmdprXjLQS3HbhmED9C8T34UBvYBbEFXmJRbLmhh1zMGnpTIVfFTa26SN2arcI3byja
+	3mIOUYW9zkVbzITk/UGwU/elBMFjjWla3BRg7a9T2Y8g0jX1ck52K2GGDjBdruWMuYG1
+	qX7Q==
+X-Gm-Message-State: ABuFfohkmRL1g/YTewwiFG3pzVJpTDUQ5oWj5UJr7ABObtBkcihIzxuX
+	cPSpDTcBlcOdukJlUAWhMj49fx7Py3J91+u0/Huo+g==
+X-Google-Smtp-Source: ACcGV638Hk6Akd66jHv7WvIEWsH3605OuK+6QVELNCr50epKao2c6zAu/ngUH5Vll/dyomq1/4YDFE1yiyJbu34ofJY=
+X-Received: by 2002:a19:505a:: with SMTP id
+	z26-v6mr4172529lfj.120.1539700111972; 
+	Tue, 16 Oct 2018 07:28:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181012165625.23124-1-okaya@kernel.org>
-	<CADkTA4Ozm6yAW1KgS3-StuzSBj0_R5w9MS4zeOxDUGV2O6kj4Q@mail.gmail.com>
-	<57a6e60b-6984-1227-0685-33485014f5db@kernel.org>
-In-Reply-To: <57a6e60b-6984-1227-0685-33485014f5db@kernel.org>
+References: <1539653477-11417-1-git-send-email-Qi.Chen@windriver.com>
+In-Reply-To: <1539653477-11417-1-git-send-email-Qi.Chen@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 16 Oct 2018 10:27:40 -0400
-Message-ID: <CADkTA4PF9zRhO8PxZu4nDmeJozDmju6fQoL8LAVQ6QW0CzCNHw@mail.gmail.com>
-To: okaya@kernel.org
+Date: Tue, 16 Oct 2018 10:28:20 -0400
+Message-ID: <CADkTA4P6r4_+WQ8qfPSyOe8Dd-KwaD5byFE33McRx8HJ6gO6jg@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [sumo] [PATCH v1] lxc: make error report compatible with ptest
+Subject: Re: [PATCH V2] libvirt: do not defer postinstall to first boot when not necessary
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,27 +74,65 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Oct 2018 14:27:54 -0000
+X-List-Received-Date: Tue, 16 Oct 2018 14:28:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Thanks. This is now in master and sumo.
+v2 is merged.
 
 Bruce
-On Fri, Oct 12, 2018 at 3:31 PM Sinan Kaya <okaya@kernel.org> wrote:
+On Mon, Oct 15, 2018 at 9:44 PM Chen Qi <Qi.Chen@windriver.com> wrote:
 >
-> On 10/12/2018 3:21 PM, Bruce Ashfield wrote:
-> > This is something that should go into master, not the -stable branches.
-> >
-> > We could do a backport if really required, but it does need to merge
-> > to master first.
-> >
-> > I assume it does also apply to master, but I'd like to hear your confirmation.
-> >
+> The postinstall invokes `/etc/init.d/populate-volatile.sh update'.
+> This is only useful for an on-target package upgrade. For now,
+> this postinstall in libvirt has already got a check against $D to
+> tell whether it's running on target or not, we do not need to use
+> pkg_postinstall_ontarget. Otherwise, we get unnecessary postinstall
+> deferred to first boot, which is not what we want.
 >
-> Yes, it applies to both. I tested it.
+> Note that the postinstall was originally written as 'pkg_postinstall_${PN}',
+> but was incorrectly modified to be 'pkg_postinstall_ontarget_${PN}' by the
+> following commit.
 >
-> > Bruce
+>   """
+>   commit 1e67a44db7ec87617455b3228ee5237ceb037173
+>   Author: He Zhe <zhe.he@windriver.com>
+>   Date:   Tue Jul 24 05:50:01 2018 -0700
 >
+>       libvirt: Remove unsupported configure options and fix warning
+>
+>   [snip]
+>   """
+>
+> I think the warning about deferred postinstall was caused by some bbappend
+> file instead of the main recipe in this layer.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  recipes-extended/libvirt/libvirt_4.7.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-extended/libvirt/libvirt_4.7.0.bb b/recipes-extended/libvirt/libvirt_4.7.0.bb
+> index 47275ae..ecccfee 100644
+> --- a/recipes-extended/libvirt/libvirt_4.7.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_4.7.0.bb
+> @@ -311,7 +311,7 @@ do_install_ptest() {
+>         done
+>  }
+>
+> -pkg_postinst_ontarget_${PN}() {
+> +pkg_postinst_${PN}() {
+>          if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+>                  /etc/init.d/populate-volatile.sh update
+>          fi
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
 
 
 -- 
