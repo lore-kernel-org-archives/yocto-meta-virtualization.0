@@ -1,35 +1,38 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Bruce.Ashfield@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3A25CE00B5E; Wed, 17 Oct 2018 13:04:14 -0700 (PDT)
+	id 06795E00994; Thu, 18 Oct 2018 08:38:57 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0B071E00A0C
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 17 Oct 2018 13:04:12 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id w9HK4CQN029070
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 17 Oct 2018 13:04:12 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 17 Oct 2018 13:04:11 -0700
-From: Mark Hatle <mark.hatle@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 17 Oct 2018 16:04:10 -0400
-Message-ID: <20181017200410.114697-1-mark.hatle@windriver.com>
-X-Mailer: git-send-email 2.16.0.rc2
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E62E1E00971;
+	Thu, 18 Oct 2018 08:38:55 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9IFcp4l010822
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 18 Oct 2018 08:38:52 -0700 (PDT)
+Received: from [128.224.56.49] (128.224.56.49) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 18 Oct 2018 08:38:51 -0700
+To: <kai.kang@windriver.com>, <yocto@yoctoproject.org>,
+	"meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+References: <20181016014519.9084-1-kai.kang@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@windriver.com>
+Message-ID: <c62fad2e-16b2-9144-c4bc-18652948d8e5@windriver.com>
+Date: Thu, 18 Oct 2018 11:38:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Subject: [PATCH] openvswitch: Make openvswitch a machine_arch package
+In-Reply-To: <20181016014519.9084-1-kai.kang@windriver.com>
+Subject: Re: [yocto] [PATCH] libvirt: remove qemu from PACKAGECONFIG for mips n32 and n64
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,33 +45,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Oct 2018 20:04:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 18 Oct 2018 15:38:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Openvswitch recipe depends on the kernel source, which is machine specific.
-It can then use this machine specific resource to configure and build the
-recipe.  This mix causes the hash values of this package to change based on
-the machine, so this package must also be a machine_arch package.
+Wrong mailing list. Use meta-virtualization for these patches.
 
-Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
----
- recipes-networking/openvswitch/openvswitch_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+I'm cross posting this there, for the archives.
 
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index 4cd82d7..a930933 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -2,6 +2,8 @@ require openvswitch.inc
- 
- DEPENDS += "virtual/kernel"
- 
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
- RDEPENDS_${PN}-ptest += "\
- 	python3-logging python3-syslog python3-io \
- 	python3-fcntl python3-shell python3-xml python3-math \
--- 
-2.16.0.rc2
+I've grabbed and merged this change (but could easily have missed
+it, since it was the wrong list and I wasn't directly copied).
+
+Bruce
+
+On 10/15/18 9:45 PM, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+> 
+> PACKAGECONFIG 'qemu' causes libvirt depends on package qemu. But qemu
+> is not compatible with mips n32 and n64. So remove 'qemu' from
+> PACKAGECONFIG for mips n32 and n64.
+> 
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
+> ---
+>   recipes-extended/libvirt/libvirt_4.7.0.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/recipes-extended/libvirt/libvirt_4.7.0.bb b/recipes-extended/libvirt/libvirt_4.7.0.bb
+> index 47275ae..a1175f5 100644
+> --- a/recipes-extended/libvirt/libvirt_4.7.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_4.7.0.bb
+> @@ -186,6 +186,10 @@ PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 lxc test \
+>                      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
+>                     "
+>   
+> +# qemu is NOT compatible with mips64
+> +PACKAGECONFIG_remove_mipsarchn32 = "qemu"
+> +PACKAGECONFIG_remove_mipsarchn64 = "qemu"
+> +
+>   # enable,disable,depends,rdepends
+>   #
+>   PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu,"
+> 
 
 
