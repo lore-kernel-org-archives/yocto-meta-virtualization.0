@@ -1,67 +1,42 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <maciej.pijanowski@3mdeb.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2315FE00994; Thu, 18 Oct 2018 08:44:10 -0700 (PDT)
+	id 021B1E00BD2; Fri, 19 Oct 2018 03:06:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 683D1E00971
+	*      [46.105.63.230 listed in list.dnswl.org]
+X-Greylist: delayed 2309 seconds by postgrey-1.32 at yocto-www;
+	Fri, 19 Oct 2018 03:06:44 PDT
+Received: from 7.mo68.mail-out.ovh.net (7.mo68.mail-out.ovh.net
+	[46.105.63.230])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D5C75E00A54
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Oct 2018 08:44:09 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id v7-v6so28163475ljg.5
+	Fri, 19 Oct 2018 03:06:44 -0700 (PDT)
+Received: from player692.ha.ovh.net (unknown [10.109.159.123])
+	by mo68.mail-out.ovh.net (Postfix) with ESMTP id 661AC1012BD
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 18 Oct 2018 08:44:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MKLcLVT4r046I0iEG6Y7nL7YvnKg+vOmfN3TvHm+v5I=;
-	b=dH1/upCiJuJpgRpphhkFK8wlF0S8v1vjn2dS+KLO6WL+6jLTL+Yp69U6cneee1zl//
-	/+3CtTqNJzU6iCIK5gLmLqL47dVtyagPycw4sT/o9hrA9ujeJVPHszws0Paj5tA/MSAb
-	To4iuRvTtsVNu3DYzmqwqDBknsmVAbQF5cZ2PfRWm6Ns4K/xNLI8BC1+atM4sLAXfLgI
-	j9hSj0iFBuIgxidagH8/S5fp2ASS0cnAKuVJ5Gprc21uK2CnCOEtyHrPU4BlZzjyYebx
-	QDWgH38zIeZG6oVXkdPmAQ8EzRtsB7RTMxh2u+ZrlPFi3NEaOLO7ucKNl1H91RDeNLsR
-	S+jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MKLcLVT4r046I0iEG6Y7nL7YvnKg+vOmfN3TvHm+v5I=;
-	b=SF0xRiAKIURjfMdkLT2A9lW3SvI5+p1Q59aLr91BMAlXeVTk1Lco9d9qxpUjCQDScQ
-	TuxXkHzzOX1WECzsGTqSaU+18cJ95jvGzZuqY22gyZyiWqJvfChI4xRb4TvOGMtjf8xu
-	LlfOGxd4yBxyQ9XCaH7ftVbE5roPrCY/BOTVVEG25vWpRSBlBVVEStgALoXuy8TwY/Ow
-	COmYrsKieJfPYlZSv7JXOdAU6GcLkHqAFbFSKQcQ93b90yOV6OjR59UDMgJu2BRzbep3
-	VwNl1RlVjFZLVJnRuPB6shRZhT+siVibA/AD05QXOe8mBZnCkaZFhMkwDArHUowQpHXi
-	2TPA==
-X-Gm-Message-State: AGRZ1gLssWd78VQ70bovgzfcsAhRFYiWCYVAVNJeRShl1HtIswlnGGWQ
-	uzjzFuNfJcT9l7gIeMX2xntQh8O+ztWqyswhXIQ=
-X-Google-Smtp-Source: ACcGV60AoOsMCssPsOq9eSTPykWstfQ05jhDIWpYb5rEZbAqzR9pWDDamCzizje9dA2fl6iKL94eCM9FXcXvYSNvvow=
-X-Received: by 2002:a2e:9e56:: with SMTP id
-	g22-v6mr1825956ljk.120.1539877448282; 
-	Thu, 18 Oct 2018 08:44:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20181017200410.114697-1-mark.hatle@windriver.com>
-In-Reply-To: <20181017200410.114697-1-mark.hatle@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 18 Oct 2018 11:43:57 -0400
-Message-ID: <CADkTA4OdrHyp9g83ztv8+q=rX7dmnu148Kqr3pTF=R65WzefCQ@mail.gmail.com>
-To: "Hatle, Mark" <mark.hatle@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] openvswitch: Make openvswitch a machine_arch package
+	Fri, 19 Oct 2018 11:28:14 +0200 (CEST)
+Received: from localhost.localdomain (85-222-117-222.dynamic.chello.pl
+	[85.222.117.222]) (Authenticated sender: maciej.pijanowski@3mdeb.com)
+	by player692.ha.ovh.net (Postfix) with ESMTPSA id 2E5CD60009D;
+	Fri, 19 Oct 2018 11:28:12 +0200 (CEST)
+From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri, 19 Oct 2018 11:28:01 +0200
+Message-Id: <1539941281-29043-1-git-send-email-maciej.pijanowski@3mdeb.com>
+X-Mailer: git-send-email 2.7.4
+X-Ovh-Tracer-Id: 11794364476469030420
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedtkedrfeeigddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecu
+Cc: piotr.krol@3mdeb.com
+Subject: [PATCH] xen: fix building with BASELIB=lib64
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,49 +49,159 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Oct 2018 15:44:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 19 Oct 2018 10:06:46 -0000
 
-merged
+Many "real" (other then genericx86-64) x86-64 target machine configurations
+set BASELIB to lib64. For example the intel-corei7-64 or the AMD
+machines.
 
-Bruce
-On Wed, Oct 17, 2018 at 4:04 PM Mark Hatle <mark.hatle@windriver.com> wrote:
->
-> Openvswitch recipe depends on the kernel source, which is machine specific.
-> It can then use this machine specific resource to configure and build the
-> recipe.  This mix causes the hash values of this package to change based on
-> the machine, so this package must also be a machine_arch package.
->
-> Signed-off-by: Mark Hatle <mark.hatle@windriver.com>
-> ---
->  recipes-networking/openvswitch/openvswitch_git.bb | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-> index 4cd82d7..a930933 100644
-> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> @@ -2,6 +2,8 @@ require openvswitch.inc
->
->  DEPENDS += "virtual/kernel"
->
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> +
->  RDEPENDS_${PN}-ptest += "\
->         python3-logging python3-syslog python3-io \
->         python3-fcntl python3-shell python3-xml python3-math \
-> --
-> 2.16.0.rc2
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+In such case packaging xen-python fails because items are
+installed to /usr/lib/, but FILES_xen-python points to package
+/usr/lib64/ items. Exposing the DISTUTILS variables from OE build makes
+the python installation somewhat similar to what happens in the distutils
+class and python items are installed to the /usr/lib64 as expected.
 
+Another issue was that the xen-efi package was picking up too much stuff
+from the /usr/lib64 path on such machines. Being more explicit at least
+allows to package things correctly.
 
+Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+---
+ ...ub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch | 63 ++++++++++++++++++++++
+ recipes-extended/xen/xen.inc                       |  9 ++--
+ recipes-extended/xen/xen_4.11.0.bb                 |  1 +
+ recipes-extended/xen/xen_git.bb                    |  1 +
+ 4 files changed, 70 insertions(+), 4 deletions(-)
+ create mode 100644 recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch
 
+diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch
+new file mode 100644
+index 000000000000..03c39fe7525b
+--- /dev/null
++++ b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch
+@@ -0,0 +1,63 @@
++From d79dcc2002008c58683de82f06c168d6eea57991 Mon Sep 17 00:00:00 2001
++From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
++Date: Fri, 19 Oct 2018 11:01:37 +0200
++Subject: [PATCH] python,pygrub: pass DISTUTILS env vars as setup.py args
++
++Allow to respect the target install dir (PYTHON_SITEPACKAGES_DIR)
++as well as other parameters set by the OpenEmbedded build system.
++This is especially useful when the target libdir is not the default one
++(/usr/lib), but for example /usr/lib64.
++
++Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
++---
++ tools/pygrub/Makefile | 5 +++--
++ tools/python/Makefile | 4 ++--
++ 2 files changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/tools/pygrub/Makefile b/tools/pygrub/Makefile
++index 536af07932b4..e1c773101412 100644
++--- a/tools/pygrub/Makefile
+++++ b/tools/pygrub/Makefile
++@@ -10,14 +10,15 @@ INSTALL_LOG = build/installed_files.txt
++ all: build
++ .PHONY: build
++ build:
++-	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build
+++	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
++ 
++ .PHONY: install
++ install: all
++ 	$(INSTALL_DIR) $(DESTDIR)/$(bindir)
++ 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
++ 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
++-		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force
+++		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force \
+++		 $(DISTUTILS_INSTALL_ARGS)
++ 	set -e; if [ $(bindir) != $(LIBEXEC_BIN) -a \
++ 	             "`readlink -f $(DESTDIR)/$(bindir)`" != \
++ 	             "`readlink -f $(LIBEXEC_BIN)`" ]; then \
++diff --git a/tools/python/Makefile b/tools/python/Makefile
++index 541858e2f886..4d4a344f1d33 100644
++--- a/tools/python/Makefile
+++++ b/tools/python/Makefile
++@@ -10,7 +10,7 @@ INSTALL_LOG = build/installed_files.txt
++ 
++ .PHONY: build
++ build:
++-	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build
+++	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
++ 
++ .PHONY: install
++ install:
++@@ -18,7 +18,7 @@ install:
++ 
++ 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
++ 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
++-		--root="$(DESTDIR)" --force
+++		--root="$(DESTDIR)" --force $(DISTUTILS_INSTALL_ARGS)
++ 
++ 	$(INSTALL_PROG) scripts/convert-legacy-stream $(DESTDIR)$(LIBEXEC_BIN)
++ 	$(INSTALL_PROG) scripts/verify-stream-v2 $(DESTDIR)$(LIBEXEC_BIN)
++-- 
++2.7.4
++
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 7efc8df14ada..265041385ba9 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -402,8 +402,7 @@ FILES_${PN}-hypervisor = "\
+ FILES_${PN}-init-xenstore-dom = "${libdir}/xen/bin/init-xenstore-domain"
+ 
+ FILES_${PN}-efi = "\
+-    ${exec_prefix}/lib64 \
+-    ${exec_prefix}/lib64/xen* \
++    ${exec_prefix}/lib64/efi/xen* \
+     "
+ 
+ FILES_${PN}-base = "\
+@@ -826,6 +825,8 @@ export XEN_OS = "Linux"
+ # this is used for the header (#!${bindir}/python) of the install python scripts
+ export PYTHONPATH="${bindir}/python"
+ export ac_cv_path_PYTHONPATH="${bindir}/python"
++export DISTUTILS_BUILD_ARGS
++export DISTUTILS_INSTALL_ARGS
+ 
+ # xen and seabios require HOSTCC and HOSTCXX set to cross-compile
+ export HOSTCC="${BUILD_CC}"
+@@ -849,8 +850,8 @@ CPP_append = " ${CPPFLAGS}"
+ CXX_append = " ${CXXFLAGS}"
+ 
+ EXTRA_OECONF += " \
+-    --exec-prefix=/usr \
+-    --prefix=/usr \
++    --exec-prefix=${prefix} \
++    --prefix=${prefix} \
+     --host=${HOST_SYS} \
+     --with-systemd=${systemd_unitdir}/system \
+     --with-systemd-modules-load=${systemd_unitdir}/modules-load.d \
+diff --git a/recipes-extended/xen/xen_4.11.0.bb b/recipes-extended/xen/xen_4.11.0.bb
+index b27506677471..870caa72373e 100644
+--- a/recipes-extended/xen/xen_4.11.0.bb
++++ b/recipes-extended/xen/xen_4.11.0.bb
+@@ -7,6 +7,7 @@ SRC_URI = " \
+     file://xen-4.11-arm-acpi-fix-string-lengths.patch \
+     file://xen-tools-xenpmd-snprintf.patch \
+     file://xen-disable-sse-before-inlines.patch \
++    file://0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch \
+     "
+ 
+ SRC_URI[md5sum] = "cbec0600284921744bc14119f4ed3fff"
+diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
+index 81ee1002c69f..0ebd81ce4a7f 100644
+--- a/recipes-extended/xen/xen_git.bb
++++ b/recipes-extended/xen/xen_git.bb
+@@ -13,6 +13,7 @@ S = "${WORKDIR}/git"
+ SRC_URI = " \
+     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
+     file://xen-disable-sse-before-inlines.patch \
++    file://0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch \
+     "
+ 
+ DEFAULT_PREFERENCE = "-1"
 -- 
-"Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end"
+2.7.4
+
 
