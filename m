@@ -1,42 +1,34 @@
-Return-Path: <maciej.pijanowski@3mdeb.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 021B1E00BD2; Fri, 19 Oct 2018 03:06:46 -0700 (PDT)
+	id AB78CE00BB7; Mon, 22 Oct 2018 01:08:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [46.105.63.230 listed in list.dnswl.org]
-X-Greylist: delayed 2309 seconds by postgrey-1.32 at yocto-www;
-	Fri, 19 Oct 2018 03:06:44 PDT
-Received: from 7.mo68.mail-out.ovh.net (7.mo68.mail-out.ovh.net
-	[46.105.63.230])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D5C75E00A54
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B96D5E00B9D
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 19 Oct 2018 03:06:44 -0700 (PDT)
-Received: from player692.ha.ovh.net (unknown [10.109.159.123])
-	by mo68.mail-out.ovh.net (Postfix) with ESMTP id 661AC1012BD
-	for <meta-virtualization@yoctoproject.org>;
-	Fri, 19 Oct 2018 11:28:14 +0200 (CEST)
-Received: from localhost.localdomain (85-222-117-222.dynamic.chello.pl
-	[85.222.117.222]) (Authenticated sender: maciej.pijanowski@3mdeb.com)
-	by player692.ha.ovh.net (Postfix) with ESMTPSA id 2E5CD60009D;
-	Fri, 19 Oct 2018 11:28:12 +0200 (CEST)
-From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-To: meta-virtualization@yoctoproject.org
-Date: Fri, 19 Oct 2018 11:28:01 +0200
-Message-Id: <1539941281-29043-1-git-send-email-maciej.pijanowski@3mdeb.com>
+	Mon, 22 Oct 2018 01:08:25 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9M88OB4018782
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 22 Oct 2018 01:08:24 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.408.0; Mon, 22 Oct 2018 01:08:23 -0700
+From: <mingli.yu@windriver.com>
+To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
+Date: Mon, 22 Oct 2018 16:08:22 +0800
+Message-ID: <1540195702-393367-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.7.4
-X-Ovh-Tracer-Id: 11794364476469030420
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedtkedrfeeigddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecu
-Cc: piotr.krol@3mdeb.com
-Subject: [PATCH] xen: fix building with BASELIB=lib64
+MIME-Version: 1.0
+Subject: [PATCH] lxc: Upgrade to 3.0.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,158 +41,749 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Oct 2018 10:06:46 -0000
+X-List-Received-Date: Mon, 22 Oct 2018 08:08:29 -0000
+Content-Type: text/plain
 
-Many "real" (other then genericx86-64) x86-64 target machine configurations
-set BASELIB to lib64. For example the intel-corei7-64 or the AMD
-machines.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-In such case packaging xen-python fails because items are
-installed to /usr/lib/, but FILES_xen-python points to package
-/usr/lib64/ items. Exposing the DISTUTILS variables from OE build makes
-the python installation somewhat similar to what happens in the distutils
-class and python items are installed to the /usr/lib64 as expected.
+* Refresh patch to avoid fuzz warnings
+* Update to 3.0.2 as lxc-destroy failed when
+  system boot in nfs rootfs in lxc 3.0.1 as below:
+  # lxc-destroy -n test9
+  lxc-destroy: test9: utils.c: _recursive_rmdir: 149 Failed to delete /var/lib/lxc/test9
+  lxc-destroy: test9: lxccontainer.c: container_destroy: 2946 Failed to destroy directory "/var/lib/lxc/test9" for "test9"
+  Destroying test9 failed
 
-Another issue was that the xen-efi package was picking up too much stuff
-from the /usr/lib64 path on such machines. Being more explicit at least
-allows to package things correctly.
+  Update to 3.0.2 to fix the above issue
 
-Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- ...ub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch | 63 ++++++++++++++++++++++
- recipes-extended/xen/xen.inc                       |  9 ++--
- recipes-extended/xen/xen_4.11.0.bb                 |  1 +
- recipes-extended/xen/xen_git.bb                    |  1 +
- 4 files changed, 70 insertions(+), 4 deletions(-)
- create mode 100644 recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch
+ ...ally-use-base-filenames-to-report-src-fil.patch |  19 +-
+ ...1.0.0-disable-udhcp-from-busybox-template.patch |   7 +-
+ .../lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch   |  13 +-
+ recipes-containers/lxc/files/lxc-fix-B-S.patch     |  18 +-
+ ...ke-busybox-template-compatible-with-core-.patch |  13 +-
+ ...s-actually-create-DOWNLOAD_TEMP-directory.patch |   6 +-
+ ...-no-validate-when-using-download-template.patch |  12 +-
+ .../lxc/files/tests-our-init-is-not-busybox.patch  |  10 +-
+ recipes-containers/lxc/lxc_3.0.1.bb                | 197 ---------------------
+ recipes-containers/lxc/lxc_3.0.2.bb                | 197 +++++++++++++++++++++
+ 10 files changed, 243 insertions(+), 249 deletions(-)
+ delete mode 100644 recipes-containers/lxc/lxc_3.0.1.bb
+ create mode 100644 recipes-containers/lxc/lxc_3.0.2.bb
 
-diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch
-new file mode 100644
-index 000000000000..03c39fe7525b
---- /dev/null
-+++ b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch
-@@ -0,0 +1,63 @@
-+From d79dcc2002008c58683de82f06c168d6eea57991 Mon Sep 17 00:00:00 2001
-+From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-+Date: Fri, 19 Oct 2018 11:01:37 +0200
-+Subject: [PATCH] python,pygrub: pass DISTUTILS env vars as setup.py args
+diff --git a/recipes-containers/lxc/files/logs-optionally-use-base-filenames-to-report-src-fil.patch b/recipes-containers/lxc/files/logs-optionally-use-base-filenames-to-report-src-fil.patch
+index f430601..648193b 100644
+--- a/recipes-containers/lxc/files/logs-optionally-use-base-filenames-to-report-src-fil.patch
++++ b/recipes-containers/lxc/files/logs-optionally-use-base-filenames-to-report-src-fil.patch
+@@ -1,8 +1,9 @@
+-From 4729d0f4c4d1dacd150ddfd7061dda875eb94e34 Mon Sep 17 00:00:00 2001
+-Message-Id: <4729d0f4c4d1dacd150ddfd7061dda875eb94e34.1443216870.git.Jim.Somerville@windriver.com>
++From c50ddb2b2cf22a29e4c671b1efbd338eeba694aa Mon Sep 17 00:00:00 2001
+ From: Jim Somerville <Jim.Somerville@windriver.com>
+ Date: Fri, 25 Sep 2015 15:08:17 -0400
+-Subject: [PATCH 1/1] logs: optionally use base filenames to report src files
++Subject: [PATCH] logs: optionally use base filenames to report src files
 +
-+Allow to respect the target install dir (PYTHON_SITEPACKAGES_DIR)
-+as well as other parameters set by the OpenEmbedded build system.
-+This is especially useful when the target libdir is not the default one
-+(/usr/lib), but for example /usr/lib64.
++Message-Id: <4729d0f4c4d1dacd150ddfd7061dda875eb94e34.1443216870.git.Jim.Somerville@windriver.com>
+ 
+ Problem:  Logs are nice in that they report the source file,
+ routine, and line number where an issue occurs.  But the
+@@ -22,16 +23,17 @@ machinery, and that may still be the absolute pathname to
+ the file.
+ 
+ Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
 +
-+Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+ ---
+  configure.ac  | 9 +++++++++
+  src/lxc/log.h | 5 +++++
+  2 files changed, 14 insertions(+)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index deba90b..c1ed67b 100644
++index 74b976a..9c561f7 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -356,6 +356,15 @@ AM_COND_IF([ENABLE_PYTHON],
++@@ -356,6 +356,15 @@ AC_ARG_ENABLE([examples],
+  	[], [enable_examples=yes])
+  AM_CONDITIONAL([ENABLE_EXAMPLES], [test "x$enable_examples" = "xyes"])
+  
+@@ -48,11 +50,11 @@ index deba90b..c1ed67b 100644
+  AC_ARG_ENABLE([mutex-debugging],
+  	[AC_HELP_STRING([--enable-mutex-debugging], [Makes mutexes to report error and provide stack trace [default=no]])],
+ diff --git a/src/lxc/log.h b/src/lxc/log.h
+-index 76bd4df..4365977 100644
++index 4654fd9..6885d78 100644
+ --- a/src/lxc/log.h
+ +++ b/src/lxc/log.h
+ @@ -77,8 +77,13 @@ struct lxc_log_locinfo {
+- 	int		line;
++ 	int line;
+  };
+  
+ +#ifdef LXC_LOG_USE_BASENAME
+@@ -65,6 +67,3 @@ index 76bd4df..4365977 100644
+  
+  /* brief logging event object */
+  struct lxc_log_event {
+--- 
+-1.8.3.2
+-
+diff --git a/recipes-containers/lxc/files/lxc-1.0.0-disable-udhcp-from-busybox-template.patch b/recipes-containers/lxc/files/lxc-1.0.0-disable-udhcp-from-busybox-template.patch
+index 07a12ff..85177c8 100644
+--- a/recipes-containers/lxc/files/lxc-1.0.0-disable-udhcp-from-busybox-template.patch
++++ b/recipes-containers/lxc/files/lxc-1.0.0-disable-udhcp-from-busybox-template.patch
+@@ -1,4 +1,4 @@
+-From d7e07e7acb1cbad33806f49143a2a30b4468c369 Mon Sep 17 00:00:00 2001
++From 74efbe7f47379375c51948dd0f86248fb9429a1b Mon Sep 17 00:00:00 2001
+ From: Bogdan Purcareata <bogdan.purcareata@freescale.com>
+ Date: Mon, 8 Apr 2013 18:30:19 +0300
+ Subject: [PATCH] lxc-0.9.0-disable-udhcp-from-busybox-template
+@@ -8,7 +8,7 @@ Subject: [PATCH] lxc-0.9.0-disable-udhcp-from-busybox-template
+  1 file changed, 1 deletion(-)
+ 
+ diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
+-index cb425ec..bb8c951 100644
++index 7243b36..9637a71 100644
+ --- a/templates/lxc-busybox.in
+ +++ b/templates/lxc-busybox.in
+ @@ -111,7 +111,6 @@ EOF
+@@ -19,6 +19,3 @@ index cb425ec..bb8c951 100644
+  EOF
+  
+    # executable
+----
+-1.7.11.7
+-
+diff --git a/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch b/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
+index 5f9d771..085ffe8 100644
+--- a/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
++++ b/recipes-containers/lxc/files/lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch
+@@ -1,8 +1,7 @@
+-From 4cf207ffd64c6f815e62ecbbf25b5a378e707182 Mon Sep 17 00:00:00 2001
+-Message-Id: <4cf207ffd64c6f815e62ecbbf25b5a378e707182.1439319694.git.Jim.Somerville@windriver.com>
++From 5190dce1a675dfcdf88e3b94bd48070ac180bacc Mon Sep 17 00:00:00 2001
+ From: Jim Somerville <Jim.Somerville@windriver.com>
+ Date: Tue, 11 Aug 2015 14:05:00 -0400
+-Subject: [PATCH 1/1] lxc: doc: upgrade to use docbook 3.1 DTD
++Subject: [PATCH] lxc: doc: upgrade to use docbook 3.1 DTD
+ 
+ docbook2man fails to build the man pages in poky
+ due to missing the ancient Davenport 3.0 DTD.
+@@ -10,15 +9,16 @@ Poky meta has the Oasis 3.1 version so upgrade
+ to use that instead.
+ 
+ Signed-off-by: Jim Somerville <Jim.Somerville@windriver.com>
++
+ ---
+  configure.ac | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 4972803..2e67b5e 100644
++index 1acc461..74b976a 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -179,7 +179,7 @@ AM_CONDITIONAL([ENABLE_DOCBOOK], [test "x$db2xman" != "x"])
++@@ -213,7 +213,7 @@ AM_CONDITIONAL([ENABLE_DOCBOOK], [test "x$db2xman" != "x"])
+  AM_CONDITIONAL([USE_DOCBOOK2X], [test "x$db2xman" != "xdocbook2man"])
+  
+  if test "x$db2xman" = "xdocbook2man"; then
+@@ -27,6 +27,3 @@ index 4972803..2e67b5e 100644
+  else
+  	docdtd="\"-//OASIS//DTD DocBook XML\" \"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\""
+  fi
+--- 
+-1.8.3.2
+-
+diff --git a/recipes-containers/lxc/files/lxc-fix-B-S.patch b/recipes-containers/lxc/files/lxc-fix-B-S.patch
+index a776b4f..6b09193 100644
+--- a/recipes-containers/lxc/files/lxc-fix-B-S.patch
++++ b/recipes-containers/lxc/files/lxc-fix-B-S.patch
+@@ -1,8 +1,16 @@
+-Index: lxc-2.0.0/config/init/upstart/Makefile.am
+-===================================================================
+---- lxc-2.0.0.orig/config/init/upstart/Makefile.am
+-+++ lxc-2.0.0/config/init/upstart/Makefile.am
+-@@ -3,9 +3,9 @@
++From 2fa77a1803939de2d155a14cf680b53140b92f06 Mon Sep 17 00:00:00 2001
++From: Dmitry Eremin-Solenikov <dmitry_eremin@mentor.com>
++Date: Thu, 9 Apr 2015 23:01:48 +0300
++
 +---
-+ tools/pygrub/Makefile | 5 +++--
-+ tools/python/Makefile | 4 ++--
-+ 2 files changed, 5 insertions(+), 4 deletions(-)
++ config/init/upstart/Makefile.am | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/tools/pygrub/Makefile b/tools/pygrub/Makefile
-+index 536af07932b4..e1c773101412 100644
-+--- a/tools/pygrub/Makefile
-++++ b/tools/pygrub/Makefile
-+@@ -10,14 +10,15 @@ INSTALL_LOG = build/installed_files.txt
-+ all: build
-+ .PHONY: build
-+ build:
-+-	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build
-++	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
-+ 
-+ .PHONY: install
-+ install: all
-+ 	$(INSTALL_DIR) $(DESTDIR)/$(bindir)
-+ 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
-+ 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
-+-		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force
-++		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force \
-++		 $(DISTUTILS_INSTALL_ARGS)
-+ 	set -e; if [ $(bindir) != $(LIBEXEC_BIN) -a \
-+ 	             "`readlink -f $(DESTDIR)/$(bindir)`" != \
-+ 	             "`readlink -f $(LIBEXEC_BIN)`" ]; then \
-+diff --git a/tools/python/Makefile b/tools/python/Makefile
-+index 541858e2f886..4d4a344f1d33 100644
-+--- a/tools/python/Makefile
-++++ b/tools/python/Makefile
-+@@ -10,7 +10,7 @@ INSTALL_LOG = build/installed_files.txt
-+ 
-+ .PHONY: build
-+ build:
-+-	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build
-++	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
-+ 
-+ .PHONY: install
-+ install:
-+@@ -18,7 +18,7 @@ install:
-+ 
-+ 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
-+ 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
-+-		--root="$(DESTDIR)" --force
-++		--root="$(DESTDIR)" --force $(DISTUTILS_INSTALL_ARGS)
-+ 
-+ 	$(INSTALL_PROG) scripts/convert-legacy-stream $(DESTDIR)$(LIBEXEC_BIN)
-+ 	$(INSTALL_PROG) scripts/verify-stream-v2 $(DESTDIR)$(LIBEXEC_BIN)
-+-- 
-+2.7.4
++diff --git a/config/init/upstart/Makefile.am b/config/init/upstart/Makefile.am
++index 5552d32..186ae3d 100644
++--- a/config/init/upstart/Makefile.am
+++++ b/config/init/upstart/Makefile.am
++@@ -3,9 +3,9 @@ EXTRA_DIST = lxc.conf lxc-instance.conf lxc-net.conf.in
+  if INIT_SCRIPT_UPSTART
+  install-upstart: lxc.conf lxc-instance.conf lxc-net.conf
+  	$(MKDIR_P) $(DESTDIR)$(sysconfdir)/init/
+diff --git a/recipes-containers/lxc/files/template-make-busybox-template-compatible-with-core-.patch b/recipes-containers/lxc/files/template-make-busybox-template-compatible-with-core-.patch
+index 1c6022b..e4bb72a 100644
+--- a/recipes-containers/lxc/files/template-make-busybox-template-compatible-with-core-.patch
++++ b/recipes-containers/lxc/files/template-make-busybox-template-compatible-with-core-.patch
+@@ -1,7 +1,8 @@
+-From 0990db9b9723589606104d42ac2cf865b78e50a1 Mon Sep 17 00:00:00 2001
++From 3a7112a38d2c44b6fa49e0da1dc4765defd88dbb Mon Sep 17 00:00:00 2001
+ From: Mark Asselstine <mark.asselstine@windriver.com>
+ Date: Thu, 31 May 2018 11:44:44 -0400
+ Subject: [PATCH] template: make busybox template compatible with
 +
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 7efc8df14ada..265041385ba9 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -402,8 +402,7 @@ FILES_${PN}-hypervisor = "\
- FILES_${PN}-init-xenstore-dom = "${libdir}/xen/bin/init-xenstore-domain"
+  core-image-minimal
  
- FILES_${PN}-efi = "\
--    ${exec_prefix}/lib64 \
--    ${exec_prefix}/lib64/xen* \
-+    ${exec_prefix}/lib64/efi/xen* \
-     "
+ The busybox template makes a lot of assumptions about how the busybox
+@@ -16,12 +17,13 @@ core-image-minimal to be able to demonstrate that it can work as well
+ as to have it available for the ptests.
  
- FILES_${PN}-base = "\
-@@ -826,6 +825,8 @@ export XEN_OS = "Linux"
- # this is used for the header (#!${bindir}/python) of the install python scripts
- export PYTHONPATH="${bindir}/python"
- export ac_cv_path_PYTHONPATH="${bindir}/python"
-+export DISTUTILS_BUILD_ARGS
-+export DISTUTILS_INSTALL_ARGS
+ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++
+ ---
+  templates/lxc-busybox.in | 16 +++++++++++++---
+  1 file changed, 13 insertions(+), 3 deletions(-)
  
- # xen and seabios require HOSTCC and HOSTCXX set to cross-compile
- export HOSTCC="${BUILD_CC}"
-@@ -849,8 +850,8 @@ CPP_append = " ${CPPFLAGS}"
- CXX_append = " ${CXXFLAGS}"
+ diff --git a/templates/lxc-busybox.in b/templates/lxc-busybox.in
+-index 7d00bf5..5a99103 100644
++index 9637a71..45b386f 100644
+ --- a/templates/lxc-busybox.in
+ +++ b/templates/lxc-busybox.in
+ @@ -181,6 +181,19 @@ configure_busybox()
+@@ -44,8 +46,8 @@ index 7d00bf5..5a99103 100644
+    # symlink busybox for the commands it supports
+    # it would be nice to just use "chroot $rootfs busybox --install -s /bin"
+    # but that only works right in a chroot with busybox >= 1.19.0
+-@@ -191,9 +204,6 @@ configure_busybox()
+-       xargs -n1 ln -s busybox
++@@ -189,9 +202,6 @@ configure_busybox()
++     ./busybox --list | grep -v busybox | xargs -n1 ln -s busybox
+    )
+  
+ -  # relink /sbin/init
+@@ -54,6 +56,3 @@ index 7d00bf5..5a99103 100644
+    # /etc/fstab must exist for "mount -a"
+    touch "${rootfs}/etc/fstab"
+  
+--- 
+-2.7.4
+-
+diff --git a/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch b/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch
+index 44959db..756cddc 100644
+--- a/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch
++++ b/recipes-containers/lxc/files/templates-actually-create-DOWNLOAD_TEMP-directory.patch
+@@ -1,4 +1,4 @@
+-From 1d83b86a9bf017257c068c662ec3bf52ec0cfe90 Mon Sep 17 00:00:00 2001
++From 68b0dd97130ffc5776de9219a42188b4a140d446 Mon Sep 17 00:00:00 2001
+ From: Mark Asselstine <mark.asselstine@windriver.com>
+ Date: Thu, 31 May 2018 16:21:45 -0400
+ Subject: [PATCH] templates: actually create DOWNLOAD_TEMP directory
+@@ -17,6 +17,7 @@ location and DOWNLOAD_TEMP will be consistent with this location.
+ Upstream-Status: Pending
  
- EXTRA_OECONF += " \
--    --exec-prefix=/usr \
--    --prefix=/usr \
-+    --exec-prefix=${prefix} \
-+    --prefix=${prefix} \
-     --host=${HOST_SYS} \
-     --with-systemd=${systemd_unitdir}/system \
-     --with-systemd-modules-load=${systemd_unitdir}/modules-load.d \
-diff --git a/recipes-extended/xen/xen_4.11.0.bb b/recipes-extended/xen/xen_4.11.0.bb
-index b27506677471..870caa72373e 100644
---- a/recipes-extended/xen/xen_4.11.0.bb
-+++ b/recipes-extended/xen/xen_4.11.0.bb
-@@ -7,6 +7,7 @@ SRC_URI = " \
-     file://xen-4.11-arm-acpi-fix-string-lengths.patch \
-     file://xen-tools-xenpmd-snprintf.patch \
-     file://xen-disable-sse-before-inlines.patch \
-+    file://0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch \
-     "
+ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++
+ ---
+  templates/lxc-download.in | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+@@ -34,6 +35,3 @@ index 973783b..015a679 100644
+  fi
+  
+  # Simply list images
+--- 
+-2.11.1
+-
+diff --git a/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch b/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
+index 81fd15d..abddef6 100644
+--- a/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
++++ b/recipes-containers/lxc/files/tests-add-no-validate-when-using-download-template.patch
+@@ -1,4 +1,4 @@
+-From 0dad69a3bd306cc701c8bd4df4ea47f0ec5f9150 Mon Sep 17 00:00:00 2001
++From 1b334bdaf598600314a678509a702728721001a2 Mon Sep 17 00:00:00 2001
+ From: Mark Asselstine <mark.asselstine@windriver.com>
+ Date: Thu, 31 May 2018 15:14:26 -0400
+ Subject: [PATCH] tests: add '--no-validate' when using download template
+@@ -9,6 +9,7 @@ interest to this test at any rate so simply add '--no-validate' to
+ avoid failing due to no GPG validation.
  
- SRC_URI[md5sum] = "cbec0600284921744bc14119f4ed3fff"
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-index 81ee1002c69f..0ebd81ce4a7f 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -13,6 +13,7 @@ S = "${WORKDIR}/git"
- SRC_URI = " \
-     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
-     file://xen-disable-sse-before-inlines.patch \
-+    file://0001-python-pygrub-pass-DISTUTILS-env-vars-as-setup.py-ar.patch \
-     "
+ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++
+ ---
+  src/tests/lxc-test-apparmor-mount | 2 +-
+  src/tests/lxc-test-autostart      | 2 +-
+@@ -18,10 +19,10 @@ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+  5 files changed, 5 insertions(+), 5 deletions(-)
  
- DEFAULT_PREFERENCE = "-1"
+ diff --git a/src/tests/lxc-test-apparmor-mount b/src/tests/lxc-test-apparmor-mount
+-index ddcee8a..d3d2c49 100755
++index 56d598f..573cff8 100755
+ --- a/src/tests/lxc-test-apparmor-mount
+ +++ b/src/tests/lxc-test-apparmor-mount
+-@@ -157,7 +157,7 @@ if [ -f /etc/lsb-release ]; then
++@@ -169,7 +169,7 @@ if [ -f /etc/lsb-release ]; then
+      done
+  fi
+  
+@@ -29,7 +30,7 @@ index ddcee8a..d3d2c49 100755
+ +run_cmd lxc-create -t download -n $cname -- --no-validate -d ubuntu -r $release -a $ARCH
+  
+  echo "test default confined container"
+- run_cmd lxc-start -n $cname -d
++ run_cmd lxc-start -n $cname -d -lDEBUG -o "$logfile"
+ diff --git a/src/tests/lxc-test-autostart b/src/tests/lxc-test-autostart
+ index e5b651b..d15b79b 100755
+ --- a/src/tests/lxc-test-autostart
+@@ -82,6 +83,3 @@ index 3e35008..f489286 100755
+  run_cmd "lxc-start -n b1 -d"
+  p1=$(run_cmd "lxc-info -n b1 -p -H")
+  
+--- 
+-2.7.4
+-
+diff --git a/recipes-containers/lxc/files/tests-our-init-is-not-busybox.patch b/recipes-containers/lxc/files/tests-our-init-is-not-busybox.patch
+index 4c9bf65..e6c71d3 100644
+--- a/recipes-containers/lxc/files/tests-our-init-is-not-busybox.patch
++++ b/recipes-containers/lxc/files/tests-our-init-is-not-busybox.patch
+@@ -1,4 +1,4 @@
+-From b53169dc4c53f9ef64f8cb06dd9af97182577698 Mon Sep 17 00:00:00 2001
++From 51d88d9741c30ff4a798698514cac831ae61680b Mon Sep 17 00:00:00 2001
+ From: Mark Asselstine <mark.asselstine@windriver.com>
+ Date: Thu, 31 May 2018 15:00:34 -0400
+ Subject: [PATCH] tests: our init is not busybox
+@@ -9,15 +9,16 @@ really only interested in the fact 'cmp' is being run and not the
+ result, so simplify by comparing '/sbin/init' to itself.
+ 
+ Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
++
+ ---
+  src/tests/attach.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/tests/attach.c b/src/tests/attach.c
+-index 2c77127..1c182d6 100644
++index 07e641d..aac609f 100644
+ --- a/src/tests/attach.c
+ +++ b/src/tests/attach.c
+-@@ -251,7 +251,7 @@ static int test_attach_cmd(struct lxc_container *ct)
++@@ -248,7 +248,7 @@ static int test_attach_cmd(struct lxc_container *ct)
+  {
+  	int ret;
+  	pid_t pid;
+@@ -26,6 +27,3 @@ index 2c77127..1c182d6 100644
+  	lxc_attach_command_t command = {"cmp", argv};
+  	lxc_attach_options_t attach_options = LXC_ATTACH_OPTIONS_DEFAULT;
+  
+--- 
+-2.7.4
+-
+diff --git a/recipes-containers/lxc/lxc_3.0.1.bb b/recipes-containers/lxc/lxc_3.0.1.bb
+deleted file mode 100644
+index d4bfd92..0000000
+--- a/recipes-containers/lxc/lxc_3.0.1.bb
++++ /dev/null
+@@ -1,197 +0,0 @@
+-DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
+-SECTION = "console/utils"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+-DEPENDS = "libxml2 libcap"
+-RDEPENDS_${PN} = " \
+-		rsync \
+-		gzip \
+-		xz \
+-		tar \
+-		wget \
+-		libcap-bin \
+-		bridge-utils \
+-		dnsmasq \
+-		perl-module-strict \
+-		perl-module-getopt-long \
+-		perl-module-vars \
+-		perl-module-warnings-register \
+-		perl-module-exporter \
+-		perl-module-constant \
+-		perl-module-overload \
+-		perl-module-exporter-heavy \
+-		gmp \
+-		libidn \
+-		gnutls \
+-		nettle \
+-		util-linux-mountpoint \
+-		util-linux-getopt \
+-"
+-
+-RDEPENDS_${PN}_append_libc-glibc = " glibc-utils"
+-
+-RDEPENDS_${PN}-ptest += "file make gmp nettle gnutls bash libgcc"
+-
+-RDEPENDS_${PN}-networking += "iptables"
+-
+-SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+-	file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
+-	file://run-ptest \
+-	file://lxc-fix-B-S.patch \
+-	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
+-	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
+-	file://templates-actually-create-DOWNLOAD_TEMP-directory.patch \
+-	file://template-make-busybox-template-compatible-with-core-.patch \
+-	file://tests-our-init-is-not-busybox.patch \
+-	file://tests-add-no-validate-when-using-download-template.patch \
+-	file://dnsmasq.conf \
+-	file://lxc-net \
+-	"
+-
+-SRC_URI[md5sum] = "8eb396dde561e5832ba2d505513a1935"
+-SRC_URI[sha256sum] = "45986c49be1c048fa127bd3e7ea1bd3347e25765c008a09a2e4c233151a2d5db"
+-
+-S = "${WORKDIR}/${BPN}-${PV}"
+-
+-# Let's not configure for the host distro.
+-#
+-PTEST_CONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
+-EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
+-
+-EXTRA_OECONF += "--with-init-script=\
+-${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
+-${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
+-
+-EXTRA_OECONF += "--enable-log-src-basename"
+-
+-CFLAGS_append = " -Wno-error=deprecated-declarations"
+-
+-PACKAGECONFIG ??= "templates \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+-"
+-PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
+-PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
+-PACKAGECONFIG[apparmor] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
+-PACKAGECONFIG[templates] = ",,, ${PN}-templates"
+-PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
+-PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
+-PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir,systemd,"
+-
+-# required by python3 to run setup.py
+-export BUILD_SYS
+-export HOST_SYS
+-export STAGING_INCDIR
+-export STAGING_LIBDIR
+-
+-inherit autotools pkgconfig ptest update-rc.d systemd python3native
+-
+-SYSTEMD_PACKAGES = "${PN} ${PN}-networking"
+-SYSTEMD_SERVICE_${PN} = "lxc.service"
+-SYSTEMD_AUTO_ENABLE_${PN} = "disable"
+-SYSTEMD_SERVICE_${PN}-networking = "lxc-net.service"
+-SYSTEMD_AUTO_ENABLE_${PN}-networking = "enable"
+-
+-INITSCRIPT_PACKAGES = "${PN} ${PN}-networking"
+-INITSCRIPT_NAME_${PN} = "lxc-containers"
+-INITSCRIPT_PARAMS_${PN} = "defaults"
+-INITSCRIPT_NAME_${PN}-networking = "lxc-net"
+-INITSCRIPT_PARAMS_${PN}-networking = "defaults"
+-
+-FILES_${PN}-doc = "${mandir} ${infodir}"
+-# For LXC the docdir only contains example configuration files and should be included in the lxc package
+-FILES_${PN} += "${docdir}"
+-FILES_${PN} += "${libdir}/python3*"
+-FILES_${PN} += "${datadir}/bash-completion"
+-FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
+-FILES_${PN}-dbg += "${libexecdir}/lxc/hooks/.debug"
+-PACKAGES =+ "${PN}-templates ${PN}-networking ${PN}-lua"
+-FILES_lua-${PN} = "${datadir}/lua ${libdir}/lua"
+-FILES_lua-${PN}-dbg += "${libdir}/lua/lxc/.debug"
+-FILES_${PN}-templates += "${datadir}/lxc/templates"
+-RDEPENDS_${PN}-templates += "bash"
+-
+-FILES_${PN}-networking += " \
+-    ${sysconfdir}/init.d/lxc-net \
+-    ${sysconfdir}/default/lxc-net \
+-"
+-
+-CACHED_CONFIGUREVARS += " \
+-    ac_cv_path_PYTHON='${STAGING_BINDIR_NATIVE}/python3-native/python3' \
+-    am_cv_python_pyexecdir='${exec_prefix}/${libdir}/python3.5/site-packages' \
+-    am_cv_python_pythondir='${prefix}/${libdir}/python3.5/site-packages' \
+-"
+-
+-do_install_append() {
+-	# The /var/cache/lxc directory created by the Makefile
+-	# is wiped out in volatile, we need to create this at boot.
+-	rm -rf ${D}${localstatedir}/cache
+-	install -d ${D}${sysconfdir}/default/volatiles
+-	echo "d root root 0755 ${localstatedir}/cache/lxc none" \
+-	     > ${D}${sysconfdir}/default/volatiles/99_lxc
+-
+-	for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
+-	    sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
+-
+-	install -d ${D}${sysconfdir}/init.d
+-	install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
+-
+-	# since python3-native is used for install location this will not be
+-	# suitable for the target and we will have to correct the package install
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
+-	    if [ -d ${D}${exec_prefix}/lib/python* ]; then mv ${D}${exec_prefix}/lib/python* ${D}${libdir}/; fi
+-	    rmdir --ignore-fail-on-non-empty ${D}${exec_prefix}/lib
+-	fi
+-
+-	# /etc/default/lxc sources lxc-net, this allows lxc bridge when lxc-networking
+-	# is not installed this results in no lxcbr0, but when lxc-networking is installed
+-	# lxcbr0 will be fully configured.
+-	install -m 644 ${WORKDIR}/lxc-net ${D}${sysconfdir}/default/
+-
+-	# Force the main dnsmasq instance to bind only to specified interfaces and
+-	# to not bind to virbr0. Libvirt will run its own instance on this interface.
+-	install -d ${D}/${sysconfdir}/dnsmasq.d
+-	install -m 644 ${WORKDIR}/dnsmasq.conf ${D}/${sysconfdir}/dnsmasq.d/lxc
+-}
+-
+-EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
+-
+-do_install_ptest() {
+-	# Move tests to the "ptest directory"
+-	install -d ${D}/${PTEST_PATH}/tests
+-	mv ${D}/usr/bin/lxc-test-* ${D}/${PTEST_PATH}/tests/.
+-}
+-
+-pkg_postinst_${PN}() {
+-	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
+-		/etc/init.d/populate-volatile.sh update
+-	fi
+-}
+-
+-pkg_postinst_ontarget_${PN}-networking() {
+-if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+-cat >> /etc/network/interfaces << EOF
+-
+-auto lxcbr0
+-iface lxcbr0 inet dhcp
+-	bridge_ports eth0
+-	bridge_fd 0
+-	bridge_maxwait 0
+-EOF
+-
+-cat<<EOF>/etc/network/if-pre-up.d/lxcbr0
+-#! /bin/sh
+-
+-if test "x\$IFACE" = xlxcbr0 ; then
+-        brctl show |grep lxcbr0 > /dev/null 2>/dev/null
+-        if [ \$? != 0 ] ; then
+-                brctl addbr lxcbr0
+-                brctl addif lxcbr0 eth0
+-                ip addr flush eth0
+-                ifconfig eth0 up
+-        fi
+-fi
+-EOF
+-chmod 755 /etc/network/if-pre-up.d/lxcbr0
+-fi
+-}
+diff --git a/recipes-containers/lxc/lxc_3.0.2.bb b/recipes-containers/lxc/lxc_3.0.2.bb
+new file mode 100644
+index 0000000..9bb2866
+--- /dev/null
++++ b/recipes-containers/lxc/lxc_3.0.2.bb
+@@ -0,0 +1,197 @@
++DESCRIPTION = "lxc aims to use these new functionnalities to provide an userspace container object"
++SECTION = "console/utils"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
++DEPENDS = "libxml2 libcap"
++RDEPENDS_${PN} = " \
++		rsync \
++		gzip \
++		xz \
++		tar \
++		wget \
++		libcap-bin \
++		bridge-utils \
++		dnsmasq \
++		perl-module-strict \
++		perl-module-getopt-long \
++		perl-module-vars \
++		perl-module-warnings-register \
++		perl-module-exporter \
++		perl-module-constant \
++		perl-module-overload \
++		perl-module-exporter-heavy \
++		gmp \
++		libidn \
++		gnutls \
++		nettle \
++		util-linux-mountpoint \
++		util-linux-getopt \
++"
++
++RDEPENDS_${PN}_append_libc-glibc = " glibc-utils"
++
++RDEPENDS_${PN}-ptest += "file make gmp nettle gnutls bash libgcc"
++
++RDEPENDS_${PN}-networking += "iptables"
++
++SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
++	file://lxc-1.0.0-disable-udhcp-from-busybox-template.patch \
++	file://run-ptest \
++	file://lxc-fix-B-S.patch \
++	file://lxc-doc-upgrade-to-use-docbook-3.1-DTD.patch \
++	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
++	file://templates-actually-create-DOWNLOAD_TEMP-directory.patch \
++	file://template-make-busybox-template-compatible-with-core-.patch \
++	file://tests-our-init-is-not-busybox.patch \
++	file://tests-add-no-validate-when-using-download-template.patch \
++	file://dnsmasq.conf \
++	file://lxc-net \
++	"
++
++SRC_URI[md5sum] = "72e2f1e718c7ddf3ffa9b18ec0328d8f"
++SRC_URI[sha256sum] = "6ab7117b17066220da450c55ed77953998cf2336d415143b879554364af12f5c"
++
++S = "${WORKDIR}/${BPN}-${PV}"
++
++# Let's not configure for the host distro.
++#
++PTEST_CONF = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '--enable-tests', '', d)}"
++EXTRA_OECONF += "--with-distro=${DISTRO} ${PTEST_CONF}"
++
++EXTRA_OECONF += "--with-init-script=\
++${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
++${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
++
++EXTRA_OECONF += "--enable-log-src-basename"
++
++CFLAGS_append = " -Wno-error=deprecated-declarations"
++
++PACKAGECONFIG ??= "templates \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
++"
++PACKAGECONFIG[doc] = "--enable-doc --enable-api-docs,--disable-doc --disable-api-docs,,"
++PACKAGECONFIG[rpath] = "--enable-rpath,--disable-rpath,,"
++PACKAGECONFIG[apparmor] = "--enable-apparmor,--disable-apparmor,apparmor,apparmor"
++PACKAGECONFIG[templates] = ",,, ${PN}-templates"
++PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,libselinux"
++PACKAGECONFIG[seccomp] ="--enable-seccomp,--disable-seccomp,libseccomp,libseccomp"
++PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_unitdir}/system/,--without-systemdsystemunitdir,systemd,"
++
++# required by python3 to run setup.py
++export BUILD_SYS
++export HOST_SYS
++export STAGING_INCDIR
++export STAGING_LIBDIR
++
++inherit autotools pkgconfig ptest update-rc.d systemd python3native
++
++SYSTEMD_PACKAGES = "${PN} ${PN}-networking"
++SYSTEMD_SERVICE_${PN} = "lxc.service"
++SYSTEMD_AUTO_ENABLE_${PN} = "disable"
++SYSTEMD_SERVICE_${PN}-networking = "lxc-net.service"
++SYSTEMD_AUTO_ENABLE_${PN}-networking = "enable"
++
++INITSCRIPT_PACKAGES = "${PN} ${PN}-networking"
++INITSCRIPT_NAME_${PN} = "lxc-containers"
++INITSCRIPT_PARAMS_${PN} = "defaults"
++INITSCRIPT_NAME_${PN}-networking = "lxc-net"
++INITSCRIPT_PARAMS_${PN}-networking = "defaults"
++
++FILES_${PN}-doc = "${mandir} ${infodir}"
++# For LXC the docdir only contains example configuration files and should be included in the lxc package
++FILES_${PN} += "${docdir}"
++FILES_${PN} += "${libdir}/python3*"
++FILES_${PN} += "${datadir}/bash-completion"
++FILES_${PN}-dbg += "${libexecdir}/lxc/.debug"
++FILES_${PN}-dbg += "${libexecdir}/lxc/hooks/.debug"
++PACKAGES =+ "${PN}-templates ${PN}-networking ${PN}-lua"
++FILES_lua-${PN} = "${datadir}/lua ${libdir}/lua"
++FILES_lua-${PN}-dbg += "${libdir}/lua/lxc/.debug"
++FILES_${PN}-templates += "${datadir}/lxc/templates"
++RDEPENDS_${PN}-templates += "bash"
++
++FILES_${PN}-networking += " \
++    ${sysconfdir}/init.d/lxc-net \
++    ${sysconfdir}/default/lxc-net \
++"
++
++CACHED_CONFIGUREVARS += " \
++    ac_cv_path_PYTHON='${STAGING_BINDIR_NATIVE}/python3-native/python3' \
++    am_cv_python_pyexecdir='${exec_prefix}/${libdir}/python3.5/site-packages' \
++    am_cv_python_pythondir='${prefix}/${libdir}/python3.5/site-packages' \
++"
++
++do_install_append() {
++	# The /var/cache/lxc directory created by the Makefile
++	# is wiped out in volatile, we need to create this at boot.
++	rm -rf ${D}${localstatedir}/cache
++	install -d ${D}${sysconfdir}/default/volatiles
++	echo "d root root 0755 ${localstatedir}/cache/lxc none" \
++	     > ${D}${sysconfdir}/default/volatiles/99_lxc
++
++	for i in `grep -l "#! */bin/bash" ${D}${datadir}/lxc/hooks/*`; do \
++	    sed -e 's|#! */bin/bash|#!/bin/sh|' -i $i; done
++
++	install -d ${D}${sysconfdir}/init.d
++	install -m 755 config/init/sysvinit/lxc* ${D}${sysconfdir}/init.d
++
++	# since python3-native is used for install location this will not be
++	# suitable for the target and we will have to correct the package install
++	if ${@bb.utils.contains('PACKAGECONFIG', 'python', 'true', 'false', d)}; then
++	    if [ -d ${D}${exec_prefix}/lib/python* ]; then mv ${D}${exec_prefix}/lib/python* ${D}${libdir}/; fi
++	    rmdir --ignore-fail-on-non-empty ${D}${exec_prefix}/lib
++	fi
++
++	# /etc/default/lxc sources lxc-net, this allows lxc bridge when lxc-networking
++	# is not installed this results in no lxcbr0, but when lxc-networking is installed
++	# lxcbr0 will be fully configured.
++	install -m 644 ${WORKDIR}/lxc-net ${D}${sysconfdir}/default/
++
++	# Force the main dnsmasq instance to bind only to specified interfaces and
++	# to not bind to virbr0. Libvirt will run its own instance on this interface.
++	install -d ${D}/${sysconfdir}/dnsmasq.d
++	install -m 644 ${WORKDIR}/dnsmasq.conf ${D}/${sysconfdir}/dnsmasq.d/lxc
++}
++
++EXTRA_OEMAKE += "TEST_DIR=${D}${PTEST_PATH}/src/tests"
++
++do_install_ptest() {
++	# Move tests to the "ptest directory"
++	install -d ${D}/${PTEST_PATH}/tests
++	mv ${D}/usr/bin/lxc-test-* ${D}/${PTEST_PATH}/tests/.
++}
++
++pkg_postinst_${PN}() {
++	if [ -z "$D" ] && [ -e /etc/init.d/populate-volatile.sh ] ; then
++		/etc/init.d/populate-volatile.sh update
++	fi
++}
++
++pkg_postinst_ontarget_${PN}-networking() {
++if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
++cat >> /etc/network/interfaces << EOF
++
++auto lxcbr0
++iface lxcbr0 inet dhcp
++	bridge_ports eth0
++	bridge_fd 0
++	bridge_maxwait 0
++EOF
++
++cat<<EOF>/etc/network/if-pre-up.d/lxcbr0
++#! /bin/sh
++
++if test "x\$IFACE" = xlxcbr0 ; then
++        brctl show |grep lxcbr0 > /dev/null 2>/dev/null
++        if [ \$? != 0 ] ; then
++                brctl addbr lxcbr0
++                brctl addif lxcbr0 eth0
++                ip addr flush eth0
++                ifconfig eth0 up
++        fi
++fi
++EOF
++chmod 755 /etc/network/if-pre-up.d/lxcbr0
++fi
++}
 -- 
 2.7.4
 
