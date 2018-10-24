@@ -1,35 +1,39 @@
 Return-Path: <Randy.MacLeod@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 91DC8E00AD8; Wed, 24 Oct 2018 07:31:56 -0700 (PDT)
+	id 4E8B1E00AD8; Wed, 24 Oct 2018 07:37:06 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
 	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B7CB5E00A0C
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CFF96E00A0C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 24 Oct 2018 07:31:54 -0700 (PDT)
+	Wed, 24 Oct 2018 07:37:05 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9OEVrO6000330
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9OEb0NG000368
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Oct 2018 07:31:53 -0700 (PDT)
-Received: from fidler.wrs.com (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 24 Oct 2018 07:31:52 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 24 Oct 2018 10:31:51 -0400
-Message-ID: <20181024143151.11516-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.17.0
+	Wed, 24 Oct 2018 07:37:00 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 24 Oct 2018 07:36:59 -0700
+To: Ken Bassford <kbassford@apertussolutions.com>, meta-virtualization
+	<meta-virtualization@yoctoproject.org>
+References: <166a6155aa1.d58a0a76218926.5313920648769418063@apertussolutions.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <7efa3e16-e9e3-e825-f98d-7de794ca1afb@windriver.com>
+Date: Wed, 24 Oct 2018 10:36:58 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Cc: kbassford@apertussolutions.com
-Subject: [rocko][PATCH] seabios: update SRC_URI to track tarball move
+In-Reply-To: <166a6155aa1.d58a0a76218926.5313920648769418063@apertussolutions.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: rocko: seabios: SRC_URI change, seabios_1.9.1.bb
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,28 +46,49 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 14:31:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Oct 2018 14:37:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
----
- recipes-extended/seabios/seabios_1.9.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 10/24/18 8:38 AM, Ken Bassford wrote:
+> 
+> Hello Folks,
+> 
+> Found in Yocto release 'rocko'.
+> Once again the SRC_URI has changed in seabios_1.9.1.bb ...
+> 
+>   - https://www.seabios.org/downloads/get/${PN}-${PV}.tar.gz \
+>   + https://www.seabios.org/downloads/${PN}-${PV}.tar.gz \
 
-diff --git a/recipes-extended/seabios/seabios_1.9.1.bb b/recipes-extended/seabios/seabios_1.9.1.bb
-index 31b9cb9..335d102 100644
---- a/recipes-extended/seabios/seabios_1.9.1.bb
-+++ b/recipes-extended/seabios/seabios_1.9.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "LGPLv3"
- SECTION = "firmware"
- 
- SRC_URI = " \
--    https://www.seabios.org/downloads/get/${PN}-${PV}.tar.gz \
-+    https://www.seabios.org/downloads/${PN}-${PV}.tar.gz
-     file://hostcc.patch \
-     "
- 
+Ken,
+
+It seems you are new to meta-virt's workflow.
+
+I've sent this patch on your behalf; here's how.
+
+$ git clone git://git.yoctoproject.org/meta-virtualization meta-virt.git
+$ cd meta-virt.git
+$ git checkout rocko
+<make the SRC_URI change>
+$ git commit -a -s -m"seabios: update SRC_URI to track tarball move"
+$ git send-email -1 --to meta-virtualization@yoctoproject.org \
+     --subject-prefix='meta-virtualization][rocko][PATCH'
+
+Thanks for reporting the problem and trying to fix it.
+Keep climbing the learning curve.
+
+../Randy
+
+> 
+> Sincerely,
+> Ken Bassford
+> Apertus Solutions
+> 
+> 
+
+
 -- 
-2.17.0
-
+# Randy MacLeod
+# Wind River Linux
 
