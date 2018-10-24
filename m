@@ -1,6 +1,6 @@
 Return-Path: <kbassford@apertussolutions.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8ED7BE00901; Wed, 24 Oct 2018 05:38:30 -0700 (PDT)
+	id 8F22CE00BFB; Wed, 24 Oct 2018 05:38:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -18,42 +18,42 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from sender-of-o51.zoho.com (sender-of-o51.zoho.com [135.84.80.216])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 23F3AE003DB
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 17965E00A10
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 24 Oct 2018 05:38:29 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1540383806; cv=none; d=zoho.com; s=zohoarc; 
-	b=IqegB6tSwBk2widJQkmieOoRqfjQxD9WszL9A6wULBZSD4et0rPjAgs1Nmd6sTbzdu4hoK+0Ya4Bj1zRd+1cKMqe7+Ikuxo56EajDB9JC+suZOCiUWxAKaOwCoOTf3HlR3DNaAQydHtbVDRAISLAKCjIJdM4As50Ufl1zqJwzxA=
+	Wed, 24 Oct 2018 05:38:33 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1540384711; cv=none; d=zoho.com; s=zohoarc; 
+	b=X/4oh3iYtIM0BooNW+EGF4WumgaF9xgz8n9t6zreu0cqxAmn7nqVkdHm8embjYhSjz7HuXN66Q/xl0J2qnOskujRA/jLpn8wdSRH/sec7Dv4NutHQRCQ6iR6VjdkBrhLrzKHthiv3vC5U+zpgOOJ9yZx2vyCSK6vQBzMzSXwECk=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1540383806;
+	s=zohoarc; t=1540384711;
 	h=Content-Type:Content-Transfer-Encoding:Date:From:MIME-Version:Message-ID:Subject:To:ARC-Authentication-Results;
-	bh=VJdIfBJWz+o5vN+TYwXB96YBJGv+4kFBTQruDrcjQ1Q=; 
-	b=gh516xETmiVYESzTIdp2fIA4P0kTIFCldbvRU1GyugnQ6/JR0W8OzZOhFYdyG/Q2s+BOuvZ1vXQAkC4eTgt53PmH/XW+GZRsv2qwR2UrJ9nOidGT6oJzDhM+7fsGXaKDJE4EEcswV99F5EnysHIOkeJdbEftGEnvm/PeLh1NPKA=
+	bh=6g0nRU1IuawDvf/Qg7y6u2zd2kMAzMiISVSnO25BsQU=; 
+	b=eQFFZAFQCJPXFOKtxGUogysNodxrulPKQWbs8t9aA5hahBkXnMx8e5VaoVUXdRmKkg0ZGvYJDqiN6AiVWiNyJwuB5suFttaeigS75SPmZAC5Ka1Zmop2Xc+8Tnehc0LjmaBQlTrvBvXoMgII1Bbbl8rjpqTx0cX88rgC2vWZvtk=
 ARC-Authentication-Results: i=1; mx.zoho.com;
 	dkim=pass  header.i=apertussolutions.com;
 	spf=pass  smtp.mailfrom=kbassford@apertussolutions.com;
 	dmarc=pass header.from=<kbassford@apertussolutions.com>
 	header.from=<kbassford@apertussolutions.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1540383806; 
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1540384711; 
 	s=zoho; d=apertussolutions.com;
 	i=kbassford@apertussolutions.com; 
 	h=Date:From:To:Message-ID:In-Reply-To:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	l=245; bh=VJdIfBJWz+o5vN+TYwXB96YBJGv+4kFBTQruDrcjQ1Q=;
-	b=ZMqQwXxTPdf41ntOTj/jfmHyL4OTfCBDReIrzXRaabX+zzRUEABOACfK1O5XbLpe
-	jcTofdlpDTJMmAqL5U3+aYjwT8N/mVtk6TPEvkmVqgykT4qbiDG5ILbnOtXvDAXtsdm
-	QTdhzAWDvAPUFfqRpHo4ipOqYtyq/ngcj16JVWHE=
+	l=282; bh=6g0nRU1IuawDvf/Qg7y6u2zd2kMAzMiISVSnO25BsQU=;
+	b=Kgr4Jl1pYJlBndyrbp3doi7TX1QrAj7SOySpZgxY9tJ33gJ2DYXM6H78kChxTFzd
+	klVrwNZ5c8kJnEAXh09NNnBv9tYZ3b6yQTNtXHcPx5VafhxWiN9IE5czSnpXPr1lUIX
+	1aku2FDhs8AHEo6g9SAaMvCuEeuTHI6yTN3Gs0OA=
 Received: from mail.zoho.com by mx.zohomail.com
-	with SMTP id 1540383806212555.0517889495414;
-	Wed, 24 Oct 2018 05:23:26 -0700 (PDT)
-Date: Wed, 24 Oct 2018 08:23:26 -0400
+	with SMTP id 1540384709282660.5140242620654;
+	Wed, 24 Oct 2018 05:38:29 -0700 (PDT)
+Date: Wed, 24 Oct 2018 08:38:29 -0400
 From: Ken Bassford <kbassford@apertussolutions.com>
 To: "meta-virtualization" <meta-virtualization@yoctoproject.org>
-Message-ID: <166a6079303.1297673dc216316.6956627667811449271@apertussolutions.com>
+Message-ID: <166a6155aa1.d58a0a76218926.5313920648769418063@apertussolutions.com>
 In-Reply-To: 
 MIME-Version: 1.0
 X-Priority: Medium
 User-Agent: Zoho Mail
 X-Mailer: Zoho Mail
-Subject: Bug 12968 (yocto bugzilla): SRC_URI change in seabios recipe
+Subject: rocko: seabios: SRC_URI change, seabios_1.9.1.bb
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -66,16 +66,18 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Oct 2018 12:38:30 -0000
+X-List-Received-Date: Wed, 24 Oct 2018 12:38:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hello Folks,
 
-Once again the SRC_URI has changed in seabios_1.9.1.bb ...
+Hello Folks, 
 
--    https://www.seabios.org/downloads/get/${PN}-${PV}.tar.gz \
-+    https://www.seabios.org/downloads/${PN}-${PV}.tar.gz \
+Found in Yocto release 'rocko'. 
+Once again the SRC_URI has changed in seabios_1.9.1.bb ... 
+
+ - https://www.seabios.org/downloads/get/${PN}-${PV}.tar.gz \ 
+ + https://www.seabios.org/downloads/${PN}-${PV}.tar.gz \ 
 
 Sincerely,
 Ken Bassford
