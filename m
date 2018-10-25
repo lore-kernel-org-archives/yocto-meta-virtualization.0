@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0CFDCE00B23; Thu, 25 Oct 2018 03:01:28 -0700 (PDT)
+	id 5B47EE00B9D; Thu, 25 Oct 2018 03:33:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,56 +11,56 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.67 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.65 listed in list.dnswl.org]
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6E173E00AD8
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C8E40E00AE0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 25 Oct 2018 03:01:27 -0700 (PDT)
-Received: by mail-lf1-f65.google.com with SMTP id p11-v6so6287746lfc.6
+	Thu, 25 Oct 2018 03:33:18 -0700 (PDT)
+Received: by mail-lf1-f67.google.com with SMTP id a82-v6so6380547lfa.4
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 25 Oct 2018 03:01:27 -0700 (PDT)
+	Thu, 25 Oct 2018 03:33:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vtu5C+1+oLbMTySrDYq9oxi/zZnNVVVLcYxOlNFcSrA=;
-	b=Wv1usclVTEbk6EgJRsODdlIe9ev0PYDcke++yxEXTNZZ9Cg8MoIRUnZYB4MB2JS2fF
-	RajeXh94eEdbi80dITZhO1qNqzMIZHju2Z+2SFMEuRB4ikHlWuTAJWxZcly+55meGItf
-	tQ+exuTn9/xrzGZmL7zR6uik57hSA+n4y0/HOJxXue+dLT0Eu5JsqK+4k6wKGMykRXhN
-	Lm4+GchgzqY7pqbT18/wskwtL8yNhjBjxi9xfaWasU7tobIvWTkVBdF2GqFV55Ni13ZJ
-	AEkCU35n80ZyqzbZ6M73jXlH4pTQb1WRuNW0l5EhGrh/XQ+gKTL8zDMoedLW7kCAtPqF
-	08OQ==
+	:cc; bh=pnlWM0rGFlDllXQj3InCPHQus2GjAuUnbVhR1Mv9H88=;
+	b=D1865/aqGeWL+MkIqy+ZqLp6eaOrMsjSIQWYgtYExzI9LJUvEVhQthe2Y17zi2XbHl
+	nVwq+HzTpnnyz7+u2SvdCXU/ctOgzlYA1qb4SdAsArbgKKNdmRymTFOJKioXF3HsF3WB
+	SBfeaKr9i95AYDi8FHJjI04FtZLPmUYNqEVM+T1WyG+uSzExe4hJFn0yRky10bABUmRU
+	akEn1Gvudeyx1Xr8xsRPs1H+4+1jU7FUpY0qicinQtUDG5QZBQQ9hj/nIh0rdlsRXOFI
+	rGadT8jhiGx7fOUMkCGKwX66eUmIZ4HIcvhFga/N1b+i06EEwh4KrwXSX+zMWJoB+ayH
+	h9aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=vtu5C+1+oLbMTySrDYq9oxi/zZnNVVVLcYxOlNFcSrA=;
-	b=LsKPGmK5ZgXv49A8kmRn/FxWj/FQKMwXRhI1rNtb5263JECb6be/N6q9eeIyKfDazd
-	FAkzW6BLeQZ9QKhn09S2k2u7n9QeKGRhhz4wVyRhxMSxeCI8iDOqwTo7oGEuHGpp1WzB
-	6nw+FhxDT8WxaLWFZpPrmQ4ejTcq7E8RBABJy6OV7fCoM85MqGzk0eqohe+BNL3mIFkh
-	e1zPILkiTsJH2mBTdLCWg7kxW9BO9zk2lWNeaescfYcv21KOmC4XJzN2u+m8C95YM3ng
-	GrI+S2hlgaDVlReQeoYDhlPIHUeq+UdmpVH18W+rfVQfhyog/RG2sqxM70Nhjm4UzXEC
-	goHg==
-X-Gm-Message-State: AGRZ1gLOYOyocowNX7tvunT4gEggsJZiK1Dn4KdAos7Ab6SuJGu5HFSJ
-	tMHXBWryCVr2/lpU8/Nult/fHVfdKq0Y62xsHFs=
-X-Google-Smtp-Source: AJdET5fwrpXLNczwYNvdLs9Wn0vdvJQmbqgmC2TN+Q8OZaozsstRHbA27gASKj6P2B9Ya+2YpaVblNjzh3pLgfGigBc=
-X-Received: by 2002:a19:9d8d:: with SMTP id g135-v6mr753895lfe.3.1540461686226;
-	Thu, 25 Oct 2018 03:01:26 -0700 (PDT)
+	bh=pnlWM0rGFlDllXQj3InCPHQus2GjAuUnbVhR1Mv9H88=;
+	b=nUmvxd/zxuQLbiDRoFdHa9cL93VDTRx6E8V4R9c+nrtnerFDOB+2e4RMEd+HhTQ/Cb
+	vlW1R8rkqvXZnUG5FWUB8Uz1CjeXUeaM25EYyLvtF3uMpP868Hyy8Mn0bwGucGy6b20R
+	L/TlQ/hjjLJTg6FUwXPJLiw2CCNEPWzJ/aRPImc8brTLKk3PpNQ7rLnzTLRvw0iHNlLv
+	jDpR72JitPBCH4YFroo7+Bk+kaX+VZ+g3nQHCkxTIMRG2UV3FuofntBwqViQuKe080+0
+	E62J6xkqPPNMGze6ihn0Am4unADJU76wOLe3rJ1iDVketRfspCz+AHHfdu//fR188dwN
+	I9Vw==
+X-Gm-Message-State: AGRZ1gLyvtig9048Twce3Qr9mAIXVMtIt8CXx37e2/CztgpFeD4cZRIK
+	7I7Chw4yhaQMGtUAqxycLMxms32s1+hyumYc8D4=
+X-Google-Smtp-Source: AJdET5eA1zZuSpIz/iXBPh22YXN3+mF+rGwA3de3lG+BB9/gD/q3M6KPJu22D7RyXEsPZ5iearon1/HuzM3u2Q9WRfM=
+X-Received: by 2002:a19:f514:: with SMTP id j20-v6mr784961lfb.13.1540463597429;
+	Thu, 25 Oct 2018 03:33:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20181024143151.11516-1-Randy.MacLeod@windriver.com>
-In-Reply-To: <20181024143151.11516-1-Randy.MacLeod@windriver.com>
+References: <1540362891-22881-1-git-send-email-dengke.du@windriver.com>
+In-Reply-To: <1540362891-22881-1-git-send-email-dengke.du@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 25 Oct 2018 06:01:13 -0400
-Message-ID: <CADkTA4MYv0dc-DAsRSsw8C3O2y5HxZ99bpVViiwShogBF85xEw@mail.gmail.com>
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
-Cc: meta-virtualization@yoctoproject.org, kbassford@apertussolutions.com
-Subject: Re: [rocko][PATCH] seabios: update SRC_URI to track tarball move
+Date: Thu, 25 Oct 2018 06:33:05 -0400
+Message-ID: <CADkTA4NY1C0r4XY-vfWhuyp79zWf4ftnfS+LAdb4Myp6k-j4xQ@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] ceph: upgrade to 13.2.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,50 +73,404 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Oct 2018 10:01:28 -0000
+X-List-Received-Date: Thu, 25 Oct 2018 10:33:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-We should already have this fixed in the newer branches, so as such, we should
-indicate that this is a cherry pick, or simply send a cherry-pick
-request to the list
-and I'll take care of it.
+I've gone ahead and merged this, so it will be part of the branch for thud.
 
-I just want that linkage to the fixes in the other branches, so it is
-clear that they
-are not isolated issues.
+Although it is a late update, the testing looks good, and the old
+version really isn't suitable (plus, ceph can't really break anything
+else in meta-virt).
+
+Cheers,
 
 Bruce
-
-On Wed, Oct 24, 2018 at 10:32 AM Randy MacLeod
-<Randy.MacLeod@windriver.com> wrote:
+On Wed, Oct 24, 2018 at 2:35 AM Dengke Du <dengke.du@windriver.com> wrote:
 >
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> 1. upgrade to 13.2.2
+> 2. install systemd service files
+> 3. add pybind support
+>
+> testing steps:
+>   # ceph -h
+>
+> outputs:
+> --------------------------------------------------------------------------
+>  General usage:
+>  ==============
+> usage: ceph [-h] [-c CEPHCONF] [-i INPUT_FILE] [-o OUTPUT_FILE]
+>             [--id CLIENT_ID] [--name CLIENT_NAME] [--cluster CLUSTER]
+>             [--admin-daemon ADMIN_SOCKET] [-s] [-w] [--watch-debug]
+>             [--watch-info] [--watch-sec] [--watch-warn] [--watch-error]
+>             [--watch-channel {cluster,audit,*}] [--version] [--verbose]
+>             [--concise] [-f {json,json-pretty,xml,xml-pretty,plain}]
+>             [--connect-timeout CLUSTER_TIMEOUT] [--block] [--period PERIOD]
+>
+> Ceph administration tool
+>
+> optional arguments:
+>   -h, --help            request mon help
+>   -c CEPHCONF, --conf CEPHCONF
+>   ......
+> --------------------------------------------------------------------------
+>
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
 > ---
->  recipes-extended/seabios/seabios_1.9.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../ceph/0001-ceph-add-pybind-support-in-OE.patch  | 129 +++++++++++++++++++++
+>  .../ceph/ceph/0001-ceph-disable-pybind.patch       |  28 -----
+>  recipes-extended/ceph/ceph/ceph.conf               |  70 +++++++++++
+>  .../ceph/{ceph_13.2.1.bb => ceph_13.2.2.bb}        |  45 +++++--
+>  4 files changed, 235 insertions(+), 37 deletions(-)
+>  create mode 100644 recipes-extended/ceph/ceph/0001-ceph-add-pybind-support-in-OE.patch
+>  delete mode 100644 recipes-extended/ceph/ceph/0001-ceph-disable-pybind.patch
+>  create mode 100644 recipes-extended/ceph/ceph/ceph.conf
+>  rename recipes-extended/ceph/{ceph_13.2.1.bb => ceph_13.2.2.bb} (50%)
 >
-> diff --git a/recipes-extended/seabios/seabios_1.9.1.bb b/recipes-extended/seabios/seabios_1.9.1.bb
-> index 31b9cb9..335d102 100644
-> --- a/recipes-extended/seabios/seabios_1.9.1.bb
-> +++ b/recipes-extended/seabios/seabios_1.9.1.bb
-> @@ -4,7 +4,7 @@ LICENSE = "LGPLv3"
->  SECTION = "firmware"
+> diff --git a/recipes-extended/ceph/ceph/0001-ceph-add-pybind-support-in-OE.patch b/recipes-extended/ceph/ceph/0001-ceph-add-pybind-support-in-OE.patch
+> new file mode 100644
+> index 0000000..f9c5340
+> --- /dev/null
+> +++ b/recipes-extended/ceph/ceph/0001-ceph-add-pybind-support-in-OE.patch
+> @@ -0,0 +1,129 @@
+> +From 00d44940c2e83bf73101a05d2aa8f88c2e2fca58 Mon Sep 17 00:00:00 2001
+> +From: Dengke Du <dengke.du@windriver.com>
+> +Date: Tue, 23 Oct 2018 15:34:53 +0800
+> +Subject: [PATCH] ceph: add pybind support in OE
+> +
+> +1. add sysroot to CFLAGS when cross compiling pybind
+> +2. change the pybind's INSTALL path to OE's INSTALL path
+> +3. delete the check for header files, because the check method using
+> +   host compiler.
+> +
+> +Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> +Upstream-Status: Inappropriate [oe specific]
+> +---
+> + cmake/modules/Distutils.cmake | 12 +++---------
+> + src/pybind/cephfs/setup.py    |  8 --------
+> + src/pybind/rados/setup.py     |  8 --------
+> + src/pybind/rbd/setup.py       |  8 --------
+> + src/pybind/rgw/setup.py       |  8 --------
+> + 5 files changed, 3 insertions(+), 41 deletions(-)
+> +
+> +diff --git a/cmake/modules/Distutils.cmake b/cmake/modules/Distutils.cmake
+> +index d6e9f38..3091d97 100644
+> +--- a/cmake/modules/Distutils.cmake
+> ++++ b/cmake/modules/Distutils.cmake
+> +@@ -47,7 +47,7 @@ function(distutils_add_cython_module name src)
+> +     LDFLAGS=-L${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+> +     CYTHON_BUILD_DIR=${CMAKE_CURRENT_BINARY_DIR}
+> +     CEPH_LIBDIR=${CMAKE_LIBRARY_OUTPUT_DIRECTORY}
+> +-    CFLAGS=\"-iquote${CMAKE_SOURCE_DIR}/src/include -w\"
+> ++    CFLAGS=\"-iquote${CMAKE_SOURCE_DIR}/src/include -w --sysroot=${CMAKE_SYSROOT}\"
+> +     ${PYTHON${PYTHON_VERSION}_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/setup.py
+> +     build --verbose --build-base ${CYTHON_MODULE_DIR}
+> +     --build-platlib ${CYTHON_MODULE_DIR}/lib.${PYTHON${PYTHON_VERSION}_VERSION_MAJOR}
+> +@@ -69,14 +69,8 @@ function(distutils_install_cython_module name)
+> +     set(ENV{CEPH_LIBDIR} \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
+> +
+> +     set(options --prefix=${CMAKE_INSTALL_PREFIX})
+> +-    if(DEFINED ENV{DESTDIR})
+> +-      if(EXISTS /etc/debian_version)
+> +-        list(APPEND options --install-layout=deb)
+> +-      endif()
+> +-      list(APPEND options --root=\$ENV{DESTDIR})
+> +-    else()
+> +-      list(APPEND options --root=/)
+> +-    endif()
+> ++    list(APPEND options --root=${CMAKE_DESTDIR})
+> ++    list(APPEND options --install-lib=${PYTHON_SITEPACKAGES_DIR})
+> +     execute_process(
+> +        COMMAND
+> +            ${PYTHON${PYTHON_VERSION}_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/setup.py
+> +diff --git a/src/pybind/cephfs/setup.py b/src/pybind/cephfs/setup.py
+> +index 6533f41..1ee4a59 100755
+> +--- a/src/pybind/cephfs/setup.py
+> ++++ b/src/pybind/cephfs/setup.py
+> +@@ -121,14 +121,6 @@ def check_sanity():
+> +     finally:
+> +         shutil.rmtree(tmp_dir)
+> +
+> +-
+> +-if 'BUILD_DOC' in os.environ.keys():
+> +-    pass
+> +-elif check_sanity():
+> +-    pass
+> +-else:
+> +-    sys.exit(1)
+> +-
+> + cmdclass = {}
+> + try:
+> +     from Cython.Build import cythonize
+> +diff --git a/src/pybind/rados/setup.py b/src/pybind/rados/setup.py
+> +index ef7c307..5204017 100755
+> +--- a/src/pybind/rados/setup.py
+> ++++ b/src/pybind/rados/setup.py
+> +@@ -117,14 +117,6 @@ def check_sanity():
+> +     finally:
+> +         shutil.rmtree(tmp_dir)
+> +
+> +-
+> +-if 'BUILD_DOC' in os.environ.keys():
+> +-    pass
+> +-elif check_sanity():
+> +-    pass
+> +-else:
+> +-    sys.exit(1)
+> +-
+> + cmdclass = {}
+> + try:
+> +     from Cython.Build import cythonize
+> +diff --git a/src/pybind/rbd/setup.py b/src/pybind/rbd/setup.py
+> +index bcf96f2..d4cbbeb 100755
+> +--- a/src/pybind/rbd/setup.py
+> ++++ b/src/pybind/rbd/setup.py
+> +@@ -120,14 +120,6 @@ def check_sanity():
+> +     finally:
+> +         shutil.rmtree(tmp_dir)
+> +
+> +-
+> +-if 'BUILD_DOC' in os.environ.keys():
+> +-    pass
+> +-elif check_sanity():
+> +-    pass
+> +-else:
+> +-    sys.exit(1)
+> +-
+> + cmdclass = {}
+> + try:
+> +     from Cython.Build import cythonize
+> +diff --git a/src/pybind/rgw/setup.py b/src/pybind/rgw/setup.py
+> +index f14f30c..ee7570b 100755
+> +--- a/src/pybind/rgw/setup.py
+> ++++ b/src/pybind/rgw/setup.py
+> +@@ -120,14 +120,6 @@ def check_sanity():
+> +     finally:
+> +         shutil.rmtree(tmp_dir)
+> +
+> +-
+> +-if 'BUILD_DOC' in os.environ.keys():
+> +-    pass
+> +-elif check_sanity():
+> +-    pass
+> +-else:
+> +-    sys.exit(1)
+> +-
+> + cmdclass = {}
+> + try:
+> +     from Cython.Build import cythonize
+> +--
+> +2.7.4
+> +
+> diff --git a/recipes-extended/ceph/ceph/0001-ceph-disable-pybind.patch b/recipes-extended/ceph/ceph/0001-ceph-disable-pybind.patch
+> deleted file mode 100644
+> index bfba5b0..0000000
+> --- a/recipes-extended/ceph/ceph/0001-ceph-disable-pybind.patch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 05bdb2bb6026c3a2e536c7143b39a763ffc1225f Mon Sep 17 00:00:00 2001
+> -From: Dengke Du <dengke.du@windriver.com>
+> -Date: Thu, 27 Sep 2018 09:09:40 +0800
+> -Subject: [PATCH] ceph: disable pybind
+> -
+> -New ceph version have bad support for corss compile,
+> -so disable pybind temporarily.
+> -
+> -Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ----
+> - src/CMakeLists.txt | 1 -
+> - 1 file changed, 1 deletion(-)
+> -
+> -diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+> -index 374cbc7..44845f8 100644
+> ---- a/src/CMakeLists.txt
+> -+++ b/src/CMakeLists.txt
+> -@@ -777,7 +777,6 @@ if(NOT CEPH_BUILD_VIRTUALENV)
+> -   set(CEPH_BUILD_VIRTUALENV /tmp)
+> - endif()
+> -
+> --add_subdirectory(pybind)
+> - add_subdirectory(ceph-disk)
+> - add_subdirectory(ceph-volume)
+> - add_subdirectory(ceph-detect-init)
+> ---
+> -2.7.4
+> -
+> diff --git a/recipes-extended/ceph/ceph/ceph.conf b/recipes-extended/ceph/ceph/ceph.conf
+> new file mode 100644
+> index 0000000..fd9de6c
+> --- /dev/null
+> +++ b/recipes-extended/ceph/ceph/ceph.conf
+> @@ -0,0 +1,70 @@
+> +[global]
+> +       # Unique ID for the cluster. Run uuidgen to get this string.
+> +       fsid = %CLUSTER_UUID%
+> +       # Initial monitor
+> +       mon initial members = node1
+> +       # IP address of the initial monitor, i.e. 128.224.149.xx
+> +       mon host = %PUBLIC_IP%
+> +       # Public network where the monitor is connected to, i.e, 128.224.0.0/16
+> +       public network = %PUBLIC_DOMAIN%
+> +       # For version 0.55 and beyond, you must explicitly enable
+> +       # or disable authentication with "auth" entries in [global].
+> +       auth cluster required = cephx
+> +       auth service required = cephx
+> +       auth client required = cephx
+> +       osd journal size = 1024
+> +
+> +       # Uncomment the following line if you are mounting with ext4
+> +       # filestore xattr use omap = true
+> +
+> +       # Number of replicas of objects. Write an object 2 times.
+> +       # Cluster cannot reach an active + clean state until there's enough OSDs
+> +       # to handle the number of copies of an object. In this case, it requires
+> +       # at least 2 OSDs
+> +       osd pool default size = 2
+> +
+> +       # Allow writing one copy in a degraded state.
+> +       osd pool default min size = 1
+> +
+> +       # Ensure you have a realistic number of placement groups. We recommend
+> +       # approximately 100 per OSD. E.g., total number of OSDs multiplied by 100
+> +       # divided by the number of replicas (i.e., osd pool default size). So for
+> +       # 10 OSDs and osd pool default size = 2, we'd recommend approximately
+> +       # (100 * 10) / 2 = 500.
+> +       osd pool default pg num = 500
+> +       osd pool default pgp num = 500
+> +       osd crush chooseleaf type = 1
+> +
+> +[osd]
+> +       osd mkfs type = xfs
+> +       osd mkfs options xfs = "-f"
+> +       osd mount options xfs = "rw,noatime,inode64,logbufs=8,logbsize=256k"
+> +
+> +# All port numbers below are not hard-coded, but expected by ceph, so please
+> +# do not change the numbers.
+> +[mon.node1]
+> +       host = node1
+> +       mon addr = %PUBLIC_IP%:6789
+> +
+> +[osd.0]
+> +       host = node1
+> +       public addr = %PUBLIC_IP%:6800
+> +       cluster addr = %PRIVATE_IP%:6800
+> +       devs = /dev/sda1
+> +
+> +[osd.1]
+> +       host = node1
+> +       public addr = %PUBLIC_IP%:6801
+> +       cluster addr = %PRIVATE_IP%:6801
+> +       devs = /dev/sda2
+> +
+> +[osd.2]
+> +       host = node1
+> +       public addr = %PUBLIC_IP%:6802
+> +       cluster addr = %PRIVATE_IP%:6802
+> +       devs = /dev/sda3
+> +
+> +[mds.a]
+> +       host = node1
+> +       devs = /dev/sda4
+> +
+> diff --git a/recipes-extended/ceph/ceph_13.2.1.bb b/recipes-extended/ceph/ceph_13.2.2.bb
+> similarity index 50%
+> rename from recipes-extended/ceph/ceph_13.2.1.bb
+> rename to recipes-extended/ceph/ceph_13.2.2.bb
+> index e89bbeb..6c6da41 100644
+> --- a/recipes-extended/ceph/ceph_13.2.1.bb
+> +++ b/recipes-extended/ceph/ceph_13.2.2.bb
+> @@ -1,29 +1,36 @@
+>  SUMMARY = "User space components of the Ceph file system"
+> -LICENSE = "LGPLv2.1 & GPLv2 & Unknown & Apache-2.0 & MIT"
+> +LICENSE = "LGPLv2.1 & GPLv2 & Apache-2.0 & MIT"
+>  LIC_FILES_CHKSUM = "file://COPYING-LGPL2.1;md5=fbc093901857fcd118f065f900982c24 \
+>                      file://COPYING-GPL2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>                      file://COPYING;md5=92d301c8fccd296f2221a68a8dd53828 \
+>  "
+> -
+> +inherit cmake pythonnative python-dir systemd
+>  # Disable python pybind support for ceph temporary, when corss compiling pybind,
+>  # pybind mix cmake and python setup environment, would case a lot of errors.
 >
->  SRC_URI = " \
-> -    https://www.seabios.org/downloads/get/${PN}-${PV}.tar.gz \
-> +    https://www.seabios.org/downloads/${PN}-${PV}.tar.gz
->      file://hostcc.patch \
->      "
+>  SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+>             file://0001-Correct-the-path-to-find-version.h-in-rocksdb.patch \
+> -           file://0001-ceph-disable-pybind.patch \
+>             file://0001-zstd-fix-error-for-cross-compile.patch \
+> +           file://0001-ceph-add-pybind-support-in-OE.patch \
+> +           file://ceph.conf \
+>  "
+> -SRC_URI[md5sum] = "4b0ee225e153fbb2515fa3f8a3666d17"
+> -SRC_URI[sha256sum] = "32086294d2007fdf64f85fcd919de2f092eeaa897bd8dc7c01e005e14516903c"
+> +SRC_URI[md5sum] = "ce118be451dcb6b89e9e0a45057827dd"
+> +SRC_URI[sha256sum] = "f3a61db4c90e00c38a2dac7239b956ec367ef56f601e07335ed3011f931d8840"
 >
+>  DEPENDS = "boost bzip2 curl expat gperf-native \
+>             keyutils libaio libibverbs lz4 \
+>             nspr nss \
+>             oath openldap openssl \
+> -           python rocksdb snappy udev \
+> +           python python-cython-native rocksdb snappy udev \
+>             valgrind xfsprogs zlib \
+>  "
+> -inherit cmake pythonnative python-dir
+> +SYSTEMD_SERVICE_${PN} = "ceph-radosgw@.service \
+> +        ceph-mon@.service \
+> +        ceph-mds@.service \
+> +        ceph-disk@.service \
+> +        ceph-osd@.service \
+> +        ceph.target \
+> +"
+>  OECMAKE_GENERATOR = "Unix Makefiles"
+>
+>  EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
+> @@ -41,23 +48,43 @@ EXTRA_OECMAKE = "-DWITH_MANPAGE=OFF \
+>
+>  do_configure_prepend () {
+>         echo "set( CMAKE_SYSROOT \"${RECIPE_SYSROOT}\" )" >> ${WORKDIR}/toolchain.cmake
+> +       echo "set( CMAKE_DESTDIR \"${D}\" )" >> ${WORKDIR}/toolchain.cmake
+> +       echo "set( PYTHON_SITEPACKAGES_DIR \"${PYTHON_SITEPACKAGES_DIR}\" )" >> ${WORKDIR}/toolchain.cmake
+>  }
+>
+>  do_install_append () {
+>         sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph
+> +       install -d ${D}${sysconfdir}/ceph
+> +       install -m 644 ${WORKDIR}/ceph.conf ${D}${sysconfdir}/ceph/
+> +       install -d ${D}${systemd_unitdir}/system
+> +       mv ${D}${libexecdir}/systemd/system/ceph-radosgw@.service ${D}${systemd_unitdir}/system/ceph-radosgw@.service
+> +       mv ${D}${libexecdir}/systemd/system/ceph-mon@.service ${D}${systemd_unitdir}/system/ceph-mon@.service
+> +       mv ${D}${libexecdir}/systemd/system/ceph-mds@.service ${D}${systemd_unitdir}/system/ceph-mds@.service
+> +       mv ${D}${libexecdir}/systemd/system/ceph-disk@.service ${D}${systemd_unitdir}/system/ceph-disk@.service
+> +       mv ${D}${libexecdir}/systemd/system/ceph-osd@.service ${D}${systemd_unitdir}/system/ceph-osd@.service
+> +       mv ${D}${libexecdir}/systemd/system/ceph.target ${D}${systemd_unitdir}/system/ceph.target
+>  }
+>
+>  FILES_${PN} += "\
+>                  ${libdir}/rados-classes/*.so.* \
+>  "
+> -
+>  FILES_${PN}-dev += "\
+>                 ${libdir}/ceph/compressor/*.so \
+>                 ${libdir}/rados-classes/*.so \
+>                 ${libdir}/ceph/*.so \
+>  "
+> -
+> +FILES_${PN}-python = "\
+> +                ${PYTHON_SITEPACKAGES_DIR}/* \
+> +"
+>  RDEPENDS_${PN} += "\
+>                 python \
+> +               python-misc \
+> +               python-modules \
+> +               python-prettytable \
+> +               ${PN}-python \
+>  "
+>  COMPATIBLE_HOST = "(x86_64).*"
+> +PACKAGES += " \
+> +       ${PN}-python \
+> +"
+> +INSANE_SKIP_${PN}-python += "ldflags"
 > --
-> 2.17.0
+> 2.7.4
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
