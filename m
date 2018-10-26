@@ -1,35 +1,35 @@
 Return-Path: <Dengke.Du@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 41CA0E00BC4; Fri, 26 Oct 2018 02:01:52 -0700 (PDT)
+	id C2372E00BC4; Fri, 26 Oct 2018 02:44:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
 	*      [147.11.146.13 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E50DFE00AD8
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 728D3E00AD8
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 26 Oct 2018 02:01:49 -0700 (PDT)
+	Fri, 26 Oct 2018 02:44:54 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9Q91m1e003255
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Oct 2018 02:01:48 -0700 (PDT)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id w9Q9irm8005085
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 26 Oct 2018 02:44:53 -0700 (PDT)
 Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.408.0; Fri, 26 Oct 2018 02:01:48 -0700
+	14.3.408.0; Fri, 26 Oct 2018 02:43:40 -0700
 From: Dengke Du <dengke.du@windriver.com>
-To: <bruce.ashfield@gmail.com>
-Date: Fri, 26 Oct 2018 17:02:01 +0800
-Message-ID: <1540544521-23238-1-git-send-email-dengke.du@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Fri, 26 Oct 2018 17:43:53 +0800
+Message-ID: <1540547033-12369-1-git-send-email-dengke.du@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: meta-virtualization@yoctoproject.org
-Subject: [PATCH] ceph: fix Distutils.cmake installation for cross compile
+Subject: [PATCH V2] ceph: fix Distutils.cmake installation for cross compile
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,7 +42,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Oct 2018 09:01:52 -0000
+X-List-Received-Date: Fri, 26 Oct 2018 09:44:55 -0000
 Content-Type: text/plain
 
 1. Remove the detection for build host and correct the install destination
@@ -52,8 +52,8 @@ Content-Type: text/plain
 Signed-off-by: Dengke Du <dengke.du@windriver.com>
 ---
  ...tect-init-correct-the-installation-for-OE.patch | 36 ++++++++++++++++++++++
- recipes-extended/ceph/ceph_13.2.2.bb               | 28 ++++++++++++-----
- 2 files changed, 56 insertions(+), 8 deletions(-)
+ recipes-extended/ceph/ceph_13.2.2.bb               | 30 +++++++++++++-----
+ 2 files changed, 58 insertions(+), 8 deletions(-)
  create mode 100644 recipes-extended/ceph/ceph/0001-ceph-detect-init-correct-the-installation-for-OE.patch
 
 diff --git a/recipes-extended/ceph/ceph/0001-ceph-detect-init-correct-the-installation-for-OE.patch b/recipes-extended/ceph/ceph/0001-ceph-detect-init-correct-the-installation-for-OE.patch
@@ -99,7 +99,7 @@ index 0000000..875501b
 +2.7.4
 +
 diff --git a/recipes-extended/ceph/ceph_13.2.2.bb b/recipes-extended/ceph/ceph_13.2.2.bb
-index 6c6da41..2d13df7 100644
+index 6c6da41..3d9faae 100644
 --- a/recipes-extended/ceph/ceph_13.2.2.bb
 +++ b/recipes-extended/ceph/ceph_13.2.2.bb
 @@ -12,6 +12,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
@@ -137,7 +137,7 @@ index 6c6da41..2d13df7 100644
  "
  OECMAKE_GENERATOR = "Unix Makefiles"
  
-@@ -54,15 +68,13 @@ do_configure_prepend () {
+@@ -54,15 +68,15 @@ do_configure_prepend () {
  
  do_install_append () {
  	sed -i -e 's:${WORKDIR}.*python2:${bindir}/python:' ${D}${bindir}/ceph
@@ -155,6 +155,8 @@ index 6c6da41..2d13df7 100644
 -	mv ${D}${libexecdir}/systemd/system/ceph.target ${D}${systemd_unitdir}/system/ceph.target
 +	install -d ${D}${systemd_unitdir}
 +	mv ${D}${libexecdir}/systemd/system ${D}${systemd_unitdir}
++	mv ${D}${libexecdir}/ceph/ceph-osd-prestart.sh ${D}${libdir}/ceph
++	mv ${D}${libexecdir}/ceph/ceph_common.sh ${D}${libdir}/ceph
  }
  
  FILES_${PN} += "\
