@@ -1,70 +1,71 @@
-Return-Path: <brendank310@gmail.com>
+Return-Path: <jpuhlman@mvista.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D8295E00A54; Mon,  5 Nov 2018 10:28:41 -0800 (PST)
+	id 12E0DE00AB9; Tue,  6 Nov 2018 13:58:29 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.222.195 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (brendank310[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.193 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4A963E009AA
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+	[209.85.167.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A72F9E00A0C
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  5 Nov 2018 10:28:41 -0800 (PST)
-Received: by mail-qk1-f195.google.com with SMTP id d19so16525390qkg.5
+	Tue,  6 Nov 2018 13:58:26 -0800 (PST)
+Received: by mail-oi1-f193.google.com with SMTP id u130-v6so12132650oie.7
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 05 Nov 2018 10:28:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=oaKU3Tbs4/4agM5+QDelv6f0bFeW0Um+8YkocbhUM/s=;
-	b=jK3PA5zrC8sjY0iYSP8cAw17y7U6ASlbSc+z6fBIfho4QNNcqydxf9PxOe+LW9le42
-	rJYo1plL4CyXMN8XGTq34tMIX8yOOXJOppR21zS/tx1U2HXHe8w3qx7e/00l2ALBl0Ii
-	xWbK15iOuaOO5IWUqN8RYAYxI4daujpyhTv7w9A9sNK5Mwf1tpPIP6hxRbJJAAPnYfac
-	X89FAuskL+w1bUe7tmKK/WIUZBQunlx8R71eRU1wTlgFMjM1k38HDV76c+PgrwbqS+Ox
-	mSndONZ+DJDNXVuYZ6oexou3NXcGT5OvtsLT3xHHv4sKRh9kEfJgqVoGYlr1SE0WTDYx
-	LSsw==
+	Tue, 06 Nov 2018 13:58:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=QSQd4Vf8ZMn2H2Ae4nVnxNURWRkH9Iri3aaf3Hiv2i0=;
+	b=J+41DI9uJiGvZSYMilmCnbVswkZiZHcpJjKeJ+m3XaMHjG9bGmEybo9ShWgH7Z7B52
+	Ev07bTf576/8vp+mV7P5UnWx3LII78XJhczs4mMAYy/k88+ItP2pUWpSahCqNbjcMh7K
+	QwuhSt3CUX05E5cG0hO3R2CePt/jHqE2QyGX2yFvq5ucq8vz8G31DU2DK8uwRpmfzwlq
+	CdQYPIyjeM2I+LR/ZUTTCzuxlZkaHGD9P2S4mucTkphjJBzBbL3/XEGHS3d7adv+xUaW
+	W9rrVbgTzE0ZWbwJQjg31XjML6HQMpRcVPxRBUWHto0HSGK9wewFOmMWK5vJ/eHFDtPD
+	KHiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=oaKU3Tbs4/4agM5+QDelv6f0bFeW0Um+8YkocbhUM/s=;
-	b=flHwAnFH4e8RQOwUlU+64QWFFSnWnaVcj993hZyinhP7RLk8nW1iRPuz1srrcASdmT
-	X+xgHKkfNe1PT2wgoxmT91o0i049yN7KxqJEH7Jq+QZh8jj4Rv1ayfmjKK+6945jyk9y
-	YJrWUUqgBkVugVY61lTMoBc1UWaqZl3fBKNwX8NacxXbWjGGTVJs6k8KCAMybt8T+9as
-	dHRwyq9ak2b8gakCGo6Iri99PuRoMuEC+EEs0zXjF+3GZ78lat63TjYH6hExsjXJielV
-	Tmp1gvBVThpV2IWvNSXFum/5p1xMuI3v82MiW7a1L+DPDUlvZGJaC9zQstqMkFEF7/YU
-	GrFw==
-X-Gm-Message-State: AGRZ1gJ2JgYmM68H06rkWOvB5Rh/utTVXtP1dccCjAHhvMc66bhaBaig
-	czBsPTEDfPfZbgJka7dCVR9/Ov+V
-X-Google-Smtp-Source: AJdET5fd7i6rJgqZc7Dg/n0tFkDnNgtvhQSI4Uw+iiv1NUhU/GKAakMX/cJ2xi6RiK4WJAAKu2rRIA==
-X-Received: by 2002:ac8:2992:: with SMTP id
-	18-v6mr22069639qts.266.1541442520480; 
-	Mon, 05 Nov 2018 10:28:40 -0800 (PST)
-Received: from localhost.localdomain (209-217-208-226.northland.net.
-	[209.217.208.226]) by smtp.googlemail.com with ESMTPSA id
-	p31sm22457295qkh.86.2018.11.05.10.28.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 05 Nov 2018 10:28:39 -0800 (PST)
-From: Brendan Kerrigan <brendank310@gmail.com>
-X-Google-Original-From: Brendan Kerrigan <kerriganb@ainfosec.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=QSQd4Vf8ZMn2H2Ae4nVnxNURWRkH9Iri3aaf3Hiv2i0=;
+	b=hNtJ4UKbcouUbs2F/4UDzXr2L6NcwjqujYHgu3oTFtfDfp3jTkvhHG4DCmHobQ1n9g
+	koSWUYo6dg/kYYg9eWVhou1egFTgqqWcOtt8iGMVrvNcTvb4l7apux7zeHDBdJTk41wq
+	rcDj6ZiTY7sAqRicW/tv9RQit5+NecdREWdhe/8sZk8mJQNSehZPrzDjShXeNvGR7kSk
+	Nik+mkiUrj2wUpeCVYaUIy7XWwsk3yzbSw3/+lIY7SecFt7kvCAx0lqtN8JcqjhzpnWL
+	oRX6pomflfV8yStwWeNDhHDkrNc2yNdt+hH50yvwmy4JjNV9FDrMiB3f57JccgFUDPws
+	nDLg==
+X-Gm-Message-State: AGRZ1gK+Rw9T5qQiAnVq4lEjVkvCJiDMa6pf0WV6QGQfd9gT4fNbwWjW
+	tYj1USer8R6BZuWDWC25IxBJEXGrzSo=
+X-Google-Smtp-Source: AJdET5eZXcRfScCJI+HIXpqlDb2JuhgP4Yw/cJLXGmCt7vEQ2E3zGMVRgcm+dknQVH//3kun7WG2TQ==
+X-Received: by 2002:aca:5003:: with SMTP id
+	e3-v6mr15315324oib.111.1541541505807; 
+	Tue, 06 Nov 2018 13:58:25 -0800 (PST)
+Received: from jptest02.localdomain
+	(99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+	by smtp.gmail.com with ESMTPSA id
+	r10-v6sm25886518oif.57.2018.11.06.13.58.24
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 06 Nov 2018 13:58:25 -0800 (PST)
+Received: by jptest02.localdomain (Postfix, from userid 1000)
+	id B9C731A0225; Tue,  6 Nov 2018 13:58:23 -0800 (PST)
+From: Jeremy Puhlman <jpuhlman@mvista.com>
 To: meta-virtualization@yoctoproject.org
-Date: Mon,  5 Nov 2018 13:28:05 -0500
-Message-Id: <20181105182805.12356-1-kerriganb@ainfosec.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Brendan Kerrigan <kerriganb@ainfosec.com>
-Subject: [PATCH] xen: remove sse tuning flag
+Date: Tue,  6 Nov 2018 13:58:21 -0800
+Message-Id: <20181106215821.8970-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Cc: Jeremy Puhlman <jpuhlman@mvista.com>
+Subject: [m-c-s][PATCH] postgresql: Fix issue where init script is not found.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,30 +78,30 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 05 Nov 2018 18:28:41 -0000
+X-List-Received-Date: Tue, 06 Nov 2018 21:58:29 -0000
+Content-Transfer-Encoding: 8bit
 
-Strip out the sse4.2 tuning flag to prevent sse instructions
-from being generated in the build, which breaks the hvmloader
-on some machine types (specifically core-i7 from meta-intel).
+layers/meta-cloud-services/meta-openstack/recipes-dbs/postgresql/defaultpkgname/
 
-Signed-off-by: Brendan Kerrigan <kerriganb@ainfosec.com>
+Something changed with the evaluation of :=, such that PN evaluates to defaultpkgname, thus
+the initscript is not found. Just set it to the correct name.
+
+Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- recipes-extended/xen/xen.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 2650413..7eb2ac4 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -842,6 +842,7 @@ export LDFLAGS=""
- # conflicts with -mno-sse so instead we strip -mfpmath=sse instead of
- # patching the build to be ok with this
- TUNE_CCARGS := "${@oe.utils.str_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
-+TUNE_CCARGS := "${@oe.utils.str_filter_out('-msse4.2', '${TUNE_CCARGS}', d)}"
+diff --git a/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc b/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
+index 5bf25e1..b6a9c3c 100644
+--- a/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
++++ b/meta-openstack/recipes-dbs/postgresql/postgresql_openstack.inc
+@@ -1,4 +1,4 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
++FILESEXTRAPATHS_prepend := "${THISDIR}/postgresql:"
  
- # Supply the full set of compiler flags via the tool variables
- # Yocto supplys _FORTIFY_SOURCE via CC/CPP/CXX but optimization -O via C*FLAGS
+ SRC_URI += " \
+     file://postgresql-init \
 -- 
-2.17.1
+2.19.1
 
 
