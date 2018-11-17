@@ -1,37 +1,59 @@
-Return-Path: <chin.huat.ang@intel.com>
+Return-Path: <hackdef@hack-defender.mx>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3C7FDE00ABE; Thu, 15 Nov 2018 17:31:23 -0800 (PST)
+	id 322F6E00A54; Sat, 17 Nov 2018 01:29:04 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, HTML_MESSAGE, RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [134.134.136.20 listed in list.dnswl.org]
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9F8BCE0095C
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.166.176 listed in list.dnswl.org]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-it1-f176.google.com (mail-it1-f176.google.com
+	[209.85.166.176])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8D916E009AA
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 15 Nov 2018 17:31:22 -0800 (PST)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Nov 2018 17:31:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.56,238,1539673200"; d="scan'208";a="280390383"
-Received: from chinhuat-mac01.png.intel.com (HELO ubuntu.localdomain)
-	([10.221.20.192])
-	by fmsmga005.fm.intel.com with ESMTP; 15 Nov 2018 17:31:21 -0800
-From: Chin Huat Ang <chin.huat.ang@intel.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Date: Fri, 16 Nov 2018 09:31:15 +0800
-Message-Id: <1542331875-2822-1-git-send-email-chin.huat.ang@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] docker: fix broken init script
+	Sat, 17 Nov 2018 01:29:03 -0800 (PST)
+Received: by mail-it1-f176.google.com with SMTP id h193so781913ita.5
+	for <meta-virtualization@yoctoproject.org>;
+	Sat, 17 Nov 2018 01:29:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=hack-defender-mx.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=1M05EQjgf/t9wviwxwM3pMzBu3tPGlsQBgPFGVdg1RQ=;
+	b=DZq0WG2MI7Uh0Bgw8bnt8KBjpQKsPB2noCTrqkEM/Lqot6xNGdvFmZ9D4RGWQkBjEN
+	TYh+IXYTPObrOOCJTTQiagTUQD84DnoaDNdhZqTic2rpes/O+WtdUl1TNpyAYiRiz6gW
+	9qoJ34szqlzS4lgoVeu7rFvX7iAVKsL6tCciNf95uQAsnv7gQAJjj90gljbOvrNWTfrd
+	QsTroTcQrucuPMvHudOWxbh5MLA5aeMvkO99jDmrNDUPCszv/UrG6u/nLkCoTjA9wVwf
+	YsPOaqFY5ho2CxSoLjxLn6C1qZ/u6iWWprD0/A8K1mw0ySl0at67sljYicWi0rWGSy0F
+	9bxg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=1M05EQjgf/t9wviwxwM3pMzBu3tPGlsQBgPFGVdg1RQ=;
+	b=WQ8wfDhGXpwkHow8vOf95D7tFy8ptArLHd9ObhF1uNQo+5sv87CyDWL3v/L/FWXe4G
+	pFckICzLyo5tO2J7y+QVpb6rXoocnR2SOXm8dSWsVPqf2vitS9sGm2Insx8G9detfqgS
+	SSnKJE/2H48KQjH1UII/7vsRai2kmvH2cLqb7teeO0XGVQcRLXn3iLbGSbiiIXspQTci
+	CIhcZFYDiGQZX9M2qPrPlF0azRkMjCLgAb2sbS7SLnVZYnn9W6PEwJjiJk1mBPoHMouD
+	ToJ2P3y5uxyUJBVgvs+OtsZi6lNhlT4Bu8/pXEMpgmhH9IWdL3arFP8fgKDo+82gK6so
+	84/w==
+X-Gm-Message-State: AGRZ1gJj3csknmIBsLMZZWvuwDuIJ9aCYGICbakHjjUKEQUI2plwgK7v
+	B2FT9g3DR8bgTWX/wGyFh6H+YVYqtLhVNklsNMgMw1IL4c0=
+X-Google-Smtp-Source: AFSGD/XHrZoowNcEtv8a+EExiT8dZggge47wMLs8dmt1UJYW2FtodalzvkfrGW1rGOTMf4CBsCjOgJIevWKPsIPlLz4=
+X-Received: by 2002:a24:d745:: with SMTP id y66mr1309487itg.18.1542446942737; 
+	Sat, 17 Nov 2018 01:29:02 -0800 (PST)
+MIME-Version: 1.0
+From: HackDef <hackdef@hack-defender.mx>
+Date: Sat, 17 Nov 2018 01:28:52 -0800
+Message-ID: <CABOWBEftJQEUAkdHwcSKUq6ZEcOq9zJFNh5C0riFLHrbc4-UBw@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: Request to backport libvmi to krogoth
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,107 +66,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Nov 2018 01:31:23 -0000
+X-List-Received-Date: Sat, 17 Nov 2018 09:29:04 -0000
+Content-Type: multipart/alternative; boundary="0000000000001b6daa057ad8ea04"
 
-Fix numerous docker.init issues such as missing runtime dependency
-util-linux-unshare, incomplete handling of start/stop etc. operations
-and minor typos.
+--0000000000001b6daa057ad8ea04
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
----
- recipes-containers/docker/docker-ce_git.bb  |  2 +-
- recipes-containers/docker/docker_git.bb     |  2 +-
- recipes-containers/docker/files/docker.init | 12 ++++++++----
- 3 files changed, 10 insertions(+), 6 deletions(-)
+Recently libvmi recipe was added to meta-virtualization on master branch:
 
-diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
-index 7a41850..caf6d70 100644
---- a/recipes-containers/docker/docker-ce_git.bb
-+++ b/recipes-containers/docker/docker-ce_git.bb
-@@ -62,7 +62,7 @@ DEPENDS = " \
- PACKAGES =+ "${PN}-contrib"
- 
- DEPENDS_append_class-target = " lvm2"
--RDEPENDS_${PN} = "util-linux iptables \
-+RDEPENDS_${PN} = "util-linux util-linux-unshare iptables \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
-                  "
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index f63cee1..7957808 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -67,7 +67,7 @@ PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
- PACKAGES =+ "${PN}-contrib"
- 
- DEPENDS_append_class-target = " lvm2"
--RDEPENDS_${PN} = "util-linux iptables \
-+RDEPENDS_${PN} = "util-linux util-linux-unshare iptables \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
-                   ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
-                  "
-diff --git a/recipes-containers/docker/files/docker.init b/recipes-containers/docker/files/docker.init
-index 2e8eb9e..0aea8d0 100644
---- a/recipes-containers/docker/files/docker.init
-+++ b/recipes-containers/docker/files/docker.init
-@@ -22,7 +22,7 @@
- # Source function library.
- . /etc/init.d/functions
- 
--prog="docker"
-+prog="dockerd"
- unshare=/usr/bin/unshare
- exec="/usr/bin/$prog"
- pidfile="/var/run/$prog.pid"
-@@ -40,7 +40,7 @@ start() {
-     if ! [ -f $pidfile ]; then
-         printf "Starting $prog:\t"
-         echo -e "\n$(date)\n" >> $logfile
--        "$unshare" -m -- $exec daemon $other_args &>> $logfile &
-+        "$unshare" -m -- $exec $other_args &>> $logfile &
-         pid=$!
-         touch $lockfile
-         # wait up to 10 seconds for the pidfile to exist.  see
-@@ -83,7 +83,7 @@ force_reload() {
- }
- 
- rh_status() {
--    status -p $pidfile $prog
-+    status $prog
- }
- 
- rh_status_q() {
-@@ -99,24 +99,28 @@ check_for_cleanup() {
- 
- case "$1" in
-     start)
-+        rh_status_q && exit 0
-         $1
-         ;;
-     stop)
-+        rh_status_q || exit 0
-         $1
-         ;;
-     restart)
-         $1
-         ;;
-     reload)
-+        rh_status_q || exit 7
-         $1
-         ;;
-     force-reload)
-         force_reload
-         ;;
-     status)
--        status
-+        rh_status
-         ;;
-     condrestart|try-restart)
-+        rh_status_q || exit 0
-         restart
-         ;;
-     *)
--- 
-2.7.4
+http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-extended/libvmi/libvmi_git.bb
 
+But I use krogoth branch with my current board, so, tried to copy the
+recipe to krogoth branch but throw error on libvirt about: *Nothing
+PROVIDES libxl*, then added new dependencies found on libvirt from master
+and now throws: *Nothing PROVIDES libdevmapper,* so I guess the best
+approach should be to request backporting libvmi to krogoth branch.
 
+Your help is much appreciated.
+
+Please let me know if possible.
+
+Thanks
+
+--
+Hector
+
+--0000000000001b6daa057ad8ea04
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Recently libvmi recipe was added to meta-=
+virtualization on master branch:<div><br></div><div><a href=3D"http://git.y=
+octoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-extended/lib=
+vmi/libvmi_git.bb">http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualiz=
+ation/tree/recipes-extended/libvmi/libvmi_git.bb</a><br></div><div><br></di=
+v><div>But I use krogoth branch with my current board, so, tried to copy th=
+e recipe to krogoth branch but throw error on libvirt about: <b>Nothing PRO=
+VIDES libxl</b>, then added new dependencies found on libvirt from master a=
+nd now throws: <b>Nothing PROVIDES libdevmapper,</b> so I guess the best ap=
+proach should be to <span style=3D"background-color:rgb(255,255,0)">request=
+ backporting libvmi to krogoth branch.</span></div><div><br></div><div>Your=
+ help is much appreciated.</div><div><br></div><div>Please let me know if p=
+ossible.</div><div><br></div><div>Thanks</div><div><br></div><div>--</div><=
+div>Hector</div></div></div>
+
+--0000000000001b6daa057ad8ea04--
