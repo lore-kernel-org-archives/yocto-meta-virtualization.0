@@ -1,59 +1,67 @@
-Return-Path: <hackdef@hack-defender.mx>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 322F6E00A54; Sat, 17 Nov 2018 01:29:04 -0800 (PST)
+	id 5BBE9E00C87; Tue, 20 Nov 2018 13:02:10 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, HTML_MESSAGE, RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.166.176 listed in list.dnswl.org]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	*      [209.85.208.196 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-it1-f176.google.com (mail-it1-f176.google.com
-	[209.85.166.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8D916E009AA
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 94922E00C80
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 17 Nov 2018 01:29:03 -0800 (PST)
-Received: by mail-it1-f176.google.com with SMTP id h193so781913ita.5
+	Tue, 20 Nov 2018 13:02:08 -0800 (PST)
+Received: by mail-lj1-f196.google.com with SMTP id t9-v6so2897454ljh.6
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 17 Nov 2018 01:29:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=hack-defender-mx.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=1M05EQjgf/t9wviwxwM3pMzBu3tPGlsQBgPFGVdg1RQ=;
-	b=DZq0WG2MI7Uh0Bgw8bnt8KBjpQKsPB2noCTrqkEM/Lqot6xNGdvFmZ9D4RGWQkBjEN
-	TYh+IXYTPObrOOCJTTQiagTUQD84DnoaDNdhZqTic2rpes/O+WtdUl1TNpyAYiRiz6gW
-	9qoJ34szqlzS4lgoVeu7rFvX7iAVKsL6tCciNf95uQAsnv7gQAJjj90gljbOvrNWTfrd
-	QsTroTcQrucuPMvHudOWxbh5MLA5aeMvkO99jDmrNDUPCszv/UrG6u/nLkCoTjA9wVwf
-	YsPOaqFY5ho2CxSoLjxLn6C1qZ/u6iWWprD0/A8K1mw0ySl0at67sljYicWi0rWGSy0F
-	9bxg==
+	Tue, 20 Nov 2018 13:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=te2mkUT3AyXxr3/DrrbDMGGS+I20hXmeIgDhfOaSOAI=;
+	b=iki9diW+uYiyQyJf4uU3AWsATfUplZSGQFhhoBWPBELh4rhgrDetcV/F/DqAEUGaX2
+	U55CPz3/oFaktj8BF4pHPgtcjzOvRdj8e8JKMA4kFjtrMPb1LmDgw0dAiFyjzHpMcKF4
+	5szKB0XvqXjWkx/93EUTP1EIJPJDkDK6VkkFLIX7FR6/PGTQzc+AT2n8H/qulN3QPaue
+	04AWHDadiZPSkX0gWcInkGSZIJPuOs2o/netKpdMsCxHH6MuQl4BItDHfcpEZTheugPE
+	W1dxoxV1/eSSS2JrAkkqTIixsl58Blx1ZoXkcbygqkdUPwasT/MDCOuYmSILqVS4MC4p
+	HBfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=1M05EQjgf/t9wviwxwM3pMzBu3tPGlsQBgPFGVdg1RQ=;
-	b=WQ8wfDhGXpwkHow8vOf95D7tFy8ptArLHd9ObhF1uNQo+5sv87CyDWL3v/L/FWXe4G
-	pFckICzLyo5tO2J7y+QVpb6rXoocnR2SOXm8dSWsVPqf2vitS9sGm2Insx8G9detfqgS
-	SSnKJE/2H48KQjH1UII/7vsRai2kmvH2cLqb7teeO0XGVQcRLXn3iLbGSbiiIXspQTci
-	CIhcZFYDiGQZX9M2qPrPlF0azRkMjCLgAb2sbS7SLnVZYnn9W6PEwJjiJk1mBPoHMouD
-	ToJ2P3y5uxyUJBVgvs+OtsZi6lNhlT4Bu8/pXEMpgmhH9IWdL3arFP8fgKDo+82gK6so
-	84/w==
-X-Gm-Message-State: AGRZ1gJj3csknmIBsLMZZWvuwDuIJ9aCYGICbakHjjUKEQUI2plwgK7v
-	B2FT9g3DR8bgTWX/wGyFh6H+YVYqtLhVNklsNMgMw1IL4c0=
-X-Google-Smtp-Source: AFSGD/XHrZoowNcEtv8a+EExiT8dZggge47wMLs8dmt1UJYW2FtodalzvkfrGW1rGOTMf4CBsCjOgJIevWKPsIPlLz4=
-X-Received: by 2002:a24:d745:: with SMTP id y66mr1309487itg.18.1542446942737; 
-	Sat, 17 Nov 2018 01:29:02 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=te2mkUT3AyXxr3/DrrbDMGGS+I20hXmeIgDhfOaSOAI=;
+	b=mPRsyE1MgaIeiiEhH9SdoHWHqUEmKweiqIpOI3ABS/3+DVNG83uXpDExIVI0HPQQCN
+	aYfvA7CohsvSC1/68bRJhVxuvZ4Mktpczv8b11BoMs0yMr+VOxfJhDEoplgZxangX+Da
+	2QoG9xWXKgrG4TNV4WUuyAy/TpklBRlt35gA+AyKDPLFyZOL8S0d2rmmPClLozOY6WJ4
+	BDfpiiDmqoeUFJCV/NRJ3ivS9eInf7uRkcJiptUnBWN7O5aAJEPeuA6NqUB2oH2i1Kah
+	iyNIu/7ShxuOTY/nMYaTqEHbEVKwfY4jL1Z0JVfLC1fjxrXPMKXB5Noz+r94jZKDs/WB
+	TDVg==
+X-Gm-Message-State: AGRZ1gKXZBL/Q6ZwOzT8xy54B4nJ8rLeRglBGbilscMqTuiUu9usSDIE
+	m0ppCb7YTDXvSDXAqAJqLF89gFZiyO1bm6vo1TU=
+X-Google-Smtp-Source: AFSGD/X2jF86pgWtMP6dLF6tieIt+Syyjpe6K/60DG/rFEDYVJz+UF2XNLB6MSNRU3ZpzsW3i6/fHhc5TKaijLLkU5Y=
+X-Received: by 2002:a2e:8596:: with SMTP id
+	b22-v6mr2227727lji.122.1542747727593; 
+	Tue, 20 Nov 2018 13:02:07 -0800 (PST)
 MIME-Version: 1.0
-From: HackDef <hackdef@hack-defender.mx>
-Date: Sat, 17 Nov 2018 01:28:52 -0800
-Message-ID: <CABOWBEftJQEUAkdHwcSKUq6ZEcOq9zJFNh5C0riFLHrbc4-UBw@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Request to backport libvmi to krogoth
+References: <1542331875-2822-1-git-send-email-chin.huat.ang@intel.com>
+In-Reply-To: <1542331875-2822-1-git-send-email-chin.huat.ang@intel.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 20 Nov 2018 16:01:55 -0500
+Message-ID: <CADkTA4PBz4U4po-7BuFQv6Um8fAKPMSk2=JMW-7iN2-L2B+rPA@mail.gmail.com>
+To: chin.huat.ang@intel.com
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] docker: fix broken init script
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -66,48 +74,119 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 17 Nov 2018 09:29:04 -0000
-Content-Type: multipart/alternative; boundary="0000000000001b6daa057ad8ea04"
-
---0000000000001b6daa057ad8ea04
+X-List-Received-Date: Tue, 20 Nov 2018 21:02:10 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Recently libvmi recipe was added to meta-virtualization on master branch:
+merged
 
-http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-extended/libvmi/libvmi_git.bb
+Bruce
+On Thu, Nov 15, 2018 at 8:31 PM Chin Huat Ang <chin.huat.ang@intel.com> wrote:
+>
+> Fix numerous docker.init issues such as missing runtime dependency
+> util-linux-unshare, incomplete handling of start/stop etc. operations
+> and minor typos.
+>
+> Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
+> ---
+>  recipes-containers/docker/docker-ce_git.bb  |  2 +-
+>  recipes-containers/docker/docker_git.bb     |  2 +-
+>  recipes-containers/docker/files/docker.init | 12 ++++++++----
+>  3 files changed, 10 insertions(+), 6 deletions(-)
+>
+> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+> index 7a41850..caf6d70 100644
+> --- a/recipes-containers/docker/docker-ce_git.bb
+> +++ b/recipes-containers/docker/docker-ce_git.bb
+> @@ -62,7 +62,7 @@ DEPENDS = " \
+>  PACKAGES =+ "${PN}-contrib"
+>
+>  DEPENDS_append_class-target = " lvm2"
+> -RDEPENDS_${PN} = "util-linux iptables \
+> +RDEPENDS_${PN} = "util-linux util-linux-unshare iptables \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
+>                   "
+> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+> index f63cee1..7957808 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -67,7 +67,7 @@ PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
+>  PACKAGES =+ "${PN}-contrib"
+>
+>  DEPENDS_append_class-target = " lvm2"
+> -RDEPENDS_${PN} = "util-linux iptables \
+> +RDEPENDS_${PN} = "util-linux util-linux-unshare iptables \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'aufs', 'aufs-util', '', d)} \
+>                    ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '', 'cgroup-lite', d)} \
+>                   "
+> diff --git a/recipes-containers/docker/files/docker.init b/recipes-containers/docker/files/docker.init
+> index 2e8eb9e..0aea8d0 100644
+> --- a/recipes-containers/docker/files/docker.init
+> +++ b/recipes-containers/docker/files/docker.init
+> @@ -22,7 +22,7 @@
+>  # Source function library.
+>  . /etc/init.d/functions
+>
+> -prog="docker"
+> +prog="dockerd"
+>  unshare=/usr/bin/unshare
+>  exec="/usr/bin/$prog"
+>  pidfile="/var/run/$prog.pid"
+> @@ -40,7 +40,7 @@ start() {
+>      if ! [ -f $pidfile ]; then
+>          printf "Starting $prog:\t"
+>          echo -e "\n$(date)\n" >> $logfile
+> -        "$unshare" -m -- $exec daemon $other_args &>> $logfile &
+> +        "$unshare" -m -- $exec $other_args &>> $logfile &
+>          pid=$!
+>          touch $lockfile
+>          # wait up to 10 seconds for the pidfile to exist.  see
+> @@ -83,7 +83,7 @@ force_reload() {
+>  }
+>
+>  rh_status() {
+> -    status -p $pidfile $prog
+> +    status $prog
+>  }
+>
+>  rh_status_q() {
+> @@ -99,24 +99,28 @@ check_for_cleanup() {
+>
+>  case "$1" in
+>      start)
+> +        rh_status_q && exit 0
+>          $1
+>          ;;
+>      stop)
+> +        rh_status_q || exit 0
+>          $1
+>          ;;
+>      restart)
+>          $1
+>          ;;
+>      reload)
+> +        rh_status_q || exit 7
+>          $1
+>          ;;
+>      force-reload)
+>          force_reload
+>          ;;
+>      status)
+> -        status
+> +        rh_status
+>          ;;
+>      condrestart|try-restart)
+> +        rh_status_q || exit 0
+>          restart
+>          ;;
+>      *)
+> --
+> 2.7.4
+>
 
-But I use krogoth branch with my current board, so, tried to copy the
-recipe to krogoth branch but throw error on libvirt about: *Nothing
-PROVIDES libxl*, then added new dependencies found on libvirt from master
-and now throws: *Nothing PROVIDES libdevmapper,* so I guess the best
-approach should be to request backporting libvmi to krogoth branch.
 
-Your help is much appreciated.
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
-Please let me know if possible.
-
-Thanks
-
---
-Hector
-
---0000000000001b6daa057ad8ea04
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Recently libvmi recipe was added to meta-=
-virtualization on master branch:<div><br></div><div><a href=3D"http://git.y=
-octoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-extended/lib=
-vmi/libvmi_git.bb">http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualiz=
-ation/tree/recipes-extended/libvmi/libvmi_git.bb</a><br></div><div><br></di=
-v><div>But I use krogoth branch with my current board, so, tried to copy th=
-e recipe to krogoth branch but throw error on libvirt about: <b>Nothing PRO=
-VIDES libxl</b>, then added new dependencies found on libvirt from master a=
-nd now throws: <b>Nothing PROVIDES libdevmapper,</b> so I guess the best ap=
-proach should be to <span style=3D"background-color:rgb(255,255,0)">request=
- backporting libvmi to krogoth branch.</span></div><div><br></div><div>Your=
- help is much appreciated.</div><div><br></div><div>Please let me know if p=
-ossible.</div><div><br></div><div>Thanks</div><div><br></div><div>--</div><=
-div>Hector</div></div></div>
-
---0000000000001b6daa057ad8ea04--
