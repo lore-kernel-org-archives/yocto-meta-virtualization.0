@@ -1,36 +1,35 @@
 Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9B381E00C59; Wed, 28 Nov 2018 08:17:54 -0800 (PST)
+	id 87CECE00C87; Wed, 28 Nov 2018 11:49:48 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	http://www.dnswl.org/, *      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7AD06E00C46
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 78224E00C59
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 28 Nov 2018 08:17:53 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wASGHMlC008097
+	Wed, 28 Nov 2018 11:49:47 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wASJnk99028051
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 28 Nov 2018 08:17:42 -0800
+	Wed, 28 Nov 2018 11:49:47 -0800 (PST)
 Received: from yow-cube2.wrs.com (128.224.56.99) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 28 Nov 2018 08:17:32 -0800
+	Wed, 28 Nov 2018 11:49:46 -0800
 From: Mark Asselstine <mark.asselstine@windriver.com>
 To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
-Date: Wed, 28 Nov 2018 11:17:32 -0500
-Message-ID: <1543421852-17067-1-git-send-email-mark.asselstine@windriver.com>
+Date: Wed, 28 Nov 2018 14:49:45 -0500
+Message-ID: <1543434585-29236-1-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] libvirt: uprev from 4.7.0 to 4.9.0
+Subject: [PATCH] lxc: uprev from 3.0.2 to 3.0.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,182 +42,85 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 28 Nov 2018 16:17:54 -0000
+X-List-Received-Date: Wed, 28 Nov 2018 19:49:48 -0000
 Content-Type: text/plain
 
-Minor update bringing in new features such as better support for
-cgroup v2, vfio AP support, support for XEN suspend/wakeup.
+Update to the just released v3.0.3. This release is a collection of
+minor changes, bug fixes, logging updates, documentation cleanup, code
+cleanup and some new tests.
 
-Basic usecases pass and the ptest return similar results we have been
-achieving with the last few uprevs:
+We have an improved outlook as far as ptests is concerned as well:
+    ### Starting LXC ptest ###
+    FAIL: lxc-test-api-reboot
+    SKIPPED: lxc-test-apparmor
+    PASS: lxc-test-attach
+    PASS: lxc-test-automount
+    FAIL: lxc-test-autostart
+    PASS: lxc-test-basic
+    PASS: lxc-test-cgpath
+    PASS: lxc-test-cloneconfig
+    PASS: lxc-test-clonetest
+    PASS: lxc-test-concurrent
+    PASS: lxc-test-config-jump-table
+    PASS: lxc-test-console
+    PASS: lxc-test-console-log
+    PASS: lxc-test-containertests
+    PASS: lxc-test-createconfig
+    PASS: lxc-test-createtest
+    PASS: lxc-test-criu-check-feature
+    PASS: lxc-test-destroytest
+    PASS: lxc-test-device-add-remove
+    PASS: lxc-test-get_item
+    PASS: lxc-test-getkeys
+    PASS: lxc-test-list
+    PASS: lxc-test-locktests
+    PASS: lxc-test-lxcpath
+    PASS: lxc-test-may-control
+    FAIL: lxc-test-no-new-privs
+    PASS: lxc-test-parse-config-file
+    PASS: lxc-test-raw-clone
+    PASS: lxc-test-reboot
+    PASS: lxc-test-rootfs
+    PASS: lxc-test-saveconfig
+    PASS: lxc-test-share-ns
+    PASS: lxc-test-shortlived
+    SKIPPED: lxc-test-shutdowntest
+    PASS: lxc-test-snapshot
+    PASS: lxc-test-startone
+    SKIPPED: lxc-test-state-server
+    PASS: lxc-test-utils
 
-    ====================================
-    Testsuite summary for libvirt 4.9.0
-    ====================================
-    # TOTAL: 120
-    # PASS:  117
-    # SKIP:  0
-    # XFAIL: 0
-    # FAIL:  3
-    # XPASS: 0
-    # ERROR: 0
+    Results:
+        PASSED = 32
+        FAILED = 3
+        SKIPPED = 3
+    (for details check individual test log in ./logs directory)
+
+    ### LXC ptest complete ###
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-extended/libvirt/libvirt-python.inc        |   4 +-
- .../lxc_monitor-Avoid-AB-BA-lock-race.patch        | 106 ---------------------
- .../libvirt/{libvirt_4.7.0.bb => libvirt_4.9.0.bb} |   5 +-
- 3 files changed, 4 insertions(+), 111 deletions(-)
- delete mode 100644 recipes-extended/libvirt/libvirt/lxc_monitor-Avoid-AB-BA-lock-race.patch
- rename recipes-extended/libvirt/{libvirt_4.7.0.bb => libvirt_4.9.0.bb} (98%)
+ recipes-containers/lxc/{lxc_3.0.2.bb => lxc_3.0.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-containers/lxc/{lxc_3.0.2.bb => lxc_3.0.3.bb} (97%)
 
-diff --git a/recipes-extended/libvirt/libvirt-python.inc b/recipes-extended/libvirt/libvirt-python.inc
-index be9079d..ae43ba8 100644
---- a/recipes-extended/libvirt/libvirt-python.inc
-+++ b/recipes-extended/libvirt/libvirt-python.inc
-@@ -18,8 +18,8 @@ FILES_${PN}-python = "${bindir}/* ${libdir}/* ${libdir}/${PYTHON_DIR}/*"
- SRC_URI += "http://libvirt.org/sources/python/libvirt-python-${PV}.tar.gz;name=libvirt_python"
- SRC_URI += "file://libvirt_api_xml_path.patch;patchdir=../libvirt-python-${PV}"
+diff --git a/recipes-containers/lxc/lxc_3.0.2.bb b/recipes-containers/lxc/lxc_3.0.3.bb
+similarity index 97%
+rename from recipes-containers/lxc/lxc_3.0.2.bb
+rename to recipes-containers/lxc/lxc_3.0.3.bb
+index 9bb2866..f3924e4 100644
+--- a/recipes-containers/lxc/lxc_3.0.2.bb
++++ b/recipes-containers/lxc/lxc_3.0.3.bb
+@@ -48,8 +48,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://lxc-net \
+ 	"
  
--SRC_URI[libvirt_python.md5sum] = "32cf281199367aec2881c96d1bd80dc6"
--SRC_URI[libvirt_python.sha256sum] = "e36fee5898de3550ed7e63d5d0a8447f9d78f06574634855dee59eae27930908"
-+SRC_URI[libvirt_python.md5sum] = "cba7dc90d564aa8c267c38d452b83f80"
-+SRC_URI[libvirt_python.sha256sum] = "01c4becf50b521a9e3d1b48a3a79d83cb389d86d760b895d911d78f5b6ae7b60"
+-SRC_URI[md5sum] = "72e2f1e718c7ddf3ffa9b18ec0328d8f"
+-SRC_URI[sha256sum] = "6ab7117b17066220da450c55ed77953998cf2336d415143b879554364af12f5c"
++SRC_URI[md5sum] = "0aa1a982f7dfa4c7b8ce87b7047b0b6e"
++SRC_URI[sha256sum] = "620cb832cc02c63bf4d330657bf6176544e145da281ee384a34d689635a19841"
  
- export LIBVIRT_API_PATH = "${S}/docs/libvirt-api.xml"
- export LIBVIRT_CFLAGS = "-I${S}/include"
-diff --git a/recipes-extended/libvirt/libvirt/lxc_monitor-Avoid-AB-BA-lock-race.patch b/recipes-extended/libvirt/libvirt/lxc_monitor-Avoid-AB-BA-lock-race.patch
-deleted file mode 100644
-index fc3880f..0000000
---- a/recipes-extended/libvirt/libvirt/lxc_monitor-Avoid-AB-BA-lock-race.patch
-+++ /dev/null
-@@ -1,106 +0,0 @@
--From 7882c6eca53fe9abe253497a50f6c5ae062176d3 Mon Sep 17 00:00:00 2001
--From: Mark Asselstine <mark.asselstine@windriver.com>
--Date: Mon, 24 Sep 2018 11:11:35 -0400
--Subject: [PATCH] lxc_monitor: Avoid AB / BA lock race
--
--A deadlock situation can occur when autostarting a LXC domain 'guest'
--due to two threads attempting to take opposing locks while holding
--opposing locks (AB BA problem). Thread A takes and holds the 'vm' lock
--while attempting to take the 'client' lock, meanwhile, thread B takes
--and holds the 'client' lock while attempting to take the 'vm' lock.
--
--The potential for this can be seen as follows:
--
--Thread A:
--virLXCProcessAutostartDomain (takes vm lock)
-- --> virLXCProcessStart
--  --> virLXCProcessConnectMonitor
--   --> virLXCMonitorNew
--    --> virNetClientSetCloseCallback (wants client lock)
--
--Thread B:
--virNetClientIncomingEvent (takes client lock)
-- --> virNetClientIOHandleInput
--  --> virNetClientCallDispatch
--   --> virNetClientCallDispatchMessage
--    --> virNetClientProgramDispatch
--     --> virLXCMonitorHandleEventInit
--      --> virLXCProcessMonitorInitNotify (wants vm lock)
--
--Since these threads are scheduled independently and are preemptible it
--is possible for the deadlock scenario to occur where each thread locks
--their first lock but both will fail to get their second lock and just
--spin forever. You get something like:
--
--virLXCProcessAutostartDomain (takes vm lock)
-- --> virLXCProcessStart
--  --> virLXCProcessConnectMonitor
--   --> virLXCMonitorNew
--<...>
--virNetClientIncomingEvent (takes client lock)
-- --> virNetClientIOHandleInput
--  --> virNetClientCallDispatch
--   --> virNetClientCallDispatchMessage
--    --> virNetClientProgramDispatch
--     --> virLXCMonitorHandleEventInit
--      --> virLXCProcessMonitorInitNotify (wants vm lock but spins)
--<...>
--    --> virNetClientSetCloseCallback (wants client lock but spins)
--
--Neither thread ever gets the lock it needs to be able to continue
--while holding the lock that the other thread needs.
--
--The actual window for preemption which can cause this deadlock is
--rather small, between the calls to virNetClientProgramNew() and
--execution of virNetClientSetCloseCallback(), both in
--virLXCMonitorNew(). But it can be seen in real world use that this
--small window is enough.
--
--By moving the call to virNetClientSetCloseCallback() ahead of
--virNetClientProgramNew() we can close any possible chance of the
--deadlock taking place. There should be no other implications to the
--move since the close callback (in the unlikely event was called) will
--spin on the vm lock. The remaining work that takes place between the
--old call location of virNetClientSetCloseCallback() and the new
--location is unaffected by the move.
--
--Upstream-Status: Backport commit 7882c6eca53f
--
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
--Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-----
-- src/lxc/lxc_monitor.c | 11 +++++++----
-- 1 file changed, 7 insertions(+), 4 deletions(-)
--
--diff --git a/src/lxc/lxc_monitor.c b/src/lxc/lxc_monitor.c
--index e765c16..0b18a14 100644
----- a/src/lxc/lxc_monitor.c
--+++ b/src/lxc/lxc_monitor.c
--@@ -161,6 +161,13 @@ virLXCMonitorPtr virLXCMonitorNew(virDomainObjPtr vm,
--     if (virNetClientRegisterAsyncIO(mon->client) < 0)
--         goto error;
-- 
--+    /* avoid deadlock by making this call before assigning virLXCMonitorEvents */
--+    virNetClientSetCloseCallback(mon->client, virLXCMonitorEOFNotify, mon,
--+                                 virLXCMonitorCloseFreeCallback);
--+
--+    /* close callback now has its own reference */
--+    virObjectRef(mon);
--+
--     if (!(mon->program = virNetClientProgramNew(VIR_LXC_MONITOR_PROGRAM,
--                                                 VIR_LXC_MONITOR_PROGRAM_VERSION,
--                                                 virLXCMonitorEvents,
--@@ -175,10 +182,6 @@ virLXCMonitorPtr virLXCMonitorNew(virDomainObjPtr vm,
--     mon->vm = virObjectRef(vm);
--     memcpy(&mon->cb, cb, sizeof(mon->cb));
-- 
---    virObjectRef(mon);
---    virNetClientSetCloseCallback(mon->client, virLXCMonitorEOFNotify, mon,
---                                 virLXCMonitorCloseFreeCallback);
---
--  cleanup:
--     VIR_FREE(sockpath);
--     return mon;
---- 
--2.7.4
--
-diff --git a/recipes-extended/libvirt/libvirt_4.7.0.bb b/recipes-extended/libvirt/libvirt_4.9.0.bb
-similarity index 98%
-rename from recipes-extended/libvirt/libvirt_4.7.0.bb
-rename to recipes-extended/libvirt/libvirt_4.9.0.bb
-index 5136798..768cf0e 100644
---- a/recipes-extended/libvirt/libvirt_4.7.0.bb
-+++ b/recipes-extended/libvirt/libvirt_4.9.0.bb
-@@ -35,11 +35,10 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
-            file://install-missing-file.patch \
-            file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
-            file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
--           file://lxc_monitor-Avoid-AB-BA-lock-race.patch \
-           "
- 
--SRC_URI[libvirt.md5sum] = "38da6c33250dcbc0a6d68de5c758262b"
--SRC_URI[libvirt.sha256sum] = "92c279f7321624ac5a37a81f8bbe8c8d2a16781da04c63c99c92d3de035767e4"
-+SRC_URI[libvirt.md5sum] = "aaf7b265ac2013d6eb184a86b5f7eeb9"
-+SRC_URI[libvirt.sha256sum] = "4fd4bfe7312b7996a817c7919cf0062de0d5b3c400c93bd30855a46c40dd455a"
- 
- inherit autotools gettext update-rc.d pkgconfig ptest systemd
+ S = "${WORKDIR}/${BPN}-${PV}"
  
 -- 
 2.7.4
