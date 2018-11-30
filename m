@@ -1,58 +1,35 @@
-Return-Path: <tyu@cisco.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7454AE00C72; Thu, 29 Nov 2018 12:15:10 -0800 (PST)
+	id BF8FCE00C72; Fri, 30 Nov 2018 13:46:56 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_HI, SPF_HELO_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at http://www.dnswl.org/,
-	high *      trust
-	*      [173.37.142.92 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -7.5 USER_IN_DEF_DKIM_WL From: address is in the default DKIM
-	white-list
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-X-Greylist: delayed 62 seconds by postgrey-1.32 at yocto-www;
-	Thu, 29 Nov 2018 12:15:07 PST
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 381B6E00901
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6DDD1E00C49
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Nov 2018 12:15:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=790; q=dns/txt; s=iport;
-	t=1543522507; x=1544732107;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=YVUpAfLKtNacDilukVXhZ6AH3ExEHf0Le5GXhy5XiK0=;
-	b=cMXjlppnJEk5pUUhQO/LMkiu86VLixnv3B3kdANSt+etNxyKGrsDwVgp
-	dH/tK/iqOHCS8mP05d5xLQEcYFjkcFmWUTAxWcNl1v3ikJ9YmtGT6+b8e
-	eBBNXJXYiFnstyxoAPTTXYK1o1lJPvqwAta3CGK1lwIX/VON3FLLmCI4a Y=;
-X-IronPort-AV: E=Sophos;i="5.56,295,1539648000"; d="scan'208";a="205683639"
-Received: from alln-core-10.cisco.com ([173.36.13.132])
-	by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2018 20:14:04 +0000
-Received: from sjc-ads-3167.cisco.com (sjc-ads-3167.cisco.com [171.68.248.120])
-	by alln-core-10.cisco.com (8.15.2/8.15.2) with ESMTP id wATKE4BL010964; 
-	Thu, 29 Nov 2018 20:14:04 GMT
-Received: by sjc-ads-3167.cisco.com (Postfix, from userid 23091)
-	id 1B89A914; Thu, 29 Nov 2018 12:14:04 -0800 (PST)
-From: Ting Yu <tyu@cisco.com>
-To: meta-virtualization@yoctoproject.org
-Date: Thu, 29 Nov 2018 12:14:01 -0800
-Message-Id: <20181129201401.25972-1-tyu@cisco.com>
-X-Mailer: git-send-email 2.19.1
+	Fri, 30 Nov 2018 13:46:55 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAULks1u013900
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 30 Nov 2018 13:46:54 -0800 (PST)
+Received: from yow-cube2.wrs.com (128.224.56.99) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Fri, 30 Nov 2018 13:46:54 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
+Date: Fri, 30 Nov 2018 16:46:53 -0500
+Message-ID: <1543614413-14710-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 171.68.248.120, sjc-ads-3167.cisco.com
-X-Outbound-Node: alln-core-10.cisco.com
-Subject: [PATCH] Add pidfile flag to store dockerd PID in /var/run/dockerd.pid
+Subject: [PATCH] lxcfs: uprev from v3.0.1 to v3.0.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -65,27 +42,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 29 Nov 2018 20:15:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Nov 2018 21:46:56 -0000
+Content-Type: text/plain
 
+A very small # of new commits. Most are minor bug fixes, no feature
+work. I looked at adding ptests but the tests are mostly in an
+unusable state at the moment, for example several require cgm despite
+cgmanager being deprecated. So I have opted to continue without them
+and only when we can work with upstream to improve their testing can
+we seriously consider adding them.
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-containers/docker/files/docker.init | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-containers/lxcfs/{lxcfs_3.0.1.bb => lxcfs_3.0.3.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-containers/lxcfs/{lxcfs_3.0.1.bb => lxcfs_3.0.3.bb} (84%)
 
-diff --git a/recipes-containers/docker/files/docker.init b/recipes-containers/docker/files/docker.init
-index 0aea8d0..b37ddc9 100644
---- a/recipes-containers/docker/files/docker.init
-+++ b/recipes-containers/docker/files/docker.init
-@@ -28,7 +28,7 @@ exec="/usr/bin/$prog"
- pidfile="/var/run/$prog.pid"
- lockfile="/var/lock/subsys/$prog"
- logfile="/var/log/$prog"
--other_args="--registry-mirror=http://localhost:5000 --insecure-registry=http://localhost:5000 --raw-logs"
-+other_args="--pidfile $pidfile --registry-mirror=http://localhost:5000 --insecure-registry=http://localhost:5000 --raw-logs"
+diff --git a/recipes-containers/lxcfs/lxcfs_3.0.1.bb b/recipes-containers/lxcfs/lxcfs_3.0.3.bb
+similarity index 84%
+rename from recipes-containers/lxcfs/lxcfs_3.0.1.bb
+rename to recipes-containers/lxcfs/lxcfs_3.0.3.bb
+index 576027f..b6b6ac6 100644
+--- a/recipes-containers/lxcfs/lxcfs_3.0.1.bb
++++ b/recipes-containers/lxcfs/lxcfs_3.0.3.bb
+@@ -10,8 +10,8 @@ SRC_URI = " \
+ "
  
- [ -e /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
+ LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-SRC_URI[md5sum] = "fa49872fc45846125455199a2cce18f1"
+-SRC_URI[sha256sum] = "016c317f13392bebccba338511f537332fb2fdbaf62a5f6d77307b38a348f41f"
++SRC_URI[md5sum] = "bfc41f949caeabd0468189480222f25e"
++SRC_URI[sha256sum] = "890aa30d960d9b1e53b0c0712bf645c1f1924f750e32cd090f368c1338bd462f"
  
+ DEPENDS += "fuse"
+ RDEPENDS_${PN} += "fuse"
 -- 
-2.19.1
+2.7.4
 
 
