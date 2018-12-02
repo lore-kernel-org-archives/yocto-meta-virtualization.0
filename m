@@ -1,35 +1,65 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id BF8FCE00C72; Fri, 30 Nov 2018 13:46:56 -0800 (PST)
+	id 17372E00C1E; Sun,  2 Dec 2018 13:55:20 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6DDD1E00C49
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.68 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C0156E00BB7
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Nov 2018 13:46:55 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id wAULks1u013900
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun,  2 Dec 2018 13:55:18 -0800 (PST)
+Received: by mail-ed1-f68.google.com with SMTP id f9so2632096eds.10
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Nov 2018 13:46:54 -0800 (PST)
-Received: from yow-cube2.wrs.com (128.224.56.99) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Fri, 30 Nov 2018 13:46:54 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@windriver.com>, <meta-virtualization@yoctoproject.org>
-Date: Fri, 30 Nov 2018 16:46:53 -0500
-Message-ID: <1543614413-14710-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] lxcfs: uprev from v3.0.1 to v3.0.3
+	Sun, 02 Dec 2018 13:55:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=HkXeLaj6Alrs/tTMsMwviCRcT5i1MwVU89bWZpLjh7w=;
+	b=0VRTGDZRFi7k0wmCDjmDiFQxT8lD96UctHFg3cn3PNqtX9uz3mCtsm3K9KY1fvmQ9b
+	SzSPe8R/jiS2WRzWpQbqVZK37MzX2GAskOYbLBhf3ZDnnniSFosmsiJBVuAJLaX/RAzy
+	5yNBriL6d7wg7xVuZdFp3UrMg8ADUKDuCJ2zzjUoZfuuJg0llBQoDsKRMo9rlVmX/nWD
+	vn5bGtN9/KdOuqPhUQexOssKFJ1efbBfipe0Ftxxm3SoR0FC+WHJU6lhnSWcAhPZ45jS
+	46vIycIlHl495d1WTf1jLGJJefH5PfIk8qcOCqbDzbEfUIuosY/Lzq95xJF/DHyad9H0
+	T0Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HkXeLaj6Alrs/tTMsMwviCRcT5i1MwVU89bWZpLjh7w=;
+	b=JQ6u7yfG6T3fuEScKTPEPi1SK/dtvlVDmGFYcKZTIVueEzjXgm2r8X7VDTMmNpMjxx
+	5f9MolKsJ8NQ2+dQH5D6jxw7O/FS1OuBowFXIBtx+MoBWTTlbe4LnM0ysMxX9hZ5Av6M
+	DQZ6R/4jGwJn5GIe+7m65EOm2RNSTF/8k90V0j1Mz7YsXleHhc1khKlR5GeM2BoRlB9Z
+	2OAzKkSHV4VxrRUhcK+3eHFR/x6fx5yiCTglpHFtNlSOzuElE1WgR6RXXGk3AQsAixHO
+	qSqGRsuEHBvT0LAgiHx2IFJEThVSODmih6vccYx/BCXNJjynkZ4XBu03FZTjpLVxQPGv
+	zHAQ==
+X-Gm-Message-State: AA+aEWZx51qVyTx6Zgm/ZTq0OkIZHWgYRHLQxCkfbDUPmBs1v6RwZqaj
+	7m/8R83QXDIsIEvnVqjID8uxAOzZw9M=
+X-Google-Smtp-Source: AFSGD/VlwEF/Fmd0FYOV2kxTFxT+QqU+2OpMUTlrTUJM79atxFd/7u0wxqb8Tt7rTaC1+UsXAYoZvQ==
+X-Received: by 2002:a17:906:228d:: with SMTP id
+	p13-v6mr11006009eja.159.1543787717410; 
+	Sun, 02 Dec 2018 13:55:17 -0800 (PST)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	gg9-v6sm1903736ejb.66.2018.12.02.13.55.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 02 Dec 2018 13:55:16 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To: meta-virtualization@yoctoproject.org
+Date: Sun,  2 Dec 2018 22:55:15 +0100
+Message-Id: <20181202215515.14864-1-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] README: add optional dependency on meta-cloud-services
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,41 +72,34 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Nov 2018 21:46:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 02 Dec 2018 21:55:20 -0000
 
-A very small # of new commits. Most are minor bug fixes, no feature
-work. I looked at adding ptests but the tests are mostly in an
-unusable state at the moment, for example several require cgm despite
-cgmanager being deprecated. So I have opted to continue without them
-and only when we can work with upstream to improve their testing can
-we seriously consider adding them.
+Ceph package depends on libibverbs, which is provided by the
+meta-cloud-services layer.
 
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 ---
- recipes-containers/lxcfs/{lxcfs_3.0.1.bb => lxcfs_3.0.3.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename recipes-containers/lxcfs/{lxcfs_3.0.1.bb => lxcfs_3.0.3.bb} (84%)
+ README | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/recipes-containers/lxcfs/lxcfs_3.0.1.bb b/recipes-containers/lxcfs/lxcfs_3.0.3.bb
-similarity index 84%
-rename from recipes-containers/lxcfs/lxcfs_3.0.1.bb
-rename to recipes-containers/lxcfs/lxcfs_3.0.3.bb
-index 576027f..b6b6ac6 100644
---- a/recipes-containers/lxcfs/lxcfs_3.0.1.bb
-+++ b/recipes-containers/lxcfs/lxcfs_3.0.3.bb
-@@ -10,8 +10,8 @@ SRC_URI = " \
- "
+diff --git a/README b/README
+index 810f263..7c08db4 100644
+--- a/README
++++ b/README
+@@ -59,6 +59,12 @@ branch: master
+ revision: HEAD
+ prio: default
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=3b83ef96387f14655fc854ddc3c6bd57"
--SRC_URI[md5sum] = "fa49872fc45846125455199a2cce18f1"
--SRC_URI[sha256sum] = "016c317f13392bebccba338511f537332fb2fdbaf62a5f6d77307b38a348f41f"
-+SRC_URI[md5sum] = "bfc41f949caeabd0468189480222f25e"
-+SRC_URI[sha256sum] = "890aa30d960d9b1e53b0c0712bf645c1f1924f750e32cd090f368c1338bd462f"
++Required for Ceph:
++URI: git://git.yoctoproject.org/meta-cloud-services
++branch: master
++revision: HEAD
++prio: default
++
+ Maintenance
+ -----------
  
- DEPENDS += "fuse"
- RDEPENDS_${PN} += "fuse"
 -- 
-2.7.4
+2.17.1
 
 
