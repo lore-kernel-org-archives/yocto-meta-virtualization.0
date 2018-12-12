@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 59831E009B2; Wed, 12 Dec 2018 11:16:53 -0800 (PST)
+	id DA2AAE00A54; Wed, 12 Dec 2018 11:17:06 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,56 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.68 listed in list.dnswl.org]
+	*      [209.85.208.172 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 159B1E008C6
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+	[209.85.208.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5FB00E0090E
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 12 Dec 2018 11:16:51 -0800 (PST)
-Received: by mail-lf1-f68.google.com with SMTP id b20so14365165lfa.12
+	Wed, 12 Dec 2018 11:17:05 -0800 (PST)
+Received: by mail-lj1-f172.google.com with SMTP id n18-v6so17289932lji.7
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 12 Dec 2018 11:16:51 -0800 (PST)
+	Wed, 12 Dec 2018 11:17:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=kgNdjV13GC1zH1i7BQITS9dULJavJV1bGN8VjHKNRS0=;
-	b=R/XSa8qGjXAtSzpfig6KIYLCQBqfpih9lKblMYadYOALmVSYBh4ipaOh/CERGyVB6r
-	CAPNXmQn5vajkLOpeaIDP/UnEuoCckKhBbfEqqVpV76d5ORfhqE0sG0oVMy0PJnHIdYq
-	rIn/Ko9twVInSDJT1P+3iLkLK2auiyjsNGWQW4xagsevcaVqQ0PPhC4ZM5kK8s4w6FFV
-	w6zupJ/r7KDZ/U70k8GCMzIFSfCLX2mHe3AM0yXQzLlfCeQU0IFd1800COzUoTLuZltU
-	rq8B7h733se6aOQDXD1yOqb5ArVQagdMeOc6D44mi6RnG670GWqmA5eNFMQrF3coBeaw
-	/GeQ==
+	:cc:content-transfer-encoding;
+	bh=PWjAUwSdvzUqGAkesu0fz6uhaCHaQO5adwpF99Q/nig=;
+	b=OcjdTJqM/OKOp74oaWzXlUEA9H2KMVAIlST9XicfxzfxIT9EpcAC4He6kh1MYCz7sU
+	SmlPQrfvM54LenqMluxSgzsck4WeYvDFDqqzf/HZ0ome4CGWobUKKr+BC+uZnGbiBfSf
+	CGBKoKARKmrxkx2E8Hf0eOewHpRZnqwsU8fIw/E/2/OEXY40iwGe8wLL9vz7OF3ilTIS
+	K9XqwgsTxSGIJFSAmdXjERQWkgR8zaZBM5kIjrSwHUlcZR6pxQZC/K9VKZ9zQNrpHKLA
+	UJCI2runUoOiPG90s6AvIq8YdfXPvr5m3TReE/woC9yxkGeNR2kjYThDBE0vy5blbavZ
+	66eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=kgNdjV13GC1zH1i7BQITS9dULJavJV1bGN8VjHKNRS0=;
-	b=H+EWOyAC6p0PkJrjGjjAnP1V1AtaGyJN7TQOj0mAG4G+EkIOoVuatwEHmz+mWXjFXo
-	YCH9spBrxEGUpyLI9ZWnzw8Y/5YOqgdE45QF3zM+psfJIk+EbO6kCt7DGHTIRGcb4WUS
-	J1rgYUHOAGaAiE4jyK0Kv09YximR28o0aUrZlgc4ZefduX3i4YTFDyxDbF2P/CUQswIY
-	TXqn8w6tDwHAy1LWHl9A6GRCy2b5A7au9Ytd7vJBZTnAEGflQnZclJymRjeMDJ3pzqU9
-	KPKIaEAE4U1kWUJEVIoxFctHLsfy5mL+EfnVW5/4HJBGi29jx6B5xC6evgA9pm/pc5eS
-	K10g==
-X-Gm-Message-State: AA+aEWYHzUVI5iKvDIOiCeg6jG2OPSJRO3MLXSvSvxD9MB1zuiZIgFAg
-	Iq6iXDYL33+VU0KhGKdJbMtIXUHJi38mcB7leUnEiA==
-X-Google-Smtp-Source: AFSGD/Xes8AVDZZVgxbHCixcnIJLNmFjc5BrIU6a0kJINTGnENsHFmiM44Qk4lHE0vohZFpMvkkHW7TgswdywaCzjj8=
-X-Received: by 2002:a19:c203:: with SMTP id l3mr1085213lfc.113.1544642210625; 
-	Wed, 12 Dec 2018 11:16:50 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=PWjAUwSdvzUqGAkesu0fz6uhaCHaQO5adwpF99Q/nig=;
+	b=SfJUdMEerbWAdvsyD7LlRm3SiEFhWeEbDVoocO+pb1k1lV8A9aKbgcbvOnHkp0+41o
+	TMOlDNONKzQCuuN4JpECN1QfQ5jxmfpJ7KZ/U2H4f7eRFj0NQTysFvuYlimMdCaGrGxU
+	YGW9E9XJFEJ2Q+HRh//gmec4XVn4bDn1hfFL4zhcEBmf/GtQoRBXjTuph4YWNMbARSzh
+	XnjbUc76VptGggfe1Cch+xP2aUs+9T1hPWn3E54VnFWyQ6eH1D9QiWOpa7Hh2J97BNLj
+	fo8GoUrxBWnNFKloHBqMu8VBQgKjM2ul6Wif7syUcaEYFUAlDXgJa0ivDy4sQ2OWhIFp
+	VAbw==
+X-Gm-Message-State: AA+aEWb0AaNIlmZVkGShsl6qdKqUY9PTS96G97vERZ8zuTyDHyD4tnQy
+	/xly2TXISuHFuOULSwK49OD/IOYfYSYcH50i2UmYBQ==
+X-Google-Smtp-Source: AFSGD/VEQ2T+MgeBK/amuR/h0fTKeCMkZJOoMHF4MtDgxY2A3oUSZF0zMvQPFNjax0RpiAVksimg/IhLaaX8YE/Oiu8=
+X-Received: by 2002:a2e:8596:: with SMTP id
+	b22-v6mr13446331lji.122.1544642224242; 
+	Wed, 12 Dec 2018 11:17:04 -0800 (PST)
 MIME-Version: 1.0
-References: <1543803601-13184-1-git-send-email-chin.huat.ang@intel.com>
-In-Reply-To: <1543803601-13184-1-git-send-email-chin.huat.ang@intel.com>
+References: <20181206233302.25442-1-chanudete@ainfosec.com>
+In-Reply-To: <20181206233302.25442-1-chanudete@ainfosec.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 12 Dec 2018 14:16:38 -0500
-Message-ID: <CADkTA4OFPO8BMRKrcQhv3sbb=h6sH0NuAZaUwCc5zc95Mkho7A@mail.gmail.com>
-To: chin.huat.ang@intel.com
+Date: Wed, 12 Dec 2018 14:16:52 -0500
+Message-ID: <CADkTA4NuLHETKmaUrXPCKZRTE01oDD3Z71vqHvdC+ztBhMSYRg@mail.gmail.com>
+To: eric.chanudet@gmail.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 1/2] lxc: remove virtio kernel configs
+Subject: Re: [PATCH] xen: Amend do_install for FHS 3.0.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,51 +75,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Dec 2018 19:16:53 -0000
+X-List-Received-Date: Wed, 12 Dec 2018 19:17:06 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-merged
+merged.
 
 Bruce
-On Sun, Dec 2, 2018 at 9:20 PM Chin Huat Ang <chin.huat.ang@intel.com> wrote:
+On Thu, Dec 6, 2018 at 6:35 PM Eric Chanudet <eric.chanudet@gmail.com> wrot=
+e:
 >
-> The script lxc-checkconfig doesn't seem to report virtio related kernel
-> configs as required, so remove them from lxc.cfg instead.
+> Under FHS 3.0: /var/run -> /run
+> http://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch03s15.html
 >
-> Signed-off-by: Chin Huat Ang <chin.huat.ang@intel.com>
+> systemd-tmpfiles throws some warnings with /var/run in xen.conf:
+> systemd-tmpfiles[981]: [/etc/tmpfiles.d/xen.conf:1] Line references path =
+below legacy directory /var/run/, updating /var/run/xenstored =E2=86=92 /ru=
+n/xenstored; please update the tmpfiles.d/ drop-in file accordingly.
+> systemd-tmpfiles[981]: [/etc/tmpfiles.d/xen.conf:2] Line references path =
+below legacy directory /var/run/, updating /var/run/xend =E2=86=92 /run/xen=
+d; please update the tmpfiles.d/ drop-in file accordingly.
+> systemd-tmpfiles[981]: [/etc/tmpfiles.d/xen.conf:3] Line references path =
+below legacy directory /var/run/, updating /var/run/xend/boot =E2=86=92 /ru=
+n/xend/boot; please update the tmpfiles.d/ drop-in file accordingly.
+> systemd-tmpfiles[981]: [/etc/tmpfiles.d/xen.conf:4] Line references path =
+below legacy directory /var/run/, updating /var/run/xen =E2=86=92 /run/xen;=
+ please update the tmpfiles.d/ drop-in file accordingly.
+>
+> Signed-off-by: Eric Chanudet <chanudete@ainfosec.com>
 > ---
->  recipes-kernel/linux/linux-yocto/lxc.cfg | 11 -----------
->  1 file changed, 11 deletions(-)
+>  recipes-extended/xen/xen.inc | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
 >
-> diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg b/recipes-kernel/linux/linux-yocto/lxc.cfg
-> index c25d60f..e5f1edc 100644
-> --- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-> +++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-> @@ -21,18 +21,7 @@ CONFIG_NETPRIO_CGROUP=m
->  CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
+> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+> index 7eb2ac4..e29e7f7 100644
+> --- a/recipes-extended/xen/xen.inc
+> +++ b/recipes-extended/xen/xen.inc
+> @@ -992,17 +992,18 @@ do_install() {
+>      oe_runmake DESTDIR=3D"${D}" install
 >
->  # Virtual drivers
-> -CONFIG_VIRTIO_BLK=y
-> -CONFIG_SCSI_VIRTIO=y
-> -CONFIG_VIRTIO_NET=m
->  CONFIG_HVC_DRIVER=y
-> -CONFIG_VIRTIO_CONSOLE=y
-> -CONFIG_HW_RANDOM_VIRTIO=m
-> -CONFIG_VIRTIO=y
-> -CONFIG_VIRTIO_RING=y
-> -CONFIG_VIRTIO_PCI=y
-> -CONFIG_VIRTIO_BALLOON=y
-> -CONFIG_VIRTIO_MMIO=y
-> -
+>      # remove installed volatiles
+> -    rm -rf ${D}${localstatedir}/run \
+> +    rm -rf ${D}${base_prefix}/run \
+> +        ${D}${localstatedir}/run \
+>          ${D}${localstatedir}/lock \
+>          ${D}${localstatedir}/log \
+>          ${D}${localstatedir}/volatile \
+>          ${D}${localstatedir}/lib/xen
 >
->  # Base support for live boot
->  CONFIG_BLK_DEV_LOOP=y
+>      VOLATILE_DIRS=3D" \
+> -        ${localstatedir}/run/xenstored \
+> -        ${localstatedir}/run/xend \
+> -        ${localstatedir}/run/xend/boot \
+> -        ${localstatedir}/run/xen \
+> +        ${base_prefix}/run/xenstored \
+> +        ${base_prefix}/run/xend \
+> +        ${base_prefix}/run/xend/boot \
+> +        ${base_prefix}/run/xen \
+>          ${localstatedir}/log/xen \
+>          ${localstatedir}/lock/xen \
+>          ${localstatedir}/lock/subsys \
 > --
-> 2.7.4
+> 2.19.1
 >
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
 
--- 
+
+--=20
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
