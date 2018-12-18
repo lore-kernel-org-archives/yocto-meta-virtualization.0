@@ -1,54 +1,35 @@
-Return-Path: <tyu@cisco.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B0CD4E00CF1; Thu, 13 Dec 2018 12:41:08 -0800 (PST)
+	id 093D0E00CAB; Mon, 17 Dec 2018 21:31:57 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-14.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_HI, SPF_HELO_PASS,
-	USER_IN_DEF_DKIM_WL autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at http://www.dnswl.org/,
-	high *      trust
-	*      [173.37.142.90 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -7.5 USER_IN_DEF_DKIM_WL From: address is in the default DKIM
-	white-list
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 71EFAE00CC8
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4A8DFE00CA1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Dec 2018 12:41:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=4768; q=dns/txt; s=iport;
-	t=1544733667; x=1545943267;
-	h=from:to:cc:subject:date:message-id;
-	bh=FEP5IEqGblK/o4e3U0MHQ7WswEdraSGMU39QSsYb+rs=;
-	b=Cv8oSBzC6FzwRSSc3W82nt2x3m6ylNsvhJqB0ITNZcRdngM/5gVmYFlj
-	gQewp2hibtxvwG7PkfKIvDTkEFy8VSAZt+FkIb6hpFhDw8Npt8lY0Z3sI
-	nFVwTDeWC2P/AWCvjGUV91h5OP1MBSkg+IM//M+qmzWlTqfodnavy58KF E=;
-X-IronPort-AV: E=Sophos;i="5.56,349,1539648000"; d="scan'208";a="213115355"
-Received: from rcdn-core-8.cisco.com ([173.37.93.144])
-	by alln-iport-3.cisco.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2018 20:41:06 +0000
-Received: from sjc-ads-3167.cisco.com (sjc-ads-3167.cisco.com [171.68.248.120])
-	by rcdn-core-8.cisco.com (8.15.2/8.15.2) with ESMTP id wBDKf67N019289; 
-	Thu, 13 Dec 2018 20:41:06 GMT
-Received: by sjc-ads-3167.cisco.com (Postfix, from userid 23091)
-	id 17FA5AF1; Thu, 13 Dec 2018 12:41:06 -0800 (PST)
-From: Ting Yu <tyu@cisco.com>
-To: meta-virtualization@yoctoproject.org
-Date: Thu, 13 Dec 2018 20:41:04 +0000
-Message-Id: <1544733664-26667-1-git-send-email-tyu@cisco.com>
-X-Mailer: git-send-email 2.7.4
-X-Outbound-SMTP-Client: 171.68.248.120, sjc-ads-3167.cisco.com
-X-Outbound-Node: rcdn-core-8.cisco.com
-Subject: [PATCH] add the py2 version for python-docker and python-docker-pycreds packages
+	Mon, 17 Dec 2018 21:31:56 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id wBI5VIk9011185
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Dec 2018 21:31:29 -0800
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
+	Mon, 17 Dec 2018 21:31:08 -0800
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
+Date: Tue, 18 Dec 2018 00:31:16 -0500
+Message-ID: <1545111076-243584-1-git-send-email-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.8.1
+MIME-Version: 1.0
+Subject: [PATCH] openvswitch: Add new option to use short hostname for ovs-ctl script
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -61,123 +42,110 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Dec 2018 20:41:08 -0000
+X-List-Received-Date: Tue, 18 Dec 2018 05:31:57 -0000
+Content-Type: text/plain
 
-add the py2 version for python-docker and python-docker-pycreds packages.
-add python-six and python-backport_ssl (for ph2 only) as python-docker dependencies.
+[Backport two commits from openvswitch]
 
-verify the connection to docker engine at run time -
->>> import docker
->>> client = docker.from_env()
->>> client.images.list()
-[<Image: 'hello-world:latest'>]
+Current ovs-ctl forces to set full hostname in external-ids. In
+some situation users may want to set short hostname. For example,
+in OpenStack - OVN integration, Neutron uses the host-id provided
+by Nova, which is usually short hostname, to set "requested-chassis"
+in OVN. The mismatch in hypervisor's external-ids:hostname setting
+causes OVN port binding failure. It can be overridden to short name
+but a openvswitch restart using ovs-ctl would again set it to full
+hostname. This patch ensures in such use cases --no-full-hostname
+can be specified to ovs-ctl to set short hostname instead.
 
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 ---
- recipes-devtools/python/python-docker-pycreds.inc       |  7 +++++++
- recipes-devtools/python/python-docker-pycreds_0.3.0.bb  |  3 +++
- recipes-devtools/python/python-docker.inc               | 14 ++++++++++++++
- recipes-devtools/python/python-docker_3.4.0.bb          |  6 ++++++
- recipes-devtools/python/python3-docker-pycreds_0.3.0.bb |  8 +-------
- recipes-devtools/python/python3-docker_3.4.0.bb         | 16 +---------------
- 6 files changed, 32 insertions(+), 22 deletions(-)
- create mode 100644 recipes-devtools/python/python-docker-pycreds.inc
- create mode 100644 recipes-devtools/python/python-docker-pycreds_0.3.0.bb
- create mode 100644 recipes-devtools/python/python-docker.inc
- create mode 100644 recipes-devtools/python/python-docker_3.4.0.bb
+ ...-ctl-Add-new-option-to-use-short-hostname.patch | 63 ++++++++++++++++++++++
+ recipes-networking/openvswitch/openvswitch_git.bb  |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 recipes-networking/openvswitch/openvswitch-git/0001-ovs-ctl-Add-new-option-to-use-short-hostname.patch
 
-diff --git a/recipes-devtools/python/python-docker-pycreds.inc b/recipes-devtools/python/python-docker-pycreds.inc
+diff --git a/recipes-networking/openvswitch/openvswitch-git/0001-ovs-ctl-Add-new-option-to-use-short-hostname.patch b/recipes-networking/openvswitch/openvswitch-git/0001-ovs-ctl-Add-new-option-to-use-short-hostname.patch
 new file mode 100644
-index 0000000..ca0995f
+index 0000000..b539310
 --- /dev/null
-+++ b/recipes-devtools/python/python-docker-pycreds.inc
-@@ -0,0 +1,7 @@
-+SUMMARY = "Python bindings for the docker credentials store API"
-+HOMEPAGE = "https://github.com/shin-/dockerpy-creds"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
++++ b/recipes-networking/openvswitch/openvswitch-git/0001-ovs-ctl-Add-new-option-to-use-short-hostname.patch
+@@ -0,0 +1,63 @@
++From 48091ad4e2417df5494be1a61378785d3bae9733 Mon Sep 17 00:00:00 2001
++From: "Hongzhi.Song" <hongzhi.song@windriver.com>
++Date: Mon, 17 Dec 2018 04:16:24 -0500
++Subject: [PATCH] ovs-ctl: Add new option to use short hostname
 +
-+SRC_URI[md5sum] = "2370ea3b62198b788a26231ab58844af"
-+SRC_URI[sha256sum] = "8b0e956c8d206f832b06aa93a710ba2c3bcbacb5a314449c040b0b814355bbff"
-diff --git a/recipes-devtools/python/python-docker-pycreds_0.3.0.bb b/recipes-devtools/python/python-docker-pycreds_0.3.0.bb
-new file mode 100644
-index 0000000..6dc4521
---- /dev/null
-+++ b/recipes-devtools/python/python-docker-pycreds_0.3.0.bb
-@@ -0,0 +1,3 @@
-+inherit pypi setuptools
-+require python-docker-pycreds.inc
++Current ovs-ctl forces to set full hostname in external-ids. In
++some situation users may want to set short hostname. For example,
++in OpenStack - OVN integration, Neutron uses the host-id provided
++by Nova, which is usually short hostname, to set "requested-chassis"
++in OVN. The mismatch in hypervisor's external-ids:hostname setting
++causes OVN port binding failure. It can be overridden to short name
++but a openvswitch restart using ovs-ctl would again set it to full
++hostname. This patch ensures in such use cases --no-full-hostname
++can be specified to ovs-ctl to set short hostname instead.
 +
-diff --git a/recipes-devtools/python/python-docker.inc b/recipes-devtools/python/python-docker.inc
-new file mode 100644
-index 0000000..eec7cda
---- /dev/null
-+++ b/recipes-devtools/python/python-docker.inc
-@@ -0,0 +1,14 @@
-+SUMMARY = "A Python library for the Docker Engine API."
-+HOMEPAGE = "https://github.com/docker/docker-py"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
++Signed-off-by: Han Zhou <hzhou8@ebay.com>
++Signed-off-by: Ben Pfaff <blp@ovn.org>
 +
-+SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
-+SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
++Upstream-Status: Backport [298115b94] and [dd091e163].
 +
-+RDEPENDS_${PN} += " \
-+	${PYTHON_PN}-six \
-+	${PYTHON_PN}-docker-pycreds \
-+	${PYTHON_PN}-requests \
-+	${PYTHON_PN}-websocket-client \
-+"
-diff --git a/recipes-devtools/python/python-docker_3.4.0.bb b/recipes-devtools/python/python-docker_3.4.0.bb
-new file mode 100644
-index 0000000..a964254
---- /dev/null
-+++ b/recipes-devtools/python/python-docker_3.4.0.bb
-@@ -0,0 +1,6 @@
-+inherit pypi setuptools
-+require python-docker.inc
++Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
++---
++ utilities/ovs-ctl.in | 10 +++++++++-
++ 1 file changed, 9 insertions(+), 1 deletion(-)
 +
-+RDEPENDS_${PN} += " \
-+                   python-backports-ssl \
-+                  "
-diff --git a/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-index 4d39f52..75a83e0 100644
---- a/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-+++ b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-@@ -1,9 +1,3 @@
--SUMMARY = "Python bindings for the docker credentials store API"
--HOMEPAGE = "https://github.com/shin-/dockerpy-creds"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
--
- inherit pypi setuptools3
-+require python-docker-pycreds.inc
++diff --git a/utilities/ovs-ctl.in b/utilities/ovs-ctl.in
++index 43c8f32..ca5e1dd 100755
++--- a/utilities/ovs-ctl.in
+++++ b/utilities/ovs-ctl.in
++@@ -38,7 +38,12 @@ insert_mod_if_required () {
++ set_hostname () {
++     # 'hostname -f' needs network connectivity to work.  So we should
++     # call this only after ovs-vswitchd is running.
++-    ovs_vsctl set Open_vSwitch . external-ids:hostname="$(hostname -f)"
+++    if test X$FULL_HOSTNAME = Xyes; then
+++        hn="$(hostname -f)" || hn="$(uname -n)"
+++    else
+++        hn="$(uname -n)"
+++    fi
+++    ovs_vsctl set Open_vSwitch . external-ids:hostname="$hn"
++ }
++ 
++ set_system_ids () {
++@@ -291,6 +296,8 @@ enable_protocol () {
++ set_defaults () {
++     SYSTEM_ID=
++ 
+++    FULL_HOSTNAME=yes
+++
++     DELETE_BRIDGES=no
++     DELETE_TRANSIENT_PORTS=no
++ 
++@@ -376,6 +383,7 @@ Less important options for "start", "restart" and "force-reload-kmod":
++   --no-mlockall                  do not lock all of ovs-vswitchd into memory
++   --ovsdb-server-priority=NICE   set ovsdb-server's niceness (default: $OVSDB_SERVER_PRIORITY)
++   --ovs-vswitchd-priority=NICE   set ovs-vswitchd's niceness (default: $OVS_VSWITCHD_PRIORITY)
+++  --no-full-hostname             set short hostname instead of full hostname
++ 
++ Debugging options for "start", "restart" and "force-reload-kmod":
++   --ovsdb-server-wrapper=WRAPPER
++-- 
++2.8.1
++
+diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+index b8bbb3a..9be4a91 100644
+--- a/recipes-networking/openvswitch/openvswitch_git.bb
++++ b/recipes-networking/openvswitch/openvswitch_git.bb
+@@ -33,6 +33,7 @@ SRC_URI = "file://openvswitch-switch \
+            file://python-switch-remaining-scripts-to-use-python3.patch \
+            file://systemd-update-tool-paths.patch \
+            file://systemd-create-runtime-dirs.patch \
++           file://0001-ovs-ctl-Add-new-option-to-use-short-hostname.patch \
+            "
  
--SRC_URI[md5sum] = "2370ea3b62198b788a26231ab58844af"
--SRC_URI[sha256sum] = "8b0e956c8d206f832b06aa93a710ba2c3bcbacb5a314449c040b0b814355bbff"
-diff --git a/recipes-devtools/python/python3-docker_3.4.0.bb b/recipes-devtools/python/python3-docker_3.4.0.bb
-index 6e81302..052cbe8 100644
---- a/recipes-devtools/python/python3-docker_3.4.0.bb
-+++ b/recipes-devtools/python/python3-docker_3.4.0.bb
-@@ -1,17 +1,3 @@
--SUMMARY = "A Python library for the Docker Engine API."
--HOMEPAGE = "https://github.com/docker/docker-py"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
--
- inherit pypi setuptools3
--
--SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
--SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
--
- DEPENDS += "${PYTHON_PN}-pip-native"
--
--RDEPENDS_${PN} += " \
--	python3-docker-pycreds \
--	python3-requests \
--	python3-websocket-client \
--"
-+require python-docker.inc
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
 -- 
-2.7.4
+2.8.1
 
 
