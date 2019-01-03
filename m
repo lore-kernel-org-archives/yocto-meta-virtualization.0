@@ -1,66 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 20291E00D14; Fri, 21 Dec 2018 05:47:15 -0800 (PST)
+	id 14139E00C28; Thu,  3 Jan 2019 13:23:13 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.52 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
-	[209.85.167.52])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7B6D0E0097C
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 52BA6E00C10
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 21 Dec 2018 05:47:14 -0800 (PST)
-Received: by mail-lf1-f52.google.com with SMTP id l10so3946231lfh.9
+	Thu,  3 Jan 2019 13:23:12 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x03LMpij005082
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 21 Dec 2018 05:47:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=evPkBV3tqsUi47bUvUGQcLc/DjvADfqJvf5Luk/hIGo=;
-	b=WyB8fOIvSB3BqeRh88AGOMyriUBjcEBysIrkcu864tLP/yhcSD8GPBYl3xp0k4t44a
-	ID+xIUEXMJkrevMVQxd++b72RmumPz50Aw1c5NnJ3TU/XERHDCBRyK9uyFt6APQN/mAG
-	a0E5ql93JR7gOXzfI01BDMRwvKmpJRyFwPrTV0saqPTJdxGqNSuEPBKEilF+HYB7SF7e
-	llX8Mh9FOqEBzZn3TgjVFVJG/EzuOETCJoQxfgMiYGyBE8YHh1Yqi24TG/GqyKhYGdth
-	/S8pdPt9phwVrvTI/XQ9Cd4h0fVfG5KIL2t79J+/GkgU+hsWlonePKMKV6xydrwNp5lg
-	XDxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=evPkBV3tqsUi47bUvUGQcLc/DjvADfqJvf5Luk/hIGo=;
-	b=nyoG9DVonYzizUPfyKo6z3qnTSxtGkFvmmlvEIZR7v4s5gvP6Omaxu93QBn7SXpaGb
-	ya8MpBdocXdxjqF+MWihwChe/2FG1JH86ZtEXiSp560JSF20Gu8GMc71sPJJL/03v0bH
-	NZQ4y78pTvxpJubbcOKizqz7HuY0OOYDYZnZ2YvOc2bhJ9OV5IYdG/P3sN/pH3Wh4aJA
-	854+g6GpPF2LcD+/6/AagOb3VJWdSs/I+gjMAX+miv5T86SlwpzBaqy+DYocFKtupo4d
-	VQ9p06Z5vwC49uCOmFP/xpkCIaRFPebPWfeVErkUKgSrBO0BUJSLJ/C4hmCDASqzxiPs
-	Llsg==
-X-Gm-Message-State: AA+aEWaVCHS5INnukEduaKRTD64MMKpHzEwdyqC0KBp4MbKeRfcZltlC
-	9rQ0GJPQuryi9yoZQNwdjEx6g14qGZg+Omj/uBI=
-X-Google-Smtp-Source: AFSGD/WOOylteLqAJXl8509yj9T7uO3ujv0zmCcNUVtl5xyOdnkyMhY2wzILYctIJ7arVfA661Q0Z56Wr8/x2X0rPCc=
-X-Received: by 2002:a19:5059:: with SMTP id z25mr1477563lfj.120.1545400033080; 
-	Fri, 21 Dec 2018 05:47:13 -0800 (PST)
+	Thu, 3 Jan 2019 13:23:01 -0800
+Received: from yow-cube2.wrs.com (128.224.56.99) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 3 Jan 2019 13:22:40 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Thu, 3 Jan 2019 16:22:36 -0500
+Message-ID: <1546550556-25294-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <1544733664-26667-1-git-send-email-tyu@cisco.com>
-In-Reply-To: <1544733664-26667-1-git-send-email-tyu@cisco.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 21 Dec 2018 08:47:01 -0500
-Message-ID: <CADkTA4Pbmpd79KgXQP-viaFFN_P6_o6sxqJ1nxEQxjZB5d=T2g@mail.gmail.com>
-To: tyu@cisco.com
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] add the py2 version for python-docker and python-docker-pycreds packages
+Subject: [PATCH] lxc: uprev from 3.0.3 to 3.1.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,146 +43,86 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Dec 2018 13:47:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 03 Jan 2019 21:23:13 -0000
+Content-Type: text/plain
 
-sorry for the delay, I was waiting to see if anyone else had comments
-and then forgot to loop back to this!
+Minor updates and fixes. Improved ptest results per below.
 
-The change looks good to me, and tested ok in my setup.
+    root@cube-essential:/usr/lib64/lxc/ptest# ./run-ptest
+    ### Starting LXC ptest ###
+    FAIL: lxc-test-api-reboot
+    SKIPPED: lxc-test-apparmor
+    PASS: lxc-test-attach
+    PASS: lxc-test-automount
+    PASS: lxc-test-autostart
+    PASS: lxc-test-basic
+    PASS: lxc-test-cgpath
+    PASS: lxc-test-cloneconfig
+    PASS: lxc-test-clonetest
+    PASS: lxc-test-concurrent
+    PASS: lxc-test-config-jump-table
+    PASS: lxc-test-console
+    PASS: lxc-test-console-log
+    PASS: lxc-test-containertests
+    PASS: lxc-test-createconfig
+    PASS: lxc-test-createtest
+    PASS: lxc-test-criu-check-feature
+    PASS: lxc-test-destroytest
+    PASS: lxc-test-device-add-remove
+    PASS: lxc-test-get_item
+    PASS: lxc-test-getkeys
+    PASS: lxc-test-list
+    PASS: lxc-test-locktests
+    PASS: lxc-test-lxcpath
+    PASS: lxc-test-may-control
+    PASS: lxc-test-mount-injection
+    PASS: lxc-test-no-new-privs
+    PASS: lxc-test-parse-config-file
+    PASS: lxc-test-raw-clone
+    PASS: lxc-test-reboot
+    PASS: lxc-test-rootfs
+    PASS: lxc-test-saveconfig
+    PASS: lxc-test-share-ns
+    PASS: lxc-test-shortlived
+    SKIPPED: lxc-test-shutdowntest
+    PASS: lxc-test-snapshot
+    PASS: lxc-test-startone
+    SKIPPED: lxc-test-state-server
+    PASS: lxc-test-utils
 
-This is now merged.
+    Results:
+        PASSED = 35
+        FAILED = 1
+        SKIPPED = 3
+        (for details check individual test log in ./logs directory)
 
-Bruce
-On Thu, Dec 13, 2018 at 3:41 PM Ting Yu <tyu@cisco.com> wrote:
->
-> add the py2 version for python-docker and python-docker-pycreds packages.
-> add python-six and python-backport_ssl (for ph2 only) as python-docker dependencies.
->
-> verify the connection to docker engine at run time -
-> >>> import docker
-> >>> client = docker.from_env()
-> >>> client.images.list()
-> [<Image: 'hello-world:latest'>]
->
-> ---
->  recipes-devtools/python/python-docker-pycreds.inc       |  7 +++++++
->  recipes-devtools/python/python-docker-pycreds_0.3.0.bb  |  3 +++
->  recipes-devtools/python/python-docker.inc               | 14 ++++++++++++++
->  recipes-devtools/python/python-docker_3.4.0.bb          |  6 ++++++
->  recipes-devtools/python/python3-docker-pycreds_0.3.0.bb |  8 +-------
->  recipes-devtools/python/python3-docker_3.4.0.bb         | 16 +---------------
->  6 files changed, 32 insertions(+), 22 deletions(-)
->  create mode 100644 recipes-devtools/python/python-docker-pycreds.inc
->  create mode 100644 recipes-devtools/python/python-docker-pycreds_0.3.0.bb
->  create mode 100644 recipes-devtools/python/python-docker.inc
->  create mode 100644 recipes-devtools/python/python-docker_3.4.0.bb
->
-> diff --git a/recipes-devtools/python/python-docker-pycreds.inc b/recipes-devtools/python/python-docker-pycreds.inc
-> new file mode 100644
-> index 0000000..ca0995f
-> --- /dev/null
-> +++ b/recipes-devtools/python/python-docker-pycreds.inc
-> @@ -0,0 +1,7 @@
-> +SUMMARY = "Python bindings for the docker credentials store API"
-> +HOMEPAGE = "https://github.com/shin-/dockerpy-creds"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-> +
-> +SRC_URI[md5sum] = "2370ea3b62198b788a26231ab58844af"
-> +SRC_URI[sha256sum] = "8b0e956c8d206f832b06aa93a710ba2c3bcbacb5a314449c040b0b814355bbff"
-> diff --git a/recipes-devtools/python/python-docker-pycreds_0.3.0.bb b/recipes-devtools/python/python-docker-pycreds_0.3.0.bb
-> new file mode 100644
-> index 0000000..6dc4521
-> --- /dev/null
-> +++ b/recipes-devtools/python/python-docker-pycreds_0.3.0.bb
-> @@ -0,0 +1,3 @@
-> +inherit pypi setuptools
-> +require python-docker-pycreds.inc
-> +
-> diff --git a/recipes-devtools/python/python-docker.inc b/recipes-devtools/python/python-docker.inc
-> new file mode 100644
-> index 0000000..eec7cda
-> --- /dev/null
-> +++ b/recipes-devtools/python/python-docker.inc
-> @@ -0,0 +1,14 @@
-> +SUMMARY = "A Python library for the Docker Engine API."
-> +HOMEPAGE = "https://github.com/docker/docker-py"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
-> +
-> +SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
-> +SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
-> +
-> +RDEPENDS_${PN} += " \
-> +       ${PYTHON_PN}-six \
-> +       ${PYTHON_PN}-docker-pycreds \
-> +       ${PYTHON_PN}-requests \
-> +       ${PYTHON_PN}-websocket-client \
-> +"
-> diff --git a/recipes-devtools/python/python-docker_3.4.0.bb b/recipes-devtools/python/python-docker_3.4.0.bb
-> new file mode 100644
-> index 0000000..a964254
-> --- /dev/null
-> +++ b/recipes-devtools/python/python-docker_3.4.0.bb
-> @@ -0,0 +1,6 @@
-> +inherit pypi setuptools
-> +require python-docker.inc
-> +
-> +RDEPENDS_${PN} += " \
-> +                   python-backports-ssl \
-> +                  "
-> diff --git a/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-> index 4d39f52..75a83e0 100644
-> --- a/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-> +++ b/recipes-devtools/python/python3-docker-pycreds_0.3.0.bb
-> @@ -1,9 +1,3 @@
-> -SUMMARY = "Python bindings for the docker credentials store API"
-> -HOMEPAGE = "https://github.com/shin-/dockerpy-creds"
-> -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
-> -
->  inherit pypi setuptools3
-> +require python-docker-pycreds.inc
->
-> -SRC_URI[md5sum] = "2370ea3b62198b788a26231ab58844af"
-> -SRC_URI[sha256sum] = "8b0e956c8d206f832b06aa93a710ba2c3bcbacb5a314449c040b0b814355bbff"
-> diff --git a/recipes-devtools/python/python3-docker_3.4.0.bb b/recipes-devtools/python/python3-docker_3.4.0.bb
-> index 6e81302..052cbe8 100644
-> --- a/recipes-devtools/python/python3-docker_3.4.0.bb
-> +++ b/recipes-devtools/python/python3-docker_3.4.0.bb
-> @@ -1,17 +1,3 @@
-> -SUMMARY = "A Python library for the Docker Engine API."
-> -HOMEPAGE = "https://github.com/docker/docker-py"
-> -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
-> -
->  inherit pypi setuptools3
-> -
-> -SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
-> -SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
-> -
->  DEPENDS += "${PYTHON_PN}-pip-native"
-> -
-> -RDEPENDS_${PN} += " \
-> -       python3-docker-pycreds \
-> -       python3-requests \
-> -       python3-websocket-client \
-> -"
-> +require python-docker.inc
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
+    ### LXC ptest complete ###
 
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+---
+ recipes-containers/lxc/{lxc_3.0.3.bb => lxc_3.1.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-containers/lxc/{lxc_3.0.3.bb => lxc_3.1.0.bb} (97%)
 
-
+diff --git a/recipes-containers/lxc/lxc_3.0.3.bb b/recipes-containers/lxc/lxc_3.1.0.bb
+similarity index 97%
+rename from recipes-containers/lxc/lxc_3.0.3.bb
+rename to recipes-containers/lxc/lxc_3.1.0.bb
+index f3924e4..9dba76b 100644
+--- a/recipes-containers/lxc/lxc_3.0.3.bb
++++ b/recipes-containers/lxc/lxc_3.1.0.bb
+@@ -48,8 +48,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://lxc-net \
+ 	"
+ 
+-SRC_URI[md5sum] = "0aa1a982f7dfa4c7b8ce87b7047b0b6e"
+-SRC_URI[sha256sum] = "620cb832cc02c63bf4d330657bf6176544e145da281ee384a34d689635a19841"
++SRC_URI[md5sum] = "e83e302a801494276f3772e687a3b8b0"
++SRC_URI[sha256sum] = "4d8772c25baeaea2c37a954902b88c05d1454c91c887cb6a0997258cfac3fdc5"
+ 
+ S = "${WORKDIR}/${BPN}-${PV}"
+ 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.7.4
+
 
