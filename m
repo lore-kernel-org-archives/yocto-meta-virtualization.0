@@ -1,77 +1,37 @@
-Return-Path: <paul@betafive.co.uk>
+Return-Path: <Mark.Asselstine@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3E382E00CDE; Tue,  8 Jan 2019 05:42:29 -0800 (PST)
+	id CA258E00C5F; Wed,  9 Jan 2019 12:20:48 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_LOW,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at http://www.dnswl.org/,
-	low *      trust
-	*      [64.147.123.25 listed in list.dnswl.org]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-X-Greylist: delayed 478 seconds by postgrey-1.32 at yocto-www;
-	Tue, 08 Jan 2019 05:42:28 PST
-Received: from wout2-smtp.messagingengine.com (wout2-smtp.messagingengine.com
-	[64.147.123.25])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8CA57E008F1
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AFD40E00950
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  8 Jan 2019 05:42:28 -0800 (PST)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id CC683143B;
-	Tue,  8 Jan 2019 08:34:27 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute1.internal (MEProxy); Tue, 08 Jan 2019 08:34:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	fm3; bh=MlO9oyDEKNhj2bXBzVeM6BgnhlB91Q/scgqzGgIO0UQ=; b=my1rC3xP
-	A8Wg/s+TmUafZI3etpG5VVLyIgfB+Y4xuX8Q4yM3/ffYFjDXdUJZ/EaRgbZH3yNR
-	phbh50x1VPSjKMZGh80D7J+vcjR4tTwZN8mn2WmBMXlmMzK7Fgdbmn8sm00Wn+gO
-	G9O4xLXPSDg25HRFo7ikSEA2dsAttFxvh4qF1cOOH5W7oPIDkjlAUC4kjV34pj7S
-	Dt7TYnwe5KD2n5BdJKXitr+l4dPfDrqBbQhFc1whOl84049y9AwQzouLHDfx6pOc
-	BKhs0uT1WyOgl5vT59MyqFKXBhSm3rAGFda2cucWkgjR0pRV/ySxVyXrk4Wj7ul8
-	5osYSCBlnXWsUg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:in-reply-to:message-id
-	:references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; bh=MlO9oyDEKNhj2bXBzVeM6BgnhlB91
-	Q/scgqzGgIO0UQ=; b=urNQ8GrAO4Q3+MrElxB5SBK2fCxV5g/OLHOQJAqd2hKkt
-	eot1Sr0J5WsPYTVsZno6H6ZwNlTtJMMb0dngzkoK3/zsqwErgyBrvS3FwCAYzmkV
-	epaL9rH/hQ5VQY42V6+v8qk2qTQJNTTF+UrAc99eqk48tBDRvkQ6jfpx73IlkzlS
-	yJu/7oH2C4sp1cXfJQf9/+9YVSo4S80RcEV7FCxKDhLv7icYiCpm9p1/VsXGdpYu
-	k2dLxa/8j2/9qpmTxqXLHblFpZfc4vT/vRgJlYK78W8lT2tPmd/T5emgZ4kr+iLB
-	TWh7+GWB+IMWBcdZLWTnaUgh99h8V3+h3xULc9chQ==
-X-ME-Sender: <xms:46Y0XCkFaIkl1hzhFBiHNJUUMyRVCpJ3GV2v-Buu2Y46VyPDDGi7xg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedtledrvdelgdehvdculddtuddrgedtkedrtddtmd
-	cutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfhuthen
-	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhestddtredtre
-	dttdenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhessggvthgrfhhivhgv
-	rdgtohdruhhkqeenucfkphepkeekrdelledrvdejrdelvdenucfrrghrrghmpehmrghilh
-	hfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhi
-	iigvpedt
-X-ME-Proxy: <xmx:46Y0XGL1YwfKi1a6b6uzVnJzcMcVg6yTT4EoaGvJKf1CVDw4RSMQyQ>
-	<xmx:46Y0XDaQXDW8gNQIcOE0YEERxhkJ11P1xjvSkanFqBdaqC4mmIjh-g>
-	<xmx:46Y0XIaKVYB-OAcBlWelTEfpZXkZOeRizwbsNkMuNo15ZuIINPWXfg>
-	<xmx:46Y0XPZh7gB15S2TdTYVl4BqNHxC8ywxghk9XE0oJ2vT8oa-fQuA3w>
-Received: from eng01.s01.b5net.uk (unknown [88.99.27.92])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 9A5561026D;
-	Tue,  8 Jan 2019 08:34:26 -0500 (EST)
-From: Paul Barker <paul@betafive.co.uk>
-To: meta-virtualization@yoctoproject.org
-Date: Tue,  8 Jan 2019 13:34:24 +0000
-Message-Id: <20190108133424.24377-2-paul@betafive.co.uk>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190108133424.24377-1-paul@betafive.co.uk>
-References: <20190108133424.24377-1-paul@betafive.co.uk>
-Subject: [PATCH 1/1] netns: Use correct go toolchain
+	Wed,  9 Jan 2019 12:20:47 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x09KJpnn018394
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 9 Jan 2019 12:20:37 -0800
+Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
+	Wed, 9 Jan 2019 12:20:05 -0800
+From: Mark Asselstine <mark.asselstine@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 9 Jan 2019 15:19:58 -0500
+Message-ID: <1547065198-24974-1-git-send-email-mark.asselstine@windriver.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH] linux-yocto: cleanup lxc.cfg kernel config fragment
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -84,32 +44,73 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 08 Jan 2019 13:42:29 -0000
+X-List-Received-Date: Wed, 09 Jan 2019 20:20:48 -0000
+Content-Type: text/plain
 
-If we don't explicitly set the GO variable as an argument to make then
-the native go toolchain is invoked instead of the cross-toolchain we
-actually want. This can result in a netns binary which is built for the
-wrong architecture.
+fixes:
+    WARNING: linux-yocto-4.18.21+gitAUTOINC+9e348b6f9d_db2d813869-r0
+    do_kernel_configcheck: [kernel config]: This BSP sets config
+    options that are not offered anywhere within this kernel:
 
-Signed-off-by: Paul Barker <paul@betafive.co.uk>
+    CONFIG_EXT3_FS_XATTR
+    CONFIG_RESOURCE_COUNTERS
+    CONFIG_CGROUP_MEM_RES_CTLR
+    CONFIG_CLS_CGROUP
+    CONFIG_NETPRIO_CGROUP
+    CONFIG_DEVPTS_MULTIPLE_INSTANCES
+
+Configs were either dropped or renamed according to the updates made
+in the kernel, as capture below.
+
+CONFIG_RESOURCE_COUNTERS gone since kernel v3.19 via mainline
+commit 5b1efc027c0b51ca3e76f4e00c83358f8349f543.
+
+CONFIG_CGROUP_MEM_RES_CTLR renamed since kernel v3.6 via mainline
+commit c255a458055e459f65eb7b7f51dc5dbdd0caf1d8
+
+CONFIG_CLS_CGROUP never existed AFAICT it should have always
+been CONFIG_NET_CLS_CGROUP
+
+CONFIG_NETPRIO_CGROUP renamed since kernel v3.14 via mainline
+commit 86f8515f9721fa171483f0fe0391968fbb949cc9
+
+CONFIG_DEVPTS_MULTIPLE_INSTANCES removed since kernel v4.7 via mainline
+commit eedf265aa003b4781de24cfed40a655a664457e6
+
+Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-networking/netns/netns_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-kernel/linux/linux-yocto/lxc.cfg | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
-diff --git a/recipes-networking/netns/netns_git.bb b/recipes-networking/netns/netns_git.bb
-index 82a961b..b6d3594 100644
---- a/recipes-networking/netns/netns_git.bb
-+++ b/recipes-networking/netns/netns_git.bb
-@@ -15,6 +15,8 @@ S = "${WORKDIR}/git"
- inherit goarch
- inherit go
+diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg b/recipes-kernel/linux/linux-yocto/lxc.cfg
+index e5f1edc..9ff49f1 100644
+--- a/recipes-kernel/linux/linux-yocto/lxc.cfg
++++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
+@@ -1,8 +1,7 @@
+ CONFIG_CGROUP_DEVICE=y
+ CONFIG_CPUSETS=y
+ CONFIG_PROC_PID_CPUSET=y
+-CONFIG_RESOURCE_COUNTERS=y
+-CONFIG_CGROUP_MEM_RES_CTLR=y
++CONFIG_MEMCG=y
+ CONFIG_CGROUP_SCHED=y
+ CONFIG_FAIR_GROUP_SCHED=y
+ CONFIG_RT_GROUP_SCHED=y
+@@ -14,11 +13,9 @@ CONFIG_USER_NS=y
+ CONFIG_PID_NS=y
+ CONFIG_NET_NS=y
  
-+EXTRA_OEMAKE = "GO='${GO}'"
-+
- do_compile() {
- 	export GOARCH="${TARGET_GOARCH}"
- 	export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
+-CONFIG_CLS_CGROUP=m
++CONFIG_NET_CLS_CGROUP=m
+ CONFIG_BLK_CGROUP=y
+-CONFIG_NETPRIO_CGROUP=m
+-
+-CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
++CONFIG_CGROUP_NET_PRIO=m
+ 
+ # Virtual drivers
+ CONFIG_HVC_DRIVER=y
 -- 
-2.17.1
+2.7.4
 
 
