@@ -1,37 +1,67 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CA258E00C5F; Wed,  9 Jan 2019 12:20:48 -0800 (PST)
+	id 6063FE00CB0; Thu, 10 Jan 2019 10:10:10 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AFD40E00950
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.178 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+	[209.85.208.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9C2B4E00B77
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  9 Jan 2019 12:20:47 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x09KJpnn018394
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 10 Jan 2019 10:10:09 -0800 (PST)
+Received: by mail-lj1-f178.google.com with SMTP id q2-v6so10524985lji.10
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 9 Jan 2019 12:20:37 -0800
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.408.0;
-	Wed, 9 Jan 2019 12:20:05 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 9 Jan 2019 15:19:58 -0500
-Message-ID: <1547065198-24974-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 10 Jan 2019 10:10:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=WBABXZbvVwyS11TNe+mDia3XKBj1Mi0egk1uvSUxsVw=;
+	b=QP9U9s0lRLCuTCe+euQHyEr0tjl+ZiywfmJKqD83z9o/lAKkyjPoKqPMbG5yTdgVXv
+	JUt2Mak+NU7neNqSN74narHGGQXu6Tee08p+FjPO5B7Xh2hPxsC3xWkW3bplweAhsuFQ
+	ilJsFeDifd8/6md17nFSJSATA1AO2Emagq6wUV034qqmpsMHzWXgKbk0K5dnVoocG/PG
+	AdCyelaxH7MH4RajTFgcmp4KUA3K+F4IUG51zP12LqtuAmywXxBipklmmg1VbF3DN9sK
+	M2XX9IZVmHonMmNI0bEyZT6WgewKkJuQk4YLJtGpCYP1NXII7fEKFnxpBYcDns5KF5wa
+	Zq9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=WBABXZbvVwyS11TNe+mDia3XKBj1Mi0egk1uvSUxsVw=;
+	b=Ul8pkZPQep7fcdwgUBcwEfoM+05BMiMJ3jLEmgVeiDfCJ6Mm7X704K+uWfmJI5w0OL
+	J5bbgecFPmwgsnFvrNf55RRgyb8P8gFKVk6rlMEaJxQNKojFvpsX9VurvK5zdOGQCmN3
+	pXDpj/1a2chfC97LhObXsfIckdf+Ru3ne6HWUc9F+6M2+Q7uGhaZgKG3+4K0v2JuDA4V
+	lkH0C2XckIs/Rb1KBwARSYZTStI3CJTdAf2UuToVxjT6pFn/iSvJAGP6W7A/41gVmvlc
+	5OFG9Q4YjZlQpW8xdyaeERKC6erVcmpV5KlgSEGpwTvVmwembthzrPw9BnToXbqHgERg
+	2VzA==
+X-Gm-Message-State: AJcUukd+cUvjIavyjy3RiyqyKPtKyHvn/HeZf6UzYGUYbfLDPle018kj
+	wHk52a5y0/5EC5JH6r3JPrOtRXLondlDMbd1LZSpPQ==
+X-Google-Smtp-Source: ALg8bN6Xdn9NvKYDNyOaiY2powV+KbELqXClpueLxRrv42LLcfTptukyu+gS6/oWlcRmabD/jsioJFkmhe1HygKL0YE=
+X-Received: by 2002:a2e:9c7:: with SMTP id
+	190-v6mr5827833ljj.120.1547143808402; 
+	Thu, 10 Jan 2019 10:10:08 -0800 (PST)
 MIME-Version: 1.0
-Cc: bruce.ashfield@windriver.com
-Subject: [PATCH] linux-yocto: cleanup lxc.cfg kernel config fragment
+References: <1546550556-25294-1-git-send-email-mark.asselstine@windriver.com>
+In-Reply-To: <1546550556-25294-1-git-send-email-mark.asselstine@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 10 Jan 2019 13:09:56 -0500
+Message-ID: <CADkTA4OTqf4n9G6H_qZOzbadLzjD1322wi7A908g=N_Fw_Q3Pw@mail.gmail.com>
+To: Mark Asselstine <mark.asselstine@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] lxc: uprev from 3.0.3 to 3.1.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,73 +74,105 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 09 Jan 2019 20:20:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 10 Jan 2019 18:10:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-fixes:
-    WARNING: linux-yocto-4.18.21+gitAUTOINC+9e348b6f9d_db2d813869-r0
-    do_kernel_configcheck: [kernel config]: This BSP sets config
-    options that are not offered anywhere within this kernel:
+merged.
 
-    CONFIG_EXT3_FS_XATTR
-    CONFIG_RESOURCE_COUNTERS
-    CONFIG_CGROUP_MEM_RES_CTLR
-    CONFIG_CLS_CGROUP
-    CONFIG_NETPRIO_CGROUP
-    CONFIG_DEVPTS_MULTIPLE_INSTANCES
+Bruce
 
-Configs were either dropped or renamed according to the updates made
-in the kernel, as capture below.
+On Thu, Jan 3, 2019 at 4:23 PM Mark Asselstine
+<mark.asselstine@windriver.com> wrote:
+>
+> Minor updates and fixes. Improved ptest results per below.
+>
+>     root@cube-essential:/usr/lib64/lxc/ptest# ./run-ptest
+>     ### Starting LXC ptest ###
+>     FAIL: lxc-test-api-reboot
+>     SKIPPED: lxc-test-apparmor
+>     PASS: lxc-test-attach
+>     PASS: lxc-test-automount
+>     PASS: lxc-test-autostart
+>     PASS: lxc-test-basic
+>     PASS: lxc-test-cgpath
+>     PASS: lxc-test-cloneconfig
+>     PASS: lxc-test-clonetest
+>     PASS: lxc-test-concurrent
+>     PASS: lxc-test-config-jump-table
+>     PASS: lxc-test-console
+>     PASS: lxc-test-console-log
+>     PASS: lxc-test-containertests
+>     PASS: lxc-test-createconfig
+>     PASS: lxc-test-createtest
+>     PASS: lxc-test-criu-check-feature
+>     PASS: lxc-test-destroytest
+>     PASS: lxc-test-device-add-remove
+>     PASS: lxc-test-get_item
+>     PASS: lxc-test-getkeys
+>     PASS: lxc-test-list
+>     PASS: lxc-test-locktests
+>     PASS: lxc-test-lxcpath
+>     PASS: lxc-test-may-control
+>     PASS: lxc-test-mount-injection
+>     PASS: lxc-test-no-new-privs
+>     PASS: lxc-test-parse-config-file
+>     PASS: lxc-test-raw-clone
+>     PASS: lxc-test-reboot
+>     PASS: lxc-test-rootfs
+>     PASS: lxc-test-saveconfig
+>     PASS: lxc-test-share-ns
+>     PASS: lxc-test-shortlived
+>     SKIPPED: lxc-test-shutdowntest
+>     PASS: lxc-test-snapshot
+>     PASS: lxc-test-startone
+>     SKIPPED: lxc-test-state-server
+>     PASS: lxc-test-utils
+>
+>     Results:
+>         PASSED = 35
+>         FAILED = 1
+>         SKIPPED = 3
+>         (for details check individual test log in ./logs directory)
+>
+>     ### LXC ptest complete ###
+>
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+>  recipes-containers/lxc/{lxc_3.0.3.bb => lxc_3.1.0.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename recipes-containers/lxc/{lxc_3.0.3.bb => lxc_3.1.0.bb} (97%)
+>
+> diff --git a/recipes-containers/lxc/lxc_3.0.3.bb b/recipes-containers/lxc/lxc_3.1.0.bb
+> similarity index 97%
+> rename from recipes-containers/lxc/lxc_3.0.3.bb
+> rename to recipes-containers/lxc/lxc_3.1.0.bb
+> index f3924e4..9dba76b 100644
+> --- a/recipes-containers/lxc/lxc_3.0.3.bb
+> +++ b/recipes-containers/lxc/lxc_3.1.0.bb
+> @@ -48,8 +48,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>         file://lxc-net \
+>         "
+>
+> -SRC_URI[md5sum] = "0aa1a982f7dfa4c7b8ce87b7047b0b6e"
+> -SRC_URI[sha256sum] = "620cb832cc02c63bf4d330657bf6176544e145da281ee384a34d689635a19841"
+> +SRC_URI[md5sum] = "e83e302a801494276f3772e687a3b8b0"
+> +SRC_URI[sha256sum] = "4d8772c25baeaea2c37a954902b88c05d1454c91c887cb6a0997258cfac3fdc5"
+>
+>  S = "${WORKDIR}/${BPN}-${PV}"
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-CONFIG_RESOURCE_COUNTERS gone since kernel v3.19 via mainline
-commit 5b1efc027c0b51ca3e76f4e00c83358f8349f543.
 
-CONFIG_CGROUP_MEM_RES_CTLR renamed since kernel v3.6 via mainline
-commit c255a458055e459f65eb7b7f51dc5dbdd0caf1d8
 
-CONFIG_CLS_CGROUP never existed AFAICT it should have always
-been CONFIG_NET_CLS_CGROUP
-
-CONFIG_NETPRIO_CGROUP renamed since kernel v3.14 via mainline
-commit 86f8515f9721fa171483f0fe0391968fbb949cc9
-
-CONFIG_DEVPTS_MULTIPLE_INSTANCES removed since kernel v4.7 via mainline
-commit eedf265aa003b4781de24cfed40a655a664457e6
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
----
- recipes-kernel/linux/linux-yocto/lxc.cfg | 9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg b/recipes-kernel/linux/linux-yocto/lxc.cfg
-index e5f1edc..9ff49f1 100644
---- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-+++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-@@ -1,8 +1,7 @@
- CONFIG_CGROUP_DEVICE=y
- CONFIG_CPUSETS=y
- CONFIG_PROC_PID_CPUSET=y
--CONFIG_RESOURCE_COUNTERS=y
--CONFIG_CGROUP_MEM_RES_CTLR=y
-+CONFIG_MEMCG=y
- CONFIG_CGROUP_SCHED=y
- CONFIG_FAIR_GROUP_SCHED=y
- CONFIG_RT_GROUP_SCHED=y
-@@ -14,11 +13,9 @@ CONFIG_USER_NS=y
- CONFIG_PID_NS=y
- CONFIG_NET_NS=y
- 
--CONFIG_CLS_CGROUP=m
-+CONFIG_NET_CLS_CGROUP=m
- CONFIG_BLK_CGROUP=y
--CONFIG_NETPRIO_CGROUP=m
--
--CONFIG_DEVPTS_MULTIPLE_INSTANCES=y
-+CONFIG_CGROUP_NET_PRIO=m
- 
- # Virtual drivers
- CONFIG_HVC_DRIVER=y
 -- 
-2.7.4
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
