@@ -1,36 +1,31 @@
-Return-Path: <Hongzhi.Song@windriver.com>
+Return-Path: <zhe.he@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 964FFE00D2C; Fri, 25 Jan 2019 00:00:01 -0800 (PST)
+	id DA010E00C77; Fri, 25 Jan 2019 00:10:29 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	http://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
+	*      [147.11.1.11 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DE2DFE006B3
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8F02AE009AA
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Jan 2019 23:57:08 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0P7uVOT006914
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 24 Jan 2019 23:56:42 -0800
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.408.0;
-	Thu, 24 Jan 2019 23:56:21 -0800
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
-Date: Fri, 25 Jan 2019 02:56:18 -0500
-Message-ID: <1548402978-210062-1-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
-MIME-Version: 1.0
-Subject: [meta-cloud-services][PATCH] linux/nf.cfg: CONFIG_NF_CONNTRACK_IPV4 was replaced by CONFIG_NF_CONNTRACK
+	Fri, 25 Jan 2019 00:10:29 -0800 (PST)
+Received: from ala-blade48.wrs.com (ala-blade48.wrs.com [147.11.105.68])
+	by mail.windriver.com (8.15.2/8.15.1) with SMTP id x0P8ARuK000890;
+	Fri, 25 Jan 2019 00:10:27 -0800 (PST)
+Received: by ala-blade48.wrs.com (sSMTP sendmail emulation);
+	Fri, 25 Jan 2019 00:10:27 -0800
+From: He Zhe <zhe.he@windriver.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri, 25 Jan 2019 00:10:27 -0800
+Message-Id: <20190125081027.36723-1-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] kernel: Add bbappend for linux-yocto-dev
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,31 +38,24 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 25 Jan 2019 08:00:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 25 Jan 2019 08:10:29 -0000
 
-kernel has replaced CONFIG_NF_CONNTRACK_IPV4 with CONFIG_NF_CONNTRACK.
-[commit: a0ae2562c]
+linux-yocto-dev would also use virualization features.
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-kernel/linux/linux-yocto-dev.bbappend | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 recipes-kernel/linux/linux-yocto-dev.bbappend
 
-diff --git a/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg b/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg
-index 223210c..1bf82ea 100644
---- a/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg
-+++ b/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg
-@@ -2,7 +2,7 @@ CONFIG_NF_CONNTRACK=y
- CONFIG_NF_NAT=m
- CONFIG_NF_NAT_NEEDED=y
- CONFIG_NF_NAT_PROTO_SCTP=m
--CONFIG_NF_CONNTRACK_IPV4=y
-+CONFIG_NF_CONNTRACK=y
- CONFIG_NF_CONNTRACK_PROC_COMPAT=y
- CONFIG_NF_NAT_IPV4=m
- CONFIG_IP_NF_NAT=m
+diff --git a/recipes-kernel/linux/linux-yocto-dev.bbappend b/recipes-kernel/linux/linux-yocto-dev.bbappend
+new file mode 100644
+index 0000000..20eeba9
+--- /dev/null
++++ b/recipes-kernel/linux/linux-yocto-dev.bbappend
+@@ -0,0 +1 @@
++require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'linux-yocto_virtualization.inc', '', d)}
 -- 
-2.8.1
+2.11.0
 
 
