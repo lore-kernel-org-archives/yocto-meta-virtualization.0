@@ -1,6 +1,6 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <hongl.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1FBB6E00BC6; Mon, 28 Jan 2019 08:46:05 -0800 (PST)
+	id 4AE47E00D08; Tue, 29 Jan 2019 16:43:13 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,33 +10,36 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
 	*      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 96126E00B5C
+	*      [183.91.158.132 listed in list.dnswl.org]
+X-Greylist: delayed 63 seconds by postgrey-1.32 at yocto-www;
+	Tue, 29 Jan 2019 16:43:12 PST
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 83D20E00D08
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 28 Jan 2019 08:46:04 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x0SGj7d0025424
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 29 Jan 2019 16:43:12 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.56,538,1539619200"; d="scan'208";a="53161395"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 Jan 2019 08:42:07 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6DC144C4BB91
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 28 Jan 2019 08:45:53 -0800
-Received: from yow-masselst-lx1.localnet (128.224.21.60) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.435.0; Mon, 28 Jan 2019 08:45:39 -0800
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: "Hongzhi, Song" <hongzhi.song@windriver.com>
-Date: Mon, 28 Jan 2019 11:45:38 -0500
-Message-ID: <12597928.u6OsCxNLyi@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <37b1a77c-933a-793f-82e4-1d2e002780bd@windriver.com>
-References: <1543355289-16095-1-git-send-email-mark.asselstine@windriver.com>
-	<CAPuovEJ5zLrOJZs88f3S1ydenUbhay6Rv-dDRBfu1c7jXQ3__Q@mail.gmail.com>
-	<37b1a77c-933a-793f-82e4-1d2e002780bd@windriver.com>
+	Wed, 30 Jan 2019 08:42:04 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.47) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.408.0; Wed, 30 Jan 2019 08:42:10 +0800
+From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 30 Jan 2019 08:42:48 +0800
+Message-ID: <20190130004249.20870-3-hongl.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20190130004249.20870-1-hongl.fnst@cn.fujitsu.com>
+References: <20190130004249.20870-1-hongl.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-Cc: Bruce Ashfield <bruce.ashfield@windriver.com>,
-	meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] openvswitch: uprev from 2.10.0 to 2.10.1
+X-Originating-IP: [10.167.225.47]
+X-yoursite-MailScanner-ID: 6DC144C4BB91.A0CCE
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: hongl.fnst@cn.fujitsu.com
+Subject: [PATCH] [meta-cloud-services][patch]:python-waitress:upgrade to 1.2.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,141 +52,36 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 28 Jan 2019 16:46:05 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 30 Jan 2019 00:43:13 -0000
+Content-Type: text/plain
 
-On Monday, January 28, 2019 2:14:19 AM EST Hongzhi, Song wrote:
-> On 01/28/2019 10:12 AM, Mark Asselstine wrote:
-> > On Sun, Jan 27, 2019 at 8:36 PM Hongzhi, Song
-> > 
-> > <hongzhi.song@windriver.com> wrote:
-> >> Hi Mark,
-> >> 
-> >> Which tests have you run for ovswitch. I want to update ovswitch to 2.11
-> >> which will fix issue.
-> >> 
-> >> I have run ptest which executed 2764 cases, and 320 failed, 86 skipped.
-> >> 
-> >> Do I have to run other tests?
-> > 
-> > I usually rely on the ptests results and then I do a networking test
-> > with OverC (the cube-vrf makes use of OVS), though the ptests should
-> > be enough.
-> 
-> Hi Mark,
-> 
-> The ptest detailed results between ovs2.11 and ovs2.10 are almost
-> consistent,
-> except that ovs2.11 adds some other cases.
-> 
-> And the total result:
-> 
->   version: OVS2.11
->   ERROR: 2765 tests were run,
->   318 failed (1 expected failure).
->   85 tests were skipped.
-> 
->   version: OVS2.10
->   ERROR: 2662 tests were run,
->   311 failed (1 expected failure).
->   85 tests were skipped.
-> 
-> The failed tests are also py2 related ptests as yours.
+1.Upgrade python-waitress from 1.1.0 to 1.2.0.
 
-This looks good.
+Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
+---
+ .../{python-waitress_1.1.0.bb => python-waitress_1.2.0.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-waitress_1.1.0.bb => python-waitress_1.2.0.bb} (62%)
 
-> 
-> At last, could you tell me how to do a networking test with overc to
-> validate ovs?
-
-Build OverC according to
-https://github.com/OverC/meta-overc/blob/master/README.install
-
-If you are able to use the "cube lan", ie communicate between installed 
-containers and *also* able to communicate externally then everything is 
-working.
-
-Based on the ptest results I would suggest you send the RR out and Bruce will 
-most likely agree to complete the merge given just the ptest results. I can 
-take care if there issues with OverC.
-
-MarkA
-
-> 
-> Thanks,
-> Hongzhi
-> 
-> > Unfortunately I didn't document the ptest results for the
-> > last few uprevs, the last time I did document the results in the
-> > commit log was with commit 1fd1ff3720140baa3680d795f6d97597e5113e90.
-> > Maybe what you can do is run the ptests with the current release and
-> > then run them again with the 2.11 uprev and ensure they are similar.
-> > 
-> > The tests that usually FAIL are the py2 related ptests as I usually
-> > only have py3 on my images.
-> > 
-> > MarkA
-> > 
-> >> Thanks,
-> >> 
-> >> Hongzhi
-> >> 
-> >> On 11/28/2018 05:48 AM, Mark Asselstine wrote:
-> >>> Pickup the latest security and bug fixes for openvswitch.
-> >>> 
-> >>> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> >>> ---
-> >>> 
-> >>>    ...nvswitch-add-ptest-78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch}
-> >>>    | 0
-> >>>    recipes-networking/openvswitch/openvswitch_git.bb                    
-> >>>    | 4 ++-- 2 files changed, 2 insertions(+), 2 deletions(-)
-> >>>    rename
-> >>>    recipes-networking/openvswitch/openvswitch-git/{openvswitch-add-ptes
-> >>>    t-5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch =>
-> >>>    openvswitch-add-ptest-78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch
-> >>>    } (100%)>>> 
-> >>> diff --git
-> >>> a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-
-> >>> 5563e309b80bbea9bff538e71ecfd7e5e538bab9.patch
-> >>> b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-
-> >>> 78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch similarity index 100%
-> >>> rename from
-> >>> recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-55
-> >>> 63e309b80bbea9bff538e71ecfd7e5e538bab9.patch rename to
-> >>> recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-78
-> >>> e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch diff --git
-> >>> a/recipes-networking/openvswitch/openvswitch_git.bb
-> >>> b/recipes-networking/openvswitch/openvswitch_git.bb index
-> >>> a930933..b8bbb3a 100644
-> >>> --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> >>> +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> >>> @@ -14,11 +14,11 @@ RDEPENDS_${PN}-ptest += "\
-> >>> 
-> >>>        "
-> >>>    
-> >>>    S = "${WORKDIR}/git"
-> >>> 
-> >>> -PV = "2.10.0+${SRCREV}"
-> >>> +PV = "2.10.1+${SRCREV}"
-> >>> 
-> >>>    FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
-> >>> 
-> >>> -SRCREV = "5563e309b80bbea9bff538e71ecfd7e5e538bab9"
-> >>> +SRCREV = "78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e"
-> >>> 
-> >>>    SRC_URI = "file://openvswitch-switch \
-> >>>    
-> >>>               file://openvswitch-switch-setup \
-> >>>               file://openvswitch-testcontroller \
-> >> 
-> >> --
-> >> _______________________________________________
-> >> meta-virtualization mailing list
-> >> meta-virtualization@yoctoproject.org
-> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
+diff --git a/meta-openstack/recipes-devtools/python/python-waitress_1.1.0.bb b/meta-openstack/recipes-devtools/python/python-waitress_1.2.0.bb
+similarity index 62%
+rename from meta-openstack/recipes-devtools/python/python-waitress_1.1.0.bb
+rename to meta-openstack/recipes-devtools/python/python-waitress_1.2.0.bb
+index 5636420..e516d2b 100644
+--- a/meta-openstack/recipes-devtools/python/python-waitress_1.1.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-waitress_1.2.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "ZPL-2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=78ccb3640dc841e1baecb3e27a6966b2"
+ 
+-SRC_URI[md5sum] = "0f1eb7fdfdbf2e6d18decbda1733045c"
+-SRC_URI[sha256sum] = "d33cd3d62426c0f1b3cd84ee3d65779c7003aae3fc060dee60524d10a57f05a9"
++SRC_URI[md5sum] = "8c5492d3c1a2e0cd80780175686dbb0f"
++SRC_URI[sha256sum] = "e624c829656ffc99b33d661072b2814885ae92835cf835ee8ab283ddb7c915b9"
+ 
+ inherit setuptools pypi
+-- 
+2.17.2
 
 
 
