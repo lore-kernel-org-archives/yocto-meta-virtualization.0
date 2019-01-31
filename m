@@ -1,38 +1,69 @@
-Return-Path: <Hongzhi.Song@windriver.com>
+Return-Path: <minipada@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 54BD9E00CDF; Tue, 29 Jan 2019 23:47:01 -0800 (PST)
+	id E2FD2E00D1B; Thu, 31 Jan 2019 00:15:00 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-3.7 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	URI_NOVOWEL autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
-	*      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-	*  0.5 URI_NOVOWEL URI: URI hostname has long non-vowel sequence
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 17772E00CDF
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (minipada[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.128.47 listed in list.dnswl.org]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1D33FE00BB7
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2019 23:46:59 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x0U7kxgk023395
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 31 Jan 2019 00:14:59 -0800 (PST)
+Received: by mail-wm1-f47.google.com with SMTP id p6so1491935wmc.1
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 29 Jan 2019 23:46:59 -0800 (PST)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.435.0;
-	Tue, 29 Jan 2019 23:46:58 -0800
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@windriver.com>
-Date: Wed, 30 Jan 2019 02:46:52 -0500
-Message-ID: <1548834412-14426-2-git-send-email-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.8.1
-In-Reply-To: <1548834412-14426-1-git-send-email-hongzhi.song@windriver.com>
-References: <1548834412-14426-1-git-send-email-hongzhi.song@windriver.com>
+	Thu, 31 Jan 2019 00:14:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zjKzMU2H57l0oqtxhTttWKdF4yehji35M0XN1atuMbo=;
+	b=JM5q+Q7WGb4cjfKaegZwj/+MyP+njI8i9YEaizMlw51jqzB+9/UaGUWyiBZMlxocj9
+	ci7u/JGdzP8Sp0z4bippAbv42jQLrRfW0Db2u0GFjQZ7lvHOJRSnlSA2gc9YD4SOaHzL
+	pKgkvmpaYBqucBNic27uxJzB3Fnk5uQz5Kz7I2nFAY1IF1TdnqnAunsoeEmL+FFbGsNB
+	qKdKrieHdzWMaQzXc5/Ee//mdjS9H07yQrqJqFWVp5LHbOfwosonaUIJoGvxlNAH6iE/
+	OMGqjSK1ZmbqiOFaj2CZjTiNmvsnDCqHJiDUNaOmPfDiHYdxyTZbGUTvbSab0CSyBUT7
+	roWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zjKzMU2H57l0oqtxhTttWKdF4yehji35M0XN1atuMbo=;
+	b=fpsswCd3W8xj8FCrTPrXrsbJ7XscWGYOcpSBK4MoLJNlKc4vy7d6wsQCLZBNg1T440
+	wG+80vC4gwcO+38eDHUljxJLktGsiTluxhA/eL2kVGa4hcEA2NKzfsJSSLaQ4kpdB8Ef
+	cyu3SQyFMV33CpFcSP7wADUMu+Afbx7MT95QUZ38nxBikPdls0PAIJvvAioCrh5nurDF
+	OZ+3k9XTZTlWNOTSno0SyKpzY/k/rZW4Hmm054+bnCMPS9quiXe0iGNMVhpOTzE8yjsJ
+	SyvaboRnIGni5uypBPKnPEdpcJzVkUX8z/5O4pQKmNpkKRUCeJN9D3CXGz+kMRLs+Osi
+	UAnw==
+X-Gm-Message-State: AJcUukeYUHN7ORrVsvS/zHS/GMBQW1trBxU4DPfo4O7k0YnJFTe3WxMc
+	14kUGspKET1JTqyWepxusqLvOqKs349/ptVZzg==
+X-Google-Smtp-Source: ALg8bN4LKRydDv0OzxYEZzpyo1ihm7vV52gMkOc2ejgI1Fawbvrpyn3gBKxDwvKvUaDEm35HSNE2efZ+kcsFTSF1VEM=
+X-Received: by 2002:a1c:9c15:: with SMTP id f21mr26740321wme.94.1548922497927; 
+	Thu, 31 Jan 2019 00:14:57 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] openvswitch: uprev from v2.10.1 to v2.11
+References: <20190125131920.5173-1-dbensoussan@synapticon.com>
+	<CADkTA4PAv-Ez7A9H57=MdWHqEYw_DmLQpRKeG9MyrjXup0POYg@mail.gmail.com>
+In-Reply-To: <CADkTA4PAv-Ez7A9H57=MdWHqEYw_DmLQpRKeG9MyrjXup0POYg@mail.gmail.com>
+From: david bensoussan <minipada@gmail.com>
+Date: Thu, 31 Jan 2019 09:14:44 +0100
+Message-ID: <CALxi_JG3+8ZNNH6fQHA3+k9rSnO5jyOEM09Zgh4eBbJNJ+qHhg@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: David Bensoussan <dbensoussan@synapticon.com>,
+	meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] python-docker-pycreds & python-docker: Add recipe for python2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,239 +76,450 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 30 Jan 2019 07:47:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 31 Jan 2019 08:15:01 -0000
+Content-Type: multipart/alternative; boundary="0000000000004610dd0580bc9f21"
 
-The v2.11 version fixed a bug as follow.
+--0000000000004610dd0580bc9f21
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Error info:
-ovs|00002|db_ctl_base|ERR|external-ids:hostname=: argument does not
-end in "=" followed by a value.
+I would need it for sumo. Could you cherry pick it and add it there?
 
-The result of ptest between v2.11 and v2.10.1 is similar.
-    v2.11:
-    ERROR: 2765 tests were run,
-    317 failed (1 expected failure).
-    85 tests were skipped.
+On Wed, 30 Jan 2019, 08:04 Bruce Ashfield, <bruce.ashfield@gmail.com> wrote=
+:
 
-    v2.10.1:
-    ERROR: 2662 tests were run,
-    311 failed (1 expected failure).
-    85 tests were skipped.
+> What branch is this for ? The following is already on master:
+>
+> commit cbefd4d88c0878c259c53c02a61b713679379124
+> Author: Ting Yu <tyu@cisco.com>
+> Date:   Thu Dec 13 20:41:04 2018 +0000
+>
+>     add the py2 version for python-docker and python-docker-pycreds
+> packages
+>
+>     add the py2 version for python-docker and python-docker-pycreds
+> packages.
+>     add python-six and python-backport_ssl (for ph2 only) as
+> python-docker dependencies.
+>
+>     verify the connection to docker engine at run time -
+>     >>> import docker
+>     >>> client =3D docker.from_env()
+>     >>> client.images.list()
+>     [<Image: 'hello-world:latest'>]
+>
+>     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+> :000000 100644 0000000 ca0995f A
+> recipes-devtools/python/python-docker-pycreds.inc
+>
+> Which obviously will conflict with the python-docker-pycreds.inc that
+> you have below.
+>
+> Cheers,
+>
+> Bruce
+>
+> On Fri, Jan 25, 2019 at 8:19 AM David Bensoussan <minipada@gmail.com>
+> wrote:
+> >
+> > ---
+> >  recipes-devtools/python/python-docker-pycreds.inc   |  7 +++++++
+> >  .../python/python-docker-pycreds_0.2.1.bb           |  3 +++
+> >  recipes-devtools/python/python-docker.inc           |  5 +++++
+> >  recipes-devtools/python/python-docker_2.5.1.bb      | 11 +++++++++++
+> >  .../python/python3-docker-pycreds_0.2.1.bb          |  8 +-------
+> >  recipes-devtools/python/python3-docker_2.5.1.bb     | 13 +++----------
+> >  6 files changed, 30 insertions(+), 17 deletions(-)
+> >  create mode 100644 recipes-devtools/python/python-docker-pycreds.inc
+> >  create mode 100644 recipes-devtools/python/
+> python-docker-pycreds_0.2.1.bb
+> >  create mode 100644 recipes-devtools/python/python-docker.inc
+> >  create mode 100644 recipes-devtools/python/python-docker_2.5.1.bb
+> >
+> > diff --git a/recipes-devtools/python/python-docker-pycreds.inc
+> b/recipes-devtools/python/python-docker-pycreds.inc
+> > new file mode 100644
+> > index 0000000..e76267d
+> > --- /dev/null
+> > +++ b/recipes-devtools/python/python-docker-pycreds.inc
+> > @@ -0,0 +1,7 @@
+> > +SUMMARY =3D "Python bindings for the docker credentials store API"
+> > +HOMEPAGE =3D "https://github.com/shin-/dockerpy-creds"
+> > +LICENSE =3D "Apache-2.0"
+> > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c=
+6bd57"
+> > +
+> > +SRC_URI[md5sum] =3D "0d80d5aebab771faf7e422b759c3055b"
+> > +SRC_URI[sha256sum] =3D
+> "93833a2cf280b7d8abbe1b8121530413250c6cd4ffed2c1cf085f335262f7348"
+> > diff --git a/recipes-devtools/python/python-docker-pycreds_0.2.1.bb
+> b/recipes-devtools/python/python-docker-pycreds_0.2.1.bb
+> > new file mode 100644
+> > index 0000000..f6ddc8d
+> > --- /dev/null
+> > +++ b/recipes-devtools/python/python-docker-pycreds_0.2.1.bb
+> > @@ -0,0 +1,3 @@
+> > +inherit pypi setuptools
+> > +
+> > +require python-docker-pycreds.inc
+> > diff --git a/recipes-devtools/python/python-docker.inc
+> b/recipes-devtools/python/python-docker.inc
+> > new file mode 100644
+> > index 0000000..f23b537
+> > --- /dev/null
+> > +++ b/recipes-devtools/python/python-docker.inc
+> > @@ -0,0 +1,5 @@
+> > +SRC_URI[md5sum] =3D "7d917152976df075e6e90ee853df641f"
+> > +SRC_URI[sha256sum] =3D
+> "b876e6909d8d2360e0540364c3a952a62847137f4674f2439320ede16d6db880"
+> > +
+> > +DEPENDS +=3D "${PYTHON_PN}-pip-native"
+> > +
+> > diff --git a/recipes-devtools/python/python-docker_2.5.1.bb
+> b/recipes-devtools/python/python-docker_2.5.1.bb
+> > new file mode 100644
+> > index 0000000..9dc83e8
+> > --- /dev/null
+> > +++ b/recipes-devtools/python/python-docker_2.5.1.bb
+> > @@ -0,0 +1,11 @@
+> > +inherit pypi setuptools
+> > +
+> > +RDEPENDS_${PN} +=3D " \
+> > +       python-backports-ssl \
+> > +       python-docker-pycreds \
+> > +       python-requests \
+> > +       python-websocket-client \
+> > +"
+> > +
+> > +require python-docker.inc
+> > +
+> > diff --git a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> b/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> > index 4038410..52423d2 100644
+> > --- a/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> > +++ b/recipes-devtools/python/python3-docker-pycreds_0.2.1.bb
+> > @@ -1,9 +1,3 @@
+> > -SUMMARY =3D "Python bindings for the docker credentials store API"
+> > -HOMEPAGE =3D "https://github.com/shin-/dockerpy-creds"
+> > -LICENSE =3D "Apache-2.0"
+> > -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c=
+6bd57"
+> > -
+> >  inherit pypi setuptools3
+> >
+> > -SRC_URI[md5sum] =3D "0d80d5aebab771faf7e422b759c3055b"
+> > -SRC_URI[sha256sum] =3D
+> "93833a2cf280b7d8abbe1b8121530413250c6cd4ffed2c1cf085f335262f7348"
+> > +require python-docker-pycreds.inc
+> > diff --git a/recipes-devtools/python/python3-docker_2.5.1.bb
+> b/recipes-devtools/python/python3-docker_2.5.1.bb
+> > index 341d95c..0dca028 100644
+> > --- a/recipes-devtools/python/python3-docker_2.5.1.bb
+> > +++ b/recipes-devtools/python/python3-docker_2.5.1.bb
+> > @@ -1,17 +1,10 @@
+> > -SUMMARY =3D "A Python library for the Docker Engine API."
+> > -HOMEPAGE =3D "https://github.com/docker/docker-py"
+> > -LICENSE =3D "Apache-2.0"
+> > -LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D34f3846f940453127309b920eeb=
+89660"
+> > -
+> >  inherit pypi setuptools3
+> >
+> > -SRC_URI[md5sum] =3D "7d917152976df075e6e90ee853df641f"
+> > -SRC_URI[sha256sum] =3D
+> "b876e6909d8d2360e0540364c3a952a62847137f4674f2439320ede16d6db880"
+> > -
+> > -DEPENDS +=3D "${PYTHON_PN}-pip-native"
+> > -
+> >  RDEPENDS_${PN} +=3D " \
+> >         python3-docker-pycreds \
+> >         python3-requests \
+> >         python3-websocket-client \
+> >  "
+> > +
+> > +require python-docker.inc
+> > +
+> > --
+> > 2.17.1
+> >
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+--=20
 
-I checked the detailed result. The failed tests were mostly related
-to python2 as the image only use python3.
+*David Bensoussan*
+Robotique / Ing=C3=A9nieur logiciel embarqu=C3=A9
+------------------------------
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- ...on-make-remaining-scripts-use-usr-bin-env.patch | 33 +++++++++++-----------
- .../openvswitch-git/kernel_module.patch            | 25 ++++++++--------
- recipes-networking/openvswitch/openvswitch_git.bb  |  8 +++---
- 3 files changed, 35 insertions(+), 31 deletions(-)
+*Synapticon*  | Syst=C3=A8mes de contr=C3=B4le robotiques
+mobile: 004915779804515/0033659971070
 
-diff --git a/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch b/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch
-index 0dc6b11..53e3103 100644
---- a/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch
-+++ b/recipes-networking/openvswitch/files/python-make-remaining-scripts-use-usr-bin-env.patch
-@@ -1,6 +1,6 @@
--From a0a2d829642e916bd5d1c498a3e6f3641ed717a0 Mon Sep 17 00:00:00 2001
--From: Mark Asselstine <mark.asselstine@windriver.com>
--Date: Fri, 13 Jan 2017 16:12:55 -0500
-+From a348e0162343f7d46443eb1fd2bcf0698460a780 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Wed, 23 Jan 2019 04:28:28 -0500
- Subject: [PATCH] python: make remaining scripts use /usr/bin/env
- 
- Unfortunately there is no concept of a host python vs. target python
-@@ -12,6 +12,7 @@ PYTHON. To make this function smoothly all installed scripts should
- make use of /usr/bin/env to increase the chances of finding python.
- 
- Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
- ---
-  build-aux/check-structs                     | 2 +-
-  build-aux/dpdkstrip.py                      | 2 +-
-@@ -68,17 +69,17 @@ index 48c7f06..b8b8ba9 100755
-  #
-  # Licensed under the Apache License, Version 2.0 (the "License");
- diff --git a/build-aux/extract-ofp-actions b/build-aux/extract-ofp-actions
--index bd7131f..4d05ef9 100755
-+index 64de0f3..f6bca0b 100755
- --- a/build-aux/extract-ofp-actions
- +++ b/build-aux/extract-ofp-actions
- @@ -1,4 +1,4 @@
- -#! /usr/bin/python
- +#! /usr/bin/env python3
-  
-+ import getopt
-  import sys
-- import os.path
- diff --git a/build-aux/extract-ofp-errors b/build-aux/extract-ofp-errors
--index 71ae0bd..58ba006 100755
-+index 6f64efd..c410fd4 100755
- --- a/build-aux/extract-ofp-errors
- +++ b/build-aux/extract-ofp-errors
- @@ -1,4 +1,4 @@
-@@ -88,7 +89,7 @@ index 71ae0bd..58ba006 100755
-  import sys
-  import os.path
- diff --git a/build-aux/extract-ofp-fields b/build-aux/extract-ofp-fields
--index 184b75e..cf339f8 100755
-+index 3592594..2fc8317 100755
- --- a/build-aux/extract-ofp-fields
- +++ b/build-aux/extract-ofp-fields
- @@ -1,4 +1,4 @@
-@@ -148,7 +149,7 @@ index bd4e879..db45c56 100755
-  # Copyright (c) 2010, 2011, 2012, 2013, 2014, 2015, 2016 Nicira, Inc.
-  #
- diff --git a/ovn/utilities/ovn-detrace.in b/ovn/utilities/ovn-detrace.in
--index e2e5b4c..5549219 100755
-+index c842adc..9e95183 100755
- --- a/ovn/utilities/ovn-detrace.in
- +++ b/ovn/utilities/ovn-detrace.in
- @@ -1,4 +1,4 @@
-@@ -208,7 +209,7 @@ index 8eea617..38ba33a 100755
-  from datetime import date
-  import ovs.db.error
- diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
--index 1ea2115..4ecb2e2 100755
-+index 40fef39..84c63a6 100755
- --- a/ovsdb/ovsdb-idlc.in
- +++ b/ovsdb/ovsdb-idlc.in
- @@ -1,4 +1,4 @@
-@@ -228,7 +229,7 @@ index b8027af..8f52803 100755
-  # Copyright (c) 2008, 2017 Nicira, Inc.
-  #
- diff --git a/tests/flowgen.py b/tests/flowgen.py
--index 221a8f2..5d96d76 100755
-+index 976fe7a..7ef32d1 100755
- --- a/tests/flowgen.py
- +++ b/tests/flowgen.py
- @@ -1,4 +1,4 @@
-@@ -258,7 +259,7 @@ index ea72812..f1a9aff 100755
-  import re
-  import sys
- diff --git a/utilities/bugtool/ovs-bugtool.in b/utilities/bugtool/ovs-bugtool.in
--index 8d220fd..76cedf4 100755
-+index 288c34f..b5a6906 100755
- --- a/utilities/bugtool/ovs-bugtool.in
- +++ b/utilities/bugtool/ovs-bugtool.in
- @@ -1,4 +1,4 @@
-@@ -308,7 +309,7 @@ index 350cbd9..1960fb4 100755
-  # Copyright (c) 2012 Nicira, Inc.
-  #
- diff --git a/utilities/ovs-pcap.in b/utilities/ovs-pcap.in
--index fc15321..bd55a41 100755
-+index 7bebc07..b4e5ca8 100755
- --- a/utilities/ovs-pcap.in
- +++ b/utilities/ovs-pcap.in
- @@ -1,4 +1,4 @@
-@@ -318,7 +319,7 @@ index fc15321..bd55a41 100755
-  # Copyright (c) 2010 Nicira, Inc.
-  #
- diff --git a/utilities/ovs-tcpdump.in b/utilities/ovs-tcpdump.in
--index 91fa14e..bad67b7 100755
-+index 22f249f..ff2a51e 100755
- --- a/utilities/ovs-tcpdump.in
- +++ b/utilities/ovs-tcpdump.in
- @@ -1,4 +1,4 @@
-@@ -328,7 +329,7 @@ index 91fa14e..bad67b7 100755
-  # Copyright (c) 2016 Red Hat, Inc.
-  #
- diff --git a/utilities/ovs-tcpundump.in b/utilities/ovs-tcpundump.in
--index c99015b..9a617ce 100755
-+index c298700..0d8b8da 100755
- --- a/utilities/ovs-tcpundump.in
- +++ b/utilities/ovs-tcpundump.in
- @@ -1,4 +1,4 @@
-@@ -358,7 +359,7 @@ index e229498..5b70118 100755
-  # Copyright (c) 2010 Nicira, Inc.
-  #
- diff --git a/vtep/ovs-vtep.in b/vtep/ovs-vtep.in
--index 98748e4..3f12ae2 100755
-+index 3383870..42f98db 100755
- --- a/vtep/ovs-vtep.in
- +++ b/vtep/ovs-vtep.in
- @@ -1,4 +1,4 @@
-@@ -368,5 +369,5 @@ index 98748e4..3f12ae2 100755
-  #
-  # Licensed under the Apache License, Version 2.0 (the "License");
- -- 
--2.7.4
-+2.8.1
- 
-diff --git a/recipes-networking/openvswitch/openvswitch-git/kernel_module.patch b/recipes-networking/openvswitch/openvswitch-git/kernel_module.patch
-index c177202..5e5a38d 100644
---- a/recipes-networking/openvswitch/openvswitch-git/kernel_module.patch
-+++ b/recipes-networking/openvswitch/openvswitch-git/kernel_module.patch
-@@ -1,26 +1,29 @@
--From adfd2380d71dff1a31efaf63cf7ac97470466ec9 Mon Sep 17 00:00:00 2001
--From: Amy Fong <amy.fong@windriver.com>
--Date: Thu, 29 Jan 2015 09:56:03 -0500
--Subject: [PATCH] Specify install path for kernel module
-+From 9b7fb1346702d59af67435487254ef35940bc16a Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Wed, 23 Jan 2019 03:41:30 -0500
-+Subject: [PATCH] datapatch/linux: Specify install path for kernel module
- 
- Signed-off-by: Amy Fong <amy.fong@windriver.com>
--
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
- ---
-  datapath/linux/Makefile.main.in | 4 ++--
-  1 file changed, 2 insertions(+), 2 deletions(-)
- 
- diff --git a/datapath/linux/Makefile.main.in b/datapath/linux/Makefile.main.in
--index 7d18253..63c520f 100644
-+index 328bbfb..6dcc8d0 100644
- --- a/datapath/linux/Makefile.main.in
- +++ b/datapath/linux/Makefile.main.in
- @@ -71,8 +71,8 @@ default:
-- 	$(MAKE) -C $(KSRC) M=$(builddir) modules
-+ 	$(MAKE) -C $(KSRC) $(if @KARCH@,ARCH=@KARCH@) M=$(builddir) modules
-  
-  modules_install:
---	$(MAKE) -C $(KSRC) M=$(builddir) modules_install
---	depmod `sed -n 's/#define UTS_RELEASE "\([^"]*\)"/\1/p' $(KSRC)/include/generated/utsrelease.h`
--+	$(MAKE) -C $(KSRC) M=$(builddir) modules_install INSTALL_MOD_PATH=${INSTALL_MOD_PATH}
--+	# depmod `sed -n 's/#define UTS_RELEASE "\([^"]*\)"/\1/p' $(KSRC)/include/generated/utsrelease.h`
-+-	$(MAKE) -C $(KSRC) $(if @KARCH@,ARCH=@KARCH@) M=$(builddir) modules_install
-+-	/sbin/depmod `sed -n 's/#define UTS_RELEASE "\([^"]*\)"/\1/p' $(KSRC)/include/generated/utsrelease.h`
-++	$(MAKE) -C $(KSRC) $(if @KARCH@,ARCH=@KARCH@) M=$(builddir) modules_install INSTALL_MOD_PATH=${INSTALL_MOD_PATH}
-++	#/sbin/depmod `sed -n 's/#define UTS_RELEASE "\([^"]*\)"/\1/p' $(KSRC)/include/generated/utsrelease.h`
-  endif
-  
-  # Much of the kernel build system in this file is derived from Intel's
-+-- 
-+2.8.1
-+
-diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-index 81a66a9..072d7f1 100644
---- a/recipes-networking/openvswitch/openvswitch_git.bb
-+++ b/recipes-networking/openvswitch/openvswitch_git.bb
-@@ -14,17 +14,17 @@ RDEPENDS_${PN}-ptest += "\
- 	"
- 
- S = "${WORKDIR}/git"
--PV = "2.10.1+${SRCPV}"
-+PV = "2.11+${SRCPV}"
- 
- FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
- 
--SRCREV = "78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e"
-+SRCREV = "f22ca8011fdb7e81ffce5017cd26539bccf50e94"
- SRC_URI = "file://openvswitch-switch \
-            file://openvswitch-switch-setup \
-            file://openvswitch-testcontroller \
-            file://openvswitch-testcontroller-setup \
--           git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.10 \
--           file://openvswitch-add-ptest-${SRCREV}.patch \
-+           git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.11 \
-+           file://openvswitch-add-ptest-78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch \
-            file://run-ptest \
-            file://disable_m4_check.patch \
-            file://kernel_module.patch \
--- 
-2.8.1
+--0000000000004610dd0580bc9f21
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+I would need it for sumo. Could you cherry pick it and add it there? <br><b=
+r><div class=3D"gmail_quote"><div dir=3D"ltr">On Wed, 30 Jan 2019, 08:04 Br=
+uce Ashfield, &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfiel=
+d@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">What bra=
+nch is this for ? The following is already on master:<br>
+<br>
+commit cbefd4d88c0878c259c53c02a61b713679379124<br>
+Author: Ting Yu &lt;<a href=3D"mailto:tyu@cisco.com" target=3D"_blank">tyu@=
+cisco.com</a>&gt;<br>
+Date:=C2=A0 =C2=A0Thu Dec 13 20:41:04 2018 +0000<br>
+<br>
+=C2=A0 =C2=A0 add the py2 version for python-docker and python-docker-pycre=
+ds packages<br>
+<br>
+=C2=A0 =C2=A0 add the py2 version for python-docker and python-docker-pycre=
+ds packages.<br>
+=C2=A0 =C2=A0 add python-six and python-backport_ssl (for ph2 only) as<br>
+python-docker dependencies.<br>
+<br>
+=C2=A0 =C2=A0 verify the connection to docker engine at run time -<br>
+=C2=A0 =C2=A0 &gt;&gt;&gt; import docker<br>
+=C2=A0 =C2=A0 &gt;&gt;&gt; client =3D docker.from_env()<br>
+=C2=A0 =C2=A0 &gt;&gt;&gt; client.images.list()<br>
+=C2=A0 =C2=A0 [&lt;Image: &#39;hello-world:latest&#39;&gt;]<br>
+<br>
+=C2=A0 =C2=A0 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ash=
+field@windriver.com" target=3D"_blank">bruce.ashfield@windriver.com</a>&gt;=
+<br>
+<br>
+:000000 100644 0000000 ca0995f A<br>
+recipes-devtools/python/python-docker-pycreds.inc<br>
+<br>
+Which obviously will conflict with the python-docker-pycreds.inc that<br>
+you have below.<br>
+<br>
+Cheers,<br>
+<br>
+Bruce<br>
+<br>
+On Fri, Jan 25, 2019 at 8:19 AM David Bensoussan &lt;<a href=3D"mailto:mini=
+pada@gmail.com" target=3D"_blank">minipada@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 recipes-devtools/python/python-docker-pycreds.inc=C2=A0 =C2=A0|=
+=C2=A0 7 +++++++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python-docker-pycreds_0.2.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">python-docker-pycreds_0.2.1.bb</a>=C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 +++<br>
+&gt;=C2=A0 recipes-devtools/python/python-docker.inc=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0|=C2=A0 5 +++++<br>
+&gt;=C2=A0 recipes-devtools/python/<a href=3D"http://python-docker_2.5.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">python-docker_2.5.1.bb</a>=C2=A0 =C2=
+=A0 =C2=A0 | 11 +++++++++++<br>
+&gt;=C2=A0 .../python/<a href=3D"http://python3-docker-pycreds_0.2.1.bb" re=
+l=3D"noreferrer" target=3D"_blank">python3-docker-pycreds_0.2.1.bb</a>=C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +-------<br>
+&gt;=C2=A0 recipes-devtools/python/<a href=3D"http://python3-docker_2.5.1.b=
+b" rel=3D"noreferrer" target=3D"_blank">python3-docker_2.5.1.bb</a>=C2=A0 =
+=C2=A0 =C2=A0| 13 +++----------<br>
+&gt;=C2=A0 6 files changed, 30 insertions(+), 17 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 recipes-devtools/python/python-docker-pycreds=
+.inc<br>
+&gt;=C2=A0 create mode 100644 recipes-devtools/python/<a href=3D"http://pyt=
+hon-docker-pycreds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python-do=
+cker-pycreds_0.2.1.bb</a><br>
+&gt;=C2=A0 create mode 100644 recipes-devtools/python/python-docker.inc<br>
+&gt;=C2=A0 create mode 100644 recipes-devtools/python/<a href=3D"http://pyt=
+hon-docker_2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">python-docker_2.5=
+.1.bb</a><br>
+&gt;<br>
+&gt; diff --git a/recipes-devtools/python/python-docker-pycreds.inc b/recip=
+es-devtools/python/python-docker-pycreds.inc<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..e76267d<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-devtools/python/python-docker-pycreds.inc<br>
+&gt; @@ -0,0 +1,7 @@<br>
+&gt; +SUMMARY =3D &quot;Python bindings for the docker credentials store AP=
+I&quot;<br>
+&gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/shin-/dockerpy-creds=
+" rel=3D"noreferrer" target=3D"_blank">https://github.com/shin-/dockerpy-cr=
+eds</a>&quot;<br>
+&gt; +LICENSE =3D &quot;Apache-2.0&quot;<br>
+&gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D3b83ef96387f14655fc85=
+4ddc3c6bd57&quot;<br>
+&gt; +<br>
+&gt; +SRC_URI[md5sum] =3D &quot;0d80d5aebab771faf7e422b759c3055b&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;93833a2cf280b7d8abbe1b8121530413250c6cd4=
+ffed2c1cf085f335262f7348&quot;<br>
+&gt; diff --git a/recipes-devtools/python/<a href=3D"http://python-docker-p=
+ycreds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python-docker-pycreds=
+_0.2.1.bb</a> b/recipes-devtools/python/<a href=3D"http://python-docker-pyc=
+reds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python-docker-pycreds_0=
+.2.1.bb</a><br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..f6ddc8d<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-devtools/python/<a href=3D"http://python-docker-pycreds_=
+0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python-docker-pycreds_0.2.1.=
+bb</a><br>
+&gt; @@ -0,0 +1,3 @@<br>
+&gt; +inherit pypi setuptools<br>
+&gt; +<br>
+&gt; +require python-docker-pycreds.inc<br>
+&gt; diff --git a/recipes-devtools/python/python-docker.inc b/recipes-devto=
+ols/python/python-docker.inc<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..f23b537<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-devtools/python/python-docker.inc<br>
+&gt; @@ -0,0 +1,5 @@<br>
+&gt; +SRC_URI[md5sum] =3D &quot;7d917152976df075e6e90ee853df641f&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;b876e6909d8d2360e0540364c3a952a62847137f=
+4674f2439320ede16d6db880&quot;<br>
+&gt; +<br>
+&gt; +DEPENDS +=3D &quot;${PYTHON_PN}-pip-native&quot;<br>
+&gt; +<br>
+&gt; diff --git a/recipes-devtools/python/<a href=3D"http://python-docker_2=
+.5.1.bb" rel=3D"noreferrer" target=3D"_blank">python-docker_2.5.1.bb</a> b/=
+recipes-devtools/python/<a href=3D"http://python-docker_2.5.1.bb" rel=3D"no=
+referrer" target=3D"_blank">python-docker_2.5.1.bb</a><br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..9dc83e8<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-devtools/python/<a href=3D"http://python-docker_2.5.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">python-docker_2.5.1.bb</a><br>
+&gt; @@ -0,0 +1,11 @@<br>
+&gt; +inherit pypi setuptools<br>
+&gt; +<br>
+&gt; +RDEPENDS_${PN} +=3D &quot; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0python-backports-ssl \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0python-docker-pycreds \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0python-requests \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0python-websocket-client \<br>
+&gt; +&quot;<br>
+&gt; +<br>
+&gt; +require python-docker.inc<br>
+&gt; +<br>
+&gt; diff --git a/recipes-devtools/python/<a href=3D"http://python3-docker-=
+pycreds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker-pycre=
+ds_0.2.1.bb</a> b/recipes-devtools/python/<a href=3D"http://python3-docker-=
+pycreds_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker-pycre=
+ds_0.2.1.bb</a><br>
+&gt; index 4038410..52423d2 100644<br>
+&gt; --- a/recipes-devtools/python/<a href=3D"http://python3-docker-pycreds=
+_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker-pycreds_0.2.=
+1.bb</a><br>
+&gt; +++ b/recipes-devtools/python/<a href=3D"http://python3-docker-pycreds=
+_0.2.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker-pycreds_0.2.=
+1.bb</a><br>
+&gt; @@ -1,9 +1,3 @@<br>
+&gt; -SUMMARY =3D &quot;Python bindings for the docker credentials store AP=
+I&quot;<br>
+&gt; -HOMEPAGE =3D &quot;<a href=3D"https://github.com/shin-/dockerpy-creds=
+" rel=3D"noreferrer" target=3D"_blank">https://github.com/shin-/dockerpy-cr=
+eds</a>&quot;<br>
+&gt; -LICENSE =3D &quot;Apache-2.0&quot;<br>
+&gt; -LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D3b83ef96387f14655fc85=
+4ddc3c6bd57&quot;<br>
+&gt; -<br>
+&gt;=C2=A0 inherit pypi setuptools3<br>
+&gt;<br>
+&gt; -SRC_URI[md5sum] =3D &quot;0d80d5aebab771faf7e422b759c3055b&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;93833a2cf280b7d8abbe1b8121530413250c6cd4=
+ffed2c1cf085f335262f7348&quot;<br>
+&gt; +require python-docker-pycreds.inc<br>
+&gt; diff --git a/recipes-devtools/python/<a href=3D"http://python3-docker_=
+2.5.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-docker_2.5.1.bb</a> =
+b/recipes-devtools/python/<a href=3D"http://python3-docker_2.5.1.bb" rel=3D=
+"noreferrer" target=3D"_blank">python3-docker_2.5.1.bb</a><br>
+&gt; index 341d95c..0dca028 100644<br>
+&gt; --- a/recipes-devtools/python/<a href=3D"http://python3-docker_2.5.1.b=
+b" rel=3D"noreferrer" target=3D"_blank">python3-docker_2.5.1.bb</a><br>
+&gt; +++ b/recipes-devtools/python/<a href=3D"http://python3-docker_2.5.1.b=
+b" rel=3D"noreferrer" target=3D"_blank">python3-docker_2.5.1.bb</a><br>
+&gt; @@ -1,17 +1,10 @@<br>
+&gt; -SUMMARY =3D &quot;A Python library for the Docker Engine API.&quot;<b=
+r>
+&gt; -HOMEPAGE =3D &quot;<a href=3D"https://github.com/docker/docker-py" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/docker/docker-py</a>&=
+quot;<br>
+&gt; -LICENSE =3D &quot;Apache-2.0&quot;<br>
+&gt; -LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D34f3846f940453127309b=
+920eeb89660&quot;<br>
+&gt; -<br>
+&gt;=C2=A0 inherit pypi setuptools3<br>
+&gt;<br>
+&gt; -SRC_URI[md5sum] =3D &quot;7d917152976df075e6e90ee853df641f&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;b876e6909d8d2360e0540364c3a952a62847137f=
+4674f2439320ede16d6db880&quot;<br>
+&gt; -<br>
+&gt; -DEPENDS +=3D &quot;${PYTHON_PN}-pip-native&quot;<br>
+&gt; -<br>
+&gt;=C2=A0 RDEPENDS_${PN} +=3D &quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-docker-pycreds \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-requests \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python3-websocket-client \<br>
+&gt;=C2=A0 &quot;<br>
+&gt; +<br>
+&gt; +require python-docker.inc<br>
+&gt; +<br>
+&gt; --<br>
+&gt; 2.17.1<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; meta-virtualization mailing list<br>
+&gt; <a href=3D"mailto:meta-virtualization@yoctoproject.org" target=3D"_bla=
+nk">meta-virtualization@yoctoproject.org</a><br>
+&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
+" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/listi=
+nfo/meta-virtualization</a><br>
+<br>
+<br>
+<br>
+-- <br>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+</blockquote></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-s=
+martmail=3D"gmail_signature"><div dir=3D"ltr"><p id=3D"inbox-inbox-inbox-in=
+box-inbox-inbox-inbox-inbox-person-name" style=3D"box-sizing:border-box;fon=
+t-family:arial,helvetica,sans-serif;font-size:13.3333px;color:rgb(0,0,0);pa=
+dding:0px;margin:1em 0px"><strong style=3D"box-sizing:border-box"><font sty=
+le=3D"vertical-align:inherit"><font style=3D"vertical-align:inherit">David =
+Bensoussan</font></font></strong><br style=3D"box-sizing:border-box"><font =
+style=3D"vertical-align:inherit"><font style=3D"vertical-align:inherit"> Ro=
+botique / Ing=C3=A9nieur logiciel embarqu=C3=A9</font></font></p><hr style=
+=3D"box-sizing:border-box;margin:0px;padding:0px;height:1px;background:rgb(=
+229,27,65);border:none;color:rgb(17,17,17);font-family:arial,helvetica,sans=
+-serif;font-size:13.3333px"><p id=3D"inbox-inbox-inbox-inbox-inbox-inbox-in=
+box-inbox-tag-line" style=3D"box-sizing:border-box;font-family:arial,helvet=
+ica,sans-serif;font-size:12pt;color:rgb(0,0,0);padding:0px;margin:1em 0px">=
+<strong style=3D"box-sizing:border-box"><font style=3D"vertical-align:inher=
+it"><font style=3D"vertical-align:inherit">Synapticon</font></font></strong=
+><span class=3D"inbox-inbox-inbox-inbox-inbox-inbox-inbox-inbox-Apple-conve=
+rted-space">=C2=A0</span><font style=3D"vertical-align:inherit"><font style=
+=3D"vertical-align:inherit"> | </font><font style=3D"vertical-align:inherit=
+">Syst=C3=A8mes de contr=C3=B4le robotiques</font></font></p><table cellpad=
+ding=3D"0" cellspacing=3D"0" style=3D"box-sizing:border-box;font-family:ari=
+al,helvetica,sans-serif;font-size:13.3333px;color:rgb(17,17,17);padding:0px=
+"><tbody style=3D"box-sizing:border-box"><tr style=3D"box-sizing:border-box=
+"><td style=3D"box-sizing:border-box;color:rgb(0,0,0);padding:0px 15px 3px =
+0px"><font style=3D"vertical-align:inherit"><font style=3D"vertical-align:i=
+nherit">mobile:</font></font></td><td style=3D"box-sizing:border-box;color:=
+rgb(0,0,0);padding:0px 15px 3px 0px"><font style=3D"vertical-align:inherit"=
+><font style=3D"vertical-align:inherit">004915779804515/0033659971070</font=
+></font><br></td></tr><tr style=3D"box-sizing:border-box"><td style=3D"box-=
+sizing:border-box;color:rgb(0,0,0);padding:0px 15px 3px 0px"><br></td><td s=
+tyle=3D"box-sizing:border-box;color:rgb(0,0,0);padding:0px 15px 3px 0px"><b=
+r></td></tr></tbody></table></div></div>
 
+--0000000000004610dd0580bc9f21--
