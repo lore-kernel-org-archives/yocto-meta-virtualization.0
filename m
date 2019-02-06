@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8B236E00C43; Wed,  6 Feb 2019 12:54:16 -0800 (PST)
+	id ABA79E00C43; Wed,  6 Feb 2019 12:54:36 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,56 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
+	*      [209.85.167.51 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1AC5CE00C06
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+	[209.85.167.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 121E9E00C06
 	for <meta-virtualization@yoctoproject.org>;
-	Wed,  6 Feb 2019 12:54:14 -0800 (PST)
-Received: by mail-lj1-f196.google.com with SMTP id j1-v6so3431552lja.8
+	Wed,  6 Feb 2019 12:54:35 -0800 (PST)
+Received: by mail-lf1-f51.google.com with SMTP id b20so6425193lfa.12
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 06 Feb 2019 12:54:14 -0800 (PST)
+	Wed, 06 Feb 2019 12:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=j+eoyYvUMN9HmPVd+IAJq3XnKiIsK8vzfkfDHpbjkmY=;
-	b=gVq3DCrr0cEUaZ2hqA1lxNrx/spPJBfQBi24TKTqqLL9swX3zlpNwNVyYE5h57OJqe
-	DLQaWVQT0tOVphcNbuXP6jGkv65EX8A8RI+uqpuYLzViMVzqr7U5xfdYoz4qRE3hwIQo
-	bBmKtYxVW4N1nqpcxwRmD1RISUIW/skQ2mlFK+c7XTwiSXekM/v0kFtEk775R/mEngXu
-	qIvQJ149/pD5W5jLPq83ZktoRrkm17K9J8qgr2Ox+Jx164ioGEm2I0e/IcZlUFeifkZd
-	CpS16tmHHbNtYwsvlJ5vihZTVDWSSMBHDU9haxxLvUOMrktWDtuTxGXvErhkDH3U3iw6
-	xNtA==
+	:cc; bh=tDZmjAVAE19T26hCDyI8+d6y2l/FX53Aal0CQu9pRPU=;
+	b=m2Z1taRL4bjMtGocW+HJ0yS4ab8+jBLlTDhyFmE63psZRldhvcbf/ln3WXW4ZzT5Md
+	owdhCydO6bR80gEOQGRIp2/+xyFrswWw/dhnSF70NSW2xgDkPXdihVft+xhvU0xR0nJv
+	hY+wH5qoqQe89IENIOHwO/N4Pf8HNs3dA0XjvcNfnU/W0GIo3zueRQCCKKf4kBXdG8e/
+	0Xc/5lIr021FLtClxlGQnJjmND+eybmIitk+s16DHBIHSwlpUJ+AzE1hFbT7sKFdAeY0
+	F4BlOBLwewjgTnUy0Bw6YNFY9rxwfnS3Nie3I5XJtgroqljkZsbNiFCv2z75IDD7NbVq
+	k5og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=j+eoyYvUMN9HmPVd+IAJq3XnKiIsK8vzfkfDHpbjkmY=;
-	b=WSTXQ/otoW8pE+WpizpHh4LFQgY4ouafsMZMIYcaVftEFMpRXlurOLjX0KHOq0X9FB
-	nOwByIclPNZAfzJupBquQ7Qd4GGyrECt5r697UcYUgZwuE9hX2i7vOc/+IBnROPrhkkh
-	pv6drlpxxPBRW7J1S0tnnDCbnMQwJcWeO1rWfMzt+VCsYgzkLSe6x3TaM/Rqm0Qh9Fut
-	INpzHrzuP1ThLdOqVauZ/vdPINO3CjTUHUiobFIG3RUtSaF25IdyhliJMdMmV5KqtWyo
-	3N7kCT1LO8+kW262L9C9Yqvu+X0XnxlLcqqLVvDEljoBHZP6vdaqRx3Czp4DVIlnNHTR
-	O9VQ==
-X-Gm-Message-State: AHQUAuZ2KwSN6Qnbh+ESlqy6bpnkE8x2DXLq3dIlR4cJNG37LOaBggP1
-	ol3RefbtzgD3Aw56rBulZcYsM+FauD8ebF+lX/EwZ6zo
-X-Google-Smtp-Source: AHgI3IbpsNENgTw0aFje+gdpYIthEAvnxv6Bd1KBmvgNH5pCnZKijuUtpJeKLHs65KYxlZjY2XcNKmNEDa+tQd4e2d0=
-X-Received: by 2002:a2e:4784:: with SMTP id
-	u126-v6mr7536410lja.124.1549486453774; 
-	Wed, 06 Feb 2019 12:54:13 -0800 (PST)
+	bh=tDZmjAVAE19T26hCDyI8+d6y2l/FX53Aal0CQu9pRPU=;
+	b=RqWGr24AXYkvyn6NKkfUXRAeJGqqC4zRv/Hpr+1SGc4Zfud5DVFH1MER75JDDRMhR9
+	bxcBnOAmBOgf2ZXDfQ8uTjMfXxxUW0dmHiQp0NZM5npLQI0k9CyZfUtxr9Zqk2tlnQZe
+	MhUmb3ozOyUtJvbHQTD1qOtmBBogBTGRgh3mVAq9QPCqd9ToOW3wb6A14VwPAttIfdfn
+	2u4mST9PNk8lz9euX2vKqMlPoA4q74bmYZ7ZGdWWGO6AKLfOX6ei0hGE/6Z+r+IsjEpP
+	vSnyCbMP4Xlwl6NpsHdG6Q3uilALpUJhMkVSY+kxT49LjN/BWYCOeSR5PTdCBYQUc5ne
+	ya6w==
+X-Gm-Message-State: AHQUAuZdI1yuxXMWHRjAMl4jBKwhhC0C8LUjUKCWN9jjgmmR+vrgvEE6
+	oomfBLhXpkK9utdwYUQulvriiSgqRXwgYmBcIok=
+X-Google-Smtp-Source: AHgI3IY6NJx3nJrkz8ukBh4N5F2JN40yfhVT36YD/w+4W7OUwTlLup4Rul5w/DRbZIH+bAL5aBxzTvaxS8m1Uj/J9k8=
+X-Received: by 2002:ac2:4243:: with SMTP id m3mr7543732lfl.5.1549486474927;
+	Wed, 06 Feb 2019 12:54:34 -0800 (PST)
 MIME-Version: 1.0
-References: <1549300087-30904-1-git-send-email-cjp256@gmail.com>
-In-Reply-To: <1549300087-30904-1-git-send-email-cjp256@gmail.com>
+References: <20190205191447.29387-1-joe.slater@windriver.com>
+In-Reply-To: <20190205191447.29387-1-joe.slater@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 6 Feb 2019 15:54:02 -0500
-Message-ID: <CADkTA4Oj9ddL6GtgXbLajyjZTSrbxPaMOFxJP8x12+L92sNQ-w@mail.gmail.com>
-To: Chris Patterson <cjp256@gmail.com>
-Cc: meta-virtualization@yoctoproject.org,
-	Chris Patterson <pattersonc@ainfosec.com>
-Subject: Re: [PATCH] libvirt: fix dependency for libxl
+Date: Wed, 6 Feb 2019 15:54:23 -0500
+Message-ID: <CADkTA4NZE3mJD=MM-xE9o9QFyeFLtEdy1N6+L-9=-J3HJv_dxw@mail.gmail.com>
+To: Joe Slater <joe.slater@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-virt][PATCH 1/1] riddler: do not try to build for mips
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,39 +73,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Feb 2019 20:54:16 -0000
+X-List-Received-Date: Wed, 06 Feb 2019 20:54:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+merged
 
 Bruce
 
-On Mon, Feb 4, 2019 at 12:08 PM Chris Patterson <cjp256@gmail.com> wrote:
+On Tue, Feb 5, 2019 at 2:15 PM Joe Slater <joe.slater@windriver.com> wrote:
 >
-> From: Chris Patterson <pattersonc@ainfosec.com>
+> This recipe does not build for mips, so set COMPATIBLE_HOST to avoid that.
 >
-> "libxl" package does not exist, use Xen.
->
-> Signed-off-by: Chris Patterson <pattersonc@ainfosec.com>
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
 > ---
->  recipes-extended/libvirt/libvirt_4.9.0.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  recipes-containers/riddler/riddler_git.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/recipes-extended/libvirt/libvirt_4.9.0.bb b/recipes-extended/libvirt/libvirt_4.9.0.bb
-> index 768cf0e..ccd4f83 100644
-> --- a/recipes-extended/libvirt/libvirt_4.9.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_4.9.0.bb
-> @@ -194,7 +194,7 @@ PACKAGECONFIG_remove_mipsarchn64 = "qemu"
->  PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu,"
->  PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
->  PACKAGECONFIG[xenapi] = "--with-xenapi,--without-xenapi,,"
-> -PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,libxl,"
-> +PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,xen,"
->  PACKAGECONFIG[uml] = "--with-uml, --without-uml,,"
->  PACKAGECONFIG[openvz] = "--with-openvz,--without-openvz,,"
->  PACKAGECONFIG[vmware] = "--with-vmware,--without-vmware,,"
+> diff --git a/recipes-containers/riddler/riddler_git.bb b/recipes-containers/riddler/riddler_git.bb
+> index 9f7fe6b..0897606 100644
+> --- a/recipes-containers/riddler/riddler_git.bb
+> +++ b/recipes-containers/riddler/riddler_git.bb
+> @@ -13,6 +13,10 @@ S = "${WORKDIR}/git"
+>  inherit goarch
+>  inherit go
+>
+> +# In addition to hosts go does not like, we do not build for mips.
+> +#
+> +COMPATIBLE_HOST_mipsarch = "null"
+> +
+>  # This disables seccomp and apparmor, which are on by default in the
+>  # go package.
+>  EXTRA_OEMAKE="BUILDTAGS=''"
 > --
-> 2.1.4
+> 2.7.4
 >
 > --
 > _______________________________________________
