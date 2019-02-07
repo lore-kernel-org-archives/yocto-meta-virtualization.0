@@ -1,60 +1,68 @@
-Return-Path: <TNordqvist@luxoft.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D2C18E00C46; Thu,  7 Feb 2019 02:42:07 -0800 (PST)
+	id 1D8BEE00C08; Thu,  7 Feb 2019 07:03:34 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,HTML_MESSAGE
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-Received: from mx01.luxoft.com (mx01.luxoft.com [109.166.244.56])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D47EDE00C43
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.219.175 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (asselsm[at]gmail.com)
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
+	[209.85.219.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2FF9E00C08
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Feb 2019 02:42:04 -0800 (PST)
-X-AuditID: ac1e1338-cd3ff70000009dab-b2-5c5c0b7a290b
-Received: from ORO-EDGE-01.luxoft.com (oro-edge-01.luxoft.com [172.30.19.21])
-	(using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by mx01.luxoft.com (Symantec Messaging Gateway) with SMTP id
-	F4.20.40363.A7B0C5C5; Thu,  7 Feb 2019 12:42:02 +0200 (EET)
-Received: from oro-exch-01.luxoft.com (172.25.192.30) by
-	oro-edge-01.luxoft.com (172.30.19.21) with Microsoft SMTP Server (TLS)
-	id 14.3.408.0; Thu, 7 Feb 2019 12:42:00 +0200
-Received: from oro-exch-05.luxoft.com (172.25.192.35) by
-	oro-exch-01.luxoft.com (172.25.192.30) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
-	15.1.1466.3; Thu, 7 Feb 2019 12:42:02 +0200
-Received: from oro-exch-05.luxoft.com ([fe80::601d:1cd3:3a61:5b71]) by
-	oro-exch-05.luxoft.com ([fe80::601d:1cd3:3a61:5b71%14]) with mapi id
-	15.01.1466.003; Thu, 7 Feb 2019 12:42:02 +0200
-From: "Nordqvist, Therese" <TNordqvist@luxoft.com>
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: [meta-virtualization] LXC 3.1 in thud?
-Thread-Index: AQHUvWaW8cmZPE1eSkSv6/cPvw54daXTIfyAgAD/Zpk=
-Date: Thu, 7 Feb 2019 10:42:01 +0000
-Message-ID: <09262a4a1f4f4e0dae6f47b099f4946c@luxoft.com>
-References: <2a468100b7c94734bcb79d6ddb55c141@luxoft.com>,
-	<CADkTA4MDqmmeko0DmpZ1D3qeJUWMue2BJGY4Txyf3zCofmXV8g@mail.gmail.com>
-In-Reply-To: <CADkTA4MDqmmeko0DmpZ1D3qeJUWMue2BJGY4Txyf3zCofmXV8g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.19.68]
+	Thu,  7 Feb 2019 07:03:31 -0800 (PST)
+Received: by mail-yb1-f175.google.com with SMTP id 7so32734ybp.13
+	for <meta-virtualization@yoctoproject.org>;
+	Thu, 07 Feb 2019 07:03:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=n6JzQWwMdejfRGPRLeDtUl8rYnr0yIyF+yY2SLkkYqE=;
+	b=YvAb4TZ158VTlELP9bJCpuS2MkaXj/BJuxVhK2mXSCkPb1ejhCR8ARBzRE/dYyenEK
+	h1zWD6bwtRmTvrKHBcPFiBTdSZR2+c8tUl543/aItY2Y3oN92byjPYLtIcORMKOPWXbq
+	ItnaEaTzXUK+GZluJWoHBTCIc6GdDreB48i4Ee7tcFCz1ZDs1PujScJ9+zqUQ9IK/ayP
+	Bm3mwlSHABMiLchFtcYZJbzFLpORBZiboKX7kZ+UKGY2pzTWOXJwZtvjaGkuJzCsZ1eF
+	7wDv9sG89V1BSLIfl/HUH2dOyupbcj7ZCgMq9s/BaFMpAj8iRIwqcRjPXBGw7Q7XYd4c
+	IiEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=n6JzQWwMdejfRGPRLeDtUl8rYnr0yIyF+yY2SLkkYqE=;
+	b=UWWNwyLcI2ipV7wUTkFw4I79MIiwMmgTkhkpXR1IvUGqYU/qZlnL3klk9clOrehrkp
+	0ZwWChbu4kxG3ZtdHJytFibDwQrvLuzI8B2t3paYHa7VUQJTM004PPbxx4EkqLS6+rIS
+	99zLmCY87WMeNAqi9UN5nCG+42IvT+p9Sbu1gdIO3vbBUB21/wa4vMAuHRhmOY5MX0Nk
+	txhbztzctOq/yL1hEwjx99+gZZHUWVcumOJlOX61mX1U6JLLZW+B1z1Ygii+33oNk4PD
+	YK1ppVps0aQ8O1z43qrUa+vIJG9tNVMMMQ+gmIv4g6saZD9+yVoPRPN3Fn48b7kT+keM
+	orSQ==
+X-Gm-Message-State: AHQUAuYRgV/Um0pjgu1JWMAfR0nQc/Sqw6ME7RQQ073O3s8WpwNxKNn2
+	rbvs8JA3o+l/LwrachwqzG13cUglRNv16i+8VOM=
+X-Google-Smtp-Source: AHgI3IZsVKR0ioKa6HIzvgwKWkAVN9sjIJuc/Gk6OAZn10t1hSlsWmiGIh208IjSCJeJLmIL82pIqWM4DmJeHr/1u+w=
+X-Received: by 2002:a25:860e:: with SMTP id y14mr13532345ybk.390.1549551810478;
+	Thu, 07 Feb 2019 07:03:30 -0800 (PST)
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJLMWRmVeSWpSXmKPExsWyRk5YVLeKOybG4OITFYvbB44wOzB6tJ/o
-	YwtgjOKySUnNySxLLdK3S+DK6Hy4grlge3XFlXc9rA2MSzK6GDk5JARMJJ50fmXuYuTiEBLY
-	xCSx7d0uKGcjo8SN42tZIZzPjBK7/0xkhHD2MUrMudPFCtLPJmAksWL5AnYQW0QgWOL9sjss
-	ILawgLHEwkXLGSHiJhJf722FqrGSuLnsPFgNi4CKxJPbe9hAbF4BS4mpZ26CxYUE6iSOnLkI
-	Np9TIFBi7eetzCA2o4CYxPdTa5hAbGYBcYlbT+YzQfwgILFkz3lmCFtU4uXjf6wQtoJE59NG
-	doj6RInm7lXsELsEJU7OfAK1S0mibcoj5gmMYrOQjJ2FpGUWkpYFjMyrGEXzi/J1i3PTdQ2M
-	9XJKK/LTSvSS83M3MUIiw2IH4+mDKYcYmTg4pRoYN+5P8GCoOXp6oYNSzanqeQrrD/t35t49
-	8nl+YJjB1JMf4zS4kp9s/+CoNK/e0mGLQrDPrdr8+2wxntdq2v98b1t41jl6kkLLdr7pj5P7
-	/xpkTo80Z+RPr2kuPvvv1rW20688eRT4JYW8HnHemnN/RkHUl3Nyz6YU5O67dfeX7GLm4tuP
-	ZRPzlFiKMxINtZiLihMBCnlgrjwCAAA=
-Subject: Re: LXC 3.1 in thud?
+References: <283D8E4691BA2F4EADBC70DF0256D7A302DB5C5549@UM-EXMBX02.comm.ad.roke.co.uk>
+In-Reply-To: <283D8E4691BA2F4EADBC70DF0256D7A302DB5C5549@UM-EXMBX02.comm.ad.roke.co.uk>
+From: Mark Asselstine <asselsm@gmail.com>
+Date: Thu, 7 Feb 2019 10:03:19 -0500
+Message-ID: <CAPuovEKqoeHKT2d4TbV1qs6ZjWwuoHLpx4h3keVBPbvKQegpaw@mail.gmail.com>
+To: "Coy, Russell" <russell.coy@roke.co.uk>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Subject: Re: Adding Docker to NXP Image fails to execute run on target
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -67,461 +75,395 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 10:42:08 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_09262a4a1f4f4e0dae6f47b099f4946cluxoftcom_"
-
---_000_09262a4a1f4f4e0dae6f47b099f4946cluxoftcom_
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Thu, 07 Feb 2019 15:03:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-
-I have looked through the release notes for both the 3.0.3 and the 3.1.0 re=
-leases.
-
-We have tested both the thud and master branches for meta-virtualization an=
-d it turns out we do not need the LXC 3.1.0 features or the 3.0.3 bugfixes =
-for our project (at this time).
-
-It is more of a case of "nice to have the same version of LXC on both thud =
-and master" for us.
-
-
-I am including a list of changes for the LXC releases in case someone else =
-sees something they need.
-
-
-Highlights for 3.0.3 (bugfixes):
-
- * Improved our default build flags to make use of compiler hardening
- * Added support for netlink strict property checking on newer kernels
- * Added support for new netlink interface/address netns API
- * Added handling of the kernel keyring on startup
-
-
-Summary of features added in 3.1.0:
-
- * enable various remount options with AppArmor
-
- * support NETLINK_DUMP_STRICT_CHK
-
- * allocate new keyring on startup
-
- * full cgroup2 support
-
- * implement efficient way to retrieve network devices and addresses from c=
-ontainers
-
- * introduce lxc_has_api_extension() into the API
-
- * add lxc.cgroup.relative configuration key
-
- * allocate new network namespace identifier on startup
-
- * add lxc.rootfs.managed configuration key
-
- * removal of all VLAs
-
- * AppArmor profile generation
-
- * add mount injection api
-
- * add lxc.monitor.signal.pdeath configuration key
-
- * build a shared and static liblxc library
-
- * adapt to mknod() changes in Linux Kernel 4.18
-
- * use execveat() to execute application containers
-
- * enable per-thread container name prefix when logging
-
- * refactor cgroup handling
-
- * raise ambient capabilities when running hooks
-
- * allow to mount /sys rw in unprivileged containers
-
- * add strlcpy() and strlcat() and deprecate strncpy() and strncat()
-
- * compiler based hardening
-
- * thread-safety improvements
-
- * support application containers without uid 0 in the container
-
- * support devpts mounts on kernels without gid mount option
-
-
-
-Best regards,
-Therese Nordqvist
-Software Engineer
-
-Luxoft Sweden AB
-=D6stra Hamngatan 16
-411 09 Gothenburg
-Sweden
-
-M: +46 732 332464
-E: TNordqvist@luxoft.com
-
-luxoft.com
-
-Registered Office Gothenburg, Sweden
-Registration No. 556780-4199
-
-
-________________________________
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Sent: Wednesday, February 6, 2019 10:01 PM
-To: Nordqvist, Therese
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] LXC 3.1 in thud?
-
-On Tue, Feb 5, 2019 at 10:22 AM Nordqvist, Therese
-<TNordqvist@luxoft.com> wrote:
+On Fri, Feb 1, 2019 at 10:31 AM Coy, Russell <russell.coy@roke.co.uk> wrote=
+:
 >
-> Hello,
+> Hello all,
 >
+> I am trying to add Docker to an image built under Yocto and hence am atte=
+mpting to use the meta-virtualization layer.
 >
-> I'm working in a project which uses meta-virtualization (http://pelux.io)=
-, do you know if there are any plans to include the LXC bump to 3.1.0 in th=
-e thud branch?
+> The target processor is an NXP imx8mq evk board and I am basing everythin=
+g on the NXP BSP v4.9.51, which is based on Yocto morty.
+>
+> I have git cloned the morty branch of the meta-virtualization layer to th=
+e top level of our Yocto project and added the layer to the build/bblayers.=
+conf file and added DISTRO_FEATURES_append =3D " virtualization" to the bui=
+ld/local.conf file. I have a custom layer with a custom image (based on cor=
+e-image) that includes docker (i.e. IMAGE_INSTALL +=3D " docker=E2=80=9D). =
+A complete re-build of the image using bitbake is successful, and when the =
+image is transferred to the target (on an sd card) and booted, the docker d=
+aemon starts up OK. However if I then try running =E2=80=9Cdocker run hello=
+-world=E2=80=9D to test out the installation, it will pull the hello-world =
+image, but fails with a daemon error:
+>
+> Unable to find image 'hello-world:latest' locally
+>
+> latest: Pulling from library/hello-world
+>
+> 3b4173355427: Pulling fs layer
+>
+> 3b4173355427: Verifying Checksum
+>
+> 3b4173355427: Download complete
+>
+> 3b4173355427: Pull complete
+>
+> Digest: sha256:2557e3c07ed1e38f26e389462d03ed943586f744621577a99efb77324b=
+0fe535
+>
+> Status: Downloaded newer image for hello-world:latest
+>
+> docker: Error response from daemon: operation not supported.
 
-There currently aren't any plans to do a version bump in Thud. We tend
-to leave the versions as-is in the maintained branches.
-It looks like thud is missing the 3.0.3 and 3.1.x bumps that we have
-in master, so there are at least two patches missing.
+This is what you need to focus on. Run docker with '--debug' review
+logs... you need to determine what operation is not supported.
 
-That being said, the missing version bumps are relatively minor and
-are bug fixes/small changes to the project.
+If after doing this you still can't determine what is wrong I usually
+recommend you get a known working configuration up and running which
+you can compare against. In this case configure another build, setup
+the bblayers.conf and setup your local.conf with
+---
+MACHINE =3D "qemux86-64"
+DISTRO_FEATURES_append =3D " virtualization"
+IMAGE_INSTALL_append =3D "docker kernel-module-xt-conntrack
+kernel-module-nf-nat kernel-module-xt-addrtype"
 
-What feature are you looking for in particular ? Can you summarize the
-changes between the versions and send
-it to the list ? That way everyone can see the requested change to the
-released branch and object if they think
-there will be impacts.
+KERNEL_MODULE_AUTOLOAD +=3D "xt_conntrack"
+KERNEL_MODULE_AUTOLOAD +=3D "xt_addrtype"
 
-Cheers,
+DISTRO_FEATURES_append =3D " systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
+VIRTUAL-RUNTIME_init_manager =3D "systemd"
+VIRTUAL-RUNTIME_initscripts =3D "systemd-compat-units"
+---
 
-Bruce
+Run the image in QEMU and you should be able to run get the hello
+world container running. Then you can compare your non-working case
+with the working case.
+
+Mark
+
 
 >
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?id=
-=3D2387a8876e4aaa52143a623ae5000cf064e55a64
+> See 'docker run --help'.
+>
+> Other images give similar results (e.g. busybox or alpine).
+>
+> It seems that the pull works, and images are downloaded OK, but they do n=
+ot run.
+>
+> I=E2=80=99d be grateful if you have any advice on how to get this branch =
+of docker working?
+>
+> For information:
+>
+> =E2=80=9Cdocker info=E2=80=9D gives:
+>
+> Containers: 0
+>
+> Running: 0
+>
+> Paused: 0
+>
+> Stopped: 0
+>
+> Images: 1
+>
+> Server Version: 1.12.5
+>
+> Storage Driver: overlay
+>
+> Backing Filesystem: extfs
+>
+> Logging Driver: json-file
+>
+> Cgroup Driver: cgroupfs
+>
+> Plugins:
+>
+> Volume: local
+>
+> Network: host bridge overlay null
+>
+> Swarm: inactive
+>
+> Runtimes: runc
+>
+> Default Runtime: runc
+>
+> Security Options:
+>
+> Kernel Version: 4.9.51-imx_4.9.51_imx8m_ga+g6df7474
+>
+> Operating System: NXP i.MX Release Distro 4.9.51-mx8-ga (morty)
+>
+> OSType: linux
+>
+> Architecture: aarch64
+>
+> CPUs: 4
+>
+> Total Memory: 2.928 GiB
+>
+> Name: Test-imx8
+>
+> ID: L4G3:4SLL:UO75:25FS:6OO6:NOPG:SGF7:DXVC:GN5P:7DZK:4O2D:3K4L
+>
+> Docker Root Dir: /var/lib/docker
+>
+> Debug Mode (client): false
+>
+> Debug Mode (server): false
+>
+> Registry: https://index.docker.io/v1/
+>
+> Insecure Registries:
+>
+> http://localhost:5000
+>
+> 127.0.0.0/8
+>
+> Downloading and running =E2=80=9Ccheck-config.sh=E2=80=9D gives:
+>
+> info: reading kernel config from /proc/config.gz ...
+>
+> Generally Necessary:
+>
+> - cgroup hierarchy: properly mounted [/sys/fs/cgroup]
+>
+> - CONFIG_NAMESPACES: enabled
+>
+> - CONFIG_NET_NS: enabled
+>
+> - CONFIG_PID_NS: enabled
+>
+> - CONFIG_IPC_NS: enabled
+>
+> - CONFIG_UTS_NS: enabled
+>
+> - CONFIG_CGROUPS: enabled
+>
+> - CONFIG_CGROUP_CPUACCT: enabled
+>
+> - CONFIG_CGROUP_DEVICE: enabled
+>
+> - CONFIG_CGROUP_FREEZER: missing
+>
+> - CONFIG_CGROUP_SCHED: enabled
+>
+> - CONFIG_CPUSETS: enabled
+>
+> - CONFIG_MEMCG: enabled
+>
+> - CONFIG_KEYS: enabled
+>
+> - CONFIG_VETH: enabled (as module)
+>
+> - CONFIG_BRIDGE: enabled (as module)
+>
+> - CONFIG_BRIDGE_NETFILTER: enabled (as module)
+>
+> - CONFIG_NF_NAT_IPV4: enabled (as module)
+>
+> - CONFIG_IP_NF_FILTER: enabled (as module)
+>
+> - CONFIG_IP_NF_TARGET_MASQUERADE: enabled (as module)
+>
+> - CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: enabled (as module)
+>
+> - CONFIG_NETFILTER_XT_MATCH_CONNTRACK: enabled (as module)
+>
+> - CONFIG_NETFILTER_XT_MATCH_IPVS: missing
+>
+> - CONFIG_IP_NF_NAT: enabled (as module)
+>
+> - CONFIG_NF_NAT: enabled (as module)
+>
+> - CONFIG_NF_NAT_NEEDED: enabled
+>
+> - CONFIG_POSIX_MQUEUE: enabled
+>
+> Optional Features:
+>
+> - CONFIG_USER_NS: enabled
+>
+> - CONFIG_SECCOMP: enabled
+>
+> - CONFIG_CGROUP_PIDS: enabled
+>
+> - CONFIG_MEMCG_SWAP: enabled
+>
+> - CONFIG_MEMCG_SWAP_ENABLED: enabled
+>
+>     (cgroup swap accounting is currently enabled)
+>
+> - CONFIG_BLK_CGROUP: enabled
+>
+> - CONFIG_BLK_DEV_THROTTLING: missing
+>
+> - CONFIG_IOSCHED_CFQ: enabled
+>
+> - CONFIG_CFQ_GROUP_IOSCHED: missing
+>
+> - CONFIG_CGROUP_PERF: enabled
+>
+> - CONFIG_CGROUP_HUGETLB: enabled
+>
+> - CONFIG_NET_CLS_CGROUP: missing
+>
+> - CONFIG_CGROUP_NET_PRIO: missing
+>
+> - CONFIG_CFS_BANDWIDTH: missing
+>
+> - CONFIG_FAIR_GROUP_SCHED: enabled
+>
+> - CONFIG_RT_GROUP_SCHED: missing
+>
+> - CONFIG_IP_NF_TARGET_REDIRECT: missing
+>
+> - CONFIG_IP_VS: missing
+>
+> - CONFIG_IP_VS_NFCT: missing
+>
+> - CONFIG_IP_VS_PROTO_TCP: missing
+>
+> - CONFIG_IP_VS_PROTO_UDP: missing
+>
+> - CONFIG_IP_VS_RR: missing
+>
+> - CONFIG_EXT3_FS: enabled
+>
+> - CONFIG_EXT3_FS_XATTR: missing
+>
+> - CONFIG_EXT3_FS_POSIX_ACL: missing
+>
+> - CONFIG_EXT3_FS_SECURITY: missing
+>
+>     (enable these ext3 configs if you are using ext3 as backing filesyste=
+m)
+>
+> - CONFIG_EXT4_FS: enabled
+>
+> - CONFIG_EXT4_FS_POSIX_ACL: enabled
+>
+> - CONFIG_EXT4_FS_SECURITY: missing
+>
+>     enable these ext4 configs if you are using ext4 as backing filesystem
+>
+> - Network Drivers:
+>
+>   - "overlay":
+>
+>     - CONFIG_VXLAN: missing
+>
+>       Optional (for encrypted networks):
+>
+>       - CONFIG_CRYPTO: enabled
+>
+>       - CONFIG_CRYPTO_AEAD: enabled
+>
+>       - CONFIG_CRYPTO_GCM: enabled
+>
+>       - CONFIG_CRYPTO_SEQIV: enabled
+>
+>       - CONFIG_CRYPTO_GHASH: enabled
+>
+>       - CONFIG_XFRM: enabled
+>
+>       - CONFIG_XFRM_USER: missing
+>
+>       - CONFIG_XFRM_ALGO: missing
+>
+>       - CONFIG_INET_ESP: missing
+>
+>       - CONFIG_INET_XFRM_MODE_TRANSPORT: enabled
+>
+>   - "mipvlan":
+>
+>     - CONFIG_IPVLAN: missing
+>
+>   - "macvlan":
+>
+>     - CONFIG_MACVLAN: enabled (as module)
+>
+>     - CONFIG_DUMMY: missing
+>
+>   - "ftp,tftp client in container":
+>
+>     - CONFIG_NF_NAT_FTP: missing
+>
+>     - CONFIG_NF_CONNTRACK_FTP: missing
+>
+>     - CONFIG_NF_NAT_TFTP: missing
+>
+>     - CONFIG_NF_CONNTRACK_TFTP: missing
+>
+> - Storage Drivers:
+>
+>   - "aufs":
+>
+>     - CONFIG_AUFS_FS: missing
+>
+>   - "btrfs":
+>
+>     - CONFIG_BTRFS_FS: enabled (as module)
+>
+>     - CONFIG_BTRFS_FS_POSIX_ACL: enabled
+>
+>   - "devicemapper":
+>
+>     - CONFIG_BLK_DEV_DM: missing
+>
+>     - CONFIG_DM_THIN_PROVISIONING: missing
+>
+>   - "overlay":
+>
+>     - CONFIG_OVERLAY_FS: enabled (as module)
+>
+>   - "zfs":
+>
+>     - /dev/zfs: missing
+>
+>     - zfs command: missing
+>
+>     - zpool command: missing
+>
+> Limits:
+>
+> - /proc/sys/kernel/keys/root_maxkeys: 1000000
+>
+> =E2=80=9Cdocker =E2=80=93version=E2=80=9D gives:
+>
+> Docker version 1.12.5, build 7392c3b
+>
+> From the config output, I see that some variables are not enabled. Could =
+this be an issue?
+>
+> Kind regards,
+>
+> Russell
 >
 >
-> If you are interesting in our github repo: https://github.com/Pelagicore/=
-pelux-manifests
 >
+> Follow Us: LinkedIn | Twitter | Facebook
 >
-> Best regards,
-> Therese Nordqvist
-> Software Engineer
->
-> Luxoft Sweden AB
-> =D6stra Hamngatan 16
-> 411 09 Gothenburg
-> Sweden
->
-> M: +46 732 332464
-> E: TNordqvist@luxoft.com
->
-> luxoft.com
->
-> Registered Office Gothenburg, Sweden
-> Registration No. 556780-4199
+> Roke Manor Research Limited, Romsey, Hampshire, SO51 0ZN, United Kingdom.=
+ Part of the Chemring Group. Registered in England & Wales. Registered No: =
+00267550. The information contained in this e-mail and any attachments is p=
+roprietary to Roke Manor Research Limited and must not be passed to any thi=
+rd party without permission. This communication is for information only and=
+ shall not create or change any contractual relationship.
+> www.roke.co.uk
 >
 > ________________________________
->
-> This e-mail and any attachment(s) are intended only for the recipient(s) =
-named above and others who have been specifically authorized to receive the=
-m. They may contain confidential information. If you are not the intended r=
-ecipient, please do not read this email or its attachment(s). Furthermore, =
-you are hereby notified that any dissemination, distribution or copying of =
-this e-mail and any attachment(s) is strictly prohibited. If you have recei=
-ved this e-mail in error, please immediately notify the sender by replying =
-to this e-mail and then delete this e-mail and any attachment(s) or copies =
-thereof from your system. Thank you.
 > --
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
-________________________________
-
-This e-mail and any attachment(s) are intended only for the recipient(s) na=
-med above and others who have been specifically authorized to receive them.=
- They may contain confidential information. If you are not the intended rec=
-ipient, please do not read this email or its attachment(s). Furthermore, yo=
-u are hereby notified that any dissemination, distribution or copying of th=
-is e-mail and any attachment(s) is strictly prohibited. If you have receive=
-d this e-mail in error, please immediately notify the sender by replying to=
- this e-mail and then delete this e-mail and any attachment(s) or copies th=
-ereof from your system. Thank you.
-
---_000_09262a4a1f4f4e0dae6f47b099f4946cluxoftcom_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"><!-- P {margin-top:0;margi=
-n-bottom:0;} --></style>
-</head>
-<body dir=3D"ltr">
-<div id=3D"divtagdefaultwrapper" style=3D"font-size: 12pt; color: rgb(0, 0,=
- 0); font-family: Calibri, Helvetica, sans-serif, &quot;EmojiFont&quot;, &q=
-uot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, &q=
-uot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols;" dir=3D=
-"ltr">
-<p>Hello,</p>
-<p><br>
-</p>
-<p>I have looked through the release notes for both the 3.0.3 and the 3.1.0=
- releases.</p>
-<p>We have tested both the thud and master branches for meta-virtualization=
- and it turns out we do not need the LXC 3.1.0 features or the 3.0.3 bugfix=
-es for our project (at this time).
-<br>
-</p>
-<p>It is more of a case of &quot;nice to have the same version of LXC on bo=
-th thud and master&quot; for us.</p>
-<p><br>
-</p>
-<p>I am including a list of changes for the LXC releases in case someone el=
-se sees something they need.<br>
-</p>
-<p><br>
-</p>
-<p>Highlights for 3.0.3 (bugfixes):</p>
-<p></p>
-<div>&nbsp;* Improved our default build flags to make use of compiler harde=
-ning<br>
-&nbsp;* Added support for netlink strict property checking on newer kernels=
-<br>
-&nbsp;* Added support for new netlink interface/address netns API<br>
-&nbsp;* Added handling of the kernel keyring on startup<br>
-</div>
-<br>
-<p></p>
-<p>Summary of features added in 3.1.0:</p>
-<p></p>
-<div>
-<p>&nbsp;* enable various remount options with AppArmor</p>
-<p>&nbsp;* support&nbsp;<code class=3D"western">NETLINK_DUMP_STRICT_CHK</co=
-de></p>
-<p>&nbsp;* allocate new keyring on startup</p>
-<p>&nbsp;* full&nbsp;<code class=3D"western">cgroup2</code>&nbsp;support</p=
->
-<p>&nbsp;* implement efficient way to retrieve network devices and addresse=
-s from containers</p>
-<p>&nbsp;* introduce&nbsp;<code class=3D"western">lxc_has_api_extension()</=
-code>&nbsp;into the API</p>
-<p>&nbsp;* add&nbsp;<code class=3D"western">lxc.cgroup.relative</code>&nbsp=
-;configuration key</p>
-<p>&nbsp;* allocate new network namespace identifier on startup</p>
-<p>&nbsp;* add&nbsp;<code class=3D"western">lxc.rootfs.managed</code>&nbsp;=
-configuration key</p>
-<p>&nbsp;* removal of all&nbsp;<code class=3D"western">VLA</code>s</p>
-<p>&nbsp;* AppArmor profile generation</p>
-<p>&nbsp;* add mount injection api</p>
-<p>&nbsp;* add&nbsp;<code class=3D"western">lxc.monitor.signal.pdeath</code=
->&nbsp;configuration key</p>
-<p>&nbsp;* build a shared and static&nbsp;<code class=3D"western">liblxc</c=
-ode>&nbsp;library</p>
-<p>&nbsp;* adapt to&nbsp;<code class=3D"western">mknod()</code>&nbsp;change=
-s in Linux Kernel 4.18</p>
-<p>&nbsp;* use&nbsp;<code class=3D"western">execveat()</code>&nbsp;to execu=
-te application containers</p>
-<p>&nbsp;* enable per-thread container name prefix when logging</p>
-<p>&nbsp;* refactor cgroup handling</p>
-<p>&nbsp;* raise ambient capabilities when running hooks</p>
-<p>&nbsp;* allow to mount&nbsp;<code class=3D"western">/sys</code>&nbsp;<co=
-de class=3D"western">rw</code>&nbsp;in unprivileged containers</p>
-<p>&nbsp;* add&nbsp;<code class=3D"western">strlcpy()</code>&nbsp;and&nbsp;=
-<code class=3D"western">strlcat()</code>&nbsp;and deprecate&nbsp;<code clas=
-s=3D"western">strncpy()</code>&nbsp;and&nbsp;<code class=3D"western">strnca=
-t()</code></p>
-<p>&nbsp;* compiler based hardening</p>
-<p>&nbsp;* thread-safety improvements</p>
-<p>&nbsp;* support application containers without&nbsp;<code class=3D"weste=
-rn">uid 0</code>&nbsp;in the container</p>
-<p>&nbsp;* support&nbsp;<code class=3D"western">devpts</code>&nbsp;mounts o=
-n kernels without&nbsp;<code class=3D"western">gid</code>&nbsp;mount option=
-</p>
-<p><br>
-<br>
-</p>
-</div>
-<p></p>
-<div id=3D"Signature">
-<div id=3D"divtagdefaultwrapper" dir=3D"ltr" style=3D"font-size: 12pt; colo=
-r: rgb(0, 0, 0); font-family: Calibri, Helvetica, sans-serif, &quot;EmojiFo=
-nt&quot;, &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoCo=
-lorEmoji, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymb=
-ols;">
-<div style=3D"font-family:Tahoma; font-size:13px">
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:10pt"=
->
-<div class=3D"PlainText">Best regards,<br>
-Therese Nordqvist<br>
-Software Engineer<br>
-<br>
-Luxoft Sweden AB<br>
-=D6stra Hamngatan 16<br>
-411 09 Gothenburg<br>
-Sweden<br>
-<br>
-M: &#43;46 732 332464 <br>
-E: TNordqvist@luxoft.com<br>
-</div>
-<div class=3D"PlainText"><br>
-</div>
-<div class=3D"PlainText"><span style=3D"font-size:10pt">luxoft.com</span><b=
-r>
-</div>
-<div class=3D"PlainText">&nbsp;<br>
-Registered Office Gothenburg, Sweden<br>
-Registration No. 556780-4199</div>
-</span></font></div>
-</div>
-</div>
-</div>
-<br>
-<br>
-<div style=3D"color: rgb(0, 0, 0);">
-<div>
-<hr tabindex=3D"-1" style=3D"display:inline-block; width:98%">
-<div id=3D"x_divRplyFwdMsg" dir=3D"ltr"><font style=3D"font-size:11pt" face=
-=3D"Calibri, sans-serif" color=3D"#000000"><b>From:</b> Bruce Ashfield &lt;=
-bruce.ashfield@gmail.com&gt;<br>
-<b>Sent:</b> Wednesday, February 6, 2019 10:01 PM<br>
-<b>To:</b> Nordqvist, Therese<br>
-<b>Cc:</b> meta-virtualization@yoctoproject.org<br>
-<b>Subject:</b> Re: [meta-virtualization] LXC 3.1 in thud?</font>
-<div>&nbsp;</div>
-</div>
-</div>
-<font size=3D"2"><span style=3D"font-size:10pt;">
-<div class=3D"PlainText">On Tue, Feb 5, 2019 at 10:22 AM Nordqvist, Therese=
-<br>
-&lt;TNordqvist@luxoft.com&gt; wrote:<br>
-&gt;<br>
-&gt; Hello,<br>
-&gt;<br>
-&gt;<br>
-&gt; I'm working in a project which uses meta-virtualization (<a href=3D"ht=
-tp://pelux.io" id=3D"LPlnk790445" previewremoved=3D"true">http://pelux.io</=
-a>), do you know if there are any plans to include the LXC bump to 3.1.0 in=
- the thud branch?<br>
-<br>
-There currently aren't any plans to do a version bump in Thud. We tend<br>
-to leave the versions as-is in the maintained branches.<br>
-It looks like thud is missing the 3.0.3 and 3.1.x bumps that we have<br>
-in master, so there are at least two patches missing.<br>
-<br>
-That being said, the missing version bumps are relatively minor and<br>
-are bug fixes/small changes to the project.<br>
-<br>
-What feature are you looking for in particular ? Can you summarize the<br>
-changes between the versions and send<br>
-it to the list ? That way everyone can see the requested change to the<br>
-released branch and object if they think<br>
-there will be impacts.<br>
-<br>
-Cheers,<br>
-<br>
-Bruce<br>
-<br>
-&gt;<br>
-&gt; <a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualizat=
-ion/commit/?id=3D2387a8876e4aaa52143a623ae5000cf064e55a64" id=3D"LPlnk24742=
-9" previewremoved=3D"true">
-https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?id=
-=3D2387a8876e4aaa52143a623ae5000cf064e55a64</a><br>
-&gt;<br>
-&gt;<br>
-&gt; If you are interesting in our github repo: <a href=3D"https://github.c=
-om/Pelagicore/pelux-manifests" id=3D"LPlnk975024" previewremoved=3D"true">
-https://github.com/Pelagicore/pelux-manifests</a><br>
-&gt;<br>
-&gt;<br>
-&gt; Best regards,<br>
-&gt; Therese Nordqvist<br>
-&gt; Software Engineer<br>
-&gt;<br>
-&gt; Luxoft Sweden AB<br>
-&gt; =D6stra Hamngatan 16<br>
-&gt; 411 09 Gothenburg<br>
-&gt; Sweden<br>
-&gt;<br>
-&gt; M: &#43;46 732 332464<br>
-&gt; E: TNordqvist@luxoft.com<br>
-&gt;<br>
-&gt; luxoft.com<br>
-&gt;<br>
-&gt; Registered Office Gothenburg, Sweden<br>
-&gt; Registration No. 556780-4199<br>
-&gt;<br>
-&gt; ________________________________<br>
-&gt;<br>
-&gt; This e-mail and any attachment(s) are intended only for the recipient(=
-s) named above and others who have been specifically authorized to receive =
-them. They may contain confidential information. If you are not the intende=
-d recipient, please do not read this
- email or its attachment(s). Furthermore, you are hereby notified that any =
-dissemination, distribution or copying of this e-mail and any attachment(s)=
- is strictly prohibited. If you have received this e-mail in error, please =
-immediately notify the sender by
- replying to this e-mail and then delete this e-mail and any attachment(s) =
-or copies thereof from your system. Thank you.<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; meta-virtualization mailing list<br>
-&gt; meta-virtualization@yoctoproject.org<br>
-&gt; <a href=3D"https://lists.yoctoproject.org/listinfo/meta-virtualization=
-" id=3D"LPlnk924850" previewremoved=3D"true">
-https://lists.yoctoproject.org/listinfo/meta-virtualization</a><br>
-<br>
-<br>
-<br>
--- <br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</div>
-</span></font></div>
-</div>
-<br>
-<hr>
-<font face=3D"Arial" color=3D"Gray" size=3D"1"><br>
-This e-mail and any attachment(s) are intended only for the recipient(s) na=
-med above and others who have been specifically authorized to receive them.=
- They may contain confidential information. If you are not the intended rec=
-ipient, please do not read this
- email or its attachment(s). Furthermore, you are hereby notified that any =
-dissemination, distribution or copying of this e-mail and any attachment(s)=
- is strictly prohibited. If you have received this e-mail in error, please =
-immediately notify the sender by
- replying to this e-mail and then delete this e-mail and any attachment(s) =
-or copies thereof from your system. Thank you.<br>
-</font>
-</body>
-</html>
-
---_000_09262a4a1f4f4e0dae6f47b099f4946cluxoftcom_--
