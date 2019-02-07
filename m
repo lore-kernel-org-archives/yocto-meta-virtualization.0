@@ -1,6 +1,6 @@
-Return-Path: <asselsm@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1D8BEE00C08; Thu,  7 Feb 2019 07:03:34 -0800 (PST)
+	id 02CF9E00C75; Thu,  7 Feb 2019 08:14:41 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,60 +9,63 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.219.175 listed in list.dnswl.org]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (asselsm[at]gmail.com)
+	*      [209.85.208.175 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-yb1-f175.google.com (mail-yb1-f175.google.com
-	[209.85.219.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2FF9E00C08
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+	[209.85.208.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 02EC5E00C6D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Feb 2019 07:03:31 -0800 (PST)
-Received: by mail-yb1-f175.google.com with SMTP id 7so32734ybp.13
+	Thu,  7 Feb 2019 08:14:39 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id g11-v6so373153ljk.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 07 Feb 2019 07:03:31 -0800 (PST)
+	Thu, 07 Feb 2019 08:14:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=n6JzQWwMdejfRGPRLeDtUl8rYnr0yIyF+yY2SLkkYqE=;
-	b=YvAb4TZ158VTlELP9bJCpuS2MkaXj/BJuxVhK2mXSCkPb1ejhCR8ARBzRE/dYyenEK
-	h1zWD6bwtRmTvrKHBcPFiBTdSZR2+c8tUl543/aItY2Y3oN92byjPYLtIcORMKOPWXbq
-	ItnaEaTzXUK+GZluJWoHBTCIc6GdDreB48i4Ee7tcFCz1ZDs1PujScJ9+zqUQ9IK/ayP
-	Bm3mwlSHABMiLchFtcYZJbzFLpORBZiboKX7kZ+UKGY2pzTWOXJwZtvjaGkuJzCsZ1eF
-	7wDv9sG89V1BSLIfl/HUH2dOyupbcj7ZCgMq9s/BaFMpAj8iRIwqcRjPXBGw7Q7XYd4c
-	IiEQ==
+	bh=q3m0lZIZwsgMkvwO62Fyl+/wZyJNOLbSTVViUIQWkjw=;
+	b=jRUEn3jlvib4flyR8ByEiRcmHe1KS+j6VXdth2PsyinyKvihCQ5DkxxvXaARQ3r52u
+	YKHsYcSMVE7TF5UdRz0qD7KebX7JUyj1OV6Rxbi44Qt2DroB1+s4MYsiD68CdQVj0ZFY
+	ujDiM3il+gUPblHwjkONzWgKZeXziYFeABbwC2riVAJsLdWeNaMZJ2xkUh3VZGcnZgTd
+	eKOyI5ggT5sYQvUO2CrCw4KwfWJN7Q48m6+xdjdr1Tfl/OvDUG7xDZ8zxubkZ8uEXd4M
+	LHip3rya5bzBJk/7qdK5toJnPVyXZ+M+delqzWbOCULciO7gfPfpam9Na1SKffGTCnjM
+	XFEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=n6JzQWwMdejfRGPRLeDtUl8rYnr0yIyF+yY2SLkkYqE=;
-	b=UWWNwyLcI2ipV7wUTkFw4I79MIiwMmgTkhkpXR1IvUGqYU/qZlnL3klk9clOrehrkp
-	0ZwWChbu4kxG3ZtdHJytFibDwQrvLuzI8B2t3paYHa7VUQJTM004PPbxx4EkqLS6+rIS
-	99zLmCY87WMeNAqi9UN5nCG+42IvT+p9Sbu1gdIO3vbBUB21/wa4vMAuHRhmOY5MX0Nk
-	txhbztzctOq/yL1hEwjx99+gZZHUWVcumOJlOX61mX1U6JLLZW+B1z1Ygii+33oNk4PD
-	YK1ppVps0aQ8O1z43qrUa+vIJG9tNVMMMQ+gmIv4g6saZD9+yVoPRPN3Fn48b7kT+keM
-	orSQ==
-X-Gm-Message-State: AHQUAuYRgV/Um0pjgu1JWMAfR0nQc/Sqw6ME7RQQ073O3s8WpwNxKNn2
-	rbvs8JA3o+l/LwrachwqzG13cUglRNv16i+8VOM=
-X-Google-Smtp-Source: AHgI3IZsVKR0ioKa6HIzvgwKWkAVN9sjIJuc/Gk6OAZn10t1hSlsWmiGIh208IjSCJeJLmIL82pIqWM4DmJeHr/1u+w=
-X-Received: by 2002:a25:860e:: with SMTP id y14mr13532345ybk.390.1549551810478;
-	Thu, 07 Feb 2019 07:03:30 -0800 (PST)
+	bh=q3m0lZIZwsgMkvwO62Fyl+/wZyJNOLbSTVViUIQWkjw=;
+	b=mCVrdQwoXyCzAHBzKdi9fVjHunFB2DRLk8jmqcaoyU+0gwWHUnKlPo/lO/lsYeA3M9
+	zUp57BIOai76UhvtarKfc1oVY9yYwM4VusagpCKAgmE/rvkCacBuazOUr4qr+oh4lLbT
+	cmG3TpXxtjZA+r4qGiXV8KlF39RUAKYDXNIC86PM8ox2f6Kp0OxZrgYQOFYWA+z64RTc
+	kMjRQxMGF8OTTOD97LcdJNUaKKhx6wAwY8kPgWsXBz6o3Mm+F1TBDRVIFj5kVtLEpfYO
+	f8TsyCZtVdXaP3XcOugkpLHtDMtao1M3X5aZDX8ZXMSZDngMF6WuwJ74Zo+DgR5AOKgJ
+	C1gg==
+X-Gm-Message-State: AHQUAuYHyQA7KGEKn0txsx6UVNW3XbwFOCB66egZaYS0lUOSNe1m2Ddf
+	LV11cf5o8PkaUn3TUCCg2H1hBY+PxtT2xe7W1MZLaids
+X-Google-Smtp-Source: AHgI3IYb38eEU1wM5gqOus1XdqFXbLr60lG92gEdm20O8TYTNbC2Jv+G7LgyOWaajYXA0o5Bg3bnKYAvdy0yzBTMDqQ=
+X-Received: by 2002:a2e:4784:: with SMTP id
+	u126-v6mr10315784lja.124.1549556078590; 
+	Thu, 07 Feb 2019 08:14:38 -0800 (PST)
 MIME-Version: 1.0
-References: <283D8E4691BA2F4EADBC70DF0256D7A302DB5C5549@UM-EXMBX02.comm.ad.roke.co.uk>
-In-Reply-To: <283D8E4691BA2F4EADBC70DF0256D7A302DB5C5549@UM-EXMBX02.comm.ad.roke.co.uk>
-From: Mark Asselstine <asselsm@gmail.com>
-Date: Thu, 7 Feb 2019 10:03:19 -0500
-Message-ID: <CAPuovEKqoeHKT2d4TbV1qs6ZjWwuoHLpx4h3keVBPbvKQegpaw@mail.gmail.com>
-To: "Coy, Russell" <russell.coy@roke.co.uk>
+References: <2a468100b7c94734bcb79d6ddb55c141@luxoft.com>
+	<CADkTA4MDqmmeko0DmpZ1D3qeJUWMue2BJGY4Txyf3zCofmXV8g@mail.gmail.com>
+	<09262a4a1f4f4e0dae6f47b099f4946c@luxoft.com>
+In-Reply-To: <09262a4a1f4f4e0dae6f47b099f4946c@luxoft.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 7 Feb 2019 11:14:26 -0500
+Message-ID: <CADkTA4NUSEdO73VmZSE+=GxZK_xR6tM4s0S--w-FBaoDTQrOHw@mail.gmail.com>
+To: "Nordqvist, Therese" <TNordqvist@luxoft.com>
 Cc: "meta-virtualization@yoctoproject.org"
 	<meta-virtualization@yoctoproject.org>
-Subject: Re: Adding Docker to NXP Image fails to execute run on target
+Subject: Re: LXC 3.1 in thud?
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,395 +78,226 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Feb 2019 15:03:34 -0000
+X-List-Received-Date: Thu, 07 Feb 2019 16:14:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 1, 2019 at 10:31 AM Coy, Russell <russell.coy@roke.co.uk> wrote=
-:
+On Thu, Feb 7, 2019 at 5:42 AM Nordqvist, Therese <TNordqvist@luxoft.com> w=
+rote:
 >
-> Hello all,
+> Hello,
 >
-> I am trying to add Docker to an image built under Yocto and hence am atte=
-mpting to use the meta-virtualization layer.
 >
-> The target processor is an NXP imx8mq evk board and I am basing everythin=
-g on the NXP BSP v4.9.51, which is based on Yocto morty.
+> I have looked through the release notes for both the 3.0.3 and the 3.1.0 =
+releases.
 >
-> I have git cloned the morty branch of the meta-virtualization layer to th=
-e top level of our Yocto project and added the layer to the build/bblayers.=
-conf file and added DISTRO_FEATURES_append =3D " virtualization" to the bui=
-ld/local.conf file. I have a custom layer with a custom image (based on cor=
-e-image) that includes docker (i.e. IMAGE_INSTALL +=3D " docker=E2=80=9D). =
-A complete re-build of the image using bitbake is successful, and when the =
-image is transferred to the target (on an sd card) and booted, the docker d=
-aemon starts up OK. However if I then try running =E2=80=9Cdocker run hello=
--world=E2=80=9D to test out the installation, it will pull the hello-world =
-image, but fails with a daemon error:
+> We have tested both the thud and master branches for meta-virtualization =
+and it turns out we do not need the LXC 3.1.0 features or the 3.0.3 bugfixe=
+s for our project (at this time).
 >
-> Unable to find image 'hello-world:latest' locally
+> It is more of a case of "nice to have the same version of LXC on both thu=
+d and master" for us.
 >
-> latest: Pulling from library/hello-world
 >
-> 3b4173355427: Pulling fs layer
+> I am including a list of changes for the LXC releases in case someone els=
+e sees something they need.
 >
-> 3b4173355427: Verifying Checksum
->
-> 3b4173355427: Download complete
->
-> 3b4173355427: Pull complete
->
-> Digest: sha256:2557e3c07ed1e38f26e389462d03ed943586f744621577a99efb77324b=
-0fe535
->
-> Status: Downloaded newer image for hello-world:latest
->
-> docker: Error response from daemon: operation not supported.
 
-This is what you need to focus on. Run docker with '--debug' review
-logs... you need to determine what operation is not supported.
+The list of features doesn't look like a problem to me. I did do some
+preliminary cherry picks to thud and was just waiting to see what you
+found on this front.
+If there are no complaints in the next few days, I'll go ahead and
+push the version/bug fix bumps.
 
-If after doing this you still can't determine what is wrong I usually
-recommend you get a known working configuration up and running which
-you can compare against. In this case configure another build, setup
-the bblayers.conf and setup your local.conf with
----
-MACHINE =3D "qemux86-64"
-DISTRO_FEATURES_append =3D " virtualization"
-IMAGE_INSTALL_append =3D "docker kernel-module-xt-conntrack
-kernel-module-nf-nat kernel-module-xt-addrtype"
-
-KERNEL_MODULE_AUTOLOAD +=3D "xt_conntrack"
-KERNEL_MODULE_AUTOLOAD +=3D "xt_addrtype"
-
-DISTRO_FEATURES_append =3D " systemd"
-DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
-VIRTUAL-RUNTIME_init_manager =3D "systemd"
-VIRTUAL-RUNTIME_initscripts =3D "systemd-compat-units"
----
-
-Run the image in QEMU and you should be able to run get the hello
-world container running. Then you can compare your non-working case
-with the working case.
-
-Mark
-
+Bruce
 
 >
-> See 'docker run --help'.
+> Highlights for 3.0.3 (bugfixes):
 >
-> Other images give similar results (e.g. busybox or alpine).
+>  * Improved our default build flags to make use of compiler hardening
+>  * Added support for netlink strict property checking on newer kernels
+>  * Added support for new netlink interface/address netns API
+>  * Added handling of the kernel keyring on startup
 >
-> It seems that the pull works, and images are downloaded OK, but they do n=
-ot run.
+> Summary of features added in 3.1.0:
 >
-> I=E2=80=99d be grateful if you have any advice on how to get this branch =
-of docker working?
+>  * enable various remount options with AppArmor
 >
-> For information:
+>  * support NETLINK_DUMP_STRICT_CHK
 >
-> =E2=80=9Cdocker info=E2=80=9D gives:
+>  * allocate new keyring on startup
 >
-> Containers: 0
+>  * full cgroup2 support
 >
-> Running: 0
+>  * implement efficient way to retrieve network devices and addresses from=
+ containers
 >
-> Paused: 0
+>  * introduce lxc_has_api_extension() into the API
 >
-> Stopped: 0
+>  * add lxc.cgroup.relative configuration key
 >
-> Images: 1
+>  * allocate new network namespace identifier on startup
 >
-> Server Version: 1.12.5
+>  * add lxc.rootfs.managed configuration key
 >
-> Storage Driver: overlay
+>  * removal of all VLAs
 >
-> Backing Filesystem: extfs
+>  * AppArmor profile generation
 >
-> Logging Driver: json-file
+>  * add mount injection api
 >
-> Cgroup Driver: cgroupfs
+>  * add lxc.monitor.signal.pdeath configuration key
 >
-> Plugins:
+>  * build a shared and static liblxc library
 >
-> Volume: local
+>  * adapt to mknod() changes in Linux Kernel 4.18
 >
-> Network: host bridge overlay null
+>  * use execveat() to execute application containers
 >
-> Swarm: inactive
+>  * enable per-thread container name prefix when logging
 >
-> Runtimes: runc
+>  * refactor cgroup handling
 >
-> Default Runtime: runc
+>  * raise ambient capabilities when running hooks
 >
-> Security Options:
+>  * allow to mount /sys rw in unprivileged containers
 >
-> Kernel Version: 4.9.51-imx_4.9.51_imx8m_ga+g6df7474
+>  * add strlcpy() and strlcat() and deprecate strncpy() and strncat()
 >
-> Operating System: NXP i.MX Release Distro 4.9.51-mx8-ga (morty)
+>  * compiler based hardening
 >
-> OSType: linux
+>  * thread-safety improvements
 >
-> Architecture: aarch64
+>  * support application containers without uid 0 in the container
 >
-> CPUs: 4
+>  * support devpts mounts on kernels without gid mount option
 >
-> Total Memory: 2.928 GiB
 >
-> Name: Test-imx8
 >
-> ID: L4G3:4SLL:UO75:25FS:6OO6:NOPG:SGF7:DXVC:GN5P:7DZK:4O2D:3K4L
+> Best regards,
+> Therese Nordqvist
+> Software Engineer
 >
-> Docker Root Dir: /var/lib/docker
+> Luxoft Sweden AB
+> =C3=96stra Hamngatan 16
+> 411 09 Gothenburg
+> Sweden
 >
-> Debug Mode (client): false
+> M: +46 732 332464
+> E: TNordqvist@luxoft.com
 >
-> Debug Mode (server): false
+> luxoft.com
 >
-> Registry: https://index.docker.io/v1/
+> Registered Office Gothenburg, Sweden
+> Registration No. 556780-4199
 >
-> Insecure Registries:
->
-> http://localhost:5000
->
-> 127.0.0.0/8
->
-> Downloading and running =E2=80=9Ccheck-config.sh=E2=80=9D gives:
->
-> info: reading kernel config from /proc/config.gz ...
->
-> Generally Necessary:
->
-> - cgroup hierarchy: properly mounted [/sys/fs/cgroup]
->
-> - CONFIG_NAMESPACES: enabled
->
-> - CONFIG_NET_NS: enabled
->
-> - CONFIG_PID_NS: enabled
->
-> - CONFIG_IPC_NS: enabled
->
-> - CONFIG_UTS_NS: enabled
->
-> - CONFIG_CGROUPS: enabled
->
-> - CONFIG_CGROUP_CPUACCT: enabled
->
-> - CONFIG_CGROUP_DEVICE: enabled
->
-> - CONFIG_CGROUP_FREEZER: missing
->
-> - CONFIG_CGROUP_SCHED: enabled
->
-> - CONFIG_CPUSETS: enabled
->
-> - CONFIG_MEMCG: enabled
->
-> - CONFIG_KEYS: enabled
->
-> - CONFIG_VETH: enabled (as module)
->
-> - CONFIG_BRIDGE: enabled (as module)
->
-> - CONFIG_BRIDGE_NETFILTER: enabled (as module)
->
-> - CONFIG_NF_NAT_IPV4: enabled (as module)
->
-> - CONFIG_IP_NF_FILTER: enabled (as module)
->
-> - CONFIG_IP_NF_TARGET_MASQUERADE: enabled (as module)
->
-> - CONFIG_NETFILTER_XT_MATCH_ADDRTYPE: enabled (as module)
->
-> - CONFIG_NETFILTER_XT_MATCH_CONNTRACK: enabled (as module)
->
-> - CONFIG_NETFILTER_XT_MATCH_IPVS: missing
->
-> - CONFIG_IP_NF_NAT: enabled (as module)
->
-> - CONFIG_NF_NAT: enabled (as module)
->
-> - CONFIG_NF_NAT_NEEDED: enabled
->
-> - CONFIG_POSIX_MQUEUE: enabled
->
-> Optional Features:
->
-> - CONFIG_USER_NS: enabled
->
-> - CONFIG_SECCOMP: enabled
->
-> - CONFIG_CGROUP_PIDS: enabled
->
-> - CONFIG_MEMCG_SWAP: enabled
->
-> - CONFIG_MEMCG_SWAP_ENABLED: enabled
->
->     (cgroup swap accounting is currently enabled)
->
-> - CONFIG_BLK_CGROUP: enabled
->
-> - CONFIG_BLK_DEV_THROTTLING: missing
->
-> - CONFIG_IOSCHED_CFQ: enabled
->
-> - CONFIG_CFQ_GROUP_IOSCHED: missing
->
-> - CONFIG_CGROUP_PERF: enabled
->
-> - CONFIG_CGROUP_HUGETLB: enabled
->
-> - CONFIG_NET_CLS_CGROUP: missing
->
-> - CONFIG_CGROUP_NET_PRIO: missing
->
-> - CONFIG_CFS_BANDWIDTH: missing
->
-> - CONFIG_FAIR_GROUP_SCHED: enabled
->
-> - CONFIG_RT_GROUP_SCHED: missing
->
-> - CONFIG_IP_NF_TARGET_REDIRECT: missing
->
-> - CONFIG_IP_VS: missing
->
-> - CONFIG_IP_VS_NFCT: missing
->
-> - CONFIG_IP_VS_PROTO_TCP: missing
->
-> - CONFIG_IP_VS_PROTO_UDP: missing
->
-> - CONFIG_IP_VS_RR: missing
->
-> - CONFIG_EXT3_FS: enabled
->
-> - CONFIG_EXT3_FS_XATTR: missing
->
-> - CONFIG_EXT3_FS_POSIX_ACL: missing
->
-> - CONFIG_EXT3_FS_SECURITY: missing
->
->     (enable these ext3 configs if you are using ext3 as backing filesyste=
-m)
->
-> - CONFIG_EXT4_FS: enabled
->
-> - CONFIG_EXT4_FS_POSIX_ACL: enabled
->
-> - CONFIG_EXT4_FS_SECURITY: missing
->
->     enable these ext4 configs if you are using ext4 as backing filesystem
->
-> - Network Drivers:
->
->   - "overlay":
->
->     - CONFIG_VXLAN: missing
->
->       Optional (for encrypted networks):
->
->       - CONFIG_CRYPTO: enabled
->
->       - CONFIG_CRYPTO_AEAD: enabled
->
->       - CONFIG_CRYPTO_GCM: enabled
->
->       - CONFIG_CRYPTO_SEQIV: enabled
->
->       - CONFIG_CRYPTO_GHASH: enabled
->
->       - CONFIG_XFRM: enabled
->
->       - CONFIG_XFRM_USER: missing
->
->       - CONFIG_XFRM_ALGO: missing
->
->       - CONFIG_INET_ESP: missing
->
->       - CONFIG_INET_XFRM_MODE_TRANSPORT: enabled
->
->   - "mipvlan":
->
->     - CONFIG_IPVLAN: missing
->
->   - "macvlan":
->
->     - CONFIG_MACVLAN: enabled (as module)
->
->     - CONFIG_DUMMY: missing
->
->   - "ftp,tftp client in container":
->
->     - CONFIG_NF_NAT_FTP: missing
->
->     - CONFIG_NF_CONNTRACK_FTP: missing
->
->     - CONFIG_NF_NAT_TFTP: missing
->
->     - CONFIG_NF_CONNTRACK_TFTP: missing
->
-> - Storage Drivers:
->
->   - "aufs":
->
->     - CONFIG_AUFS_FS: missing
->
->   - "btrfs":
->
->     - CONFIG_BTRFS_FS: enabled (as module)
->
->     - CONFIG_BTRFS_FS_POSIX_ACL: enabled
->
->   - "devicemapper":
->
->     - CONFIG_BLK_DEV_DM: missing
->
->     - CONFIG_DM_THIN_PROVISIONING: missing
->
->   - "overlay":
->
->     - CONFIG_OVERLAY_FS: enabled (as module)
->
->   - "zfs":
->
->     - /dev/zfs: missing
->
->     - zfs command: missing
->
->     - zpool command: missing
->
-> Limits:
->
-> - /proc/sys/kernel/keys/root_maxkeys: 1000000
->
-> =E2=80=9Cdocker =E2=80=93version=E2=80=9D gives:
->
-> Docker version 1.12.5, build 7392c3b
->
-> From the config output, I see that some variables are not enabled. Could =
-this be an issue?
->
-> Kind regards,
->
-> Russell
->
->
->
-> Follow Us: LinkedIn | Twitter | Facebook
->
-> Roke Manor Research Limited, Romsey, Hampshire, SO51 0ZN, United Kingdom.=
- Part of the Chemring Group. Registered in England & Wales. Registered No: =
-00267550. The information contained in this e-mail and any attachments is p=
-roprietary to Roke Manor Research Limited and must not be passed to any thi=
-rd party without permission. This communication is for information only and=
- shall not create or change any contractual relationship.
-> www.roke.co.uk
 >
 > ________________________________
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Sent: Wednesday, February 6, 2019 10:01 PM
+> To: Nordqvist, Therese
+> Cc: meta-virtualization@yoctoproject.org
+> Subject: Re: [meta-virtualization] LXC 3.1 in thud?
+>
+> On Tue, Feb 5, 2019 at 10:22 AM Nordqvist, Therese
+> <TNordqvist@luxoft.com> wrote:
+> >
+> > Hello,
+> >
+> >
+> > I'm working in a project which uses meta-virtualization (http://pelux.i=
+o), do you know if there are any plans to include the LXC bump to 3.1.0 in =
+the thud branch?
+>
+> There currently aren't any plans to do a version bump in Thud. We tend
+> to leave the versions as-is in the maintained branches.
+> It looks like thud is missing the 3.0.3 and 3.1.x bumps that we have
+> in master, so there are at least two patches missing.
+>
+> That being said, the missing version bumps are relatively minor and
+> are bug fixes/small changes to the project.
+>
+> What feature are you looking for in particular ? Can you summarize the
+> changes between the versions and send
+> it to the list ? That way everyone can see the requested change to the
+> released branch and object if they think
+> there will be impacts.
+>
+> Cheers,
+>
+> Bruce
+>
+> >
+> > https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?=
+id=3D2387a8876e4aaa52143a623ae5000cf064e55a64
+> >
+> >
+> > If you are interesting in our github repo: https://github.com/Pelagicor=
+e/pelux-manifests
+> >
+> >
+> > Best regards,
+> > Therese Nordqvist
+> > Software Engineer
+> >
+> > Luxoft Sweden AB
+> > =C3=96stra Hamngatan 16
+> > 411 09 Gothenburg
+> > Sweden
+> >
+> > M: +46 732 332464
+> > E: TNordqvist@luxoft.com
+> >
+> > luxoft.com
+> >
+> > Registered Office Gothenburg, Sweden
+> > Registration No. 556780-4199
+> >
+> > ________________________________
+> >
+> > This e-mail and any attachment(s) are intended only for the recipient(s=
+) named above and others who have been specifically authorized to receive t=
+hem. They may contain confidential information. If you are not the intended=
+ recipient, please do not read this email or its attachment(s). Furthermore=
+, you are hereby notified that any dissemination, distribution or copying o=
+f this e-mail and any attachment(s) is strictly prohibited. If you have rec=
+eived this e-mail in error, please immediately notify the sender by replyin=
+g to this e-mail and then delete this e-mail and any attachment(s) or copie=
+s thereof from your system. Thank you.
+> > --
+> > _______________________________________________
+> > meta-virtualization mailing list
+> > meta-virtualization@yoctoproject.org
+> > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+> ________________________________
+>
+> This e-mail and any attachment(s) are intended only for the recipient(s) =
+named above and others who have been specifically authorized to receive the=
+m. They may contain confidential information. If you are not the intended r=
+ecipient, please do not read this email or its attachment(s). Furthermore, =
+you are hereby notified that any dissemination, distribution or copying of =
+this e-mail and any attachment(s) is strictly prohibited. If you have recei=
+ved this e-mail in error, please immediately notify the sender by replying =
+to this e-mail and then delete this e-mail and any attachment(s) or copies =
+thereof from your system. Thank you.
 > --
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
