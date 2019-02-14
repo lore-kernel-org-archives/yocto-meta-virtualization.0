@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A9CFFE00B92; Thu, 14 Feb 2019 06:15:00 -0800 (PST)
+	id A5A4AE00B92; Thu, 14 Feb 2019 06:21:01 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.194 listed in list.dnswl.org]
+	*      [209.85.167.66 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 07972E0048C
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1C520E0053F
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Feb 2019 06:14:57 -0800 (PST)
-Received: by mail-lj1-f194.google.com with SMTP id l7-v6so5351817ljg.9
+	Thu, 14 Feb 2019 06:21:01 -0800 (PST)
+Received: by mail-lf1-f66.google.com with SMTP id g2so4641571lfh.11
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Feb 2019 06:14:57 -0800 (PST)
+	Thu, 14 Feb 2019 06:21:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5sjWkBKuzTguzkGCE7aQ/wWCO6SUeWyT7Eu5SiXekWY=;
-	b=lQjD1J96GOKmfxuVUYdFoZ9jjfTuPoBaVakKnL072vjlRddZ4MnyVitbz9M6ifZIgr
-	s6IkHIkygyDXZeJsnAo1DrIOQ56oPoqlYs93r7HWYt3vm3/bamMNMtGw4Wt7C2ICEkns
-	ejNueoZe0//QRb7tr2JceudY9NMseITLA+N9RbhS+xbHgrbOIA0mDGQyNkjnmYG/eea6
-	Ri88omxtvIWsYOUcwCAcR2z7bkSFf+gvHX2G0W1W4d2V9ixOn71AGE7SjSDpqVk19OPT
-	GZ0NM8bliyLefeSMfKzZlBVz3VmFrTyK9wzOFbc6OA+3byGw8zCX008c9hLaf2Uv4Q9I
-	VltA==
+	:cc; bh=9pOqSSOIWDFzNb7A6sLhB3iJx593x3KRZk3AdPpmLfQ=;
+	b=U32GjFZRb3k6rGhfEMTN9hXqbzSVeX1r7X1BUM0fXf3gt1Ly9zuf4WFubRdoN+EL+q
+	fcof+OF9keXVMOq66pSKt7NMAE56yj53OlaVfBMkqmzD/vQxhpuZLh4Cg8hqe5ms58SL
+	VXfELmCGAfEkTHqJPch8w8HO/hsz1NBoj4xCLXSJvhEdLRWSDk64e1c8cTd8U+/kL4b8
+	y3zzrNTcKCHAYbXwZ5ad2TCjAV2zjKH/YJi3prkZSt3Z9tTVhlEMqYKUwALH+yPtWbND
+	4kn47b3Ba02SpYTCuno6oG1dadSjTi5r7hgGmhHQOLTJ4f/ngFWvjXRDw7m7WU5ClP/Z
+	73/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5sjWkBKuzTguzkGCE7aQ/wWCO6SUeWyT7Eu5SiXekWY=;
-	b=kMG9vvy6YXwAFAc/Hdsq3V3FEONqG4IvmiDUmJwcdJP4qNszFUEz0l1gCd2UaTbPUw
-	R/SSaPrNC/OMaZLVhsJkhI0kBLeU46EIV+/P9zsXkdC/zJKtbd8VXqp/PGfLT6J4+LCl
-	ic+GN9NJHYoRGa42Lqn2bqfk4/cuGslpSkp6Oji/J+hR+4kdIP6/1/O5WASz77WA9W3S
-	eRIjuQysBhYHpGM3Gw+VevonsN11c6/CpcdCkFxoexyQo28vTDasn8u0GE4L+5j2FjyN
-	viQiwawBneZTtVFpFjQcrEUSID3yvHE790pGAcMjFJsOI5+Tm2YWEIxytt43YMaxvwXs
-	8TcA==
-X-Gm-Message-State: AHQUAuZBBuetwx5hYTBGN9cUvC+Sd0xnNQm0vCsKm8v2wE8bxBcaiM2h
-	qZ9gNqFoA7o5Thgc0ON6qjgBgxCk4o6ow5GJnXoduJLILeY=
-X-Google-Smtp-Source: AHgI3IaMzQCRtZ9sdaefpqx6fVz7d2nO0TA7ocaUX+6BxqkUVQTmEX6jmDGU4GdQwD5YqVOEg8LkR9dDzs3hnpHK/KA=
-X-Received: by 2002:a2e:8e8e:: with SMTP id
-	z14-v6mr2579880ljk.84.1550153696745; 
-	Thu, 14 Feb 2019 06:14:56 -0800 (PST)
+	bh=9pOqSSOIWDFzNb7A6sLhB3iJx593x3KRZk3AdPpmLfQ=;
+	b=mphgS9WFJ4Wl8OMV9Vbv+kveckHOAsUcKANxf2Zy9LhrfcDFUJ7HZjauHjcy7QTPBG
+	avfOPIVgHz07+wM+8SShrMkiUEentjMIM+rkQpmMslk18BCuko02TsHcslSbm1TNqJXN
+	M7u9TUsJT0dHIJNn4BzjJW/EMNd2lb+W1s9F8IyQ0bsDhZQdZe2N6yIqCalICv4i4NZW
+	mv1BqKfAJ7rkJ4ZL40rzkES5vlOI/T+Ar6x9Hi88I2lNzm2bYc7IsZ9RWF9pIwCFjPK9
+	5L+o//BJ5yPjs94gFrUyPChf9yreYVw8Vw/AcLO9w9/VfOFwoZSqicgN3AsOPgSHZnCN
+	7VLA==
+X-Gm-Message-State: AHQUAubLfhG4nXKxpcgubmlvUdo2ia+Lq8dCs0ANifQmHaPUb/nxGGKc
+	NXD/h9liD31RG3IwCfDYrr9olUpgcik6yRTGQ9o=
+X-Google-Smtp-Source: AHgI3IaZaONuKyceziXvN4kna5bKt83jydECCgvHlNvYtsL45raKvTETPFI/zdnqmCxteK1BD0TLD5BPcHXYvIw7Spc=
+X-Received: by 2002:a19:4f15:: with SMTP id d21mr2486483lfb.86.1550154059919; 
+	Thu, 14 Feb 2019 06:20:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20190214064809.20897-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190214064809.20897-1-hongl.fnst@cn.fujitsu.com>
+References: <20190214034453.31484-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190214034453.31484-1-hongl.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 14 Feb 2019 09:14:45 -0500
-Message-ID: <CADkTA4OHi1A0_ft5H8WRjOUSXL5K8chC=NOd8821gOzwqVbyUw@mail.gmail.com>
+Date: Thu, 14 Feb 2019 09:20:48 -0500
+Message-ID: <CADkTA4Nz7zKB1cE38jXE3eYziept2oAfSvYHvZEHPf2Vdx8R_Q@mail.gmail.com>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] [meta-cloud-services][patch]:python-kombu:upgrade to 4.3.0
+Subject: Re: [PATCH] [meta-cloud-services][patch]:python-paramiko:upgrade to 2.4.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,39 +73,38 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 14:15:00 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 14:21:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-What branch is this for ? I'm seeing python-kombu 4.2.2 in master, so
-this patch doesn't apply.
+merged
 
 Bruce
 
-On Thu, Feb 14, 2019 at 1:47 AM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+On Wed, Feb 13, 2019 at 10:43 PM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
 >
-> Upgrade python-kombu from 4.2.0 to 4.3.0
+> Upgrade python-paramiko from 2.4.1 to 2.4.2
 >
 > Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
->  .../python/{python-kombu_4.2.0.bb => python-kombu_4.3.0.bb}   | 4 ++--
+>  .../{python-paramiko_2.4.1.bb => python-paramiko_2.4.2.bb}    | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-kombu_4.2.0.bb => python-kombu_4.3.0.bb} (70%)
+>  rename meta-openstack/recipes-devtools/python/{python-paramiko_2.4.1.bb => python-paramiko_2.4.2.bb} (65%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.2.0.bb b/meta-openstack/recipes-devtools/python/python-kombu_4.3.0.bb
-> similarity index 70%
-> rename from meta-openstack/recipes-devtools/python/python-kombu_4.2.0.bb
-> rename to meta-openstack/recipes-devtools/python/python-kombu_4.3.0.bb
-> index 47cb5bf..fbbe06a 100644
-> --- a/meta-openstack/recipes-devtools/python/python-kombu_4.2.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-kombu_4.3.0.bb
+> diff --git a/meta-openstack/recipes-devtools/python/python-paramiko_2.4.1.bb b/meta-openstack/recipes-devtools/python/python-paramiko_2.4.2.bb
+> similarity index 65%
+> rename from meta-openstack/recipes-devtools/python/python-paramiko_2.4.1.bb
+> rename to meta-openstack/recipes-devtools/python/python-paramiko_2.4.2.bb
+> index 6906c41..a570c32 100644
+> --- a/meta-openstack/recipes-devtools/python/python-paramiko_2.4.1.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-paramiko_2.4.2.bb
 > @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "BSD"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+>  LICENSE = "LGPLv2.1"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
 >
-> -SRC_URI[md5sum] = "cb7e668936cd5ffc3232b72a2a4f931f"
-> -SRC_URI[sha256sum] = "d601c47312833c0f6f4aaf037f293b2627398d4cf8526e6ba0360287294ee1fb"
-> +SRC_URI[md5sum] = "db169da20da23dc7be78681498600ef6"
-> +SRC_URI[sha256sum] = "529df9e0ecc0bad9fc2b376c3ce4796c41b482cf697b78b71aea6ebe7ca353c8"
+> -SRC_URI[md5sum] = "f9fa1204f706767b6c179effa7c0fb9e"
+> -SRC_URI[sha256sum] = "33e36775a6c71790ba7692a73f948b329cf9295a72b0102144b031114bd2a4f3"
+> +SRC_URI[md5sum] = "a476ea106177fe22e797428d54811aed"
+> +SRC_URI[sha256sum] = "a8975a7df3560c9f1e2b43dc54ebd40fd00a7017392ca5445ce7df409f900fcb"
 >
 >  inherit setuptools pypi
 >
