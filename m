@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 53521E00BAF; Thu, 14 Feb 2019 06:08:24 -0800 (PST)
+	id A9CFFE00B92; Thu, 14 Feb 2019 06:15:00 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
+	*      [209.85.208.194 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B981AE00B81
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 07972E0048C
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Feb 2019 06:08:22 -0800 (PST)
-Received: by mail-lj1-f196.google.com with SMTP id q128so5313423ljb.11
+	Thu, 14 Feb 2019 06:14:57 -0800 (PST)
+Received: by mail-lj1-f194.google.com with SMTP id l7-v6so5351817ljg.9
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Feb 2019 06:08:22 -0800 (PST)
+	Thu, 14 Feb 2019 06:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ty4JTYaySui62b4yQbmzDVamPVyM42o6rAgyC9mjYmc=;
-	b=CWbJbJpw0Xi/XsSYLmz/sTAVIct03NptlAxhEGP8iNsiJbpf+l27heGiPZJOobIciF
-	EniSrFGpj/i4r+ARRLSMMceOZVJl4/+hAcnO3wwXMoBNfa+/lqdQYI6tciBmIDeuKCpI
-	rlD+txZxyxt9BXi0AwlqBOV8gv0dysgM61e+oH9eHQSiz//6TzHzbzv63nSoO8W0Dfbz
-	jAMURKQoNnpRIhiRquX3jiZw2diYsUUO+ZmWRWyUVg7C8MzavbRHnwmMQDF9Y5TJLiYZ
-	NGFTKTmLBR0R++uzK/Ujm1gWw+AE5tKGEZ5LZoQDAgynn9eA6VkDU5dHBCH058MvpOas
-	xKZQ==
+	:cc; bh=5sjWkBKuzTguzkGCE7aQ/wWCO6SUeWyT7Eu5SiXekWY=;
+	b=lQjD1J96GOKmfxuVUYdFoZ9jjfTuPoBaVakKnL072vjlRddZ4MnyVitbz9M6ifZIgr
+	s6IkHIkygyDXZeJsnAo1DrIOQ56oPoqlYs93r7HWYt3vm3/bamMNMtGw4Wt7C2ICEkns
+	ejNueoZe0//QRb7tr2JceudY9NMseITLA+N9RbhS+xbHgrbOIA0mDGQyNkjnmYG/eea6
+	Ri88omxtvIWsYOUcwCAcR2z7bkSFf+gvHX2G0W1W4d2V9ixOn71AGE7SjSDpqVk19OPT
+	GZ0NM8bliyLefeSMfKzZlBVz3VmFrTyK9wzOFbc6OA+3byGw8zCX008c9hLaf2Uv4Q9I
+	VltA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Ty4JTYaySui62b4yQbmzDVamPVyM42o6rAgyC9mjYmc=;
-	b=VznaooaPbsQJj361tiLMEqyQhFsjinS5/LleeFalrFV5CXzRfvYCa52dJaNmJ/fIsv
-	V2lqdGfVzWMYeVsvYgGVI4VLh9bSViV2G2UzaiwqJoCJbjjZZs1DhSXsbw0bITX8pPoq
-	VWUF7jxChVhg2dMpktJ8KGTjtIKmDP+qNvX38V4f8652CpnVdBsdjT5V4HshZgq3j6Ar
-	CruiTGI5TQFXE8zxg0/PSPHh0qZ+6cHjI15qXrq4g9C1g6Y2RL73xpc6bpvXaYcOdLUZ
-	qVPkiSjyhihAhkt6Ipj8e9s41helwgD3F+AtZW1B9BSaWlx6XyennOurSmC43IODm39V
-	K6WQ==
-X-Gm-Message-State: AHQUAuaaeGS0TwQCoFyVEmNqOsmc1toGu+bg5yEdjbh+x6Igk+wvIVm3
-	V27eDDAMnBrBMCGw5R4KX6QdYdFxq1FfZBHh5QU=
-X-Google-Smtp-Source: AHgI3IaG8sJBnYef4jioUkqTLUQqVEljC0rKdq8Vn3em3PXQ+p2Zl75l+LJS50aKdCRpSJFiY0NM8Olppj4+e0T2mAk=
-X-Received: by 2002:a2e:4784:: with SMTP id
-	u126-v6mr2530956lja.124.1550153301462; 
-	Thu, 14 Feb 2019 06:08:21 -0800 (PST)
+	bh=5sjWkBKuzTguzkGCE7aQ/wWCO6SUeWyT7Eu5SiXekWY=;
+	b=kMG9vvy6YXwAFAc/Hdsq3V3FEONqG4IvmiDUmJwcdJP4qNszFUEz0l1gCd2UaTbPUw
+	R/SSaPrNC/OMaZLVhsJkhI0kBLeU46EIV+/P9zsXkdC/zJKtbd8VXqp/PGfLT6J4+LCl
+	ic+GN9NJHYoRGa42Lqn2bqfk4/cuGslpSkp6Oji/J+hR+4kdIP6/1/O5WASz77WA9W3S
+	eRIjuQysBhYHpGM3Gw+VevonsN11c6/CpcdCkFxoexyQo28vTDasn8u0GE4L+5j2FjyN
+	viQiwawBneZTtVFpFjQcrEUSID3yvHE790pGAcMjFJsOI5+Tm2YWEIxytt43YMaxvwXs
+	8TcA==
+X-Gm-Message-State: AHQUAuZBBuetwx5hYTBGN9cUvC+Sd0xnNQm0vCsKm8v2wE8bxBcaiM2h
+	qZ9gNqFoA7o5Thgc0ON6qjgBgxCk4o6ow5GJnXoduJLILeY=
+X-Google-Smtp-Source: AHgI3IaMzQCRtZ9sdaefpqx6fVz7d2nO0TA7ocaUX+6BxqkUVQTmEX6jmDGU4GdQwD5YqVOEg8LkR9dDzs3hnpHK/KA=
+X-Received: by 2002:a2e:8e8e:: with SMTP id
+	z14-v6mr2579880ljk.84.1550153696745; 
+	Thu, 14 Feb 2019 06:14:56 -0800 (PST)
 MIME-Version: 1.0
-References: <1550115380-20107-1-git-send-email-dengke.du@windriver.com>
-In-Reply-To: <1550115380-20107-1-git-send-email-dengke.du@windriver.com>
+References: <20190214064809.20897-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190214064809.20897-1-hongl.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 14 Feb 2019 09:08:09 -0500
-Message-ID: <CADkTA4OhDFnmcCSnOWDryCmfKVa+OS2W479hW=8bPYia3qsfsQ@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
+Date: Thu, 14 Feb 2019 09:14:45 -0500
+Message-ID: <CADkTA4OHi1A0_ft5H8WRjOUSXL5K8chC=NOd8821gOzwqVbyUw@mail.gmail.com>
+To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] ceph: disable ccache
+Subject: Re: [PATCH] [meta-cloud-services][patch]:python-kombu:upgrade to 4.3.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,51 +74,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 14:08:24 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 14:15:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+What branch is this for ? I'm seeing python-kombu 4.2.2 in master, so
+this patch doesn't apply.
 
 Bruce
 
-On Wed, Feb 13, 2019 at 10:18 PM Dengke Du <dengke.du@windriver.com> wrote:
+On Thu, Feb 14, 2019 at 1:47 AM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
 >
-> When enable ccache for ceph, error occurs:
-> -----------------------------------------------------
->     ccache: invalid option -- 'E'
->     ...
->     Unable to determine C++ standard library, got .
-> -----------------------------------------------------
-> This is because variable "CXX_STDLIB" was null in CMakeLists.txt line: 637,
-> The "CXX_STDLIB" come from:
-> -----------------------------------------------------
->     execute_process(
->       COMMAND ./librarytest.sh ${CMAKE_CXX_COMPILER} ${CMAKE_CXX_FLAGS}
->       WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
->       OUTPUT_VARIABLE CXX_STDLIB
->       )
-> -----------------------------------------------------
-> The script librarytest.sh in ceph accept argument: compile and flags, but when
-> enable ccache, the compile replace by ccache, so that script failed.
+> Upgrade python-kombu from 4.2.0 to 4.3.0
 >
-> So we disable ccache for ceph now.
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
->  recipes-extended/ceph/ceph_13.2.2.bb | 1 +
->  1 file changed, 1 insertion(+)
+>  .../python/{python-kombu_4.2.0.bb => python-kombu_4.3.0.bb}   | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-kombu_4.2.0.bb => python-kombu_4.3.0.bb} (70%)
 >
-> diff --git a/recipes-extended/ceph/ceph_13.2.2.bb b/recipes-extended/ceph/ceph_13.2.2.bb
-> index 08021cf..0cba08a 100644
-> --- a/recipes-extended/ceph/ceph_13.2.2.bb
-> +++ b/recipes-extended/ceph/ceph_13.2.2.bb
-> @@ -101,3 +101,4 @@ PACKAGES += " \
->  "
->  INSANE_SKIP_${PN}-python += "ldflags"
->  INSANE_SKIP_${PN} += "dev-so"
-> +CCACHE_DISABLE = "1"
+> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.2.0.bb b/meta-openstack/recipes-devtools/python/python-kombu_4.3.0.bb
+> similarity index 70%
+> rename from meta-openstack/recipes-devtools/python/python-kombu_4.2.0.bb
+> rename to meta-openstack/recipes-devtools/python/python-kombu_4.3.0.bb
+> index 47cb5bf..fbbe06a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-kombu_4.2.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-kombu_4.3.0.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "BSD"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+>
+> -SRC_URI[md5sum] = "cb7e668936cd5ffc3232b72a2a4f931f"
+> -SRC_URI[sha256sum] = "d601c47312833c0f6f4aaf037f293b2627398d4cf8526e6ba0360287294ee1fb"
+> +SRC_URI[md5sum] = "db169da20da23dc7be78681498600ef6"
+> +SRC_URI[sha256sum] = "529df9e0ecc0bad9fc2b376c3ce4796c41b482cf697b78b71aea6ebe7ca353c8"
+>
+>  inherit setuptools pypi
+>
 > --
-> 2.7.4
+> 2.17.2
+>
+>
 >
 > --
 > _______________________________________________
