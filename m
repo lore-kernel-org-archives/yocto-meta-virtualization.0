@@ -1,16 +1,13 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C5D22E00B81; Thu, 14 Feb 2019 06:21:30 -0800 (PST)
+	id A1FDBE00C8F; Thu, 14 Feb 2019 06:22:08 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	http://www.dnswl.org/, no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
@@ -19,48 +16,52 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DB803E0053F
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.169 listed in list.dnswl.org]
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
+	[209.85.208.169])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CA091E00C75
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Feb 2019 06:21:25 -0800 (PST)
-Received: by mail-lf1-f66.google.com with SMTP id n15so4670068lfe.5
+	Thu, 14 Feb 2019 06:21:41 -0800 (PST)
+Received: by mail-lj1-f169.google.com with SMTP id j13-v6so5401890ljc.2
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Feb 2019 06:21:25 -0800 (PST)
+	Thu, 14 Feb 2019 06:21:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3rsJjYUkzYgpSRu6rzUci29dEpjYgdujJPdpBW6150s=;
-	b=iBg4VfmZ/mzEQw33zCZltgB69xziDh7/Ijja1KI7txwAYzop2FOm/3jugWtl3o4n3r
-	2P4lVNMfWSHTVY5eyrL1UZH7GDB6rkz0rLE+dE0pVvKo9PVDp7snz/1EgW6JCB57oZu6
-	52wroaNqo2A+csIBQq/sTBq0rA0heM5l4TWWJ1kOZDa+wq3INrNDFJc+HfQYbIWoM4B2
-	FkXloSFEoTqr0j7DI8hQjQhM5z9ntWTB+kyWFtNpLv5e9Az08p4VlArEm5InrJmtkMD6
-	3KozZ7vghIzeMOpeDhidnP2pXO4wKLJdcOTLTdMEmKBEbyhqe++aCrUSsiz+XF8vTNjI
-	RaOw==
+	:cc; bh=WUFPK0QWpwDDV5a6KaamNB/iEprpLvmBQg/FcSyqG54=;
+	b=Ob1ITGqNb6Jpim7rF67evP67/dHaZnO1xFUGwO8822uL66WLSDHj78fctxfku9QsS4
+	1mP4yngCLVQ3ub2y4v+T1jXX+Av2WmuSrX3nytSUwANDfYx4ThcvMu4a1MD5NN8O3jaL
+	ytH3qrKYjEG2muC0JsnO9gnaRjD5WAtfCJRywrinhvoAU8TTbB2XzywexIelJK954MHE
+	d8A8oWmtbWGcbdshEE3AXh36vEfxuZoZpCJX6oy+613LHS4hbFtKhBFTuIlP1R14KJRY
+	Ha8HqUDpWi67Rc5Kp3JAj7SDmRCPlxZavfI00oYFnHTU7G0rIVP+VDBi0s6YcokbqH+e
+	kryQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3rsJjYUkzYgpSRu6rzUci29dEpjYgdujJPdpBW6150s=;
-	b=W5+FuLcBiKAk/hWjWz3FdlGbeDBIOhu7NIT726USjr1Q/64zLNFsCJuVHN5dGcYD2P
-	WQOjo8cr0Xiw2T8zhrUxWpsiaeqW2Aahf3J/hpXXQDxb0TWZ5R0RoHaJkaM4YyFuotUZ
-	WNaUP+abBMaJvPD70k4IbNrzanIuH7Pppf3xhXoBJZq1G7J55hXp9e5WwKv31GmvXIqs
-	RydvNWv6AyIbEWdlI17qNIM/RZ8xJM4FaEiFyktujiWNpKEWOegCATbye9XvAiyOXoZD
-	D80eJfRq7WMKg2gYFBMyC9fbYnWRync0TD1M0Irpqd+2Wp67z6ydWymAfT+4q2Csl108
-	3qDQ==
-X-Gm-Message-State: AHQUAubDMpJjJvZfA8KjG+x5oGS/aPOHm8F1y4REmyiN/Mt1OUAvOJOs
-	ZO4haqVpkGlxLaYzHi21lSYrvFkNw4ud8Yu/eq4=
-X-Google-Smtp-Source: AHgI3IYCapEBj4jSO4zCrp73qKPxvFsNTQaooTHXxM5DD5LcJsDu0Zq3d37CQCYiIptf0CEXzQJcv+EHrUpMOl9FrU0=
-X-Received: by 2002:ac2:5624:: with SMTP id b4mr2625406lff.41.1550154071859;
-	Thu, 14 Feb 2019 06:21:11 -0800 (PST)
+	bh=WUFPK0QWpwDDV5a6KaamNB/iEprpLvmBQg/FcSyqG54=;
+	b=ZWXpJFpJIQf5AQnGsrUO/sUfJL+ifRMGnOvAc7Fgj30gDRPWJ4qTcrMpXObeE3YM7L
+	GJ6I/wJj70XhujYZKswU8wPsE8Ul3xP2vucweyEJoXFtunKrZN4LODmpg78bBmIdBxvO
+	JZdqWvPXne6iJ2YqrhTnUCQN6ZE4GW5setTjcBCxHci50hxn5sLZYGLwdM00hCDgTiMp
+	P06dS6xfYPQhLt+N+5LpM5puQeWYiJ4WHWUpj1/7qkjmdkfQQf5gy3OfFxLBas2ooA9+
+	L0/yMkKFGYpPlU5+ss6ha8TIkCxCJhKCYV2SYju7LpDHV5YGqVB3UZzC6LAKTcHEkVtu
+	tLeQ==
+X-Gm-Message-State: AHQUAuYCb+lZByHax62G3G4eTIoS/uWrFni+Ileis8gCK1/Syu0PXksK
+	+plZzURcdh5+u5S5YCXlU1KNnUx/pPuWAaMfzH8=
+X-Google-Smtp-Source: AHgI3IYSiKsO3aWeUC83TnxtQevOepd6OuOUNcS2tGUY33eU9jDz5qpbOtBslLBCzP/s6Wgdg8z0ZW9kn6UwEx6C9Ik=
+X-Received: by 2002:a2e:7316:: with SMTP id
+	o22-v6mr2583705ljc.82.1550154084295; 
+	Thu, 14 Feb 2019 06:21:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20190214054425.11565-1-hongl.fnst@cn.fujitsu.com>
-In-Reply-To: <20190214054425.11565-1-hongl.fnst@cn.fujitsu.com>
+References: <20190214092109.9468-1-hongl.fnst@cn.fujitsu.com>
+In-Reply-To: <20190214092109.9468-1-hongl.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 14 Feb 2019 09:21:00 -0500
-Message-ID: <CADkTA4PO72QCURoVu99f55pcTW6bXt252e8NWqRY3hfK1N=DFg@mail.gmail.com>
+Date: Thu, 14 Feb 2019 09:21:12 -0500
+Message-ID: <CADkTA4O6n1kuc=P5vaE4s98S0uVsE1KB1W03zmAbO_tt8pjgSQ@mail.gmail.com>
 To: Hong Liu <hongl.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] [meta-cloud-services][patch]:python-oslo.config:modify homepage
+Subject: Re: [PATCH] [meta-cloud-services][patch]:python-amqp:upgrade to 2.4.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,40 +74,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Feb 2019 14:21:30 -0000
+X-List-Received-Date: Thu, 14 Feb 2019 14:22:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+merged.
 
 Bruce
 
-On Thu, Feb 14, 2019 at 12:43 AM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
+On Thu, Feb 14, 2019 at 4:20 AM Hong Liu <hongl.fnst@cn.fujitsu.com> wrote:
 >
-> Modify homepage to correspond to new version
+> Upgrade python-amqp from 2.3.2 to 2.4.1
 >
 > Signed-off-by: Hong Liu <hongl.fnst@cn.fujitsu.com>
 > ---
->  .../recipes-devtools/python/python-oslo.config_git.bb         | 4 ++--
+>  .../python/{python-amqp_2.3.2.bb => python-amqp_2.4.1.bb}     | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-amqp_2.3.2.bb => python-amqp_2.4.1.bb} (68%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb
-> index 0ccc66e..eed00c5 100644
-> --- a/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb
-> @@ -1,5 +1,5 @@
->  DESCRIPTION = "API supporting parsing command line arguments and .ini style configuration files."
-> -HOMEPAGE = "https://pypi.python.org/pypi/oslo.config/2.6.0"
-> +HOMEPAGE = "https://pypi.python.org/pypi/oslo.config/4.11.1"
->  SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=c46f31914956e4579f9b488e71415ac8"
-> @@ -34,4 +34,4 @@ RDEPENDS_${PN} += " \
->      python-rfc3986 \
->      python-pyyaml \
->      "
-> -
-> \ No newline at end of file
-> +
+> diff --git a/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb b/meta-openstack/recipes-devtools/python/python-amqp_2.4.1.bb
+> similarity index 68%
+> rename from meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+> rename to meta-openstack/recipes-devtools/python/python-amqp_2.4.1.bb
+> index 395c81e..dee95db 100644
+> --- a/meta-openstack/recipes-devtools/python/python-amqp_2.3.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-amqp_2.4.1.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "BSD-3-Clause"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=9d6ba772ac59c08a25a12ce15bd5f27b"
+>
+> -SRC_URI[md5sum] = "11fce0d01f4ee6886a02415c20cece80"
+> -SRC_URI[sha256sum] = "073dd02fdd73041bffc913b767866015147b61f2a9bc104daef172fc1a0066eb"
+> +SRC_URI[md5sum] = "9e3d5f1f69d2106c2b3f77d275a79924"
+> +SRC_URI[sha256sum] = "6816eed27521293ee03aa9ace300a07215b11fee4e845588a9b863a7ba30addb"
+>
+>  inherit setuptools pypi
+>
 > --
 > 2.17.2
 >
