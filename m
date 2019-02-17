@@ -1,68 +1,65 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A6714E00C9F; Fri, 15 Feb 2019 12:13:26 -0800 (PST)
+	id D804FE00C38; Sun, 17 Feb 2019 10:25:57 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
+	*      [209.85.208.66 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01DEEE00C43
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3F170E00BCC
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 15 Feb 2019 12:13:25 -0800 (PST)
-Received: by mail-lj1-f196.google.com with SMTP id v16so9380777ljg.13
+	Sun, 17 Feb 2019 10:25:56 -0800 (PST)
+Received: by mail-ed1-f66.google.com with SMTP id f2so11937133edy.13
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 15 Feb 2019 12:13:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8ryfCwNyOsxsAMtpMwDsijnXVFlw07db1eEnqzROgHY=;
-	b=qy/BPQGaDJw3Q8f6QTMMYDphXvsB2ctaoH+fewsID2nLqglW8Ydht3hEePZTMoL3nV
-	6sAn2/RUAJBtJ7Abtb8Mz5DOwNUTE/TyNJUL/zl3rCoGfLoV4GDCGW1fUTzKUdsaHzUc
-	2zbNobH8bwCJeuEgmSFrZwiXukwl6Sg7Kn5+WeT7Tz8pJPLkUGiThvQpRafohbrnX/W1
-	Hp5xUkmzg82jfnVETJTO4gI+0pDJ2jtvisjmyI23ai0RMSagFNfLApVyfPpGc8huBG0Q
-	H6GSNXZYKXWPLQ8+O3r+UhWLmMdRrnqWD/nXIMKv7MqjegMSAZKfZcYCidZ3l+MATFod
-	Z5WQ==
+	Sun, 17 Feb 2019 10:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=sM9Mp9TRMmxmtmDcB6JbGlcLxiWcPajARauDHMb4UGI=;
+	b=IVoUWWLT0noHNs3/LZNJe0rnXAEB60HVozIMOvc1C+i5xzz6eHR3YR7X2kUVD5pxvD
+	L5/DGZ1wdZVkqKQ5Te85jP+qzgCK2RqBLTkXRrMKwVlJG2HSpXeOPXKVOQ74/Gys0btZ
+	vvXp3qCU1ch8GH6Qxq4OOn9povmknHNfVNhDXrp0KBNu0NkZGhFGAgkzckvUaeBlun+J
+	nV+xqv69mn05OeDQjxSO2Fcx29T8QH7XVh/sPlN9ieK0EhUoVlOF4KPZ66gHA+G8RhII
+	jKJNaQRhpn1FxohBpkGNKf+fW0PEy6OONzCHDgFeKXR3M8THyJzBFpneFMspFngu9iY0
+	SaaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8ryfCwNyOsxsAMtpMwDsijnXVFlw07db1eEnqzROgHY=;
-	b=kZL763O7+dosKwTKYNAHXQC04orAu/1vZAnkIX3Sy3PcjH7LlHx2tXYcuGBAUSK4O1
-	QEDWGVupHbfKY7CWisDO/TjAMB6NMfv/PrVsY/EZ+NiMmHWyzqwR3CZGxp+nXNbPhKDl
-	3XQN/P1h8ZT7Bcfip2c6xl1u0a6nMfsCh9Xlo2AM+HTurgjWtiScdZMCaiObvK8IcE0x
-	OV5BS/9FlcV52Qt8KJWyYbJTzGm/4MptuEIZZa5xqaCz5gGf/pLR/jSZ2vg0QcC1CaZ1
-	cw8k+JJY9JFUWudavAgnvyDwCVpkpi/OuINYENErYTcQUiujRRbHFXLbp2yqyPRrstn+
-	iQZg==
-X-Gm-Message-State: AHQUAubDINzbwGoSTbSBeDRvl+z5ttMmoYRGKeL4yh5si6ZhJ5p3cage
-	42E5szLyETlkjEVoCBslOixR3JWs1GnjwMLHWu4=
-X-Google-Smtp-Source: AHgI3IY/p3vMQQ8AvlDllBjAlxUXElSA53dNxz1xNrXiy2KaG57AEFsO9b1VZ3Y9l0haPu8md1PorW81W++HSu5MGok=
-X-Received: by 2002:a2e:7316:: with SMTP id
-	o22-v6mr6691333ljc.82.1550261603847; 
-	Fri, 15 Feb 2019 12:13:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20190215163238.28369-1-stefan@agner.ch>
-In-Reply-To: <20190215163238.28369-1-stefan@agner.ch>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 15 Feb 2019 15:13:12 -0500
-Message-ID: <CADkTA4Mbh64A4T0RUTwfoYq7w-nimtZOq6CMNpfvbDoZ2tjAnw@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: meta-virtualization@yoctoproject.org,
-	Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH v2] runc: address CVE-2019-5736
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=sM9Mp9TRMmxmtmDcB6JbGlcLxiWcPajARauDHMb4UGI=;
+	b=SgdahKAVfgwrU8Mx2KQe3KGhjh9rxN7bTZb+KpokZufrWL3aYtCwAWf7wDtQ3humSn
+	weBuwHNFD38wuvsNPGpe2qXZHh3C5be3s7/XRMScb2p9g4oMkcUIR+XFmDQ9C3krPpn+
+	KITNBCtAumAy1yn8ACb2zbFeX1+ljSu5y+NWi2TOpqa8hR7q+9zM3Wc1VRhg1nwitNc4
+	MxRSk+bZRV/ThTjaaSp4YTZxlnSe/jJvU0edd+hh+5VIZQJ8NLRjcrhhS8+yWrXLh4zv
+	i0ADjMNiu/9cf5MBxrFPRDPdNx5Z6+7HmaCQZ2f1O4qizRK3bk1S6+DJsF4Jqn/oP5o2
+	3RmQ==
+X-Gm-Message-State: AHQUAuaaNmesNBgxallxdfQlgKcUICf53bcke1m3zNNZszY0Czd2QMwJ
+	IDe1WQm/mK6EbAA7AV5b2IZB+g2Sriw=
+X-Google-Smtp-Source: AHgI3IZaRjTk13DRnIwg/2XqanfQAeYKbbfQGSgqtmmoEZzTTO6VfPI4EoCapPyyt8HCKHLUJUHzJQ==
+X-Received: by 2002:a50:ad57:: with SMTP id z23mr15549084edc.223.1550427955207;
+	Sun, 17 Feb 2019 10:25:55 -0800 (PST)
+Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id o6sm474595ejb.14.2019.02.17.10.25.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 17 Feb 2019 10:25:54 -0800 (PST)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+To: meta-virtualization@yoctoproject.org
+Date: Sun, 17 Feb 2019 19:25:35 +0100
+Message-Id: <20190217182535.22222-1-oleksandr.kravchuk@pelagicore.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+Subject: [thud][PATCH] lxc: remove perl-module-warnings-register from RDEPENDS
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,64 +72,28 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Feb 2019 20:13:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 17 Feb 2019 18:25:57 -0000
 
-v2 is merged.
+This module is part of the perl package now and is shipped by default.
 
-Bruce
+Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+---
+ recipes-containers/lxc/lxc_3.1.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-On Fri, Feb 15, 2019 at 11:32 AM Stefan Agner <stefan@agner.ch> wrote:
->
-> From: Stefan Agner <stefan.agner@toradex.com>
->
-> Use git hash which addresses CVE-2019-5736. Use the same git hash
-> used in top of Docker 18.09 branch.
->
-> Changes in runc since
->   6635b4f0 merge branch 'cve-2019-5736'
->   0a8e4117 nsenter: clone /proc/self/exe to avoid exposing host binary to container
->   dd023c45 merge branch 'pr-1972'
->
-> Fixes: CVE-2019-5736
-> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> ---
->  recipes-containers/runc/runc-docker_git.bb         | 2 +-
->  recipes-containers/runc/runc-opencontainers_git.bb | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
-> index 41c82f7..4eb2d07 100644
-> --- a/recipes-containers/runc/runc-docker_git.bb
-> +++ b/recipes-containers/runc/runc-docker_git.bb
-> @@ -4,7 +4,7 @@ RRECOMMENDS_${PN} = "lxc docker"
->
->  # Note: this rev is before the required protocol field, update when all components
->  #       have been updated to match.
-> -SRCREV_runc-docker = "4a600c04ed480084b2351b3e32c26cb4a2d5d533"
-> +SRCREV_runc-docker = "6635b4f0c6af3810594d2770f662f34ddc15b40d"
->  SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
->             file://0001-runc-Add-console-socket-dev-null.patch \
->             file://0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch \
-> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
-> index 27c5f23..5f65940 100644
-> --- a/recipes-containers/runc/runc-opencontainers_git.bb
-> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
-> @@ -1,6 +1,6 @@
->  include runc.inc
->
-> -SRCREV = "4a600c04ed480084b2351b3e32c26cb4a2d5d533"
-> +SRCREV = "6635b4f0c6af3810594d2770f662f34ddc15b40d"
->  SRC_URI = " \
->      git://github.com/opencontainers/runc;branch=master \
->      "
-> --
-> 2.13.6
->
-
-
+diff --git a/recipes-containers/lxc/lxc_3.1.0.bb b/recipes-containers/lxc/lxc_3.1.0.bb
+index 9dba76b..977583f 100644
+--- a/recipes-containers/lxc/lxc_3.1.0.bb
++++ b/recipes-containers/lxc/lxc_3.1.0.bb
+@@ -15,7 +15,6 @@ RDEPENDS_${PN} = " \
+ 		perl-module-strict \
+ 		perl-module-getopt-long \
+ 		perl-module-vars \
+-		perl-module-warnings-register \
+ 		perl-module-exporter \
+ 		perl-module-constant \
+ 		perl-module-overload \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
 
