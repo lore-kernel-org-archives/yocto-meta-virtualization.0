@@ -1,65 +1,38 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
+Return-Path: <pascal.bach@siemens.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D804FE00C38; Sun, 17 Feb 2019 10:25:57 -0800 (PST)
+	id 4F386E00C1B; Wed, 20 Feb 2019 05:12:18 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at http://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.66 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3F170E00BCC
+	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at http://www.dnswl.org/,
+	high *      trust
+	*      [192.35.17.14 listed in list.dnswl.org]
+X-Greylist: delayed 322 seconds by postgrey-1.32 at yocto-www;
+	Wed, 20 Feb 2019 05:12:16 PST
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F073BE00BCC
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 17 Feb 2019 10:25:56 -0800 (PST)
-Received: by mail-ed1-f66.google.com with SMTP id f2so11937133edy.13
-	for <meta-virtualization@yoctoproject.org>;
-	Sun, 17 Feb 2019 10:25:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=sM9Mp9TRMmxmtmDcB6JbGlcLxiWcPajARauDHMb4UGI=;
-	b=IVoUWWLT0noHNs3/LZNJe0rnXAEB60HVozIMOvc1C+i5xzz6eHR3YR7X2kUVD5pxvD
-	L5/DGZ1wdZVkqKQ5Te85jP+qzgCK2RqBLTkXRrMKwVlJG2HSpXeOPXKVOQ74/Gys0btZ
-	vvXp3qCU1ch8GH6Qxq4OOn9povmknHNfVNhDXrp0KBNu0NkZGhFGAgkzckvUaeBlun+J
-	nV+xqv69mn05OeDQjxSO2Fcx29T8QH7XVh/sPlN9ieK0EhUoVlOF4KPZ66gHA+G8RhII
-	jKJNaQRhpn1FxohBpkGNKf+fW0PEy6OONzCHDgFeKXR3M8THyJzBFpneFMspFngu9iY0
-	SaaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=sM9Mp9TRMmxmtmDcB6JbGlcLxiWcPajARauDHMb4UGI=;
-	b=SgdahKAVfgwrU8Mx2KQe3KGhjh9rxN7bTZb+KpokZufrWL3aYtCwAWf7wDtQ3humSn
-	weBuwHNFD38wuvsNPGpe2qXZHh3C5be3s7/XRMScb2p9g4oMkcUIR+XFmDQ9C3krPpn+
-	KITNBCtAumAy1yn8ACb2zbFeX1+ljSu5y+NWi2TOpqa8hR7q+9zM3Wc1VRhg1nwitNc4
-	MxRSk+bZRV/ThTjaaSp4YTZxlnSe/jJvU0edd+hh+5VIZQJ8NLRjcrhhS8+yWrXLh4zv
-	i0ADjMNiu/9cf5MBxrFPRDPdNx5Z6+7HmaCQZ2f1O4qizRK3bk1S6+DJsF4Jqn/oP5o2
-	3RmQ==
-X-Gm-Message-State: AHQUAuaaNmesNBgxallxdfQlgKcUICf53bcke1m3zNNZszY0Czd2QMwJ
-	IDe1WQm/mK6EbAA7AV5b2IZB+g2Sriw=
-X-Google-Smtp-Source: AHgI3IZaRjTk13DRnIwg/2XqanfQAeYKbbfQGSgqtmmoEZzTTO6VfPI4EoCapPyyt8HCKHLUJUHzJQ==
-X-Received: by 2002:a50:ad57:: with SMTP id z23mr15549084edc.223.1550427955207;
-	Sun, 17 Feb 2019 10:25:55 -0800 (PST)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id o6sm474595ejb.14.2019.02.17.10.25.53
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 17 Feb 2019 10:25:54 -0800 (PST)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+	Wed, 20 Feb 2019 05:12:16 -0800 (PST)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x1KD6r7g021773
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Wed, 20 Feb 2019 14:06:53 +0100
+Received: from dev.vm6.ccp.siemens.com ([139.22.114.246])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id x1KD6qd1007165;
+	Wed, 20 Feb 2019 14:06:52 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 8462A10D47AA;
+	Wed, 20 Feb 2019 14:06:51 +0100 (CET)
+From: Pascal Bach <pascal.bach@siemens.com>
 To: meta-virtualization@yoctoproject.org
-Date: Sun, 17 Feb 2019 19:25:35 +0100
-Message-Id: <20190217182535.22222-1-oleksandr.kravchuk@pelagicore.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
-Subject: [thud][PATCH] lxc: remove perl-module-warnings-register from RDEPENDS
+Date: Wed, 20 Feb 2019 14:05:27 +0100
+Message-Id: <20190220130527.5770-1-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] docker: update 18.09.0 -> 18.09.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,28 +45,84 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Feb 2019 18:25:57 -0000
+X-List-Received-Date: Wed, 20 Feb 2019 13:12:18 -0000
 
-This module is part of the perl package now and is shipped by default.
+Docker revision is taken from https://github.com/docker/engine/releases/tag/v18.09.2
+and libnetwork is extracted from there.
+I also switched the repo from moby/moby to docker/engine as it makes it easier to find the tags.
 
-Signed-off-by: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
+What is odd is that the Copyright year in LICENSE went backwards in this release.
+
+I didn't touch runc and containerd as they are already updated.
+
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- recipes-containers/lxc/lxc_3.1.0.bb | 1 -
- 1 file changed, 1 deletion(-)
+ recipes-containers/docker/docker-ce_git.bb |  6 +++---
+ recipes-containers/docker/docker_git.bb    | 12 ++++++------
+ 2 files changed, 9 insertions(+), 9 deletions(-)
 
-diff --git a/recipes-containers/lxc/lxc_3.1.0.bb b/recipes-containers/lxc/lxc_3.1.0.bb
-index 9dba76b..977583f 100644
---- a/recipes-containers/lxc/lxc_3.1.0.bb
-+++ b/recipes-containers/lxc/lxc_3.1.0.bb
-@@ -15,7 +15,6 @@ RDEPENDS_${PN} = " \
- 		perl-module-strict \
- 		perl-module-getopt-long \
- 		perl-module-vars \
--		perl-module-warnings-register \
- 		perl-module-exporter \
- 		perl-module-constant \
- 		perl-module-overload \
+diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+index 05eac21..5e9f060 100644
+--- a/recipes-containers/docker/docker-ce_git.bb
++++ b/recipes-containers/docker/docker-ce_git.bb
+@@ -18,8 +18,8 @@ DESCRIPTION = "Linux container runtime \
+  subtle and/or glaring issues. \
+  "
+ 
+-SRCREV_docker = "6e632f7fc395d15bce46f426086e91c01598cf59"
+-SRCREV_libnetwork = "6da50d1978302f04c3e2089e29112ea24812f05b"
++SRCREV_docker = "62479626f213818ba5b4565105a05277308587d5"
++SRCREV_libnetwork = "2cfbf9b1f98162a55829a21cc603c76072a75382"
+ SRC_URI = "\
+ 	git://github.com/docker/docker-ce.git;branch=18.09;name=docker \
+ 	git://github.com/docker/libnetwork.git;branch=bump_18.09;name=libnetwork;destsuffix=git/libnetwork \
+@@ -34,7 +34,7 @@ GO_IMPORT = "import"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DOCKER_VERSION = "18.09.0-ce"
++DOCKER_VERSION = "18.09.2-ce"
+ PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+ 
+ DEPENDS = " \
+diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+index 19e773b..5a0e483 100644
+--- a/recipes-containers/docker/docker_git.bb
++++ b/recipes-containers/docker/docker_git.bb
+@@ -18,11 +18,11 @@ DESCRIPTION = "Linux container runtime \
+  subtle and/or glaring issues. \
+  "
+ 
+-SRCREV_docker = "489b8eda6674523df8b82a210399b7d2954427d0"
+-SRCREV_libnetwork = "6da50d1978302f04c3e2089e29112ea24812f05b"
+-SRCREV_cli = "51668a30f26250ccfce31bcc13d9334eaafabe36"
++SRCREV_docker = "eb137ff1765faeb29c2d99025bfd8ed41836dd06"
++SRCREV_libnetwork = "2cfbf9b1f98162a55829a21cc603c76072a75382"
++SRCREV_cli = "af2647d55b1dff69f5684f5991b9690fddd75c69"
+ SRC_URI = "\
+-	git://github.com/moby/moby.git;nobranch=1;name=docker \
++	git://github.com/docker/engine.git;nobranch=1;name=docker \
+ 	git://github.com/docker/libnetwork.git;branch=bump_18.09;name=libnetwork;destsuffix=git/libnetwork \
+ 	git://github.com/docker/cli;branch=18.09;name=cli;destsuffix=git/cli \
+ 	file://docker.init \
+@@ -31,13 +31,13 @@ SRC_URI = "\
+ 
+ # Apache-2.0 for docker
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=4859e97a9c7780e77972d989f0823f28"
++LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=9740d093a080530b5c5c6573df9af45a"
+ 
+ GO_IMPORT = "import"
+ 
+ S = "${WORKDIR}/git"
+ 
+-DOCKER_VERSION = "18.09.0"
++DOCKER_VERSION = "18.09.2"
+ PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+ 
+ DEPENDS = " \
 -- 
-2.17.1
+2.11.0
 
 
