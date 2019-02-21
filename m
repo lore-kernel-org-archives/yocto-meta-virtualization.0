@@ -1,53 +1,36 @@
-Return-Path: <pascal.bach@siemens.com>
+Return-Path: <joe.slater@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EE3B1E00C43; Wed, 20 Feb 2019 06:00:24 -0800 (PST)
+	id 69A7DE00BB7; Wed, 20 Feb 2019 16:27:00 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at
-	http://www.dnswl.org/, high *      trust
-	*      [192.35.17.14 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8D230E00BCC
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at http://www.dnswl.org/,
+	*      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 34C98E00872
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Feb 2019 06:00:23 -0800 (PST)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x1KE0Lgp028910
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 20 Feb 2019 15:00:22 +0100
-Received: from DEFTHW99ERKMSX.ww902.siemens.net
-	(defthw99erkmsx.ww902.siemens.net [139.22.70.147])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id x1KE0LIN024598
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Wed, 20 Feb 2019 15:00:21 +0100
-Received: from DENBGAT9ERMMSX.ww902.siemens.net (139.22.70.140) by
-	DEFTHW99ERKMSX.ww902.siemens.net (139.22.70.147) with Microsoft SMTP
-	Server (TLS) id 14.3.435.0; Wed, 20 Feb 2019 15:00:21 +0100
-Received: from DENBGAT9EL2MSX.ww902.siemens.net ([169.254.9.221]) by
-	DENBGAT9ERMMSX.ww902.siemens.net ([139.22.70.140]) with mapi id
-	14.03.0435.000; Wed, 20 Feb 2019 15:00:20 +0100
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Thread-Topic: [meta-virtualization][PATCH] docker: update 18.09.0 -> 18.09.2
-Thread-Index: AQHUyR0nA1QegmrsKE+c/0KgYNCWsqXooUgAgAABewCAABMnoA==
-Date: Wed, 20 Feb 2019 14:00:21 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E61C439629@DENBGAT9EL2MSX.ww902.siemens.net>
-References: <20190220130527.5770-1-pascal.bach@siemens.com>
-	<CADkTA4MP0Wotw0ac+dPns81TBkWZWM9fqgdOULeqsvPAhNj-Hw@mail.gmail.com>
-	<CADkTA4Mk6x_4DM5G=iMmcuuiNX---zR_cciaqEX-O5o+3SXOQg@mail.gmail.com>
-In-Reply-To: <CADkTA4Mk6x_4DM5G=iMmcuuiNX---zR_cciaqEX-O5o+3SXOQg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [139.22.70.13]
+	Wed, 20 Feb 2019 16:26:58 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x1L0QcV9019452
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 20 Feb 2019 16:26:48 -0800
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.435.0;
+	Wed, 20 Feb 2019 16:26:27 -0800
+From: Joe Slater <joe.slater@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 20 Feb 2019 16:26:27 -0800
+Message-ID: <20190221002627.163588-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] docker: update 18.09.0 -> 18.09.2
+Subject: [meta-virt][m-c-s][PATCH 1/1] consul: do not try to build for mips
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -60,30 +43,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Feb 2019 14:00:25 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 21 Feb 2019 00:27:00 -0000
+Content-Type: text/plain
 
-PiA+IEluIHRoaXMgY2FzZSwgSSdtIGdvaW5nIHRvIHN0aWNrIHdpdGggbW9ieS4gVGhlIHJlYXNv
-biB0aGF0IGl0IHdhcw0KPiA+IGJlaW5nIHVzZWQgd2FzIHRvIGtlZXAgdGhlIGxpbmthZ2UgYmV0
-d2VlbiBtb2J5IGFuZCB0aGUgLWNlIGJ1aWxkcy4NCj4gPiBTaW5jZSB3ZSBoYXZlIHZhcmlvdXMg
-b3RoZXIgY29tcG9uZW50cyB0aGF0IGFyZSBzb21ldGltZXMgaW4gc3luYywNCj4gPiBzb21ldGlt
-ZXMgb3V0IG9mIHN5bmMsIGhhdmluZyB0aGF0IGNvbW1vbiByZXBvc2l0b3J5IHdhcyBpbXBvcnRh
-bnQuDQo+ID4gVGhlIHBvaW50IG9mIGhhdmluZyB0aGUgZG9ja2VyLWNlIGFuZCAnZG9ja2VyJyBz
-cGxpdCB3YXMgdGhhdCBvbmUNCj4gPiB0cmFja2VkIGNvbW11bml0eSwgYW5kIG9uZSBvbmx5IHRy
-YWNrcyB3aGF0IGRvY2tlciAidGhlIGNvbXBhbnkiIHdhcw0KPiA+IGRvaW5nLg0KPiANCj4gVGhl
-IGZvcm1hdHRpbmcgb2YgdGhhdCBlbWFpbCBjYW1lIG91dCBob3JyaWJseS4gU29ycnkgYWJvdXQg
-dGhhdC4NCj4gKGxldCdzIHNlZSBpZiB0aGlzIG9uZSBjb21lcyBvdXQgbW9yZSByZWFkYWJsZSkN
-Cj4gDQo+IEkgdGhvdWdodCBJIHNob3VsZCBhZGQgdGhhdCBJJ20gd29ya2luZyBvbiBhIHJlZnJl
-c2ggb2YgdGhlIGRvY2tlcg0KPiBjb21wb25lbnRzIGFzIHdlbGwsIGFuZCB3YXMgY29uc2lkZXJp
-bmcgdXNpbmcgc29tZSBuYW1pbmcgdG8gbWFrZSB0aGUNCj4gY29tbXVuaXR5L2RvY2tlci1jZSBz
-cGxpdCBhIGJpdCBtb3JlIGNsZWFyLiBTbyBwZXJoYXBzIHRoYXQgd291bGQgaGVscA0KPiBtYWtl
-IGh1bnRpbmcgZm9yIHRoZSByaWdodCBTUkNSRVYgaW4gbW9ieSBtYWtlIGEgYml0IG1vcmUgc2Vu
-c2UuDQo+IA0KDQoNCkkgd2FzIHRyeWluZyB0byBkbyBteSBiZXN0IHRvIGZpZ3VyZSBvdXQgdGhl
-IGNvcnJlY3QgcmV2aXNpb25zLiBCdXQgSSB0aGluayBpdCB3b3VsZCBoZWxwIHRvIGhhdmUgYSBi
-aXQgbW9yZQ0KZG9jdW1lbnRhdGlvbiBvciBhdCBsZWFzdCBoaW50cyBvbiBob3cgdG8gZG8gYW4g
-dXBkYXRlIHNvIG1vcmUgcGVvcGxlIGNhbiBoZWxwIHdpdGggbWFpbnRlbmFuY2UuDQoNCkJ1dCB5
-b3UgY2FuIGlnbm9yZSB0aGlzIHBhdGNoIEkgd2lsbCB3YWl0IGZvciB5b3VyIHJlZnJlc2ggdGhl
-biDwn5iKDQoNClBhc2NhbCANCg==
+Use COMPATIBLE_HOST to prevent building for mipsarch.
+
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ recipes-connectivity/consul/consul_git.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
+index ee49c5e..b0afa03 100644
+--- a/recipes-connectivity/consul/consul_git.bb
++++ b/recipes-connectivity/consul/consul_git.bb
+@@ -14,6 +14,10 @@ S = "${WORKDIR}/git"
+ 
+ inherit systemd go
+ 
++# Besides the hosts specified in goarch, we do not build for mips.
++#
++COMPATIBLE_HOST_mipsarch = "null"
++
+ SYSTEMD_SERVICE_${PN} = "consul.service"
+ SYSTEMD_AUTO_ENABLE_${PN} = "enable"
+ 
+-- 
+2.7.4
+
 
