@@ -1,13 +1,16 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C06A0E00CD0; Fri,  1 Mar 2019 08:38:43 -0800 (PST)
+	id 3FA79E00994; Fri,  1 Mar 2019 08:39:06 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.167.68 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
@@ -16,51 +19,48 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.68 listed in list.dnswl.org]
 Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
 	[209.85.167.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B3771E0048C
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8E58FE0048C
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  1 Mar 2019 08:38:42 -0800 (PST)
-Received: by mail-lf1-f68.google.com with SMTP id 131so9281936lfa.5
+	Fri,  1 Mar 2019 08:39:04 -0800 (PST)
+Received: by mail-lf1-f68.google.com with SMTP id 131so9282916lfa.5
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 01 Mar 2019 08:38:42 -0800 (PST)
+	Fri, 01 Mar 2019 08:39:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Hawe7mq7/TNGMMvbFYGWyRZX2n5wh65IQ5RMbywevpg=;
-	b=iCF/X+84rzrJtY1Ili9B7n6EeY3A9+/Umip4FuDoUdnhtRGu9NjEYyt87va6dkNYgL
-	AQ/5ozeP2bSq246twnQwSkjWSNMIGW17fNGrzDKpK4q6iMR4VymcfDcbgVMnU3j9RG43
-	WVHZWpsqz0xl8GNoW2dj7sRmA+HFvB36zdZlsSJMjdwPtSVG/zFCKNPQC4OR3wB890QZ
-	Um0U/lu23gYQPHqFDAQDq6X2o/01pL7KrThwUPgQfBFyMwCxikG4UgqJ0D7nAuaarkaG
-	xyA3FlGOyKfit+JUR7upSg9FInBA14+B9doLYMFWAeaFor8sdjXwi2PBaIo2tOF1ysYR
-	kEcg==
+	:cc; bh=PQs9JWzUpjZu9PP43JRj0oTFcoqubTXWxcd2dC+BtaQ=;
+	b=m6McORKXgfYuGAtV+g+QErE8EKqtYpHtx+Ob3Ihn7GbaHY3ntHoNVA4lRs+658ghc7
+	Nu70/qBzPxhBYgs/0ivjI6koBLa+wA0Wg5YKZBMHAFsle+OsuictO6MjMLMEJmt1xsrh
+	ZXvxdCeKafrsOq+3J0BtZ9HljSfbnCCJvSdeCp3Wns805kzwQr4CFOL2zv7yvH/us2Ki
+	K5eexoR9crdIuRlkpx8KRNplX9vLdfsWi6Ha9uewa/EOMF/vMuIcAAeHY4adr0XWdKFU
+	JSLNYy+juP2fVYPPRq0Qcy8GWkdyq3Tq1dpY+S6Dh6Em2PpjIMJFp8zLCMdn2CunE4qW
+	Ys5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Hawe7mq7/TNGMMvbFYGWyRZX2n5wh65IQ5RMbywevpg=;
-	b=FJvo0c7D2yPIsVEczPgICZRCVJKDiQfyXUgtus4ZT55wWfFhp9FxVIxRPZi/ZQy/73
-	TLVL5TEvaWW9ih4KDqzGcIf88MyOJqYzLVW6GnticJSGNGovhAg+qA249cKFNkv6l5+W
-	dG2/35CUjh+hacyWkwKungmE8ksW2634zGoV4mgVaSaKHJB6+lL2jpqcEFYNXcSD0rfV
-	8AEfmUInYNURPllKqrVXUDYI+JLH9Qkeg5B3Bqmjnh7eDJcaGF+YME3d+IamyEg13fXg
-	+gwPMq16PjSLxoT7YbnjTjnRX2Y+5XqqndFCotf1T148zivFqr8pK/3bj1b4E1Cr/IsJ
-	9ZSg==
-X-Gm-Message-State: APjAAAWt6gbseT41t0HOtUdsa1oFyUzu3Jc8svGwcFwc9RL/JqcWHNem
-	a/r7hRkxn25GuCPYkH0Vj78bvpKWRfuTy1PKylP3U4saJx4=
-X-Google-Smtp-Source: APXvYqwr0cWQh0idLBI6NYNupZ1mcymCVaq95DTBsqJ94QRn9rBN7aXUwpbOLV7aQuyOkSaN/3gaFyK1mNiSbcoftFY=
-X-Received: by 2002:ac2:4243:: with SMTP id m3mr3486011lfl.5.1551458321537;
-	Fri, 01 Mar 2019 08:38:41 -0800 (PST)
+	bh=PQs9JWzUpjZu9PP43JRj0oTFcoqubTXWxcd2dC+BtaQ=;
+	b=tK3PR+R2zX9egkatAbDSignnywNZe1Ixz8hza7FgONrgPYJk001BEWvxBULb73zI4r
+	lkuTnEZL6XYo/DOiO6UhNbeo1RjLEAl4WaBcRDz2w7Ozba3MHJ3391Ibcc+UXRV+ThlY
+	wHCPk+9Fwj1/P3+m+pZkFQ2CYGh+2I+Ocr1dmbvncgutRH9YlY9SYS4e0zsFWmlwPR4Q
+	TTKwV1xNS1FZe/+mBmU3XAWBDnuOvoj/9WeLgHL7LHNQuqRkTp8KuKfC4lj19j/z4Qr+
+	45PZ7yjJU4k6hc8K68568SaAmpy+qJqbHQDNcvdvLFCUQHzUZjM+U0eVorav9J5I9XfZ
+	yaWg==
+X-Gm-Message-State: APjAAAVKpqzwyeo77OQwZ2BtPTRG4TsPfzOzYF7FxEMKUFE4hjs6ZcAg
+	wawqF9SCcnQpEwR+/9Sf4DEgHf0zn9jZvprnErbVXYiEhek=
+X-Google-Smtp-Source: APXvYqwOSCXh1tp/oNHF/myTHw88ML6QgJFtQnRx48vpcm0QfPDAMREPIxf2aS7uKndDQkWpxfhZoHTXo3bkc3ujWFg=
+X-Received: by 2002:a19:598f:: with SMTP id n137mr3769260lfb.140.1551458343522;
+	Fri, 01 Mar 2019 08:39:03 -0800 (PST)
 MIME-Version: 1.0
-References: <1551253291-173385-1-git-send-email-zhe.he@windriver.com>
-In-Reply-To: <1551253291-173385-1-git-send-email-zhe.he@windriver.com>
+References: <1551317288-33865-1-git-send-email-dengke.du@windriver.com>
+In-Reply-To: <1551317288-33865-1-git-send-email-dengke.du@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 1 Mar 2019 11:38:30 -0500
-Message-ID: <CADkTA4P+wexhanqZwuN+QvaB3WSiwUQgkiu5zrYXXTW+ND1maQ@mail.gmail.com>
-To: He Zhe <zhe.he@windriver.com>
+Date: Fri, 1 Mar 2019 11:38:52 -0500
+Message-ID: <CADkTA4OFFrZPMiJoDSK1xd6Vtgs4cePpYzoJHkjpdTBRGUbqgQ@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-cloud-services] [PATCH] kernel: Remove redundant config fragment
+Subject: Re: [PATCH V2] criu: fix host gcc can't recognized option -fmacro-prefix-map
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,46 +73,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 01 Mar 2019 16:38:43 -0000
+X-List-Received-Date: Fri, 01 Mar 2019 16:39:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Wed, Feb 27, 2019 at 2:41 AM <zhe.he@windriver.com> wrote:
+On Wed, Feb 27, 2019 at 8:09 PM Dengke Du <dengke.du@windriver.com> wrote:
 >
-> From: He Zhe <zhe.he@windriver.com>
+> Generally, our host gcc version below 8.0, but cross toolchain in yocto
+> above 8.0, now 8.3, the option "macro-prefix-map" coming from 8.0, so if
+> the host gcc below 8.0, it can't unrecognized the option "macro-prefix-map".
 >
-> This fixes 01a28c32acb2 ("linux/nf.cfg: CONFIG_NF_CONNTRACK_IPV4 was replaced by
-> CONFIG_NF_CONNTRACK") which duplicates a config fragment and causes the
-> following warning.
+> In criu source code, the HOSTCFLAGS coming from CFLAGS:
+>     https://github.com/checkpoint-restore/criu/blob/criu-dev/Makefile#L17
+> In yocto project, the CFLAGS coming from the cross toolchain, containing
+> the "-fmacro-prefix-map" default, so we should use the BUILD_CFLAGS, it
+> contains the flags that used for host building.
 >
-> Warning: Value of CONFIG_NF_CONNTRACK is defined multiple times within fragment
-> tmp-glibc/work-shared/intel-x86-64/kernel-source/.kernel-meta/configs/v4.19/standard/intel-x86/nf.cfg:
-> CONFIG_NF_CONNTRACK=y
-> CONFIG_NF_CONNTRACK=y
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
 > ---
->  meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg | 1 -
->  1 file changed, 1 deletion(-)
+>  recipes-containers/criu/criu_git.bb | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg b/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg
-> index 1bf82ea..676a091 100644
-> --- a/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg
-> +++ b/meta-openstack/recipes-kernel/linux/linux-yocto/nf.cfg
-> @@ -2,7 +2,6 @@ CONFIG_NF_CONNTRACK=y
->  CONFIG_NF_NAT=m
->  CONFIG_NF_NAT_NEEDED=y
->  CONFIG_NF_NAT_PROTO_SCTP=m
-> -CONFIG_NF_CONNTRACK=y
->  CONFIG_NF_CONNTRACK_PROC_COMPAT=y
->  CONFIG_NF_NAT_IPV4=m
->  CONFIG_IP_NF_NAT=m
+> diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
+> index 45195ea..123f6a3 100644
+> --- a/recipes-containers/criu/criu_git.bb
+> +++ b/recipes-containers/criu/criu_git.bb
+> @@ -54,6 +54,7 @@ export C_INCLUDE_PATH="${STAGING_INCDIR}/libnl3"
+>
+>  export BUILD_SYS
+>  export HOST_SYS
+> +export HOSTCFLAGS = "${BUILD_CFLAGS}"
+>
+>  inherit setuptools
+>
 > --
 > 2.7.4
 >
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
 
 
 -- 
