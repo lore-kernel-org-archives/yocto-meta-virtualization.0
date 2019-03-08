@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9065DE00D12; Fri,  8 Mar 2019 13:02:16 -0800 (PST)
+	id 4624FE00D12; Fri,  8 Mar 2019 13:02:30 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.179 listed in list.dnswl.org]
+	*      [209.85.208.175 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DC209E00BE8
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+	[209.85.208.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A4202E0091D
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  8 Mar 2019 13:02:15 -0800 (PST)
-Received: by mail-lj1-f179.google.com with SMTP id z25so18576032ljk.8
+	Fri,  8 Mar 2019 13:02:29 -0800 (PST)
+Received: by mail-lj1-f175.google.com with SMTP id z25so18576574ljk.8
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 08 Mar 2019 13:02:15 -0800 (PST)
+	Fri, 08 Mar 2019 13:02:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=iPGhWNKw1seoauQvxfoCrVmqNVEPgaQYp7MauuEKrPU=;
-	b=D9i2zmJAO5iCC+KO36xmxAyw1m01OtQSPZ1zbNAslBJb3WxU77LKNId/a9oxzl/2nO
-	Jo64KrnwDDaTKx6uLIiCxWLsO9ER37arovWo9r4PGPznaF1nuopqXdWDcN7ROkaRwp2Q
-	iWxJOfANZUa7xFQnSNgChWgsWQUm67usrRGdHnbDAJNLmIjJELbmYgGVFaIEFNqiOTUp
-	lkEJ8Lh2DLRMA3HxvndDdswbyH7RTtyVefA9lLCx+HxJ3O8pjnr4BOfh87yRPJs/7MTu
-	RaG5xCOw/zctXqLrkyaSOxVVilFjXBQk98CVqUiIfFM7OebY+h0qQbGd4pwFNkfDsQGR
-	eikQ==
+	:cc; bh=VMgKgfPEcn2iG8iQPAaTZ7g/ydk2aVrzfikQvk9uuXM=;
+	b=RTSu5KhbY2B5E3cVut7moUo/TuLRy9W4jPimiwBhnbGVlzVBo5fgukF6wNzfk2xscm
+	YARZcBUCzuuf02TywVv5QaFfRTFR3j3SwphO3MkAx073QhjFbE4xGVGY1xs8ybaPEq1Q
+	KYFKgsftgrxb+kKTqO3gb3jL4oqi3Sq80A038QNMBMkuQqkON/yD+tRnadKlqOsFThnu
+	hDv7oH6eMS8ACyNdCPummuN5ShKR4UUC5I9qwKhYT+ZhsfKKmgTuoagRLIK9mHb7GwKO
+	PAeXiU0jtTheVqJ+C3IHW/gnc6wngdSUkoasZ0Ef+CL2Jb9YCa+cM9YdJFPvsUmvv+Om
+	p12A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=iPGhWNKw1seoauQvxfoCrVmqNVEPgaQYp7MauuEKrPU=;
-	b=LQz8C2e/dlx7Iqjz5isfjbLb5EMyqrmyyGESWqkchiy8aEmWJq+syyZaCknOaWE4Sl
-	pRvRb6GlQ6uqNQJaBFYvpXwZujhNEnyHH/2TU1yZhxAxXlsoRLvkLL1o9A0WsVLq+ZA4
-	BlIkXpEHc5Z6BEIYB6vj0UGaQwWagqrtFxwvr3PbQxBD0G6gzlRFoIw8DG36DunmBVPy
-	29ac+bbE7h4Mk8aB8N7tzGmoATWTc7yAoWhtYSi8sw5wuerpMUu+Knc8IwxYExz0nvYN
-	ghDPpcMP4bo3/iFgs+c+Lz0hNblZQSjpxvxIobg7Gz8vwXqOIw0Z/Bd4+Br7wps7DGrY
-	xqZg==
-X-Gm-Message-State: APjAAAXpCGxu2ANeTb2zt6MIRaUIxKMi6s1RD1Xm+FfanepWzRBBpBW+
-	oRE8Q6l7pL88j+20WGjUkRBN2zGD6pM1BqfvvuDOHNce
-X-Google-Smtp-Source: APXvYqwtg6nmPrxgka3ci9fcOf7Ijn0oQhx39+PM0caUVVoiYzpbCyOV8bBUeapwHn93wxdy8JYqwZUYebyiIglZlm4=
-X-Received: by 2002:a2e:408:: with SMTP id 8mr10178131lje.15.1552078934583;
-	Fri, 08 Mar 2019 13:02:14 -0800 (PST)
+	bh=VMgKgfPEcn2iG8iQPAaTZ7g/ydk2aVrzfikQvk9uuXM=;
+	b=QZP3sUDN5/oxRZKT5g6OwuBZP8nrRlno/OxWNRZA+X5m2vTvxq7ElaRgXeEDnI6uOX
+	C3EOnbkqWtS1vil08ormqVl8QYz84Mz6zk8+CTxDocESxid0xuDqK749XT5Eg4+8ZYGN
+	tWNoOTUOyi86lTGozANB7m9oD4JIp30xMlrGu6E2U3Ia93ybPLnh0i2RMLYy+hO5iMqQ
+	OfI6St/PhCTN2eYCB5ITkj3Xqh8m8fUkhEpkWeWOMa68wVYBEbiF4609h8z6KZnxRolb
+	evbP8IBjbwOXtvksIXcUAnWDY7ZFyEhsJcdEBGp/O3mgABklJX0UG1ukVUSH2w+wFrQ/
+	SqgA==
+X-Gm-Message-State: APjAAAVMGZAcUHl1fHqDhytyKPIMFALybjYgv/lR/iv/Biq0OJKR5rNY
+	ojCTC7XTWBqxpCvYK7Jdpdn/NERFCHliPrOMY4VlmWuU
+X-Google-Smtp-Source: APXvYqyMTlb5o5jzD14v3Nf5fqW+DWUjCYCZrwyDgROBORpYOYfRK1byZHMMfsrbgO4GC2R7UOKANx4uSw476UAPAM4=
+X-Received: by 2002:a2e:6309:: with SMTP id x9mr9902098ljb.75.1552078948495;
+	Fri, 08 Mar 2019 13:02:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20190306001258.13911-1-dan.callaghan@opengear.com>
-In-Reply-To: <20190306001258.13911-1-dan.callaghan@opengear.com>
+References: <20190308032817.114059-1-hongzhi.song@windriver.com>
+In-Reply-To: <20190308032817.114059-1-hongzhi.song@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 8 Mar 2019 16:02:03 -0500
-Message-ID: <CADkTA4PKJdP8YMhUZtCztgQ_rMB5rNp-WFshr-xSvM9kcpW4mg@mail.gmail.com>
-To: Dan Callaghan <dan.callaghan@opengear.com>
+Date: Fri, 8 Mar 2019 16:02:14 -0500
+Message-ID: <CADkTA4NwyTKt55KkEuCA5JGoWproEuCphmcVY=3yTL39y2ksmA@mail.gmail.com>
+To: "Hongzhi.Song" <hongzhi.song@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-docker: depend on python-misc for the ntpath module
+Subject: Re: [meta-cloud-services][PATCH] consul: uprev to v1.4.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,41 +73,86 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 21:02:16 -0000
+X-List-Received-Date: Fri, 08 Mar 2019 21:02:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Wed, Mar 6, 2019 at 6:48 PM Dan Callaghan <dan.callaghan@opengear.com> wrote:
+On Thu, Mar 7, 2019 at 10:28 PM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
 >
-> Signed-off-by: Dan Callaghan <dan.callaghan@opengear.com>
+> Uprev to v1.4.3 and remove invalid patch.
+>
+> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
 > ---
->  recipes-devtools/python/python-docker.inc | 1 +
->  1 file changed, 1 insertion(+)
+>  recipes-connectivity/consul/consul_git.bb     |  5 +--
+>  ...red_query-make-compatible-with-go1.5.patch | 31 -------------------
+>  2 files changed, 3 insertions(+), 33 deletions(-)
+>  delete mode 100644 recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
 >
-> diff --git a/recipes-devtools/python/python-docker.inc b/recipes-devtools/python/python-docker.inc
-> index eec7cda..a0ba60b 100644
-> --- a/recipes-devtools/python/python-docker.inc
-> +++ b/recipes-devtools/python/python-docker.inc
-> @@ -7,6 +7,7 @@ SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
->  SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
+> diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
+> index b0afa03..f9fb236 100644
+> --- a/recipes-connectivity/consul/consul_git.bb
+> +++ b/recipes-connectivity/consul/consul_git.bb
+> @@ -4,14 +4,15 @@ LICENSE = "MPL-2.0 & BSD & Apache-2.0 & BSD-2-Clause & MIT"
+>  LIC_FILES_CHKSUM = "file://src/github.com/hashicorp/consul/LICENSE;md5=b278a92d2c1509760384428817710378"
 >
->  RDEPENDS_${PN} += " \
-> +       ${PYTHON_PN}-misc \
->         ${PYTHON_PN}-six \
->         ${PYTHON_PN}-docker-pycreds \
->         ${PYTHON_PN}-requests \
+>  GO_IMPORT = "github.com/hashicorp/consul"
+> -SRCREV = "f97afda8e15046b41d951bf3b4220372c45df7ab"
+> +SRCREV = "567e41ff6b096a478333c804d5c18264050bc3f8"
+>  SRC_URI = "git://${GO_IMPORT}.git \
+>             file://consul.service \
+> -           file://0001-prepared_query-make-compatible-with-go1.5.patch \
+>            "
+>
+>  S = "${WORKDIR}/git"
+>
+> +RDEPENDS_${PN}-dev_append = " bash"
+> +
+>  inherit systemd go
+>
+>  # Besides the hosts specified in goarch, we do not build for mips.
+> diff --git a/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch b/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
+> deleted file mode 100644
+> index 324530b..0000000
+> --- a/recipes-connectivity/consul/files/0001-prepared_query-make-compatible-with-go1.5.patch
+> +++ /dev/null
+> @@ -1,31 +0,0 @@
+> -From fb11d9e31788c912f94faf8b188278d54dc9a8f1 Mon Sep 17 00:00:00 2001
+> -From: Bruce Ashfield <bruce.ashfield@windriver.com>
+> -Date: Wed, 20 Apr 2016 16:34:50 -0400
+> -Subject: [PATCH] prepared_query: make compatible with go1.5
+> -
+> -The copying of a regex is only in go 1.6. We can take the chance of
+> -lock contention, so we drop the copy and use the regex directly.
+> -
+> -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> ----
+> - src/github.com/hashicorp/consul/consul/prepared_query/template.go | 4 ++--
+> - 1 file changed, 2 insertions(+), 2 deletions(-)
+> -
+> -diff --git a/src/github.com/hashicorp/consul/consul/prepared_query/template.go b/src/github.com/hashicorp/consul/consul/prepared_query/template.go
+> -index 984f0bcf9cc6..1c61910c1526 100644
+> ---- a/src/github.com/hashicorp/consul/consul/prepared_query/template.go
+> -+++ b/src/github.com/hashicorp/consul/consul/prepared_query/template.go
+> -@@ -116,8 +116,8 @@ func (ct *CompiledTemplate) Render(name string) (*structs.PreparedQuery, error)
+> -       // from multiple goroutines.
+> -       var matches []string
+> -       if ct.re != nil {
+> --              re := ct.re.Copy()
+> --              matches = re.FindStringSubmatch(name)
+> -+              // re := ct.re.Copy()
+> -+              matches = ct.re.FindStringSubmatch(name)
+> -       }
+> -
+> -       // Create a safe match function that can't fail at run time. It will
+> ---
+> -2.4.0.53.g8440f74
+> -
 > --
-> 2.20.1
+> 2.17.1
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
