@@ -1,41 +1,66 @@
-Return-Path: <Dengke.Du@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0BC6DE00D05; Thu,  7 Mar 2019 22:00:47 -0800 (PST)
+	id 9065DE00D12; Fri,  8 Mar 2019 13:02:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6FAABE00D01
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.179 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
+	[209.85.208.179])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DC209E00BE8
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  7 Mar 2019 22:00:46 -0800 (PST)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2860j3K018112
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  8 Mar 2019 13:02:15 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id z25so18576032ljk.8
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 7 Mar 2019 22:00:45 -0800 (PST)
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 7 Mar 2019 22:00:45 -0800
-To: Mark Hatle <mark.hatle@windriver.com>,
-	<meta-virtualization@yoctoproject.org>
-References: <1551927535-18666-1-git-send-email-dengke.du@windriver.com>
-	<c7e7d530-742d-744e-bbff-615347e1f5d4@windriver.com>
-From: ddu <dengke.du@windriver.com>
-Message-ID: <a295f370-91ec-1d3e-fd50-028b57c6a701@windriver.com>
-Date: Fri, 8 Mar 2019 14:00:42 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	Fri, 08 Mar 2019 13:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=iPGhWNKw1seoauQvxfoCrVmqNVEPgaQYp7MauuEKrPU=;
+	b=D9i2zmJAO5iCC+KO36xmxAyw1m01OtQSPZ1zbNAslBJb3WxU77LKNId/a9oxzl/2nO
+	Jo64KrnwDDaTKx6uLIiCxWLsO9ER37arovWo9r4PGPznaF1nuopqXdWDcN7ROkaRwp2Q
+	iWxJOfANZUa7xFQnSNgChWgsWQUm67usrRGdHnbDAJNLmIjJELbmYgGVFaIEFNqiOTUp
+	lkEJ8Lh2DLRMA3HxvndDdswbyH7RTtyVefA9lLCx+HxJ3O8pjnr4BOfh87yRPJs/7MTu
+	RaG5xCOw/zctXqLrkyaSOxVVilFjXBQk98CVqUiIfFM7OebY+h0qQbGd4pwFNkfDsQGR
+	eikQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=iPGhWNKw1seoauQvxfoCrVmqNVEPgaQYp7MauuEKrPU=;
+	b=LQz8C2e/dlx7Iqjz5isfjbLb5EMyqrmyyGESWqkchiy8aEmWJq+syyZaCknOaWE4Sl
+	pRvRb6GlQ6uqNQJaBFYvpXwZujhNEnyHH/2TU1yZhxAxXlsoRLvkLL1o9A0WsVLq+ZA4
+	BlIkXpEHc5Z6BEIYB6vj0UGaQwWagqrtFxwvr3PbQxBD0G6gzlRFoIw8DG36DunmBVPy
+	29ac+bbE7h4Mk8aB8N7tzGmoATWTc7yAoWhtYSi8sw5wuerpMUu+Knc8IwxYExz0nvYN
+	ghDPpcMP4bo3/iFgs+c+Lz0hNblZQSjpxvxIobg7Gz8vwXqOIw0Z/Bd4+Br7wps7DGrY
+	xqZg==
+X-Gm-Message-State: APjAAAXpCGxu2ANeTb2zt6MIRaUIxKMi6s1RD1Xm+FfanepWzRBBpBW+
+	oRE8Q6l7pL88j+20WGjUkRBN2zGD6pM1BqfvvuDOHNce
+X-Google-Smtp-Source: APXvYqwtg6nmPrxgka3ci9fcOf7Ijn0oQhx39+PM0caUVVoiYzpbCyOV8bBUeapwHn93wxdy8JYqwZUYebyiIglZlm4=
+X-Received: by 2002:a2e:408:: with SMTP id 8mr10178131lje.15.1552078934583;
+	Fri, 08 Mar 2019 13:02:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <c7e7d530-742d-744e-bbff-615347e1f5d4@windriver.com>
-X-Originating-IP: [128.224.162.184]
-Subject: Re: [m-c-s][PATCH] libvirt: fix GROUPADD_PARAM override conflict
+References: <20190306001258.13911-1-dan.callaghan@opengear.com>
+In-Reply-To: <20190306001258.13911-1-dan.callaghan@opengear.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 8 Mar 2019 16:02:03 -0500
+Message-ID: <CADkTA4PKJdP8YMhUZtCztgQ_rMB5rNp-WFshr-xSvM9kcpW4mg@mail.gmail.com>
+To: Dan Callaghan <dan.callaghan@opengear.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] python-docker: depend on python-misc for the ntpath module
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,64 +73,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Mar 2019 06:00:47 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 08 Mar 2019 21:02:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+merged
 
-在 2019/3/7 下午10:00, Mark Hatle 写道:
-> On 3/6/19 8:58 PM, Dengke Du wrote:
->> The libvirt recipe in meta-virtualization already define the GROUPADD_PARAM,
->> so we should append it, not override.
->>
->> Signed-off-by: Dengke Du <dengke.du@windriver.com>
->> ---
->>   meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend b/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
->> index b55f9a9..0b0f011 100644
->> --- a/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
->> +++ b/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
->> @@ -5,7 +5,7 @@ PACKAGECONFIG ?= "qemu lxc test remote macvtap libvirtd udev yajl \
->>   
->>   inherit useradd
->>   USERADD_PACKAGES = "${PN}"
->> -GROUPADD_PARAM_${PN} = "--system libvirt"
->> +GROUPADD_PARAM_${PN}_append = " ;--system libvirt"
-> The __append should be fine then, but why the ';'?  That part looks wrong, since
-> typically the PARAM is the parameters passed directly to the groupadd program.
-> I don't believe ';' is a valid parameter.
+Bruce
 
-Hi Mark
-
-The GROUPADD_PARAM in useradd.bbclass using ';' to create pieces, and 
-pass each piece to groupadd command,
-
-https://git.openembedded.org/openembedded-core/tree/meta/classes/useradd.bbclass#n54
-
-such as "-r qemu; -r kvm; --system libvirt" into
-
-'-r qemu'
-
-'-r kvm'
-
-'--system libvirt'
-
-to groupadd command.
-
-If we don't use the ';'  like this:
-
-'-r qemu -r kvm --system libvirt' pass to groupadd command will fail.
-
-So we should add ';'
-
+On Wed, Mar 6, 2019 at 6:48 PM Dan Callaghan <dan.callaghan@opengear.com> wrote:
 >
-> --Mark
+> Signed-off-by: Dan Callaghan <dan.callaghan@opengear.com>
+> ---
+>  recipes-devtools/python/python-docker.inc | 1 +
+>  1 file changed, 1 insertion(+)
 >
->>   do_install_append() {
->>   	sed -e "s:^#unix_sock_group =:unix_sock_group =:g" -i ${D}/etc/libvirt/libvirtd.conf
->>
+> diff --git a/recipes-devtools/python/python-docker.inc b/recipes-devtools/python/python-docker.inc
+> index eec7cda..a0ba60b 100644
+> --- a/recipes-devtools/python/python-docker.inc
+> +++ b/recipes-devtools/python/python-docker.inc
+> @@ -7,6 +7,7 @@ SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
+>  SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
 >
+>  RDEPENDS_${PN} += " \
+> +       ${PYTHON_PN}-misc \
+>         ${PYTHON_PN}-six \
+>         ${PYTHON_PN}-docker-pycreds \
+>         ${PYTHON_PN}-requests \
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
