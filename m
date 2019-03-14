@@ -1,67 +1,41 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Dengke.Du@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 29E5DE00D14; Wed, 13 Mar 2019 19:59:21 -0700 (PDT)
+	id 0435AE00D13; Thu, 14 Mar 2019 01:33:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.178 listed in list.dnswl.org]
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
-	[209.85.208.178])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7AC95E00D11
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
+	*      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 700A6E009A0
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 13 Mar 2019 19:59:19 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id d24so3429178ljc.12
+	Thu, 14 Mar 2019 01:33:42 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2E8XBKS031579
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 13 Mar 2019 19:59:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=taHgyGQRn0TK3ecUrvKSH9hbSVX6wkQWMtvyEi65+W4=;
-	b=PrN6dvQXFyRFjrlek5Yomn2dZzEgISANXJHVV4bF2f4iR83yEneZ8mMYFfXhN8RdAp
-	rVKHvxem5Go1w3o+z74SScycXI/IXDLEfPLmbthB99U5ZuPFLmqleQiMGEicbmdYnDqL
-	+KLneMsHrMjUZ4nLbf4KZtSi22MuGoZUKg86uLiqgMwIFEAJzHKJYN4ud5OlVCSvnAMe
-	Z8n17PthRUc1yQUmK5i6boUfHJSw1HZNZfHST8P1yV3LjMWEqRm3a4Nc8PFQDq6pTSZE
-	Fk2fYxF67vzh/H4aK2Cc9bS8Vl/1bCVNpFyBc4RE9pdZIlLFZSdgA1rqYeVd1SOnusT8
-	An7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=taHgyGQRn0TK3ecUrvKSH9hbSVX6wkQWMtvyEi65+W4=;
-	b=VG4d+hjPOj98fFzXkuhDIl658VgeZiVEeaifXUct5gSJSo6M59HHLYrLC4899cyQ9H
-	R156PUUuowLJr5D84J7gGzF4vIZfltFnUxu9g4a48vO2vvFKyOuwXq+0/x/vVwYZxz1J
-	5gmGGZBwO7CjDbNrOBsushz1g/UIZUTu1WzJBBpfAnSO5yEx5JC9HjQiaZfaeWXrHQXG
-	uqYgfq2RSocgTHvBSjJrt4+rGp/Q2xeh9LDHC0IlBJDRLgoDytUxVBxsRYsyD9gpeEc3
-	4pKtboi2JK6ooOCUX0KwVzFE1bI8njFA4hnKekPR6/UQwlVMAQZrHHetftv1MYWakLbW
-	50Jw==
-X-Gm-Message-State: APjAAAWOgg3FwHsewuOaL6OZwm94gq8LuMyIgewLKo6AA8s/es4ZuaiF
-	SxoxC1SRDczRH6XszTe+cALxFAxtgr4D+5TsMx3MWFAY
-X-Google-Smtp-Source: APXvYqzRvSLrApAwQqC+IA9/QEl0PpmTJQTzSjpibEHO13FDirz5dakfvdZSGC9UvBpa/0ikKZ/1VOI5WW8B0RA8CTk=
-X-Received: by 2002:a2e:98c8:: with SMTP id s8mr25166636ljj.84.1552532358222; 
-	Wed, 13 Mar 2019 19:59:18 -0700 (PDT)
-MIME-Version: 1.0
+	Thu, 14 Mar 2019 01:33:31 -0700
+Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Thu, 14 Mar 2019 01:33:05 -0700
+To: <meta-virtualization@yoctoproject.org>
 References: <1551927535-18666-1-git-send-email-dengke.du@windriver.com>
-	<19ea4f51-91c8-21ff-b972-c7d36ec4e04f@windriver.com>
-In-Reply-To: <19ea4f51-91c8-21ff-b972-c7d36ec4e04f@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 13 Mar 2019 22:59:08 -0400
-Message-ID: <CADkTA4OeoDYtbY3zhgeTUK2LomKcE8-uLy2MBw01SD6Kawj_UA@mail.gmail.com>
-To: ddu <dengke.du@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
+	<c7e7d530-742d-744e-bbff-615347e1f5d4@windriver.com>
+	<a295f370-91ec-1d3e-fd50-028b57c6a701@windriver.com>
+From: ddu <dengke.du@windriver.com>
+Message-ID: <1edb6d09-b1a1-f2d9-018a-e6f74b85b2e7@windriver.com>
+Date: Thu, 14 Mar 2019 16:33:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
+MIME-Version: 1.0
+In-Reply-To: <a295f370-91ec-1d3e-fd50-028b57c6a701@windriver.com>
+X-Originating-IP: [128.224.162.184]
 Subject: Re: [m-c-s][PATCH] libvirt: fix GROUPADD_PARAM override conflict
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
@@ -75,55 +49,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Mar 2019 02:59:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Mar 2019 08:33:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-I'm waiting for Mark to reply to your explanation. He had the open
-question, I'm waiting for him to ack it.
 
-Bruce
-
-On Wed, Mar 13, 2019 at 8:12 PM ddu <dengke.du@windriver.com> wrote:
+在 2019/3/8 下午2:00, ddu 写道:
 >
-> Ping.
+> 在 2019/3/7 下午10:00, Mark Hatle 写道:
+>> On 3/6/19 8:58 PM, Dengke Du wrote:
+>>> The libvirt recipe in meta-virtualization already define the 
+>>> GROUPADD_PARAM,
+>>> so we should append it, not override.
+>>>
+>>> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+>>> ---
+>>>   meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git 
+>>> a/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend 
+>>> b/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
+>>> index b55f9a9..0b0f011 100644
+>>> --- a/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
+>>> +++ b/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
+>>> @@ -5,7 +5,7 @@ PACKAGECONFIG ?= "qemu lxc test remote macvtap 
+>>> libvirtd udev yajl \
+>>>     inherit useradd
+>>>   USERADD_PACKAGES = "${PN}"
+>>> -GROUPADD_PARAM_${PN} = "--system libvirt"
+>>> +GROUPADD_PARAM_${PN}_append = " ;--system libvirt"
+>> The __append should be fine then, but why the ';'?  That part looks 
+>> wrong, since
+>> typically the PARAM is the parameters passed directly to the groupadd 
+>> program.
+>> I don't believe ';' is a valid parameter.
+
+Hi Mark
+
+Do you have any questions on this still?
+
 >
-> =E5=9C=A8 2019/3/7 =E4=B8=8A=E5=8D=8810:58, Dengke Du =E5=86=99=E9=81=93:
-> > The libvirt recipe in meta-virtualization already define the GROUPADD_P=
-ARAM,
-> > so we should append it, not override.
-> >
-> > Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> > ---
-> >   meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappe=
-nd b/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
-> > index b55f9a9..0b0f011 100644
-> > --- a/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
-> > +++ b/meta-openstack/recipes-extended/libvirt/libvirt_4.%.bbappend
-> > @@ -5,7 +5,7 @@ PACKAGECONFIG ?=3D "qemu lxc test remote macvtap libvir=
-td udev yajl \
-> >
-> >   inherit useradd
-> >   USERADD_PACKAGES =3D "${PN}"
-> > -GROUPADD_PARAM_${PN} =3D "--system libvirt"
-> > +GROUPADD_PARAM_${PN}_append =3D " ;--system libvirt"
-> >
-> >   do_install_append() {
-> >       sed -e "s:^#unix_sock_group =3D:unix_sock_group =3D:g" -i ${D}/et=
-c/libvirt/libvirtd.conf
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> Hi Mark
+>
+> The GROUPADD_PARAM in useradd.bbclass using ';' to create pieces, and 
+> pass each piece to groupadd command,
+>
+> https://git.openembedded.org/openembedded-core/tree/meta/classes/useradd.bbclass#n54 
+>
+>
+> such as "-r qemu; -r kvm; --system libvirt" into
+>
+> '-r qemu'
+>
+> '-r kvm'
+>
+> '--system libvirt'
+>
+> to groupadd command.
+>
+> If we don't use the ';'  like this:
+>
+> '-r qemu -r kvm --system libvirt' pass to groupadd command will fail.
+>
+> So we should add ';'
+>
+>>
+>> --Mark
+>>
+>>>   do_install_append() {
+>>>       sed -e "s:^#unix_sock_group =:unix_sock_group =:g" -i 
+>>> ${D}/etc/libvirt/libvirtd.conf
+>>>
+>>
 
