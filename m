@@ -1,6 +1,6 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <Hongzhi.Song@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 23ED1E00D28; Thu, 14 Mar 2019 20:04:30 -0700 (PDT)
+	id 52D36E00D2E; Fri, 15 Mar 2019 01:55:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,23 +12,23 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      medium trust
 	*      [147.11.1.11 listed in list.dnswl.org]
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D185DE00AB0
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C9D23E00D24
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 14 Mar 2019 20:04:28 -0700 (PDT)
+	Fri, 15 Mar 2019 01:55:34 -0700 (PDT)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2F34Ri0009376
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x2F8tWFZ012936
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 14 Mar 2019 20:04:27 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 14 Mar 2019 20:04:26 -0700
-From: <zhe.he@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
-Date: Fri, 15 Mar 2019 11:04:25 +0800
-Message-ID: <1552619065-53429-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 15 Mar 2019 01:55:33 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 15 Mar 2019 01:55:32 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
+Date: Fri, 15 Mar 2019 01:55:30 -0700
+Message-ID: <20190315085532.79535-1-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH] lxc: Correct CONFIG_CGROUP_NET_PRIO setting
+Subject: [PATCH 0/2] uprev nagios-core and nagios-nsca
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,34 +41,25 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Mar 2019 03:04:30 -0000
+X-List-Received-Date: Fri, 15 Mar 2019 08:55:35 -0000
 Content-Type: text/plain
 
-From: He Zhe <zhe.he@windriver.com>
+nagios-core: from v4.4.2 to v4.4.3
+nagios-nsca: from v2.9.1 to v2.9.2
 
-Since af6363374cbd ("cgroup: make CONFIG_CGROUP_NET_PRIO bool and drop unnecessary init_netclassid_cgroup()"),
-CONFIG_CGROUP_NET_PRIO has become a bool option. Forcedly setting it to "m"
-would end up with "n". Change it to "y" here.
+Hongzhi.Song (2):
+  nagios-nsca: uprev to v2.9.2
+  nagios-core: uprev to v4.4.3
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- recipes-kernel/linux/linux-yocto/lxc.cfg | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ios-core_4.4.2.bb => nagios-core_4.4.3.bb} |  4 +-
+ ...1-Fix-missing-argument-in-open-calls.patch | 52 -------------------
+ ...ios-nsca_2.9.1.bb => nagios-nsca_2.9.2.bb} |  9 ++--
+ 3 files changed, 6 insertions(+), 59 deletions(-)
+ rename recipes-extended/nagios/{nagios-core_4.4.2.bb => nagios-core_4.4.3.bb} (97%)
+ delete mode 100644 recipes-extended/nagios/nagios-nsca/0001-Fix-missing-argument-in-open-calls.patch
+ rename recipes-extended/nagios/{nagios-nsca_2.9.1.bb => nagios-nsca_2.9.2.bb} (88%)
 
-diff --git a/recipes-kernel/linux/linux-yocto/lxc.cfg b/recipes-kernel/linux/linux-yocto/lxc.cfg
-index 9ff49f1..adaad3a 100644
---- a/recipes-kernel/linux/linux-yocto/lxc.cfg
-+++ b/recipes-kernel/linux/linux-yocto/lxc.cfg
-@@ -15,7 +15,7 @@ CONFIG_NET_NS=y
- 
- CONFIG_NET_CLS_CGROUP=m
- CONFIG_BLK_CGROUP=y
--CONFIG_CGROUP_NET_PRIO=m
-+CONFIG_CGROUP_NET_PRIO=y
- 
- # Virtual drivers
- CONFIG_HVC_DRIVER=y
 -- 
-2.7.4
+2.17.1
 
 
