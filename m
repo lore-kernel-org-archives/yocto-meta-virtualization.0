@@ -1,34 +1,67 @@
-Return-Path: <Hongzhi.Song@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id ACE91E00D21; Tue, 19 Mar 2019 23:34:29 -0700 (PDT)
+	id 1E97CE00C1E; Wed, 20 Mar 2019 11:39:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 42A3AE00CE5
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.53 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+	[209.85.167.53])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 69052E00950
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 19 Mar 2019 23:34:28 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x2K6YPVo024073
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 19 Mar 2019 23:34:25 -0700 (PDT)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Tue, 19 Mar 2019 23:34:24 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
-Date: Tue, 19 Mar 2019 23:34:26 -0700
-Message-ID: <20190320063426.82963-1-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Wed, 20 Mar 2019 11:39:57 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id u21so2705668lfu.2
+	for <meta-virtualization@yoctoproject.org>;
+	Wed, 20 Mar 2019 11:39:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hGprUdIKwzztbUj9vlBlAPC7vboefxfGdiTf4bM32lk=;
+	b=mEDrRbvWrx8L3NzgEPFhEzuoxxRn/wdrGQT+U2w8jLv9IAIK6bE/FDTba1x3GV/wA6
+	+7jWZb2RiJb9qp4IKHHRkGDrXqS9LcceVCDPr1Tvajno6NOILRLX3Id7l4Cz0Gi4mGjn
+	1IWn2fnFf3lpm/sVrJGPwLm7dZh0XKezLMDD1/JuxM2a+LgNpMyBrz2LSyBtxjKtrxGH
+	A/x2sx2vmKg0UGDwufR+d7SHXZ68PHxuwhJBl1z6BhQkEJUJJ3SmqJ3Zvpeqkf4eTYha
+	NYHrbYUebAqCmZv8MV3q6l7qs+gsUhpIVdpFmfbxs6cgus/Fcjkvhtefhj/TXRN+f7XN
+	nadw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hGprUdIKwzztbUj9vlBlAPC7vboefxfGdiTf4bM32lk=;
+	b=gzt824OVsSno+aBMGqHzv7VmDXZ2cYpx/zpS5kerjXzdngKLor7NEPE/885yFu/vE6
+	ikNQX4vScvOdSyI03894IIXand8tPo37flaKzihLKeoTwr0Jx+gGxVZXrtH8Y9uKr1/z
+	iuXRTJkQhIzspuXNGNE3WNI7ccoOlTUEsAq6jjAA8P7Z6s+zOAIGJ9ngMNgqGGy1Z2cx
+	Tt83XxL579+M3c4E4eKhgNPWOVlU0ihPerjijLGf1uesh7jv2s741uMkLJ5MheU5iumZ
+	fPCfGyK9EGVJ+Sh6UJ09txdZfQXGHpUsKa5sHfKPFGwEEMEroI4ajgkjmvB6wid+63AP
+	h9tQ==
+X-Gm-Message-State: APjAAAXbPlx/mX93l9OEj6+etGF3Y/vCd64A19PgKGC/kj1ot8mICbtb
+	KHX2y37lR3mMCnT3qha980wnSbwjsHD6EX8KEkQ=
+X-Google-Smtp-Source: APXvYqy2UYYagvB1yPufCOVSUmBEcxLkw5NKfGtdkjCc6niYngFaaagYRfaxguh/uvPbe0xlcwzAnka8f7FabggZEy8=
+X-Received: by 2002:a19:968c:: with SMTP id
+	y134mr10053462lfd.140.1553107196335; 
+	Wed, 20 Mar 2019 11:39:56 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] irqbalance: uprev to v1.5.0
+References: <1552874174-26647-1-git-send-email-dengke.du@windriver.com>
+In-Reply-To: <1552874174-26647-1-git-send-email-dengke.du@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 20 Mar 2019 14:39:45 -0400
+Message-ID: <CADkTA4M=phqoRjVikX-kRAm7E62=5dx_hTrfy=e74fjBSdcmiQ@mail.gmail.com>
+To: Dengke Du <dengke.du@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] libvirt: place the qemu configure option to PACKAGECONFIG
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,75 +74,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 06:34:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 20 Mar 2019 18:39:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- .../irqbalance/fix-configure-libcap-ng.patch  | 29 -------------------
- ...rqbalance_1.4.0.bb => irqbalance_1.5.0.bb} |  5 ++--
- 2 files changed, 2 insertions(+), 32 deletions(-)
- delete mode 100644 recipes-extended/irqbalance/irqbalance/fix-configure-libcap-ng.patch
- rename recipes-extended/irqbalance/{irqbalance_1.4.0.bb => irqbalance_1.5.0.bb} (64%)
+On Sun, Mar 17, 2019 at 9:56 PM Dengke Du <dengke.du@windriver.com> wrote:
+>
+> If we build libvirt with mips64 arch will fail that was not compatible with,
+> so place the qemu configure options to PACKAGECONFIG, let the PACKAGECONFIG
+> control the build options.
 
-diff --git a/recipes-extended/irqbalance/irqbalance/fix-configure-libcap-ng.patch b/recipes-extended/irqbalance/irqbalance/fix-configure-libcap-ng.patch
-deleted file mode 100644
-index fb22d7a..0000000
---- a/recipes-extended/irqbalance/irqbalance/fix-configure-libcap-ng.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 20a1b2ff2e6d80924824983c363c80f66e05c0d0 Mon Sep 17 00:00:00 2001
--From: Ming Liu <ming.liu@windriver.com>
--Date: Sun, 6 Sep 2015 14:43:24 +0800
--Subject: [PATCH] grasp withval for libcap-ng
--
--Upstream-Status: Pending
--
--Signed-off-by: Ming Liu <ming.liu@windriver.com>
--
-----
-- configure.ac | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 38a1bee..95f1488 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -62,7 +62,10 @@ AS_IF(
-- ])
-- 
-- AC_ARG_WITH([libcap-ng],
---  AS_HELP_STRING([libcap-ng], [Add libcap-ng-support @<:@default=auto@:>@]))
--+  [AS_HELP_STRING([libcap-ng], [Add libcap-ng-support @<:@default=auto@:>@])],
--+  [libcap_ng=$withval],
--+  [libcap_ng=$withval]
--+)
-- 
-- AS_IF(
--   [test "x$libcap_ng" != "xno"],
-diff --git a/recipes-extended/irqbalance/irqbalance_1.4.0.bb b/recipes-extended/irqbalance/irqbalance_1.5.0.bb
-similarity index 64%
-rename from recipes-extended/irqbalance/irqbalance_1.4.0.bb
-rename to recipes-extended/irqbalance/irqbalance_1.5.0.bb
-index 1aee7ca..f73b106 100644
---- a/recipes-extended/irqbalance/irqbalance_1.4.0.bb
-+++ b/recipes-extended/irqbalance/irqbalance_1.5.0.bb
-@@ -4,12 +4,11 @@
- 
- require irqbalance.inc
- 
--SRC_URI[md5sum] = "26ee6db57c4509737e541e98773a39f5"
--SRC_URI[sha256sum] = "62de71510a2496fcf027efb0b288dd48e53e9efc931fa573c95580cad6264d07"
-+SRC_URI[md5sum] = "3daa34066d28e2ff44fdac9c39952822"
-+SRC_URI[sha256sum] = "3318eddc03782cfdad22b20eff18eaf378c498c5de286e8cbaa5521ddf4f810b"
- 
- SRC_URI = "https://github.com/Irqbalance/irqbalance/archive/v${PV}.tar.gz;downloadfilename=irqbalance-${PV}.tar.gz \
-            file://add-initscript.patch \
-            file://irqbalance-Add-status-and-reload-commands.patch \
--           file://fix-configure-libcap-ng.patch \
-            file://irqbalanced.service \
-           "
+It would have been worth mentioning that qemu is in the default
+packageconfig, hence the build isn't changed for most architectures. I
+added that to the config option and pushed the change.
+
+Bruce
+
+>
+> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> ---
+>  recipes-extended/libvirt/libvirt_4.9.0.bb | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/recipes-extended/libvirt/libvirt_4.9.0.bb b/recipes-extended/libvirt/libvirt_4.9.0.bb
+> index 17ac799..813d95e 100644
+> --- a/recipes-extended/libvirt/libvirt_4.9.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_4.9.0.bb
+> @@ -197,7 +197,7 @@ PACKAGECONFIG_remove_mipsarchn64 = "qemu"
+>
+>  # enable,disable,depends,rdepends
+>  #
+> -PACKAGECONFIG[qemu] = "--with-qemu,--without-qemu,qemu,"
+> +PACKAGECONFIG[qemu] = "--with-qemu --with-qemu-user=qemu --with-qemu-group=qemu,--without-qemu,qemu,"
+>  PACKAGECONFIG[yajl] = "--with-yajl,--without-yajl,yajl,yajl"
+>  PACKAGECONFIG[xenapi] = "--with-xenapi,--without-xenapi,,"
+>  PACKAGECONFIG[libxl] = "--with-libxl=${STAGING_DIR_TARGET}/lib,--without-libxl,xen,"
+> @@ -315,8 +315,6 @@ do_install_append() {
+>  EXTRA_OECONF += " \
+>      --with-init-script=systemd \
+>      --with-test-suite \
+> -    --with-qemu-user=qemu \
+> -    --with-qemu-group=qemu \
+>      "
+>
+>  EXTRA_OEMAKE = "BUILD_DIR=${B} DEST_DIR=${D}${PTEST_PATH} PTEST_DIR=${PTEST_PATH} SYSTEMD_UNIT_DIR=${systemd_system_unitdir}"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
+
+
 -- 
-2.17.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
