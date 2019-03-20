@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 08F8CE00C1E; Wed, 20 Mar 2019 11:41:50 -0700 (PDT)
+	id B1EA6E00C1E; Wed, 20 Mar 2019 11:43:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
+	*      [209.85.167.46 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3F9BCE00BB7
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+	[209.85.167.46])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28B2DE0053F
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Mar 2019 11:41:49 -0700 (PDT)
-Received: by mail-lj1-f196.google.com with SMTP id z26so3135803lja.13
+	Wed, 20 Mar 2019 11:43:29 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id p1so2661004lfk.9
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 20 Mar 2019 11:41:48 -0700 (PDT)
+	Wed, 20 Mar 2019 11:43:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OKy+vQ+D7yQnL7djfGUv/athckRoqbCZi/9+RMP8l88=;
-	b=esA7QiH0GQ1LLJI9IIx651a8o0sAVAGTUUwHDfFC5xA9fNIj7ki6aQcF+NXsWXIDZz
-	PTHvnP1fsAaqwpaDzm/11tfysFQKBvn3zYLeVmx6i8LJ76id7Me/RW3lZ/3BRaNAAc4v
-	Un9ddgQ9mOaNcN4jRby7opE5ma6arMf4N5dPbyxeqL7K2Nndd5kAMgfxnCfuK7EiiFDJ
-	C+a9a0r65AXXI4SbMFois28YjkevtBr8o0USZA5yqBpyd0ePK+ObaIghTo4Mt6M58Xf+
-	8jwldns8zLtluuN4QUT26cDTafHA12N1Q10N3HU8NTwkM2UW8/7JYE3ZPHJCpBVjCPGd
-	7wfg==
+	:cc; bh=OllEPzRRFg6Cpno6bMW56dWlKa8QvtSTlLMtaNu+vSs=;
+	b=WowiwzOGUOw3l5EhVYAxKayoEMbHc/wQ+CLwgCQMbcViZlSjo4uc7ARgURECZYRams
+	I1FthJjFq/Iq+nIu6xpE2yILRjTtYEKcZv1fI6sNIOnfBEYGRkr7zGMqecq59cvgX2xV
+	Wj8buleuoBILOMimc75oOW45puWhzOqDpK5d66DAz2PTDGAjhyYYyQ9JZ668N6AQlWSx
+	za/1xidPJWSK3BkJkD3QWXTTNIvyaYlF8WVHpyV5jniNWIMKn0jjtOhOFcYu1w/VI5IH
+	0arPBBnjgXke5w9dytbaluvcsNcmX/JguEQTaZgTFKbyVuvTdMVc1nkuCONPwwDYntys
+	3T1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=OKy+vQ+D7yQnL7djfGUv/athckRoqbCZi/9+RMP8l88=;
-	b=cDnN9vhsi+R+15nul7QPf0/3jAeP3Q/M9yltNy4CbiBxrgaxTcMOtGuOhUV3A6IFWO
-	XZQ/0xJ3poB0Od1csH476Dm3/NlL1Esoxyw3A/wvySovf8zEIOk2AkoaWEkOlmHnCkpR
-	ML3whli6v50NgP+NvHuzYpjRpn09mQfzsnRcSeG/dH2G3iEzK/y8abxBLQukGFyrGFuS
-	hE6SuEetHS9eGucFHWo8+c8Ro1Ms2/hkCQZbaCgZ+u0XxTSkjQUlkN+507J4P7nKejeD
-	jPXsVTeKNTMcQL9y5p2X4GSzIwWub9VJsSYEAn0CgBbqKQEXOwSUL33/L03iKZda8krF
-	qQtQ==
-X-Gm-Message-State: APjAAAWLfY/QgFVmoWSsOBfd0VNNwQJoNjeCUNFzKCp5CszplfXLeSRO
-	EbZ4DLlwlP9k9JtjCbcArU3yIBPDL08ldBCeSIs=
-X-Google-Smtp-Source: APXvYqzlhHCry72lnyK9G6rex3Vr/rEfHZyXAPaKrOJGoqmWp+I8Kv6mf9QQWMfOHwuoO4lnTKz5ZPne+d+Fs/g+smg=
-X-Received: by 2002:a2e:408:: with SMTP id 8mr18047997lje.15.1553107308078;
-	Wed, 20 Mar 2019 11:41:48 -0700 (PDT)
+	bh=OllEPzRRFg6Cpno6bMW56dWlKa8QvtSTlLMtaNu+vSs=;
+	b=Up+iG9hY7eTZnzkt7D7XwTnCL/OzjDodtXWzpjLkfXHcGUx8gta54bSPTu+RTYyDxn
+	HFOPW9iB2Be8ffr66b42ToXTt4VOPpKUuhflSdWmlUAFVsx+HFI74OlM7sVnmEkG20uU
+	rtAkItuxgywX1iYzt8EVH+N7h5u4je4SRj5bGDvcgeXYnWCnU0lasQdfRR799Vy/JYV3
+	UhV4iq5Fq90SbszVxeJ5G6oNB2TTnqXKWOmm5vNtmDEuhaGERrMKvGR0POhKFFKCekE0
+	ej8BumWBq6pnGuyfbVNYT3xEdKtsqrtSUDUB5bK1cnrKawuQF8DPcI+WKvLz8T962k3Z
+	GcrQ==
+X-Gm-Message-State: APjAAAVnUJCqumUQ4fCuydOMwTJIKPnceEFInWiARtG/YynP9Y/O8E4O
+	z2f36wOJ9ZtZPb55yaYFKBuwCFWAElQJlEqRsw0thLgi
+X-Google-Smtp-Source: APXvYqxi6WecO7quPRLiLWSl0jzazopexqTBz0FBh1r6XCrsNkgyWdIg8I05xMp8Mkcgp7rAU7Zf20Nu/aTdMPtCa2g=
+X-Received: by 2002:ac2:50d8:: with SMTP id h24mr10136027lfm.7.1553107408057; 
+	Wed, 20 Mar 2019 11:43:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190319070519.117520-1-hongzhi.song@windriver.com>
-In-Reply-To: <20190319070519.117520-1-hongzhi.song@windriver.com>
+References: <1552986309-84594-1-git-send-email-liezhi.yang@windriver.com>
+In-Reply-To: <1552986309-84594-1-git-send-email-liezhi.yang@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 20 Mar 2019 14:41:37 -0400
-Message-ID: <CADkTA4PsDE7f6_EG8NjTneeOZCgLhPvY4kqjFQHj+u1t57tb1Q@mail.gmail.com>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>
+Date: Wed, 20 Mar 2019 14:43:17 -0400
+Message-ID: <CADkTA4MvCptEwHgkNna_206Vv6iP-UPAPSDxVM_yisEPf9JBQA@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] notary: uprev to v0.6.1
+Subject: Re: [PATCH] docker: Set the same COMPATIBLE_HOST as containerd-opencontainers.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,46 +73,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Mar 2019 18:41:50 -0000
+X-List-Received-Date: Wed, 20 Mar 2019 18:43:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Tue, Mar 19, 2019 at 3:06 AM Hongzhi.Song <hongzhi.song@windriver.com> wrote:
+On Tue, Mar 19, 2019 at 4:46 AM Robert Yang <liezhi.yang@windriver.com> wrote:
 >
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> It depends on virtual/containerd which is provided by
+> containerd-opencontainers, so set the same COMPATIBLE_HOST as the last one.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > ---
->  recipes-devtools/go/notary_git.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  recipes-containers/docker/docker_git.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/recipes-devtools/go/notary_git.bb b/recipes-devtools/go/notary_git.bb
-> index d638dc1..9cfb46e 100644
-> --- a/recipes-devtools/go/notary_git.bb
-> +++ b/recipes-devtools/go/notary_git.bb
-> @@ -2,15 +2,15 @@ DESCRIPTION = "Notary is a Docker project that allows anyone to have trust over
->  HOMEPAGE = "https://github.com/docker/notary"
->  SECTION = "devel/go"
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=771ddb425ba03c8fab49e5bd9854a4a2"
-> +LIC_FILES_CHKSUM = "file://src/${PKG_NAME}/LICENSE;md5=3596b980bb036e0875174ed15e4b982a"
->
->  SRCNAME = "notary"
->
->  PKG_NAME = "github.com/docker/${SRCNAME}"
->  SRC_URI = "git://${PKG_NAME}.git;destsuffix=git/src/${PKG_NAME}"
->
-> -SRCREV = "c8aa8cf53cbcda2e92def0c9291e25d770493494"
-> -PV = "0.4.2+git${SRCPV}"
-> +SRCREV = "d6e1431feb32348e0650bf7551ac5cffd01d857b"
-> +PV = "0.6.1+git${SRCPV}"
->
->  S = "${WORKDIR}/git"
+> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+> index 19e773b..fd33714 100644
+> --- a/recipes-containers/docker/docker_git.bb
+> +++ b/recipes-containers/docker/docker_git.bb
+> @@ -174,3 +174,5 @@ RDEPENDS_${PN}-contrib += "bash"
+>  # DO NOT STRIP docker
+>  INHIBIT_PACKAGE_STRIP = "1"
+>  INSANE_SKIP_${PN} += "ldflags textrel"
+> +
+> +COMPATIBLE_HOST = "^(?!(qemu)?mips).*"
+> --
+> 2.7.4
 >
 > --
-> 2.17.1
->
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
 
 
 -- 
