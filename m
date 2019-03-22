@@ -1,36 +1,110 @@
-Return-Path: <Dengke.Du@windriver.com>
+Return-Path: <MANJUKUM@xilinx.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7363BE00D2E; Thu, 21 Mar 2019 23:09:38 -0700 (PDT)
+	id 05BA7E00D31; Sat, 23 Mar 2019 09:12:48 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BD15AE00994
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [40.107.80.53 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+X-Greylist: delayed 39675 seconds by postgrey-1.32 at yocto-www;
+	Sat, 23 Mar 2019 09:12:46 PDT
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-eopbgr800053.outbound.protection.outlook.com [40.107.80.53])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BA0B4E00D2E
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 21 Mar 2019 23:09:37 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x2M69GRh021206
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 21 Mar 2019 23:09:27 -0700
-Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 21 Mar 2019 23:09:04 -0700
-From: Dengke Du <dengke.du@windriver.com>
+	Sat, 23 Mar 2019 09:12:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=7R5B5W9FNIhLhNM42hEsZC/8Fh6WNYJ3JMLj6Zf28PY=;
+	b=FvALZWYaHflpKsQqpJtH6wlz+RVXGN2xvEF3M4wOEvz5KkiTlKSMXIMQUprubBtKGna6zZKjuImeWn/fV3ORaVPtAicgt1LFE908V/h/QGa32gOR6/alQk2AysWvnn72uGLywacNky+x9MtxYvvUe8OU5jUP3e2sYeVG2CzXhjk=
+Received: from CY4PR02CA0025.namprd02.prod.outlook.com (2603:10b6:903:117::11)
+	by DM5PR0201MB3398.namprd02.prod.outlook.com (2603:10b6:4:76::11)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1730.16;
+	Fri, 22 Mar 2019 19:40:44 +0000
+Received: from BL2NAM02FT062.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e46::208) by CY4PR02CA0025.outlook.office365.com
+	(2603:10b6:903:117::11) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1730.16 via
+	Frontend Transport; Fri, 22 Mar 2019 19:40:44 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; yoctoproject.org;
+	dkim=none (message not signed)
+	header.d=none;yoctoproject.org; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	BL2NAM02FT062.mail.protection.outlook.com (10.152.77.57) with Microsoft
+	SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1730.9
+	via Frontend Transport; Fri, 22 Mar 2019 19:40:43 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
+	id 1h7Q1z-0008Se-5c for meta-virtualization@yoctoproject.org;
+	Fri, 22 Mar 2019 12:40:43 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
+	id 1h7Q1u-0001Qz-1t for meta-virtualization@yoctoproject.org;
+	Fri, 22 Mar 2019 12:40:38 -0700
+Received: from xsj-pvapsmtp01 (xsj-smtp1.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x2MJeTvj023197; Fri, 22 Mar 2019 12:40:30 -0700
+Received: from [172.19.2.216] (helo=xsjmanjukum50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <manjukumar.harthikote-matha@xilinx.com>)
+	id 1h7Q1l-0001Qm-Pv; Fri, 22 Mar 2019 12:40:29 -0700
+From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 22 Mar 2019 14:09:04 +0800
-Message-ID: <1553234944-19534-1-git-send-email-dengke.du@windriver.com>
+Date: Fri, 22 Mar 2019 12:40:28 -0700
+Message-ID: <1553283628-22488-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
 X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(376002)(396003)(39860400002)(346002)(136003)(2980300002)(199004)(189003)(16586007)(126002)(356004)(4326008)(107886003)(6916009)(2906002)(336012)(426003)(14444005)(48376002)(72206003)(106002)(47776003)(81166006)(81156014)(8676002)(5660300002)(486006)(478600001)(2616005)(476003)(9786002)(50466002)(106466001)(77096007)(316002)(186003)(50226002)(51416003)(7696005)(26005)(4744005)(36756003)(63266004)(305945005)(2351001)(36386004)(8936002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM5PR0201MB3398;
+	H:xsj-pvapsmtpgw01; FPR:; SPF:Pass; LANG:en;
+	PTR:unknown-60-83.xilinx.com; A:1; MX:1; 
 MIME-Version: 1.0
-Subject: [PATCH] criu: upgrade to 3.11
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 62f17acd-0714-4d0e-2b6d-08d6aefe4609
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600127)(711020)(4605104)(4709054)(2017052603328)(7153060);
+	SRVR:DM5PR0201MB3398; 
+X-MS-TrafficTypeDiagnostic: DM5PR0201MB3398:
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <DM5PR0201MB33982A339F302937FE4EE0C0B9430@DM5PR0201MB3398.namprd02.prod.outlook.com>
+X-Forefront-PRVS: 09840A4839
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: Le9K3DAXo5KpLxj5lVwt/aD+bZKr53YY16CJ37rsEiONSI2S3ieaZ00YBVUdagGwB0ceS3O5eicIiy6ksA15WYzl+K0wxoirYOnVPdQTR+oKsKSLyIFiYpzZrCVNCTTGDCsJzO+QD/QjVnmSWcBTHVCWQo7OmsOgNRbtQ0OlSdB5ZQ4FVyfCVEvxBFaCixE36Ej4k8w+3eS54zc2ljBf7YX9y21Cv+71B8oxp8dMzjI1Aik8cxaHi0lEtY8ntS0efqJyYyzUuZnnhBLq2b/e7bn8Qwz1DQe0IXBrS+aWDJAu5aq7Bzc1sWnwK2GJJqOXZOXy7XealY75Nl3ttZOqZcRTOSHKfLDAajPXGpsRwW7kAGy4vxoYLg1F/GiOvngcoiTk95ms5R3zfyVwNszQhOkV1HWLhMrsGy7ssHCjZ2w=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Mar 2019 19:40:43.7694 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62f17acd-0714-4d0e-2b6d-08d6aefe4609
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR0201MB3398
+Subject: [PATCH] sysvinit-inittab_xen.inc: fix hypervisor console
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -43,89 +117,29 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Mar 2019 06:09:38 -0000
+X-List-Received-Date: Sat, 23 Mar 2019 16:12:48 -0000
 Content-Type: text/plain
 
-Remove the following patch, because the 3.11 version already contain it.
-    0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
+This commit switches over to using existing SERIAL_CONSOLES mechanism
+for hvc0 inittab entry generation.  This then results in
+/bin/start_getty wrapper being used, which avoids the getty failure seen
+when running a xen capable rootfs natively on linux.
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
+Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 ---
- recipes-containers/criu/criu_git.bb                |  5 ++-
- ...on-t-open-run-criu.kdat-if-doesn-t-exists.patch | 42 ----------------------
- 2 files changed, 2 insertions(+), 45 deletions(-)
- delete mode 100644 recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
+ recipes-core/sysvinit/sysvinit-inittab_xen.inc | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-index 123f6a3..c6981c9 100644
---- a/recipes-containers/criu/criu_git.bb
-+++ b/recipes-containers/criu/criu_git.bb
-@@ -13,15 +13,14 @@ EXCLUDE_FROM_WORLD = "1"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
- 
--SRCREV = "c49eab368a68682475c4e693258246e04232e6d2"
--PV = "3.10+git${SRCPV}"
-+SRCREV = "c74b83cd49c00589c0c0468ba5fe685b67fdbd0a"
-+PV = "3.11+git${SRCPV}"
- 
- SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
-            file://0001-criu-Fix-toolchain-hardcode.patch \
-            file://0002-criu-Skip-documentation-install.patch \
-            file://0001-criu-Change-libraries-install-directory.patch \
-            file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
--           file://0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch \
-           "
- 
- COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
-diff --git a/recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch b/recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
-deleted file mode 100644
-index 805f799..0000000
---- a/recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From b9760919eb3f805dd3d2af5692b49cba9c468595 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Mon, 26 Nov 2018 02:39:59 -0500
--Subject: [PATCH] kdat: Don't open /run/criu.kdat if doesn't exists
--
--When CRIU is called for a first time and the /run/criu.kdat file does
--not exists, the following warning is shown:
--	Warn  (criu/kerndat.c:847): Can't load /run/criu.kdat
--
--This patch is replacing this warning with a more appropriate debug
--message.
--	File /run/criu.kdat does not exist
--
--Signed-off-by: Radostin Stoyanov <rstoyanov1@gmail.com>
--Signed-off-by: Andrei Vagin <avagin@virtuozzo.com>
--
--Upstream-Status: Backport [https://github.com/checkpoint-restore/criu/commit/868de91a099c00f099d8a41557d660d173f72521]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- criu/kerndat.c | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/criu/kerndat.c b/criu/kerndat.c
--index 8cb5690..9fb475c 100644
----- a/criu/kerndat.c
--+++ b/criu/kerndat.c
--@@ -789,7 +789,10 @@ static int kerndat_try_load_cache(void)
-- 
-- 	fd = open(KERNDAT_CACHE_FILE, O_RDONLY);
-- 	if (fd < 0) {
---		pr_warn("Can't load %s\n", KERNDAT_CACHE_FILE);
--+		if(ENOENT == errno)
--+			pr_debug("File %s does not exist\n", KERNDAT_CACHE_FILE);
--+		else
--+			pr_warn("Can't load %s\n", KERNDAT_CACHE_FILE);
-- 		return 1;
-- 	}
-- 
---- 
--2.8.1
--
+diff --git a/recipes-core/sysvinit/sysvinit-inittab_xen.inc b/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+index 9d0589c..4d56806 100644
+--- a/recipes-core/sysvinit/sysvinit-inittab_xen.inc
++++ b/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+@@ -1,4 +1 @@
+-do_install_append() {
+-                echo "" >> ${D}${sysconfdir}/inittab
+-                echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >> ${D}${sysconfdir}/inittab
+-}
++SERIAL_CONSOLES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' 115200;hvc0', '', d)}"
 -- 
 2.7.4
 
