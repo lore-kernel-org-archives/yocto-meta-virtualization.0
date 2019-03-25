@@ -1,19 +1,19 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DB018E00CBC; Sun, 24 Mar 2019 20:15:28 -0700 (PDT)
+	id D00ABE00D1B; Sun, 24 Mar 2019 20:15:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.167.67 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
@@ -21,46 +21,46 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      valid
 Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
 	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C669CE00D20
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 238C7E0091D
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 24 Mar 2019 20:15:26 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id u2so4897407lfd.4
+	Sun, 24 Mar 2019 20:15:39 -0700 (PDT)
+Received: by mail-lf1-f67.google.com with SMTP id b7so345647lfg.9
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 24 Mar 2019 20:15:26 -0700 (PDT)
+	Sun, 24 Mar 2019 20:15:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=iUP9rrzedQGHQb2/Smw5BCFHN38EOH6UoTNXpFuvOJM=;
-	b=pnQbciiF9IuwMgptDMslHHIp3T4dzsYEzMmVrjxeAFaQi8hRHAHsjbwsgPri5+g/HW
-	WP6bTBubaZLbuw43cjMOCg2EXTLnLRZQilPz0lmkoMAjtYDpmkS03IEyMEk1BEwuzMxS
-	pPGv1PKo16cYcvP9hxdMH5KhIOOMtetSBBCZG8M1f4MaLdi5/YahhfWluA7+SSxFzOEA
-	Jd7vVT4xTduLY/xwKw1r3TC5tTF0nt0mJfMkmpiOAOEOlOse62iWGrpAR9iYc5V+JZJa
-	cjM3sxD8KxaIEjQCfBQ9TnnQl+k5lvxrOmqnXXFawE82lLwt74qCyMzv9Z2hHnMR4Vpz
-	HK/g==
+	:cc; bh=9HK1uGp4QNWG6xYykWSTB/022BO+CGfiLue16A2x8gk=;
+	b=qANNnV28GjspQ6yiqdwTwmCwkZfv6sWaF3Ua35tffKw08yx+JPodqZLRqRzLA0zyKG
+	7y9anpCdI+NvgbzXP/s3edRNeTWpnPxB1bCY7roM5ebSowrbiMemWiffhuY5IXSrnJTm
+	In4y7GBGIWGwYP4q5/q4FSqOgzphNMQTkOf7hDFmBP+EXhABFnDqY+o1Ys3BnRUMftzA
+	k9xSg1JjTa2TPs7KrOPxN3KExA9HquyH+hmDwqJmtSC7yJAPDdeclqinWFOLWyd+WHYu
+	fC/E6VttzorGHhVXfj+2rWPxoahCUEEvaxDE3uyV+L7GF09XNHiofB5iDnbWw6rbds6Y
+	6Y2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=iUP9rrzedQGHQb2/Smw5BCFHN38EOH6UoTNXpFuvOJM=;
-	b=nVB/BNSt97YPyBDAYp6xjQWhY+p/nQyDNRx4JZU+kF6+1La5yNERWidkE5WInQP6pf
-	YGvkHuBnuTbS9hCcTdY6vGtO/VkraKv0dQHuBL1vkKtZDA371QNECGxfJ3e2wgSArl1q
-	btNRrlQA8EMXtEouysvgMMOq9KuF+Z8KbW44aKpk8PJesJlUSBWXGzMU91rJvvm7tvvq
-	wWlsCTK3QNYYwPs+Rrks67ZcLJY5nCzxU2duUImXLeZyOKPxDVaYe9baIZYWSElR5679
-	JnT92o6JrdnfxgLywy0q8ftUUQWT8WwPff0zEDgEhHLAD11iXkieWZqzTJb++ZSK2SaF
-	oOTA==
-X-Gm-Message-State: APjAAAVdwl8rsOTR1SBHyNq3cG84OwZkXGOdo0puxeXW1S8mXU17qmce
-	pHD+6n8s5w73y8lO0+wg1UQh98XM/42N+QqzKfqiJ9mi
-X-Google-Smtp-Source: APXvYqwkHp7eWVDYpK9Qd7M6+hjblFSc3FcGvASJCPavFniwh7dEb3X+kTrUznmoe0w9lp/E26Bs8AAeJi+EpOg749E=
-X-Received: by 2002:ac2:4554:: with SMTP id j20mr10778616lfm.112.1553483725713;
-	Sun, 24 Mar 2019 20:15:25 -0700 (PDT)
+	bh=9HK1uGp4QNWG6xYykWSTB/022BO+CGfiLue16A2x8gk=;
+	b=lR5DqW6NA0doyQztEHPrC+GYxq6AdBXu+nCkr6tXlz6sNsFftqCxB7pjy8Jerz2wLO
+	7cZUeCMZrKlr6duF407SRYpKEw55zM+OMSszrnCkW3TTpmgnz6jO3THwe+8TpgbpQ7f0
+	R0Kc4z3f8dFDolGlRIotlAtVVogW0xzXHF0W0J25VvmfkGwJ3UXxFB3NdsMQwS3g8QqN
+	LSQI9ywfMmq3GQ0RQS1AoIMcT4LJkk8oC7yRNwiXnAa+4wSSkB16temPoBOXpVvsuEAx
+	XOIGDf54h+Gk0/R+eHaI1xfS2bBGgCaujjCWO0JEH8KNYMSTo8gynnosIIkeWjfPk578
+	0gSg==
+X-Gm-Message-State: APjAAAVC/Uuv//bMoKYgrwA+ceEsUrxkzXP7LCAPkPh/mviItTJvku2Y
+	DiUZOrfRldffCIXmM51BdM0FZw/iHiHFE3StVeVYTD9/
+X-Google-Smtp-Source: APXvYqxE00qD2sgD29kA6F0v8zbtnM/RxnwWM3vxPRAtH5PQkY8kUYn/NloNzYSaoSxiDkEAJaJIutK27CIy7TY4YHo=
+X-Received: by 2002:a19:7914:: with SMTP id u20mr11844309lfc.41.1553483738218; 
+	Sun, 24 Mar 2019 20:15:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <1553234944-19534-1-git-send-email-dengke.du@windriver.com>
-In-Reply-To: <1553234944-19534-1-git-send-email-dengke.du@windriver.com>
+References: <1553283628-22488-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+In-Reply-To: <1553283628-22488-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 24 Mar 2019 23:15:14 -0400
-Message-ID: <CADkTA4NueGO78NSf9+Vci3DdNf_q2zB2sWWab5cgvkZfFveRcg@mail.gmail.com>
-To: Dengke Du <dengke.du@windriver.com>
+Date: Sun, 24 Mar 2019 23:15:27 -0400
+Message-ID: <CADkTA4N_4AqV74FeBPpGYNZz6+qFrqNJ-omgnoeAK3DSPDV52g@mail.gmail.com>
+To: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] criu: upgrade to 3.11
+Subject: Re: [PATCH] sysvinit-inittab_xen.inc: fix hypervisor console
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,95 +73,37 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Mar 2019 03:15:28 -0000
+X-List-Received-Date: Mon, 25 Mar 2019 03:15:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+On Sat, Mar 23, 2019 at 12:12 PM Manjukumar Matha
+<manjukumar.harthikote-matha@xilinx.com> wrote:
+>
+> This commit switches over to using existing SERIAL_CONSOLES mechanism
+> for hvc0 inittab entry generation.  This then results in
+> /bin/start_getty wrapper being used, which avoids the getty failure seen
+> when running a xen capable rootfs natively on linux.
+
+merged.
 
 Bruce
 
-On Fri, Mar 22, 2019 at 2:09 AM Dengke Du <dengke.du@windriver.com> wrote:
 >
-> Remove the following patch, because the 3.11 version already contain it.
->     0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
->
-> Signed-off-by: Dengke Du <dengke.du@windriver.com>
+> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
 > ---
->  recipes-containers/criu/criu_git.bb                |  5 ++-
->  ...on-t-open-run-criu.kdat-if-doesn-t-exists.patch | 42 ----------------------
->  2 files changed, 2 insertions(+), 45 deletions(-)
->  delete mode 100644 recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
+>  recipes-core/sysvinit/sysvinit-inittab_xen.inc | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
 >
-> diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-> index 123f6a3..c6981c9 100644
-> --- a/recipes-containers/criu/criu_git.bb
-> +++ b/recipes-containers/criu/criu_git.bb
-> @@ -13,15 +13,14 @@ EXCLUDE_FROM_WORLD = "1"
->
->  LIC_FILES_CHKSUM = "file://COPYING;md5=412de458544c1cb6a2b512cd399286e2"
->
-> -SRCREV = "c49eab368a68682475c4e693258246e04232e6d2"
-> -PV = "3.10+git${SRCPV}"
-> +SRCREV = "c74b83cd49c00589c0c0468ba5fe685b67fdbd0a"
-> +PV = "3.11+git${SRCPV}"
->
->  SRC_URI = "git://github.com/xemul/criu.git;protocol=git \
->             file://0001-criu-Fix-toolchain-hardcode.patch \
->             file://0002-criu-Skip-documentation-install.patch \
->             file://0001-criu-Change-libraries-install-directory.patch \
->             file://lib-Makefile-overwrite-install-lib-to-allow-multiarc.patch \
-> -           file://0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch \
->            "
->
->  COMPATIBLE_HOST = "(x86_64|arm|aarch64).*-linux"
-> diff --git a/recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch b/recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
-> deleted file mode 100644
-> index 805f799..0000000
-> --- a/recipes-containers/criu/files/0001-kdat-Don-t-open-run-criu.kdat-if-doesn-t-exists.patch
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -From b9760919eb3f805dd3d2af5692b49cba9c468595 Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> -Date: Mon, 26 Nov 2018 02:39:59 -0500
-> -Subject: [PATCH] kdat: Don't open /run/criu.kdat if doesn't exists
-> -
-> -When CRIU is called for a first time and the /run/criu.kdat file does
-> -not exists, the following warning is shown:
-> -       Warn  (criu/kerndat.c:847): Can't load /run/criu.kdat
-> -
-> -This patch is replacing this warning with a more appropriate debug
-> -message.
-> -       File /run/criu.kdat does not exist
-> -
-> -Signed-off-by: Radostin Stoyanov <rstoyanov1@gmail.com>
-> -Signed-off-by: Andrei Vagin <avagin@virtuozzo.com>
-> -
-> -Upstream-Status: Backport [https://github.com/checkpoint-restore/criu/commit/868de91a099c00f099d8a41557d660d173f72521]
-> -
-> -Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-> ----
-> - criu/kerndat.c | 5 ++++-
-> - 1 file changed, 4 insertions(+), 1 deletion(-)
-> -
-> -diff --git a/criu/kerndat.c b/criu/kerndat.c
-> -index 8cb5690..9fb475c 100644
-> ---- a/criu/kerndat.c
-> -+++ b/criu/kerndat.c
-> -@@ -789,7 +789,10 @@ static int kerndat_try_load_cache(void)
-> -
-> -       fd = open(KERNDAT_CACHE_FILE, O_RDONLY);
-> -       if (fd < 0) {
-> --              pr_warn("Can't load %s\n", KERNDAT_CACHE_FILE);
-> -+              if(ENOENT == errno)
-> -+                      pr_debug("File %s does not exist\n", KERNDAT_CACHE_FILE);
-> -+              else
-> -+                      pr_warn("Can't load %s\n", KERNDAT_CACHE_FILE);
-> -               return 1;
-> -       }
-> -
-> ---
-> -2.8.1
-> -
+> diff --git a/recipes-core/sysvinit/sysvinit-inittab_xen.inc b/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+> index 9d0589c..4d56806 100644
+> --- a/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+> +++ b/recipes-core/sysvinit/sysvinit-inittab_xen.inc
+> @@ -1,4 +1 @@
+> -do_install_append() {
+> -                echo "" >> ${D}${sysconfdir}/inittab
+> -                echo "X0:12345:respawn:/sbin/getty 115200 hvc0" >> ${D}${sysconfdir}/inittab
+> -}
+> +SERIAL_CONSOLES_append = "${@bb.utils.contains('DISTRO_FEATURES', 'xen', ' 115200;hvc0', '', d)}"
 > --
 > 2.7.4
 >
