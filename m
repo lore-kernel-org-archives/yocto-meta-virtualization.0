@@ -1,69 +1,60 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <cstein@samson.de>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F0611E00CD6; Sun,  7 Apr 2019 20:12:52 -0700 (PDT)
+	id 41C9AE00C44; Sun,  7 Apr 2019 23:56:48 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.68 listed in list.dnswl.org]
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 82F34E00B77
+	*      [95.131.99.72 listed in list.dnswl.org]
+Received: from mailgate.samson.ag (mailgate.samson.ag [95.131.99.72])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BDF42E009A0
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  7 Apr 2019 20:12:52 -0700 (PDT)
-Received: by mail-lf1-f68.google.com with SMTP id u24so1393191lfg.5
+	Sun,  7 Apr 2019 23:56:46 -0700 (PDT)
+Received: from mailgate.samson.ag (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 56EDDD0090
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 07 Apr 2019 20:12:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qQ9KxeyO6e5wmcP5pkHhVz/7qzcOQqr4K+yuLQYMhAk=;
-	b=HX2M7Q8DglLna2xnJiNZivFEQ88dUUVandV0W+YQjJfyO76Rfwd7GIHQb2PCpkCuEv
-	EJ1A4fNUwrXRdkwGxHX3uqCUMmq/qq2waEA+kANniJqjG00Ro0PEZoo1RM+xGD3iQA25
-	uk3l176PxgJqYqWg66fjs3jPvbXTWTyabPva8kdoTfsMJSpIKAS3CjIJXLMWcz9tMzGy
-	CjxtTCKGrvHd/YwfhL/id/hbsORiB7pqbWoFJtIWQs3sR1yMgAbK3rKPe13ErzzIGjr3
-	pz7ph8yoAAwBz0AERl8i9It0nIMDhmA1H4XpCokIb+pWqav4tdsh3jmcuVnOhY8YZlVO
-	9oGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qQ9KxeyO6e5wmcP5pkHhVz/7qzcOQqr4K+yuLQYMhAk=;
-	b=OSvX2hf293/PhuFCYh3o/v3a5DwIVyfeW3XTOrNx4CTM0H/GJDcspY3xdPbOij9rkY
-	V/974EDXvu9UaKgZ2OJTbD/Z3fUTVWxAUGKRpykgJX9mZR6h6vncMoGUkdS9rxeGghWm
-	+YO+mRFt7FxXYCgugBW90aOncqVEJeIPrO1f1w9IF01FLTgqMmHQFT4jRPUtnzRtHyGO
-	xgNZDynHsKFXfNWQfeVtPRu7/Ns0XFGejVPjLkHZ9UIRItR4oXQAKExCFYaOPEmJ2S3b
-	KQoTGl4E2lxOWQcTrh7dWjdkr8oZOADfWF7Mb6AT/WEOeOIqaFkdASvs+wpHezYP+gEW
-	gJ9A==
-X-Gm-Message-State: APjAAAWQLPzFuvnzWRRa96kiNSuK11Q2D+OKyKCoXlxHPEsTRJtxPH7w
-	cSzMxsbeMlrHr9XIV0yITbe26RjkhAdwXZbUmtoVZSDf
-X-Google-Smtp-Source: APXvYqz9nglgqUeIm1Nr7iibDR4K7NLd+Jcw5Ws3tq4NWR1SpQnPcnxfNGMPBVXKhUB9Qip3gXmvecxxvf2SqdVYC/s=
-X-Received: by 2002:a19:e003:: with SMTP id x3mr14294678lfg.66.1554693171379; 
-	Sun, 07 Apr 2019 20:12:51 -0700 (PDT)
+	Mon,  8 Apr 2019 08:56:45 +0200 (CEST)
+Received: from SV00182.samsongroup.intra (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4A5DED008F
+	for <meta-virtualization@yoctoproject.org>;
+	Mon,  8 Apr 2019 08:56:45 +0200 (CEST)
+Received: from smail2.samsongroup.intra (unknown [172.20.38.68])
+	by SV00182.samsongroup.intra (Postfix) with ESMTPS
+	for <meta-virtualization@yoctoproject.org>;
+	Mon,  8 Apr 2019 08:56:45 +0200 (CEST)
+Received: from SP00056.samsongroup.intra (nsmpx-intra.samsongroup.intra
+	[172.30.37.30]) by smail2.samsongroup.intra (Postfix) with ESMTPS
+	for <meta-virtualization@yoctoproject.org>;
+	Mon,  8 Apr 2019 08:56:45 +0200 (CEST)
+Received: from A400S102.samsongroup.intra (172.30.38.102) by
+	SP00056.samsongroup.intra (172.30.38.39) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Mon, 8 Apr 2019 08:56:44 +0200
+Received: from A400S102.samsongroup.intra ([fe80::e440:597e:d74d:6721]) by
+	A400S102.samsongroup.intra ([fe80::e440:597e:d74d:6721%20]) with mapi
+	id 15.00.1395.000; Mon, 8 Apr 2019 08:56:44 +0200
+From: "Stein, Christoph" <CStein@samson.de>
+To: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+Thread-Topic: [meta-virtualization] [PATCH] python3-docker-compose: upgrade to
+	1.21.2
+Thread-Index: AdTt1GYKhy74m2jGS6q05K6cpT4KrQ==
+Date: Mon, 8 Apr 2019 06:56:43 +0000
+Message-ID: <e5a5d6b7bd984f05bc7c7cdf6b7fda4c@A400S102.samsongroup.intra>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [172.30.37.30]
+x-tm-snts-smtp: B4CA808E7E0B47C67818CEDD95D78DCF61259F267F37E58ED62DD9ADC3B5D5182000:8
+x-exclaimer-md-config: 239fb7cf-dc1c-42df-8a6b-7e0668728443
 MIME-Version: 1.0
-References: <AM6PR08MB36060562D712E3220B157DDA8F500@AM6PR08MB3606.eurprd08.prod.outlook.com>
-In-Reply-To: <AM6PR08MB36060562D712E3220B157DDA8F500@AM6PR08MB3606.eurprd08.prod.outlook.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 7 Apr 2019 23:12:40 -0400
-Message-ID: <CADkTA4NirbuwMTw-ZpuSqz548qbUMZu-3rqw0Uk6Z8w2kRqQeA@mail.gmail.com>
-To: Filipe Rinaldi <Filipe.Rinaldi@arm.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>,
-	Sathees Balya <Sathees.Balya@arm.com>
-Subject: Re: Issues with 50cdecc sysvinit-inittab_xen.inc: fix hypervisor console
+X-TM-AS-GCONF: 00
+Subject: [PATCH] python3-docker-compose: upgrade to 1.21.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,67 +67,81 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 03:12:53 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Apr 2019 06:56:48 -0000
+Content-Language: de-DE
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, Apr 4, 2019 at 4:11 PM Filipe Rinaldi <Filipe.Rinaldi@arm.com> wrot=
-e:
->
-> Hi,
->
->
-> With regards commit "50cdecc sysvinit-inittab_xen.inc: fix hypervisor con=
-sole"...
->
->
-> We are having issues with this patch. When using start_getty (a wrapper t=
-o getty) it will first check if the console device is a "serial" device dri=
-ver [1]. It then fails because hvc0 is a "system" device, not a "serial" [2=
-].
->
->
-> [1] https://github.com/openembedded/openembedded-core/blob/master/meta/re=
-cipes-core/sysvinit/sysvinit-inittab/start_getty#L11
->
-> [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tr=
-ee/drivers/tty/hvc/hvc_console.c#n1036
->
->
-> Any thoughts?
-
-Can you confirm that if that check is removed that the console still
-functions as expected ?
-
-Rather than bouncing back and forth between fixing one issue, and
-creating another, I'm tempted to just bbappend and patch the
-problematic check out of the startup. But I'm not currently setup to
-test the issue.
-
-Bruce
-
->
->
-> Cheers,
->
-> Filipe
->
->
-> IMPORTANT NOTICE: The contents of this email and any attachments are conf=
-idential and may also be privileged. If you are not the intended recipient,=
- please notify the sender immediately and do not disclose the contents to a=
-ny other person, use it for any purpose, or store or copy the information i=
-n any medium. Thank you.
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+SGksDQoNCndoaWxlIHVwZGF0aW5nIGEgcHJvamVjdCB0byAyLjYgKHRodWQpIEkgZW5jb3VudGVy
+ZWQgYSBwcm9ibGVtIHJ1bm5pbmcgZG9ja2VyLWNvbXBvc2U6IFRoZSBpbWFnZSBidWlsZHMgYW5k
+IGJvb3RzIHVwIHdpdGhvdXQgcHJvYmxlbXMuIEJ1dCBvbmNlIHdlIHRyeSB0byBydW4gZG9ja2Vy
+LWNvbXBvc2Ugb24gdGhlIHRhcmdldCBpdCBjb21wbGFpbnMgdGhhdCB0aGUgcHl0aG9uMy1kb2Nr
+ZXIgdmVyc2lvbiBkb2VzIG5vdCBmaXQuDQoNCi0gU2VlbWluZ2x5IGRvY2tlci1jb21wb3NlIChy
+ZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyLWNvbXBvc2UvcHl0aG9uMy1kb2NrZXItY29tcG9zZV8x
+LjE2LjEuYmIpIGV4cGVjdHMgYSBweXRob24zLWRvY2tlciB2ZXJzaW9uIHJhbmdpbmcgZnJvbSAy
+LjUuMSB0byAzLjAuDQotIFNpbmNlIHRoZSBpbmNsdWRlZCBweXRob24zLWRvY2tlciB2ZXJzaW9u
+IGlzIDMuNC4wIChyZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWRvY2tlcl8zLjQuMC5i
+YikgdGhpcyBpcyBvdXQgb2YgcmFuZ2UgYW5kIGxlYWRzIHRvIGRvY2tlci1jb21wb3NlIGNvbXBs
+YWluaW5nLg0KDQpTbyBpdCBzZWVtcyB0byBiZSBhIHByb2JsZW0gd2l0aCBweXRob24gcGFja2Fn
+ZSB2ZXJzaW9ucyBub3QgZml0dGluZyBpbnNpZGUgdGhlIG1ldGEtdmlydHVhbGl6YXRpb24gbGF5
+ZXIuIE5vdCBiZWluZyBhIHB5dGhvbiBleHBlcnQsIGJ1dCBJIHdhcyBhYmxlIHRvIGZpeCB0aGlz
+IHdpdGggdXBkYXRpbmcgcHl0aG9uMy1kb2NrZXItY29tcG9zZSB0byAxLjIxLjIuIEFsc28gaGFk
+IHRvIGFkYXB0IFBhc2NhbCBCYWNocyBwYXRjaCB0byBmaXggdGhlIHJlcXVlc3RzIHZlcnNpb24g
+KG5vdCBzdXJlIGlmIHBhdGNoaW5nIGEgcGF0Y2ggaXMgdGhlIHdheSB0byBnb+KApikuDQoNClBs
+ZWFzZSBleGN1c2UgdGhlIHBhdGNoIGZvcm1hdCwgZ2l0IHNlbmQtZW1haWwgaXMgbm90IGF2YWls
+YWJsZSB0byBtZSByaWdodCBub3cuDQoNCg0KZGlmZiAtLWdpdCBhL3JlY2lwZXMtY29udGFpbmVy
+cy9kb2NrZXItY29tcG9zZS9maWxlcy8wMDAxLUFsbG93LW5ld2VyLXZlcnNpb25zLW9mLXJlcXVl
+c3RzLnBhdGNoIGIvcmVjaXBlcy1jb250YWluZXJzL2RvY2tlci1jb21wb3NlL2ZpbGVzLzAwMDEt
+QWxsb3ctbmV3ZXItdmVyc2lvbnMtb2YtcmVxdWVzdHMucGF0Y2gNCmluZGV4IDZmYzdiYjQuLmUz
+MzI5ZmUgMTAwNjQ0DQotLS0gYS9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyLWNvbXBvc2UvZmls
+ZXMvMDAwMS1BbGxvdy1uZXdlci12ZXJzaW9ucy1vZi1yZXF1ZXN0cy5wYXRjaA0KKysrIGIvcmVj
+aXBlcy1jb250YWluZXJzL2RvY2tlci1jb21wb3NlL2ZpbGVzLzAwMDEtQWxsb3ctbmV3ZXItdmVy
+c2lvbnMtb2YtcmVxdWVzdHMucGF0Y2gNCkBAIC0yMiw4ICsyMiw4IEBAIGluZGV4IDE5MmEwZjYu
+LmY0NDQ3NTcgMTAwNjQ0DQogICAgICAnY2FjaGVkLXByb3BlcnR5ID49IDEuMi4wLCA8IDInLA0K
+ICAgICAgJ2RvY29wdCA+PSAwLjYuMSwgPCAwLjcnLA0KICAgICAgJ1B5WUFNTCA+PSAzLjEwLCA8
+IDQnLA0KLS0gICAgJ3JlcXVlc3RzID49IDIuNi4xLCAhPSAyLjExLjAsIDwgMi4xMicsDQotKyAg
+ICAncmVxdWVzdHMgPj0gMi42LjEsICE9IDIuMTEuMCcsDQorLSAgICAncmVxdWVzdHMgPj0gMi42
+LjEsICE9IDIuMTEuMCwgIT0gMi4xMi4yLCAhPSAyLjE4LjAsIDwgMi4xOScsDQorKyAgICAncmVx
+dWVzdHMgPj0gMi42LjEsICE9IDIuMTEuMCwgIT0gMi4xMi4yLCAhPSAyLjE4LjAnLA0KICAgICAg
+J3RleHR0YWJsZSA+PSAwLjkuMCwgPCAwLjEwJywNCiAgICAgICd3ZWJzb2NrZXQtY2xpZW50ID49
+IDAuMzIuMCwgPCAxLjAnLA0KICAgICAgJ2RvY2tlciA+PSAyLjUuMSwgPCAzLjAnLA0KZGlmZiAt
+LWdpdCBhL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRob24zLWRvY2tlci1j
+b21wb3NlXzEuMTYuMS5iYiBiL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRo
+b24zLWRvY2tlci1jb21wb3NlXzEuMjEuMi5iYg0Kc2ltaWxhcml0eSBpbmRleCA4NCUNCnJlbmFt
+ZSBmcm9tIHJlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRob24zLWRvY2tlci1j
+b21wb3NlXzEuMTYuMS5iYg0KcmVuYW1lIHRvIHJlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29t
+cG9zZS9weXRob24zLWRvY2tlci1jb21wb3NlXzEuMjEuMi5iYg0KaW5kZXggODUxYzI1MS4uYjI1
+MWFmOSAxMDA2NDQNCi0tLSBhL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRo
+b24zLWRvY2tlci1jb21wb3NlXzEuMTYuMS5iYg0KKysrIGIvcmVjaXBlcy1jb250YWluZXJzL2Rv
+Y2tlci1jb21wb3NlL3B5dGhvbjMtZG9ja2VyLWNvbXBvc2VfMS4yMS4yLmJiDQpAQCAtNyw4ICs3
+LDggQEAgU1JDX1VSSSArPSAiZmlsZTovLzAwMDEtQWxsb3ctbmV3ZXItdmVyc2lvbnMtb2YtcmVx
+dWVzdHMucGF0Y2giDQoNCiBpbmhlcml0IHB5cGkgc2V0dXB0b29sczMNCg0KLVNSQ19VUklbbWQ1
+c3VtXSA9ICI4ZGNhZGYwOTE0MzYwMGZjYjU3M2I0M2Y0NDZjOGY5YSINCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiZmI0NmE2YTJjNGQxOTNhM2ZmMWU0ZDcyMDhlZWE5MjBiNjI5YzgxZGM5MjI1N2M4
+N2YzZjkzMDk1Y2ZiMGJkZiINCitTUkNfVVJJW21kNXN1bV0gPSAiYTI0M2Y1OWIyZDI4NmM0MWZm
+NmVkMWM0ZDRiNTA5OTYiDQorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY4YjA3MTkzNzU1NDQwZDVm
+OGQ0ZjQ3ZTZmMzQ4NDIxMmFmYzI1NWQ1Yjc4NWE4MTM1M2VhMWU5Mjk4YzFjMmMiDQoNCiBSREVQ
+RU5EU18ke1BOfSA9ICJcDQogICAke1BZVEhPTl9QTn0tY2FjaGVkLXByb3BlcnR5IFwNCg0KDQpC
+ZXN0IHJlZ2FyZHMsDQpDaHJpc3RvcGggU3RlaW4NCg0KDQpTQU1TT04gQUtUSUVOR0VTRUxMU0NI
+QUZUDQpTaXR6IGRlciBHZXNlbGxzY2hhZnQ6IEZyYW5rZnVydCBhbSBNYWluDQpSZWdpc3Rlcmdl
+cmljaHQ6IEFtdHNnZXJpY2h0IEZyYW5rZnVydCBhbSBNYWluLCBOci4gSFJCIDcxMzENClZvcnNp
+dHplbmRlciBkZXMgQXVmc2ljaHRzcmF0ZXM6IERyLiBOaWtvbGF1cyBIZW5zZWwNClZvcnN0YW5k
+OiBEci4gQW5kcmVhcyBXaWRsIChWb3JzLiksIFJhdWwgRnVjaHMsIERyLiBJbmdvIEtvY2gsIERy
+LiBUaG9tYXMgU3RlY2tlbnJlaXRlcg0KDQpEZXIgSW5oYWx0IGRpZXNlciBOYWNocmljaHQgaXN0
+IHZlcnRyYXVsaWNoIHVuZCBudXIgZsO8ciBkZW4gYW5nZWdlYmVuZW4gRW1wZsOkbmdlciBiZXN0
+aW1tdC4NCkplZGUgRm9ybSBkZXIgS2VubnRuaXNuYWhtZSBkdXJjaCBEcml0dGUgb2RlciBkZXIg
+V2VpdGVyZ2FiZSBhbiBEcml0dGUgaXN0IHVuenVsw6Rzc2lnLg0KU29sbHRlIGRpZXNlIE5hY2hy
+aWNodCBuaWNodCBmw7xyIFNpZSBiZXN0aW1tdCBzZWluLCBzbyBiaXR0ZW4gd2lyIFNpZSwgc2lj
+aCBtaXQgdW5zIHBlciBFLU1haWwgb2RlciB0ZWxlZm9uaXNjaCBpbiBWZXJiaW5kdW5nIHp1IHNl
+dHplbi4NCg0KDQpTQU1TT04gQUtUSUVOR0VTRUxMU0NIQUZUDQpSZWdpc3RlcmVkIE9mZmljZTog
+RnJhbmtmdXJ0IGFtIE1haW4NCkNvdXJ0IG9mIHJlZ2lzdHJhdGlvbjogTG9jYWwgRGlzdHJpY3Qg
+Q291cnQgRnJhbmtmdXJ0IGFtIE1haW4sIG5vLiBIUkIgNzEzMQ0KQ2hhaXJtYW4gb2YgdGhlIFN1
+cGVydmlzb3J5IEJvYXJkOiBEci4gTmlrb2xhdXMgSGVuc2VsDQpFeGVjdXRpdmUgQm9hcmQ6IERy
+LiBBbmRyZWFzIFdpZGwgKENoYWlybWFuKSwgUmF1bCBGdWNocywgRHIuIEluZ28gS29jaCwgRHIu
+IFRob21hcyBTdGVja2VucmVpdGVyDQoNClRoZSBjb250ZW50IG9mIHRoaXMgbWVzc2FnZSBpcyBj
+b25maWRlbnRpYWwgYW5kIGludGVuZGVkIG9ubHkgZm9yIHRoZSByZWNpcGllbnQgaW5kaWNhdGVk
+Lg0KVGFraW5nIG5vdGljZSBvZiB0aGlzIG1lc3NhZ2Ugb3IgZGlzY2xvc3VyZSBieSB0aGlyZCBw
+YXJ0aWVzIGlzIG5vdCBwZXJtaXR0ZWQuDQpJbiB0aGUgZXZlbnQgdGhhdCB0aGlzIG1lc3NhZ2Ug
+aXMgbm90IGludGVuZGVkIGZvciB5b3UsIHBsZWFzZSBjb250YWN0IHVzIHZpYSBlLW1haWwgb3Ig
+cGhvbmUuDQo=
 
