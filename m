@@ -1,55 +1,70 @@
-Return-Path: <pascal.bach@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C583BE00C43; Mon,  8 Apr 2019 03:43:34 -0700 (PDT)
+	id 6FE4AE00B77; Mon,  8 Apr 2019 04:34:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at https://www.dnswl.org/,
-	high *      trust
-	*      [194.138.37.39 listed in list.dnswl.org]
-X-Greylist: delayed 855 seconds by postgrey-1.32 at yocto-www;
-	Mon, 08 Apr 2019 03:43:32 PDT
-Received: from lizzard.sbs.de (lizzard.sbs.de [194.138.37.39])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1C89FE00BB7
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.68 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 86811E00A54
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  8 Apr 2019 03:43:32 -0700 (PDT)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by lizzard.sbs.de (8.15.2/8.15.2) with ESMTPS id x38ATGS5012730
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 8 Apr 2019 12:29:16 +0200
-Received: from DEFTHW99ERHMSX.ww902.siemens.net
-	(defthw99erhmsx.ww902.siemens.net [139.22.70.133])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTPS id x38ASjSW014678
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Mon, 8 Apr 2019 12:29:15 +0200
-Received: from DENBGAT9ER2MSX.ww902.siemens.net (139.22.70.79) by
-	DEFTHW99ERHMSX.ww902.siemens.net (139.22.70.133) with Microsoft SMTP
-	Server (TLS) id 14.3.435.0; Mon, 8 Apr 2019 12:29:10 +0200
-Received: from DENBGAT9EL2MSX.ww902.siemens.net ([169.254.9.89]) by
-	DENBGAT9ER2MSX.ww902.siemens.net ([139.22.70.79]) with mapi id
-	14.03.0435.000; Mon, 8 Apr 2019 12:29:09 +0200
-From: "Bach, Pascal" <pascal.bach@siemens.com>
-To: "Stein, Christoph" <CStein@samson.de>,
-	"meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Thread-Topic: [meta-virtualization] [PATCH] python3-docker-compose: upgrade
-	to 1.21.2
-Thread-Index: AdTt1GYKhy74m2jGS6q05K6cpT4KrQAISr7w
-Date: Mon, 8 Apr 2019 10:29:09 +0000
-Message-ID: <355BE46A91031048906B695426A8D8E62EA33C22@DENBGAT9EL2MSX.ww902.siemens.net>
-References: <e5a5d6b7bd984f05bc7c7cdf6b7fda4c@A400S102.samsongroup.intra>
-In-Reply-To: <e5a5d6b7bd984f05bc7c7cdf6b7fda4c@A400S102.samsongroup.intra>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-document-confidentiality: NotClassified
-x-originating-ip: [139.22.70.26]
+	Mon,  8 Apr 2019 04:34:14 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id o19so9201014lfl.4
+	for <meta-virtualization@yoctoproject.org>;
+	Mon, 08 Apr 2019 04:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=qyFniQwsmRBBPS6lgC9qMoaTmgG/Rm08sOnAPZpn+G0=;
+	b=OGk06wW70CjPZHhGGcCypzOdPGC1yQOUEQa+WXQmloXu5YXIJtyySLeCfHfbAOow39
+	rzUjzT1xRpl6RO2HRisvsyVko+WsQEWu5V4RVxmtPBejC0LwHUmCFHh68K1VxpmpXeSV
+	LrS5vGmckZ3qPZ4l05WL1tCo5C0joIMRHeEa0yaVErTJ6C14yavNJo23c5Yv7l3xw0ZW
+	sYaiNo7p5qS+uDuLQAsE8lgVgretGRF+8XZwEVcznrvAQ8pfhJ6mMf7/192AzM5OKzd0
+	ndHxKCazSOGMrg4ZAthD77KUiZj9o5l+PXT+sEIdDg1Da9qjZwH25LPQwD4W55CGbOOb
+	F0/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=qyFniQwsmRBBPS6lgC9qMoaTmgG/Rm08sOnAPZpn+G0=;
+	b=nhA4x1RESiktK4CO/VO4OEHxbiV6br3CKCkbYa2I3PzUl87yCyYUiAuFn+lP0kkqDw
+	0nkGLKI61gTKVHOK00iiSmqKcPCNPCxiG2AMobNh0rC6JCXdPjQo67rwQ5B3ni7mAx70
+	iZuQvpKWmIuNGcXYBgYTGctY62HgLrRiTiuv2DSL5B8XxJCDCYxQ8cgIN4NK04qX1u0+
+	agtLmuvxxkTBDBDsGTMDrjq9SX9L67O8pPxTavl+RxaEof3U2rDJhh5UzL3/uODSFd0X
+	1SsL2nj501cyxMsDX6BCIGi2+4em0mEadWxz6IsoJxia7k0wcUtw1QYqu9JsZNf2jr7M
+	hYKA==
+X-Gm-Message-State: APjAAAVWyQUM2GzTxTrbhTQnP2BnVB+yUx2EkHJAtqZLNak7MScBmVZq
+	enC1bGus8eKmQmlaW5P8Wt5cW1hlEkZoHLXy9D/yC+gt
+X-Google-Smtp-Source: APXvYqwnOFvXmNdwTB7wMcq8YVCinD39oTAH2jZF06LQXlaAROeSgW+qOH+cq+0iaKXBpLz5K6q6Z/udpRusOCUHh2Q=
+X-Received: by 2002:a19:e30b:: with SMTP id a11mr3699608lfh.4.1554723253380;
+	Mon, 08 Apr 2019 04:34:13 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] python3-docker-compose: upgrade to 1.21.2
+References: <AM6PR08MB36060562D712E3220B157DDA8F500@AM6PR08MB3606.eurprd08.prod.outlook.com>
+	<CADkTA4NirbuwMTw-ZpuSqz548qbUMZu-3rqw0Uk6Z8w2kRqQeA@mail.gmail.com>
+	<CF877014-38CB-405B-9DCB-99E957BA0339@arm.com>
+In-Reply-To: <CF877014-38CB-405B-9DCB-99E957BA0339@arm.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 8 Apr 2019 07:34:01 -0400
+Message-ID: <CADkTA4MwZoAEpNpm2bLtziN=vUrWCWMkkDJawxm9Zcr4Z6nXDQ@mail.gmail.com>
+To: Sathees Balya <Sathees.Balya@arm.com>
+Cc: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>, nd <nd@arm.com>
+Subject: Re: Issues with 50cdecc sysvinit-inittab_xen.inc: fix hypervisor console
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,91 +77,100 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 10:43:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 08 Apr 2019 11:34:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-DQogDQogDQo+IHdoaWxlIHVwZGF0aW5nIGEgcHJvamVjdCB0byAyLjYgKHRodWQpIEkgZW5jb3Vu
-dGVyZWQgYSBwcm9ibGVtIHJ1bm5pbmcNCj4gZG9ja2VyLWNvbXBvc2U6IFRoZSBpbWFnZSBidWls
-ZHMgYW5kIGJvb3RzIHVwIHdpdGhvdXQgcHJvYmxlbXMuIEJ1dCBvbmNlDQo+IHdlIHRyeSB0byBy
-dW4gZG9ja2VyLWNvbXBvc2Ugb24gdGhlIHRhcmdldCBpdCBjb21wbGFpbnMgdGhhdCB0aGUgcHl0
-aG9uMy0NCj4gZG9ja2VyIHZlcnNpb24gZG9lcyBub3QgZml0Lg0KPiANCj4gLSBTZWVtaW5nbHkg
-ZG9ja2VyLWNvbXBvc2UgKHJlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRob24z
-LQ0KPiBkb2NrZXItY29tcG9zZV8xLjE2LjEuYmIpIGV4cGVjdHMgYSBweXRob24zLWRvY2tlciB2
-ZXJzaW9uIHJhbmdpbmcgZnJvbQ0KPiAyLjUuMSB0byAzLjAuDQo+IC0gU2luY2UgdGhlIGluY2x1
-ZGVkIHB5dGhvbjMtZG9ja2VyIHZlcnNpb24gaXMgMy40LjAgKHJlY2lwZXMtDQo+IGRldnRvb2xz
-L3B5dGhvbi9weXRob24zLWRvY2tlcl8zLjQuMC5iYikgdGhpcyBpcyBvdXQgb2YgcmFuZ2UgYW5k
-IGxlYWRzIHRvDQo+IGRvY2tlci1jb21wb3NlIGNvbXBsYWluaW5nLg0KPiANCj4gU28gaXQgc2Vl
-bXMgdG8gYmUgYSBwcm9ibGVtIHdpdGggcHl0aG9uIHBhY2thZ2UgdmVyc2lvbnMgbm90IGZpdHRp
-bmcgaW5zaWRlDQo+IHRoZSBtZXRhLXZpcnR1YWxpemF0aW9uIGxheWVyLiBOb3QgYmVpbmcgYSBw
-eXRob24gZXhwZXJ0LCBidXQgSSB3YXMgYWJsZSB0byBmaXgNCj4gdGhpcyB3aXRoIHVwZGF0aW5n
-IHB5dGhvbjMtZG9ja2VyLWNvbXBvc2UgdG8gMS4yMS4yLiBBbHNvIGhhZCB0byBhZGFwdA0KPiBQ
-YXNjYWwgQmFjaHMgcGF0Y2ggdG8gZml4IHRoZSByZXF1ZXN0cyB2ZXJzaW9uIChub3Qgc3VyZSBp
-ZiBwYXRjaGluZyBhIHBhdGNoIGlzDQo+IHRoZSB3YXkgdG8gZ2/igKYpLg0KDQpCZXN0IHdvdWxk
-IGJlIHRvIHRlc3QgaWYgdGhlIG5ldyB2ZXJzaW9uIHJlc3RyaWN0aW9uIHdvcmtzIGFuZCB0aGVu
-IHN1Ym1pdCB0aGUgY2hhbmdlIHVwc3RyZWFtLg0KDQpJcyB0aGVyZSBhIHJlYXNvbiB5b3UgZGlk
-IHVwZGF0ZSB0byAxLjIxLjIgYW5kIG5vdCAxLjI0LjA/DQoNCj4gUGxlYXNlIGV4Y3VzZSB0aGUg
-cGF0Y2ggZm9ybWF0LCBnaXQgc2VuZC1lbWFpbCBpcyBub3QgYXZhaWxhYmxlIHRvIG1lIHJpZ2h0
-DQo+IG5vdy4NCj4gDQo+IA0KPiBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1jb250YWluZXJzL2RvY2tl
-ci1jb21wb3NlL2ZpbGVzLzAwMDEtQWxsb3ctbmV3ZXItDQo+IHZlcnNpb25zLW9mLXJlcXVlc3Rz
-LnBhdGNoIGIvcmVjaXBlcy1jb250YWluZXJzL2RvY2tlci0NCj4gY29tcG9zZS9maWxlcy8wMDAx
-LUFsbG93LW5ld2VyLXZlcnNpb25zLW9mLXJlcXVlc3RzLnBhdGNoDQo+IGluZGV4IDZmYzdiYjQu
-LmUzMzI5ZmUgMTAwNjQ0DQo+IC0tLSBhL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9z
-ZS9maWxlcy8wMDAxLUFsbG93LW5ld2VyLXZlcnNpb25zLQ0KPiBvZi1yZXF1ZXN0cy5wYXRjaA0K
-PiArKysgYi9yZWNpcGVzLWNvbnRhaW5lcnMvZG9ja2VyLWNvbXBvc2UvZmlsZXMvMDAwMS1BbGxv
-dy1uZXdlci0NCj4gdmVyc2lvbnMtDQo+ICsrKyBvZi1yZXF1ZXN0cy5wYXRjaA0KPiBAQCAtMjIs
-OCArMjIsOCBAQCBpbmRleCAxOTJhMGY2Li5mNDQ0NzU3IDEwMDY0NA0KPiAgICAgICAnY2FjaGVk
-LXByb3BlcnR5ID49IDEuMi4wLCA8IDInLA0KPiAgICAgICAnZG9jb3B0ID49IDAuNi4xLCA8IDAu
-NycsDQo+ICAgICAgICdQeVlBTUwgPj0gMy4xMCwgPCA0JywNCj4gLS0gICAgJ3JlcXVlc3RzID49
-IDIuNi4xLCAhPSAyLjExLjAsIDwgMi4xMicsDQo+IC0rICAgICdyZXF1ZXN0cyA+PSAyLjYuMSwg
-IT0gMi4xMS4wJywNCj4gKy0gICAgJ3JlcXVlc3RzID49IDIuNi4xLCAhPSAyLjExLjAsICE9IDIu
-MTIuMiwgIT0gMi4xOC4wLCA8IDIuMTknLA0KPiArKyAgICAncmVxdWVzdHMgPj0gMi42LjEsICE9
-IDIuMTEuMCwgIT0gMi4xMi4yLCAhPSAyLjE4LjAnLA0KPiAgICAgICAndGV4dHRhYmxlID49IDAu
-OS4wLCA8IDAuMTAnLA0KPiAgICAgICAnd2Vic29ja2V0LWNsaWVudCA+PSAwLjMyLjAsIDwgMS4w
-JywNCj4gICAgICAgJ2RvY2tlciA+PSAyLjUuMSwgPCAzLjAnLA0KPiBkaWZmIC0tZ2l0IGEvcmVj
-aXBlcy1jb250YWluZXJzL2RvY2tlci1jb21wb3NlL3B5dGhvbjMtZG9ja2VyLQ0KPiBjb21wb3Nl
-XzEuMTYuMS5iYiBiL3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRob24zLWRv
-Y2tlci0NCj4gY29tcG9zZV8xLjIxLjIuYmINCj4gc2ltaWxhcml0eSBpbmRleCA4NCUNCj4gcmVu
-YW1lIGZyb20gcmVjaXBlcy1jb250YWluZXJzL2RvY2tlci1jb21wb3NlL3B5dGhvbjMtZG9ja2Vy
-LQ0KPiBjb21wb3NlXzEuMTYuMS5iYg0KPiByZW5hbWUgdG8gcmVjaXBlcy1jb250YWluZXJzL2Rv
-Y2tlci1jb21wb3NlL3B5dGhvbjMtZG9ja2VyLQ0KPiBjb21wb3NlXzEuMjEuMi5iYg0KPiBpbmRl
-eCA4NTFjMjUxLi5iMjUxYWY5IDEwMDY0NA0KPiAtLS0gYS9yZWNpcGVzLWNvbnRhaW5lcnMvZG9j
-a2VyLWNvbXBvc2UvcHl0aG9uMy1kb2NrZXItDQo+IGNvbXBvc2VfMS4xNi4xLmJiDQo+ICsrKyBi
-L3JlY2lwZXMtY29udGFpbmVycy9kb2NrZXItY29tcG9zZS9weXRob24zLWRvY2tlci0NCj4gY29t
-cG9zZV8xLjIxLjIuYmINCj4gQEAgLTcsOCArNyw4IEBAIFNSQ19VUkkgKz0gImZpbGU6Ly8wMDAx
-LUFsbG93LW5ld2VyLXZlcnNpb25zLW9mLQ0KPiByZXF1ZXN0cy5wYXRjaCINCj4gDQo+ICBpbmhl
-cml0IHB5cGkgc2V0dXB0b29sczMNCj4gDQo+IC1TUkNfVVJJW21kNXN1bV0gPSAiOGRjYWRmMDkx
-NDM2MDBmY2I1NzNiNDNmNDQ2YzhmOWEiDQo+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiZmI0
-NmE2YTJjNGQxOTNhM2ZmMWU0ZDcyMDhlZWE5MjBiNjI5YzgxZGM5MjI1N2M4N2YzZjkzMDk1Y2Zi
-MGJkZiINCj4gK1NSQ19VUklbbWQ1c3VtXSA9ICJhMjQzZjU5YjJkMjg2YzQxZmY2ZWQxYzRkNGI1
-MDk5NiINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICI2OGIwNzE5Mzc1NTQ0MGQ1ZjhkNGY0
-N2U2ZjM0ODQyMTJhZmMyNTVkNWI3ODVhODEzNTNlYTFlOTI5OGMxYzJjIg0KPiANCj4gIFJERVBF
-TkRTXyR7UE59ID0gIlwNCj4gICAgJHtQWVRIT05fUE59LWNhY2hlZC1wcm9wZXJ0eSBcDQo+IA0K
-PiANCj4gQmVzdCByZWdhcmRzLA0KPiBDaHJpc3RvcGggU3RlaW4NCj4gDQo+IA0KPiBTQU1TT04g
-QUtUSUVOR0VTRUxMU0NIQUZUDQo+IFNpdHogZGVyIEdlc2VsbHNjaGFmdDogRnJhbmtmdXJ0IGFt
-IE1haW4NCj4gUmVnaXN0ZXJnZXJpY2h0OiBBbXRzZ2VyaWNodCBGcmFua2Z1cnQgYW0gTWFpbiwg
-TnIuIEhSQiA3MTMxIFZvcnNpdHplbmRlcg0KPiBkZXMgQXVmc2ljaHRzcmF0ZXM6IERyLiBOaWtv
-bGF1cyBIZW5zZWwNCj4gVm9yc3RhbmQ6IERyLiBBbmRyZWFzIFdpZGwgKFZvcnMuKSwgUmF1bCBG
-dWNocywgRHIuIEluZ28gS29jaCwgRHIuIFRob21hcw0KPiBTdGVja2VucmVpdGVyDQo+IA0KPiBE
-ZXIgSW5oYWx0IGRpZXNlciBOYWNocmljaHQgaXN0IHZlcnRyYXVsaWNoIHVuZCBudXIgZsO8ciBk
-ZW4gYW5nZWdlYmVuZW4NCj4gRW1wZsOkbmdlciBiZXN0aW1tdC4NCj4gSmVkZSBGb3JtIGRlciBL
-ZW5udG5pc25haG1lIGR1cmNoIERyaXR0ZSBvZGVyIGRlciBXZWl0ZXJnYWJlIGFuIERyaXR0ZSBp
-c3QNCj4gdW56dWzDpHNzaWcuDQo+IFNvbGx0ZSBkaWVzZSBOYWNocmljaHQgbmljaHQgZsO8ciBT
-aWUgYmVzdGltbXQgc2Vpbiwgc28gYml0dGVuIHdpciBTaWUsIHNpY2ggbWl0DQo+IHVucyBwZXIg
-RS1NYWlsIG9kZXIgdGVsZWZvbmlzY2ggaW4gVmVyYmluZHVuZyB6dSBzZXR6ZW4uDQo+IA0KPiAN
-Cj4gU0FNU09OIEFLVElFTkdFU0VMTFNDSEFGVA0KPiBSZWdpc3RlcmVkIE9mZmljZTogRnJhbmtm
-dXJ0IGFtIE1haW4NCj4gQ291cnQgb2YgcmVnaXN0cmF0aW9uOiBMb2NhbCBEaXN0cmljdCBDb3Vy
-dCBGcmFua2Z1cnQgYW0gTWFpbiwgbm8uIEhSQiA3MTMxDQo+IENoYWlybWFuIG9mIHRoZSBTdXBl
-cnZpc29yeSBCb2FyZDogRHIuIE5pa29sYXVzIEhlbnNlbCBFeGVjdXRpdmUgQm9hcmQ6IERyLg0K
-PiBBbmRyZWFzIFdpZGwgKENoYWlybWFuKSwgUmF1bCBGdWNocywgRHIuIEluZ28gS29jaCwgRHIu
-IFRob21hcw0KPiBTdGVja2VucmVpdGVyDQo+IA0KPiBUaGUgY29udGVudCBvZiB0aGlzIG1lc3Nh
-Z2UgaXMgY29uZmlkZW50aWFsIGFuZCBpbnRlbmRlZCBvbmx5IGZvciB0aGUNCj4gcmVjaXBpZW50
-IGluZGljYXRlZC4NCj4gVGFraW5nIG5vdGljZSBvZiB0aGlzIG1lc3NhZ2Ugb3IgZGlzY2xvc3Vy
-ZSBieSB0aGlyZCBwYXJ0aWVzIGlzIG5vdCBwZXJtaXR0ZWQuDQo+IEluIHRoZSBldmVudCB0aGF0
-IHRoaXMgbWVzc2FnZSBpcyBub3QgaW50ZW5kZWQgZm9yIHlvdSwgcGxlYXNlIGNvbnRhY3QgdXMg
-dmlhDQo+IGUtbWFpbCBvciBwaG9uZS4NCj4gLS0NCj4gX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX18NCj4gbWV0YS12aXJ0dWFsaXphdGlvbiBtYWlsaW5nIGxp
-c3QNCj4gbWV0YS12aXJ0dWFsaXphdGlvbkB5b2N0b3Byb2plY3Qub3JnDQo+IGh0dHBzOi8vbGlz
-dHMueW9jdG9wcm9qZWN0Lm9yZy9saXN0aW5mby9tZXRhLXZpcnR1YWxpemF0aW9uDQo=
+On Mon, Apr 8, 2019 at 7:26 AM Sathees Balya <Sathees.Balya@arm.com> wrote:
+>
+> Hi Bruce,
+>
+> We reverted the commit "50cdecca7b2a0e1bb5eacbec132f26b802f950fc" and the=
+ console starts as expected. Thanks.
+>
+
+We had already established that without the commit things start, they
+were starting before we made that
+change. It was for fixing a different issue and for standardizing on
+the use of the variable.
+
+I'm trying to find out if we change the startup check, if the console
+still works.
+
+Bruce
+
+>
+> Regards,
+> Sathees
+>
+> =EF=BB=BFOn 08/04/2019, 04:12, "Bruce Ashfield" <bruce.ashfield@gmail.com=
+> wrote:
+>
+>     On Thu, Apr 4, 2019 at 4:11 PM Filipe Rinaldi <Filipe.Rinaldi@arm.com=
+> wrote:
+>     >
+>     > Hi,
+>     >
+>     >
+>     > With regards commit "50cdecc sysvinit-inittab_xen.inc: fix hypervis=
+or console"...
+>     >
+>     >
+>     > We are having issues with this patch. When using start_getty (a wra=
+pper to getty) it will first check if the console device is a "serial" devi=
+ce driver [1]. It then fails because hvc0 is a "system" device, not a "seri=
+al" [2].
+>     >
+>     >
+>     > [1] https://github.com/openembedded/openembedded-core/blob/master/m=
+eta/recipes-core/sysvinit/sysvinit-inittab/start_getty#L11
+>     >
+>     > [2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git/tree/drivers/tty/hvc/hvc_console.c#n1036
+>     >
+>     >
+>     > Any thoughts?
+>
+>     Can you confirm that if that check is removed that the console still
+>     functions as expected ?
+>
+>     Rather than bouncing back and forth between fixing one issue, and
+>     creating another, I'm tempted to just bbappend and patch the
+>     problematic check out of the startup. But I'm not currently setup to
+>     test the issue.
+>
+>     Bruce
+>
+>     >
+>     >
+>     > Cheers,
+>     >
+>     > Filipe
+>     >
+>     >
+>     > IMPORTANT NOTICE: The contents of this email and any attachments ar=
+e confidential and may also be privileged. If you are not the intended reci=
+pient, please notify the sender immediately and do not disclose the content=
+s to any other person, use it for any purpose, or store or copy the informa=
+tion in any medium. Thank you.
+>     > --
+>     > _______________________________________________
+>     > meta-virtualization mailing list
+>     > meta-virtualization@yoctoproject.org
+>     > https://lists.yoctoproject.org/listinfo/meta-virtualization
+>
+>
+>
+>     --
+>     - Thou shalt not follow the NULL pointer, for chaos and madness await
+>     thee at its end
+>     - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
