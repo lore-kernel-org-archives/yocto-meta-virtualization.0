@@ -1,6 +1,6 @@
 Return-Path: <christopher.w.clark@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 361E7E00CC9; Tue, 16 Apr 2019 13:51:40 -0700 (PDT)
+	id 28807E00D3A; Tue, 16 Apr 2019 15:23:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,59 +11,58 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.180 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
-	[209.85.208.180])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 735CFE006D8
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.166.67 listed in list.dnswl.org]
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B7DC1E00CDD
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Apr 2019 13:51:39 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id v13so20404556ljk.4
+	Tue, 16 Apr 2019 15:23:38 -0700 (PDT)
+Received: by mail-io1-f67.google.com with SMTP id x3so18956465iol.10
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Apr 2019 13:51:39 -0700 (PDT)
+	Tue, 16 Apr 2019 15:23:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=70Ti/YdOWk2aj8KWcPU17QcGNYwQhPzu72zWwPtErRo=;
-	b=mGRcZh/dzUYoFKE2nfx41ioxs3A/wkuf9Yh+cbOYZdcdkZZYkOIxNvjh4Np1TES3Sw
-	0rsDeKn4jkwxQRbNLYmFHuJm/F3G0tgwErQW+GHvEwojhyKTVy2M0cB1bgEerPBT/W6n
-	IF4yaJIOoLmANpgnQUjaXE716V6N/n2C+DLNTG8rpprwnNkVb6IpTDbqCC1AtTwAtvPT
-	S9mfIjxEgcgmmWserquYLpwwQ7LogAwNq+kHUg3nAqDDoWKYwmxfB+1kg2EkuLoynoah
-	Wn0C2SFjIRtirjUfMLWhcfa4wNlF/wrOHaz7sbV3LWGFgtTtG95jE9xYRbgsi2hJ+8Wz
-	IIeg==
+	h=from:to:cc:subject:date:message-id;
+	bh=1vOeCTLoQrwffJGTbzQsy3y05TwHIcnbKDnitRjTAac=;
+	b=QpFc1dHBe6Qqw/AloMaDr+8h6yl/n8vRSZzgJUwGj/M7CDErSfASKs8JQCmuexaY2G
+	wvL7kV4uGMUo9K+9vQaVN1/Y38maXLIn3wjlpA9j+BRwC7DpMKCUqak+Zw0j/tNcV4Yn
+	9M53jTHJIZrFvAu92QK2wwh7jikbK5k+2RAGuZ99mUYewN+lCoistdnf2KOJzekgUDvA
+	85QgveRWpI653G9ThL2+jYASvIbmJ6vV9ZVRLghrA3CA6ZkuN0Y56CLmWz1tMEPrTP7Y
+	5jdNVuXfUU5amj1xvYQ69+JVlgI0d7kaj2Rp+EbmdjKDKl60XYL06IoacP4r3diq7Mz8
+	nyog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=70Ti/YdOWk2aj8KWcPU17QcGNYwQhPzu72zWwPtErRo=;
-	b=BCBjXC+KLOKhkFExp99wpDLKTheCh9sr2X5tXr5WAQF5ZoTJJIT1XNSvlqQbL+x3he
-	CZWCnxgW+awhSKaFL4qah/zvKBAafU1dSKRjY8rRlSvcs21cdmLVQeQ103vHyPRXT4++
-	skyGnfbV2WgegTvJZ6mCQoSBxOQ2G72RhD7YR8l+K6OGLVBginNPN0FM66Qzk/IcLzRc
-	OGNnorkO7sqDfptnzBzFA9VPvkFkTwydEqGP9351QpqhJ7Vfm1hcX/+gJwFB1DONF/HB
-	sEB63FpMjFe/ehAaL3w17GtXfTJXS6YpiXYHLyFhiolSiODt8w3hdPtg0w4pfaoYmvTZ
-	UhxA==
-X-Gm-Message-State: APjAAAWotaznx1IiLkUL+/KHVYNITKlZLA3n1zb/8vJWxCC2gFsvZdEj
-	msptMVTaT3OLhCTYKMX/C1Uv1hucLCA69hC9yDs=
-X-Google-Smtp-Source: APXvYqwpt7OXAcLN7sL8UbS4TiHbUYiT/H9AS9Zd+QKzJHdNCYx5m/WWprsL/VIJ+SztSJdAarataTKNYL8m1D/5s1w=
-X-Received: by 2002:a2e:7806:: with SMTP id t6mr16954643ljc.143.1555447898383; 
-	Tue, 16 Apr 2019 13:51:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <5E914B57-EE72-4830-8E45-8BC19CB7307E@arm.com>
-	<CAPuovELwBEHwrU=jYFak2HqwcyXtSDspCDuKi2HSWAydLrUm=A@mail.gmail.com>
-In-Reply-To: <CAPuovELwBEHwrU=jYFak2HqwcyXtSDspCDuKi2HSWAydLrUm=A@mail.gmail.com>
-From: Christopher Clark <christopher.w.clark@gmail.com>
-Date: Tue, 16 Apr 2019 13:51:26 -0700
-Message-ID: <CACMJ4GYddyoA-Q+ZB_qwR+CP+pM93kxyteKJS4cuW-4q8-eNGQ@mail.gmail.com>
-To: "M. Asselstine" <asselsm@mcmaster.ca>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: Dev86-native dependency
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1vOeCTLoQrwffJGTbzQsy3y05TwHIcnbKDnitRjTAac=;
+	b=rCmL8Y1USQvuFz30vPJzANzrCUVl6GUXySq+O9Ns0o6xIQQFRaxkDIwO1uzEN5Z28k
+	hsqfN84AuxaCg+2thwdZDaj0dsOksFcgBD90Ub7JnkHFBIcvYaEyeNtuc/dyDKsNHAL2
+	Ad/biMiCo0blEF+23C8N9Gc7LWdWhPeH6NByDSBhJuJr25dgZL2JMuOonMHZcStr2tLV
+	h0gCw3tLxiF/S3sHNCSBgES/QT/I1UNNnD3QnoG9i+FwBagoyc5VYAMzC2XfuQQ2fmKH
+	kwzuKEvzPBB42xI2YvEAIl+NkHRMwWIex8yz/yGk2cdFt8pjIE/+Lm7U/s4x1qSnF4j5
+	Sjng==
+X-Gm-Message-State: APjAAAWfFyphYIK+kMR3c8ykuTicjwNn4dc3gZRGCAdPDD2coHn6YoYZ
+	RBZpwfnJDRs5n8cNc3cHYkUtFwKw
+X-Google-Smtp-Source: APXvYqwZExH0ACiG1XOydPDrkDljS5uohzVFYqA1EHjwoS6UWQCsnpNICJhyTpTM9Uc+RmxxiKxw+g==
+X-Received: by 2002:a6b:b285:: with SMTP id
+	b127mr50504475iof.179.1555453417587; 
+	Tue, 16 Apr 2019 15:23:37 -0700 (PDT)
+Received: from desktop.ice.pyrology.org
+	(static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+	by smtp.gmail.com with ESMTPSA id v64sm391153ita.4.2019.04.16.15.23.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 16 Apr 2019 15:23:36 -0700 (PDT)
+From: christopher.w.clark@gmail.com
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 16 Apr 2019 15:23:30 -0700
+Message-Id: <20190416222330.3480-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] xen: make the dev86-native dependency specific to x86-64 target
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -76,70 +75,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 20:51:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Apr 2019 22:23:39 -0000
 
-On Mon, Apr 15, 2019 at 6:47 PM M. Asselstine <asselsm@mcmaster.ca> wrote:
-> On Mon, Apr 15, 2019 at 9:05 PM Sathees Balya <Sathees.Balya@arm.com> wro=
-te:
-> > Hi,
-> >
-> > The xen recipe has a hard dependency on dev86-native package (meta-virt=
-ualization/recipes-extended/xen/xen.inc). It does not allow us to build for=
- aarch64 natively for Arm. At the moment, we have a workaround in the bbapp=
-end file for xen to remove the dependency.
-> >
-> > DEPENDS_remove =3D "dev86-native"
-> >
-> > Can the recipe be made generic so that both x86 and Arm can be built wi=
-thout the need for the above workaround? Thanks.
->
-> I am not sure I am following you correctly. But I believe what you are
-> looking for is to drop "dev86-native" from DEPENDS, where it is
-> currently listed, and instead list it in something like
->
-> DEPENDS_x86 =3D "dev86-native"
->
-> in the xen.inc file. ie. make use of the overrides mechanism to only
-> require it for x86 arch. Am I close?
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Suggest: replace the string 'dev86-native' within xen.inc's DEPENDS
-definition with:
+Remove the requirement for x86 tools when building for ARM platforms.
 
-${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', 'dev86-native', '', d)}
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
+ recipes-extended/xen/xen.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-which will toggle the requirement for the dev86-native tools based on
-the target arch the hypervisor is being built for.
-If that looks OK, I can send a patch on top of the 4.12 version uprev
-that I just posted.
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index b357824..52780d6 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -25,8 +25,8 @@ PACKAGECONFIG[systemd] = "--enable-systemd,--disable-systemd,systemd,"
+ PACKAGECONFIG[hvm] = "--with-system-seabios="/usr/share/firmware/bios.bin",--disable-seabios,seabios ipxe vgabios,"
+ 
+ DEPENDS = " \
++    ${@bb.utils.contains('XEN_TARGET_ARCH', 'x86_64', 'dev86-native', '', d)} \
+     bison-native \
+-    dev86-native \
+     flex-native \
+     file-native \
+     gettext-native \
+-- 
+2.17.1
 
-Christopher
-
->
-> MarkA
->
-> >
-> >
-> >
-> >
-> > Regards,
-> >
-> > Sathees
-> >
-> > IMPORTANT NOTICE: The contents of this email and any attachments are co=
-nfidential and may also be privileged. If you are not the intended recipien=
-t, please notify the sender immediately and do not disclose the contents to=
- any other person, use it for any purpose, or store or copy the information=
- in any medium. Thank you.
-> > --
-> > _______________________________________________
-> > meta-virtualization mailing list
-> > meta-virtualization@yoctoproject.org
-> > https://lists.yoctoproject.org/listinfo/meta-virtualization
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
