@@ -1,65 +1,38 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 96C80E00BAA; Mon,  6 May 2019 12:49:17 -0700 (PDT)
+	id 85C15E00CF4; Mon,  6 May 2019 18:36:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,HTML_MESSAGE,
+	RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 02BE6E00ADB
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ED56FE00C37
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  6 May 2019 12:49:16 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id f23so12201069ljc.0
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 06 May 2019 12:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lzCsQXfGPG6fdJ2+AeUYhkfMG2JBY2z6QlkWLKsj6IY=;
-	b=qlR5NZTyWxdxJKd9cUbhQ0F2Mcr08WKf5U8YrAFtvjCXClINH6XuZ7sEy5J6Myl2E8
-	AH07VrL9DcNK4tX6ZSPdMpMNV5xlovoFCGk/QWZ/xt5azIWLSdQcKaUW5qRChZvJltkV
-	eZ82LstWOQAZp7glDNf/RsY3INHM9OQGQ6/vv/2P40nNldt41CjfLUCItHptG7krmqfZ
-	2O5IE77NAptxyOuVg7tIor4Td9k5HADiLHWWp9Gri+KfRxWl4dFvX02PKB49ZqxSElI+
-	s/ey1VStbbdWhw0dgSA/KLLptlJZRJ76lYbfh5XheQl2J9eELronp+P+LEez5ya8Gmk3
-	vpcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lzCsQXfGPG6fdJ2+AeUYhkfMG2JBY2z6QlkWLKsj6IY=;
-	b=sri01BNtVNCKna1FcXiz4rCd/rIJkgIL5iU9Px3LWGB0kPD5j4Wi4kGrrxT6Afn+o2
-	QDPCRiPcNHKulsgs+GDt1qfVuxu1dJsk8+Xuz3CXsqF9xEnyq2v73lxbc8TuMcv1LPZm
-	l9m0mnp2yk71XvCWx2wRC6dARcOaQO8SbsmYm7YM1jADvEIbzH14anF7xm4QlYWajNhk
-	Mip8UYbo/eQPGwRiu0LVTwLifZNU6hg/0AwaK+AjOHxzc7dLrZAHM9R7AkNBPQ8WG6RR
-	5/n/DqjLUzojqeWvWZTjVey5LqIFBCs9WGE+kjRylKLGuVzdeBBM/KLOKky+DKFhHrVu
-	OPHg==
-X-Gm-Message-State: APjAAAU5eycaP4uC+9WrEl5j3mN830cWoB3zNdTiapveGMb3u/434YWh
-	dkTr7T/cqXRKEFxGrlXLKcQr+eQ6WL9osLwWdnw=
-X-Google-Smtp-Source: APXvYqwG0Q1QtA7KfGlxnKZsRa+RHd/hFvNxm2sGfnsoxdX104d4zSGmfPXhf0JunWja0blKPNHZRohDmQjRl4QiRKw=
-X-Received: by 2002:a2e:96d9:: with SMTP id d25mr14057966ljj.78.1557172155827; 
-	Mon, 06 May 2019 12:49:15 -0700 (PDT)
-MIME-Version: 1.0
+	Mon,  6 May 2019 18:36:15 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x471aEE3029143
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 6 May 2019 18:36:14 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 6 May 2019 18:36:13 -0700
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <20190506021718.128811-1-kai.kang@windriver.com>
-In-Reply-To: <20190506021718.128811-1-kai.kang@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 6 May 2019 15:49:04 -0400
-Message-ID: <CADkTA4PJwC-UD5E3w7yQiEuoHo6=F9GqFbshEc3pDyZscJBeNA@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
+	<CADkTA4PJwC-UD5E3w7yQiEuoHo6=F9GqFbshEc3pDyZscJBeNA@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <3bde01eb-980a-8770-bcfa-f357a5f8cb28@windriver.com>
+Date: Tue, 7 May 2019 09:32:52 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4PJwC-UD5E3w7yQiEuoHo6=F9GqFbshEc3pDyZscJBeNA@mail.gmail.com>
 Cc: meta-virtualization@yoctoproject.org
 Subject: Re: [m-c-s][PATCH v2 0/3] Fix dependency issues for librdmacm and glusterfs
 X-BeenThere: meta-virtualization@yoctoproject.org
@@ -74,93 +47,176 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 19:49:17 -0000
-Content-Type: multipart/alternative; boundary="00000000000033c9a705883d655e"
+X-List-Received-Date: Tue, 07 May 2019 01:36:16 -0000
+Content-Type: multipart/alternative;
+	boundary="------------2DB063C86C6F6C34739A5D3E"
+Content-Language: en-US
 
---00000000000033c9a705883d655e
-Content-Type: text/plain; charset="UTF-8"
+--------------2DB063C86C6F6C34739A5D3E
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 5, 2019 at 10:17 PM <kai.kang@windriver.com> wrote:
-
-> From: Kai Kang <kai.kang@windriver.com>
+On 2019/5/7 上午3:49, Bruce Ashfield wrote:
 >
-> Re-send v2:
-> * Maybe wrong recipient in previous v2 thread, Bruce didn't recieve the
-> 3rd patch. So re-send.
 >
+> On Sun, May 5, 2019 at 10:17 PM <kai.kang@windriver.com 
+> <mailto:kai.kang@windriver.com>> wrote:
+>
+>     From: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>
+>     Re-send v2:
+>     * Maybe wrong recipient in previous v2 thread, Bruce didn't
+>     recieve the 3rd patch. So re-send.
+>
+>
+> thanks. I got all three this time.
+>
+> They are now merged.
 
-thanks. I got all three this time.
 
-They are now merged.
+Thanks.
 
-Bruce
-
+Kai
 
 
 >
-> Kai Kang (3):
->   glusterfs: remove PACKAGECONFIG libibverbs for arm 32 and mips
->   librdmacm: set imcompatible with arm 32 and mips arches
->   layer.conf: depends on meta-filesystems
+> Bruce
 >
->  conf/layer.conf                               | 2 +-
->  recipes-extended/glusterfs/glusterfs.inc      | 3 +++
->  recipes-extended/librdmacm/librdmacm_1.1.0.bb | 3 +++
->  3 files changed, 7 insertions(+), 1 deletion(-)
 >
-> --
-> 2.20.0
+>     Kai Kang (3):
+>       glusterfs: remove PACKAGECONFIG libibverbs for arm 32 and mips
+>       librdmacm: set imcompatible with arm 32 and mips arches
+>       layer.conf: depends on meta-filesystems
 >
+>      conf/layer.conf                               | 2 +-
+>      recipes-extended/glusterfs/glusterfs.inc      | 3 +++
+>      recipes-extended/librdmacm/librdmacm_1.1.0.bb
+>     <http://librdmacm_1.1.0.bb> | 3 +++
+>      3 files changed, 7 insertions(+), 1 deletion(-)
+>
+>     -- 
+>     2.20.0
+>
+>
+>
+> -- 
+> - Thou shalt not follow the NULL pointer, for chaos and madness await 
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Kai Kang
 
---00000000000033c9a705883d655e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Sun, May 5, 2019 at 10:17 PM &lt;<a href=3D"mail=
-to:kai.kang@windriver.com">kai.kang@windriver.com</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">From: Kai Kang &lt;<a href=
-=3D"mailto:kai.kang@windriver.com" target=3D"_blank">kai.kang@windriver.com=
-</a>&gt;<br>
-<br>
-Re-send v2:<br>
-* Maybe wrong recipient in previous v2 thread, Bruce didn&#39;t recieve the=
- 3rd patch. So re-send.<br></blockquote><div><br></div><div><div class=3D"g=
-mail_default" style=3D"font-size:small">thanks. I got all three this time.<=
-/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
-class=3D"gmail_default" style=3D"font-size:small">They are now merged.</div=
-><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div clas=
-s=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div>=C2=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Kai Kang (3):<br>
-=C2=A0 glusterfs: remove PACKAGECONFIG libibverbs for arm 32 and mips<br>
-=C2=A0 librdmacm: set imcompatible with arm 32 and mips arches<br>
-=C2=A0 layer.conf: depends on meta-filesystems<br>
-<br>
-=C2=A0conf/layer.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
-=C2=A0recipes-extended/glusterfs/glusterfs.inc=C2=A0 =C2=A0 =C2=A0 | 3 +++<=
-br>
-=C2=A0recipes-extended/librdmacm/<a href=3D"http://librdmacm_1.1.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">librdmacm_1.1.0.bb</a> | 3 +++<br>
-=C2=A03 files changed, 7 insertions(+), 1 deletion(-)<br>
-<br>
--- <br>
-2.20.0<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
+--------------2DB063C86C6F6C34739A5D3E
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
---00000000000033c9a705883d655e--
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 2019/5/7 上午3:49, Bruce Ashfield
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CADkTA4PJwC-UD5E3w7yQiEuoHo6=F9GqFbshEc3pDyZscJBeNA@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div dir="ltr">
+          <div class="gmail_default" style="font-size:small"><br>
+          </div>
+        </div>
+        <br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Sun, May 5, 2019 at 10:17
+            PM &lt;<a href="mailto:kai.kang@windriver.com"
+              moz-do-not-send="true">kai.kang@windriver.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">From: Kai Kang &lt;<a
+              href="mailto:kai.kang@windriver.com" target="_blank"
+              moz-do-not-send="true">kai.kang@windriver.com</a>&gt;<br>
+            <br>
+            Re-send v2:<br>
+            * Maybe wrong recipient in previous v2 thread, Bruce didn't
+            recieve the 3rd patch. So re-send.<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class="gmail_default" style="font-size:small">thanks. I
+              got all three this time.</div>
+            <div class="gmail_default" style="font-size:small"><br>
+            </div>
+            <div class="gmail_default" style="font-size:small">They are
+              now merged.</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <p>Thanks.</p>
+    <p>Kai<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CADkTA4PJwC-UD5E3w7yQiEuoHo6=F9GqFbshEc3pDyZscJBeNA@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div>
+            <div class="gmail_default" style="font-size:small"><br>
+            </div>
+            <div class="gmail_default" style="font-size:small">Bruce</div>
+            <br>
+          </div>
+          <div> </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <br>
+            Kai Kang (3):<br>
+              glusterfs: remove PACKAGECONFIG libibverbs for arm 32 and
+            mips<br>
+              librdmacm: set imcompatible with arm 32 and mips arches<br>
+              layer.conf: depends on meta-filesystems<br>
+            <br>
+             conf/layer.conf                               | 2 +-<br>
+             recipes-extended/glusterfs/glusterfs.inc      | 3 +++<br>
+             recipes-extended/librdmacm/<a
+              href="http://librdmacm_1.1.0.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">librdmacm_1.1.0.bb</a>
+            | 3 +++<br>
+             3 files changed, 7 insertions(+), 1 deletion(-)<br>
+            <br>
+            -- <br>
+            2.20.0<br>
+            <br>
+          </blockquote>
+        </div>
+        <br clear="all">
+        <div><br>
+        </div>
+        -- <br>
+        <div dir="ltr" class="gmail_signature">- Thou shalt not follow
+          the NULL pointer, for chaos and madness await thee at its end<br>
+          - "Use the force Harry" - Gandalf, Star Trek II<br>
+          <br>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Kai Kang</pre>
+  </body>
+</html>
+
+--------------2DB063C86C6F6C34739A5D3E--
