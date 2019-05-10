@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D0B9AE00D53; Fri, 10 May 2019 13:43:40 -0700 (PDT)
+	id 46202E00D53; Fri, 10 May 2019 13:43:51 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.51 listed in list.dnswl.org]
+	*      [209.85.167.44 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
-	[209.85.167.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1F9AE00C78
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com
+	[209.85.167.44])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 48215E00C78
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 10 May 2019 13:43:39 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id h13so5049884lfc.7
+	Fri, 10 May 2019 13:43:50 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id v18so5078782lfi.1
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 10 May 2019 13:43:39 -0700 (PDT)
+	Fri, 10 May 2019 13:43:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=P0uw6HAyOkY7USSbj9IfjbWqtKPS+jdxeh6ifs6TS6M=;
-	b=ov9VETpRpMm6l3H2nWr9C7z6i4cXVmIgVzhkAgDmLgAl21H98+T4QmKv3rkBC7zHZJ
-	ANC4oy6HTOtxvr01KcuX1H7jFbqsMgh8g5bzZeQloIzpK5EGmqNSfna31PkwsIm8Yiwr
-	35CcWE/6ity9QsDzpHU1QF5XHfZCiTuhT2dbBVQlqVe0iiKKlAx5/6HayqahO78t461f
-	LHvCnnBOwNP3Rze/d8mGvHtgGYISo/OReDy4hXilxr93o7RzWNrF2wNrJAADhDmXvWE7
-	H28QJYfQ/1S4LCK1bcHUp83dbQZosFgWIcGNx6ifZDS9BkaaTxQU7kjnNHHKLLDYk88j
-	clqA==
+	:cc; bh=yRj3x7gcDEByvhvGHp0dueqSp/su816UVH8WW9+xaBw=;
+	b=RN3Mp1j5rgFU0RxrPTNKC2xMCZ1fCvm5OtOLZPcru3fPF722uhJzTE4HZCm/yybytV
+	pdaTFInCJaRlmp0bds6cOLeHM9xlbmwLB79gfLbL7svmWGGhxRyn6VidC9l83Fp3g7uQ
+	tAhvqUnmvgkXCj274fXV+Jp4dpP/miN6hrwh33iZfhPDXd0dK5zEA6GoYMgAuzgKJn6l
+	a9k4EHEyBrutsRAxdBOUCRI9xiXBnIWX/UKZ77WkWYPihjgjAnln0UQPq59N1ioAk9N9
+	qVZeFVVAlKJkoiQWUSFFiLZ3CQlHOHctjO+g6ozrYrN2HYWDErpsjmA1pck2a9R94esh
+	v0Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=P0uw6HAyOkY7USSbj9IfjbWqtKPS+jdxeh6ifs6TS6M=;
-	b=FNdsR7MTGcykZRQT8oFNwBm/57vTzSprX2twjPpBjBaObHgHC08eyuMohRGIPTu2Ci
-	J0zdh6sFeoAUEkl8c6Nn8ODsaHqZbFZMLd9BUr6PGocSOHUJbLo2XaEJ1NfyC/mbcDuU
-	fTXQABoQZV5ML/20aMpgGM0LlKOx5GfkPizYswkc7ifXCQcq5SXjyGJCdeTpSPTPrViT
-	smvu5ZspSSnuPeJpkNRq9Pmjt7Ln1B1TjS1TyvRL+ygdJhO25Nv8F5IHNS6uG72CBb9X
-	Zt85MykMZdP6PD41Wk9Un2foqVTa8Pov8qvhQmxAIq3YrGp84M40r3uRotw7NsVetAAO
-	is1g==
-X-Gm-Message-State: APjAAAUZHMhm09u2xyzHiYyxALrbDHLilqN9ME/rVPhawtN9orKqzuFo
-	+5BI7jeIYVy+aVSLE4vBVUxUQyVqh4Y3jQ/PxaHagmt/
-X-Google-Smtp-Source: APXvYqydLftrXBEW/TQ/1tWoBIISa/5mftLGnujOrPwUDkwx0hRUG4qziegfspvTdaHqGoVc62k5zBF5vgPT0oSwfBA=
-X-Received: by 2002:ac2:4217:: with SMTP id y23mr7123981lfh.134.1557521018477; 
-	Fri, 10 May 2019 13:43:38 -0700 (PDT)
+	bh=yRj3x7gcDEByvhvGHp0dueqSp/su816UVH8WW9+xaBw=;
+	b=DzLIBE6xWg9DIaPcVMzTsPGSxHXNiZWb34T59RjJEz7IOen1+NVMS70w5Xyc3viBQ2
+	xnqTeXeL0JYkaCo2AaF63Nv9//OWhN45K0qBfjVkrNZtAWxQQORKxFUBlhUgqI0E+KWJ
+	tJj9M5z9vFQg4uzKQdb52+uW6/xvU4/zhhQJ4WbfSVVajOIhSXbPSb1gYEa3aufMzrcI
+	BiTViuY5YCX3BKIi19ft5eKrzfuElMD43+C1/q7OT4/nyndDbd0temCz5CVJz/HSmQ4E
+	AbKv0WM0tiiyYM2urjFnlTkzPHz3c5tlrfu4oArIaOF+xj2Nq73NRTNqX1b6HeDvfImL
+	aopg==
+X-Gm-Message-State: APjAAAUZ2AcM3wpCYbNuECfwmqHdkkfySeVs6j8kH3WBOOGtF8kNK3EM
+	7K91CMlow0I7YXJWeqkSVYWULPw97ZYcfbsF/2s=
+X-Google-Smtp-Source: APXvYqwR71smnAunzrijmvw0fBvoTCzANJG157QJ9H+dhPtuU2qEv6GAULd7/0gpsBJpKRAYZHvWr9Tp0z7yp/S+VDk=
+X-Received: by 2002:a19:520e:: with SMTP id m14mr7315704lfb.65.1557521029218; 
+	Fri, 10 May 2019 13:43:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <1555713609-10594-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1555713609-10594-1-git-send-email-leimaohui@cn.fujitsu.com>
+References: <1555729914-11620-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1555729914-11620-1-git-send-email-leimaohui@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 10 May 2019 16:43:27 -0400
-Message-ID: <CADkTA4NV+7q9UUOqOqgVVA-Bna_fBc6_2m0wjtMniQKfTeQ2iQ@mail.gmail.com>
+Date: Fri, 10 May 2019 16:43:38 -0400
+Message-ID: <CADkTA4PYEJzdmGKS8ym1av9Y618qA+g6mJjRiG_brwJPunJs0g@mail.gmail.com>
 To: Lei Maohui <leimaohui@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][PATCH] python-kombu:Upgrade to 4.5.0.
+Subject: Re: [m-c-s][PATCH] python-croniter:update to 0.3.30.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,48 +74,59 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 20:43:40 -0000
-Content-Type: multipart/alternative; boundary="0000000000000967d105888e9fb2"
+X-List-Received-Date: Fri, 10 May 2019 20:43:51 -0000
+Content-Type: multipart/alternative; boundary="000000000000ad479d05888e9f93"
 
---0000000000000967d105888e9fb2
+--000000000000ad479d05888e9f93
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Thu, May 9, 2019 at 9:10 PM Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
+On Fri, May 10, 2019 at 1:42 AM Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
 
-> The kombu 4.2.2 can't be download any more.
-> Refrence to https://pypi.org/project/kombu/#history, the newest version
-> is 4.5.0.
+> - 0.3.27 can't be download any more.
+> - Changed license checksum file to docs/LICENSE which is better than
+> PKG-INFO.
 >
 > Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 > ---
->  .../python/{python-kombu_4.2.2.bb => python-kombu_4.5.0.bb}           |
-> 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-kombu_4.2.2.bb =>
-> python-kombu_4.5.0.bb} (70%)
+>  .../python/{python-croniter_0.3.27.bb => python-croniter_0.3.30.bb} | 6
+> +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-croniter_0.3.27.bb
+> => python-croniter_0.3.30.bb} (68%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.2.2.bb
-> b/meta-openstack/recipes-devtools/python/python-kombu_4.5.0.bb
-> similarity index 70%
-> rename from meta-openstack/recipes-devtools/python/python-kombu_4.2.2.bb
-> rename to meta-openstack/recipes-devtools/python/python-kombu_4.5.0.bb
-> index 3cf1035..6db89cc 100644
-> --- a/meta-openstack/recipes-devtools/python/python-kombu_4.2.2.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-kombu_4.5.0.bb
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "BSD"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+> diff --git a/meta-openstack/recipes-devtools/python/
+> python-croniter_0.3.27.bb b/meta-openstack/recipes-devtools/python/
+> python-croniter_0.3.30.bb
+> similarity index 68%
+> rename from meta-openstack/recipes-devtools/python/
+> python-croniter_0.3.27.bb
+> rename to meta-openstack/recipes-devtools/python/python-croniter_0.3.30.bb
+> index 97df2a9..2859441 100644
+> --- a/meta-openstack/recipes-devtools/python/python-croniter_0.3.27.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-croniter_0.3.30.bb
+> @@ -2,13 +2,13 @@ DESCRIPTION = "croniter provides iteration for datetime
+> object with cron like fo
+>  HOMEPAGE = "https://pypi.python.org/pypi/croniter/0.3.4"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=21cc5101d5b0c940e3354fb1bd26c7e5"
+> +LIC_FILES_CHKSUM =
+> "file://docs/LICENSE;md5=b8ee59850b882cbf623188489ea748e2"
 >
-> -SRC_URI[md5sum] = "0c98ce669cb7a05c5046ea6009c77cba"
+>  # Archived version so we have to overwrite what the pypi class will derive
+>  PYPI_SRC_URI = "
+> https://pypi.python.org/packages/source/c/croniter/croniter-${PV}.tar.gz"
+>
+> -SRC_URI[md5sum] = "f5543f9f165fe725b2133b698f520380"
 > -SRC_URI[sha256sum] =
-> "52763f41077e25fe7e2f17b8319d8a7b7ab953a888c49d9e4e0464fceb716896"
-> +SRC_URI[md5sum] = "6a9f0d07ec3f8b784e9358d04a4709c3"
+> "fbd72189a0ff38c27e953d15175c5fedafb953479559240a1afcf8e8e7523757"
+> +SRC_URI[md5sum] = "e4a8987521b144c4c2149d4adde8f55c"
 > +SRC_URI[sha256sum] =
-> "389ba09e03b15b55b1a7371a441c894fd8121d174f5583bbbca032b9ea8c9edd"
+> "538adeb3a7f7816c3cdec6db974c441620d764c25ff4ed0146ee7296b8a50590"
 >
 >  inherit setuptools pypi
 >
@@ -137,66 +148,78 @@ On Thu, May 9, 2019 at 9:10 PM Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000000967d105888e9fb2
+--000000000000ad479d05888e9f93
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">mer=
 ged</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
 div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Ma=
-y 9, 2019 at 9:10 PM Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.=
-com">leimaohui@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">The kombu 4.2.2 can&#39;t be download any more=
-.<br>
-Refrence to <a href=3D"https://pypi.org/project/kombu/#history" rel=3D"nore=
-ferrer" target=3D"_blank">https://pypi.org/project/kombu/#history</a>, the =
-newest version is 4.5.0.<br>
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Ma=
+y 10, 2019 at 1:42 AM Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu=
+.com">leimaohui@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">- 0.3.27 can&#39;t be download any more.<br>
+- Changed license checksum file to docs/LICENSE which is better than PKG-IN=
+FO.<br>
 <br>
 Signed-off-by: Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com" t=
 arget=3D"_blank">leimaohui@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0.../python/{<a href=3D"http://python-kombu_4.2.2.bb" rel=3D"noreferre=
-r" target=3D"_blank">python-kombu_4.2.2.bb</a> =3D&gt; <a href=3D"http://py=
-thon-kombu_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.=
-0.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0.../python/{<a href=3D"http://python-croniter_0.3.27.bb" rel=3D"noref=
+errer" target=3D"_blank">python-croniter_0.3.27.bb</a> =3D&gt; <a href=3D"h=
+ttp://python-croniter_0.3.30.bb" rel=3D"noreferrer" target=3D"_blank">pytho=
+n-croniter_0.3.30.bb</a>} | 6 +++---<br>
+=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
 =C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
-on-kombu_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.=
-bb</a> =3D&gt; <a href=3D"http://python-kombu_4.5.0.bb" rel=3D"noreferrer" =
-target=3D"_blank">python-kombu_4.5.0.bb</a>} (70%)<br>
+on-croniter_0.3.27.bb" rel=3D"noreferrer" target=3D"_blank">python-croniter=
+_0.3.27.bb</a> =3D&gt; <a href=3D"http://python-croniter_0.3.30.bb" rel=3D"=
+noreferrer" target=3D"_blank">python-croniter_0.3.30.bb</a>} (68%)<br>
 <br>
 diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n-kombu_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.b=
-b</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kom=
-bu_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.0.bb</a>=
-<br>
-similarity index 70%<br>
+n-croniter_0.3.27.bb" rel=3D"noreferrer" target=3D"_blank">python-croniter_=
+0.3.27.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://py=
+thon-croniter_0.3.30.bb" rel=3D"noreferrer" target=3D"_blank">python-cronit=
+er_0.3.30.bb</a><br>
+similarity index 68%<br>
 rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
--kombu_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.bb=
-</a><br>
-rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-k=
-ombu_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.0.bb</=
-a><br>
-index 3cf1035..6db89cc 100644<br>
---- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kombu=
-_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.bb</a><b=
-r>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kombu=
-_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.0.bb</a><b=
-r>
-@@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
-=C2=A0LICENSE =3D &quot;BSD&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Ddaea7c168428449fbee05=
-e644df929f4&quot;<br>
+-croniter_0.3.27.bb" rel=3D"noreferrer" target=3D"_blank">python-croniter_0=
+.3.27.bb</a><br>
+rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-c=
+roniter_0.3.30.bb" rel=3D"noreferrer" target=3D"_blank">python-croniter_0.3=
+.30.bb</a><br>
+index 97df2a9..2859441 100644<br>
+--- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-croni=
+ter_0.3.27.bb" rel=3D"noreferrer" target=3D"_blank">python-croniter_0.3.27.=
+bb</a><br>
++++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-croni=
+ter_0.3.30.bb" rel=3D"noreferrer" target=3D"_blank">python-croniter_0.3.30.=
+bb</a><br>
+@@ -2,13 +2,13 @@ DESCRIPTION =3D &quot;croniter provides iteration for dat=
+etime object with cron like fo<br>
+=C2=A0HOMEPAGE =3D &quot;<a href=3D"https://pypi.python.org/pypi/croniter/0=
+.3.4" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/pypi/cro=
+niter/0.3.4</a>&quot;<br>
+=C2=A0SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://PKG-INFO;md5=3D21cc5101d5b0c940e3354fb1b=
+d26c7e5&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://docs/LICENSE;md5=3Db8ee59850b882cbf62318=
+8489ea748e2&quot;<br>
 <br>
--SRC_URI[md5sum] =3D &quot;0c98ce669cb7a05c5046ea6009c77cba&quot;<br>
--SRC_URI[sha256sum] =3D &quot;52763f41077e25fe7e2f17b8319d8a7b7ab953a888c49=
-d9e4e0464fceb716896&quot;<br>
-+SRC_URI[md5sum] =3D &quot;6a9f0d07ec3f8b784e9358d04a4709c3&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;389ba09e03b15b55b1a7371a441c894fd8121d174f558=
-3bbbca032b9ea8c9edd&quot;<br>
+=C2=A0# Archived version so we have to overwrite what the pypi class will d=
+erive<br>
+=C2=A0PYPI_SRC_URI =3D &quot;<a href=3D"https://pypi.python.org/packages/so=
+urce/c/croniter/croniter-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_bl=
+ank">https://pypi.python.org/packages/source/c/croniter/croniter-${PV}.tar.=
+gz</a>&quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;f5543f9f165fe725b2133b698f520380&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;fbd72189a0ff38c27e953d15175c5fedafb9534795592=
+40a1afcf8e8e7523757&quot;<br>
++SRC_URI[md5sum] =3D &quot;e4a8987521b144c4c2149d4adde8f55c&quot;<br>
++SRC_URI[sha256sum] =3D &quot;538adeb3a7f7816c3cdec6db974c441620d764c25ff4e=
+d0146ee7296b8a50590&quot;<br>
 <br>
 =C2=A0inherit setuptools pypi<br>
 <br>
@@ -218,4 +241,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div>
 
---0000000000000967d105888e9fb2--
+--000000000000ad479d05888e9f93--
