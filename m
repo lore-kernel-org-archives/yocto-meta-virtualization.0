@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7F19BE00D53; Fri, 10 May 2019 13:43:10 -0700 (PDT)
+	id D0B9AE00D53; Fri, 10 May 2019 13:43:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.172 listed in list.dnswl.org]
+	*      [209.85.167.51 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
-	[209.85.208.172])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 77A24E00C78
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
+	[209.85.167.51])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1F9AE00C78
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 10 May 2019 13:42:56 -0700 (PDT)
-Received: by mail-lj1-f172.google.com with SMTP id d15so6178642ljc.7
+	Fri, 10 May 2019 13:43:39 -0700 (PDT)
+Received: by mail-lf1-f51.google.com with SMTP id h13so5049884lfc.7
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 10 May 2019 13:42:56 -0700 (PDT)
+	Fri, 10 May 2019 13:43:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wp+0UXCqNhLxQjPbuVRsNYOc9Zap/TLJacgW381brgQ=;
-	b=pF6x0RBKFEvsLVY97PE5cWjw7U0oXYu3Kbwg1U8HzNlQpk/87zB4UnDV7nVnJi5XHK
-	OdAcf9+KY104nOx71t7s9GYw0vNC1KkSvp6X8TbV6i2E9YuiSqaZI1LprNQ2SYksLRc5
-	/6SujzflIjG9uD6Lm/qOfq+SWH2pTETFtSqqoTYfCwf9oQusXpWxX8a61PQpJ0qJ54WV
-	N42UXcMeHwN+cPwaBnFTlWxa8EObCi/Zvn4R4C2k5ELCOmBJbt/GFHHyrdzcWEbK0Rh0
-	5pd54RtFGSrTvuX08XCLfxNFCnx4FgLSPRn1VUs6yIJgj45vvVYCcpTEXvIGneXySUhH
-	FlJQ==
+	:cc; bh=P0uw6HAyOkY7USSbj9IfjbWqtKPS+jdxeh6ifs6TS6M=;
+	b=ov9VETpRpMm6l3H2nWr9C7z6i4cXVmIgVzhkAgDmLgAl21H98+T4QmKv3rkBC7zHZJ
+	ANC4oy6HTOtxvr01KcuX1H7jFbqsMgh8g5bzZeQloIzpK5EGmqNSfna31PkwsIm8Yiwr
+	35CcWE/6ity9QsDzpHU1QF5XHfZCiTuhT2dbBVQlqVe0iiKKlAx5/6HayqahO78t461f
+	LHvCnnBOwNP3Rze/d8mGvHtgGYISo/OReDy4hXilxr93o7RzWNrF2wNrJAADhDmXvWE7
+	H28QJYfQ/1S4LCK1bcHUp83dbQZosFgWIcGNx6ifZDS9BkaaTxQU7kjnNHHKLLDYk88j
+	clqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=wp+0UXCqNhLxQjPbuVRsNYOc9Zap/TLJacgW381brgQ=;
-	b=YMmB1uP9n5W+5KVsp7mF5GNSftpyfO6kCwCf8yxrbdEk/RQEPMfU9U8OqMB+6g2oqR
-	93erpg/clbbOEp1oFBMMGx3AqIEaxKV3AlJp9qjhLxbAtyEMWMaOQDR7BlxHDlVf/Swj
-	8Sw+QuoaYNZXdgS1JjRJmSauqS0Kq0iqeNtJ1LgURv0lYsQdC7mLHgrSILA3Gpb75xrm
-	GUA/n6673J6CIv4EhiNbdpX+Bo8CgjnR3c4FpM01heoJSkKlEFJT6AR0P91d0wAv+sTd
-	T6wNPzj+ySwRz4qOk8G0neyZrPjrhar+FLY79wkUFC+h+JpT0ioadhziRK9Gde07nTx0
-	sCMQ==
-X-Gm-Message-State: APjAAAUK230+inNyA/6As1iql0JCQ9ntFbDdcr5vxrZD6nGOxBwAhL9W
-	HA2jYT2ogGNt9n4Ru6XmCLKnOQ7pOuaXzbh8DNQ=
-X-Google-Smtp-Source: APXvYqwIyuQMsQ4q9Gj0F6dFYCJs4PlpLvij8VnbnVhfXRq8XYEzpDsOgca45TPI2NICZ9NZu0VfQ1wD1yiXElei4+4=
-X-Received: by 2002:a2e:96d9:: with SMTP id d25mr6762457ljj.78.1557520975571; 
-	Fri, 10 May 2019 13:42:55 -0700 (PDT)
+	bh=P0uw6HAyOkY7USSbj9IfjbWqtKPS+jdxeh6ifs6TS6M=;
+	b=FNdsR7MTGcykZRQT8oFNwBm/57vTzSprX2twjPpBjBaObHgHC08eyuMohRGIPTu2Ci
+	J0zdh6sFeoAUEkl8c6Nn8ODsaHqZbFZMLd9BUr6PGocSOHUJbLo2XaEJ1NfyC/mbcDuU
+	fTXQABoQZV5ML/20aMpgGM0LlKOx5GfkPizYswkc7ifXCQcq5SXjyGJCdeTpSPTPrViT
+	smvu5ZspSSnuPeJpkNRq9Pmjt7Ln1B1TjS1TyvRL+ygdJhO25Nv8F5IHNS6uG72CBb9X
+	Zt85MykMZdP6PD41Wk9Un2foqVTa8Pov8qvhQmxAIq3YrGp84M40r3uRotw7NsVetAAO
+	is1g==
+X-Gm-Message-State: APjAAAUZHMhm09u2xyzHiYyxALrbDHLilqN9ME/rVPhawtN9orKqzuFo
+	+5BI7jeIYVy+aVSLE4vBVUxUQyVqh4Y3jQ/PxaHagmt/
+X-Google-Smtp-Source: APXvYqydLftrXBEW/TQ/1tWoBIISa/5mftLGnujOrPwUDkwx0hRUG4qziegfspvTdaHqGoVc62k5zBF5vgPT0oSwfBA=
+X-Received: by 2002:ac2:4217:: with SMTP id y23mr7123981lfh.134.1557521018477; 
+	Fri, 10 May 2019 13:43:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <1557210848-16359-1-git-send-email-Qi.Chen@windriver.com>
-In-Reply-To: <1557210848-16359-1-git-send-email-Qi.Chen@windriver.com>
+References: <1555713609-10594-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1555713609-10594-1-git-send-email-leimaohui@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 10 May 2019 16:42:44 -0400
-Message-ID: <CADkTA4O9oW_YRTeqCZLF0fxaa7eDX8WpPEKMt2b6DzMSCLgqHQ@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+Date: Fri, 10 May 2019 16:43:27 -0400
+Message-ID: <CADkTA4NV+7q9UUOqOqgVVA-Bna_fBc6_2m0wjtMniQKfTeQ2iQ@mail.gmail.com>
+To: Lei Maohui <leimaohui@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] nagios-core: add CVE_PRODUCT
+Subject: Re: [m-c-s][PATCH] python-kombu:Upgrade to 4.5.0.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,37 +74,55 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 20:43:10 -0000
-Content-Type: multipart/alternative; boundary="0000000000007ab38d05888e9c8e"
+X-List-Received-Date: Fri, 10 May 2019 20:43:40 -0000
+Content-Type: multipart/alternative; boundary="0000000000000967d105888e9fb2"
 
---0000000000007ab38d05888e9c8e
+--0000000000000967d105888e9fb2
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Tue, May 7, 2019 at 2:46 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+On Thu, May 9, 2019 at 9:10 PM Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
 
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> The kombu 4.2.2 can't be download any more.
+> Refrence to https://pypi.org/project/kombu/#history, the newest version
+> is 4.5.0.
+>
+> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 > ---
->  recipes-extended/nagios/nagios-core_4.4.3.bb | 2 ++
->  1 file changed, 2 insertions(+)
+>  .../python/{python-kombu_4.2.2.bb => python-kombu_4.5.0.bb}           |
+> 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-kombu_4.2.2.bb =>
+> python-kombu_4.5.0.bb} (70%)
 >
-> diff --git a/recipes-extended/nagios/nagios-core_4.4.3.bb
-> b/recipes-extended/nagios/nagios-core_4.4.3.bb
-> index cf37924..fcf04e9 100644
-> --- a/recipes-extended/nagios/nagios-core_4.4.3.bb
-> +++ b/recipes-extended/nagios/nagios-core_4.4.3.bb
-> @@ -149,3 +149,5 @@ USERADD_PARAM_${SRCNAME}-base = "-r -M -g
-> ${NAGIOS_GROUP} ${NAGIOS_USER}"
+> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.2.2.bb
+> b/meta-openstack/recipes-devtools/python/python-kombu_4.5.0.bb
+> similarity index 70%
+> rename from meta-openstack/recipes-devtools/python/python-kombu_4.2.2.bb
+> rename to meta-openstack/recipes-devtools/python/python-kombu_4.5.0.bb
+> index 3cf1035..6db89cc 100644
+> --- a/meta-openstack/recipes-devtools/python/python-kombu_4.2.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-kombu_4.5.0.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "BSD"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
 >
->  INITSCRIPT_NAME = "nagios"
->  INITSCRIPT_PARAMS = "defaults"
-> +
-> +CVE_PRODUCT = "nagios_core"
+> -SRC_URI[md5sum] = "0c98ce669cb7a05c5046ea6009c77cba"
+> -SRC_URI[sha256sum] =
+> "52763f41077e25fe7e2f17b8319d8a7b7ab953a888c49d9e4e0464fceb716896"
+> +SRC_URI[md5sum] = "6a9f0d07ec3f8b784e9358d04a4709c3"
+> +SRC_URI[sha256sum] =
+> "389ba09e03b15b55b1a7371a441c894fd8121d174f5583bbbca032b9ea8c9edd"
+>
+>  inherit setuptools pypi
+>
 > --
 > 2.7.4
+>
+>
 >
 > --
 > _______________________________________________
@@ -119,42 +137,73 @@ On Tue, May 7, 2019 at 2:46 AM Chen Qi <Qi.Chen@windriver.com> wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000007ab38d05888e9c8e
+--0000000000000967d105888e9fb2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">mer=
 ged</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
 div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Ma=
-y 7, 2019 at 2:46 AM Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Q=
-i.Chen@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@wi=
-ndriver.com" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Ma=
+y 9, 2019 at 9:10 PM Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.=
+com">leimaohui@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">The kombu 4.2.2 can&#39;t be download any more=
+.<br>
+Refrence to <a href=3D"https://pypi.org/project/kombu/#history" rel=3D"nore=
+ferrer" target=3D"_blank">https://pypi.org/project/kombu/#history</a>, the =
+newest version is 4.5.0.<br>
+<br>
+Signed-off-by: Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com" t=
+arget=3D"_blank">leimaohui@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a> | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
+=C2=A0.../python/{<a href=3D"http://python-kombu_4.2.2.bb" rel=3D"noreferre=
+r" target=3D"_blank">python-kombu_4.2.2.bb</a> =3D&gt; <a href=3D"http://py=
+thon-kombu_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.=
+0.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
+on-kombu_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.=
+bb</a> =3D&gt; <a href=3D"http://python-kombu_4.5.0.bb" rel=3D"noreferrer" =
+target=3D"_blank">python-kombu_4.5.0.bb</a>} (70%)<br>
 <br>
-diff --git a/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb=
-" rel=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a> b/recipes-e=
-xtended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">nagios-core_4.4.3.bb</a><br>
-index cf37924..fcf04e9 100644<br>
---- a/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a><br>
-+++ b/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a><br>
-@@ -149,3 +149,5 @@ USERADD_PARAM_${SRCNAME}-base =3D &quot;-r -M -g ${NAGI=
-OS_GROUP} ${NAGIOS_USER}&quot;<br>
+diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
+n-kombu_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.b=
+b</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kom=
+bu_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.0.bb</a>=
 <br>
-=C2=A0INITSCRIPT_NAME =3D &quot;nagios&quot;<br>
-=C2=A0INITSCRIPT_PARAMS =3D &quot;defaults&quot;<br>
-+<br>
-+CVE_PRODUCT =3D &quot;nagios_core&quot;<br>
+similarity index 70%<br>
+rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
+-kombu_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.bb=
+</a><br>
+rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-k=
+ombu_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.0.bb</=
+a><br>
+index 3cf1035..6db89cc 100644<br>
+--- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kombu=
+_4.2.2.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.2.2.bb</a><b=
+r>
++++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kombu=
+_4.5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.5.0.bb</a><b=
+r>
+@@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;BSD&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Ddaea7c168428449fbee05=
+e644df929f4&quot;<br>
+<br>
+-SRC_URI[md5sum] =3D &quot;0c98ce669cb7a05c5046ea6009c77cba&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;52763f41077e25fe7e2f17b8319d8a7b7ab953a888c49=
+d9e4e0464fceb716896&quot;<br>
++SRC_URI[md5sum] =3D &quot;6a9f0d07ec3f8b784e9358d04a4709c3&quot;<br>
++SRC_URI[sha256sum] =3D &quot;389ba09e03b15b55b1a7371a441c894fd8121d174f558=
+3bbbca032b9ea8c9edd&quot;<br>
+<br>
+=C2=A0inherit setuptools pypi<br>
+<br>
 -- <br>
 2.7.4<br>
+<br>
+<br>
 <br>
 -- <br>
 _______________________________________________<br>
@@ -169,4 +218,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div>
 
---0000000000007ab38d05888e9c8e--
+--0000000000000967d105888e9fb2--
