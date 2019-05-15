@@ -1,63 +1,63 @@
-Return-Path: <salerio@gmail.com>
+Return-Path: <mark.hatle@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7E8F2E00D97; Wed, 15 May 2019 02:22:15 -0700 (PDT)
+	id 06AE4E00D97; Wed, 15 May 2019 03:24:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	https://www.dnswl.org/, *      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (salerio[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.222.47 listed in list.dnswl.org]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-ua1-f47.google.com (mail-ua1-f47.google.com
-	[209.85.222.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 25FEEE00CAB
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D1C61E00D75
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 May 2019 02:22:14 -0700 (PDT)
-Received: by mail-ua1-f47.google.com with SMTP id n7so739732uap.12
-	for <meta-virtualization@yoctoproject.org>;
-	Wed, 15 May 2019 02:22:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=83/tdXesD7JXMLtoOisPE8j3DgVUtss1mY3V4ZsQzgE=;
-	b=B9MKw+1RitpW2j93vpMPjHXaUdgqEl7OAzDfTtTwPVrzYSeBhhIAN+wwM7zbbujvAo
-	8VM4CZjIc1SwnEhZancIR0AUo/vFaxTOHJfT4W4YcjKjFGkWQ77C2OTTcESJxI5h7BRi
-	YNj13oMqeHg3KH6t46aLnQumlSo/6p2THpDfTWeCgEl12eVE+b7902RyGbWBO7lse5P0
-	FtSct753zcF6DUYhuYaaE5/yWllWDylWSFKiIr+LNto9hHQGzAqUIE4y5e+13Fx3Za6H
-	RQQnMNNPuL3ZuKEHYxegeMHGBDoq5jeWqtSveYOwuY7dqOCqGod9Ox6jY1XyUJ1LvxdN
-	BzXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=83/tdXesD7JXMLtoOisPE8j3DgVUtss1mY3V4ZsQzgE=;
-	b=I1AVgxeRVbfZ8ujeKQuzjMC+uudQvfZnBu4ynjowjPoTDpRxB9gYB8HP/4o4LGODId
-	MWPYZTFYlERFXTynwfrLaKmPL4AMVWVGmroJGP7P84iNvOz4gip7bJCx0LwmLvRz+MuT
-	eOlmV73yijLiLJy8yi90jZbtlFvSn6c7kaMTNFL4E0Sh+RR+DFVE44OW0wmjpJi5eTCH
-	t3tILiJODPHWy2m+OiEzZRvHB8YBDlXpQPC9Mnv1Tu5ES06mAZTzHqbJnJeQezHeEGxF
-	74lCfSGU3ubXxi0flg/IWcUMk0Vl4GT036MARCNG75xuRMAXyi6o7vDDlJX3hIaL6RVO
-	olNA==
-X-Gm-Message-State: APjAAAX/NgUnYr5Fbhjyww6NxuEldsGNmOUJtFlfDhjQIYkR3cjONQTY
-	TCdnI3OW6/bl17T62tt7QVEYfcj1q3GgzdWZ3Vd9nbHVzdo=
-X-Google-Smtp-Source: APXvYqx0N4xNEeOapVS3SGguYrCfUaVhSIjNv5hArEMgSK7gjaIJmW+wfBjIHJrt79seKM85ghQeZM+Sa0lPznsE/P4=
-X-Received: by 2002:ab0:b0e:: with SMTP id b14mr5091109uak.116.1557912134060; 
-	Wed, 15 May 2019 02:22:14 -0700 (PDT)
+	Wed, 15 May 2019 03:24:14 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4FANWGs019872
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 May 2019 03:23:47 -0700
+Received: from soho-mhatle-m.local (147.11.117.100) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 15 May 2019 03:23:34 -0700
+To: Peter Smith <salerio@gmail.com>, <meta-virtualization@yoctoproject.org>
+References: <CAOx=Z6EgeB7_yxozw-spZaXhL0j3O8xoRyWF3auQCdA-aP=Kxw@mail.gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <f03fb341-7245-5563-58a2-7f44d48126f3@windriver.com>
+Date: Wed, 15 May 2019 13:23:33 +0300
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-From: Peter Smith <salerio@gmail.com>
-Date: Wed, 15 May 2019 10:21:37 +0100
-Message-ID: <CAOx=Z6EgeB7_yxozw-spZaXhL0j3O8xoRyWF3auQCdA-aP=Kxw@mail.gmail.com>
-To: meta-virtualization@yoctoproject.org
-Subject: Does the meta-virtualization layer support building kvm on aarch64 archiecture?
+In-Reply-To: <CAOx=Z6EgeB7_yxozw-spZaXhL0j3O8xoRyWF3auQCdA-aP=Kxw@mail.gmail.com>
+Subject: Re: Does the meta-virtualization layer support building kvm on aarch64 archiecture?
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -70,47 +70,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 09:22:15 -0000
-Content-Type: multipart/alternative; boundary="0000000000005791bc0588e9afb3"
+X-List-Received-Date: Wed, 15 May 2019 10:24:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
---0000000000005791bc0588e9afb3
-Content-Type: text/plain; charset="UTF-8"
+On 5/15/19 12:21 PM, Peter Smith wrote:
+> I have been experimenting with using kvm on aarch64 based SoC's and after
+> studying the contents of the meta-virtualization layer I came to the conclusion
+> (maybe wrongly) that the layer does not provide full support for building a kvm
+> kernel on aarch64.
 
-I have been experimenting with using kvm on aarch64 based SoC's and after
-studying the contents of the meta-virtualization layer I came to the
-conclusion (maybe wrongly) that the layer does not provide full support for
-building a kvm kernel on aarch64.
+I know people have done this in the past.  So unless Bruce or someone says it's
+specifically not designed to do that.  I would expect it should work, and if it
+doesn't...
 
-For example the enabling kernel configurations appear to currently be
-incorrect.
+> For example the enabling kernel configurations appear to currently be incorrect.
 
-I would appreciate it if someone with greater knowledge than me could put
-me straight.
+...this sounds like a bug.  So if you have ideas how to resolve it, then please
+bring them up to the list.  (Even better if you have a patch.)
 
-Thanks in advance.
-Peter
+> I would appreciate it if someone with greater knowledge than me could put me
+> straight. 
 
---0000000000005791bc0588e9afb3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+meta-virtualization is intended to be a general purpose virtualization enabling
+layer.  It is used pretty heavily on IA machines, just because a lot of
+virtualization is being done on that architecture.  But as long as the
+architecture itself supports the virtualization aspects, I'm not aware of any
+reason that fixes for those architectures wouldn't be allowed.
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-family:verdana,=
-sans-serif;font-size:small">I have been experimenting with using kvm on aar=
-ch64 based SoC&#39;s and after studying the contents of the meta-virtualiza=
-tion layer I came to the conclusion (maybe wrongly) that the layer does not=
- provide full support for building a kvm kernel on aarch64.</div><div class=
-=3D"gmail_default" style=3D"font-family:verdana,sans-serif;font-size:small"=
-><br></div><div class=3D"gmail_default" style=3D"font-family:verdana,sans-s=
-erif;font-size:small">For example the enabling kernel configurations appear=
- to currently be incorrect.</div><div class=3D"gmail_default" style=3D"font=
--family:verdana,sans-serif;font-size:small"><br></div><div class=3D"gmail_d=
-efault" style=3D"font-family:verdana,sans-serif;font-size:small">I would ap=
-preciate it if someone with greater knowledge than me could put me straight=
-.=C2=A0</div><div class=3D"gmail_default" style=3D"font-family:verdana,sans=
--serif;font-size:small"><br></div><div class=3D"gmail_default" style=3D"fon=
-t-family:verdana,sans-serif;font-size:small">Thanks in advance.</div><div c=
-lass=3D"gmail_default" style=3D"font-family:verdana,sans-serif;font-size:sm=
-all"><span style=3D"font-family:Arial,Helvetica,sans-serif">Peter</span><br=
-></div></div>
+--Mark
 
---0000000000005791bc0588e9afb3--
+> 
+> Thanks in advance.
+> Peter
+> 
+
+
