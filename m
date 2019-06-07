@@ -1,17 +1,17 @@
 Return-Path: <ticotimo@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CFC06E00BAF; Thu,  6 Jun 2019 23:58:18 -0700 (PDT)
+	id 2FFC0E00C37; Fri,  7 Jun 2019 00:03:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
 	*      [209.85.166.196 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (ticotimo[at]gmail.com)
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
@@ -22,46 +22,46 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      valid
 Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
 	[209.85.166.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 30699E00951
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5D25FE00B33
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  6 Jun 2019 23:58:18 -0700 (PDT)
-Received: by mail-it1-f196.google.com with SMTP id r135so1182404ith.1
+	Fri,  7 Jun 2019 00:03:57 -0700 (PDT)
+Received: by mail-it1-f196.google.com with SMTP id m187so1204127ite.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 06 Jun 2019 23:58:18 -0700 (PDT)
+	Fri, 07 Jun 2019 00:03:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Y9uQQcJ6mv0KSfvjfyngKROVS0H8HUqR3/I7z9QdMlU=;
-	b=kW2j52Mn+hE/zX67jmjRYPpbB4h+WfZc4uk22YXt7sv2AbPV6ZTbu4ozgGgRIm6BvX
-	v/sJEdH+PrSOpTUa9AaO3qqwtoR7bEnNBs7sWQ1XtBsW6pmBa1pf1+LtcwbEcstpk5IN
-	Kxd4v7pVWgcyW/pyXGqxOI36S9iQndKOv/HBz/0sbwE4jJR645w8wteHqll+0/4W4A1N
-	lz4sbulvSUTA6QDY4Uq3dutRxet551da79TZCiCd7sgV/1HErdfZN4AUzqQBjef4ImMb
-	kvgQ8atIDXLOMhBDF5eRYNbsreEuMRL+dhe+MoYBf/3C3bLIaVSuhX8G9be8qZJ9dsAk
-	0GHg==
+	:cc; bh=aMduhD97IFSUH/LeFIk/WKQdyBP4c1gGKtLb8/04Pfc=;
+	b=B4BmPka3nlSTTwxg33u07EIK4sujVBzlgl7s95u9ML0WcMDF6aYdhmJnoIYlBmlfdZ
+	H0mtqC3ccu73ZXcI6tjwHeBa632OpIjyYQ7CxvFJrW82RVeHBgxmhRv4dL1WC5yVZzWn
+	MuOPGgYpsaxR+5NDa180Q9OF+WJQ+5dFJirHnH3CcbxISXth7QswXhM0ihv/RxgHl18a
+	XXqStAaVLnx4FGLSTOoXu/ckSk5/+Ib8G/bCX8BoDmCyOejpfL/vnjosG1BZAYyKr9js
+	fCu6Kf5a+JaxVFVXc5pCgB2b7n+y1DpKjgOuYuTam2iWDi2kcmySbSZAT5H/owXI5M1W
+	IKlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Y9uQQcJ6mv0KSfvjfyngKROVS0H8HUqR3/I7z9QdMlU=;
-	b=TEuJJJpBG5Uj9iggzXP2kbBaBIZUESTOl1kwlYBc/WwyC6YqoX1qjU7/v18g0bzq6C
-	xwmrx9Eo8/7G6OIrwLnXNyM6r+SOlX7MJTWa7xVcYfjdAWsKhiEmudbXPJoRx1EHAza/
-	KWz8DXVeUloZAn6rktplFbkr8S2CYPs8tvc2Foq7hFydPeE5F4tgj8tv4lk30cO1auMv
-	6VT6s9fqyeRxdqmLNovTo961QMZvboOQpBomnc1sHqMxDHWi7N11AhYCJdVoXi4xtSB9
-	gaOuNheO+5JrkONGHY6PbqG1cU4UhW7BN3FeaHwQu/V4Xl7A5YvhkMn1nbT98BXmE64l
-	RI5w==
-X-Gm-Message-State: APjAAAUQX1CGiiuB7diYI5vvEZgDpPF5xNcQxwU16rl52OD49LDaGRFN
-	Od0MubLmsupGA6HrWKeYWEHqncsdNj7r3A6CXHo=
-X-Google-Smtp-Source: APXvYqwCxTiVnqgJfTsY2mCTZDzYH2P7Jzxl996shDmIv+WAhqmdwrFvSdpbfLQ/IbPzDCPbaOyIcuSL6bWTrUBV9ic=
-X-Received: by 2002:a02:a493:: with SMTP id d19mr30667960jam.22.1559890697646; 
-	Thu, 06 Jun 2019 23:58:17 -0700 (PDT)
+	bh=aMduhD97IFSUH/LeFIk/WKQdyBP4c1gGKtLb8/04Pfc=;
+	b=lSe+uyKTFVE/ZGnJa5cx7JLqiEjGT8BzCS4b3zgxAMtWyuF4cL7jdtK+rcxVHm82/Y
+	mOQobg6cQcjHxjxQR3q3YtgybFGwejdSHEiPEka7eEYlyysKfUPjau05/Ce5TlrfrHJu
+	GO1V5HQv1rMZnTsjwSMcT0ePDBN4DHybEuJkBO5O1DnxiskIQVf1lxkjHw12Y6FTNkOF
+	vVbffyC3YI3pdnleigWoUBLmGTiamxXnDEQOR2GSCbAg4UEyPfZjK3vnEUWxl0qGgwy4
+	ehgqkLSdcpdfN5R2E37BUyMaOl2zOaxJ5o2hsLHkFb8lDCxnznXz0e8WNilDOEtshzaP
+	USpw==
+X-Gm-Message-State: APjAAAUmSL/sHItulfyo0zRME3DdavqHrXMRoTs83mvi267B1+z1pxvt
+	ZmLY5tyy5V6q2XEOw7rRXcANtbvYNGewb2+ZgYM=
+X-Google-Smtp-Source: APXvYqyWuicdWjSYrdwbNfOASE9IYWC1piJEt/TD6JTDV+oIPtAYhpYKPflLOMACFQAj+cZd9E/pCe+Bs4Q/VliOZwg=
+X-Received: by 2002:a24:1796:: with SMTP id 144mr2990706ith.18.1559891036795; 
+	Fri, 07 Jun 2019 00:03:56 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190606025710.30112-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190606025710.30112-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190606023822.17597-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190606023822.17597-1-zangrc.fnst@cn.fujitsu.com>
 From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 6 Jun 2019 23:58:06 -0700
-Message-ID: <CANx9H-D0YuUw5XX2oKo3=OeejdG6oNHk7vmygT3p2iSah7QW3Q@mail.gmail.com>
+Date: Fri, 7 Jun 2019 00:03:46 -0700
+Message-ID: <CANx9H-A_2uUeT5fJ9Da6OsiCTjEA=+oc2zO_yCFgsjZm22QT7A@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-webtest: upgrade 2.0.29 -> 2.0.33
+Subject: Re: [PATCH] python-rfc3986: upgrade 0.4.1 -> 1.3.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,59 +74,48 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 06:58:18 -0000
-Content-Type: multipart/alternative; boundary="000000000000ebf549058ab65af2"
+X-List-Received-Date: Fri, 07 Jun 2019 07:03:58 -0000
+Content-Type: multipart/alternative; boundary="00000000000022f6f8058ab66f37"
 
---000000000000ebf549058ab65af2
+--00000000000022f6f8058ab66f37
 Content-Type: text/plain; charset="UTF-8"
 
-Please consider adding a python3 version as well.
+Please consider providing a python3 version as well.
 
-On Wed, Jun 5, 2019 at 7:56 PM Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+On Wed, Jun 5, 2019 at 7:37 PM Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 wrote:
 
-> -Upgrade from python-webtest_2.0.29.bb to python-webtest_2.0.33.bb.
->
-> -License-Update: Changed the path of docs.
+> -Upgrade from python-rfc3986_0.4.1.bb to python-rfc3986_1.3.2.bb.
 >
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../{python-webtest_2.0.29.bb => python-webtest_2.0.33.bb}  | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-webtest_2.0.29.bb
-> => python-webtest_2.0.33.bb} (52%)
+>  .../{python-rfc3986_0.4.1.bb => python-rfc3986_1.3.2.bb}      | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-rfc3986_0.4.1.bb
+> => python-rfc3986_1.3.2.bb} (72%)
 >
 > diff --git a/meta-openstack/recipes-devtools/python/
-> python-webtest_2.0.29.bb b/meta-openstack/recipes-devtools/python/
-> python-webtest_2.0.33.bb
-> similarity index 52%
-> rename from meta-openstack/recipes-devtools/python/
-> python-webtest_2.0.29.bb
-> rename to meta-openstack/recipes-devtools/python/python-webtest_2.0.33.bb
-> index c075a55..527f5c7 100644
-> --- a/meta-openstack/recipes-devtools/python/python-webtest_2.0.29.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-webtest_2.0.33.bb
-> @@ -2,13 +2,13 @@ DESCRIPTION = "Helper to test WSGI applications"
->  HOMEPAGE = "https://pypi.python.org/pypi/WebTest/"
->  SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM =
-> "file://README.rst;md5=c7fb282fc7269ea1ef7dd689470b528b"
-> +LIC_FILES_CHKSUM =
-> "file://README.rst;md5=e3e00192f000e33de99fd5a3cb32a8fc"
+> python-rfc3986_0.4.1.bb b/meta-openstack/recipes-devtools/python/
+> python-rfc3986_1.3.2.bb
+> similarity index 72%
+> rename from meta-openstack/recipes-devtools/python/python-rfc3986_0.4.1.bb
+> rename to meta-openstack/recipes-devtools/python/python-rfc3986_1.3.2.bb
+> index 0eaf181..e32f903 100644
+> --- a/meta-openstack/recipes-devtools/python/python-rfc3986_0.4.1.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-rfc3986_1.3.2.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "Apache-2"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=03731a0e7dbcb30cecdcec77cc93ec29"
 >
->  PYPI_PACKAGE = "WebTest"
->
->  RDEPENDS_${PN} += "python-beautifulsoup4"
->
-> -SRC_URI[md5sum] = "30b4cf0d340b9a5335fac4389e6f84fc"
+> -SRC_URI[md5sum] = "b2b48cd36dabb82d5eaa54bbfb20d382"
 > -SRC_URI[sha256sum] =
-> "dbbccc15ac2465066c95dc3a7de0d30cde3791e886ccbd7e91d5d2a2580c922d"
-> +SRC_URI[md5sum] = "dd0385c725b85ac1e8079f38d2acd7b1"
+> "5ac85eb132fae7bbd811fa48d11984ae3104be30d44d397a351d004c633a68d2"
+> +SRC_URI[md5sum] = "5b6d009806a94d418c82d48219a256de"
 > +SRC_URI[sha256sum] =
-> "41348efe4323a647a239c31cde84e5e440d726ca4f449859264e538d39037fd0"
+> "0344d0bd428126ce554e7ca2b61787b6a28d2bbd19fc70ed2dd85efe31176405"
 >
 >  inherit setuptools pypi
+>
 > --
 > 2.20.1
 >
@@ -139,78 +128,66 @@ wrote:
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
 >
 
---000000000000ebf549058ab65af2
+--00000000000022f6f8058ab66f37
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><div dir=3D"auto">Please consider adding a python3 version as well.</d=
-iv><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On =
-Wed, Jun 5, 2019 at 7:56 PM Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@=
-cn.fujitsu.com">zangrc.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
-olid;padding-left:1ex">-Upgrade from <a href=3D"http://python-webtest_2.0.2=
-9.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2.0.29.bb</a> to =
-<a href=3D"http://python-webtest_2.0.33.bb" rel=3D"noreferrer" target=3D"_b=
-lank">python-webtest_2.0.33.bb</a>.<br>
-<br>
--License-Update: Changed the path of docs.<br>
+<div><div dir=3D"auto">Please consider providing a python3 version as well.=
+</div></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Wed, Jun 5, 2019 at 7:37 PM Zang Ruochen &lt;<a href=3D"mailt=
+o:zangrc.fnst@cn.fujitsu.com">zangrc.fnst@cn.fujitsu.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex">-Upgrade from <a href=3D"http://python=
+-rfc3986_0.4.1.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_0.4.=
+1.bb</a> to <a href=3D"http://python-rfc3986_1.3.2.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">python-rfc3986_1.3.2.bb</a>.<br>
 <br>
 Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fujitsu.co=
 m" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0.../{<a href=3D"http://python-webtest_2.0.29.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">python-webtest_2.0.29.bb</a> =3D&gt; <a href=3D"http://pyt=
-hon-webtest_2.0.33.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_=
-2.0.33.bb</a>}=C2=A0 | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
+=C2=A0.../{<a href=3D"http://python-rfc3986_0.4.1.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">python-rfc3986_0.4.1.bb</a> =3D&gt; <a href=3D"http://pytho=
+n-rfc3986_1.3.2.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_1.3=
+.2.bb</a>}=C2=A0 =C2=A0 =C2=A0 | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 =C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
-on-webtest_2.0.29.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2=
-.0.29.bb</a> =3D&gt; <a href=3D"http://python-webtest_2.0.33.bb" rel=3D"nor=
-eferrer" target=3D"_blank">python-webtest_2.0.33.bb</a>} (52%)<br>
+on-rfc3986_0.4.1.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_0.=
+4.1.bb</a> =3D&gt; <a href=3D"http://python-rfc3986_1.3.2.bb" rel=3D"norefe=
+rrer" target=3D"_blank">python-rfc3986_1.3.2.bb</a>} (72%)<br>
 <br>
 diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n-webtest_2.0.29.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2.=
-0.29.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://pyth=
-on-webtest_2.0.33.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2=
-.0.33.bb</a><br>
-similarity index 52%<br>
+n-rfc3986_0.4.1.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_0.4=
+.1.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python=
+-rfc3986_1.3.2.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_1.3.=
+2.bb</a><br>
+similarity index 72%<br>
 rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
--webtest_2.0.29.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2.0=
-.29.bb</a><br>
-rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-w=
-ebtest_2.0.33.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2.0.3=
-3.bb</a><br>
-index c075a55..527f5c7 100644<br>
---- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-webte=
-st_2.0.29.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2.0.29.bb=
-</a><br>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-webte=
-st_2.0.33.bb" rel=3D"noreferrer" target=3D"_blank">python-webtest_2.0.33.bb=
-</a><br>
-@@ -2,13 +2,13 @@ DESCRIPTION =3D &quot;Helper to test WSGI applications&qu=
-ot;<br>
-=C2=A0HOMEPAGE =3D &quot;<a href=3D"https://pypi.python.org/pypi/WebTest/" =
-rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/pypi/WebTest/<=
-/a>&quot;<br>
-=C2=A0SECTION =3D &quot;devel/python&quot;<br>
-=C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://README.rst;md5=3Dc7fb282fc7269ea1ef7dd68=
-9470b528b&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://README.rst;md5=3De3e00192f000e33de99fd5a=
-3cb32a8fc&quot;<br>
+-rfc3986_0.4.1.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_0.4.=
+1.bb</a><br>
+rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-r=
+fc3986_1.3.2.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_1.3.2.=
+bb</a><br>
+index 0eaf181..e32f903 100644<br>
+--- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-rfc39=
+86_0.4.1.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_0.4.1.bb</=
+a><br>
++++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-rfc39=
+86_1.3.2.bb" rel=3D"noreferrer" target=3D"_blank">python-rfc3986_1.3.2.bb</=
+a><br>
+@@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;Apache-2&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D03731a0e7dbcb30cecdce=
+c77cc93ec29&quot;<br>
 <br>
-=C2=A0PYPI_PACKAGE =3D &quot;WebTest&quot;<br>
-<br>
-=C2=A0RDEPENDS_${PN} +=3D &quot;python-beautifulsoup4&quot;<br>
-<br>
--SRC_URI[md5sum] =3D &quot;30b4cf0d340b9a5335fac4389e6f84fc&quot;<br>
--SRC_URI[sha256sum] =3D &quot;dbbccc15ac2465066c95dc3a7de0d30cde3791e886ccb=
-d7e91d5d2a2580c922d&quot;<br>
-+SRC_URI[md5sum] =3D &quot;dd0385c725b85ac1e8079f38d2acd7b1&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;41348efe4323a647a239c31cde84e5e440d726ca4f449=
-859264e538d39037fd0&quot;<br>
+-SRC_URI[md5sum] =3D &quot;b2b48cd36dabb82d5eaa54bbfb20d382&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;5ac85eb132fae7bbd811fa48d11984ae3104be30d44d3=
+97a351d004c633a68d2&quot;<br>
++SRC_URI[md5sum] =3D &quot;5b6d009806a94d418c82d48219a256de&quot;<br>
++SRC_URI[sha256sum] =3D &quot;0344d0bd428126ce554e7ca2b61787b6a28d2bbd19fc7=
+0ed2dd85efe31176405&quot;<br>
 <br>
 =C2=A0inherit setuptools pypi<br>
+<br>
 -- <br>
 2.20.1<br>
 <br>
@@ -226,4 +203,4 @@ eta-virtualization@yoctoproject.org</a><br>
 eta-virtualization</a><br>
 </blockquote></div></div>
 
---000000000000ebf549058ab65af2--
+--00000000000022f6f8058ab66f37--
