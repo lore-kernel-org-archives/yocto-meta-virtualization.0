@@ -1,41 +1,65 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Return-Path: <bostancioglucevat@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E1060E00D9D; Wed, 12 Jun 2019 23:04:11 -0700 (PDT)
+	id 7613FE00A96; Fri, 14 Jun 2019 09:16:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	https://www.dnswl.org/, *      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, FROM_EXCESS_BASE64,
+	HTML_MESSAGE, RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D4DDEE00D00
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bostancioglucevat[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.42 listed in list.dnswl.org]
+	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	*  1.0 FROM_EXCESS_BASE64 From: base64 encoded unnecessarily
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
+	[209.85.208.42])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F2364E0049C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 12 Jun 2019 23:04:10 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.63,367,1557158400"; d="scan'208";a="67194025"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Jun 2019 14:04:08 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 550B74CDDAE3
+	Fri, 14 Jun 2019 09:16:40 -0700 (PDT)
+Received: by mail-ed1-f42.google.com with SMTP id k21so4281462edq.3
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 13 Jun 2019 14:04:11 +0800 (CST)
-Received: from localhost.localdomain (10.167.226.46) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 13 Jun 2019 14:04:10 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Thu, 13 Jun 2019 14:05:24 +0800
-Message-ID: <20190613060524.13621-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 14 Jun 2019 09:16:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=ze9SupsWqJ2xoMKlDWFUxjsKYWcsvyHtXLWLsLkl8ls=;
+	b=sAoS4F4rWtR9YTYQG0BfmgHn8UoJsPFnZ7XZteyGW97tx/K07T0G0niR6GnS4UObY+
+	8gFcPj7hfNJRHbttIJRW+2+4G27hE3XnSerAd6+rPgMiAP6TJC4o0mYa/Uu48YcH98I2
+	5AHxPIgUZYJPEpvnZgB/Nchhe8WHrCjsl+JVaxL3yQRDTeu1VHaWj/TEj7YaeE28cgW7
+	SP/BfkUTNxjPLFz0XChXodA8ZkaUfK4bkGagH6GktnGakzeHoVC/mVIccp6jhhh7pnEk
+	5SJtZ71H3/SmEV1Zc6fw9mtlEa4c2s3fvk9hUHErjwxpBDm9Zqexyo8zofLbqs97xlZi
+	j9zw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=ze9SupsWqJ2xoMKlDWFUxjsKYWcsvyHtXLWLsLkl8ls=;
+	b=jSxP5l+LpyqY+KxnTG20QLHVKAJkntngLVI8BLg82H3+1oFSe3+WoofWxq0xNLU4tH
+	NUN4qQeE/ckM+CxYSIqTc4ippDheqWTQgsqiZMahOHkeBvChnfj0wyRziZwh3n4LCOHN
+	eD2Hh0tzgyPvI3gcGDVmA7v1kZeTWnWAlvdn+5KwR3oldWIMJZwXbRLqQDzCIMVKu0P9
+	H8af8FWDiJbJUjKCcDeTAj1UeFe02feUm92iQPMZkL3G+AMBLRKn04JH6g+mtGxM5Cvr
+	JZIJ2mrDhQemv0cAyilgZf42U6vdgVKgdnGDS7+XUS1PGNdFogBy74XIpceHipRLfjvS
+	OpgQ==
+X-Gm-Message-State: APjAAAXGxuVfCv2b1I5SNIyKbC6wYkhLHvOy8aVE2f7hb72Qp97MMH33
+	/hz0nSZeB+lzOw4vksYsd6/zfUnSEdoAPA7qp9gZbmso
+X-Google-Smtp-Source: APXvYqzPoYLHabtNoX49xt4y6bJGwVdabJqC6kRq2IitpfQU3ngmj+6puIoIlESD4aeh+JR04c++Uk3friqUw0yzhM0=
+X-Received: by 2002:a17:906:7ac5:: with SMTP id
+	k5mr7635233ejo.128.1560528999873; 
+	Fri, 14 Jun 2019 09:16:39 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.226.46]
-X-yoursite-MailScanner-ID: 550B74CDDAE3.A8895
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Subject: [PATCH v2] python-httplib2: upgrade 0.12.3 -> 0.13.0
+From: =?UTF-8?B?Q2V2YXQgQm9zdGFuY8Sxb8SfbHU=?= <bostancioglucevat@gmail.com>
+Date: Fri, 14 Jun 2019 19:16:29 +0300
+Message-ID: <CABPcKDO-qfBmWUUWKVY-6V2Jn6RVJ+wRyT4L39LnG8Z_AnfhBw@mail.gmail.com>
+To: meta-virtualization@yoctoproject.org
+Subject: kvmtool: Compile time error fixed.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,69 +72,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 06:04:11 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Fri, 14 Jun 2019 16:16:41 -0000
+X-Groupsio-MsgNum: 4239
+Content-Type: multipart/mixed; boundary="000000000000b31f69058b4af8e2"
 
--Upgrade from python-httplib2_0.12.3.bb to python-httplib2_0.13.0.bb.
+--000000000000b31f69058b4af8e2
+Content-Type: multipart/alternative; boundary="000000000000b31f65058b4af8e0"
 
--Add recipe python3-httplib2_0.13.0.bb.
-
--License-Update: Update the information of package.
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../{python-httplib2_0.12.3.bb => python-httplib2.inc}    | 8 ++++----
- .../recipes-devtools/python/python-httplib2_0.13.0.bb     | 2 ++
- .../recipes-devtools/python/python3-httplib2_0.13.0.bb    | 2 ++
- 3 files changed, 8 insertions(+), 4 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-httplib2_0.12.3.bb => python-httplib2.inc} (55%)
- create mode 100644 meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb
-
-diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.12.3.bb b/meta-openstack/recipes-devtools/python/python-httplib2.inc
-similarity index 55%
-rename from meta-openstack/recipes-devtools/python/python-httplib2_0.12.3.bb
-rename to meta-openstack/recipes-devtools/python/python-httplib2.inc
-index a1a518f..95890cc 100644
---- a/meta-openstack/recipes-devtools/python/python-httplib2_0.12.3.bb
-+++ b/meta-openstack/recipes-devtools/python/python-httplib2.inc
-@@ -2,12 +2,12 @@ DESCRIPTION = "A comprehensive HTTP client library"
- HOMEPAGE = "https://code.google.com/p/httplib2/"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=ad87b270277b5f40e2a281d9f7dde584"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=341f12f35eee133c8ce15c04a042fb72"
- 
--SRC_URI[md5sum] = "f78ce222216865271f2672e6941174d5"
--SRC_URI[sha256sum] = "a18121c7c72a56689efbf1aef990139ad940fee1e64c6f2458831736cd593600"
-+SRC_URI[md5sum] = "c0c3b1c1a1c51fa40f46271d95f74fdc"
-+SRC_URI[sha256sum] = "d1146939d270f1f1eb8cbf8f5aa72ff37d897faccca448582bb1e180aeb4c6b2"
- 
--inherit setuptools pypi
-+inherit pypi
- 
- do_install_append() {
- 	perm_files=`find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "top_level.txt"`
-diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb b/meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb
-new file mode 100644
-index 0000000..8f98163
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb
-@@ -0,0 +1,2 @@
-+inherit setuptools
-+require python-httplib2.inc
-diff --git a/meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb b/meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb
-new file mode 100644
-index 0000000..03be0bd
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb
-@@ -0,0 +1,2 @@
-+inherit setuptools3
-+require python-httplib2.inc
--- 
-2.20.1
+--000000000000b31f65058b4af8e0
+Content-Type: text/plain; charset="UTF-8"
 
 
 
+--000000000000b31f65058b4af8e0
+Content-Type: text/html; charset="UTF-8"
 
+<div dir="ltr"><br></div>
+
+--000000000000b31f65058b4af8e0--
+
+--000000000000b31f69058b4af8e2
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch"
+Content-Disposition: attachment; 
+	filename="0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_jwwao05u0>
+X-Attachment-Id: f_jwwao05u0
+
+RnJvbSA4ZTI5MWFmMTkxMzM5NDcxYzIwMjkyNzg0ZWJiNmRlNjEyMmY0ZmM0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBDZXZhdCBCb3N0YW5jaW9nbHUgPGJvc3RhbmNpb2dsdWNldmF0
+QGdtYWlsLmNvbT4KRGF0ZTogRnJpLCAxNCBKdW4gMjAxOSAxODo0NzoyNSArMDMwMApTdWJqZWN0
+OiBbUEFUQ0hdIGt2bXRvb2w6IGFkZCBDRkxBR1MgVmFyaWFibGUgYW5kIGRpc2FibGUgV2Vycm9y
+Cgp0byBhdm9pZCBDRkxBR1MgYW5kIHdhcm5pbmdzIHZpYSBjb21tYW5kIGFyZ3VtZW50Ci0tLQog
+TWFrZWZpbGUgfCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
+LWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKaW5kZXggMDMwZmY0ZS4uZTBhOGIyMyAxMDA2NDQK
+LS0tIGEvTWFrZWZpbGUKKysrIGIvTWFrZWZpbGUKQEAgLTIsNiArMiw5IEBACiAjIERlZmluZSBX
+RVJST1I9MCB0byBkaXNhYmxlIC1XZXJyb3IuCiAjCiAKK1dFUlJPUj0wCitDRkxBR1MgKz0gJChF
+WFRSQV9DRkxBR1MpCisKIGlmZXEgKCQoc3RyaXAgJChWKSksKQogCUUgPSBAZWNobwogCVEgPSBA
+Ci0tIAoyLjcuNAo=
+
+--000000000000b31f69058b4af8e2--
