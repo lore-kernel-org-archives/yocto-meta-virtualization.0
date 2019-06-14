@@ -1,65 +1,66 @@
 Return-Path: <bostancioglucevat@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7613FE00A96; Fri, 14 Jun 2019 09:16:41 -0700 (PDT)
+	id 0C873E00BAF; Fri, 14 Jun 2019 09:50:31 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, FROM_EXCESS_BASE64,
-	HTML_MESSAGE, RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bostancioglucevat[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.42 listed in list.dnswl.org]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
+	*      [209.85.221.66 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	*  1.0 FROM_EXCESS_BASE64 From: base64 encoded unnecessarily
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com
-	[209.85.208.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F2364E0049C
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 48546E00AAF
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 14 Jun 2019 09:16:40 -0700 (PDT)
-Received: by mail-ed1-f42.google.com with SMTP id k21so4281462edq.3
+	Fri, 14 Jun 2019 09:50:30 -0700 (PDT)
+Received: by mail-wr1-f66.google.com with SMTP id x17so3224590wrl.9
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 14 Jun 2019 09:16:40 -0700 (PDT)
+	Fri, 14 Jun 2019 09:50:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=ze9SupsWqJ2xoMKlDWFUxjsKYWcsvyHtXLWLsLkl8ls=;
-	b=sAoS4F4rWtR9YTYQG0BfmgHn8UoJsPFnZ7XZteyGW97tx/K07T0G0niR6GnS4UObY+
-	8gFcPj7hfNJRHbttIJRW+2+4G27hE3XnSerAd6+rPgMiAP6TJC4o0mYa/Uu48YcH98I2
-	5AHxPIgUZYJPEpvnZgB/Nchhe8WHrCjsl+JVaxL3yQRDTeu1VHaWj/TEj7YaeE28cgW7
-	SP/BfkUTNxjPLFz0XChXodA8ZkaUfK4bkGagH6GktnGakzeHoVC/mVIccp6jhhh7pnEk
-	5SJtZ71H3/SmEV1Zc6fw9mtlEa4c2s3fvk9hUHErjwxpBDm9Zqexyo8zofLbqs97xlZi
-	j9zw==
+	h=from:to:cc:subject:date:message-id;
+	bh=7fEbbBHwaVmUO0yeIkY46yQmXGyWI+gfmMJQlTt4gus=;
+	b=s+EB0pBRD+H/edhljR59rjyXQyBJpsqj6IJSBAnJG4BzK5m5s1F38+v4++qnl4pI/B
+	boX6Xv3cyGXVy4FVYCGHjgQIaLsHY7sFhHjsASCh6KdJi8C7W8Do7FpUD+wNZKw1X5gB
+	ALi0vdow1tMg+PocOzNmGvLn2AiDDKaUW3iUwVygV5Qx18IuQfEw3vdG6k2REW0s1lD0
+	7Xj8zD27oZqmA0JQ8lrSRmkiBwQzysQqZ8JOugK11EcSXBeuEvGIfv1Il7K54TgJE4jb
+	Yuc4d3W/zng8rIItK1ye2hBrEyIaB9rv5YR8ogkCLjnUTKTPMiJElnTIpDLhke6uu1c2
+	dfhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=ze9SupsWqJ2xoMKlDWFUxjsKYWcsvyHtXLWLsLkl8ls=;
-	b=jSxP5l+LpyqY+KxnTG20QLHVKAJkntngLVI8BLg82H3+1oFSe3+WoofWxq0xNLU4tH
-	NUN4qQeE/ckM+CxYSIqTc4ippDheqWTQgsqiZMahOHkeBvChnfj0wyRziZwh3n4LCOHN
-	eD2Hh0tzgyPvI3gcGDVmA7v1kZeTWnWAlvdn+5KwR3oldWIMJZwXbRLqQDzCIMVKu0P9
-	H8af8FWDiJbJUjKCcDeTAj1UeFe02feUm92iQPMZkL3G+AMBLRKn04JH6g+mtGxM5Cvr
-	JZIJ2mrDhQemv0cAyilgZf42U6vdgVKgdnGDS7+XUS1PGNdFogBy74XIpceHipRLfjvS
-	OpgQ==
-X-Gm-Message-State: APjAAAXGxuVfCv2b1I5SNIyKbC6wYkhLHvOy8aVE2f7hb72Qp97MMH33
-	/hz0nSZeB+lzOw4vksYsd6/zfUnSEdoAPA7qp9gZbmso
-X-Google-Smtp-Source: APXvYqzPoYLHabtNoX49xt4y6bJGwVdabJqC6kRq2IitpfQU3ngmj+6puIoIlESD4aeh+JR04c++Uk3friqUw0yzhM0=
-X-Received: by 2002:a17:906:7ac5:: with SMTP id
-	k5mr7635233ejo.128.1560528999873; 
-	Fri, 14 Jun 2019 09:16:39 -0700 (PDT)
-MIME-Version: 1.0
-From: =?UTF-8?B?Q2V2YXQgQm9zdGFuY8Sxb8SfbHU=?= <bostancioglucevat@gmail.com>
-Date: Fri, 14 Jun 2019 19:16:29 +0300
-Message-ID: <CABPcKDO-qfBmWUUWKVY-6V2Jn6RVJ+wRyT4L39LnG8Z_AnfhBw@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=7fEbbBHwaVmUO0yeIkY46yQmXGyWI+gfmMJQlTt4gus=;
+	b=bsLmn3ICqf/ujhDMOaSPeSyLMvsJh1CxlNI7XheJ17n2aFp3RMxQU8nBFMJwuCbcXT
+	83EYolMh3STmo6MyXNg/AtE1S07qfJicDN5nbxFvDDq6gPGMIB7v4rQBgy0uSnZ+2o9V
+	S81fO8Ih4gNX2sTDiGuH5m4lgQB7wvg1k2k++tvsz371/FmbiDUaVa9wZAQFyGFik3nr
+	mK9R2iUCfeBWmfY+/4DcaS624QV5tUaWz72XAnSJQqnIb2oT8MSA/FytMc9Ip3suj6Pm
+	X/J7tunetiQIUdDiykPQIvSrnaHt3E5HU/gfXe5/4HzDkAb7bEQDt9jTSQ66xmBctb7p
+	EUAQ==
+X-Gm-Message-State: APjAAAWXRfqx4HxWaZM28ZfZlguJTQPdRl19JWvzo5CIAJryraDkgbqo
+	G1eHSoqU9ZpQOCsWq2cmPfN/wocSwwQ=
+X-Google-Smtp-Source: APXvYqyG0wDSZAl+gRksGHKF7P2mTu7+r1Op9MXxrn0rMY9lw09Lq/pQfY+2LUGkEbW8brz7EeKSdQ==
+X-Received: by 2002:a5d:428d:: with SMTP id k13mr2865666wrq.142.1560531029218; 
+	Fri, 14 Jun 2019 09:50:29 -0700 (PDT)
+Received: from localhost.localdomain ([78.176.91.117])
+	by smtp.gmail.com with ESMTPSA id a81sm5443535wmh.3.2019.06.14.09.50.28
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 14 Jun 2019 09:50:28 -0700 (PDT)
+From: Cevat Bostancioglu <bostancioglucevat@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Subject: kvmtool: Compile time error fixed.
+Date: Fri, 14 Jun 2019 19:50:22 +0300
+Message-Id: <1560531022-7970-1-git-send-email-bostancioglucevat@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] kvmtool: Werror compile time error fixed.
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -72,44 +73,98 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 16:16:41 -0000
-X-Groupsio-MsgNum: 4239
-Content-Type: multipart/mixed; boundary="000000000000b31f69058b4af8e2"
+X-List-Received-Date: Fri, 14 Jun 2019 16:50:31 -0000
 
---000000000000b31f69058b4af8e2
-Content-Type: multipart/alternative; boundary="000000000000b31f65058b4af8e0"
+Signed-off-by: Cevat Bostancioglu <bostancioglucevat@gmail.com>
+---
+ ...-EXTRA_CFLAGS-variable-and-disable-werror.patch | 26 +++++++++++++++++++
+ .../0002-kvmtool-add-EXTRA_CFLAGS-variable.patch   | 29 ----------------------
+ recipes-extended/kvmtool/kvmtool.bb                |  2 +-
+ 3 files changed, 27 insertions(+), 30 deletions(-)
+ create mode 100644 recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch
+ delete mode 100644 recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
 
---000000000000b31f65058b4af8e0
-Content-Type: text/plain; charset="UTF-8"
+diff --git a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch
+new file mode 100644
+index 0000000..d910fae
+--- /dev/null
++++ b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch
+@@ -0,0 +1,26 @@
++From 8e291af191339471c20292784ebb6de6122f4fc4 Mon Sep 17 00:00:00 2001
++From: Cevat Bostancioglu <bostancioglucevat@gmail.com>
++Date: Fri, 14 Jun 2019 18:47:25 +0300
++Subject: [PATCH] kvmtool: add CFLAGS Variable and disable Werror
++
++to avoid CFLAGS and warnings via command argument
++---
++ Makefile | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/Makefile b/Makefile
++index 030ff4e..e0a8b23 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -2,6 +2,9 @@
++ # Define WERROR=0 to disable -Werror.
++ #
++ 
+++WERROR=0
+++CFLAGS += $(EXTRA_CFLAGS)
+++
++ ifeq ($(strip $(V)),)
++ 	E = @echo
++ 	Q = @
++-- 
++2.7.4
+diff --git a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
+deleted file mode 100644
+index 262531c..0000000
+--- a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From 977a4d41012d1814f5a5330cacc2e4944de387cc Mon Sep 17 00:00:00 2001
+-From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+-Date: Sun, 5 Nov 2017 12:39:21 +0100
+-Subject: [PATCH 2/2] kvmtool: add EXTRA_CFLAGS variable
+-
+-to avoid CFLAGS overriding introduce new EXTRA_CFLAGS variable
+-for setting via command argument
+-
+-Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
+----
+- Makefile | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/Makefile b/Makefile
+-index 64a0a16..bca1b26 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -2,6 +2,8 @@
+- # Define WERROR=0 to disable -Werror.
+- #
+- 
+-+CFLAGS += $(EXTRA_CFLAGS)
+-+
+- ifeq ($(strip $(V)),)
+- 	E = @echo
+- 	Q = @
+--- 
+-2.15.0
+-
+diff --git a/recipes-extended/kvmtool/kvmtool.bb b/recipes-extended/kvmtool/kvmtool.bb
+index cb09c66..acecb08 100644
+--- a/recipes-extended/kvmtool/kvmtool.bb
++++ b/recipes-extended/kvmtool/kvmtool.bb
+@@ -13,7 +13,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/will/kvmtool.git \
+            file://external-crosscompiler.patch \
+            file://0001-Avoid-pointers-for-address-of-packed-members.patch \
+            file://0001-kvmtool-9p-fixed-compilation-error.patch \
+-           file://0002-kvmtool-add-EXTRA_CFLAGS-variable.patch \
++           file://0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch \
+            "
+ 
+ SRCREV = "0e1882a49f81cb15d328ef83a78849c0ea26eecc"
+-- 
+2.7.4
 
 
-
---000000000000b31f65058b4af8e0
-Content-Type: text/html; charset="UTF-8"
-
-<div dir="ltr"><br></div>
-
---000000000000b31f65058b4af8e0--
-
---000000000000b31f69058b4af8e2
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch"
-Content-Disposition: attachment; 
-	filename="0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_jwwao05u0>
-X-Attachment-Id: f_jwwao05u0
-
-RnJvbSA4ZTI5MWFmMTkxMzM5NDcxYzIwMjkyNzg0ZWJiNmRlNjEyMmY0ZmM0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBDZXZhdCBCb3N0YW5jaW9nbHUgPGJvc3RhbmNpb2dsdWNldmF0
-QGdtYWlsLmNvbT4KRGF0ZTogRnJpLCAxNCBKdW4gMjAxOSAxODo0NzoyNSArMDMwMApTdWJqZWN0
-OiBbUEFUQ0hdIGt2bXRvb2w6IGFkZCBDRkxBR1MgVmFyaWFibGUgYW5kIGRpc2FibGUgV2Vycm9y
-Cgp0byBhdm9pZCBDRkxBR1MgYW5kIHdhcm5pbmdzIHZpYSBjb21tYW5kIGFyZ3VtZW50Ci0tLQog
-TWFrZWZpbGUgfCAzICsrKwogMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQoKZGlmZiAt
-LWdpdCBhL01ha2VmaWxlIGIvTWFrZWZpbGUKaW5kZXggMDMwZmY0ZS4uZTBhOGIyMyAxMDA2NDQK
-LS0tIGEvTWFrZWZpbGUKKysrIGIvTWFrZWZpbGUKQEAgLTIsNiArMiw5IEBACiAjIERlZmluZSBX
-RVJST1I9MCB0byBkaXNhYmxlIC1XZXJyb3IuCiAjCiAKK1dFUlJPUj0wCitDRkxBR1MgKz0gJChF
-WFRSQV9DRkxBR1MpCisKIGlmZXEgKCQoc3RyaXAgJChWKSksKQogCUUgPSBAZWNobwogCVEgPSBA
-Ci0tIAoyLjcuNAo=
-
---000000000000b31f69058b4af8e2--
