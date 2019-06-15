@@ -1,6 +1,6 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <bostancioglucevat@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D0C17E00B8F; Fri, 14 Jun 2019 10:44:48 -0700 (PDT)
+	id 01A28E00D2C; Sat, 15 Jun 2019 12:55:45 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,59 +9,58 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.194 listed in list.dnswl.org]
+	*      [209.85.221.68 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bostancioglucevat[at]gmail.com)
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C92B7E0049C
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2464E00B1A
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 14 Jun 2019 10:44:47 -0700 (PDT)
-Received: by mail-lj1-f194.google.com with SMTP id p17so3263069ljg.1
+	Sat, 15 Jun 2019 12:55:41 -0700 (PDT)
+Received: by mail-wr1-f68.google.com with SMTP id m3so5882553wrv.2
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 14 Jun 2019 10:44:47 -0700 (PDT)
+	Sat, 15 Jun 2019 12:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pkf9NryREMGd5ceNAxrTyDXaethfUvooKieOcu5wtvo=;
-	b=T5Joecx2GrlO/PscainB5yoMKw3cignoVNM8Y+Q0tO8uDMD30BrvH5eqGLYGGzBJ1X
-	65OsEwqnFrD6u/TkknrYeyjmmIRT8LksleAHZuKULXV8seJBa0ksGYUQDtRq0NNC7QfW
-	m5vZkUpXv1KhW4WNxFH2JlgNsQaByc/rH7aXl4lOzfV/YbbdbYgV36qLSjSitNg8g2yR
-	gFTHhgx7iMkR5qCCjeC/s4HWdk9h+0AayrgSf3syznr+CEGYPP07GzRubYSSyYgk4mFt
-	GsXCHvTsTNVkuCqKIHOJ+AOOHbznXWL052LtfOeRkhXgqTIS/ZmbPViMiTx9D+GBXmh7
-	Jshw==
+	h=from:to:cc:subject:date:message-id;
+	bh=V7klzeXlPh+K/NSeK3wb23oOBJ7sag5uOZ/zff1UTaE=;
+	b=mBIy2XAchxb8UxO5phg5FHwS6/xNA2rSQO/C1DEyoM9YTx/8lsmXZhWqVvvkS+BKxO
+	17O9JyKR9oI9dOSl2XQcPrpfli5cFYnKrQqrK4WCvIPVXErWtdvLMnAvKsusfzaQGmEh
+	Ph+4XZiqkN+KrTB2a7W6U2qXDm+BHJIUUUEXzLLM1OsfP0OgQ4F19hbv/6EiLvNukXC4
+	H4BkTsmC6+0Jnb3fdcMdFdzIGjF0yT3Yp9xpVuKHy90B+9Tzjx5hRGxU/2iO6JxmapXZ
+	e08ONswIP6HRKQqyrJr6Sy9noFyjBW73R2hMOJltKxNCib+fVPXBrU4PT130Jp6W0z64
+	cBow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pkf9NryREMGd5ceNAxrTyDXaethfUvooKieOcu5wtvo=;
-	b=RWIjAf75bpYTtHYaL4fiyzD8BnwvQkDOW7Yb3N3HdHIIzWlhCMM7yWzt+vc4eX/0A+
-	w0RaaQapT97cK6vKzdv3s1CpaCA1dpWRy8djUu3F6OeYp6MrsuaxfOIRhzaU+gaP5QAx
-	KSSfQ4kNYI3n7FVkoIapULPRyfA14R/K+NnVA/ND2fuiY4DsXUd4wR9jEjTErKrqXMoG
-	cDoLhFby7NSphEICk1/+EGMULk91bakXQUR+/TujxPeJtO4dbi0bOGC2kKyXeQ0RY5b9
-	65xkwwuBftN+sw88aGO9lkJCJXRGwmmSiB79ntqb06vFYpzKsjgbaFfeNhgKbDsO+4ON
-	sVoQ==
-X-Gm-Message-State: APjAAAUW6bFhWVmezO17W6qj9+AVa42TCv/Yx/2UBUDeieoEobv92ldg
-	NuYkPivjjekAg9gaeECdbyN8065diqITlLz0d2g=
-X-Google-Smtp-Source: APXvYqxoFtDY8MJUwHn/kCaE4vidyH02ZoWCdoUKOHWOhdUX8V5zIxwk71LFfETjlXq6SZbtFxYiPamsc8PifMJ38F8=
-X-Received: by 2002:a2e:5cc8:: with SMTP id
-	q191mr22925676ljb.118.1560534286602; 
-	Fri, 14 Jun 2019 10:44:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <1560531022-7970-1-git-send-email-bostancioglucevat@gmail.com>
-In-Reply-To: <1560531022-7970-1-git-send-email-bostancioglucevat@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 14 Jun 2019 13:44:35 -0400
-Message-ID: <CADkTA4NwSDYJYWQrdJdXECgTOa24P82KQvh9upRj+f__ZwjDyQ@mail.gmail.com>
-To: Cevat Bostancioglu <bostancioglucevat@gmail.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] kvmtool: Werror compile time error fixed.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=V7klzeXlPh+K/NSeK3wb23oOBJ7sag5uOZ/zff1UTaE=;
+	b=GHJZT4CqxRQgjC8wPWHXn/+qyqFp2rc6y37Kncz+Oy+W65YtMzqCKrs1cHwa1Y6YHE
+	zcEdeBF8AtjT+qoEdNfBdYAlCE6vNTBZa6yiEMUBKAyYni2ubS1IVHgyfYaVU0WSvc9p
+	fNJOe1xk0s+NC1vRQJEz64X2KgTnB9Gj104mbGbwkw4v03EeiB7/P24hEnc8e5XWKghc
+	gPKo11LdSWI/CI5hOA1lNf3fOocfWP/55AswwIytXPw7ilziG9jz/zMgUPStses9AK3d
+	BpfMgmgeIRzgPKcqRy9zmKbGM4GR0TboUhQXAgFSwxevsZoVhnTuVCAiOylY4anuUu5S
+	SWPQ==
+X-Gm-Message-State: APjAAAVsgSdbNUUdJTDtJqgQhPooHMZ76aPJ5D4obOhc2H+iZmll/46j
+	5QCPlo5dAfihOtyZq+ADLO+fZ3snSmo=
+X-Google-Smtp-Source: APXvYqzjR/AI8THYpG/Yl3yA+g+GrGlSBOrFatjgkPdqHseGp40q0u6bf7zAft4TDhIHecYbTQwqAg==
+X-Received: by 2002:adf:81c8:: with SMTP id 66mr66682710wra.261.1560628539839; 
+	Sat, 15 Jun 2019 12:55:39 -0700 (PDT)
+Received: from localhost.localdomain ([78.176.91.117])
+	by smtp.gmail.com with ESMTPSA id v3sm4492375wmh.31.2019.06.15.12.55.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 15 Jun 2019 12:55:39 -0700 (PDT)
+From: Cevat Bostancioglu <bostancioglucevat@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Sat, 15 Jun 2019 22:55:31 +0300
+Message-Id: <1560628531-12119-1-git-send-email-bostancioglucevat@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] kvmtool: Werror Disabled Patch
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,139 +73,663 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 17:44:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 15 Jun 2019 19:55:46 -0000
 
-Thanks for the fix. This non-attachment version is easier to review.
+Couple of compile time warnings turned into errors with Werror command, this patch disables this feature.
 
-We need a few tweaks and this should be ready to go.
+Signed-off-by: Cevat Bostancioglu <bostancioglucevat@gmail.com>
+---
+ .../files/0003-kvmtool-Werror-disabled.patch       | 640 +++++++++++++++++++++
+ 1 file changed, 640 insertions(+)
+ create mode 100644 recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch
 
-In the long log here, can you capture the compile error and associated
-details (i.e.
-architecture, etc). And then why this error has started now (was it
-gcc9, something else ?)
-.. plus how the fix solves the problem.
+diff --git a/recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch b/recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch
+new file mode 100644
+index 0000000..46f5be1
+--- /dev/null
++++ b/recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch
+@@ -0,0 +1,640 @@
++From 21b712587a3c424ddf4df897a28dfda7e2af0bd9 Mon Sep 17 00:00:00 2001
++From: Cevat Bostancioglu <bostancioglucevat@gmail.com>
++Date: Sat, 15 Jun 2019 19:41:16 +0000
++Subject: [PATCH] kvmtool: Werror disabled "DEBUG: Executing shell function
++ do_compile NOTE: make -j 8 V=1
++ EXTRA_CFLAGS=-I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ Makefile:310: Skipping optional libraries: bfd KVMTOOLS_VERSION = 3.18.0
++ Makefile:310: Skipping optional libraries: bfd arm-poky-linux-gnueabi-gcc 
++ -march=armv5e -marm -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat
++ -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-balloon.o.d  -O2 -pipe -g
++ -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-balloon.c -o builtin-balloon.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-debug.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-debug.c -o builtin-debug.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-help.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-help.c -o builtin-help.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-list.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-list.c -o builtin-list.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-stat.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-stat.c -o builtin-stat.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-pause.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-pause.c -o builtin-pause.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-resume.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-resume.c -o builtin-resume.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-run.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-run.c -o builtin-run.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-setup.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-setup.c -o builtin-setup.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-stop.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-stop.c -o builtin-stop.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.devices.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT devices.c -o devices.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,disk/.core.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT disk/core.c -o disk/core.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.builtin-version.o.d  -O2 -pipe -g
++ -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT builtin-version.c -o builtin-version.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.framebuffer.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT framebuffer.c -o framebuffer.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.guest_compat.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT guest_compat.c -o guest_compat.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,hw/.rtc.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT hw/rtc.c -o hw/rtc.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,hw/.serial.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT hw/serial.c -o hw/serial.o
++ builtin-run.c: In function 'kvm_run_write_sandbox_cmd.isra.1':
++ builtin-run.c:412:28: error: '%s' directive output may be truncated writing
++ up to 4095 bytes into a region of size 4091 [-Werror=format-truncation=]   
++ snprintf(dst, len, "/host%s", resolved_path);                             ^~ 
++  ~~~~~~~~~~~~~ In file included from
++ /home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot/usr/include/stdio.h:873,
++                  from include/kvm/util.h:13,                  from
++ include/kvm/builtin-run.h:4,                  from builtin-run.c:1:
++ /home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot/usr/include/bits/stdio2.h:67:10:
++ note: '__builtin___snprintf_chk' output between 6 and 4101 bytes into a
++ destination of size 4096    return __builtin___snprintf_chk (__s, __n,
++ __USE_FORTIFY_LEVEL - 1,          
++ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         __bos
++ (__s), __fmt, __va_arg_pack ());        
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ arm-poky-linux-gnueabi-gcc 
++ -march=armv5e -marm -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat
++ -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.ioport.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT ioport.c -o ioport.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.irq.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT irq.c -o irq.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.kvm-cpu.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT kvm-cpu.c -o kvm-cpu.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.kvm.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT kvm.c -o kvm.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.main.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT main.c -o main.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.mmio.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT mmio.c -o mmio.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.pci.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT pci.c -o pci.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,./.term.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT term.c -o term.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.blk.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/blk.c -o virtio/blk.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.scsi.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/scsi.c -o virtio/scsi.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.console.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/console.c -o virtio/console.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.core.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/core.c -o virtio/core.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.net.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/net.c -o virtio/net.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.rng.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/rng.c -o virtio/rng.o
++ arm-poky-linux-gnueabi-gcc  -march=armv5e -marm -fstack-protector-strong 
++ -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security
++ --sysroot=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot
++ -c -Wp,-MD,virtio/.balloon.o.d  -O2 -pipe -g -feliminate-unused-debug-types
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0=/usr/src/debug/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot=
++ -fdebug-prefix-map=/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/recipe-sysroot-native=
++ 
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/include/generated
++ -I/home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work-shared/qemuarm/kernel-build-artifacts/arch/arm/include/generated
++ -march=armv7-a -DCONFIG_GUEST_INIT  -DCONFIG_ARM -D_FILE_OFFSET_BITS=64
++ -D_GNU_SOURCE -DKVMTOOLS_VERSION='"3.18.0"' -DBUILD_ARCH='"arm"' -Iinclude
++ -Iarm/include -Iarm/aarch32/include -O2 -fno-strict-aliasing -g -Wall
++ -Wformat=2 -Winit-self -Wmissing-declarations -Wmissing-prototypes
++ -Wnested-externs -Wno-system-headers -Wold-style-definition -Wredundant-decls
++ -Wsign-compare -Wstrict-prototypes -Wundef -Wvolatile-register-var
++ -Wwrite-strings -Wno-format-nonliteral -Werror -DCONFIG_HAS_ZLIB
++ -DCONFIG_HAS_AIO -DCONFIG_HAS_LIBFDT virtio/balloon.c -o virtio/balloon.o
++ cc1: all warnings being treated as errors Makefile:431: recipe for target
++ 'builtin-run.o' failed make: *** [builtin-run.o] Error 1 make: *** Waiting
++ for unfinished jobs.... virtio/net.c: In function 'virtio_net__tap_init':
++ virtio/net.c:336:47: error: argument to 'sizeof' in 'strncpy' call is the
++ same expression as the source; did you mean to use the size of the
++ destination? [-Werror=sizeof-pointer-memaccess]    strncpy(ifr.ifr_name,
++ ndev->tap_name, sizeof(ndev->tap_name));                                     
++           ^ virtio/net.c:348:47: error: argument to 'sizeof' in 'strncpy'
++ call is the same expression as the source; did you mean to use the size of
++ the destination? [-Werror=sizeof-pointer-memaccess]    strncpy(ifr.ifr_name,
++ ndev->tap_name, sizeof(ndev->tap_name));                                     
++           ^ cc1: all warnings being treated as errors Makefile:431: recipe
++ for target 'virtio/net.o' failed make: *** [virtio/net.o] Error 1 ERROR:
++ oe_runmake failed WARNING: exit code 1 from a shell command. ERROR: Function
++ failed: do_compile (log file is located at
++ /home/cevat/Desktop/meta-virtualization-ci/yocto/build_arm/tmp/work/armv5e-poky-linux-gnueabi/kvmtool/4.14.0+git0e1882a49f81cb15d328ef83a78849c0ea26eecc-r0/temp/log.do_compile.7489)
++ "
++
++Signed-off-by: Cevat Bostancioglu <bostancioglucevat@gmail.com>
++---
++ Makefile | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/Makefile b/Makefile
++index 030ff4e..fc5e177 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -2,6 +2,7 @@
++ # Define WERROR=0 to disable -Werror.
++ #
++ 
+++WERROR = 0
++ ifeq ($(strip $(V)),)
++ 	E = @echo
++ 	Q = @
++-- 
++2.7.4
++
+-- 
+2.7.4
 
-You can then duplicate that log log into the patch itself.
-
-On Fri, Jun 14, 2019 at 12:50 PM Cevat Bostancioglu
-<bostancioglucevat@gmail.com> wrote:
->
-> Signed-off-by: Cevat Bostancioglu <bostancioglucevat@gmail.com>
-> ---
->  ...-EXTRA_CFLAGS-variable-and-disable-werror.patch | 26 +++++++++++++++++++
->  .../0002-kvmtool-add-EXTRA_CFLAGS-variable.patch   | 29 ----------------------
->  recipes-extended/kvmtool/kvmtool.bb                |  2 +-
->  3 files changed, 27 insertions(+), 30 deletions(-)
->  create mode 100644 recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch
->  delete mode 100644 recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
-
-We should just make this an additional patch, and not modify the
-existing one. That way we are
-keeping some of the history and bisectability in the changes.
-
->
-> diff --git a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch
-> new file mode 100644
-> index 0000000..d910fae
-> --- /dev/null
-> +++ b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch
-> @@ -0,0 +1,26 @@
-> +From 8e291af191339471c20292784ebb6de6122f4fc4 Mon Sep 17 00:00:00 2001
-> +From: Cevat Bostancioglu <bostancioglucevat@gmail.com>
-> +Date: Fri, 14 Jun 2019 18:47:25 +0300
-> +Subject: [PATCH] kvmtool: add CFLAGS Variable and disable Werror
-> +
-> +to avoid CFLAGS and warnings via command argument
-
-You don't have a Signed-off-by: in the patch itself.
-
-.. and finally, is this a good opportunity to update to the HEAD of
-the repo and pickup other fixes/features ?
-
-Bruce
-
-> +---
-> + Makefile | 3 +++
-> + 1 file changed, 3 insertions(+)
-> +
-> +diff --git a/Makefile b/Makefile
-> +index 030ff4e..e0a8b23 100644
-> +--- a/Makefile
-> ++++ b/Makefile
-> +@@ -2,6 +2,9 @@
-> + # Define WERROR=0 to disable -Werror.
-> + #
-> +
-> ++WERROR=0
-> ++CFLAGS += $(EXTRA_CFLAGS)
-> ++
-> + ifeq ($(strip $(V)),)
-> +       E = @echo
-> +       Q = @
-> +--
-> +2.7.4
-> diff --git a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch b/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
-> deleted file mode 100644
-> index 262531c..0000000
-> --- a/recipes-extended/kvmtool/files/0002-kvmtool-add-EXTRA_CFLAGS-variable.patch
-> +++ /dev/null
-> @@ -1,29 +0,0 @@
-> -From 977a4d41012d1814f5a5330cacc2e4944de387cc Mon Sep 17 00:00:00 2001
-> -From: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-> -Date: Sun, 5 Nov 2017 12:39:21 +0100
-> -Subject: [PATCH 2/2] kvmtool: add EXTRA_CFLAGS variable
-> -
-> -to avoid CFLAGS overriding introduce new EXTRA_CFLAGS variable
-> -for setting via command argument
-> -
-> -Signed-off-by: Dariusz Pelowski <dariusz.pelowski@gmail.com>
-> ----
-> - Makefile | 2 ++
-> - 1 file changed, 2 insertions(+)
-> -
-> -diff --git a/Makefile b/Makefile
-> -index 64a0a16..bca1b26 100644
-> ---- a/Makefile
-> -+++ b/Makefile
-> -@@ -2,6 +2,8 @@
-> - # Define WERROR=0 to disable -Werror.
-> - #
-> -
-> -+CFLAGS += $(EXTRA_CFLAGS)
-> -+
-> - ifeq ($(strip $(V)),)
-> -       E = @echo
-> -       Q = @
-> ---
-> -2.15.0
-> -
-> diff --git a/recipes-extended/kvmtool/kvmtool.bb b/recipes-extended/kvmtool/kvmtool.bb
-> index cb09c66..acecb08 100644
-> --- a/recipes-extended/kvmtool/kvmtool.bb
-> +++ b/recipes-extended/kvmtool/kvmtool.bb
-> @@ -13,7 +13,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/will/kvmtool.git \
->             file://external-crosscompiler.patch \
->             file://0001-Avoid-pointers-for-address-of-packed-members.patch \
->             file://0001-kvmtool-9p-fixed-compilation-error.patch \
-> -           file://0002-kvmtool-add-EXTRA_CFLAGS-variable.patch \
-> +           file://0002-kvmtool-add-EXTRA_CFLAGS-variable-and-disable-werror.patch \
->             "
->
->  SRCREV = "0e1882a49f81cb15d328ef83a78849c0ea26eecc"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
