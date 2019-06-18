@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5801FE00D85; Mon, 17 Jun 2019 20:59:32 -0700 (PDT)
+	id 2BCFDE00D86; Mon, 17 Jun 2019 21:02:25 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,56 +11,56 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.65 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.194 listed in list.dnswl.org]
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9C135E00D64
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 91F84E00D64
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 17 Jun 2019 20:59:31 -0700 (PDT)
-Received: by mail-lj1-f194.google.com with SMTP id a21so11542614ljh.7
+	Mon, 17 Jun 2019 21:02:24 -0700 (PDT)
+Received: by mail-lf1-f65.google.com with SMTP id u10so8106905lfm.12
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 17 Jun 2019 20:59:31 -0700 (PDT)
+	Mon, 17 Jun 2019 21:02:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gMpNMapcZjiCAo9urpbU6L4yeQiEW2P1kYmdY9Zp24w=;
-	b=H1w5ydaWiMfkhmjVV7dziIbVAs++Ka6hYJ4zxaeAPDI2NWfyi+GivB9ksQQ/EWDAaE
-	9JXrkW7nOsFZY8ggWB4Mhasiy6MDBmYbL3Ce3eIGflCIzu5WJm5RHFQa/25il1UWTsHW
-	zMC/z/W9FvNVUenegQlHWUN8U9bgaRnOpcZ4cOIjlXFT23ZsI1dPYD1M/m4CbZhfOdGG
-	ERkC6HPuQUgfpkS24mrN+8XCr8hfxFw/ax7Fz3qZnjIBbTphWE/9YzIk43sKnB6QgPtD
-	D7Si9HeAxsnLLpcv/ddRhD0ZYBOFTvIiHgJFC3JSuOArW/7fcXjcc7r7vCYaEoUR6Op1
-	aB5w==
+	:cc; bh=BeLtvQV7vQEe1mi3lTqY4xChjPccYLd3dqGdojARG5Q=;
+	b=adC9Pubv7ezMlWY8CdqZLpYqhdUL2uTal9cTRstfvufv9BTH7la3AbNMeCV7g7AuqW
+	WxcUnhGJXX1JjsiLbFOR7abdM8CplADfthrX7qpZK2x1XrYwltB52m+Xg0UFS86mpyUY
+	HilrKLm66y69dhj/AsyCeP78P717WferMrrOZLAQ0M//xMfsYd/8XNGLP6PFwFauaOxN
+	b0nv0zqyk8CeHikfP+w+m1Fc9MtfID25vSCvRsZ9gCHf1EtU91+2AY91YeSDmlssVCaF
+	Uc9t4xUatunUCJjPv4lueAqc5cSbs7J07hEaaEKbjsaLbxKth/Y9xUJmI6xU94hymMJS
+	/6uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=gMpNMapcZjiCAo9urpbU6L4yeQiEW2P1kYmdY9Zp24w=;
-	b=SX2sLbFoehmXMwco0ULjyIqz3Xy7/v+8ftpUn/0WFky6Gq/cMVchTORkE+/l7y3fdU
-	MxOsEpbib9q6z/PqTpCyfXEfd3+TkFH5q65OWyeFuP0JLXqUQF+ZDs6MtwMxaYeNgvGI
-	Rj4w4Jmz5XnhdZlMu8x3P+Jgke0UDmvfw4vhuQpPYdaXs7VVVqektTB+A3PEDV2GFJEV
-	uF1puTiLm4zrKuMLEhxglK4KY7/6gZItnL8aeh+RyxZjO49sn4EMYNKYpqTltYTQ+VIC
-	c/ljxCRzXoVH0qOdo9Qx2wSfQVBRYB0y+ML3O5adNBrE0mkquSneeQnwZyaymblj0Ius
-	4lzQ==
-X-Gm-Message-State: APjAAAU+GBesDSmoOzyHLcqAJAT6D8YiO+TarjjaKMOBZpJO1CBv1gVT
-	QMFb5MKYeR6bvkBfp0R1q4X4kXeUeIijuTT4pXw=
-X-Google-Smtp-Source: APXvYqxJA2fLJfad4V+zDsS2IzHGMHNxSAH6UGoru7bH8WcckrsKdtjv71v+rKumERxdDbmnaeZoVph2xHG3jSz54lM=
-X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr46783463ljj.185.1560830370363; 
-	Mon, 17 Jun 2019 20:59:30 -0700 (PDT)
+	bh=BeLtvQV7vQEe1mi3lTqY4xChjPccYLd3dqGdojARG5Q=;
+	b=BX4oh1yk22RhLhEAk04kBTE6WoqME5G7//ZWr914+YQdS6agNj9i35TAp6qi2+yGpX
+	Rf0E+mL7yiLFcab4CxJO4gCMy/MCk/1F4o9YQWaNvrbHv0CC73LdzZUTEYKaFqk6PuU1
+	iXUdoB0T9EIdIBiygju/VAXaxwhsRDtBPlS6+iFOe5HnOWAyyh+Pldp/hEFE/aIMG63t
+	jWgPXBC8VgMO4R21pM1FkWER0dwjw7fitNBkPuv1SWbIqQNWTKsMdsXRNDDtSpJ08O5V
+	niESPJrOW/W9GOAgeHREdzX9K7uoWVU5YkNrT1hRz9Bq0y6T4ji30sKtDtrppAYk1qj4
+	YLTw==
+X-Gm-Message-State: APjAAAUH2nRuOJ6altFTOhNQdAoP4eexI7RrlmNii6BtVPRn7qHlBiXc
+	fAIUpmQBrDtHMcD0bnxl24BSeOnm7SUAKGAd9ls=
+X-Google-Smtp-Source: APXvYqyO606MD57NcQUxTCVLUoC55+aF6fBajdH+dvgMMSVmJvWS1rI8jgPa1//Bu5GD8/GzxlXq3t5FEPqauCJswSo=
+X-Received: by 2002:ac2:5285:: with SMTP id q5mr56394004lfm.146.1560830543225; 
+	Mon, 17 Jun 2019 21:02:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560222684-412783-1-git-send-email-zhe.he@windriver.com>
-In-Reply-To: <1560222684-412783-1-git-send-email-zhe.he@windriver.com>
+References: <20190613060524.13621-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190613060524.13621-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 17 Jun 2019 23:59:19 -0400
-Message-ID: <CADkTA4PtWCEivQb8VumhCThszFqH4-QC8O1SUYBLib+N3jj2-A@mail.gmail.com>
-To: He Zhe <zhe.he@windriver.com>
+Date: Tue, 18 Jun 2019 00:02:12 -0400
+Message-ID: <CADkTA4NopHfAedOx5UKdzGksebTN2_VUoB0q5dHJg6Vy5sqB8Q@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] kernel: Add conditional inclusion of linux-yocto_virtualization.inc for rt kernel
+Subject: Re: [PATCH v2] python-httplib2: upgrade 0.12.3 -> 0.13.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,35 +73,82 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 03:59:32 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 04:02:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Jun 10, 2019 at 11:11 PM <zhe.he@windriver.com> wrote:
+On Thu, Jun 13, 2019 at 2:04 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> From: He Zhe <zhe.he@windriver.com>
+> -Upgrade from python-httplib2_0.12.3.bb to python-httplib2_0.13.0.bb.
 >
-> This is the same as other kernel bbappend.
+> -Add recipe python3-httplib2_0.13.0.bb.
 >
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> -License-Update: Update the information of package.
+>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  recipes-kernel/linux/linux-yocto-rt_%.bbappend | 1 +
->  1 file changed, 1 insertion(+)
->  create mode 100644 recipes-kernel/linux/linux-yocto-rt_%.bbappend
+>  .../{python-httplib2_0.12.3.bb => python-httplib2.inc}    | 8 ++++----
+>  .../recipes-devtools/python/python-httplib2_0.13.0.bb     | 2 ++
+>  .../recipes-devtools/python/python3-httplib2_0.13.0.bb    | 2 ++
+>  3 files changed, 8 insertions(+), 4 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-httplib2_0.12.3.bb => python-httplib2.inc} (55%)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb
 >
-> diff --git a/recipes-kernel/linux/linux-yocto-rt_%.bbappend b/recipes-kernel/linux/linux-yocto-rt_%.bbappend
+> diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.12.3.bb b/meta-openstack/recipes-devtools/python/python-httplib2.inc
+> similarity index 55%
+> rename from meta-openstack/recipes-devtools/python/python-httplib2_0.12.3.bb
+> rename to meta-openstack/recipes-devtools/python/python-httplib2.inc
+> index a1a518f..95890cc 100644
+> --- a/meta-openstack/recipes-devtools/python/python-httplib2_0.12.3.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-httplib2.inc
+> @@ -2,12 +2,12 @@ DESCRIPTION = "A comprehensive HTTP client library"
+>  HOMEPAGE = "https://code.google.com/p/httplib2/"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=ad87b270277b5f40e2a281d9f7dde584"
+> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=341f12f35eee133c8ce15c04a042fb72"
+>
+> -SRC_URI[md5sum] = "f78ce222216865271f2672e6941174d5"
+> -SRC_URI[sha256sum] = "a18121c7c72a56689efbf1aef990139ad940fee1e64c6f2458831736cd593600"
+> +SRC_URI[md5sum] = "c0c3b1c1a1c51fa40f46271d95f74fdc"
+> +SRC_URI[sha256sum] = "d1146939d270f1f1eb8cbf8f5aa72ff37d897faccca448582bb1e180aeb4c6b2"
+>
+> -inherit setuptools pypi
+> +inherit pypi
+>
+>  do_install_append() {
+>         perm_files=`find "${D}${PYTHON_SITEPACKAGES_DIR}/" -name "top_level.txt"`
+> diff --git a/meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb b/meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb
 > new file mode 100644
-> index 0000000..20eeba9
+> index 0000000..8f98163
 > --- /dev/null
-> +++ b/recipes-kernel/linux/linux-yocto-rt_%.bbappend
-> @@ -0,0 +1 @@
-> +require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'linux-yocto_virtualization.inc', '', d)}
+> +++ b/meta-openstack/recipes-devtools/python/python-httplib2_0.13.0.bb
+> @@ -0,0 +1,2 @@
+> +inherit setuptools
+> +require python-httplib2.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb b/meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb
+> new file mode 100644
+> index 0000000..03be0bd
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-httplib2_0.13.0.bb
+> @@ -0,0 +1,2 @@
+> +inherit setuptools3
+> +require python-httplib2.inc
 > --
-> 2.7.4
+> 2.20.1
 >
+>
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
+
 
 
 -- 
