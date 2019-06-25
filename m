@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 96015E00D30; Mon, 24 Jun 2019 21:11:28 -0700 (PDT)
+	id D6C2FE00D30; Mon, 24 Jun 2019 21:12:37 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
+	*      [209.85.208.195 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B629DE00D00
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D7CFE00D00
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 24 Jun 2019 21:11:27 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id a21so14733916ljh.7
+	Mon, 24 Jun 2019 21:12:37 -0700 (PDT)
+Received: by mail-lj1-f195.google.com with SMTP id 131so14753567ljf.4
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 24 Jun 2019 21:11:27 -0700 (PDT)
+	Mon, 24 Jun 2019 21:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yOR/n4vAdL8V0RyG7MGIybM3BydBBWTwkqCBw5MFyQs=;
-	b=qHGBBfbOaja3z+T+15+Zjz04Ste+WepDxayh7the/3z+VETGXvS+8189xwFkjtCcyf
-	1IfMLKwXFNlhxhvGG/kBjNLZDIHanHvsMouAzfS0nS9TbtDHE69599sW6MVgONlx5pyi
-	daRQJfsxrRQPo0zpsRocLTM6HH9TSi1mvL0BUHEok8uFcVwr85rry5z+kaGFq4PHb5Mt
-	CBo6V9G7fiV0bKx+a7VoMmeJUALibj0Z2roh86kPYSap8Z5LnVIzr6qkSra6S9oA9akq
-	cPq21jhw5zOiUSgti/v+HHpgzVxJwqewK9MgnZbPB1HjA6b1n/onC9WRNJYaKVaHA9d/
-	NntQ==
+	:cc; bh=8aTtBDXEv4xlJMCTfFC06ZHNRZiKQW8XxbtHMHBaneI=;
+	b=hAPUVd18WcpOl50GhztswCTZUlhkhc5a8TWJTNvi/JanlSa07MQ97b1R5NX2yhAfHC
+	76cahKLX2V1fSCH7VcP9JFIL18O7icOC1BduaWauhBqP3ONZ7ZVBfVT07YO1MEmI6/b0
+	sXGw3u4tOh6j6XSFyYKBSj6LJ+BpsUV45btOvLAXjD5D+lyhpP0VvbVR3b3FUYyCagnv
+	YclktLYotwpRWDNBJYwvhiTAGpotXIvMZnraWCIrBMfxcQFx8YaVqbj7okczIFe5g63E
+	MegY1DHHWjRup5eutmFyKZIKT98NuELmL/NVABRAChkCx9H+QSVVY5s5UdlAA+9sSB4Q
+	xwbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=yOR/n4vAdL8V0RyG7MGIybM3BydBBWTwkqCBw5MFyQs=;
-	b=HHP9pMGAfHCACd/oGeuYOWetKKJdb2h0YSl4is7lj9IXgB+LbWGOUN7Nodes/AfGNr
-	AWpcxfwZeSYo6INl8Oiwrs3gp0w18EWyTgovRZvV3uCqXoDO1lred/qOE0/TW9n1jNEh
-	s8xXDp9UP7UPq96uPagDrtFQkUH2fEqUGTc+azAzhzLqrpiMHDBCDNzOKrTcyEpZiClt
-	rDoOlLlQN9sbmqI7U/pe67VMhFnqnzXUiTKAcCoCldqMMx3z9Fdvzk2xddh5DO1BQ53I
-	Tp0Aim4L+DI9XjfI8riUZ8bEMFlGAUWOGp6eKEUhRFB5FoG45+SgIFMUUJB5tLVGAuWw
-	c0jg==
-X-Gm-Message-State: APjAAAW3auJmWi636ijw6YsqESHvx0ZsDVIOlrCFncf5QR6KreC80xOk
-	KVD1BMoDIg6JZ3gFsqjGWNHO1fdXrt8N8VJV8kc=
-X-Google-Smtp-Source: APXvYqxOLbvZqXCS0XzKXLVtW9pX74XvVFK4/rc4kTbAWclwZo8zE10VPKv6/ZxjOJ7SIN3l7hH2kgy0SvZ8mxgh6gs=
-X-Received: by 2002:a2e:98f:: with SMTP id 137mr9389876ljj.232.1561435886609; 
-	Mon, 24 Jun 2019 21:11:26 -0700 (PDT)
+	bh=8aTtBDXEv4xlJMCTfFC06ZHNRZiKQW8XxbtHMHBaneI=;
+	b=dDE63hEwIMjbhX4702e/8QGYzSm/neGZiZGOwtGGFduS6v0Z0b9mO80AJqYOWMOSjY
+	2i1g66gwJOYLrf9m+q5atNNNdMZ4/ECELJbQo/c1mrMC0FANOrvmfql1YdFFnkKXTB/N
+	1gJzCFvU1yrjfIODy3P93rJ64bYryU7/MWPpLHvXwCwMF09fIrTajkalxm4H3E7GribB
+	0fagRYO7S7CJVp2X78ahnVxxXrwQRWsbO6Hok9K91uS7GDZ10T8dbBq3++Q7OyzwlMP2
+	9kN10pPkecW3ucouiXZOdmlbsOHeBNcZeMpp02oOE0Mp5Sg3r1i1hSki9X0xV0M+gNYN
+	t7xA==
+X-Gm-Message-State: APjAAAXanLLRmuRGJrpeahTMZU3/29LRC3KB77EKjWS1rBj+C9yPN4I4
+	BGiU5jW1eOSgGEHt3T6BfX5HEVr/HvYj7GAIycQ=
+X-Google-Smtp-Source: APXvYqyKVaLi56kWeB+TLbhHsjofkJbW1vQD+II9/nAqzz27Sb2NCSBdP2jGEpBbeLdYyNqc/O6MIjjbGaoSJJ1eA/8=
+X-Received: by 2002:a2e:9a49:: with SMTP id k9mr33898370ljj.78.1561435956143; 
+	Mon, 24 Jun 2019 21:12:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <1561084277-143761-1-git-send-email-hongzhi.song@windriver.com>
-In-Reply-To: <1561084277-143761-1-git-send-email-hongzhi.song@windriver.com>
+References: <1560967216-4994-1-git-send-email-bostancioglucevat@gmail.com>
+In-Reply-To: <1560967216-4994-1-git-send-email-bostancioglucevat@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 25 Jun 2019 00:11:15 -0400
-Message-ID: <CADkTA4P=y9yQKjCP3kkf2MOJMim_488HQAM5M_v+vc=3VmHDJg@mail.gmail.com>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>
+Date: Tue, 25 Jun 2019 00:12:25 -0400
+Message-ID: <CADkTA4Nbb2DAch+uLmGK7dH87Vn1ZYzVK-jb15R7sKh+BDPoUw@mail.gmail.com>
+To: Cevat Bostancioglu <bostancioglucevat@gmail.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-cloud-services][PATCH] glusterfs: recovery original author address of each patch
+Subject: Re: [PATCH] kvmtool: Werror Disabled Patch
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,142 +73,67 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2019 04:11:28 -0000
+X-List-Received-Date: Tue, 25 Jun 2019 04:12:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+merged!
 
 Bruce
 
-On Thu, Jun 20, 2019 at 10:32 PM Hongzhi.Song
-<hongzhi.song@windriver.com> wrote:
+On Wed, Jun 19, 2019 at 2:00 PM Cevat Bostancioglu
+<bostancioglucevat@gmail.com> wrote:
 >
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> Couple of compile time warnings(sizeof-pointer-memaccess, format-truncation) turned into errors before with Werror command, this patch disables this feature.
 > ---
->  .../files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch    | 2 +-
->  .../glusterfs/files/dependence-on-correct-header-file-path.patch        | 2 +-
->  recipes-extended/glusterfs/files/glusterd-change-port-range.patch       | 2 +-
->  .../files/glusterfs-api-remove-unnecessary-library-options.patch        | 2 +-
->  .../glusterfs/files/glusterfs-change-default-nfs-port-number.patch      | 2 +-
->  .../files/glusterfs-configure-automake-with-subdir-objects-for.patch    | 2 +-
->  .../glusterfs/files/glusterfs-disable-default-startup-scripts.patch     | 2 +-
->  .../glusterfs/files/libglusterfs-Don-t-link-against-libfl.patch         | 2 +-
->  .../glusterfs/files/python-work-around-host-and-target-python.patch     | 2 +-
->  recipes-extended/glusterfs/files/xlator-host-contamination-5.4.patch    | 2 +-
->  10 files changed, 10 insertions(+), 10 deletions(-)
+>  .../files/0003-kvmtool-Werror-disabled.patch       | 24 ++++++++++++++++++++++
+>  recipes-extended/kvmtool/kvmtool.bb                |  1 +
+>  2 files changed, 25 insertions(+)
+>  create mode 100644 recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch
 >
-> diff --git a/recipes-extended/glusterfs/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch b/recipes-extended/glusterfs/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
-> index 4bbcbe9..bcc4319 100644
-> --- a/recipes-extended/glusterfs/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
-> +++ b/recipes-extended/glusterfs/files/configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch
-> @@ -1,5 +1,5 @@
->  From f2a1c67e2b3b60ba54f506cf806437924b5242ca Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Yi Zhao <yi.zhao@windriver.com>
->  Date: Tue, 12 Mar 2019 20:21:48 -0700
->  Subject: [PATCH] configure.ac: allow PYTHON values to be passed via env
+> diff --git a/recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch b/recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch
+> new file mode 100644
+> index 0000000..4d2f255
+> --- /dev/null
+> +++ b/recipes-extended/kvmtool/files/0003-kvmtool-Werror-disabled.patch
+> @@ -0,0 +1,24 @@
+> +From 377a09c16003eaa40f7f337127b10728ee0ade35 Mon Sep 17 00:00:00 2001
+> +From: Cevat Bostancioglu <bostancioglucevat@gmail.com>
+> +Date: Wed, 19 Jun 2019 20:36:56 +0300
+> +Subject: [PATCH] WERROR override disabled.
+> +
+> +WERROR override causes gcc sizeof-pointer-memaccess,  format-truncation errors.
+> +---
+> + Makefile | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/Makefile b/Makefile
+> +index 030ff4e..fc5e177 100644
+> +--- a/Makefile
+> ++++ b/Makefile
+> +@@ -2,6 +2,7 @@
+> + # Define WERROR=0 to disable -Werror.
+> + #
+> +
+> ++WERROR = 0
+> + ifeq ($(strip $(V)),)
+> +       E = @echo
+> +       Q = @
+> +--
+> +2.7.4
+> diff --git a/recipes-extended/kvmtool/kvmtool.bb b/recipes-extended/kvmtool/kvmtool.bb
+> index d487ee2..004e09e 100644
+> --- a/recipes-extended/kvmtool/kvmtool.bb
+> +++ b/recipes-extended/kvmtool/kvmtool.bb
+> @@ -14,6 +14,7 @@ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/will/kvmtool.git \
+>             file://0001-Avoid-pointers-for-address-of-packed-members.patch \
+>             file://0001-kvmtool-9p-fixed-compilation-error.patch \
+>             file://0002-kvmtool-add-EXTRA_CFLAGS-variable.patch \
+> +           file://0003-kvmtool-Werror-disabled.patch \
+>             "
 >
-> diff --git a/recipes-extended/glusterfs/files/dependence-on-correct-header-file-path.patch b/recipes-extended/glusterfs/files/dependence-on-correct-header-file-path.patch
-> index a4b01c1..a1a6a65 100644
-> --- a/recipes-extended/glusterfs/files/dependence-on-correct-header-file-path.patch
-> +++ b/recipes-extended/glusterfs/files/dependence-on-correct-header-file-path.patch
-> @@ -1,5 +1,5 @@
->  From 204149d9b46ccec3a354ad4cfcc230c1fab93982 Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Xulin Sun <xulin.sun@windriver.com>
->  Date: Tue, 12 Mar 2019 22:04:12 -0700
->  Subject: [PATCH] dependence on correct header file path
->
-> diff --git a/recipes-extended/glusterfs/files/glusterd-change-port-range.patch b/recipes-extended/glusterfs/files/glusterd-change-port-range.patch
-> index 3458d8a..daa9680 100644
-> --- a/recipes-extended/glusterfs/files/glusterd-change-port-range.patch
-> +++ b/recipes-extended/glusterfs/files/glusterd-change-port-range.patch
-> @@ -1,5 +1,5 @@
->  From 59d1b6fb5e6315df9fc55a74576b1bfde30303f0 Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Vu Tran <vu.tran@windriver.com>
->  Date: Wed, 24 Apr 2019 23:07:58 -0400
->  Subject: [PATCH] glusterd: change port range
->
-> diff --git a/recipes-extended/glusterfs/files/glusterfs-api-remove-unnecessary-library-options.patch b/recipes-extended/glusterfs/files/glusterfs-api-remove-unnecessary-library-options.patch
-> index 32f4dc1..32da618 100644
-> --- a/recipes-extended/glusterfs/files/glusterfs-api-remove-unnecessary-library-options.patch
-> +++ b/recipes-extended/glusterfs/files/glusterfs-api-remove-unnecessary-library-options.patch
-> @@ -1,5 +1,5 @@
->  From 2b55524fab066cb14880a819f570b7f839bae1ce Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Jim Somerville <Jim.Somerville@windriver.com>
->  Date: Wed, 24 Apr 2019 22:44:12 -0400
->  Subject: [PATCH] glusterfs-api: remove unnecessary library options
->
-> diff --git a/recipes-extended/glusterfs/files/glusterfs-change-default-nfs-port-number.patch b/recipes-extended/glusterfs/files/glusterfs-change-default-nfs-port-number.patch
-> index deb9e45..9d5d7c1 100644
-> --- a/recipes-extended/glusterfs/files/glusterfs-change-default-nfs-port-number.patch
-> +++ b/recipes-extended/glusterfs/files/glusterfs-change-default-nfs-port-number.patch
-> @@ -1,5 +1,5 @@
->  From b8b48d3c4ab92ce167db8137426fad45e938b11b Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Vu Tran <vu.tran@windriver.com>
->  Date: Wed, 24 Apr 2019 22:50:01 -0400
->  Subject: [PATCH] glusterfs: change default nfs port number
->
-> diff --git a/recipes-extended/glusterfs/files/glusterfs-configure-automake-with-subdir-objects-for.patch b/recipes-extended/glusterfs/files/glusterfs-configure-automake-with-subdir-objects-for.patch
-> index 6278ce6..50b012b 100644
-> --- a/recipes-extended/glusterfs/files/glusterfs-configure-automake-with-subdir-objects-for.patch
-> +++ b/recipes-extended/glusterfs/files/glusterfs-configure-automake-with-subdir-objects-for.patch
-> @@ -1,5 +1,5 @@
->  From fcd612f75c2e99a0748bebbf530b730d0019d2bf Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Xulin Sun <xulin.sun@windriver.com>
->  Date: Wed, 24 Apr 2019 22:33:49 -0400
->  Subject: [PATCH] glusterfs: configure: automake with subdir-objects & foreign
->   parameters
-> diff --git a/recipes-extended/glusterfs/files/glusterfs-disable-default-startup-scripts.patch b/recipes-extended/glusterfs/files/glusterfs-disable-default-startup-scripts.patch
-> index 7f582dc..c8e0e7d 100644
-> --- a/recipes-extended/glusterfs/files/glusterfs-disable-default-startup-scripts.patch
-> +++ b/recipes-extended/glusterfs/files/glusterfs-disable-default-startup-scripts.patch
-> @@ -1,5 +1,5 @@
->  From bbc23b4723a5f60f2b6f4daf734194f9a3a315d8 Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Donn Seeley <donn.seeley@windriver.com>
->  Date: Wed, 24 Apr 2019 22:41:04 -0400
->  Subject: [PATCH] Add the glusterfs package
->
-> diff --git a/recipes-extended/glusterfs/files/libglusterfs-Don-t-link-against-libfl.patch b/recipes-extended/glusterfs/files/libglusterfs-Don-t-link-against-libfl.patch
-> index 660446b..f5880ea 100644
-> --- a/recipes-extended/glusterfs/files/libglusterfs-Don-t-link-against-libfl.patch
-> +++ b/recipes-extended/glusterfs/files/libglusterfs-Don-t-link-against-libfl.patch
-> @@ -1,5 +1,5 @@
->  From 732bcca9f5fbb6defca8c327744d015d6747864b Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Xulin Sun <xulin.sun@windriver.com>
->  Date: Tue, 12 Mar 2019 19:56:59 -0700
->  Subject: [PATCH] libglusterfs: Don't link against libfl
->
-> diff --git a/recipes-extended/glusterfs/files/python-work-around-host-and-target-python.patch b/recipes-extended/glusterfs/files/python-work-around-host-and-target-python.patch
-> index 700b0ba..e8f99ac 100644
-> --- a/recipes-extended/glusterfs/files/python-work-around-host-and-target-python.patch
-> +++ b/recipes-extended/glusterfs/files/python-work-around-host-and-target-python.patch
-> @@ -1,5 +1,5 @@
->  From 80c38519224635e9fe2a21542b7dbb14e4c16dcc Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Mark Asselstine <mark.asselstine@windriver.com>
->  Date: Tue, 12 Mar 2019 19:46:27 -0700
->  Subject: [PATCH] python: work around host and target python
->
-> diff --git a/recipes-extended/glusterfs/files/xlator-host-contamination-5.4.patch b/recipes-extended/glusterfs/files/xlator-host-contamination-5.4.patch
-> index ed11ce5..346eb71 100644
-> --- a/recipes-extended/glusterfs/files/xlator-host-contamination-5.4.patch
-> +++ b/recipes-extended/glusterfs/files/xlator-host-contamination-5.4.patch
-> @@ -1,5 +1,5 @@
->  From a18891a9807b209c7c0811e0e6ca08c4570809d0 Mon Sep 17 00:00:00 2001
-> -From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-> +From: Donn Seeley <donn.seeley@windriver.com>
->  Date: Tue, 12 Mar 2019 22:00:46 -0700
->  Subject: [PATCH] Add the glusterfs package
->
+>  SRCREV = "0e1882a49f81cb15d328ef83a78849c0ea26eecc"
 > --
-> 2.8.1
+> 2.7.4
 >
 > --
 > _______________________________________________
