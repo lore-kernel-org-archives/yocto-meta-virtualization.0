@@ -1,35 +1,46 @@
-Return-Path: <Changqing.Li@windriver.com>
+Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E55CDE009EA; Thu, 27 Jun 2019 23:04:04 -0700 (PDT)
+	id CE497E00A7D; Fri, 28 Jun 2019 05:14:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 552A6E00942
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [178.209.48.109 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 800E9E0098A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 27 Jun 2019 23:04:04 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5S643vD015891
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>;
-	Thu, 27 Jun 2019 23:04:03 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 27 Jun 2019 23:04:03 -0700
-From: <changqing.li@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 28 Jun 2019 14:04:01 +0800
-Message-ID: <1561701841-10341-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] docker-distribution: remove docker-distribution-ptest dependencies
+	Fri, 28 Jun 2019 05:14:10 -0700 (PDT)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 053E35C00D5;
+	Fri, 28 Jun 2019 14:14:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1561724049;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=XbyVBHtaokPHcbCgxWUvyPoDD2IJZGlwsB4xIMxfUig=;
+	b=iGWJrDlrsxxYmxzj3qmR0SN8TDIYTopSoxXVsfhaiOVTrn9Z5O3HWyNLPHv3FP0R+HcYIw
+	yuvsz+8Puc6Ux9XSPuE1PRFHfeuNxM1Lo30Q0kwlwK05zdSauRtyV9t1uqDjYO0Nm7I6TC
+	+McDuRI5vfaU23Xq9LdkjFCkPjYdEFg=
+From: Stefan Agner <stefan@agner.ch>
+To: bruce.ashfield@gmail.com,
+	meta-virtualization@yoctoproject.org
+Date: Fri, 28 Jun 2019 14:14:06 +0200
+Message-Id: <20190628121406.31777-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.13.6
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] docker: make docker-init a runtime dependency by default
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,33 +53,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 06:04:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jun 2019 12:14:11 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Stefan Agner <stefan.agner@toradex.com>
 
-after commit https://git.openembedded.org/openembedded-core/
-commit/meta/classes/ptest.bbclass?id=b47194b57d94260b4e6438c5bf74914027f0b520
-package ${PN}-ptest will depend on ${PN} by default,
-but for docker-distribution, ${PN} is empty package, remove it from dependency
-to avoid image do rootfs failure since nothing provides error.
+If docker run --init is used docker expects docker-init to be
+present, if not Docker fails to start the container with the
+following error:
+  docker: Error response from daemon: exec: "docker-init": executable file not found in $PATH.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+However, docker-init does not get deployed by default since commit
+d19fda374317 ("docker: consolidate common depends/options"). Readd
+docker-init through a PACKAGECONFIG RDEPENDS to make sure it gets
+deployed by default again.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-containers/docker-distribution/docker-distribution_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ recipes-containers/docker/docker.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-containers/docker-distribution/docker-distribution_git.bb b/recipes-containers/docker-distribution/docker-distribution_git.bb
-index 25e4db9..4bf3c6e 100644
---- a/recipes-containers/docker-distribution/docker-distribution_git.bb
-+++ b/recipes-containers/docker-distribution/docker-distribution_git.bb
-@@ -66,3 +66,5 @@ FILES_docker-registry += "${localstatedir}/lib/registry/"
+diff --git a/recipes-containers/docker/docker.inc b/recipes-containers/docker/docker.inc
+index 168d296..eacaf7f 100644
+--- a/recipes-containers/docker/docker.inc
++++ b/recipes-containers/docker/docker.inc
+@@ -32,8 +32,9 @@ RDEPENDS_${PN} += "virtual/containerd virtual/runc"
+ RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat"
  
- SYSTEMD_SERVICE_docker-registry = "${@bb.utils.contains('DISTRO_FEATURES','systemd','docker-registry.service','',d)}"
- SYSTEMD_AUTO_ENABLE_docker-registry = "enable"
-+
-+RDEPENDS_${PN}-ptest_remove = "${PN}"
+ inherit pkgconfig
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "docker-init"
+ PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
++PACKAGECONFIG[docker-init] = ",,,docker-init"
+ 
+ inherit systemd update-rc.d
+ 
 -- 
-2.7.4
+2.13.6
 
 
