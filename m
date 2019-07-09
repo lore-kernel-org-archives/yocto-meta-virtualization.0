@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A7006E00D61; Tue,  9 Jul 2019 12:22:28 -0700 (PDT)
+	id 87303E00D8C; Tue,  9 Jul 2019 12:26:28 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	https://www.dnswl.org/, no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
+	*      [209.85.208.193 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
@@ -19,48 +19,48 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AFD45E00B8F
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9A4EBE00D7E
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  9 Jul 2019 12:22:27 -0700 (PDT)
-Received: by mail-lj1-f196.google.com with SMTP id p17so20722020ljg.1
+	Tue,  9 Jul 2019 12:26:22 -0700 (PDT)
+Received: by mail-lj1-f193.google.com with SMTP id v24so20694647ljg.13
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 09 Jul 2019 12:22:27 -0700 (PDT)
+	Tue, 09 Jul 2019 12:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oAv956CV101IizLS9c9viHbrhAvvhKdULRM9zzDJxaI=;
-	b=Ss1/lMmFni954hxx84ApRq3mPHZdXhFLX9JvMsgK3NdcGI6+ren9cfqtMdxFhR2lb3
-	1qPQvuVoZLeQhrT2LySemYsObqKkifCWlWO1SGlcxIIZQUO6Ov3W4FCiIP/SAtchA9c4
-	U5IczgginFkIacHiqL9/MwZ831XlSsdpcAGSBCSBU8eL5PhjrC/R41k39D6WnivIDMZp
-	zvAGD9Zqvhw+fm6YvCiqZKDRL73K2NEQSn+VHQRsuksOgeZ0xGNbI34bNnDbvVqvlEr4
-	w8dQG0IE+9Rdhdd5nHTpueMMAP/jS45U4QzBbrPQiDiOsbC2+FoZG/GOWsQqVQtK/l3r
-	fmlQ==
+	:cc; bh=opbnmSZtYfqR/Gzf7tyAufHq9qrzo/Dx1TXR7mnHKis=;
+	b=esxKPtLaF1fdvwcdBjKstMfL45bgg+xqOkc9QlF8XKTk3cS7ZFrmiS7uX+6O7iFHoj
+	DfJ/Arz5um96qWSYiFaHPuFNNTIcV8QgvXxcxkHZRCi9ceU2kiTijLwHG1oI1DFMU6KF
+	Li+tj141kembRLDEQtoC5CKkzPBYIaROZukRPEHGA2IY/sZi9Sy4whjSL3WKrP4HpZH7
+	Y3E1aVAPv8G20gJLOuo46qsHAN8udiz1Gf+jpa0VxLi4iGwEZPtC7sVlxP25kWoMB0JH
+	SP2Os++lKJkLRajpmstGlcpEcH2x5rfk6A49d7/W0WsrozheL3JbWmjUgESXtaEvbtLU
+	xjEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=oAv956CV101IizLS9c9viHbrhAvvhKdULRM9zzDJxaI=;
-	b=H8Rx3LFMbFERzr0MR7msJxt/+Ou9B4J39jCWKSt2Wv4/kAgKsxL5jeoQnscy53D5Zg
-	DCbrtEsRCVyCG5RHQd8+kaOboK5IUUO8YWC+ReBjPb4+3TRpglCY5SOnzDu1KJLZQDWK
-	3QnCGtqyUOSSIlJd/NPFOiwM9rJNJV97pABt4+1nxCdosQhdI4xk/uMCKGNbl/+/Bc4v
-	aHFFr+NHVh+PiB5WevWb4KDe14f5QgvNPYASUUrBP+e10HZl5sh/bKoskpxH1KZkLgms
-	VbEduIDvY+J9yPeSzx6Esl7Y8y/z/wycdt72wj+nVX20CCue8+ljGeMqsdqOziBfSl98
-	aq6Q==
-X-Gm-Message-State: APjAAAVIIdHymb+H9GYFISUM9GS6nEIAlyRPnnCaLPgio3+Nzu2ijSQE
-	gi+Sc30riy15yqiDIbMSmbxm3rYRDmu+IuKcSNwusmHs
-X-Google-Smtp-Source: APXvYqykuadzuHkA2mvNbifi11y+HRjxqrSFCROTRfH0nTbAv8BHCLf+FTDlmmGlh4qAdjq6IyZLHRMKbY/GYsB+8tg=
-X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr14601147ljj.185.1562700146698; 
-	Tue, 09 Jul 2019 12:22:26 -0700 (PDT)
+	bh=opbnmSZtYfqR/Gzf7tyAufHq9qrzo/Dx1TXR7mnHKis=;
+	b=TnBPTwpqBrFEzjEsKy0oGI00V3ei/zPG+U5XZoDCe4K1eUBc8WHU2xgcEhq5UiQWM1
+	kgkDInKVm8yc5dXR0fTg/YoHnDuf2cumSOUud8jcXqC2Ck+XSEr6mZZZMIXdRzCNM3OD
+	gLLU0RiRjEy+0GfeVX4i06ie9LkLk9ELz5GCp8800Z8UafbLOWecsmIw9lZaFg1QNGkt
+	CGTjwx8Cyz8LqvDIfhC8tTGWKodpaDzgnehV4QFAkQ+Xq02PuV+4Pf/w5RBBevlFocVJ
+	+hsTndDYbesDvvVDicpxiAjvbjy8i04t8y4DDODbrmkwJIGOJ1hde1wXxtVsF/1v/GxM
+	Lsdg==
+X-Gm-Message-State: APjAAAVQInZA/xURKCNb6s5c+0O3wPeXvCLn2u84USLo20eiBnA5Lcsv
+	vr8hsyn3Y5H4f1fiVgiqxnflWiIKWTAG/d1VZvmMY/w7
+X-Google-Smtp-Source: APXvYqz5UHWSkUa0ms69PcVg1i78OCsSd5a+U9OmV735lnjzyvYSwQRYd+rLqNvTe9kjlHGhJQF/q2/jyEfO0fBB5Qc=
+X-Received: by 2002:a2e:b048:: with SMTP id d8mr12384110ljl.118.1562700381563; 
+	Tue, 09 Jul 2019 12:26:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190708055128.30496-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190708055128.30496-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190708083014.31692-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190708083014.31692-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 9 Jul 2019 15:22:15 -0400
-Message-ID: <CADkTA4NTQiE-JKMqW8HTy5sXM8n55j2BcVEiSC7D_XHPvsTuQQ@mail.gmail.com>
+Date: Tue, 9 Jul 2019 15:26:10 -0400
+Message-ID: <CADkTA4MY3fWj84ytcZU0GY9-OoNhGxZ_TMGRphGwHPevgz8cjA@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] tgt: upgrade 1.0.73 -> 1.0.79
+Subject: Re: [PATCH] python-fasteners: upgrade 0.13.0 -> 0.15
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,35 +73,35 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 19:22:28 -0000
+X-List-Received-Date: Tue, 09 Jul 2019 19:26:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+merged
 
 Bruce
 
-On Mon, Jul 8, 2019 at 1:56 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Mon, Jul 8, 2019 at 4:41 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-support/tgt/tgt_git.bb | 4 ++--
+>  meta-openstack/recipes-devtools/python/python-fasteners_git.bb | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-support/tgt/tgt_git.bb b/meta-openstack/recipes-support/tgt/tgt_git.bb
-> index b94b034..ddec8c4 100644
-> --- a/meta-openstack/recipes-support/tgt/tgt_git.bb
-> +++ b/meta-openstack/recipes-support/tgt/tgt_git.bb
-> @@ -4,8 +4,8 @@ LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://scripts/tgtd.spec;beginline=7;endline=7;md5=21c19ea7dad04648b9c2f791b6e29b4c"
->  DEPENDS = "sg3-utils"
+> diff --git a/meta-openstack/recipes-devtools/python/python-fasteners_git.bb b/meta-openstack/recipes-devtools/python/python-fasteners_git.bb
+> index 5f496bc..2dd3698 100644
+> --- a/meta-openstack/recipes-devtools/python/python-fasteners_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-fasteners_git.bb
+> @@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=4476c4be31402271e101d9a4a3430d52"
 >
-> -SRCREV = "013223dc886a03719ca02db52162056249d99448"
-> -PV = "1.0.73+git${SRCPV}"
-> +SRCREV = "b43dbc6711e43c0a32cc4d9df22884841d911d51"
-> +PV = "1.0.79+git${SRCPV}"
+>  SRCNAME = "fasteners"
 >
->  SRC_URI = "git://github.com/fujita/tgt.git \
->         file://0001-Correct-the-path-of-header-files-check-in-Yocto-buil.patch \
+> -PV = "0.13.0+git${SRCPV}"
+> -SRCREV = "c055890c98f67c343ff445973cd4efee67f081ce"
+> +PV = "0.15+git${SRCPV}"
+> +SRCREV = "75148cb679c351966cd4ad5e9d177048a0ea8380"
+>
+>  SRC_URI = "git://github.com/harlowja/${SRCNAME}.git"
+>
 > --
 > 2.7.4
 >
