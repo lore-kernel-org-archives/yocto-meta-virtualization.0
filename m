@@ -1,41 +1,35 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EC66EE00CB9; Thu, 11 Jul 2019 23:16:03 -0700 (PDT)
+	id 0A9BBE00A7D; Thu, 11 Jul 2019 23:45:46 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	https://www.dnswl.org/, *      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 25A0DE00A7D
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 37860E00A7D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 11 Jul 2019 23:16:02 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.63,481,1557158400"; d="scan'208";a="71242015"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Jul 2019 14:16:01 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8541C4B41EDC
+	Thu, 11 Jul 2019 23:45:45 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6C6jjxN020727
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 12 Jul 2019 14:15:55 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 12 Jul 2019 14:16:00 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	Thu, 11 Jul 2019 23:45:45 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 11 Jul 2019 23:45:44 -0700
+From: <mingli.yu@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 12 Jul 2019 14:15:11 +0800
-Message-ID: <20190712061511.22577-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Date: Fri, 12 Jul 2019 14:45:42 +0800
+Message-ID: <1562913942-36813-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 8541C4B41EDC.A7BDC
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Subject: [PATCH] python-pycadf: upgrade 1.1.0 -> 2.9.0
+Subject: [PATCH] libvirt: Only add polkit to PACKAGECONFIG if polkit is in DISTRO_FEATURES
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,35 +42,72 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 06:16:04 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 12 Jul 2019 06:45:47 -0000
 Content-Type: text/plain
 
--python-pycadf: upgrade from 1.1.0 to 2.9.0.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+At first, the polkit support is always enabled in
+PACKAGECONFIG and since Feb 27 2014, use x11
+DISTRO_FEATURES to control the polkit support
+with below commit.
+=========================================================
+commit ce991a62d5f2ce006074ee4b8a97c6029308548c
+Author: Jonas Eriksson <jonas.eriksson@enea.com>
+Date:   Thu Feb 27 17:10:09 2014 +0100
+
+    libvirt: Disable polkit driver when there is no x11
+
+    To avoid having the default build of libvirt depend on virtual/x11
+    through polkit and consolekit, check for x11 in DISTRO_FEATURES before
+    enabling the polkit support in the default PKG_CONFIG.
+
+    Signed-off-by: Jonas Eriksson <jonas.eriksson@enea.com>
+    Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+
+ diff --git a/recipes-extended/libvirt/libvirt_1.2.1.bb b/recipes-extended/libvirt/libvirt_1.2.1.bb
+ index 5365b8d..4c9cf36 100644
+ --- a/recipes-extended/libvirt/libvirt_1.2.1.bb
+ +++ b/recipes-extended/libvirt/libvirt_1.2.1.bb
+ @@ -109,10 +109,11 @@ INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
+  #PACKAGECONFIG ??= "xen libxl xen-inotify test remote libvirtd"
+
+  # full config
+ -PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 polkit lxc test \
+ +PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 lxc test \
+                    remote macvtap libvirtd netcf udev python ebtables \
+                    ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+                    ${@base_contains('DISTRO_FEATURES', 'xen', 'xen libxl xen-inotify', '', d)} \
+ +                   ${@base_contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
+                   "
+=========================================================
+
+After below commits to add polkit as a required distro feature
+in meta-oe, we should unify altogether to enable polkit if
+polkit distro feature is set.
+97a1a55 polkit: add polkit as a required distro
+feature c049e02 polkit: inherit distro_features_check
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta-openstack/recipes-devtools/python/python-pycadf_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ recipes-extended/libvirt/libvirt_5.3.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-pycadf_git.bb b/meta-openstack/recipes-devtools/python/python-pycadf_git.bb
-index 58cb5bf..6b63f5a 100644
---- a/meta-openstack/recipes-devtools/python/python-pycadf_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-pycadf_git.bb
-@@ -4,8 +4,8 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c46f31914956e4579f9b488e71415ac8"
+diff --git a/recipes-extended/libvirt/libvirt_5.3.0.bb b/recipes-extended/libvirt/libvirt_5.3.0.bb
+index c54a99e..286f0de 100644
+--- a/recipes-extended/libvirt/libvirt_5.3.0.bb
++++ b/recipes-extended/libvirt/libvirt_5.3.0.bb
+@@ -188,7 +188,7 @@ PACKAGECONFIG ??= "qemu yajl openvz vmware vbox esx iproute2 lxc test \
+                    fuse iproute2 firewalld libpcap \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit libcap-ng', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'libxl', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
+                    ${@bb.utils.contains('KARCH', 'arm', '', 'numactl', d)} \
+                   "
  
--PV = "1.1.0+git${SRCPV}"
--SRCREV = "c5dc0d9577e455f149edb5331a6e493def6928d5"
-+PV = "2.9.0+git${SRCPV}"
-+SRCREV = "4398b7d34e40f250a42e2ba537ca995a8c37376d"
- 
- SRCNAME = "pycadf"
- SRC_URI = "git://github.com/openstack/${SRCNAME}.git"
 -- 
 2.7.4
-
-
 
 
