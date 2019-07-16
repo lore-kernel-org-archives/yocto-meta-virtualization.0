@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8DC30E00D8F; Tue, 16 Jul 2019 12:42:35 -0700 (PDT)
+	id 2FC56E00D77; Tue, 16 Jul 2019 12:42:51 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,56 +11,57 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.195 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D0E4FE006B6
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2D3D6E006B6
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Jul 2019 12:42:31 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id s19so14606291lfb.9
+	Tue, 16 Jul 2019 12:42:50 -0700 (PDT)
+Received: by mail-lj1-f195.google.com with SMTP id 16so21146204ljv.10
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 16 Jul 2019 12:42:31 -0700 (PDT)
+	Tue, 16 Jul 2019 12:42:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1a5pilDdAMs4fyKbYZ+v3x9pSXzsWpNfgkdwmkT6V+c=;
-	b=uKePQNXPW2RPONEWvWMDVj2L5VKqfNu1wPR8RteHQSnEYxZ/COwNBscwRWHMi1HhSw
-	lHJCP1oRlZz7BH/J4M4OK1yt9WwukzdTS9ncZzzRQF8x7n4GpKGPY395zyvtplKVsoWs
-	Gpf3gir+RbX3vF/AzY+d2epz+lhPSTCzFPeAY0bqwHQSfNT89/b+uA5oGpyD2wXESydw
-	vsjBlN4j8AXGVmbKlZpkde0NiU+nvvQL54p8LQg+9MkJkqjj0FxHAl8sWAyIBIt5hR2d
-	UuAAuNVrRht198y/JZetCEpRjH9/8eMuSNUTX/RwOlX5I69h7Cq5loXKKp79G6My7wER
-	AWXw==
+	:cc; bh=n6oukDa+5uHb/oR7SOGl7kDrgp+ccgEpqsG13Rmnt3M=;
+	b=UAdbIifz1YT4RjmTeTyWSSEy3ErZvnwa/WvwVQTEYzEtc79yDLLal1VWnckwS2bCqG
+	QfVQMyHq9J0zjuIiS7SyJwJvQKYcGZCmidBii7vhrXlgygZacJWKznFRKxOLpXPHdzfu
+	ouFDo6iiVdV1ula7gLc7Da7i4k+6BdeAYtanCGk8+YUWXI0tosnm5MnJE+1rvLcNjybV
+	zl4hivBr00r4Xlm/KbiXkgryzoqohuGOjlq3lnof3jpJepEFBQ6Rd+R5O54q9FdGq/g+
+	+lxlqsE5gtyxiVaZJmwJXUnnwjnd3otac/5AE3dGYKr7apnegcPIBli7MTMEl3jDtsjs
+	9/ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=1a5pilDdAMs4fyKbYZ+v3x9pSXzsWpNfgkdwmkT6V+c=;
-	b=XnIOc64CZn+DsdgFgOxWxzC3p9fqHvxd0bKexeIr7Qkz95GjUTHxioaU6/n1kipn56
-	Esyunrrr36wc5y+ysOrPDuXkQr1lHJ6FHjFerOLtDdeAGMeWPDYcebsOWvCPa4PmpY29
-	xQ+rAbyZLg/jB7rSajUPlZCLXznUnGuBzWBTl0ReEmyN8ruPgFK/b/cK/8XbelQGaviz
-	FSWSZyZexc9ZGSsUo/pOlmK9J6LkM3V5af0Za3xqdmIQX+CrxcwO2ilXiv69jfhGT6cz
-	xOy7918gCy1yI2osdji3ljnRn7at9qpeBoCjqU22zhRIXeeKXgl4XWP3JbkTSFsXvqU5
-	6VqQ==
-X-Gm-Message-State: APjAAAWNSWDSy9wQqAbFVUJbXqfKeIIAhEsM4r+xlqX5EAL0I5ClAnZB
-	JKFT+K0TgcOncVC10w2lGnBLwLflSZyuROJ0s+ta0Bcw
-X-Google-Smtp-Source: APXvYqzhAXzWFtpjb+cDdlSgLJgdyOoBeeupF/fpzGBnpXeMdI57YaWDz39Gwi6sRt5k/+xdMt02pCyzX9DJ99QJP9g=
-X-Received: by 2002:ac2:4c84:: with SMTP id d4mr15566685lfl.1.1563306150559;
-	Tue, 16 Jul 2019 12:42:30 -0700 (PDT)
+	bh=n6oukDa+5uHb/oR7SOGl7kDrgp+ccgEpqsG13Rmnt3M=;
+	b=ZU1FG7phxtXWNIDklyzAmBmNlMKFSkno3Xgv8KEMB0eJzAzSVo6afPhZGsDTXVS0Nb
+	Xq4V5Jz3r4L3ex2DjaHuqi4+5sXuxNr1urHQ719J5D/IUEQyRWnLI3MsP6ZFOW7pRZ14
+	HWWjPz+KcI/nZuUUjBULCTLstyaSlkptXmqwnPp0v43Ia1mQt+17WSqOtJlMw+kxW0v8
+	lF2wO/+nr8uOa6o/aCDruxw6OUhea5JUNXuq/P5jC3gVl0VJnsU1vLD1Io8yk239MkJi
+	MmaksguV8TMllySRg+kI7M4YuSk8pdPadSgCOXi75VJFoN/NaWAbGmWe9WSrCv/2tkLn
+	I79w==
+X-Gm-Message-State: APjAAAVERoswWdOz27HnLi8jQWTBNA2ZLWOl7SLDI/XSM5e4YSxuPl6j
+	F3L0jyCG2cYIIoa7tAeuOaTaVYYeWVP9f433BX18ur5u
+X-Google-Smtp-Source: APXvYqz4s/l4ikbFOajzUHkyf00U3LSYbQD69ls7ijV80NMb+SXI0e6MJDd2zK73HW+kyiM0jaXBiEhymW4+QTGktrU=
+X-Received: by 2002:a2e:a171:: with SMTP id u17mr18833428ljl.209.1563306168989;
+	Tue, 16 Jul 2019 12:42:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190712061511.22577-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190712061511.22577-1-zangrc.fnst@cn.fujitsu.com>
+References: <CADkTA4PL3SUPhj0aNj2n=Pr-71RgwhnvPsDC1AWWr6EpRAJ9AA@mail.gmail.com>
+	<1563156571-38921-1-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1563156571-38921-1-git-send-email-mingli.yu@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 16 Jul 2019 15:42:18 -0400
-Message-ID: <CADkTA4NKQ+O2qkgkMqO3bC_ioWwcewyk2=kZeKkfspRGX9aPcg@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Tue, 16 Jul 2019 15:42:38 -0400
+Message-ID: <CADkTA4PJ8z-0q78DvfZ1yOB2d890zuvNm0he8M4FBSCEfFjq6Q@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-pycadf: upgrade 1.1.0 -> 2.9.0
+Subject: Re: [PATCH v2] libvirt: Only add polkit to PACKAGECONFIG if polkit is in DISTRO_FEATURES
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,48 +74,82 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Jul 2019 19:42:35 -0000
+X-List-Received-Date: Tue, 16 Jul 2019 19:42:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+Thanks for the rebase.
+
+Merged.
 
 Bruce
 
-On Fri, Jul 12, 2019 at 2:16 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Sun, Jul 14, 2019 at 10:10 PM <mingli.yu@windriver.com> wrote:
 >
-> -python-pycadf: upgrade from 1.1.0 to 2.9.0.
+> From: Mingli Yu <Mingli.Yu@windriver.com>
 >
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> At first, the polkit support is always enabled in
+> PACKAGECONFIG and since Feb 27 2014, use x11
+> DISTRO_FEATURES to control the polkit support
+> with below commit.
+> =========================================================
+> commit ce991a62d5f2ce006074ee4b8a97c6029308548c
+> Author: Jonas Eriksson <jonas.eriksson@enea.com>
+> Date:   Thu Feb 27 17:10:09 2014 +0100
+>
+>     libvirt: Disable polkit driver when there is no x11
+>
+>     To avoid having the default build of libvirt depend on virtual/x11
+>     through polkit and consolekit, check for x11 in DISTRO_FEATURES before
+>     enabling the polkit support in the default PKG_CONFIG.
+>
+>     Signed-off-by: Jonas Eriksson <jonas.eriksson@enea.com>
+>     Acked-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>     Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>
+>  diff --git a/recipes-extended/libvirt/libvirt_1.2.1.bb b/recipes-extended/libvirt/libvirt_1.2.1.bb
+>  index 5365b8d..4c9cf36 100644
+>  --- a/recipes-extended/libvirt/libvirt_1.2.1.bb
+>  +++ b/recipes-extended/libvirt/libvirt_1.2.1.bb
+>  @@ -109,10 +109,11 @@ INITSCRIPT_PARAMS_${PN}-libvirtd = "defaults 72"
+>   #PACKAGECONFIG ??= "xen libxl xen-inotify test remote libvirtd"
+>
+>   # full config
+>  -PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 polkit lxc test \
+>  +PACKAGECONFIG ??= "qemu yajl uml openvz vmware vbox esx iproute2 lxc test \
+>                     remote macvtap libvirtd netcf udev python ebtables \
+>                     ${@base_contains('DISTRO_FEATURES', 'selinux', 'selinux', '', d)} \
+>                     ${@base_contains('DISTRO_FEATURES', 'xen', 'xen libxl xen-inotify', '', d)} \
+>  +                   ${@base_contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
+>                    "
+> =========================================================
+>
+> After below commits to add polkit as a required distro feature
+> in meta-oe, we should unify altogether to enable polkit if
+> polkit distro feature is set.
+> 97a1a55 polkit: add polkit as a required distro
+> feature c049e02 polkit: inherit distro_features_check
+>
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-pycadf_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  recipes-extended/libvirt/libvirt_5.5.0.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-pycadf_git.bb b/meta-openstack/recipes-devtools/python/python-pycadf_git.bb
-> index 58cb5bf..6b63f5a 100644
-> --- a/meta-openstack/recipes-devtools/python/python-pycadf_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-pycadf_git.bb
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=c46f31914956e4579f9b488e71415ac8"
+> diff --git a/recipes-extended/libvirt/libvirt_5.5.0.bb b/recipes-extended/libvirt/libvirt_5.5.0.bb
+> index 222654a..7ed40a6 100644
+> --- a/recipes-extended/libvirt/libvirt_5.5.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_5.5.0.bb
+> @@ -188,7 +188,7 @@ PACKAGECONFIG ??= "qemu yajl openvz vmware vbox esx iproute2 lxc test \
+>                     fuse iproute2 firewalld libpcap \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'selinux', 'selinux audit libcap-ng', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'libxl', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'polkit', '', d)} \
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'polkit', 'polkit', '', d)} \
+>                     ${@bb.utils.contains('KARCH', 'arm', '', 'numactl', d)} \
+>                    "
 >
-> -PV = "1.1.0+git${SRCPV}"
-> -SRCREV = "c5dc0d9577e455f149edb5331a6e493def6928d5"
-> +PV = "2.9.0+git${SRCPV}"
-> +SRCREV = "4398b7d34e40f250a42e2ba537ca995a8c37376d"
->
->  SRCNAME = "pycadf"
->  SRC_URI = "git://github.com/openstack/${SRCNAME}.git"
 > --
 > 2.7.4
 >
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
