@@ -1,6 +1,6 @@
 Return-Path: <Hongxu.Jia@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 08CA3E00D46; Wed, 17 Jul 2019 02:51:33 -0700 (PDT)
+	id A40D4E00D67; Wed, 17 Jul 2019 02:54:23 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,27 +12,24 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DEA1AE00B8F
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 45333E00D1C
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 17 Jul 2019 02:51:29 -0700 (PDT)
+	Wed, 17 Jul 2019 02:54:23 -0700 (PDT)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6H9oqEp016639
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6H9rloI016700
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Jul 2019 02:51:02 -0700
-Received: from [128.224.162.157] (128.224.162.157) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 17 Jul 2019 02:50:41 -0700
-To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
-References: <1563354085-13100-1-git-send-email-hongxu.jia@windriver.com>
+	Wed, 17 Jul 2019 02:53:57 -0700
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 17 Jul 2019 02:53:36 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <7cae1b0f-deef-177e-8925-440679178597@windriver.com>
-Date: Wed, 17 Jul 2019 17:50:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
+Date: Wed, 17 Jul 2019 17:53:34 +0800
+Message-ID: <1563357214-6963-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1563354085-13100-1-git-send-email-hongxu.jia@windriver.com>
-Subject: Re: [PATCH] docker: drop hardcoded CC for cross compile
+Subject: [PATCH V2] docker: improve hardcoded CC for cross compile
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,100 +42,109 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 09:51:33 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 17 Jul 2019 09:54:23 -0000
+Content-Type: text/plain
 
+Since commit applied in moby [61a3285 Support cross-compile for arm]
+it hardcoded var-CC to support cross-compile for arm
 
-On 7/17/19 5:01 PM, Hongxu Jia wrote:
-> Since commit applied in moby [61a3285 Support cross-compile for arm]
-> it hardcoded var-CC to support cross-compile for arm
->
-> Drop hardcoded CC and use Yocto var-CC to instead
->
-> https://github.com/moby/moby/commit/61a3285864d3f1b489f48f765b61b2c7bd300372
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   recipes-containers/docker/docker_git.bb            |  3 +-
->   .../0001-drop-hardcoded-CC-for-cross-compile.patch | 48 ++++++++++++++++++++++
->   2 files changed, 50 insertions(+), 1 deletion(-)
->   create mode 100644 recipes-containers/docker/files/0001-drop-hardcoded-CC-for-cross-compile.patch
->
-> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-> index 5b2f3b0..c1308e6 100644
-> --- a/recipes-containers/docker/docker_git.bb
-> +++ b/recipes-containers/docker/docker_git.bb
-> @@ -43,7 +43,8 @@ SRC_URI = "\
->   	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork \
->   	git://github.com/docker/cli;branch=19.03;name=cli;destsuffix=git/cli \
->   	file://docker.init \
-> -        file://0001-libnetwork-use-GO-instead-of-go.patch \
-> +	file://0001-libnetwork-use-GO-instead-of-go.patch \
-> +	file://0001-drop-hardcoded-CC-for-cross-compile.patch \
->   	"
->   
->   require docker.inc
-> diff --git a/recipes-containers/docker/files/0001-drop-hardcoded-CC-for-cross-compile.patch b/recipes-containers/docker/files/0001-drop-hardcoded-CC-for-cross-compile.patch
-> new file mode 100644
-> index 0000000..6fc5214
-> --- /dev/null
-> +++ b/recipes-containers/docker/files/0001-drop-hardcoded-CC-for-cross-compile.patch
-> @@ -0,0 +1,48 @@
-> +From d97736afa7bc3e509c3671be8add82ff0a7859a6 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Wed, 17 Jul 2019 16:41:36 +0800
-> +Subject: [PATCH] drop hardcoded CC for cross compile
-> +
-> +Since commit applied in moby [61a3285 Support cross-compile for arm]
-> +it hardcoded var-CC to support cross-compile for arm
-> +
-> +Drop hardcoded CC and use Yocto var-CC to instead
-> +
-> +https://github.com/moby/moby/commit/61a3285864d3f1b489f48f765b61b2c7bd300372
-> +
-> +Upstream-Status: Inappropriate [oe specific]
-> +
+Correct it with "${parameter:-word}" format, it is helpful for user
+define toolchains
 
-Please drop this fix, I try to contribute the fix to upstream, V2 incoming
+(Use Default Values.  If parameter is unset or null, the expansion of
+word is substituted.  Otherwise, the value of parameter is substituted.)
 
-//Hongxu
+https://github.com/moby/moby/commit/61a3285864d3f1b489f48f765b61b2c7bd300372
 
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + src/import/hack/make/.binary | 4 ----
-> + 1 file changed, 4 deletions(-)
-> +
-> +diff --git a/src/import/hack/make/.binary b/src/import/hack/make/.binary
-> +index 53de674..177dd42 100644
-> +--- a/src/import/hack/make/.binary
-> ++++ b/src/import/hack/make/.binary
-> +@@ -50,21 +50,17 @@ if [ "$(go env GOOS)/$(go env GOARCH)" != "$(go env GOHOSTOS)/$(go env GOHOSTARC
-> + 		linux/arm)
-> + 			case "${GOARM}" in
-> + 			5|"")
-> +-				export CC=arm-linux-gnueabi-gcc
-> + 				export CGO_ENABLED=1
-> + 				;;
-> + 			7)
-> +-				export CC=arm-linux-gnueabihf-gcc
-> + 				export CGO_ENABLED=1
-> + 				;;
-> + 			esac
-> + 			;;
-> + 		linux/arm64)
-> +-			export CC=aarch64-linux-gnu-gcc
-> + 			export CGO_ENABLED=1
-> + 			;;
-> + 		linux/amd64)
-> +-			export CC=x86_64-linux-gnu-gcc
-> + 			export CGO_ENABLED=1
-> + 			;;
-> + 	esac
-> +--
-> +2.7.4
-> +
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ recipes-containers/docker/docker_git.bb            |  3 +-
+ ...001-imporve-hardcoded-CC-on-cross-compile.patch | 61 ++++++++++++++++++++++
+ 2 files changed, 63 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch
 
+diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+index 5b2f3b0..feca536 100644
+--- a/recipes-containers/docker/docker_git.bb
++++ b/recipes-containers/docker/docker_git.bb
+@@ -43,7 +43,8 @@ SRC_URI = "\
+ 	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork \
+ 	git://github.com/docker/cli;branch=19.03;name=cli;destsuffix=git/cli \
+ 	file://docker.init \
+-        file://0001-libnetwork-use-GO-instead-of-go.patch \
++	file://0001-libnetwork-use-GO-instead-of-go.patch \
++	file://0001-imporve-hardcoded-CC-on-cross-compile.patch \
+ 	"
+ 
+ require docker.inc
+diff --git a/recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch b/recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch
+new file mode 100644
+index 0000000..554d282
+--- /dev/null
++++ b/recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch
+@@ -0,0 +1,61 @@
++From 975b3a8e761b20e570120e8ca99b19da8012cae5 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 17 Jul 2019 17:34:04 +0800
++Subject: [PATCH] imporve hardcoded CC on cross compile
++
++Since commit applied in moby [61a3285 Support cross-compile for arm]
++it hardcoded var-CC to support cross-compile for arm
++
++Correct it with "${parameter:-word}" format, it is helpful for user
++define toolchains
++
++(Use Default Values.  If parameter is unset or null, the expansion of
++word is substituted.  Otherwise, the value of parameter is substituted.)
++
++Upstream-Status: Submitted [https://github.com/moby/moby/pull/39546]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ hack/make/.binary | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/src/import/hack/make/.binary b/src/import/hack/make/.binary
++index 53de674..66f4ca0 100644
++--- a/src/import/hack/make/.binary
+++++ b/src/import/hack/make/.binary
++@@ -44,27 +44,27 @@ if [ "$(go env GOOS)/$(go env GOARCH)" != "$(go env GOHOSTOS)/$(go env GOHOSTARC
++ 	# must be cross-compiling!
++ 	case "$(go env GOOS)/$(go env GOARCH)" in
++ 		windows/amd64)
++-			export CC=x86_64-w64-mingw32-gcc
+++			export CC="${CC:-x86_64-w64-mingw32-gcc}"
++ 			export CGO_ENABLED=1
++ 			;;
++ 		linux/arm)
++ 			case "${GOARM}" in
++ 			5|"")
++-				export CC=arm-linux-gnueabi-gcc
+++				export CC="${CC:-arm-linux-gnueabi-gcc}"
++ 				export CGO_ENABLED=1
++ 				;;
++ 			7)
++-				export CC=arm-linux-gnueabihf-gcc
+++				export CC="${CC:-arm-linux-gnueabihf-gcc}"
++ 				export CGO_ENABLED=1
++ 				;;
++ 			esac
++ 			;;
++ 		linux/arm64)
++-			export CC=aarch64-linux-gnu-gcc
+++			export CC="${CC:-aarch64-linux-gnu-gcc}"
++ 			export CGO_ENABLED=1
++ 			;;
++ 		linux/amd64)
++-			export CC=x86_64-linux-gnu-gcc
+++			export CC="${CC:-x86_64-linux-gnu-gcc}"
++ 			export CGO_ENABLED=1
++ 			;;
++ 	esac
++-- 
++2.7.4
++
+-- 
+2.7.4
 
 
