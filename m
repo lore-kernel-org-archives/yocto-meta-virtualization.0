@@ -1,35 +1,66 @@
-Return-Path: <Hongxu.Jia@windriver.com>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A40D4E00D67; Wed, 17 Jul 2019 02:54:23 -0700 (PDT)
+	id 37B2BE00C09; Fri, 19 Jul 2019 12:17:09 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
-	https://www.dnswl.org/, *      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
+	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 45333E00D1C
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.65 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9A73BE00A93
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 17 Jul 2019 02:54:23 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6H9rloI016700
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Jul 2019 02:53:57 -0700
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 17 Jul 2019 02:53:36 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
-Date: Wed, 17 Jul 2019 17:53:34 +0800
-Message-ID: <1563357214-6963-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Fri, 19 Jul 2019 12:17:08 -0700 (PDT)
+Received: by mail-lf1-f65.google.com with SMTP id u10so22440296lfm.12
+	for <meta-virtualization@yoctoproject.org>;
+	Fri, 19 Jul 2019 12:17:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=LqzVUSv8QPqmP0r5n39M5zSqEIQS9lMF0TAtTU+1D5U=;
+	b=c+gW5KhfTgBG5bfDirO7WIAG/pOuZ8LXMO5hO+NLYdsLhZU9F3nLUYGaWlH62yE82B
+	pkQSLYS8GRPD0V3QrYBe26PxU/yqrv4A/8Ozgd2pC7bzJeHajGWcksL7IuEbyb+gD3+X
+	flBEkDZDUOsVWCDlSecbhLdBK0FH1KJTmVA+NA208bXf4Ibszt+41HaKlJ05NeXgyIUM
+	65eySoiCw1khCHi5YKoBjBnY37A4yE6Q7aaw7OnHC3vPoHWBMLP7FwUw+kFdrnmPDXFP
+	OL0oOE54jafnOAFev9Shsmq3gV++qx1VYwMMdAwK3I4To40sTD2a9uQTDe1cmoP6v1qa
+	1kgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=LqzVUSv8QPqmP0r5n39M5zSqEIQS9lMF0TAtTU+1D5U=;
+	b=aZi1WVcTRC3K0ahBZisbjLaPUtHfjV0G9ogILbMvS+nezFyPnH81DlcvyzzC8mTY/f
+	MHBnhdFq94JnfTcmBQekhmTzvU0+BXX3kXrdO+DXskIKLysxozrrcS1TmMmbxAXb5Xmi
+	HCuv0eGtwgzKaSPvhWUgmkT48nuew4sVhvjKc/ArGnWus/LW0AYzZaT8Grz7GbMPMZNM
+	EV/SHyU4wCa60YyEK2Zhe2vUWSDx8kJ7sK4vJXozo/9VE+w/zH94j7IaeqZkuC7d2tEC
+	yInSwusw3ZpxyPeiT5GDNM2R0QLdzQSxrtZcN+fv6z9nIs8O72urbRT9PHcCnaxhkHDn
+	mDCQ==
+X-Gm-Message-State: APjAAAXPSLfi2paVWY0d/00EWiwHpZOkvaJQGIuqrk+4k07vMPItSl2y
+	pGrVop//lTDD8A58bdSYNmGNffSzwjRryw578zY=
+X-Google-Smtp-Source: APXvYqwLLtKuaCcJ3rOxjlKLjftYwnu61zIO82bwDMKrcmM6777XJmtk1HQApg9yNU7zN4CVGnJJbcQFbrVrTRuzI2o=
+X-Received: by 2002:ac2:46ef:: with SMTP id q15mr25402483lfo.63.1563563827444; 
+	Fri, 19 Jul 2019 12:17:07 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH V2] docker: improve hardcoded CC for cross compile
+References: <1563349114-19162-1-git-send-email-yi.zhao@windriver.com>
+In-Reply-To: <1563349114-19162-1-git-send-email-yi.zhao@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 19 Jul 2019 15:16:56 -0400
+Message-ID: <CADkTA4PPwTtJYUk0avh1LZRqYbEFfkoirLOcAWQtwjRFBo3aTA@mail.gmail.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-cloud-services][PATCH] openssh: update bbappend
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,109 +73,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Jul 2019 09:54:23 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Jul 2019 19:17:09 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Since commit applied in moby [61a3285 Support cross-compile for arm]
-it hardcoded var-CC to support cross-compile for arm
+merged
 
-Correct it with "${parameter:-word}" format, it is helpful for user
-define toolchains
+Bruce
 
-(Use Default Values.  If parameter is unset or null, the expansion of
-word is substituted.  Otherwise, the value of parameter is substituted.)
+On Wed, Jul 17, 2019 at 3:39 AM Yi Zhao <yi.zhao@windriver.com> wrote:
+>
+> Update the bbappend since openssh had been upgraded to 8.x in oe-core.
+>
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta-openstack/recipes-connectivity/openssh/files/mcs-sshd                | 0
+>  .../openssh/{openssh_7.%.bbappend => openssh_%.bbappend}                  | 0
+>  2 files changed, 0 insertions(+), 0 deletions(-)
+>  mode change 100755 => 100644 meta-openstack/recipes-connectivity/openssh/files/mcs-sshd
+>  rename meta-openstack/recipes-connectivity/openssh/{openssh_7.%.bbappend => openssh_%.bbappend} (100%)
+>
+> diff --git a/meta-openstack/recipes-connectivity/openssh/files/mcs-sshd b/meta-openstack/recipes-connectivity/openssh/files/mcs-sshd
+> old mode 100755
+> new mode 100644
+> diff --git a/meta-openstack/recipes-connectivity/openssh/openssh_7.%.bbappend b/meta-openstack/recipes-connectivity/openssh/openssh_%.bbappend
+> similarity index 100%
+> rename from meta-openstack/recipes-connectivity/openssh/openssh_7.%.bbappend
+> rename to meta-openstack/recipes-connectivity/openssh/openssh_%.bbappend
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
-https://github.com/moby/moby/commit/61a3285864d3f1b489f48f765b61b2c7bd300372
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- recipes-containers/docker/docker_git.bb            |  3 +-
- ...001-imporve-hardcoded-CC-on-cross-compile.patch | 61 ++++++++++++++++++++++
- 2 files changed, 63 insertions(+), 1 deletion(-)
- create mode 100644 recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch
 
-diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
-index 5b2f3b0..feca536 100644
---- a/recipes-containers/docker/docker_git.bb
-+++ b/recipes-containers/docker/docker_git.bb
-@@ -43,7 +43,8 @@ SRC_URI = "\
- 	git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork \
- 	git://github.com/docker/cli;branch=19.03;name=cli;destsuffix=git/cli \
- 	file://docker.init \
--        file://0001-libnetwork-use-GO-instead-of-go.patch \
-+	file://0001-libnetwork-use-GO-instead-of-go.patch \
-+	file://0001-imporve-hardcoded-CC-on-cross-compile.patch \
- 	"
- 
- require docker.inc
-diff --git a/recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch b/recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch
-new file mode 100644
-index 0000000..554d282
---- /dev/null
-+++ b/recipes-containers/docker/files/0001-imporve-hardcoded-CC-on-cross-compile.patch
-@@ -0,0 +1,61 @@
-+From 975b3a8e761b20e570120e8ca99b19da8012cae5 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 17 Jul 2019 17:34:04 +0800
-+Subject: [PATCH] imporve hardcoded CC on cross compile
-+
-+Since commit applied in moby [61a3285 Support cross-compile for arm]
-+it hardcoded var-CC to support cross-compile for arm
-+
-+Correct it with "${parameter:-word}" format, it is helpful for user
-+define toolchains
-+
-+(Use Default Values.  If parameter is unset or null, the expansion of
-+word is substituted.  Otherwise, the value of parameter is substituted.)
-+
-+Upstream-Status: Submitted [https://github.com/moby/moby/pull/39546]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ hack/make/.binary | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/import/hack/make/.binary b/src/import/hack/make/.binary
-+index 53de674..66f4ca0 100644
-+--- a/src/import/hack/make/.binary
-++++ b/src/import/hack/make/.binary
-+@@ -44,27 +44,27 @@ if [ "$(go env GOOS)/$(go env GOARCH)" != "$(go env GOHOSTOS)/$(go env GOHOSTARC
-+ 	# must be cross-compiling!
-+ 	case "$(go env GOOS)/$(go env GOARCH)" in
-+ 		windows/amd64)
-+-			export CC=x86_64-w64-mingw32-gcc
-++			export CC="${CC:-x86_64-w64-mingw32-gcc}"
-+ 			export CGO_ENABLED=1
-+ 			;;
-+ 		linux/arm)
-+ 			case "${GOARM}" in
-+ 			5|"")
-+-				export CC=arm-linux-gnueabi-gcc
-++				export CC="${CC:-arm-linux-gnueabi-gcc}"
-+ 				export CGO_ENABLED=1
-+ 				;;
-+ 			7)
-+-				export CC=arm-linux-gnueabihf-gcc
-++				export CC="${CC:-arm-linux-gnueabihf-gcc}"
-+ 				export CGO_ENABLED=1
-+ 				;;
-+ 			esac
-+ 			;;
-+ 		linux/arm64)
-+-			export CC=aarch64-linux-gnu-gcc
-++			export CC="${CC:-aarch64-linux-gnu-gcc}"
-+ 			export CGO_ENABLED=1
-+ 			;;
-+ 		linux/amd64)
-+-			export CC=x86_64-linux-gnu-gcc
-++			export CC="${CC:-x86_64-linux-gnu-gcc}"
-+ 			export CGO_ENABLED=1
-+ 			;;
-+ 	esac
-+-- 
-+2.7.4
-+
 -- 
-2.7.4
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
