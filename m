@@ -1,6 +1,6 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D6080E00D83; Wed, 24 Jul 2019 00:43:07 -0700 (PDT)
+	id 71993E00E0E; Wed, 24 Jul 2019 20:43:53 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,25 +10,25 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
 	*      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ADFC3E00D44
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7C7EBE00DD9
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 24 Jul 2019 00:43:06 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6O7h4Qn013848
+	Wed, 24 Jul 2019 20:43:52 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6P3hn8C006636
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Jul 2019 00:43:04 -0700 (PDT)
+	Wed, 24 Jul 2019 20:43:49 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 24 Jul 2019 00:43:03 -0700
-From: <zhe.he@windriver.com>
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 24 Jul 2019 20:43:43 -0700
+From: <mingli.yu@windriver.com>
 To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
-Date: Wed, 24 Jul 2019 15:43:02 +0800
-Message-ID: <1563954182-300270-1-git-send-email-zhe.he@windriver.com>
+Date: Thu, 25 Jul 2019 11:43:41 +0800
+Message-ID: <1564026221-359201-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] libvirt: Do not change /var/lib/libvirt/qemu for mips and mips64 in do_install
+Subject: [PATCH] meta-virtualization: add layer depends on selinux
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,45 +41,32 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Jul 2019 07:43:07 -0000
+X-List-Received-Date: Thu, 25 Jul 2019 03:43:53 -0000
 Content-Type: text/plain
 
-From: He Zhe <zhe.he@windriver.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-qemu does not support mips and mips64 and thus /var/lib/libvirt/qemu is not
-generated. Do not change it.
+Since cri-o of meta-virtualization depends on
+libselinux which comes from selinux, add missing
+layer depends back.
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- recipes-extended/libvirt/libvirt_5.5.0.bb | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ conf/layer.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/recipes-extended/libvirt/libvirt_5.5.0.bb b/recipes-extended/libvirt/libvirt_5.5.0.bb
-index 8d71862..80f7a6c 100644
---- a/recipes-extended/libvirt/libvirt_5.5.0.bb
-+++ b/recipes-extended/libvirt/libvirt_5.5.0.bb
-@@ -311,9 +311,18 @@ do_install_append() {
+diff --git a/conf/layer.conf b/conf/layer.conf
+index be1f222..23efcb8 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -21,6 +21,7 @@ LAYERDEPENDS_virtualization-layer = " \
+     networking-layer \
+     filesystems-layer \
+     meta-python \
++    selinux \
+ "
  
- 	sed -i -e 's/^\(unix_sock_group\ =\ \).*/\1"kvm"/' ${D}/etc/libvirt/libvirtd.conf
- 	sed -i -e 's/^\(unix_sock_rw_perms\ =\ \).*/\1"0776"/' ${D}/etc/libvirt/libvirtd.conf
--	chown -R qemu:qemu ${D}/${localstatedir}/lib/libvirt/qemu
--	echo "d qemu qemu 0755 ${localstatedir}/cache/libvirt/qemu none" \
--	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
-+
-+	case ${MACHINE_ARCH} in
-+		*mips*)
-+			break
-+			;;
-+		*)
-+			chown -R qemu:qemu ${D}/${localstatedir}/lib/libvirt/qemu
-+			echo "d qemu qemu 0755 ${localstatedir}/cache/libvirt/qemu none" \
-+			    >> ${D}${sysconfdir}/default/volatiles/99_libvirt
-+			break
-+			;;
-+	esac
- 
- 	if ${@bb.utils.contains('PACKAGECONFIG','gnutls','true','false',d)}; then
- 	    # Generate sample keys and certificates.
+ # webserver: naigos requires apache2
 -- 
 2.7.4
 
