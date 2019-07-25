@@ -1,66 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 89C8DE00D30; Thu, 25 Jul 2019 11:26:31 -0700 (PDT)
+	id 33685E00C27; Thu, 25 Jul 2019 11:28:47 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.208.194 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.208.195 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0511AE00C22
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9AB7FE00BA1
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 25 Jul 2019 11:26:30 -0700 (PDT)
-Received: by mail-lj1-f195.google.com with SMTP id x25so49001262ljh.2
+	Thu, 25 Jul 2019 11:28:46 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id v18so48900218ljh.6
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 25 Jul 2019 11:26:30 -0700 (PDT)
+	Thu, 25 Jul 2019 11:28:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JkLwpuolTXYG3k48ZnJ/W9SeZFyWNOXeINZE4vnMUtk=;
-	b=nf5WT0A/XLrHUZDaneCRDeaysvblTOXLWtdBN3SYKDHCvBpD6STD/+6BZ3+gWbkngG
-	BaMgAlhDzBTlJakAusUfFAHKFQ10QjFV7Xy/WKMWNcRKP4nmBk3+PAfE2i/2FilmajS8
-	UrZfTbDiajpscWb9eKnGEz70uh1r49C6ypb7If8YABcIjz9QF1llr/156Jm27Syf/LdH
-	i9k/GTJ0C0r7soC6YPM0AXvwmuQgRCtUxTzBnU+GVi+Y6Hgn+4vyuSQ3tH6X/YTDYBIx
-	6AABnqFewP3FtjY6GBAIf77lP4u3AYCK7TMQOycvDhKzyz/BHCQQrCryCbFl5PGkCerG
-	3sMw==
+	:cc; bh=SxQzXRjHQrUby40k0hXRvkzdcI+NULXubTbBv2FNGfg=;
+	b=dBq/ShHMVKxVua2p9w9ETsQSX+a/hDKt6bayIQUWfG0bJ7ZW0v32okfw+mp1HNj4YJ
+	t8FKnMYUtmbOcefY0WdYzk10lzGMR/d/EFVIIe9b2dqrYwcdfalhsY9nBVHmF1eF3z9s
+	tTU7tHsaUefhKjPasy9P+krG/1WLN2himgJEVqzgtPpqXEIHUiSY4wPLJGnE+QfFLTtE
+	TPhmQE66HQo8mFxr6vhkSuYCyvsIOo+nONkB8keQl2rURAdbpO0xXS+YHvk5xhPLGrxl
+	IZ3O3ZL73oLygAxyhO4FxpK56PCwNs28b10QlCqg75rCQE7Z0qe/9Ip+RXN+4wNthC1z
+	MyPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=JkLwpuolTXYG3k48ZnJ/W9SeZFyWNOXeINZE4vnMUtk=;
-	b=t8rKSNSkLgFDij6WvDMpNkpwlKpbf7lDhW6RP1e4dXWiahUnxG8Q7r5cb/i+dklmuH
-	UB1fgyLDmgTLZb9w5s+xXYQ53MHF8EKnim2eocN5KtKbYfNEngAN38uGcGjWdmkKMc2t
-	2QlVybQwcywnTtZ+QBbUgOhN6SBGCS4c40cQ+3JJA8Ce6L3uftgRe9CtJ2hnluV2sDNg
-	5ddWv7MIFC/jetYcM6NCmEl7ktGnfq5kpcLgyOmkWQ6ewW/9CCpcNXQzGo1E92oVKduT
-	cEcEqsmS60oux6dUz7mD+WSblkGaq7h0FIkCfk7B8UOCSklA8lwq/IdI1fuu9eVDoMvx
-	12iw==
-X-Gm-Message-State: APjAAAXKYtlhqHMSv/3Q/XXiHz3hqHY13wVpC3KKojYOPID8hFNbTNao
-	1BVdsp60ZvEiHgKKP1SCz0ZuiP8f33WZn6JFr1y8EREdQI8=
-X-Google-Smtp-Source: APXvYqxfN9FqLCEqpeiC6+EFDPPTf3gGfeF2UTBybhUheAlgdOIoapQEbl5LSm58wLZl+Xsqrl0HMmMHXjX7Tmz+RVA=
-X-Received: by 2002:a2e:3807:: with SMTP id f7mr32662434lja.87.1564079189741; 
-	Thu, 25 Jul 2019 11:26:29 -0700 (PDT)
+	bh=SxQzXRjHQrUby40k0hXRvkzdcI+NULXubTbBv2FNGfg=;
+	b=sDi6DdSNBjdahTr7OfDQhEVmFRZw9i0TSMWanXVJIK10RCCGF0f//C/HrG9z4KDUcE
+	PlBR04IXl9W6c8xgV1UV1rGdBpYrPaNLdAFlcoaD968Hcv0nAgcvJV2nNiTfx3Gx+olD
+	XVSXVgGlOv6Uyo7VJgqLHbDKYVuKV7rY8S8i91IAELrDfv77nslSwPR9Osq5EVeMg0Bf
+	na1UhMwqjvXcUol1SLOpyXqyw+fwxbPYUU1zxsbbXyuH3L9zsht1/mrztrafA96nsgMQ
+	Vs+vQgNH12MzaE+axQ/RmnL/p3qrIvOqd4gotqgToywxXr6Ex/CeeNGQcgyi+0mhStQf
+	VGzg==
+X-Gm-Message-State: APjAAAUhArUDZd9o7f0MntxNqeoUI6RO8lDpHfrzPvla5uegG87Hc7/j
+	ELcqEcSTYp7p0uEUQ4dXpBPTeoBZAeWq6fbXvag=
+X-Google-Smtp-Source: APXvYqwFLYiQj/OjLFmQFnLBn0TF4DZMdvhQ+VSngQ3mAye0Trmm2CS3Dtzgwxg6G6wLVsumy6LKFJpS4AfuEl6qVU0=
+X-Received: by 2002:a2e:8449:: with SMTP id u9mr3372178ljh.104.1564079325406; 
+	Thu, 25 Jul 2019 11:28:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <1563954182-300270-1-git-send-email-zhe.he@windriver.com>
-In-Reply-To: <1563954182-300270-1-git-send-email-zhe.he@windriver.com>
+References: <1564026221-359201-1-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1564026221-359201-1-git-send-email-mingli.yu@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 25 Jul 2019 14:26:18 -0400
-Message-ID: <CADkTA4OpE+dxWX15s=eHevy7OCLVP5iBrDNC98P5K4AW+yOE=g@mail.gmail.com>
-To: He Zhe <zhe.he@windriver.com>
+Date: Thu, 25 Jul 2019 14:28:34 -0400
+Message-ID: <CADkTA4NTnUsV_MzAgCT-tdZ4ikr_dYcg29oDquDrUkqRfiDZ=Q@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] libvirt: Do not change /var/lib/libvirt/qemu for mips and mips64 in do_install
+Subject: Re: [PATCH] meta-virtualization: add layer depends on selinux
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,51 +73,51 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Jul 2019 18:26:31 -0000
+X-List-Received-Date: Thu, 25 Jul 2019 18:28:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+On Wed, Jul 24, 2019 at 11:43 PM <mingli.yu@windriver.com> wrote:
+>
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+>
+> Since cri-o of meta-virtualization depends on
+> libselinux which comes from selinux, add missing
+> layer depends back.
+
+This is already covered in the README. Since cri-o is optional, I
+didn't want it to be a hard depends.
+
+Required for cri-o:
+URI: git://github.com/advancedtelematic/meta-updater
+URI: git://git.yoctoproject.org/meta-selinux
+URI: git://git.yoctoproject.org/meta-security
+branch: master
+revision: HEAD
+prio: default
+
+
+I haven't seen a way to do a conditional depends .. has anyone else ?
 
 Bruce
 
-On Wed, Jul 24, 2019 at 3:43 AM <zhe.he@windriver.com> wrote:
 >
-> From: He Zhe <zhe.he@windriver.com>
->
-> qemu does not support mips and mips64 and thus /var/lib/libvirt/qemu is not
-> generated. Do not change it.
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 > ---
->  recipes-extended/libvirt/libvirt_5.5.0.bb | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
+>  conf/layer.conf | 1 +
+>  1 file changed, 1 insertion(+)
 >
-> diff --git a/recipes-extended/libvirt/libvirt_5.5.0.bb b/recipes-extended/libvirt/libvirt_5.5.0.bb
-> index 8d71862..80f7a6c 100644
-> --- a/recipes-extended/libvirt/libvirt_5.5.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_5.5.0.bb
-> @@ -311,9 +311,18 @@ do_install_append() {
+> diff --git a/conf/layer.conf b/conf/layer.conf
+> index be1f222..23efcb8 100644
+> --- a/conf/layer.conf
+> +++ b/conf/layer.conf
+> @@ -21,6 +21,7 @@ LAYERDEPENDS_virtualization-layer = " \
+>      networking-layer \
+>      filesystems-layer \
+>      meta-python \
+> +    selinux \
+>  "
 >
->         sed -i -e 's/^\(unix_sock_group\ =\ \).*/\1"kvm"/' ${D}/etc/libvirt/libvirtd.conf
->         sed -i -e 's/^\(unix_sock_rw_perms\ =\ \).*/\1"0776"/' ${D}/etc/libvirt/libvirtd.conf
-> -       chown -R qemu:qemu ${D}/${localstatedir}/lib/libvirt/qemu
-> -       echo "d qemu qemu 0755 ${localstatedir}/cache/libvirt/qemu none" \
-> -            >> ${D}${sysconfdir}/default/volatiles/99_libvirt
-> +
-> +       case ${MACHINE_ARCH} in
-> +               *mips*)
-> +                       break
-> +                       ;;
-> +               *)
-> +                       chown -R qemu:qemu ${D}/${localstatedir}/lib/libvirt/qemu
-> +                       echo "d qemu qemu 0755 ${localstatedir}/cache/libvirt/qemu none" \
-> +                           >> ${D}${sysconfdir}/default/volatiles/99_libvirt
-> +                       break
-> +                       ;;
-> +       esac
->
->         if ${@bb.utils.contains('PACKAGECONFIG','gnutls','true','false',d)}; then
->             # Generate sample keys and certificates.
+>  # webserver: naigos requires apache2
 > --
 > 2.7.4
 >
