@@ -1,6 +1,6 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A6A5EE00D77; Tue,  6 Aug 2019 18:14:47 -0700 (PDT)
+	id 0B533E00D75; Tue,  6 Aug 2019 18:15:19 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,26 +10,29 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
 	*      medium trust
-	*      [147.11.146.13 listed in list.dnswl.org]
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8A2FDE00CB9
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F3142E0049C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Aug 2019 18:14:46 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x771EkC4013126
+	Tue,  6 Aug 2019 18:15:17 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x771EvW4030158
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 6 Aug 2019 18:14:46 -0700 (PDT)
+	Tue, 6 Aug 2019 18:15:07 -0700
 Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 6 Aug 2019 18:14:45 -0700
+	14.3.468.0; Tue, 6 Aug 2019 18:14:46 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 7 Aug 2019 09:14:43 +0800
-Message-ID: <20190807011444.31930-1-Qi.Chen@windriver.com>
+Date: Wed, 7 Aug 2019 09:14:44 +0800
+Message-ID: <20190807011444.31930-2-Qi.Chen@windriver.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190807011444.31930-1-Qi.Chen@windriver.com>
+References: <20190807011444.31930-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2 1/2] kubernetes: clean up environment settings in do_compile
+Subject: [PATCH V2 2/2] runc: add PACKAGECONFIG to allow building as static or not
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -42,88 +45,149 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 01:14:47 -0000
+X-List-Received-Date: Wed, 07 Aug 2019 01:15:19 -0000
 Content-Type: text/plain
 
-There are unnessary and incorrect settings like GOOS and GOROOT.
-There are also redundant settings like GOPATH, CGO_CFLAGS, etc,
-whose latter setting will cover the previous one.
+Add a new PACKAGECONFIG, static, which when enabled will build
+runc as static. Default to enable it.
 
-So clean all these up.
-
-Also, remove the comment which suggests settings GOVERSION to "1.10%",
-as it's no longer valid for current OE.
+We need this because we should allow users to build runc as not
+static so that when docker's cgroup driver is set to systemd,
+we don't get error.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../kubernetes/kubernetes_git.bb              | 36 +++++++------------
- 1 file changed, 12 insertions(+), 24 deletions(-)
+ ...-GOBUILDFLAGS-for-runc-and-remove-re.patch | 35 +++++++++++++++++++
+ ...ld-drop-recvtty-and-use-GOBUILDFLAGS.patch | 22 ------------
+ recipes-containers/runc/runc-docker_git.bb    |  2 +-
+ .../runc/runc-opencontainers_git.bb           |  1 +
+ recipes-containers/runc/runc.inc              | 10 ++++--
+ 5 files changed, 45 insertions(+), 25 deletions(-)
+ create mode 100644 recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+ delete mode 100644 recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
 
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index 5b4c3a9..0aa7c00 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -5,8 +5,6 @@ applications across multiple hosts, providing basic mechanisms for deployment, \
- maintenance, and scaling of applications. \
- "
- 
--# Note: 1.11+ requires go 1.10.2+, so the following must be set
--#       in your configuration: GOVERSION = "1.10%"
- PV = "v1.16.0-alpha+git${SRCREV_kubernetes}"
- SRCREV_kubernetes = "7054e3ead7e1a00ca6ac3ec47ea355b76061a35a"
- 
-@@ -31,39 +29,29 @@ inherit goarch
- COMPATIBLE_HOST = '(x86_64.*|arm.*|aarch64.*)-linux'
- 
- do_compile() {
--	export GOARCH="${TARGET_GOARCH}"
--	export GOOS="${TARGET_GOOS}"
--	export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
--	export GOPATH="${S}/src/import:${S}/src/import/vendor"
--
--	# Pass the needed cflags/ldflags so that cgo
--	# can find the needed headers files and libraries
--	export CGO_ENABLED="1"
--	export CFLAGS=""
--	export LDFLAGS=""
--	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
--	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
--
- 	# link fixups for compilation
- 	rm -f ${S}/src/import/vendor/src
- 	ln -sf ./ ${S}/src/import/vendor/src
- 
- 	export GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
--	export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
--
--	# Pass the needed cflags/ldflags so that cgo
--	# can find the needed headers files and libraries
--	export CGO_ENABLED="1"
--	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
--	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
--
- 	cd ${S}/src/import
+diff --git a/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+new file mode 100644
+index 0000000..94cbb4c
+--- /dev/null
++++ b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+@@ -0,0 +1,35 @@
++From d2c47a973f354ffd505bb4e809c59e57b543726d Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Tue, 6 Aug 2019 19:01:45 +0800
++Subject: [PATCH] Makefile: respect GOBUILDFLAGS for runc and remove recvtty
++ from static
 +
- 	# Build the host tools first, using the host compiler
- 	export GOARCH="${BUILD_GOARCH}"
-+	# Pass the needed cflags/ldflags so that cgo can find the needed headers files and libraries
-+	export CGO_ENABLED="1"
-+	export CFLAGS=""
-+	export LDFLAGS=""
-+	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-+	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
- 	make generated_files KUBE_BUILD_PLATFORMS="${HOST_GOOS}/${BUILD_GOARCH}"
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ Makefile | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 0f26a1c8..a0c6b40b 100644
++--- a/src/import/Makefile
+++++ b/src/import/Makefile
++@@ -30,7 +30,7 @@ SHELL := $(shell command -v bash 2>/dev/null)
++ .DEFAULT: runc
++ 
++ runc: $(SOURCES)
++-	$(GO) build -buildmode=pie $(EXTRA_FLAGS) -ldflags "-X main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)" -tags "$(BUILDTAGS)" -o runc .
+++	$(GO) build $(GOBUILDFLAGS) $(EXTRA_FLAGS) -ldflags "-X main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)" -tags "$(BUILDTAGS)" -o runc .
++ 
++ all: runc recvtty
++ 
++@@ -41,7 +41,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)
++ 
++ static: $(SOURCES)
++ 	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)" -o runc .
++-	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
++ 
++ release:
++ 	script/release.sh -r release/$(VERSION) -v $(VERSION)
++-- 
++2.17.1
++
+diff --git a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch b/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+deleted file mode 100644
+index 9ba9957..0000000
+--- a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-From a9a2b9e72027d0b2357f6dfe8b154762aaa8dd02 Mon Sep 17 00:00:00 2001
+-From: Bruce Ashfield <bruce.ashfield@windriver.com>
+-Date: Thu, 19 Apr 2018 16:39:41 -0400
+-Subject: [PATCH] build: drop recvtty and use GOBUILDFLAGS
+-
+-Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+----
+- Makefile | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-Index: git/src/import/Makefile
+-===================================================================
+---- git.orig/src/import/Makefile
+-+++ git/src/import/Makefile
+-@@ -41,7 +41,6 @@
+- 
+- static: $(SOURCES)
+- 	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)" -o runc .
+--	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
+- 
+- release:
+- 	script/release.sh -r release/$(VERSION) -v $(VERSION)
+diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
+index 2bf6222..c9f460b 100644
+--- a/recipes-containers/runc/runc-docker_git.bb
++++ b/recipes-containers/runc/runc-docker_git.bb
+@@ -5,7 +5,7 @@ include runc.inc
+ SRCREV_runc-docker = "425e105d5a03fabd737a126ad93d62a9eeede87f"
+ SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
+            file://0001-runc-Add-console-socket-dev-null.patch \
+-           file://0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch \
++           file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+            file://0001-runc-docker-SIGUSR1-daemonize.patch \
+           "
  
--	# Reset GOARCH to the target one
-+	# Build the target binaries
- 	export GOARCH="${TARGET_GOARCH}"
-+	# Pass the needed cflags/ldflags so that cgo can find the needed headers files and libraries
-+	export CGO_ENABLED="1"
-+	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-+	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
- 	# to limit what is built, use 'WHAT', i.e. make WHAT=cmd/kubelet
- 	make cross KUBE_BUILD_PLATFORMS=${GOOS}/${GOARCH}
+diff --git a/recipes-containers/runc/runc-opencontainers_git.bb b/recipes-containers/runc/runc-opencontainers_git.bb
+index 76ab794..361bc94 100644
+--- a/recipes-containers/runc/runc-opencontainers_git.bb
++++ b/recipes-containers/runc/runc-opencontainers_git.bb
+@@ -3,5 +3,6 @@ include runc.inc
+ SRCREV = "652297c7c7e6c94e8d064ad5916c32891a6fd388"
+ SRC_URI = " \
+     git://github.com/opencontainers/runc;branch=master \
++    file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+     "
+ RUNC_VERSION = "1.0.0-rc8"
+diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
+index 46fd09d..41ea41b 100644
+--- a/recipes-containers/runc/runc.inc
++++ b/recipes-containers/runc/runc.inc
+@@ -14,8 +14,10 @@ inherit go
+ inherit goarch
+ inherit pkgconfig
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "static"
+ PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
++# This PACKAGECONFIG serves the purpose of whether building runc as static or not
++PACKAGECONFIG[static] = ""
+ 
+ PROVIDES += "virtual/runc"
+ RPROVIDES_${PN} = "virtual/runc"
+@@ -54,7 +56,11 @@ do_compile() {
+ 	export CFLAGS=""
+ 	export LDFLAGS=""
+ 
+-	oe_runmake static
++	if ${@bb.utils.contains('PACKAGECONFIG', 'static', 'true', 'false', d)}; then
++		oe_runmake static
++	else
++		oe_runmake runc
++	fi
  }
+ 
+ do_install() {
 -- 
 2.17.1
 
