@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 25F40E00D8B; Tue,  6 Aug 2019 20:12:30 -0700 (PDT)
+	id E47BEE00D8B; Tue,  6 Aug 2019 20:12:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,7 +9,7 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	https://www.dnswl.org/, no *      trust
-	*      [209.85.208.176 listed in list.dnswl.org]
+	*      [209.85.208.174 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
@@ -20,48 +20,48 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com
-	[209.85.208.176])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6F658E00798
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+	[209.85.208.174])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 318C7E00798
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Aug 2019 20:12:29 -0700 (PDT)
-Received: by mail-lj1-f176.google.com with SMTP id m8so50423981lji.7
+	Tue,  6 Aug 2019 20:12:39 -0700 (PDT)
+Received: by mail-lj1-f174.google.com with SMTP id d24so84010286ljg.8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 06 Aug 2019 20:12:29 -0700 (PDT)
+	Tue, 06 Aug 2019 20:12:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=g08ZPLSc4Rq8YTpTqYRn6UxVp4glALGuD4H5UEKSHlk=;
-	b=fU0FfpdR+rP+bvTHEWJOigWhiAPYM1XMt/kN9oAnjDDiVIWQSAJUuFa322vd9Ab8S/
-	CR5rxgN3ntqMd7UpGda2DCMC0Ls/2F+21bU0pbIYirSO22Do1Sgm+J1tYLspLfdshVj5
-	3lhuTM/FVWgwN13YpypbYnaccgV7a6XqqaX2wP1DgJ2bafYuUygI9RGpTY4nL3jpW299
-	sk97HGJOJdfq6z634Jt0X2Iizv7hBKvL0k6eYlj6pxZ1FG0bW6AT8poVJcneOHqDoXmC
-	GBT31CPtj9kQSgKr3E0Chyn3bcYl4YLRkdev50oApA7XgdrgGX3x2wxvqePKw/IMFsP1
-	OHHQ==
+	:cc; bh=fHb6LHt7R5vjUtlLIO8gPyvacuTJ/gvlVjJ8/9sL4vk=;
+	b=MzcTxgsD9ZI3x20jenquEK84WnSfaZnGjMNaSIYc4DrbvmwqN7GLcXonYSrZj2/9Iu
+	IBdNKE2Za7iPlWfN/tp3ncemxTQk3NVfiMHt4SFj9lmpCz4qJSh96x9DTOO6sA9nkMta
+	riddSaHhbnAaA7kFTbGeXZZCfaWz+u32MYQtWDfsVT24/kMkW/GSpkT3zY00x3+km93d
+	WECDzi/fR/SfLn4IVJ34yNpv9hz1o5IWfubwfYNKQ8uVCmAE8dzS6xDmVq7gDd7Omf2P
+	yajYi3XmzIxsw9QgcDM1w1z12VlimDLuPiQv2hRzX32GOBUmpeZ7ft2LUA/w78/esIwY
+	BJhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=g08ZPLSc4Rq8YTpTqYRn6UxVp4glALGuD4H5UEKSHlk=;
-	b=bBoTBn1Caqd2ipw5YqnL93momTO227xrph/I1IsSePfItdrJQB/J3E4GfopE72w7Oo
-	Y3IA/ZNB63BQ8WhwDKu3ZnvwE2iWw+8pe/4LmdL7mb37qNPWMvZ4gmz41btAkDKYLqWt
-	WRsQXarZx8PXhqaT4PgyjvApjqrCCqx5MwKndbwvkdMZTC/qyQhxRQ4vdJhpt6vmrErX
-	JMlmio5Xo6NWoqPdTPVI17XjbAcQMJmn2PYnljhOu8+jL6DKDukvXVO4f7WV8d31a4kF
-	gSnC5BcVsqvcAhTcasoQuIMIIv90OW57zAcfCxWUFvupjLJ7niIsLHfWcf6jJdpT6WA9
-	Hh7A==
-X-Gm-Message-State: APjAAAWbQIg3kjeD0DaFYUDdTBdFusA8jGUbBbDBHc6RseHC+ss+JvBn
-	KNuLnwqGwL6UErYConCJ8xsHjJ3ktzes+DezZ/Lphg==
-X-Google-Smtp-Source: APXvYqyUHnR7DeIh965u3d55FqR0NafV9LZHHEAyO0ij6PeW+WXfFxAIO4X+8BGBFp+n/cgM/rfjz6L7bLVrCsI8yks=
-X-Received: by 2002:a2e:98f:: with SMTP id 137mr3288599ljj.232.1565147548161; 
-	Tue, 06 Aug 2019 20:12:28 -0700 (PDT)
+	bh=fHb6LHt7R5vjUtlLIO8gPyvacuTJ/gvlVjJ8/9sL4vk=;
+	b=ZsOPI5WGnECNAGNY0L9vAxodPZDIeJZwNWZrZvnt8g2hW4+4fTz+rLphGv6laOoqfz
+	xqSALZIoNevO9gEHXT72gCBOgtyo11hSkPsPq3u4VbEFukExX1YWZqQG5jt3xx1d9lPX
+	xKJ2n4t7VW4r1YK7lwTrAByt6x2qnRlTSBVyfp3wCyuq4JYxyLwZcCDpxDdMs9kxu6vI
+	u+AEy8MuYycrQrLR9E2ug8KPRyUnFrGKpTjeV+P/gf7y/uG1eKkkXqzYvwQtCgp1eHeO
+	tBKAbY9a9o690VsCcJ/N8MjMyXPqtp5vx/SjmBkANydD7B/QcXXk1u4euZsQto/LNdOl
+	abAQ==
+X-Gm-Message-State: APjAAAWHqfxxSshVaqJMlccScIam02zEZxbOfvTJGlY7kmOOsZ2Ty9ao
+	9/n5R97Rbgl4IXb3mQxSBMUzNv2zScS2qUoyCJ0=
+X-Google-Smtp-Source: APXvYqwD6jZoeWPSGG343nNMXdb+VcRfaXzJqj10+W0WxtnqZe97QU0JkKVL98xI2XtMZoJjZ3vgDcZJfbURKz4xPfI=
+X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr3383028ljj.185.1565147558259; 
+	Tue, 06 Aug 2019 20:12:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190806015700.8434-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190806015700.8434-1-zangrc.fnst@cn.fujitsu.com>
+References: <1565090034-14946-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1565090034-14946-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 Aug 2019 00:12:17 -0300
-Message-ID: <CADkTA4Px0fT=4+m2vwEao67FseOyxM9BgHg8OhDGTJdaim7pdQ@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Wed, 7 Aug 2019 00:12:27 -0300
+Message-ID: <CADkTA4PfezJOWQ8PDsUWO59u6rynwnLgp1X5b9JR2g2Qb8nb_w@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-cliff: upgrade 2.14.1 -> 2.15.0
+Subject: Re: [PATCH] python-keystoneauth1:upgrade 3.14.0 -> 3.15.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,52 +74,56 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 03:12:30 -0000
-Content-Type: multipart/alternative; boundary="000000000000a11d3d058f7e4f42"
+X-List-Received-Date: Wed, 07 Aug 2019 03:12:39 -0000
+Content-Type: multipart/alternative; boundary="0000000000003b3070058f7e5027"
 
---000000000000a11d3d058f7e4f42
+--0000000000003b3070058f7e5027
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Aug 5, 2019 at 10:57 PM Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+On Mon, Aug 5, 2019 at 11:14 PM Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 wrote:
 
-> From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+> Upgrade from python-keystoneauth1 from 3.14.0 to 3.15.0.
 >
-> Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  .../python/{python-cliff_2.14.1.bb => python-cliff_2.15.0.bb}         |
-> 4 ++--
+>  ...keystoneauth1_3.14.0.bb => python-keystoneauth1_3.15.0.bb} | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-cliff_2.14.1.bb =>
-> python-cliff_2.15.0.bb} (82%)
+>  rename meta-openstack/recipes-devtools/python/{
+> python-keystoneauth1_3.14.0.bb => python-keystoneauth1_3.15.0.bb} (79%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-cliff_2.14.1.bb
-> b/meta-openstack/recipes-devtools/python/python-cliff_2.15.0.bb
-> similarity index 82%
-> rename from meta-openstack/recipes-devtools/python/python-cliff_2.14.1.bb
-> rename to meta-openstack/recipes-devtools/python/python-cliff_2.15.0.bb
-> index 70ac4e6..cfcd424 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cliff_2.14.1.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cliff_2.15.0.bb
+> diff --git a/meta-openstack/recipes-devtools/python/
+> python-keystoneauth1_3.14.0.bb b/meta-openstack/recipes-devtools/python/
+> python-keystoneauth1_3.15.0.bb
+> similarity index 79%
+> rename from meta-openstack/recipes-devtools/python/
+> python-keystoneauth1_3.14.0.bb
+> rename to meta-openstack/recipes-devtools/python/
+> python-keystoneauth1_3.15.0.bb
+> index e53f922..a584951 100644
+> --- a/meta-openstack/recipes-devtools/python/
+> python-keystoneauth1_3.14.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/
+> python-keystoneauth1_3.15.0.bb
 > @@ -4,8 +4,8 @@ SECTION = "devel/python"
 >  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=96f840d59b245a1c817fbcb901afc574"
 >
-> -SRC_URI[md5sum] = "4c5d43d98970c79b091e25676cce2b10"
+> -SRC_URI[md5sum] = "ada9836933f5aa6bd35faf01c314e81d"
 > -SRC_URI[sha256sum] =
-> "b47387a344898ccb28ca7f386f017ade9eb66dc1713e5c642a0bc09ec606cc67"
-> +SRC_URI[md5sum] = "f51df6220d4a57c2b84d4b5a9e59e711"
+> "b14f363d02142177c968cfffeb9eb37113682c03ac3c65d483424e203dd602c3"
+> +SRC_URI[md5sum] = "0f3e21362a74d1fb8959fc2bf7d28882"
 > +SRC_URI[sha256sum] =
-> "fe044273539250a99a5b9915843902e40e4e9b32ac5698c1fae89e31200d649f"
+> "439f7dcf6edde5ea5a16ef90603d198e118a03f529aba0f8a6d19d5f6433de95"
 >
 >  inherit setuptools pypi
 >
 > --
-> 2.7.4
+> 2.17.1
 >
 >
 >
@@ -136,7 +140,7 @@ wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000a11d3d058f7e4f42
+--0000000000003b3070058f7e5027
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -144,61 +148,61 @@ Content-Transfer-Encoding: quoted-printable
 ged</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
 div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
 <div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Au=
-g 5, 2019 at 10:57 PM Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fuj=
-itsu.com">zangrc.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">From: Yuan Chao &lt;<a href=3D"mailto:y=
-uanc.fnst@cn.fujitsu.com" target=3D"_blank">yuanc.fnst@cn.fujitsu.com</a>&g=
-t;<br>
+g 5, 2019 at 11:14 PM Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fu=
+jitsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex">Upgrade from python-keystoneauth1 fro=
+m 3.14.0 to 3.15.0.<br>
 <br>
-Signed-off-by: Yuan Chao &lt;<a href=3D"mailto:yuanc.fnst@cn.fujitsu.com" t=
-arget=3D"_blank">yuanc.fnst@cn.fujitsu.com</a>&gt;<br>
+Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.c=
+om" target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0.../python/{<a href=3D"http://python-cliff_2.14.1.bb" rel=3D"noreferr=
-er" target=3D"_blank">python-cliff_2.14.1.bb</a> =3D&gt; <a href=3D"http://=
-python-cliff_2.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2=
-.15.0.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
+=C2=A0...<a href=3D"http://keystoneauth1_3.14.0.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">keystoneauth1_3.14.0.bb</a> =3D&gt; <a href=3D"http://python-=
+keystoneauth1_3.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keysto=
+neauth1_3.15.0.bb</a>} | 4 ++--<br>
 =C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
 =C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
-on-cliff_2.14.1.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.14.=
-1.bb</a> =3D&gt; <a href=3D"http://python-cliff_2.15.0.bb" rel=3D"noreferre=
-r" target=3D"_blank">python-cliff_2.15.0.bb</a>} (82%)<br>
+on-keystoneauth1_3.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python-key=
+stoneauth1_3.14.0.bb</a> =3D&gt; <a href=3D"http://python-keystoneauth1_3.1=
+5.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keystoneauth1_3.15.0.bb=
+</a>} (79%)<br>
 <br>
 diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n-cliff_2.14.1.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.14.1=
-.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-c=
-liff_2.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.15.0.bb=
-</a><br>
-similarity index 82%<br>
+n-keystoneauth1_3.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keys=
+toneauth1_3.14.0.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D=
+"http://python-keystoneauth1_3.15.0.bb" rel=3D"noreferrer" target=3D"_blank=
+">python-keystoneauth1_3.15.0.bb</a><br>
+similarity index 79%<br>
 rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
--cliff_2.14.1.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.14.1.=
-bb</a><br>
-rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-c=
-liff_2.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.15.0.bb=
-</a><br>
-index 70ac4e6..cfcd424 100644<br>
---- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-cliff=
-_2.14.1.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.14.1.bb</a>=
-<br>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-cliff=
-_2.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-cliff_2.15.0.bb</a>=
-<br>
+-keystoneauth1_3.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keyst=
+oneauth1_3.14.0.bb</a><br>
+rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-k=
+eystoneauth1_3.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keyston=
+eauth1_3.15.0.bb</a><br>
+index e53f922..a584951 100644<br>
+--- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-keyst=
+oneauth1_3.14.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keystoneaut=
+h1_3.14.0.bb</a><br>
++++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-keyst=
+oneauth1_3.15.0.bb" rel=3D"noreferrer" target=3D"_blank">python-keystoneaut=
+h1_3.15.0.bb</a><br>
 @@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
 =C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D3b83ef96387f14655fc85=
-4ddc3c6bd57&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D96f840d59b245a1c817fb=
+cb901afc574&quot;<br>
 <br>
--SRC_URI[md5sum] =3D &quot;4c5d43d98970c79b091e25676cce2b10&quot;<br>
--SRC_URI[sha256sum] =3D &quot;b47387a344898ccb28ca7f386f017ade9eb66dc1713e5=
-c642a0bc09ec606cc67&quot;<br>
-+SRC_URI[md5sum] =3D &quot;f51df6220d4a57c2b84d4b5a9e59e711&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;fe044273539250a99a5b9915843902e40e4e9b32ac569=
-8c1fae89e31200d649f&quot;<br>
+-SRC_URI[md5sum] =3D &quot;ada9836933f5aa6bd35faf01c314e81d&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;b14f363d02142177c968cfffeb9eb37113682c03ac3c6=
+5d483424e203dd602c3&quot;<br>
++SRC_URI[md5sum] =3D &quot;0f3e21362a74d1fb8959fc2bf7d28882&quot;<br>
++SRC_URI[sha256sum] =3D &quot;439f7dcf6edde5ea5a16ef90603d198e118a03f529aba=
+0f8a6d19d5f6433de95&quot;<br>
 <br>
 =C2=A0inherit setuptools pypi<br>
 <br>
 -- <br>
-2.7.4<br>
+2.17.1<br>
 <br>
 <br>
 <br>
@@ -215,4 +219,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div>
 
---000000000000a11d3d058f7e4f42--
+--0000000000003b3070058f7e5027--
