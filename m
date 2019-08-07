@@ -1,67 +1,67 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B2BFFE003C1; Tue,  6 Aug 2019 20:13:26 -0700 (PDT)
+	id C75BBE00CB9; Tue,  6 Aug 2019 20:14:35 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [209.85.208.169 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.194 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
-	[209.85.208.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CA22CE003C1
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA7DEE0049C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  6 Aug 2019 20:13:25 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id v24so84179895ljg.13
+	Tue,  6 Aug 2019 20:14:34 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id x25so84102771ljh.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 06 Aug 2019 20:13:25 -0700 (PDT)
+	Tue, 06 Aug 2019 20:14:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XJjNixyCiOgVzx9oYB7hkTuomyNxSqqRvxJKJJVOJpQ=;
-	b=j9o57rEPSap6Ds4jX9Yx4H4rT3JBGiEl1LR5D7fAHM5CqtNQhbRU8Z8SAoqYCS7/ND
-	SjMHHfQBG4SAxTPEs62gFR2TZaUznq1Gsags4FezD4sUbuzdXGoAZbTGJmnD//fakUxr
-	oCRpv/2f62/Krwoq8EFu5kkIAmDS8LbXssR3684LKpT94TD5NRjW+gMvehdf6hBEEyQG
-	r0MoYzPcKx2xDwJXpuC/5VlZc6Ac04FQjF6cZZbTSriOETj3UAeNKmt5N2gYj2DNNPMC
-	H6WKdaaTR7soQ0VGB6zxJv3uHpzvD2lWh5rrihKIxxIqWSMvkHsKXGH6tzN8T/86vn9d
-	qG6w==
+	:cc; bh=OtsH+Qbnz5p7Mwq2p3dJwIJVdaJCJVr8VAmt8y7dge8=;
+	b=jslVFnhcTCzhTpYnRzelwaQFPWs9kbr1HKXm5x8HiVRqORXAehtZpLuScDfqXiRzdn
+	JhckPLDxnjH5rYuL4sB0IkvAINy3sx0uJWvynIERtVPaAqS9Wmn1l/MA/TyGGzqQIxtb
+	G5CVyl1OBsx9Ivr27sS/b/xVVv4twMmKnq6nGv+UYcTMa3Nos2Ce7cwoc1eEZ1CyHW16
+	ltYDdTzsBRm2ImlRZBaZtgSS9aOXncZL/LANM8pWSKzptyrVLEJY897152aPJR6QarS/
+	pjMDP0kkep7YWosl44+F+RbQ02T0T1Lndl8hJOPDOBT/M/MQyJ1A9Be5Ua0po/rGvGaW
+	3v1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=XJjNixyCiOgVzx9oYB7hkTuomyNxSqqRvxJKJJVOJpQ=;
-	b=TUTy9rjYevGePMb+qx1/QqLd2Bh9vuQe9gE4a7R8H6xTdyic3YkF2GIQy5W15+kyXW
-	UTaQmCZaqjMIMzLySc54tM827BryPwAWeJXnwYt8lWSCWoc+BB0O/83mbZvsKiJg7g5Y
-	UCWbL0zITLHUdEr1o/wZP/HGQ+CaYsRdDEt8mlt0Q+D/jira48FJCMVDvS08wTVtWxUb
-	IHHQkFCgSHhZ0R3nP5l3BfB7+H0wOsfM0ylESn64lKi1DEcGMHJzZVki7onidnuuwgWw
-	wG3v9sbD7tKzZcQ9W8G5uy28ciyEkfMS3FOIjXYYAxq90l4cYDO5K184LzDFc7Q+dEQ3
-	mF+g==
-X-Gm-Message-State: APjAAAUO5ECBFApDK1/qEjFilQ64a1P+GtHTYUdE+pbSXqYCQt7FLeU4
-	DI1OBxPOFoWbTc4tLXlw232BxAnspEM6keXHMl9GYw==
-X-Google-Smtp-Source: APXvYqxFZmSvauwXGbRo3G8TPEAaHYPT1Rc17TCq35eNFbXqbQpug9QCS5OQYQ5OqpsJ7PtLoPEBSRZkNtXDtXWI9rQ=
-X-Received: by 2002:a2e:9a49:: with SMTP id k9mr3482955ljj.78.1565147604594;
-	Tue, 06 Aug 2019 20:13:24 -0700 (PDT)
+	bh=OtsH+Qbnz5p7Mwq2p3dJwIJVdaJCJVr8VAmt8y7dge8=;
+	b=HTJmwlZNlk25pY94wWkYB7q8e6QJUujOeuxRxymslduZHXDVPahi07fDm5svkH/UuS
+	4rYgOLIEIca3O4iieS0d3FlKyoen61r1mA6UyPaWQCTUhMevb5LQIHUiYMHFWHMbLNr+
+	b6sAL/awW+wgRS9WToP0enBKvVhvDEB5iIaslardGJ+9FT414hfVbv16R4i2H6xA+8/o
+	+KPTHybK36innDsPyHMc7o4XBDptIXs4Stm+GylA+riYbi+2Frha2gz/zoWeGFR7BUN7
+	b6/7c5mL4XcVG8NyfpHJbp01+VKNouKB7OjHTznqGTNUvUEEfrWVlSre9f0JqDGv5PcP
+	aZ9A==
+X-Gm-Message-State: APjAAAXmv214n4lDzv6ZjD9VFNy+/zSnZsuAYtybfMpt1w0sfpt3zeYs
+	ZZwQM9GfJ1N6lg4jVH264BLdzh5B3CxZVdi87Lk=
+X-Google-Smtp-Source: APXvYqyMpysz3F+GpWvuAmgJPfvIP1mwqIXGpL8cmGxHRzZ+OIe7DYvpWZKkJmAFxS6Ov4MZdrweFG3MNHwswljNUXk=
+X-Received: by 2002:a2e:93c5:: with SMTP id p5mr3406886ljh.79.1565147673831;
+	Tue, 06 Aug 2019 20:14:33 -0700 (PDT)
 MIME-Version: 1.0
-References: <1565096941-16553-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1565096941-16553-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1565074480-317469-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1565074480-317469-1-git-send-email-changqing.li@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 7 Aug 2019 00:13:14 -0300
-Message-ID: <CADkTA4MOrOWHi5Jama6-VEtvmyjSxt3Qtn-jfYJTO0zhAv4gqg@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Wed, 7 Aug 2019 00:14:23 -0300
+Message-ID: <CADkTA4N0-BU3g2iy3F=SkNd=Fjso-c3MY-jXEPANgrgDKUgUPQ@mail.gmail.com>
+To: changqing.li@windriver.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-osc-lib: upgrade 1.12.1 -> 1.13.0.
+Subject: Re: [PATCH] nagios-core/nagios-nrpe: use update-alternatives for /var/nagios
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,53 +74,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 07 Aug 2019 03:13:26 -0000
-Content-Type: multipart/alternative; boundary="000000000000fe332d058f7e52bd"
+X-List-Received-Date: Wed, 07 Aug 2019 03:14:35 -0000
+Content-Type: multipart/alternative; boundary="0000000000001ead41058f7e574c"
 
---000000000000fe332d058f7e52bd
+--0000000000001ead41058f7e574c
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Tue, Aug 6, 2019 at 1:09 AM Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+On Tue, Aug 6, 2019 at 3:54 AM <changqing.li@windriver.com> wrote:
 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> fix below error:
+> Error: Transaction check error:
+>   file /var/nagios from install of nagios-core-4.4.3-r0.core2_64 conflicts
+> with file from package nagios-nrpe-daemon-3.2.1-r0.core2_64
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  .../{python-osc-lib_1.12.1.bb => python-osc-lib_1.13.0.bb}    | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-osc-lib_1.12.1.bb
-> => python-osc-lib_1.13.0.bb} (81%)
+>  recipes-extended/nagios/nagios-core_4.4.3.bb | 6 +++++-
+>  recipes-extended/nagios/nagios-nrpe_3.2.1.bb | 5 ++++-
+>  2 files changed, 9 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/
-> python-osc-lib_1.12.1.bb b/meta-openstack/recipes-devtools/python/
-> python-osc-lib_1.13.0.bb
-> similarity index 81%
-> rename from meta-openstack/recipes-devtools/python/
-> python-osc-lib_1.12.1.bb
-> rename to meta-openstack/recipes-devtools/python/python-osc-lib_1.13.0.bb
-> index 8b7a4f7..7540e79 100644
-> --- a/meta-openstack/recipes-devtools/python/python-osc-lib_1.12.1.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-osc-lib_1.13.0.bb
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
+> diff --git a/recipes-extended/nagios/nagios-core_4.4.3.bb
+> b/recipes-extended/nagios/nagios-core_4.4.3.bb
+> index fcf04e9..7a86653 100644
+> --- a/recipes-extended/nagios/nagios-core_4.4.3.bb
+> +++ b/recipes-extended/nagios/nagios-core_4.4.3.bb
+> @@ -25,7 +25,7 @@ SRC_URI[sha256sum] =
+> "bba8f0e8dc8cf72f7a7ae4e8ce9c60f5bd315629421b9ec34818a28b8d
 >
-> -SRC_URI[md5sum] = "73c8bd90b8325b2595b814f41d06fdb8"
-> -SRC_URI[sha256sum] =
-> "26d3e32c8c4eff47240c458cddb6b75db52034d643f01de2841ad9e84904d7aa"
-> +SRC_URI[md5sum] = "5e91028524b50a72f9913ccd2994cf77"
-> +SRC_URI[sha256sum] =
-> "9dcd3b55bd887525a7020a8adbabb661a340fc4a4a707950dc1c6f0b286cce77"
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
 >
->  inherit setuptools pypi
+> -inherit autotools-brokensep update-rc.d systemd
+> +inherit autotools-brokensep update-rc.d systemd update-alternatives
 >
+>  DEPENDS = "gd unzip-native"
+>
+> @@ -151,3 +151,7 @@ INITSCRIPT_NAME = "nagios"
+>  INITSCRIPT_PARAMS = "defaults"
+>
+>  CVE_PRODUCT = "nagios_core"
+> +
+> +ALTERNATIVE_PRIORITY_${PN} = '20'
+> +ALTERNATIVE_${PN} = "nagios"
+> +ALTERNATIVE_LINK_NAME[nagios] = "${localstatedir}/nagios"
+> diff --git a/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
+> b/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
+> index 3afa5dd..04917f7 100644
+> --- a/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
+> +++ b/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
+> @@ -20,7 +20,7 @@ SRC_URI[sha256sum] =
+> "8ad2d1846ab9011fdd2942b8fc0c99dfad9a97e57f4a3e6e394a4ead99
+>
+>  S = "${WORKDIR}/${SRCNAME}-${PV}"
+>
+> -inherit autotools-brokensep update-rc.d systemd
+> +inherit autotools-brokensep update-rc.d systemd update-alternatives
+>
+>  # IP address of server which proxy should connect to
+>  MONITORING_PROXY_SERVER_IP ??= "192.168.7.2"
+> @@ -97,3 +97,6 @@ SYSTEMD_AUTO_ENABLE_${PN}-daemon = "enable"
+>  INITSCRIPT_PACKAGES = "${PN}-daemon"
+>  INITSCRIPT_NAME_${PN}-daemon = "nrpe"
+>  INITSCRIPT_PARAMS_${PN}-daemon = "defaults"
+> +
+> +ALTERNATIVE_${PN}-daemon = "nagios"
+> +ALTERNATIVE_LINK_NAME[nagios] = "${localstatedir}/nagios"
 > --
-> 2.17.1
->
->
+> 2.7.4
 >
 > --
 > _______________________________________________
@@ -135,7 +160,7 @@ wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000fe332d058f7e52bd
+--0000000000001ead41058f7e574c
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -143,60 +168,82 @@ Content-Transfer-Encoding: quoted-printable
 ged</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
 div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
 <div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Au=
-g 6, 2019 at 1:09 AM Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fuj=
-itsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">Signed-off-by: Zheng Ruoqin &lt;<a hre=
-f=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_blank">zhengrq.fnst@cn.=
-fujitsu.com</a>&gt;<br>
+g 6, 2019 at 3:54 AM &lt;<a href=3D"mailto:changqing.li@windriver.com">chan=
+gqing.li@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">From: Changqing Li &lt;<a href=3D"mailto:changqing.li=
+@windriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+<br>
+fix below error:<br>
+Error: Transaction check error:<br>
+=C2=A0 file /var/nagios from install of nagios-core-4.4.3-r0.core2_64 confl=
+icts with file from package nagios-nrpe-daemon-3.2.1-r0.core2_64<br>
+<br>
+Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@windriver.co=
+m" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0.../{<a href=3D"http://python-osc-lib_1.12.1.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">python-osc-lib_1.12.1.bb</a> =3D&gt; <a href=3D"http://pyt=
-hon-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_=
-1.13.0.bb</a>}=C2=A0 =C2=A0 | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-=C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
-on-osc-lib_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1=
-.12.1.bb</a> =3D&gt; <a href=3D"http://python-osc-lib_1.13.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">python-osc-lib_1.13.0.bb</a>} (81%)<br>
+=C2=A0recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
+=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a> | 6 +++++-<br>
+=C2=A0recipes-extended/nagios/<a href=3D"http://nagios-nrpe_3.2.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">nagios-nrpe_3.2.1.bb</a> | 5 ++++-<br>
+=C2=A02 files changed, 9 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n-osc-lib_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.=
-12.1.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://pyth=
-on-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1=
-.13.0.bb</a><br>
-similarity index 81%<br>
-rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
--osc-lib_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.1=
-2.1.bb</a><br>
-rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-o=
-sc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.13.=
-0.bb</a><br>
-index 8b7a4f7..7540e79 100644<br>
---- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-osc-l=
-ib_1.12.1.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.12.1.bb=
-</a><br>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-osc-l=
-ib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.13.0.bb=
-</a><br>
-@@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
-=C2=A0LICENSE =3D &quot;Apache-2.0&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1dece7821bf3fd70fe130=
-9eaa37d52a2&quot;<br>
+diff --git a/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb=
+" rel=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a> b/recipes-e=
+xtended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">nagios-core_4.4.3.bb</a><br>
+index fcf04e9..7a86653 100644<br>
+--- a/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
+=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a><br>
++++ b/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
+=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a><br>
+@@ -25,7 +25,7 @@ SRC_URI[sha256sum] =3D &quot;bba8f0e8dc8cf72f7a7ae4e8ce9c=
+60f5bd315629421b9ec34818a28b8d<br>
 <br>
--SRC_URI[md5sum] =3D &quot;73c8bd90b8325b2595b814f41d06fdb8&quot;<br>
--SRC_URI[sha256sum] =3D &quot;26d3e32c8c4eff47240c458cddb6b75db52034d643f01=
-de2841ad9e84904d7aa&quot;<br>
-+SRC_URI[md5sum] =3D &quot;5e91028524b50a72f9913ccd2994cf77&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;9dcd3b55bd887525a7020a8adbabb661a340fc4a4a707=
-950dc1c6f0b286cce77&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/${SRCNAME}-${PV}&quot;<br>
 <br>
-=C2=A0inherit setuptools pypi<br>
+-inherit autotools-brokensep update-rc.d systemd<br>
++inherit autotools-brokensep update-rc.d systemd update-alternatives<br>
 <br>
+=C2=A0DEPENDS =3D &quot;gd unzip-native&quot;<br>
+<br>
+@@ -151,3 +151,7 @@ INITSCRIPT_NAME =3D &quot;nagios&quot;<br>
+=C2=A0INITSCRIPT_PARAMS =3D &quot;defaults&quot;<br>
+<br>
+=C2=A0CVE_PRODUCT =3D &quot;nagios_core&quot;<br>
++<br>
++ALTERNATIVE_PRIORITY_${PN} =3D &#39;20&#39;<br>
++ALTERNATIVE_${PN} =3D &quot;nagios&quot;<br>
++ALTERNATIVE_LINK_NAME[nagios] =3D &quot;${localstatedir}/nagios&quot;<br>
+diff --git a/recipes-extended/nagios/<a href=3D"http://nagios-nrpe_3.2.1.bb=
+" rel=3D"noreferrer" target=3D"_blank">nagios-nrpe_3.2.1.bb</a> b/recipes-e=
+xtended/nagios/<a href=3D"http://nagios-nrpe_3.2.1.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">nagios-nrpe_3.2.1.bb</a><br>
+index 3afa5dd..04917f7 100644<br>
+--- a/recipes-extended/nagios/<a href=3D"http://nagios-nrpe_3.2.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">nagios-nrpe_3.2.1.bb</a><br>
++++ b/recipes-extended/nagios/<a href=3D"http://nagios-nrpe_3.2.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">nagios-nrpe_3.2.1.bb</a><br>
+@@ -20,7 +20,7 @@ SRC_URI[sha256sum] =3D &quot;8ad2d1846ab9011fdd2942b8fc0c=
+99dfad9a97e57f4a3e6e394a4ead99<br>
+<br>
+=C2=A0S =3D &quot;${WORKDIR}/${SRCNAME}-${PV}&quot;<br>
+<br>
+-inherit autotools-brokensep update-rc.d systemd<br>
++inherit autotools-brokensep update-rc.d systemd update-alternatives<br>
+<br>
+=C2=A0# IP address of server which proxy should connect to<br>
+=C2=A0MONITORING_PROXY_SERVER_IP ??=3D &quot;192.168.7.2&quot;<br>
+@@ -97,3 +97,6 @@ SYSTEMD_AUTO_ENABLE_${PN}-daemon =3D &quot;enable&quot;<b=
+r>
+=C2=A0INITSCRIPT_PACKAGES =3D &quot;${PN}-daemon&quot;<br>
+=C2=A0INITSCRIPT_NAME_${PN}-daemon =3D &quot;nrpe&quot;<br>
+=C2=A0INITSCRIPT_PARAMS_${PN}-daemon =3D &quot;defaults&quot;<br>
++<br>
++ALTERNATIVE_${PN}-daemon =3D &quot;nagios&quot;<br>
++ALTERNATIVE_LINK_NAME[nagios] =3D &quot;${localstatedir}/nagios&quot;<br>
 -- <br>
-2.17.1<br>
-<br>
-<br>
+2.7.4<br>
 <br>
 -- <br>
 _______________________________________________<br>
@@ -211,4 +258,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div>
 
---000000000000fe332d058f7e52bd--
+--0000000000001ead41058f7e574c--
