@@ -1,6 +1,6 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F1C19E00D75; Sun, 11 Aug 2019 19:33:51 -0700 (PDT)
+	id 57BA5E00C46; Mon, 12 Aug 2019 01:10:45 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,29 +10,32 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
 	*      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7EA8CE0055C
+	*      [183.91.158.132 listed in list.dnswl.org]
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8F87E009EA
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 11 Aug 2019 19:33:51 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x7C2XUE9013223
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon, 12 Aug 2019 01:10:43 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.64,376,1559491200"; d="scan'208";a="73497152"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Aug 2019 16:10:38 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id C2A234CE030F
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 11 Aug 2019 19:33:40 -0700
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 11 Aug 2019 19:33:19 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Mon, 12 Aug 2019 16:10:40 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 12 Aug 2019 16:10:44 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 12 Aug 2019 10:33:12 +0800
-Message-ID: <20190812023313.17108-2-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190812023313.17108-1-Qi.Chen@windriver.com>
-References: <20190812023313.17108-1-Qi.Chen@windriver.com>
+Date: Mon, 12 Aug 2019 16:10:30 +0800
+Message-ID: <1565597430-78846-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH V2 2/3] cni: fix problem about cross compilation
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: C2A234CE030F.A838F
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+Subject: [PATCH] python-wsme: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -45,50 +48,93 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 02:33:52 -0000
+X-List-Received-Date: Mon, 12 Aug 2019 08:10:45 -0000
 Content-Type: text/plain
 
-When setting up k8s, the following error appeared, failing
-to setup coredns pod.
+Providing a python3 version of python-wsme.
 
-  NetworkPlugin cni failed to set up pod "coredns-5f7fc64c95-4nnfq_kube-system" network: fork/exec /opt/cni/bin/loopback: no such file or directory
-
-This is because the binary, /opt/cni/bin/loopback, has wrong interpreter.
-
-So fix do_compile to use ${GO} instead of go to fix this problem.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- recipes-networking/cni/cni_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../recipes-devtools/python/python-wsme.inc   | 24 +++++++++++++++++
+ .../python/python-wsme_0.9.3.bb               | 26 +------------------
+ .../python/python3-wsme_0.9.3.bb              |  2 ++
+ 3 files changed, 27 insertions(+), 25 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-wsme.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb
 
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index 266ee69..495b9c1 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -47,10 +47,10 @@ do_compile() {
- 	export CGO_ENABLED="1"
- 
- 	cd ${S}/src/import/vendor/github.com/containernetworking/cni/libcni
--	go build
-+	${GO} build
- 
- 	cd ${S}/src/import/vendor/github.com/containernetworking/cni/cnitool
--	go build
-+	${GO} build
- 
- 	cd ${S}/src/import/vendor/github.com/containernetworking/plugins/
- 	PLUGINS="$(ls -d plugins/meta/*; ls -d plugins/main/* | grep -v windows)"
-@@ -58,7 +58,7 @@ do_compile() {
- 	for p in $PLUGINS; do
- 	    plugin="$(basename "$p")"
- 	    echo "building: $p"
--	    go build -o ${WORKDIR}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
-+	    ${GO} build -o ${WORKDIR}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
- 	done
- }
- 
+diff --git a/meta-openstack/recipes-devtools/python/python-wsme.inc b/meta-openstack/recipes-devtools/python/python-wsme.inc
+new file mode 100644
+index 0000000..b402a09
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python-wsme.inc
+@@ -0,0 +1,24 @@
++DESCRIPTION = "Simplify the writing of REST APIs, and extend them with additional protocols"
++HOMEPAGE = "https://pypi.python.org/pypi/WSME/"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=5a9126e7f56a0cf3247050de7f10d0f4"
++
++PYPI_PACKAGE = "WSME"
++
++SRC_URI[md5sum] = "e6cb3864bae872acaa0cd0c2efacc94f"
++SRC_URI[sha256sum] = "e24fcff24392a0b176e560ffc6591b1f658342bbc992f84e0e8a3c53fd92580a"
++
++DEPENDS += " \
++        ${PYTHON_PN}-pip \
++        ${PYTHON_PN}-pbr \
++        "
++
++# Satisfy setup.py 'setup_requires'
++DEPENDS += " \
++        ${PYTHON_PN}-pbr-native \
++        "
++
++RDEPENDS_${PN} += "\
++        ${PYTHON_PN}-pbr \
++        "
+diff --git a/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb b/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb
+index 4e83299..b332f5f 100644
+--- a/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb
++++ b/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb
+@@ -1,26 +1,2 @@
+-DESCRIPTION = "Simplify the writing of REST APIs, and extend them with additional protocols"
+-HOMEPAGE = "https://pypi.python.org/pypi/WSME/"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=5a9126e7f56a0cf3247050de7f10d0f4"
+-
+-PYPI_PACKAGE = "WSME"
+-
+-SRC_URI[md5sum] = "e6cb3864bae872acaa0cd0c2efacc94f"
+-SRC_URI[sha256sum] = "e24fcff24392a0b176e560ffc6591b1f658342bbc992f84e0e8a3c53fd92580a"
+-
+ inherit setuptools pypi
+-
+-DEPENDS += " \
+-        python-pip \
+-        python-pbr \
+-        "
+-
+-# Satisfy setup.py 'setup_requires'
+-DEPENDS += " \
+-        python-pbr-native \
+-        "
+-
+-RDEPENDS_${PN} += "\
+-        python-pbr \
+-        "
++require python-wsme.inc
+diff --git a/meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb b/meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb
+new file mode 100644
+index 0000000..f792d0e
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb
+@@ -0,0 +1,2 @@
++inherit setuptools3 pypi
++require python-wsme.inc
 -- 
 2.17.1
+
+
 
 
