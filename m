@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 40FF1E00D5F; Mon, 12 Aug 2019 07:57:20 -0700 (PDT)
+	id 74B30E00D83; Mon, 12 Aug 2019 07:57:37 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.169 listed in list.dnswl.org]
+	*      [209.85.208.196 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
-	[209.85.208.169])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D1AA8E009E6
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 39B18E00CD5
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 12 Aug 2019 07:57:18 -0700 (PDT)
-Received: by mail-lj1-f169.google.com with SMTP id z28so44364160ljn.4
+	Mon, 12 Aug 2019 07:57:36 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id e24so1887748ljg.11
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 12 Aug 2019 07:57:18 -0700 (PDT)
+	Mon, 12 Aug 2019 07:57:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5Zzi1FfpJJXL3l1zqqqgxhe+H3Yo/UcG9jD8tixJjUc=;
-	b=JN7ZDYUjn8xNQZgVQGw9B0DcOowWL+a3JSOpavGSDXw6iBcRqeB9pwtVMzXbhxHd+8
-	uBMejZmkluJSaO+zEy0C/tKyljcO2LMAUwwMaBEBJD24XtsjE8fSA6miyGv02VM0Db0e
-	5zLkdb4XySsA6zPqWpFQB5v1X7kvNsL3k1pMuGrWIMYG2kz8sL/HRwxrcVKIKS4Dr2j9
-	tyXVxrd4liVO6uWw0xZWpUzc/MegaKKZAnaNhpCIFrh4a/QY7orV8avO4B6op1Zei/jB
-	4Bd5FTSHirMNZneZYtV7VcV/srwUKrJWLN7Yr6HVPlWRt07A3d8cMdLhQmPne/94dmyR
-	BF4Q==
+	:cc; bh=iAUgxn8t/+2L3Ley5sgDtpLaaFpoPu5HheBnjqG8jzA=;
+	b=EZrDg48CbJcFxo4d559ocQ3kpBJ3TQtEZU5Bi/SZww9wOTmVSiokoFfyjcIAOohV71
+	Ll3Unz+Z2bcbwh2NQQjeDcEGwQibdLWYc80zrO4+RpGe6v11t39uXoGthiKbmiiqGYMr
+	fv4b2Lou+ZkQCGKj9Xz7omNMa5Ox9XVxT6twksmn8bsYHSyggk/z9ACGdQMxbls61oFe
+	1TmoyFKsDY2zv1GqAfHN0ayt9bT3M3t4h1grwGYfoTpC3Itv8JE0YndTSG9534a5XV7H
+	g5mdFvxMZeApdIDxmBqzME1VNeTn7QYq1vnmkNNQy6ePE/YYIs6VODTFthEbNMziyGqa
+	oe0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5Zzi1FfpJJXL3l1zqqqgxhe+H3Yo/UcG9jD8tixJjUc=;
-	b=A1mF+1CxqGRYuXv9cGkdTfm4xDPxTz+nvUbpuuxHcKpT8mTy3OggrMKUFuOcl7l4D6
-	vhHGrZ7mOiEnkQ8W785o5Ei2yuFaS7MfUtcAb+vraEM1wW7gLJ+28GE3+iEps0iGcVE4
-	2ueJECIYHRG9x9uCsIVQm8ule70Qw0iR1bHYpVHOhHYzwHECdSXiuygum28nlo1LQnjB
-	UMJQ/QGhnIKehptm+4DMdef2j7NvP/aty5CH1La9nrVa/1d9V4exjJwXndkxBr4fP1iT
-	fApUnnQ2PR0JdZW9N5TYjSIz8kqPc2MVJmINb8/Ow9QK1RwGnibX3JhBWOH8+bxUzeDX
-	oriw==
-X-Gm-Message-State: APjAAAXA9q8UXYggGIehlD9EliYXEzmmu4lEmG29/Y4T5s6VOjNh4DUK
-	Ok45fBfAzJptERTy9TSJ4tL6RbIjXJXWfKCBvP4InyUBksI=
-X-Google-Smtp-Source: APXvYqw1OY1x0STN6ajqkXzvPRLzmIOmfioJ2GvcolQlQYtb/Pr12XeHfaYsG6jlXwTm8kl8S051PEdlYE63nCO/FFc=
-X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr18919435ljj.185.1565621837753; 
-	Mon, 12 Aug 2019 07:57:17 -0700 (PDT)
+	bh=iAUgxn8t/+2L3Ley5sgDtpLaaFpoPu5HheBnjqG8jzA=;
+	b=G1q68B6Ilc8PJy4BC1TTR88EE8ILLHJGtPqQnPlVDoZFzC9C5Gfh+gZ3I3Iqs5NPv1
+	PJryKml4Wrf9lW4+gP/7160L5PZUXu+qRQeCf80TI9xFBJP7iXvnHRO4EBnnaXMQFj1Q
+	VHGQGFvXK6UkyS/41NQNKNHWwHL/GVLN2TLncG1ihpRfc9CLKqUG3/rxCltSO7D1yEfA
+	VQEexKF19q5zLNGjEzPSbsXRfhsQZWPRPKEdDFs4W7A60gjKyXMpxSXaB8kIKmYXENOf
+	NH9vUYN/r3+DhTerCC+vSh9BPuwwaDyn5eDkGU+UKlfdOpafVUGZ7Rr/5ORhZgA3a960
+	vk0g==
+X-Gm-Message-State: APjAAAUsaEsUt6bWNFJ8EMskQOZ2YOpj6w3B2YvT12SHltv9uxeC4En8
+	7gf07lugyNWkaq5diagRm3/4M9En7qqE/WClYHQu1ZjJHNQ=
+X-Google-Smtp-Source: APXvYqxL6YZsq22brTbJ7Nn/i1rWg+9Rgg80HQu25nDmX8TC6Wkid8RAGsXekGoG2QfzQYA10PaWtQEezwYC286UJUw=
+X-Received: by 2002:a2e:3807:: with SMTP id f7mr18458551lja.87.1565621855030; 
+	Mon, 12 Aug 2019 07:57:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <1565261588-52140-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1565261588-52140-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <20190808054046.10590-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190808054046.10590-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 12 Aug 2019 10:57:05 -0400
-Message-ID: <CADkTA4N+JWhHL3aiDwjAOwgvT6Xa6Em=G2AQYvfCVR0Jxfh3qQ@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Mon, 12 Aug 2019 10:57:22 -0400
+Message-ID: <CADkTA4MJXuR=GxERCYGhs+8guScQXev8LEMwar0-gFrh5+5uRA@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-osc-lib: Add python3 version
+Subject: Re: [PATCH] python-kombu: upgrade 4.6.0 -> 4.6.3
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,120 +74,63 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 14:57:20 -0000
-Content-Type: multipart/alternative; boundary="0000000000007df35a058fecbdb2"
+X-List-Received-Date: Mon, 12 Aug 2019 14:57:37 -0000
+Content-Type: multipart/alternative; boundary="00000000000085923a058fecbea5"
 
---0000000000007df35a058fecbdb2
+--00000000000085923a058fecbea5
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Wed, Aug 7, 2019 at 9:53 PM Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+On Thu, Aug 8, 2019 at 1:41 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 wrote:
 
-> Providing a python3 version of python-osc-lib.
+> From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 >
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 > ---
->  .../python/python-osc-lib.inc                 | 23 +++++++++++++++++
->  .../python/python-osc-lib_1.13.0.bb           | 25 +------------------
->  .../python/python3-osc-lib_1.13.0.bb          |  8 ++++++
->  3 files changed, 32 insertions(+), 24 deletions(-)
->  create mode 100644
-> meta-openstack/recipes-devtools/python/python-osc-lib.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/
-> python3-osc-lib_1.13.0.bb
+>  meta-openstack/recipes-devtools/python/python-kombu.inc               | 4
+> ++--
+>  .../python/{python-kombu_4.6.0.bb => python-kombu_4.6.3.bb}           | 0
+>  .../python/{python3-kombu_4.6.0.bb => python3-kombu_4.6.3.bb}         | 0
+>  3 files changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-kombu_4.6.0.bb =>
+> python-kombu_4.6.3.bb} (100%)
+>  rename meta-openstack/recipes-devtools/python/{python3-kombu_4.6.0.bb =>
+> python3-kombu_4.6.3.bb} (100%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-osc-lib.inc
-> b/meta-openstack/recipes-devtools/python/python-osc-lib.inc
-> new file mode 100644
-> index 0000000..58e994c
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-osc-lib.inc
-> @@ -0,0 +1,23 @@
-> +DESCRIPTION = "OpenStackClient Library"
-> +HOMEPAGE = "http://opensource.perlig.de/rcssmin/"
-> +SECTION = "devel/python"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
-> +
-> +SRC_URI[md5sum] = "5e91028524b50a72f9913ccd2994cf77"
-> +SRC_URI[sha256sum] =
-> "9dcd3b55bd887525a7020a8adbabb661a340fc4a4a707950dc1c6f0b286cce77"
-> +
-> +RDEPENDS_${PN} += " \
-> +        python-pbr \
-> +        python-six \
-> +        python-babel \
-> +        python-cliff \
-> +        python-keystoneauth1 \
-> +        python-os-client-config \
-> +        python-oslo.i18n \
-> +        python-oslo.utils \
-> +        python-simplejson \
-> +        python-stevedore \
-> +        "
-> +
-> +CLEANBROKEN = "1"
-> diff --git a/meta-openstack/recipes-devtools/python/
-> python-osc-lib_1.13.0.bb b/meta-openstack/recipes-devtools/python/
-> python-osc-lib_1.13.0.bb
-> index 7540e79..4ea2de2 100644
-> --- a/meta-openstack/recipes-devtools/python/python-osc-lib_1.13.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-osc-lib_1.13.0.bb
-> @@ -1,30 +1,7 @@
-> -DESCRIPTION = "OpenStackClient Library"
-> -HOMEPAGE = "http://opensource.perlig.de/rcssmin/"
-> -SECTION = "devel/python"
-> -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
-> -
-> -SRC_URI[md5sum] = "5e91028524b50a72f9913ccd2994cf77"
+> diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc
+> b/meta-openstack/recipes-devtools/python/python-kombu.inc
+> index 7f66a4b..722adcd 100644
+> --- a/meta-openstack/recipes-devtools/python/python-kombu.inc
+> +++ b/meta-openstack/recipes-devtools/python/python-kombu.inc
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "BSD"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+>
+> -SRC_URI[md5sum] = "3543525c1bfaa74260cbf9a6e47dad2f"
 > -SRC_URI[sha256sum] =
-> "9dcd3b55bd887525a7020a8adbabb661a340fc4a4a707950dc1c6f0b286cce77"
-> -
->  inherit setuptools pypi
-> +require python-osc-lib.inc
+> "27345bb569eb6bb583bca27dfc0ef181ca6c59c40c6e203cecaa0aeca84360be"
+> +SRC_URI[md5sum] = "adc9167ba3571c5465d6f7abe4945a12"
+> +SRC_URI[sha256sum] =
+> "eb365ea795cd7e629ba2f1f398e0c3ba354b91ef4de225ffdf6ab45fdfc7d581"
 >
->  # Satisfy setup.py 'setup_requires'
->  DEPENDS += " \
->          python-pbr-native \
->          "
-> -
-> -RDEPENDS_${PN} += " \
-> -        python-pbr \
-> -        python-six \
-> -        python-babel \
-> -        python-cliff \
-> -        python-keystoneauth1 \
-> -        python-os-client-config \
-> -        python-oslo.i18n \
-> -        python-oslo.utils \
-> -        python-simplejson \
-> -        python-stevedore \
-> -        "
-> -
-> -CLEANBROKEN = "1"
-> diff --git a/meta-openstack/recipes-devtools/python/
-> python3-osc-lib_1.13.0.bb b/meta-openstack/recipes-devtools/python/
-> python3-osc-lib_1.13.0.bb
-> new file mode 100644
-> index 0000000..63265d9
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-osc-lib_1.13.0.bb
-> @@ -0,0 +1,8 @@
-> +inherit setuptools3 pypi
-> +require python-osc-lib.inc
-> +
-> +# Satisfy setup.py 'setup_requires'
-> +DEPENDS += " \
-> +        python3-pbr-native \
-> +        "
-> +
+>  FILES_${PN}-doc += "${datadir}/${SRCNAME}"
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.6.0.bb
+> b/meta-openstack/recipes-devtools/python/python-kombu_4.6.3.bb
+> similarity index 100%
+> rename from meta-openstack/recipes-devtools/python/python-kombu_4.6.0.bb
+> rename to meta-openstack/recipes-devtools/python/python-kombu_4.6.3.bb
+> diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.0.bb
+> b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.3.bb
+> similarity index 100%
+> rename from meta-openstack/recipes-devtools/python/python3-kombu_4.6.0.bb
+> rename to meta-openstack/recipes-devtools/python/python3-kombu_4.6.3.bb
 > --
-> 2.17.1
+> 2.7.4
 >
 >
 >
@@ -204,142 +147,89 @@ wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000007df35a058fecbdb2
+--00000000000085923a058fecbea5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">mer=
 ged</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
 div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Au=
-g 7, 2019 at 9:53 PM Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fuj=
-itsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote c=
-lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
-d rgb(204,204,204);padding-left:1ex">Providing a python3 version of python-=
-osc-lib.<br>
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Au=
+g 8, 2019 at 1:41 AM Zang Ruochen &lt;<a href=3D"mailto:zangrc.fnst@cn.fuji=
+tsu.com">zangrc.fnst@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">From: Yuan Chao &lt;<a href=3D"mailto:yu=
+anc.fnst@cn.fujitsu.com" target=3D"_blank">yuanc.fnst@cn.fujitsu.com</a>&gt=
+;<br>
 <br>
-Signed-off-by: Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.c=
-om" target=3D"_blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;<br>
+Signed-off-by: Yuan Chao &lt;<a href=3D"mailto:yuanc.fnst@cn.fujitsu.com" t=
+arget=3D"_blank">yuanc.fnst@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0.../python/python-osc-lib.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0| 23 +++++++++++++++++<br>
-=C2=A0.../python/<a href=3D"http://python-osc-lib_1.13.0.bb" rel=3D"norefer=
-rer" target=3D"_blank">python-osc-lib_1.13.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 25 +------------------<br>
-=C2=A0.../python/<a href=3D"http://python3-osc-lib_1.13.0.bb" rel=3D"norefe=
-rrer" target=3D"_blank">python3-osc-lib_1.13.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 8 ++++++<br>
-=C2=A03 files changed, 32 insertions(+), 24 deletions(-)<br>
-=C2=A0create mode 100644 meta-openstack/recipes-devtools/python/python-osc-=
-lib.inc<br>
-=C2=A0create mode 100644 meta-openstack/recipes-devtools/python/<a href=3D"=
-http://python3-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">pyth=
-on3-osc-lib_1.13.0.bb</a><br>
+=C2=A0meta-openstack/recipes-devtools/python/python-kombu.inc=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 4 ++--<br>
+=C2=A0.../python/{<a href=3D"http://python-kombu_4.6.0.bb" rel=3D"noreferre=
+r" target=3D"_blank">python-kombu_4.6.0.bb</a> =3D&gt; <a href=3D"http://py=
+thon-kombu_4.6.3.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.6.=
+3.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+=C2=A0.../python/{<a href=3D"http://python3-kombu_4.6.0.bb" rel=3D"noreferr=
+er" target=3D"_blank">python3-kombu_4.6.0.bb</a> =3D&gt; <a href=3D"http://=
+python3-kombu_4.6.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-kombu_=
+4.6.3.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+=C2=A03 files changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
+on-kombu_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.6.0.=
+bb</a> =3D&gt; <a href=3D"http://python-kombu_4.6.3.bb" rel=3D"noreferrer" =
+target=3D"_blank">python-kombu_4.6.3.bb</a>} (100%)<br>
+=C2=A0rename meta-openstack/recipes-devtools/python/{<a href=3D"http://pyth=
+on3-kombu_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-kombu_4.6.=
+0.bb</a> =3D&gt; <a href=3D"http://python3-kombu_4.6.3.bb" rel=3D"noreferre=
+r" target=3D"_blank">python3-kombu_4.6.3.bb</a>} (100%)<br>
 <br>
-diff --git a/meta-openstack/recipes-devtools/python/python-osc-lib.inc b/me=
-ta-openstack/recipes-devtools/python/python-osc-lib.inc<br>
-new file mode 100644<br>
-index 0000000..58e994c<br>
---- /dev/null<br>
-+++ b/meta-openstack/recipes-devtools/python/python-osc-lib.inc<br>
-@@ -0,0 +1,23 @@<br>
-+DESCRIPTION =3D &quot;OpenStackClient Library&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"http://opensource.perlig.de/rcssmin/" rel=3D=
-"noreferrer" target=3D"_blank">http://opensource.perlig.de/rcssmin/</a>&quo=
-t;<br>
-+SECTION =3D &quot;devel/python&quot;<br>
-+LICENSE =3D &quot;Apache-2.0&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1dece7821bf3fd70fe1309eaa3=
-7d52a2&quot;<br>
-+<br>
-+SRC_URI[md5sum] =3D &quot;5e91028524b50a72f9913ccd2994cf77&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;9dcd3b55bd887525a7020a8adbabb661a340fc4a4a707=
-950dc1c6f0b286cce77&quot;<br>
-+<br>
-+RDEPENDS_${PN} +=3D &quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-pbr \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-six \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-babel \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-cliff \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-keystoneauth1 \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-os-client-config \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-oslo.i18n \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-oslo.utils \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-simplejson \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-stevedore \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-+<br>
-+CLEANBROKEN =3D &quot;1&quot;<br>
-diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.=
-13.0.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://pyth=
-on-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1=
-.13.0.bb</a><br>
-index 7540e79..4ea2de2 100644<br>
---- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-osc-l=
-ib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.13.0.bb=
-</a><br>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-osc-l=
-ib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python-osc-lib_1.13.0.bb=
-</a><br>
-@@ -1,30 +1,7 @@<br>
--DESCRIPTION =3D &quot;OpenStackClient Library&quot;<br>
--HOMEPAGE =3D &quot;<a href=3D"http://opensource.perlig.de/rcssmin/" rel=3D=
-"noreferrer" target=3D"_blank">http://opensource.perlig.de/rcssmin/</a>&quo=
-t;<br>
--SECTION =3D &quot;devel/python&quot;<br>
--LICENSE =3D &quot;Apache-2.0&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D1dece7821bf3fd70fe1309eaa3=
-7d52a2&quot;<br>
--<br>
--SRC_URI[md5sum] =3D &quot;5e91028524b50a72f9913ccd2994cf77&quot;<br>
--SRC_URI[sha256sum] =3D &quot;9dcd3b55bd887525a7020a8adbabb661a340fc4a4a707=
-950dc1c6f0b286cce77&quot;<br>
--<br>
-=C2=A0inherit setuptools pypi<br>
-+require python-osc-lib.inc<br>
+diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc b/meta=
+-openstack/recipes-devtools/python/python-kombu.inc<br>
+index 7f66a4b..722adcd 100644<br>
+--- a/meta-openstack/recipes-devtools/python/python-kombu.inc<br>
++++ b/meta-openstack/recipes-devtools/python/python-kombu.inc<br>
+@@ -4,8 +4,8 @@ SECTION =3D &quot;devel/python&quot;<br>
+=C2=A0LICENSE =3D &quot;BSD&quot;<br>
+=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3Ddaea7c168428449fbee05=
+e644df929f4&quot;<br>
 <br>
-=C2=A0# Satisfy setup.py &#39;setup_requires&#39;<br>
-=C2=A0DEPENDS +=3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python-pbr-native \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
--<br>
--RDEPENDS_${PN} +=3D &quot; \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-pbr \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-six \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-babel \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-cliff \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-keystoneauth1 \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-os-client-config \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-oslo.i18n \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-oslo.utils \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-simplejson \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 python-stevedore \<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--<br>
--CLEANBROKEN =3D &quot;1&quot;<br>
+-SRC_URI[md5sum] =3D &quot;3543525c1bfaa74260cbf9a6e47dad2f&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;27345bb569eb6bb583bca27dfc0ef181ca6c59c40c6e2=
+03cecaa0aeca84360be&quot;<br>
++SRC_URI[md5sum] =3D &quot;adc9167ba3571c5465d6f7abe4945a12&quot;<br>
++SRC_URI[sha256sum] =3D &quot;eb365ea795cd7e629ba2f1f398e0c3ba354b91ef4de22=
+5ffdf6ab45fdfc7d581&quot;<br>
+<br>
+=C2=A0FILES_${PN}-doc +=3D &quot;${datadir}/${SRCNAME}&quot;<br>
+<br>
 diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
-n3-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-osc-lib_=
-1.13.0.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://py=
-thon3-osc-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-osc-l=
-ib_1.13.0.bb</a><br>
-new file mode 100644<br>
-index 0000000..63265d9<br>
---- /dev/null<br>
-+++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python3-osc-=
-lib_1.13.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-osc-lib_1.13.0.=
+n-kombu_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.6.0.b=
+b</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python-kom=
+bu_4.6.3.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.6.3.bb</a>=
+<br>
+similarity index 100%<br>
+rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
+-kombu_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.6.0.bb=
+</a><br>
+rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python-k=
+ombu_4.6.3.bb" rel=3D"noreferrer" target=3D"_blank">python-kombu_4.6.3.bb</=
+a><br>
+diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pytho=
+n3-kombu_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-kombu_4.6.0=
+.bb</a> b/meta-openstack/recipes-devtools/python/<a href=3D"http://python3-=
+kombu_4.6.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-kombu_4.6.3.bb=
+</a><br>
+similarity index 100%<br>
+rename from meta-openstack/recipes-devtools/python/<a href=3D"http://python=
+3-kombu_4.6.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-kombu_4.6.0.=
 bb</a><br>
-@@ -0,0 +1,8 @@<br>
-+inherit setuptools3 pypi<br>
-+require python-osc-lib.inc<br>
-+<br>
-+# Satisfy setup.py &#39;setup_requires&#39;<br>
-+DEPENDS +=3D &quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 python3-pbr-native \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-+<br>
+rename to meta-openstack/recipes-devtools/python/<a href=3D"http://python3-=
+kombu_4.6.3.bb" rel=3D"noreferrer" target=3D"_blank">python3-kombu_4.6.3.bb=
+</a><br>
 -- <br>
-2.17.1<br>
+2.7.4<br>
 <br>
 <br>
 <br>
@@ -356,4 +246,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div>
 
---0000000000007df35a058fecbdb2--
+--00000000000085923a058fecbea5--
