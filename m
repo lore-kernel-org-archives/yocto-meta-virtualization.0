@@ -1,67 +1,67 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EFE73E00927; Mon, 12 Aug 2019 08:04:06 -0700 (PDT)
+	id 7088DE009EA; Mon, 12 Aug 2019 08:04:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, HTML_MESSAGE,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.208.194 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B1853E0090E
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7D485E00920
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 12 Aug 2019 08:04:05 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id c9so74398840lfh.4
+	Mon, 12 Aug 2019 08:04:23 -0700 (PDT)
+Received: by mail-lj1-f194.google.com with SMTP id z28so44388147ljn.4
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 12 Aug 2019 08:04:05 -0700 (PDT)
+	Mon, 12 Aug 2019 08:04:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xa5/DyXLYnUnWIPWMaPCTyFYteN4wyRxJlUVmB2IVIc=;
-	b=RUYuGmpPU0mlLUdbYnebyey4pwPDy0T0NsQQS7wsJ0Ay4A3/bgKaZH5xejvRnx63MJ
-	lXva6Mjvv6BSpQ1H6FCleaY4hi//vPdi23ijjUVP9FLFCUCCbuCYxsHKJPFwA2+Il/hf
-	6FbzfYg5hZK2PZHZ0beSBZc5jw59nG13bswIhK0s/p6oajjKqe6qK9J2orn+2myD2BDB
-	B58ZsyWrrsuRgZpS0+30KCVGvMoLyx6pi0txsOH8rgwpqYJwEtP4DAw+MkQC/4wfzdKu
-	/z0IuXvK4m/BA2ciWmrFp99RkW+cRnmsqmxTgAoHvGeVcBrtVjOEiB8x/pCeOCF8TRNk
-	zCTQ==
+	:cc; bh=xbERSi732+jThZGI4INJA4EGyCzSS6VntWgJwvtcczM=;
+	b=tJ90rRX500reKKYOcMv1yIrE/TfnPWa1DocgMogN3yNC7QNm7f/vlMw7K+oi+GJQ0F
+	bOdJdoK8ItQEgPpktu8i8T8yb4qag5KJWWblf+74AuX9h8Q31lBDS3flGcn4yoBkYYbQ
+	5sRcmQsHObRUm0HjzC5oqH+1OS/R8GP/ckQTluGD5bQ/7HBAKI8/vFxjo6nN7DhtU2dY
+	daw63ziMB0BLOflGmdtzPztKAgAB4IQnqItTX/OC9ozjsMyxK9afZOcrixTNqouermNb
+	/0ytcuVy9u4eZKYAYCiBlBO2cNC8aWK4IcTjPCcTpaKoLuS2WAV6U2XVifIp0Ejz0g/T
+	p+5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=xa5/DyXLYnUnWIPWMaPCTyFYteN4wyRxJlUVmB2IVIc=;
-	b=lF0qDw4IJyfKiyopG4fTH8JCAeY6AiJPDwk74MPCR29AynCqGj0yn35ay2LmDm8TXV
-	n3W2QMQZY33HZzbOiEYieiuL9h9Y6qFTV1LBcbIc0rOu4cUGAOoAT14RlAbkp0TI7OXQ
-	QK8xXf48w6PKj4Zqpd+YWPSycnZNkr9H6a6qlUx7XtzUIzps33iRwtIH83oqXI5+L3ks
-	MTZkkJdG7vXY70ozwwfTMDYUxr6EcoLOmV7zYlmnmBjOzxykSQn+5TOll6/8v6Oqgd6o
-	OjAZN+m9XbFzCupC0NX5LisSzkelq83ZPq9ko/njCn8yVMQXOgCjCBuW4xwHuGE5/GRy
-	IhOw==
-X-Gm-Message-State: APjAAAUdKJREQg9RFTYBprghLIOuu404QikCXbadwA5Iuj5Vk9XmFDKf
-	CHvSWoog5oDdjlCZLdPRtdIH7n+qEgFaXy7sI9h1wWEC1I8=
-X-Google-Smtp-Source: APXvYqztx98mDzquY/fdhHxOiUZOCbATzWxJH0uND5al7h+wuxATcDggeFpHHvS9I4W2cnMIzWGv9yaLH0LUttMFA4c=
-X-Received: by 2002:ac2:545b:: with SMTP id d27mr20402929lfn.36.1565622244409; 
-	Mon, 12 Aug 2019 08:04:04 -0700 (PDT)
+	bh=xbERSi732+jThZGI4INJA4EGyCzSS6VntWgJwvtcczM=;
+	b=rY5DJEjaCkLY5gxXp1XrZ4hdY+FO+qD8ZvzxqqpLmoTeagOZXbggqAjKloAjQeHBqH
+	3+nb0wUm6SC77dac1/ZS77CIA/1dRc0Tr41t10Uzh8BFoXTjbRo7QGjTYXoB87SrTRXs
+	lsaha0JuPyKAGT0Xab/v9+E+LzMDxTOMjusuSSKij7UQQjdo/h/0YikN/vgNyRr91fY9
+	XipwvWI/iRkC5cmcYomTAHuqkWNC7tJ2vB8GHcEpyGHqv4D1Z14RcdX6tHYF3aNcG1bR
+	tUGYz3pWQ6h5FMWj/YaGG31oSI5SmT3mRl9PLW69q8jyUm8+hD4UcKDtyG+8ONL+IZm6
+	uENw==
+X-Gm-Message-State: APjAAAX8rs7XuzjulkH6J549sE7+IVCjlySLU2EWY9522ZrfNzh4obim
+	LMlJYXmXvTCyOYojuN9zcP2DcgGtMtFxeYN1ybQ=
+X-Google-Smtp-Source: APXvYqwoicBJU6h4C8DVb8GkrflW1DQ914ndgfZAFTeI9g4rRQNRad6FRdC8p5dNfZu9fu3HcNR2sP4/xOxNVN8Ju+4=
+X-Received: by 2002:a2e:9115:: with SMTP id m21mr10873522ljg.232.1565622262421;
+	Mon, 12 Aug 2019 08:04:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190812023313.17108-1-Qi.Chen@windriver.com>
-In-Reply-To: <20190812023313.17108-1-Qi.Chen@windriver.com>
+References: <20190809055333.25459-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190809055333.25459-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 12 Aug 2019 11:03:52 -0400
-Message-ID: <CADkTA4NBR7AL1Sg8FPcjCGZsXshs7LYCaNs2XHD3DbJ8M9Kqtw@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+Date: Mon, 12 Aug 2019 11:04:10 -0400
+Message-ID: <CADkTA4ODCsvGQh_+aG60NThyif5xz9reZuAuKxM_uoXLq3Qf+g@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH V2 1/3] cni: remove unnecessary GO settings
+Subject: Re: [PATCH] lxc: upgrade 3.1.0 -> 3.2.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,75 +74,53 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 15:04:07 -0000
-Content-Type: multipart/alternative; boundary="000000000000bb05ea058fecd5cd"
+X-List-Received-Date: Mon, 12 Aug 2019 15:04:24 -0000
+Content-Type: multipart/alternative; boundary="000000000000cdddaa058fecd679"
 
---000000000000bb05ea058fecd5cd
+--000000000000cdddaa058fecd679
 Content-Type: text/plain; charset="UTF-8"
 
-v2 is staged for testing. See my master-next branch for details.
+staged for testing. It is in master-next
 
 Bruce
 
-On Sun, Aug 11, 2019 at 10:33 PM Chen Qi <Qi.Chen@windriver.com> wrote:
+On Fri, Aug 9, 2019 at 1:54 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+wrote:
 
-> These settings are either in go.bbclass or duplicate, thus
-> removing them.
+> From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 >
-> Keep only CGO_ENABLED and GOPATH to easier manipulation while
-> upgrading cni.
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 > ---
->  recipes-networking/cni/cni_git.bb | 18 ------------------
->  1 file changed, 18 deletions(-)
+>  recipes-containers/lxc/{lxc_3.1.0.bb => lxc_3.2.1.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename recipes-containers/lxc/{lxc_3.1.0.bb => lxc_3.2.1.bb} (97%)
 >
-> diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/
-> cni_git.bb
-> index d07154b..266ee69 100644
-> --- a/recipes-networking/cni/cni_git.bb
-> +++ b/recipes-networking/cni/cni_git.bb
-> @@ -29,18 +29,6 @@ inherit go
->  inherit goarch
+> diff --git a/recipes-containers/lxc/lxc_3.1.0.bb b/recipes-containers/lxc/
+> lxc_3.2.1.bb
+> similarity index 97%
+> rename from recipes-containers/lxc/lxc_3.1.0.bb
+> rename to recipes-containers/lxc/lxc_3.2.1.bb
+> index 977583f..585ab8f 100644
+> --- a/recipes-containers/lxc/lxc_3.1.0.bb
+> +++ b/recipes-containers/lxc/lxc_3.2.1.bb
+> @@ -47,8 +47,8 @@ SRC_URI = "
+> http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>         file://lxc-net \
+>         "
 >
->  do_compile() {
-> -       export GOARCH="${TARGET_GOARCH}"
-> -       export GOROOT="${STAGING_LIBDIR_NATIVE}/${TARGET_SYS}/go"
-> -       export GOPATH="${S}/src/import:${S}/src/import/vendor"
-> -
-> -       # Pass the needed cflags/ldflags so that cgo
-> -       # can find the needed headers files and libraries
-> -       export CGO_ENABLED="1"
-> -       export CFLAGS=""
-> -       export LDFLAGS=""
-> -       export CGO_CFLAGS="${BUILDSDK_CFLAGS}
-> --sysroot=${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS="${BUILDSDK_LDFLAGS}
-> --sysroot=${STAGING_DIR_TARGET}"
-> -
->         # link fixups for compilation
->         rm -f ${S}/src/import/vendor/src
->         mkdir -p ${S}/src/import/vendor/
-> @@ -56,13 +44,7 @@ do_compile() {
->         ln -sf ${WORKDIR}/plugins ${S}/src/import/vendor/
-> github.com/containernetworking/plugins
+> -SRC_URI[md5sum] = "e83e302a801494276f3772e687a3b8b0"
+> -SRC_URI[sha256sum] =
+> "4d8772c25baeaea2c37a954902b88c05d1454c91c887cb6a0997258cfac3fdc5"
+> +SRC_URI[md5sum] = "4886c8d1c8e221fe526eefcb47857b85"
+> +SRC_URI[sha256sum] =
+> "5f903986a4b17d607eea28c0aa56bf1e76e8707747b1aa07d31680338b1cc3d4"
 >
->         export
-> GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
-> -       export
-> GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
-> -
-> -       # Pass the needed cflags/ldflags so that cgo
-> -       # can find the needed headers files and libraries
->         export CGO_ENABLED="1"
-> -       export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-> -       export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+>  S = "${WORKDIR}/${BPN}-${PV}"
 >
->         cd ${S}/src/import/vendor/
-> github.com/containernetworking/cni/libcni
->         go build
 > --
-> 2.17.1
+> 2.7.4
+>
+>
 >
 > --
 > _______________________________________________
@@ -157,92 +135,66 @@ On Sun, Aug 11, 2019 at 10:33 PM Chen Qi <Qi.Chen@windriver.com> wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000bb05ea058fecd5cd
+--000000000000cdddaa058fecd679
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">v2 =
-is staged for testing. See my master-next branch for details.</div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmai=
-l_default" style=3D"font-size:small">Bruce</div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Aug 11, 2019 at 10:=
-33 PM Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windrive=
-r.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">These settings are either in go.bbclass or duplicate, thus<br>
-removing them.<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">sta=
+ged for testing. It is in master-next</div><div class=3D"gmail_default" sty=
+le=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font=
+-size:small">Bruce</div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Fri, Aug 9, 2019 at 1:54 AM Zang Ruochen &lt;<a =
+href=3D"mailto:zangrc.fnst@cn.fujitsu.com">zangrc.fnst@cn.fujitsu.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: =
+Yuan Chao &lt;<a href=3D"mailto:yuanc.fnst@cn.fujitsu.com" target=3D"_blank=
+">yuanc.fnst@cn.fujitsu.com</a>&gt;<br>
 <br>
-Keep only CGO_ENABLED and GOPATH to easier manipulation while<br>
-upgrading cni.<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
-=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+Signed-off-by: Yuan Chao &lt;<a href=3D"mailto:yuanc.fnst@cn.fujitsu.com" t=
+arget=3D"_blank">yuanc.fnst@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a> | 18 ------------------<br>
-=C2=A01 file changed, 18 deletions(-)<br>
+=C2=A0recipes-containers/lxc/{<a href=3D"http://lxc_3.1.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">lxc_3.1.0.bb</a> =3D&gt; <a href=3D"http://lxc_3.2.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">lxc_3.2.1.bb</a>} | 4 ++--<br>
+=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
+=C2=A0rename recipes-containers/lxc/{<a href=3D"http://lxc_3.1.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">lxc_3.1.0.bb</a> =3D&gt; <a href=3D"http://l=
+xc_3.2.1.bb" rel=3D"noreferrer" target=3D"_blank">lxc_3.2.1.bb</a>} (97%)<b=
+r>
 <br>
-diff --git a/recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"no=
-referrer" target=3D"_blank">cni_git.bb</a> b/recipes-networking/cni/<a href=
-=3D"http://cni_git.bb" rel=3D"noreferrer" target=3D"_blank">cni_git.bb</a><=
-br>
-index d07154b..266ee69 100644<br>
---- a/recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a><br>
-+++ b/recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a><br>
-@@ -29,18 +29,6 @@ inherit go<br>
-=C2=A0inherit goarch<br>
+diff --git a/recipes-containers/lxc/<a href=3D"http://lxc_3.1.0.bb" rel=3D"=
+noreferrer" target=3D"_blank">lxc_3.1.0.bb</a> b/recipes-containers/lxc/<a =
+href=3D"http://lxc_3.2.1.bb" rel=3D"noreferrer" target=3D"_blank">lxc_3.2.1=
+.bb</a><br>
+similarity index 97%<br>
+rename from recipes-containers/lxc/<a href=3D"http://lxc_3.1.0.bb" rel=3D"n=
+oreferrer" target=3D"_blank">lxc_3.1.0.bb</a><br>
+rename to recipes-containers/lxc/<a href=3D"http://lxc_3.2.1.bb" rel=3D"nor=
+eferrer" target=3D"_blank">lxc_3.2.1.bb</a><br>
+index 977583f..585ab8f 100644<br>
+--- a/recipes-containers/lxc/<a href=3D"http://lxc_3.1.0.bb" rel=3D"norefer=
+rer" target=3D"_blank">lxc_3.1.0.bb</a><br>
++++ b/recipes-containers/lxc/<a href=3D"http://lxc_3.2.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">lxc_3.2.1.bb</a><br>
+@@ -47,8 +47,8 @@ SRC_URI =3D &quot;<a href=3D"http://linuxcontainers.org/d=
+ownloads/$%7BBPN%7D-$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">=
+http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz</a> \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://lxc-net \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 <br>
-=C2=A0do_compile() {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH=3D&quot;${TARGET_GOARCH}&quot;<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOROOT=3D&quot;${STAGING_LIBDIR_NATIVE}/=
-${TARGET_SYS}/go&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOPATH=3D&quot;${S}/src/import:${S}/src/=
-import/vendor&quot;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# Pass the needed cflags/ldflags so that cgo<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# can find the needed headers files and librari=
-es<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D&quot;1&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CFLAGS=3D&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export LDFLAGS=3D&quot;&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D&quot;${BUILDSDK_CFLAGS} --=
-sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${BUILDSDK_LDFLAGS} =
---sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 # link fixups for compilation<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ${S}/src/import/vendor/src<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 mkdir -p ${S}/src/import/vendor/<br>
-@@ -56,13 +44,7 @@ do_compile() {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 ln -sf ${WORKDIR}/plugins ${S}/src/import/vendo=
-r/<a href=3D"http://github.com/containernetworking/plugins" rel=3D"noreferr=
-er" target=3D"_blank">github.com/containernetworking/plugins</a><br>
+-SRC_URI[md5sum] =3D &quot;e83e302a801494276f3772e687a3b8b0&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;4d8772c25baeaea2c37a954902b88c05d1454c91c887c=
+b6a0997258cfac3fdc5&quot;<br>
++SRC_URI[md5sum] =3D &quot;4886c8d1c8e221fe526eefcb47857b85&quot;<br>
++SRC_URI[sha256sum] =3D &quot;5f903986a4b17d607eea28c0aa56bf1e76e8707747b1a=
+a07d31680338b1cc3d4&quot;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export GOPATH=3D&quot;${S}/src/import/.gopath:$=
-{S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOROOT=3D&quot;${STAGING_DIR_NATIVE}/${n=
-onarch_libdir}/${HOST_SYS}/go&quot;<br>
--<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# Pass the needed cflags/ldflags so that cgo<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0# can find the needed headers files and librari=
-es<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 export CGO_ENABLED=3D&quot;1&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D&quot;${CFLAGS} --sysroot=
-=3D${STAGING_DIR_TARGET}&quot;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${LDFLAGS} --sysroot=
-=3D${STAGING_DIR_TARGET}&quot;<br>
+=C2=A0S =3D &quot;${WORKDIR}/${BPN}-${PV}&quot;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cd ${S}/src/import/vendor/<a href=3D"http://git=
-hub.com/containernetworking/cni/libcni" rel=3D"noreferrer" target=3D"_blank=
-">github.com/containernetworking/cni/libcni</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 go build<br>
 -- <br>
-2.17.1<br>
+2.7.4<br>
+<br>
+<br>
 <br>
 -- <br>
 _______________________________________________<br>
@@ -257,4 +209,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div>
 
---000000000000bb05ea058fecd5cd--
+--000000000000cdddaa058fecd679--
