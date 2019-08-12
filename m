@@ -1,41 +1,41 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 57BA5E00C46; Mon, 12 Aug 2019 01:10:45 -0700 (PDT)
+	id 47418E00B31; Mon, 12 Aug 2019 01:11:47 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	https://www.dnswl.org/, *      medium trust
 	*      [183.91.158.132 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8F87E009EA
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8624CE00B31
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 12 Aug 2019 01:10:43 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,376,1559491200"; d="scan'208";a="73497152"
+	Mon, 12 Aug 2019 01:11:46 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.64,376,1559491200"; d="scan'208";a="73497226"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Aug 2019 16:10:38 +0800
+	by heian.cn.fujitsu.com with ESMTP; 12 Aug 2019 16:11:45 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id C2A234CE030F
+	by cn.fujitsu.com (Postfix) with ESMTP id C94DF4CDDAE4
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 12 Aug 2019 16:10:40 +0800 (CST)
+	Mon, 12 Aug 2019 16:11:43 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 12 Aug 2019 16:10:44 +0800
+	Server (TLS) id 14.3.439.0; Mon, 12 Aug 2019 16:11:47 +0800
 From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 12 Aug 2019 16:10:30 +0800
-Message-ID: <1565597430-78846-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Mon, 12 Aug 2019 16:10:57 +0800
+Message-ID: <1565597457-78893-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: C2A234CE030F.A838F
+X-yoursite-MailScanner-ID: C94DF4CDDAE4.AB933
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Subject: [PATCH] python-wsme: Add python3 version
+Subject: [PATCH] python-webtest: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,90 +48,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 12 Aug 2019 08:10:45 -0000
+X-List-Received-Date: Mon, 12 Aug 2019 08:11:47 -0000
 Content-Type: text/plain
 
-Providing a python3 version of python-wsme.
+Providing a python3 version of python-webtest.
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- .../recipes-devtools/python/python-wsme.inc   | 24 +++++++++++++++++
- .../python/python-wsme_0.9.3.bb               | 26 +------------------
- .../python/python3-wsme_0.9.3.bb              |  2 ++
- 3 files changed, 27 insertions(+), 25 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-wsme.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb
+ .../recipes-devtools/python/python-webtest.inc     | 12 ++++++++++++
+ .../python/python-webtest_2.0.33.bb                | 14 +-------------
+ .../python/python3-webtest_2.0.33.bb               |  2 ++
+ 3 files changed, 15 insertions(+), 13 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-webtest.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-wsme.inc b/meta-openstack/recipes-devtools/python/python-wsme.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-webtest.inc b/meta-openstack/recipes-devtools/python/python-webtest.inc
 new file mode 100644
-index 0000000..b402a09
+index 0000000..d4e9e07
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-wsme.inc
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "Simplify the writing of REST APIs, and extend them with additional protocols"
-+HOMEPAGE = "https://pypi.python.org/pypi/WSME/"
++++ b/meta-openstack/recipes-devtools/python/python-webtest.inc
+@@ -0,0 +1,12 @@
++DESCRIPTION = "Helper to test WSGI applications"
++HOMEPAGE = "https://pypi.python.org/pypi/WebTest/"
 +SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=5a9126e7f56a0cf3247050de7f10d0f4"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://README.rst;md5=e3e00192f000e33de99fd5a3cb32a8fc"
 +
-+PYPI_PACKAGE = "WSME"
++PYPI_PACKAGE = "WebTest"
 +
-+SRC_URI[md5sum] = "e6cb3864bae872acaa0cd0c2efacc94f"
-+SRC_URI[sha256sum] = "e24fcff24392a0b176e560ffc6591b1f658342bbc992f84e0e8a3c53fd92580a"
++RDEPENDS_${PN} += "${PYTHON_PN}-beautifulsoup4"
 +
-+DEPENDS += " \
-+        ${PYTHON_PN}-pip \
-+        ${PYTHON_PN}-pbr \
-+        "
-+
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        ${PYTHON_PN}-pbr-native \
-+        "
-+
-+RDEPENDS_${PN} += "\
-+        ${PYTHON_PN}-pbr \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb b/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb
-index 4e83299..b332f5f 100644
---- a/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb
-+++ b/meta-openstack/recipes-devtools/python/python-wsme_0.9.3.bb
-@@ -1,26 +1,2 @@
--DESCRIPTION = "Simplify the writing of REST APIs, and extend them with additional protocols"
--HOMEPAGE = "https://pypi.python.org/pypi/WSME/"
++SRC_URI[md5sum] = "dd0385c725b85ac1e8079f38d2acd7b1"
++SRC_URI[sha256sum] = "41348efe4323a647a239c31cde84e5e440d726ca4f449859264e538d39037fd0"
+diff --git a/meta-openstack/recipes-devtools/python/python-webtest_2.0.33.bb b/meta-openstack/recipes-devtools/python/python-webtest_2.0.33.bb
+index 527f5c7..3a1fe90 100644
+--- a/meta-openstack/recipes-devtools/python/python-webtest_2.0.33.bb
++++ b/meta-openstack/recipes-devtools/python/python-webtest_2.0.33.bb
+@@ -1,14 +1,2 @@
+-DESCRIPTION = "Helper to test WSGI applications"
+-HOMEPAGE = "https://pypi.python.org/pypi/WebTest/"
 -SECTION = "devel/python"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=5a9126e7f56a0cf3247050de7f10d0f4"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;md5=e3e00192f000e33de99fd5a3cb32a8fc"
 -
--PYPI_PACKAGE = "WSME"
+-PYPI_PACKAGE = "WebTest"
 -
--SRC_URI[md5sum] = "e6cb3864bae872acaa0cd0c2efacc94f"
--SRC_URI[sha256sum] = "e24fcff24392a0b176e560ffc6591b1f658342bbc992f84e0e8a3c53fd92580a"
+-RDEPENDS_${PN} += "python-beautifulsoup4"
+-
+-SRC_URI[md5sum] = "dd0385c725b85ac1e8079f38d2acd7b1"
+-SRC_URI[sha256sum] = "41348efe4323a647a239c31cde84e5e440d726ca4f449859264e538d39037fd0"
 -
  inherit setuptools pypi
--
--DEPENDS += " \
--        python-pip \
--        python-pbr \
--        "
--
--# Satisfy setup.py 'setup_requires'
--DEPENDS += " \
--        python-pbr-native \
--        "
--
--RDEPENDS_${PN} += "\
--        python-pbr \
--        "
-+require python-wsme.inc
-diff --git a/meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb b/meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb
++require python-webtest.inc
+diff --git a/meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb b/meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb
 new file mode 100644
-index 0000000..f792d0e
+index 0000000..aaf0b42
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-wsme_0.9.3.bb
++++ b/meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb
 @@ -0,0 +1,2 @@
 +inherit setuptools3 pypi
-+require python-wsme.inc
++require python-webtest.inc
 -- 
 2.17.1
 
