@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C2261E00DA5; Tue, 13 Aug 2019 05:30:22 -0700 (PDT)
+	id B80F3E00DA5; Tue, 13 Aug 2019 05:31:40 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,56 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.174 listed in list.dnswl.org]
+	*      [209.85.208.193 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3C7DFE00D98
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 42652E00D98
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Aug 2019 05:30:21 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id u15so6402877ljl.3
+	Tue, 13 Aug 2019 05:31:39 -0700 (PDT)
+Received: by mail-lj1-f193.google.com with SMTP id l14so11435390lje.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Aug 2019 05:30:20 -0700 (PDT)
+	Tue, 13 Aug 2019 05:31:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=uViJAi9ERt/BC7o+hqMwy+KX/u0GNxEdQpLUzVF29Mk=;
-	b=Ca+W6lvCEp+1wjDShtc9eNmGuO3rwUkD2Y2zmA3dFsxu8eSzQk9cvjOD9b1QPsJLSA
-	Ggz41sDdAUTjlilCXRvGePhZFCDUCk7+q1v+qpHUugNb/AK6nFrF2pcWJ4Scj8rTZdim
-	p+FdsssluERKC5iAdFYE4x3gX/HUCoGGb+/AQqLmayjSXSVzA8XsoVhnQdMBa1SzSlKy
-	ntJJGhg+31qjqv5MgIYLcXzHIxqpFZ2vy+xHfVB+O+T6kay/QSCwlZ6IZvQzGzyvMdzQ
-	bQo2VYvwhMdJnEfXxxMn+qXf9/rM7QoBTnie1o/Sg3++EPIJG6XGVOqsleZ87HCYBcPL
-	lwPw==
+	:cc; bh=yXBfZCKGCi+bFNbK/j6+6iJDaf3i/DUI0oOFf+rVDeQ=;
+	b=vBtKfYMC9GyvLPA3Zo7HPDLMu9MAXjPBhJDKHTgvSowWygWIUGGswIzLDsbYaW2bUv
+	WFSF0Lv/6svHQV/87hJACCtRXmb/mgrjlIIx+APlQu4tIDMGaMfHcxGYTfziMo7GYn1w
+	S7agsdEMrer3QhUYjWTUmwNub6E+3eXDLLAW7XDk9eQcht7ZUgHyBn2hI3bwe9jczEEz
+	PItP79gLi95EAKxa5zOJZkKuTWXkMqkrqxO8XqCbuwgXhHECrmwo5TW4gyi9IkbgcV4T
+	9lEbJwWZ5yAsZ034IfhtqGfcKgn7QQqNQHFDNpSWkVEN7bufoqEyuHJ+Z4DsjDYYZ8aO
+	4LUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=uViJAi9ERt/BC7o+hqMwy+KX/u0GNxEdQpLUzVF29Mk=;
-	b=UAl9YFvGg7Ah57jZpES/Hju1ghn1DxfyHjftdBiz0Slgiol38N8W3/nXB++JYO1aiS
-	r/tlWNwbuPPXnJaVgVk38vX5/YBHhG7+h0AGDQNobeVPE9t9UfjlqEskviWlPqCdx9Cb
-	oxUO7czMLhxPZjd4woap6w4Op3Tl0wMriWZbyChH0v3b7WAwzNMFmP6J3Lw2VNMgzRmV
-	Bg3GrELuCDAMS4f4VHjJpoZFan5buv/YZrc9ak8VsKKr13cXsl98PmOU96vOSk1epXD1
-	nsdkKcIcSRAPVTprpBtQGEV9FHH8RcPjrYMWcvG3+qSS6OCbw0wgVl1JBxEEKahWt4NN
-	KjDQ==
-X-Gm-Message-State: APjAAAXPPdAXmbjDUdQYX1ICGuYAu+hkVBzX//gwXvexnjJvgLdBMIuC
-	9MxRl7zDf64aJKmxcfqLXCZoWtmhe9e3wH0MRmI=
-X-Google-Smtp-Source: APXvYqyDGqGKIuREN7tGoiDCj+PcS1Bl+q8tctOenME2uuDag7KFLecTTQwgbvya2ITOt7GLK7kskGFWNiKKG9IkGbo=
-X-Received: by 2002:a2e:93c5:: with SMTP id p5mr21281440ljh.79.1565699420004; 
-	Tue, 13 Aug 2019 05:30:20 -0700 (PDT)
+	bh=yXBfZCKGCi+bFNbK/j6+6iJDaf3i/DUI0oOFf+rVDeQ=;
+	b=Nm+03+tc8IarCTRnzPQWTe3iIXyVMQSDtAnTYz4NyXb3Yck2W+jDhFL2BZq3gkKG43
+	bM0AqIS1WRsBQxhWNkRU6UiPtp5MFddq5aTplcBv98rlxiGVBZthllZl2m+O5zXGkiCA
+	1NBHFl/zh8lscWpJctDc1WZiJMjHpTNhDPIkRjJXaLLqqT/nkVpEla3w9Fuubos5STWi
+	Fsgqe0ikNp/LYYc21kusD6KkP2b3HxHwpoBf1ezJhL7Ek3EQwPkkQfpCVNBgjKvR91Tj
+	JXXZF7d7A1S6skfijR/QO4zHuFe75hd3VCzAOw1fXlMHhnpJw7rk+4cZjNdJ9NhIhRRc
+	If7w==
+X-Gm-Message-State: APjAAAUGUVcliR2LNbnvf5RFDle0GlF33GiUo7LO0tv2fPRbyViQXfw9
+	OvdP6y8/v71Cs6TtRpIivfyCY8pSi20u+3uxrvHryWJd
+X-Google-Smtp-Source: APXvYqyGwerCoqpHpgGl+JhT28qAFhlJbBG2XZGIKjTyGu31/dw6Kpdqp3noXhbJGk2apGhSFo4zGjtMEcdMFiAqt08=
+X-Received: by 2002:a2e:b048:: with SMTP id d8mr22526331ljl.118.1565699498019; 
+	Tue, 13 Aug 2019 05:31:38 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190813075136.6248-1-Qi.Chen@windriver.com>
-	<20190813075136.6248-3-Qi.Chen@windriver.com>
-In-Reply-To: <20190813075136.6248-3-Qi.Chen@windriver.com>
+In-Reply-To: <20190813075136.6248-1-Qi.Chen@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 13 Aug 2019 08:30:08 -0400
-Message-ID: <CADkTA4M74K_xPSiCnJYFdqSsEkGD0mXXL-BaF4mAs6Y7cieUGw@mail.gmail.com>
+Date: Tue, 13 Aug 2019 08:31:26 -0400
+Message-ID: <CADkTA4OM9sYbf-dZnXs0A4-Efjg9bj3MbPar9bS=3W8eDEiBhA@mail.gmail.com>
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 3/4] cni: upgrade git version to latest master
+Subject: Re: [PATCH 1/4] cni: add 0.7.1 for cni and 0.7.5 for plugins
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,57 +74,141 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 13 Aug 2019 12:30:22 -0000
-Content-Type: multipart/alternative; boundary="000000000000c12736058ffecd3a"
+X-List-Received-Date: Tue, 13 Aug 2019 12:31:40 -0000
+Content-Type: multipart/alternative; boundary="00000000000067928c058ffed257"
 
---000000000000c12736058ffecd3a
+--00000000000067928c058ffed257
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Aug 13, 2019 at 3:51 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+On Tue, Aug 13, 2019 at 3:52 AM Chen Qi <Qi.Chen@windriver.com> wrote:
 
-> Upgrade the git version to latest master to make the recipe
-> truly serve its purpose.
+> This version is proved to work well for simple k8s flannel setup.
 >
+>
+Nope. We have no reason to use version locked recipes for this. I want one
+version for the layer, not a _git and a versioned set of plugins.
 
-That's  not a good reason to do the uprev, this is a git recipe because it
-makes sense for it to be git .. not because it is tracking the tip of
-master all the time.
+Upgrade the main _cni plugin to the latest version, make sure it works with
+kubernetes and that's the version we'll use.
 
-What *actual* functionality are we getting from this ? How was it tested ?
+Cheers,
 
 Bruce
 
 
 
->
-> This upgrades both cni and plugins repos.
->
 > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  recipes-networking/cni/cni_git.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  recipes-networking/cni/cni_0.7.1.bb | 79 +++++++++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>  create mode 100644 recipes-networking/cni/cni_0.7.1.bb
 >
-> diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/
-> cni_git.bb
-> index 06b37a4..60c39f1 100644
-> --- a/recipes-networking/cni/cni_git.bb
-> +++ b/recipes-networking/cni/cni_git.bb
-> @@ -1,10 +1,10 @@
->  # This cni version is supposed to track latest upstream.
->  require cni.inc
->
-> -SRCREV_cni = "dc71cd2ba60c452c56a0a259f2a23d2afe42b688"
-> -SRCREV_plugins = "0eddc554c0747200b7b112ce5322dcfa525298cf"
-> +SRCREV_cni = "8c6c47d1c7fcf51c8d0c939d2af06dd108f876da"
-> +SRCREV_plugins = "2d6d4b260a98973a206fde18bdde4f2511c72c60"
->  SRC_URI = "\
->         git://github.com/containernetworking/cni.git;nobranch=1;name=cni \
->          git://
-> github.com/containernetworking/plugins.git;nobranch=1;destsuffix=plugins;name=plugins
+> diff --git a/recipes-networking/cni/cni_0.7.1.bb b/recipes-networking/cni/
+> cni_0.7.1.bb
+> new file mode 100644
+> index 0000000..7a3b87f
+> --- /dev/null
+> +++ b/recipes-networking/cni/cni_0.7.1.bb
+> @@ -0,0 +1,79 @@
+> +HOMEPAGE = "https://github.com/containernetworking/cni"
+> +SUMMARY = "Container Network Interface - networking for Linux containers"
+> +DESCRIPTION = "CNI (Container Network Interface), a Cloud Native
+> Computing \
+> +Foundation project, consists of a specification and libraries for writing
 > \
->         "
-> -PV = "0.7.0+git${SRCREV_cni}"
-> +PV = "0.7.1+git${SRCREV_cni}"
+> +plugins to configure network interfaces in Linux containers, along with a
+> \
+> +number of supported plugins. CNI concerns itself only with network
+> connectivity \
+> +of containers and removing allocated resources when the container is
+> deleted. \
+> +Because of this focus, CNI has a wide range of support and the
+> specification \
+> +is simple to implement. \
+> +"
+> +
+> +# 0.7.1
+> +SRCREV_cni = "4cfb7b568922a3c79a23e438dc52fe537fc9687e"
+> +# 0.7.5
+> +SRCREV_plugins = "a62711a5da7a2dc2eb93eac47e103738ad923fd6"
+> +SRC_URI = "\
+> +       git://
+> github.com/containernetworking/cni.git;branch=master;name=cni \
+> +        git://
+> github.com/containernetworking/plugins.git;branch=v0.7;destsuffix=plugins;name=plugins
+> \
+> +       "
+> +
+> +RPROVIDES_${PN} += "kubernetes-cni"
+> +
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM =
+> "file://src/import/LICENSE;md5=fa818a259cbed7ce8bc2a22d35a464fc"
+> +
+> +GO_IMPORT = "import"
+> +
+> +PV = "0.7.1"
+> +
+> +inherit go
+> +inherit goarch
+> +
+> +do_compile() {
+> +       # link fixups for compilation
+> +       rm -f ${S}/src/import/vendor/src
+> +       mkdir -p ${S}/src/import/vendor/
+> +       ln -sf ./ ${S}/src/import/vendor/src
+> +       rm -rf ${S}/src/import/plugins
+> +       rm -rf ${S}/src/import/vendor/
+> github.com/containernetworking/plugins
+> +
+> +       mkdir -p ${S}/src/import/vendor/github.com/containernetworking/cni
+> +
+> +       ln -sf ../../../../libcni ${S}/src/import/vendor/
+> github.com/containernetworking/cni/libcni
+> +       ln -sf ../../../../pkg ${S}/src/import/vendor/
+> github.com/containernetworking/cni/pkg
+> +       ln -sf ../../../../cnitool ${S}/src/import/vendor/
+> github.com/containernetworking/cni/cnitool
+> +       ln -sf ${WORKDIR}/plugins ${S}/src/import/vendor/
+> github.com/containernetworking/plugins
+> +
+> +       export
+> GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
+> +       export CGO_ENABLED="1"
+> +
+> +       cd ${S}/src/import/vendor/
+> github.com/containernetworking/cni/libcni
+> +       ${GO} build
+> +
+> +       cd ${S}/src/import/vendor/
+> github.com/containernetworking/cni/cnitool
+> +       ${GO} build
+> +
+> +       cd ${S}/src/import/vendor/github.com/containernetworking/plugins/
+> +       PLUGINS="$(ls -d plugins/meta/*; ls -d plugins/ipam/*; ls -d
+> plugins/main/* | grep -v windows)"
+> +       mkdir -p ${WORKDIR}/plugins/bin/
+> +       for p in $PLUGINS; do
+> +           plugin="$(basename "$p")"
+> +           echo "building: $p"
+> +           ${GO} build -o ${WORKDIR}/plugins/bin/$plugin
+> github.com/containernetworking/plugins/$p
+> +       done
+> +}
+> +
+> +do_install() {
+> +    localbindir="/opt/cni/bin"
+> +
+> +    install -d ${D}${localbindir}
+> +    install -d ${D}/${sysconfdir}/cni/net.d
+> +
+> +    install -m 755 ${S}/src/import/cnitool/cnitool ${D}/${localbindir}
+> +    install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
+> +}
+> +
+> +FILES_${PN} += "/opt/cni/bin/*"
+> +
+> +INSANE_SKIP_${PN} += "ldflags already-stripped"
 > --
 > 2.17.1
 >
@@ -142,68 +225,173 @@ Bruce
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000c12736058ffecd3a
+--00000000000067928c058ffed257
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
 t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Aug 13, 2019 at 3:51 AM Chen Qi &lt;<a href=
+r" class=3D"gmail_attr">On Tue, Aug 13, 2019 at 3:52 AM Chen Qi &lt;<a href=
 =3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; wrote:<br><=
 /div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex">Upgrade the git vers=
-ion to latest master to make the recipe<br>
-truly serve its purpose.<br></blockquote><div><br></div><div><div class=3D"=
-gmail_default" style=3D"font-size:small">That&#39;s=C2=A0 not a good reason=
- to do the uprev, this is a git recipe because it makes sense for it to be =
-git .. not because it is tracking the tip of master all the time.</div><div=
- class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"=
-gmail_default" style=3D"font-size:small">What *actual* functionality are we=
- getting from this ? How was it tested ?</div><div class=3D"gmail_default" =
-style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
-ont-size:small">Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-<br>
-This upgrades both cni and plugins repos.<br>
-<br>
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">This version is prov=
+ed to work well for simple k8s flannel setup.<br>
+<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
+font-size:small">Nope. We have no reason to use version locked recipes for =
+this. I want one version for the layer, not a _git and a versioned set of p=
+lugins.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
+iv><div class=3D"gmail_default" style=3D"font-size:small">Upgrade the main =
+_cni plugin to the latest version, make sure it works with kubernetes and t=
+hat&#39;s the version we&#39;ll use.</div><div class=3D"gmail_default" styl=
+e=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-=
+size:small">Cheers,</div><div class=3D"gmail_default" style=3D"font-size:sm=
+all"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce=
+</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">
 Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
 =3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a> | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"no=
-referrer" target=3D"_blank">cni_git.bb</a> b/recipes-networking/cni/<a href=
-=3D"http://cni_git.bb" rel=3D"noreferrer" target=3D"_blank">cni_git.bb</a><=
+=C2=A0recipes-networking/cni/<a href=3D"http://cni_0.7.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">cni_0.7.1.bb</a> | 79 +++++++++++++++++++++++++++++<=
 br>
-index 06b37a4..60c39f1 100644<br>
---- a/recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a><br>
-+++ b/recipes-networking/cni/<a href=3D"http://cni_git.bb" rel=3D"noreferre=
-r" target=3D"_blank">cni_git.bb</a><br>
-@@ -1,10 +1,10 @@<br>
-=C2=A0# This cni version is supposed to track latest upstream.<br>
-=C2=A0require cni.inc<br>
+=C2=A01 file changed, 79 insertions(+)<br>
+=C2=A0create mode 100644 recipes-networking/cni/<a href=3D"http://cni_0.7.1=
+.bb" rel=3D"noreferrer" target=3D"_blank">cni_0.7.1.bb</a><br>
 <br>
--SRCREV_cni =3D &quot;dc71cd2ba60c452c56a0a259f2a23d2afe42b688&quot;<br>
--SRCREV_plugins =3D &quot;0eddc554c0747200b7b112ce5322dcfa525298cf&quot;<br=
+diff --git a/recipes-networking/cni/<a href=3D"http://cni_0.7.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">cni_0.7.1.bb</a> b/recipes-networking/cni/<a =
+href=3D"http://cni_0.7.1.bb" rel=3D"noreferrer" target=3D"_blank">cni_0.7.1=
+.bb</a><br>
+new file mode 100644<br>
+index 0000000..7a3b87f<br>
+--- /dev/null<br>
++++ b/recipes-networking/cni/<a href=3D"http://cni_0.7.1.bb" rel=3D"norefer=
+rer" target=3D"_blank">cni_0.7.1.bb</a><br>
+@@ -0,0 +1,79 @@<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/containernetworking/cni" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/containernetworking=
+/cni</a>&quot;<br>
++SUMMARY =3D &quot;Container Network Interface - networking for Linux conta=
+iners&quot;<br>
++DESCRIPTION =3D &quot;CNI (Container Network Interface), a Cloud Native Co=
+mputing \<br>
++Foundation project, consists of a specification and libraries for writing =
+\<br>
++plugins to configure network interfaces in Linux containers, along with a =
+\<br>
++number of supported plugins. CNI concerns itself only with network connect=
+ivity \<br>
++of containers and removing allocated resources when the container is delet=
+ed. \<br>
++Because of this focus, CNI has a wide range of support and the specificati=
+on \<br>
++is simple to implement. \<br>
++&quot;<br>
++<br>
++# 0.7.1<br>
++SRCREV_cni =3D &quot;4cfb7b568922a3c79a23e438dc52fe537fc9687e&quot;<br>
++# 0.7.5<br>
++SRCREV_plugins =3D &quot;a62711a5da7a2dc2eb93eac47e103738ad923fd6&quot;<br=
 >
-+SRCREV_cni =3D &quot;8c6c47d1c7fcf51c8d0c939d2af06dd108f876da&quot;<br>
-+SRCREV_plugins =3D &quot;2d6d4b260a98973a206fde18bdde4f2511c72c60&quot;<br=
->
-=C2=A0SRC_URI =3D &quot;\<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://github.com/containernet=
-working/cni.git;nobranch=3D1;name=3Dcni" rel=3D"noreferrer" target=3D"_blan=
-k">github.com/containernetworking/cni.git;nobranch=3D1;name=3Dcni</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/contai=
-nernetworking/plugins.git;nobranch=3D1;destsuffix=3Dplugins;name=3Dplugins"=
- rel=3D"noreferrer" target=3D"_blank">github.com/containernetworking/plugin=
-s.git;nobranch=3D1;destsuffix=3Dplugins;name=3Dplugins</a> \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
--PV =3D &quot;0.7.0+git${SRCREV_cni}&quot;<br>
-+PV =3D &quot;0.7.1+git${SRCREV_cni}&quot;<br>
++SRC_URI =3D &quot;\<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/containernet=
+working/cni.git;branch=3Dmaster;name=3Dcni" rel=3D"noreferrer" target=3D"_b=
+lank">github.com/containernetworking/cni.git;branch=3Dmaster;name=3Dcni</a>=
+ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://github.com/containerne=
+tworking/plugins.git;branch=3Dv0.7;destsuffix=3Dplugins;name=3Dplugins" rel=
+=3D"noreferrer" target=3D"_blank">github.com/containernetworking/plugins.gi=
+t;branch=3Dv0.7;destsuffix=3Dplugins;name=3Dplugins</a> \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
++<br>
++RPROVIDES_${PN} +=3D &quot;kubernetes-cni&quot;<br>
++<br>
++LICENSE =3D &quot;Apache-2.0&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://src/import/LICENSE;md5=3Dfa818a259cbed7c=
+e8bc2a22d35a464fc&quot;<br>
++<br>
++GO_IMPORT =3D &quot;import&quot;<br>
++<br>
++PV =3D &quot;0.7.1&quot;<br>
++<br>
++inherit go<br>
++inherit goarch<br>
++<br>
++do_compile() {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0# link fixups for compilation<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f ${S}/src/import/vendor/src<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${S}/src/import/vendor/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ./ ${S}/src/import/vendor/src<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${S}/src/import/plugins<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${S}/src/import/vendor/<a href=3D"http:/=
+/github.com/containernetworking/plugins" rel=3D"noreferrer" target=3D"_blan=
+k">github.com/containernetworking/plugins</a><br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${S}/src/import/vendor/<a href=3D"http=
+://github.com/containernetworking/cni" rel=3D"noreferrer" target=3D"_blank"=
+>github.com/containernetworking/cni</a><br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ../../../../libcni ${S}/src/import/vendo=
+r/<a href=3D"http://github.com/containernetworking/cni/libcni" rel=3D"noref=
+errer" target=3D"_blank">github.com/containernetworking/cni/libcni</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ../../../../pkg ${S}/src/import/vendor/<=
+a href=3D"http://github.com/containernetworking/cni/pkg" rel=3D"noreferrer"=
+ target=3D"_blank">github.com/containernetworking/cni/pkg</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ../../../../cnitool ${S}/src/import/vend=
+or/<a href=3D"http://github.com/containernetworking/cni/cnitool" rel=3D"nor=
+eferrer" target=3D"_blank">github.com/containernetworking/cni/cnitool</a><b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ${WORKDIR}/plugins ${S}/src/import/vendo=
+r/<a href=3D"http://github.com/containernetworking/plugins" rel=3D"noreferr=
+er" target=3D"_blank">github.com/containernetworking/plugins</a><br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOPATH=3D&quot;${S}/src/import/.gopath:$=
+{S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D&quot;1&quot;<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/src/import/vendor/<a href=3D"http://git=
+hub.com/containernetworking/cni/libcni" rel=3D"noreferrer" target=3D"_blank=
+">github.com/containernetworking/cni/libcni</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${GO} build<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/src/import/vendor/<a href=3D"http://git=
+hub.com/containernetworking/cni/cnitool" rel=3D"noreferrer" target=3D"_blan=
+k">github.com/containernetworking/cni/cnitool</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0${GO} build<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/src/import/vendor/<a href=3D"http://git=
+hub.com/containernetworking/plugins/" rel=3D"noreferrer" target=3D"_blank">=
+github.com/containernetworking/plugins/</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0PLUGINS=3D&quot;$(ls -d plugins/meta/*; ls -d p=
+lugins/ipam/*; ls -d plugins/main/* | grep -v windows)&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${WORKDIR}/plugins/bin/<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0for p in $PLUGINS; do<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0plugin=3D&quot;$(basename &quot;$=
+p&quot;)&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo &quot;building: $p&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${GO} build -o ${WORKDIR}/plugins=
+/bin/$plugin <a href=3D"http://github.com/containernetworking/plugins/$p" r=
+el=3D"noreferrer" target=3D"_blank">github.com/containernetworking/plugins/=
+$p</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
++}<br>
++<br>
++do_install() {<br>
++=C2=A0 =C2=A0 localbindir=3D&quot;/opt/cni/bin&quot;<br>
++<br>
++=C2=A0 =C2=A0 install -d ${D}${localbindir}<br>
++=C2=A0 =C2=A0 install -d ${D}/${sysconfdir}/cni/net.d<br>
++<br>
++=C2=A0 =C2=A0 install -m 755 ${S}/src/import/cnitool/cnitool ${D}/${localb=
+indir}<br>
++=C2=A0 =C2=A0 install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindi=
+r}<br>
++}<br>
++<br>
++FILES_${PN} +=3D &quot;/opt/cni/bin/*&quot;<br>
++<br>
++INSANE_SKIP_${PN} +=3D &quot;ldflags already-stripped&quot;<br>
 -- <br>
 2.17.1<br>
 <br>
@@ -220,4 +408,4 @@ eta-virtualization</a><br>
 aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
 - Gandalf, Star Trek II<br><br></div></div>
 
---000000000000c12736058ffecd3a--
+--00000000000067928c058ffed257--
