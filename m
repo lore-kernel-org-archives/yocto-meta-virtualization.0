@@ -1,41 +1,41 @@
 Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1169FE00D9D; Tue, 13 Aug 2019 18:54:50 -0700 (PDT)
+	id 99991E00DA7; Tue, 13 Aug 2019 20:03:54 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	https://www.dnswl.org/, *      medium trust
 	*      [183.91.158.132 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 720A4E00C81
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BB1F1E00B74
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 13 Aug 2019 18:54:48 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,382,1559491200"; d="scan'208";a="73608095"
+	Tue, 13 Aug 2019 20:03:53 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.64,383,1559491200"; d="scan'208";a="73613254"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 14 Aug 2019 09:54:45 +0800
+	by heian.cn.fujitsu.com with ESMTP; 14 Aug 2019 11:03:44 +0800
 Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id EFA184CE0332
+	by cn.fujitsu.com (Postfix) with ESMTP id F3BEA4B41EDC
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 14 Aug 2019 09:54:45 +0800 (CST)
+	Wed, 14 Aug 2019 11:03:39 +0800 (CST)
 Received: from localhost.local (10.167.225.40) by
 	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 14 Aug 2019 09:54:53 +0800
+	Server (TLS) id 14.3.439.0; Wed, 14 Aug 2019 11:03:43 +0800
 From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Wed, 14 Aug 2019 09:54:08 +0800
-Message-ID: <20190814015408.15372-1-zangrc.fnst@cn.fujitsu.com>
+Date: Wed, 14 Aug 2019 11:03:02 +0800
+Message-ID: <20190814030302.15929-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: EFA184CE0332.AB432
+X-yoursite-MailScanner-ID: F3BEA4B41EDC.AD714
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Subject: [PATCH] python-barbicanclient: upgrade 4.5.2 -> 4.8.1
+Subject: [PATCH] python-eventlet: upgrade 0.24.0 -> 0.25.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,39 +48,61 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 14 Aug 2019 01:54:50 -0000
+X-List-Received-Date: Wed, 14 Aug 2019 03:03:54 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 
-Unable to find version 4.8.1 in branch stable/pike.
-Change branch to master.
+Remove 0.20.0.bb file.
 
 Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../recipes-devtools/python/python-eventlet_0.20.0.bb    | 16 ----------------
+ ...thon-eventlet_0.24.0.bb => python-eventlet_0.25.0.bb} |  4 ++--
+ 2 files changed, 2 insertions(+), 18 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb
+ rename meta-openstack/recipes-devtools/python/{python-eventlet_0.24.0.bb => python-eventlet_0.25.0.bb} (63%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb b/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb
-index 2d57158..3c5043b 100644
---- a/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb
-@@ -5,11 +5,11 @@ LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=e031cff4528978748f9cc064c6e6fa73"
+diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb
+deleted file mode 100644
+index 1d51f1a..0000000
+--- a/meta-openstack/recipes-devtools/python/python-eventlet_0.20.0.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-DESCRIPTION = "Highly concurrent networking library"
+-HOMEPAGE = "http://pypi.python.org/pypi/eventlet"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
+-
+-SRC_URI[md5sum] = "057276232bf65f1db6aabf819e7ece6a"
+-SRC_URI[sha256sum] = "2e17cda85f2003796f13de0e6c59a5253c0afd1f45dfc97bb9b6bfb8962f7895"
+-
+-inherit setuptools pypi pypi
+-
+-RDEPENDS_${PN} += " \
+-    python-enum34 \
+-    python-enum-compat \
+-    python-greenlet \
+-    "
+diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.24.0.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.25.0.bb
+similarity index 63%
+rename from meta-openstack/recipes-devtools/python/python-eventlet_0.24.0.bb
+rename to meta-openstack/recipes-devtools/python/python-eventlet_0.25.0.bb
+index fb9d09d..c3eabb2 100644
+--- a/meta-openstack/recipes-devtools/python/python-eventlet_0.24.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.25.0.bb
+@@ -4,7 +4,7 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
  
- SRC_URI = "\
--	git://github.com/openstack/python-barbicanclient.git;branch=stable/pike \
-+	git://github.com/openstack/python-barbicanclient.git \
- 	"
+-SRC_URI[md5sum] = "40acca39e1da2a79e983a696b9b390a3"
+-SRC_URI[sha256sum] = "4c247db031ea374128e8c75a40fe5402c611e9a4798b9f90f095001192f22364"
++SRC_URI[md5sum] = "a7e8759e6684352ea81a157b6f93fb9b"
++SRC_URI[sha256sum] = "f0610bd0d3bb3d51d69f74caa4ad04fc7bce424cdb72e54d08ccda90d8c69800"
  
--PV = "4.5.2+git${SRCPV}"
--SRCREV = "775de93a612db866bb39ba6828f3e7bd1aa3c9f5"
-+PV = "4.8.1+git${SRCPV}"
-+SRCREV = "1b282358166fe4c1d4dea896bd336b2850584f56"
- S = "${WORKDIR}/git"
- 
- inherit setuptools
+ inherit setuptools pypi
 -- 
 2.7.4
 
