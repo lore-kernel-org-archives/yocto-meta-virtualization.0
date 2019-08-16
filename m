@@ -1,42 +1,41 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3B52BE00E7D; Thu, 15 Aug 2019 18:38:07 -0700 (PDT)
+	id 54E60E00E0D; Fri, 16 Aug 2019 03:28:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
 	*      medium trust
 	*      [183.91.158.132 listed in list.dnswl.org]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A69CCE00E08
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 57DDCE00D89
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 15 Aug 2019 18:38:05 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,391,1559491200"; d="scan'208";a="73737856"
+	Fri, 16 Aug 2019 03:28:42 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.64,391,1559491200"; d="scan'208";a="73765259"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Aug 2019 09:38:03 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id D71964CE0336
+	by heian.cn.fujitsu.com with ESMTP; 16 Aug 2019 18:28:41 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id AB8984CE0338
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 16 Aug 2019 09:38:00 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 16 Aug 2019 09:38:03 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	Fri, 16 Aug 2019 18:28:38 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Fri, 16 Aug 2019 18:28:40 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 16 Aug 2019 09:37:23 +0800
-Message-ID: <20190816013723.2541-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Date: Fri, 16 Aug 2019 18:28:13 +0800
+Message-ID: <1565951293-24335-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: D71964CE0336.A7D09
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: AB8984CE0338.A62D9
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Subject: [PATCH] python-kombu: upgrade 4.6.3 -> 4.6.4
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+Subject: [PATCH] python-vine: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,46 +48,70 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 16 Aug 2019 01:38:07 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 16 Aug 2019 10:28:44 -0000
 Content-Type: text/plain
 
-From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+Providing a python3 version of python-vine.
 
-Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-kombu.inc               | 4 ++--
- .../python/{python-kombu_4.6.3.bb => python-kombu_4.6.4.bb}           | 0
- .../python/{python3-kombu_4.6.3.bb => python3-kombu_4.6.4.bb}         | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-kombu_4.6.3.bb => python-kombu_4.6.4.bb} (100%)
- rename meta-openstack/recipes-devtools/python/{python3-kombu_4.6.3.bb => python3-kombu_4.6.4.bb} (100%)
+ .../recipes-devtools/python/python-vine.inc        | 13 +++++++++++++
+ .../recipes-devtools/python/python-vine_1.1.4.bb   | 14 ++------------
+ .../recipes-devtools/python/python3-vine_1.1.4.bb  |  3 +++
+ 3 files changed, 18 insertions(+), 12 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-vine.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-vine_1.1.4.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc b/meta-openstack/recipes-devtools/python/python-kombu.inc
-index 722adcd..3053f71 100644
---- a/meta-openstack/recipes-devtools/python/python-kombu.inc
-+++ b/meta-openstack/recipes-devtools/python/python-kombu.inc
-@@ -4,8 +4,8 @@ SECTION = "devel/python"
- LICENSE = "BSD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+diff --git a/meta-openstack/recipes-devtools/python/python-vine.inc b/meta-openstack/recipes-devtools/python/python-vine.inc
+new file mode 100644
+index 0000000..f098a9d
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python-vine.inc
+@@ -0,0 +1,13 @@
++DESCRIPTION = "Python promises"
++HOMEPAGE = "https://pypi.python.org/pypi/vine"
++SECTION = "devel/python"
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6fadb0e48ceb84b571372dd706ed76a0"
++
++SRC_URI[md5sum] = "9fdb971e7fd15b181b84f3bfcf20d11c"
++SRC_URI[sha256sum] = "52116d59bc45392af9fdd3b75ed98ae48a93e822cee21e5fda249105c59a7a72"
++
++inherit pypi
++
++RDEPENDS_${PN} += " \
++        "
+diff --git a/meta-openstack/recipes-devtools/python/python-vine_1.1.4.bb b/meta-openstack/recipes-devtools/python/python-vine_1.1.4.bb
+index 268675d..01c2a95 100644
+--- a/meta-openstack/recipes-devtools/python/python-vine_1.1.4.bb
++++ b/meta-openstack/recipes-devtools/python/python-vine_1.1.4.bb
+@@ -1,13 +1,3 @@
+-DESCRIPTION = "Python promises"
+-HOMEPAGE = "https://pypi.python.org/pypi/vine"
+-SECTION = "devel/python"
+-LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=6fadb0e48ceb84b571372dd706ed76a0"
++inherit setuptools
++require python-vine.inc
  
--SRC_URI[md5sum] = "adc9167ba3571c5465d6f7abe4945a12"
--SRC_URI[sha256sum] = "eb365ea795cd7e629ba2f1f398e0c3ba354b91ef4de225ffdf6ab45fdfc7d581"
-+SRC_URI[md5sum] = "4eb5f1e6f669e04f5bd0c627c7467156"
-+SRC_URI[sha256sum] = "e5f0312dfb9011bebbf528ccaf118a6c2b5c3b8244451f08381fb23e7715809b"
- 
- FILES_${PN}-doc += "${datadir}/${SRCNAME}"
- 
-diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.6.3.bb b/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
-similarity index 100%
-rename from meta-openstack/recipes-devtools/python/python-kombu_4.6.3.bb
-rename to meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
-diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.3.bb b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
-similarity index 100%
-rename from meta-openstack/recipes-devtools/python/python3-kombu_4.6.3.bb
-rename to meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
+-SRC_URI[md5sum] = "9fdb971e7fd15b181b84f3bfcf20d11c"
+-SRC_URI[sha256sum] = "52116d59bc45392af9fdd3b75ed98ae48a93e822cee21e5fda249105c59a7a72"
+-
+-inherit setuptools pypi
+-
+-RDEPENDS_${PN} += " \
+-        "
+diff --git a/meta-openstack/recipes-devtools/python/python3-vine_1.1.4.bb b/meta-openstack/recipes-devtools/python/python3-vine_1.1.4.bb
+new file mode 100644
+index 0000000..5926702
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python3-vine_1.1.4.bb
+@@ -0,0 +1,3 @@
++inherit setuptools3
++require python-vine.inc
++
 -- 
-2.7.4
+2.17.1
 
 
 
