@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6E8BDE00C7D; Sun, 18 Aug 2019 19:27:44 -0700 (PDT)
+	id B8A56E009E6; Sun, 18 Aug 2019 19:27:58 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.196 listed in list.dnswl.org]
+	*      [209.85.167.41 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7DA48E009E6
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+	[209.85.167.41])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 46051E00DCE
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 18 Aug 2019 19:27:43 -0700 (PDT)
-Received: by mail-lj1-f196.google.com with SMTP id x3so261727lji.5
+	Sun, 18 Aug 2019 19:27:56 -0700 (PDT)
+Received: by mail-lf1-f41.google.com with SMTP id b29so222061lfq.1
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 18 Aug 2019 19:27:43 -0700 (PDT)
+	Sun, 18 Aug 2019 19:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WZdMLyDJJh+1SYqgihRBmPZBLAoT9B1s0C29W6C0UPY=;
-	b=Zn8cmnxbImOUn23Ek9aVVLTjUg7pf/OxziciGxKCwXzhcXdVa60BJ/w4IdrTOEgIHF
-	/zGek42pK4C/rqOWG/i5MQ49V/VVnVdBVMlWJFUtc6HtVAVp106DfXsdNhdqBrNuuRtP
-	ojUpXAPqfluhKSMu08qp5rjdfv+WUGjlMjl01vFU84bwBDWol7t1Ojib4YAdsonvt0RY
-	L4jHYyowELJMtVOt4sXhEchvBzlP2lmGtCeMAuUl10Byq8K0THGNOU7DvbJGlND+L7Rl
-	MYrv+6hEbTVouAXpvvVcbUSL8ipP+m8ezqIj96Dd/8Crr8zoHPijAZFOYuIx+BwHEm3+
-	bmoQ==
+	:cc; bh=ofBaZ+urpa+8O9q7AeYLRWRkzEuNkhVd6uuLPG9ORyk=;
+	b=Oa0ZeD1WgFdTLst183pgvIAN5n9BzK9XMaj8+koPhCPJKOhIprrFuYPFqMdCVUk8yR
+	NRL/D1Gop55s1RXW4QbjSyx6DEHVozGuSGwsuiMDyyuTpatsmnD7iEaP7Qr0QjzZVikN
+	Y1c+pnytw2Hivny5abucho9WHfQ6Kga+5zrE7tFQrhbP6iRrwmd9eP7+OpAuTAK2czPU
+	3tA1s+i8aBO6wn9HT7Ccv16XLjwAysiBLooRZ/C69O1xCPicacvzl/JXau2wWqoaPak3
+	llN36bkJDVUmU2N3IkEhvhewYfu9AEYXH5hanOXuk1VPvsVOWFa4OSNHiDAQJ8URwIgo
+	qfKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=WZdMLyDJJh+1SYqgihRBmPZBLAoT9B1s0C29W6C0UPY=;
-	b=MXGxfM/+wo1K94QkGU8wZBZAZ2umFxzssi66qhYDIYpDYW/FoRpURSadL0Bg0MFx1R
-	2AL0i9LQgQUQXOGsi9YZ8HnFyRo++/qy8wppDLWyvs7mk+f9zRRsTIpyvpdO9cnmBp2u
-	v+neEvTe8CEGv+lvmRJGxh+XRHri6UyDnEKDSUBakq06RDcoUk9EhgQ42/8v24UMgbCy
-	Qv7k2DO3O3sIDl8TMcqIqiYUc5ZgRXGAno/mFuj68OcFbR5G6SMpOshhng61txn8JlAT
-	PSTEJNJDFUka28W+aZCwPG6NNN+3tmNkgPYZr3COBOybHXF3mKLvu/VWxf+srbkUX7Ch
-	UJUg==
-X-Gm-Message-State: APjAAAWSDiyRdEK4lRQxWeVdDvn2M7gGeA3y+EKsmzlJzO9wViTC/Muc
-	FLO/Fo9FdgN5jgZGpNqWtAOddCA9GPnr8XXiSb8=
-X-Google-Smtp-Source: APXvYqzs5IqiRS8DINNdoBQXarOPeGRPsMmWJUfSSvW9R73WDc+yK7GIFkRzfK0GptDib72+SFDQbfj2onqZ/AkATjg=
-X-Received: by 2002:a2e:9196:: with SMTP id f22mr3419284ljg.78.1566181662221; 
-	Sun, 18 Aug 2019 19:27:42 -0700 (PDT)
+	bh=ofBaZ+urpa+8O9q7AeYLRWRkzEuNkhVd6uuLPG9ORyk=;
+	b=SALAqWNulJzxYiDRHdObclT2TnfHVgXhvT/Kc2vCLEEfCLsFRZz2eVIBfA1NzPT+6L
+	wTiZ+X7R9BycF43MHELEDmj5t3aNqXMM8DJB26WFBdpD/VyBVfbgRQGXmn/MzS2ZzWaj
+	9zNzKwmMXV7lt3P27L/PH2KJnXCTW3RpFX2uaT6fsZEO9dke8nSt+9GcrNmP+k1Haq5H
+	/g5Bxo+Sky4c9T+qe1ekUWfsUS+ENggziqW3+sLaUbcbEoRvsT50neT6s54fx6JDmx72
+	gMe59qavq6mDY9iiwSvRWZWP+Y0eSfAEbJaq7qg+lGigjo1rk4CxhUurWli1qSikW/6R
+	zr3g==
+X-Gm-Message-State: APjAAAX9+87le3+bAIHknJ32E7w50geKMVAdwPXUEMFrdSyixTnnvdDD
+	tQhzQyBMEKy921h+uA/lZzNMbXzJyNOglr3VAcI=
+X-Google-Smtp-Source: APXvYqzMrvkCQKSDhEv5oK44tQPDaW53IznI3UozxxjMPmC28VJx/Aket/VU29rvG8CF085q1o4vENbhDwk01y2doIg=
+X-Received: by 2002:a19:4aca:: with SMTP id
+	x193mr10645986lfa.146.1566181675075; 
+	Sun, 18 Aug 2019 19:27:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190813064510.7331-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190813064510.7331-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190813075033.7866-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190813075033.7866-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 18 Aug 2019 22:27:31 -0400
-Message-ID: <CADkTA4PpbXgXx1HGwgiyZUn=0Efc+fWXuLwic1OzQobjq1Hihw@mail.gmail.com>
+Date: Sun, 18 Aug 2019 22:27:44 -0400
+Message-ID: <CADkTA4OjpQoNtzHq7C4cSiPJLo5Nzctvdd+T4cHNNHp96T4PNA@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-keystoneauth1: upgrade 3.15.0 -> 3.16.0
+Subject: Re: [PATCH] python-zaqarclient: upgrade 0.7.0 -> 1.11.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,41 +74,43 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 19 Aug 2019 02:27:44 -0000
+X-List-Received-Date: Mon, 19 Aug 2019 02:27:58 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Tue, Aug 13, 2019 at 2:46 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Tue, Aug 13, 2019 at 3:51 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
 > From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 >
+> Unable to find version 1.11.0 in branch stable/pike.
+> Change branch to master.
+>
 > Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 > ---
->  ...{python-keystoneauth1_3.15.0.bb => python-keystoneauth1_3.16.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-keystoneauth1_3.15.0.bb => python-keystoneauth1_3.16.0.bb} (79%)
+>  meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.15.0.bb b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.16.0.bb
-> similarity index 79%
-> rename from meta-openstack/recipes-devtools/python/python-keystoneauth1_3.15.0.bb
-> rename to meta-openstack/recipes-devtools/python/python-keystoneauth1_3.16.0.bb
-> index a584951..fd1d848 100644
-> --- a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.15.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.16.0.bb
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=96f840d59b245a1c817fbcb901afc574"
+> diff --git a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+> index d3d24ea..e6f92f7 100644
+> --- a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+> @@ -28,10 +28,10 @@ RDEPENDS_${PN} +=" \
+>         "
 >
-> -SRC_URI[md5sum] = "0f3e21362a74d1fb8959fc2bf7d28882"
-> -SRC_URI[sha256sum] = "439f7dcf6edde5ea5a16ef90603d198e118a03f529aba0f8a6d19d5f6433de95"
-> +SRC_URI[md5sum] = "4d2b56ac0b3d19eacb7f3a3198cfcc54"
-> +SRC_URI[sha256sum] = "0465ed3e69ec0a148a5785f59f6fd3cece7808090cbcb90a2d2cb27ab360d9d7"
+>  SRCNAME = "zaqarclient"
+> -SRC_URI = "git://github.com/openstack/${BPN}.git;branch=stable/pike"
+> +SRC_URI = "git://github.com/openstack/${BPN}.git"
 >
->  inherit setuptools pypi
+> -PV = "0.7.0+git${SRCPV}"
+> -SRCREV = "a1c2de74c56c6ddb11dc6aec78e8c438629ca8e8"
+> +PV = "1.11.0+git${SRCPV}"
+> +SRCREV = "13e90a0ab5e296fb8cf21d09c666c06ed47a84c0"
+>  S = "${WORKDIR}/git"
 >
+>  inherit setuptools
 > --
 > 2.7.4
 >
