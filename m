@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 26D4AE00D5F; Sun, 25 Aug 2019 19:23:12 -0700 (PDT)
+	id D3948E00D5F; Sun, 25 Aug 2019 19:24:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
+	*      [209.85.167.50 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5FECDE00CD7
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+	[209.85.167.50])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 20F6FE0096F
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Aug 2019 19:23:11 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id x3so11054408lfn.6
+	Sun, 25 Aug 2019 19:24:43 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id f21so6090456lfc.5
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 25 Aug 2019 19:23:11 -0700 (PDT)
+	Sun, 25 Aug 2019 19:24:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+t3BrFlsqDo0f30zmpMVFQOmx3GBJz2NOWLv5aSBXgU=;
-	b=GXJ5y+MUdckoBYEQlA1+hwzWOZa12MT4fWsaofunRXakYxLD7Jb7VjAkjRt6PjlqlI
-	6T5rD6C3HUqgwYRd2b0u9n67CGmogqFqtpPALgn01+yVGMs+WcoZmm6tMLn/ZUIDmLZX
-	lEFMavKW7jbGYGBR5OOnY93J3wkhP/HqZZfvKsA5P8qkcq+28rD4M5Slv3ASjdnCe4Cr
-	pPBnQt26zE4TOe2Llv/Y438eRSMDwsptry8cWGp8pUk79CqQHFOwAfzVCmpJdhr7P/lC
-	xMZhCQBNwRugT3Skj9hiV4R2id8hHJrll02VbPZjf6DWdzvXj6HjISSU6c3tf9G1lx48
-	NPdA==
+	:cc; bh=G78Z/zVhYj/3e4PO6FRyEBLTu6razWj78XSqbNre5Q8=;
+	b=XyVAFrLwVTTH6ocsZYOSqjSmOYOCvo9UGdeJPNShbRG4NHU9C7hENfllvDaAiYqjdD
+	Dls15gwyEnDPumk1JKbwvw4X1yLiuYOaoAK5R9E5Po/WPftk1nhNicTzg0fRLnpWMwUK
+	8kTojWujhVCwdbRpKDOZnC7Ze3SlbocAi2PyV7gzSGHu1MTFFGmLi+MZZlQcpdD66v9n
+	BjaqKgVkw7CgY9lTlNVqxHFDwe/Srt9s6UV7uwje+3zGqI9pJI9g643v0Ju2FigNgNsp
+	M3BEwHqqYvv02J6QGU5nr2JFiEEXgJ+1nJicr76vNIBrEVG4t9PUoSGoqslpCMGCf4Ns
+	+7Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=+t3BrFlsqDo0f30zmpMVFQOmx3GBJz2NOWLv5aSBXgU=;
-	b=nZJADNg81TQo/zQM26Qo+Q3kUu3YJ/Bz249onmYrw2t2rUZ5vy9Blm7PxxRM9uYK60
-	Bj4fyONgY2I5KBocHDZla/kk6KAkf71ASkKFqeUfwThLbc2BKh488jtM3IgN9vuMX9oB
-	9wAj8n9OCJUq/K7uj3RaYmjKwQuqcD8LNyM2UYMWu8MgWziinAsvg7QG7sFGFRKJA9dv
-	XFFMVxwmXYMC8jigBuAiFH2RfDorDXQKvGylyzg1Fc7F18jvwplYSXA7Hhdq4UZLkYLt
-	MTJXR5l+eCxERvgWvJiua92QhR4o3RCyTAn+VoAx/cpsxcxmaPglJBET5nOi3j3hYVgC
-	+N9g==
-X-Gm-Message-State: APjAAAVVSo/ypWTIGKuxqPOwJ7sf7RGDUofefj5vIMcnnn2rTJvIjSxP
-	ovWa8i+ffORZPHjhzSQ4PVoOLJDfP8JmNMkL5gI=
-X-Google-Smtp-Source: APXvYqxxzrnwybublt91RwbTrr0freHgdq3gDf0dvwyVluuC65c+PgKfs7spws5RDIsi2iw4D6Jli+/WEpLlKuu54gY=
-X-Received: by 2002:a19:428f:: with SMTP id p137mr4439095lfa.149.1566786190163;
-	Sun, 25 Aug 2019 19:23:10 -0700 (PDT)
+	bh=G78Z/zVhYj/3e4PO6FRyEBLTu6razWj78XSqbNre5Q8=;
+	b=rvA8mitvdwRYCxRdcEqjUV888lgFQTEZiW4DdWTNgTlMeyH+Vm2X4uXiJ/4A1YCtLT
+	KNT+LiMC4FeujlOcEXM0cPr+7efq/0b7lh5BL0NyyX5BcXPbUjetoCkUToMjzTon7xNd
+	C9E73apt5lQUZ7GM7UT1TYubGKmL0TjSYCs967GJDODGyJJyvFCc2u5lsvojsSrS/doh
+	vnQwYI27DHZKdazADdUhk26NV/tkLgybdowuMnPkbA6vSzMzFWV64tu3doJfRQNdNS/C
+	0zar4si+zwjafyVDv4o+Gh30QrqEa20sYbEmRVM4fDlOoee8qQ4CHBdtcHW+v/ypVzmr
+	7E7A==
+X-Gm-Message-State: APjAAAW4EhevarVo90dVJZ49Q2aaNGL19gBxi+PUUJsaVst8lCbWrWVQ
+	IXvyv+wuFxO5JFb41B98OCz0/AeTGoIo+ZkUPPRjz9Ar
+X-Google-Smtp-Source: APXvYqxcfP4GFdrOKRr9nRlLZpsS21vILvUbDFDVQRMQfhk417K+VA1VmQgAJNinZFhoXrvtwNF8RYC5p7gNlns40Y0=
+X-Received: by 2002:ac2:5323:: with SMTP id f3mr88683lfh.36.1566786282920;
+	Sun, 25 Aug 2019 19:24:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190822054429.19873-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190822054429.19873-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190814015408.15372-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190814015408.15372-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 25 Aug 2019 22:22:59 -0400
-Message-ID: <CADkTA4OUNp=QPi-cfE=OUa3-FK7YV=a+hQEVRp6o=z3bQoar7Q@mail.gmail.com>
+Date: Sun, 25 Aug 2019 22:24:31 -0400
+Message-ID: <CADkTA4ND5jE1NjhMSFqG_WSgqvLVhr4TcAy1iVKBLgxd97GNoA@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-pyyaml: upgrade 3.11 -> 5.1.2
+Subject: Re: [PATCH] python-barbicanclient: upgrade 4.5.2 -> 4.8.1
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,45 +73,44 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2019 02:23:12 -0000
+X-List-Received-Date: Mon, 26 Aug 2019 02:24:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
-bruce
+Bruce
 
-On Thu, Aug 22, 2019 at 1:45 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Tue, Aug 13, 2019 at 9:54 PM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> From: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+>
+> Unable to find version 4.8.1 in branch stable/pike.
+> Change branch to master.
+>
+> Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 > ---
->  .../python/{python-pyyaml_3.11.bb => python-pyyaml_5.1.2.bb}        | 6 +++---
+>  meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb | 6 +++---
 >  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename recipes-devtools/python/{python-pyyaml_3.11.bb => python-pyyaml_5.1.2.bb} (81%)
 >
-> diff --git a/recipes-devtools/python/python-pyyaml_3.11.bb b/recipes-devtools/python/python-pyyaml_5.1.2.bb
-> similarity index 81%
-> rename from recipes-devtools/python/python-pyyaml_3.11.bb
-> rename to recipes-devtools/python/python-pyyaml_5.1.2.bb
-> index ecb1719..711675b 100644
-> --- a/recipes-devtools/python/python-pyyaml_3.11.bb
-> +++ b/recipes-devtools/python/python-pyyaml_5.1.2.bb
-> @@ -15,13 +15,13 @@ DESCRIPTION = "\
->    "
->  SECTION = "devel/python"
->  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=6015f088759b10e0bc2bf64898d4ae17"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=a76b4c69bfcf82313bbdc0393b04438a"
+> diff --git a/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb b/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb
+> index 2d57158..3c5043b 100644
+> --- a/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-barbicanclient_git.bb
+> @@ -5,11 +5,11 @@ LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=e031cff4528978748f9cc064c6e6fa73"
 >
->  SRCNAME = "PyYAML"
->  SRC_URI = "http://pyyaml.org/download/pyyaml/${SRCNAME}-${PV}.tar.gz"
+>  SRC_URI = "\
+> -       git://github.com/openstack/python-barbicanclient.git;branch=stable/pike \
+> +       git://github.com/openstack/python-barbicanclient.git \
+>         "
 >
-> -SRC_URI[md5sum] = "f50e08ef0fe55178479d3a618efe21db"
-> -SRC_URI[sha256sum] = "c36c938a872e5ff494938b33b14aaa156cb439ec67548fcab3535bb78b0846e8"
-> +SRC_URI[md5sum] = "20f87ab421b0271dbf371dc5c1cddb5c"
-> +SRC_URI[sha256sum] = "01adf0b6c6f61bd11af6e10ca52b7d4057dd0be0343eb9283c878cf3af56aee4"
+> -PV = "4.5.2+git${SRCPV}"
+> -SRCREV = "775de93a612db866bb39ba6828f3e7bd1aa3c9f5"
+> +PV = "4.8.1+git${SRCPV}"
+> +SRCREV = "1b282358166fe4c1d4dea896bd336b2850584f56"
+>  S = "${WORKDIR}/git"
 >
->  S = "${WORKDIR}/${SRCNAME}-${PV}"
->
+>  inherit setuptools
 > --
 > 2.7.4
 >
