@@ -1,6 +1,6 @@
 Return-Path: <zhengrq.fnst@cn.fujitsu.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DD3A6E00D5F; Mon, 26 Aug 2019 00:38:06 -0700 (PDT)
+	id 265C3E00D59; Mon, 26 Aug 2019 00:39:57 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -12,30 +12,30 @@ X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 34DCAE00D4F
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6A81BE009D8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 26 Aug 2019 00:38:04 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,431,1559491200"; d="scan'208";a="74283025"
+	Mon, 26 Aug 2019 00:39:54 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.64,431,1559491200"; d="scan'208";a="74283090"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Aug 2019 15:38:03 +0800
+	by heian.cn.fujitsu.com with ESMTP; 26 Aug 2019 15:39:53 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 58E834CE0457
+	by cn.fujitsu.com (Postfix) with ESMTP id AD8B74CE0327
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 26 Aug 2019 15:37:57 +0800 (CST)
+	Mon, 26 Aug 2019 15:39:42 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 26 Aug 2019 15:38:08 +0800
+	Server (TLS) id 14.3.439.0; Mon, 26 Aug 2019 15:39:54 +0800
 From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 26 Aug 2019 15:37:57 +0800
-Message-ID: <1566805077-116548-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Date: Mon, 26 Aug 2019 15:39:43 +0800
+Message-ID: <1566805183-116675-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 58E834CE0457.A6F40
+X-yoursite-MailScanner-ID: AD8B74CE0327.A7075
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Subject: [PATCH] python-netifaces: Add python3 version
+Subject: [PATCH] python-debtcollector: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,61 +48,93 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 26 Aug 2019 07:38:07 -0000
+X-List-Received-Date: Mon, 26 Aug 2019 07:39:57 -0000
 Content-Type: text/plain
 
-Providing a python3 version of python-netifaces.
+Providing a python3 version of python-debtcollector.
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- .../recipes-devtools/python/python-netifaces.inc     | 10 ++++++++++
- .../python/python-netifaces_0.10.9.bb                | 12 ++----------
- .../python/python3-netifaces_0.10.9.bb               |  2 ++
- 3 files changed, 14 insertions(+), 10 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-netifaces.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+ .../python/python-debtcollector.inc           | 25 +++++++++++++++++++
+ .../python/python-debtcollector_1.21.0.bb     | 25 +++----------------
+ .../python/python3-debtcollector_1.21.0.bb    |  2 ++
+ 3 files changed, 30 insertions(+), 22 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-debtcollector.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-debtcollector_1.21.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-netifaces.inc b/meta-openstack/recipes-devtools/python/python-netifaces.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector.inc b/meta-openstack/recipes-devtools/python/python-debtcollector.inc
 new file mode 100644
-index 0000000..b1b1ed5
+index 0000000..629a059
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-netifaces.inc
-@@ -0,0 +1,10 @@
-+DESCRIPTION = "Portable network interface information."
-+HOMEPAGE = "http://alastairs-place.net/netifaces"
++++ b/meta-openstack/recipes-devtools/python/python-debtcollector.inc
+@@ -0,0 +1,25 @@
++DESCRIPTION = "A collection of Python deprecation patterns and strategies that help you collect your technical debt in a non-destructive manner."
++HOMEPAGE = "http://docs.openstack.org/developer/debtcollector/"
 +SECTION = "devel/python"
-+LICENSE = "MIT"
++LICENSE = "Apache-2"
 +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 +
-+SRC_URI[md5sum] = "de92cc322b4f56047c073f802ad77860"
-+SRC_URI[sha256sum] = "2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3"
++SRC_URI[md5sum] = "ec899623b37fdee65b888243f0a46735"
++SRC_URI[sha256sum] = "f6ce5a383ad73c23e1138dbb69bf45d33f4a4bdec38f02dbf2b89477ec5e55bc"
 +
 +inherit pypi
-diff --git a/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb b/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
-index 05f5f4a..aa9760b 100644
---- a/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
-+++ b/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
-@@ -1,10 +1,2 @@
--DESCRIPTION = "Portable network interface information."
--HOMEPAGE = "http://alastairs-place.net/netifaces"
++
++DEPENDS += " \
++        ${PYTHON_PN}-pip \
++        ${PYTHON_PN}-pbr \
++        "
++
++# Satisfy setup.py 'setup_requires'
++DEPENDS += " \
++        ${PYTHON_PN}-pbr-native \
++        "
++
++# RDEPENDS_default:
++RDEPENDS_${PN} += " \
++        ${PYTHON_PN}-pbr \
++        "
+diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector_1.21.0.bb b/meta-openstack/recipes-devtools/python/python-debtcollector_1.21.0.bb
+index 18b910b..1cdfc3a 100644
+--- a/meta-openstack/recipes-devtools/python/python-debtcollector_1.21.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-debtcollector_1.21.0.bb
+@@ -1,26 +1,7 @@
+-DESCRIPTION = "A collection of Python deprecation patterns and strategies that help you collect your technical debt in a non-destructive manner."
+-HOMEPAGE = "http://docs.openstack.org/developer/debtcollector/"
 -SECTION = "devel/python"
--LICENSE = "MIT"
+-LICENSE = "Apache-2"
 -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
--
--SRC_URI[md5sum] = "de92cc322b4f56047c073f802ad77860"
--SRC_URI[sha256sum] = "2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3"
++inherit setuptools
++require python-debtcollector.inc
+ 
+-SRC_URI[md5sum] = "ec899623b37fdee65b888243f0a46735"
+-SRC_URI[sha256sum] = "f6ce5a383ad73c23e1138dbb69bf45d33f4a4bdec38f02dbf2b89477ec5e55bc"
 -
 -inherit setuptools pypi
-+inherit setuptools
-+require python-netifaces.inc
-diff --git a/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb b/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+-
+-DEPENDS += " \
+-        python-pip \
+-        python-pbr \
+-        "
+-
+-# Satisfy setup.py 'setup_requires'
+-DEPENDS += " \
+-        python-pbr-native \
+-        "
+-
+-# RDEPENDS_default:
++# Only for Python2 depends on funcsigs
+ RDEPENDS_${PN} += " \
+-        python-pbr \
+         python-funcsigs \
+         "
+diff --git a/meta-openstack/recipes-devtools/python/python3-debtcollector_1.21.0.bb b/meta-openstack/recipes-devtools/python/python3-debtcollector_1.21.0.bb
 new file mode 100644
-index 0000000..a46326f
+index 0000000..7947185
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
++++ b/meta-openstack/recipes-devtools/python/python3-debtcollector_1.21.0.bb
 @@ -0,0 +1,2 @@
 +inherit setuptools3
-+require python-netifaces.inc
++require python-debtcollector.inc
 -- 
 2.17.1
 
