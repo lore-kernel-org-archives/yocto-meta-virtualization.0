@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 89F04E00E84; Thu, 29 Aug 2019 21:15:56 -0700 (PDT)
+	id C02EBE00D89; Thu, 29 Aug 2019 21:19:04 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.47 listed in list.dnswl.org]
+	*      [209.85.167.43 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
-	[209.85.167.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2FF2FE00E82
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
+	[209.85.167.43])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 64E4EE00C78
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:15:54 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id j4so4238967lfh.8
+	Thu, 29 Aug 2019 21:19:03 -0700 (PDT)
+Received: by mail-lf1-f43.google.com with SMTP id u29so4245753lfk.7
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:15:54 -0700 (PDT)
+	Thu, 29 Aug 2019 21:19:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Pq4Nii09ScvkrYRji+FPOiFjObTBxhAlsTSoE05qN/w=;
-	b=jAcpKZU4nxToKZiaXapZXIzqYjaqwfcW+kEgUNqsPEB2ch/7i3PTeapyM0C4c6fMuo
-	IyMkBobSHvCPNLQC7Z9v/bYFndeR3dlPE82U9HXhxFV2bmxO7KrmiwQ4XXl2KywrcDQd
-	3bpUD8xpLZ0a3KK4ZdZGzmEzdLuBE3tOrQKWIVsiCG2phhIjhkD/xua5/qSpevNfSHT5
-	N3fbo7TWzXcqeDb4DyWG9AYQT9MiWKigS33cqyTglwLgpMPCzmw+lebx43mpsIijhvVl
-	2ijIt5Wz9lFPTzz4mszXJVho35q1WGJX6QsG5rNa+zfVgw5eu1LASDWNe8+CFdTeT7vC
-	ReLg==
+	:cc; bh=qUmukqTIkvPVtp7zrWZK4fHvbnBfIaQP7YIBYi8QpYw=;
+	b=EiMhb4Isd6vPANEl5xk/l9KaPqI4TinhzC73UoTtGp7C/dagIaATkwaRU77COU7olg
+	gymWFe/9ZaMhf/joRdFESgjD2WOlqdkhqp56W2zqBUv1/4FGG5kGRxjMshl6H1JfV5xY
+	ryct5I9AqgtuVYcjeeD9jrY9evfAbMHov7DtPIXo9Rw7eYOrFemgAInwosn3Y7uL7hWA
+	YYJeWfh3CCaHx/vHvztQdgh8Ina3Xljtv8wCp9cHkTt6I7cLs+oVde0h4v+yOrfIhvMM
+	wBWOIjoT6dWS0+ScPtvhaSqTmU2bOx/v+U8g9CvkApWEoTJDPicUpsmSju5eqTPRtQX6
+	Szkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Pq4Nii09ScvkrYRji+FPOiFjObTBxhAlsTSoE05qN/w=;
-	b=cv9AMRj7jhgC03o0N4bcdf4nRPWCPVDAcMr+N0RW78uOWVDOjdDZSQ21OhdNY0CJbI
-	8pBCO6N/PPCPvfM0NbgnRAoNzRUgBOHdzcxg4ZNulVbwlIANIajqgAfXgLXBC/b/QS46
-	dUzyMuMxpiSxgUMj8otGoMoJFBCx0GKupC0XNFNafyHX5uRecNWCKX2A5TnNsMIs7mtx
-	w7Z4qYxWCDHhXbUkFOkoRV1RTpshX6H+7USyx2LwEX0JmK2iePzTxeaZX2m4GTthEJ1+
-	4q2l7kMbikIAON9GMLD9TOPEKXPu2GdE1xjSCkt7wahn2SccLXuwMLNpaCLfGDzTPm2Q
-	wXpw==
-X-Gm-Message-State: APjAAAVtF/KKS94SBeir0fmGYcRZvQJnd5P8sejwFvb0H8e0JyX/R459
-	yI0gOeQWT8E5XfszK4rZ3H47ihlUBRamBaUGDUQ=
-X-Google-Smtp-Source: APXvYqxJdfUEDfbDOucM4KaxcDisBIt321HPqMtQE8U0SBu6T0/DoxG9rRF3jKZFkNkooerKOsqfFydZLVyVxm9TrRY=
-X-Received: by 2002:ac2:447c:: with SMTP id y28mr7847482lfl.177.1567138553841; 
-	Thu, 29 Aug 2019 21:15:53 -0700 (PDT)
+	bh=qUmukqTIkvPVtp7zrWZK4fHvbnBfIaQP7YIBYi8QpYw=;
+	b=GASmouYXfOKu/3VLfdyqI6oy5H84t+F6LRaFtqKd7m7WbukWhQ1d9OX45+IRX78UW3
+	owHoK3EWx6fqMMfBT4DfgPcJJ1ROdsqU0IiJGtFcw4EO+QZE/6nswVhjy3c31PHAPb3/
+	4OAc/1FW3ymE05uvgybDAEHZCnTXcgYL8HEQSyLKdWJ7KaRqO69fJ16i11SteqMx3sOq
+	tNsEx25uo7jARMl4OeTtH7woUnsuX6eFBkgl4OIM1s0/pI6AgzUjozIQ78OLLoW8HAsq
+	wf2xwvBb4Sz9bxsdwX0SXPK0MPkn+Olu/+HALkWbEsH5x6EZb7Qj2/Xa9Ci0o1XAal+b
+	MxzQ==
+X-Gm-Message-State: APjAAAU8W7zrngqGKJ2sl2MTpZ50M9hsvrBRgANNVX1F6fIJaGaEcyNv
+	pLIc8qmLSh/Dh+QSxjfxAnKhErpMUKRQBixstkw=
+X-Google-Smtp-Source: APXvYqyRWTLyeoxV8w8TUAlY+b1T1vqDYeHI3ZO8i6UmmuGCYe7V0P3l1e5rPRhpDpSe6mxPeruJX0fEjYTCa6L0t18=
+X-Received: by 2002:ac2:5323:: with SMTP id f3mr4694514lfh.36.1567138742317;
+	Thu, 29 Aug 2019 21:19:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190826071224.30078-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190826071224.30078-1-zangrc.fnst@cn.fujitsu.com>
+References: <1566798350-114744-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1566798350-114744-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Aug 2019 00:15:42 -0400
-Message-ID: <CADkTA4N4wq-84bpLPmrAjvk_xM_vtNuMGhiCxoVDP-8fNL_p9A@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Fri, 30 Aug 2019 00:18:51 -0400
+Message-ID: <CADkTA4MkzxJXC=+a78-Cm+a7MQLe7fcCwsPgNQNJmMcwH-KZpA@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-manilaclient: upgrade 1.27.0 -> 1.28.0
+Subject: Re: [PATCH] python-kombu: Python3 version fix
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,40 +73,60 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 04:15:56 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 04:19:04 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-This had already been sent a few days ago. Make sure to be based on
-the latest master. I've dropped it from the queue.
-
-Cheers,
+merged
 
 Bruce
 
-On Mon, Aug 26, 2019 at 3:13 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Mon, Aug 26, 2019 at 1:46 AM Zheng Ruoqin
+<zhengrq.fnst@cn.fujitsu.com> wrote:
 >
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> Specifies the major Python version being built using PYTHON_PN
+>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-manilaclient_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  meta-openstack/recipes-devtools/python/python-kombu.inc       | 4 +++-
+>  meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb  | 2 +-
+>  meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb | 2 +-
+>  3 files changed, 5 insertions(+), 3 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-manilaclient_git.bb b/meta-openstack/recipes-devtools/python/python-manilaclient_git.bb
-> index f733d56..a64c4d4 100644
-> --- a/meta-openstack/recipes-devtools/python/python-manilaclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-manilaclient_git.bb
-> @@ -33,8 +33,8 @@ RDEPENDS_${PN} +=" \
->  SRCNAME = "manilaclient"
->  SRC_URI = "git://github.com/openstack/${BPN}.git;branch=master"
+> diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc b/meta-openstack/recipes-devtools/python/python-kombu.inc
+> index 3053f71..9918281 100644
+> --- a/meta-openstack/recipes-devtools/python/python-kombu.inc
+> +++ b/meta-openstack/recipes-devtools/python/python-kombu.inc
+> @@ -7,8 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+>  SRC_URI[md5sum] = "4eb5f1e6f669e04f5bd0c627c7467156"
+>  SRC_URI[sha256sum] = "e5f0312dfb9011bebbf528ccaf118a6c2b5c3b8244451f08381fb23e7715809b"
 >
-> -PV = "1.27.0+git${SRCPV}"
-> -SRCREV = "07564879ae4bdcb73e856b3aedcb79e4420fa7eb"
-> +PV = "1.28.0+git${SRCPV}"
-> +SRCREV = "3e3dfb1d5a401fb0e0003c6fab0a41bd3479b7c8"
->  S = "${WORKDIR}/git"
+> +inherit pypi
+> +
+>  FILES_${PN}-doc += "${datadir}/${SRCNAME}"
 >
->  inherit setuptools rmargparse
+>  RDEPENDS_${PN} = " \
+> -        python-amqp \
+> +        ${PYTHON_PN}-amqp \
+>          "
+> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb b/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
+> index 28b6258..8c5c4d6 100644
+> --- a/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
+> @@ -1,3 +1,3 @@
+> -inherit setuptools pypi
+> +inherit setuptools
+>  require python-kombu.inc
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
+> index fc752d9..11b0826 100644
+> --- a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
+> +++ b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
+> @@ -1,2 +1,2 @@
+> -inherit setuptools3 pypi
+> +inherit setuptools3
+>  require python-kombu.inc
 > --
-> 2.7.4
+> 2.17.1
 >
 >
 >
