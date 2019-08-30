@@ -1,66 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 07747E00DFF; Thu, 29 Aug 2019 21:19:17 -0700 (PDT)
+	id B49B8E00DFF; Thu, 29 Aug 2019 21:19:28 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [209.85.167.47 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.67 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
-	[209.85.167.47])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 647A9E00C78
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E99ADE00C4F
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:19:16 -0700 (PDT)
-Received: by mail-lf1-f47.google.com with SMTP id q27so4235824lfo.10
+	Thu, 29 Aug 2019 21:19:27 -0700 (PDT)
+Received: by mail-lf1-f67.google.com with SMTP id n19so4218376lfe.13
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:19:16 -0700 (PDT)
+	Thu, 29 Aug 2019 21:19:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=p21bDDWK4/C4nuQw7gO/Z2lTUem4pt6Cc39Tn7MIOWk=;
-	b=Z1diDhOJdtoeZc3mkqzXalKQbmMpd58MEmIE4dlFBqZJayWFEioGxyu4I/VvcQCbNB
-	mVFPUnZ1LmlgNdKBje7y30514GUjPeuJOhdQ1haUsqb1aIMZw8O8x3mXKsT0AXylNpsa
-	5NsjC5uDcCW/gMj5N+tUu5kvgx/DEM77N48q8FtdxkrQZgZaIArRpgLl3xwlTqU8geOn
-	Suu2Yked62lqFYTI3OkhlbWXmvvPULR1RAVK8zF1G3TlaeDoOnpFwPP4Fjm9I72x0uoO
-	9JXztitStzvHUHJGHlzC6C7SkWSTVrU5aABMzQTq+UZsW6OGBh2uoadjOdLnMVwgl1Gt
-	oM3g==
+	:cc; bh=gADscre5rfNUWsxz8kwNQ0rtwE5HBuCvaiODr4v9uXs=;
+	b=Sgm7i9MYKSTuwrWD3K2LMQtwq2/CsM79zBi44yWShcOH5nwtQRnOCundQPmlhGeexV
+	eoIASWcDrtFn0jyFs2saQINOg24BR8PtW00q5I0jczgobC1PQKYKCl8quBRFaI4G1eIl
+	T8bbQ2fp6HMdC5UZmbEXGu3FFHpkuSzpsGhRdwoKUmHv8zSCaj4mQUs3+vVbhlVKXKp4
+	ZPokZ3wVm9HMZmVjRCHkCivdEejc3SnBFIcsNX9kMyyIhlEgQbL9SiZIT6bOL76kk7VY
+	rVWdH4eDexhZYb+orBt/EVF5PvyXsE93J5ZlfhF1meKPn2JyWygMgO4FWzQMRd7z2Svm
+	dubg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=p21bDDWK4/C4nuQw7gO/Z2lTUem4pt6Cc39Tn7MIOWk=;
-	b=grnWgwfJDHMK7vafkXfCWw5Xhllqg5DAWxXzVF304OhhyjeI4SuD1Wvvpr6QMDGlJ+
-	73guSy9jYuoLloGJ5OJcQqGAU0zbr+avgmTXpGiimA8BLqcLZP7BMXTwslhEJb3+mjH4
-	ZTSuJnEATgPFGle3VMIy8EsiH3zw1jHX65HX0lLliKK/0XWsd0v78R6TVKf8mpAfceZ/
-	fC7AUo/ys7fadiDK/OaGCcxGrrBCGDrbWAmGKxK5ElsqGPug9gLF/iGox2zcBadYqI4B
-	bScuiNFebZMW3aYQ9mr7vMDWi0DM0hg07nZ5DsrRAP+CfHoa0P4K9uikh2SAABLhfrJ5
-	IMXA==
-X-Gm-Message-State: APjAAAX3NNU0/Nfxq+FNiQGQ8CyjelZgkPQrTN21SQDLENA3U2Z6+vEr
-	JDhHQ/Y4cMkK9sFPTMKrza0dSfLeXTQw23xymno=
-X-Google-Smtp-Source: APXvYqz03Vk3e0kdowjJ+NPBA/2tXa9lqrsYea3OLIN/lMwAT3agd0NGhPisZ4MlMbK45nUKPZsDO4netyYFvTOKyks=
-X-Received: by 2002:a19:4959:: with SMTP id l25mr8302107lfj.140.1567138755256; 
-	Thu, 29 Aug 2019 21:19:15 -0700 (PDT)
+	bh=gADscre5rfNUWsxz8kwNQ0rtwE5HBuCvaiODr4v9uXs=;
+	b=UM22gVr6A29nsMe2MoIIaaPgKEQKH6P0oDhfXFwNFAPqYazo9i2YdsNOgPVUMmm/B3
+	/rJIGrVVyxQZJysXYvUlxkJmME0EQaZDTQlOpu++abssLpRPWlRajU4R5vyOTJKCfZ7k
+	gSsBbd5YlihgHmyXf9DAqlGJvk4ljzr0dEen3Sa52tNUDGlrsCXPBKIZC1HDa8cI2wN7
+	UbDYVnYJdrhAy39NePQEtITKpMPftAiC0ylRbZ715o1GGAexz9GxKPtzLTFX3TKCIJ3L
+	AatJp7TNf0+V6wDhlCJ2e8jM7mxaQUVJ0tdDh/WjFBcJPmrM2PbjRIspmFlDxsuf9GAN
+	V0Iw==
+X-Gm-Message-State: APjAAAXHpmzwH8/aQS7s1/md4CLMcFB4wdBtLnqzc23fAAOhpFHdAYHu
+	hJ0hHzvuwJo4uNgKz7wYyAYjKFCD9kFjJhMl6RMCjrYS
+X-Google-Smtp-Source: APXvYqxHthTsqOOjgIckPk51U0Rgmaaiz0rWvN7KuSfdPF6nIIKzKOgfzsCjJeLWLFn5ySrn+Dd32qqd7FQSNmzAFP4=
+X-Received: by 2002:ac2:442d:: with SMTP id w13mr8723100lfl.184.1567138766779; 
+	Thu, 29 Aug 2019 21:19:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <1566798419-114849-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1566798419-114849-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1566798664-114964-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1566798664-114964-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Aug 2019 00:19:04 -0400
-Message-ID: <CADkTA4PJUS=XVdNUZi-DJwMqMQNXdZJ1nEbZekcwfD0wC2SyYA@mail.gmail.com>
+Date: Fri, 30 Aug 2019 00:19:15 -0400
+Message-ID: <CADkTA4OC1vEFCQ+jiJmrWQ5+8LO+dg09C64xUsoFXcovZXCzQw@mail.gmail.com>
 To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-keystoneauth1: Add python3 version
+Subject: Re: [PATCH] python-requestsexceptions: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,102 +73,94 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 04:19:17 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 04:19:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Aug 26, 2019 at 1:47 AM Zheng Ruoqin
+On Mon, Aug 26, 2019 at 1:51 AM Zheng Ruoqin
 <zhengrq.fnst@cn.fujitsu.com> wrote:
 >
-> Providing a python3 version of python-keystoneauth1.
+> Providing a python3 version of python-requestsexceptions.
 >
 > Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  .../python/python-keystoneauth1.inc           | 27 +++++++++++++++++
->  .../python/python-keystoneauth1_3.17.0.bb     | 29 ++-----------------
->  .../python/python3-keystoneauth1_3.17.0.bb    |  2 ++
->  3 files changed, 31 insertions(+), 27 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-keystoneauth1.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb
+>  .../python/python-requestsexceptions.inc      | 23 +++++++++++++++++
+>  .../python/python-requestsexceptions_1.4.0.bb | 25 ++-----------------
+>  .../python3-requestsexceptions_1.4.0.bb       |  2 ++
+>  3 files changed, 27 insertions(+), 23 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-requestsexceptions.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystoneauth1.inc b/meta-openstack/recipes-devtools/python/python-keystoneauth1.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-requestsexceptions.inc b/meta-openstack/recipes-devtools/python/python-requestsexceptions.inc
 > new file mode 100644
-> index 0000000..3d6309d
+> index 0000000..bac99a3
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-keystoneauth1.inc
-> @@ -0,0 +1,27 @@
-> +DESCRIPTION = "Authentication Library for OpenStack Identity"
-> +HOMEPAGE = "https://pypi.python.org/pypi/keystoneauth1"
+> +++ b/meta-openstack/recipes-devtools/python/python-requestsexceptions.inc
+> @@ -0,0 +1,23 @@
+> +DESCRIPTION = "Import exceptions from potentially bundled packages in requests."
+> +HOMEPAGE = "https://www.openstack.org/"
 > +SECTION = "devel/python"
 > +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=96f840d59b245a1c817fbcb901afc574"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=d273d63619c9aeaf15cdaf76422c4f87"
 > +
-> +SRC_URI[md5sum] = "599340c2b3ccbcf9996870478abb5407"
-> +SRC_URI[sha256sum] = "59a4488ceae0c1210cba468945013b875b2ce09d99c54c9fcc9c926aea55dfd7"
+> +SRC_URI[md5sum] = "f43b246ccd7d5b618e6f0dc946a6c3f3"
+> +SRC_URI[sha256sum] = "b095cbc77618f066d459a02b137b020c37da9f46d9b057704019c9f77dba3065"
 > +
 > +inherit pypi
 > +
-> +DEPENDS += " \
-> +        ${PYTHON_PN}-pbr \
-> +        "
+> +# conflicting file prevention
+> +do_install_append() {
+> +       rm -f ${D}${libdir}/python*/site-packages/tests/*
+> +}
 > +
-> +# Satisfy setup.py 'setup_requires'
 > +DEPENDS += " \
 > +        ${PYTHON_PN}-pbr-native \
 > +        "
 > +
 > +RDEPENDS_${PN} += " \
 > +        ${PYTHON_PN}-pbr \
-> +        ${PYTHON_PN}-iso8601 \
-> +        ${PYTHON_PN}-requests \
-> +        ${PYTHON_PN}-six \
-> +        ${PYTHON_PN}-stevedore \
 > +        "
-> diff --git a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb
-> index 18115b2..f244f7d 100644
-> --- a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb
-> @@ -1,27 +1,2 @@
-> -DESCRIPTION = "Authentication Library for OpenStack Identity"
-> -HOMEPAGE = "https://pypi.python.org/pypi/keystoneauth1"
+> diff --git a/meta-openstack/recipes-devtools/python/python-requestsexceptions_1.4.0.bb b/meta-openstack/recipes-devtools/python/python-requestsexceptions_1.4.0.bb
+> index 729e3d7..87b6ca9 100644
+> --- a/meta-openstack/recipes-devtools/python/python-requestsexceptions_1.4.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-requestsexceptions_1.4.0.bb
+> @@ -1,23 +1,2 @@
+> -DESCRIPTION = "Import exceptions from potentially bundled packages in requests."
+> -HOMEPAGE = "https://www.openstack.org/"
 > -SECTION = "devel/python"
 > -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=96f840d59b245a1c817fbcb901afc574"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=d273d63619c9aeaf15cdaf76422c4f87"
 > -
-> -SRC_URI[md5sum] = "599340c2b3ccbcf9996870478abb5407"
-> -SRC_URI[sha256sum] = "59a4488ceae0c1210cba468945013b875b2ce09d99c54c9fcc9c926aea55dfd7"
+> -SRC_URI[md5sum] = "f43b246ccd7d5b618e6f0dc946a6c3f3"
+> -SRC_URI[sha256sum] = "b095cbc77618f066d459a02b137b020c37da9f46d9b057704019c9f77dba3065"
 > -
 > -inherit setuptools pypi
 > -
-> -DEPENDS += " \
-> -        python-pbr \
-> -        "
+> -# conflicting file prevention
+> -do_install_append() {
+> -       rm -f ${D}${libdir}/python*/site-packages/tests/*
+> -}
 > -
-> -# Satisfy setup.py 'setup_requires'
 > -DEPENDS += " \
 > -        python-pbr-native \
 > -        "
 > -
 > -RDEPENDS_${PN} += " \
 > -        python-pbr \
-> -        python-iso8601 \
-> -        python-requests \
-> -        python-six \
-> -        python-stevedore \
 > -        "
 > +inherit setuptools
-> +require python-keystoneauth1.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb b/meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb
+> +require python-requestsexceptions.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb b/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb
 > new file mode 100644
-> index 0000000..75adf3d
+> index 0000000..1c049f3
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python3-requestsexceptions_1.4.0.bb
 > @@ -0,0 +1,2 @@
 > +inherit setuptools3
-> +require python-keystoneauth1.inc
+> +require python-requestsexceptions.inc
 > --
 > 2.17.1
 >
