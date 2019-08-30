@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D9A2FE00C78; Thu, 29 Aug 2019 21:27:57 -0700 (PDT)
+	id D250CE00C78; Thu, 29 Aug 2019 21:29:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.174 listed in list.dnswl.org]
+	*      [209.85.208.175 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4AE60E00B7A
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+	[209.85.208.175])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BB372E00B7A
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:27:57 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id z17so5196384ljz.0
+	Thu, 29 Aug 2019 21:29:01 -0700 (PDT)
+Received: by mail-lj1-f175.google.com with SMTP id x4so5155882ljj.6
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:27:57 -0700 (PDT)
+	Thu, 29 Aug 2019 21:29:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=kchszomUJEMKKwgxViKgP6qXEC+kCWqqUalmXHV0n3Y=;
-	b=KBDoDSBal8lB2o84+oqg3dHU171ndDv5srGpzoR+/7m9M3LfVhDTB/ZfAmslC0EkhM
-	Na2BpwAVuIeO4H8hG8QtJNnXM3DQPyjFASx/DxLjI8kX96sJ1rXg+GUE/CyRM/uyCNMx
-	j6UYyHjWKLK5KYqArbAP6QfHN8BuVn7+iOf08bf/+fM22cmq8fINvU0UCZlTe5wWouhV
-	wxdRC/yHRLxYf/r24BSpNTFHO8QsEq+LxEqi4xQR+YlvSUDBUYw1mj2WEPi3VItwT/vA
-	e57wPNmV8aHGHBW1NOXDyM/gnjsJMkSwFOYa3XIUNI2mErOS9UHOhbZDipDPtcchKNqi
-	qJng==
+	:cc; bh=87xfJzkoYT5W2WUFCQz1hsGA7NXDvDacvXQfwh4TVi0=;
+	b=Ig0hkH6FfXKYW0T02lZkjig6HvAF/mCoyMP1M3wZJ+4sfnBLYvhENc/C/oR70SA0r/
+	w5iEL0Z+7bOwpPLPdJLVxphQfO1SVhgQ/mgb3HZzjeRSxEbluh8WnFZFoFKnMePheBe4
+	rbU7KBy0/NrDiKiFn1vgimXmcZMOSfaV3DMeDRxKr1a739pAjEWBWdFONWJgGXCgD2SS
+	wFrji3HUUHcrMvPv4M+N1LjkM1Q0Bg3L9HOh6TgC7cHWu0VxEVz7oDSidPXGjyAdJ3Aw
+	MtMOjhC10bxYTqXI8sFR4oX9WJlZej/Si0UX1ALrpTtFOhe/KSPAC9BnzAXV328YBXH5
+	vboQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=kchszomUJEMKKwgxViKgP6qXEC+kCWqqUalmXHV0n3Y=;
-	b=qBaBdgywUHGe6QBzFloydrMTIEx2K+dIGL5Au6vEIrxqUhfy1GIn9edSV8e4ufiFU9
-	0SmIGiaP8A5+J8+4IV7jITlduml6Mqcx7hPJjoNj8+t3jBeBaM56sLN1fWqnORdZXQrT
-	POt/swM+OUVW5DFTMVUDZoEHSllaKsRai/LmR7riayonbXYsoW/0i4gsTtR3kM+vy9RJ
-	1+R6mpSEOF6xwImI0mDXsHMVI5AGmPJUvsWllLOm4W1m5P/ddOgRQWGy+XEuJcYphUoX
-	9Q795+UVUn9OkW49M7fXn3eTo0VFiHmKvXk+L+GUMnnG1Qddeu5Ot5gnVIHfliv9xRc1
-	WBLg==
-X-Gm-Message-State: APjAAAXrm0z1nn9XfiNsdZGXyOUzBhOxnJE2egPfZjFrD3Lroj1omUO6
-	x3YIExkQyPhCALuoZaZZxMFj68DgtVGG6RYpTze+JYy4
-X-Google-Smtp-Source: APXvYqyf5EiYxWm6ycuUgW1suVbwzrdOLq0RsW5Wy2qQ7PF93aVmcSQNbhQL73xudKoXMBJnF7dVV04s4NHhDFw8Gy8=
-X-Received: by 2002:a2e:96d3:: with SMTP id d19mr7453229ljj.185.1567139276170; 
-	Thu, 29 Aug 2019 21:27:56 -0700 (PDT)
+	bh=87xfJzkoYT5W2WUFCQz1hsGA7NXDvDacvXQfwh4TVi0=;
+	b=emV7YYEuMzPY8RA4DawY1EU6xviBn7Vr8JY3BALgh7rsiELzFDW60qh0xhFZlwid/y
+	y4iLIma5wIRVmJimTBqKE4omSXuStA2kEtUtqJOo/l9ON15wnoU+O9AzOvnkKIudkUIo
+	BJe8D3+IGgpQH+jOx4C7j/NiC9GkbAcidD/SfLe22SGLc6dl8lujYUnglsJNhOuGPruz
+	bxgKELA+CPbDh6goqU+cclZ+D/jdNYaYrGBXGXQ3E5L8fJBiLwHkHPDhmhlHM1bAv3g3
+	BTSOXrs9e9fnb9q7jUpcrYoqR6TC4uCrdWplGtc3S6BrcS5m2a89KNTaInsS6ej26sV+
+	sssA==
+X-Gm-Message-State: APjAAAWBY6bDhGfjHPxFX1LCLtj+tBJmMLkmTp/lXbyU+HcUuSxz6JHK
+	7xv/0rY1I4pC7HYoNC8VdjP4FpYM4omRVfJmZsSEJZe2
+X-Google-Smtp-Source: APXvYqzVaORc5zUDNOfm7IcGE9czws00IZk43ujvyzXY1C1TXgMjwQg0SYZYXP9PVUVAyVdIXiYOV7ClvthEv5Yaz8A=
+X-Received: by 2002:a05:651c:1111:: with SMTP id
+	d17mr7154032ljo.87.1567139340584; 
+	Thu, 29 Aug 2019 21:29:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190829062507.5623-1-kai.kang@windriver.com>
-In-Reply-To: <20190829062507.5623-1-kai.kang@windriver.com>
+References: <20190829064137.38267-1-Qi.Chen@windriver.com>
+In-Reply-To: <20190829064137.38267-1-Qi.Chen@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Aug 2019 00:27:45 -0400
-Message-ID: <CADkTA4O9=+3m42jPPindMmXWJF+yGzyez2QMm6xJWNHkZaMWTw@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
+Date: Fri, 30 Aug 2019 00:28:49 -0400
+Message-ID: <CADkTA4OZd6p7c0gDdc9LALrdWhn15NqQAMBZ_0QuwD1sEM=5RA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-openstack][Patch] tgt: update DEPENDS and RDEPENDS
+Subject: Re: [PATCH] ceph: remove fuse related services as WITH_FUSE is OFF
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,57 +74,47 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 04:27:57 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 04:29:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Thu, Aug 29, 2019 at 2:27 AM <kai.kang@windriver.com> wrote:
+On Thu, Aug 29, 2019 at 2:41 AM Chen Qi <Qi.Chen@windriver.com> wrote:
 >
-> From: Kai Kang <kai.kang@windriver.com>
+> We have WITH_FUSE to set to OFF. We should not install any ceph-fuse
+> units as they are using ceph-fuse.
 >
-> Update DEPENDS and RDEPENDS of tgt to fix error and warning:
->
-> | bs_aio.c:34:10: fatal error: libaio.h: No such file or directory
-> |    34 | #include <libaio.h>
-> |       |          ^~~~~~~~~~
->
-> and
->
-> | WARNING: tgt-1.0.79+gitAUTOINC+b43dbc6711-r0 do_package_qa: QA Issue:
-> |  /usr/sbin/tgt-admin contained in package tgt requires /usr/bin/perl,
-> |  but no providers found in RDEPENDS_tgt? [file-rdeps]
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta-openstack/recipes-support/tgt/tgt_git.bb | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>  recipes-extended/ceph/ceph_14.1.0.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta-openstack/recipes-support/tgt/tgt_git.bb b/meta-openstack/recipes-support/tgt/tgt_git.bb
-> index ddec8c4..5242dd5 100644
-> --- a/meta-openstack/recipes-support/tgt/tgt_git.bb
-> +++ b/meta-openstack/recipes-support/tgt/tgt_git.bb
-> @@ -2,7 +2,7 @@ DESCRIPTION = "Linux SCSI target framework (tgt)"
->  HOMEPAGE = "http://stgt.sourceforge.net"
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://scripts/tgtd.spec;beginline=7;endline=7;md5=21c19ea7dad04648b9c2f791b6e29b4c"
-> -DEPENDS = "sg3-utils"
-> +DEPENDS = "sg3-utils libaio"
+> diff --git a/recipes-extended/ceph/ceph_14.1.0.bb b/recipes-extended/ceph/ceph_14.1.0.bb
+> index 55a6d7d..18a324a 100644
+> --- a/recipes-extended/ceph/ceph_14.1.0.bb
+> +++ b/recipes-extended/ceph/ceph_14.1.0.bb
+> @@ -32,8 +32,6 @@ SYSTEMD_SERVICE_${PN} = " \
+>          ceph-osd@.service \
+>         ceph-osd.target \
+>          ceph.target \
+> -       ceph-fuse@.service \
+> -       ceph-fuse.target \
+>         ceph-rbd-mirror@.service \
+>         ceph-rbd-mirror.target \
+>         ceph-volume@.service \
+> @@ -77,6 +75,8 @@ do_install_append () {
+>         mv ${D}${libexecdir}/systemd/system ${D}${systemd_unitdir}
+>         mv ${D}${libexecdir}/ceph/ceph-osd-prestart.sh ${D}${libdir}/ceph
+>         mv ${D}${libexecdir}/ceph/ceph_common.sh ${D}${libdir}/ceph
+> +       # WITH_FUSE is set to OFF, remove ceph-fuse related units
+> +       rm ${D}${systemd_unitdir}/system/ceph-fuse.target ${D}${systemd_unitdir}/system/ceph-fuse@.service
+>  }
 >
->  SRCREV = "b43dbc6711e43c0a32cc4d9df22884841d911d51"
->  PV = "1.0.79+git${SRCPV}"
-> @@ -58,6 +58,7 @@ RDEPENDS_${PN} = " \
->      bash \
->      libaio \
->      libconfig-general-perl \
-> +    perl \
->      perl-module-english \
->      perl-module-tie-hash-namedcapture \
->      perl-module-xsloader \
+>  FILES_${PN} += "\
 > --
-> 2.20.1
+> 2.17.1
 >
 > --
 > _______________________________________________
