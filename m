@@ -1,66 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C02EBE00D89; Thu, 29 Aug 2019 21:19:04 -0700 (PDT)
+	id 07747E00DFF; Thu, 29 Aug 2019 21:19:17 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.167.47 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.43 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com
-	[209.85.167.43])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 64E4EE00C78
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 647A9E00C78
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:19:03 -0700 (PDT)
-Received: by mail-lf1-f43.google.com with SMTP id u29so4245753lfk.7
+	Thu, 29 Aug 2019 21:19:16 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id q27so4235824lfo.10
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:19:03 -0700 (PDT)
+	Thu, 29 Aug 2019 21:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=qUmukqTIkvPVtp7zrWZK4fHvbnBfIaQP7YIBYi8QpYw=;
-	b=EiMhb4Isd6vPANEl5xk/l9KaPqI4TinhzC73UoTtGp7C/dagIaATkwaRU77COU7olg
-	gymWFe/9ZaMhf/joRdFESgjD2WOlqdkhqp56W2zqBUv1/4FGG5kGRxjMshl6H1JfV5xY
-	ryct5I9AqgtuVYcjeeD9jrY9evfAbMHov7DtPIXo9Rw7eYOrFemgAInwosn3Y7uL7hWA
-	YYJeWfh3CCaHx/vHvztQdgh8Ina3Xljtv8wCp9cHkTt6I7cLs+oVde0h4v+yOrfIhvMM
-	wBWOIjoT6dWS0+ScPtvhaSqTmU2bOx/v+U8g9CvkApWEoTJDPicUpsmSju5eqTPRtQX6
-	Szkw==
+	:cc; bh=p21bDDWK4/C4nuQw7gO/Z2lTUem4pt6Cc39Tn7MIOWk=;
+	b=Z1diDhOJdtoeZc3mkqzXalKQbmMpd58MEmIE4dlFBqZJayWFEioGxyu4I/VvcQCbNB
+	mVFPUnZ1LmlgNdKBje7y30514GUjPeuJOhdQ1haUsqb1aIMZw8O8x3mXKsT0AXylNpsa
+	5NsjC5uDcCW/gMj5N+tUu5kvgx/DEM77N48q8FtdxkrQZgZaIArRpgLl3xwlTqU8geOn
+	Suu2Yked62lqFYTI3OkhlbWXmvvPULR1RAVK8zF1G3TlaeDoOnpFwPP4Fjm9I72x0uoO
+	9JXztitStzvHUHJGHlzC6C7SkWSTVrU5aABMzQTq+UZsW6OGBh2uoadjOdLnMVwgl1Gt
+	oM3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=qUmukqTIkvPVtp7zrWZK4fHvbnBfIaQP7YIBYi8QpYw=;
-	b=GASmouYXfOKu/3VLfdyqI6oy5H84t+F6LRaFtqKd7m7WbukWhQ1d9OX45+IRX78UW3
-	owHoK3EWx6fqMMfBT4DfgPcJJ1ROdsqU0IiJGtFcw4EO+QZE/6nswVhjy3c31PHAPb3/
-	4OAc/1FW3ymE05uvgybDAEHZCnTXcgYL8HEQSyLKdWJ7KaRqO69fJ16i11SteqMx3sOq
-	tNsEx25uo7jARMl4OeTtH7woUnsuX6eFBkgl4OIM1s0/pI6AgzUjozIQ78OLLoW8HAsq
-	wf2xwvBb4Sz9bxsdwX0SXPK0MPkn+Olu/+HALkWbEsH5x6EZb7Qj2/Xa9Ci0o1XAal+b
-	MxzQ==
-X-Gm-Message-State: APjAAAU8W7zrngqGKJ2sl2MTpZ50M9hsvrBRgANNVX1F6fIJaGaEcyNv
-	pLIc8qmLSh/Dh+QSxjfxAnKhErpMUKRQBixstkw=
-X-Google-Smtp-Source: APXvYqyRWTLyeoxV8w8TUAlY+b1T1vqDYeHI3ZO8i6UmmuGCYe7V0P3l1e5rPRhpDpSe6mxPeruJX0fEjYTCa6L0t18=
-X-Received: by 2002:ac2:5323:: with SMTP id f3mr4694514lfh.36.1567138742317;
-	Thu, 29 Aug 2019 21:19:02 -0700 (PDT)
+	bh=p21bDDWK4/C4nuQw7gO/Z2lTUem4pt6Cc39Tn7MIOWk=;
+	b=grnWgwfJDHMK7vafkXfCWw5Xhllqg5DAWxXzVF304OhhyjeI4SuD1Wvvpr6QMDGlJ+
+	73guSy9jYuoLloGJ5OJcQqGAU0zbr+avgmTXpGiimA8BLqcLZP7BMXTwslhEJb3+mjH4
+	ZTSuJnEATgPFGle3VMIy8EsiH3zw1jHX65HX0lLliKK/0XWsd0v78R6TVKf8mpAfceZ/
+	fC7AUo/ys7fadiDK/OaGCcxGrrBCGDrbWAmGKxK5ElsqGPug9gLF/iGox2zcBadYqI4B
+	bScuiNFebZMW3aYQ9mr7vMDWi0DM0hg07nZ5DsrRAP+CfHoa0P4K9uikh2SAABLhfrJ5
+	IMXA==
+X-Gm-Message-State: APjAAAX3NNU0/Nfxq+FNiQGQ8CyjelZgkPQrTN21SQDLENA3U2Z6+vEr
+	JDhHQ/Y4cMkK9sFPTMKrza0dSfLeXTQw23xymno=
+X-Google-Smtp-Source: APXvYqz03Vk3e0kdowjJ+NPBA/2tXa9lqrsYea3OLIN/lMwAT3agd0NGhPisZ4MlMbK45nUKPZsDO4netyYFvTOKyks=
+X-Received: by 2002:a19:4959:: with SMTP id l25mr8302107lfj.140.1567138755256; 
+	Thu, 29 Aug 2019 21:19:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <1566798350-114744-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1566798350-114744-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1566798419-114849-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1566798419-114849-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Aug 2019 00:18:51 -0400
-Message-ID: <CADkTA4MkzxJXC=+a78-Cm+a7MQLe7fcCwsPgNQNJmMcwH-KZpA@mail.gmail.com>
+Date: Fri, 30 Aug 2019 00:19:04 -0400
+Message-ID: <CADkTA4PJUS=XVdNUZi-DJwMqMQNXdZJ1nEbZekcwfD0wC2SyYA@mail.gmail.com>
 To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-kombu: Python3 version fix
+Subject: Re: [PATCH] python-keystoneauth1: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,58 +73,102 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 04:19:04 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 04:19:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Aug 26, 2019 at 1:46 AM Zheng Ruoqin
+On Mon, Aug 26, 2019 at 1:47 AM Zheng Ruoqin
 <zhengrq.fnst@cn.fujitsu.com> wrote:
 >
-> Specifies the major Python version being built using PYTHON_PN
+> Providing a python3 version of python-keystoneauth1.
 >
 > Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-kombu.inc       | 4 +++-
->  meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb  | 2 +-
->  meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb | 2 +-
->  3 files changed, 5 insertions(+), 3 deletions(-)
+>  .../python/python-keystoneauth1.inc           | 27 +++++++++++++++++
+>  .../python/python-keystoneauth1_3.17.0.bb     | 29 ++-----------------
+>  .../python/python3-keystoneauth1_3.17.0.bb    |  2 ++
+>  3 files changed, 31 insertions(+), 27 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-keystoneauth1.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc b/meta-openstack/recipes-devtools/python/python-kombu.inc
-> index 3053f71..9918281 100644
-> --- a/meta-openstack/recipes-devtools/python/python-kombu.inc
-> +++ b/meta-openstack/recipes-devtools/python/python-kombu.inc
-> @@ -7,8 +7,10 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
->  SRC_URI[md5sum] = "4eb5f1e6f669e04f5bd0c627c7467156"
->  SRC_URI[sha256sum] = "e5f0312dfb9011bebbf528ccaf118a6c2b5c3b8244451f08381fb23e7715809b"
->
+> diff --git a/meta-openstack/recipes-devtools/python/python-keystoneauth1.inc b/meta-openstack/recipes-devtools/python/python-keystoneauth1.inc
+> new file mode 100644
+> index 0000000..3d6309d
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python-keystoneauth1.inc
+> @@ -0,0 +1,27 @@
+> +DESCRIPTION = "Authentication Library for OpenStack Identity"
+> +HOMEPAGE = "https://pypi.python.org/pypi/keystoneauth1"
+> +SECTION = "devel/python"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=96f840d59b245a1c817fbcb901afc574"
+> +
+> +SRC_URI[md5sum] = "599340c2b3ccbcf9996870478abb5407"
+> +SRC_URI[sha256sum] = "59a4488ceae0c1210cba468945013b875b2ce09d99c54c9fcc9c926aea55dfd7"
+> +
 > +inherit pypi
 > +
->  FILES_${PN}-doc += "${datadir}/${SRCNAME}"
->
->  RDEPENDS_${PN} = " \
-> -        python-amqp \
-> +        ${PYTHON_PN}-amqp \
->          "
-> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb b/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
-> index 28b6258..8c5c4d6 100644
-> --- a/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
-> @@ -1,3 +1,3 @@
+> +DEPENDS += " \
+> +        ${PYTHON_PN}-pbr \
+> +        "
+> +
+> +# Satisfy setup.py 'setup_requires'
+> +DEPENDS += " \
+> +        ${PYTHON_PN}-pbr-native \
+> +        "
+> +
+> +RDEPENDS_${PN} += " \
+> +        ${PYTHON_PN}-pbr \
+> +        ${PYTHON_PN}-iso8601 \
+> +        ${PYTHON_PN}-requests \
+> +        ${PYTHON_PN}-six \
+> +        ${PYTHON_PN}-stevedore \
+> +        "
+> diff --git a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb
+> index 18115b2..f244f7d 100644
+> --- a/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-keystoneauth1_3.17.0.bb
+> @@ -1,27 +1,2 @@
+> -DESCRIPTION = "Authentication Library for OpenStack Identity"
+> -HOMEPAGE = "https://pypi.python.org/pypi/keystoneauth1"
+> -SECTION = "devel/python"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=96f840d59b245a1c817fbcb901afc574"
+> -
+> -SRC_URI[md5sum] = "599340c2b3ccbcf9996870478abb5407"
+> -SRC_URI[sha256sum] = "59a4488ceae0c1210cba468945013b875b2ce09d99c54c9fcc9c926aea55dfd7"
+> -
 > -inherit setuptools pypi
+> -
+> -DEPENDS += " \
+> -        python-pbr \
+> -        "
+> -
+> -# Satisfy setup.py 'setup_requires'
+> -DEPENDS += " \
+> -        python-pbr-native \
+> -        "
+> -
+> -RDEPENDS_${PN} += " \
+> -        python-pbr \
+> -        python-iso8601 \
+> -        python-requests \
+> -        python-six \
+> -        python-stevedore \
+> -        "
 > +inherit setuptools
->  require python-kombu.inc
->
-> diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
-> index fc752d9..11b0826 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
-> @@ -1,2 +1,2 @@
-> -inherit setuptools3 pypi
+> +require python-keystoneauth1.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb b/meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb
+> new file mode 100644
+> index 0000000..75adf3d
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-keystoneauth1_3.17.0.bb
+> @@ -0,0 +1,2 @@
 > +inherit setuptools3
->  require python-kombu.inc
+> +require python-keystoneauth1.inc
 > --
 > 2.17.1
 >
