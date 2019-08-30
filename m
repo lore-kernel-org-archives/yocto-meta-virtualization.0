@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 83A7AE00E00; Thu, 29 Aug 2019 21:19:40 -0700 (PDT)
+	id D5E70E00E00; Thu, 29 Aug 2019 21:19:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.195 listed in list.dnswl.org]
+	*      [209.85.167.46 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CC1CAE00D89
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com
+	[209.85.167.46])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 50E39E00D89
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:19:39 -0700 (PDT)
-Received: by mail-lj1-f195.google.com with SMTP id e24so5110291ljg.11
+	Thu, 29 Aug 2019 21:19:52 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id l11so4259766lfk.6
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 21:19:39 -0700 (PDT)
+	Thu, 29 Aug 2019 21:19:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7i8lj7VE7Vn43Wec0Aw7vGNs9R8CLA/rteI2MaHHa1I=;
-	b=guHhgQDeD+8vnj02daAq01zljSqif+TjEnwKaVszYGLZ5rE1wKoo7MproxZL6OCVoM
-	ODoc+hs9OKDLlmK4B5dRGYCaBnCpAki/48whcpkj53UYWGYSbSV8x+N7KAfKCYx8xUhI
-	m5vupqS07M5bsFOBuhyaUquLalgj6FWSLOIaEzhK95/teM/Z3xiAF230zYY9evjoildG
-	UfBOC9xSUXwKUZHJXLBFUAPH3PJLAeV5JsgnOLHJ5sGSC3mvwHXyL50HJP8gun8f/l6c
-	RzvX8zL8TRN+i7m5zYsxQHtPUTqW5dP1CcB5r9Ox6fDmrNxiQgelSBE4/Wjlc0cBxWXv
-	VYQg==
+	:cc; bh=B2DOv7J0ULB19kwPjZMf+QJiBX/5sTJpFeCOJHrNWzY=;
+	b=eH+M2tuU+bBQ/5MRrdIRW2a18h+kjk1w2kmrMivSyYhcutp6NCwOl/0rkzWoleUaJd
+	MeDD0r380kjkovBR0Bz/Au2jaA/BpE+LA/fYC/5AoorHz7XsFcYT9tg+j7loqqPY7hSr
+	B2sdhCigNb8QOMLj9VPcSlivdWq2lmCdM4QmNloeBNj87Ay5ARdLmBBzv3EtyQi86H/q
+	BmkH9j9bFb8C+j7VX27ei+q+bznK6LLYhA4ebz/qzSKsMGYesFMUpHqm9h8jfPFhkSjS
+	WQ6hL00q3h1vVOe1uDVm9ZT6PUC3bpmnhFbHqn5CDY/d5L3379SFocmEl7k3WFXnkuQ+
+	miFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=7i8lj7VE7Vn43Wec0Aw7vGNs9R8CLA/rteI2MaHHa1I=;
-	b=N/xaiyAh9NwWEFvVBq111a2Mzt9QnGiydfFylcPssr4fvyiJxjeGxugcgu/Yzj4EsA
-	2Ca7gqnytzfqishy2nEMvZt2j/iEhd990CRwTdF0NXH7NzzznfvFZRG3AOan2fQjzVZD
-	HBR6wzT4rqVChh944HnF8FNk7GIH7OjRH8uZ486LHGAcsacPqlw5+1CJIMOU/oRCOSsg
-	fGAn0hOYxz6cVpYqEbQUz7nU6k/2xN4qOvrnWmfjMx/YwCI3pIm1JYQXWMz5C1jESQQo
-	1glGUuDHCRO56h/SkoWK15j6GNo1S5uVBxBf2LJx7gDpARA0dvFJrHGoyy1IKblACE4D
-	goLg==
-X-Gm-Message-State: APjAAAVcHhvObdPoyHbbpCmdTqatdfPCP6c5U8+gNxrWSIU4yDNPz3Kx
-	SfZBB6rXGMvG2kw+4OVDwPzWJAIYkOwTTWhtYpQnYjA9
-X-Google-Smtp-Source: APXvYqwEBu8r80sR/Fk2GpMU6Zf16yJiB8qzApMbEoxUw9qzme/QUpdUYD/6+mPAvDZL5ISUH8kkNc6jviJmuNnN5/4=
-X-Received: by 2002:a05:651c:1111:: with SMTP id
-	d17mr7137449ljo.87.1567138778735; 
-	Thu, 29 Aug 2019 21:19:38 -0700 (PDT)
+	bh=B2DOv7J0ULB19kwPjZMf+QJiBX/5sTJpFeCOJHrNWzY=;
+	b=Jil87aDtSsC45u1LFSvVhoXV6M2JPCN14cBd0+GGZEuP/qTY+Z3HOkoEDoy5bssxp0
+	8yW0MY/kcMQQYm4fZ6QwXA/gIV4IJCRa2TLSbGGfilYwbln99X291mXBPDVjKCcDBL0N
+	PYuaG1jAKVce6DLND0EVqbKbkvl1sHIPEx9jQ83IcYRHQp5rfz1SDcscOj4LluLLJdfP
+	GtDtf1+sa1MVo4IxH4pvYCbfhVnK23Fh8AxUgFoLF76lIFb4byUEZSnX4FX0ATpsXBPn
+	qgqxGppSUPA3KkvUmmRX2hD25RW3id7xbLq64jnw4+9nXFFi/JCBQacgSmIKAV5ih03r
+	FWIw==
+X-Gm-Message-State: APjAAAXIh60T/xZH8WlVZMJiksWXLF5gIKuh0jJXemd6PKjs28AHut/T
+	8Qt2myC2VdVIyay9qfC3JPcQS2yTrqnJt32JYMK90gs8
+X-Google-Smtp-Source: APXvYqwvBA7nw3vpK+Ta1X7KzXQei2iPIbzDuxndspsgVR1WX8RACnGFibV1hR5CYLO0SSGz4k+jinCKGJoHXI7lA6o=
+X-Received: by 2002:ac2:447c:: with SMTP id y28mr7854460lfl.177.1567138791323; 
+	Thu, 29 Aug 2019 21:19:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190826071858.1543-1-yuanc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190826071858.1543-1-yuanc.fnst@cn.fujitsu.com>
+References: <1566805077-116548-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1566805077-116548-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 30 Aug 2019 00:19:28 -0400
-Message-ID: <CADkTA4NJ-LkVAktL3xpCpKRtbF63FNv=0Jf1a_pG=U3P5H+4fA@mail.gmail.com>
-To: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+Date: Fri, 30 Aug 2019 00:19:40 -0400
+Message-ID: <CADkTA4NrE_2HAAq=H4LOUpOUtO=F02jaGbo3R9U2tF+kQU58tg@mail.gmail.com>
+To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-eventlet: upgrade 0.25.0 -> 0.25.1
+Subject: Re: [PATCH] python-netifaces: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,38 +73,68 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 04:19:40 -0000
+X-List-Received-Date: Fri, 30 Aug 2019 04:19:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Aug 26, 2019 at 3:19 AM Yuan Chao <yuanc.fnst@cn.fujitsu.com> wrote:
+On Mon, Aug 26, 2019 at 3:38 AM Zheng Ruoqin
+<zhengrq.fnst@cn.fujitsu.com> wrote:
 >
-> Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
+> Providing a python3 version of python-netifaces.
+>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  .../{python-eventlet_0.25.0.bb => python-eventlet_0.25.1.bb}  | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-eventlet_0.25.0.bb => python-eventlet_0.25.1.bb} (63%)
+>  .../recipes-devtools/python/python-netifaces.inc     | 10 ++++++++++
+>  .../python/python-netifaces_0.10.9.bb                | 12 ++----------
+>  .../python/python3-netifaces_0.10.9.bb               |  2 ++
+>  3 files changed, 14 insertions(+), 10 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-netifaces.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.25.0.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb
-> similarity index 63%
-> rename from meta-openstack/recipes-devtools/python/python-eventlet_0.25.0.bb
-> rename to meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb
-> index c3eabb2..d2878b6 100644
-> --- a/meta-openstack/recipes-devtools/python/python-eventlet_0.25.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb
-> @@ -4,7 +4,7 @@ SECTION = "devel/python"
->  LICENSE = "MIT"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
->
-> -SRC_URI[md5sum] = "a7e8759e6684352ea81a157b6f93fb9b"
-> -SRC_URI[sha256sum] = "f0610bd0d3bb3d51d69f74caa4ad04fc7bce424cdb72e54d08ccda90d8c69800"
-> +SRC_URI[md5sum] = "8d7145af6506d5418c5a6bee7bf0b7e7"
-> +SRC_URI[sha256sum] = "6c9c625af48424c4680d89314dbe45a76cc990cf002489f9469ff214b044ffc1"
->
->  inherit setuptools pypi
+> diff --git a/meta-openstack/recipes-devtools/python/python-netifaces.inc b/meta-openstack/recipes-devtools/python/python-netifaces.inc
+> new file mode 100644
+> index 0000000..b1b1ed5
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python-netifaces.inc
+> @@ -0,0 +1,10 @@
+> +DESCRIPTION = "Portable network interface information."
+> +HOMEPAGE = "http://alastairs-place.net/netifaces"
+> +SECTION = "devel/python"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+> +
+> +SRC_URI[md5sum] = "de92cc322b4f56047c073f802ad77860"
+> +SRC_URI[sha256sum] = "2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3"
+> +
+> +inherit pypi
+> diff --git a/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb b/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
+> index 05f5f4a..aa9760b 100644
+> --- a/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
+> @@ -1,10 +1,2 @@
+> -DESCRIPTION = "Portable network interface information."
+> -HOMEPAGE = "http://alastairs-place.net/netifaces"
+> -SECTION = "devel/python"
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+> -
+> -SRC_URI[md5sum] = "de92cc322b4f56047c073f802ad77860"
+> -SRC_URI[sha256sum] = "2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3"
+> -
+> -inherit setuptools pypi
+> +inherit setuptools
+> +require python-netifaces.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb b/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+> new file mode 100644
+> index 0000000..a46326f
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+> @@ -0,0 +1,2 @@
+> +inherit setuptools3
+> +require python-netifaces.inc
 > --
 > 2.17.1
 >
