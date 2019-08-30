@@ -1,42 +1,35 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Return-Path: <Changqing.Li@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3926AE00C78; Thu, 29 Aug 2019 22:58:44 -0700 (PDT)
+	id 2F236E00E00; Thu, 29 Aug 2019 23:17:36 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
 	https://www.dnswl.org/, *      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
+	*      [147.11.146.13 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7376DE00B65
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D8BDAE00C4F
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 29 Aug 2019 22:58:43 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,445,1559491200"; d="scan'208";a="74570083"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 30 Aug 2019 13:58:41 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 083FB4CE0884
+	Thu, 29 Aug 2019 23:17:35 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x7U6HZYi001058
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Aug 2019 13:58:39 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 30 Aug 2019 13:58:41 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	Thu, 29 Aug 2019 23:17:35 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 29 Aug 2019 23:17:35 -0700
+From: <changqing.li@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Date: Fri, 30 Aug 2019 13:58:05 +0800
-Message-ID: <20190830055805.18650-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Date: Fri, 30 Aug 2019 14:17:32 +0800
+Message-ID: <1567145853-76109-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 083FB4CE0884.ACFCB
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Subject: [PATCH] python-httpretty: Add python3 version
+Subject: [PATCH 1/2] cgroup-lite: support usrmerge
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -49,80 +42,34 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 05:58:44 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 30 Aug 2019 06:17:36 -0000
 Content-Type: text/plain
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../recipes-devtools/python/python-httpretty.inc      | 18 ++++++++++++++++++
- .../recipes-devtools/python/python-httpretty_0.9.6.bb | 19 ++-----------------
- .../python/python3-httpretty_0.9.6.bb                 |  3 +++
- 3 files changed, 23 insertions(+), 17 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-httpretty.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-httpretty_0.9.6.bb
+From: Changqing Li <changqing.li@windriver.com>
 
-diff --git a/meta-openstack/recipes-devtools/python/python-httpretty.inc b/meta-openstack/recipes-devtools/python/python-httpretty.inc
-new file mode 100644
-index 0000000..f39e283
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-httpretty.inc
-@@ -0,0 +1,18 @@
-+#
-+# Copyright (C) 2014 Wind River Systems, Inc.
-+#
-+DESCRIPTION = "HTTP client mock for Python"
-+HOMEPAGE = "https://pypi.python.org/pypi/httpretty"
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=113a91608a1d89039af9393c39bcaa2c"
-+
-+SRC_URI[md5sum] = "3b881b519e0f405caaf8aaa63f3508c0"
-+SRC_URI[sha256sum] = "01b52d45077e702eda491f4fe75328d3468fd886aed5dcc530003e7b2b5939dc"
-+
-+inherit pypi
-+
-+DEPENDS += " \
-+        ${PYTHON_PN}-pip \
-+        "
-+
-diff --git a/meta-openstack/recipes-devtools/python/python-httpretty_0.9.6.bb b/meta-openstack/recipes-devtools/python/python-httpretty_0.9.6.bb
-index 68d79f3..8993807 100644
---- a/meta-openstack/recipes-devtools/python/python-httpretty_0.9.6.bb
-+++ b/meta-openstack/recipes-devtools/python/python-httpretty_0.9.6.bb
-@@ -1,18 +1,3 @@
--#
--# Copyright (C) 2014 Wind River Systems, Inc.
--#
--DESCRIPTION = "HTTP client mock for Python"
--HOMEPAGE = "https://pypi.python.org/pypi/httpretty"
--SECTION = "devel/python"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=113a91608a1d89039af9393c39bcaa2c"
--
--SRC_URI[md5sum] = "3b881b519e0f405caaf8aaa63f3508c0"
--SRC_URI[sha256sum] = "01b52d45077e702eda491f4fe75328d3468fd886aed5dcc530003e7b2b5939dc"
--
--inherit setuptools pypi
--
--DEPENDS += " \
--        python-pip \
--        "
-+inherit setuptools
-+require python-httpretty.inc
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ recipes-containers/cgroup-lite/cgroup-lite_1.15.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb b/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+index 7b48c3a..45cc287 100644
+--- a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
++++ b/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+@@ -22,9 +22,9 @@ SYSTEMD_AUTO_ENABLE_${PN} = "mask"
  
-diff --git a/meta-openstack/recipes-devtools/python/python3-httpretty_0.9.6.bb b/meta-openstack/recipes-devtools/python/python3-httpretty_0.9.6.bb
-new file mode 100644
-index 0000000..b9f7699
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-httpretty_0.9.6.bb
-@@ -0,0 +1,3 @@
-+inherit setuptools3
-+require python-httpretty.inc
-+
+ 
+ do_install() {
+-	install -d ${D}/bin
+-	install -m 0755 ${S}/scripts/cgroups-mount ${D}/bin
+-	install -m 0755 ${S}/scripts/cgroups-umount ${D}/bin
++	install -d ${D}/${base_bindir}
++	install -m 0755 ${S}/scripts/cgroups-mount ${D}/${base_bindir}
++	install -m 0755 ${S}/scripts/cgroups-umount ${D}/${base_bindir}
+ 
+ 	install -d ${D}${sysconfdir}/init.d
+ 	install -m 0755 ${WORKDIR}/cgroups-init ${D}${sysconfdir}/init.d/cgroups-init
 -- 
 2.7.4
-
-
 
 
