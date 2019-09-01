@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7EF48E00CB9; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
+	id B01E5E00D53; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,11 +19,11 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28BE7E00D53
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4E7C2E00972
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2019 13:33:43 -0700 (PDT)
+	Sun,  1 Sep 2019 13:33:42 -0700 (PDT)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id CE77D5C298D;
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7AC575C2955;
 	Sun,  1 Sep 2019 22:33:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	t=1567370021;
@@ -31,20 +31,20 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=vDTAVorSouWWFTJa3xdfHFCOHsZxfQfILnRep5aTEq8=;
-	b=aWUg7/Jc+QRHi1CfHto1UVqA7oNZyPdk59LFD4FKuYEM/jQ+2LuFTwqOixJTURtdOXSiMZ
-	Me0+yG2l4PKiGFRUGM/4B0LggoB+ALxWaUJmbbrkl95jca+Jq4SZtSy3JqjGrHhquH3kDR
-	0v2iXE6ja1cJZyBPsPIjzf7hQ8kB7f8=
+	bh=3KrvqrNM1NDPnp2E1UIA+bVLXfMKUp2Aku80WPqniA0=;
+	b=SYclTSJwY9fa4hIz51w0YZGYEBv8uaQywnGK6wSGIjlBxyf3r0U+Zkp1L9AU5q3gsEKf5r
+	j17pN4INcxrouoc9JRDNMJnEwSOKdlSzpmydP7br2F48xXa63+ASt6//6Idbn0Vzkyuho9
+	H0cuDjdPGZsZnV/3wVuZ8PXFQZQXxNc=
 From: Stefan Agner <stefan@agner.ch>
 To: meta-virtualization@yoctoproject.org
-Date: Sun,  1 Sep 2019 22:33:38 +0200
-Message-Id: <20190901203338.38768-7-stefan@agner.ch>
+Date: Sun,  1 Sep 2019 22:33:36 +0200
+Message-Id: <20190901203338.38768-5-stefan@agner.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190901203338.38768-1-stefan@agner.ch>
 References: <20190901203338.38768-1-stefan@agner.ch>
 MIME-Version: 1.0
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH 6/6] podmon: add the Pod Manager tool
+Subject: [PATCH 4/6] skopeo: add skopeo
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -57,122 +57,105 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 20:33:44 -0000
+X-List-Received-Date: Sun, 01 Sep 2019 20:33:45 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-Podman is a daemonless container engine for developing, managing, and
-running OCI Containers on your Linux System. Containers can either be
-run as root or in rootless mode.
+skopeo is a command line utility that performs various operations on
+container images and image repositories.
 
-This patch adds the initial recipe for podman. Currently a minimal
-feature set is supported. It seems that libseccomp is mandatory, which
-makes meta-security a mandatory dependency for this recipe.
+skopeo can work with OCI images as well as the original Docker v2
+images.
+
+The recipe originates from from meta-overc commit a497792. It has
+been updated with the new project URL and v0.1.39.
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-containers/podman/podman_git.bb | 91 +++++++++++++++++++++++++
- 1 file changed, 91 insertions(+)
- create mode 100644 recipes-containers/podman/podman_git.bb
+ recipes-containers/skopeo/skopeo_git.bb | 73 +++++++++++++++++++++++++
+ 1 file changed, 73 insertions(+)
+ create mode 100644 recipes-containers/skopeo/skopeo_git.bb
 
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
 new file mode 100644
-index 0000000..6f4e7d4
+index 0000000..82d3f23
 --- /dev/null
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -0,0 +1,91 @@
-+HOMEPAGE = "https://podman.io/"
-+SUMMARY =  "A daemonless container engine"
-+DESCRIPTION = "Podman is a daemonless container engine for developing, \
-+    managing, and running OCI Containers on your Linux System. Containers can \
-+    either be run as root or in rootless mode. Simply put: \
-+    `alias docker=podman`. \
-+    "
++++ b/recipes-containers/skopeo/skopeo_git.bb
+@@ -0,0 +1,73 @@
++HOMEPAGE = "https://github.com/containers/skopeo"
++SUMMARY = "Work with remote images registries - retrieving information, images, signing content"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=7e611105d3e369954840a6668c438584"
 +
 +DEPENDS = " \
-+    go-metalinter-native \
-+    go-md2man-native \
 +    gpgme \
-+    libseccomp \
-+    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
++    multipath-tools \
++    btrfs-tools \
++    glib-2.0 \
++    ostree \
 +"
 +
-+SRCREV = "00057929f5acfd98341964d85722383363376d52"
-+SRC_URI = " \
-+    git://github.com/containers/libpod.git;branch=master \
++inherit go
++
++RDEPENDS_${PN} = " \
++     gpgme \
++     libgpg-error \
++     libassuan \
 +"
 +
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
++SRC_URI = "git://github.com/containers/skopeo"
 +
++SRCREV = "1cf1e06582142c522543560f2bc6d6756696e8ad"
++PV = "v0.1.39-dev+git${SRCPV}"
 +GO_IMPORT = "import"
 +
 +S = "${WORKDIR}/git"
 +
-+PV = "1.5.1+git${SRCREV}"
++inherit goarch
++inherit pkgconfig
 +
-+PACKAGES =+ "${PN}-contrib"
-+
-+PODMAN_PKG = "github.com/containers/libpod"
-+BUILDTAGS = "seccomp systemd exclude_graphdriver_btrfs exclude_graphdriver_devicemapper"
-+
-+# overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
-+export LDFLAGS=""
-+
-+inherit go goarch
-+inherit systemd pkgconfig
-+
-+do_configure[noexec] = "1"
-+
-+EXTRA_OEMAKE = " \
-+     PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir} \
-+     ETCDIR=${sysconfdir} TMPFILESDIR=${nonarch_libdir}/tmpfiles.d \
-+     SYSTEMDDIR=${systemd_unitdir}/system USERSYSTEMDDIR=${systemd_unitdir}/user \
-+"
++# This disables seccomp and apparmor, which are on by default in the
++# go package. 
++EXTRA_OEMAKE="BUILDTAGS=''"
 +
 +do_compile() {
-+	# Set GOPATH. See 'PACKAGERS.md'. Don't rely on
-+	# docker to download its dependencies but rather
-+	# use dependencies packaged independently.
-+	cd ${S}/src
-+	rm -rf .gopath
-+	mkdir -p .gopath/src/"$(dirname "${PODMAN_PKG}")"
-+	ln -sf ../../../../import/ .gopath/src/"${PODMAN_PKG}"
++	export GOARCH="${TARGET_GOARCH}"
 +
-+	ln -sf "../../../import/vendor/github.com/varlink/" ".gopath/src/github.com/varlink"
-+
-+	export GOPATH="${S}/src/.gopath"
-+	export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
-+
-+	cd ${S}/src/.gopath/src/"${PODMAN_PKG}"
-+
-+	make cmd/podman/varlink/iopodman.go GO=go
++	# Setup vendor directory so that it can be used in GOPATH.
++	#
++	# Go looks in a src directory under any directory in GOPATH but riddler
++	# uses 'vendor' instead of 'vendor/src'. We can fix this with a symlink.
++	#
++	# We also need to link in the ipallocator directory as that is not under
++	# a src directory.
++	ln -sfn . "${S}/src/import/vendor/src"
++	mkdir -p "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
++	ln -sfn "${S}/src/import/skopeo" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
++	ln -sfn "${S}/src/import/version" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo/version"
++	export GOPATH="${S}/src/import/vendor"
 +
 +	# Pass the needed cflags/ldflags so that cgo
 +	# can find the needed headers files and libraries
-+	export GOARCH=${TARGET_GOARCH}
 +	export CGO_ENABLED="1"
-+	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-+	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++	export CFLAGS=""
++	export LDFLAGS=""
++	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++	cd ${S}/src/import
 +
-+	make BUILDTAGS="${BUILDTAGS}"
++	oe_runmake binary-local
 +}
 +
 +do_install() {
-+	cd ${S}/src/.gopath/src/"${PODMAN_PKG}"
++	install -d ${D}/${sbindir}
++	install -d ${D}/${sysconfdir}/containers
 +
-+	oe_runmake install install.docker DESTDIR="${D}"
++	install ${S}/src/import/skopeo ${D}/${sbindir}/
++	install ${S}/src/import/default-policy.json ${D}/${sysconfdir}/containers/policy.json
 +}
 +
-+FILES_${PN} += " \
-+    ${systemd_unitdir}/system/* \
-+    ${systemd_unitdir}/user/* \
-+    ${nonarch_libdir}/tmpfiles.d/* \
-+    ${sysconfdir}/docker \
-+"
-+
-+RDEPENDS_${PN} += "conmon runc-opencontainers iptables cni skopeo"
++INSANE_SKIP_${PN} += "ldflags"
 -- 
 2.20.1
 
