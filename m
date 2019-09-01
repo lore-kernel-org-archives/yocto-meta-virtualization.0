@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 529F7E00D5F; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
+	id 667ECE00D59; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,32 +19,32 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2ECD2E00D59
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 56825E00CB9
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2019 13:33:43 -0700 (PDT)
+	Sun,  1 Sep 2019 13:33:41 -0700 (PDT)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9C8115C2958;
-	Sun,  1 Sep 2019 22:33:41 +0200 (CEST)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id D91645C259A;
+	Sun,  1 Sep 2019 22:33:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1567370021;
+	t=1567370020;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=z+4I+J5OvYZvxHfb2dNfcnYopCHDJRCTbLjqMoqj2bM=;
-	b=sxPHOC93ZVx49qVazXrySxy5D3vXBuEF7rB+rOkjWXbEskomlXRfS7dfW7fozBvHCtwhap
-	R8n3bXi4gHRJSlIz8qPVbPgaxxyNcsnWX7vo3o6HBFuq2sA9N3DXnbjyyG00fCAKIWDx+s
-	Erp8aWQF0yDK21Bne67hK5neyZHMuDI=
+	bh=QWak7V0j/uJbvTXj8Vb275mdp3UXGO9m82dDmd1cZpQ=;
+	b=vi18Bj2TUJpmBDZ+n/O658TNxkN8mTLDM6zyP4mQgIkYm8EmDwuR8HzAXky7eeoXg/Gm0I
+	c0PYFyJyIAppNmKX1L70uRCBq4+Tk7cSdTJ4sMplMb66ifHwY02/VrKg/WjdptDrMwzyZ6
+	+rkHbBK3LwBEwstLuoDTkkQqQlh5Vzk=
 From: Stefan Agner <stefan@agner.ch>
 To: meta-virtualization@yoctoproject.org
-Date: Sun,  1 Sep 2019 22:33:37 +0200
-Message-Id: <20190901203338.38768-6-stefan@agner.ch>
+Date: Sun,  1 Sep 2019 22:33:33 +0200
+Message-Id: <20190901203338.38768-2-stefan@agner.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190901203338.38768-1-stefan@agner.ch>
 References: <20190901203338.38768-1-stefan@agner.ch>
 MIME-Version: 1.0
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH 5/6] cni: move cni tools to /usr/lib/cni
+Subject: [PATCH 1/6] conmon: initial add
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,47 +62,89 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-Use a standard location to store the cni tools and plugins. This
-is more in line how other distributions package cni.
+Add conmon, a OCI container runtime monitor.
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-containers/cri-o/files/crio.conf | 2 +-
- recipes-networking/cni/cni_git.bb        | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ recipes-containers/conmon/conmon_2.0.0.bb     | 30 ++++++++++++++++++
+ ...ail-if-clean-is-called-without-a-bui.patch | 31 +++++++++++++++++++
+ 2 files changed, 61 insertions(+)
+ create mode 100644 recipes-containers/conmon/conmon_2.0.0.bb
+ create mode 100644 recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
 
-diff --git a/recipes-containers/cri-o/files/crio.conf b/recipes-containers/cri-o/files/crio.conf
-index 51d7f40..dd22465 100644
---- a/recipes-containers/cri-o/files/crio.conf
-+++ b/recipes-containers/cri-o/files/crio.conf
-@@ -144,4 +144,4 @@ registries = [
- network_dir = "/etc/cni/net.d/"
- 
- # plugin_dir is is where CNI plugin binaries are stored.
--plugin_dir = "/opt/cni/bin/"
-+plugin_dir = "/usr/lib/cni/"
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index 5348b95..86e5e0f 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -63,7 +63,7 @@ do_compile() {
- }
- 
- do_install() {
--    localbindir="/opt/cni/bin"
-+    localbindir="${libdir}/cni/"
- 
-     install -d ${D}${localbindir}
-     install -d ${D}/${sysconfdir}/cni/net.d
-@@ -72,7 +72,7 @@ do_install() {
-     install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
- }
- 
--FILES_${PN} += "/opt/cni/bin/*"
-+FILES_${PN} += "${libdir}/cni/*"
- 
- INSANE_SKIP_${PN} += "ldflags already-stripped"
- 
+diff --git a/recipes-containers/conmon/conmon_2.0.0.bb b/recipes-containers/conmon/conmon_2.0.0.bb
+new file mode 100644
+index 0000000..f4e2cd6
+--- /dev/null
++++ b/recipes-containers/conmon/conmon_2.0.0.bb
+@@ -0,0 +1,30 @@
++SUMMARY = "An OCI container runtime monitor"
++SECTION = "console/utils"
++HOMEPAGE = "https://github.com/containers/conmon"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=61af0b6932ea7b12fb9142721043bc77"
++
++DEPENDS = "glib-2.0"
++
++SRCREV = "e217fdff82e0b1a6184a28c43043a4065083407f"
++SRC_URI = "\
++    git://github.com/containers/conmon.git \
++    file://0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch \
++"
++
++SRC_URI[md5sum] = "5c711911d766d76813333c3812277574"
++SRC_URI[sha256sum] = "4c31278b2c03e5be5a696c3088bc86cf2557a70e00f697799c163aba18e3c40e"
++
++S = "${WORKDIR}/git"
++
++inherit pkgconfig
++
++EXTRA_OEMAKE = "PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir}"
++
++do_install() {
++    oe_runmake 'DESTDIR=${D}' install
++}
++
++FILES_${PN} += " \
++    ${bindir}/conmon \
++"
+diff --git a/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch b/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
+new file mode 100644
+index 0000000..8d2b473
+--- /dev/null
++++ b/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
+@@ -0,0 +1,31 @@
++From 6ef63dfcc65d5401bc7cc7170d569cefcdadcb38 Mon Sep 17 00:00:00 2001
++From: Stefan Agner <stefan@agner.ch>
++Date: Fri, 30 Aug 2019 17:49:22 +0200
++Subject: [PATCH] Makefile: don't fail if clean is called without a build
++
++Do not fail when calling the clean target without building first.
++
++Upstream-Status: Backport
++
++Signed-off-by: Stefan Agner <stefan@agner.ch>
++---
++ Makefile | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index fb0e4fb..b525595 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -66,8 +66,7 @@ bin:
++ 
++ .PHONY: clean
++ clean:
++-	rm -f bin/conmon src/*.o
++-	rmdir bin
+++	rm -rf bin/ src/*.o
++ 
++ .PHONY: install install.bin install.crio install.podman podman crio
++ install: install.bin
++-- 
++2.23.0
++
 -- 
 2.20.1
 
