@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 98905E00D60; Sun,  1 Sep 2019 13:33:43 -0700 (PDT)
+	id A6C34E00D5F; Sun,  1 Sep 2019 13:33:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,11 +19,11 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D89EE00867
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4FCC6E00973
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2019 13:33:41 -0700 (PDT)
+	Sun,  1 Sep 2019 13:33:42 -0700 (PDT)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 107BA5C2933;
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 356035C293B;
 	Sun,  1 Sep 2019 22:33:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	t=1567370021;
@@ -31,20 +31,20 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=O86Y9oh8PR7EQo0xgT4JDGcu65IsvuvVrnaC3VMOPHQ=;
-	b=VRGqimPihc6DPw8phH7+6T91ZmfnP2Jo9GxGVypuH1AQ3epTAL42rgoMzppLJYpVvUqdwL
-	55LCTmUBopPBCYCBVat+QF+zQboS+Q0XChx+4dENgW2ZliKuCgK4v4G9jmH8DxPLzYJnE8
-	r55pABdPfhGjA/Jaa/SmUlqsbocN30U=
+	bh=jIS0JZtfSZR6bcJ9J2ugY5mT3M9LJAZNNE4DNcXT6ms=;
+	b=jxDHFibdDwZaD7dOJvWnfhE5PT2L17g7gAOxNW5u8dGY9vDKp8lWpwCWFi6yfP4asqZCxD
+	cl4pPDw4wiKN0HS4N+XsOAtKidTJ290/Z+YiH5UNjA4V3YQ2fEs2U3kS2zWsY+iS2WTswF
+	/6Ncz3SM2+aF9h1y7/PtGNsZdPAWs8Y=
 From: Stefan Agner <stefan@agner.ch>
 To: meta-virtualization@yoctoproject.org
-Date: Sun,  1 Sep 2019 22:33:34 +0200
-Message-Id: <20190901203338.38768-3-stefan@agner.ch>
+Date: Sun,  1 Sep 2019 22:33:35 +0200
+Message-Id: <20190901203338.38768-4-stefan@agner.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190901203338.38768-1-stefan@agner.ch>
 References: <20190901203338.38768-1-stefan@agner.ch>
 MIME-Version: 1.0
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH 2/6] go-metalinter: add recipe for gometalinter
+Subject: [PATCH 3/6] go-md2man: add md2man
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,46 +62,41 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-A tool that concurrently runs a whole bunch of go linters and
-normalises their output to a standard format. Useful to build
+This tool converts markdown into roff (man pages). Useful to build
 podman.
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-devtools/go/go-metalinter_git.bb | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 recipes-devtools/go/go-metalinter_git.bb
+ recipes-devtools/go/go-md2man_git.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 recipes-devtools/go/go-md2man_git.bb
 
-diff --git a/recipes-devtools/go/go-metalinter_git.bb b/recipes-devtools/go/go-metalinter_git.bb
+diff --git a/recipes-devtools/go/go-md2man_git.bb b/recipes-devtools/go/go-md2man_git.bb
 new file mode 100644
-index 0000000..668b431
+index 0000000..cc8dd5c
 --- /dev/null
-+++ b/recipes-devtools/go/go-metalinter_git.bb
-@@ -0,0 +1,24 @@
-+DESCRIPTION = "Go Meta Linter."
-+HOMEPAGE = "https://github.com/alecthomas/gometalinter"
++++ b/recipes-devtools/go/go-md2man_git.bb
+@@ -0,0 +1,20 @@
++DESCRIPTION = "A markdown to manpage generator."
++HOMEPAGE = "https://github.com/cpuguy83/go-md2man"
 +SECTION = "devel/go"
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=dee20b35647295553d32faef05846a7b"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE.md;md5=80794f9009df723bbc6fe19234c9f517"
 +
 +BBCLASSEXTEND = "native"
 +
-+SRCNAME = "gometalinter"
++GO_IMPORT = "github.com/cpuguy83/go-md2man"
++#GO_INSTALL = "${GO_IMPORT}/bin/go-md2man"
 +
-+PKG_NAME = "github.com/alecthomas/${SRCNAME}"
-+SRC_URI = "git://${PKG_NAME}.git"
++SRC_URI = "git://${GO_IMPORT}.git"
 +
-+SRCREV = "e8d801238da6f0dfd14078d68f9b53fa50a7eeb5"
-+PV = "0.0+git${SRCPV}"
++SRCREV = "f79a8a8ca69da163eee19ab442bedad7a35bba5a"
++PV = "1.0.10+git${SRCPV}"
 +
 +S = "${WORKDIR}/git"
 +
-+do_install() {
-+	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
-+	cp -r ${S}/* ${D}${prefix}/local/go/src/${PKG_NAME}/
-+}
++inherit go
 +
-+FILES_${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
 -- 
 2.20.1
 
