@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 667ECE00D59; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
+	id 7EF48E00CB9; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,32 +19,32 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 56825E00CB9
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 28BE7E00D53
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2019 13:33:41 -0700 (PDT)
+	Sun,  1 Sep 2019 13:33:43 -0700 (PDT)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id D91645C259A;
-	Sun,  1 Sep 2019 22:33:40 +0200 (CEST)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id CE77D5C298D;
+	Sun,  1 Sep 2019 22:33:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1567370020;
+	t=1567370021;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=QWak7V0j/uJbvTXj8Vb275mdp3UXGO9m82dDmd1cZpQ=;
-	b=vi18Bj2TUJpmBDZ+n/O658TNxkN8mTLDM6zyP4mQgIkYm8EmDwuR8HzAXky7eeoXg/Gm0I
-	c0PYFyJyIAppNmKX1L70uRCBq4+Tk7cSdTJ4sMplMb66ifHwY02/VrKg/WjdptDrMwzyZ6
-	+rkHbBK3LwBEwstLuoDTkkQqQlh5Vzk=
+	bh=vDTAVorSouWWFTJa3xdfHFCOHsZxfQfILnRep5aTEq8=;
+	b=aWUg7/Jc+QRHi1CfHto1UVqA7oNZyPdk59LFD4FKuYEM/jQ+2LuFTwqOixJTURtdOXSiMZ
+	Me0+yG2l4PKiGFRUGM/4B0LggoB+ALxWaUJmbbrkl95jca+Jq4SZtSy3JqjGrHhquH3kDR
+	0v2iXE6ja1cJZyBPsPIjzf7hQ8kB7f8=
 From: Stefan Agner <stefan@agner.ch>
 To: meta-virtualization@yoctoproject.org
-Date: Sun,  1 Sep 2019 22:33:33 +0200
-Message-Id: <20190901203338.38768-2-stefan@agner.ch>
+Date: Sun,  1 Sep 2019 22:33:38 +0200
+Message-Id: <20190901203338.38768-7-stefan@agner.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190901203338.38768-1-stefan@agner.ch>
 References: <20190901203338.38768-1-stefan@agner.ch>
 MIME-Version: 1.0
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH 1/6] conmon: initial add
+Subject: [PATCH 6/6] podmon: add the Pod Manager tool
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,89 +62,117 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-Add conmon, a OCI container runtime monitor.
+Podman is a daemonless container engine for developing, managing, and
+running OCI Containers on your Linux System. Containers can either be
+run as root or in rootless mode.
+
+This patch adds the initial recipe for podman. Currently a minimal
+feature set is supported. It seems that libseccomp is mandatory, which
+makes meta-security a mandatory dependency for this recipe.
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-containers/conmon/conmon_2.0.0.bb     | 30 ++++++++++++++++++
- ...ail-if-clean-is-called-without-a-bui.patch | 31 +++++++++++++++++++
- 2 files changed, 61 insertions(+)
- create mode 100644 recipes-containers/conmon/conmon_2.0.0.bb
- create mode 100644 recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
+ recipes-containers/podman/podman_git.bb | 91 +++++++++++++++++++++++++
+ 1 file changed, 91 insertions(+)
+ create mode 100644 recipes-containers/podman/podman_git.bb
 
-diff --git a/recipes-containers/conmon/conmon_2.0.0.bb b/recipes-containers/conmon/conmon_2.0.0.bb
+diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
 new file mode 100644
-index 0000000..f4e2cd6
+index 0000000..6f4e7d4
 --- /dev/null
-+++ b/recipes-containers/conmon/conmon_2.0.0.bb
-@@ -0,0 +1,30 @@
-+SUMMARY = "An OCI container runtime monitor"
-+SECTION = "console/utils"
-+HOMEPAGE = "https://github.com/containers/conmon"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=61af0b6932ea7b12fb9142721043bc77"
++++ b/recipes-containers/podman/podman_git.bb
+@@ -0,0 +1,91 @@
++HOMEPAGE = "https://podman.io/"
++SUMMARY =  "A daemonless container engine"
++DESCRIPTION = "Podman is a daemonless container engine for developing, \
++    managing, and running OCI Containers on your Linux System. Containers can \
++    either be run as root or in rootless mode. Simply put: \
++    `alias docker=podman`. \
++    "
 +
-+DEPENDS = "glib-2.0"
-+
-+SRCREV = "e217fdff82e0b1a6184a28c43043a4065083407f"
-+SRC_URI = "\
-+    git://github.com/containers/conmon.git \
-+    file://0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch \
++DEPENDS = " \
++    go-metalinter-native \
++    go-md2man-native \
++    gpgme \
++    libseccomp \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} \
 +"
 +
-+SRC_URI[md5sum] = "5c711911d766d76813333c3812277574"
-+SRC_URI[sha256sum] = "4c31278b2c03e5be5a696c3088bc86cf2557a70e00f697799c163aba18e3c40e"
++SRCREV = "00057929f5acfd98341964d85722383363376d52"
++SRC_URI = " \
++    git://github.com/containers/libpod.git;branch=master \
++"
++
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=e3fc50a88d0a364313df4b21ef20c29e"
++
++GO_IMPORT = "import"
 +
 +S = "${WORKDIR}/git"
 +
-+inherit pkgconfig
++PV = "1.5.1+git${SRCREV}"
 +
-+EXTRA_OEMAKE = "PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir}"
++PACKAGES =+ "${PN}-contrib"
++
++PODMAN_PKG = "github.com/containers/libpod"
++BUILDTAGS = "seccomp systemd exclude_graphdriver_btrfs exclude_graphdriver_devicemapper"
++
++# overide LDFLAGS to allow criu to build without: "x86_64-poky-linux-ld: unrecognized option '-Wl,-O1'"
++export LDFLAGS=""
++
++inherit go goarch
++inherit systemd pkgconfig
++
++do_configure[noexec] = "1"
++
++EXTRA_OEMAKE = " \
++     PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir} \
++     ETCDIR=${sysconfdir} TMPFILESDIR=${nonarch_libdir}/tmpfiles.d \
++     SYSTEMDDIR=${systemd_unitdir}/system USERSYSTEMDDIR=${systemd_unitdir}/user \
++"
++
++do_compile() {
++	# Set GOPATH. See 'PACKAGERS.md'. Don't rely on
++	# docker to download its dependencies but rather
++	# use dependencies packaged independently.
++	cd ${S}/src
++	rm -rf .gopath
++	mkdir -p .gopath/src/"$(dirname "${PODMAN_PKG}")"
++	ln -sf ../../../../import/ .gopath/src/"${PODMAN_PKG}"
++
++	ln -sf "../../../import/vendor/github.com/varlink/" ".gopath/src/github.com/varlink"
++
++	export GOPATH="${S}/src/.gopath"
++	export GOROOT="${STAGING_DIR_NATIVE}/${nonarch_libdir}/${HOST_SYS}/go"
++
++	cd ${S}/src/.gopath/src/"${PODMAN_PKG}"
++
++	make cmd/podman/varlink/iopodman.go GO=go
++
++	# Pass the needed cflags/ldflags so that cgo
++	# can find the needed headers files and libraries
++	export GOARCH=${TARGET_GOARCH}
++	export CGO_ENABLED="1"
++	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
++
++	make BUILDTAGS="${BUILDTAGS}"
++}
 +
 +do_install() {
-+    oe_runmake 'DESTDIR=${D}' install
++	cd ${S}/src/.gopath/src/"${PODMAN_PKG}"
++
++	oe_runmake install install.docker DESTDIR="${D}"
 +}
 +
 +FILES_${PN} += " \
-+    ${bindir}/conmon \
++    ${systemd_unitdir}/system/* \
++    ${systemd_unitdir}/user/* \
++    ${nonarch_libdir}/tmpfiles.d/* \
++    ${sysconfdir}/docker \
 +"
-diff --git a/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch b/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
-new file mode 100644
-index 0000000..8d2b473
---- /dev/null
-+++ b/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
-@@ -0,0 +1,31 @@
-+From 6ef63dfcc65d5401bc7cc7170d569cefcdadcb38 Mon Sep 17 00:00:00 2001
-+From: Stefan Agner <stefan@agner.ch>
-+Date: Fri, 30 Aug 2019 17:49:22 +0200
-+Subject: [PATCH] Makefile: don't fail if clean is called without a build
 +
-+Do not fail when calling the clean target without building first.
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Stefan Agner <stefan@agner.ch>
-+---
-+ Makefile | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
-+
-+diff --git a/Makefile b/Makefile
-+index fb0e4fb..b525595 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -66,8 +66,7 @@ bin:
-+ 
-+ .PHONY: clean
-+ clean:
-+-	rm -f bin/conmon src/*.o
-+-	rmdir bin
-++	rm -rf bin/ src/*.o
-+ 
-+ .PHONY: install install.bin install.crio install.podman podman crio
-+ install: install.bin
-+-- 
-+2.23.0
-+
++RDEPENDS_${PN} += "conmon runc-opencontainers iptables cni skopeo"
 -- 
 2.20.1
 
