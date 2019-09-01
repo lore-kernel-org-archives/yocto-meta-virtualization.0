@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 28B00E00C46; Fri, 30 Aug 2019 07:17:08 -0700 (PDT)
+	id 98905E00D60; Sun,  1 Sep 2019 13:33:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,38 +19,32 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1706E00BFF
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D89EE00867
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 30 Aug 2019 07:17:05 -0700 (PDT)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id C45D25C259A;
-	Fri, 30 Aug 2019 16:17:03 +0200 (CEST)
+	Sun,  1 Sep 2019 13:33:41 -0700 (PDT)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 107BA5C2933;
+	Sun,  1 Sep 2019 22:33:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1567174623;
+	t=1567370021;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=25Ocs5NFPCG0VLQVNIFFb1Uouw/jbQqaIoJPxBeSdYg=;
-	b=edtZroC78PEOGb/tMvQx98I9tvpwemG4jSkIfIkT0ZFgRMxNOYIa/770bj5RlCB/9x1SEp
-	VE/SZkkhOpoD8cyoOrtw9hysUnH5uZNZbrwI6oP7/V6w99vlXo98cTiJK1e78ArVwyNwXq
-	R9CyrYj4QGW9pCveCjbqfDQdpbMqMBA=
-MIME-Version: 1.0
-Date: Fri, 30 Aug 2019 16:17:03 +0200
+	bh=O86Y9oh8PR7EQo0xgT4JDGcu65IsvuvVrnaC3VMOPHQ=;
+	b=VRGqimPihc6DPw8phH7+6T91ZmfnP2Jo9GxGVypuH1AQ3epTAL42rgoMzppLJYpVvUqdwL
+	55LCTmUBopPBCYCBVat+QF+zQboS+Q0XChx+4dENgW2ZliKuCgK4v4G9jmH8DxPLzYJnE8
+	r55pABdPfhGjA/Jaa/SmUlqsbocN30U=
 From: Stefan Agner <stefan@agner.ch>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4M53CGL7U8_XV0KAYmSFgt8qg1vLmNsnjpH6YGOP2WkCQ@mail.gmail.com>
-References: <20190830113203.49678-1-stefan@agner.ch>
-	<20190830113203.49678-3-stefan@agner.ch>
-	<CADkTA4Pvxdk3bzOo2xP4-SUGwF=EeCnq9yAo3egeKrT9iO8sKg@mail.gmail.com>
-	<8787b716780bd9bf5c28b65af35298d6@agner.ch>
-	<CADkTA4M53CGL7U8_XV0KAYmSFgt8qg1vLmNsnjpH6YGOP2WkCQ@mail.gmail.com>
-Message-ID: <8f0ed242746f462b8c696b68ac7e6286@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-Cc: meta-virtualization@yoctoproject.org,
-	Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH 3/3] docker: update to v19.03.2-rc1
+To: meta-virtualization@yoctoproject.org
+Date: Sun,  1 Sep 2019 22:33:34 +0200
+Message-Id: <20190901203338.38768-3-stefan@agner.ch>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190901203338.38768-1-stefan@agner.ch>
+References: <20190901203338.38768-1-stefan@agner.ch>
+MIME-Version: 1.0
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH 2/6] go-metalinter: add recipe for gometalinter
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -63,165 +57,52 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 30 Aug 2019 14:17:08 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 01 Sep 2019 20:33:43 -0000
+Content-Transfer-Encoding: 8bit
 
-On 2019-08-30 15:24, Bruce Ashfield wrote:
-> On Fri, Aug 30, 2019 at 9:03 AM Stefan Agner <stefan@agner.ch> wrote:
->>
->> On 2019-08-30 14:42, Bruce Ashfield wrote:
->> > On Fri, Aug 30, 2019 at 7:36 AM Stefan Agner <stefan@agner.ch> wrote:
->> >>
->> >> From: Stefan Agner <stefan.agner@toradex.com>
->> >>
->> >> Use the docker/engine fork of moby which provides a stabilized version
->> >> of moby in its 19.03 branch.
->> >
->> > I've mentioned before, this recipe really is going to stay on moby,
->> > not a curated version of moby or anything like that.
->>
->> Hm, I guess you refer to:
->> https://lists.yoctoproject.org/pipermail/meta-virtualization/2019-March/004068.html
->>
->> Generally I see your argumentation, and I think it is good to try to
->> build a recipe which tracks Dockers upstream projects.
->>
->> However, I really don't think its a good idea to build from moby
->> directly since it has no proper release process.
-> 
-> That's actually what the point of that recipe is, it's tracking -dev completely.
-> 
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Ok.
+A tool that concurrently runs a whole bunch of go linters and
+normalises their output to a standard format. Useful to build
+podman.
 
->>
->> IMHO, moby is more -dev branch rather than anything a OE recipe should
->> rely on. I tried first finding what matches best the Docker version
->> "19.03.2-rc1" in Moby, but since this is really a development branch its
->> not possible to pick a matching (or close to matching) git commit.
->>
->> docker/engine is really just a fork with a proper release process. We
->> get cli and libnetwork also from the Docker company repos...
-> 
-> Yes, but there's docker-ce for folks that want to follow all the
-> docker repos. I don't actually think we need the cli/libnetwork in
-> that recipe anymore, but I haven't had
-> time to experiment.
-> 
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ recipes-devtools/go/go-metalinter_git.bb | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 recipes-devtools/go/go-metalinter_git.bb
 
-Hm, yeah I was wondering about that too. But should be looked at
-properly I guess.
+diff --git a/recipes-devtools/go/go-metalinter_git.bb b/recipes-devtools/go/go-metalinter_git.bb
+new file mode 100644
+index 0000000..668b431
+--- /dev/null
++++ b/recipes-devtools/go/go-metalinter_git.bb
+@@ -0,0 +1,24 @@
++DESCRIPTION = "Go Meta Linter."
++HOMEPAGE = "https://github.com/alecthomas/gometalinter"
++SECTION = "devel/go"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=dee20b35647295553d32faef05846a7b"
++
++BBCLASSEXTEND = "native"
++
++SRCNAME = "gometalinter"
++
++PKG_NAME = "github.com/alecthomas/${SRCNAME}"
++SRC_URI = "git://${PKG_NAME}.git"
++
++SRCREV = "e8d801238da6f0dfd14078d68f9b53fa50a7eeb5"
++PV = "0.0+git${SRCPV}"
++
++S = "${WORKDIR}/git"
++
++do_install() {
++	install -d ${D}${prefix}/local/go/src/${PKG_NAME}
++	cp -r ${S}/* ${D}${prefix}/local/go/src/${PKG_NAME}/
++}
++
++FILES_${PN} += "${prefix}/local/go/src/${PKG_NAME}/*"
+-- 
+2.20.1
 
->>
->> The fact that this recipe has the name "docker" and follows the docker
->> versioning, I really think it is more reasonable to track
->> https://github.com/docker/engine.
-> 
-> Yah, that is a problem. I need to just get on with it and rename the
-> recipe moby. I said I was going to do it in the spring, but perhaps
-> I'll just do it this weekend instead.
-> 
-> The problem is, a lot of things (and layers I don't know about)
-> currently depend on "docker" not "virtual/docker" as I mentioned in my
-> various other email, so I really need to create a 3rd recipe that
-> follows the docker engine .. but it really is just a placeholder,
-> since it isn't different than docker-ce on any significant level.  It
-> probably leaves me as the only 'moby' user at that point, but that's
-> ok too :D
-> 
-> i.e. I'd end up with "moby", "docker" and "docker-ce".
-> 
-> I could do that for the fall release and then clean things up in the spring.
-> 
-> Comments ? How does that sound ?
-> 
-
-Yes I really think the naming would resolve this confusion nicely. I
-agree splitting up to moby, docker and docker-ce seems sensible.
-
->>
->> Btw, the reason I started investigate was that I see quite often errors
->> like this with the current version:
->> docker: Error response from daemon: OCI runtime create failed:
->> container_linux.go:345: starting container process caused
->> "process_linux.go:299: copying bootstrap data to pipe caused \"write
->> init-p: broken pipe\"": unknown.
-> 
-> Hmmm. I've never seen that here and I tend to stress things pretty
-> heavily in the systems that I build. I assume you aren't seeing it
-> with docker-ce ?
-
-I was not able to find a command (combination) which makes it always
-reproducible, so it seems to be a race condition of some sort. I haven't
-tested with docker-ce. I think I mostly saw it on our lower end devices
-(Cortex-A7). 
-
-Given we are dealing with a pre-release I thought its not worth further
-investigate but just move to the release and then keep an eye on it.
-
---
-Stefan
-
-> 
-> Bruce
-> 
->>
->> --
->> Stefan
->>
->>
->>
->> >
->> > I already have some queued updated to docker here, so I'll take care
->> > of updating this recipe and stack your other patches on top.
->> >
->> > Bruce
->> >
->> >>
->> >> Bump all git hashes to what is used in Docker CE v19.03.2-rc1.
->> >> The SRCREVs are selected through an audit of moby and docker-ce to
->> >> synchronize the build points for the various components.
->> >>
->> >> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->> >> ---
->> >>  recipes-containers/docker/docker_git.bb | 8 ++++----
->> >>  1 file changed, 4 insertions(+), 4 deletions(-)
->> >>
->> >> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
->> >> index e45f87e..3892c65 100644
->> >> --- a/recipes-containers/docker/docker_git.bb
->> >> +++ b/recipes-containers/docker/docker_git.bb
->> >> @@ -35,11 +35,11 @@ DESCRIPTION = "Linux container runtime \
->> >>  #     to a docker.inc recipe
->> >>
->> >>  # moby commit matches the docker-ce swarmkit bump on the 18.09 branch
->> >> -SRCREV_moby = "344b093258fcb2195fa393081e5224a6c766c798"
->> >> +SRCREV_moby = "ed20165a37b40ff1cfbe55e218344c5e89f30ee2"
->> >>  SRCREV_libnetwork = "5ac07abef4eee176423fdc1b870d435258e2d381"
->> >> -SRCREV_cli = "2f1931f9eb2d6bac2efd48d94739f2e9919d4d7d"
->> >> +SRCREV_cli = "578ab52ece34b084621954e0b543003410cdbe84"
->> >>  SRC_URI = "\
->> >> -       git://github.com/moby/moby.git;nobranch=1;name=moby \
->> >> +       git://github.com/docker/engine.git;branch=19.03;name=moby \
->> >>         git://github.com/docker/libnetwork.git;branch=master;name=libnetwork;destsuffix=git/libnetwork \
->> >>         git://github.com/docker/cli;branch=19.03;name=cli;destsuffix=git/cli \
->> >>         file://docker.init \
->> >> @@ -57,7 +57,7 @@ GO_IMPORT = "import"
->> >>
->> >>  S = "${WORKDIR}/git"
->> >>
->> >> -DOCKER_VERSION = "19.03.0-rc3"
->> >> +DOCKER_VERSION = "19.03.2-rc1"
->> >>  PV = "${DOCKER_VERSION}+git${SRCREV_moby}"
->> >>
->> >>  PACKAGES =+ "${PN}-contrib"
->> >> --
->> >> 2.20.1
->> >>
->> >> --
->> >> _______________________________________________
->> >> meta-virtualization mailing list
->> >> meta-virtualization@yoctoproject.org
->> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
