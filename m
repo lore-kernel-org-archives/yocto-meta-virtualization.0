@@ -1,50 +1,40 @@
-Return-Path: <stefan@agner.ch>
+Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B01E5E00D53; Sun,  1 Sep 2019 13:33:44 -0700 (PDT)
+	id D7AAAE00CB9; Sun,  1 Sep 2019 18:32:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
-	SPF_HELO_PASS autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [178.209.48.109 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4E7C2E00972
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6ADA3E00CB9
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2019 13:33:42 -0700 (PDT)
-Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7AC575C2955;
-	Sun,  1 Sep 2019 22:33:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1567370021;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=3KrvqrNM1NDPnp2E1UIA+bVLXfMKUp2Aku80WPqniA0=;
-	b=SYclTSJwY9fa4hIz51w0YZGYEBv8uaQywnGK6wSGIjlBxyf3r0U+Zkp1L9AU5q3gsEKf5r
-	j17pN4INcxrouoc9JRDNMJnEwSOKdlSzpmydP7br2F48xXa63+ASt6//6Idbn0Vzkyuho9
-	H0cuDjdPGZsZnV/3wVuZ8PXFQZQXxNc=
-From: Stefan Agner <stefan@agner.ch>
-To: meta-virtualization@yoctoproject.org
-Date: Sun,  1 Sep 2019 22:33:36 +0200
-Message-Id: <20190901203338.38768-5-stefan@agner.ch>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190901203338.38768-1-stefan@agner.ch>
+	Sun,  1 Sep 2019 18:32:03 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x821Vxnl006057
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>;
+	Sun, 1 Sep 2019 18:31:59 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 1 Sep 2019 18:31:58 -0700
+To: <meta-virtualization@yoctoproject.org>
 References: <20190901203338.38768-1-stefan@agner.ch>
+	<20190901203338.38768-6-stefan@agner.ch>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <bfacfb8a-fba3-325c-4a20-3d918d40bfb8@windriver.com>
+Date: Mon, 2 Sep 2019 09:45:54 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH 4/6] skopeo: add skopeo
+In-Reply-To: <20190901203338.38768-6-stefan@agner.ch>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH 5/6] cni: move cni tools to /usr/lib/cni
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -57,106 +47,62 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 01 Sep 2019 20:33:45 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 02 Sep 2019 01:32:06 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Stefan Agner <stefan.agner@toradex.com>
+On 09/02/2019 04:33 AM, Stefan Agner wrote:
+> From: Stefan Agner <stefan.agner@toradex.com>
+>
+> Use a standard location to store the cni tools and plugins. This
+> is more in line how other distributions package cni.
 
-skopeo is a command line utility that performs various operations on
-container images and image repositories.
+But from what I see, at least Fedora and Ubuntu are using /opt/cni/bin 
+directory.
+Also, have you tested such change with simple k8s setup which makes use 
+of these plugins? E.g. flannel?
 
-skopeo can work with OCI images as well as the original Docker v2
-images.
+Best Regards,
+Chen Qi
 
-The recipe originates from from meta-overc commit a497792. It has
-been updated with the new project URL and v0.1.39.
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> ---
+>   recipes-containers/cri-o/files/crio.conf | 2 +-
+>   recipes-networking/cni/cni_git.bb        | 4 ++--
+>   2 files changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/recipes-containers/cri-o/files/crio.conf b/recipes-containers/cri-o/files/crio.conf
+> index 51d7f40..dd22465 100644
+> --- a/recipes-containers/cri-o/files/crio.conf
+> +++ b/recipes-containers/cri-o/files/crio.conf
+> @@ -144,4 +144,4 @@ registries = [
+>   network_dir = "/etc/cni/net.d/"
+>   
+>   # plugin_dir is is where CNI plugin binaries are stored.
+> -plugin_dir = "/opt/cni/bin/"
+> +plugin_dir = "/usr/lib/cni/"
+> diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
+> index 5348b95..86e5e0f 100644
+> --- a/recipes-networking/cni/cni_git.bb
+> +++ b/recipes-networking/cni/cni_git.bb
+> @@ -63,7 +63,7 @@ do_compile() {
+>   }
+>   
+>   do_install() {
+> -    localbindir="/opt/cni/bin"
+> +    localbindir="${libdir}/cni/"
+>   
+>       install -d ${D}${localbindir}
+>       install -d ${D}/${sysconfdir}/cni/net.d
+> @@ -72,7 +72,7 @@ do_install() {
+>       install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
+>   }
+>   
+> -FILES_${PN} += "/opt/cni/bin/*"
+> +FILES_${PN} += "${libdir}/cni/*"
+>   
+>   INSANE_SKIP_${PN} += "ldflags already-stripped"
+>   
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- recipes-containers/skopeo/skopeo_git.bb | 73 +++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
- create mode 100644 recipes-containers/skopeo/skopeo_git.bb
-
-diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
-new file mode 100644
-index 0000000..82d3f23
---- /dev/null
-+++ b/recipes-containers/skopeo/skopeo_git.bb
-@@ -0,0 +1,73 @@
-+HOMEPAGE = "https://github.com/containers/skopeo"
-+SUMMARY = "Work with remote images registries - retrieving information, images, signing content"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=7e611105d3e369954840a6668c438584"
-+
-+DEPENDS = " \
-+    gpgme \
-+    multipath-tools \
-+    btrfs-tools \
-+    glib-2.0 \
-+    ostree \
-+"
-+
-+inherit go
-+
-+RDEPENDS_${PN} = " \
-+     gpgme \
-+     libgpg-error \
-+     libassuan \
-+"
-+
-+SRC_URI = "git://github.com/containers/skopeo"
-+
-+SRCREV = "1cf1e06582142c522543560f2bc6d6756696e8ad"
-+PV = "v0.1.39-dev+git${SRCPV}"
-+GO_IMPORT = "import"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit goarch
-+inherit pkgconfig
-+
-+# This disables seccomp and apparmor, which are on by default in the
-+# go package. 
-+EXTRA_OEMAKE="BUILDTAGS=''"
-+
-+do_compile() {
-+	export GOARCH="${TARGET_GOARCH}"
-+
-+	# Setup vendor directory so that it can be used in GOPATH.
-+	#
-+	# Go looks in a src directory under any directory in GOPATH but riddler
-+	# uses 'vendor' instead of 'vendor/src'. We can fix this with a symlink.
-+	#
-+	# We also need to link in the ipallocator directory as that is not under
-+	# a src directory.
-+	ln -sfn . "${S}/src/import/vendor/src"
-+	mkdir -p "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
-+	ln -sfn "${S}/src/import/skopeo" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
-+	ln -sfn "${S}/src/import/version" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo/version"
-+	export GOPATH="${S}/src/import/vendor"
-+
-+	# Pass the needed cflags/ldflags so that cgo
-+	# can find the needed headers files and libraries
-+	export CGO_ENABLED="1"
-+	export CFLAGS=""
-+	export LDFLAGS=""
-+	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-+	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
-+	cd ${S}/src/import
-+
-+	oe_runmake binary-local
-+}
-+
-+do_install() {
-+	install -d ${D}/${sbindir}
-+	install -d ${D}/${sysconfdir}/containers
-+
-+	install ${S}/src/import/skopeo ${D}/${sbindir}/
-+	install ${S}/src/import/default-policy.json ${D}/${sysconfdir}/containers/policy.json
-+}
-+
-+INSANE_SKIP_${PN} += "ldflags"
--- 
-2.20.1
 
 
