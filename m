@@ -1,6 +1,6 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 467E8E00DDC; Sun,  1 Sep 2019 21:25:26 -0700 (PDT)
+	id 2E6F4E00D60; Mon,  2 Sep 2019 01:37:29 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,32 +10,27 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
 	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 63953E00E49
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0C01AE0080A
 	for <meta-virtualization@yoctoproject.org>;
-	Sun,  1 Sep 2019 21:25:14 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,457,1559491200"; d="scan'208";a="74683713"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Sep 2019 12:25:12 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 3B9424CDFCE9
-	for <meta-virtualization@yoctoproject.org>;
-	Mon,  2 Sep 2019 12:25:11 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 2 Sep 2019 12:25:15 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Date: Mon, 2 Sep 2019 12:24:30 +0800
-Message-ID: <1567398270-112839-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Mon,  2 Sep 2019 01:37:27 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x828bQjs017303
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 2 Sep 2019 01:37:26 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 2 Sep 2019 01:37:25 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
+Date: Mon, 2 Sep 2019 16:36:49 +0800
+Message-ID: <1567413409-22401-2-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1567413409-22401-1-git-send-email-hongxu.jia@windriver.com>
+References: <1567413409-22401-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: 3B9424CDFCE9.A9DC4
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Subject: [PATCH] python-os-client-config: Add python3 version
+Subject: [PATCH 2/2] containerd-opencontainers: building unstripped binaries
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -48,103 +43,90 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Sep 2019 04:25:26 -0000
+X-List-Received-Date: Mon, 02 Sep 2019 08:37:29 -0000
 Content-Type: text/plain
 
-Providing a python3 version of python-os-client-config.
+It defaults to "-s -w" [1] which strips debug information, refresh a backported
+patch to build unstripped binaries
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+https://golang.org/cmd/link/
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../python/python-os-client-config.inc        | 29 +++++++++++++++++
- .../python/python-os-client-config_git.bb     | 31 +------------------
- .../python/python3-os-client-config_git.bb    |  2 ++
- 3 files changed, 32 insertions(+), 30 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-os-client-config.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-os-client-config_git.bb
+ .../0001-Add-build-option-GODEBUG-1.patch          | 42 ++++++++++++++++++++++
+ .../containerd/containerd-opencontainers_git.bb    |  3 ++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
 
-diff --git a/meta-openstack/recipes-devtools/python/python-os-client-config.inc b/meta-openstack/recipes-devtools/python/python-os-client-config.inc
+diff --git a/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch b/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
 new file mode 100644
-index 0000000..d549ea6
+index 0000000..05c4f15
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-os-client-config.inc
-@@ -0,0 +1,29 @@
-+DESCRIPTION = "OpenStack Client Configuation Library"
-+HOMEPAGE = "https://pypi.python.org/pypi/os-client-config"
-+SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
++++ b/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
+@@ -0,0 +1,42 @@
++From 84874e47aa2025b8e73df0286c44f3b8a1d9fdb2 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 2 Sep 2019 16:20:07 +0800
++Subject: [PATCH] Add build option "GODEBUG=1"
 +
-+PV = "1.28.0"
-+SRCREV = "261c05f0057d556a8910457f1e22ca4d81801081"
++Make will generate GDB friendly binary with this build option.
 +
-+SRCNAME = "os-client-config"
-+SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
++Signed-off-by: Hui Zhu <teawater@hyper.sh>
 +
-+S = "${WORKDIR}/git"
++Upstream-Status: Backport [c5a0c7f491b435e4eb45972903b00e2d8ed46495]
 +
-+DEPENDS += " \
-+        ${PYTHON_PN}-pbr \
-+        "
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        ${PYTHON_PN}-pbr-native \
-+        "
++Partly backport and refresh to v1.2.7
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ src/import/Makefile | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
 +
-+RDEPENDS_${PN} += " \
-+        ${PYTHON_PN}-pbr \
-+        ${PYTHON_PN}-pyyaml \
-+        ${PYTHON_PN}-appdirs \
-+        ${PYTHON_PN}-keystoneauth1 \
-+        ${PYTHON_PN}-requestsexceptions \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-os-client-config_git.bb b/meta-openstack/recipes-devtools/python/python-os-client-config_git.bb
-index a48f2c4..3f42bdc 100644
---- a/meta-openstack/recipes-devtools/python/python-os-client-config_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-os-client-config_git.bb
-@@ -1,31 +1,2 @@
--DESCRIPTION = "OpenStack Client Configuation Library"
--HOMEPAGE = "https://pypi.python.org/pypi/os-client-config"
--SECTION = "devel/python"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
--
--PV = "1.28.0"
--SRCREV = "261c05f0057d556a8910457f1e22ca4d81801081"
--
--SRCNAME = "os-client-config"
--SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
--
--S = "${WORKDIR}/git"
--
- inherit setuptools
--
--DEPENDS += " \
--        python-pbr \
--        "
--# Satisfy setup.py 'setup_requires'
--DEPENDS += " \
--        python-pbr-native \
--        "
--
--RDEPENDS_${PN} += " \
--        python-pbr \
--        python-pyyaml \
--        python-appdirs \
--        python-keystoneauth1 \
--        python-requestsexceptions \
--        "
-+require python-os-client-config.inc
-diff --git a/meta-openstack/recipes-devtools/python/python3-os-client-config_git.bb b/meta-openstack/recipes-devtools/python/python3-os-client-config_git.bb
-new file mode 100644
-index 0000000..207d559
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-os-client-config_git.bb
-@@ -0,0 +1,2 @@
-+inherit setuptools3
-+require python-os-client-config.inc
++diff --git a/src/import/Makefile b/src/import/Makefile
++index 4355395..4fb5d3b 100644
++--- a/src/import/Makefile
+++++ b/src/import/Makefile
++@@ -75,11 +75,15 @@ TEST_REQUIRES_ROOT_PACKAGES=$(filter \
++ COMMANDS=ctr containerd containerd-stress
++ MANPAGES=ctr.1 containerd.1 containerd-config.1 containerd-config.toml.5
++ 
+++ifndef GODEBUG
+++   EXTRA_LDFLAGS += -s -w
+++endif
+++
++ # Build tags seccomp and apparmor are needed by CRI plugin.
++ BUILDTAGS ?= seccomp apparmor
++ GO_TAGS=$(if $(BUILDTAGS),-tags "$(BUILDTAGS)",)
++-GO_LDFLAGS=-ldflags '-s -w -X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) $(EXTRA_LDFLAGS)'
++-SHIM_GO_LDFLAGS=-ldflags '-s -w -X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) -extldflags "-static"'
+++GO_LDFLAGS=-ldflags '-X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) $(EXTRA_LDFLAGS)'
+++SHIM_GO_LDFLAGS=-ldflags '-X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) -extldflags "-static" $(EXTRA_LDFLAGS)'
++ 
++ #Replaces ":" (*nix), ";" (windows) with newline for easy parsing
++ GOPATHS=$(shell echo ${GOPATH} | tr ":" "\n" | tr ";" "\n")
++-- 
++2.7.4
++
+diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
+index 424de74..347eae5 100644
+--- a/recipes-containers/containerd/containerd-opencontainers_git.bb
++++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
+@@ -1,6 +1,7 @@
+ SRCREV = "fd103cb716352c7e19768e4fed057f71d68902a0"
+ SRC_URI = "git://github.com/containerd/containerd;branch=release/1.2 \
+            file://0001-build-use-oe-provided-GO-and-flags.patch \
++           file://0001-Add-build-option-GODEBUG-1.patch \
+           "
+ 
+ include containerd.inc
+@@ -9,5 +10,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d
+ 
+ CONTAINERD_VERSION = "v1.2.7"
+ 
++EXTRA_OEMAKE += "GODEBUG=1"
++
+ PROVIDES += "virtual/containerd"
+ RPROVIDES_${PN} = "virtual/containerd"
 -- 
-2.17.1
-
-
+2.7.4
 
 
