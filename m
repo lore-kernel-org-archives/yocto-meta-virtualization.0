@@ -1,67 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E3E3DE00E04; Tue,  3 Sep 2019 12:56:00 -0700 (PDT)
+	id 28B17E00E49; Tue,  3 Sep 2019 12:56:20 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.208.193 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BE394E00E1A
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D549EE00E49
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 12:55:40 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id z21so13926126lfe.1
+	Tue,  3 Sep 2019 12:56:03 -0700 (PDT)
+Received: by mail-lj1-f193.google.com with SMTP id u14so10733826ljj.11
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Sep 2019 12:55:40 -0700 (PDT)
+	Tue, 03 Sep 2019 12:56:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Pc74Lp0YafKBAtdvNJ3/VxZupZqJF799HbsEHwyK8Jo=;
-	b=IcYjfqB9dpKRR/di4FkR7qlxM2oZXryj1IjR/jijlwj3UGxK60QmWRQ4IhvJ3nP9VT
-	51ceppSXrBEIMszz7oB57JDGkPC2X323RZHbbvwUpZjxFBYdWRIBIPgVusl4SxJtNh3Z
-	tc2vpBh9ZsIxwyfp+f+ITQ9WgJ5SmvdHYjKfiWc6675TPhcBAS6DLYP+Yv3QlbtKjBdS
-	zNxG86A7wsH4L0I0FORwa9rwr03dbcClX5FLhniuKu0Tj1Z7IKl7RPmcpa8htunrmweo
-	KLhdyrPeIx+6SjQKl8XQmIFqUgn6zT7wP9a7vB+Dr9rAQGk5c8/6hIJGJR9O0dS0CUEt
-	19rQ==
+	:cc; bh=LLRdCIzeauS+bH8b2uYanZ84rBeN3XQYiMW2Nq2X4UQ=;
+	b=Qk2jMGncs1AjUWTQ0Kwae6ZPQu3zrBfdto7PXvatwxS+s5/KF4mYqMEpZ1PWEDnQhQ
+	/9Km4dXIhGmaSo7Cb4bakITgSum12PZdvIC16C6/3Ke3d7YcOE6pwj5+LxCrVQJhPeNU
+	oTIiAi+h7j76bY4qin38/gBOktbgXC03jKgfcuuZt+Sp7hEVGhhVMsg0bPw7f1iUCYnW
+	jRplx6qicuFrhUjHbIGzZikRaCWcC2ixN1wqct3SRqfacz8tdJpAqOj0r7PvEWoDb2aB
+	rQtwk4RUdvardd+R4ojUMt+MrXkBMfI3Fsr/e6hJcDSMNnm8lprP8HI6fBFQDk9b74dy
+	kPYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Pc74Lp0YafKBAtdvNJ3/VxZupZqJF799HbsEHwyK8Jo=;
-	b=uega4hfv77Ya+9RNbvdlzHqO2e1GdUrGFExdN/vnclNt3PdjNkORDBXUdexBfmcKK8
-	A1EtKMqLxkrQihiSw3G6QjVyFqyGQjS6C08BCzzTQc2GUR4sJOYmim6qIIr38qBnuduu
-	LxgPHrwYR/BKFoR7jQ8Nfbl751lbWB32Capp3u8PQmXtXAMPZaxXaTx6Q7ADLYv+0gvv
-	a1YPlL79TpJgIyB8nqZjmipWwV89pvl3yoNs3+CEDsvaL9azHJHs68VcLWEcsylhicRC
-	m+kB6GPzWfc21v3//SVyQc6JDIufrppNX9W9eo+oMLXBVPvybVk9HyOjOvd+T73SSHNw
-	U7Lg==
-X-Gm-Message-State: APjAAAVia0AZMAfq4vkuKdiEnAgWuoHVnjBUpeWggK5QLp2PVQ8O45Rl
-	PgGE8lajQ0JwelK71Q8rGdd47ga0f/wi/0I2CgM=
-X-Google-Smtp-Source: APXvYqwfIZ904EukU2sic1Raga8MYdBS4xeTnTZIDHk98afYxXuPNQA3na8+3k+uBANpfMyzji74QHxNQ9INrrbT50c=
-X-Received: by 2002:a19:428f:: with SMTP id
-	p137mr22042552lfa.149.1567540538769; 
-	Tue, 03 Sep 2019 12:55:38 -0700 (PDT)
+	bh=LLRdCIzeauS+bH8b2uYanZ84rBeN3XQYiMW2Nq2X4UQ=;
+	b=cMsyxh0vfII75IVr8tiv3Grzgpd/Th56vGI8FzQxH6QpzVcz23Ci3E+Kmrhud90gsT
+	pwlKYO+2b1wsSAHRGq/XIsMYEpkogmNYNGQMEHGL4V8mRnRUV65thT02Sv1/KYe1uB+V
+	zZJAboabHAUokxIMsVXCzN+o9/DqY3BtD2YGJ7kvMIHVfAW4nbqdrZuV2ZvLGF1+lpBG
+	kZSiUZnkGVWPJp6Ih2udwbuNGAQi5LF//DwYyWN5MxxRbX8WhZWTuby4mMeBMJLd4g92
+	jN3cYHupXHGWKLU/r0lSiEp0PjMHQdPGF+akfVj5kfVW5yoTZ6lsOi6qiFu1sF9mDEZR
+	Ks9g==
+X-Gm-Message-State: APjAAAXOR7x5lEm8axC6V1O+tgTotvIVYSc8uogSD5ZHnSuDTOW3kMOr
+	8VZ0Imu5L++mJq1z7lCFwRfWe9MGpHKULVpoOOW8lJ4T
+X-Google-Smtp-Source: APXvYqxPiICUPANwwPSS2q+FqtmFU01aRDMjNZ9eiaPTl49UFxmnXyUPhCK9JorzNMGZ2Khgye4CULDLV57tEEja9u8=
+X-Received: by 2002:a2e:9196:: with SMTP id f22mr20816654ljg.78.1567540562024; 
+	Tue, 03 Sep 2019 12:56:02 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190830063228.19117-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190830063228.19117-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190830064639.19268-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190830064639.19268-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Sep 2019 15:55:27 -0400
-Message-ID: <CADkTA4Nq+fN+vgaeC21dHF-S=A-yVZ4wdg861BU_AmFuQbv1Jg@mail.gmail.com>
+Date: Tue, 3 Sep 2019 15:55:51 -0400
+Message-ID: <CADkTA4MCwqAYF79WOUc17FB5VhQhyBzirXBZCvituX34ZkXxvA@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-netifaces: Add python3 version
+Subject: Re: [PATCH] python-paramiko: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,66 +73,69 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 19:56:03 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 19:56:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Looks like this was already send on Aug 26th (and had been merged).
-Try to be sure to rebase to the latest master.
+merged
 
 Bruce
 
-On Fri, Aug 30, 2019 at 2:36 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Fri, Aug 30, 2019 at 2:51 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-netifaces.inc  | 10 ++++++++++
->  .../recipes-devtools/python/python-netifaces_0.10.9.bb       | 12 ++----------
->  .../recipes-devtools/python/python3-netifaces_0.10.9.bb      |  2 ++
->  3 files changed, 14 insertions(+), 10 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-netifaces.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+>  meta-openstack/recipes-devtools/python/python-paramiko.inc | 12 ++++++++++++
+>  .../recipes-devtools/python/python-paramiko_2.6.0.bb       | 14 ++------------
+>  .../recipes-devtools/python/python3-paramiko_2.6.0.bb      |  2 ++
+>  3 files changed, 16 insertions(+), 12 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-paramiko.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-netifaces.inc b/meta-openstack/recipes-devtools/python/python-netifaces.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-paramiko.inc b/meta-openstack/recipes-devtools/python/python-paramiko.inc
 > new file mode 100644
-> index 0000000..b1b1ed5
+> index 0000000..da47c79
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-netifaces.inc
-> @@ -0,0 +1,10 @@
-> +DESCRIPTION = "Portable network interface information."
-> +HOMEPAGE = "http://alastairs-place.net/netifaces"
+> +++ b/meta-openstack/recipes-devtools/python/python-paramiko.inc
+> @@ -0,0 +1,12 @@
+> +DESCRIPTION = "SSH2 protocol library"
+> +HOMEPAGE = "https://github.com/paramiko/paramiko/"
 > +SECTION = "devel/python"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+> +LICENSE = "LGPLv2.1"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
 > +
-> +SRC_URI[md5sum] = "de92cc322b4f56047c073f802ad77860"
-> +SRC_URI[sha256sum] = "2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3"
+> +SRC_URI[md5sum] = "f729a45c9122bf975b9177ec5aaa3791"
+> +SRC_URI[sha256sum] = "f4b2edfa0d226b70bd4ca31ea7e389325990283da23465d572ed1f70a7583041"
 > +
 > +inherit pypi
-> diff --git a/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb b/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
-> index 05f5f4a..aa9760b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-netifaces_0.10.9.bb
-> @@ -1,10 +1,2 @@
-> -DESCRIPTION = "Portable network interface information."
-> -HOMEPAGE = "http://alastairs-place.net/netifaces"
+> +
+> +RDEPENDS_${PN} += "${PYTHON_PN}-pycrypto"
+> diff --git a/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb b/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb
+> index 2b2c8e8..fedbf86 100644
+> --- a/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb
+> @@ -1,12 +1,2 @@
+> -DESCRIPTION = "SSH2 protocol library"
+> -HOMEPAGE = "https://github.com/paramiko/paramiko/"
 > -SECTION = "devel/python"
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+> -LICENSE = "LGPLv2.1"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
 > -
-> -SRC_URI[md5sum] = "de92cc322b4f56047c073f802ad77860"
-> -SRC_URI[sha256sum] = "2dee9ffdd16292878336a58d04a20f0ffe95555465fee7c9bd23b3490ef2abf3"
+> -SRC_URI[md5sum] = "f729a45c9122bf975b9177ec5aaa3791"
+> -SRC_URI[sha256sum] = "f4b2edfa0d226b70bd4ca31ea7e389325990283da23465d572ed1f70a7583041"
 > -
 > -inherit setuptools pypi
+> -
+> -RDEPENDS_${PN} += "python-pycrypto"
 > +inherit setuptools
-> +require python-netifaces.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb b/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+> +require python-paramiko.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb b/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
 > new file mode 100644
-> index 0000000..a46326f
+> index 0000000..97e56e1
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-netifaces_0.10.9.bb
+> +++ b/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
 > @@ -0,0 +1,2 @@
 > +inherit setuptools3
-> +require python-netifaces.inc
+> +require python-paramiko.inc
 > --
 > 2.7.4
 >
