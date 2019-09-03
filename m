@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 165DEE00D67; Tue,  3 Sep 2019 14:08:51 -0700 (PDT)
+	id 4234DE00D33; Tue,  3 Sep 2019 14:09:08 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.175 listed in list.dnswl.org]
+	*      [209.85.208.196 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
-	[209.85.208.175])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 67909E00D33
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9B0EFE00D35
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 14:08:50 -0700 (PDT)
-Received: by mail-lj1-f175.google.com with SMTP id t14so17534211lji.4
+	Tue,  3 Sep 2019 14:09:05 -0700 (PDT)
+Received: by mail-lj1-f196.google.com with SMTP id u14so10926790ljj.11
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Sep 2019 14:08:50 -0700 (PDT)
+	Tue, 03 Sep 2019 14:09:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NMn/dv7jhkeErG77YjRQCUhzOa3FmBV5CopAEPDDSuU=;
-	b=s0/LOvaNd4clCuO3Ez0Y5Yqv1WtJYmuvsrkLNhP/AQJj/IvBmRqvy17sXlm72tGHMy
-	5EAqhQ9WE6/TtRu23rclFT7eP/kYLEh1iaZcuAjNvKJTEhDblRNk12rb12OJNLpFf8hd
-	VU0/U7IgGWO1cX9Xa/5FOZaeoWOYnSyX9A/69ZyTbpVYYxMIgdRukaA9HzXerzxjVNSk
-	3jtXcmT+xRe3IsHQSNY2vKdUz41I1xpT8fbGtx9/5d5/t+CotQwUdy9O8gBbJgzMhky2
-	3t2EfI2vH+TLjAtxsPnINdWHiW3jtUVeSTl24SJjgBnogb9iKjZcYb4lYfVpSkebyUzG
-	Ofug==
+	:cc; bh=Ig2vg9F2xQwo9ZpjQqlrDWZEf913OFQhHw3s//KwTos=;
+	b=TnIYA+rbNKnFjxg6zwWTxuVDWl0ON98EZQagN5rks2bkrV4VQG+Ea9r1KAQyldQPzB
+	j0d+mIT6iVNDYAR1QUxnSwGqNiUfofIY7lLr3Rxan5Zi6NV8I6gaR9Wi2je8awL5pKeW
+	5YN8SUYKt+2HsM8v/MYS6/AfV86l6lHZOyZloxDenfsUx8YnxpZXrpM88xqOSjbbNk9M
+	ZCEbYj3g9T+2rJTSZagw3JglX6oS/g5OMaYrhNV9azO3D2DdGTGyvZEHbX/6ZIry1Ri7
+	YGvk1mkhklZoPnYpxdUcqzGPRMjdYzDXX9AAzs30ekKlXe0SXVN/+8bqevtqmwZKKs53
+	vT8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=NMn/dv7jhkeErG77YjRQCUhzOa3FmBV5CopAEPDDSuU=;
-	b=TFb7WawPYmHna4trCva5ZsYkGbyC8VUSiTX8SiG3EsmwW3C/Hee/1cMsNaBJmDtVm3
-	AFE7lNK4bhvsz08BAZ7gP9LNiHNmxctz2I9Up7taHowD1DxlZNB9YQlvMdq/QV30PIaE
-	UnvH1Owv/td1y8iSyZQK4BcFAglnVgR+XWlWz6GD4FVS8P9Yjd2XlVjq9uhc7okg/lL4
-	BcDCHXttcq9VgrLOkpMU81tpATEqcHChGtV3U1//Z2jTWNTgPVVsgs4Q2K06dyzW9oii
-	NTI/1m5a0qRngxdhbt15E9Z2tyZ2SJnfPVpCPZua3aAc43AQGBNfQXWRrN1EzPQHxiCa
-	qPTw==
-X-Gm-Message-State: APjAAAXhUQNB0SOeOxj/NctbxT1VTMCIE1pXIySM3x8bSml1lAtsHLNt
-	Oouxmp91stD+meHzTlA2m9eE2+aVbriSBW3Ad8M=
-X-Google-Smtp-Source: APXvYqxgAT7er5XB9ky0qd0gOmsTNU9e+z6LGkv+4D/Ttr1pYkB8SGYTLmE3NrPvS1JkwUEVcEG0pRzhyKRt4JxlNcI=
-X-Received: by 2002:a2e:9196:: with SMTP id f22mr20968774ljg.78.1567544929303; 
-	Tue, 03 Sep 2019 14:08:49 -0700 (PDT)
+	bh=Ig2vg9F2xQwo9ZpjQqlrDWZEf913OFQhHw3s//KwTos=;
+	b=Y888RcRljaMScmTNo/VnZiuoL6Dj4XLkfHOH1WqnKPSotXt7KyH4DwUd2SxK3oLpCj
+	l4WENl8ERwAH9yB5iqlcvgp6d4JH5hZXe7R079LtTohxwgI0OIde8EcwqrCQAxCNlIbU
+	PC1BeJE+/T8wSfXeVl6RAMWO/6fHWWGWCX/gG/0bR+asrb/k0v2xNvedN9mSAshgRkMv
+	nf7uVCq+WAgWY7+OSdHQRTxvslN83Fw4wud9tMReTGPyXe2/hF3eRaSDhhO3ZFmVyj2k
+	/aNB3FBMCWg1Uk3VLDizfcPbF9ugWSBQqn9FhJLNgbKxMhyq74orr2A/qSVoXK3AlOzI
+	GlIA==
+X-Gm-Message-State: APjAAAVkjffliq+++2oqSGELVZf0UxunWyo7YiQTuHKl03AyIpYhv+g1
+	gyfRQqzNsQ/Fn0/6RvPQS8Q6zdUQ1qDzylsKLmyK59tA
+X-Google-Smtp-Source: APXvYqyetbB2DbcFRBDlc5WzRO6YQVu/XdDGfO0aHtPZmTPZbRpikQar+rViCCT0H6S0/mAnC0Kz/8LAUHJrGej7pEk=
+X-Received: by 2002:a2e:83d6:: with SMTP id s22mr14617191ljh.104.1567544944507;
+	Tue, 03 Sep 2019 14:09:04 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190827034456.7837-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190827034456.7837-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190827035254.7969-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190827035254.7969-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Sep 2019 17:08:38 -0400
-Message-ID: <CADkTA4PrCGbPi3=cY8Lo3CvOV8W=84DqSV4hOcBs9RQa0ZsSHw@mail.gmail.com>
+Date: Tue, 3 Sep 2019 17:08:53 -0400
+Message-ID: <CADkTA4PkN4g=-pmtMLu719Psh-weFwXmgbV_OyvChifSaEzXog@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-contextlib2: Add python3 version
+Subject: Re: [PATCH] python-croniter: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,60 +73,66 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 21:08:51 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 21:09:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Aug 26, 2019 at 11:45 PM Zang Ruochen
+On Mon, Aug 26, 2019 at 11:55 PM Zang Ruochen
 <zangrc.fnst@cn.fujitsu.com> wrote:
 >
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../recipes-devtools/python/python-contextlib2.inc      | 16 ++++++++++++++++
->  .../recipes-devtools/python/python-contextlib2_0.5.5.bb | 17 +----------------
->  .../python/python3-contextlib2_0.5.5.bb                 |  3 +++
->  3 files changed, 20 insertions(+), 16 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-contextlib2.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-contextlib2_0.5.5.bb
+>  .../recipes-devtools/python/python-croniter.inc     | 19 +++++++++++++++++++
+>  .../python/python-croniter_0.3.30.bb                | 21 +--------------------
+>  .../python/python3-croniter_0.3.30.bb               |  2 ++
+>  3 files changed, 22 insertions(+), 20 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-croniter.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-croniter_0.3.30.bb
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-contextlib2.inc b/meta-openstack/recipes-devtools/python/python-contextlib2.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-croniter.inc b/meta-openstack/recipes-devtools/python/python-croniter.inc
 > new file mode 100644
-> index 0000000..0a45008
+> index 0000000..885aa9e
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-contextlib2.inc
-> @@ -0,0 +1,16 @@
-> +DESCRIPTION = "Backports and enhancements for the contextlib module"
-> +HOMEPAGE = "http://contextlib2.readthedocs.org/"
+> +++ b/meta-openstack/recipes-devtools/python/python-croniter.inc
+> @@ -0,0 +1,19 @@
+> +DESCRIPTION = "croniter provides iteration for datetime object with cron like format"
+> +HOMEPAGE = "https://pypi.python.org/pypi/croniter/0.3.4"
 > +SECTION = "devel/python"
-> +LICENSE = "PSF"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=43d1c7827e8fad6454b553caf0e1d734"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://docs/LICENSE;md5=b8ee59850b882cbf623188489ea748e2"
 > +
-> +SRC_URI[md5sum] = "95fe420941ebc64951cd9d89edc41870"
-> +SRC_URI[sha256sum] = "509f9419ee91cdd00ba34443217d5ca51f5a364a404e1dce9e8979cea969ca48"
+> +# Archived version so we have to overwrite what the pypi class will derive
+> +PYPI_SRC_URI = "https://pypi.python.org/packages/source/c/croniter/croniter-${PV}.tar.gz"
+> +
+> +SRC_URI[md5sum] = "e4a8987521b144c4c2149d4adde8f55c"
+> +SRC_URI[sha256sum] = "538adeb3a7f7816c3cdec6db974c441620d764c25ff4ed0146ee7296b8a50590"
 > +
 > +DEPENDS += " \
 > +        ${PYTHON_PN}-pip \
 > +        "
 > +
 > +RDEPENDS_${PN} += " \
+> +        ${PYTHON_PN}-dateutil \
 > +        "
-> +
-> diff --git a/meta-openstack/recipes-devtools/python/python-contextlib2_0.5.5.bb b/meta-openstack/recipes-devtools/python/python-contextlib2_0.5.5.bb
-> index af9270e..c6a5c9b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-contextlib2_0.5.5.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-contextlib2_0.5.5.bb
-> @@ -1,18 +1,3 @@
-> -DESCRIPTION = "Backports and enhancements for the contextlib module"
-> -HOMEPAGE = "http://contextlib2.readthedocs.org/"
+> diff --git a/meta-openstack/recipes-devtools/python/python-croniter_0.3.30.bb b/meta-openstack/recipes-devtools/python/python-croniter_0.3.30.bb
+> index 2859441..c5cb414 100644
+> --- a/meta-openstack/recipes-devtools/python/python-croniter_0.3.30.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-croniter_0.3.30.bb
+> @@ -1,21 +1,2 @@
+> -DESCRIPTION = "croniter provides iteration for datetime object with cron like format"
+> -HOMEPAGE = "https://pypi.python.org/pypi/croniter/0.3.4"
 > -SECTION = "devel/python"
-> -LICENSE = "PSF"
-> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=43d1c7827e8fad6454b553caf0e1d734"
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://docs/LICENSE;md5=b8ee59850b882cbf623188489ea748e2"
 > -
-> -SRC_URI[md5sum] = "95fe420941ebc64951cd9d89edc41870"
-> -SRC_URI[sha256sum] = "509f9419ee91cdd00ba34443217d5ca51f5a364a404e1dce9e8979cea969ca48"
+> -# Archived version so we have to overwrite what the pypi class will derive
+> -PYPI_SRC_URI = "https://pypi.python.org/packages/source/c/croniter/croniter-${PV}.tar.gz"
+> -
+> -SRC_URI[md5sum] = "e4a8987521b144c4c2149d4adde8f55c"
+> -SRC_URI[sha256sum] = "538adeb3a7f7816c3cdec6db974c441620d764c25ff4ed0146ee7296b8a50590"
 > -
 >  inherit setuptools pypi
 > -
@@ -135,18 +141,17 @@ On Mon, Aug 26, 2019 at 11:45 PM Zang Ruochen
 > -        "
 > -
 > -RDEPENDS_${PN} += " \
+> -        python-dateutil \
 > -        "
-> +require python-contextlib2.inc
->
-> diff --git a/meta-openstack/recipes-devtools/python/python3-contextlib2_0.5.5.bb b/meta-openstack/recipes-devtools/python/python3-contextlib2_0.5.5.bb
+> +require python-croniter.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-croniter_0.3.30.bb b/meta-openstack/recipes-devtools/python/python3-croniter_0.3.30.bb
 > new file mode 100644
-> index 0000000..db5fa53
+> index 0000000..6ec5a00
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-contextlib2_0.5.5.bb
-> @@ -0,0 +1,3 @@
+> +++ b/meta-openstack/recipes-devtools/python/python3-croniter_0.3.30.bb
+> @@ -0,0 +1,2 @@
 > +inherit setuptools3 pypi
-> +require python-contextlib2.inc
-> +
+> +require python-croniter.inc
 > --
 > 2.7.4
 >
