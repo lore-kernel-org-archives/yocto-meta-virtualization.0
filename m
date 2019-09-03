@@ -1,66 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 28B17E00E49; Tue,  3 Sep 2019 12:56:20 -0700 (PDT)
+	id 6A303E00D67; Tue,  3 Sep 2019 12:58:27 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [209.85.208.193 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.66 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D549EE00E49
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 72569E0098A
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 12:56:03 -0700 (PDT)
-Received: by mail-lj1-f193.google.com with SMTP id u14so10733826ljj.11
+	Tue,  3 Sep 2019 12:58:26 -0700 (PDT)
+Received: by mail-lf1-f66.google.com with SMTP id w6so8527924lfl.2
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Sep 2019 12:56:03 -0700 (PDT)
+	Tue, 03 Sep 2019 12:58:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=LLRdCIzeauS+bH8b2uYanZ84rBeN3XQYiMW2Nq2X4UQ=;
-	b=Qk2jMGncs1AjUWTQ0Kwae6ZPQu3zrBfdto7PXvatwxS+s5/KF4mYqMEpZ1PWEDnQhQ
-	/9Km4dXIhGmaSo7Cb4bakITgSum12PZdvIC16C6/3Ke3d7YcOE6pwj5+LxCrVQJhPeNU
-	oTIiAi+h7j76bY4qin38/gBOktbgXC03jKgfcuuZt+Sp7hEVGhhVMsg0bPw7f1iUCYnW
-	jRplx6qicuFrhUjHbIGzZikRaCWcC2ixN1wqct3SRqfacz8tdJpAqOj0r7PvEWoDb2aB
-	rQtwk4RUdvardd+R4ojUMt+MrXkBMfI3Fsr/e6hJcDSMNnm8lprP8HI6fBFQDk9b74dy
-	kPYg==
+	:cc; bh=PN1UI/h1dKpwmoJsdJFhzsLvbrkx2gmnWBOjzlTEr1g=;
+	b=Nn3kiVf0euFx1nehMVWtxg6qq9yCkoV0bi9Dx7CfhdYVGSZeEQsTIWuIvdr2G6fj/s
+	qK281U4sE8g4V6m2QisLrbxDjYwaJxJ8ikKrS4SJAYatNxTVrnEHOkIGJ4Dd+HNBNcq7
+	wXWTSEdFF/xmbRliPRKqOyOoMclJE+b4zyb9qHswwQtxaa5q/wmd8beuzk/5mLEbe9Ul
+	mLkuc4PsNhQy/sQtBzXLMSSsApZPIbApjIt2HA9OrUjxWtunGZguAXqIRBjMswtUS14D
+	AdI8jpwMMFaE+6mQCZGne6cMBBgg3GjR25f2hr215O/zG1+nwvYUEIeaDH3xi1PXHCR3
+	FQ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=LLRdCIzeauS+bH8b2uYanZ84rBeN3XQYiMW2Nq2X4UQ=;
-	b=cMsyxh0vfII75IVr8tiv3Grzgpd/Th56vGI8FzQxH6QpzVcz23Ci3E+Kmrhud90gsT
-	pwlKYO+2b1wsSAHRGq/XIsMYEpkogmNYNGQMEHGL4V8mRnRUV65thT02Sv1/KYe1uB+V
-	zZJAboabHAUokxIMsVXCzN+o9/DqY3BtD2YGJ7kvMIHVfAW4nbqdrZuV2ZvLGF1+lpBG
-	kZSiUZnkGVWPJp6Ih2udwbuNGAQi5LF//DwYyWN5MxxRbX8WhZWTuby4mMeBMJLd4g92
-	jN3cYHupXHGWKLU/r0lSiEp0PjMHQdPGF+akfVj5kfVW5yoTZ6lsOi6qiFu1sF9mDEZR
-	Ks9g==
-X-Gm-Message-State: APjAAAXOR7x5lEm8axC6V1O+tgTotvIVYSc8uogSD5ZHnSuDTOW3kMOr
-	8VZ0Imu5L++mJq1z7lCFwRfWe9MGpHKULVpoOOW8lJ4T
-X-Google-Smtp-Source: APXvYqxPiICUPANwwPSS2q+FqtmFU01aRDMjNZ9eiaPTl49UFxmnXyUPhCK9JorzNMGZ2Khgye4CULDLV57tEEja9u8=
-X-Received: by 2002:a2e:9196:: with SMTP id f22mr20816654ljg.78.1567540562024; 
-	Tue, 03 Sep 2019 12:56:02 -0700 (PDT)
+	bh=PN1UI/h1dKpwmoJsdJFhzsLvbrkx2gmnWBOjzlTEr1g=;
+	b=fyRvlIDNLkNQZ/dlQV1FaWb654gC34i1K2ACGVEF+11zalIWNOd63qEFzrpHvq9XnW
+	kvMNFFKIwSc7AW2CV8PIo3KRoUG21KOafRIVuxwIIpY9DyXhShXgLamnxy8+1QyBmM9g
+	HuZ57daL8Om8yyIORrJnptQfqgVPD6M1eEIMlc6Gg+b5ZdtmOkU3e/bfaZ+v08depw8G
+	wV5bLUJCJV23+7IXPSoS8tQTIocS5JGRidP4m8lWfLquLPxd1Ts5NxsNuHhqTO51BNQ/
+	o1N4/Klrufu8HdK7hJRsnrxIyeq/WdNe0c4ZibBok4u8XtFDj1olu3AAyxBqfxuXBEe2
+	TeHA==
+X-Gm-Message-State: APjAAAWuZ3i/fISRfL523jI2OG8z8zNSpHhTfvXTmFbH8tGQUo97g9zk
+	4Cx9KCOiWjA7ozKu7n5G5zE70GQ/vUwZUJpCd3szVcDy
+X-Google-Smtp-Source: APXvYqzyuVvkO5qFT6knOqAvnAsj5vHo+VR2+b7GoBfso5tw0DhEJjPLjT/HPMpL9tcV7gzBEKIV54NRKtGtiv7GBaQ=
+X-Received: by 2002:ac2:5a07:: with SMTP id q7mr12269410lfn.177.1567540705268; 
+	Tue, 03 Sep 2019 12:58:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190830064639.19268-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190830064639.19268-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190830091737.36415-1-Qi.Chen@windriver.com>
+In-Reply-To: <20190830091737.36415-1-Qi.Chen@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Sep 2019 15:55:51 -0400
-Message-ID: <CADkTA4MCwqAYF79WOUc17FB5VhQhyBzirXBZCvituX34ZkXxvA@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Tue, 3 Sep 2019 15:58:14 -0400
+Message-ID: <CADkTA4NRzku0rP1FJr0nghCbdw_FXaet7hNhT3L7-6y05k1ASA@mail.gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-paramiko: Add python3 version
+Subject: Re: [m-c-s][PATCH] glusterfs: fix RDEPENDS of glusterfs-geo-replication
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,73 +73,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 19:56:20 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 19:58:27 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Fri, Aug 30, 2019 at 2:51 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Fri, Aug 30, 2019 at 5:21 AM Chen Qi <Qi.Chen@windriver.com> wrote:
 >
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> It should rdepend on python3-core and bash. Otherwise, we get the
+> following QA issue.
+>
+>   glusterfs-6.1-r0 do_package_qa: QA Issue: /usr/libexec/glusterfs/peer_georep-sshkey.py contained in package glusterfs-geo-replication requires /usr/bin/python3, but no providers found in RDEPENDS_glusterfs-geo-replication? [file-rdeps]
+>   glusterfs-6.1-r0 do_package_qa: QA Issue: /usr/libexec/glusterfs/set_geo_rep_pem_keys.sh contained in package glusterfs-geo-replication requires /bin/bash, but no providers found in RDEPENDS_glusterfs-geo-replication? [file-rdeps]
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-paramiko.inc | 12 ++++++++++++
->  .../recipes-devtools/python/python-paramiko_2.6.0.bb       | 14 ++------------
->  .../recipes-devtools/python/python3-paramiko_2.6.0.bb      |  2 ++
->  3 files changed, 16 insertions(+), 12 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-paramiko.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
+>  recipes-extended/glusterfs/glusterfs.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-paramiko.inc b/meta-openstack/recipes-devtools/python/python-paramiko.inc
-> new file mode 100644
-> index 0000000..da47c79
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-paramiko.inc
-> @@ -0,0 +1,12 @@
-> +DESCRIPTION = "SSH2 protocol library"
-> +HOMEPAGE = "https://github.com/paramiko/paramiko/"
-> +SECTION = "devel/python"
-> +LICENSE = "LGPLv2.1"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
-> +
-> +SRC_URI[md5sum] = "f729a45c9122bf975b9177ec5aaa3791"
-> +SRC_URI[sha256sum] = "f4b2edfa0d226b70bd4ca31ea7e389325990283da23465d572ed1f70a7583041"
-> +
-> +inherit pypi
-> +
-> +RDEPENDS_${PN} += "${PYTHON_PN}-pycrypto"
-> diff --git a/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb b/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb
-> index 2b2c8e8..fedbf86 100644
-> --- a/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-paramiko_2.6.0.bb
-> @@ -1,12 +1,2 @@
-> -DESCRIPTION = "SSH2 protocol library"
-> -HOMEPAGE = "https://github.com/paramiko/paramiko/"
-> -SECTION = "devel/python"
-> -LICENSE = "LGPLv2.1"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
-> -
-> -SRC_URI[md5sum] = "f729a45c9122bf975b9177ec5aaa3791"
-> -SRC_URI[sha256sum] = "f4b2edfa0d226b70bd4ca31ea7e389325990283da23465d572ed1f70a7583041"
-> -
-> -inherit setuptools pypi
-> -
-> -RDEPENDS_${PN} += "python-pycrypto"
-> +inherit setuptools
-> +require python-paramiko.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb b/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
-> new file mode 100644
-> index 0000000..97e56e1
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
-> @@ -0,0 +1,2 @@
-> +inherit setuptools3
-> +require python-paramiko.inc
+> diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
+> index 40a3922d..ebfc3245 100644
+> --- a/recipes-extended/glusterfs/glusterfs.inc
+> +++ b/recipes-extended/glusterfs/glusterfs.inc
+> @@ -119,7 +119,7 @@ PACKAGES += "${PN}-rdma ${PN}-geo-replication ${PN}-fuse ${PN}-server \
+>  RDEPENDS_${PN} += "python3-core python-json python-ctypes bash"
+>  RDEPENDS_${PN}-ocf += "bash"
+>  RDEPENDS_${PN}-server += "bash"
+> -RDEPENDS_${PN}-geo-replication += "python3"
+> +RDEPENDS_${PN}-geo-replication += "python3-core bash"
+>
+>  FILES_${PN}-dbg += "${libdir}/glusterfs/${PV}/*/.debug \
+>                      ${libdir}/glusterfs/${PV}/*/*/.debug \
 > --
-> 2.7.4
->
->
+> 2.17.1
 >
 > --
 > _______________________________________________
