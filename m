@@ -1,66 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6A303E00D67; Tue,  3 Sep 2019 12:58:27 -0700 (PDT)
+	id 5FF90E00D68; Tue,  3 Sep 2019 13:00:18 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.208.193 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 72569E0098A
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A35D9E00BF8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 12:58:26 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id w6so8527924lfl.2
+	Tue,  3 Sep 2019 13:00:17 -0700 (PDT)
+Received: by mail-lj1-f193.google.com with SMTP id l20so2854026ljj.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Sep 2019 12:58:26 -0700 (PDT)
+	Tue, 03 Sep 2019 13:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PN1UI/h1dKpwmoJsdJFhzsLvbrkx2gmnWBOjzlTEr1g=;
-	b=Nn3kiVf0euFx1nehMVWtxg6qq9yCkoV0bi9Dx7CfhdYVGSZeEQsTIWuIvdr2G6fj/s
-	qK281U4sE8g4V6m2QisLrbxDjYwaJxJ8ikKrS4SJAYatNxTVrnEHOkIGJ4Dd+HNBNcq7
-	wXWTSEdFF/xmbRliPRKqOyOoMclJE+b4zyb9qHswwQtxaa5q/wmd8beuzk/5mLEbe9Ul
-	mLkuc4PsNhQy/sQtBzXLMSSsApZPIbApjIt2HA9OrUjxWtunGZguAXqIRBjMswtUS14D
-	AdI8jpwMMFaE+6mQCZGne6cMBBgg3GjR25f2hr215O/zG1+nwvYUEIeaDH3xi1PXHCR3
-	FQ+w==
+	:cc; bh=XafXeQYyKuXkRwV8bJb8E7SgSyhf6GGT4gKzNu6CUI4=;
+	b=Mnt+ZWVxNdyWQGNXNQNwbSMY/10oZMITIHYM8f+0EZyKfodGeHeCt6EPk5kf+it41x
+	y6SJvOfHW1zq/wrgqqJhY58ytvvPY6Iaw16SHcJ2IGoXyeKFv+NHgC38ov5Vuyf79/V7
+	HkKCTu6kWrjKp3wi95B8XsHzscag1zZksKFgOpEHonclKTAsosoJ1QH4k3v0uVwVI1zn
+	mIp5B8pkn34sAcxyQlhrNRvLF2vm38D7iFCeOMJa68QnfrKKxecvofKWHU1tt/sXXy4r
+	7MDYD+l3SnqiSBPRZ3ngGBga5Dhzw8QsNNlTLIyUU79cjpT4Mm7kvFyDNJgFMZ0JY8h8
+	Ov/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PN1UI/h1dKpwmoJsdJFhzsLvbrkx2gmnWBOjzlTEr1g=;
-	b=fyRvlIDNLkNQZ/dlQV1FaWb654gC34i1K2ACGVEF+11zalIWNOd63qEFzrpHvq9XnW
-	kvMNFFKIwSc7AW2CV8PIo3KRoUG21KOafRIVuxwIIpY9DyXhShXgLamnxy8+1QyBmM9g
-	HuZ57daL8Om8yyIORrJnptQfqgVPD6M1eEIMlc6Gg+b5ZdtmOkU3e/bfaZ+v08depw8G
-	wV5bLUJCJV23+7IXPSoS8tQTIocS5JGRidP4m8lWfLquLPxd1Ts5NxsNuHhqTO51BNQ/
-	o1N4/Klrufu8HdK7hJRsnrxIyeq/WdNe0c4ZibBok4u8XtFDj1olu3AAyxBqfxuXBEe2
-	TeHA==
-X-Gm-Message-State: APjAAAWuZ3i/fISRfL523jI2OG8z8zNSpHhTfvXTmFbH8tGQUo97g9zk
-	4Cx9KCOiWjA7ozKu7n5G5zE70GQ/vUwZUJpCd3szVcDy
-X-Google-Smtp-Source: APXvYqzyuVvkO5qFT6knOqAvnAsj5vHo+VR2+b7GoBfso5tw0DhEJjPLjT/HPMpL9tcV7gzBEKIV54NRKtGtiv7GBaQ=
-X-Received: by 2002:ac2:5a07:: with SMTP id q7mr12269410lfn.177.1567540705268; 
-	Tue, 03 Sep 2019 12:58:25 -0700 (PDT)
+	bh=XafXeQYyKuXkRwV8bJb8E7SgSyhf6GGT4gKzNu6CUI4=;
+	b=pgcrqRlseOV3PrtrqaYf0naqOWDSM8o1rOQ5vRAz/UbluQgdE9rB5/nInfN7dSrKPE
+	vxSK1yx3G0MjgieVtBgNEiv5AuOfBUFZtKTOPD3Iky3dmcku3pIiRP3TzvLa+B2zzBSn
+	JFchxuWB7P7rmBMNJJdebJyoTF3W/RpX9vGUzOuzfQJNLSpCPbvDp72NEbxjlsh9Id9N
+	vOvdMrrp4mjCgumP3WTk0D6GZe+0+Tq67cjMF+no90fB1kWuec+ZoEDDlk42DiFT7oqv
+	XVHggAWXztRccG/FCwMolQ2SkoILIDpI8u80nBbwIWRk9qe+47kHHSZ19nf2veY2mIyb
+	97gw==
+X-Gm-Message-State: APjAAAWVgHIusnUStoXCZRo1K1QdbcNJvuh2xpLyBh3NOfdnrGYEOvJG
+	xVJcd1mv0SY2Adu6Rrue5kmXSdDBfK/OfvxWXNhCjFrW
+X-Google-Smtp-Source: APXvYqzF8DZQqgoztujJcrGJcUOFAWd/m1Gpp0vZp4k9JbqvVeL7WpWyBEHtQZU2RZLVwlJ173IBdQj3uy0I6r4UNTE=
+X-Received: by 2002:a2e:83d6:: with SMTP id s22mr14476064ljh.104.1567540816650;
+	Tue, 03 Sep 2019 13:00:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190830091737.36415-1-Qi.Chen@windriver.com>
-In-Reply-To: <20190830091737.36415-1-Qi.Chen@windriver.com>
+References: <1567145853-76109-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1567145853-76109-1-git-send-email-changqing.li@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Sep 2019 15:58:14 -0400
-Message-ID: <CADkTA4NRzku0rP1FJr0nghCbdw_FXaet7hNhT3L7-6y05k1ASA@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
+Date: Tue, 3 Sep 2019 16:00:05 -0400
+Message-ID: <CADkTA4PxDgRjCJqdRvwb_eQYVxVhryV1tPAf464c16BXGpH=ew@mail.gmail.com>
+To: changqing.li@windriver.com
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [m-c-s][PATCH] glusterfs: fix RDEPENDS of glusterfs-geo-replication
+Subject: Re: [PATCH 1/2] cgroup-lite: support usrmerge
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,41 +73,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 19:58:27 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 20:00:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Fri, Aug 30, 2019 at 5:21 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+On Fri, Aug 30, 2019 at 2:20 AM <changqing.li@windriver.com> wrote:
 >
-> It should rdepend on python3-core and bash. Otherwise, we get the
-> following QA issue.
+> From: Changqing Li <changqing.li@windriver.com>
 >
->   glusterfs-6.1-r0 do_package_qa: QA Issue: /usr/libexec/glusterfs/peer_georep-sshkey.py contained in package glusterfs-geo-replication requires /usr/bin/python3, but no providers found in RDEPENDS_glusterfs-geo-replication? [file-rdeps]
->   glusterfs-6.1-r0 do_package_qa: QA Issue: /usr/libexec/glusterfs/set_geo_rep_pem_keys.sh contained in package glusterfs-geo-replication requires /bin/bash, but no providers found in RDEPENDS_glusterfs-geo-replication? [file-rdeps]
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
 > ---
->  recipes-extended/glusterfs/glusterfs.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  recipes-containers/cgroup-lite/cgroup-lite_1.15.bb | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-> index 40a3922d..ebfc3245 100644
-> --- a/recipes-extended/glusterfs/glusterfs.inc
-> +++ b/recipes-extended/glusterfs/glusterfs.inc
-> @@ -119,7 +119,7 @@ PACKAGES += "${PN}-rdma ${PN}-geo-replication ${PN}-fuse ${PN}-server \
->  RDEPENDS_${PN} += "python3-core python-json python-ctypes bash"
->  RDEPENDS_${PN}-ocf += "bash"
->  RDEPENDS_${PN}-server += "bash"
-> -RDEPENDS_${PN}-geo-replication += "python3"
-> +RDEPENDS_${PN}-geo-replication += "python3-core bash"
+> diff --git a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb b/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+> index 7b48c3a..45cc287 100644
+> --- a/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+> +++ b/recipes-containers/cgroup-lite/cgroup-lite_1.15.bb
+> @@ -22,9 +22,9 @@ SYSTEMD_AUTO_ENABLE_${PN} = "mask"
 >
->  FILES_${PN}-dbg += "${libdir}/glusterfs/${PV}/*/.debug \
->                      ${libdir}/glusterfs/${PV}/*/*/.debug \
+>
+>  do_install() {
+> -       install -d ${D}/bin
+> -       install -m 0755 ${S}/scripts/cgroups-mount ${D}/bin
+> -       install -m 0755 ${S}/scripts/cgroups-umount ${D}/bin
+> +       install -d ${D}/${base_bindir}
+> +       install -m 0755 ${S}/scripts/cgroups-mount ${D}/${base_bindir}
+> +       install -m 0755 ${S}/scripts/cgroups-umount ${D}/${base_bindir}
+>
+>         install -d ${D}${sysconfdir}/init.d
+>         install -m 0755 ${WORKDIR}/cgroups-init ${D}${sysconfdir}/init.d/cgroups-init
 > --
-> 2.17.1
+> 2.7.4
 >
 > --
 > _______________________________________________
