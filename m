@@ -1,67 +1,68 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 307CAE00DA7; Tue,  3 Sep 2019 13:00:48 -0700 (PDT)
+	id 9C44CE00DA7; Tue,  3 Sep 2019 13:01:41 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.167.47 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7C9A7E00D68
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 399B5E00D35
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 13:00:44 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id j4so13910967lfh.8
+	Tue,  3 Sep 2019 13:01:40 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id x80so2815460lff.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Sep 2019 13:00:44 -0700 (PDT)
+	Tue, 03 Sep 2019 13:01:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yjG2p0ky0du4AH2XUrM8jv2BBCK606ia33ETEyr5kFM=;
-	b=QRAxcOpV6rSkswXbRJw4sVfjpCY5qEgLrRLWODYwxRuex/zuzcuzi2K8+oh7ZdcufS
-	m34szy3jH4BcA+4ZTdNqF/YH5iw/0XWThzLxNEKO23nb4PcWTaibU6kGDw4RUnvB02aE
-	L64ANuJ0ps+A+uQ6a+Icc6K6PAqnMrNdYQYif/yKh8WMp2vn/dLwrOUOz4BmWTWmGOl3
-	wxPggZtnQpp4swmRb4fe0N/ad8La+QgxROMEpB28wGS9S6cj5uoiEz+PpQbz92BUyt1l
-	sD/p99g7NV+B2RxWuxxLUnfxGyHCWh7Ge7IfhDjQdnBjpNz7UALdC/sucJB/Xqd0op2M
-	l/IQ==
+	:cc; bh=ITRGNh5k1AGRuPFtiqXzBYHTU6enogugbCAhjJrKmXU=;
+	b=uefNJ5k2wmLIzSwcSpQKjUyZzZcBKTCCEuYzaGs3G/DqIUS23wtyt4eAk9BeXeEqvs
+	YM385vgFjitOUfaw50lrLs7X2Y6eQcofjJu+x+8ystWr1k1si7Jld3L6NuUPkIZCuy8s
+	GUOYBKdx+39sKfsnMRez+PZE1W5MPv8781wpFUNF2tm7ST6uPmgcGCPx130X7uuEhaQK
+	JqSZAqIpFDXTpbznKrzXjjqEJiI9wWnHns1yVxe9My/FQSleMJTFDUuCYB5b/SmHITg3
+	XJisot1Mhz1I6FrZ/3SeiuwsEiIUFTrEoygmbQaaSsoDJUWJ9NBBiuwH0VGOrLnb8YAC
+	8aPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=yjG2p0ky0du4AH2XUrM8jv2BBCK606ia33ETEyr5kFM=;
-	b=gmYV47GpV8nlnpnq8/xaEaIhtw0VClfCfnvwXI0krGd+WL+DdY5MK0QPpbpPEHzV03
-	GDiwU34SNJOsDSe19nGk1KaGzz88PhUBxyAS0al5PLjvmszf5K0oP8nGcLcYWG0gTInp
-	XJJo6CPOj0GrSH/rT9kOnkd31iaBYInav5U1zMEIMMPXF4tY3ccNBDPXlYuGa6CLDC1v
-	r96SNw+g1uVthweqXiDSIm0oCruEm77ov9eGlJaMEi3FPm0028/6pfeUrXbe+IS8VB7W
-	LkWYg0nXjFlJQxqNAI69Kng4T4TTMHIq3HvZFxjoGRhRzGZ6EVtnO316mhNRmfySt+FN
-	h/8g==
-X-Gm-Message-State: APjAAAWlN1mKlUaDvIm03xxEqPj7UgmiG5IuCttQZLze++5rqdGPaxbP
-	SuAnRq8yp2Az1OiFwCDbFYCRf/1cmirwqrvYRTj7XLsa
-X-Google-Smtp-Source: APXvYqzXVP/LH1gtyoNUswc2QYX9AJfzpWpHJY/i3EbgVy4aXr8z2ceK9UrBRGWHKEgF+SN4XekrsdJ42tsGlyi1RhI=
-X-Received: by 2002:ac2:4117:: with SMTP id b23mr6462702lfi.36.1567540843471; 
-	Tue, 03 Sep 2019 13:00:43 -0700 (PDT)
+	bh=ITRGNh5k1AGRuPFtiqXzBYHTU6enogugbCAhjJrKmXU=;
+	b=UWAbNZMBMBEqAIbOv5ZN8ri4mKk0uhP9oKd/UTQDndCmGwCDw2B8CYRXL96BybRP7m
+	/yA0iYX2g1PO5yC8KlCvZUYxk886QEnly7T223uKLrTQRNM1jfOwUavgcHHx+ZtR3aK3
+	ODXkBFGoB9heh3Z07t0Vq3/bTMLZif0I1fDaum6gHCab6PHC5xEptgnqN3cVT4lKFSo0
+	NClrh8x9t1ElgDevilKl5BIJEtIIFScW/MIxCc1r0YxeR6/ka4yFJMlIoUxNG8zMqIoA
+	ptMScBhqwc/ziM1rVn+Q1V/PB/MYiyMKxGTf9j5ADTr9OkCqpoYKo1FqvT9ghbG42bHk
+	lVEA==
+X-Gm-Message-State: APjAAAXb5Ih9b8/wnXQm9hOmAkOYyND9SwgeR4JD2KRlW2sg9SOFDL5m
+	KzE9CI0NvwvUqYwkLtjrb0b3+X6AK5aZyjuNcMU=
+X-Google-Smtp-Source: APXvYqzcwpnkVISG44uV0eCSayy+GCd8z3vwqMglK+WOfPb8Vb8ONbnwpytvkgzw7fZs7+uc2bPzCK4GZYLNO7QFZzM=
+X-Received: by 2002:a19:428f:: with SMTP id
+	p137mr22056111lfa.149.1567540899023; 
+	Tue, 03 Sep 2019 13:01:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <1567145853-76109-1-git-send-email-changqing.li@windriver.com>
-	<1567145853-76109-2-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1567145853-76109-2-git-send-email-changqing.li@windriver.com>
+References: <1567413409-22401-1-git-send-email-hongxu.jia@windriver.com>
+	<1567413409-22401-2-git-send-email-hongxu.jia@windriver.com>
+In-Reply-To: <1567413409-22401-2-git-send-email-hongxu.jia@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Sep 2019 16:00:32 -0400
-Message-ID: <CADkTA4P58sLyWgf+z+xNKFjZuHW=bdwiSM8C0KX4k0+akA9TxA@mail.gmail.com>
-To: changqing.li@windriver.com
+Date: Tue, 3 Sep 2019 16:01:28 -0400
+Message-ID: <CADkTA4O4aPWFASJ29xQTgWEt-jRc8s8HKxh4CTk6TUbvQArMeg@mail.gmail.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 2/2] diod: support usrmerge
+Subject: Re: [PATCH 2/2] containerd-opencontainers: building unstripped binaries
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,107 +75,98 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 20:00:48 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 20:01:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Fri, Aug 30, 2019 at 2:20 AM <changqing.li@windriver.com> wrote:
+On Mon, Sep 2, 2019 at 4:37 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
 >
-> From: Changqing Li <changqing.li@windriver.com>
+> It defaults to "-s -w" [1] which strips debug information, refresh a backported
+> patch to build unstripped binaries
 >
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> https://golang.org/cmd/link/
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  recipes-extended/diod/diod_1.0.24.bb               |  3 ++
->  ...0001-drod-add-option-to-config-systemddir.patch | 51 ++++++++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+>  .../0001-Add-build-option-GODEBUG-1.patch          | 42 ++++++++++++++++++++++
+>  .../containerd/containerd-opencontainers_git.bb    |  3 ++
+>  2 files changed, 45 insertions(+)
+>  create mode 100644 recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
 >
-> diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod/diod_1.0.24.bb
-> index bb5707e..a4a8528 100644
-> --- a/recipes-extended/diod/diod_1.0.24.bb
-> +++ b/recipes-extended/diod/diod_1.0.24.bb
-> @@ -16,9 +16,12 @@ SRC_URI = "git://github.com/chaos/diod.git;protocol=git \
->             file://0001-build-allow-builds-to-work-with-separate-build-dir.patch \
->             file://0002-auto.diod.in-remove-bashisms.patch \
->             file://0001-diod-ops.c-add-header-file-for-makedev.patch \
-> +           file://0001-drod-add-option-to-config-systemddir.patch \
->            "
->  DEPENDS = "libcap ncurses tcp-wrappers lua"
->
-> +EXTRA_OECONF = "--with-systemddir=${systemd_unitdir}/system"
-> +
->  S = "${WORKDIR}/git"
->
->  inherit autotools systemd
-> diff --git a/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch b/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+> diff --git a/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch b/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
 > new file mode 100644
-> index 0000000..8b70d8f
+> index 0000000..05c4f15
 > --- /dev/null
-> +++ b/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
-> @@ -0,0 +1,51 @@
-> +From 365159534b1981dfe291ecc05d2455f32652a166 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Mon, 26 Aug 2019 18:00:39 +0800
-> +Subject: [PATCH] drod: add option to config systemddir
+> +++ b/recipes-containers/containerd/containerd-opencontainers/0001-Add-build-option-GODEBUG-1.patch
+> @@ -0,0 +1,42 @@
+> +From 84874e47aa2025b8e73df0286c44f3b8a1d9fdb2 Mon Sep 17 00:00:00 2001
+> +From: Hongxu Jia <hongxu.jia@windriver.com>
+> +Date: Mon, 2 Sep 2019 16:20:07 +0800
+> +Subject: [PATCH] Add build option "GODEBUG=1"
 > +
-> +Upstream-Status: Pending
+> +Make will generate GDB friendly binary with this build option.
 > +
-> +Not need to send upstream, since upstream have refactor
-> +related code, but not released. and this version release
-> +4 years ago, not proper to just backport one or more
-> +commits, this patch maybe could be dropped after upgrade.
+> +Signed-off-by: Hui Zhu <teawater@hyper.sh>
 > +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +Upstream-Status: Backport [c5a0c7f491b435e4eb45972903b00e2d8ed46495]
+> +
+> +Partly backport and refresh to v1.2.7
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > +---
-> + configure.ac        | 9 +++++++++
-> + scripts/Makefile.am | 2 +-
-> + 2 files changed, 10 insertions(+), 1 deletion(-)
+> + src/import/Makefile | 8 ++++++--
+> + 1 file changed, 6 insertions(+), 2 deletions(-)
 > +
-> +diff --git a/configure.ac b/configure.ac
-> +index 1cb8579..3e4a5ec 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -25,6 +25,15 @@ AC_DEFINE([_GNU_SOURCE], 1,
-> +           [Define _GNU_SOURCE so that we get all necessary prototypes])
+> +diff --git a/src/import/Makefile b/src/import/Makefile
+> +index 4355395..4fb5d3b 100644
+> +--- a/src/import/Makefile
+> ++++ b/src/import/Makefile
+> +@@ -75,11 +75,15 @@ TEST_REQUIRES_ROOT_PACKAGES=$(filter \
+> + COMMANDS=ctr containerd containerd-stress
+> + MANPAGES=ctr.1 containerd.1 containerd-config.1 containerd-config.toml.5
 > +
-> + ##
-> ++#Add option to config systemddir
-> ++##
-> ++AC_ARG_WITH([systemddir],
-> ++  [AS_HELP_STRING([--with-systemddir=DIR], [systemd dir])],
-> ++  [systemddir=$withval],
-> ++  [systemddir="/lib/systemd/system"])
-> ++AC_SUBST([systemddir], [$systemddir])
+> ++ifndef GODEBUG
+> ++   EXTRA_LDFLAGS += -s -w
+> ++endif
 > ++
-> ++##
-> + # Checks for programs
-> + ##
-> + AC_PROG_CC
-> +diff --git a/scripts/Makefile.am b/scripts/Makefile.am
-> +index 2aba728..40822b7 100644
-> +--- a/scripts/Makefile.am
-> ++++ b/scripts/Makefile.am
-> +@@ -1,4 +1,4 @@
-> +-systemddir=/lib/systemd/system
-> ++systemddir=@systemddir@
+> + # Build tags seccomp and apparmor are needed by CRI plugin.
+> + BUILDTAGS ?= seccomp apparmor
+> + GO_TAGS=$(if $(BUILDTAGS),-tags "$(BUILDTAGS)",)
+> +-GO_LDFLAGS=-ldflags '-s -w -X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) $(EXTRA_LDFLAGS)'
+> +-SHIM_GO_LDFLAGS=-ldflags '-s -w -X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) -extldflags "-static"'
+> ++GO_LDFLAGS=-ldflags '-X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) $(EXTRA_LDFLAGS)'
+> ++SHIM_GO_LDFLAGS=-ldflags '-X $(PKG)/version.Version=$(VERSION) -X $(PKG)/version.Revision=$(REVISION) -X $(PKG)/version.Package=$(PACKAGE) -extldflags "-static" $(EXTRA_LDFLAGS)'
 > +
-> + install-data-local:
-> +       $(top_srcdir)/config/install-sh -m 755 ./auto.diod \
+> + #Replaces ":" (*nix), ";" (windows) with newline for easy parsing
+> + GOPATHS=$(shell echo ${GOPATH} | tr ":" "\n" | tr ";" "\n")
 > +--
 > +2.7.4
 > +
+> diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
+> index 424de74..347eae5 100644
+> --- a/recipes-containers/containerd/containerd-opencontainers_git.bb
+> +++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
+> @@ -1,6 +1,7 @@
+>  SRCREV = "fd103cb716352c7e19768e4fed057f71d68902a0"
+>  SRC_URI = "git://github.com/containerd/containerd;branch=release/1.2 \
+>             file://0001-build-use-oe-provided-GO-and-flags.patch \
+> +           file://0001-Add-build-option-GODEBUG-1.patch \
+>            "
+>
+>  include containerd.inc
+> @@ -9,5 +10,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d
+>
+>  CONTAINERD_VERSION = "v1.2.7"
+>
+> +EXTRA_OEMAKE += "GODEBUG=1"
+> +
+>  PROVIDES += "virtual/containerd"
+>  RPROVIDES_${PN} = "virtual/containerd"
 > --
 > 2.7.4
 >
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
