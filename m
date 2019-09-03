@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 49028E00BF8; Tue,  3 Sep 2019 10:16:05 -0700 (PDT)
+	id CB2E0E00D68; Tue,  3 Sep 2019 10:18:13 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,55 +13,56 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.51 listed in list.dnswl.org]
+	*      [209.85.208.178 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
-	[209.85.167.51])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CD0F0E0097C
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com
+	[209.85.208.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B6156E00BF8
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 10:16:01 -0700 (PDT)
-Received: by mail-lf1-f51.google.com with SMTP id x80so2411421lff.3
+	Tue,  3 Sep 2019 10:18:12 -0700 (PDT)
+Received: by mail-lj1-f178.google.com with SMTP id l20so2390698ljj.3
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 03 Sep 2019 10:16:01 -0700 (PDT)
+	Tue, 03 Sep 2019 10:18:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PLqo9lFz/y/1Qc/zGipu9qtVwIUkfMTt8iCN5sMHd2Y=;
-	b=kKX+bhySUt1GWRrjCzNo2EO6H5oPNRACUFKlmIknJ74NIvuVfu6Aj2iP69a5nMZv+y
-	YCmblTm8sn+e4Q9UaSLVRG3bKvF/Z8eh4Lxulmi1g9tDfWsKTrNrIl44rZfAlOwy/ybo
-	CunUPhCXfDxWwIglQbPjgEBrnQjp7GeefRsIZU3lw5E+XZzIRprd0hg02lOVvqr5eLbT
-	SplyrW5Af9bb+5q+YTA5UlrWxJxBBs3/LmB059fCfb5WeKWMkpuspFoT4XifKyPa5zq2
-	Q6mV2IehxWc0laKVA4L6PJ3zISCSVjTDX43kj3BfuFj4Q8815j53XN0C13mKjhOqgVnz
-	zzZw==
+	:cc; bh=x4tYpy5G6QmY2c3I6vSnzSs0TqV2T6a4Y3LKXvg6TBE=;
+	b=r8VsLSVpgOAYWFKLJXOKVSNcQH/5tZfK5V/FdQBCjoJvwOoXq4Gw6efS9E0+9ozAXm
+	nMD08Z1zhtRfywHZUmJPsNx1yzS7eYI30FXFXFhMR0wU1icman8/8NYVKsVMkzQqdjdH
+	KDzeV3NISfPjsCnyrUdBFKZQVK6X1Cn5PMBltqPiTfL72a7B88NNtxCMDoPZ6RB770+m
+	OjyVRbjEzFQIl2IjA03GXJKBE2GaGmPZwNqXh1aSmhIplzZ7RidzUyWkrPCNtTZqp+pR
+	qJm5/qpE4XIoC/CDvDMueG/Ve7LWONpOoo3vzqOWkzW+DjAPT7RA4/XVZT2ry3u7Kdym
+	qEWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PLqo9lFz/y/1Qc/zGipu9qtVwIUkfMTt8iCN5sMHd2Y=;
-	b=IsDSXrIpsh5uiC85a0gR4c+YUxOPKMn7JeLzGNDKLt5lB4r34cn6ad+9SZkeuE+tsc
-	OhFGHwJUcZal+xUdGXirAP+ijspJyc9/NswaCLCjLvb1AYHAScsjSwZjEl+yQXHhwvb8
-	2A88kQSJP4IL1lWIWCNMWdEzsfYMkDVX7sLHIj6R3o8Xp7TYjIi/hDOM2fxX4fw9cBWy
-	d9bvOFGNrQDoUlcTYb86ip4t+RdhK2tf9dHbgwoLF5AexonGdXrN3lEYfZjbsEBvfh5H
-	OaaYh7SdvQjwNRefBBL7AXex48IZC8j6o7svlSMiiL8Gv2QTrvKL2andtHMK0njgEEaX
-	SdnA==
-X-Gm-Message-State: APjAAAUogR3A/nGiieYVxfhvViSsyE4wUQ6EyRjP4BJbY/lQxLuzND34
-	YUP8iNpKCIgWQlzUyaoLYP1LV+jo7Sj6cv3ullU=
-X-Google-Smtp-Source: APXvYqzuO/J4+zR6fhwx0S8A2jGMxLI7ibC2Ntn7EgZskCpLsj77ovbQS1dGV6D5J1IU84nK32rPJgPmgMtJ+0tYAFk=
-X-Received: by 2002:a19:4347:: with SMTP id m7mr20541037lfj.146.1567530960669; 
-	Tue, 03 Sep 2019 10:16:00 -0700 (PDT)
+	bh=x4tYpy5G6QmY2c3I6vSnzSs0TqV2T6a4Y3LKXvg6TBE=;
+	b=kNsRK/uzp27Tb2YurEhWo3fHN/0nhgpWGEO1kgewPI4WmhKfl9G3iRa+wSsd9HayCh
+	to9Zfsd6uxZOBp9XCegHqrPgsK+Nm74UWlGv/0QN2jlPqa7DRsv9LHLN16UBkL00KrFF
+	DREt0TGafZ00qzqd41HhFbWS1HvIpeUcrv7B7W4oRGqn5N3CR/OcqsU1wB9uRX10Iw0w
+	G+bpYNXJIeelDHvMBjrw9A8O7H6mu+ND1sD1go1A5MsioYgJM/bm0Ph+MlIWDUITL+m3
+	9hYRlNOya1EXpheqKWCaQ6K8yScxANJ77Y3PoEcpNA2rG9h5tGzmd7I7dGi5FkKUNIr+
+	257Q==
+X-Gm-Message-State: APjAAAVUzlaW+jEoNTueKZAxWoaiOqa8EBIzZ7Qlza1JI3vGp/CxtrY/
+	zf2fdNjZc8jwieLXvfKVEzKmBsX5d8EOaJ0hIvUuezGn
+X-Google-Smtp-Source: APXvYqxBuf6lhpNQl3GTzOICYqC9ffWszIN5DNa1uMIELKVMmocLy5tKO6w4k5K9f2Ho16916qZ7vmnf7Ly9zfdE/Mc=
+X-Received: by 2002:a2e:9214:: with SMTP id k20mr4189216ljg.232.1567531091560; 
+	Tue, 03 Sep 2019 10:18:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <1567145853-76109-1-git-send-email-changqing.li@windriver.com>
-	<1567145853-76109-2-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1567145853-76109-2-git-send-email-changqing.li@windriver.com>
+References: <20190901203338.38768-1-stefan@agner.ch>
+	<20190901203338.38768-5-stefan@agner.ch>
+In-Reply-To: <20190901203338.38768-5-stefan@agner.ch>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 3 Sep 2019 13:15:49 -0400
-Message-ID: <CADkTA4NW6+3p98KkhtBhongq1BtEDZHWVc6MGV_+TM_FCssL=Q@mail.gmail.com>
-To: changqing.li@windriver.com
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH 2/2] diod: support usrmerge
+Date: Tue, 3 Sep 2019 13:18:00 -0400
+Message-ID: <CADkTA4PGYknPXvx_wFS9yq6Gp9QmwX1ta7UNVygdfLKjB+Wq_Q@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>
+Cc: meta-virtualization@yoctoproject.org,
+	Stefan Agner <stefan.agner@toradex.com>
+Subject: Re: [PATCH 4/6] skopeo: add skopeo
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,107 +75,118 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 17:16:05 -0000
+X-List-Received-Date: Tue, 03 Sep 2019 17:18:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Aug 30, 2019 at 2:20 AM <changqing.li@windriver.com> wrote:
+On Sun, Sep 1, 2019 at 4:35 PM Stefan Agner <stefan@agner.ch> wrote:
 >
-> From: Changqing Li <changqing.li@windriver.com>
+> From: Stefan Agner <stefan.agner@toradex.com>
+>
+> skopeo is a command line utility that performs various operations on
+> container images and image repositories.
+>
+> skopeo can work with OCI images as well as the original Docker v2
+> images.
+>
+> The recipe originates from from meta-overc commit a497792. It has
+> been updated with the new project URL and v0.1.39.
 
-Again, this could use a long log.
+Nice!
 
-Did you consider a diod upgrade ? Any estimate on how hard it would be ?
-
-I'll merge this, but if you can reply to the question I have above,
-that would be great, since we'll archive why we didn't do the uprev at
-this point.
+This was on my list to bring into meta-virtualization. Once I can
+confirm that it passes the meta-overc use cases, I'll merge this and
+drop the one from meta-overc.
 
 Bruce
 
 >
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 > ---
->  recipes-extended/diod/diod_1.0.24.bb               |  3 ++
->  ...0001-drod-add-option-to-config-systemddir.patch | 51 ++++++++++++++++++++++
->  2 files changed, 54 insertions(+)
->  create mode 100644 recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+>  recipes-containers/skopeo/skopeo_git.bb | 73 +++++++++++++++++++++++++
+>  1 file changed, 73 insertions(+)
+>  create mode 100644 recipes-containers/skopeo/skopeo_git.bb
 >
-> diff --git a/recipes-extended/diod/diod_1.0.24.bb b/recipes-extended/diod/diod_1.0.24.bb
-> index bb5707e..a4a8528 100644
-> --- a/recipes-extended/diod/diod_1.0.24.bb
-> +++ b/recipes-extended/diod/diod_1.0.24.bb
-> @@ -16,9 +16,12 @@ SRC_URI = "git://github.com/chaos/diod.git;protocol=git \
->             file://0001-build-allow-builds-to-work-with-separate-build-dir.patch \
->             file://0002-auto.diod.in-remove-bashisms.patch \
->             file://0001-diod-ops.c-add-header-file-for-makedev.patch \
-> +           file://0001-drod-add-option-to-config-systemddir.patch \
->            "
->  DEPENDS = "libcap ncurses tcp-wrappers lua"
->
-> +EXTRA_OECONF = "--with-systemddir=${systemd_unitdir}/system"
-> +
->  S = "${WORKDIR}/git"
->
->  inherit autotools systemd
-> diff --git a/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch b/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
+> diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_git.bb
 > new file mode 100644
-> index 0000000..8b70d8f
+> index 0000000..82d3f23
 > --- /dev/null
-> +++ b/recipes-extended/diod/files/0001-drod-add-option-to-config-systemddir.patch
-> @@ -0,0 +1,51 @@
-> +From 365159534b1981dfe291ecc05d2455f32652a166 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Mon, 26 Aug 2019 18:00:39 +0800
-> +Subject: [PATCH] drod: add option to config systemddir
+> +++ b/recipes-containers/skopeo/skopeo_git.bb
+> @@ -0,0 +1,73 @@
+> +HOMEPAGE = "https://github.com/containers/skopeo"
+> +SUMMARY = "Work with remote images registries - retrieving information, images, signing content"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=7e611105d3e369954840a6668c438584"
 > +
-> +Upstream-Status: Pending
+> +DEPENDS = " \
+> +    gpgme \
+> +    multipath-tools \
+> +    btrfs-tools \
+> +    glib-2.0 \
+> +    ostree \
+> +"
 > +
-> +Not need to send upstream, since upstream have refactor
-> +related code, but not released. and this version release
-> +4 years ago, not proper to just backport one or more
-> +commits, this patch maybe could be dropped after upgrade.
+> +inherit go
 > +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +---
-> + configure.ac        | 9 +++++++++
-> + scripts/Makefile.am | 2 +-
-> + 2 files changed, 10 insertions(+), 1 deletion(-)
+> +RDEPENDS_${PN} = " \
+> +     gpgme \
+> +     libgpg-error \
+> +     libassuan \
+> +"
 > +
-> +diff --git a/configure.ac b/configure.ac
-> +index 1cb8579..3e4a5ec 100644
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -25,6 +25,15 @@ AC_DEFINE([_GNU_SOURCE], 1,
-> +           [Define _GNU_SOURCE so that we get all necessary prototypes])
+> +SRC_URI = "git://github.com/containers/skopeo"
 > +
-> + ##
-> ++#Add option to config systemddir
-> ++##
-> ++AC_ARG_WITH([systemddir],
-> ++  [AS_HELP_STRING([--with-systemddir=DIR], [systemd dir])],
-> ++  [systemddir=$withval],
-> ++  [systemddir="/lib/systemd/system"])
-> ++AC_SUBST([systemddir], [$systemddir])
-> ++
-> ++##
-> + # Checks for programs
-> + ##
-> + AC_PROG_CC
-> +diff --git a/scripts/Makefile.am b/scripts/Makefile.am
-> +index 2aba728..40822b7 100644
-> +--- a/scripts/Makefile.am
-> ++++ b/scripts/Makefile.am
-> +@@ -1,4 +1,4 @@
-> +-systemddir=/lib/systemd/system
-> ++systemddir=@systemddir@
+> +SRCREV = "1cf1e06582142c522543560f2bc6d6756696e8ad"
+> +PV = "v0.1.39-dev+git${SRCPV}"
+> +GO_IMPORT = "import"
 > +
-> + install-data-local:
-> +       $(top_srcdir)/config/install-sh -m 755 ./auto.diod \
-> +--
-> +2.7.4
+> +S = "${WORKDIR}/git"
 > +
+> +inherit goarch
+> +inherit pkgconfig
+> +
+> +# This disables seccomp and apparmor, which are on by default in the
+> +# go package.
+> +EXTRA_OEMAKE="BUILDTAGS=''"
+> +
+> +do_compile() {
+> +       export GOARCH="${TARGET_GOARCH}"
+> +
+> +       # Setup vendor directory so that it can be used in GOPATH.
+> +       #
+> +       # Go looks in a src directory under any directory in GOPATH but riddler
+> +       # uses 'vendor' instead of 'vendor/src'. We can fix this with a symlink.
+> +       #
+> +       # We also need to link in the ipallocator directory as that is not under
+> +       # a src directory.
+> +       ln -sfn . "${S}/src/import/vendor/src"
+> +       mkdir -p "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
+> +       ln -sfn "${S}/src/import/skopeo" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
+> +       ln -sfn "${S}/src/import/version" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo/version"
+> +       export GOPATH="${S}/src/import/vendor"
+> +
+> +       # Pass the needed cflags/ldflags so that cgo
+> +       # can find the needed headers files and libraries
+> +       export CGO_ENABLED="1"
+> +       export CFLAGS=""
+> +       export LDFLAGS=""
+> +       export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+> +       export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+> +       cd ${S}/src/import
+> +
+> +       oe_runmake binary-local
+> +}
+> +
+> +do_install() {
+> +       install -d ${D}/${sbindir}
+> +       install -d ${D}/${sysconfdir}/containers
+> +
+> +       install ${S}/src/import/skopeo ${D}/${sbindir}/
+> +       install ${S}/src/import/default-policy.json ${D}/${sysconfdir}/containers/policy.json
+> +}
+> +
+> +INSANE_SKIP_${PN} += "ldflags"
 > --
-> 2.7.4
+> 2.20.1
 >
 > --
 > _______________________________________________
