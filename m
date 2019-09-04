@@ -1,49 +1,42 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Return-Path: <Hongxu.Jia@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A4F88E00D68; Tue,  3 Sep 2019 16:52:51 -0700 (PDT)
+	id 1048BE00DB1; Tue,  3 Sep 2019 19:03:42 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
 	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at
+	https://www.dnswl.org/, *      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B5791E00D67
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 87813E0097C
 	for <meta-virtualization@yoctoproject.org>;
-	Tue,  3 Sep 2019 16:52:50 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.64,464,1559491200"; d="scan'208";a="74784635"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Sep 2019 07:52:48 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id EA6FE4CE14E7;
-	Wed,  4 Sep 2019 07:52:47 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0439.000; Wed, 4 Sep 2019 07:52:54 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "mark.asselstine@windriver.com" <mark.asselstine@windriver.com>
-Thread-Topic: [meta-virtualization] [PATCH] python-glanceclient: upgrade
-	2.8.0 -> 2.16.0
-Thread-Index: AQHVYYUXylLJpJN/0UO7wbkNEGwY26cZ5+UAgAC5+PA=
-Date: Tue, 3 Sep 2019 23:52:55 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B5B6D526@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1567425189-118862-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CAPuovELN1S+uxOTkdaE=-SohXru1fAdcN1hstGhriTHoTNVb6g@mail.gmail.com>
-In-Reply-To: <CAPuovELN1S+uxOTkdaE=-SohXru1fAdcN1hstGhriTHoTNVb6g@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+	Tue,  3 Sep 2019 19:03:41 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x84234Yc008320
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 3 Sep 2019 19:03:14 -0700
+Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 3 Sep 2019 19:02:53 -0700
+To: akuster808 <akuster808@gmail.com>, Bruce Ashfield
+	<bruce.ashfield@gmail.com>
+References: <1567497660-75506-1-git-send-email-hongxu.jia@windriver.com>
+	<CADkTA4OWtpRXJV0bJAbt9xO4oCte0DVyiO55-GGh=fqPucU2nQ@mail.gmail.com>
+	<47fbd63a-708b-cafa-b4c8-e73924be3156@gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <2d93272d-08a1-f6fa-d24d-cfc20e63d862@windriver.com>
+Date: Wed, 4 Sep 2019 10:02:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.8.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: EA6FE4CE14E7.AF560
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-glanceclient: upgrade 2.8.0 -> 2.16.0
+In-Reply-To: <47fbd63a-708b-cafa-b4c8-e73924be3156@gmail.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] docker: Fix CVE-2019-14271 loading of nsswitch based config inside chroot under Glibc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -56,79 +49,138 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Sep 2019 23:52:51 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 04 Sep 2019 02:03:42 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-VG8gTWFyaw0KDQo+IFdoYXQncyB3aXRoIHRoZSBleHRyYSBjaHVybiBoZXJl
-PyBXYXMgdGhlIG1vdmluZyBhcm91bmQgb2YgbGluZXMgZGVsaWJlcmF0ZSwg
-aWYNCj4gc28gaXQgbmVlZHMgdG8gYmUgY292ZXJlZCBpbiB0aGUgbG9uZyBs
-b2cuIElmIG5vdCB5b3Ugc2hvdWxkIGF2b2lkIHRoaXMgYXMgaXQgaXMgc2lt
-aWxhcg0KPiB0byBtaXhpbmcgcmVhbCBjaGFuZ2VzIGFuZCBub24tcmVhbCBj
-aGFuZ2VzLCBpdCBvbmx5IHNlcnZlcyB0byBtYWtlIHRoZSByZXZpZXcNCj4g
-bW9yZSBkaWZmaWN1bHQuDQo+IA0KPiBNYXJrQQ0KDQpTb3Jyee+8jEkgd2ls
-bCBiZSBjYXJlZnVsIG5leHQgdGltZS4NCg0KLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NClpoZW5nIFJ1b3Fp
-bg0KTmFuamluZyBGdWppdHN1IE5hbmRhIFNvZnR3YXJlIFRlY2guIENvLiwg
-THRkLihGTlNUKQ0KQUREUi46IE5vLjYgV2Vuemh1IFJvYWQsIFNvZnR3YXJl
-IEF2ZW51ZSwNCiAgICAgICBOYW5qaW5nLCAyMTAwMTIsIENoaW5hDQpNQUlM
-IDogemhlbmdycS5mbnN0QGNuLmZ1amlzdHUuY29tDQoNCg0KPiAtLS0tLU9y
-aWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBNYXJrIEFzc2Vsc3RpbmUg
-W21haWx0bzptYXJrLmFzc2Vsc3RpbmVAd2luZHJpdmVyLmNvbV0NCj4gU2Vu
-dDogV2VkbmVzZGF5LCBTZXB0ZW1iZXIgMDQsIDIwMTkgNDo0NiBBTQ0KPiBU
-bzogWmhlbmcsIFJ1b3Fpbi/pg5Eg6Iul6ZKmIDx6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXRzdS5jb20+DQo+IENjOiBtZXRhLXZpcnR1YWxpemF0aW9uIDxtZXRh
-LXZpcnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmc+DQo+IFN1YmplY3Q6
-IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl0gW1BBVENIXSBweXRob24tZ2xh
-bmNlY2xpZW50OiB1cGdyYWRlIDIuOC4wIC0+DQo+IDIuMTYuMA0KPiANCj4g
-T24gTW9uLCBTZXAgMiwgMjAxOSBhdCA3OjUzIEFNIFpoZW5nIFJ1b3FpbiA8
-emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KPiB3cm90ZToNCj4gPg0K
-PiA+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0
-QGNuLmZ1aml0c3UuY29tPg0KPiA+IC0tLQ0KPiA+ICAuLi4vcHl0aG9uL3B5
-dGhvbi1nbGFuY2VjbGllbnRfZ2l0LmJiICAgICAgICAgIHwgMTggKysrKysr
-KystLS0tLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA4IGluc2VydGlv
-bnMoKyksIDEwIGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdA0K
-PiA+IGEvbWV0YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uLWdsYW5jZWNsaWVudF9naXQuYmINCj4gPiBiL21ldGEtb3BlbnN0
-YWNrL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbi1nbGFuY2VjbGll
-bnRfZ2l0LmJiDQo+ID4gaW5kZXggMDBlYTJhYi4uZTgyOGNiYSAxMDA2NDQN
-Cj4gPiAtLS0NCj4gPiBhL21ldGEtb3BlbnN0YWNrL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbi1nbGFuY2VjbGllbnRfZ2l0LmJiDQo+ID4gKysr
-IGIvbWV0YS1vcGVuc3RhY2svcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uLWdsYW5jZWNsaWVudF9naXQuYg0KPiA+ICsrKyBiDQo+ID4gQEAgLTMs
-MjIgKzMsMjAgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL29w
-ZW5zdGFjay9weXRob24tDQo+IGdsYW5jZWNsaWVudCINCj4gPiAgU0VDVElP
-TiA9ICJkZXZlbC9weXRob24iDQo+ID4gIExJQ0VOU0UgPSAiQXBhY2hlLTIu
-MCINCj4gPiAgTElDX0ZJTEVTX0NIS1NVTSA9DQo+ICJmaWxlOi8vTElDRU5T
-RTttZDU9MzQ0MDBiNjgwNzJkNzEwZmVjZDBhMjk0MGEwZDE2NTgiDQo+ID4g
-K1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9vcGVuc3RhY2svcHl0aG9u
-LWdsYW5jZWNsaWVudC5naXQgXA0KPiA+ICsgICAgICAgICAgIGZpbGU6Ly9n
-bGFuY2UtYXBpLWNoZWNrLnNoIFwNCj4gPiArICAgICAgICAiDQo+ID4gKw0K
-PiA+ICtQViA9ICIyLjE2LjArZ2l0JHtTUkNQVn0iDQo+ID4gK1NSQ1JFViA9
-ICI0NGE0ZGJkNmNlMjY0MmRhZWFjYTlmNDVhYzk5ZTJkMWIzOWU4MDVhIg0K
-PiA+ICtTID0gIiR7V09SS0RJUn0vZ2l0Ig0KPiA+ICsNCj4gPiAgREVQRU5E
-UyArPSAiIFwNCj4gPiAgICAgICAgICBnbXAgXA0KPiA+ICAgICAgICAgIHB5
-dGhvbi1waXAgXA0KPiA+ICAgICAgICAgIHB5dGhvbi1wYnIgXA0KPiA+ICAg
-ICAgICAgICINCj4gPg0KPiA+IC1TUkNSRVYgPSAiMTNiMjVmZjFmZWQ5MDhj
-ZmU3YjRlNzE5YTk3ZWZkNzEyMWUzYmU5NiINCj4gPiAtUFYgPSAiMi44LjAr
-Z2l0JHtTUkNQVn0iDQo+ID4gLQ0KPiA+IC1TUkNfVVJJID0gIlwNCj4gPiAt
-ICAgICAgIGdpdDovL2dpdGh1Yi5jb20vb3BlbnN0YWNrLyR7QlBOfS5naXQ7
-YnJhbmNoPXN0YWJsZS9waWtlIFwNCj4gPiAtICAgICAgIGZpbGU6Ly9nbGFu
-Y2UtYXBpLWNoZWNrLnNoIFwNCj4gPiAtICAgICAgICINCj4gPiAtDQo+ID4g
-LVMgPSAiJHtXT1JLRElSfS9naXQiDQo+IA0KPiBXaGF0J3Mgd2l0aCB0aGUg
-ZXh0cmEgY2h1cm4gaGVyZT8gV2FzIHRoZSBtb3ZpbmcgYXJvdW5kIG9mIGxp
-bmVzIGRlbGliZXJhdGUsIGlmDQo+IHNvIGl0IG5lZWRzIHRvIGJlIGNvdmVy
-ZWQgaW4gdGhlIGxvbmcgbG9nLiBJZiBub3QgeW91IHNob3VsZCBhdm9pZCB0
-aGlzIGFzIGl0IGlzIHNpbWlsYXINCj4gdG8gbWl4aW5nIHJlYWwgY2hhbmdl
-cyBhbmQgbm9uLXJlYWwgY2hhbmdlcywgaXQgb25seSBzZXJ2ZXMgdG8gbWFr
-ZSB0aGUgcmV2aWV3DQo+IG1vcmUgZGlmZmljdWx0Lg0KPiANCj4gTWFya0EN
-Cj4gDQo+ID4gLQ0KPiA+ICBpbmhlcml0IHNldHVwdG9vbHMgbW9uaXRvciBy
-bWFyZ3BhcnNlDQo+ID4NCj4gPiAgRklMRVNfJHtQTn0gKz0gIiR7ZGF0YWRp
-cn0vJHtTUkNOQU1FfSINCj4gPiAtLQ0KPiA+IDIuMTcuMQ0KPiA+DQo+ID4N
-Cj4gPg0KPiA+IC0tDQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX19fX18NCj4gPiBtZXRhLXZpcnR1YWxpemF0aW9u
-IG1haWxpbmcgbGlzdA0KPiA+IG1ldGEtdmlydHVhbGl6YXRpb25AeW9jdG9w
-cm9qZWN0Lm9yZw0KPiA+IGh0dHBzOi8vbGlzdHMueW9jdG9wcm9qZWN0Lm9y
-Zy9saXN0aW5mby9tZXRhLXZpcnR1YWxpemF0aW9uDQo+IA0KDQoKCg==
+On 9/4/19 2:28 AM, akuster808 wrote:
+>
+> On 9/3/19 10:40 AM, Bruce Ashfield wrote:
+>> On Tue, Sep 3, 2019 at 4:02 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>>> Backport a patch from upstream to fix CVE-2019-14271
+>> Given the docker version bumps that Stefan posted earlier, is this
+>> still required ?
+In Stefan upgraded patch earlier, it switched from moby:master to 
+engine:19.03,
+
+I found the upgraded version contains the patch
+
+commit fa8dd90ceb7bcb9d554d27e0b9087ab83e54bd2b
+Author: Justin Cormack <justin.cormack@docker.com>
+Date:   Thu Jul 25 15:24:39 2019 +0100
+
+     Initialize nss libraries in Glibc so that the dynamic libraries are 
+loaded in the host
+     environment not in the chroot from untrusted files.
+
+     See also OpenVZ 
+https://github.com/kolyshkin/vzctl/blob/a3f732ef751998913fcf0a11b3e05236b51fd7e9/src/enter.c#L227-L234
+
+     Signed-off-by: Justin Cormack <justin.cormack@docker.com>
+     (cherry picked from commit cea6dca993c2b4cfa99b1e7a19ca134c8ebc236b)
+     Signed-off-by: Tibor Vass <tibor@docker.com>
+
+$ git branch -r --contains fa8dd90ceb7bcb9d554d27e0b9087ab83e54bd2b
+   origin/19.03
+
+If Stefan's patch is accepted, please ignore this one
+
+//Hongxu
+
+> What about stable branches? can this be reused for any of them?
+
+I am afraid it exists on master branch only
+
+jia@pek-lpg-core1-vm2:/buildarea1/hjia/community/moby$ git branch -r 
+--contains a316b10dab79d9298b02c7930958ed52e0ccf4e4
+   origin/HEAD -> origin/master
+   origin/master
+
+
+
+
+> - armin
+>> Bruce
+>>
+>>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>> ---
+>>>   recipes-containers/docker/docker_git.bb            |  1 +
+>>>   ...nss-libraries-in-Glibc-so-that-the-dynami.patch | 50 ++++++++++++++++++++++
+>>>   2 files changed, 51 insertions(+)
+>>>   create mode 100644 recipes-containers/docker/files/0001-Initialize-nss-libraries-in-Glibc-so-that-the-dynami.patch
+>>>
+>>> diff --git a/recipes-containers/docker/docker_git.bb b/recipes-containers/docker/docker_git.bb
+>>> index e45f87e..e993017 100644
+>>> --- a/recipes-containers/docker/docker_git.bb
+>>> +++ b/recipes-containers/docker/docker_git.bb
+>>> @@ -45,6 +45,7 @@ SRC_URI = "\
+>>>          file://docker.init \
+>>>          file://0001-libnetwork-use-GO-instead-of-go.patch \
+>>>          file://0001-imporve-hardcoded-CC-on-cross-compile.patch \
+>>> +       file://0001-Initialize-nss-libraries-in-Glibc-so-that-the-dynami.patch \
+>>>          "
+>>>
+>>>   require docker.inc
+>>> diff --git a/recipes-containers/docker/files/0001-Initialize-nss-libraries-in-Glibc-so-that-the-dynami.patch b/recipes-containers/docker/files/0001-Initialize-nss-libraries-in-Glibc-so-that-the-dynami.patch
+>>> new file mode 100644
+>>> index 0000000..67ddd49
+>>> --- /dev/null
+>>> +++ b/recipes-containers/docker/files/0001-Initialize-nss-libraries-in-Glibc-so-that-the-dynami.patch
+>>> @@ -0,0 +1,50 @@
+>>> +From b688546c8e35ce48d02dd5adf156399b37590b26 Mon Sep 17 00:00:00 2001
+>>> +From: Justin Cormack <justin.cormack@docker.com>
+>>> +Date: Thu, 25 Jul 2019 15:24:39 +0100
+>>> +Subject: [PATCH] Initialize nss libraries in Glibc so that the dynamic
+>>> + libraries are loaded in the host environment not in the chroot from untrusted
+>>> + files.
+>>> +
+>>> +See also OpenVZ https://github.com/kolyshkin/vzctl/blob/a3f732ef751998913fcf0a11b3e05236b51fd7e9/src/enter.c#L227-L234
+>>> +
+>>> +Signed-off-by: Justin Cormack <justin.cormack@docker.com>
+>>> +(cherry picked from commit cea6dca993c2b4cfa99b1e7a19ca134c8ebc236b)
+>>> +Signed-off-by: Tibor Vass <tibor@docker.com>
+>>> +
+>>> +CVE: CVE-2019-14271
+>>> +Upstream-Status: Backport [a316b10dab79d9298b02c7930958ed52e0ccf4e4]
+>>> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>>> +---
+>>> + src/import/pkg/chrootarchive/archive.go | 9 +++++++++
+>>> + 1 file changed, 9 insertions(+)
+>>> +
+>>> +diff --git a/src/import/pkg/chrootarchive/archive.go b/src/import/pkg/chrootarchive/archive.go
+>>> +index 6ff61e6..83ed0c6 100644
+>>> +--- a/src/import/pkg/chrootarchive/archive.go
+>>> ++++ b/src/import/pkg/chrootarchive/archive.go
+>>> +@@ -4,13 +4,22 @@ import (
+>>> +       "fmt"
+>>> +       "io"
+>>> +       "io/ioutil"
+>>> ++      "net"
+>>> +       "os"
+>>> ++      "os/user"
+>>> +       "path/filepath"
+>>> +
+>>> +       "github.com/docker/docker/pkg/archive"
+>>> +       "github.com/docker/docker/pkg/idtools"
+>>> + )
+>>> +
+>>> ++func init() {
+>>> ++      // initialize nss libraries in Glibc so that the dynamic libraries are loaded in the host
+>>> ++      // environment not in the chroot from untrusted files.
+>>> ++      _, _ = user.Lookup("docker")
+>>> ++      _, _ = net.LookupHost("localhost")
+>>> ++}
+>>> ++
+>>> + // NewArchiver returns a new Archiver which uses chrootarchive.Untar
+>>> + func NewArchiver(idMapping *idtools.IdentityMapping) *archive.Archiver {
+>>> +       if idMapping == nil {
+>>> +--
+>>> +2.8.1
+>>> +
+>>> --
+>>> 2.8.1
+>>>
+>
+
 
