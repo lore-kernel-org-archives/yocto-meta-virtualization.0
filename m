@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 06DFAE00D77; Thu,  5 Sep 2019 06:58:04 -0700 (PDT)
+	id 69870E00D77; Thu,  5 Sep 2019 07:04:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: *
@@ -13,62 +13,62 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.166.66 listed in list.dnswl.org]
+	*      [209.85.166.67 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 676B9E00C4F
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 48A05E00C4F
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Sep 2019 06:58:03 -0700 (PDT)
-Received: by mail-io1-f66.google.com with SMTP id f4so4331771ion.2
+	Thu,  5 Sep 2019 07:04:32 -0700 (PDT)
+Received: by mail-io1-f67.google.com with SMTP id r26so5090586ioh.8
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Sep 2019 06:58:03 -0700 (PDT)
+	Thu, 05 Sep 2019 07:04:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=ca9E3a6gJBRhCWpqv6riy+mwiZqaQC/r+cOtfjd1lc0=;
-	b=gw3PqgmWjgJzlNw82bYZr7h7I58DDcomq63UT5nfE2CzoENvFnbWbCnL0Q0SlrP06v
-	SgpLeL2omaw02OR+Ml9P95rBiBVgwmAK87weO6YsOSD2TY8nmk+rVLfyTl1WWa21SRWj
-	De2HBrc3b6xHKXL6Pr7a7g7J1B/kNJb5GFvGlnwu7FwY2N8UYBK0zmFWohcM0rgK5Uj2
-	5RD5ge9SCSQx+AeqOa57tjP6kjj3xwEGuNuHeHTAuQ3F0uthnQD0z89rRaduMt0p0T2e
-	3EfUun+4Xh6OWv65D/+N9Y1/RAGG896n8i8j9mfA5B3C4vNy6KbAT5/uS8U8aRLam39i
-	VQJw==
+	bh=FcvvHnc+eRXr4Ru5YIycvyGuf2G/WAr0vtsbO/1PjPc=;
+	b=rzrWI2ySMpGCXPldRSCpiwmw7Dd3FrYfxON5G5DQpKEoBkbt6yxaMXlSOiwa8UIbph
+	PLfXEqtiSN78U9shkN5hFgcY99AtP9AwXZrnIVu6t1mEIHijtRX7V05DdiMK/necdExL
+	gsxZZBIunTjflnifZHtFSvGrclb47KSvOzw+gdJJv3BRpXIZV94ZGxsPLWbOWoq5FJig
+	D485JjLTorywNudT1jKNJ/nf3FV3yHTX0L2KGelPMAU2P6gCC3Gy83B5rKY7UOrSbMaz
+	kpgcQ8h48A5GDyOjbx/j+UX5BkDbRWBjtLchwYs73M60F/6q6uc3ryZhljfjS6GOM6ev
+	cJBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ca9E3a6gJBRhCWpqv6riy+mwiZqaQC/r+cOtfjd1lc0=;
-	b=GGu06VzpxHGhc4oIuPtMF81QJ8OShTHkWEg7Wee4DpsHbeII4cy+l8ckngqdVjSrIP
-	BnYU8TiAfl2T/bD5DqqKNilmzSPw5Y3q0iqFe0bjZWHwB5Zsv64K+owomnIwj+ynGacn
-	yT5q5ithilvlLs9yc05Z2WsEggIMvHNEfU7f6MP0WIyCd6e+y7gwyQPztzW+VucNJpDM
-	pnG2Nf0BU24xG93mmIXg13wVhf04tCoPj5zsmCaffJMsyxzvofOsQyM96NaYcUFkCD9J
-	x80tINS7X01oijRGr/r8SIdtifJIpm+O/Ke32ce/pfqLK3TdoaaE8/uhrpfOT1eYVpEZ
-	wQbQ==
-X-Gm-Message-State: APjAAAXTVZFkEtRjEXi/Wuibh4slrTVYLDRzO+H60Oo7NKI4AdJWwM0y
-	xRhjyBoHP9QeBCQaVWE+U5c=
-X-Google-Smtp-Source: APXvYqwANihcAMPGubIPH/zBOobPsF4yHqDliQbI2L1rB4QigE6g9INn7Na0QK8RzELY0N4JLtePdQ==
-X-Received: by 2002:a5e:c301:: with SMTP id a1mr4315509iok.1.1567691882424;
-	Thu, 05 Sep 2019 06:58:02 -0700 (PDT)
+	bh=FcvvHnc+eRXr4Ru5YIycvyGuf2G/WAr0vtsbO/1PjPc=;
+	b=b1gFipH9i3RFQeFCQivfccD/wAIxubWGsQzdgWSZG9sEJdmBnJZQz/Atl/SnvwNt/r
+	p6gJGaZsIkU9NrIt/+TTyyzysUesVteWbdR6QybS5CNGGhZcsqhzaqJfmk9/OiGwLDeL
+	kblV+HQrbuV3rUYnuqd6D5uO0Wfw3+SzkcbNigyJz7tKf4ggUWbVzM9OOiykRDIfDJdn
+	czHueo89NEdTmoJapEajkPmnpBXdGKAM/AQAcrEMJmFoV+w4Ydrx3+Z/bWLG+vT0C8dV
+	dscXQ5Ntb8tsipRlfEiWl8DjIvq6Nm+EAFvWpsZq+Tekwvqx7eMrQEWfXt4UceWuc4ri
+	rXMg==
+X-Gm-Message-State: APjAAAUBlYn+uxxW9Eenkks29xK4vQrDUXMA3Z480upndn84inmtntRA
+	mn3IeEOggapl+ZtyVviOJH9NxFa1/9I=
+X-Google-Smtp-Source: APXvYqwzM5mEL3d0lvMVitTYuj96gn0aXOnCfTuLsYxZPmjJSFz1HQP4Rtf9apLK7G3TjMXWfvmzLg==
+X-Received: by 2002:a02:cf10:: with SMTP id q16mr4204333jar.89.1567692271267; 
+	Thu, 05 Sep 2019 07:04:31 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	m11sm1040401iok.39.2019.09.05.06.58.01
+	[174.112.251.208])
+	by smtp.gmail.com with ESMTPSA id t5sm1793216ios.33.2019.09.05.07.04.30
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Sep 2019 06:58:01 -0700 (PDT)
-Date: Thu, 5 Sep 2019 09:57:59 -0400
+	Thu, 05 Sep 2019 07:04:30 -0700 (PDT)
+Date: Thu, 5 Sep 2019 10:04:28 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Message-ID: <20190905135756.GA46415@gmail.com>
-References: <20190904022318.615-1-zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190905140425.GA46597@gmail.com>
+References: <20190904023822.1788-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <20190904022318.615-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190904023822.1788-1-zangrc.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-logutils: Add python3 version
+Subject: Re: [PATCH] python-fasteners: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,7 +81,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 13:58:04 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 14:04:33 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -89,71 +89,88 @@ merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python-logutils: Add python3 version
+In message: [meta-virtualization] [PATCH] python-fasteners: Add python3 version
 on 04/09/2019 Zang Ruochen wrote:
 
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../recipes-devtools/python/python-logutils.inc        | 16 ++++++++++++++++
->  .../recipes-devtools/python/python-logutils_0.3.5.bb   | 18 ++----------------
->  .../recipes-devtools/python/python3-logutils_0.3.5.bb  |  2 ++
->  3 files changed, 20 insertions(+), 16 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-logutils.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb
+>  .../recipes-devtools/python/python-fasteners.inc   | 24 ++++++++++++++++++++
+>  .../python/python-fasteners_git.bb                 | 26 +---------------------
+>  .../python/python3-fasteners_git.bb                |  2 ++
+>  3 files changed, 27 insertions(+), 25 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-fasteners.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-fasteners_git.bb
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-logutils.inc b/meta-openstack/recipes-devtools/python/python-logutils.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-fasteners.inc b/meta-openstack/recipes-devtools/python/python-fasteners.inc
 > new file mode 100644
-> index 0000000..87ab631
+> index 0000000..6e5e5f0
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-logutils.inc
-> @@ -0,0 +1,16 @@
-> +DESCRIPTION = "Set of handlers for the Python standard library's logging package"
-> +HOMEPAGE = "https://pypi.python.org/pypi/logutils"
+> +++ b/meta-openstack/recipes-devtools/python/python-fasteners.inc
+> @@ -0,0 +1,24 @@
+> +DESCRIPTION = "A python package that provides useful locks."
+> +HOMEPAGE = "https://github.com/harlowja/fasteners"
 > +SECTION = "devel/python"
-> +LICENSE = "BSD"
-> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=44c35f0b8e2a27a2f33a4e4a5c65d014"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=4476c4be31402271e101d9a4a3430d52"
 > +
-> +SRC_URI[md5sum] = "fcd2f8e9217bfa0b580f253b35a9d954"
-> +SRC_URI[sha256sum] = "bc058a25d5c209461f134e1f03cab637d66a7a5ccc12e593db56fbb279899a82"
+> +SRCNAME = "fasteners"
 > +
-> +inherit pypi
+> +PV = "0.15+git${SRCPV}"
+> +SRCREV = "75148cb679c351966cd4ad5e9d177048a0ea8380"
 > +
-> +# avoid "error: option --single-version-externally-managed not recognized"
-> +DISTUTILS_INSTALL_ARGS = "--root=${D} \
-> +    --prefix=${prefix} \
-> +    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-> +    --install-data=${datadir}"
-> diff --git a/meta-openstack/recipes-devtools/python/python-logutils_0.3.5.bb b/meta-openstack/recipes-devtools/python/python-logutils_0.3.5.bb
-> index 51177b3..9331a16 100644
-> --- a/meta-openstack/recipes-devtools/python/python-logutils_0.3.5.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-logutils_0.3.5.bb
-> @@ -1,16 +1,2 @@
-> -DESCRIPTION = "Set of handlers for the Python standard library's logging package"
-> -HOMEPAGE = "https://pypi.python.org/pypi/logutils"
+> +SRC_URI = "git://github.com/harlowja/${SRCNAME}.git"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +DEPENDS += " \
+> +        ${PYTHON_PN}-pip \
+> +        ${PYTHON_PN}-pbr \
+> +        "
+> +
+> +# RDEPENDS_default:
+> +RDEPENDS_${PN} += " \
+> +        ${PYTHON_PN}-pbr \
+> +        "
+> diff --git a/meta-openstack/recipes-devtools/python/python-fasteners_git.bb b/meta-openstack/recipes-devtools/python/python-fasteners_git.bb
+> index 2dd3698..3a7326b 100644
+> --- a/meta-openstack/recipes-devtools/python/python-fasteners_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-fasteners_git.bb
+> @@ -1,26 +1,2 @@
+> -DESCRIPTION = "A python package that provides useful locks."
+> -HOMEPAGE = "https://github.com/harlowja/fasteners"
 > -SECTION = "devel/python"
-> -LICENSE = "BSD"
-> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=44c35f0b8e2a27a2f33a4e4a5c65d014"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=4476c4be31402271e101d9a4a3430d52"
 > -
-> -SRC_URI[md5sum] = "fcd2f8e9217bfa0b580f253b35a9d954"
-> -SRC_URI[sha256sum] = "bc058a25d5c209461f134e1f03cab637d66a7a5ccc12e593db56fbb279899a82"
+> -SRCNAME = "fasteners"
 > -
-> -inherit setuptools pypi
+> -PV = "0.15+git${SRCPV}"
+> -SRCREV = "75148cb679c351966cd4ad5e9d177048a0ea8380"
 > -
-> -# avoid "error: option --single-version-externally-managed not recognized"
-> -DISTUTILS_INSTALL_ARGS = "--root=${D} \
-> -    --prefix=${prefix} \
-> -    --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-> -    --install-data=${datadir}"
-> +inherit setuptools
-> +require python-logutils.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb b/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb
+> -SRC_URI = "git://github.com/harlowja/${SRCNAME}.git"
+> -
+> -S = "${WORKDIR}/git"
+> -
+>  inherit setuptools
+> -
+> -DEPENDS += " \
+> -        python-pip \
+> -        python-pbr \
+> -        "
+> -
+> -# RDEPENDS_default:
+> -RDEPENDS_${PN} += " \
+> -        python-pbr \
+> -        "
+> +require python-fasteners.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-fasteners_git.bb b/meta-openstack/recipes-devtools/python/python3-fasteners_git.bb
 > new file mode 100644
-> index 0000000..4d760e0
+> index 0000000..9b2053c
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-logutils_0.3.5.bb
+> +++ b/meta-openstack/recipes-devtools/python/python3-fasteners_git.bb
 > @@ -0,0 +1,2 @@
 > +inherit setuptools3
-> +require python-logutils.inc
+> +require python-fasteners.inc
 > -- 
 > 2.7.4
 > 
