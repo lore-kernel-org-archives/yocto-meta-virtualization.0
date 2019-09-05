@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B8320E00D77; Thu,  5 Sep 2019 07:09:24 -0700 (PDT)
+	id 55705E00E0D; Thu,  5 Sep 2019 07:09:43 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.174 listed in list.dnswl.org]
+	*      [209.85.167.68 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CF79AE00BF8
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 49AD8E00E39
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Sep 2019 07:09:22 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id y23so2630171lje.9
+	Thu,  5 Sep 2019 07:09:40 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id d10so2182111lfi.0
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Sep 2019 07:09:22 -0700 (PDT)
+	Thu, 05 Sep 2019 07:09:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ic709Iw8CYIUUabpJkUZvWY9/cu+ZvnjP4cXQw3jFAo=;
-	b=BnDBKSp13VN3SFbycf2cHhKcAqjGH1G8rSCDDk1BK9yYO5xp4Gf4tOMfikkSGCftss
-	6l9T60KMxMHfUx5ZuupFlenB+qltwVd/sbdX4sWHAdY/lOvaYPUYc4lCKNwP9RcBm0KX
-	nhosMWlo0/xQzweygGbUlUkuL0QoXLLBZ4YaHWB0cSi+1brzDrHqDeodKm9uGQCzliP6
-	oDChGQSW8fYHyyF7JAaxF9fkfie6iaXcGrDsTZ8c7viHJLOlX8wkQzOJnlr7COcyPr1d
-	SN+L5HV+zXmbKOgugZOkGXd7B8ZhPVEf/hz1JG2NTAHtAKpuDAd5Qp63mrwFs3ELrtDV
-	OXSA==
+	:cc; bh=nA+tRjKIZi1sXGtn1F7rSbMawr37K1u/HYKiuR4fgCM=;
+	b=Rs7WjDFj0vjRrLZ+KMhAaN3fGnu/2cxQWiID5Q+6zzceKckklHx+9O/FSrmoHJg1Zj
+	8loLeebmJ6dhYz+D6650yqNTxQk1iCeK1KYsCN1MlCI2nqRCll5tfPvXhH1OBS10nCAS
+	R/nSl9qnNHADheCIZj7LByKcnduJ9OKJBYY1cxggsElwr7sHo+aSP+rCopjewnpxQi3y
+	iIGs84Ivhzab4lTPbG3NbUAVc95tCPZlbU7iTbt68QdGlfvPw+yZanp3YseagIKYmLst
+	UpnOgOoXEAYsBpSM/fVSzXdr888l5Q+SSU+0c64x/yV8iaZZPGOLWOQ4F9L6WcRMYSRh
+	20Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Ic709Iw8CYIUUabpJkUZvWY9/cu+ZvnjP4cXQw3jFAo=;
-	b=QyvG2OpQIqjXQRkbD8ZBG96giPP/2Cf6xcyatxISzUoT7LJ4qRADysXJ8TM490Jr19
-	wvZYCWh2gh4Fn8Rqw72muQJArdxADSapGfujrYQdChMS9Mw0cAovKtWDhlzuvBKTZZwl
-	J6CkMaDuzU8oZRUh+Jz+yhsR1ZlzlqV5JZm4OzEk+5DZamvZu6IfcvMupru8W8sbeQ5b
-	wlmDTqufdEn1Y4NjCmVdShBlEn1FlhP/Yz9tOOyLc8IWhFEMwIFR1/a5cMa3cMKQVX+8
-	/IPJE+VBqznxyOAsnOtLe8vrrfzOhROnKHPsyH4yPwWIWlGxKYZBBu7GlAgedPz1yM94
-	eaAQ==
-X-Gm-Message-State: APjAAAWbLiROfsMIRUVEhWsaDS43gvPdRS05vXe3PfCvrz+hny4S/gYr
-	7IjGnBbaTM2m/HhPwqWYqg7YEJU0A0yMUTPoIe0=
-X-Google-Smtp-Source: APXvYqxo8yGhDqyz/E9lmsTJNRhz7Jg5g6CRXJfWM7aB0nP3jvkxKjejGpjymAIJiIwOLmWGZve5mJjsP8WzkYHLC/o=
-X-Received: by 2002:a2e:83d6:: with SMTP id s22mr2254955ljh.104.1567692561446; 
-	Thu, 05 Sep 2019 07:09:21 -0700 (PDT)
+	bh=nA+tRjKIZi1sXGtn1F7rSbMawr37K1u/HYKiuR4fgCM=;
+	b=h+GJBLCo3XE7V82LMJsqF4+VgwXOMyqQZNZ0cSSd3s/CRH9sLw/94oQw1HSeVK8wvL
+	vzP/GyMBWN+5mZ41ntx/xCydFajDqsyZCrh4eleWl04nbSW1hktF6J3ALsaBwQi14yPD
+	2MFLcOgMPPKJcK0fL2VDBsXwQbbAkW6OFDxtsV6yprexrHVqaHAZLe/5JBmKBgLijXiB
+	PvGfByA1cWku3+Wd/5LTNh9nOo7s4bSxzZ2UrI7pQgI9K+YzaPmPXdg4YtZXaz7IjMSB
+	bf3tSM8qnnUJ1yO5/H2OotJUcE52cj+HcqOFBIX69NUqxZEA2+wr0EPnnj4DW8T/T7KU
+	YduA==
+X-Gm-Message-State: APjAAAUUwqT9UoI97alZvu3olgDqybFBVQGXMuCwLRzSVKu5AoCZzMeO
+	LdYYaQQu0EMORlNkE+iSeD1tGuT1FYIejukmykF7bUSl
+X-Google-Smtp-Source: APXvYqznVqzFXf47sU35Jak1rf6WMokNa+m6ztAs286vZWFwN7owegfbOYnhGCw/1ApJrnp44we5J9IQKyay2YDlBVI=
+X-Received: by 2002:a19:4347:: with SMTP id m7mr2460738lfj.146.1567692578839; 
+	Thu, 05 Sep 2019 07:09:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190904024549.2526-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190904024549.2526-1-zangrc.fnst@cn.fujitsu.com>
+References: <20190904030444.3848-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190904030444.3848-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 5 Sep 2019 10:09:10 -0400
-Message-ID: <CADkTA4PefRkA3ukJEDaApMrLqS2rp4kSoX3fkCzkYcAqUHqJ+g@mail.gmail.com>
+Date: Thu, 5 Sep 2019 10:09:27 -0400
+Message-ID: <CADkTA4MshsoDkRQSWyB++mVeW2QmQzMuaHzwRovZ9Ga82Nn-Wg@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-eventlet: Add python3 version
+Subject: Re: [PATCH] python-warlock: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,65 +73,78 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 14:09:25 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 14:09:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged.
+merged
 
 Bruce
 
-On Tue, Sep 3, 2019 at 10:48 PM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Tue, Sep 3, 2019 at 11:05 PM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-eventlet.inc   | 10 ++++++++++
->  .../recipes-devtools/python/python-eventlet_0.25.1.bb        | 12 ++----------
->  .../recipes-devtools/python/python3-eventlet_0.25.1.bb       |  2 ++
->  3 files changed, 14 insertions(+), 10 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-eventlet.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-eventlet_0.25.1.bb
+>  .../recipes-devtools/python/python-warlock.inc          | 17 +++++++++++++++++
+>  .../recipes-devtools/python/python-warlock_1.3.3.bb     | 16 ++--------------
+>  .../recipes-devtools/python/python3-warlock_1.3.3.bb    |  3 +++
+>  3 files changed, 22 insertions(+), 14 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-warlock.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-warlock_1.3.3.bb
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-eventlet.inc b/meta-openstack/recipes-devtools/python/python-eventlet.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-warlock.inc b/meta-openstack/recipes-devtools/python/python-warlock.inc
 > new file mode 100644
-> index 0000000..fd1bf39
+> index 0000000..d8a16b1
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-eventlet.inc
-> @@ -0,0 +1,10 @@
-> +DESCRIPTION = "Highly concurrent networking library"
-> +HOMEPAGE = "http://pypi.python.org/pypi/eventlet"
+> +++ b/meta-openstack/recipes-devtools/python/python-warlock.inc
+> @@ -0,0 +1,17 @@
+> +DESCRIPTION = "Build self-validating python objects using JSON schemas"
+> +HOMEPAGE = "http://github.com/bcwaldon/warlock"
 > +SECTION = "devel/python"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
+> +LICENSE = "Apache-2"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 > +
-> +SRC_URI[md5sum] = "8d7145af6506d5418c5a6bee7bf0b7e7"
-> +SRC_URI[sha256sum] = "6c9c625af48424c4680d89314dbe45a76cc990cf002489f9469ff214b044ffc1"
+> +DEPENDS += "python-jsonschema python-jsonpatch"
+> +
+> +SRC_URI[md5sum] = "746aba989d97762948e5fca6601f283f"
+> +SRC_URI[sha256sum] = "a093c4d04b42b7907f69086e476a766b7639dca50d95edc83aef6aeab9db2090"
 > +
 > +inherit pypi
-> diff --git a/meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb b/meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb
-> index d2878b6..d9c9383 100644
-> --- a/meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-eventlet_0.25.1.bb
-> @@ -1,10 +1,2 @@
-> -DESCRIPTION = "Highly concurrent networking library"
-> -HOMEPAGE = "http://pypi.python.org/pypi/eventlet"
+> +
+> +RDEPENDS_${PN} += "${PYTHON_PN}-jsonschema \
+> +                   ${PYTHON_PN}-jsonpatch  \
+> +                  "
+> +
+> diff --git a/meta-openstack/recipes-devtools/python/python-warlock_1.3.3.bb b/meta-openstack/recipes-devtools/python/python-warlock_1.3.3.bb
+> index c2c694b..3358cec 100644
+> --- a/meta-openstack/recipes-devtools/python/python-warlock_1.3.3.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-warlock_1.3.3.bb
+> @@ -1,15 +1,3 @@
+> -DESCRIPTION = "Build self-validating python objects using JSON schemas"
+> -HOMEPAGE = "http://github.com/bcwaldon/warlock"
 > -SECTION = "devel/python"
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=56472ad6de4caf50e05332a34b66e778"
+> -LICENSE = "Apache-2"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 > -
-> -SRC_URI[md5sum] = "8d7145af6506d5418c5a6bee7bf0b7e7"
-> -SRC_URI[sha256sum] = "6c9c625af48424c4680d89314dbe45a76cc990cf002489f9469ff214b044ffc1"
+> -DEPENDS += "python-jsonschema python-jsonpatch"
+> -
+> -SRC_URI[md5sum] = "746aba989d97762948e5fca6601f283f"
+> -SRC_URI[sha256sum] = "a093c4d04b42b7907f69086e476a766b7639dca50d95edc83aef6aeab9db2090"
 > -
 > -inherit setuptools pypi
+> -
+> -RDEPENDS_${PN} += " python-jsonschema python-jsonpatch"
 > +inherit setuptools
-> +require python-eventlet.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-eventlet_0.25.1.bb b/meta-openstack/recipes-devtools/python/python3-eventlet_0.25.1.bb
+> +require python-warlock.inc
+>
+> diff --git a/meta-openstack/recipes-devtools/python/python3-warlock_1.3.3.bb b/meta-openstack/recipes-devtools/python/python3-warlock_1.3.3.bb
 > new file mode 100644
-> index 0000000..c5fe598
+> index 0000000..7f4d350
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-eventlet_0.25.1.bb
-> @@ -0,0 +1,2 @@
+> +++ b/meta-openstack/recipes-devtools/python/python3-warlock_1.3.3.bb
+> @@ -0,0 +1,3 @@
 > +inherit setuptools3
-> +require python-eventlet.inc
+> +require python-warlock.inc
+> +
 > --
 > 2.7.4
 >
