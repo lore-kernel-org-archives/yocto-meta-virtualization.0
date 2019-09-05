@@ -1,66 +1,66 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7867AE00E16; Thu,  5 Sep 2019 07:10:04 -0700 (PDT)
+	id 74B9CE00E1E; Thu,  5 Sep 2019 07:10:18 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [209.85.208.174 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.208.173 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 75C6AE00D77
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com
+	[209.85.208.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 578FFE00E0D
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  5 Sep 2019 07:10:03 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id a4so2639500ljk.8
+	Thu,  5 Sep 2019 07:10:16 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 7so2631573ljw.7
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 05 Sep 2019 07:10:03 -0700 (PDT)
+	Thu, 05 Sep 2019 07:10:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Jq/88ACrwvhOtZEZkRwQxS+A5fC7r8MxbUgMSPZoXs4=;
-	b=L3XrjeoJvHaO8znDs49xVP/mzO3jkPW+5NhuKvgi42jTwK7tfAMVsdaP5TG99D4NKb
-	seQ9NXviZ5hAivqcgRsKLWPafObTbhAq73JU0+zBDugRDcDHPn6/hx/9f929HnLcUeMX
-	TxT3oc1Kt8j26e54fv0IFI2S45IxSrQ5LHdMqrZ/igiVCLhIPS5nIDN6pVYgLBvjt509
-	T93/grnpynlWbxpsmDgYGoSDOYsvobEY7apbcs8jFetLK95TGTggd34uKowLY6LiIAPy
-	Jtf0X2dA3R2X0D1yQ7mEIRbywoX95kUFrd/OZFA0Ocw+fkSRuOxuzSXi8fF2d6yZgN3u
-	D3/Q==
+	:cc; bh=qYUJ3N+Tsr2CYr1lcYssU8qz8OUaWEg9qffMZ60yfM4=;
+	b=BDfNMM+j0FMMaB0GXp+gRKixROsCVqGqlWL30T8gni7G4jpLZDaqw7SCOBKPZZr4dB
+	abRljA6Yel8Yb/RjXlDVgK1KBFZ+MPIFm7y4tPdKRZktp0vDKbGuQEFBEHSgwEo3BT0E
+	jWQxsRbONB8kr7Y0I/lac0JStplHs2YC8ZOvv340wOrG9Dx3XwIbf+gKauRPoFWereoT
+	mCfg6xy4BlrUAcmM90FruGGnFU36nmEdHxKjhESw/pvfG4S3HTfDO7IuLFVksXM9Wc70
+	S4NpoRH4VXLavSsAsdFkJ+sOl3NE6jf4+9D4Enh59gzMDLvlAPSdRY63OqzkWBSDm+xu
+	5fZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Jq/88ACrwvhOtZEZkRwQxS+A5fC7r8MxbUgMSPZoXs4=;
-	b=ZruCzWJjfAYiX263a94M+43HADmiHBPlfy8kPPKyts8hUAYUaR9pH62hXiCSzEFxiT
-	E3aWlqm6bNiLd8SQBzYO/WtNIpOVgOY6q0eri+7yi/kkXXYUJYblset7atvv+fyAicc4
-	zkhJWcNLJGtI9/yUqmACewJmJwL0Eq0ceFlCHGIGwSXl2Ai+Gg21N2+oUoSXx+Gr68kj
-	spl1gIkz7hQ+Xy4MFqwMKLc/0J+btxzV2ufZK2H/UVKkdsryy39yzuNpMC/zpt5i4eal
-	ll49P0aKSErOrsQWayHOj6d1zENp9Jzp+PCgoh768JDqKDHkEJw+UVcPpOgha+diSaCi
-	JDrQ==
-X-Gm-Message-State: APjAAAW6/6drZdL30dAKuC0LMcVuOC/rbKRZtkHHIAOwA3rI/ACPANGP
-	u9jL2y3UtGC/Mg8dQNisRm6bqO0sTr3/AHbDh0a367KV
-X-Google-Smtp-Source: APXvYqzTAFZPaTImzzaj0oalG+73S32EZkx/cPWCL18AwxAtCmA71LVSIQnx2RTZ3NZmxQGbgnbOoszbL4gkuyV29N8=
-X-Received: by 2002:a2e:8594:: with SMTP id b20mr2141452lji.232.1567692602350; 
-	Thu, 05 Sep 2019 07:10:02 -0700 (PDT)
+	bh=qYUJ3N+Tsr2CYr1lcYssU8qz8OUaWEg9qffMZ60yfM4=;
+	b=e0shGa5INaypEPSoRC2XOTs5VGpzxv47a+5pBcVnvGrZjqJ0Yer+Fvkfa+h2zhBF5t
+	GcKu7IKhUaVa1AMc/hQOVKsv/xFuMILNR+GtVydyhoREZM5WIBmhdLv4aeC+qvFXj0fp
+	2uCnWQJM/7Zq2mxJyBaOHko3BKjLFpUGWmJ3KfonwIahLDaQOAvbwmU3+xTzbpd0jW2L
+	s+rONPmj7Q+dBMiZjQSZcSP6535d3lNHO9bkyp91tevr6mwRxC0QhvPxei89OEp6NqLS
+	XSPz5yuuv3SSCTxHr/KcIUkLmlck/EZYKHb6YPW4vpGumvjKBQZc5TuDRcCKAkhi/JGg
+	LaYw==
+X-Gm-Message-State: APjAAAUmNaqlSmJxaLhpEGKqoExhRLOTtJw1Q0KSSoIx2bi0KWKla5im
+	NisOeKJesBjV/RdWyGLFSczdZ9hK2vltv7HsCDY5jZ9m
+X-Google-Smtp-Source: APXvYqy1EgwSpHD31gurr8/jsHCxNDBfknzN3sPA1UQUFDdiOFR3G2yoXcWyXLKvlFEDhpISHCUDL5gRTjuYKKo0W24=
+X-Received: by 2002:a2e:b0e2:: with SMTP id h2mr2198826ljl.79.1567692614811;
+	Thu, 05 Sep 2019 07:10:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190905032042.39761-1-yuanc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190905032042.39761-1-yuanc.fnst@cn.fujitsu.com>
+References: <20190905032740.39871-1-yuanc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190905032740.39871-1-yuanc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 5 Sep 2019 10:09:51 -0400
-Message-ID: <CADkTA4NQkw--DhOmU4JnT8z2MNuwnqE3OhsauSO9fFLCpSYvwQ@mail.gmail.com>
+Date: Thu, 5 Sep 2019 10:10:03 -0400
+Message-ID: <CADkTA4Mc4rpw2K7+sBhFwLuTNwzX3Ez9ghAWHPdcpD8KxKCANQ@mail.gmail.com>
 To: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-debtcollector: upgrade 1.21.0 -> 1.22.0
+Subject: Re: [PATCH] python-futurist: upgrade 1.8.1 -> 1.9.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,47 +73,39 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Sep 2019 14:10:04 -0000
+X-List-Received-Date: Thu, 05 Sep 2019 14:10:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Wed, Sep 4, 2019 at 11:21 PM Yuan Chao <yuanc.fnst@cn.fujitsu.com> wrote:
+On Wed, Sep 4, 2019 at 11:28 PM Yuan Chao <yuanc.fnst@cn.fujitsu.com> wrote:
 >
 > Signed-off-by: Yuan Chao <yuanc.fnst@cn.fujitsu.com>
 > ---
->  .../recipes-devtools/python/python-debtcollector.inc          | 4 ++--
->  ...debtcollector_1.21.0.bb => python-debtcollector_1.22.0.bb} | 0
->  ...ebtcollector_1.21.0.bb => python3-debtcollector_1.22.0.bb} | 0
->  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-debtcollector_1.21.0.bb => python-debtcollector_1.22.0.bb} (100%)
->  rename meta-openstack/recipes-devtools/python/{python3-debtcollector_1.21.0.bb => python3-debtcollector_1.22.0.bb} (100%)
+>  .../{python-futurist_1.8.1.bb => python-futurist_1.9.0.bb}    | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-futurist_1.8.1.bb => python-futurist_1.9.0.bb} (78%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector.inc b/meta-openstack/recipes-devtools/python/python-debtcollector.inc
-> index 629a059..d519bfd 100644
-> --- a/meta-openstack/recipes-devtools/python/python-debtcollector.inc
-> +++ b/meta-openstack/recipes-devtools/python/python-debtcollector.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-futurist_1.8.1.bb b/meta-openstack/recipes-devtools/python/python-futurist_1.9.0.bb
+> similarity index 78%
+> rename from meta-openstack/recipes-devtools/python/python-futurist_1.8.1.bb
+> rename to meta-openstack/recipes-devtools/python/python-futurist_1.9.0.bb
+> index 0f35c96..06624c1 100644
+> --- a/meta-openstack/recipes-devtools/python/python-futurist_1.8.1.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-futurist_1.9.0.bb
 > @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "Apache-2"
->  LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+>  LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 >
-> -SRC_URI[md5sum] = "ec899623b37fdee65b888243f0a46735"
-> -SRC_URI[sha256sum] = "f6ce5a383ad73c23e1138dbb69bf45d33f4a4bdec38f02dbf2b89477ec5e55bc"
-> +SRC_URI[md5sum] = "0d12694a93a16824b1c67bece341229e"
-> +SRC_URI[sha256sum] = "d1756440d25a50e3eca2fc399c9e5f1ca2f9e6b837570a80b9450999f4290525"
+> -SRC_URI[md5sum] = "3e5a4b8254ded1624ec807cb7ae04ba5"
+> -SRC_URI[sha256sum] = "499ee57728a987028725f836ac22aa18899702162fa0a0f1bbe2ecd5c8daf1eb"
+> +SRC_URI[md5sum] = "cbfa47202a5724215edc83cc91bdf0ac"
+> +SRC_URI[sha256sum] = "0c58c359d0fa09852841efc587870db4c186c7a9175768176f69013c8acd83a6"
 >
->  inherit pypi
+>  inherit setuptools pypi
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-debtcollector_1.21.0.bb b/meta-openstack/recipes-devtools/python/python-debtcollector_1.22.0.bb
-> similarity index 100%
-> rename from meta-openstack/recipes-devtools/python/python-debtcollector_1.21.0.bb
-> rename to meta-openstack/recipes-devtools/python/python-debtcollector_1.22.0.bb
-> diff --git a/meta-openstack/recipes-devtools/python/python3-debtcollector_1.21.0.bb b/meta-openstack/recipes-devtools/python/python3-debtcollector_1.22.0.bb
-> similarity index 100%
-> rename from meta-openstack/recipes-devtools/python/python3-debtcollector_1.21.0.bb
-> rename to meta-openstack/recipes-devtools/python/python3-debtcollector_1.22.0.bb
 > --
 > 2.17.1
 >
