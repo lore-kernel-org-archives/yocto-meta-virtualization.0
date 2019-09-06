@@ -1,6 +1,6 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <akuster808@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 33D3CE00E42; Fri,  6 Sep 2019 05:42:24 -0700 (PDT)
+	id 9E3F8E00DFF; Fri,  6 Sep 2019 08:30:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -9,62 +9,63 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
+	*      [209.85.214.180 listed in list.dnswl.org]
+	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+	provider *      (akuster808[at]gmail.com)
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1A4ABE00D83
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+	[209.85.214.180])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A3A84E00D1C
 	for <meta-virtualization@yoctoproject.org>;
-	Fri,  6 Sep 2019 05:42:22 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id l11so4914034lfk.6
+	Fri,  6 Sep 2019 08:30:17 -0700 (PDT)
+Received: by mail-pl1-f180.google.com with SMTP id m9so3315702pls.8
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 06 Sep 2019 05:42:22 -0700 (PDT)
+	Fri, 06 Sep 2019 08:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gF3EfTkYrf8VegVXhwTey0aa1AyYJVMVq4UJnL10MYw=;
-	b=jmgATtmmy3oESmhhCklAzKjNCll8PxE3IFcU2fYSig/g8W8lBhefLs3KZVs5Tz6LIo
-	NAO/goozN6JO+rGKhx3pHpm5DVP3WrcbvWumvUYsmRFsEUzjLatLJlHbN+FQk1MoCZzw
-	V6MzI52JrB4Jph9NSaITDqzIlqJdZvQXqCUqxDphNJAh+XM2qboIMxinf8XstN3v101W
-	Q6MtVgz12CvOyi92mrMKI9ndxcWsBkfl0GAysuG+dPLet8w7bOaEZOi+0V0sM1Zp+J0M
-	FlU/tGnlTNJbPwu+Oh0W6WDhUbkC+W0iNBZ2RzfKE9WiTLAQXsbfnyCthHA/rSavDIe7
-	3pEA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ovdrgPvulin90/wb8n+LG5umUk0dbjyasHIu4TgqJ5s=;
+	b=tdw1/qY3sJm/j0/CfXUDfWZdERmNvOX0dIRCpdXtCJILNZ4S6jyJ7f96TXEwZFn5/i
+	LjAnNAsnU3eFuMOSxhYPWHBzK3K10T+KExjVFkXzftyWkbnQocZodDP5r5Te0xQz1Fak
+	6yJdnE5WrvZ5CVghNT89imgFd0m86eNFZ92KCgE4z079Lidsy/grzaTNiVpWAgeXvrxA
+	Swr/sgbQhV8AcvMUX4W0LUnGwXnxI7i7TjQAIJknXDMKRyCPF9xkuLulvt4P4bagw3aL
+	7QLy9nYIYwOPY1r66TWKzS8oOjo6dMXWt3CN16k9xJRfR6Y+70FUSCqN2fExk3r8BTmS
+	i1Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=gF3EfTkYrf8VegVXhwTey0aa1AyYJVMVq4UJnL10MYw=;
-	b=dqjhJQsjSkE2t2VjMFHV6klrHsD6LrZtod+9NvQgQPiYBLdpgyGyAhmcfueGrFOwqa
-	JCo1MMsGH73IVHNpfg/HJxjChi4reh/7/zYIl5vaHR1bIKL/+g4A9MSReylAxHzLia24
-	OrdSI+aycnHTAt145gyb5v84fxJ44JRX0Olcwe0Xcgmdeor++fItOaVSO80kei9xjExP
-	jv6mhtnj2bIM4BAWrCsHKa75SNjFaAEDzrK3aJLMBDWVmW27p31Y87Q1CRTWrzc3Phnh
-	iZ2cvO924zQN+0fReLi4q+gIaLHNTja/kknelv8RD5RqjZ486MPtzrTBBpiv20OhGtYK
-	dsOA==
-X-Gm-Message-State: APjAAAXEuQgqf4oOjHZZcIomBp7I3d5FyYurj5Y0xYyIehP4/ejUGKgd
-	0xRu4N54xHR3Ij3+G4nLCiP24/KWid9kZqxpPCI=
-X-Google-Smtp-Source: APXvYqyhNDFP5rgY0QgBZDzv2Fo3XY2mf19hvC8z3uSTV+Fq1GS14c56t4Ik+lt00IuEo0rK/lf/yRUBsBXXNibZKWg=
-X-Received: by 2002:ac2:4117:: with SMTP id b23mr6329533lfi.36.1567773741668; 
-	Fri, 06 Sep 2019 05:42:21 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ovdrgPvulin90/wb8n+LG5umUk0dbjyasHIu4TgqJ5s=;
+	b=p8UOP4e979BtV4Ca8EddJaT8XVm9oPd4I1StQ4IQgjEt9eU2wm9t/hgAt3eKXYXWt6
+	xV27ZXejcxEzvGxY9neji/FeSGLl/g2IEXC7BNUfUBRar96fqrsqioLHJRyidBWVgtpr
+	exZANq1XpLsEem5JRUKMk1He85Fo+RGw9bMqjeWjYZJOUqW4UTDkZEqk1VBVwIg49tgL
+	mSBqLA21lk7Nq8eR72WAbzhonvJ/+YFYmMQk5E+T2ea7AG7zvXdlmooKusiZXlLPMY9B
+	C76toL3MeRDe4YTGpvIujqj4PN6OeCNcqwR8vhpo8svXAbMOqZTSuykurToiFD4UWrZp
+	aaOA==
+X-Gm-Message-State: APjAAAX/gn4C2nG7fJwXD7ifjoQEN911ywTMLSJzHsybu+7bF41bShMb
+	A90iXAG+FpNfv2HNcgiXLHSUNSbz
+X-Google-Smtp-Source: APXvYqwSrGMJ7BP2CpAA3q633+v9obgrG5+dbFC2eK/jCdirDvvSHvR3G0LI9ao0IZtaZ3JP9ZZA/Q==
+X-Received: by 2002:a17:902:461:: with SMTP id
+	88mr9346000ple.296.1567783815769; 
+	Fri, 06 Sep 2019 08:30:15 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:1428:d184:917c:1fd5])
+	by smtp.gmail.com with ESMTPSA id m19sm4509986pjv.9.2019.09.06.08.30.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 06 Sep 2019 08:30:14 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Date: Fri,  6 Sep 2019 08:30:13 -0700
+Message-Id: <1567783813-16313-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190901203338.38768-1-stefan@agner.ch>
-	<20190901203338.38768-6-stefan@agner.ch>
-	<bfacfb8a-fba3-325c-4a20-3d918d40bfb8@windriver.com>
-	<CADkTA4PUOB3nP5oJiwxc5qAKUHboEUfiGX-Wuo0R+9k_Sjuuqg@mail.gmail.com>
-	<5ab839713acc05f61a0ad9ddbfbdd14c@agner.ch>
-In-Reply-To: <5ab839713acc05f61a0ad9ddbfbdd14c@agner.ch>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 6 Sep 2019 08:42:10 -0400
-Message-ID: <CADkTA4PJt6-mgzpW5+Cm=aZYXrkQMnt70DFdx4r7qaBnBLnWgw@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH 5/6] cni: move cni tools to /usr/lib/cni
+Subject: [thud][PATCH] libvirt: 9 Security fixes plus
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,145 +78,1778 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Sep 2019 12:42:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Sep 2019 15:30:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 6, 2019 at 8:07 AM Stefan Agner <stefan@agner.ch> wrote:
->
-> On 2019-09-03 19:28, Bruce Ashfield wrote:
-> > On Sun, Sep 1, 2019 at 9:33 PM ChenQi <Qi.Chen@windriver.com> wrote:
-> >>
-> >> On 09/02/2019 04:33 AM, Stefan Agner wrote:
-> >> > From: Stefan Agner <stefan.agner@toradex.com>
-> >> >
-> >> > Use a standard location to store the cni tools and plugins. This
-> >> > is more in line how other distributions package cni.
-> >>
-> >> But from what I see, at least Fedora and Ubuntu are using /opt/cni/bin
-> >> directory.
->
-> Fedora uses /usr/libexec/cni:
-> https://koji.fedoraproject.org/koji/rpminfo?rpmID=18850786
->
-> As far as I can tell there is no upstream Debian/Ubuntu package for this
-> yet.
->
-> Arch Linux uses /usr/lib/cni:
-> https://www.archlinux.org/packages/community/x86_64/cni-plugins/
->
-> I haven't seen distribution typically use /opt.
->
-> >> Also, have you tested such change with simple k8s setup which makes use
-> >> of these plugins? E.g. flannel?
->
-> I haven't. In fact I am not familiar with k8s setups, so this would need
-> me some time to understand and test...
+From: Armin Kuster <akuster@mvista.com>
 
-Indeed. It isn't easy to setup and test, so don't worry about it.
+Source: libvirt.org
+MR: 98352, 99240, 99137, 99245, 99132
+Type: Security Fix
+Disposition: Backport from https://libvirt.org/git/?p=libvirt.git;a=log;h=refs/heads/v4.7-maint
+ChangeID: 95f822542723d4bf910c1b4159e1431d7d46c969
+Description:
 
-But I can say, the reason that the recipe installs to /opt/cni/bin is
-that there are many parts of k8s that do expect the cni binaries to be
-there. I did a quick search this morning, and that expectation is
-still the case. So there may be a disconnect from standalone distro
-packaged cni components, and k8s specific things.  Plus it isn't just
-k8s managed cni plugins that go into that directory, there are
-instructions for installing unmanaged ones to that same location.
+Update to 4.7 maint tip all bug fixes.
+Includes:
+CVE-2018-12126
+CVE-2018-12127
+CVE-2018-12130
+CVE-2019-11091
+CVE-2019-10132
+CVE-2019-10161
+CVE-2019-10166
+CVE-2019-10167
+CVE-2019-10168
 
-So to avoid breaking those large software stacks, we do need to keep
-/opt/cni/bin around at some level.
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ ...01-cpu_x86-Do-not-cache-microcode-version.patch |  59 ++
+ .../0002-qemu-Don-t-cache-microcode-version.patch  | 155 ++++
+ ...18-12127_CVE-2018-12130_CVE-2019-11091_p1.patch | 894 +++++++++++++++++++++
+ ...18-12127_CVE-2018-12130_CVE-2019-11091_p2.patch | 116 +++
+ .../libvirt/libvirt/CVE-2019-10132_p1.patch        |  63 ++
+ .../libvirt/libvirt/CVE-2019-10132_p2.patch        |  56 ++
+ .../libvirt/libvirt/CVE-2019-10132_p3.patch        |  56 ++
+ .../libvirt/libvirt/CVE-2019-10161.patch           |  99 +++
+ .../libvirt/libvirt/CVE-2019-10166.patch           |  43 +
+ .../libvirt/libvirt/CVE-2019-10167.patch           |  41 +
+ .../libvirt/libvirt/CVE-2019-10168.patch           |  49 ++
+ recipes-extended/libvirt/libvirt_4.7.0.bb          |  11 +
+ 12 files changed, 1642 insertions(+)
+ create mode 100644 recipes-extended/libvirt/libvirt/0001-cpu_x86-Do-not-cache-microcode-version.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/0002-qemu-Don-t-cache-microcode-version.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p1.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p2.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10161.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10166.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10167.patch
+ create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10168.patch
 
->
-> >
-> > Indeed. I haven't seen anything that looks like a standard location
-> > for these. I'd be interested to hear how testing went.
-> >
-> > Is this something that we can make configurable ? That would be my
-> > preference, that way we can be sure to not break anyone's use case.
->
-> I guess one always can do a bbappend...?
->
-> I don't think that we can configure at runtime (E.g. have the package
-> manager install it into different location depending on...)
-
-I was more thinking at build time. Have a packageconfig value, and
-just have the CNI package grab files from both directories. That way a
-bbappend would just be a packageconfig setting, and nothing more
-extensive than that.
-
-Alternatively, we could symlink one directory to the other, so they
-could be found in either location.
-
-Bruce
-
->
-> --
-> Stefan
->
->
-> >
-> > Bruce
-> >
-> >>
-> >> Best Regards,
-> >> Chen Qi
-> >>
-> >> > Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> >> > ---
-> >> >   recipes-containers/cri-o/files/crio.conf | 2 +-
-> >> >   recipes-networking/cni/cni_git.bb        | 4 ++--
-> >> >   2 files changed, 3 insertions(+), 3 deletions(-)
-> >> >
-> >> > diff --git a/recipes-containers/cri-o/files/crio.conf b/recipes-containers/cri-o/files/crio.conf
-> >> > index 51d7f40..dd22465 100644
-> >> > --- a/recipes-containers/cri-o/files/crio.conf
-> >> > +++ b/recipes-containers/cri-o/files/crio.conf
-> >> > @@ -144,4 +144,4 @@ registries = [
-> >> >   network_dir = "/etc/cni/net.d/"
-> >> >
-> >> >   # plugin_dir is is where CNI plugin binaries are stored.
-> >> > -plugin_dir = "/opt/cni/bin/"
-> >> > +plugin_dir = "/usr/lib/cni/"
-> >> > diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-> >> > index 5348b95..86e5e0f 100644
-> >> > --- a/recipes-networking/cni/cni_git.bb
-> >> > +++ b/recipes-networking/cni/cni_git.bb
-> >> > @@ -63,7 +63,7 @@ do_compile() {
-> >> >   }
-> >> >
-> >> >   do_install() {
-> >> > -    localbindir="/opt/cni/bin"
-> >> > +    localbindir="${libdir}/cni/"
-> >> >
-> >> >       install -d ${D}${localbindir}
-> >> >       install -d ${D}/${sysconfdir}/cni/net.d
-> >> > @@ -72,7 +72,7 @@ do_install() {
-> >> >       install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
-> >> >   }
-> >> >
-> >> > -FILES_${PN} += "/opt/cni/bin/*"
-> >> > +FILES_${PN} += "${libdir}/cni/*"
-> >> >
-> >> >   INSANE_SKIP_${PN} += "ldflags already-stripped"
-> >> >
-> >>
-> >>
-> >> --
-> >> _______________________________________________
-> >> meta-virtualization mailing list
-> >> meta-virtualization@yoctoproject.org
-> >> https://lists.yoctoproject.org/listinfo/meta-virtualization
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
+diff --git a/recipes-extended/libvirt/libvirt/0001-cpu_x86-Do-not-cache-microcode-version.patch b/recipes-extended/libvirt/libvirt/0001-cpu_x86-Do-not-cache-microcode-version.patch
+new file mode 100644
+index 0000000..4413d5f
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/0001-cpu_x86-Do-not-cache-microcode-version.patch
+@@ -0,0 +1,59 @@
++From 33998cdd47300fc3ca6cb8f85714c149440b9c8b Mon Sep 17 00:00:00 2001
++From: Jiri Denemark <jdenemar@redhat.com>
++Date: Fri, 5 Apr 2019 11:33:32 +0200
++Subject: [PATCH 01/11] cpu_x86: Do not cache microcode version
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The microcode version checks are used to invalidate cached CPU data we
++get from QEMU. To minimize /proc/cpuinfo parsing the microcode version
++was only read when libvirtd started and cached for the daemon's
++lifetime. However, the CPU microcode can change anytime (updating the
++microcode package can automatically upload it to the CPU) and we need to
++stop caching it to avoid using stale CPU model data.
++
++Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++(cherry picked from commit be46f613261d3b655a1f15afd635087e68a9c39b)
++
++Upstream-Status: Backport
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/cpu/cpu_x86.c | 5 +----
++ 1 file changed, 1 insertion(+), 4 deletions(-)
++
++diff --git a/src/cpu/cpu_x86.c b/src/cpu/cpu_x86.c
++index cb27550..ce48ca6 100644
++--- a/src/cpu/cpu_x86.c
+++++ b/src/cpu/cpu_x86.c
++@@ -163,7 +163,6 @@ struct _virCPUx86Map {
++ };
++ 
++ static virCPUx86MapPtr cpuMap;
++-static unsigned int microcodeVersion;
++ 
++ int virCPUx86DriverOnceInit(void);
++ VIR_ONCE_GLOBAL_INIT(virCPUx86Driver);
++@@ -1331,8 +1330,6 @@ virCPUx86DriverOnceInit(void)
++     if (!(cpuMap = virCPUx86LoadMap()))
++         return -1;
++ 
++-    microcodeVersion = virHostCPUGetMicrocodeVersion();
++-
++     return 0;
++ }
++ 
++@@ -2372,7 +2369,7 @@ virCPUx86GetHost(virCPUDefPtr cpu,
++         goto cleanup;
++ 
++     ret = x86DecodeCPUData(cpu, cpuData, models);
++-    cpu->microcodeVersion = microcodeVersion;
+++    cpu->microcodeVersion = virHostCPUGetMicrocodeVersion();
++ 
++  cleanup:
++     virCPUx86DataFree(cpuData);
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/0002-qemu-Don-t-cache-microcode-version.patch b/recipes-extended/libvirt/libvirt/0002-qemu-Don-t-cache-microcode-version.patch
+new file mode 100644
+index 0000000..6d0f298
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/0002-qemu-Don-t-cache-microcode-version.patch
+@@ -0,0 +1,155 @@
++From d606ac113007901522dab6c4b3979686d43eaa87 Mon Sep 17 00:00:00 2001
++From: Jiri Denemark <jdenemar@redhat.com>
++Date: Fri, 12 Apr 2019 21:21:05 +0200
++Subject: [PATCH 02/11] qemu: Don't cache microcode version
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++My earlier commit be46f61326 was incomplete. It removed caching of
++microcode version in the CPU driver, which means the capabilities XML
++will see the correct microcode version. But it is also cached in the
++QEMU capabilities cache where it is used to detect whether we need to
++reprobe QEMU. By missing the second place, the original commit
++be46f61326 made the situation even worse since libvirt would report
++correct microcode version while still using the old host CPU model
++(visible in domain capabilities XML).
++
++Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++(cherry picked from commit 673c62a3b7855a0685d8f116e227c402720b9ee9)
++
++Conflicts:
++        src/qemu/qemu_capabilities.c
++            - virQEMUCapsCacheLookupByArch refactoring (commits
++              7948ad4129a and 1a3de67001c) are missing
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++
++Upstream-Status: Backport
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/qemu/qemu_capabilities.c | 12 ++++++++----
++ src/qemu/qemu_capabilities.h |  3 +--
++ src/qemu/qemu_driver.c       |  9 +--------
++ tests/testutilsqemu.c        |  2 +-
++ 4 files changed, 11 insertions(+), 15 deletions(-)
++
++diff --git a/src/qemu/qemu_capabilities.c b/src/qemu/qemu_capabilities.c
++index a075677..eaf369f 100644
++--- a/src/qemu/qemu_capabilities.c
+++++ b/src/qemu/qemu_capabilities.c
++@@ -4700,7 +4700,7 @@ virQEMUCapsNewData(const char *binary,
++                                            priv->libDir,
++                                            priv->runUid,
++                                            priv->runGid,
++-                                           priv->microcodeVersion,
+++                                           virHostCPUGetMicrocodeVersion(),
++                                            priv->kernelVersion);
++ }
++ 
++@@ -4783,8 +4783,7 @@ virFileCachePtr
++ virQEMUCapsCacheNew(const char *libDir,
++                     const char *cacheDir,
++                     uid_t runUid,
++-                    gid_t runGid,
++-                    unsigned int microcodeVersion)
+++                    gid_t runGid)
++ {
++     char *capsCacheDir = NULL;
++     virFileCachePtr cache = NULL;
++@@ -4808,7 +4807,6 @@ virQEMUCapsCacheNew(const char *libDir,
++ 
++     priv->runUid = runUid;
++     priv->runGid = runGid;
++-    priv->microcodeVersion = microcodeVersion;
++ 
++     if (uname(&uts) == 0 &&
++         virAsprintf(&priv->kernelVersion, "%s %s", uts.release, uts.version) < 0)
++@@ -4829,8 +4827,11 @@ virQEMUCapsPtr
++ virQEMUCapsCacheLookup(virFileCachePtr cache,
++                        const char *binary)
++ {
+++    virQEMUCapsCachePrivPtr priv = virFileCacheGetPriv(cache);
++     virQEMUCapsPtr ret = NULL;
++ 
+++    priv->microcodeVersion = virHostCPUGetMicrocodeVersion();
+++
++     ret = virFileCacheLookup(cache, binary);
++ 
++     VIR_DEBUG("Returning caps %p for %s", ret, binary);
++@@ -4876,10 +4877,13 @@ virQEMUCapsPtr
++ virQEMUCapsCacheLookupByArch(virFileCachePtr cache,
++                              virArch arch)
++ {
+++    virQEMUCapsCachePrivPtr priv = virFileCacheGetPriv(cache);
++     virQEMUCapsPtr ret = NULL;
++     virArch target;
++     struct virQEMUCapsSearchData data = { .arch = arch };
++ 
+++    priv->microcodeVersion = virHostCPUGetMicrocodeVersion();
+++
++     ret = virFileCacheLookupByFunc(cache, virQEMUCapsCompareArch, &data);
++     if (!ret) {
++         /* If the first attempt at finding capabilities has failed, try
++diff --git a/src/qemu/qemu_capabilities.h b/src/qemu/qemu_capabilities.h
++index 3d3a978..956babc 100644
++--- a/src/qemu/qemu_capabilities.h
+++++ b/src/qemu/qemu_capabilities.h
++@@ -574,8 +574,7 @@ void virQEMUCapsFilterByMachineType(virQEMUCapsPtr qemuCaps,
++ virFileCachePtr virQEMUCapsCacheNew(const char *libDir,
++                                     const char *cacheDir,
++                                     uid_t uid,
++-                                    gid_t gid,
++-                                    unsigned int microcodeVersion);
+++                                    gid_t gid);
++ virQEMUCapsPtr virQEMUCapsCacheLookup(virFileCachePtr cache,
++                                       const char *binary);
++ virQEMUCapsPtr virQEMUCapsCacheLookupCopy(virFileCachePtr cache,
++diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
++index a0f7c71..75f8699 100644
++--- a/src/qemu/qemu_driver.c
+++++ b/src/qemu/qemu_driver.c
++@@ -592,8 +592,6 @@ qemuStateInitialize(bool privileged,
++     char *hugepagePath = NULL;
++     char *memoryBackingPath = NULL;
++     size_t i;
++-    virCPUDefPtr hostCPU = NULL;
++-    unsigned int microcodeVersion = 0;
++ 
++     if (VIR_ALLOC(qemu_driver) < 0)
++         return -1;
++@@ -813,15 +811,10 @@ qemuStateInitialize(bool privileged,
++         run_gid = cfg->group;
++     }
++ 
++-    if ((hostCPU = virCPUProbeHost(virArchFromHost())))
++-        microcodeVersion = hostCPU->microcodeVersion;
++-    virCPUDefFree(hostCPU);
++-
++     qemu_driver->qemuCapsCache = virQEMUCapsCacheNew(cfg->libDir,
++                                                      cfg->cacheDir,
++                                                      run_uid,
++-                                                     run_gid,
++-                                                     microcodeVersion);
+++                                                     run_gid);
++     if (!qemu_driver->qemuCapsCache)
++         goto error;
++ 
++diff --git a/tests/testutilsqemu.c b/tests/testutilsqemu.c
++index 8438613..4e53f03 100644
++--- a/tests/testutilsqemu.c
+++++ b/tests/testutilsqemu.c
++@@ -707,7 +707,7 @@ int qemuTestDriverInit(virQEMUDriver *driver)
++ 
++     /* Using /dev/null for libDir and cacheDir automatically produces errors
++      * upon attempt to use any of them */
++-    driver->qemuCapsCache = virQEMUCapsCacheNew("/dev/null", "/dev/null", 0, 0, 0);
+++    driver->qemuCapsCache = virQEMUCapsCacheNew("/dev/null", "/dev/null", 0, 0);
++     if (!driver->qemuCapsCache)
++         goto error;
++ 
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p1.patch b/recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p1.patch
+new file mode 100644
+index 0000000..45f51d4
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p1.patch
+@@ -0,0 +1,894 @@
++From b15a3c9f9bd24d12082b5a6ea505eb3ea48137cb Mon Sep 17 00:00:00 2001
++From: Jiri Denemark <jdenemar@redhat.com>
++Date: Fri, 5 Apr 2019 11:19:30 +0200
++Subject: [PATCH 03/11] cputest: Add data for Intel(R) Xeon(R) CPU E3-1225 v5
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
++(cherry picked from commit 5cd9db3ac11e88846cbcf95fad9f6fae9d880dee)
++
++CVE-2018-12126, CVE-2018-12127, CVE-2018-12130, CVE-2019-11091
++
++Conflicts:
++	tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++	tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++            - intel-pt feature is missing
++	    - stibp feature is missing
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++
++Upstream-Status: Backport
++
++CVE: CVE-2018-12126
++CVE: CVE-2018-12127
++CVE: CVE-2018-12130
++CVE: CVE-2019-11091
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ tests/cputest.c                                    |   1 +
++ .../x86_64-cpuid-Xeon-E3-1225-v5-disabled.xml      |   7 +
++ .../x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml       |   8 +
++ .../x86_64-cpuid-Xeon-E3-1225-v5-guest.xml         |  26 +
++ .../x86_64-cpuid-Xeon-E3-1225-v5-host.xml          |  27 +
++ .../x86_64-cpuid-Xeon-E3-1225-v5-json.xml          |  10 +
++ .../cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.json  | 652 +++++++++++++++++++++
++ tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.sig |   4 +
++ tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.xml |  47 ++
++ 9 files changed, 782 insertions(+)
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-disabled.xml
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.json
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.sig
++ create mode 100644 tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.xml
++
++diff --git a/tests/cputest.c b/tests/cputest.c
++index baf2b3c..fbb2a86 100644
++--- a/tests/cputest.c
+++++ b/tests/cputest.c
++@@ -1190,6 +1190,7 @@ mymain(void)
++     DO_TEST_CPUID(VIR_ARCH_X86_64, "Phenom-B95", JSON_HOST);
++     DO_TEST_CPUID(VIR_ARCH_X86_64, "Ryzen-7-1800X-Eight-Core", JSON_HOST);
++     DO_TEST_CPUID(VIR_ARCH_X86_64, "Xeon-5110", JSON_NONE);
+++    DO_TEST_CPUID(VIR_ARCH_X86_64, "Xeon-E3-1225-v5", JSON_MODELS);
++     DO_TEST_CPUID(VIR_ARCH_X86_64, "Xeon-E3-1245-v5", JSON_MODELS);
++     DO_TEST_CPUID(VIR_ARCH_X86_64, "Xeon-E5-2609-v3", JSON_MODELS);
++     DO_TEST_CPUID(VIR_ARCH_X86_64, "Xeon-E5-2623-v4", JSON_MODELS);
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-disabled.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-disabled.xml
++new file mode 100644
++index 0000000..ce51903
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-disabled.xml
++@@ -0,0 +1,7 @@
+++<!-- Features disabled by QEMU -->
+++<cpudata arch='x86'>
+++  <cpuid eax_in='0x00000001' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x0800c1fc' edx='0xb0600000'/>
+++  <cpuid eax_in='0x00000007' ecx_in='0x00' eax='0x00000000' ebx='0x02000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x01' eax='0x00000008' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000007' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000100'/>
+++</cpudata>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml
++new file mode 100644
++index 0000000..0deca9f
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml
++@@ -0,0 +1,8 @@
+++<!-- Features enabled by QEMU -->
+++<cpudata arch='x86'>
+++  <cpuid eax_in='0x00000001' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0xf7fa3203' edx='0x0f8bfbff'/>
+++  <cpuid eax_in='0x00000006' ecx_in='0x00' eax='0x00000004' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000007' ecx_in='0x00' eax='0x00000000' ebx='0x009c4fbb' ecx='0x00000000' edx='0x8c000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x01' eax='0x00000007' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000001' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000121' edx='0x2c100800'/>
+++</cpudata>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++new file mode 100644
++index 0000000..993db80
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++@@ -0,0 +1,26 @@
+++<cpu mode='custom' match='exact'>
+++  <model fallback='forbid'>Skylake-Client-IBRS</model>
+++  <vendor>Intel</vendor>
+++  <feature policy='require' name='ds'/>
+++  <feature policy='require' name='acpi'/>
+++  <feature policy='require' name='ss'/>
+++  <feature policy='require' name='ht'/>
+++  <feature policy='require' name='tm'/>
+++  <feature policy='require' name='pbe'/>
+++  <feature policy='require' name='dtes64'/>
+++  <feature policy='require' name='monitor'/>
+++  <feature policy='require' name='ds_cpl'/>
+++  <feature policy='require' name='vmx'/>
+++  <feature policy='require' name='smx'/>
+++  <feature policy='require' name='est'/>
+++  <feature policy='require' name='tm2'/>
+++  <feature policy='require' name='xtpr'/>
+++  <feature policy='require' name='pdcm'/>
+++  <feature policy='require' name='osxsave'/>
+++  <feature policy='require' name='tsc_adjust'/>
+++  <feature policy='require' name='clflushopt'/>
+++  <feature policy='require' name='ssbd'/>
+++  <feature policy='require' name='xsaves'/>
+++  <feature policy='require' name='pdpe1gb'/>
+++  <feature policy='require' name='invtsc'/>
+++</cpu>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++new file mode 100644
++index 0000000..074a39b
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++@@ -0,0 +1,27 @@
+++<cpu>
+++  <arch>x86_64</arch>
+++  <model>Skylake-Client-IBRS</model>
+++  <vendor>Intel</vendor>
+++  <feature name='ds'/>
+++  <feature name='acpi'/>
+++  <feature name='ss'/>
+++  <feature name='ht'/>
+++  <feature name='tm'/>
+++  <feature name='pbe'/>
+++  <feature name='dtes64'/>
+++  <feature name='monitor'/>
+++  <feature name='ds_cpl'/>
+++  <feature name='vmx'/>
+++  <feature name='smx'/>
+++  <feature name='est'/>
+++  <feature name='tm2'/>
+++  <feature name='xtpr'/>
+++  <feature name='pdcm'/>
+++  <feature name='osxsave'/>
+++  <feature name='tsc_adjust'/>
+++  <feature name='clflushopt'/>
+++  <feature name='ssbd'/>
+++  <feature name='xsaves'/>
+++  <feature name='pdpe1gb'/>
+++  <feature name='invtsc'/>
+++</cpu>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml
++new file mode 100644
++index 0000000..1984bd4
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml
++@@ -0,0 +1,10 @@
+++<cpu mode='custom' match='exact'>
+++  <model fallback='forbid'>Skylake-Client-IBRS</model>
+++  <vendor>Intel</vendor>
+++  <feature policy='require' name='ss'/>
+++  <feature policy='require' name='hypervisor'/>
+++  <feature policy='require' name='tsc_adjust'/>
+++  <feature policy='require' name='clflushopt'/>
+++  <feature policy='require' name='ssbd'/>
+++  <feature policy='require' name='pdpe1gb'/>
+++</cpu>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.json b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.json
++new file mode 100644
++index 0000000..0847475
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.json
++@@ -0,0 +1,652 @@
+++{
+++  "return": {
+++    "model": {
+++      "name": "base",
+++      "props": {
+++        "phys-bits": 0,
+++        "core-id": -1,
+++        "xlevel": 2147483656,
+++        "cmov": true,
+++        "ia64": false,
+++        "aes": true,
+++        "mmx": true,
+++        "rdpid": false,
+++        "arat": true,
+++        "gfni": false,
+++        "pause-filter": false,
+++        "xsavec": true,
+++        "intel-pt": false,
+++        "osxsave": false,
+++        "hv-frequencies": false,
+++        "tsc-frequency": 0,
+++        "xd": true,
+++        "hv-vendor-id": "",
+++        "kvm-asyncpf": true,
+++        "kvm_asyncpf": true,
+++        "perfctr_core": false,
+++        "perfctr-core": false,
+++        "mpx": true,
+++        "pbe": false,
+++        "decodeassists": false,
+++        "avx512cd": false,
+++        "sse4_1": true,
+++        "sse4.1": true,
+++        "sse4-1": true,
+++        "family": 6,
+++        "legacy-cache": true,
+++        "vmware-cpuid-freq": true,
+++        "avx512f": false,
+++        "msr": true,
+++        "mce": true,
+++        "mca": true,
+++        "hv-runtime": false,
+++        "xcrypt": false,
+++        "thread-id": -1,
+++        "min-level": 13,
+++        "xgetbv1": true,
+++        "cid": false,
+++        "hv-relaxed": false,
+++        "hv-crash": false,
+++        "ds": false,
+++        "fxsr": true,
+++        "xsaveopt": true,
+++        "xtpr": false,
+++        "avx512vl": false,
+++        "avx512-vpopcntdq": false,
+++        "phe": false,
+++        "extapic": false,
+++        "3dnowprefetch": true,
+++        "avx512vbmi2": false,
+++        "cr8legacy": false,
+++        "stibp": true,
+++        "cpuid-0xb": true,
+++        "xcrypt-en": false,
+++        "kvm_pv_eoi": true,
+++        "apic-id": 4294967295,
+++        "pn": false,
+++        "dca": false,
+++        "vendor": "GenuineIntel",
+++        "pku": false,
+++        "smx": false,
+++        "cmp_legacy": false,
+++        "cmp-legacy": false,
+++        "node-id": -1,
+++        "avx512-4fmaps": false,
+++        "vmcb_clean": false,
+++        "vmcb-clean": false,
+++        "3dnowext": false,
+++        "hle": true,
+++        "npt": false,
+++        "memory": "/machine/unattached/system[0]",
+++        "clwb": false,
+++        "lbrv": false,
+++        "adx": true,
+++        "ss": true,
+++        "pni": true,
+++        "svm_lock": false,
+++        "svm-lock": false,
+++        "pfthreshold": false,
+++        "smep": true,
+++        "smap": true,
+++        "x2apic": true,
+++        "avx512vbmi": false,
+++        "avx512vnni": false,
+++        "hv-stimer": false,
+++        "i64": true,
+++        "flushbyasid": false,
+++        "f16c": true,
+++        "ace2-en": false,
+++        "pat": true,
+++        "pae": true,
+++        "sse": true,
+++        "phe-en": false,
+++        "kvm_nopiodelay": true,
+++        "kvm-nopiodelay": true,
+++        "tm": false,
+++        "kvmclock-stable-bit": true,
+++        "hypervisor": true,
+++        "socket-id": -1,
+++        "pcommit": false,
+++        "syscall": true,
+++        "level": 13,
+++        "avx512dq": false,
+++        "svm": false,
+++        "full-cpuid-auto-level": true,
+++        "hv-reset": false,
+++        "invtsc": false,
+++        "sse3": true,
+++        "sse2": true,
+++        "ssbd": true,
+++        "est": false,
+++        "avx512ifma": false,
+++        "tm2": false,
+++        "kvm-pv-eoi": true,
+++        "cx8": true,
+++        "kvm_mmu": false,
+++        "kvm-mmu": false,
+++        "sse4_2": true,
+++        "sse4.2": true,
+++        "sse4-2": true,
+++        "pge": true,
+++        "fill-mtrr-mask": true,
+++        "avx512bitalg": false,
+++        "nodeid_msr": false,
+++        "pdcm": false,
+++        "movbe": true,
+++        "model": 94,
+++        "nrip_save": false,
+++        "nrip-save": false,
+++        "kvm_pv_unhalt": true,
+++        "ssse3": true,
+++        "sse4a": false,
+++        "invpcid": true,
+++        "pdpe1gb": true,
+++        "tsc-deadline": true,
+++        "fma": true,
+++        "cx16": true,
+++        "de": true,
+++        "enforce": false,
+++        "stepping": 3,
+++        "xsave": true,
+++        "clflush": true,
+++        "skinit": false,
+++        "tsc": true,
+++        "tce": false,
+++        "fpu": true,
+++        "ibs": false,
+++        "ds_cpl": false,
+++        "ds-cpl": false,
+++        "host-phys-bits": true,
+++        "fma4": false,
+++        "la57": false,
+++        "osvw": false,
+++        "check": true,
+++        "hv-spinlocks": -1,
+++        "pmu": false,
+++        "pmm": false,
+++        "apic": true,
+++        "spec-ctrl": true,
+++        "min-xlevel2": 0,
+++        "tsc-adjust": true,
+++        "tsc_adjust": true,
+++        "kvm-steal-time": true,
+++        "kvm_steal_time": true,
+++        "kvmclock": true,
+++        "l3-cache": true,
+++        "lwp": false,
+++        "ibpb": false,
+++        "xop": false,
+++        "avx": true,
+++        "ospke": false,
+++        "ace2": false,
+++        "avx512bw": false,
+++        "acpi": false,
+++        "hv-vapic": false,
+++        "fsgsbase": true,
+++        "ht": false,
+++        "nx": true,
+++        "pclmulqdq": true,
+++        "mmxext": false,
+++        "vaes": false,
+++        "popcnt": true,
+++        "xsaves": false,
+++        "tcg-cpuid": true,
+++        "lm": true,
+++        "umip": false,
+++        "pse": true,
+++        "avx2": true,
+++        "sep": true,
+++        "pclmuldq": true,
+++        "virt-ssbd": false,
+++        "x-hv-max-vps": -1,
+++        "nodeid-msr": false,
+++        "md-clear": true,
+++        "kvm": true,
+++        "misalignsse": false,
+++        "min-xlevel": 2147483656,
+++        "kvm-pv-unhalt": true,
+++        "bmi2": true,
+++        "bmi1": true,
+++        "realized": false,
+++        "tsc_scale": false,
+++        "tsc-scale": false,
+++        "topoext": false,
+++        "hv-vpindex": false,
+++        "xlevel2": 0,
+++        "clflushopt": true,
+++        "kvm-no-smi-migration": false,
+++        "monitor": false,
+++        "avx512er": false,
+++        "pmm-en": false,
+++        "pcid": true,
+++        "3dnow": false,
+++        "erms": true,
+++        "lahf-lm": true,
+++        "lahf_lm": true,
+++        "vpclmulqdq": false,
+++        "fxsr-opt": false,
+++        "hv-synic": false,
+++        "xstore": false,
+++        "fxsr_opt": false,
+++        "kvm-hint-dedicated": false,
+++        "rtm": true,
+++        "lmce": true,
+++        "hv-time": false,
+++        "perfctr-nb": false,
+++        "perfctr_nb": false,
+++        "ffxsr": false,
+++        "rdrand": true,
+++        "rdseed": true,
+++        "avx512-4vnniw": false,
+++        "vmx": false,
+++        "vme": true,
+++        "dtes64": false,
+++        "mtrr": true,
+++        "rdtscp": true,
+++        "pse36": true,
+++        "kvm-pv-tlb-flush": false,
+++        "tbm": false,
+++        "wdt": false,
+++        "pause_filter": false,
+++        "sha-ni": false,
+++        "model-id": "Intel(R) Xeon(R) CPU E3-1225 v5 @ 3.30GHz",
+++        "abm": true,
+++        "avx512pf": false,
+++        "xstore-en": false
+++      }
+++    }
+++  },
+++  "id": "model-expansion"
+++}
+++
+++{
+++  "return": [
+++    {
+++      "name": "max",
+++      "typename": "max-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": false
+++    },
+++    {
+++      "name": "host",
+++      "typename": "host-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": false
+++    },
+++    {
+++      "name": "base",
+++      "typename": "base-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": true,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "qemu64",
+++      "typename": "qemu64-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "qemu32",
+++      "typename": "qemu32-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "phenom",
+++      "typename": "phenom-x86_64-cpu",
+++      "unavailable-features": [
+++        "mmxext",
+++        "fxsr-opt",
+++        "3dnowext",
+++        "3dnow",
+++        "sse4a",
+++        "npt"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "pentium3",
+++      "typename": "pentium3-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "pentium2",
+++      "typename": "pentium2-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "pentium",
+++      "typename": "pentium-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "n270",
+++      "typename": "n270-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "kvm64",
+++      "typename": "kvm64-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "kvm32",
+++      "typename": "kvm32-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "cpu64-rhel6",
+++      "typename": "cpu64-rhel6-x86_64-cpu",
+++      "unavailable-features": [
+++        "sse4a"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "coreduo",
+++      "typename": "coreduo-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "core2duo",
+++      "typename": "core2duo-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "athlon",
+++      "typename": "athlon-x86_64-cpu",
+++      "unavailable-features": [
+++        "mmxext",
+++        "3dnowext",
+++        "3dnow"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Westmere",
+++      "typename": "Westmere-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Westmere-IBRS",
+++      "typename": "Westmere-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Skylake-Server",
+++      "typename": "Skylake-Server-x86_64-cpu",
+++      "unavailable-features": [
+++        "avx512f",
+++        "avx512dq",
+++        "clwb",
+++        "avx512cd",
+++        "avx512bw",
+++        "avx512vl",
+++        "avx512f",
+++        "avx512f",
+++        "avx512f"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Skylake-Server-IBRS",
+++      "typename": "Skylake-Server-IBRS-x86_64-cpu",
+++      "unavailable-features": [
+++        "avx512f",
+++        "avx512dq",
+++        "clwb",
+++        "avx512cd",
+++        "avx512bw",
+++        "avx512vl",
+++        "avx512f",
+++        "avx512f",
+++        "avx512f"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Skylake-Client",
+++      "typename": "Skylake-Client-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Skylake-Client-IBRS",
+++      "typename": "Skylake-Client-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "SandyBridge",
+++      "typename": "SandyBridge-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "SandyBridge-IBRS",
+++      "typename": "SandyBridge-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Penryn",
+++      "typename": "Penryn-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Opteron_G5",
+++      "typename": "Opteron_G5-x86_64-cpu",
+++      "unavailable-features": [
+++        "sse4a",
+++        "misalignsse",
+++        "xop",
+++        "fma4",
+++        "tbm"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Opteron_G4",
+++      "typename": "Opteron_G4-x86_64-cpu",
+++      "unavailable-features": [
+++        "sse4a",
+++        "misalignsse",
+++        "xop",
+++        "fma4"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Opteron_G3",
+++      "typename": "Opteron_G3-x86_64-cpu",
+++      "unavailable-features": [
+++        "sse4a",
+++        "misalignsse"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Opteron_G2",
+++      "typename": "Opteron_G2-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Opteron_G1",
+++      "typename": "Opteron_G1-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Nehalem",
+++      "typename": "Nehalem-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Nehalem-IBRS",
+++      "typename": "Nehalem-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "IvyBridge",
+++      "typename": "IvyBridge-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "IvyBridge-IBRS",
+++      "typename": "IvyBridge-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Haswell",
+++      "typename": "Haswell-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Haswell-noTSX",
+++      "typename": "Haswell-noTSX-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Haswell-noTSX-IBRS",
+++      "typename": "Haswell-noTSX-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Haswell-IBRS",
+++      "typename": "Haswell-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "EPYC",
+++      "typename": "EPYC-x86_64-cpu",
+++      "unavailable-features": [
+++        "sha-ni",
+++        "mmxext",
+++        "fxsr-opt",
+++        "cr8legacy",
+++        "sse4a",
+++        "misalignsse",
+++        "osvw"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "EPYC-IBPB",
+++      "typename": "EPYC-IBPB-x86_64-cpu",
+++      "unavailable-features": [
+++        "sha-ni",
+++        "mmxext",
+++        "fxsr-opt",
+++        "cr8legacy",
+++        "sse4a",
+++        "misalignsse",
+++        "osvw",
+++        "ibpb"
+++      ],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Conroe",
+++      "typename": "Conroe-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Broadwell",
+++      "typename": "Broadwell-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Broadwell-noTSX",
+++      "typename": "Broadwell-noTSX-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Broadwell-noTSX-IBRS",
+++      "typename": "Broadwell-noTSX-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "Broadwell-IBRS",
+++      "typename": "Broadwell-IBRS-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    },
+++    {
+++      "name": "486",
+++      "typename": "486-x86_64-cpu",
+++      "unavailable-features": [],
+++      "static": false,
+++      "migration-safe": true
+++    }
+++  ],
+++  "id": "definitions"
+++}
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.sig b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.sig
++new file mode 100644
++index 0000000..7e57c2d
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.sig
++@@ -0,0 +1,4 @@
+++0506e3
+++family:     6 (0x06)
+++model:     94 (0x5e)
+++stepping:   3 (0x03)
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.xml
++new file mode 100644
++index 0000000..437429d
++--- /dev/null
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5.xml
++@@ -0,0 +1,47 @@
+++<!-- Intel(R) Xeon(R) CPU E3-1225 v5 @ 3.30GHz -->
+++<cpudata arch='x86'>
+++  <cpuid eax_in='0x00000000' ecx_in='0x00' eax='0x00000016' ebx='0x756e6547' ecx='0x6c65746e' edx='0x49656e69'/>
+++  <cpuid eax_in='0x00000001' ecx_in='0x00' eax='0x000506e3' ebx='0x06100800' ecx='0x7ffafbff' edx='0xbfebfbff'/>
+++  <cpuid eax_in='0x00000002' ecx_in='0x00' eax='0x76036301' ebx='0x00f0b6ff' ecx='0x00000000' edx='0x00c30000'/>
+++  <cpuid eax_in='0x00000003' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000004' ecx_in='0x00' eax='0x1c004121' ebx='0x01c0003f' ecx='0x0000003f' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000004' ecx_in='0x01' eax='0x1c004122' ebx='0x01c0003f' ecx='0x0000003f' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000004' ecx_in='0x02' eax='0x1c004143' ebx='0x00c0003f' ecx='0x000003ff' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000004' ecx_in='0x03' eax='0x1c03c163' ebx='0x03c0003f' ecx='0x00001fff' edx='0x00000006'/>
+++  <cpuid eax_in='0x00000005' ecx_in='0x00' eax='0x00000040' ebx='0x00000040' ecx='0x00000003' edx='0x00142120'/>
+++  <cpuid eax_in='0x00000006' ecx_in='0x00' eax='0x000027f7' ebx='0x00000002' ecx='0x00000009' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000007' ecx_in='0x00' eax='0x00000000' ebx='0x029c6fbf' ecx='0x00000000' edx='0x9c002400'/>
+++  <cpuid eax_in='0x00000008' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000009' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000a' ecx_in='0x00' eax='0x07300804' ebx='0x00000000' ecx='0x00000000' edx='0x00000603'/>
+++  <cpuid eax_in='0x0000000b' ecx_in='0x00' eax='0x00000001' ebx='0x00000001' ecx='0x00000100' edx='0x00000006'/>
+++  <cpuid eax_in='0x0000000b' ecx_in='0x01' eax='0x00000004' ebx='0x00000004' ecx='0x00000201' edx='0x00000006'/>
+++  <cpuid eax_in='0x0000000c' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x00' eax='0x0000001f' ebx='0x00000440' ecx='0x00000440' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x01' eax='0x0000000f' ebx='0x000003c0' ecx='0x00000100' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x02' eax='0x00000100' ebx='0x00000240' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x03' eax='0x00000040' ebx='0x000003c0' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x04' eax='0x00000040' ebx='0x00000400' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000d' ecx_in='0x08' eax='0x00000080' ebx='0x00000000' ecx='0x00000001' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000e' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x0000000f' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000010' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000011' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000012' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000013' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000014' ecx_in='0x00' eax='0x00000001' ebx='0x0000000f' ecx='0x00000007' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000014' ecx_in='0x01' eax='0x02490002' ebx='0x003f3fff' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000015' ecx_in='0x00' eax='0x00000002' ebx='0x00000114' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x00000016' ecx_in='0x00' eax='0x00000ce4' ebx='0x00000e74' ecx='0x00000064' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000000' ecx_in='0x00' eax='0x80000008' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000001' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000121' edx='0x2c100800'/>
+++  <cpuid eax_in='0x80000002' ecx_in='0x00' eax='0x65746e49' ebx='0x2952286c' ecx='0x6f655820' edx='0x2952286e'/>
+++  <cpuid eax_in='0x80000003' ecx_in='0x00' eax='0x55504320' ebx='0x2d334520' ecx='0x35323231' edx='0x20357620'/>
+++  <cpuid eax_in='0x80000004' ecx_in='0x00' eax='0x2e332040' ebx='0x48473033' ecx='0x0000007a' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000005' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000006' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x01006040' edx='0x00000000'/>
+++  <cpuid eax_in='0x80000007' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000000' edx='0x00000100'/>
+++  <cpuid eax_in='0x80000008' ecx_in='0x00' eax='0x00003027' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
+++  <cpuid eax_in='0x80860000' ecx_in='0x00' eax='0x00000ce4' ebx='0x00000e74' ecx='0x00000064' edx='0x00000000'/>
+++  <cpuid eax_in='0xc0000000' ecx_in='0x00' eax='0x00000ce4' ebx='0x00000e74' ecx='0x00000064' edx='0x00000000'/>
+++</cpudata>
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p2.patch b/recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p2.patch
+new file mode 100644
+index 0000000..b39e866
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p2.patch
+@@ -0,0 +1,116 @@
++From c811c618c114c4a6493ede602bdca22d33c1972a Mon Sep 17 00:00:00 2001
++From: Jiri Denemark <jdenemar@redhat.com>
++Date: Tue, 9 Apr 2019 12:35:52 +0200
++Subject: [PATCH 04/11] cpu_map: Define md-clear CPUID bit
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++CVE-2018-12126, CVE-2018-12127, CVE-2018-12130, CVE-2019-11091
++
++The bit is set when microcode provides the mechanism to invoke a flush
++of various exploitable CPU buffers by invoking the VERW instruction.
++
++Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
++Signed-off-by: Jiri Denemark <jdenemar@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit 538d873571d7a682852dc1d70e5f4478f4d64e85)
++
++Conflicts:
++        src/cpu_map/x86_features.xml
++            - missing pconfig feature
++
++        tests/cputestdata/x86_64-cpuid-Xeon-Platinum-8268-guest.xml
++        tests/cputestdata/x86_64-cpuid-Xeon-Platinum-8268-host.xml
++            - test data missing downstream
++
++        tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++        tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++            - intel-pt feature is missing
++	    - stibp feature is missing
++
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++
++Upstream-Status: Backport
++
++CVE: CVE-2018-12126 
++CVE: CVE-2018-12127 
++CVE: CVE-2018-12130 
++CVE: CVE-2019-11091
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/cpu_map/x86_features.xml                               | 3 +++
++ tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml | 2 +-
++ tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml   | 1 +
++ tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml    | 1 +
++ tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml    | 1 +
++ 5 files changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/src/cpu_map/x86_features.xml b/src/cpu_map/x86_features.xml
++index 109c653..c8ae540 100644
++--- a/src/cpu_map/x86_features.xml
+++++ b/src/cpu_map/x86_features.xml
++@@ -290,6 +290,9 @@
++   <feature name='avx512-4fmaps'>
++     <cpuid eax_in='0x07' ecx_in='0x00' edx='0x00000008'/>
++   </feature>
+++  <feature name='md-clear'> <!-- md_clear -->
+++    <cpuid eax_in='0x07' ecx_in='0x00' edx='0x00000400'/>
+++  </feature>
++   <feature name='spec-ctrl'>
++     <cpuid eax_in='0x07' ecx_in='0x00' edx='0x04000000'/>
++   </feature>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml
++index 0deca9f..74763a4 100644
++--- a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-enabled.xml
++@@ -2,7 +2,7 @@
++ <cpudata arch='x86'>
++   <cpuid eax_in='0x00000001' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0xf7fa3203' edx='0x0f8bfbff'/>
++   <cpuid eax_in='0x00000006' ecx_in='0x00' eax='0x00000004' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
++-  <cpuid eax_in='0x00000007' ecx_in='0x00' eax='0x00000000' ebx='0x009c4fbb' ecx='0x00000000' edx='0x8c000000'/>
+++  <cpuid eax_in='0x00000007' ecx_in='0x00' eax='0x00000000' ebx='0x009c4fbb' ecx='0x00000000' edx='0x8c000400'/>
++   <cpuid eax_in='0x0000000d' ecx_in='0x01' eax='0x00000007' ebx='0x00000000' ecx='0x00000000' edx='0x00000000'/>
++   <cpuid eax_in='0x80000001' ecx_in='0x00' eax='0x00000000' ebx='0x00000000' ecx='0x00000121' edx='0x2c100800'/>
++ </cpudata>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++index 993db80..29c1fdb 100644
++--- a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-guest.xml
++@@ -19,6 +19,7 @@
++   <feature policy='require' name='osxsave'/>
++   <feature policy='require' name='tsc_adjust'/>
++   <feature policy='require' name='clflushopt'/>
+++  <feature policy='require' name='md-clear'/>
++   <feature policy='require' name='ssbd'/>
++   <feature policy='require' name='xsaves'/>
++   <feature policy='require' name='pdpe1gb'/>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++index 074a39b..2003ca9 100644
++--- a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-host.xml
++@@ -20,6 +20,7 @@
++   <feature name='osxsave'/>
++   <feature name='tsc_adjust'/>
++   <feature name='clflushopt'/>
+++  <feature name='md-clear'/>
++   <feature name='ssbd'/>
++   <feature name='xsaves'/>
++   <feature name='pdpe1gb'/>
++diff --git a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml
++index 1984bd4..d6529c5 100644
++--- a/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml
+++++ b/tests/cputestdata/x86_64-cpuid-Xeon-E3-1225-v5-json.xml
++@@ -5,6 +5,7 @@
++   <feature policy='require' name='hypervisor'/>
++   <feature policy='require' name='tsc_adjust'/>
++   <feature policy='require' name='clflushopt'/>
+++  <feature policy='require' name='md-clear'/>
++   <feature policy='require' name='ssbd'/>
++   <feature policy='require' name='pdpe1gb'/>
++ </cpu>
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch
+new file mode 100644
+index 0000000..11c1c5d
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch
+@@ -0,0 +1,63 @@
++From dfd22fc50f8f268b9810d2ef21adada021f740eb Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 30 Apr 2019 17:26:13 +0100
++Subject: [PATCH 05/11] admin: reject clients unless their UID matches the
++ current UID
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The admin protocol RPC messages are only intended for use by the user
++running the daemon. As such they should not be allowed for any client
++UID that does not match the server UID.
++
++Fixes CVE-2019-10132
++
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit 96f41cd765c9e525fe28ee5abbfbf4a79b3720c7)
++
++Upstream-Status: Backport
++CVE: CVE-2019-10132
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/admin/admin_server_dispatch.c | 22 ++++++++++++++++++++++
++ 1 file changed, 22 insertions(+)
++
++diff --git a/src/admin/admin_server_dispatch.c b/src/admin/admin_server_dispatch.c
++index b78ff90..9f25813 100644
++--- a/src/admin/admin_server_dispatch.c
+++++ b/src/admin/admin_server_dispatch.c
++@@ -66,6 +66,28 @@ remoteAdmClientNew(virNetServerClientPtr client ATTRIBUTE_UNUSED,
++                    void *opaque)
++ {
++     struct daemonAdmClientPrivate *priv;
+++    uid_t clientuid;
+++    gid_t clientgid;
+++    pid_t clientpid;
+++    unsigned long long timestamp;
+++
+++    if (virNetServerClientGetUNIXIdentity(client,
+++                                          &clientuid,
+++                                          &clientgid,
+++                                          &clientpid,
+++                                          &timestamp) < 0)
+++        return NULL;
+++
+++    VIR_DEBUG("New client pid %lld uid %lld",
+++              (long long)clientpid,
+++              (long long)clientuid);
+++
+++    if (geteuid() != clientuid) {
+++        virReportRestrictedError(_("Disallowing client %lld with uid %lld"),
+++                                 (long long)clientpid,
+++                                 (long long)clientuid);
+++        return NULL;
+++    }
++ 
++     if (VIR_ALLOC(priv) < 0)
++         return NULL;
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch
+new file mode 100644
+index 0000000..860c1e5
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch
+@@ -0,0 +1,56 @@
++From 54005b84b0165b62b2ef88c7df229bddbaa29e76 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 30 Apr 2019 16:51:37 +0100
++Subject: [PATCH 06/11] locking: restrict sockets to mode 0600
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The virtlockd daemon's only intended client is the libvirtd daemon. As
++such it should never allow clients from other user accounts to connect.
++The code already enforces this and drops clients from other UIDs, but
++we can get earlier (and thus stronger) protection against DoS by setting
++the socket permissions to 0600
++
++Fixes CVE-2019-10132
++
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit f111e09468693909b1f067aa575efdafd9a262a1)
++
++Upstream-Status: Backport
++CVE: CVE-2019-10132
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/locking/virtlockd-admin.socket.in | 1 +
++ src/locking/virtlockd.socket.in       | 1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/src/locking/virtlockd-admin.socket.in b/src/locking/virtlockd-admin.socket.in
++index 2a7500f..f674c49 100644
++--- a/src/locking/virtlockd-admin.socket.in
+++++ b/src/locking/virtlockd-admin.socket.in
++@@ -5,6 +5,7 @@ Before=libvirtd.service
++ [Socket]
++ ListenStream=@localstatedir@/run/libvirt/virtlockd-admin-sock
++ Service=virtlockd.service
+++SocketMode=0600
++ 
++ [Install]
++ WantedBy=sockets.target
++diff --git a/src/locking/virtlockd.socket.in b/src/locking/virtlockd.socket.in
++index 45e0f20..d701b27 100644
++--- a/src/locking/virtlockd.socket.in
+++++ b/src/locking/virtlockd.socket.in
++@@ -4,6 +4,7 @@ Before=libvirtd.service
++ 
++ [Socket]
++ ListenStream=@localstatedir@/run/libvirt/virtlockd-sock
+++SocketMode=0600
++ 
++ [Install]
++ WantedBy=sockets.target
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch
+new file mode 100644
+index 0000000..ddd0740
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch
+@@ -0,0 +1,56 @@
++From 030fdf57255f97289a407529194bf26c77548acb Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
++Date: Tue, 30 Apr 2019 17:27:41 +0100
++Subject: [PATCH 07/11] logging: restrict sockets to mode 0600
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The virtlogd daemon's only intended client is the libvirtd daemon. As
++such it should never allow clients from other user accounts to connect.
++The code already enforces this and drops clients from other UIDs, but
++we can get earlier (and thus stronger) protection against DoS by setting
++the socket permissions to 0600
++
++Fixes CVE-2019-10132
++
++Reviewed-by: Ján Tomko <jtomko@redhat.com>
++Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit e37bd65f9948c1185456b2cdaa3bd6e875af680f)
++
++Upstream-Status: Backport
++CVE: CVE-2019-10132
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/logging/virtlogd-admin.socket.in | 1 +
++ src/logging/virtlogd.socket.in       | 1 +
++ 2 files changed, 2 insertions(+)
++
++diff --git a/src/logging/virtlogd-admin.socket.in b/src/logging/virtlogd-admin.socket.in
++index 595e6c4..5c41dfe 100644
++--- a/src/logging/virtlogd-admin.socket.in
+++++ b/src/logging/virtlogd-admin.socket.in
++@@ -5,6 +5,7 @@ Before=libvirtd.service
++ [Socket]
++ ListenStream=@localstatedir@/run/libvirt/virtlogd-admin-sock
++ Service=virtlogd.service
+++SocketMode=0600
++ 
++ [Install]
++ WantedBy=sockets.target
++diff --git a/src/logging/virtlogd.socket.in b/src/logging/virtlogd.socket.in
++index 22b9360..ae48cda 100644
++--- a/src/logging/virtlogd.socket.in
+++++ b/src/logging/virtlogd.socket.in
++@@ -4,6 +4,7 @@ Before=libvirtd.service
++ 
++ [Socket]
++ ListenStream=@localstatedir@/run/libvirt/virtlogd-sock
+++SocketMode=0600
++ 
++ [Install]
++ WantedBy=sockets.target
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10161.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10161.patch
+new file mode 100644
+index 0000000..118ece4
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10161.patch
+@@ -0,0 +1,99 @@
++From 3352c8af264a7b9b741208790ecca0bbc6733f42 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
++Date: Fri, 14 Jun 2019 08:47:42 +0200
++Subject: [PATCH 08/11] api: disallow virDomainSaveImageGetXMLDesc on read-only
++ connections
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The virDomainSaveImageGetXMLDesc API is taking a path parameter,
++which can point to any path on the system. This file will then be
++read and parsed by libvirtd running with root privileges.
++
++Forbid it on read-only connections.
++
++Fixes: CVE-2019-10161
++Reported-by: Matthias Gerstner <mgerstner@suse.de>
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit aed6a032cead4386472afb24b16196579e239580)
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++
++Conflicts:
++  src/libvirt-domain.c
++  src/remote/remote_protocol.x
++
++Upstream commit 12a51f372 which introduced the VIR_DOMAIN_SAVE_IMAGE_XML_SECURE
++alias for VIR_DOMAIN_XML_SECURE is not backported.
++Just skip the commit since we now disallow the whole API on read-only
++connections, regardless of the flag.
++
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2019-10161
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/libvirt-domain.c         | 11 ++---------
++ src/qemu/qemu_driver.c       |  2 +-
++ src/remote/remote_protocol.x |  3 +--
++ 3 files changed, 4 insertions(+), 12 deletions(-)
++
++Index: libvirt-4.7.0/src/libvirt-domain.c
++===================================================================
++--- libvirt-4.7.0.orig/src/libvirt-domain.c
+++++ libvirt-4.7.0/src/libvirt-domain.c
++@@ -1073,9 +1073,7 @@ virDomainRestoreFlags(virConnectPtr conn
++  * previously by virDomainSave() or virDomainSaveFlags().
++  *
++  * No security-sensitive data will be included unless @flags contains
++- * VIR_DOMAIN_XML_SECURE; this flag is rejected on read-only
++- * connections.  For this API, @flags should not contain either
++- * VIR_DOMAIN_XML_INACTIVE or VIR_DOMAIN_XML_UPDATE_CPU.
+++ * VIR_DOMAIN_XML_SECURE.
++  *
++  * Returns a 0 terminated UTF-8 encoded XML instance, or NULL in case of
++  * error.  The caller must free() the returned value.
++@@ -1091,12 +1089,7 @@ virDomainSaveImageGetXMLDesc(virConnectP
++ 
++     virCheckConnectReturn(conn, NULL);
++     virCheckNonNullArgGoto(file, error);
++-
++-    if ((conn->flags & VIR_CONNECT_RO) && (flags & VIR_DOMAIN_XML_SECURE)) {
++-        virReportError(VIR_ERR_OPERATION_DENIED, "%s",
++-                       _("virDomainSaveImageGetXMLDesc with secure flag"));
++-        goto error;
++-    }
+++    virCheckReadOnlyGoto(conn->flags, error);
++ 
++     if (conn->driver->domainSaveImageGetXMLDesc) {
++         char *ret;
++Index: libvirt-4.7.0/src/qemu/qemu_driver.c
++===================================================================
++--- libvirt-4.7.0.orig/src/qemu/qemu_driver.c
+++++ libvirt-4.7.0/src/qemu/qemu_driver.c
++@@ -6791,7 +6791,7 @@ qemuDomainSaveImageGetXMLDesc(virConnect
++     if (fd < 0)
++         goto cleanup;
++ 
++-    if (virDomainSaveImageGetXMLDescEnsureACL(conn, def, flags) < 0)
+++    if (virDomainSaveImageGetXMLDescEnsureACL(conn, def) < 0)
++         goto cleanup;
++ 
++     ret = qemuDomainDefFormatXML(driver, def, flags);
++Index: libvirt-4.7.0/src/remote/remote_protocol.x
++===================================================================
++--- libvirt-4.7.0.orig/src/remote/remote_protocol.x
+++++ libvirt-4.7.0/src/remote/remote_protocol.x
++@@ -5226,8 +5226,7 @@ enum remote_procedure {
++     /**
++      * @generate: both
++      * @priority: high
++-     * @acl: domain:read
++-     * @acl: domain:read_secure:VIR_DOMAIN_XML_SECURE
+++     * @acl: domain:write
++      */
++     REMOTE_PROC_DOMAIN_SAVE_IMAGE_GET_XML_DESC = 235,
++ 
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10166.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10166.patch
+new file mode 100644
+index 0000000..12ab543
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10166.patch
+@@ -0,0 +1,43 @@
++From 6da721ea37bf3624ff9922637cfa657d2dcb20f9 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
++Date: Fri, 14 Jun 2019 09:14:53 +0200
++Subject: [PATCH 09/11] api: disallow virDomainManagedSaveDefineXML on
++ read-only connections
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++The virDomainManagedSaveDefineXML can be used to alter the domain's
++config used for managedsave or even execute arbitrary emulator binaries.
++Forbid it on read-only connections.
++
++Fixes: CVE-2019-10166
++Reported-by: Matthias Gerstner <mgerstner@suse.de>
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit db0b78457f183e4c7ac45bc94de86044a1e2056a)
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2019-10166
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/libvirt-domain.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/libvirt-domain.c b/src/libvirt-domain.c
++index 270e10e..5c764aa 100644
++--- a/src/libvirt-domain.c
+++++ b/src/libvirt-domain.c
++@@ -9482,6 +9482,7 @@ virDomainManagedSaveDefineXML(virDomainPtr domain, const char *dxml,
++ 
++     virCheckDomainReturn(domain, -1);
++     conn = domain->conn;
+++    virCheckReadOnlyGoto(conn->flags, error);
++ 
++     if (conn->driver->domainManagedSaveDefineXML) {
++         int ret;
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10167.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10167.patch
+new file mode 100644
+index 0000000..576f46c
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10167.patch
+@@ -0,0 +1,41 @@
++From 5441f05a42a90779b0df86518286bf527e94aafb Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
++Date: Fri, 14 Jun 2019 09:16:14 +0200
++Subject: [PATCH 10/11] api: disallow virConnectGetDomainCapabilities on
++ read-only connections
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++This API can be used to execute arbitrary emulators.
++Forbid it on read-only connections.
++
++Fixes: CVE-2019-10167
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit 8afa68bac0cf99d1f8aaa6566685c43c22622f26)
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2019-10167
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/libvirt-domain.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/libvirt-domain.c b/src/libvirt-domain.c
++index 5c764aa..9862a5d 100644
++--- a/src/libvirt-domain.c
+++++ b/src/libvirt-domain.c
++@@ -11274,6 +11274,7 @@ virConnectGetDomainCapabilities(virConnectPtr conn,
++     virResetLastError();
++ 
++     virCheckConnectReturn(conn, NULL);
+++    virCheckReadOnlyGoto(conn->flags, error);
++ 
++     if (conn->driver->connectGetDomainCapabilities) {
++         char *ret;
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10168.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10168.patch
+new file mode 100644
+index 0000000..16f1a6d
+--- /dev/null
++++ b/recipes-extended/libvirt/libvirt/CVE-2019-10168.patch
+@@ -0,0 +1,49 @@
++From f5ace9c05d59b70d4899199a187cb32ec6f600d8 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
++Date: Fri, 14 Jun 2019 09:17:39 +0200
++Subject: [PATCH 11/11] api: disallow virConnect*HypervisorCPU on read-only
++ connections
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++These APIs can be used to execute arbitrary emulators.
++Forbid them on read-only connections.
++
++Fixes: CVE-2019-10168
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
++(cherry picked from commit bf6c2830b6c338b1f5699b095df36f374777b291)
++Signed-off-by: Ján Tomko <jtomko@redhat.com>
++
++Upstream-Status: Backport
++CVE: CVE-2019-10168
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/libvirt-host.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/src/libvirt-host.c b/src/libvirt-host.c
++index e20d6ee..2978825 100644
++--- a/src/libvirt-host.c
+++++ b/src/libvirt-host.c
++@@ -1041,6 +1041,7 @@ virConnectCompareHypervisorCPU(virConnectPtr conn,
++ 
++     virCheckConnectReturn(conn, VIR_CPU_COMPARE_ERROR);
++     virCheckNonNullArgGoto(xmlCPU, error);
+++    virCheckReadOnlyGoto(conn->flags, error);
++ 
++     if (conn->driver->connectCompareHypervisorCPU) {
++         int ret;
++@@ -1234,6 +1235,7 @@ virConnectBaselineHypervisorCPU(virConnectPtr conn,
++ 
++     virCheckConnectReturn(conn, NULL);
++     virCheckNonNullArgGoto(xmlCPUs, error);
+++    virCheckReadOnlyGoto(conn->flags, error);
++ 
++     if (conn->driver->connectBaselineHypervisorCPU) {
++         char *cpu;
++-- 
++2.7.4
++
+diff --git a/recipes-extended/libvirt/libvirt_4.7.0.bb b/recipes-extended/libvirt/libvirt_4.7.0.bb
+index 270dc72..1d3b48e 100644
+--- a/recipes-extended/libvirt/libvirt_4.7.0.bb
++++ b/recipes-extended/libvirt/libvirt_4.7.0.bb
+@@ -37,6 +37,17 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
+            file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
+            file://lxc_monitor-Avoid-AB-BA-lock-race.patch \
+            file://CVE-2019-3840.patch \
++           file://0001-cpu_x86-Do-not-cache-microcode-version.patch \
++           file://0002-qemu-Don-t-cache-microcode-version.patch \
++           file://CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p1.patch \
++           file://CVE-2018-12126_CVE-2018-12127_CVE-2018-12130_CVE-2019-11091_p2.patch \
++           file://CVE-2019-10132_p1.patch \
++           file://CVE-2019-10132_p2.patch \
++           file://CVE-2019-10132_p3.patch \
++           file://CVE-2019-10161.patch \
++           file://CVE-2019-10166.patch \
++           file://CVE-2019-10167.patch \
++           file://CVE-2019-10168.patch \
+           "
+ 
+ SRC_URI[libvirt.md5sum] = "38da6c33250dcbc0a6d68de5c758262b"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.7.4
+
 
