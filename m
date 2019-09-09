@@ -1,75 +1,74 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DCDAEE00D33; Mon,  9 Sep 2019 10:30:27 -0700 (PDT)
+	id AD47DE00D1C; Mon,  9 Sep 2019 10:35:33 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, FSL_HELO_FAKE,
 	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.222.178 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000] *  1.7 FSL_HELO_FAKE FSL_HELO_FAKE
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.166.49 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
-	[209.85.166.49])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3DD4EE00CD5
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+	[209.85.222.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4F4E5E00C81
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Sep 2019 10:30:26 -0700 (PDT)
-Received: by mail-io1-f49.google.com with SMTP id d17so8713563ios.13
+	Mon,  9 Sep 2019 10:35:33 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id o11so13885436qkg.8
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Sep 2019 10:30:26 -0700 (PDT)
+	Mon, 09 Sep 2019 10:35:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=ZPeZZqmTfVoUjYnXeaBCHsXFqzEtWm62djNotFOqvqo=;
-	b=guPnP1zx6T+gA8TBww/y3DNUlSFn25mOqDSAofAMZ4dxOZTiDcRzIlxXKJEsH59G3G
-	AAf77COyHwKDJO2h1CIgolBgrwJvvQHN/MvrV5kvU2H6L2kgvx9s+RfbYcop38LtoHY8
-	+KJYF9gT0sNfD4w/yBrjskicG8xm1mZ7DKpQKqx4kzoEGyJnhq6ZAYfIuGc4ukC77o4d
-	wYuRO0Rf3kZOlWxOs5HGRC58oceWswWr8cLwMvnJXaBdUdc9gajAIGJrm1M/Zz3N3Xb4
-	fHSEhWBoEKy3P9Zm03fC98c44T15hlSGu1vlp2jxqdnNncQPoXkJX++3Vxfvs9sfXMhg
-	UtWQ==
+	bh=9QlNn18AuFeqcN1/dxJ3wfEFxeFxwN3fgOjj6QLJgM0=;
+	b=jWLiOm9G/8xDIWyMg8WOaYOfzNotR/ZAmNbbag6PYT8SvwA7E6PKCJERq4+eme3Wlf
+	21xPjMul9a03pnjwqH71PgOyoco7NrEGuZKsJFB5vbCsWpqIsSRgr67Y3F1X8Vt19r+O
+	TtM1sxQhi/OUg+rb74M4+jgNGk4R5Dy0qKYnAF5E9s+w0ebDEDLZkcm0sfECIHVwc48E
+	ak3GfTaeJTVFP9mCbQMZcFmKV/BnkjP5v0Bd20onliA4KB1xVK8K6ExyYz+hOEulcumP
+	5xsB2m6q2d0VtPLS15QKB30NSJgVUdlTusKFMXLhzapWwi1gPu8Khh6JI00zN728gvPy
+	W7PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ZPeZZqmTfVoUjYnXeaBCHsXFqzEtWm62djNotFOqvqo=;
-	b=eldVJM3XFyEc+26nrmhoTuPXk0Lb/jXDfSpeYePVfEKK6RfEo81UTitx9CFaj4zBNj
-	t8e7FoI0uAVbWFyEGQY6Zt1cWmITp7/sUd22Z6pJLwrdry//mKb2JAsWv/0xvSHfY7wI
-	2dtf9FyBPFgT4pjREOJE0fGTIBSh8Su7haFXqJDxwxAttxipwW387NyO1cttOxEC3fzF
-	b+aa8KfebsSUxwzy+21wdKwnQuR2njSeE/xaBBsXya8JuvxdWpgEk6f1rZeLRmpGqDdo
-	y2/iOOs/LWTYmT82s/ZRhqUO7WiSbXxI+q1yrPbuSBP278DUeNdPP0N0HcqNfeM80Bn7
-	1law==
-X-Gm-Message-State: APjAAAW3XR8CwEPS63+j6BKPpu3sTz9rTUPcYKj9LuXFPCHso8JZ1oWP
-	KtgDCc5Ehoaj8OxL1j4s5jo=
-X-Google-Smtp-Source: APXvYqzW4jxt5CF1gnpBmUlNqdMMvVj6q+zsAuHdB7ugCMULWczAanZ4L+m1NFHvzlFRtZob7ynYFw==
-X-Received: by 2002:a6b:acc5:: with SMTP id
-	v188mr29282043ioe.268.1568050225407; 
-	Mon, 09 Sep 2019 10:30:25 -0700 (PDT)
+	bh=9QlNn18AuFeqcN1/dxJ3wfEFxeFxwN3fgOjj6QLJgM0=;
+	b=Hg8mqiAM+giSNWyA0oZHvYqzlDCkbO8N0BAdtRF2+VtP8k5ZXkGj9aywpix0zRoaOY
+	fMVLRdno5xRZ4u/hh7odZwX/qyI2ZcRxC3y5XeR+R93RnduzDwu/DXbU2HFrP1Oq2OAK
+	fn0o4NRuO0F66p0k7B2lo/XbkOMRCYqaokyLEDLFPCWVqKVTgbEGtcfhb6Y2R908WcdY
+	Rb1Y6VXaVwB9OkWVE4me7f+dn/TxPnRNtfQr457LsDVsY6Hx5dSjryIk9GPdNgRxX0sl
+	+t/OkBBtEqCsN5je4XtusEMtDM3k78QvYzyP889gkg+7nDNR2XpJHOndqXRBtUcfeRmr
+	fdyw==
+X-Gm-Message-State: APjAAAVvQlR89cPBjsZ2jJvEAO/pLjii4XEzy3zU472U7ebJ6YCUuJgV
+	SzH5YqJ22zt1ArX6nmED5vo=
+X-Google-Smtp-Source: APXvYqwhW1B56KLANtzQeCf0eyPJy94o/LdytywG3aeDmplnV0C9YOscQyuF8jkb6+LajR5Gx6R6Xw==
+X-Received: by 2002:ae9:e40c:: with SMTP id q12mr24613987qkc.455.1568050532283;
+	Mon, 09 Sep 2019 10:35:32 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	s13sm9349934iom.16.2019.09.09.10.30.24
+	v5sm10007863qtk.66.2019.09.09.10.35.30
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Sep 2019 10:30:24 -0700 (PDT)
-Date: Mon, 9 Sep 2019 13:30:22 -0400
+	Mon, 09 Sep 2019 10:35:32 -0700 (PDT)
+Date: Mon, 9 Sep 2019 13:35:27 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: zhe.he@windriver.com
-Message-ID: <20190909173021.GD26811@gmail.com>
-References: <1567587745-220540-1-git-send-email-zhe.he@windriver.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190909173524.GA27188@gmail.com>
+References: <20190906054344.19107-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <1567587745-220540-1-git-send-email-zhe.he@windriver.com>
+In-Reply-To: <20190906054344.19107-1-zangrc.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] ceph: Upgrade to 14.2.3
+Subject: Re: [PATCH] python-waitress: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -82,271 +81,76 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 17:30:27 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 17:35:33 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged.
+
+merged
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] ceph: Upgrade to 14.2.3
-on 04/09/2019 zhe.he@windriver.com wrote:
+In message: [meta-virtualization] [PATCH] python-waitress: Add python3 version
+on 06/09/2019 Zang Ruochen wrote:
 
-> From: He Zhe <zhe.he@windriver.com>
-> 
-> Upgrade to the latest stable version and backport two patches from master branch
-> to fix the following two build failures which are introduce by upgrading boost
-> to 1.71.0.
-> 
-> f1651b8c509d ("rgw: add executor type for basic_waitable_timers") for:
-> 
-> src/rgw/rgw_dmclock_async_scheduler.h:45:30: error: could not convert
-> 'boost::asio::basic_waitable_timer<Clock, WaitTraits, Executor>::get_executor()
-> 
-> 064f142746ae ("rgw: beast handle_connection() takes io_context") for:
-> 
-> src/rgw/rgw_asio_frontend.cc:155:38: error:
-> 'class boost::asio::basic_socket<boost::asio::ip::tcp, boost::asio::executor>'
-> has no member named 'get_io_context'; did you mean 'io_control'?
-> 
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  ...1-ceph-fix-build-errors-for-cross-compile.patch | 27 ++++------
->  ...d-executor-type-for-basic_waitable_timers.patch | 58 ++++++++++++++++++++
->  ...-beast-handle_connection-takes-io_context.patch | 61 ++++++++++++++++++++++
->  .../ceph/{ceph_14.1.0.bb => ceph_14.2.3.bb}        |  6 ++-
->  4 files changed, 134 insertions(+), 18 deletions(-)
->  create mode 100644 recipes-extended/ceph/ceph/0001-rgw-add-executor-type-for-basic_waitable_timers.patch
->  create mode 100644 recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch
->  rename recipes-extended/ceph/{ceph_14.1.0.bb => ceph_14.2.3.bb} (92%)
+>  meta-openstack/recipes-devtools/python/python-waitress.inc   | 10 ++++++++++
+>  .../recipes-devtools/python/python-waitress_1.3.1.bb         | 12 ++----------
+>  .../recipes-devtools/python/python3-waitress_1.3.1.bb        |  2 ++
+>  3 files changed, 14 insertions(+), 10 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-waitress.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-waitress_1.3.1.bb
 > 
-> diff --git a/recipes-extended/ceph/ceph/0001-ceph-fix-build-errors-for-cross-compile.patch b/recipes-extended/ceph/ceph/0001-ceph-fix-build-errors-for-cross-compile.patch
-> index 1e23cc1..4f009f0 100644
-> --- a/recipes-extended/ceph/ceph/0001-ceph-fix-build-errors-for-cross-compile.patch
-> +++ b/recipes-extended/ceph/ceph/0001-ceph-fix-build-errors-for-cross-compile.patch
-> @@ -1,4 +1,4 @@
-> -From 20dd3fb9e5daa780e15113a2c88f846c8f5dd904 Mon Sep 17 00:00:00 2001
-> +From 9b97824ad0da2c0d3dcc0cf41f4506aa7e458e9f Mon Sep 17 00:00:00 2001
->  From: Dengke Du <dengke.du@windriver.com>
->  Date: Mon, 11 Mar 2019 09:14:09 +0800
->  Subject: [PATCH] ceph: fix build errors for cross compile
-> @@ -9,18 +9,22 @@ Subject: [PATCH] ceph: fix build errors for cross compile
->  Upstream-Status: Inappropriate [oe specific]
->  
->  Signed-off-by: Dengke Du <dengke.du@windriver.com>
-> +
-> +Adjust context for v14.2.3
-> +
-> +Signed-off-by: He Zhe <zhe.he@windriver.com>
->  ---
->   cmake/modules/Distutils.cmake      | 25 +++++--------------------
-> - cmake/modules/FindRocksDB.cmake    |  6 +++---
-> + cmake/modules/FindRocksDB.cmake    |  4 ++--
->   src/compressor/zstd/CMakeLists.txt |  2 +-
->   src/pybind/cephfs/setup.py         |  8 --------
->   src/pybind/rados/setup.py          |  8 --------
->   src/pybind/rbd/setup.py            |  8 --------
->   src/pybind/rgw/setup.py            |  8 --------
-> - 7 files changed, 9 insertions(+), 56 deletions(-)
-> + 7 files changed, 8 insertions(+), 55 deletions(-)
->  
->  diff --git a/cmake/modules/Distutils.cmake b/cmake/modules/Distutils.cmake
-> -index 5697dff..de3cd57 100644
-> +index f70265f..b2f4223 100644
->  --- a/cmake/modules/Distutils.cmake
->  +++ b/cmake/modules/Distutils.cmake
->  @@ -16,17 +16,8 @@ function(distutils_install_module name)
-> @@ -50,9 +54,9 @@ index 5697dff..de3cd57 100644
->  -  list(APPEND cflags -iquote${CMAKE_SOURCE_DIR}/src/include -w)
->  +  list(APPEND cflags -iquote${CMAKE_SOURCE_DIR}/src/include -w --sysroot=${CMAKE_SYSROOT})
->     # This little bit of magic wipes out __Pyx_check_single_interpreter()
-> +   # Note: this is reproduced in distutils_install_cython_module
->     list(APPEND cflags -D'void0=dead_function\(void\)')
-> -   list(APPEND cflags -D'__Pyx_check_single_interpreter\(ARG\)=ARG \#\# 0')
-> -@@ -86,14 +77,8 @@ function(distutils_install_cython_module name)
-> +@@ -89,14 +80,8 @@ function(distutils_install_cython_module name)
->       set(ENV{CEPH_LIBDIR} \"${CMAKE_LIBRARY_OUTPUT_DIRECTORY}\")
->   
->       set(options --prefix=${CMAKE_INSTALL_PREFIX})
-> @@ -70,7 +74,7 @@ index 5697dff..de3cd57 100644
->          COMMAND
->              ${PYTHON${PYTHON_VERSION}_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/setup.py
->  diff --git a/cmake/modules/FindRocksDB.cmake b/cmake/modules/FindRocksDB.cmake
-> -index 9818433..be38597 100644
-> +index c5dd3df..be38597 100644
->  --- a/cmake/modules/FindRocksDB.cmake
->  +++ b/cmake/modules/FindRocksDB.cmake
->  @@ -9,9 +9,9 @@
-> @@ -85,15 +89,6 @@ index 9818433..be38597 100644
->   
->   if(ROCKSDB_INCLUDE_DIR AND EXISTS "${ROCKSDB_INCLUDE_DIR}/rocksdb/version.h")
->     foreach(ver "MAJOR" "MINOR" "PATCH")
-> -@@ -40,7 +40,7 @@ if(RocksDB_FOUND)
-> -     set_target_properties(RocksDB::RocksDB PROPERTIES
-> -       INTERFACE_INCLUDE_DIRECTORIES "${ROCKSDB_INCLUDE_DIR}"
-> -       IMPORTED_LINK_INTERFACE_LANGUAGES "CXX"
-> --      IMPORTED_LOCATION "${ROCKSDB_LIBRARY}"
-> -+      IMPORTED_LOCATION "${ROCKSDB_LIBRARIES}"
-> -       VERSION "${ROCKSDB_VERSION_STRING}")
-> -   endif()
-> - endif()
->  diff --git a/src/compressor/zstd/CMakeLists.txt b/src/compressor/zstd/CMakeLists.txt
->  index 76709bb..95bba4a 100644
->  --- a/src/compressor/zstd/CMakeLists.txt
-> diff --git a/recipes-extended/ceph/ceph/0001-rgw-add-executor-type-for-basic_waitable_timers.patch b/recipes-extended/ceph/ceph/0001-rgw-add-executor-type-for-basic_waitable_timers.patch
+> diff --git a/meta-openstack/recipes-devtools/python/python-waitress.inc b/meta-openstack/recipes-devtools/python/python-waitress.inc
 > new file mode 100644
-> index 0000000..b7a9dd9
+> index 0000000..1053983
 > --- /dev/null
-> +++ b/recipes-extended/ceph/ceph/0001-rgw-add-executor-type-for-basic_waitable_timers.patch
-> @@ -0,0 +1,58 @@
-> +From f1651b8c509d60787d10c4115e29fecfd2da237c Mon Sep 17 00:00:00 2001
-> +From: Casey Bodley <cbodley@redhat.com>
-> +Date: Tue, 23 Apr 2019 15:41:45 -0400
-> +Subject: [PATCH] rgw: add executor type for basic_waitable_timers
+> +++ b/meta-openstack/recipes-devtools/python/python-waitress.inc
+> @@ -0,0 +1,10 @@
+> +DESCRIPTION = "Waitress WSGI server"
+> +HOMEPAGE = "https://pypi.python.org/pypi/waitress/"
+> +SECTION = "devel/python"
+> +LICENSE = "ZPL-2.1"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=78ccb3640dc841e1baecb3e27a6966b2"
 > +
-> +as of boost 1.70, the timer no longer depends on io_context directly,
-> +so we have to specify its executor as a template parameter
+> +SRC_URI[md5sum] = "d9132d313de0c5e0fec34ef9ede5442e"
+> +SRC_URI[sha256sum] = "278e09d6849acc1365404bbf7d790d0423b159802e850c726e8cd0a126a2dac7"
 > +
-> +Signed-off-by: Casey Bodley <cbodley@redhat.com>
-> +
-> +Upstream-Status: Backport [f1651b8c509d60787d10c4115e29fecfd2da237c]
-> +
-> +Signed-off-by: He Zhe <zhe.he@windriver.com>
-> +---
-> + src/rgw/rgw_dmclock_async_scheduler.h | 5 +++++
-> + src/rgw/rgw_reshard.h                 | 9 ++++++++-
-> + 2 files changed, 13 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/rgw/rgw_dmclock_async_scheduler.h b/src/rgw/rgw_dmclock_async_scheduler.h
-> +index 70487a5253..1d454acd2e 100644
-> +--- a/src/rgw/rgw_dmclock_async_scheduler.h
-> ++++ b/src/rgw/rgw_dmclock_async_scheduler.h
-> +@@ -82,7 +82,12 @@ class AsyncScheduler : public md_config_obs_t, public Scheduler {
-> +   using Completion = async::Completion<Signature, async::AsBase<Request>>;
-> + 
-> +   using Clock = ceph::coarse_real_clock;
-> ++#if BOOST_VERSION < 107000
-> +   using Timer = boost::asio::basic_waitable_timer<Clock>;
-> ++#else
-> ++  using Timer = boost::asio::basic_waitable_timer<Clock,
-> ++        boost::asio::wait_traits<Clock>, executor_type>;
-> ++#endif
-> +   Timer timer; //< timer for the next scheduled request
-> + 
-> +   CephContext *const cct;
-> +diff --git a/src/rgw/rgw_reshard.h b/src/rgw/rgw_reshard.h
-> +index d99a6ff68d..213fc238d2 100644
-> +--- a/src/rgw/rgw_reshard.h
-> ++++ b/src/rgw/rgw_reshard.h
-> +@@ -183,7 +183,14 @@ class RGWReshardWait {
-> +   ceph::condition_variable cond;
-> + 
-> +   struct Waiter : boost::intrusive::list_base_hook<> {
-> +-    boost::asio::basic_waitable_timer<Clock> timer;
-> ++#if BOOST_VERSION < 107000
-> ++    using Timer = boost::asio::basic_waitable_timer<Clock>;
-> ++#else
-> ++    using Executor = boost::asio::io_context::executor_type;
-> ++    using Timer = boost::asio::basic_waitable_timer<Clock,
-> ++          boost::asio::wait_traits<Clock>, Executor>;
-> ++#endif
-> ++    Timer timer;
-> +     explicit Waiter(boost::asio::io_context& ioc) : timer(ioc) {}
-> +   };
-> +   boost::intrusive::list<Waiter> waiters;
-> +-- 
-> +2.21.0
-> +
-> diff --git a/recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch b/recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch
+> +inherit pypi
+> diff --git a/meta-openstack/recipes-devtools/python/python-waitress_1.3.1.bb b/meta-openstack/recipes-devtools/python/python-waitress_1.3.1.bb
+> index 78af225..ecce64c 100644
+> --- a/meta-openstack/recipes-devtools/python/python-waitress_1.3.1.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-waitress_1.3.1.bb
+> @@ -1,10 +1,2 @@
+> -DESCRIPTION = "Waitress WSGI server"
+> -HOMEPAGE = "https://pypi.python.org/pypi/waitress/"
+> -SECTION = "devel/python"
+> -LICENSE = "ZPL-2.1"
+> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=78ccb3640dc841e1baecb3e27a6966b2"
+> -
+> -SRC_URI[md5sum] = "d9132d313de0c5e0fec34ef9ede5442e"
+> -SRC_URI[sha256sum] = "278e09d6849acc1365404bbf7d790d0423b159802e850c726e8cd0a126a2dac7"
+> -
+> -inherit setuptools pypi
+> +inherit setuptools
+> +require python-waitress.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-waitress_1.3.1.bb b/meta-openstack/recipes-devtools/python/python3-waitress_1.3.1.bb
 > new file mode 100644
-> index 0000000..7a44338
+> index 0000000..89e8208
 > --- /dev/null
-> +++ b/recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch
-> @@ -0,0 +1,61 @@
-> +From 064f142746ae97f54865069cdacf5aae2b1b14f6 Mon Sep 17 00:00:00 2001
-> +From: Casey Bodley <cbodley@redhat.com>
-> +Date: Tue, 23 Apr 2019 15:40:01 -0400
-> +Subject: [PATCH] rgw: beast handle_connection() takes io_context
-> +
-> +as of boost 1.70, the socket no longer has a get_io_context(), so we
-> +have to pass it in as an argument
-> +
-> +Signed-off-by: Casey Bodley <cbodley@redhat.com>
-> +
-> +Upstream-Status: Backport [064f142746ae97f54865069cdacf5aae2b1b14f6] 
-> +
-> +Signed-off-by: He Zhe <zhe.he@windriver.com>
-> +---
-> + src/rgw/rgw_asio_frontend.cc | 9 +++++----
-> + 1 file changed, 5 insertions(+), 4 deletions(-)
-> +
-> +diff --git a/src/rgw/rgw_asio_frontend.cc b/src/rgw/rgw_asio_frontend.cc
-> +index e4be074ec7..4af3695dc1 100644
-> +--- a/src/rgw/rgw_asio_frontend.cc
-> ++++ b/src/rgw/rgw_asio_frontend.cc
-> +@@ -81,7 +81,8 @@ class StreamIO : public rgw::asio::ClientIO {
-> + using SharedMutex = ceph::async::SharedMutex<boost::asio::io_context::executor_type>;
-> + 
-> + template <typename Stream>
-> +-void handle_connection(RGWProcessEnv& env, Stream& stream,
-> ++void handle_connection(boost::asio::io_context& context,
-> ++                       RGWProcessEnv& env, Stream& stream,
-> +                        boost::beast::flat_buffer& buffer, bool is_ssl,
-> +                        SharedMutex& pause_mutex,
-> +                        rgw::dmclock::Scheduler *scheduler,
-> +@@ -152,7 +153,7 @@ void handle_connection(RGWProcessEnv& env, Stream& stream,
-> +                                   rgw::io::add_conlen_controlling(
-> +                                     &real_client))));
-> +       RGWRestfulIO client(cct, &real_client_io);
-> +-      auto y = optional_yield{socket.get_io_context(), yield};
-> ++      auto y = optional_yield{context, yield};
-> +       process_request(env.store, env.rest, &req, env.uri_prefix,
-> +                       *env.auth_registry, &client, env.olog, y, scheduler);
-> +     }
-> +@@ -560,7 +561,7 @@ void AsioFrontend::accept(Listener& l, boost::system::error_code ec)
-> +           return;
-> +         }
-> +         buffer.consume(bytes);
-> +-        handle_connection(env, stream, buffer, true, pause_mutex,
-> ++        handle_connection(context, env, stream, buffer, true, pause_mutex,
-> +                           scheduler.get(), ec, yield);
-> +         if (!ec) {
-> +           // ssl shutdown (ignoring errors)
-> +@@ -578,7 +579,7 @@ void AsioFrontend::accept(Listener& l, boost::system::error_code ec)
-> +         auto c = connections.add(conn);
-> +         boost::beast::flat_buffer buffer;
-> +         boost::system::error_code ec;
-> +-        handle_connection(env, s, buffer, false, pause_mutex,
-> ++        handle_connection(context, env, s, buffer, false, pause_mutex,
-> +                           scheduler.get(), ec, yield);
-> +         s.shutdown(tcp::socket::shutdown_both, ec);
-> +       });
-> +-- 
-> +2.21.0
-> +
-> diff --git a/recipes-extended/ceph/ceph_14.1.0.bb b/recipes-extended/ceph/ceph_14.2.3.bb
-> similarity index 92%
-> rename from recipes-extended/ceph/ceph_14.1.0.bb
-> rename to recipes-extended/ceph/ceph_14.2.3.bb
-> index 18a324a..722efe3 100644
-> --- a/recipes-extended/ceph/ceph_14.1.0.bb
-> +++ b/recipes-extended/ceph/ceph_14.2.3.bb
-> @@ -11,9 +11,11 @@ inherit cmake pythonnative python-dir systemd
->  SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
->             file://0001-ceph-fix-build-errors-for-cross-compile.patch \
->             file://ceph.conf \
-> +           file://0001-rgw-add-executor-type-for-basic_waitable_timers.patch \
-> +           file://0001-rgw-beast-handle_connection-takes-io_context.patch \
->  "
-> -SRC_URI[md5sum] = "67b53eeb0f241c3011e7f40925aa7e08"
-> -SRC_URI[sha256sum] = "9ef726d7e73ce4d9510ad899493258374f1b40ba20a26b72bbbedb0bfb6dffd8"
-> +SRC_URI[md5sum] = "e4a53270fba14bf34d0b4c2a2340042e"
-> +SRC_URI[sha256sum] = "63d0eddab80f7bcdd4e9ac86d2b36c6cc8c9e2d34f20e8e426ff1620d66748dd"
->  
->  DEPENDS = "boost bzip2 curl expat gperf-native \
->             keyutils libaio libibverbs lz4 \
+> +++ b/meta-openstack/recipes-devtools/python/python3-waitress_1.3.1.bb
+> @@ -0,0 +1,2 @@
+> +inherit setuptools3
+> +require python-waitress.inc
 > -- 
 > 2.7.4
 > 
+> 
+> 
+> -- 
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
