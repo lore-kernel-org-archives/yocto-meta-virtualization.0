@@ -1,70 +1,75 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 99C12E00D59; Mon,  9 Sep 2019 10:24:59 -0700 (PDT)
+	id ED154E00D1C; Mon,  9 Sep 2019 10:28:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-0.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, FSL_HELO_FAKE,
+	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
+	*      [score: 0.0000] *  1.7 FSL_HELO_FAKE FSL_HELO_FAKE
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.208.177 listed in list.dnswl.org]
+	*      [209.85.222.178 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
-	[209.85.208.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D2023E00D33
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
+	[209.85.222.178])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1E0E9E008E3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Sep 2019 10:24:57 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id 7so13545446ljw.7
+	Mon,  9 Sep 2019 10:28:07 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id q203so13884742qke.1
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Sep 2019 10:24:57 -0700 (PDT)
+	Mon, 09 Sep 2019 10:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TieGtA54trWWEQDAwAd5nKxmAGoVUQMfH613ISWhCls=;
-	b=uEFhykguMd4aoq+b+au05jKmHLQICHnvfg0S/rCJwq+z49SjmEP+YEpwGPGYkXN0uQ
-	Mkh1PSiO+1cY+rdkKIEB7ZrwCMb32x+UB0Npvao7SNbkKDiq9XHv+ex/EIHes4oNEY+i
-	jXpxhMMvIy0dDAQHdeAAU0JCJ1ZPsU9hWDD37WcCDYSQbG8IxRoehnnxe/47zjBKuA7K
-	9Fv8dXYmMLdcy08mNrkqewxqHijUGvSq6gyZXp+ULgO936fZcXrty0qRnA7H1kvUW1+Z
-	YUC7n2cviMuijdiYH6n2FzVo19YzuoPDcudEnjNCzC+d1JKByi+XLEfHRgeh9qC6fKjC
-	xjzg==
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:content-transfer-encoding:in-reply-to
+	:user-agent; bh=WSc4L6UnfnPnWnLr/065aZazXvMXUzblAeWXpHMIKU4=;
+	b=Agm/XdYvmP/halMOQZo4UA81ri/jVVihF2OVFuWPgvyIgOpC/AZXp8sw1SQle4vJlw
+	rh6WzGCy5VWzIwDqFS9tYli6Nt5AnT5GBg+i7VDaxGk4LLWM0gucKk7igfIMOAPF3y3y
+	UxsFNLgZ4IKpxeZIuFyiyWwbFRNpUaC7TlpmK0j6C9AViyUF3Ans9z7TqZxFa6IikcNr
+	dXO3yJXbKCmesiMQiymETvaxSX1+HHuVs2VPgOy83Wyq+/+pMK9BF/NnEzkF06ki41eN
+	bRu9U7t8YDZURavidCJzJ+JKZ62+lAGr95o7Nq0LmIRG4GJwYs7w1TM0BjQRBwVdXN03
+	vHMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TieGtA54trWWEQDAwAd5nKxmAGoVUQMfH613ISWhCls=;
-	b=qorDWtPn0fbL/q0s0ylJFKQARGXI5k3RlxwuMIGPoZBoiaOqo4rwpZwqUwTM+uP5D9
-	qXSozVH1rYaC+R5o2P7P0AyrGCLzwRyV5XKhOHotrnqAJt5WGQVs+n4PMSYKFPDx9MYQ
-	i76bOfhDMVqWBpCRNh5cIFAIr+nBU2DvRbEX0sTI+PVNSGAurw82Nw7L7x7+/82XXxUy
-	Et48K4/YL28JZQHZeZ8xSxdwe1VfOT+BI3+pncXzLrt17WYvRrj521+QaAgqPI+A+FeU
-	NfL2nhhFyK1Xvb63RyEXM6pMO4YEDpfJK2wHgQL3bdRJfADQ3NutIIi4e2M+GTAnNtxI
-	L+tA==
-X-Gm-Message-State: APjAAAWlWhhsr7sI2DEcRkkHaYi1b4VChj+qYgCvUMQAl/HwUz1w1/Yh
-	WPpaWvszhWMrX3YfIS6ZoQipaTkeBYS7Yq3gCXp0v8FQ
-X-Google-Smtp-Source: APXvYqyuixbpu0o23FAnab/qoazWx3SvJRnycb4ufqF3CaGpD19nE43bPEQTfjWoccEkt4BbWBaIG19md5BAtA+lRjg=
-X-Received: by 2002:a2e:5dc3:: with SMTP id v64mr17635067lje.118.1568049896479;
-	Mon, 09 Sep 2019 10:24:56 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190807011444.31930-1-Qi.Chen@windriver.com>
-	<20190807011444.31930-2-Qi.Chen@windriver.com>
-	<def0f1ad189d9ba70c01cac4043b4265@agner.ch>
-	<9c1903af-72f6-13a8-b907-71989f119024@windriver.com>
-	<b2b76b2f2d007083f4260a1fa960fb0d@agner.ch>
-In-Reply-To: <b2b76b2f2d007083f4260a1fa960fb0d@agner.ch>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=WSc4L6UnfnPnWnLr/065aZazXvMXUzblAeWXpHMIKU4=;
+	b=n3o9iNU9MIuZlMWmqXAI7ZY2lEFm2BzijuzqCBrKdwGbalfTHhPi0DdRSqoySQBwgC
+	P8Y/UBF6BWyMTB19jFff5W9Lk858JO30jEJjZOQGBBY2qxwYRxKEspR2WdY8HyUwpl49
+	911hRRHMpbMno1OBZIRYG3BlCZbYK69gUx+5mVzv8OXsryrWcZgjWINDl9NmBFE3hFt7
+	pQZYoq3IwAJ47hu1l+l6Y7sxa69aefs9zGvQR4/cCp98X/qZ7dVEVxsQ3sihW1DY7INf
+	2THU3yAVqSyouO4VwUebMqi9JzkKNeisXk+4V0QcrR1zriftjlz6lXB1ucDrkJsc2r5A
+	Kvvw==
+X-Gm-Message-State: APjAAAWa9UwZ5RSt5Ux8ltOEtbXccf77V31VkBOfMZyjaOKIWQd8qMzk
+	hi04VFyyF7EhpKMiw10JJCU=
+X-Google-Smtp-Source: APXvYqzbNkqzAsjzuAOy/Sw+b5rJ0GOFhrETHJQYfR1aexv2DsQTVLKTLSwtzJlreEpTel/mv/d1CQ==
+X-Received: by 2002:ae9:ef4c:: with SMTP id d73mr23723202qkg.57.1568050086999; 
+	Mon, 09 Sep 2019 10:28:06 -0700 (PDT)
+Received: from gmail.com
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.112.251.208])
+	by smtp.gmail.com with ESMTPSA id v12sm2766404qtb.5.2019.09.09.10.28.05
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 09 Sep 2019 10:28:06 -0700 (PDT)
+Date: Mon, 9 Sep 2019 13:28:04 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 9 Sep 2019 13:24:45 -0400
-Message-ID: <CADkTA4Nbcztzy=MZ=HPJ5Zg6a0Tqzsnw3oFihTJdEPPPdBJVBg@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH V2 2/2] runc: add PACKAGECONFIG to allow building as static or not
+To: Armin Kuster <akuster808@gmail.com>
+Message-ID: <20190909172801.GA26811@gmail.com>
+References: <1567738340-20286-1-git-send-email-akuster808@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1567738340-20286-1-git-send-email-akuster808@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [warrior][PATCH] libvirt: Five security fixes
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -77,262 +82,525 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 17:24:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Sep 2019 17:28:12 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 9, 2019 at 6:34 AM Stefan Agner <stefan@agner.ch> wrote:
->
-> On 2019-09-09 12:14, ChenQi wrote:
-> > On 09/09/2019 05:35 PM, Stefan Agner wrote:
-> >> Hi Chen,
-> >>
-> >> On 2019-08-07 03:14, Chen Qi wrote:
-> >>> Add a new PACKAGECONFIG, static, which when enabled will build
-> >>> runc as static. Default to enable it.
-> >>>
-> >>> We need this because we should allow users to build runc as not
-> >>> static so that when docker's cgroup driver is set to systemd,
-> >>> we don't get error.
-> >> Do you happen to know why we use statically linked runc by default? It
-> >> seems that distros nowadays use statically linked version of it.
-> >>
-> >> To some degree it seems that we overturn a distro decision here
-> >> (DISABLE_STATIC).
-> >>
-> >> --
-> >> Stefan
-> >>
-> >
-> > Please refer to
-> > https://lists.yoctoproject.org/pipermail/meta-virtualization/2019-August/004338.html
-> >
->
-> Thanks for the link!
->
-> > runc is one of those things that may need to be static in some configurations.
-> > Since it has security impact, updating runc (and the libc) should be done in
-> > paralell and this can cause problems otherwise.
->
-> Hm, I don't completely get that argument, as in OE we normally do full
-> image updates. So libc will be updated with runc anyways.
+In message: [meta-virtualization] [warrior][PATCH] libvirt: Five security fixes
+on 05/09/2019 Armin Kuster wrote:
 
-Some do .. many don't in the container based systems. In fact, for my
-meta-virt use cases, there's *never* a full image update.
+> From: Armin Kuster <akuster@mvista.com>
+> 
+> Affects <= 4.9.0
+> 
+> This affectively moves sources to tip
+> Fixes the following cves.
+> 
+> CVE-2019-10132
+> CVE-2019-10161
+> CVE-2019-10166
+> CVE-2019-10167
+> CVE-2019-10168
 
->
-> Also that argument you can make for every component, not sure why runc
-> is that special.
 
-runc is very much plumbing in a lot of the setups that I know about.
-It is used in some small systems (more 'small' in terms of
-functionality and runtime complexity, not disk space) for starting
-very early (but yet containerized) processes. And for the
-container-in-container use cases, it is used as a shared runtime (bind
-mounted, etc), which allows it to be atomically updated for a system
-.. etc, etc.
-
->
-> >
-> > Now, that doesn't mean it HAS to be static, but it should be a configuration and
-> > may be wise to have as the default to be static.
->
-> ...
->
-> > So PACKAGECONFIG is the right answer here.  I'm not sure what the right default
-> > for the recipe is.... but in the end the users configuration and distro can and
-> > should be able to select what they want.
->
-> IMHO, default should be dynamically linked since this is the default in
-> OE in general. Also since OE images are commonly updated as a whole and
-> in embedded we often care more about space saving.
->
-> Anyways, good there is a package config now, and now that I know the
-> reasons it is compiled statically by default I can safely flip that
-> switch for our distro.
-
-Indeed. That's why I wanted it to be a packageconfig, everyone can
-chose what best suits their distro.
-
-Cheers,
+Thanks armin. This is now merged to the warrior branch.
 
 Bruce
 
->
-> --
-> Stefan
->
->
-> > Best Regards,
-> > Chen Qi
-> >
-> >>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >>> ---
-> >>>   ...-GOBUILDFLAGS-for-runc-and-remove-re.patch | 35 +++++++++++++++++++
-> >>>   ...ld-drop-recvtty-and-use-GOBUILDFLAGS.patch | 22 ------------
-> >>>   recipes-containers/runc/runc-docker_git.bb    |  2 +-
-> >>>   .../runc/runc-opencontainers_git.bb           |  1 +
-> >>>   recipes-containers/runc/runc.inc              | 10 ++++--
-> >>>   5 files changed, 45 insertions(+), 25 deletions(-)
-> >>>   create mode 100644
-> >>> recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
-> >>>   delete mode 100644
-> >>> recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
-> >>>
-> >>> diff --git
-> >>> a/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
-> >>> b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
-> >>> new file mode 100644
-> >>> index 0000000..94cbb4c
-> >>> --- /dev/null
-> >>> +++
-> >>> b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
-> >>> @@ -0,0 +1,35 @@
-> >>> +From d2c47a973f354ffd505bb4e809c59e57b543726d Mon Sep 17 00:00:00 2001
-> >>> +From: Chen Qi <Qi.Chen@windriver.com>
-> >>> +Date: Tue, 6 Aug 2019 19:01:45 +0800
-> >>> +Subject: [PATCH] Makefile: respect GOBUILDFLAGS for runc and remove recvtty
-> >>> + from static
-> >>> +
-> >>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> >>> +---
-> >>> + Makefile | 3 +--
-> >>> + 1 file changed, 1 insertion(+), 2 deletions(-)
-> >>> +
-> >>> +diff --git a/Makefile b/Makefile
-> >>> +index 0f26a1c8..a0c6b40b 100644
-> >>> +--- a/src/import/Makefile
-> >>> ++++ b/src/import/Makefile
-> >>> +@@ -30,7 +30,7 @@ SHELL := $(shell command -v bash 2>/dev/null)
-> >>> + .DEFAULT: runc
-> >>> +
-> >>> + runc: $(SOURCES)
-> >>> +-  $(GO) build -buildmode=pie $(EXTRA_FLAGS) -ldflags "-X
-> >>> main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)"
-> >>> -tags "$(BUILDTAGS)" -o runc .
-> >>> ++  $(GO) build $(GOBUILDFLAGS) $(EXTRA_FLAGS) -ldflags "-X
-> >>> main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)"
-> >>> -tags "$(BUILDTAGS)" -o runc .
-> >>> +
-> >>> + all: runc recvtty
-> >>> +
-> >>> +@@ -41,7 +41,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)
-> >>> +
-> >>> + static: $(SOURCES)
-> >>> +   CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
-> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
-> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
-> >>> $(EXTRA_LDFLAGS)" -o runc .
-> >>> +-  CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
-> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
-> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
-> >>> $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
-> >>> +
-> >>> + release:
-> >>> +   script/release.sh -r release/$(VERSION) -v $(VERSION)
-> >>> +--
-> >>> +2.17.1
-> >>> +
-> >>> diff --git
-> >>> a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
-> >>> b/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
-> >>> deleted file mode 100644
-> >>> index 9ba9957..0000000
-> >>> ---
-> >>> a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
-> >>> +++ /dev/null
-> >>> @@ -1,22 +0,0 @@
-> >>> -From a9a2b9e72027d0b2357f6dfe8b154762aaa8dd02 Mon Sep 17 00:00:00 2001
-> >>> -From: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >>> -Date: Thu, 19 Apr 2018 16:39:41 -0400
-> >>> -Subject: [PATCH] build: drop recvtty and use GOBUILDFLAGS
-> >>> -
-> >>> -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
-> >>> ----
-> >>> - Makefile | 3 +--
-> >>> - 1 file changed, 1 insertion(+), 2 deletions(-)
-> >>> -
-> >>> -Index: git/src/import/Makefile
-> >>> -===================================================================
-> >>> ---- git.orig/src/import/Makefile
-> >>> -+++ git/src/import/Makefile
-> >>> -@@ -41,7 +41,6 @@
-> >>> -
-> >>> - static: $(SOURCES)
-> >>> -   CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
-> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
-> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
-> >>> $(EXTRA_LDFLAGS)" -o runc .
-> >>> --  CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
-> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
-> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
-> >>> $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
-> >>> -
-> >>> - release:
-> >>> -   script/release.sh -r release/$(VERSION) -v $(VERSION)
-> >>> diff --git a/recipes-containers/runc/runc-docker_git.bb
-> >>> b/recipes-containers/runc/runc-docker_git.bb
-> >>> index 2bf6222..c9f460b 100644
-> >>> --- a/recipes-containers/runc/runc-docker_git.bb
-> >>> +++ b/recipes-containers/runc/runc-docker_git.bb
-> >>> @@ -5,7 +5,7 @@ include runc.inc
-> >>>   SRCREV_runc-docker = "425e105d5a03fabd737a126ad93d62a9eeede87f"
-> >>>   SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
-> >>>              file://0001-runc-Add-console-socket-dev-null.patch \
-> >>> -           file://0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch \
-> >>> +
-> >>> file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
-> >>> \
-> >>>              file://0001-runc-docker-SIGUSR1-daemonize.patch \
-> >>>             "
-> >>>   diff --git a/recipes-containers/runc/runc-opencontainers_git.bb
-> >>> b/recipes-containers/runc/runc-opencontainers_git.bb
-> >>> index 76ab794..361bc94 100644
-> >>> --- a/recipes-containers/runc/runc-opencontainers_git.bb
-> >>> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
-> >>> @@ -3,5 +3,6 @@ include runc.inc
-> >>>   SRCREV = "652297c7c7e6c94e8d064ad5916c32891a6fd388"
-> >>>   SRC_URI = " \
-> >>>       git://github.com/opencontainers/runc;branch=master \
-> >>> +    file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
-> >>>       "
-> >>>   RUNC_VERSION = "1.0.0-rc8"
-> >>> diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
-> >>> index 46fd09d..41ea41b 100644
-> >>> --- a/recipes-containers/runc/runc.inc
-> >>> +++ b/recipes-containers/runc/runc.inc
-> >>> @@ -14,8 +14,10 @@ inherit go
-> >>>   inherit goarch
-> >>>   inherit pkgconfig
-> >>>   -PACKAGECONFIG ??= ""
-> >>> +PACKAGECONFIG ??= "static"
-> >>>   PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
-> >>> +# This PACKAGECONFIG serves the purpose of whether building runc as
-> >>> static or not
-> >>> +PACKAGECONFIG[static] = ""
-> >>>     PROVIDES += "virtual/runc"
-> >>>   RPROVIDES_${PN} = "virtual/runc"
-> >>> @@ -54,7 +56,11 @@ do_compile() {
-> >>>     export CFLAGS=""
-> >>>     export LDFLAGS=""
-> >>>   - oe_runmake static
-> >>> +   if ${@bb.utils.contains('PACKAGECONFIG', 'static', 'true', 'false', d)}; then
-> >>> +           oe_runmake static
-> >>> +   else
-> >>> +           oe_runmake runc
-> >>> +   fi
-> >>>   }
-> >>>     do_install() {
-> >>> -- 2.17.1
-> --
+> 
+> Signed-off-by: Armin Kuster <akuster@mvista.com>
+> ---
+>  .../libvirt/libvirt/CVE-2019-10132_p1.patch        |  63 +++++++++++++
+>  .../libvirt/libvirt/CVE-2019-10132_p2.patch        |  55 +++++++++++
+>  .../libvirt/libvirt/CVE-2019-10132_p3.patch        |  55 +++++++++++
+>  .../libvirt/libvirt/CVE-2019-10161.patch           | 101 +++++++++++++++++++++
+>  .../libvirt/libvirt/CVE-2019-10166.patch           |  43 +++++++++
+>  .../libvirt/libvirt/CVE-2019-10167.patch           |  41 +++++++++
+>  .../libvirt/libvirt/CVE-2019-10168.patch           |  49 ++++++++++
+>  recipes-extended/libvirt/libvirt_4.9.0.bb          |   7 ++
+>  8 files changed, 414 insertions(+)
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10161.patch
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10166.patch
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10167.patch
+>  create mode 100644 recipes-extended/libvirt/libvirt/CVE-2019-10168.patch
+> 
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch
+> new file mode 100644
+> index 0000000..1f958fa
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p1.patch
+> @@ -0,0 +1,63 @@
+> +From b0f788c2d3d9930015258a7df95dde80a498e657 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+> +Date: Tue, 30 Apr 2019 17:26:13 +0100
+> +Subject: [PATCH 1/7] admin: reject clients unless their UID matches the
+> + current UID
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The admin protocol RPC messages are only intended for use by the user
+> +running the daemon. As such they should not be allowed for any client
+> +UID that does not match the server UID.
+> +
+> +Fixes CVE-2019-10132
+> +
+> +Reviewed-by: Ján Tomko <jtomko@redhat.com>
+> +Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit 96f41cd765c9e525fe28ee5abbfbf4a79b3720c7)
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-10132 patch #1
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + src/admin/admin_server_dispatch.c | 22 ++++++++++++++++++++++
+> + 1 file changed, 22 insertions(+)
+> +
+> +diff --git a/src/admin/admin_server_dispatch.c b/src/admin/admin_server_dispatch.c
+> +index b78ff90..9f25813 100644
+> +--- a/src/admin/admin_server_dispatch.c
+> ++++ b/src/admin/admin_server_dispatch.c
+> +@@ -66,6 +66,28 @@ remoteAdmClientNew(virNetServerClientPtr client ATTRIBUTE_UNUSED,
+> +                    void *opaque)
+> + {
+> +     struct daemonAdmClientPrivate *priv;
+> ++    uid_t clientuid;
+> ++    gid_t clientgid;
+> ++    pid_t clientpid;
+> ++    unsigned long long timestamp;
+> ++
+> ++    if (virNetServerClientGetUNIXIdentity(client,
+> ++                                          &clientuid,
+> ++                                          &clientgid,
+> ++                                          &clientpid,
+> ++                                          &timestamp) < 0)
+> ++        return NULL;
+> ++
+> ++    VIR_DEBUG("New client pid %lld uid %lld",
+> ++              (long long)clientpid,
+> ++              (long long)clientuid);
+> ++
+> ++    if (geteuid() != clientuid) {
+> ++        virReportRestrictedError(_("Disallowing client %lld with uid %lld"),
+> ++                                 (long long)clientpid,
+> ++                                 (long long)clientuid);
+> ++        return NULL;
+> ++    }
+> + 
+> +     if (VIR_ALLOC(priv) < 0)
+> +         return NULL;
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch
+> new file mode 100644
+> index 0000000..2fffe14
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p2.patch
+> @@ -0,0 +1,55 @@
+> +From ea014c9fcf19539c75a7cb6926b14858426746a7 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+> +Date: Tue, 30 Apr 2019 16:51:37 +0100
+> +Subject: [PATCH 2/7] locking: restrict sockets to mode 0600
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The virtlockd daemon's only intended client is the libvirtd daemon. As
+> +such it should never allow clients from other user accounts to connect.
+> +The code already enforces this and drops clients from other UIDs, but
+> +we can get earlier (and thus stronger) protection against DoS by setting
+> +the socket permissions to 0600
+> +
+> +Fixes CVE-2019-10132
+> +
+> +Reviewed-by: Ján Tomko <jtomko@redhat.com>
+> +Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit f111e09468693909b1f067aa575efdafd9a262a1)
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-10132 patch #2
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +---
+> + src/locking/virtlockd-admin.socket.in | 1 +
+> + src/locking/virtlockd.socket.in       | 1 +
+> + 2 files changed, 2 insertions(+)
+> +
+> +diff --git a/src/locking/virtlockd-admin.socket.in b/src/locking/virtlockd-admin.socket.in
+> +index 2a7500f..f674c49 100644
+> +--- a/src/locking/virtlockd-admin.socket.in
+> ++++ b/src/locking/virtlockd-admin.socket.in
+> +@@ -5,6 +5,7 @@ Before=libvirtd.service
+> + [Socket]
+> + ListenStream=@localstatedir@/run/libvirt/virtlockd-admin-sock
+> + Service=virtlockd.service
+> ++SocketMode=0600
+> + 
+> + [Install]
+> + WantedBy=sockets.target
+> +diff --git a/src/locking/virtlockd.socket.in b/src/locking/virtlockd.socket.in
+> +index 45e0f20..d701b27 100644
+> +--- a/src/locking/virtlockd.socket.in
+> ++++ b/src/locking/virtlockd.socket.in
+> +@@ -4,6 +4,7 @@ Before=libvirtd.service
+> + 
+> + [Socket]
+> + ListenStream=@localstatedir@/run/libvirt/virtlockd-sock
+> ++SocketMode=0600
+> + 
+> + [Install]
+> + WantedBy=sockets.target
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch
+> new file mode 100644
+> index 0000000..0cb0005
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10132_p3.patch
+> @@ -0,0 +1,55 @@
+> +From a474f18dceed61d562508980999e5f2d7445d683 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+> +Date: Tue, 30 Apr 2019 17:27:41 +0100
+> +Subject: [PATCH 3/7] logging: restrict sockets to mode 0600
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The virtlogd daemon's only intended client is the libvirtd daemon. As
+> +such it should never allow clients from other user accounts to connect.
+> +The code already enforces this and drops clients from other UIDs, but
+> +we can get earlier (and thus stronger) protection against DoS by setting
+> +the socket permissions to 0600
+> +
+> +Fixes CVE-2019-10132
+> +
+> +Reviewed-by: Ján Tomko <jtomko@redhat.com>
+> +Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit e37bd65f9948c1185456b2cdaa3bd6e875af680f)
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-10132 patch #3
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +---
+> + src/logging/virtlogd-admin.socket.in | 1 +
+> + src/logging/virtlogd.socket.in       | 1 +
+> + 2 files changed, 2 insertions(+)
+> +
+> +diff --git a/src/logging/virtlogd-admin.socket.in b/src/logging/virtlogd-admin.socket.in
+> +index 595e6c4..5c41dfe 100644
+> +--- a/src/logging/virtlogd-admin.socket.in
+> ++++ b/src/logging/virtlogd-admin.socket.in
+> +@@ -5,6 +5,7 @@ Before=libvirtd.service
+> + [Socket]
+> + ListenStream=@localstatedir@/run/libvirt/virtlogd-admin-sock
+> + Service=virtlogd.service
+> ++SocketMode=0600
+> + 
+> + [Install]
+> + WantedBy=sockets.target
+> +diff --git a/src/logging/virtlogd.socket.in b/src/logging/virtlogd.socket.in
+> +index 22b9360..ae48cda 100644
+> +--- a/src/logging/virtlogd.socket.in
+> ++++ b/src/logging/virtlogd.socket.in
+> +@@ -4,6 +4,7 @@ Before=libvirtd.service
+> + 
+> + [Socket]
+> + ListenStream=@localstatedir@/run/libvirt/virtlogd-sock
+> ++SocketMode=0600
+> + 
+> + [Install]
+> + WantedBy=sockets.target
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10161.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10161.patch
+> new file mode 100644
+> index 0000000..72e69a8
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10161.patch
+> @@ -0,0 +1,101 @@
+> +From 568c735d7b0ccb55f9476c86f8603eb3a5c9fc5c Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
+> +Date: Fri, 14 Jun 2019 08:47:42 +0200
+> +Subject: [PATCH 4/7] api: disallow virDomainSaveImageGetXMLDesc on read-only
+> + connections
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The virDomainSaveImageGetXMLDesc API is taking a path parameter,
+> +which can point to any path on the system. This file will then be
+> +read and parsed by libvirtd running with root privileges.
+> +
+> +Forbid it on read-only connections.
+> +
+> +Fixes: CVE-2019-10161
+> +Reported-by: Matthias Gerstner <mgerstner@suse.de>
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit aed6a032cead4386472afb24b16196579e239580)
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +
+> +Conflicts:
+> +  src/libvirt-domain.c
+> +  src/remote/remote_protocol.x
+> +
+> +Upstream commit 12a51f372 which introduced the VIR_DOMAIN_SAVE_IMAGE_XML_SECURE
+> +alias for VIR_DOMAIN_XML_SECURE is not backported.
+> +Just skip the commit since we now disallow the whole API on read-only
+> +connections, regardless of the flag.
+> +
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-19161
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +---
+> + src/libvirt-domain.c         | 11 ++---------
+> + src/qemu/qemu_driver.c       |  2 +-
+> + src/remote/remote_protocol.x |  3 +--
+> + 3 files changed, 4 insertions(+), 12 deletions(-)
+> +
+> +diff --git a/src/libvirt-domain.c b/src/libvirt-domain.c
+> +index 7690339..c188239 100644
+> +--- a/src/libvirt-domain.c
+> ++++ b/src/libvirt-domain.c
+> +@@ -1073,9 +1073,7 @@ virDomainRestoreFlags(virConnectPtr conn, const char *from, const char *dxml,
+> +  * previously by virDomainSave() or virDomainSaveFlags().
+> +  *
+> +  * No security-sensitive data will be included unless @flags contains
+> +- * VIR_DOMAIN_XML_SECURE; this flag is rejected on read-only
+> +- * connections.  For this API, @flags should not contain either
+> +- * VIR_DOMAIN_XML_INACTIVE or VIR_DOMAIN_XML_UPDATE_CPU.
+> ++ * VIR_DOMAIN_XML_SECURE.
+> +  *
+> +  * Returns a 0 terminated UTF-8 encoded XML instance, or NULL in case of
+> +  * error.  The caller must free() the returned value.
+> +@@ -1091,12 +1089,7 @@ virDomainSaveImageGetXMLDesc(virConnectPtr conn, const char *file,
+> + 
+> +     virCheckConnectReturn(conn, NULL);
+> +     virCheckNonNullArgGoto(file, error);
+> +-
+> +-    if ((conn->flags & VIR_CONNECT_RO) && (flags & VIR_DOMAIN_XML_SECURE)) {
+> +-        virReportError(VIR_ERR_OPERATION_DENIED, "%s",
+> +-                       _("virDomainSaveImageGetXMLDesc with secure flag"));
+> +-        goto error;
+> +-    }
+> ++    virCheckReadOnlyGoto(conn->flags, error);
+> + 
+> +     if (conn->driver->domainSaveImageGetXMLDesc) {
+> +         char *ret;
+> +diff --git a/src/qemu/qemu_driver.c b/src/qemu/qemu_driver.c
+> +index a52e249..f7656e5 100644
+> +--- a/src/qemu/qemu_driver.c
+> ++++ b/src/qemu/qemu_driver.c
+> +@@ -6798,7 +6798,7 @@ qemuDomainSaveImageGetXMLDesc(virConnectPtr conn, const char *path,
+> +     if (fd < 0)
+> +         goto cleanup;
+> + 
+> +-    if (virDomainSaveImageGetXMLDescEnsureACL(conn, def, flags) < 0)
+> ++    if (virDomainSaveImageGetXMLDescEnsureACL(conn, def) < 0)
+> +         goto cleanup;
+> + 
+> +     ret = qemuDomainDefFormatXML(driver, def, flags);
+> +diff --git a/src/remote/remote_protocol.x b/src/remote/remote_protocol.x
+> +index 28c8feb..52b9233 100644
+> +--- a/src/remote/remote_protocol.x
+> ++++ b/src/remote/remote_protocol.x
+> +@@ -5226,8 +5226,7 @@ enum remote_procedure {
+> +     /**
+> +      * @generate: both
+> +      * @priority: high
+> +-     * @acl: domain:read
+> +-     * @acl: domain:read_secure:VIR_DOMAIN_XML_SECURE
+> ++     * @acl: domain:write
+> +      */
+> +     REMOTE_PROC_DOMAIN_SAVE_IMAGE_GET_XML_DESC = 235,
+> + 
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10166.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10166.patch
+> new file mode 100644
+> index 0000000..6305ffd
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10166.patch
+> @@ -0,0 +1,43 @@
+> +From 0a744e15517d727c7f473fabe32ca6b0dbb7b7d1 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
+> +Date: Fri, 14 Jun 2019 09:14:53 +0200
+> +Subject: [PATCH 5/7] api: disallow virDomainManagedSaveDefineXML on read-only
+> + connections
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +The virDomainManagedSaveDefineXML can be used to alter the domain's
+> +config used for managedsave or even execute arbitrary emulator binaries.
+> +Forbid it on read-only connections.
+> +
+> +Fixes: CVE-2019-10166
+> +Reported-by: Matthias Gerstner <mgerstner@suse.de>
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit db0b78457f183e4c7ac45bc94de86044a1e2056a)
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-19166
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + src/libvirt-domain.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/src/libvirt-domain.c b/src/libvirt-domain.c
+> +index c188239..d8b64c0 100644
+> +--- a/src/libvirt-domain.c
+> ++++ b/src/libvirt-domain.c
+> +@@ -9490,6 +9490,7 @@ virDomainManagedSaveDefineXML(virDomainPtr domain, const char *dxml,
+> + 
+> +     virCheckDomainReturn(domain, -1);
+> +     conn = domain->conn;
+> ++    virCheckReadOnlyGoto(conn->flags, error);
+> + 
+> +     if (conn->driver->domainManagedSaveDefineXML) {
+> +         int ret;
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10167.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10167.patch
+> new file mode 100644
+> index 0000000..abca309
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10167.patch
+> @@ -0,0 +1,41 @@
+> +From 6452b9fdff7988024a6157ca0a973ac3abf54468 Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
+> +Date: Fri, 14 Jun 2019 09:16:14 +0200
+> +Subject: [PATCH 6/7] api: disallow virConnectGetDomainCapabilities on
+> + read-only connections
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +This API can be used to execute arbitrary emulators.
+> +Forbid it on read-only connections.
+> +
+> +Fixes: CVE-2019-10167
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit 8afa68bac0cf99d1f8aaa6566685c43c22622f26)
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-19167
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + src/libvirt-domain.c | 1 +
+> + 1 file changed, 1 insertion(+)
+> +
+> +diff --git a/src/libvirt-domain.c b/src/libvirt-domain.c
+> +index d8b64c0..1e1c4e3 100644
+> +--- a/src/libvirt-domain.c
+> ++++ b/src/libvirt-domain.c
+> +@@ -11282,6 +11282,7 @@ virConnectGetDomainCapabilities(virConnectPtr conn,
+> +     virResetLastError();
+> + 
+> +     virCheckConnectReturn(conn, NULL);
+> ++    virCheckReadOnlyGoto(conn->flags, error);
+> + 
+> +     if (conn->driver->connectGetDomainCapabilities) {
+> +         char *ret;
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt/CVE-2019-10168.patch b/recipes-extended/libvirt/libvirt/CVE-2019-10168.patch
+> new file mode 100644
+> index 0000000..2211238
+> --- /dev/null
+> +++ b/recipes-extended/libvirt/libvirt/CVE-2019-10168.patch
+> @@ -0,0 +1,49 @@
+> +From dd88b69a207c1ed6e89d7e9fa6b5f4a9ec4db97c Mon Sep 17 00:00:00 2001
+> +From: =?UTF-8?q?J=C3=A1n=20Tomko?= <jtomko@redhat.com>
+> +Date: Fri, 14 Jun 2019 09:17:39 +0200
+> +Subject: [PATCH 7/7] api: disallow virConnect*HypervisorCPU on read-only
+> + connections
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=UTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +These APIs can be used to execute arbitrary emulators.
+> +Forbid them on read-only connections.
+> +
+> +Fixes: CVE-2019-10168
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> +(cherry picked from commit bf6c2830b6c338b1f5699b095df36f374777b291)
+> +Signed-off-by: Ján Tomko <jtomko@redhat.com>
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-19168
+> +Signed-off-by: Armin Kuster <akuster@mvista.com>
+> +
+> +---
+> + src/libvirt-host.c | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/src/libvirt-host.c b/src/libvirt-host.c
+> +index e20d6ee..2978825 100644
+> +--- a/src/libvirt-host.c
+> ++++ b/src/libvirt-host.c
+> +@@ -1041,6 +1041,7 @@ virConnectCompareHypervisorCPU(virConnectPtr conn,
+> + 
+> +     virCheckConnectReturn(conn, VIR_CPU_COMPARE_ERROR);
+> +     virCheckNonNullArgGoto(xmlCPU, error);
+> ++    virCheckReadOnlyGoto(conn->flags, error);
+> + 
+> +     if (conn->driver->connectCompareHypervisorCPU) {
+> +         int ret;
+> +@@ -1234,6 +1235,7 @@ virConnectBaselineHypervisorCPU(virConnectPtr conn,
+> + 
+> +     virCheckConnectReturn(conn, NULL);
+> +     virCheckNonNullArgGoto(xmlCPUs, error);
+> ++    virCheckReadOnlyGoto(conn->flags, error);
+> + 
+> +     if (conn->driver->connectBaselineHypervisorCPU) {
+> +         char *cpu;
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-extended/libvirt/libvirt_4.9.0.bb b/recipes-extended/libvirt/libvirt_4.9.0.bb
+> index 813d95e..db5a4f9 100644
+> --- a/recipes-extended/libvirt/libvirt_4.9.0.bb
+> +++ b/recipes-extended/libvirt/libvirt_4.9.0.bb
+> @@ -36,6 +36,13 @@ SRC_URI = "http://libvirt.org/sources/libvirt-${PV}.tar.xz;name=libvirt \
+>             file://0001-ptest-Remove-Windows-1252-check-from-esxutilstest.patch \
+>             file://configure.ac-search-for-rpc-rpc.h-in-the-sysroot.patch \
+>             file://hook_support.py \
+> +           file://CVE-2019-10132_p1.patch \
+> +           file://CVE-2019-10132_p2.patch \
+> +           file://CVE-2019-10132_p3.patch \
+> +           file://CVE-2019-10161.patch \
+> +           file://CVE-2019-10166.patch \
+> +           file://CVE-2019-10167.patch \ 
+> +           file://CVE-2019-10168.patch \
+>            "
+>  
+>  SRC_URI[libvirt.md5sum] = "aaf7b265ac2013d6eb184a86b5f7eeb9"
+> -- 
+> 2.7.4
+> 
+> -- 
 > _______________________________________________
 > meta-virtualization mailing list
 > meta-virtualization@yoctoproject.org
 > https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
