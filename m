@@ -1,67 +1,56 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8A458E00D33; Mon,  9 Sep 2019 10:37:05 -0700 (PDT)
+	id BA452E00D33; Mon,  9 Sep 2019 12:59:09 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-	https://www.dnswl.org/, no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [178.209.48.109 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C5821E00E00
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EA206E00CD5
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Sep 2019 10:36:55 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id c12so11182442lfh.5
-	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Sep 2019 10:36:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xSmOWQXbqU0Ootf9vn+WIuu8uWPffMJfFHH3b590bzs=;
-	b=nM8i7WA8DHfhJlfOkpeEfVEQ0YZV3eK6nRZiuEGovyT694gIdljpNXiqBQwqJNfINd
-	PN7lvrATAsXSYvHEu9ZenRLbT0l94ZQ+/SEh9vrKAb6c5IXsau+BDQs/JOwhz1VLOGy7
-	NoiWD0OyFSIMpWnCh5krWlFKTVs0X5XL/rqkEe7ZuSBVsKjvjVmJEGVOXxsWcVbrUGiT
-	cKHzz3kIyg2ocAMpka+UVQ/tMMEBBbIi5Y6l6TcsyTl7N/2M99Y7X4v4h85jYZtz8T0K
-	c2FxOj5GUgIUr693XTak02mSU1KDmHB1cGQeXfMLnfmO6R5/yQjsd/tzMfY4NJiUKNTf
-	sk2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xSmOWQXbqU0Ootf9vn+WIuu8uWPffMJfFHH3b590bzs=;
-	b=kp1zqM8Lp8qvPlAE+N7Dywx2/0CKTFpdF5bZx77mLy08ikCf1H0YYqFw7P/Gw30aIb
-	SU8WaFKHadZKMYSG/yYHqqLNNZz8JWX72CNNwL/YMBkGzuJBb5ONNoGbz4G9o3ULqUlB
-	aMcKl6RoqGkPiEH8OJmhQa3E/f2ChL7q16cZWg2MliO4vuNFm0MeeLX2Wy2fXyCnu0yZ
-	6L9BWcOFo3q91ofqs86AcCF81xcii2T9NW36c5Dciic7W7TiTmvFkWCa8b09z7HMRReM
-	+f+Tlra9hb99VCEv+eHZB5w3/M+fYPGRRWVJfOp6eRuXwmA62GeaBRHkOnb6jgbpgJ4A
-	3Z2g==
-X-Gm-Message-State: APjAAAVw2MXXWFDj85JI7IgZTrnmNvshyGUkRULyzgrLm/TXjGCOBYMG
-	fZX97S5nrumBBuZNMRFmGShSR8K/Uss1SmNauWCsL3Sk
-X-Google-Smtp-Source: APXvYqxFoyAzzWSK6+XqsUIoOsBWkK55UUi9HUfxV8U1uCfXbUldJF8xsieJOG1AoFvWCI61d6LQ5y1NEm6IV8LFfcs=
-X-Received: by 2002:ac2:4117:: with SMTP id b23mr17703727lfi.36.1568050614703; 
-	Mon, 09 Sep 2019 10:36:54 -0700 (PDT)
+	Mon,  9 Sep 2019 12:59:07 -0700 (PDT)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 544FF5C02CE;
+	Mon,  9 Sep 2019 21:59:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1568059146;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=XTvCLLlkaSaTBoOOBHJF4OqVcv2PTo77ecBqIwvlIPU=;
+	b=FoMA6a5JwKK2VA41YGlAbxYmgEmb3dSjrvigLoHfCfQ2j+8qMlUhMXHbFraTkReK2Qrz50
+	l+c+WkRegKDB3a0eu/Qzvz2pG3lUqZZNBGiu3VZOryZzm+cCX0yW9kYpbgq4ExFwu1+J7C
+	h3pz6KdQkjXstNeJzXp3I9hblOFs8j0=
 MIME-Version: 1.0
-References: <1568022130-15624-1-git-send-email-zhe.he@windriver.com>
-	<1568022130-15624-2-git-send-email-zhe.he@windriver.com>
-In-Reply-To: <1568022130-15624-2-git-send-email-zhe.he@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 9 Sep 2019 13:36:43 -0400
-Message-ID: <CADkTA4PMAVvMJCfTV6tdf7GheyeUB5p6Dfs_5frH6pwe8nc8NA@mail.gmail.com>
-To: He Zhe <zhe.he@windriver.com>
+Date: Mon, 09 Sep 2019 21:59:06 +0200
+From: Stefan Agner <stefan@agner.ch>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+In-Reply-To: <CADkTA4Nbcztzy=MZ=HPJ5Zg6a0Tqzsnw3oFihTJdEPPPdBJVBg@mail.gmail.com>
+References: <20190807011444.31930-1-Qi.Chen@windriver.com>
+	<20190807011444.31930-2-Qi.Chen@windriver.com>
+	<def0f1ad189d9ba70c01cac4043b4265@agner.ch>
+	<9c1903af-72f6-13a8-b907-71989f119024@windriver.com>
+	<b2b76b2f2d007083f4260a1fa960fb0d@agner.ch>
+	<CADkTA4Nbcztzy=MZ=HPJ5Zg6a0Tqzsnw3oFihTJdEPPPdBJVBg@mail.gmail.com>
+Message-ID: <ae712de5c2f53e3e64a1c5d0f4ffe3a3@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.9
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-cloud-services] [PATCH 2/2] consul: Not automatically start system service on boot
+Subject: Re: [PATCH V2 2/2] runc: add PACKAGECONFIG to allow building as static or not
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -74,49 +63,266 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 17:37:05 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 09 Sep 2019 19:59:09 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-merged
+On 2019-09-09 19:24, Bruce Ashfield wrote:
+> On Mon, Sep 9, 2019 at 6:34 AM Stefan Agner <stefan@agner.ch> wrote:
+>>
+>> On 2019-09-09 12:14, ChenQi wrote:
+>> > On 09/09/2019 05:35 PM, Stefan Agner wrote:
+>> >> Hi Chen,
+>> >>
+>> >> On 2019-08-07 03:14, Chen Qi wrote:
+>> >>> Add a new PACKAGECONFIG, static, which when enabled will build
+>> >>> runc as static. Default to enable it.
+>> >>>
+>> >>> We need this because we should allow users to build runc as not
+>> >>> static so that when docker's cgroup driver is set to systemd,
+>> >>> we don't get error.
+>> >> Do you happen to know why we use statically linked runc by default? It
+>> >> seems that distros nowadays use statically linked version of it.
+>> >>
+>> >> To some degree it seems that we overturn a distro decision here
+>> >> (DISABLE_STATIC).
+>> >>
+>> >> --
+>> >> Stefan
+>> >>
+>> >
+>> > Please refer to
+>> > https://lists.yoctoproject.org/pipermail/meta-virtualization/2019-August/004338.html
+>> >
+>>
+>> Thanks for the link!
+>>
+>> > runc is one of those things that may need to be static in some configurations.
+>> > Since it has security impact, updating runc (and the libc) should be done in
+>> > paralell and this can cause problems otherwise.
+>>
+>> Hm, I don't completely get that argument, as in OE we normally do full
+>> image updates. So libc will be updated with runc anyways.
+> 
+> Some do .. many don't in the container based systems. In fact, for my
+> meta-virt use cases, there's *never* a full image update.
+> 
+>>
+>> Also that argument you can make for every component, not sure why runc
+>> is that special.
+> 
+> runc is very much plumbing in a lot of the setups that I know about.
+> It is used in some small systems (more 'small' in terms of
+> functionality and runtime complexity, not disk space) for starting
+> very early (but yet containerized) processes. And for the
+> container-in-container use cases, it is used as a shared runtime (bind
+> mounted, etc), which allows it to be atomically updated for a system
+> .. etc, etc.
 
-Bruce
-
-On Mon, Sep 9, 2019 at 5:42 AM <zhe.he@windriver.com> wrote:
->
-> From: He Zhe <zhe.he@windriver.com>
->
-> The systemd service needs to be tuned according to various use cases and cannot
-> be able to always start successfully for example when there is no network
-> interface named br0 by default.
->
-> Thus the default configuration is mainly used as an example. Let's not
-> automatically start it on boot.
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  recipes-connectivity/consul/consul_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
-> index f3e64e9..566fbc9 100644
-> --- a/recipes-connectivity/consul/consul_git.bb
-> +++ b/recipes-connectivity/consul/consul_git.bb
-> @@ -25,7 +25,7 @@ inherit systemd go
->  COMPATIBLE_HOST_mipsarch = "null"
->
->  SYSTEMD_SERVICE_${PN} = "consul.service"
-> -SYSTEMD_AUTO_ENABLE_${PN} = "enable"
-> +SYSTEMD_AUTO_ENABLE_${PN} = "disable"
->
->  do_install_append() {
->      install -d ${D}/${systemd_unitdir}/system
-> --
-> 2.7.4
->
+Ok, that of course is a good reason to use a statically linked binary.
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Thanks for elaborating.
+
+--
+Stefan
+
+> 
+>>
+>> >
+>> > Now, that doesn't mean it HAS to be static, but it should be a configuration and
+>> > may be wise to have as the default to be static.
+>>
+>> ...
+>>
+>> > So PACKAGECONFIG is the right answer here.  I'm not sure what the right default
+>> > for the recipe is.... but in the end the users configuration and distro can and
+>> > should be able to select what they want.
+>>
+>> IMHO, default should be dynamically linked since this is the default in
+>> OE in general. Also since OE images are commonly updated as a whole and
+>> in embedded we often care more about space saving.
+>>
+>> Anyways, good there is a package config now, and now that I know the
+>> reasons it is compiled statically by default I can safely flip that
+>> switch for our distro.
+> 
+> Indeed. That's why I wanted it to be a packageconfig, everyone can
+> chose what best suits their distro.
+> 
+> Cheers,
+> 
+> Bruce
+> 
+>>
+>> --
+>> Stefan
+>>
+>>
+>> > Best Regards,
+>> > Chen Qi
+>> >
+>> >>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> >>> ---
+>> >>>   ...-GOBUILDFLAGS-for-runc-and-remove-re.patch | 35 +++++++++++++++++++
+>> >>>   ...ld-drop-recvtty-and-use-GOBUILDFLAGS.patch | 22 ------------
+>> >>>   recipes-containers/runc/runc-docker_git.bb    |  2 +-
+>> >>>   .../runc/runc-opencontainers_git.bb           |  1 +
+>> >>>   recipes-containers/runc/runc.inc              | 10 ++++--
+>> >>>   5 files changed, 45 insertions(+), 25 deletions(-)
+>> >>>   create mode 100644
+>> >>> recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> >>>   delete mode 100644
+>> >>> recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> >>>
+>> >>> diff --git
+>> >>> a/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> >>> b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> >>> new file mode 100644
+>> >>> index 0000000..94cbb4c
+>> >>> --- /dev/null
+>> >>> +++
+>> >>> b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> >>> @@ -0,0 +1,35 @@
+>> >>> +From d2c47a973f354ffd505bb4e809c59e57b543726d Mon Sep 17 00:00:00 2001
+>> >>> +From: Chen Qi <Qi.Chen@windriver.com>
+>> >>> +Date: Tue, 6 Aug 2019 19:01:45 +0800
+>> >>> +Subject: [PATCH] Makefile: respect GOBUILDFLAGS for runc and remove recvtty
+>> >>> + from static
+>> >>> +
+>> >>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> >>> +---
+>> >>> + Makefile | 3 +--
+>> >>> + 1 file changed, 1 insertion(+), 2 deletions(-)
+>> >>> +
+>> >>> +diff --git a/Makefile b/Makefile
+>> >>> +index 0f26a1c8..a0c6b40b 100644
+>> >>> +--- a/src/import/Makefile
+>> >>> ++++ b/src/import/Makefile
+>> >>> +@@ -30,7 +30,7 @@ SHELL := $(shell command -v bash 2>/dev/null)
+>> >>> + .DEFAULT: runc
+>> >>> +
+>> >>> + runc: $(SOURCES)
+>> >>> +-  $(GO) build -buildmode=pie $(EXTRA_FLAGS) -ldflags "-X
+>> >>> main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)"
+>> >>> -tags "$(BUILDTAGS)" -o runc .
+>> >>> ++  $(GO) build $(GOBUILDFLAGS) $(EXTRA_FLAGS) -ldflags "-X
+>> >>> main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)"
+>> >>> -tags "$(BUILDTAGS)" -o runc .
+>> >>> +
+>> >>> + all: runc recvtty
+>> >>> +
+>> >>> +@@ -41,7 +41,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)
+>> >>> +
+>> >>> + static: $(SOURCES)
+>> >>> +   CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> >>> $(EXTRA_LDFLAGS)" -o runc .
+>> >>> +-  CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> >>> $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
+>> >>> +
+>> >>> + release:
+>> >>> +   script/release.sh -r release/$(VERSION) -v $(VERSION)
+>> >>> +--
+>> >>> +2.17.1
+>> >>> +
+>> >>> diff --git
+>> >>> a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> >>> b/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> >>> deleted file mode 100644
+>> >>> index 9ba9957..0000000
+>> >>> ---
+>> >>> a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> >>> +++ /dev/null
+>> >>> @@ -1,22 +0,0 @@
+>> >>> -From a9a2b9e72027d0b2357f6dfe8b154762aaa8dd02 Mon Sep 17 00:00:00 2001
+>> >>> -From: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> >>> -Date: Thu, 19 Apr 2018 16:39:41 -0400
+>> >>> -Subject: [PATCH] build: drop recvtty and use GOBUILDFLAGS
+>> >>> -
+>> >>> -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> >>> ----
+>> >>> - Makefile | 3 +--
+>> >>> - 1 file changed, 1 insertion(+), 2 deletions(-)
+>> >>> -
+>> >>> -Index: git/src/import/Makefile
+>> >>> -===================================================================
+>> >>> ---- git.orig/src/import/Makefile
+>> >>> -+++ git/src/import/Makefile
+>> >>> -@@ -41,7 +41,6 @@
+>> >>> -
+>> >>> - static: $(SOURCES)
+>> >>> -   CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> >>> $(EXTRA_LDFLAGS)" -o runc .
+>> >>> --  CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> >>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> >>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> >>> $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
+>> >>> -
+>> >>> - release:
+>> >>> -   script/release.sh -r release/$(VERSION) -v $(VERSION)
+>> >>> diff --git a/recipes-containers/runc/runc-docker_git.bb
+>> >>> b/recipes-containers/runc/runc-docker_git.bb
+>> >>> index 2bf6222..c9f460b 100644
+>> >>> --- a/recipes-containers/runc/runc-docker_git.bb
+>> >>> +++ b/recipes-containers/runc/runc-docker_git.bb
+>> >>> @@ -5,7 +5,7 @@ include runc.inc
+>> >>>   SRCREV_runc-docker = "425e105d5a03fabd737a126ad93d62a9eeede87f"
+>> >>>   SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
+>> >>>              file://0001-runc-Add-console-socket-dev-null.patch \
+>> >>> -           file://0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch \
+>> >>> +
+>> >>> file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> >>> \
+>> >>>              file://0001-runc-docker-SIGUSR1-daemonize.patch \
+>> >>>             "
+>> >>>   diff --git a/recipes-containers/runc/runc-opencontainers_git.bb
+>> >>> b/recipes-containers/runc/runc-opencontainers_git.bb
+>> >>> index 76ab794..361bc94 100644
+>> >>> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+>> >>> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+>> >>> @@ -3,5 +3,6 @@ include runc.inc
+>> >>>   SRCREV = "652297c7c7e6c94e8d064ad5916c32891a6fd388"
+>> >>>   SRC_URI = " \
+>> >>>       git://github.com/opencontainers/runc;branch=master \
+>> >>> +    file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+>> >>>       "
+>> >>>   RUNC_VERSION = "1.0.0-rc8"
+>> >>> diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
+>> >>> index 46fd09d..41ea41b 100644
+>> >>> --- a/recipes-containers/runc/runc.inc
+>> >>> +++ b/recipes-containers/runc/runc.inc
+>> >>> @@ -14,8 +14,10 @@ inherit go
+>> >>>   inherit goarch
+>> >>>   inherit pkgconfig
+>> >>>   -PACKAGECONFIG ??= ""
+>> >>> +PACKAGECONFIG ??= "static"
+>> >>>   PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
+>> >>> +# This PACKAGECONFIG serves the purpose of whether building runc as
+>> >>> static or not
+>> >>> +PACKAGECONFIG[static] = ""
+>> >>>     PROVIDES += "virtual/runc"
+>> >>>   RPROVIDES_${PN} = "virtual/runc"
+>> >>> @@ -54,7 +56,11 @@ do_compile() {
+>> >>>     export CFLAGS=""
+>> >>>     export LDFLAGS=""
+>> >>>   - oe_runmake static
+>> >>> +   if ${@bb.utils.contains('PACKAGECONFIG', 'static', 'true', 'false', d)}; then
+>> >>> +           oe_runmake static
+>> >>> +   else
+>> >>> +           oe_runmake runc
+>> >>> +   fi
+>> >>>   }
+>> >>>     do_install() {
+>> >>> -- 2.17.1
+>> --
+>> _______________________________________________
+>> meta-virtualization mailing list
+>> meta-virtualization@yoctoproject.org
+>> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
