@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1611CE00DB1; Mon,  9 Sep 2019 10:36:26 -0700 (PDT)
+	id 7BF80E00DB1; Mon,  9 Sep 2019 10:36:39 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,55 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
+	*      [209.85.167.68 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3BE44E00DE2
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A9039E00D4E
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Sep 2019 10:36:19 -0700 (PDT)
-Received: by mail-lf1-f66.google.com with SMTP id u29so11164567lfk.7
+	Mon,  9 Sep 2019 10:36:31 -0700 (PDT)
+Received: by mail-lf1-f68.google.com with SMTP id d10so11196616lfi.0
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Sep 2019 10:36:19 -0700 (PDT)
+	Mon, 09 Sep 2019 10:36:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BJ5avKYBUUwsRegEMzD+V8AeoqbAzw5hXEjsB659wu0=;
-	b=R/EbhBSKV5sMz1QIssmv/7KJU79Wge/qY9p92H0BlttY0WQ9Ys2GhYTTcnlcBb0BpU
-	hLRW9THEGp1kuYcplVnMdQoF5kRWvumMMQxfGnphXYNzqo3tjjeiGTxtL75JOyGZRWWO
-	3vDz/MB3xZhcdqx/Sq9Aucs4kPL0tKmU50+byrmSw9CPjVD5L8XZJKOcVS5BEhsV4D3D
-	KCd3V8mQnwZnc8sn3La9YJOaZIBZQJGFW/n8EfG4ix9Bb3Ft8ZZAf8rm5kMBR9XzPsKp
-	UaaTnADN6dqUY7hI4HqaKi8VV4csCSCDYevTP/zEv+UeiU4MY+VvcZcawAYzi/8HySQK
-	jLjw==
+	:cc; bh=vGvqqZYu55XhcnC+v0chJJUFMY+OJ+Ufap68nGvzHtc=;
+	b=YKnx5+U8kAgLVhKHmy6YZLyPKvSNNSVxg5e8FTFo7p+XYkyyOAH+ai0TGkrfyxKsny
+	JjtAVANXGNZVMp/NoE/A1SXSyKqHDAbGITsESQiPYlE6mPEab+9uhyX4cTlBUMU/FL7f
+	jDiGRtSiWhXcHVipP4YTRUd9bxc4TANAWBy0s2fyIJuAAN7jpOz+0bUoZJnJkME6FdKC
+	rzdslBUrZoiWw4inRk1UPKyll5VWsTRCUHbk7KaAn9QfAA8sGkKGFl5IbOrR2R8TYpzW
+	KPbWPd3e1TNegFDXKuhO+r8jaqf51p3mjiCrj0Mx1uOamjerik2T7pf5ut3aAw7DxwL3
+	ihIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=BJ5avKYBUUwsRegEMzD+V8AeoqbAzw5hXEjsB659wu0=;
-	b=MDuGynDXZ3TJBEFY59oJ1x9SFvlllGarRgaQZD88CtB5yGCS3GHCqWBTlPIhnwygkn
-	z9AbjIv0SItFdZYilcuThKg/pf1kGPZJCbnqAA8BhuxvcykLaFBgCIrsPaxmAZ50pfNF
-	VjhcPEb2zazb6v/AICh36ohPo8RjXU7ZCEHn2duUhaja4NXm+SNGY8ZO4+wxdicpDIat
-	qYH1c/HMmSb43ANaVImgpdnTgifMS4pGuHowkii5u+NFPppNTU/oaAGNAc3KaKc+BKhN
-	mPwfAwt8wcuUpo/FGIRFwVNQFzZjO5glmsYwNmBeo1mjmQ72NuxB9kKwGfa3rpHMy+ys
-	tvsg==
-X-Gm-Message-State: APjAAAVyXZK6FXqWqTDKnBP2fjeDsNRDkDcdFm0p+7Jotd72y3V7oLlH
-	40NeYQdSVNWeXyvr8HY400RiOa5iNwugRk5neNNmH6aq
-X-Google-Smtp-Source: APXvYqw1SopRl0Z0xJrJymwfmb4FaDmXwlkq2SVaElLyiVNIyJ+PeeBoiEAXrQtG0u+c6+nKzvOv3bzFPlimlElfb8Y=
-X-Received: by 2002:a19:c80b:: with SMTP id y11mr17990266lff.184.1568050578106;
-	Mon, 09 Sep 2019 10:36:18 -0700 (PDT)
+	bh=vGvqqZYu55XhcnC+v0chJJUFMY+OJ+Ufap68nGvzHtc=;
+	b=c9ejqOebOMG8a+OdKZA03YdCFQvjs2StxEY6j8/XP3t8hqb+7sVnXlSY/IGrwUEsWO
+	i9W7FPBpBApe60sYE3r/Ti8sTVsDl2V27lhGRBxvoHDcBPcO1Y8LPVXu3Cd59mwNQbd+
+	x9slmq8xnqgCMkDZ1tOqDrf3gYMcDrJD60EN4XVZHHwvAp7WapUmmsBzou7USdpTedY8
+	idY089/yiZg0LF+HHHIiQ9S0kubzl8WqZik4fQyx72jjhEMDNPPYTJAtnuYuK7qMPY+x
+	MZX1+4D9CutJdJuczezllmOrLHu1/P1rouaYk+KTiCZe8ArjDCw54F00xPCvCoO0nLHa
+	5zvA==
+X-Gm-Message-State: APjAAAVEmbXjWemGC1N9Jrn/QqOLityydJQNOkYX4PJOJKqpphuaz41C
+	KbO2AcWzGuKtJKnixHefdEDf3ZoD5irfGZFPZU/oTQE3
+X-Google-Smtp-Source: APXvYqye1BsKwkcQjgteMikpmORj+eFobPZ81DeSeUNjxl2Oc1UtB1D3Tcev1+rt3+VAMbrcLqGqU6qav7d5B2rjC3k=
+X-Received: by 2002:a19:428f:: with SMTP id
+	p137mr17606635lfa.149.1568050589603; 
+	Mon, 09 Sep 2019 10:36:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <1568011154-291249-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1568011154-291249-1-git-send-email-changqing.li@windriver.com>
+References: <20190909070730.12568-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190909070730.12568-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 9 Sep 2019 13:36:07 -0400
-Message-ID: <CADkTA4MgXLgrQt=KL-h16xJr--hWCMOoyVJf3iNBCWEVgwz9bg@mail.gmail.com>
-To: changqing.li@windriver.com
+Date: Mon, 9 Sep 2019 13:36:18 -0400
+Message-ID: <CADkTA4PUX24xHQ618eiyNMcMYLT-6Wc8NUGwx7CmzwGkM6Cj5Q@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [meta-openstack][PATCH 1/2] layer.conf: remove preferred version for python-futures
+Subject: Re: [PATCH] python-testtools: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,39 +74,95 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 17:36:26 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 17:36:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Sep 9, 2019 at 2:39 AM <changqing.li@windriver.com> wrote:
+On Mon, Sep 9, 2019 at 3:09 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> From: Changqing Li <changqing.li@windriver.com>
->
-> preferred version 3.0.3 is not aligned with current version
-> under meta-openstack 3.3.0
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/conf/layer.conf | 1 -
->  1 file changed, 1 deletion(-)
+>  .../recipes-devtools/python/python-testtools.inc   | 23 ++++++++++++++++++++
+>  .../python/python-testtools_2.3.0.bb               | 25 ++--------------------
+>  .../python/python3-testtools_2.3.0.bb              |  2 ++
+>  3 files changed, 27 insertions(+), 23 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-testtools.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-testtools_2.3.0.bb
 >
-> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
-> index d8a4db8..903b408 100644
-> --- a/meta-openstack/conf/layer.conf
-> +++ b/meta-openstack/conf/layer.conf
-> @@ -25,7 +25,6 @@ LAYERDEPENDS_openstack-layer = " \
->  PREFERRED_VERSION_python-greenlet = "0.4.5"
->  PREFERRED_VERSION_python-sqlalchemy = "1.0.8"
->  PREFERRED_VERSION_python-pexpect = "3.3"
-> -PREFERRED_VERSION_python-futures = "3.0.3%"
->  PREFERRED_VERSION_python-django = "1.8.6"
->  PREFERRED_VERSION_python-netaddr = "0.7.19"
->  PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
+> diff --git a/meta-openstack/recipes-devtools/python/python-testtools.inc b/meta-openstack/recipes-devtools/python/python-testtools.inc
+> new file mode 100644
+> index 0000000..7cc63f4
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python-testtools.inc
+> @@ -0,0 +1,23 @@
+> +DESCRIPTION = "Extensions to the Python standard library unit testing framework"
+> +HOMEPAGE = "https://pypi.python.org/pypi/testtools/"
+> +SECTION = "devel/python"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=e2c9d3e8ba7141c83bfef190e0b9379a"
+> +
+> +SRC_URI[md5sum] = "0f0feb915497816cb99e39437494217e"
+> +SRC_URI[sha256sum] = "5827ec6cf8233e0f29f51025addd713ca010061204fdea77484a2934690a0559"
+> +
+> +inherit pypi
+> +DEPENDS += " \
+> +    ${PYTHON_PN}-pbr \
+> +    "
+> +
+> +# Satisfy setup.py 'setup_requires'
+> +DEPENDS += " \
+> +    ${PYTHON_PN}-pbr-native \
+> +    "
+> +
+> +RDEPENDS_${PN} += "\
+> +    ${PYTHON_PN}-extras \
+> +    ${PYTHON_PN}-pbr \
+> +    "
+> diff --git a/meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb b/meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb
+> index bbf1d01..56ff9de 100644
+> --- a/meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-testtools_2.3.0.bb
+> @@ -1,23 +1,2 @@
+> -DESCRIPTION = "Extensions to the Python standard library unit testing framework"
+> -HOMEPAGE = "https://pypi.python.org/pypi/testtools/"
+> -SECTION = "devel/python"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=e2c9d3e8ba7141c83bfef190e0b9379a"
+> -
+> -SRC_URI[md5sum] = "0f0feb915497816cb99e39437494217e"
+> -SRC_URI[sha256sum] = "5827ec6cf8233e0f29f51025addd713ca010061204fdea77484a2934690a0559"
+> -
+> -inherit setuptools pypi
+> -DEPENDS += " \
+> -    python-pbr \
+> -    "
+> -
+> -# Satisfy setup.py 'setup_requires'
+> -DEPENDS += " \
+> -    python-pbr-native \
+> -    "
+> -
+> -RDEPENDS_${PN} += "\
+> -    python-extras \
+> -    python-pbr \
+> -    "
+> +inherit setuptools
+> +require python-testtools.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-testtools_2.3.0.bb b/meta-openstack/recipes-devtools/python/python3-testtools_2.3.0.bb
+> new file mode 100644
+> index 0000000..896ecee
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-testtools_2.3.0.bb
+> @@ -0,0 +1,2 @@
+> +inherit setuptools3
+> +require python-testtools.inc
 > --
 > 2.7.4
+>
+>
 >
 > --
 > _______________________________________________
