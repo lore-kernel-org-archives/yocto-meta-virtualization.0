@@ -1,6 +1,6 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5A066E0097C; Mon,  9 Sep 2019 02:43:01 -0700 (PDT)
+	id 43409E00AB6; Mon,  9 Sep 2019 03:00:17 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -10,28 +10,32 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
 	*      medium trust
-	*      [192.103.53.11 listed in list.dnswl.org]
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E0A65E008F2
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A1D3CE0097C
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Sep 2019 02:43:00 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x899gNUN032047
+	Mon,  9 Sep 2019 03:00:16 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x89A09aC018866
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 9 Sep 2019 02:42:33 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 9 Sep 2019 02:42:12 -0700
-From: <zhe.he@windriver.com>
-To: <meta-virtualization@yoctoproject.org>, <bruce.ashfield@gmail.com>
-Date: Mon, 9 Sep 2019 17:42:10 +0800
-Message-ID: <1568022130-15624-2-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1568022130-15624-1-git-send-email-zhe.he@windriver.com>
-References: <1568022130-15624-1-git-send-email-zhe.he@windriver.com>
+	Mon, 9 Sep 2019 03:00:09 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Mon, 9 Sep 2019 03:00:06 -0700
+To: Stefan Agner <stefan@agner.ch>
+References: <20190807011444.31930-1-Qi.Chen@windriver.com>
+	<20190807011444.31930-2-Qi.Chen@windriver.com>
+	<def0f1ad189d9ba70c01cac4043b4265@agner.ch>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <9c1903af-72f6-13a8-b907-71989f119024@windriver.com>
+Date: Mon, 9 Sep 2019 18:14:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [meta-cloud-services] [PATCH 2/2] consul: Not automatically start system service on boot
+In-Reply-To: <def0f1ad189d9ba70c01cac4043b4265@agner.ch>
+X-Originating-IP: [128.224.162.148]
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH V2 2/2] runc: add PACKAGECONFIG to allow building as static or not
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -44,37 +48,200 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 09:43:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 09 Sep 2019 10:00:17 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: He Zhe <zhe.he@windriver.com>
+On 09/09/2019 05:35 PM, Stefan Agner wrote:
+> Hi Chen,
+>
+> On 2019-08-07 03:14, Chen Qi wrote:
+>> Add a new PACKAGECONFIG, static, which when enabled will build
+>> runc as static. Default to enable it.
+>>
+>> We need this because we should allow users to build runc as not
+>> static so that when docker's cgroup driver is set to systemd,
+>> we don't get error.
+> Do you happen to know why we use statically linked runc by default? It
+> seems that distros nowadays use statically linked version of it.
+>
+> To some degree it seems that we overturn a distro decision here
+> (DISABLE_STATIC).
+>
+> --
+> Stefan
+>
 
-The systemd service needs to be tuned according to various use cases and cannot
-be able to always start successfully for example when there is no network
-interface named br0 by default.
+Please refer to 
+https://lists.yoctoproject.org/pipermail/meta-virtualization/2019-August/004338.html
 
-Thus the default configuration is mainly used as an example. Let's not
-automatically start it on boot.
+Best Regards,
+Chen Qi
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- recipes-connectivity/consul/consul_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   ...-GOBUILDFLAGS-for-runc-and-remove-re.patch | 35 +++++++++++++++++++
+>>   ...ld-drop-recvtty-and-use-GOBUILDFLAGS.patch | 22 ------------
+>>   recipes-containers/runc/runc-docker_git.bb    |  2 +-
+>>   .../runc/runc-opencontainers_git.bb           |  1 +
+>>   recipes-containers/runc/runc.inc              | 10 ++++--
+>>   5 files changed, 45 insertions(+), 25 deletions(-)
+>>   create mode 100644
+>> recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>>   delete mode 100644
+>> recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>>
+>> diff --git
+>> a/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> new file mode 100644
+>> index 0000000..94cbb4c
+>> --- /dev/null
+>> +++
+>> b/recipes-containers/runc/files/0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> @@ -0,0 +1,35 @@
+>> +From d2c47a973f354ffd505bb4e809c59e57b543726d Mon Sep 17 00:00:00 2001
+>> +From: Chen Qi <Qi.Chen@windriver.com>
+>> +Date: Tue, 6 Aug 2019 19:01:45 +0800
+>> +Subject: [PATCH] Makefile: respect GOBUILDFLAGS for runc and remove recvtty
+>> + from static
+>> +
+>> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> +---
+>> + Makefile | 3 +--
+>> + 1 file changed, 1 insertion(+), 2 deletions(-)
+>> +
+>> +diff --git a/Makefile b/Makefile
+>> +index 0f26a1c8..a0c6b40b 100644
+>> +--- a/src/import/Makefile
+>> ++++ b/src/import/Makefile
+>> +@@ -30,7 +30,7 @@ SHELL := $(shell command -v bash 2>/dev/null)
+>> + .DEFAULT: runc
+>> +
+>> + runc: $(SOURCES)
+>> +-	$(GO) build -buildmode=pie $(EXTRA_FLAGS) -ldflags "-X
+>> main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)"
+>> -tags "$(BUILDTAGS)" -o runc .
+>> ++	$(GO) build $(GOBUILDFLAGS) $(EXTRA_FLAGS) -ldflags "-X
+>> main.gitCommit=${COMMIT} -X main.version=${VERSION} $(EXTRA_LDFLAGS)"
+>> -tags "$(BUILDTAGS)" -o runc .
+>> +
+>> + all: runc recvtty
+>> +
+>> +@@ -41,7 +41,6 @@ contrib/cmd/recvtty/recvtty: $(SOURCES)
+>> +
+>> + static: $(SOURCES)
+>> + 	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> $(EXTRA_LDFLAGS)" -o runc .
+>> +-	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
+>> +
+>> + release:
+>> + 	script/release.sh -r release/$(VERSION) -v $(VERSION)
+>> +--
+>> +2.17.1
+>> +
+>> diff --git
+>> a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> b/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> deleted file mode 100644
+>> index 9ba9957..0000000
+>> ---
+>> a/recipes-containers/runc/runc-docker/0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch
+>> +++ /dev/null
+>> @@ -1,22 +0,0 @@
+>> -From a9a2b9e72027d0b2357f6dfe8b154762aaa8dd02 Mon Sep 17 00:00:00 2001
+>> -From: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> -Date: Thu, 19 Apr 2018 16:39:41 -0400
+>> -Subject: [PATCH] build: drop recvtty and use GOBUILDFLAGS
+>> -
+>> -Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+>> ----
+>> - Makefile | 3 +--
+>> - 1 file changed, 1 insertion(+), 2 deletions(-)
+>> -
+>> -Index: git/src/import/Makefile
+>> -===================================================================
+>> ---- git.orig/src/import/Makefile
+>> -+++ git/src/import/Makefile
+>> -@@ -41,7 +41,6 @@
+>> -
+>> - static: $(SOURCES)
+>> - 	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> $(EXTRA_LDFLAGS)" -o runc .
+>> --	CGO_ENABLED=1 $(GO) build $(EXTRA_FLAGS) -tags "$(BUILDTAGS) netgo
+>> osusergo static_build" -installsuffix netgo -ldflags "-w -extldflags
+>> -static -X main.gitCommit=${COMMIT} -X main.version=${VERSION}
+>> $(EXTRA_LDFLAGS)" -o contrib/cmd/recvtty/recvtty ./contrib/cmd/recvtty
+>> -
+>> - release:
+>> - 	script/release.sh -r release/$(VERSION) -v $(VERSION)
+>> diff --git a/recipes-containers/runc/runc-docker_git.bb
+>> b/recipes-containers/runc/runc-docker_git.bb
+>> index 2bf6222..c9f460b 100644
+>> --- a/recipes-containers/runc/runc-docker_git.bb
+>> +++ b/recipes-containers/runc/runc-docker_git.bb
+>> @@ -5,7 +5,7 @@ include runc.inc
+>>   SRCREV_runc-docker = "425e105d5a03fabd737a126ad93d62a9eeede87f"
+>>   SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
+>>              file://0001-runc-Add-console-socket-dev-null.patch \
+>> -           file://0001-build-drop-recvtty-and-use-GOBUILDFLAGS.patch \
+>> +
+>> file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch
+>> \
+>>              file://0001-runc-docker-SIGUSR1-daemonize.patch \
+>>             "
+>>   
+>> diff --git a/recipes-containers/runc/runc-opencontainers_git.bb
+>> b/recipes-containers/runc/runc-opencontainers_git.bb
+>> index 76ab794..361bc94 100644
+>> --- a/recipes-containers/runc/runc-opencontainers_git.bb
+>> +++ b/recipes-containers/runc/runc-opencontainers_git.bb
+>> @@ -3,5 +3,6 @@ include runc.inc
+>>   SRCREV = "652297c7c7e6c94e8d064ad5916c32891a6fd388"
+>>   SRC_URI = " \
+>>       git://github.com/opencontainers/runc;branch=master \
+>> +    file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+>>       "
+>>   RUNC_VERSION = "1.0.0-rc8"
+>> diff --git a/recipes-containers/runc/runc.inc b/recipes-containers/runc/runc.inc
+>> index 46fd09d..41ea41b 100644
+>> --- a/recipes-containers/runc/runc.inc
+>> +++ b/recipes-containers/runc/runc.inc
+>> @@ -14,8 +14,10 @@ inherit go
+>>   inherit goarch
+>>   inherit pkgconfig
+>>   
+>> -PACKAGECONFIG ??= ""
+>> +PACKAGECONFIG ??= "static"
+>>   PACKAGECONFIG[seccomp] = "seccomp,,libseccomp"
+>> +# This PACKAGECONFIG serves the purpose of whether building runc as
+>> static or not
+>> +PACKAGECONFIG[static] = ""
+>>   
+>>   PROVIDES += "virtual/runc"
+>>   RPROVIDES_${PN} = "virtual/runc"
+>> @@ -54,7 +56,11 @@ do_compile() {
+>>   	export CFLAGS=""
+>>   	export LDFLAGS=""
+>>   
+>> -	oe_runmake static
+>> +	if ${@bb.utils.contains('PACKAGECONFIG', 'static', 'true', 'false', d)}; then
+>> +		oe_runmake static
+>> +	else
+>> +		oe_runmake runc
+>> +	fi
+>>   }
+>>   
+>>   do_install() {
+>> -- 
+>> 2.17.1
 
-diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
-index f3e64e9..566fbc9 100644
---- a/recipes-connectivity/consul/consul_git.bb
-+++ b/recipes-connectivity/consul/consul_git.bb
-@@ -25,7 +25,7 @@ inherit systemd go
- COMPATIBLE_HOST_mipsarch = "null"
- 
- SYSTEMD_SERVICE_${PN} = "consul.service"
--SYSTEMD_AUTO_ENABLE_${PN} = "enable"
-+SYSTEMD_AUTO_ENABLE_${PN} = "disable"
- 
- do_install_append() {
-     install -d ${D}/${systemd_unitdir}/system
--- 
-2.7.4
 
 
