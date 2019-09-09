@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6C275E00DD9; Mon,  9 Sep 2019 10:36:42 -0700 (PDT)
+	id ABBF0E00D33; Mon,  9 Sep 2019 10:36:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,54 +13,54 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.41 listed in list.dnswl.org]
+	*      [209.85.208.193 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
-	[209.85.167.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CD193E00DE6
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EABB6E00D4E
 	for <meta-virtualization@yoctoproject.org>;
-	Mon,  9 Sep 2019 10:36:39 -0700 (PDT)
-Received: by mail-lf1-f41.google.com with SMTP id t8so11154485lfc.13
+	Mon,  9 Sep 2019 10:36:47 -0700 (PDT)
+Received: by mail-lj1-f193.google.com with SMTP id l20so13616812ljj.3
 	for <meta-virtualization@yoctoproject.org>;
-	Mon, 09 Sep 2019 10:36:39 -0700 (PDT)
+	Mon, 09 Sep 2019 10:36:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3InobB3O4sLJ/FUxBKDk9LBdbAPNMxj1ftF78OZXfrA=;
-	b=lwAvrAEvet5EEpmFWAvZ9d5+S22zowba7duEXe2nvL2rgFB8C+B99nT8W4qbravIEo
-	iIzEeFnjFcwTu/0NSfcBRhJz47Pgpndi04fmPF1+Uh1dWdgosaxULoe1DQVrn8J5KAj4
-	/vITBpB8CEH7Oil3hMRn36wq0UdDDn25gVIT0Me8Us2T9AxhuB4jfJ9G/A4H1w7KX82V
-	rgehtzZyIXn3ByeNq19U8ZZ70j4aI3GBzyiq0vGMz1lCNIVzZ671h5B+6fiiaX5ZUK7K
-	5dy04vY6dHN7Ayj1aKxba5qqZH6DutykeiFQ9S6QAoDdmCzZZRkgG3U31DukWDjUKWra
-	S4aQ==
+	:cc; bh=vVMlW7Yw6uETM8gRf4QYSnb08nyuGPuWQUQDaU/Xsmg=;
+	b=aqmdPwkSYTwMO/Yg551tjTjAjjClmgjdoCbBSBx63pjwDFbBpZckVXy1XkxSdT6pNY
+	BoUbvGJByzbzcpPc6SbHBUCPni9mGBSbeLsmDQMTGXq0zg1bOyc/PRLkpXe0p+WtY13g
+	XgRXaMGphWoDiSPCXbozduUAEG39UyU/G4vXKCJiFZMh7TjbMgLsgFwMLf31iXMHq6z8
+	8fnpMiZeHL1mzuhZaurhbmk5NZvXlJK3oCWkhKATsuiHsnNwr/HZ5kg8EfaVdkypb78j
+	wTVxfbZU+mWI/LibTDDF1VtBZmaVydwwO3p0CntdmYTqH0Ek/EaeTUo1/cPpJDVHutnw
+	9Cyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3InobB3O4sLJ/FUxBKDk9LBdbAPNMxj1ftF78OZXfrA=;
-	b=XvtQSD9vwPmR5Tyw1L/08J6EPFgj2wy+84owe6SSCHMBf/ctuxuKs4mNabPmynyzoV
-	o4HOfjP9kFQ9ePwNQn5tw+/dJ0/mRdFSWgJ7LAno2ZFIFuV5fszJGJt5HcrJp13d5mZI
-	IFjB9rIHWKUYGT2SLdcC2fpLPuycQj4RB3J3Z073yJW4rMx6HWaELsLkgDYlhMuPbU4T
-	vR7tlsgHe3d7xpVzXsbwjJB9iTu0R7tdz99DXs36jZCjGhAIqkikNTccqlZAmKEQ8Qd0
-	1eoBQsiTOqZS5s2Hs4UMlOcwwk0b/1MlM8NY8NoarTv76EadkttMZT6LoLvsoC5O1J+n
-	ag9w==
-X-Gm-Message-State: APjAAAWl9R9l+DWIZLr5bKSV9il5o/5fvqC5k0EZgTTzkaUVtvx79uB2
-	3yHzU+N/MbB2zNxzXnTq7LzuzDN9hmawiNfK1z0=
-X-Google-Smtp-Source: APXvYqw5EiSmzdt8yxi9RfLiHk7vRcRUI8Lun+FwQN1EeBQ1OaL/s/g0Z41Cq6IjGw0yvVJj9jxOoi2jVwOuA7fMQGg=
-X-Received: by 2002:a19:711e:: with SMTP id m30mr17707997lfc.63.1568050598528; 
-	Mon, 09 Sep 2019 10:36:38 -0700 (PDT)
+	bh=vVMlW7Yw6uETM8gRf4QYSnb08nyuGPuWQUQDaU/Xsmg=;
+	b=FXYbyTlOG4RML0aSsAWqM+9dBWXK4oqYZbuWuMGwCfUzbPbIzurRlBWgoCLdL3MahS
+	LLgbUzjuehcGdks1cVcelTEO/LIdWqR83o8zsBpRPxagfjH9/0J7/QJTn9gz6grDu+TH
+	nH9PUBmwX2ROwX4sTiyVCiHgZkS4GMApUmAqtSER3XzcnRyhmrAfqRTt2YZGp/IPRCm9
+	OZHEEceVxqk3oa6/46XNIeTObU7GNDQ8Eu2hqW0WhxqaGEV5YQuwt9+OOqbm9qQbnOPP
+	XCMgnBUZdJbMJ90/dPfNPgjIYFksH10OXGwlutC0pdPrq8B7SKt4h0GQEgPp+R+Psv9n
+	Fy8g==
+X-Gm-Message-State: APjAAAUlbVOCdBiwRv2WSxi2dykRsnex+qW2PAiVXsA8yMOmyCcD+LwV
+	E+cJjvFuIphks9LJveYa45mbmIYKsQI9wNw0ERvpGk+F
+X-Google-Smtp-Source: APXvYqxNhbjDesok7825N3t/omX+Ix++4ND13ZuzH4lw9VeL8uZdSoi/OSlhhE/GPmWo7nPGCUxKF6VmdCDAE643gKo=
+X-Received: by 2002:a2e:b0e2:: with SMTP id h2mr16465507ljl.79.1568050606094; 
+	Mon, 09 Sep 2019 10:36:46 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190909074316.14023-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190909074316.14023-1-zangrc.fnst@cn.fujitsu.com>
+References: <1568022130-15624-1-git-send-email-zhe.he@windriver.com>
+In-Reply-To: <1568022130-15624-1-git-send-email-zhe.he@windriver.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 9 Sep 2019 13:36:27 -0400
-Message-ID: <CADkTA4M=u-fXEXo4fZLwsRXzCPhqYzrX3xHv-gG28dV+x6g-8Q@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Mon, 9 Sep 2019 13:36:35 -0400
+Message-ID: <CADkTA4NUMcACHA6dibBRDx5ncn+UftPcRdv+gWZbnv80KszTJw@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-statsd: Add python3 version
+Subject: Re: [meta-cloud-services] [PATCH 1/2] consul: Upgrade to 1.6.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,83 +73,40 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Sep 2019 17:36:42 -0000
+X-List-Received-Date: Mon, 09 Sep 2019 17:36:56 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Mon, Sep 9, 2019 at 3:44 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Mon, Sep 9, 2019 at 5:42 AM <zhe.he@windriver.com> wrote:
 >
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> From: He Zhe <zhe.he@windriver.com>
+>
+> 1.6.0 is the latest release.
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-statsd.inc  | 13 +++++++++++++
->  .../recipes-devtools/python/python-statsd_3.3.0.bb        | 15 +--------------
->  .../recipes-devtools/python/python3-statsd_3.3.0.bb       |  2 ++
->  3 files changed, 16 insertions(+), 14 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-statsd.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb
+>  recipes-connectivity/consul/consul_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-statsd.inc b/meta-openstack/recipes-devtools/python/python-statsd.inc
-> new file mode 100644
-> index 0000000..33257b9
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-statsd.inc
-> @@ -0,0 +1,13 @@
-> +DESCRIPTION = "A simple statsd client."
-> +HOMEPAGE = "https://github.com/jsocol/pystatsd"
-> +SECTION = "devel/python"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=4d8aa8ac1dc54b8aee4054bd5e5c61bd"
-> +
-> +inherit pypi
-> +
-> +SRC_URI[md5sum] = "b397ccf880f37cf099e775907ebf7a46"
-> +SRC_URI[sha256sum] = "e3e6db4c246f7c59003e51c9720a51a7f39a396541cb9b147ff4b14d15b5dd1f"
-> +
-> +RDEPENDS_${PN} += " \
-> +        "
-> diff --git a/meta-openstack/recipes-devtools/python/python-statsd_3.3.0.bb b/meta-openstack/recipes-devtools/python/python-statsd_3.3.0.bb
-> index 7400129..51b179b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-statsd_3.3.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-statsd_3.3.0.bb
-> @@ -1,15 +1,2 @@
-> -DESCRIPTION = "A simple statsd client."
-> -HOMEPAGE = "https://github.com/jsocol/pystatsd"
-> -SECTION = "devel/python"
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=4d8aa8ac1dc54b8aee4054bd5e5c61bd"
-> -
-> -inherit pypi
-> -
-> -SRC_URI[md5sum] = "b397ccf880f37cf099e775907ebf7a46"
-> -SRC_URI[sha256sum] = "e3e6db4c246f7c59003e51c9720a51a7f39a396541cb9b147ff4b14d15b5dd1f"
-> -
->  inherit setuptools
-> -
-> -RDEPENDS_${PN} += " \
-> -        "
-> +require python-statsd.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb b/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb
-> new file mode 100644
-> index 0000000..51b179b
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb
-> @@ -0,0 +1,2 @@
-> +inherit setuptools3
-> +require python-statsd.inc
+> diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
+> index ab78cbd..f3e64e9 100644
+> --- a/recipes-connectivity/consul/consul_git.bb
+> +++ b/recipes-connectivity/consul/consul_git.bb
+> @@ -4,7 +4,7 @@ LICENSE = "MPL-2.0 & BSD & Apache-2.0 & BSD-2-Clause & MIT"
+>  LIC_FILES_CHKSUM = "file://src/github.com/hashicorp/consul/LICENSE;md5=b278a92d2c1509760384428817710378"
+>
+>  GO_IMPORT = "github.com/hashicorp/consul"
+> -SRCREV = "567e41ff6b096a478333c804d5c18264050bc3f8"
+> +SRCREV = "944cc71026c007e7de9467ec3f38f0ad14464fcc"
+>  SRC_URI = "git://${GO_IMPORT}.git \
+>             file://consul.service \
+>            "
 > --
 > 2.7.4
 >
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
 
 
 -- 
