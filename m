@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8483AE009D4; Sat, 14 Sep 2019 20:52:37 -0700 (PDT)
+	id 9F532E009D4; Sat, 14 Sep 2019 20:52:52 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -11,64 +11,64 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000] *  1.7 FSL_HELO_FAKE FSL_HELO_FAKE
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [209.85.166.47 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.166.42 listed in list.dnswl.org]
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
-	[209.85.166.42])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 499DBE007C2
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+	[209.85.166.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 01E37E00C11
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2019 20:52:35 -0700 (PDT)
-Received: by mail-io1-f42.google.com with SMTP id a1so13131888ioc.6
+	Sat, 14 Sep 2019 20:52:51 -0700 (PDT)
+Received: by mail-io1-f47.google.com with SMTP id f4so70550493ion.2
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2019 20:52:35 -0700 (PDT)
+	Sat, 14 Sep 2019 20:52:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=/x1tEPZ4tO5BmYf4/wi5RqPqEq1stbRC/M4jqHTDADA=;
-	b=PwOpG1dLN+LWQyTCm/MwbHGsfjFlqkfqXxs+J9BF1s1nsEvrqbmvQrKIF4HFlPr5/W
-	utOM8wWYDbQ4adwt4DydfLNGl1NT56TANUpMVGXpIqqH7OgCazQm+SUW5XC+tCkYWcgw
-	FJ/IcQXyiazgyE8JXdTndESkjOkZ/XtINtjxhWBVeOK4OnyTav/SNajYB1N3A9kWkMG4
-	ZVcsX8ZX0QMk2Wd29JOHr3pux6Eaeg2zMEcYSvsSxgR3d76hpcsm8PRBc02EU5frQeXK
-	TrXU1krfaLosMm2yyhGPSz9OnDVps0CY02TvicUJRc/HJf9X8S7ShoVl7h7CoFvWZJWT
-	Mc+Q==
+	bh=vQh2xe+ukejQDzL1YCiDAqRfSo8vRf9ORZNJZxqb4Oo=;
+	b=ttuJjM+OYPmoTJIc/wfr+6b12j2VCYLgJ+ij1FX9SDNav9HEdiJYv0gpXnL1DSpKg0
+	WJqOYPgI71YP7a2Ra6fOzXRZF2c6KT9QYMVAiAyDmaadgRlbZRK12IqxbOvcbly46pcZ
+	9FS8RFKooKP2lIVyr0n9tHpn8eE1MFLTM5xjoYIcc7SgZKxB0XVHDXlZoZam4PKqmu5g
+	dqs81N81yHuLWSjMXXH/FHiRAb/EFis+Miazu9JYqWcPVUWLtHMFqOAR9mQZ1agZgwF0
+	ojNWcRhSzr8/NFd+yyYLkCIy5sPxDDoyVRSxXAAgtgqwOzleGvW3AGiVIy0ZFk/myLcy
+	Fyyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=/x1tEPZ4tO5BmYf4/wi5RqPqEq1stbRC/M4jqHTDADA=;
-	b=coeQccI8NalZ3R2+tweOdEW0pVIxjLbAUCrSDgRo96XFNiveN7gChsv+j3K3XpuT90
-	neGalxXjsPcfgqkYqDTAqaEkXvzn/LFZJRgYVKQLG9yDolswBS3MHWYGsL9aSVoURxex
-	wmYFPV/NoTWVaMdXDy/M0mJLie+RU8I72E5RKwqBW8QSPGdJdUxLq3uatxYG6x3RIZWb
-	B4aD71euP6EzNZKDz7l48OYR91EgG+ETo/ghlXogM44fqtElqqNbgGAtCFSh8sW3M3mB
-	Bzc/fQwgstt/o3pRZRNPCOp90N4avaW7QBVBx9NLycny1xFmJAnfJgBPK3YhQYRKkLX4
-	j2Uw==
-X-Gm-Message-State: APjAAAXp1sqlhThK4bFi6D7DhkgUuUvC1Ns5hh1E81mjucVtOa3jt4IB
-	/tcVn8ge0jYdzZahYoqEyec=
-X-Google-Smtp-Source: APXvYqzhQQnK/AO/oLSZzv0Fp140/SPxkfarP0deAPu7HOJJZCdmBcMIY5ma5dt5E1TRKNU/Uzfw4w==
-X-Received: by 2002:a02:6616:: with SMTP id k22mr11296709jac.129.1568519554223;
-	Sat, 14 Sep 2019 20:52:34 -0700 (PDT)
+	bh=vQh2xe+ukejQDzL1YCiDAqRfSo8vRf9ORZNJZxqb4Oo=;
+	b=WKtxXQJpw5Myho9umdehdN9T9eOFtSIUVJMynweQF9JWKHm6K/5rWP19EsimWt01TV
+	fXwCCiG2M/gcOPKdNhBoEpXVBHWkHXUq5hebpjMrh3ew53p9tlD0KSazhPvCN8Lhrjld
+	3Ez92aKFk1FogwJbF7l+2fO9TNwrltGL7LSjMbs1OC8ONPIme6tH9HMF4Iz3AM7dXjQz
+	aSuqQTwldcbEdCFKzaXJEhazMLyFc5YTjPk5PSKRlewPLiIpsMmI/IdfDIrkTWrtN2NS
+	JpvQ7pMERTa4i3bKjdURVOCsXC5v0x5nCC07uLdejoE6xUX7JDNJdIIxc6P45p5yMAlx
+	crkA==
+X-Gm-Message-State: APjAAAVrkpK5nWtyg0DPWzVV+BSiGjgb4P9Xnz3FeIl5qF3HlUsXOVkc
+	vhmjjTe1ImXSw0VpBvvQvR4XOXyq7sg=
+X-Google-Smtp-Source: APXvYqz4hqe4ZD9kSeKMcn+bagTeH30IV2zbfGEgK9w+gh/DYWsQWgman5ULP6ZBp7NVXeVgxmRQxg==
+X-Received: by 2002:a5d:8350:: with SMTP id q16mr9724098ior.45.1568519571174; 
+	Sat, 14 Sep 2019 20:52:51 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	u24sm19378107iob.12.2019.09.14.20.52.33
+	z8sm27240379ioh.62.2019.09.14.20.52.50
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 14 Sep 2019 20:52:33 -0700 (PDT)
-Date: Sat, 14 Sep 2019 23:52:31 -0400
+	Sat, 14 Sep 2019 20:52:50 -0700 (PDT)
+Date: Sat, 14 Sep 2019 23:52:48 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: "Hongzhi.Song" <hongzhi.song@windriver.com>
-Message-ID: <20190915035228.GA3928@gmail.com>
-References: <20190911032611.77049-1-hongzhi.song@windriver.com>
+To: Yunguo Wei <yunguo.wei@windriver.com>
+Message-ID: <20190915035247.GB3928@gmail.com>
+References: <1568277115-115334-1-git-send-email-yunguo.wei@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20190911032611.77049-1-hongzhi.song@windriver.com>
+In-Reply-To: <1568277115-115334-1-git-send-email-yunguo.wei@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] ceph: fix ceph-crash failed with /var/lib/ceph/crash/posted not found
+Subject: Re: [PATCH] lxc: restore the ability to move nl80211 device
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,7 +81,7 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Sep 2019 03:52:37 -0000
+X-List-Received-Date: Sun, 15 Sep 2019 03:52:52 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
@@ -89,63 +89,141 @@ merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] ceph: fix ceph-crash failed with /var/lib/ceph/crash/posted not found
-on 10/09/2019 Hongzhi.Song wrote:
+In message: [meta-virtualization] [PATCH] lxc: restore the ability to move nl80211 device
+on 12/09/2019 Yunguo Wei wrote:
 
-> root@intelx86-64: journalctl -xe
-> ceph-crash[854]: ERROR:_main_:directory /var/lib/ceph/crash/posted does
-> not exist; please create
+> nl80211 device can't be moved to another namespace due to
+> e389f2afd8509(start: unify and simplify network creation), and lxc
+> community has fixed this issue with:
 > 
-> Create the directory for both of systemd and sysvinit
+> commit 3dd7829433f63b2ec1323a1f237efa7d67ea6e2b lxc upstream
 > 
-> Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+> This patch is grabbing the commit above, and should be abandoned with
+> lxc uprev afterwards.
+> 
+> See more details here: https://github.com/lxc/lxc/issues/3105
+> 
+> Signed-off-by: Yunguo Wei <yunguo.wei@windriver.com>
 > ---
->  recipes-extended/ceph/ceph_14.2.3.bb | 24 ++++++++++++++++++++++++
->  1 file changed, 24 insertions(+)
+>  ...k-restore-ability-to-move-nl80211-devices.patch | 94 ++++++++++++++++++++++
+>  recipes-containers/lxc/lxc_3.2.1.bb                |  1 +
+>  2 files changed, 95 insertions(+)
+>  create mode 100644 recipes-containers/lxc/files/network-restore-ability-to-move-nl80211-devices.patch
 > 
-> diff --git a/recipes-extended/ceph/ceph_14.2.3.bb b/recipes-extended/ceph/ceph_14.2.3.bb
-> index 722efe3..25a8ea2 100644
-> --- a/recipes-extended/ceph/ceph_14.2.3.bb
-> +++ b/recipes-extended/ceph/ceph_14.2.3.bb
-> @@ -81,12 +81,36 @@ do_install_append () {
->  	rm ${D}${systemd_unitdir}/system/ceph-fuse.target ${D}${systemd_unitdir}/system/ceph-fuse@.service
->  }
->  
-> +do_install_append_class-target () {
-> +	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-> +		install -d ${D}${sysconfdir}/tmpfiles.d
-> +		echo "d /var/lib/ceph/crash/posted 0755 root root - -" > ${D}${sysconfdir}/tmpfiles.d/ceph-placeholder.conf
-> +	fi
+> diff --git a/recipes-containers/lxc/files/network-restore-ability-to-move-nl80211-devices.patch b/recipes-containers/lxc/files/network-restore-ability-to-move-nl80211-devices.patch
+> new file mode 100644
+> index 0000000..aa1aecd
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/network-restore-ability-to-move-nl80211-devices.patch
+> @@ -0,0 +1,94 @@
+> +From 3dd7829433f63b2ec1323a1f237efa7d67ea6e2b Mon Sep 17 00:00:00 2001
+> +From: Christian Brauner <christian.brauner@ubuntu.com>
+> +Date: Fri, 26 Jul 2019 08:20:02 +0200
+> +Subject: [PATCH] network: restore ability to move nl80211 devices
 > +
-> +	if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
-> +		install -d ${D}${sysconfdir}/default/volatiles
-> +		echo "d root root 0755 /var/lib/ceph/crash/posted none" > ${D}${sysconfdir}/default/volatiles/99_ceph-placeholder
-> +	fi
-> +}
+> +Closes #3105.
+> +Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> +---
+> + src/lxc/network.c | 31 +++++++++++++++++--------------
+> + 1 file changed, 17 insertions(+), 14 deletions(-)
 > +
-> +pkg_postinst_${PN}() {
-> +	if [ -z "$D" ] && [ -e ${sysconfdir}/init.d/populate-volatile.sh ] ; then
-> +		${sysconfdir}/init.d/populate-volatile.sh update
-> +	fi
-> +}
+> +diff --git a/src/lxc/network.c b/src/lxc/network.c
+> +index 9755116..7684f95 100644
+> +--- a/src/lxc/network.c
+> ++++ b/src/lxc/network.c
+> +@@ -1248,22 +1248,21 @@ static int lxc_netdev_rename_by_name_in_netns(pid_t pid, const char *old,
+> + static int lxc_netdev_move_wlan(char *physname, const char *ifname, pid_t pid,
+> + 				const char *newname)
+> + {
+> +-	char *cmd;
+> ++	__do_free char *cmd = NULL;
+> + 	pid_t fpid;
+> +-	int err = -1;
+> + 
+> + 	/* Move phyN into the container.  TODO - do this using netlink.
+> + 	 * However, IIUC this involves a bit more complicated work to talk to
+> + 	 * the 80211 module, so for now just call out to iw.
+> + 	 */
+> + 	cmd = on_path("iw", NULL);
+> +-	if (!cmd)
+> +-		goto out1;
+> +-	free(cmd);
+> ++	if (!cmd) {
+> ++		return -1;
+> ++	}
+> + 
+> + 	fpid = fork();
+> + 	if (fpid < 0)
+> +-		goto out1;
+> ++		return -1;
+> + 
+> + 	if (fpid == 0) {
+> + 		char pidstr[30];
+> +@@ -1274,21 +1273,18 @@ static int lxc_netdev_move_wlan(char *physname, const char *ifname, pid_t pid,
+> + 	}
+> + 
+> + 	if (wait_for_pid(fpid))
+> +-		goto out1;
+> ++		return -1;
+> + 
+> +-	err = 0;
+> + 	if (newname)
+> +-		err = lxc_netdev_rename_by_name_in_netns(pid, ifname, newname);
+> ++		return lxc_netdev_rename_by_name_in_netns(pid, ifname, newname);
+> + 
+> +-out1:
+> +-	free(physname);
+> +-	return err;
+> ++	return 0;
+> + }
+> + 
+> + int lxc_netdev_move_by_name(const char *ifname, pid_t pid, const char* newname)
+> + {
+> ++	__do_free char *physname = NULL;
+> + 	int index;
+> +-	char *physname;
+> + 
+> + 	if (!ifname)
+> + 		return -EINVAL;
+> +@@ -3279,13 +3275,20 @@ int lxc_network_move_created_netdev_priv(struct lxc_handler *handler)
+> + 		return 0;
+> + 
+> + 	lxc_list_for_each(iterator, network) {
+> ++		__do_free char *physname = NULL;
+> + 		int ret;
+> + 		struct lxc_netdev *netdev = iterator->elem;
+> + 
+> + 		if (!netdev->ifindex)
+> + 			continue;
+> + 
+> +-		ret = lxc_netdev_move_by_index(netdev->ifindex, pid, NULL);
+> ++		if (netdev->type == LXC_NET_PHYS)
+> ++			physname = is_wlan(netdev->link);
+> ++
+> ++		if (physname)
+> ++			ret = lxc_netdev_move_wlan(physname, netdev->link, pid, NULL);
+> ++		else
+> ++			ret = lxc_netdev_move_by_index(netdev->ifindex, pid, NULL);
+> + 		if (ret) {
+> + 			errno = -ret;
+> + 			SYSERROR("Failed to move network device \"%s\" with ifindex %d to network namespace %d",
+> +-- 
+> +2.7.4
 > +
->  FILES_${PN} += "\
->  		${libdir}/rados-classes/*.so.* \
->  		${libdir}/ceph/compressor/*.so \
->  		${libdir}/rados-classes/*.so \
->  		${libdir}/ceph/*.so \
->  "
-> +
-> +FILES_${PN} += " \
-> +    /etc/tmpfiles.d/ceph-placeholder.conf \
-> +    /etc/default/volatiles/99_ceph-placeholder \
-> +"
-> +
->  FILES_${PN}-python = "\
->                  ${PYTHON_SITEPACKAGES_DIR}/* \
->  "
+> diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
+> index 585ab8f..4b8f10b 100644
+> --- a/recipes-containers/lxc/lxc_3.2.1.bb
+> +++ b/recipes-containers/lxc/lxc_3.2.1.bb
+> @@ -43,6 +43,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>  	file://template-make-busybox-template-compatible-with-core-.patch \
+>  	file://tests-our-init-is-not-busybox.patch \
+>  	file://tests-add-no-validate-when-using-download-template.patch \
+> +	file://network-restore-ability-to-move-nl80211-devices.patch \
+>  	file://dnsmasq.conf \
+>  	file://lxc-net \
+>  	"
 > -- 
-> 2.23.0
+> 2.7.4
 > 
 > -- 
 > _______________________________________________
