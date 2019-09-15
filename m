@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1BB51E00BF6; Sat, 14 Sep 2019 20:53:04 -0700 (PDT)
+	id 9FC57E00B1B; Sat, 14 Sep 2019 21:04:19 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,62 +13,62 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.166.46 listed in list.dnswl.org]
+	*      [209.85.166.44 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com
-	[209.85.166.46])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id AA322E0043B
+Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
+	[209.85.166.44])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 326A1E007C2
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2019 20:53:03 -0700 (PDT)
-Received: by mail-io1-f46.google.com with SMTP id r8so46292752iol.10
+	Sat, 14 Sep 2019 21:04:18 -0700 (PDT)
+Received: by mail-io1-f44.google.com with SMTP id j4so71279819iog.11
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2019 20:53:03 -0700 (PDT)
+	Sat, 14 Sep 2019 21:04:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=V+VrfwznJqT3LtyQuYR0ZcMVUdNW+idQ5bVIa2LLiB0=;
-	b=MZf026St/5hDUHHkjydwmAGZp/wkV3+VDg+IpRpxL6qvuuf486z/lqbkE3jVmTHoRF
-	SNBg6wt72P5822S7mTNaw6np0e98t8mb2fhb1mvrylREjBrpkPZKkDMNEDFxA+AO/XiS
-	oLwYxRj+KPHohl/N8miYKMkocfwtkrU6zvI1k46CmU3Kwwcb0vtn07VH3Ufs7OKeWOic
-	xIciQUFtlwzuKsH6AGeyk6me7puFd622EV+pRYJJQVkZvI/TUO1GS9pvvu5Wf9nMcaH4
-	5IepIBXmBpFyRTL5538OPv8rp+jGi7c5VSI+09mL4Yer9mwSaTNeFkKgue41Jqrpv6p4
-	MFmg==
+	bh=s88dC0PD2frjq1K8We3Ib8tQJN4YlUJWoKgZSEhdvPk=;
+	b=H81zfq6hZWBS5n/eY3Txa58uHrCoDmniEendnh5rEkRQQD05/DhETkylmOdjZK9aHH
+	dYr7moTBQOefFls5T/bgirzft3CKEL+2LKd7wtELNl33CovBoFEg9goinShu7kdC2J3i
+	yxJ1VFrZ4hSXBp98T1AYroBhB6OEMElO1SMNSC7vWptdI/1o5wO07FEtIFvXx/QLwr8y
+	KQCo70De8V1M0NQuN4l+m9N9ttOZvkVaJCNhIVQiPjfboBGIhpOfslFUJmQSdQ8UIHQt
+	eI8Uqdg13oY3jLI4oWr+zst9YG4MFhWrbXlRjYE/C3+ZT+A4SAFXd1/Z9RyznoXHiQ1+
+	zQ4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=V+VrfwznJqT3LtyQuYR0ZcMVUdNW+idQ5bVIa2LLiB0=;
-	b=XqVj9d5DNwb4iKitwNnsPyvAcUpyoeOY1cPF3xgY0eYWGcw6YBCl4IveN1Z5sPGkB+
-	JO/vHzJueYKowOpU2soGphkg5oLUML+vrR6MSpxaeKswkqQP9aquAKlKSqqMmlvHY2ak
-	iYqK8CMxJCFiGntiB+uGiWed/2c6doPd5PpdfIXQ5bVrfdBmqYlWg2Pd/6hfdgWSqHAR
-	qNUHvnOdeac9P68wGFa+i4bV80Q+fw6V3jZcrHhVQpz0ozujFA6KB/0OobllIIiCqTht
-	oLea6pS3fyZ+gUgN9xrUeeL5CEZUyWJAog/hnPY32kworxYk/qJOWKB7VMwq3LQgI3Sv
-	wQ/Q==
-X-Gm-Message-State: APjAAAUiiGCKYQ7G5rckRQaUqBKAllbtoaoVj3XzjgE9bWKWBCKBRCzo
-	pCJKkhTfJiXuaraT8jICh7g=
-X-Google-Smtp-Source: APXvYqycF7VKPuCJpWA/bBr1orxInPSiXWnFtt/OtwnYUJ5mlU/diAIygn+SYQjOyfuBmdooUIxpvQ==
-X-Received: by 2002:a5d:9dd7:: with SMTP id 23mr8830269ioo.182.1568519582832; 
-	Sat, 14 Sep 2019 20:53:02 -0700 (PDT)
+	bh=s88dC0PD2frjq1K8We3Ib8tQJN4YlUJWoKgZSEhdvPk=;
+	b=PYrDTlOu5WP0I7FiYkNMYmk7+vrxWOeYqZSfkkAfz2zvAbhp8o/p26mn06mJ5+HiUx
+	5w1qvY1b0ZldodcOyCHgpPLGh8Jk3H41nc8mjiC+Lv5iyqk3cDciV4XAFje+daMi5qLe
+	S3wtbMaMXjm/maYduYwbhy29PHhTmC+NCQqdnmMkvvZCjzmJ94SNNfD/kzY7eOb1dmsK
+	phh2mOehjzesbAx9cJ9EUizcqebMVIEPXAu+jOvpsc5pfNwbPfYM5mldbmnDcG1NdAOF
+	Ucy6eZPi4X18yduh4dJgwKGuv7zeXCtfY/xHQLoO2IpwAXkhSAWZAlGRsVBhgH1FilwE
+	wWvg==
+X-Gm-Message-State: APjAAAUj0sH3twka1FeIG/2OKABohydexH1Pg0PTfQ4qH0Yp3IRGe9b4
+	DZ6VrUovUcrp8gC80n4OhP/Pil+f0ZA=
+X-Google-Smtp-Source: APXvYqyBcZ+e4EirX4iYCn1c4wGR1JZstf3omt68IQuDH685fmrljmcmT6m7mqkJV+Mf3BtGjmZJNw==
+X-Received: by 2002:a02:cdca:: with SMTP id m10mr8037625jap.44.1568520258171; 
+	Sat, 14 Sep 2019 21:04:18 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	u124sm48796142ioe.63.2019.09.14.20.53.01
+	h70sm68630206iof.48.2019.09.14.21.04.17
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 14 Sep 2019 20:53:02 -0700 (PDT)
-Date: Sat, 14 Sep 2019 23:53:00 -0400
+	Sat, 14 Sep 2019 21:04:17 -0700 (PDT)
+Date: Sun, 15 Sep 2019 00:04:15 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Message-ID: <20190915035259.GC3928@gmail.com>
-References: <1568318131-30946-1-git-send-email-mark.asselstine@windriver.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190915040412.GA4367@gmail.com>
+References: <20190910015911.21816-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <1568318131-30946-1-git-send-email-mark.asselstine@windriver.com>
+In-Reply-To: <20190910015911.21816-1-zangrc.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] openvswitch: drop LSB bits
+Subject: Re: [PATCH] python-zaqarclient: upgrade 1.11.0 -> 1.12.0
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,73 +81,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Sep 2019 03:53:04 -0000
+X-List-Received-Date: Sun, 15 Sep 2019 04:04:19 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged.
+merged
 
 Bruce
 
-In message: [meta-virtualization][PATCH] openvswitch: drop LSB bits
-on 12/09/2019 Mark Asselstine wrote:
+In message: [meta-virtualization] [PATCH] python-zaqarclient: upgrade 1.11.0 -> 1.12.0
+on 10/09/2019 Zang Ruochen wrote:
 
-> openembedded-core commit fb064356af61 [Remove LSB support] dropped the
-> 'lsb' recipe which caused openvswitch to throw a dependency fail for
-> both sysvinit and systemd builds. LSB init functions for
-> log_begin_msg, log_end_msg and others were being used. We now use the
-> functions from ovs-lib which are part of OVS and supply the remaining
-> ones directly. This allows us to regain the functionality and drop the
-> dependency on 'lsb'.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../openvswitch/files/openvswitch-testcontroller               | 10 +++++++++-
->  recipes-networking/openvswitch/openvswitch.inc                 |  2 +-
->  2 files changed, 10 insertions(+), 2 deletions(-)
+>  meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/recipes-networking/openvswitch/files/openvswitch-testcontroller b/recipes-networking/openvswitch/files/openvswitch-testcontroller
-> index aad5ad6..57c7798 100755
-> --- a/recipes-networking/openvswitch/files/openvswitch-testcontroller
-> +++ b/recipes-networking/openvswitch/files/openvswitch-testcontroller
-> @@ -40,7 +40,7 @@ PIDFILE=/var/run/openvswitch/$NAME.pid
+> diff --git a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+> index e6f92f7..699d380 100644
+> --- a/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-zaqarclient_git.bb
+> @@ -30,8 +30,8 @@ RDEPENDS_${PN} +=" \
+>  SRCNAME = "zaqarclient"
+>  SRC_URI = "git://github.com/openstack/${BPN}.git"
 >  
->  test -x $DAEMON || exit 0
+> -PV = "1.11.0+git${SRCPV}"
+> -SRCREV = "13e90a0ab5e296fb8cf21d09c666c06ed47a84c0"
+> +PV = "1.12.0+git${SRCPV}"
+> +SRCREV = "9038bf6ba93c24c9a61447dfcb14e436f1267066"
+>  S = "${WORKDIR}/git"
 >  
-> -. /lib/lsb/init-functions
-> +. /usr/share/openvswitch/scripts/ovs-lib
->  
->  # Default options, these can be overriden by the information
->  # at /etc/default/openvswitch-testcontroller
-> @@ -89,6 +89,14 @@ running_pid() {
->      return 0
->  }
->  
-> +log_begin_msg () {
-> +    echo "$@"
-> +}
-> +
-> +log_end_msg () {
-> +    echo "$@"
-> +}
-> +
->  running() {
->  # Check if the process is running looking at /proc
->  # (works for all users)
-> diff --git a/recipes-networking/openvswitch/openvswitch.inc b/recipes-networking/openvswitch/openvswitch.inc
-> index 46865bd..37fbe5a 100644
-> --- a/recipes-networking/openvswitch/openvswitch.inc
-> +++ b/recipes-networking/openvswitch/openvswitch.inc
-> @@ -16,7 +16,7 @@ DEPENDS += "bridge-utils openssl python3 perl python3-six-native coreutils-nativ
->  RDEPENDS_${PN} += "util-linux-uuidgen util-linux-libuuid coreutils \
->          python3 perl perl-module-strict ${PN}-switch \
->          bash python3-twisted python3-six"
-> -RDEPENDS_${PN}-testcontroller = "${PN} lsb ${PN}-pki"
-> +RDEPENDS_${PN}-testcontroller = "${PN} ${PN}-pki"
->  RDEPENDS_${PN}-switch = "${PN} openssl procps util-linux-uuidgen"
->  RDEPENDS_${PN}-pki = "${PN}"
->  RDEPENDS_${PN}-brcompat = "${PN} ${PN}-switch"
+>  inherit setuptools
 > -- 
 > 2.7.4
 > 
+> 
+> 
+> -- 
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
