@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 423BCE00B1B; Sat, 14 Sep 2019 21:04:57 -0700 (PDT)
+	id 78A0BE00BE6; Sat, 14 Sep 2019 21:05:07 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,62 +13,62 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.166.68 listed in list.dnswl.org]
+	*      [209.85.166.50 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3489CE007C2
+Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
+	[209.85.166.50])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 03564E007C2
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2019 21:04:56 -0700 (PDT)
-Received: by mail-io1-f68.google.com with SMTP id k5so46028094iol.5
+	Sat, 14 Sep 2019 21:05:06 -0700 (PDT)
+Received: by mail-io1-f50.google.com with SMTP id m11so71315095ioo.0
 	for <meta-virtualization@yoctoproject.org>;
-	Sat, 14 Sep 2019 21:04:56 -0700 (PDT)
+	Sat, 14 Sep 2019 21:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=Tqmi8MDNqlk+YpmR1OybbiDA5MPi61xmBtjwSfmwaMM=;
-	b=ffqLlOGWq0lN+3S9pZSEp87O6zsqt+5SE2rStgCzljxtXBh5xDcMIP494x3rucFexn
-	J4Wr/K4TyQHl4osn5xXipU+HXSOQK588uWgwGSLQ2FpfxckSwjMCz2qevetTUB6KS4wY
-	5b1XqKw3IPKCO8H0/9uAgpY3pNHd3E39haom/+zPl+nlawxxRpvDJQadjQhoFiGyFmV0
-	ogguONqBfUZqoUwTxvOuz9byJZKWC3qUk/Hy6D/fRVq6Qz4W/2u3FsuRCR72eDkKlD7b
-	PlNjsYlCE/crhHUMROjm/g0ASeqmzqLaOwFWVqGfffeXmEZunzANUlvFuDKiY2rQ8I9X
-	KUwQ==
+	bh=Noew9+2H+SpPCm69WF+XghsZF45u2HrXs9BoGt81BQ8=;
+	b=q5i1U/vNf+Fa1BeCJR9TflZ2h4BgjjgVeqHL6Tx8bJgY9mE4dzfP6IMFbHxkMrnQst
+	Ys3rRRqJrMfnsf5S5lj0AxBTFAiay3wjZaHIDUdEuCnL+pilpCfDcmFjz1AhSqKAo+ng
+	hLZJx/C1yAmXUoRwXxuHaZQ8AKZyrAvvb/4lZkk1+TgmuR1OQtVwgTj7mpNRQCIropED
+	OzXYyc55n9z5mrbJWZrd7AyvbzV+E5hr1CV6Qro+D92DxtiG2/uqcGuNLqAdWfj+w89y
+	IH6F0RFMg3kpiF6+RowZS5TnVN9E+WBmI3nfs5FEVcAAscAA+VUjcJpwJTXeyW5ZwR0c
+	KC5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Tqmi8MDNqlk+YpmR1OybbiDA5MPi61xmBtjwSfmwaMM=;
-	b=ZBIovYyWGMWjnhnUmpJsT1IP5feK4luCF3kRf29X4CQG28wdKx2EGc4/Xe2F1/3rDG
-	li5vqY2bmSyfz/0BbEz5NFF+c5zgVbzpVp2JBq3MF6A+yP87IPg7lvrr4FIqn0KcZUy+
-	H4W05Bdg39bLaL+ACE2g4TXO4T0FoiN0oYoqgIb5+5kDVcRCFpIX5X9XirGtUGmMpH6/
-	wXDX1iUMAVkCN30qjWzkwQsMsp3p4Q11oydlFpmvBzEa/xiz3Lb/8WBAoOgTm57aU91x
-	ASWJ5/0Z4q0P1GUwjhQGff69NAd28JcyZN4220iaMZSHOil/3S1ssiU3sdLSN8oAvPyo
-	jjow==
-X-Gm-Message-State: APjAAAUqCgeyuV4wGCCoY33aBI/ZDU0XL1kswcMVk93sRPuact2Phipp
-	4CQJJIe5mnFlETG8b5Jbd3c=
-X-Google-Smtp-Source: APXvYqyPvakoTMmOGWWKWA4YZT8nki2ufAWQK6IPRilKsvkK2l//Uxaw1FWdwx6OIsYTT5WzDvk7ww==
-X-Received: by 2002:a6b:ec18:: with SMTP id c24mr9413702ioh.72.1568520294189; 
-	Sat, 14 Sep 2019 21:04:54 -0700 (PDT)
+	bh=Noew9+2H+SpPCm69WF+XghsZF45u2HrXs9BoGt81BQ8=;
+	b=cxbn306k93UrQmapDbHBdeRvUTq6iF4Mv6mtjAuf51OTYMLLWuI/ZCoHWksx2BuZR/
+	R6K0LMicb5evRA5ST0c+tGCbu+zcRUGvrva/TaDZnTXRDUVPqyn+PMQcPG5Kfg9FN7x+
+	Nc0TPKyOYQN7/AJcxnk8N9vRt/f4a6lIuQaoT4x5y0GuDZJtVXJgNcb7LxVuurudUv5m
+	z/E847WgK9IdR/6WgSESKUEG489gPsz6Rjpr3SqcQ5dqR12lbGpBYPP2ABF9vUrWs78i
+	TdpvPPiIWsPkjz5BzOKfHWfyK0eIeXmwPgIHO79h4/E/W490m1glE5/hkbYHwF4h3bXU
+	u20g==
+X-Gm-Message-State: APjAAAWRcPDw8Hgt7A9WJAsSds7pogTAE5/QuH18nTk0J+7qVKL8VMKV
+	5LnckudhCbx7w79HkjYyIzM=
+X-Google-Smtp-Source: APXvYqxBMmdWWKC0v/NIO9ayj7Rt4KngFHcV/8+xwX83wP5HD3z1zr1YtHxgJN8uXqrV0UClXxu5Ww==
+X-Received: by 2002:a02:8644:: with SMTP id e62mr36792410jai.115.1568520306229;
+	Sat, 14 Sep 2019 21:05:06 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	y17sm26171771ioa.52.2019.09.14.21.04.52
+	g4sm22739605ion.26.2019.09.14.21.05.05
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 14 Sep 2019 21:04:53 -0700 (PDT)
-Date: Sun, 15 Sep 2019 00:04:49 -0400
+	Sat, 14 Sep 2019 21:05:05 -0700 (PDT)
+Date: Sun, 15 Sep 2019 00:05:03 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Message-ID: <20190915040448.GD4367@gmail.com>
-References: <1568255791-42428-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190915040502.GE4367@gmail.com>
+References: <20190912071505.1140-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <1568255791-42428-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <20190912071505.1140-1-zangrc.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-cliff: Add python3 version
+Subject: Re: [PATCH] python-suds-jurko: Add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,115 +81,90 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Sep 2019 04:04:57 -0000
+X-List-Received-Date: Sun, 15 Sep 2019 04:05:07 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged
+merged.
 
 Bruce
 
-In message: [meta-virtualization]  [PATCH] python-cliff: Add python3 version
-on 12/09/2019 Zheng Ruoqin wrote:
+In message: [meta-virtualization] [PATCH] python-suds-jurko: Add python3 version
+on 12/09/2019 Zang Ruochen wrote:
 
-> Providing a python3 version of python-cliff.
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../recipes-devtools/python/python-cliff.inc  | 31 +++++++++++++++++++
->  .../python/python-cliff_2.16.0.bb             | 31 ++-----------------
->  .../python/python3-cliff_2.16.0.bb            |  2 ++
->  3 files changed, 36 insertions(+), 28 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-cliff.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-cliff_2.16.0.bb
+>  .../recipes-devtools/python/python-suds-jurko.inc   | 20 ++++++++++++++++++++
+>  .../python/python-suds-jurko_0.6.bb                 | 21 ++-------------------
+>  .../python/python3-suds-jurko_0.6.bb                |  3 +++
+>  3 files changed, 25 insertions(+), 19 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-suds-jurko.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-suds-jurko_0.6.bb
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-cliff.inc b/meta-openstack/recipes-devtools/python/python-cliff.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-suds-jurko.inc b/meta-openstack/recipes-devtools/python/python-suds-jurko.inc
 > new file mode 100644
-> index 0000000..cc66717
+> index 0000000..579212a
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-cliff.inc
-> @@ -0,0 +1,31 @@
-> +DESCRIPTION = "Command Line Interface Formulation Framework"
-> +HOMEPAGE = "https://github.com/dreamhost/cliff"
+> +++ b/meta-openstack/recipes-devtools/python/python-suds-jurko.inc
+> @@ -0,0 +1,20 @@
+> +DESCRIPTION = "Lightweight SOAP client (Jurko's fork)"
+> +HOMEPAGE = "https://bitbucket.org/jurko/suds"
 > +SECTION = "devel/python"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> +LICENSE = "LGPLv3"
+> +LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=847e96bce86d8774f491a92924343a29"
 > +
-> +SRC_URI[md5sum] = "89e96c6c8c5922832e124ed81c21a55b"
-> +SRC_URI[sha256sum] = "622e777b8ac2eb479708fe53893c37b2fd5469ce2c6c5b794a658246f05c6b81"
+> +PYPI_PACKAGE_EXT = "tar.bz2"
+> +
+> +SRC_URI[md5sum] = "1309e9bc2454aa3434041f0a24ae4e11"
+> +SRC_URI[sha256sum] = "29edb72fd21e3044093d86f33c66cf847c5aaab26d64cb90e69e528ef014e57f"
 > +
 > +inherit pypi
 > +
-> +DEPENDS += "\
-> +    ${PYTHON_PN}-pbr \
-> +    "
-> +
-> +# Satisfy setup.py 'setup_requires'
 > +DEPENDS += " \
-> +    ${PYTHON_PN}-pbr-native \
-> +    "
+> +        ${PYTHON_PN}-pip \
+> +        "
 > +
 > +RDEPENDS_${PN} += " \
-> +            ${PYTHON_PN}-cmd2 \
-> +            ${PYTHON_PN}-pbr \
-> +            ${PYTHON_PN}-pyparsing \
-> +            ${PYTHON_PN}-prettytable \
-> +            ${PYTHON_PN}-six \
-> +            ${PYTHON_PN}-stevedore \
-> +            ${PYTHON_PN}-pyyaml \
-> +"
+> +        "
 > +
-> +CLEANBROKEN = "1"
-> diff --git a/meta-openstack/recipes-devtools/python/python-cliff_2.16.0.bb b/meta-openstack/recipes-devtools/python/python-cliff_2.16.0.bb
-> index 0d49f8c..6fadd5b 100644
-> --- a/meta-openstack/recipes-devtools/python/python-cliff_2.16.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-cliff_2.16.0.bb
-> @@ -1,32 +1,7 @@
-> -DESCRIPTION = "Command Line Interface Formulation Framework"
-> -HOMEPAGE = "https://github.com/dreamhost/cliff"
+> diff --git a/meta-openstack/recipes-devtools/python/python-suds-jurko_0.6.bb b/meta-openstack/recipes-devtools/python/python-suds-jurko_0.6.bb
+> index a4a436f..52bb6d8 100644
+> --- a/meta-openstack/recipes-devtools/python/python-suds-jurko_0.6.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-suds-jurko_0.6.bb
+> @@ -1,20 +1,3 @@
+> -DESCRIPTION = "Lightweight SOAP client (Jurko's fork)"
+> -HOMEPAGE = "https://bitbucket.org/jurko/suds"
 > -SECTION = "devel/python"
-> -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+> -LICENSE = "LGPLv3"
+> -LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=847e96bce86d8774f491a92924343a29"
 > -
-> -SRC_URI[md5sum] = "89e96c6c8c5922832e124ed81c21a55b"
-> -SRC_URI[sha256sum] = "622e777b8ac2eb479708fe53893c37b2fd5469ce2c6c5b794a658246f05c6b81"
+> -PYPI_PACKAGE_EXT = "tar.bz2"
+> -
+> -SRC_URI[md5sum] = "1309e9bc2454aa3434041f0a24ae4e11"
+> -SRC_URI[sha256sum] = "29edb72fd21e3044093d86f33c66cf847c5aaab26d64cb90e69e528ef014e57f"
 > -
 > -inherit setuptools pypi
 > -
-> -DEPENDS += "\
-> -    python-pbr \
-> -    "
-> -
-> -# Satisfy setup.py 'setup_requires'
 > -DEPENDS += " \
-> -    python-pbr-native \
-> -    "
-> +inherit setuptools
-> +require python-cliff.inc
->  
-> +# RDEPENDS only fot python2
->  RDEPENDS_${PN} += " \
-> -            python-cmd2 \
-> -            python-pbr \
-> -            python-pyparsing \
-> -            python-prettytable \
-> -            python-six \
-> -            python-stevedore \
->              python-unicodecsv \
-> -            python-pyyaml \
->  "
+> -        python-pip \
+> -        "
 > -
-> -CLEANBROKEN = "1"
-> diff --git a/meta-openstack/recipes-devtools/python/python3-cliff_2.16.0.bb b/meta-openstack/recipes-devtools/python/python3-cliff_2.16.0.bb
+> -RDEPENDS_${PN} += " \
+> -        "
+> +inherit setuptools
+> +require python-suds-jurko.inc
+>  
+> diff --git a/meta-openstack/recipes-devtools/python/python3-suds-jurko_0.6.bb b/meta-openstack/recipes-devtools/python/python3-suds-jurko_0.6.bb
 > new file mode 100644
-> index 0000000..07923ca
+> index 0000000..d230c8d
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-cliff_2.16.0.bb
-> @@ -0,0 +1,2 @@
+> +++ b/meta-openstack/recipes-devtools/python/python3-suds-jurko_0.6.bb
+> @@ -0,0 +1,3 @@
 > +inherit setuptools3
-> +require python-cliff.inc
+> +require python-suds-jurko.inc
+> +
 > -- 
-> 2.17.1
+> 2.7.4
 > 
 > 
 > 
