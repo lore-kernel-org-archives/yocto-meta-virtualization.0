@@ -1,68 +1,65 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <joakim.roubert@axis.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id A689BE00D5F; Tue, 17 Sep 2019 05:31:56 -0700 (PDT)
+	id 4A217E00D6A; Tue, 17 Sep 2019 06:54:48 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
-	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.167.41 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
-	[209.85.167.41])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id EF63FE00D4F
+	*      [195.60.68.11 listed in list.dnswl.org]
+X-Greylist: delayed 397 seconds by postgrey-1.32 at yocto-www;
+	Tue, 17 Sep 2019 06:54:46 PDT
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6519AE00C74
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Sep 2019 05:31:55 -0700 (PDT)
-Received: by mail-lf1-f41.google.com with SMTP id 72so2733110lfh.6
+	Tue, 17 Sep 2019 06:54:46 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E8FF718415
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Sep 2019 05:31:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=meD2E6d++RQCkG+WD9tcWZY0Nk6JtuJtcW0f5SgJtY0=;
-	b=qfvbfmZELJhzAXgQ02aGpdiClmb5PAGMtd1+Ru8sIe3gi5qgUi9fdSrRUTIFyrQO7o
-	cQNbFtjDqX3AUg+6WB8ezH4XGaqMgvCsnVVCti5dM1L6qxPwLljci/UVwFedAonxHrsK
-	EMsAYDxCBbPyfqHml6Xivh24hbt8LIY5EkCI5cF4Q6Rjq8RPqyEIAlW5L8hLL9AyY76s
-	Rve7Tk9VcRqfT9epbC/WIbViZsyknLz0Fq7me1/VEsGh7N1YRQfubBRqu2/UOs1V6ubQ
-	73rBh8rew6gRwL5ojpNBpLTeDEqZbV4mDG24CLnQ+SQ51XuL3ltpseW6oY9PNokJ0X/d
-	MAaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=meD2E6d++RQCkG+WD9tcWZY0Nk6JtuJtcW0f5SgJtY0=;
-	b=obQKAhZ1+DznqIQgafM+UWTRCuBr0Y3B5KZJS6+PBQAXe+850YWGrEDCNxzVOYSq7w
-	R//t/17g4e/jBbnXMhXifY0sAtoBsapSNsgFq6UWO3nwZrDJm0R38+PEfXqR8Af5o7t/
-	vt/IOdRSHkItWowe3swQSXAWsG4LuPqEhULinKiuwYf/rYy4EvJQiBxsSya5K2Tjuhb9
-	TcH6y/N5+JsNr7KQ/Qhp4qfQLp3SByE5CcCJVgc5UxrQRoSTf+H2ppjCGXBGjthA768z
-	JG0A87hifLvM3A6RDBIE6928ppbchuibrzM3FNJvGj+VmYKM7TimhrinhqO4nnfjvBBx
-	7kdA==
-X-Gm-Message-State: APjAAAWsKq6K1Z3VFH7ms0gzZQnHS/sgFOSXeoDCbZVLs6cbVD0eFnZP
-	ryCwDBlDhlUtYNJjMeECi+wCEBng7O9klbTeU3tr7rVrx0w=
-X-Google-Smtp-Source: APXvYqxOwpXdGB8ByLPG3p1AcCUhXb6XTBTik1r9huELUbMDBuZjlDoyWzkccUJB3jg510wCP/l8zxrODsCb0OJmadc=
-X-Received: by 2002:a19:428f:: with SMTP id p137mr1994755lfa.149.1568723514583;
-	Tue, 17 Sep 2019 05:31:54 -0700 (PDT)
+	Tue, 17 Sep 2019 15:48:07 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id amU1eFKVTH6E for <meta-virtualization@yoctoproject.org>;
+	Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id A2DFA18416
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 845811A06B
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 78D001A060
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+Received: from pc33929-1906.se.axis.com (pc33929-1906.se.axis.com
+	[10.88.130.51])
+	by seth.se.axis.com (Postfix) with ESMTP id 6C6B630F7;
+	Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+Received: by pc33929-1906.se.axis.com (Postfix, from userid 20727)
+	id 6604A60131; Tue, 17 Sep 2019 15:48:04 +0200 (CEST)
+From: Joakim Roubert <joakim.roubert@axis.com>
+To: meta-virtualization@yoctoproject.org
+Date: Tue, 17 Sep 2019 15:47:27 +0200
+Message-Id: <20190917134727.3174-1-joakimr@axis.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <a1b3032c01c1443a9b9562e94a98b254@haverboecker.com>
-In-Reply-To: <a1b3032c01c1443a9b9562e94a98b254@haverboecker.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 17 Sep 2019 08:31:43 -0400
-Message-ID: <CADkTA4P+Z5x=Uet_U9tdMPiEPpLN_pb7jm4xL51gAPxFMPrOHQ@mail.gmail.com>
-To: "Ketterle, Peer" <P.Ketterle@haverboecker.com>
-Cc: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
-Subject: Re: Problem with docker, iptables and meta-virtualisation
+X-TM-AS-GCONF: 00
+Cc: Joakim Roubert <joakimr@axis.com>
+Subject: [PATCH] templates/lxc-download.in: Use curl instead of wget
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -75,81 +72,100 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 12:31:56 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 17 Sep 2019 13:54:48 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 17, 2019 at 6:46 AM Ketterle, Peer
-<P.Ketterle@haverboecker.com> wrote:
->
-> Hello!
->
->
->
-> I am sorry, I don=E2=80=99t know where to ask, so I=E2=80=99m writing thi=
-s e-mail. If there is a place like a forum or something like that to better=
- ask for help, please show me where to go.
->
->
->
-> I am new to yocto, so maybe I am just doing something pretty dumb but I c=
-annot find out right now what the problem is.
->
->
->
-> So, now for my problem. I want to build a yocto for an amd64 with azure-i=
-ot support. For this I need meta-virtualisation. I tried the warrior branch=
- first, then the thud branch, both got the same result in this regard. So I=
- believe it has nothing to do with the exact branch.
->
-> I got the image to build, but when I run it, dockerd is not working. I ca=
-n start it but it fails with a problem with iptables, see attachment.
->
-> I have also attached the local.conf and the bblayers.conf as well as the =
-output of the bitbake-command.
->
->
->
-> Do you have an idea what I am doing wrong? Or maybe there is a simple pre=
-set of conf-files which works from where I could go on.
->
+When curl's MIT license is preferable to wget's GPLv3. Which it is in
+several situations.
 
-Two things jump to mind for me.
+Change-Id: I72ee1ce66493c564557b73fae80f5219ef83af6d
+Signed-off-by: Joakim Roubert <joakimr@axis.com>
+---
+ .../templates-use-curl-instead-of-wget.patch  | 49 +++++++++++++++++++
+ recipes-containers/lxc/lxc_3.2.1.bb           |  3 +-
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+ create mode 100644 recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
 
-- Can you check that the "kernel-modules" package is installed in the
-image type you are using ? I did a quick glance at
-core-image-full-cmdline and didn't see it, but I didn't chase down all
-the includes (or fire up a build to check the package install list)
+diff --git a/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
+new file mode 100644
+index 0000000..4b185bf
+--- /dev/null
++++ b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
+@@ -0,0 +1,49 @@
++From dd7b0a2e4542c352456747a45d7eeb11e9fdec26 Mon Sep 17 00:00:00 2001
++From: Joakim Roubert <joakimr@axis.com>
++Date: Fri, 16 Aug 2019 07:52:48 +0200
++Subject: [PATCH] Use curl instead of wget
++
++When curl's MIT license is preferable to wget's GPLv3.
++
++Change-Id: I4684ae7569704514fdcc63e0655c556efcaf44f8
++Signed-off-by: Joakim Roubert <joakimr@axis.com>
++---
++ templates/lxc-download.in | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/templates/lxc-download.in b/templates/lxc-download.in
++index b70daaf..9526eae 100644
++--- a/templates/lxc-download.in
+++++ b/templates/lxc-download.in
++@@ -74,9 +74,9 @@ cleanup() {
++   fi
++ }
++ 
++-wget_wrapper() {
+++curl_wrapper() {
++   for _ in $(seq 3); do
++-    if wget "$@"; then
+++    if curl "$@"; then
++       return 0
++     fi
++   done
++@@ -85,8 +85,8 @@ wget_wrapper() {
++ }
++ 
++ download_file() {
++-  if ! wget_wrapper -T 30 -q "https://${DOWNLOAD_SERVER}/$1" -O "$2" >/dev/null 2>&1; then
++-    if ! wget_wrapper -T 30 -q "http://${DOWNLOAD_SERVER}/$1" -O "$2" >/dev/null 2>&1; then
+++  if ! curl_wrapper -m 30 -s "https://${DOWNLOAD_SERVER}/$1" -o "$2" >/dev/null 2>&1; then
+++    if ! curl_wrapper -m 30 -s "http://${DOWNLOAD_SERVER}/$1" -o "$2" >/dev/null 2>&1; then
++       if [ "$3" = "noexit" ]; then
++         return 1
++       else
++@@ -266,7 +266,7 @@ while :; do
++ done
++ 
++ # Check for required binaries
++-for bin in tar xz wget; do
+++for bin in tar xz curl; do
++   if ! command -V "${bin}" >/dev/null 2>&1; then
++     echo "ERROR: Missing required tool: ${bin}" 1>&2
++     exit 1
+diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
+index 4b8f10b..b852515 100644
+--- a/recipes-containers/lxc/lxc_3.2.1.bb
++++ b/recipes-containers/lxc/lxc_3.2.1.bb
+@@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ DEPENDS = "libxml2 libcap"
+ RDEPENDS_${PN} = " \
+ 		rsync \
++		curl \
+ 		gzip \
+ 		xz \
+ 		tar \
+-		wget \
+ 		libcap-bin \
+ 		bridge-utils \
+ 		dnsmasq \
+@@ -41,6 +41,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
+ 	file://templates-actually-create-DOWNLOAD_TEMP-directory.patch \
+ 	file://template-make-busybox-template-compatible-with-core-.patch \
++	file://templates-use-curl-instead-of-wget.patch \
+ 	file://tests-our-init-is-not-busybox.patch \
+ 	file://tests-add-no-validate-when-using-download-template.patch \
+ 	file://network-restore-ability-to-move-nl80211-devices.patch \
+-- 
+2.20.1
 
-- Are you using systemd as your init manager ? I know that I haven't
-tested sysvinit myself for some time, so there may be bitrot there.
-
-Bruce
-
->
->
-> Thanks a lot for your help!
->
->
->
-> Best regards,
->
->
->
-> Peer
->
->
->
-> --
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
-
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
