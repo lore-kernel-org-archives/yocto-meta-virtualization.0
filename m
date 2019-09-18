@@ -1,34 +1,50 @@
-Return-Path: <Mark.Asselstine@windriver.com>
+Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 5509FE00BF7; Tue, 17 Sep 2019 12:58:48 -0700 (PDT)
+	id 6BD38E00D77; Wed, 18 Sep 2019 00:58:59 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID, DKIM_VALID_AU, RCVD_IN_DNSWL_NONE,
+	SPF_HELO_PASS autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
-	*      medium trust
-	*      [147.11.1.11 listed in list.dnswl.org]
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 45B55E0098A
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
+	no *      trust
+	*      [178.209.48.109 listed in list.dnswl.org]
+	* -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+	author's *       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6D04EE00D74
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 17 Sep 2019 12:58:47 -0700 (PDT)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x8HJwjxO018617
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 17 Sep 2019 12:58:46 -0700 (PDT)
-Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 17 Sep 2019 12:58:41 -0700
-From: Mark Asselstine <mark.asselstine@windriver.com>
-To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
-Date: Tue, 17 Sep 2019 15:58:31 -0400
-Message-ID: <1568750311-566-1-git-send-email-mark.asselstine@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 18 Sep 2019 00:58:56 -0700 (PDT)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 214C35C2C0A;
+	Wed, 18 Sep 2019 09:58:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1568793534;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=7iqpcVR7ki+YFijnlwwknyr7w08H5JbxZYxrTvRBirs=;
+	b=bSnkjqTFDgUHg0CW+IugqMLdWBqH5ZA/GlBzpvRe4pYYjp1fYKGlwvh/FOs/fgQ47mPhxT
+	Md29gHDO9KgHXyqUXPgZ3gSTmVaHHedNxDRzot9OzsDrV0q5lsM0NZKgH1fgcizA7E6E+1
+	O6+rZgvK1Wb2aBQq2mQ6HdIbTNkux2o=
+From: Stefan Agner <stefan@agner.ch>
+To: meta-virtualization@yoctoproject.org
+Date: Wed, 18 Sep 2019 09:58:41 +0200
+Message-Id: <20190918075841.2099-2-stefan@agner.ch>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190918075841.2099-1-stefan@agner.ch>
+References: <20190918075841.2099-1-stefan@agner.ch>
 MIME-Version: 1.0
-Subject: [PATCH] oci-systemd-hook: fixup patch context
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH v2 2/2] docker-ce: update to v19.03.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -41,77 +57,46 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Sep 2019 19:58:48 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 18 Sep 2019 07:58:59 -0000
+Content-Transfer-Encoding: 8bit
 
-commit 7394c154a92f [containers: update oci-systemd-hook to 0.2.0]
-incorrectly adjusted the context around the patch
-0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-This resulted in containers failing with an error:
-systemdhook <error>: Failed to mkdir new dest: /opt/container/cube-server/rootfs/sys/fs/cgroup/perf_event: No such file or directory
+Bump the git hashes to Docker CE v19.03.2.
 
-Unfortunately, the code was being patched in ahead of the mounting of
-the tmpfs after the patch context was adjusted. You can even get a
-hint of this in the comment "Systemd is already handled above". Here
-we correct this by pushing the code down to the correct position in
-the file/function, making the error go away and proper function
-return.
-
-Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- ...itional-cgroup-mounts-from-root-NS-automatica.patch | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
+Changes in v2:
+- Bump to v19.03.2 final release
+- Drop docker (non-ce) recipe patch as that recipe can not be bumped to a
+  Docker stable patch release
 
-diff --git a/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch b/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch
-index b1299f5..34f0c09 100644
---- a/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch
-+++ b/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch
-@@ -1,4 +1,4 @@
--From f9c640fa1d4c14dfbd2bc40af91cb446ad373075 Mon Sep 17 00:00:00 2001
-+From 12d92162c449d51f4ffa482f7daaeb42c4135937 Mon Sep 17 00:00:00 2001
- From: Jason Wessel <jason.wessel@windriver.com>
- Date: Tue, 2 Jul 2019 20:51:08 +0000
- Subject: [PATCH] Add additional cgroup mounts from root NS automatically
-@@ -9,10 +9,10 @@ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-  1 file changed, 45 insertions(+)
+ recipes-containers/docker/docker-ce_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+index 215f114..52b146d 100644
+--- a/recipes-containers/docker/docker-ce_git.bb
++++ b/recipes-containers/docker/docker-ce_git.bb
+@@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
+  subtle and/or glaring issues. \
+  "
  
- diff --git a/src/systemdhook.c b/src/systemdhook.c
--index 87a3585..5220c54 100644
-+index c2cb2b9..f9ec9f2 100644
- --- a/src/systemdhook.c
- +++ b/src/systemdhook.c
--@@ -281,6 +281,11 @@ static char *get_process_cgroup_subsystem_path(const char *id, int pid, const ch
-+@@ -274,6 +274,11 @@ static char *get_process_cgroup_subsystem_path(const char *id, int pid, const ch
-  static int mount_cgroup(const char *id, const char *rootfs, const char *options, char *systemd_path)
-  {
-  	_cleanup_free_ char *cgroup_path = NULL;
-@@ -24,8 +24,8 @@ index 87a3585..5220c54 100644
-  
-  	if (asprintf(&cgroup_path, "%s/%s", rootfs, CGROUP_ROOT) < 0) {
-  		pr_perror("%s: Failed to create path for %s", id, CGROUP_ROOT);
--@@ -290,6 +295,46 @@ static int mount_cgroup(const char *id, const char *rootfs, const char *options,
-- 		pr_perror("%s: Failed to mkdir new dest: %s", id, cgroup_path);
-+@@ -292,6 +297,46 @@ static int mount_cgroup(const char *id, const char *rootfs, const char *options,
-+ 		pr_perror("%s: Failed to mkdir new dest: %s", id, systemd_path);
-  		return -1;
-  	}
- +	/* Create all additional cgroup mounts which are in the root namespace */
-@@ -68,9 +68,9 @@ index 87a3585..5220c54 100644
- +		free(dpath);
- +	}
- +	closedir(dir);
-- 	/* Mount tmpfs at new cgroup directory */
-- 	if (mount("tmpfs", cgroup_path, "tmpfs", MS_NODEV|MS_NOSUID, options) == -1) {
-- 		pr_perror("%s: Failed to mount tmpfs at %s", id, cgroup_path);
-+ 	if (remount_readonly(id, cgroup_path, cgroup_path) < 0) {
-+ 		return -1;
-+ 	}
- -- 
--2.19.1
-+2.7.4
+-SRCREV_docker = "2416d7f930859912c883f964b1cee6909635f951"
++SRCREV_docker = "6a30dfca03664a0b6bf0646a7d389ee7d0318e6e"
+ SRCREV_libnetwork = "5ac07abef4eee176423fdc1b870d435258e2d381"
+ SRC_URI = "\
+ 	git://github.com/docker/docker-ce.git;branch=19.03;name=docker \
+@@ -38,7 +38,7 @@ GO_IMPORT = "import"
  
+ S = "${WORKDIR}/git"
+ 
+-DOCKER_VERSION = "19.03.0-rc3-ce"
++DOCKER_VERSION = "19.03.2-ce"
+ PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+ 
+ PACKAGES =+ "${PN}-contrib"
 -- 
-2.7.4
+2.20.1
 
 
