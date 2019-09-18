@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 26643E00D8F; Wed, 18 Sep 2019 10:54:29 -0700 (PDT)
+	id 1B0F6E00D90; Wed, 18 Sep 2019 10:54:42 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,62 +13,62 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.166.65 listed in list.dnswl.org]
+	*      [209.85.166.68 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ECBC4E00C87
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2EDCE009EA
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Sep 2019 10:54:26 -0700 (PDT)
-Received: by mail-io1-f65.google.com with SMTP id b136so1314691iof.3
+	Wed, 18 Sep 2019 10:54:41 -0700 (PDT)
+Received: by mail-io1-f68.google.com with SMTP id k5so1279444iol.5
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Sep 2019 10:54:26 -0700 (PDT)
+	Wed, 18 Sep 2019 10:54:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=/3I7aaVX4X5Px9MDTYR+xg4mTH1HpQeVsIkHoMfwlY8=;
-	b=CEqdcOdJ2WK21LHYOnUFriOTPuRt1RkH5AD7Om/QecWjiF8SAHerNUXdFM/FhxM9BC
-	nIUFH7tgF1NoUIgbCsS6XCZum75vSDuGTi51MdRFnBNmIFziFQiNoD7HyxB8n1etDtR1
-	aaN+ufQeMp+7eF22ISitBRCJFv523bFGVOpYBLLlwFjHIhAJzMx1qgnX04bicxw7kE17
-	5uTDde5Vsk3Pm7aPJK7VPVnB3lCQ1wpStQdOqEZ9dVoc4FDOaJ7nnHx5CSXJJVqcZpBk
-	Ek7yZM9sgxovO1JBhnn5vxTxmYL7Znhu6i4KhhF+5jkNAzkhjsxJwjiDNNGWYT5raGMD
-	FnXw==
+	bh=r6rNgwBMWWaj64s5W9v8jF64lZ7mKlvjxtFcjYpXxM4=;
+	b=vWXPJSe8e+PjAUFdKCQfSIK4CCHn6N3MFKJswTT4avC8i5mSyarJ7sd0p91JVDYs62
+	0qf6bXYIFypMQsDXdVlJ2NkqThMgqDP6yE7kqL30EL02e2ffAJi9moPmPJuznusXgaxd
+	SVgCog9jb65jR7YJwj/42my9Gl7xhQpf5fUwAALbZbwvdE7+DjZDo3PF8g2AflGeiKN7
+	wn//lEns43cvWFd/PC10WSUoUqbxZEbClU2FJ0pll8dS+YfdsazEimi8+A3rC+kG1qfX
+	KziomoT7tEI0dSLOM8dQ2W3D+VlnWwMSId3l7j6sLRaB7jUAWn3KrJ3/zU8r26NgRDkO
+	/10Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=/3I7aaVX4X5Px9MDTYR+xg4mTH1HpQeVsIkHoMfwlY8=;
-	b=nFvUxppQ+v1yXR0NxvZH9kfEI0VxxmJP158C8bb0XcXY7OJHIDG1IF6lA1UGfn+Y9C
-	Nlk1wLsN2K8bWdkuhTJisq5hNGArqyWAhAxQB+P8Fh+DP0sOlGuT2r0LLKVaQfa7vxAF
-	x58OntFxy5vR2ItIGa2FTb9GKG8pTGwmjmFf/ulwuIslQBB/ieSHcBKNiMoPc6Ggr5ot
-	Z4kC8jOO3YCb8veSQECN+4Cuo41S7w5tINz5pYQc3yxqRqTIB21W713J7FoeRfFNg5Xj
-	izx4TKB2RTgRdGzrbGxqp6G6GFY2mjT42Z6AospQRfEb/LrtrxiY76s6LA0sZQMlaH+u
-	tsPg==
-X-Gm-Message-State: APjAAAVtBmW9qF9As+NcQddCl3gLIw7ToEsdX+FsaFYkLQBfdknlEK1b
-	4tOHZppzJKW3h6XRmso0j2GXIkKOn6CclA==
-X-Google-Smtp-Source: APXvYqxb24wA+swIW+ABrKbEmos9T5c6httjYR6w7+rMlDnLsqvALJsBsFji6DCn6XfvO9zTQfal7Q==
-X-Received: by 2002:a6b:c382:: with SMTP id t124mr6679842iof.105.1568829266182;
-	Wed, 18 Sep 2019 10:54:26 -0700 (PDT)
+	bh=r6rNgwBMWWaj64s5W9v8jF64lZ7mKlvjxtFcjYpXxM4=;
+	b=ll73YLfl+zWonSPEwt+mg5wqVcOlXvCntfpVvqt/a1gNbjjcI6QwWbKHmaZLqRDCHk
+	vBmFnDNm0jdmwTCGqDFjw788Szgs7keNVrNRJSVVGU8Yu1fy8zBXsOvkBUpTCBzXNruS
+	1MUy7y2zb+Ir9EW0xFklOZ9/Kk+P5jzrykR6H8WbooMCKeSbWg0ymbPs3WzQxv40sX9B
+	d9zbggvnlwhZ5Pw8wtcTtsmIjhBsewKNzM319IfdZrTtDhikBpvvwUI4XEddjf5Q5Lz+
+	A1jeDl4FlbUN42byrmcevwatn+g3v2D0beTFZobxLYlWc3JuIhmfsYQzqxJKUnWMtt5+
+	bbRw==
+X-Gm-Message-State: APjAAAVX2U0wZv71Ve6m6GNFi5OwHoyZ8PgJBACzKYIgHVxAV2zB/RPt
+	H5Ch3QbWzHKFwL/yPPTtJSA3StCXv3/N2w==
+X-Google-Smtp-Source: APXvYqxmrxq92bzeydJQvHs+cTCMy29rhf3Dj8TYWgg5j4ytV65hqTu9hvO67QXdG2gOEqTf7SHolA==
+X-Received: by 2002:a6b:9109:: with SMTP id t9mr4725947iod.16.1568829281044;
+	Wed, 18 Sep 2019 10:54:41 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	s19sm3143716iob.81.2019.09.18.10.54.25
+	u11sm7392064iof.22.2019.09.18.10.54.40
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Sep 2019 10:54:25 -0700 (PDT)
-Date: Wed, 18 Sep 2019 13:54:23 -0400
+	Wed, 18 Sep 2019 10:54:40 -0700 (PDT)
+Date: Wed, 18 Sep 2019 13:54:38 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Joakim Roubert <joakim.roubert@axis.com>
-Message-ID: <20190918175422.GB22136@gmail.com>
-References: <20190917134727.3174-1-joakimr@axis.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <20190918175437.GC22136@gmail.com>
+References: <1568705843-26164-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20190917134727.3174-1-joakimr@axis.com>
+In-Reply-To: <1568705843-26164-1-git-send-email-hongxu.jia@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: meta-virtualization@yoctoproject.org, Joakim Roubert <joakimr@axis.com>
-Subject: Re: [PATCH] templates/lxc-download.in: Use curl instead of wget
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH] kubernetes: fix compiling failure: execvp: /bin/bash: Argument list too long
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,114 +81,134 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 17:54:29 -0000
+X-List-Received-Date: Wed, 18 Sep 2019 17:54:43 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-
-merged
+merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] templates/lxc-download.in: Use curl instead of wget
-on 17/09/2019 Joakim Roubert wrote:
+In message: [meta-virtualization][PATCH] kubernetes: fix compiling failure: execvp: /bin/bash: Argument list too long
+on 17/09/2019 Hongxu Jia wrote:
 
-> When curl's MIT license is preferable to wget's GPLv3. Which it is in
-> several situations.
+> Use GNU Make 4.2.1(such as fedora-29) to build k8s in a long directory,
+> it failed with `execvp: /bin/bash: Argument list too long'
+> [snip]
+> $ cd /buildarea1/hjia/wrlinux-1019/I_/suspect_/that_/if_/you_/create_/your_/project_/in_/a_/very_/deep_/directory/build_master-wr_qemux86-64_faw_2019090509/build/tmp-glibc/work/core2-64-wrs-linux/kubernetes/v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a-r0/kubernetes-v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a/src/import
+> $ make cross KUBE_BUILD_PLATFORMS=linux/amd64 GOLDFLAGS=""
+> |+++ [0804 16:38:32] Building go targets for linux/amd64:
+> |    ./vendor/k8s.io/code-generator/cmd/deepcopy-gen
+> |make[1]: execvp: /bin/bash: Argument list too long
+> |make[1]: *** [Makefile.generated_files:184: pkg/kubectl/cmd/testing/zz_generated.deepcopy.go] Error 127
+> |make: *** [Makefile:557: generated_files] Error 2
+> ...
+> [snip]
 > 
-> Change-Id: I72ee1ce66493c564557b73fae80f5219ef83af6d
-> Signed-off-by: Joakim Roubert <joakimr@axis.com>
+> From make manual [1]
+> $?
+>   The names of all the prerequisites that are newer than the target, with spaces between them.
+> 
+> While two `$?' was passed to bash in a line, it caused above failure,
+> drop a duplicated one could workaround the issue.
+> 
+> [1] https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  .../templates-use-curl-instead-of-wget.patch  | 49 +++++++++++++++++++
->  recipes-containers/lxc/lxc_3.2.1.bb           |  3 +-
->  2 files changed, 51 insertions(+), 1 deletion(-)
->  create mode 100644 recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
+>  ...ng-failure-execvp-bin-bash-Argument-list-.patch | 69 ++++++++++++++++++++++
+>  recipes-containers/kubernetes/kubernetes_git.bb    |  1 +
+>  2 files changed, 70 insertions(+)
+>  create mode 100644 recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch
 > 
-> diff --git a/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
+> diff --git a/recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch b/recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch
 > new file mode 100644
-> index 0000000..4b185bf
+> index 0000000..42fd51a
 > --- /dev/null
-> +++ b/recipes-containers/lxc/files/templates-use-curl-instead-of-wget.patch
-> @@ -0,0 +1,49 @@
-> +From dd7b0a2e4542c352456747a45d7eeb11e9fdec26 Mon Sep 17 00:00:00 2001
-> +From: Joakim Roubert <joakimr@axis.com>
-> +Date: Fri, 16 Aug 2019 07:52:48 +0200
-> +Subject: [PATCH] Use curl instead of wget
+> +++ b/recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch
+> @@ -0,0 +1,69 @@
+> +From dbca1bfc6ffca8a6536d91a716cb9c5e9bc2f8a0 Mon Sep 17 00:00:00 2001
+> +From: Hongxu Jia <hongxu.jia@windriver.com>
+> +Date: Tue, 17 Sep 2019 14:43:30 +0800
+> +Subject: [PATCH] fix compiling failure: execvp: /bin/bash: Argument list too
+> + long
 > +
-> +When curl's MIT license is preferable to wget's GPLv3.
+> +Use GNU Make 4.2.1(such as fedora-29) to build k8s in a long directory,
+> +it failed with `execvp: /bin/bash: Argument list too long'
+> +[snip]
+> +$ cd /buildarea1/hjia/wrlinux-1019/I_/suspect_/that_/if_/you_/create_/your_/project_/in_/a_/very_/deep_/directory/build_master-wr_qemux86-64_faw_2019090509/build/tmp-glibc/work/core2-64-wrs-linux/kubernetes/v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a-r0/kubernetes-v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a/src/import
+> +$ make cross KUBE_BUILD_PLATFORMS=linux/amd64 GOLDFLAGS=""
+> +|+++ [0804 16:38:32] Building go targets for linux/amd64:
+> +|    ./vendor/k8s.io/code-generator/cmd/deepcopy-gen
+> +|make[1]: execvp: /bin/bash: Argument list too long
+> +|make[1]: *** [Makefile.generated_files:184: pkg/kubectl/cmd/testing/zz_generated.deepcopy.go] Error 127
+> +|make: *** [Makefile:557: generated_files] Error 2
+> +...
+> +[snip]
 > +
-> +Change-Id: I4684ae7569704514fdcc63e0655c556efcaf44f8
-> +Signed-off-by: Joakim Roubert <joakimr@axis.com>
+> +From make manual [1]
+> +$?
+> +  The names of all the prerequisites that are newer than the target, with spaces between them.
+> +
+> +While two `$?' was passed to bash in a line, it caused above failure,
+> +drop a duplicated one could workaround the issue.
+> +
+> +[1] https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
+> +
+> +Upstream-Status: Submitted [https://github.com/kubernetes/kubernetes/pull/82777]
+> +
+> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > +---
-> + templates/lxc-download.in | 10 +++++-----
-> + 1 file changed, 5 insertions(+), 5 deletions(-)
+> + src/import/build/root/Makefile.generated_files | 6 +++---
+> + 1 file changed, 3 insertions(+), 3 deletions(-)
 > +
-> +diff --git a/templates/lxc-download.in b/templates/lxc-download.in
-> +index b70daaf..9526eae 100644
-> +--- a/templates/lxc-download.in
-> ++++ b/templates/lxc-download.in
-> +@@ -74,9 +74,9 @@ cleanup() {
-> +   fi
-> + }
+> +diff --git a/src/import/build/root/Makefile.generated_files b/src/import/build/root/Makefile.generated_files
+> +index 4892325..f17f1f3 100644
+> +--- a/src/import/build/root/Makefile.generated_files
+> ++++ b/src/import/build/root/Makefile.generated_files
+> +@@ -182,7 +182,7 @@ $(META_DIR)/$(DEEPCOPY_GEN).todo: $(DEEPCOPY_FILES)
 > + 
-> +-wget_wrapper() {
-> ++curl_wrapper() {
-> +   for _ in $(seq 3); do
-> +-    if wget "$@"; then
-> ++    if curl "$@"; then
-> +       return 0
-> +     fi
-> +   done
-> +@@ -85,8 +85,8 @@ wget_wrapper() {
-> + }
+> + $(DEEPCOPY_FILES): $(DEEPCOPY_GEN)
+> + 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then        \
+> +-	    echo "DBG: deepcopy needed $(@D): $?";  \
+> ++	    echo "DBG: deepcopy needed $(@D):";  \
+> + 	    ls -lf --full-time $@ $? || true;       \
+> + 	fi
+> + 	echo $(PRJ_SRC_PATH)/$(@D) >> $(META_DIR)/$(DEEPCOPY_GEN).todo
+> +@@ -276,7 +276,7 @@ $(META_DIR)/$(DEFAULTER_GEN).todo: $(DEFAULTER_FILES)
 > + 
-> + download_file() {
-> +-  if ! wget_wrapper -T 30 -q "https://${DOWNLOAD_SERVER}/$1" -O "$2" >/dev/null 2>&1; then
-> +-    if ! wget_wrapper -T 30 -q "http://${DOWNLOAD_SERVER}/$1" -O "$2" >/dev/null 2>&1; then
-> ++  if ! curl_wrapper -m 30 -s "https://${DOWNLOAD_SERVER}/$1" -o "$2" >/dev/null 2>&1; then
-> ++    if ! curl_wrapper -m 30 -s "http://${DOWNLOAD_SERVER}/$1" -o "$2" >/dev/null 2>&1; then
-> +       if [ "$3" = "noexit" ]; then
-> +         return 1
-> +       else
-> +@@ -266,7 +266,7 @@ while :; do
-> + done
+> + $(DEFAULTER_FILES): $(DEFAULTER_GEN)
+> + 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then         \
+> +-	    echo "DBG: defaulter needed $(@D): $?";  \
+> ++	    echo "DBG: defaulter needed $(@D):";  \
+> + 	    ls -lf --full-time $@ $? || true;        \
+> + 	fi
+> + 	echo $(PRJ_SRC_PATH)/$(@D) >> $(META_DIR)/$(DEFAULTER_GEN).todo
+> +@@ -380,7 +380,7 @@ $(META_DIR)/$(CONVERSION_GEN).todo: $(CONVERSION_FILES)
 > + 
-> + # Check for required binaries
-> +-for bin in tar xz wget; do
-> ++for bin in tar xz curl; do
-> +   if ! command -V "${bin}" >/dev/null 2>&1; then
-> +     echo "ERROR: Missing required tool: ${bin}" 1>&2
-> +     exit 1
-> diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
-> index 4b8f10b..b852515 100644
-> --- a/recipes-containers/lxc/lxc_3.2.1.bb
-> +++ b/recipes-containers/lxc/lxc_3.2.1.bb
-> @@ -5,10 +5,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
->  DEPENDS = "libxml2 libcap"
->  RDEPENDS_${PN} = " \
->  		rsync \
-> +		curl \
->  		gzip \
->  		xz \
->  		tar \
-> -		wget \
->  		libcap-bin \
->  		bridge-utils \
->  		dnsmasq \
-> @@ -41,6 +41,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
->  	file://logs-optionally-use-base-filenames-to-report-src-fil.patch \
->  	file://templates-actually-create-DOWNLOAD_TEMP-directory.patch \
->  	file://template-make-busybox-template-compatible-with-core-.patch \
-> +	file://templates-use-curl-instead-of-wget.patch \
->  	file://tests-our-init-is-not-busybox.patch \
->  	file://tests-add-no-validate-when-using-download-template.patch \
->  	file://network-restore-ability-to-move-nl80211-devices.patch \
+> + $(CONVERSION_FILES): $(CONVERSION_GEN)
+> + 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then          \
+> +-	    echo "DBG: conversion needed $(@D): $?";  \
+> ++	    echo "DBG: conversion needed $(@D):";  \
+> + 	    ls -lf --full-time $@ $? || true;         \
+> + 	fi
+> + 	echo $(PRJ_SRC_PATH)/$(@D) >> $(META_DIR)/$(CONVERSION_GEN).todo
+> +-- 
+> +2.7.4
+> +
+> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+> index cc37796..a0e0e47 100644
+> --- a/recipes-containers/kubernetes/kubernetes_git.bb
+> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
+> @@ -11,6 +11,7 @@ SRCREV_kubernetes = "7054e3ead7e1a00ca6ac3ec47ea355b76061a35a"
+>  SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=master;name=kubernetes \
+>             file://0001-hack-lib-golang.sh-use-CC-from-environment.patch \
+>             file://0001-cross-don-t-build-tests-by-default.patch \
+> +           file://0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch \
+>            "
+>  
+>  DEPENDS += "rsync-native \
 > -- 
-> 2.20.1
+> 2.7.4
 > 
-> -- 
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
