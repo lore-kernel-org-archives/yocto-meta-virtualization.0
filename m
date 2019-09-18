@@ -1,77 +1,54 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <asselsm@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1B0F6E00D90; Wed, 18 Sep 2019 10:54:42 -0700 (PDT)
+	id BD3CCE00C87; Wed, 18 Sep 2019 10:57:34 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, FSL_HELO_FAKE,
-	RCVD_IN_DNSWL_NONE autolearn=no version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000] *  2.6 FSL_HELO_FAKE FSL_HELO_FAKE
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
+	*      [score: 0.0000]
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.166.68 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C2EDCE009EA
+	*      [209.85.167.173 listed in list.dnswl.org]
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+	[209.85.167.173])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 084B3E009EA
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Sep 2019 10:54:41 -0700 (PDT)
-Received: by mail-io1-f68.google.com with SMTP id k5so1279444iol.5
+	Wed, 18 Sep 2019 10:57:33 -0700 (PDT)
+Received: by mail-oi1-f173.google.com with SMTP id k9so382214oib.7
 	for <meta-virtualization@yoctoproject.org>;
-	Wed, 18 Sep 2019 10:54:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=r6rNgwBMWWaj64s5W9v8jF64lZ7mKlvjxtFcjYpXxM4=;
-	b=vWXPJSe8e+PjAUFdKCQfSIK4CCHn6N3MFKJswTT4avC8i5mSyarJ7sd0p91JVDYs62
-	0qf6bXYIFypMQsDXdVlJ2NkqThMgqDP6yE7kqL30EL02e2ffAJi9moPmPJuznusXgaxd
-	SVgCog9jb65jR7YJwj/42my9Gl7xhQpf5fUwAALbZbwvdE7+DjZDo3PF8g2AflGeiKN7
-	wn//lEns43cvWFd/PC10WSUoUqbxZEbClU2FJ0pll8dS+YfdsazEimi8+A3rC+kG1qfX
-	KziomoT7tEI0dSLOM8dQ2W3D+VlnWwMSId3l7j6sLRaB7jUAWn3KrJ3/zU8r26NgRDkO
-	/10Q==
+	Wed, 18 Sep 2019 10:57:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=r6rNgwBMWWaj64s5W9v8jF64lZ7mKlvjxtFcjYpXxM4=;
-	b=ll73YLfl+zWonSPEwt+mg5wqVcOlXvCntfpVvqt/a1gNbjjcI6QwWbKHmaZLqRDCHk
-	vBmFnDNm0jdmwTCGqDFjw788Szgs7keNVrNRJSVVGU8Yu1fy8zBXsOvkBUpTCBzXNruS
-	1MUy7y2zb+Ir9EW0xFklOZ9/Kk+P5jzrykR6H8WbooMCKeSbWg0ymbPs3WzQxv40sX9B
-	d9zbggvnlwhZ5Pw8wtcTtsmIjhBsewKNzM319IfdZrTtDhikBpvvwUI4XEddjf5Q5Lz+
-	A1jeDl4FlbUN42byrmcevwatn+g3v2D0beTFZobxLYlWc3JuIhmfsYQzqxJKUnWMtt5+
-	bbRw==
-X-Gm-Message-State: APjAAAVX2U0wZv71Ve6m6GNFi5OwHoyZ8PgJBACzKYIgHVxAV2zB/RPt
-	H5Ch3QbWzHKFwL/yPPTtJSA3StCXv3/N2w==
-X-Google-Smtp-Source: APXvYqxmrxq92bzeydJQvHs+cTCMy29rhf3Dj8TYWgg5j4ytV65hqTu9hvO67QXdG2gOEqTf7SHolA==
-X-Received: by 2002:a6b:9109:: with SMTP id t9mr4725947iod.16.1568829281044;
-	Wed, 18 Sep 2019 10:54:41 -0700 (PDT)
-Received: from gmail.com
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	u11sm7392064iof.22.2019.09.18.10.54.40
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Sep 2019 10:54:40 -0700 (PDT)
-Date: Wed, 18 Sep 2019 13:54:38 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <20190918175437.GC22136@gmail.com>
-References: <1568705843-26164-1-git-send-email-hongxu.jia@windriver.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+	:from:date:message-id:subject:to:cc;
+	bh=iwGJhiWlUq3IOxEZRpjn5BWO/+cORxFhyh4plKTqWvw=;
+	b=g0bg74GNr2yjV6ckJteix+Uta5OnDU0VBfw3CdSXLBbnmW9VItC8D2WLEZEbOD0mgI
+	qZOYQYLpIK+sBN/Nm6uKDUYpGt0dbyksrk3J0xjiayNufozayRkutx2uVC8ih1obGNJh
+	H06MMohkE33oC8b34kZ+aXbRWINdlvnVIWIb2bBfEnDiGjelvlDEU1zssT+fXzlO8TFg
+	8n7g7ebgnFKAJu1AWZyDLSVPCIAcncWYlOIXEA1e8Je7cUcfdbbQjfx151Z6SosnQZZI
+	x5pzwQQUxXUjCuT67w/xScfn8j+DxArz/XCxYopWFJZwAnJ5e4bauvfCt6ongSpipAqP
+	fNNQ==
+X-Gm-Message-State: APjAAAVVRE7C45Keu7d2SHveSYgiFbzyw2zU9n2DMVQ47LVMQEAvPIcS
+	adHQO6QnXu9G5zTX27g1STcxuxE8NNEYOrhdJbM=
+X-Google-Smtp-Source: APXvYqzOfyXPnz9m553zD913BcZlz0rqx2mpEdqsfyaw2Ew2RFNv5CLiq1UBEauYTLrnUnD3emu7oN7sgDT37Au5H8g=
+X-Received: by 2002:aca:fc06:: with SMTP id a6mr3262553oii.28.1568829453238;
+	Wed, 18 Sep 2019 10:57:33 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1568705843-26164-1-git-send-email-hongxu.jia@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] kubernetes: fix compiling failure: execvp: /bin/bash: Argument list too long
+References: <1568750311-566-1-git-send-email-mark.asselstine@windriver.com>
+	<20190918175402.GA22136@gmail.com>
+In-Reply-To: <20190918175402.GA22136@gmail.com>
+From: Mark Asselstine <mark.asselstine@windriver.com>
+Date: Wed, 18 Sep 2019 13:57:22 -0400
+Message-ID: <CAPuovE+GvdY9Gx7D=V8qCD3Nj6ACvSCgcJBehSNvm6OOD8uOBg@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
+Subject: Re: [PATCH] oci-systemd-hook: fixup patch context
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
+Reply-To: mark.asselstine@windriver.com
 List-Id: "Discussion of layer enabling hypervisor, virtualization tool stack,
 	and cloud support" <meta-virtualization.yoctoproject.org>
 List-Unsubscribe: <https://lists.yoctoproject.org/options/meta-virtualization>, 
@@ -81,134 +58,95 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Sep 2019 17:54:43 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Sep 2019 17:57:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-merged.
+tanks :)
 
-Bruce
+Mark
 
-In message: [meta-virtualization][PATCH] kubernetes: fix compiling failure: execvp: /bin/bash: Argument list too long
-on 17/09/2019 Hongxu Jia wrote:
-
-> Use GNU Make 4.2.1(such as fedora-29) to build k8s in a long directory,
-> it failed with `execvp: /bin/bash: Argument list too long'
-> [snip]
-> $ cd /buildarea1/hjia/wrlinux-1019/I_/suspect_/that_/if_/you_/create_/your_/project_/in_/a_/very_/deep_/directory/build_master-wr_qemux86-64_faw_2019090509/build/tmp-glibc/work/core2-64-wrs-linux/kubernetes/v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a-r0/kubernetes-v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a/src/import
-> $ make cross KUBE_BUILD_PLATFORMS=linux/amd64 GOLDFLAGS=""
-> |+++ [0804 16:38:32] Building go targets for linux/amd64:
-> |    ./vendor/k8s.io/code-generator/cmd/deepcopy-gen
-> |make[1]: execvp: /bin/bash: Argument list too long
-> |make[1]: *** [Makefile.generated_files:184: pkg/kubectl/cmd/testing/zz_generated.deepcopy.go] Error 127
-> |make: *** [Makefile:557: generated_files] Error 2
-> ...
-> [snip]
-> 
-> From make manual [1]
-> $?
->   The names of all the prerequisites that are newer than the target, with spaces between them.
-> 
-> While two `$?' was passed to bash in a line, it caused above failure,
-> drop a duplicated one could workaround the issue.
-> 
-> [1] https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  ...ng-failure-execvp-bin-bash-Argument-list-.patch | 69 ++++++++++++++++++++++
->  recipes-containers/kubernetes/kubernetes_git.bb    |  1 +
->  2 files changed, 70 insertions(+)
->  create mode 100644 recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch
-> 
-> diff --git a/recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch b/recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch
-> new file mode 100644
-> index 0000000..42fd51a
-> --- /dev/null
-> +++ b/recipes-containers/kubernetes/kubernetes/0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch
-> @@ -0,0 +1,69 @@
-> +From dbca1bfc6ffca8a6536d91a716cb9c5e9bc2f8a0 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Tue, 17 Sep 2019 14:43:30 +0800
-> +Subject: [PATCH] fix compiling failure: execvp: /bin/bash: Argument list too
-> + long
-> +
-> +Use GNU Make 4.2.1(such as fedora-29) to build k8s in a long directory,
-> +it failed with `execvp: /bin/bash: Argument list too long'
-> +[snip]
-> +$ cd /buildarea1/hjia/wrlinux-1019/I_/suspect_/that_/if_/you_/create_/your_/project_/in_/a_/very_/deep_/directory/build_master-wr_qemux86-64_faw_2019090509/build/tmp-glibc/work/core2-64-wrs-linux/kubernetes/v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a-r0/kubernetes-v1.16.0-alpha+git7054e3ead7e1a00ca6ac3ec47ea355b76061a35a/src/import
-> +$ make cross KUBE_BUILD_PLATFORMS=linux/amd64 GOLDFLAGS=""
-> +|+++ [0804 16:38:32] Building go targets for linux/amd64:
-> +|    ./vendor/k8s.io/code-generator/cmd/deepcopy-gen
-> +|make[1]: execvp: /bin/bash: Argument list too long
-> +|make[1]: *** [Makefile.generated_files:184: pkg/kubectl/cmd/testing/zz_generated.deepcopy.go] Error 127
-> +|make: *** [Makefile:557: generated_files] Error 2
-> +...
-> +[snip]
-> +
-> +From make manual [1]
-> +$?
-> +  The names of all the prerequisites that are newer than the target, with spaces between them.
-> +
-> +While two `$?' was passed to bash in a line, it caused above failure,
-> +drop a duplicated one could workaround the issue.
-> +
-> +[1] https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
-> +
-> +Upstream-Status: Submitted [https://github.com/kubernetes/kubernetes/pull/82777]
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + src/import/build/root/Makefile.generated_files | 6 +++---
-> + 1 file changed, 3 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/src/import/build/root/Makefile.generated_files b/src/import/build/root/Makefile.generated_files
-> +index 4892325..f17f1f3 100644
-> +--- a/src/import/build/root/Makefile.generated_files
-> ++++ b/src/import/build/root/Makefile.generated_files
-> +@@ -182,7 +182,7 @@ $(META_DIR)/$(DEEPCOPY_GEN).todo: $(DEEPCOPY_FILES)
-> + 
-> + $(DEEPCOPY_FILES): $(DEEPCOPY_GEN)
-> + 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then        \
-> +-	    echo "DBG: deepcopy needed $(@D): $?";  \
-> ++	    echo "DBG: deepcopy needed $(@D):";  \
-> + 	    ls -lf --full-time $@ $? || true;       \
-> + 	fi
-> + 	echo $(PRJ_SRC_PATH)/$(@D) >> $(META_DIR)/$(DEEPCOPY_GEN).todo
-> +@@ -276,7 +276,7 @@ $(META_DIR)/$(DEFAULTER_GEN).todo: $(DEFAULTER_FILES)
-> + 
-> + $(DEFAULTER_FILES): $(DEFAULTER_GEN)
-> + 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then         \
-> +-	    echo "DBG: defaulter needed $(@D): $?";  \
-> ++	    echo "DBG: defaulter needed $(@D):";  \
-> + 	    ls -lf --full-time $@ $? || true;        \
-> + 	fi
-> + 	echo $(PRJ_SRC_PATH)/$(@D) >> $(META_DIR)/$(DEFAULTER_GEN).todo
-> +@@ -380,7 +380,7 @@ $(META_DIR)/$(CONVERSION_GEN).todo: $(CONVERSION_FILES)
-> + 
-> + $(CONVERSION_FILES): $(CONVERSION_GEN)
-> + 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then          \
-> +-	    echo "DBG: conversion needed $(@D): $?";  \
-> ++	    echo "DBG: conversion needed $(@D):";  \
-> + 	    ls -lf --full-time $@ $? || true;         \
-> + 	fi
-> + 	echo $(PRJ_SRC_PATH)/$(@D) >> $(META_DIR)/$(CONVERSION_GEN).todo
-> +-- 
-> +2.7.4
-> +
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-> index cc37796..a0e0e47 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -11,6 +11,7 @@ SRCREV_kubernetes = "7054e3ead7e1a00ca6ac3ec47ea355b76061a35a"
->  SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=master;name=kubernetes \
->             file://0001-hack-lib-golang.sh-use-CC-from-environment.patch \
->             file://0001-cross-don-t-build-tests-by-default.patch \
-> +           file://0001-fix-compiling-failure-execvp-bin-bash-Argument-list-.patch \
->            "
->  
->  DEPENDS += "rsync-native \
-> -- 
-> 2.7.4
-> 
+On Wed, Sep 18, 2019 at 1:54 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> nerged.
+>
+> Bruce
+>
+> In message: [meta-virtualization][PATCH] oci-systemd-hook: fixup patch context
+> on 17/09/2019 Mark Asselstine wrote:
+>
+> > commit 7394c154a92f [containers: update oci-systemd-hook to 0.2.0]
+> > incorrectly adjusted the context around the patch
+> > 0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch.
+> >
+> > This resulted in containers failing with an error:
+> > systemdhook <error>: Failed to mkdir new dest: /opt/container/cube-server/rootfs/sys/fs/cgroup/perf_event: No such file or directory
+> >
+> > Unfortunately, the code was being patched in ahead of the mounting of
+> > the tmpfs after the patch context was adjusted. You can even get a
+> > hint of this in the comment "Systemd is already handled above". Here
+> > we correct this by pushing the code down to the correct position in
+> > the file/function, making the error go away and proper function
+> > return.
+> >
+> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> > ---
+> >  ...itional-cgroup-mounts-from-root-NS-automatica.patch | 18 +++++++++---------
+> >  1 file changed, 9 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch b/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch
+> > index b1299f5..34f0c09 100644
+> > --- a/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch
+> > +++ b/recipes-containers/oci-systemd-hook/oci-systemd-hook/0001-Add-additional-cgroup-mounts-from-root-NS-automatica.patch
+> > @@ -1,4 +1,4 @@
+> > -From f9c640fa1d4c14dfbd2bc40af91cb446ad373075 Mon Sep 17 00:00:00 2001
+> > +From 12d92162c449d51f4ffa482f7daaeb42c4135937 Mon Sep 17 00:00:00 2001
+> >  From: Jason Wessel <jason.wessel@windriver.com>
+> >  Date: Tue, 2 Jul 2019 20:51:08 +0000
+> >  Subject: [PATCH] Add additional cgroup mounts from root NS automatically
+> > @@ -9,10 +9,10 @@ Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> >   1 file changed, 45 insertions(+)
+> >
+> >  diff --git a/src/systemdhook.c b/src/systemdhook.c
+> > -index 87a3585..5220c54 100644
+> > +index c2cb2b9..f9ec9f2 100644
+> >  --- a/src/systemdhook.c
+> >  +++ b/src/systemdhook.c
+> > -@@ -281,6 +281,11 @@ static char *get_process_cgroup_subsystem_path(const char *id, int pid, const ch
+> > +@@ -274,6 +274,11 @@ static char *get_process_cgroup_subsystem_path(const char *id, int pid, const ch
+> >   static int mount_cgroup(const char *id, const char *rootfs, const char *options, char *systemd_path)
+> >   {
+> >       _cleanup_free_ char *cgroup_path = NULL;
+> > @@ -24,8 +24,8 @@ index 87a3585..5220c54 100644
+> >
+> >       if (asprintf(&cgroup_path, "%s/%s", rootfs, CGROUP_ROOT) < 0) {
+> >               pr_perror("%s: Failed to create path for %s", id, CGROUP_ROOT);
+> > -@@ -290,6 +295,46 @@ static int mount_cgroup(const char *id, const char *rootfs, const char *options,
+> > -             pr_perror("%s: Failed to mkdir new dest: %s", id, cgroup_path);
+> > +@@ -292,6 +297,46 @@ static int mount_cgroup(const char *id, const char *rootfs, const char *options,
+> > +             pr_perror("%s: Failed to mkdir new dest: %s", id, systemd_path);
+> >               return -1;
+> >       }
+> >  +    /* Create all additional cgroup mounts which are in the root namespace */
+> > @@ -68,9 +68,9 @@ index 87a3585..5220c54 100644
+> >  +            free(dpath);
+> >  +    }
+> >  +    closedir(dir);
+> > -     /* Mount tmpfs at new cgroup directory */
+> > -     if (mount("tmpfs", cgroup_path, "tmpfs", MS_NODEV|MS_NOSUID, options) == -1) {
+> > -             pr_perror("%s: Failed to mount tmpfs at %s", id, cgroup_path);
+> > +     if (remount_readonly(id, cgroup_path, cgroup_path) < 0) {
+> > +             return -1;
+> > +     }
+> >  --
+> > -2.19.1
+> > +2.7.4
+> >
+> > --
+> > 2.7.4
+> >
+> --
+> _______________________________________________
+> meta-virtualization mailing list
+> meta-virtualization@yoctoproject.org
+> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
