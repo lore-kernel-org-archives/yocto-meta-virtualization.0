@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 59C29E00DB7; Fri, 20 Sep 2019 00:18:16 -0700 (PDT)
+	id 6E017E00DA9; Fri, 20 Sep 2019 00:18:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,11 +19,11 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 421EEE00D9D
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A2813E00D9E
 	for <meta-virtualization@yoctoproject.org>;
 	Fri, 20 Sep 2019 00:18:15 -0700 (PDT)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7BD6A5C0EE7;
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id B5FB85C0F07;
 	Fri, 20 Sep 2019 09:18:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	t=1568963894;
@@ -31,20 +31,20 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=u0rNlIpx4bQtjQ8V5d4y35lqL0eMjGSPm+bClND6BAI=;
-	b=S1wpHjCD7IdqiJOy2gR/9YeaJxO8QA17Z/398l5fyKHgkREDw6Z+UfEDo1iCy0TGUT121y
-	Ds7Ql17lWjG1CcgYtUjbUpwYvHvxotHSKlVqKT4TTheW8EDyQ1/AMhqAIwuGA3T+OzdbXN
-	6LsEx3Qs3Z/JtrWzlrGjI/skWqeFyYw=
+	bh=j5nBK/2zllLyszBOtKngQaNqG1jDyFbaO+6WGpcp9pM=;
+	b=LrChbGrZcEYmUts3qRADNaGZmtMKfusHb7qbPP03/ta3X6D6sKShRN2DiwwdxPNNu2NuPC
+	/H33qDibu0v8l4Uv4rhlJGUyzx/QHoPlYLKETcBNKqh3/2YqSqtl6mfD6sJprcB9JWr0H4
+	FJ0JMvjj8qGYUE37musDktg8IDBIxZw=
 From: Stefan Agner <stefan@agner.ch>
 To: meta-virtualization@yoctoproject.org
-Date: Fri, 20 Sep 2019 09:18:05 +0200
-Message-Id: <20190920071807.13139-6-stefan@agner.ch>
+Date: Fri, 20 Sep 2019 09:18:06 +0200
+Message-Id: <20190920071807.13139-7-stefan@agner.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190920071807.13139-1-stefan@agner.ch>
 References: <20190920071807.13139-1-stefan@agner.ch>
 MIME-Version: 1.0
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH v2 5/7] cni: move cni tools to /usr/libexec/cni
+Subject: [PATCH v2 6/7] slirp4netns: add slirp4netns user-mode networking
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,53 +62,38 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-Use a standard location to store the cni tools and plugins. This
-is more in line how other distributions package cni. Keep a symlink
-to /opt/cni/bin for backward compatibility.
+slirp4netns allows connecting a network namespace to the Internet
+in a completely unprivileged way, by connecting a TAP device in a
+network namespace to the usermode TCP/IP stack ("slirp")."
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-containers/cri-o/files/crio.conf | 2 +-
- recipes-networking/cni/cni_git.bb        | 8 ++++++--
- 2 files changed, 7 insertions(+), 3 deletions(-)
+ .../slirp4netns/slirp4netns_0.4.1.bb             | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 recipes-networking/slirp4netns/slirp4netns_0.4.1.bb
 
-diff --git a/recipes-containers/cri-o/files/crio.conf b/recipes-containers/cri-o/files/crio.conf
-index 51d7f40..9135df0 100644
---- a/recipes-containers/cri-o/files/crio.conf
-+++ b/recipes-containers/cri-o/files/crio.conf
-@@ -144,4 +144,4 @@ registries = [
- network_dir = "/etc/cni/net.d/"
- 
- # plugin_dir is is where CNI plugin binaries are stored.
--plugin_dir = "/opt/cni/bin/"
-+plugin_dir = "/opt/cni/bin"
-diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index 5348b95..b8adf88 100644
---- a/recipes-networking/cni/cni_git.bb
-+++ b/recipes-networking/cni/cni_git.bb
-@@ -63,16 +63,20 @@ do_compile() {
- }
- 
- do_install() {
--    localbindir="/opt/cni/bin"
-+    localbindir="${libexecdir}/cni/"
- 
-     install -d ${D}${localbindir}
-     install -d ${D}/${sysconfdir}/cni/net.d
- 
-     install -m 755 ${S}/src/import/cnitool/cnitool ${D}/${localbindir}
-     install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
+diff --git a/recipes-networking/slirp4netns/slirp4netns_0.4.1.bb b/recipes-networking/slirp4netns/slirp4netns_0.4.1.bb
+new file mode 100644
+index 0000000..b47df96
+--- /dev/null
++++ b/recipes-networking/slirp4netns/slirp4netns_0.4.1.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "User-mode networking for unprivileged network namespaces."
++DESCRIPTION = "slirp4netns allows connecting a network namespace to the \
++Internet in a completely unprivileged way, by connecting a TAP device in a \
++network namespace to the usermode TCP/IP stack ("slirp")."
 +
-+    # Parts of k8s expect the cni binaries to be available in /opt/cni
-+    install -d ${D}/opt/cni
-+    ln -sf ${libexecdir}/cni/ ${D}/opt/cni/bin
- }
- 
--FILES_${PN} += "/opt/cni/bin/*"
-+FILES_${PN} += "${libexecdir}/cni/* /opt/cni/bin"
- 
- INSANE_SKIP_${PN} += "ldflags already-stripped"
- 
++LICENSE = "GPLv2+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=1e2efd29c201480c6be2744d9edade26"
++
++SRCREV = "4d38845e2e311b684fc8d1c775c725bfcd5ddc27"
++SRC_URI = "git://github.com/rootless-containers/slirp4netns.git;nobranch=1"
++
++DEPENDS = "glib-2.0 libcap libseccomp"
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
 -- 
 2.20.1
 
