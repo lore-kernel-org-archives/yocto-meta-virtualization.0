@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 4CE62E00DAA; Fri, 20 Sep 2019 00:18:16 -0700 (PDT)
+	id 59C29E00DB7; Fri, 20 Sep 2019 00:18:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,11 +19,11 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DEC4FE00D94
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 421EEE00D9D
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 20 Sep 2019 00:18:14 -0700 (PDT)
+	Fri, 20 Sep 2019 00:18:15 -0700 (PDT)
 Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 241905C0A5D;
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7BD6A5C0EE7;
 	Fri, 20 Sep 2019 09:18:14 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	t=1568963894;
@@ -31,20 +31,20 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
 	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=jIS0JZtfSZR6bcJ9J2ugY5mT3M9LJAZNNE4DNcXT6ms=;
-	b=oOQParyzApxwI3unYZIsVFNRwyNgL0XCmcOSig4M9e0rupGhAIWiqayrJTSTqEQjIujVWl
-	/sUiLdkvJrAMEyg8GpawD3hVF0fLyo49ocBApbXPTBxdgsH8YWpwUPntc/OZ9Rkk/ho62d
-	+ztpAejW1s0+a/URekO2E3SOtGrEsAo=
+	bh=u0rNlIpx4bQtjQ8V5d4y35lqL0eMjGSPm+bClND6BAI=;
+	b=S1wpHjCD7IdqiJOy2gR/9YeaJxO8QA17Z/398l5fyKHgkREDw6Z+UfEDo1iCy0TGUT121y
+	Ds7Ql17lWjG1CcgYtUjbUpwYvHvxotHSKlVqKT4TTheW8EDyQ1/AMhqAIwuGA3T+OzdbXN
+	6LsEx3Qs3Z/JtrWzlrGjI/skWqeFyYw=
 From: Stefan Agner <stefan@agner.ch>
 To: meta-virtualization@yoctoproject.org
-Date: Fri, 20 Sep 2019 09:18:03 +0200
-Message-Id: <20190920071807.13139-4-stefan@agner.ch>
+Date: Fri, 20 Sep 2019 09:18:05 +0200
+Message-Id: <20190920071807.13139-6-stefan@agner.ch>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190920071807.13139-1-stefan@agner.ch>
 References: <20190920071807.13139-1-stefan@agner.ch>
 MIME-Version: 1.0
 Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH v2 3/7] go-md2man: add md2man
+Subject: [PATCH v2 5/7] cni: move cni tools to /usr/libexec/cni
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -62,41 +62,53 @@ Content-Transfer-Encoding: 8bit
 
 From: Stefan Agner <stefan.agner@toradex.com>
 
-This tool converts markdown into roff (man pages). Useful to build
-podman.
+Use a standard location to store the cni tools and plugins. This
+is more in line how other distributions package cni. Keep a symlink
+to /opt/cni/bin for backward compatibility.
 
 Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- recipes-devtools/go/go-md2man_git.bb | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 recipes-devtools/go/go-md2man_git.bb
+ recipes-containers/cri-o/files/crio.conf | 2 +-
+ recipes-networking/cni/cni_git.bb        | 8 ++++++--
+ 2 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/recipes-devtools/go/go-md2man_git.bb b/recipes-devtools/go/go-md2man_git.bb
-new file mode 100644
-index 0000000..cc8dd5c
---- /dev/null
-+++ b/recipes-devtools/go/go-md2man_git.bb
-@@ -0,0 +1,20 @@
-+DESCRIPTION = "A markdown to manpage generator."
-+HOMEPAGE = "https://github.com/cpuguy83/go-md2man"
-+SECTION = "devel/go"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE.md;md5=80794f9009df723bbc6fe19234c9f517"
+diff --git a/recipes-containers/cri-o/files/crio.conf b/recipes-containers/cri-o/files/crio.conf
+index 51d7f40..9135df0 100644
+--- a/recipes-containers/cri-o/files/crio.conf
++++ b/recipes-containers/cri-o/files/crio.conf
+@@ -144,4 +144,4 @@ registries = [
+ network_dir = "/etc/cni/net.d/"
+ 
+ # plugin_dir is is where CNI plugin binaries are stored.
+-plugin_dir = "/opt/cni/bin/"
++plugin_dir = "/opt/cni/bin"
+diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
+index 5348b95..b8adf88 100644
+--- a/recipes-networking/cni/cni_git.bb
++++ b/recipes-networking/cni/cni_git.bb
+@@ -63,16 +63,20 @@ do_compile() {
+ }
+ 
+ do_install() {
+-    localbindir="/opt/cni/bin"
++    localbindir="${libexecdir}/cni/"
+ 
+     install -d ${D}${localbindir}
+     install -d ${D}/${sysconfdir}/cni/net.d
+ 
+     install -m 755 ${S}/src/import/cnitool/cnitool ${D}/${localbindir}
+     install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
 +
-+BBCLASSEXTEND = "native"
-+
-+GO_IMPORT = "github.com/cpuguy83/go-md2man"
-+#GO_INSTALL = "${GO_IMPORT}/bin/go-md2man"
-+
-+SRC_URI = "git://${GO_IMPORT}.git"
-+
-+SRCREV = "f79a8a8ca69da163eee19ab442bedad7a35bba5a"
-+PV = "1.0.10+git${SRCPV}"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit go
-+
++    # Parts of k8s expect the cni binaries to be available in /opt/cni
++    install -d ${D}/opt/cni
++    ln -sf ${libexecdir}/cni/ ${D}/opt/cni/bin
+ }
+ 
+-FILES_${PN} += "/opt/cni/bin/*"
++FILES_${PN} += "${libexecdir}/cni/* /opt/cni/bin"
+ 
+ INSANE_SKIP_${PN} += "ldflags already-stripped"
+ 
 -- 
 2.20.1
 
