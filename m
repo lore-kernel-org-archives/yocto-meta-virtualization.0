@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1371EE00D8A; Tue, 24 Sep 2019 14:55:52 -0700 (PDT)
+	id 6DFE3E00D98; Tue, 24 Sep 2019 14:56:05 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -21,54 +21,54 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*      valid
 Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
 	[209.85.166.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 96F9BE00D88
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E2D1EE00D89
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Sep 2019 14:55:51 -0700 (PDT)
-Received: by mail-io1-f67.google.com with SMTP id j4so8245779iog.11
+	Tue, 24 Sep 2019 14:56:04 -0700 (PDT)
+Received: by mail-io1-f67.google.com with SMTP id j4so8246999iog.11
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 24 Sep 2019 14:55:51 -0700 (PDT)
+	Tue, 24 Sep 2019 14:56:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=DtgEwbATmawtCpr8nuBxlF3K0ke6QojJqDlVJjfw+NI=;
-	b=WPeQ+6sbfpTloJsbV3htfC51uOCWh+sgYOvO1Hqjv4E0+DvG3HVolaNfJ4Rp1Ytik4
-	waVJvdGEFlPbXJBrfYW86y/vX6wPd9vyNtfOSY714yx85WPZenmkmsGrHBZdKgsr8Ewh
-	gMQDSTIEPrIzhcrQ39qquji+46wTYbWjpz0vvxp4+piYg2Viy8EtzqIK8TZ5UmNMHuLG
-	HyiHKPqcbYApetKtiQC7NKI4FEXR7IsxbQH02BAzMRRCu6AN9+2mjpFINkv7+U9w8p92
-	ZkVJSgZNHQPhxcpIUWalRcXN34b7hJhtlKhzFvAwE35WVu/y3f+LWhP35XNt3nV55lzS
-	u0xw==
+	bh=+cry72vEVcPM9LPjtOTU5hsPGo1qQeYZuv3DShGppzQ=;
+	b=RfLzl9zeBCed1tknsHGKr5HZcHXXvLGP1b0cjvYW/UfH9LZFnbybs2WjOegsQ+Gktm
+	eXhGu25rj1gNDJavkGDLU8fX6ewqgKS7+pBE32LCuiA4lmGgr/ExZbQhnysFi9J2amwE
+	aEY76VfcuSj2sPenszcS5I5q2CcxV8WqS1DfWlhAhX0cjZMAjsAT8O2Jj3auyJ8YozNn
+	sRwSRdCgIbV/X+WvGe3bxJ1exD529aRzF4G6mHrdy5oCGhaulyObTM/rNYGbYpqhuztn
+	fJ0RSlO3VMF4XHoYODDyV4/zciduz+rZUjmblWGoO0YQb3dmUEHyaaYF/cPJk7TQsg/D
+	jcSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=DtgEwbATmawtCpr8nuBxlF3K0ke6QojJqDlVJjfw+NI=;
-	b=VZz4dIGNmydxPlnINkfqZyHueeqpxetKDCeZSYvdS/H+XnlMFk8NCxTE4kp4SYv6c5
-	Xf0MRyb+FqhSsa03B+eQYieR9bTLelawKEkOox2+Z35ADGFYedZAdQPBKipWaOEz96vF
-	FM7qV3fGG/+0f3miKtxmQESCiruVHcg7QjBEtqhuLbivvwvUt0qGHd4QkcvBFk0MHqK8
-	6vEGO//d4Ixflp0Kwjhuw3lJNSfDeJJfTxPI/VGfQz2emN6TFwKbWc4TdnxQ64QbrJzj
-	jTzEF2Dv/n8bTixh6M4udoL1RKIthmJGfTjWCAKTKOrYlxzGNYC0Ea5tRIOVNwH49uaA
-	HghA==
-X-Gm-Message-State: APjAAAWlKX9gFb0ffgDkWbkhTSIJwhRiij0EZ/Lv+EyHP2RiN1bnAcIC
-	crbtsyeKUQn5ngAaELw8PSM=
-X-Google-Smtp-Source: APXvYqz30GC2Ur3rprdDPywtdn1t3BS0G/gL1vgdU/xK9av1klh2YeVBDI4s71mxtxMcq0fuLKWsNQ==
-X-Received: by 2002:a02:b387:: with SMTP id p7mr1277561jan.98.1569362150611;
-	Tue, 24 Sep 2019 14:55:50 -0700 (PDT)
+	bh=+cry72vEVcPM9LPjtOTU5hsPGo1qQeYZuv3DShGppzQ=;
+	b=DnE2Ny4DHupC3FUBdI+Kk4OH2BYdGui9f/HbFTMzDT/nU3+XGTWikFwG/pyEUb6A8f
+	aQfRAPbDjnJjx/MMFcnGLqAiik6JhLZAJRaIEcKzS4o9MychBixuPjZuHATlHpw5qFrb
+	6ktQt3LJqNsjOZAdbFafQAaMHhsBbGrY0dv262Ywh93f3Fp/blg8Yo1TCNYLNfC4mOmt
+	cVEMgR3V+YCL7k7Lh+o0dd24jV+9wPYApBe8De2ZD4mDmf37mHiSWapRLtFKIoi9aoio
+	M/QPzZOM7sz3BMqEPuOR7wEzpw2l2sguR5N5o5llfydqFqcV7wuBhqWmTNQ9ZSiKBPZO
+	4CKw==
+X-Gm-Message-State: APjAAAX09nGMmuE5ZCl0ly2INmQJCuwiS2oVr4tFRpYDFh0M9PQOck8a
+	7MD3CXORQ26hkLJNwNwP378=
+X-Google-Smtp-Source: APXvYqzO3WnqDr/KZ42gKq/1ifMVePmJ1orvy514l8vVzYDZwd2bMhO6sMd4LPewieY+0l5tG5YXMA==
+X-Received: by 2002:a6b:c409:: with SMTP id y9mr2664603ioa.155.1569362164385; 
+	Tue, 24 Sep 2019 14:56:04 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.251.208])
-	by smtp.gmail.com with ESMTPSA id w7sm4308666iob.17.2019.09.24.14.55.49
+	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
+	u11sm4083168iof.22.2019.09.24.14.56.03
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 24 Sep 2019 14:55:49 -0700 (PDT)
-Date: Tue, 24 Sep 2019 17:55:47 -0400
+	Tue, 24 Sep 2019 14:56:03 -0700 (PDT)
+Date: Tue, 24 Sep 2019 17:56:01 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Message-ID: <20190924215546.GE54158@gmail.com>
-References: <20190924063945.7907-1-zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190924215559.GF54158@gmail.com>
+References: <20190924072955.8513-1-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
-In-Reply-To: <20190924063945.7907-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190924072955.8513-1-zangrc.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [PATCH] python-saharaclient: upgrade 0.8.0 -> 2.3.0
+Subject: Re: [PATCH] python-arrow: upgrade 0.12.0 -> 0.15.2
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,37 +81,41 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Sep 2019 21:55:52 -0000
+X-List-Received-Date: Tue, 24 Sep 2019 21:56:05 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged
+merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python-saharaclient: upgrade 0.8.0 -> 2.3.0
+In message: [meta-virtualization] [PATCH] python-arrow: upgrade 0.12.0 -> 0.15.2
 on 24/09/2019 Zang Ruochen wrote:
 
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-saharaclient_git.bb | 4 ++--
+>  .../python/{python-arrow_0.12.0.bb => python-arrow_0.15.2.bb}         | 4 ++--
 >  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-arrow_0.12.0.bb => python-arrow_0.15.2.bb} (71%)
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-saharaclient_git.bb b/meta-openstack/recipes-devtools/python/python-saharaclient_git.bb
-> index 170d460..0d571c9 100644
-> --- a/meta-openstack/recipes-devtools/python/python-saharaclient_git.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-saharaclient_git.bb
-> @@ -22,8 +22,8 @@ SRCNAME = "saharaclient"
+> diff --git a/meta-openstack/recipes-devtools/python/python-arrow_0.12.0.bb b/meta-openstack/recipes-devtools/python/python-arrow_0.15.2.bb
+> similarity index 71%
+> rename from meta-openstack/recipes-devtools/python/python-arrow_0.12.0.bb
+> rename to meta-openstack/recipes-devtools/python/python-arrow_0.15.2.bb
+> index 46a4021..d2d0616 100644
+> --- a/meta-openstack/recipes-devtools/python/python-arrow_0.12.0.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-arrow_0.15.2.bb
+> @@ -4,8 +4,8 @@ SECTION = "devel/python"
+>  LICENSE = "Apache-2.0"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=458d41a4064e4dc109666cfd941a29e4"
 >  
->  SRC_URI = "git://github.com/openstack/python-saharaclient.git;branch=master"
+> -SRC_URI[md5sum] = "fafb41dadf2134688797bf1102eebeb6"
+> -SRC_URI[sha256sum] = "a15ecfddf334316e3ac8695e48c15d1be0d6038603b33043930dcf0e675c86ee"
+> +SRC_URI[md5sum] = "554f18b0e23182ee0e8cb2a882d2f607"
+> +SRC_URI[sha256sum] = "10257c5daba1a88db34afa284823382f4963feca7733b9107956bed041aff24f"
 >  
-> -PV = "0.8.0+git${SRCPV}"
-> -SRCREV = "319ceb6acf55382218dcd971367613aecb3e4afc"
-> +PV = "2.3.0+git${SRCPV}"
-> +SRCREV = "3107b452467537f4eef3d9ecfb5e35d110d19662"
->  S = "${WORKDIR}/git"
+>  inherit setuptools pypi
 >  
->  inherit setuptools
 > -- 
 > 2.7.4
 > 
