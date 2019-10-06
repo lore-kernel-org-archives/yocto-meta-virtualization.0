@@ -1,6 +1,6 @@
 Return-Path: <stefan@agner.ch>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 57BCCE009D4; Thu,  3 Oct 2019 06:41:08 -0700 (PDT)
+	id 6A066E00D4A; Sun,  6 Oct 2019 13:48:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,36 +19,32 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 7FE5DE00867
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5A7BAE00805
 	for <meta-virtualization@yoctoproject.org>;
-	Thu,  3 Oct 2019 06:41:06 -0700 (PDT)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id D088B5C0A54;
-	Thu,  3 Oct 2019 15:41:04 +0200 (CEST)
+	Sun,  6 Oct 2019 13:48:20 -0700 (PDT)
+Received: from linuxdev2.toradex.int (unknown [46.140.72.82])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 436C65C2354;
+	Sun,  6 Oct 2019 22:48:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1570110064;
+	t=1570394899;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	to:to:cc:cc:mime-version:mime-version:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=bg7BHdUWCNpSRX6ffBRdaBuDwG6alfP0JK4eO/ggS/8=;
-	b=CzCwzHsR+z7mZevK5UyT47ay3ZQiLOKsNo6rOxqlXBSlOqi5LVzmPlf0Vu6atdS7wb3N3f
-	KJxinQbCOonwDZRZF1JXUGXhfjzu9B2rL/fKDxoRyu6lCTNbc95g2DeK7vTr1qCshuz1aO
-	K9QKexOVZ+W4NyRKg/kaFZLKXuxmdn0=
-MIME-Version: 1.0
-Date: Thu, 03 Oct 2019 15:41:04 +0200
+	bh=/vqAzpkH2RW1nJe8DG7Rtb+L34k+YKnlTCVMD1QLHg4=;
+	b=IOInNzfBNaIGZx+MWvfM6vx34bCLG2zgv7nMgoRkV51XwPcrOjTWtAizclfH1ivQIuziMO
+	LOObG2tORdXLbqwq8gO4UFtMKBIJl/luMVTN8Hl8F+ceZDHugT06nEQTUt2p+rXKoWwIgB
+	+R47cCvxqSV4iX0p/hnl8MedUwHuEn0=
 From: Stefan Agner <stefan@agner.ch>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-In-Reply-To: <CADkTA4N2vdQu5coA5y1goibwNSXHc78x-Lsmb3E04B8JFxb9LQ@mail.gmail.com>
-References: <20190920071807.13139-1-stefan@agner.ch>
-	<20190926143711.GC9611@gmail.com>
-	<CADkTA4N2vdQu5coA5y1goibwNSXHc78x-Lsmb3E04B8JFxb9LQ@mail.gmail.com>
-Message-ID: <65dc5c6826f0a2628d535c70acd20a41@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>,
-	Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH v2 0/7] podman: add initial recipe
+To: meta-virtualization@yoctoproject.org
+Date: Sun,  6 Oct 2019 22:47:48 +0200
+Message-Id: <20191006204748.15783-5-stefan@agner.ch>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191006204748.15783-1-stefan@agner.ch>
+References: <20191006204748.15783-1-stefan@agner.ch>
+MIME-Version: 1.0
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH 5/5] fuse-overlayfs: add FUSE implementation of overlayfs
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -61,123 +57,42 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 03 Oct 2019 13:41:08 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 06 Oct 2019 20:48:21 -0000
+Content-Transfer-Encoding: 8bit
 
-On 2019-10-03 15:23, Bruce Ashfield wrote:
-> On Thu, Sep 26, 2019 at 10:37 AM Bruce Ashfield
-> <bruce.ashfield@gmail.com> wrote:
->>
->>
->> In message: [meta-virtualization] [PATCH v2 0/7] podman: add initial recipe
->> on 20/09/2019 Stefan Agner wrote:
->>
->> > From: Stefan Agner <stefan.agner@toradex.com>
->> >
->> > This adds Podman a daemonless container engine for developing,
->> > managing, and running OCI Containers on your Linux System.
->> > Containers can either be run as root or in rootless mode.
->> > Simply put: `alias docker=podman`.
->> >
->> > Currently the build tags systemd (if in DISTRO_FEATURES),
->> > seccomp, varlink and remoteclient are enabled which allows to
->> > run podman with overlayfs as root and vfs in rootless mode.
->> > The storage drivers btrfs and device-mapper have not been
->> > tested and are disabled at the moment.
->> >
->> > --
->> > Stefan
->> >
->> > Changes in v2:
->> > - Add slirp4netns recipe for rootless networking support
->> > - Fix podman recipe to build properly (set GOARCH properly)
->> > - Fix podman recipe commit message and comments
->> > - Add varlink and remoteclient to build tags
->> > - Move cni binaries to /usr/libexec/cni and create symlink for /opt/cni/bin
->>
->>
->> FYI: I have this queued and under test. I'll follow up to the
->> individual patches if i have questions or issues that I can't fix
->> myself.
-> 
-> I just pushed the queue this morning. I stacked some commits on top to
-> tweak things a bit, but otherwise, they are as sent in this series.
-> 
-> I wasn't able to fully test podman due to a CNI networking issue, so
-> if you have a podman setup or log, I wouldn't mind seeing it so I can
-> run some additional tests.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-If it is just network, this should run:
-podman run -it --net=none registry.hub.docker.com/arm32v7/debian:buster 
+Add recipe for the FUSE implementation of overlayfs. This is useful
+to improve startup time for podman rootless containers.
 
-I remember I had also issues with networking at first and had to enable
-some kernel configs which were missing in my config, maybe related to
-that in your case as well?
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ .../fuse-overlayfs/fuse-overlayfs_0.6.4.bb        | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+ create mode 100644 recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
 
-CONFIG_MACVLAN=m
-CONFIG_MACVTAP=m
-CONFIG_VXLAN=m
-CONFIG_IPVLAN=m
+diff --git a/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb b/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
+new file mode 100644
+index 0000000..a8bbf0f
+--- /dev/null
++++ b/recipes-extended/fuse-overlayfs/fuse-overlayfs_0.6.4.bb
+@@ -0,0 +1,15 @@
++SUMMARY = "FUSE implementation of overlayfs."
++DESCRIPTION = "An implementation of overlay+shiftfs in FUSE for rootless \
++containers."
++
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++
++SRCREV = "098d9ad79fdbb8538adde08628408aa32a8b4b17"
++SRC_URI = "git://github.com/containers/fuse-overlayfs.git;nobranch=1"
++
++DEPENDS = "fuse3"
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
+-- 
+2.20.1
 
-CONFIG_TUN=m
-CONFIG_TAP=m
-CONFIG_NLMON=m
-
-CONFIG_BRIDGE_VLAN_FILTERING=y
-
-
-Also I had to disable static building for proper cgroup support and add
-seccomp by overwriting runc PACKAGECONFIG:
-
-PACKAGECONFIG_pn-${PREFERRED_PROVIDER_virtual/runc} = "seccomp"
-
-I will do some builds and tests with latest meta-virtualization.
-
---
-Stefan
-
-
-> 
-> Bruce
-> 
->>
->> Bruce
->>
->> >
->> > Stefan Agner (7):
->> >   conmon: initial add
->> >   go-metalinter: add recipe for gometalinter
->> >   go-md2man: add md2man
->> >   skopeo: add skopeo
->> >   cni: move cni tools to /usr/libexec/cni
->> >   slirp4netns: add slirp4netns user-mode networking
->> >   podman: add the Pod Manager tool
->> >
->> >  recipes-containers/conmon/conmon_2.0.0.bb     | 30 ++++++
->> >  ...ail-if-clean-is-called-without-a-bui.patch | 31 +++++++
->> >  recipes-containers/cri-o/files/crio.conf      |  2 +-
->> >  recipes-containers/podman/podman_git.bb       | 93 +++++++++++++++++++
->> >  recipes-containers/skopeo/skopeo_git.bb       | 73 +++++++++++++++
->> >  recipes-devtools/go/go-md2man_git.bb          | 20 ++++
->> >  recipes-devtools/go/go-metalinter_git.bb      | 24 +++++
->> >  recipes-networking/cni/cni_git.bb             |  8 +-
->> >  .../slirp4netns/slirp4netns_0.4.1.bb          | 16 ++++
->> >  9 files changed, 294 insertions(+), 3 deletions(-)
->> >  create mode 100644 recipes-containers/conmon/conmon_2.0.0.bb
->> >  create mode 100644 recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
->> >  create mode 100644 recipes-containers/podman/podman_git.bb
->> >  create mode 100644 recipes-containers/skopeo/skopeo_git.bb
->> >  create mode 100644 recipes-devtools/go/go-md2man_git.bb
->> >  create mode 100644 recipes-devtools/go/go-metalinter_git.bb
->> >  create mode 100644 recipes-networking/slirp4netns/slirp4netns_0.4.1.bb
->> >
->> > --
->> > 2.20.1
->> >
->> > --
->> > _______________________________________________
->> > meta-virtualization mailing list
->> > meta-virtualization@yoctoproject.org
->> > https://lists.yoctoproject.org/listinfo/meta-virtualization
 
