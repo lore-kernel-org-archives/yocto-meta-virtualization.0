@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DC24FE0083A; Sun, 13 Oct 2019 16:45:20 -0700 (PDT)
+	id 3A4B0E00D8A; Sun, 13 Oct 2019 16:46:15 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -21,46 +21,47 @@ X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
 	*      valid
 Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
 	[209.85.208.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F0700E007A2
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6A525E007C2
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 13 Oct 2019 16:45:19 -0700 (PDT)
-Received: by mail-lj1-f195.google.com with SMTP id d1so14750709ljl.13
+	Sun, 13 Oct 2019 16:46:14 -0700 (PDT)
+Received: by mail-lj1-f195.google.com with SMTP id m7so14816895lji.2
 	for <meta-virtualization@yoctoproject.org>;
-	Sun, 13 Oct 2019 16:45:19 -0700 (PDT)
+	Sun, 13 Oct 2019 16:46:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=R+o2S+O8dD4pqhzdLCdZvp2MSOR5ZU9PONFr6wh6sk4=;
-	b=kNaH25vyMOCgNZcaanbrFYM6KV28KKkVWgr2o4sj5OsY+IEltYKUz77NcTX9XtqMw+
-	4QIUnwEYxB0yN3rKk0JtqIY3bzZJKqkBcN5V7Zke+SMBqjGe0SKuF8ZoSEXPlQIdlhLG
-	INyGsE3S3j50+Kx6w/DO+D39MFNJryN6nEtHx8fGYTSQIRpjIWf8ahqOAmRTiuPpQOeo
-	fN/M0YDTfGwwEzEn7Rr1mdy3+eTIPIkLmVNNAg+ENASw+fFzh5hjRI2QXhOEyddG2dsb
-	knMOMx8Y8g6/lKS1vw6EwzxJK0qsqWg1qpKjLKP3WwKljmf67jAZN4LArU2DqBrBNeWv
-	D1FA==
+	:cc; bh=dBgHmX8rqE/qKWcW4cRNWMj3DFa0VWoc2zRUwMSmMqs=;
+	b=hSibbDya2tNEsgsAIsHji6ZGGs1WXdtGL1SoyU/jwRROxz/8viWp6PgpR2UO8IRBts
+	LL6iWB6IBU47VGHwwiQ8mzbfiBWNqMI/H4w6AhLW0YSFjaRUD7KJ8OUQqLmO0TmQ27Y1
+	gZAfF2ZASs3XAaY4zOtX5yXfvKaLnAe6T4RU3+m2M9XZK1KPYWbQZ4LX7dJh89S+eT2Q
+	qfKopaCIVAmqwHYOuERKttG9BtMUuQKKB1CGq8yyoiGQWw/A2rNdlVUWYIau4dl3m3IQ
+	Y6lXwBk/4jPMkZeoN+gh7LI5k1lpNbul3yQojBGWaVGMqGSx5uv+0Oh/8KfjZ7vZ+mi4
+	Izog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=R+o2S+O8dD4pqhzdLCdZvp2MSOR5ZU9PONFr6wh6sk4=;
-	b=qplXTK4ho+p4RxHZQihgJjG4M/6vwKMhUGt2772DdpEqKZPBfheZuE6wgihdTJTFVl
-	x60t6VBXp31YSw+EaAv39dc9ljPWQVym5QJuuXMj34D0LyAT2EpImr9wLSkhNC7ygGUB
-	6ZGvZmYGbpKgbBUyw3iFw9N/+MToICG2RvxA8eYvVB7GOQByiNTwi/smvVBv2qYp69Nc
-	OUH8qxJ3OKHDJgQ58k37QJKiLrcsqfzjRaXSRRtN0QyZDsmrV/KAN+aOyQAR6lsyUIm6
-	xF852bnXQWJPJSi/IR6YXbn+ixl//Pkf2p/xyju6rAWQO7P7KbYMu3MBAQgEEqpoehos
-	B+pQ==
-X-Gm-Message-State: APjAAAXJpilvi+k0jjTNK7xVVIu14MdZpgLdLwq3KVh1kAoiMEmhCLXA
-	icnQQNOrulbBRwyAGXj1h/da+m5wVr3NEOdaj5A=
-X-Google-Smtp-Source: APXvYqzqvCZdWAaUN6oXt+nIdpnKCf62UxrhWju7s0rWwZO9bd3TVUgamgnvuUzKfzVze8pW4/9pFlj1+RGEaIef18E=
-X-Received: by 2002:a2e:7312:: with SMTP id o18mr16799201ljc.32.1571010319078; 
-	Sun, 13 Oct 2019 16:45:19 -0700 (PDT)
+	bh=dBgHmX8rqE/qKWcW4cRNWMj3DFa0VWoc2zRUwMSmMqs=;
+	b=mtTPyVSKomQiE77Fr9wNe1ZdLtlfTnQGeLS+sedFCPq4XfPj9/8eL6BiT0800Ggfx0
+	0z+BRo5HmIR2k4yxQpw8QcQUoRAnWeR9TBWCuNoJsPp+nyLtisubNsF5fQq3UF2PaUrr
+	S78amVX3lVrYEFQQRE0d1eFzQCPI2SUsd26L7DZ/QU2+WSYcM3120kRXGUi9M3bwR1XQ
+	jm1fkvb7SW5ADe1YT5TS3Fhkz1XErjqcSGW68dfNJZun3LwbJpjWDrKjgZ8o0paI7+UW
+	10292cct3WmTCIMP8mwBA0foPRLfO+gm4LmIWgW7s7IOCGseg3oPzCs2NzY24rVQzFl8
+	urKw==
+X-Gm-Message-State: APjAAAVI+G3tymvO2BOdvVSp1AhDw0RS2Yqhoe3Mv5tkdeoyMqZkUZtB
+	/3u2n5Hbp5h3EphUO+ArxQTtRGZLYl2rkenMn6E=
+X-Google-Smtp-Source: APXvYqz/q8tpOtjVgWz8exw6MnIyhwovgxxiC7QDYffG3NRf9LNxP1ChNoFSEZ0APg910UAadXTSqjdbrzcoYA4/RM4=
+X-Received: by 2002:a2e:9449:: with SMTP id o9mr434736ljh.110.1571010373395;
+	Sun, 13 Oct 2019 16:46:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191012150415.16293-1-ruslan.piasetskyi@gmail.com>
-In-Reply-To: <20191012150415.16293-1-ruslan.piasetskyi@gmail.com>
+References: <20191006204748.15783-1-stefan@agner.ch>
+In-Reply-To: <20191006204748.15783-1-stefan@agner.ch>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 13 Oct 2019 19:45:07 -0400
-Message-ID: <CADkTA4PgRCJdgPvL=1iwm6McRnuMk-aVUOifDVFYL3aG_tZ0hA@mail.gmail.com>
-To: Ruslan Piasetskyi <ruslan.piasetskyi@gmail.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] Fix criu build for aarch64
+Date: Sun, 13 Oct 2019 19:46:02 -0400
+Message-ID: <CADkTA4Nn+LGu8WHfhngkvOVi6kRC4hM=1ufx8JUusx8L4rKyKw@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>
+Cc: meta-virtualization <meta-virtualization@yoctoproject.org>,
+	Stefan Agner <stefan.agner@toradex.com>
+Subject: Re: [PATCH 1/5] podman: remove comment about runc
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,43 +74,45 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sun, 13 Oct 2019 23:45:21 -0000
+X-List-Received-Date: Sun, 13 Oct 2019 23:46:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+All 5 patches in this series are now merged.
+
+I'm still having some issues with the network and CNI .. but will have
+a closer look this week. There was no reason to hold these back based
+on those problems though.
 
 Bruce
 
-On Sat, Oct 12, 2019 at 11:04 AM Ruslan Piasetskyi
-<ruslan.piasetskyi@gmail.com> wrote:
+On Sun, Oct 6, 2019 at 4:49 PM Stefan Agner <stefan@agner.ch> wrote:
 >
-> Makefile:
-> #
-> # Supported Architectures
-> ifneq ($(filter-out x86 arm aarch64 ppc64 s390,$(ARCH)),)
->         $(error "The architecture $(ARCH) isn't supported")
-> endif
+> From: Stefan Agner <stefan.agner@toradex.com>
 >
-> Signed-off-by: Ruslan Piasetskyi <ruslan.piasetskyi@gmail.com>
+> It seems that docker uses nowadays a rather vanilla version of runc,
+> at the time of writing 1.0.0-rc8. This version has successfully
+> tested with podman, hence remove the obsolete comment.
+>
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 > ---
->  recipes-containers/criu/criu_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  recipes-containers/podman/podman_git.bb | 2 --
+>  1 file changed, 2 deletions(-)
 >
-> diff --git a/recipes-containers/criu/criu_git.bb b/recipes-containers/criu/criu_git.bb
-> index c1ddb49..6bbbed6 100644
-> --- a/recipes-containers/criu/criu_git.bb
-> +++ b/recipes-containers/criu/criu_git.bb
-> @@ -38,7 +38,7 @@ S = "${WORKDIR}/git"
->  #
->  EXTRA_OEMAKE_arm += "ARCH=arm UNAME-M=${CRIU_BUILD_ARCH} WERROR=0"
->  EXTRA_OEMAKE_x86-64 += "ARCH=x86 WERROR=0"
-> -EXTRA_OEMAKE_aarch64 += "ARCH=arm64 WERROR=0"
-> +EXTRA_OEMAKE_aarch64 += "ARCH=aarch64 WERROR=0"
+> diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
+> index 64e2672..db595a5 100644
+> --- a/recipes-containers/podman/podman_git.bb
+> +++ b/recipes-containers/podman/podman_git.bb
+> @@ -113,8 +113,6 @@ FILES_${PN} += " \
+>      ${sysconfdir}/cni \
+>  "
 >
->  EXTRA_OEMAKE_append += "SBINDIR=${sbindir} LIBDIR=${libdir} INCLUDEDIR=${includedir} PIEGEN=no"
->  EXTRA_OEMAKE_append += "LOGROTATEDIR=${sysconfdir} SYSTEMDUNITDIR=${systemd_unitdir}"
+> -# Note that runc-opencontainers is the only currently tested
+> -# runc provider.
+>  RDEPENDS_${PN} += "conmon virtual/runc iptables cni skopeo"
+>  RRECOMMENDS_${PN} += "slirp4netns"
+>  RCONFLICTS_${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'docker', 'docker', '', d)}"
 > --
-> 2.17.1
+> 2.20.1
 >
 > --
 > _______________________________________________
