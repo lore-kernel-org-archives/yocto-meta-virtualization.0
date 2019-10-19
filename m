@@ -1,19 +1,19 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 92F73E00D4F; Fri, 18 Oct 2019 21:35:06 -0700 (PDT)
+	id 21822E00D82; Fri, 18 Oct 2019 21:38:31 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM,
 	RCVD_IN_DNSWL_NONE autolearn=ham version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+X-Spam-HAM-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+	https://www.dnswl.org/, no *      trust
+	*      [209.85.167.67 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
 	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.167.67 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
@@ -21,46 +21,46 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      valid
 Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
 	[209.85.167.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3DC3FE0098A
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 54476E00D72
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 18 Oct 2019 21:35:05 -0700 (PDT)
-Received: by mail-lf1-f67.google.com with SMTP id u16so6175032lfq.3
+	Fri, 18 Oct 2019 21:38:30 -0700 (PDT)
+Received: by mail-lf1-f67.google.com with SMTP id r2so6174702lfn.8
 	for <meta-virtualization@yoctoproject.org>;
-	Fri, 18 Oct 2019 21:35:05 -0700 (PDT)
+	Fri, 18 Oct 2019 21:38:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=m/UEwjhm81RBV9MFBkr95Y20CmN9QakPMwLuVniptco=;
-	b=JojUI6F3hkna3yZywVsVyOmEMaGT7L4ulo9H3lbDqaxUUl9QjgnI4ZFeHhihoAGw3E
-	9q0G5m3b5qchLzwXVkw0jpvlna6aIriR8470/b5CmiMD2O1dbZEkf5mgHlLEvn80+AZS
-	JGnSbSEMbuS5w0q0SX9cHHn2ln9hVHplmLDQI3oW5oJzccx02FC/oUe9A44E2WHBStzM
-	phnSmPgKtUQvXku60nGzzPHi+sV0/++K0L/Ad59s4TjfCMXYTnr6ViPXZVANKImLOMV+
-	tVL/TuAWsVSVmCSovMt31oSlTRKoZO0JY0k/t+MMo5lVJw4vlO6524Vb0MnsxzeCsPBl
-	NeUw==
+	:cc; bh=alwQjdDsg/XpmLL41R+I/0q758Bk16Hz2t1GtzZnXzg=;
+	b=t/+3/Nn79qv76OrZZSHYryOZR7cf12mqilWRcr/tnfykcQcuOgM2aCmSE9AMipMQ+3
+	Zd1IOgoub9lEAONodLymTZJk4aYswyKBhgJm5nM9l3Q26UvYGZIP08kZxguNbLCgm9Ua
+	3coO4CIQx6PS7EK7nRyNLXXtif7ms5yyn6eaIXYPCftrD+1y7DUvI8hUioaM2xdiRMhj
+	UjGaHrPLoOZYq2rBUquT1u3NVPg5VTFQLpDjbi5Iml4Cf8WVSOpf9oiJbbeFQeGBQfuL
+	lO4JTdzMtMN8JfbD7jeeyZ1doIppmUGwUIsS25Xk0GM3yckXGUHXlDKeqvtyyGGhtZJg
+	NiTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=m/UEwjhm81RBV9MFBkr95Y20CmN9QakPMwLuVniptco=;
-	b=AcjRfcxnlK7Dlx/uYsFNH9qV899a744DFFLUU0SnGNI6mYFu8mIZIr0hSUFUYJ0jlQ
-	hcr8pNm0wNJdKFaZlt5AxZugHjBllBOGO+xagBRs3N5KIM2Rzy9IKgKMv0KRkciYTCAY
-	q3RUn+41b0Tllwzb0erYR+qRPqfodlcWJ5qpTX5tOx+8qNfN/5YWT5NVNl4HKmaweo2W
-	sqf/0QMsWAWvUyst10LD/4I1lFixIMFvVFTx6Y9GrSY2pFLgYHFX1YIXtHvBDmfrP8wU
-	Iu0s3BZUmin/zW+uh160I8b4BDwjXexUpbRiatttDirOh66HCLfyyvh0DhpznyX1SB5Y
-	599A==
-X-Gm-Message-State: APjAAAUWRz0jRiB6KdrH2YUm2ONF0Zyo/yGz+z2SsMkqcS6vYAzc2TT0
-	XyEgHmPgFBW6+cV6AEiTZ2VZ1bWyNZUL1AMF9ps=
-X-Google-Smtp-Source: APXvYqxefuZb3OBhnGpGuQ+5ytScyYF04vh+f4E3OhWcsldJh2uBRmmf3R/v+lmPHRnBTqiaD5pqjD/wPYhZK/x/2mU=
-X-Received: by 2002:ac2:5de1:: with SMTP id z1mr4139388lfq.36.1571459704054;
-	Fri, 18 Oct 2019 21:35:04 -0700 (PDT)
+	bh=alwQjdDsg/XpmLL41R+I/0q758Bk16Hz2t1GtzZnXzg=;
+	b=G1qDaEQVafBLJv4js4cYdx0yPguQWUqn6u2uHoEt2lwUMyXqnHcWsXDUgbaopjUXVX
+	3C+Y3i6gGsX2lhrY4T2mIoI2uxt7e+U+rqD0jkTmbj42GKt+PswWSNJ4goqQpB3URLMY
+	W0iXsVIOJd7QmoyKH+cc6ObNcrzt0eItSfWO3GialLeycqgAp59qppf2WSgsuj61krGE
+	lcrR3R4witPk8rvgiaNWk7sFDNtHu1y/f+iRyb2WVY6fTEbHov+RtUq3Zh5CZp0lNyEG
+	7nsXOM2ljIkYMCW5whJnRcV5v/r0DZWWOPfFjOXvz5Hc3hK2u/oUOhvQPuwzDyNFsAzD
+	mkWQ==
+X-Gm-Message-State: APjAAAWf8SmpKQpSkvIfpqfGhXYAJuf9ulYAEVWUTqt/UZ8pmDzSf4Yl
+	RjCz1326NbVhDo2Izz9/Ej1U3U6PgzjtAhurG4HPH4soBgI=
+X-Google-Smtp-Source: APXvYqy24chZtr4qODOgQ3pZrlxwsN6GeUqzS89r0pIzvlikrZtSFJknkelEPmUTm4crzf/KTBAqhU3ZWrPbTk8uYEI=
+X-Received: by 2002:a19:ac04:: with SMTP id g4mr8090135lfc.63.1571459909176;
+	Fri, 18 Oct 2019 21:38:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191018082959.7773-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20191018082959.7773-1-zangrc.fnst@cn.fujitsu.com>
+References: <20191018082022.7664-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20191018082022.7664-1-zangrc.fnst@cn.fujitsu.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sat, 19 Oct 2019 00:34:52 -0400
-Message-ID: <CADkTA4O4Y1OeL9FHehCLwiRf1mSDR=7haWFUFF9GX_a4m3uJrQ@mail.gmail.com>
+Date: Sat, 19 Oct 2019 00:38:17 -0400
+Message-ID: <CADkTA4Nzou_9f2ORUGsggzs9X9mtKAufuyjRBiBdhvoN+TBEHg@mail.gmail.com>
 To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Subject: Re: [PATCH] python-kombu: upgrade 4.6.4 -> 4.6.5
+Subject: Re: [PATCH] python-httpretty: upgrade 0.9.6 -> 0.9.7
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -73,47 +73,47 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Sat, 19 Oct 2019 04:35:06 -0000
+X-List-Received-Date: Sat, 19 Oct 2019 04:38:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 merged
 
 Bruce
 
-On Fri, Oct 18, 2019 at 4:29 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+On Fri, Oct 18, 2019 at 4:20 AM Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
 > Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-kombu.inc               | 4 ++--
->  .../python/{python-kombu_4.6.4.bb => python-kombu_4.6.5.bb}           | 0
->  .../python/{python3-kombu_4.6.4.bb => python3-kombu_4.6.5.bb}         | 0
+>  meta-openstack/recipes-devtools/python/python-httpretty.inc           | 4 ++--
+>  .../python/{python-httpretty_0.9.6.bb => python-httpretty_0.9.7.bb}   | 0
+>  .../python/{python3-httpretty_0.9.6.bb => python3-httpretty_0.9.7.bb} | 0
 >  3 files changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-kombu_4.6.4.bb => python-kombu_4.6.5.bb} (100%)
->  rename meta-openstack/recipes-devtools/python/{python3-kombu_4.6.4.bb => python3-kombu_4.6.5.bb} (100%)
+>  rename meta-openstack/recipes-devtools/python/{python-httpretty_0.9.6.bb => python-httpretty_0.9.7.bb} (100%)
+>  rename meta-openstack/recipes-devtools/python/{python3-httpretty_0.9.6.bb => python3-httpretty_0.9.7.bb} (100%)
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc b/meta-openstack/recipes-devtools/python/python-kombu.inc
-> index 9918281..923278a 100644
-> --- a/meta-openstack/recipes-devtools/python/python-kombu.inc
-> +++ b/meta-openstack/recipes-devtools/python/python-kombu.inc
-> @@ -4,8 +4,8 @@ SECTION = "devel/python"
->  LICENSE = "BSD"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=daea7c168428449fbee05e644df929f4"
+> diff --git a/meta-openstack/recipes-devtools/python/python-httpretty.inc b/meta-openstack/recipes-devtools/python/python-httpretty.inc
+> index f39e283..97bd6b3 100644
+> --- a/meta-openstack/recipes-devtools/python/python-httpretty.inc
+> +++ b/meta-openstack/recipes-devtools/python/python-httpretty.inc
+> @@ -7,8 +7,8 @@ SECTION = "devel/python"
+>  LICENSE = "MIT"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=113a91608a1d89039af9393c39bcaa2c"
 >
-> -SRC_URI[md5sum] = "4eb5f1e6f669e04f5bd0c627c7467156"
-> -SRC_URI[sha256sum] = "e5f0312dfb9011bebbf528ccaf118a6c2b5c3b8244451f08381fb23e7715809b"
-> +SRC_URI[md5sum] = "6279c780cfa64beda3a303f54cb19a7a"
-> +SRC_URI[sha256sum] = "c9078124ce2616b29cf6607f0ac3db894c59154252dee6392cdbbe15e5c4b566"
+> -SRC_URI[md5sum] = "3b881b519e0f405caaf8aaa63f3508c0"
+> -SRC_URI[sha256sum] = "01b52d45077e702eda491f4fe75328d3468fd886aed5dcc530003e7b2b5939dc"
+> +SRC_URI[md5sum] = "2fc3d0dc986200be95ce8ad3ef56bc04"
+> +SRC_URI[sha256sum] = "66216f26b9d2c52e81808f3e674a6fb65d4bf719721394a1a9be926177e55fbe"
 >
 >  inherit pypi
 >
-> diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb b/meta-openstack/recipes-devtools/python/python-kombu_4.6.5.bb
+> diff --git a/meta-openstack/recipes-devtools/python/python-httpretty_0.9.6.bb b/meta-openstack/recipes-devtools/python/python-httpretty_0.9.7.bb
 > similarity index 100%
-> rename from meta-openstack/recipes-devtools/python/python-kombu_4.6.4.bb
-> rename to meta-openstack/recipes-devtools/python/python-kombu_4.6.5.bb
-> diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.5.bb
+> rename from meta-openstack/recipes-devtools/python/python-httpretty_0.9.6.bb
+> rename to meta-openstack/recipes-devtools/python/python-httpretty_0.9.7.bb
+> diff --git a/meta-openstack/recipes-devtools/python/python3-httpretty_0.9.6.bb b/meta-openstack/recipes-devtools/python/python3-httpretty_0.9.7.bb
 > similarity index 100%
-> rename from meta-openstack/recipes-devtools/python/python3-kombu_4.6.4.bb
-> rename to meta-openstack/recipes-devtools/python/python3-kombu_4.6.5.bb
+> rename from meta-openstack/recipes-devtools/python/python3-httpretty_0.9.6.bb
+> rename to meta-openstack/recipes-devtools/python/python3-httpretty_0.9.7.bb
 > --
 > 2.7.4
 >
