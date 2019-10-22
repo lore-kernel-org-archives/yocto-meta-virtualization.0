@@ -1,43 +1,42 @@
 Return-Path: <maciej.pijanowski@3mdeb.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 7D3E1E00C9B; Tue, 22 Oct 2019 07:24:17 -0700 (PDT)
+	id D2FE3E00C4F; Tue, 22 Oct 2019 08:38:23 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00, RCVD_IN_DNSWL_NONE, 
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [46.105.53.132 listed in list.dnswl.org]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
-X-Greylist: delayed 356 seconds by postgrey-1.32 at yocto-www;
-	Tue, 22 Oct 2019 07:24:15 PDT
-Received: from 6.mo178.mail-out.ovh.net (6.mo178.mail-out.ovh.net
-	[46.105.53.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0A840E00A93
+	*      [46.105.41.146 listed in list.dnswl.org]
+X-Greylist: delayed 2399 seconds by postgrey-1.32 at yocto-www;
+	Tue, 22 Oct 2019 08:38:21 PDT
+Received: from 1.mo68.mail-out.ovh.net (1.mo68.mail-out.ovh.net
+	[46.105.41.146])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DCA78E00571
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Oct 2019 07:24:15 -0700 (PDT)
-Received: from player690.ha.ovh.net (unknown [10.109.143.24])
-	by mo178.mail-out.ovh.net (Postfix) with ESMTP id DFF077CE43
+	Tue, 22 Oct 2019 08:38:21 -0700 (PDT)
+Received: from player750.ha.ovh.net (unknown [10.108.42.174])
+	by mo68.mail-out.ovh.net (Postfix) with ESMTP id A15A01440FF
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Oct 2019 16:18:17 +0200 (CEST)
+	Tue, 22 Oct 2019 16:18:49 +0200 (CEST)
 Received: from 3mdeb.com (85-222-117-222.dynamic.chello.pl [85.222.117.222])
 	(Authenticated sender: maciej.pijanowski@3mdeb.com)
-	by player690.ha.ovh.net (Postfix) with ESMTPSA id 3ED9BB277102;
-	Tue, 22 Oct 2019 14:18:15 +0000 (UTC)
+	by player750.ha.ovh.net (Postfix) with ESMTPSA id 0FF08B3EF1EC;
+	Tue, 22 Oct 2019 14:18:46 +0000 (UTC)
 From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
 To: meta-virtualization@yoctoproject.org
-Date: Tue, 22 Oct 2019 16:17:52 +0200
-Message-Id: <1571753872-13999-1-git-send-email-maciej.pijanowski@3mdeb.com>
+Date: Tue, 22 Oct 2019 16:18:32 +0200
+Message-Id: <1571753912-14150-1-git-send-email-maciej.pijanowski@3mdeb.com>
 X-Mailer: git-send-email 2.7.4
-X-Ovh-Tracer-Id: 1128433185286598164
+X-Ovh-Tracer-Id: 1137440382408994324
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: 0
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrkeejgdejgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecu
 Cc: piotr.krol@3mdeb.com
-Subject: [m-c-s][PATCH] python-rsa: add python3 version
+Subject: [m-c-s][PATCH] python-oauth2client: add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -50,64 +49,74 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Tue, 22 Oct 2019 14:24:17 -0000
+X-List-Received-Date: Tue, 22 Oct 2019 15:38:23 -0000
 
 Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
 ---
- meta-openstack/recipes-devtools/python/python-rsa.inc     | 13 +++++++++++++
- .../recipes-devtools/python/python-rsa_3.4.2.bb           | 15 ++-------------
- .../recipes-devtools/python/python3-rsa_3.4.2.bb          |  2 ++
- 3 files changed, 17 insertions(+), 13 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-rsa.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb
+ .../recipes-devtools/python/python-oauth2client.inc  | 18 ++++++++++++++++++
+ .../python/python-oauth2client_4.1.2.bb              | 20 ++------------------
+ .../python/python3-oauth2client_4.1.2.bb             |  2 ++
+ 3 files changed, 22 insertions(+), 18 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-oauth2client.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-rsa.inc b/meta-openstack/recipes-devtools/python/python-rsa.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-oauth2client.inc b/meta-openstack/recipes-devtools/python/python-oauth2client.inc
 new file mode 100644
-index 000000000000..ccb65d5a4e89
+index 000000000000..d91fc463a6d1
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-rsa.inc
-@@ -0,0 +1,13 @@
-+SUMMARY = "Pure-Python RSA implementation"
-+AUTHOR = "Sybren A. Stuvel"
++++ b/meta-openstack/recipes-devtools/python/python-oauth2client.inc
+@@ -0,0 +1,18 @@
++DESCRIPTION = "OAuth 2.0 client library"
++AUTHOR = "Google Inc."
++HOMEPAGE = "http://github.com/google/oauth2client/"
 +LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=c403f6882d4f97a9cd927df987d55634"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=038e1390e94fe637991fa5569daa62bc"
 +
 +inherit pypi
 +
-+SRC_URI[md5sum] = "b315f47882c24030ee6b5aad628cccdb"
-+SRC_URI[sha256sum] = "25df4e10c263fb88b5ace923dd84bf9aa7f5019687b5e55382ffcdb8bede9db5"
++SRC_URI[md5sum] = "bc30976cd1e859cd6199264a50c5ba72"
++SRC_URI[sha256sum] = "bd3062c06f8b10c6ef7a890b22c2740e5f87d61b6e1f4b1c90d069cdfc9dadb5"
 +
 +RDEPENDS_${PN} += " \
++        ${PYTHON_PN}-httplib2 \
 +        ${PYTHON_PN}-pyasn1 \
++        ${PYTHON_PN}-pyasn1-modules \
++        ${PYTHON_PN}-rsa \
++        ${PYTHON_PN}-six \
 +        "
-diff --git a/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb b/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb
-index c7df0a8b644e..349e7cd97727 100644
---- a/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb
-@@ -1,13 +1,2 @@
--SUMMARY = "Pure-Python RSA implementation"
--AUTHOR = "Sybren A. Stuvel"
+diff --git a/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb b/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb
+index db0452fe4c87..5622422c4c30 100644
+--- a/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb
++++ b/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb
+@@ -1,18 +1,2 @@
+-DESCRIPTION = "OAuth 2.0 client library"
+-AUTHOR = "Google Inc."
+-HOMEPAGE = "http://github.com/google/oauth2client/"
 -LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=c403f6882d4f97a9cd927df987d55634"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=038e1390e94fe637991fa5569daa62bc"
 -
 -inherit setuptools pypi
 -
--SRC_URI[md5sum] = "b315f47882c24030ee6b5aad628cccdb"
--SRC_URI[sha256sum] = "25df4e10c263fb88b5ace923dd84bf9aa7f5019687b5e55382ffcdb8bede9db5"
+-SRC_URI[md5sum] = "bc30976cd1e859cd6199264a50c5ba72"
+-SRC_URI[sha256sum] = "bd3062c06f8b10c6ef7a890b22c2740e5f87d61b6e1f4b1c90d069cdfc9dadb5"
 -
 -RDEPENDS_${PN} += " \
+-        python-httplib2 \
 -        python-pyasn1 \
+-        python-pyasn1-modules \
+-        python-rsa \
+-        python-six \
 -        "
 +inherit setuptools
-+require python-rsa.inc
-diff --git a/meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb b/meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb
++require python-oauth2client.inc
+diff --git a/meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb b/meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb
 new file mode 100644
-index 000000000000..2d6c93cee2dd
+index 000000000000..96508007b2f3
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb
++++ b/meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb
 @@ -0,0 +1,2 @@
 +inherit setuptools3
-+require python-rsa.inc
++require python-oauth2client.inc
 -- 
 2.7.4
 
