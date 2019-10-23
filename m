@@ -1,6 +1,6 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8FCAFE00DDC; Tue, 22 Oct 2019 20:00:14 -0700 (PDT)
+	id DED95E00DE1; Tue, 22 Oct 2019 20:00:21 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -13,62 +13,62 @@ X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	provider *      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
 	no *      trust
-	*      [209.85.160.193 listed in list.dnswl.org]
+	*      [209.85.160.172 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
 	author's *       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2EC56E00D85
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
+	[209.85.160.172])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1F011E00DFA
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Oct 2019 20:00:06 -0700 (PDT)
-Received: by mail-qt1-f193.google.com with SMTP id r5so30231512qtd.0
+	Tue, 22 Oct 2019 20:00:18 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id g50so16021334qtb.4
 	for <meta-virtualization@yoctoproject.org>;
-	Tue, 22 Oct 2019 20:00:06 -0700 (PDT)
+	Tue, 22 Oct 2019 20:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=IwMrtPZds4AeDUcHRsxAgr1VqzKxYSw19ERBp1/ci5w=;
-	b=sVjWvxgi8Bnuz1qU3VxYo2jXxwCwsopqb4NuJrFeXtl3U46Rgh4LWlJeBfVF5VqqBK
-	34ZyWNowv1o0X/Ln8LbWbrPsI2m3OzOls2iV3mATYM69y3iNam6Ub2nJ/lHjtqD4Phx3
-	umFX2W4ZYWPrwqrvPGxoJvNVNd+ksA6nlZ0+Gv1KIHE0D6G/NNfM9fh6ZGTWkWHkSJcV
-	izM9pUJWe0S97EfmHtLeXEbfvve91yGQS8jda8PjlmQKWAu5KcPzYeryEfa7aFt+s+Iu
-	1amwIWamf7gdHTAc18Lbx/Ni3WEpAHWD7CKrZBXXrC+/aETEXPaKVwkZVi6tYoXEvB3I
-	1ayg==
+	bh=/x58Q7cjHOi6jN2UC/6QMdyKXWFhhI7hsxSsb5TD09g=;
+	b=K/CP9CqWah836gCXUyNR39Kc1W2B4A6xEslroHUPxW7AT0gCe1fSMfcbwuOlyM4APf
+	UCtnkcpp8VrA9imPFXyZyRhqKkIrBRrrIOyRCoGazIIIDUehUh7E7pTaorZ3Xmqezt6I
+	KASLPnIsXlmJTNZfDhEK/gkxGpYc679eugt82Vrkopz2a5ONnUn/+O+Q3M4cmJqZQIvz
+	ZUlEvxyYuLbD9k9glC+eqKoXE18kIXs17jUc+2l8urg0mzgDqHwE0e/F4xWJPMuC1lnG
+	AQpiIR+gqHoQ46TbkJgyqgAGEm2d0l/H/d3UNVB40CmuAQq6XPocfZr9ubyN44deQmlj
+	Z4QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=IwMrtPZds4AeDUcHRsxAgr1VqzKxYSw19ERBp1/ci5w=;
-	b=MmU0huv3C1MCc+4mwW3EfqAI/oJOzN0xjLtXM46eJrmBix4/P5Mm+9roLQekgaBBhI
-	8xtxmspLnokn0gxPXuFyTVck+zZzVuFUfdejJwKu6Gblj3aHPPgfCod1WvDLPO0Y3qWE
-	q1ei0XgbY4QXaICsUQMkRnnSuNW/5/G60K0BZfaZBrss8eb6A6pHHwnfYbScSzWmLSjU
-	fg7Ac7kvrM7Bt1JwfoMv4mE2DSMxojm6alN0GI74ywDu5hmHbYZq+VwnwzoHA9Rytb+M
-	4En7aM8FUoDERnVFIGAfvWShta/B3vZCbgAh3tvjIivxLJRPoLCh+Ri71vItgEZ9su2X
-	8IdA==
-X-Gm-Message-State: APjAAAW5dg6DwQl+AkbEPGyc654Qne6qLgVEzCgHxD6ke0iFtGMwANv3
-	u2+UY94+DULMAzlXgzH6ZC3URq1YrUsXLA==
-X-Google-Smtp-Source: APXvYqwuTIMhmJc46t/3QjTRGxjTeLAdNWab4/1d28VJN2OiHyVok2QFtGvCmFYI9Ii+uJ5FGopC/Q==
-X-Received: by 2002:ac8:7608:: with SMTP id t8mr6902123qtq.356.1571799605360; 
-	Tue, 22 Oct 2019 20:00:05 -0700 (PDT)
+	bh=/x58Q7cjHOi6jN2UC/6QMdyKXWFhhI7hsxSsb5TD09g=;
+	b=rwbNmN+yCmUjTRtCDCrtmeD0hMmPWNvc1VcjBvZBU/oVd/0bepSWQFY+LJCXer2+u+
+	sb+OcJEfxYB1UodKubMsIAdNp0ism+QMpfCNNwPpBLROfcrng+i2jrijUqhshK8pY1S4
+	eD0dhcCuWuUJaJ/7BMCFZYqwGfk9x1nmZiBtX76yG5ewrZHFW2EV9XrUdSNCm1Y8FUPT
+	YVh5hkwz15pLboNmNlXtqN4NO3RoEVzUS4xJNErNBBg4XlmibgWkQ3k1NGUodokYljEN
+	7Er+vzQPnrth62VrOa5RROHnOeiAadk+ogrY+3nx5EKqka8tBxKUba6cl7uF8G7LxVux
+	H+fA==
+X-Gm-Message-State: APjAAAWIugTJSREg2uq/sT6WxM725Q2U/CESqR9U0VcLHYnNUXiOaWJU
+	VGraPWevofEb2M+tngr0GfvgxbpoxRwOdw==
+X-Google-Smtp-Source: APXvYqwQCE8ms73T3G4957ukvhw9q8lzT388FXceHwxsbXUpZd+xQqpOEWp95MCoVfRw51SJfQhPow==
+X-Received: by 2002:a0c:9a0a:: with SMTP id p10mr6579186qvd.153.1571799617488; 
+	Tue, 22 Oct 2019 20:00:17 -0700 (PDT)
 Received: from gmail.com
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
-	q44sm14566303qtk.16.2019.10.22.20.00.04
+	x133sm9865253qka.44.2019.10.22.20.00.16
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 22 Oct 2019 20:00:04 -0700 (PDT)
-Date: Tue, 22 Oct 2019 23:00:02 -0400
+	Tue, 22 Oct 2019 20:00:16 -0700 (PDT)
+Date: Tue, 22 Oct 2019 23:00:14 -0400
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 To: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-Message-ID: <20191023030001.GB60338@gmail.com>
-References: <1571753872-13999-1-git-send-email-maciej.pijanowski@3mdeb.com>
+Message-ID: <20191023030013.GC60338@gmail.com>
+References: <1571753912-14150-1-git-send-email-maciej.pijanowski@3mdeb.com>
 MIME-Version: 1.0
-In-Reply-To: <1571753872-13999-1-git-send-email-maciej.pijanowski@3mdeb.com>
+In-Reply-To: <1571753912-14150-1-git-send-email-maciej.pijanowski@3mdeb.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: meta-virtualization@yoctoproject.org, piotr.krol@3mdeb.com
-Subject: Re: [m-c-s][PATCH] python-rsa: add python3 version
+Subject: Re: [m-c-s][PATCH] python-oauth2client: add python3 version
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -81,73 +81,83 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Wed, 23 Oct 2019 03:00:14 -0000
+X-List-Received-Date: Wed, 23 Oct 2019 03:00:25 -0000
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged
+merged.
 
 Bruce
 
-In message: [meta-virtualization] [m-c-s][PATCH] python-rsa: add python3 version
+In message: [meta-virtualization] [m-c-s][PATCH] python-oauth2client: add python3 version
 on 22/10/2019 Maciej Pijanowski wrote:
 
 > Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
 > ---
->  meta-openstack/recipes-devtools/python/python-rsa.inc     | 13 +++++++++++++
->  .../recipes-devtools/python/python-rsa_3.4.2.bb           | 15 ++-------------
->  .../recipes-devtools/python/python3-rsa_3.4.2.bb          |  2 ++
->  3 files changed, 17 insertions(+), 13 deletions(-)
->  create mode 100644 meta-openstack/recipes-devtools/python/python-rsa.inc
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb
+>  .../recipes-devtools/python/python-oauth2client.inc  | 18 ++++++++++++++++++
+>  .../python/python-oauth2client_4.1.2.bb              | 20 ++------------------
+>  .../python/python3-oauth2client_4.1.2.bb             |  2 ++
+>  3 files changed, 22 insertions(+), 18 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-oauth2client.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-rsa.inc b/meta-openstack/recipes-devtools/python/python-rsa.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-oauth2client.inc b/meta-openstack/recipes-devtools/python/python-oauth2client.inc
 > new file mode 100644
-> index 000000000000..ccb65d5a4e89
+> index 000000000000..d91fc463a6d1
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python-rsa.inc
-> @@ -0,0 +1,13 @@
-> +SUMMARY = "Pure-Python RSA implementation"
-> +AUTHOR = "Sybren A. Stuvel"
+> +++ b/meta-openstack/recipes-devtools/python/python-oauth2client.inc
+> @@ -0,0 +1,18 @@
+> +DESCRIPTION = "OAuth 2.0 client library"
+> +AUTHOR = "Google Inc."
+> +HOMEPAGE = "http://github.com/google/oauth2client/"
 > +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c403f6882d4f97a9cd927df987d55634"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=038e1390e94fe637991fa5569daa62bc"
 > +
 > +inherit pypi
 > +
-> +SRC_URI[md5sum] = "b315f47882c24030ee6b5aad628cccdb"
-> +SRC_URI[sha256sum] = "25df4e10c263fb88b5ace923dd84bf9aa7f5019687b5e55382ffcdb8bede9db5"
+> +SRC_URI[md5sum] = "bc30976cd1e859cd6199264a50c5ba72"
+> +SRC_URI[sha256sum] = "bd3062c06f8b10c6ef7a890b22c2740e5f87d61b6e1f4b1c90d069cdfc9dadb5"
 > +
 > +RDEPENDS_${PN} += " \
+> +        ${PYTHON_PN}-httplib2 \
 > +        ${PYTHON_PN}-pyasn1 \
+> +        ${PYTHON_PN}-pyasn1-modules \
+> +        ${PYTHON_PN}-rsa \
+> +        ${PYTHON_PN}-six \
 > +        "
-> diff --git a/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb b/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb
-> index c7df0a8b644e..349e7cd97727 100644
-> --- a/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb
-> +++ b/meta-openstack/recipes-devtools/python/python-rsa_3.4.2.bb
-> @@ -1,13 +1,2 @@
-> -SUMMARY = "Pure-Python RSA implementation"
-> -AUTHOR = "Sybren A. Stuvel"
+> diff --git a/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb b/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb
+> index db0452fe4c87..5622422c4c30 100644
+> --- a/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-oauth2client_4.1.2.bb
+> @@ -1,18 +1,2 @@
+> -DESCRIPTION = "OAuth 2.0 client library"
+> -AUTHOR = "Google Inc."
+> -HOMEPAGE = "http://github.com/google/oauth2client/"
 > -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=c403f6882d4f97a9cd927df987d55634"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=038e1390e94fe637991fa5569daa62bc"
 > -
 > -inherit setuptools pypi
 > -
-> -SRC_URI[md5sum] = "b315f47882c24030ee6b5aad628cccdb"
-> -SRC_URI[sha256sum] = "25df4e10c263fb88b5ace923dd84bf9aa7f5019687b5e55382ffcdb8bede9db5"
+> -SRC_URI[md5sum] = "bc30976cd1e859cd6199264a50c5ba72"
+> -SRC_URI[sha256sum] = "bd3062c06f8b10c6ef7a890b22c2740e5f87d61b6e1f4b1c90d069cdfc9dadb5"
 > -
 > -RDEPENDS_${PN} += " \
+> -        python-httplib2 \
 > -        python-pyasn1 \
+> -        python-pyasn1-modules \
+> -        python-rsa \
+> -        python-six \
 > -        "
 > +inherit setuptools
-> +require python-rsa.inc
-> diff --git a/meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb b/meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb
+> +require python-oauth2client.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb b/meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb
 > new file mode 100644
-> index 000000000000..2d6c93cee2dd
+> index 000000000000..96508007b2f3
 > --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-rsa_3.4.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python3-oauth2client_4.1.2.bb
 > @@ -0,0 +1,2 @@
 > +inherit setuptools3
-> +require python-rsa.inc
+> +require python-oauth2client.inc
 > -- 
 > 2.7.4
 > 
