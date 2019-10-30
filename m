@@ -1,77 +1,36 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 49324E00E01; Thu, 24 Oct 2019 10:30:06 -0700 (PDT)
+	id 2F8EFE00DFC; Wed, 30 Oct 2019 01:27:11 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID, DKIM_VALID_AU, FREEMAIL_FROM, FSL_HELO_FAKE,
-	RCVD_IN_DNSWL_NONE, 
-	T_FILL_THIS_FORM_SHORT autolearn=no version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000] *  1.8 FSL_HELO_FAKE FSL_HELO_FAKE
-	* 0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-	provider *      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/,
-	no *      trust
-	*      [209.85.160.196 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-	author's *       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	*  0.0 T_FILL_THIS_FORM_SHORT Fill in a short form with personal
-	*      information
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 51E25E00839
+	*      [score: 0.0000]
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/, 
+	*      medium trust
+	*      [147.11.146.13 listed in list.dnswl.org]
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C68FDE004F6
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Oct 2019 10:30:04 -0700 (PDT)
-Received: by mail-qt1-f196.google.com with SMTP id r5so39092399qtd.0
+	Wed, 30 Oct 2019 01:27:08 -0700 (PDT)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id x9U8R89O003178
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <meta-virtualization@yoctoproject.org>;
-	Thu, 24 Oct 2019 10:30:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=ULYlC41EXT0pISVOzOKui8DRS1bJ0gHvly81EU7lUmM=;
-	b=D2GhmTlmy2Y8V5HLtICORc+Q6KbunWw7hGY3hxbbvZSueC6JZlgvyD2JvRzkDZnVBC
-	zj+ms0IUuPgDJ8Aq4UB0T4sciyn5LhAEmQ76mcOXSZNHjsjoi8ZojM6zKeI8+hS/4DPT
-	JeXDI2dKco/bR8+vq8XTd3+VmC5lhHWPauoXRoIbRupghQxT1s7iAdo4ZlRcI3OXpCCq
-	pPPAVIPyTXJ35a1wXi+ZKTusStrAzDdlO3ug5VmEMR1WXPBmkS+/i2jN9FdlnCbu/ygG
-	qIYbWJ7yyL+etqLw9KBf7QiTsoihmnhh5EhejWAiuuNGzMh/xv1du/aRgVszESngkb79
-	Z2TA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ULYlC41EXT0pISVOzOKui8DRS1bJ0gHvly81EU7lUmM=;
-	b=FQLn3Rc149dqvH1Ag02abGPISFik5ure3uH7SoJc+w7tFju/xDh2cJcbzbc29eUOcf
-	rFvJNCIMcINUXHdoZGSllZMIQSgyOeEfVNaATacylUbcJ0ZUHOWsFDePme6lyI57HemE
-	ofJcLpFGOQPFX8QVsOdOcQm7U+gTis8eKxUwcrgZDiuV1usdWvT2rj2owmyaIcTsWUTL
-	zQZ0J5MoSr+Ffn0FuZS3FTy2+SO9Z19Kg6iokOfL4uRxO/p+3tOHnsWDz+jpIj6WdD7j
-	lMY1lFCvDZ3/394QW0///vfHVQhDE94vUrQC6bYG+8gQVBd+zRVTpyVZpPiCyOubxPkq
-	cQ9A==
-X-Gm-Message-State: APjAAAXXaJAjA+pFduyp1M8t8clT6My57CkdfspUyGTEaNRF8Lf9X9kL
-	R3BSVLPqLvpIofCEt7UF8SE=
-X-Google-Smtp-Source: APXvYqzS4NqCbvdXynZ6PyZAcsb/Z/m8L7H3HiOVAL23jrFKBKFIO1DKIp+2HeC1KRAScmzwKCoabA==
-X-Received: by 2002:aed:3c24:: with SMTP id t33mr3150320qte.186.1571938203156; 
-	Thu, 24 Oct 2019 10:30:03 -0700 (PDT)
-Received: from gmail.com
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
-	d205sm14890941qke.96.2019.10.24.10.30.01
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 24 Oct 2019 10:30:01 -0700 (PDT)
-Date: Thu, 24 Oct 2019 13:29:59 -0400
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Joakim Roubert <joakim.roubert@axis.com>
-Message-ID: <20191024172956.GA44557@gmail.com>
-References: <20191023102439.16346-1-joakimr@axis.com>
+	Wed, 30 Oct 2019 01:27:08 -0700 (PDT)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 30 Oct 2019 01:27:06 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Date: Wed, 30 Oct 2019 16:27:05 +0800
+Message-ID: <20191030082705.11361-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191023102439.16346-1-joakimr@axis.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: meta-virtualization@yoctoproject.org, Joakim Roubert <joakimr@axis.com>
-Subject: Re: [PATCH] kubernetes: Set correct PV release number
+Subject: [PATCH] runc: fix CVE-2019-16884
 X-BeenThere: meta-virtualization@yoctoproject.org
 X-Mailman-Version: 2.1.13
 Precedence: list
@@ -84,49 +43,236 @@ List-Post: <mailto:meta-virtualization@yoctoproject.org>
 List-Help: <mailto:meta-virtualization-request@yoctoproject.org?subject=help>
 List-Subscribe: <https://lists.yoctoproject.org/listinfo/meta-virtualization>, 
 	<mailto:meta-virtualization-request@yoctoproject.org?subject=subscribe>
-X-List-Received-Date: Thu, 24 Oct 2019 17:30:06 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 30 Oct 2019 08:27:11 -0000
+Content-Type: text/plain
 
-In message: [meta-virtualization] [PATCH] kubernetes: Set correct PV release number
-on 23/10/2019 Joakim Roubert wrote:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ ...nly-allow-proc-mount-if-it-is-procfs.patch | 201 ++++++++++++++++++
+ recipes-containers/runc/runc-docker_git.bb    |   1 +
+ 2 files changed, 202 insertions(+)
+ create mode 100644 recipes-containers/runc/files/0001-Only-allow-proc-mount-if-it-is-procfs.patch
 
-> Commit c97fe5036ef3df2967d086711e6c0c405941e14b is Kubernetes v1.16.2
-> (see https://github.com/kubernetes/kubernetes/releases for verification)
-> and building with the current recipe generates v1.16.2 binaies although
-> the package names state v1.16.1.
+diff --git a/recipes-containers/runc/files/0001-Only-allow-proc-mount-if-it-is-procfs.patch b/recipes-containers/runc/files/0001-Only-allow-proc-mount-if-it-is-procfs.patch
+new file mode 100644
+index 0000000..5aca99e
+--- /dev/null
++++ b/recipes-containers/runc/files/0001-Only-allow-proc-mount-if-it-is-procfs.patch
+@@ -0,0 +1,201 @@
++From d75b05441772417a0828465a9483f16287937724 Mon Sep 17 00:00:00 2001
++From: Michael Crosby <crosbymichael@gmail.com>
++Date: Mon, 23 Sep 2019 16:45:45 -0400
++Subject: [PATCH] Only allow proc mount if it is procfs
++
++Fixes #2128
++
++This allows proc to be bind mounted for host and rootless namespace usecases but
++it removes the ability to mount over the top of proc with a directory.
++
++```bash
++> sudo docker run --rm  apparmor
++docker: Error response from daemon: OCI runtime create failed:
++container_linux.go:346: starting container process caused "process_linux.go:449:
++container init caused \"rootfs_linux.go:58: mounting
++\\\"/var/lib/docker/volumes/aae28ea068c33d60e64d1a75916cf3ec2dc3634f97571854c9ed30c8401460c1/_data\\\"
++to rootfs
++\\\"/var/lib/docker/overlay2/a6be5ae911bf19f8eecb23a295dec85be9a8ee8da66e9fb55b47c841d1e381b7/merged\\\"
++at \\\"/proc\\\" caused
++\\\"\\\\\\\"/var/lib/docker/overlay2/a6be5ae911bf19f8eecb23a295dec85be9a8ee8da66e9fb55b47c841d1e381b7/merged/proc\\\\\\\"
++cannot be mounted because it is not of type proc\\\"\"": unknown.
++
++> sudo docker run --rm -v /proc:/proc apparmor
++
++docker-default (enforce)        root     18989  0.9  0.0   1288     4 ?
++Ss   16:47   0:00 sleep 20
++```
++
++Signed-off-by: Michael Crosby <crosbymichael@gmail.com>
++
++Upstream-Status: Backport [https://github.com/opencontainers/runc/pull/2129/commits/331692baa7afdf6c186f8667cb0e6362ea0802b3]
++
++CVE: CVE-2019-16884
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ libcontainer/container_linux.go   |  4 +--
++ libcontainer/rootfs_linux.go      | 50 +++++++++++++++++++++++--------
++ libcontainer/rootfs_linux_test.go |  8 ++---
++ 3 files changed, 43 insertions(+), 19 deletions(-)
++
++diff --git a/libcontainer/container_linux.go b/libcontainer/container_linux.go
++index 7e58e5e0..d51e35df 100644
++--- a/src/import/libcontainer/container_linux.go
+++++ b/src/import/libcontainer/container_linux.go
++@@ -19,7 +19,7 @@ import (
++ 	"syscall" // only for SysProcAttr and Signal
++ 	"time"
++ 
++-	"github.com/cyphar/filepath-securejoin"
+++	securejoin "github.com/cyphar/filepath-securejoin"
++ 	"github.com/opencontainers/runc/libcontainer/cgroups"
++ 	"github.com/opencontainers/runc/libcontainer/configs"
++ 	"github.com/opencontainers/runc/libcontainer/intelrdt"
++@@ -1160,7 +1160,7 @@ func (c *linuxContainer) makeCriuRestoreMountpoints(m *configs.Mount) error {
++ 		if err != nil {
++ 			return err
++ 		}
++-		if err := checkMountDestination(c.config.Rootfs, dest); err != nil {
+++		if err := checkProcMount(c.config.Rootfs, dest, ""); err != nil {
++ 			return err
++ 		}
++ 		m.Destination = dest
++diff --git a/libcontainer/rootfs_linux.go b/libcontainer/rootfs_linux.go
++index f13b226e..5650b0ac 100644
++--- a/src/import/libcontainer/rootfs_linux.go
+++++ b/src/import/libcontainer/rootfs_linux.go
++@@ -13,7 +13,7 @@ import (
++ 	"strings"
++ 	"time"
++ 
++-	"github.com/cyphar/filepath-securejoin"
+++	securejoin "github.com/cyphar/filepath-securejoin"
++ 	"github.com/mrunalp/fileutils"
++ 	"github.com/opencontainers/runc/libcontainer/cgroups"
++ 	"github.com/opencontainers/runc/libcontainer/configs"
++@@ -197,7 +197,7 @@ func prepareBindMount(m *configs.Mount, rootfs string) error {
++ 	if dest, err = securejoin.SecureJoin(rootfs, m.Destination); err != nil {
++ 		return err
++ 	}
++-	if err := checkMountDestination(rootfs, dest); err != nil {
+++	if err := checkProcMount(rootfs, dest, m.Source); err != nil {
++ 		return err
++ 	}
++ 	// update the mount with the correct dest after symlinks are resolved.
++@@ -388,7 +388,7 @@ func mountToRootfs(m *configs.Mount, rootfs, mountLabel string, enableCgroupns b
++ 		if dest, err = securejoin.SecureJoin(rootfs, m.Destination); err != nil {
++ 			return err
++ 		}
++-		if err := checkMountDestination(rootfs, dest); err != nil {
+++		if err := checkProcMount(rootfs, dest, m.Source); err != nil {
++ 			return err
++ 		}
++ 		// update the mount with the correct dest after symlinks are resolved.
++@@ -435,12 +435,12 @@ func getCgroupMounts(m *configs.Mount) ([]*configs.Mount, error) {
++ 	return binds, nil
++ }
++ 
++-// checkMountDestination checks to ensure that the mount destination is not over the top of /proc.
+++// checkProcMount checks to ensure that the mount destination is not over the top of /proc.
++ // dest is required to be an abs path and have any symlinks resolved before calling this function.
++-func checkMountDestination(rootfs, dest string) error {
++-	invalidDestinations := []string{
++-		"/proc",
++-	}
+++//
+++// if source is nil, don't stat the filesystem.  This is used for restore of a checkpoint.
+++func checkProcMount(rootfs, dest, source string) error {
+++	const procPath = "/proc"
++ 	// White list, it should be sub directories of invalid destinations
++ 	validDestinations := []string{
++ 		// These entries can be bind mounted by files emulated by fuse,
++@@ -463,16 +463,40 @@ func checkMountDestination(rootfs, dest string) error {
++ 			return nil
++ 		}
++ 	}
++-	for _, invalid := range invalidDestinations {
++-		path, err := filepath.Rel(filepath.Join(rootfs, invalid), dest)
+++	path, err := filepath.Rel(filepath.Join(rootfs, procPath), dest)
+++	if err != nil {
+++		return err
+++	}
+++	// pass if the mount path is located outside of /proc
+++	if strings.HasPrefix(path, "..") {
+++		return nil
+++	}
+++	if path == "." {
+++		// an empty source is pasted on restore
+++		if source == "" {
+++			return nil
+++		}
+++		// only allow a mount on-top of proc if it's source is "proc"
+++		isproc, err := isProc(source)
++ 		if err != nil {
++ 			return err
++ 		}
++-		if path != "." && !strings.HasPrefix(path, "..") {
++-			return fmt.Errorf("%q cannot be mounted because it is located inside %q", dest, invalid)
+++		// pass if the mount is happening on top of /proc and the source of
+++		// the mount is a proc filesystem
+++		if isproc {
+++			return nil
++ 		}
+++		return fmt.Errorf("%q cannot be mounted because it is not of type proc", dest)
++ 	}
++-	return nil
+++	return fmt.Errorf("%q cannot be mounted because it is inside /proc", dest)
+++}
+++
+++func isProc(path string) (bool, error) {
+++	var s unix.Statfs_t
+++	if err := unix.Statfs(path, &s); err != nil {
+++		return false, err
+++	}
+++	return s.Type == unix.PROC_SUPER_MAGIC, nil
++ }
++ 
++ func setupDevSymlinks(rootfs string) error {
++diff --git a/libcontainer/rootfs_linux_test.go b/libcontainer/rootfs_linux_test.go
++index d755984b..1bfe7c66 100644
++--- a/src/import/libcontainer/rootfs_linux_test.go
+++++ b/src/import/libcontainer/rootfs_linux_test.go
++@@ -10,7 +10,7 @@ import (
++ 
++ func TestCheckMountDestOnProc(t *testing.T) {
++ 	dest := "/rootfs/proc/sys"
++-	err := checkMountDestination("/rootfs", dest)
+++	err := checkProcMount("/rootfs", dest, "")
++ 	if err == nil {
++ 		t.Fatal("destination inside proc should return an error")
++ 	}
++@@ -18,7 +18,7 @@ func TestCheckMountDestOnProc(t *testing.T) {
++ 
++ func TestCheckMountDestOnProcChroot(t *testing.T) {
++ 	dest := "/rootfs/proc/"
++-	err := checkMountDestination("/rootfs", dest)
+++	err := checkProcMount("/rootfs", dest, "/proc")
++ 	if err != nil {
++ 		t.Fatal("destination inside proc when using chroot should not return an error")
++ 	}
++@@ -26,7 +26,7 @@ func TestCheckMountDestOnProcChroot(t *testing.T) {
++ 
++ func TestCheckMountDestInSys(t *testing.T) {
++ 	dest := "/rootfs//sys/fs/cgroup"
++-	err := checkMountDestination("/rootfs", dest)
+++	err := checkProcMount("/rootfs", dest, "")
++ 	if err != nil {
++ 		t.Fatal("destination inside /sys should not return an error")
++ 	}
++@@ -34,7 +34,7 @@ func TestCheckMountDestInSys(t *testing.T) {
++ 
++ func TestCheckMountDestFalsePositive(t *testing.T) {
++ 	dest := "/rootfs/sysfiles/fs/cgroup"
++-	err := checkMountDestination("/rootfs", dest)
+++	err := checkProcMount("/rootfs", dest, "")
++ 	if err != nil {
++ 		t.Fatal(err)
++ 	}
++-- 
++2.17.1
++
+diff --git a/recipes-containers/runc/runc-docker_git.bb b/recipes-containers/runc/runc-docker_git.bb
+index c9f460b..8d810d0 100644
+--- a/recipes-containers/runc/runc-docker_git.bb
++++ b/recipes-containers/runc/runc-docker_git.bb
+@@ -7,6 +7,7 @@ SRC_URI = "git://github.com/opencontainers/runc;nobranch=1;name=runc-docker \
+            file://0001-runc-Add-console-socket-dev-null.patch \
+            file://0001-Makefile-respect-GOBUILDFLAGS-for-runc-and-remove-re.patch \
+            file://0001-runc-docker-SIGUSR1-daemonize.patch \
++           file://0001-Only-allow-proc-mount-if-it-is-procfs.patch \
+           "
+ 
+ RUNC_VERSION = "1.0.0-rc8"
+-- 
+2.17.1
 
-oops. I missed that when I was uprev'ing it to the release.
-
-merged.
-
-Bruce
-
-> 
-> Change-Id: I5701c18cc3ce205ad906eda2595d9ad7f5748b17
-> ---
->  recipes-containers/kubernetes/kubernetes_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-> index 6cc05ea..fae554d 100644
-> --- a/recipes-containers/kubernetes/kubernetes_git.bb
-> +++ b/recipes-containers/kubernetes/kubernetes_git.bb
-> @@ -5,7 +5,7 @@ applications across multiple hosts, providing basic mechanisms for deployment, \
->  maintenance, and scaling of applications. \
->  "
->  
-> -PV = "v1.16.1+git${SRCREV_kubernetes}"
-> +PV = "v1.16.2+git${SRCREV_kubernetes}"
->  SRCREV_kubernetes = "c97fe5036ef3df2967d086711e6c0c405941e14b"
->  
->  SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.16;name=kubernetes \
-> -- 
-> 2.20.1
-> 
-> -- 
-> _______________________________________________
-> meta-virtualization mailing list
-> meta-virtualization@yoctoproject.org
-> https://lists.yoctoproject.org/listinfo/meta-virtualization
 
