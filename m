@@ -1,96 +1,84 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.333.1574433358985515315
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
+ by mx.groups.io with SMTP id smtpd.web12.1732.1574629331755557761
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 22 Nov 2019 06:35:59 -0800
+ Sun, 24 Nov 2019 13:02:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=softfail (domain: 3mdeb.com, ip: 140.211.169.56, mailfrom: norbert.kaminski@3mdeb.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CFA0FE00BA1; Fri, 22 Nov 2019 06:35:58 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [46.105.34.1 listed in list.dnswl.org]
-X-Greylist: delayed 1134 seconds by postgrey-1.32 at yocto-www; Fri, 22 Nov 2019 06:35:57 PST
-Received: from 3.mo173.mail-out.ovh.net (3.mo173.mail-out.ovh.net [46.105.34.1])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B1970E00A39
-	for <meta-virtualization@yoctoproject.org>; Fri, 22 Nov 2019 06:35:57 -0800 (PST)
-Received: from player728.ha.ovh.net (unknown [10.108.42.75])
-	by mo173.mail-out.ovh.net (Postfix) with ESMTP id CAAAD123812
-	for <meta-virtualization@yoctoproject.org>; Fri, 22 Nov 2019 15:17:01 +0100 (CET)
-Received: from 3mdeb.com (85-222-117-222.dynamic.chello.pl [85.222.117.222])
-	(Authenticated sender: norbert.kaminski@3mdeb.com)
-	by player728.ha.ovh.net (Postfix) with ESMTPSA id DC5B8C5A955D;
-	Fri, 22 Nov 2019 14:16:57 +0000 (UTC)
-Subject: [meta-virtualization] [PATCH] docker.inc: Add xt-addrtype kernel module
-References: <2ed2e82f-ad3e-a61b-0511-69c47eb8cce2@3mdeb.com>
-To: meta-virtualization@yoctoproject.org
-Cc: piotr.krol@3mdeb.com, Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-From: "Norbert Kaminski" <norbert.kaminski@3mdeb.com>
-X-Forwarded-Message-Id: <2ed2e82f-ad3e-a61b-0511-69c47eb8cce2@3mdeb.com>
-Message-ID: <d82e5ef6-6ddd-4d21-9137-cbd8e9158370@3mdeb.com>
-Date: Fri, 22 Nov 2019 15:16:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <2ed2e82f-ad3e-a61b-0511-69c47eb8cce2@3mdeb.com>
-X-Ovh-Tracer-Id: 17139855758694652206
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudehgedgieduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdqfffguegfifdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepufhfvffhkffffgggjggtgfesthekredttdefjeenucfhrhhomheppfhorhgsvghrthcumfgrmhhinhhskhhiuceonhhorhgsvghrthdrkhgrmhhinhhskhhiseefmhguvggsrdgtohhmqeenucffohhmrghinhepshhotghkrdhishenucfkpheptddrtddrtddrtddpkeehrddvvddvrdduudejrddvvddvnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejvdekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepnhhorhgsvghrthdrkhgrmhhinhhskhhiseefmhguvggsrdgtohhmpdhrtghpthhtohepmhgvthgrqdhvihhrthhurghlihiirghtihhonheshihotghtohhprhhojhgvtghtrdhorhhgnecuvehluhhsthgvrhfuihiivgeptd
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zcc+E5Ic;
+ spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f196.google.com with SMTP id d5so13356669ljl.4
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 24 Nov 2019 13:02:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=wjm+ITiXL3nDhcP/buEftKxdt6mq1gLYUo9jy2/5QrE=;
+        b=Zcc+E5IcAPVh7BK87S6HNBCqDOx10YAR7KItvmdF/I8g3nVIqLxIsR9pKl/Fs7+8PO
+         cKvQtBXxP9PoDJ1+v98a3apcp7bVfMKAPElvDD5GuNlDLf/eZtU7yeZRKer4oGKKuKl2
+         wgOZ6v0IHzU4FF/tKivhgIu56sOwLZcYn/+OyljTCl6rzjXJeYShq8nRUT0W7FQIZR1g
+         f7lPiL+KIhQTlknYpoSQm0SMA81uUhJvz0OJEFWf+pVzncJRUOnKO4Py8Mg70jCIkiiD
+         kkSqkwUFTHQCVvZjFdq4099gZYQff5QxF8IG/AMdiBmoa336g8tyo3+hptb3/+13a5lu
+         kGYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=wjm+ITiXL3nDhcP/buEftKxdt6mq1gLYUo9jy2/5QrE=;
+        b=IBnT8fzMmzIfgWgOybfKamk99cybLyEIZW9vhDfpOy4za8BtgkLarJ65+OoADxJr1K
+         7o+3Jw6HWNGq8G3pH9AlvzbFnPE8yniKzj1xMZMX04Onuz1A+4v/5NBwYl+IjhA9hSYu
+         FlN9rcvfiX0ve0JCof+/rR0AH/toO3KfrPWSuNRldHaudMQu/ls37XDh02jLyt2EOcgT
+         kROZvG60iSbqMCuOYls5kf7ZZETBPyRgKl9+R/JB2wuZ1JKqMBIPvracNKSvUrg4wCIX
+         qSXuN8GDOsrBAvMLLEgz6BwUI5FO4s2EmMV/1HIzJsebtM3SUEFxLAT2lVjG7568epWq
+         tUWQ==
+X-Gm-Message-State: APjAAAWPbXtBU6d57eN0TQaYsMyHidu92IcCkh1Mg5PjnIJCajcHbrV+
+	xKJOUhWF6aNS2xwlw1nVFguV1ORWWQ8=
+X-Google-Smtp-Source: APXvYqxvSIRj5N1aMNicU8hNINaToAupTw3ib+K6alFdkAhSTL+KPDc1nP/Wd8Z4YEhc4c6Mq+Wj3Q==
+X-Received: by 2002:a2e:b5d4:: with SMTP id g20mr14900014ljn.140.1574629329677;
+        Sun, 24 Nov 2019 13:02:09 -0800 (PST)
+Return-Path: <liu.ming50@gmail.com>
+Received: from peterliu-Precision-7530.lan (c-75fd72d5.022-417-73746f13.bbcust.telenor.se. [213.114.253.117])
+        by smtp.gmail.com with ESMTPSA id r7sm2757733ljc.74.2019.11.24.13.02.08
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+        Sun, 24 Nov 2019 13:02:09 -0800 (PST)
+From: "Ming Liu" <liu.ming50@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: stefan.agner@toradex.com,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: [meta-virtualization][PATCH] python-sqlalchemy: drop 1.0.16 recipe
+Date: Sun, 24 Nov 2019 22:02:05 +0100
+Message-Id: <1574629325-30122-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
 
- From 585f3e4a1da40528b2d8eba0bf46033fdf5e310d Mon Sep 17 00:00:00 2001
-From: Norbert Kaminski <norbert.kaminski@3mdeb.com>
-Date: Fri, 22 Nov 2019 11:27:18 +0100
-Subject: [PATCH] docker.inc: Add xt-addrtype kernel module
+From: Ming Liu <liu.ming50@gmail.com>
 
-Trying to use docker info and hello world container without this module
-causes a daemon error.
+Seems no one is referring this recipe, there is already a
+python-sqlalchemy_1.1.5 recipe in this layer.
 
-docker info error log:
-
-Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is th=
-e
-docker daemon running?
-
-dockerd error log:
-
-PREROUTING chain: iptables failed: iptables --wait -t nat -A PREROUTING -=
-m
-addrtype --dst-type LOCAL -j DOCKER: iptables v1.8.3 (legacy): Couldn't
-load match `addrtype':No such file or directory
-
-Signed-off-by: Norbert Kaminski <norbert.kaminski@3mdeb.com>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- =C2=A0recipes-containers/docker/docker.inc | 2 +-
- =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-devtools/python/python-sqlalchemy_1.0.16.bb | 16 ----------------
+ 1 file changed, 16 deletions(-)
+ delete mode 100644 recipes-devtools/python/python-sqlalchemy_1.0.16.bb
 
-diff --git a/recipes-containers/docker/docker.inc=20
-b/recipes-containers/docker/docker.inc
-index 0083902..32d4a2e 100644
---- a/recipes-containers/docker/docker.inc
-+++ b/recipes-containers/docker/docker.inc
-@@ -29,7 +29,7 @@ RDEPENDS_${PN} =3D "util-linux util-linux-unshare iptab=
-les \
- =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
- =C2=A0RDEPENDS_${PN} +=3D "virtual/containerd virtual/runc"
-
--RRECOMMENDS_${PN} =3D "kernel-module-dm-thin-pool kernel-module-nf-nat"
-+RRECOMMENDS_${PN} =3D "kernel-module-dm-thin-pool kernel-module-nf-nat=20
-kernel-module-xt-addrtype"
-
- =C2=A0PROVIDES +=3D "virtual/docker"
-
---=20
-2.17.1
+diff --git a/recipes-devtools/python/python-sqlalchemy_1.0.16.bb b/recipes-devtools/python/python-sqlalchemy_1.0.16.bb
+deleted file mode 100644
+index 5eb60b5..0000000
+--- a/recipes-devtools/python/python-sqlalchemy_1.0.16.bb
++++ /dev/null
+@@ -1,16 +0,0 @@
+-DESCRIPTION = "Python SQL toolkit and Object Relational Mapper that gives \
+-application developers the full power and flexibility of SQL"
+-HOMEPAGE = "http://www.sqlalchemy.org/"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=d7dba1721bc8ce05d421f7279cb87971"
+-RDEPENDS_${PN} += "python-numbers"
+-
+-SRCNAME = "SQLAlchemy"
+-SRC_URI = "https://pypi.io/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
+-
+-SRC_URI[md5sum] = "42c81726e7e145c206dac46964b4a167"
+-SRC_URI[sha256sum] = "e2dfdaa0983931ac1b0522dd637f08a52cf3081746513ac79c50843277ebe463"
+-
+-S = "${WORKDIR}/${SRCNAME}-${PV}"
+-
+-inherit setuptools
+-- 
+2.7.4
 
