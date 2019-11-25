@@ -1,84 +1,59 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web12.1732.1574629331755557761
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web12.507.1574664971619016774
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 24 Nov 2019 13:02:12 -0800
+ Sun, 24 Nov 2019 22:56:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zcc+E5Ic;
- spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f196.google.com with SMTP id d5so13356669ljl.4
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 24 Nov 2019 13:02:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=wjm+ITiXL3nDhcP/buEftKxdt6mq1gLYUo9jy2/5QrE=;
-        b=Zcc+E5IcAPVh7BK87S6HNBCqDOx10YAR7KItvmdF/I8g3nVIqLxIsR9pKl/Fs7+8PO
-         cKvQtBXxP9PoDJ1+v98a3apcp7bVfMKAPElvDD5GuNlDLf/eZtU7yeZRKer4oGKKuKl2
-         wgOZ6v0IHzU4FF/tKivhgIu56sOwLZcYn/+OyljTCl6rzjXJeYShq8nRUT0W7FQIZR1g
-         f7lPiL+KIhQTlknYpoSQm0SMA81uUhJvz0OJEFWf+pVzncJRUOnKO4Py8Mg70jCIkiiD
-         kkSqkwUFTHQCVvZjFdq4099gZYQff5QxF8IG/AMdiBmoa336g8tyo3+hptb3/+13a5lu
-         kGYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=wjm+ITiXL3nDhcP/buEftKxdt6mq1gLYUo9jy2/5QrE=;
-        b=IBnT8fzMmzIfgWgOybfKamk99cybLyEIZW9vhDfpOy4za8BtgkLarJ65+OoADxJr1K
-         7o+3Jw6HWNGq8G3pH9AlvzbFnPE8yniKzj1xMZMX04Onuz1A+4v/5NBwYl+IjhA9hSYu
-         FlN9rcvfiX0ve0JCof+/rR0AH/toO3KfrPWSuNRldHaudMQu/ls37XDh02jLyt2EOcgT
-         kROZvG60iSbqMCuOYls5kf7ZZETBPyRgKl9+R/JB2wuZ1JKqMBIPvracNKSvUrg4wCIX
-         qSXuN8GDOsrBAvMLLEgz6BwUI5FO4s2EmMV/1HIzJsebtM3SUEFxLAT2lVjG7568epWq
-         tUWQ==
-X-Gm-Message-State: APjAAAWPbXtBU6d57eN0TQaYsMyHidu92IcCkh1Mg5PjnIJCajcHbrV+
-	xKJOUhWF6aNS2xwlw1nVFguV1ORWWQ8=
-X-Google-Smtp-Source: APXvYqxvSIRj5N1aMNicU8hNINaToAupTw3ib+K6alFdkAhSTL+KPDc1nP/Wd8Z4YEhc4c6Mq+Wj3Q==
-X-Received: by 2002:a2e:b5d4:: with SMTP id g20mr14900014ljn.140.1574629329677;
-        Sun, 24 Nov 2019 13:02:09 -0800 (PST)
-Return-Path: <liu.ming50@gmail.com>
-Received: from peterliu-Precision-7530.lan (c-75fd72d5.022-417-73746f13.bbcust.telenor.se. [213.114.253.117])
-        by smtp.gmail.com with ESMTPSA id r7sm2757733ljc.74.2019.11.24.13.02.08
-        (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 24 Nov 2019 13:02:09 -0800 (PST)
-From: "Ming Liu" <liu.ming50@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: stefan.agner@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [meta-virtualization][PATCH] python-sqlalchemy: drop 1.0.16 recipe
-Date: Sun, 24 Nov 2019 22:02:05 +0100
-Message-Id: <1574629325-30122-1-git-send-email-liu.ming50@gmail.com>
+ dkim=missing; spf=softfail (domain: windriver.com, ip: 140.211.169.56, mailfrom: hongxu.jia@windriver.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 203DEE00E38; Sun, 24 Nov 2019 22:56:11 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
+	*      medium trust
+	*      [192.103.53.11 listed in list.dnswl.org]
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D820CE00E22
+	for <meta-virtualization@yoctoproject.org>; Sun, 24 Nov 2019 22:56:09 -0800 (PST)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xAP6u7Un001901
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Sun, 24 Nov 2019 22:56:07 -0800
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.468.0; Sun, 24 Nov 2019 22:55:59 -0800
+From: "hongxu" <hongxu.jia@windriver.com>
+To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization][PATCH] cri-o: Disable for all mips machines
+Date: Mon, 25 Nov 2019 14:55:58 +0800
+Message-ID: <1574664958-32698-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain
 
-From: Ming Liu <liu.ming50@gmail.com>
+Since commit [a092153 containerd: Disable for all mips machines] applied,
+and the cri-o runtime depends `virtual/containerd', it should do the same
+thing to disable for all mips machines
 
-Seems no one is referring this recipe, there is already a
-python-sqlalchemy_1.1.5 recipe in this layer.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- recipes-devtools/python/python-sqlalchemy_1.0.16.bb | 16 ----------------
- 1 file changed, 16 deletions(-)
- delete mode 100644 recipes-devtools/python/python-sqlalchemy_1.0.16.bb
+ recipes-containers/cri-o/cri-o_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/recipes-devtools/python/python-sqlalchemy_1.0.16.bb b/recipes-devtools/python/python-sqlalchemy_1.0.16.bb
-deleted file mode 100644
-index 5eb60b5..0000000
---- a/recipes-devtools/python/python-sqlalchemy_1.0.16.bb
-+++ /dev/null
-@@ -1,16 +0,0 @@
--DESCRIPTION = "Python SQL toolkit and Object Relational Mapper that gives \
--application developers the full power and flexibility of SQL"
--HOMEPAGE = "http://www.sqlalchemy.org/"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d7dba1721bc8ce05d421f7279cb87971"
--RDEPENDS_${PN} += "python-numbers"
--
--SRCNAME = "SQLAlchemy"
--SRC_URI = "https://pypi.io/packages/source/S/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "42c81726e7e145c206dac46964b4a167"
--SRC_URI[sha256sum] = "e2dfdaa0983931ac1b0522dd637f08a52cf3081746513ac79c50843277ebe463"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--inherit setuptools
+diff --git a/recipes-containers/cri-o/cri-o_git.bb b/recipes-containers/cri-o/cri-o_git.bb
+index 34276f4..8d754ec 100644
+--- a/recipes-containers/cri-o/cri-o_git.bb
++++ b/recipes-containers/cri-o/cri-o_git.bb
+@@ -164,3 +164,4 @@ INSANE_SKIP_${PN} += "ldflags already-stripped"
+ 
+ deltask compile_ptest_base
+ 
++COMPATIBLE_HOST = "^(?!(qemu)?mips).*"
 -- 
 2.7.4
 
