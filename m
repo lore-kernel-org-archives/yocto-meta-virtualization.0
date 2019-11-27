@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.4775.1574854005519799578
+ by mx.groups.io with SMTP id smtpd.web11.4758.1574854011223586872
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 27 Nov 2019 03:26:45 -0800
+ Wed, 27 Nov 2019 03:26:51 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 15EFCE00EF7; Wed, 27 Nov 2019 03:26:45 -0800 (PST)
+	id 18B0EE00ECC; Wed, 27 Nov 2019 03:26:51 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,30 +19,30 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.8 SUBJ_OBFU_PUNCT_FEW Possible punctuation-obfuscated Subject: header
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 62902E00D00
-	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 03:26:44 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8719E0078F
+	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 03:26:49 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,249,1571673600"; 
-   d="scan'208";a="79157201"
+   d="scan'208";a="79157205"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 27 Nov 2019 19:26:43 +0800
+  by heian.cn.fujitsu.com with ESMTP; 27 Nov 2019 19:26:49 +0800
 Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id CC2B34B6EC86
-	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 19:18:15 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 098CF4CE1BEC
+	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 19:18:26 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Wed, 27 Nov 2019 19:26:38 +0800
+ (TLS) id 15.0.1395.4; Wed, 27 Nov 2019 19:26:48 +0800
 From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
 CC: zheng ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Subject: [meta-virtualization][zeus][PATCH] python-neutronclient: Fix do_package_qa error
-Date: Wed, 27 Nov 2019 19:26:30 +0800
-Message-ID: <1574853990-66534-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization][PATCH] python-neutronclient: Fix do_package_qa error
+Date: Wed, 27 Nov 2019 19:26:45 +0800
+Message-ID: <1574854005-66572-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: CC2B34B6EC86.A88A3
+X-yoursite-MailScanner-ID: 098CF4CE1BEC.A94E9
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 Content-Type: text/plain
