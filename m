@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.4741.1574853698108924799
+ by mx.groups.io with SMTP id smtpd.web12.4799.1574853732680543189
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 27 Nov 2019 03:21:38 -0800
+ Wed, 27 Nov 2019 03:22:12 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E9BD4E00ECC; Wed, 27 Nov 2019 03:21:37 -0800 (PST)
+	id 87C7BE00D00; Wed, 27 Nov 2019 03:22:12 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,61 +19,56 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.8 SUBJ_OBFU_PUNCT_FEW Possible punctuation-obfuscated Subject: header
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A131BE0085D
-	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 03:21:35 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CB2F3E0085D
+	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 03:22:11 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,249,1571673600"; 
-   d="scan'208";a="79157101"
+   d="scan'208";a="79157110"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 27 Nov 2019 19:21:34 +0800
+  by heian.cn.fujitsu.com with ESMTP; 27 Nov 2019 19:22:11 +0800
 Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 3FF1F4CE1BEC
-	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 19:13:12 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 196DE4B6EC86
+	for <meta-virtualization@yoctoproject.org>; Wed, 27 Nov 2019 19:13:46 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Wed, 27 Nov 2019 19:21:34 +0800
+ (TLS) id 15.0.1395.4; Wed, 27 Nov 2019 19:22:08 +0800
 From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
 CC: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Subject: [meta-virtualization][PATCH] python-heat: Fix do_package_qa error
-Date: Wed, 27 Nov 2019 19:21:31 +0800
-Message-ID: <1574853691-66377-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization][PATCH] python-ceilometerclient: Fix do_package_qa error
+Date: Wed, 27 Nov 2019 19:22:05 +0800
+Message-ID: <1574853725-66423-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 3FF1F4CE1BEC.AA5B6
+X-yoursite-MailScanner-ID: 196DE4B6EC86.A7B6E
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 Content-Type: text/plain
 
 Fix the error as follows:
 
-ERROR: python-heat-5.0.0+gitAUTOINC+4348b7abab-r0 do_package_qa: QA Issue: /usr/bin/heat-db-setup contained in package heat-engine requires /bin/bash, but no providers found in RDEPENDS_heat-engine? [file-rdeps]
-ERROR: python-heat-5.0.0+gitAUTOINC+4348b7abab-r0 do_package_qa: QA Issue: /usr/lib/python2.7/site-packages/heat/cloudinit/boothook.sh contained in package python-heat requires /bin/bash, but no providers found in RDEPENDS_python-heat? [file-rdeps]
-ERROR: python-heat-5.0.0+gitAUTOINC+4348b7abab-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
+ERROR: python-ceilometerclient-2.9.1-r0 do_package_qa: QA Issue: /usr/lib/python2.7/site-packages/ceilometerclient/tests/functional/hooks/post_test_hook.sh contained in package python-ceilometerclient requires /bin/bash, but no providers found in RDEPENDS_python-ceilometerclient? [file-rdeps]
+ERROR: python-ceilometerclient-2.9.1-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- meta-openstack/recipes-devtools/python/python-heat_git.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta-openstack/recipes-devtools/python/python-ceilometerclient_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-heat_git.bb b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-index 2cf7ce4..3b4998f 100644
---- a/meta-openstack/recipes-devtools/python/python-heat_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-heat_git.bb
-@@ -243,9 +243,10 @@ RDEPENDS_${PN} += " \
-         python-zaqarclient \
+diff --git a/meta-openstack/recipes-devtools/python/python-ceilometerclient_git.bb b/meta-openstack/recipes-devtools/python/python-ceilometerclient_git.bb
+index 77c9c49..268e6a7 100644
+--- a/meta-openstack/recipes-devtools/python/python-ceilometerclient_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-ceilometerclient_git.bb
+@@ -25,6 +25,7 @@ RDEPENDS_${PN} += " \
          python-requests \
          python-six \
+         python-stevedore \
 +        bash \
- 	"
+         "
  
--RDEPENDS_${SRCNAME}-engine = "${PN} ${SRCNAME}-templates ${SRCNAME}-common postgresql postgresql-client python-psycopg2 tgt ${SRCNAME}-cfn"
-+RDEPENDS_${SRCNAME}-engine = "${PN} ${SRCNAME}-templates ${SRCNAME}-common postgresql postgresql-client python-psycopg2 tgt ${SRCNAME}-cfn bash"
- RDEPENDS_${SRCNAME}-api = "${SRCNAME}-engine"
- RDEPENDS_${SRCNAME}-api-cfn = "${SRCNAME}-engine"
- RDEPENDS_${SRCNAME}-setup = "postgresql sudo ${SRCNAME}-engine"
+ SRC_URI = "\
 -- 
 2.7.4
 
