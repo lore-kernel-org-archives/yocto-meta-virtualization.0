@@ -1,138 +1,130 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web12.3632.1574923900773393676
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web10.4325.1574931733215449395
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 27 Nov 2019 22:51:40 -0800
+ Thu, 28 Nov 2019 01:02:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: hongxu.jia@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xAS6pdnq005133
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 27 Nov 2019 22:51:40 -0800 (PST)
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.468.0; Wed, 27 Nov 2019
- 22:51:27 -0800
-From: "hongxu" <hongxu.jia@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][m-c-s][PATCH] consul: fix compile failure while go upgraded to 1.13
-Date: Wed, 27 Nov 2019 22:51:27 -0800
-Message-ID: <20191128065127.28275-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.21.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 18031E0108B; Thu, 28 Nov 2019 01:02:13 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-HAM-Report: 
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
+	*      medium trust
+	*      [183.91.158.132 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B8BD8E00E82
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 01:02:11 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.69,252,1571673600"; 
+   d="scan'208";a="79213762"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 28 Nov 2019 17:02:07 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id AFD884CE1C07
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 16:53:42 +0800 (CST)
+Received: from localhost.local (10.167.225.81) by
+ G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Thu, 28 Nov 2019 17:02:05 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python-babel: Add python3 version
+Date: Thu, 28 Nov 2019 17:02:52 +0800
+Message-ID: <20191128090252.27458-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.167.225.81]
+X-yoursite-MailScanner-ID: AFD884CE1C07.A9BCB
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-While go was upgraded to 1.13, there is a do_compile failure,
-Refer upstream envoyproxy to rename imports throughout
-
-https://github.com/envoyproxy/protoc-gen-validate/pull/161/commits/7428b5f8e7fdabbcc7c9710e23e6f438ba4ff021
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- recipes-connectivity/consul/consul_git.bb     |  1 +
- ...-Migration-Rename-imports-throughout.patch | 82 +++++++++++++++++++
- 2 files changed, 83 insertions(+)
- create mode 100644 recipes-connectivity/consul/files/0001-Migration-Rename-imports-throughout.patch
+ .../recipes-devtools/python/python-babel.inc  | 18 +++++++++++++++++
+ .../python/python-babel_2.3.4.bb              | 20 ++-----------------
+ .../python/python3-babel_2.3.4.bb             |  2 ++
+ 3 files changed, 22 insertions(+), 18 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-babel.i=
+nc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-babel_=
+2.3.4.bb
 
-diff --git a/recipes-connectivity/consul/consul_git.bb b/recipes-connectivity/consul/consul_git.bb
-index 566fbc9c..b96499c4 100644
---- a/recipes-connectivity/consul/consul_git.bb
-+++ b/recipes-connectivity/consul/consul_git.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://src/github.com/hashicorp/consul/LICENSE;md5=b278a92d2
- GO_IMPORT = "github.com/hashicorp/consul"
- SRCREV = "944cc71026c007e7de9467ec3f38f0ad14464fcc"
- SRC_URI = "git://${GO_IMPORT}.git \
-+           file://0001-Migration-Rename-imports-throughout.patch \
-            file://consul.service \
-           "
- 
-diff --git a/recipes-connectivity/consul/files/0001-Migration-Rename-imports-throughout.patch b/recipes-connectivity/consul/files/0001-Migration-Rename-imports-throughout.patch
+diff --git a/meta-openstack/recipes-devtools/python/python-babel.inc b/me=
+ta-openstack/recipes-devtools/python/python-babel.inc
 new file mode 100644
-index 00000000..906107da
+index 0000000..5e133a1
 --- /dev/null
-+++ b/recipes-connectivity/consul/files/0001-Migration-Rename-imports-throughout.patch
-@@ -0,0 +1,82 @@
-+From a9353f184d6cf6ae7ef1b5676720f5bee0882ec3 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Wed, 27 Nov 2019 22:38:25 -0800
-+Subject: [PATCH] Migration: Rename imports throughout
++++ b/meta-openstack/recipes-devtools/python/python-babel.inc
+@@ -0,0 +1,18 @@
++DESCRIPTION =3D "A collection of tools for internationalizing Python app=
+lications"
++HOMEPAGE =3D "http://babel.edgewall.org/"
++SECTION =3D "devel/python"
++LICENSE =3D "BSD"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De6eeaabc92cfc2d03f53e789324d7=
+292"
 +
-+rename lyft -> envoyproxy
++PYPI_PACKAGE =3D "Babel"
 +
-+Since upstream envoyproxy update it [https://github.com/envoyproxy/protoc-gen-validate/pull/161/commits/7428b5f8e7fdabbcc7c9710e23e6f438ba4ff021]
-+Upstream-Status: Pending
++SRC_URI[md5sum] =3D "afa20bc55b0e991833030129ad498f35"
++SRC_URI[sha256sum] =3D "c535c4403802f6eb38173cd4863e419e2274921a01a8aad8=
+a5b497c131c62875"
 +
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ .../envoy/api/v2/cluster/circuit_breaker.pb.go                | 2 +-
-+ .../go-control-plane/envoy/api/v2/route/route.pb.go           | 4 ++--
-+ .../envoyproxy/protoc-gen-validate/validate/validate.pb.go    | 2 +-
-+ .../envoyproxy/protoc-gen-validate/validate/validate.proto    | 2 +-
-+ 4 files changed, 5 insertions(+), 5 deletions(-)
++inherit pypi
 +
-+diff --git a/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/cluster/circuit_breaker.pb.go b/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/cluster/circuit_breaker.pb.go
-+index 30a138eba..7dfcc91e2 100644
-+--- a/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/cluster/circuit_breaker.pb.go
-++++ b/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/cluster/circuit_breaker.pb.go
-+@@ -87,7 +87,7 @@ type CircuitBreakers_Thresholds struct {
-+ 	// The :ref:`RoutingPriority<envoy_api_enum_core.RoutingPriority>`
-+ 	// the specified CircuitBreaker settings apply to.
-+ 	// [#comment:TODO(htuch): add (validate.rules).enum.defined_only = true once
-+-	// https://github.com/lyft/protoc-gen-validate/issues/42 is resolved.]
-++	// https://github.com/envoyproxy/protoc-gen-validate/issues/42 is resolved.]
-+ 	Priority core.RoutingPriority `protobuf:"varint,1,opt,name=priority,proto3,enum=envoy.api.v2.core.RoutingPriority" json:"priority,omitempty"`
-+ 	// The maximum number of connections that Envoy will make to the upstream
-+ 	// cluster. If not specified, the default is 1024.
-+diff --git a/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/route/route.pb.go b/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/route/route.pb.go
-+index cce788c7d..ec69f4769 100644
-+--- a/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/route/route.pb.go
-++++ b/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/go-control-plane/envoy/api/v2/route/route.pb.go
-+@@ -1513,7 +1513,7 @@ type RouteAction struct {
-+ 	RequestMirrorPolicy *RouteAction_RequestMirrorPolicy `protobuf:"bytes,10,opt,name=request_mirror_policy,json=requestMirrorPolicy,proto3" json:"request_mirror_policy,omitempty"`
-+ 	// Optionally specifies the :ref:`routing priority <arch_overview_http_routing_priority>`.
-+ 	// [#comment:TODO(htuch): add (validate.rules).enum.defined_only = true once
-+-	// https://github.com/lyft/protoc-gen-validate/issues/42 is resolved.]
-++	// https://github.com/envoyproxy/protoc-gen-validate/issues/42 is resolved.]
-+ 	Priority core.RoutingPriority `protobuf:"varint,11,opt,name=priority,proto3,enum=envoy.api.v2.core.RoutingPriority" json:"priority,omitempty"`
-+ 	// Specifies a set of rate limit configurations that could be applied to the
-+ 	// route.
-+@@ -3475,7 +3475,7 @@ type VirtualCluster struct {
-+ 	// Optionally specifies the HTTP method to match on. For example GET, PUT,
-+ 	// etc.
-+ 	// [#comment:TODO(htuch): add (validate.rules).enum.defined_only = true once
-+-	// https://github.com/lyft/protoc-gen-validate/issues/42 is resolved.]
-++	// https://github.com/envoyproxy/protoc-gen-validate/issues/42 is resolved.]
-+ 	Method               core.RequestMethod `protobuf:"varint,3,opt,name=method,proto3,enum=envoy.api.v2.core.RequestMethod" json:"method,omitempty"`
-+ 	XXX_NoUnkeyedLiteral struct{}           `json:"-"`
-+ 	XXX_unrecognized     []byte             `json:"-"`
-+diff --git a/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.pb.go b/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.pb.go
-+index ef5938c83..9a1a4c08d 100644
-+--- a/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.pb.go
-++++ b/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.pb.go
-+@@ -1,7 +1,7 @@
-+ // Code generated by protoc-gen-go. DO NOT EDIT.
-+ // source: validate/validate.proto
-+ 
-+-package validate // import "github.com/lyft/protoc-gen-validate/validate"
-++package validate // import "github.com/envoyproxy/protoc-gen-validate/validate"
-+ 
-+ import proto "github.com/golang/protobuf/proto"
-+ import fmt "fmt"
-+diff --git a/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.proto b/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.proto
-+index 1c5e04a16..05cce2cbd 100644
-+--- a/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.proto
-++++ b/src/github.com/hashicorp/consul/vendor/github.com/envoyproxy/protoc-gen-validate/validate/validate.proto
-+@@ -1,7 +1,7 @@
-+ syntax = "proto2";
-+ package validate;
-+ 
-+-option go_package = "github.com/lyft/protoc-gen-validate/validate";
-++option go_package = "github.com/envoyproxy/protoc-gen-validate/validate";
-+ option java_package = "com.lyft.pgv.validate";
-+ 
-+ import "google/protobuf/descriptor.proto";
-+-- 
-+2.21.0
++CLEANBROKEN =3D "1"
 +
--- 
-2.21.0
++RDEPENDS_${PN} +=3D " \
++    ${PYTHON_PN}-pytz \
++"
+diff --git a/meta-openstack/recipes-devtools/python/python-babel_2.3.4.bb=
+ b/meta-openstack/recipes-devtools/python/python-babel_2.3.4.bb
+index e4c0884..74952d1 100644
+--- a/meta-openstack/recipes-devtools/python/python-babel_2.3.4.bb
++++ b/meta-openstack/recipes-devtools/python/python-babel_2.3.4.bb
+@@ -1,18 +1,2 @@
+-DESCRIPTION =3D "A collection of tools for internationalizing Python app=
+lications"
+-HOMEPAGE =3D "http://babel.edgewall.org/"
+-SECTION =3D "devel/python"
+-LICENSE =3D "BSD"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De6eeaabc92cfc2d03f53e789324d7=
+292"
+-
+-PYPI_PACKAGE =3D "Babel"
+-
+-SRC_URI[md5sum] =3D "afa20bc55b0e991833030129ad498f35"
+-SRC_URI[sha256sum] =3D "c535c4403802f6eb38173cd4863e419e2274921a01a8aad8=
+a5b497c131c62875"
+-
+-inherit setuptools pypi
+-
+-CLEANBROKEN =3D "1"
+-
+-RDEPENDS_${PN} +=3D " \
+-    python-pytz \
+-"
+\ No newline at end of file
++require python-babel.inc
++inherit setuptools
+diff --git a/meta-openstack/recipes-devtools/python/python3-babel_2.3.4.b=
+b b/meta-openstack/recipes-devtools/python/python3-babel_2.3.4.bb
+new file mode 100644
+index 0000000..42b0008
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python3-babel_2.3.4.bb
+@@ -0,0 +1,2 @@
++require python-babel.inc
++inherit setuptools3
+--=20
+2.20.1
+
+
 
