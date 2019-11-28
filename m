@@ -1,49 +1,49 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.5115.1574937771041454841
+ by mx.groups.io with SMTP id smtpd.web10.4966.1574937775181966293
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 28 Nov 2019 02:42:51 -0800
+ Thu, 28 Nov 2019 02:42:55 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8FCFCE0108B; Thu, 28 Nov 2019 02:42:50 -0800 (PST)
+	id 0E080E0108B; Thu, 28 Nov 2019 02:42:55 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
 X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
 	RCVD_IN_DNSWL_MED,SUBJ_OBFU_PUNCT_FEW autolearn=ham version=3.3.1
 X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
 	*      medium trust
 	*      [183.91.158.132 listed in list.dnswl.org]
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
 	*  1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
 	*  0.7 SUBJ_OBFU_PUNCT_FEW Possible punctuation-obfuscated Subject: header
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id DF2A9E00E8D
-	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 02:42:49 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 67A14E00E8D
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 02:42:54 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,253,1571673600"; 
-   d="scan'208";a="79220060"
+   d="scan'208";a="79220062"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 28 Nov 2019 18:42:48 +0800
+  by heian.cn.fujitsu.com with ESMTP; 28 Nov 2019 18:42:54 +0800
 Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id E0B1E4CE14FC
-	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 18:34:21 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 348E34CE1BF0
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 18:34:28 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Thu, 28 Nov 2019 18:42:46 +0800
+ (TLS) id 15.0.1395.4; Thu, 28 Nov 2019 18:42:52 +0800
 From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
 CC: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Subject: [meta-virtualization][zeus][PATCH] layer.conf: Update PREFERRED_VERSION
-Date: Fri, 29 Nov 2019 03:42:38 +0800
-Message-ID: <1574970158-3207-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization][PATCH] layer.conf: Update PREFERRED_VERSION
+Date: Fri, 29 Nov 2019 03:42:50 +0800
+Message-ID: <1574970170-3244-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: E0B1E4CE14FC.A9513
+X-yoursite-MailScanner-ID: 348E34CE1BF0.A86BD
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 Content-Type: text/plain
