@@ -1,85 +1,82 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.4966.1574937775181966293
+ by mx.groups.io with SMTP id smtpd.web10.1138.1574972253358254438
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 28 Nov 2019 02:42:55 -0800
+ Thu, 28 Nov 2019 12:17:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+ dkim=missing; spf=softfail (domain: 3mdeb.com, ip: 140.211.169.56, mailfrom: norbert.kaminski@3mdeb.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0E080E0108B; Thu, 28 Nov 2019 02:42:55 -0800 (PST)
+	id D7F61E00EBE; Thu, 28 Nov 2019 12:17:32 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
-	RCVD_IN_DNSWL_MED,SUBJ_OBFU_PUNCT_FEW autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
-	*  0.7 SUBJ_OBFU_PUNCT_FEW Possible punctuation-obfuscated Subject: header
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 67A14E00E8D
-	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 02:42:54 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,253,1571673600"; 
-   d="scan'208";a="79220062"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 28 Nov 2019 18:42:54 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 348E34CE1BF0
-	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 18:34:28 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Thu, 28 Nov 2019 18:42:52 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-CC: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Subject: [meta-virtualization][PATCH] layer.conf: Update PREFERRED_VERSION
-Date: Fri, 29 Nov 2019 03:42:50 +0800
-Message-ID: <1574970170-3244-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 348E34CE1BF0.A86BD
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Content-Type: text/plain
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [46.105.36.150 listed in list.dnswl.org]
+Received: from 17.mo6.mail-out.ovh.net (17.mo6.mail-out.ovh.net [46.105.36.150])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E6C5FE0097D
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 12:17:31 -0800 (PST)
+Received: from player716.ha.ovh.net (unknown [10.108.42.23])
+	by mo6.mail-out.ovh.net (Postfix) with ESMTP id 6FA521EE5C6
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 21:00:24 +0100 (CET)
+Received: from 3mdeb.com (85-222-117-222.dynamic.chello.pl [85.222.117.222])
+	(Authenticated sender: norbert.kaminski@3mdeb.com)
+	by player716.ha.ovh.net (Postfix) with ESMTPSA id 6CC14C9E5E33;
+	Thu, 28 Nov 2019 20:00:19 +0000 (UTC)
+From: "Norbert Kaminski" <norbert.kaminski@3mdeb.com>
+To: meta-virtualization@yoctoproject.org,
+	bruce.ashfield@gmail.com
+Cc: piotr.krol@3mdeb.com,
+	maciej.pijanowski@3mdeb.com,
+	Norbert Kaminski <norbert.kaminski@3mdeb.com>
+Subject: Re: [meta-virtualization][PATCH] docker.inc: Add xt-addrtype kernel module
+Date: Thu, 28 Nov 2019 20:59:52 +0100
+Message-Id: <20191128195952.8230-1-norbert.kaminski@3mdeb.com>
+X-Mailer: git-send-email 2.17.1
+X-Ovh-Tracer-Id: 2835015966778431764
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedufedrudeijedguddvkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjqdffgfeufgfipdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhvffufffkofestddtredtredttdenucfhrhhomhepnhhkrghmihhnshhkihcuoehnohhrsggvrhhtrdhkrghmihhnshhkihesfehmuggvsgdrtghomheqnecuffhomhgrihhnpehsohgtkhdrihhsnecukfhppedtrddtrddtrddtpdekhedrvddvvddruddujedrvddvvdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepphhlrgihvghrjeduiedrhhgrrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehnohhrsggvrhhtrdhkrghmihhnshhkihesfehmuggvsgdrtghomhdprhgtphhtthhopehmvghtrgdqvhhirhhtuhgrlhhiiigrthhiohhnseihohgtthhophhrohhjvggtthdrohhrghenucevlhhushhtvghrufhiiigvpedt
 
-Update PREFERRED_VERSION for following recipes:
-  python-sqlalchemy
-  python-eventlet
-  python-warlock
-  python-jsonschema
+From: Norbert Kaminski <norbert.kaminski@3mdeb.com>
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Trying to use docker info and hello world container without this module
+causes a daemon error.
+
+docker info error log:
+
+Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the
+docker daemon running?
+
+dockerd error log:
+
+PREROUTING chain: iptables failed: iptables --wait -t nat -A PREROUTING -m
+addrtype --dst-type LOCAL -j DOCKER: iptables v1.8.3 (legacy): Couldn't
+load match `addrtype':No such file or directory
+
+Signed-off-by: Norbert Kaminski <norbert.kaminski@3mdeb.com>
+
 ---
- meta-openstack/conf/layer.conf | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ recipes-containers/docker/docker.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
-index b6f8dba..a61bf25 100644
---- a/meta-openstack/conf/layer.conf
-+++ b/meta-openstack/conf/layer.conf
-@@ -27,10 +27,10 @@ PREFERRED_VERSION_python-sqlalchemy = "1.0.8"
- PREFERRED_VERSION_python-pexpect = "3.3"
- PREFERRED_VERSION_python-django = "1.8.6"
- PREFERRED_VERSION_python-netaddr = "0.7.19"
--PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
--PREFERRED_VERSION_python-eventlet = "0.20.0"
--PREFERRED_VERSION_python-warlock = "1.2.0"
--PREFERRED_VERSION_python-jsonschema = "2.6.0"
-+PREFERRED_VERSION_python-sqlalchemy = "1.1.17"
-+PREFERRED_VERSION_python-eventlet = "0.25.1"
-+PREFERRED_VERSION_python-warlock = "1.3.3"
-+PREFERRED_VERSION_python-jsonschema = "3.0.2"
- PREFERRED_VERSION_python-networkx = "${@bb.utils.contains('DISTRO_FEATURES', 'openstack', '1.11', '', d)}"
- PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
+diff --git a/recipes-containers/docker/docker.inc b/recipes-containers/docker/docker.inc
+index 0083902..32d4a2e 100644
+--- a/recipes-containers/docker/docker.inc
++++ b/recipes-containers/docker/docker.inc
+@@ -29,7 +29,7 @@ RDEPENDS_${PN} = "util-linux util-linux-unshare iptables \
+                  "
+ RDEPENDS_${PN} += "virtual/containerd virtual/runc"
+ 
+-RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat"
++RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat kernel-module-xt-addrtype"
+ 
+ PROVIDES += "virtual/docker"
  
 -- 
-2.7.4
-
-
+2.17.1
 
