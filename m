@@ -1,137 +1,84 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.5031.1575005460325412842
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web12.5066.1575005673449596041
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 28 Nov 2019 21:31:00 -0800
+ Thu, 28 Nov 2019 21:34:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id DABD1E010B5; Thu, 28 Nov 2019 21:30:59 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 38F13E010B1
-	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 21:30:58 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,256,1571673600"; 
-   d="scan'208";a="79253403"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 29 Nov 2019 13:30:57 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0AAB74CE1BED
-	for <meta-virtualization@yoctoproject.org>; Fri, 29 Nov 2019 13:22:34 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Fri, 29 Nov 2019 13:30:54 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-i18n: Add python3 version
-Date: Fri, 29 Nov 2019 13:31:45 +0800
-Message-ID: <20191129053145.23536-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: changqing.li@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xAT5YWZ8019965
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Thu, 28 Nov 2019 21:34:32 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.468.0; Thu, 28 Nov 2019 21:34:31 -0800
+From: "Changqing Li" <changqing.li@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][meta-openstack][PATCH] python-sqlparse: move this recipe to meta-python
+Date: Fri, 29 Nov 2019 13:34:30 +0800
+Message-ID: <1575005670-87337-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 0AAB74CE1BED.AE4D1
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+From: Changqing Li <changqing.li@windriver.com>
+
+After python3-django upgrade to 2.2, it RDEPEND on python3-sqlparse,
+so move this to meta-python
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../recipes-devtools/python/python-i18n.inc   | 23 +++++++++++++++++
- .../python/python-i18n_0.3.1.bb               | 25 ++-----------------
- .../python/python3-i18n_0.3.1.bb              |  2 ++
- 3 files changed, 27 insertions(+), 23 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-i18n.in=
-c
- create mode 100644 meta-openstack/recipes-devtools/python/python3-i18n_0=
-.3.1.bb
+ .../recipes-devtools/python/python-sqlparse.inc    | 22 ----------------------
+ .../python/python-sqlparse_0.3.0.bb                |  2 --
+ .../python/python3-sqlparse_0.3.0.bb               |  2 --
+ 3 files changed, 26 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-sqlparse.inc
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-sqlparse_0.3.0.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python3-sqlparse_0.3.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-i18n.inc b/met=
-a-openstack/recipes-devtools/python/python-i18n.inc
-new file mode 100644
-index 0000000..74200e7
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-i18n.inc
-@@ -0,0 +1,23 @@
-+DESCRIPTION =3D "Translation library for Python"
-+HOMEPAGE =3D "https://github.com/tuvistavie/python-i18n"
-+SECTION =3D "devel/python"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://README.md;md5=3D7624ac071dec291ca8ef74e62e5=
-36a7a"
-+
-+PYPI_PACKAGE =3D "python-i18n"
-+
-+SRC_URI[md5sum] =3D "08b8c247add9f90806c4742a685fdb88"
-+SRC_URI[sha256sum] =3D "e1d832ff7d1d39ce593793cc709b2344aa8fdf321cf70708=
-1335f146160d9f20"
-+
-+inherit pypi
-+
-+# DEPENDS_default: python-pip
-+
-+DEPENDS +=3D " \
-+        ${PYTHON_PN}-pip \
-+        "
-+
-+# RDEPENDS_default:=20
-+RDEPENDS_${PN} +=3D " \
-+        ${PYTHON_PN}-pyyaml \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-i18n_0.3.1.bb =
-b/meta-openstack/recipes-devtools/python/python-i18n_0.3.1.bb
-index f14e7a8..3e0acdd 100644
---- a/meta-openstack/recipes-devtools/python/python-i18n_0.3.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-i18n_0.3.1.bb
-@@ -1,23 +1,2 @@
--DESCRIPTION =3D "Translation library for Python"
--HOMEPAGE =3D "https://github.com/tuvistavie/python-i18n"
--SECTION =3D "devel/python"
--LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://README.md;md5=3D7624ac071dec291ca8ef74e62e5=
-36a7a"
+diff --git a/meta-openstack/recipes-devtools/python/python-sqlparse.inc b/meta-openstack/recipes-devtools/python/python-sqlparse.inc
+deleted file mode 100644
+index cc55ff7..0000000
+--- a/meta-openstack/recipes-devtools/python/python-sqlparse.inc
++++ /dev/null
+@@ -1,22 +0,0 @@
+-DESCRIPTION = "Non-validating SQL parser module"
+-HOMEPAGE = "http://pypi.python.org/pypi/sqlparse"
+-SECTION = "devel/python"
+-LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=2b136f573f5386001ea3b7b9016222fc"
 -
--PYPI_PACKAGE =3D "python-i18n"
+-SRC_URI[md5sum] = "2ce34181d6b7b234c9f3c0ecd1ffb93e"
+-SRC_URI[sha256sum] = "7c3dca29c022744e95b547e867cee89f4fce4373f3549ccd8797d8eb52cdb873"
 -
--SRC_URI[md5sum] =3D "08b8c247add9f90806c4742a685fdb88"
--SRC_URI[sha256sum] =3D "e1d832ff7d1d39ce593793cc709b2344aa8fdf321cf70708=
-1335f146160d9f20"
+-export BUILD_SYS
+-export HOST_SYS
 -
--inherit setuptools pypi
+-inherit pypi
 -
 -# DEPENDS_default: python-pip
 -
--DEPENDS +=3D " \
--        python-pip \
+-DEPENDS += " \
 -        "
 -
--# RDEPENDS_default:=20
--RDEPENDS_${PN} +=3D " \
--        python-pyyaml \
+-# RDEPENDS_default: 
+-RDEPENDS_${PN} += " \
 -        "
-+require python-i18n.inc
-+inherit setuptools
-diff --git a/meta-openstack/recipes-devtools/python/python3-i18n_0.3.1.bb=
- b/meta-openstack/recipes-devtools/python/python3-i18n_0.3.1.bb
-new file mode 100644
-index 0000000..8e98d13
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-i18n_0.3.1.bb
-@@ -0,0 +1,2 @@
-+require python-i18n.inc
-+inherit setuptools3
---=20
-2.20.1
-
-
+diff --git a/meta-openstack/recipes-devtools/python/python-sqlparse_0.3.0.bb b/meta-openstack/recipes-devtools/python/python-sqlparse_0.3.0.bb
+deleted file mode 100644
+index 2b7773f..0000000
+--- a/meta-openstack/recipes-devtools/python/python-sqlparse_0.3.0.bb
++++ /dev/null
+@@ -1,2 +0,0 @@
+-inherit setuptools
+-require python-sqlparse.inc
+diff --git a/meta-openstack/recipes-devtools/python/python3-sqlparse_0.3.0.bb b/meta-openstack/recipes-devtools/python/python3-sqlparse_0.3.0.bb
+deleted file mode 100644
+index 7b3bcf6..0000000
+--- a/meta-openstack/recipes-devtools/python/python3-sqlparse_0.3.0.bb
++++ /dev/null
+@@ -1,2 +0,0 @@
+-inherit setuptools3
+-require python-sqlparse.inc
+-- 
+2.7.4
 
