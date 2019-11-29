@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.4153.1574996150175889099
+ by mx.groups.io with SMTP id smtpd.web12.4216.1574996669302013825
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 28 Nov 2019 18:55:50 -0800
+ Thu, 28 Nov 2019 19:04:29 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B3B49E010B0; Thu, 28 Nov 2019 18:55:49 -0800 (PST)
+	id D7F6DE010B0; Thu, 28 Nov 2019 19:04:28 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,27 +19,27 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5B0A0E010AC
-	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 18:55:48 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 33A4AE00EC7
+	for <meta-virtualization@yoctoproject.org>; Thu, 28 Nov 2019 19:04:27 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,255,1571673600"; 
-   d="scan'208";a="79247150"
+   d="scan'208";a="79247597"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 29 Nov 2019 10:55:46 +0800
+  by heian.cn.fujitsu.com with ESMTP; 29 Nov 2019 11:04:27 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1B8F0406AB15
-	for <meta-virtualization@yoctoproject.org>; Fri, 29 Nov 2019 10:47:20 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 1ECB1406AB15
+	for <meta-virtualization@yoctoproject.org>; Fri, 29 Nov 2019 10:56:00 +0800 (CST)
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Fri, 29 Nov 2019 10:55:39 +0800
+ (TLS) id 14.3.439.0; Fri, 29 Nov 2019 11:04:18 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-dogpile.core: Add python3 version
-Date: Fri, 29 Nov 2019 10:56:31 +0800
-Message-ID: <20191129025631.445-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-ecdsa: Add python3 version
+Date: Fri, 29 Nov 2019 11:05:11 +0800
+Message-ID: <20191129030511.4099-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 1B8F0406AB15.A739C
+X-yoursite-MailScanner-ID: 1ECB1406AB15.A8D7F
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -47,74 +47,83 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../recipes-devtools/python/python-dogpile.core.inc  | 12 ++++++++++++
- .../python/python-dogpile.core_0.4.1.bb              | 12 ++----------
- .../python/python3-dogpile.core_0.4.1.bb             |  4 ++++
- 3 files changed, 18 insertions(+), 10 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-dogpile=
-.core.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-dogpil=
-e.core_0.4.1.bb
+ .../recipes-devtools/python/python-ecdsa.inc  | 20 +++++++++++++++++
+ .../python/python-ecdsa_0.13.bb               | 22 ++-----------------
+ .../python/python3-ecdsa_0.13.bb              |  2 ++
+ 3 files changed, 24 insertions(+), 20 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-ecdsa.i=
+nc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-ecdsa_=
+0.13.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-dogpile.core.i=
-nc b/meta-openstack/recipes-devtools/python/python-dogpile.core.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-ecdsa.inc b/me=
+ta-openstack/recipes-devtools/python/python-ecdsa.inc
 new file mode 100644
-index 0000000..9824321
+index 0000000..b7c8356
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-dogpile.core.inc
-@@ -0,0 +1,12 @@
-+DESCRIPTION =3D "Python Dogpile Core: Dogpile is basically the locking c=
-ode extracted from the Beaker package, for simple and generic usage."
-+HOMEPAGE =3D "https://pypi.python.org/pypi/dogpile.core"
++++ b/meta-openstack/recipes-devtools/python/python-ecdsa.inc
+@@ -0,0 +1,20 @@
++DESCRIPTION =3D "ECDSA cryptographic signature library"
++HOMEPAGE =3D "https://github.com/warner/python-ecdsa"
 +SECTION =3D "devel/python"
-+LICENSE =3D "Apache-2.0"
-+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0401fd56584d7b3d4be91690672ec=
-433"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
+0bcf8506ecda2f7b4f302"
 +
-+SRC_URI[md5sum] =3D "01cb19f52bba3e95c9b560f39341f045"
-+SRC_URI[sha256sum] =3D "be652fb11a8eaf66f7e5c94d418d2eaa60a2fe81dae500f3=
-743a863cc9dbed76"
++SRC_URI[md5sum] =3D "1f60eda9cb5c46722856db41a3ae6670"
++SRC_URI[sha256sum] =3D "64cf1ee26d1cde3c73c6d7d107f835fed7c6a2904aef9eac=
+223d57ad800c43fa"
 +
 +inherit pypi
 +
++DEPENDS +=3D " \
++        ${PYTHON_PN}-pip \
++        ${PYTHON_PN}-pbr \
++        "
 +
-diff --git a/meta-openstack/recipes-devtools/python/python-dogpile.core_0=
-.4.1.bb b/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.=
-1.bb
-index 9e36074..7af5cc8 100644
---- a/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-dogpile.core_0.4.1.bb
-@@ -1,12 +1,4 @@
--DESCRIPTION =3D "Python Dogpile Core: Dogpile is basically the locking c=
-ode extracted from the Beaker package, for simple and generic usage."
--HOMEPAGE =3D "https://pypi.python.org/pypi/dogpile.core"
++# RDEPENDS_default:
++RDEPENDS_${PN} +=3D " \
++        ${PYTHON_PN}-pbr \
++        "
+diff --git a/meta-openstack/recipes-devtools/python/python-ecdsa_0.13.bb =
+b/meta-openstack/recipes-devtools/python/python-ecdsa_0.13.bb
+index 8fe492c..f5785b3 100644
+--- a/meta-openstack/recipes-devtools/python/python-ecdsa_0.13.bb
++++ b/meta-openstack/recipes-devtools/python/python-ecdsa_0.13.bb
+@@ -1,20 +1,2 @@
+-DESCRIPTION =3D "ECDSA cryptographic signature library"
+-HOMEPAGE =3D "https://github.com/warner/python-ecdsa"
 -SECTION =3D "devel/python"
--LICENSE =3D "Apache-2.0"
--LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0401fd56584d7b3d4be91690672ec=
-433"
+-LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
+0bcf8506ecda2f7b4f302"
 -
--SRC_URI[md5sum] =3D "01cb19f52bba3e95c9b560f39341f045"
--SRC_URI[sha256sum] =3D "be652fb11a8eaf66f7e5c94d418d2eaa60a2fe81dae500f3=
-743a863cc9dbed76"
+-SRC_URI[md5sum] =3D "1f60eda9cb5c46722856db41a3ae6670"
+-SRC_URI[sha256sum] =3D "64cf1ee26d1cde3c73c6d7d107f835fed7c6a2904aef9eac=
+223d57ad800c43fa"
 -
 -inherit setuptools pypi
-+require python-dogpile.core.inc
+-
+-DEPENDS +=3D " \
+-        python-pip \
+-        python-pbr \
+-        "
+-
+-# RDEPENDS_default:
+-RDEPENDS_${PN} +=3D " \
+-        python-pbr \
+-        "
++require python-ecdsa.inc
 +inherit setuptools
-=20
-=20
-diff --git a/meta-openstack/recipes-devtools/python/python3-dogpile.core_=
-0.4.1.bb b/meta-openstack/recipes-devtools/python/python3-dogpile.core_0.=
-4.1.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-ecdsa_0.13.bb=
+ b/meta-openstack/recipes-devtools/python/python3-ecdsa_0.13.bb
 new file mode 100644
-index 0000000..d81698f
+index 0000000..13366f4
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-dogpile.core_0.4.1.b=
-b
-@@ -0,0 +1,4 @@
-+require python-dogpile.core.inc
++++ b/meta-openstack/recipes-devtools/python/python3-ecdsa_0.13.bb
+@@ -0,0 +1,2 @@
++require python-ecdsa.inc
 +inherit setuptools3
-+
-+
 --=20
 2.20.1
 
