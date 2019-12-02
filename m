@@ -1,51 +1,51 @@
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
- by mx.groups.io with SMTP id smtpd.web10.6311.1575314856081035188
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+ by mx.groups.io with SMTP id smtpd.web11.6246.1575314858347103210
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Dec 2019 11:27:36 -0800
+ Mon, 02 Dec 2019 11:27:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oVlFy+DF;
- spf=pass (domain: gmail.com, ip: 209.85.167.48, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lf1-f48.google.com with SMTP id y19so740153lfl.9
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Dec 2019 11:27:35 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FwT5PZ+T;
+ spf=pass (domain: gmail.com, ip: 209.85.167.68, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lf1-f68.google.com with SMTP id q6so761655lfb.6
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Dec 2019 11:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=zKRkBCqkOXR4oz047TyppN48j9SQaq1+jCUM+RbGFpo=;
-        b=oVlFy+DFVk+62vo8hTPz/cKlRJzyWAW6Zxn61P/63ETEpX637VuZkGspaV6LRT2kDM
-         WW3mnh8429yErCTViIZXfawyEVekOgfJ4sk1+UCCZJstbgX+WZGF/RvP6tcte47oRAAv
-         dd3h+s/vb3RBXGXY8piIfaC0cJPes6GyAe/GVsmpRhfbZ8pLUTja5cdk4yXStGbEFzWJ
-         bx+vSxHV+drryVyVKFAU0LtpghbuOTF3ASyGgIhhCm0hwXK/EhDM2jxxOW3g8XGOOPFC
-         niKQiXefZJHwlleeiI01CA4m+MzoAiSA0L+VprLwulRbmDwcBcLdlRWVDIzkG36xCn1L
-         mIxg==
+        bh=ncvvrTJmp+88EJkixBbVQypI2tKpIBH0yW4ghidGu4Q=;
+        b=FwT5PZ+Tx9SaYog/WsHcELKrfphDPVPROPMSda4viVnVYCjGcHXkTZKGJPYLBO3eah
+         9vRGNrH0BJFv7saj2yDWroKXvQKV715X/V2ey4zJf/o4EeLFFvNWIfe9qtQkQ6XqNT4g
+         ylzkpRxIOiIE5joWAkECfnfBCE17lld/c7/wMa3Uno9iVTjoRAbm8wbbKLHYLw9+W7Hp
+         OvkMhcVGXm4RXsjc5VBYE66vOzyIiJiK/6fcyuCRxtVORzTRJ15kxxzbJSlNAqascua4
+         3TlnZblhIsqpwNgGJjr9MgISc80KqQBDeyTR+FaS9d22/5F8hPdm8Gn4Iqq6Bff6HEgE
+         TQAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=zKRkBCqkOXR4oz047TyppN48j9SQaq1+jCUM+RbGFpo=;
-        b=lYbLQHGE7t1CO7L09rb4H1JKdmvYpzjiphNM0qIrFYvAOAznW36P8AvYx+xdGSt7Ly
-         FkyY794RjsT1f6nHB5QRPuGiDDR7xRTe1r3IcA/bfdm+yoKcN69cR3+hU2XAKc3WuF1i
-         WVJJv839xqk6YZrLbYQGhVOWErrljDRbRbRGLk8k8i6l0rUkKzIkyFRvw5uCEq5JhUCR
-         QFGMC27V+9cHrt2KCqBn//tnpg+YTR3eqV7uWDvzC3q6O8o0+t0/L7K6su/EVTgsoPMs
-         tZ0yIPQfD95kbYuBBXw+jPw5rYENesax8Jq1H9En6nbU7+B7OWqo+6mIQpwW1XGL9SLR
-         xpqQ==
-X-Gm-Message-State: APjAAAWDkTfcBAEBZ0p6805NRo8fSDKu0ofaUBtOZu8Dqta6iLWKw3ww
-	965w0d4OWtz+n8EketnndsUoYuEbveU=
-X-Google-Smtp-Source: APXvYqzkckb5yspBOhdMjJWzRc7WFI0jfRggHqA2VyEZOM91lj8X4d9bAbpaJ61YBv2CmyxTNFnERw==
-X-Received: by 2002:ac2:5931:: with SMTP id v17mr379277lfi.166.1575314854264;
-        Mon, 02 Dec 2019 11:27:34 -0800 (PST)
+        bh=ncvvrTJmp+88EJkixBbVQypI2tKpIBH0yW4ghidGu4Q=;
+        b=J1tA6OEhY090tcsKjyREJ5gMKehS6FCcN1jSMm4d6vk0FpjDqHGSbE5bFB62LuQltY
+         L4U3aNoOhg8S/+EwHjhQIpICxckeiKsRLXdRqD7nK319jszrvqXQxpamlVjOn4GqA3RP
+         xbFF2uF3rRJtaojkdx1Pb/P+Dld6QQZz1TH1oyWBQue3j9EJGEqn/bop9c1kJnQvuFli
+         3vIFpCUP12OxN9WJ0zI0xAeoFFV2C78U9eMDsijaeHh0w35iMmvrUbWPXC0No8V/ukdT
+         ZDk9xXfi6gW2VwfVj17oaGl+2m7IbFFlvqqGyz1+BKSGNwUe/CYY2Lj/WXwobZaqEQAK
+         sZLw==
+X-Gm-Message-State: APjAAAWJ3R81kMniHTqMyLq44Y6Ziwb8nYXbuV6icmI4AvCm1BVqTezl
+	afvglD8Su24uSXQzZqpAq9SBAUvAd9Q=
+X-Google-Smtp-Source: APXvYqwonP4Vjkk5D8Cf1w+ltrIY5vXYeTS/7Yi/CvjU2gPV+5ynrl0GAofx6nZ7mB0I1tOhpf2tbQ==
+X-Received: by 2002:a05:6512:20e:: with SMTP id a14mr413340lfo.63.1575314856413;
+        Mon, 02 Dec 2019 11:27:36 -0800 (PST)
 Return-Path: <liu.ming50@gmail.com>
 Received: from peterliu-Precision-7530.lan (c-75fd72d5.022-417-73746f13.bbcust.telenor.se. [213.114.253.117])
-        by smtp.gmail.com with ESMTPSA id z20sm224534ljj.85.2019.12.02.11.27.33
+        by smtp.gmail.com with ESMTPSA id z20sm224534ljj.85.2019.12.02.11.27.35
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Mon, 02 Dec 2019 11:27:33 -0800 (PST)
+        Mon, 02 Dec 2019 11:27:36 -0800 (PST)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: stefan.agner@toradex.com,
 	Qi.Chen@windriver.com,
 	Ming Liu <liu.ming50@gmail.com>
-Subject: [meta-virtualization] [PATCH 2/3] python-docker: uprev to 4.1.0
-Date: Mon,  2 Dec 2019 20:27:12 +0100
-Message-Id: <1575314833-10994-3-git-send-email-liu.ming50@gmail.com>
+Subject: [meta-virtualization] [PATCH 3/3] python3-docker-compose: uprev to 1.25.0
+Date: Mon,  2 Dec 2019 20:27:13 +0100
+Message-Id: <1575314833-10994-4-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1575314833-10994-1-git-send-email-liu.ming50@gmail.com>
 References: <1575314833-10994-1-git-send-email-liu.ming50@gmail.com>
@@ -54,36 +54,162 @@ From: Ming Liu <liu.ming50@gmail.com>
 
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- recipes-devtools/python/python-docker.inc                             | 4 ++--
- .../python/{python-docker_3.4.0.bb => python-docker_4.1.0.bb}         | 0
- .../python/{python3-docker_3.4.0.bb => python3-docker_4.1.0.bb}       | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename recipes-devtools/python/{python-docker_3.4.0.bb => python-docker_4.1.0.bb} (100%)
- rename recipes-devtools/python/{python3-docker_3.4.0.bb => python3-docker_4.1.0.bb} (100%)
+ ...up.py-remove-maximum-version-requirements.patch | 33 +++++++++++----------
+ .../python3-docker-compose_1.21.2.bb               | 31 --------------------
+ .../python3-docker-compose_1.25.0.bb               | 34 ++++++++++++++++++++++
+ 3 files changed, 51 insertions(+), 47 deletions(-)
+ delete mode 100644 recipes-containers/docker-compose/python3-docker-compose_1.21.2.bb
+ create mode 100644 recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb
 
-diff --git a/recipes-devtools/python/python-docker.inc b/recipes-devtools/python/python-docker.inc
-index a0ba60b..cb7c523 100644
---- a/recipes-devtools/python/python-docker.inc
-+++ b/recipes-devtools/python/python-docker.inc
-@@ -3,8 +3,8 @@ HOMEPAGE = "https://github.com/docker/docker-py"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
+diff --git a/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch b/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+index 54835ff..8d204a7 100644
+--- a/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
++++ b/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+@@ -9,12 +9,13 @@ require old version recipes.
+ Upstream-Status: Inappropriate [OE Specific]
  
--SRC_URI[md5sum] = "02491d168c048cdb99cc20d0b352ea0f"
--SRC_URI[sha256sum] = "e9cc39e24905e67ba9e2df14c94488f5cf030fb72ae1c60de505ce5ea90503f7"
-+SRC_URI[md5sum] = "e1e8dc73e3220fe9eec1faf80b0290de"
-+SRC_URI[sha256sum] = "6e06c5e70ba4fad73e35f00c55a895a448398f3ada7faae072e2bb01348bafc1"
+ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+ ---
+  setup.py | 22 +++++++++++-----------
+  1 file changed, 11 insertions(+), 11 deletions(-)
  
- RDEPENDS_${PN} += " \
- 	${PYTHON_PN}-misc \
-diff --git a/recipes-devtools/python/python-docker_3.4.0.bb b/recipes-devtools/python/python-docker_4.1.0.bb
-similarity index 100%
-rename from recipes-devtools/python/python-docker_3.4.0.bb
-rename to recipes-devtools/python/python-docker_4.1.0.bb
-diff --git a/recipes-devtools/python/python3-docker_3.4.0.bb b/recipes-devtools/python/python3-docker_4.1.0.bb
-similarity index 100%
-rename from recipes-devtools/python/python3-docker_3.4.0.bb
-rename to recipes-devtools/python/python3-docker_4.1.0.bb
+ diff --git a/setup.py b/setup.py
+-index 422ba54..c2b4556 100644
++index 23ae08a..eef2825 100644
+ --- a/setup.py
+ +++ b/setup.py
+ @@ -30,16 +30,16 @@ def find_version(*file_paths):
+@@ -22,37 +23,37 @@ index 422ba54..c2b4556 100644
+  
+  install_requires = [
+ -    'cached-property >= 1.2.0, < 2',
+--    'docopt >= 0.6.1, < 0.7',
+--    'PyYAML >= 3.10, < 4',
+--    'requests >= 2.6.1, != 2.11.0, != 2.12.2, != 2.18.0, < 2.19',
+--    'texttable >= 0.9.0, < 0.10',
+--    'websocket-client >= 0.32.0, < 1.0',
+--    'docker >= 3.3.0, < 4.0',
+--    'dockerpty >= 0.4.1, < 0.5',
++-    'docopt >= 0.6.1, < 1',
++-    'PyYAML >= 3.10, < 5',
++-    'requests >= 2.20.0, < 3',
++-    'texttable >= 0.9.0, < 2',
++-    'websocket-client >= 0.32.0, < 1',
++-    'docker[ssh] >= 3.7.0, < 5',
++-    'dockerpty >= 0.4.1, < 1',
+ -    'six >= 1.3.0, < 2',
+--    'jsonschema >= 2.5.1, < 3',
++-    'jsonschema >= 2.5.1, < 4',
+ +    'cached-property >= 1.2.0',
+ +    'docopt >= 0.6.1',
+ +    'PyYAML >= 3.10',
+-+    'requests >= 2.6.1, != 2.11.0, != 2.12.2, != 2.18.0',
+++    'requests >= 2.20.0',
+ +    'texttable >= 0.9.0',
+ +    'websocket-client >= 0.32.0',
+-+    'docker >= 3.3.0',
+++    'docker[ssh] >= 3.7.0',
+ +    'dockerpty >= 0.4.1',
+ +    'six >= 1.3.0',
+ +    'jsonschema >= 2.5.1',
+  ]
+  
+  
+-@@ -56,7 +56,7 @@ extras_require = {
+-     ':python_version < "3.5"': ['backports.ssl_match_hostname >= 3.5'],
+-     ':python_version < "3.3"': ['ipaddress >= 1.0.16'],
+-     ':sys_platform == "win32"': ['colorama >= 0.3.9, < 0.4'],
++@@ -58,7 +58,7 @@ extras_require = {
++     ':python_version < "3.3"': ['backports.shutil_get_terminal_size == 1.0.0',
++                                 'ipaddress >= 1.0.16, < 2'],
++     ':sys_platform == "win32"': ['colorama >= 0.4, < 1'],
+ -    'socks': ['PySocks >= 1.5.6, != 1.5.7, < 2'],
+ +    'socks': ['PySocks >= 1.5.6, != 1.5.7'],
+  }
+  
+  
+ -- 
+-2.17.1
++2.7.4
+ 
+diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.21.2.bb b/recipes-containers/docker-compose/python3-docker-compose_1.21.2.bb
+deleted file mode 100644
+index a895005..0000000
+--- a/recipes-containers/docker-compose/python3-docker-compose_1.21.2.bb
++++ /dev/null
+@@ -1,31 +0,0 @@
+-SUMMARY = "Multi-container orchestration for Docker"
+-HOMEPAGE = "https://www.docker.com/"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
+-
+-SRC_URI += "file://0001-setup.py-remove-maximum-version-requirements.patch"
+-
+-inherit pypi setuptools3
+-
+-SRC_URI[md5sum] = "a243f59b2d286c41ff6ed1c4d4b50996"
+-SRC_URI[sha256sum] = "68b07193755440d5f8d4f47e6f3484212afc255d5b785a81353ea1e9298c1c2c"
+-
+-RDEPENDS_${PN} = "\
+-  ${PYTHON_PN}-cached-property \
+-  ${PYTHON_PN}-certifi \
+-  ${PYTHON_PN}-chardet \
+-  ${PYTHON_PN}-colorama \
+-  ${PYTHON_PN}-docker \
+-  ${PYTHON_PN}-docker-pycreds \
+-  ${PYTHON_PN}-dockerpty \
+-  ${PYTHON_PN}-docopt \
+-  ${PYTHON_PN}-idna \
+-  ${PYTHON_PN}-jsonschema \
+-  ${PYTHON_PN}-pyyaml \
+-  ${PYTHON_PN}-requests \
+-  ${PYTHON_PN}-six \
+-  ${PYTHON_PN}-terminal \
+-  ${PYTHON_PN}-texttable \
+-  ${PYTHON_PN}-urllib3 \
+-  ${PYTHON_PN}-websocket-client \
+-  "
+diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb b/recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb
+new file mode 100644
+index 0000000..36e2417
+--- /dev/null
++++ b/recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb
+@@ -0,0 +1,34 @@
++SUMMARY = "Multi-container orchestration for Docker"
++HOMEPAGE = "https://www.docker.com/"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
++
++inherit pypi setuptools3
++
++SRC_URI[md5sum] = "275b32cffdad6b9816dc8b4c7e55600a"
++SRC_URI[sha256sum] = "2c5fcbfd3ff445b6f3eebb549cb167ef1d8f70c5806aab8f309fc8fa74cd977e"
++
++SRC_URI += "file://0001-setup.py-remove-maximum-version-requirements.patch"
++
++RDEPENDS_${PN} = "\
++    ${PYTHON_PN}-cached-property \
++    ${PYTHON_PN}-certifi \
++    ${PYTHON_PN}-chardet \
++    ${PYTHON_PN}-colorama \
++    ${PYTHON_PN}-docker \
++    ${PYTHON_PN}-docker-pycreds \
++    ${PYTHON_PN}-dockerpty \
++    ${PYTHON_PN}-docopt \
++    ${PYTHON_PN}-fcntl \
++    ${PYTHON_PN}-idna \
++    ${PYTHON_PN}-jsonschema \
++    ${PYTHON_PN}-misc \
++    ${PYTHON_PN}-paramiko \
++    ${PYTHON_PN}-pyyaml \
++    ${PYTHON_PN}-requests \
++    ${PYTHON_PN}-six \
++    ${PYTHON_PN}-terminal \
++    ${PYTHON_PN}-texttable \
++    ${PYTHON_PN}-urllib3 \
++    ${PYTHON_PN}-websocket-client \
++"
 -- 
 2.7.4
 
