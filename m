@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.39.1575259931938666690
+ by mx.groups.io with SMTP id smtpd.web11.87.1575260326210291718
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 01 Dec 2019 20:12:12 -0800
+ Sun, 01 Dec 2019 20:18:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=I8bSk2br;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lTWGVybG;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6D0FAE010ED; Sun,  1 Dec 2019 20:12:11 -0800 (PST)
+	id C6A4CE010ED; Sun,  1 Dec 2019 20:18:45 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,106 +20,108 @@ X-Spam-HAM-Report:
 	*      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.160.195 listed in list.dnswl.org]
+	*      [209.85.208.68 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0262BE010EB
-	for <meta-virtualization@yoctoproject.org>; Sun,  1 Dec 2019 20:12:09 -0800 (PST)
-Received: by mail-qt1-f195.google.com with SMTP id g24so33192573qtq.11
-        for <meta-virtualization@yoctoproject.org>; Sun, 01 Dec 2019 20:12:09 -0800 (PST)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3B7C4E010EB
+	for <meta-virtualization@yoctoproject.org>; Sun,  1 Dec 2019 20:18:45 -0800 (PST)
+Received: by mail-ed1-f68.google.com with SMTP id f8so15701964edv.2
+        for <meta-virtualization@yoctoproject.org>; Sun, 01 Dec 2019 20:18:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=PjRUzq9i0t92y3k/fDgDWAPadft0Ny8v2raX1Ha+shA=;
-        b=I8bSk2brcAcOLocbD9O0YveYNjBKbROoVm3+c5jou3zFOJ+8t6lfc4kLNQ8bUuojoG
-         dLmAbxidgU/HrFba1jDrWfe09DKUqwZL+JPNCf1fuzP6CM/5zFlBjzBFqyzun7NUJhP+
-         CESiDRHO+aKhTfo/Wp1t817TGF+OY2wHWUNIlA4G4nDjMiJ+CtILYQmCelrjnOEiXyrO
-         1c6XgB/qy4xuxZYWTjCdzpeAKa1SYFR/UXSp5MYeJZvyT/JhVKIvb+epO/kcnTnK1iwo
-         uARuoK3kTwig3O9kKkASRytMqa/BdKSgxdmus3bgG11WnMIuQgSQ6lfD0SR3MtFFta5u
-         moVw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N1YVq9wsANL6Ql4C8iRoLJNjhqCGpeIpPCm2naqid0c=;
+        b=lTWGVybGuJXGu6HpthBb91TZbatmtznggWNweyJf0Aqfz+q99ZtgDQgcf13eSA9Mga
+         +GgOffo6Q7mt0jxWaCnj39MP310pK6reTe2NaQZnaQ+9hq2C0lzei9nBArbtRIhgcmGg
+         bUsoxbQP7l5LcFpVe8+mhn1tyw8Fw9lkWjQLdFYJ0N0C3wCaGuiLRPAm78gPReg1zZSL
+         UlScSGhLCQsZgohjPJ/9rFMq8/QfXPeV2dcC/5rr94aDFG3YBFm36pS406pw4dUnuvPW
+         RtB8F8uXqQtn5ifBfBQW6U5EGE6oBvnrDq1EYIzWgYf/AMwIAM3IQ9dtyjM+TF3RIPHj
+         ZLWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=PjRUzq9i0t92y3k/fDgDWAPadft0Ny8v2raX1Ha+shA=;
-        b=qfwe/S0QYFtTIVJj/CfO98PtKU8Eo4N7fEhr9sEOZ7uTTjId2Lsng44O8HI1CjIg4j
-         rjLgh8eo60gRA5dE3oW5vhgIsVyZ7GRyxfOeCfjA+vKHHfnJY4hKOoW2PQw0GcqHZPmS
-         /WGW1pHQG7ChazXNfsfhFpyO7543K3UClIAA37f4KfwU4GVucW+RqmGcIDqHYOpW36Gn
-         /wrUtjKlCXltBsmZ1lHpSRcxvruRwOVxYTDuFi3JtosvmzM5VSAHy6sD9lM0b+syiDv6
-         4cqcs6lhCPO1ke3YATaoYiEPyZP79P5B9guWK5dkCSYaViQXaJFgvhkKUd3mOH4AJLI1
-         eLjg==
-X-Gm-Message-State: APjAAAV+gN3dWY9zyak/f7veIdxEKy4IGhZGRxJdIc8rhY3jv2N62W5o
-	uepOZEl7zrpWGPOhspjhBR+lZqeHtEQ=
-X-Google-Smtp-Source: APXvYqzLjXS/mljEA08tupwBXsZWrSvvNu1I3+2F+q1P+y2+Ww4uOsZ0ROnXh86Je6IBCKlfk/UKWA==
-X-Received: by 2002:ac8:745a:: with SMTP id h26mr64581651qtr.192.1575259928060;
-        Sun, 01 Dec 2019 20:12:08 -0800 (PST)
-Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
-        by smtp.gmail.com with ESMTPSA id c12sm2410198qkk.83.2019.12.01.20.12.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Dec 2019 20:12:07 -0800 (PST)
-Date: Sun, 1 Dec 2019 23:12:05 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: nkaminski <norbert.kaminski@3mdeb.com>
-Cc: meta-virtualization@yoctoproject.org, piotr.krol@3mdeb.com,
-	maciej.pijanowski@3mdeb.com
-Subject: Re: [meta-virtualization][PATCH] docker.inc: Add xt-addrtype kernel module
-Message-ID: <20191202041202.GA27618@gmail.com>
-References: <20191128195952.8230-1-norbert.kaminski@3mdeb.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N1YVq9wsANL6Ql4C8iRoLJNjhqCGpeIpPCm2naqid0c=;
+        b=Iuz90rg7nJ4+lQk5gKTR0yybuwP964dLBtSuiF5cK8G4jSLyrdRqTasltEhouQ5Kj9
+         INww2xgYZN4wcJ3vSBiIiAberaU4hqylEqPUXM2bkhq9n2gGY/FaKP73b7m9ThJU3O2L
+         lhOMuIAyemWxlrPsjwLFx9yJNMNhm7X34E1/yQoOY/D7aIyD8xnvUtEQq8yIjoAo4u76
+         8rpJtY2OY1T++m2gLFewftRUVeHw/KdJ2U7fIpHMr+hsuEw88V5ihzR4975j8kJQG+wF
+         o5fJ3ed6u2mOObacGFAYr6al/0cEA9CNe9YtcVJzb9NA8zwbRgUfqV2/w3kzgN7kWcfM
+         gLMA==
+X-Gm-Message-State: APjAAAXvqff5bbVgX011roUhpuJippeaVh8hkR9DO6CdB0ldu3Nrn6Ye
+	fyw8B37WLLQrC1TZtEyrmHs3rH42uQE+dYUHQBQ=
+X-Google-Smtp-Source: APXvYqyOKdmyNx1fmkfKP9hofOmaNS6wCLc44gLpn7jK3AHc6kV8oIie3reVjPFUnUxyTAd3H5jC1qDEJClIvtkSmTM=
+X-Received: by 2002:a05:6402:2d0:: with SMTP id b16mr25466317edx.227.1575260324235;
+ Sun, 01 Dec 2019 20:18:44 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191128195952.8230-1-norbert.kaminski@3mdeb.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1574970158-3207-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1574970158-3207-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Sun, 1 Dec 2019 23:18:33 -0500
+Message-ID: <CADkTA4OKMNMjtckG+rjBf2O64-pV0sdOfDZtDeDc2yJUYH_o6Q@mail.gmail.com>
+Subject: Re: [meta-virtualization][zeus][PATCH] layer.conf: Update PREFERRED_VERSION
+To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Thanks!
-
-This version applied and is now merged.
+merged
 
 Bruce
 
-In message: Re: [meta-virtualization][PATCH] docker.inc: Add xt-addrtype kernel module
-on 28/11/2019 nkaminski wrote:
-
-> From: Norbert Kaminski <norbert.kaminski@3mdeb.com>
-> 
-> Trying to use docker info and hello world container without this module
-> causes a daemon error.
-> 
-> docker info error log:
-> 
-> Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the
-> docker daemon running?
-> 
-> dockerd error log:
-> 
-> PREROUTING chain: iptables failed: iptables --wait -t nat -A PREROUTING -m
-> addrtype --dst-type LOCAL -j DOCKER: iptables v1.8.3 (legacy): Couldn't
-> load match `addrtype':No such file or directory
-> 
-> Signed-off-by: Norbert Kaminski <norbert.kaminski@3mdeb.com>
-> 
+On Thu, Nov 28, 2019 at 5:42 AM zhengruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
+>
+> Update PREFERRED_VERSION for following recipes:
+>   python-sqlalchemy
+>   python-eventlet
+>   python-warlock
+>   python-jsonschema
+>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  recipes-containers/docker/docker.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/recipes-containers/docker/docker.inc b/recipes-containers/docker/docker.inc
-> index 0083902..32d4a2e 100644
-> --- a/recipes-containers/docker/docker.inc
-> +++ b/recipes-containers/docker/docker.inc
-> @@ -29,7 +29,7 @@ RDEPENDS_${PN} = "util-linux util-linux-unshare iptables \
->                   "
->  RDEPENDS_${PN} += "virtual/containerd virtual/runc"
->  
-> -RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat"
-> +RRECOMMENDS_${PN} = "kernel-module-dm-thin-pool kernel-module-nf-nat kernel-module-xt-addrtype"
->  
->  PROVIDES += "virtual/docker"
->  
-> -- 
-> 2.17.1
-> 
+>  meta-openstack/conf/layer.conf | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
+> index b6f8dba..a61bf25 100644
+> --- a/meta-openstack/conf/layer.conf
+> +++ b/meta-openstack/conf/layer.conf
+> @@ -27,10 +27,10 @@ PREFERRED_VERSION_python-sqlalchemy = "1.0.8"
+>  PREFERRED_VERSION_python-pexpect = "3.3"
+>  PREFERRED_VERSION_python-django = "1.8.6"
+>  PREFERRED_VERSION_python-netaddr = "0.7.19"
+> -PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
+> -PREFERRED_VERSION_python-eventlet = "0.20.0"
+> -PREFERRED_VERSION_python-warlock = "1.2.0"
+> -PREFERRED_VERSION_python-jsonschema = "2.6.0"
+> +PREFERRED_VERSION_python-sqlalchemy = "1.1.17"
+> +PREFERRED_VERSION_python-eventlet = "0.25.1"
+> +PREFERRED_VERSION_python-warlock = "1.3.3"
+> +PREFERRED_VERSION_python-jsonschema = "3.0.2"
+>  PREFERRED_VERSION_python-networkx = "${@bb.utils.contains('DISTRO_FEATURES', 'openstack', '1.11', '', d)}"
+>  PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
+>
+> --
+> 2.7.4
+>
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+>
+> View/Reply Online (#4772): https://lists.yoctoproject.org/g/meta-virtualization/message/4772
+> Mute This Topic: https://lists.yoctoproject.org/mt/64062219/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub  [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
