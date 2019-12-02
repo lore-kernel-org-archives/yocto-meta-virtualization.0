@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.94.1575260338106432925
+ by mx.groups.io with SMTP id smtpd.web09.114.1575260483813117058
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 01 Dec 2019 20:18:58 -0800
+ Sun, 01 Dec 2019 20:21:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=eT4krWe3;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=m6WRs70d;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F2C3DE010ED; Sun,  1 Dec 2019 20:18:57 -0800 (PST)
+	id A7C06E010EC; Sun,  1 Dec 2019 20:21:23 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -14,6 +14,9 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: 
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.208.68 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
@@ -23,98 +26,129 @@ X-Spam-HAM-Report:
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.208.65 listed in list.dnswl.org]
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D7783E010EB
-	for <meta-virtualization@yoctoproject.org>; Sun,  1 Dec 2019 20:18:55 -0800 (PST)
-Received: by mail-ed1-f65.google.com with SMTP id v28so5588671edw.12
-        for <meta-virtualization@yoctoproject.org>; Sun, 01 Dec 2019 20:18:55 -0800 (PST)
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ACD90E008DB
+	for <meta-virtualization@yoctoproject.org>; Sun,  1 Dec 2019 20:21:21 -0800 (PST)
+Received: by mail-ed1-f68.google.com with SMTP id m8so8251967edi.13
+        for <meta-virtualization@yoctoproject.org>; Sun, 01 Dec 2019 20:21:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=y/t32gZV2/2TWnMAnap/K5OM59ZSRy/+UtRZwnlmsDM=;
-        b=eT4krWe3lMEMblnEpOqWFfl+y6XbTA/VJ0SNe1+l70+r72YgBeKDBYQQztVYSey9DQ
-         s0GGX5+sd4izOVMprBhz3foFEnxIY+HA8GZTwHyOnZZdfYomu4iV/844mULFUaakwR2h
-         I7DykLiaB4fH6WboUPVjGp8/mBALINnvoOe6M3e//WT3UFhLlZMKQhjN0uHFu18c99qK
-         j84qCemFkhnPfewVTDN9oWjpKZcBs+ey2jnYPBtQMFOaByBvkMHgRuJZGlFYSXb5c+dK
-         9RRmkgp2Del08wT4whBZHYtJ390hdDMktfzHDuSfuSacMk29f5Qv8Zgut5GacBAircH9
-         DXRg==
+        bh=I4V7G6OGKHkPrJIIJbmtsOMyQzXIfkZi+DS9GDh7BK4=;
+        b=m6WRs70dtTkboq97cP9Z8J1o62SrwTBNwrcZj+jN1tx+KKfw5SyUiR++++9OUyp90X
+         /Ju/bJ4OhTnwKfECVPofxLuOFgbBh0wO8dIKYNBBbZdLiGGX5svjBChkbF988A2Fjpih
+         iebq83MuzWz3QuCO4S90wsTHEaTgjbWGWEFnBjt92WsTNULDGaIh5JNVmNcTB1zzxo7z
+         9gF/ltw1orSbya4iZsp4juk5Z2rwS/2vt0XsxchFN2Ks+QgZ94Ka1rFeYk2aKCzSjSW3
+         LZgMJJiqp9AHev1p+u6sTmtblAb+cgcoko/rgEQ8dv9DNbNH4sxpRde1nQAkIv9D4Epq
+         Mrow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=y/t32gZV2/2TWnMAnap/K5OM59ZSRy/+UtRZwnlmsDM=;
-        b=BTPp22IVKNnEy1927R6p62A0BMhk8MXIAB9dBuQBqQdgzwkeQlOt7BAYUOK0uALVHk
-         tJymwbuJCh2hyeJDuAyCU5ndEOc1zzV12FE0ju96rql5QzW9pq9fymtyrWds70+ivQ7X
-         MC/dwXT+ryTtussYLeSyAPolUu5NjjGorXTlocBozkU9P/GFtRIeakp4mXtE7AKVE/eI
-         VV6fOm0FmJEf+rRHpMqXEXHoCaTz6ecdVg+vj9YZzGH7luV6eWAhSAHV2snRwUCmDAFC
-         E3cdyafwECCNBV6AO5dj1FGVXypU2/OO23zwwgxFEyAF9CnsCfLW9eUuCnB1VxWQ/TpO
-         1mdQ==
-X-Gm-Message-State: APjAAAWCf6IU9PM1F95msxEL1/tIf7uSGpTcZ3WNGLYAo+AUfoOGvG2g
-	UWkIRT+atMT1vRMNuTuo2owjjNKEq81N7vQiSo9jn3ch
-X-Google-Smtp-Source: APXvYqyhxA6B226W6l612zYLq8SNMvxV2BvpvGIOzfSTPSCd9iJ84SeSd23/FIm4610h9ldRdbFLUKHepTUw59WkZWw=
-X-Received: by 2002:a17:907:217b:: with SMTP id rl27mr17058431ejb.133.1575260334880;
- Sun, 01 Dec 2019 20:18:54 -0800 (PST)
+        bh=I4V7G6OGKHkPrJIIJbmtsOMyQzXIfkZi+DS9GDh7BK4=;
+        b=EMREowG5KpdKWWrIXaFsUf0GRoAUfOUQAA54vq12gVHxF63JOE9QkpPr4faG9ZZqKH
+         v8+TbkhGUxc/n0ZmlC0gwdJyy/DP4+uvqqvE1CbCS54uihqgJJPMyvyP0mf4+HFp4EXR
+         TXFEWCRYnQtmCya0I0JpXxKp05IuHoy7CUJHHVVdATGtzl2IvC+3VnM8NR+boZC4t6pq
+         DmQFmZ0wj1ND0f6Kwvr3yvccUMzkuEiA+3fj3rvfgKe7CB64D+eAZEyAEbDr8ren0KnU
+         +3Q93fRumJOlyYRKCovnHqUU0OTOYHmqm/han7q/HOVlJISdvb/1x2qK2sS47YuLDNWM
+         8YPw==
+X-Gm-Message-State: APjAAAUAxhaAYxNA5/JbMPbe4gerfs3nQgKWLnbh8ViHwh3RdOCSHHRr
+	xE8Vyycf8vT/iBZh0i/nT0q1f4onUWL5LgEL1WE=
+X-Google-Smtp-Source: APXvYqwX7hMia71DAjNgjc15m73EqSJzGikRNBk1/ML2VQ+K1rxvgTkM1eRmBVw1VSo0nnIJ/nmhYgKas/LuvJvvN5o=
+X-Received: by 2002:a17:906:680b:: with SMTP id k11mr26700019ejr.0.1575260480594;
+ Sun, 01 Dec 2019 20:21:20 -0800 (PST)
 MIME-Version: 1.0
-References: <1574970170-3244-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1574970170-3244-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <20191128063011.16384-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20191128063011.16384-1-zangrc.fnst@cn.fujitsu.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 1 Dec 2019 23:18:44 -0500
-Message-ID: <CADkTA4NeoO2vwCjGZriS4on=Cb0_GPJEPMN8pQqsp_s4y4dyrQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] layer.conf: Update PREFERRED_VERSION
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Sun, 1 Dec 2019 23:21:09 -0500
+Message-ID: <CADkTA4N3qR6AKK5z0Mu-A1r86nAo2oh1XCLBXYioucbucpdi=g@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] python-anyjson: Add python3 version
+To: zangrc <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
 
-merged
+I've merged all of the python3 additions.
+
+That being said, we really should be making meta-virt master python3
+only, since only python3 testing is going to happening for all new
+releases.
+
+I'll do the cleanup a bit later in the cycle, once we are sure that
+the python3 updates are working .. at that point, we can decide if the
+python2 variants are deleted, or move to a sub-layer.
+
+Cheers,
 
 Bruce
 
-On Thu, Nov 28, 2019 at 5:42 AM zhengruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
+On Thu, Nov 28, 2019 at 1:29 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> Update PREFERRED_VERSION for following recipes:
->   python-sqlalchemy
->   python-eventlet
->   python-warlock
->   python-jsonschema
->
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  meta-openstack/conf/layer.conf | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../recipes-devtools/python/python-anyjson.inc     | 12 ++++++++++++
+>  .../python/python-anyjson_0.3.3.bb                 | 14 ++------------
+>  .../python/python3-anyjson_0.3.3.bb                |  2 ++
+>  3 files changed, 16 insertions(+), 12 deletions(-)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python-anyjson.inc
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-anyjson_0.3.3.bb
 >
-> diff --git a/meta-openstack/conf/layer.conf b/meta-openstack/conf/layer.conf
-> index b6f8dba..a61bf25 100644
-> --- a/meta-openstack/conf/layer.conf
-> +++ b/meta-openstack/conf/layer.conf
-> @@ -27,10 +27,10 @@ PREFERRED_VERSION_python-sqlalchemy = "1.0.8"
->  PREFERRED_VERSION_python-pexpect = "3.3"
->  PREFERRED_VERSION_python-django = "1.8.6"
->  PREFERRED_VERSION_python-netaddr = "0.7.19"
-> -PREFERRED_VERSION_python-sqlalchemy = "1.0.16"
-> -PREFERRED_VERSION_python-eventlet = "0.20.0"
-> -PREFERRED_VERSION_python-warlock = "1.2.0"
-> -PREFERRED_VERSION_python-jsonschema = "2.6.0"
-> +PREFERRED_VERSION_python-sqlalchemy = "1.1.17"
-> +PREFERRED_VERSION_python-eventlet = "0.25.1"
-> +PREFERRED_VERSION_python-warlock = "1.3.3"
-> +PREFERRED_VERSION_python-jsonschema = "3.0.2"
->  PREFERRED_VERSION_python-networkx = "${@bb.utils.contains('DISTRO_FEATURES', 'openstack', '1.11', '', d)}"
->  PREFERRED_VERSION_python-oslo.i18n = "3.17.0+gitAUTOINC+f2729cd36f"
->
+> diff --git a/meta-openstack/recipes-devtools/python/python-anyjson.inc b/meta-openstack/recipes-devtools/python/python-anyjson.inc
+> new file mode 100644
+> index 0000000..19e03e9
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python-anyjson.inc
+> @@ -0,0 +1,12 @@
+> +DESCRIPTION = "Loads the best available JSON implementation available in a common interface"
+> +HOMEPAGE = "https://bitbucket.org/runeh/anyjson"
+> +SECTION = "devel/python"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=989aa97e73c912a83a3c873fa11deb08"
+> +
+> +inherit pypi
+> +
+> +SRC_URI[md5sum] = "2ea28d6ec311aeeebaf993cb3008b27c"
+> +SRC_URI[sha256sum] = "37812d863c9ad3e35c0734c42e0bf0320ce8c3bed82cd20ad54cb34d158157ba"
+> +
+> +RDEPENDS_${PN} = "${PYTHON_PN}-simplejson"
+> diff --git a/meta-openstack/recipes-devtools/python/python-anyjson_0.3.3.bb b/meta-openstack/recipes-devtools/python/python-anyjson_0.3.3.bb
+> index cffff66..2b90a2a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-anyjson_0.3.3.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-anyjson_0.3.3.bb
+> @@ -1,12 +1,2 @@
+> -DESCRIPTION = "Loads the best available JSON implementation available in a common interface"
+> -HOMEPAGE = "https://bitbucket.org/runeh/anyjson"
+> -SECTION = "devel/python"
+> -LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=989aa97e73c912a83a3c873fa11deb08"
+> -
+> -inherit setuptools pypi
+> -
+> -SRC_URI[md5sum] = "2ea28d6ec311aeeebaf993cb3008b27c"
+> -SRC_URI[sha256sum] = "37812d863c9ad3e35c0734c42e0bf0320ce8c3bed82cd20ad54cb34d158157ba"
+> -
+> -RDEPENDS_${PN} = "python-simplejson"
+> +require python-anyjson.inc
+> +inherit setuptools
+> diff --git a/meta-openstack/recipes-devtools/python/python3-anyjson_0.3.3.bb b/meta-openstack/recipes-devtools/python/python3-anyjson_0.3.3.bb
+> new file mode 100644
+> index 0000000..d4d13ac
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-anyjson_0.3.3.bb
+> @@ -0,0 +1,2 @@
+> +require python-anyjson.inc
+> +inherit setuptools3
 > --
-> 2.7.4
+> 2.20.1
 >
 >
 >
 > -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
 >
-> View/Reply Online (#4773): https://lists.yoctoproject.org/g/meta-virtualization/message/4773
-> Mute This Topic: https://lists.yoctoproject.org/mt/64062248/1050810
+> View/Reply Online (#4769): https://lists.yoctoproject.org/g/meta-virtualization/message/4769
+> Mute This Topic: https://lists.yoctoproject.org/mt/63859622/1050810
 > Group Owner: meta-virtualization+owner@lists.yoctoproject.org
 > Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub  [bruce.ashfield@gmail.com]
 > -=-=-=-=-=-=-=-=-=-=-=-
