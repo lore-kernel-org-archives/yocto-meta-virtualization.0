@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.915.1575445877360857449
+ by mx.groups.io with SMTP id smtpd.web12.1015.1575446838911317970
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 03 Dec 2019 23:51:17 -0800
+ Wed, 04 Dec 2019 00:07:19 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id F2945E00EC7; Tue,  3 Dec 2019 23:51:16 -0800 (PST)
+	id 53094E010B0; Wed,  4 Dec 2019 00:07:18 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,27 +19,27 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 312FDE0078F
-	for <meta-virtualization@yoctoproject.org>; Tue,  3 Dec 2019 23:51:15 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 04E06E00ED3
+	for <meta-virtualization@yoctoproject.org>; Wed,  4 Dec 2019 00:07:16 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,276,1571673600"; 
-   d="scan'208";a="79570573"
+   d="scan'208";a="79571486"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 04 Dec 2019 15:51:15 +0800
+  by heian.cn.fujitsu.com with ESMTP; 04 Dec 2019 16:07:15 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7863B4CE1CB1
-	for <meta-virtualization@yoctoproject.org>; Wed,  4 Dec 2019 15:42:46 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 4A7484CE1BED
+	for <meta-virtualization@yoctoproject.org>; Wed,  4 Dec 2019 15:58:44 +0800 (CST)
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 4 Dec 2019 15:51:15 +0800
+ (TLS) id 14.3.439.0; Wed, 4 Dec 2019 16:07:13 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-python-editor: Add python3 version
-Date: Wed, 4 Dec 2019 15:52:04 +0800
-Message-ID: <20191204075204.550-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-rcssmin: Add python3 version
+Date: Wed, 4 Dec 2019 16:08:02 +0800
+Message-ID: <20191204080802.2535-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 7863B4CE1CB1.AA80B
+X-yoursite-MailScanner-ID: 4A7484CE1BED.A9A61
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -47,83 +47,72 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-python-editor.inc           | 20 +++++++++++++++++
- .../python/python-python-editor_git.bb        | 22 +------------------
- .../python/python3-python-editor_git.bb       |  2 ++
- 3 files changed, 23 insertions(+), 21 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-python-=
-editor.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-python=
--editor_git.bb
+ .../recipes-devtools/python/python-rcssmin.inc  | 15 +++++++++++++++
+ .../python/python-rcssmin_1.0.6.bb              | 17 ++---------------
+ .../python/python3-rcssmin_1.0.6.bb             |  2 ++
+ 3 files changed, 19 insertions(+), 15 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-rcssmin=
+.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-rcssmi=
+n_1.0.6.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-python-editor.=
-inc b/meta-openstack/recipes-devtools/python/python-python-editor.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-rcssmin.inc b/=
+meta-openstack/recipes-devtools/python/python-rcssmin.inc
 new file mode 100644
-index 0000000..07692a3
+index 0000000..c897395
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-python-editor.inc
-@@ -0,0 +1,20 @@
-+DESCRIPTION =3D "Programmatically open an editor, capture the result"
-+HOMEPAGE =3D "https://github.com/fmoo/python-editor"
++++ b/meta-openstack/recipes-devtools/python/python-rcssmin.inc
+@@ -0,0 +1,15 @@
++DESCRIPTION =3D "RCSSmin is a CSS minifier."
++HOMEPAGE =3D "http://opensource.perlig.de/rcssmin/"
 +SECTION =3D "devel/python"
 +LICENSE =3D "Apache-2.0"
-+LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd2794c0df5b907fdace235a619d80=
-314"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c9479bd8986968f4=
+327"
 +
-+PV =3D "0.4+git${SRCPV}"
-+SRCREV =3D "d6fa2a6bb3106a1ba00fe40f9af62e4ddc539e1e"
++SRC_URI[md5sum] =3D "467d56503ce386c0b0e52f69ac143a9a"
++SRC_URI[sha256sum] =3D "ca87b695d3d7864157773a61263e5abb96006e9ff0e021ef=
+f90cbe0e1ba18270"
 +
-+SRCNAME =3D "python-editor"
-+SRC_URI =3D "git://github.com/fmoo/${SRCNAME}.git"
-+
-+S =3D "${WORKDIR}/git"
-+
-+DEPENDS +=3D " \
-+        ${PYTHON_PN}-pip \
-+        "
++inherit pypi
 +
 +RDEPENDS_${PN} +=3D " \
 +        "
-diff --git a/meta-openstack/recipes-devtools/python/python-python-editor_=
-git.bb b/meta-openstack/recipes-devtools/python/python-python-editor_git.=
-bb
-index db668d7..322aca4 100644
---- a/meta-openstack/recipes-devtools/python/python-python-editor_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-python-editor_git.bb
-@@ -1,22 +1,2 @@
--DESCRIPTION =3D "Programmatically open an editor, capture the result"
--HOMEPAGE =3D "https://github.com/fmoo/python-editor"
++
++CLEANBROKEN =3D "1"
+diff --git a/meta-openstack/recipes-devtools/python/python-rcssmin_1.0.6.=
+bb b/meta-openstack/recipes-devtools/python/python-rcssmin_1.0.6.bb
+index e1b4a55..9b7624b 100644
+--- a/meta-openstack/recipes-devtools/python/python-rcssmin_1.0.6.bb
++++ b/meta-openstack/recipes-devtools/python/python-rcssmin_1.0.6.bb
+@@ -1,15 +1,2 @@
+-DESCRIPTION =3D "RCSSmin is a CSS minifier."
+-HOMEPAGE =3D "http://opensource.perlig.de/rcssmin/"
 -SECTION =3D "devel/python"
 -LICENSE =3D "Apache-2.0"
--LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dd2794c0df5b907fdace235a619d80=
-314"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c9479bd8986968f4=
+327"
 -
--PV =3D "0.4+git${SRCPV}"
--SRCREV =3D "d6fa2a6bb3106a1ba00fe40f9af62e4ddc539e1e"
+-SRC_URI[md5sum] =3D "467d56503ce386c0b0e52f69ac143a9a"
+-SRC_URI[sha256sum] =3D "ca87b695d3d7864157773a61263e5abb96006e9ff0e021ef=
+f90cbe0e1ba18270"
 -
--SRCNAME =3D "python-editor"
--SRC_URI =3D "git://github.com/fmoo/${SRCNAME}.git"
--
--S =3D "${WORKDIR}/git"
--
-+require python-python-editor.inc
- inherit setuptools
--
--DEPENDS +=3D " \
--        python-pip \
--        "
+-inherit setuptools pypi
 -
 -RDEPENDS_${PN} +=3D " \
 -        "
-diff --git a/meta-openstack/recipes-devtools/python/python3-python-editor=
-_git.bb b/meta-openstack/recipes-devtools/python/python3-python-editor_gi=
-t.bb
+-
+-CLEANBROKEN =3D "1"
++require python-rcssmin.inc
++inherit setuptools
+diff --git a/meta-openstack/recipes-devtools/python/python3-rcssmin_1.0.6=
+.bb b/meta-openstack/recipes-devtools/python/python3-rcssmin_1.0.6.bb
 new file mode 100644
-index 0000000..7529398
+index 0000000..56347b5
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-python-editor_git.bb
++++ b/meta-openstack/recipes-devtools/python/python3-rcssmin_1.0.6.bb
 @@ -0,0 +1,2 @@
-+require python-python-editor.inc
++require python-rcssmin.inc
 +inherit setuptools3
 --=20
 2.20.1
