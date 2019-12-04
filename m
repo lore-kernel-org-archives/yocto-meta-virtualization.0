@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.3067.1575432314450040731
+ by mx.groups.io with SMTP id smtpd.web09.59.1575438832924201064
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 03 Dec 2019 20:05:14 -0800
+ Tue, 03 Dec 2019 21:53:53 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0AF00E010AA; Tue,  3 Dec 2019 20:05:14 -0800 (PST)
+	id 94173E010AE; Tue,  3 Dec 2019 21:53:52 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,27 +19,27 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9663CE0085D
-	for <meta-virtualization@yoctoproject.org>; Tue,  3 Dec 2019 20:05:12 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,275,1571673600"; 
-   d="scan'208";a="79556701"
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 23EEEE00EC7
+	for <meta-virtualization@yoctoproject.org>; Tue,  3 Dec 2019 21:53:50 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.69,276,1571673600"; 
+   d="scan'208";a="79561900"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 04 Dec 2019 12:05:10 +0800
+  by heian.cn.fujitsu.com with ESMTP; 04 Dec 2019 13:53:49 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 2A7234CE1646
-	for <meta-virtualization@yoctoproject.org>; Wed,  4 Dec 2019 11:56:39 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 2CDB14CE1C09
+	for <meta-virtualization@yoctoproject.org>; Wed,  4 Dec 2019 13:45:20 +0800 (CST)
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 4 Dec 2019 12:05:06 +0800
+ (TLS) id 14.3.439.0; Wed, 4 Dec 2019 13:53:50 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-memcache: Add python3 version
-Date: Wed, 4 Dec 2019 12:05:56 +0800
-Message-ID: <20191204040556.25181-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-ordereddict: Add python3 version
+Date: Wed, 4 Dec 2019 13:54:37 +0800
+Message-ID: <20191204055437.18844-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 2A7234CE1646.A75DD
+X-yoursite-MailScanner-ID: 2CDB14CE1C09.A8106
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -47,34 +47,33 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-memcache.inc                | 22 +++++++++++++++++
- .../python/python-memcache_1.2.9.bb           | 24 ++-----------------
- .../python/python3-memcache_1.2.9.bb          |  2 ++
- 3 files changed, 26 insertions(+), 22 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-memcach=
-e.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-memcac=
-he_1.2.9.bb
+ .../python/python-ordereddict.inc             | 21 +++++++++++++++++
+ .../python/python-ordereddict_1.1.bb          | 23 ++-----------------
+ .../python/python3-ordereddict_1.1.bb         |  2 ++
+ 3 files changed, 25 insertions(+), 21 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-ordered=
+dict.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-ordere=
+ddict_1.1.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-memcache.inc b=
-/meta-openstack/recipes-devtools/python/python-memcache.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-ordereddict.in=
+c b/meta-openstack/recipes-devtools/python/python-ordereddict.inc
 new file mode 100644
-index 0000000..61fe67d
+index 0000000..fff4bf6
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-memcache.inc
-@@ -0,0 +1,22 @@
-+DESCRIPTION =3D "A comprehensive, fast, pure Python memcached client"
-+HOMEPAGE =3D "https://github.com/Pinterest/pymemcache"
++++ b/meta-openstack/recipes-devtools/python/python-ordereddict.inc
+@@ -0,0 +1,21 @@
++DESCRIPTION =3D "A drop-in substitute for Py2.7's new collections.Ordere=
+dDict that works in Python 2.4-2.6."
++HOMEPAGE =3D "https://pypi.python.org/pypi/ordereddict"
 +SECTION =3D "devel/python"
-+LICENSE =3D "Apache-2.0"
-+LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3De8538d10fb74087ea2dc61033b6e=
-bf9f"
++LICENSE =3D "MIT"
++LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D7f0267460024072a9bbf135ee87a4=
+1b8"
 +
-+PYPI_PACKAGE =3D "pymemcache"
-+
-+SRC_URI[md5sum] =3D "215510250997423a2a57da061b1bd592"
-+SRC_URI[sha256sum] =3D "05fd71f0337384024cc3d1340d35fd0d46307cf711eac936=
-5b0eb166812bb121"
++SRC_URI[md5sum] =3D "a0ed854ee442051b249bfad0f638bbec"
++SRC_URI[sha256sum] =3D "1c35b4ac206cef2d24816c89f89cf289dd3d38cf7c449bb3=
+fab7bf6d43f01b1f"
 +
 +inherit pypi
 +
@@ -86,25 +85,25 @@ bf9f"
 +
 +# RDEPENDS_default:=20
 +RDEPENDS_${PN} +=3D " \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-memcache_1.2.9=
-.bb b/meta-openstack/recipes-devtools/python/python-memcache_1.2.9.bb
-index 96ca87e..2027c2a 100644
---- a/meta-openstack/recipes-devtools/python/python-memcache_1.2.9.bb
-+++ b/meta-openstack/recipes-devtools/python/python-memcache_1.2.9.bb
-@@ -1,22 +1,2 @@
--DESCRIPTION =3D "A comprehensive, fast, pure Python memcached client"
--HOMEPAGE =3D "https://github.com/Pinterest/pymemcache"
++    ${PYTHON_PN}-pip \
++    "
+diff --git a/meta-openstack/recipes-devtools/python/python-ordereddict_1.=
+1.bb b/meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb
+index 6102ecb..9aa3f3e 100644
+--- a/meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb
++++ b/meta-openstack/recipes-devtools/python/python-ordereddict_1.1.bb
+@@ -1,21 +1,2 @@
+-DESCRIPTION =3D "A drop-in substitute for Py2.7's new collections.Ordere=
+dDict that works in Python 2.4-2.6."
+-HOMEPAGE =3D "https://pypi.python.org/pypi/ordereddict"
 -SECTION =3D "devel/python"
--LICENSE =3D "Apache-2.0"
--LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3De8538d10fb74087ea2dc61033b6e=
-bf9f"
+-LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D7f0267460024072a9bbf135ee87a4=
+1b8"
 -
--PYPI_PACKAGE =3D "pymemcache"
--
--SRC_URI[md5sum] =3D "215510250997423a2a57da061b1bd592"
--SRC_URI[sha256sum] =3D "05fd71f0337384024cc3d1340d35fd0d46307cf711eac936=
-5b0eb166812bb121"
+-SRC_URI[md5sum] =3D "a0ed854ee442051b249bfad0f638bbec"
+-SRC_URI[sha256sum] =3D "1c35b4ac206cef2d24816c89f89cf289dd3d38cf7c449bb3=
+fab7bf6d43f01b1f"
 -
 -inherit setuptools pypi
 -
@@ -116,17 +115,18 @@ bf9f"
 -
 -# RDEPENDS_default:=20
 -RDEPENDS_${PN} +=3D " \
--        "
-+require python-memcache.inc
+-    python-pip \
+-    "
++require python-ordereddict.inc
 +inherit setuptools
-diff --git a/meta-openstack/recipes-devtools/python/python3-memcache_1.2.=
-9.bb b/meta-openstack/recipes-devtools/python/python3-memcache_1.2.9.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-ordereddict_1=
+.1.bb b/meta-openstack/recipes-devtools/python/python3-ordereddict_1.1.bb
 new file mode 100644
-index 0000000..08ecb7b
+index 0000000..46c08d0
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-memcache_1.2.9.bb
++++ b/meta-openstack/recipes-devtools/python/python3-ordereddict_1.1.bb
 @@ -0,0 +1,2 @@
-+require python-memcache.inc
++require python-ordereddict.inc
 +inherit setuptools3
 --=20
 2.20.1
