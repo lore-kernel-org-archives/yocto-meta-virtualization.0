@@ -1,90 +1,102 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web12.8532.1575659229089701544
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web12.8554.1575659315170079226
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Dec 2019 11:07:09 -0800
+ Fri, 06 Dec 2019 11:08:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kCg/GXol;
- spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f67.google.com with SMTP id c2so283514qvp.12
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Dec 2019 11:07:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Kqm6ixSH;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id c26so6765917eds.8
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Dec 2019 11:08:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=H2XOxHc1mu4WhtghvdQ9p6t/vnot9drBUvYKQAH9jqM=;
-        b=kCg/GXolG/pbGFByp5H8xDvaVj1VKORemBUKOb6ft38SJXCiqZzRQXTFOmhzJ8rfqZ
-         Rtu8webgi5+xhb9tNfnf6lH7BLW3wJH18hDIegLjrxbwfc2ZLxuy8XkeGwo+EGHrNBqz
-         oWnWdb0ndwLb6qNDV0ynaqhwpOGmgPRv3WjnIUaQfWscQU18TKxBxjSjVr0qkrxOcVFS
-         UDERKTwiWEfLRD1C3fX4r4yE0PQ/gsWqVGxJZawAsQwbwiYbEtJ8AFT6sidT1Eu4WxA7
-         fKbrOv8xyjHMbQjKK3j+dTm/vI5IUz6vBy/raNvj8U3A0ZIN3PKJcgya7z7kyk9/+BBl
-         a4tQ==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ALX62R6eL5uDZy/gh/9FkoFoSKM/LUXEzocphp1XKZE=;
+        b=Kqm6ixSHpFYFYWKsB33gGiveQogG6dQoSrDow1lpuaNyeu2L5X5NJjsn4GzclHLQOZ
+         sq4ZcqlBrkkV3r3sW2Qhn0uXdPfqmX1bg7JuUGKo2lUH38mwleozREcw86a9kExJgsad
+         SDhscAN9nrzAfyG8P/NRmuveSGM9bahj0mJXFMFtgLGYd495hVR2LIeuDvuzGjBLC9Gq
+         WBJKEsLrbc2X/wHew4YuceseoOTLbO19uS0Q9C5vlSHufJMgNebRjPmh3roecUCUL+DX
+         ejOwwMUIY4wHT6d6QDCf+HkGVs8BfgZGPS3Fmsg75xVUZIipot6lvc/Ohu3jFqYUL5+V
+         GT2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=H2XOxHc1mu4WhtghvdQ9p6t/vnot9drBUvYKQAH9jqM=;
-        b=ELrVo+S8PytdmS7c0gzXpRWZgR+6WlzQYKEQtwqNR6lIR+ZVFjmtviM0G06nuBZviO
-         zxJ62dZd07JmaOfRv96NNziwyW+/dyY42tahsPe5WHXxzsMFgBwDdrMIq3Cbz2JAMDwM
-         AipjxVsr57MgciBKcuu76ceFnFGXYYrhqf5OgK30cHIMHCQ3kL5M2ZtQatTIgeVabM0t
-         eHDWpKuMBCjN2XHqODj6oh6LyJ1vbBO27ymN4ppManYeAj0gYsLM15kOUwaeoErfEhQu
-         +LTuM4EoTWdwa5LKvBLz6QU6HL3SGfzzZjg51jVPGzzBey+rTCGwEguWGWbJs3EoLrsf
-         uGOA==
-X-Gm-Message-State: APjAAAX3Vuo7bE62ClWFtEDn8OcYOFZri8DuhaHOmaqDMyIigRml6A85
-	kuL49JGQ/PM5LUqH18gvJjM=
-X-Google-Smtp-Source: APXvYqz8eeEWQ1hGlvkY3pTEs77bcUOe8w97EjGDU4macb9H9iVUy4QULDRggS8yxmcm5LOzFhT3vQ==
-X-Received: by 2002:a0c:b620:: with SMTP id f32mr14145487qve.186.1575659227892;
-        Fri, 06 Dec 2019 11:07:07 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
-        by smtp.gmail.com with ESMTPSA id j68sm1335305qkc.34.2019.12.06.11.07.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Dec 2019 11:07:07 -0800 (PST)
-Date: Fri, 6 Dec 2019 14:07:05 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] cni: never uses module support since go was upgraded to 1.13
-Message-ID: <20191206190701.GA37280@gmail.com>
-References: <20191202084949.21918-1-hongxu.jia@windriver.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ALX62R6eL5uDZy/gh/9FkoFoSKM/LUXEzocphp1XKZE=;
+        b=aweaqgPnKrTpETAQpRJMKXmizPsJBj3ZMkfLcMrVBpLBONHkOjVMsMvaC6wrHxEd/r
+         DNmwDnf/MI06QR568KSKegNwvAeQ0DpCL453WrK2Y8ZiuMZisByZoLjZlDQSYNQLwVOH
+         36LASs1f4v4nju7jjYsNImOW3zKk53RHBTb4+ocgVRUwF6XLsW6X2k5hMCyAne2lAvtL
+         JOqRyUAyjH4UgN002wXJLNsBfnUp3pW54q/UDUDI6JhhqcW/2nKQLOTzyc6HPhk+hEyb
+         nzHaL1YTqm+PGN8LitdQNm5oj5RPUTc2rAC7j7+O32Dn3Cvd5yJTwy1zt68zbHsXHaHQ
+         wyYA==
+X-Gm-Message-State: APjAAAUlWn5HF0NUWlBIwz1pQGDgVKz1uSZrH/MEh78OBRZtoEmK3zFv
+	97nDwe8UDTHfvaoe/eTBj0X6HNZKf5unQROR3qM=
+X-Google-Smtp-Source: APXvYqxuA5q09BKMwYDeeS3x+CB8eLwRUzo2CogmbnQSAoXiZjZpx+a2pkC9Ucc2sYfOdp0Y3FIGOdycTAFMHhRDZlU=
+X-Received: by 2002:aa7:ca54:: with SMTP id j20mr18116047edt.179.1575659313571;
+ Fri, 06 Dec 2019 11:08:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191202084949.21918-1-hongxu.jia@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <1575314833-10994-1-git-send-email-liu.ming50@gmail.com>
+In-Reply-To: <1575314833-10994-1-git-send-email-liu.ming50@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Fri, 6 Dec 2019 14:08:22 -0500
+Message-ID: <CADkTA4MB39xztYRKj-g=V63f1Zhp7S62UPuV9heOK-F9aOc0QQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 0/3] Uprev docker-compose to 1.25.0
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Stefan Agner <stefan.agner@toradex.com>, ChenQi <Qi.Chen@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
 
-In message: [meta-virtualization][PATCH] cni: never uses module support since go was upgraded to 1.13
-on 02/12/2019 Hongxu Jia wrote:
-
-> Since go was upgraded to 1.13, it support for Go modules by default [1],
-> but for cni recipe, it uses GOPATH mode which supports offline build
-
-This patch doesn't look like it is against meta-virt master .. we don't
-have a cni.inc file.
-
-Can you refresh the patch and resend ?
+merged
 
 Bruce
 
-> 
-> [1] https://golang.org/cmd/go/#hdr-Module_support
-> 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  recipes-networking/cni/cni.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/recipes-networking/cni/cni.inc b/recipes-networking/cni/cni.inc
-> index 6590b27..7e5af04 100644
-> --- a/recipes-networking/cni/cni.inc
-> +++ b/recipes-networking/cni/cni.inc
-> @@ -45,6 +45,7 @@ do_compile() {
->  	ln -sf ../../../../cnitool ${S}/src/import/vendor/github.com/containernetworking/cni/cnitool
->  	ln -sf ${WORKDIR}/plugins ${S}/src/import/vendor/github.com/containernetworking/plugins
->  
-> +	export GO111MODULE="off"
->  	export GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
->  	export CGO_ENABLED="1"
->  
-> -- 
-> 2.21.0
-> 
+On Mon, Dec 2, 2019 at 2:27 PM Ming Liu <liu.ming50@gmail.com> wrote:
+>
+> From: Ming Liu <liu.ming50@gmail.com>
+>
+> This patch set mainly aims to uprev docker-compose to 1.25.0 and also
+> upgrade some of its dependencies to the latest release version.
+>
+> Test on a colibri-imx8x machine against:
+> https://docs.docker.com/compose/gettingstarted/
+>
+> Ming Liu (3):
+>   python-docker-pycreds: uprev to 0.4.0
+>   python-docker: uprev to 4.1.0
+>   python3-docker-compose: uprev to 1.25.0
+>
+>  ...up.py-remove-maximum-version-requirements.patch | 33 +++++++++++----------
+>  .../python3-docker-compose_1.21.2.bb               | 31 --------------------
+>  .../python3-docker-compose_1.25.0.bb               | 34 ++++++++++++++++++++++
+>  recipes-devtools/python/python-docker-pycreds.inc  |  4 +--
+>  ...eds_0.3.0.bb => python-docker-pycreds_0.4.0.bb} |  0
+>  recipes-devtools/python/python-docker.inc          |  4 +--
+>  ...thon-docker_3.4.0.bb => python-docker_4.1.0.bb} |  0
+>  ...ds_0.3.0.bb => python3-docker-pycreds_0.4.0.bb} |  0
+>  ...on3-docker_3.4.0.bb => python3-docker_4.1.0.bb} |  0
+>  9 files changed, 55 insertions(+), 51 deletions(-)
+>  delete mode 100644 recipes-containers/docker-compose/python3-docker-compose_1.21.2.bb
+>  create mode 100644 recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb
+>  rename recipes-devtools/python/{python-docker-pycreds_0.3.0.bb => python-docker-pycreds_0.4.0.bb} (100%)
+>  rename recipes-devtools/python/{python-docker_3.4.0.bb => python-docker_4.1.0.bb} (100%)
+>  rename recipes-devtools/python/{python3-docker-pycreds_0.3.0.bb => python3-docker-pycreds_0.4.0.bb} (100%)
+>  rename recipes-devtools/python/{python3-docker_3.4.0.bb => python3-docker_4.1.0.bb} (100%)
+>
+> --
+> 2.7.4
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+>
+> View/Reply Online (#4799): https://lists.yoctoproject.org/g/meta-virtualization/message/4799
+> Mute This Topic: https://lists.yoctoproject.org/mt/65175066/1050810
+> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
+> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub  [bruce.ashfield@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
