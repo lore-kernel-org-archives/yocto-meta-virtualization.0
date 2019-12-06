@@ -1,137 +1,63 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.3114.1575511946531656707
+ by mx.groups.io with SMTP id smtpd.web09.7049.1575594908331771272
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 04 Dec 2019 18:12:26 -0800
+ Thu, 05 Dec 2019 17:15:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
+ dkim=missing; spf=softfail (domain: windriver.com, ip: 140.211.169.56, mailfrom: qi.chen@windriver.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1233CE010CA; Wed,  4 Dec 2019 18:12:26 -0800 (PST)
+	id E44DFE010D9; Thu,  5 Dec 2019 17:15:07 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 72396E00F05
-	for <meta-virtualization@yoctoproject.org>; Wed,  4 Dec 2019 18:12:23 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,279,1571673600"; 
-   d="scan'208";a="79612179"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 05 Dec 2019 10:12:21 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id DBD1C4CE20C2
-	for <meta-virtualization@yoctoproject.org>; Thu,  5 Dec 2019 10:03:48 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Thu, 5 Dec 2019 10:12:17 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 927F3E00E0F
+	for <meta-virtualization@yoctoproject.org>; Thu,  5 Dec 2019 17:15:07 -0800 (PST)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xB61F75s017607
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>; Thu, 5 Dec 2019 17:15:07 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.468.0; Thu, 5 Dec 2019 17:15:05 -0800
+From: "Chen Qi" <Qi.Chen@windriver.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-sysv-ipc: Add python3 version
-Date: Thu, 5 Dec 2019 10:13:06 +0800
-Message-ID: <20191205021306.27153-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Subject: [meta-virtualization][PATCH 2/2] layer.conf: use go 1.12 version
+Date: Fri, 6 Dec 2019 09:14:54 +0800
+Message-ID: <20191206011454.37368-2-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191206011454.37368-1-Qi.Chen@windriver.com>
+References: <20191206011454.37368-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: DBD1C4CE20C2.AA896
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+kubernetes could not be built correctly with go 1.13.
+Use 1.12 version in layer.conf.
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../python/python-sysv-ipc.inc                | 22 +++++++++++++++++
- .../python/python-sysv-ipc_0.6.8.bb           | 24 ++-----------------
- .../python/python3-sysv-ipc_0.6.8.bb          |  2 ++
- 3 files changed, 26 insertions(+), 22 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-sysv-ip=
-c.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-sysv-i=
-pc_0.6.8.bb
+ conf/layer.conf | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-sysv-ipc.inc b=
-/meta-openstack/recipes-devtools/python/python-sysv-ipc.inc
-new file mode 100644
-index 0000000..47ecf2c
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-sysv-ipc.inc
-@@ -0,0 +1,22 @@
-+DESCRIPTION =3D "System V IPC primitives (semaphores, shared memory and =
-message queues) for Python"
-+HOMEPAGE =3D "http://semanchuk.com/philip/sysv_ipc/"
-+SECTION =3D "devel/python"
-+LICENSE =3D "Apache-2.0"
-+LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3D9d6e34e7b47096d7c19c1e3be707=
-374e"
+diff --git a/conf/layer.conf b/conf/layer.conf
+index dfca6da..2d008bb 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -41,3 +41,7 @@ PREFERRED_PROVIDER_virtual/docker ?= "docker-ce"
+ INHERIT += "sanity-meta-virt"
+ 
+ require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'meta-virt-default-versions.inc', '', d)}
 +
-+PYPI_PACKAGE =3D "sysv_ipc"
-+
-+SRC_URI[md5sum] =3D "c6cf5b4aa7cd3e07fd4b5661530eca8c"
-+SRC_URI[sha256sum] =3D "0af73375a85c5d9d487c2f14f208812600bd81e4046437eb=
-af55746b3aade00e"
-+
-+inherit pypi
-+
-+# DEPENDS_default: python-pip
-+
-+DEPENDS +=3D " \
-+        ${PYTHON_PN}-pip \
-+        "
-+
-+# RDEPENDS_default:=20
-+RDEPENDS_${PN} +=3D " \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-sysv-ipc_0.6.8=
-.bb b/meta-openstack/recipes-devtools/python/python-sysv-ipc_0.6.8.bb
-index c46cfcb..08a2ee0 100644
---- a/meta-openstack/recipes-devtools/python/python-sysv-ipc_0.6.8.bb
-+++ b/meta-openstack/recipes-devtools/python/python-sysv-ipc_0.6.8.bb
-@@ -1,22 +1,2 @@
--DESCRIPTION =3D "System V IPC primitives (semaphores, shared memory and =
-message queues) for Python"
--HOMEPAGE =3D "http://semanchuk.com/philip/sysv_ipc/"
--SECTION =3D "devel/python"
--LICENSE =3D "Apache-2.0"
--LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3D9d6e34e7b47096d7c19c1e3be707=
-374e"
--
--PYPI_PACKAGE =3D "sysv_ipc"
--
--SRC_URI[md5sum] =3D "c6cf5b4aa7cd3e07fd4b5661530eca8c"
--SRC_URI[sha256sum] =3D "0af73375a85c5d9d487c2f14f208812600bd81e4046437eb=
-af55746b3aade00e"
--
--inherit setuptools pypi
--
--# DEPENDS_default: python-pip
--
--DEPENDS +=3D " \
--        python-pip \
--        "
--
--# RDEPENDS_default:=20
--RDEPENDS_${PN} +=3D " \
--        "
-+require python-sysv-ipc.inc
-+inherit setuptools
-diff --git a/meta-openstack/recipes-devtools/python/python3-sysv-ipc_0.6.=
-8.bb b/meta-openstack/recipes-devtools/python/python3-sysv-ipc_0.6.8.bb
-new file mode 100644
-index 0000000..0e3dcd1
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-sysv-ipc_0.6.8.bb
-@@ -0,0 +1,2 @@
-+require python-sysv-ipc.inc
-+inherit setuptools3
---=20
-2.20.1
-
-
++# Use go 1.12 to avoid k8s build failure.
++# Remove this after https://github.com/kubernetes/kubernetes/issues/82531 is resolved and k8s is updated to a working version.
++GOVERSION = "1.12%"
+-- 
+2.17.1
 
