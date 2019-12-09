@@ -1,120 +1,88 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web09.7515.1575872744982557558
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web09.7855.1575876067211613313
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 08 Dec 2019 22:25:45 -0800
+ Sun, 08 Dec 2019 23:21:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xB96Pg5X017196
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sun, 8 Dec 2019 22:25:42 -0800
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0; Sun, 8 Dec
- 2019 22:25:41 -0800
-Subject: Re: [meta-virtualization][PATCH 2/2] layer.conf: use go 1.12 version
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-References: <20191206011454.37368-1-Qi.Chen@windriver.com>
- <20191206011454.37368-2-Qi.Chen@windriver.com>
- <15DDCE650BD0CB8E.11732@lists.yoctoproject.org>
- <CADkTA4O=_c0U4h822Dy2uPgYhytfis93w9ecAoD3Qj=BSfLm7Q@mail.gmail.com>
-CC: <meta-virtualization@lists.yoctoproject.org>
-From: "Chen Qi" <Qi.Chen@windriver.com>
-Message-ID: <05e08017-22b3-5f6b-9913-88026135e260@windriver.com>
-Date: Mon, 9 Dec 2019 14:41:13 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
- Thunderbird/45.4.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id C6D96E010AA; Sun,  8 Dec 2019 23:21:06 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
+	*      medium trust
+	*      [183.91.158.132 listed in list.dnswl.org]
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 59CC5E00571
+	for <meta-virtualization@yoctoproject.org>; Sun,  8 Dec 2019 23:21:04 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.69,294,1571673600"; 
+   d="scan'208";a="79859890"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 09 Dec 2019 15:21:03 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 3ED954CE1C9E
+	for <meta-virtualization@yoctoproject.org>; Mon,  9 Dec 2019 15:12:29 +0800 (CST)
+Received: from localhost.local (10.167.225.81) by
+ G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Mon, 9 Dec 2019 15:21:04 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python-greenlet: Remove the recipe
+Date: Mon, 9 Dec 2019 15:21:53 +0800
+Message-ID: <20191209072153.5389-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4O=_c0U4h822Dy2uPgYhytfis93w9ecAoD3Qj=BSfLm7Q@mail.gmail.com>
-X-Originating-IP: [128.224.162.184]
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.167.225.81]
+X-yoursite-MailScanner-ID: 3ED954CE1C9E.AC554
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-On 12/07/2019 02:58 AM, Bruce Ashfield wrote:
-> On Fri, Dec 6, 2019 at 9:26 AM Bruce Ashfield via
-> Lists.Yoctoproject.Org
-> <bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
->> On Thu, Dec 5, 2019 at 8:15 PM Chen Qi <Qi.Chen@windriver.com> wrote:
->>> kubernetes could not be built correctly with go 1.13.
->>> Use 1.12 version in layer.conf.
->> We unfortunately can't set the version of GO like this, since it would
->> impact someone that simply includes meta-virt in their layers.
->>
->> I see two options for this:
->>
->>   - create a k8s distro feature and only set the go version when it is
->> enabled .. or we re-use the virtualization distro feature (which is a
->> better idea)
->>   - put the preferred GO version into the meta-virt .inc file that is
->> included when virtualization is in distro features
->>
->> Although, I recall someone saying that the .inc wasn't working
->> properly and isn't actually triggering .. I found the email from Mark
->> hatle that describes the problem. If you check the list archives for
->> the subject:  "[meta-virtualization] conf/layer.conf is broken".
->> You'll find a description of the problem.
->>
->> The fix for that, is to make the .inc work like the one in meta-cube:
->> https://github.com/WindRiver-OpenSourceLabs/meta-overc/blob/wr-10.19-20190121/meta-cube/conf/layer.conf
->>
->> The .inc is the best solution, and this is a good opportunity to fix
->> it (it hasn't been working correctly for some time now). I'll try and
->> make those changes today, and follow up later with the results.
-> FYI: I fixed the conditional include and pushed the commit to master
-> [conf: fix meta-virt version / config include], so we can now use the
-> .inc to set the go version.
->
-> Bruce
+Because there are higher versions and python3 versions in meta-oe,I want =
+to remove the recipe.
 
-Thanks! I'll send out V2.
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ .../python/python-greenlet_0.4.5.bb               | 15 ---------------
+ 1 file changed, 15 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-greenle=
+t_0.4.5.bb
 
-Regards,
-Chen Qi
+diff --git a/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5=
+.bb b/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb
+deleted file mode 100644
+index 2f5824f..0000000
+--- a/meta-openstack/recipes-devtools/python/python-greenlet_0.4.5.bb
++++ /dev/null
+@@ -1,15 +0,0 @@
+-SUMMARY =3D "Python lightweight in-process concurrent programming"
+-HOMEPAGE =3D "http://pypi.python.org/pypi/greenlet"
+-SECTION =3D "devel/python"
+-LICENSE =3D "MIT & PSF"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D03143d7a1a9f5d8a0fee825f24ca9=
+c36 \
+-                    file://LICENSE.PSF;md5=3Dc106931d9429eda0492617f037b=
+8f69a"
+-
+-# Archived version so we have to overwrite what the pypi class will deri=
+ve
+-PYPI_SRC_URI =3D "https://pypi.python.org/packages/source/g/greenlet/gre=
+enlet-${PV}.zip"
+-
+-SRC_URI[md5sum] =3D "ce383f6475e6311cf8932ea779938703"
+-SRC_URI[sha256sum] =3D "b990f00f120c4cfb6672eec2acd32210990a2c7b70b815c0=
+34d1d8cbf08e2dbe"
+-
+-inherit distutils pypi
+-
+--=20
+2.20.1
 
->> Bruce
->>
->>
->>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> ---
->>>   conf/layer.conf | 4 ++++
->>>   1 file changed, 4 insertions(+)
->>>
->>> diff --git a/conf/layer.conf b/conf/layer.conf
->>> index dfca6da..2d008bb 100644
->>> --- a/conf/layer.conf
->>> +++ b/conf/layer.conf
->>> @@ -41,3 +41,7 @@ PREFERRED_PROVIDER_virtual/docker ?= "docker-ce"
->>>   INHERIT += "sanity-meta-virt"
->>>
->>>   require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', 'meta-virt-default-versions.inc', '', d)}
->>> +
->>> +# Use go 1.12 to avoid k8s build failure.
->>> +# Remove this after https://github.com/kubernetes/kubernetes/issues/82531 is resolved and k8s is updated to a working version.
->>> +GOVERSION = "1.12%"
->>> --
->>> 2.17.1
->>>
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>> Links: You receive all messages sent to this group.
->>>
->>> View/Reply Online (#4829): https://lists.yoctoproject.org/g/meta-virtualization/message/4829
->>> Mute This Topic: https://lists.yoctoproject.org/mt/67394161/1050810
->>> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->>> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub  [bruce.ashfield@gmail.com]
->>> -=-=-=-=-=-=-=-=-=-=-=-
->>
->>
->> --
->> - Thou shalt not follow the NULL pointer, for chaos and madness await
->> thee at its end
->> - "Use the force Harry" - Gandalf, Star Trek II
->> -=-=-=-=-=-=-=-=-=-=-=-
->> Links: You receive all messages sent to this group.
->>
->> View/Reply Online (#4831): https://lists.yoctoproject.org/g/meta-virtualization/message/4831
->> Mute This Topic: https://lists.yoctoproject.org/mt/67394161/1050810
->> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
->> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub  [bruce.ashfield@gmail.com]
->> -=-=-=-=-=-=-=-=-=-=-=-
->
->
+
 
