@@ -1,115 +1,61 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.1180.1576029191381945984
+ by mx.groups.io with SMTP id smtpd.web09.1568.1576030695901816936
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Dec 2019 17:53:11 -0800
+ Tue, 10 Dec 2019 18:18:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 140.211.169.56, mailfrom: timothy.t.orling@linux.intel.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 40FFAE01146; Tue, 10 Dec 2019 17:53:11 -0800 (PST)
+	id 646C8E011EE; Tue, 10 Dec 2019 18:18:15 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+X-Spam-Status: No, score=-6.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_HI
 	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
+	* -5.0 RCVD_IN_DNSWL_HI RBL: Sender listed at https://www.dnswl.org/, high
+	*      trust
+	*      [134.134.136.24 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 57329E01140
-	for <meta-virtualization@yoctoproject.org>; Tue, 10 Dec 2019 17:53:08 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,301,1571673600"; 
-   d="scan'208";a="79989293"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 11 Dec 2019 09:53:06 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 1A8E24CE1C0F
-	for <meta-virtualization@yoctoproject.org>; Wed, 11 Dec 2019 09:44:31 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 11 Dec 2019 09:53:04 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-beautifulsoup4: Remove the recipe
-Date: Wed, 11 Dec 2019 09:54:05 +0800
-Message-ID: <20191211015405.22539-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 1A8E24CE1C0F.A869C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Content-Type: text/plain
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E55C0E01146
+	for <meta-virtualization@yoctoproject.org>; Tue, 10 Dec 2019 18:18:14 -0800 (PST)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Dec 2019 18:18:13 -0800
+X-IronPort-AV: E=Sophos;i="5.69,301,1571727600"; 
+   d="scan'208";a="215630124"
+Received: from ttorling-mac05.jf.intel.com ([10.24.8.190])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 10 Dec 2019 18:18:13 -0800
+From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+Subject: Hashicorp serf and go-crypto: which layer(s)?
+Message-Id: <63726798-32ED-4DA0-A82B-8D753AAAB55E@linux.intel.com>
+Date: Tue, 10 Dec 2019 18:18:13 -0800
+To: meta-virtualization@yoctoproject.org
+X-Mailer: Apple Mail (2.3445.104.11)
+Content-Type: text/plain;
+	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-Because there are higher versions in meta-openembedded, Remove the recipe=
-.
+I have a recipe for Hashicorp serf (latest release 0.8.5) which requires =
+go-crypto. I=E2=80=99m currently planning to add go-crypto to =
+meta-virtualization, but serf makes sense next to consul in =
+meta-cloud-services. Currently, the README of m-c-s says its only layer =
+dependency is oe-core.
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../python/python-beautifulsoup4.inc             | 16 ----------------
- .../python/python-beautifulsoup4_4.4.1.bb        |  2 --
- .../python/python3-beautifulsoup4_4.4.1.bb       |  2 --
- 3 files changed, 20 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-beautif=
-ulsoup4.inc
- delete mode 100644 meta-openstack/recipes-devtools/python/python-beautif=
-ulsoup4_4.4.1.bb
- delete mode 100644 meta-openstack/recipes-devtools/python/python3-beauti=
-fulsoup4_4.4.1.bb
+What is the consensus? Should I add recipes-devtools/go/go-crypto_git.bb =
+to m-c-s and keep serf next to consul, or should I add =
+recipes-connectivity/serf/hashicorp-serf_0.8.5.bb to meta-virtualizaton =
+and keep go-crypto with the other go source only packages?
 
-diff --git a/meta-openstack/recipes-devtools/python/python-beautifulsoup4=
-.inc b/meta-openstack/recipes-devtools/python/python-beautifulsoup4.inc
-deleted file mode 100644
-index 4ff500b..0000000
---- a/meta-openstack/recipes-devtools/python/python-beautifulsoup4.inc
-+++ /dev/null
-@@ -1,16 +0,0 @@
--DESCRIPTION =3D "Screen-scraping library"
--HOMEPAGE =3D "https://pypi.python.org/pypi/beautifulsoup4/"
--SECTION =3D "devel/python"
--LICENSE =3D "Apache-2.0"
--LIC_FILES_CHKSUM =3D "file://COPYING.txt;md5=3D39dacabe5494f61c8680f6fa7=
-323b596"
--
--SRC_URI[md5sum] =3D "8fbd9a7cac0704645fa20d1419036815"
--SRC_URI[sha256sum] =3D "87d4013d0625d4789a4f56b8d79a04d5ce6db1152bb65f1d=
-39744f7709a366b4"
--
--inherit pypi
--
--# avoid "error: option --single-version-externally-managed not recognize=
-d"
--DISTUTILS_INSTALL_ARGS =3D "--root=3D${D} \
--    --prefix=3D${prefix} \
--    --install-lib=3D${PYTHON_SITEPACKAGES_DIR} \
--    --install-data=3D${datadir}"
-diff --git a/meta-openstack/recipes-devtools/python/python-beautifulsoup4=
-_4.4.1.bb b/meta-openstack/recipes-devtools/python/python-beautifulsoup4_=
-4.4.1.bb
-deleted file mode 100644
-index 595fe5f..0000000
---- a/meta-openstack/recipes-devtools/python/python-beautifulsoup4_4.4.1.=
-bb
-+++ /dev/null
-@@ -1,2 +0,0 @@
--require python-beautifulsoup4.inc
--inherit setuptools
-diff --git a/meta-openstack/recipes-devtools/python/python3-beautifulsoup=
-4_4.4.1.bb b/meta-openstack/recipes-devtools/python/python3-beautifulsoup=
-4_4.4.1.bb
-deleted file mode 100644
-index 3bc9066..0000000
---- a/meta-openstack/recipes-devtools/python/python3-beautifulsoup4_4.4.1=
-.bb
-+++ /dev/null
-@@ -1,2 +0,0 @@
--require python-beautifulsoup4.inc
--inherit setuptools3
---=20
-2.20.1
+Also, devtool picked up all the licenses from vendor/, so I am adding a =
+vendor-licenses.inc file to help keep the serf bb file shorter. Other =
+recipes in meta-virtualization, such as kubernetes, would also have a =
+lot of vendor code=E2=80=A6has anybody been concerned about licenses =
+from vendor/ ?
 
+Cheers,
 
-
+=E2=80=94Tim=
