@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.2091.1576034698788207388
+ by mx.groups.io with SMTP id smtpd.web12.2123.1576034845379303116
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Dec 2019 19:24:58 -0800
+ Tue, 10 Dec 2019 19:27:25 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6432CE01148; Tue, 10 Dec 2019 19:24:58 -0800 (PST)
+	id 409E1E01147; Tue, 10 Dec 2019 19:27:25 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -18,27 +18,27 @@ X-Spam-HAM-Report:
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8FEBEE010D8
-	for <meta-virtualization@yoctoproject.org>; Tue, 10 Dec 2019 19:24:57 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6F5E2E00E37
+	for <meta-virtualization@yoctoproject.org>; Tue, 10 Dec 2019 19:27:24 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,301,1571673600"; 
-   d="scan'208";a="79995406"
+   d="scan'208";a="79995512"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 11 Dec 2019 11:24:56 +0800
+  by heian.cn.fujitsu.com with ESMTP; 11 Dec 2019 11:27:23 +0800
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5FF934CE1BED
-	for <meta-virtualization@yoctoproject.org>; Wed, 11 Dec 2019 11:16:16 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 0DEA14B6EC71
+	for <meta-virtualization@yoctoproject.org>; Wed, 11 Dec 2019 11:18:46 +0800 (CST)
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Wed, 11 Dec 2019 11:24:51 +0800
+ (TLS) id 14.3.439.0; Wed, 11 Dec 2019 11:27:20 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-dnspython: Remove the recipe
-Date: Wed, 11 Dec 2019 11:25:51 +0800
-Message-ID: <20191211032551.24188-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-html5lib: Remove the recipe
+Date: Wed, 11 Dec 2019 11:28:20 +0800
+Message-ID: <20191211032820.24358-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 5FF934CE1BED.AB645
+X-yoursite-MailScanner-ID: 0DEA14B6EC71.ACC8A
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -49,44 +49,40 @@ ed, Remove the recipe.
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-dnspython_1.12.0.bb         | 22 -------------------
- 1 file changed, 22 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-dnspyth=
-on_1.12.0.bb
+ .../python/python-html5lib_0.999.bb           | 20 -------------------
+ 1 file changed, 20 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-html5li=
+b_0.999.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-dnspython_1.12=
-.0.bb b/meta-openstack/recipes-devtools/python/python-dnspython_1.12.0.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-html5lib_0.999=
+.bb b/meta-openstack/recipes-devtools/python/python-html5lib_0.999.bb
 deleted file mode 100644
-index 36a1d12..0000000
---- a/meta-openstack/recipes-devtools/python/python-dnspython_1.12.0.bb
+index dd8b1d6..0000000
+--- a/meta-openstack/recipes-devtools/python/python-html5lib_0.999.bb
 +++ /dev/null
-@@ -1,22 +0,0 @@
--DESCRIPTION =3D "DNS toolkit for Python"
--HOMEPAGE =3D "http://www.dnspython.org/"
+@@ -1,20 +0,0 @@
+-DESCRIPTION =3D "HTML parser based on the WHATWG HTML specifcation"
+-HOMEPAGE =3D "https://github.com/html5lib/html5lib-python"
 -SECTION =3D "devel/python"
--LICENSE =3D "BSD"
--LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D397eddfcb4bc7e2ece2fc79724a7c=
-ca2"
+-LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1ba5ada9e6fead1fdc32f43c9f10b=
+a7c"
 -
--PR =3D "r0"
--SRCNAME =3D "dnspython"
--SRC_URI =3D "http://www.dnspython.org/kits/${PV}/${SRCNAME}-${PV}.tar.gz=
-"
+-SRC_URI[md5sum] =3D "acb8ba4d6db5637360a07859192eb7f8"
+-SRC_URI[sha256sum] =3D "c3887f7e2875d7666107fa8bee761ff95b9391acdcc7cd1b=
+5fd57a23b5fbc49e"
 -
--SRC_URI[md5sum] =3D "3f2601ef3c8b77fc6d21a9c77a81efeb"
--SRC_URI[sha256sum] =3D "03fb82af866001c4afa58c48027bcc4b80bbf0a7f27e1d86=
-1cf06393eea4724f"
+-inherit setuptools pypi
 -
--S =3D "${WORKDIR}/${SRCNAME}-${PV}"
+-# DEPENDS_default: python-pip
 -
--inherit setuptools
+-DEPENDS +=3D " \
+-        python-pip \
+-        "
 -
--# avoid "error: option --single-version-externally-managed not recognize=
-d"
--DISTUTILS_INSTALL_ARGS =3D "--root=3D${D} \
--    --prefix=3D${prefix} \
--    --install-lib=3D${PYTHON_SITEPACKAGES_DIR} \
--    --install-data=3D${datadir}"
+-# RDEPENDS_default:=20
+-RDEPENDS_${PN} +=3D " \
+-        "
 --=20
 2.20.1
 
