@@ -1,85 +1,72 @@
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
- by mx.groups.io with SMTP id smtpd.web10.418.1577124951827507553
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web10.18286.1577336262068988316
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 23 Dec 2019 10:15:52 -0800
+ Wed, 25 Dec 2019 20:57:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fLfuk1OQ;
- spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f194.google.com with SMTP id d71so6356441qkc.0
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 23 Dec 2019 10:15:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=gSmXUEktPQzrrlGazakSWmOXBix3eCmM7cZ0N/kc6iU=;
-        b=fLfuk1OQ7zydImGfGEqH+jlgvWlL/sGVTL5mng8HRACYIVN6jxttR/LcJbJLKXkZz1
-         j2+5SA9F1gVjoYzLHfXqy+pHCPK/EESicFkDygoOjGJvd2E1FpLtICQOE0pYbs33bxFx
-         aWJZhz+s1DBstr9S/FujdJwCkUd6CLwy6BUDusud48W4Etxw3axDiDP3eaKktNuW1QN8
-         bZX/9S5xrSLgzeKMXZk9Am/gJqnatL71Lxs0K612ghQYV4epQcfh19aNIxBp1MSn/ODF
-         HVr4KTSWNFiFPhOZrqKLZj4mZUqJhX72i0ovUS1x5InEK8/QFPoVtmTfCZsorORhRKMe
-         BUeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=gSmXUEktPQzrrlGazakSWmOXBix3eCmM7cZ0N/kc6iU=;
-        b=qPH+1UVKRKyrPJtSRV8/FMlFQHRd6iwuv4UChTtcFMZMDw/d5m9VckscRUpG3g7ZFJ
-         qbY7QmV0XZx0cW8eGY6whmQZdc+uTHSgRMl+TQKoVOzd2h6TwNqqLcOU1tdeZweOwS7L
-         ereOHA+SyjTW1v3HhX2x++i0gG9xVd79+8xcULw1xOOPzjJBgnUeBsc4skiGS1zqbZx0
-         tXjMW4jAkep68WxjV8NQingcJW4GducXcpT680QHdQLDSfTf/7Vivl4FEjyC4lXuWCzY
-         Rbw23hpOiVKQollytDwU2lVXcFgDJ8goxYPTOWKPJ9/Q9Qfgynr9O2mJJOJIQfLXKbl7
-         /qng==
-X-Gm-Message-State: APjAAAUPwCVIgAvzWh9B8cPZCtRETmSWrtvAyZPiU5GnQZUknmuUC2PJ
-	VeLdTnwE+j3nHApZs1/DLLw=
-X-Google-Smtp-Source: APXvYqy08w/1H0PFNJ975XKeKGazCSvfEdt/6WkOXzQaU+DqA0YsHeAwBeLk1+b/qpOJOhl02+v2EA==
-X-Received: by 2002:a37:8d3:: with SMTP id 202mr27994735qki.415.1577124950990;
-        Mon, 23 Dec 2019 10:15:50 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
-        by smtp.gmail.com with ESMTPSA id m10sm5923632qki.74.2019.12.23.10.15.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Dec 2019 10:15:50 -0800 (PST)
-Date: Mon, 23 Dec 2019 13:15:48 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: hongxu <hongxu.jia@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][m-c-s][PATCH] sysklogd bbappend: 1.% -> 2.%
-Message-ID: <20191223181547.GB5430@gmail.com>
-References: <20191223070937.36937-1-hongxu.jia@windriver.com>
+ dkim=missing; spf=softfail (domain: windriver.com, ip: 140.211.169.56, mailfrom: kai.kang@windriver.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 7A702E012AD; Wed, 25 Dec 2019 20:57:41 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
+	*      medium trust
+	*      [147.11.1.11 listed in list.dnswl.org]
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 53E03E0085D
+	for <meta-virtualization@yoctoproject.org>; Wed, 25 Dec 2019 20:57:40 -0800 (PST)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xBQ4vdvZ022693
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@yoctoproject.org>; Wed, 25 Dec 2019 20:57:39 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.468.0; Wed, 25 Dec 2019 20:57:38 -0800
+From: "kai" <kai.kang@windriver.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [PATCH] nagios-nrpe: fix compile error when packageconfig ssl enabled
+Date: Thu, 26 Dec 2019 12:57:36 +0800
+Message-ID: <20191226045736.28952-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191223070937.36937-1-hongxu.jia@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-merged.
+From: Kai Kang <kai.kang@windriver.com>
 
-Bruce
+It fails to compile nagios-nrpe when packageconfig ssl enabled:
 
+| ./nrpe.c:45:12: fatal error: ../include/dh.h: No such file or directory
+|    45 | #  include "../include/dh.h"
+|       |            ^~~~~~~~~~~~~~~~~
+| compilation terminated.
 
-In message: [meta-virtualization][m-c-s][PATCH] sysklogd bbappend: 1.% -> 2.%
-on 22/12/2019 hongxu wrote:
+Header file include/dh.h is created by native openssl called by
+configure script. If no native openssl exists, no header file is
+created. Add openssl-native to dependency for packageconfig ssl.
 
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  .../sysklogd/{sysklogd_1.%.bbappend => sysklogd_2.%.bbappend}     | 0
->  1 file changed, 0 insertions(+), 0 deletions(-)
->  rename meta-openstack/recipes-extended/sysklogd/{sysklogd_1.%.bbappend => sysklogd_2.%.bbappend} (100%)
-> 
-> diff --git a/meta-openstack/recipes-extended/sysklogd/sysklogd_1.%.bbappend b/meta-openstack/recipes-extended/sysklogd/sysklogd_2.%.bbappend
-> similarity index 100%
-> rename from meta-openstack/recipes-extended/sysklogd/sysklogd_1.%.bbappend
-> rename to meta-openstack/recipes-extended/sysklogd/sysklogd_2.%.bbappend
-> -- 
-> 2.21.0
-> 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ recipes-extended/nagios/nagios-nrpe_3.2.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> 
-> View/Reply Online (#4904): https://lists.yoctoproject.org/g/meta-virtualization/message/4904
-> Mute This Topic: https://lists.yoctoproject.org/mt/69226464/1050810
-> Group Owner: meta-virtualization+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/meta-virtualization/unsub  [bruce.ashfield@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+diff --git a/recipes-extended/nagios/nagios-nrpe_3.2.1.bb b/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
+index 04917f7..9e1f02c 100644
+--- a/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
++++ b/recipes-extended/nagios/nagios-nrpe_3.2.1.bb
+@@ -39,7 +39,7 @@ EXTRA_OECONF_SSL = "--with-ssl=${STAGING_DIR_HOST} \
+                     --with-ssl-lib=${STAGING_DIR_HOST}${libdir} \
+ "
+ 
+-PACKAGECONFIG[ssl] = "${EXTRA_OECONF_SSL},--disable-ssl,openssl,"
++PACKAGECONFIG[ssl] = "${EXTRA_OECONF_SSL},--disable-ssl,openssl-native openssl,"
+ PACKAGECONFIG[cmdargs] = "--enable-command-args,--disable-command-args,,"
+ PACKAGECONFIG[bashcomp] = "--enable-bash-command-substitution,--disable-bash-command-substitution,,"
+ 
+-- 
+2.17.1
 
