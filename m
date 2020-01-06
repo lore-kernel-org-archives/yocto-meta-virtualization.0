@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.2018.1578288142027543729
+ by mx.groups.io with SMTP id smtpd.web09.24.1578289065330469943
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 05 Jan 2020 21:22:22 -0800
+ Sun, 05 Jan 2020 21:37:45 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 84EDAE0144E; Sun,  5 Jan 2020 21:22:21 -0800 (PST)
+	id D98E1E01450; Sun,  5 Jan 2020 21:37:44 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,30 +19,30 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 096FEE012F5
-	for <meta-virtualization@yoctoproject.org>; Sun,  5 Jan 2020 21:22:17 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 30561E013BB
+	for <meta-virtualization@yoctoproject.org>; Sun,  5 Jan 2020 21:37:43 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,401,1571673600"; 
-   d="scan'208";a="81333503"
+   d="scan'208";a="81334883"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 06 Jan 2020 13:22:14 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id D521849E9335
-	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 13:13:16 +0800 (CST)
+  by heian.cn.fujitsu.com with ESMTP; 06 Jan 2020 13:37:39 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id AF813406AB15
+	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 13:28:36 +0800 (CST)
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.83) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Mon, 6 Jan 2020 13:22:15 +0800
+ G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
+ (TLS) id 15.0.1395.4; Mon, 6 Jan 2020 13:37:37 +0800
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Mon, 6 Jan 2020 13:22:16 +0800
+ (TLS) id 14.3.439.0; Mon, 6 Jan 2020 13:37:35 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-xstatic-bootstrap-datepicker: Add python3 version
-Date: Mon, 6 Jan 2020 13:23:33 +0800
-Message-ID: <20200106052333.14816-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-xstatic-bootstrap-scss: Add python3 version
+Date: Mon, 6 Jan 2020 13:38:52 +0800
+Message-ID: <20200106053852.16311-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: D521849E9335.A8061
+X-yoursite-MailScanner-ID: AF813406AB15.AA86F
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -50,89 +50,93 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python-xstatic-bootstrap-datepicker.inc   | 19 +++++++++++++++++
- ...on-xstatic-bootstrap-datepicker_1.3.1.0.bb | 21 ++-----------------
- ...n3-xstatic-bootstrap-datepicker_1.3.1.0.bb |  2 ++
- 3 files changed, 23 insertions(+), 19 deletions(-)
+ .../python/python-xstatic-bootstrap-scss.inc  | 22 +++++++++++++++++
+ .../python-xstatic-bootstrap-scss_3.3.7.1.bb  | 24 ++-----------------
+ .../python3-xstatic-bootstrap-scss_3.3.7.1.bb |  2 ++
+ 3 files changed, 26 insertions(+), 22 deletions(-)
  create mode 100644 meta-openstack/recipes-devtools/python/python-xstatic=
--bootstrap-datepicker.inc
+-bootstrap-scss.inc
  create mode 100644 meta-openstack/recipes-devtools/python/python3-xstati=
-c-bootstrap-datepicker_1.3.1.0.bb
+c-bootstrap-scss_3.3.7.1.bb
 
 diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-bootst=
-rap-datepicker.inc b/meta-openstack/recipes-devtools/python/python-xstati=
-c-bootstrap-datepicker.inc
+rap-scss.inc b/meta-openstack/recipes-devtools/python/python-xstatic-boot=
+strap-scss.inc
 new file mode 100644
-index 0000000..4988539
+index 0000000..2987919
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-dat=
-epicker.inc
-@@ -0,0 +1,19 @@
-+DESCRIPTION =3D "Bootstrap-Datepicker JavaScript library packaged for se=
-tuptools (easy_install) / pip."
-+HOMEPAGE =3D "https://pypi.python.org/pypi/XStatic-Bootstrap-Datepicker"
++++ b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-scs=
+s.inc
+@@ -0,0 +1,22 @@
++DESCRIPTION =3D "%DESCRIPTION%"
++HOMEPAGE =3D "%URL%"
 +SECTION =3D "devel/python"
-+LICENSE =3D "Apache-2.0"
-+LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3D97d9c60d3a8c5fccccb317f94468=
-8479"
++LICENSE =3D "Apache-2"
++LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
+0bcf8506ecda2f7b4f302"
 +
-+PYPI_PACKAGE =3D "XStatic-Bootstrap-Datepicker"
++PYPI_PACKAGE =3D "XStatic-Bootstrap-SCSS"
 +
-+SRC_URI[md5sum] =3D "c2f5c58a7b41162923eca5a36b29b8b2"
-+SRC_URI[sha256sum] =3D "9edc9b77501001fcee9fbf4bf0a722c263efd928ef928b40=
-081a8269fdd9a944"
++SRC_URI[md5sum] =3D "cc0d26647d10e1de84ba6649d3264f77"
++SRC_URI[sha256sum] =3D "4d388df037293163bf3242e0b60c79d06e1f743af8b0be84=
+73f92676340e5acd"
 +
 +inherit pypi
++
++# DEPENDS_default: python-pip
 +
 +DEPENDS +=3D " \
 +        ${PYTHON_PN}-pip \
 +        "
 +
++# RDEPENDS_default:=20
 +RDEPENDS_${PN} +=3D " \
 +        "
 diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-bootst=
-rap-datepicker_1.3.1.0.bb b/meta-openstack/recipes-devtools/python/python=
--xstatic-bootstrap-datepicker_1.3.1.0.bb
-index ff491a2..0bea3f0 100644
---- a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-dat=
-epicker_1.3.1.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-dat=
-epicker_1.3.1.0.bb
-@@ -1,19 +1,2 @@
--DESCRIPTION =3D "Bootstrap-Datepicker JavaScript library packaged for se=
-tuptools (easy_install) / pip."
--HOMEPAGE =3D "https://pypi.python.org/pypi/XStatic-Bootstrap-Datepicker"
+rap-scss_3.3.7.1.bb b/meta-openstack/recipes-devtools/python/python-xstat=
+ic-bootstrap-scss_3.3.7.1.bb
+index b5d714e..314e25c 100644
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-scs=
+s_3.3.7.1.bb
++++ b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-scs=
+s_3.3.7.1.bb
+@@ -1,22 +1,2 @@
+-DESCRIPTION =3D "%DESCRIPTION%"
+-HOMEPAGE =3D "%URL%"
 -SECTION =3D "devel/python"
--LICENSE =3D "Apache-2.0"
--LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3D97d9c60d3a8c5fccccb317f94468=
-8479"
+-LICENSE =3D "Apache-2"
+-LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/MIT;md5=3D0835ade698e=
+0bcf8506ecda2f7b4f302"
 -
--PYPI_PACKAGE =3D "XStatic-Bootstrap-Datepicker"
+-PYPI_PACKAGE =3D "XStatic-Bootstrap-SCSS"
 -
--SRC_URI[md5sum] =3D "c2f5c58a7b41162923eca5a36b29b8b2"
--SRC_URI[sha256sum] =3D "9edc9b77501001fcee9fbf4bf0a722c263efd928ef928b40=
-081a8269fdd9a944"
+-SRC_URI[md5sum] =3D "cc0d26647d10e1de84ba6649d3264f77"
+-SRC_URI[sha256sum] =3D "4d388df037293163bf3242e0b60c79d06e1f743af8b0be84=
+73f92676340e5acd"
 -
 -inherit setuptools pypi
+-
+-# DEPENDS_default: python-pip
 -
 -DEPENDS +=3D " \
 -        python-pip \
 -        "
 -
+-# RDEPENDS_default:=20
 -RDEPENDS_${PN} +=3D " \
 -        "
-+require python-xstatic-bootstrap-datepicker.inc
++require python-xstatic-bootstrap-scss.inc
 +inherit setuptools
 diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-boots=
-trap-datepicker_1.3.1.0.bb b/meta-openstack/recipes-devtools/python/pytho=
-n3-xstatic-bootstrap-datepicker_1.3.1.0.bb
+trap-scss_3.3.7.1.bb b/meta-openstack/recipes-devtools/python/python3-xst=
+atic-bootstrap-scss_3.3.7.1.bb
 new file mode 100644
-index 0000000..9e9db89
+index 0000000..20eab88
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-xstatic-bootstrap-da=
-tepicker_1.3.1.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-xstatic-bootstrap-sc=
+ss_3.3.7.1.bb
 @@ -0,0 +1,2 @@
-+require python-xstatic-bootstrap-datepicker.inc
++require python-xstatic-bootstrap-scss.inc
 +inherit setuptools3
 --=20
 2.20.1
