@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.855.1578296890461825079
+ by mx.groups.io with SMTP id smtpd.web11.906.1578297296448707471
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 05 Jan 2020 23:48:10 -0800
+ Sun, 05 Jan 2020 23:54:56 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 55360E01455; Sun,  5 Jan 2020 23:48:10 -0800 (PST)
+	id 01BBCE01455; Sun,  5 Jan 2020 23:54:56 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,30 +19,30 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 168CEE01450
-	for <meta-virtualization@yoctoproject.org>; Sun,  5 Jan 2020 23:48:07 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 53593E01450
+	for <meta-virtualization@yoctoproject.org>; Sun,  5 Jan 2020 23:54:54 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,401,1571673600"; 
-   d="scan'208";a="81362214"
+   d="scan'208";a="81362854"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 06 Jan 2020 15:48:06 +0800
+  by heian.cn.fujitsu.com with ESMTP; 06 Jan 2020 15:54:54 +0800
 Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5E4F649E9329
-	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 15:39:06 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id ED76C49E9327
+	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 15:45:52 +0800 (CST)
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.83) by
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Mon, 6 Jan 2020 15:48:02 +0800
+ (TLS) id 15.0.1395.4; Mon, 6 Jan 2020 15:54:39 +0800
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Mon, 6 Jan 2020 15:48:03 +0800
+ (TLS) id 14.3.439.0; Mon, 6 Jan 2020 15:54:41 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-xstatic-font-awesome: Add python3 version
-Date: Mon, 6 Jan 2020 15:49:20 +0800
-Message-ID: <20200106074920.12441-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-xstatic-roboto-fontface: Add python3 version
+Date: Mon, 6 Jan 2020 15:55:57 +0800
+Message-ID: <20200106075557.13902-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 5E4F649E9329.A970F
+X-yoursite-MailScanner-ID: ED76C49E9327.AB48C
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -50,95 +50,87 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-xstatic-font-awesome.inc    | 22 +++++++++++++++++
- .../python-xstatic-font-awesome_4.7.0.0.bb    | 24 ++-----------------
- .../python3-xstatic-font-awesome_4.7.0.0.bb   |  2 ++
- 3 files changed, 26 insertions(+), 22 deletions(-)
+ .../python/python-xstatic-roboto-fontface.inc | 19 +++++++++++++++++
+ .../python-xstatic-roboto-fontface_0.5.0.0.bb | 21 ++-----------------
+ ...python3-xstatic-roboto-fontface_0.5.0.0.bb |  2 ++
+ 3 files changed, 23 insertions(+), 19 deletions(-)
  create mode 100644 meta-openstack/recipes-devtools/python/python-xstatic=
--font-awesome.inc
+-roboto-fontface.inc
  create mode 100644 meta-openstack/recipes-devtools/python/python3-xstati=
-c-font-awesome_4.7.0.0.bb
+c-roboto-fontface_0.5.0.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-font-a=
-wesome.inc b/meta-openstack/recipes-devtools/python/python-xstatic-font-a=
-wesome.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-roboto=
+-fontface.inc b/meta-openstack/recipes-devtools/python/python-xstatic-rob=
+oto-fontface.inc
 new file mode 100644
-index 0000000..57fae23
+index 0000000..d11d0a1
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome.=
-inc
-@@ -0,0 +1,22 @@
-+DESCRIPTION =3D "Font Awesome icons packaged for setuptools (easy_instal=
-l) / pip."
-+HOMEPAGE =3D "https://pypi.python.org/pypi/XStatic-Font-Awesome"
++++ b/meta-openstack/recipes-devtools/python/python-xstatic-roboto-fontfa=
+ce.inc
+@@ -0,0 +1,19 @@
++DESCRIPTION =3D "A simple package providing the Roboto fontface."
++HOMEPAGE =3D "https://github.com/choffmeister/roboto-fontface-bower"
 +SECTION =3D "devel/python"
-+LICENSE =3D "OFL-1.1"
-+LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/OFL-1.1;md5=3Dfac3a51=
-9e5e9eb96316656e0ca4f2b90"
++LICENSE =3D "Apache-2.0"
++LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=3D89ae=
+a4e17d99a7cacdbeed46a0096b10"
 +
-+PYPI_PACKAGE =3D "XStatic-Font-Awesome"
++PYPI_PACKAGE =3D "XStatic-roboto-fontface"
 +
-+SRC_URI[md5sum] =3D "141a0e9a7e21e82f922573a00ae0c166"
-+SRC_URI[sha256sum] =3D "e01fb480caaa7c7963dcb3328a4700e631bef6070db0e8b6=
-85816d220e685f6c"
++SRC_URI[md5sum] =3D "32273ba68fa063623461db0b0767524f"
++SRC_URI[sha256sum] =3D "6d272df58e20eec3a15bca279163f38614c7074e2fecb537=
+a58b29d109e83f62"
 +
 +inherit pypi
-+
-+# DEPENDS_default: python-pip
 +
 +DEPENDS +=3D " \
 +        ${PYTHON_PN}-pip \
 +        "
 +
-+# RDEPENDS_default:=20
 +RDEPENDS_${PN} +=3D " \
 +        "
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-font-a=
-wesome_4.7.0.0.bb b/meta-openstack/recipes-devtools/python/python-xstatic=
--font-awesome_4.7.0.0.bb
-index 76ae529..cc342ac 100644
---- a/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_=
-4.7.0.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-font-awesome_=
-4.7.0.0.bb
-@@ -1,22 +1,2 @@
--DESCRIPTION =3D "Font Awesome icons packaged for setuptools (easy_instal=
-l) / pip."
--HOMEPAGE =3D "https://pypi.python.org/pypi/XStatic-Font-Awesome"
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-roboto=
+-fontface_0.5.0.0.bb b/meta-openstack/recipes-devtools/python/python-xsta=
+tic-roboto-fontface_0.5.0.0.bb
+index 3c828b4..0f52a02 100644
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-roboto-fontfa=
+ce_0.5.0.0.bb
++++ b/meta-openstack/recipes-devtools/python/python-xstatic-roboto-fontfa=
+ce_0.5.0.0.bb
+@@ -1,19 +1,2 @@
+-DESCRIPTION =3D "A simple package providing the Roboto fontface."
+-HOMEPAGE =3D "https://github.com/choffmeister/roboto-fontface-bower"
 -SECTION =3D "devel/python"
--LICENSE =3D "OFL-1.1"
--LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/OFL-1.1;md5=3Dfac3a51=
-9e5e9eb96316656e0ca4f2b90"
+-LICENSE =3D "Apache-2.0"
+-LIC_FILES_CHKSUM =3D "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=3D89ae=
+a4e17d99a7cacdbeed46a0096b10"
 -
--PYPI_PACKAGE =3D "XStatic-Font-Awesome"
+-PYPI_PACKAGE =3D "XStatic-roboto-fontface"
 -
--SRC_URI[md5sum] =3D "141a0e9a7e21e82f922573a00ae0c166"
--SRC_URI[sha256sum] =3D "e01fb480caaa7c7963dcb3328a4700e631bef6070db0e8b6=
-85816d220e685f6c"
+-SRC_URI[md5sum] =3D "32273ba68fa063623461db0b0767524f"
+-SRC_URI[sha256sum] =3D "6d272df58e20eec3a15bca279163f38614c7074e2fecb537=
+a58b29d109e83f62"
 -
 -inherit setuptools pypi
--
--# DEPENDS_default: python-pip
 -
 -DEPENDS +=3D " \
 -        python-pip \
 -        "
 -
--# RDEPENDS_default:=20
 -RDEPENDS_${PN} +=3D " \
 -        "
-+require python-xstatic-font-awesome.inc
++require python-xstatic-roboto-fontface.inc
 +inherit setuptools
-diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-font-=
-awesome_4.7.0.0.bb b/meta-openstack/recipes-devtools/python/python3-xstat=
-ic-font-awesome_4.7.0.0.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-robot=
+o-fontface_0.5.0.0.bb b/meta-openstack/recipes-devtools/python/python3-xs=
+tatic-roboto-fontface_0.5.0.0.bb
 new file mode 100644
-index 0000000..b2998f6
+index 0000000..e05e35e
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-xstatic-font-awesome=
-_4.7.0.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-xstatic-roboto-fontf=
+ace_0.5.0.0.bb
 @@ -0,0 +1,2 @@
-+require python-xstatic-font-awesome.inc
++require python-xstatic-roboto-fontface.inc
 +inherit setuptools3
 --=20
 2.20.1
