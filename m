@@ -1,101 +1,94 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.1604.1578040311158855507
+ by mx.groups.io with SMTP id smtpd.web10.871.1578279664858227201
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 03 Jan 2020 00:31:51 -0800
+ Sun, 05 Jan 2020 19:01:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: wangmy@cn.fujitsu.com)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8C798E013E7; Fri,  3 Jan 2020 00:31:50 -0800 (PST)
+	id 2C845E0144E; Sun,  5 Jan 2020 19:01:04 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_03_06,
-	RCVD_IN_DNSWL_MED autolearn=no version=3.3.1
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
+	autolearn=ham version=3.3.1
 X-Spam-HAM-Report: 
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  3.0 DATE_IN_FUTURE_03_06 Date: is 3 to 6 hours after Received: date
 	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
 	*      medium trust
 	*      [183.91.158.132 listed in list.dnswl.org]
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 1B396E0136E
-	for <meta-virtualization@yoctoproject.org>; Fri,  3 Jan 2020 00:31:48 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,390,1571673600"; 
-   d="scan'208";a="81266720"
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 824FDE0144C
+	for <meta-virtualization@yoctoproject.org>; Sun,  5 Jan 2020 19:01:03 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.69,400,1571673600"; 
+   d="scan'208";a="81326348"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 03 Jan 2020 16:31:46 +0800
+  by heian.cn.fujitsu.com with ESMTP; 06 Jan 2020 11:01:01 +0800
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7FCDB49E931C
-	for <meta-virtualization@yoctoproject.org>; Fri,  3 Jan 2020 16:22:49 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	by cn.fujitsu.com (Postfix) with ESMTP id C7D0F49E9329
+	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 10:52:00 +0800 (CST)
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.83) by
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Fri, 3 Jan 2020 16:31:45 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
- G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Fri, 3 Jan 2020 16:31:47 +0800
-From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
+ (TLS) id 15.0.1395.4; Mon, 6 Jan 2020 11:01:01 +0800
+Received: from localhost.local (10.167.225.81) by
+ G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
+ (TLS) id 14.3.439.0; Mon, 6 Jan 2020 11:01:00 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [meta-virtualization] [PATCH]python-pyyaml: Remove the recipe
-Date: Fri, 3 Jan 2020 05:00:39 -0800
-Message-ID: <1578056439-94495-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+Subject: [meta-virtualization] [PATCH] python-kombu: upgrade 4.6.6 -> 4.6.7
+Date: Mon, 6 Jan 2020 11:02:10 +0800
+Message-ID: <20200106030210.32082-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 7FCDB49E931C.A6B20
+X-Originating-IP: [10.167.225.81]
+X-yoursite-MailScanner-ID: C7D0F49E9329.AA040
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Because they already exist in meta-openembedded, remove the recipe.
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-pyyaml_5.1.2.bb             | 32 -------------------
- 1 file changed, 32 deletions(-)
- delete mode 100644 recipes-devtools/python/python-pyyaml_5.1.2.bb
+ meta-openstack/recipes-devtools/python/python-kombu.inc       | 4 ++--
+ .../python/{python-kombu_4.6.6.bb =3D> python-kombu_4.6.7.bb}   | 0
+ .../python/{python3-kombu_4.6.6.bb =3D> python3-kombu_4.6.7.bb} | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-kombu_4.6.6.bb =3D=
+> python-kombu_4.6.7.bb} (100%)
+ rename meta-openstack/recipes-devtools/python/{python3-kombu_4.6.6.bb =3D=
+> python3-kombu_4.6.7.bb} (100%)
 
-diff --git a/recipes-devtools/python/python-pyyaml_5.1.2.bb b/recipes-devtools/python/python-pyyaml_5.1.2.bb
-deleted file mode 100644
-index 711675b..0000000
---- a/recipes-devtools/python/python-pyyaml_5.1.2.bb
-+++ /dev/null
-@@ -1,32 +0,0 @@
--HOMEPAGE = "http://www.pyyaml.org"
--SUMMARY = "Python support for YAML"
--DESCRIPTION = "\
--  YAML is a data serialization format designed for human readability \
--  and interaction with scripting languages.  PyYAML is a YAML parser \
--  and emitter for Python. \
--  .       \
--  PyYAML features a complete YAML 1.1 parser, Unicode support, pickle \
--  support, capable extension API, and sensible error messages.  PyYAML \
--  supports standard YAML tags and provides Python-specific tags that \
--  allow to represent an arbitrary Python object. \
--  .       \
--  PyYAML is applicable for a broad range of tasks from complex \
--  configuration files to object serialization and persistance. \
--  "
--SECTION = "devel/python"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=a76b4c69bfcf82313bbdc0393b04438a"
--
--SRCNAME = "PyYAML"
--SRC_URI = "http://pyyaml.org/download/pyyaml/${SRCNAME}-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "20f87ab421b0271dbf371dc5c1cddb5c"
--SRC_URI[sha256sum] = "01adf0b6c6f61bd11af6e10ca52b7d4057dd0be0343eb9283c878cf3af56aee4"
--
--S = "${WORKDIR}/${SRCNAME}-${PV}"
--
--DEFAULT_PREFERENCE = "-1"
--
--inherit setuptools
--
--DEPENDS += "libyaml python-cython-native"
--- 
-2.17.1
+diff --git a/meta-openstack/recipes-devtools/python/python-kombu.inc b/me=
+ta-openstack/recipes-devtools/python/python-kombu.inc
+index 8029707..8e3b8a8 100644
+--- a/meta-openstack/recipes-devtools/python/python-kombu.inc
++++ b/meta-openstack/recipes-devtools/python/python-kombu.inc
+@@ -4,8 +4,8 @@ SECTION =3D "devel/python"
+ LICENSE =3D "BSD"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Ddaea7c168428449fbee05e644df92=
+9f4"
+=20
+-SRC_URI[md5sum] =3D "5f751ea817b1f6a4293d4e3a01040d4f"
+-SRC_URI[sha256sum] =3D "1760b54b1d15a547c9a26d3598a1c8cdaf2436386ac1f556=
+1934bc8a3cbbbd86"
++SRC_URI[md5sum] =3D "7fe3e4e60926625b9a47a07e4f3ade2d"
++SRC_URI[sha256sum] =3D "67b32ccb6fea030f8799f8fd50dd08e03a4b99464ebc4952=
+d71d8747b1a52ad1"
+=20
+ inherit pypi
+=20
+diff --git a/meta-openstack/recipes-devtools/python/python-kombu_4.6.6.bb=
+ b/meta-openstack/recipes-devtools/python/python-kombu_4.6.7.bb
+similarity index 100%
+rename from meta-openstack/recipes-devtools/python/python-kombu_4.6.6.bb
+rename to meta-openstack/recipes-devtools/python/python-kombu_4.6.7.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-kombu_4.6.6.b=
+b b/meta-openstack/recipes-devtools/python/python3-kombu_4.6.7.bb
+similarity index 100%
+rename from meta-openstack/recipes-devtools/python/python3-kombu_4.6.6.bb
+rename to meta-openstack/recipes-devtools/python/python3-kombu_4.6.7.bb
+--=20
+2.20.1
 
 
 
