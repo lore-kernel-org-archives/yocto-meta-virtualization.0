@@ -1,147 +1,123 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.1253.1578301244537966425
+ by mx.groups.io with SMTP id smtpd.web12.3008.1578518420250049793
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 Jan 2020 01:00:44 -0800
+ Wed, 08 Jan 2020 13:20:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=B17N2mUD;
+ spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 2175DE01455; Mon,  6 Jan 2020 01:00:44 -0800 (PST)
+	id DC692E014C8; Wed,  8 Jan 2020 13:20:19 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-Status: No, score=-1.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,FSL_HELO_FAKE,RCVD_IN_DNSWL_NONE
+	autolearn=no version=3.3.1
 X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
-	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E0FC9E01252
-	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 01:00:40 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.69,401,1571673600"; 
-   d="scan'208";a="81371061"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 06 Jan 2020 17:00:38 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 80D4649E932B
-	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jan 2020 16:51:38 +0800 (CST)
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.83) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Mon, 6 Jan 2020 17:00:38 +0800
-Received: from localhost.local (10.167.225.81) by
- G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Mon, 6 Jan 2020 17:00:40 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-xstatic-jquery-migrate: Add python3 version
-Date: Mon, 6 Jan 2020 17:01:53 +0800
-Message-ID: <20200106090153.23602-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	*  0.5 FSL_HELO_FAKE FSL_HELO_FAKE
+	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
+	*      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.222.196 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
+	*       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BB90EE01405
+	for <meta-virtualization@yoctoproject.org>; Wed,  8 Jan 2020 13:20:17 -0800 (PST)
+Received: by mail-qk1-f196.google.com with SMTP id a203so4075875qkc.3
+        for <meta-virtualization@yoctoproject.org>; Wed, 08 Jan 2020 13:20:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=3l1x612zOkBTHx83tPtDBdsn5UjSTv5NJ3JTEFIbSkI=;
+        b=B17N2mUD879OOoj/p36D3+HN2FpdxKWnsmVT4mXfvjhDllaHa9MOHo5FcpwZNWc+bC
+         /hamjw13sOV4u6Gwt9hvzb2NNpo1TWtZpMu6XbQSr6ybpdKxpCDtYJ5/CU4xCFf8ZQWC
+         DxbmslTcq70G/LIDET5jlJz5OfqZnmsyqwLK2f76qX9yzqWCetYUnyfkZrsaNSV/+YD6
+         kTtt0am3xcq67ldpVRnnN3rA7WtFc0mj8nlVSs2ymL5iGm6O5WRT5xXY40iLZ+YuJnuN
+         ZNRrhCSCFKWwHWrSRxyRf9DgtnHbG16F4o0bHyM52xNM0igYv42BSXGEmZAgGiA/ThLX
+         CwIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=3l1x612zOkBTHx83tPtDBdsn5UjSTv5NJ3JTEFIbSkI=;
+        b=VZV1lt3gnTK1Gkvzac+Aof2NywU7J1t7ea18DqiXfIQgydk91qFDO5nGyHm/VHQvsq
+         QGJTjxKv06yqpg5RKsQxuY2INl2E4HGUlPrpjbaX2mfhTIO4p987qJ8VGa49MbqCM6j1
+         bAbT7SPFHzR+BQR45OnBKtRR57ODXJSwc8MG3cDjCDUZEVgpyk/oKCk7TMtwECouoRbi
+         z4O0lK/T0UBtLqIEIRUmggoMvG/1EPEIYrkooBFfDaWBgRO4SdBxSwrE+vjA06BI7zEJ
+         iaDMISQjS65gE6gpQgSSM4DrQpgZJp2C0pcXyyPa0lrlMg41gYOWcdZQ9oyjE79jNsaj
+         QkLA==
+X-Gm-Message-State: APjAAAXpBS9tR4z5+uRRdwX0oWlTe+XhE868oxXSQ2UI6aQ8lLiStDap
+	t+NmaW1td5HLJHk4lLagqaA=
+X-Google-Smtp-Source: APXvYqx+XpvLortDUkKxm90pM1VWN/OUW1ApjQ7zuQBnlNgOboNM4PqycwGdv4jl9ObStP7MZesJzA==
+X-Received: by 2002:a37:8ac4:: with SMTP id m187mr6290075qkd.277.1578518417232;
+        Wed, 08 Jan 2020 13:20:17 -0800 (PST)
+Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
+        by smtp.gmail.com with ESMTPSA id k29sm2132112qtu.54.2020.01.08.13.20.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Jan 2020 13:20:16 -0800 (PST)
+Date: Wed, 8 Jan 2020 16:20:14 -0500
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH] docker: remove docker.service.rpm
+Message-ID: <20200108212011.GA12328@gmail.com>
+References: <20200103012143.33707-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 80D4649E932B.A7B84
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200103012143.33707-1-Qi.Chen@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../python/python-xstatic-jquery-migrate.inc  | 22 +++++++++++++++++
- .../python-xstatic-jquery-migrate_1.2.1.1.bb  | 24 ++-----------------
- .../python3-xstatic-jquery-migrate_1.2.1.1.bb |  2 ++
- 3 files changed, 26 insertions(+), 22 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-xstatic=
--jquery-migrate.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-xstati=
-c-jquery-migrate_1.2.1.1.bb
+merged
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-jquery=
--migrate.inc b/meta-openstack/recipes-devtools/python/python-xstatic-jque=
-ry-migrate.inc
-new file mode 100644
-index 0000000..b5c1332
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-jquery-migrat=
-e.inc
-@@ -0,0 +1,22 @@
-+DESCRIPTION =3D "JQuery-Migrate JavaScript library packaged for setuptoo=
-ls"
-+HOMEPAGE =3D "https://pypi.python.org/pypi/XStatic-JQuery-Migrate"
-+SECTION =3D "devel/python"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3D2bbd78dd61f7b4f2fb6b3e31e4d7=
-a26b"
-+
-+PYPI_PACKAGE =3D "XStatic-JQuery-Migrate"
-+
-+SRC_URI[md5sum] =3D "2dd39f9d6351aeaf129b33d4134ac6a7"
-+SRC_URI[sha256sum] =3D "e2959b3df49afdddb00d36b74cca727a91b994b9f4edb993=
-d7264731a750900e"
-+
-+inherit pypi
-+
-+# DEPENDS_default: python-pip
-+
-+DEPENDS +=3D " \
-+        ${PYTHON_PN}-pip \
-+        "
-+
-+# RDEPENDS_default:=20
-+RDEPENDS_${PN} +=3D " \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-jquery=
--migrate_1.2.1.1.bb b/meta-openstack/recipes-devtools/python/python-xstat=
-ic-jquery-migrate_1.2.1.1.bb
-index 432b11e..f3a6146 100644
---- a/meta-openstack/recipes-devtools/python/python-xstatic-jquery-migrat=
-e_1.2.1.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-jquery-migrat=
-e_1.2.1.1.bb
-@@ -1,22 +1,2 @@
--DESCRIPTION =3D "JQuery-Migrate JavaScript library packaged for setuptoo=
-ls"
--HOMEPAGE =3D "https://pypi.python.org/pypi/XStatic-JQuery-Migrate"
--SECTION =3D "devel/python"
--LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://PKG-INFO;md5=3D2bbd78dd61f7b4f2fb6b3e31e4d7=
-a26b"
--
--PYPI_PACKAGE =3D "XStatic-JQuery-Migrate"
--
--SRC_URI[md5sum] =3D "2dd39f9d6351aeaf129b33d4134ac6a7"
--SRC_URI[sha256sum] =3D "e2959b3df49afdddb00d36b74cca727a91b994b9f4edb993=
-d7264731a750900e"
--
--inherit setuptools pypi
--
--# DEPENDS_default: python-pip
--
--DEPENDS +=3D " \
--        python-pip \
--        "
--
--# RDEPENDS_default:=20
--RDEPENDS_${PN} +=3D " \
--        "
-+require python-xstatic-jquery-migrate.inc
-+inherit setuptools
-diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-jquer=
-y-migrate_1.2.1.1.bb b/meta-openstack/recipes-devtools/python/python3-xst=
-atic-jquery-migrate_1.2.1.1.bb
-new file mode 100644
-index 0000000..2dab32f
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-xstatic-jquery-migra=
-te_1.2.1.1.bb
-@@ -0,0 +1,2 @@
-+require python-xstatic-jquery-migrate.inc
-+inherit setuptools3
---=20
-2.20.1
+Bruce
 
+In message: [meta-virtualization][PATCH] docker: remove docker.service.rpm
+on 03/01/2020 Chen Qi wrote:
 
+> This file is useless and misleading. Remove it.
+> 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  recipes-containers/docker/docker-ce_git.bb | 1 +
+>  recipes-containers/docker/docker-moby.bb   | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+> index 817795f..8b8136d 100644
+> --- a/recipes-containers/docker/docker-ce_git.bb
+> +++ b/recipes-containers/docker/docker-ce_git.bb
+> @@ -107,6 +107,7 @@ do_install() {
+>  		install -m 644 ${S}/src/import/components/engine/contrib/init/systemd/docker.* ${D}/${systemd_unitdir}/system
+>  		# replaces one copied from above with one that uses the local registry for a mirror
+>  		install -m 644 ${S}/src/import/components/engine/contrib/init/systemd/docker.service ${D}/${systemd_unitdir}/system
+> +		rm -f ${D}/${systemd_unitdir}/system/docker.service.rpm
+>  	else
+>  		install -d ${D}${sysconfdir}/init.d
+>  		install -m 0755 ${WORKDIR}/docker.init ${D}${sysconfdir}/init.d/docker.init
+> diff --git a/recipes-containers/docker/docker-moby.bb b/recipes-containers/docker/docker-moby.bb
+> index 0936fdf..0e1f4e2 100644
+> --- a/recipes-containers/docker/docker-moby.bb
+> +++ b/recipes-containers/docker/docker-moby.bb
+> @@ -126,6 +126,7 @@ do_install() {
+>  		install -m 644 ${S}/src/import/contrib/init/systemd/docker.* ${D}/${systemd_unitdir}/system
+>  		# replaces one copied from above with one that uses the local registry for a mirror
+>  		install -m 644 ${S}/src/import/contrib/init/systemd/docker.service ${D}/${systemd_unitdir}/system
+> +		rm -f ${D}/${systemd_unitdir}/system/docker.service.rpm
+>  	else
+>  		install -d ${D}${sysconfdir}/init.d
+>  		install -m 0755 ${WORKDIR}/docker.init ${D}${sysconfdir}/init.d/docker.init
+> -- 
+> 2.17.1
+> 
+
+> 
 
