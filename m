@@ -1,27 +1,28 @@
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by mx.groups.io with SMTP id smtpd.web09.9988.1578582940305108605
+ by mx.groups.io with SMTP id smtpd.web12.9992.1578583256626892350
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 09 Jan 2020 07:15:41 -0800
+ Thu, 09 Jan 2020 07:20:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agner.ch header.s=dkim header.b=jSRhKA+H;
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=eJl9cMk7;
  spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
 Received: from localhost.localdomain (31-10-206-124.static.upc.ch [31.10.206.124])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id ADFDC5C13F9;
-	Thu,  9 Jan 2020 16:15:37 +0100 (CET)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9F1985C0851;
+	Thu,  9 Jan 2020 16:20:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1578582937;
+	t=1578583254;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
 	 in-reply-to:references; bh=dgyu2NxLa0BuBLskvWugD5kih+S62Vj7f7flX2Ndsjo=;
-	b=jSRhKA+HLeoISq1Yh2C6Ast+mo4cfb9gQ8sHllQqydKjSrJJvhfG4AnH9Reg3nb5+MkpVd
-	P5eQFbBpiHXtWGpsKPm15o64qEFGmc94CKoMLiVqrrfT63wGbCpzKD/jl1TMjfwsqxKrqK
-	hG4W1PZNzO+p9Ug8aARwNdpJsss2VmY=
+	b=eJl9cMk7EkyrdnoxP7fUgaF5sQncI1+CaKqVYTkc2sZNm3v+a2nGozlomXBkCVQHIeczYZ
+	nrJ9A/k3aOy+UJILFaQoIzouwX6EeEy0oRbpETaFLvMB3uAuPsSHESG4mBg+ehcUGTzzbP
+	orEDm1N9AbqhoAlgg2cTfjokvRG6+R8=
 From: "Stefan Agner" <stefan@agner.ch>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [meta-virtualization][PATCH] docker-ce: update to v19.03.5
-Date: Thu,  9 Jan 2020 15:15:33 +0000
-Message-Id: <20200109151533.16876-1-stefan@agner.ch>
+Cc: stefan@agner.ch,
+	Stefan Agner <stefan.agner@toradex.com>
+Subject: [meta-virtualization][zeus][PATCH] docker-ce: update to v19.03.5
+Date: Thu,  9 Jan 2020 15:20:53 +0000
+Message-Id: <20200109152053.17339-1-stefan@agner.ch>
 X-Mailer: git-send-email 2.17.1
 
 From: Stefan Agner <stefan.agner@toradex.com>
