@@ -1,50 +1,50 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web11.39946.1578932200662370167
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+ by mx.groups.io with SMTP id smtpd.web10.40139.1578932232522630487
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 13 Jan 2020 08:16:40 -0800
+ Mon, 13 Jan 2020 08:17:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=havcchEr;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: brendank310@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id c16so8977187qko.6
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 13 Jan 2020 08:16:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BDDBKWx4;
+ spf=pass (domain: gmail.com, ip: 209.85.219.54, mailfrom: brendank310@gmail.com)
+Received: by mail-qv1-f54.google.com with SMTP id f16so4235523qvi.4
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 13 Jan 2020 08:17:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=0x/vdEPoixl8Bmk5cQTH7s0fWg1gNTqrAKAys25zySQ=;
-        b=havcchEr58r0totX490zYqz5zfs/eGrviZoDmMvUMm7lbm/ZddaQZjSzibWQr0SWDB
-         rzYxJJ/98jbOvs154PXELSY0xcTkpnpyJQ5Su3/NjVHt9k1TjYTTQQvDNjzn5XLc8mcy
-         KqvSWpHzy33hM1uCo1SP146H57V7SAwaMEHLe4XmO80eTWosze69eSUJMAvZ+bK9DM3v
-         onAj3owtxWVJZbneq0urZoYDTBtYUi6GuNBvtZbG9eRuGGEleg2AmrU2mqAjZ4NIqDgh
-         uq8eHHxhvDh7II2WlJe4Eq59cWTBVuGe4r78Y1KlV5I8/H8XylkPfCjcQh/r/2eKQP7p
-         8Utg==
+        bh=RI5Te2w9aHV7lnFt9mdD8ZdaNmmtBruo5OMCrExCDQk=;
+        b=BDDBKWx4wEqOfPq6yfu9aYWU6kLboVdBSaAfTL2Ln+UZSV3Ma1rXFPEgejv6F9ynes
+         rinjgUPsYNZuPvVtNDaJjpi1eaX+mPp1xoqAzHr8HlLUAKD+IAVL/WhnuQj0G41T4h5v
+         mmylP4QW+y/pdzyPOXlAzeiGhsjke8xtS3EFGYDDdi5OGwEAQ2Z2ogb4QVLLHuP0HN+Z
+         JUKWcrTO8yJkJ7UzEnjtVulpYqP57NDv1PQnCfdk5zg24Hcnsvgz70S0Bt9Pg7KJuCiL
+         RbsifSpedDwMU/GQtFfnAjL3Oc1Aou28muBT/tZL5kAGq8GK+4IFrJmbZSVw5qlMqR70
+         reYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=0x/vdEPoixl8Bmk5cQTH7s0fWg1gNTqrAKAys25zySQ=;
-        b=EdWlkmByg2h8J2yE+gU9rhv06zc7PQJA8jpSUXf/0Ja4MRMkpFo2L4WibfAhrKn+Fx
-         /rAdqQoGB/fkJqixAmGS+Am5R3WUM6vK1fmcb3UYms9o1eMGspfCK6Efirbyg94jlGsT
-         pkhalLJL0IPg2wTB63242JBsfpjYoD2JAWFr9m+TplEcaMOCR9PlwN4TGhQzfWP+M1vn
-         oMVI6YO6i1+22wWGFOVJVVJrjtjo0uiAunlciMs5KNxxTbBLuUVbXu4BXbAvctfDlisj
-         Vqg/WIqFQpi0FCLz62N3k9TTtMkhMolHDsFF3Gxb4sZ3O+8Eublf+0Hb2+TOG5Ztcrt1
-         Tqow==
-X-Gm-Message-State: APjAAAVH84TUkLGU6C4vXsxrVakRBA/Qmgz88PB6lK9yHHw0TOhtD59G
-	+P9c6drTKW8KzSh/CP2YkRpRyGA1x7w=
-X-Google-Smtp-Source: APXvYqygh50I/n7rySnGaF1kq7+yNzCqmjobKtSmSN8idNc6JFGU4JzYZ7ZQdOPSuO934Zwn5t7UIw==
-X-Received: by 2002:a05:620a:5f0:: with SMTP id z16mr16717020qkg.59.1578930491945;
-        Mon, 13 Jan 2020 07:48:11 -0800 (PST)
+        bh=RI5Te2w9aHV7lnFt9mdD8ZdaNmmtBruo5OMCrExCDQk=;
+        b=LMY9E2plL9YivIFLqWx8AgAws0vz0ZKUGR2GmcFr0fGUXeccxcuAoFNvrUc8kX7kmS
+         2U4ASPw+2mnwpEC8mARN9bTTXGa7GdlzOdLpxraX+KonpsFzoB0Nmzt1zjzKPyIy6fL2
+         ry/3PTlBHjIPtmNw09Yt1oO6LH3iRBXH7r+0Sa8xNcQVfrj3OsXKmp2sfWcH9V0col4Y
+         rKQhaQBcI3eCSB7ajqI7QI+3jB83c+bXt1vm42P9SI3lskuE6+aUwADnhr24Su6SipUi
+         i48btJQ1SQfZ423zZ4uXVZ+OgLmH1LATLMMkfOszMqWo3QRWcEMehbehj/sgO2w5JSl6
+         G//Q==
+X-Gm-Message-State: APjAAAUbKDj36yufvV5enIfykBMvr0+c2WX6Bv6bjXJFH3WCgRnbXNkP
+	sk+jdf6b6pkmOX8p23RxjSc4ujr2/wY=
+X-Google-Smtp-Source: APXvYqwSvzT0D6WmafkCk9cuAl2NbzuygQPGviyT++BxN3utVcWZF6X47SqmlLLvxZx2YQOvfmQvXQ==
+X-Received: by 2002:a0c:c542:: with SMTP id y2mr11808471qvi.225.1578930492592;
+        Mon, 13 Jan 2020 07:48:12 -0800 (PST)
 Return-Path: <brendank310@gmail.com>
 Received: from localhost.localdomain (pool-96-249-236-140.nrflva.fios.verizon.net. [96.249.236.140])
-        by smtp.gmail.com with ESMTPSA id r205sm5150459qke.34.2020.01.13.07.48.11
+        by smtp.gmail.com with ESMTPSA id r205sm5150459qke.34.2020.01.13.07.48.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Jan 2020 07:48:11 -0800 (PST)
+        Mon, 13 Jan 2020 07:48:12 -0800 (PST)
 From: "Brendan Kerrigan" <brendank310@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Brendan Kerrigan <kerriganb@ainfosec.com>
-Subject: [PATCH 2/3] xen: add package for xen-ucode
-Date: Mon, 13 Jan 2020 10:47:41 -0500
-Message-Id: <20200113154742.15509-3-brendank310@gmail.com>
+Subject: [PATCH 3/3] xen: upgrade to 4.13.0
+Date: Mon, 13 Jan 2020 10:47:42 -0500
+Message-Id: <20200113154742.15509-4-brendank310@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200113154742.15509-1-brendank310@gmail.com>
 References: <20200113154742.15509-1-brendank310@gmail.com>
@@ -55,40 +55,69 @@ From: Brendan Kerrigan <kerriganb@ainfosec.com>
 
 Signed-off-by: Brendan Kerrigan <kerriganb@ainfosec.com>
 ---
- recipes-extended/xen/xen.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ ...01-python-pygrub-pass-DISTUTILS-xen.4.13.patch} |  3 +++
+ recipes-extended/xen/xen_4.12.0.bb                 | 12 ------------
+ recipes-extended/xen/xen_4.13.0.bb                 | 14 ++++++++++++++
+ 3 files changed, 17 insertions(+), 12 deletions(-)
+ rename recipes-extended/xen/files/{0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch => 0001-python-pygrub-pass-DISTUTILS-xen.4.13.patch} (96%)
+ delete mode 100644 recipes-extended/xen/xen_4.12.0.bb
+ create mode 100644 recipes-extended/xen/xen_4.13.0.bb
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index a77b0d7..ed56e38 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -74,6 +74,7 @@ RDEPENDS_${PN}-base = "\
-     ${PN}-fsimage \
-     ${PN}-scripts-block \
-     ${PN}-scripts-network \
-+    ${PN}-ucode \
-     ${PN}-xen-watchdog \
-     ${PN}-xencommons \
-     ${PN}-xendomains \
-@@ -216,6 +217,7 @@ PACKAGES = "\
-     ${PN}-scripts-network \
-     ${PN}-shim \
-     ${PN}-staticdev \
-+    ${PN}-ucode \
-     ${PN}-volatiles \
-     ${PN}-xcutils \
-     ${PN}-xencommons \
-@@ -673,6 +675,10 @@ FILES_${PN}-shim = " \
-     ${libdir}/xen/boot/xen-shim \
-     "
+diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen.4.13.patch
+similarity index 96%
+rename from recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch
+rename to recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen.4.13.patch
+index 6504d86..630fe05 100644
+--- a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch
++++ b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen.4.13.patch
+@@ -13,6 +13,9 @@ Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+ Forward-ported to Xen 4.12.0
+ Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
  
-+FILES_${PN}-ucode = " \
-+    ${sbindir}/xen-ucode \
++Forward-ported to Xen 4.13.0
++Signed-off-by: Brendan Kerrigan <kerriganb@ainfosec.com>
++
+ diff --git a/tools/pygrub/Makefile b/tools/pygrub/Makefile
+ index 3063c49..513314b 100644
+ --- a/tools/pygrub/Makefile
+diff --git a/recipes-extended/xen/xen_4.12.0.bb b/recipes-extended/xen/xen_4.12.0.bb
+deleted file mode 100644
+index 246be7a..0000000
+--- a/recipes-extended/xen/xen_4.12.0.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+-require xen.inc
+-
+-SRC_URI = " \
+-    https://downloads.xenproject.org/release/xen/${PV}/xen-${PV}.tar.gz \
+-    file://0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch \
+-    "
+-
+-SRC_URI[md5sum] = "7d24d4541e3025421e02384cabc3528b"
+-SRC_URI[sha256sum] = "6e5455e4a58dcb2339bfcd2a89842728068b530aa62501843793f7cf743c4d64"
+-
+-S = "${WORKDIR}/xen-${PV}"
+diff --git a/recipes-extended/xen/xen_4.13.0.bb b/recipes-extended/xen/xen_4.13.0.bb
+new file mode 100644
+index 0000000..856b3df
+--- /dev/null
++++ b/recipes-extended/xen/xen_4.13.0.bb
+@@ -0,0 +1,14 @@
++FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
++require xen.inc
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=4295d895d4b5ce9d070263d52f030e49"
++
++SRC_URI = " \
++    https://downloads.xenproject.org/release/xen/${PV}/xen-${PV}.tar.gz \
++    file://0001-python-pygrub-pass-DISTUTILS-xen.4.13.patch \
 +    "
 +
- FILES_${PN}-volatiles = "\
-     ${sysconfdir}/default/volatiles/99_xen \
-     ${sysconfdir}/tmpfiles.d/xen.conf \
++SRC_URI[md5sum] = "d3b13c4c785601be2f104eaddd7c6a00"
++SRC_URI[sha256sum] = "c69ae21b2ddeaf25532a81a448fcc6a218bc56f93c8907b2d416b2d4339c0afe"
++
++S = "${WORKDIR}/xen-${PV}"
 -- 
 2.20.1
 
