@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.4778.1578968914394990762
+ by mx.groups.io with SMTP id smtpd.web12.4741.1578969277193332547
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 13 Jan 2020 18:28:34 -0800
+ Mon, 13 Jan 2020 18:34:37 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 50A0EE01528; Mon, 13 Jan 2020 18:28:33 -0800 (PST)
+	id 89295E01528; Mon, 13 Jan 2020 18:34:36 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,30 +19,30 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A3F64E01383
-	for <meta-virtualization@yoctoproject.org>; Mon, 13 Jan 2020 18:28:31 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 2D427E01383
+	for <meta-virtualization@yoctoproject.org>; Mon, 13 Jan 2020 18:34:34 -0800 (PST)
 X-IronPort-AV: E=Sophos;i="5.69,431,1571673600"; 
-   d="scan'208";a="81773334"
+   d="scan'208";a="81773744"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 14 Jan 2020 10:28:30 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id B74334CE20C0
-	for <meta-virtualization@yoctoproject.org>; Tue, 14 Jan 2020 10:19:20 +0800 (CST)
+  by heian.cn.fujitsu.com with ESMTP; 14 Jan 2020 10:34:34 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id A94434CE1CBB
+	for <meta-virtualization@yoctoproject.org>; Tue, 14 Jan 2020 10:25:28 +0800 (CST)
 Received: from G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.83) by
- G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1395.4; Tue, 14 Jan 2020 10:28:23 +0800
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1395.4; Tue, 14 Jan 2020 10:34:32 +0800
 Received: from localhost.local (10.167.225.81) by
  G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP Server
- (TLS) id 14.3.439.0; Tue, 14 Jan 2020 10:28:23 +0800
+ (TLS) id 14.3.439.0; Tue, 14 Jan 2020 10:34:31 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python-virtualenv: Add python3 version
-Date: Tue, 14 Jan 2020 10:29:50 +0800
-Message-ID: <20200114022950.27444-1-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python-voluptuous: Add python3 version
+Date: Tue, 14 Jan 2020 10:36:01 +0800
+Message-ID: <20200114023601.29016-1-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: B74334CE20C0.A883D
+X-yoursite-MailScanner-ID: A94434CE1CBB.AD351
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
@@ -50,80 +50,70 @@ Content-Transfer-Encoding: quoted-printable
 
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-virtualenv.inc              | 18 +++++++++++++++++
- .../python/python-virtualenv_1.11.4.bb        | 20 ++-----------------
- .../python/python3-virtualenv_1.11.4.bb       |  2 ++
- 3 files changed, 22 insertions(+), 18 deletions(-)
- create mode 100644 meta-openstack/recipes-devtools/python/python-virtual=
-env.inc
- create mode 100644 meta-openstack/recipes-devtools/python/python3-virtua=
-lenv_1.11.4.bb
+ .../recipes-devtools/python/python-voluptuous.inc | 13 +++++++++++++
+ .../python/python-voluptuous_0.10.5.bb            | 15 ++-------------
+ .../python/python3-voluptuous_0.10.5.bb           |  2 ++
+ 3 files changed, 17 insertions(+), 13 deletions(-)
+ create mode 100644 meta-openstack/recipes-devtools/python/python-voluptu=
+ous.inc
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-volupt=
+uous_0.10.5.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-virtualenv.inc=
- b/meta-openstack/recipes-devtools/python/python-virtualenv.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-voluptuous.inc=
+ b/meta-openstack/recipes-devtools/python/python-voluptuous.inc
 new file mode 100644
-index 0000000..79b9451
+index 0000000..7537aee
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python-virtualenv.inc
-@@ -0,0 +1,18 @@
-+DESCRIPTION =3D "Virtual Python Environment builder"
-+HOMEPAGE =3D "https://pypi.python.org/pypi/virtualenv"
++++ b/meta-openstack/recipes-devtools/python/python-voluptuous.inc
+@@ -0,0 +1,13 @@
++DESCRIPTION =3D "Voluptuous is a Python data validation library"
++HOMEPAGE =3D "https://pypi.python.org/pypi/voluptuous/"
 +SECTION =3D "devel/python"
-+LICENSE =3D "MIT"
-+LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D53df9f8889d6a5fba83f425ab=
-e3b1568"
++LICENSE =3D "BSD"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D9855ba150f2edb00d8e7a41554896=
+ffb"
 +
-+SRC_URI[md5sum] =3D "9accc2d3f0ec1da479ce2c3d1fdff06e"
-+SRC_URI[sha256sum] =3D "cf3d958f28eb7470bd04262ef397580a2e57407f2ee2c88e=
-9b2892218eb0465a"
++SRC_URI[md5sum] =3D "e3fc99b75618d384cad63bc71b6507bc"
++SRC_URI[sha256sum] =3D "7a7466f8dc3666a292d186d1d871a47bf2120836ccb900d5=
+ba904674957a2396"
 +
 +inherit pypi
 +
-+DEPENDS +=3D " \
-+        ${PYTHON_PN}-pip \
++RDEPENDS_${PN} =3D " \
 +        "
-+
-+RDEPENDS_${PN} +=3D " \
-+        ${PYTHON_PN}-dateutil \
-+        "
-diff --git a/meta-openstack/recipes-devtools/python/python-virtualenv_1.1=
-1.4.bb b/meta-openstack/recipes-devtools/python/python-virtualenv_1.11.4.=
+diff --git a/meta-openstack/recipes-devtools/python/python-voluptuous_0.1=
+0.5.bb b/meta-openstack/recipes-devtools/python/python-voluptuous_0.10.5.=
 bb
-index ebe2cec..f8b9d1c 100644
---- a/meta-openstack/recipes-devtools/python/python-virtualenv_1.11.4.bb
-+++ b/meta-openstack/recipes-devtools/python/python-virtualenv_1.11.4.bb
-@@ -1,18 +1,2 @@
--DESCRIPTION =3D "Virtual Python Environment builder"
--HOMEPAGE =3D "https://pypi.python.org/pypi/virtualenv"
+index 0ad4e05..d1970fb 100644
+--- a/meta-openstack/recipes-devtools/python/python-voluptuous_0.10.5.bb
++++ b/meta-openstack/recipes-devtools/python/python-voluptuous_0.10.5.bb
+@@ -1,13 +1,2 @@
+-DESCRIPTION =3D "Voluptuous is a Python data validation library"
+-HOMEPAGE =3D "https://pypi.python.org/pypi/voluptuous/"
 -SECTION =3D "devel/python"
--LICENSE =3D "MIT"
--LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D53df9f8889d6a5fba83f425ab=
-e3b1568"
+-LICENSE =3D "BSD"
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D9855ba150f2edb00d8e7a41554896=
+ffb"
 -
--SRC_URI[md5sum] =3D "9accc2d3f0ec1da479ce2c3d1fdff06e"
--SRC_URI[sha256sum] =3D "cf3d958f28eb7470bd04262ef397580a2e57407f2ee2c88e=
-9b2892218eb0465a"
+-SRC_URI[md5sum] =3D "e3fc99b75618d384cad63bc71b6507bc"
+-SRC_URI[sha256sum] =3D "7a7466f8dc3666a292d186d1d871a47bf2120836ccb900d5=
+ba904674957a2396"
 -
 -inherit setuptools pypi
 -
--DEPENDS +=3D " \
--        python-pip \
+-RDEPENDS_${PN} =3D " \
 -        "
--
--RDEPENDS_${PN} +=3D " \
--        python-dateutil \
--        "
-+require python-virtualenv.inc
-+inherit setuptools=20
-diff --git a/meta-openstack/recipes-devtools/python/python3-virtualenv_1.=
-11.4.bb b/meta-openstack/recipes-devtools/python/python3-virtualenv_1.11.=
-4.bb
++require python-voluptuous.inc
++inherit setuptools
+diff --git a/meta-openstack/recipes-devtools/python/python3-voluptuous_0.=
+10.5.bb b/meta-openstack/recipes-devtools/python/python3-voluptuous_0.10.=
+5.bb
 new file mode 100644
-index 0000000..f053af7
+index 0000000..a869608
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-virtualenv_1.11.4.bb
++++ b/meta-openstack/recipes-devtools/python/python3-voluptuous_0.10.5.bb
 @@ -0,0 +1,2 @@
-+require python-virtualenv.inc
++require python-voluptuous.inc
 +inherit setuptools3
 --=20
 2.20.1
