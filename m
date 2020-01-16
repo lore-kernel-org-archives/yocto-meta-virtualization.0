@@ -1,79 +1,71 @@
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by mx.groups.io with SMTP id smtpd.web09.683.1579130982966232025
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+ by mx.groups.io with SMTP id smtpd.web11.2314.1579135719124641429
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 15 Jan 2020 15:29:43 -0800
+ Wed, 15 Jan 2020 16:48:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agner.ch header.s=dkim header.b=j5KmJp/Z;
- spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
-Received: from localhost.localdomain (31-10-206-124.static.upc.ch [31.10.206.124])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id AE3685C68A7;
-	Thu, 16 Jan 2020 00:29:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1579130980;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ulTQFgWEtSUxXRPNaNK4BoSqFVcVJoO7bEodiftgTW0=;
-	b=j5KmJp/Zv9lcA9q0Ft5H2KbD0yBgPV8zYZXIdXbHRCnskfmu4xithT0w1nlcePCTQwunKG
-	9NEf8GIRDbmaqx3nTMZWLK/VFU7RuxFdI1ZelSrC/jMZDe6qLqtCdqVLqr30hK6LSYN4IX
-	flC6g2fcWA1dy4aQzwW4X5XEQ/+xg44=
-From: "Stefan Agner" <stefan@agner.ch>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: stefan@agner.ch,
-	timothy.t.orling@linux.intel.com,
-	Stefan Agner <stefan.agner@toradex.com>
-Subject: [meta-virtualization][PATCH 2/2] podman: bump to latest release 1.7.0
-Date: Wed, 15 Jan 2020 23:29:36 +0000
-Message-Id: <20200115232936.23207-2-stefan@agner.ch>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200115232936.23207-1-stefan@agner.ch>
-References: <20200115232936.23207-1-stefan@agner.ch>
+ dkim=missing; spf=none, err=permanent DNS error (domain: linux.intel.com, ip: 134.134.136.20, mailfrom: timothy.t.orling@linux.intel.com)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Jan 2020 16:48:38 -0800
+X-IronPort-AV: E=Sophos;i="5.70,323,1574150400"; 
+   d="scan'208,217";a="213898008"
+Received: from hagiani-mobl1.amr.corp.intel.com ([10.254.108.100])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 15 Jan 2020 16:48:38 -0800
+Subject: Re: [meta-virtualization][zeus][PATCH 2/2] podman: bump to latest release 1.6.4
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.11\))
+X-Apple-Auto-Saved: 1
+X-Apple-Mail-Remote-Attachments: YES
+From: "Tim Orling" <timothy.t.orling@linux.intel.com>
+X-Apple-Base-Url: x-msg://13/
+In-Reply-To: <20200115215414.16007-2-stefan@agner.ch>
+X-Apple-Windows-Friendly: 1
+Date: Wed, 15 Jan 2020 16:47:07 -0800
+Cc: meta-virtualization@lists.yoctoproject.org,
+ Stefan Agner <stefan.agner@toradex.com>
+X-Apple-Mail-Signature: SKIP_SIGNATURE
+Message-Id: <766854F9-A693-4B71-AF0F-5A6D84CC5861@linux.intel.com>
+References: <20200115215414.16007-1-stefan@agner.ch>
+ <20200115215414.16007-2-stefan@agner.ch>
+X-Uniform-Type-Identifier: com.apple.mail-draft
+To: Stefan Agner <stefan@agner.ch>
+X-Mailer: Apple Mail (2.3445.104.11)
+Content-Type: text/html;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-From: Stefan Agner <stefan.agner@toradex.com>
-
-Bump to latest podman release 1.7.0. It features improvements to
-networking, podman play kube, and systemd unit file integration.
-They have also added the podman system reset command, to remove all
-existing containers, pods, images, and volumes and reset the system
-to its initial state.
-
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- recipes-containers/podman/podman_git.bb | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
-
-diff --git a/recipes-containers/podman/podman_git.bb b/recipes-containers/podman/podman_git.bb
-index e73c028..5db9ed2 100644
---- a/recipes-containers/podman/podman_git.bb
-+++ b/recipes-containers/podman/podman_git.bb
-@@ -24,7 +24,7 @@ python __anonymous() {
-         raise bb.parse.SkipRecipe(msg)
- }
- 
--SRCREV = "f3ffda1e08f19e9a6a88484136b5eed76533f21a"
-+SRCREV = "b7ce1157b00af09f4a09e39b377aa3abff46ee05"
- SRC_URI = " \
-     git://github.com/containers/libpod.git;branch=master \
- "
-@@ -36,15 +36,14 @@ GO_IMPORT = "import"
- 
- S = "${WORKDIR}/git"
- 
--PV = "1.6.2+git${SRCREV}"
-+PV = "1.7.0+git${SRCREV}"
- 
- PACKAGES =+ "${PN}-contrib"
- 
- PODMAN_PKG = "github.com/containers/libpod"
--BUILDTAGS ?= "seccomp varlink remoteclient \
-+BUILDTAGS ?= "seccomp varlink \
- ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
--exclude_graphdriver_btrfs exclude_graphdriver_devicemapper \
--containers_image_ostree_stub"
-+exclude_graphdriver_btrfs exclude_graphdriver_devicemapper"
- 
- # overide LDFLAGS to allow podman to build without: "flag provided but not # defined: -Wl,-O1
- export LDFLAGS=""
--- 
-2.17.1
-
+<html><head></head><body dir=3D"auto" style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;"><div =
+class=3D"ApplePlainTextBody"><br><br><blockquote type=3D"cite">On Jan =
+15, 2020, at 1:54 PM, Stefan Agner &lt;stefan@agner.ch&gt; =
+wrote:<br><br>From: Stefan Agner =
+&lt;stefan.agner@toradex.com&gt;<br><br>Bump to latest podman release =
+1.6.4. The changelog lists some new<br>features but mostly bugfixes =
+between 1.6.1 and 1.6.4.<br><br>Signed-off-by: Stefan Agner =
+&lt;stefan.agner@toradex.com&gt;<br>---<br>...ker-documentation-install-an=
+d-genera.patch | 43 =
++++++++++++++++++++<br>recipes-containers/podman/podman_git.bb =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;7 +--<br>2 files changed, 47 =
+insertions(+), 3 deletions(-)<br>create mode 100644 =
+recipes-containers/podman/files/0001-Makefile-Fix-docker-documentation-ins=
+tall-and-genera.patch<br></blockquote><br>&lt;snip&gt;<br><br>Whitespace =
+errors:<br><br>Applying: podman: bump to latest release =
+1.6.4<br>.git/rebase-apply/patch:36: space before tab in indent.<br> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;$(MAKE) =
+podman-remote-v$(RELEASE_NUMBER)-$*.zip<br>.git/rebase-apply/patch:43: =
+space before tab in indent.<br> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@echo "Creating changelog from =
+$(CHANGELOG_BASE) to $(CHANGELOG_TARGET)"<br>.git/rebase-apply/patch:46: =
+space before tab in indent.<br> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;install ${SELINUXOPT} -d -m =
+755 $(DESTDIR)$(BINDIR) =
+$(DESTDIR)$(MANDIR)/man1<br>.git/rebase-apply/patch:47: space before tab =
+in indent.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;install =
+${SELINUXOPT} -m 755 docker =
+$(DESTDIR)$(BINDIR)/docker<br>.git/rebase-apply/patch:52: space before =
+tab in indent.<br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;install =
+${SELINUXOPT} -m 755 -d ${DESTDIR}${SYSTEMDDIR} =
+&nbsp;${DESTDIR}${USERSYSTEMDDIR} ${DESTDIR}${TMPFILESDIR}<br>warning: =
+squelched 1 whitespace error<br>warning: 6 lines add whitespace =
+errors.<br><br><blockquote type=3D"cite"><br>-- =
+<br>2.17.1<br><br></blockquote><br></div></body></html>=
