@@ -1,115 +1,137 @@
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by mx.groups.io with SMTP id smtpd.web12.212.1579299472982874722
+ by mx.groups.io with SMTP id smtpd.web12.541.1579301225231457440
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 17 Jan 2020 14:17:54 -0800
+ Fri, 17 Jan 2020 14:47:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agner.ch header.s=dkim header.b=y6STbYIi;
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=xrmKzaSO;
  spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
 Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7019D5C7912;
-	Fri, 17 Jan 2020 23:17:49 +0100 (CET)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 0BDBA5C78DE;
+	Fri, 17 Jan 2020 23:47:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1579299469;
+	t=1579301222;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=NIU2+BMC1i2kfTKECX9qFP4ky5DQBGzh+JiYLtmB+Hk=;
-	b=y6STbYIi/pOIGZ6CkimcQJ//zGpJchsFOJ6Ch3lVKKPcdYs8WPOHvQD0epn2chT8kPNyQ+
-	M2gVLrg78zqgZo2XlMWZqwaAGSJYYES/cQVwpVP2b3O3uj0MVyOHEJ3AWYUjBcPZ35hd1d
-	TmSxzpzWTND2Jw7BePQtlkFvM1BRv8E=
+	bh=okxt7Tsf486fQYfmeEBCoJZXaMAJtOsNIhD8yFh/YjA=;
+	b=xrmKzaSOrvLHP0ienQbG1y6MeUKu556dYCJjfHa81RiWaw0jKdprRhZhG3kZwpwbgdvBWA
+	o8hTx5JTqGhFi67nkLbhbMkbVr3JXkAmxnw3xnddPYfQ2QmcelWFmuNP+DrckWd6kCCj0T
+	8dLJuPYbxJRrEnEkCX1WCti5LVMuq4I=
 MIME-Version: 1.0
-Date: Fri, 17 Jan 2020 23:17:49 +0100
+Date: Fri, 17 Jan 2020 23:47:01 +0100
 From: "Stefan Agner" <stefan@agner.ch>
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, Stefan Agner
- <stefan.agner@toradex.com>
-Subject: Re: [meta-virtualization][PATCH] docker-ce: update to v19.03.5
-In-Reply-To: <CADkTA4M+N=W9-pAAajhYYjxFbFV1GY+pvYZnweFsivzKbhgrQg@mail.gmail.com>
-References: <20200109151533.16876-1-stefan@agner.ch>
- <CADkTA4M+N=W9-pAAajhYYjxFbFV1GY+pvYZnweFsivzKbhgrQg@mail.gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, Tim Orling
+ <timothy.t.orling@linux.intel.com>, Stefan Agner <stefan.agner@toradex.com>
+Subject: Re: [meta-virtualization][PATCH 1/2] conmon: bump to version 2.0.9
+In-Reply-To: <CADkTA4P08iFSf76K5UC+JuBRPCSg_VKfVRucAsEpov=pd8T+VA@mail.gmail.com>
+References: <20200115232936.23207-1-stefan@agner.ch>
+ <CADkTA4P08iFSf76K5UC+JuBRPCSg_VKfVRucAsEpov=pd8T+VA@mail.gmail.com>
 User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <3ceef214538b569b6e8bd679076b669f@agner.ch>
+Message-ID: <2d6385f23889a35578e4238159d87ebd@agner.ch>
 X-Sender: stefan@agner.ch
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 2020-01-17 22:30, Bruce Ashfield wrote:
-> Similar to the podman patches, I've merged this to master.
+On 2020-01-17 22:27, Bruce Ashfield wrote:
+> I've merged the version bumps to master.
 > 
-> But I'm not really seeing a compelling security or serious bug fix
-> that makes it something I'd want to also apply to Zeus.
+> But I'm still undecided on bringing them to Zeus. Although they are
+> largely bug fix releases .. they aren't entirely bug fixes.
 
-There is a security fix listed in the release notes (CVE-2017-18367),
-but I think it does not apply since we do not build runc from docker-ce
-repository, so I agree there is no serious security issue fixed which
-would warrant the update.
+I cannot say much about this since I (unfortunately) do not use podman a
+lot yet. It seems like a lot of bug fixes though :-)
 
-There were two bug fixes which caught my attention:
-- Docker 19.03 doesn't support OCI image #39727
-- Fix panic on 32-bit ARMv7 caused by misaligned struct member.
-docker/engine#363
+> 
+> I'd rather not increment versions on the older branches unless we are
+> fixing a CVE, or individual patches are difficult to backport.
+> 
+> Thoughts ? I'm open to being convinced to do the version bumps on the
+> released branch, but didn't see anything really compelling in the
+> shortlogs.
 
-I haven't hit either one of them. But not supporting OCI image standard
-sounds uncool, and we run an ARMv7 so quite likely we would hit that one
-sooner or later.
-
-So I probably will go for the update in our distro.
+It probably would be good if we at least bump conmon as the release
+notes say "Version 2.0.1 or greater of Conmon is strongly recommended".
 
 --
 Stefan
 
 
 > 
-> Again, I'm open to being convinced.
-> 
 > Bruce
 > 
-> On Thu, Jan 9, 2020 at 10:15 AM Stefan Agner <stefan@agner.ch> wrote:
+> On Wed, Jan 15, 2020 at 6:29 PM Stefan Agner <stefan@agner.ch> wrote:
 >>
 >> From: Stefan Agner <stefan.agner@toradex.com>
 >>
->> Bump the git hashes to Docker CE v19.03.5. This requires to get the
->> docker daemon binary from a different location as the symlink from
->> the latest/ subdirectory has been removed. See also commit deaac5d4b3fa
->> ("hack/make.sh remove "latest" symlink") in the docker-ce repository.
+>> Bump to latest version 2.0.9. This also makes our Makefile fix obsolete
+>> as the fix has been aplied upstream.
 >>
 >> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 >> ---
->>  recipes-containers/docker/docker-ce_git.bb | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>  .../{conmon_2.0.0.bb => conmon_2.0.9.bb}      |  3 +-
+>>  ...ail-if-clean-is-called-without-a-bui.patch | 31 -------------------
+>>  2 files changed, 1 insertion(+), 33 deletions(-)
+>>  rename recipes-containers/conmon/{conmon_2.0.0.bb => conmon_2.0.9.bb} (83%)
+>>  delete mode 100644 recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
 >>
->> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
->> index 817795f..0d088da 100644
->> --- a/recipes-containers/docker/docker-ce_git.bb
->> +++ b/recipes-containers/docker/docker-ce_git.bb
->> @@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
->>   subtle and/or glaring issues. \
->>   "
+>> diff --git a/recipes-containers/conmon/conmon_2.0.0.bb b/recipes-containers/conmon/conmon_2.0.9.bb
+>> similarity index 83%
+>> rename from recipes-containers/conmon/conmon_2.0.0.bb
+>> rename to recipes-containers/conmon/conmon_2.0.9.bb
+>> index f4e2cd6..fc76f15 100644
+>> --- a/recipes-containers/conmon/conmon_2.0.0.bb
+>> +++ b/recipes-containers/conmon/conmon_2.0.9.bb
+>> @@ -6,10 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=61af0b6932ea7b12fb9142721043bc77"
 >>
->> -SRCREV_docker = "6a30dfca03664a0b6bf0646a7d389ee7d0318e6e"
->> +SRCREV_docker = "633a0ea838f10e000b7c6d6eed1623e6e988b5bb"
->>  SRCREV_libnetwork = "5ac07abef4eee176423fdc1b870d435258e2d381"
+>>  DEPENDS = "glib-2.0"
+>>
+>> -SRCREV = "e217fdff82e0b1a6184a28c43043a4065083407f"
+>> +SRCREV = "60b42f20f222df9da07a01ee444327348b9f54ee"
 >>  SRC_URI = "\
->>         git://github.com/docker/docker-ce.git;branch=19.03;name=docker \
->> @@ -38,7 +38,7 @@ GO_IMPORT = "import"
+>>      git://github.com/containers/conmon.git \
+>> -    file://0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch \
+>>  "
 >>
->>  S = "${WORKDIR}/git"
->>
->> -DOCKER_VERSION = "19.03.2-ce"
->> +DOCKER_VERSION = "19.03.5-ce"
->>  PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
->>
->>  PACKAGES =+ "${PN}-contrib"
->> @@ -99,7 +99,7 @@ do_compile() {
->>  do_install() {
->>         mkdir -p ${D}/${bindir}
->>         cp ${S}/src/import/components/cli/build/docker ${D}/${bindir}/docker
->> -       cp ${S}/src/import/components/engine/bundles/latest/dynbinary-daemon/dockerd ${D}/${bindir}/dockerd
->> +       cp ${S}/src/import/components/engine/bundles/dynbinary-daemon/dockerd ${D}/${bindir}/dockerd
->>         cp ${WORKDIR}/git/libnetwork/bin/docker-proxy* ${D}/${bindir}/docker-proxy
->>
->>         if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+>>  SRC_URI[md5sum] = "5c711911d766d76813333c3812277574"
+>> diff --git a/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch b/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
+>> deleted file mode 100644
+>> index 8d2b473..0000000
+>> --- a/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
+>> +++ /dev/null
+>> @@ -1,31 +0,0 @@
+>> -From 6ef63dfcc65d5401bc7cc7170d569cefcdadcb38 Mon Sep 17 00:00:00 2001
+>> -From: Stefan Agner <stefan@agner.ch>
+>> -Date: Fri, 30 Aug 2019 17:49:22 +0200
+>> -Subject: [PATCH] Makefile: don't fail if clean is called without a build
+>> -
+>> -Do not fail when calling the clean target without building first.
+>> -
+>> -Upstream-Status: Backport
+>> -
+>> -Signed-off-by: Stefan Agner <stefan@agner.ch>
+>> ----
+>> - Makefile | 3 +--
+>> - 1 file changed, 1 insertion(+), 2 deletions(-)
+>> -
+>> -diff --git a/Makefile b/Makefile
+>> -index fb0e4fb..b525595 100644
+>> ---- a/Makefile
+>> -+++ b/Makefile
+>> -@@ -66,8 +66,7 @@ bin:
+>> -
+>> - .PHONY: clean
+>> - clean:
+>> --      rm -f bin/conmon src/*.o
+>> --      rmdir bin
+>> -+      rm -rf bin/ src/*.o
+>> -
+>> - .PHONY: install install.bin install.crio install.podman podman crio
+>> - install: install.bin
+>> ---
+>> -2.23.0
+>> -
 >> --
 >> 2.17.1
 >>
