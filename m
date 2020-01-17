@@ -1,94 +1,116 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web09.2706.1579296677217113546
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+ by mx.groups.io with SMTP id smtpd.web12.212.1579299472982874722
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 17 Jan 2020 13:31:17 -0800
+ Fri, 17 Jan 2020 14:17:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cpNqilDK;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id f8so23621900edv.2
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Jan 2020 13:31:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+00fZRw9d1kvrnUcDD/ZTT/4V/8I3UXDr6WsCKHWNNI=;
-        b=cpNqilDK1tU720YsujZrTtJBreWEjYQgD8Ammjc6wtelum/N/b9mVhars7uXKU3cIl
-         1t+dm84bJuKsdtfA4pG7iEFtLEzWO+LjguXr2hIBOljUu7AKT+SVF5VUVuKPhXgt6Us8
-         v7tMgXUiQkvDfclsFjdb1zMnFsfQs47MXTY5OZHGoWA1TaWXi1QmUyiyF4ArHhIPmArY
-         CEuMfSA+VADCxaZIhmVkBzjFrBlF2wofhiWNOT9Id3ucmamhiXawuYZZkZLu/ZX2U1yG
-         PVdWNcUXsWmLe3Pg9/f+55+QgM7V+y271XfNzcIWtirqEIflBP5etrIQ+sKfJMfRlliN
-         0Pzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+00fZRw9d1kvrnUcDD/ZTT/4V/8I3UXDr6WsCKHWNNI=;
-        b=PKLXLOlCwbMRIrcd+2xPXLpkaz+tlH957N7310vpfwLQR2y4VlDbPl6MUmN4N4c3M9
-         9PExayyTmR6FIuPgn5z9qcjy3BJfhC+j14VyF37Ciol/fZDVKisp22n1Wgkc9kb33Po7
-         n24n+b3qsU2LueWA0+CO4TQCtKjKklTqKuxQdFdLlLbQiz58eN/mriJnU8NOvK+jnSKN
-         i/ONxbZiZXUkR/mlgLRWawSISsIKVz8rmQmdIDSrGfZ9gIWg4CC5tnDIXbtCslZOtoO6
-         AlSEL9QUzrmE7LKosOjx8+n1qatsyzJ6DDGWxOwbGkFp+TjzQ1tN7YWVAv+1o4BnDgWD
-         RGpQ==
-X-Gm-Message-State: APjAAAWen7sW5xMwrZwxttiTuuGXV4Sf3zGSbTC9FssiQ6ZJf6IGAt+T
-	RkxXpWTdyVlYb9w/vIyMqbl+dcJbHGmHb+WwaClkUc23caQ=
-X-Google-Smtp-Source: APXvYqxH/xbgI7aV/o1DdylNGy6NODUncG1XQuQs6zL828X19qmuGkZtvcBHbeXK/bkRP7+gREsy0V2zhvYMccazXv0=
-X-Received: by 2002:a50:aacd:: with SMTP id r13mr5966745edc.129.1579296675810;
- Fri, 17 Jan 2020 13:31:15 -0800 (PST)
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=y6STbYIi;
+ spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 7019D5C7912;
+	Fri, 17 Jan 2020 23:17:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1579299469;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NIU2+BMC1i2kfTKECX9qFP4ky5DQBGzh+JiYLtmB+Hk=;
+	b=y6STbYIi/pOIGZ6CkimcQJ//zGpJchsFOJ6Ch3lVKKPcdYs8WPOHvQD0epn2chT8kPNyQ+
+	M2gVLrg78zqgZo2XlMWZqwaAGSJYYES/cQVwpVP2b3O3uj0MVyOHEJ3AWYUjBcPZ35hd1d
+	TmSxzpzWTND2Jw7BePQtlkFvM1BRv8E=
 MIME-Version: 1.0
-References: <20200113154742.15509-1-brendank310@gmail.com> <CACMJ4GZUq-hrYamCjJ-_2GQJYU2qTA2HxkY51kMR=Kk5VrE5bA@mail.gmail.com>
-In-Reply-To: <CACMJ4GZUq-hrYamCjJ-_2GQJYU2qTA2HxkY51kMR=Kk5VrE5bA@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 17 Jan 2020 16:31:05 -0500
-Message-ID: <CADkTA4PLmFNLSG8tJupCSa4fWU-ejks4GGngOjS0_SmYuFWVKQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH 0/3] xen: uprev to 4.13.0
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: Brendan Kerrigan <brendank310@gmail.com>, meta-virtualization@lists.yoctoproject.org, 
-	Brendan Kerrigan <kerriganb@ainfosec.com>
-Content-Type: text/plain; charset="UTF-8"
+Date: Fri, 17 Jan 2020 23:17:49 +0100
+From: "Stefan Agner" <stefan@agner.ch>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, Stefan Agner
+ <stefan.agner@toradex.com>
+Subject: Re: [meta-virtualization][PATCH] docker-ce: update to v19.03.5
+In-Reply-To: <CADkTA4M+N=W9-pAAajhYYjxFbFV1GY+pvYZnweFsivzKbhgrQg@mail.gmail.com>
+References: <20200109151533.16876-1-stefan@agner.ch>
+ <CADkTA4M+N=W9-pAAajhYYjxFbFV1GY+pvYZnweFsivzKbhgrQg@mail.gmail.com>
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <3ceef214538b569b6e8bd679076b669f@agner.ch>
+X-Sender: stefan@agner.ch
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jan 16, 2020 at 1:57 AM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> On Mon, Jan 13, 2020 at 8:15 AM Brendan Kerrigan <brendank310@gmail.com> wrote:
-> >
-> > From: Brendan Kerrigan <kerriganb@ainfosec.com>
-> >
-> > Uprev xen to 4.13.0 release
->
-> Thanks, Brendan -- I'm working on a review for this series now.
->
-
-Given the review comments (thanks!!), I've dropped this series for
-now, and will wait for a v2.
-
-Bruce
-
-> Christopher
->
-> >
-> > Brendan Kerrigan (3):
-> >   xen: add flag to ignore warning "address-of-packed-member"
-> >   xen: add package for xen-ucode
-> >   xen: upgrade to 4.13.0
-> >
-> >  ...01-python-pygrub-pass-DISTUTILS-xen.4.13.patch} |  3 +++
-> >  recipes-extended/xen/xen.inc                       |  8 ++++++++
-> >  recipes-extended/xen/xen_4.12.0.bb                 | 12 ------------
-> >  recipes-extended/xen/xen_4.13.0.bb                 | 14 ++++++++++++++
-> >  4 files changed, 25 insertions(+), 12 deletions(-)
-> >  rename recipes-extended/xen/files/{0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch => 0001-python-pygrub-pass-DISTUTILS-xen.4.13.patch} (96%)
-> >  delete mode 100644 recipes-extended/xen/xen_4.12.0.bb
-> >  create mode 100644 recipes-extended/xen/xen_4.13.0.bb
-> >
-> > --
-> > 2.20.1
-> >
-> >
+On 2020-01-17 22:30, Bruce Ashfield wrote:
+> Similar to the podman patches, I've merged this to master.
 > 
+> But I'm not really seeing a compelling security or serious bug fix
+> that makes it something I'd want to also apply to Zeus.
+
+There is a security fix listed in the release notes (CVE-2017-18367),
+but I think it does not apply since we do not build runc from docker-ce
+repository, so I agree there is no serious security issue fixed which
+would warrant the update.
+
+There were two bug fixes which caught my attention:
+- Docker 19.03 doesn't support OCI image #39727
+- Fix panic on 32-bit ARMv7 caused by misaligned struct member.
+docker/engine#363
+
+I haven't hit either one of them. But not supporting OCI image standard
+sounds uncool, and we run an ARMv7 so quite likely we would hit that one
+sooner or later.
+
+So I probably will go for the update in our distro.
+
+--
+Stefan
 
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> 
+> Again, I'm open to being convinced.
+> 
+> Bruce
+> 
+> On Thu, Jan 9, 2020 at 10:15 AM Stefan Agner <stefan@agner.ch> wrote:
+>>
+>> From: Stefan Agner <stefan.agner@toradex.com>
+>>
+>> Bump the git hashes to Docker CE v19.03.5. This requires to get the
+>> docker daemon binary from a different location as the symlink from
+>> the latest/ subdirectory has been removed. See also commit deaac5d4b3fa
+>> ("hack/make.sh remove "latest" symlink") in the docker-ce repository.
+>>
+>> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+>> ---
+>>  recipes-containers/docker/docker-ce_git.bb | 6 +++---
+>>  1 file changed, 3 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+>> index 817795f..0d088da 100644
+>> --- a/recipes-containers/docker/docker-ce_git.bb
+>> +++ b/recipes-containers/docker/docker-ce_git.bb
+>> @@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
+>>   subtle and/or glaring issues. \
+>>   "
+>>
+>> -SRCREV_docker = "6a30dfca03664a0b6bf0646a7d389ee7d0318e6e"
+>> +SRCREV_docker = "633a0ea838f10e000b7c6d6eed1623e6e988b5bb"
+>>  SRCREV_libnetwork = "5ac07abef4eee176423fdc1b870d435258e2d381"
+>>  SRC_URI = "\
+>>         git://github.com/docker/docker-ce.git;branch=19.03;name=docker \
+>> @@ -38,7 +38,7 @@ GO_IMPORT = "import"
+>>
+>>  S = "${WORKDIR}/git"
+>>
+>> -DOCKER_VERSION = "19.03.2-ce"
+>> +DOCKER_VERSION = "19.03.5-ce"
+>>  PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+>>
+>>  PACKAGES =+ "${PN}-contrib"
+>> @@ -99,7 +99,7 @@ do_compile() {
+>>  do_install() {
+>>         mkdir -p ${D}/${bindir}
+>>         cp ${S}/src/import/components/cli/build/docker ${D}/${bindir}/docker
+>> -       cp ${S}/src/import/components/engine/bundles/latest/dynbinary-daemon/dockerd ${D}/${bindir}/dockerd
+>> +       cp ${S}/src/import/components/engine/bundles/dynbinary-daemon/dockerd ${D}/${bindir}/dockerd
+>>         cp ${WORKDIR}/git/libnetwork/bin/docker-proxy* ${D}/${bindir}/docker-proxy
+>>
+>>         if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+>> --
+>> 2.17.1
+>>
+>> 
