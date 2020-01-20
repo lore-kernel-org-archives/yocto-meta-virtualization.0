@@ -1,138 +1,200 @@
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
- by mx.groups.io with SMTP id smtpd.web12.541.1579301225231457440
+Received: from muon.bsdio.com (muon.bsdio.com [65.103.231.193])
+ by mx.groups.io with SMTP id smtpd.web11.3149.1579564496985972088
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 17 Jan 2020 14:47:05 -0800
+ Mon, 20 Jan 2020 15:54:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agner.ch header.s=dkim header.b=xrmKzaSO;
- spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 0BDBA5C78DE;
-	Fri, 17 Jan 2020 23:47:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1579301222;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=okxt7Tsf486fQYfmeEBCoJZXaMAJtOsNIhD8yFh/YjA=;
-	b=xrmKzaSOrvLHP0ienQbG1y6MeUKu556dYCJjfHa81RiWaw0jKdprRhZhG3kZwpwbgdvBWA
-	o8hTx5JTqGhFi67nkLbhbMkbVr3JXkAmxnw3xnddPYfQ2QmcelWFmuNP+DrckWd6kCCj0T
-	8dLJuPYbxJRrEnEkCX1WCti5LVMuq4I=
+ dkim=missing; spf=none, err=permanent DNS error (domain: bsdio.com, ip: 65.103.231.193, mailfrom: rebecca@bsdio.com)
+Received: from muon.bsdio.com (localhost [127.0.0.1])
+	by muon.bsdio.com (Postfix) with ESMTP id D618BCFB5A;
+	Mon, 20 Jan 2020 16:57:34 -0700 (MST)
+Received: from muon.bsdio.com ([127.0.0.1])
+	by muon.bsdio.com (muon.bsdio.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id MIf6o7GbVOdc; Mon, 20 Jan 2020 16:57:34 -0700 (MST)
+Received: from photon.int.bluestop.org (unknown [10.0.10.120])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by muon.bsdio.com (Postfix) with ESMTPSA;
+	Mon, 20 Jan 2020 16:57:34 -0700 (MST)
+From: "Rebecca Cran" <rebecca@bsdio.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Rebecca Cran <rebecca@bsdio.com>
+Subject: [PATCH] Update uwsgi to version 2.0.18
+Date: Mon, 20 Jan 2020 16:54:53 -0700
+Message-Id: <20200120235453.11518-1-rebecca@bsdio.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Date: Fri, 17 Jan 2020 23:47:01 +0100
-From: "Stefan Agner" <stefan@agner.ch>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org, Tim Orling
- <timothy.t.orling@linux.intel.com>, Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [meta-virtualization][PATCH 1/2] conmon: bump to version 2.0.9
-In-Reply-To: <CADkTA4P08iFSf76K5UC+JuBRPCSg_VKfVRucAsEpov=pd8T+VA@mail.gmail.com>
-References: <20200115232936.23207-1-stefan@agner.ch>
- <CADkTA4P08iFSf76K5UC+JuBRPCSg_VKfVRucAsEpov=pd8T+VA@mail.gmail.com>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <2d6385f23889a35578e4238159d87ebd@agner.ch>
-X-Sender: stefan@agner.ch
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On 2020-01-17 22:27, Bruce Ashfield wrote:
-> I've merged the version bumps to master.
-> 
-> But I'm still undecided on bringing them to Zeus. Although they are
-> largely bug fix releases .. they aren't entirely bug fixes.
+uwsgi 2.0.14 doesn't compile with gcc 9. Update to version 2.0.18, which =
+does
+build with gcc 9 and which no longer needs the two patches.
 
-I cannot say much about this since I (unfortunately) do not use podman a
-lot yet. It seems like a lot of bug fixes though :-)
+Signed-off-by: Rebecca Cran <rebecca@bsdio.com>
+---
+ ...breaks-to-avoid-implicit-passthrough.patch | 50 -------------------
+ ...breaks-to-avoid-implicit-passthrough.patch | 50 -------------------
+ .../recipes-extended/uwsgi/uwsgi_git.bb       | 13 +----
+ 3 files changed, 2 insertions(+), 111 deletions(-)
+ delete mode 100644 meta-openstack/recipes-extended/uwsgi/files/Add-expli=
+cit-breaks-to-avoid-implicit-passthrough.patch
+ delete mode 100644 meta-openstack/recipes-extended/uwsgi/files/more-Add-=
+explicit-breaks-to-avoid-implicit-passthrough.patch
 
-> 
-> I'd rather not increment versions on the older branches unless we are
-> fixing a CVE, or individual patches are difficult to backport.
-> 
-> Thoughts ? I'm open to being convinced to do the version bumps on the
-> released branch, but didn't see anything really compelling in the
-> shortlogs.
+diff --git a/meta-openstack/recipes-extended/uwsgi/files/Add-explicit-bre=
+aks-to-avoid-implicit-passthrough.patch b/meta-openstack/recipes-extended=
+/uwsgi/files/Add-explicit-breaks-to-avoid-implicit-passthrough.patch
+deleted file mode 100644
+index 4b9c015..0000000
+--- a/meta-openstack/recipes-extended/uwsgi/files/Add-explicit-breaks-to-=
+avoid-implicit-passthrough.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 0a14d0f0425f00421a69f0ca8e09a92cfdfc6a36 Mon Sep 17 00:00:00 2001
+-From: Paul Tagliamonte <paultag@gmail.com>
+-Date: Mon, 7 Aug 2017 11:18:56 -0400
+-Subject: [PATCH] Add explicit breaks to avoid implicit passthrough.
+-
+-commit 0a14d0f0425f00421a69f0ca8e09a92cfdfc6a36 from upstream
+-git://github.com/unbit/uwsgi.git
+-
+--Werror=3Dimplicit-fallthrough was added in gcc 7.1, which will
+-throw a compile error if a switch has an implicit passthrough.
+-
+-Seeing as how this switch doesn't appear to depend on passthrough to
+-function correctly, I've added explicit breaks to the switch.
+-
+-From https://gcc.gnu.org/gcc-7/changes.html:
+-
+--Wimplicit-fallthrough warns when a switch case falls through. This
+-warning has five different levels. The compiler is able to parse a wide
+-range of fallthrough comments, depending on the level. It also handles
+-control-flow statements, such as ifs. It's possible to suppress the
+-warning by either adding a fallthrough comment, or by using a null
+-statement: __attribute__ ((fallthrough)); (C, C++), or [[fallthrough]];
+-(C++17), or [[gnu::fallthrough]]; (C++11/C++14). This warning is enabled
+-by -Wextra.
+----
+- core/hash.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/core/hash.c b/core/hash.c
+-index a1288fa..9ae6bd2 100644
+---- a/core/hash.c
+-+++ b/core/hash.c
+-@@ -42,11 +42,14 @@ static uint32_t murmur2_hash(char *key, uint64_t key=
+len) {
+- 	switch (keylen) {
+- 		case 3:
+-         		h ^=3D key[2] << 16;
+-+        		break;
+-     		case 2:
+-         		h ^=3D key[1] << 8;
+-+        		break;
+-     		case 1:
+-         		h ^=3D key[0];
+-         		h *=3D 0x5bd1e995;
+-+        		break;
+-     	}
+-=20
+- 	h ^=3D h >> 13;
+---=20
+-2.7.4
+-
+diff --git a/meta-openstack/recipes-extended/uwsgi/files/more-Add-explici=
+t-breaks-to-avoid-implicit-passthrough.patch b/meta-openstack/recipes-ext=
+ended/uwsgi/files/more-Add-explicit-breaks-to-avoid-implicit-passthrough.=
+patch
+deleted file mode 100644
+index 5a885ed..0000000
+--- a/meta-openstack/recipes-extended/uwsgi/files/more-Add-explicit-break=
+s-to-avoid-implicit-passthrough.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 54666237455273e147eadb1904d261ed7624a8b6 Mon Sep 17 00:00:00 2001
+-From: Paul Tagliamonte <tag@pault.ag>
+-Date: Mon, 14 Aug 2017 15:42:15 -0400
+-Subject: [PATCH] Add explicit breaks to avoid implicit passthrough.
+-
+-commit 54666237455273e147eadb1904d261ed7624a8b6 from upstream
+-git://github.com/unbit/uwsgi.git
+-
+--Werror=3Dimplicit-fallthrough was added in gcc 7.1, which will
+-throw a compile error if a switch has an implicit passthrough.
+-
+-Seeing as how this switch doesn't appear to depend on passthrough to
+-function correctly, I've added explicit breaks to the switch.
+-
+-From https://gcc.gnu.org/gcc-7/changes.html:
+-
+--Wimplicit-fallthrough warns when a switch case falls through. This
+-warning has five different levels. The compiler is able to parse a wide
+-range of fallthrough comments, depending on the level. It also handles
+-control-flow statements, such as ifs. It's possible to suppress the
+-warning by either adding a fallthrough comment, or by using a null
+-statement: __attribute__ ((fallthrough)); (C, C++), or [[fallthrough]];
+-(C++17), or [[gnu::fallthrough]]; (C++11/C++14). This warning is enabled
+-by -Wextra.
+----
+- core/routing.c | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/core/routing.c b/core/routing.c
+-index 5887ec3..0cd6ea6 100644
+---- a/core/routing.c
+-+++ b/core/routing.c
+-@@ -1792,10 +1792,10 @@ static int uwsgi_route_condition_ipv6in(struct w=
+sgi_request *wsgi_req, struct uw
+-=20
+- 	int i =3D (pfxlen / 32);
+- 	switch (i) {
+--	case 0: mask[0] =3D 0;
+--	case 1: mask[1] =3D 0;
+--	case 2: mask[2] =3D 0;
+--	case 3: mask[3] =3D 0;
+-+	case 0: mask[0] =3D 0; break;
+-+	case 1: mask[1] =3D 0; break;
+-+	case 2: mask[2] =3D 0; break;
+-+	case 3: mask[3] =3D 0; break;
+- 	}
+-=20
+- 	if (pfxlen % 32)
+---=20
+-2.7.4
+-
+diff --git a/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb b/meta-op=
+enstack/recipes-extended/uwsgi/uwsgi_git.bb
+index f0c535f..68af5a6 100644
+--- a/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb
++++ b/meta-openstack/recipes-extended/uwsgi/uwsgi_git.bb
+@@ -6,12 +6,10 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D33ab1ce13e23=
+12dddfad07f97f66321f"
+=20
+ SRCNAME =3D "uwsgi"
+ SRC_URI =3D "git://github.com/unbit/uwsgi.git;branch=3Duwsgi-2.0 \
+-    file://Add-explicit-breaks-to-avoid-implicit-passthrough.patch \
+-    file://more-Add-explicit-breaks-to-avoid-implicit-passthrough.patch =
+\
+ "
+=20
+-SRCREV=3D"af44211739136e22471a2897383f34586284bf86"
+-PV=3D"2.0.14+git${SRCPV}"
++SRCREV=3D"d1338dfefe3d9a2de466a9a695cb61fdd055a295"
++PV=3D"2.0.18+git${SRCPV}"
+ S =3D "${WORKDIR}/git"
+=20
+ inherit setuptools pkgconfig
+@@ -25,10 +23,3 @@ DEPENDS +=3D " \
+         python-six \
+         yajl \
+         "
+-
+-# RDEPENDS_default:=20
+-RDEPENDS_${PN} +=3D " \
+-        "
+-
+-CLEANBROKEN =3D "1"
+-
+--=20
+2.20.1
 
-It probably would be good if we at least bump conmon as the release
-notes say "Version 2.0.1 or greater of Conmon is strongly recommended".
-
---
-Stefan
-
-
-> 
-> Bruce
-> 
-> On Wed, Jan 15, 2020 at 6:29 PM Stefan Agner <stefan@agner.ch> wrote:
->>
->> From: Stefan Agner <stefan.agner@toradex.com>
->>
->> Bump to latest version 2.0.9. This also makes our Makefile fix obsolete
->> as the fix has been aplied upstream.
->>
->> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->> ---
->>  .../{conmon_2.0.0.bb => conmon_2.0.9.bb}      |  3 +-
->>  ...ail-if-clean-is-called-without-a-bui.patch | 31 -------------------
->>  2 files changed, 1 insertion(+), 33 deletions(-)
->>  rename recipes-containers/conmon/{conmon_2.0.0.bb => conmon_2.0.9.bb} (83%)
->>  delete mode 100644 recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
->>
->> diff --git a/recipes-containers/conmon/conmon_2.0.0.bb b/recipes-containers/conmon/conmon_2.0.9.bb
->> similarity index 83%
->> rename from recipes-containers/conmon/conmon_2.0.0.bb
->> rename to recipes-containers/conmon/conmon_2.0.9.bb
->> index f4e2cd6..fc76f15 100644
->> --- a/recipes-containers/conmon/conmon_2.0.0.bb
->> +++ b/recipes-containers/conmon/conmon_2.0.9.bb
->> @@ -6,10 +6,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=61af0b6932ea7b12fb9142721043bc77"
->>
->>  DEPENDS = "glib-2.0"
->>
->> -SRCREV = "e217fdff82e0b1a6184a28c43043a4065083407f"
->> +SRCREV = "60b42f20f222df9da07a01ee444327348b9f54ee"
->>  SRC_URI = "\
->>      git://github.com/containers/conmon.git \
->> -    file://0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch \
->>  "
->>
->>  SRC_URI[md5sum] = "5c711911d766d76813333c3812277574"
->> diff --git a/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch b/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
->> deleted file mode 100644
->> index 8d2b473..0000000
->> --- a/recipes-containers/conmon/files/0001-Makefile-don-t-fail-if-clean-is-called-without-a-bui.patch
->> +++ /dev/null
->> @@ -1,31 +0,0 @@
->> -From 6ef63dfcc65d5401bc7cc7170d569cefcdadcb38 Mon Sep 17 00:00:00 2001
->> -From: Stefan Agner <stefan@agner.ch>
->> -Date: Fri, 30 Aug 2019 17:49:22 +0200
->> -Subject: [PATCH] Makefile: don't fail if clean is called without a build
->> -
->> -Do not fail when calling the clean target without building first.
->> -
->> -Upstream-Status: Backport
->> -
->> -Signed-off-by: Stefan Agner <stefan@agner.ch>
->> ----
->> - Makefile | 3 +--
->> - 1 file changed, 1 insertion(+), 2 deletions(-)
->> -
->> -diff --git a/Makefile b/Makefile
->> -index fb0e4fb..b525595 100644
->> ---- a/Makefile
->> -+++ b/Makefile
->> -@@ -66,8 +66,7 @@ bin:
->> -
->> - .PHONY: clean
->> - clean:
->> --      rm -f bin/conmon src/*.o
->> --      rmdir bin
->> -+      rm -rf bin/ src/*.o
->> -
->> - .PHONY: install install.bin install.crio install.podman podman crio
->> - install: install.bin
->> ---
->> -2.23.0
->> -
->> --
->> 2.17.1
->>
->> 
