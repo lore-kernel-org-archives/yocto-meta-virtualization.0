@@ -1,114 +1,78 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
- by mx.groups.io with SMTP id smtpd.web11.2.1579716763936524642
+Received: from muon.bsdio.com (muon.bsdio.com [65.103.231.193])
+ by mx.groups.io with SMTP id smtpd.web12.1289.1579937359800426394
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 22 Jan 2020 10:12:44 -0800
+ Fri, 24 Jan 2020 23:29:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=l5wUaZwt;
- spf=pass (domain: gmail.com, ip: 209.85.208.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f47.google.com with SMTP id e10so499946edv.9
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 22 Jan 2020 10:12:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=keFhnaHUMX0BPm87C4xEG7m2zNrodwJrCZiv67E5NN8=;
-        b=l5wUaZwt13WbiMe+ViCgTAvWKdwrktJs/Q4cJZ2YaIXrVSm1J/YbVXuQuh2z5salNZ
-         ydnURIHNClbFfhl/6N2rKDcyRJ1vrZERr1B7sJcq9saq5ob1Qq2SZ3HbNfOaajZ6Sdhp
-         DyVUN3XajlKUZtps9Qu7dyaTHZNJ13tOVNlMiaItamYpmQBNVu8Bzapw9h1wAycDQmzj
-         vNCgFIXFQbS0m5SPu7cdgatuaqZccZNyNwXT0H5r8SivFToI7Veo2T7KgclqWxrjAgOm
-         RLeED2J0wvMaXhIzvWzy3U+S+wbgyn5ZB7AabmeIVNQuKXnAjAiSB7mt2GhOVaDpEcrN
-         mXPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=keFhnaHUMX0BPm87C4xEG7m2zNrodwJrCZiv67E5NN8=;
-        b=NeVoTOo6Wj6k0VyxM7b9AfTeJm8vTHpaleLfXMb70qK2eSPFzcDjmVIPv7EZhrbLce
-         vKgbLa2oJoHsuWk19rWEVRn+6XanuqGYRjj4v+aiJ1K4TX0WoIUM1nmhWx1IkOWzCXnm
-         xiiJINsDR7uxtnrkWQKJMfjJA2nuyhqakykc7CS/dFowJ18aHLb7bcjyv6Tp+e0js6NN
-         WDCP1Iu40r2VoAnvfSaeHk09mpP5T57WR955A7k3mRErx4MGrZLDtAtI2mV9oZ3CoKs2
-         9vlrERe3n7kwNRhLJzoqKggCyJgBQdl2mbu7QujDubMPNLmrMGyT4d9mlzLSydH8nBXD
-         Q3ag==
-X-Gm-Message-State: APjAAAWHm6CbGgOnJZeGaYVaa7+WzHEcvm3nrqS8iAor1Y8ykFdu6qlk
-	5O/5LvDAkBSE3zNdz/Z47eugDFX3vlequbt47Uo=
-X-Google-Smtp-Source: APXvYqy8LuuFOOfIusKc4Hh/tfY0Bn/UYJO3alE3ZOXsjR2eubOlOuNnmLEik6N2SqitYemHGOlhwMpK6UiMHFvIWMw=
-X-Received: by 2002:a17:906:9248:: with SMTP id c8mr3681444ejx.37.1579716762389;
- Wed, 22 Jan 2020 10:12:42 -0800 (PST)
+ dkim=missing; spf=none, err=permanent DNS error (domain: bsdio.com, ip: 65.103.231.193, mailfrom: rebecca@bsdio.com)
+Received: from muon.bsdio.com (localhost [127.0.0.1])
+	by muon.bsdio.com (Postfix) with ESMTP id DBF2266B2C;
+	Sat, 25 Jan 2020 00:31:57 -0700 (MST)
+Received: from muon.bsdio.com ([127.0.0.1])
+	by muon.bsdio.com (muon.bsdio.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id amdfSrdM24dg; Sat, 25 Jan 2020 00:31:57 -0700 (MST)
+Received: from photon.int.bluestop.org (unknown [10.0.10.120])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by muon.bsdio.com (Postfix) with ESMTPSA;
+	Sat, 25 Jan 2020 00:31:57 -0700 (MST)
+From: "Rebecca Cran" <rebecca@bsdio.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Rebecca Cran <rebecca@bsdio.com>
+Subject: [PATCH] Fix mod-wsgi recipe
+Date: Sat, 25 Jan 2020 00:29:09 -0700
+Message-Id: <20200125072909.26482-1-rebecca@bsdio.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <15EBF06C76F77137.10760@lists.yoctoproject.org>
-In-Reply-To: <15EBF06C76F77137.10760@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 22 Jan 2020 13:12:31 -0500
-Message-ID: <CADkTA4MjbJphbnTRC7pC4o5+=F3NNQCCAHhNtFwOMeFTv+=qAA@mail.gmail.com>
-Subject: Re: [meta-virtualization] python2 removal
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
-	meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-FYI: The first pass is done, and I just pushed the following commits:
+mod-wsgi version 4.5.13 doesn't build against python 3.8: update
+it to 4.6.8 which does build.
 
-7f6f7a4 conf: remove unneeded preferred versions
-d4b8bad xorg-xserver: make changes conditional on xen distro feature
-56c3ce9 initscripts: make DISTRO_FEATURE safe
-d10d310 python: make DISTRO_FEATURE safe
-1d47e25 libibverbs: import frmo meta-cloud-services
-8f6ebd2 python: update bbappend to python3.x
-2c3206b xen: trivial: allow parsing in python3 only oe-core
-407b822 libvirt: make python3 safe
-7e9c4e6 ceph: update and make python3 safe
-2ffc7a5 gunicorn: uprev and make python3 ready
-a1e3f5c singularity: update for python3 support
-67b237d criu: python3 update
-52e67d4 python: update support packages to python3
-cceef93 python: drop blinker specific version and python2 recipe
-dc7ac8d python: drop python-backports-lzma
-e57a346 devtools: drop python2 variant of python-sphinx
-c3d92d9 docker: drop python2 variants
+Update the homepage URL: the Google Code project has been archived.
 
-I uprev'd some packages, dropped others and made some brute force
-modifications to get things to parse.
+Fix the LoadModule line: mod_wsgi.so is installed in ${libexecdir},
+not ${libdir}.
 
-I've smoke tested an image that runs docker, and was able to pull and
-execute containers, so the changes are at least minimally sane.
+Signed-off-by: Rebecca Cran <rebecca@bsdio.com>
+---
+ meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-I'm still holding feature merges until the rest of the python3 changes
-are done, but if people have a package they are working on, feel free
-to follow up so we won't duplicate efforts.
+diff --git a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb b/me=
+ta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
+index 4a1048e..73dab13 100644
+--- a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
++++ b/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
+@@ -5,12 +5,12 @@ DESCRIPTION =3D "\
+   be suitable for use in hosting high performance production web sites, =
+as well as \
+   your average self managed personal sites running on web hosting servic=
+es."
+=20
+-HOMEPAGE =3D "http://code.google.com/p/modwsgi/"
++HOMEPAGE =3D "https://github.com/GrahamDumpleton/mod_wsgi"
+ LICENSE =3D "Apache-2.0"
+ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
+d57"
+=20
+-SRCREV =3D "f22376f5141e8505f183b1b48f276c31168e2b6a"
+-PV =3D "4.5.13+git${SRCPV}"
++SRCREV =3D "217e80b7436035723b80ff02ee349365e8553dfc"
++PV =3D "4.6.8+git${SRCPV}"
+=20
+ S =3D "${WORKDIR}/git"
+=20
+@@ -47,7 +47,7 @@ FILES_${PN}-dbg +=3D "${libdir}/apache2/modules/.debug"
+=20
+ do_install_append() {
+ 	mkdir -p ${D}/etc/apache2/modules.d/
+-	echo "LoadModule wsgi_module ${libdir}/apache2/modules/mod_wsgi.so" > \
++	echo "LoadModule wsgi_module ${libexecdir}/apache2/modules/mod_wsgi.so"=
+ > \
+ 	  ${D}/etc/apache2/modules.d/wsgi.load
+ }
+=20
+--=20
+2.20.1
 
-Bruce
-
-On Tue, Jan 21, 2020 at 10:27 AM Bruce Ashfield via
-Lists.Yoctoproject.Org
-<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
->
-> Hi all,
->
-> Just a heads up that I'm working through the fallout of python2 being
-> removed from oe-core.
->
-> As a first pass, the goal is to make meta-virt parse/build with only
-> python3 components that already exist. I'll simply drop recipes that
-> are python2 only, and then
->
-> a) create a list of recipes to be updated that folks are welcome to help with
-> b) eventually create a python2 dependency sublayer if we find
-> something that we can't live without, but also doesn't easily update
-> to python3 .. hopefully we won't need (b).
->
-> Cheers,
->
-> Bruce
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> 
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
