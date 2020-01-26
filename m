@@ -1,94 +1,58 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.1221.1579937411504041740
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+ by mx.groups.io with SMTP id smtpd.web10.212.1580078429052995650
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 24 Jan 2020 23:30:11 -0800
+ Sun, 26 Jan 2020 14:40:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: bsdio.com, ip: 140.211.169.56, mailfrom: rebecca@bsdio.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0770AE01616; Fri, 24 Jan 2020 23:30:11 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.3 KHOP_HELO_FCRDNS Relay HELO differs from its IP's reverse DNS
-X-Greylist: delayed 571 seconds by postgrey-1.32 at yocto-www; Fri, 24 Jan 2020 23:30:09 PST
-Received: from muon.bsdio.com (muon.bluestop.org [65.103.231.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C377AE014DA
-	for <meta-virtualization@yoctoproject.org>; Fri, 24 Jan 2020 23:30:09 -0800 (PST)
-Received: from muon.bsdio.com (localhost [127.0.0.1])
-	by muon.bsdio.com (Postfix) with ESMTP id C61CB65E8D;
-	Sat, 25 Jan 2020 00:23:16 -0700 (MST)
-Received: from muon.bsdio.com ([127.0.0.1])
-	by muon.bsdio.com (muon.bsdio.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id aZaTfkxTZqzC; Sat, 25 Jan 2020 00:23:16 -0700 (MST)
-Received: from photon.int.bluestop.org (unknown [10.0.10.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by muon.bsdio.com (Postfix) with ESMTPSA;
-	Sat, 25 Jan 2020 00:23:16 -0700 (MST)
-From: "Rebecca Cran" <rebecca@bsdio.com>
-To: meta-virtualization@yoctoproject.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Rebecca Cran <rebecca@bsdio.com>
-Subject: [PATCH] Fix mod-wsgi recipe
-Date: Sat, 25 Jan 2020 00:20:35 -0700
-Message-Id: <20200125072035.26239-1-rebecca@bsdio.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=NUAYMdzL;
+ spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
+Received: from localhost.localdomain (31-10-206-124.static.upc.ch [31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 5CB4F5C5706;
+	Sun, 26 Jan 2020 23:40:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1580078426;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	 in-reply-to:references; bh=mb80+TIzn83hDPhXNDlXa3jQu7crFoNcTS4D9Ego3zY=;
+	b=NUAYMdzLSmB/JzsRj/9AB6Bknpvz2cqZQJ+Bidn0QqO/0I3vPMasZT13CHnRb1aHb23GXn
+	vQ2MpTaR6MF2iIy/71JIx40BLpnfz+fRQ+On9rHats4B3TP6tsGCTVOH2xYlHzu9YPiIVf
+	D4vmynhglWbVciYhMFMBwjMYvQuJ0MY=
+From: "Stefan Agner" <stefan@agner.ch>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [meta-virtualization][PATCH] conmon: compile with journald support if systemd is enabled
+Date: Sun, 26 Jan 2020 22:40:16 +0000
+Message-Id: <20200126224016.24918-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
 
-mod-wsgi version 4.5.13 doesn't build against python 3.8: update
-it to 4.6.8 which does build.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Update the homepage URL: the Google Code project has been archived.
+Currently conman is compiled without journald support which leads to
+this error message when trying to use it (e.g. --log-driver=journald
+with podman):
+  [conmon:e] Include journald in compilation path to log to systemd journal
 
-Fix the LoadModule line: mod_wsgi.so is installed in ${libexecdir},
-not ${libdir}.
+Make sure to build with journald backend compiled-in when systemd is in
+distro features by adding systemd to DEPENDS (through PACKAGECONFIG).
 
-Signed-off-by: Rebecca Cran <rebecca@bsdio.com>
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ recipes-containers/conmon/conmon_2.0.9.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb b/me=
-ta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-index 4a1048e..73dab13 100644
---- a/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-+++ b/meta-openstack/recipes-support/mod-wsgi/mod-wsgi_git.bb
-@@ -5,12 +5,12 @@ DESCRIPTION =3D "\
-   be suitable for use in hosting high performance production web sites, =
-as well as \
-   your average self managed personal sites running on web hosting servic=
-es."
-=20
--HOMEPAGE =3D "http://code.google.com/p/modwsgi/"
-+HOMEPAGE =3D "https://github.com/GrahamDumpleton/mod_wsgi"
- LICENSE =3D "Apache-2.0"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3b83ef96387f14655fc854ddc3c6b=
-d57"
-=20
--SRCREV =3D "f22376f5141e8505f183b1b48f276c31168e2b6a"
--PV =3D "4.5.13+git${SRCPV}"
-+SRCREV =3D "217e80b7436035723b80ff02ee349365e8553dfc"
-+PV =3D "4.6.8+git${SRCPV}"
-=20
- S =3D "${WORKDIR}/git"
-=20
-@@ -47,7 +47,7 @@ FILES_${PN}-dbg +=3D "${libdir}/apache2/modules/.debug"
-=20
- do_install_append() {
- 	mkdir -p ${D}/etc/apache2/modules.d/
--	echo "LoadModule wsgi_module ${libdir}/apache2/modules/mod_wsgi.so" > \
-+	echo "LoadModule wsgi_module ${libexecdir}/apache2/modules/mod_wsgi.so"=
- > \
- 	  ${D}/etc/apache2/modules.d/wsgi.load
+diff --git a/recipes-containers/conmon/conmon_2.0.9.bb b/recipes-containers/conmon/conmon_2.0.9.bb
+index fc76f15..7f6f6e7 100644
+--- a/recipes-containers/conmon/conmon_2.0.9.bb
++++ b/recipes-containers/conmon/conmon_2.0.9.bb
+@@ -20,6 +20,9 @@ inherit pkgconfig
+ 
+ EXTRA_OEMAKE = "PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir}"
+ 
++PACKAGECONFIG = "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
++PACKAGECONFIG[systemd] = ",,systemd"
++
+ do_install() {
+     oe_runmake 'DESTDIR=${D}' install
  }
-=20
---=20
-2.20.1
+-- 
+2.17.1
 
