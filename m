@@ -1,74 +1,89 @@
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web09.13200.1580150959920632361
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web10.13593.1580151176217082923
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Jan 2020 10:49:20 -0800
+ Mon, 27 Jan 2020 10:52:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=P+0o3umx;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id e5so8207677qtm.6
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Jan 2020 10:49:19 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=jWGi2Q0m;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id e10so11856767edv.9
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 27 Jan 2020 10:52:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=g2Cmz4CkqL2knMkLClRyxYhubznv6JBYlhFuh83uaEk=;
-        b=P+0o3umx0VbGK37OEofcZjZ/WPGyGV1PXCEhVCxDD3CODW6vFY9C5gKEXilr1h45BV
-         e101j1lhgmWVZx5bBtoGTYDUi5pFgsAJgw/k1K+QYHL2xzl2RLLHM6870yXbXmWTQG86
-         29STaaKz1pWGkm50oOZUYbCamMK+pDEh6maEXv7ryHd2Gr4M3qQM7d6sqPA0BghZekJQ
-         Ce29rh63q0b07KK3TXv9z6ln3pHaeHoUs/H8rLsLEJBohVU0nQklb80FMxa/d+8KazmN
-         dELlMD5nflDoUNU1RX48g91fKa8AIJ8vDb3KpDRisqDgaIoFNC3Zqay1hSmR+kcyQt/u
-         Vy6g==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=zipoPlArD7iKRxgB+ZsJYba0YjPaP7PnSXQCIM4H3wo=;
+        b=jWGi2Q0mv56vsm7DMrgpe6nwkc4M4M3imnjjf+IjHANfk0EBBqnASj5A47Rn2wKA2n
+         IcwE2PgbTF73GpyHxVaQhlf1uJhpwCl1p8s+m4UPdcxaOwPxOGi0XeNvvL+YiFsOw+3Z
+         m4z9nUpVR7mEJCjk7KrBzcHETSQZe6rCeqAjvaacN9ibrEyVxJBkrHkN+WwOb0y+++F4
+         ITTvym5eK+ESEg9ywgykxIt8fQI30nWGL97H4ueHqsr7nwaRpXrkCd5sxIcV9DO5Xa+E
+         OKMe1qXNNSUIzChJHXwYTBtlbM+K8otoOUcm9AjwYYhAnyU+e3OlbuZg/7kbEoxpNq5y
+         ZMLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=g2Cmz4CkqL2knMkLClRyxYhubznv6JBYlhFuh83uaEk=;
-        b=BN3liCeQSGvi5kFW/kv6yuCUdDaIeQh50RvanAlUde+qhWfQeXCYV7uObjkL3Ik1Wp
-         NACKvi0kSxPHIHX1ZEB31mijL7VspJWjSB8qOMJsnQ6B/jhamP3vcweNUiMrvakUfZwl
-         igEqG1dQ8tshWdtIjmgCrr9+evvjTR5FhMP7mj4lTgUe4VXgU+KRtO/Tcg7kPqO8kfcP
-         1+RDo5oIbM5QqX15ZgUpZW9GmCe5S9tDMHOUMgKjE0Dg0/WAEFJlEidCG25RE3vW8T/p
-         Cs+aga6TAo//qvOHANNTkHF5bhgFXOLsYF6VXQAAPZZVZ0lLLdpbodI8tqUtuhnMjT06
-         Wl3g==
-X-Gm-Message-State: APjAAAV8xsskFN/xSf6AymX7C4yWzO9SF7yknmaK1Yw7vo4pXyRwqmqw
-	37VLBmdIQdnEwULKZMINTUw=
-X-Google-Smtp-Source: APXvYqwGZkaBiJRghZ9+LtE1KCTVF+wu24+Fm/wKumPQ77LjOggutL93weofKLytaueP0yFDRB/bTg==
-X-Received: by 2002:ac8:1205:: with SMTP id x5mr16898705qti.238.1580150958868;
-        Mon, 27 Jan 2020 10:49:18 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
-        by smtp.gmail.com with ESMTPSA id a200sm10543885qkc.2.2020.01.27.10.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Jan 2020 10:49:18 -0800 (PST)
-Date: Mon, 27 Jan 2020 13:49:16 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Rebecca Cran <rebecca@bsdio.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [zeus] [PATCH] Update uwsgi to version 2.0.18
-Message-ID: <20200127184913.GA60113@gmail.com>
-References: <20200120235453.11518-1-rebecca@bsdio.com>
- <10748.1579564602739277181@lists.yoctoproject.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=zipoPlArD7iKRxgB+ZsJYba0YjPaP7PnSXQCIM4H3wo=;
+        b=qlEc+vS6rUMbimwxZhR0+JFWE7mjy+HmP/Qg1I5XY6/2iYyrxLUBVse3BIKu1vkQNQ
+         ttPTctxGXBN7xqkq6mORZNqhxmzgvF2Bx0bZcwG1gSwlIHNlVfbthOWn0G/cEad2mAqk
+         43QTvDs1HcPHUj/iuH7VO9h9HAvyURmHF52o2v5yhWI4IstAqAg/un/gjD1UCLy07tsC
+         WMfMGypoWT3XnpyqgPyFBSpQJ90RRf1rcjQ+vFLtH7xV2L/aB0Mup9fzKnZGy8WdqOEp
+         WXrVq9Yu3XTlgGw69Z6n9LPJnArpuXDRZv8/g2zwY5MNTGX+2BWwTuy16YdGsRcAv59x
+         B4qQ==
+X-Gm-Message-State: APjAAAXRsdiM1/G1FtT6qdwlmMeF4BfxuVk8D3spAKXzFqTScgc6Gctk
+	Ag+vAHqC9e/+h9Isn0besvriOtdFNf1M1NDv8rg=
+X-Google-Smtp-Source: APXvYqyKVjLCwvJJRAyI9gFkILx3O4Gk5u3zm02sz1aOF99wg2mx9Wck+fFCtVn/RjC/LszIVaIrOPBS+cbyJfhT4nU=
+X-Received: by 2002:a05:6402:1a4e:: with SMTP id bf14mr104340edb.365.1580151174680;
+ Mon, 27 Jan 2020 10:52:54 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <10748.1579564602739277181@lists.yoctoproject.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200120235453.11518-1-rebecca@bsdio.com> <10748.1579564602739277181@lists.yoctoproject.org>
+ <15EDD2ED2558BBB4.24731@lists.yoctoproject.org>
+In-Reply-To: <15EDD2ED2558BBB4.24731@lists.yoctoproject.org>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 27 Jan 2020 13:52:43 -0500
+Message-ID: <CADkTA4MSjsL6bp66-u8mh4YEaZwF62_ArLqcLsOSQcYrBAW6kg@mail.gmail.com>
+Subject: Re: [meta-virtualization] [zeus] [PATCH] Update uwsgi to version 2.0.18
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Rebecca Cran <rebecca@bsdio.com>, meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-In message: Re: [meta-virtualization] [zeus] [PATCH] Update uwsgi to version 2.0.18
-on 20/01/2020 Rebecca Cran wrote:
+On Mon, Jan 27, 2020 at 1:49 PM Bruce Ashfield via
+Lists.Yoctoproject.Org
+<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
+>
+> In message: Re: [meta-virtualization] [zeus] [PATCH] Update uwsgi to version 2.0.18
+> on 20/01/2020 Rebecca Cran wrote:
+>
+> > Sorry, this patch is against zeus, not master.
+>
+> We don't do version bumps in the released branches, unless we can show
+> that it is only a bug fix release.
+>
+> Also, the change must land in master first, before I'd trigger the
+> cherry-pick.
+>
+> So are we saying that there was a python bump in zeus that broke this
+> recipe, and there's no way to cherry-pick just the patches that fix
+> that build error for zeus ?
 
-> Sorry, this patch is against zeus, not master.
+Hmm. It looks like gmail messed up the threading of these patches.
 
-We don't do version bumps in the released branches, unless we can show
-that it is only a bug fix release.
+I'm seeing two version bumps, one due to a gcc9 (uwsgi) issue and the
+other a python 3.8 issue (wsgi).
 
-Also, the change must land in master first, before I'd trigger the
-cherry-pick.
-
-So are we saying that there was a python bump in zeus that broke this
-recipe, and there's no way to cherry-pick just the patches that fix
-that build error for zeus ?
+Are both for zeus ? If so, my comment applies equally to both.
 
 Bruce
 
+>
+> Bruce
+>
+> >
+>
 > 
 
+
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
