@@ -1,53 +1,58 @@
-Received: from muon.bsdio.com (muon.bsdio.com [65.103.231.193])
- by mx.groups.io with SMTP id smtpd.web10.15042.1580157390964212246
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+ by mx.groups.io with SMTP id smtpd.web09.175.1580161740318255732
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Jan 2020 12:36:31 -0800
+ Mon, 27 Jan 2020 13:49:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=permanent DNS error (domain: bsdio.com, ip: 65.103.231.193, mailfrom: rebecca@bsdio.com)
-Received: from muon.bsdio.com (localhost [127.0.0.1])
-	by muon.bsdio.com (Postfix) with ESMTP id 106F82629A;
-	Mon, 27 Jan 2020 13:39:09 -0700 (MST)
-Received: from muon.bsdio.com ([127.0.0.1])
-	by muon.bsdio.com (muon.bsdio.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id UagD71NojMvI; Mon, 27 Jan 2020 13:39:08 -0700 (MST)
-Received: from [10.0.10.120] (unknown [10.0.10.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by muon.bsdio.com (Postfix) with ESMTPSA;
-	Mon, 27 Jan 2020 13:39:08 -0700 (MST)
-Subject: Re: [meta-virtualization] [zeus] [PATCH] Update uwsgi to version 2.0.18
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-References: <20200120235453.11518-1-rebecca@bsdio.com>
- <10748.1579564602739277181@lists.yoctoproject.org>
- <15EDD2ED2558BBB4.24731@lists.yoctoproject.org>
- <CADkTA4MSjsL6bp66-u8mh4YEaZwF62_ArLqcLsOSQcYrBAW6kg@mail.gmail.com>
-From: "Rebecca Cran" <rebecca@bsdio.com>
-Message-ID: <8b0dd59e-b092-53e0-f1e8-28a33c060843@bsdio.com>
-Date: Mon, 27 Jan 2020 13:36:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4MSjsL6bp66-u8mh4YEaZwF62_ArLqcLsOSQcYrBAW6kg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+ dkim=pass header.i=@agner.ch header.s=dkim header.b=A2N0Fd23;
+ spf=pass (domain: agner.ch, ip: 178.209.48.109, mailfrom: stefan@agner.ch)
+Received: from localhost.localdomain (31-10-206-124.static.upc.ch [31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id D1D8B5C25FD;
+	Mon, 27 Jan 2020 22:48:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1580161737;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	 in-reply-to:references; bh=sesR2NEPv4GGZ98hAkmgZFc4npCbMy3BAKpK4k8sMmA=;
+	b=A2N0Fd235pri7h7qxo5/JcxL6iLQy1JDxoHtFiYtzKLExi/IWMKR7GjjdBRcD0m2IcwkG1
+	qRVUrNMY6duagTMc6xfilOcJwlIk05TmC7pWQhp349hFyU0d12+8bHxeIld85ao+zUGEHe
+	mKs6srJVSpuDdy85RdkfSDHjIUm1DLA=
+From: "Stefan Agner" <stefan@agner.ch>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [meta-virtualization][PATCH v2] conmon: compile with journald support if systemd is enabled
+Date: Mon, 27 Jan 2020 21:48:54 +0000
+Message-Id: <20200127214854.29367-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
 
-On 1/27/20 11:52 AM, Bruce Ashfield wrote:
+From: Stefan Agner <stefan.agner@toradex.com>
 
-> I'm seeing two version bumps, one due to a gcc9 (uwsgi) issue and the
-> other a python 3.8 issue (wsgi).
->
-> Are both for zeus ? If so, my comment applies equally to both.
+Currently conman is compiled without journald support which leads to
+this error message when trying to use it (e.g. --log-driver=journald
+with podman):
+  [conmon:e] Include journald in compilation path to log to systemd journal
 
-No, uwsgi was for zeus but mod-wsgi is for master. Let's ignore the 
-uwsgi patch, since I've both switched to master and from nginx to 
-apache, so I'm no longer interested in it. But I'd still be interested 
-in getting the mod-wsgi change committed.
+Make sure to build with journald backend compiled-in when systemd is in
+distro features by adding systemd to DEPENDS (through PACKAGECONFIG).
 
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ recipes-containers/conmon/conmon_2.0.9.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
+diff --git a/recipes-containers/conmon/conmon_2.0.9.bb b/recipes-containers/conmon/conmon_2.0.9.bb
+index fc76f15..af7847b 100644
+--- a/recipes-containers/conmon/conmon_2.0.9.bb
++++ b/recipes-containers/conmon/conmon_2.0.9.bb
+@@ -20,6 +20,9 @@ inherit pkgconfig
+ 
+ EXTRA_OEMAKE = "PREFIX=${prefix} BINDIR=${bindir} LIBEXECDIR=${libexecdir}"
+ 
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
++PACKAGECONFIG[systemd] = ",,systemd"
++
+ do_install() {
+     oe_runmake 'DESTDIR=${D}' install
+ }
 -- 
-
-Rebecca Cran
+2.17.1
 
