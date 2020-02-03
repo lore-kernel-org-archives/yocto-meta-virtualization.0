@@ -1,56 +1,58 @@
-Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
+Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [])
  by mx.groups.io with SMTP id smtpd.web11.5304.1580767013852819697
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 03 Feb 2020 13:56:53 -0800
+ Mon, 03 Feb 2020 13:56:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=VAK60h4w;
- spf=pass (domain: wdc.com, ip: 216.71.153.141, mailfrom: prvs=295d894e0=alistair.francis@wdc.com)
+ dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=mA4cWTod;
+ spf=fail (domain: wdc.com, ip: <nil>, mailfrom: prvs=295d894e0=alistair.francis@wdc.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1580767014; x=1612303014;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
+  t=1580767016; x=1612303016;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
   bh=ogbxo3rXeEHQQCzQdCK3tKGhf+Y5cr1GiVEKeoGNO3M=;
-  b=VAK60h4wjycfwQgsca/eAph+id1fh20hVmxC8A/z2JubVhwzJLqOb4J/
-   zbDijkSOe3wVUxTexlYfEL8YuL4E1IsAsFcsJPDO3dDaatyXTrOsNSimR
-   xY8M+gwtkTIZP52HEklLc9Fx++dEEKchykRfsrFDnMUAHPS+iswG9z44H
-   IxqD+AXajxVUzquhSMVIsIv/ddY1/T1r35TjqzKAHhMnoXoaXZHB0RXXU
-   vzRecFVOi89BOn2MDPFPvI56JK0PV2twfKxX/mqNOlRdLR7ELuhEw9olW
-   IWNyqvIAhr7l9tzhUG9DmpLOBm2V7s4zyhxFrMkbyn72iMeiC/zGkYKeZ
+  b=mA4cWTodx+3Ev3PYUK9hKc2tzfOPTnwG43dfDnpaEQcJrKhrPbEztoe7
+   dGndRb3q4Z7ulfSS7lUVExgLuEfS2RuF4kj1aFGowJZalt8C7hK3H0Vxq
+   Y5w/cyOOCEa34gT2qPcHE0ERCk7DwZZZRjsoh0WKyOtQU5lX6b26gb3K+
+   eOtoea9DxyWmmMmxNevmt+YCaGf7LQllXvhx0MsaebeXP2Gj4q0hD9yb1
+   Sk3aI1Ltjb0VpDY/AM28tgv+JhPF/E581S1AQHa9HUtzpmpvtXGCfu4Ha
+   AGBPh/cqY/60t8m76aywKXjvfbSAdtsu7w71WGOYpO48+TBahEyIWSiBC
    w==;
-IronPort-SDR: DO/CVlPRqvba/ZhjTA2i7Djfvj2ebXa+dqvpoADjaAR/7H0cyk6BwSGMewU2mvhDDNK+N6JNCz
- llhKDuUiTIEv1SlddgpaIMMA1Teb5tzYyDD9zPo8ezYsV7/HD1BQtehYoAXbCU3eVBQ1eM0y6q
- L27Q9Aj7ZjiQ8onYuvoksQ6lvwEGwf52WeWbQMQaNIsIqNaVgff5b+eEB4bYHJtOZX93v6747X
- HrQA7mn0MCurK13+RZOpYx7R2rznTbL9NgqMg/h0Z95IUmEH/+/xgGlH+VkxU5gSpHDyQJe8kp
- A9w=
+IronPort-SDR: TlZNJVx0Kyk0CQBU4ncnW1BKNLh7j7DnuNLYBV4ad5j7LIj7fQHtYAEHRLvZRIvZlK2oNXxF0c
+ t+K2SEnDAy3aSUv2ZApxNlVdyBUNRr9s3ZG9rNglwV1JF3Tk5ul8ku5OSYMN8lSV7edusqM6Un
+ Su7wiX0Vs6LEQ16SowA1d0dWiwlPBRYBLuWwMl+bP22rW1SXwCtIxZlm4/+rrGkA0dM+A0wauo
+ cyQfYQyZrKklKE4s2DmhyVBeEHMz1JJ20oyRDSI+QWBAyN6aABeNj7ZGjG1zxQA2ZIUgAfpuXK
+ w/g=
 X-IronPort-AV: E=Sophos;i="5.70,398,1574092800"; 
-   d="scan'208";a="133365023"
+   d="scan'208";a="133365025"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 04 Feb 2020 05:56:54 +0800
-IronPort-SDR: X6RI5U7bXOFX+vZ+clrWAxaKiWytPSl/mfzZ46CT7DRJCbsmr1JtjswKqI3+hZAjGKMEfH1Iob
- h4aUQ6K7ZAe727leJbflAwvc3Dy1VmtKyTWdfWcuD9meiJ/mVehCQOniW/1Kf7UcWI4N0FlO35
- FIG9J+573ITNiOjrb5wfFwVBUOZXS0chQ4suoWti12tPxY58YQd+qt+qKx9RunGkj/7MQHlibi
- S4VX6ZCjEzS1KnoDtd3lRh1Fq7+VI6Pwc0iGnAUENpR3ghilfck9uH5zLV8eOgNXQCcf6p0QOX
- 9g+vkVkbF3aHtZWSEvEKkeeL
+  by ob1.hgst.iphmx.com with ESMTP; 04 Feb 2020 05:56:56 +0800
+IronPort-SDR: vOMmMx7Trvz+lVC2HUn/UjNiFb0CNeTB9Xpt+R7WqCvGY9oTAzfXo71Acv/wRIuzH1DMY+uxOD
+ HQ/4kzdfCg5YMzfAJbKxTtkKjmpvwkldXhYdfGSD0qZlhDggX1kpaOBSOf/iu1/cVf4fv8muHU
+ GVUTJKi6Spsj6MRqc4qJ64P+gDMD9MtRM6CQbJLqqN/y+8csevJA02UnZ2pqO7qWNgzw6fvzXq
+ qHJB2oi9nf706QcxrYbpGV/tNZWMvu2Z4Cdbs1Da8V/kiissHnQ+hnmlCfDNMKaQUsGTmYktzN
+ 68FKALk6qNqgaQFSSJUydx8J
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2020 13:49:57 -0800
-IronPort-SDR: NIcLjAt/ybH7R2m/HBRsVOWmIm8rkh1Y/O+OvaNF3K3L7I61x/klOf8sfC1yUwTmBnfhvd1GY5
- JUHlBu3/Xz1biD9wHQ7NWhmobAxtK839UzbJoVlyBf8ZzcFjwk8xwwyoW7+G6tRhGqExIEqQCh
- B7vfFCFUuT6KFxgbGIpiEjnBL+yqfFKxdoWRRi5NybZgGjnL8BIw3E9fMq/arITPQO/8Hs385N
- EuuOcxJWTgdt/6N6CkZXoyW7KPamzwT45FPhg93k3ZADRYXOSO5zgGbN0G9VUApqGYW7WwAhHT
- s9g=
+  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Feb 2020 13:49:59 -0800
+IronPort-SDR: ie92rs0NI5InB1N4AQrbuyj1oKa5OouGtVnFjg6CwN7mCv2J529YCLj3ITntjZm6JqtMfjKWlk
+ +mNXUNZA4QmSpA0ibSCj7CC31dYb9/lRaFQCnYQ33VLBIh8/b7hotXB02I7TVF00+ktn00Jsfj
+ 7ufZ0l4aXRWOu8rbmmWGqRx7vDp6wp83S2FkVqgzC31I0hDlpNlm71EniPd0raPjb1n1RfycD3
+ n4cyTwYPM5TkRQJb6haOPVTNEvQZOJZiebSae25pU/tBMOD5TbF2dT5HtCh6Zc74X5RrfGbNcD
+ fUk=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO risc6-mainframe.int.fusionio.com) ([10.196.158.235])
-  by uls-op-cesaip01.wdc.com with ESMTP; 03 Feb 2020 13:56:53 -0800
+  by uls-op-cesaip01.wdc.com with ESMTP; 03 Feb 2020 13:56:55 -0800
 From: "Alistair Francis" <alistair.francis@wdc.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [meta-virtualization][PATCH] xvisor: Initial commit of Xvisor Hypervisor
-Date: Mon,  3 Feb 2020 13:50:10 -0800
-Message-Id: <20200203215011.6642-1-alistair.francis@wdc.com>
+Subject: [PATCH] xvisor: Initial commit of Xvisor Hypervisor
+Date: Mon,  3 Feb 2020 13:50:11 -0800
+Message-Id: <20200203215011.6642-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200203215011.6642-1-alistair.francis@wdc.com>
+References: <20200203215011.6642-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
