@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.17787.1581311295937221392
+ by mx.groups.io with SMTP id smtpd.web12.17599.1581311296527808208
  for <meta-virtualization@lists.yoctoproject.org>;
  Sun, 09 Feb 2020 21:08:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FUqWQMxq;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zk3lrjBK;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id C9FD7E016BB; Sun,  9 Feb 2020 21:08:15 -0800 (PST)
+	id 64ABDE016BB; Sun,  9 Feb 2020 21:08:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,47 +20,47 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.214.196 listed in list.dnswl.org]
+	*      [209.85.216.65 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D598CE016B8
-	for <meta-virtualization@yoctoproject.org>; Sun,  9 Feb 2020 21:08:13 -0800 (PST)
-Received: by mail-pl1-f196.google.com with SMTP id c23so2334824plz.4
-        for <meta-virtualization@yoctoproject.org>; Sun, 09 Feb 2020 21:08:13 -0800 (PST)
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0C9D4E016B8
+	for <meta-virtualization@yoctoproject.org>; Sun,  9 Feb 2020 21:08:15 -0800 (PST)
+Received: by mail-pj1-f65.google.com with SMTP id fa20so3664454pjb.1
+        for <meta-virtualization@yoctoproject.org>; Sun, 09 Feb 2020 21:08:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ZprRGmh0QXL/GciJUUAgv5MvG1yApBHebMxNL13+jqY=;
-        b=FUqWQMxq66gSmDFWHQKZkgrjHKr0CGy7C/czEXYvMQzieciZgpodViNHlYMBalILEu
-         sDBB3/RtRlfcuuRxU1WDMsxUu29a1/LADx7qJn7iOV3fWt7xjLNf0LfOzQnWoSCu93vR
-         kkRbn1eBtMwphcIzMfQIXtXBjnxd2ufJAhuauzhyTqwoACG2DEoOyITiPrPmbOawBgxA
-         0myk84SriNR4TVBJjGbwf2OYtzO4AZ7IOOB//TBLoO6GumDYfMI/w95awwL4lthrPwxn
-         wSOv+QqOM4uLmuIYJ4LtOo6/yPWgAIv1QOGjRM1V7sTPhLG2fJlWBLXq9dzssN5YkI3K
-         Uk+A==
+        bh=8EODVsz1AyOHQgMzAspdUWvthkEYZq/rbadWPlzLRks=;
+        b=Zk3lrjBK3d/VyfJWz18JFmlfsephhJUYyHZXdU6gjEGYJdfJI6C0c/opQASHdqmRTB
+         RSeZCpTbiAugyv3Iq6eo8A1BZ/BAgdPN61UDvCkyR6U5ShotmXwSnaS0yAMg8djnaPTs
+         2SyDPKQTTjS1gpmCl/2CFdNBEhc7xHo8MwIq3M46msDUtriT0rxZDrjoeurlUB+Sh+73
+         SeCWrd1kNMvpB4h1q1wqIbn1II8k3TIk+Utu4qed38a3jzGnC7y1OCrS9Hmgm+3xXphn
+         zMPne3720YAvZqJnTf4FaaK+ayLX+oejRXHUN8rOJqUsV3dOaYbcWaUf8/Mf93wH1NNl
+         U+Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=ZprRGmh0QXL/GciJUUAgv5MvG1yApBHebMxNL13+jqY=;
-        b=ldR8AWlRSRRzXZg9NDe6+P4WQYLV6fX7lyPzzIAnDKOGt/SlfFPoDhaCyj47OGPmlW
-         iGPpLKLwSepC1+r+8Hkq8mpmc92903ePLB2lIdwowStNS2/cEg5mIk6qUajjkJDC5Ind
-         lw0vG/yg63Bj+PdPiWjzeJTn59yUsivbMc11RAAnxk2XVXtZy3S7y4rmwyrDkkT/1pj+
-         Jr7NcfY04GlMfeQ/OPxhfJ2dhv9WtK3Cc+F59uWSsuBGgL1owNQIUwOYvP7qAbVtXilg
-         GbeErdBEIcY5ub58HW3hjr6LBHYS3h1vzSAjrQx7esLoyHI7rXA0xKb9XYUwndY6Zr/0
-         djAQ==
-X-Gm-Message-State: APjAAAVkDY0mWkwnMKATLSqE/l5QSLXO3O+Hw1Q0PCXbCTy3sRE/0Fn2
-	OfsZHlK35Lb7TWULov8Ig4o0NQcb
-X-Google-Smtp-Source: APXvYqzzLI7nlhGjJJFzUY+/8ajsl0y7wFo5EkicF5OlZlrfR5ZGsFpMfYZu5RYfZQCTvSbE13mFdA==
-X-Received: by 2002:a17:90a:23a3:: with SMTP id g32mr18757578pje.134.1581311292802;
-        Sun, 09 Feb 2020 21:08:12 -0800 (PST)
+        bh=8EODVsz1AyOHQgMzAspdUWvthkEYZq/rbadWPlzLRks=;
+        b=KPFWQhLx3viDTCbGe1F9D1AY34qNtAeOOrcUyZL5gtF554sNFbaRgcYPCVpOBVfFzw
+         A9hF9FMSCqQqCxtfXX70IglP9jpccPeQUIlPJtqyacIyOtV5iCdwxjDcP/RuXSCkmqu9
+         UTK/tUqWkyGmN+tlcx/qKwD51O79sKv7GuWSfYxaqSZ0QYPc6riNVeS0VWzGtD9ORdfp
+         22IE5INZr1mjMekHQG1TdCvfWXHpTD8MFN+MQ0fodpdsSJ5NPyOwograoCnOJWmPuewX
+         DMyD0+EN/FoUvpbSWA/AWEwedKJt2fapfK+9Hr50qrJfAyejsxWzNskf66GBxIQJoG+m
+         pE5Q==
+X-Gm-Message-State: APjAAAV4rRNInTEI9kKlqQ+A4oGfYHvqAkcseQ+fNehig0B5vhs8M/qm
+	hd52zk9fs41tVrn/na0iseueHGt+
+X-Google-Smtp-Source: APXvYqxLCncnQEoL/WkDXGORbLARzgO71r/oL80OWAn2uBrTdxGB7vtICGNpyA13uxQqzaspbGo8Jw==
+X-Received: by 2002:a17:90a:9f93:: with SMTP id o19mr18670603pjp.76.1581311295172;
+        Sun, 09 Feb 2020 21:08:15 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id 70sm10921120pgd.28.2020.02.09.21.08.11
+        by smtp.gmail.com with ESMTPSA id 70sm10921120pgd.28.2020.02.09.21.08.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2020 21:08:12 -0800 (PST)
+        Sun, 09 Feb 2020 21:08:13 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
@@ -70,107 +70,81 @@ Cc: bruce.ashfield@gmail.com,
 	Daniel Smith <dpsmith@apertussolutions.com>,
 	Jason Andryuk <jandryuk@gmail.com>,
 	Eric Chanudet <eric.chanudet@gmail.com>
-Subject: [meta-virtualization][PATCH 00/16] Xen: python3, wic, 4.12.2, tools separation
-Date: Sun,  9 Feb 2020 21:07:38 -0800
-Message-Id: <20200210050754.3534-4-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 01/16] xen: pass compiler flags via Xen-provided variables
+Date: Sun,  9 Feb 2020 21:07:39 -0800
+Message-Id: <20200210050754.3534-5-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200210050754.3534-1-christopher.w.clark@gmail.com>
 References: <20200210050754.3534-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Update the Xen recipes for python3 compatibility and separate recipes for the
-hypervisor, the tools and legacy python2 scripts.
+Fix the method of passing compiler flags into the Xen build,
+needed to fix hvmloader: it must not be compiled with SSE options
+which are provided via TUNE_CCARGS. hvmloader is needed for Xen
+to be able to run HVM-mode guest VMs.
 
-Upgrade Xen to latest point release of the same version and switch to git branch
-tracking for easier incorporation of security fixes. Multiple recipe fixes.
+32-bit ARM needs the TUNE_CCARGS to be retained as passed via CC
+to ensure that configure is able to generate binaries for the
+correct ABI, so that target platform is handled as a separate case.
 
-Separate recipes for the hypervisor and tools enables targetting different
-architectures and build configurations (ref: multiconfig) and improvements
-to build efficiency downstream.
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
+ recipes-extended/xen/xen.inc | 33 +++++++++++++++++++++++----------
+ 1 file changed, 23 insertions(+), 10 deletions(-)
 
-Add wic support for building bootable images with Xen and dom0.
-
-Remove the stubs task, which was unfortunately MACHINE-specific, by
-moving its work into the tools configure script.
-
-This change renames many of the packages produced: most packages that had a
-"xen-" prefix now have a "xen-tools-" prefix instead, indicating the recipe
-that now produces them, so dependent recipes will need to update package
-references:
-    eg. xen-tools-hvmloader replaces xen-hvmloader
-    eg. xen-tools replaces xen-base
-and recipe DEPENDS statements:
-    eg. DEPENDS="xen" changes to DEPENDS="xen-tools"
-A temporary append is provided for qemu to handle the renaming while its
-recipe is updated in openembedded-core.
-
-Christopher Clark (16):
-  xen: pass compiler flags via Xen-provided variables
-  xen: upgrade to 4.12.2
-  wic: add support for bootable pcbios partition with Xen hypervisor
-  xen: package the EFI hypervisor binary /boot/xen.efi
-  xen: add RDEPENDS for xen-pygrub and xen-python packages
-  xen: retire Qemu packaging from the Xen recipe
-  xen: separate recipes for hypervisor and tools; switch to git as
-    source
-  xen-tools: move xentrace_setmask into the xentrace package
-  xen: add seabios to RRECOMMENDS of xen-tools when HVM-enabled
-  xen-image-minimal: add kernel-module-tun for HVM guest networking
-  xen-tools: change globbing to fix syntax highlighting
-  xen, xen-tools: update recipes for python3
-  xen, xen-tools: separate COMPATIBLE_HOST for hypervisor and tools
-  xen, xen-tools: remove stubs task and generate 32-bit headers if
-    needed
-  xen, xen-tools: bug fix to post_patch task
-  xen: add contact to recipe README file
-
- .gitignore                                    |   1 +
- recipes-devtools/qemu/qemu_%.bbappend         |   1 +
- recipes-extended/images/xen-image-minimal.bb  |   6 +-
- recipes-extended/xen/README                   |   4 +-
- ...ython-pygrub-pass-DISTUTILS-xen.4.12.patch |   7 +-
- .../xen-tools-generate-32bit-headers.patch    |  99 ++
- .../files/xen-tools-libxl-gentypes-py3.patch  | 140 +++
- ...tools-pygrub-change-tabs-into-spaces.patch |  40 +
- ...-python-scripts-work-with-2.6-and-up.patch | 529 ++++++++++
- .../xen/files/xen-tools-pygrub-py3.patch      | 233 +++++
- ...ls-python-fix-Wsign-compare-warnings.patch | 136 +++
- ...n-tools-update-python-scripts-to-py3.patch | 140 +++
- recipes-extended/xen/xen-blktap.inc           |  76 ++
- recipes-extended/xen/xen-hypervisor.inc       |  97 ++
- recipes-extended/xen/xen-python2.bb           |  55 +
- recipes-extended/xen/xen-tools.inc            | 748 ++++++++++++++
- recipes-extended/xen/xen-tools_git.bb         |   3 +
- recipes-extended/xen/xen-version.inc          |  22 +
- recipes-extended/xen/xen.inc                  | 968 +-----------------
- recipes-extended/xen/xen_4.12.0.bb            |  12 -
- recipes-extended/xen/xen_git.bb               |  19 +-
- .../lib/wic/plugins/source/bootimg-biosxen.py | 212 ++++
- wic/directdisk-bootloader-xen.cfg             |  17 +
- wic/directdisk-bootloader-xen.wks             |  12 +
- wic/directdisk-xen.wks                        |  10 +
- 25 files changed, 2622 insertions(+), 965 deletions(-)
- create mode 100644 recipes-devtools/qemu/qemu_%.bbappend
- create mode 100644 recipes-extended/xen/files/xen-tools-generate-32bit-headers.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-libxl-gentypes-py3.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-change-tabs-into-spaces.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-make-python-scripts-work-with-2.6-and-up.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-py3.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-python-fix-Wsign-compare-warnings.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-update-python-scripts-to-py3.patch
- create mode 100644 recipes-extended/xen/xen-blktap.inc
- create mode 100644 recipes-extended/xen/xen-hypervisor.inc
- create mode 100644 recipes-extended/xen/xen-python2.bb
- create mode 100644 recipes-extended/xen/xen-tools.inc
- create mode 100644 recipes-extended/xen/xen-tools_git.bb
- create mode 100644 recipes-extended/xen/xen-version.inc
- delete mode 100644 recipes-extended/xen/xen_4.12.0.bb
- create mode 100644 scripts/lib/wic/plugins/source/bootimg-biosxen.py
- create mode 100644 wic/directdisk-bootloader-xen.cfg
- create mode 100644 wic/directdisk-bootloader-xen.wks
- create mode 100644 wic/directdisk-xen.wks
-
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 36ab78e..9bf2ab4 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -867,15 +867,25 @@ export CROSS_COMPILE="${TARGET_PREFIX}"
+ # overide LDFLAGS to allow xen to build without: "x86_64-oe-linux-ld: unrecognized option '-Wl,-O1'"
+ export LDFLAGS=""
+ 
+-# Yocto injects -mfpmath=sse for some machine types into the CFLAGS which
+-# conflicts with -mno-sse so instead we strip -mfpmath=sse instead of
+-# patching the build to be ok with this
+-TUNE_CCARGS := "${@oe.utils.str_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
+-TUNE_CCARGS := "${@oe.utils.str_filter_out('-msse4.2', '${TUNE_CCARGS}', d)}"
+-
+-# Supply the full set of compiler flags via the tool variables
+-# Yocto supplys _FORTIFY_SOURCE via CC/CPP/CXX but optimization -O via C*FLAGS
+-CC_append = " ${CFLAGS}"
++# Pass through the Yocto distro compiler flags via the Xen-provided variables.
++# Special handling:
++# - Yocto supplys _FORTIFY_SOURCE via CC/CPP/CXX but optimization -O via C*FLAGS
++#   which is problematic when the CFLAGS are cleared within the build.
++# - Move HOST_CC_ARCH into the Xen-provided CFLAGS variables and keep
++#   TOOLCHAIN_OPTIONS set via CC: this enables hvmloader to be built correctly.
++#   It must not be compiled with SSE compiler options enabled and the Xen build
++#   explicitly clears CFLAGS to ensure that, so such options must not be passed
++#   in via the tool variable. hvmloader is required to run HVM-mode guest VMs.
++CC="${CCACHE}${HOST_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"
++EXTRA_CFLAGS_XEN_CORE="${HOST_CC_ARCH} ${CFLAGS}"
++EXTRA_CFLAGS_XEN_TOOLS="${HOST_CC_ARCH} ${CFLAGS}"
++# 32-bit ARM needs the TUNE_CCARGS component of HOST_CC_ARCH to be passed
++# in CC to ensure that configure can compile binaries for the right arch.
++CC_arm="${CCACHE}${HOST_PREFIX}gcc ${TUNE_CCARGS} ${TOOLCHAIN_OPTIONS}"
++EXTRA_CFLAGS_XEN_CORE_arm="${SECURITY_CFLAGS} ${CFLAGS}"
++EXTRA_CFLAGS_XEN_TOOLS_arm="${SECURITY_CFLAGS} ${CFLAGS}"
++
++# There are no Xen-provided variables for C++, so append to the tool variables:
+ CPP_append = " ${CPPFLAGS}"
+ CXX_append = " ${CXXFLAGS}"
+ 
+@@ -996,8 +1006,11 @@ do_configure() {
+         bbfatal "Unable to copy defconfig to .config"
+     fi
+ 
++    unset CFLAGS
++
+     # do configure
+-    oe_runconf
++    oe_runconf EXTRA_CFLAGS_XEN_CORE="${EXTRA_CFLAGS_XEN_CORE}" \
++               EXTRA_CFLAGS_XEN_TOOLS="${EXTRA_CFLAGS_XEN_TOOLS}"
+     if [ ! -e ${STAGING_INCDIR}/bits/long-double-32.h ]; then
+         cp ${STAGING_INCDIR}/bits/long-double-64.h ${STAGING_INCDIR}/bits/long-double-32.h
+     fi
 -- 
 2.17.1
 
