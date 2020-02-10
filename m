@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.17603.1581311321620171052
+ by mx.groups.io with SMTP id smtpd.web09.17558.1581311322490146858
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 09 Feb 2020 21:08:41 -0800
+ Sun, 09 Feb 2020 21:08:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LNAsTZRp;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=lxP4HriN;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 78DC0E01711; Sun,  9 Feb 2020 21:08:41 -0800 (PST)
+	id 5B654E016BB; Sun,  9 Feb 2020 21:08:42 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -14,53 +14,53 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: 
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.214.179 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
 	*      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.214.179 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 65E25E016BB
-	for <meta-virtualization@yoctoproject.org>; Sun,  9 Feb 2020 21:08:40 -0800 (PST)
-Received: by mail-pl1-f179.google.com with SMTP id y8so2314242pll.13
-        for <meta-virtualization@yoctoproject.org>; Sun, 09 Feb 2020 21:08:40 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E40DDE016B8
+	for <meta-virtualization@yoctoproject.org>; Sun,  9 Feb 2020 21:08:41 -0800 (PST)
+Received: by mail-pl1-f179.google.com with SMTP id t6so2332969plj.5
+        for <meta-virtualization@yoctoproject.org>; Sun, 09 Feb 2020 21:08:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=cmigaB1XuzrQ7A1qP1dNgfyjwtYoekN/6uqA0Oncscc=;
-        b=LNAsTZRpoaQpqnW8YwTko0+HffpczMOX081anx1TwewQnaxgCvEJ1q2TTSQYU2/LOl
-         wyO5xtibCSINof7lKcRh87Fco/ewtYicaYiSNldUHa6az2vFWHCXged3y/qQx0eOmTI6
-         s5qEqF3dp/YQlb+87yBhHCvrqwtzEddYxPH/QE2nLUj7U96U1WOVh2UoIINwFFLMsxq0
-         7zIzWq+1/iSCSN/6CBdkkewsmeWbsU26MlI2HFxENPVqAlI429/CZrMIf3AmL9lxys68
-         ezYC4JL+ojIQXg0KGZJuETAW0bSQLp9VFowU6ZdBjxDP1+tVUaXYgedbjoqn1TF8Tg3d
-         cszg==
+        bh=uCcaBqKK66Bc8QYqhpcxPa4QICA1QiilWk0S1Zs3OaY=;
+        b=lxP4HriNavaXkvDhzfIMNhQAxXeOElFOd4lzflfIj+VHXwRgJJbZggQTsBpOTWFWIk
+         gC5DqGiwVDYRjNk/L9h84+WuA4Er6JAgiDe/KvCGFXYMP+26mcS29Ng+M9vatSdbhAh3
+         FWnUISutD+OKNXe9t9I+JVsjcExkt+CFDIisiPG8qa7113UQgp6MvG9W2OhZoxdQvIhE
+         G7WZbOtfS+rh3gitOKV2CAJ5Qn+Sve5wUmHkY6ht+vXX6HwwTn69WMzCykmS+7kWrIKU
+         KcdJOM5OtJDgZQH2ZyuL1GwsgfKZkaz7qG92FZNpNXsATn1ktxNMO04Oi1/nwCZhGZz3
+         5n8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=cmigaB1XuzrQ7A1qP1dNgfyjwtYoekN/6uqA0Oncscc=;
-        b=N0Am6ucG2v4qiIOPrE+CokqNbbj2QEEoIOminaj2PtANWFKWAhNJT3sJsT2B0QjPYa
-         m42Rj1St4wnfhKp+OKWV5JwGGLgPTGbwu3cEUM8vN/udPHB1ZlUFio2k2+v4cnFtotCX
-         pcfvTCAMili6T0paBYw5+cB7WkFXVrDjihV0nhLG4RZIattcv/xAmKp8dRZwIbw2S/bd
-         iXS+t6oQ0azyguHaL/oXbciKoMmp1CxoXYOg8nsZAamG685lNjeru2THES1EctO28ilr
-         8CG6strg4Am9zUfosLUX+NTZqhcpKdOhdEiXxroGS5lD0nIQZWVb0yOz2c1HO8MfGlyl
-         mD0Q==
-X-Gm-Message-State: APjAAAVBAGjXiKk1XYPbaOPUXcQlXkgey69OeGAvW+n2x4asmGLvkCpE
-	I/nz3rgoFGsDf95wP6wMViI6dVT3
-X-Google-Smtp-Source: APXvYqzcBqBX1CbEtTml89RuxITViD8Xrxz8nr22PHPTkjDlxrUNaXo3tEQSpAZ0j1xC4HZcZzVX+g==
-X-Received: by 2002:a17:902:8c8b:: with SMTP id t11mr10375274plo.319.1581311319448;
-        Sun, 09 Feb 2020 21:08:39 -0800 (PST)
+        bh=uCcaBqKK66Bc8QYqhpcxPa4QICA1QiilWk0S1Zs3OaY=;
+        b=QNAzYCCp43OVneSAeMy1QFMwj5MeYOOso+SE5l6fdemldvW/xxwH6uA324qycIH3EQ
+         hPajsjvs1d258SVHhdjGXnmsxjlE6awnRPucLv3/uLZ2FP8FbQOlHcobBv5DSkxksd/9
+         xKICMQihbHMKnqqFai7Ghn3WFU9SfufQZi23sShlArPK94smkCeeCIGMd5YPWwYWwKAM
+         lM5uexDc9lVoUp1NAlqylzgPTydXICww3t5s3+atmWRG5e6h+NH4yn34xb7phz8DXDaU
+         OCulpkvVqyYCJ/XqY5+gLy4VGqRxctfaStirpl4b1IJx1FJoZLSi+gmr8KEcU8N6nrdN
+         mRYw==
+X-Gm-Message-State: APjAAAWPLugM6MdeoM2MuL6uJMWxICPDLotzuWwQ0tqS0Y9QP9L1KR4f
+	mnUPabhIc5lbiJtijliAnNS+VpMM
+X-Google-Smtp-Source: APXvYqxu4RKTipNbZwDlGEKK05mg8XaKIn77PzU8WVaYbQANFHkPziVl7k7/XfUCIm+tqk9KqFw+wQ==
+X-Received: by 2002:a17:902:7c05:: with SMTP id x5mr11448902pll.236.1581311321112;
+        Sun, 09 Feb 2020 21:08:41 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id 70sm10921120pgd.28.2020.02.09.21.08.38
+        by smtp.gmail.com with ESMTPSA id 70sm10921120pgd.28.2020.02.09.21.08.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2020 21:08:38 -0800 (PST)
+        Sun, 09 Feb 2020 21:08:40 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
@@ -70,36 +70,37 @@ Cc: bruce.ashfield@gmail.com,
 	Daniel Smith <dpsmith@apertussolutions.com>,
 	Jason Andryuk <jandryuk@gmail.com>,
 	Eric Chanudet <eric.chanudet@gmail.com>
-Subject: [meta-virtualization][PATCH 15/16] xen, xen-tools: bug fix to post_patch task
-Date: Sun,  9 Feb 2020 21:07:53 -0800
-Message-Id: <20200210050754.3534-19-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 16/16] xen: add contact to recipe README file
+Date: Sun,  9 Feb 2020 21:07:54 -0800
+Message-Id: <20200210050754.3534-20-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200210050754.3534-1-christopher.w.clark@gmail.com>
 References: <20200210050754.3534-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Apply the patching to the source tree in ${S}, not ${B}.
-Fixes an observed build failure.
+Add myself as a contact for the Xen recipes.
 
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- recipes-extended/xen/xen.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-extended/xen/README | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 1029777..e4682e0 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -192,7 +192,7 @@ do_post_patch() {
+diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
+index 3686530..5592b48 100644
+--- a/recipes-extended/xen/README
++++ b/recipes-extended/xen/README
+@@ -1,7 +1,9 @@
+ Xen
+ ---
  
- do_post_patch_append_arm()  {
-     # The hypervisor binary must not be built with the hard floating point ABI.
--    echo "CC := \$(filter-out ${TUNE_CCARGS},\$(CC))" >> ${B}/xen/arch/arm/Rules.mk
-+    echo "CC := \$(filter-out ${TUNE_CCARGS},\$(CC))" >> ${S}/xen/arch/arm/Rules.mk
- }
+-For any issues with the xen recipes please make sure you CC cardoe@gentoo.org
++For any issues with the Xen recipes please make sure you CC:
++ christopher.w.clark@gmail.com
++ cardoe@gentoo.org
  
- addtask post_patch after do_patch before do_configure
+ configuring the hypervisor
+ --------------------------
 -- 
 2.17.1
 
