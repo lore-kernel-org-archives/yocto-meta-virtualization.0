@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.17599.1581311296527808208
+ by mx.groups.io with SMTP id smtpd.web10.17461.1581311298731831561
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 09 Feb 2020 21:08:16 -0800
+ Sun, 09 Feb 2020 21:08:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Zk3lrjBK;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=g3fxxmyj;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 64ABDE016BB; Sun,  9 Feb 2020 21:08:16 -0800 (PST)
+	id 95F3EE016BB; Sun,  9 Feb 2020 21:08:18 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -14,53 +14,53 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: 
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.216.65 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
 	*      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.216.65 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
 Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0C9D4E016B8
-	for <meta-virtualization@yoctoproject.org>; Sun,  9 Feb 2020 21:08:15 -0800 (PST)
-Received: by mail-pj1-f65.google.com with SMTP id fa20so3664454pjb.1
-        for <meta-virtualization@yoctoproject.org>; Sun, 09 Feb 2020 21:08:15 -0800 (PST)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id A4800E016B8
+	for <meta-virtualization@yoctoproject.org>; Sun,  9 Feb 2020 21:08:17 -0800 (PST)
+Received: by mail-pj1-f65.google.com with SMTP id ep11so3660579pjb.2
+        for <meta-virtualization@yoctoproject.org>; Sun, 09 Feb 2020 21:08:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=8EODVsz1AyOHQgMzAspdUWvthkEYZq/rbadWPlzLRks=;
-        b=Zk3lrjBK3d/VyfJWz18JFmlfsephhJUYyHZXdU6gjEGYJdfJI6C0c/opQASHdqmRTB
-         RSeZCpTbiAugyv3Iq6eo8A1BZ/BAgdPN61UDvCkyR6U5ShotmXwSnaS0yAMg8djnaPTs
-         2SyDPKQTTjS1gpmCl/2CFdNBEhc7xHo8MwIq3M46msDUtriT0rxZDrjoeurlUB+Sh+73
-         SeCWrd1kNMvpB4h1q1wqIbn1II8k3TIk+Utu4qed38a3jzGnC7y1OCrS9Hmgm+3xXphn
-         zMPne3720YAvZqJnTf4FaaK+ayLX+oejRXHUN8rOJqUsV3dOaYbcWaUf8/Mf93wH1NNl
-         U+Eg==
+        bh=wXj64CZOLpCPpIxEeggHtiJRJjk9wj2J/XlzFBMSiGI=;
+        b=g3fxxmyj6TY711+yb2I/28Y8EqPSEbi2sKj/EKacgE2i8jgdX9gTk9lchMpRtsxwcZ
+         Ok7rJOIQmsXTd6elEHyGX3mvUxipomwiXoHfpfAHBQBAp5ykNm2UFVyWg1Pd3St0r1sJ
+         DH874BbDuQCYKFu/3H5WPUTkx6eGkxeK6/4UDe6KR36DZzNcO5f6uCHQDq5cRkQQ+rdX
+         QvdDR8jzrO1EV2hDX7L9emo+Gq28vzAohPgCqWjrocXoz1WC0hd5JL6snlWTM43K0lDS
+         LZaF26b03rVD0af5zIhZweUdVgPHrePetT09VFhgnxTwgLVTmd8+tkiSteOSxcMhwCQo
+         1XSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=8EODVsz1AyOHQgMzAspdUWvthkEYZq/rbadWPlzLRks=;
-        b=KPFWQhLx3viDTCbGe1F9D1AY34qNtAeOOrcUyZL5gtF554sNFbaRgcYPCVpOBVfFzw
-         A9hF9FMSCqQqCxtfXX70IglP9jpccPeQUIlPJtqyacIyOtV5iCdwxjDcP/RuXSCkmqu9
-         UTK/tUqWkyGmN+tlcx/qKwD51O79sKv7GuWSfYxaqSZ0QYPc6riNVeS0VWzGtD9ORdfp
-         22IE5INZr1mjMekHQG1TdCvfWXHpTD8MFN+MQ0fodpdsSJ5NPyOwograoCnOJWmPuewX
-         DMyD0+EN/FoUvpbSWA/AWEwedKJt2fapfK+9Hr50qrJfAyejsxWzNskf66GBxIQJoG+m
-         pE5Q==
-X-Gm-Message-State: APjAAAV4rRNInTEI9kKlqQ+A4oGfYHvqAkcseQ+fNehig0B5vhs8M/qm
-	hd52zk9fs41tVrn/na0iseueHGt+
-X-Google-Smtp-Source: APXvYqxLCncnQEoL/WkDXGORbLARzgO71r/oL80OWAn2uBrTdxGB7vtICGNpyA13uxQqzaspbGo8Jw==
-X-Received: by 2002:a17:90a:9f93:: with SMTP id o19mr18670603pjp.76.1581311295172;
-        Sun, 09 Feb 2020 21:08:15 -0800 (PST)
+        bh=wXj64CZOLpCPpIxEeggHtiJRJjk9wj2J/XlzFBMSiGI=;
+        b=rVX019B9g7Zmbn1h2QGaJp6Ez6hboDzC/zqUlX9jXsjK3P1UclS4fBt9qk94ihx1gZ
+         Mq6jyH5DbJFIEBKCWu/0RlSYKMaJWCrfFjEvcO+rWh5DdQbl8iF9dSeqfW6wjguPQ/WH
+         HTBSlpnL28qRg61qSpMmEIAKH7Rb5dOq84rtlTsCbaCeNEkzYy2Wl4ywQwRIrRcipW68
+         0qMzRHNnj3DVfFySVbPwzJB3tc2dwbhEOjMu4S7IOmBJMc3Gev7P02zTjijbBXlRATSr
+         DYyFe/JN8vbHR/4iS22pxo1tj1+cC1ejqftxQM8tw/6/G6urbciLC/ZiTclA6reLC8xm
+         pXoA==
+X-Gm-Message-State: APjAAAWm+0HbaUBw4J/kmKZXArh/Zhd8LfcV6rOUtrw6NRPQBkExdxuj
+	0UmqX5TmsUB9AqoUykBLu2Iu/U16
+X-Google-Smtp-Source: APXvYqyluRFwuAtB0gji45zSgVr/PSJIYhhsE6k42J6EDUY/nCIUCAoe/jrNnMt+o2rWSTHhJyjuwQ==
+X-Received: by 2002:a17:90a:8a98:: with SMTP id x24mr19371271pjn.113.1581311296849;
+        Sun, 09 Feb 2020 21:08:16 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id 70sm10921120pgd.28.2020.02.09.21.08.12
+        by smtp.gmail.com with ESMTPSA id 70sm10921120pgd.28.2020.02.09.21.08.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 09 Feb 2020 21:08:13 -0800 (PST)
+        Sun, 09 Feb 2020 21:08:15 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
@@ -70,81 +70,40 @@ Cc: bruce.ashfield@gmail.com,
 	Daniel Smith <dpsmith@apertussolutions.com>,
 	Jason Andryuk <jandryuk@gmail.com>,
 	Eric Chanudet <eric.chanudet@gmail.com>
-Subject: [meta-virtualization][PATCH 01/16] xen: pass compiler flags via Xen-provided variables
-Date: Sun,  9 Feb 2020 21:07:39 -0800
-Message-Id: <20200210050754.3534-5-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 02/16] xen: upgrade to 4.12.2
+Date: Sun,  9 Feb 2020 21:07:40 -0800
+Message-Id: <20200210050754.3534-6-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200210050754.3534-1-christopher.w.clark@gmail.com>
 References: <20200210050754.3534-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Fix the method of passing compiler flags into the Xen build,
-needed to fix hvmloader: it must not be compiled with SSE options
-which are provided via TUNE_CCARGS. hvmloader is needed for Xen
-to be able to run HVM-mode guest VMs.
-
-32-bit ARM needs the TUNE_CCARGS to be retained as passed via CC
-to ensure that configure is able to generate binaries for the
-correct ABI, so that target platform is handled as a separate case.
+Fixes the build failure with 4.12.0 seen with the newer OE compiler.
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/xen/xen.inc | 33 +++++++++++++++++++++++----------
- 1 file changed, 23 insertions(+), 10 deletions(-)
+ recipes-extended/xen/{xen_4.12.0.bb => xen_4.12.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-extended/xen/{xen_4.12.0.bb => xen_4.12.2.bb} (63%)
 
-diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-index 36ab78e..9bf2ab4 100644
---- a/recipes-extended/xen/xen.inc
-+++ b/recipes-extended/xen/xen.inc
-@@ -867,15 +867,25 @@ export CROSS_COMPILE="${TARGET_PREFIX}"
- # overide LDFLAGS to allow xen to build without: "x86_64-oe-linux-ld: unrecognized option '-Wl,-O1'"
- export LDFLAGS=""
+diff --git a/recipes-extended/xen/xen_4.12.0.bb b/recipes-extended/xen/xen_4.12.2.bb
+similarity index 63%
+rename from recipes-extended/xen/xen_4.12.0.bb
+rename to recipes-extended/xen/xen_4.12.2.bb
+index 246be7a..affeb4a 100644
+--- a/recipes-extended/xen/xen_4.12.0.bb
++++ b/recipes-extended/xen/xen_4.12.2.bb
+@@ -6,7 +6,7 @@ SRC_URI = " \
+     file://0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch \
+     "
  
--# Yocto injects -mfpmath=sse for some machine types into the CFLAGS which
--# conflicts with -mno-sse so instead we strip -mfpmath=sse instead of
--# patching the build to be ok with this
--TUNE_CCARGS := "${@oe.utils.str_filter_out('-mfpmath=sse', '${TUNE_CCARGS}', d)}"
--TUNE_CCARGS := "${@oe.utils.str_filter_out('-msse4.2', '${TUNE_CCARGS}', d)}"
--
--# Supply the full set of compiler flags via the tool variables
--# Yocto supplys _FORTIFY_SOURCE via CC/CPP/CXX but optimization -O via C*FLAGS
--CC_append = " ${CFLAGS}"
-+# Pass through the Yocto distro compiler flags via the Xen-provided variables.
-+# Special handling:
-+# - Yocto supplys _FORTIFY_SOURCE via CC/CPP/CXX but optimization -O via C*FLAGS
-+#   which is problematic when the CFLAGS are cleared within the build.
-+# - Move HOST_CC_ARCH into the Xen-provided CFLAGS variables and keep
-+#   TOOLCHAIN_OPTIONS set via CC: this enables hvmloader to be built correctly.
-+#   It must not be compiled with SSE compiler options enabled and the Xen build
-+#   explicitly clears CFLAGS to ensure that, so such options must not be passed
-+#   in via the tool variable. hvmloader is required to run HVM-mode guest VMs.
-+CC="${CCACHE}${HOST_PREFIX}gcc ${TOOLCHAIN_OPTIONS}"
-+EXTRA_CFLAGS_XEN_CORE="${HOST_CC_ARCH} ${CFLAGS}"
-+EXTRA_CFLAGS_XEN_TOOLS="${HOST_CC_ARCH} ${CFLAGS}"
-+# 32-bit ARM needs the TUNE_CCARGS component of HOST_CC_ARCH to be passed
-+# in CC to ensure that configure can compile binaries for the right arch.
-+CC_arm="${CCACHE}${HOST_PREFIX}gcc ${TUNE_CCARGS} ${TOOLCHAIN_OPTIONS}"
-+EXTRA_CFLAGS_XEN_CORE_arm="${SECURITY_CFLAGS} ${CFLAGS}"
-+EXTRA_CFLAGS_XEN_TOOLS_arm="${SECURITY_CFLAGS} ${CFLAGS}"
-+
-+# There are no Xen-provided variables for C++, so append to the tool variables:
- CPP_append = " ${CPPFLAGS}"
- CXX_append = " ${CXXFLAGS}"
+-SRC_URI[md5sum] = "7d24d4541e3025421e02384cabc3528b"
+-SRC_URI[sha256sum] = "6e5455e4a58dcb2339bfcd2a89842728068b530aa62501843793f7cf743c4d64"
++SRC_URI[md5sum] = "57084e3f55bbec063d38b464e1b7e4f2"
++SRC_URI[sha256sum] = "1c75cbe728dfabf02b7f9a17ce96ee7d202d2fd4b4689490018d3a28b63f9fa3"
  
-@@ -996,8 +1006,11 @@ do_configure() {
-         bbfatal "Unable to copy defconfig to .config"
-     fi
- 
-+    unset CFLAGS
-+
-     # do configure
--    oe_runconf
-+    oe_runconf EXTRA_CFLAGS_XEN_CORE="${EXTRA_CFLAGS_XEN_CORE}" \
-+               EXTRA_CFLAGS_XEN_TOOLS="${EXTRA_CFLAGS_XEN_TOOLS}"
-     if [ ! -e ${STAGING_INCDIR}/bits/long-double-32.h ]; then
-         cp ${STAGING_INCDIR}/bits/long-double-64.h ${STAGING_INCDIR}/bits/long-double-32.h
-     fi
+ S = "${WORKDIR}/xen-${PV}"
 -- 
 2.17.1
 
