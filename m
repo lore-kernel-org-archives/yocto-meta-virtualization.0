@@ -1,210 +1,133 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web09.16551.1581455096994410803
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com [209.85.222.193])
+ by mx.groups.io with SMTP id smtpd.web10.16548.1581455218594476458
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 11 Feb 2020 13:04:57 -0800
+ Tue, 11 Feb 2020 13:06:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CKjccbJu;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id c188so11605985qkg.4
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2020 13:04:56 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=P/Qf2YpZ;
+ spf=pass (domain: gmail.com, ip: 209.85.222.193, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f193.google.com with SMTP id a2so11133115qko.12
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2020 13:06:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=aeNXrHOzwdOxh5N0R2CpkaBqIKXVf2FuivoH3BDZ/lI=;
-        b=CKjccbJujmSDTMvM6V8EQ6+SsmFNu4cj1atV10NGaa0y0Qm0KqKUhYcv9tu1zLfjWU
-         hpm8SExNkeROOcSWSH2j7LaWoSnGYo09lmE4ZLNCf67k+iXrjA+eA/IhPrnzmRv86WrS
-         xtj51gE4DB0guJMx8SRKZCuuFzsSVQBBJmIjSkLSDYwJdZWUYEY7SL4+ZFeS+FJP3fa5
-         OyboMAzZOQMycaIDwI4x25pK8IeT/JXnAl3a4n1f6CIeKPWLR8fYqnDe4Cx5unn6RIw1
-         Ctesj8i1oxpbkOhY+tAM/DGSEju6RM+bEH/zSHNGUkudA8WxZF9schmnbEQsLUwE7EPf
-         ev0g==
+        bh=eom4wD0m7l+yh5kpIqUTACWilUI0m0859FTyD52VVY0=;
+        b=P/Qf2YpZBqyyo9BiV2f7p5ka2FdU+j2xp4ZsEhrybtpnIYhgoDEwbbHUJayOHZ6yPV
+         Ucp0uGfA+/DBmR/z6rbJRgE+A24gtPKpJfTVBpfWJe48wLK1yyzxIPFhHSxNjW5xtRot
+         MIKeHQU3FFV8r60cUjGOn3st5uGoxLdirwlBz4qAIc4ioIDKgop1j8Dl5SMQcp76+hDB
+         8hzGsFfR0Y+Lh0ur/7P+KvhdRDKZHTEqRloFgC3oxHa6qgEAvL82/6foMlxOUw9on/Ng
+         M/EHtznpIpqIYEOFOUnjXRdiq92ejz9GUZkdGzeBqBGy5+consOGDJkUmEnlKQtuJTne
+         MSCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=aeNXrHOzwdOxh5N0R2CpkaBqIKXVf2FuivoH3BDZ/lI=;
-        b=iyJFelZk4Y7DSou0mA539qDuNi4s2tf6kogyxvFXe1/lmFJg97eXXY68AR4Yyhe0NX
-         C76hixPOBpParK9cUL2S0jVVHsW9qNKggTVYXwrFPPmAbyxMB4f/lC+BIUHlGaeONibU
-         oAmOKd1yBCUq1SBHUbOzEkAnawn/q0izntmr1IU0XP469M4pzF7Wls/t+RjQi87ojv14
-         F5xLtNelGfTWoMSoywVyLLquz9i49qn4pZW58csUJt2MW/3Tsgmgpy/mXu0ppzK3ta8Q
-         d6bb76Sv9HtE/7F2Ju+lAfD4oFncIWQsGxVhP+p/XojTC/Kw0v8KpsK7ZP8HGR0gnVgz
-         LcAw==
-X-Gm-Message-State: APjAAAUUxgLct58vcLLmae7pDQl8ua8mkZeXYWpQDC6K+KCGKYuEzKQY
-	Yk9ICeKDB4wvX2YyodXA8gU=
-X-Google-Smtp-Source: APXvYqwVVc4vRpl3/5hjz3obkLWukxlRstXJXSukUEwSa16TgXNV/62ZBDHvHL1eISeNJVShzKnzgQ==
-X-Received: by 2002:a37:5d1:: with SMTP id 200mr4489356qkf.492.1581455096059;
-        Tue, 11 Feb 2020 13:04:56 -0800 (PST)
+        bh=eom4wD0m7l+yh5kpIqUTACWilUI0m0859FTyD52VVY0=;
+        b=sJMnycc/dQUy4R8mPDIKPgMpZkEOsHNYtzSdc+vIz0h+7tZogiCL/JFJ9N1+bs+VEN
+         cvfWh6nyOUDxbsHMmjrokx9c4txNGJzox42bDlKYbciqnehWrDpgmTk400zo4lR3Okc7
+         3g1a9e2QU05fpWt8PEvI1yZMnsaIxbgq0AK1S6ULWlwO1/JdXOUn3tMoFz8pejzIJDjv
+         7UFHF6nQKzTsBxmpNm2bSNSuse3KqNkoezU8RzC0MTTifvgxrAr2JRZNfmsak6i/N0zv
+         /EnOVUYWh9ZU2rUW9qI4m+/EK6qmzmMh2Q39xSRKBBH8Ht56aaYnIhPhMoJMpYcIWRa9
+         evAQ==
+X-Gm-Message-State: APjAAAWJZ+JqlvSfQFqa2V5aJMqcSP6i9OFPo4F2xmN/OCtcdT8VhfeT
+	17oj+d8H1MZ1HHX+GTaDmVNwhiL+zic=
+X-Google-Smtp-Source: APXvYqyLxDtTXnVRRN9IFt8nQhzpypurDJrEnisLEgjLv8VHuuev579COCP8KTitrxNxPtdpZhULUw==
+X-Received: by 2002:a37:27d3:: with SMTP id n202mr871185qkn.106.1581455217671;
+        Tue, 11 Feb 2020 13:06:57 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
-        by smtp.gmail.com with ESMTPSA id 85sm2693013qko.49.2020.02.11.13.04.45
+        by smtp.gmail.com with ESMTPSA id a13sm1983205qkh.123.2020.02.11.13.06.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 11 Feb 2020 13:04:50 -0800 (PST)
-Date: Tue, 11 Feb 2020 16:04:36 -0500
+        Tue, 11 Feb 2020 13:06:57 -0800 (PST)
+Date: Tue, 11 Feb 2020 16:06:55 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: meta-virtualization@lists.yoctoproject.org, alistair23@gmail.com
-Subject: Re: [PATCH] xvisor: Initial commit of Xvisor Hypervisor
-Message-ID: <20200211210433.GA36395@gmail.com>
-References: <20200203215011.6642-1-alistair.francis@wdc.com>
- <20200203215011.6642-2-alistair.francis@wdc.com>
+To: Ricardo Salveti <ricardo@foundries.io>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH] python3-docker-compose: update to 1.25.4
+Message-ID: <20200211210640.GB36395@gmail.com>
+References: <20200204221947.25946-1-ricardo@foundries.io>
 MIME-Version: 1.0
-In-Reply-To: <20200203215011.6642-2-alistair.francis@wdc.com>
+In-Reply-To: <20200204221947.25946-1-ricardo@foundries.io>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In message: [PATCH] xvisor: Initial commit of Xvisor Hypervisor
-on 03/02/2020 Alistair Francis wrote:
+Is this fixing a known issue ? Adding some features ? both ? ..
+or just to grab the latest. All are good reasons!
 
-> This commit adds support for building the baremetal Xvisor Hypervisor.
-> 
-> I have only tested this with RISC-V so currently only RISC-V is marked
-> as a COMPATIBLE_HOST, although Xvisor does support multiple other
-> architectures.
-> 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  ...n-t-specify-mabi-or-march-for-RISC-V.patch | 34 ++++++++++++++
->  recipes-extended/xvisor/xvisor-configs.inc    | 25 +++++++++++
->  recipes-extended/xvisor/xvisor_0.3.0.bb       | 44 +++++++++++++++++++
->  3 files changed, 103 insertions(+)
->  create mode 100644 recipes-extended/xvisor/files/0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch
->  create mode 100644 recipes-extended/xvisor/xvisor-configs.inc
->  create mode 100644 recipes-extended/xvisor/xvisor_0.3.0.bb
-> 
-> diff --git a/recipes-extended/xvisor/files/0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch b/recipes-extended/xvisor/files/0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch
-> new file mode 100644
-> index 0000000..2e53943
-> --- /dev/null
-> +++ b/recipes-extended/xvisor/files/0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch
-> @@ -0,0 +1,34 @@
-> +From 022c885d077dce6fad3eca5fd2f54b2070c375d2 Mon Sep 17 00:00:00 2001
-> +From: Alistair Francis <alistair.francis@wdc.com>
-> +Date: Fri, 17 May 2019 14:21:44 -0700
-> +Subject: [PATCH] TESTS: Don't specify mabi or march for RISC-V
-> +
-> +To avoid
-> +    can't link double-float modules with soft-float modules
-> +errors when building 32-bit baremetal guests don't specify mabi
-> +or march.
-> +
-> +Upstream-Status: Inappropriate [Fixes a 32-bit Yocto flow bug]
-> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> +---
-> + tests/riscv/common/basic/Makefile.inc | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/tests/riscv/common/basic/Makefile.inc b/tests/riscv/common/basic/Makefile.inc
-> +index 9fa5abed..f3ff1864 100644
-> +--- a/tests/riscv/common/basic/Makefile.inc
-> ++++ b/tests/riscv/common/basic/Makefile.inc
-> +@@ -24,8 +24,8 @@
-> + ARCH_CPPFLAGS=$(board_cppflags) -DFIRMWARE_BOOT
-> + ARCH_CPPFLAGS+=-DTEXT_START=$(board_text_start)
-> + ifeq ($(board_32bit),y)
-> +-ARCH_CFLAGS=$(board_cflags) -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-save-restore -mstrict-align -mabi=ilp32 -march=rv32imafdc -mcmodel=medany
-> +-ARCH_ASFLAGS=$(board_asflags) -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-save-restore -mstrict-align -mabi=ilp32 -march=rv32imafdc -mcmodel=medany
-> ++ARCH_CFLAGS=$(board_cflags) -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-save-restore -mstrict-align -mcmodel=medany
-> ++ARCH_ASFLAGS=$(board_asflags) -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-save-restore -mstrict-align -mcmodel=medany
-> + else
-> + ARCH_CFLAGS=$(board_cflags) -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-save-restore -mstrict-align -mabi=lp64 -march=rv64imafdc -mcmodel=medany
-> + ARCH_ASFLAGS=$(board_asflags) -fno-omit-frame-pointer -fno-optimize-sibling-calls -mno-save-restore -mstrict-align -mabi=lp64 -march=rv64imafdc -mcmodel=medany
-> +-- 
-> +2.21.0
-> +
-> diff --git a/recipes-extended/xvisor/xvisor-configs.inc b/recipes-extended/xvisor/xvisor-configs.inc
-> new file mode 100644
-> index 0000000..099128d
-> --- /dev/null
-> +++ b/recipes-extended/xvisor/xvisor-configs.inc
-> @@ -0,0 +1,25 @@
-> +def get_oemake_config(d):
-> +    plat = d.getVar('XVISOR_PLAT')
-> +
-> +    if plat is None:
-> +        return ""
-> +
-> +    if 'riscv/virt32' in plat:
-> +        return "generic-32b-defconfig"
-> +    if 'riscv/virt64' in plat:
-> +        return "generic-64b-defconfig"
-> +
-> +    return ""
-> +
-> +def map_xvisor_arch(a, d):
-> +    import re
-> +
-> +    if   re.match('(i.86|x86.64)$', a):  return 'x86'
-> +    elif re.match('armeb$', a):                 return 'arm'
-> +    elif re.match('aarch64$', a):               return 'arm'
-> +    elif re.match('aarch64_be$', a):            return 'arm'
-> +    elif re.match('aarch64_ilp32$', a):         return 'arm'
-> +    elif re.match('aarch64_be_ilp32$', a):      return 'arm'
-> +    elif re.match('riscv(32|64|)(eb|)$', a):    return 'riscv'
-> +    else:
-> +        bb.error("cannot map '%s' to a Xvisor architecture" % a)
+Just asking, since for next time we can capture a short summary
+in the commit log about why we are doing the version bump.
 
-This all looks fine to me (for the 1st revision), I did wonder if the
-mappings are any different than the kernel mappings (but didn't check) ..
-and if so, we could avoid the code to map the arch.
-
-It would also be nice to eventually have a README or some other test
-information captured in the layer, that way people can have an idea
-about why they'd want to use this, some expected behaviour and how
-they can boot it.
+This is now merged.
 
 Bruce
 
-> diff --git a/recipes-extended/xvisor/xvisor_0.3.0.bb b/recipes-extended/xvisor/xvisor_0.3.0.bb
-> new file mode 100644
-> index 0000000..66ad618
-> --- /dev/null
-> +++ b/recipes-extended/xvisor/xvisor_0.3.0.bb
-> @@ -0,0 +1,44 @@
-> +SUMMARY = "Xvisor is an open-source type-1 hypervisor, which aims at providing a monolithic, light-weight, portable, and flexible virtualization solution."
-> +DESCRIPTION = "Xvisor primarily supports Full virtualization hence, supports a wide range of unmodified guest operating systems. Paravirtualization is optional for Xvisor and will be supported in an architecture independent manner (such as VirtIO PCI/MMIO devices) to ensure no-change in guest OS for using paravirtualization."
-> +LICENSE = "GPLv2"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> +DEPENDS += "dtc-native dosfstools-native mtools-native"
-> +
-> +require xvisor-configs.inc
-> +
-> +inherit autotools-brokensep
-> +
-> +SRCREV = "58592ef18c71526a0045935d1e8eed5e8553b7d6"
-> +SRC_URI = "git://github.com/xvisor/xvisor.git \
-> +           file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
-> +          "
-> +
-> +S = "${WORKDIR}/git"
-> +
-> +EXTRA_OEMAKE += "ARCH=\"${@map_xvisor_arch(d.getVar('TARGET_ARCH'), d)}\" I=${D}"
-> +
-> +CONFIG = "${@get_oemake_config(d)}"
-> +
-> +do_configure() {
-> +    oe_runmake ${CONFIG}
-> +}
-> +
-> +do_install_append() {
-> +    install -d ${D}
-> +    install -m 755 ${B}/build/vmm.* ${D}/
-> +
-> +    # We don't need this
-> +    rm ${D}/system.map
-> +}
-> +
-> +do_deploy () {
-> +    install -d ${DEPLOY_DIR_IMAGE}
-> +    install -m 755 ${D}/vmm.* ${DEPLOY_DIR_IMAGE}/
-> +}
-> +
-> +addtask deploy after do_install
-> +
-> +FILES_${PN} += "/vmm.*"
-> +
-> +COMPATIBLE_HOST = "(riscv64|riscv32).*"
-> +INHIBIT_PACKAGE_STRIP = "1"
+In message: [meta-virtualization] [PATCH] python3-docker-compose: update to 1.25.4
+on 04/02/2020 Ricardo Salveti wrote:
+
+> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+> ---
+>  ...001-setup.py-remove-maximum-version-requirements.patch | 8 ++++----
+>  ...compose_1.25.0.bb => python3-docker-compose_1.25.4.bb} | 4 ++--
+>  2 files changed, 6 insertions(+), 6 deletions(-)
+>  rename recipes-containers/docker-compose/{python3-docker-compose_1.25.0.bb => python3-docker-compose_1.25.4.bb} (87%)
+> 
+> diff --git a/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch b/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+> index 8d204a7..6e5ca3d 100644
+> --- a/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+> +++ b/recipes-containers/docker-compose/files/0001-setup.py-remove-maximum-version-requirements.patch
+> @@ -1,4 +1,4 @@
+> -From 2685716409c560cdf94aee6262ed8c32ad137133 Mon Sep 17 00:00:00 2001
+> +From 1d358acd46c9ca71d848fca8c2d677414257f247 Mon Sep 17 00:00:00 2001
+>  From: Chen Qi <Qi.Chen@windriver.com>
+>  Date: Fri, 22 Nov 2019 09:24:58 +0800
+>  Subject: [PATCH] setup.py: remove maximum version requirements
+> @@ -15,7 +15,7 @@ Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+>   1 file changed, 11 insertions(+), 11 deletions(-)
+>  
+>  diff --git a/setup.py b/setup.py
+> -index 23ae08a..eef2825 100644
+> +index 110441dc..eef28254 100644
+>  --- a/setup.py
+>  +++ b/setup.py
+>  @@ -30,16 +30,16 @@ def find_version(*file_paths):
+> @@ -24,7 +24,7 @@ index 23ae08a..eef2825 100644
+>   install_requires = [
+>  -    'cached-property >= 1.2.0, < 2',
+>  -    'docopt >= 0.6.1, < 1',
+> --    'PyYAML >= 3.10, < 5',
+> +-    'PyYAML >= 3.10, < 6',
+>  -    'requests >= 2.20.0, < 3',
+>  -    'texttable >= 0.9.0, < 2',
+>  -    'websocket-client >= 0.32.0, < 1',
+> @@ -55,5 +55,5 @@ index 23ae08a..eef2825 100644
+>   
+>   
+>  -- 
+> -2.7.4
+> +2.25.0
+>  
+> diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb b/recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
+> similarity index 87%
+> rename from recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb
+> rename to recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
+> index ba35c49..2dcad1e 100644
+> --- a/recipes-containers/docker-compose/python3-docker-compose_1.25.0.bb
+> +++ b/recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
+> @@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
+>  
+>  inherit pypi setuptools3
+>  
+> -SRC_URI[md5sum] = "275b32cffdad6b9816dc8b4c7e55600a"
+> -SRC_URI[sha256sum] = "2c5fcbfd3ff445b6f3eebb549cb167ef1d8f70c5806aab8f309fc8fa74cd977e"
+> +SRC_URI[md5sum] = "893fbb804a9057d6c470b5312407e0d1"
+> +SRC_URI[sha256sum] = "fabae2bee4abfa7bdd09125b6bbdcdda81f946c7b16e3ccc6bb2d821ef6488f3"
+>  
+>  SRC_URI += "file://0001-setup.py-remove-maximum-version-requirements.patch \
+>              file://0001-setup.py-import-fastentrypoints.patch \
 > -- 
 > 2.25.0
 > 
+
+> 
+
