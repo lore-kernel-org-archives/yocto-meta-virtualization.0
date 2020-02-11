@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.16893.1581455677006630667
+ by mx.groups.io with SMTP id smtpd.web10.16677.1581455755104006086
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 11 Feb 2020 13:14:37 -0800
+ Tue, 11 Feb 2020 13:15:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TeNVHRh8;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=W86jQxlz;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 88181E01723; Tue, 11 Feb 2020 13:14:36 -0800 (PST)
+	id F1F26E016D8; Tue, 11 Feb 2020 13:15:54 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,51 +20,51 @@ X-Spam-HAM-Report:
 	*      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.167.66 listed in list.dnswl.org]
+	*      [209.85.167.68 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com [209.85.167.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 65CEDE016D7
-	for <meta-virtualization@yoctoproject.org>; Tue, 11 Feb 2020 13:14:34 -0800 (PST)
-Received: by mail-lf1-f66.google.com with SMTP id z18so8093272lfe.2
-        for <meta-virtualization@yoctoproject.org>; Tue, 11 Feb 2020 13:14:34 -0800 (PST)
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com [209.85.167.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B3C93E003E1
+	for <meta-virtualization@yoctoproject.org>; Tue, 11 Feb 2020 13:15:52 -0800 (PST)
+Received: by mail-lf1-f68.google.com with SMTP id 203so8066451lfa.12
+        for <meta-virtualization@yoctoproject.org>; Tue, 11 Feb 2020 13:15:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YypHjr/tSoVT7f3q/sQ1bAVYUu6kWOWnIjNcz5isLy4=;
-        b=TeNVHRh8zcCdJo4xW/BEep+jUzaKmkgHA32Jsw3VE+OwlPVWGDKcP9jq6i8PvYJ2p6
-         rR2bo5xvD7VXghoTv52mianhxbQrm5OhPjYoy1sJ3irXm44/9yUD2j8ahQTzxuTMtpla
-         AcUkxZKXliQiF395KrAyzNoKrzyM++b2dEh09peEEDBqsoAMX5+eto5v2HN5Rug7cRf6
-         wfU8UzgJXD6Z/ttE5USS6PKifKuKWYibq6Ojvb+lPyvfJQxrbbRhNzp7hw9oBRKVXQD+
-         OnSamw9xEhxJ2r2C46WHWeuDHiP7/+artUAw3Hz6uhnbBkctjrlSPCQUiZ8u9+j+e0S5
-         /S/Q==
+        bh=LOJRCYh2Tt0cTqkArI3zN4o54UqmGMzJrwxkZrdsPJg=;
+        b=W86jQxlzzWfXtxA1yFAU5UOPiL4g/lVPVy9Q4LVJj/z8JAeT6mGOMEmHcqK17wzVpo
+         nLtKmJAcGMXwaNU8SPnA2xy97BHQISNI8ZLEEac94mIq7IgaMUIcTxd064RfSnp2HiOC
+         awwN9lCRQqZSKNXNJZEVrfTyyEQZ3/AqHzzI+SvgGRF7tuDHbkEyz3HfCOPPYN8TSf4Q
+         0FxQzxBSuKe0RhAbZXFSFTn+E6kCw+P5lV9OYjKQdEcf+5IFlUedE1EruB69z8p1+UZZ
+         dgG3fCIwOtX/SbL9BkddrWM36h1YwRVtULSq7jgTV7omDAKUbYpS/U3OCZse6uWQFoHw
+         K6sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YypHjr/tSoVT7f3q/sQ1bAVYUu6kWOWnIjNcz5isLy4=;
-        b=IprahCVkV1ZqAXFODoscmhS5TTEyQLyToZYr03vq5gS8SZHMHNkdl69PkuZNvI/tv2
-         UdeV1RUU51ALKYAY50UY0Em7sZhU8OJrkvKcd22ZbI4JuT036BZXNfMG5GwEvUuObQmn
-         qNs9LJVoZcFXNbP1fQDNWKorp8yyG01JtFUd6b7i5G7pnrMxPcn5PXoSNjMaWMAslcx6
-         IgS93Y9iBDJtur2d2ygZ15wPX1DP6FLrjsXGkmGUIdhLvmn2LTu3EKrsVrvKKv1GP2jl
-         BEZ2vs37pwU1/Bl6HORL1K4t3tCXE/VhGldJW7QxBBZ/KVvGBUTEYFWKKDGxzM9g2Kbs
-         +r7A==
-X-Gm-Message-State: APjAAAV8Gs/E0ec2A7hRfIN64b3p7pfHKkTMVjecycrcRMpU1mIYi8jv
-	BvHXRXVVn9x5aTkGrevW93gE/jKZaK+phG7qyuw=
-X-Google-Smtp-Source: APXvYqyTLVTmlDVIcyVJx1sp5emF2BKFaGyNZkqlDnMtUJFIUHeJz1B5ZtZVsu2tmqF35ayLtCY7aTR/4gsJZyjFn40=
-X-Received: by 2002:ac2:52a3:: with SMTP id r3mr4671686lfm.189.1581455673149;
- Tue, 11 Feb 2020 13:14:33 -0800 (PST)
+        bh=LOJRCYh2Tt0cTqkArI3zN4o54UqmGMzJrwxkZrdsPJg=;
+        b=fmtp3PIuIp5WyMk7VzvccvAmXeJGGcnNAkb/xMs1njQKW6vUH7gINo2tMqh/KccYpi
+         piF/aLi8CC1XcKNnfOAS5sirZEYO9sA/YfZ08He0lCmZFxwq1ZvVw1SRt5OifC+ujiej
+         wxjmW6s1R8/T77Ca+Dchkwtm8kV6Pru1Xzvq0waCqf+cxz3ej8H2oWGLuUvsFw544eJd
+         OclPGaksFeH5WJ61JJbKY+/AU44xBbwCciHwC2Ccg+tI4lT+uiu2+f5XwKFeKUoBb7du
+         bpQDWsn1jcH2iPBDL6zxg4fBr8SpYJr1mp6p3n6m7Q7NWuJZZh+hj2SL4yMmqP1OkG7h
+         cqVQ==
+X-Gm-Message-State: APjAAAVVV8fjz1/QqHbVs3jxoqmTdHGMLl634tf+hx7cm6wcl9MJth3v
+	2ETcfujJBDquI2WUEgy0p/4gzJYIjFxoABR6KgA=
+X-Google-Smtp-Source: APXvYqw87QwFgl3ITjFeeK0/vD1zPQdw2wTLxxKOMpbBVGdz4ByG/NvNFh8eOmB/fPqRvZq810SyqOs0vuQVvDkyR3k=
+X-Received: by 2002:ac2:47ec:: with SMTP id b12mr4711997lfp.162.1581455751509;
+ Tue, 11 Feb 2020 13:15:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20200210050754.3534-1-christopher.w.clark@gmail.com> <20200210050754.3534-10-christopher.w.clark@gmail.com>
-In-Reply-To: <20200210050754.3534-10-christopher.w.clark@gmail.com>
+References: <20200210050754.3534-1-christopher.w.clark@gmail.com> <20200210050754.3534-15-christopher.w.clark@gmail.com>
+In-Reply-To: <20200210050754.3534-15-christopher.w.clark@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 11 Feb 2020 16:14:22 -0500
-Message-ID: <CADkTA4Mj=j+wQQ2=8=mXUiLEJcBHGyg5Pfhn+UHTbhDDDhwLYw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 06/16] xen: retire Qemu packaging from the Xen recipe
+Date: Tue, 11 Feb 2020 16:15:40 -0500
+Message-ID: <CADkTA4OYBGGh9Wuc+M7RHBoEdDNM1tu5zJsyWGmuUeuYHiVscw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 11/16] xen-tools: change globbing to fix syntax highlighting
 To: Christopher Clark <christopher.w.clark@gmail.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
 	Doug Goldstein <cardoe@gentoo.org>, Rich Persaud <persaur@gmail.com>, 
@@ -76,124 +76,42 @@ On Mon, Feb 10, 2020 at 12:08 AM <christopher.w.clark@gmail.com> wrote:
 >
 > From: Christopher Clark <christopher.w.clark@gmail.com>
 >
-> Modern Qemu supports Xen and the qemu binary to be used with Xen should
-> be built with the Qemu recipe.
+> Fixes an annoyance when editing the file. No functional change intended.
 
-A nice cleanup/simplification!
+I'm guessing it saw them as comments ? /*
 
 Bruce
 
 >
 > Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 > ---
->  recipes-extended/xen/xen.inc | 87 ------------------------------------
->  1 file changed, 87 deletions(-)
+>  recipes-extended/xen/xen-tools.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
-> index 146e02b..fa0044b 100644
-> --- a/recipes-extended/xen/xen.inc
-> +++ b/recipes-extended/xen/xen.inc
-> @@ -217,7 +217,6 @@ PACKAGES = "\
->      ${PN}-misc \
->      ${PN}-pygrub \
->      ${PN}-python \
-> -    ${PN}-qemu \
->      ${PN}-remus \
->      ${PN}-scripts-block \
->      ${PN}-scripts-common \
-> @@ -546,92 +545,6 @@ FILES_${PN}-python = "\
+> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
+> index 5b0a339..e166c74 100644
+> --- a/recipes-extended/xen/xen-tools.inc
+> +++ b/recipes-extended/xen/xen-tools.inc
+> @@ -197,7 +197,7 @@ FILES_${PN}-dbg += "\
+>      ${libdir}/fs/zfs/.debug \
+>      ${libdir}/fs/reiserfs/.debug \
+>      ${libdir}/fs/iso9660/.debug \
+> -    ${libdir}/fs/*/.debug \
+> +    ${libdir}/fs/**/.debug \
+>      ${sbindir}/.debug \
+>      ${libdir}exec/.debug \
+>      ${libdir}/xen/libexec/.debug \
+> @@ -346,8 +346,8 @@ FILES_${PN}-libfsimage-dev = " \
 >      "
 >
->  INSANE_SKIP_${PN} = "already-stripped"
-> -INSANE_SKIP_${PN}-qemu = "arch"
-> -FILES_${PN}-qemu = " \
-> -    ${datadir}/xen/qemu \
-> -    ${libdir}/xen/bin/qemu-system-i386 \
-> -    ${libdir}/xen/bin/qemu-system-x86_64 \
-> -    ${libdir}/xen/bin/qemu-img \
-> -    ${libdir}/xen/bin/qemu-nbd \
-> -    ${libdir}/xen/bin/qemu-ga \
-> -    ${libdir}/xen/bin/qemu-io \
-> -    ${libdir}/xen/bin/qemu-dm \
-> -    ${libdir}/xen/bin/virtfs-proxy-helper \
-> -    /usr/libexec/qemu-bridge-helper \
-> -    ${libdir}/xen/libexec/qemu-bridge-helper \
-> -    /usr/etc/qemu \
-> -    /usr/etc/qemu/target-x86_64.conf \
-> -    ${libdir}/xen/etc/qemu/target-x86_64.conf \
-> -    ${datadir}/qemu-xen \
-> -    ${datadir}/qemu-xen/qemu \
-> -    ${datadir}/qemu-xen/qemu/bamboo.dtb \
-> -    ${datadir}/qemu-xen/qemu/pxe-pcnet.rom \
-> -    ${datadir}/qemu-xen/qemu/vgabios-vmware.bin \
-> -    ${datadir}/qemu-xen/qemu/pxe-eepro100.rom \
-> -    ${datadir}/qemu-xen/qemu/pxe-e1000.rom \
-> -    ${datadir}/qemu-xen/qemu/openbios-ppc \
-> -    ${datadir}/qemu-xen/qemu/multiboot.bin \
-> -    ${datadir}/qemu-xen/qemu/vgabios-cirrus.bin \
-> -    ${datadir}/qemu-xen/qemu/bios.bin \
-> -    ${datadir}/qemu-xen/qemu/vgabios-stdvga.bin \
-> -    ${datadir}/qemu-xen/qemu/palcode-clipper \
-> -    ${datadir}/qemu-xen/qemu/pxe-ne2k_pci.rom \
-> -    ${datadir}/qemu-xen/qemu/spapr-rtas.bin \
-> -    ${datadir}/qemu-xen/qemu/slof.bin \
-> -    ${datadir}/qemu-xen/qemu/vgabios-qxl.bin \
-> -    ${datadir}/qemu-xen/qemu/pxe-rtl8139.rom \
-> -    ${datadir}/qemu-xen/qemu/openbios-sparc64 \
-> -    ${datadir}/qemu-xen/qemu/pxe-virtio.rom \
-> -    ${datadir}/qemu-xen/qemu/kvmvapic.bin \
-> -    ${datadir}/qemu-xen/qemu/openbios-sparc32 \
-> -    ${datadir}/qemu-xen/qemu/petalogix-s3adsp1800.dtb \
-> -    ${datadir}/qemu-xen/qemu/sgabios.bin \
-> -    ${datadir}/qemu-xen/qemu/linuxboot.bin \
-> -    ${datadir}/qemu-xen/qemu/qemu-icon.bmp \
-> -    ${datadir}/qemu-xen/qemu/ppc_rom.bin \
-> -    ${datadir}/qemu-xen/qemu/vgabios.bin \
-> -    ${datadir}/qemu-xen/qemu/s390-zipl.rom \
-> -    ${datadir}/qemu-xen/qemu/petalogix-ml605.dtb \
-> -    ${datadir}/qemu-xen/qemu/keymaps \
-> -    ${datadir}/qemu-xen/qemu/keymaps/common \
-> -    ${datadir}/qemu-xen/qemu/keymaps/th \
-> -    ${datadir}/qemu-xen/qemu/keymaps/is \
-> -    ${datadir}/qemu-xen/qemu/keymaps/en-gb \
-> -    ${datadir}/qemu-xen/qemu/keymaps/ar \
-> -    ${datadir}/qemu-xen/qemu/keymaps/fr-be \
-> -    ${datadir}/qemu-xen/qemu/keymaps/ru \
-> -    ${datadir}/qemu-xen/qemu/keymaps/hu \
-> -    ${datadir}/qemu-xen/qemu/keymaps/de-ch \
-> -    ${datadir}/qemu-xen/qemu/keymaps/no \
-> -    ${datadir}/qemu-xen/qemu/keymaps/fr \
-> -    ${datadir}/qemu-xen/qemu/keymaps/pl \
-> -    ${datadir}/qemu-xen/qemu/keymaps/fr-ca \
-> -    ${datadir}/qemu-xen/qemu/keymaps/de \
-> -    ${datadir}/qemu-xen/qemu/keymaps/fr-ch \
-> -    ${datadir}/qemu-xen/qemu/keymaps/bepo \
-> -    ${datadir}/qemu-xen/qemu/keymaps/lv \
-> -    ${datadir}/qemu-xen/qemu/keymaps/ja \
-> -    ${datadir}/qemu-xen/qemu/keymaps/da \
-> -    ${datadir}/qemu-xen/qemu/keymaps/lt \
-> -    ${datadir}/qemu-xen/qemu/keymaps/hr \
-> -    ${datadir}/qemu-xen/qemu/keymaps/es \
-> -    ${datadir}/qemu-xen/qemu/keymaps/modifiers \
-> -    ${datadir}/qemu-xen/qemu/keymaps/sl \
-> -    ${datadir}/qemu-xen/qemu/keymaps/it \
-> -    ${datadir}/qemu-xen/qemu/keymaps/nl \
-> -    ${datadir}/qemu-xen/qemu/keymaps/fo \
-> -    ${datadir}/qemu-xen/qemu/keymaps/mk \
-> -    ${datadir}/qemu-xen/qemu/keymaps/pt-br \
-> -    ${datadir}/qemu-xen/qemu/keymaps/tr \
-> -    ${datadir}/qemu-xen/qemu/keymaps/sv \
-> -    ${datadir}/qemu-xen/qemu/keymaps/fi \
-> -    ${datadir}/qemu-xen/qemu/keymaps/en-us \
-> -    ${datadir}/qemu-xen/qemu/keymaps/et \
-> -    ${datadir}/qemu-xen/qemu/keymaps/nl-be \
-> -    ${datadir}/qemu-xen/qemu/keymaps/pt \
-> -    ${bindir}/qemu-nbd-xen \
-> -    ${bindir}/qemu-img-xen \
-> -    "
+>  FILES_${PN}-fsimage = " \
+> -    ${libdir}/fs/*/*fsimage.so \
+> -    ${libdir}/xenfsimage/*/fsimage.so \
+> +    ${libdir}/fs/**/[a-z]*fsimage.so \
+> +    ${libdir}/xenfsimage/**/fsimage.so \
+>      "
 >
->  FILES_${PN}-remus = "\
->      ${bindir}/remus \
+>  FILES_${PN}-init-xenstore-dom = "${libdir}/xen/bin/init-xenstore-domain"
 > --
 > 2.17.1
 >
