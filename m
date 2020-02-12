@@ -1,140 +1,199 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.19171.1581465888150006773
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.21838.1581479645555162113
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 11 Feb 2020 16:04:48 -0800
+ Tue, 11 Feb 2020 19:54:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=igPMEB5T;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 083BCE0167E; Tue, 11 Feb 2020 16:04:48 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,FREEMAIL_REPLY,RCVD_IN_DNSWL_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.208.66 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	*  1.0 FREEMAIL_REPLY From and body contain different freemails
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id ACFA4E007EE
-	for <meta-virtualization@yoctoproject.org>; Tue, 11 Feb 2020 16:04:46 -0800 (PST)
-Received: by mail-ed1-f66.google.com with SMTP id c26so240384eds.8
-        for <meta-virtualization@yoctoproject.org>; Tue, 11 Feb 2020 16:04:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=H6jbcQizvl3qOYUGM+0CyF2Iz1k0IT67K6gFmFmlcFM=;
-        b=igPMEB5T9/qTbDbTtbINjupHv0tplAG6wNyRvtQPQvESWaY500n5jnSN2Srf0l1kFQ
-         0SPamzbqAYmhB6R+YoM9Fdsy1IoG88fRYet1QKfzjAncWoll2LSqDp7Yu0jmGPwdfcXK
-         N9YEq+sHP6+w1vSqbENDt19FaQXswy8huKN5G3NWBfgMS6Z44VYuVL8AJVWF1KSywowo
-         4juj8Gr5tBbMFsGF0QIWDQNwyhmMeh8JWgWLm9YGn9UtoEc3OPFvtcMyGEEBaRUgGQPv
-         yicOqtoxibjXKcxmowdNiflPPsnNhPq81+2oamoYske1DZcP/QAXVh6ygUQ3s2kmeeyu
-         z0HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=H6jbcQizvl3qOYUGM+0CyF2Iz1k0IT67K6gFmFmlcFM=;
-        b=FeBk+kPn/Et9QpRZDaDuz7IG4WjgYj0x3rbivX6xw03jVHE0Xd6Qh4CPitKWwQ+vvH
-         w25qYR+Jh00/XjvkkusGX1Kwa/zy4jo3wZb6bF/K2Pj258VGHnviIKHePEjw/IGVETwx
-         qeR1UlYR+u6XUrIfItQzbnbGPpK1Ep4Do4H6ifpcEsI3TKqSvhrWDk3zkfAaD06ajcFt
-         TchyhcSA3AJBizxzaOuK7SUwtw4/ckAzcTocN7wlq7e2yXTaEH6mtpuKEWvRESgbbnbR
-         3MarHPe1nwlyMgIZN7HFW7Y1RBunhPrzRJRoOp2d8eXahRI/1Y00vS3A5CJd2m52LGuM
-         mbmQ==
-X-Gm-Message-State: APjAAAUmSS/jZRA3i0E+BtFTUxEijJZGqu9n56ZjsnJ+piS0Y3nNSEBQ
-	nI/W2eYA3w1frQz84mE3/PxZQYYen0D70KfFXnU=
-X-Google-Smtp-Source: APXvYqxTlA79STOhOTrePeAJh9U+qrniNUE9qEwEMn0KeuGdJ59NCYhbaflK9l2FxFsFp4UqQ0NeEEWVE8mQJFHlrLA=
-X-Received: by 2002:a17:906:4bd1:: with SMTP id x17mr8578250ejv.181.1581465885684;
- Tue, 11 Feb 2020 16:04:45 -0800 (PST)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: kai.kang@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01C3s4gF026206
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 11 Feb 2020 19:54:04 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+ ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+ 14.3.468.0; Tue, 11 Feb 2020 19:53:48 -0800
+From: "kai" <kai.kang@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [PATCH] ceph: 14.2.6 -> 14.2.7
+Date: Wed, 12 Feb 2020 11:53:46 +0800
+Message-ID: <20200212035346.8364-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20200210050754.3534-1-christopher.w.clark@gmail.com>
- <20200210050754.3534-20-christopher.w.clark@gmail.com> <CADkTA4Oko4tG+0CkmoexjGzFj2Hg7qVcoh55b46Mp8bcVABnqg@mail.gmail.com>
- <CACMJ4GYEDXRPJRxxfm6oSR5TVyukKkzOt5M0BWeUsAPa+3+fPg@mail.gmail.com>
-In-Reply-To: <CACMJ4GYEDXRPJRxxfm6oSR5TVyukKkzOt5M0BWeUsAPa+3+fPg@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 11 Feb 2020 19:04:34 -0500
-Message-ID: <CADkTA4MwXP3ocFpGwc3nKwjwyrgL5drTEawegiKCo4NSgoVYLg@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 16/16] xen: add contact to recipe README file
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
-	Doug Goldstein <cardoe@gentoo.org>, Rich Persaud <persaur@gmail.com>, 
-	Daniel Smith <dpsmith@apertussolutions.com>, Jason Andryuk <jandryuk@gmail.com>, 
-	Eric Chanudet <eric.chanudet@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 
-On Tue, Feb 11, 2020 at 6:43 PM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> On Tue, Feb 11, 2020 at 1:17 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >
-> > On Mon, Feb 10, 2020 at 12:08 AM <christopher.w.clark@gmail.com> wrote:
-> > >
-> > > From: Christopher Clark <christopher.w.clark@gmail.com>
-> > >
-> > > Add myself as a contact for the Xen recipes.
-> >
-> > We can also consider a MAINTAINERS file for the layer.
->
-> Yes, that looks like it could be a good fit for this layer.
+From: Kai Kang <kai.kang@windriver.com>
 
-I'll pull together one in the next day or so, and add you for the Xen recipe(s).
+Update ceph from 14.2.6 to 14.2.7.
 
-Bruce
+* Backport patch to fix compile error
+* Replace python with python3 in the script files that /usr/bin/python
+  not exists
+* Replace runtime dependency python3 with python3-core
+  - /usr/bin/python3 is provided by python3-core
+  - packagee python3 is provided by python3-modules which in RDEPENDS already
 
->
-> Christopher
->
->
-> >
-> > Bruce
-> >
-> > >
-> > > Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-> > > ---
-> > >  recipes-extended/xen/README | 4 +++-
-> > >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
-> > > index 3686530..5592b48 100644
-> > > --- a/recipes-extended/xen/README
-> > > +++ b/recipes-extended/xen/README
-> > > @@ -1,7 +1,9 @@
-> > >  Xen
-> > >  ---
-> > >
-> > > -For any issues with the xen recipes please make sure you CC cardoe@gentoo.org
-> > > +For any issues with the Xen recipes please make sure you CC:
-> > > + christopher.w.clark@gmail.com
-> > > + cardoe@gentoo.org
-> > >
-> > >  configuring the hypervisor
-> > >  --------------------------
-> > > --
-> > > 2.17.1
-> > >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
+This has been build-only tested.
 
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ ...t-handle_connection-takes-io_context.patch | 67 +++++++++++++++++++
+ .../ceph/{ceph_14.2.6.bb => ceph_14.2.7.bb}   | 39 +++++------
+ 2 files changed, 87 insertions(+), 19 deletions(-)
+ create mode 100644 recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch
+ rename recipes-extended/ceph/{ceph_14.2.6.bb => ceph_14.2.7.bb} (84%)
 
-
+diff --git a/recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch b/recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch
+new file mode 100644
+index 0000000..d18e00a
+--- /dev/null
++++ b/recipes-extended/ceph/ceph/0001-rgw-beast-handle_connection-takes-io_context.patch
+@@ -0,0 +1,67 @@
++Backport patch from upstream and update context to fix compile error:
++
++| /path/to/tmp-glibc/work/core2-64-wrs-linux/ceph/14.2.6-r0/ceph-14.2.6/src/rgw/rgw_asio_frontend.cc:165:38: error: 'class boost::asio::basic_socket<boost::asio::ip::tcp, boost::asio::executor>' has no member named 'get_io_context'
++|   165 |       auto y = optional_yield{socket.get_io_context(), yield};
++|       |                               ~~~~~~~^~~~~~~~~~~~~~
++
++Upstream-Status: Backport [https://github.com/ceph/ceph/commit/064f142]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From 064f142746ae97f54865069cdacf5aae2b1b14f6 Mon Sep 17 00:00:00 2001
++From: Casey Bodley <cbodley@redhat.com>
++Date: Tue, 23 Apr 2019 15:40:01 -0400
++Subject: [PATCH] rgw: beast handle_connection() takes io_context
++
++as of boost 1.70, the socket no longer has a get_io_context(), so we
++have to pass it in as an argument
++
++Signed-off-by: Casey Bodley <cbodley@redhat.com>
++---
++ src/rgw/rgw_asio_frontend.cc | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/src/rgw/rgw_asio_frontend.cc b/src/rgw/rgw_asio_frontend.cc
++index 0e1e09a..f7c13e1 100644
++--- a/src/rgw/rgw_asio_frontend.cc
+++++ b/src/rgw/rgw_asio_frontend.cc
++@@ -84,7 +84,8 @@ class StreamIO : public rgw::asio::ClientIO {
++ using SharedMutex = ceph::async::SharedMutex<boost::asio::io_context::executor_type>;
++
++ template <typename Stream>
++-void handle_connection(RGWProcessEnv& env, Stream& stream,
+++void handle_connection(boost::asio::io_context& context,
+++                       RGWProcessEnv& env, Stream& stream,
++                        parse_buffer& buffer, bool is_ssl,
++                        SharedMutex& pause_mutex,
++                        rgw::dmclock::Scheduler *scheduler,
++@@ -161,7 +162,7 @@ void handle_connection(RGWProcessEnv& env, Stream& stream,
++                                   rgw::io::add_conlen_controlling(
++                                     &real_client))));
++       RGWRestfulIO client(cct, &real_client_io);
++-      auto y = optional_yield{socket.get_io_context(), yield};
+++      auto y = optional_yield{context, yield};
++       process_request(env.store, env.rest, &req, env.uri_prefix,
++                       *env.auth_registry, &client, env.olog, y, scheduler);
++     }
++@@ -605,7 +606,7 @@ void AsioFrontend::accept(Listener& l, boost::system::error_code ec)
++           return;
++         }
++         buffer->consume(bytes);
++-        handle_connection(env, stream, *buffer, true, pause_mutex,
+++        handle_connection(context, env, stream, *buffer, true, pause_mutex,
++                           scheduler.get(), ec, yield);
++         if (!ec) {
++           // ssl shutdown (ignoring errors)
++@@ -623,7 +624,7 @@ void AsioFrontend::accept(Listener& l, boost::system::error_code ec)
++         auto c = connections.add(conn);
++         auto buffer = std::make_unique<parse_buffer>();
++         boost::system::error_code ec;
++-        handle_connection(env, s, *buffer, false, pause_mutex,
+++        handle_connection(context, env, s, *buffer, false, pause_mutex,
++                           scheduler.get(), ec, yield);
++         s.shutdown(tcp::socket::shutdown_both, ec);
++       });
++--
++2.20.1
++
+diff --git a/recipes-extended/ceph/ceph_14.2.6.bb b/recipes-extended/ceph/ceph_14.2.7.bb
+similarity index 84%
+rename from recipes-extended/ceph/ceph_14.2.6.bb
+rename to recipes-extended/ceph/ceph_14.2.7.bb
+index c213e1a..18df8b4 100644
+--- a/recipes-extended/ceph/ceph_14.2.6.bb
++++ b/recipes-extended/ceph/ceph_14.2.7.bb
+@@ -13,10 +13,11 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+            file://ceph.conf \
+            file://0001-rgw-add-executor-type-for-basic_waitable_timers.patch \
+            file://0001-common-rgw-workaround-for-boost-1.72.patch \
++           file://0001-rgw-beast-handle_connection-takes-io_context.patch \
+ "
+ 
+-SRC_URI[md5sum] = "10c22151123ce73b3fe49a6700fe24e0"
+-SRC_URI[sha256sum] = "a1d20f2ba4e2d38a52f40e2e75e2ad136e78fa208b59348d3d45895cc4ca7e62"
++SRC_URI[md5sum] = "8100ce9820714554e6d4717f6f0aa4da"
++SRC_URI[sha256sum] = "9606dc80553bd97e138cd80b6bbbc117b6b26c66248e490a4e49fc0d4d853862"
+ 
+ DEPENDS = "boost bzip2 curl expat gperf-native \
+            keyutils libaio libibverbs lz4 \
+@@ -26,22 +27,22 @@ DEPENDS = "boost bzip2 curl expat gperf-native \
+            valgrind xfsprogs zlib \
+ "
+ SYSTEMD_SERVICE_${PN} = " \
+-	ceph-radosgw@.service \
+-	ceph-radosgw.target \
++        ceph-radosgw@.service \
++        ceph-radosgw.target \
+         ceph-mon@.service \
+-	ceph-mon.target \
++        ceph-mon.target \
+         ceph-mds@.service \
+-	ceph-mds.target \
++        ceph-mds.target \
+         ceph-osd@.service \
+-	ceph-osd.target \
++        ceph-osd.target \
+         ceph.target \
+-	ceph-rbd-mirror@.service \
+-	ceph-rbd-mirror.target \
+-	ceph-volume@.service \
+-	ceph-mgr@.service \
+-	ceph-mgr.target \
+-	ceph-crash.service \
+-	rbdmap.service \
++        ceph-rbd-mirror@.service \
++        ceph-rbd-mirror.target \
++        ceph-volume@.service \
++        ceph-mgr@.service \
++        ceph-mgr.target \
++        ceph-crash.service \
++        rbdmap.service \
+ "
+ OECMAKE_GENERATOR = "Unix Makefiles"
+ 
+@@ -69,10 +70,10 @@ do_configure_prepend () {
+ }
+ 
+ do_install_append () {
+-	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python:' ${D}${bindir}/ceph
+-	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python:' ${D}${bindir}/ceph-crash
+-	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python:' ${D}${bindir}/ceph-volume
+-	sed -i -e 's:${WORKDIR}.*python3:${bindir}/python:' ${D}${bindir}/ceph-volume-systemd
++	sed -i -e 's:^#!/usr/bin/python$:&3:' \
++		-e 's:${WORKDIR}.*python3:${bindir}/python3:' \
++		${D}${bindir}/ceph ${D}${bindir}/ceph-crash \
++		${D}${bindir}/ceph-volume ${D}${bindir}/ceph-volume-systemd
+ 	find ${D} -name SOURCES.txt | xargs sed -i -e 's:${WORKDIR}::'
+ 	install -d ${D}${sysconfdir}/ceph
+ 	install -m 644 ${WORKDIR}/ceph.conf ${D}${sysconfdir}/ceph/
+@@ -118,7 +119,7 @@ FILES_${PN}-python = "\
+                 ${PYTHON_SITEPACKAGES_DIR}/* \
+ "
+ RDEPENDS_${PN} += "\
+-		python3 \
++		python3-core \
+ 		python3-misc \
+ 		python3-modules \
+ 		python3-prettytable \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
