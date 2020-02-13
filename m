@@ -1,25 +1,27 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web09.2255.1581623314181464025
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.2265.1581623366263193068
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 13 Feb 2020 11:48:34 -0800
+ Thu, 13 Feb 2020 11:49:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: nathan.hartman@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: nathan.hartman@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01DJmWDe025429
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01DJmm5n027400
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 13 Feb 2020 11:48:32 -0800 (PST)
+	Thu, 13 Feb 2020 11:48:58 -0800
 Received: from yow-nhartman-lx.wrs.com (128.224.146.238) by
  ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server (TLS) id
- 14.3.468.0; Thu, 13 Feb 2020 11:48:31 -0800
-From: nathan.hartman@windriver.com
+ 14.3.468.0; Thu, 13 Feb 2020 11:48:38 -0800
+From: "Nathan Hartman" <nathan.hartman@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: Nathan Hartman <hnathan918@gmail.com>,
         Nathan Hartman
 	<nathan.hartman@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH 1/3] tox: Add python3 version
-Date: Thu, 13 Feb 2020 14:48:14 -0500
-Message-ID: <20200213194816.31473-1-nathan.hartman@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 2/3] pep8: Add python3 version
+Date: Thu, 13 Feb 2020 14:48:15 -0500
+Message-ID: <20200213194816.31473-2-nathan.hartman@windriver.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200213194816.31473-1-nathan.hartman@windriver.com>
+References: <20200213194816.31473-1-nathan.hartman@windriver.com>
 MIME-Version: 1.0
 X-Originating-IP: [128.224.146.238]
 Content-Transfer-Encoding: 8bit
@@ -29,67 +31,52 @@ From: Nathan Hartman <hnathan918@gmail.com>
 
 Signed-off-by: Nathan Hartman <nathan.hartman@windriver.com>
 ---
- .../{python-tox_1.9.2.bb => python-tox.inc}     | 17 +++++++----------
- .../python/python3-tox_3.14.3.bb                |  5 +++++
- 2 files changed, 12 insertions(+), 10 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-tox_1.9.2.bb => python-tox.inc} (56%)
- create mode 100644 meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+ .../python/{python-pep8_1.6.2.bb => python-pep8.inc}   | 10 +++++-----
+ .../recipes-devtools/python/python3-pep8_1.7.1.bb      |  5 +++++
+ 2 files changed, 10 insertions(+), 5 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-pep8_1.6.2.bb => python-pep8.inc} (58%)
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-pep8_1.7.1.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb b/meta-openstack/recipes-devtools/python/python-tox.inc
-similarity index 56%
-rename from meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
-rename to meta-openstack/recipes-devtools/python/python-tox.inc
-index 8184fb5..66b1355 100644
---- a/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python-tox.inc
-@@ -2,21 +2,18 @@ DESCRIPTION = "virtualenv-based automation of test activities"
- HOMEPAGE = "http://tox.testrun.org"
+diff --git a/meta-openstack/recipes-devtools/python/python-pep8_1.6.2.bb b/meta-openstack/recipes-devtools/python/python-pep8.inc
+similarity index 58%
+rename from meta-openstack/recipes-devtools/python/python-pep8_1.6.2.bb
+rename to meta-openstack/recipes-devtools/python/python-pep8.inc
+index 7a131d7..959c3d1 100644
+--- a/meta-openstack/recipes-devtools/python/python-pep8_1.6.2.bb
++++ b/meta-openstack/recipes-devtools/python/python-pep8.inc
+@@ -2,13 +2,13 @@ DESCRIPTION = "Python style guide checker"
+ HOMEPAGE = "https://github.com/dreamhost/cliff"
  SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=2d0fc2c2c954dc4d41043e67d4a8d8e7"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=f24505dfbdd8c22c61de6383f2e74bf9"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://README.rst;md5=b0d37793ab91ca25ad5c200e9ea22331"
++LIC_FILES_CHKSUM = "file://README.rst;md5=d8ebbbe831259ce010179d2f310b0f3e"
  
--SRC_URI[md5sum] = "f4db4d6a82d6a651e457ba55ef370258"
--SRC_URI[sha256sum] = "3125a15da7381f59f835a25bd259a84acb7a69858c81e386c50027bd842bb91b"
--
+ SRC_URI[md5sum] = "a03bb494859e87b42601b61b1b043a0c"
+ SRC_URI[sha256sum] = "603a46e5c358ce20ac4807a0eeafac7505d1125a4c1bd8378757ada06f61bed8"
+ 
 -inherit setuptools3 pypi
 +inherit pypi
  
- DEPENDS += " \
--        python-pip \
-+        ${PYTHON_PN}-pip \
-         "
- 
- RDEPENDS_${PN} += " \
--        python-virtualenv \
--        python-py \
--        python-pytest \
-+        ${PYTHON_PN}-virtualenv \
-+        ${PYTHON_PN}-py \
-+        ${PYTHON_PN}-pytest \
-         "
- 
- do_install_append() {
-@@ -24,7 +21,7 @@ do_install_append() {
-     install -d ${D}/${sysconfdir}/${SRCNAME}
-     cp ${S}/tox.ini    ${D}/${sysconfdir}/${SRCNAME}
-     cp ${S}/setup.py   ${D}/${sysconfdir}/${SRCNAME}
--    cp ${S}/README.rst ${D}/${sysconfdir}/${SRCNAME}
-+    cp ${S}/README.md ${D}/${sysconfdir}/${SRCNAME}
- 
-     ln -s ${PYTHON_SITEPACKAGES_DIR}/tox ${D}/${sysconfdir}/${SRCNAME}/tox
- }
-diff --git a/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb b/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+-RDEPENDS_${PN} += "python-prettytable \
+-            python-cmd2 \
+-            python-pyparsing"
+\ No newline at end of file
++RDEPENDS_${PN} += "${PYTHON_PN}-prettytable \
++            ${PYTHON_PN}-cmd2 \
++            ${PYTHON_PN}-pyparsing"
+\ No newline at end of file
+diff --git a/meta-openstack/recipes-devtools/python/python3-pep8_1.7.1.bb b/meta-openstack/recipes-devtools/python/python3-pep8_1.7.1.bb
 new file mode 100644
-index 0000000..678413a
+index 0000000..64fd154
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
++++ b/meta-openstack/recipes-devtools/python/python3-pep8_1.7.1.bb
 @@ -0,0 +1,5 @@
 +inherit setuptools3
-+require python-tox.inc
++require python-pep8.inc
 +
-+SRC_URI[md5sum] = "8b695d482786dd51643e10953bbd8c89"
-+SRC_URI[sha256sum] = "06ba73b149bf838d5cd25dc30c2dd2671ae5b2757cf98e5c41a35fe449f131b3"
++SRC_URI[md5sum] = "603821d06db945c71d811b5a8d78423c"
++SRC_URI[sha256sum] = "fe249b52e20498e59e0b5c5256aa52ee99fc295b26ec9eaa85776ffdb9fe6374"
+\ No newline at end of file
 -- 
 2.20.1
 
