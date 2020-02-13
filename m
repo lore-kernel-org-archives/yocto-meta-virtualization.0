@@ -1,156 +1,95 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web10.2002.1581622398759676227
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web09.2255.1581623314181464025
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 13 Feb 2020 11:33:19 -0800
+ Thu, 13 Feb 2020 11:48:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=azkgDa18;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id p23so8258722edr.5
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 Feb 2020 11:33:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pUPSB/CbS547WGD/yKAnDfLds4feLkXFap7IU/wm/Vo=;
-        b=azkgDa18B4rgiR+fAg/0wy4iDyf2TuVBd8VBj0i+xTL5mfmZKNuY914QH8gzTIbIhg
-         hHfPXvvalPdUzXFh2vL5obNMKn1MkOVDKILtajx8ZeXF+XDGHJsJDJzrb+tiYsa2sE/e
-         lww74San61t20xBwo65upgwaXhMcLeE3cskbEFuxSGjBlqc2MbhaFCATsTLJ51UwEjVn
-         yOtBrn6QZfP/TwQ/t6SdX+7DD4j/3dAdV1UzFqQ1iXK3wzexG85B3oMsOmXWx6kgaOEB
-         Fb3KLfdtVt97XJuJ4mEaX1i61OutdOU9PGwmpe5K/C/4szfq2N13ab7855ju3kmETalV
-         gfSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pUPSB/CbS547WGD/yKAnDfLds4feLkXFap7IU/wm/Vo=;
-        b=kg4ywbP3VmwyTgfXH7N7WGaogBdmsIqNvOEcWXXlIFcpNKeNm0MAUxYsy7rvL54+4K
-         vsC6d+efMVesehn0eAOlmXtHRe+PFBuQG0Cr9KKCdqhpYLFY/fjPHNn1jRcVpLshXV40
-         IPwuG3K7Lhdnm7jlH5ddpKkmCC4ERDDVymIfaNOJ81onhKvqCysL/UT/46/lTsyWRdXj
-         LGlr5qCYC79spvWYkte6d1lLyYzJrOHKWv5ry+x95zI1mmvH8d3pIVAUQLQQhbESQAoT
-         Wkb9prtGG5C7SnY9AggRpD4bgzr1eoEzqUMg613ZFAszVvORiuXhhyAIHm1pN+nF3cxQ
-         oLjg==
-X-Gm-Message-State: APjAAAV9sUK/os5YmdNYJs09gJTN9Qf+ZIVSMEN2h4nn1+yzXqLhdBMH
-	ngW7J0KOdkUCrMD8nXdV6j7NrNa5RZjw1P1E7kdbYUiW
-X-Google-Smtp-Source: APXvYqyaKAfIh2Eb/vbgXQD5crB1R8t3R1i4fuw2fivp16ivBcAbRCQBqsMDW3HtGR1i/nblzKeUurAjkiDGo8th/n4=
-X-Received: by 2002:a50:aacd:: with SMTP id r13mr16190119edc.129.1581622397308;
- Thu, 13 Feb 2020 11:33:17 -0800 (PST)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: nathan.hartman@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01DJmWDe025429
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 13 Feb 2020 11:48:32 -0800 (PST)
+Received: from yow-nhartman-lx.wrs.com (128.224.146.238) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server (TLS) id
+ 14.3.468.0; Thu, 13 Feb 2020 11:48:31 -0800
+From: nathan.hartman@windriver.com
+To: <meta-virtualization@lists.yoctoproject.org>
+CC: Nathan Hartman <hnathan918@gmail.com>,
+        Nathan Hartman
+	<nathan.hartman@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 1/3] tox: Add python3 version
+Date: Thu, 13 Feb 2020 14:48:14 -0500
+Message-ID: <20200213194816.31473-1-nathan.hartman@windriver.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200213164844.16352-1-scott.branden@broadcom.com> <CADkTA4OxNJpiWkYmvjL1_w-wMKAkksThF-0vKwncnnxzqEZ0uw@mail.gmail.com>
-In-Reply-To: <CADkTA4OxNJpiWkYmvjL1_w-wMKAkksThF-0vKwncnnxzqEZ0uw@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 13 Feb 2020 14:33:06 -0500
-Message-ID: <CADkTA4MB8nNttbwCKHxuo2Q8s4XY69fWgDFe8h4UiFms7oOODA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] ovs: fix python 3.8 dict keys error
-To: scott.branden@broadcom.com
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [128.224.146.238]
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu, Feb 13, 2020 at 2:32 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Thu, Feb 13, 2020 at 11:48 AM Scott Branden via
-> Lists.Yoctoproject.Org
-> <scott.branden=broadcom.com@lists.yoctoproject.org> wrote:
-> >
-> > From: Rick Liu <rick.liu@broadcom.com>
-> >
-> > Backport patch to python 3.8 issue with ovs do_compile runtime error:
-> > RuntimeError: dictionary keys changed during iteration
-> >
->
-> We already have an uprev to OVS posted to the list yesterday.
->
-> So I'm assuming this doesn't happen with the new version, and if it
-> does, we need a rebased patch.
+From: Nathan Hartman <hnathan918@gmail.com>
 
-Actually, now that I look at it, the patch is part of the rebase, so
-we are covered.
+Signed-off-by: Nathan Hartman <nathan.hartman@windriver.com>
+---
+ .../{python-tox_1.9.2.bb => python-tox.inc}     | 17 +++++++----------
+ .../python/python3-tox_3.14.3.bb                |  5 +++++
+ 2 files changed, 12 insertions(+), 10 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-tox_1.9.2.bb => python-tox.inc} (56%)
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
 
-Bruce
-
->
-> Bruce
->
-> > https://patchwork.ozlabs.org/patch/1162374/
-> >
-> > Signed-off-by: Rick Liu <rick.liu@broadcom.com>
-> > Signed-off-by: Scott Branden <scott.branden@broadcom.com>
-> > ---
-> >  ...on3-dict-key-change-during-iteration.patch | 38 +++++++++++++++++++
-> >  .../openvswitch/openvswitch_git.bb            |  1 +
-> >  2 files changed, 39 insertions(+)
-> >  create mode 100644 recipes-networking/openvswitch/openvswitch-git/fix-python3-dict-key-change-during-iteration.patch
-> >
-> > diff --git a/recipes-networking/openvswitch/openvswitch-git/fix-python3-dict-key-change-during-iteration.patch b/recipes-networking/openvswitch/openvswitch-git/fix-python3-dict-key-change-during-iteration.patch
-> > new file mode 100644
-> > index 0000000..f9cadd2
-> > --- /dev/null
-> > +++ b/recipes-networking/openvswitch/openvswitch-git/fix-python3-dict-key-change-during-iteration.patch
-> > @@ -0,0 +1,38 @@
-> > +From d84109f0b60096ce71cd0537b31b69a7f5ea8756 Mon Sep 17 00:00:00 2001
-> > +From: Flavio Leitner <fbl@sysclose.org>
-> > +Date: Sat, 14 Sep 2019 20:17:28 -0300
-> > +Subject: [PATCH] ovsdb-idlc.in: fix dict change during iteration.
-> > +
-> > +Python3 complains if a dict key is changed during the
-> > +iteration.
-> > +
-> > +Use list() to create a copy of it.
-> > +
-> > +Traceback (most recent call last):
-> > +  File "./ovsdb/ovsdb-idlc.in", line 1581, in <module>
-> > +    func(*args[1:])
-> > +  File "./ovsdb/ovsdb-idlc.in", line 185, in printCIDLHeader
-> > +    replace_cplusplus_keyword(schema)
-> > +  File "./ovsdb/ovsdb-idlc.in", line 179, in replace_cplusplus_keyword
-> > +    for columnName in table.columns:
-> > +RuntimeError: dictionary keys changed during iteration
-> > +
-> > +Signed-off-by: Flavio Leitner <fbl@sysclose.org>
-> > +Signed-off-by: Ben Pfaff <blp@ovn.org>
-> > +---
-> > + ovsdb/ovsdb-idlc.in | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
-> > +index 40fef39edf..22d0a4e22e 100755
-> > +--- a/ovsdb/ovsdb-idlc.in
-> > ++++ b/ovsdb/ovsdb-idlc.in
-> > +@@ -176,7 +176,7 @@ def replace_cplusplus_keyword(schema):
-> > +                 'wchar_t', 'while', 'xor', 'xor_eq'}
-> > +
-> > +     for tableName, table in schema.tables.items():
-> > +-        for columnName in table.columns:
-> > ++        for columnName in list(table.columns):
-> > +             if columnName in keywords:
-> > +                 table.columns[columnName + '_'] = table.columns.pop(columnName)
-> > +
-> > diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
-> > index 072d7f1..5947759 100644
-> > --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> > +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> > @@ -33,6 +33,7 @@ SRC_URI = "file://openvswitch-switch \
-> >             file://python-switch-remaining-scripts-to-use-python3.patch \
-> >             file://systemd-update-tool-paths.patch \
-> >             file://systemd-create-runtime-dirs.patch \
-> > +           file://fix-python3-dict-key-change-during-iteration.patch \
-> >             "
-> >
-> >  LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
-> > --
-> > 2.17.1
-> >
-> > 
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
+diff --git a/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb b/meta-openstack/recipes-devtools/python/python-tox.inc
+similarity index 56%
+rename from meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
+rename to meta-openstack/recipes-devtools/python/python-tox.inc
+index 8184fb5..66b1355 100644
+--- a/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
++++ b/meta-openstack/recipes-devtools/python/python-tox.inc
+@@ -2,21 +2,18 @@ DESCRIPTION = "virtualenv-based automation of test activities"
+ HOMEPAGE = "http://tox.testrun.org"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=2d0fc2c2c954dc4d41043e67d4a8d8e7"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f24505dfbdd8c22c61de6383f2e74bf9"
+ 
+-SRC_URI[md5sum] = "f4db4d6a82d6a651e457ba55ef370258"
+-SRC_URI[sha256sum] = "3125a15da7381f59f835a25bd259a84acb7a69858c81e386c50027bd842bb91b"
+-
+-inherit setuptools3 pypi
++inherit pypi
+ 
+ DEPENDS += " \
+-        python-pip \
++        ${PYTHON_PN}-pip \
+         "
+ 
+ RDEPENDS_${PN} += " \
+-        python-virtualenv \
+-        python-py \
+-        python-pytest \
++        ${PYTHON_PN}-virtualenv \
++        ${PYTHON_PN}-py \
++        ${PYTHON_PN}-pytest \
+         "
+ 
+ do_install_append() {
+@@ -24,7 +21,7 @@ do_install_append() {
+     install -d ${D}/${sysconfdir}/${SRCNAME}
+     cp ${S}/tox.ini    ${D}/${sysconfdir}/${SRCNAME}
+     cp ${S}/setup.py   ${D}/${sysconfdir}/${SRCNAME}
+-    cp ${S}/README.rst ${D}/${sysconfdir}/${SRCNAME}
++    cp ${S}/README.md ${D}/${sysconfdir}/${SRCNAME}
+ 
+     ln -s ${PYTHON_SITEPACKAGES_DIR}/tox ${D}/${sysconfdir}/${SRCNAME}/tox
+ }
+diff --git a/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb b/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+new file mode 100644
+index 0000000..678413a
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+@@ -0,0 +1,5 @@
++inherit setuptools3
++require python-tox.inc
++
++SRC_URI[md5sum] = "8b695d482786dd51643e10953bbd8c89"
++SRC_URI[sha256sum] = "06ba73b149bf838d5cd25dc30c2dd2671ae5b2757cf98e5c41a35fe449f131b3"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.20.1
+
