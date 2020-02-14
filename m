@@ -1,372 +1,157 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web09.1147.1581648239137208282
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (EUR04-HE1-obe.outbound.protection.outlook.com [40.107.7.44])
+ by mx.groups.io with SMTP id smtpd.web10.4452.1581675465246568713
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 13 Feb 2020 18:43:59 -0800
+ Fri, 14 Feb 2020 02:17:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mark.asselstine@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01E2hu5V008826
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 13 Feb 2020 18:43:56 -0800 (PST)
-Received: from yow-masselst-lx1.localnet (128.224.22.212) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
- 14.3.468.0; Thu, 13 Feb 2020 18:43:56 -0800
-From: "Mark Asselstine" <mark.asselstine@windriver.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: <meta-virtualization@lists.yoctoproject.org>
-Subject: Re: [meta-virtualization][PATCH] openvswitch: uprev from v2.11 to v2.12
-Date: Thu, 13 Feb 2020 21:43:55 -0500
-Message-ID: <2292338.5G8A26PrKs@yow-masselst-lx1>
-Organization: Wind River
-In-Reply-To: <20200213222259.GA6843@gmail.com>
-References: <1581529904-23985-1-git-send-email-mark.asselstine@windriver.com> <20200213222259.GA6843@gmail.com>
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=hE6ACNE6;
+ spf=pass (domain: arm.com, ip: 40.107.7.44, mailfrom: bertrand.marquis@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jhQV4lql6INccGpFM4imE7Ut+t32+kVr4KJL8Qgxkc0=;
+ b=hE6ACNE6EKUmHr7us4LC0lpqEe8MlgiuMU26a4kut8wd5ZNvTXqEC8YI0hZrHd/Q1+eN2WV3li+/ZbNlW4qYk3XSVGfgZLWV8ihhxEL+lcQpGLDm0lSeBKt2olisOWikzYF8SSiX4ltomuhJGo1G0qatGv5dyu3Xv2q4utjUfVg=
+Received: from DB6PR0801CA0064.eurprd08.prod.outlook.com (2603:10a6:4:2b::32)
+ by DB8PR08MB5290.eurprd08.prod.outlook.com (2603:10a6:10:a5::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.22; Fri, 14 Feb
+ 2020 10:17:42 +0000
+Received: from VE1EUR03FT062.eop-EUR03.prod.protection.outlook.com
+ (2a01:111:f400:7e09::206) by DB6PR0801CA0064.outlook.office365.com
+ (2603:10a6:4:2b::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.24 via Frontend
+ Transport; Fri, 14 Feb 2020 10:17:41 +0000
+Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org;
+ dmarc=bestguesspass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ VE1EUR03FT062.mail.protection.outlook.com (10.152.18.252) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2665.18 via Frontend Transport; Fri, 14 Feb 2020 10:17:40 +0000
+Received: ("Tessian outbound d1ceabc7047e:v42"); Fri, 14 Feb 2020 10:17:40 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 028948c3189e08d5
+X-CR-MTA-TID: 64aa7808
+Received: from 0106c986e2ab.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 567D91AF-EED9-4AE4-9F90-D568D0414D9D.1;
+	Fri, 14 Feb 2020 10:17:34 +0000
+Received: from EUR02-HE1-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 0106c986e2ab.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Fri, 14 Feb 2020 10:17:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DheZ+ocjZTgvICUM8kR/dUceZSGhJm12BWsP3s8398XwBzgBNFmzScImQMlDf5oJ5TunS+Xy/byAl3xT0Snl34aRZQacK0cCBkT8GZAcVt+eRMuPK/6Yqa9xndJ9MrDW2hAPwCSEFAMLFmOgrh05NLcBk4ppyR7VVSmCqBQtYlTCeMuZb20jwww8O7wqRgUC3auSqTz44UwJz9DQCkCB44vybZgEqre0uymqTni1C75r6YG3LGIENfwKgJIBiqKEQPW59ZEIQhmUqQ/6YS+kIRJv8qPwuufXdk8WqqenLhuuctzJMknodxcek2ybAd0IsbYxB9N9DkA7zcizWxvE7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jhQV4lql6INccGpFM4imE7Ut+t32+kVr4KJL8Qgxkc0=;
+ b=oXJysAzQ6qn1gVQC7lA1HmP1MpCheSePepwEX3bFWWvu8Y1lUAA1ewuGfAysGKHjOJ44P82vT+Hli/PFvVRyd58TT9oDdNogc6B8cTITtbTErDPAVGIYzRq65ToxUEEvj4FrKiYO//69D/wDI1PZLdeU6a2TM1EYdX+oTTWO43qRPtRHjrTVzEN0lN3tM+MWu4nrVa18Bj+Gs8vAhhUEqdi+TZmnHOH5wjbTY+XHJTnrPjDhPbN0tzEuZoVU/pIgra3V9fpMUXbc72Tr5Byx23l/8gT0nKpf33xK7sUmB6WVs2b7m7KsryISzKSp9jn51hxXmJzakdIrbipq/SOkwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jhQV4lql6INccGpFM4imE7Ut+t32+kVr4KJL8Qgxkc0=;
+ b=hE6ACNE6EKUmHr7us4LC0lpqEe8MlgiuMU26a4kut8wd5ZNvTXqEC8YI0hZrHd/Q1+eN2WV3li+/ZbNlW4qYk3XSVGfgZLWV8ihhxEL+lcQpGLDm0lSeBKt2olisOWikzYF8SSiX4ltomuhJGo1G0qatGv5dyu3Xv2q4utjUfVg=
+Authentication-Results-Original: spf=none (sender IP is )
+ smtp.mailfrom=Bertrand.Marquis@arm.com; 
+Received: from DB7PR08MB3689.eurprd08.prod.outlook.com (20.178.46.80) by
+ DB7PR08MB3196.eurprd08.prod.outlook.com (52.135.130.140) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2729.25; Fri, 14 Feb 2020 10:17:32 +0000
+Received: from DB7PR08MB3689.eurprd08.prod.outlook.com
+ ([fe80::858c:5c68:18ab:4757]) by DB7PR08MB3689.eurprd08.prod.outlook.com
+ ([fe80::858c:5c68:18ab:4757%5]) with mapi id 15.20.2707.030; Fri, 14 Feb 2020
+ 10:17:32 +0000
+From: "Bertrand Marquis" <bertrand.marquis@arm.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: nd@arm.com
+Subject: [PATCH] Xen: fix do_deploy dependencies
+Date: Fri, 14 Feb 2020 10:17:19 +0000
+Message-Id: <20200214101719.6674-1-bertrand.marquis@arm.com>
+X-Mailer: git-send-email 2.17.1
+X-ClientProxiedBy: LO2P265CA0021.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:62::33) To DB7PR08MB3689.eurprd08.prod.outlook.com
+ (2603:10a6:10:79::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Received: from e109506-lin.cambridge.arm.com (217.140.106.52) by LO2P265CA0021.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:62::33) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.25 via Frontend Transport; Fri, 14 Feb 2020 10:17:31 +0000
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [217.140.106.52]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a9675008-5049-414a-7546-08d7b1371fcf
+X-MS-TrafficTypeDiagnostic: DB7PR08MB3196:|DB8PR08MB5290:
+X-Microsoft-Antispam-PRVS: 
+	<DB8PR08MB5290FFCD164A860EF772B6EB9D150@DB8PR08MB5290.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;OLM:6790;
+X-Forefront-PRVS: 03137AC81E
+X-Forefront-Antispam-Report-Untrusted: 
+ SFV:NSPM;SFS:(10009020)(4636009)(376002)(136003)(346002)(396003)(366004)(39860400002)(189003)(199004)(2616005)(956004)(7696005)(52116002)(1076003)(8936002)(26005)(8676002)(186003)(16526019)(81166006)(81156014)(6666004)(316002)(6486002)(44832011)(4744005)(5660300002)(6916009)(2906002)(478600001)(4326008)(36756003)(86362001)(66476007)(66946007)(66556008);DIR:OUT;SFP:1101;SCL:1;SRVR:DB7PR08MB3196;H:DB7PR08MB3689.eurprd08.prod.outlook.com;FPR:;SPF:None;LANG:en;PTR:InfoNoRecords;MX:1;A:1;
+Received-SPF: None (protection.outlook.com: arm.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ Ys88wRcrWjBYMzmZiV+gtH1MhY1Oj1uUY9t5Zq/d5s7YsnRkdP8gGdYCLu3vV4Z8MWPzmZ7/FzVOL/mQX9hyySqv/Of2Q1N9PMbR5ZIQgp8Bgo7Ky6DnkN3pskY5zia37PhFaeSonWC0eHk3ze/cYe0O6uj8+QzNC2MW/xpuYAUzq//5xWQURkY5TGs3Zm8hc6qJTWegWUgB6ORQ2wHaH3cSY/7DrSK+Cgw4g4o1ycCK377rXwDEgeImDsTI8/6vfr4dYloWAuYqP1AbLat5EYf9Cv7o1rTsDC5BXlT6RrxznwoO4COE29hqAxQhICfY4Z+aQ7B1SY8PB1lX0CdLPwdSzMzT4S7OMj8mpg91z4uybJbewks5rYNdBuIbVhZNjzEchzL0HFlwhgEDuqJnVMvJyv1SLlR0iXKXKZ6yfFeJMn+cL+RDOtKGYxjuFE0w
+X-MS-Exchange-AntiSpam-MessageData: 
+ LV3nLrFgvAvmLDXGIjqI+ksfgMRfJUhPQnCAP+whSTpPRaGee5jSTFRzRzhcYKx1j/l+MBkkMxbTVd6VlTkjJm81jz/zBzaWqgnVLSqAc+BMmmzPBnSDNje2Fxb2WgItLRGXx0NWM08c0LxkKtZBOw==
+X-MS-Exchange-Transport-Forked: True
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3196
+Original-Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Bertrand.Marquis@arm.com; 
+Return-Path: Bertrand.Marquis@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ VE1EUR03FT062.eop-EUR03.prod.protection.outlook.com
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;IPV:CAL;SCL:-1;CTRY:IE;EFV:NLI;SFV:NSPM;SFS:(10009020)(4636009)(376002)(39860400002)(136003)(346002)(396003)(199004)(189003)(8676002)(44832011)(81156014)(4744005)(26826003)(7696005)(2906002)(81166006)(86362001)(5660300002)(478600001)(8936002)(336012)(36906005)(6916009)(26005)(16526019)(186003)(6666004)(70586007)(70206006)(356004)(1076003)(4326008)(316002)(956004)(6486002)(2616005)(36756003);DIR:OUT;SFP:1101;SCL:1;SRVR:DB8PR08MB5290;H:64aa7808-outbound-1.mta.getcheckrecipient.com;FPR:;SPF:Pass;LANG:en;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;A:1;MX:1;
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	7225a71d-d3ed-4611-1603-08d7b1371a5f
+X-Forefront-PRVS: 03137AC81E
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	BeBd6pgjwTV/sIVGlfxj/Z1nNpn3C1ObgTK7K8cnS1sKoVh7N/jPilLtuMECajy0vhxf1boWp5OVA6yx10ggwqpwPYke+VMa2vBq0dj8ktstbjVTF71Xn+FEO/AJd0Gq97ze6uu9aEs6C64uYAFp9VvP8+XQLucFdOhIHPro8T59+TiG1qg/9H2cL6D1KSvJcUg0LtBSnAoKu+nP4IPTI8tqgNKOkHvIQSS/p2Njs+A6AVrY708DqkWIFk8CFRxkBIJXl/g2whhLOrdI3LAzhQbfF6sqapsr/+ECUMg7rYp9XvgkestwN2KwBCfk8XsohybD00r9eFr5p0gcSlAlX6p3XKGU/eVe/TLLMJhm4PL9jF90y9l8IzXTvkzBTDVCpvSaZgLujxD+EryPUFqaBQYW+GAwnf96cYfLUfFP3aKvPiFoYFvQozqIffli2eu+
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2020 10:17:40.9190
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a9675008-5049-414a-7546-08d7b1371fcf
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5290
+Content-Type: text/plain
 
-On Thursday, February 13, 2020 5:23:00 P.M. EST Bruce Ashfield wrote:
-> In message: [meta-virtualization][PATCH] openvswitch: uprev from v2.11 to
-> v2.12
-> on 12/02/2020 Mark Asselstine wrote:
-> > A mostly straightforward uprev. Unfortunately a required patch for
-> > python3 is only available on a non-release branch so we must carry it
-> > in order to build (the discussion on the mailing list was that an
-> > uprev might have avoided this, but this is not the case).
-> 
-> bummer. I'm hoping to bump this again before the spring release, so
-> there's still time.
+do_deploy is using the files installed during do_install and it must be
+executed after it but before do_build. This is fixing SSTATE behaviour
+which had previously an empty scene in some cases.
 
-They are preparing to drop a new 2.13 release any day now (the past two years 
-they have done so around this time)
-https://mail.openvswitch.org/pipermail/ovs-dev/2020-February/367676.html
+Change-Id: I04b1f652c697ed0bc7e262571dd03e123ac096f6
+Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
+---
+ recipes-extended/xen/xen.inc | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I will keep an eye out for this and get an uprev out as soon as possible. I am 
-happy to have the v2.12 step captured in our SCM.
-
-> 
-> This is merged.
-
-Thanks,
-Mark
-
-> 
-> Bruce
-> 
-> > The ptest results are similar to after the v2.11 uprev
-> > 
-> >     ERROR: 2413 tests were run,
-> >     23 failed unexpectedly.
-> >     383 tests were skipped.
-> > 
-> > NOTE, however, that they have now marked many tests as 'skipped', such
-> > as the python2 results, so the failed and skipped numbers have
-> > essentially swapped with each other. The failed tests were in the
-> > 
-> > following areas:
-> >     checkpatch.at (5)
-> >     ovs-ofctl.at (1)
-> >     dpif-netdev.at (1)
-> >     ofproto-dpif.at (6)
-> >     bridge.at (2)
-> >     ovn.at (2)
-> >     ovn-controller-vtep.at (6)
-> > 
-> > Most were issues with the test or expectations that source code would
-> > be available. There might be an issue around packaging of
-> > "/vswitchd/vswitch.ovsschema" but we should be able to overlook this
-> > for now, as we have with previous versions.
-> > 
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> > 
-> >  ...6beb94976e2b3e0c51430b63214de14186d8db39.patch} |  0
-> >  ...-idlc.in-fix-dict-change-during-iteration.patch | 45
-> >  ++++++++++++++++++++++ .../systemd-create-runtime-dirs.patch            
-> >   | 12 +++---
-> >  .../systemd-update-tool-paths.patch                | 32 +++++++--------
-> >  recipes-networking/openvswitch/openvswitch_git.bb  | 11 +++---
-> >  5 files changed, 74 insertions(+), 26 deletions(-)
-> >  rename
-> >  recipes-networking/openvswitch/openvswitch-git/{openvswitch-add-ptest-78
-> >  e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch =>
-> >  openvswitch-add-ptest-6beb94976e2b3e0c51430b63214de14186d8db39.patch}
-> >  (100%) create mode 100644
-> >  recipes-networking/openvswitch/openvswitch-git/ovsdb-idlc.in-fix-dict-ch
-> >  ange-during-iteration.patch> 
-> > diff --git
-> > a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-78
-> > e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch
-> > b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-6b
-> > eb94976e2b3e0c51430b63214de14186d8db39.patch similarity index 100%
-> > rename from
-> > recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-78e2
-> > 03138cb7253e9ca5ad8a2c4ed6bb6752f23e.patch rename to
-> > recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-6beb
-> > 94976e2b3e0c51430b63214de14186d8db39.patch diff --git
-> > a/recipes-networking/openvswitch/openvswitch-git/ovsdb-idlc.in-fix-dict-c
-> > hange-during-iteration.patch
-> > b/recipes-networking/openvswitch/openvswitch-git/ovsdb-idlc.in-fix-dict-c
-> > hange-during-iteration.patch new file mode 100644
-> > index 0000000..bf49ff6
-> > --- /dev/null
-> > +++
-> > b/recipes-networking/openvswitch/openvswitch-git/ovsdb-idlc.in-fix-dict-c
-> > hange-during-iteration.patch @@ -0,0 +1,45 @@
-> > +From d84109f0b60096ce71cd0537b31b69a7f5ea8756 Mon Sep 17 00:00:00 2001
-> > +From: Flavio Leitner <fbl@sysclose.org>
-> > +Date: Sat, 14 Sep 2019 20:17:28 -0300
-> > +Subject: [PATCH] ovsdb-idlc.in: fix dict change during iteration.
-> > +
-> > +Commit d84109f0b600 from git://github.com/openvswitch/ovs.git
-> > +
-> > +Python3 complains if a dict key is changed during the
-> > +iteration.
-> > +
-> > +Use list() to create a copy of it.
-> > +
-> > +Traceback (most recent call last):
-> > +  File "./ovsdb/ovsdb-idlc.in", line 1581, in <module>
-> > +    func(*args[1:])
-> > +  File "./ovsdb/ovsdb-idlc.in", line 185, in printCIDLHeader
-> > +    replace_cplusplus_keyword(schema)
-> > +  File "./ovsdb/ovsdb-idlc.in", line 179, in replace_cplusplus_keyword
-> > +    for columnName in table.columns:
-> > +RuntimeError: dictionary keys changed during iteration
-> > +
-> > +Signed-off-by: Flavio Leitner <fbl@sysclose.org>
-> > +Signed-off-by: Ben Pfaff <blp@ovn.org>
-> > +[MA: Upstream-Status: Submitted]
-> > +Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > +---
-> > + ovsdb/ovsdb-idlc.in | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/ovsdb/ovsdb-idlc.in b/ovsdb/ovsdb-idlc.in
-> > +index 40fef39..22d0a4e 100755
-> > +--- a/ovsdb/ovsdb-idlc.in
-> > ++++ b/ovsdb/ovsdb-idlc.in
-> > +@@ -176,7 +176,7 @@ def replace_cplusplus_keyword(schema):
-> > +                 'wchar_t', 'while', 'xor', 'xor_eq'}
-> > +
-> > +     for tableName, table in schema.tables.items():
-> > +-        for columnName in table.columns:
-> > ++        for columnName in list(table.columns):
-> > +             if columnName in keywords:
-> > +                 table.columns[columnName + '_'] =
-> > table.columns.pop(columnName) +
-> > +--
-> > +2.7.4
-> > +
-> > diff --git
-> > a/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-d
-> > irs.patch
-> > b/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-d
-> > irs.patch index 65290cf..0438cf8 100644
-> > ---
-> > a/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-d
-> > irs.patch +++
-> > b/recipes-networking/openvswitch/openvswitch-git/systemd-create-runtime-d
-> > irs.patch @@ -1,4 +1,4 @@
-> > -From 219e7cf9f28fdf14747fdf674bec293f763fe8e3 Mon Sep 17 00:00:00 2001
-> > +From 6876e0c155b7f83e1f8545446e2dd69c2b7989f2 Mon Sep 17 00:00:00 2001
-> > 
-> >  From: Mark Asselstine <mark.asselstine@windriver.com>
-> >  Date: Tue, 4 Sep 2018 15:38:59 -0400
-> >  Subject: [PATCH] systemd: create runtime dirs
-> > 
-> > @@ -15,17 +15,17 @@ Signed-off-by: Mark Asselstine
-> > <mark.asselstine@windriver.com>> 
-> >   1 file changed, 1 insertion(+)
-> >  
-> >  diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service
-> >  b/rhel/usr_lib_systemd_system_ovsdb-server.service> 
-> > -index 694598f..0bb2274 100644
-> > +index aad557f..69b0bf6 100644
-> > 
-> >  --- a/rhel/usr_lib_systemd_system_ovsdb-server.service
-> >  +++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
-> > 
-> > -@@ -10,6 +10,7 @@ Type=forking
-> > +@@ -11,6 +11,7 @@ PIDFile=/var/run/openvswitch/ovsdb-server.pid
-> > 
-> >   Restart=on-failure
-> >   EnvironmentFile=/etc/openvswitch/default.conf
-> >   EnvironmentFile=-/etc/sysconfig/openvswitch
-> >  
-> >  +ExecStartPre=-/bin/mkdir /var/run/openvswitch /var/log/openvswitch
-> > 
-> > - ExecStartPre=/bin/chown ${OVS_USER_ID} /var/run/openvswitch
-> > /var/log/openvswitch - ExecStartPre=/bin/sh -c 'rm -f
-> > /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then
-> > /bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" >
-> > /run/openvswitch/useropts; fi' -
-> > EnvironmentFile=-/run/openvswitch/useropts
-> > + ExecStartPre=-/bin/chown ${OVS_USER_ID} /var/run/openvswitch
-> > /var/log/openvswitch + ExecStartPre=/bin/sh -c 'rm -f
-> > /run/openvswitch.useropts; /bin/echo "OVS_USER_ID=${OVS_USER_ID}" >
-> > /run/openvswitch.useropts' + ExecStartPre=/bin/sh -c 'if [
-> > "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo
-> > "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts;
-> > fi' diff --git
-> > a/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-path
-> > s.patch
-> > b/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-path
-> > s.patch index d7d4c15..aae44fe 100644
-> > ---
-> > a/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-path
-> > s.patch +++
-> > b/recipes-networking/openvswitch/openvswitch-git/systemd-update-tool-path
-> > s.patch @@ -1,7 +1,7 @@
-> > -From 163020a5bba1323dc337d72d4771bb81d824b0dc Mon Sep 17 00:00:00 2001
-> > +From efd6b8f03ef7278d2477833f84bb8488bd0c346d Mon Sep 17 00:00:00 2001
-> > 
-> >  From: Mark Asselstine <mark.asselstine@windriver.com>
-> >  Date: Tue, 29 May 2018 18:57:46 +0000
-> > 
-> > -Subject: [PATCH] systemd: update tool paths
-> > +Subject: [PATCH 1/2] systemd: update tool paths
-> > 
-> >  We are using the rhel files but we install our tools in a slightly
-> >  different path, update accordingly.
-> > 
-> > @@ -9,16 +9,16 @@ different path, update accordingly.
-> > 
-> >  Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> >  ---
-> >  
-> >   rhel/usr_lib_systemd_system_ovs-vswitchd.service.in | 4 ++--
-> > 
-> > - rhel/usr_lib_systemd_system_ovsdb-server.service    | 4 ++--
-> > - 2 files changed, 4 insertions(+), 4 deletions(-)
-> > + rhel/usr_lib_systemd_system_ovsdb-server.service    | 6 +++---
-> > + 2 files changed, 5 insertions(+), 5 deletions(-)
-> > 
-> >  diff --git a/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in
-> >  b/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in> 
-> > -index 11b34c6..94c48f8 100644
-> > +index ff43dae..f88b57c 100644
-> > 
-> >  --- a/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in
-> >  +++ b/rhel/usr_lib_systemd_system_ovs-vswitchd.service.in
-> > 
-> > -@@ -15,8 +15,8 @@ EnvironmentFile=/etc/openvswitch/default.conf
-> > - EnvironmentFile=-/etc/sysconfig/openvswitch
-> > - EnvironmentFile=-/run/openvswitch/useropts
-> > +@@ -17,8 +17,8 @@ EnvironmentFile=-/etc/sysconfig/openvswitch
-> > + EnvironmentFile=-/run/openvswitch.useropts
-> > + LimitSTACK=2M
-> > 
-> >   @begin_dpdk@
-> >  
-> >  -ExecStartPre=-/bin/sh -c '/usr/bin/chown :$${OVS_USER_ID##*:}
-> >  /dev/hugepages' -ExecStartPre=-/usr/bin/chmod 0775 /dev/hugepages
-> > 
-> > @@ -28,18 +28,20 @@ index 11b34c6..94c48f8 100644
-> > 
-> >   ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
-> >   
-> >             --no-ovsdb-server --no-monitor --system-id=random \
-> >  
-> >  diff --git a/rhel/usr_lib_systemd_system_ovsdb-server.service
-> >  b/rhel/usr_lib_systemd_system_ovsdb-server.service> 
-> > -index 70da1ec..694598f 100644
-> > +index 4c170c0..aad557f 100644
-> > 
-> >  --- a/rhel/usr_lib_systemd_system_ovsdb-server.service
-> >  +++ b/rhel/usr_lib_systemd_system_ovsdb-server.service
-> > 
-> > -@@ -10,8 +10,8 @@ Type=forking
-> > +@@ -11,9 +11,9 @@ PIDFile=/var/run/openvswitch/ovsdb-server.pid
-> > 
-> >   Restart=on-failure
-> >   EnvironmentFile=/etc/openvswitch/default.conf
-> >   EnvironmentFile=-/etc/sysconfig/openvswitch
-> > 
-> > --ExecStartPre=/usr/bin/chown ${OVS_USER_ID} /var/run/openvswitch
-> > /var/log/openvswitch --ExecStartPre=/bin/sh -c 'rm -f
-> > /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ]; then
-> > /usr/bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" >
-> > /run/openvswitch/useropts; fi' -+ExecStartPre=/bin/chown ${OVS_USER_ID}
-> > /var/run/openvswitch /var/log/openvswitch -+ExecStartPre=/bin/sh -c 'rm
-> > -f /run/openvswitch/useropts; if [ "$${OVS_USER_ID/:*/}" != "root" ];
-> > then /bin/echo "OVSUSER=--ovs-user=${OVS_USER_ID}" >
-> > /run/openvswitch/useropts; fi' -
-> > EnvironmentFile=-/run/openvswitch/useropts
-> > +-ExecStartPre=-/usr/bin/chown ${OVS_USER_ID} /var/run/openvswitch
-> > /var/log/openvswitch +-ExecStartPre=/bin/sh -c 'rm -f
-> > /run/openvswitch.useropts; /usr/bin/echo "OVS_USER_ID=${OVS_USER_ID}" >
-> > /run/openvswitch.useropts' +-ExecStartPre=/bin/sh -c 'if [
-> > "$${OVS_USER_ID/:*/}" != "root" ]; then /usr/bin/echo
-> > "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts;
-> > fi' ++ExecStartPre=-/bin/chown ${OVS_USER_ID} /var/run/openvswitch
-> > /var/log/openvswitch ++ExecStartPre=/bin/sh -c 'rm -f
-> > /run/openvswitch.useropts; /bin/echo "OVS_USER_ID=${OVS_USER_ID}" >
-> > /run/openvswitch.useropts' ++ExecStartPre=/bin/sh -c 'if [
-> > "$${OVS_USER_ID/:*/}" != "root" ]; then /bin/echo
-> > "OVS_USER_OPT=--ovs-user=${OVS_USER_ID}" >> /run/openvswitch.useropts;
-> > fi' + EnvironmentFile=-/run/openvswitch.useropts
-> > 
-> >   ExecStart=/usr/share/openvswitch/scripts/ovs-ctl \
-> >   
-> >             --no-ovs-vswitchd --no-monitor --system-id=random \
-> > 
-> > diff --git a/recipes-networking/openvswitch/openvswitch_git.bb
-> > b/recipes-networking/openvswitch/openvswitch_git.bb index
-> > 072d7f1..141a609 100644
-> > --- a/recipes-networking/openvswitch/openvswitch_git.bb
-> > +++ b/recipes-networking/openvswitch/openvswitch_git.bb
-> > @@ -10,21 +10,21 @@ RDEPENDS_${PN}-ptest += "\
-> > 
-> >  	python3-datetime python3-netclient python3 sed \
-> >  	ldd perl-module-socket perl-module-carp perl-module-exporter \
-> >  	perl-module-xsloader python3-netserver python3-threading \
-> > 
-> > -	python3-resource findutils which \
-> > +	python3-resource findutils which diffutils \
-> > 
-> >  	"
-> >  
-> >  S = "${WORKDIR}/git"
-> > 
-> > -PV = "2.11+${SRCPV}"
-> > +PV = "2.12+${SRCPV}"
-> > 
-> >  FILESEXTRAPATHS_append := "${THISDIR}/${PN}-git:"
-> > 
-> > -SRCREV = "f22ca8011fdb7e81ffce5017cd26539bccf50e94"
-> > +SRCREV = "6beb94976e2b3e0c51430b63214de14186d8db39"
-> > 
-> >  SRC_URI = "file://openvswitch-switch \
-> >  
-> >             file://openvswitch-switch-setup \
-> >             file://openvswitch-testcontroller \
-> >             file://openvswitch-testcontroller-setup \
-> > 
-> > -          
-> > git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.11 \ - 
-> >         
-> > file://openvswitch-add-ptest-78e203138cb7253e9ca5ad8a2c4ed6bb6752f23e.pat
-> > ch \ +          
-> > git://github.com/openvswitch/ovs.git;protocol=git;branch=branch-2.12 \ + 
-> >         
-> > file://openvswitch-add-ptest-6beb94976e2b3e0c51430b63214de14186d8db39.pat
-> > ch \> 
-> >             file://run-ptest \
-> >             file://disable_m4_check.patch \
-> >             file://kernel_module.patch \
-> > 
-> > @@ -33,6 +33,7 @@ SRC_URI = "file://openvswitch-switch \
-> > 
-> >             file://python-switch-remaining-scripts-to-use-python3.patch \
-> >             file://systemd-update-tool-paths.patch \
-> >             file://systemd-create-runtime-dirs.patch \
-> > 
-> > +           file://ovsdb-idlc.in-fix-dict-change-during-iteration.patch \
-> > 
-> >             "
-> >  
-> >  LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
-
-
-
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 36ab78e..41b1983 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -1099,7 +1099,9 @@ do_deploy() {
+     fi
+ }
+ 
+-addtask deploy after do_populate_sysroot
++# do_deploy is using files created during do_install so force it to be called
++# after do_install but before do_build
++addtask deploy before do_build after do_install
+ 
+ # Enable use of menuconfig directly from bitbake and also within the devshell
+ OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS TERMINFO"
+-- 
+2.17.1
 
