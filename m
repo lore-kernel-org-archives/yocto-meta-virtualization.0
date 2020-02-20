@@ -1,53 +1,53 @@
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
- by mx.groups.io with SMTP id smtpd.web11.95.1582220629596153898
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+ by mx.groups.io with SMTP id smtpd.web09.82.1582220641395845092
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 20 Feb 2020 09:43:49 -0800
+ Thu, 20 Feb 2020 09:44:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lH/Dci/T;
- spf=pass (domain: gmail.com, ip: 209.85.219.66, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f66.google.com with SMTP id q9so2268344qvu.7
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 20 Feb 2020 09:43:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rEUO6xzr;
+ spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f195.google.com with SMTP id o28so4342856qkj.9
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 20 Feb 2020 09:44:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=0PDjENgtvmyAnha2fGW7FfwBrKQ/+YqkelGlxkjeRog=;
-        b=lH/Dci/TPuGP6naUZBJM06uFoysiN0qbrVGJXm8FzaCXFOC4CmW/qYxR8D0VFDdWE6
-         zCH+yspCWNVRV8+GVJvPUVE94P5NUdfg7cgNvJ4boVwtvJBnDiEf7x9OQPYCmC0TWFgX
-         +1ek1XrLu+x/8MpVLI9Sp+hI72QZi0CjGsBsmsh/4PrmqTWIKmr7SN3ZpgL6IeODS922
-         qTA7ZCEmi6klDggSakqt/Nk5J3Khl5jTax+wjbtpIEP1PGUCancXMvdwKcNgFq268P+N
-         NNsrduz1Oz3Nlhgz4Rc2XxN/M04utG7TAVHYKSCyVzGim+XXQOpjQHQ3GTHCo8KKhiz+
-         h8sw==
+        bh=bUcj68oe+OkArsOkJjjt0GiewbOQAVgbSQY4DLiqA00=;
+        b=rEUO6xzrV0PcPDH0IkhL9tY9vSNcsR5eJlR+0+jrLLAFDJVG9ziovanyyAILXqOPMh
+         Ozydc0/MjHmp4WMTEDs5WrN3bokwHvv9xRsi7crHqglgZZDZLoA0tCljDChGkqotp5JZ
+         +scasta/fckP6jNPGwiWBVsOPOeUmbcsqizfFJ0lW4m8pXDdqb9luN6JCspjtr1+Zb8U
+         tMoSnb7fkY0DylwgQx7+fLIFUx+XFPZu0womj9KCgMyV6idYjYqcjLwmhIQvBXsy4IXx
+         3o4FS1TDAl89aAvwhhALrCIGolEbXEIdOXzaEUZWphLQV1YEC20PPgSwI/A8mbCKzyS2
+         Px2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=0PDjENgtvmyAnha2fGW7FfwBrKQ/+YqkelGlxkjeRog=;
-        b=hPdbqS2gGVaMWhkdpIIz9/HxN2XcF/XMrCMSQen+UcURSm5vyCnHu9WCbRgedlswfj
-         QVhVFVxtZO5Z04cknlro1hKrTU9JOCwBgSmTGcmYyRIhf0Rg6WiDexEzvvTaEr2TDfGS
-         nc40zRxFauCHPvwmoxpD8fikou8yOtPEXMukoX0JUWUiYiMclfmlRnlXEaGkp4QMsozM
-         aXaqX28Qurvw8Z/G4eAxL6IqCSAiwcuiDUWFG7jN2gEUtcIOEuHHZW1JsnyY/q2RjXSX
-         gf2IXc7UMWukmqna7Z13jlrcZ4GJlkG5hnUuLKiuBmTX1uE8dZHZlCcl0fkbYMrlCQxO
-         +o/g==
-X-Gm-Message-State: APjAAAUb82xoPAAHs0v+5IO0eXAX28enjhPsNJoIn2ra09eRfu+UDAjn
-	dir6Zl7yubaK7q5K62slEPk=
-X-Google-Smtp-Source: APXvYqyrmWQFzF83PYqyZNiORY2lCJItYco9OZIaa4ClrpONtg4yV9T2L45NQa/KbQrI00tPLY0ByQ==
-X-Received: by 2002:a0c:edc3:: with SMTP id i3mr26768195qvr.29.1582220628675;
-        Thu, 20 Feb 2020 09:43:48 -0800 (PST)
+        bh=bUcj68oe+OkArsOkJjjt0GiewbOQAVgbSQY4DLiqA00=;
+        b=c59tV7LBaawlcya2t9JwqZLgKRwEvsZ3CGLs3OsvwLLTHXY7LcSm27uCMB3Q/5rxCA
+         THFdLfc+7LdtPpr4Hel7+Zl6OIujTbBOmTYIg0zCGmZN7Zy45UErQwBd/u4uYzB3swrE
+         Q9UbNajr3aq5e3jrT1d5Hp+kHJCk69vIFkFtU5g6+7hQusxR6/+ifSZJS9r3Pesggfcn
+         xUUBI2/XIo0Y/JMuQK9COu51IR5comPtx2wJkUgwtHl6OMz4ldiYj+qWoqaNB3QoyyXP
+         sbBOSdlRCG6oI5sPdnJqxZHJa3ib3DPDVHCHmaDe0cnLef2dW0aOynBxmBmMVd4HJ0oH
+         nDZA==
+X-Gm-Message-State: APjAAAURKhSj6uAhXAigXV20LRYJojhO8UjjIcMvxRIJmC8KeQG/F6yJ
+	aHf6A8rCswxDKezDr/5Hxxk=
+X-Google-Smtp-Source: APXvYqzUDYBxuqMoUCJsx1RsVld0qXtyfXsZvv85U7Jn7YYLTMrGM7OPxL8sV08BZVW2nWCJiZXpWg==
+X-Received: by 2002:a05:620a:135c:: with SMTP id c28mr3915405qkl.19.1582220640441;
+        Thu, 20 Feb 2020 09:44:00 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com. [174.113.11.95])
-        by smtp.gmail.com with ESMTPSA id d69sm145747qkg.63.2020.02.20.09.43.48
+        by smtp.gmail.com with ESMTPSA id k5sm116587qkk.117.2020.02.20.09.43.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Feb 2020 09:43:48 -0800 (PST)
-Date: Thu, 20 Feb 2020 12:43:46 -0500
+        Thu, 20 Feb 2020 09:43:59 -0800 (PST)
+Date: Thu, 20 Feb 2020 12:43:58 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Changqing Li <changqing.li@windriver.com>
+To: Ricardo Salveti <ricardo@foundries.io>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][PATCH] hook_support.py: convert to python3
-Message-ID: <20200220174343.GA65133@gmail.com>
-References: <1582011834-136295-1-git-send-email-changqing.li@windriver.com>
+Subject: Re: [meta-virtualization] [PATCH] docker-ce: allow custom build tags via packageconfig
+Message-ID: <20200220174357.GB65133@gmail.com>
+References: <20200218225913.30838-1-ricardo@foundries.io>
 MIME-Version: 1.0
-In-Reply-To: <1582011834-136295-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <20200218225913.30838-1-ricardo@foundries.io>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -56,32 +56,46 @@ merged.
 
 Bruce
 
-In message: [meta-virtualization][PATCH] hook_support.py: convert to python3
-on 18/02/2020 Changqing Li wrote:
 
-> From: Changqing Li <changqing.li@windriver.com>
+In message: [meta-virtualization] [PATCH] docker-ce: allow custom build tags via packageconfig
+on 18/02/2020 Ricardo Salveti wrote:
+
+> As done by the docker-moby recipe, move the definition of the default
+> build tags outside do_compile and let the docker build tags be
+> customized via the packageconfig options set by the recipe.
 > 
-> python2 has been removed from oe-core, convert the scripts
-> to python3 to avoid runtime error like:
-> /usr/bin/env: 'python': No such file or directory'
+> This is required for enabling seccomp support during build time.
 > 
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
 > ---
->  recipes-extended/libvirt/libvirt/hook_support.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  recipes-containers/docker/docker-ce_git.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/recipes-extended/libvirt/libvirt/hook_support.py b/recipes-extended/libvirt/libvirt/hook_support.py
-> index c3eb8b3..7c5e2a9 100755
-> --- a/recipes-extended/libvirt/libvirt/hook_support.py
-> +++ b/recipes-extended/libvirt/libvirt/hook_support.py
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env python
-> +#!/usr/bin/env python3
->  #
->  # Copyright (C) 2014 Wind River Systems, Inc. 
->  # 
+> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
+> index ef84069..3c8a339 100644
+> --- a/recipes-containers/docker/docker-ce_git.bb
+> +++ b/recipes-containers/docker/docker-ce_git.bb
+> @@ -44,6 +44,8 @@ PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+>  PACKAGES =+ "${PN}-contrib"
+>  
+>  DOCKER_PKG="github.com/docker/docker"
+> +# in order to exclude devicemapper and btrfs - https://github.com/docker/docker/issues/14056
+> +BUILD_TAGS = "exclude_graphdriver_btrfs exclude_graphdriver_devicemapper"
+>  
+>  inherit go
+>  inherit goarch
+> @@ -71,8 +73,7 @@ do_compile() {
+>  	export CGO_ENABLED="1"
+>  	export CGO_CFLAGS="${CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+>  	export CGO_LDFLAGS="${LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+> -	# in order to exclude devicemapper and btrfs - https://github.com/docker/docker/issues/14056
+> -	export DOCKER_BUILDTAGS='exclude_graphdriver_btrfs exclude_graphdriver_devicemapper'
+> +	export DOCKER_BUILDTAGS='${BUILD_TAGS} ${PACKAGECONFIG_CONFARGS}'
+>  
+>  	export DISABLE_WARN_OUTSIDE_CONTAINER=1
+>  
 > -- 
-> 2.7.4
+> 2.25.0
 > 
 
 > 
