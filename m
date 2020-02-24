@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.16778.1582521586712910515
+ by mx.groups.io with SMTP id smtpd.web09.16779.1582521587073487820
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 23 Feb 2020 21:19:46 -0800
+ Sun, 23 Feb 2020 21:19:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kE3tbKL3;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MqL40uLU;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8EE2BE014C6; Sun, 23 Feb 2020 21:19:46 -0800 (PST)
+	id E995AE01483; Sun, 23 Feb 2020 21:19:46 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -14,90 +14,93 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: 
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.216.68 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
 	*      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.215.195 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8A053E00804
-	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:45 -0800 (PST)
-Received: by mail-pg1-f195.google.com with SMTP id 7so2424218pgr.2
-        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:45 -0800 (PST)
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com [209.85.216.68])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8C20CE00D33
+	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:46 -0800 (PST)
+Received: by mail-pj1-f68.google.com with SMTP id fa20so3642666pjb.1
+        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=wH8hZeiRkUrztlifmNzna+jJCEvv+ZdgOlt75ZtkZl4=;
-        b=kE3tbKL3DTx4EO+CqBAHwtzIQpyingZogLpCmRBqFZUUJv7dRhuzjGlDtytKCJtSKb
-         v5ux1SZV/YTq+V/zT78cAts25NtT8zspT4H4++1B60olADi/tQwe0aiGfy4EGIdUGvBp
-         yP33t7ZO7WP954Wt9Ht5TyASaIVJHc6GfEwiwbzX3VDLJINpKflXm/hweGebF6JQZsfi
-         6xQ1fj0PDzRC0E/aat83IhL1LW9qDFhcJpiunYepGa4NSOl/G98f++Z4Wj8QJ1WacJQg
-         L2dB8xUbm2Md2tF/s/QVUJlfHnkEqMH7idBjGDjEXMBuKS1IH3CiW2tBkoeEz9LUZoNG
-         loZA==
+        bh=VxHUmxvuaQLqtuYQyZjXKu3Mvx+UeLWan2zlywtsZ/g=;
+        b=MqL40uLUAVQ86N4MBMH0smEIwhXz1OhI7TL32VRaBPP48Dm/9VDhA0JwuHmu343Hr0
+         b7gURH7eqfHrL8NjtvpP8AVFcnehcbq61PpOmwvscwC7zzZgiCM9C65npzHK0GqzNHMG
+         JWJ4Kx3+2tcW//oJCV/yU/11S7VxAuNKZoR++KZhXmAUEoGYUVatxcEY6KIfF+XMIuQ/
+         piCwCmI/jRr1v1Me+suaX7gGohr4Z0mvLEQrja/iQWieaLb64bAuHAthCMKKnUPC8tZx
+         17G/FvaDYbL5j8GdFLpthlwTV86I6+OtkCGj97ju+WTsniTK/61tWu67HxiiwwALYgxI
+         bWBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=wH8hZeiRkUrztlifmNzna+jJCEvv+ZdgOlt75ZtkZl4=;
-        b=NcL9okDzv5pC8qmcpni+bDjPvzmH5bT5GxwKOK1XLYZQkCy+YIi8FY7B1RFvRMneE5
-         B+SU5uBGq5t+CkXX3YLq1ihxoFXxmw7Wk53wvgzThtoHOaJD6Dj8fM2Gt+Dk92UwKI6c
-         2RlorFw3z7IPbDADE4CJKIHgsB9E5585vvoqsyb5URdvQIUEwWa89JXT/0QBZrDmy/dh
-         1tTVXEVZxQqroXkQUrRTUYW2qsGUFzkCJi+4Yn6kHsaYTtAh10x8e6pK5IGuO3pc1H0M
-         jenVtCTBFOa6gkP78MuCZ7oyxEZT3i6wu3ZB42TA8VcoAzHtEShvO5UV2bQ+y2+pf+lR
-         HbpA==
-X-Gm-Message-State: APjAAAW9/eSAu3vRD0uMWuQ1fYgtfa8GZddWL6PbqF5enXbrLLmVGxlx
-	O94A8wasCdNdivA8VtCWjiPDxNbi
-X-Google-Smtp-Source: APXvYqygPfJpxZNGzEGaatRUJ/LTXhnxSkq4A41M7p+jmaNgLXm3bIN270RyISR+3CBODAtxYuv1sw==
-X-Received: by 2002:a63:5345:: with SMTP id t5mr50602082pgl.254.1582521584658;
-        Sun, 23 Feb 2020 21:19:44 -0800 (PST)
+        bh=VxHUmxvuaQLqtuYQyZjXKu3Mvx+UeLWan2zlywtsZ/g=;
+        b=T7vPZp23ZL6yPIzKe9KacnoPL5Dw8RAszpApfZjaW1dL+qPYASsryRuDFZAFKRVdMi
+         VC9TJo9FCLZFIb9bEAMm9MCJPO8JoKOxU37CjwG28neSFjSD1MqVZjU/HSujOaCwtDGf
+         SdmdBtD2KDXk2aXqJFTSsOO1qXPc+dit1gRTaNvCE2wGQFOVxMaJh0aIoYV2OA3gvCsL
+         ydDRUnJsN/vVLdK8M53Upag2RrKV7cmmiQ5Aa4WzGSvtlAr2JL/0HEF/ZphQ6//tDgQf
+         S0Rry1sU+Zw29MPRlE3x+x41txDtF8PHWqAN5itPi+dwgQeMOZPihTJ9RY6dEYsM/drs
+         EEBw==
+X-Gm-Message-State: APjAAAW0sYLJhUju8CJnddGt/XznSj3EbMtXj8NcigUA4aHJX78gBSEa
+	NugVItXlmHFXACDzGA6r85IfRLeC
+X-Google-Smtp-Source: APXvYqy5xjZ4ZEACtyiHNQKTP7cYmbJ8+xG4nHtP+2PLTWmGw+qODKC5ozGXy9wahVb1oOg1HGjTYA==
+X-Received: by 2002:a17:902:8546:: with SMTP id d6mr48875011plo.193.1582521585877;
+        Sun, 23 Feb 2020 21:19:45 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.42
+        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2020 21:19:43 -0800 (PST)
+        Sun, 23 Feb 2020 21:19:45 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v2 20/22] xen-image-minimal: add a build dependency on the xen hypervisor
-Date: Sun, 23 Feb 2020 21:18:50 -0800
-Message-Id: <20200224051852.21933-21-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 21/22] xen: add menuconfig instructions to the README
+Date: Sun, 23 Feb 2020 21:18:51 -0800
+Message-Id: <20200224051852.21933-22-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 References: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-The hypervisor may not be within the dom0 filesystem image itself,
-so add a task dependency to ensure that it is deployable:
-    do_build[depends] += "xen:do_deploy"
+    bitbake xen -c menuconfig
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/images/xen-image-minimal.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ recipes-extended/xen/README | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
-index c98314e..dcdc864 100644
---- a/recipes-extended/images/xen-image-minimal.bb
-+++ b/recipes-extended/images/xen-image-minimal.bb
-@@ -16,6 +16,10 @@ IMAGE_INSTALL += " \
-     qemu \
-     "
+diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
+index 5592b48..34e7977 100644
+--- a/recipes-extended/xen/README
++++ b/recipes-extended/xen/README
+@@ -16,6 +16,15 @@ copy it to your Yocto layer as 'defconfig' inside of
+ 'recipes-extended/xen/files/' and then create a bbappend adding
+ 'file://defconfig' to your SRC_URI.
  
-+# The hypervisor may not be within the dom0 filesystem image but at least
-+# ensure that it is deployable:
-+do_build[depends] += "xen:do_deploy"
++To generate your own .config file for Xen, you can use the interactive
++menuconfig via bitbake:
 +
- # Networking for HVM-mode guests (x86/64 only) requires the tun kernel module
- IMAGE_INSTALL_append_x86    = "kernel-module-tun"
- IMAGE_INSTALL_append_x86-64 = "kernel-module-tun"
++    bitbake xen -c menuconfig
++
++Select the config settings that you want and Save the file. If you save it to
++the default ".config" file when prompted by menuconfig, you can find it in the
++'xen' subdirectory of the build tree.
++
+ security patches
+ ----------------
+ 
 -- 
 2.17.1
 
