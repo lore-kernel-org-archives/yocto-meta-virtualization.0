@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.17122.1582521584466091676
+ by mx.groups.io with SMTP id smtpd.web09.16778.1582521586712910515
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 23 Feb 2020 21:19:44 -0800
+ Sun, 23 Feb 2020 21:19:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=t9dBg7yH;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kE3tbKL3;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 566ABE01483; Sun, 23 Feb 2020 21:19:44 -0800 (PST)
+	id 8EE2BE014C6; Sun, 23 Feb 2020 21:19:46 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,82 +20,84 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.215.179 listed in list.dnswl.org]
+	*      [209.85.215.195 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 58D7CE00804
-	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:43 -0800 (PST)
-Received: by mail-pg1-f179.google.com with SMTP id t24so120559pgj.7
-        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:43 -0800 (PST)
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com [209.85.215.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8A053E00804
+	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:45 -0800 (PST)
+Received: by mail-pg1-f195.google.com with SMTP id 7so2424218pgr.2
+        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=uCcaBqKK66Bc8QYqhpcxPa4QICA1QiilWk0S1Zs3OaY=;
-        b=t9dBg7yHmOSQT0AdXQIV3gp4AuajZiV3JAU6O9WM0tolRqzpUH1J3FOTVN3OVB3ttH
-         UY5CJUMjZBTHv47CuPGa2Qml68Srb61ORB1+EcUbckcnIbbYa0ISSjaDtkWGzQW3T/VT
-         x/Tx8PI6PwoA/3wzDnjRH2stesbn3hZ6FM1GouejG4dOk8kvBwH78p7hYxIiKo9HGFIU
-         t8VfUi/Ls5WWjz2fFlfIO6u1YBqP1wBbgX/UL9Z0ayCQEvnpo8SpipyiXIoRcqS3NM06
-         XbcDxvw2BjEjpxUpOaddzu7xUDuFueTcOEf2DNb18fMf2/Y3TY77yONyNLgmPuCvMfeg
-         cMSw==
+        bh=wH8hZeiRkUrztlifmNzna+jJCEvv+ZdgOlt75ZtkZl4=;
+        b=kE3tbKL3DTx4EO+CqBAHwtzIQpyingZogLpCmRBqFZUUJv7dRhuzjGlDtytKCJtSKb
+         v5ux1SZV/YTq+V/zT78cAts25NtT8zspT4H4++1B60olADi/tQwe0aiGfy4EGIdUGvBp
+         yP33t7ZO7WP954Wt9Ht5TyASaIVJHc6GfEwiwbzX3VDLJINpKflXm/hweGebF6JQZsfi
+         6xQ1fj0PDzRC0E/aat83IhL1LW9qDFhcJpiunYepGa4NSOl/G98f++Z4Wj8QJ1WacJQg
+         L2dB8xUbm2Md2tF/s/QVUJlfHnkEqMH7idBjGDjEXMBuKS1IH3CiW2tBkoeEz9LUZoNG
+         loZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=uCcaBqKK66Bc8QYqhpcxPa4QICA1QiilWk0S1Zs3OaY=;
-        b=bNfNgZQMUJSSqZGQS0sEN9XgmxUehuRKsFRwZMQCG2l6fe3bv7lliWa0th4Z23LaNw
-         Q5RoBSYTbTdNLB0STJARPzAbedAqjI6iRMW9tklNG7ytqR2HHIcCeKI3QqaVklLXVPq5
-         6DZVpRJCEtjPMURtPPa7Zh2Esku5LzW48J+S9y38CCsmrHl9ckxLYYjWjTNm5qzdNRJB
-         19FBy2S5oipcslQ2G/+nmHSNmqA6WsIOjbQsXLqcJRN51UEWMQUdZY919ypEnNoSClKr
-         Snu8bC15EtMMi7Xs1oUP/ze7pmg431+8PS6uXSOVlQG3I9fdRVVPfOIVQFe7lWCcQSB7
-         Y2PA==
-X-Gm-Message-State: APjAAAWhZiFHU2yxbbAX4/qk2kcTwWzOBW8uuJE49Q5G3h935dzBzOwq
-	aQW3F5hX8tjuRzFtodX46HSvcFqa
-X-Google-Smtp-Source: APXvYqxY7eCvfPJP/izGbCugSZx8WpPeTYRD+x8e2h82Dl6J/shfXjvZ6jwcozHfNpFuLOhjWX1PuA==
-X-Received: by 2002:a63:487:: with SMTP id 129mr51267186pge.193.1582521582572;
-        Sun, 23 Feb 2020 21:19:42 -0800 (PST)
+        bh=wH8hZeiRkUrztlifmNzna+jJCEvv+ZdgOlt75ZtkZl4=;
+        b=NcL9okDzv5pC8qmcpni+bDjPvzmH5bT5GxwKOK1XLYZQkCy+YIi8FY7B1RFvRMneE5
+         B+SU5uBGq5t+CkXX3YLq1ihxoFXxmw7Wk53wvgzThtoHOaJD6Dj8fM2Gt+Dk92UwKI6c
+         2RlorFw3z7IPbDADE4CJKIHgsB9E5585vvoqsyb5URdvQIUEwWa89JXT/0QBZrDmy/dh
+         1tTVXEVZxQqroXkQUrRTUYW2qsGUFzkCJi+4Yn6kHsaYTtAh10x8e6pK5IGuO3pc1H0M
+         jenVtCTBFOa6gkP78MuCZ7oyxEZT3i6wu3ZB42TA8VcoAzHtEShvO5UV2bQ+y2+pf+lR
+         HbpA==
+X-Gm-Message-State: APjAAAW9/eSAu3vRD0uMWuQ1fYgtfa8GZddWL6PbqF5enXbrLLmVGxlx
+	O94A8wasCdNdivA8VtCWjiPDxNbi
+X-Google-Smtp-Source: APXvYqygPfJpxZNGzEGaatRUJ/LTXhnxSkq4A41M7p+jmaNgLXm3bIN270RyISR+3CBODAtxYuv1sw==
+X-Received: by 2002:a63:5345:: with SMTP id t5mr50602082pgl.254.1582521584658;
+        Sun, 23 Feb 2020 21:19:44 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.41
+        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2020 21:19:41 -0800 (PST)
+        Sun, 23 Feb 2020 21:19:43 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v2 19/22] xen: add contact to recipe README file
-Date: Sun, 23 Feb 2020 21:18:49 -0800
-Message-Id: <20200224051852.21933-20-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 20/22] xen-image-minimal: add a build dependency on the xen hypervisor
+Date: Sun, 23 Feb 2020 21:18:50 -0800
+Message-Id: <20200224051852.21933-21-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 References: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Add myself as a contact for the Xen recipes.
+The hypervisor may not be within the dom0 filesystem image itself,
+so add a task dependency to ensure that it is deployable:
+    do_build[depends] += "xen:do_deploy"
 
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/xen/README | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ recipes-extended/images/xen-image-minimal.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
-index 3686530..5592b48 100644
---- a/recipes-extended/xen/README
-+++ b/recipes-extended/xen/README
-@@ -1,7 +1,9 @@
- Xen
- ---
+diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+index c98314e..dcdc864 100644
+--- a/recipes-extended/images/xen-image-minimal.bb
++++ b/recipes-extended/images/xen-image-minimal.bb
+@@ -16,6 +16,10 @@ IMAGE_INSTALL += " \
+     qemu \
+     "
  
--For any issues with the xen recipes please make sure you CC cardoe@gentoo.org
-+For any issues with the Xen recipes please make sure you CC:
-+ christopher.w.clark@gmail.com
-+ cardoe@gentoo.org
- 
- configuring the hypervisor
- --------------------------
++# The hypervisor may not be within the dom0 filesystem image but at least
++# ensure that it is deployable:
++do_build[depends] += "xen:do_deploy"
++
+ # Networking for HVM-mode guests (x86/64 only) requires the tun kernel module
+ IMAGE_INSTALL_append_x86    = "kernel-module-tun"
+ IMAGE_INSTALL_append_x86-64 = "kernel-module-tun"
 -- 
 2.17.1
 
