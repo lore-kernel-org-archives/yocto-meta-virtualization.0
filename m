@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.16774.1582521556761843039
+ by mx.groups.io with SMTP id smtpd.web12.17109.1582521556877903452
  for <meta-virtualization@lists.yoctoproject.org>;
  Sun, 23 Feb 2020 21:19:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kdidziDm;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=mqOok+si;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 431B3E014C6; Sun, 23 Feb 2020 21:19:16 -0800 (PST)
+	id BA4A9E01483; Sun, 23 Feb 2020 21:19:16 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,170 +20,128 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.214.195 listed in list.dnswl.org]
+	*      [209.85.215.171 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0FC56E00804
-	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:14 -0800 (PST)
-Received: by mail-pl1-f195.google.com with SMTP id y8so3546003pll.13
-        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:14 -0800 (PST)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6485BE00D33
+	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:15 -0800 (PST)
+Received: by mail-pg1-f171.google.com with SMTP id y30so4479771pga.13
+        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=7VrFwxjy8T0ETsvIgjgvpLEkUEG/ip6B7AMJSQ7G9Wo=;
-        b=kdidziDmh7sLelaO469zJ/GngZowfrhsdUCOeZRjkxVo35NorvYzds4+Zqdzq1hcUw
-         xX+lSBs2wpQpr52ItpL26Rs2ZAxINkYBjxB7Xm0erumJvf3nScDfZwAnGAqPuZxZroAS
-         Vhp+E4PzclKAXyp4lsmSvpXo2RxAS4o/zSnwvLrwkMX7PfG6yFXxs5loGoP/cTBbS7kU
-         6mKcbdgXdhNfbEZfWuS8rGgWKEolRZFemuZsBRzpay71pLqE4NeqwraAFgzDKCE5p1zh
-         pUQHZCsiUcl7NnKn1MDo6owvNvcnclhYqSx/SHNjynfy7qFnm3vKQ9lhKhefqNgJ2C+f
-         yFgw==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=Iw/lo1QBdVWrKnq/tw32zCJNz87ZLZejPwWPtGpMyQk=;
+        b=mqOok+siUd/hgsPwOg/zFx4mlDN5X+160tcu/dgtcSTxpswUyTSaIj8DrVj0HcOExT
+         HGv8GjaUwCYltpsIzx0kMhSjh6Z+z0QYSDPPNJ49Evth+1wpZVozIHKDfy4UiSbXFch/
+         AxrzaM2RKteHLzVC0eq8VHVFCRaTZ4LF4WnmhXl0unVq2Kki8ydKEUXayqRyzOzTSDOe
+         7e23GcMFE5i0Z0PNixEMrliMEB2P8uF6GwqzWh4b25UhKN3rBdNLHxlDaaRwZ1ugROAh
+         TwNLgRc207LRdbK+7xVuibxrllQdkZhYoaUrOujhuy+LwyXfglTk0PGIOwcoAm3BkcsJ
+         FaTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=7VrFwxjy8T0ETsvIgjgvpLEkUEG/ip6B7AMJSQ7G9Wo=;
-        b=ToBHM7zOHABvLbG0AJvv4ZA9JeQVPbVL6jimrSvxbaaXCejAni9EWjuf/b2hlkoxZH
-         bXaPECjiecjARTpcLya2QavaskIVynmnJT6m7Dkr/yT7ZCprhdHle4DCgRlX/7GqBWeB
-         czcFIiFpmFoiRr4fdkcJzPRPn311k15TwQfT3hj28+gX+EZgbKTeAATQA2n/MYQLDtnr
-         qAXZXcYy3dIEpPCeEnmbnS3dA62LpVC2DXtD7408y/Um0AlAYU52rP4VM3T534AepI0D
-         SpTPvuaQu7iWxEXz8g3CAY8jMbWCQcHVKjMRecOOyoOcYVAjaNJSOZzU18ZPploQPCza
-         WJsw==
-X-Gm-Message-State: APjAAAX8kDx45VDQBsgvpn8EF5csRodXtmIEB1B+/GPcmb7e6r/LXTLl
-	LNWorJTgYtPXla1NiLAfKT+9obL0
-X-Google-Smtp-Source: APXvYqwxslFKhb2BXZDmeRQMB0lKpjDnBaKHfAZf6Nqz33uwEjq9y44FZSU8+zw+YvVcrZFbYPRH2g==
-X-Received: by 2002:a17:902:b70e:: with SMTP id d14mr48611915pls.295.1582521553063;
-        Sun, 23 Feb 2020 21:19:13 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=Iw/lo1QBdVWrKnq/tw32zCJNz87ZLZejPwWPtGpMyQk=;
+        b=kliNDZY4hQQ1w7k7MIOZhA39s1+ICqixSCZm3R6k8cIPNLFgBNipyY+rtUwfEGWwwc
+         0vgge8t253IJ3ofkhDaNzgBF+6Ft64/z+1pZMPs/l0fWexz6Dm1vT7TDd2yqGsGpsmkl
+         TG6mTVLnT4ClktGglEiLfCPaMQTUaOWrllqH9mJWW7idZYBm4B7AoRn8Q3DghNy6abZx
+         uEzTci0BDHnI4YWm8gofvawEf/m+EOfnmduRn4zDJ77UdKRL/ZeP9NDNkVdFJdylVoe2
+         KbmsUKnKdgtEZEguv159EGHATazzUKJHOFKLvxmkuI4iZAeJpEz8r1lTDXg2wWPc502J
+         /Y+Q==
+X-Gm-Message-State: APjAAAXXQyN89HhUugXWACmLUOW/uO+Kxt/VlAb8Q0rTWm+tzbx9TMXt
+	pexI7RvRFnZzafTqp2Y3W4GySR+v
+X-Google-Smtp-Source: APXvYqzCHstVkMnB/7qmxj2aSIfcUSOzHlXumvTZyFkj/i3hloSGdzzJ7o1GNsyQ5xFnmDLfNNe8xQ==
+X-Received: by 2002:a62:188:: with SMTP id 130mr50755046pfb.249.1582521554508;
+        Sun, 23 Feb 2020 21:19:14 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.11
+        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2020 21:19:12 -0800 (PST)
+        Sun, 23 Feb 2020 21:19:13 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v2 00/22] Xen: python3, wic, 4.12.2, tools separation
-Date: Sun, 23 Feb 2020 21:18:30 -0800
-Message-Id: <20200224051852.21933-1-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 01/22] seabios: upgrade to version 1.13.0 at official URI and switch to python3
+Date: Sun, 23 Feb 2020 21:18:31 -0800
+Message-Id: <20200224051852.21933-2-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200224051852.21933-1-christopher.w.clark@gmail.com>
+References: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Update the Xen recipes for python3 compatibility and separate recipes
-for the hypervisor, the tools and legacy python2 scripts. Refresh ipxe
-and seabios.
+Use native python3 for the build as python2 no longer available.
+Official seabios release SRC_URI fixes QA warning about using GitHub archives.
 
-Changes since v1 of this series:
-- use multilib to satisfy the requirement for 32-bit glibc for x86-64
-  builds with HVM guest support
-- update the deploy tasks to ensure that tools are staged prior to
-  deploy of the hypervisor binaries
-- add menuconfig instructions to the README
-- keep the patch files in a directory named 'files' rather than
-  'xen-tools' to assist downstream layer support
-- improve commenting in .inc files and commit messages
-
-Upgrade Xen to latest point release of the same version and switch to
-git branch tracking for easier incorporation of security fixes. Multiple
-recipe fixes.
-
-Separate recipes for the hypervisor and tools enables targetting
-different architectures and build configurations (ref: multiconfig) and
-improvements to build efficiency downstream.
-
-Add wic support for building bootable images with Xen and dom0.
-
-Remove the stubs task by satisfying the 32-bit dependencies when
-necessary using multilib.
-
-This change renames many of the packages produced: most packages that had a
-"xen-" prefix now have a "xen-tools-" prefix instead, indicating the recipe
-that now produces them, so dependent recipes will need to update package
-references:
-    eg. xen-tools-hvmloader replaces xen-hvmloader
-    eg. xen-tools replaces xen-base
-and recipe DEPENDS statements:
-    eg. DEPENDS="xen" changes to DEPENDS="xen-tools"
-A temporary append is provided for qemu to handle the renaming while its
-recipe is updated in openembedded-core.
-
-Christopher Clark (22):
-  seabios: upgrade to version 1.13.0 at official URI and switch to
-    python3
-  ipxe: fix build with uprev to the latest git revision
-  linux-yocto/xen.cfg: update Xen KConfig fragment entries
-  xen: pass compiler flags via Xen-provided variables
-  xen: upgrade to 4.12.2
-  wic: add support for bootable pcbios partition with Xen hypervisor
-  xen: package the EFI hypervisor binary /boot/xen.efi
-  xen: add RDEPENDS for xen-pygrub and xen-python packages
-  xen: retire Qemu packaging from the Xen recipe
-  xen: separate recipes for hypervisor and tools; switch to git as
-    source
-  xen-tools: move xentrace_setmask into the xentrace package
-  xen: add seabios to RRECOMMENDS of xen-tools when HVM-enabled
-  xen-image-minimal: add kernel-module-tun for HVM guest networking
-  xen-tools: change globbing to fix syntax highlighting
-  xen, xen-tools: update recipes for python3
-  xen, xen-tools: separate COMPATIBLE_HOST for hypervisor and tools
-  xen, xen-tools: remove stubs task and use multilib when necessary
-  xen, xen-tools: bug fix to post_patch task
-  xen: add contact to recipe README file
-  xen-image-minimal: add a build dependency on the xen hypervisor
-  xen: add menuconfig instructions to the README
-  xen, xen-tools: updates to the deploy task
-
- .gitignore                                    |   1 +
- recipes-devtools/qemu/qemu_%.bbappend         |   1 +
- recipes-extended/images/xen-image-minimal.bb  |  10 +-
- .../files/ipxe-fix-hostcc-nopie-cflags.patch  |  58 +-
- recipes-extended/ipxe/ipxe_git.bb             |   2 +-
- .../seabios/seabios/python3.patch             |  13 +
- .../{seabios_1.11.2.bb => seabios_1.13.0.bb}  |  13 +-
- recipes-extended/xen/README                   |  13 +-
- ...ython-pygrub-pass-DISTUTILS-xen.4.12.patch |   7 +-
- .../files/xen-tools-libxl-gentypes-py3.patch  | 140 +++
- ...tools-pygrub-change-tabs-into-spaces.patch |  40 +
- ...-python-scripts-work-with-2.6-and-up.patch | 529 ++++++++++
- .../xen/files/xen-tools-pygrub-py3.patch      | 233 +++++
- ...ls-python-fix-Wsign-compare-warnings.patch | 136 +++
- ...n-tools-update-python-scripts-to-py3.patch | 140 +++
- recipes-extended/xen/xen-blktap.inc           |  76 ++
- recipes-extended/xen/xen-hypervisor.inc       | 105 ++
- recipes-extended/xen/xen-python2.bb           |  66 ++
- recipes-extended/xen/xen-tools.inc            | 787 ++++++++++++++
- recipes-extended/xen/xen-tools_git.bb         |  24 +
- recipes-extended/xen/xen.inc                  | 970 +-----------------
- recipes-extended/xen/xen_4.12.0.bb            |  12 -
- recipes-extended/xen/xen_git.bb               |  19 +-
- recipes-kernel/linux/linux-yocto/xen.cfg      |   3 +-
- .../lib/wic/plugins/source/bootimg-biosxen.py | 212 ++++
- wic/directdisk-bootloader-xen.cfg             |  17 +
- wic/directdisk-bootloader-xen.wks             |  12 +
- wic/directdisk-xen.wks                        |  10 +
- 28 files changed, 2629 insertions(+), 1020 deletions(-)
- create mode 100644 recipes-devtools/qemu/qemu_%.bbappend
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
+ recipes-extended/seabios/seabios/python3.patch      | 13 +++++++++++++
+ .../{seabios_1.11.2.bb => seabios_1.13.0.bb}        | 13 ++++++++-----
+ 2 files changed, 21 insertions(+), 5 deletions(-)
  create mode 100644 recipes-extended/seabios/seabios/python3.patch
  rename recipes-extended/seabios/{seabios_1.11.2.bb => seabios_1.13.0.bb} (67%)
- create mode 100644 recipes-extended/xen/files/xen-tools-libxl-gentypes-py3.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-change-tabs-into-spaces.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-make-python-scripts-work-with-2.6-and-up.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-py3.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-python-fix-Wsign-compare-warnings.patch
- create mode 100644 recipes-extended/xen/files/xen-tools-update-python-scripts-to-py3.patch
- create mode 100644 recipes-extended/xen/xen-blktap.inc
- create mode 100644 recipes-extended/xen/xen-hypervisor.inc
- create mode 100644 recipes-extended/xen/xen-python2.bb
- create mode 100644 recipes-extended/xen/xen-tools.inc
- create mode 100644 recipes-extended/xen/xen-tools_git.bb
- delete mode 100644 recipes-extended/xen/xen_4.12.0.bb
- create mode 100644 scripts/lib/wic/plugins/source/bootimg-biosxen.py
- create mode 100644 wic/directdisk-bootloader-xen.cfg
- create mode 100644 wic/directdisk-bootloader-xen.wks
- create mode 100644 wic/directdisk-xen.wks
 
+diff --git a/recipes-extended/seabios/seabios/python3.patch b/recipes-extended/seabios/seabios/python3.patch
+new file mode 100644
+index 0000000..a2786fd
+--- /dev/null
++++ b/recipes-extended/seabios/seabios/python3.patch
+@@ -0,0 +1,13 @@
++diff --git a/Makefile b/Makefile
++index 516cb38..7f6acaa 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -22,7 +22,7 @@ LD=$(CROSS_PREFIX)ld
++ OBJCOPY=$(CROSS_PREFIX)objcopy
++ OBJDUMP=$(CROSS_PREFIX)objdump
++ STRIP=$(CROSS_PREFIX)strip
++-PYTHON=python
+++PYTHON=python3
++ CPP=$(CROSS_PREFIX)cpp
++ IASL:=iasl
++ LD32BIT_FLAG:=-melf_i386
+diff --git a/recipes-extended/seabios/seabios_1.11.2.bb b/recipes-extended/seabios/seabios_1.13.0.bb
+similarity index 67%
+rename from recipes-extended/seabios/seabios_1.11.2.bb
+rename to recipes-extended/seabios/seabios_1.13.0.bb
+index 81eaec9..4cf4420 100644
+--- a/recipes-extended/seabios/seabios_1.11.2.bb
++++ b/recipes-extended/seabios/seabios_1.13.0.bb
+@@ -3,22 +3,25 @@ HOMEPAGE = "http://www.coreboot.org/SeaBIOS"
+ LICENSE = "LGPLv3"
+ SECTION = "firmware"
+ 
++inherit python3native
++
+ SRC_URI = " \
+-    https://github.com/qemu/seabios/archive/rel-${PV}.tar.gz \
++    https://www.seabios.org/downloads/seabios-${PV}.tar.gz \
+     file://hostcc.patch \
++    file://python3.patch \
+     "
+-S = "${WORKDIR}/${PN}-rel-${PV}"
++S = "${WORKDIR}/${PN}-${PV}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504         \
+                     file://COPYING.LESSER;md5=6a6a8e020838b23406c81b19c1d46df6  \
+                     "
+ 
+-SRC_URI[md5sum] = "3f78065837dbd8873513a1b7d5276e78"
+-SRC_URI[sha256sum] = "73e73c8e406d97265782f6c942b3c1d178ed4f4afc9f381b22336c3968291693"
++SRC_URI[md5sum] = "1dc1725bac1d230bfd6b3204eed4f2f7"
++SRC_URI[sha256sum] = "37673dc2d6308591b15bdb94e5bcc3e99bdb40198d2247733c43f50b55dbe703"
+ 
+ FILES_${PN} = "/usr/share/firmware"
+ 
+-DEPENDS = "util-linux-native file-native bison-native flex-native gettext-native acpica-native python-native"
++DEPENDS += "util-linux-native file-native bison-native flex-native gettext-native acpica-native"
+ 
+ TUNE_CCARGS = ""
+ EXTRA_OEMAKE += "HOSTCC='${BUILD_CC}'"
 -- 
 2.17.1
 
