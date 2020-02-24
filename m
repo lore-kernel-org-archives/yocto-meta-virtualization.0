@@ -1,159 +1,189 @@
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com [209.85.208.196])
- by mx.groups.io with SMTP id smtpd.web12.16950.1582520140816147567
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web09.16774.1582521556761843039
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 23 Feb 2020 20:55:41 -0800
+ Sun, 23 Feb 2020 21:19:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iYW5eWIl;
- spf=pass (domain: gmail.com, ip: 209.85.208.196, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-lj1-f196.google.com with SMTP id y6so8582130lji.0
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 23 Feb 2020 20:55:40 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kdidziDm;
+ spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 431B3E014C6; Sun, 23 Feb 2020 21:19:16 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
+	*      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.214.195 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
+	*       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0FC56E00804
+	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:14 -0800 (PST)
+Received: by mail-pl1-f195.google.com with SMTP id y8so3546003pll.13
+        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ALfTTh8OHzfTdJGMDcn8xFjTtVQWRrORsc6NlvIKRnQ=;
-        b=iYW5eWIlWmsrLiBPY86CIrHOmgbHsPjtsirmoihSFzAMDW+2kzfUs554Vs7AxBitrs
-         mehCms1053mEolXiYvvueOnfZk2kL0+s9KwtDDNswGxByJQFXhyMvMyKdnPp2IzmDBGP
-         8hWaaoHK4wy/pvBKdTErXV8oeAOFOM6MO76Ul4m+tUHGHiMp3AJ4tgv4MiUQOMndnnAI
-         2WQbBOIMvbLFXxueCo+VZweFGjPbz7Vs37xnya/XuCp8QlFrtCzHuyQhNdexNWpsldaD
-         4DC6jFzULPkFwO6yLKYXDecUEnjJEBN50yokXThWGtWZrhBh1cEzzn79V4dCuVop28n9
-         W/0g==
+        h=from:to:cc:subject:date:message-id;
+        bh=7VrFwxjy8T0ETsvIgjgvpLEkUEG/ip6B7AMJSQ7G9Wo=;
+        b=kdidziDmh7sLelaO469zJ/GngZowfrhsdUCOeZRjkxVo35NorvYzds4+Zqdzq1hcUw
+         xX+lSBs2wpQpr52ItpL26Rs2ZAxINkYBjxB7Xm0erumJvf3nScDfZwAnGAqPuZxZroAS
+         Vhp+E4PzclKAXyp4lsmSvpXo2RxAS4o/zSnwvLrwkMX7PfG6yFXxs5loGoP/cTBbS7kU
+         6mKcbdgXdhNfbEZfWuS8rGgWKEolRZFemuZsBRzpay71pLqE4NeqwraAFgzDKCE5p1zh
+         pUQHZCsiUcl7NnKn1MDo6owvNvcnclhYqSx/SHNjynfy7qFnm3vKQ9lhKhefqNgJ2C+f
+         yFgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ALfTTh8OHzfTdJGMDcn8xFjTtVQWRrORsc6NlvIKRnQ=;
-        b=tzMczH5CvFGndoQ6c7BO6Qp7b3+bgSYxJ/4m5xa73MiCoX8fimCbYkFk5ctq6lOQdW
-         ecvfEZ+W5hlaApkrY8oUG91Z18EKugWruzL5vwzt15OXqxZFB5DCikf0yysPykdsGCgl
-         FLuEHDGHAuyRWX7T55gYMB5Uld+9HZf6cqz8Dpr+GxUXDf+j1aZ2jwNUYY2bx38bFN+r
-         rCADBJxc5Urv3bCVJ6pLRF0L4Rdc/cREz8m0IZMQd9u5j26gTqjTQ7jmc1Fp5cHGsTaN
-         y7YbyyO7ZM5ndYc9wEWc2wNdo4HHzLv3l9X2vqs6Fq0DU5zyKfTtZiWaZcL4UQISgJO8
-         axoQ==
-X-Gm-Message-State: APjAAAVn9ttqc7WzAWhjf7smYioePoQ1in1c3jqAMX7jAD+7TbsC3zfc
-	ayv+J9IUa4ruTv8vlrYMgnuZvW4JvRZF7mq2eV0=
-X-Google-Smtp-Source: APXvYqw7sxH+dXrjpjUwD3r5jdvBK9UiitTGbzKxjergNypruL7gb9JDzyH+riUdW4cex31qt2/Zp/PgMhTeFaU/WvM=
-X-Received: by 2002:a05:651c:314:: with SMTP id a20mr29513507ljp.91.1582520138898;
- Sun, 23 Feb 2020 20:55:38 -0800 (PST)
-MIME-Version: 1.0
-References: <15F33D74C6BC534D.11355@lists.yoctoproject.org>
- <74D7E070-D2BE-4A70-9394-0DE45CC5E06C@arm.com> <CADkTA4MmNbkXjMQCJGF4NME4Vp0mgH8KUbL2a5c5Q-ZWpMo=ag@mail.gmail.com>
- <10562492-D715-4A10-85F9-983CD272221F@arm.com> <CADkTA4MFBHuXrySuG02TzOkmEitwMwXXs-JPccZj--7-NR9RDA@mail.gmail.com>
- <CACMJ4GZrj27_qeT7Y-s1DpEmzHgWMuHoFLYhHu9uyVxCoxBOqg@mail.gmail.com> <5D77CA0D-AF13-4634-86EC-682F2E4E3123@arm.com>
-In-Reply-To: <5D77CA0D-AF13-4634-86EC-682F2E4E3123@arm.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=7VrFwxjy8T0ETsvIgjgvpLEkUEG/ip6B7AMJSQ7G9Wo=;
+        b=ToBHM7zOHABvLbG0AJvv4ZA9JeQVPbVL6jimrSvxbaaXCejAni9EWjuf/b2hlkoxZH
+         bXaPECjiecjARTpcLya2QavaskIVynmnJT6m7Dkr/yT7ZCprhdHle4DCgRlX/7GqBWeB
+         czcFIiFpmFoiRr4fdkcJzPRPn311k15TwQfT3hj28+gX+EZgbKTeAATQA2n/MYQLDtnr
+         qAXZXcYy3dIEpPCeEnmbnS3dA62LpVC2DXtD7408y/Um0AlAYU52rP4VM3T534AepI0D
+         SpTPvuaQu7iWxEXz8g3CAY8jMbWCQcHVKjMRecOOyoOcYVAjaNJSOZzU18ZPploQPCza
+         WJsw==
+X-Gm-Message-State: APjAAAX8kDx45VDQBsgvpn8EF5csRodXtmIEB1B+/GPcmb7e6r/LXTLl
+	LNWorJTgYtPXla1NiLAfKT+9obL0
+X-Google-Smtp-Source: APXvYqwxslFKhb2BXZDmeRQMB0lKpjDnBaKHfAZf6Nqz33uwEjq9y44FZSU8+zw+YvVcrZFbYPRH2g==
+X-Received: by 2002:a17:902:b70e:: with SMTP id d14mr48611915pls.295.1582521553063;
+        Sun, 23 Feb 2020 21:19:13 -0800 (PST)
+Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
+        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Feb 2020 21:19:12 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Sun, 23 Feb 2020 20:55:27 -0800
-Message-ID: <CACMJ4GZN_OaxZcghXOyoYFdzvfo8dQZi5Eo7yaSj3Sg1W+J03g@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] Xen: fix do_deploy dependencies
-To: Bertrand Marquis <Bertrand.Marquis@arm.com>
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>, 
-	Doug Goldstein <cardoe@gentoo.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: meta-virtualization@yoctoproject.org
+Cc: bruce.ashfield@gmail.com,
+	cardoe@gentoo.org
+Subject: [meta-virtualization][PATCH v2 00/22] Xen: python3, wic, 4.12.2, tools separation
+Date: Sun, 23 Feb 2020 21:18:30 -0800
+Message-Id: <20200224051852.21933-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-On Fri, Feb 21, 2020 at 1:08 AM Bertrand Marquis
-<Bertrand.Marquis@arm.com> wrote:
->
-> On 20 Feb 2020, at 18:41, Christopher Clark <christopher.w.clark@gmail.co=
-m> wrote:
->
-> > On Wed, Feb 19, 2020 at 6:00 AM Bruce Ashfield <bruce.ashfield@gmail.co=
-m> wrote:
->
-> > > On Wed, Feb 19, 2020 at 8:47 AM Bertrand Marquis <Bertrand.Marquis@ar=
-m.com> wrote:
->
-> > > > On 19 Feb 2020, at 13:31, Bruce Ashfield <bruce.ashfield@gmail.com>=
- wrote:
->
-> > > > > On Wed, Feb 19, 2020 at 8:09 AM Bertrand Marquis  <Bertrand.Marqu=
-is@arm.com> wrote:
->
-> > > > > > On 14 Feb 2020, at 10:17, Bertrand Marquis via Lists.Yoctoproje=
-ct.Org <bertrand.marquis=3Darm.com@lists.yoctoproject.org> wrote:
->
-> > > > > > > do_deploy is using the files installed during do_install and =
-it must be
-> > > > > > > executed after it but before do_build. This is fixing SSTATE =
-behaviour
-> > > > > > > which had previously an empty scene in some cases.
->
-> > > > > > Any chance somebody could check and ack on this ?
->
-> > > > > There's an entire update / re-work of Xen on the mailing list. I =
-won't
-> > > > > be merging any Xen patches until we have that sorted out.
->
-> > > > Ok I will re-push my patch once the changes in Xen are merged then.
->
-> > > the patch does look fine, and I've tagged it for merging. I just
-> > > wanted to get the big changes in before jiggling anything (even if it
-> > > shouldn't have an impact).
->
-> > Thanks for the report, Bertrand. I've taken a look at this. The
-> > addition of "before do_build" looks OK to me, and should be sufficient
-> > to address the behaviour reported about an empty scene observed in
-> > some cases -- some more details about that observation that prompted
-> > this patch, and some testing to confirm that just adding "before
-> > do_build" addition addresses it would be helpful.
->
-> A big grep in poky for =E2=80=9Caddtask deploy=E2=80=9D is showing that m=
-ost of the time this is added with:
-> addtask deploy before do_build after do_instal
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-You're right that there are several recipes in poky that do that; but diffe=
-rent
-recipes have different requirements, based on what they build. I'll explain
-below why the Xen recipe differs from those.
+Update the Xen recipes for python3 compatibility and separate recipes
+for the hypervisor, the tools and legacy python2 scripts. Refresh ipxe
+and seabios.
 
-> > I'm not convinced about the change to move it to "after do_install" tho=
-ugh.
-> > do_populate_sysroot already runs after do_install, so no change is
-> > needed to ensure that the binaries are available by the time the
-> > deploy task runs, but more importantly I think that the deploy task
-> > should run, as it currently does, after do_populate_sysroot to ensure
-> > that the same binaries that are made available to other recipes via
-> > sysroots are also those that are deployed. Scheduling it after the
-> > do_populate_sysroot means that if the deploy task is run, the sysroot
-> > copies are also up to date.
->
->
-> The problem in doing this after do_populate_sysroot is that do_deploy is =
-not using the populated sysroot but the result of do_install.
+Changes since v1 of this series:
+- use multilib to satisfy the requirement for 32-bit glibc for x86-64
+  builds with HVM guest support
+- update the deploy tasks to ensure that tools are staged prior to
+  deploy of the hypervisor binaries
+- add menuconfig instructions to the README
+- keep the patch files in a directory named 'files' rather than
+  'xen-tools' to assist downstream layer support
+- improve commenting in .inc files and commit messages
 
-The current Xen recipe that is in the meta-virtualization layer builds both=
- the
-hypervisor and the tools. These tools-and-hypervisor have to match version =
-in
-order to function correctly. There are two separate paths for the build
-products: the hypervisor binary is made available to 'deploy' and the tools=
- are
-staged for installation in the image rootfs.
+Upgrade Xen to latest point release of the same version and switch to
+git branch tracking for easier incorporation of security fixes. Multiple
+recipe fixes.
 
-To ensure that the correct version of the tools have been built and staged =
-for
-the rootfs to match the deployed hypervisor binary, the deploy task which m=
-akes
-the hypervisor binary available depends on do_populate_sysroot task that st=
-ages
-the built tools binaries. That's why the existing recipe has the
-'addtask deploy'
-statement 'after do_populate_sysroot'.
+Separate recipes for the hypervisor and tools enables targetting
+different architectures and build configurations (ref: multiconfig) and
+improvements to build efficiency downstream.
 
-So: you are correct that do_deploy is indeed writing binaries that are
-the result of
-do_install, but those binaries also have a runtime dependency on the correc=
-t
-version of the tools being staged for inclusion in the image rootfs.
+Add wic support for building bootable images with Xen and dom0.
 
-For my patch series that updates the Xen recipes, it introduces separate
-recipes for the tools and the hypervisor, and for the new version of the se=
-ries
-that I'm about to post here, I've updated the deploy tasks to ensure that
-this deploy dependency for the hypervisor on the tools being staged correct=
-ly
-is preserved.
+Remove the stubs task by satisfying the 32-bit dependencies when
+necessary using multilib.
 
-thanks,
+This change renames many of the packages produced: most packages that had a
+"xen-" prefix now have a "xen-tools-" prefix instead, indicating the recipe
+that now produces them, so dependent recipes will need to update package
+references:
+    eg. xen-tools-hvmloader replaces xen-hvmloader
+    eg. xen-tools replaces xen-base
+and recipe DEPENDS statements:
+    eg. DEPENDS="xen" changes to DEPENDS="xen-tools"
+A temporary append is provided for qemu to handle the renaming while its
+recipe is updated in openembedded-core.
 
-Christopher
+Christopher Clark (22):
+  seabios: upgrade to version 1.13.0 at official URI and switch to
+    python3
+  ipxe: fix build with uprev to the latest git revision
+  linux-yocto/xen.cfg: update Xen KConfig fragment entries
+  xen: pass compiler flags via Xen-provided variables
+  xen: upgrade to 4.12.2
+  wic: add support for bootable pcbios partition with Xen hypervisor
+  xen: package the EFI hypervisor binary /boot/xen.efi
+  xen: add RDEPENDS for xen-pygrub and xen-python packages
+  xen: retire Qemu packaging from the Xen recipe
+  xen: separate recipes for hypervisor and tools; switch to git as
+    source
+  xen-tools: move xentrace_setmask into the xentrace package
+  xen: add seabios to RRECOMMENDS of xen-tools when HVM-enabled
+  xen-image-minimal: add kernel-module-tun for HVM guest networking
+  xen-tools: change globbing to fix syntax highlighting
+  xen, xen-tools: update recipes for python3
+  xen, xen-tools: separate COMPATIBLE_HOST for hypervisor and tools
+  xen, xen-tools: remove stubs task and use multilib when necessary
+  xen, xen-tools: bug fix to post_patch task
+  xen: add contact to recipe README file
+  xen-image-minimal: add a build dependency on the xen hypervisor
+  xen: add menuconfig instructions to the README
+  xen, xen-tools: updates to the deploy task
+
+ .gitignore                                    |   1 +
+ recipes-devtools/qemu/qemu_%.bbappend         |   1 +
+ recipes-extended/images/xen-image-minimal.bb  |  10 +-
+ .../files/ipxe-fix-hostcc-nopie-cflags.patch  |  58 +-
+ recipes-extended/ipxe/ipxe_git.bb             |   2 +-
+ .../seabios/seabios/python3.patch             |  13 +
+ .../{seabios_1.11.2.bb => seabios_1.13.0.bb}  |  13 +-
+ recipes-extended/xen/README                   |  13 +-
+ ...ython-pygrub-pass-DISTUTILS-xen.4.12.patch |   7 +-
+ .../files/xen-tools-libxl-gentypes-py3.patch  | 140 +++
+ ...tools-pygrub-change-tabs-into-spaces.patch |  40 +
+ ...-python-scripts-work-with-2.6-and-up.patch | 529 ++++++++++
+ .../xen/files/xen-tools-pygrub-py3.patch      | 233 +++++
+ ...ls-python-fix-Wsign-compare-warnings.patch | 136 +++
+ ...n-tools-update-python-scripts-to-py3.patch | 140 +++
+ recipes-extended/xen/xen-blktap.inc           |  76 ++
+ recipes-extended/xen/xen-hypervisor.inc       | 105 ++
+ recipes-extended/xen/xen-python2.bb           |  66 ++
+ recipes-extended/xen/xen-tools.inc            | 787 ++++++++++++++
+ recipes-extended/xen/xen-tools_git.bb         |  24 +
+ recipes-extended/xen/xen.inc                  | 970 +-----------------
+ recipes-extended/xen/xen_4.12.0.bb            |  12 -
+ recipes-extended/xen/xen_git.bb               |  19 +-
+ recipes-kernel/linux/linux-yocto/xen.cfg      |   3 +-
+ .../lib/wic/plugins/source/bootimg-biosxen.py | 212 ++++
+ wic/directdisk-bootloader-xen.cfg             |  17 +
+ wic/directdisk-bootloader-xen.wks             |  12 +
+ wic/directdisk-xen.wks                        |  10 +
+ 28 files changed, 2629 insertions(+), 1020 deletions(-)
+ create mode 100644 recipes-devtools/qemu/qemu_%.bbappend
+ create mode 100644 recipes-extended/seabios/seabios/python3.patch
+ rename recipes-extended/seabios/{seabios_1.11.2.bb => seabios_1.13.0.bb} (67%)
+ create mode 100644 recipes-extended/xen/files/xen-tools-libxl-gentypes-py3.patch
+ create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-change-tabs-into-spaces.patch
+ create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-make-python-scripts-work-with-2.6-and-up.patch
+ create mode 100644 recipes-extended/xen/files/xen-tools-pygrub-py3.patch
+ create mode 100644 recipes-extended/xen/files/xen-tools-python-fix-Wsign-compare-warnings.patch
+ create mode 100644 recipes-extended/xen/files/xen-tools-update-python-scripts-to-py3.patch
+ create mode 100644 recipes-extended/xen/xen-blktap.inc
+ create mode 100644 recipes-extended/xen/xen-hypervisor.inc
+ create mode 100644 recipes-extended/xen/xen-python2.bb
+ create mode 100644 recipes-extended/xen/xen-tools.inc
+ create mode 100644 recipes-extended/xen/xen-tools_git.bb
+ delete mode 100644 recipes-extended/xen/xen_4.12.0.bb
+ create mode 100644 scripts/lib/wic/plugins/source/bootimg-biosxen.py
+ create mode 100644 wic/directdisk-bootloader-xen.cfg
+ create mode 100644 wic/directdisk-bootloader-xen.wks
+ create mode 100644 wic/directdisk-xen.wks
+
+-- 
+2.17.1
+
