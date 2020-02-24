@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.17135.1582521562364235559
+ by mx.groups.io with SMTP id smtpd.web10.17117.1582521564526595333
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 23 Feb 2020 21:19:22 -0800
+ Sun, 23 Feb 2020 21:19:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=EaoTF5Si;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=VE5CEg1m;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 3B967E01483; Sun, 23 Feb 2020 21:19:22 -0800 (PST)
+	id 62452E014C6; Sun, 23 Feb 2020 21:19:24 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -18,87 +18,79 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
 	*      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.216.65 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CE8E4E00804
-	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:20 -0800 (PST)
-Received: by mail-pj1-f65.google.com with SMTP id f2so3639905pjq.1
-        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:20 -0800 (PST)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.216.67 listed in list.dnswl.org]
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com [209.85.216.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F1C82E00D33
+	for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:23 -0800 (PST)
+Received: by mail-pj1-f67.google.com with SMTP id ep11so3643988pjb.2
+        for <meta-virtualization@yoctoproject.org>; Sun, 23 Feb 2020 21:19:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=wXj64CZOLpCPpIxEeggHtiJRJjk9wj2J/XlzFBMSiGI=;
-        b=EaoTF5Si76cb2BMkrG9JacO7/urAxyskstU0W4cDKOJy+xnF//HAz5z80fJZFk4Yq2
-         cBmVLGnxzV1s9B1ANKJpJdPYWb0fvWz0heBkQLAHwnbMoehjVjyDxpWyw6I09zurpSoR
-         r2s7LetW+AWr2YzhzWPHI/7jhk2ZupctuisPVrpqq47ShAlYOo5yeopzGle33qGB+jrb
-         mooRIE9DqbntOwLFsW75QU7oOYUSi7c0p1QFdmytC771yQRew4BROAU6zSme/mv1c/B1
-         XeTlF6p7zvGyIIwLEsKHYirUJ+bO/kdcRLBSWV5dLU2/R5bFpJgkTAYNJQr2Z6voV7Oy
-         Cvow==
+        bh=N5OLLQt2eyLxj40DtlB5dNMiuLGmeowneoLGenkXhfw=;
+        b=VE5CEg1mWou66NiG3uVtmVrxhAwywdiflmr2a1nRPCKguAwubKwtS6ARG75tRWnYFX
+         FZL4E6lz+gtQxhi5cKAp4Dn9IOpStbqCmna7FcIOYrZxCiK+IGo43hq58OIkpTylFtoq
+         bfgf4sylUcDX6pW8Ovv8XpBd6Ireg5noQKw5y71aUauJhWVxMpfPMab1fwy6nkEoObIe
+         o0iD3olD8CSHraKetyxRFB5js9LoCWAYR4sVGmwfycTEPeU5I/l2K+BjYNINjlTGl5FC
+         U8YYMVHDLayajP9hofw9MLt8BjpopE09lxukMIAkdv31v1/CiE1weCB2xtJT+6pKS8hD
+         OQRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=wXj64CZOLpCPpIxEeggHtiJRJjk9wj2J/XlzFBMSiGI=;
-        b=c0UiO3xsniBUNHoT7SwmUz78dTK1AVdiomE34S/yRWulw3vpk7/rX6EdYnN4HN86d6
-         nn8zEQ2Peddn0sYpLNjGd4N2gw12nSnBP58+vsyAiB8aNw/6l/mgU0Puw3DYWw6SGCxs
-         B6wC/mofR9hcSYXiQwRpI7ADSqLgKT3kubJDHyJewAt+sroz7iC7M3H0OKDkqY2if++S
-         8geXwCxOeMOAddcPvGjUyZJgd9tf/VNs8g8bwVvNcGfX1NwrXM0cG5x6db6vUtiA7vuK
-         9Fnm0AKf4bhwDNT9Y/FysjxYWd6IYnPUbQnPBVB8MzKA4742318J3f5WjpXSMKcXrxMQ
-         N4oA==
-X-Gm-Message-State: APjAAAWoV2NFA/JTV45x4mG+Wlo8BCWvMKxGUOMqON+SH5YHV+z839I4
-	edYMEW+XVGhPAwKlz7+PBDdEW7qn
-X-Google-Smtp-Source: APXvYqzFxftJdCqRAhdJxScgXo4wy6FjYsI0doBSLEOobXqFY3LW8dtccIr+UQeRyjk6/sLJFPZkoQ==
-X-Received: by 2002:a17:90a:c592:: with SMTP id l18mr17645174pjt.105.1582521559931;
-        Sun, 23 Feb 2020 21:19:19 -0800 (PST)
+        bh=N5OLLQt2eyLxj40DtlB5dNMiuLGmeowneoLGenkXhfw=;
+        b=sHZKH88Lv5wdPQkXS8oTfeke7qjkL/mv4/22bjxZSiCPAXGYs25yPKCAsobSxQB2g7
+         YRcrSQMiAMjdo1h48YGUnBchAQ1ff0GvW5xE+Utpxt0hjvlAtVBZqj9lcM2L6dXZVqpu
+         HuD3T6c02nKRcXV4bMSi09pMIXeNGD0L/4nCYUSlTy/UPaeoQPfLCbEs0ecqf8ezWQpm
+         HEfb157soQF/SN7lxREEU9ddDbujQHSncXRxDulvdyNpwN+HFPLIMb1oHZzCV2soXUJL
+         C6x/COtuSd46nzlP3J5Xq1JMaxSQAFP3RGzlwt19qnDcoQANcxxz4MEwhIqMCWVMvKRu
+         a8rw==
+X-Gm-Message-State: APjAAAWiFMK8UlixbtNXFNwaucQq0L+4hvW3+5yDT4WuJ1PqQKnxi0kz
+	MoLfYT9ewsSDlqGxxtRi0ec8zwVc
+X-Google-Smtp-Source: APXvYqxEuZi0IiGyvNEOtUP/u8EsSFpA2AdNVM9Ci5deL6qu9pkuhj08cllWhaj8C38u989LL4W+LQ==
+X-Received: by 2002:a17:90a:f985:: with SMTP id cq5mr18240952pjb.19.1582521562942;
+        Sun, 23 Feb 2020 21:19:22 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.18
+        by smtp.gmail.com with ESMTPSA id a195sm10859409pfa.120.2020.02.23.21.19.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2020 21:19:19 -0800 (PST)
+        Sun, 23 Feb 2020 21:19:21 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v2 05/22] xen: upgrade to 4.12.2
-Date: Sun, 23 Feb 2020 21:18:35 -0800
-Message-Id: <20200224051852.21933-6-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 07/22] xen: package the EFI hypervisor binary /boot/xen.efi
+Date: Sun, 23 Feb 2020 21:18:37 -0800
+Message-Id: <20200224051852.21933-8-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 References: <20200224051852.21933-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Fixes the build failure with 4.12.0 seen with the newer OE compiler.
-
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/xen/{xen_4.12.0.bb => xen_4.12.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename recipes-extended/xen/{xen_4.12.0.bb => xen_4.12.2.bb} (63%)
+ recipes-extended/xen/xen.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/recipes-extended/xen/xen_4.12.0.bb b/recipes-extended/xen/xen_4.12.2.bb
-similarity index 63%
-rename from recipes-extended/xen/xen_4.12.0.bb
-rename to recipes-extended/xen/xen_4.12.2.bb
-index 246be7a..affeb4a 100644
---- a/recipes-extended/xen/xen_4.12.0.bb
-+++ b/recipes-extended/xen/xen_4.12.2.bb
-@@ -6,7 +6,7 @@ SRC_URI = " \
-     file://0001-python-pygrub-pass-DISTUTILS-xen.4.12.patch \
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 4ac954e..380b193 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -429,6 +429,7 @@ FILES_${PN}-hypervisor = "\
+ FILES_${PN}-init-xenstore-dom = "${libdir}/xen/bin/init-xenstore-domain"
+ 
+ FILES_${PN}-efi = "\
++    /boot/xen.efi \
+     ${exec_prefix}/lib64/efi/xen* \
      "
  
--SRC_URI[md5sum] = "7d24d4541e3025421e02384cabc3528b"
--SRC_URI[sha256sum] = "6e5455e4a58dcb2339bfcd2a89842728068b530aa62501843793f7cf743c4d64"
-+SRC_URI[md5sum] = "57084e3f55bbec063d38b464e1b7e4f2"
-+SRC_URI[sha256sum] = "1c75cbe728dfabf02b7f9a17ce96ee7d202d2fd4b4689490018d3a28b63f9fa3"
- 
- S = "${WORKDIR}/xen-${PV}"
 -- 
 2.17.1
 
