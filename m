@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web09.174.1582676211954095809
+ by mx.groups.io with SMTP id smtpd.web09.175.1582676215941525665
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 Feb 2020 16:16:52 -0800
+ Tue, 25 Feb 2020 16:16:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aeIxZoga;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HSJdx8er;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id CE20CE016E9; Tue, 25 Feb 2020 16:16:51 -0800 (PST)
+	id C8896E0175C; Tue, 25 Feb 2020 16:16:55 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,96 +20,109 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.214.194 listed in list.dnswl.org]
+	*      [209.85.215.170 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com [209.85.214.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 8F75BE016B5
-	for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:16:51 -0800 (PST)
-Received: by mail-pl1-f194.google.com with SMTP id ay11so527110plb.0
-        for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:16:51 -0800 (PST)
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 4D21BE016B5
+	for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:16:55 -0800 (PST)
+Received: by mail-pg1-f170.google.com with SMTP id b1so165754pgm.8
+        for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:16:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=IwWxianQo2M0t0arJeHbT2no/XUmw8g/iVn9SvYKghU=;
-        b=aeIxZogax+qrK0Ip2z4qktYybvTcylGbYvu3VJVYc3eWFIY750mzMErrJJeu27uPpM
-         FvlIWLwbYPTOERd3NY0uQEzbymae8DVYJv6fbgL5MQ4jjwJPqYCA4wBNC/uvnhSrY2gB
-         27xfO6n++lTz7LrqTO8H7M8dYUjqwtMnii9QzA4NOloVz/eZHAe+Q1DjZRw7beACRlYM
-         m8GWwxF5T++gLjaSNzZ3RNxXW4kVNaZfgwc8B3YQhy1qH3hkUefyQl4KEp99Zv5GX8Gp
-         py3HhWakPWTpVu7QBajIUhWdHbncOkbxTlsRjJdxfk1a2iatZ+M+sCHhqMvs/kAB0Lh3
-         SQrg==
+        bh=zF2FLO/gce1rPxAkPOtNMU2u38MVbJNMPk/aqmv+kyg=;
+        b=HSJdx8erXrenljBX6fsZi7Af3YKJ+U3ExrVR5Sq6yqMdBUOjix2q4r4GqQA3eWyq8B
+         vxCzkThf8bi62lG40tzzSopS8qFztov0wTLyagAsTTDN2MNtTO3f5u26GgMNGA9dpYXS
+         KnevfCfEll9Y4VdLY9s0D4IZUZjzzftEI6LMP4Iv/DcN9PlGl0FSwNnVLdpOuKXnsBHQ
+         Mk9CId1dVanJj9fjKjjuGs78YidzHKNzd5rO1ZlB0AHCPU1x7hd2FZWy1qV2KcLdG+QZ
+         BSTcT4itg0DBK4UGt6ngWGiit8Zvi8DwykPhoL8Mve1RksehRj6PRHP34hwcfVOpEh2U
+         EGFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=IwWxianQo2M0t0arJeHbT2no/XUmw8g/iVn9SvYKghU=;
-        b=NVeNhwCqbAo5sBPFXSddQXPD7i3oDiXenfhSakyW5bvUl4Ef6ucVk5tMCkGVCmmN2k
-         rV1DI9t4MLOKlasi19NnX2XejjhcESb73LI7sEJ1i6+19le274rNZ+L6HY+WFekeJLIo
-         x6xDkDULq7vpgyKaYJEMFhRH2+6Nq0iqVNzVJJ2nYB4vXH1RkDqprPBkX0fwFtlfuHTd
-         rJxMjOnV7WGZ/LqsDSTY9gpfrp+ZeCEMeya7mWUSj+2/UvyPn4ExfIeJpNluPxwimnqp
-         bM342L8wwm6UuuuotGIA5q6/v6Uo5hrT9xvwOxOw3n93/11hhuLJh5zo+I4RLFLZR+1V
-         a6AA==
-X-Gm-Message-State: APjAAAWE2fxSX2ikqiHCHiN6+AzsH56XR5wokXfcmnFH1vAmE5obJOm5
-	/hdka3fdjOvQ3Visbqe+wXFi09Oz
-X-Google-Smtp-Source: APXvYqwJ/ftf2V7/5B/C2ZKtNaL7hoUcry5XLPLC1RtBDtVXDRVSf9xZeB2wTC7BUCCy66MXgcgQRw==
-X-Received: by 2002:a17:902:161:: with SMTP id 88mr1146833plb.129.1582676210714;
-        Tue, 25 Feb 2020 16:16:50 -0800 (PST)
+        bh=zF2FLO/gce1rPxAkPOtNMU2u38MVbJNMPk/aqmv+kyg=;
+        b=kVBszeSFSElimz8cX50Vgzrr7oa3muHWayQpi9wjJ4jYWkavs6CF+8sx7ZBOCDdPUW
+         l3xSvigBS7GC88J3TlzXyfIhwQ6rW2BomKU080wjHybybHOqh8Flb6PHPRR44TVHG/OF
+         AWMrL4+RuoNPegBSrr1Kmb/dGrMtufPSqTpv0PowllWmFDq6E99cLSVoHqS3pfvLz488
+         Elkt7YVneHL159m+w4+vP0x8fBk4M4cCiVU6IWegzbFTdAH7FSQsXQW4J5Tjh6iE6D4y
+         yncalTnMYahQmTk1AKsPQHZZUu4q7FzixXCKyWaqP7GpR+8YV/IS3gvnscj058VxKmCk
+         CrEQ==
+X-Gm-Message-State: APjAAAUAM2IG0zXLCMbn2QkjVwywnfkRGt0DlARli5LxrxzRyWtZCo5a
+	dvjuOQDv0YgSJrzHu4TlSxh+LFPH
+X-Google-Smtp-Source: APXvYqyaxZR51Dr7wp8GmlvjlSkilQSKgIGUkhnSCEHm5QGV4pUY64uNVb8hGlJOCLllNJrG1z0YmQ==
+X-Received: by 2002:a63:de4c:: with SMTP id y12mr1007852pgi.107.1582676214322;
+        Tue, 25 Feb 2020 16:16:54 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id x11sm235177pfn.53.2020.02.25.16.16.49
+        by smtp.gmail.com with ESMTPSA id x11sm235177pfn.53.2020.02.25.16.16.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 16:16:49 -0800 (PST)
+        Tue, 25 Feb 2020 16:16:53 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v3 14/22] xen-tools: change globbing to fix syntax highlighting
-Date: Tue, 25 Feb 2020 16:15:58 -0800
-Message-Id: <20200226001606.14750-15-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v3 16/22] xen, xen-tools: separate COMPATIBLE_HOST for hypervisor and tools
+Date: Tue, 25 Feb 2020 16:16:00 -0800
+Message-Id: <20200226001606.14750-17-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200226001606.14750-1-christopher.w.clark@gmail.com>
 References: <20200226001606.14750-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-A text editor can interpret /* as the beginning of a comment
-and then fail to find the matching */ it expects as a terminator.
-This causes it to mishighlight the rest of the file. Avoid this
-by using a different matching pattern.
-
-Fixes an annoyance when editing the file. No functional change intended.
+The tools have broader platform compatibility than the hypervisor.
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/xen/xen-tools.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ recipes-extended/xen/xen-hypervisor.inc | 3 +++
+ recipes-extended/xen/xen-tools.inc      | 2 ++
+ recipes-extended/xen/xen.inc            | 2 --
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+index 79fafd2..41de9b6 100644
+--- a/recipes-extended/xen/xen-hypervisor.inc
++++ b/recipes-extended/xen/xen-hypervisor.inc
+@@ -6,6 +6,9 @@ DESCRIPTION = "The Xen hypervisor"
+ # this allows for varying the target architecture or toolchain used
+ # to build the different components. eg. 32-bit tools and a 64-bit hypervisor.
+ 
++# The Xen hypervisor has a narrower compatible platform range than the Xen tools
++COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
++
+ inherit deploy python3native
+ 
+ PACKAGES = " \
 diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
-index 5b0a339..e166c74 100644
+index a6f1209..00843ca 100644
 --- a/recipes-extended/xen/xen-tools.inc
 +++ b/recipes-extended/xen/xen-tools.inc
-@@ -197,7 +197,7 @@ FILES_${PN}-dbg += "\
-     ${libdir}/fs/zfs/.debug \
-     ${libdir}/fs/reiserfs/.debug \
-     ${libdir}/fs/iso9660/.debug \
--    ${libdir}/fs/*/.debug \
-+    ${libdir}/fs/**/.debug \
-     ${sbindir}/.debug \
-     ${libdir}exec/.debug \
-     ${libdir}/xen/libexec/.debug \
-@@ -346,8 +346,8 @@ FILES_${PN}-libfsimage-dev = " \
-     "
+@@ -1,6 +1,8 @@
+ SUMMARY = "Xen hypervisor tools"
+ DESCRIPTION = "Tools and utility software for the Xen hypervisor"
  
- FILES_${PN}-fsimage = " \
--    ${libdir}/fs/*/*fsimage.so \
--    ${libdir}/xenfsimage/*/fsimage.so \
-+    ${libdir}/fs/**/[a-z]*fsimage.so \
-+    ${libdir}/xenfsimage/**/fsimage.so \
-     "
++COMPATIBLE_HOST = 'i686-oe-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
++
+ inherit setuptools3 update-rc.d systemd deploy
+ require xen-blktap.inc
  
- FILES_${PN}-init-xenstore-dom = "${libdir}/xen/bin/init-xenstore-domain"
+diff --git a/recipes-extended/xen/xen.inc b/recipes-extended/xen/xen.inc
+index 0bfe72d..1ac131e 100644
+--- a/recipes-extended/xen/xen.inc
++++ b/recipes-extended/xen/xen.inc
+@@ -2,8 +2,6 @@ HOMEPAGE = "http://xen.org"
+ LICENSE = "GPLv2"
+ SECTION = "console/tools"
+ 
+-COMPATIBLE_HOST = '(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+-
+ inherit autotools-brokensep
+ 
+ require xen-arch.inc
 -- 
 2.17.1
 
