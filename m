@@ -1,174 +1,129 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.186.1582676225251966938
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.web11.6203.1582714632473400984
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 Feb 2020 16:17:05 -0800
+ Wed, 26 Feb 2020 02:57:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=H2uJRHKh;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 20EA9E016E9; Tue, 25 Feb 2020 16:17:05 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.215.177 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 647B1E016B5
-	for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:17:04 -0800 (PST)
-Received: by mail-pg1-f177.google.com with SMTP id b1so165896pgm.8
-        for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:17:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=EyaDDu8NZt+I0sVUlyFUQTd4Z8aTJsbDIK9tkmPri2o=;
-        b=H2uJRHKhdUIZcCycXpVODsbihoAm2iJRbFyZ9iDtiqFcktfgv8iBOOzC3eIfkBg4i1
-         ed+tPrw0v1CHe3Kps6eH2YCPf98B3rvBJIVhHNZrIFACuNRknQZy9dKI3UCll3w1dqsx
-         J0guLQ7IMbdqZqaFfcQXxiSDWQhPgdfkoJEO62NdV9yWgx/qmFewTtBy09EYD+d8P5/E
-         0xSxSxw1gmxsXADmkypcZH/f+dC/a6NIQRtQ7EGf6NDsSn+tRZ3Uk25pXGHyI6gkSIuO
-         ZM5rPebYiTQ3bpmjQOschvcNbDzVkqd45YBCCgaEQaB7+zyMcGxkD56+z35l3vHTuL7i
-         aRJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=EyaDDu8NZt+I0sVUlyFUQTd4Z8aTJsbDIK9tkmPri2o=;
-        b=qaakOf8w0obNJahdJOfzdfQQkpTXUMc3j7jIjyK6Z6jD6V10Mj6cGF2UsPIxxXD3ER
-         x4q6Opxc8V7JwTDQa/UdM30YanlgyZm8OkOoPpVG2LafcZ75tgRlX/eJazRcyC+lzrdA
-         En364RfksQqwuFDrrdZi1nAAIJTPfhQC85ejezpBCFW5f6gEUxI+NP+bazVaOwznwPTF
-         Ck0pW+ZS/vPc8fKKyvKba0ypbbnT1Vzfaf0GihLFRL8kTAzO/dWqUFfORKsylsRe1D4h
-         Kp4MeZ8ssYIxmnacD/vlygGqqw+2DDwS55rU6FEhDQdnb6V/8R1WiaIRLbQnzwXHz3oY
-         VMKg==
-X-Gm-Message-State: APjAAAVcmdSxEIR843OdeDQG9hncxu/IAAgzkh5SAve2FQtQAfCRQN30
-	tYwrrh7MfdRY4FO9wYeNos4/4Rn2
-X-Google-Smtp-Source: APXvYqxo7L8IP9XxPAiLyjvbaLqC56uMLQ50c0mRGNlYCyoYJUa6retRLeDhgMY6Up3Idv5pUz6mlw==
-X-Received: by 2002:a65:45ca:: with SMTP id m10mr916170pgr.401.1582676223474;
-        Tue, 25 Feb 2020 16:17:03 -0800 (PST)
-Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id x11sm235177pfn.53.2020.02.25.16.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 16:17:02 -0800 (PST)
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Cc: bruce.ashfield@gmail.com,
-	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v3 22/22] xen, xen-tools: updates to the deploy task
-Date: Tue, 25 Feb 2020 16:16:06 -0800
-Message-Id: <20200226001606.14750-23-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200226001606.14750-1-christopher.w.clark@gmail.com>
-References: <20200226001606.14750-1-christopher.w.clark@gmail.com>
+ dkim=pass header.i=@cisco.com header.s=iport header.b=SdLz7Gbg;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: olkuroch@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=cisco.com; i=@cisco.com; l=4370; q=dns/txt; s=iport;
+  t=1582714632; x=1583924232;
+  h=from:to:cc:subject:date:message-id;
+  bh=53+sdMFUqBUY/1MgK7w0n3ktMuit8OmLKeUVOG7ZdmU=;
+  b=SdLz7Gbg1fzP77FeCtGuGD6GLrNXQGSy6fDkDj+j8hwti7GZVZyYE+vc
+   QaRstu+Ud23hGGmxXb/NVG856F6QU3t39kMayDBJ5k+1gGMqoYnXgd2HJ
+   ozygEI06S2GMeobbF298RAOKeT5sKohGWeujKmvum1fF5rpmv92XeCG6H
+   k=;
+X-IronPort-AV: E=Sophos;i="5.70,487,1574121600"; 
+   d="scan'208";a="451097574"
+Received: from alln-core-9.cisco.com ([173.36.13.129])
+  by alln-iport-2.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA; 26 Feb 2020 10:57:11 +0000
+Received: from sjc-ads-6800.cisco.com (sjc-ads-6800.cisco.com [10.30.217.115])
+	by alln-core-9.cisco.com (8.15.2/8.15.2) with ESMTP id 01QAvBpi015880;
+	Wed, 26 Feb 2020 10:57:11 GMT
+Received: by sjc-ads-6800.cisco.com (Postfix, from userid 588222)
+	id 257B21415; Wed, 26 Feb 2020 02:57:11 -0800 (PST)
+From: olkuroch@cisco.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Oleksii Kurochko <olkuroch@cisco.com>
+Subject: [meta-virtualization][PATCH] lxc: Backport patch that renames memfd_create() function
+Date: Wed, 26 Feb 2020 10:53:49 +0000
+Message-Id: <20200226105349.21715-1-olkuroch@cisco.com>
+X-Mailer: git-send-email 2.18.1
+X-Outbound-SMTP-Client: 10.30.217.115, sjc-ads-6800.cisco.com
+X-Outbound-Node: alln-core-9.cisco.com
 
-From: Christopher Clark <christopher.w.clark@gmail.com>
+When Autotools makes configuration of LXC, the check of
+the memfd_create() function fails because __stub_memfd_create and
+__stub___memfd_create (The GNU C library defines this for functions
+which it implements to always fail with ENOSYS) are defined in Glibc,
+which leads to the fact that the macro HAVE_MEMFD_CREATE is not
+defined and LXC provides defintion of the memfd_create() function as
+static inline which in turn conflicts with a definition from
+the <bits/mman-shared.h> file and causes an error:
+| In file included from ../../../lxc-3.2.1/src/lxc/conf.c:79:
+| <src_path>//lxc/syscall_wrappers.h:77:19: error: static declaration
+| of 'memfd_create' follows non-static declaration
+| | static inline int memfd_create(const char *name, unsigned int flags) {
+| |                   ^~~~~~~~~~~~
+| In file included from /usr/include/bits/mman-linux.h:111,
+|                  from /usr/include/bits/mman.h:34,
+|                  from /usr/include/sys/mman.h:41,
+|                  from <src_path>/lxc-3.2.1/src/lxc/conf.c:42:
+| /usr/include/bits/mman-shared.h:50:5: note: previous declaration
+|  of 'memfd_create' was here
+| | int memfd_create (const char *__name, unsigned int __flags) __THROW;
+| |     ^~~~~~~~~~~~
 
-Amend addtask for deploy in both recipes: add deploy before do_build to
-ensure that it completes before the build step stamp is written.
-Suggested-by: Bertrand Marquis <bertrand.marquis@arm.com>
+Upstream PR: https://github.com/lxc/lxc/pull/3168 (merged)
 
-Add comments explaining the scheduling of the deploy task to
-both the hypervisor and tools recipes.
-
-In the hypervisor build, change deploy to obtain files from ${B} rather
-than ${D}, since it allows a bbappend to modify boot binary file
-destinations in do_install without breaking do_deploy.
-
-To ensure that a deployed hypervisor has matching tools in any image
-being built, add a dependency to make sure that the tools have built and
-been staged first:
-    do_deploy[depends] += "xen-tools:do_populate_sysroot"
-
-Also add a dependency to ensure that anything that the tools recipe
-deploys, such as a XSM policy file, has been deployed first:
-    do_deploy[depends] += "xen-tools:do_deploy"
-
-Schedule deploy tasks after populate_sysroot to ensure that deployed
-binaries match those staged for inclusion in the image rootfs.
-
-Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+Signed-off-by: Oleksii Kurochko <olkuroch@cisco.com>
 ---
- recipes-extended/xen/xen-hypervisor.inc | 30 ++++++++++++++++++-------
- recipes-extended/xen/xen-tools.inc      | 11 +++++++--
- 2 files changed, 31 insertions(+), 10 deletions(-)
+ ...-rename-internal-memfd_create-to-mem.patch | 42 +++++++++++++++++++
+ recipes-containers/lxc/lxc_3.2.1.bb           |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch
 
-diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
-index 41de9b6..21d9c7f 100644
---- a/recipes-extended/xen/xen-hypervisor.inc
-+++ b/recipes-extended/xen/xen-hypervisor.inc
-@@ -47,20 +47,34 @@ do_install() {
- do_deploy() {
-     install -d ${DEPLOYDIR}
+diff --git a/recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch b/recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch
+new file mode 100644
+index 000000000000..3defd57466b2
+--- /dev/null
++++ b/recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch
+@@ -0,0 +1,42 @@
++From aec33b485fedf1c5644836c660e2e420baa2fae4 Mon Sep 17 00:00:00 2001
++From: Patrick Havelange <patrick.havelange@essensium.com>
++Date: Tue, 22 Oct 2019 12:29:54 +0200
++Subject: [PATCH] syscall_wrappers: rename internal memfd_create to
++ memfd_create_lxc
++
++In case the internal memfd_create has to be used, make sure we don't
++clash with the already existing memfd_create function from glibc.
++
++This can happen if this glibc function is a stub. In this case, at
++./configure time, the test for this function will return false, however
++the declaration of that function is still available. This leads to
++compilation errors.
++
++Signed-off-by: Patrick Havelange <patrick.havelange@essensium.com>
++(cherry picked from commit 40b06c78773dfd5e12e568a576b1abb133f61b71)
++Signed-off-by: Oleksii Kurochko <olkuroch@cisco.com>
++---
++ src/lxc/syscall_wrappers.h | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/lxc/syscall_wrappers.h b/src/lxc/syscall_wrappers.h
++index ce67da5b5308..b7edba63f5d7 100644
++--- a/src/lxc/syscall_wrappers.h
+++++ b/src/lxc/syscall_wrappers.h
++@@ -74,7 +74,7 @@ static inline long __keyctl(int cmd, unsigned long arg2, unsigned long arg3,
++ #endif
++ 
++ #ifndef HAVE_MEMFD_CREATE
++-static inline int memfd_create(const char *name, unsigned int flags) {
+++static inline int memfd_create_lxc(const char *name, unsigned int flags) {
++ 	#ifndef __NR_memfd_create
++ 		#if defined __i386__
++ 			#define __NR_memfd_create 356
++@@ -113,6 +113,7 @@ static inline int memfd_create(const char *name, unsigned int flags) {
++ 	return -1;
++ 	#endif
++ }
+++#define memfd_create memfd_create_lxc
++ #else
++ extern int memfd_create(const char *name, unsigned int flags);
++ #endif
+diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
+index bedcf13723d2..9592dd9b4e68 100644
+--- a/recipes-containers/lxc/lxc_3.2.1.bb
++++ b/recipes-containers/lxc/lxc_3.2.1.bb
+@@ -49,6 +49,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+         file://0002-container.conf-Add-option-to-disable-session-keyring.patch \
+ 	file://dnsmasq.conf \
+ 	file://lxc-net \
++	file://0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch \
+ 	"
  
--    if [ -f ${D}/boot/xen ]; then
--        install -m 0644 ${D}/boot/xen ${DEPLOYDIR}/xen-${MACHINE}
-+    if [ -f ${B}/xen/xen.gz ]; then
-+        install -m 0644 ${B}/xen/xen ${DEPLOYDIR}/xen-${MACHINE}
-     fi
- 
--    if [ -f ${D}/boot/xen.gz ]; then
--        install -m 0644 ${D}/boot/xen.gz ${DEPLOYDIR}/xen-${MACHINE}.gz
-+    if [ -f ${B}/xen/xen.gz ]; then
-+        install -m 0644 ${B}/xen/xen.gz ${DEPLOYDIR}/xen-${MACHINE}.gz
-     fi
- 
--    if [ -f ${D}/usr/lib64/efi/xen.efi ]; then
--        install -m 0644 ${D}/usr/lib64/efi/xen.efi ${DEPLOYDIR}/xen-${MACHINE}.efi
-+    if [ -f ${B}/xen/xen.efi ]; then
-+        install -m 0644 ${B}/xen/xen.efi ${DEPLOYDIR}/xen-${MACHINE}.efi
-     fi
- }
--
--addtask deploy after do_populate_sysroot
-+# Scheduling the do_deploy task:
-+# - deploy copies files from ${B} that are written during do_compile so must
-+#   at least run afer that task has completed
-+# - the hypervisor binaries may be included in the image filesystem, so we
-+#   must ensure that the binaries deployed match what is staged in the sysroot:
-+#   so do deploy must run after do_populate_sysroot -- which is always after
-+#   do_compile, so that handles 'after do_compile' too
-+# - add the task before do_build to ensure that deployment has completed when
-+#   the recipe build done stamp is written
-+addtask deploy after do_populate_sysroot before do_build
-+# To ensure that a deployed hypervisor has matching tools, add a dependency to
-+# make sure that the tools have built and been staged:
-+do_deploy[depends] += "xen-tools:do_populate_sysroot"
-+# Also ensure anything that the tools recipe needs to deploy, such as a
-+# XSM policy file, has been deployed first:
-+do_deploy[depends] += "xen-tools:do_deploy"
- 
- # Enable use of menuconfig directly from bitbake and also within the devshell
- OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS TERMINFO"
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
-index 864c40c..8bdbfec 100644
---- a/recipes-extended/xen/xen-tools.inc
-+++ b/recipes-extended/xen/xen-tools.inc
-@@ -781,5 +781,12 @@ do_deploy() {
-         ln -sf ${FLASK_POLICY_FILE} ${DEPLOYDIR}/xenpolicy-${MACHINE}
-     fi
- }
--
--addtask deploy after do_populate_sysroot
-+# Scheduling the do_deploy task:
-+# - deploy copies files from ${D} that are written during do_install so must run
-+#   after that task
-+# - the tools binaries are included in the image filesystem, so we must ensure
-+#   that the binaries deployed match what is staged in the sysroot:
-+#   so do_deploy must run after do_populate_sysroot
-+# - add the task before do_build to ensure that deployment has completed when
-+#   the recipe build done stamp is written
-+addtask deploy after do_install do_populate_sysroot before do_build
+ SRC_URI[md5sum] = "4886c8d1c8e221fe526eefcb47857b85"
 -- 
-2.17.1
+2.18.1
 
