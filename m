@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.186.1582676223199289041
+ by mx.groups.io with SMTP id smtpd.web11.186.1582676225251966938
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 25 Feb 2020 16:17:03 -0800
+ Tue, 25 Feb 2020 16:17:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=csHKPgvL;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H2uJRHKh;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 14C00E016E9; Tue, 25 Feb 2020 16:17:03 -0800 (PST)
+	id 20EA9E016E9; Tue, 25 Feb 2020 16:17:05 -0800 (PST)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,87 +20,155 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.216.65 listed in list.dnswl.org]
+	*      [209.85.215.177 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com [209.85.216.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id B22CFE016B5
-	for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:17:02 -0800 (PST)
-Received: by mail-pj1-f65.google.com with SMTP id q39so482774pjc.0
-        for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:17:02 -0800 (PST)
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 647B1E016B5
+	for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:17:04 -0800 (PST)
+Received: by mail-pg1-f177.google.com with SMTP id b1so165896pgm.8
+        for <meta-virtualization@yoctoproject.org>; Tue, 25 Feb 2020 16:17:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=VxHUmxvuaQLqtuYQyZjXKu3Mvx+UeLWan2zlywtsZ/g=;
-        b=csHKPgvLC8HX1OawbZUqdW6Eank79UICtjn06FWrgpjy0Bh8i1d4cldUbI6/BGSYz9
-         FYdyQ5XAxm6UaZk1Zd2OplbeT5NkLFyybQZNZuFLzPULAs1Rw+rQZrgo+TLX5jl7OVt3
-         uL3+3/8yQi3jisBxYW6p9lz2sgq9UwcURhujQlzETiIyF65HMmJfvcqvHST1xuns4Vz1
-         fbWira1tbT+L4yJXRNoPNJM56nb9uqcN/Sb+vW53ZT/voXbSi2W41eq8q0Pgu9RMGyf4
-         Z57T69pldxRjIFuiFIMJ6h1Bj+mMjbDFLUZqGTlCIJGVPs4Jb7UUuMT4V0H1AzOmvERY
-         mqCQ==
+        bh=EyaDDu8NZt+I0sVUlyFUQTd4Z8aTJsbDIK9tkmPri2o=;
+        b=H2uJRHKhdUIZcCycXpVODsbihoAm2iJRbFyZ9iDtiqFcktfgv8iBOOzC3eIfkBg4i1
+         ed+tPrw0v1CHe3Kps6eH2YCPf98B3rvBJIVhHNZrIFACuNRknQZy9dKI3UCll3w1dqsx
+         J0guLQ7IMbdqZqaFfcQXxiSDWQhPgdfkoJEO62NdV9yWgx/qmFewTtBy09EYD+d8P5/E
+         0xSxSxw1gmxsXADmkypcZH/f+dC/a6NIQRtQ7EGf6NDsSn+tRZ3Uk25pXGHyI6gkSIuO
+         ZM5rPebYiTQ3bpmjQOschvcNbDzVkqd45YBCCgaEQaB7+zyMcGxkD56+z35l3vHTuL7i
+         aRJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=VxHUmxvuaQLqtuYQyZjXKu3Mvx+UeLWan2zlywtsZ/g=;
-        b=NzNhuKUV0mjahb1ZDvlGJ6FzFcIxHAD4WF3QBFLDXDyQYfZ0hvW4mpVBFb+qrpRFPI
-         EynuZiN4uTPjgcRiYZ1uYfnbBIn2geR7jR5RCGk+1bcyEG1KMiCg1jtTP5XbCSsHoPHk
-         8CWUmK8c6l1eH6C5H2w1N7txD+1XUnYwdg3qgwhWudC4mtNl0bRaWD7K/q5NTf6Nzt6j
-         q5A1YutUvxdviK9AiKbtk8Cv38n3bJoNiGGOOcg4vgZ74DbXoU5bQHUcD6HDqAg/JONA
-         s7EsN6ZAwaR5iAepoZ+MIiDTgpzSUV4csLvX1Uz2SXig1tW8kykOhuf2/aIK4tInL/zs
-         418g==
-X-Gm-Message-State: APjAAAVGtngKiKt1KwlIO7Rkss/aJUP8uJ6oH0bN/3GpePl0TB7ZuVKE
-	yW/k3r+Y6Hq192ihaa625vBfbHRU
-X-Google-Smtp-Source: APXvYqxvx05TYJJXjwmPgCGRfxPOYqwtSAt2Ce0VkvU5zu9yi60adchUYruVdElWssJPTMPxCPmB6Q==
-X-Received: by 2002:a17:902:9f83:: with SMTP id g3mr1127604plq.101.1582676221700;
-        Tue, 25 Feb 2020 16:17:01 -0800 (PST)
+        bh=EyaDDu8NZt+I0sVUlyFUQTd4Z8aTJsbDIK9tkmPri2o=;
+        b=qaakOf8w0obNJahdJOfzdfQQkpTXUMc3j7jIjyK6Z6jD6V10Mj6cGF2UsPIxxXD3ER
+         x4q6Opxc8V7JwTDQa/UdM30YanlgyZm8OkOoPpVG2LafcZ75tgRlX/eJazRcyC+lzrdA
+         En364RfksQqwuFDrrdZi1nAAIJTPfhQC85ejezpBCFW5f6gEUxI+NP+bazVaOwznwPTF
+         Ck0pW+ZS/vPc8fKKyvKba0ypbbnT1Vzfaf0GihLFRL8kTAzO/dWqUFfORKsylsRe1D4h
+         Kp4MeZ8ssYIxmnacD/vlygGqqw+2DDwS55rU6FEhDQdnb6V/8R1WiaIRLbQnzwXHz3oY
+         VMKg==
+X-Gm-Message-State: APjAAAVcmdSxEIR843OdeDQG9hncxu/IAAgzkh5SAve2FQtQAfCRQN30
+	tYwrrh7MfdRY4FO9wYeNos4/4Rn2
+X-Google-Smtp-Source: APXvYqxo7L8IP9XxPAiLyjvbaLqC56uMLQ50c0mRGNlYCyoYJUa6retRLeDhgMY6Up3Idv5pUz6mlw==
+X-Received: by 2002:a65:45ca:: with SMTP id m10mr916170pgr.401.1582676223474;
+        Tue, 25 Feb 2020 16:17:03 -0800 (PST)
 Received: from desktop.ice.pyrology.org (static-50-53-74-115.bvtn.or.frontiernet.net. [50.53.74.115])
-        by smtp.gmail.com with ESMTPSA id x11sm235177pfn.53.2020.02.25.16.17.00
+        by smtp.gmail.com with ESMTPSA id x11sm235177pfn.53.2020.02.25.16.17.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2020 16:17:00 -0800 (PST)
+        Tue, 25 Feb 2020 16:17:02 -0800 (PST)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: bruce.ashfield@gmail.com,
 	cardoe@gentoo.org
-Subject: [meta-virtualization][PATCH v3 21/22] xen: add menuconfig instructions to the README
-Date: Tue, 25 Feb 2020 16:16:05 -0800
-Message-Id: <20200226001606.14750-22-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v3 22/22] xen, xen-tools: updates to the deploy task
+Date: Tue, 25 Feb 2020 16:16:06 -0800
+Message-Id: <20200226001606.14750-23-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200226001606.14750-1-christopher.w.clark@gmail.com>
 References: <20200226001606.14750-1-christopher.w.clark@gmail.com>
 
 From: Christopher Clark <christopher.w.clark@gmail.com>
 
-    bitbake xen -c menuconfig
+Amend addtask for deploy in both recipes: add deploy before do_build to
+ensure that it completes before the build step stamp is written.
+Suggested-by: Bertrand Marquis <bertrand.marquis@arm.com>
+
+Add comments explaining the scheduling of the deploy task to
+both the hypervisor and tools recipes.
+
+In the hypervisor build, change deploy to obtain files from ${B} rather
+than ${D}, since it allows a bbappend to modify boot binary file
+destinations in do_install without breaking do_deploy.
+
+To ensure that a deployed hypervisor has matching tools in any image
+being built, add a dependency to make sure that the tools have built and
+been staged first:
+    do_deploy[depends] += "xen-tools:do_populate_sysroot"
+
+Also add a dependency to ensure that anything that the tools recipe
+deploys, such as a XSM policy file, has been deployed first:
+    do_deploy[depends] += "xen-tools:do_deploy"
+
+Schedule deploy tasks after populate_sysroot to ensure that deployed
+binaries match those staged for inclusion in the image rootfs.
 
 Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
 ---
- recipes-extended/xen/README | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ recipes-extended/xen/xen-hypervisor.inc | 30 ++++++++++++++++++-------
+ recipes-extended/xen/xen-tools.inc      | 11 +++++++--
+ 2 files changed, 31 insertions(+), 10 deletions(-)
 
-diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
-index 5592b48..34e7977 100644
---- a/recipes-extended/xen/README
-+++ b/recipes-extended/xen/README
-@@ -16,6 +16,15 @@ copy it to your Yocto layer as 'defconfig' inside of
- 'recipes-extended/xen/files/' and then create a bbappend adding
- 'file://defconfig' to your SRC_URI.
+diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+index 41de9b6..21d9c7f 100644
+--- a/recipes-extended/xen/xen-hypervisor.inc
++++ b/recipes-extended/xen/xen-hypervisor.inc
+@@ -47,20 +47,34 @@ do_install() {
+ do_deploy() {
+     install -d ${DEPLOYDIR}
  
-+To generate your own .config file for Xen, you can use the interactive
-+menuconfig via bitbake:
-+
-+    bitbake xen -c menuconfig
-+
-+Select the config settings that you want and Save the file. If you save it to
-+the default ".config" file when prompted by menuconfig, you can find it in the
-+'xen' subdirectory of the build tree.
-+
- security patches
- ----------------
+-    if [ -f ${D}/boot/xen ]; then
+-        install -m 0644 ${D}/boot/xen ${DEPLOYDIR}/xen-${MACHINE}
++    if [ -f ${B}/xen/xen.gz ]; then
++        install -m 0644 ${B}/xen/xen ${DEPLOYDIR}/xen-${MACHINE}
+     fi
  
+-    if [ -f ${D}/boot/xen.gz ]; then
+-        install -m 0644 ${D}/boot/xen.gz ${DEPLOYDIR}/xen-${MACHINE}.gz
++    if [ -f ${B}/xen/xen.gz ]; then
++        install -m 0644 ${B}/xen/xen.gz ${DEPLOYDIR}/xen-${MACHINE}.gz
+     fi
+ 
+-    if [ -f ${D}/usr/lib64/efi/xen.efi ]; then
+-        install -m 0644 ${D}/usr/lib64/efi/xen.efi ${DEPLOYDIR}/xen-${MACHINE}.efi
++    if [ -f ${B}/xen/xen.efi ]; then
++        install -m 0644 ${B}/xen/xen.efi ${DEPLOYDIR}/xen-${MACHINE}.efi
+     fi
+ }
+-
+-addtask deploy after do_populate_sysroot
++# Scheduling the do_deploy task:
++# - deploy copies files from ${B} that are written during do_compile so must
++#   at least run afer that task has completed
++# - the hypervisor binaries may be included in the image filesystem, so we
++#   must ensure that the binaries deployed match what is staged in the sysroot:
++#   so do deploy must run after do_populate_sysroot -- which is always after
++#   do_compile, so that handles 'after do_compile' too
++# - add the task before do_build to ensure that deployment has completed when
++#   the recipe build done stamp is written
++addtask deploy after do_populate_sysroot before do_build
++# To ensure that a deployed hypervisor has matching tools, add a dependency to
++# make sure that the tools have built and been staged:
++do_deploy[depends] += "xen-tools:do_populate_sysroot"
++# Also ensure anything that the tools recipe needs to deploy, such as a
++# XSM policy file, has been deployed first:
++do_deploy[depends] += "xen-tools:do_deploy"
+ 
+ # Enable use of menuconfig directly from bitbake and also within the devshell
+ OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS TERMINFO"
+diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
+index 864c40c..8bdbfec 100644
+--- a/recipes-extended/xen/xen-tools.inc
++++ b/recipes-extended/xen/xen-tools.inc
+@@ -781,5 +781,12 @@ do_deploy() {
+         ln -sf ${FLASK_POLICY_FILE} ${DEPLOYDIR}/xenpolicy-${MACHINE}
+     fi
+ }
+-
+-addtask deploy after do_populate_sysroot
++# Scheduling the do_deploy task:
++# - deploy copies files from ${D} that are written during do_install so must run
++#   after that task
++# - the tools binaries are included in the image filesystem, so we must ensure
++#   that the binaries deployed match what is staged in the sysroot:
++#   so do_deploy must run after do_populate_sysroot
++# - add the task before do_build to ensure that deployment has completed when
++#   the recipe build done stamp is written
++addtask deploy after do_install do_populate_sysroot before do_build
 -- 
 2.17.1
 
