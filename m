@@ -1,96 +1,138 @@
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
- by mx.groups.io with SMTP id smtpd.web12.1481.1582841946773834320
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.web11.1590.1582842016078425672
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 27 Feb 2020 14:19:06 -0800
+ Thu, 27 Feb 2020 14:20:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Q0DBjmpX;
- spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f178.google.com with SMTP id z12so1074448qkg.12
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 27 Feb 2020 14:19:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=bK0CXdrb;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id l14so408915qvu.12
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 27 Feb 2020 14:20:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=381G077zkRDyAP6HQKZsifeS3QAZ9ROaVmGNVBztyso=;
-        b=Q0DBjmpX/58MIUT5025GthFPuJvDXuu4/OP3wwa3NsipZyGw9fr+WnJnR+zwPePf5a
-         yO1qbrPd+iDnrS/1XPhXNSCOnJ4xl01Y7kq9XZo6eGQDD9YL4smXKJbtKSdtQydA80td
-         RJHG4AEYg5ScwyPPxwi5toRrVEz3RX2QI3nsVlyiMy4EHAKoeFXZpkuPt4X5Xl17JcNs
-         fPT3BpMJujla6LA8oglsepoF8XNaZV5FSEvK7C//OVa3yXWEDydPSULW2Kt3Epg1747U
-         tTPrK37KcWenMc5u+GZjnjBZLJuc/aCJqkR7o0zVhqQFgpmxru/rXAanRFh+Qxc+yf1d
-         xq8A==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=A0Jhi83TfquYxc8eWMpzk9E1Gx3q6hepAflh1zKj97g=;
+        b=bK0CXdrbz63/KI5gwhI80rSwTpfu/wGMZA4NEsjbHsLbWjuVPwW/CP0IH0GVF6EvAt
+         wcJlJXSJIyC4ytMavv5+0g0iukLc2FyTvvXdDLKf6c6GtPGru+BX+iEuJujDc5gaOpyF
+         LpaYyJJhIWMHWOatq6490rwIIOqg7f2B8esz4HOnCoQUb9nVioneIYWFOZLmc2PwSBJ+
+         cuqhTbGPdDDIg5tzM31E86n8KVccCVZ63M4NfPnRr/H9pmNOlHkOvGNIBPNE4Zlh1gSn
+         SuihEIkj7iJDRcOrifSN5m7RTcKBQEQbjv5UXzSJHPJVj6li9BF2k7NiT3LmtnGTmdQF
+         q8kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=381G077zkRDyAP6HQKZsifeS3QAZ9ROaVmGNVBztyso=;
-        b=EoW70sahHFhdGdc59kpXukSDUNyvOB+lBjB9DkkL6p3yXOttq7tVq6W5boOhdVzb97
-         yOz2Nyr7K7UBh74LB88i8gd1TNZszNEfbCiyRkDxVZvbWUDbTyyueyKpfYu0VW/bHeZJ
-         wva/qqZnMFhFx86AGbKYG7r9Rm8uiL2hvU41SgxpNIO5KFjivRCtNrh58TwVafjGSgb5
-         qq+q5FdaP/+BiEpb8k9G9OsXb32r63jAYGb0KWLhRdL0Lv7lRrXt0Nyw0angZ8QmQ5Qk
-         DFXWKfMNhVEJQAAJ9S1cMHQpmGSWXDOeKhP0d5AOPAM6gfT25SylwVddzGk9NhyI+DbL
-         rPLA==
-X-Gm-Message-State: APjAAAVLMTu13qg4clsrTyvjw86RcAKFdIyE3jkgjPGuJceYa3QqtH4g
-	flFiN1tNbCSLNGpZQ0Tf3bR8b9zHLsSYmQ==
-X-Google-Smtp-Source: APXvYqzcisqt16K1WsL9gUMC7S4bLu80JFSDRwVrdZE8TIuC9h3zaQTPG+s/z9aZsBokFO1NVPpZ3g==
-X-Received: by 2002:a05:620a:1262:: with SMTP id b2mr1793278qkl.430.1582841945928;
-        Thu, 27 Feb 2020 14:19:05 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=A0Jhi83TfquYxc8eWMpzk9E1Gx3q6hepAflh1zKj97g=;
+        b=idM1SQbYEe76NQlmynGo/KQxCVkPoyEGxESrqYp0bhXcZgjB6yr7IDT1aRikUnhlSe
+         i8vuLFEqSgtK3idX9P2EXZeXJgcs/2CaEnLYnVgB9qWNiEOIzh3ZRLki51CIvAIG/hcf
+         +yMPBImH+HfhdfM1fb6e24dTN0MkIORetk+35mFx6vcJxP0Wx7hjCxLU15vilQkkNL+N
+         tzVr8W9fIJ8NpYSE48gktW3LlU/9JJNno83uZc9hUguFvPd94JZeKrvV5k00k1rNBtGI
+         d0lse1hTJ8mb69rW1JQhPvTXxeNc0dBAgN+ZBSfSnVuZT46bfPIft2ccRk5Ossqwbp50
+         uYgA==
+X-Gm-Message-State: APjAAAW2AjKAA/fjNyQaRjXauwEZ9uQz2ugACEHE6bwL3kTPcJLowIdk
+	NoRyRftLpvmiNJ/O/4EA6CY=
+X-Google-Smtp-Source: APXvYqw0hJQcKH7reT1LOeK2F201OEkSrwxg1hH2WfQhldjYLSg8/gqKWgY6PJ3Fkn1AgtB4uAgy2Q==
+X-Received: by 2002:ad4:580e:: with SMTP id dd14mr1266717qvb.84.1582842014997;
+        Thu, 27 Feb 2020 14:20:14 -0800 (PST)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (CPE98dac44fc29f-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.255.134])
-        by smtp.gmail.com with ESMTPSA id u2sm4066334qtd.72.2020.02.27.14.19.05
+        by smtp.gmail.com with ESMTPSA id u13sm3820884qtg.64.2020.02.27.14.20.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2020 14:19:05 -0800 (PST)
-Date: Thu, 27 Feb 2020 17:19:03 -0500
+        Thu, 27 Feb 2020 14:20:14 -0800 (PST)
+Date: Thu, 27 Feb 2020 17:20:12 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: "Fagundes, Paulo" <paulo.fagundes@opengear.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [[meta-virtualization][m-c-s][PATCH]] salt: bump 2018.3 -> 3000
-Message-ID: <20200227221900.GA38669@gmail.com>
-References: <20200224200705.3445460-1-paulo.fagundes@opengear.com>
- <22510.1582580756302855054@lists.yoctoproject.org>
+To: Nathan Hartman <nathan.hartman@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Nathan Hartman <hnathan918@gmail.com>
+Subject: Re: [meta-virtualization][m-c-s][PATCH 1/3] tox: Add python3 version
+Message-ID: <20200227222012.GB38669@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <22510.1582580756302855054@lists.yoctoproject.org>
+In-Reply-To: <20200213194816.31473-2-nathan.hartman@windriver.com>
+ <20200213194816.31473-3-nathan.hartman@windriver.com>
+ <20200213194816.31473-1-nathan.hartman@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-In message: Re: [[meta-virtualization][m-c-s][PATCH]] salt: bump 2018.3 -> 3000
-on 24/02/2020 Fagundes, Paulo wrote:
 
-> hey everyone I've uploaded a patch for upgrading salt to the latest v3000
-> version (codename: neon)
-> 
-> this patch includes the following changes:
-> 
-> - upgrade to salt 3000
-> - use systemd
-> - make the set_python_location_hashbang.patch also change from python to
-> python3
-> - reworked do_install_append()
-> - removed the tornado dependency whereas it is now vendored upstream
-> - removed most files in the files/ directory whereas those are already present
-> in upstream salt/conf and salt/pkg directories
-> 
-> After uploading the patch I've noticed that as a result of the changes in
-> do_install_append(), the following config files are no longer installed
-> automatically to /etc/salt/
-> - cloud
-> - roster
-> - cloud.conf.d
-> - cloud.profiles.d
-> - cloud.providers.d
-> 
-> I could add back the above config files and upload a new patch, but I think
-> I'll wait on feedback before uploading a new patch.
+Thanks Nathan,
 
-The update looked fine to me, so I went ahead and merged it. I'd rather
-have something in the tree versus iterating on it out of tree.
-
-Cheers,
+These are now merged.
 
 Bruce
 
+In message: [meta-virtualization][m-c-s][PATCH 1/3] tox: Add python3 version
+on 13/02/2020 Nathan Hartman wrote:
+
+> From: Nathan Hartman <hnathan918@gmail.com>
 > 
-> I'd be happy as well if someone else picked up from where I left off :)
+> Signed-off-by: Nathan Hartman <nathan.hartman@windriver.com>
+> ---
+>  .../{python-tox_1.9.2.bb => python-tox.inc}     | 17 +++++++----------
+>  .../python/python3-tox_3.14.3.bb                |  5 +++++
+>  2 files changed, 12 insertions(+), 10 deletions(-)
+>  rename meta-openstack/recipes-devtools/python/{python-tox_1.9.2.bb => python-tox.inc} (56%)
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+> 
+> diff --git a/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb b/meta-openstack/recipes-devtools/python/python-tox.inc
+> similarity index 56%
+> rename from meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
+> rename to meta-openstack/recipes-devtools/python/python-tox.inc
+> index 8184fb5..66b1355 100644
+> --- a/meta-openstack/recipes-devtools/python/python-tox_1.9.2.bb
+> +++ b/meta-openstack/recipes-devtools/python/python-tox.inc
+> @@ -2,21 +2,18 @@ DESCRIPTION = "virtualenv-based automation of test activities"
+>  HOMEPAGE = "http://tox.testrun.org"
+>  SECTION = "devel/python"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=2d0fc2c2c954dc4d41043e67d4a8d8e7"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=f24505dfbdd8c22c61de6383f2e74bf9"
+>  
+> -SRC_URI[md5sum] = "f4db4d6a82d6a651e457ba55ef370258"
+> -SRC_URI[sha256sum] = "3125a15da7381f59f835a25bd259a84acb7a69858c81e386c50027bd842bb91b"
+> -
+> -inherit setuptools3 pypi
+> +inherit pypi
+>  
+>  DEPENDS += " \
+> -        python-pip \
+> +        ${PYTHON_PN}-pip \
+>          "
+>  
+>  RDEPENDS_${PN} += " \
+> -        python-virtualenv \
+> -        python-py \
+> -        python-pytest \
+> +        ${PYTHON_PN}-virtualenv \
+> +        ${PYTHON_PN}-py \
+> +        ${PYTHON_PN}-pytest \
+>          "
+>  
+>  do_install_append() {
+> @@ -24,7 +21,7 @@ do_install_append() {
+>      install -d ${D}/${sysconfdir}/${SRCNAME}
+>      cp ${S}/tox.ini    ${D}/${sysconfdir}/${SRCNAME}
+>      cp ${S}/setup.py   ${D}/${sysconfdir}/${SRCNAME}
+> -    cp ${S}/README.rst ${D}/${sysconfdir}/${SRCNAME}
+> +    cp ${S}/README.md ${D}/${sysconfdir}/${SRCNAME}
+>  
+>      ln -s ${PYTHON_SITEPACKAGES_DIR}/tox ${D}/${sysconfdir}/${SRCNAME}/tox
+>  }
+> diff --git a/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb b/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+> new file mode 100644
+> index 0000000..678413a
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-tox_3.14.3.bb
+> @@ -0,0 +1,5 @@
+> +inherit setuptools3
+> +require python-tox.inc
+> +
+> +SRC_URI[md5sum] = "8b695d482786dd51643e10953bbd8c89"
+> +SRC_URI[sha256sum] = "06ba73b149bf838d5cd25dc30c2dd2671ae5b2757cf98e5c41a35fe449f131b3"
+> -- 
+> 2.20.1
+> 
 
 > 
+
 
