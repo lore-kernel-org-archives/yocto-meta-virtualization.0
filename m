@@ -1,95 +1,90 @@
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
- by mx.groups.io with SMTP id smtpd.web10.1390.1583179771159226666
+Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
+ by mx.groups.io with SMTP id smtpd.web10.1416.1583179878666080744
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Mar 2020 12:09:31 -0800
+ Mon, 02 Mar 2020 12:11:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=kmA2y8Uy;
- spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f68.google.com with SMTP id e25so1326510edq.5
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Mar 2020 12:09:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=tHnw/OOi;
+ spf=pass (domain: gmail.com, ip: 209.85.219.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f65.google.com with SMTP id r15so543753qve.3
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Mar 2020 12:11:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eXsSMISXjuZz69WVKUb0wnghxgHtUYrWE2UxqjgnxmI=;
-        b=kmA2y8UyLiAY5kW4xvT3EqCkfMrMCMuvbQQJnlW9GPhz9/ZKvbyHtVOrdD0N+vCah7
-         S1sFlof1LtRIvb/mDexfuVFgjZkCB6HB2FoCl0h+RU/q6LkDeuyfRW7GF3QDSgXOB9qJ
-         HjBFhpeAmTgbj6rNT6n7VcPGBb99fDw1vWy5V58pM6BRSKQcsEEJ18BxVH1CzRmyt3T+
-         b6HnNpesaF6qpM5k1Q2onNV89Fs1aDMVF+Qb2O5z6Qi9pnbuJKyhEElXAGl74nuiZa5r
-         F24ScOWUY7r3ukF/3rSrSZVC3sI4gUVTp3clZscT22l5mRJY77u3ntZ1/v4t2UIIAfl1
-         ihxA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=xo0p9jNhE9JZd+ttR92V84DMXN6oBGZi5AjmUSKslkI=;
+        b=tHnw/OOiksqFoTOGOL/tCNq9QoEMZqFHQgmquIW2uWR8b0AnQu8xEU5Th6Eurazhza
+         PL595I5G/MWNQLJbDodEiRe5XmL7vKEMFgH3geZDW3HrZWl6+enEvpJ5baC3y6W+rMdm
+         48UROZunkRTSQGLTkKj7qMSUG95CMNEjFQdQulX8u6D6uY/jaPOYzhjWjf0MvEGDSm+C
+         4QboQvykTk7ZfkuSAuVRPMPCwm/NorLvTwACSGBHlJF8xr+yk+/nB+PizfyoC2R2Qdw6
+         6++Ce9PaD4F74u7bsucHDk6RRZhjU0O5L7LjNEMD9oU3Z6RmUp1okdJ3+by8Bl9Au3zs
+         fNKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eXsSMISXjuZz69WVKUb0wnghxgHtUYrWE2UxqjgnxmI=;
-        b=Y3Up/4SdM38Ob/cgYB1TyTpVShufahRZSLbCTqsDqR0vGdGWVsGXNDwar9E9HY0NXJ
-         lsJKCLMoLNiNuMASgXzi5rlUMHTowekLs6lri3dq9Pp3pLAGGBu8V4a8bWVDaM5nLFaZ
-         ZN/mO15npogs41zvgVubED5S7zniK4+p1aMXVB4Wo5QB9OPWHBX3k3xOvpiQ3gLS8N1n
-         JQWD6Oti602lxhgtvCNIQs4UdsopVgq9uzWBs9s0wWrjtrltETk1FaYs7EbtE9Z/nJxG
-         M+732q9rKs221rilvZ9jwGViBWLvb7HXs2giDh/fze3TGmaRq0LsYgS2uqZSrkGxMpfe
-         ZkLw==
-X-Gm-Message-State: ANhLgQ2WZuCCqe0h3DuXI337R/0ssDK72iOw36E+ehT7hfcCFaSQSfIb
-	y/2K7qnfRYMyQGjKn2ogXwNeo1sQ8tC7tLsX01nPOViW
-X-Google-Smtp-Source: ADFU+vs8bCtZ9rSUWquxyp/wxQ+v1CLELlVVlYSyxYD3MzBZlE6oeyHWveqRiUnVKVNM6E7SPVS2RBCh912K1G/r5Qg=
-X-Received: by 2002:a17:906:4bc8:: with SMTP id x8mr889753ejv.339.1583179769651;
- Mon, 02 Mar 2020 12:09:29 -0800 (PST)
-MIME-Version: 1.0
-References: <1583119946-260471-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1583119946-260471-1-git-send-email-changqing.li@windriver.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=xo0p9jNhE9JZd+ttR92V84DMXN6oBGZi5AjmUSKslkI=;
+        b=lfeiMQi3ipZtHrq1rHzJIfMeytLiw8Fo2McsswtuDrcilXEpEamwayxEB8lfX3MVsF
+         5YHH9tffuuDf9GC2vuGMLgY4tg4tJGl/l6TfchSXjHYu7Z8r+hrSeSNHK0KiPhCKA7VE
+         GBa4KqKiU9+KvJzpHVs15ZQfNoAgHhGHftkcIoRCeTzgDitcST+gWp93nzRkXJRsadFJ
+         DTczFMm9S324nLZS2gz7ana4buXWGvOawhnI+MGahJoyMi4mOVsEMV0I6tJwvDehzmwi
+         o2QmZOMooADb+d0IjonzGMBKAWbCA0XHMk7xB3CpwEUgsMZQW7OJ/QQYm1P2GZBNgW/0
+         ZD/Q==
+X-Gm-Message-State: ANhLgQ1I6oCrxHWt4K1G0LY3dmmlsBJYSEPSLsBzt4mt4IUpivs7QhKW
+	NltIDsh7TlXAMpFKkMXWFIY=
+X-Google-Smtp-Source: ADFU+vugW2ktIGYb8P1IrKZNZkIr0jT8k/e0rZUvluPIP1LTtQBnQehUfXO+iZ+ueT5tljvF3yxvdw==
+X-Received: by 2002:a0c:fecb:: with SMTP id z11mr1048640qvs.85.1583179877651;
+        Mon, 02 Mar 2020 12:11:17 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id a141sm10847793qkb.50.2020.03.02.12.11.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Mar 2020 12:11:16 -0800 (PST)
+Date: Mon, 2 Mar 2020 15:11:15 -0500
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 2 Mar 2020 15:09:18 -0500
-Message-ID: <CADkTA4N4K=hoJ1vo_NfHpUqT0xCzYV0pWZk2mvpOVWdtH=aatQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] openvswitch-git: refresh patch to fix patch-fuzz warning
-To: Changqing Li <changqing.li@windriver.com>
+To: Jeremy Puhlman <jpuhlman@mvista.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [meta-virtualization][m-c-s][PATCH] linux-yocto: make FILESEXTRAPATHS explicit
+Message-ID: <20200302201111.GA906@gmail.com>
+References: <20200227222050.9084-1-jpuhlman@mvista.com>
+MIME-Version: 1.0
+In-Reply-To: <20200227222050.9084-1-jpuhlman@mvista.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-merged
+merged.
 
 Bruce
 
-On Sun, Mar 1, 2020 at 10:32 PM Changqing Li <changqing.li@windriver.com> wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+In message: [meta-virtualization][m-c-s][PATCH] linux-yocto: make FILESEXTRAPATHS explicit
+on 27/02/2020 Jeremy Puhlman wrote:
+
+> Something changed in the processing order for FILESEXTRAPATHS, that when
+> := is used, defaultpkgname gets used instead of ${PN} and looks as
+> follows:
+> 
+> /project/../layers/meta-cloud-services/meta-openstack/recipes-kernel/linux/defaultpkgname/
+> 
+> Alter ${PN} to explictly linux-yocto to resolve the issue.
+> 
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 > ---
->  ...vswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> index a8fc86c..fc74deb 100644
-> --- a/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> +++ b/recipes-networking/openvswitch/openvswitch-git/openvswitch-add-ptest-71d553b995d0bd527d3ab1e9fbaf5a2ae34de2f3.patch
-> @@ -13,6 +13,8 @@ Fix ptest for v2.5
->
->  Signed-off-by: He Zhe <zhe.he@windriver.com>
->
-> +refresh patch to fix patch-fuzz warning
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
->  ---
->   Makefile.am |  1 +
->   test.mk     | 74 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> @@ -23,8 +25,8 @@ diff --git a/Makefile.am b/Makefile.am
->  index 7889728..6435399 100644
->  --- a/Makefile.am
->  +++ b/Makefile.am
-> -@@ -494,3 +494,4 @@ include windows/automake.mk
-> - include ovn/automake.mk
-> +@@ -497,3 +497,4 @@ include windows/automake.mk
-> + include windows/automake.mk
->   include selinux/automake.mk
->   include build-aux/automake.mk
->  +include test.mk
-> --
-> 2.7.4
->
+>  meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc b/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc
+> index 843546c..cc774fe 100644
+> --- a/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc
+> +++ b/meta-openstack/recipes-kernel/linux/linux-yocto_openstack.inc
+> @@ -1,4 +1,4 @@
+> -FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
+> +FILESEXTRAPATHS_prepend := "${THISDIR}/linux-yocto:"
+>  
+>  SRC_URI += "file://enable-veth.cfg \
+>              file://enable-iscsi-tcp.cfg \
+> -- 
+> 2.20.1
 > 
 
+> 
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
