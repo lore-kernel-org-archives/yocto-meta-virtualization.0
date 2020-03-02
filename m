@@ -1,156 +1,127 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web12.1371.1583179704187584106
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web12.1377.1583179741700485170
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Mar 2020 12:08:24 -0800
+ Mon, 02 Mar 2020 12:09:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=TgC9J7Ii;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id g19so1273150eds.11
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Mar 2020 12:08:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Lhbc+3pF;
+ spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 40F93E017A6; Mon,  2 Mar 2020 12:09:01 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
+	*      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.208.65 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
+	*       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6FC3BE0082A
+	for <meta-virtualization@yoctoproject.org>; Mon,  2 Mar 2020 12:09:00 -0800 (PST)
+Received: by mail-ed1-f65.google.com with SMTP id y3so1256394edj.13
+        for <meta-virtualization@yoctoproject.org>; Mon, 02 Mar 2020 12:09:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=K34kzsgQz1UVX7rXRbXGzVyys65Ker1e4QAFrer/XPE=;
-        b=TgC9J7Iik0z14mdEnTzwNV5k0qnR0ahhYetDx0vl80NDwcYYv85zQ6P3HTRUZ8ixFT
-         Zn/Gm8QH1ZttXqodswFK77tY60vwny1kypLhmJgw61HC7rtmHZ/kvIC/Nuz/1FlGohQh
-         b4mr9zR4fB2uczr63ASGC0WIkZARBRdgbFSA6kMPzFQ0w42HM9j2de5YIzi8eFDhC8uE
-         ZiU8uFkLPev4Iv/lOOEll1/N0DCl6mrdpmhuLvna6NXHxKRczfFUamkgm7iXah1gCIaU
-         qmnfqVcd6D4/MQELCLb/5XdovcUKIQMbsHIfrpTvIhsk64et9z8RtVeymqfKP+3rriyd
-         dM+A==
+        bh=GakUbORRCMpAtL8pkitQvSOXRpqPzIgOxFzaCPr/xxc=;
+        b=Lhbc+3pFNdsVyWv/kAKnIWWSIDjiVTlqGKlQrgwNHjRKPkx4kJQzZ2oEwbukbwv11c
+         2C3V8BmAzMZ/vQX3rVroaCOtzMEN+xFGokljyGCZ7LXvgsl+zVmAPZoTlz7u75ZcaIr2
+         /yLRt33CRTlIVfCfR+dzq9WZhNb0juC6HS/fOAYndb7AUmjF2sEdNYCPqe81y/85hYJn
+         gTQH/EfVmoVO5ubFht9/g2BPE0P+asNo578AxCL15Il5lOF+CE81oABPE22iqh4OIjJi
+         kCbfzDH80q36VUaf/jLCBvt3emm7co4yPMcVrNJC3GApIXRwDuLLF7hbOiKaF3IMi0TU
+         BoyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=K34kzsgQz1UVX7rXRbXGzVyys65Ker1e4QAFrer/XPE=;
-        b=HhmfsKLMQP41idfbmmabNxLdmcmeSE4WdeSCButVROUaSisLaGU2FAB46cmeX+B+rM
-         cDwmUI701CUq69vh3nZ33PrSXaQL022NIrUd4NHPk+7S/hxqk4PhOQxLEjp0XN5jy0QZ
-         8dz1b/wr/yaMonqEOQ54KsQ3dIyYeQO6XeCD8Zc8GavrUy1fCDC2YXam5juv/367WVNi
-         sCwfVAGfK0XbCxjE7MtjI87NlD+X2y10x5TZu8hdU97pZIPyBckxXwRAmKwPOQgklg18
-         sprzc55OAp65mGh4kYi0yFU3SyeIo0XBP5H52Nkep66RYh9bWoGPUl38VXqjTV7dowbM
-         VRLg==
-X-Gm-Message-State: ANhLgQ1lDvhLqF0PaSubC+T2WNnsV1Hwat1jmX3yIo2sBBiELe8/iVyj
-	hDCS6S1NycbvjsDSx83kKfwkz/Yb+4r3cgvaSSHh2td5
-X-Google-Smtp-Source: ADFU+vsy7cypFaDErD/diEQ9w2gpd0mCa/t1nrFpXTbtf2nxF53Vdd45GOFnwhb9z0Vlsb59AjiuC/6X6HBTwLPz4Ck=
-X-Received: by 2002:a17:906:4bd1:: with SMTP id x17mr969493ejv.181.1583179702684;
- Mon, 02 Mar 2020 12:08:22 -0800 (PST)
+        bh=GakUbORRCMpAtL8pkitQvSOXRpqPzIgOxFzaCPr/xxc=;
+        b=mfoyPyV5FbqbGtyut7reB291jJgaMYFkrJvJqO5C7LEP78D9ni6St+lRtIDdmjyE6o
+         rIV9SymLnQ+HHHBLCwIyZgALxFAeclKedLUi9tfINoKaXECjnhtcQVV6Dp5W/opNFAJA
+         /0nrhQHnbqZUlUp6R/A+7ZxD9rW5rVbKeM1RSqRqFFgnwPi3pMvJM9cMthi5LTHNmumb
+         d8dz2mdSXuAPPr5G/UVosguZ6qkCHznY+L3q6V128X1/kLcvGNEOQc1SUuXmKo5x52o1
+         0x+T3hLlmPtNMtWrCe5AYj0Huo4edzP8gOoiz78zu/96sxPBc3CTdAsApguCAO86DBYi
+         TtjQ==
+X-Gm-Message-State: ANhLgQ0Gdjm3j73i8144TICmzsNumeVbxvUg/AMIwUfILPVfDqM67O3D
+	FrQTnI2Ihd6/zj3IbleHVD3O7UWXihSYhQPs6KE=
+X-Google-Smtp-Source: ADFU+vvm8bBABo/VvzWIrhCWhtlZy3k+JIUv1L7EqqOghruF2S2oYit5OFg5s4rvUU0kAjIRc7ftw2CbNiEytTwlboM=
+X-Received: by 2002:a05:6402:38f:: with SMTP id o15mr898635edv.365.1583179739297;
+ Mon, 02 Mar 2020 12:08:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20200302131130.2965-1-olkuroch@cisco.com>
-In-Reply-To: <20200302131130.2965-1-olkuroch@cisco.com>
+References: <20200227220124.13167-1-christopher.w.clark@gmail.com>
+In-Reply-To: <20200227220124.13167-1-christopher.w.clark@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 2 Mar 2020 15:08:11 -0500
-Message-ID: <CADkTA4NxwLa=gGz_PeHR19HiXL9QJcdPmAoFcR3E=R-45JgJyA@mail.gmail.com>
-Subject: Re: [meta-virtualization,zeus][PATCH] lxc: Backport patch that renames memfd_create() function
-To: Oleksii Kurochko <olkuroch@cisco.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Mon, 2 Mar 2020 15:08:47 -0500
+Message-ID: <CADkTA4OL8y6OoxJrmr-PgMTnzN4OUo4Xbm_dJ9uWAnaJpS4oWw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xen-image-minimal: enable runqemu for x86-64
+To: Christopher Clark <christopher.w.clark@gmail.com>
+Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
+	Doug Goldstein <cardoe@gentoo.org>
 Content-Type: text/plain; charset="UTF-8"
 
-merged to Zeus.
+merged
 
 Bruce
 
-On Mon, Mar 2, 2020 at 8:11 AM Oleksii Kurochko <olkuroch@cisco.com> wrote:
+On Thu, Feb 27, 2020 at 5:01 PM <christopher.w.clark@gmail.com> wrote:
 >
-> When Autotools makes configuration of LXC, the check of
-> the memfd_create() function fails because __stub_memfd_create and
-> __stub___memfd_create (The GNU C library defines this for functions
-> which it implements to always fail with ENOSYS) are defined in Glibc,
-> which leads to the fact that the macro HAVE_MEMFD_CREATE is not
-> defined and LXC provides defintion of the memfd_create() function as
-> static inline which in turn conflicts with a definition from
-> the <bits/mman-shared.h> file and causes an error:
-> | In file included from ../../../lxc-3.2.1/src/lxc/conf.c:79:
-> | <src_path>//lxc/syscall_wrappers.h:77:19: error: static declaration
-> | of 'memfd_create' follows non-static declaration
-> | | static inline int memfd_create(const char *name, unsigned int flags) {
-> | |                   ^~~~~~~~~~~~
-> | In file included from /usr/include/bits/mman-linux.h:111,
-> |                  from /usr/include/bits/mman.h:34,
-> |                  from /usr/include/sys/mman.h:41,
-> |                  from <src_path>/lxc-3.2.1/src/lxc/conf.c:42:
-> | /usr/include/bits/mman-shared.h:50:5: note: previous declaration
-> |  of 'memfd_create' was here
-> | | int memfd_create (const char *__name, unsigned int __flags) __THROW;
-> | |     ^~~~~~~~~~~~
+> From: Christopher Clark <christopher.w.clark@gmail.com>
 >
-> Upstream PR: https://github.com/lxc/lxc/pull/3168 (merged)
+> Booting this Xen image with QEMU works when launching from the
+> wic-generated pcbios disk image with the directdisk-xen.wks kickstart
+> file, so add the variable settings to make doing it simple -- eg:
 >
-> Signed-off-by: Oleksii Kurochko <olkuroch@cisco.com>
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> (cherry picked from commit 15e9fc23ecaf0607880211c96818ffea8e4044fc)
-> Signed-off-by: Oleksii Kurochko <olkuroch@cisco.com>
+>     runqemu xen-image-minimal nographic slirp
+>
+> Tested with MACHINEs: qemux86-64 and genericx86-64
+>
+> Memory allocated to qemu is increased slightly over the default to allow
+> for running Xen and the Linux dom0 and guest VMs.
+>
+> Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 > ---
->  ...-rename-internal-memfd_create-to-mem.patch | 46 +++++++++++++++++++
->  recipes-containers/lxc/lxc_3.2.1.bb           |  1 +
->  2 files changed, 47 insertions(+)
->  create mode 100644 recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch
 >
-> diff --git a/recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch b/recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch
-> new file mode 100644
-> index 000000000000..9d5b5b8aefc1
-> --- /dev/null
-> +++ b/recipes-containers/lxc/files/0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch
-> @@ -0,0 +1,46 @@
-> +From b1694cccddadc8b084cd9eb502d9e86e0728709b Mon Sep 17 00:00:00 2001
-> +From: Patrick Havelange <patrick.havelange@essensium.com>
-> +Date: Tue, 22 Oct 2019 12:29:54 +0200
-> +Subject: [PATCH v2] syscall_wrappers: rename internal memfd_create to
-> + memfd_create_lxc
-> +
-> +In case the internal memfd_create has to be used, make sure we don't
-> +clash with the already existing memfd_create function from glibc.
-> +
-> +This can happen if this glibc function is a stub. In this case, at
-> +./configure time, the test for this function will return false, however
-> +the declaration of that function is still available. This leads to
-> +compilation errors.
-> +
-> +Upstream-Status: Backport [lxc-3.2.1 https://github.com/lxc/lxc/pull/3168]
-> +
-> +Signed-off-by: Patrick Havelange <patrick.havelange@essensium.com>
-> +(cherry picked from commit 40b06c78773dfd5e12e568a576b1abb133f61b71)
-> +Signed-off-by: Oleksii Kurochko <olkuroch@cisco.com>
-> +---
-> + v2: added Upstream-Status
-> +
-> + src/lxc/syscall_wrappers.h | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/lxc/syscall_wrappers.h b/src/lxc/syscall_wrappers.h
-> +index ce67da5b5308..b7edba63f5d7 100644
-> +--- a/src/lxc/syscall_wrappers.h
-> ++++ b/src/lxc/syscall_wrappers.h
-> +@@ -74,7 +74,7 @@ static inline long __keyctl(int cmd, unsigned long arg2, unsigned long arg3,
-> + #endif
-> +
-> + #ifndef HAVE_MEMFD_CREATE
-> +-static inline int memfd_create(const char *name, unsigned int flags) {
-> ++static inline int memfd_create_lxc(const char *name, unsigned int flags) {
-> +       #ifndef __NR_memfd_create
-> +               #if defined __i386__
-> +                       #define __NR_memfd_create 356
-> +@@ -113,6 +113,7 @@ static inline int memfd_create(const char *name, unsigned int flags) {
-> +       return -1;
-> +       #endif
-> + }
-> ++#define memfd_create memfd_create_lxc
-> + #else
-> + extern int memfd_create(const char *name, unsigned int flags);
-> + #endif
-> diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
-> index b85251562b58..957811743dc6 100644
-> --- a/recipes-containers/lxc/lxc_3.2.1.bb
-> +++ b/recipes-containers/lxc/lxc_3.2.1.bb
-> @@ -47,6 +47,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
->         file://network-restore-ability-to-move-nl80211-devices.patch \
->         file://dnsmasq.conf \
->         file://lxc-net \
-> +       file://0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch \
->         "
+> This patch requires the recently-submitted Xen patch series to be applied first.
+> ( https://lists.yoctoproject.org/g/meta-virtualization/message/5133 )
 >
->  SRC_URI[md5sum] = "4886c8d1c8e221fe526eefcb47857b85"
+>
+>  recipes-extended/images/xen-image-minimal.bb | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+>
+> diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+> index dcdc864..c965f22 100644
+> --- a/recipes-extended/images/xen-image-minimal.bb
+> +++ b/recipes-extended/images/xen-image-minimal.bb
+> @@ -72,3 +72,16 @@ build_syslinux_cfg () {
+>         echo "  APPEND /xen.gz ${SYSLINUX_XEN_ARGS} --- /vmlinuz ${SYSLINUX_KERNEL_ARGS} --- /initrd" >> ${SYSLINUX_CFG}
+>  }
+>
+> +# Enable runqemu. eg: runqemu xen-image-minimal nographic slirp
+> +WKS_FILE_x86-64 = "directdisk-xen.wks"
+> +QB_MEM = "-m 400"
+> +QB_DEFAULT_KERNEL = ""
+> +QB_DEFAULT_FSTYPE = "wic"
+> +QB_FSINFO = "wic:kernel-in-fs"
+> +# qemux86-64 machine does not include 'wic' in IMAGE_FSTYPES, which is needed
+> +# to boot this image, so add it here:
+> +IMAGE_FSTYPES_qemux86-64 += "wic"
+> +# Networking: the qemuboot.bbclass default virtio network device works ok
+> +# and so does the emulated e1000 -- choose according to the network device
+> +# drivers that are present in your dom0 Linux kernel. To switch to e1000:
+> +# QB_NETWORK_DEVICE = "-device e1000,netdev=net0,mac=@MAC@"
 > --
-> 2.19.1
+> 2.17.1
 >
 
 
