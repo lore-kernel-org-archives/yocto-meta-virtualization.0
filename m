@@ -1,272 +1,242 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.web11.5255.1583248647706912227
+Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com [209.85.222.65])
+ by mx.groups.io with SMTP id smtpd.web12.8220.1583258084315933060
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 03 Mar 2020 07:17:28 -0800
+ Tue, 03 Mar 2020 09:54:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=aQQ6miTX;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id t11so4819475wrw.5
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Mar 2020 07:17:27 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=n8/F694q;
+ spf=pass (domain: gmail.com, ip: 209.85.222.65, mailfrom: alistair23@gmail.com)
+Received: by mail-ua1-f65.google.com with SMTP id t20so1470511uao.7
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Mar 2020 09:54:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NHVd777F+PYu4l80aCm0UIS0LJHvYpQxye9nzDnmgC8=;
-        b=aQQ6miTX+soHmJc9BCBPCJdP5n5JrzRABybFIyNwDSV9oW9UAXEv9mFBs9rLTwZJ/W
-         Dy88kEPX6dSbNmhLfM+EkIfm6hyyszAChTXd8fBE+HeKdRtHWF38rpXQBuEd5IOqSV2h
-         38M+c8i0hz7D5gumJI+CyAfc4Ktjf5InslqgADHVTToPwtrDnFgGQT6dm6Q2/n/rgrW/
-         N7DQ9zVdaqwXHKkJPKbs3Isgf1z3M0RyGN0aojKlbdjoxosKDLZcGCvigs8dqAyKU/sI
-         3f5jqNu6hCL42xqDFdLjVFuZCa0ttAnNFntFmjq16l6w1deaZ2VVxWO0V8XgDPWpoWzO
-         SR0w==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=2iOlzSbboQd1GMNLpgR6CocGnhRHuJqs5ZXjOnuTeLw=;
+        b=n8/F694qgbVDxIKaZn6uuwdLmBtijTLFGrvXw8jYDzLaVVp0uxXGpXa4EC4mnBF4td
+         aYZcI4+o74rki0PIxV9++oC4qOhKMOBdxcslF6Gr3UIj91f/8N2GLRzmRpM/iHN3R+0c
+         iP/EBYniugAn5opK65pHLjTvfS3DQR0iKSN+7SK9gUMNJOw//vMzIg6k2CxcmdCl+Jck
+         FxlFjmijwY9odZF1ZgcO/l2C+PjkV373IkGLBjVlcQWkp9dBF+gH1RPOJgBwclyMWGxO
+         Edi9nXDc5C7jqsWFCWVv00cVpWqnzTi7qx2myoOINg2s968NWns0p6xnIoE008PeC9KQ
+         +DbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NHVd777F+PYu4l80aCm0UIS0LJHvYpQxye9nzDnmgC8=;
-        b=VtVl4FWWqOSinONigXo7EhX2ZOyYNqyOxIuTpZ3hyJa5w+XsOSbHlpXgcFfY5YH3c7
-         O/yWJvWmUUVCpSf6KIRA+5WIqeaSeokNG7u2Y2ga8oQqpI72lmYAjfkgw8T1EcBSy3mx
-         U1Jn/7hEVQ5tLOZ2rlF1h3RsWempbBYpURfROKowpa4tXTXReZbauexipR/nxaE3FFDq
-         FQFaQ+izPdzb1R/IH6gi5FXaNCI0nsIIx/AqYjMGuT80g3CfNwBdeVNrjr0dlqpy8hTm
-         xCzXgenJQnr4ECDOI6IG72bBQjAZLGC1WY1IRYpEW6pLOE3z+2Xq2A2q2GEV5c52YdFn
-         mL8A==
-X-Gm-Message-State: ANhLgQ22gtVfEcPEBbFeD434eKGEquHl/Ghvp1CqLXSROEHRuDbmT3UO
-	83mDr+RcJ7uanbUGRAuLaB67p/wu
-X-Google-Smtp-Source: ADFU+vvf+4elgkSfENAzg0C56YEfckOu7MA9g2jAc8xQnWPftckUawV6KNMjallcYrkAPMUloVSCcw==
-X-Received: by 2002:adf:804c:: with SMTP id 70mr6058172wrk.27.1583248645858;
-        Tue, 03 Mar 2020 07:17:25 -0800 (PST)
-Return-Path: <martin.jansa@gmail.com>
-Received: from localhost ([109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id t3sm34149269wrx.38.2020.03.03.07.17.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 07:17:25 -0800 (PST)
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Martin Jansa <martin.jansa@lge.com>
-Subject: [meta-virtualization][PATCH] hyperstart: refresh 0001-container.c-Fix-compiler-errors-that-gcc-8.1.0-repor.patch to apply cleanly
-Date: Tue,  3 Mar 2020 16:17:23 +0100
-Message-Id: <20200303151723.8364-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.20.1
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=2iOlzSbboQd1GMNLpgR6CocGnhRHuJqs5ZXjOnuTeLw=;
+        b=pCKEHAke7TC0i2Fz+OTZn8jyHRGvwBT98T0Awdg6AakuEa8JeszBQ08/GJEUeW5pBJ
+         lNjCDH7x0syNvrOL+f4LM88usBHYv6r4D7bZAPlPebymcBu58Ajs19EN26mN4loUNgO9
+         Zn/reuZ76dv0Fo/SEKb8AEHU3ExrF0b+WXeFF+toY/of2rawFVhnUDs2zCjFkU6x+CSj
+         Ldwutmr1GqV+K+ancKUnnmOwOlJhjeQCdapipI9w0IW0GBikbTQv5tAvkmTmD8I78hYk
+         ccMLI/1msSS8/vBs+U+boLoC445WczUdXxhqojDjCw+EfPD9TfILe6o0RcSMW5/gfGJ4
+         p+bQ==
+X-Gm-Message-State: ANhLgQ0tXlpzpy8lRw+FNy9MUtQyC++pvcqTWqivf2AqiGRyphIQ1/bL
+	pGb+i4KEVJ6IVdL5PZl9ICBpjFwHzIYyFo6i85A=
+X-Google-Smtp-Source: ADFU+vvhNEfq5fmea86OgZT292Ri8xbIznpCZMhpb4Sb0XfT5ZbfHy58kh3gBLcAu73id0hBcv+fLkbjJOMCEhXkkuY=
+X-Received: by 2002:ab0:2302:: with SMTP id a2mr3402676uao.21.1583258083300;
+ Tue, 03 Mar 2020 09:54:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200203215011.6642-1-alistair.francis@wdc.com>
+ <20200203215011.6642-2-alistair.francis@wdc.com> <20200211210433.GA36395@gmail.com>
+In-Reply-To: <20200211210433.GA36395@gmail.com>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Tue, 3 Mar 2020 09:47:04 -0800
+Message-ID: <CAKmqyKMqyD7cpVFy1rGdgKKX47g=6v8CevbMVT8SZR=sO5q27Q@mail.gmail.com>
+Subject: Re: [PATCH] xvisor: Initial commit of Xvisor Hypervisor
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Martin Jansa <martin.jansa@lge.com>
+On Tue, Feb 11, 2020 at 1:04 PM Bruce Ashfield <bruce.ashfield@gmail.com> w=
+rote:
+>
+> In message: [PATCH] xvisor: Initial commit of Xvisor Hypervisor
+> on 03/02/2020 Alistair Francis wrote:
+>
+> > This commit adds support for building the baremetal Xvisor Hypervisor.
+> >
+> > I have only tested this with RISC-V so currently only RISC-V is marked
+> > as a COMPATIBLE_HOST, although Xvisor does support multiple other
+> > architectures.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  ...n-t-specify-mabi-or-march-for-RISC-V.patch | 34 ++++++++++++++
+> >  recipes-extended/xvisor/xvisor-configs.inc    | 25 +++++++++++
+> >  recipes-extended/xvisor/xvisor_0.3.0.bb       | 44 +++++++++++++++++++
+> >  3 files changed, 103 insertions(+)
+> >  create mode 100644 recipes-extended/xvisor/files/0001-TESTS-Don-t-spec=
+ify-mabi-or-march-for-RISC-V.patch
+> >  create mode 100644 recipes-extended/xvisor/xvisor-configs.inc
+> >  create mode 100644 recipes-extended/xvisor/xvisor_0.3.0.bb
+> >
+> > diff --git a/recipes-extended/xvisor/files/0001-TESTS-Don-t-specify-mab=
+i-or-march-for-RISC-V.patch b/recipes-extended/xvisor/files/0001-TESTS-Don-=
+t-specify-mabi-or-march-for-RISC-V.patch
+> > new file mode 100644
+> > index 0000000..2e53943
+> > --- /dev/null
+> > +++ b/recipes-extended/xvisor/files/0001-TESTS-Don-t-specify-mabi-or-ma=
+rch-for-RISC-V.patch
+> > @@ -0,0 +1,34 @@
+> > +From 022c885d077dce6fad3eca5fd2f54b2070c375d2 Mon Sep 17 00:00:00 2001
+> > +From: Alistair Francis <alistair.francis@wdc.com>
+> > +Date: Fri, 17 May 2019 14:21:44 -0700
+> > +Subject: [PATCH] TESTS: Don't specify mabi or march for RISC-V
+> > +
+> > +To avoid
+> > +    can't link double-float modules with soft-float modules
+> > +errors when building 32-bit baremetal guests don't specify mabi
+> > +or march.
+> > +
+> > +Upstream-Status: Inappropriate [Fixes a 32-bit Yocto flow bug]
+> > +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > +---
+> > + tests/riscv/common/basic/Makefile.inc | 4 ++--
+> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/tests/riscv/common/basic/Makefile.inc b/tests/riscv/commo=
+n/basic/Makefile.inc
+> > +index 9fa5abed..f3ff1864 100644
+> > +--- a/tests/riscv/common/basic/Makefile.inc
+> > ++++ b/tests/riscv/common/basic/Makefile.inc
+> > +@@ -24,8 +24,8 @@
+> > + ARCH_CPPFLAGS=3D$(board_cppflags) -DFIRMWARE_BOOT
+> > + ARCH_CPPFLAGS+=3D-DTEXT_START=3D$(board_text_start)
+> > + ifeq ($(board_32bit),y)
+> > +-ARCH_CFLAGS=3D$(board_cflags) -fno-omit-frame-pointer -fno-optimize-s=
+ibling-calls -mno-save-restore -mstrict-align -mabi=3Dilp32 -march=3Drv32im=
+afdc -mcmodel=3Dmedany
+> > +-ARCH_ASFLAGS=3D$(board_asflags) -fno-omit-frame-pointer -fno-optimize=
+-sibling-calls -mno-save-restore -mstrict-align -mabi=3Dilp32 -march=3Drv32=
+imafdc -mcmodel=3Dmedany
+> > ++ARCH_CFLAGS=3D$(board_cflags) -fno-omit-frame-pointer -fno-optimize-s=
+ibling-calls -mno-save-restore -mstrict-align -mcmodel=3Dmedany
+> > ++ARCH_ASFLAGS=3D$(board_asflags) -fno-omit-frame-pointer -fno-optimize=
+-sibling-calls -mno-save-restore -mstrict-align -mcmodel=3Dmedany
+> > + else
+> > + ARCH_CFLAGS=3D$(board_cflags) -fno-omit-frame-pointer -fno-optimize-s=
+ibling-calls -mno-save-restore -mstrict-align -mabi=3Dlp64 -march=3Drv64ima=
+fdc -mcmodel=3Dmedany
+> > + ARCH_ASFLAGS=3D$(board_asflags) -fno-omit-frame-pointer -fno-optimize=
+-sibling-calls -mno-save-restore -mstrict-align -mabi=3Dlp64 -march=3Drv64i=
+mafdc -mcmodel=3Dmedany
+> > +--
+> > +2.21.0
+> > +
+> > diff --git a/recipes-extended/xvisor/xvisor-configs.inc b/recipes-exten=
+ded/xvisor/xvisor-configs.inc
+> > new file mode 100644
+> > index 0000000..099128d
+> > --- /dev/null
+> > +++ b/recipes-extended/xvisor/xvisor-configs.inc
+> > @@ -0,0 +1,25 @@
+> > +def get_oemake_config(d):
+> > +    plat =3D d.getVar('XVISOR_PLAT')
+> > +
+> > +    if plat is None:
+> > +        return ""
+> > +
+> > +    if 'riscv/virt32' in plat:
+> > +        return "generic-32b-defconfig"
+> > +    if 'riscv/virt64' in plat:
+> > +        return "generic-64b-defconfig"
+> > +
+> > +    return ""
+> > +
+> > +def map_xvisor_arch(a, d):
+> > +    import re
+> > +
+> > +    if   re.match('(i.86|x86.64)$', a):  return 'x86'
+> > +    elif re.match('armeb$', a):                 return 'arm'
+> > +    elif re.match('aarch64$', a):               return 'arm'
+> > +    elif re.match('aarch64_be$', a):            return 'arm'
+> > +    elif re.match('aarch64_ilp32$', a):         return 'arm'
+> > +    elif re.match('aarch64_be_ilp32$', a):      return 'arm'
+> > +    elif re.match('riscv(32|64|)(eb|)$', a):    return 'riscv'
+> > +    else:
+> > +        bb.error("cannot map '%s' to a Xvisor architecture" % a)
+>
+> This all looks fine to me (for the 1st revision), I did wonder if the
+> mappings are any different than the kernel mappings (but didn't check) ..
+> and if so, we could avoid the code to map the arch.
 
-ERROR: hyperstart-v0.2+gitAUTOINC+15bb718ad3-r0 do_patch: Fuzz detected:
+They are similar but not the same, for example Xvisor uses "arm" for
+ARMv7 and AArch64.
 
-Applying patch 0001-container.c-Fix-compiler-errors-that-gcc-8.1.0-repor.patch
-patching file src/container.c
-Hunk #2 succeeded at 118 with fuzz 1 (offset 17 lines).
-Hunk #3 succeeded at 148 (offset 18 lines).
-Hunk #4 succeeded at 158 (offset 18 lines).
-Hunk #5 succeeded at 167 with fuzz 1 (offset 18 lines).
-Hunk #6 succeeded at 197 (offset 20 lines).
-Hunk #7 succeeded at 222 (offset 20 lines).
-Hunk #8 succeeded at 240 (offset 20 lines).
-Hunk #9 succeeded at 277 (offset 20 lines).
-Hunk #10 succeeded at 285 (offset 20 lines).
-Hunk #11 succeeded at 325 (offset 27 lines).
-Hunk #12 succeeded at 583 (offset 30 lines).
-Hunk #13 succeeded at 646 (offset 30 lines).
-Hunk #14 succeeded at 664 (offset 30 lines).
-Hunk #15 succeeded at 749 (offset 30 lines).
-Hunk #16 succeeded at 769 (offset 30 lines).
-Hunk #17 succeeded at 778 (offset 30 lines).
+>
+> It would also be nice to eventually have a README or some other test
+> information captured in the layer, that way people can have an idea
+> about why they'd want to use this, some expected behaviour and how
+> they can boot it.
 
-The context lines in the patches can be updated with devtool:
+Where do you think this should go?
 
-    devtool modify hyperstart
-    devtool finish --force-patch-refresh hyperstart <layer_path>
+Alistair
 
-Don't forget to review changes done by devtool!
-
-ERROR: hyperstart-v0.2+gitAUTOINC+15bb718ad3-r0 do_patch: QA Issue: Patch log indicates that patches do not apply cleanly. [patch-fuzz]
-
-Signed-off-by: Martin Jansa <martin.jansa@lge.com>
----
- ...compiler-errors-that-gcc-8.1.0-repor.patch | 44 +++++++++----------
- 1 file changed, 21 insertions(+), 23 deletions(-)
-
-diff --git a/recipes-extended/hyperstart/hyperstart/0001-container.c-Fix-compiler-errors-that-gcc-8.1.0-repor.patch b/recipes-extended/hyperstart/hyperstart/0001-container.c-Fix-compiler-errors-that-gcc-8.1.0-repor.patch
-index 4a01de5..091ce3c 100644
---- a/recipes-extended/hyperstart/hyperstart/0001-container.c-Fix-compiler-errors-that-gcc-8.1.0-repor.patch
-+++ b/recipes-extended/hyperstart/hyperstart/0001-container.c-Fix-compiler-errors-that-gcc-8.1.0-repor.patch
-@@ -1,4 +1,4 @@
--From 11f5089300c1c368d896c95890827dc85a67f132 Mon Sep 17 00:00:00 2001
-+From 085dd65bba063e391350487f2a5e4a7bf69ee6c8 Mon Sep 17 00:00:00 2001
- From: Jason Wessel <jason.wessel@windriver.com>
- Date: Fri, 15 Jun 2018 08:04:35 -0700
- Subject: [PATCH] container.c: Fix compiler errors that gcc 8.1.0 reports
-@@ -47,12 +47,13 @@ container.c:176:4: note: 'sprintf' output 9 or more bytes (assuming 520) into a
-     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
- Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-+
- ---
-  src/container.c | 47 ++++++++++++++++++++++++++++-------------------
-  1 file changed, 28 insertions(+), 19 deletions(-)
- 
- diff --git a/src/container.c b/src/container.c
--index 0938d82..b1c52d4 100644
-+index fee67ff..94d49d8 100644
- --- a/src/container.c
- +++ b/src/container.c
- @@ -22,6 +22,8 @@
-@@ -64,7 +65,7 @@ index 0938d82..b1c52d4 100644
-  static int container_populate_volume(char *src, char *dest)
-  {
-  	struct stat st;
--@@ -99,12 +101,12 @@ static int container_setup_volume(struct hyper_pod *pod,
-+@@ -116,12 +118,12 @@ static int container_setup_volume(struct hyper_pod *pod,
-  				  struct hyper_container *container)
-  {
-  	int i;
-@@ -79,8 +80,8 @@ index 0938d82..b1c52d4 100644
- +		char mountpoint[MAX_PBUF];
-  		char *options = NULL;
-  		const char *filevolume = NULL;
-- 		vol = &container->vols[i];
--@@ -128,7 +130,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-+ 		bool newvolume = false;
-+@@ -146,7 +148,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-  			if (hyper_mount_nfs(vol->device, path) < 0)
-  				return -1;
-  			/* nfs export has implicitly included _data part of the volume */
-@@ -90,7 +91,7 @@ index 0938d82..b1c52d4 100644
-  		} else {
-  			fprintf(stdout, "mount %s to %s, tmp path %s\n",
-  				dev, vol->mountpoint, path);
--@@ -137,7 +140,7 @@ static int container_setup_volume(struct hyper_pod *pod,
-+@@ -155,7 +158,7 @@ static int container_setup_volume(struct hyper_pod *pod,
-  				options = "nouuid";
-  
-  			if (access(dev, R_OK) < 0) {
-@@ -99,7 +100,7 @@ index 0938d82..b1c52d4 100644
-  				sprintf(device, "/block/%s", vol->device);
-  				hyper_netlink_wait_dev(pod->ueventfd, device);
-  			}
--@@ -146,7 +149,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-+@@ -164,7 +167,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-  				perror("mount volume device failed");
-  				return -1;
-  			}
-@@ -108,8 +109,8 @@ index 0938d82..b1c52d4 100644
- +                                return -1;
-  		}
-  
-- 		if (container_check_file_volume(volume, &filevolume) < 0)
--@@ -173,7 +177,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-+ 		if (container_check_volume(volume, &filevolume, &newvolume) < 0)
-+@@ -193,7 +197,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-  				perror("create volume file failed");
-  				return -1;
-  			}
-@@ -119,7 +120,7 @@ index 0938d82..b1c52d4 100644
-  			/* 0777 so that any user can read/write the new file volume */
-  			if (chmod(volume, 0777) < 0) {
-  				fprintf(stderr, "fail to chmod directory %s\n", volume);
--@@ -197,9 +202,9 @@ static int container_setup_volume(struct hyper_pod *pod,
-+@@ -217,9 +222,9 @@ static int container_setup_volume(struct hyper_pod *pod,
-  
-  	for (i = 0; i < container->maps_num; i++) {
-  		struct stat st;
-@@ -131,7 +132,7 @@ index 0938d82..b1c52d4 100644
-  
-  		sprintf(path, "%s/%s", SHARED_DIR, map->source);
-  		sprintf(mountpoint, "./%s", map->path);
--@@ -215,7 +220,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-+@@ -235,7 +240,8 @@ static int container_setup_volume(struct hyper_pod *pod,
-  			}
-  			if (map->docker) {
-  				/* converted from volume */
-@@ -141,7 +142,7 @@ index 0938d82..b1c52d4 100644
-  				src = volume;
-  				if (container->initialize &&
-  				    (container_populate_volume(mountpoint, volume) < 0)) {
--@@ -251,7 +257,7 @@ static int container_setup_modules(struct hyper_container *container)
-+@@ -271,7 +277,7 @@ static int container_setup_modules(struct hyper_container *container)
-  {
-  	struct stat st;
-  	struct utsname uts;
-@@ -150,7 +151,7 @@ index 0938d82..b1c52d4 100644
-  
-  	if (uname(&uts) < 0) {
-  		perror("fail to call uname");
--@@ -259,7 +265,8 @@ static int container_setup_modules(struct hyper_container *container)
-+@@ -279,7 +285,8 @@ static int container_setup_modules(struct hyper_container *container)
-  	}
-  
-  	sprintf(src, "/lib/modules/%s", uts.release);
-@@ -160,7 +161,7 @@ index 0938d82..b1c52d4 100644
-  
-  	if (stat(dst, &st) == 0) {
-  		struct dirent **list;
--@@ -291,7 +298,7 @@ static int container_setup_modules(struct hyper_container *container)
-+@@ -318,7 +325,7 @@ static int container_setup_modules(struct hyper_container *container)
-  
-  static int container_setup_mount(struct hyper_container *container)
-  {
-@@ -169,7 +170,7 @@ index 0938d82..b1c52d4 100644
-  
-  	// current dir is container rootfs, the operations on "./PATH" are the operations on container's "/PATH"
-  	if (!container->readonly) {
--@@ -546,7 +553,7 @@ static int hyper_setup_container_rootfs(void *data)
-+@@ -576,7 +583,7 @@ static int hyper_setup_container_rootfs(void *data)
-  {
-  	struct hyper_container_arg *arg = data;
-  	struct hyper_container *container = arg->c;
-@@ -178,7 +179,7 @@ index 0938d82..b1c52d4 100644
-  	int setup_dns;
-  
-  	/* wait for ns-opened ready message */
--@@ -609,7 +616,7 @@ static int hyper_setup_container_rootfs(void *data)
-+@@ -639,7 +646,7 @@ static int hyper_setup_container_rootfs(void *data)
-  			goto fail;
-  		}
-  	} else {
-@@ -187,7 +188,7 @@ index 0938d82..b1c52d4 100644
-  
-  		sprintf(path, "%s/%s/", SHARED_DIR, container->image);
-  		fprintf(stdout, "src directory %s\n", path);
--@@ -627,7 +634,9 @@ static int hyper_setup_container_rootfs(void *data)
-+@@ -657,7 +664,9 @@ static int hyper_setup_container_rootfs(void *data)
-  	fprintf(stdout, "root directory for container is %s/%s, init task %s\n",
-  		root, container->rootfs, container->exec.argv[0]);
-  
-@@ -198,7 +199,7 @@ index 0938d82..b1c52d4 100644
-  	if (mount(rootfs, rootfs, NULL, MS_BIND|MS_REC, NULL) < 0) {
-  		perror("failed to bind rootfs");
-  		goto fail;
--@@ -710,7 +719,7 @@ fail:
-+@@ -740,7 +749,7 @@ fail:
-  
-  static int hyper_setup_pty(struct hyper_container *c)
-  {
-@@ -207,7 +208,7 @@ index 0938d82..b1c52d4 100644
-  
-  	sprintf(root, "/tmp/hyper/%s/devpts/", c->id);
-  
--@@ -730,7 +739,7 @@ static int hyper_setup_pty(struct hyper_container *c)
-+@@ -760,7 +769,7 @@ static int hyper_setup_pty(struct hyper_container *c)
-  
-  static void hyper_cleanup_pty(struct hyper_container *c)
-  {
-@@ -216,7 +217,7 @@ index 0938d82..b1c52d4 100644
-  
-  	sprintf(path, "/tmp/hyper/%s/devpts/", c->id);
-  	if (umount(path) < 0)
--@@ -739,7 +748,7 @@ static void hyper_cleanup_pty(struct hyper_container *c)
-+@@ -769,7 +778,7 @@ static void hyper_cleanup_pty(struct hyper_container *c)
-  
-  int container_prepare_rootfs_dev(struct hyper_container *container, struct hyper_pod *pod)
-  {
-@@ -225,6 +226,3 @@ index 0938d82..b1c52d4 100644
-  
-  	if (container->fstype == NULL)
-  		return 0;
---- 
--2.17.1
--
--- 
-2.20.1
-
+>
+> Bruce
+>
+> > diff --git a/recipes-extended/xvisor/xvisor_0.3.0.bb b/recipes-extended=
+/xvisor/xvisor_0.3.0.bb
+> > new file mode 100644
+> > index 0000000..66ad618
+> > --- /dev/null
+> > +++ b/recipes-extended/xvisor/xvisor_0.3.0.bb
+> > @@ -0,0 +1,44 @@
+> > +SUMMARY =3D "Xvisor is an open-source type-1 hypervisor, which aims at=
+ providing a monolithic, light-weight, portable, and flexible virtualizatio=
+n solution."
+> > +DESCRIPTION =3D "Xvisor primarily supports Full virtualization hence, =
+supports a wide range of unmodified guest operating systems. Paravirtualiza=
+tion is optional for Xvisor and will be supported in an architecture indepe=
+ndent manner (such as VirtIO PCI/MMIO devices) to ensure no-change in guest=
+ OS for using paravirtualization."
+> > +LICENSE =3D "GPLv2"
+> > +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4=
+a4263"
+> > +DEPENDS +=3D "dtc-native dosfstools-native mtools-native"
+> > +
+> > +require xvisor-configs.inc
+> > +
+> > +inherit autotools-brokensep
+> > +
+> > +SRCREV =3D "58592ef18c71526a0045935d1e8eed5e8553b7d6"
+> > +SRC_URI =3D "git://github.com/xvisor/xvisor.git \
+> > +           file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.pa=
+tch \
+> > +          "
+> > +
+> > +S =3D "${WORKDIR}/git"
+> > +
+> > +EXTRA_OEMAKE +=3D "ARCH=3D\"${@map_xvisor_arch(d.getVar('TARGET_ARCH')=
+, d)}\" I=3D${D}"
+> > +
+> > +CONFIG =3D "${@get_oemake_config(d)}"
+> > +
+> > +do_configure() {
+> > +    oe_runmake ${CONFIG}
+> > +}
+> > +
+> > +do_install_append() {
+> > +    install -d ${D}
+> > +    install -m 755 ${B}/build/vmm.* ${D}/
+> > +
+> > +    # We don't need this
+> > +    rm ${D}/system.map
+> > +}
+> > +
+> > +do_deploy () {
+> > +    install -d ${DEPLOY_DIR_IMAGE}
+> > +    install -m 755 ${D}/vmm.* ${DEPLOY_DIR_IMAGE}/
+> > +}
+> > +
+> > +addtask deploy after do_install
+> > +
+> > +FILES_${PN} +=3D "/vmm.*"
+> > +
+> > +COMPATIBLE_HOST =3D "(riscv64|riscv32).*"
+> > +INHIBIT_PACKAGE_STRIP =3D "1"
+> > --
+> > 2.25.0
+> >
