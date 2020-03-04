@@ -1,88 +1,114 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web10.3029.1583283832760972419
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web12.12981.1583335801793654733
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 03 Mar 2020 17:03:52 -0800
+ Wed, 04 Mar 2020 07:30:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CFQzGa+n;
- spf=pass (domain: gmail.com, ip: 209.85.219.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f65.google.com with SMTP id u10so76353qvi.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Mar 2020 17:03:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=AAGwLBzX;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id a141so2305758wme.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 04 Mar 2020 07:30:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
+        h=from:date:to:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=zIkfXP31wXq1gdzjPJEqYtsXInaKkEamdIOOTy11wdE=;
-        b=CFQzGa+nrw6GaAPbx0n3PhHZ1mUdVGmu05yJooaMzV8KPIQk2ATqpUo6mNXUp0bTE0
-         ilctQ6PXX7WVK14UQGkq9o/889tx38Jdex/G9UVcUQ6C2qMDCR3XSp2hW6tk5xvhztHY
-         agU0JlqUZ66b0V9P4hOTo4pe5A3VSuAsG/2clypnQKgxLu9JH8TgmK9FfktiCehb2YvA
-         3+U8NNw8p9YPPT9xFvHZ4t3spc2P404dTqWipayyaI7Rtf4rlW3jVbU2gt+p8oLnvogM
-         KA6V8g+7eT/4tswKbFz0pX7qAnBWQqhw0lz7FRLQGHuCrGywwDUO90yMEVNVDAUiX940
-         8StQ==
+        bh=2NCmcvThChv09U6iQLQy6bWJb5Px2I0HUAnqAdeKtyg=;
+        b=AAGwLBzXJyBTQJzVfkBnAqLmUi3JZLNxm0eYDONQ8cFgZeh3q8reK/5C72ruI7A+ss
+         bbJcl7tdO4pV3xi1jgY6My8jUfXsVrD7+bqB3h/ziweCE13/jvMmj7puL1i4cxsTrQr+
+         GXM4C79hi0wXhk6JuUKpc1y+pZquk7TynYMmpNuXzjqHnIoqFPFhjz/M8+6ugC5aGhVZ
+         rbFkNROZ+k+HvmriBCJ3Df1xVfwrrtTWQS93hyhW1cQa2d+hOxDbF3xb5J7yVCo2jLQN
+         niud0hsS3sP5wPdGyJlxYKCyWrMZi7//p22lol+pe/yxMLe3NA1YmYsxG3cdPH5uIaHl
+         dO7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+        h=x-gm-message-state:from:date:to:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=zIkfXP31wXq1gdzjPJEqYtsXInaKkEamdIOOTy11wdE=;
-        b=b0hHCxDuYnrZeay2Tnr+y8o0/pu3W0XdN7t0LMSD4o32w6jKSmZQkwOY0ZFTdjBirh
-         0AQw4QEyaBUWDgEiAkVrz9w3JhEW/JcE5CBydFaIUUkhEbpc3fpbNl0krceLHqouSfAx
-         mEY5eYxsZFt5s84Ex7caah5qPrtQQ7EH+JAotDPhm0ZSHy6cmiQbYfTwcs3lZEaWnqFI
-         kCK27Spazb9v0JRYS2jPd6YDioeVNxsP9OIIKZ1fG6UL8tFiUMkfZmHKr+0bzvYP9LVg
-         q20vvV0fEzkc2BSkhynqr73YGTXLdJaVLcfzoyoTeNiQ9p0ua9wKr7UmFjjrjpxGSrZ+
-         UsDw==
-X-Gm-Message-State: ANhLgQ1rYWSfl/9FR6UF35VpVOY0s0Va8ef3Cr7DsJ98yMAEO+w4djpw
-	P/7eAs1o7i97z4iOmBby1sI=
-X-Google-Smtp-Source: ADFU+vsFTrTzdbx4S6HxSSUBv/LfCIxocLRMHRjP3Z+aMY+Fie/+HkanaSRRlHEhQDRwHyC3V/36Hg==
-X-Received: by 2002:a0c:fc46:: with SMTP id w6mr1937qvp.46.1583283831917;
-        Tue, 03 Mar 2020 17:03:51 -0800 (PST)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id w10sm2828977qtt.5.2020.03.03.17.03.50
+        bh=2NCmcvThChv09U6iQLQy6bWJb5Px2I0HUAnqAdeKtyg=;
+        b=K8TmrgugSy2v9jmZqnG4qWJfGWMMPocyGVwJtMQuUoT74q3qvhWdotMsD3JvGaGrCg
+         n0o1hRUbnn9nGwMB7gDyFJd0+uZ10L/aK9VBFbASf4qprHDeTw8imnYaCpH7fhaAEb2h
+         ersGSgDsowMZB8XXUKK2ZtZI+DWMrs9kEUbmevyxAR6LEMGUiWL8/11B9cDAuO5nm4cG
+         K8f1zKidzKIaj2zOoVoN3rUrEc1AoepSv7duAPpte5CjUXPZFY9hvRMHG1lxb2XK2+og
+         SxdNorJQqEO4EKkJzWH8OMpwIjBYNWooMAanE1yDyqjYf3M1lI5tcfLSM4lspjCKMmtP
+         9z7Q==
+X-Gm-Message-State: ANhLgQ3UyYZCy0hwQO0vS+0xMFfBOIotNtnEeIIWz0rQdkBJJazTyHGm
+	3aEhp02iKYyJZmEfVYhmCZyKJ6SH
+X-Google-Smtp-Source: ADFU+vvtUk2VM9nzdS2TFVrD10qKO2ujKIzN6ydcsIEWrXhWWSCXzgl31auaBmQz1cZizFtuWK23OQ==
+X-Received: by 2002:a1c:1b86:: with SMTP id b128mr3954776wmb.64.1583335799878;
+        Wed, 04 Mar 2020 07:29:59 -0800 (PST)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id b24sm4658908wmj.13.2020.03.04.07.29.58
+        for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Mar 2020 17:03:51 -0800 (PST)
-Date: Tue, 3 Mar 2020 20:03:49 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Martin Jansa <Martin.Jansa@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+        Wed, 04 Mar 2020 07:29:58 -0800 (PST)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 4 Mar 2020 16:29:58 +0100
+To: meta-virtualization@lists.yoctoproject.org
 Subject: Re: [meta-virtualization][PATCH 1/2] xen-tools: fix COMPATIBLE_HOST restriction for i686
-Message-ID: <20200304010348.GB39743@gmail.com>
-References: <20200303141036.5833-1-Martin.Jansa@gmail.com>
+Message-ID: <20200304152958.vnvz4t66ln2xyijl@jama>
+References: <15F8D09CD90CE2BE.3586@lists.yoctoproject.org>
 MIME-Version: 1.0
-In-Reply-To: <20200303141036.5833-1-Martin.Jansa@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <15F8D09CD90CE2BE.3586@lists.yoctoproject.org>
+User-Agent: NeoMutt/20180716
+X-Groupsio-MsgNum: 5197
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="fpbwu6a6k6knddg3"
 Content-Disposition: inline
 
+--fpbwu6a6k6knddg3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-merged.
-
-Bruce
-
-In message: [meta-virtualization][PATCH 1/2] xen-tools: fix COMPATIBLE_HOST restriction for i686
-on 03/03/2020 Martin Jansa wrote:
-
+On Tue, Mar 03, 2020 at 03:10:35PM +0100, Martin Jansa via Lists.Yoctoproje=
+ct.Org wrote:
 > * let TARGET_VENDOR to be set to something else than the default:
->   meta/conf/bitbake.conf:TARGET_VENDOR = "-oe"
+>   meta/conf/bitbake.conf:TARGET_VENDOR =3D "-oe"
 >   like other architectures use
 > ---
 >  recipes-extended/xen/xen-tools.inc | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
+>=20
+> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/x=
+en-tools.inc
 > index 8bdbfec..8b86f7b 100644
 > --- a/recipes-extended/xen/xen-tools.inc
 > +++ b/recipes-extended/xen/xen-tools.inc
 > @@ -1,7 +1,7 @@
->  SUMMARY = "Xen hypervisor tools"
->  DESCRIPTION = "Tools and utility software for the Xen hypervisor"
+>  SUMMARY =3D "Xen hypervisor tools"
+>  DESCRIPTION =3D "Tools and utility software for the Xen hypervisor"
 >  
-> -COMPATIBLE_HOST = 'i686-oe-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
-> +COMPATIBLE_HOST = 'i686-.*-linux|(x86_64.*).*-linux|aarch64.*-linux|arm-.*-linux-gnueabi'
+> -COMPATIBLE_HOST =3D 'i686-oe-linux|(x86_64.*).*-linux|aarch64.*-linux|a=
+rm-.*-linux-gnueabi'
+> +COMPATIBLE_HOST =3D 'i686-.*-linux|(x86_64.*).*-linux|aarch64.*-linux|a=
+rm-.*-linux-gnueabi'
 >  
 >  inherit setuptools3 update-rc.d systemd deploy
 >  require xen-blktap.inc
-> -- 
+
+Not really caused by this change, but now when the build can be started
+it fails for me with:
+error: mapfile-GNU:1:9: invalid use of VERSION in input file
+Makefile:52: recipe for target 'libxenfsimage.so.4.12.0' failed
+
+Anyone else seeing this? It's actually raspberrypi4 world build, so the
+COMPATIBLE_HOST above isn't related at all in this case.
+
+> --=20
 > 2.20.1
-> 
+>=20
 
-> 
+>=20
 
+
+--fpbwu6a6k6knddg3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXl/JdQAKCRA3VSO3ZXaA
+HFsVAKCUT2uv2TymVT86ONCKg9N+dEKN/ACfVSPnLwARptmNiOYD9/LbCgB5kjQ=
+=aNDz
+-----END PGP SIGNATURE-----
+
+--fpbwu6a6k6knddg3--
