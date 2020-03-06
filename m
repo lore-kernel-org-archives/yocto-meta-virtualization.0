@@ -1,64 +1,118 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web12.1060.1583531639308878233
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web11.1004.1583531640212412269
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Mar 2020 13:53:59 -0800
+ Fri, 06 Mar 2020 13:54:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: mark.asselstine@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: mark.asselstine@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 026LrtGO022304
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 026LrvhK014867
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 6 Mar 2020 13:53:56 -0800 (PST)
+	Fri, 6 Mar 2020 13:53:57 -0800 (PST)
 Received: from yow-dellw-ma.wrs.com (128.224.56.18) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Fri, 6 Mar 2020
- 13:53:55 -0800
+ 13:53:56 -0800
 From: "Mark Asselstine" <mark.asselstine@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
-Subject: [meta-virtualization][PATCH 1/2] cni: 1.7.0 to 1.7.1 (and plugins 0.8.2 to 0.8.5)
-Date: Fri, 6 Mar 2020 16:53:41 -0500
-Message-ID: <1583531622-21685-1-git-send-email-mark.asselstine@windriver.com>
+Subject: [meta-virtualization][PATCH 2/2] cni: prevent go from downloading stuff in the background
+Date: Fri, 6 Mar 2020 16:53:42 -0500
+Message-ID: <1583531622-21685-2-git-send-email-mark.asselstine@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1583531622-21685-1-git-send-email-mark.asselstine@windriver.com>
+References: <1583531622-21685-1-git-send-email-mark.asselstine@windriver.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Both uprev's are listed as 'minor' in the upstream release
-notes. Neither introduces an uprev in spec. This fixes issues we
-observed while testing the forthcoming cri-o uprev.
+While testing the cni uprev by building in a container with
+network=none the following error was found:
 
-NOTE: this commit should only be used with the follow-on commit [cni:
-prevent go from downloading stuff in the background] otherwise you
-will end up with files not owned by you which will prevent the recipe
-being properly cleaned.
+  go: github.com/Microsoft/go-winio@v0.4.11: Get
+   https://proxy.golang.org/github.com/%21microsoft/go-winio/@v/v0.4.11.mod:
+   dial tcp: lookup proxy.golang.org on 128.224.144.130:53:
+   dial udp 128.224.144.130:53: connect: network is unreachable
+
+After some digging through the go documentation it was found that the
+'-mod=vendor' is required for 'go build' to use shipped vendor modules
+when building modules. This can be confirmed by look at the
+'build_linux.sh' script which is found in the plugins repo.
+
+By using '-mod=vendor' and also ensuring things are properly placed in
+the GOPATH (ie $B) we can avoid having to create many of the links we
+had been previously.
+
+We also put all the build artifacts into $B to avoid mixing source and
+build.
 
 Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
 ---
- recipes-networking/cni/cni_git.bb | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ recipes-networking/cni/cni_git.bb | 32 +++++++++-----------------------
+ 1 file changed, 9 insertions(+), 23 deletions(-)
 
 diff --git a/recipes-networking/cni/cni_git.bb b/recipes-networking/cni/cni_git.bb
-index b8adf88..a81e6cc 100644
+index a81e6cc..3ad939b 100644
 --- a/recipes-networking/cni/cni_git.bb
 +++ b/recipes-networking/cni/cni_git.bb
-@@ -9,8 +9,9 @@ Because of this focus, CNI has a wide range of support and the specification \
- is simple to implement. \
- "
- 
--SRCREV_cni = "dc71cd2ba60c452c56a0a259f2a23d2afe42b688"
--SRCREV_plugins = "0eddc554c0747200b7b112ce5322dcfa525298cf"
-+SRCREV_cni = "4cfb7b568922a3c79a23e438dc52fe537fc9687e"
-+# Version 0.8.5
-+SRCREV_plugins = "1f33fb729ae2b8900785f896df2dc1f6fe5e8239"
+@@ -14,7 +14,7 @@ SRCREV_cni = "4cfb7b568922a3c79a23e438dc52fe537fc9687e"
+ SRCREV_plugins = "1f33fb729ae2b8900785f896df2dc1f6fe5e8239"
  SRC_URI = "\
  	git://github.com/containernetworking/cni.git;nobranch=1;name=cni \
-         git://github.com/containernetworking/plugins.git;nobranch=1;destsuffix=plugins;name=plugins \
-@@ -23,7 +24,7 @@ LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=fa818a259cbed7ce8bc2a22d35a464
+-        git://github.com/containernetworking/plugins.git;nobranch=1;destsuffix=plugins;name=plugins \
++        git://github.com/containernetworking/plugins.git;nobranch=1;destsuffix=${S}/src/github.com/containernetworking/plugins;name=plugins \
+ 	"
  
- GO_IMPORT = "import"
- 
--PV = "0.7.0+git${SRCREV_cni}"
-+PV = "0.7.1+git${SRCREV_cni}"
- 
- inherit go
+ RPROVIDES_${PN} += "kubernetes-cni"
+@@ -30,36 +30,22 @@ inherit go
  inherit goarch
+ 
+ do_compile() {
+-	# link fixups for compilation
+-	rm -f ${S}/src/import/vendor/src
+-	mkdir -p ${S}/src/import/vendor/
+-	ln -sf ./ ${S}/src/import/vendor/src
+-	rm -rf ${S}/src/import/plugins
+-	rm -rf ${S}/src/import/vendor/github.com/containernetworking/plugins
++	mkdir -p ${S}/src/github.com/containernetworking
++	ln -sfr ${S}/src/import ${S}/src/github.com/containernetworking/cni
+ 
+-	mkdir -p ${S}/src/import/vendor/github.com/containernetworking/cni
+-
+-	ln -sf ../../../../libcni ${S}/src/import/vendor/github.com/containernetworking/cni/libcni
+-	ln -sf ../../../../pkg ${S}/src/import/vendor/github.com/containernetworking/cni/pkg
+-	ln -sf ../../../../cnitool ${S}/src/import/vendor/github.com/containernetworking/cni/cnitool
+-	ln -sf ${WORKDIR}/plugins ${S}/src/import/vendor/github.com/containernetworking/plugins
+-
+-	export GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
+-	export CGO_ENABLED="1"
+-
+-	cd ${S}/src/import/vendor/github.com/containernetworking/cni/libcni
++	cd ${B}/src/github.com/containernetworking/cni/libcni
+ 	${GO} build
+ 
+-	cd ${S}/src/import/vendor/github.com/containernetworking/cni/cnitool
++	cd ${B}/src/github.com/containernetworking/cni/cnitool
+ 	${GO} build
+ 
+-	cd ${S}/src/import/vendor/github.com/containernetworking/plugins/
++	cd ${B}/src/github.com/containernetworking/plugins
+ 	PLUGINS="$(ls -d plugins/meta/*; ls -d plugins/ipam/*; ls -d plugins/main/* | grep -v windows)"
+-	mkdir -p ${WORKDIR}/plugins/bin/
++	mkdir -p ${B}/plugins/bin/
+ 	for p in $PLUGINS; do
+ 	    plugin="$(basename "$p")"
+ 	    echo "building: $p"
+-	    ${GO} build -o ${WORKDIR}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
++	    ${GO} build -mod=vendor -o ${B}/plugins/bin/$plugin github.com/containernetworking/plugins/$p
+ 	done
+ }
+ 
+@@ -70,7 +56,7 @@ do_install() {
+     install -d ${D}/${sysconfdir}/cni/net.d
+ 
+     install -m 755 ${S}/src/import/cnitool/cnitool ${D}/${localbindir}
+-    install -m 755 -D ${WORKDIR}/plugins/bin/* ${D}/${localbindir}
++    install -m 755 -D ${B}/plugins/bin/* ${D}/${localbindir}
+ 
+     # Parts of k8s expect the cni binaries to be available in /opt/cni
+     install -d ${D}/opt/cni
 -- 
 2.7.4
 
