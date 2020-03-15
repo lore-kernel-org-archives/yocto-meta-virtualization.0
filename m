@@ -1,88 +1,86 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web11.44390.1584288913987144785
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+ by mx.groups.io with SMTP id smtpd.web10.44585.1584288977012613714
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 15 Mar 2020 09:15:14 -0700
+ Sun, 15 Mar 2020 09:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=gbDZ4+uM;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id v6so3714938edw.8
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Mar 2020 09:15:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ekOihkCs;
+ spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f67.google.com with SMTP id a20so18903076edj.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Mar 2020 09:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=s2zhIHXruADv/IH5mQZpfN5oKrQ7JjQsBbyxbx5vzDw=;
-        b=gbDZ4+uMnJItfDYMAuaTu0OXGQJC4UpqvMmv5x88jcZ5qp4Ys3XYkk80xUmCYkAzjM
-         5C1WYxWDzjbihvtjrdSz4NJ4RVcxK8152PguNWB/j3WuWbieh2XneM4SBYht/U+g/W70
-         iTkaJ/ScZQptp5FP+CROKXDnxvxrj7ySOOyLESW8TUdyrlWhMBGEjOkQ9q5URJUnIfoZ
-         2yIX0Z6wea1OgEI956B8ezvLOQy0EoZsj1yC4KTaX3P5fKm4v7cG0oG1x9uNtZ+I3/ze
-         A6eN2TB8lzxClhNvl2udpb5Mde9o+mhnM6K775VztgjDZj18nfjnqSx3oP1xln7p3Lfu
-         /Z2A==
+        bh=tsQ6AaXQZDm5Qp/oepGrJlJKc1r5ueD4NkqDnMTIMWc=;
+        b=ekOihkCslJvzAG4ITx6Axo3wi1kHglH72Fe4V7gH9dWccXUy/AxEsqzCS3xetOJtD4
+         VjTvrlwlqyM3TpmL09m6QdEaxyVariw0PMzaFlidzjg14R7tTbCjB3+m1wyzCeH3wK9a
+         1ivEPd3VQckygLR5rZmYzne0JpbdG/VIA8bwAZPgHlMNxgtWUA812qX/ZbMA4/LuLV4j
+         z9UM2VVB2re1UVU+IzWv+jmIkiu51lf692utyrzZTHj8naWrRKvOUEbMS+BZvU+Awuwc
+         NTmF5QjPBwela09biFnUxJUmZMN2RP5QUuFVGsValCgLTzgfCeFxcDLtmlAUixYsJu4N
+         nKYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=s2zhIHXruADv/IH5mQZpfN5oKrQ7JjQsBbyxbx5vzDw=;
-        b=hHfG2w53k/kcFwT3GuYdR/CTMdbKfiOCWxP8gN8vAZsb5uPFJwA6rRy/Fr0rmhornL
-         D4fw9lkpsovyCAvfO0+yDQ5nwjogvfPj8YHX6lffd1Uwmq0CulpN2Kp17xN7inTrFz8T
-         bvHS3ebwaWlkq6dD7T4OXygvVsCJkZdKpsE6KB5q8+zLFAAeX6lOtbnmEcKBEpFYmpyM
-         jhOSGJVCp21+lvDrIIt3ZP1MiOV/vQc9H5MeAhxHUVkmnIwK0jUZX1EqtrISsSjLkYt0
-         13Ft59QS68LIZi1Nw6H2AJe0rSzWVMOpN/BCvFP7ake8pUpM6DtCrQYgPhGIaU4vzWLH
-         FXxg==
-X-Gm-Message-State: ANhLgQ2sJVo0k2wILwZAwUuHxyibzMdE/dTpC2J4/3CMXQzcJ4pWu2VZ
-	Pk09MRHumKiTopJdubVK7B6IWxkXGfWwYHlcD10=
-X-Google-Smtp-Source: ADFU+vvHLhIiqcAut1mq51SGMQ6zgai8t8AG9XPiMvG3GVqhSkjRWHHMNxPauN49dK3Toe6vRB3GAiv2086tevW8+po=
-X-Received: by 2002:a17:906:4bc8:: with SMTP id x8mr18549514ejv.339.1584288912204;
- Sun, 15 Mar 2020 09:15:12 -0700 (PDT)
+        bh=tsQ6AaXQZDm5Qp/oepGrJlJKc1r5ueD4NkqDnMTIMWc=;
+        b=KrEO8/2zbseKSNvQ27DXxbM1Ierof7b3LTnFLKZSSoTycsZDA3CzsADeCCuDsS/dxk
+         19UwIDzUXCW2e2025g0zjfDlJQPt7Ou6zoaKcWeagkguzTTyHPldS4q9Tbit3reK7NUi
+         TLst3Ay1WxuQY/8rZyWVIkaVNqGdDkIiA0IOQuSkAW7uHyQfb+df37Z9XY6JEvb1CW44
+         O+UHYaySIT9KkL0O4RB78eZyIeoI6/Bsuvi5kN88SOlRgNVixG5/46ThRW94GzDm/c06
+         PZema4GZlNBp4+hRVwpctT68ZgC0elpmDz/FgtGmkXT13Bi8Zk/s1Sf5C+MssLne+FZr
+         kbbw==
+X-Gm-Message-State: ANhLgQ2Kaf3tXRjw4m7x7y3FSsROYMKghISx2T9aOa/FNGocngM2Qv1n
+	uEoH8xDxJ7mNrIIGLGReDKVfknDGMtCYq7VS+Oc=
+X-Google-Smtp-Source: ADFU+vsPSIypqEHwvGt9piSk8/j9/0BWOQLIn/S9yRxAFydHG9wnqh5A7USh8YBSt4SHQte8MvG0CF2tjjhSTHc2Rk8=
+X-Received: by 2002:a05:6402:38f:: with SMTP id o15mr21798361edv.365.1584288975531;
+ Sun, 15 Mar 2020 09:16:15 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200315122008.22161-1-liu.ming50@gmail.com> <20200315122008.22161-3-liu.ming50@gmail.com>
-In-Reply-To: <20200315122008.22161-3-liu.ming50@gmail.com>
+References: <20200315122008.22161-1-liu.ming50@gmail.com>
+In-Reply-To: <20200315122008.22161-1-liu.ming50@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 15 Mar 2020 12:15:01 -0400
-Message-ID: <CADkTA4PV+y5VrfRpWGC23rN3cRPheLxd58mDRZMBMs48ntu+3w@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 3/3] docker-ce: uprev to 19.03.8
+Date: Sun, 15 Mar 2020 12:16:04 -0400
+Message-ID: <CADkTA4Nh3f_aF9AHT+b2SkjCMneY8L0SODUQP1roy3ij-vU2QQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/3] runx: drop distro_features_check
 To: Ming Liu <liu.ming50@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org, 
 	Ming Liu <ming.liu@toradex.com>
 Content-Type: text/plain; charset="UTF-8"
 
-I already have this pending, so won't merge this change.
+There are more pending runx change, I won't merge this either, until
+I've completed a full round of testing.
 
 Cheers,
 
 Bruce
 
-On Sun, Mar 15, 2020 at 8:20 AM Ming Liu <liu.ming50@gmail.com> wrote:
+On Sun, Mar 15, 2020 at 8:19 AM Ming Liu <liu.ming50@gmail.com> wrote:
 >
 > From: Ming Liu <ming.liu@toradex.com>
 >
+> distro_features_check bbclass is deprecated, inherit features_check
+> instead.
+>
 > Signed-off-by: Ming Liu <ming.liu@toradex.com>
 > ---
->  recipes-containers/docker/docker-ce_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  recipes-core/runx/runx_git.bb | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 >
-> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
-> index e32a734..82cce73 100644
-> --- a/recipes-containers/docker/docker-ce_git.bb
-> +++ b/recipes-containers/docker/docker-ce_git.bb
-> @@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
->   subtle and/or glaring issues. \
->   "
->
-> -SRCREV_docker = "f0e27e52c1d57597a9b2e50baad33feb80474b76"
-> +SRCREV_docker = "afacb8b7f0d8d4f9d2a8e8736e9c993e672b41f3"
->  SRCREV_libnetwork = "9fd385be8302dbe1071a3ce124891893ff27f90f"
->  SRC_URI = "\
->         git://github.com/docker/docker-ce.git;branch=19.03;name=docker \
-> @@ -38,7 +38,7 @@ GO_IMPORT = "import"
->
+> diff --git a/recipes-core/runx/runx_git.bb b/recipes-core/runx/runx_git.bb
+> index 36fede6..9517d89 100644
+> --- a/recipes-core/runx/runx_git.bb
+> +++ b/recipes-core/runx/runx_git.bb
+> @@ -18,10 +18,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=945fc9aa694796a6337395cc291ddd8c"
 >  S = "${WORKDIR}/git"
+>  PV = "0.1-git${SRCREV_runx}"
 >
-> -DOCKER_VERSION = "19.03.6-ce"
-> +DOCKER_VERSION = "19.03.8-ce"
->  PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+> -inherit distro_features_check
+> +inherit features_check
+>  REQUIRED_DISTRO_FEATURES = "vmsep"
 >
->  PACKAGES =+ "${PN}-contrib"
+> -
+>  # TODO: for if we need a go shim
+>  # GO_IMPORT = "import"
+>  # inherit go
 > --
 > 2.25.1
 >
