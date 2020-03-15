@@ -1,80 +1,70 @@
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web12.40071.1584274798715653194
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com [209.85.208.194])
+ by mx.groups.io with SMTP id smtpd.web10.40120.1584274800602971370
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 15 Mar 2020 05:19:59 -0700
+ Sun, 15 Mar 2020 05:20:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=RD21Dhku;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: liu.ming50@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id q19so15427454ljp.9
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Mar 2020 05:19:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=j4LZGret;
+ spf=pass (domain: gmail.com, ip: 209.85.208.194, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f194.google.com with SMTP id g12so15501013ljj.3
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Mar 2020 05:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KuocOyjzNJOUCqQ5lKL69Y7yq/Zg9yvhNXJuRyUzrrM=;
-        b=RD21DhkuAfUJZ6TgpEwnqMBiHIhPKxR0v3oIwMUPdMCka8kUos6YugGd2mgec59QFI
-         G4eHqM17mk+74i2Ue0kwzkpmZo77JRY7GekOvR03+hdgHkv6DBZt1nate8kZCBVM1DcQ
-         5YIra+xK0BwGdeustdBCvCcwaQ05eCYOoglV04GriMVK+q7N4TLaGqDbXH/lgccAxw+8
-         KJl9D2p1vC0+5+KQeXmEC2vrjTuULlB7j9opfk9jacEZ7Q6sIIvgiVJZKKExlNyZgpfr
-         buYXBl7WvTSLN9QxeXXD2KvrKSMgxB8kllavohC/StjW5elLZzCSCn3PO6Z2aXhiRq5J
-         T+Ew==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=QHTAU6A+mSIDz88NoJTBN+eKE4SCGyMHJnwQY3YB5zA=;
+        b=j4LZGret1yJkcnRCACb3kobyhx8QQgo0h9U6CCuJNRxE4FWjphSKNR2gufCR9z4ZJy
+         w6uYMtB9xlOg4Yd/LsEpwxbvLVvAz2AXH5my02SSYR/mYbtVLbRSZU73oVW570V+myGK
+         Vz5DVxCWbPE/ts1bMd0AoMeeh8YV09cN2h+mqQYJXG6gZ1YQCuaa7VAlXGUcpbTXsZB+
+         28cqFWKyKVTsK33XNr70L6sTrhmlUkngyzmbwinA6QG9UDirr0gfldXHbMskwHCLSpif
+         frK6I997hG3QX7Ashvlglu2FWZ4r8HxvbeTi/2AFVdUsb+YNEnEYmRVwJLJAAHdL+WPG
+         7l+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KuocOyjzNJOUCqQ5lKL69Y7yq/Zg9yvhNXJuRyUzrrM=;
-        b=PBJMTRxJ3C5CTdAUPF2BgEI9ROkl20Ykv6fwdEa3JZJR3XaXW4DrZbVLpvuup91d/O
-         /0Aqys1kCorAqzW1xjjEzn78fWgQOVro/yx08xsx5jQMdGpnmf3HyzqXDrrtvAkhMfZg
-         hawKYOSxrW63d3MDdkPVV19nel0QVqxjxPTqGU/vd6M+ncuV95fxX7s6lvoQd8jrrzXw
-         Bxmfji7T4wYSW6Qm5qUGrNvSvY1u9Z1WNGlrESvR6r2t0VCrrzP6XomCpSPYnnVJf4Rz
-         EY45Mz5xVyves6Td9c+Bz8frm9rRUxqqpRIg3QmQ3RK7AEPgpk4d8MwfWu1Eb1qC8XKN
-         NEHw==
-X-Gm-Message-State: ANhLgQ1cAiNciWYj7QOjTkf3kEr1gk3g55s8ymKicHmqzFKdKIuI5glK
-	iTx00127xhPynzTMe41J3jgq9ypmNUg=
-X-Google-Smtp-Source: ADFU+vsnpxhf12Kl9DXfZDMY2+CN2Vjni8nZqpZqY5It9Ijh3liR+Io4+iMQNNytHqEcMrEg3Bwrog==
-X-Received: by 2002:a05:651c:1114:: with SMTP id d20mr13193394ljo.103.1584274796280;
-        Sun, 15 Mar 2020 05:19:56 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=QHTAU6A+mSIDz88NoJTBN+eKE4SCGyMHJnwQY3YB5zA=;
+        b=GYgYx98qrAP6PY7WKDOpbqY8xHEa8VcjUDQkKySScwIwvGZmZIbaoCM4mR2IojRy2S
+         7afR7+J6G0XRG/BM8CRz4Zbk7IDSr8db7IQBGwVbEZyy4JDNgrK3Z0ElSc6F6b4aEUuJ
+         POplNtsZ3ywAO4KyDflJFZCGcYlwQBiOu5KHslDTjHZVxJClbWkgIs2nz34GpEhkm3hF
+         1LF/1T/Lj9l5kIuRDKYEAH2RmYWsV+oT4hKaWpS1kZdq8aAzMxE0wGoGRLAjSFORSIL6
+         Gp9ll6edzbejIfvlMPjLPHFEElEf/hMrjWgovqdlyTn+5IQh5QkwQYafLcla++bfIMN7
+         AwWg==
+X-Gm-Message-State: ANhLgQ23HEF02rXe3WGOcSUkVR/zfh/ylWB8Gty48hidOKJGdOvGdZHl
+	FqGmnDeUlaO8sgJOt/BP6KF6wnGlC2w=
+X-Google-Smtp-Source: ADFU+vurhwJFDIDeGQPT2eDksjvDD0vbwBy7oX48F/nSKcXxU5M366Ecqy+5C7yvC5Cv23Dfx/Gohg==
+X-Received: by 2002:a2e:240e:: with SMTP id k14mr14238826ljk.178.1584274798808;
+        Sun, 15 Mar 2020 05:19:58 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from peterliu-Precision-7530.lan (c-3ffb72d5.022-417-73746f13.bbcust.telenor.se. [213.114.251.63])
-        by smtp.gmail.com with ESMTPSA id q4sm22393707lfp.18.2020.03.15.05.19.55
+        by smtp.gmail.com with ESMTPSA id q4sm22393707lfp.18.2020.03.15.05.19.58
         (version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-        Sun, 15 Mar 2020 05:19:55 -0700 (PDT)
+        Sun, 15 Mar 2020 05:19:58 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Ming Liu <ming.liu@toradex.com>
-Subject: [meta-virtualization][PATCH 1/3] runx: drop distro_features_check
-Date: Sun, 15 Mar 2020 13:20:06 +0100
-Message-Id: <20200315122008.22161-1-liu.ming50@gmail.com>
+Subject: [meta-virtualization][PATCH 2/3] libxcrypt: add % to match recipe version string
+Date: Sun, 15 Mar 2020 13:20:07 +0100
+Message-Id: <20200315122008.22161-2-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20200315122008.22161-1-liu.ming50@gmail.com>
+References: <20200315122008.22161-1-liu.ming50@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
 From: Ming Liu <ming.liu@toradex.com>
 
-distro_features_check bbclass is deprecated, inherit features_check
-instead.
+Or else the changes in libxcrypt bbappend would not be applied.
 
 Signed-off-by: Ming Liu <ming.liu@toradex.com>
 ---
- recipes-core/runx/runx_git.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ .../libxcrypt/{libxcrypt.bbappend => libxcrypt_%.bbappend}        | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename recipes-core/libxcrypt/{libxcrypt.bbappend => libxcrypt_%.bbappend} (100%)
 
-diff --git a/recipes-core/runx/runx_git.bb b/recipes-core/runx/runx_git.bb
-index 36fede6..9517d89 100644
---- a/recipes-core/runx/runx_git.bb
-+++ b/recipes-core/runx/runx_git.bb
-@@ -18,10 +18,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=945fc9aa694796a6337395cc291ddd8c"
- S = "${WORKDIR}/git"
- PV = "0.1-git${SRCREV_runx}"
- 
--inherit distro_features_check
-+inherit features_check
- REQUIRED_DISTRO_FEATURES = "vmsep"
- 
--
- # TODO: for if we need a go shim
- # GO_IMPORT = "import"
- # inherit go
+diff --git a/recipes-core/libxcrypt/libxcrypt.bbappend b/recipes-core/libxcrypt/libxcrypt_%.bbappend
+similarity index 100%
+rename from recipes-core/libxcrypt/libxcrypt.bbappend
+rename to recipes-core/libxcrypt/libxcrypt_%.bbappend
 -- 
 2.25.1
 
