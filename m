@@ -1,101 +1,93 @@
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
- by mx.groups.io with SMTP id smtpd.web12.44633.1584289058933133452
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
+ by mx.groups.io with SMTP id smtpd.web12.51650.1584307056890449078
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 15 Mar 2020 09:17:39 -0700
+ Sun, 15 Mar 2020 14:17:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=LYAdrpXq;
- spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f67.google.com with SMTP id dc19so18831839edb.10
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Mar 2020 09:17:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=MMi20IOx;
+ spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f65.google.com with SMTP id b21so9191969edy.9
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 15 Mar 2020 14:17:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iSyzcLvOYa3aPFW9nZuD+ttqkj1F0ZKmaCU25IB68MY=;
-        b=LYAdrpXqgGQT9a/iAUk0+sGnXwi8PqNYrDbvcM6xgnkpwUTXivqk/h9w1qNo3Op6OY
-         5XA2R1921SZcZPckzaoXbegTJGyU9yyWLwkGYR6Gr3ya9812Wyaam07ojAbrs8SWBD+A
-         /deSrTuua08qbZUtovIr6qJpngM+Ljc5QhwyCeziGsK4hOwz0QjC6SMxcQHehbF7K5Uj
-         VugEOpfP6Fk44kDsTgySqaohC/q1ObCBo1kIe6C3l+KIZ2BvJN6RHPgM2cGzdoph/NZl
-         cjGOeTYjU3XU/yAv53figizUAFRRn3qX6s8hi2dCLlGDxXaNbZuyw2OlEaBUMJAsNtTY
-         n99w==
+        bh=8oGcNYG5rfn3xRVU5gHkV57Nz8xvEXJLEFJz3mQzpcA=;
+        b=MMi20IOxDGWLBnjWfA4gJY+6yGIGgRkKdmMiYp2ENMb/lxmD9tZbYiyYI05lFRlkso
+         dojgHwH/clgq7FksgiDVuIzVZeuITfq2kl3aBY7InnFputkyShbknctbgHtIGQekL3px
+         8jbKXDr0zi4VoqDtwJYQIW6oCCMWqX8UWrWuPs5VhSB5qpxX+s6+0Ouom22p04dGp4iG
+         aTnrFZbIb2muvK4Tt+WgRY9JnRa2Jdr6R+kgN9vXnohI5Y2rQ0fHd5xV0vnyIHAK4dBI
+         XEUkfSad704cO6M8EOamQ7vg9PlTDSMOL+Z62t5Ep32AlijSDlGXEAvTDguXcko2pQJJ
+         QQ5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iSyzcLvOYa3aPFW9nZuD+ttqkj1F0ZKmaCU25IB68MY=;
-        b=adM9FSSKRWO7Apx33cQEHPCS2AfClF9pmIrKHnYZOEj+ZpMrqKBx1HQQV98ET/Trxx
-         rzQxL7S5llOzPXCts/H8FdBJW1C6X/MuanHvgn5qicSUODp780jRM/53y2Ixi8f+krF0
-         OEVSqzQYhBCci6NOma/TX3I5IhMsq2d+kPyxdcig+6Z/UNab26+2RQ/4UhNXgsACnKdZ
-         SiS9Li40okMQtycRSudKvdxT0XmYC29mOl6uyPrEg1DlKGiG1deGPu3xthU8chyb1HsC
-         2avTHP0+D7GaSaa4zVg7S0pZMhP3x0Iujty6+L2bFFcdihjWOln/SpcqghECugkSb3sd
-         lKWA==
-X-Gm-Message-State: ANhLgQ21BPO1JUYEbsGjK6tEdcplud1sw0pUsP0m+lTce0Cw7y/cYje5
-	0nA+rptMZirhDMV1FStBjc1ODeFq6HsguKMuNYs=
-X-Google-Smtp-Source: ADFU+vtslhjbYH5wP+1eyaxnqo4bwJIYufGPjPUiZxcRiibXOQCei9HR062IfwNrQsdE6KAfc16XIzuHdceKUYIcY5s=
-X-Received: by 2002:a17:906:9456:: with SMTP id z22mr20384190ejx.327.1584289057429;
- Sun, 15 Mar 2020 09:17:37 -0700 (PDT)
+        bh=8oGcNYG5rfn3xRVU5gHkV57Nz8xvEXJLEFJz3mQzpcA=;
+        b=oJjNmt/b4fpFtVCQBfOKXb5pFk3CxLfQLBJKtFHFgpv0d+X1jBfMPzUvBvdj+PVUH1
+         L9oCwl/z9/q28tjZRs0Q3UV7XBz/oMGxiQHXYgZ22exogtsTHY/qHHUxh1i4LFFpWkwp
+         zA+wGL9gPUEytWVCV6ziUVm4DRlu6E4Ak25gj5G3tVfaxPOI7bzDGEkH7OZOadGJK12q
+         oySLULtczFTk8SFjcNrog3rHDtDquLxx8FicKaWfbD5qekjqzu6OynUslbfruCPsuIzT
+         NuFlWGutq6fB3BQtJmJa7/wmWDT+Tf0npI05DTNmTv4+a9OzR3mIB/oTH/7aU5wwf+Zp
+         B5VQ==
+X-Gm-Message-State: ANhLgQ0JjUknpbdO9uL3AL1KoU15yFpH7e9tV4OTbjOaM6//gTWy6uyP
+	WdU3QCMHUOSUDnaHuffLeGLX2/eaVM23/ayRtPw=
+X-Google-Smtp-Source: ADFU+vunarrOeOOePiHKW+RPLjR9JxUlYee05YZd7Ck4vWyqfeZjzUKinCZD2cjgc8uzu6TECrfvgJsLZ9zQYrz8z4I=
+X-Received: by 2002:aa7:dd01:: with SMTP id i1mr23174179edv.164.1584307055378;
+ Sun, 15 Mar 2020 14:17:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200315122008.22161-1-liu.ming50@gmail.com> <20200315122008.22161-3-liu.ming50@gmail.com>
- <15FC865FAF3D1B8A.14917@lists.yoctoproject.org>
-In-Reply-To: <15FC865FAF3D1B8A.14917@lists.yoctoproject.org>
+References: <20200315122008.22161-1-liu.ming50@gmail.com> <15FC866E5C0C937A.14939@lists.yoctoproject.org>
+In-Reply-To: <15FC866E5C0C937A.14939@lists.yoctoproject.org>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 15 Mar 2020 12:17:26 -0400
-Message-ID: <CADkTA4NtT2D2NyJzckUHMM-5yHS+QNH6qg2bYkZrT7FCWv9Wkw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 3/3] docker-ce: uprev to 19.03.8
+Date: Sun, 15 Mar 2020 17:17:24 -0400
+Message-ID: <CADkTA4N2V4KohpwXFtpkbUsp32m0HaaFUq2UxnVwNdKrdq3Abg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH 1/3] runx: drop distro_features_check
 To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: Ming Liu <liu.ming50@gmail.com>, meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-Also FYI.
-
-We need to explicitly state what's in an uprev (short log capture) and
-a reason for the shortlog, along with a short statement of testing.
-
-That's what's in the other pending uprev's, so I thought I'd mention it here.
+FYI: master-next has the in-test changes.
 
 Bruce
 
-On Sun, Mar 15, 2020 at 12:15 PM Bruce Ashfield via
+On Sun, Mar 15, 2020 at 12:16 PM Bruce Ashfield via
 Lists.Yoctoproject.Org
 <bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
 >
-> I already have this pending, so won't merge this change.
+> There are more pending runx change, I won't merge this either, until
+> I've completed a full round of testing.
 >
 > Cheers,
 >
 > Bruce
 >
-> On Sun, Mar 15, 2020 at 8:20 AM Ming Liu <liu.ming50@gmail.com> wrote:
+> On Sun, Mar 15, 2020 at 8:19 AM Ming Liu <liu.ming50@gmail.com> wrote:
 > >
 > > From: Ming Liu <ming.liu@toradex.com>
 > >
+> > distro_features_check bbclass is deprecated, inherit features_check
+> > instead.
+> >
 > > Signed-off-by: Ming Liu <ming.liu@toradex.com>
 > > ---
-> >  recipes-containers/docker/docker-ce_git.bb | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
+> >  recipes-core/runx/runx_git.bb | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
 > >
-> > diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-containers/docker/docker-ce_git.bb
-> > index e32a734..82cce73 100644
-> > --- a/recipes-containers/docker/docker-ce_git.bb
-> > +++ b/recipes-containers/docker/docker-ce_git.bb
-> > @@ -18,7 +18,7 @@ DESCRIPTION = "Linux container runtime \
-> >   subtle and/or glaring issues. \
-> >   "
-> >
-> > -SRCREV_docker = "f0e27e52c1d57597a9b2e50baad33feb80474b76"
-> > +SRCREV_docker = "afacb8b7f0d8d4f9d2a8e8736e9c993e672b41f3"
-> >  SRCREV_libnetwork = "9fd385be8302dbe1071a3ce124891893ff27f90f"
-> >  SRC_URI = "\
-> >         git://github.com/docker/docker-ce.git;branch=19.03;name=docker \
-> > @@ -38,7 +38,7 @@ GO_IMPORT = "import"
-> >
+> > diff --git a/recipes-core/runx/runx_git.bb b/recipes-core/runx/runx_git.bb
+> > index 36fede6..9517d89 100644
+> > --- a/recipes-core/runx/runx_git.bb
+> > +++ b/recipes-core/runx/runx_git.bb
+> > @@ -18,10 +18,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=945fc9aa694796a6337395cc291ddd8c"
 > >  S = "${WORKDIR}/git"
+> >  PV = "0.1-git${SRCREV_runx}"
 > >
-> > -DOCKER_VERSION = "19.03.6-ce"
-> > +DOCKER_VERSION = "19.03.8-ce"
-> >  PV = "${DOCKER_VERSION}+git${SRCREV_docker}"
+> > -inherit distro_features_check
+> > +inherit features_check
+> >  REQUIRED_DISTRO_FEATURES = "vmsep"
 > >
-> >  PACKAGES =+ "${PN}-contrib"
+> > -
+> >  # TODO: for if we need a go shim
+> >  # GO_IMPORT = "import"
+> >  # inherit go
 > > --
 > > 2.25.1
 > >
