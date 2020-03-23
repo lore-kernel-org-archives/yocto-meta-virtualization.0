@@ -1,89 +1,88 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.49375.1584958956990532309
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+ by mx.groups.io with SMTP id smtpd.web11.49551.1584959764000357689
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 23 Mar 2020 03:22:38 -0700
+ Mon, 23 Mar 2020 03:36:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=bexkRdKy;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=kkknYiwN;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: joakim.roubert@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=2780; q=dns/txt; s=axis-central1;
-  t=1584958957; x=1616494957;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=iMuu6EqvvftatfCOUtxQ9Sul8jM4QHQ/SnGJWwxJ/zE=;
-  b=bexkRdKyDgJQKdB7vRm5oYN6cmqK+FWgE9QsBHdWkEHY4vOMXWtXBT3p
-   H559Uh5rPZ93dOsyAtIuZGIz3MFX2naMtXpnTFMGu1bFUzW+jef2sfAQg
-   AurRlKGBRSRFG4WbvSKDqfqE+fDXxR5oi2AQOMUnAziERREELYDSrkMEj
-   RnCB38xoRoN31xzcH7J1nOSKFt4N/G7XjM002koCKPt+uAtL+mbc5d4MZ
-   CTiaukCoDxZQLwJg8jthGdZIb/c3RO0NO3gvXyEJxyzfNdYsQvQQu03ni
-   BjRrc+/kAW4zO6bAjJjwg7lmNvSIl4HSe5klqCvUyMKKJxsoMzZtXFM1l
-   w==;
-IronPort-SDR: jP34O8Y7muyJPtKKKsLCVM0oal0hXNmW1IbN53YTHcPRPefIv8j2xWsMNHUwxoeGP1VDVAAdiv
- ePK5dzZ+uCEVhS6COTIBhShWZ/Ux17LcXgtw3ARn2Q+9sNAzlm2NV/ooaBsiq6w5arrNL/aXwg
- jGWRQzUMcOXT+O6cCHgWZ09ToTkj+dTBuL2GSXFMNCO1lpW6AVtvxbfdzjuEV81G/guMjAGuyF
- D+AKy//iBoNhQ8+zCNrG+bhuhy4UvkS7lGHD9K5dxs5ciAjPdjykZQmSNjWoV+UFVVrvUEL0Q+
- 8f4=
+  d=axis.com; l=1177; q=dns/txt; s=axis-central1;
+  t=1584959764; x=1616495764;
+  h=to:from:subject:message-id:date:mime-version:
+   content-transfer-encoding;
+  bh=hAjOwUFREQENaCh4SsMLeV0gSOVu6bCem4viwjrwGqw=;
+  b=kkknYiwNar8Lls2fqY7hvMjxmOEqaWgSxz0eWAW7bhL3Ht4MeVCMhr63
+   zKYsTyvuUsWPZXoD1FfTyA76mTm8osLy6EeiRH9aa6Nv3vSwUR7pL4etG
+   P+R9MJBFnEp3BgzMS1bJ+suyqkLw3KN8Nf+e4O0n85BUVoJXhzUtps0mp
+   qqUB1r4m7jRmjU15zBGhcZbLa2dGz6gtFSY6n37X+cLPTnk9U+cRHXynl
+   xsoYr0qQIpF5j7TRP84b0OMuFo3cFCRGVMaKIgNOjsVE7n6fGcMleA91j
+   WAq+MbgVfNd0XEgKc87F4sO3OFlTtnK/xsn2CCRusmFDkBL3bGH6kcDLZ
+   Q==;
+IronPort-SDR: wZTd8Q0pWD1yRLXb56fPjNOzzh0v+8kTk2VZv0yll4M1eFJj6K1SZtEfpvcz6M7riWcPUkEGqp
+ 7zm0DRYJAJ1iRsMcqGwa9LKACT0215LTm7FItDTZ/d3BBAKD+jI90JxlROgJhQWf7JlmvI3F8q
+ /mPw2vZ00wqnfVuzKoSc/EEIy50Xk8+m/0OfjT99ZfR3hY55H8hiHwc2f1BvBJxYi3VldbchdK
+ QuOeAegTqmXBlTGewl/XjqjMteJbQIudNP7FN80vyMT3TtcNzo3AJoXGILUFbsMxgh7yrb9+9c
+ Hz4=
 X-IronPort-AV: E=Sophos;i="5.72,296,1580770800"; 
-   d="scan'208";a="6809485"
-From: "Peter Kjellerstedt" <peter.kjellerstedt@axis.com>
-To: Joakim Roubert <Joakim.Roubert@axis.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
+   d="scan'208";a="6624523"
+To: "meta-virtualization@lists.yoctoproject.org"
 	<meta-virtualization@lists.yoctoproject.org>
-Subject: Re: [meta-virtualization][PATCH] go: Enable different target dir by using variable
-Thread-Topic: [meta-virtualization][PATCH] go: Enable different target dir by
- using variable
-Thread-Index: AQHV/sjw7wTsy5KOhEygzeyCTzULVqhR0+SggAFk44CAApk4AIAAJ7Mg
-Date: Mon, 23 Mar 2020 10:22:34 +0000
-Message-ID: <18d10d5f69024b409b43975643c361a4@XBOX03.axis.com>
-References: <20200320095124.3297-1-joakimr@axis.com>
- <7eba015ce34d41618ff6ed2d738b1696@XBOX03.axis.com>
- <CADkTA4P+oixEyD1XU9BuERrdTPHCFoPt-RCJNEwzt41Dhg_ghg@mail.gmail.com>
- <d237395c-a7a0-b647-3fb4-8088b87cd313@axis.com>
-In-Reply-To: <d237395c-a7a0-b647-3fb4-8088b87cd313@axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Subject: [Question] inconsistency in containerd recipes?
+Message-ID: <4403ea62-42a2-f34c-251f-0135ba1988a0@axis.com>
+Date: Mon, 23 Mar 2020 11:36:01 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Language: en-US
+Return-Path: joakim.roubert@axis.com
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX03.axis.com (10.0.5.17) To XBOX03.axis.com (10.0.5.17)
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-VGhlIGVhc2llc3Qgc29sdXRpb24gdG8gYXZvaWQgaGF2aW5nIHRoZSB0YXJnZXQgcGFja2FnZXMg
-aW5zdGFsbCBnbyANCmNvZGUgaW4gL3Vzci9sb2NhbC9nby9zcmMgd291bGQgYmUgdG8gY2hhbmdl
-Og0KDQpGSUxFU18ke1BOfSArPSAiJHtwcmVmaXh9L2xvY2FsL2dvL3NyYy8ke1BLR19OQU1FfS8q
-Ig0KDQp0bzoNCg0KRklMRVNfJHtQTn0tZGV2ICs9ICIke3ByZWZpeH0vbG9jYWwvZ28vc3JjIg0K
-DQppbiBhbGwgcmVjaXBlcyBpbiByZWNpcGVzLWRldnRvb2xzIGFuZCByZWNpcGVzLWNvbnRhaW5l
-cnMuDQoNCkFuZCBpZiBhbnlvbmUgd29uZGVycyB3aHkgd2UgaGF2ZSBhIFFBIHN0ZXAgdGhhdCBm
-YWlscyB0aGUgcGFja2FnZSANCnRhc2sgaWYgYW55dGhpbmcgaXMgaW5zdGFsbGVkIHRvIC91c3Iv
-bG9jYWwsIGl0IGlzIGJlY2F1c2Ugd2UgdXNlIA0KL3Vzci9sb2NhbCB0byBtb3VudCBhIHdyaXRh
-YmxlIGZsYXNoIHBhcnRpdGlvbiB0aGVyZSAobWF5YmUgbm90IA0KdGhlIGJlc3QgZGVjaXNpb24s
-IGJ1dCBpdCBzdGVtcyBiYWNrIHRvIGxvbmcgYmVmb3JlIHdlIHN0YXJ0ZWQgdXNpbmcgDQpiaXRi
-YWtlKS4gVGh1cyBpdCB3b3VsZCBoaWRlIGFueXRoaW5nIGluc3RhbGxlZCBpbiAvdXNyL2xvY2Fs
-IGluIHRoZSANCnJvb3Rmcy4NCg0KLy9QZXRlcg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
-LS0tDQo+IEZyb206IEpvYWtpbSBSb3ViZXJ0IDxKb2FraW0uUm91YmVydEBheGlzLmNvbT4NCj4g
-U2VudDogZGVuIDIzIG1hcnMgMjAyMCAwOTo1MQ0KPiBUbzogQnJ1Y2UgQXNoZmllbGQgPGJydWNl
-LmFzaGZpZWxkQGdtYWlsLmNvbT47IFBldGVyIEtqZWxsZXJzdGVkdA0KPiA8cGV0ZXIua2plbGxl
-cnN0ZWR0QGF4aXMuY29tPg0KPiBDYzogbWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0b3By
-b2plY3Qub3JnDQo+IFN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl1bUEFUQ0hdIGdv
-OiBFbmFibGUgZGlmZmVyZW50IHRhcmdldCBkaXINCj4gYnkgdXNpbmcgdmFyaWFibGUNCj4gDQo+
-IE9uIDIwMjAtMDMtMjEgMTg6MTAsIEJydWNlIEFzaGZpZWxkIHdyb3RlOg0KPiA+DQo+ID4gSm9h
-a2ltOiBpcyB0aGlzIHdoYXQgaXMgaGFwcGVuaW5nIHRvIHlvdSA/IFRoZXkgYXJlIGluIHRoZSBE
-RVBFTkRTLA0KPiA+IGFuZCBoZW5jZSBnZXQgdGhlIFBOwqAgUkRFUEVORFMsIHRoZW4gYXJlIGlu
-c3RhbGxlZCB0byB0YXJnZXQsIGFuZCB0aGF0DQo+ID4gaXMgY2F1c2luZyB5b3UgaXNzdWVzID8N
-Cj4gDQo+IEkgYW0gd29ya2luZyBpbiBhIGJ1aWxkIGVudmlyb25tZW50IHNldCB1cCBieSBQZXRl
-ciAmIGM6bywgd2hlcmUgdGhlcmUNCj4gaXMgYSBob29rIHJ1biBhdCB0aGUgZW5kIHRoYXQgd2ls
-bCBmYWlsIGlmIGEgcGFja2FnZSBpbnN0YWxscyB0aGluZ3MgdG8NCj4gL3Vzci9sb2NhbC4gRm9y
-IG1lIHRoYXQgaXMgYW4gaXNzdWUgd2hlbiBJIGJ1aWxkIGRvY2tlci1jZSwgc2luY2UNCj4gZG9j
-a2VyLWNlIHdpbGwgdHJpZ2dlciB0aGVzZSBnbyBwYWNrYWdlcyBhbmQgSSBuZWVkIHRoZW0gbm90
-IHRvIHB1dA0KPiBhbnl0aGluZyBpbiAvdXNyL2xvY2FsIGZvciB0aGUgYnVpbGQgdG8gcGFzcyB0
-aGF0IGNoZWNrLiBGcm9tIG15IHZpZXcsDQo+IGl0IGRvZXMgbm90IHJlYWxseSBtYXR0ZXIgaG93
-IHRoaW5ncyBhcmUgc29sdmVkLCBhcyBsb25nIGFzIEkgY2FuIGJ1aWxkDQo+IGRvY2tlci1jZS4g
-V2hpY2ggSSBjYW5ub3Qgd2l0aCB0aGUgY3VycmVudCBtZXRhLXZpcnR1YWxpemF0aW9uIGluIG91
-cg0KPiBidWlsZCBlbnZpcm9ubWVudC4NCj4gDQo+IEJSLA0KPiANCj4gL0pvYWtpbQ0KPiAtLQ0K
-PiBKb2FraW0gUm91YmVydA0KPiBTZW5pb3IgRW5naW5lZXINCj4gDQo+IEF4aXMgQ29tbXVuaWNh
-dGlvbnMgQUINCj4gRW1kYWxhdsOkZ2VuIDE0LCBTRS0yMjMgNjkgTHVuZCwgU3dlZGVuDQo+IFRl
-bDogKzQ2IDQ2IDI3MiAxOCAwMCwgVGVsIChkaXJlY3QpOiArNDYgNDYgMjcyIDI3IDQ4DQo+IEZh
-eDogKzQ2IDQ2IDEzIDYxIDMwLCB3d3cuYXhpcy5jb20NCg0K
+Hi!
+
+I am a but puzzled reading the containerd bitbake files. Now, I am not a
+bitbake & c:o wizard, so I guess there might be some good explanations
+and reasons that I simply do not get behind this:
+
+In containerd.inc, there is
+
+LICENSE = "Apache-2.0"
+LIC_FILES_CHKSUM =
+"file://src/import/LICENSE.code;md5=aadc30f9c14d876ded7bedc0afd2d3d7"
+
+and
+
+S = "${WORKDIR}/git"
+
+Then, in containerd-docker_git.bb there is (besides include containerd.inc)
+
+SRC_URI = "\
+	git://github.com/docker/containerd.git;branch=v0.2.x;destsuffix=git/src/github.com/containerd/containerd \
+
+and
+
+S = "${WORKDIR}/git/src/github.com/containerd/containerd"
+
+which to me would mean bitbake will no longer find the license file in
+the src/import where it has been told it should be?
+
+For containerd-opencontainerd_git.bb, there is no destsuffix used and
+the license file ends up where bitbake expects it to be.
+
+To me, it seems there are inconsistencies here?
+
+BR,
+
+/Joakim
+-- 
+Joakim Roubert
+Senior Engineer
+
+Axis Communications AB
+Emdalavägen 14, SE-223 69 Lund, Sweden
+Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
+Fax: +46 46 13 61 30, www.axis.com
+
