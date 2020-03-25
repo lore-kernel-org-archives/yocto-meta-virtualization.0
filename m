@@ -1,257 +1,133 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
- by mx.groups.io with SMTP id smtpd.web10.12232.1585145507539354016
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
+ by mx.groups.io with SMTP id smtpd.web12.13633.1585149026972220592
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 25 Mar 2020 07:11:48 -0700
+ Wed, 25 Mar 2020 08:10:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sixsq-com.20150623.gappssmtp.com header.s=20150623 header.b=LgFXYh23;
- spf=pass (domain: sixsq.com, ip: 209.85.219.65, mailfrom: cristovao.cordeiro@sixsq.com)
-Received: by mail-qv1-f65.google.com with SMTP id c28so1072540qvb.10
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Mar 2020 07:11:47 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EotHqBgO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f68.google.com with SMTP id cf14so2722147edb.13
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 25 Mar 2020 08:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sixsq-com.20150623.gappssmtp.com; s=20150623;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5H+GJ2ClDrGCTIuwAIdKOREENXGc1ErQbFTOEgRuQFw=;
-        b=LgFXYh23H6nPgfsDr2tQVP/uZDeNDV6TJulwU6PjJKdQe6jjn24Bj8Z9kfgabj6nuk
-         bHCYUvsMsQt76pNx6bE1ljH9g54VlJ7lngPVa6UENfY0gXLpL9MBbq/ZiQzNBiDzyf/p
-         xECOqz4oXCJudbMtN6r9bPD48/2g77Rf0Zy4xRzd4veqH3QPO2mwJA9yvnxS+LDB84WO
-         aeIRum+GyzA+FQ8pZ2JSnw66kIvoW9Vc5KwdXC4x1Hyxef1jUmgmcUphO8ZG+FXjUbQu
-         d984bbyWVOEW+RdRr5qHfsBRqZaZTVh4QV7k0ASj6oq6Gt/CXtCUTI4TtshIOaxUVP9B
-         sGYg==
+        bh=BV+MF8WLiHzA7kN0obYO0VgrVoBUPpgOo5VuVnmyZrk=;
+        b=EotHqBgOW7o+IvjrEylMUGNyREx2Vt9jVB4w3AOYRpTWopGg7aImm6YtyBVO3LdjWD
+         2IXeqoK6TLjd9BLOxlkVm2sbw6oArxqyuEyP7QLSWhHvlz/50TbOgtIpPI61Mh2ebu2D
+         rSfC3LZjfQTTE0y/p4L+L4XYVVvl1UYow8/s04BhMDEsZeYEp2WaEj1keuyE7ptM2fzk
+         txdftdNkvyUhDjzvRpW1S+g855ZiNO3JfKz1ZHN90he5r96sptUwzL9wpEwPwMVw8xx9
+         vYX/MCunGXdZA70zvOW0nCYm1XF+9Ln73V+HCayqqeTD5vA0185O3qKJOXZ08W/q4EYV
+         Tveg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5H+GJ2ClDrGCTIuwAIdKOREENXGc1ErQbFTOEgRuQFw=;
-        b=cCCQMXfxxzRVwHdDybgDMIigkt/fwiBKfalf4cVVr7w2ZABmV8Xqb3Onxx874o2FDK
-         S5CqxQNTeH6C5Qhhgf/xk9IwA9uwR0oCCSsf9uZ3i5CoMSXT1mpzfScAIIHKdfQlwdh1
-         eus6VRBKCJTOjY3j8YwRvMJTnoLVYJh7o+tK8iZ+lxM6TXbf5vY/rFj36cvHNtbt56w+
-         Abm27WcPzlBN43ug2bupmp7hcqfGlBGV5mklo5CsHXxu+0DJNjxp9PCEwdYBnPXFHzVs
-         Ue/nEbzlYohEyB6Zw07qT2gdEp1d/5H5cgIpfcyE1/vXQbKMwz2d7sFgTvYa+L+0EDvo
-         gn6g==
-X-Gm-Message-State: ANhLgQ3+wsG6aTHAirh3PXNVSFXgqFWReXhUE7wKcbPneYaTIW8VQnSa
-	yLVRrdloaixIRG1Eov/848z12Reda0rEeZzldU9zow==
-X-Google-Smtp-Source: ADFU+vvslXiItE1GToJ1wrZxqirZMh2Tfek8ToovW0SjvgzkCzC8NbOv/WOE46NlU5wHgvHGLQqpXyV6yRayq3QItoM=
-X-Received: by 2002:ad4:49cc:: with SMTP id j12mr3248870qvy.94.1585145506726;
- Wed, 25 Mar 2020 07:11:46 -0700 (PDT)
+        bh=BV+MF8WLiHzA7kN0obYO0VgrVoBUPpgOo5VuVnmyZrk=;
+        b=AhUypD2wBx9acP0Kz/ZZ+PQ14s4YaqnxAaf0DcH3M0UoUPHDJfclybFtao0zSPmCRS
+         stsz6+Bep84SC51SLpKu5WSSq3JAHiiybmt5lEhOBLHZh39ilw4wl8DJTuJtTmdpEGP9
+         SNlocaOBul2D+R3PQZqofkROtdFDNUe6ckdTEahOt7YdQinRimMnSUdMtuxZ05Fcigxl
+         QTOYa38nDlDvL1vY/uw7CcwxhTpqfgaziV152e6nP8NPmMa8MUhct2sCp7pG5qfhPqmb
+         XBzW5OjKkXNgxsx6lRkBvxvdMiBw6OFgYUFM7Rdqteq86vi5bSRenIEtePm/13hw3b1i
+         Qajg==
+X-Gm-Message-State: ANhLgQ0MESdBUXjMlXUYZjbSW2VbVjHIo3sWGdXemMJhdZJ8vBfMTdb7
+	8XoeX3b8/Y6hu9Ln/kYhpc5t7+GAYhdQQh/dKbs=
+X-Google-Smtp-Source: ADFU+vuV9MEqzbCI5vp/haVbwVd5ZuN928VzMKzWmdP3cSO8/jM5U5cP6TqUgYY65snptPiB/p/8asxSDOREkKMsRxE=
+X-Received: by 2002:a05:6402:180a:: with SMTP id g10mr3228882edy.352.1585149025590;
+ Wed, 25 Mar 2020 08:10:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAE5JARmTU0siEsyQxW601h=A2e=aY64ZqnYCsN=OD0kupeeR1Q@mail.gmail.com>
- <CAE5JARkEA_NQnOL3ukKg4RA_AofQTA7JZ3MZhK7gb1F0cGEdeA@mail.gmail.com> <CADkTA4PiUe-jotSZqq2_pE+WzDE_Ak3RCrsH7Oc9Y8cEVw7=6A@mail.gmail.com>
-In-Reply-To: <CADkTA4PiUe-jotSZqq2_pE+WzDE_Ak3RCrsH7Oc9Y8cEVw7=6A@mail.gmail.com>
-From: =?UTF-8?B?Q3Jpc3TDs3bDo28gQ29yZGVpcm8=?= <cristovao.cordeiro@sixsq.com>
-Date: Wed, 25 Mar 2020 15:11:20 +0100
-Message-ID: <CAE5JAR=g6o71ffdKLEnjm0iEGo7tccD3uJtTs3AJWWxm8gVnJQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] consistency clarification for INITSCRIPT_NAME in docker-ce recipe
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <20200325054222.387399-1-raj.khem@gmail.com> <CADkTA4P-J=GzikExuvTk7ZE+ej5XocPK7KEQmQ5X1kR3fb1+zQ@mail.gmail.com>
+ <CAMKF1sqYD1gw3qcw+edGawBZZWPz=qyGyHqrgY5xu1E94wcEkA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqYD1gw3qcw+edGawBZZWPz=qyGyHqrgY5xu1E94wcEkA@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 25 Mar 2020 11:10:14 -0400
+Message-ID: <CADkTA4PC_9KrB2CpL1mOqhmqdSr8g+ZqzRfwWoJwLdrrqtwyTQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] openvswitch: Enable LTO
+To: Khem Raj <raj.khem@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000d8993205a1ae72af"
-
---000000000000d8993205a1ae72af
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
-
-yes dropping sysvinit completely would help.
-Just because DISTRO_FEATURES_BACKFILL_CONSIDERED isn't really mandatory
-according to the docs, so if you have both, this inconsistency will show u=
-p.
-
-I don't need both, and thus I'm now using the
-DISTRO_FEATURES_BACKFILL_CONSIDERED,
-but figured this was worth mentioning, even if it is a very niche corner
-case.
-Thanks
-
-Best regards,
-
-*Crist=C3=B3v=C3=A3o Cordeiro*
-R&D Project Manager
-*LinkedIn <https://www.linkedin.com/in/cristovaocordeiro/>*
-
-*SixSq*
-*267 Route de Meyrin*
-*1217 Meyrin*
-*Geneva*
-*Switzerland*
-
-
-On Wed, 25 Mar 2020 at 14:09, Bruce Ashfield <bruce.ashfield@gmail.com>
-wrote:
-
-> On Wed, Mar 25, 2020 at 7:41 AM Crist=C3=B3v=C3=A3o Cordeiro
-> <cristovao.cordeiro@sixsq.com> wrote:
+On Wed, Mar 25, 2020 at 9:47 AM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On Wed, Mar 25, 2020 at 5:53 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 > >
-> > Dear Bruce,
+> > On Wed, Mar 25, 2020 at 1:42 AM Khem Raj <raj.khem@gmail.com> wrote:
+> > >
+> > > openvswitch binaries can shed some size with lto
+> > >
+> > > --- a/packages/rdk-linux-gnueabi/openvswitch/openvswitch-ovsdb/files-in-package.txt
+> > > +++ b/packages/rdk-linux-gnueabi/openvswitch/openvswitch-ovsdb/files-in-package.txt
+> > > @@ -1,7 +1,7 @@
+> > > drwxr-xr-x root       root             3488 ./usr
+> > > drwxr-xr-x root       root             3488 ./usr/bin
+> > > --rwxr-xr-x root       root           378984 ./usr/bin/ovsdb-client
+> > > --rwxr-xr-x root       root           353628 ./usr/bin/ovsdb-tool
+> > > --rwxr-xr-x root       root          1411216 ./usr/bin/ovs-vsctl
+> > > +-rwxr-xr-x root       root           203356 ./usr/bin/ovsdb-client
+> > > +-rwxr-xr-x root       root           233172 ./usr/bin/ovsdb-tool
+> > > +-rwxr-xr-x root       root           287012 ./usr/bin/ovs-vsctl
+> > > drwxr-xr-x root       root             3488 ./usr/sbin
+> > > --rwxr-xr-x root       root           379404 ./usr/sbin/ovsdb-server
+> > > +-rwxr-xr-x root       root           287672 ./usr/sbin/ovsdb-server
+> > >
+> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > ---
+> > >  recipes-networking/openvswitch/openvswitch_git.bb | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/recipes-networking/openvswitch/openvswitch_git.bb b/recipes-networking/openvswitch/openvswitch_git.bb
+> > > index 07258be..bd74f49 100644
+> > > --- a/recipes-networking/openvswitch/openvswitch_git.bb
+> > > +++ b/recipes-networking/openvswitch/openvswitch_git.bb
+> > > @@ -37,6 +37,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=1ce5d23a6429dff345518758f13aaeab"
+> > >
+> > >  DPDK_INSTALL_DIR ?= "/opt/dpdk"
+> > >
+> > > +CFLAGS += "-flto"
+> > > +LDFLAGS += "-flto"
 > >
-> > I've been trying to build docker-ce with the meta-rapsberrrypi layer.
-> I've appended "systemd" distro to my build. When doing `bitbake docker-c=
-e`
-> I get an error about
-> >
-> >
-> > update-rc.d:
-> /home/ubuntu/os-raspberrypi/tmp/work/raspberrypi3-poky-linux-gnueabi/cor=
-e-image-base/1.0-r0/rootfs/etc/init.d/docker.init:
-> file does not
-> >
-> >  exist
-> >
-> >
-> > After digging for a bit, I've traced this to the following lines:
-> >
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/reci=
-pes-containers/docker/docker-ce_git.bb?h=3Dzeus#n105
-> , where it states that docker.init shall not be installed if systemd in
-> DISTRO. That's ok.
-> >
-> > But then, in
-> https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/reci=
-pes-containers/docker/docker.inc?h=3Dzeus#n56
-> , INITSCRIPT_NAME is set to docker.init cause sysvinit is also in DISTRO=
-.
-> >
-> > Isn't this an inconsistency? Those two conditions should be similar IM=
-O.
-> The only way to bypass this is to add DISTRO_FEATURES_BACKFILL_CONSIDERE=
-D =3D
-> "sysvinit" to the build.
+> > Shouldn't this be something that is configurable ? I know that I want
+> > it to be. i.e. isn't there some sort of distro feature that we can use
+> > to enable or disable this by default ?
 > >
 >
-> Last I checked, you need to have DISTRO_FEATURES_BACKFILL_CONSIDERED =3D
-> "sysvinit" to enable systemd. It still is in the example .conf files
-> that I see in master.  But it is possible, I missed a change that it
-> is no longer required.
+> yes distro feature is coming I will  turn this into DISTRO feature too
+> but in this case benefits are regardless
+
+.... but nothing is bug free, there are documented cases of LTO
+causing issues. So until we get a distro knob to turn this off an on,
+what about something like ?
+
+CFLAGS_LTO ?= "-flto"
+LDFLAGS_LTO ?= "-flto"
+
+CFLAGS += "${CFLAGS_LTO}"
+LDFLAGS += "${LDFLAGS_LTO}"
+
+So if we run into issues, we can easily bappend the LTO flags to nothing.
+
+Bruce
+
 >
-> So what you've ended up is with both init systems active at the same
-> time, and yes, I'm sure that it causing trouble. The check in question
-> has been there for some time, without issue, so there's definitely
-> something different in your config than most of the current users
->
-> FWIW: I don't know of many (any) sysvinit users and docker, so I'm
-> considering dropping the support completely.
->
-> Bruce
->
->
-> > Best regards,
+> > Bruce
 > >
-> > Cristovao
-> >=20
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
->
+> > > +
+> > >  PACKAGECONFIG ?= "libcap-ng"
+> > >  PACKAGECONFIG[dpdk] = "--with-dpdk=${STAGING_DIR_TARGET}${DPDK_INSTALL_DIR}/share/${TARGET_ARCH}-native-linuxapp-gcc,,dpdk,dpdk"
+> > >  PACKAGECONFIG[libcap-ng] = "--enable-libcapng,--disable-libcapng,libcap-ng,"
+> > > --
+> > > 2.26.0
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000d8993205a1ae72af
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>yes dropping sysvinit completely wo=
-uld help.</div><div>Just because DISTRO_FEATURES_BACKFILL_CONSIDERED isn&#3=
-9;t really mandatory according to the docs, so if you have both, this incon=
-sistency will show up.</div><div><br></div><div>I don&#39;t need both, and =
-thus I&#39;m now using the=C2=A0<span style=3D"color:rgb(51,51,51)">DISTRO_=
-FEATURES_BACKFILL_CONSIDERED, but figured this was worth mentioning, even i=
-f it is a very niche corner case.</span></div><div><font color=3D"#333333">=
-Thanks</font></div><div><font color=3D"#333333"><br></font><span style=3D"c=
-olor:rgb(51,51,51)"></span><div><div dir=3D"ltr" class=3D"gmail_signature" =
-data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><=
-div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=
-=
-=3D"ltr">Best regards,<div><i style=3D"font-size:12.8px"><br></i></div><di=
-v><div style=3D"font-size:12.8px"><b style=3D"font-size:12.8px"><font face=
-=3D"arial black, sans-serif">Crist=C3=B3v=C3=A3o Cordeiro</font></b></div>=
-<div><div style=3D"font-size:12.8px"><span style=3D"font-size:12.8px">R&amp=
-;D Project Manager</span></div><div><i><a href=3D"https://www.linkedin.com/=
-in/cristovaocordeiro/" target=3D"_blank">LinkedIn</a></i></div><div><i><br>=
-</i></div></div></div><div><b><font size=3D"2"><i>SixSq</i></font></b></div=
-><div><div style=3D"color:rgb(0,0,0);font-family:Helvetica;font-size:12px">=
-<div><i>267 Route de Meyrin</i></div><div><i>1217 Meyrin</i></div></div><di=
-v style=3D"color:rgb(0,0,0);font-family:Helvetica;font-size:12px"><i>Geneva=
-</i></div><div style=3D"color:rgb(0,0,0);font-family:Helvetica;font-size:12=
-px"><i>Switzerland</i></div></div></div></div></div></div></div></div></div=
-></div></div></div><br></div></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Wed, 25 Mar 2020 at 14:09, Bruce Ashfield=
- &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On=
- Wed, Mar 25, 2020 at 7:41 AM Crist=C3=B3v=C3=A3o Cordeiro<br>
-&lt;<a href=3D"mailto:cristovao.cordeiro@sixsq.com" target=3D"_blank">cris=
-tovao.cordeiro@sixsq.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Dear Bruce,<br>
-&gt;<br>
-&gt; I&#39;ve been trying to build docker-ce with the meta-rapsberrrypi la=
-yer. I&#39;ve appended &quot;systemd&quot; distro to my build. When doing `=
-bitbake docker-ce` I get an error about<br>
-&gt;<br>
-&gt;<br>
-&gt; update-rc.d: /home/ubuntu/os-raspberrypi/tmp/work/raspberrypi3-poky-l=
-inux-gnueabi/core-image-base/1.0-r0/rootfs/etc/init.d/docker.init: file doe=
-s not<br>
-&gt;<br>
-&gt;=C2=A0 exist<br>
-&gt;<br>
-&gt;<br>
-&gt; After digging for a bit, I&#39;ve traced this to the following lines:=
-<br>
-&gt; <a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualiza=
-tion/tree/recipes-containers/docker/docker-ce_git.bb?h=3Dzeus#n105" rel=3D"=
-noreferrer" target=3D"_blank">https://git.yoctoproject.org/cgit/cgit.cgi/me=
-ta-virtualization/tree/recipes-containers/docker/docker-ce_git.bb?h=3Dzeus#=
-n105</a> , where it states that docker.init shall not be installed if syste=
-md in DISTRO. That&#39;s ok.<br>
-&gt;<br>
-&gt; But then, in <a href=3D"https://git.yoctoproject.org/cgit/cgit.cgi/me=
-ta-virtualization/tree/recipes-containers/docker/docker.inc?h=3Dzeus#n56" r=
-el=3D"noreferrer" target=3D"_blank">https://git.yoctoproject.org/cgit/cgit.=
-cgi/meta-virtualization/tree/recipes-containers/docker/docker.inc?h=3Dzeus#=
-n56</a> , INITSCRIPT_NAME is set to docker.init cause sysvinit is also in D=
-ISTRO.<br>
-&gt;<br>
-&gt; Isn&#39;t this an inconsistency? Those two conditions should be simil=
-ar IMO. The only way to bypass this is to add DISTRO_FEATURES_BACKFILL_CONS=
-IDERED =3D &quot;sysvinit&quot; to the build.<br>
-&gt;<br>
-<br>
-Last I checked, you need to have DISTRO_FEATURES_BACKFILL_CONSIDERED =3D<b=
-r>
-&quot;sysvinit&quot; to enable systemd. It still is in the example .conf f=
-iles<br>
-that I see in master.=C2=A0 But it is possible, I missed a change that it<=
-br>
-is no longer required.<br>
-<br>
-So what you&#39;ve ended up is with both init systems active at the same<b=
-r>
-time, and yes, I&#39;m sure that it causing trouble. The check in question=
-<br>
-has been there for some time, without issue, so there&#39;s definitely<br>
-something different in your config than most of the current users<br>
-<br>
-FWIW: I don&#39;t know of many (any) sysvinit users and docker, so I&#39;m=
-<br>
-considering dropping the support completely.<br>
-<br>
-Bruce<br>
-<br>
-<br>
-&gt; Best regards,<br>
-&gt;<br>
-&gt; Cristovao<br>
-&gt; <br>
-<br>
-<br>
-<br>
---<br>
-- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
-thee at its end<br>
-- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
-</blockquote></div>
 
---000000000000d8993205a1ae72af--
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
