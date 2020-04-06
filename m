@@ -1,91 +1,111 @@
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
- by mx.groups.io with SMTP id smtpd.web10.3704.1586139462574545447
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.4993.1586146864592789742
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 05 Apr 2020 19:17:42 -0700
+ Sun, 05 Apr 2020 21:21:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oA5u3dq1;
- spf=pass (domain: gmail.com, ip: 209.85.222.195, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f195.google.com with SMTP id b62so14764141qkf.6
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 05 Apr 2020 19:17:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Uto6gr/S4UQa/KFljcLCbVdLu95KYZWBZaMsyYzA2Zc=;
-        b=oA5u3dq1o0Raf++Nipnv+fgZOhqFDTJWfSxkhnARMn0Ii1rnstq55tUdgXZkyOI9WU
-         NHWvvVK47ArSc4WXHrRNa6pIFkeHuikNZKQp+Ybm9XB7cQ/0IruhvdHElxkb9UI1WZH6
-         0zklw0xWiNHZuKBzw3PFd7Utxhf2s9QULatN9y8tdrtq9U0E5vFFMttgDTVRI2oCcURu
-         Ir6DBkWReqcvVGzVlc8Mhvw/dbCsSHOIXj6/ForAOqy/+kGWGq+BiPK0lZp6z9NEMYbN
-         /C+AobMSW1Eaa2YH9+KXiq2R4MG+5v7ZZ/BBVRH420BE5/ZKLN2RsUwghru8enaprVeT
-         wvHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=Uto6gr/S4UQa/KFljcLCbVdLu95KYZWBZaMsyYzA2Zc=;
-        b=VtgGPBkVQyoiRjQOVKM1UeD8blFHTZPqetyA7rC54FoRexZMnDnmqqes2PCkdKejYq
-         VFAzL3kghRtwmLsUpIJvc9zAKewxUZraUTw/nPzm4U9VEMfvV9fyvwfnE7b8Uo1yKiar
-         TIV7OBv7gtTb9a+EbsfuJwRDmLmJj4xmy43ZyWbAsGv9ghvbJkL1tiutGfbVebcetq4A
-         heb1JFaebDq4hhVATECKWsbQe0668i94y9SahLuYtC7nir3C5wUrGsYFalZOSBXvlOGR
-         C/tL+VVx+371a0iMcpe2j5YneZjd23LCwtnh88IiuEGXxyEmPEfVY8Qgi5okM3+SwOWx
-         HeGA==
-X-Gm-Message-State: AGi0PubscFrJBz6EASOVXqvqr/G4FjKtSSM70Uh//rbhXI7q+ZlCPdfC
-	y2Bgkl5OPKKJaSx92SsMvBg=
-X-Google-Smtp-Source: APiQypKn1TJ++BAZ4n0qwoSTRVNbfTHnTiZbGR2ZfMg8UadiVW/japzBN1F3V6LHyMn8ft6UzCE6hA==
-X-Received: by 2002:a37:4dc8:: with SMTP id a191mr19963261qkb.450.1586139461730;
-        Sun, 05 Apr 2020 19:17:41 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id g2sm1286010qtj.96.2020.04.05.19.17.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Apr 2020 19:17:41 -0700 (PDT)
-Date: Sun, 5 Apr 2020 22:17:39 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: He Zhe <zhe.he@windriver.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] libvirt: Add setuid permission to virt-login-shell
-Message-ID: <20200406021739.GB54226@gmail.com>
-References: <1585807413-197736-1-git-send-email-zhe.he@windriver.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: yanfei.xu@windriver.com)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0364L3GI019324
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Sun, 5 Apr 2020 21:21:03 -0700 (PDT)
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
+ (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Sun, 5 Apr 2020
+ 21:20:50 -0700
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH] lxc: Fix containers failed to start with LXC 3.2.1
+Date: Mon, 6 Apr 2020 12:20:49 +0800
+Message-ID: <20200406042049.28540-1-yanfei.xu@windriver.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
-In-Reply-To: <1585807413-197736-1-git-send-email-zhe.he@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain
 
-merged.
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
-Bruce
+LXC 3.2.1 has a bug that containers may start failed in some cases, and
+this patch from upstream fix it.
 
-In message: [meta-virtualization] [PATCH] libvirt: Add setuid permission to virt-login-shell
-on 02/04/2020 He Zhe wrote:
+-------error message------
+lxc-start vc0 20200323102154.497 ERROR    cgfsng -
+cgfsng.c:__do_cgroup_enter:1500 - No space left on device - Failed to
+enter cgroup "/sys/fs/cgroup/cpuset//lxc.monitor/vc0-4/cgroup.procs"
+lxc-start vc0 20200323102154.497 ERROR    start -
+start.c:__lxc_start:2009 - Failed to enter monitor cgroup
+lxc-start vc0 20200323102154.497 ERROR    lxccontainer -
+lxccontainer.c:wait_on_daemonized_start:872 - Received container state
+"STOPPING" instead of "RUNNING"
+lxc-start vc0 20200323102154.497 ERROR    lxc_start -
+lxc_start.c:main:329 - The container failed to start
+lxc-start vc0 20200323102154.497 ERROR    lxc_start -
+lxc_start.c:main:332 - To get more details, run the container in
+foreground mode
+-------------------------
 
-> From: He Zhe <zhe.he@windriver.com>
-> 
-> virt-login-shell asks for setuid permission as follow.
-> "virt-login-shell: must be run as setuid root"
-> 
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  recipes-extended/libvirt/libvirt_6.1.0.bb | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/recipes-extended/libvirt/libvirt_6.1.0.bb b/recipes-extended/libvirt/libvirt_6.1.0.bb
-> index 7b10920..9aa78b7 100644
-> --- a/recipes-extended/libvirt/libvirt_6.1.0.bb
-> +++ b/recipes-extended/libvirt/libvirt_6.1.0.bb
-> @@ -368,6 +368,9 @@ do_install_append() {
->  	    # Force the connection to be tls.
->  	    sed -i -e 's/^\(listen_tls\ =\ .*\)/#\1/' -e 's/^\(listen_tcp\ =\ .*\)/#\1/' ${D}/etc/libvirt/libvirtd.conf
->  	fi
-> +
-> +	# virt-login-shell needs to run with setuid permission
-> +	chmod 4755 ${D}${bindir}/virt-login-shell
->  }
->  
->  EXTRA_OECONF += " \
-> -- 
-> 2.7.4
-> 
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+ ...1-cgroups-initialize-cpuset-properly.patch | 40 +++++++++++++++++++
+ recipes-containers/lxc/lxc_3.2.1.bb           |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
 
-> 
+diff --git a/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch b/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
+new file mode 100644
+index 0000000..9d0c2ae
+--- /dev/null
++++ b/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
+@@ -0,0 +1,40 @@
++From b31d62b847a3ee013613795094cce4acc12345ef Mon Sep 17 00:00:00 2001
++From: Christian Brauner <christian.brauner@ubuntu.com>
++Date: Sun, 28 Jul 2019 23:13:26 +0200
++Subject: [PATCH] cgroups: initialize cpuset properly
++
++Closes #3108.
++Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
++
++Upstream-Status: Backport[https://github.com/lxc/lxc/pull/3108]
++
++Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
++---
++ src/lxc/cgroups/cgfsng.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/src/lxc/cgroups/cgfsng.c b/src/lxc/cgroups/cgfsng.c
++index 7b8fe6736..c29c0958e 100644
++--- a/src/lxc/cgroups/cgfsng.c
+++++ b/src/lxc/cgroups/cgfsng.c
++@@ -496,12 +496,12 @@ static bool cg_legacy_filter_and_set_cpus(char *path, bool am_initialized)
++ 	}
++ 
++ 	if (!flipped_bit) {
++-		DEBUG("No isolated or offline cpus present in cpuset");
++-		return true;
+++		cpulist = lxc_cpumask_to_cpulist(possmask, maxposs);
+++		TRACE("No isolated or offline cpus present in cpuset");
+++	} else {
+++		cpulist = move_ptr(posscpus);
+++		TRACE("Removed isolated or offline cpus from cpuset");
++ 	}
++-	DEBUG("Removed isolated or offline cpus from cpuset");
++-
++-	cpulist = lxc_cpumask_to_cpulist(possmask, maxposs);
++ 	if (!cpulist) {
++ 		ERROR("Failed to create cpu list");
++ 		return false;
++-- 
++2.18.2
++
+diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
+index 9592dd9..57e48c1 100644
+--- a/recipes-containers/lxc/lxc_3.2.1.bb
++++ b/recipes-containers/lxc/lxc_3.2.1.bb
+@@ -50,6 +50,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+ 	file://dnsmasq.conf \
+ 	file://lxc-net \
+ 	file://0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch \
++	file://0001-cgroups-initialize-cpuset-properly.patch \
+ 	"
+ 
+ SRC_URI[md5sum] = "4886c8d1c8e221fe526eefcb47857b85"
+-- 
+2.24.1
 
