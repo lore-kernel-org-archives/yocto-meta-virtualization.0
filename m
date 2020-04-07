@@ -1,111 +1,112 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.4993.1586146864592789742
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [208.88.110.44])
+ by mx.groups.io with SMTP id smtpd.web12.10667.1586271466459412445
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 05 Apr 2020 21:21:05 -0700
+ Tue, 07 Apr 2020 07:57:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: yanfei.xu@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0364L3GI019324
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Sun, 5 Apr 2020 21:21:03 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Sun, 5 Apr 2020
- 21:20:50 -0700
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH] lxc: Fix containers failed to start with LXC 3.2.1
-Date: Mon, 6 Apr 2020 12:20:49 +0800
-Message-ID: <20200406042049.28540-1-yanfei.xu@windriver.com>
-X-Mailer: git-send-email 2.18.2
+ dkim=missing; spf=pass (domain: savoirfairelinux.com, ip: 208.88.110.44, mailfrom: eloi.bail@savoirfairelinux.com)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 84B689C0499
+	for <meta-virtualization@lists.yoctoproject.org>; Tue,  7 Apr 2020 10:57:45 -0400 (EDT)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id OefGF6tOE9pD; Tue,  7 Apr 2020 10:57:44 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B0CCE9C0529;
+	Tue,  7 Apr 2020 10:57:44 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id GUFZ1TRsV3pR; Tue,  7 Apr 2020 10:57:44 -0400 (EDT)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com [192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7AC159C0499;
+	Tue,  7 Apr 2020 10:57:44 -0400 (EDT)
+Date: Tue, 7 Apr 2020 10:57:44 -0400 (EDT)
+From: =?UTF-8?B?w4lsb2kgQmFpbA==?= <eloi.bail@savoirfairelinux.com>
+To: meta-virtualization@lists.yoctoproject.org
+Message-ID: <1728619179.807474.1586271464336.JavaMail.zimbra@savoirfairelinux.com>
+Subject: Openvswitch 2.13 and python3
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - FF74 (Linux)/8.8.11_GA_3737)
+Thread-Index: WkzRYLvS7Q2lqVrobgcVTRNy7HABfw==
+Thread-Topic: Openvswitch 2.13 and python3
+Content-Type: multipart/alternative; 
+	boundary="=_c9b4a3da-afbe-48d6-82af-c43dcda5af37"
 
-From: Yanfei Xu <yanfei.xu@windriver.com>
+--=_c9b4a3da-afbe-48d6-82af-c43dcda5af37
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-LXC 3.2.1 has a bug that containers may start failed in some cases, and
-this patch from upstream fix it.
+Hi guys, 
 
--------error message------
-lxc-start vc0 20200323102154.497 ERROR    cgfsng -
-cgfsng.c:__do_cgroup_enter:1500 - No space left on device - Failed to
-enter cgroup "/sys/fs/cgroup/cpuset//lxc.monitor/vc0-4/cgroup.procs"
-lxc-start vc0 20200323102154.497 ERROR    start -
-start.c:__lxc_start:2009 - Failed to enter monitor cgroup
-lxc-start vc0 20200323102154.497 ERROR    lxccontainer -
-lxccontainer.c:wait_on_daemonized_start:872 - Received container state
-"STOPPING" instead of "RUNNING"
-lxc-start vc0 20200323102154.497 ERROR    lxc_start -
-lxc_start.c:main:329 - The container failed to start
-lxc-start vc0 20200323102154.497 ERROR    lxc_start -
-lxc_start.c:main:332 - To get more details, run the container in
-foreground mode
--------------------------
+I am integrating ovs/dpdk on Yocto Zeus. 
+As I am using a custom Linux Kernel 4.19, I can't use ovs 2.11 and used the mainline version. 
 
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
----
- ...1-cgroups-initialize-cpuset-properly.patch | 40 +++++++++++++++++++
- recipes-containers/lxc/lxc_3.2.1.bb           |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
+FYI I struggled with EXTRA_OECONF to point to my Linux Kernel as mentionned in [ http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-networking/openvswitch/openvswitch.inc?h=master#n45 | Openvswitch recipe ] . 
+EXTRA_OECONF_append_pn-openvswitch needs to be used in distro instead of EXTRA_OECONF_pn-openvswitch += 
 
-diff --git a/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch b/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
-new file mode 100644
-index 0000000..9d0c2ae
---- /dev/null
-+++ b/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
-@@ -0,0 +1,40 @@
-+From b31d62b847a3ee013613795094cce4acc12345ef Mon Sep 17 00:00:00 2001
-+From: Christian Brauner <christian.brauner@ubuntu.com>
-+Date: Sun, 28 Jul 2019 23:13:26 +0200
-+Subject: [PATCH] cgroups: initialize cpuset properly
-+
-+Closes #3108.
-+Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-+
-+Upstream-Status: Backport[https://github.com/lxc/lxc/pull/3108]
-+
-+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-+---
-+ src/lxc/cgroups/cgfsng.c | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/src/lxc/cgroups/cgfsng.c b/src/lxc/cgroups/cgfsng.c
-+index 7b8fe6736..c29c0958e 100644
-+--- a/src/lxc/cgroups/cgfsng.c
-++++ b/src/lxc/cgroups/cgfsng.c
-+@@ -496,12 +496,12 @@ static bool cg_legacy_filter_and_set_cpus(char *path, bool am_initialized)
-+ 	}
-+ 
-+ 	if (!flipped_bit) {
-+-		DEBUG("No isolated or offline cpus present in cpuset");
-+-		return true;
-++		cpulist = lxc_cpumask_to_cpulist(possmask, maxposs);
-++		TRACE("No isolated or offline cpus present in cpuset");
-++	} else {
-++		cpulist = move_ptr(posscpus);
-++		TRACE("Removed isolated or offline cpus from cpuset");
-+ 	}
-+-	DEBUG("Removed isolated or offline cpus from cpuset");
-+-
-+-	cpulist = lxc_cpumask_to_cpulist(possmask, maxposs);
-+ 	if (!cpulist) {
-+ 		ERROR("Failed to create cpu list");
-+ 		return false;
-+-- 
-+2.18.2
-+
-diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
-index 9592dd9..57e48c1 100644
---- a/recipes-containers/lxc/lxc_3.2.1.bb
-+++ b/recipes-containers/lxc/lxc_3.2.1.bb
-@@ -50,6 +50,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://dnsmasq.conf \
- 	file://lxc-net \
- 	file://0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch \
-+	file://0001-cgroups-initialize-cpuset-properly.patch \
- 	"
- 
- SRC_URI[md5sum] = "4886c8d1c8e221fe526eefcb47857b85"
--- 
-2.24.1
+Now my ovs/dpdk is correctly installed on my Yocto image. 
 
+However, ovs utilities seem to have wrong shebang (#! python3). The shebang is based on PYTHON3 variable. For instance: [ https://github.com/openvswitch/ovs/blob/master/utilities/ovs-test.in#L1 | https://github.com/openvswitch/ovs/blob/master/utilities/ovs-test.in#L1 ] 
+PYTHON3 variable is provided in EXTRA_OECONF from openvswitch.inc: 
+EXTRA_OECONF += "\
+	PYTHON=python3 \
+	PYTHON3=python3 \
+	PERL=${bindir}/perl \
+	" 
+
+Did you encounter this issue ? 
+
+Also, OVS utilities - including test tools - still use python2 syntax but Openvswitch recipe RDEPEND on python3 only. I don't know if it is a known issue. 
+I know that some recent work on python3 migration was done by ovs team but AFAIK, utilities scripts would require some work. 
+I will give a try to migrate those scripts with [ https://docs.python.org/3.8/library/2to3.html | 2to3 ] tool. 
+
+Please do not hesitate to contact me if you need some clarification. 
+
+BR, 
+
+Eloi 
+
+
+
+--=_c9b4a3da-afbe-48d6-82af-c43dcda5af37
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><body><div style=3D"font-family: arial, helvetica, sans-serif; font-s=
+ize: 12pt; color: #000000"><div>Hi guys,<br data-mce-bogus=3D"1"></div><div=
+><br data-mce-bogus=3D"1"></div><div>I am integrating ovs/dpdk on Yocto Zeu=
+s.<br data-mce-bogus=3D"1"></div><div>As I am using a custom Linux Kernel 4=
+.19, I can't use ovs 2.11 and used the mainline version.<br data-mce-bogus=
+=3D"1"></div><div><br data-mce-bogus=3D"1"></div><div>FYI I struggled with =
+EXTRA_OECONF to point to my Linux Kernel as mentionned in <a data-mce-href=
+=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/reci=
+pes-networking/openvswitch/openvswitch.inc?h=3Dmaster#n45" href=3D"http://g=
+it.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/tree/recipes-networki=
+ng/openvswitch/openvswitch.inc?h=3Dmaster#n45">Openvswitch recipe</a>.<br d=
+ata-mce-bogus=3D"1"></div><div><em>EXTRA_OECONF_append_pn-openvswitch</em>&=
+nbsp; needs to be used in distro instead of <em>EXTRA_OECONF_pn-openvswitch=
+ +=3D </em><br data-mce-bogus=3D"1"></div><div><em><br data-mce-bogus=3D"1"=
+></em></div><div>Now my ovs/dpdk is correctly installed on my Yocto image.<=
+br></div><div><br data-mce-bogus=3D"1"></div><div>However, ovs utilities se=
+em to have wrong shebang (#! python3). The shebang is based on PYTHON3 vari=
+able. For instance: <a href=3D"https://github.com/openvswitch/ovs/blob/mast=
+er/utilities/ovs-test.in#L1">https://github.com/openvswitch/ovs/blob/master=
+/utilities/ovs-test.in#L1</a><br data-mce-bogus=3D"1"></div><div>PYTHON3 va=
+riable is provided in EXTRA_OECONF from openvswitch.inc:<br data-mce-bogus=
+=3D"1"></div><div><pre><code>EXTRA_OECONF +=3D "\
+=09PYTHON=3Dpython3 \
+=09PYTHON3=3Dpython3 \
+=09PERL=3D${bindir}/perl \
+=09"</code><br><br><span style=3D"font-family: arial, helvetica, sans-serif=
+;" data-mce-style=3D"font-family: arial, helvetica, sans-serif;">Did you en=
+counter this issue ?<br><br>Also, OVS utilities - including test tools - st=
+ill use python2 syntax but Openvswitch recipe RDEPEND on python3 only. I do=
+n't know if it is a known issue.<br>I know that some recent work on python3=
+ migration was done by ovs team but AFAIK, utilities scripts would require =
+some work.<br>I will give a try to migrate those scripts with <a data-mce-h=
+ref=3D"https://docs.python.org/3.8/library/2to3.html" href=3D"https://docs.=
+python.org/3.8/library/2to3.html">2to3</a> tool.<br><br>Please do not hesit=
+ate to contact me if you need some clarification.<br><br>BR,<br><br>Eloi  <=
+br><br> </span><br></pre></div></div></body></html>
+
+--=_c9b4a3da-afbe-48d6-82af-c43dcda5af37--
