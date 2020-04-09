@@ -1,139 +1,156 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.56])
- by mx.groups.io with SMTP id smtpd.web11.15632.1586364778952802175
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+ by mx.groups.io with SMTP id smtpd.web10.2301.1586401478743386918
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 08 Apr 2020 09:52:59 -0700
+ Wed, 08 Apr 2020 20:04:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=L7EEzPVq;
- spf=pass (domain: xilinx.com, ip: 40.107.237.56, mailfrom: ckalluri@xilinx.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SbAxjS7FlgIXo4j2WIhsq0im/0hy0se+6wq/jYp57/kD6p3yLXmLwV9cXChXtAqHsmSL2ECUSMl1iLMe6lLtohVvdIqo7bvJDlaieVSBVGGKInCLLvXJSMsA9F1DSMeZNmS0ljNAzfJIb1e7JarCtDqOQUT8jpAPAyEnI0CnhHXKvDw9pyG1xzJIwi6IfNe5qZZ7bofCL3UbrmFPfdGwQBmCIPSHA8mHeqLc5IdU5ptjakl91WU6jsL/xQmqoNo+J96+Z4fEyN/IHAMl+czLCZ+VHxGeXzbKPyEAWLeocuZR+W2HF2CwcbQ2cREwJwz3uOD11fFuwPXVQdpxP2SybQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4jlmn2dapZnemcpud1CVzePTvurw1hO+gZtSJ4MM8s4=;
- b=NnkZGRIhtHE4aH/1WLKlTebRz8pDXclrl29uszh175MgHb2U0WJNYaB91TPawfx7D53hGm8NBujjm/acX7JjOhoqNWkVwJR5vl+OsAwcsvJ/88Jats5gdHWs+0M9uZFVwiZ9z8p0RmNMglp9vcL17JplrM7v4vQo/ottRRnpyRZ9OkFvthMSH4bC2Tc+VI7QGJ7RR8ifuxl6F7rM97XB7PRvPNy9+fyIcR3yL5LhqCTY0CwI9ps4M7IQ7lMD4vb/Ytl6k59uOfFjh5OLW0nhK8j8PqUpfJ+KaY9f5zHm8bl5Ve5Rh/bl0e82SFGdwVTzxxFFGs13JEP1d1zPQ+j6fw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=lists.yoctoproject.org
- smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=N7ULVuHD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.67, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f67.google.com with SMTP id e5so11464664edq.5
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 08 Apr 2020 20:04:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4jlmn2dapZnemcpud1CVzePTvurw1hO+gZtSJ4MM8s4=;
- b=L7EEzPVqBXIIYacwUsnbM0rUqa13XcrhDwr27BWGMAdz3lV5b6Oxy/GsvkLCX+EB8m3mxBTlv9FJ256XhqxUujyNb3/kkKHovwTHpanJWiMACvYXCG9rbBlaJdKV4P0MEwBiCUu+IzpNofiU+kdxyjadiOeqQNIievyoxLjm1uQ=
-Received: from MN2PR20CA0044.namprd20.prod.outlook.com (2603:10b6:208:235::13)
- by SN6PR02MB3997.namprd02.prod.outlook.com (2603:10b6:805:2b::31) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2878.22; Wed, 8 Apr
- 2020 16:52:50 +0000
-Received: from BL2NAM02FT013.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:235:cafe::ca) by MN2PR20CA0044.outlook.office365.com
- (2603:10b6:208:235::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2900.15 via Frontend
- Transport; Wed, 8 Apr 2020 16:52:50 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; lists.yoctoproject.org; dkim=none (message not
- signed) header.d=none;lists.yoctoproject.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- BL2NAM02FT013.mail.protection.outlook.com (10.152.77.19) with Microsoft SMTP
- Server id 15.20.2900.15 via Frontend Transport; Wed, 8 Apr 2020 16:52:50
- +0000
-Return-Path: chandana.kalluri@xilinx.com
-Received: from [149.199.38.66] (port=51366 helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1jMDwA-0006D4-Ks
-	for meta-virtualization@lists.yoctoproject.org; Wed, 08 Apr 2020 09:52:26 -0700
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1jMDwX-0001Kt-Sy
-	for meta-virtualization@lists.yoctoproject.org; Wed, 08 Apr 2020 09:52:49 -0700
-Received: from [172.19.2.12] (helo=xsjckalluri50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <chandana.kalluri@xilinx.com>)
-	id 1jMDwU-0001KA-17; Wed, 08 Apr 2020 09:52:46 -0700
-From: "Chandana kalluri" <ckalluri@xilinx.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Subject: [meta-virtualization][master][PATCH 1/2] go-build: Set up dependencies and GOPATH before do_compile
-Date: Wed,  8 Apr 2020 09:52:40 -0700
-Message-Id: <1586364761-16281-1-git-send-email-chandana.kalluri@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: 
-	CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(10009020)(4636009)(396003)(346002)(136003)(376002)(39860400002)(46966005)(478600001)(6666004)(81156014)(2616005)(47076004)(26005)(186003)(426003)(316002)(7696005)(5660300002)(82740400003)(81166007)(336012)(2906002)(9786002)(36756003)(8676002)(70586007)(8936002)(70206006)(356004)(6916009)(107886003)(4326008);DIR:OUT;SFP:1101;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=PZCknqEnWlR7VL3PX83hlElr1DFdwjvliqpuYrAItEE=;
+        b=N7ULVuHDVuwEJPU8ZXXdVwPUOgcnwpE3UScolvdKn0PVkU5WxmSWelMkbb1YFScL2J
+         lRf1a8GYQ+pzm3tc+HoCrv3tBvvRtxB18xA4GdFnudtMPrgMIVm4eZIkaxE+rXEkBuQk
+         wqh+msCZwJ0TsNXzcTp9MMZc6lMIB+m9lgePl/ZPHXTrEKCzFZB19TQ7aOAeW/6TMb++
+         AI7Rsp62sK016hBC1U17ptHo3wjfr723wmBCMM+7BwJo0ScKYIgW9Z6bi8J4IfJoa4Iv
+         wPY8788OKmjH6wCvODmCis3+9yh4kX/b7k/oO4odIkUSzgAcgWQahEybhnBNXCmeQL5N
+         5oBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PZCknqEnWlR7VL3PX83hlElr1DFdwjvliqpuYrAItEE=;
+        b=dXuBCL65Ij0bSehf5/ry2Xi2Py3OS++jf8cvWCF82RuujLbZZJtYp0aej5VbqP2Ruv
+         Kshx9ci12g1TV5DSRPemRSCIEH+HaKtQpyEpta3hm3aGkFsieiCN3eO47QxunhDwTp47
+         ztcBirH495Uq+j1ri6iYdHdx897jf2rKy8B385PTx/1jHLV5CFCgGEU3rbL8O8tOdl2E
+         3Zp0F4C5rdDvZtn+46VsD10kGz2Q5z4zgCHtxtM6a4wJLfN3cR1AiMCRX7JeIFgVtqs0
+         c34qBEqSkycbGX4BkQJ0Veo5dS/mUYvgsm0qWrJAKXI/WXSOEiW1jqAJGv6okXKFEZRO
+         Xs2Q==
+X-Gm-Message-State: AGi0PuaPeWZJGO8Rt8GgQTl5JwPn6sNvmksuN2ySvDkDPgyyi9K9Nv/W
+	HC67K2gVvI+/0FjNLxpbj5Vg164sI/fqJXtDhrVJnoOu
+X-Google-Smtp-Source: APiQypJxO1c0ZozxyWF0zxOQFbl1m5G0RDQ+7UyH5Uc1AnRZ1HsjLojPocWreprrpeDsDk52r6Eo0rhOfaImCyrOt/w=
+X-Received: by 2002:a17:906:7c2:: with SMTP id m2mr8759617ejc.339.1586401477176;
+ Wed, 08 Apr 2020 20:04:37 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: eb1f400e-78bd-41ab-c8a4-08d7dbdd45db
-X-MS-TrafficTypeDiagnostic: SN6PR02MB3997:
-X-Microsoft-Antispam-PRVS: 
-	<SN6PR02MB3997F1CC9EBEAB6893C26306B0C00@SN6PR02MB3997.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-Forefront-PRVS: 0367A50BB1
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	+3UVU4AupC75ws/WlPQ8sXT2pgYAR8aNamnT1FHKCaAYia2x/cjK12/HT51MeAH9t2VRRxt+7Fn0F43XvKp198O4OAaImK83SVw3af8Hq1P4oan4i+k6wjSGay4+PmDaPjE/Ru3PaU9hs3RfuG3rWWWPKpk5w00ThOx4ElxnBgPUAu2gcENO8eHIRrKK3Fm8lZrvcleYJc0ZpGyHIp05jNoRL1PrmQ8gwjEV4hpx7/PC9YaZzXEFY8GomIvob0eLBIdrWk9r9IWErFSytck9luXYXMDGx3uNenFLUI3MeUb5nUtZDwz/DRRlrKdW1yaJDFJ9pGQ4rQ2M/+dtnCX12B2XuSq8tKrwr/cvTH5cuH62K7aVM9atYgrdi7r9LggzgW5sLKvuGWYh3i2FxnnSLxAVzAzNu6rJrf8kuGIYzO3/eqqaoowDh5Qr90aOBYNnHtzeI7jBMNG18bhm8X9T/6JjTuBE3CzozhQRh9bParqRZIo5dfaaYIrAzRFdaX6CpMdJvYQPmIXZX8etS2LFIw==
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2020 16:52:50.2471
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: eb1f400e-78bd-41ab-c8a4-08d7dbdd45db
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB3997
-Content-Type: text/plain
+References: <20200406042049.28540-1-yanfei.xu@windriver.com>
+In-Reply-To: <20200406042049.28540-1-yanfei.xu@windriver.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 8 Apr 2020 23:04:26 -0400
+Message-ID: <CADkTA4PNF2NoigLJrt1cTFQKoV76Feb27fPzPK+1pGgh7v4vOw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] lxc: Fix containers failed to start with LXC 3.2.1
+To: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-go-build recipe depends on runc source and during compilation tries to run the
-command: go get github.com/opencontainers/runc.
+As of April 6th, LXC 4.0 has been released.
 
-This is incorrect as a source fetch shouldn't occur during compilation.  Also,
-even after a fetch occurs during compilation, the go build path GOPATH points
-to the incorrect path hence the runc source is never found.
+Given that it is a LTS release, I'd prefer to jump to that for the
+dunfell branch .. even if it is just recently released by LXC.
 
-Fetch the opencontainers/runc source and create links in the correct GOPATH
-before compilation for a successful build.
+Can you try and uprev ? If not, I'll get to it in the next few weeks,
+but I'll hold on merging this patch in preference for the uprev.
 
-Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
----
- recipes-devtools/go/go-build_git.bb | 6 ++++++
- 1 file changed, 6 insertions(+)
+Bruce
 
-diff --git a/recipes-devtools/go/go-build_git.bb b/recipes-devtools/go/go-build_git.bb
-index c11ad99..f94a722 100644
---- a/recipes-devtools/go/go-build_git.bb
-+++ b/recipes-devtools/go/go-build_git.bb
-@@ -3,8 +3,11 @@ SUMMARY = "console for runx"
- DESCRIPTION = "Xen Runtime for OCI"
- 
- SRCREV_runx = "da0c75c58ae5232d19b1791c33545db3225e1ea9"
-+SRCREV_runc = "e4363b038787addfa12e8b0acf5417d4fba01693"
-+
- SRC_URI = "\
- 	  git://github.com/lf-edge/runx;nobranch=1;name=runx \
-+	  git://github.com/opencontainers/runc.git;nobranch=1;destsuffix=runc;name=runc \
- 	  "
- SRC_URI[md5sum] = "0d701ac1e2a67d47ce7127432df2c32b"
- SRC_URI[sha256sum] = "5a26478906d5005f4f809402e981518d2b8844949199f60c4b6e1f986ca2a769"
-@@ -29,6 +32,9 @@ do_compile() {
- 
-     export GOARCH="${TARGET_GOARCH}"
-     cd ${S}/src/import/gobuild
-+    mkdir -p go/src/github.com/opencontainers
-+    ln -s ${WORKDIR}/runc ${S}/src/import/gobuild/go/src/github.com/opencontainers/runc
-+    export GOPATH="${S}/src/import/gobuild/go/src/github.com/opencontainers/runc"
-     oe_runmake
- }
- 
+On Mon, Apr 6, 2020 at 12:21 AM Xu, Yanfei <yanfei.xu@windriver.com> wrote:
+>
+> From: Yanfei Xu <yanfei.xu@windriver.com>
+>
+> LXC 3.2.1 has a bug that containers may start failed in some cases, and
+> this patch from upstream fix it.
+>
+> -------error message------
+> lxc-start vc0 20200323102154.497 ERROR    cgfsng -
+> cgfsng.c:__do_cgroup_enter:1500 - No space left on device - Failed to
+> enter cgroup "/sys/fs/cgroup/cpuset//lxc.monitor/vc0-4/cgroup.procs"
+> lxc-start vc0 20200323102154.497 ERROR    start -
+> start.c:__lxc_start:2009 - Failed to enter monitor cgroup
+> lxc-start vc0 20200323102154.497 ERROR    lxccontainer -
+> lxccontainer.c:wait_on_daemonized_start:872 - Received container state
+> "STOPPING" instead of "RUNNING"
+> lxc-start vc0 20200323102154.497 ERROR    lxc_start -
+> lxc_start.c:main:329 - The container failed to start
+> lxc-start vc0 20200323102154.497 ERROR    lxc_start -
+> lxc_start.c:main:332 - To get more details, run the container in
+> foreground mode
+> -------------------------
+>
+> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> ---
+>  ...1-cgroups-initialize-cpuset-properly.patch | 40 +++++++++++++++++++
+>  recipes-containers/lxc/lxc_3.2.1.bb           |  1 +
+>  2 files changed, 41 insertions(+)
+>  create mode 100644 recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
+>
+> diff --git a/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch b/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
+> new file mode 100644
+> index 0000000..9d0c2ae
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/0001-cgroups-initialize-cpuset-properly.patch
+> @@ -0,0 +1,40 @@
+> +From b31d62b847a3ee013613795094cce4acc12345ef Mon Sep 17 00:00:00 2001
+> +From: Christian Brauner <christian.brauner@ubuntu.com>
+> +Date: Sun, 28 Jul 2019 23:13:26 +0200
+> +Subject: [PATCH] cgroups: initialize cpuset properly
+> +
+> +Closes #3108.
+> +Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
+> +
+> +Upstream-Status: Backport[https://github.com/lxc/lxc/pull/3108]
+> +
+> +Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+> +---
+> + src/lxc/cgroups/cgfsng.c | 10 +++++-----
+> + 1 file changed, 5 insertions(+), 5 deletions(-)
+> +
+> +diff --git a/src/lxc/cgroups/cgfsng.c b/src/lxc/cgroups/cgfsng.c
+> +index 7b8fe6736..c29c0958e 100644
+> +--- a/src/lxc/cgroups/cgfsng.c
+> ++++ b/src/lxc/cgroups/cgfsng.c
+> +@@ -496,12 +496,12 @@ static bool cg_legacy_filter_and_set_cpus(char *path, bool am_initialized)
+> +       }
+> +
+> +       if (!flipped_bit) {
+> +-              DEBUG("No isolated or offline cpus present in cpuset");
+> +-              return true;
+> ++              cpulist = lxc_cpumask_to_cpulist(possmask, maxposs);
+> ++              TRACE("No isolated or offline cpus present in cpuset");
+> ++      } else {
+> ++              cpulist = move_ptr(posscpus);
+> ++              TRACE("Removed isolated or offline cpus from cpuset");
+> +       }
+> +-      DEBUG("Removed isolated or offline cpus from cpuset");
+> +-
+> +-      cpulist = lxc_cpumask_to_cpulist(possmask, maxposs);
+> +       if (!cpulist) {
+> +               ERROR("Failed to create cpu list");
+> +               return false;
+> +--
+> +2.18.2
+> +
+> diff --git a/recipes-containers/lxc/lxc_3.2.1.bb b/recipes-containers/lxc/lxc_3.2.1.bb
+> index 9592dd9..57e48c1 100644
+> --- a/recipes-containers/lxc/lxc_3.2.1.bb
+> +++ b/recipes-containers/lxc/lxc_3.2.1.bb
+> @@ -50,6 +50,7 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>         file://dnsmasq.conf \
+>         file://lxc-net \
+>         file://0001-syscall_wrappers-rename-internal-memfd_create-to-mem.patch \
+> +       file://0001-cgroups-initialize-cpuset-properly.patch \
+>         "
+>
+>  SRC_URI[md5sum] = "4886c8d1c8e221fe526eefcb47857b85"
+> --
+> 2.24.1
+>
+> 
+
+
+
 -- 
-2.7.4
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
