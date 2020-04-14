@@ -1,93 +1,93 @@
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
- by mx.groups.io with SMTP id smtpd.web10.1085.1586890961642610256
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com [209.85.160.195])
+ by mx.groups.io with SMTP id smtpd.web12.1917.1586898382562852142
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 14 Apr 2020 12:02:41 -0700
+ Tue, 14 Apr 2020 14:06:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: asselsm@gmail.com)
-Received: by mail-ot1-f65.google.com with SMTP id b13so817997oti.3
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 14 Apr 2020 12:02:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Jcg16DnH;
+ spf=pass (domain: gmail.com, ip: 209.85.160.195, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f195.google.com with SMTP id c16so5786975qtv.1
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 14 Apr 2020 14:06:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=jYp91CCA7ecgzzjRN9bImtopWLUd1hbcKHCGYqLejb8=;
+        b=Jcg16DnH3rNN56U0eBi6Pfe2EajsxQmP7Iu9s92DcNhPDSP7gMsOSqKuf31o7a9qWb
+         CJNytjOt4Nbo+Fl09RIyjw3GQK4zf+z+evT3PRdc24IcYrg7sOpjDaHXn9uZGF0QzVYW
+         ngPTZMDEO3n4VERHavRgrhk7lbxri5wbyV/+neQuqzbeed3PIJ4wn2k3fC3h80z9jvod
+         AL9EJaC6uKgHYGD7MHDOsGFbCO+XF8HQpCZqiqokjSGBsBcnWV4+oYLE8O49yv4is+a0
+         ga/MGGW+0xy0PrwRM2LEutrIwo0HssTxPNsqhe20l5yBManfO9BuYaCCbrqQpjC4SoT3
+         NdpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-         :from:date:message-id:subject:to:cc:content-transfer-encoding;
-        bh=bCJ9xhfpoUSN5LqYgOIjgEN4t4NsJj0MwngA8lOLE4Q=;
-        b=cOn7mVXGrHrLxy8Sg1X1m9sw+kTUD9KivEU5KZx/qAyzUnqBPfRSa6yyqsJhjHzcn+
-         wTuGssC2uW4TjW2Aav7Z4xjvz6YLhRShZTbmi4I7b9zbbbCmcIjsU10kDtcfve9dhU/s
-         uErRjxje13luxZEMs/XYeEjUMah7Z0zpBKgORVM2IsTUPCZ8cYy0cfO0IvF/XBjxP8EW
-         D8RlJkknu0oc6p7Z5vqfxSg7YZGqlVIfxWzCoumuIL5Rre/Konr0vfwLvvnYVl8Xj1yL
-         D/L4bGU8fChVX/5y2G/0IrSqB44eFzVAoOXIJBCGILBSagbtiYptiR5FfK/allnmwICw
-         DC8g==
-X-Gm-Message-State: AGi0PuavOe7zKIBEbANK5YWb0L9QhxX+SPQpGCp7JhkYP5erNdMXTzJl
-	jkcE/AF0y3v9o51WRsB6s7yozw5F43vHNLIyN1x3YA==
-X-Google-Smtp-Source: APiQypLY+x1K/AYqlExkZpGus+JNTFrTE7Cmf1HB0Qz7lZfRAppW0rucJqRPg26Yktp7K3788Wxvqh7H+SHgGM3oZ8k=
-X-Received: by 2002:a9d:1ee5:: with SMTP id n92mr19300107otn.176.1586890960712;
- Tue, 14 Apr 2020 12:02:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <1728619179.807474.1586271464336.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <1728619179.807474.1586271464336.JavaMail.zimbra@savoirfairelinux.com>
-Reply-To: mark.asselstine@windriver.com
-From: "Mark Asselstine" <asselsm@gmail.com>
-Date: Tue, 14 Apr 2020 15:02:29 -0400
-Message-ID: <CAPuovEKCBbp5a58z4S80VN3HNLbz_jMNwKdVLoCs=FJurSaypQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] Openvswitch 2.13 and python3
-To: =?UTF-8?Q?=C3=89loi_Bail?= <eloi.bail@savoirfairelinux.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=jYp91CCA7ecgzzjRN9bImtopWLUd1hbcKHCGYqLejb8=;
+        b=NUkUwHNNzZf91i9LMovH2YBJui7OoZ3z9QvngeEvRFaTAARWwQEQRtez3ZYQdF5jd2
+         YvqfClbvlEn8mt7PcZyg50WSRgl1bWa63PecJOs7dnUwbrn69WRv6EalHQ5w+n4esX2w
+         J9vJF9Y2v4WyfeYVZAXBNgI2FvDT1WTef7j8APM26HXTt1sxsqYR4/UE2ZidY5/ZXoJT
+         I1oNRP2q7/MLbfoxQVmPmE5PuBCqhvrmemFPxcpD1RJvFkJn37vX65pgtLMZRFzTuCJV
+         tXaP+r7VwAV67qBHqsnAkh5YD1p8qjCI/4H7/BXJARwedhoZ1zcI3bF8676FETFRyp56
+         Zsvg==
+X-Gm-Message-State: AGi0PuY+sTGj41qU+nBMsI1ciwwt+DeWoF36ssumpMKwRvvTK4CC19I4
+	tadtvvQbYFOqjluPNiQACLc=
+X-Google-Smtp-Source: APiQypKpZazcaYkIqIs53e7exUl3Z4aBH2Abmcdux9WphRqKwW+JXU49/lMV4HvTiNXAh/788s2UcQ==
+X-Received: by 2002:ac8:4757:: with SMTP id k23mr17903725qtp.206.1586898380137;
+        Tue, 14 Apr 2020 14:06:20 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id n63sm11299642qka.80.2020.04.14.14.06.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2020 14:06:19 -0700 (PDT)
+Date: Tue, 14 Apr 2020 17:06:17 -0400
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: hongxu <hongxu.jia@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [meta-virtualization][PATCH 1/2] ceph: fix installed-vs-shipped QA issue
+Message-ID: <20200414210615.GA4489@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20200414065254.64863-2-hongxu.jia@windriver.com>
+ <20200414065254.64863-1-hongxu.jia@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Apr 7, 2020 at 10:57 AM =C3=89loi Bail
-<eloi.bail@savoirfairelinux.com> wrote:
->
-> Hi guys,
->
-> I am integrating ovs/dpdk on Yocto Zeus.
-> As I am using a custom Linux Kernel 4.19, I can't use ovs 2.11 and used =
-the mainline version.
->
-> FYI I struggled with EXTRA_OECONF to point to my Linux Kernel as mention=
-ned in Openvswitch recipe.
-> EXTRA_OECONF_append_pn-openvswitch  needs to be used in distro instead o=
-f EXTRA_OECONF_pn-openvswitch +=3D
->
-> Now my ovs/dpdk is correctly installed on my Yocto image.
->
-> However, ovs utilities seem to have wrong shebang (#! python3). The sheb=
-ang is based on PYTHON3 variable. For instance: https://github.com/openvswi=
-tch/ovs/blob/master/utilities/ovs-test.in#L1
-> PYTHON3 variable is provided in EXTRA_OECONF from openvswitch.inc:
->
-> EXTRA_OECONF +=3D "\
-> PYTHON=3Dpython3 \
-> PYTHON3=3Dpython3 \
-> PERL=3D${bindir}/perl \
-> "
->
-> Did you encounter this issue ?
->
-> Also, OVS utilities - including test tools - still use python2 syntax bu=
-t Openvswitch recipe RDEPEND on python3 only. I don't know if it is a known=
- issue.
-> I know that some recent work on python3 migration was done by ovs team b=
-ut AFAIK, utilities scripts would require some work.
-> I will give a try to migrate those scripts with 2to3 tool.
+merged.
 
-We switched to use Python3 exclusively with OVS for quite a while now.
-With the Yocto Project being mostly used in embedded environments size
-was the driving factor, having py2 and py3 present was not desirable.
-With Python2 being EOL'd at this point I suspect the upstream OVS
-community will soon remove any traces of python2 from the project.
-There is no value in spending any time on py2 with OVS at this point.
-The package will build and operate just fine as it is.
+Bruce
 
-Mark
+In message: [meta-virtualization][PATCH 1/2] ceph: fix installed-vs-shipped QA issue
+on 13/04/2020 hongxu wrote:
 
->
-> Please do not hesitate to contact me if you need some clarification.
->
-> BR,
->
-> Eloi
->
->
->
->=20
+> ...
+> |ERROR: ceph-15.2.0-r0 do_package: QA Issue: ceph: Files/directories
+> were installed but not shipped in any package:
+> |  /lib/systemd/system/ceph-immutable-object-cache@.service
+> |  /lib/systemd/system/ceph-immutable-object-cache.target
+> ...
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  recipes-extended/ceph/ceph_15.2.0.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/recipes-extended/ceph/ceph_15.2.0.bb b/recipes-extended/ceph/ceph_15.2.0.bb
+> index 2b7b2c1..1893086 100644
+> --- a/recipes-extended/ceph/ceph_15.2.0.bb
+> +++ b/recipes-extended/ceph/ceph_15.2.0.bb
+> @@ -43,6 +43,8 @@ SYSTEMD_SERVICE_${PN} = " \
+>          ceph-mgr.target \
+>          ceph-crash.service \
+>          rbdmap.service \
+> +        ceph-immutable-object-cache@.service \
+> +        ceph-immutable-object-cache.target \
+>  "
+>  OECMAKE_GENERATOR = "Unix Makefiles"
+>  
+> -- 
+> 2.21.0
+> 
+
+> 
+
+
