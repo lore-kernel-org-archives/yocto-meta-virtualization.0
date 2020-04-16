@@ -1,65 +1,72 @@
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com [209.85.166.52])
- by mx.groups.io with SMTP id smtpd.web12.18605.1587076920315295283
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+ by mx.groups.io with SMTP id smtpd.web12.342.1587079545155844113
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 16 Apr 2020 15:42:00 -0700
+ Thu, 16 Apr 2020 16:25:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lNUM2qZr;
- spf=pass (domain: gmail.com, ip: 209.85.166.52, mailfrom: ticotimo@gmail.com)
-Received: by mail-io1-f52.google.com with SMTP id u11so243474iow.4
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2020 15:42:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FKbUJJP+;
+ spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f41.google.com with SMTP id a2so155505ejx.5
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2020 16:25:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=n1deicHCZU5uxP1ckS+qo9NyHu4DIbNcoE+52/VUOoU=;
-        b=lNUM2qZrpIFeOh6iHVe849YEk8Gh1NX3DYa53csB6i2zEI7kiJVt/nVhgFZY0Tr2FK
-         n9MaLqrI5A93Xb1a6mUVrk1kZrJLsVlNnrS/W9r0BngTbFZ3ZZrp4PZpkPyxJh+NV2he
-         l8IHhhsz5thRqmJeAabGORbwx2FUZiL28+EdVMxhwg0ep3Akn1ChWHxiPugGtRkntYsE
-         7m9WGd0ggLS0dMTKwEfrVN7chrpyaLYUKh0g+pdjPEQP6X0a2l0Y2feKQJM8ymg6RL6o
-         KmGVICP+Iv8+VTEb1clemMxjL1ebkRXCjUUEahVlFVWTCd3B5BcbjYk1I1XJa6FShF9O
-         QNNw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=yi0povc6es9h8jySjDoWfcECud4cykprMB1oYsQNgG4=;
+        b=FKbUJJP+XR8tW3uq2w8DgVzt3tWpOVd8N0+XRcLJ9Amn68jtZ9DsCKyl2gsJUvalIT
+         blR+K+L0p9/KzutuEuxHWBnF7sCrl3fDZFlgTgv8jOFHPj49hBhlEZEhN6pTHqNcQi9v
+         zf2jPVoqI/hSluV2NNVEBDxWxyM+koR4jWqW8a9BvjrZyrPiSHnCUBGx6nKSeNZ2DZIx
+         M5MDxwPNmGuVjj6FSJGdEOLCFQ2k9D39VlLsBMszAmEvBgvFg+oiFZDW4Q4IizUbrHlP
+         YWMLaRmTGq5TttNKsP+zsz53QVaUNGYlpagndUbXZxASGR/jfAw0bkWROVaqeRcmTg5i
+         u94g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=n1deicHCZU5uxP1ckS+qo9NyHu4DIbNcoE+52/VUOoU=;
-        b=duDfSyx+b2E9KMyDNIwA8Nnwa1KLQPWGnd6UoYd7hpq0B8uhUeeL/7b3z2wdfXbC9F
-         n9fMVfSpp7cRWeLCm2pazsowajC4hXzz7M/m80Wtw8rEdE7HNrwxLNWYPBAI/teXeZV7
-         lVJ+TOMjtAbJKACwaYOBvNkFdrZenmupsczA2EZMFValoz1JVVoXP9VBcOosaRMYElgH
-         ZYttJZF1VWUkjbk+youO6rt5Z/KR/nn/FXy0i9BTfakqvRRd2u84RKflRXO8UG5JofwN
-         1jyAQneXG+Ho7qjsgRgEkJPQd4RkH2YAwFATvEj9t820rpbXpmRhZKrj4pAAmKO7hzcw
-         27Bg==
-X-Gm-Message-State: AGi0PuaXr6dR9Q4Ae9aJ6T8TCq80sZ38YVTMDIx1eiEUMg+VaaGKjIDa
-	L82adcRHdRfkHn1RB73bsMkXnqSgtWUrEo0nnC/QTnRj
-X-Google-Smtp-Source: APiQypI2HQoXZFTbgu4B+nZW/efG6Vat6GkIXd/xMraxhAMzjz3g+5F1gB5noznDSiFaqHo7kLu1rhshsuQ+TGLtjPI=
-X-Received: by 2002:a5d:8407:: with SMTP id i7mr213638ion.210.1587076919540;
- Thu, 16 Apr 2020 15:41:59 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=yi0povc6es9h8jySjDoWfcECud4cykprMB1oYsQNgG4=;
+        b=Z6nK0OBxO0tblOOvq1SAJV8b1/mzeKgMh+fCidpY0em5Vp98PhOPwcltFNxEcG+6Ko
+         ht23o0DF8uwasNn6H84PGcCck8riMTpAwxCHayr40wWLFTN+LzJqVzMHsu1LO/s4LLL3
+         gnqtthD4UQQTiCn01ONR+MasffCYGEySt48Yq3SINuKIRSWciuCxLL/T+P9Xzmc1+w7D
+         B/tnS8kJ819F6H3R4C5K/uoN2wuEPi/pBjXS3IMCj+kxAIqPwIInc8Ztq7A4kmGALPj7
+         2lh6AVqqcmLU5XNErdEMofRb85c4oV4lJe7pxxVFbYBHvHpM8Yyf81aTxDZ/gSHq5hHm
+         IZYA==
+X-Gm-Message-State: AGi0Puat/PhfPo7PTUGokxAaR+Fpd9ndmasGPeDu7NAzSG0WGqUT4EZM
+	nb8mfcymiJE+rqJuR7J1UQJISf0r+TbGVXtB5dQ=
+X-Google-Smtp-Source: APiQypLc8MVhS+rQGdyo0OMDrwL+rz+3Uo9W8DVSjA7avvvUo0WgfdBUQJiuDu2I/H8n4xbeyquvW5A/mbVaJQ6z6Fs=
+X-Received: by 2002:a17:906:2b96:: with SMTP id m22mr404968ejg.330.1587079543601;
+ Thu, 16 Apr 2020 16:25:43 -0700 (PDT)
 MIME-Version: 1.0
-From: "Tim Orling" <ticotimo@gmail.com>
-Date: Thu, 16 Apr 2020 15:41:48 -0700
-Message-ID: <CANx9H-A5=yzbaHGktARzH4-YgicQHE1fyq0Kjfrk6G27jr1mWg@mail.gmail.com>
-Subject: Random find: meta-k3s
-To: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="00000000000005408705a370248a"
-
---00000000000005408705a370248a
+References: <CANx9H-A5=yzbaHGktARzH4-YgicQHE1fyq0Kjfrk6G27jr1mWg@mail.gmail.com>
+In-Reply-To: <CANx9H-A5=yzbaHGktARzH4-YgicQHE1fyq0Kjfrk6G27jr1mWg@mail.gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 16 Apr 2020 19:25:32 -0400
+Message-ID: <CADkTA4PudrkwR8w17CJWk9TkJHp+8O=A1d4XRLxL=Z9CAKrvuA@mail.gmail.com>
+Subject: Re: [meta-virtualization] Random find: meta-k3s
+To: Tim Orling <ticotimo@gmail.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-This layer packages the binaries built by rancher.
+Cool.
 
-https://github.com/janeczku/meta-k3s
+I'll compare my source based builds against it!
 
-Cheers
+Bruce
 
-=E2=80=94Tim
+On Thu, Apr 16, 2020 at 6:42 PM Tim Orling <ticotimo@gmail.com> wrote:
+>
+> This layer packages the binaries built by rancher.
+>
+> https://github.com/janeczku/meta-k3s
+>
+> Cheers
+>
+> =E2=80=94Tim
+>
+>=20
 
---00000000000005408705a370248a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">This layer packages the binaries built by rancher.</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto"><div><a href=3D"https://github=
-.com/janeczku/meta-k3s">https://github.com/janeczku/meta-k3s</a></div><br><=
-/div><div dir=3D"auto">Cheers</div><div dir=3D"auto"><br></div><div dir=3D"=
-auto">=E2=80=94Tim</div><div dir=3D"auto"><br></div>
 
---00000000000005408705a370248a--
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
