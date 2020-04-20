@@ -1,72 +1,82 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web12.342.1587079545155844113
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com [209.85.210.65])
+ by mx.groups.io with SMTP id smtpd.web11.7061.1587403064695249612
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 16 Apr 2020 16:25:45 -0700
+ Mon, 20 Apr 2020 10:17:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FKbUJJP+;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a2so155505ejx.5
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 16 Apr 2020 16:25:44 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YX9ewUxz;
+ spf=pass (domain: gmail.com, ip: 209.85.210.65, mailfrom: jpuhlman@gmail.com)
+Received: by mail-ot1-f65.google.com with SMTP id i27so8783944ota.7
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 20 Apr 2020 10:17:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yi0povc6es9h8jySjDoWfcECud4cykprMB1oYsQNgG4=;
-        b=FKbUJJP+XR8tW3uq2w8DgVzt3tWpOVd8N0+XRcLJ9Amn68jtZ9DsCKyl2gsJUvalIT
-         blR+K+L0p9/KzutuEuxHWBnF7sCrl3fDZFlgTgv8jOFHPj49hBhlEZEhN6pTHqNcQi9v
-         zf2jPVoqI/hSluV2NNVEBDxWxyM+koR4jWqW8a9BvjrZyrPiSHnCUBGx6nKSeNZ2DZIx
-         M5MDxwPNmGuVjj6FSJGdEOLCFQ2k9D39VlLsBMszAmEvBgvFg+oiFZDW4Q4IizUbrHlP
-         YWMLaRmTGq5TttNKsP+zsz53QVaUNGYlpagndUbXZxASGR/jfAw0bkWROVaqeRcmTg5i
-         u94g==
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/S4N0HyORWY3PHejL9gPUpzkTRCY9hWIOE9vjfyd/ME=;
+        b=YX9ewUxzqDy8r1oYHe6CqZ8Y4SlrYRlASB/zM/7myfPprpR9upOPoXnSRPXYy1wRem
+         vQu7hmahktRetipueiarW47MPSBp/iZpyxAArSnyu1oFjgnHUOQnbymJ7CI9+acJZgO5
+         f6ImVWangdjeGknIspLE2GXXhGZbNn/ryKeXlbJu30SFw3tsxfxSuLrjz+DjpJeb6yok
+         ZwFE80FAmTu+dOYP1yruDaMdvVbXMq4GDK8Wft5zre3r5ZqJ6cMTGaBFGxO9PxdqlSw9
+         Pv4m+zt+k9iRsF3hK977/RNUAr5WY1vrldsAo/2zBceun8H0A5JBhYrHZK7FvCQlFchC
+         y4kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yi0povc6es9h8jySjDoWfcECud4cykprMB1oYsQNgG4=;
-        b=Z6nK0OBxO0tblOOvq1SAJV8b1/mzeKgMh+fCidpY0em5Vp98PhOPwcltFNxEcG+6Ko
-         ht23o0DF8uwasNn6H84PGcCck8riMTpAwxCHayr40wWLFTN+LzJqVzMHsu1LO/s4LLL3
-         gnqtthD4UQQTiCn01ONR+MasffCYGEySt48Yq3SINuKIRSWciuCxLL/T+P9Xzmc1+w7D
-         B/tnS8kJ819F6H3R4C5K/uoN2wuEPi/pBjXS3IMCj+kxAIqPwIInc8Ztq7A4kmGALPj7
-         2lh6AVqqcmLU5XNErdEMofRb85c4oV4lJe7pxxVFbYBHvHpM8Yyf81aTxDZ/gSHq5hHm
-         IZYA==
-X-Gm-Message-State: AGi0Puat/PhfPo7PTUGokxAaR+Fpd9ndmasGPeDu7NAzSG0WGqUT4EZM
-	nb8mfcymiJE+rqJuR7J1UQJISf0r+TbGVXtB5dQ=
-X-Google-Smtp-Source: APiQypLc8MVhS+rQGdyo0OMDrwL+rz+3Uo9W8DVSjA7avvvUo0WgfdBUQJiuDu2I/H8n4xbeyquvW5A/mbVaJQ6z6Fs=
-X-Received: by 2002:a17:906:2b96:: with SMTP id m22mr404968ejg.330.1587079543601;
- Thu, 16 Apr 2020 16:25:43 -0700 (PDT)
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=/S4N0HyORWY3PHejL9gPUpzkTRCY9hWIOE9vjfyd/ME=;
+        b=IJ0WtPlg9JOhALXxM8D9gvrbyz5/m09GkdTA7q13sIg0RXUPez1b25bryalf1NtBCm
+         wMdrmwTWAnn9/aSLiFBMZ1fjg0fSeAArll4BYsqpLTliFsvf1W0goMF+WMW1Gq0XRf4o
+         K28WpDCiIlBGSDkVXkzrEg2muLM5dleMLNusCsNcx8Q26C1Sb94Zn1fJ5c7Xm7+LBzVT
+         fOJQAIukpftV0OnbhaxwqJvH+r4f86lLUP9WBMVEkGxsVm/LgUsm9OlqFJmwCeTzbX2M
+         D+6T4fRPOX1zyB3Xm5WBGh7NgIch3U0KvN4mhEWey4uM1figRu4+5ohCWi8YY3flKFP6
+         oLKw==
+X-Gm-Message-State: AGi0PuaWMAyOnibt3FCOd6MxF2PHgwj6TtNK0mzQrN5csq5y5A6hE1GG
+	Cpch5CeU4plM58uv2o4ZMe+hMHP0
+X-Google-Smtp-Source: APiQypJ/NdbcfSlGycTB3h/3YSum3GnsWWDdV+O59Gjbfjh7Drh18zxsgkwKjg5g7INMmxpgtLtRUA==
+X-Received: by 2002:a9d:107:: with SMTP id 7mr11120911otu.48.1587403063678;
+        Mon, 20 Apr 2020 10:17:43 -0700 (PDT)
+Return-Path: <jpuhlman@gmail.com>
+Received: from workhorse.localdomain (99-14-97-149.lightspeed.frokca.sbcglobal.net. [99.14.97.149])
+        by smtp.gmail.com with ESMTPSA id t11sm10494oov.1.2020.04.20.10.17.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2020 10:17:43 -0700 (PDT)
+Sender: Jeremy Puhlman <jpuhlman@gmail.com>
+Received: by workhorse.localdomain (Postfix, from userid 1000)
+	id AD4372A089C; Mon, 20 Apr 2020 10:17:40 -0700 (PDT)
+From: "Jeremy Puhlman" <jpuhlman@mvista.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Corey Minyard <cminyard@mvista.com>,
+	"Jeremy A . Puhlman" <jpuhlman@mvista.com>
+Subject: [meta-virtualization][master,dunfell][PATCH] xen-hypervisor: Check for the right image in uncompressed deploy
+Date: Mon, 20 Apr 2020 10:17:39 -0700
+Message-Id: <20200420171739.12379-1-jpuhlman@mvista.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CANx9H-A5=yzbaHGktARzH4-YgicQHE1fyq0Kjfrk6G27jr1mWg@mail.gmail.com>
-In-Reply-To: <CANx9H-A5=yzbaHGktARzH4-YgicQHE1fyq0Kjfrk6G27jr1mWg@mail.gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 16 Apr 2020 19:25:32 -0400
-Message-ID: <CADkTA4PudrkwR8w17CJWk9TkJHp+8O=A1d4XRLxL=Z9CAKrvuA@mail.gmail.com>
-Subject: Re: [meta-virtualization] Random find: meta-k3s
-To: Tim Orling <ticotimo@gmail.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Cool.
+From: Corey Minyard <cminyard@mvista.com>
 
-I'll compare my source based builds against it!
+The deploy for the uncompressed image was checking if a .gz file exists,
+it should instead check for a straight xen file.
 
-Bruce
+Signed-off-by: Corey Minyard <cminyard@mvista.com>
+Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
+---
+ recipes-extended/xen/xen-hypervisor.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Thu, Apr 16, 2020 at 6:42 PM Tim Orling <ticotimo@gmail.com> wrote:
->
-> This layer packages the binaries built by rancher.
->
-> https://github.com/janeczku/meta-k3s
->
-> Cheers
->
-> =E2=80=94Tim
->
->=20
+diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+index 21d9c7f..c386917 100644
+--- a/recipes-extended/xen/xen-hypervisor.inc
++++ b/recipes-extended/xen/xen-hypervisor.inc
+@@ -47,7 +47,7 @@ do_install() {
+ do_deploy() {
+     install -d ${DEPLOYDIR}
+ 
+-    if [ -f ${B}/xen/xen.gz ]; then
++    if [ -f ${B}/xen/xen ]; then
+         install -m 0644 ${B}/xen/xen ${DEPLOYDIR}/xen-${MACHINE}
+     fi
+ 
+-- 
+2.20.1
 
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
