@@ -1,51 +1,86 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.5273.1587460918191943975
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com [209.85.167.196])
+ by mx.groups.io with SMTP id smtpd.web12.166.1587499535793574616
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 21 Apr 2020 02:21:58 -0700
+ Tue, 21 Apr 2020 13:05:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: mingli.yu@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 03L9LQua029541
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Apr 2020 02:21:47 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
- 14.3.487.0; Tue, 21 Apr 2020 02:21:17 -0700
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [PATCH v2] lxc: Upgrade to 4.0.2
-Date: Tue, 21 Apr 2020 17:21:15 +0800
-Message-ID: <1587460875-189890-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=qwcp2I4h;
+ spf=pass (domain: gmail.com, ip: 209.85.167.196, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oi1-f196.google.com with SMTP id q204so13082146oia.13
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 21 Apr 2020 13:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=7ASC9g8oHAyvUHU75y0Z6hxFJeQFNjj/2TKb2Ix3XEs=;
+        b=qwcp2I4hXta2w3hF3Y7wYAX0nsrJqypuIOspcxchv2sSak6WPhEvWLnKWnXZXQLT/f
+         TW6TSiC/GPw49IggdZZTwrYSO6P8l5ZBt5ov62wTQqF1B8CQgbyCabd1agwbPaf4+eZ4
+         Wubg9CFrDeUk+1eaj59oeFqSr0ebXNunp1NFguDMxmmSSllCDXRvZ4q5NOO8iaT1pbe/
+         BtRSrMc/KCWWPaFjt5j9gWThqHplEFj2D3VamIo5apvke840QbkN5Y/dlfXMzuJvP3Rk
+         AAZZBXPGDic8OhMOjFzO2suUbQK2D3Ta1JdQqkH3F3nOe3GXzHugrWjyBjbim5GircG6
+         E3Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=7ASC9g8oHAyvUHU75y0Z6hxFJeQFNjj/2TKb2Ix3XEs=;
+        b=BmsuXU56h+KRH3gdlDlCRCS2Vo9UizNqIpyTdcifySXo/2C462U656SyiUyUt6ETO0
+         NLuCAL/XvYVStATQ5gIvwuOx+ArYhv1rn6rBEwg2a1M3T4F88SwkWmBleMqdzGDHntf2
+         tpWl2SS9WHE8qdYXg9yzTBh8H9LEj8VCSISLDut7WCf/evxN/s2Lk/dhrd52nNSgKNkD
+         Jb0zk11LF9LmsbqdKSf33CJWnoejuBAxRPjgo7Clf46IvGPn+jW7HuAEF6bqDW6DaDpR
+         Kr2I+lPj/xihQzJaMinu9xEXdiT/0vehxK11vq4Q78aS7QmPWjt96h7PJiNGHRarnl97
+         d7dQ==
+X-Gm-Message-State: AGi0Pubr7FiAw3ekOWoq+W4IjyNBiOayv5HPM7kjghzlysZbJa74J76H
+	+lRIf3KAH5fJwircqi1ovuyZ/pTNCW1cMTrYoiY=
+X-Google-Smtp-Source: APiQypLAswO+iZH4SpfgqDQGS2DBAFIn1hbYcze3T5KfrN2FfpgZBdH+fg0Dxb1+/aOmQcSuK/phEpXnnwJ2C1/a2uE=
+X-Received: by 2002:aca:af17:: with SMTP id y23mr4619768oie.28.1587499534995;
+ Tue, 21 Apr 2020 13:05:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20200420171739.12379-1-jpuhlman@mvista.com>
+In-Reply-To: <20200420171739.12379-1-jpuhlman@mvista.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Tue, 21 Apr 2020 13:05:23 -0700
+Message-ID: <CACMJ4GY-dbw0H-Wd-3YioZS9WL7piQT24zKdi0hpoEqsH1HeGQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][master,dunfell][PATCH] xen-hypervisor: Check for the right image in uncompressed deploy
+To: Jeremy Puhlman <jpuhlman@mvista.com>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Corey Minyard <cminyard@mvista.com>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <mingli.yu@windriver.com>
+On Mon, Apr 20, 2020 at 10:17 AM Jeremy Puhlman <jpuhlman@mvista.com> wrote:
+>
+> From: Corey Minyard <cminyard@mvista.com>
+>
+> The deploy for the uncompressed image was checking if a .gz file exists,
+> it should instead check for a straight xen file.
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- recipes-containers/lxc/{lxc_4.0.1.bb => lxc_4.0.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename recipes-containers/lxc/{lxc_4.0.1.bb => lxc_4.0.2.bb} (97%)
+Thanks, this looks like a valid correction.
 
-diff --git a/recipes-containers/lxc/lxc_4.0.1.bb b/recipes-containers/lxc/lxc_4.0.2.bb
-similarity index 97%
-rename from recipes-containers/lxc/lxc_4.0.1.bb
-rename to recipes-containers/lxc/lxc_4.0.2.bb
-index bfe003c..bc7f88b 100644
---- a/recipes-containers/lxc/lxc_4.0.1.bb
-+++ b/recipes-containers/lxc/lxc_4.0.2.bb
-@@ -51,8 +51,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
- 	file://lxc-net \
- 	"
- 
--SRC_URI[md5sum] = "5f19f13eafdde24c75ba459fc6c28156"
--SRC_URI[sha256sum] = "70bbaac1df097f32ee5493a5e67a52365f7cdda28529f40197d6160bbec4139d"
-+SRC_URI[md5sum] = "cc62e734c900f39d770f0de51c868aac"
-+SRC_URI[sha256sum] = "ca336dcdf303fea5ff231d89a9b6278b061c4cffb14f0db0a71a15bdd95a5cb0"
- 
- S = "${WORKDIR}/${BPN}-${PV}"
- 
--- 
-2.7.4
+>
+> Signed-off-by: Corey Minyard <cminyard@mvista.com>
+> Signed-off-by: Jeremy A. Puhlman <jpuhlman@mvista.com>
 
+Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+
+Christopher
+
+> ---
+>  recipes-extended/xen/xen-hypervisor.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+> index 21d9c7f..c386917 100644
+> --- a/recipes-extended/xen/xen-hypervisor.inc
+> +++ b/recipes-extended/xen/xen-hypervisor.inc
+> @@ -47,7 +47,7 @@ do_install() {
+>  do_deploy() {
+>      install -d ${DEPLOYDIR}
+>
+> -    if [ -f ${B}/xen/xen.gz ]; then
+> +    if [ -f ${B}/xen/xen ]; then
+>          install -m 0644 ${B}/xen/xen ${DEPLOYDIR}/xen-${MACHINE}
+>      fi
+>
+> --
+> 2.20.1
+>
+> 
