@@ -1,128 +1,87 @@
 Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
- by mx.groups.io with SMTP id smtpd.web11.6663.1588432342355663515
+ by mx.groups.io with SMTP id smtpd.web12.7312.1588714366388550725
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 02 May 2020 08:12:22 -0700
+ Tue, 05 May 2020 14:32:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pDgcQunN;
- spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f194.google.com with SMTP id 71so10271493qtc.12
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 02 May 2020 08:12:22 -0700 (PDT)
+ dkim=pass header.i=@foundries-io.20150623.gappssmtp.com header.s=20150623 header.b=nOYCI1dt;
+ spf=softfail (domain: foundries.io, ip: 209.85.160.194, mailfrom: ricardo@foundries.io)
+Received: by mail-qt1-f194.google.com with SMTP id z90so3356692qtd.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 May 2020 14:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=qjLEWlmWOZp2L+zbkg3ubtL4YQCPCo0+NQvHAov1fw0=;
-        b=pDgcQunNlhNtMuF6E+ft3i1dN5ijTUklsjAOdkIQDR4IAob85jmIeO2lSx4PY/uzPv
-         8NJUdS80UtDGVQF7evDsX77b5JrDPKsyCkkDxTbBVXlCHbA7f2fk3gRmvog+JjNO+Nyp
-         D//28+mT/SPCK03zMm9XkdieYbOzwqlpkbT4e37g/V1RDuA994Y7HaD2HbtuFCkZRfpv
-         Jgk3pk25cl30nyK9rXxBcrxfytGcHw029tUACJ6rVj/pBwiZqg0b3ogVWlWKWa9fEz6I
-         vhVL1npITPgCP0aKTivn/bboH7bmr17iNOGydZSDE+ZBYmJhNn0h/4sLQyoF3gJBzvq3
-         5LcA==
+        d=foundries-io.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rcggPwjlS5IbqKx9aI9FEfl4ZUkPc/jsTO5w+F5hsy8=;
+        b=nOYCI1dt7ghhlE/0fkKVGNrg4K96KovuCPz+7/gySe6SmrVSr96mFtMu9S267BWaDL
+         2WLO8F2rp5BE+ca41ospF4EyVTxG4QfarUZfjyVcYLPNn3Q1wLZ9ryAoOQ5aG99NZa+6
+         Xv+RdWfPmrwsGLmkGE9uE0Sm92BvBqa1QzOD0ENRVZ+IbOErJuyX6s7mxEeOrQB3QQrs
+         ADfzjVtSzsyc4uS87GkzDShkvzEBQWjJvI2q9SDOFwttlpYoGltWJKuUbkzoreWh/WeV
+         65Ie+iE9M5ygJqenXIOQKStdRyyShkU6McRd1IcEm8YgkysB7NLqWDWDXvGnxVNsZzLL
+         vj7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qjLEWlmWOZp2L+zbkg3ubtL4YQCPCo0+NQvHAov1fw0=;
-        b=LPMrWeLbHpC6uygxszAJVcivi19wI6JDOxSSvG8WZPlquU0bBgsoLkLHTL7faHjv+w
-         aUayJWf/0oeVn0y3NkAmnR5N75LahACNl97F3QX0e15yaAMKp2mae6e+KStcXhYcfITE
-         Th+eX62zJInYi+AeHuOWs2LnW9XKp8zhjNurR2W3cPhHWse7yEZMq0HN3Gse+2OvfC+Z
-         PpFPY+ul5aQuOC8UH4F2vJhnj/uJRw92+TsKmLYC9hbJZ3vzYaxrN2GWZaWhFMhiUuyE
-         4/XP+boAaUb1Gkz+j+AK7VI/WrhrlJZU58W0j9BVIwm0/+ozUUlo748mSijm57R3wK6N
-         q9nw==
-X-Gm-Message-State: AGi0PuZil/ZwwM0RmNn5ZOh+uGV5aDqe5LxXGWmo+RZO/Nh92eEBpRZm
-	6UfMzk6nokZ5w5rsy7V3u5tZbE9txCY=
-X-Google-Smtp-Source: APiQypL7ChPbZC5sK/MOxSZmagqeJa1Sg3sgMW6tal6kDUu0M1WsIraaoS3P3FBBoMuRQsnDjn5uCw==
-X-Received: by 2002:ac8:5057:: with SMTP id h23mr8855502qtm.287.1588432341148;
-        Sat, 02 May 2020 08:12:21 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id d69sm5355663qke.111.2020.05.02.08.12.20
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rcggPwjlS5IbqKx9aI9FEfl4ZUkPc/jsTO5w+F5hsy8=;
+        b=WS6J7UDorStiCepQ50pxoSeJBBzrBcPy2mdQpo2fMI5crmKlUlTQwEJvTBD0WA/Dyl
+         wGXgY/BKhqK2Hn8Sq/LN8miQJ5ol4spFqp2aTmwdMXhuGWOpEU/rL2Ypi6dw7QZpYLWE
+         66S/2+N/Ne4cXImvkXJoXkmd9/sIZ1IevXxW37dUZX8r1rsBmKLkuIgzjba3alOHIEGs
+         JzJ/wpkCVz9jFHml8jNZnG6lxK+ZAB6iRY7eIJlshfWhIxeoYmiSXIZPYaNr/mCdRNmD
+         rXKOSTeosLElh54ip6qhss2CCRmv8Gsq4n7RTruDKpJGczoMUehTFgTCe6vW1BwQri3y
+         pw/A==
+X-Gm-Message-State: AGi0PuZJckinsZSYKV6mTuw89FuwyqrgmVUJhtahiMBP02mCxosO1oIC
+	nHwLzZ7jtSdq5RQABv+oeqOLzAypuXcZ
+X-Google-Smtp-Source: APiQypImidSaoK/W8teG/0Q9xSupLPAf4ut0UUpF6YNKUaXnasGHlGZAs4nf/lHdqo3TUPnofGGXyg==
+X-Received: by 2002:ac8:180f:: with SMTP id q15mr4826545qtj.42.1588714365118;
+        Tue, 05 May 2020 14:32:45 -0700 (PDT)
+Return-Path: <ricardo@foundries.io>
+Received: from localhost.localdomain ([2804:7f5:f480:47e8:2112:9c9e:eadc:3a7e])
+        by smtp.gmail.com with ESMTPSA id y6sm72282qky.133.2020.05.05.14.32.43
+        for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2020 08:12:20 -0700 (PDT)
-Date: Sat, 2 May 2020 11:12:18 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+        Tue, 05 May 2020 14:32:44 -0700 (PDT)
+From: "Ricardo Salveti" <ricardo@foundries.io>
 To: meta-virtualization@lists.yoctoproject.org
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization][m-c-s][PATCH] ruby: Add sysroot dir to the ldflags and process all the existing extconf.rb
-Message-ID: <20200502151216.GA10315@gmail.com>
-References: <20200429103120.10716-1-psaavedra@igalia.com>
+Subject: [PATCH] python3-docker-compose: update to 1.25.5
+Date: Tue,  5 May 2020 18:32:22 -0300
+Message-Id: <20200505213222.23902-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200429103120.10716-1-psaavedra@igalia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-merged!
+Main change is support for the compose format version 3.8.
 
-Bruce
+Relevant git changes between versions:
+- 41d229eb Fix v3.8 schema support for binaries
+- 15bb3eeb add warning when max_replicas_per_node limits scale
+- 5d34f12f set min engine version needed for v38 schema support
+- 82873d2b update api version for 3.8
+- fe832661 Add v3.8 schema support
 
-In message: [meta-virtualization][m-c-s][PATCH] ruby: Add sysroot dir to the ldflags and process all the existing extconf.rb
-on 29/04/2020 Pablo Saavedra Rodi?o wrote:
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+---
+ ...ker-compose_1.25.4.bb => python3-docker-compose_1.25.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-containers/docker-compose/{python3-docker-compose_1.25.4.bb => python3-docker-compose_1.25.5.bb} (87%)
 
-> * add lib path of the sysroot directory [1] to avoid ld errors during
->   the installation
-> * ruby_do_compile() find the extconf.rb file in the sources instance of
->   assume a single file.
-> 
-> [1] https://www.yoctoproject.org/docs/1.8/ref-manual/ref-manual.html#var-STAGING_LIBDIR
-> 
-> Signed-off-by: Pablo Saavedra <psaavedra@igalia.com>
-> ---
->  classes/ruby.bbclass | 34 +++++++++++++++++++++-------------
->  1 file changed, 21 insertions(+), 13 deletions(-)
-> 
-> diff --git a/classes/ruby.bbclass b/classes/ruby.bbclass
-> index 15ac9f4..5fb8e6b 100644
-> --- a/classes/ruby.bbclass
-> +++ b/classes/ruby.bbclass
-> @@ -104,23 +104,31 @@ EOF
->    system("perl -p -i -e 's#^arch =.*#arch = ${ruby_arch}#' Makefile")
->    system("perl -p -i -e 's#^LIBPATH =.*#LIBPATH = -L.#' Makefile")
->    system("perl -p -i -e 's#^dldflags =.*#dldflags = ${LDFLAGS}#' Makefile")
-> +  system("perl -p -i -e 's#^ldflags  =.*#ldflags = -L${STAGING_LIBDIR}#' Makefile")
->  EOF
->  }
->  
->  ruby_do_compile() {
-> -	if [ -f extconf.rb -a ! -f extconf.rb.orig ] ; then
-> -		grep create_makefile extconf.rb > append2 || (exit 0)
-> -		ruby_gen_extconf_fix
-> -		cp extconf.rb extconf.rb.orig
-> -		# Patch extconf.rb for cross compile
-> -		cat append >> extconf.rb
-> -	fi
-> -	for gem in ${RUBY_BUILD_GEMS}; do
-> -		${RUBY_COMPILE_FLAGS} gem build $gem
-> -	done
-> -	if [ -f extconf.rb.orig ] ; then
-> -		mv extconf.rb.orig extconf.rb
-> -	fi
-> +    EXTCONF_FILES=$(find . -name extconf.rb -exec ls {} \;)
-> +    for e in $EXTCONF_FILES
-> +    do
-> +        if [ -f $e -a ! -f $e.orig ] ; then
-> +            grep create_makefile $e > append2 || continue
-> +            ruby_gen_extconf_fix
-> +            cp $e $e.orig
-> +            # Patch extconf.rb for cross compile
-> +            cat append >> $e
-> +        fi
-> +    done
-> +    for gem in ${RUBY_BUILD_GEMS}; do
-> +            ${RUBY_COMPILE_FLAGS} gem build $gem
-> +    done
-> +    for e in $EXTCONF_FILES
-> +    do
-> +        if [ -f $e.orig ] ; then
-> +            mv $e.orig $e
-> +        fi
-> +    done
->  }
->  
->  
-> -- 
-> 2.11.0
-> 
-
-> 
+diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb b/recipes-containers/docker-compose/python3-docker-compose_1.25.5.bb
+similarity index 87%
+rename from recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
+rename to recipes-containers/docker-compose/python3-docker-compose_1.25.5.bb
+index 2dcad1e..dece5da 100644
+--- a/recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
++++ b/recipes-containers/docker-compose/python3-docker-compose_1.25.5.bb
+@@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "893fbb804a9057d6c470b5312407e0d1"
+-SRC_URI[sha256sum] = "fabae2bee4abfa7bdd09125b6bbdcdda81f946c7b16e3ccc6bb2d821ef6488f3"
++SRC_URI[md5sum] = "a6f296957148e4c61b28fb324c27c966"
++SRC_URI[sha256sum] = "7a2eb6d8173fdf408e505e6f7d497ac0b777388719542be9e49a0efd477a50c6"
+ 
+ SRC_URI += "file://0001-setup.py-remove-maximum-version-requirements.patch \
+             file://0001-setup.py-import-fastentrypoints.patch \
+-- 
+2.26.2
 
