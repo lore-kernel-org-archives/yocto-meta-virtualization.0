@@ -1,104 +1,53 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web11.2743.1588734311745943198
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.2151.1588751870876340220
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 05 May 2020 20:05:12 -0700
+ Wed, 06 May 2020 00:57:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iBYVJRZQ;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id w2so695155edx.4
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 05 May 2020 20:05:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=JRmh+YTA7+SvBjMOU0ldISE7xcbM5i9AUgigjfBKZAo=;
-        b=iBYVJRZQIb7UdCxn70pzw5goQjpISRwNf/9063qtgKrMsOavz8kpl3klbjUyL0S50G
-         pOSTx0XQL0b65Z4rU8mLKslxIyYcdllEn/WiF/ip6xBAaXQdIoHzpCvlmMZqqMpcK965
-         BeK5DBj3ES9qAI0UTu9C8U9asH5TntXe0Ya6h2RHMLOjhvrpbi0CGOdtBe196Dye8v2q
-         yzND7Isr4YYaxUZs8l52hXg5EBpjxy9JzFAUyQBtP4KLGwmRgnbX5cTJHWwtq0IZ/MQG
-         coqju6DB0GNWBtHNbP4RZQ/Ix2pUFV71EtTJVOEiR1D2WOYh8QEJ4ZLsNpKpijLIAE7x
-         o0Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=JRmh+YTA7+SvBjMOU0ldISE7xcbM5i9AUgigjfBKZAo=;
-        b=JGESnXo3St884b9WkEB595Z56otNSXjYwPd0JvDEaNwSlLVlv7URJZfIs/F+jg7lpt
-         I9MMwix4hqWwlMZPz/Qibs/RLPojVeFomqMm09zkPFJq0LN8onZq616qi5zSF7niYlsT
-         jduxDb2GQTLkJRRdyVI5FtPSD+eQcKLP18xyR5KXaGy22HwZ1izXn0iBnBN+VPGtkZtW
-         3MoxJk4VkqrG+29+73AXO5Ocbx6O+cfh4FkdzbJQQghC+RnNg2h7rY6LD38HNsauCc4v
-         OwHahCc/O+cPUF2O//idBGnSTcm25Bcu/kFw3x8QC12ada2MsksDE8KbHZ9lqNZWSRDz
-         cZYg==
-X-Gm-Message-State: AGi0PuZv9R6RDLk3nNtuAGroOvfFWen2me4jxRl9+1g7tD9YJOpz6sQh
-	3/4Bdc+0cLNXPaDQ6Ww4HQ8fMY56ieyO1HJPS2nTa5hl
-X-Google-Smtp-Source: APiQypIY4KmVjcV87lgJ3GHJY0Kw0apzyGlQZx+kkEAbUcWDTzKDCdyXU2m/BQTrlnyS9ksXXgZpx7wn5NEgLy+E8zk=
-X-Received: by 2002:aa7:cb0f:: with SMTP id s15mr5089827edt.164.1588734309710;
- Tue, 05 May 2020 20:05:09 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: haitao.liu@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0467vTMr009113
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Wed, 6 May 2020 00:57:40 -0700
+Received: from ala-lpd-susbld2.wrs.com (147.11.105.122) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server (TLS) id
+ 14.3.487.0; Wed, 6 May 2020 00:57:19 -0700
+From: "jason.lau" <Haitao.Liu@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][master,Zeus] go-pty: change the source address
+Date: Wed, 6 May 2020 00:57:14 -0700
+Message-ID: <20200506075714.61924-1-haitao.liu@windriver.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-References: <20200505213222.23902-1-ricardo@foundries.io>
-In-Reply-To: <20200505213222.23902-1-ricardo@foundries.io>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 5 May 2020 23:04:58 -0400
-Message-ID: <CADkTA4PEYXTqPBvKnYAMrGbsjNR5pKwBtV92zdEsegO8-KdBdw@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] python3-docker-compose: update to 1.25.5
-To: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.105.122]
+Content-Type: text/plain
 
-On Tue, May 5, 2020 at 5:32 PM Ricardo Salveti <ricardo@foundries.io> wrote:
->
-> Main change is support for the compose format version 3.8.
->
-> Relevant git changes between versions:
-> - 41d229eb Fix v3.8 schema support for binaries
-> - 15bb3eeb add warning when max_replicas_per_node limits scale
-> - 5d34f12f set min engine version needed for v38 schema support
-> - 82873d2b update api version for 3.8
-> - fe832661 Add v3.8 schema support
+The go-pty module has moved to https://github.com/creack/pty.
 
-Looks good.
+Signed-off-by: Prashant Chikhalkar <prashant.chikhalkar@windriver.com>
+Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
+---
+ recipes-devtools/go/go-pty_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I hope people are noticing how well this commit log is written and how
-easy it made my part of the process :D
-
-I tested it with some local docker uprevs here, and have pushed this
-part, since it didn't cause issues with my pending work.
-
-Cheers,
-
-Bruce
-
->
-> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
-> ---
->  ...ker-compose_1.25.4.bb => python3-docker-compose_1.25.5.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename recipes-containers/docker-compose/{python3-docker-compose_1.25.4.bb => python3-docker-compose_1.25.5.bb} (87%)
->
-> diff --git a/recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb b/recipes-containers/docker-compose/python3-docker-compose_1.25.5.bb
-> similarity index 87%
-> rename from recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
-> rename to recipes-containers/docker-compose/python3-docker-compose_1.25.5.bb
-> index 2dcad1e..dece5da 100644
-> --- a/recipes-containers/docker-compose/python3-docker-compose_1.25.4.bb
-> +++ b/recipes-containers/docker-compose/python3-docker-compose_1.25.5.bb
-> @@ -5,8 +5,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=435b266b3899aa8a959f17d41c56def8"
->
->  inherit pypi setuptools3
->
-> -SRC_URI[md5sum] = "893fbb804a9057d6c470b5312407e0d1"
-> -SRC_URI[sha256sum] = "fabae2bee4abfa7bdd09125b6bbdcdda81f946c7b16e3ccc6bb2d821ef6488f3"
-> +SRC_URI[md5sum] = "a6f296957148e4c61b28fb324c27c966"
-> +SRC_URI[sha256sum] = "7a2eb6d8173fdf408e505e6f7d497ac0b777388719542be9e49a0efd477a50c6"
->
->  SRC_URI += "file://0001-setup.py-remove-maximum-version-requirements.patch \
->              file://0001-setup.py-import-fastentrypoints.patch \
-> --
-> 2.26.2
->
-> 
-
-
-
+diff --git a/recipes-devtools/go/go-pty_git.bb b/recipes-devtools/go/go-pty_git.bb
+index bc94b31..02cef69 100644
+--- a/recipes-devtools/go/go-pty_git.bb
++++ b/recipes-devtools/go/go-pty_git.bb
+@@ -1,12 +1,12 @@
+ DESCRIPTION = "PTY interface for Go"
+-HOMEPAGE = "https://github.com/kr/pty"
++HOMEPAGE = "https://github.com/creack/pty"
+ SECTION = "devel/go"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://License;md5=93958070863d769117fa33b129020050"
+ 
+ SRCNAME = "pty"
+ 
+-PKG_NAME = "github.com/kr/${SRCNAME}"
++PKG_NAME = "github.com/creack/${SRCNAME}"
+ SRC_URI = "git://${PKG_NAME}.git"
+ 
+ SRCREV = "05017fcccf23c823bfdea560dcc958a136e54fb7"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.0
+
