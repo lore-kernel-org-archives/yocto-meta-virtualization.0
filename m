@@ -1,21 +1,22 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web12.2565.1588815030546053650
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web11.3119.1588817689634519545
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 06 May 2020 18:30:30 -0700
+ Wed, 06 May 2020 19:14:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: haitao.liu@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: haitao.liu@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0471USgC022169
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Wed, 6 May 2020 18:30:29 -0700 (PDT)
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0472EB43016330
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Wed, 6 May 2020 19:14:21 -0700
 Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 6 May
- 2020 18:30:28 -0700
+ 2020 19:14:00 -0700
 From: "jason.lau" <Haitao.Liu@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][master,Zeus] go-pty: change the source address
-Date: Thu, 7 May 2020 09:29:56 +0800
-Message-ID: <1588814996-174129-1-git-send-email-haitao.liu@windriver.com>
+CC: <bruce.ashfield@gmail.com>
+Subject: [meta-virtualization][master,zeus][PATCH v2] go-pty: change the source address
+Date: Thu, 7 May 2020 10:13:27 +0800
+Message-ID: <1588817607-223768-1-git-send-email-haitao.liu@windriver.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-Originating-IP: [128.224.153.75]
