@@ -1,53 +1,53 @@
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com [209.85.219.67])
- by mx.groups.io with SMTP id smtpd.web12.337.1589923147848715160
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.328.1589923178748806215
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 19 May 2020 14:19:08 -0700
+ Tue, 19 May 2020 14:19:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SF8gNHi9;
- spf=pass (domain: gmail.com, ip: 209.85.219.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f67.google.com with SMTP id ee19so337570qvb.11
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 19 May 2020 14:19:07 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=kbJ2mTQ/;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id o19so871410qtr.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 19 May 2020 14:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=+n8CgSl7EhaDUePnVTNE7BqNDkGaCuAsLO97FyJxvRE=;
-        b=SF8gNHi9vprO3xT17OSIj+ksWg0+/6vayu/m2byqCV392awhlLcITeses2jVhFdvf7
-         Ci+0jW4QQWpj3aGSO9WEdcBkAb8KVq3piwGxyHmHgZXsppBQWvC8QzBJKPEwl71FMQSZ
-         9cAoMJOtn8z+HOcrtsIQ95OgOrmOon6nHscAnSiTv8bB3ZIJ0S62ylNPChBbGYzKGARo
-         t/oNEP5VS8Wl3qM1OgJtYVdOGttVlhqSXIVHTNOmdj+cX/sQy7uVG1F/mMTEu3Pk+Ufs
-         XZ6Jn+F0dBxabdPgkaj1By23XwAugs91H0a0yxT9XYkh+lwbPcFRmKhBsSFngfj1bJxV
-         7ddw==
+        bh=YnLqBPVKJF61Kt2+QDRcwIzS3QBs6dTK6WmgO80AMTM=;
+        b=kbJ2mTQ/zMcXMDspGqvECCQaMzgWXhz/NfMwO+WSD0fdHWK9UM+L4vylAOy0PYJAI3
+         rSQVQYwiidTS3xNUT1OXzCK+z78VfVe37+vPo14XK3d6MbABNGc1YjuXk3/TlsO3k07K
+         HjvXVJLaKWNOmHfo60V1FE8+9Uw69YPNw/QoVz+3FfVloJPPB/o31JNDr04qrxKUjOwj
+         otLsi5/xTARr6bcOo8PoyiB3qn7X9lxrbO/J8r+sVwtr6SxdErev0TZquumiqNcZ/H2J
+         biowrBZ/ulbuvKvCj84LSZbWlukQvBhi31uRFY4S4iMLDP2VuicwDbW8GCctKTuIE4uT
+         FPag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=+n8CgSl7EhaDUePnVTNE7BqNDkGaCuAsLO97FyJxvRE=;
-        b=qFiOYOoHdx/hpqTugKMvr61acd26Mqz3h0goQU9tPP2S5e2MhUTfq6X9xWJGv0wUeA
-         7SeQ5iY8RpRr1vzuaYSJECiU6Mrls4ezpfCYHCwN9ii+nicKByRs136qWbBeopQB8Tg+
-         trj+9CCdHaOZx1+caeYIJ7xAb5JBIWqSDYhyJBSkIcT9AAO6/bapdzh9/l8LGvRivB2G
-         EQBGnshO/YM8gzlsCV0n+IO7D+T7M8/O/4vtZwTJbZido7L3EeKztXcrALxL3DsMK4QD
-         ymFPkBjpqLxWtQR7Y2T5WSL/IgINGvVOL9DC6o2+t9psQm2piydhJkAHhQ7apV7W0zvO
-         tKiA==
-X-Gm-Message-State: AOAM530kR1wF+CXEYuG2/w6IZga8r1MwCWHbAlx6Jx0i4pIymQZtBMHW
-	WlMtCSSZZ5G5HryH8LN8PWs=
-X-Google-Smtp-Source: ABdhPJxagxUVAanE3C7wp+I67Qsf1trFtvzVS4F+LrVRdqtAI3BvuHDge5puXiVUmpHGWIp2kMuHHg==
-X-Received: by 2002:a05:6214:42f:: with SMTP id a15mr1679637qvy.170.1589923146922;
-        Tue, 19 May 2020 14:19:06 -0700 (PDT)
+        bh=YnLqBPVKJF61Kt2+QDRcwIzS3QBs6dTK6WmgO80AMTM=;
+        b=s+Bgj3R8wxjppY835RGQ+NLoc5k1t3Vp2jjICd1SP0l0yOJ7hiUzaJjsxJAP2AVUCZ
+         91SZwweFe5XBcr05607BoLOCfBquItIKZkpaj/H765Y33lNnDhYZc9z6yP5BcG60fkHj
+         kP/YRVQlebUSiEPp9wlCd7zDhs7YqUH8TDRK99cqBOIPvPzy0urNsIEqYmoFE9bmX+O/
+         vOvhjNP5jtfsn8TLNyj2oTVsQEJI+oikKiV1JgmedgT4ijIHy3ZCuQYduHa6RQ8G960Q
+         KrBZBGlcmfkL+lLi3lTi8BcRBs165W/E856FICigiPaPRBESH4S7g1ONjH9z97gn+4kE
+         nFRg==
+X-Gm-Message-State: AOAM5312xF4YUlevkvw7JjeiJQivOszbfGEFrQqSpv2UJbMYSQLrUqT6
+	bAIO1RFnXzqiwZJpHQYc68k=
+X-Google-Smtp-Source: ABdhPJzkuzVEoNR7sLJ6MVQsy6RVvn+UxMeo228bSH5aAj57mrW5cDdQLEhwXCByXm+JcWiJMAhIzw==
+X-Received: by 2002:aed:2e82:: with SMTP id k2mr2085409qtd.225.1589923177896;
+        Tue, 19 May 2020 14:19:37 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id f198sm637830qke.46.2020.05.19.14.19.05
+        by smtp.gmail.com with ESMTPSA id a189sm650449qkd.52.2020.05.19.14.19.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 14:19:05 -0700 (PDT)
-Date: Tue, 19 May 2020 17:19:03 -0400
+        Tue, 19 May 2020 14:19:36 -0700 (PDT)
+Date: Tue, 19 May 2020 17:19:34 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
+To: hongxu <hongxu.jia@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-fastentrypoints: add the missing rdepends
-Message-ID: <20200519211900.GA22460@gmail.com>
-References: <20200518020554.30534-1-mingli.yu@windriver.com>
+Subject: Re: [meta-virtualization][PATCH] lxc: fix compile failure on gcc10
+Message-ID: <20200519211933.GB22460@gmail.com>
+References: <20200519075534.46799-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20200518020554.30534-1-mingli.yu@windriver.com>
+In-Reply-To: <20200519075534.46799-1-hongxu.jia@windriver.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -56,36 +56,39 @@ merged
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python3-fastentrypoints: add the missing rdepends
-on 18/05/2020 Yu, Mingli wrote:
+In message: [meta-virtualization][PATCH] lxc: fix compile failure on gcc10
+on 19/05/2020 hongxu wrote:
 
-> From: Mingli Yu <mingli.yu@windriver.com>
+> Since oe-core is upgrading gcc to 10.1, there is
+> a compile failure
+> ...
+> |../../../lxc-4.0.2/src/lxc/cgroups/cgfsng.c:2100:10: error: writing
+> 1 byte into a region of size 0 [-Werror=stringop-overflow=]
+> | 2100 |   *slash = '\0';
+> ...
 > 
-> Add the missing rdepends to fix below error:
->  # python3
->  [snip]
->  >>> import fastentrypoints
->  [snip]
->  ModuleNotFoundError: No module named 'pickle'
+> Add gcc option `-Werror=stringop-overflow' to workaround the issue
+> 
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  recipes-devtools/python/python3-fastentrypoints_0.12.bb | 2 +-
+>  recipes-containers/lxc/lxc_4.0.2.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/recipes-devtools/python/python3-fastentrypoints_0.12.bb b/recipes-devtools/python/python3-fastentrypoints_0.12.bb
-> index a96bd15..53bed18 100644
-> --- a/recipes-devtools/python/python3-fastentrypoints_0.12.bb
-> +++ b/recipes-devtools/python/python3-fastentrypoints_0.12.bb
-> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://README.rst;md5=f212a0cb34eb678477972d2011fb365a"
+> diff --git a/recipes-containers/lxc/lxc_4.0.2.bb b/recipes-containers/lxc/lxc_4.0.2.bb
+> index 441cf96..d0ead81 100644
+> --- a/recipes-containers/lxc/lxc_4.0.2.bb
+> +++ b/recipes-containers/lxc/lxc_4.0.2.bb
+> @@ -67,7 +67,7 @@ ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
 >  
->  inherit pypi setuptools3
+>  EXTRA_OECONF += "--enable-log-src-basename"
 >  
-> -RDEPENDS_${PN} += "${PYTHON_PN}-setuptools"
-> +RDEPENDS_${PN} += "${PYTHON_PN}-setuptools ${PYTHON_PN}-pickle"
+> -CFLAGS_append = " -Wno-error=deprecated-declarations"
+> +CFLAGS_append = " -Wno-error=deprecated-declarations -Wno-error=stringop-overflow"
 >  
->  SRC_URI[md5sum] = "390ad9a9229164a06156a5b1f0ef1b22"
->  SRC_URI[sha256sum] = "ff284f1469bd65400599807d2c6284d5b251398e6e28811f5f77fd262292410b"
+>  PACKAGECONFIG ??= "templates \
+>      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
 > -- 
-> 2.24.1
+> 2.21.0
 > 
 
 > 
