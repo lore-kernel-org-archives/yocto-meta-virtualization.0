@@ -1,53 +1,59 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web10.4641.1589938349951582657
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+ by mx.groups.io with SMTP id smtpd.web10.8691.1589962737851065629
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 19 May 2020 18:32:30 -0700
+ Wed, 20 May 2020 01:18:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: hongxu.jia@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: liezhi.yang@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 04K1W8CC015060
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 19 May 2020 18:32:18 -0700
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Tue, 19 May 2020
- 18:31:57 -0700
-From: "hongxu" <hongxu.jia@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][m-c-s][PATCH] glusterfs: fix failure on gcc10
-Date: Tue, 19 May 2020 18:31:57 -0700
-Message-ID: <20200520013157.118150-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 04K8Itwn012767
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Wed, 20 May 2020 01:18:55 -0700 (PDT)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+ ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+ 14.3.487.0; Wed, 20 May 2020 01:18:54 -0700
+From: "Robert Yang" <liezhi.yang@windriver.com>
+To: <bruce.ashfield@gmail.com>
+CC: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH 1/1] notary: Define SRCREV_FORMAT to make it work with archiver.bbclass
+Date: Wed, 20 May 2020 16:27:37 +0800
+Message-ID: <20200520082737.76973-1-liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Since oe-core upgraded gcc to 10.1, there is a failure
-...
-|../../../../../glusterfs-6.1/rpc/rpc-transport/socket/src/socket.c:4302:24:
-error: implicit declaration of function 'EC_KEY_new_by_curve_name'
-[-Werror=implicit-function-declaration]
-| 4302 |                 ecdh = EC_KEY_new_by_curve_name(nid);
-...
-Add option -Wno-error=implicit-function-declaration  to workaround
+Fixed:
+INHERIT += "archiver"
+$ bitbake notary -car_original
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+bb.data_smart.ExpansionError: Failure expanding variable SRCPV, expression was ${@bb.fetch2.get_srcrev(d)} which triggered exception FetchError: Fetcher failure: The SRCREV_FORMAT variable must be set when multiple SCMs are used.
+The SCMs are:
+git://github.com/docker/notary.git;destsuffix=git/src/github.com/docker/notary
+git://github.com/docker/notary.git
+
+Another solution is define SRCREV_FORMAT in archiver.bbclass, but that doesn't
+work since it is too late to define it there.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- recipes-extended/glusterfs/glusterfs.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ recipes-devtools/go/notary_git.bb | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
-index a5677840..c209baa6 100644
---- a/recipes-extended/glusterfs/glusterfs.inc
-+++ b/recipes-extended/glusterfs/glusterfs.inc
-@@ -34,7 +34,7 @@ DEPENDS += "bison-native flex-native python3-native fuse libaio libtirpc libxml2
+diff --git a/recipes-devtools/go/notary_git.bb b/recipes-devtools/go/notary_git.bb
+index 9cfb46e..76dfa8f 100644
+--- a/recipes-devtools/go/notary_git.bb
++++ b/recipes-devtools/go/notary_git.bb
+@@ -9,6 +9,11 @@ SRCNAME = "notary"
+ PKG_NAME = "github.com/docker/${SRCNAME}"
+ SRC_URI = "git://${PKG_NAME}.git;destsuffix=git/src/${PKG_NAME}"
  
- # rpc now comes from libtirpc instead of glibc
- #
--CFLAGS += "-I${STAGING_INCDIR}/tirpc"
-+CFLAGS += "-I${STAGING_INCDIR}/tirpc -Wno-error=implicit-function-declaration"
- LDFLAGS += " -ltirpc"
++# The archiver.bbclass will append a uri to SRC_URI when it contains
++# destsuffix, then the SRC_URI would contain multilib SCMs, and bitbake's
++# fetcher requires a SRCREV_FORMAT for multiple SCMs.
++SRCREV_FORMAT = "${SRCNAME}"
++
+ SRCREV = "d6e1431feb32348e0650bf7551ac5cffd01d857b"
+ PV = "0.6.1+git${SRCPV}"
  
- EXTRA_OECONF = "ac_cv_file__etc_debian_version=no \
 -- 
-2.21.0
+2.17.1
 
