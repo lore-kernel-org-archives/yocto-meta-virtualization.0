@@ -1,327 +1,266 @@
-Subject: kubeadm init --ignore-preflight-errors=... fails nvidia nano
+Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
+ by mx.groups.io with SMTP id smtpd.web11.4650.1590063829859901787
+ for <meta-virtualization@lists.yoctoproject.org>;
+ Thu, 21 May 2020 05:23:50 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NKNkydhk;
+ spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f66.google.com with SMTP id s21so8603094ejd.2
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 21 May 2020 05:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l8WKZ3H+ksxBAz+XzC0iMdlpqJYxJD7ijg+STq+l0vw=;
+        b=NKNkydhkvwhtXH7XsEmUJrBbQ5WSwCxvtf1D9RmFA/0VEPLewPxFl8tOY4zp8ppgEa
+         qxf+LERNv/h+6WjFQt4f+L2A/SreBYh/9XpefWzcFJCd8lLTKNVFKkgbqZgC8Obp1XJz
+         3trsnAAdsaAtTuEEF7Qkm1UZIqU7BE7X/qXnFjldWKqR08SHWQYDkbl2ntLc79FdSJ64
+         p+vWXxemDXdhElghc1YmQQpnWZMq+oV28jNJ9aH8Vslo6bvYkoJj3LgZAi2Ww3OAZMUC
+         XVoU0eyXXk6JpnCFuMLtkZx3Un4A4bjfkMGRXsku8CwP9S20KwNgIWgGv6C4liDFcq6N
+         UWYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=l8WKZ3H+ksxBAz+XzC0iMdlpqJYxJD7ijg+STq+l0vw=;
+        b=shI1T7pTHbZ1Yxxkme5tcBe7fJKuDJZb/iWqWua9EUpWZmxp2EujbTVed0A1t2JAXn
+         LouByaif5eFpjGmSYJ6mDnQgkpoPcVS79unqXRUGcWqs/AwyxN+twD/vMKkCqvLou6gi
+         r3MQ1pcUEUGm9aomtt8IqMnh+pbyhoByTyn9wekeVATGakP+dR3x/k3+Faz8X9YEASEN
+         FOXvaBg5BfUq74/eYpmDpEuWHdwL2JNPBRS1D9718WkWvTEw6livwHo6szILvIoPmw2A
+         mP9w1VJCM+R8qdXNbZ8tdjbsGvNodrUh409EUWk7ZdUwP/AsOHKHj52SnTv2f1TBu8LI
+         ntdQ==
+X-Gm-Message-State: AOAM531+FzrhoHZvV/HUxsbE+PBI+zHvK08O7ovhhfzd6qS1nd0nGvlN
+	3Y8/goFDMDCx+HSpJrth2XLBzjNj
+X-Google-Smtp-Source: ABdhPJzYnuJCzvwBCr8rFBTXSg78SWtru9NEec4zP1rcB5NfDxYEOJhVEX0FABmWSBiSXd2DWlY21A==
+X-Received: by 2002:a17:906:a1c9:: with SMTP id bx9mr3113179ejb.496.1590063827644;
+        Thu, 21 May 2020 05:23:47 -0700 (PDT)
+Return-Path: <martin.jansa@gmail.com>
+Received: from localhost ([109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id j12sm4787174edv.47.2020.05.21.05.23.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 05:23:46 -0700 (PDT)
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-From: "Yocto" <yocto@optimcloud.com>
-X-Originating-Location: Vũng Tàu, Tinh Ba Ria-Vung Tau, VN (42.119.158.207)
-X-Originating-Platform: Linux Firefox 76
-User-Agent: GROUPS.IO Web Poster
+Cc: Martin Jansa <Martin.Jansa@gmail.com>
+Subject: [meta-virtualization][dunfell][master][PATCH] singularity: fix build with python3
+Date: Thu, 21 May 2020 14:23:42 +0200
+Message-Id: <20200521122342.2354674-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Date: Thu, 21 May 2020 00:21:19 -0700
-Message-ID: <cnTT.1590045679625568224.zsrT@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="moJezG38SrmNAiq9zcwH"
+Content-Transfer-Encoding: 8bit
 
---moJezG38SrmNAiq9zcwH
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+* Fix python3native inherit added in:
+  https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?id=a1e3f5c92cdee7c4259b7be643bd829ce7c1efa3
+  to actually work
+* also remove the work arounds for /usr/bin/python being python3
+  on the target device
+* I haven't tested this in runtime - I don't use it, it was just
+  showing that do_configure error in "bitbake world" builds, the
+  scripts might need some changes to be really compatible with
+  python3, but it was broken already, now it at least builds
+* upgrade to new version with
+  https://github.com/hpcng/singularity/pull/1762/commits/3c05f06e6a1c490a4b4714bcdf5a0ce2b2498bb5
+  would be nice by someone who actually uses this
 
-kubeadm init fails on conntrack however lsmod shows it installed
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ .../singularity/0001-Use-python3.patch        | 148 ++++++++++++++++++
+ .../singularity/singularity_git.bb            |  12 +-
+ 2 files changed, 151 insertions(+), 9 deletions(-)
+ create mode 100644 recipes-containers/singularity/singularity/0001-Use-python3.patch
 
-lsmod |grep con
-nf_conntrack_netlink=C2=A0=C2=A0=C2=A0 36868=C2=A0 0
-nfnetlink=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 10710=C2=A0 2 nf_conntrack_netlink
-nf_conntrack_ipv4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 15556=C2=A0 2
-nf_defrag_ipv4=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2348=
-=C2=A0 1 nf_conntrack_ipv4
-xt_conntrack=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 4454=C2=A0 1
-nf_conntrack=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 142151=
-=C2=A0 6 nf_conntrack_ipv4,nf_conntrack_netlink,nf_nat_masquerade_ipv4,xt_=
-conntrack,nf_nat_ipv4,nf_nat
-x_tables=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=
-=C2=A0=C2=A0=C2=A0 41226=C2=A0 5 ip_tables,iptable_filter,ipt_MASQUERADE,x=
-t_addrtype,xt_conntrack
+diff --git a/recipes-containers/singularity/singularity/0001-Use-python3.patch b/recipes-containers/singularity/singularity/0001-Use-python3.patch
+new file mode 100644
+index 0000000..dbfe06e
+--- /dev/null
++++ b/recipes-containers/singularity/singularity/0001-Use-python3.patch
+@@ -0,0 +1,148 @@
++From 758c1edc7bf3d2a023954f4fcc9ddf46fd370272 Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Thu, 21 May 2020 14:14:56 +0200
++Subject: [PATCH] Use python3
++
++* without /usr/bin/python this just fails to configure with:
++  | checking for python... no
++  | configure: error: Please install python before installing.
++  | WARNING: exit code 1 from a shell command.
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ configure.ac                           | 6 +++---
++ etc/configure_transform.py             | 2 +-
++ libexec/python/helpers/json/add.py     | 2 +-
++ libexec/python/helpers/json/delete.py  | 2 +-
++ libexec/python/helpers/json/dump.py    | 2 +-
++ libexec/python/helpers/json/get.py     | 2 +-
++ libexec/python/helpers/json/inspect.py | 2 +-
++ libexec/python/import.py               | 2 +-
++ libexec/python/pull.py                 | 2 +-
++ libexec/python/shub/api.py             | 2 +-
++ libexec/python/size.py                 | 2 +-
++ 11 files changed, 13 insertions(+), 13 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index 8ffa5ab32..71a1605b2 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -251,15 +251,15 @@ fi
++ # PYTHON
++ # ---------------------------------------------------------------------
++ 
++-AC_CHECK_PROG(PYTHON_CHECK,python,yes)
+++AC_CHECK_PROG(PYTHON_CHECK,python3,yes)
++ if test x"$PYTHON_CHECK" != x"yes" ; then
++-    AC_MSG_ERROR([Please install python before installing.])
+++    AC_MSG_ERROR([Please install python3 before installing.])
++ else
++ 
++     PYTHON_MODULES="base64 datetime glob hashlib io itertools json math multiprocessing pickle pwd re shutil signal subprocess stat sys tarfile tempfile time"
++     for PYTHON_MODULE in $PYTHON_MODULES; do
++         AC_MSG_CHECKING([for the $PYTHON_MODULE python module])
++-	    python_module_result=`python -c "import $PYTHON_MODULE" 2>&1`
+++	    python_module_result=`python3 -c "import $PYTHON_MODULE" 2>&1`
++ 	    if test -z "$python_module_result"; then
++ 		AC_MSG_RESULT([yes])
++ 	    else
++diff --git a/etc/configure_transform.py b/etc/configure_transform.py
++index a1ff5c427..9ec445d21 100755
++--- a/etc/configure_transform.py
+++++ b/etc/configure_transform.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ # 
++ # Copyright (c) 2017, SingularityWare, LLC. All rights reserved.
++ #
++diff --git a/libexec/python/helpers/json/add.py b/libexec/python/helpers/json/add.py
++index b24aec75a..22abbbeb9 100644
++--- a/libexec/python/helpers/json/add.py
+++++ b/libexec/python/helpers/json/add.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/helpers/json/delete.py b/libexec/python/helpers/json/delete.py
++index 0975e4e60..07e255228 100644
++--- a/libexec/python/helpers/json/delete.py
+++++ b/libexec/python/helpers/json/delete.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/helpers/json/dump.py b/libexec/python/helpers/json/dump.py
++index ddba06e4a..37a8edf70 100644
++--- a/libexec/python/helpers/json/dump.py
+++++ b/libexec/python/helpers/json/dump.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/helpers/json/get.py b/libexec/python/helpers/json/get.py
++index 355be9040..d1d822aea 100644
++--- a/libexec/python/helpers/json/get.py
+++++ b/libexec/python/helpers/json/get.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/helpers/json/inspect.py b/libexec/python/helpers/json/inspect.py
++index 65772a4ef..61c723495 100644
++--- a/libexec/python/helpers/json/inspect.py
+++++ b/libexec/python/helpers/json/inspect.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/import.py b/libexec/python/import.py
++index 2ec208417..1c58eda5c 100644
++--- a/libexec/python/import.py
+++++ b/libexec/python/import.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/pull.py b/libexec/python/pull.py
++index 1cd705c90..4431023f3 100644
++--- a/libexec/python/pull.py
+++++ b/libexec/python/pull.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/shub/api.py b/libexec/python/shub/api.py
++index 850d167e7..3c8313ad5 100644
++--- a/libexec/python/shub/api.py
+++++ b/libexec/python/shub/api.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
++diff --git a/libexec/python/size.py b/libexec/python/size.py
++index 34331fd27..99581ce52 100644
++--- a/libexec/python/size.py
+++++ b/libexec/python/size.py
++@@ -1,4 +1,4 @@
++-#!/usr/bin/env python
+++#!/usr/bin/env python3
++ 
++ '''
++ 
+diff --git a/recipes-containers/singularity/singularity_git.bb b/recipes-containers/singularity/singularity_git.bb
+index a265352..103270d 100644
+--- a/recipes-containers/singularity/singularity_git.bb
++++ b/recipes-containers/singularity/singularity_git.bb
+@@ -3,9 +3,6 @@
+ INSANE_SKIP_${PN} += "dev-so"
+ 
+ RDEPENDS_${PN} += "glibc python3 ca-certificates openssl bash e2fsprogs-mke2fs"
+-# Singularity expects to find python3 under the name python, therefore both
+-# cannot be installed at the same time.
+-RCONFLICTS_${PN} = "python"
+ 
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://COPYRIGHT.md;md5=be78c34e483dd7d8439358b1e024b294 \
+@@ -13,7 +10,9 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT.md;md5=be78c34e483dd7d8439358b1e024b294 \
+                     file://LICENSE.md;md5=df4326b473db6424033f1d98a5645e30 \
+                     file://debian/copyright;md5=ed267cf386d9b75ab1f27f407e935b10"
+ 
+-SRC_URI = "git://github.com/singularityware/singularity.git;protocol=https"
++SRC_URI = "git://github.com/singularityware/singularity.git;protocol=https \
++    file://0001-Use-python3.patch \
++"
+ PV = "2.3.1+git${SRCPV}"
+ SRCREV = "e214d4ebf0a1274b1c63b095fd55ae61c7e92947"
+ 
+@@ -23,11 +22,6 @@ inherit python3native autotools-brokensep
+ EXTRA_OECONF = "--prefix=/usr/local"
+ 
+ pkg_postinst_${PN}() {
+-    # Singularity requires "python" to resolve to "python3" within the commandline.
+-    # This creates a symbolic link from python3 to python. A side-effect of this is
+-    # that scripts which expect Python 2 may fail to run correctly.
+-    ln -sr $D${bindir}/python3 $D${bindir}/python 
+-
+     # python3 expects CA certificates to be installed in a different place to where
+     # they are actually installed. These lines link the two locations.
+     rm -r $D${libdir}/ssl/certs
+-- 
+2.25.1
 
-and with --ignore-preflight-errors=3D... it still fails
-
-root@jetson-nano-qspi-sd:~# kubeadm init --ignore-preflight-errors=3D... -=
--pod-network-cidr=3D10.244.0.0/16 --v=3D5
-I0521 07:17:37.135612=C2=A0=C2=A0 10539 initconfiguration.go:103] detected=
- and using CRI socket: /var/run/dockershim.sock
-I0521 07:17:37.136062=C2=A0=C2=A0 10539 interface.go:400] Looking for defa=
-ult routes with IPv4 addresses
-I0521 07:17:37.136105=C2=A0=C2=A0 10539 interface.go:405] Default route tr=
-ansits interface "eth0"
-I0521 07:17:37.136390=C2=A0=C2=A0 10539 interface.go:208] Interface eth0 i=
-s up
-I0521 07:17:37.136557=C2=A0=C2=A0 10539 interface.go:256] Interface "eth0"=
- has 2 addresses :[192.168.2.132/24 fe80::2e0:4cff:fe68:20d/64].
-I0521 07:17:37.136651=C2=A0=C2=A0 10539 interface.go:223] Checking addr=C2=
-=
-=A0 192.168.2.132/24.
-I0521 07:17:37.136684=C2=A0=C2=A0 10539 interface.go:230] IP found 192.168=
-.2.132
-I0521 07:17:37.136731=C2=A0=C2=A0 10539 interface.go:262] Found valid IPv4=
- address 192.168.2.132 for interface "eth0".
-I0521 07:17:37.136760=C2=A0=C2=A0 10539 interface.go:411] Found active IP =
-192.168.2.132
-I0521 07:17:37.136908=C2=A0=C2=A0 10539 version.go:183] fetching Kubernete=
-s version from URL: https://dl.k8s.io/release/stable-1.txt
-W0521 07:17:37.985197=C2=A0=C2=A0 10539 configset.go:202] WARNING: kubeadm=
- cannot validate component configs for API groups [kubelet.config.k8s.io ku=
-beproxy.config.k8s.io]
-[init] Using Kubernetes version: v1.18.3
-[preflight] Running pre-flight checks
-I0521 07:17:37.985770=C2=A0=C2=A0 10539 checks.go:577] validating Kubernet=
-es and kubeadm version
-I0521 07:17:37.985877=C2=A0=C2=A0 10539 checks.go:166] validating if the f=
-irewall is enabled and active
-I0521 07:17:38.006216=C2=A0=C2=A0 10539 checks.go:201] validating availabi=
-lity of port 6443
-I0521 07:17:38.006588=C2=A0=C2=A0 10539 checks.go:201] validating availabi=
-lity of port 10259
-I0521 07:17:38.006706=C2=A0=C2=A0 10539 checks.go:201] validating availabi=
-lity of port 10257
-I0521 07:17:38.006825=C2=A0=C2=A0 10539 checks.go:286] validating the exis=
-tence of file /etc/kubernetes/manifests/kube-apiserver.yaml
-I0521 07:17:38.006893=C2=A0=C2=A0 10539 checks.go:286] validating the exis=
-tence of file /etc/kubernetes/manifests/kube-controller-manager.yaml
-I0521 07:17:38.006977=C2=A0=C2=A0 10539 checks.go:286] validating the exis=
-tence of file /etc/kubernetes/manifests/kube-scheduler.yaml
-I0521 07:17:38.007101=C2=A0=C2=A0 10539 checks.go:286] validating the exis=
-tence of file /etc/kubernetes/manifests/etcd.yaml
-I0521 07:17:38.007181=C2=A0=C2=A0 10539 checks.go:432] validating if the c=
-onnectivity type is via proxy or direct
-I0521 07:17:38.007241=C2=A0=C2=A0 10539 checks.go:471] validating http con=
-nectivity to first IP address in the CIDR
-I0521 07:17:38.007342=C2=A0=C2=A0 10539 checks.go:471] validating http con=
-nectivity to first IP address in the CIDR
-I0521 07:17:38.007456=C2=A0=C2=A0 10539 checks.go:102] validating the cont=
-ainer runtime
-I0521 07:17:38.103903=C2=A0=C2=A0 10539 checks.go:128] validating if the s=
-ervice is enabled and active
-I0521 07:17:38.233858=C2=A0=C2=A0 10539 checks.go:335] validating the cont=
-ents of file /proc/sys/net/bridge/bridge-nf-call-iptables
-I0521 07:17:38.233985=C2=A0=C2=A0 10539 checks.go:335] validating the cont=
-ents of file /proc/sys/net/ipv4/ip_forward
-I0521 07:17:38.234058=C2=A0=C2=A0 10539 checks.go:649] validating whether =
-swap is enabled or not
-I0521 07:17:38.234140=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable conntrack
-I0521 07:17:38.234260=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable ip
-I0521 07:17:38.234331=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable iptables
-I0521 07:17:38.234386=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable mount
-I0521 07:17:38.234456=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable nsenter
-I0521 07:17:38.234550=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable ebtables
-I0521 07:17:38.234636=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable ethtool
-I0521 07:17:38.234777=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable socat
-I0521 07:17:38.234814=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable tc
-I0521 07:17:38.234899=C2=A0=C2=A0 10539 checks.go:376] validating the pres=
-ence of executable touch
-I0521 07:17:38.234942=C2=A0=C2=A0 10539 checks.go:520] running all checks
-I0521 07:17:38.353978=C2=A0=C2=A0 10539 checks.go:406] checking whether th=
-e given node name is reachable using net.LookupHost
-I0521 07:17:38.354066=C2=A0=C2=A0 10539 checks.go:618] validating kubelet =
-version
-I0521 07:17:38.490789=C2=A0=C2=A0 10539 checks.go:128] validating if the s=
-ervice is enabled and active
-I0521 07:17:38.514091=C2=A0=C2=A0 10539 checks.go:201] validating availabi=
-lity of port 10250
-I0521 07:17:38.514265=C2=A0=C2=A0 10539 checks.go:201] validating availabi=
-lity of port 2379
-I0521 07:17:38.514364=C2=A0=C2=A0 10539 checks.go:201] validating availabi=
-lity of port 2380
-I0521 07:17:38.514457=C2=A0=C2=A0 10539 checks.go:249] validating the exis=
-tence and emptiness of directory /var/lib/etcd
-[preflight] Some fatal errors occurred:
-[ERROR FileExisting-conntrack]: conntrack not found in system path
-[preflight] If you know what you are doing, you can make a check non-fatal=
- with `--ignore-preflight-errors=3D...`
-error execution phase preflight
-k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow.(*Runner).Run.func1
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow/runner.go:235
-k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow.(*Runner).visitAll
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow/runner.go:422
-k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow.(*Runner).Run
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow/runner.go:207
-k8s.io/kubernetes/cmd/kubeadm/app/cmd.NewCmdInit.func1
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/cmd/kubeadm/app/cmd/init.go:147
-k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).execute
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:826
-k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).ExecuteC
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:914
-k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).Execute
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/command.go:864
-k8s.io/kubernetes/cmd/kubeadm/app.Run
-/home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.=
-3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-be=
-ta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/=
-src/k8s.io/kubernetes/cmd/kubeadm/app/kubeadm.go:50
-main.main
-_output/local/go/src/k8s.io/kubernetes/cmd/kubeadm/kubeadm.go:25
-runtime.main
-/usr/lib/go/src/runtime/proc.go:203
-runtime.goexit
-/usr/lib/go/src/runtime/asm_arm64.s:1148
-root@jetson-nano-qspi-sd:~#
-
---moJezG38SrmNAiq9zcwH
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-kubeadm init fails on conntrack however lsmod shows it installed<br /><br /=
->lsmod |grep con<br />nf_conntrack_netlink&nbsp;&nbsp;&nbsp; 36868&nbsp; 0<=
-br />nfnetlink&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; 10710&nbsp; 2 nf_conntrack_netlink<br />nf_conntrack_ipv4=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 15556&nbsp; 2<br />nf_defrag_ipv4&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2348&nbsp; 1 nf_conntrack_ipv4<=
-br />xt_conntrack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp; 4454&nbsp; 1<br />nf_conntrack&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp; 142151&nbsp; 6 nf_conntrack_ipv4,nf_conntrack_netlink,nf=
-_nat_masquerade_ipv4,xt_conntrack,nf_nat_ipv4,nf_nat<br />x_tables&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- 41226&nbsp; 5 ip_tables,iptable_filter,ipt_MASQUERADE,xt_addrtype,xt_connt=
-rack<br /><br />and with --ignore-preflight-errors=3D... it still fails <br=
- /><br />root@jetson-nano-qspi-sd:~# kubeadm init --ignore-preflight-errors=
-=
-=3D... --pod-network-cidr=3D10.244.0.0/16 --v=3D5<br />I0521 07:17:37.1356=
-12&nbsp;&nbsp; 10539 initconfiguration.go:103] detected and using CRI socke=
-t: /var/run/dockershim.sock<br />I0521 07:17:37.136062&nbsp;&nbsp; 10539 in=
-terface.go:400] Looking for default routes with IPv4 addresses<br />I0521 0=
-7:17:37.136105&nbsp;&nbsp; 10539 interface.go:405] Default route transits i=
-nterface "eth0"<br />I0521 07:17:37.136390&nbsp;&nbsp; 10539 interface.go:2=
-08] Interface eth0 is up<br />I0521 07:17:37.136557&nbsp;&nbsp; 10539 inter=
-face.go:256] Interface "eth0" has 2 addresses :[192.168.2.132/24 fe80::2e0:=
-4cff:fe68:20d/64].<br />I0521 07:17:37.136651&nbsp;&nbsp; 10539 interface.g=
-o:223] Checking addr&nbsp; 192.168.2.132/24.<br />I0521 07:17:37.136684&nbs=
-p;&nbsp; 10539 interface.go:230] IP found 192.168.2.132<br />I0521 07:17:37=
-.136731&nbsp;&nbsp; 10539 interface.go:262] Found valid IPv4 address 192.16=
-8.2.132 for interface "eth0".<br />I0521 07:17:37.136760&nbsp;&nbsp; 10539 =
-interface.go:411] Found active IP 192.168.2.132 <br />I0521 07:17:37.136908=
-&nbsp;&nbsp; 10539 version.go:183] fetching Kubernetes version from URL: ht=
-tps://dl.k8s.io/release/stable-1.txt<br />W0521 07:17:37.985197&nbsp;&nbsp;=
- 10539 configset.go:202] WARNING: kubeadm cannot validate component configs=
- for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]<br />[init]=
- Using Kubernetes version: v1.18.3<br />[preflight] Running pre-flight chec=
-ks<br />I0521 07:17:37.985770&nbsp;&nbsp; 10539 checks.go:577] validating K=
-ubernetes and kubeadm version<br />I0521 07:17:37.985877&nbsp;&nbsp; 10539 =
-checks.go:166] validating if the firewall is enabled and active<br />I0521 =
-07:17:38.006216&nbsp;&nbsp; 10539 checks.go:201] validating availability of=
- port 6443<br />I0521 07:17:38.006588&nbsp;&nbsp; 10539 checks.go:201] vali=
-dating availability of port 10259<br />I0521 07:17:38.006706&nbsp;&nbsp; 10=
-539 checks.go:201] validating availability of port 10257<br />I0521 07:17:3=
-8.006825&nbsp;&nbsp; 10539 checks.go:286] validating the existence of file =
-/etc/kubernetes/manifests/kube-apiserver.yaml<br />I0521 07:17:38.006893&nb=
-sp;&nbsp; 10539 checks.go:286] validating the existence of file /etc/kubern=
-etes/manifests/kube-controller-manager.yaml<br />I0521 07:17:38.006977&nbsp=
-;&nbsp; 10539 checks.go:286] validating the existence of file /etc/kubernet=
-es/manifests/kube-scheduler.yaml<br />I0521 07:17:38.007101&nbsp;&nbsp; 105=
-39 checks.go:286] validating the existence of file /etc/kubernetes/manifest=
-s/etcd.yaml<br />I0521 07:17:38.007181&nbsp;&nbsp; 10539 checks.go:432] val=
-idating if the connectivity type is via proxy or direct<br />I0521 07:17:38=
-.007241&nbsp;&nbsp; 10539 checks.go:471] validating http connectivity to fi=
-rst IP address in the CIDR<br />I0521 07:17:38.007342&nbsp;&nbsp; 10539 che=
-cks.go:471] validating http connectivity to first IP address in the CIDR<br=
- />I0521 07:17:38.007456&nbsp;&nbsp; 10539 checks.go:102] validating the co=
-ntainer runtime<br />I0521 07:17:38.103903&nbsp;&nbsp; 10539 checks.go:128]=
- validating if the service is enabled and active<br />I0521 07:17:38.233858=
-&nbsp;&nbsp; 10539 checks.go:335] validating the contents of file /proc/sys=
-/net/bridge/bridge-nf-call-iptables<br />I0521 07:17:38.233985&nbsp;&nbsp; =
-10539 checks.go:335] validating the contents of file /proc/sys/net/ipv4/ip_=
-forward<br />I0521 07:17:38.234058&nbsp;&nbsp; 10539 checks.go:649] validat=
-ing whether swap is enabled or not<br />I0521 07:17:38.234140&nbsp;&nbsp; 1=
-0539 checks.go:376] validating the presence of executable conntrack<br />I0=
-521 07:17:38.234260&nbsp;&nbsp; 10539 checks.go:376] validating the presenc=
-e of executable ip<br />I0521 07:17:38.234331&nbsp;&nbsp; 10539 checks.go:3=
-76] validating the presence of executable iptables<br />I0521 07:17:38.2343=
-86&nbsp;&nbsp; 10539 checks.go:376] validating the presence of executable m=
-ount<br />I0521 07:17:38.234456&nbsp;&nbsp; 10539 checks.go:376] validating=
- the presence of executable nsenter<br />I0521 07:17:38.234550&nbsp;&nbsp; =
-10539 checks.go:376] validating the presence of executable ebtables<br />I0=
-521 07:17:38.234636&nbsp;&nbsp; 10539 checks.go:376] validating the presenc=
-e of executable ethtool<br />I0521 07:17:38.234777&nbsp;&nbsp; 10539 checks=
-.go:376] validating the presence of executable socat<br />I0521 07:17:38.23=
-4814&nbsp;&nbsp; 10539 checks.go:376] validating the presence of executable=
- tc<br />I0521 07:17:38.234899&nbsp;&nbsp; 10539 checks.go:376] validating =
-the presence of executable touch<br />I0521 07:17:38.234942&nbsp;&nbsp; 105=
-39 checks.go:520] running all checks<br />I0521 07:17:38.353978&nbsp;&nbsp;=
- 10539 checks.go:406] checking whether the given node name is reachable usi=
-ng net.LookupHost<br />I0521 07:17:38.354066&nbsp;&nbsp; 10539 checks.go:61=
-8] validating kubelet version<br />I0521 07:17:38.490789&nbsp;&nbsp; 10539 =
-checks.go:128] validating if the service is enabled and active<br />I0521 0=
-7:17:38.514091&nbsp;&nbsp; 10539 checks.go:201] validating availability of =
-port 10250<br />I0521 07:17:38.514265&nbsp;&nbsp; 10539 checks.go:201] vali=
-dating availability of port 2379<br />I0521 07:17:38.514364&nbsp;&nbsp; 105=
-39 checks.go:201] validating availability of port 2380<br />I0521 07:17:38.=
-514457&nbsp;&nbsp; 10539 checks.go:249] validating the existence and emptin=
-ess of directory /var/lib/etcd<br />[preflight] Some fatal errors occurred:=
-<br />&nbsp;&nbsp;&nbsp; [ERROR FileExisting-conntrack]: conntrack not foun=
-d in system path<br />[preflight] If you know what you are doing, you can m=
-ake a check non-fatal with `--ignore-preflight-errors=3D...`<br />error exe=
-cution phase preflight<br />k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/wo=
-rkflow.(*Runner).Run.func1<br />&nbsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/b=
-uild/tmp/work/aarch64-poky-linux/kubernetes/v1.18.3-beta+gitfe3ac3e38838a09=
-dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-beta+gitfe3ac3e38838a09dfd4=
-b48d568083144211a95f8/src/import/_output/local/go/src/k8s.io/kubernetes/cmd=
-/kubeadm/app/cmd/phases/workflow/runner.go:235<br />k8s.io/kubernetes/cmd/k=
-ubeadm/app/cmd/phases/workflow.(*Runner).visitAll<br />&nbsp;&nbsp;&nbsp; /=
-home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/kubernetes/v1.18.3-=
-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kubernetes-v1.18.3-beta=
-+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_output/local/go/sr=
-c/k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow/runner.go:422<br />=
-k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow.(*Runner).Run<br />&n=
-bsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-linux/k=
-ubernetes/v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/kuber=
-netes-v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/import/_=
-output/local/go/src/k8s.io/kubernetes/cmd/kubeadm/app/cmd/phases/workflow/r=
-unner.go:207<br />k8s.io/kubernetes/cmd/kubeadm/app/cmd.NewCmdInit.func1<br=
- />&nbsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-li=
-nux/kubernetes/v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/=
-kubernetes-v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/imp=
-ort/_output/local/go/src/k8s.io/kubernetes/cmd/kubeadm/app/cmd/init.go:147<=
-br />k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command).execute<br =
-/>&nbsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/build/tmp/work/aarch64-poky-lin=
-ux/kubernetes/v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8-r0/k=
-ubernetes-v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/src/impo=
-rt/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/spf13/cobra/com=
-mand.go:826<br />k8s.io/kubernetes/vendor/github.com/spf13/cobra.(*Command)=
-.ExecuteC<br />&nbsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/build/tmp/work/aar=
-ch64-poky-linux/kubernetes/v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144=
-211a95f8-r0/kubernetes-v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a=
-95f8/src/import/_output/local/go/src/k8s.io/kubernetes/vendor/github.com/sp=
-f13/cobra/command.go:914<br />k8s.io/kubernetes/vendor/github.com/spf13/cob=
-ra.(*Command).Execute<br />&nbsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/build/=
-tmp/work/aarch64-poky-linux/kubernetes/v1.18.3-beta+gitfe3ac3e38838a09dfd4b=
-48d568083144211a95f8-r0/kubernetes-v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d5=
-68083144211a95f8/src/import/_output/local/go/src/k8s.io/kubernetes/vendor/g=
-ithub.com/spf13/cobra/command.go:864<br />k8s.io/kubernetes/cmd/kubeadm/app=
-.Run<br />&nbsp;&nbsp;&nbsp; /home/dingo/yocto/NANO/build/tmp/work/aarch64-=
-poky-linux/kubernetes/v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a9=
-5f8-r0/kubernetes-v1.18.3-beta+gitfe3ac3e38838a09dfd4b48d568083144211a95f8/=
-src/import/_output/local/go/src/k8s.io/kubernetes/cmd/kubeadm/app/kubeadm.g=
-o:50<br />main.main<br />&nbsp;&nbsp;&nbsp; _output/local/go/src/k8s.io/kub=
-ernetes/cmd/kubeadm/kubeadm.go:25<br />runtime.main<br />&nbsp;&nbsp;&nbsp;=
- /usr/lib/go/src/runtime/proc.go:203<br />runtime.goexit<br />&nbsp;&nbsp;&=
-nbsp; /usr/lib/go/src/runtime/asm_arm64.s:1148<br />root@jetson-nano-qspi-s=
-d:~#
-
---moJezG38SrmNAiq9zcwH--
