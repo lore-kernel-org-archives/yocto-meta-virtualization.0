@@ -1,24 +1,24 @@
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web12.3262.1591124070092487757
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+ by mx.groups.io with SMTP id smtpd.web10.3250.1591124071761275420
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 02 Jun 2020 11:54:30 -0700
+ Tue, 02 Jun 2020 11:54:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: bsarashk@windriver.com)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: bsarashk@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 052IsSO6014870
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 052IsUZm021867
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Tue, 2 Jun 2020 11:54:28 -0700 (PDT)
+	Tue, 2 Jun 2020 11:54:30 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 2 Jun 2020
- 11:54:27 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id 9D083C60095;
+ 11:54:30 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id B8F45C60173;
  Tue,  2 Jun 2020 11:54:27 -0700 (PDT)
 From: "Babak Sarashki" <babak.sarashki@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: <zbsarashki@gmail.com>, Babak Sarashki <Babak.SarAshki@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH 01/34] python-automaton: satisfy setup.py setup_requires
-Date: Tue, 2 Jun 2020 11:53:54 -0700
-Message-ID: <20200602185427.36627-2-Babak.SarAshki@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 05/34] python-cinder: satisfy setup.py setup_requires
+Date: Tue, 2 Jun 2020 11:53:58 -0700
+Message-ID: <20200602185427.36627-6-Babak.SarAshki@windriver.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
 References: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
@@ -31,15 +31,15 @@ This commits extends DEPENDS to python-pbr-native.
 
 Signed-off-by: Babak Sarashki <Babak.SarAshki@windriver.com>
 ---
- .../recipes-devtools/python/python-automaton_0.8.0.bb        | 5 +++++
+ meta-openstack/recipes-devtools/python/python-cinder_git.bb | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-automaton_0.8.0.bb b/meta-openstack/recipes-devtools/python/python-automaton_0.8.0.bb
-index 3cfd3fd..41ec297 100644
---- a/meta-openstack/recipes-devtools/python/python-automaton_0.8.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python-automaton_0.8.0.bb
-@@ -13,6 +13,11 @@ DEPENDS += " \
-         python-pip \
+diff --git a/meta-openstack/recipes-devtools/python/python-cinder_git.bb b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
+index 29d3594..8afe84d 100644
+--- a/meta-openstack/recipes-devtools/python/python-cinder_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-cinder_git.bb
+@@ -199,6 +199,11 @@ DEPENDS += " \
+         python-pbr \
          "
  
 +# Satisfy setup.py 'setup_requires'
@@ -48,8 +48,8 @@ index 3cfd3fd..41ec297 100644
 +        "
 +
  RDEPENDS_${PN} += " \
+         lvm2 \
          python-pbr \
-         python-six \
 -- 
 2.23.0
 
