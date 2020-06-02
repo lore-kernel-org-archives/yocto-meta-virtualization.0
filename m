@@ -1,24 +1,24 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web11.3206.1591124123826703629
+ by mx.groups.io with SMTP id smtpd.web12.3290.1591124123824053087
  for <meta-virtualization@lists.yoctoproject.org>;
  Tue, 02 Jun 2020 11:55:23 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: bsarashk@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 052IsfD1026299
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 052IsfD2026299
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
 	Tue, 2 Jun 2020 11:54:57 -0700
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 2 Jun 2020
- 11:54:32 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id D4C09C60E4A;
+ 11:54:33 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id E2678C6112F;
  Tue,  2 Jun 2020 11:54:27 -0700 (PDT)
 From: "Babak Sarashki" <babak.sarashki@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: <zbsarashki@gmail.com>, Babak Sarashki <Babak.SarAshki@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH 09/34] python-glacnestore: satisfy setup.py setup_requires
-Date: Tue, 2 Jun 2020 11:54:02 -0700
-Message-ID: <20200602185427.36627-10-Babak.SarAshki@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 11/34] python-horizon: satisfy setup.py setup_requires
+Date: Tue, 2 Jun 2020 11:54:04 -0700
+Message-ID: <20200602185427.36627-12-Babak.SarAshki@windriver.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
 References: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
@@ -31,14 +31,14 @@ This commits extends DEPENDS to python-pbr-native.
 
 Signed-off-by: Babak Sarashki <Babak.SarAshki@windriver.com>
 ---
- .../recipes-devtools/python/python-glancestore_git.bb        | 5 +++++
+ meta-openstack/recipes-devtools/python/python-horizon_git.bb | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-glancestore_git.bb b/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
-index b52fbdf..3756dda 100644
---- a/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-glancestore_git.bb
-@@ -21,6 +21,11 @@ DEPENDS += " \
+diff --git a/meta-openstack/recipes-devtools/python/python-horizon_git.bb b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
+index 875104a..26afe40 100644
+--- a/meta-openstack/recipes-devtools/python/python-horizon_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-horizon_git.bb
+@@ -9,6 +9,11 @@ DEPENDS += " \
          python-pbr \
          "
  
@@ -47,9 +47,9 @@ index b52fbdf..3756dda 100644
 +        python-pbr-native \
 +        "
 +
- RDEPENDS_${PN} = " \
-    python-enum34 \
-    python-eventlet \
+ RDEPENDS_${PN} += " \
+         python-pbr \
+         python-babel \
 -- 
 2.23.0
 
