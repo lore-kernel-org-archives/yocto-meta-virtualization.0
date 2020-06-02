@@ -1,24 +1,24 @@
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web12.3286.1591124112096154131
+ by mx.groups.io with SMTP id smtpd.web11.3196.1591124112244777201
  for <meta-virtualization@lists.yoctoproject.org>;
  Tue, 02 Jun 2020 11:55:12 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: bsarashk@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 052It9GQ015388
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 052It9GR015388
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
 	Tue, 2 Jun 2020 11:55:11 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 2 Jun 2020
  11:54:57 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id 6799BC61BB8;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id 433BBC61BB0;
  Tue,  2 Jun 2020 11:54:28 -0700 (PDT)
 From: "Babak Sarashki" <babak.sarashki@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: <zbsarashki@gmail.com>, Babak Sarashki <Babak.SarAshki@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH 28/34] python-pypowervm: satisfy setup.py setup_requires
-Date: Tue, 2 Jun 2020 11:54:21 -0700
-Message-ID: <20200602185427.36627-29-Babak.SarAshki@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 23/34] python-os-xenapi: satisfy setup.py setup_requires
+Date: Tue, 2 Jun 2020 11:54:16 -0700
+Message-ID: <20200602185427.36627-24-Babak.SarAshki@windriver.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
 References: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
@@ -31,25 +31,25 @@ This commits extends DEPENDS to python-pbr-native.
 
 Signed-off-by: Babak Sarashki <Babak.SarAshki@windriver.com>
 ---
- .../recipes-devtools/python/python-pypowervm_1.1.10.bb       | 5 +++++
+ .../recipes-devtools/python/python-os-xenapi_git.bb          | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb b/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb
-index 85cf55a..062d351 100644
---- a/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb
-+++ b/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb
-@@ -9,6 +9,11 @@ SRC_URI[sha256sum] = "ab27d4efb59105555b6c9b1fe7792fd895ad9ca893058c39bba4106d6a
- 
- inherit setuptools3 pypi
+diff --git a/meta-openstack/recipes-devtools/python/python-os-xenapi_git.bb b/meta-openstack/recipes-devtools/python/python-os-xenapi_git.bb
+index 66850d0..b6ef425 100644
+--- a/meta-openstack/recipes-devtools/python/python-os-xenapi_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-os-xenapi_git.bb
+@@ -19,6 +19,11 @@ DEPENDS += " \
+         python-pbr \
+         "
  
 +# Satisfy setup.py 'setup_requires'
 +DEPENDS += " \
 +        python-pbr-native \
 +	"
-+
++	
  RDEPENDS_${PN} += " \
-         python-lxml \
-         python-oslo.concurrency \
+         python-pbr \
+         python-babel \
 -- 
 2.23.0
 
