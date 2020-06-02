@@ -1,24 +1,24 @@
 Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.3297.1591124139259422618
+ by mx.groups.io with SMTP id smtpd.web12.3298.1591124139436478536
  for <meta-virtualization@lists.yoctoproject.org>;
  Tue, 02 Jun 2020 11:55:39 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: bsarashk@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 052IsfD5026299
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 052IsfD6026299
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
 	Tue, 2 Jun 2020 11:55:13 -0700
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 2 Jun 2020
  11:55:06 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id 75768C61BBB;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id 7C5EAC61BBC;
  Tue,  2 Jun 2020 11:54:28 -0700 (PDT)
 From: "Babak Sarashki" <babak.sarashki@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: <zbsarashki@gmail.com>, Babak Sarashki <Babak.SarAshki@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH 30/34] python-ryu: satisfy setup.py setup_requires
-Date: Tue, 2 Jun 2020 11:54:23 -0700
-Message-ID: <20200602185427.36627-31-Babak.SarAshki@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 31/34] python-swift: satisfy setup.py setup_requires
+Date: Tue, 2 Jun 2020 11:54:24 -0700
+Message-ID: <20200602185427.36627-32-Babak.SarAshki@windriver.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
 References: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
@@ -31,14 +31,14 @@ This commits extends DEPENDS to python-pbr-native.
 
 Signed-off-by: Babak Sarashki <Babak.SarAshki@windriver.com>
 ---
- meta-openstack/recipes-devtools/python/python-ryu_git.bb | 5 +++++
+ meta-openstack/recipes-devtools/python/python-swift_git.bb | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-ryu_git.bb b/meta-openstack/recipes-devtools/python/python-ryu_git.bb
-index 5e78144..be10558 100644
---- a/meta-openstack/recipes-devtools/python/python-ryu_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-ryu_git.bb
-@@ -21,6 +21,11 @@ DEPENDS += " \
+diff --git a/meta-openstack/recipes-devtools/python/python-swift_git.bb b/meta-openstack/recipes-devtools/python/python-swift_git.bb
+index 87f7f04..a5998eb 100644
+--- a/meta-openstack/recipes-devtools/python/python-swift_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-swift_git.bb
+@@ -153,6 +153,11 @@ DEPENDS += " \
          python-pbr \
          "
  
@@ -48,8 +48,8 @@ index 5e78144..be10558 100644
 +	"
 +
  RDEPENDS_${PN} += " \
-         python-eventlet \
-         python-msgpack \
+     python-eventlet \
+     python-greenlet \
 -- 
 2.23.0
 
