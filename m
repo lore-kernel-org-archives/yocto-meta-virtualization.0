@@ -1,24 +1,24 @@
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
- by mx.groups.io with SMTP id smtpd.web11.3181.1591124070094078579
+ by mx.groups.io with SMTP id smtpd.web10.3248.1591124070093079236
  for <meta-virtualization@lists.yoctoproject.org>;
  Tue, 02 Jun 2020 11:54:30 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.1.11, mailfrom: bsarashk@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 052IsSO4014870
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 052IsSO7014870
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
 	Tue, 2 Jun 2020 11:54:28 -0700 (PDT)
 Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Tue, 2 Jun 2020
  11:54:27 -0700
-Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id A083EC60116;
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 16552)	id AA54DC60156;
  Tue,  2 Jun 2020 11:54:27 -0700 (PDT)
 From: "Babak Sarashki" <babak.sarashki@windriver.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: <zbsarashki@gmail.com>, Babak Sarashki <Babak.SarAshki@windriver.com>
-Subject: [meta-virtualization][m-c-s][PATCH 02/34] python-barbican: satisfy setup.py setup_requires
-Date: Tue, 2 Jun 2020 11:53:55 -0700
-Message-ID: <20200602185427.36627-3-Babak.SarAshki@windriver.com>
+Subject: [meta-virtualization][m-c-s][PATCH 03/34] pythin-castellan: satisfy setup.py setup_requires
+Date: Tue, 2 Jun 2020 11:53:56 -0700
+Message-ID: <20200602185427.36627-4-Babak.SarAshki@windriver.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
 References: <20200602185427.36627-1-Babak.SarAshki@windriver.com>
@@ -31,14 +31,14 @@ This commits extends DEPENDS to python-pbr-native.
 
 Signed-off-by: Babak Sarashki <Babak.SarAshki@windriver.com>
 ---
- .../recipes-devtools/python/python-barbican_git.bb           | 5 +++++
+ .../recipes-devtools/python/python-castellan_git.bb          | 5 +++++
  1 file changed, 5 insertions(+)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-barbican_git.bb b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-index 71cf4c3..8908e20 100644
---- a/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-+++ b/meta-openstack/recipes-devtools/python/python-barbican_git.bb
-@@ -96,6 +96,11 @@ DEPENDS += " \
+diff --git a/meta-openstack/recipes-devtools/python/python-castellan_git.bb b/meta-openstack/recipes-devtools/python/python-castellan_git.bb
+index a0017af..9cc56d7 100644
+--- a/meta-openstack/recipes-devtools/python/python-castellan_git.bb
++++ b/meta-openstack/recipes-devtools/python/python-castellan_git.bb
+@@ -21,6 +21,11 @@ DEPENDS += " \
          python-pbr \
          "
  
@@ -47,9 +47,9 @@ index 71cf4c3..8908e20 100644
 +        python-pbr-native \
 +        "
 +
- RDEPENDS_${SRCNAME} = "${PN} \
-                        ${SRCNAME}-setup \
-                        uwsgi \
+ RDEPENDS_${PN} += " \
+         python-pbr \
+         python-babel \
 -- 
 2.23.0
 
