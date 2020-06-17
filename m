@@ -1,78 +1,54 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.2086.1592354061057266113
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web10.2137.1592354104895304813
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 16 Jun 2020 17:34:21 -0700
+ Tue, 16 Jun 2020 17:35:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=caGqWzNv;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E6410E01D10; Tue, 16 Jun 2020 17:34:20 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,URIBL_RED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.219.66 listed in list.dnswl.org]
-	*  0.0 URIBL_RED Contains an URL listed in the URIBL redlist
-	*      [URIs: yoctoproject.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 40CFCE01CCB
-	for <meta-virtualization@yoctoproject.org>; Tue, 16 Jun 2020 17:34:20 -0700 (PDT)
-Received: by mail-qv1-f66.google.com with SMTP id cv17so219806qvb.13
-        for <meta-virtualization@yoctoproject.org>; Tue, 16 Jun 2020 17:34:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=m70OF8x2;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id l17so472174qki.9
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 16 Jun 2020 17:35:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=EtAL4AQeuovPIRAR9HwLSZ/D/Itq7pKP2LNuQP0sGoU=;
-        b=caGqWzNvW6DhMxifTKXBj+3QoJ5mmOLPXw3weFG+7KADXWp0foNBgsBB0nPXYUbMNn
-         LzFYflWJJB2A9zrK0yk1/LM56cF2KSnhmI/7KXJr9NjTVgf6mm3WlH/J6EpeLrUyFPJ6
-         ybm2Eyr4CECsGLNnf1lkzIFns9fLheEgPuxD9PpUaDinVCxkIGHNc1WYWtZLuNRU3rIw
-         oL/6/w9VPqBXYa60HeA6Pf0rLUKxCrS5YXnlcA+wQ8UWFMgJaSFhqaFZ0Q2A+diyXcf3
-         IuhPuX0AZobYQq8jCFgkH8rYGCfMZClVOEYikOKLPaxw4LoFmMPH886YmZ57oWgLnsJS
-         ZZpw==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=yEFbS/7ZVYG71vYbbJBu7uZc7j93W0/CKOPCRCerzV8=;
+        b=m70OF8x2CI47FGZfNUWI9tAqWIMRr8QtkgUj2qRx7LYTboP6waZsh/iu1FUOej33M4
+         +bq6ZAf2OoHRFzx1JdU+LskAC7joOxdTapRmCmqbLYGdl0EYK4c9jngfVaGVRH861Esg
+         0+gJ6aB3OfMZgAsxueczaMSfNmrjsg7A8N3/ek9NcMWOP683okDpLvG/VhdJdZp9jkQx
+         Uz/5HhpCCGuOwGqPRDkCpVZiG1bWUw8XNtN7McWGnC7C1Po88noY/ypmYPVPYZ+k3O2Y
+         LbkHeayMKPTVePTitB/QRctpAFnRBskw77MspyXlRK4Z90mQDuyQcN+Qm4APm8pL3qfF
+         sTKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=EtAL4AQeuovPIRAR9HwLSZ/D/Itq7pKP2LNuQP0sGoU=;
-        b=LIbYvESt+JUILbxa87mZIvdg9kt69hsP+ZTX7Asq6qPMkZdP3CaoZ8zpzg1SM3lCU7
-         3KGuoW30tOFxIJM65+CA1zOhpP1i+fmc8pyeoKAECff/sX8X0U3pEDAczn11+n3LiJQ6
-         eC6Xeg4o/JXPqqaRT6k2B8ek6wTAEzjs1i1aQEHW33Fxz6XaeqA3/M67e+uGqvpiclU8
-         d73OiX6OuhVkBk5v0oK1EfZF4gtYHJyj8LukSC1LdleFeTEIT2PjwQ4k1HmfVmbcwUYI
-         b8rKbvQoJyqYgKDyeitPRiTHkvRsD6Qld5rXPjvV0jPfuo6oNMqI1f8/cR9kdb3FpIyI
-         GfVA==
-X-Gm-Message-State: AOAM533oP8zKh076nEVCpmzkzq7CGLhvYmu6qWV1yaaoLf+FsZwawipS
-	4fH5/U5nBFHJ9DYYqTJk5wdAU6yHqKkHyA==
-X-Google-Smtp-Source: ABdhPJxUrc8AEXB35+tG2iTfzGpQZwsvfUNw9BKjGdOyMATjFYbEcfwv8aLP8y/9mSvgUCbNOJYmWg==
-X-Received: by 2002:ad4:50c8:: with SMTP id e8mr4964752qvq.98.1592354059588;
-        Tue, 16 Jun 2020 17:34:19 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=yEFbS/7ZVYG71vYbbJBu7uZc7j93W0/CKOPCRCerzV8=;
+        b=j+hZM89aLxGCSvWzJ1KFLxDY5gRWD95PeDQEFwrzqyVFC0SgcTQcsCOdInDCUToELF
+         M1ktFXsWAqIsKcxTi5R/vggwkCHInTGcIRIXJuVFLfMEvOi7TNm0wEKT6al9iLkdLCGX
+         IK8GQeJW7fyfYlqJwkTc5mBJEXH9M827BMKp5k9NFgChKMNkk2NUtwitaiqMhkqDMjQF
+         UOiQDidl358C5VV9jLc+NyjPCQX27gcnjvavVOF1ULMimaKQ2wqCNMwWI8x3QA4V9ot4
+         rcCzXqyHpCKOYV+aLX3/viIafr8M3UHCUk309HdIFk9ahk4T6IoH7y7tZm12xVC158vK
+         iyWw==
+X-Gm-Message-State: AOAM532CPYRV9qWK1Yolj+OtanMcXVGmkZdQNugYE1spYiplYAHyJCy7
+	giqgrIeUpz/D5JpiO9iHAvU=
+X-Google-Smtp-Source: ABdhPJwpUayxhsCkcCtWR8t6KQA9JV7bnv7OOn6KjUSZwALRCZ/Q60gXXM4AtiEdAjo0WZewzc+Xdw==
+X-Received: by 2002:a37:6813:: with SMTP id d19mr521574qkc.11.1592354103937;
+        Tue, 16 Jun 2020 17:35:03 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id 10sm15606760qkv.136.2020.06.16.17.34.18
+        by smtp.gmail.com with ESMTPSA id g64sm16276287qtd.39.2020.06.16.17.35.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 17:34:19 -0700 (PDT)
-Date: Tue, 16 Jun 2020 20:34:17 -0400
+        Tue, 16 Jun 2020 17:35:03 -0700 (PDT)
+Date: Tue, 16 Jun 2020 20:35:01 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization][meta-openstack][PATCH] python3-mox3: Change python to python3
-Message-ID: <20200617003416.GB5232@gmail.com>
-References: <1592316473-130293-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][meta-cloud-services][PATCH] python3-osc-lib: upgrade 1.13.0 -> 2.1.0
+Message-ID: <20200617003501.GC5232@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1592316473-130293-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1592209781-47932-2-git-send-email-wangmy@cn.fujitsu.com>
+ <1592209781-47932-3-git-send-email-wangmy@cn.fujitsu.com>
+ <1592209781-47932-1-git-send-email-wangmy@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -81,53 +57,56 @@ merged
 
 Bruce
 
+In message: [meta-virtualization][meta-cloud-services][PATCH] python3-osc-lib: upgrade 1.13.0 -> 2.1.0
+on 15/06/2020 Wang Mingyu wrote:
 
-In message: [meta-virtualization][meta-openstack][PATCH] python3-mox3: Change python to python3
-on 16/06/2020 zhengruoqin wrote:
-
-> upgrade 0.28.0 -> 1.1.0
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 > ---
->  .../{python-mox3_0.28.0.bb => python3-mox3_1.1.0.bb} | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-mox3_0.28.0.bb => python3-mox3_1.1.0.bb} (61%)
+>  .../recipes-devtools/python/python-osc-lib_1.14.1.bb        | 2 --
+>  .../recipes-devtools/python/python3-osc-lib_1.13.0.bb       | 2 --
+>  .../python/{python-osc-lib.inc => python3-osc-lib_2.1.0.bb} | 6 +++---
+>  3 files changed, 3 insertions(+), 7 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python-osc-lib_1.14.1.bb
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python3-osc-lib_1.13.0.bb
+>  rename meta-openstack/recipes-devtools/python/{python-osc-lib.inc => python3-osc-lib_2.1.0.bb} (80%)
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-mox3_0.28.0.bb b/meta-openstack/recipes-devtools/python/python3-mox3_1.1.0.bb
-> similarity index 61%
-> rename from meta-openstack/recipes-devtools/python/python-mox3_0.28.0.bb
-> rename to meta-openstack/recipes-devtools/python/python3-mox3_1.1.0.bb
-> index 770569b..9608077 100644
-> --- a/meta-openstack/recipes-devtools/python/python-mox3_0.28.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-mox3_1.1.0.bb
-> @@ -4,21 +4,21 @@ SECTION = "devel/python"
+> diff --git a/meta-openstack/recipes-devtools/python/python-osc-lib_1.14.1.bb b/meta-openstack/recipes-devtools/python/python-osc-lib_1.14.1.bb
+> deleted file mode 100644
+> index 256c286..0000000
+> --- a/meta-openstack/recipes-devtools/python/python-osc-lib_1.14.1.bb
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -inherit setuptools3
+> -require python-osc-lib.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python3-osc-lib_1.13.0.bb b/meta-openstack/recipes-devtools/python/python3-osc-lib_1.13.0.bb
+> deleted file mode 100644
+> index 256c286..0000000
+> --- a/meta-openstack/recipes-devtools/python/python3-osc-lib_1.13.0.bb
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -inherit setuptools3
+> -require python-osc-lib.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-osc-lib.inc b/meta-openstack/recipes-devtools/python/python3-osc-lib_2.1.0.bb
+> similarity index 80%
+> rename from meta-openstack/recipes-devtools/python/python-osc-lib.inc
+> rename to meta-openstack/recipes-devtools/python/python3-osc-lib_2.1.0.bb
+> index 1767b43..db1ba03 100644
+> --- a/meta-openstack/recipes-devtools/python/python-osc-lib.inc
+> +++ b/meta-openstack/recipes-devtools/python/python3-osc-lib_2.1.0.bb
+> @@ -4,10 +4,10 @@ SECTION = "devel/python"
 >  LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://COPYING.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 >  
-> -SRC_URI[md5sum] = "c930d8479996541b04447a67e96e4a62"
-> -SRC_URI[sha256sum] = "8094868e70f814b4a526ecc592365437bc93a7dd60341321344987b3e8dba49d"
-> +SRC_URI[md5sum] = "0eff74d3a85ec4d4dc6acf7f524ca816"
-> +SRC_URI[sha256sum] = "8a526b7b9b6341f541a9aef3e08c93fd84a5373fe89d4cc51dd571f085b2363c"
+> -SRC_URI[md5sum] = "240d3debc1b6eaadf5e8838f5f2d06fb"
+> -SRC_URI[sha256sum] = "3467a1edf62946f1b67724fa7f9c699b5e31d80b111ed9e4c7aec21633a3e30d"
+> +SRC_URI[md5sum] = "62d32a59bf4447191b957c6a65eff47f"
+> +SRC_URI[sha256sum] = "697d08204a59933035ac246fbc8c8e5453b846b4a8875ed7a9e9caba769b1b57"
 >  
->  inherit setuptools3 pypi
->  
->  DEPENDS += "\
-> -    python-pbr \
-> +    python3-pbr \
->      "
+> -inherit pypi
+> +inherit setuptools3 pypi
 >  
 >  # Satisfy setup.py 'setup_requires'
 >  DEPENDS += " \
-> -    python-pbr-native \
-> +    python3-pbr-native \
->      "
->  
->  RDEPENDS_${PN} += " \
-> -    python-pbr \
-> -    python-fixtures \
-> +    python3-pbr \
-> +    python3-fixtures \
->  "
 > -- 
 > 2.17.1
 > 
@@ -135,4 +114,5 @@ on 16/06/2020 zhengruoqin wrote:
 > 
 
 > 
+
 
