@@ -1,350 +1,1990 @@
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com (EUR01-HE1-obe.outbound.protection.outlook.com [40.107.13.47])
- by mx.groups.io with SMTP id smtpd.web11.3194.1592383118604748413
- for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 17 Jun 2020 01:38:39 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=XT56Enq2;
- spf=pass (domain: arm.com, ip: 40.107.13.47, mailfrom: bertrand.marquis@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQnc80PrqbpDdKWjkDCdPHaaSFqtAYouo5aH9d7TRsY=;
- b=XT56Enq2FAgECZo9zSWZ2u01MHXTubYgyyMpebriLLYoBd8N9o6nZwIllxvXFGT7zkQipvzbHM7BSZXcz4G9ypxxSFrytlPX/i2wF6HvDiBQep3aVu2FMvtqmOEr+FfAaOG7Nk5z7fjGW+d2ogMuNdp78Sl1OCs/ndoargjYnlM=
-Received: from AM7PR03CA0027.eurprd03.prod.outlook.com (2603:10a6:20b:130::37)
- by VI1PR0801MB2093.eurprd08.prod.outlook.com (2603:10a6:800:8a::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Wed, 17 Jun
- 2020 08:38:34 +0000
-Received: from VE1EUR03FT027.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:20b:130:cafe::a8) by AM7PR03CA0027.outlook.office365.com
- (2603:10a6:20b:130::37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend
- Transport; Wed, 17 Jun 2020 08:38:34 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT027.mail.protection.outlook.com (10.152.18.154) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.22 via Frontend Transport; Wed, 17 Jun 2020 08:38:33 +0000
-Received: ("Tessian outbound 866352848bb9:v59"); Wed, 17 Jun 2020 08:38:33 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 46636a58c86df0c0
-X-CR-MTA-TID: 64aa7808
-Received: from 6fe4c9fed13d.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 633DBF48-0116-4213-9C89-8F711526C823.1;
-	Wed, 17 Jun 2020 08:38:28 +0000
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 6fe4c9fed13d.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 17 Jun 2020 08:38:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YHKwsSzEXd31tHLB7j0cBmfsaAOFUcIWV7qTC57JupIXjGYP99H4WfOh8wYamVZhCtxU06bwiUscMWhTh1J8pjCFlWNmmbwSxpdNavtOGAg6Q9fkeCnthPqtvfqs/I+w+eJeJCNLbBl50OwKI+i4FgWCPkcpXFmJ26DactKVHgC4VD3fhmu3CytXfHwcuIG0V2WMVOpIQSHPigGFGGjAeG2MJVBCHMQgbqE6VDRNQuM9H+CtycAHiHWYZgmE9yr13H5/i87TxIRAg4gyLa7l4kv8Lyhgvk4AkvTqg0qUmnPRMSo63kLAZQtmLwnMCslxleZguh1t0GPQL8NvCu8PCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQnc80PrqbpDdKWjkDCdPHaaSFqtAYouo5aH9d7TRsY=;
- b=B9vIVPY+fufASTyW33Znhe9MeFVBnOqt9/ucIbtaDKbQhRAUlw2RfetMOoa2g4xc1P6TvywjyODR3yYG0xP/2lad4ayqdmj00mS6g0wX6Jy3jAlSECjHr/Ya9WPitCEChpdts34gDBvF89ceu9D0060IC6wehZAnKpRDmh0LrjhpHJ/ES6zWwFxkT1a+jBwSNItMgoW2HZJ+gpwbGDAcYf5Gd0KMXTHwJ31O8GGjuXOueXwR5f5vq5fa75ZEJpjc9Uuu/COW5zdpffK5ITXDquxxP0hZ2q8FEqTgfy56vdiyB0qM1zqiqj4AtFNVf5We40dX6oUikY4TB7Stod1ClQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nQnc80PrqbpDdKWjkDCdPHaaSFqtAYouo5aH9d7TRsY=;
- b=XT56Enq2FAgECZo9zSWZ2u01MHXTubYgyyMpebriLLYoBd8N9o6nZwIllxvXFGT7zkQipvzbHM7BSZXcz4G9ypxxSFrytlPX/i2wF6HvDiBQep3aVu2FMvtqmOEr+FfAaOG7Nk5z7fjGW+d2ogMuNdp78Sl1OCs/ndoargjYnlM=
-Received: from DB7PR08MB3689.eurprd08.prod.outlook.com (2603:10a6:10:79::16)
- by DB7PR08MB3724.eurprd08.prod.outlook.com (2603:10a6:10:30::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.23; Wed, 17 Jun
- 2020 08:38:26 +0000
-Received: from DB7PR08MB3689.eurprd08.prod.outlook.com
- ([fe80::4001:43ad:d113:46a8]) by DB7PR08MB3689.eurprd08.prod.outlook.com
- ([fe80::4001:43ad:d113:46a8%5]) with mapi id 15.20.3088.028; Wed, 17 Jun 2020
- 08:38:26 +0000
-From: "Bertrand Marquis" <bertrand.marquis@arm.com>
-To: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-CC: Christopher Clark <christopher.w.clark@gmail.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>, Corey Minyard <cminyard@mvista.com>, Siddhartha V
-	<Siddhuvgowda.18695@gmail.com>, Stewart Hildebrand
-	<Stewart.Hildebrand@dornerworks.com>, nd <nd@arm.com>
-Subject: Re: [meta-virtualization] Xen on Raspberry Pi 4 (was "How to resolve the ERROR: xen-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs. and ERROR: xen-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. ERROR: xen-image-minimal-1.0-r0 do_rootf")
-Thread-Topic: [meta-virtualization] Xen on Raspberry Pi 4 (was "How to resolve
- the ERROR: xen-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs.
- and ERROR: xen-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. ERROR:
- xen-image-minimal-1.0-r0 do_rootf")
-Thread-Index: 
- AdY7cueh7BKux6jPTM6klc5Hy0Q9gwAIcLkKAdgWTGwAB3dcAABFDr0AABaUT4AAAE9tAA==
-Date: Wed, 17 Jun 2020 08:38:26 +0000
-Message-ID: <E204769D-C4EE-4C85-9164-37F3E24735E5@arm.com>
-References: 
- <CY1P110MB05517012EA0DC0134F655D2A8C860@CY1P110MB0551.NAMP110.PROD.OUTLOOK.COM>
- <20200605211602.GO2903@minyard.net>
- <CADkTA4N7vqHMi8Fa5H1sRuX4ZnVrEiS4oso5TiObUu0thJGr5g@mail.gmail.com>
- <20200606005839.GR2903@minyard.net>
- <CACMJ4GYcc0v=Y8gJzhCfVrSq8J4J6V5iwMFwzMfOXit63yO2ww@mail.gmail.com>
- <CADkTA4N+-GrD8TnUUVMC3Hrj=1tR8rsyHj4gCsFvPKzJh9LKyg@mail.gmail.com>
- <CACMJ4GbZw2j4CZQ6ijDopT-cgoHeBjY87MouhFkL0DaCMBP=Kw@mail.gmail.com>
- <1619478656883F6E.14876@lists.yoctoproject.org>
-In-Reply-To: <1619478656883F6E.14876@lists.yoctoproject.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Authentication-Results-Original: lists.yoctoproject.org; dkim=none (message
- not signed) header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=arm.com;
-x-originating-ip: [82.24.250.194]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: f58e8f8e-3092-47d9-05b3-08d81299d254
-x-ms-traffictypediagnostic: DB7PR08MB3724:|VI1PR0801MB2093:
-X-Microsoft-Antispam-PRVS: 
-	<VI1PR0801MB2093E726D2FD516E1E1E64829D9A0@VI1PR0801MB2093.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:9508;OLM:9508;
-x-forefront-prvs: 04371797A5
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- r3Nq8ULzRD7eFCUZ9h2rxPTO1zWBBzHgg7wubIjZpmFniELYfXTNosGhZtafuAC44zNvFdNqygv/kQWRocxGWafjy35B9pdi5Jy+4Z9yHcFYI3vzwexQOBx9nn0O0n36w9u9aPnXm4XRYBrviBJJpnJhJeqYn4d8ES2RN+RcmE1uTYJX10s5B08AE9bRwgN2r6Cb1oqr3dBlTa5Tf8Nu31PgHjvPO+FNW53gBck531jS0izsbxRAhyueDrtfYD48I22mxOgcV+RicvRhyQYZe0hTz6/EB7jUravjB1UeVlUd91laHXVZU7a8n+6bxiSYc01eBuhoElVr/tsL3d8fU1Qog2MwnWvV4YtMtDI1NLAM5Q4RE4ENgmKze1wX86d0Aib83HL3OguvEZxgjhh1KLKjdyguFXggCvDwJffe+2ZdDMGblWhHgjo4FPvoAS43SF7RFfYaYFuRIl8hNeeo3Q==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB3689.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(39860400002)(376002)(396003)(136003)(346002)(366004)(53546011)(6512007)(6506007)(8936002)(186003)(2616005)(8676002)(54906003)(66946007)(6916009)(5660300002)(4326008)(36756003)(6486002)(26005)(33656002)(316002)(478600001)(83380400001)(71200400001)(66446008)(64756008)(91956017)(76116006)(66556008)(86362001)(66476007)(2906002)(966005)(219693003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- VA9N2zcjEkD40eVmwJLwjz3n65ybg0lEgHd2AETFopdTyeM3BgjAwyqKYCjKyl7QXdTrFVqhIweSPy/m3YJDSjzd06EwQa4WGyYhxLaIY+aPQ4ql+y8azHxtXbgNwVGTSFZ8J3LaeIkqc1VPrBUdn9aZoi4EKavcsoGjJlEOonHf1zuCSutV4mw67VDt6kNrVIOjBDlwMTJU2fDl7uu2zHR5qJcEu30tiypTDdCwYiRNWfERXdUWVitltd4KZwQiNgPQFrS6W82LY7QF+sTNVo7w/NtbX0HhTsaqVXtymS9W2pFqx0K1rbpu5WCN2mAtEZ57KofS/mjAer96G9CFx6d4xkdlENYNY3RaYqJ7k79k7wT26uVwPGf846jwCLXLRu+czBi7XXck4o5ocFRnX/DSV004DRyjgqOknuibIy1wZmQysoCm2trwEL08Hj6Vq+1FWQekoHWkxD83BHjDcIpC0906pUqqibch3j6BfR+D0NMxxNL4cFuS+KlcvMnr
-x-ms-exchange-transport-forked: True
+Subject: Re: Xen on Raspberry Pi 4 (was "How to resolve the ERROR: xen-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs. and ERROR: xen-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. ERROR: xen-image-minimal-1.0-r0 do_rootf")
+To: meta-virtualization@lists.yoctoproject.org
+From: "Siddhartha V" <Siddhuvgowda.18695@gmail.com>
+X-Originating-Location: Bengaluru, Karnataka, IN (137.97.61.180)
+X-Originating-Platform: Linux Chrome 81
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3724
-Original-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=arm.com;
-Return-Path: Bertrand.Marquis@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VE1EUR03FT027.eop-EUR03.prod.protection.outlook.com
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFTY:;SFS:(4636009)(396003)(346002)(39860400002)(376002)(136003)(46966005)(36906005)(316002)(5660300002)(26005)(36756003)(336012)(2616005)(83380400001)(2906002)(53546011)(6506007)(86362001)(478600001)(33656002)(8936002)(6486002)(81166007)(47076004)(82740400003)(186003)(6512007)(82310400002)(70586007)(4326008)(54906003)(6916009)(70206006)(356005)(966005)(8676002)(219693003);DIR:OUT;SFP:1101;
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	8b27a329-5a62-42bc-a866-08d81299ce04
-X-Forefront-PRVS: 04371797A5
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	CTPT0wl4zfeMVjbjp/GOcjiwVULD/FUXGy2nEF3NuLWC0T6ckzWyFppP3Vv8B7tSAXdZQh6NzgwsOa+vJJ6JT4NdAGiMVoix0SVdvAUfGz5Bk0085qIlS9SNjXXeX7f4h0lvEGaosqezV4baxdoifI1o+Q98rJcyFwTz5QrmpGlWUAH7VAeoZ5NBPYqkIXK2ZLd29rGQviq6Sbw3Ub2mZxbaROgL+mEdC3NET3BId9Yqu5RUJrQSDJY/QyYriRAg8zeLLtLC2R4nbRUw0Do+4Bs+THQCyLtABYgJeINa7Th6ujWkMYcVLP7Ljv6LzVyX0vOc9f2mNXv6B6hD5kg3lVUHMBAob885WhOYHHNR3kxn/sE7qAQp25Fnm61KDtOyWG8v8X6qfb7XbSK0EHaxIjo4VP5r6OvR2lqSg3ii54B4YKo+MQyipbozHHnTFjnoyo3dDUwdeQjFO5ziiTKloyGEG9jRemr8OJg0fk8umh9Ub7fj5EhCdCDOiGs54fmR
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Jun 2020 08:38:33.9400
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f58e8f8e-3092-47d9-05b3-08d81299d254
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0801MB2093
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8B3759A0B955ED4A8FCAE8BAAD5BEDF5@eurprd08.prod.outlook.com>
+Date: Wed, 17 Jun 2020 04:59:57 -0700
+References: <CACMJ4GYcc0v=Y8gJzhCfVrSq8J4J6V5iwMFwzMfOXit63yO2ww@mail.gmail.com>
+In-Reply-To: <CACMJ4GYcc0v=Y8gJzhCfVrSq8J4J6V5iwMFwzMfOXit63yO2ww@mail.gmail.com>
+Message-ID: <27775.1592395197899028493@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="DBamzC1Bg8FRYx9VkzAD"
+
+--DBamzC1Bg8FRYx9VkzAD
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
+Hello @ Christopher Clark sir,
 
+I did the same what you have suggested. I started a new build where follow=
+ed the below steps,
+1. I downloaded the master branch of below layers:
 
-> On 17 Jun 2020, at 09:29, Bertrand Marquis via lists.yoctoproject.org <be=
-rtrand.marquis=3Darm.com@lists.yoctoproject.org> wrote:
 >=20
-> Hi,
+> git clone git://git.yoctoproject.org/poky -b master
+> git clone git://git.openembedded.org/meta-openembedded -b master
+> git clone git://git.yoctoproject.org/meta-raspberrypi -b master
+> git clone https://github.com/dozylynx/meta-virtualization.git
 >=20
->> On 16 Jun 2020, at 22:43, Christopher Clark via lists.yoctoproject.org <=
-christopher.w.clark=3Dgmail.com@lists.yoctoproject.org> wrote:
->>=20
->> On Mon, Jun 15, 2020 at 5:45 AM Bruce Ashfield <bruce.ashfield@gmail.com=
-> wrote:
->>> On Mon, Jun 15, 2020 at 5:11 AM Christopher Clark
->>> <christopher.w.clark@gmail.com> wrote:
->>>>=20
->>>> On Fri, Jun 5, 2020 at 5:58 PM Corey Minyard <cminyard@mvista.com> wro=
-te:
->>>>>=20
->>>>> On Fri, Jun 05, 2020 at 07:53:53PM -0400, Bruce Ashfield wrote:
->>>>>> On Fri, Jun 5, 2020 at 5:16 PM Corey Minyard <cminyard@mvista.com> w=
-rote:
->>>>>>>=20
->>>>>>> On Fri, Jun 05, 2020 at 07:55:37PM +0000, Stewart Hildebrand wrote:
->>>>>>>> + Corey
->>>>>>>>=20
->>>>>>>> On Friday, June 5, 2020 3:19 PM, Bruce Ashfield wrote:
->>>>>>>>> On Fri, Jun 5, 2020 at 3:12 PM Stewart Hildebrand wrote:
->>=20
->>>>>>>> Corey: you are hereby encouraged to submit patches to meta-virtual=
-ization.
->>>>>>>=20
->>>>>>> Ok.  The layer has the following basic pieces:
->>>>=20
->>>> Before we get to the other pieces, I'd like to cover the new "rpixen"
->>>> MACHINE type that the layer introduces.
->>>>=20
->>>> My preference is for avoiding introduction of another MACHINE to
->>>> reconfigure an existing one to run Xen, if possible, and use the
->>>> existing "raspberrypi4-64". I'm hoping to avoid the pattern of
->>>> creating a new machine for Xen for each board that we add support for.
->>>> In meta-virtualization, there's the "xen" DISTRO_FEATURE, which is
->>>> used to turn on Xen-specific functionality and compatibility, and I'd
->>>> like to explore whether that can be made to be sufficient to enable
->>>> what is needed.
->>>>=20
->>>> To that end, I've done an initial pass to see what it might take and
->>>> the work-in-progress from that is posted here:
->>>> https://github.com/dozylynx/meta-virtualization/tree/raspberry-pi4-ini=
-tial-xen
->>>>=20
->>>> Some minor changes to other layers could assist - eg. to remove the
->>>> need for a guest filesystem to contain the hypervisor binary - and
->>>> there's still some tidying to do.
->>>>=20
->>>>>>> 1 The xen patches for the Pi4, just a few patches.  As the Xen grou=
-p
->>>>>>> fixes things, I keep adding :).
->>>>=20
->>>> Unfortunately I had to drop these patches from my local test to get it
->>>> to boot. It could easily be a local build issue or a fault with the
->>>> one test I've run so far, but I did have success booting with just Xen
->>>> 4.13 and I'd like to get a bit more understanding and confidence in
->>>> them before we bring them in.
->>>>=20
->>>>>>> 2 Hacks for getting the Pi4 kernel config right for xen.  This shou=
-ld go
->>>>>>> away if you don't use the kernel from the Pi4 yocto layer, as it
->>>>>>> doesn't work like most kernels in yocto.
->>>>>>=20
->>>>>> I should take a look at the configs and see if I can create a fragme=
-nt
->>>>>> or two, but I can take care of that.
->>>>>=20
->>>>> That shouldn't be necessary.  The standard fragments work, it's just
->>>>> that the Pi kernel does not use them.  So this is really Pi+Xen
->>>>> specific, and hopefully they can fix the Pi kernel to use the normal
->>>>> fragments in the future.
->>>>=20
->>>> The linux-raspberrypi kernel does use linux-yocto; it's just that
->>>> meta-virtualization
->>>> needs a matching .inc file to be present for the kernel version that
->>>> you're using.
->>>> Assuming you're using Linux 4.19 (which is what I've tested with) add =
-this file:
->>>> meta-virtualization/recipes-kernel/linux/linux-yocto_4.19_virtualizati=
-on.inc
->>>> containing just:
->>>> include linux-yocto_virtualization.inc
->>>> which will then enable the linux-raspberrypi kernel to add the
->>>> meta-virt Xen fragment.
->>>>=20
->>>> There are also two Linux patches:
->>>> 1) Disable DMA in the SDHCI driver
->>>> This one needs more information in the commit text to understand what
->>>> is motivating doing this and what the effects of it are. Should it go
->>>> into the standard Raspberry Pi kernel?
->>>> 2) Fix PCIe in dom0 for RPi4
->>>> Is this fixed upstream in more recent kernels? It would be good to
->>>> have a pointer to that if so.
->>>>=20
->>>> Bruce: To apply these to just the Raspberry Pi kernel when it's being
->>>> used with Xen, a kernel bbappend in a raspberrypi dynamic-layers might
->>>> be an option to consider - eg:
->>>> https://github.com/dozylynx/meta-virtualization/tree/raspberry-pi4-ini=
-tial-xen/dynamic-layers/raspberrypi/recipes-kernel/linux
->>>=20
->>> I can most likely live with that. I obviously make sure that the
->>> reference linux-yocto kernel doesn't need anything to work out of the
->>> box, but we can't (and shouldn't) enforce that choice on everyone. I'd
->>> rather have patches centralized in a topic layer like
->>> meta-virtualization, so if we need to add a dynamic layer and a few
->>> patches, that's a good place to be.
->>=20
->> please see my new comment below.
->>=20
->>>>>>> 5 A few Pi-specific hacks for config and u-boot.
->>>>>>=20
->>>>>> #5 does sound like BSP stuff. Is any of it destined for the rpi laye=
-rs
->>>>>> ? Or is it both rpi AND xen specific, so doesn't really make sense
->>>>>> there either ?
->>>>>=20
->>>>> It's both Pi and Xen specific.  If everything gets put where it shoul=
-d
->>>>> be, that would be the only thing left in this layer :).
->>>>=20
->>>> These are in recipes-bsp and I agree that they're both Pi and Xen
->>>> specific. I think these are small enough pieces that keeping them in
->>>> meta-virtualization could be a reasonable call, since that's the layer
->>>> where Xen support is focussed, and so they can be added to:
->>>> dynamic-layers/raspberrypi/recipes-bsp
->>>> which indicates their status as amendments to the meta-raspberrypi
->>>> layer. Changes to them would then be easily coordinated with the Xen
->>>> recipes.
->>>=20
->>> Agreed.
->>=20
->> Since I wrote this, we've seen some expressed interest in support for
->> running Xen on the NVIDIA Jetson Nano and Xavier NX boards, and on the
->> xen-devel mailing list, a report of success running Xen on the RockPro64
->> board:
->> https://lists.xenproject.org/archives/html/xen-devel/2020-06/msg01067.ht=
-ml
->>=20
->> I've personally built Xen with meta-virtualization to run on the Cubietr=
-uck for
->> development and testing; the Odroid C2 and XU4 are of interest, as is th=
+
+Later I have changed the local.conf as below:
+
+>=20
+> MACHINE =3D "raspberrypi4-64"
+> DISTRO_FEATURES_append =3D " virtualization xen"
+> QEMU_TARGETS =3D "i386 x86_64 aarch64 arm"
+> PACKAGECONFIG_pn-qemu +=3D " xen fdt"
+> PACKAGECONFIG_remove_pn-qemu +=3D " sdl"
+> PREFERRED_VERSION_linux-raspberrypi =3D "4.19.%"
+> IMAGE_FSTYPES =3D "tar.xz tar.bz2 ext3 rpi-sdimg"
+> IMAGE_FEATURES +=3D "ssh-server-dropbear"
+>=20
+
+When started bitbake=C2=A0 "bitbake xen-image-minimal"=C2=A0=C2=A0initiall=
+y I got the below log:
+
+>=20
+> siddhu@siddhu:~/Documents/yocto/build$ bitbake -k xen-image-minimal
+> Loading cache: 100%
+> |#######################################################################=
+###################################|
+> Time: 0:00:01
+> Loaded 3545 entries from dependency cache.
+> NOTE: Resolving any missing task queue dependencies
+>=20
+> Build Configuration:
+> BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "1.46.0"
+> BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "x86_64-linux"
+> NATIVELSBSTRING=C2=A0 =C2=A0 =C2=A0 =3D "universal"
+> TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "aarch64-poky-lin=
+ux"
+> MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "raspberrypi=
+4-64"
+> DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "poky"
+> DISTRO_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "3.1+snapshot-20200617"
+> TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D "aarch64 cortexa72 crc cryp=
+to"
+> TARGET_FPU=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D ""
+> meta
+> meta-poky
+> meta-yocto-bsp=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D "master:816a12758bfcb5409ac=
+cbf636ec58d9fa917cdb6"
+> meta-oe
+> meta-multimedia
+> meta-python
+> meta-networking
+> meta-filesystems=C2=A0 =C2=A0 =C2=A0=3D "master:06a9209d8fb944dc1e24b00e=
+68886c00135c72c0"
+> meta-virtualization=C2=A0 =3D "master:d75bc448866d2b36779251efb1310d0234=
+ece30b"
+> meta-raspberrypi=C2=A0 =C2=A0 =C2=A0=3D "master:39cf54c3cb429f2c6e0a000e=
+79f6f06b39e2fa8b"
+>=20
+> Initialising tasks: 100%
+> |#######################################################################=
+##############################|
+> Time: 0:00:06
+> Sstate summary: Wanted 1787 Found 0 Missed 1787 Current 187 (0% match, 9=
+%
+> complete)
+>=20
+
+but within few minutes building get=C2=A0 terminated with the below error:
+
+Task (/home/siddhu/Documents/yocto/sources1/poky/meta/recipes-devtools/gcc=
+/gcc-cross_10.1.bb:do_compile) failed with exit code '1'
+
+Later I used "bitbake -k xen-image-minimal"=C2=A0 (The initial log remaine=
+d same) but even then it reached 50% but later it It gave the below error:
+
+>=20
+> ERROR: Task
+> (/home/siddhu/Documents/yocto/sources1/poky/meta/recipes-devtools/gcc/gc=
+c-cross_10.1.bb:do_compile)
+> failed with exit code '1'
+> WARNING: mtools-native-4.0.24-r0 do_fetch: Failed to fetch URL
+> https://ftp.gnu.org/gnu/mtools/mtools-4.0.24.tar.bz2, attempting MIRRORS
+> if available
+> WARNING: bcm2835-bootfiles-20200603-r3 do_fetch: Failed to fetch URL
+> https://github.com/raspberrypi/firmware/archive/23548e550a757d368d3d5220=
+373fe829b5961c42.tar.gz,
+> attempting MIRRORS if available
+> ERROR: bcm2835-bootfiles-20200603-r3 do_fetch: Fetcher failure: Fetch
+> command export PSEUDO_DISABLED=3D1; unset _PYTHON_SYSCONFIGDATA_NAME; ex=
+port
+> DBUS_SESSION_BUS_ADDRESS=3D"unix:path=3D/run/user/1000/bus,guid=3Dae1c3c=
+0e8d9c84558dde0a465ee9d9e2";
+> export SSH_AGENT_PID=3D"1593"; export
+> SSH_AUTH_SOCK=3D"/run/user/1000/keyring/ssh"; export
+> PATH=3D"/home/siddhu/Documents/yocto/build/tmp/sysroots-uninative/x86_64=
+-linux/usr/bin:/home/siddhu/Documents/yocto/sources1/poky/scripts:/home/sid=
+dhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/bcm2835-bootf=
+iles/20200603-r3/recipe-sysroot-native/usr/bin/aarch64-poky-linux:/home/sid=
+dhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/bcm2835-bootf=
+iles/20200603-r3/recipe-sysroot/usr/bin/crossscripts:/home/siddhu/Documents=
+/yocto/build/tmp/work/raspberrypi4_64-poky-linux/bcm2835-bootfiles/20200603=
+-r3/recipe-sysroot-native/usr/sbin:/home/siddhu/Documents/yocto/build/tmp/w=
+ork/raspberrypi4_64-poky-linux/bcm2835-bootfiles/20200603-r3/recipe-sysroot=
+-native/usr/bin:/home/siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64=
+-poky-linux/bcm2835-bootfiles/20200603-r3/recipe-sysroot-native/sbin:/home/=
+siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/bcm2835-bo=
+otfiles/20200603-r3/recipe-sysroot-native/bin:/home/siddhu/Documents/yocto/=
+sources1/poky/bitbake/bin:/home/siddhu/Documents/yocto/build/tmp/hosttools"=
+;
+> export HOME=3D"/home/siddhu"; /usr/bin/env wget -t 2 -T 30 --passive-ftp
+> --no-check-certificate -P /home/siddhu/Documents/yocto/build/downloads
+> 'https://github.com/raspberrypi/firmware/archive/23548e550a757d368d3d522=
+0373fe829b5961c42.tar.gz'
+> --progress=3Ddot -v failed with exit code 4, output:
+> --2020-06-17 09:34:20--=C2=A0
+> https://github.com/raspberrypi/firmware/archive/23548e550a757d368d3d5220=
+373fe829b5961c42.tar.gz
+>=20
+> Resolving github.com (github.com)... 13.234.176.102
+> Connecting to github.com (github.com)|13.234.176.102|:443... connected.
+> HTTP request sent, awaiting response... 302 Found
+> Location:
+> https://codeload.github.com/raspberrypi/firmware/tar.gz/23548e550a757d36=
+8d3d5220373fe829b5961c42
+> [following]
+> --2020-06-17 09:34:38--=C2=A0
+> https://codeload.github.com/raspberrypi/firmware/tar.gz/23548e550a757d36=
+8d3d5220373fe829b5961c42
+>=20
+> Resolving codeload.github.com (codeload.github.com)... 13.233.43.20
+> Connecting to codeload.github.com
+> (codeload.github.com)|13.233.43.20|:443... connected.
+> HTTP request sent, awaiting response... 200 OK
+> Length: unspecified [application/x-gzip]
+> Saving to:
+> =E2=80=98/home/siddhu/Documents/yocto/build/downloads/23548e550a757d368d=
+3d5220373fe829b5961c42.tar.gz=E2=80=99
+>=20
+>=20
+> 0K .......... .......... .......... .......... .......... 54.6K
+> 50K .......... .......... .......... .......... .......... 42.6K
+> 100K .......... .......... .......... .......... .......... 44.9K
+> 150K .......... .......... .......... .......... ..........=C2=A0 221K
+> 200K .......... .......... .......... .......... .......... 46.2K
+> 250K .......... .......... .......... .......... .......... 44.2K
+> 300K .......... .......... .......... .......... ..........=C2=A0 416K
+> 350K .......... .......... .......... .......... .......... 18.2K
+> 400K .......... .......... .......... .......... ..........=C2=A0 329K
+> 450K .......... .......... .......... .......... ..........=C2=A0 196K
+> 500K .......... .......... .......... .......... .......... 18.1K
+> 550K .......... .......... .......... .......... .......... 45.0K
+> 600K .......... .......... .......... .......... .......... 1.78M
+> 650K .......... .......... .......... .......... .......... 46.3K
+> 700K .......... .......... .......... .......... ..........=C2=A0 213K
+> 750K .......... .......... .......... .......... .......... 35.5K
+> 800K .......... .......... .......... .......... .......... 40.1K
+> 850K .......... .......... .......... .......... .......... 44.3K
+> 900K .......... .......... .......... .......... ..........=C2=A0 199K
+> 950K .......... .......... .......... .......... .......... 38.3K
+> 1000K .......... .......... .......... .......... ..........=C2=A0 155K
+> 1050K .......... .......... .......... .......... .......... 66.6K
+> 1100K .......... .......... .......... .......... ..........=C2=A0 212K
+> 1150K .......... .......... .......... .......... .......... 45.6K
+> 1200K .......... .......... .......... .......... ..........=C2=A0 269K
+> 1250K .......... .......... .......... .......... ..........=C2=A0 284K
+> 1300K .......... .......... .......... .......... ..........=C2=A0 149K
+> 1350K .......... .......... .......... .......... .......... 1.07M
+> 1400K .......... .......... .......... .......... ..........=C2=A0 946K
+> 1450K .......... .......... .......... .......... .......... 1.31M
+> 1500K .......... .......... .......... .......... ..........=C2=A0 179K
+> 1550K .......... .......... .......... .......... .......... 1.44M
+> 1600K .......... .......... .......... .......... .......... 1.49M
+> 1650K .......... .......... .......... .......... ..........=C2=A0 833K
+> 1700K .......... .......... .......... .......... ..........=C2=A0 279K
+> 1750K .......... .......... .......... .......... .......... 79.0K
+> 1800K .......... .......... .......... .......... ..........=C2=A0 704K
+> 1850K .......... .......... .......... .......... ..........=C2=A0 725K
+> 1900K .......... .......... .......... .......... .......... 1.05M
+> 1950K .......... .......... .......... .......... ..........=C2=A0 760K
+> 2000K .......... .......... .......... .......... ..........=C2=A0 309K
+> 2050K .......... .......... .......... .......... ..........=C2=A0 599K
+> 2100K .......... .......... .......... .......... .......... 93.0K
+> 2150K .......... .......... .......... .......... ..........=C2=A0 408K
+> 2200K .......... .......... .......... .......... ..........=C2=A0 451K
+> 2250K .......... .......... .......... .......... ..........=C2=A0 385K
+> 2300K .......... .......... .......... .......... ..........=C2=A0 511K
+> 2350K .......... .......... .......... .......... ..........=C2=A0 412K
+> 2400K .......... .......... .......... .......... ..........=C2=A0 617K
+> 2450K .......... .......... .......... .......... ..........=C2=A0 356K
+> 2500K .......... .......... .......... .......... ..........=C2=A0 263K
+> 2550K .......... .......... .......... .......... .......... 5.51M
+> 2600K .......... .......... .......... .......... ..........=C2=A0 901K
+> 2650K .......... .......... .......... .......... .......... 1.36M
+> 2700K .......... .......... .......... .......... .......... 1.26M
+> 2750K .......... .......... .......... .......... .......... 3.13M
+> 2800K .......... .......... .......... .......... ..........=C2=A0 570K
+> 2850K .......... .......... .......... .......... ..........=C2=A0 900K
+> 2900K .......... .......... .......... .......... .......... 1.85M
+> 2950K .......... .......... .......... .......... ..........=C2=A0 607K
+> 3000K .......... .......... .......... .......... ..........=C2=A0 739K
+> 3050K .......... .......... .......... .......... ..........=C2=A0 159K
+> 3100K .......... .......... .......... .......... ..........=C2=A0 717K
+> 3150K .......... .......... .......... .......... .......... 3.97M
+> 3200K .......... .......... .......... .......... .......... 2.59M
+> 3250K .......... .......... .......... .......... .......... 1.41M
+> 3300K .......... .......... .......... .......... .......... 1.58M
+> 3350K .......... .......... .......... .......... .......... 3.79M
+> 3400K .......... .......... .......... .......... .......... 1.28M
+> 3450K .......... .......... .......... .......... .......... 1.05M
+> 3500K .......... .......... .......... .......... .......... 2.42M
+> 3550K .......... .......... .......... .......... .......... 2.49M
+> 3600K .......... .......... .......... .......... .......... 1.46M
+> 3650K .......... .......... .......... .......... ..........=C2=A0 243K
+> 3700K .......... .......... .......... .......... .......... 90.3K
+> 3750K .......... .......... .......... .......... ..........=C2=A0 181K
+> 3800K .......... .......... .......... .......... ..........=C2=A0 394K
+> 3850K .......... .......... .......... .......... .......... 29.2K
+> 3900K .......... .......... .......... .......... .......... 18.0K
+> 3950K .......... .......... .......... .......... .......... 1.25M
+> 4000K .......... .......... .......... .......... ..........=C2=A0 987K
+> 4050K .......... .......... .......... .......... .......... 1.99M
+> 4100K .......... .......... .......... .......... .......... 1.48M
+> 4150K .......... .......... .......... .......... .......... 1.24M
+> 4200K .......... .......... .......... .......... .......... 8.07M
+> 4250K .......... .......... .......... .......... .......... 1.39M
+> 4300K .......... .......... .......... .......... .......... 3.09M
+> 4350K .......... .......... .......... .......... ..........=C2=A0 635K
+> 4400K .......... .......... .......... .......... .......... 1.11M
+> 4450K .......... .......... .......... .......... .......... 1.16M
+> 4500K .......... .......... .......... .......... .......... 1.32M
+> 4550K .......... .......... .......... .......... .......... 52.7M
+> 4600K .......... .......... .......... .......... .......... 92.2M
+> 4650K .......... .......... .......... .......... .......... 88.8M
+> 4700K .......... .......... .......... .......... .......... 2.34M
+> 4750K .......... .......... .......... .......... ..........=C2=A0 837K
+> 4800K .......... .......... .......... .......... ..........=C2=A0 854K
+> 4850K .......... .......... .......... .......... .......... 1.22M
+> 4900K .......... .......... .......... .......... .......... 91.0M
+> 4950K .......... .......... .......... .......... .......... 3.32M
+> 5000K .......... .......... .......... .......... .......... 30.5M
+> 5050K .......... .......... .......... .......... .......... 22.2M
+> 5100K .......... .......... .......... .......... .......... 61.7M
+> 5150K .......... .......... .......... .......... .......... 2.37M
+> 5200K .......... .......... .......... .......... .......... 13.5K
+> 5250K .......... .......... .......... .......... .......... 11.7M
+> 5300K .......... .......... .......... .......... .......... 1.79M
+> 5350K .......... .......... .......... .......... .......... 52.8M
+> 5400K .......... .......... .......... .......... .......... 13.5K
+> 5450K .......... .......... .......... .......... .......... 43.5M
+> 5500K .......... .......... .......... .......... .......... 54.3M
+> 5550K .......... .......... .......... .......... .......... 60.5M
+> 5600K .......... .......... .......... .......... .......... 38.8M
+> 5650K .......... .......... .......... .......... .......... 31.0K
+> 5700K .......... .......... .......... .......... .......... 9.41M
+> 5750K .......... .......... .......... .......... .......... 63.7M
+> 5800K .......... .......... .......... .......... .......... 56.8M
+> 5850K .......... .......... .......... .......... .......... 52.3M
+> 5900K .......... .......... .......... .......... .......... 51.8M
+> 5950K .......... .......... .......... .......... .......... 3.90M
+> 6000K .......... .......... .......... .......... .......... 10.7M
+> 6050K .......... .......... .......... .......... .......... 8.71M
+> 6100K .......... .......... .......... .......... .......... 28.4M
+> 6150K .......... .......... .......... .......... .......... 7.10M
+> 6200K .......... .......... .......... .......... .......... 18.7M
+> 6250K .......... .......... .......... .......... .......... 51.2K
+> 6300K .......... .......... .......... .......... .......... 22.8M
+> 6350K .......... .......... .......... .......... .......... 20.5M
+> 6400K .......... .......... .......... .......... .......... 45.6M
+> 6450K .......... .......... .......... .......... .......... 45.7M
+> 6500K .......... .......... .......... .......... .......... 18.5M
+> 6550K .......... .......... .......... .......... .......... 71.3M
+> 6600K .......... .......... .......... .......... .......... 63.7M
+> 6650K .......... .......... .......... .......... .......... 65.6M
+> 6700K .......... .......... .......... .......... .......... 55.7M
+> 6750K .......... .......... .......... .......... .......... 65.3M
+> 6800K .......... .......... .......... .......... .......... 55.0M
+> 6850K .......... .......... .......... .......... .......... 32.1K
+> 6900K .......... .......... .......... .......... .......... 52.3M
+> 6950K .......... .......... .......... .......... .......... 54.0M
+> 7000K .......... .......... .......... .......... .......... 58.7M
+> 7050K .......... .......... .......... .......... .......... 78.0M
+> 7100K .......... .......... .......... .......... .......... 91.4M
+> 7150K .......... .......... .......... .......... .......... 99.8M
+> 7200K .......... .......... .......... .......... .......... 50.8M
+> 7250K .......... .......... .......... .......... ..........=C2=A0 366K
+> 7300K .......... .......... .......... .......... ..........=C2=A0 789K
+> 7350K .......... .......... .......... .......... .......... 29.8M
+> 7400K .......... .......... .......... .......... ..........=C2=A0 187K
+> 7450K .......... .......... .......... .......... .......... 85.0K
+> 7500K .......... .......... .......... .......... .......... 60.1M
+> 7550K .......... .......... .......... .......... .......... 58.5M
+> 7600K .......... .......... .......... .......... .......... 51.5M
+> 7650K .......... .......... .......... .......... ..........=C2=A0 444K
+> 7700K .......... .......... .......... .......... ..........=C2=A0 413K
+> 7750K .......... .......... .......... .......... ..........=C2=A0 371K
+> 7800K .......... .......... .......... .......... ..........=C2=A0 284K
+> 7850K .......... .......... ...=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0312K=
+=3D47s
+>=20
+> 2020-06-17 09:36:01 (168 KB/s) - Read error at byte 8062081
+> (Success).Retrying.
+>=20
+> --2020-06-17 09:36:02--=C2=A0 (try: 2)=C2=A0
+> https://codeload.github.com/raspberrypi/firmware/tar.gz/23548e550a757d36=
+8d3d5220373fe829b5961c42
+>=20
+> Connecting to codeload.github.com
+> (codeload.github.com)|13.233.43.20|:443... failed: Connection timed out.
+> Resolving codeload.github.com (codeload.github.com)... 13.127.152.42
+> Connecting to codeload.github.com
+> (codeload.github.com)|13.127.152.42|:443... connected.
+> HTTP request sent, awaiting response... 200 OK
+> Length: unspecified [application/x-gzip]
+> Saving to:
+> =E2=80=98/home/siddhu/Documents/yocto/build/downloads/23548e550a757d368d=
+3d5220373fe829b5961c42.tar.gz=E2=80=99
+>=20
+>=20
+> 0K .......... .......... .......... .......... ..........=C2=A0 320K
+> 50K .......... .......... .......... .......... ..........=C2=A0 219K
+> 100K .......... .......... .......... .......... ..........=C2=A0 302K
+> 150K .......... .......... .......... .......... ..........=C2=A0 181K
+> 200K .......... .......... .......... .......... ..........=C2=A0 202K
+> 250K .......... .......... .......... .......... ..........=C2=A0 321K
+> 300K .......... .......... .......... .......... ..........=C2=A0 244K
+> 350K .......... .......... .......... .......... ..........=C2=A0 303K
+> 400K .......... .......... .......... .......... ..........=C2=A0 218K
+> 450K .......... .......... .......... .......... ..........=C2=A0 268K
+> 500K .......... .......... .......... .......... ..........=C2=A0 259K
+> 550K .......... .......... .......... .......... ..........=C2=A0 202K
+> 600K .......... .......... .......... .......... ..........=C2=A0 437K
+> 650K .......... .......... .......... .......... ..........=C2=A0 591K
+> 700K .......... .......... .......... .......... ..........=C2=A0 460K
+> 750K .......... .......... .......... .......... ..........=C2=A0 389K
+> 800K .......... .......... .......... .......... ..........=C2=A0 556K
+> 850K .......... .......... .......... .......... .......... 1.03M
+> 900K .......... .......... .......... .......... ..........=C2=A0 571K
+> 950K .......... .......... .......... .......... ..........=C2=A0 558K
+> 1000K .......... .......... .......... .......... ..........=C2=A0 192K
+> 1050K .......... .......... .......... .......... ..........=C2=A0 869K
+> 1100K .......... .......... .......... .......... ..........=C2=A0 361K
+> 1150K .......... .......... .......... .......... ..........=C2=A0 338K
+> 1200K .......... .......... .......... .......... .......... 1.03M
+> 1250K .......... .......... .......... .......... ..........=C2=A0 487K
+> 1300K .......... .......... .......... .......... ..........=C2=A0 493K
+> 1350K .......... .......... .......... .......... ..........=C2=A0 370K
+> 1400K .......... .......... .......... .......... ..........=C2=A0 420K
+> 1450K .......... .......... .......... .......... ..........=C2=A0 501K
+> 1500K .......... .......... .......... .......... ..........=C2=A0 901K
+> 1550K .......... .......... .......... .......... ..........=C2=A0 603K
+> 1600K .......... .......... .......... .......... ..........=C2=A0 623K
+> 1650K .......... .......... .......... .......... ..........=C2=A0 289K
+> 1700K .......... .......... .......... .......... .......... 2.43M
+> 1750K .......... .......... .......... .......... ..........=C2=A0 703K
+> 1800K .......... .......... .......... .......... ..........=C2=A0 691K
+> 1850K .......... .......... .......... .......... ..........=C2=A0 950K
+> 1900K .......... .......... .......... .......... ..........=C2=A0 988K
+> 1950K .......... .......... .......... .......... ..........=C2=A0 909K
+> 2000K .......... .......... .......... .......... ..........=C2=A0 323K
+> 2050K .......... .......... .......... .......... ..........=C2=A0 453K
+> 2100K .......... .......... .......... .......... ..........=C2=A0 687K
+> 2150K .......... .......... .......... .......... ..........=C2=A0 335K
+> 2200K .......... .......... .......... .......... ..........=C2=A0 489K
+> 2250K .......... .......... .......... .......... ..........=C2=A0 221K
+> 2300K .......... .......... .......... .......... .......... 10.6M
+> 2350K .......... .......... .......... .......... ..........=C2=A0 556K
+> 2400K .......... .......... .......... .......... .......... 1.47M
+> 2450K .......... .......... .......... .......... ..........=C2=A0 248K
+> 2500K .......... .......... .......... .......... .......... 1.09M
+> 2550K .......... .......... .......... .......... ..........=C2=A0 333K
+> 2600K .......... .......... .......... .......... ..........=C2=A0 288K
+> 2650K .......... .......... .......... .......... ..........=C2=A0 377K
+> 2700K .......... .......... .......... .......... ..........=C2=A0 680K
+> 2750K .......... .......... .......... .......... ..........=C2=A0 750K
+> 2800K .......... .......... .......... .......... ..........=C2=A0 440K
+> 2850K .......... .......... .......... .......... ..........=C2=A0 287K
+> 2900K .......... .......... .......... .......... ..........=C2=A0 625K
+> 2950K .......... .......... .......... .......... ..........=C2=A0 577K
+> 3000K .......... .......... .......... .......... ..........=C2=A0 739K
+> 3050K .......... .......... .......... .......... ..........=C2=A0 424K
+> 3100K .......... .......... .......... .......... ..........=C2=A0 550K
+> 3150K .......... .......... .......... .......... ..........=C2=A0 458K
+> 3200K .......... .......... .......... .......... .......... 1023K
+> 3250K .......... .......... .......... .......... ..........=C2=A0 672K
+> 3300K .......... .......... .......... .......... ..........=C2=A0 378K
+> 3350K .......... .......... .......... .......... ..........=C2=A0 558K
+> 3400K .......... .......... .......... .......... .......... 1.06M
+> 3450K .......... .......... .......... .......... ..........=C2=A0 908K
+> 3500K .......... .......... .......... .......... .......... 1.02M
+> 3550K .......... .......... .......... .......... ..........=C2=A0 359K
+> 3600K .......... .......... .......... .......... ..........=C2=A0 356K
+> 3650K .......... .......... .......... .......... ..........=C2=A0 447K
+> 3700K .......... .......... .......... .......... ..........=C2=A0 473K
+> 3750K .......... .......... .......... .......... ..........=C2=A0 265K
+> 3800K .......... .......... .......... .......... ..........=C2=A0 426K
+> 3850K .......... .......... .......... .......... ..........=C2=A0 538K
+> 3900K .......... .......... .......... .......... ..........=C2=A0 383K
+> 3950K .......... .......... .......... .......... ..........=C2=A0 274K
+> 4000K .......... .......... .......... .......... ..........=C2=A0 324K
+> 4050K .......... .......... .......... .......... ..........=C2=A0 314K
+> 4100K .......... .......... .......... .......... ..........=C2=A0 389K
+> 4150K .......... .......... .......... .......... ..........=C2=A0 421K
+> 4200K .......... .......... .......... .......... ..........=C2=A0 590K
+> 4250K .......... .......... .......... .......... ..........=C2=A0 959K
+> 4300K .......... .......... .......... .......... ..........=C2=A0 248K
+> 4350K .......... .......... .......... .......... .......... 1.78M
+> 4400K .......... .......... .......... .......... ..........=C2=A0 700K
+> 4450K .......... .......... .......... .......... ..........=C2=A0 584K
+> 4500K .......... .......... .......... .......... ..........=C2=A0 341K
+> 4550K .......... .......... .......... .......... ..........=C2=A0 341K
+> 4600K .......... .......... .......... .......... ..........=C2=A0 468K
+> 4650K .......... .......... .......... .......... ..........=C2=A0 274K
+> 4700K .......... .......... .......... .......... ..........=C2=A0 386K
+> 4750K .......... .......... .......... .......... ..........=C2=A0 264K
+> 4800K .......... .......... .......... .......... ..........=C2=A0 236K
+> 4850K .......... .......... .......... .......... ..........=C2=A0 249K
+> 4900K .......... .......... .......... .......... .......... 37.7K
+> 4950K .......... .......... .......... .......... ..........=C2=A0 702K
+> 5000K .......... .......... .......... .......... ..........=C2=A0 839K
+> 5050K .......... .......... .......... .......... .......... 7.37M
+> 5100K .......... .......... .......... .......... .......... 85.1M
+> 5150K .......... .......... .......... .......... ..........=C2=A0 188K
+> 5200K .......... .......... .......... .......... .......... 13.1M
+> 5250K .......... .......... .......... .......... .......... 82.1M
+> 5300K .......... .......... .......... .......... .......... 93.7M
+> 5350K .......... .......... .......... .......... .......... 72.5M
+> 5400K .......... .......... .......... .......... .......... 90.3M
+> 5450K .......... .......... .......... .......... .......... 90.9M
+> 5500K .......... .......... .......... .......... .......... 93.1M
+> 5550K .......... .......... .......... .......... .......... 39.0M
+> 5600K .......... .......... .......... .......... .......... 35.7M
+> 5650K .......... .......... .......... .......... .......... 1.52M
+> 5700K .......... .......... .......... .......... ..........=C2=A0 537K
+> 5750K .......... .......... .......... .......... ..........=C2=A0 302K
+> 5800K .......... .......... .......... .......... ..........=C2=A0 269K
+> 5850K .......... .......... .......... .......... ..........=C2=A0 997K
+> 5900K .......... .......... .......... .......... ..........=C2=A0 514K
+> 5950K .......... .......... .......... .......... ..........=C2=A0 536K
+> 6000K .......... .......... .......... .......... ..........=C2=A0 719K
+> 6050K .......... .......... .......... .......... ..........=C2=A0 427K
+> 6100K .......... .......... .......... .......... .......... 1.85M
+> 6150K .......... .......... .......... .......... .......... 1.03M
+> 6200K .......... .......... .......... .......... .......... 1.58M
+> 6250K .......... .......... .......... .......... .......... 1.46M
+> 6300K .......... .......... .......... .......... .......... 1.40M
+> 6350K .......... .......... .......... .......... .......... 1.29M
+> 6400K .......... .......... .......... .......... .......... 1.68M
+> 6450K .......... .......... .......... .......... .......... 1.75M
+> 6500K .......... .......... .......... .......... ..........=C2=A0 647K
+> 6550K .......... .......... .......... .......... ..........=C2=A0 442K
+> 6600K .......... .......... .......... .......... ..........=C2=A0 718K
+> 6650K .......... .......... .......... .......... ..........=C2=A0 289K
+> 6700K .......... .......... .......... .......... ..........=C2=A0 347K
+> 6750K .......... .......... .......... .......... ..........=C2=A0 378K
+> 6800K .......... .......... .......... .......... ..........=C2=A0 387K
+> 6850K .......... .......... .......... .......... ..........=C2=A0 381K
+> 6900K .......... .......... .......... .......... ..........=C2=A0 318K
+> 6950K .......... .......... .......... .......... ..........=C2=A0 503K
+> 7000K .......... .......... .......... .......... ..........=C2=A0 450K
+> 7050K .......... .......... .......... .......... ..........=C2=A0 681K
+> 7100K .......... .......... .......... .......... ..........=C2=A0 253K
+> 7150K .......... .......... .......... .......... ..........=C2=A0 465K
+> 7200K .......... .......... .......... .......... ..........=C2=A0 481K
+> 7250K .......... .......... .......... .......... ..........=C2=A0 431K
+> 7300K .......... .......... .......... .......... ..........=C2=A0 276K
+> 7350K .......... .......... .......... .......... ..........=C2=A0 521K
+> 7400K .......... .......... .......... .......... ..........=C2=A0 675K
+> 7450K .......... .......... .......... .......... .......... 1015K
+> 7500K .......... .......... .......... .......... ..........=C2=A0 642K
+> 7550K .......... .......... .......... .......... ..........=C2=A0 511K
+> 7600K .......... .......... .......... .......... .......... 1.34M
+> 7650K .......... .......... .......... .......... ..........=C2=A0 779K
+> 7700K .......... .......... .......... .......... ..........=C2=A0 900K
+> 7750K .......... .......... .......... .......... .......... 1020K
+> 7800K .......... .......... .......... .......... ..........=C2=A0 656K
+> 7850K .......... .......... .......... .......... ..........=C2=A0 512K
+> 7900K .......... .......... .......... .......... ..........=C2=A0 324K
+> 7950K .......... .......... .......... .......... ..........=C2=A0 508K
+> 8000K .......... .......... .......... .......... ..........=C2=A0 603K
+> 8050K .......... .......... .......... .......... ..........=C2=A0 493K
+> 8100K .......... .......... .......... .......... ..........=C2=A0 406K
+> 8150K .......... .......... .......... .......... ..........=C2=A0 333K
+> 8200K .......... .......... .......... .......... ..........=C2=A0 401K
+> 8250K .......... .......... .......... .......... ..........=C2=A0 587K
+> 8300K .......... .......... .......... .......... ..........=C2=A0 392K
+> 8350K .......... .......... .......... .......... ..........=C2=A0 332K
+> 8400K .......... .......... .......... .......... .......... 30.3K
+> 8450K .......... .......... .......... .......... ..........=C2=A0 750K
+> 8500K .......... .......... .......... .......... ..........=C2=A0 902K
+> 8550K .......... .......... .......... .......... ..........=C2=A0 459K
+> 8600K .......... .......... .......... .......... .......... 1.91M
+> 8650K .......... .......... .......... .......... ..........=C2=A0 893K
+> 8700K .......... .......... .......... .......... ..........=C2=A0 837K
+> 8750K .......... .......... .......... .......... .......... 3.05M
+> 8800K .......... .......... .......... .......... .......... 4.01M
+> 8850K .......... .......... .......... .......... ..........=C2=A0 582K
+> 8900K .......... .......... .......... .......... .......... 35.8M
+> 8950K .......... .......... .......... .......... ..........=C2=A0 140K
+> 9000K .......... .......... .......... .......... ..........=C2=A0 239K
+> 9050K .......... .......... .......... .......... .......... 2.07M
+> 9100K .......... .......... .......... .......... .......... 61.1M
+> 9150K .......... .......... .......... .......... .......... 59.3M
+> 9200K .......... .......... .......... .......... .......... 64.2M
+> 9250K .......... .......... .......... .......... .......... 62.3M
+> 9300K .......... .......... .......... .......... .......... 1.96M
+> 9350K .......... .......... .......... .......... ..........=C2=A0 432K
+> 9400K .......... .......... .......... .......... ..........=C2=A0 242K
+> 9450K .......... .......... .......... .......... ..........=C2=A0 505K
+> 9500K .......... .......... .......... .......... ..........=C2=A0 351K
+> 9550K .......... .......... .......... .......... ..........=C2=A0 320K
+> 9600K .......... .......... .......... .......... ..........=C2=A0 556K
+> 9650K .......... .......... .......... .......... .......... 1.39M
+> 9700K .......... .......... .......... .......... .......... 1.21M
+> 9750K .......... .......... .......... .......... .......... 1.43M
+> 9800K .......... .......... .......... .......... .......... 1.95M
+> 9850K .......... .......... .......... .......... .......... 1.50M
+> 9900K .......... .......... .......... .......... .......... 1.52M
+> 9950K .......... .......... .......... .......... .......... 2.19M
+> 10000K .......... .......... .......... .......... .......... 1.79M
+> 10050K .......... .......... .......... .......... .......... 2.09M
+> 10100K .......... .......... .......... .......... .......... 1.23M
+> 10150K .......... .......... .......... .......... ..........=C2=A0 432K
+> 10200K .......... .......... .......... .......... ..........=C2=A0 791K
+> 10250K .......... .......... .......... .......... ..........=C2=A0 819K
+> 10300K .......... .......... .......... .......... ..........=C2=A0 982K
+> 10350K .......... .......... .......... .......... .......... 2.90M
+> 10400K .......... .......... .......... .......... ..........=C2=A0 969K
+> 10450K .......... .......... .......... .......... .......... 1.47M
+> 10500K .......... .......... .......... .......... ..........=C2=A0 497K
+> 10550K .......... .......... .......... .......... .......... 3.99M
+> 10600K .......... .......... .......... .......... .......... 1.21M
+> 10650K .......... .......... .......... .......... ..........=C2=A0 314K
+> 10700K .......... .......... .......... .......... .......... 2.19M
+> 10750K .......... .......... .......... .......... .......... 1007K
+> 10800K .......... .......... .......... .......... .......... 1.30M
+> 10850K .......... .......... .......... .......... .......... 2.15M
+> 10900K .......... .......... .......... .......... ..........=C2=A0 938K
+> 10950K .......... .......... .......... .......... .......... 1.91M
+> 11000K .......... .......... .......... .......... .......... 1.87M
+> 11050K .......... .......... .......... .......... .......... 1.39M
+> 11100K .......... .......... .......... .......... .......... 1.95M
+> 11150K .......... .......... .......... .......... ..........=C2=A0 509K
+> 11200K .......... .......... .......... .......... .......... 1.57M
+> 11250K .......... .......... .......... .......... .......... 1.24M
+> 11300K .......... .......... .......... .......... .......... 1.21M
+> 11350K .......... .......... .......... .......... .......... 1.77M
+> 11400K .......... .......... .......... .......... .......... 1.56M
+> 11450K .......... .......... .......... .......... .......... 1.38M
+> 11500K .......... .......... .......... .......... ..........=C2=A0 605K
+> 11550K .......... .......... .......... .......... ..........=C2=A0 977K
+> 11600K .......... .......... .......... .......... .......... 1.20M
+> 11650K .......... .......... .......... .......... ..........=C2=A0 634K
+> 11700K .......... .......... .......... .......... ..........=C2=A0 720K
+> 11750K .......... .......... .......... .......... .......... 1.04M
+> 11800K .......... .......... .......... .......... ..........=C2=A0 503K
+> 11850K .......... .......... .......... .......... .......... 1.26M
+> 11900K .......... .......... .......... .......... ..........=C2=A0 733K
+> 11950K .......... .......... .......... .......... ..........=C2=A0 477K
+> 12000K .......... .......... .......... .......... ..........=C2=A0 803K
+> 12050K .......... .......... .......... .......... ..........=C2=A0 455K
+> 12100K .......... .......... .......... .......... ..........=C2=A0 728K
+> 12150K .......... .......... .......... .......... ..........=C2=A0 436K
+> 12200K .......... .......... .......... .......... ..........=C2=A0 396K
+> 12250K .......... .......... .......... .......... ..........=C2=A0 549K
+> 12300K .......... .......... .......... .......... ..........=C2=A0 302K
+> 12350K .......... .......... .......... .......... ..........=C2=A0 439K
+> 12400K .......... .......... .......... .......... ..........=C2=A0 312K
+> 12450K .......... .......... .......... .......... ..........=C2=A0 233K
+> 12500K .......... .......... .......... .......... ..........=C2=A0 389K
+> 12550K .......... .......... .......... .......... ..........=C2=A0 233K
+> 12600K .......... .......... .......... .......... .......... 36.9K
+> 12650K .......... .......... .......... .......... .......... 1.74M
+> 12700K .......... .......... .......... .......... ..........=C2=A0 823K
+> 12750K .......... .......... .......... .......... .......... 2.29M
+> 12800K .......... .......... .......... .......... .......... 1.57M
+> 12850K .......... .......... .......... .......... .......... 46.2M
+> 12900K .......... .......... .......... .......... .......... 57.1M
+> 12950K .......... .......... .......... .......... .......... 59.2M
+> 13000K .......... .......... .......... .......... .......... 53.8M
+> 13050K .......... .......... .......... .......... .......... 54.7M
+> 13100K .......... .......... .......... .......... .......... 60.2M
+> 13150K .......... .......... .......... .......... .......... 59.1M
+> 13200K .......... .......... .......... .......... .......... 16.8M
+> 13250K .......... .......... .......... .......... ..........=C2=A0 611K
+> 13300K .......... .......... .......... .......... ..........=C2=A0 948K
+> 13350K .......... .......... .......... .......... ..........=C2=A0 342K
+> 13400K .......... .......... .......... .......... .......... 1.13M
+> 13450K .......... .......... .......... .......... .......... 1.74M
+> 13500K .......... .......... .......... .......... .......... 1.18M
+> 13550K .......... .......... .......... .......... .......... 1.95M
+> 13600K .......... .......... .......... .......... .......... 1.43M
+> 13650K .......... .......... .......... .......... ..........=C2=A0 643K
+> 13700K .......... .......... .......... .......... ..........=C2=A0 872K
+> 13750K .......... .......... .......... .......... .......... 1.00M
+> 13800K .......... .......... .......... .......... ..........=C2=A0 175K
+> 13850K .......... .......... .......... .......... .......... 1.89M
+> 13900K .......... .......... .......... .......... .......... 1.81M
+> 13950K .......... .......... .......... .......... .......... 1.14M
+> 14000K .......... .......... .......... .......... ..........=C2=A0 878K
+> 14050K .......... .......... .......... .......... ..........=C2=A0 249K
+> 14100K .......... .......... .......... .......... ..........=C2=A0 355K
+> 14150K .......... .......... .......... .......... ..........=C2=A0 559K
+> 14200K .......... .......... .......... .......... ..........=C2=A0 178K
+> 14250K .......... .......... .......... .......... ..........=C2=A0 292K
+> 14300K .......... .......... .......... .......... ..........=C2=A0 307K
+> 14350K .......... .......... .......... .......... ..........=C2=A0 307K
+> 14400K .......... .......... .......... .......... ..........=C2=A0 389K
+> 14450K .......... .......... .......... .......... ..........=C2=A0 263K
+> 14500K .......... .......... .......... .......... ..........=C2=A0 532K
+> 14550K .......... .......... .......... .......... ..........=C2=A0 522K
+> 14600K .......... .......... .......... .......... ..........=C2=A0 612K
+> 14650K .......... .......... .......... .......... ..........=C2=A0 419K
+> 14700K .......... .......... .......... .......... ..........=C2=A0 277K
+> 14750K .......... .......... .......... .......... ..........=C2=A0 224K
+> 14800K .......... .......... .......... .......... ..........=C2=A0 224K
+> 14850K .......... .......... .......... .......... ..........=C2=A0 214K
+> 14900K .......... .......... .......... .......... ..........=C2=A0 275K
+> 14950K .......... .......... .......... .......... ..........=C2=A0 345K
+> 15000K .......... .......... .......... .......... .......... 29.5K
+> 15050K .......... .......... .......... .......... .......... 38.5K
+> 15100K .......... .......... .......... .......... .......... 55.2M
+> 15150K .......... .......... .......... .......... ..........=C2=A0 303K
+> 15200K .......... .......... .......... .......... .......... 55.1M
+> 15250K .......... .......... .......... .......... .......... 54.0M
+> 15300K .......... .......... .......... .......... .......... 67.7M
+> 15350K .......... .......... .......... .......... .......... 67.5M
+> 15400K .......... .......... .......... .......... .......... 65.6M
+> 15450K .......... .......... .......... .......... .......... 63.1M
+> 15500K .......... .......... .......... .......... .......... 68.0M
+> 15550K .......... .......... .......... .......... .......... 60.0M
+> 15600K .......... .......... .......... .......... .......... 67.3M
+> 15650K .......... .......... .......... .......... .......... 52.9M
+> 15700K .......... .......... .......... .......... .......... 66.5M
+> 15750K .......... .......... .......... .......... .......... 67.6M
+> 15800K .......... .......... .......... .......... .......... 5.77M
+> 15850K .......... .......... .......... .......... ..........=C2=A0 223K
+> 15900K .......... .......... .......... .......... ..........=C2=A0 215K
+> 15950K .......... .......... .......... .......... ..........=C2=A0 258K
+> 16000K .......... .......... .......... .......... ..........=C2=A0 183K
+> 16050K .......... .......... .......... .......... .......... 30.7K
+> 16100K .......... .......... .......... .......... .......... 60.1M
+> 16150K .......... .......... .......... .......... .......... 58.5M
+> 16200K .......... .......... .......... .......... .......... 61.4M
+> 16250K ........=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 116M=3D38s
+>=20
+> 2020-06-17 09:37:50 (431 KB/s) - Read error at byte 16648248
+> (Success).Giving up.
+>=20
+>=20
+> ERROR: bcm2835-bootfiles-20200603-r3 do_fetch: Fetcher failure for URL:
+> 'https://github.com/raspberrypi/firmware/archive/23548e550a757d368d3d522=
+0373fe829b5961c42.tar.gz'.
+> Unable to fetch URL from any source.
+> ERROR: Logfile of failure stored in:
+> /home/siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/b=
+cm2835-bootfiles/20200603-r3/temp/log.do_fetch.17387
+>=20
+>=20
+
+But later the whole building process stopped with below error:
+>=20
+> ERROR: linux-raspberrypi-1_4.19.126+gitAUTOINC+f6b3ac28f0-r0 do_fetch:
+> Fetcher failure: Fetch command export PSEUDO_DISABLED=3D1; unset
+> _PYTHON_SYSCONFIGDATA_NAME; export
+> DBUS_SESSION_BUS_ADDRESS=3D"unix:path=3D/run/user/1000/bus,guid=3Dae1c3c=
+0e8d9c84558dde0a465ee9d9e2";
+> export SSH_AGENT_PID=3D"1593"; export
+> SSH_AUTH_SOCK=3D"/run/user/1000/keyring/ssh"; export
+> PATH=3D"/home/siddhu/Documents/yocto/build/tmp/sysroots-uninative/x86_64=
+-linux/usr/bin:/home/siddhu/Documents/yocto/sources1/poky/scripts:/home/sid=
+dhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/linux-raspber=
+rypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0/recipe-sysroot-native/usr/bin/aarc=
+h64-poky-linux:/home/siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64-=
+poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0/recipe-sys=
+root/usr/bin/crossscripts:/home/siddhu/Documents/yocto/build/tmp/work/raspb=
+errypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0=
+/recipe-sysroot-native/usr/sbin:/home/siddhu/Documents/yocto/build/tmp/work=
+/raspberrypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac2=
+8f0-r0/recipe-sysroot-native/usr/bin:/home/siddhu/Documents/yocto/build/tmp=
+/work/raspberrypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6=
+b3ac28f0-r0/recipe-sysroot-native/sbin:/home/siddhu/Documents/yocto/build/t=
+mp/work/raspberrypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+=
+f6b3ac28f0-r0/recipe-sysroot-native/bin:/home/siddhu/Documents/yocto/source=
+s1/poky/bitbake/bin:/home/siddhu/Documents/yocto/build/tmp/hosttools";
+> export HOME=3D"/home/siddhu"; LANG=3DC git -c core.fsyncobjectfiles=3D0 =
+clone
+> --bare --mirror git://github.com/raspberrypi/linux.git
+> /home/siddhu/Documents/yocto/build/downloads/git2/github.com.raspberrypi=
+.linux.git
+> --progress failed with exit code 128, output:
+> Cloning into bare repository
+> '/home/siddhu/Documents/yocto/build/downloads/git2/github.com.raspberryp=
+i.linux.git'...
+>=20
+> remote: Enumerating objects: 61, done.
+> remote: Counting objects: 100% (61/61), done.
+> remote: Compressing objects: 100% (54/54), done.
+> fatal: read error: Connection reset by peer1.86 MiB | 105.00 KiB/s
+> fatal: early EOF
+> fatal: index-pack failed
+>=20
+> ERROR: linux-raspberrypi-1_4.19.126+gitAUTOINC+f6b3ac28f0-r0 do_fetch:
+> Fetcher failure for URL:
+> 'git://github.com/raspberrypi/linux.git;branch=3Drpi-4.19.y'. Unable to
+> fetch URL from any source.
+> ERROR: Logfile of failure stored in:
+> /home/siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/l=
+inux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0/temp/log.do_fetch.3109
+>=20
+> ERROR: Task
+> (/home/siddhu/Documents/yocto/sources1/meta-raspberrypi/recipes-kernel/l=
+inux/linux-raspberrypi_4.19.bb:do_fetch)
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 3038 tasks of which 2677 didn't need to b=
 e
->> Xilinx Ultra-96-V2 board; and the NVidia Jetson TX1 at one point had som=
-e
->> non-upstream patches available to enable Xen on it. PCEngines maintains
->> Xen compatibility for their APU2 in meta-pcengines.
->>=20
->> There are also some challenges being encountered in getting a more recen=
-t Linux
->> kernel working as a dom0 on the Raspberry Pi 4 - eg. the Linux Foundatio=
-n Eve
->> Project run their own patches for 5.6 here:
->> https://github.com/lf-edge/eve/tree/master/pkg/new-kernel/patches-5.6.x
->>=20
->> All of this points towards it being a reasonable proposition to have a
->> dedicated Xen hardware support Yocto layer, so that board-specific tweak=
-s for
->> hardware compatibility with Xen can be maintained without complicating
->> meta-virtualization, while continuing to pool Xen-aware contributions in
->> a centralized layer.
->>=20
->> I'd like to propose creating: 'meta-xen-bsp'; and I'm willing to work on
->> maintaining it. Feedback to this suggestion is welcome.
->>=20
->> Bruce: how does this sound to you?
+> rerun and 3 failed.
 >=20
-> I had this problem working on some other BSPs to support Xen with meta-vi=
-rtualization (you can check this in meta-arm[1]).
+> Summary: 3 tasks failed:
+> /home/siddhu/Documents/yocto/sources1/poky/meta/recipes-devtools/gcc/gcc=
+-cross_10.1.bb:do_compile
 >=20
-> I would think the best way to handle this case is to use dynamic layers a=
-nd push the required support inside the layer containing the BSP.
-> This would make the maintenance easier (for example when the kernel is ch=
-anged).
+> /home/siddhu/Documents/yocto/sources1/meta-raspberrypi/recipes-bsp/bootf=
+iles/bcm2835-bootfiles.bb:do_fetch
 >=20
-> If you want an example of how to use dynamic layers you can check meta-ar=
-m-autonomy sub layer of meta-arm [1] (which also contains other interesting=
- bits related to using Xen with Yocto).
+> /home/siddhu/Documents/yocto/sources1/meta-raspberrypi/recipes-kernel/li=
+nux/linux-raspberrypi_4.19.bb:do_fetch
 >=20
-> Cheers
-> Bertrand
+> Summary: There were 3 WARNING messages shown.
+> Summary: There were 6 ERROR messages shown, returning a non-zero exit
+> code.
 >=20
 >=20
->=20
-> IMPORTANT NOTICE: The contents of this email and any attachments are conf=
-idential and may also be privileged. If you are not the intended recipient,=
- please notify the sender immediately and do not disclose the contents to a=
-ny other person, use it for any purpose, or store or copy the information i=
-n any medium. Thank you.
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
 
-Sorry I forgot to remove the disclaimer.
-Bertrand
+Its been two month that I am trying to build the xen image for the Raspber=
+rypi board using meta-virtualization. But I am not able to get any progress=
+, Is the building Xen is really that difficult?. Can anybody help me out wh=
+at wrong I am doing here. Yes I do agree I am a newbee to the yocto but I a=
+m totally stuck here. Please sugeest me how can I proceed further to get th=
+e xen image built.
 
+please, kind request.
+
+My working environment:
+1. Dell Laptop with=C2=A0 core i3 processor 4gb RAM.
+2. Ubuntu 18.04
+
+--
+Best Regards,
+Siddhartha V
+
+--DBamzC1Bg8FRYx9VkzAD
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hello @<span class=3D"fa fa-user fa-3x"></span>&nbsp;Christopher Clark sir,=
+<br /><br />&nbsp; &nbsp;I did the same what you have suggested. I started =
+a new build where followed the below steps,<br />1. I downloaded the master=
+ branch of below layers:<br /><br />
+<blockquote>
+<div>git clone git://git.yoctoproject.org/poky -b master</div>
+<div>git clone git://git.openembedded.org/meta-openembedded -b master</div=
+>
+<div>git clone git://git.yoctoproject.org/meta-raspberrypi -b master</div>
+<div>git clone <a href=3D"https://github.com/dozylynx/meta-virtualization.=
+git" target=3D"_blank" rel=3D"noopener">https://github.com/dozylynx/meta-vi=
+rtualization.git</a></div>
+</blockquote>
+Later I have changed the local.conf as below:<br /><br />
+<blockquote>
+<div>MACHINE =3D "raspberrypi4-64"</div>
+<div>DISTRO_FEATURES_append =3D " virtualization xen"</div>
+<div>QEMU_TARGETS =3D "i386 x86_64 aarch64 arm"</div>
+<div>PACKAGECONFIG_pn-qemu +=3D " xen fdt"</div>
+<div>PACKAGECONFIG_remove_pn-qemu +=3D " sdl"</div>
+<div>PREFERRED_VERSION_linux-raspberrypi =3D "4.19.%"</div>
+<div>IMAGE_FSTYPES =3D "tar.xz tar.bz2 ext3 rpi-sdimg"</div>
+<div>IMAGE_FEATURES +=3D "ssh-server-dropbear"</div>
+</blockquote>
+<div>When started bitbake&nbsp; "bitbake xen-image-minimal"&nbsp;&nbsp;ini=
+tially I got the below log: <br />
+<div>&nbsp;</div>
+<blockquote>
+<div>siddhu@siddhu:~/Documents/yocto/build$ bitbake -k xen-image-minimal</=
+div>
+<div>Loading cache: 100% |################################################=
+##########################################################| Time: 0:00:01</=
+div>
+<div>Loaded 3545 entries from dependency cache.</div>
+<div>NOTE: Resolving any missing task queue dependencies</div>
+<div>&nbsp;</div>
+<div>Build Configuration:</div>
+<div>BB_VERSION&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "1.46.0"</div>
+<div>BUILD_SYS&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D "x86_64-linux"=
+</div>
+<div>NATIVELSBSTRING&nbsp; &nbsp; &nbsp; =3D "universal"</div>
+<div>TARGET_SYS&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "aarch64-poky-=
+linux"</div>
+<div>MACHINE&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; =3D "raspberr=
+ypi4-64"</div>
+<div>DISTRO&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D "pok=
+y"</div>
+<div>DISTRO_VERSION&nbsp; &nbsp; &nbsp; &nbsp;=3D "3.1+snapshot-20200617"<=
+/div>
+<div>TUNE_FEATURES&nbsp; &nbsp; &nbsp; &nbsp; =3D "aarch64 cortexa72 crc c=
+rypto"</div>
+<div>TARGET_FPU&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=3D ""</div>
+<div>meta&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</d=
+iv>
+<div>meta-poky&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div>meta-yocto-bsp&nbsp; &nbsp; &nbsp; &nbsp;=3D "master:816a12758bfcb540=
+9accbf636ec58d9fa917cdb6"</div>
+<div>meta-oe&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div>meta-multimedia&nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div>meta-python&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div>meta-networking&nbsp; &nbsp; &nbsp;&nbsp;</div>
+<div>meta-filesystems&nbsp; &nbsp; &nbsp;=3D "master:06a9209d8fb944dc1e24b=
+00e68886c00135c72c0"</div>
+<div>meta-virtualization&nbsp; =3D "master:d75bc448866d2b36779251efb1310d0=
+234ece30b"</div>
+<div>meta-raspberrypi&nbsp; &nbsp; &nbsp;=3D "master:39cf54c3cb429f2c6e0a0=
+00e79f6f06b39e2fa8b"</div>
+<div>&nbsp;</div>
+<div>Initialising tasks: 100% |###########################################=
+##########################################################| Time: 0:00:06</=
+div>
+<div>Sstate summary: Wanted 1787 Found 0 Missed 1787 Current 187 (0% match=
+, 9% complete)</div>
+</blockquote>
+<div>&nbsp;</div>
+but within few minutes building get&nbsp; terminated with the below error:=
+<br /><br />Task (/home/siddhu/Documents/yocto/sources1/poky/meta/recipes-d=
+evtools/gcc/gcc-cross_10.1.bb:do_compile) failed with exit code '1'</div>
+<br />Later I used "bitbake -k xen-image-minimal"&nbsp; (The initial log r=
+emained same) but even then it reached 50% but later it It gave the below e=
+rror:<br /><br />
+<div>&nbsp;</div>
+<blockquote>
+<div>ERROR: Task (/home/siddhu/Documents/yocto/sources1/poky/meta/recipes-=
+devtools/gcc/gcc-cross_10.1.bb:do_compile) failed with exit code '1'</div>
+<div>WARNING: mtools-native-4.0.24-r0 do_fetch: Failed to fetch URL https:=
+//ftp.gnu.org/gnu/mtools/mtools-4.0.24.tar.bz2, attempting MIRRORS if avail=
+able</div>
+<div>WARNING: bcm2835-bootfiles-20200603-r3 do_fetch: Failed to fetch URL =
+https://github.com/raspberrypi/firmware/archive/23548e550a757d368d3d5220373=
+fe829b5961c42.tar.gz, attempting MIRRORS if available</div>
+<div>ERROR: bcm2835-bootfiles-20200603-r3 do_fetch: Fetcher failure: Fetch=
+ command export PSEUDO_DISABLED=3D1; unset _PYTHON_SYSCONFIGDATA_NAME; expo=
+rt DBUS_SESSION_BUS_ADDRESS=3D"unix:path=3D/run/user/1000/bus,guid=3Dae1c3c=
+0e8d9c84558dde0a465ee9d9e2"; export SSH_AGENT_PID=3D"1593"; export SSH_AUTH=
+_SOCK=3D"/run/user/1000/keyring/ssh"; export PATH=3D"/home/siddhu/Documents=
+/yocto/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/home/siddhu/Docum=
+ents/yocto/sources1/poky/scripts:/home/siddhu/Documents/yocto/build/tmp/wor=
+k/raspberrypi4_64-poky-linux/bcm2835-bootfiles/20200603-r3/recipe-sysroot-n=
+ative/usr/bin/aarch64-poky-linux:/home/siddhu/Documents/yocto/build/tmp/wor=
+k/raspberrypi4_64-poky-linux/bcm2835-bootfiles/20200603-r3/recipe-sysroot/u=
+sr/bin/crossscripts:/home/siddhu/Documents/yocto/build/tmp/work/raspberrypi=
+4_64-poky-linux/bcm2835-bootfiles/20200603-r3/recipe-sysroot-native/usr/sbi=
+n:/home/siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-linux/bc=
+m2835-bootfiles/20200603-r3/recipe-sysroot-native/usr/bin:/home/siddhu/Docu=
+ments/yocto/build/tmp/work/raspberrypi4_64-poky-linux/bcm2835-bootfiles/202=
+00603-r3/recipe-sysroot-native/sbin:/home/siddhu/Documents/yocto/build/tmp/=
+work/raspberrypi4_64-poky-linux/bcm2835-bootfiles/20200603-r3/recipe-sysroo=
+t-native/bin:/home/siddhu/Documents/yocto/sources1/poky/bitbake/bin:/home/s=
+iddhu/Documents/yocto/build/tmp/hosttools"; export HOME=3D"/home/siddhu"; /=
+usr/bin/env wget -t 2 -T 30 --passive-ftp --no-check-certificate -P /home/s=
+iddhu/Documents/yocto/build/downloads 'https://github.com/raspberrypi/firmw=
+are/archive/23548e550a757d368d3d5220373fe829b5961c42.tar.gz' --progress=3Dd=
+ot -v failed with exit code 4, output:</div>
+<div>--2020-06-17 09:34:20--&nbsp; https://github.com/raspberrypi/firmware=
+/archive/23548e550a757d368d3d5220373fe829b5961c42.tar.gz</div>
+<div>Resolving github.com (github.com)... 13.234.176.102</div>
+<div>Connecting to github.com (github.com)|13.234.176.102|:443... connecte=
+d.</div>
+<div>HTTP request sent, awaiting response... 302 Found</div>
+<div>Location: https://codeload.github.com/raspberrypi/firmware/tar.gz/235=
+48e550a757d368d3d5220373fe829b5961c42 [following]</div>
+<div>--2020-06-17 09:34:38--&nbsp; https://codeload.github.com/raspberrypi=
+/firmware/tar.gz/23548e550a757d368d3d5220373fe829b5961c42</div>
+<div>Resolving codeload.github.com (codeload.github.com)... 13.233.43.20</=
+div>
+<div>Connecting to codeload.github.com (codeload.github.com)|13.233.43.20|=
+:443... connected.</div>
+<div>HTTP request sent, awaiting response... 200 OK</div>
+<div>Length: unspecified [application/x-gzip]</div>
+<div>Saving to: &lsquo;/home/siddhu/Documents/yocto/build/downloads/23548e=
+550a757d368d3d5220373fe829b5961c42.tar.gz&rsquo;</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; &nbsp;0K .......... .......... .......... .......... ..=
+........ 54.6K</div>
+<div>&nbsp; &nbsp; 50K .......... .......... .......... .......... .......=
+... 42.6K</div>
+<div>&nbsp; &nbsp;100K .......... .......... .......... .......... .......=
+... 44.9K</div>
+<div>&nbsp; &nbsp;150K .......... .......... .......... .......... .......=
+...&nbsp; 221K</div>
+<div>&nbsp; &nbsp;200K .......... .......... .......... .......... .......=
+... 46.2K</div>
+<div>&nbsp; &nbsp;250K .......... .......... .......... .......... .......=
+... 44.2K</div>
+<div>&nbsp; &nbsp;300K .......... .......... .......... .......... .......=
+...&nbsp; 416K</div>
+<div>&nbsp; &nbsp;350K .......... .......... .......... .......... .......=
+... 18.2K</div>
+<div>&nbsp; &nbsp;400K .......... .......... .......... .......... .......=
+...&nbsp; 329K</div>
+<div>&nbsp; &nbsp;450K .......... .......... .......... .......... .......=
+...&nbsp; 196K</div>
+<div>&nbsp; &nbsp;500K .......... .......... .......... .......... .......=
+... 18.1K</div>
+<div>&nbsp; &nbsp;550K .......... .......... .......... .......... .......=
+... 45.0K</div>
+<div>&nbsp; &nbsp;600K .......... .......... .......... .......... .......=
+... 1.78M</div>
+<div>&nbsp; &nbsp;650K .......... .......... .......... .......... .......=
+... 46.3K</div>
+<div>&nbsp; &nbsp;700K .......... .......... .......... .......... .......=
+...&nbsp; 213K</div>
+<div>&nbsp; &nbsp;750K .......... .......... .......... .......... .......=
+... 35.5K</div>
+<div>&nbsp; &nbsp;800K .......... .......... .......... .......... .......=
+... 40.1K</div>
+<div>&nbsp; &nbsp;850K .......... .......... .......... .......... .......=
+... 44.3K</div>
+<div>&nbsp; &nbsp;900K .......... .......... .......... .......... .......=
+...&nbsp; 199K</div>
+<div>&nbsp; &nbsp;950K .......... .......... .......... .......... .......=
+... 38.3K</div>
+<div>&nbsp; 1000K .......... .......... .......... .......... ..........&n=
+bsp; 155K</div>
+<div>&nbsp; 1050K .......... .......... .......... .......... .......... 6=
+6.6K</div>
+<div>&nbsp; 1100K .......... .......... .......... .......... ..........&n=
+bsp; 212K</div>
+<div>&nbsp; 1150K .......... .......... .......... .......... .......... 4=
+5.6K</div>
+<div>&nbsp; 1200K .......... .......... .......... .......... ..........&n=
+bsp; 269K</div>
+<div>&nbsp; 1250K .......... .......... .......... .......... ..........&n=
+bsp; 284K</div>
+<div>&nbsp; 1300K .......... .......... .......... .......... ..........&n=
+bsp; 149K</div>
+<div>&nbsp; 1350K .......... .......... .......... .......... .......... 1=
+.07M</div>
+<div>&nbsp; 1400K .......... .......... .......... .......... ..........&n=
+bsp; 946K</div>
+<div>&nbsp; 1450K .......... .......... .......... .......... .......... 1=
+.31M</div>
+<div>&nbsp; 1500K .......... .......... .......... .......... ..........&n=
+bsp; 179K</div>
+<div>&nbsp; 1550K .......... .......... .......... .......... .......... 1=
+.44M</div>
+<div>&nbsp; 1600K .......... .......... .......... .......... .......... 1=
+.49M</div>
+<div>&nbsp; 1650K .......... .......... .......... .......... ..........&n=
+bsp; 833K</div>
+<div>&nbsp; 1700K .......... .......... .......... .......... ..........&n=
+bsp; 279K</div>
+<div>&nbsp; 1750K .......... .......... .......... .......... .......... 7=
+9.0K</div>
+<div>&nbsp; 1800K .......... .......... .......... .......... ..........&n=
+bsp; 704K</div>
+<div>&nbsp; 1850K .......... .......... .......... .......... ..........&n=
+bsp; 725K</div>
+<div>&nbsp; 1900K .......... .......... .......... .......... .......... 1=
+.05M</div>
+<div>&nbsp; 1950K .......... .......... .......... .......... ..........&n=
+bsp; 760K</div>
+<div>&nbsp; 2000K .......... .......... .......... .......... ..........&n=
+bsp; 309K</div>
+<div>&nbsp; 2050K .......... .......... .......... .......... ..........&n=
+bsp; 599K</div>
+<div>&nbsp; 2100K .......... .......... .......... .......... .......... 9=
+3.0K</div>
+<div>&nbsp; 2150K .......... .......... .......... .......... ..........&n=
+bsp; 408K</div>
+<div>&nbsp; 2200K .......... .......... .......... .......... ..........&n=
+bsp; 451K</div>
+<div>&nbsp; 2250K .......... .......... .......... .......... ..........&n=
+bsp; 385K</div>
+<div>&nbsp; 2300K .......... .......... .......... .......... ..........&n=
+bsp; 511K</div>
+<div>&nbsp; 2350K .......... .......... .......... .......... ..........&n=
+bsp; 412K</div>
+<div>&nbsp; 2400K .......... .......... .......... .......... ..........&n=
+bsp; 617K</div>
+<div>&nbsp; 2450K .......... .......... .......... .......... ..........&n=
+bsp; 356K</div>
+<div>&nbsp; 2500K .......... .......... .......... .......... ..........&n=
+bsp; 263K</div>
+<div>&nbsp; 2550K .......... .......... .......... .......... .......... 5=
+.51M</div>
+<div>&nbsp; 2600K .......... .......... .......... .......... ..........&n=
+bsp; 901K</div>
+<div>&nbsp; 2650K .......... .......... .......... .......... .......... 1=
+.36M</div>
+<div>&nbsp; 2700K .......... .......... .......... .......... .......... 1=
+.26M</div>
+<div>&nbsp; 2750K .......... .......... .......... .......... .......... 3=
+.13M</div>
+<div>&nbsp; 2800K .......... .......... .......... .......... ..........&n=
+bsp; 570K</div>
+<div>&nbsp; 2850K .......... .......... .......... .......... ..........&n=
+bsp; 900K</div>
+<div>&nbsp; 2900K .......... .......... .......... .......... .......... 1=
+.85M</div>
+<div>&nbsp; 2950K .......... .......... .......... .......... ..........&n=
+bsp; 607K</div>
+<div>&nbsp; 3000K .......... .......... .......... .......... ..........&n=
+bsp; 739K</div>
+<div>&nbsp; 3050K .......... .......... .......... .......... ..........&n=
+bsp; 159K</div>
+<div>&nbsp; 3100K .......... .......... .......... .......... ..........&n=
+bsp; 717K</div>
+<div>&nbsp; 3150K .......... .......... .......... .......... .......... 3=
+.97M</div>
+<div>&nbsp; 3200K .......... .......... .......... .......... .......... 2=
+.59M</div>
+<div>&nbsp; 3250K .......... .......... .......... .......... .......... 1=
+.41M</div>
+<div>&nbsp; 3300K .......... .......... .......... .......... .......... 1=
+.58M</div>
+<div>&nbsp; 3350K .......... .......... .......... .......... .......... 3=
+.79M</div>
+<div>&nbsp; 3400K .......... .......... .......... .......... .......... 1=
+.28M</div>
+<div>&nbsp; 3450K .......... .......... .......... .......... .......... 1=
+.05M</div>
+<div>&nbsp; 3500K .......... .......... .......... .......... .......... 2=
+.42M</div>
+<div>&nbsp; 3550K .......... .......... .......... .......... .......... 2=
+.49M</div>
+<div>&nbsp; 3600K .......... .......... .......... .......... .......... 1=
+.46M</div>
+<div>&nbsp; 3650K .......... .......... .......... .......... ..........&n=
+bsp; 243K</div>
+<div>&nbsp; 3700K .......... .......... .......... .......... .......... 9=
+0.3K</div>
+<div>&nbsp; 3750K .......... .......... .......... .......... ..........&n=
+bsp; 181K</div>
+<div>&nbsp; 3800K .......... .......... .......... .......... ..........&n=
+bsp; 394K</div>
+<div>&nbsp; 3850K .......... .......... .......... .......... .......... 2=
+9.2K</div>
+<div>&nbsp; 3900K .......... .......... .......... .......... .......... 1=
+8.0K</div>
+<div>&nbsp; 3950K .......... .......... .......... .......... .......... 1=
+.25M</div>
+<div>&nbsp; 4000K .......... .......... .......... .......... ..........&n=
+bsp; 987K</div>
+<div>&nbsp; 4050K .......... .......... .......... .......... .......... 1=
+.99M</div>
+<div>&nbsp; 4100K .......... .......... .......... .......... .......... 1=
+.48M</div>
+<div>&nbsp; 4150K .......... .......... .......... .......... .......... 1=
+.24M</div>
+<div>&nbsp; 4200K .......... .......... .......... .......... .......... 8=
+.07M</div>
+<div>&nbsp; 4250K .......... .......... .......... .......... .......... 1=
+.39M</div>
+<div>&nbsp; 4300K .......... .......... .......... .......... .......... 3=
+.09M</div>
+<div>&nbsp; 4350K .......... .......... .......... .......... ..........&n=
+bsp; 635K</div>
+<div>&nbsp; 4400K .......... .......... .......... .......... .......... 1=
+.11M</div>
+<div>&nbsp; 4450K .......... .......... .......... .......... .......... 1=
+.16M</div>
+<div>&nbsp; 4500K .......... .......... .......... .......... .......... 1=
+.32M</div>
+<div>&nbsp; 4550K .......... .......... .......... .......... .......... 5=
+2.7M</div>
+<div>&nbsp; 4600K .......... .......... .......... .......... .......... 9=
+2.2M</div>
+<div>&nbsp; 4650K .......... .......... .......... .......... .......... 8=
+8.8M</div>
+<div>&nbsp; 4700K .......... .......... .......... .......... .......... 2=
+.34M</div>
+<div>&nbsp; 4750K .......... .......... .......... .......... ..........&n=
+bsp; 837K</div>
+<div>&nbsp; 4800K .......... .......... .......... .......... ..........&n=
+bsp; 854K</div>
+<div>&nbsp; 4850K .......... .......... .......... .......... .......... 1=
+.22M</div>
+<div>&nbsp; 4900K .......... .......... .......... .......... .......... 9=
+1.0M</div>
+<div>&nbsp; 4950K .......... .......... .......... .......... .......... 3=
+.32M</div>
+<div>&nbsp; 5000K .......... .......... .......... .......... .......... 3=
+0.5M</div>
+<div>&nbsp; 5050K .......... .......... .......... .......... .......... 2=
+2.2M</div>
+<div>&nbsp; 5100K .......... .......... .......... .......... .......... 6=
+1.7M</div>
+<div>&nbsp; 5150K .......... .......... .......... .......... .......... 2=
+.37M</div>
+<div>&nbsp; 5200K .......... .......... .......... .......... .......... 1=
+3.5K</div>
+<div>&nbsp; 5250K .......... .......... .......... .......... .......... 1=
+1.7M</div>
+<div>&nbsp; 5300K .......... .......... .......... .......... .......... 1=
+.79M</div>
+<div>&nbsp; 5350K .......... .......... .......... .......... .......... 5=
+2.8M</div>
+<div>&nbsp; 5400K .......... .......... .......... .......... .......... 1=
+3.5K</div>
+<div>&nbsp; 5450K .......... .......... .......... .......... .......... 4=
+3.5M</div>
+<div>&nbsp; 5500K .......... .......... .......... .......... .......... 5=
+4.3M</div>
+<div>&nbsp; 5550K .......... .......... .......... .......... .......... 6=
+0.5M</div>
+<div>&nbsp; 5600K .......... .......... .......... .......... .......... 3=
+8.8M</div>
+<div>&nbsp; 5650K .......... .......... .......... .......... .......... 3=
+1.0K</div>
+<div>&nbsp; 5700K .......... .......... .......... .......... .......... 9=
+.41M</div>
+<div>&nbsp; 5750K .......... .......... .......... .......... .......... 6=
+3.7M</div>
+<div>&nbsp; 5800K .......... .......... .......... .......... .......... 5=
+6.8M</div>
+<div>&nbsp; 5850K .......... .......... .......... .......... .......... 5=
+2.3M</div>
+<div>&nbsp; 5900K .......... .......... .......... .......... .......... 5=
+1.8M</div>
+<div>&nbsp; 5950K .......... .......... .......... .......... .......... 3=
+.90M</div>
+<div>&nbsp; 6000K .......... .......... .......... .......... .......... 1=
+0.7M</div>
+<div>&nbsp; 6050K .......... .......... .......... .......... .......... 8=
+.71M</div>
+<div>&nbsp; 6100K .......... .......... .......... .......... .......... 2=
+8.4M</div>
+<div>&nbsp; 6150K .......... .......... .......... .......... .......... 7=
+.10M</div>
+<div>&nbsp; 6200K .......... .......... .......... .......... .......... 1=
+8.7M</div>
+<div>&nbsp; 6250K .......... .......... .......... .......... .......... 5=
+1.2K</div>
+<div>&nbsp; 6300K .......... .......... .......... .......... .......... 2=
+2.8M</div>
+<div>&nbsp; 6350K .......... .......... .......... .......... .......... 2=
+0.5M</div>
+<div>&nbsp; 6400K .......... .......... .......... .......... .......... 4=
+5.6M</div>
+<div>&nbsp; 6450K .......... .......... .......... .......... .......... 4=
+5.7M</div>
+<div>&nbsp; 6500K .......... .......... .......... .......... .......... 1=
+8.5M</div>
+<div>&nbsp; 6550K .......... .......... .......... .......... .......... 7=
+1.3M</div>
+<div>&nbsp; 6600K .......... .......... .......... .......... .......... 6=
+3.7M</div>
+<div>&nbsp; 6650K .......... .......... .......... .......... .......... 6=
+5.6M</div>
+<div>&nbsp; 6700K .......... .......... .......... .......... .......... 5=
+5.7M</div>
+<div>&nbsp; 6750K .......... .......... .......... .......... .......... 6=
+5.3M</div>
+<div>&nbsp; 6800K .......... .......... .......... .......... .......... 5=
+5.0M</div>
+<div>&nbsp; 6850K .......... .......... .......... .......... .......... 3=
+2.1K</div>
+<div>&nbsp; 6900K .......... .......... .......... .......... .......... 5=
+2.3M</div>
+<div>&nbsp; 6950K .......... .......... .......... .......... .......... 5=
+4.0M</div>
+<div>&nbsp; 7000K .......... .......... .......... .......... .......... 5=
+8.7M</div>
+<div>&nbsp; 7050K .......... .......... .......... .......... .......... 7=
+8.0M</div>
+<div>&nbsp; 7100K .......... .......... .......... .......... .......... 9=
+1.4M</div>
+<div>&nbsp; 7150K .......... .......... .......... .......... .......... 9=
+9.8M</div>
+<div>&nbsp; 7200K .......... .......... .......... .......... .......... 5=
+0.8M</div>
+<div>&nbsp; 7250K .......... .......... .......... .......... ..........&n=
+bsp; 366K</div>
+<div>&nbsp; 7300K .......... .......... .......... .......... ..........&n=
+bsp; 789K</div>
+<div>&nbsp; 7350K .......... .......... .......... .......... .......... 2=
+9.8M</div>
+<div>&nbsp; 7400K .......... .......... .......... .......... ..........&n=
+bsp; 187K</div>
+<div>&nbsp; 7450K .......... .......... .......... .......... .......... 8=
+5.0K</div>
+<div>&nbsp; 7500K .......... .......... .......... .......... .......... 6=
+0.1M</div>
+<div>&nbsp; 7550K .......... .......... .......... .......... .......... 5=
+8.5M</div>
+<div>&nbsp; 7600K .......... .......... .......... .......... .......... 5=
+1.5M</div>
+<div>&nbsp; 7650K .......... .......... .......... .......... ..........&n=
+bsp; 444K</div>
+<div>&nbsp; 7700K .......... .......... .......... .......... ..........&n=
+bsp; 413K</div>
+<div>&nbsp; 7750K .......... .......... .......... .......... ..........&n=
+bsp; 371K</div>
+<div>&nbsp; 7800K .......... .......... .......... .......... ..........&n=
+bsp; 284K</div>
+<div>&nbsp; 7850K .......... .......... ...&nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp;312K=3D47s</div>
+<div>&nbsp;</div>
+<div>2020-06-17 09:36:01 (168 KB/s) - Read error at byte 8062081 (Success)=
+.Retrying.</div>
+<div>&nbsp;</div>
+<div>--2020-06-17 09:36:02--&nbsp; (try: 2)&nbsp; https://codeload.github.=
+com/raspberrypi/firmware/tar.gz/23548e550a757d368d3d5220373fe829b5961c42</d=
+iv>
+<div>Connecting to codeload.github.com (codeload.github.com)|13.233.43.20|=
+:443... failed: Connection timed out.</div>
+<div>Resolving codeload.github.com (codeload.github.com)... 13.127.152.42<=
+/div>
+<div>Connecting to codeload.github.com (codeload.github.com)|13.127.152.42=
+|:443... connected.</div>
+<div>HTTP request sent, awaiting response... 200 OK</div>
+<div>Length: unspecified [application/x-gzip]</div>
+<div>Saving to: &lsquo;/home/siddhu/Documents/yocto/build/downloads/23548e=
+550a757d368d3d5220373fe829b5961c42.tar.gz&rsquo;</div>
+<div>&nbsp;</div>
+<div>&nbsp; &nbsp; &nbsp;0K .......... .......... .......... .......... ..=
+........&nbsp; 320K</div>
+<div>&nbsp; &nbsp; 50K .......... .......... .......... .......... .......=
+...&nbsp; 219K</div>
+<div>&nbsp; &nbsp;100K .......... .......... .......... .......... .......=
+...&nbsp; 302K</div>
+<div>&nbsp; &nbsp;150K .......... .......... .......... .......... .......=
+...&nbsp; 181K</div>
+<div>&nbsp; &nbsp;200K .......... .......... .......... .......... .......=
+...&nbsp; 202K</div>
+<div>&nbsp; &nbsp;250K .......... .......... .......... .......... .......=
+...&nbsp; 321K</div>
+<div>&nbsp; &nbsp;300K .......... .......... .......... .......... .......=
+...&nbsp; 244K</div>
+<div>&nbsp; &nbsp;350K .......... .......... .......... .......... .......=
+...&nbsp; 303K</div>
+<div>&nbsp; &nbsp;400K .......... .......... .......... .......... .......=
+...&nbsp; 218K</div>
+<div>&nbsp; &nbsp;450K .......... .......... .......... .......... .......=
+...&nbsp; 268K</div>
+<div>&nbsp; &nbsp;500K .......... .......... .......... .......... .......=
+...&nbsp; 259K</div>
+<div>&nbsp; &nbsp;550K .......... .......... .......... .......... .......=
+...&nbsp; 202K</div>
+<div>&nbsp; &nbsp;600K .......... .......... .......... .......... .......=
+...&nbsp; 437K</div>
+<div>&nbsp; &nbsp;650K .......... .......... .......... .......... .......=
+...&nbsp; 591K</div>
+<div>&nbsp; &nbsp;700K .......... .......... .......... .......... .......=
+...&nbsp; 460K</div>
+<div>&nbsp; &nbsp;750K .......... .......... .......... .......... .......=
+...&nbsp; 389K</div>
+<div>&nbsp; &nbsp;800K .......... .......... .......... .......... .......=
+...&nbsp; 556K</div>
+<div>&nbsp; &nbsp;850K .......... .......... .......... .......... .......=
+... 1.03M</div>
+<div>&nbsp; &nbsp;900K .......... .......... .......... .......... .......=
+...&nbsp; 571K</div>
+<div>&nbsp; &nbsp;950K .......... .......... .......... .......... .......=
+...&nbsp; 558K</div>
+<div>&nbsp; 1000K .......... .......... .......... .......... ..........&n=
+bsp; 192K</div>
+<div>&nbsp; 1050K .......... .......... .......... .......... ..........&n=
+bsp; 869K</div>
+<div>&nbsp; 1100K .......... .......... .......... .......... ..........&n=
+bsp; 361K</div>
+<div>&nbsp; 1150K .......... .......... .......... .......... ..........&n=
+bsp; 338K</div>
+<div>&nbsp; 1200K .......... .......... .......... .......... .......... 1=
+.03M</div>
+<div>&nbsp; 1250K .......... .......... .......... .......... ..........&n=
+bsp; 487K</div>
+<div>&nbsp; 1300K .......... .......... .......... .......... ..........&n=
+bsp; 493K</div>
+<div>&nbsp; 1350K .......... .......... .......... .......... ..........&n=
+bsp; 370K</div>
+<div>&nbsp; 1400K .......... .......... .......... .......... ..........&n=
+bsp; 420K</div>
+<div>&nbsp; 1450K .......... .......... .......... .......... ..........&n=
+bsp; 501K</div>
+<div>&nbsp; 1500K .......... .......... .......... .......... ..........&n=
+bsp; 901K</div>
+<div>&nbsp; 1550K .......... .......... .......... .......... ..........&n=
+bsp; 603K</div>
+<div>&nbsp; 1600K .......... .......... .......... .......... ..........&n=
+bsp; 623K</div>
+<div>&nbsp; 1650K .......... .......... .......... .......... ..........&n=
+bsp; 289K</div>
+<div>&nbsp; 1700K .......... .......... .......... .......... .......... 2=
+.43M</div>
+<div>&nbsp; 1750K .......... .......... .......... .......... ..........&n=
+bsp; 703K</div>
+<div>&nbsp; 1800K .......... .......... .......... .......... ..........&n=
+bsp; 691K</div>
+<div>&nbsp; 1850K .......... .......... .......... .......... ..........&n=
+bsp; 950K</div>
+<div>&nbsp; 1900K .......... .......... .......... .......... ..........&n=
+bsp; 988K</div>
+<div>&nbsp; 1950K .......... .......... .......... .......... ..........&n=
+bsp; 909K</div>
+<div>&nbsp; 2000K .......... .......... .......... .......... ..........&n=
+bsp; 323K</div>
+<div>&nbsp; 2050K .......... .......... .......... .......... ..........&n=
+bsp; 453K</div>
+<div>&nbsp; 2100K .......... .......... .......... .......... ..........&n=
+bsp; 687K</div>
+<div>&nbsp; 2150K .......... .......... .......... .......... ..........&n=
+bsp; 335K</div>
+<div>&nbsp; 2200K .......... .......... .......... .......... ..........&n=
+bsp; 489K</div>
+<div>&nbsp; 2250K .......... .......... .......... .......... ..........&n=
+bsp; 221K</div>
+<div>&nbsp; 2300K .......... .......... .......... .......... .......... 1=
+0.6M</div>
+<div>&nbsp; 2350K .......... .......... .......... .......... ..........&n=
+bsp; 556K</div>
+<div>&nbsp; 2400K .......... .......... .......... .......... .......... 1=
+.47M</div>
+<div>&nbsp; 2450K .......... .......... .......... .......... ..........&n=
+bsp; 248K</div>
+<div>&nbsp; 2500K .......... .......... .......... .......... .......... 1=
+.09M</div>
+<div>&nbsp; 2550K .......... .......... .......... .......... ..........&n=
+bsp; 333K</div>
+<div>&nbsp; 2600K .......... .......... .......... .......... ..........&n=
+bsp; 288K</div>
+<div>&nbsp; 2650K .......... .......... .......... .......... ..........&n=
+bsp; 377K</div>
+<div>&nbsp; 2700K .......... .......... .......... .......... ..........&n=
+bsp; 680K</div>
+<div>&nbsp; 2750K .......... .......... .......... .......... ..........&n=
+bsp; 750K</div>
+<div>&nbsp; 2800K .......... .......... .......... .......... ..........&n=
+bsp; 440K</div>
+<div>&nbsp; 2850K .......... .......... .......... .......... ..........&n=
+bsp; 287K</div>
+<div>&nbsp; 2900K .......... .......... .......... .......... ..........&n=
+bsp; 625K</div>
+<div>&nbsp; 2950K .......... .......... .......... .......... ..........&n=
+bsp; 577K</div>
+<div>&nbsp; 3000K .......... .......... .......... .......... ..........&n=
+bsp; 739K</div>
+<div>&nbsp; 3050K .......... .......... .......... .......... ..........&n=
+bsp; 424K</div>
+<div>&nbsp; 3100K .......... .......... .......... .......... ..........&n=
+bsp; 550K</div>
+<div>&nbsp; 3150K .......... .......... .......... .......... ..........&n=
+bsp; 458K</div>
+<div>&nbsp; 3200K .......... .......... .......... .......... .......... 1=
+023K</div>
+<div>&nbsp; 3250K .......... .......... .......... .......... ..........&n=
+bsp; 672K</div>
+<div>&nbsp; 3300K .......... .......... .......... .......... ..........&n=
+bsp; 378K</div>
+<div>&nbsp; 3350K .......... .......... .......... .......... ..........&n=
+bsp; 558K</div>
+<div>&nbsp; 3400K .......... .......... .......... .......... .......... 1=
+.06M</div>
+<div>&nbsp; 3450K .......... .......... .......... .......... ..........&n=
+bsp; 908K</div>
+<div>&nbsp; 3500K .......... .......... .......... .......... .......... 1=
+.02M</div>
+<div>&nbsp; 3550K .......... .......... .......... .......... ..........&n=
+bsp; 359K</div>
+<div>&nbsp; 3600K .......... .......... .......... .......... ..........&n=
+bsp; 356K</div>
+<div>&nbsp; 3650K .......... .......... .......... .......... ..........&n=
+bsp; 447K</div>
+<div>&nbsp; 3700K .......... .......... .......... .......... ..........&n=
+bsp; 473K</div>
+<div>&nbsp; 3750K .......... .......... .......... .......... ..........&n=
+bsp; 265K</div>
+<div>&nbsp; 3800K .......... .......... .......... .......... ..........&n=
+bsp; 426K</div>
+<div>&nbsp; 3850K .......... .......... .......... .......... ..........&n=
+bsp; 538K</div>
+<div>&nbsp; 3900K .......... .......... .......... .......... ..........&n=
+bsp; 383K</div>
+<div>&nbsp; 3950K .......... .......... .......... .......... ..........&n=
+bsp; 274K</div>
+<div>&nbsp; 4000K .......... .......... .......... .......... ..........&n=
+bsp; 324K</div>
+<div>&nbsp; 4050K .......... .......... .......... .......... ..........&n=
+bsp; 314K</div>
+<div>&nbsp; 4100K .......... .......... .......... .......... ..........&n=
+bsp; 389K</div>
+<div>&nbsp; 4150K .......... .......... .......... .......... ..........&n=
+bsp; 421K</div>
+<div>&nbsp; 4200K .......... .......... .......... .......... ..........&n=
+bsp; 590K</div>
+<div>&nbsp; 4250K .......... .......... .......... .......... ..........&n=
+bsp; 959K</div>
+<div>&nbsp; 4300K .......... .......... .......... .......... ..........&n=
+bsp; 248K</div>
+<div>&nbsp; 4350K .......... .......... .......... .......... .......... 1=
+.78M</div>
+<div>&nbsp; 4400K .......... .......... .......... .......... ..........&n=
+bsp; 700K</div>
+<div>&nbsp; 4450K .......... .......... .......... .......... ..........&n=
+bsp; 584K</div>
+<div>&nbsp; 4500K .......... .......... .......... .......... ..........&n=
+bsp; 341K</div>
+<div>&nbsp; 4550K .......... .......... .......... .......... ..........&n=
+bsp; 341K</div>
+<div>&nbsp; 4600K .......... .......... .......... .......... ..........&n=
+bsp; 468K</div>
+<div>&nbsp; 4650K .......... .......... .......... .......... ..........&n=
+bsp; 274K</div>
+<div>&nbsp; 4700K .......... .......... .......... .......... ..........&n=
+bsp; 386K</div>
+<div>&nbsp; 4750K .......... .......... .......... .......... ..........&n=
+bsp; 264K</div>
+<div>&nbsp; 4800K .......... .......... .......... .......... ..........&n=
+bsp; 236K</div>
+<div>&nbsp; 4850K .......... .......... .......... .......... ..........&n=
+bsp; 249K</div>
+<div>&nbsp; 4900K .......... .......... .......... .......... .......... 3=
+7.7K</div>
+<div>&nbsp; 4950K .......... .......... .......... .......... ..........&n=
+bsp; 702K</div>
+<div>&nbsp; 5000K .......... .......... .......... .......... ..........&n=
+bsp; 839K</div>
+<div>&nbsp; 5050K .......... .......... .......... .......... .......... 7=
+.37M</div>
+<div>&nbsp; 5100K .......... .......... .......... .......... .......... 8=
+5.1M</div>
+<div>&nbsp; 5150K .......... .......... .......... .......... ..........&n=
+bsp; 188K</div>
+<div>&nbsp; 5200K .......... .......... .......... .......... .......... 1=
+3.1M</div>
+<div>&nbsp; 5250K .......... .......... .......... .......... .......... 8=
+2.1M</div>
+<div>&nbsp; 5300K .......... .......... .......... .......... .......... 9=
+3.7M</div>
+<div>&nbsp; 5350K .......... .......... .......... .......... .......... 7=
+2.5M</div>
+<div>&nbsp; 5400K .......... .......... .......... .......... .......... 9=
+0.3M</div>
+<div>&nbsp; 5450K .......... .......... .......... .......... .......... 9=
+0.9M</div>
+<div>&nbsp; 5500K .......... .......... .......... .......... .......... 9=
+3.1M</div>
+<div>&nbsp; 5550K .......... .......... .......... .......... .......... 3=
+9.0M</div>
+<div>&nbsp; 5600K .......... .......... .......... .......... .......... 3=
+5.7M</div>
+<div>&nbsp; 5650K .......... .......... .......... .......... .......... 1=
+.52M</div>
+<div>&nbsp; 5700K .......... .......... .......... .......... ..........&n=
+bsp; 537K</div>
+<div>&nbsp; 5750K .......... .......... .......... .......... ..........&n=
+bsp; 302K</div>
+<div>&nbsp; 5800K .......... .......... .......... .......... ..........&n=
+bsp; 269K</div>
+<div>&nbsp; 5850K .......... .......... .......... .......... ..........&n=
+bsp; 997K</div>
+<div>&nbsp; 5900K .......... .......... .......... .......... ..........&n=
+bsp; 514K</div>
+<div>&nbsp; 5950K .......... .......... .......... .......... ..........&n=
+bsp; 536K</div>
+<div>&nbsp; 6000K .......... .......... .......... .......... ..........&n=
+bsp; 719K</div>
+<div>&nbsp; 6050K .......... .......... .......... .......... ..........&n=
+bsp; 427K</div>
+<div>&nbsp; 6100K .......... .......... .......... .......... .......... 1=
+.85M</div>
+<div>&nbsp; 6150K .......... .......... .......... .......... .......... 1=
+.03M</div>
+<div>&nbsp; 6200K .......... .......... .......... .......... .......... 1=
+.58M</div>
+<div>&nbsp; 6250K .......... .......... .......... .......... .......... 1=
+.46M</div>
+<div>&nbsp; 6300K .......... .......... .......... .......... .......... 1=
+.40M</div>
+<div>&nbsp; 6350K .......... .......... .......... .......... .......... 1=
+.29M</div>
+<div>&nbsp; 6400K .......... .......... .......... .......... .......... 1=
+.68M</div>
+<div>&nbsp; 6450K .......... .......... .......... .......... .......... 1=
+.75M</div>
+<div>&nbsp; 6500K .......... .......... .......... .......... ..........&n=
+bsp; 647K</div>
+<div>&nbsp; 6550K .......... .......... .......... .......... ..........&n=
+bsp; 442K</div>
+<div>&nbsp; 6600K .......... .......... .......... .......... ..........&n=
+bsp; 718K</div>
+<div>&nbsp; 6650K .......... .......... .......... .......... ..........&n=
+bsp; 289K</div>
+<div>&nbsp; 6700K .......... .......... .......... .......... ..........&n=
+bsp; 347K</div>
+<div>&nbsp; 6750K .......... .......... .......... .......... ..........&n=
+bsp; 378K</div>
+<div>&nbsp; 6800K .......... .......... .......... .......... ..........&n=
+bsp; 387K</div>
+<div>&nbsp; 6850K .......... .......... .......... .......... ..........&n=
+bsp; 381K</div>
+<div>&nbsp; 6900K .......... .......... .......... .......... ..........&n=
+bsp; 318K</div>
+<div>&nbsp; 6950K .......... .......... .......... .......... ..........&n=
+bsp; 503K</div>
+<div>&nbsp; 7000K .......... .......... .......... .......... ..........&n=
+bsp; 450K</div>
+<div>&nbsp; 7050K .......... .......... .......... .......... ..........&n=
+bsp; 681K</div>
+<div>&nbsp; 7100K .......... .......... .......... .......... ..........&n=
+bsp; 253K</div>
+<div>&nbsp; 7150K .......... .......... .......... .......... ..........&n=
+bsp; 465K</div>
+<div>&nbsp; 7200K .......... .......... .......... .......... ..........&n=
+bsp; 481K</div>
+<div>&nbsp; 7250K .......... .......... .......... .......... ..........&n=
+bsp; 431K</div>
+<div>&nbsp; 7300K .......... .......... .......... .......... ..........&n=
+bsp; 276K</div>
+<div>&nbsp; 7350K .......... .......... .......... .......... ..........&n=
+bsp; 521K</div>
+<div>&nbsp; 7400K .......... .......... .......... .......... ..........&n=
+bsp; 675K</div>
+<div>&nbsp; 7450K .......... .......... .......... .......... .......... 1=
+015K</div>
+<div>&nbsp; 7500K .......... .......... .......... .......... ..........&n=
+bsp; 642K</div>
+<div>&nbsp; 7550K .......... .......... .......... .......... ..........&n=
+bsp; 511K</div>
+<div>&nbsp; 7600K .......... .......... .......... .......... .......... 1=
+.34M</div>
+<div>&nbsp; 7650K .......... .......... .......... .......... ..........&n=
+bsp; 779K</div>
+<div>&nbsp; 7700K .......... .......... .......... .......... ..........&n=
+bsp; 900K</div>
+<div>&nbsp; 7750K .......... .......... .......... .......... .......... 1=
+020K</div>
+<div>&nbsp; 7800K .......... .......... .......... .......... ..........&n=
+bsp; 656K</div>
+<div>&nbsp; 7850K .......... .......... .......... .......... ..........&n=
+bsp; 512K</div>
+<div>&nbsp; 7900K .......... .......... .......... .......... ..........&n=
+bsp; 324K</div>
+<div>&nbsp; 7950K .......... .......... .......... .......... ..........&n=
+bsp; 508K</div>
+<div>&nbsp; 8000K .......... .......... .......... .......... ..........&n=
+bsp; 603K</div>
+<div>&nbsp; 8050K .......... .......... .......... .......... ..........&n=
+bsp; 493K</div>
+<div>&nbsp; 8100K .......... .......... .......... .......... ..........&n=
+bsp; 406K</div>
+<div>&nbsp; 8150K .......... .......... .......... .......... ..........&n=
+bsp; 333K</div>
+<div>&nbsp; 8200K .......... .......... .......... .......... ..........&n=
+bsp; 401K</div>
+<div>&nbsp; 8250K .......... .......... .......... .......... ..........&n=
+bsp; 587K</div>
+<div>&nbsp; 8300K .......... .......... .......... .......... ..........&n=
+bsp; 392K</div>
+<div>&nbsp; 8350K .......... .......... .......... .......... ..........&n=
+bsp; 332K</div>
+<div>&nbsp; 8400K .......... .......... .......... .......... .......... 3=
+0.3K</div>
+<div>&nbsp; 8450K .......... .......... .......... .......... ..........&n=
+bsp; 750K</div>
+<div>&nbsp; 8500K .......... .......... .......... .......... ..........&n=
+bsp; 902K</div>
+<div>&nbsp; 8550K .......... .......... .......... .......... ..........&n=
+bsp; 459K</div>
+<div>&nbsp; 8600K .......... .......... .......... .......... .......... 1=
+.91M</div>
+<div>&nbsp; 8650K .......... .......... .......... .......... ..........&n=
+bsp; 893K</div>
+<div>&nbsp; 8700K .......... .......... .......... .......... ..........&n=
+bsp; 837K</div>
+<div>&nbsp; 8750K .......... .......... .......... .......... .......... 3=
+.05M</div>
+<div>&nbsp; 8800K .......... .......... .......... .......... .......... 4=
+.01M</div>
+<div>&nbsp; 8850K .......... .......... .......... .......... ..........&n=
+bsp; 582K</div>
+<div>&nbsp; 8900K .......... .......... .......... .......... .......... 3=
+5.8M</div>
+<div>&nbsp; 8950K .......... .......... .......... .......... ..........&n=
+bsp; 140K</div>
+<div>&nbsp; 9000K .......... .......... .......... .......... ..........&n=
+bsp; 239K</div>
+<div>&nbsp; 9050K .......... .......... .......... .......... .......... 2=
+.07M</div>
+<div>&nbsp; 9100K .......... .......... .......... .......... .......... 6=
+1.1M</div>
+<div>&nbsp; 9150K .......... .......... .......... .......... .......... 5=
+9.3M</div>
+<div>&nbsp; 9200K .......... .......... .......... .......... .......... 6=
+4.2M</div>
+<div>&nbsp; 9250K .......... .......... .......... .......... .......... 6=
+2.3M</div>
+<div>&nbsp; 9300K .......... .......... .......... .......... .......... 1=
+.96M</div>
+<div>&nbsp; 9350K .......... .......... .......... .......... ..........&n=
+bsp; 432K</div>
+<div>&nbsp; 9400K .......... .......... .......... .......... ..........&n=
+bsp; 242K</div>
+<div>&nbsp; 9450K .......... .......... .......... .......... ..........&n=
+bsp; 505K</div>
+<div>&nbsp; 9500K .......... .......... .......... .......... ..........&n=
+bsp; 351K</div>
+<div>&nbsp; 9550K .......... .......... .......... .......... ..........&n=
+bsp; 320K</div>
+<div>&nbsp; 9600K .......... .......... .......... .......... ..........&n=
+bsp; 556K</div>
+<div>&nbsp; 9650K .......... .......... .......... .......... .......... 1=
+.39M</div>
+<div>&nbsp; 9700K .......... .......... .......... .......... .......... 1=
+.21M</div>
+<div>&nbsp; 9750K .......... .......... .......... .......... .......... 1=
+.43M</div>
+<div>&nbsp; 9800K .......... .......... .......... .......... .......... 1=
+.95M</div>
+<div>&nbsp; 9850K .......... .......... .......... .......... .......... 1=
+.50M</div>
+<div>&nbsp; 9900K .......... .......... .......... .......... .......... 1=
+.52M</div>
+<div>&nbsp; 9950K .......... .......... .......... .......... .......... 2=
+.19M</div>
+<div>&nbsp;10000K .......... .......... .......... .......... .......... 1=
+.79M</div>
+<div>&nbsp;10050K .......... .......... .......... .......... .......... 2=
+.09M</div>
+<div>&nbsp;10100K .......... .......... .......... .......... .......... 1=
+.23M</div>
+<div>&nbsp;10150K .......... .......... .......... .......... ..........&n=
+bsp; 432K</div>
+<div>&nbsp;10200K .......... .......... .......... .......... ..........&n=
+bsp; 791K</div>
+<div>&nbsp;10250K .......... .......... .......... .......... ..........&n=
+bsp; 819K</div>
+<div>&nbsp;10300K .......... .......... .......... .......... ..........&n=
+bsp; 982K</div>
+<div>&nbsp;10350K .......... .......... .......... .......... .......... 2=
+.90M</div>
+<div>&nbsp;10400K .......... .......... .......... .......... ..........&n=
+bsp; 969K</div>
+<div>&nbsp;10450K .......... .......... .......... .......... .......... 1=
+.47M</div>
+<div>&nbsp;10500K .......... .......... .......... .......... ..........&n=
+bsp; 497K</div>
+<div>&nbsp;10550K .......... .......... .......... .......... .......... 3=
+.99M</div>
+<div>&nbsp;10600K .......... .......... .......... .......... .......... 1=
+.21M</div>
+<div>&nbsp;10650K .......... .......... .......... .......... ..........&n=
+bsp; 314K</div>
+<div>&nbsp;10700K .......... .......... .......... .......... .......... 2=
+.19M</div>
+<div>&nbsp;10750K .......... .......... .......... .......... .......... 1=
+007K</div>
+<div>&nbsp;10800K .......... .......... .......... .......... .......... 1=
+.30M</div>
+<div>&nbsp;10850K .......... .......... .......... .......... .......... 2=
+.15M</div>
+<div>&nbsp;10900K .......... .......... .......... .......... ..........&n=
+bsp; 938K</div>
+<div>&nbsp;10950K .......... .......... .......... .......... .......... 1=
+.91M</div>
+<div>&nbsp;11000K .......... .......... .......... .......... .......... 1=
+.87M</div>
+<div>&nbsp;11050K .......... .......... .......... .......... .......... 1=
+.39M</div>
+<div>&nbsp;11100K .......... .......... .......... .......... .......... 1=
+.95M</div>
+<div>&nbsp;11150K .......... .......... .......... .......... ..........&n=
+bsp; 509K</div>
+<div>&nbsp;11200K .......... .......... .......... .......... .......... 1=
+.57M</div>
+<div>&nbsp;11250K .......... .......... .......... .......... .......... 1=
+.24M</div>
+<div>&nbsp;11300K .......... .......... .......... .......... .......... 1=
+.21M</div>
+<div>&nbsp;11350K .......... .......... .......... .......... .......... 1=
+.77M</div>
+<div>&nbsp;11400K .......... .......... .......... .......... .......... 1=
+.56M</div>
+<div>&nbsp;11450K .......... .......... .......... .......... .......... 1=
+.38M</div>
+<div>&nbsp;11500K .......... .......... .......... .......... ..........&n=
+bsp; 605K</div>
+<div>&nbsp;11550K .......... .......... .......... .......... ..........&n=
+bsp; 977K</div>
+<div>&nbsp;11600K .......... .......... .......... .......... .......... 1=
+.20M</div>
+<div>&nbsp;11650K .......... .......... .......... .......... ..........&n=
+bsp; 634K</div>
+<div>&nbsp;11700K .......... .......... .......... .......... ..........&n=
+bsp; 720K</div>
+<div>&nbsp;11750K .......... .......... .......... .......... .......... 1=
+.04M</div>
+<div>&nbsp;11800K .......... .......... .......... .......... ..........&n=
+bsp; 503K</div>
+<div>&nbsp;11850K .......... .......... .......... .......... .......... 1=
+.26M</div>
+<div>&nbsp;11900K .......... .......... .......... .......... ..........&n=
+bsp; 733K</div>
+<div>&nbsp;11950K .......... .......... .......... .......... ..........&n=
+bsp; 477K</div>
+<div>&nbsp;12000K .......... .......... .......... .......... ..........&n=
+bsp; 803K</div>
+<div>&nbsp;12050K .......... .......... .......... .......... ..........&n=
+bsp; 455K</div>
+<div>&nbsp;12100K .......... .......... .......... .......... ..........&n=
+bsp; 728K</div>
+<div>&nbsp;12150K .......... .......... .......... .......... ..........&n=
+bsp; 436K</div>
+<div>&nbsp;12200K .......... .......... .......... .......... ..........&n=
+bsp; 396K</div>
+<div>&nbsp;12250K .......... .......... .......... .......... ..........&n=
+bsp; 549K</div>
+<div>&nbsp;12300K .......... .......... .......... .......... ..........&n=
+bsp; 302K</div>
+<div>&nbsp;12350K .......... .......... .......... .......... ..........&n=
+bsp; 439K</div>
+<div>&nbsp;12400K .......... .......... .......... .......... ..........&n=
+bsp; 312K</div>
+<div>&nbsp;12450K .......... .......... .......... .......... ..........&n=
+bsp; 233K</div>
+<div>&nbsp;12500K .......... .......... .......... .......... ..........&n=
+bsp; 389K</div>
+<div>&nbsp;12550K .......... .......... .......... .......... ..........&n=
+bsp; 233K</div>
+<div>&nbsp;12600K .......... .......... .......... .......... .......... 3=
+6.9K</div>
+<div>&nbsp;12650K .......... .......... .......... .......... .......... 1=
+.74M</div>
+<div>&nbsp;12700K .......... .......... .......... .......... ..........&n=
+bsp; 823K</div>
+<div>&nbsp;12750K .......... .......... .......... .......... .......... 2=
+.29M</div>
+<div>&nbsp;12800K .......... .......... .......... .......... .......... 1=
+.57M</div>
+<div>&nbsp;12850K .......... .......... .......... .......... .......... 4=
+6.2M</div>
+<div>&nbsp;12900K .......... .......... .......... .......... .......... 5=
+7.1M</div>
+<div>&nbsp;12950K .......... .......... .......... .......... .......... 5=
+9.2M</div>
+<div>&nbsp;13000K .......... .......... .......... .......... .......... 5=
+3.8M</div>
+<div>&nbsp;13050K .......... .......... .......... .......... .......... 5=
+4.7M</div>
+<div>&nbsp;13100K .......... .......... .......... .......... .......... 6=
+0.2M</div>
+<div>&nbsp;13150K .......... .......... .......... .......... .......... 5=
+9.1M</div>
+<div>&nbsp;13200K .......... .......... .......... .......... .......... 1=
+6.8M</div>
+<div>&nbsp;13250K .......... .......... .......... .......... ..........&n=
+bsp; 611K</div>
+<div>&nbsp;13300K .......... .......... .......... .......... ..........&n=
+bsp; 948K</div>
+<div>&nbsp;13350K .......... .......... .......... .......... ..........&n=
+bsp; 342K</div>
+<div>&nbsp;13400K .......... .......... .......... .......... .......... 1=
+.13M</div>
+<div>&nbsp;13450K .......... .......... .......... .......... .......... 1=
+.74M</div>
+<div>&nbsp;13500K .......... .......... .......... .......... .......... 1=
+.18M</div>
+<div>&nbsp;13550K .......... .......... .......... .......... .......... 1=
+.95M</div>
+<div>&nbsp;13600K .......... .......... .......... .......... .......... 1=
+.43M</div>
+<div>&nbsp;13650K .......... .......... .......... .......... ..........&n=
+bsp; 643K</div>
+<div>&nbsp;13700K .......... .......... .......... .......... ..........&n=
+bsp; 872K</div>
+<div>&nbsp;13750K .......... .......... .......... .......... .......... 1=
+.00M</div>
+<div>&nbsp;13800K .......... .......... .......... .......... ..........&n=
+bsp; 175K</div>
+<div>&nbsp;13850K .......... .......... .......... .......... .......... 1=
+.89M</div>
+<div>&nbsp;13900K .......... .......... .......... .......... .......... 1=
+.81M</div>
+<div>&nbsp;13950K .......... .......... .......... .......... .......... 1=
+.14M</div>
+<div>&nbsp;14000K .......... .......... .......... .......... ..........&n=
+bsp; 878K</div>
+<div>&nbsp;14050K .......... .......... .......... .......... ..........&n=
+bsp; 249K</div>
+<div>&nbsp;14100K .......... .......... .......... .......... ..........&n=
+bsp; 355K</div>
+<div>&nbsp;14150K .......... .......... .......... .......... ..........&n=
+bsp; 559K</div>
+<div>&nbsp;14200K .......... .......... .......... .......... ..........&n=
+bsp; 178K</div>
+<div>&nbsp;14250K .......... .......... .......... .......... ..........&n=
+bsp; 292K</div>
+<div>&nbsp;14300K .......... .......... .......... .......... ..........&n=
+bsp; 307K</div>
+<div>&nbsp;14350K .......... .......... .......... .......... ..........&n=
+bsp; 307K</div>
+<div>&nbsp;14400K .......... .......... .......... .......... ..........&n=
+bsp; 389K</div>
+<div>&nbsp;14450K .......... .......... .......... .......... ..........&n=
+bsp; 263K</div>
+<div>&nbsp;14500K .......... .......... .......... .......... ..........&n=
+bsp; 532K</div>
+<div>&nbsp;14550K .......... .......... .......... .......... ..........&n=
+bsp; 522K</div>
+<div>&nbsp;14600K .......... .......... .......... .......... ..........&n=
+bsp; 612K</div>
+<div>&nbsp;14650K .......... .......... .......... .......... ..........&n=
+bsp; 419K</div>
+<div>&nbsp;14700K .......... .......... .......... .......... ..........&n=
+bsp; 277K</div>
+<div>&nbsp;14750K .......... .......... .......... .......... ..........&n=
+bsp; 224K</div>
+<div>&nbsp;14800K .......... .......... .......... .......... ..........&n=
+bsp; 224K</div>
+<div>&nbsp;14850K .......... .......... .......... .......... ..........&n=
+bsp; 214K</div>
+<div>&nbsp;14900K .......... .......... .......... .......... ..........&n=
+bsp; 275K</div>
+<div>&nbsp;14950K .......... .......... .......... .......... ..........&n=
+bsp; 345K</div>
+<div>&nbsp;15000K .......... .......... .......... .......... .......... 2=
+9.5K</div>
+<div>&nbsp;15050K .......... .......... .......... .......... .......... 3=
+8.5K</div>
+<div>&nbsp;15100K .......... .......... .......... .......... .......... 5=
+5.2M</div>
+<div>&nbsp;15150K .......... .......... .......... .......... ..........&n=
+bsp; 303K</div>
+<div>&nbsp;15200K .......... .......... .......... .......... .......... 5=
+5.1M</div>
+<div>&nbsp;15250K .......... .......... .......... .......... .......... 5=
+4.0M</div>
+<div>&nbsp;15300K .......... .......... .......... .......... .......... 6=
+7.7M</div>
+<div>&nbsp;15350K .......... .......... .......... .......... .......... 6=
+7.5M</div>
+<div>&nbsp;15400K .......... .......... .......... .......... .......... 6=
+5.6M</div>
+<div>&nbsp;15450K .......... .......... .......... .......... .......... 6=
+3.1M</div>
+<div>&nbsp;15500K .......... .......... .......... .......... .......... 6=
+8.0M</div>
+<div>&nbsp;15550K .......... .......... .......... .......... .......... 6=
+0.0M</div>
+<div>&nbsp;15600K .......... .......... .......... .......... .......... 6=
+7.3M</div>
+<div>&nbsp;15650K .......... .......... .......... .......... .......... 5=
+2.9M</div>
+<div>&nbsp;15700K .......... .......... .......... .......... .......... 6=
+6.5M</div>
+<div>&nbsp;15750K .......... .......... .......... .......... .......... 6=
+7.6M</div>
+<div>&nbsp;15800K .......... .......... .......... .......... .......... 5=
+.77M</div>
+<div>&nbsp;15850K .......... .......... .......... .......... ..........&n=
+bsp; 223K</div>
+<div>&nbsp;15900K .......... .......... .......... .......... ..........&n=
+bsp; 215K</div>
+<div>&nbsp;15950K .......... .......... .......... .......... ..........&n=
+bsp; 258K</div>
+<div>&nbsp;16000K .......... .......... .......... .......... ..........&n=
+bsp; 183K</div>
+<div>&nbsp;16050K .......... .......... .......... .......... .......... 3=
+0.7K</div>
+<div>&nbsp;16100K .......... .......... .......... .......... .......... 6=
+0.1M</div>
+<div>&nbsp;16150K .......... .......... .......... .......... .......... 5=
+8.5M</div>
+<div>&nbsp;16200K .......... .......... .......... .......... .......... 6=
+1.4M</div>
+<div>&nbsp;16250K ........&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
+p; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 116M=3D38s</div>
+<div>&nbsp;</div>
+<div>2020-06-17 09:37:50 (431 KB/s) - Read error at byte 16648248 (Success=
+).Giving up.</div>
+<div>&nbsp;</div>
+<div>&nbsp;</div>
+<div>ERROR: bcm2835-bootfiles-20200603-r3 do_fetch: Fetcher failure for UR=
+L: 'https://github.com/raspberrypi/firmware/archive/23548e550a757d368d3d522=
+0373fe829b5961c42.tar.gz'. Unable to fetch URL from any source.</div>
+<div>ERROR: Logfile of failure stored in: /home/siddhu/Documents/yocto/bui=
+ld/tmp/work/raspberrypi4_64-poky-linux/bcm2835-bootfiles/20200603-r3/temp/l=
+og.do_fetch.17387</div>
+</blockquote>
+But later the whole building process stopped with below error:
+<blockquote>
+<div>ERROR: linux-raspberrypi-1_4.19.126+gitAUTOINC+f6b3ac28f0-r0 do_fetch=
+: Fetcher failure: Fetch command export PSEUDO_DISABLED=3D1; unset _PYTHON_=
+SYSCONFIGDATA_NAME; export DBUS_SESSION_BUS_ADDRESS=3D"unix:path=3D/run/use=
+r/1000/bus,guid=3Dae1c3c0e8d9c84558dde0a465ee9d9e2"; export SSH_AGENT_PID=
+=3D"1593"; export SSH_AUTH_SOCK=3D"/run/user/1000/keyring/ssh"; export PAT=
+H=3D"/home/siddhu/Documents/yocto/build/tmp/sysroots-uninative/x86_64-linux=
+/usr/bin:/home/siddhu/Documents/yocto/sources1/poky/scripts:/home/siddhu/Do=
+cuments/yocto/build/tmp/work/raspberrypi4_64-poky-linux/linux-raspberrypi/1=
+_4.19.126+gitAUTOINC+f6b3ac28f0-r0/recipe-sysroot-native/usr/bin/aarch64-po=
+ky-linux:/home/siddhu/Documents/yocto/build/tmp/work/raspberrypi4_64-poky-l=
+inux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0/recipe-sysroot/u=
+sr/bin/crossscripts:/home/siddhu/Documents/yocto/build/tmp/work/raspberrypi=
+4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0/recip=
+e-sysroot-native/usr/sbin:/home/siddhu/Documents/yocto/build/tmp/work/raspb=
+errypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28f0-r0=
+/recipe-sysroot-native/usr/bin:/home/siddhu/Documents/yocto/build/tmp/work/=
+raspberrypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac28=
+f0-r0/recipe-sysroot-native/sbin:/home/siddhu/Documents/yocto/build/tmp/wor=
+k/raspberrypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTOINC+f6b3ac=
+28f0-r0/recipe-sysroot-native/bin:/home/siddhu/Documents/yocto/sources1/pok=
+y/bitbake/bin:/home/siddhu/Documents/yocto/build/tmp/hosttools"; export HOM=
+E=3D"/home/siddhu"; LANG=3DC git -c core.fsyncobjectfiles=3D0 clone --bare =
+--mirror git://github.com/raspberrypi/linux.git /home/siddhu/Documents/yoct=
+o/build/downloads/git2/github.com.raspberrypi.linux.git --progress failed w=
+ith exit code 128, output:</div>
+<div>Cloning into bare repository '/home/siddhu/Documents/yocto/build/down=
+loads/git2/github.com.raspberrypi.linux.git'...</div>
+<div>remote: Enumerating objects: 61, done.&nbsp; &nbsp; &nbsp; &nbsp;&nbs=
+p;</div>
+<div>remote: Counting objects: 100% (61/61), done.&nbsp; &nbsp; &nbsp; &nb=
+sp;&nbsp;</div>
+<div>remote: Compressing objects: 100% (54/54), done.&nbsp; &nbsp; &nbsp; =
+&nbsp;&nbsp;</div>
+<div>fatal: read error: Connection reset by peer1.86 MiB | 105.00 KiB/s&nb=
+sp; &nbsp;</div>
+<div>fatal: early EOF</div>
+<div>fatal: index-pack failed</div>
+<div>&nbsp;</div>
+<div>ERROR: linux-raspberrypi-1_4.19.126+gitAUTOINC+f6b3ac28f0-r0 do_fetch=
+: Fetcher failure for URL: 'git://github.com/raspberrypi/linux.git;branch=
+=3Drpi-4.19.y'. Unable to fetch URL from any source.</div>
+<div>ERROR: Logfile of failure stored in: /home/siddhu/Documents/yocto/bui=
+ld/tmp/work/raspberrypi4_64-poky-linux/linux-raspberrypi/1_4.19.126+gitAUTO=
+INC+f6b3ac28f0-r0/temp/log.do_fetch.3109</div>
+<div>ERROR: Task (/home/siddhu/Documents/yocto/sources1/meta-raspberrypi/r=
+ecipes-kernel/linux/linux-raspberrypi_4.19.bb:do_fetch) failed with exit co=
+de '1'</div>
+<div>NOTE: Tasks Summary: Attempted 3038 tasks of which 2677 didn't need t=
+o be rerun and 3 failed.</div>
+<div>&nbsp;</div>
+<div>Summary: 3 tasks failed:</div>
+<div>&nbsp; /home/siddhu/Documents/yocto/sources1/poky/meta/recipes-devtoo=
+ls/gcc/gcc-cross_10.1.bb:do_compile</div>
+<div>&nbsp; /home/siddhu/Documents/yocto/sources1/meta-raspberrypi/recipes=
+-bsp/bootfiles/bcm2835-bootfiles.bb:do_fetch</div>
+<div>&nbsp; /home/siddhu/Documents/yocto/sources1/meta-raspberrypi/recipes=
+-kernel/linux/linux-raspberrypi_4.19.bb:do_fetch</div>
+<div>Summary: There were 3 WARNING messages shown.</div>
+<div>Summary: There were 6 ERROR messages shown, returning a non-zero exit=
+ code.</div>
+<div>&nbsp;</div>
+</blockquote>
+<br />&nbsp; Its been two month that I am trying to build the xen image fo=
+r the Raspberrypi board using meta-virtualization. But I am not able to get=
+ any progress, Is the building Xen is really that difficult?. Can anybody h=
+elp me out what wrong I am doing here. Yes I do agree I am a newbee to the =
+yocto but I am totally stuck here. Please sugeest me how can I proceed furt=
+her to get the xen image built.&nbsp;<br /><br />please, kind request.<br /=
+><br /><br />My working environment:<br />1. Dell Laptop with&nbsp; core i3=
+ processor 4gb RAM.<br />2. Ubuntu 18.04<br /><br /><br /><br />-- <br />Be=
+st Regards,<br />Siddhartha V
+
+--DBamzC1Bg8FRYx9VkzAD--
