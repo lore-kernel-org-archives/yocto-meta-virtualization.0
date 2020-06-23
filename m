@@ -1,50 +1,50 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.2928.1592901892593393324
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
+ by mx.groups.io with SMTP id smtpd.web12.2989.1592901979895919053
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 23 Jun 2020 01:44:52 -0700
+ Tue, 23 Jun 2020 01:46:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CARKLfqK;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id l17so2192310wmj.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 23 Jun 2020 01:44:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=YzW3Vsi8;
+ spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wm1-f68.google.com with SMTP id a6so1725257wmm.0
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 23 Jun 2020 01:46:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hsH6o036sZv7qaK80MhSVsd7WJNzXxBVriqaG80pBhw=;
-        b=CARKLfqKYoFtdtUlqEYzamhMzzId9q9uKVmjuWmm10Asy9vPTWrf3a4+L0787FdxA9
-         vzznNTj5FMY8UsLpMdnNW4lq0It0WFkW9Uw4jnOMgpnmd3+Kc4c2eR2Yn9hV3ZTc5/zS
-         3aVrWJa1nItnSgJS7314RJ9+BCdFuFss+YUH0x97LEdLXxx2yRwFpcZmPoOBjXTVVUyx
-         Nc88ehnQ1Z2zA61SsVFgxEr0gwc8vZDTk05vCTYI53XAfhAH5prajqdluMHI68nqiFNM
-         +dq7crcGusS2BBeTRuJrhyNizzYmcuK5n9I+deu04fw5LxQKaWaRPo46bsmFvjy7aeRS
-         C8aw==
+        bh=9XA+WJIKCISV2AyRealj2MTB9GcaZ6l5P0suzfvIi4Y=;
+        b=YzW3Vsi8jVRQqYi0VhWxsi4UdY3g91eBgQbNx/Xe9FFXn0CdyLcxSSgxOcOdbdcN01
+         TGA/gQGkKIc7d2u5H/V3djEh+EhpJp0k0S6e42xGMwIqiaEIEf1znfCJv9wkL8Um0dKM
+         dpWAcxtuTV8kYXgPeWHkes2jSTTTMpGbGJD3iQvDOKAwiMJt2mg2l0DDbNs2XA4/8i6G
+         WiHHhajh7NaCQMpj76S4MOz98O7w5Uyg57NE9LDuu0TmzIjVoBi1PkSu2evyWVMDqrUw
+         29kAjHe3sja8yhq9P3SA98GyTZn8Fc0AHqmW6j2eLvHXIVx/eWCAHFC5WjeEYpmJU/k3
+         HQAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hsH6o036sZv7qaK80MhSVsd7WJNzXxBVriqaG80pBhw=;
-        b=Oovz4Lj0+8JcbCziArDPwsVWcmJQTTYS/7T5eL9Wz+80T2oZXTfYVLW/wuOgQ+pqda
-         qmprXE6clP2vSvWtvN6qVuDQRk99zjOfRNg+NS7q1Z+EmkM9GcFON0mUg8c0rjX7Yr8z
-         O3xv6VquRIsjVEBVdpQyMHnhQFUQzaKv7AEOHkBWxSY9NrqVF4+QZXo2PWrJd5O4ST99
-         RivUIyz+ks1FDUZp4nr6BgUA2SlPLKW82D+RWOYxvGmzAxrQZUkk6KVUD+Lw9fEqZdA7
-         URbU+OtvOvEr9vLHQUrblXH+Ie+iWgJA7MBh80ngA+NjrZ9LYX+dYJCASFJErinGabCi
-         ZzLA==
-X-Gm-Message-State: AOAM532zAymXCiKhxBjeRqk3/yl2oQt8QS46K/70AOqm/5qW/1GwyFdG
-	cc08PW17PWAIPbXZxUEgW+K0u1ZK
-X-Google-Smtp-Source: ABdhPJyCPP1MboUWFo3td661xqrdb6mFYP/jXG4CpeCHBO1DaFPcfec5IQe3NU+9u6PLq+NCmyHSHw==
-X-Received: by 2002:a1c:f003:: with SMTP id a3mr22634544wmb.119.1592901890573;
-        Tue, 23 Jun 2020 01:44:50 -0700 (PDT)
+        bh=9XA+WJIKCISV2AyRealj2MTB9GcaZ6l5P0suzfvIi4Y=;
+        b=L3KQOX8PNxlogSzWmMoENSFZyxzknRqyHDYfwh4eYo9YKNwrS00vYuxC5BfR6fRxjP
+         3i4KZZjqJ1dlEmbOfv8rJyuCZvwfHEYND64bxwHYgwqyPJSwUqpXDXWDYTnPkYRaOIgP
+         PzZ1kyTBWXOZNgDaYr3Py0fLpwn1Olwz7BVSkOmIrLQNes9fq5iPnZ9HX35GyNxrwGXZ
+         /jOSK6vqZyQVY1wWOMBLOkt6KnjLpuAgAuHGrybD8d0F/RqMNaLkuPKU1VCf0Z76Vnfd
+         97E8XvLIyiQiT5NbX/CDc+jYXIFI6RLYvrYBlQwEQ4UpmeIuVDqVARbhaTiOQzE7gzhz
+         e6PA==
+X-Gm-Message-State: AOAM533z79eRBUYIdmhSGSfT5/tjF3Z1n4w7VfVtEFIE5Uj/6nIWAVWT
+	kxCtDJg/BbkUfrJAH3wzKbRKFDtB
+X-Google-Smtp-Source: ABdhPJz6ZVhymNkNrDn/AxWcsW5uWeObuc7xOttlLf+mdQVVwFE7AHhvIgfg3WFr4EsmcxptURF1TA==
+X-Received: by 2002:a1c:5502:: with SMTP id j2mr22731864wmb.15.1592901978204;
+        Tue, 23 Jun 2020 01:46:18 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from localhost.localdomain (m83-185-43-74.cust.tele2.se. [83.185.43.74])
-        by smtp.gmail.com with ESMTPSA id 33sm15216853wri.16.2020.06.23.01.44.49
+        by smtp.gmail.com with ESMTPSA id d2sm21650157wrs.95.2020.06.23.01.46.17
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Jun 2020 01:44:49 -0700 (PDT)
+        Tue, 23 Jun 2020 01:46:17 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Ming Liu <ming.liu@toradex.com>
-Subject: [meta-virtualization][PATCH] python3-boto3: uprev 1.11.7 > 1.14.7
-Date: Tue, 23 Jun 2020 10:45:55 +0200
-Message-Id: <20200623084555.15456-1-liu.ming50@gmail.com>
+Subject: [meta-virtualization][PATCH] python3-bugsnag: uprev 3.6.0 > 3.6.1
+Date: Tue, 23 Jun 2020 10:47:25 +0200
+Message-Id: <20200623084725.6278-1-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,61 +55,40 @@ Also drop SRCNAME/SRC_URI/S, change to inherit pypi.
 
 Signed-off-by: Ming Liu <ming.liu@toradex.com>
 ---
- .../python/python3-boto3_1.11.7.bb            | 22 -------------------
- .../python/python3-boto3_1.14.7.bb            | 15 +++++++++++++
- 2 files changed, 15 insertions(+), 22 deletions(-)
- delete mode 100644 recipes-devtools/python/python3-boto3_1.11.7.bb
- create mode 100644 recipes-devtools/python/python3-boto3_1.14.7.bb
+ ...3-bugsnag_3.6.0.bb => python3-bugsnag_3.6.1.bb} | 14 ++++----------
+ 1 file changed, 4 insertions(+), 10 deletions(-)
+ rename recipes-devtools/python/{python3-bugsnag_3.6.0.bb => python3-bugsnag_3.6.1.bb} (55%)
 
-diff --git a/recipes-devtools/python/python3-boto3_1.11.7.bb b/recipes-devtools/python/python3-boto3_1.11.7.bb
-deleted file mode 100644
-index ae623cf..0000000
---- a/recipes-devtools/python/python3-boto3_1.11.7.bb
-+++ /dev/null
-@@ -1,22 +0,0 @@
--HOMEPAGE = "https://github.com/boto/boto"
--SUMMARY = "Amazon Web Services API"
--DESCRIPTION = "\
--  Boto3 is the Amazon Web Services (AWS) Software Development Kit (SDK) for Python, \
--  which allows Python developers to write software that makes use of services like \
--  Amazon S3 and Amazon EC2. \
--  "
--SECTION = "devel/python"
--LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://setup.py;md5=0149f3d994965905689bbefa0212efe2"
+diff --git a/recipes-devtools/python/python3-bugsnag_3.6.0.bb b/recipes-devtools/python/python3-bugsnag_3.6.1.bb
+similarity index 55%
+rename from recipes-devtools/python/python3-bugsnag_3.6.0.bb
+rename to recipes-devtools/python/python3-bugsnag_3.6.1.bb
+index ef704e7..3238579 100644
+--- a/recipes-devtools/python/python3-bugsnag_3.6.0.bb
++++ b/recipes-devtools/python/python3-bugsnag_3.6.1.bb
+@@ -8,18 +8,12 @@ DESCRIPTION = "\
+   "
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://PKG-INFO;md5=9577253c24027f0c6027a4fded2134fc"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=3bc101ebc0815bd849021892cd333dd4"
+ 
+-SRCNAME = "bugsnag"
++SRC_URI[md5sum] = "93443091b052130cfe1daf7595249f9f"
++SRC_URI[sha256sum] = "8878437aa44ec485cecb255742035b3b98a6c7e7d167a943b5fbe597b2f8f7f9"
+ 
+-SRC_URI = "https://pypi.python.org/packages/source/b/bugsnag/${SRCNAME}-${PV}.tar.gz"
 -
--SRCNAME = "boto3"
--
--SRC_URI = "https://pypi.python.org/packages/source/b/${SRCNAME}/${SRCNAME}-${PV}.tar.gz"
--
--SRC_URI[md5sum] = "79936a15612b8ef762eb1274a936cea5"
--SRC_URI[sha256sum] = "5222edc5b20d5c6ab7440fc4f89f987ead05be37ff5cc5359a3b9148d9b5a51e"
+-SRC_URI[md5sum] = "b97e16b068b5e7fdc3e3fa9f684e56cd"
+-SRC_URI[sha256sum] = "67b8c01719e92f193f8424595a94e3a527bc0f9fcb7f2bc47a20af87de81929d"
 -
 -S = "${WORKDIR}/${SRCNAME}-${PV}"
 -
 -inherit setuptools3
--
-diff --git a/recipes-devtools/python/python3-boto3_1.14.7.bb b/recipes-devtools/python/python3-boto3_1.14.7.bb
-new file mode 100644
-index 0000000..f9e979e
---- /dev/null
-+++ b/recipes-devtools/python/python3-boto3_1.14.7.bb
-@@ -0,0 +1,15 @@
-+HOMEPAGE = "https://github.com/boto/boto"
-+SUMMARY = "Amazon Web Services API"
-+DESCRIPTION = "\
-+  Boto3 is the Amazon Web Services (AWS) Software Development Kit (SDK) for Python, \
-+  which allows Python developers to write software that makes use of services like \
-+  Amazon S3 and Amazon EC2. \
-+  "
-+SECTION = "devel/python"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
-+
-+SRC_URI[md5sum] = "fb8b77d4ac10a971570419dd3613196e"
-+SRC_URI[sha256sum] = "4856c8cb4150b900cc7dccbdf16f542fb8c12e97b17639979e58760847f7cf35"
-+
 +inherit pypi setuptools3
+ 
+ DEPENDS += "python3-webob python3-flask python3-blinker"
+ 
 -- 
 2.27.0
 
