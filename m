@@ -1,50 +1,50 @@
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com [209.85.128.68])
- by mx.groups.io with SMTP id smtpd.web12.2989.1592901979895919053
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com [209.85.221.66])
+ by mx.groups.io with SMTP id smtpd.web11.2955.1592902033926166411
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 23 Jun 2020 01:46:20 -0700
+ Tue, 23 Jun 2020 01:47:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YzW3Vsi8;
- spf=pass (domain: gmail.com, ip: 209.85.128.68, mailfrom: liu.ming50@gmail.com)
-Received: by mail-wm1-f68.google.com with SMTP id a6so1725257wmm.0
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 23 Jun 2020 01:46:19 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=hWeE19G2;
+ spf=pass (domain: gmail.com, ip: 209.85.221.66, mailfrom: liu.ming50@gmail.com)
+Received: by mail-wr1-f66.google.com with SMTP id g18so10559847wrm.2
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 23 Jun 2020 01:47:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9XA+WJIKCISV2AyRealj2MTB9GcaZ6l5P0suzfvIi4Y=;
-        b=YzW3Vsi8jVRQqYi0VhWxsi4UdY3g91eBgQbNx/Xe9FFXn0CdyLcxSSgxOcOdbdcN01
-         TGA/gQGkKIc7d2u5H/V3djEh+EhpJp0k0S6e42xGMwIqiaEIEf1znfCJv9wkL8Um0dKM
-         dpWAcxtuTV8kYXgPeWHkes2jSTTTMpGbGJD3iQvDOKAwiMJt2mg2l0DDbNs2XA4/8i6G
-         WiHHhajh7NaCQMpj76S4MOz98O7w5Uyg57NE9LDuu0TmzIjVoBi1PkSu2evyWVMDqrUw
-         29kAjHe3sja8yhq9P3SA98GyTZn8Fc0AHqmW6j2eLvHXIVx/eWCAHFC5WjeEYpmJU/k3
-         HQAA==
+        bh=5tnYXlxCtNqCiwG+WMEFhLvYq80p1gSifTroaDmb59M=;
+        b=hWeE19G2ttv704l/b7poPGY2vKeazY3oa6iqv9IfYIK7ma5ty3OerdkX8hZh9wFyIW
+         mvajxJV14XNO9L8eEeUsH4E7qQLFnk4gGqN2u+E+zVf1uRlB0mHqHVa7BjW6kIwkLX1X
+         OGKfstpgYJwV4u+2lxyTEtAWc7YlAMIvyrsm9IjD4f6LFLkI3UHTBNb5PM2eFPsP9u3l
+         eoGD0qIEnrKYd4ui6npnZH3RgHS7wAaO5SzN+gAKDbCRpo6I31u7LJntPIBUOK/LFrn/
+         lN3S7ep1PasewTzpUrm6/CF5m7ySzc+EOdjjfQmI3Xopd6GCeQvHz83YoxsFSJOaJaxa
+         wD/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=9XA+WJIKCISV2AyRealj2MTB9GcaZ6l5P0suzfvIi4Y=;
-        b=L3KQOX8PNxlogSzWmMoENSFZyxzknRqyHDYfwh4eYo9YKNwrS00vYuxC5BfR6fRxjP
-         3i4KZZjqJ1dlEmbOfv8rJyuCZvwfHEYND64bxwHYgwqyPJSwUqpXDXWDYTnPkYRaOIgP
-         PzZ1kyTBWXOZNgDaYr3Py0fLpwn1Olwz7BVSkOmIrLQNes9fq5iPnZ9HX35GyNxrwGXZ
-         /jOSK6vqZyQVY1wWOMBLOkt6KnjLpuAgAuHGrybD8d0F/RqMNaLkuPKU1VCf0Z76Vnfd
-         97E8XvLIyiQiT5NbX/CDc+jYXIFI6RLYvrYBlQwEQ4UpmeIuVDqVARbhaTiOQzE7gzhz
-         e6PA==
-X-Gm-Message-State: AOAM533z79eRBUYIdmhSGSfT5/tjF3Z1n4w7VfVtEFIE5Uj/6nIWAVWT
-	kxCtDJg/BbkUfrJAH3wzKbRKFDtB
-X-Google-Smtp-Source: ABdhPJz6ZVhymNkNrDn/AxWcsW5uWeObuc7xOttlLf+mdQVVwFE7AHhvIgfg3WFr4EsmcxptURF1TA==
-X-Received: by 2002:a1c:5502:: with SMTP id j2mr22731864wmb.15.1592901978204;
-        Tue, 23 Jun 2020 01:46:18 -0700 (PDT)
+        bh=5tnYXlxCtNqCiwG+WMEFhLvYq80p1gSifTroaDmb59M=;
+        b=QNk3SDx8pMkLGWLGIkW+uYJwqOPGp/Q2pihjcG45SZfK1CF4KTBU5fk5Vlv1gET+k3
+         SrloyJ8zZU1zI+zBu+/IhJxjSJ7hsYs3DYmKo46irdlII/+vashTgMzWESlLvhAttp+w
+         26ojeCZfZDCWq7dXN1GHmJo32PDIojCXovHIuTyYWnXmcnsxAk/ETp+zghRjn6207VIH
+         L3G6F8HEQu5DZfOZ1Wj1EELeArF0qyru3QtTVaRXjJOA7yTu5+wTAC9SXEJS32E6340r
+         j4uByVr+cSg9ksusrkCIxTCvdMbU5NODlkoeHLWKXxvQ57Fy43N6g9NvY1zr1bIzZzux
+         +qZg==
+X-Gm-Message-State: AOAM530W+R9SAwi7a7goKTShFabOW2h5QeJbdXAmUxKUaAc5Z9/STOWl
+	cI+FUWlIdlvSeEmt5Fzznr3s6Ibs
+X-Google-Smtp-Source: ABdhPJxoNCb2SDLtyBR5ShRW3KyPeRjA+RbICyjvW85pLEXdfmaOogi3nm74do/m5f6ysUu0RXKG6w==
+X-Received: by 2002:adf:e287:: with SMTP id v7mr20284406wri.329.1592902032300;
+        Tue, 23 Jun 2020 01:47:12 -0700 (PDT)
 Return-Path: <liu.ming50@gmail.com>
 Received: from localhost.localdomain (m83-185-43-74.cust.tele2.se. [83.185.43.74])
-        by smtp.gmail.com with ESMTPSA id d2sm21650157wrs.95.2020.06.23.01.46.17
+        by smtp.gmail.com with ESMTPSA id 133sm3101573wme.5.2020.06.23.01.47.11
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 23 Jun 2020 01:46:17 -0700 (PDT)
+        Tue, 23 Jun 2020 01:47:11 -0700 (PDT)
 From: "Ming Liu" <liu.ming50@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Ming Liu <ming.liu@toradex.com>
-Subject: [meta-virtualization][PATCH] python3-bugsnag: uprev 3.6.0 > 3.6.1
-Date: Tue, 23 Jun 2020 10:47:25 +0200
-Message-Id: <20200623084725.6278-1-liu.ming50@gmail.com>
+Subject: [meta-virtualization][PATCH] python3-newrelic: uprev 5.4.1.134 > 5.14.1.144
+Date: Tue, 23 Jun 2020 10:48:14 +0200
+Message-Id: <20200623084814.25045-1-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -55,40 +55,40 @@ Also drop SRCNAME/SRC_URI/S, change to inherit pypi.
 
 Signed-off-by: Ming Liu <ming.liu@toradex.com>
 ---
- ...3-bugsnag_3.6.0.bb => python3-bugsnag_3.6.1.bb} | 14 ++++----------
+ ...5.4.1.134.bb => python3-newrelic_5.14.1.144.bb} | 14 ++++----------
  1 file changed, 4 insertions(+), 10 deletions(-)
- rename recipes-devtools/python/{python3-bugsnag_3.6.0.bb => python3-bugsnag_3.6.1.bb} (55%)
+ rename recipes-devtools/python/{python3-newrelic_5.4.1.134.bb => python3-newrelic_5.14.1.144.bb} (56%)
 
-diff --git a/recipes-devtools/python/python3-bugsnag_3.6.0.bb b/recipes-devtools/python/python3-bugsnag_3.6.1.bb
-similarity index 55%
-rename from recipes-devtools/python/python3-bugsnag_3.6.0.bb
-rename to recipes-devtools/python/python3-bugsnag_3.6.1.bb
-index ef704e7..3238579 100644
---- a/recipes-devtools/python/python3-bugsnag_3.6.0.bb
-+++ b/recipes-devtools/python/python3-bugsnag_3.6.1.bb
-@@ -8,18 +8,12 @@ DESCRIPTION = "\
+diff --git a/recipes-devtools/python/python3-newrelic_5.4.1.134.bb b/recipes-devtools/python/python3-newrelic_5.14.1.144.bb
+similarity index 56%
+rename from recipes-devtools/python/python3-newrelic_5.4.1.134.bb
+rename to recipes-devtools/python/python3-newrelic_5.14.1.144.bb
+index 36eec67..42e87d3 100644
+--- a/recipes-devtools/python/python3-newrelic_5.4.1.134.bb
++++ b/recipes-devtools/python/python3-newrelic_5.14.1.144.bb
+@@ -6,18 +6,12 @@ DESCRIPTION = "\
    "
  SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=9577253c24027f0c6027a4fded2134fc"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=3bc101ebc0815bd849021892cd333dd4"
+ LICENSE = "BSD-3-Clause & MIT & Python-2.0 & BSD-2-Clause & NewRelic"
+-LIC_FILES_CHKSUM = "file://newrelic/LICENSE;md5=2c3b4d48a631fe909df7a767726d4f6c"
++LIC_FILES_CHKSUM = "file://newrelic/LICENSE;md5=b4840908dbb9e62b3d8891e77187b34f"
  
--SRCNAME = "bugsnag"
-+SRC_URI[md5sum] = "93443091b052130cfe1daf7595249f9f"
-+SRC_URI[sha256sum] = "8878437aa44ec485cecb255742035b3b98a6c7e7d167a943b5fbe597b2f8f7f9"
+-SRCNAME = "newrelic"
++SRC_URI[md5sum] = "53115aea6cbdf0e2721279c230230600"
++SRC_URI[sha256sum] = "340ebcdb0dd08bfb597c71598d6d8f746a93f7e4921f10b3616c9142c608a14d"
  
--SRC_URI = "https://pypi.python.org/packages/source/b/bugsnag/${SRCNAME}-${PV}.tar.gz"
+-SRC_URI = "https://pypi.python.org/packages/source/n/newrelic/${SRCNAME}-${PV}.tar.gz"
 -
--SRC_URI[md5sum] = "b97e16b068b5e7fdc3e3fa9f684e56cd"
--SRC_URI[sha256sum] = "67b8c01719e92f193f8424595a94e3a527bc0f9fcb7f2bc47a20af87de81929d"
+-SRC_URI[md5sum] = "45099c6d88dcf474267226469caa845e"
+-SRC_URI[sha256sum] = "0e651f2ff48dd1fc538fc1297892cf726d1ad4fc0b2578aae6a47f10f16afb2c"
 -
 -S = "${WORKDIR}/${SRCNAME}-${PV}"
 -
 -inherit setuptools3
 +inherit pypi setuptools3
  
- DEPENDS += "python3-webob python3-flask python3-blinker"
- 
+ FILES_${PN}-dbg += "\
+   ${PYTHON_SITEPACKAGES_DIR}/newrelic-${PV}/newrelic/*/.debug \
 -- 
 2.27.0
 
