@@ -1,97 +1,104 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.4803.1593065122859333786
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com [209.85.210.68])
+ by mx.groups.io with SMTP id smtpd.web12.4874.1593066439242565593
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Jun 2020 23:05:22 -0700
+ Wed, 24 Jun 2020 23:27:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=T+aGvOyn;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id B49FCE01D78; Wed, 24 Jun 2020 23:05:22 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (christopher.w.clark[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.222.195 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 42EE6E01D75
-	for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:05:22 -0700 (PDT)
-Received: by mail-qk1-f195.google.com with SMTP id q198so4331738qka.2
-        for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:05:22 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=H3Xdj0UZ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.68, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-ot1-f68.google.com with SMTP id k4so1086298otr.7
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 24 Jun 2020 23:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NTQM0UT5yawxyIO9pIAHodj+AI8BiFKoiHB8alF8N0U=;
-        b=T+aGvOynDECsMz5wSG2l3VPDjtB0i14ToZNpJRhJ6LKQypIWmnfTLp+VCt+cSt1YfZ
-         ajHYHmnGXEIXH8sQTQoMZIWSIqncS777GjBSc0QpEiYFCuqi2BDMsGLRdEABSZ9SPKVz
-         yqGneS6eAfKdImQuw08eCjqDOj4qd7Ae4LxTzNddLL9fmN8/DRiHuns43i4Vlg/LiZ5Z
-         Tq3pQO5JV5UsFkll/6N//DhFHNkkyBMARq8JkcuRP7AJbo7ME+Xnb7rdQJfyZMdlwSyI
-         DSxvxLYlHXDbUacj8kC3ucXaZktLfxFoUjdWQCRfmGS/kcODgsk/IY/k0omIQ7CWhewd
-         kUPA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Ods4hq8FZpS/iKKQa9VcmU8lsTNVipGFMrck6GiLfhA=;
+        b=H3Xdj0UZGIprYFLUcLOvhdwWKWCPAjMqgppNDIjmmNLRn4o/pUbB/F1vDAKRb2Xmol
+         NPLMFR8pMZSVeBGGv4GihvreUzO0Xx6YtPhycRG6xTr15XA2hZe/N+PqP7bDxbsibV1s
+         fxFnJJ8DrDjiDjNnNJ4oWlAFYsMiXhNVOYvDhDv10TY+bP+Usu3tIcUg4NBvSc3aKBBZ
+         aAx1nHyHurP5t9lK7UdUcJ9DxFOnn0Ypbregy2SyqAKlEJUDGx9Kg22QygCrKnilIcYI
+         Mjq+yimeJ3l/KsMGxfa9yQjdFN9vTyNz/25gytKBwzJCMV4mxlI5y0D5ieiyTgnGaq6Z
+         5LcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=NTQM0UT5yawxyIO9pIAHodj+AI8BiFKoiHB8alF8N0U=;
-        b=ciyvVF2WBbfhJnNmZqClTGr6T3+PSpec9hI84fN0MP+fTcL4B6wn0kXVqo3BTpBty5
-         CipU/eW1wq09X+F0nLVU6ZoXDCCal/vPWf3ie4P3UDAUYqEof7o5jO3g9ogveZDB8vDg
-         1tqFdlQ/M0EFUGtcP/ODPzCApZYIABKIHyseAFaplEF2tCvWVpGcea0ol2DsVelrWIhA
-         JOPaMq8+UhL1+SSCuEiceK2XCYG+hA3HOjtI7LnyBLwAoCvFSx4Ee31Dj4AwsUqqSYhf
-         psZKwMpNTiczf7kTTpDokJUl9a2IBe7vOB9kPuoM9eX/+VRbudLeLyW65J6+fTXx6jJN
-         gHJg==
-X-Gm-Message-State: AOAM530YIyioubzdLSHdAZhTD4c+0AkjOyg8BSkRxSJAnWboi/eZE9jE
-	OljAHFnZ3e1nqYObBuy5lEbhTz4s4w0=
-X-Google-Smtp-Source: ABdhPJxVBuICO1QQMbW15Gl4xS/lxFPRVRbw8tPPkNw+wqaA2Vse4Q53i6LmJykQVj0cFghMQaKt2g==
-X-Received: by 2002:a37:9b08:: with SMTP id d8mr14627321qke.105.1593065121498;
-        Wed, 24 Jun 2020 23:05:21 -0700 (PDT)
-Received: from localhost.localdomain (mobile-166-176-184-6.mycingular.net. [166.176.184.6])
-        by smtp.gmail.com with ESMTPSA id g5sm6059161qta.46.2020.06.24.23.05.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 23:05:21 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Ods4hq8FZpS/iKKQa9VcmU8lsTNVipGFMrck6GiLfhA=;
+        b=uHFcOkWXW6byldcDwfY1GLU5+1r990FIHO/dISiwmbr6RffvzxHvNaccD5uqZUIRgx
+         /4Y+iD4jedQFBuUNa+9JnFqPfiId0meMhMlK+9xs2fu1sW0LrvzJ50529CkO4KpGCh3t
+         1SxZusnTyizWAJhoT5aFTWOfNyzeN1HIXncYFy07LZ9PYjPyXTDMPmZsp0GR0cbC5gow
+         XYScID98BTqwWD5Izn5koesHOxznG09TTgVgx8K+GRAAxDfKw/SmexvjQnuzVW2fu0n8
+         a7fxN9x2dP7ucbliW6GsugAauZ+eih3yRqomWiAgSyq+tkqJbH4qy+So+yhR3rQcyOga
+         YAzw==
+X-Gm-Message-State: AOAM533UqcGoIzoVfVowSVqm6qX1r4w2JBR8gXxuTeJd8Q53jxyum8fM
+	kBY1p9G1propPiAwZCh99hLuEk58LYiqHPwnlX4=
+X-Google-Smtp-Source: ABdhPJw7iXZu3WmIZDSVvZXg22ONweK5UudCygbcBEgXLsYQ2hinSpN68swPxc+dIx/ZXCClyhBqFdiZVhQZf1IuCWk=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr26033546ots.192.1593066438510;
+ Wed, 24 Jun 2020 23:27:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <CY1P110MB05517012EA0DC0134F655D2A8C860@CY1P110MB0551.NAMP110.PROD.OUTLOOK.COM>
+ <20200605211602.GO2903@minyard.net> <CADkTA4N7vqHMi8Fa5H1sRuX4ZnVrEiS4oso5TiObUu0thJGr5g@mail.gmail.com>
+ <20200606005839.GR2903@minyard.net> <CACMJ4GYcc0v=Y8gJzhCfVrSq8J4J6V5iwMFwzMfOXit63yO2ww@mail.gmail.com>
+ <CADkTA4N+-GrD8TnUUVMC3Hrj=1tR8rsyHj4gCsFvPKzJh9LKyg@mail.gmail.com>
+In-Reply-To: <CADkTA4N+-GrD8TnUUVMC3Hrj=1tR8rsyHj4gCsFvPKzJh9LKyg@mail.gmail.com>
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
-To: meta-virtualization@yoctoproject.org
-Cc: cardoe@gentoo.org,
-	bruce.ashfield@gmail.com,
-	Bertrand.Marquis@arm.com,
-	cminyard@mvista.com,
-	Stewart.Hildebrand@dornerworks.com
-Subject: [meta-virtualization][PATCH 10/10] linux-raspberrypi: prefer kernel version 5.4
-Date: Wed, 24 Jun 2020 23:04:31 -0700
-Message-Id: <20200625060431.31826-11-christopher.w.clark@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200625060431.31826-1-christopher.w.clark@gmail.com>
-References: <20200625060431.31826-1-christopher.w.clark@gmail.com>
+Date: Wed, 24 Jun 2020 23:27:06 -0700
+Message-ID: <CACMJ4GZVFj=XX5LMbpEeZrc0Fyr9YxSYF9poxkCTjRWnpWy0sw@mail.gmail.com>
+Subject: Re: [meta-virtualization] Xen on Raspberry Pi 4 (was "How to resolve the ERROR: xen-image-minimal-1.0-r0 do_rootfs: Function failed: do_rootfs. and ERROR: xen-image-minimal-1.0-r0 do_rootfs: Could not invoke dnf. ERROR: xen-image-minimal-1.0-r0 do_rootf")
+To: Bruce Ashfield <bruce.ashfield@gmail.com>, Corey Minyard <cminyard@mvista.com>
+Cc: Siddhartha V <Siddhuvgowda.18695@gmail.com>, 
+	Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Aligns with Yocto's current kernel version.
+On Mon, Jun 15, 2020 at 5:45 AM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> On Mon, Jun 15, 2020 at 5:11 AM Christopher Clark
+> <christopher.w.clark@gmail.com> wrote:
+> >
+> > On Fri, Jun 5, 2020 at 5:58 PM Corey Minyard <cminyard@mvista.com> wrote:
+> > >
+> > > On Fri, Jun 05, 2020 at 07:53:53PM -0400, Bruce Ashfield wrote:
+> > > > On Fri, Jun 5, 2020 at 5:16 PM Corey Minyard <cminyard@mvista.com> wrote:
 
-Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
----
- conf/distro/include/meta-virt-xen.inc | 2 ++
- 1 file changed, 2 insertions(+)
+> > > > > Ok.  The layer has the following basic pieces:
 
-diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
-index b4a20fe..2c8ef0b 100644
---- a/conf/distro/include/meta-virt-xen.inc
-+++ b/conf/distro/include/meta-virt-xen.inc
-@@ -15,3 +15,5 @@ ENABLE_UART = "1"
- # Build the bootable SD card image
- IMAGE_CLASSES_append_raspberrypi4-64 = " sdcard_image-rpi-xen"
- IMAGE_FSTYPES_append_raspberrypi4-64 = " rpi-xen-sdimg"
-+# Align kernel version with current meta-virtualization kernel version
-+PREFERRED_VERSION_linux-raspberrypi ?= "5.4.%"
--- 
-2.17.1
+> > > > > 3 The addition of xen-tools.  This seems somewhat controversial from a
+> > > > >   naming point of view, at least.  But all the major distros seem to
+> > > > >   have it, and it does make things easier.  It brings along a boatload
+> > > > >   of perl recipes.
+> >
+> > > > Christopher might have a better idea about #3, but if the
+> > > > functionality is useful, I'm all for having it close to the other Xen
+> > > > components.
+> >
+> > I think if there's users wanting it, it's worth considering and I
+> > agree with Bruce that meta-virtualization will be the right layer. I
+> > think the name chosen by the software authors is somewhat unfortunate,
+> > so getting sign off from the Xen Community Manager about whether the
+> > use of the trademark is OK would be sensible for Yocto's license
+> > compliance; but from my (basic) understanding of the policy, it should
+> > be fine.
+> >
+> > I think it's appropriate to retain the 'xen-tools' package name in
+> > Yocto for the tools provided by the Xen Project source code, since
+> > those are core Xen system components, with wider Xen community
+> > involvement in their development and use than these perl system
+> > management scripts. I don't mind the recipe/package for these perl
+> > tools being called xen-tools-extra, but getting thumbs up from the Xen
+> > Community Manager would be best.
+>
+> Sounds like a good approach.
 
+Following up on this: I did make contact seeking guidance on this, but
+have not yet received an answer, so I'm going to make a request:
+Corey: Please can this software be submitted for inclusion to
+meta-virtualization, using this recipe and package name:
+  perl-xen-management-scripts
+
+This will make it obvious that the software is clearly separate from
+the main Xen hypervisor tools that are maintained within the Xen
+Project, and the name transparently describes what it provides.
+
+thanks,
+
+Christopher
