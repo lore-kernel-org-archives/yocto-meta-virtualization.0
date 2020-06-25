@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.4798.1593065100060882881
+ by mx.groups.io with SMTP id smtpd.web11.4674.1593065102829881538
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Jun 2020 23:05:00 -0700
+ Wed, 24 Jun 2020 23:05:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=THJACyot;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=BpoRAkIO;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id E2F5BE01D78; Wed, 24 Jun 2020 23:04:59 -0700 (PDT)
+	id A9897E01D78; Wed, 24 Jun 2020 23:05:02 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -25,42 +25,42 @@ X-Spam-HAM-Report:
 	*      valid
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.219.66 listed in list.dnswl.org]
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com [209.85.219.66])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 68FDBE01D75
-	for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:04:59 -0700 (PDT)
-Received: by mail-qv1-f66.google.com with SMTP id dp10so2262378qvb.10
-        for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:04:59 -0700 (PDT)
+	*      [209.85.222.194 listed in list.dnswl.org]
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 336AAE01D75
+	for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:05:02 -0700 (PDT)
+Received: by mail-qk1-f194.google.com with SMTP id e11so4341911qkm.3
+        for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:05:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=SrGI5d+AUs3FRFItlx7kfp2P08QTPVFQh/pN9xsrZ40=;
-        b=THJACyotSXZd2FdM9oI3SecDARJ1dSX8FE12ckMNPolbYNmkDl/2CRYWXpb5Dn0j/T
-         2rgap+6K9AHq3kAqlXOZ7CnY+gel8imfb85KlheZqVMSrMJckv5U2mGUxaDSEWHrL6QW
-         VuUmaK7Cw1v1MyI2OUAoRrkySfLaCSYj3AmNIGyrwdmxt/DTFXHAT/LC8RY9L4MGnDNS
-         TdzCsoN1UNr2EhWcI4d5NKbZjeGDxpSAwdIh7PdjN+dEzvrPJvTWktlGdrcp+Z/r+5Ae
-         onyuxXCvtfxHfBTp6B2WrnRAfOfICSUUbLUe/vBNqTPV+rTeBqJQpzJNQoh3eeBmU6l9
-         lD3A==
+        bh=NumlpwTiGICU7vMthgfZ/Xmyi6tWBmxNLgVPFpXAHGk=;
+        b=BpoRAkIO6v3wmvkgSLaeE+1u4skjftmfrMjW1Ntk+vEgDKVgatRYKhy7Mia2Z1H0pM
+         dzxrbs4BEqiWEuEmCn44TWgxNdwEBHMLojcQABWE1ISA1WWdxB3WbduS2uYqKWltq712
+         sZalLteY6kavIob1DN6geh1zlHoxJvN+uwsRJ8cqmycFi4aKjL9m/eAmbWVn8Xm8Xzyw
+         5QEdZ1wPAjt6UhH/uyif1phWWeByyfTdecxROQqXhJQXvJNX7NQ84JSKZ5Lz3xZfcKGQ
+         CdpgtqwtqkKhjMdakWf2bbH8GONel6clXo+M8mqxCqr95Xof8fO2nx44+nMwZpjjNLO8
+         SDnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=SrGI5d+AUs3FRFItlx7kfp2P08QTPVFQh/pN9xsrZ40=;
-        b=JsH3YGtI0rofFdohZeMXm4vVdZcEnkAdD7hP4wd7CJkM9ZqTe65yYrILVL4/oHvQzC
-         FYD0Vz3yVC3Vfu5qDKc1kZNj7g29Z5YaXh+G4Dmxov8mr/PeNfrk+Azfbt/gI11N2f2F
-         9Z1Vp0aBJiuZICmqL1U+Uw1sdnoJutpK0aMy3tQMrXkXxc4lVG7YNCGi0GhVSg+zbUry
-         znYhZcrbissmR0EmOvZWnIXHjuWHRT1VdCBkq8him66YJmfKa1NtwMngExYZWjC39EzH
-         //LC1VrYLsCFCUDXwe14iP3qUZf2FMhwaDGtRQAtPtkHUZ31Iejw6F5NofaGlkHAQPQD
-         i7mw==
-X-Gm-Message-State: AOAM530JZ01Z9v8/1EsH+jz8HDnj7bUBLRZwd8IRXaSO39ytlqq8E6HX
-	QnzDhGZnjoRA/KJbMHTujsNF67nPH1E=
-X-Google-Smtp-Source: ABdhPJx7hKw0n82PKrvP3XlikzklSVPfWhjhZgMSu3ozZ72KYVvV8h1GVjXeXXeF9qpsrZcMzPy2Ew==
-X-Received: by 2002:a05:6214:1543:: with SMTP id t3mr21068765qvw.89.1593065098685;
-        Wed, 24 Jun 2020 23:04:58 -0700 (PDT)
+        bh=NumlpwTiGICU7vMthgfZ/Xmyi6tWBmxNLgVPFpXAHGk=;
+        b=LgNOxLPPkrOLdznM2nLTqSJVvqW3KS89JGMfGmvmaAtypljSa0/2XuPU0fiQP071lp
+         m1QP1AIpC0a436F2eXtbclnhbpcGI6A//korDrO/T/E18RzZeDjKFWSVxPdchdQoBOpL
+         4HpZSsyPFrYg2TaXTLprh+GYbMQCVBZgLm+sQ9awAo8vDqLQBOxkpCsIjoSsXO0XqrWT
+         keFb/ffGTOIDqEKBZ8utTT1oMQ97CSdOmxvwuDk7tm9PbkZGA724Vzru/u0ateUSzO0n
+         egg++2t3guaYkmAiYaPVbNHBB+uBPvb/GQKq/kL7JARAwV1T1PmMzZenoKkWfFylB7hc
+         kx+Q==
+X-Gm-Message-State: AOAM531SXGKzeSVGYReRMCgZqrIKCXDBxCY+h/9Qv9fk9sMsAb4LTLCl
+	CcNpn9RnFiBm62ox1XYqFmR/t5mSI+Q=
+X-Google-Smtp-Source: ABdhPJwsvF1OnDyvis3ovmn+K+L2ixWAS2TILyCm4VtWptAfELkp72G4JEqoQqBj3xLqdgVFq5AmCA==
+X-Received: by 2002:a37:a196:: with SMTP id k144mr26457237qke.329.1593065101298;
+        Wed, 24 Jun 2020 23:05:01 -0700 (PDT)
 Received: from localhost.localdomain (mobile-166-176-184-6.mycingular.net. [166.176.184.6])
-        by smtp.gmail.com with ESMTPSA id g5sm6059161qta.46.2020.06.24.23.04.56
+        by smtp.gmail.com with ESMTPSA id g5sm6059161qta.46.2020.06.24.23.04.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 23:04:58 -0700 (PDT)
+        Wed, 24 Jun 2020 23:05:00 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: cardoe@gentoo.org,
@@ -68,36 +68,36 @@ Cc: cardoe@gentoo.org,
 	Bertrand.Marquis@arm.com,
 	cminyard@mvista.com,
 	Stewart.Hildebrand@dornerworks.com
-Subject: [meta-virtualization][PATCH 02/10] xen-tools: add RRECOMENDS qemu on ARM and x86 when HVM is enabled
-Date: Wed, 24 Jun 2020 23:04:23 -0700
-Message-Id: <20200625060431.31826-3-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH 03/10] xen-tools: use non-busybox ifupdown tool if available
+Date: Wed, 24 Jun 2020 23:04:24 -0700
+Message-Id: <20200625060431.31826-4-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200625060431.31826-1-christopher.w.clark@gmail.com>
 References: <20200625060431.31826-1-christopher.w.clark@gmail.com>
 
+Adds: RSUGGESTS_${PN}-scripts-network = "ifupdown"
+
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+Suggested-by: Corey Minyard <cminyard@mvista.com>
 ---
- recipes-extended/xen/xen-tools.inc | 6 ++++++
- 1 file changed, 6 insertions(+)
+ recipes-extended/xen/xen-tools.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
-index 8b86f7b..c0e54b1 100644
+index c0e54b1..154e224 100644
 --- a/recipes-extended/xen/xen-tools.inc
 +++ b/recipes-extended/xen/xen-tools.inc
-@@ -53,7 +53,13 @@ RDEPENDS_${PN} = "\
+@@ -113,6 +113,10 @@ RDEPENDS_${PN}-scripts-network = "\
+     ${PN}-volatiles \
+     "
  
- RDEPENDS_${PN}-dev = ""
- 
-+# Qemu is necessary on ARM platforms, and to support HVM guests on x86
-+QEMU = "${@bb.utils.contains('PACKAGECONFIG', 'hvm', 'qemu', '', d)}"
-+QEMU_arm = "qemu"
-+QEMU_aarch64 = "qemu"
++RSUGGESTS_${PN}-scripts-network = "\
++    ifupdown \
++    "
 +
- RRECOMMENDS_${PN} = " \
-+    ${QEMU} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'hvm', 'seabios', '', d)} \
-     ${@bb.utils.contains('PACKAGECONFIG', 'externalblktap', '', '${BLKTAP_RRECOMMENDS}', d)} \
-     ${PN}-flask \
+ RSUGGESTS_${PN}-xencov = "${PN}-xencov-split"
+ 
+ RDEPENDS_${PN}-xencommons = "\
 -- 
 2.17.1
 
