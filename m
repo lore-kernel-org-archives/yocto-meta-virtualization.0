@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.4673.1593065096216502856
+ by mx.groups.io with SMTP id smtpd.web10.4796.1593065097761064681
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 24 Jun 2020 23:04:56 -0700
+ Wed, 24 Jun 2020 23:04:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ObI3vSpU;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WhsNcuk+;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id AD558E01D78; Wed, 24 Jun 2020 23:04:55 -0700 (PDT)
+	id 9E594E01D78; Wed, 24 Jun 2020 23:04:57 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,148 +20,117 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.160.196 listed in list.dnswl.org]
+	*      [209.85.222.196 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 0FB6DE01D75
-	for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:04:53 -0700 (PDT)
-Received: by mail-qt1-f196.google.com with SMTP id u17so3804610qtq.1
-        for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:04:53 -0700 (PDT)
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E73CDE01D75
+	for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:04:56 -0700 (PDT)
+Received: by mail-qk1-f196.google.com with SMTP id z63so4312691qkb.8
+        for <meta-virtualization@yoctoproject.org>; Wed, 24 Jun 2020 23:04:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=4epM+g3GUspV6Q8Z6h1xEi0y02L1hKxW4VDTPuvHWiw=;
-        b=ObI3vSpUD/E33PRl+oGH4YeGYnEVltpuE/LuK2VBxlaGh8E3L59Mo2jOGExpMrQBTM
-         Q1Jid02Z/wAcaWjq8BFM4iyS0gjvNuIaEeYX5r+7ujbo1G4sxbumhXb87/pHrKi5NXqy
-         btSOWzmX27HUQTFfBWT94ikyj1Ge5qiNhl33DyrjINB5lDifg3xoNseM5GZjeOGlR25M
-         qhyCdclh0q23+lHYfHhEBuCggpOhkExBXdeA23yV+3PbH61IOWtQMkdENLwcPAsiT3b7
-         TTKAK+9O0Rxbo4nRh5WmQuTlowXXMur3FoHT9O4TYTkBmFbWNWF+Qe48r0Yc4+OoBDG/
-         3Dgg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=gYUPqfpU4XU+PG7OjGTUyji73fwHBevnhipV3d3helM=;
+        b=WhsNcuk+hrQwahMW9veX5WIoJY7iSRZU2oPJvAP9NowkFiFN1DiUj3JiN1BoscR6ND
+         A8Ff5/kLR6NcY5Ouzl9msK4WmROxD2kpzb5k7Zpko5jn571vHI6H3OSpo2q/fqEkfBh2
+         ZgHvL7fLEX2Jq6uZ1VAYNr1WGhZ1LsS1LrdaDb+QRtpXUz38wCcfredxdsoCM7A2x5HX
+         4gKIq4s4yesXg2bIJBBbe/BYQTdaTSZM8T+OjE7yd13XypNX1Hy7OUglP09CXLgvyLmh
+         JWNNMvNG2PsyY1k+ackn/Rd3hYEnm+5nLkrq+qcnnUNQQBRJXflyDNpZZERC+EwhK/hr
+         Lmyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=4epM+g3GUspV6Q8Z6h1xEi0y02L1hKxW4VDTPuvHWiw=;
-        b=U3hfOjbj+/sD9pJjH62KDmXTf+nr7gjsOI1ubOsXIJmoqoF+jtY+srcM6TV1+ezat8
-         KViZs3IqzcejMr7oorwb4iZtLk/bkYsdvlrvKm3B8yrngs42gZ3+gne1TnUJg9GGVdHy
-         3mxV2L+2aALS1wiJYUsMomMPB7MhHpX2GU41NRcZTfvoLSoHKPN0g6VmzxOYf7GFIDM1
-         tWTMS0gJfVVPyVP/P1lrJ1GOSnmtllgc9iIxcEDJDO/C/B0IBHwpG3eSYb2Z8lkZijz1
-         8DPKsaBIMsmPxS+M+ktyY0n+wmz6JqgxpLdryus+v1WWj7U5fHOUkpcRaTw3qsfpi40M
-         wDmA==
-X-Gm-Message-State: AOAM531eJdcrib8Zop7UnRD0k3jGXhJO7d+wmMgVSjDNTAVAWuz10WtQ
-	+NKVBErWs2JfpvunONE5I92CBDFh7Uk=
-X-Google-Smtp-Source: ABdhPJxAUl1jNaH9cpSUmbYeDtNyN4Mybc7A5w5/bho0JOefwk7bbvuCrjuPRb35fxJjENFNGbwn5Q==
-X-Received: by 2002:ac8:4e03:: with SMTP id c3mr25425340qtw.82.1593065092966;
-        Wed, 24 Jun 2020 23:04:52 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=gYUPqfpU4XU+PG7OjGTUyji73fwHBevnhipV3d3helM=;
+        b=JUna87xg0R+HudyMcxc4izCrLI++iVPyujnIuJsZ9JQGuxNE9+bTEEaGAcCpXWBjxO
+         +l+CfqwpO5qpRvSP8G7fV4rp9XGzlj7kGzZIQI2KguBZ/OhXExdkEvJJiD6Yrrg7AP4X
+         E+lxQ9SyQWKxjzPsRNpB93TGoUEfjsH/FPNhupMXcXpo+0pQEUggKgKqOA09GKMHp08l
+         IlyVuwBsmDGCpKfYUb+0p6D9jD5uBOPT4jY8vdyTQD1ewMnkhqdK4Zotgpb/fET4a1Vo
+         JxxF+ixGoYT2YUT9bdxDYv7vH2Al5Idh/ryjiBDGgxD86SgMlua2qqKiA9h/pCeHAZyj
+         Ikwg==
+X-Gm-Message-State: AOAM531uQZo8/x0YBFdI9iIfL6/tf7f/43aKW9L/5jYDwsQkOT/HBU7O
+	iSb+UKZ8F20Y3ZhXH3prMxsug8pOHGM=
+X-Google-Smtp-Source: ABdhPJwXL/36ewIl49rZHwdk7j0eOEZIOkI3oVwFDlC7GXURLDM9l6ig1XcOCwtzx7QDVQiwAAgpuQ==
+X-Received: by 2002:a37:9dd6:: with SMTP id g205mr19969683qke.352.1593065096053;
+        Wed, 24 Jun 2020 23:04:56 -0700 (PDT)
 Received: from localhost.localdomain (mobile-166-176-184-6.mycingular.net. [166.176.184.6])
-        by smtp.gmail.com with ESMTPSA id g5sm6059161qta.46.2020.06.24.23.04.49
+        by smtp.gmail.com with ESMTPSA id g5sm6059161qta.46.2020.06.24.23.04.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 23:04:52 -0700 (PDT)
+        Wed, 24 Jun 2020 23:04:55 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: cardoe@gentoo.org,
 	bruce.ashfield@gmail.com,
 	Bertrand.Marquis@arm.com,
 	cminyard@mvista.com,
-	Stewart.Hildebrand@dornerworks.com,
-	sstabellini@kernel.org,
-	roman@zededa.com
-Subject: [meta-virtualization][PATCH 00/10] Xen on Raspberry Pi 4
-Date: Wed, 24 Jun 2020 23:04:21 -0700
-Message-Id: <20200625060431.31826-1-christopher.w.clark@gmail.com>
+	Stewart.Hildebrand@dornerworks.com
+Subject: [meta-virtualization][PATCH 01/10] xen: apply layer settings when xen DISTRO_FEATURE is enabled
+Date: Wed, 24 Jun 2020 23:04:22 -0700
+Message-Id: <20200625060431.31826-2-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200625060431.31826-1-christopher.w.clark@gmail.com>
+References: <20200625060431.31826-1-christopher.w.clark@gmail.com>
 
-This series introduces support for running Xen on the Raspberry Pi 4
-board, with meta-virtualization and meta-raspberrypi, using the
-linux-raspberrypi kernel at version 5.4 which is the current 
-linux-yocto kernel version supported in this layer.
+These settings are necessary for Xen and enabling them here, using the
+same mechanism that is used by k8s in this layer, simplifies building
+images for Xen.
 
-It introduces use of dynamic layers to handle configuration that is
-both Xen and Raspberry Pi specific, and inclusion of Xen-specific
-configuration when the 'xen' DISTRO_FEATURE is enabled to simplify
-Xen image builds.
+- Ensure that Xen mode is enabled in QEMU.
+- On ARM platforms: enable Flattened Device Tree (FDT) support.
 
-It applies a backported set of Xen-specific Linux kernel patches,
-developed by upstream Xen developers working with the Linux Foundation
-Eve Project, that are currently being iterated on for inclusion in the
-Linux kernel.
-
-Xen is uprev'd to version 4.13; this is currently compile-and-boot-tested
-only on this RPi4 board.
-
-Christopher
-
-Christopher Clark (10):
-  xen: apply layer settings when xen DISTRO_FEATURE is enabled
-  xen-tools: add RRECOMENDS qemu on ARM and x86 when HVM is enabled
-  xen-tools: use non-busybox ifupdown tool if available
-  xen, xen-tools: update revision to Xen 4.13
-  meta-virt-xen.inc: add Raspberry Pi settings
-  xen, raspberry pi: add dynamic-layer for Xen configuration for Rpi4
-  xen, raspberry pi 4: provide a default defconfig for raspberrypi4
-  xen, linux-raspberrypi: add Linux kernel 5.4 patches for Xen support
-  xen, raspberry pi: add Xen-specific SD card class
-  linux-raspberrypi: prefer kernel version 5.4
-
- classes/meta-virt-xen-cfg.bbclass             |   6 +
- classes/sdcard_image-rpi-xen.bbclass          | 120 ++++
- conf/distro/include/meta-virt-xen.inc         |  19 +
- conf/layer.conf                               |  19 +-
- .../bootfiles/rpi-config_git.bbappend         |   6 +
- .../rpi-u-boot-scr/files/boot.cmd.xen.in      |  49 ++
- .../rpi-u-boot-scr/rpi-u-boot-scr.bbappend    |  17 +
- .../xen/files/defconfig_raspberrypi4-64       | 117 ++++
- .../recipes-extended/xen/xen_git.bbappend     |  11 +
- ...vmalloc_to_page-on-vmalloc-virt-addr.patch |  44 ++
- ...02-swiotlb-xen-remove-start_dma_addr.patch |  47 ++
- ...struct-device-parameter-to-xen_phys_.patch |  78 +++
- ...struct-device-parameter-to-xen_bus_t.patch |  66 +++
- ...struct-device-parameter-to-is_xen_sw.patch |  57 ++
- ...oduce-phys_to_dma-dma_to_phys-transl.patch |  88 +++
- ...translations-in-xen_dma_s_kernel_5.4.patch |  68 +++
- ..._to_phys-on-the-dma_addr_t-parameter.patch |  75 +++
- .../0011-adding-page-coherent-patch.patch     |  39 ++
- .../linux/linux-raspberrypi_%.bbappend        |   5 +
- .../linux/linux-raspberrypi_5.4.bbappend      |  19 +
- .../files/xen-tools-libxl-gentypes-py3.patch  | 140 -----
- ...tools-pygrub-change-tabs-into-spaces.patch |  40 --
- ...-python-scripts-work-with-2.6-and-up.patch | 529 ------------------
- .../xen/files/xen-tools-pygrub-py3.patch      | 233 --------
- ...ls-python-fix-Wsign-compare-warnings.patch | 136 -----
- ...n-tools-update-python-scripts-to-py3.patch | 140 -----
- recipes-extended/xen/xen-tools.inc            |  16 +
- recipes-extended/xen/xen-tools_git.bb         |  12 +-
- recipes-extended/xen/xen_git.bb               |   6 +-
- 29 files changed, 971 insertions(+), 1231 deletions(-)
+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
+---
+ classes/meta-virt-xen-cfg.bbclass     | 6 ++++++
+ conf/distro/include/meta-virt-xen.inc | 6 ++++++
+ conf/layer.conf                       | 4 +++-
+ 3 files changed, 15 insertions(+), 1 deletion(-)
  create mode 100644 classes/meta-virt-xen-cfg.bbclass
- create mode 100644 classes/sdcard_image-rpi-xen.bbclass
  create mode 100644 conf/distro/include/meta-virt-xen.inc
- create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend
- create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
- create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
- create mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64
- create mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0001-swiotlb-xen-use-vmalloc_to_page-on-vmalloc-virt-addr.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0002-swiotlb-xen-remove-start_dma_addr.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0003-swiotlb-xen-add-struct-device-parameter-to-xen_phys_.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0004-swiotlb-xen-add-struct-device-parameter-to-xen_bus_t.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0007-swiotlb-xen-add-struct-device-parameter-to-is_xen_sw.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0008-swiotlb-xen-introduce-phys_to_dma-dma_to_phys-transl.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0009-xen-arm-introduce-phys-dma-translations-in-xen_dma_s_kernel_5.4.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0010-xen-arm-call-dma_to_phys-on-the-dma_addr_t-parameter.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0011-adding-page-coherent-patch.patch
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-raspberrypi_%.bbappend
- create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-raspberrypi_5.4.bbappend
- delete mode 100644 recipes-extended/xen/files/xen-tools-libxl-gentypes-py3.patch
- delete mode 100644 recipes-extended/xen/files/xen-tools-pygrub-change-tabs-into-spaces.patch
- delete mode 100644 recipes-extended/xen/files/xen-tools-pygrub-make-python-scripts-work-with-2.6-and-up.patch
- delete mode 100644 recipes-extended/xen/files/xen-tools-pygrub-py3.patch
- delete mode 100644 recipes-extended/xen/files/xen-tools-python-fix-Wsign-compare-warnings.patch
- delete mode 100644 recipes-extended/xen/files/xen-tools-update-python-scripts-to-py3.patch
 
+diff --git a/classes/meta-virt-xen-cfg.bbclass b/classes/meta-virt-xen-cfg.bbclass
+new file mode 100644
+index 0000000..61b32aa
+--- /dev/null
++++ b/classes/meta-virt-xen-cfg.bbclass
+@@ -0,0 +1,6 @@
++# We need to load the Xen meta-virt config components, only if "xen"
++# is in the distro features.  Since we don't know the distro flags during
++# layer.conf load time, we delay using a special bbclass that simply includes
++# the META_VIRT_XEN_CONFIG_PATH file.
++
++include ${@bb.utils.contains('DISTRO_FEATURES', 'xen', '${META_VIRT_XEN_CONFIG_PATH}', '', d)}
+diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
+new file mode 100644
+index 0000000..a92b08b
+--- /dev/null
++++ b/conf/distro/include/meta-virt-xen.inc
+@@ -0,0 +1,6 @@
++# Make sure Xen mode is enabled in qemu
++PACKAGECONFIG_append_pn-qemu = " xen"
++
++# For builds for ARM platforms, enable fdt
++PACKAGECONFIG_append_pn-qemu_arm = " fdt"
++PACKAGECONFIG_append_pn-qemu_aarch64 = " fdt"
+diff --git a/conf/layer.conf b/conf/layer.conf
+index 697fb62..142621c 100644
+--- a/conf/layer.conf
++++ b/conf/layer.conf
+@@ -43,8 +43,10 @@ INHERIT += "sanity-meta-virt"
+ # We need to load the meta-virt config components, only if "virtualization"
+ # is in the distro features.  Since we don't know the distro flags during
+ # layer.conf load time, we delay using a special bbclass that simply includes
+-# the META_VIRT_CONFIG_PATH file, and likewise for the k8s configs
++# the META_VIRT_CONFIG_PATH file, and likewise for the Xen and k8s configs
+ META_VIRT_CONFIG_PATH = "${LAYERDIR}/conf/distro/include/meta-virt-default-versions.inc"
++META_VIRT_XEN_CONFIG_PATH = "${LAYERDIR}/conf/distro/include/meta-virt-xen.inc"
+ K8S_CONFIG_PATH = "${LAYERDIR}/conf/distro/include/k8s-versions.inc"
+ USER_CLASSES_append = " meta-virt-cfg"
+ USER_CLASSES_append = " meta-virt-k8s-cfg"
++USER_CLASSES_append = " meta-virt-xen-cfg"
 -- 
 2.17.1
 
