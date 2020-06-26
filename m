@@ -1,188 +1,100 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.2246.1593139565887812079
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web11.2191.1593139621709771481
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 25 Jun 2020 19:46:06 -0700
+ Thu, 25 Jun 2020 19:47:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Cv96y23h;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 624F7E01D87; Thu, 25 Jun 2020 19:46:05 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
-	version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.218.65 listed in list.dnswl.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 14F55E01D85
-	for <meta-virtualization@yoctoproject.org>; Thu, 25 Jun 2020 19:46:03 -0700 (PDT)
-Received: by mail-ej1-f65.google.com with SMTP id p20so7867978ejd.13
-        for <meta-virtualization@yoctoproject.org>; Thu, 25 Jun 2020 19:46:03 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=j92DyTw3;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id f18so7606656qkh.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 25 Jun 2020 19:47:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pM/kEWLXpzIgk+DbkMElLvmQk6lOAnWgemk0tcCpHIs=;
-        b=Cv96y23hOZmGuPNUGepxu9l9DJz51BlPvI8jPlV9STDVqeGltiU5bNZEtOHuluGCXW
-         VtVgt9AcVvsv8fVxFpkLnpoy7LyeQ1wzSPOPGBwE5RdGPBPRk0QCq5qvY9IZSoPY/pt7
-         3cgtIIFFil1cKHkYlWnf+w2SBJLkFhF7cldsNnfMLKQmyx3YxFOqwuqP/oG8cW4GZ83w
-         Qx0W3xb728PDeU89V2UIrYZ6hq/0dvSEZZHZe/Kfw6Vd9urDIWzKlQyK6efS8mqs9OTx
-         3cLi40rYQwAYX2Ykx2ROz7zAAQG2Vrk1wvVqfsveA9ZGmeRt8ziqKT9vgzdPj0FZUNkb
-         rHvQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=tD04Le9rcr6GNA+5CQhdmx7ET5RIgHze7bswi/hUgbY=;
+        b=j92DyTw3jaLxEylvAbnWcrpZ2f0wuQtAgY512fLraYXOn0pr+IpTyq3Dd/ekcwcqGo
+         He4b/+dnazcfQzyJUtfey+Ylfjht1DThwdnslGRoqXPoSU1HYpEP8i55l942pnj4Nj4X
+         8QBVn6fnpnDhetV0Def+pwSmwsIvqmVJqG7m6wlgSO9Y1FY93yKkpIvV/gtwbKdHOr7V
+         dVntchCnTxDkitrxdKaTogY0xca2CF/YExVqZsvII2djeyZa98JDFpaQ69ZdotB0IcQ+
+         IhMbtMYa+peooTnNEZv3WZ+kmWy7Dwe33mIh6G7eG+aiNorJDGjUZ+3WKc3EnIhB1h3q
+         hgOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pM/kEWLXpzIgk+DbkMElLvmQk6lOAnWgemk0tcCpHIs=;
-        b=cETevMRIxd/oMaYO64MOJGyEfUdWjOB9Tb7mgHM9uOh0d5WjvRslyIIGubJXJFt2D/
-         MD05tG4eKcw6yz7HEQD92rpUylEEx9wdK0bhPXYELXgnDO0oh788sTw7xPsYCyDxfKV6
-         CCgMYOHU5TayYc6O3R5Zt+0anGQOjsGsCCywBLhL3OlRXf1hrk0g4Fp1pxTyRI6eowZY
-         MG0HZwu+tlpbS2ed7ddjO6UlO8ykIMIdoyXeVr+hY+2GSBHAifFYASYYm2yF0psXzhXf
-         hq2HrLwEvVYiCRg0CrDG8rO6QkmAMIxBNoa27GNBIHGyyZR+cTWXcimoAVjq+JyM5cVs
-         HHow==
-X-Gm-Message-State: AOAM531vZTYDAZQ5A9YbIwMvFJyaYCFYoUUAlSUbPHGacmQLXLLWch8K
-	cxn6sJlLpFi2gmw0KMv6sZUUVSZQZcY/aWUqgvw=
-X-Google-Smtp-Source: ABdhPJzznG+5KsyQg4Gd/tserq2KKPMu+0D+nwywwrv3wwVMEMJ7bkHnBM30q7kQfW2qVUSLUa8O0uip9ce6tYEoxn0=
-X-Received: by 2002:a17:906:4145:: with SMTP id l5mr691564ejk.334.1593139562621;
- Thu, 25 Jun 2020 19:46:02 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200625060431.31826-1-christopher.w.clark@gmail.com>
-In-Reply-To: <20200625060431.31826-1-christopher.w.clark@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=tD04Le9rcr6GNA+5CQhdmx7ET5RIgHze7bswi/hUgbY=;
+        b=uaxwmt2yMBB77LEK4QTay9opM244cjzdgnJo1L4QgCuArO9JLODX7KZuctZTd0zhVD
+         RxUa9mJQD4E7D1e4zh1UgK7VlBI3njFd18bDCQO0Y5mHM5xfStFfgMJa1uQDcN4NRRgM
+         53b37PBS8dRIAZ8TvaOzIwJMm7CFQOCPKY/I4u+RR3L5h26q7tGclKEqhSsEnw2zi/DJ
+         f5bqlKnME5vmQqMddyKdzG7TQ2Rz6UInF0hrkW4xR/Q/jkppkCXZP9H3XF8Z2mFXRGLE
+         Mmo9PXiTQgt3RE9KJkFOWHEAPFg00hWVaQgfNyVKfgFG/pQwFLRyr0zqojJ3voY5jNcm
+         oMUw==
+X-Gm-Message-State: AOAM532gaf/QQsdTl747OKX8lFGyot9R0NyWWgTolyK9eJLi3AgLg2n3
+	ha+QDkM77w2h7O8JwAwt3kQ=
+X-Google-Smtp-Source: ABdhPJwgWPjO69B8wA+UWYyLwAzulrYoOWA2e67v4e+sFzq59ppllBianwmfHa3wBVaEf4SvMUBg8A==
+X-Received: by 2002:a37:68ce:: with SMTP id d197mr776057qkc.85.1593139620759;
+        Thu, 25 Jun 2020 19:47:00 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id q32sm8484176qte.31.2020.06.25.19.46.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 19:47:00 -0700 (PDT)
+Date: Thu, 25 Jun 2020 22:46:58 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 25 Jun 2020 22:45:51 -0400
-Message-ID: <CADkTA4Mt2z0czzJXuk7-S3XnGpCSwmMwG78fO3xV0KxrJWd_jQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 00/10] Xen on Raspberry Pi 4
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
-	Doug Goldstein <cardoe@gentoo.org>, Bertrand Marquis <Bertrand.Marquis@arm.com>, 
-	Corey Minyard <cminyard@mvista.com>, 
-	Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>, sstabellini@kernel.org, 
-	roman@zededa.com
-Content-Type: text/plain; charset="UTF-8"
+To: Ming Liu <liu.ming50@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	Ming Liu <ming.liu@toradex.com>
+Subject: Re: [meta-virtualization][PATCH] python3-flask-cors: inherit pypi
+Message-ID: <20200626024655.GA59008@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20200623084555.15456-1-liu.ming50@gmail.com>
+ <20200623084725.6278-1-liu.ming50@gmail.com>
+ <20200623084814.25045-1-liu.ming50@gmail.com>
+ <20200623084845.27422-1-liu.ming50@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jun 25, 2020 at 2:04 AM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> This series introduces support for running Xen on the Raspberry Pi 4
-> board, with meta-virtualization and meta-raspberrypi, using the
-> linux-raspberrypi kernel at version 5.4 which is the current
-> linux-yocto kernel version supported in this layer.
->
-> It introduces use of dynamic layers to handle configuration that is
-> both Xen and Raspberry Pi specific, and inclusion of Xen-specific
-> configuration when the 'xen' DISTRO_FEATURE is enabled to simplify
-> Xen image builds.
->
-> It applies a backported set of Xen-specific Linux kernel patches,
-> developed by upstream Xen developers working with the Linux Foundation
-> Eve Project, that are currently being iterated on for inclusion in the
-> Linux kernel.
->
-> Xen is uprev'd to version 4.13; this is currently compile-and-boot-tested
-> only on this RPi4 board.
-
-On my first pass through the series, I didn't see any issues.
-Everything is well organized and makes sense to me.
-
-I'll do a really quick smoke test here, but I don't expect any issues.
-
-Thanks for keeping this consolidated, the mechanisms you've added will
-be useful for a few things that I'm working on as well.
-
-Cheers,
+merged.
 
 Bruce
 
->
-> Christopher
->
-> Christopher Clark (10):
->   xen: apply layer settings when xen DISTRO_FEATURE is enabled
->   xen-tools: add RRECOMENDS qemu on ARM and x86 when HVM is enabled
->   xen-tools: use non-busybox ifupdown tool if available
->   xen, xen-tools: update revision to Xen 4.13
->   meta-virt-xen.inc: add Raspberry Pi settings
->   xen, raspberry pi: add dynamic-layer for Xen configuration for Rpi4
->   xen, raspberry pi 4: provide a default defconfig for raspberrypi4
->   xen, linux-raspberrypi: add Linux kernel 5.4 patches for Xen support
->   xen, raspberry pi: add Xen-specific SD card class
->   linux-raspberrypi: prefer kernel version 5.4
->
->  classes/meta-virt-xen-cfg.bbclass             |   6 +
->  classes/sdcard_image-rpi-xen.bbclass          | 120 ++++
->  conf/distro/include/meta-virt-xen.inc         |  19 +
->  conf/layer.conf                               |  19 +-
->  .../bootfiles/rpi-config_git.bbappend         |   6 +
->  .../rpi-u-boot-scr/files/boot.cmd.xen.in      |  49 ++
->  .../rpi-u-boot-scr/rpi-u-boot-scr.bbappend    |  17 +
->  .../xen/files/defconfig_raspberrypi4-64       | 117 ++++
->  .../recipes-extended/xen/xen_git.bbappend     |  11 +
->  ...vmalloc_to_page-on-vmalloc-virt-addr.patch |  44 ++
->  ...02-swiotlb-xen-remove-start_dma_addr.patch |  47 ++
->  ...struct-device-parameter-to-xen_phys_.patch |  78 +++
->  ...struct-device-parameter-to-xen_bus_t.patch |  66 +++
->  ...struct-device-parameter-to-is_xen_sw.patch |  57 ++
->  ...oduce-phys_to_dma-dma_to_phys-transl.patch |  88 +++
->  ...translations-in-xen_dma_s_kernel_5.4.patch |  68 +++
->  ..._to_phys-on-the-dma_addr_t-parameter.patch |  75 +++
->  .../0011-adding-page-coherent-patch.patch     |  39 ++
->  .../linux/linux-raspberrypi_%.bbappend        |   5 +
->  .../linux/linux-raspberrypi_5.4.bbappend      |  19 +
->  .../files/xen-tools-libxl-gentypes-py3.patch  | 140 -----
->  ...tools-pygrub-change-tabs-into-spaces.patch |  40 --
->  ...-python-scripts-work-with-2.6-and-up.patch | 529 ------------------
->  .../xen/files/xen-tools-pygrub-py3.patch      | 233 --------
->  ...ls-python-fix-Wsign-compare-warnings.patch | 136 -----
->  ...n-tools-update-python-scripts-to-py3.patch | 140 -----
->  recipes-extended/xen/xen-tools.inc            |  16 +
->  recipes-extended/xen/xen-tools_git.bb         |  12 +-
->  recipes-extended/xen/xen_git.bb               |   6 +-
->  29 files changed, 971 insertions(+), 1231 deletions(-)
->  create mode 100644 classes/meta-virt-xen-cfg.bbclass
->  create mode 100644 classes/sdcard_image-rpi-xen.bbclass
->  create mode 100644 conf/distro/include/meta-virt-xen.inc
->  create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend
->  create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
->  create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
->  create mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64
->  create mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0001-swiotlb-xen-use-vmalloc_to_page-on-vmalloc-virt-addr.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0002-swiotlb-xen-remove-start_dma_addr.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0003-swiotlb-xen-add-struct-device-parameter-to-xen_phys_.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0004-swiotlb-xen-add-struct-device-parameter-to-xen_bus_t.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0007-swiotlb-xen-add-struct-device-parameter-to-is_xen_sw.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0008-swiotlb-xen-introduce-phys_to_dma-dma_to_phys-transl.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0009-xen-arm-introduce-phys-dma-translations-in-xen_dma_s_kernel_5.4.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0010-xen-arm-call-dma_to_phys-on-the-dma_addr_t-parameter.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/files/0011-adding-page-coherent-patch.patch
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-raspberrypi_%.bbappend
->  create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/linux-raspberrypi_5.4.bbappend
->  delete mode 100644 recipes-extended/xen/files/xen-tools-libxl-gentypes-py3.patch
->  delete mode 100644 recipes-extended/xen/files/xen-tools-pygrub-change-tabs-into-spaces.patch
->  delete mode 100644 recipes-extended/xen/files/xen-tools-pygrub-make-python-scripts-work-with-2.6-and-up.patch
->  delete mode 100644 recipes-extended/xen/files/xen-tools-pygrub-py3.patch
->  delete mode 100644 recipes-extended/xen/files/xen-tools-python-fix-Wsign-compare-warnings.patch
->  delete mode 100644 recipes-extended/xen/files/xen-tools-update-python-scripts-to-py3.patch
->
-> --
-> 2.17.1
->
+In message: [meta-virtualization][PATCH] python3-flask-cors: inherit pypi
+on 23/06/2020 Ming Liu wrote:
+
+> From: Ming Liu <ming.liu@toradex.com>
+> 
+> Drop SRCNAME/SRC_URI/S, change to inherit pypi.
+> 
+> Signed-off-by: Ming Liu <ming.liu@toradex.com>
+> ---
+>  recipes-devtools/python/python3-flask-cors_3.0.8.bb | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/recipes-devtools/python/python3-flask-cors_3.0.8.bb b/recipes-devtools/python/python3-flask-cors_3.0.8.bb
+> index 5d3c41f..aac7152 100644
+> --- a/recipes-devtools/python/python3-flask-cors_3.0.8.bb
+> +++ b/recipes-devtools/python/python3-flask-cors_3.0.8.bb
+> @@ -9,13 +9,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=118fecaa576ab51c1520f95e98db61ce"
+>  
+>  DEPENDS += "python3-six python3-flask"
+>  
+> -SRCNAME = "Flask-Cors"
+> -
+> -SRC_URI = "https://pypi.python.org/packages/source/F/Flask-Cors/${SRCNAME}-${PV}.tar.gz"
+> +PYPI_PACKAGE = "Flask-Cors"
+>  
+>  SRC_URI[md5sum] = "551cc4c0305a171d28caa2b3bc838867"
+>  SRC_URI[sha256sum] = "72170423eb4612f0847318afff8c247b38bd516b7737adfc10d1c2cdbb382d16"
+>  
+> -S = "${WORKDIR}/${SRCNAME}-${PV}"
+> -
+> -inherit setuptools3
+> +inherit pypi setuptools3
+> -- 
+> 2.27.0
+> 
+
+> 
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
