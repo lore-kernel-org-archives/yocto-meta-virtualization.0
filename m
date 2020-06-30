@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.6448.1593482144212133483
+ by mx.groups.io with SMTP id smtpd.web10.6618.1593482150535174661
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 29 Jun 2020 18:55:44 -0700
+ Mon, 29 Jun 2020 18:55:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=b1kBWVzP;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=KxvQkB98;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 19C20E01DBE; Mon, 29 Jun 2020 18:55:44 -0700 (PDT)
+	id 63F28E01DBF; Mon, 29 Jun 2020 18:55:50 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -25,42 +25,42 @@ X-Spam-HAM-Report:
 	*      valid
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.160.193 listed in list.dnswl.org]
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com [209.85.160.193])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D4F59E01D76
-	for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:42 -0700 (PDT)
-Received: by mail-qt1-f193.google.com with SMTP id d27so14479652qtg.4
-        for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:42 -0700 (PDT)
+	*      [209.85.160.194 listed in list.dnswl.org]
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3CFCBE01DBD
+	for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:49 -0700 (PDT)
+Received: by mail-qt1-f194.google.com with SMTP id d27so14479776qtg.4
+        for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NumlpwTiGICU7vMthgfZ/Xmyi6tWBmxNLgVPFpXAHGk=;
-        b=b1kBWVzPTniuNRBUeTkBUaciiPw6slzESka0BbiAdIJqUmOGVxajZ5SGwgZyDC9z29
-         oy4MA5uPWr7XzkbTH2Tj018VyVI+EOHV2NkyfwJ9iyNldfBF1Hx48JxH3Pj0/Gp1mGb3
-         C073Jg2TglVE0A1mn66nAdBjWr0DOMAfvaHW/aDMP2LRK2w87naOqIb6DUufRygaLDyo
-         +2NPEpDpmTIk4ILVYiPGM0hZdumnyAiAG2cr3W5ShSEpqBk3cULHRk7qZoeSRbbjVW2N
-         ZbavMvDeE54lnZFSFC0Cetb2Qe0s4WMcI3rZg2dOJ79P9Sns2N4LcWTNIUJmUeLD32eK
-         5NTw==
+        bh=HQ6Kqinrt1VRn17OKwhp2mornyBKluB9mRVZX4ful94=;
+        b=KxvQkB98u7RByvvFvVgjTCIE3x4R0fEPbedXRTVht9npvB0RtdLrE9xg5i8sK9w+vQ
+         jMG7G24cp4uTZ7N2V13PfZztGcI1FLKcWF0ZfOfQp56usy4bM6bbNHhrHNL+8ZuaOuga
+         Ky4qi+i2k50z0OvtTYXsRAT/0LndkBOUqKNn9HmYunVlny2752xL+jIgi0OATOy2XxbA
+         wv3W72/NblLcS7GOe3bimzoG9UparoeBXqvBY0oSFGa5to+2TlJn73fRiFdJS7tVqohc
+         vBBnd1vDqJ4f93VuL4skMMgxdVFk4+jFbO6dpSDARuwMj7icGv1j5G+lHxFjKbOuhjRa
+         Jodw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=NumlpwTiGICU7vMthgfZ/Xmyi6tWBmxNLgVPFpXAHGk=;
-        b=sCbCS2F7iX0GAEWwQ7DvgrPxeFIDZe7nWGLlSNTs9qdKyFRt0lgb+Z2wuKTqxK1jem
-         jwXZOaICGR+jV30nUun4FL0/IeoFQcGlYsYGhUaVuNnI+TEbTIDj6bGcmIIBIb8PW8gv
-         SoW7kEj4m/ah4z55NK+ONwt2I8hLN7cgPLn2GLJqwe7tNNStYQjANFGlcQ0VITSI+eh3
-         eSmhy/DeWohIvwsZ76xnvKB84yNELNcQRw852ABV+A6Hy4ZFxE4e83IbDPrnBs3Sn8np
-         Wi/XomjRuHMO9rew0cekEVwTadhpzMqzhTiFgjjgp6hX03C5QjzYJHJaKeBzSuJaU++5
-         tMjw==
-X-Gm-Message-State: AOAM5315NB+JzvdhZtPew0B2iXRU1qbARYYPNYl50y32rr5oVDVD7riA
-	eeFeXtOxQ6Qj5XLLjkmaQtpcldNqhEQ=
-X-Google-Smtp-Source: ABdhPJz7DYFe6aQrFJEqlxxGZHHslip0WxiaxE4DWT5kkLSDcnBbX/ifwwzoLuyem5drCb49fiv7tQ==
-X-Received: by 2002:ac8:6602:: with SMTP id c2mr18543942qtp.243.1593482141946;
-        Mon, 29 Jun 2020 18:55:41 -0700 (PDT)
+        bh=HQ6Kqinrt1VRn17OKwhp2mornyBKluB9mRVZX4ful94=;
+        b=OGJL16McFxvVzYVyuEMiY40fa0+GhsE4DY2jflCCdLqVRtcAtRBOI2PMpENsX9X3o8
+         49Jd61Zho6PJehp16AdloXTihkZXx3+e8aMwqA2RvdID7vb40mdJXR3wHD7xleAIblX5
+         0B08U728ZeBPZl7HmyYoCIVhgwY9dPwhZ0/g9/V+wA0zaxgE9xvYOhCMUT/UyK8JuCgP
+         +CM4TMpVbb95IaW4+DhJAhAsKp8kn4kxBXQUg6iRwiHfuZKsu8WxqpVNO5rxBw1loFyO
+         bvbQupb6cm4Vljj9dNocLLtt7dxcOV+gm8bAM3GaVWvrOLgLA8eBsTgz7eW4mla7VvMm
+         cLOw==
+X-Gm-Message-State: AOAM530aclYqL6Aq/Y6qdBUDuNKqBJEmgPGYWXZsv1Z//6dy+r/ejjJb
+	vb9GLwPpPN7V0iUdPM8UOv9DvUuQI1s=
+X-Google-Smtp-Source: ABdhPJxDXTIpFpA2DL1XWAY8tBc2uUanY56fHJtPZ7ZfmwpFs4t7DV/YqpIQS7yltjmlNJ7KnDm1mQ==
+X-Received: by 2002:aed:3609:: with SMTP id e9mr19135800qtb.152.1593482148412;
+        Mon, 29 Jun 2020 18:55:48 -0700 (PDT)
 Received: from localhost.localdomain (mobile-166-176-186-179.mycingular.net. [166.176.186.179])
-        by smtp.gmail.com with ESMTPSA id t48sm1841794qtb.50.2020.06.29.18.55.40
+        by smtp.gmail.com with ESMTPSA id t48sm1841794qtb.50.2020.06.29.18.55.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 18:55:41 -0700 (PDT)
+        Mon, 29 Jun 2020 18:55:47 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: cardoe@gentoo.org,
@@ -68,36 +68,34 @@ Cc: cardoe@gentoo.org,
 	Bertrand.Marquis@arm.com,
 	cminyard@mvista.com,
 	Stewart.Hildebrand@dornerworks.com
-Subject: [meta-virtualization][PATCH v2 03/11] xen-tools: use non-busybox ifupdown tool if available
-Date: Mon, 29 Jun 2020 18:54:46 -0700
-Message-Id: <20200630015454.10151-4-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 05/11] meta-virt-xen.inc: add Raspberry Pi settings
+Date: Mon, 29 Jun 2020 18:54:48 -0700
+Message-Id: <20200630015454.10151-6-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200630015454.10151-1-christopher.w.clark@gmail.com>
 References: <20200630015454.10151-1-christopher.w.clark@gmail.com>
 
-Adds: RSUGGESTS_${PN}-scripts-network = "ifupdown"
-
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-Suggested-by: Corey Minyard <cminyard@mvista.com>
 ---
- recipes-extended/xen/xen-tools.inc | 4 ++++
- 1 file changed, 4 insertions(+)
+ conf/distro/include/meta-virt-xen.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/xen-tools.inc
-index c0e54b1..154e224 100644
---- a/recipes-extended/xen/xen-tools.inc
-+++ b/recipes-extended/xen/xen-tools.inc
-@@ -113,6 +113,10 @@ RDEPENDS_${PN}-scripts-network = "\
-     ${PN}-volatiles \
-     "
- 
-+RSUGGESTS_${PN}-scripts-network = "\
-+    ifupdown \
-+    "
+diff --git a/conf/distro/include/meta-virt-xen.inc b/conf/distro/include/meta-virt-xen.inc
+index a92b08b..2ada83a 100644
+--- a/conf/distro/include/meta-virt-xen.inc
++++ b/conf/distro/include/meta-virt-xen.inc
+@@ -4,3 +4,11 @@ PACKAGECONFIG_append_pn-qemu = " xen"
+ # For builds for ARM platforms, enable fdt
+ PACKAGECONFIG_append_pn-qemu_arm = " fdt"
+ PACKAGECONFIG_append_pn-qemu_aarch64 = " fdt"
 +
- RSUGGESTS_${PN}-xencov = "${PN}-xencov-split"
- 
- RDEPENDS_${PN}-xencommons = "\
++# Raspberry Pi settings
++#  - Xen guest console
++KERNEL_CONSOLE = "hvc0"
++SERIAL_CONSOLES = "115200;hvc0"
++#  - Xen uses u-boot for configuration and uses the uart
++RPI_USE_U_BOOT = "1"
++ENABLE_UART = "1"
 -- 
 2.17.1
 
