@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.6458.1593482165692667117
+ by mx.groups.io with SMTP id smtpd.web11.7833.1593486980062574862
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 29 Jun 2020 18:56:05 -0700
+ Mon, 29 Jun 2020 20:16:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Wmzcqf1i;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=eCkSgjtK;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 8AAB6E01DBE; Mon, 29 Jun 2020 18:56:05 -0700 (PDT)
+	id A440DE01DBF; Mon, 29 Jun 2020 20:16:19 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -14,150 +14,228 @@ X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
 	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
 	version=3.3.1
 X-Spam-HAM-Report: 
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.222.194 listed in list.dnswl.org]
 	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
 	*      [score: 0.0000]
 	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
 	*      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.222.196 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C220EE01D76
-	for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:56:04 -0700 (PDT)
-Received: by mail-qk1-f194.google.com with SMTP id z63so17195199qkb.8
-        for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:56:04 -0700 (PDT)
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 93801E01DBD
+	for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 20:16:17 -0700 (PDT)
+Received: by mail-qk1-f196.google.com with SMTP id 80so17342703qko.7
+        for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 20:16:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ssdtMj3+bO0e3w3mH7+pPzWK609m8Itltaf3iCiSO/0=;
-        b=Wmzcqf1imdIwJkB+kuo04ivPEg48TNOv+CnmtgqVlty3IjVKhRcqXDvb2UDyxYcNie
-         Dxva9SWhaHtZ7r53erpRjKi00JWDJ7ridG/+TV/G5tnMC9MlYyPozNFQ4/fZom3SWnOM
-         ZlSYcfvqJRePSCsStCT1Z5GFw20SC40qd36Q8po00OmN1/ly4oLSyEmbIniMu7MAXmIU
-         ayZ71gXMdT/pcvEJuB4nVFyXsxX4M34twR1uiVHuTMuUGjca2i7vUQLBtFVyc++QBzRX
-         kutmVhjbmCfjHOAUoDgVhuX5XNzuL1RWvyC4wUVsRGzC40mm5HeEGHSfZ8uKR4AR1YXV
-         fiEQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=i8i9cWaf/NmJPhrQ0hbMdwne8FDPnTZZ8MlTSfwYA+s=;
+        b=eCkSgjtKP43cvf/vtO5a/Ft8gkTYvq+SMWCLOoeRYdt7giskdhc2eEKmz3QXZtwRE3
+         dab3EF3PnyOstjA+boQo+3HGz3LKt0jOi4d5yqsBdcvmtoi2y9k0wlMfvVcOpHuOoEdi
+         IrNNc+/M05NuElXD5USm+cY82WGilaNeNLuKBD0J0WRRptUHzT+VZqF0zUNagWoe5pBE
+         pXHCNnQFrbnwJUda8Iqou224mREYSAVca0DCJpqMxy+GsxHwa+inP1OwFD4WI7yNZ/PC
+         yu6JPQD4cTh285R0y364lbaNMDwbS46Cwm3w/MYh03zBWv6Chcl3myXxHgfAxMwCdTxy
+         6x0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=ssdtMj3+bO0e3w3mH7+pPzWK609m8Itltaf3iCiSO/0=;
-        b=UHVzZpaaRlM8Up7rFj8OUdM2beLcTcO0GOcYvUeE/YWzLmjUUCpC44w1T6wUlMe3EM
-         OqxdgZbkTBBASpK4wdCXwS9MU5z2WjMpqShcXDW73kPk+L9SwUi0NXKFJxcKGngoDTAM
-         hv+Ku7f7esShxeLGTUsDaAi3VC7jXb62Tzrwb4m+OqiRvZD8GUlURen8u7QiKiJ6iRGB
-         ia+kIl/iMmsBGt11MDklTKC11ydS3px5hoUAzrN8/WuoR6wz+LpeHerw40bt9ptUXSPW
-         J7hphDHteV8KRkLz9s7+wAsNzn8EBhZCPrKfrfoiDteQcCGw+KoXUIewr3jDacqInMa/
-         XD2Q==
-X-Gm-Message-State: AOAM531vwLINaAlVh2fl5Fd7FQX5M3BbqkfKHFp5p/pocCVYxo0K5n1Q
-	BhgKj63uQ1J/KR3bvqCz/LtXhjQvkRY=
-X-Google-Smtp-Source: ABdhPJyIGlktQYNrVetTVsGmWyVyiyoolBRBgFsybK3KwmjFrCYfVngG3kl9MqdQeWeOCDZPfftrRw==
-X-Received: by 2002:a37:6758:: with SMTP id b85mr8029524qkc.238.1593482164122;
-        Mon, 29 Jun 2020 18:56:04 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=i8i9cWaf/NmJPhrQ0hbMdwne8FDPnTZZ8MlTSfwYA+s=;
+        b=NhiMxEP35Ogi5uxNkQOQv31YJTSy8oyL/uZKqDC0rxGzErAb32BgZi6pwbB2q3SO0O
+         ZvNmN5thQDUtXSR1GQPXsCWRz1V0qvmnyfEYRgtRtELJ2tvI7ZLAqliI2hN4kTimiAzV
+         b3RD2aamL9IuCEe4SR0/syg7+jYsTKbWq9d0U5QktU347WONiAEA/Dt5RJS+k+hql7ey
+         bXfhEhwPIjGPrrAKk6903GzwTCHWkAQJ84R207bIel+EHa8vuFG6QwLT2qzyZb3WAJu3
+         w0WpENKjL06LtVZ1a7WErMjJ9GpaMAx6zEbWa4TT71c5rfm8BX/SM4prO2Y4jc3/RO+w
+         aiWg==
+X-Gm-Message-State: AOAM5300Y3zF7U4rvFiaMFT5hwhYATjDoMw9WaxnNMUlE8mJfze3aOnx
+	VgpnUw06dd8hkRPhW2VJ32QKw311
+X-Google-Smtp-Source: ABdhPJySmKjauCqpO6U7QiE7Q+kY7E375p3cIs7SY9w4T05fHLgMbiS/NsebbZgOn0HURe14y0yyqg==
+X-Received: by 2002:a37:a196:: with SMTP id k144mr18935991qke.329.1593486976300;
+        Mon, 29 Jun 2020 20:16:16 -0700 (PDT)
 Received: from localhost.localdomain (mobile-166-176-186-179.mycingular.net. [166.176.186.179])
-        by smtp.gmail.com with ESMTPSA id t48sm1841794qtb.50.2020.06.29.18.56.01
+        by smtp.gmail.com with ESMTPSA id t5sm1883784qkh.46.2020.06.29.20.16.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 18:56:03 -0700 (PDT)
+        Mon, 29 Jun 2020 20:16:15 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
-Cc: cardoe@gentoo.org,
-	bruce.ashfield@gmail.com,
-	Bertrand.Marquis@arm.com,
-	cminyard@mvista.com,
-	Stewart.Hildebrand@dornerworks.com
-Subject: [meta-virtualization][PATCH v2 11/11] xen: add patch to fix build on ARM64 with gcc 10.1.0
-Date: Mon, 29 Jun 2020 18:54:54 -0700
-Message-Id: <20200630015454.10151-12-christopher.w.clark@gmail.com>
+Cc: bruce.ashfield@gmail.com
+Subject: [meta-virtualization][PATCH] ipxe: fix build with gcc 10.1.0
+Date: Mon, 29 Jun 2020 20:15:54 -0700
+Message-Id: <20200630031554.12946-1-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200630015454.10151-1-christopher.w.clark@gmail.com>
-References: <20200630015454.10151-1-christopher.w.clark@gmail.com>
 
-The newer gcc toolchain won't link due to a missing builtin:
-__sync_fetch_and_add. Xen is built with -fno-builtin, so add a
-patch to implement the one required function.
+Apply two upstream patches to fix compiler warnings.
 
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- ...xen-arm64-implement-atomic-fetch-add.patch | 50 +++++++++++++++++++
- recipes-extended/xen/xen_git.bb               |  5 +-
- 2 files changed, 54 insertions(+), 1 deletion(-)
- create mode 100644 recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch
+ ...it-type-casts-for-nodnic_queue_pair_.patch | 43 +++++++++
+ ...-spurious-compiler-warning-on-GCC-10.patch | 89 +++++++++++++++++++
+ recipes-extended/ipxe/ipxe_git.bb             |  2 +
+ 3 files changed, 134 insertions(+)
+ create mode 100644 recipes-extended/ipxe/files/ipxe-golan-Add-explicit-type-casts-for-nodnic_queue_pair_.patch
+ create mode 100644 recipes-extended/ipxe/files/ipxe-intel-Avoid-spurious-compiler-warning-on-GCC-10.patch
 
-diff --git a/recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch b/recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch
+diff --git a/recipes-extended/ipxe/files/ipxe-golan-Add-explicit-type-casts-for-nodnic_queue_pair_.patch b/recipes-extended/ipxe/files/ipxe-golan-Add-explicit-type-casts-for-nodnic_queue_pair_.patch
 new file mode 100644
-index 0000000..6e957a5
+index 0000000..62e8e9d
 --- /dev/null
-+++ b/recipes-extended/xen/files/xen-arm64-implement-atomic-fetch-add.patch
-@@ -0,0 +1,50 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Christopher Clark <christopher.w.clark@gmail.com>
-+Date: Fri, 26 June 2020 16:34:00 -0800
-+Subject: [PATCH] xen: implement atomic op to fix arm64 compilation
++++ b/recipes-extended/ipxe/files/ipxe-golan-Add-explicit-type-casts-for-nodnic_queue_pair_.patch
+@@ -0,0 +1,43 @@
++From 8a1d66c7aec020f3e90254ed2fa55ecd9494fcc3 Mon Sep 17 00:00:00 2001
++From: Michael Brown <mcb30@ipxe.org>
++Date: Sat, 27 Jun 2020 20:43:32 +0100
++Subject: [PATCH] [golan] Add explicit type casts for nodnic_queue_pair_type
 +
-+Xen's ARM implementation of arch_fetch_and_add since f9cc3cd9
-+uses a builtin, despite the build being performed with -fno-builtin.
-+With gcc 10.1.0, this now breaks prelinking spinlock.c, so
-+implement the one atomic operation that is required with logic
-+derived from Linux's atomic_ll_sc.h: ATOMIC_FETCH_OP and comparison with
-+the binary produced with and without the patch with gcc 9.2.0.
++GCC 10 emits warnings for implicit conversions of enumerated types.
 +
-+Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
-+diff --git a/xen/include/asm-arm/system.h b/xen/include/asm-arm/system.h
-+index e5d062667d..c46dd3ac71 100644
-+--- a/xen/include/asm-arm/system.h
-++++ b/xen/include/asm-arm/system.h
-+@@ -55,7 +55,32 @@ static inline int local_abort_is_enabled(void)
-+     return !(flags & PSR_ABT_MASK);
++The flexboot_nodnic code defines nodnic_queue_pair_type with values
++identical to those of ib_queue_pair_type, and implicitly casts between
++them.  Add an explicit cast to fix the warning.
++
++Signed-off-by: Michael Brown <mcb30@ipxe.org>
++---
++ src/drivers/infiniband/flexboot_nodnic.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/src/drivers/infiniband/flexboot_nodnic.c b/src/drivers/infiniband/flexboot_nodnic.c
++index 93bb0544..7d039fff 100644
++--- a/drivers/infiniband/flexboot_nodnic.c
+++++ b/drivers/infiniband/flexboot_nodnic.c
++@@ -365,7 +365,8 @@ static int flexboot_nodnic_create_qp ( struct ib_device *ibdev,
++ 		goto qp_alloc_err;
++ 	}
++ 
++-	status = nodnic_port_create_qp(&port->port_priv, qp->type,
+++	status = nodnic_port_create_qp(&port->port_priv,
+++			(nodnic_queue_pair_type) qp->type,
++ 			qp->send.num_wqes * sizeof(struct nodnic_send_wqbb),
++ 			qp->send.num_wqes,
++ 			qp->recv.num_wqes * sizeof(struct nodnic_recv_wqe),
++@@ -406,7 +407,8 @@ static void flexboot_nodnic_destroy_qp ( struct ib_device *ibdev,
++ 	struct flexboot_nodnic_port *port = &flexboot_nodnic->port[ibdev->port - 1];
++ 	struct flexboot_nodnic_queue_pair *flexboot_nodnic_qp = ib_qp_get_drvdata ( qp );
++ 
++-	nodnic_port_destroy_qp(&port->port_priv, qp->type,
+++	nodnic_port_destroy_qp(&port->port_priv,
+++			(nodnic_queue_pair_type) qp->type,
++ 			flexboot_nodnic_qp->nodnic_queue_pair);
++ 
++ 	free(flexboot_nodnic_qp);
++-- 
++2.17.1
++
+diff --git a/recipes-extended/ipxe/files/ipxe-intel-Avoid-spurious-compiler-warning-on-GCC-10.patch b/recipes-extended/ipxe/files/ipxe-intel-Avoid-spurious-compiler-warning-on-GCC-10.patch
+new file mode 100644
+index 0000000..e424d22
+--- /dev/null
++++ b/recipes-extended/ipxe/files/ipxe-intel-Avoid-spurious-compiler-warning-on-GCC-10.patch
+@@ -0,0 +1,89 @@
++From 28cf9806d1632d378485005babec295da0c77fcf Mon Sep 17 00:00:00 2001
++From: Michael Brown <mcb30@ipxe.org>
++Date: Sat, 27 Jun 2020 20:21:11 +0100
++Subject: [PATCH] [intel] Avoid spurious compiler warning on GCC 10
++
++GCC 10 produces a spurious warning about an out-of-bounds array access
++for the unsized raw dword array in union intelvf_msg.
++
++Avoid the warning by embedding the zero-length array within a struct.
++
++Signed-off-by: Michael Brown <mcb30@ipxe.org>
++---
++ src/drivers/net/intelvf.c | 18 ++++++++++--------
++ src/drivers/net/intelvf.h |  8 +++++++-
++ 2 files changed, 17 insertions(+), 9 deletions(-)
++
++diff --git a/src/drivers/net/intelvf.c b/src/drivers/net/intelvf.c
++index ac6fea74..0d48b417 100644
++--- a/drivers/net/intelvf.c
+++++ b/drivers/net/intelvf.c
++@@ -52,14 +52,15 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
++  */
++ static void intelvf_mbox_write ( struct intel_nic *intel,
++ 				 const union intelvf_msg *msg ) {
+++	const struct intelvf_msg_raw *raw = &msg->raw;
++ 	unsigned int i;
++ 
++ 	/* Write message */
++ 	DBGC2 ( intel, "INTEL %p sending message", intel );
++-	for ( i = 0 ; i < ( sizeof ( *msg ) / sizeof ( msg->dword[0] ) ) ; i++){
++-		DBGC2 ( intel, "%c%08x", ( i ? ':' : ' ' ), msg->dword[i] );
++-		writel ( msg->dword[i], ( intel->regs + intel->mbox.mem +
++-					  ( i * sizeof ( msg->dword[0] ) ) ) );
+++	for ( i = 0 ; i < ( sizeof ( *msg ) / sizeof ( raw->dword[0] ) ) ; i++){
+++		DBGC2 ( intel, "%c%08x", ( i ? ':' : ' ' ), raw->dword[i] );
+++		writel ( raw->dword[i], ( intel->regs + intel->mbox.mem +
+++					  ( i * sizeof ( raw->dword[0] ) ) ) );
++ 	}
++ 	DBGC2 ( intel, "\n" );
 + }
++@@ -72,14 +73,15 @@ static void intelvf_mbox_write ( struct intel_nic *intel,
++  */
++ static void intelvf_mbox_read ( struct intel_nic *intel,
++ 				union intelvf_msg *msg ) {
+++	struct intelvf_msg_raw *raw = &msg->raw;
++ 	unsigned int i;
 + 
-++#ifdef CONFIG_ARM_64
-++
-++/* see atomic_ll_sc.h:  ATOMIC_FETCH_OP(name, mb, acq, rel, cl, op, asm_op, constraint) */
-++static inline int arch_fetch_and_add(unsigned int *ptr, unsigned long i)
-++{
-++    int register lptr asm("x0");
-++    int register result asm("w1");
-++    int register newval asm("w2");
-++    int register status asm("w3");
-++
-++    asm volatile(
-++    "   mov       %[lptr], %[ptr]\n"
-++    "1: ldxr      %w[result], [%[lptr]]\n"
-++    "   add       %w[newval], %w[result], %w[i]\n"
-++    "   stlxr     %w[status], %w[newval], [%[lptr]]\n"
-++    "   cbnz      %w[status], 1b\n"
-++    "   dmb       ish\n"
-++    : [result] "=&r" (result), [lptr] "=&r" (lptr), [newval] "=&r" (newval), [status] "=&r" (status), [i] "+r" (i), "+Q" (*ptr)
-++    : [ptr] "r" (ptr), "r" (i)
-++    : "memory");
-++
-++    return result;
-++}
-++#else
-+ #define arch_fetch_and_add(x, v) __sync_fetch_and_add(x, v)
-++#endif
++ 	/* Read message */
++ 	DBGC2 ( intel, "INTEL %p received message", intel );
++-	for ( i = 0 ; i < ( sizeof ( *msg ) / sizeof ( msg->dword[0] ) ) ; i++){
++-		msg->dword[i] = readl ( intel->regs + intel->mbox.mem +
++-					( i * sizeof ( msg->dword[0] ) ) );
++-		DBGC2 ( intel, "%c%08x", ( i ? ':' : ' ' ), msg->dword[i] );
+++	for ( i = 0 ; i < ( sizeof ( *msg ) / sizeof ( raw->dword[0] ) ) ; i++){
+++		raw->dword[i] = readl ( intel->regs + intel->mbox.mem +
+++					( i * sizeof ( raw->dword[0] ) ) );
+++		DBGC2 ( intel, "%c%08x", ( i ? ':' : ' ' ), raw->dword[i] );
++ 	}
++ 	DBGC2 ( intel, "\n" );
++ }
++diff --git a/src/drivers/net/intelvf.h b/src/drivers/net/intelvf.h
++index ab404698..ffb18e04 100644
++--- a/drivers/net/intelvf.h
+++++ b/drivers/net/intelvf.h
++@@ -119,6 +119,12 @@ struct intelvf_msg_queues {
++ 	uint32_t dflt;
++ } __attribute__ (( packed ));
 + 
-+ extern struct vcpu *__context_switch(struct vcpu *prev, struct vcpu *next);
+++/** Raw mailbox message */
+++struct intelvf_msg_raw {
+++	/** Raw dwords */
+++	uint32_t dword[0];
+++} __attribute__ (( packed ));
+++
++ /** Mailbox message */
++ union intelvf_msg {
++ 	/** Message header */
++@@ -132,7 +138,7 @@ union intelvf_msg {
++ 	/** Queue configuration message */
++ 	struct intelvf_msg_queues queues;
++ 	/** Raw dwords */
++-	uint32_t dword[0];
+++	struct intelvf_msg_raw raw;
++ };
 + 
-diff --git a/recipes-extended/xen/xen_git.bb b/recipes-extended/xen/xen_git.bb
-index 142bdcc..7765ed7 100644
---- a/recipes-extended/xen/xen_git.bb
-+++ b/recipes-extended/xen/xen_git.bb
-@@ -3,7 +3,10 @@ SRCREV ?= "9f7e8bac4ca279b3bfccb5f3730fb2e5398c95ab"
- XEN_REL ?= "4.13"
- XEN_BRANCH ?= "stable-${XEN_REL}"
++ /** Maximum time to wait for mailbox message
++-- 
++2.17.1
++
+diff --git a/recipes-extended/ipxe/ipxe_git.bb b/recipes-extended/ipxe/ipxe_git.bb
+index 47c5b7a..fbaad30 100644
+--- a/recipes-extended/ipxe/ipxe_git.bb
++++ b/recipes-extended/ipxe/ipxe_git.bb
+@@ -13,6 +13,8 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+ SRC_URI = " \
+     git://git.ipxe.org/ipxe.git;protocol=https \
+     file://ipxe-fix-hostcc-nopie-cflags.patch \
++    file://ipxe-intel-Avoid-spurious-compiler-warning-on-GCC-10.patch \
++    file://ipxe-golan-Add-explicit-type-casts-for-nodnic_queue_pair_.patch \
+     "
  
--SRC_URI = "git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}"
-+SRC_URI = " \
-+    git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
-+    file://xen-arm64-implement-atomic-fetch-add.patch \
-+    "
- 
- LIC_FILES_CHKSUM ?= "file://COPYING;md5=4295d895d4b5ce9d070263d52f030e49"
- 
+ FILES_${PN} = "/usr/share/firmware/*.rom"
 -- 
 2.17.1
 
