@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.6453.1593482155234242815
+ by mx.groups.io with SMTP id smtpd.web10.6621.1593482155342769842
  for <meta-virtualization@lists.yoctoproject.org>;
  Mon, 29 Jun 2020 18:55:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qDGasUou;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=EreHbPSb;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 1B0D3E01DBD; Mon, 29 Jun 2020 18:55:55 -0700 (PDT)
+	id 2CF40E01DBF; Mon, 29 Jun 2020 18:55:55 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,47 +20,47 @@ X-Spam-HAM-Report:
 	*      (christopher.w.clark[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.222.182 listed in list.dnswl.org]
+	*      [209.85.222.194 listed in list.dnswl.org]
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id C5BD5E01DBD
-	for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:51 -0700 (PDT)
-Received: by mail-qk1-f182.google.com with SMTP id r22so17185341qke.13
-        for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:51 -0700 (PDT)
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3FEBCE01D76
+	for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:54 -0700 (PDT)
+Received: by mail-qk1-f194.google.com with SMTP id r22so17185408qke.13
+        for <meta-virtualization@yoctoproject.org>; Mon, 29 Jun 2020 18:55:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=nKKPxcm3JWxDI5Qo5Hs8zFgAUyux4tXAtpawd58AVdA=;
-        b=qDGasUoud3kUKonUw81qsdkNUIGvJ65Ma5iKeGapKJT0qaSTEmB4hPJPkQFDJxen/S
-         eSs+tdqEaCIHzRWP1zyXeI72vWC3oQWdN6jFhU9AaMtyd1B5fvU/bIRmQRuCB/nVTlH/
-         h5As9AbfS1IGq0RAAk4YkwsFvXitFMGmURfMojdOKhlPCnDssYrrddJyHAsHfXr+9OHa
-         hob1PgC1A/fV3KEPtVE2q9Ep1Ynf335L1Zur1KDxjqeoTdez1VkGR/VR32cF9ISxJkcJ
-         lnSBYJDk0oSPM67v1Y5pPbLJmL4220dUDUUpBipTGP0S9Z7Ynku910pyjE5aGv7hEne6
-         9VSg==
+        bh=pxE/CGrE6jNfwacUm10GRnycc0tRegYeUkK32F9HD8c=;
+        b=EreHbPSb+WtlvXOdeG52KYx0DnsCi7PlZgtli4eV0Ov2tKDjO4gICdpnAsMQeT2t8E
+         s9xNxbrN7qSrIFPFm+pFjlijXqU8NpQwuaoJq85nnunQ+voTKcWQat+HKwxs6YHzP0pW
+         X9DlmMXKe7kPTxsFt9X0bqG5ncaNBrBtBcoEXJsLPSrFUx9CeBb99neXpDd2YweeEOX7
+         VAxr3EXjSf885AlcDNkt7Y5wKS10bNH749l0G0T/eaO6b7xobzAbdl5O49cIl0IIkMXu
+         +MblRz0qONOwP3/B6T1/1TS5SCEwsTTtCawuiMJUbFQbUmhsFxhBe8PZChxrAeYKEKHL
+         GU4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=nKKPxcm3JWxDI5Qo5Hs8zFgAUyux4tXAtpawd58AVdA=;
-        b=iBkaWmulWd9ccymh+lu4eaVUEOF7nqfw4LAJqX+pI+2vhb1998jV9huKhbyziDYOYw
-         /CbjKlIoNWvHWrUB52RUj5pCh9kafOB5FM69AdxeR3B22q0hrWNfBOmdpdLElgHCcKPk
-         HKI6NSbtK7IlRHPwOePJdRxLSkus+Skh/yyToU9lW5Ee/UybXHTKzevCYwQV0r3rLJe7
-         6iVicZmGods2MP4PTY7tfjaf+iXcrIImt2fZ5RiW+CqYe9eX7j8gmJs0KgcAYZyVQomD
-         tdDeb3mO+vqHvE0zoHu1gPCnkmMAZw4y/x8xkSINUHqR0UMYT3t3y2Z5qmk2srF9+2+J
-         Zlwg==
-X-Gm-Message-State: AOAM531fx6CBOrHmqcgL8F4wittQ/arGxNpFI8FkDY3jLirJ5dWGDkBj
-	BUQsL0BnV/Z7QHSWlxxKXz8W+Fh2uSg=
-X-Google-Smtp-Source: ABdhPJxchp6XGodqiOPgVG/ACqzI8+8uxs4C09y2kMKk2LalCE8fXgjLEOGAva4P1b4BjBOQfn3sGA==
-X-Received: by 2002:a37:b847:: with SMTP id i68mr17610879qkf.126.1593482150815;
-        Mon, 29 Jun 2020 18:55:50 -0700 (PDT)
+        bh=pxE/CGrE6jNfwacUm10GRnycc0tRegYeUkK32F9HD8c=;
+        b=Q1Hn1OiT++vWtX3wFwVul2/AJtfrtJy/yiI9bBb7Kbnj5X9XhzwBqd1pKH5u/qM7xU
+         XXrc8xTcBNhhbDKWLqIpfRRBzJSC1JAyDZPdc66qFEJy4SOLlEvP4t+6JrjmUao0p19Q
+         Z2xYSs4hBam7EU6mTxtu41FcOD8ngL78HPrxVfRWTaGQXXtbXiUB63/M+CN2YXIRt1ZN
+         wSQL9287Kw6ek8LeB/ZVV/beI1yUeB6O6qWAj+USr0a6z9h5pKTVlMOPFJlrPJuqlYyZ
+         37hsg7BqYLfcdTL0k87TJfd56ROEZckaFgSZiLUI3WIdv261BOPTpB5h5tHHRw7OqAgm
+         6weA==
+X-Gm-Message-State: AOAM531OkVmd8CIE4DFGTsK45MjYwRs9pV9ST9IyenUwwHahyg3glV/8
+	TCv2xdgObYfq5dU1y92BNBodAJH9y0A=
+X-Google-Smtp-Source: ABdhPJx3cmF4X6Pl72uecnbHJurPFDCJibbDeXAjg+nCUoKvz+36xU4EO8v3R1OYopy+QSiVnPhInw==
+X-Received: by 2002:a37:a8c7:: with SMTP id r190mr15736986qke.156.1593482153483;
+        Mon, 29 Jun 2020 18:55:53 -0700 (PDT)
 Received: from localhost.localdomain (mobile-166-176-186-179.mycingular.net. [166.176.186.179])
-        by smtp.gmail.com with ESMTPSA id t48sm1841794qtb.50.2020.06.29.18.55.48
+        by smtp.gmail.com with ESMTPSA id t48sm1841794qtb.50.2020.06.29.18.55.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 18:55:50 -0700 (PDT)
+        Mon, 29 Jun 2020 18:55:53 -0700 (PDT)
 From: "Christopher Clark" <christopher.w.clark@gmail.com>
 To: meta-virtualization@yoctoproject.org
 Cc: cardoe@gentoo.org,
@@ -68,145 +68,159 @@ Cc: cardoe@gentoo.org,
 	Bertrand.Marquis@arm.com,
 	cminyard@mvista.com,
 	Stewart.Hildebrand@dornerworks.com
-Subject: [meta-virtualization][PATCH v2 06/11] xen, raspberry pi: add dynamic-layer for Xen configuration for Rpi4
-Date: Mon, 29 Jun 2020 18:54:49 -0700
-Message-Id: <20200630015454.10151-7-christopher.w.clark@gmail.com>
+Subject: [meta-virtualization][PATCH v2 07/11] xen, raspberry pi 4: provide a default defconfig for raspberrypi4
+Date: Mon, 29 Jun 2020 18:54:50 -0700
+Message-Id: <20200630015454.10151-8-christopher.w.clark@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200630015454.10151-1-christopher.w.clark@gmail.com>
 References: <20200630015454.10151-1-christopher.w.clark@gmail.com>
 
-A Xen-specific u-boot script is needed for launching Xen, and the GIC
-(interrupt controller) needs to be enabled.
-
-Since this is both Xen-specific and Raspberry Pi-specific, use a
-dynamic layer to conditionally enable the recipes when both
-meta-virtualization and meta-raspberrypi are in use together.
-
 Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
 ---
- conf/layer.conf                               | 15 ++++++
- .../bootfiles/rpi-config_git.bbappend         |  6 +++
- .../rpi-u-boot-scr/files/boot.cmd.xen.in      | 49 +++++++++++++++++++
- .../rpi-u-boot-scr/rpi-u-boot-scr.bbappend    | 17 +++++++
- 4 files changed, 87 insertions(+)
- create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend
- create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
- create mode 100644 dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
+ .../xen/files/defconfig_raspberrypi4-64       | 117 ++++++++++++++++++
+ .../recipes-extended/xen/xen_git.bbappend     |  11 ++
+ 2 files changed, 128 insertions(+)
+ create mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64
+ create mode 100644 dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend
 
-diff --git a/conf/layer.conf b/conf/layer.conf
-index 142621c..1ec7a15 100644
---- a/conf/layer.conf
-+++ b/conf/layer.conf
-@@ -11,6 +11,21 @@ BBFILE_PRIORITY_virtualization-layer = "8"
- # Custom licenses used by some packages in this layer
- LICENSE_PATH += "${LAYERDIR}/files/custom-licenses"
- 
-+# The dynamic-layers directory hosts extensions and layer-specific
-+# modifications.
+diff --git a/dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64 b/dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64
+new file mode 100644
+index 0000000..f3343d3
+--- /dev/null
++++ b/dynamic-layers/raspberrypi/recipes-extended/xen/files/defconfig_raspberrypi4-64
+@@ -0,0 +1,117 @@
 +#
-+# The .bbappend and .bb files are included if the respective layer
-+# collection is available.
-+BBFILES += "${@' '.join('${LAYERDIR}/dynamic-layers/%s/recipes*/*/*.bbappend' % layer \
-+               for layer in BBFILE_COLLECTIONS.split())}"
-+BBFILES += "${@' '.join('${LAYERDIR}/dynamic-layers/%s/recipes*/*/*.bb' % layer \
-+               for layer in BBFILE_COLLECTIONS.split())}"
++# Automatically generated file; DO NOT EDIT.
++# Xen/arm 4.13.0 Configuration
++#
++CONFIG_64BIT=y
++CONFIG_ARM_64=y
++CONFIG_ARM=y
++CONFIG_ARCH_DEFCONFIG="arch/arm/configs/arm64_defconfig"
 +
-+BBFILES_DYNAMIC += " \
-+    raspberrypi:${LAYERDIR}/dynamic-layers/raspberrypi/*/*/*.bb \
-+    raspberrypi:${LAYERDIR}/dynamic-layers/rasbperrypi/*/*/*.bbappend \
-+"
++#
++# Architecture Features
++#
++CONFIG_NR_CPUS=128
++# CONFIG_ACPI is not set
++CONFIG_GICV3=y
++# CONFIG_HAS_ITS is not set
++CONFIG_HVM=y
++# CONFIG_NEW_VGIC is not set
++CONFIG_SBSA_VUART_CONSOLE=y
++CONFIG_ARM_SSBD=y
++CONFIG_HARDEN_BRANCH_PREDICTOR=y
++# CONFIG_TEE is not set
 +
- # This should only be incremented on significant changes that will
- # cause compatibility issues with other layers
- LAYERVERSION_virtualization-layer = "1"
-diff --git a/dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend b/dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend
++#
++# ARM errata workaround via the alternative framework
++#
++CONFIG_ARM64_ERRATUM_827319=y
++CONFIG_ARM64_ERRATUM_824069=y
++CONFIG_ARM64_ERRATUM_819472=y
++CONFIG_ARM64_ERRATUM_832075=y
++CONFIG_ARM64_ERRATUM_834220=y
++CONFIG_ARM64_HARDEN_BRANCH_PREDICTOR=y
++CONFIG_ALL_PLAT=y
++# CONFIG_QEMU is not set
++# CONFIG_RCAR3 is not set
++# CONFIG_MPSOC is not set
++# CONFIG_NO_PLAT is not set
++CONFIG_ALL64_PLAT=y
++# CONFIG_ALL32_PLAT is not set
++CONFIG_MPSOC_PLATFORM=y
++
++#
++# Common Features
++#
++CONFIG_GRANT_TABLE=y
++CONFIG_HAS_ALTERNATIVE=y
++CONFIG_HAS_DEVICE_TREE=y
++CONFIG_HAS_FAST_MULTIPLY=y
++# CONFIG_MEM_ACCESS is not set
++CONFIG_HAS_PDX=y
++
++#
++# Speculative hardening
++#
++CONFIG_SPECULATIVE_HARDEN_ARRAY=y
++# CONFIG_EFI_SET_VIRTUAL_ADDRESS_MAP is not set
++CONFIG_XSM=y
++CONFIG_XSM_FLASK=y
++CONFIG_XSM_FLASK_AVC_STATS=y
++# CONFIG_XSM_FLASK_POLICY is not set
++CONFIG_XSM_SILO=y
++# CONFIG_XSM_DUMMY_DEFAULT is not set
++# CONFIG_XSM_FLASK_DEFAULT is not set
++CONFIG_XSM_SILO_DEFAULT=y
++# CONFIG_ARGO is not set
++
++#
++# Schedulers
++#
++CONFIG_SCHED_CREDIT=y
++CONFIG_SCHED_CREDIT2=y
++CONFIG_SCHED_RTDS=y
++CONFIG_SCHED_ARINC653=y
++CONFIG_SCHED_NULL=y
++# CONFIG_SCHED_CREDIT_DEFAULT is not set
++CONFIG_SCHED_CREDIT2_DEFAULT=y
++# CONFIG_SCHED_RTDS_DEFAULT is not set
++# CONFIG_SCHED_ARINC653_DEFAULT is not set
++# CONFIG_SCHED_NULL_DEFAULT is not set
++CONFIG_SCHED_DEFAULT="credit2"
++# CONFIG_LIVEPATCH is not set
++# CONFIG_ENFORCE_UNIQUE_SYMBOLS is not set
++# CONFIG_SUPPRESS_DUPLICATE_SYMBOL_WARNINGS is not set
++CONFIG_CMDLINE=""
++CONFIG_DOM0_MEM=""
++CONFIG_TRACEBUFFER=y
++
++#
++# Device Drivers
++#
++CONFIG_HAS_NS16550=y
++CONFIG_HAS_CADENCE_UART=y
++CONFIG_HAS_MVEBU=y
++CONFIG_HAS_MESON=y
++CONFIG_HAS_PL011=y
++CONFIG_HAS_SCIF=y
++CONFIG_HAS_PASSTHROUGH=y
++CONFIG_ARM_SMMU=y
++# CONFIG_IPMMU_VMSA is not set
++CONFIG_IOMMU_FORCE_PT_SHARE=y
++CONFIG_DEFCONFIG_LIST="arch/arm/configs/arm64_defconfig"
++
++#
++# Debugging Options
++#
++CONFIG_DEBUG=y
++CONFIG_DEBUG_INFO=y
++CONFIG_FRAME_POINTER=y
++# CONFIG_COVERAGE is not set
++# CONFIG_DEBUG_LOCK_PROFILE is not set
++CONFIG_DEBUG_LOCKS=y
++# CONFIG_PERF_COUNTERS is not set
++CONFIG_VERBOSE_DEBUG=y
++# CONFIG_DEVICE_TREE_DEBUG is not set
++CONFIG_SCRUB_DEBUG=y
++# CONFIG_DEBUG_TRACE is not set
++CONFIG_XMEM_POOL_POISON=y
+diff --git a/dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend b/dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend
 new file mode 100644
-index 0000000..2b9c4fb
+index 0000000..995dfd3
 --- /dev/null
-+++ b/dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend
-@@ -0,0 +1,6 @@
-+do_deploy_append() {
-+    # We need the GIC enabled for Xen to work.
-+    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'yes', 'no', d)}" = "yes" ]; then
-+        echo "enable_gic=1" >> ${DEPLOYDIR}/bcm2835-bootfiles/config.txt
-+    fi
-+}
-diff --git a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
-new file mode 100644
-index 0000000..6c38d7d
---- /dev/null
-+++ b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/files/boot.cmd.xen.in
-@@ -0,0 +1,49 @@
-+# Set the fdt address to what came from the GPU, so we can edit it
-+fdt addr ${fdt_addr}
-+
-+# Pull the bootargs that the GPU has edited
-+fdt get value bootargs /chosen bootargs
-+
-+# Set module load addresses
-+setenv xen_loadaddr     "0x00200000"
-+setenv kernel_loadaddr  "0x00400000"
-+
-+# Add some space to the fdt so we can edit it
-+fdt resize 0x1000
-+echo Add boot arguments for Xen
-+fdt set /chosen xen,xen-bootargs "console=dtuart dtuart=/soc/serial@7e215040 dom0_mem='@@RPI_DOM0_MEM@@' @@RPI_DEBUG_XEN_ARGS@@"
-+
-+echo Add boot arguments for dom0
-+setenv dom0_bootargs "console=hvc0 earlyprintk=xen debug root=/dev/mmcblk0p2 rootwait"
-+fdt set /chosen xen,dom0-bootargs \"${dom0_bootargs}\"
-+
-+echo Add a dom0 node to chosen to put Linux boot information in
-+fdt mknode /chosen dom0
-+
-+echo Set this for the Linux boot command
-+fdt set /chosen/dom0 compatible "xen,linux-zimage", "xen,multiboot-module"
-+
-+# Tell Xen where PCI is
-+fdt set /scb/pcie@7d500000 device_type "pci"
-+
-+echo Delay to allow the MMC card to be ready
-+sleep 1
-+
-+echo Load Xen into memory
-+fatload mmc 0:1 ${xen_loadaddr} xen
-+echo Load Linux kernel into memory
-+fatload mmc 0:1 ${kernel_loadaddr} Image
-+setenv kernel_size 0x$filesize
-+
-+echo Set the address and size for the Linux kernel so Xen can pick it up
-+fdt set /chosen/dom0 reg <${kernel_loadaddr} ${kernel_size}>
-+
-+# Define the size and address cells
-+fdt set /chosen '#size-cells' <1>
-+fdt set /chosen '#address-cells' <1>
-+
-+# Display the chosen fdt section - can be important for debugging
-+fdt print /chosen
-+
-+echo Boot Xen
-+booti ${xen_loadaddr} - ${fdt_addr}
-diff --git a/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
-new file mode 100644
-index 0000000..2a51116
---- /dev/null
-+++ b/dynamic-layers/raspberrypi/recipes-bsp/rpi-u-boot-scr/rpi-u-boot-scr.bbappend
-@@ -0,0 +1,17 @@
++++ b/dynamic-layers/raspberrypi/recipes-extended/xen/xen_git.bbappend
+@@ -0,0 +1,11 @@
 +FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 +
-+RPI_DOM0_MEM ??= "256M"
-+RPI_DEBUG_XEN_ARGS ??= "sync_console bootscrub=0"
++SRC_URI_append_raspberrypi4-64 = " \
++    file://defconfig_raspberrypi4-64 \
++    "
 +
-+SRC_URI += "file://boot.cmd.xen.in"
-+
-+# If the distro is Xen enabled, override the default boot.cmd.in with the
-+# alternative boot.cmd.xen.in from this layer, with variables subsitution here
-+do_compile_append() {
-+    if [ "${@bb.utils.contains('DISTRO_FEATURES', 'xen', 'yes', 'no', d)}" = "yes" ]; then
-+        sed -e 's/@@RPI_DOM0_MEM@@/${RPI_DOM0_MEM}/' \
-+            -e 's/@@RPI_DEBUG_XEN_ARGS@@/${RPI_DEBUG_XEN_ARGS}/' \
-+                "${WORKDIR}/boot.cmd.xen.in" > "${WORKDIR}/boot.cmd"
-+        mkimage -A arm -T script -C none -n "Boot script" -d "${WORKDIR}/boot.cmd" boot.scr
++do_post_patch_append_raspberrypi4-64() {
++    if [ ! -e "${WORKDIR}/defconfig" ] ; then
++        cp "${WORKDIR}/defconfig_raspberrypi4-64" "${WORKDIR}/defconfig"
 +    fi
 +}
 -- 
