@@ -1,90 +1,83 @@
 Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
- by mx.groups.io with SMTP id smtpd.web10.10084.1593706180149964906
+ by mx.groups.io with SMTP id smtpd.web12.10285.1593706232315452117
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 02 Jul 2020 09:09:40 -0700
+ Thu, 02 Jul 2020 09:10:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=fUR3ADfD;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ij8D7+zL;
  spf=pass (domain: gmail.com, ip: 209.85.208.68, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f68.google.com with SMTP id e15so24581907edr.2
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Jul 2020 09:09:39 -0700 (PDT)
+Received: by mail-ed1-f68.google.com with SMTP id d18so18908343edv.6
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 02 Jul 2020 09:10:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iQL/IaWmNACjocTRccgwtnNc0EstucWfkA0T4sROdNw=;
-        b=fUR3ADfDVFHWmdrpmrcScSZffPSKA8QU7Kja7jw5pv13Y83nLAnbP+UmoSQNCid6pG
-         MsEXYP8ViuPz9InJeGeySaz+lttqWYD0iWHC5Z0Ils+FdxYSJZeZM17zG1ZNDILO+2y/
-         28MXpyLGGmxpe0SagkeuEBv66eLDrVdzWpEuFqG3Wk2bEKhlEAnM/vCjy94ips5wmczB
-         4SmrjdbIfOJS+CRFT6d5tC7Q5yzUFfqzkSXZWp8LVLRe2tXPY+1qVHQ68VdLsLUg4MNv
-         JejnOqEc42sVg2pTxux1CjXCexk7Mbhb23wNb/am+Qj3EYJOXb1RhQYJnlPuMZAoWXj+
-         ojdw==
+        bh=AuPCyZXXG2VKqdyV7tCmM6uzF5ex3oGqpC+hc4g6cIQ=;
+        b=ij8D7+zLNYhcHyDAPAVcG+KSnBJ/6/PxCTCjbGSHfFLD/QDJ9wi2aAh9xngeS2ncs0
+         7do2Awz9gEy4MEEVa4XzPiMWQIlRT7AXRGaFcK4BH5KZ+WiZvO+wrKXOPC1ercAnVFnN
+         OY7IRfVBx4Wc0dOep/rvK3oHATatU/EsYzphysx2IiFcXzEkVa5QJD2m4XhyWY5PUHuw
+         7bOGsmB/w9Y/cy6cgF5hI9MgKxYvZny9plRz7iSfgokwQIKhmm1sveocVRNZ2U5+I0W8
+         V2JCDxv2zMtinnxKBaNpV1ZOTKgo0DpKUXp7FRMobpsxzEv5reb53hXq2SbnPL40I1iS
+         btxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iQL/IaWmNACjocTRccgwtnNc0EstucWfkA0T4sROdNw=;
-        b=LwgdvDk3vGoOqH2Mt5R70TCHtMaJy+VtpOA0IWR/Lui5XlcUxGFbkKwqKXYvfSoPDK
-         bMo2DlOLEvP4dUHsU5nj8a9N3xnC0tHJWc82US1zjkSJY1Q6bbwzeitQ7d2xUNeJIlx+
-         4+dQ+D/sGIEm9AIZPd68qbbwQ/0zE/6BAvFZ4WeVMooqwj9Wlk0BuB49LE20mdSFB/rk
-         k0/gBS7y05QgXUzJwXyE4b7XuuKNM4ux4Qg/p9tMJNT9DGQ/xd3wbPjMLaP8dMf/Q3yr
-         1xCcx3ZqdwrVeY2clk7526MeH6L9xyTxgBO8yRtBo9Iar0hybxLEQIxFvy0uP6Fyhmxg
-         mDAg==
-X-Gm-Message-State: AOAM5331M00wahY+sCjI8pg88ZQXg5TBwq4lfJSJF5wttIiguGfXqoSc
-	z6EFuf1d7wUzVxOXTCN9a/NqCPIiF29K7azF0ZQ=
-X-Google-Smtp-Source: ABdhPJz/Baij2jAWWwTMrf4rrKLcpenGOMwt8vMPKDvF+FZDqtTPODN4iVCEFbUrrQVsW0UeJ/4jMfBPN9z1h8tPNSw=
-X-Received: by 2002:aa7:c2cf:: with SMTP id m15mr11128849edp.27.1593706178741;
- Thu, 02 Jul 2020 09:09:38 -0700 (PDT)
+        bh=AuPCyZXXG2VKqdyV7tCmM6uzF5ex3oGqpC+hc4g6cIQ=;
+        b=l0MKALCZBJrQ6GN/jT6gLwAaxXFwU7QC6scL9aj5Ab1xV1VejebVvnWnDRGVsUqBT/
+         T9KsQl3FIRd2CzO3tohMSMgVDTFkAEnNdr8UJBiMuD3nFSLzn3xVAESf2j3J+KcuOeWL
+         ihMkDfEqSE1S1LriMSFKOzxFS8nG5/9iU21xwOQby1OUVOyibJ5LWpVIpTwWWaHtrpSN
+         geaZqvAdwtcQ105G5Lhc45q6VN9EbKp5NNQXiZCmxIzvApzHqPEcCtZMhnBHgfrzlhq1
+         aKX7udyjEwTGUmXD33KMvayyOiKiuPo3zIiqdCIRejwWRZd0pIONvvhcMxVC4OP6JUy7
+         3YrQ==
+X-Gm-Message-State: AOAM5310GdEltUOnKE3/iOUsfULF79XpAaUwfmpjRL7IvSUxkJ0UEK+k
+	8rYq1HzYdFJhkzPEk4F3YZdwSxk7lplsq3JyByC7oUoi3Y4=
+X-Google-Smtp-Source: ABdhPJyhfCJBlldbZIcHp8rZ7rlnMzWe9K8NGf/mk77OgNoiS5gIwLcC2/XcoLsf2bncmT7Fx6qqTlbgazYcJtIWOb0=
+X-Received: by 2002:a50:f385:: with SMTP id g5mr34269015edm.347.1593706230888;
+ Thu, 02 Jul 2020 09:10:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200702153907.75805-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20200702153907.75805-1-Martin.Jansa@gmail.com>
+References: <20200702153907.75805-1-Martin.Jansa@gmail.com> <20200702153907.75805-2-Martin.Jansa@gmail.com>
+In-Reply-To: <20200702153907.75805-2-Martin.Jansa@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 2 Jul 2020 12:09:27 -0400
-Message-ID: <CADkTA4PpjKV2wZ4ih2D7ycPbuPwN5Ps0HFCheoMNgP4Hb0B7=Q@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH 1/2] docker-ce: remove unused docker-registry.service file
+Date: Thu, 2 Jul 2020 12:10:19 -0400
+Message-ID: <CADkTA4NvVO4_1e_5XpMEhM1AN2yYzj01BAvUpgmwKv1kF+JvXw@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 2/2] docker: move docker.init back to files directory to use it from docker-moby
 To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org, 
 	Martin Jansa <martin.jansa@lge.com>
 Content-Type: text/plain; charset="UTF-8"
 
-merged
-
-Bruce
-
 On Thu, Jul 2, 2020 at 11:39 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
 >
 > From: Martin Jansa <martin.jansa@lge.com>
 >
+> * it was moved for some reason in:
+>   http://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/commit/?id=929372946aeb85953d1ca6acc428d73fbac52a56
+
+None of the patches are really common anymore, and there were some
+duplicated once (I was hacking an unused one for a while).
+
+Thanks for fixing up that miss on the one common file.
+
+merged.
+
+Bruce
+
+>
+>   but docker-moby uses it as well and now started to fail with:
+>   ERROR: docker-moby-19.03.12+git9dc6525e6118a25fab2be322d1914740ea842495-r0
+>   do_fetch: Fetcher failure: Unable to find file file://docker.init
+>   anywhere. ..
+>
 > Signed-off-by: Martin Jansa <martin.jansa@lge.com>
 > ---
->  .../docker/docker-ce/docker-registry.service  | 19 -------------------
->  1 file changed, 19 deletions(-)
->  delete mode 100644 recipes-containers/docker/docker-ce/docker-registry.service
+>  recipes-containers/docker/{docker-ce => files}/docker.init | 0
+>  1 file changed, 0 insertions(+), 0 deletions(-)
+>  rename recipes-containers/docker/{docker-ce => files}/docker.init (100%)
 >
-> diff --git a/recipes-containers/docker/docker-ce/docker-registry.service b/recipes-containers/docker/docker-ce/docker-registry.service
-> deleted file mode 100644
-> index 7b4bc46..0000000
-> --- a/recipes-containers/docker/docker-ce/docker-registry.service
-> +++ /dev/null
-> @@ -1,19 +0,0 @@
-> -[Unit]
-> -Description=docker private registry service
-> -After=docker.service
-> -
-> -[Service]
-> -ExecStartPre=-/usr/bin/docker kill registry
-> -ExecStartPre=-/usr/bin/docker rm registry
-> -ExecStart=/usr/bin/docker run --name registry -v /mirror/registry:/tmp/ -p 5000:5000 \
-> -                          -e "STANDALONE=true" \
-> -                          -e "MIRROR_SOURCE=https://registry-1.docker.io" \
-> -                          -e "MIRROR_SOURCE_INDEX=https://index.docker.io" \
-> -                          -e "SETTINGS_FLAVOR=local" \
-> -                          registry
-> -ExecStop=-/usr/bin/docker stop registry
-> -Restart=always
-> -RestartSec=10s
-> -
-> -[Install]
-> -WantedBy=multi-user.target
+> diff --git a/recipes-containers/docker/docker-ce/docker.init b/recipes-containers/docker/files/docker.init
+> similarity index 100%
+> rename from recipes-containers/docker/docker-ce/docker.init
+> rename to recipes-containers/docker/files/docker.init
 > --
 > 2.25.1
 >
