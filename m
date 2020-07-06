@@ -1,309 +1,103 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web10.6900.1593768550100804112
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web11.53749.1594024663291753657
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 03 Jul 2020 02:29:10 -0700
+ Mon, 06 Jul 2020 01:37:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: haitao.liu@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0639T8Yk026788
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Fri, 3 Jul 2020 02:29:09 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 3 Jul
- 2020 02:29:08 -0700
-From: "jason.lau" <Haitao.Liu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-CC: <haitao.liu@windriver.com>
-Subject: [meta-virtualization][master][dunfell][PATCH] ceph: fix CVE-2020-10736
-Date: Fri, 3 Jul 2020 17:28:26 +0800
-Message-ID: <1593768506-99771-1-git-send-email-haitao.liu@windriver.com>
-X-Mailer: git-send-email 1.9.1
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id B9A83E01E0B; Mon,  6 Jul 2020 01:37:42 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+	TVD_SPACE_RATIO autolearn=ham version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
+	*      medium trust
+	*      [183.91.158.132 listed in list.dnswl.org]
+	*  0.0 TVD_SPACE_RATIO TVD_SPACE_RATIO
+X-Greylist: delayed 65 seconds by postgrey-1.32 at yocto-www; Mon, 06 Jul 2020 01:37:40 PDT
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 5AF8CE01E06
+	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jul 2020 01:37:40 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.75,318,1589212800"; 
+   d="scan'208";a="95816833"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 06 Jul 2020 16:36:31 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 226F44CE4B3C
+	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jul 2020 16:36:30 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Mon, 6 Jul 2020 16:36:32 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python3-fasteners: Remove recipe
+Date: Mon, 6 Jul 2020 16:36:24 +0800
+Message-ID: <1594024588-6636-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD05.g08.fujitsu.local (10.167.33.203) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 226F44CE4B3C.A2054
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
 
-An authorization bypass vulnerability was found in Ceph versions 15.2.0 before 15.2.2,
-where the ceph-mon and ceph-mgr daemons do not properly restrict access, resulting in 
-gaining access to unauthorized resources. This flaw allows an authenticated client to 
-modify the configuration and possibly conduct further attacks.
+This recipe already exists in meta-openembedded, the path is:
+/meta-openembedded/meta-python/recipes-devtools/python/python3-fasteners_0.15.bb
 
-Upstream patches:
-
-[master] https://github.com/ceph/ceph/commit/c7e7009a690621aacd4ac2c70c6469f25d692868
-[v15.2.2] https://github.com/ceph/ceph/commit/f2cf2ce1bd9a86462510a7a12afa4e528b615df2
-
-
-CVE: CVE-2020-10736
-
-Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- ...l-caps-for-pre-octopus-tell-commands.patch | 100 ++++++++++++++++++
- ...-for-pre-octopus-client-tell-command.patch |  95 +++++++++++++++++
- ...ReleaseNotes-note-about-security-fix.patch |  31 ++++++
- recipes-extended/ceph/ceph_15.2.0.bb          |   3 +
- 4 files changed, 229 insertions(+)
- create mode 100644 recipes-extended/ceph/ceph/0001-mgr-require-all-caps-for-pre-octopus-tell-commands.patch
- create mode 100644 recipes-extended/ceph/ceph/0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch
- create mode 100644 recipes-extended/ceph/ceph/0003-PendingReleaseNotes-note-about-security-fix.patch
+ .../python/python-fasteners.inc               | 24 -------------------
+ .../python/python3-fasteners_git.bb           |  2 --
+ 2 files changed, 26 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-fasteners.inc
+ delete mode 100644 meta-openstack/recipes-devtools/python/python3-fasteners_git.bb
 
-diff --git a/recipes-extended/ceph/ceph/0001-mgr-require-all-caps-for-pre-octopus-tell-commands.patch b/recipes-extended/ceph/ceph/0001-mgr-require-all-caps-for-pre-octopus-tell-commands.patch
-new file mode 100644
-index 0000000..de191bf
---- /dev/null
-+++ b/recipes-extended/ceph/ceph/0001-mgr-require-all-caps-for-pre-octopus-tell-commands.patch
-@@ -0,0 +1,100 @@
-+From de67c1dab5597c91538970421b25f6ec667af492 Mon Sep 17 00:00:00 2001
-+From: Josh Durgin <jdurgin@redhat.com>
-+Date: Mon, 4 May 2020 17:03:35 -0400
-+Subject: [PATCH 1/3] mgr: require all caps for pre-octopus tell commands
-+
-+This matches the requirements for admin socket commands
-+sent via tell elsewhere.
-+
-+Signed-off-by: Josh Durgin <jdurgin@redhat.com>
-+
-+Upstream-status: Backport
-+[https://github.com/ceph/ceph/commit/347003e13167c428187a5450517850f4d85e09ad]
-+
-+Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
-+---
-+ src/mgr/DaemonServer.cc | 37 ++++++++++++++++++++++---------------
-+ 1 file changed, 22 insertions(+), 15 deletions(-)
-+
-+diff --git a/src/mgr/DaemonServer.cc b/src/mgr/DaemonServer.cc
-+index becd428a..527326e3 100644
-+--- a/src/mgr/DaemonServer.cc
-++++ b/src/mgr/DaemonServer.cc
-+@@ -808,20 +808,12 @@ public:
-+ bool DaemonServer::handle_command(const ref_t<MCommand>& m)
-+ {
-+   std::lock_guard l(lock);
-+-  // a blank fsid in MCommand signals a legacy client sending a "mon-mgr" CLI
-+-  // command.
-+-  if (m->fsid != uuid_d()) {
-+-    cct->get_admin_socket()->queue_tell_command(m);
-++  auto cmdctx = std::make_shared<CommandContext>(m);
-++  try {
-++    return _handle_command(cmdctx);
-++  } catch (const bad_cmd_get& e) {
-++    cmdctx->reply(-EINVAL, e.what());
-+     return true;
-+-  } else {
-+-    // legacy client; send to CLI processing
-+-    auto cmdctx = std::make_shared<CommandContext>(m);
-+-    try {
-+-      return _handle_command(cmdctx);
-+-    } catch (const bad_cmd_get& e) {
-+-      cmdctx->reply(-EINVAL, e.what());
-+-      return true;
-+-    }
-+   }
-+ }
-+ 
-+@@ -853,8 +845,12 @@ bool DaemonServer::_handle_command(
-+   std::shared_ptr<CommandContext>& cmdctx)
-+ {
-+   MessageRef m;
-++  bool admin_socket_cmd = false;
-+   if (cmdctx->m_tell) {
-+     m = cmdctx->m_tell;
-++    // a blank fsid in MCommand signals a legacy client sending a "mon-mgr" CLI
-++    // command.
-++    admin_socket_cmd = (cmdctx->m_tell->fsid != uuid_d());
-+   } else {
-+     m = cmdctx->m_mgr;
-+   }
-+@@ -888,7 +884,10 @@ bool DaemonServer::_handle_command(
-+ 
-+   dout(10) << "decoded-size=" << cmdctx->cmdmap.size() << " prefix=" << prefix  << dendl;
-+ 
-+-  if (prefix == "get_command_descriptions") {
-++  // this is just for mgr commands - admin socket commands will fall
-++  // through and use the admin socket version of
-++  // get_command_descriptions
-++  if (prefix == "get_command_descriptions" && !admin_socket_cmd) {
-+     dout(10) << "reading commands from python modules" << dendl;
-+     const auto py_commands = py_modules.get_commands();
-+ 
-+@@ -925,7 +924,10 @@ bool DaemonServer::_handle_command(
-+ 
-+   bool is_allowed = false;
-+   ModuleCommand py_command;
-+-  if (!mgr_cmd) {
-++  if (admin_socket_cmd) {
-++    // admin socket commands require all capabilities
-++    is_allowed = session->caps.is_allow_all();
-++  } else if (!mgr_cmd) {
-+     // Resolve the command to the name of the module that will
-+     // handle it (if the command exists)
-+     auto py_commands = py_modules.get_py_commands();
-+@@ -958,6 +960,11 @@ bool DaemonServer::_handle_command(
-+     << "entity='" << session->entity_name << "' "
-+     << "cmd=" << cmdctx->cmd << ": dispatch";
-+ 
-++  if (admin_socket_cmd) {
-++    cct->get_admin_socket()->queue_tell_command(cmdctx->m_tell);
-++    return true;
-++  }
-++
-+   // ----------------
-+   // service map commands
-+   if (prefix == "service dump") {
-+-- 
-+2.25.1
-+
-diff --git a/recipes-extended/ceph/ceph/0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch b/recipes-extended/ceph/ceph/0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch
-new file mode 100644
-index 0000000..79f2174
---- /dev/null
-+++ b/recipes-extended/ceph/ceph/0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch
-@@ -0,0 +1,95 @@
-+From ddbac9b2779172876ebd2d26b68b04b02350a125 Mon Sep 17 00:00:00 2001
-+From: Josh Durgin <jdurgin@redhat.com>
-+Date: Thu, 23 Apr 2020 00:22:10 -0400
-+Subject: [PATCH 2/3] mon: enforce caps for pre-octopus client tell commands
-+
-+This affects only the commands whitelisted here - in particular
-+injectargs requires write access to the monitors.
-+
-+Signed-off-by: Josh Durgin <jdurgin@redhat.com>
-+
-+Upstream-status: Backport 
-+[https://github.com/ceph/ceph/commit/fc5e56b75a97c4652c87e9959aad1c4dec45010d]
-+
-+Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
-+---
-+ src/mon/Monitor.cc | 56 +++++++++++++++++++++++-----------------------
-+ 1 file changed, 28 insertions(+), 28 deletions(-)
-+
-+diff --git a/src/mon/Monitor.cc b/src/mon/Monitor.cc
-+index b7cb3eae..eecd2f68 100644
-+--- a/src/mon/Monitor.cc
-++++ b/src/mon/Monitor.cc
-+@@ -3226,34 +3226,6 @@ void Monitor::handle_command(MonOpRequestRef op)
-+     return;
-+   }
-+ 
-+-  // compat kludge for legacy clients trying to tell commands that are
-+-  // new.  see bottom of MonCommands.h.  we need to handle both (1)
-+-  // pre-octopus clients and (2) octopus clients with a mix of pre-octopus
-+-  // and octopus mons.
-+-  if ((!HAVE_FEATURE(m->get_connection()->get_features(), SERVER_OCTOPUS) ||
-+-       monmap->min_mon_release < ceph_release_t::octopus) &&
-+-      (prefix == "injectargs" ||
-+-       prefix == "smart" ||
-+-       prefix == "mon_status" ||
-+-       prefix == "heap")) {
-+-    if (m->get_connection()->get_messenger() == 0) {
-+-      // Prior to octopus, monitors might forward these messages
-+-      // around. that was broken at baseline, and if we try to process
-+-      // this message now, it will assert out when we try to send a
-+-      // message in reply from the asok/tell worker (see
-+-      // AnonConnection).  Just reply with an error.
-+-      dout(5) << __func__ << " failing forwarded command from a (presumably) "
-+-	      << "pre-octopus peer" << dendl;
-+-      reply_command(
-+-	op, -EBUSY,
-+-	"failing forwarded tell command in mixed-version mon cluster", 0);
-+-      return;
-+-    }
-+-    dout(5) << __func__ << " passing command to tell/asok" << dendl;
-+-    cct->get_admin_socket()->queue_tell_command(m);
-+-    return;
-+-  }
-+-
-+   string module;
-+   string err;
-+ 
-+@@ -3368,6 +3340,34 @@ void Monitor::handle_command(MonOpRequestRef op)
-+       << "entity='" << session->entity_name << "' "
-+       << "cmd=" << m->cmd << ": dispatch";
-+ 
-++  // compat kludge for legacy clients trying to tell commands that are
-++  // new.  see bottom of MonCommands.h.  we need to handle both (1)
-++  // pre-octopus clients and (2) octopus clients with a mix of pre-octopus
-++  // and octopus mons.
-++  if ((!HAVE_FEATURE(m->get_connection()->get_features(), SERVER_OCTOPUS) ||
-++       monmap->min_mon_release < ceph_release_t::octopus) &&
-++      (prefix == "injectargs" ||
-++       prefix == "smart" ||
-++       prefix == "mon_status" ||
-++       prefix == "heap")) {
-++    if (m->get_connection()->get_messenger() == 0) {
-++      // Prior to octopus, monitors might forward these messages
-++      // around. that was broken at baseline, and if we try to process
-++      // this message now, it will assert out when we try to send a
-++      // message in reply from the asok/tell worker (see
-++      // AnonConnection).  Just reply with an error.
-++      dout(5) << __func__ << " failing forwarded command from a (presumably) "
-++	      << "pre-octopus peer" << dendl;
-++      reply_command(
-++	op, -EBUSY,
-++	"failing forwarded tell command in mixed-version mon cluster", 0);
-++      return;
-++    }
-++    dout(5) << __func__ << " passing command to tell/asok" << dendl;
-++    cct->get_admin_socket()->queue_tell_command(m);
-++    return;
-++  }
-++
-+   if (mon_cmd->is_mgr()) {
-+     const auto& hdr = m->get_header();
-+     uint64_t size = hdr.front_len + hdr.middle_len + hdr.data_len;
-+-- 
-+2.25.1
-+
-diff --git a/recipes-extended/ceph/ceph/0003-PendingReleaseNotes-note-about-security-fix.patch b/recipes-extended/ceph/ceph/0003-PendingReleaseNotes-note-about-security-fix.patch
-new file mode 100644
-index 0000000..ed2a63e
---- /dev/null
-+++ b/recipes-extended/ceph/ceph/0003-PendingReleaseNotes-note-about-security-fix.patch
-@@ -0,0 +1,31 @@
-+From 56800925651857821034ac9c8ec82d45635cc3b8 Mon Sep 17 00:00:00 2001
-+From: Josh Durgin <jdurgin@redhat.com>
-+Date: Wed, 13 May 2020 21:34:56 -0700
-+Subject: [PATCH 3/3] PendingReleaseNotes: note about security fix
-+
-+Signed-off-by: Josh Durgin <jdurgin@redhat.com>
-+
-+Upstream-status: Backport 
-+[https://github.com/ceph/ceph/commit/06f239fc35f35865d2cf92dda1ac8f4d5fe82bde]
-+
-+Signed-off-by: Liu Haitao <haitao.liu@windriver.com>
-+---
-+ PendingReleaseNotes | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/PendingReleaseNotes b/PendingReleaseNotes
-+index c9fd4c79..6e07ce6d 100644
-+--- a/PendingReleaseNotes
-++++ b/PendingReleaseNotes
-+@@ -1,6 +1,8 @@
-+ >=15.0.0
-+ --------
-+ 
-++* CVE-2020-10736: Fixes an authorization bypass in monitor and manager daemons
-++
-+ * The RGW "num_rados_handles" has been removed.
-+   * If you were using a value of "num_rados_handles" greater than 1
-+     multiply your current "objecter_inflight_ops" and 
-+-- 
-+2.25.1
-+
-diff --git a/recipes-extended/ceph/ceph_15.2.0.bb b/recipes-extended/ceph/ceph_15.2.0.bb
-index e41aa2f..9423faa 100644
---- a/recipes-extended/ceph/ceph_15.2.0.bb
-+++ b/recipes-extended/ceph/ceph_15.2.0.bb
-@@ -17,6 +17,9 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
-            file://0001-rgw-reject-unauthenticated-response-header-actions.patch \
-            file://0001-rgw-EPERM-to-ERR_INVALID_REQUEST.patch \
-            file://0001-rgw-reject-control-characters-in-response-header-act.patch \
-+           file://0001-mgr-require-all-caps-for-pre-octopus-tell-commands.patch \ 
-+           file://0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch \
-+           file://0003-PendingReleaseNotes-note-about-security-fix.patch \
- "
- 
- SRC_URI[md5sum] = "1f9af648b4c6d19975aab2583ab99710"
+diff --git a/meta-openstack/recipes-devtools/python/python-fasteners.inc b/meta-openstack/recipes-devtools/python/python-fasteners.inc
+deleted file mode 100644
+index 6e5e5f0..0000000
+--- a/meta-openstack/recipes-devtools/python/python-fasteners.inc
++++ /dev/null
+@@ -1,24 +0,0 @@
+-DESCRIPTION = "A python package that provides useful locks."
+-HOMEPAGE = "https://github.com/harlowja/fasteners"
+-SECTION = "devel/python"
+-LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=4476c4be31402271e101d9a4a3430d52"
+-
+-SRCNAME = "fasteners"
+-
+-PV = "0.15+git${SRCPV}"
+-SRCREV = "75148cb679c351966cd4ad5e9d177048a0ea8380"
+-
+-SRC_URI = "git://github.com/harlowja/${SRCNAME}.git"
+-
+-S = "${WORKDIR}/git"
+-
+-DEPENDS += " \
+-        ${PYTHON_PN}-pip \
+-        ${PYTHON_PN}-pbr \
+-        "
+-
+-# RDEPENDS_default:
+-RDEPENDS_${PN} += " \
+-        ${PYTHON_PN}-pbr \
+-        "
+diff --git a/meta-openstack/recipes-devtools/python/python3-fasteners_git.bb b/meta-openstack/recipes-devtools/python/python3-fasteners_git.bb
+deleted file mode 100644
+index 9b2053c..0000000
+--- a/meta-openstack/recipes-devtools/python/python3-fasteners_git.bb
++++ /dev/null
+@@ -1,2 +0,0 @@
+-inherit setuptools3
+-require python-fasteners.inc
 -- 
-2.25.1
+2.17.1
+
+
 
