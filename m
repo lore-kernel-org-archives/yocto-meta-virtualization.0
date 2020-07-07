@@ -1,112 +1,96 @@
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
- by mx.groups.io with SMTP id smtpd.web10.1974.1594067493341572357
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web11.8256.1594088364921499438
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 06 Jul 2020 13:31:33 -0700
+ Mon, 06 Jul 2020 19:19:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=WWvePsJg;
- spf=pass (domain: gmail.com, ip: 209.85.160.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f196.google.com with SMTP id u12so30051162qth.12
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 06 Jul 2020 13:31:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=a2UZF6Nh;
+ spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 7C3CCE01E16; Mon,  6 Jul 2020 19:19:24 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
+	*      (christopher.w.clark[at]gmail.com)
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
+	*       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.160.196 listed in list.dnswl.org]
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 66A02E01E14
+	for <meta-virtualization@yoctoproject.org>; Mon,  6 Jul 2020 19:19:22 -0700 (PDT)
+Received: by mail-qt1-f196.google.com with SMTP id u12so30622313qth.12
+        for <meta-virtualization@yoctoproject.org>; Mon, 06 Jul 2020 19:19:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=ERq+VayzkJzk5FUkOCgzlGaOIb1OWAZmqdaBO6+IBhM=;
-        b=WWvePsJgmea1VnFNE51ji+MT3E6qHNuTZbfBN+txdyH0xdRhj7mTTxvmrEfMgOReZl
-         +lHU9JM6j8sa8uHhDLEQVBdXeRB6omqQaaeMhQP9iRyqferA0P1Zej/wXlVU7YDmT4Hs
-         BTEhW4cKDkRaPENBkgXiHe6ijMTNKCJBgs9M/MWtf289/5Eonf2S5F29PvxTgHGNoL7Q
-         AVZFYHdOjh8Us3nB8azqbizVVLfVboisXv/YLG5Nj0Z1oBsiW2iLnirMUlOkHH1N/MRn
-         wGhZReUrh7pfC4qXJ10wEIwCDjDwI2/EH9Y8QHXgsO4vw766Z9EcBomJfpzchDDrygD/
-         HeUw==
+        h=from:to:cc:subject:date:message-id;
+        bh=0jmtx6wrJSMpRLirwb+XEr9zdTO5wI2Vnm/3JtptlB8=;
+        b=a2UZF6NhRyYBdVf5Iaf/H4lzYBnalCPY31cbvucZq0SRFwqDcRijsVaAye+csHRA4V
+         lyxhEucntodLzSXGjpHyQeYXB8plYwlfpZnHlmtch796GRmvrmS1NEtXiFWBcWYfYU7H
+         sop3/iTU0MSJ7ra6Qi9hdcfxsNop8a+tlcdf52eZas4YtflicXUVVaSOUeoojq0ng/2y
+         y0wpYNuq5qEJh8fJGYCV/uaGUWPSIm05RTxna15iCNojcd16nG9agSzAileySdrkeZKv
+         C2wQMpa1wcouGNcCKSRwWmjw7BBn5bcVzVm/nUOCA47V+W+sG3y9wcGUxqvzdpsIZR/f
+         xhcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=ERq+VayzkJzk5FUkOCgzlGaOIb1OWAZmqdaBO6+IBhM=;
-        b=QC+7ivmXww/VIMZ0xZf6D3aV8TgzKUHz2dTvnLN9esbYwUeTWnXscoBHXBx9jeEupc
-         1tmPB0qHXhrUu6j2UGvep3r7bWLqZCBWwkvTihrBFxObl04wIxD/37btYWhvn7Vew5Fk
-         dEDOEHas9Vzcwb3KPsJ15MCcHXAxiK6YTuEGJzurnAhj2fjLavd7soqWqvG0K7vYdUP5
-         4bLTOTFlwajNQh7jjpW4GtHw47PZ6tYDHJ5NmHbFMn5po23MhfGYWapatlnjGrfz6V6u
-         MDQ9vijGj7C2aWjKD1er6OMNoD/Er6eFmef21/Gob47qa3Ee4gB1L94GJ2qTd7VnAeqe
-         2IqQ==
-X-Gm-Message-State: AOAM531nnjAo2Npbe6irN9C4QBGnodLGoSQa7rlwxtciCSQOsOhQaEUV
-	QccVWKGr6fzj5XSNgTxg+MlohnwhhqmYIw==
-X-Google-Smtp-Source: ABdhPJx+oZH7qHN0t/7DDg8TwrcIzFwAKmkC7bRNeGr5P+IkxIvueR3pGHfTmL4t25oiHAGxHBsC0A==
-X-Received: by 2002:ac8:314c:: with SMTP id h12mr51489889qtb.128.1594067492354;
-        Mon, 06 Jul 2020 13:31:32 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id j52sm24684194qtc.49.2020.07.06.13.31.31
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=0jmtx6wrJSMpRLirwb+XEr9zdTO5wI2Vnm/3JtptlB8=;
+        b=r5XgexhJfE9fGiFalmdmCRijh3hDnKisbdx8PMEGFwFqFe+ClQBTfbIJ9S6UIvJLyv
+         Y+o/QGJQ0trwetesTulbct2drNdrDt2i9asByl+1hHPUViLdvmq2zIVKAjjEWcckXxZx
+         HsInV3AWwjyRlD/Odf8VR29eKH/JlKNs1b65fLunSGN12WdvW0vVzMCnWxYN74Q5CHzY
+         xguvfhsAXv9wNUnp9kU9KyG3v2xB+6OmET4QpKT/86kmYktP4mw/e05Zy0PfEMZhUjj+
+         u5r+42sOUu6Jm7Bt1DtWtl4UfuO/4jG16UdnoZ1JCiDSONZqRJmkGAKxOkDhJno50s3t
+         MB2w==
+X-Gm-Message-State: AOAM533rEyYZ64AXv8bmFAKSiccOCbt0O0F2Y+P7T8N4/65XAPKQHLEu
+	JVqH5nPaGA1by3UbI+bia02o1+Zv
+X-Google-Smtp-Source: ABdhPJyOkUno9GHQCht9ijpw7LdNSKsglWbaai6V6m8+RjUHCf0TPONgJy7doQRoglTVkRtKafJgOg==
+X-Received: by 2002:ac8:22cd:: with SMTP id g13mr53820288qta.100.1594088362175;
+        Mon, 06 Jul 2020 19:19:22 -0700 (PDT)
+Received: from localhost.localdomain (mobile-166-176-184-195.mycingular.net. [166.176.184.195])
+        by smtp.gmail.com with ESMTPSA id z1sm14042921qkl.74.2020.07.06.19.19.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jul 2020 13:31:31 -0700 (PDT)
-Date: Mon, 6 Jul 2020 16:31:30 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Subject: Re: [meta-virtualization][meta-cloud-services][PATCH] python3-kazoo: Change python to python3
-Message-ID: <20200706203127.GA50063@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1593496973-20225-1-git-send-email-wangmy@cn.fujitsu.com>
- <1593586793-23074-4-git-send-email-wangmy@cn.fujitsu.com>
- <1593586793-23074-3-git-send-email-wangmy@cn.fujitsu.com>
- <1593586793-23074-2-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        Mon, 06 Jul 2020 19:19:21 -0700 (PDT)
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Cc: cardoe@gentoo.org,
+	bruce.ashfield@gmail.com,
+	Bertrand.Marquis@arm.com,
+	cminyard@mvista.com,
+	Stewart.Hildebrand@dornerworks.com
+Subject: [meta-virtualization][PATCH 0/2] xen, xen-tools: patch and recipe fixes
+Date: Mon,  6 Jul 2020 19:18:48 -0700
+Message-Id: <20200707021850.9841-1-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
 
-merged
+These two patches are to be applied on top of v2 of the previously-posted
+"Xen on Raspberry Pi 4" series:
+https://lists.yoctoproject.org/g/meta-virtualization/message/5495
 
-Bruce
+The first patch in this additional series here applies a new upstream
+patch to a fix a previous patch that has been imported from upstream,
+and the second is a minor recipe fix.
 
-In message: [meta-virtualization][meta-cloud-services][PATCH] python3-kazoo: Change python to python3
-on 01/07/2020 Wang Mingyu wrote:
+Christopher Clark (2):
+  xen-tools: apply kdd tool patch
+  xen, xen-tools: configure: install defconfig to ${S} not ${B}
 
-> upgrade 2.0 -> 2.7.0
-> 
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../{python-kazoo_2.0.bb => python3-kazoo_2.7.0.bb}  | 12 +++++++-----
->  1 file changed, 7 insertions(+), 5 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-kazoo_2.0.bb => python3-kazoo_2.7.0.bb} (65%)
-> 
-> diff --git a/meta-openstack/recipes-devtools/python/python-kazoo_2.0.bb b/meta-openstack/recipes-devtools/python/python3-kazoo_2.7.0.bb
-> similarity index 65%
-> rename from meta-openstack/recipes-devtools/python/python-kazoo_2.0.bb
-> rename to meta-openstack/recipes-devtools/python/python3-kazoo_2.7.0.bb
-> index db7c023..adfec92 100644
-> --- a/meta-openstack/recipes-devtools/python/python-kazoo_2.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-kazoo_2.7.0.bb
-> @@ -5,17 +5,19 @@ LICENSE = "Apache-2.0"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
->  
->  # Archived version so we have to overwrite what the pypi class will derive
-> -PYPI_SRC_URI = "https://pypi.python.org/packages/source/k/${SRCNAME}/kazoo-${PV}.zip"
-> +SRCNAME = "kazoo"
->  
-> -SRC_URI[md5sum] = "4b172de456c102b0e33f661e7e2b3583"
-> -SRC_URI[sha256sum] = "f0c42cc7752a331ba59269827bd19cb271210399a9dcab32b6a91465b4431a18"
-> +PYPI_SRC_URI = "https://pypi.python.org/packages/source/k/${SRCNAME}/kazoo-${PV}.tar.gz"
-> +
-> +SRC_URI[md5sum] = "073445f65d71520de2b6275530d88c4e"
-> +SRC_URI[sha256sum] = "6883f6dd3e8d4e1741076dd3b23b0861592f13759072e3835f035bcb72b077cb"
->  
->  inherit setuptools3 pypi
->  
-> -# DEPENDS_default: python-pip
-> +# DEPENDS_default: python3-pip
->  
->  DEPENDS += " \
-> -        python-pip \
-> +        python3-pip \
->          "
->  
->  # RDEPENDS_default: 
-> -- 
-> 2.17.1
-> 
-> 
-> 
+ ...xen-build-temporarily-inhibit-Werror.patch | 12 ------
+ .../files/xen-tools-kdd-fix-build-again.patch | 39 +++++++++++++++++++
+ recipes-extended/xen/xen-tools_git.bb         |  1 +
+ recipes-extended/xen/xen.inc                  |  2 +-
+ 4 files changed, 41 insertions(+), 13 deletions(-)
+ create mode 100644 recipes-extended/xen/files/xen-tools-kdd-fix-build-again.patch
 
-> 
-
+-- 
+2.17.1
 
