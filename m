@@ -1,71 +1,85 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
  by mx.groups.io with SMTP id smtpd.web11.6776.1594198477558416245
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 08 Jul 2020 01:54:38 -0700
+ Wed, 08 Jul 2020 01:54:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
 X-IronPort-AV: E=Sophos;i="5.75,327,1589212800"; 
-   d="scan'208";a="95925634"
+   d="scan'208";a="95925633"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
   by heian.cn.fujitsu.com with ESMTP; 08 Jul 2020 16:54:29 +0800
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id AFC324CE4BD9
-	for <meta-virtualization@lists.yoctoproject.org>; Wed,  8 Jul 2020 16:54:27 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 6F37749B1116
+	for <meta-virtualization@lists.yoctoproject.org>; Wed,  8 Jul 2020 16:54:25 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Wed, 8 Jul 2020 16:54:27 +0800
+ (TLS) id 15.0.1497.2; Wed, 8 Jul 2020 16:54:25 +0800
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [meta-virtualization][meta-cloud-services][PATCH] python3-xstatic-bootstrap-datepicker: upgrade 1.3.1.0 -> 1.4.0.0
-Date: Wed, 8 Jul 2020 16:54:21 +0800
-Message-ID: <1594198463-42395-2-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [meta-virtualization][meta-cloud-services][PATCH] python3-falcon: Change python to python3
+Date: Wed, 8 Jul 2020 16:54:20 +0800
+Message-ID: <1594198463-42395-1-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1594198463-42395-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1594198463-42395-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: AFC324CE4BD9.A82E3
+X-yoursite-MailScanner-ID: 6F37749B1116.A3BBA
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
 Content-Type: text/plain
 
-PKG-INFO-Update: Version updated to 1.4.0.0.
+upgrade 0.2 -> 2.0.0
+
+python-mimeparse is only for Python 2, so remove it.
+
+content of README.rst is changed.
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../python/python-xstatic-bootstrap-datepicker.inc          | 6 +++---
- ...0.bb => python3-xstatic-bootstrap-datepicker_1.4.0.0.bb} | 0
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python3-xstatic-bootstrap-datepicker_1.3.1.0.bb => python3-xstatic-bootstrap-datepicker_1.4.0.0.bb} (100%)
+ ...ython-falcon_0.2.bb => python3-falcon_2.0.0.bb} | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-falcon_0.2.bb => python3-falcon_2.0.0.bb} (51%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
-index 4988539..f1d19f3 100644
---- a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
-+++ b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
-@@ -2,12 +2,12 @@ DESCRIPTION = "Bootstrap-Datepicker JavaScript library packaged for setuptools (
- HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Bootstrap-Datepicker"
+diff --git a/meta-openstack/recipes-devtools/python/python-falcon_0.2.bb b/meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb
+similarity index 51%
+rename from meta-openstack/recipes-devtools/python/python-falcon_0.2.bb
+rename to meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb
+index b014a72..648a7dd 100644
+--- a/meta-openstack/recipes-devtools/python/python-falcon_0.2.bb
++++ b/meta-openstack/recipes-devtools/python/python3-falcon_2.0.0.bb
+@@ -2,10 +2,10 @@ DESCRIPTION = "An unladen web framework for building APIs and app backends."
+ HOMEPAGE = "http://falconframework.org"
  SECTION = "devel/python"
  LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=97d9c60d3a8c5fccccb317f944688479"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=717661446a83183e303f3f8e0a1ea277"
+-LIC_FILES_CHKSUM = "file://README.rst;md5=2bf705a48be7b7799862ffe602c94b87"
++LIC_FILES_CHKSUM = "file://README.rst;md5=a0c7260e38287caff6c266d1f287e962"
  
- PYPI_PACKAGE = "XStatic-Bootstrap-Datepicker"
+-SRC_URI[md5sum] = "bf9e8bdd20700f1ff7ce6397cd441fbd"
+-SRC_URI[sha256sum] = "92bb899bf6e58e2299e3b1de1e628b90c38544ba3354a0141d108318b50c3402"
++SRC_URI[md5sum] = "77c52c144dd284e6259d257c6f008072"
++SRC_URI[sha256sum] = "eea593cf466b9c126ce667f6d30503624ef24459f118c75594a69353b6c3d5fc"
  
--SRC_URI[md5sum] = "c2f5c58a7b41162923eca5a36b29b8b2"
--SRC_URI[sha256sum] = "9edc9b77501001fcee9fbf4bf0a722c263efd928ef928b40081a8269fdd9a944"
-+SRC_URI[md5sum] = "68375e81274159874ab5fd6d85ea405c"
-+SRC_URI[sha256sum] = "df33add9f5e785fa884ac4b182601af6aac9e1eeef7cfe62dbbcb0654d0f2d6e"
+ inherit setuptools3 pypi
  
- inherit pypi
+@@ -15,10 +15,12 @@ do_install_append() {
+ }
  
-diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-bootstrap-datepicker_1.3.1.0.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-bootstrap-datepicker_1.4.0.0.bb
-similarity index 100%
-rename from meta-openstack/recipes-devtools/python/python3-xstatic-bootstrap-datepicker_1.3.1.0.bb
-rename to meta-openstack/recipes-devtools/python/python3-xstatic-bootstrap-datepicker_1.4.0.0.bb
+ DEPENDS += " \
+-        python-pip \
++        python3-pip \
+         "
+ 
+ RDEPENDS_${PN} += " \
+-        python-six \
+-        python-mimeparse \
++        python3-six \
++        python3-json \
++        python3-xml \
++        python3-netserver \
+         "
 -- 
 2.17.1
 
