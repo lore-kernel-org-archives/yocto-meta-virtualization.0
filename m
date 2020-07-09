@@ -1,70 +1,256 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web11.9011.1594308026785375811
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.9175.1594308298174302712
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 09 Jul 2020 08:20:27 -0700
+ Thu, 09 Jul 2020 08:24:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Rvm80Lps;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id g20so2153924edm.4
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Jul 2020 08:20:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=nT6mTBy/;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: paulohefagundes@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d10so976757pll.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 09 Jul 2020 08:24:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=LGNrMHenGjuvuHxcrHQo5Yup4OJURYbXqQqMGkkrH9k=;
-        b=Rvm80LpsRNCEbcZ8QsbBmE80Eu7u88Psv9kOKZfK5niYJLR4mQnIWLjeNbh/E8iZzr
-         qxA4KXPKUr7PLcpPCymtjI19W3eyNU3itUwHkt76ynW3PvVqMT/+yXRGOUBdhPekhn5K
-         Kp7xXJXI8RArV7wUPPpFM3o+t0Hs9mExbtJ2NGFD6K+ZiMGoIGsU7x4WN4IbIqHScsd6
-         dcZQR1Ng9X9K/NHJZBypN7rRtFgVlL9f0S4K9/XF6Z199sAglYYQ/un0gPqGzGOWMKlx
-         6zXdFPDh3wBjqh1xezH+glXoMMo8p7B0eUDxqEmuyh8iwzJlIYsf09fCYFPvC9YMQDox
-         +Rtw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6owenPrNUM4Ztnb+yM4nLijYLsCm7TqmGQ+soVMcf+4=;
+        b=nT6mTBy/pICEsVoY2g3tJMecjU/p44bHU3Z+WPnx6oIaf8pKs0mak4NQQsnuVCIwoI
+         FzIUr5153yZXB74et8Cl0TM8I2f5eN+aP9tVl28MELRcNj8NLsMuHTsPEuwzazeViRz5
+         y3o6gh9BCqslbV38a0VdXCPP+7wtIaidlLsl3p1BG0Bdc4PNzhUJoltuKAuytMO9mWVI
+         lX3LsTpRqdtFjEwmwNFmApqky1/8Ghpcz7Zji6V0Ut/8G+9ifeCTgxhd1rcDpnPO+hir
+         Odb67+QGuw2xfTISzSh+hoo3aVwbSZTp/+nGcPpb3eVMS8EJ3Y5H20xrI1MaC8KQYS/W
+         92eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=LGNrMHenGjuvuHxcrHQo5Yup4OJURYbXqQqMGkkrH9k=;
-        b=AMRrHcQv0eJckusvCYwaKWNxKyKnJ3lpPAME+u0XuYCIE58Kd5dCIAA35TPJ+Pz+5D
-         Imo/eKjSNeQ+mf41/O4pGW/wqkpSGaEdrcMGo0zMSsT9QHhMjJZe+Dzh3lBDQed63TlF
-         2cM3pnQ8I1OmcbNBIGNyIngppO85DIpRm1mVaA3Z71qa25lZfhsSaqU1B80EHv7BD+73
-         0S23Pt/U1AVsrXhmqFNuCA50zl/mfJK25b3khf6t7EINUKaFve/42jiYReZ+qwX9uZBr
-         ye/FM0rP9dteyg9bHj2vJOQ7ytCAw54Hdn9XVgIapUouITw8a64XIUCCN4HoaaqWAIWS
-         VmQA==
-X-Gm-Message-State: AOAM530OvJI9GOT4BiRhQiBSB48SOkPnRWvtN1r6WHY4Q4cP9r9a8cXW
-	1TWxaatKgWA/Yre/7rn/RwwxHUqboep2SUdbJf0=
-X-Google-Smtp-Source: ABdhPJxXqfBEHJlmZuBcy+47J79EmOgNG0jjBv/ys4WNxJdDDlmOin9Yb10/IjDbZk8txlroVdjTpAu7PUdVIsXFCkM=
-X-Received: by 2002:a05:6402:b72:: with SMTP id cb18mr34608285edb.352.1594308025286;
- Thu, 09 Jul 2020 08:20:25 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=6owenPrNUM4Ztnb+yM4nLijYLsCm7TqmGQ+soVMcf+4=;
+        b=QnNY2w1Frz0l8mTE4F1h1sH1IFUcGxTdyb8AHARVf+f70Iwsom/3P/xbXqLPLT317A
+         L/JnXnR//mrcWkEeKs8QFBRfK95ryAMSsP5G0VFEi4zpCTH84aLWmyQ11oHhW4OWrEjo
+         2+7mWOO/erwu04dCKF7b7Kh3NTm7//V1B76Ph/v/8cYqtn63CMLysvSfscVJNeBk15ew
+         3aLgk2nk6thoVsuC4Do1EzdBY16N174iNtMciF/1KOCP2TIYfjJF/PwqxIJI/KnjiCWT
+         MkxO9MOsZKPmQYl1u6IE0Su1UcV6nJSVRnO9pVC4SBejoExA8LKF4aPh/EfWc0wpVHuc
+         pX9g==
+X-Gm-Message-State: AOAM530aS3vHrRq+DYGFYgN72sAOb7wZxCmusmX8zOaMLCXY92ryn5X+
+	jy3x4KTyCasOvCSLd38UvDtF62ea
+X-Google-Smtp-Source: ABdhPJyn9SEppw4G4lWTlKFLHERnN2ks3TibpipmNFY5LrUx0xp2sAmz9iNzJFsnyfpWyQ/tQlMOkg==
+X-Received: by 2002:a17:902:9a07:: with SMTP id v7mr49716149plp.312.1594308297278;
+        Thu, 09 Jul 2020 08:24:57 -0700 (PDT)
+Return-Path: <paulohefagundes@gmail.com>
+Received: from localhost.localdomain (c-24-11-33-45.hsd1.ut.comcast.net. [24.11.33.45])
+        by smtp.gmail.com with ESMTPSA id t1sm3162826pgq.66.2020.07.09.08.24.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Jul 2020 08:24:56 -0700 (PDT)
+From: "Fagundes, Paulo" <paulohefagundes@gmail.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Paulo Fagundes <paulohefagundes@gmail.com>
+Subject: [meta-virtualization][m-c-s][PATCH v2] salt: bump 3000 -> 3001
+Date: Thu,  9 Jul 2020 09:24:51 -0600
+Message-Id: <20200709152451.133150-1-paulohefagundes@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <CADkTA4P65T3DgutJLAXe0c+15i8Jze-nWGgGeMUt5h9nYU5GwQ@mail.gmail.com>
- <18345.1594307829900176542@lists.yoctoproject.org>
-In-Reply-To: <18345.1594307829900176542@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 9 Jul 2020 11:20:14 -0400
-Message-ID: <CADkTA4Mr24hMoRyuT+vey1e=Y_Sd5T44W5w1UWv1u0o4zvWccQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] [m-c-s][PATCH] salt: bump 3000 -> 3001
-To: "Fagundes, Paulo" <paulohefagundes@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jul 9, 2020 at 11:17 AM Fagundes, Paulo
-<paulohefagundes@gmail.com> wrote:
->
-> hmm, that's weird. I've deleted the `set_python_location_hashbang.patch` from the recipe because it no longer applies in 3001 see [1].
-> I'm not sure why it tried to apply it on your build
->
+Signed-off-by: Paulo Fagundes <paulohefagundes@gmail.com>
+---
+ .../salt/set_python_location_hashbang.patch   | 158 ------------------
+ .../salt/{salt_3000.bb => salt_3001.bb}       |   7 +-
+ 2 files changed, 3 insertions(+), 162 deletions(-)
+ delete mode 100644 meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+ rename meta-openstack/recipes-support/salt/{salt_3000.bb => salt_3001.bb} (97%)
 
-The actual low-level patch error is that the file cannot be deleted
-since some parts remain .. which means the removal doesn't match the
-exact contents in the layer. But since no one else has touched the
-package, that shouldn't happen.
-
-Bruce
-
-> [1]: https://github.com/saltstack/salt/commit/bb03f4a0ee071982d69fec574a3aea29714aa5e8 
-
-
-
+diff --git a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch b/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+deleted file mode 100644
+index 76d6f41..0000000
+--- a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
++++ /dev/null
+@@ -1,158 +0,0 @@
+-Upstream-Status: Pending
+-
+-# The Salt SysV scripts require that the process name of the salt
+-# components have the form "salt-<component>".
+-# The current python shebangs on the salt components scripts spwans
+-# processes that are generically named python. Changed shebang so
+-# process names will be identifiable by the init scripts.
+-
+-diff --git a/scripts/salt b/scripts/salt
+-index 1a6d6b4d0c..0408ad07b2 100755
+---- a/scripts/salt
+-+++ b/scripts/salt
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Publish commands to the salt system from the command line on the master.
+- '''
+-diff --git a/scripts/salt-api b/scripts/salt-api
+-index 6f028bacb6..7a51117822 100755
+---- a/scripts/salt-api
+-+++ b/scripts/salt-api
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- 
+- # Import salt libs
+- from salt.scripts import salt_api
+-diff --git a/scripts/salt-call b/scripts/salt-call
+-index 5b8a8f3935..9ddda9428d 100755
+---- a/scripts/salt-call
+-+++ b/scripts/salt-call
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Directly call a salt command in the modules, does not require a running salt
+- minion to run.
+-diff --git a/scripts/salt-cloud b/scripts/salt-cloud
+-index e977b68179..01c593881c 100755
+---- a/scripts/salt-cloud
+-+++ b/scripts/salt-cloud
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Publish commands to the salt system from the command line on the master.
+- '''
+-diff --git a/scripts/salt-cp b/scripts/salt-cp
+-index 3da660d137..dcc3f11554 100755
+---- a/scripts/salt-cp
+-+++ b/scripts/salt-cp
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Publish commands to the salt system from the command line on the master.
+- '''
+-diff --git a/scripts/salt-extend b/scripts/salt-extend
+-index 5385a7b6a9..b01c584bb4 100755
+---- a/scripts/salt-extend
+-+++ b/scripts/salt-extend
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Quickstart for creating an/or extending the functionality of your SaltStack installation
+- 
+-diff --git a/scripts/salt-key b/scripts/salt-key
+-index cb26dfd5a6..596b202a3f 100755
+---- a/scripts/salt-key
+-+++ b/scripts/salt-key
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Manage the authentication keys with salt-key
+- '''
+-diff --git a/scripts/salt-master b/scripts/salt-master
+-index b4323bd532..52bb47dc47 100755
+---- a/scripts/salt-master
+-+++ b/scripts/salt-master
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Start the salt-master
+- '''
+-diff --git a/scripts/salt-minion b/scripts/salt-minion
+-index 74a9fa1d67..4a23ed9122 100755
+---- a/scripts/salt-minion
+-+++ b/scripts/salt-minion
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- This script is used to kick off a salt minion daemon
+- '''
+-diff --git a/scripts/salt-proxy b/scripts/salt-proxy
+-index e921e6590b..443774ef85 100755
+---- a/scripts/salt-proxy
+-+++ b/scripts/salt-proxy
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- # -*- coding: utf-8 -*-
+- '''
+- This script is used to kick off a salt proxy minion daemon
+-diff --git a/scripts/salt-run b/scripts/salt-run
+-index 2b2d86554c..cfef160ab0 100755
+---- a/scripts/salt-run
+-+++ b/scripts/salt-run
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Execute a salt convenience routine
+- '''
+-diff --git a/scripts/salt-ssh b/scripts/salt-ssh
+-index 4f21baa5f4..77bb6ceb38 100755
+---- a/scripts/salt-ssh
+-+++ b/scripts/salt-ssh
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Execute the salt ssh system
+- '''
+-diff --git a/scripts/salt-syndic b/scripts/salt-syndic
+-index d6faf2df63..896bf5f3b0 100755
+---- a/scripts/salt-syndic
+-+++ b/scripts/salt-syndic
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- This script is used to kick off a salt syndic daemon
+- '''
+-diff --git a/scripts/salt-unity b/scripts/salt-unity
+-index b0a2d31597..ff1fa9034c 100755
+---- a/scripts/salt-unity
+-+++ b/scripts/salt-unity
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- 
+- from salt.scripts import salt_unity
+- 
+-diff --git a/scripts/spm b/scripts/spm
+-index 027864ee11..4d9b648b5d 100755
+---- a/scripts/spm
+-+++ b/scripts/spm
+-@@ -1,4 +1,4 @@
+--#!/usr/bin/env python
+-+#!/usr/bin/env python3
+- '''
+- Publish commands to the salt system from the command line on the master.
+- 
+diff --git a/meta-openstack/recipes-support/salt/salt_3000.bb b/meta-openstack/recipes-support/salt/salt_3001.bb
+similarity index 97%
+rename from meta-openstack/recipes-support/salt/salt_3000.bb
+rename to meta-openstack/recipes-support/salt/salt_3001.bb
+index c2bc8da..5140470 100644
+--- a/meta-openstack/recipes-support/salt/salt_3000.bb
++++ b/meta-openstack/recipes-support/salt/salt_3001.bb
+@@ -19,11 +19,10 @@ PACKAGECONFIG[zeromq] = ",,python3-pyzmq python3-pycrypto,"
+ PACKAGECONFIG[tcp] = ",,python3-pycrypto"
+ 
+ SRC_URI = "https://files.pythonhosted.org/packages/source/s/${PN}/${PN}-${PV}.tar.gz \
+-           file://set_python_location_hashbang.patch \
+ "
+ 
+-SRC_URI[md5sum] = "8084ef6f2a275b627ae364b9d562b4ff"
+-SRC_URI[sha256sum] = "04fbc64933b375cbbefc9576bcc65167b74d5eec7f58e64d096d67529ea66500"
++SRC_URI[md5sum] = "ae06cef7557e237a954491a069e79a25"
++SRC_URI[sha256sum] = "5ca60d1b2cc8e63db50995bd8b117914eeaf57c48ce2b3a3731ee57163adf154"
+ 
+ 
+ SYSTEMD_AUTO_ENABLE_${PN}-master = "disable"
+@@ -100,7 +99,7 @@ SUMMARY_${PN}-common = "shared libraries that salt requires for all packages"
+ DESCRIPTION_${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
+ salt-master, salt-minion, and salt-syndic require to function."
+ RDEPENDS_${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0)"
+-RRECOMMENDS_${PN}-common = "lsb"
++RRECOMMENDS_${PN}-common = "lsb-release"
+ RSUGGESTS_${PN}-common = "python3-mako python3-git"
+ RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
+ CONFFILES_${PN}-common="${sysconfdir}/logrotate.d/${PN}"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.27.0
+
