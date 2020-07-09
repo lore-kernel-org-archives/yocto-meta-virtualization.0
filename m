@@ -1,257 +1,98 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
- by mx.groups.io with SMTP id smtpd.web10.1002.1594232315594634384
+Received: from mail-oo1-f65.google.com (mail-oo1-f65.google.com [209.85.161.65])
+ by mx.groups.io with SMTP id smtpd.web11.1944.1594256453417627029
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 08 Jul 2020 11:18:35 -0700
+ Wed, 08 Jul 2020 18:00:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=cljrDNgO;
- spf=pass (domain: gmail.com, ip: 209.85.216.44, mailfrom: paulohefagundes@gmail.com)
-Received: by mail-pj1-f44.google.com with SMTP id ls15so899225pjb.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 08 Jul 2020 11:18:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=oWERN6lZ;
+ spf=pass (domain: gmail.com, ip: 209.85.161.65, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oo1-f65.google.com with SMTP id k47so47777ool.2
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 08 Jul 2020 18:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C+wpzJrp4LAnYM8YX+w5n6yNW5mkob+UN/z6cCXEsYM=;
-        b=cljrDNgOe16GSwuYrlP41pSzf96tlA2HW8oLv9KVe06mgOqW0ScsLPhVLRyt6XRfUa
-         wRQthXKkvUQx16Q3XCa7XUAsduIpIYXcoEbgSzx0Jg3tLfA+z+sZjSYbLmKnqp7IRtgH
-         YSVArHm9tTiLd4ry38YHuQltE8jGYC+8LHYhSaP0LwidRkF8wWhkzVyKfqyExuaJ/eZX
-         qexCsrc6rEe3rLFX/Gcx38l9BiHCEbr1aH8pfryQHF2M6Lo4NpLdxCYv/qJ6y/E2+0Yj
-         rFkSqVfL+7EDeUluTnVjlSwmL7R0Ry/bgSgmiHG28LENTABzD1BiDPXd6t7tXAMu/c7z
-         jbyg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=nPbUt0yS+I6hjjesDkvSoFUFD46wL8Y0f0Q5iQ5qmZ4=;
+        b=oWERN6lZVf52w2wSm4QQ5ivDDXOPok9AmNNuW36iWdfyldeJzRh3xwufrsctsobgzp
+         JC8FOIiFj4REVPNJzG19PC9tBtEQuH4GeM3h0aPxQeaakkB+ABo4MFsjyY9agoj286S1
+         Fj7YPpecAJtRWOpWMrxSiBKfsduVfTv6h0EgUj9mpBL0acIwbx8iNjTwW3ZB/wfjd/pS
+         o930gkm3g4AV9LnMaFavN7ePwWClh5QNGCVI5MHi8Wa7W+bhNeYbM+KFNfBsD0h11neu
+         ZOpY4BEpODNBf1TlJwdbx+4DsiIEL2Hjg2xlNgcGlB7Yxwgi8vSKu7nQ5VE7YRQEr2Pw
+         NK7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=C+wpzJrp4LAnYM8YX+w5n6yNW5mkob+UN/z6cCXEsYM=;
-        b=nSZmwNXirprlClvZW7BZQVHedpU4Hgx6Grl46GiveCPsKDgLZUpQZFfYJzwwSPHNMx
-         g6xQb+O8yqkodNxfw3P3GXiEpExs4iF3gRXkNwZXZoU8lmdDWdSLAQnH250R7fVpmZHb
-         NwYI2b/AB5wMA3dyEDpCAqjsAba+wjJ2dCSPETSi27Ks9ABSIxZuR1f2jkFeOWCUFSwp
-         iXLpAt9lEoQBYcnxeYEDfqtQuDtXm37qzaHIKsdvIvKM8bTke6RVbZ403hS/bXpq+ijg
-         QZMWFLgaUv1aqFa1HFwag7nM3L6eOEkaAiCVx2oxjLod8VzIAZANk/wvW8NqiVlv8ZVw
-         8M0g==
-X-Gm-Message-State: AOAM530suHH6O8/5nm/Td37fkyngjHnnJbwgO+5tFEJR3S9cseZEEY1P
-	JukeOcFO+SbhQFZ5hpYb/G75+hJd
-X-Google-Smtp-Source: ABdhPJwIHSdzAzCbW32zgbv8cCQxrqjDQMh7zYEQYOawfYrnVtUjNPNXz/QKmjH+M5vN7M8/TPWMRw==
-X-Received: by 2002:a17:902:bcc1:: with SMTP id o1mr49898939pls.246.1594232314619;
-        Wed, 08 Jul 2020 11:18:34 -0700 (PDT)
-Return-Path: <paulohefagundes@gmail.com>
-Received: from daemon.og.opengear.com (c-24-11-33-45.hsd1.ut.comcast.net. [24.11.33.45])
-        by smtp.gmail.com with ESMTPSA id d190sm421004pfd.199.2020.07.08.11.18.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Jul 2020 11:18:33 -0700 (PDT)
-From: "Fagundes, Paulo" <paulohefagundes@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Paulo Fagundes <paulohefagundes@gmail.com>
-Subject: [meta-virtualization][m-c-s][PATCH] salt: bump 3000 -> 3001
-Date: Wed,  8 Jul 2020 12:16:26 -0600
-Message-Id: <20200708181625.81840-1-paulohefagundes@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=nPbUt0yS+I6hjjesDkvSoFUFD46wL8Y0f0Q5iQ5qmZ4=;
+        b=NG9qjQ/CQQI9XCS6w3tT8i5JCQcqNAW3KRKOidzoqVFj/vmey+eVTW8urU8ZPZXdLi
+         mC0JlLR+sdFzIY80Q/dtq07ysdLYU2hP919obwlR3Ohvrs4A/ltljA1tEdnFrPH5nfyx
+         Udz+TzQPjBWspP8JU4ZF/nLPckTsR6HXGS8HKPj8jXbifgGnnbFAKK3MSdK58Ucw6qHu
+         sqQDxMR3k/CyCW0E8NcwAc3Uk+yEaSpPi5pcdffjtm3ygovTEG3HQDoQWwYZMF3Jk4yn
+         s/aP4oDzjM+kr4WfTQjpAWHtwULfYPfZbabLDDP5gaONGpHB1Du0bW1nJQNRWAqe1uXw
+         Og5Q==
+X-Gm-Message-State: AOAM532B3rHVP9cO2UjTyKwNt/BGp4oNsztYc9HUD9gpIKpzi+s+21E7
+	wNnycCXvWzaRAD4AODsq3rmJhe5CAgZ6qbP3kTk=
+X-Google-Smtp-Source: ABdhPJwxmTQhNCRCrOKpQx1V0mAi8z02eoRQ90nDeq3wEhYhF3G0/xwJnrBDRKvlIcNfqqFM/ZdAxPkNh8LPIYE6Snk=
+X-Received: by 2002:a4a:e702:: with SMTP id y2mr53215501oou.36.1594256452608;
+ Wed, 08 Jul 2020 18:00:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <bt6y.1594192349425584301.iaNZ@lists.yoctoproject.org> <161FCB8FD8858AB7.11266@lists.yoctoproject.org>
+In-Reply-To: <161FCB8FD8858AB7.11266@lists.yoctoproject.org>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Wed, 8 Jul 2020 18:00:32 -0700
+Message-ID: <CACMJ4GZE=oCF8+6Nhw1H2oujDAvZLJvwSgL+y05aUFAfoKRJUg@mail.gmail.com>
+Subject: Re: [meta-virtualization] [raspberry-pi4-xen-series] : Console login failure for xen-image-minimal
+To: Ashishx88 <ashish.emailaddress@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Paulo Fagundes <paulohefagundes@gmail.com>
----
- .../salt/set_python_location_hashbang.patch   | 158 ------------------
- .../salt/{salt_3000.bb => salt_3001.bb}       |   7 +-
- 2 files changed, 3 insertions(+), 162 deletions(-)
- delete mode 100644 meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
- rename meta-openstack/recipes-support/salt/{salt_3000.bb => salt_3001.bb} (97%)
+On Wed, Jul 8, 2020 at 6:56 AM Christopher Clark via
+lists.yoctoproject.org
+<christopher.w.clark=gmail.com@lists.yoctoproject.org> wrote:
+>
+> On Wed, Jul 8, 2020 at 12:12 AM Ashishx88 <ashish.emailaddress@gmail.com> wrote:
+> >
+> > Hi Christopher ,
+> >
+> > - I have created an xen-image-minimal using the commit & repo mentioned
+> >    https://lists.yoctoproject.org/g/meta-virtualization/message/5464
+> >    I am able to compile both core-image-minimal & xen-image-minimal .
+> >
+> > - When the board boots with the compiled image , i am observing below mentioned issue
+> >    Can you provide any inputs or if same issue has been observed with other members :
+> >
+> >    1) At the login prompt , root credentials fails continuously for few time.
+> >        raspberrypi4-64 login: root
+> >        Password: root
+> >        ( I can assure you that there is no typo error )
+> >
+> >    2) After few attempt , i get the  root prompt root@raspberrypi4-64:~#
+> >        After the prompt within few seconds i get Login timed out after 60 seconds.
+> >        and behaviour starts again from point-1 mentioned above.
+> >        -> Attached along is the minicom log for your reference.
+> >
+> >    3) Similar login problem i have seen with core-image-minimal
+> >        Local.conf :
+> >                           DISTRO_FEATURES_append = " xen virtualization"
+> >                           MACHINE = "raspberrypi4-64"
+> >
+> > Hence can you please let me know if similar observation is being reported.
+> > and any pointers to look for the issue .
+>
+> This looks like an unhappy serial device.
+> Please could you confirm: if you connect a local USB keyboard and HDMI
+> display, you do not have a similar problem logging in or using the
+> prompt?
 
-diff --git a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch b/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
-deleted file mode 100644
-index 76d6f41..0000000
---- a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
-+++ /dev/null
-@@ -1,158 +0,0 @@
--Upstream-Status: Pending
--
--# The Salt SysV scripts require that the process name of the salt
--# components have the form "salt-<component>".
--# The current python shebangs on the salt components scripts spwans
--# processes that are generically named python. Changed shebang so
--# process names will be identifiable by the init scripts.
--
--diff --git a/scripts/salt b/scripts/salt
--index 1a6d6b4d0c..0408ad07b2 100755
----- a/scripts/salt
--+++ b/scripts/salt
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Publish commands to the salt system from the command line on the master.
-- '''
--diff --git a/scripts/salt-api b/scripts/salt-api
--index 6f028bacb6..7a51117822 100755
----- a/scripts/salt-api
--+++ b/scripts/salt-api
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
--
-- # Import salt libs
-- from salt.scripts import salt_api
--diff --git a/scripts/salt-call b/scripts/salt-call
--index 5b8a8f3935..9ddda9428d 100755
----- a/scripts/salt-call
--+++ b/scripts/salt-call
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Directly call a salt command in the modules, does not require a running salt
-- minion to run.
--diff --git a/scripts/salt-cloud b/scripts/salt-cloud
--index e977b68179..01c593881c 100755
----- a/scripts/salt-cloud
--+++ b/scripts/salt-cloud
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Publish commands to the salt system from the command line on the master.
-- '''
--diff --git a/scripts/salt-cp b/scripts/salt-cp
--index 3da660d137..dcc3f11554 100755
----- a/scripts/salt-cp
--+++ b/scripts/salt-cp
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Publish commands to the salt system from the command line on the master.
-- '''
--diff --git a/scripts/salt-extend b/scripts/salt-extend
--index 5385a7b6a9..b01c584bb4 100755
----- a/scripts/salt-extend
--+++ b/scripts/salt-extend
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Quickstart for creating an/or extending the functionality of your SaltStack installation
--
--diff --git a/scripts/salt-key b/scripts/salt-key
--index cb26dfd5a6..596b202a3f 100755
----- a/scripts/salt-key
--+++ b/scripts/salt-key
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Manage the authentication keys with salt-key
-- '''
--diff --git a/scripts/salt-master b/scripts/salt-master
--index b4323bd532..52bb47dc47 100755
----- a/scripts/salt-master
--+++ b/scripts/salt-master
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Start the salt-master
-- '''
--diff --git a/scripts/salt-minion b/scripts/salt-minion
--index 74a9fa1d67..4a23ed9122 100755
----- a/scripts/salt-minion
--+++ b/scripts/salt-minion
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- This script is used to kick off a salt minion daemon
-- '''
--diff --git a/scripts/salt-proxy b/scripts/salt-proxy
--index e921e6590b..443774ef85 100755
----- a/scripts/salt-proxy
--+++ b/scripts/salt-proxy
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- # -*- coding: utf-8 -*-
-- '''
-- This script is used to kick off a salt proxy minion daemon
--diff --git a/scripts/salt-run b/scripts/salt-run
--index 2b2d86554c..cfef160ab0 100755
----- a/scripts/salt-run
--+++ b/scripts/salt-run
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Execute a salt convenience routine
-- '''
--diff --git a/scripts/salt-ssh b/scripts/salt-ssh
--index 4f21baa5f4..77bb6ceb38 100755
----- a/scripts/salt-ssh
--+++ b/scripts/salt-ssh
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Execute the salt ssh system
-- '''
--diff --git a/scripts/salt-syndic b/scripts/salt-syndic
--index d6faf2df63..896bf5f3b0 100755
----- a/scripts/salt-syndic
--+++ b/scripts/salt-syndic
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- This script is used to kick off a salt syndic daemon
-- '''
--diff --git a/scripts/salt-unity b/scripts/salt-unity
--index b0a2d31597..ff1fa9034c 100755
----- a/scripts/salt-unity
--+++ b/scripts/salt-unity
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
--
-- from salt.scripts import salt_unity
--
--diff --git a/scripts/spm b/scripts/spm
--index 027864ee11..4d9b648b5d 100755
----- a/scripts/spm
--+++ b/scripts/spm
--@@ -1,4 +1,4 @@
---#!/usr/bin/env python
--+#!/usr/bin/env python3
-- '''
-- Publish commands to the salt system from the command line on the master.
--
-diff --git a/meta-openstack/recipes-support/salt/salt_3000.bb b/meta-openstack/recipes-support/salt/salt_3001.bb
-similarity index 97%
-rename from meta-openstack/recipes-support/salt/salt_3000.bb
-rename to meta-openstack/recipes-support/salt/salt_3001.bb
-index c2bc8da..5140470 100644
---- a/meta-openstack/recipes-support/salt/salt_3000.bb
-+++ b/meta-openstack/recipes-support/salt/salt_3001.bb
-@@ -19,11 +19,10 @@ PACKAGECONFIG[zeromq] = ",,python3-pyzmq python3-pycrypto,"
- PACKAGECONFIG[tcp] = ",,python3-pycrypto"
- 
- SRC_URI = "https://files.pythonhosted.org/packages/source/s/${PN}/${PN}-${PV}.tar.gz \
--           file://set_python_location_hashbang.patch \
- "
- 
--SRC_URI[md5sum] = "8084ef6f2a275b627ae364b9d562b4ff"
--SRC_URI[sha256sum] = "04fbc64933b375cbbefc9576bcc65167b74d5eec7f58e64d096d67529ea66500"
-+SRC_URI[md5sum] = "ae06cef7557e237a954491a069e79a25"
-+SRC_URI[sha256sum] = "5ca60d1b2cc8e63db50995bd8b117914eeaf57c48ce2b3a3731ee57163adf154"
- 
- 
- SYSTEMD_AUTO_ENABLE_${PN}-master = "disable"
-@@ -100,7 +99,7 @@ SUMMARY_${PN}-common = "shared libraries that salt requires for all packages"
- DESCRIPTION_${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
- salt-master, salt-minion, and salt-syndic require to function."
- RDEPENDS_${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0)"
--RRECOMMENDS_${PN}-common = "lsb"
-+RRECOMMENDS_${PN}-common = "lsb-release"
- RSUGGESTS_${PN}-common = "python3-mako python3-git"
- RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
- CONFFILES_${PN}-common="${sysconfdir}/logrotate.d/${PN}"
---
-2.27.0
+This turns out to be a simpler problem to fix than a device issue:
+there are apparently two getty's running on the serial console device
+(hvc0) and you only want one. If you're using the xen-image-minimal
+image, the immediate workaround is to log in and edit the file
+/etc/inittab to comment out or remove the last line beginning 'X0',
+save it, and poweroff the device. When you start the device up again,
+your serial console command prompt should now work correctly. It's
+probably a similar fix for a core-image-minimal image (- I just don't
+have one immediately to hand to check it).
 
-I wasn't sure on the RRECOMMENDS for lsb since it was removed and lsb-release was created in it's place.
+I can also look into a patch for fixing this.
+
+Christopher
