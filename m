@@ -1,112 +1,292 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.3446.1594262788773908833
+Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+ by mx.groups.io with SMTP id smtpd.web10.3599.1594263764501211006
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 08 Jul 2020 19:46:28 -0700
+ Wed, 08 Jul 2020 20:02:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=feemXy9k;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 47B1FE01E2F; Wed,  8 Jul 2020 19:46:28 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,URIBL_RED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.208.67 listed in list.dnswl.org]
-	*  0.0 URIBL_RED Contains an URL listed in the URIBL redlist
-	*      [URIs: yoctoproject.org]
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 02427E01E2D
-	for <meta-virtualization@yoctoproject.org>; Wed,  8 Jul 2020 19:46:26 -0700 (PDT)
-Received: by mail-ed1-f67.google.com with SMTP id h28so627157edz.0
-        for <meta-virtualization@yoctoproject.org>; Wed, 08 Jul 2020 19:46:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZGDjp8+S;
+ spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f65.google.com with SMTP id l12so624115ejn.10
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 08 Jul 2020 20:02:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=PCH7phxvVWewJsbifpUNl35T/9BWXggXN3AGLDxAKu0=;
-        b=feemXy9kyeqrrxSCAnZQW6X4bO0JCALY4dyt3yUfPxWrRNJPo1U/o74lihHa9A2hib
-         0jXSvcLYJY42jRjDBpMQHLdSAbyKyqg3HR0gYZvIPJwUEwBe1myMo1n/RxbnYhOvcqvc
-         kzQMqnFGnEqva+yJElKSLQkZCjP2hf4vBBXVeF+nOtu1pZv7lk76zSy3kIGjsw4jMt1x
-         oAS6edrrYHVZ8YpS8flclBP85Fa06NOel2ngCsT1EMTXBok2TckaIi7wKRWr2bJzlGhg
-         oVc+W3mRNo68TJ2D3Hw2VDCFT8V9ZYCJ8HjHAxfjNVF8nvggsNJNdmja5apbnAiZt+PD
-         a3/A==
+        bh=ocHyv1vnShLuyd1MXnR12mR7TL12Tk85e4i5mO0JT+o=;
+        b=ZGDjp8+S554UZjOK3VxkIXL/lGvGPSrzQ+R+ttpmoNDaVhp8ezTNXlv3oH44vQ1FuR
+         36GaIHTuDmyfDY72sstd20WTEPNmyQJysq6ky/vpPYzrtwb1brKD4QOrAse03S6dLVFO
+         1xsXdX+yeJZRGhKVhyPg8UASJ6Onv8f9fmCvTR0B1Q8VyfYC7G7qDePAYRd8kUbyBnGm
+         aESCZWBf4IE2EzY04lhJQtwG1SJku5tfj5kR2euczvH7tt0uPuPk7qdkzOCQ+3X4UMsW
+         SP2aPHOyZ0/3ZKvNN2woJ9cBf31eU2rA8F1SZKZXwxHIodmvYDK3hIPrbhaZGw7UAJ2U
+         wm0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=PCH7phxvVWewJsbifpUNl35T/9BWXggXN3AGLDxAKu0=;
-        b=UFmptB591SXgMx4BT3bK2/8jD7poTZtRseFUB2/o6WGBZwvVvnnOjuF5IzdJvOLt8V
-         S66Fs69T3gYZPjHmpEsf6v019VxR1chzNnbRXKGfoakZ0MDxY+f31p1AcLXjXZ+sZdZZ
-         2eBy8vbLAEvSQJ0XchRvBncW2ynAh7XJFfqk5FxxplJJOK4RM6LJWdUYL8a0hz2552vY
-         WyrSHwSAtmytFUhKzn5dB0GkrX8NAd2158zH/I5O8V9bhIThkzPpKRyeKBghwr4guhcx
-         DKiOtNUbk/w0SESN7QDPmCjMjyBe4ghMm8xLU4p+ZALVZ6dTq7VSZOAXXDSANqCD9Uvc
-         AVqw==
-X-Gm-Message-State: AOAM531r07GxWuvgUfzMMZxumciKVdU+vOOzY2+3qlgXs4E9jf187k4I
-	RlLk6VlYSlJuFHhLwXSdfxKJVn2uC+6560XSCw0=
-X-Google-Smtp-Source: ABdhPJyJxMErYevB7oQOUXPFNkvrQX5zJWPIXQKC5OmGuL5xfcbADjoJ4LTJbvh+4ZSMQzjJ+edCjWW3RagPgDJNBv8=
-X-Received: by 2002:aa7:d6cf:: with SMTP id x15mr68256156edr.164.1594262785535;
- Wed, 08 Jul 2020 19:46:25 -0700 (PDT)
+        bh=ocHyv1vnShLuyd1MXnR12mR7TL12Tk85e4i5mO0JT+o=;
+        b=JZGpxeyWfXleG/PqegCj5yOiDHCXbtx8cQeD7SX0qVFNU9/WDeaek5akm2DEIlKSXe
+         3dVCiwrvQUQRKF8vfY610OFZANtkuggGwrlHBLnmzE5A4DIhqDuWJJm4uCSYNRLYzP8M
+         te77HbyYTiVqIWF/6+HByRVGM9e0pQTy1F6/3RJEm3hLpPsaTvfDYnxKaupAMaNC9B2G
+         XdBY5gzWVp0q2XoeQogUM8KbCiBhHPCZmJ/n1COyf6zYbI3fUT2RKTz6jtEQwrBdDK/t
+         mNKTyr+KJ8SYXXOGRxcuZjPQJQ3zaPSeKij2C+EWbikdrkonr6lEvokUcl6iIeucwxoW
+         tylQ==
+X-Gm-Message-State: AOAM5330AaTz9VND+Umtob9QtkdsMcM62BA2ltyFU4/fWFdrVnEDA96T
+	468zplMbR1DLnypogkCpnhrQJWPFRwUGw56BGT4=
+X-Google-Smtp-Source: ABdhPJwEpDL6IcV5yg+0jIJmHyeaVvLym40Y8Nb/S9jWsk7a1vWS7WKoZxYxzcKeb5rMwlpnlZCSZaTlg9MhTFRq6vk=
+X-Received: by 2002:a17:906:5283:: with SMTP id c3mr51560741ejm.22.1594263762794;
+ Wed, 08 Jul 2020 20:02:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200707021850.9841-1-christopher.w.clark@gmail.com>
-In-Reply-To: <20200707021850.9841-1-christopher.w.clark@gmail.com>
+References: <20200708181625.81840-1-paulohefagundes@gmail.com>
+In-Reply-To: <20200708181625.81840-1-paulohefagundes@gmail.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 8 Jul 2020 22:46:14 -0400
-Message-ID: <CADkTA4PPwqC6yjDAtWQ5jt-_dTAMh=dYHWwHPZrOgEMgzAaPew@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 0/2] xen, xen-tools: patch and recipe fixes
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
-	Doug Goldstein <cardoe@gentoo.org>, Bertrand Marquis <Bertrand.Marquis@arm.com>, 
-	Corey Minyard <cminyard@mvista.com>, 
-	Stewart Hildebrand <Stewart.Hildebrand@dornerworks.com>
+Date: Wed, 8 Jul 2020 23:02:31 -0400
+Message-ID: <CADkTA4P65T3DgutJLAXe0c+15i8Jze-nWGgGeMUt5h9nYU5GwQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][m-c-s][PATCH] salt: bump 3000 -> 3001
+To: "Fagundes, Paulo" <paulohefagundes@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jul 6, 2020 at 10:19 PM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> These two patches are to be applied on top of v2 of the previously-posted
-> "Xen on Raspberry Pi 4" series:
-> https://lists.yoctoproject.org/g/meta-virtualization/message/5495
->
-> The first patch in this additional series here applies a new upstream
-> patch to a fix a previous patch that has been imported from upstream,
-> and the second is a minor recipe fix.
+Hmmm.
 
-merged.
+This doesn't apply on master for me, but there haven't been any other
+changes to it recently, so I can't explain why .. but yet:
+
+build [/home/bruc...d-services]> git am -s salt.mbox
+Applying: salt: bump 3000 -> 3001
+error: patch failed:
+meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch:1
+error: meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch:
+patch does not apply
+error: meta-openstack/recipes-support/salt/salt_3001.bb: already
+exists in working directory
+Patch failed at 0001 salt: bump 3000 -> 3001
+hint: Use 'git am --show-current-patch' to see the failed patch
+When you have resolved this problem, run "git am --continue".
+If you prefer to skip this patch, run "git am --skip" instead.
+To restore the original branch and stop patching, run "git am --abort".
+
+It looks like bad formatting on the patch ? Did you send it with
+git-send email ?
+
+I can't say that I recall why we had the lsb in the RRECOMMENDS, but
+lsb-release should do the job. As long as it is working in your tests,
+I'm ok with it.
 
 Bruce
 
+On Wed, Jul 8, 2020 at 2:18 PM Fagundes, Paulo
+<paulohefagundes@gmail.com> wrote:
 >
-> Christopher Clark (2):
->   xen-tools: apply kdd tool patch
->   xen, xen-tools: configure: install defconfig to ${S} not ${B}
+> Signed-off-by: Paulo Fagundes <paulohefagundes@gmail.com>
+> ---
+>  .../salt/set_python_location_hashbang.patch   | 158 ------------------
+>  .../salt/{salt_3000.bb => salt_3001.bb}       |   7 +-
+>  2 files changed, 3 insertions(+), 162 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+>  rename meta-openstack/recipes-support/salt/{salt_3000.bb => salt_3001.bb} (97%)
 >
->  ...xen-build-temporarily-inhibit-Werror.patch | 12 ------
->  .../files/xen-tools-kdd-fix-build-again.patch | 39 +++++++++++++++++++
->  recipes-extended/xen/xen-tools_git.bb         |  1 +
->  recipes-extended/xen/xen.inc                  |  2 +-
->  4 files changed, 41 insertions(+), 13 deletions(-)
->  create mode 100644 recipes-extended/xen/files/xen-tools-kdd-fix-build-again.patch
+> diff --git a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch b/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+> deleted file mode 100644
+> index 76d6f41..0000000
+> --- a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+> +++ /dev/null
+> @@ -1,158 +0,0 @@
+> -Upstream-Status: Pending
+> -
+> -# The Salt SysV scripts require that the process name of the salt
+> -# components have the form "salt-<component>".
+> -# The current python shebangs on the salt components scripts spwans
+> -# processes that are generically named python. Changed shebang so
+> -# process names will be identifiable by the init scripts.
+> -
+> -diff --git a/scripts/salt b/scripts/salt
+> -index 1a6d6b4d0c..0408ad07b2 100755
+> ---- a/scripts/salt
+> -+++ b/scripts/salt
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Publish commands to the salt system from the command line on the master.
+> - '''
+> -diff --git a/scripts/salt-api b/scripts/salt-api
+> -index 6f028bacb6..7a51117822 100755
+> ---- a/scripts/salt-api
+> -+++ b/scripts/salt-api
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> -
+> - # Import salt libs
+> - from salt.scripts import salt_api
+> -diff --git a/scripts/salt-call b/scripts/salt-call
+> -index 5b8a8f3935..9ddda9428d 100755
+> ---- a/scripts/salt-call
+> -+++ b/scripts/salt-call
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Directly call a salt command in the modules, does not require a running salt
+> - minion to run.
+> -diff --git a/scripts/salt-cloud b/scripts/salt-cloud
+> -index e977b68179..01c593881c 100755
+> ---- a/scripts/salt-cloud
+> -+++ b/scripts/salt-cloud
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Publish commands to the salt system from the command line on the master.
+> - '''
+> -diff --git a/scripts/salt-cp b/scripts/salt-cp
+> -index 3da660d137..dcc3f11554 100755
+> ---- a/scripts/salt-cp
+> -+++ b/scripts/salt-cp
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Publish commands to the salt system from the command line on the master.
+> - '''
+> -diff --git a/scripts/salt-extend b/scripts/salt-extend
+> -index 5385a7b6a9..b01c584bb4 100755
+> ---- a/scripts/salt-extend
+> -+++ b/scripts/salt-extend
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Quickstart for creating an/or extending the functionality of your SaltStack installation
+> -
+> -diff --git a/scripts/salt-key b/scripts/salt-key
+> -index cb26dfd5a6..596b202a3f 100755
+> ---- a/scripts/salt-key
+> -+++ b/scripts/salt-key
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Manage the authentication keys with salt-key
+> - '''
+> -diff --git a/scripts/salt-master b/scripts/salt-master
+> -index b4323bd532..52bb47dc47 100755
+> ---- a/scripts/salt-master
+> -+++ b/scripts/salt-master
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Start the salt-master
+> - '''
+> -diff --git a/scripts/salt-minion b/scripts/salt-minion
+> -index 74a9fa1d67..4a23ed9122 100755
+> ---- a/scripts/salt-minion
+> -+++ b/scripts/salt-minion
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - This script is used to kick off a salt minion daemon
+> - '''
+> -diff --git a/scripts/salt-proxy b/scripts/salt-proxy
+> -index e921e6590b..443774ef85 100755
+> ---- a/scripts/salt-proxy
+> -+++ b/scripts/salt-proxy
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - # -*- coding: utf-8 -*-
+> - '''
+> - This script is used to kick off a salt proxy minion daemon
+> -diff --git a/scripts/salt-run b/scripts/salt-run
+> -index 2b2d86554c..cfef160ab0 100755
+> ---- a/scripts/salt-run
+> -+++ b/scripts/salt-run
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Execute a salt convenience routine
+> - '''
+> -diff --git a/scripts/salt-ssh b/scripts/salt-ssh
+> -index 4f21baa5f4..77bb6ceb38 100755
+> ---- a/scripts/salt-ssh
+> -+++ b/scripts/salt-ssh
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Execute the salt ssh system
+> - '''
+> -diff --git a/scripts/salt-syndic b/scripts/salt-syndic
+> -index d6faf2df63..896bf5f3b0 100755
+> ---- a/scripts/salt-syndic
+> -+++ b/scripts/salt-syndic
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - This script is used to kick off a salt syndic daemon
+> - '''
+> -diff --git a/scripts/salt-unity b/scripts/salt-unity
+> -index b0a2d31597..ff1fa9034c 100755
+> ---- a/scripts/salt-unity
+> -+++ b/scripts/salt-unity
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> -
+> - from salt.scripts import salt_unity
+> -
+> -diff --git a/scripts/spm b/scripts/spm
+> -index 027864ee11..4d9b648b5d 100755
+> ---- a/scripts/spm
+> -+++ b/scripts/spm
+> -@@ -1,4 +1,4 @@
+> --#!/usr/bin/env python
+> -+#!/usr/bin/env python3
+> - '''
+> - Publish commands to the salt system from the command line on the master.
+> -
+> diff --git a/meta-openstack/recipes-support/salt/salt_3000.bb b/meta-openstack/recipes-support/salt/salt_3001.bb
+> similarity index 97%
+> rename from meta-openstack/recipes-support/salt/salt_3000.bb
+> rename to meta-openstack/recipes-support/salt/salt_3001.bb
+> index c2bc8da..5140470 100644
+> --- a/meta-openstack/recipes-support/salt/salt_3000.bb
+> +++ b/meta-openstack/recipes-support/salt/salt_3001.bb
+> @@ -19,11 +19,10 @@ PACKAGECONFIG[zeromq] = ",,python3-pyzmq python3-pycrypto,"
+>  PACKAGECONFIG[tcp] = ",,python3-pycrypto"
 >
+>  SRC_URI = "https://files.pythonhosted.org/packages/source/s/${PN}/${PN}-${PV}.tar.gz \
+> -           file://set_python_location_hashbang.patch \
+>  "
+>
+> -SRC_URI[md5sum] = "8084ef6f2a275b627ae364b9d562b4ff"
+> -SRC_URI[sha256sum] = "04fbc64933b375cbbefc9576bcc65167b74d5eec7f58e64d096d67529ea66500"
+> +SRC_URI[md5sum] = "ae06cef7557e237a954491a069e79a25"
+> +SRC_URI[sha256sum] = "5ca60d1b2cc8e63db50995bd8b117914eeaf57c48ce2b3a3731ee57163adf154"
+>
+>
+>  SYSTEMD_AUTO_ENABLE_${PN}-master = "disable"
+> @@ -100,7 +99,7 @@ SUMMARY_${PN}-common = "shared libraries that salt requires for all packages"
+>  DESCRIPTION_${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
+>  salt-master, salt-minion, and salt-syndic require to function."
+>  RDEPENDS_${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0)"
+> -RRECOMMENDS_${PN}-common = "lsb"
+> +RRECOMMENDS_${PN}-common = "lsb-release"
+>  RSUGGESTS_${PN}-common = "python3-mako python3-git"
+>  RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
+>  CONFFILES_${PN}-common="${sysconfdir}/logrotate.d/${PN}"
 > --
-> 2.17.1
+> 2.27.0
 >
+> I wasn't sure on the RRECOMMENDS for lsb since it was removed and lsb-release was created in it's place.
+> 
 
 
--- 
+
+--
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
