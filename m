@@ -1,263 +1,169 @@
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web11.5593.1594758301570024554
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web10.5476.1594758311138734134
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 14 Jul 2020 13:25:01 -0700
+ Tue, 14 Jul 2020 13:25:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=iTn7HXuF;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id rk21so24323690ejb.2
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 14 Jul 2020 13:25:01 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XdQPPI6t;
+ spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id ACC16E01E87; Tue, 14 Jul 2020 13:25:10 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,URIBL_RED
+	autolearn=ham version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
+	*      (bruce.ashfield[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.218.67 listed in list.dnswl.org]
+	*  0.0 URIBL_RED Contains an URL listed in the URIBL redlist
+	*      [URIs: yoctoproject.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
+	*       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 65449E01E85
+	for <meta-virtualization@yoctoproject.org>; Tue, 14 Jul 2020 13:25:08 -0700 (PDT)
+Received: by mail-ej1-f67.google.com with SMTP id ga4so24294397ejb.11
+        for <meta-virtualization@yoctoproject.org>; Tue, 14 Jul 2020 13:25:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fGnE4U/H4gmmpvwO+KfBfIqKQ2Te0EO7ExbMFDE3X2A=;
-        b=iTn7HXuFu7HZynTMlqC4nUWz4SHKx+4izoxbI7eHCAEW1gaBvJVKhRpx8Er5jqQ1OW
-         9/U2w7dE4Ib+BQj8JBda9AV2YXz6jVqPuE2AUBBOmK/bW7vbp+mL8fn0nBJ0WgUwNFhu
-         zw2375K3XWgQGeDGN7rKVLjBjUVEqmQqOSdJpytTmmxIz9PYAep/5ltxfSrid94XIJoW
-         UDjY1YfoLfAXhnt4X+oEIQzmrPhDsGf/vMD2SpFecDQvsp1qBHnxEJkpC1aLHhpBHbSt
-         PgdupCFMOfUrXsA7XdODp3lVcqETdKoW3QWdcTTqB2dEnaYkBMLnZ3MmeMat7pA+alO2
-         z9DQ==
+        bh=KrNMDJr4veY31qjp1NSyZEUzQu6UpAjWDo97FczM+DQ=;
+        b=XdQPPI6tkQV5uphaDkfKfUYmMJTXiUcODA0wXYpwXlcsNDzc7K6LU/z0ro28N0A3ZN
+         EQ0Hh+KzJAr5QSUIJe913hG7CmiQW6eza81oAVSUurSN5vU3QJE1MBxcAZRmMht+71mU
+         P66cOZluGbpRvldBdCT53B9q7Gg7dQSWkvUYpuyu5MIykfaUh1sqKlQEIeo6Px2BgkPA
+         QfQSHBtFlkfBBnYqp1j5vcmvF8fTv+B6m3WvM32xHy6A0n3EUFbF53yvw+qT3/lLcKOF
+         FixNSr3Ly0dJbwnrBLsqBmHpJNqtX5LdXHb1Rq1YDOZ7iayVS0V31NeU6tnfhe3FgtjA
+         EpcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fGnE4U/H4gmmpvwO+KfBfIqKQ2Te0EO7ExbMFDE3X2A=;
-        b=V15wHyKhmJBGMhEPumIpgAqUFddf98YQo8xobdRu4EcE+oDJI7f5/S2KB/VNtVI9rk
-         qBTjw9SdA15pGyclLFH1M+M9Nn769iBYBpNfp3IR4lihfX+Gd44IHZvTqOfU1RypU1pn
-         lqbWSY74i0G3v8WWug2ph9Z5mQkUKko9q5AtQnUOAbVS2ELXps07m0oi5bV+nqbWnk8n
-         BJfbCbY47f4S2Icd8PI9/5ICqMEZi+LQK+LzBN/CwoPlpdeskk51WpzZh7NprvHJBi1y
-         DV6OL6tWYRkhKVXFOjgMbEYXfrWfEiAoZqkZDXn9DHeMoehkRRq9ZWj7N0OUIpGZjXXU
-         fNgQ==
-X-Gm-Message-State: AOAM531MuIcAM9Pz76TtCuzukr5XXXY66NeniNV+xaiP1lvQwT/B4OG3
-	+91g1U1EZ7iyPv9gcUk12ds/6v9mUf5lJCJjoxQ=
-X-Google-Smtp-Source: ABdhPJyjxb6GCeM7iW9MpDO8uDdsaFrKPJ4TtKRBx2hKYzWxb4a2ZDmhbunlNBLrNLXTSmaPNnwZGniZBcT8ujqk0yI=
-X-Received: by 2002:a17:906:4145:: with SMTP id l5mr6114074ejk.334.1594758299876;
- Tue, 14 Jul 2020 13:24:59 -0700 (PDT)
+        bh=KrNMDJr4veY31qjp1NSyZEUzQu6UpAjWDo97FczM+DQ=;
+        b=iQR2GYvo4QXjTjbDoHZSOYEeTpMF9DYfpx4CNN3/VzAPE37VIHOL90vNYEOAmHsyIH
+         SAX2R19QLfJaFBpuebXMoJ1Yj5hYYnhReOlwiLpK7O88jLjbtB8SPFiqybBupR8ZaXAd
+         bOZCr2yx+ve4nln/LGBTzCspsAO0wNHCW6iqiTuJ9TZ2gE4BV1fYsrEOHVMRYYCVUZ8g
+         Ws/ZOwhuyXPWMcZpPa4FLm3GTg6IJxFLKuDV/cdeq9ML3IuRqJ62sHLuQ8Kv3f7Hz+Wn
+         i7aKuMZjnwKnqVaLBTCeOn0OiclLw7fLfQiYRX0YB9fkQOp+GM8FH3KK2KEW39AvxT9v
+         dlEg==
+X-Gm-Message-State: AOAM530LwuUzL9i5/XORTjpGK+kWr7n21pFE1PrDrBEV8hcehszPC6Wh
+	EdW7p/ZYqx5TAUulMVj1YhXTSqoUfUqFLLiXSwE=
+X-Google-Smtp-Source: ABdhPJxi8KMa4VrS8LCWGPTnGVZwfV4weBNDhroirzQ3MnkcFHgerdL6VjzMtcXTxDpdzUwoOn8EYzD90zpGccVaFyg=
+X-Received: by 2002:a17:907:9495:: with SMTP id dm21mr6135238ejc.357.1594758307851;
+ Tue, 14 Jul 2020 13:25:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200709152451.133150-1-paulohefagundes@gmail.com>
-In-Reply-To: <20200709152451.133150-1-paulohefagundes@gmail.com>
+References: <1594731800-3845-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <1594731800-3845-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 14 Jul 2020 16:24:48 -0400
-Message-ID: <CADkTA4O2kR6px0P8c+f55tn-RFaTguUYPGyoXxjzP6eZCt_yQA@mail.gmail.com>
-Subject: Re: [meta-virtualization][m-c-s][PATCH v2] salt: bump 3000 -> 3001
-To: "Fagundes, Paulo" <paulohefagundes@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+Date: Tue, 14 Jul 2020 16:24:56 -0400
+Message-ID: <CADkTA4MRqQtMz4BJWodk5MOsmVF3JzZQmQDQtk_LaDCWrhTE_A@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] python3-oslo.config: Change python to python3
+To: zangrc <zangrc.fnst@cn.fujitsu.com>
+Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
 
-v2 works.
-
-Merged.
+merged
 
 Bruce
 
-On Thu, Jul 9, 2020 at 11:25 AM Fagundes, Paulo
-<paulohefagundes@gmail.com> wrote:
+On Mon, Jul 13, 2020 at 9:03 PM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> Signed-off-by: Paulo Fagundes <paulohefagundes@gmail.com>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../salt/set_python_location_hashbang.patch   | 158 ------------------
->  .../salt/{salt_3000.bb => salt_3001.bb}       |   7 +-
->  2 files changed, 3 insertions(+), 162 deletions(-)
->  delete mode 100644 meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
->  rename meta-openstack/recipes-support/salt/{salt_3000.bb => salt_3001.bb} (97%)
+>  .../python/python-oslo.config_git.bb          | 37 -------------------
+>  .../python/python3-oslo.config_8.2.0.bb       | 26 +++++++++++++
+>  2 files changed, 26 insertions(+), 37 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python-oslo.config_git.bb
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-oslo.config_8.2.0.bb
 >
-> diff --git a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch b/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+> diff --git a/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb
 > deleted file mode 100644
-> index 76d6f41..0000000
-> --- a/meta-openstack/recipes-support/salt/salt/set_python_location_hashbang.patch
+> index 6a0498c..0000000
+> --- a/meta-openstack/recipes-devtools/python/python-oslo.config_git.bb
 > +++ /dev/null
-> @@ -1,158 +0,0 @@
-> -Upstream-Status: Pending
+> @@ -1,37 +0,0 @@
+> -DESCRIPTION = "API supporting parsing command line arguments and .ini style configuration files."
+> -HOMEPAGE = "https://pypi.python.org/pypi/oslo.config/4.11.1"
+> -SECTION = "devel/python"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=c46f31914956e4579f9b488e71415ac8"
 > -
-> -# The Salt SysV scripts require that the process name of the salt
-> -# components have the form "salt-<component>".
-> -# The current python shebangs on the salt components scripts spwans
-> -# processes that are generically named python. Changed shebang so
-> -# process names will be identifiable by the init scripts.
+> -PV = "4.11.1+git${SRCPV}"
+> -SRCREV = "fb0738974824af6e1bc7d9fdf32a7c1d3ebf65fb"
 > -
-> -diff --git a/scripts/salt b/scripts/salt
-> -index 1a6d6b4d0c..0408ad07b2 100755
-> ---- a/scripts/salt
-> -+++ b/scripts/salt
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Publish commands to the salt system from the command line on the master.
-> - '''
-> -diff --git a/scripts/salt-api b/scripts/salt-api
-> -index 6f028bacb6..7a51117822 100755
-> ---- a/scripts/salt-api
-> -+++ b/scripts/salt-api
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
+> -SRCNAME = "oslo.config"
+> -SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
 > -
-> - # Import salt libs
-> - from salt.scripts import salt_api
-> -diff --git a/scripts/salt-call b/scripts/salt-call
-> -index 5b8a8f3935..9ddda9428d 100755
-> ---- a/scripts/salt-call
-> -+++ b/scripts/salt-call
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Directly call a salt command in the modules, does not require a running salt
-> - minion to run.
-> -diff --git a/scripts/salt-cloud b/scripts/salt-cloud
-> -index e977b68179..01c593881c 100755
-> ---- a/scripts/salt-cloud
-> -+++ b/scripts/salt-cloud
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Publish commands to the salt system from the command line on the master.
-> - '''
-> -diff --git a/scripts/salt-cp b/scripts/salt-cp
-> -index 3da660d137..dcc3f11554 100755
-> ---- a/scripts/salt-cp
-> -+++ b/scripts/salt-cp
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Publish commands to the salt system from the command line on the master.
-> - '''
-> -diff --git a/scripts/salt-extend b/scripts/salt-extend
-> -index 5385a7b6a9..b01c584bb4 100755
-> ---- a/scripts/salt-extend
-> -+++ b/scripts/salt-extend
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Quickstart for creating an/or extending the functionality of your SaltStack installation
+> -S = "${WORKDIR}/git"
 > -
-> -diff --git a/scripts/salt-key b/scripts/salt-key
-> -index cb26dfd5a6..596b202a3f 100755
-> ---- a/scripts/salt-key
-> -+++ b/scripts/salt-key
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Manage the authentication keys with salt-key
-> - '''
-> -diff --git a/scripts/salt-master b/scripts/salt-master
-> -index b4323bd532..52bb47dc47 100755
-> ---- a/scripts/salt-master
-> -+++ b/scripts/salt-master
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Start the salt-master
-> - '''
-> -diff --git a/scripts/salt-minion b/scripts/salt-minion
-> -index 74a9fa1d67..4a23ed9122 100755
-> ---- a/scripts/salt-minion
-> -+++ b/scripts/salt-minion
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - This script is used to kick off a salt minion daemon
-> - '''
-> -diff --git a/scripts/salt-proxy b/scripts/salt-proxy
-> -index e921e6590b..443774ef85 100755
-> ---- a/scripts/salt-proxy
-> -+++ b/scripts/salt-proxy
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - # -*- coding: utf-8 -*-
-> - '''
-> - This script is used to kick off a salt proxy minion daemon
-> -diff --git a/scripts/salt-run b/scripts/salt-run
-> -index 2b2d86554c..cfef160ab0 100755
-> ---- a/scripts/salt-run
-> -+++ b/scripts/salt-run
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Execute a salt convenience routine
-> - '''
-> -diff --git a/scripts/salt-ssh b/scripts/salt-ssh
-> -index 4f21baa5f4..77bb6ceb38 100755
-> ---- a/scripts/salt-ssh
-> -+++ b/scripts/salt-ssh
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Execute the salt ssh system
-> - '''
-> -diff --git a/scripts/salt-syndic b/scripts/salt-syndic
-> -index d6faf2df63..896bf5f3b0 100755
-> ---- a/scripts/salt-syndic
-> -+++ b/scripts/salt-syndic
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - This script is used to kick off a salt syndic daemon
-> - '''
-> -diff --git a/scripts/salt-unity b/scripts/salt-unity
-> -index b0a2d31597..ff1fa9034c 100755
-> ---- a/scripts/salt-unity
-> -+++ b/scripts/salt-unity
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
+> -inherit setuptools3 rmargparse
 > -
-> - from salt.scripts import salt_unity
+> -DEPENDS += " \
+> -        python-pbr \
+> -        python-pip \
+> -        "
 > -
-> -diff --git a/scripts/spm b/scripts/spm
-> -index 027864ee11..4d9b648b5d 100755
-> ---- a/scripts/spm
-> -+++ b/scripts/spm
-> -@@ -1,4 +1,4 @@
-> --#!/usr/bin/env python
-> -+#!/usr/bin/env python3
-> - '''
-> - Publish commands to the salt system from the command line on the master.
+> -# Satisfy setup.py 'setup_requires'
+> -DEPENDS += " \
+> -        python-pbr-native \
+> -        "
 > -
-> diff --git a/meta-openstack/recipes-support/salt/salt_3000.bb b/meta-openstack/recipes-support/salt/salt_3001.bb
-> similarity index 97%
-> rename from meta-openstack/recipes-support/salt/salt_3000.bb
-> rename to meta-openstack/recipes-support/salt/salt_3001.bb
-> index c2bc8da..5140470 100644
-> --- a/meta-openstack/recipes-support/salt/salt_3000.bb
-> +++ b/meta-openstack/recipes-support/salt/salt_3001.bb
-> @@ -19,11 +19,10 @@ PACKAGECONFIG[zeromq] = ",,python3-pyzmq python3-pycrypto,"
->  PACKAGECONFIG[tcp] = ",,python3-pycrypto"
->
->  SRC_URI = "https://files.pythonhosted.org/packages/source/s/${PN}/${PN}-${PV}.tar.gz \
-> -           file://set_python_location_hashbang.patch \
->  "
->
-> -SRC_URI[md5sum] = "8084ef6f2a275b627ae364b9d562b4ff"
-> -SRC_URI[sha256sum] = "04fbc64933b375cbbefc9576bcc65167b74d5eec7f58e64d096d67529ea66500"
-> +SRC_URI[md5sum] = "ae06cef7557e237a954491a069e79a25"
-> +SRC_URI[sha256sum] = "5ca60d1b2cc8e63db50995bd8b117914eeaf57c48ce2b3a3731ee57163adf154"
->
->
->  SYSTEMD_AUTO_ENABLE_${PN}-master = "disable"
-> @@ -100,7 +99,7 @@ SUMMARY_${PN}-common = "shared libraries that salt requires for all packages"
->  DESCRIPTION_${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
->  salt-master, salt-minion, and salt-syndic require to function."
->  RDEPENDS_${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0)"
-> -RRECOMMENDS_${PN}-common = "lsb"
-> +RRECOMMENDS_${PN}-common = "lsb-release"
->  RSUGGESTS_${PN}-common = "python3-mako python3-git"
->  RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
->  CONFFILES_${PN}-common="${sysconfdir}/logrotate.d/${PN}"
+> -RDEPENDS_${PN} += " \
+> -    python-pbr \
+> -    python-netaddr \
+> -    python-six \
+> -    python-stevedore \
+> -    python-debtcollector \
+> -    python-oslo.i18n \
+> -    python-rfc3986 \
+> -    python-pyyaml \
+> -    "
+> -
+> diff --git a/meta-openstack/recipes-devtools/python/python3-oslo.config_8.2.0.bb b/meta-openstack/recipes-devtools/python/python3-oslo.config_8.2.0.bb
+> new file mode 100644
+> index 0000000..6898a1f
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-oslo.config_8.2.0.bb
+> @@ -0,0 +1,26 @@
+> +DESCRIPTION = "API supporting parsing command line arguments and .ini style configuration files."
+> +HOMEPAGE = "https://pypi.python.org/pypi/oslo.config/"
+> +SECTION = "devel/python"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=c46f31914956e4579f9b488e71415ac8"
+> +
+> +SRC_URI[sha256sum] = "116ff3a7b98b0309b083af7906d99f8c6bea67df5ee03a85e2ac02700dd75d30"
+> +
+> +inherit setuptools3 pypi
+> +
+> +DEPENDS += " \
+> +        python3-pbr \
+> +        python3-pbr-native \
+> +        python3-pip \
+> +        "
+> +
+> +RDEPENDS_${PN} += " \
+> +    python3-requests \
+> +    python3-netaddr \
+> +    python3-stevedore \
+> +    python3-debtcollector \
+> +    python3-oslo.i18n \
+> +    python3-rfc3986 \
+> +    python3-pyyaml \
+> +    "
+> +
 > --
-> 2.27.0
+> 2.17.1
+>
+>
 >
 > 
 
