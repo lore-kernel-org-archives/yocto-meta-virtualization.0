@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.11234.1594887324273661711
+ by mx.groups.io with SMTP id smtpd.web12.11012.1594887324868555572
  for <meta-virtualization@lists.yoctoproject.org>;
  Thu, 16 Jul 2020 01:15:24 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 265C2E01E8D; Thu, 16 Jul 2020 01:15:24 -0700 (PDT)
+	id B48BEE01E8C; Thu, 16 Jul 2020 01:15:24 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,107 +19,72 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 3C7FCE01E8B
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E3866E01E8A
 	for <meta-virtualization@yoctoproject.org>; Thu, 16 Jul 2020 01:15:23 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.75,358,1589212800"; 
-   d="scan'208";a="96427907"
+   d="scan'208";a="96427908"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
   by heian.cn.fujitsu.com with ESMTP; 16 Jul 2020 16:15:21 +0800
 Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 100B34CE2808
-	for <meta-virtualization@yoctoproject.org>; Thu, 16 Jul 2020 16:15:20 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 559F74CE4BD9
+	for <meta-virtualization@yoctoproject.org>; Thu, 16 Jul 2020 16:15:21 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.167.225.81) by
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Thu, 16 Jul 2020 16:15:21 +0800
+ (TLS) id 15.0.1497.2; Thu, 16 Jul 2020 16:15:22 +0800
 From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-cephclient: Consolidate in a single file
-Date: Fri, 17 Jul 2020 03:42:02 +0800
-Message-ID: <1594928524-4453-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python3-cssselect: upgrade 0.9.1 -> 1.1.0
+Date: Fri, 17 Jul 2020 03:42:04 +0800
+Message-ID: <1594928524-4453-3-git-send-email-zangrc.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1594928524-4453-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+References: <1594928524-4453-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.81]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
  G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 100B34CE2808.A0754
+X-yoursite-MailScanner-ID: 559F74CE4BD9.A452C
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 Content-Type: text/plain
 
-Consolidate inc and bb files into a single bb file.
-
 Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../python/python-cephclient.inc              | 26 -----------------
- .../python/python3-cephclient_0.1.0.5.bb      | 28 +++++++++++++++++--
- 2 files changed, 26 insertions(+), 28 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-cephclient.inc
+ .../recipes-devtools/python/python3-cssselect_0.9.1.bb      | 2 --
+ .../{python-cssselect.inc => python3-cssselect_1.1.0.bb}    | 6 +++---
+ 2 files changed, 3 insertions(+), 5 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python3-cssselect_0.9.1.bb
+ rename meta-openstack/recipes-devtools/python/{python-cssselect.inc => python3-cssselect_1.1.0.bb} (69%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-cephclient.inc b/meta-openstack/recipes-devtools/python/python-cephclient.inc
+diff --git a/meta-openstack/recipes-devtools/python/python3-cssselect_0.9.1.bb b/meta-openstack/recipes-devtools/python/python3-cssselect_0.9.1.bb
 deleted file mode 100644
-index e8e0d0a..0000000
---- a/meta-openstack/recipes-devtools/python/python-cephclient.inc
+index de194f8..0000000
+--- a/meta-openstack/recipes-devtools/python/python3-cssselect_0.9.1.bb
 +++ /dev/null
-@@ -1,26 +0,0 @@
--DESCRIPTION = "A client library in python for the Ceph REST API."
--HOMEPAGE = "https://github.com/dmsimard/python-cephclient"
--SECTION = "devel/python"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
--
--PYPI_PACKAGE = "python-cephclient"
--PYPI_SRC_URI = "https://pypi.python.org/packages/source/p/${PYPI_PACKAGE}/${PYPI_PACKAGE}-v${PV}.tar.gz"
--
--SRC_URI[md5sum] = "e3746607f1af1573a241b4995c10c938"
--SRC_URI[sha256sum] = "9776b786da2aebdc0439ea2f809cc8923f52bc0cf610f77a9c1348466961134b"
--
--inherit pypi
--
--# DEPENDS_default: python-pip
--
--DEPENDS += " \
--        ${PYTHON_PN}-pip \
--        "
--
--# RDEPENDS_default: 
--RDEPENDS_${PN} += " \
--        ${PYTHON_PN}-lxml \
--        ${PYTHON_PN}-requests \
--        ${PYTHON_PN}-cython \
--        "
-diff --git a/meta-openstack/recipes-devtools/python/python3-cephclient_0.1.0.5.bb b/meta-openstack/recipes-devtools/python/python3-cephclient_0.1.0.5.bb
-index e05c1d5..65e84bf 100644
---- a/meta-openstack/recipes-devtools/python/python3-cephclient_0.1.0.5.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-cephclient_0.1.0.5.bb
-@@ -1,2 +1,26 @@
--require python-cephclient.inc
+@@ -1,2 +0,0 @@
+-require python-cssselect.inc
 -inherit setuptools3
-+DESCRIPTION = "A client library in python for the Ceph REST API."
-+HOMEPAGE = "https://github.com/dmsimard/python-cephclient"
-+SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=d2794c0df5b907fdace235a619d80314"
-+
-+PYPI_PACKAGE = "python-cephclient"
-+PYPI_SRC_URI = "https://pypi.python.org/packages/source/p/${PYPI_PACKAGE}/${PYPI_PACKAGE}-v${PV}.tar.gz"
-+
-+SRC_URI[md5sum] = "e3746607f1af1573a241b4995c10c938"
-+SRC_URI[sha256sum] = "9776b786da2aebdc0439ea2f809cc8923f52bc0cf610f77a9c1348466961134b"
-+
+diff --git a/meta-openstack/recipes-devtools/python/python-cssselect.inc b/meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb
+similarity index 69%
+rename from meta-openstack/recipes-devtools/python/python-cssselect.inc
+rename to meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb
+index 377560e..e0a41b8 100644
+--- a/meta-openstack/recipes-devtools/python/python-cssselect.inc
++++ b/meta-openstack/recipes-devtools/python/python3-cssselect_1.1.0.bb
+@@ -4,10 +4,10 @@ SECTION = "devel/python"
+ LICENSE = "BSD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=952026b3fd2f625f2a3c0aa21da2493d"
+ 
+-SRC_URI[md5sum] = "c74f45966277dc7a0f768b9b0f3522ac"
+-SRC_URI[sha256sum] = "0535a7e27014874b27ae3a4d33e8749e345bdfa62766195208b7996bf1100682"
++SRC_URI[md5sum] = "fa57704c1cb66cc8e537b782bd6b227e"
++SRC_URI[sha256sum] = "f95f8dedd925fd8f54edb3d2dfb44c190d9d18512377d3c1e2388d16126879bc"
+ 
+-inherit pypi
 +inherit setuptools3 pypi
-+
-+# DEPENDS_default: python-pip
-+
-+DEPENDS += " \
-+        ${PYTHON_PN}-pip \
-+        "
-+
-+# RDEPENDS_default: 
-+RDEPENDS_${PN} += " \
-+        ${PYTHON_PN}-lxml \
-+        ${PYTHON_PN}-requests \
-+        ${PYTHON_PN}-cython \
-+        "
+ 
+ # DEPENDS_default: python-pip
+ 
 -- 
 2.25.1
 
