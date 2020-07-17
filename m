@@ -1,199 +1,263 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.2372.1595012719186906022
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
+ by mx.groups.io with SMTP id smtpd.web11.2352.1595019856588629015
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 17 Jul 2020 12:05:19 -0700
+ Fri, 17 Jul 2020 14:04:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=qmbbLVt3;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a1so11910384ejg.12
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 17 Jul 2020 12:05:18 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=b5oHx3Up;
+ spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: christopher.w.clark@gmail.com)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 2D50EE01EAD; Fri, 17 Jul 2020 14:04:16 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE autolearn=ham
+	version=3.3.1
+X-Spam-HAM-Report: 
+	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
+	*      (christopher.w.clark[at]gmail.com)
+	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
+	*      trust
+	*      [209.85.160.194 listed in list.dnswl.org]
+	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
+	*       domain
+	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+	*      valid
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E7503E01EAA
+	for <meta-virtualization@yoctoproject.org>; Fri, 17 Jul 2020 14:04:14 -0700 (PDT)
+Received: by mail-qt1-f194.google.com with SMTP id g13so8710598qtv.8
+        for <meta-virtualization@yoctoproject.org>; Fri, 17 Jul 2020 14:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AA30sWL8/t73VkGWR8If9b0DMBMZ8GIkz7n/1hb0wBs=;
-        b=qmbbLVt3Ajwt02D9EKXkY8ezIqZ+XPm2f4u8PmZDLj/D5qBuvdXfwranR1ZJoBJcmM
-         oeyZMr+Ht/e/b8ctr3Kf8TBS3m+e6sYFYkhka7TTG/Z+6MAgBqafugKaTAGusH6xGl3n
-         CQjzw4sFmV3KNHbin7lFxV5yX6WxBHUplZr85AoB/fllLsAXdrXkaRdIOxbVjQTM2LN4
-         lnMsjOdDP/bS1S5myzjLYr7TjokoYmdNeiaFOPNREN6tQqdxm4criJIaM2ynFwyPUZYQ
-         v6ICdEbYTS9G9hB/Na7jgSffhAh9T7QAP/VS0u8UxuovBgYLoaEmG0MhRPtJ8Y6a3CeV
-         GDtg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=MyUcuKmRu15g8wjngMWt/IDKM3fXmDAnFXCqHlA7MJU=;
+        b=b5oHx3UpJxMmIkujjN570lVZtqOhugCnvxK5gVjzH/hRZtLSR8e/+Sj60MqPzV+5BZ
+         w2q59U7sh+KJYlxIIUsQt6EGPooyClMLcTci4sWOCWDvtfQkJZPL6+J83d4mKdacaVHC
+         xxXq8Ko8P9LRnPTEQE3/7tksemJ5epvo1fkI7E6ZoOTCwwIWkrGIzRkwDjTobkLeK7cA
+         fNky79JGTB5k7EyUa/D+b2CWLP51DlNZTPf8yxjBJEoNisjPMy9fnykwjM3tTXwB/Z9j
+         6mf/UanBtIZ/c7hU+T4RcqLRnRDNKC/X6eXzC4g7+oiCU/vNVhRqduWJz3G8Q5Ugg/as
+         b4EQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AA30sWL8/t73VkGWR8If9b0DMBMZ8GIkz7n/1hb0wBs=;
-        b=bDsZWgT/ua8zXue64EHHUY0ITCo4ol8S9PAbwJJY3buY8rq/s93pXR6EkCtqZgZvYJ
-         hN+52Er4150NWtRZYcn7LvViItjbwf8ysgF4YkAa674B+ysyfGRawEEQmUQCkPoJBPWp
-         FWVlHOkoz9UHSg4l4FHIBGGSUZgLvF45WLKV3wfNk+o40ty6gJXwJ6vTuSKCoMQ7Rtas
-         a0N66qdbQpS+Hm78Muft/uC4Sa3PNvhmlmV7ZWizRuDzjbHwLUAtPMbeJGT9RqzMxsFJ
-         eRqiG9/mduf0Iddy1t3d8wlpjMiJblhCPm3yLSp4y4+twZ0FbnK2JukhbqslEGgcotAh
-         ATBw==
-X-Gm-Message-State: AOAM531rHA8C6XXniQPzR5qiKYIXtI/EhnwErmthespEvshCRRO7OlXh
-	ilzsDbvJwOiWGqb1dGLaMETKYdidoCYAM+J6Fz0=
-X-Google-Smtp-Source: ABdhPJw25IB3gMf5W1us0bBuubExulSJIv5lhvusslmErTaSoCDb9tUIgFYdYTRqXwK/jIC4ExOEYQ+7vcg/9n58us4=
-X-Received: by 2002:a17:906:899:: with SMTP id n25mr9400601eje.298.1595012717498;
- Fri, 17 Jul 2020 12:05:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <7Rna.1595008592154117129.JcM3@lists.yoctoproject.org> <16229DB323912ECB.24900@lists.yoctoproject.org>
-In-Reply-To: <16229DB323912ECB.24900@lists.yoctoproject.org>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 17 Jul 2020 15:05:06 -0400
-Message-ID: <CADkTA4MkH_MXMBX3aKXua3YF=kV=CMJ+LxT8FhPYs_LpZ35kBA@mail.gmail.com>
-Subject: Re: [meta-virtualization] image-oci.bbclass creates faulty arm/variant entry in index.json
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Robert Berger <robert.berger.yocto.user@gmail.com>, 
-	meta-virtualization@lists.yoctoproject.org
-X-Groupsio-MsgNum: 5584
-Content-Type: multipart/mixed; boundary="00000000000070671a05aaa7d677"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=MyUcuKmRu15g8wjngMWt/IDKM3fXmDAnFXCqHlA7MJU=;
+        b=LsiQCu9GaBQGVJeBHxZPaEewtFHOn0vzKJ0LDaBe/U8az8/tWyeIf2erV4w/o8Ja/m
+         1QqGTEDS12XeR1CrINBzd3DqDVMQIDKFvX7keCGOGa77dgpMRnrsOOjpUfQzgZFfQm4R
+         Gu1qLD0H4QMJN/nM78z6FAMq2h+p0H6+/w+7xsY0spHko6XDh8s6OCbMSxYfhqROmffk
+         9XL5mQp+fZhTb2f8t1kHAeqj+2KFhHUZHAws93hrYy1JDbvm8Bq3wPSsbs3B9kmDy1wJ
+         igy7EafaOzhFdAiRmAgU+RUwaPiGITDFLNnEkXn/w1UvmWeT4+fLKWOZ4U9k6c+2tObo
+         t0OQ==
+X-Gm-Message-State: AOAM533s2+J93p5o/vCbNm1HKyyRHEhtS7qFVFAlzkTToVQJzBfxhMRp
+	YZJZ/Brqd4TKyJb1nHzwjik5iNWN
+X-Google-Smtp-Source: ABdhPJx4J1n7V4mT0ehekQgsusn5GyNu8W3TletrXR8ZOHSNErRRno1xdTKiKU1VUNtA2X9u7Z2yDA==
+X-Received: by 2002:ac8:957:: with SMTP id z23mr12611277qth.68.1595019853476;
+        Fri, 17 Jul 2020 14:04:13 -0700 (PDT)
+Received: from localhost.localdomain (mobile-166-137-177-108.mycingular.net. [166.137.177.108])
+        by smtp.gmail.com with ESMTPSA id y45sm12819387qtk.19.2020.07.17.14.04.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Jul 2020 14:04:13 -0700 (PDT)
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+To: meta-virtualization@yoctoproject.org
+Cc: cardoe@gentoo.org,
+	Christopher Clark <christopher.w.clark@gmail.com>,
+	bruce.ashfield@gmail.com
+Subject: [meta-virtualization][PATCH 2/4] xen, xen-tools: add recipes for Xen 4.14
+Date: Fri, 17 Jul 2020 14:03:47 -0700
+Message-Id: <20200717210349.16459-2-christopher.w.clark@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200717210349.16459-1-christopher.w.clark@gmail.com>
+References: <20200717210349.16459-1-christopher.w.clark@gmail.com>
 
---00000000000070671a05aaa7d677
-Content-Type: text/plain; charset="UTF-8"
+From: Christopher Clark <christopher.w.clark@gmail.com>
 
-Attached is the fix.
+Add a versioned-suffix pair of recipes for Xen 4.14, allowing selection
+of which Xen version to build via setting PREFERRED_VERSION.
 
-It is lightly tested and did the right thing in my unit testing. I'll
-push it early next week, if it works for you as well.
+4.14 is currently still pre-release, so the new recipes for it set
+DEFAULT_PREFERENCE to -1, and the default for now remains the existing
+stable version. Forward ports of patches needed for 4.14 are included.
 
-Bruce
+Implementation note: since both this version and the git recipe are
+built from git branches -- important for Xen since significant updates
+are made available there inbetween point releases -- the recipe includes
+'stable' as a string in PV so as to distinguish it from 'git' in the git
+recipe, and thereby allow PREFERRED_VERSION to select the correct recipe
+in the situation where both happen to be configured with the same XEN_REL.
 
-On Fri, Jul 17, 2020 at 2:30 PM Bruce Ashfield via
-lists.yoctoproject.org
-<bruce.ashfield=gmail.com@lists.yoctoproject.org> wrote:
->
-> On Fri, Jul 17, 2020 at 1:56 PM Robert Berger
-> <robert.berger.yocto.user@gmail.com> wrote:
-> >
-> > index.json looks like this:
-> >
-> > {
-> >   "schemaVersion": 2,
-> >   "manifests": [
-> >     {
-> >       "mediaType": "application/vnd.oci.image.manifest.v1+json",
-> >       "size": 420,
-> >       "digest": "sha256:63f34b526be88da860b1ae7969430bc7d20f233a58e13fc0f3770e61e037ebba",
-> >       "platform": {
-> >         "architecture": "arm",
-> >         \"variant\": "v7",
-> >         "os": "linux"
-> >       },
-> >       "annotations": {
-> >         "org.opencontainers.image.ref.name": "latest"
-> >       }
-> >     }
-> >   ]
-> > }
-> >
-> > \"variant\": "v7" should be "variant": "v7"
-> >
-> > I just hacked it like this in one of my custom scripts:
-> >
-> > sed -i 's/\\"variant\\"/"variant"/g' ${OCI}/index.json
-> >
-> > But this is not an appropriate fix.
-> >
-> > The problem seems to be a combination of image-oci.bbclass and sloci-image.
->
-> It's sloci-image. I'll pull together a fix.
->
-> Bruce
->
-> >
-> > Regards,
-> >
-> > Robert
->
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-> 
+Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
+---
+ ...ython-pygrub-pass-DISTUTILS-xen-4.14.patch | 66 +++++++++++++++++++
+ ...uild-temporarily-inhibit-Werror-4.14.patch | 26 ++++++++
+ recipes-extended/xen/xen-tools_4.14.bb        | 21 ++++++
+ recipes-extended/xen/xen_4.14.bb              | 20 ++++++
+ 4 files changed, 133 insertions(+)
+ create mode 100644 recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch
+ create mode 100644 recipes-extended/xen/files/0001-xen-build-temporarily-inhibit-Werror-4.14.patch
+ create mode 100644 recipes-extended/xen/xen-tools_4.14.bb
+ create mode 100644 recipes-extended/xen/xen_4.14.bb
 
-
-
+diff --git a/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch
+new file mode 100644
+index 0000000..f0688fd
+--- /dev/null
++++ b/recipes-extended/xen/files/0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch
+@@ -0,0 +1,66 @@
++From d79dcc2002008c58683de82f06c168d6eea57991 Mon Sep 17 00:00:00 2001
++From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
++Date: Fri, 19 Oct 2018 11:01:37 +0200
++Subject: [PATCH] python,pygrub: pass DISTUTILS env vars as setup.py args
++
++Allow to respect the target install dir (PYTHON_SITEPACKAGES_DIR)
++as well as other parameters set by the OpenEmbedded build system.
++This is especially useful when the target libdir is not the default one
++(/usr/lib), but for example /usr/lib64.
++
++Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
++
++Forward-ported to Xen 4.12.0
++Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
++
++Modified to support pygrub installation with python 3
++Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
++
++Forward-ported to Xen 4.14.0
++Signed-off-by: Christopher Clark <christopher.clark6@baesystems.com>
++diff --git a/tools/pygrub/Makefile b/tools/pygrub/Makefile
++index 3063c49..513314b 100644
++--- a/tools/pygrub/Makefile
+++++ b/tools/pygrub/Makefile
++@@ -10,14 +10,17 @@ INSTALL_LOG = build/installed_files.txt
++ all: build
++ .PHONY: build
++ build:
++-	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) setup.py build
+++	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
++ 
++ .PHONY: install
++ install: all
++ 	$(INSTALL_DIR) $(DESTDIR)/$(bindir)
++ 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
++ 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
++-		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force
+++		 --root="$(DESTDIR)" --install-scripts=$(LIBEXEC_BIN) --force \
+++		 $(DISTUTILS_INSTALL_ARGS)
+++	rm -f $(DESTDIR)/$(LIBEXEC_BIN)/pygrub
+++	$(INSTALL_PYTHON_PROG) src/pygrub $(DESTDIR)/$(LIBEXEC_BIN)/pygrub
++ 	set -e; if [ $(bindir) != $(LIBEXEC_BIN) -a \
++ 	             "`readlink -f $(DESTDIR)/$(bindir)`" != \
++ 	             "`readlink -f $(LIBEXEC_BIN)`" ]; then \
++diff --git a/tools/python/Makefile b/tools/python/Makefile
++index 541858e..4d4a344 100644
++--- a/tools/python/Makefile
+++++ b/tools/python/Makefile
++@@ -10,7 +10,7 @@ INSTALL_LOG = build/installed_files.txt
++ 
++ .PHONY: build
++ build:
++-	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build
+++	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" $(PYTHON) setup.py build $(DISTUTILS_BUILD_ARGS)
++ 
++ .PHONY: install
++ install:
++@@ -18,7 +18,7 @@ install:
++ 
++ 	CC="$(CC)" CFLAGS="$(PY_CFLAGS)" LDFLAGS="$(PY_LDFLAGS)" $(PYTHON) \
++ 		setup.py install --record $(INSTALL_LOG) $(PYTHON_PREFIX_ARG) \
++-		--root="$(DESTDIR)" --force
+++		--root="$(DESTDIR)" --force $(DISTUTILS_INSTALL_ARGS)
++ 
++ 	$(INSTALL_PYTHON_PROG) scripts/convert-legacy-stream $(DESTDIR)$(LIBEXEC_BIN)
++ 	$(INSTALL_PYTHON_PROG) scripts/verify-stream-v2 $(DESTDIR)$(LIBEXEC_BIN)
+diff --git a/recipes-extended/xen/files/0001-xen-build-temporarily-inhibit-Werror-4.14.patch b/recipes-extended/xen/files/0001-xen-build-temporarily-inhibit-Werror-4.14.patch
+new file mode 100644
+index 0000000..0e0a3dc
+--- /dev/null
++++ b/recipes-extended/xen/files/0001-xen-build-temporarily-inhibit-Werror-4.14.patch
+@@ -0,0 +1,26 @@
++From 9cff3bf8425ccc593825fcde8ca5eaa32a43d04d Mon Sep 17 00:00:00 2001
++From: Bruce Ashfield <bruce.ashfield@gmail.com>
++Date: Thu, 18 Jun 2020 09:05:22 -0400
++Subject: [PATCH] xen/build: temporarily inhibit Werror
++
++Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
++Rebased on Xen 4.14:
++Signed-off-by: Christopher Clark <christopher.w.clark@gmail.com>
++---
++ tools/libxl/Makefile | 2 +-
++ xen/Rules.mk         | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/tools/libxl/Makefile b/tools/libxl/Makefile
++index 6da342ed61..c67560e269 100644
++--- a/tools/libxl/Makefile
+++++ b/tools/libxl/Makefile
++@@ -11,7 +11,7 @@ MINOR = 0
++ XLUMAJOR = 4.14
++ XLUMINOR = 0
++ 
++-CFLAGS += -Werror -Wno-format-zero-length -Wmissing-declarations \
+++CFLAGS += -Wno-format-zero-length -Wmissing-declarations \
++ 	-Wno-declaration-after-statement -Wformat-nonliteral
++ CFLAGS += -I. -fPIC
++ 
+diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extended/xen/xen-tools_4.14.bb
+new file mode 100644
+index 0000000..ef40c85
+--- /dev/null
++++ b/recipes-extended/xen/xen-tools_4.14.bb
+@@ -0,0 +1,21 @@
++SRCREV ?= "02d69864b51a4302a148c28d6d391238a6778b4b"
++
++XEN_REL ?= "4.14"
++XEN_BRANCH ?= "stable-${XEN_REL}"
++
++SRC_URI = " \
++    git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
++    file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
++    file://0001-xen-build-temporarily-inhibit-Werror-4.14.patch \
++    "
++
++LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
++
++PV = "${XEN_REL}+stable${SRCPV}"
++
++S = "${WORKDIR}/git"
++
++DEFAULT_PREFERENCE ??= "-1"
++
++require xen.inc
++require xen-tools.inc
+diff --git a/recipes-extended/xen/xen_4.14.bb b/recipes-extended/xen/xen_4.14.bb
+new file mode 100644
+index 0000000..02af2a7
+--- /dev/null
++++ b/recipes-extended/xen/xen_4.14.bb
+@@ -0,0 +1,20 @@
++SRCREV ?= "02d69864b51a4302a148c28d6d391238a6778b4b"
++
++XEN_REL ?= "4.14"
++XEN_BRANCH ?= "stable-${XEN_REL}"
++
++SRC_URI = " \
++    git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
++    file://xen-arm64-implement-atomic-fetch-add.patch \
++    "
++
++LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
++
++PV = "${XEN_REL}+stable${SRCPV}"
++
++S = "${WORKDIR}/git"
++
++DEFAULT_PREFERENCE ??= "-1"
++
++require xen.inc
++require xen-hypervisor.inc
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
 
---00000000000070671a05aaa7d677
-Content-Type: application/octet-stream; 
-	name="0001-sloci-image-fix-variant-quoting.patch"
-Content-Disposition: attachment; 
-	filename="0001-sloci-image-fix-variant-quoting.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_kcqldqyp0>
-X-Attachment-Id: f_kcqldqyp0
-
-RnJvbSAyZTRhNWU1NTExZmNlNTM3YWI2OTNlZTViOWFmYTQyNTUzZGVlMThjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwu
-Y29tPgpEYXRlOiBGcmksIDE3IEp1bCAyMDIwIDE1OjAyOjM3IC0wNDAwClN1YmplY3Q6IFtQQVRD
-SF0gc2xvY2ktaW1hZ2U6IGZpeCB2YXJpYW50IHF1b3RpbmcKCkJhc2ggZG9lc24ndCBkZWFsIHZl
-cnkgd2VsbCB3aXRoIHRoZSBxdW90ZWQgInZhcmlhbnQiIGluIHRoZQpvdXRwdXQgb2YgdGhlIG9j
-aS1pbWFnZS1pbmRleC4gV2UgY2FuIGNhbGN1bGF0ZSB0aGUgc3RyaW5nIGF0CnRoZSB0b3Agb2Yg
-dGhlIGZ1bmN0aW9uLCBhbmQganVzdCB1c2UgaXQgYXMgYSB3aG9sZSB0byBhdm9pZApuZWVkaW5n
-IHRvIGZpZ3VyZSBvdXQgdGhlIHF1b3RlIGVzY2FwaW5nLgoKTm8gY2hhbmdlcyBpbiB0aGUgb3V0
-cHV0LCBleGNlcHQgYSBwcm9wZXJseSBxdW90ZWQgInZhcmlhbnQiCndoZW4gYSB2YXJpYW50IGlz
-IGRlZmluZWQuCgpXZSBhbHNvIGFkanVzdCB0aGUgZGVmaW5pdGlvbiBvZiAiUyIsIHNpbmNlIGl0
-IHJlYWxseSB3YXNuJ3QKY29ycmVjdCBiZWZvcmUsIGFuZCBub3cgdGhhdCB3ZSBoYXZlIHBhdGNo
-ZXMsIGl0IGlzIG1vcmUKaW1wb3J0YW50LgoKU2lnbmVkLW9mZi1ieTogQnJ1Y2UgQXNoZmllbGQg
-PGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4KLS0tCiAuLi4vc2xvY2ktaW1hZ2Uvc2xvY2ktaW1h
-Z2UtbmF0aXZlX2dpdC5iYiAgICAgfCAxMSArKystLQogLi4uMDAwMS1zbG9jaS1pbWFnZS1maXgt
-dmFyaWFudC1xdW90aW5nLnBhdGNoIHwgNDIgKysrKysrKysrKysrKysrKysrKwogMiBmaWxlcyBj
-aGFuZ2VkLCA0OSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAw
-NjQ0IHJlY2lwZXMtY29udGFpbmVycy9zbG9jaS1pbWFnZS9zbG9jaS1pbWFnZS8wMDAxLXNsb2Np
-LWltYWdlLWZpeC12YXJpYW50LXF1b3RpbmcucGF0Y2gKCmRpZmYgLS1naXQgYS9yZWNpcGVzLWNv
-bnRhaW5lcnMvc2xvY2ktaW1hZ2Uvc2xvY2ktaW1hZ2UtbmF0aXZlX2dpdC5iYiBiL3JlY2lwZXMt
-Y29udGFpbmVycy9zbG9jaS1pbWFnZS9zbG9jaS1pbWFnZS1uYXRpdmVfZ2l0LmJiCmluZGV4IDU2
-ZThlMGYuLmIzYjExYmQgMTAwNjQ0Ci0tLSBhL3JlY2lwZXMtY29udGFpbmVycy9zbG9jaS1pbWFn
-ZS9zbG9jaS1pbWFnZS1uYXRpdmVfZ2l0LmJiCisrKyBiL3JlY2lwZXMtY29udGFpbmVycy9zbG9j
-aS1pbWFnZS9zbG9jaS1pbWFnZS1uYXRpdmVfZ2l0LmJiCkBAIC0xLDcgKzEsMTAgQEAKIFNVTU1B
-UlkgPSAiQSBzaW1wbGUgQ0xJIHRvb2wgZm9yIHBhY2tpbmcgcm9vdGZzIGludG8gYSBzaW5nbGUt
-bGF5ZXIgT0NJIGltYWdlIgogTElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZp
-bGU6Ly9naXQvTElDRU5TRTttZDU9OTQ4Y2Q4ZTU5MDY5ZmFkOTkyYjA0NjlhZjlhZDc5NjYiCi1T
-UkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vamlydXRrYS9zbG9jaS1pbWFnZS5naXQiCitMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT05NDhjZDhlNTkwNjlmYWQ5OTJiMDQ2
-OWFmOWFkNzk2NiIKK1NSQ19VUkkgPSAiZ2l0Oi8vZ2l0aHViLmNvbS9qaXJ1dGthL3Nsb2NpLWlt
-YWdlLmdpdCBcCisgICAgICAgICAgIGZpbGU6Ly8wMDAxLXNsb2NpLWltYWdlLWZpeC12YXJpYW50
-LXF1b3RpbmcucGF0Y2ggXAorICAgICAgICAgICIKKwogCiBERVBFTkRTID0gIiIKIApAQCAtMTAs
-MTMgKzEzLDEzIEBAIFBWID0gInYwLjEuMCtnaXQke1NSQ1BWfSIKIAogaW5oZXJpdCBuYXRpdmUK
-IAotUyA9ICIke1dPUktESVJ9IgorUyA9ICIke1dPUktESVJ9L2dpdCIKIAogZG9fY29tcGlsZSgp
-IHsgCiAJOgogfQogCiBkb19pbnN0YWxsKCkgewotCWNkICR7U30vZ2l0CisJY2QgJHtTfQogICAg
-ICAgICBtYWtlIFBSRUZJWD0iJHtleGVjX3ByZWZpeH0iIERFU1RESVI9JHtEfSBpbnN0YWxsCiB9
-CmRpZmYgLS1naXQgYS9yZWNpcGVzLWNvbnRhaW5lcnMvc2xvY2ktaW1hZ2Uvc2xvY2ktaW1hZ2Uv
-MDAwMS1zbG9jaS1pbWFnZS1maXgtdmFyaWFudC1xdW90aW5nLnBhdGNoIGIvcmVjaXBlcy1jb250
-YWluZXJzL3Nsb2NpLWltYWdlL3Nsb2NpLWltYWdlLzAwMDEtc2xvY2ktaW1hZ2UtZml4LXZhcmlh
-bnQtcXVvdGluZy5wYXRjaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwLi41NzA0
-M2NmCi0tLSAvZGV2L251bGwKKysrIGIvcmVjaXBlcy1jb250YWluZXJzL3Nsb2NpLWltYWdlL3Ns
-b2NpLWltYWdlLzAwMDEtc2xvY2ktaW1hZ2UtZml4LXZhcmlhbnQtcXVvdGluZy5wYXRjaApAQCAt
-MCwwICsxLDQyIEBACitGcm9tIGY3YjI3ODY0MjhjNTJhNTZiNTQ5YjE5ZmU3MjRjY2Q1NGY5NGYx
-MTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2Uu
-YXNoZmllbGRAZ21haWwuY29tPgorRGF0ZTogRnJpLCAxNyBKdWwgMjAyMCAxNDo0MDoxMiAtMDQw
-MAorU3ViamVjdDogW1BBVENIXSBzbG9jaS1pbWFnZTogZml4IHZhcmlhbnQgcXVvdGluZworCitC
-YXNoIGRvZXNuJ3QgZGVhbCB2ZXJ5IHdlbGwgd2l0aCB0aGUgcXVvdGVkICJ2YXJpYW50IiBpbiB0
-aGUKK291dHB1dCBvZiB0aGUgb2NpLWltYWdlLWluZGV4LiBXZSBjYW4gY2FsY3VsYXRlIHRoZSBz
-dHJpbmcgYXQKK3RoZSB0b3Agb2YgdGhlIGZ1bmN0aW9uLCBhbmQganVzdCB1c2UgaXQgYXMgYSB3
-aG9sZSB0byBhdm9pZAorbmVlZGluZyB0byBmaWd1cmUgb3V0IHRoZSBxdW90ZSBlc2NhcGluZy4K
-KworTm8gY2hhbmdlcyBpbiB0aGUgb3V0cHV0LCBleGNlcHQgYSBwcm9wZXJseSBxdW90ZWQgInZh
-cmlhbnQiCit3aGVuIGEgdmFyaWFudCBpcyBkZWZpbmVkLgorCitTaWduZWQtb2ZmLWJ5OiBCcnVj
-ZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAZ21haWwuY29tPgorLS0tCisgc2xvY2ktaW1hZ2Ug
-fCAzICsrLQorIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkK
-KworZGlmZiAtLWdpdCBhL3Nsb2NpLWltYWdlIGIvc2xvY2ktaW1hZ2UKK2luZGV4IGJlOGU3OWEu
-LmZjY2UyMTkgMTAwNzU1CistLS0gYS9zbG9jaS1pbWFnZQorKysrIGIvc2xvY2ktaW1hZ2UKK0BA
-IC0yOTgsNiArMjk4LDcgQEAgb2NpX2ltYWdlX2NvbmZpZygpIHsKKyAjICQxOiBkaWdlc3Qgb2Yg
-dGhlIGltYWdlIG1hbmlmZXN0IGpzb24gKG11c3QgYmUgaW4gYmxvYnMgZGlyZWN0b3J5KQorIG9j
-aV9pbWFnZV9pbmRleCgpIHsKKyAJbG9jYWwgbWFuaWZlc3RfZGlnZXN0PSIkMSIKKysJbG9jYWwg
-dmFyaWFudF9zdHJpbmc9IlwidmFyaWFudFwiOiAkKGpzb25fc3RyaW5nICIkQ0ZHX0FSQ0hfVkFS
-SUFOVCIpLCIKKyAKKyAJY2F0IDw8LUVPRgorIAl7CitAQCAtMzA5LDcgKzMxMCw3IEBAIG9jaV9p
-bWFnZV9pbmRleCgpIHsKKyAJICAgICAgImRpZ2VzdCI6ICIkbWFuaWZlc3RfZGlnZXN0IiwKKyAJ
-ICAgICAgInBsYXRmb3JtIjogeworIAkgICAgICAgICJhcmNoaXRlY3R1cmUiOiAiJChvY2lfYXJj
-aCAkQ0ZHX0FSQ0gpIiwKKy0JICAgICAgICAke0NGR19BUkNIX1ZBUklBTlQ6KyJcInZhcmlhbnRc
-IjogJChqc29uX3N0cmluZyAiJENGR19BUkNIX1ZBUklBTlQiKSwifQorKwkJJHtDRkdfQVJDSF9W
-QVJJQU5UOiskdmFyaWFudF9zdHJpbmd9CisgCSAgICAgICAgIm9zIjogIiRDRkdfT1MiCisgCSAg
-ICAgIH0sCisgCSAgICAgICJhbm5vdGF0aW9ucyI6IHsKKy0tIAorMi4xOS4xCisKLS0gCjIuMTku
-MQoK
-
---00000000000070671a05aaa7d677--
