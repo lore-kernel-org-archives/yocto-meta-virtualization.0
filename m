@@ -1,64 +1,53 @@
-Subject: Re: image-oci.bbclass creates faulty arm/variant entry in index.json
+Subject: Re: [PATCH 3/4] xen: drop vars that duplicate hvc console from the r-pi4 config
 To: meta-virtualization@lists.yoctoproject.org
-From: "Robert Berger" <robert.berger.yocto.user@gmail.com>
-X-Originating-Location: Athens, Attica, GR (2.86.134.132)
-X-Originating-Platform: Linux Firefox 78
+From: "Ashish" <ashishm@mvista.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (45.248.21.177)
+X-Originating-Platform: Linux Chrome 83
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Sat, 18 Jul 2020 05:39:08 -0700
-References: <CADkTA4MkH_MXMBX3aKXua3YF=kV=CMJ+LxT8FhPYs_LpZ35kBA@mail.gmail.com>
-In-Reply-To: <CADkTA4MkH_MXMBX3aKXua3YF=kV=CMJ+LxT8FhPYs_LpZ35kBA@mail.gmail.com>
-Message-ID: <6993.1595075948711564548@lists.yoctoproject.org>
-Content-Type: multipart/alternative; boundary="jLjHezedjc98wvjJeq4x"
+Date: Sat, 18 Jul 2020 22:37:57 -0700
+References: <20200717210349.16459-3-christopher.w.clark@gmail.com>
+In-Reply-To: <20200717210349.16459-3-christopher.w.clark@gmail.com>
+Message-ID: <16433.1595137077947997501@lists.yoctoproject.org>
+Content-Type: multipart/alternative; boundary="hY2aVN37j1asrWkZv62I"
 
---jLjHezedjc98wvjJeq4x
+--hY2aVN37j1asrWkZv62I
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Christopher ,
 
-Thanks!
+Can you please provide some inputs for :
 
-Some space before "variant": "v7", to align with the character above would=
- make it better readable, but this works for me as well.
+- To build xen-image-minimal using *master branch of meta-virtualization* =
+Whats the branch suggested to be used for layers ( meta-openembedded / meta=
+-raspberrypi & poky )
+- I am trying dunfell branch ( meta-openembedded / meta-raspberrypi & poky=
+ ) *with master branch of meta-virtualization*
 
-{
-"schemaVersion": 2,
-"manifests": [
-{
-"mediaType": "application/vnd.oci.image.manifest.v1+json",
-"size": 420,
-"digest": "sha256:15324340cf7e067ee2e80c9409aee370a797d37dd14fe0cd62d68718=
-fce1ed06",
-"platform": {
-"architecture": "arm",
-"variant": "v7",
-"os": "linux"
-},
-"annotations": {
-"org.opencontainers.image.ref.name": "latest"
-}
-}
-]
-}
+Idea is to get image with the latest patches being pushed for XEN & also t=
+o understand setup being used by community.
 
---jLjHezedjc98wvjJeq4x
+Thanks ,
+Ashish
+
+--hY2aVN37j1asrWkZv62I
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi,<br /><br />Thanks!<br /><br />Some space before "variant": "v7", to ali=
-gn with the character above would make it better readable, but this works f=
-or me as well.<br /><br />{ <br />&nbsp; "schemaVersion": 2,<br />&nbsp; "m=
-anifests": [<br />&nbsp;&nbsp;&nbsp; { <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
- "mediaType": "application/vnd.oci.image.manifest.v1+json",<br />&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; "size": 420,<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "dige=
-st": "sha256:15324340cf7e067ee2e80c9409aee370a797d37dd14fe0cd62d68718fce1ed=
-06",<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "platform": {<br />&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp; "architecture": "arm",<br />"variant": "v7",<br=
- />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "os": "linux"<br />&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp; },<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "annotations": =
-{<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "org.opencontainers.image=
-.ref.name": "latest"<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br />&nbsp;&nbsp=
-;&nbsp; }<br />&nbsp; ]<br />}
+Hi&nbsp;<span style=3D"white-space: pre-wrap;">Christopher , </span><br /><=
+br /><span style=3D"white-space: pre-wrap;">Can you please provide some inp=
+uts for :<br /></span><br /><span style=3D"white-space: pre-wrap;">- To bui=
+ld xen-image-minimal using <strong>master branch of meta-virtualization</st=
+rong> Whats the branch suggested to be used for layers ( meta-openembedded =
+/ meta-raspberrypi &amp; poky ) </span><span style=3D"white-space: pre-wrap=
+;"><br />- I am trying dunfell branch </span><span style=3D"white-space: pr=
+e-wrap;"> ( meta-openembedded / meta-raspberrypi &amp; poky ) </span><stron=
+g><span style=3D"white-space: pre-wrap;">with master branch of </span><span=
+ style=3D"white-space: pre-wrap;">meta-virtualization</span></strong><span =
+style=3D"white-space: pre-wrap;"> <br /><br /><span style=3D"text-decoratio=
+n: underline;">Idea is to get image with the latest patches being pushed fo=
+r XEN</span> &amp; also to understand setup being used by community.<br /><=
+br />Thanks ,<br />Ashish <br /><br /><br /><br /></span>
 
---jLjHezedjc98wvjJeq4x--
+--hY2aVN37j1asrWkZv62I--
