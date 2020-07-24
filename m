@@ -1,97 +1,189 @@
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
- by mx.groups.io with SMTP id smtpd.web12.379.1595610631956844940
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web11.467.1595610819693400758
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 24 Jul 2020 10:10:37 -0700
+ Fri, 24 Jul 2020 10:13:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=X6OwNEWQ;
- spf=pass (domain: gmail.com, ip: 209.85.218.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f65.google.com with SMTP id a21so10681822ejj.10
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Jul 2020 10:10:31 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HgIbM6Ka;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id b14so7575479qkn.4
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 24 Jul 2020 10:13:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Xe8GRVpM1nc+54hQueh3leVDG4eXkc6R868yps5U2eU=;
-        b=X6OwNEWQdgmAhChi1eIYkVl2bMIibn9GGNrCDdEvBOaP2NsjngdhbrCtihxL8rd9I9
-         UyqqK5Ijt/BgOp7TqpkEwslBaFlJGSfn+t11s+bDRphzXFz6KQ5v4LxG1K7Sx448Edn4
-         m2AFhw2jE2sVjhHKG4kIi+b2/UERnaegZbURWALUhHYXPcITD3BUbAsUvc+QoCnBixJo
-         Hkqna+ZA6SZA3DKcD635olH6u8e1yPOXU/tc7sgAaFU+90bRce6uYCK+fWA/GtPHBLx/
-         zoP4B1F65mnyj7fGFHeSRHQmQU86NiTRRqWwKS22f2Kdfnru/JmpExBryGNUUx27fTAR
-         oTdg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=lm/mTh9KdGC1Hlx6rNukyzn+X2v3ZKQPnI4zYAvtcTs=;
+        b=HgIbM6Ka+MsB7j9pzJcbipU8GpTh8hQKMqM61oZOGmh++y1JxOd8SDWlQKn7Lp2Hpn
+         8A8vpdS8wFV55XpaZMVoTt8uguR/cWVZpQPmWDR0VEuBQm29w9zmhk2V+4IvXKTh7ilR
+         jfd2WC3nqgaxTqk3g3EAJTlglluVIUoqEHi3MICzPReto6A5+xFMOFOj8V6easX2Rlqg
+         +nFNFzaSyJsbt8zMR6ARqWDrxC2o0atjYMqWE7TmneEIDseuQqfANOQcSo+sFyfWRDRI
+         VLUsYHaQyWblcmsZQrJdiMPG7lD6hCCdgV33PlNCPK8mwOycffD65eWy/IuW4yaP9QQZ
+         w5qA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Xe8GRVpM1nc+54hQueh3leVDG4eXkc6R868yps5U2eU=;
-        b=SLp97Y3TmDxNsuamMYpS64gK0CTDZzQLFdxhJ6RgXk2i2UtAebToi1hlLCvOXebJPF
-         XXEdposvX1MVzNscdhfZ9PzuO575yfkx8ovUc30l2hGsFXa+TgG2h1St0yUlbTm8AMVZ
-         0MonF1UrzKoS+2V0TyK+VcbWpf9Z8wuI0WCbnvvU2eoRU6SMWgw8+Ch8l6CFJCHIKVz6
-         /SF65iwPqpyt94cf6lieJrk0d63SYCxdMqv84DL+pPrbc8wqLpQ4vd08bw47xxkpZ4TW
-         XhS74H6OXymbO/7Idzr+mb0IkeWkbTGkhEq2VegKmUkpmRljhHyMT6l7VO4+AQt2A48M
-         g/Pg==
-X-Gm-Message-State: AOAM533KTjCmEdgMqYlh0bfUpIVG7hkNIJwg/vVsCr1EjXlKREL2hgbP
-	+veZWa57pUNsdBTs91CTLtXy1iYNF29NUfdzH8E=
-X-Google-Smtp-Source: ABdhPJzTcJK2lZ9JuKmKgQECvDFYnyJxW2e0wxgjQTLQ2B44IYp5Vb/Rj+lLB2pJNLGmF0DqNViiBpUG3h2sesxHHt4=
-X-Received: by 2002:a17:906:1414:: with SMTP id p20mr9890751ejc.247.1595610630385;
- Fri, 24 Jul 2020 10:10:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1595515597-112052-1-git-send-email-diego.sueiro@arm.com> <CACMJ4Gb+VrL714otAe1RB_yyx_-qeTos8bJeSgOo=zL9=GtOyA@mail.gmail.com>
-In-Reply-To: <CACMJ4Gb+VrL714otAe1RB_yyx_-qeTos8bJeSgOo=zL9=GtOyA@mail.gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=lm/mTh9KdGC1Hlx6rNukyzn+X2v3ZKQPnI4zYAvtcTs=;
+        b=VdqFKxre6k1ciZhcwzNdj/iCRsqX0B9UbnjuLZ12WLdi1fzWqxiiQvnccUWb5dTcyW
+         B/PmX398DTcjYJILzkxKutUu1TV7KVqQxjGzJEiZpS5VXDm0m2DyKtNkaw+zNDDWYbd8
+         U2ygR7cc8BjQVhCB+cG3kmId/SaFoSCLm73VseOQu336aKmvtO5kTeEAJ9U4eJT3we37
+         neojxfy5yvdh9M1g3tl8OjFUO23D7z21B68lzYA4wQs2St5aK8XvcdhAcOb6jVp2TPPE
+         jf7yzF/RiONPX2P2XZz9jd4dktjHTGMmjlVuLbf75n2s6SBMkgaAtX4iGHiqhsJU52qi
+         fl0A==
+X-Gm-Message-State: AOAM531JhFlTInEjTqmbcEcz5EbmINTmYlrbRD9my0ELk4vMzjDFQ7/g
+	cw7EIUIMUywvTTg8f3bcxOk=
+X-Google-Smtp-Source: ABdhPJy0Ugrx2OFJq86hV4gHYyBxBfyjH55Ye/PQFyNlD1ok+GwsywQyB+cVRe84q+kI325Wpf86UQ==
+X-Received: by 2002:a05:620a:2442:: with SMTP id h2mr11887898qkn.108.1595610818472;
+        Fri, 24 Jul 2020 10:13:38 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id m4sm2079903qtf.43.2020.07.24.10.13.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Jul 2020 10:13:37 -0700 (PDT)
+Date: Fri, 24 Jul 2020 13:13:34 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Fri, 24 Jul 2020 13:10:19 -0400
-Message-ID: <CADkTA4Oa6oOYuG6dnoh3HPEQPkGuz_EyAd8w020WZHkHcUN4+w@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v2] qemu: Remove duplicated xen PACKAGECONFIG
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: Diego Sueiro <diego.sueiro@arm.com>, meta-virtualization@lists.yoctoproject.org, 
-	nd <nd@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+To: Wang Mingyu <wangmy@cn.fujitsu.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][PATCH 6/6] python3-oslo.middleware: Change python to python3
+Message-ID: <20200724171331.GA30636@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1595311098-1934-3-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311098-1934-2-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311098-1934-5-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311098-1934-4-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311098-1934-1-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311284-1985-1-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311292-2022-1-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311300-2059-1-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311307-2096-1-git-send-email-wangmy@cn.fujitsu.com>
+ <1595311315-2133-1-git-send-email-wangmy@cn.fujitsu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Thu, Jul 23, 2020 at 2:42 PM Christopher Clark
-<christopher.w.clark@gmail.com> wrote:
->
-> On Thu, Jul 23, 2020 at 7:47 AM Diego Sueiro <diego.sueiro@arm.com> wrote:
-> >
-> > The "meta/recipes-devtools/qemu/qemu.inc" already sets the PACKAGECONFIG[xen].
->
-> This is correct and this section of the qemu append here can be
-> removed now, since both openembedded-core and poky have been updated
-> and contain this version of the logic in their qemu recipes.
->
-> Thanks, Diego.
->
-> > Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
-> Reviewed-by: Christopher Clark <christopher.clark6@baesystems.com>
->
+Thanks for the updates .. getting rid of the remaining python2 is a priority
+and this helps a lot.
 
-Thanks for the review.
-
-This is now merged.
+Cheers,
 
 Bruce
 
-> Christopher
->
-> > ---
-> >  recipes-devtools/qemu/qemu_%.bbappend | 2 --
-> >  1 file changed, 2 deletions(-)
-> >
-> > diff --git a/recipes-devtools/qemu/qemu_%.bbappend b/recipes-devtools/qemu/qemu_%.bbappend
-> > index 998a401..5cca9e1 100644
-> > --- a/recipes-devtools/qemu/qemu_%.bbappend
-> > +++ b/recipes-devtools/qemu/qemu_%.bbappend
-> > @@ -1,3 +1 @@
-> > -PACKAGECONFIG[xen] = "--enable-xen,--disable-xen,xen-tools,xen-tools-libxenstore xen-tools-libxenctrl xen-tools-libxenguest"
-> > -
-> >  require ${@bb.utils.contains('DISTRO_FEATURES', 'vmsep', '${BPN}-package-split.inc', '', d)}
-> > --
-> > 2.7.4
-> >
-> >
+
+In message: [meta-virtualization][PATCH 6/6] python3-oslo.middleware: Change python to python3
+on 21/07/2020 Wang Mingyu wrote:
+
+> Version updated to : 4.1.0
+> 
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  .../python/python-oslo.middleware_git.bb      | 42 ------------------
+>  .../python/python3-oslo.middleware_git.bb     | 43 +++++++++++++++++++
+>  2 files changed, 43 insertions(+), 42 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-oslo.middleware_git.bb
+> 
+> diff --git a/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb
+> deleted file mode 100644
+> index b5a6835..0000000
+> --- a/meta-openstack/recipes-devtools/python/python-oslo.middleware_git.bb
+> +++ /dev/null
+> @@ -1,42 +0,0 @@
+> -DESCRIPTION = "Oslo Middleware library"
+> -HOMEPAGE = "http://launchpad.net/oslo"
+> -SECTION = "devel/python"
+> -LICENSE = "Apache-2"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+> -
+> -PV = "3.30.1+git${SRCPV}"
+> -SRCREV = "d9ad4bae1e0d6c43a009d393ac94f7ff50116171"
+> -
+> -SRCNAME = "oslo.middleware"
+> -SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
+> -
+> -S = "${WORKDIR}/git"
+> -
+> -inherit setuptools3
+> -
+> -# DEPENDS_default: python-pip
+> -
+> -DEPENDS += " \
+> -        python-pip \
+> -        python-pbr \
+> -        "
+> -# Satisfy setup.py 'setup_requires'
+> -DEPENDS += " \
+> -        python-pbr-native \
+> -        "
+> -
+> -
+> -# RDEPENDS_default: 
+> -RDEPENDS_${PN} += " \
+> -        python-pbr \
+> -        python-jinja2 \
+> -        python-oslo.config \
+> -        python-oslo.context \
+> -        python-oslo.i18n \
+> -        python-oslo.utils \
+> -        python-six \
+> -        python-stevedore \
+> -        python-webob \
+> -        python-debtcollector \
+> -        python-statsd \
+> -        "
+> diff --git a/meta-openstack/recipes-devtools/python/python3-oslo.middleware_git.bb b/meta-openstack/recipes-devtools/python/python3-oslo.middleware_git.bb
+> new file mode 100644
+> index 0000000..a481818
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-oslo.middleware_git.bb
+> @@ -0,0 +1,43 @@
+> +DESCRIPTION = "Oslo Middleware library"
+> +HOMEPAGE = "http://launchpad.net/oslo"
+> +SECTION = "devel/python"
+> +LICENSE = "Apache-2"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+> +
+> +PV = "4.1.0+git${SRCPV}"
+> +SRCREV = "7355d905bc0e6b7d8884e290cc26895eed0f7179"
+> +
+> +SRCNAME = "oslo.middleware"
+> +SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
+> +
+> +S = "${WORKDIR}/git"
+> +
+> +inherit setuptools3
+> +
+> +# DEPENDS_default: python3-pip
+> +
+> +DEPENDS += " \
+> +        python3-pip \
+> +        python3-pbr \
+> +        "
+> +# Satisfy setup.py 'setup_requires'
+> +DEPENDS += " \
+> +        python3-pbr-native \
+> +        "
+> +
+> +
+> +# RDEPENDS_default: 
+> +RDEPENDS_${PN} += " \
+> +        python3-pbr \
+> +        python3-jinja2 \
+> +        python3-oslo.config \
+> +        python3-oslo.context \
+> +        python3-oslo.i18n \
+> +        python3-oslo.utils \
+> +        python3-six \
+> +        python3-stevedore \
+> +        python3-webob \
+> +        python3-debtcollector \
+> +        python3-statsd \
+> +        python3-monotonic \
+> +        "
+> -- 
+> 2.25.1
+> 
+> 
+> 
+
 > 
 
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
