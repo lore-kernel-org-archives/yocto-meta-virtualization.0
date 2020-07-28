@@ -1,68 +1,64 @@
-Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [])
- by mx.groups.io with SMTP id smtpd.web11.2320.1595897094431810982
+Received: from heian.cn.fujitsu.com (heian.cn.fujitsu.com [183.91.158.132])
+ by mx.groups.io with SMTP id smtpd.web11.2325.1595897103218811568
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 27 Jul 2020 17:44:56 -0700
+ Mon, 27 Jul 2020 17:45:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: <nil>, mailfrom: wangmy@cn.fujitsu.com)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 183.91.158.132, mailfrom: wangmy@cn.fujitsu.com)
 X-IronPort-AV: E=Sophos;i="5.75,404,1589212800"; 
-   d="scan'208";a="96959706"
+   d="scan'208";a="96959716"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 28 Jul 2020 08:44:56 +0800
+  by heian.cn.fujitsu.com with ESMTP; 28 Jul 2020 08:45:02 +0800
 Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7B2604CE2808
-	for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2020 08:44:51 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id B04354CE2808
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 28 Jul 2020 08:44:57 +0800 (CST)
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 28 Jul 2020 08:44:50 +0800
+ (TLS) id 15.0.1497.2; Tue, 28 Jul 2020 08:44:56 +0800
 From: "Wang Mingyu" <wangmy@cn.fujitsu.com>
 To: <meta-virtualization@lists.yoctoproject.org>
 CC: Wang Mingyu <wangmy@cn.fujitsu.com>
-Subject: [PATCH 3/3] [meta-virtualization][PATCH] python3-keystonemiddleware: Change python to python3
-Date: Tue, 28 Jul 2020 08:44:57 +0800
-Message-ID: <1595897097-20455-3-git-send-email-wangmy@cn.fujitsu.com>
+Subject: [meta-virtualization][PATCH] python3-oslo.vmware: Change python to python3
+Date: Tue, 28 Jul 2020 08:45:07 +0800
+Message-ID: <1595897107-20492-1-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1595897097-20455-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1595897097-20455-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
  G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204)
-X-yoursite-MailScanner-ID: 7B2604CE2808.A3497
+X-yoursite-MailScanner-ID: B04354CE2808.A3768
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
 Content-Type: text/plain
 
-Version updated to 4.17.1
+Version updated to 3.4.0
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../python/python-keystonemiddleware_git.bb   | 44 -------------------
- .../python/python3-keystonemiddleware_git.bb  | 44 +++++++++++++++++++
- 2 files changed, 44 insertions(+), 44 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python3-keystonemiddleware_git.bb
+ .../python/python-oslo.vmware_git.bb          | 41 -------------------
+ .../python/python3-oslo.vmware_git.bb         | 41 +++++++++++++++++++
+ 2 files changed, 41 insertions(+), 41 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-oslo.vmware_git.bb
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-oslo.vmware_git.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb b/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-oslo.vmware_git.bb b/meta-openstack/recipes-devtools/python/python-oslo.vmware_git.bb
 deleted file mode 100644
-index c730906..0000000
---- a/meta-openstack/recipes-devtools/python/python-keystonemiddleware_git.bb
+index 07345e7..0000000
+--- a/meta-openstack/recipes-devtools/python/python-oslo.vmware_git.bb
 +++ /dev/null
-@@ -1,44 +0,0 @@
--DESCRIPTION = "Middleware for OpenStack Identity API"
--HOMEPAGE = "https://launchpad.net/keystonemiddleware"
+@@ -1,41 +0,0 @@
+-DESCRIPTION = "oslo.vmware library"
+-HOMEPAGE = "http://launchpad.net/oslo"
 -SECTION = "devel/python"
 -LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=4a4d0e932ffae1c0131528d30d419c55"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
 -
--SRCNAME = "keystonemiddleware"
+-PV = "2.23.0+git${SRCPV}"
+-SRCREV = "95a30dfa24d259fe16f0fd43eb1b67b9f3fc0397"
 -
--SRC_URI = "\
--	git://git.openstack.org/openstack/keystonemiddleware;branch=stable/pike \
--	"
+-SRCNAME = "oslo.vmware"
+-SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
 -
--PV = "4.17.0+git${SRCPV}"
--SRCREV = "69aed2693475797c8d0dda2725a790eea05a9419"
 -S = "${WORKDIR}/git"
 -
 -inherit setuptools3
@@ -78,41 +74,38 @@ index c730906..0000000
 -        "
 -
 -RDEPENDS_${PN} += " \
--        python-keystoneauth1 \
--        python-oslo.config \
--        python-oslo.context \
--        python-oslo.i18n \
--        python-oslo.log \
--        python-oslo.serialization \
--        python-oslo.utils \
 -        python-pbr \
--        python-positional \
--        python-pycadf \
--        python-keystoneclient \
--        python-requests \
+-        python-stevedore \
+-        python-netaddr \
 -        python-six \
--        python-webob \
+-        python-oslo.i18n \
+-        python-oslo.utils \
+-        python-oslo.concurrency \
+-        python-pyyaml \
+-        python-lxml \
+-        python-suds-jurko \
+-        python-eventlet \
+-        python-requests \
+-        python-urllib3 \
 -        "
-diff --git a/meta-openstack/recipes-devtools/python/python3-keystonemiddleware_git.bb b/meta-openstack/recipes-devtools/python/python3-keystonemiddleware_git.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-oslo.vmware_git.bb b/meta-openstack/recipes-devtools/python/python3-oslo.vmware_git.bb
 new file mode 100644
-index 0000000..b9f0f79
+index 0000000..99fd8a9
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-keystonemiddleware_git.bb
-@@ -0,0 +1,44 @@
-+DESCRIPTION = "Middleware for OpenStack Identity API"
-+HOMEPAGE = "https://launchpad.net/keystonemiddleware"
++++ b/meta-openstack/recipes-devtools/python/python3-oslo.vmware_git.bb
+@@ -0,0 +1,41 @@
++DESCRIPTION = "oslo.vmware library"
++HOMEPAGE = "http://launchpad.net/oslo"
 +SECTION = "devel/python"
 +LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=4a4d0e932ffae1c0131528d30d419c55"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
 +
-+SRCNAME = "keystonemiddleware"
++PV = "3.4.0+git${SRCPV}"
++SRCREV = "32c8d43a20cb6a29f03324fbc2e6cad3bfb5a294"
 +
-+SRC_URI = "\
-+	git://git.openstack.org/openstack/keystonemiddleware;branch=stable/pike \
-+	"
++SRCNAME = "oslo.vmware"
++SRC_URI = "git://github.com/openstack/${SRCNAME}.git"
 +
-+PV = "4.17.1+git${SRCPV}"
-+SRCREV = "6712e8b7125fcbcf891b7e89ecb240798dad28ac"
 +S = "${WORKDIR}/git"
 +
 +inherit setuptools3
@@ -128,23 +121,22 @@ index 0000000..b9f0f79
 +        "
 +
 +RDEPENDS_${PN} += " \
-+        python3-keystoneauth1 \
-+        python3-oslo.config \
-+        python3-oslo.context \
-+        python3-oslo.i18n \
-+        python3-oslo.log \
-+        python3-oslo.serialization \
-+        python3-oslo.utils \
 +        python3-pbr \
-+        python3-positional \
-+        python3-pycadf \
-+        python3-keystoneclient \
-+        python3-requests \
++        python3-stevedore \
++        python3-netaddr \
 +        python3-six \
-+        python3-webob \
++        python3-oslo.i18n \
++        python3-oslo.utils \
++        python3-oslo.concurrency \
++        python3-pyyaml \
++        python3-lxml \
++        python3-suds-jurko \
++        python3-eventlet \
++        python3-requests \
++        python3-urllib3 \
 +        "
 -- 
-2.17.1
+2.25.1
 
 
 
