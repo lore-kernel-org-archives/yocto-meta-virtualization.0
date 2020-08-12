@@ -1,320 +1,143 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.347.1597175991813533882
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (NAM10-MW2-obe.outbound.protection.outlook.com [40.107.94.49])
+ by mx.groups.io with SMTP id smtpd.web12.8823.1597210062931524278
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 11 Aug 2020 12:59:51 -0700
+ Tue, 11 Aug 2020 22:27:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=uaCf6NCZ;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0BEABE01FED; Tue, 11 Aug 2020 12:59:51 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FREEMAIL_FROM,HTML_MESSAGE,RCVD_IN_DNSWL_NONE
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (bruce.ashfield[at]gmail.com)
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.208.68 listed in list.dnswl.org]
-	*  0.0 HTML_MESSAGE BODY: HTML included in message
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com [209.85.208.68])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id CA4B5E01FA2
-	for <meta-virtualization@yoctoproject.org>; Tue, 11 Aug 2020 12:59:48 -0700 (PDT)
-Received: by mail-ed1-f68.google.com with SMTP id i26so10008140edv.4
-        for <meta-virtualization@yoctoproject.org>; Tue, 11 Aug 2020 12:59:48 -0700 (PDT)
+ dkim=pass header.i=@xilinx.onmicrosoft.com header.s=selector2-xilinx-onmicrosoft-com header.b=YFxExkJV;
+ spf=pass (domain: xilinx.com, ip: 40.107.94.49, mailfrom: ckalluri@xilinx.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=i2hwUL1yKu8Y2sZOLG7kwnj8Xbnre60XPH984fJ1DfVU+Men/PAIHlA8Htng9OtaS39U5Qcz8JxMrRuJnxkrhJ2YVkrbLeXGs1wylZK0tveFSf81IZaMLRsgoFTNAm3+exBAjQfErDrixO0dFWOh6S3ndD+AXXOfJraYgqK37FZS88ds+XEUYVYnWXPuJUAkcpmeDUin3UW23fqycXwkH25GKml7bTuu4nIp9HGBxZMkXqiA9WQ3zPcgBo9OEXcK+fICxa/BbPOe1xEmb5fUZLy/wXK865I30fIT7VA0WCNiv3zXalyP5NdS57nJ1SuQgEJ1DzVWQNZn8E5CwfxY1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rfc2fJSd8FgzhfcWb8KMpsIdbORDgDHYfa+6gQaUNGQ=;
+ b=Djm4677eqfpW53aHuajcW2az2Rs/qnE/ePM18RYRvMCTgfB+eLXRK2l/0O/rgfGJpq5NRuwcKwcOU5816soUrahxre+K7vQYptW79JkUXjxBusLgtYYEIvb7G7fyWUMYDVXVk0j9Ft8X7n5ud6EZwowxR7MjQm6oo/TuAsAlapZe8s3xWIwO8TT0AM6kh+myQxqCg9vpTnRtAw3lbCwN7fMFSxe9kN0rSqESkQAyv1obkTdS3hiHh86nA+bLVjkUrs46fGnkPAxB1ySHZWNKRCGDqeCY+0dKmIEdZm4aJnnWvRRdNIatozII4xpPZCkuDW5mrCbBFkLypUVbAnxyUQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=lists.yoctoproject.org
+ smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
+ header.from=xilinx.com; dkim=none (message not signed); arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RY4IsKEm4lSbiTVKP0D6tzAYqi+uTW0W6w6sBzVpURg=;
-        b=uaCf6NCZiS0wr9cAK/Rx6A1wK87nAsUuj6fQR+eUh/Cchn0Nf6Jiu4yL0pzrOkRDk4
-         dXLdOj1ED03TGoUzF8d3GK26FRy/ZZkPDfD52I9nzYHa/gduaIRIUJSMcB+OOk/6fC50
-         Vv5H9ta2Y/oDCBL3Mexn3PcMqYIMI54RpyXDO3T21ixouShu6Nr096+TdclCb1Tyxjeo
-         DRI0H7abR00feOiuTTmAhzgPXrAMwubNKdSm67jZhgroiu7I5NfR9naMDjwFhNYp7Uys
-         LCrK8zbMa3XBLAUw+VivOJP6FK2ubYTbFVJ0b7HMdmo0eZr/nzlDYQUG3oIGQSJxkjZp
-         9DYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RY4IsKEm4lSbiTVKP0D6tzAYqi+uTW0W6w6sBzVpURg=;
-        b=rPx2S6eToYxgD3O7jq4Y+3GXaKkcZS0jz9w/H+vw59TZ/5k6sdv2U9XIg/apfxFz2A
-         iHx2EK7DooMAhto/Z18GS9U1heBdJcqwn3MHx6HZVL7ndmAV/mHb4wsSSx2/g31SmiJS
-         2vLj9s3XcrVcl2VdGRanYj3DQeI9IP2TEO8eXOxqvMKQvx1aDUjCe+EGfYiPBbZ/RZwM
-         5qxg8yvd4mR6nyhdZ8UsQz/bCk2xrYUhANc0NbAal2eynuHy4O3IN3X9nez/SvmjySXi
-         GLqixKjuG81CtZn/kR+Ml7TA5XgjFLgKigQZES9g3yz99Zv6t8ZcjuhC3lkLic5wABvW
-         bVsg==
-X-Gm-Message-State: AOAM533eBllTbOokzdEoihqynhUuTb2javMjVfGqm5hlbjmnIjWX99Pe
-	SHaYsAo4TPM/0EsRM3zPgH86kMT5HCCzlcB5nLg=
-X-Google-Smtp-Source: ABdhPJwS8OqZnBTfiZDgzYhqyqNAtiMd/BsUWtjef/2Jv1cqHGQJMV/KmJpfd7iQH+7kT35SLnO9hQqL9H5Cp6eImdg=
-X-Received: by 2002:aa7:cd6c:: with SMTP id ca12mr26697401edb.365.1597175987820;
- Tue, 11 Aug 2020 12:59:47 -0700 (PDT)
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Rfc2fJSd8FgzhfcWb8KMpsIdbORDgDHYfa+6gQaUNGQ=;
+ b=YFxExkJVGHTSmBu8Lu0nVT1xMvdVvXJdN7u2xj45ueOcdS2uXS1xmWtwEpR/xNeFsPaXqth0C16n2XSWHzOuCW3gCqUiFDMWs937quMgD/3wWJR/cf/3g6/pcxBED/GONp/bH6wlgPNg+6J0I82QqHmF5KklxfArTC4vuYIwQWg=
+Received: from SA0PR11CA0069.namprd11.prod.outlook.com (2603:10b6:806:d2::14)
+ by BYAPR02MB4901.namprd02.prod.outlook.com (2603:10b6:a03:46::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3261.19; Wed, 12 Aug
+ 2020 05:27:41 +0000
+Received: from SN1NAM02FT040.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:806:d2:cafe::dd) by SA0PR11CA0069.outlook.office365.com
+ (2603:10b6:806:d2::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.16 via Frontend
+ Transport; Wed, 12 Aug 2020 05:27:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; lists.yoctoproject.org; dkim=none (message not
+ signed) header.d=none;lists.yoctoproject.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT040.mail.protection.outlook.com (10.152.72.195) with Microsoft SMTP
+ Server id 15.20.3283.16 via Frontend Transport; Wed, 12 Aug 2020 05:27:39
+ +0000
+Return-Path: chandana.kalluri@xilinx.com
+Received: from [149.199.38.66] (port=51226 helo=smtp.xilinx.com)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1k5jIR-0000Sj-2t
+	for meta-virtualization@lists.yoctoproject.org; Tue, 11 Aug 2020 22:27:31 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1k5jIZ-0001g4-6Z
+	for meta-virtualization@lists.yoctoproject.org; Tue, 11 Aug 2020 22:27:39 -0700
+Received: from [172.19.2.12] (helo=xsjckalluri50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1k5jIR-0001aN-9v; Tue, 11 Aug 2020 22:27:31 -0700
+From: "Chandana kalluri" <ckalluri@xilinx.com>
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+Subject: [meta-virtualization][master][PATCH] runx: Fix linux kernel versions referenced in the recipe
+Date: Tue, 11 Aug 2020 22:27:30 -0700
+Message-Id: <1597210050-8813-1-git-send-email-chandana.kalluri@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
 MIME-Version: 1.0
-References: <20200807070503.30777-1-christopher.w.clark@gmail.com>
-In-Reply-To: <20200807070503.30777-1-christopher.w.clark@gmail.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 11 Aug 2020 15:59:36 -0400
-Message-ID: <CADkTA4NpWZ_VV4GG1y1euh8G9-eWepSYJWNAwjPSmjLYsM1NOQ@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH 0/5] Xen on Raspberry Pi 4 improvements
-To: Christopher Clark <christopher.w.clark@gmail.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>, 
-	Doug Goldstein <cardoe@gentoo.org>
-Content-Type: multipart/alternative; boundary="00000000000065dd7105ac9f835f"
+X-MS-Office365-Filtering-Correlation-Id: 6df864c9-11d8-4c87-ea48-08d83e806df6
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4901:
+X-Microsoft-Antispam-PRVS: 
+	<BYAPR02MB4901FFFC87F076BC98F03BDEB0420@BYAPR02MB4901.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	Y18Uw3IgjgVkDZH1QLdjZYHwRPw4gDrLVxRsRWnmAiaMVZh3gio/SgEgGwv5nc1aSuyl3qnOTPz5XPsH0e3953fJ1Z5Lv+4CKhN2ZyGyTmc9W0WMGUacljfp5RC42k3ccmOFmMpMLWuCrbTA7023M85orjvCd2teDvOGVsV+/TCozBk24QiWk2LAjbat7NWXRqrsUOvDujT+fgYwpTmLoyQq1UMFcobk3MqJLie3QsCkDIwmQtY1PlEgkxQ+vN27NnwAeWXMomzziUodvWrMEaOV+2crEWkc9zjv6pwHE/pfnsA7D8trtFZNAt8FyIXfOg6Nbe3YzXXDOhICwNlInw+wfOO+/bxhKzeFfh7RB/KU1jmpTux9admRgIDKRtyLUYqCEjNO3dgis9f2EMOFpC63qG8edpnK+X338sBpkpmLvnLYSiPHEXL3FN3XwcgNZQJEzyDdIjZVXz+hwriJgqqdTN73SlxQyYDSiAckDAE=
+X-Forefront-Antispam-Report: 
+	CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(396003)(136003)(346002)(376002)(39850400004)(46966005)(70586007)(9786002)(36756003)(81166007)(82740400003)(356005)(47076004)(426003)(70206006)(6916009)(2906002)(5660300002)(107886003)(186003)(8936002)(83380400001)(316002)(336012)(2616005)(966005)(26005)(7696005)(82310400002)(4326008)(478600001)(8676002);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Aug 2020 05:27:39.4539
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6df864c9-11d8-4c87-ea48-08d83e806df6
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	SN1NAM02FT040.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4901
+Content-Type: text/plain
 
---00000000000065dd7105ac9f835f
-Content-Type: text/plain; charset="UTF-8"
+Fix the linux kernel versions referenced in the recipe. For ease of use, add
+variables KERNEL_SRC_VER and KERNEL_URL_VER that can be used to udpate the
+linux versions.
 
-On Fri, Aug 7, 2020 at 3:05 AM Christopher Clark <
-christopher.w.clark@gmail.com> wrote:
+Signed-off-by: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+---
+ recipes-core/runx/runx_git.bb | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
-> Several improvements, the most significant being the kernel change:
->
-> * Switch the Linux kernel for Xen on the Raspberry Pi 4 to
->   linux-yocto-dev from the linux-raspberrypi downstream kernel.
->
-> This will enable testing and preparation for switching over to the new
-> linux-yocto kernel when it is upgraded, and also avoid build breakages
-> and other difficulties experienced with the unstable linux-raspberrypi
-> kernel.
->
-> Testing with linux-yocto-dev has been with the raspberrypi4-64 MACHINE
-> from the meta-raspberrypi layer.
->
-> This change removes the patch series that was carried in this layer for
-> the linux-raspberrypi kernel for Xen support.
->
-> Please note: There are currently in-flight dependencies for this series
-> awaiting review: linux-yocto series, needed for Xen support:
->
-> https://lists.yoctoproject.org/g/linux-yocto/topic/linux_yocto_dev_kernel/76044154
-> and a kernel bugfix:
-> https://lists.yoctoproject.org/g/linux-yocto/message/8922
->
->
-merged
-
-And the kernel elements are in place as well.
-
-I have pending SRCREV updates for the kernel, but if you build with the tip
-of the branch by setting your own SRCREVs, it is functional.
-
-Bruce
-
-
-
-> * Retire the sdcard image recipe now that the meta-raspberrypi recipe
->   is extensible.
->
-> * Recipe bug fixes and improvements.
->
-> Christopher
->
->
-> Christopher Clark (5):
->   xen: retire the Raspberry Pi sdcard class
->   xen, raspberrypi: bugfix early boot messages: use earlycon=xenboot
->   xen, rpi4: use RPI_EXTRA_CONFIG and drop the rpi-config_git.bbappend
->   xen, linux-raspberrypi4: remove linux-raspberrypi bbappends and
->     patches
->   xen, raspi4, linux-yocto-dev: Enable Xen on Raspberry Pi 4
->
->  classes/sdcard_image-rpi-xen.bbclass          | 120 ------------------
->  conf/distro/include/meta-virt-xen.inc         |  21 ++-
->  .../bootfiles/rpi-config_git.bbappend         |   6 -
->  .../rpi-u-boot-scr/files/boot.cmd.xen.in      |   2 +-
->  ...vmalloc_to_page-on-vmalloc-virt-addr.patch |  44 -------
->  ...02-swiotlb-xen-remove-start_dma_addr.patch |  47 -------
->  ...struct-device-parameter-to-xen_phys_.patch |  78 ------------
->  ...struct-device-parameter-to-xen_bus_t.patch |  66 ----------
->  ...struct-device-parameter-to-is_xen_sw.patch |  57 ---------
->  ...oduce-phys_to_dma-dma_to_phys-transl.patch |  88 -------------
->  ...translations-in-xen_dma_s_kernel_5.4.patch |  68 ----------
->  ..._to_phys-on-the-dma_addr_t-parameter.patch |  75 -----------
->  .../0011-adding-page-coherent-patch.patch     |  39 ------
->  .../linux/linux-raspberrypi_%.bbappend        |   5 -
->  .../linux/linux-raspberrypi_5.4.bbappend      |  19 ---
->  .../linux/linux-yocto-dev.bbappend            |  10 ++
->  16 files changed, 25 insertions(+), 720 deletions(-)
->  delete mode 100644 classes/sdcard_image-rpi-xen.bbclass
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-bsp/bootfiles/rpi-config_git.bbappend
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0001-swiotlb-xen-use-vmalloc_to_page-on-vmalloc-virt-addr.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0002-swiotlb-xen-remove-start_dma_addr.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0003-swiotlb-xen-add-struct-device-parameter-to-xen_phys_.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0004-swiotlb-xen-add-struct-device-parameter-to-xen_bus_t.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0007-swiotlb-xen-add-struct-device-parameter-to-is_xen_sw.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0008-swiotlb-xen-introduce-phys_to_dma-dma_to_phys-transl.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0009-xen-arm-introduce-phys-dma-translations-in-xen_dma_s_kernel_5.4.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0010-xen-arm-call-dma_to_phys-on-the-dma_addr_t-parameter.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/files/0011-adding-page-coherent-patch.patch
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-raspberrypi_%.bbappend
->  delete mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-raspberrypi_5.4.bbappend
->  create mode 100644
-> dynamic-layers/raspberrypi/recipes-kernel/linux/linux-yocto-dev.bbappend
->
-> --
-> 2.17.1
->
->
-
+diff --git a/recipes-core/runx/runx_git.bb b/recipes-core/runx/runx_git.bb
+index 991e6e1..a260071 100644
+--- a/recipes-core/runx/runx_git.bb
++++ b/recipes-core/runx/runx_git.bb
+@@ -3,9 +3,13 @@ SUMMARY = "runx stuff"
+ DESCRIPTION = "Xen Runtime for OCI"
+ 
+ SRCREV_runx = "f24efd33fb18469e9cfe4d1bfe8e2c90ec8c4e93"
++
++KERNEL_SRC_VER="linux-5.4"
++KERNEL_URL_VER="v5.x"
++
+ SRC_URI = "\
+ 	  git://github.com/lf-edge/runx;nobranch=1;name=runx \
+-          https://www.kernel.org/pub/linux/kernel/v5.x/linux-5.4.tar.xz;destsuffix=git/kernel/build \
++          https://www.kernel.org/pub/linux/kernel/${KERNEL_URL_VER}/${KERNEL_SRC_VER}.tar.xz;destsuffix=git/kernel/build \
+           file://0001-make-kernel-cross-compilation-tweaks.patch \
+           file://0001-make-initrd-cross-install-tweaks.patch \
+ 	  "
+@@ -45,12 +49,12 @@ do_compile() {
+     # building.
+     mkdir -p ${S}/kernel/build
+     mkdir -p ${S}/kernel/src
+-    cp ${DL_DIR}/linux-4.15.tar.xz ${S}/kernel/build/
++    cp ${DL_DIR}/${KERNEL_SRC_VER}.tar.xz ${S}/kernel/build/
+ 
+     # In the future, we might want to link the extracted kernel source (if
+     # we move patches to recipe space, but for now, we need make-kernel to
+     # extract a copy and possibly patch it.
+-    # ln -sf ${WORKDIR}/linux-4.15 ${S}/kernel/src/
++    # ln -sf ${WORKDIR}/${KERNEL_SRC_VER} ${S}/kernel/src/
+ 
+     # build the kernel
+     echo "[INFO]: runx: building the kernel"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.7.4
 
---00000000000065dd7105ac9f835f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Fri, Aug 7, 2020 at 3:05 AM Christopher Clark &l=
-t;<a href=3D"mailto:christopher.w.clark@gmail.com">christopher.w.clark@gmai=
-l.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Several improvements, the most significant being the kernel change:<br=
->
-<br>
-* Switch the Linux kernel for Xen on the Raspberry Pi 4 to<br>
-=C2=A0 linux-yocto-dev from the linux-raspberrypi downstream kernel.<br>
-<br>
-This will enable testing and preparation for switching over to the new<br>
-linux-yocto kernel when it is upgraded, and also avoid build breakages<br>
-and other difficulties experienced with the unstable linux-raspberrypi<br>
-kernel.<br>
-<br>
-Testing with linux-yocto-dev has been with the raspberrypi4-64 MACHINE<br>
-from the meta-raspberrypi layer.<br>
-<br>
-This change removes the patch series that was carried in this layer for<br>
-the linux-raspberrypi kernel for Xen support.<br>
-<br>
-Please note: There are currently in-flight dependencies for this series<br>
-awaiting review: linux-yocto series, needed for Xen support:<br>
-<a href=3D"https://lists.yoctoproject.org/g/linux-yocto/topic/linux_yocto_d=
-ev_kernel/76044154" rel=3D"noreferrer" target=3D"_blank">https://lists.yoct=
-oproject.org/g/linux-yocto/topic/linux_yocto_dev_kernel/76044154</a><br>
-and a kernel bugfix:<br>
-<a href=3D"https://lists.yoctoproject.org/g/linux-yocto/message/8922" rel=
-=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org/g/linux-yo=
-cto/message/8922</a><br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-size:small">merged</div><div class=3D"gmail_default" style=3D"font-siz=
-e:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">A=
-nd the kernel elements are in place as well.</div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
-=3D"font-size:small">I have pending SRCREV updates for the kernel, but if y=
-ou build with the tip of the branch by setting your own SRCREVs, it is func=
-tional.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></=
-div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-* Retire the sdcard image recipe now that the meta-raspberrypi recipe<br>
-=C2=A0 is extensible.<br>
-<br>
-* Recipe bug fixes and improvements.<br>
-<br>
-Christopher<br>
-<br>
-<br>
-Christopher Clark (5):<br>
-=C2=A0 xen: retire the Raspberry Pi sdcard class<br>
-=C2=A0 xen, raspberrypi: bugfix early boot messages: use earlycon=3Dxenboot=
-<br>
-=C2=A0 xen, rpi4: use RPI_EXTRA_CONFIG and drop the rpi-config_git.bbappend=
-<br>
-=C2=A0 xen, linux-raspberrypi4: remove linux-raspberrypi bbappends and<br>
-=C2=A0 =C2=A0 patches<br>
-=C2=A0 xen, raspi4, linux-yocto-dev: Enable Xen on Raspberry Pi 4<br>
-<br>
-=C2=A0classes/sdcard_image-rpi-xen.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 | 120 ------------------<br>
-=C2=A0conf/distro/include/meta-virt-xen.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 21 ++-<br>
-=C2=A0.../bootfiles/rpi-config_git.bbappend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 =C2=A06 -<br>
-=C2=A0.../rpi-u-boot-scr/files/<a href=3D"http://boot.cmd.xen.in" rel=3D"no=
-referrer" target=3D"_blank">boot.cmd.xen.in</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
- =C2=A02 +-<br>
-=C2=A0...vmalloc_to_page-on-vmalloc-virt-addr.patch |=C2=A0 44 -------<br>
-=C2=A0...02-swiotlb-xen-remove-start_dma_addr.patch |=C2=A0 47 -------<br>
-=C2=A0...struct-device-parameter-to-xen_phys_.patch |=C2=A0 78 ------------=
-<br>
-=C2=A0...struct-device-parameter-to-xen_bus_t.patch |=C2=A0 66 ----------<b=
-r>
-=C2=A0...struct-device-parameter-to-is_xen_sw.patch |=C2=A0 57 ---------<br=
->
-=C2=A0...oduce-phys_to_dma-dma_to_phys-transl.patch |=C2=A0 88 ------------=
--<br>
-=C2=A0...translations-in-xen_dma_s_kernel_5.4.patch |=C2=A0 68 ----------<b=
-r>
-=C2=A0..._to_phys-on-the-dma_addr_t-parameter.patch |=C2=A0 75 -----------<=
-br>
-=C2=A0.../0011-adding-page-coherent-patch.patch=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-39 ------<br>
-=C2=A0.../linux/linux-raspberrypi_%.bbappend=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A05 -<br>
-=C2=A0.../linux/linux-raspberrypi_5.4.bbappend=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-19 ---<br>
-=C2=A0.../linux/linux-yocto-dev.bbappend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 |=C2=A0 10 ++<br>
-=C2=A016 files changed, 25 insertions(+), 720 deletions(-)<br>
-=C2=A0delete mode 100644 classes/sdcard_image-rpi-xen.bbclass<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-bsp/bootfiles/r=
-pi-config_git.bbappend<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0001-swiotlb-xen-use-vmalloc_to_page-on-vmalloc-virt-addr.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0002-swiotlb-xen-remove-start_dma_addr.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0003-swiotlb-xen-add-struct-device-parameter-to-xen_phys_.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0004-swiotlb-xen-add-struct-device-parameter-to-xen_bus_t.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0007-swiotlb-xen-add-struct-device-parameter-to-is_xen_sw.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0008-swiotlb-xen-introduce-phys_to_dma-dma_to_phys-transl.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0009-xen-arm-introduce-phys-dma-translations-in-xen_dma_s_kernel_5.4.pa=
-tch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0010-xen-arm-call-dma_to_phys-on-the-dma_addr_t-parameter.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/fi=
-les/0011-adding-page-coherent-patch.patch<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/li=
-nux-raspberrypi_%.bbappend<br>
-=C2=A0delete mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/li=
-nux-raspberrypi_5.4.bbappend<br>
-=C2=A0create mode 100644 dynamic-layers/raspberrypi/recipes-kernel/linux/li=
-nux-yocto-dev.bbappend<br>
-<br>
--- <br>
-2.17.1<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
- class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
-aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
-- Gandalf, Star Trek II<br><br></div></div>
-
---00000000000065dd7105ac9f835f--
