@@ -1,351 +1,876 @@
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.79])
- by mx.groups.io with SMTP id smtpd.web10.5294.1597302883719027279
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+ by mx.groups.io with SMTP id smtpd.web12.9911.1597325700951343758
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 13 Aug 2020 00:14:45 -0700
+ Thu, 13 Aug 2020 06:35:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=uFv7sd/h;
- spf=pass (domain: arm.com, ip: 40.107.22.79, mailfrom: diego.sueiro@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=76EKySTHBY45RMfwCjJQnKC+sAjeMg9PVRQ4bgLJGkE=;
- b=uFv7sd/hbSlMMl+BexTwP1VPUZrOqzbj2RMsAjffpQakG/KBhe0FC16yuyNPJ0cKSGg9LRjo6dhy8IsDNLGV6mZGA8ZtRwtFWYPqs5NUv/e9/m1V4l12x8weQFUWFbeN/BI0RJwwCD8SZ+1USq8RYXvC9t+USd2ZpSyKoJ5jL3A=
-Received: from DB8PR03CA0016.eurprd03.prod.outlook.com (2603:10a6:10:be::29)
- by DBBPR08MB5547.eurprd08.prod.outlook.com (2603:10a6:10:d2::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Thu, 13 Aug
- 2020 07:14:35 +0000
-Received: from DB5EUR03FT038.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:10:be:cafe::23) by DB8PR03CA0016.outlook.office365.com
- (2603:10a6:10:be::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15 via Frontend
- Transport; Thu, 13 Aug 2020 07:14:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org;
- dmarc=bestguesspass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT038.mail.protection.outlook.com (10.152.21.84) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3283.16 via Frontend Transport; Thu, 13 Aug 2020 07:14:35 +0000
-Received: ("Tessian outbound bac899b43a54:v64"); Thu, 13 Aug 2020 07:14:35 +0000
-X-CR-MTA-TID: 64aa7808
-Received: from d2967a557417.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 54328BE4-DBA1-4DAF-AE99-3519DE0F5850.1;
-	Thu, 13 Aug 2020 07:14:30 +0000
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id d2967a557417.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Thu, 13 Aug 2020 07:14:30 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oVd3QN9BjkpLLTymeTKze972F9YRpd15ZhNO8ssNyakGUsYid6e/+TtaJ2ReAJaLQm5WZJcvFNs5OyLrQr7K7UHvP+sFXxvaUoVcay5sWZEGshDLeeb0EsExu/0WbYYqxrtHr9c6jSVfe9A7NsxfLJ0evdZCwoW+UY6zNKu212vi2R4T9n+P8/1QDKoHN78pYhqlDOrGB6Um1h9t//LnrTxUfLJDNHeRY0snZX5BnVxHNfnEzsS1F042ZGbivbKm13IyS9OXWNSr9a8Y2WBRgZ/9dSFVJRwMHoMt9Ty3GTqk5Mmn4OfC+Bm7nFrm9Kpj6dds8pEhROSunXbKymLxlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=76EKySTHBY45RMfwCjJQnKC+sAjeMg9PVRQ4bgLJGkE=;
- b=PB/zTu1GCnK8U6kQg0BPxXtlDq8JIo+5JdZpmWyB8Kb9N7gzVM17lN4Dm+DwXgUT5TH9DFi4JxgLSCJGvsGAta3vHu1lS1XT7TqI+PhrgHjUjgwcCs0643kBdDJ/a6fZPRM6Zf9uPQCXV6cqIunS2bWFBZm+XdEC+n5MwZaZSCPwrt7xoZikneOL74zA4xNwLwthB0/ZrKd+6BNHlNE3T2Hbb6FpNH0iWMoWPdYGft7y21NT+c9JAjBS76FVO5sQmGM9Sj+0VMBAYGDnRE8lb2ygYO89fpytSKzf5BIiXMVg6VUlsCoTUpZUF0VRZ65h9rc37w2CvxVlNbM2g61CkA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=76EKySTHBY45RMfwCjJQnKC+sAjeMg9PVRQ4bgLJGkE=;
- b=uFv7sd/hbSlMMl+BexTwP1VPUZrOqzbj2RMsAjffpQakG/KBhe0FC16yuyNPJ0cKSGg9LRjo6dhy8IsDNLGV6mZGA8ZtRwtFWYPqs5NUv/e9/m1V4l12x8weQFUWFbeN/BI0RJwwCD8SZ+1USq8RYXvC9t+USd2ZpSyKoJ5jL3A=
-Received: from AM6PR08MB3461.eurprd08.prod.outlook.com (2603:10a6:20b:47::28)
- by AM5PR0802MB2388.eurprd08.prod.outlook.com (2603:10a6:203:9f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3283.15; Thu, 13 Aug
- 2020 07:14:28 +0000
-Received: from AM6PR08MB3461.eurprd08.prod.outlook.com
- ([fe80::8016:e0c:484c:4255]) by AM6PR08MB3461.eurprd08.prod.outlook.com
- ([fe80::8016:e0c:484c:4255%4]) with mapi id 15.20.3261.025; Thu, 13 Aug 2020
- 07:14:28 +0000
-From: "Diego Sueiro" <diego.sueiro@arm.com>
-To: Christopher Clark <christopher.w.clark@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>, Doug Goldstein
-	<cardoe@gentoo.org>, Bruce Ashfield <bruce.ashfield@gmail.com>, Bertrand
- Marquis <Bertrand.Marquis@arm.com>
-Subject: Re: [meta-virtualization][PATCH] xen: Fix menuconfig and add support for config fragments and diffconfig
-Thread-Topic: [meta-virtualization][PATCH] xen: Fix menuconfig and add support
- for config fragments and diffconfig
-Thread-Index: AQHWcMkhOjAA9Dzo5k6fLjSxRLqBsqk00BqAgADGfDA=
-Date: Thu, 13 Aug 2020 07:14:28 +0000
-Message-ID: 
- <AM6PR08MB34614D05C55020D5E09A491592430@AM6PR08MB3461.eurprd08.prod.outlook.com>
-References: <1597251220-21873-1-git-send-email-diego.sueiro@arm.com>
- <CACMJ4Gbq_jHcnzaqAdD91i+c+w_wko+s4fQ0MmsJiC8W0c=w+A@mail.gmail.com>
-In-Reply-To: 
- <CACMJ4Gbq_jHcnzaqAdD91i+c+w_wko+s4fQ0MmsJiC8W0c=w+A@mail.gmail.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ts-tracking-id: 86925a25-ede3-4f55-9e7a-f09c08ac8ca1.0
-x-checkrecipientchecked: true
-Authentication-Results-Original: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-x-originating-ip: [78.105.98.91]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 7465d7ad-ba01-4d5f-a853-08d83f5888c5
-x-ms-traffictypediagnostic: AM5PR0802MB2388:|DBBPR08MB5547:
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: 
-	<DBBPR08MB5547555CBE518E7839C1BEC192430@DBBPR08MB5547.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:8882;OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR08MB3461.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(136003)(366004)(376002)(346002)(396003)(186003)(6916009)(71200400001)(8936002)(8676002)(52536014)(6506007)(26005)(54906003)(7696005)(966005)(83380400001)(55016002)(9686003)(2906002)(316002)(33656002)(66446008)(64756008)(66556008)(66476007)(66946007)(4326008)(478600001)(5660300002)(86362001)(30864003)(76116006);DIR:OUT;SFP:1101;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=sH9QrOR9;
+ spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f52.google.com with SMTP id jp10so6218126ejb.0
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 13 Aug 2020 06:35:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+bG9AD0YZ0pFwYWUxih5DUolSmShr07AFtl4Q5/g068=;
+        b=sH9QrOR9HxmgTO302fcltzeoBFa73uMQFc0K5P4gW0ViA+6o+YZIiQo5W9AbR/d/PG
+         gtXiS18n3p6VqBzvGc4n60hTFAOS7LT+DpMi2nwbJ7CdhNpU6Rq9/rePoiRsBs01JXxg
+         Gbm3YxmJLTNnGUFA1qXF1nsasx1d86sRrEVGgLWpafx+GcTrHalIx91ZIt4Ma84bUwBp
+         IaWjyuvCgcfsbXJrPwMm8B72EIcHvIMUrBPzEChpzApWArHF0WNhJGgiJBDHQeR8CTQ7
+         xnpgx7PN6+P+gkf8J4hVAehMDRAXWZKS19Hp8YLDnI7UVzyyZkcWfJyseJzRtc2CmblH
+         Yxsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+bG9AD0YZ0pFwYWUxih5DUolSmShr07AFtl4Q5/g068=;
+        b=MhLoGi6K26qrrwXVhOnf77IPJoH78basPudzA7LKz3yRpzC0h74ueWQ/5dv8IiCOKX
+         vfV5H8lyewl9VytzuIRg7QdYaT+AlY0zlDj6M1/hFJN694D7IhOPa3GCTTupACVxElCU
+         /yLrhhIGjgxsBCuaNq6a6ySAzFded9NfylU29UySRwcutbKsw7ZYdDLD27qzHTjuDqR/
+         ONhYI0dMmx2kwnT/TnPr8mav+jqUtb6COFynQGynSOpcBjfBT/JewNuYc1Zxw3fB/l34
+         XH3QGXYc+JqC9yNojs95f1DFi9HTbE3UvqJ/mqvDNAcSOb4iM2wh04Iij8+yr7l8hDzX
+         1lwQ==
+X-Gm-Message-State: AOAM533E/HNzuImL/6qCHN/tr4OYDF+Qz5TuGhG5xk/iJIjdNswPCQoC
+	9cSFN3F7ImRA3yYeoJfEwffWl5JH5pgbY41wJyg=
+X-Google-Smtp-Source: ABdhPJy9Z/4UL8uQ+JiGKDdF9+ze+/6hX9y5eucPiEiccteBwzWHapjvRUALPCDzRiApyQbnDkcAXUZj2CSWKcl2Qvo=
+X-Received: by 2002:a17:906:bc52:: with SMTP id s18mr4522741ejv.298.1597325699351;
+ Thu, 13 Aug 2020 06:34:59 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2388
-Original-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-Return-Path: Diego.Sueiro@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT038.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	8b74b650-0001-4ffb-9d41-08d83f588496
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	JrFEtz8UgvP+zPRRLteLUMaWt1tUtkCXmRjdpoXgYM4ZV6B1dgP7epKiMjYmqzWUvStw3u+ZRIUkXsLDu5quqIU7oF8JBLQQ7hSEwMzLO7rdSDjZCVMjltjpBFLgTTTyu1bpk6b1gqQa7TxTlCCgHGqPP+xejzKWJdQQdPpYsY1Zkcq55JCGv4OD++lDv6auNRgxQvJ7i426u9qBSNl14IvU7dYg3nb1CvZ5r3FWbMC7W6fKm/LldxX1zEmmQYOJi8Qogp9cjLXBHlc3QqD7XVeng6jXk3mYEXVdqb93Kgpy8+aFM4DPkEfpwg9+plHOcMeNycC7u3tWIR5BgL7OKdJq3eGMCnE81cji3JxDtLgS8BZ1n+emQXE6Vl8s98jA1x8+6oOOVJs6RHybwwoWw43ZH4iAOUXWz9uF6poHFHI0ZgmCEBY1x9d2oc6ZnXo85MeoxcCeXvVpoo/MuZ0tpE6JNWejH3/SbX+bmiGRbZE=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(136003)(396003)(39860400002)(346002)(376002)(46966005)(2906002)(86362001)(8676002)(966005)(9686003)(336012)(54906003)(70206006)(478600001)(316002)(55016002)(83380400001)(82310400002)(7696005)(6862004)(47076004)(81166007)(52536014)(186003)(30864003)(5660300002)(6506007)(70586007)(356005)(33656002)(4326008)(82740400003)(26005)(8936002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Aug 2020 07:14:35.7172
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7465d7ad-ba01-4d5f-a853-08d83f5888c5
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT038.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB5547
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <1597251220-21873-1-git-send-email-diego.sueiro@arm.com>
+ <CACMJ4Gbq_jHcnzaqAdD91i+c+w_wko+s4fQ0MmsJiC8W0c=w+A@mail.gmail.com> <AM6PR08MB34614D05C55020D5E09A491592430@AM6PR08MB3461.eurprd08.prod.outlook.com>
+In-Reply-To: <AM6PR08MB34614D05C55020D5E09A491592430@AM6PR08MB3461.eurprd08.prod.outlook.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 13 Aug 2020 09:34:47 -0400
+Message-ID: <CADkTA4ONwTgLnjPasGO=zrAK917QnCUD8tnwgFfEGF=BSUMzbw@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xen: Fix menuconfig and add support for config fragments and diffconfig
+To: Diego Sueiro <Diego.Sueiro@arm.com>
+Cc: Christopher Clark <christopher.w.clark@gmail.com>, 
+	"meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>, 
+	Doug Goldstein <cardoe@gentoo.org>, Bertrand Marquis <Bertrand.Marquis@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000e686d405acc25e55"
 
-SGVsbG8gQ2hyaXN0b3BoZXIsDQoNClBsZWFzZSwgZmluZCBteSBjb21tZW50cyBpbmxpbmUuDQoN
-Cj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IENocmlzdG9waGVyIENsYXJrIDxj
-aHJpc3RvcGhlci53LmNsYXJrQGdtYWlsLmNvbT4NCj5TZW50OiAxMiBBdWd1c3QgMjAyMCAxOTo0
-Ng0KPlRvOiBEaWVnbyBTdWVpcm8gPERpZWdvLlN1ZWlyb0Bhcm0uY29tPg0KPkNjOiBtZXRhLXZp
-cnR1YWxpemF0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc7IG5kIDxuZEBhcm0uY29tPg0KPlN1
-YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXphdGlvbl1bUEFUQ0hdIHhlbjogRml4IG1lbnVjb25m
-aWcgYW5kIGFkZCBzdXBwb3J0DQo+Zm9yIGNvbmZpZyBmcmFnbWVudHMgYW5kIGRpZmZjb25maWcN
-Cj4NCj5PbiBXZWQsIEF1ZyAxMiwgMjAyMCBhdCA5OjUzIEFNIERpZWdvIFN1ZWlybyA8ZGllZ28u
-c3VlaXJvQGFybS5jb20+DQo+d3JvdGU6DQo+Pg0KPj4gVGhpcyBwYXRjaCBpbnRyb2R1Y2VzIHRo
-ZSBmb2xsb3dpbmcgY2hhbmdlczoNCj4+DQo+PiAxLiBXaGVuIGJ1aWxkaW5nIGluIE9FIGVudmly
-b25tZW50IHRoZSBsaW5rZXIgcGF0aCBuZWVkcyB0byBiZSBwYXNzZWQNCj53aGVuDQo+PiAgICBi
-dWlsZGluZCB0aGUgS2NvbmZpZyB0b29sIGluIG9yZGVyIHRvIGdldCB0aGUgbWVudWNvbmZpZyB0
-YXNrIHByb3Blcmx5DQo+PiAgICB3b3JraW5nLg0KPj4NCj4+IDIuIEJ5IGluaGVyaXRpbmcgY21s
-MS5iYmNsYXNzIHdlIGNhbiBkcm9wIHNvbWUgZW52aXJvbm1lbnQgdmFyaWFibGVzDQo+PiAgICBz
-ZXR0aW5ncyBpbiB4ZW4taHlwZXJ2aXNvci5pbmMgZm9yIHRoZSBtZW51Y29uZmlnIHRhc2ssIGFu
-ZCBhbHNvIGJlDQo+PiAgICBhYmxlIHRvIHNlYXJjaCBmb3IgY29uZmlnIGZyYWdtZW5zIGFuZCB1
-c2UgdGhlIGRpZmZjb25maWcgdGFzay4gQWxzbywNCj4+ICAgIHRoZXJlIGlzIG5vIG5lZWQgdG8g
-aGF2ZSBhIGN1c3RvbSBkb19tZW51Y29uZmlnIHRhc2sgYW55bW9yZS4NCj4+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBEaWVnbyBTdWVpcm8gPGRpZWdvLnN1ZWlyb0Bhcm0uY29tPg0KPj4gLS0tDQo+PiAg
-cmVjaXBlcy1leHRlbmRlZC94ZW4vUkVBRE1FICAgICAgICAgICAgICAgICAgICAgICAgfCAgMyAr
-DQo+PiAgLi4uZy1BbGxvdy1zcGVjaWZpY2F0aW9uLW9mLW5jdXJzZXMtbG9jYXRpb24ucGF0Y2gg
-fCA2NA0KPisrKysrKysrKysrKysrKysrKysrKysNCj4+ICByZWNpcGVzLWV4dGVuZGVkL3hlbi94
-ZW4taHlwZXJ2aXNvci5pbmMgICAgICAgICAgICB8IDQ4ICsrKysrKy0tLS0tLS0tLS0NCj4+ICBy
-ZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5fNC4xNC5iYiAgICAgICAgICAgICAgICAgICB8ICAxICsN
-Cj4+ICByZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW5fZ2l0LmJiICAgICAgICAgICAgICAgICAgICB8
-ICAxICsNCj4+ICA1IGZpbGVzIGNoYW5nZWQsIDg3IGluc2VydGlvbnMoKyksIDMwIGRlbGV0aW9u
-cygtKSAgY3JlYXRlIG1vZGUNCj4+IDEwMDY0NA0KPj4gcmVjaXBlcy1leHRlbmRlZC94ZW4vZmls
-ZXMvMDAwMS1tZW51Y29uZmlnLW1jb25mLWNmZy1BbGxvdy1zcGVjaWZpY2F0aQ0KPj4gb24tb2Yt
-bmN1cnNlcy1sb2NhdGlvbi5wYXRjaA0KPj4NCj4+IGRpZmYgLS1naXQgYS9yZWNpcGVzLWV4dGVu
-ZGVkL3hlbi9SRUFETUUgYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi9SRUFETUUNCj4+IGluZGV4IDM0
-ZTc5NzcuLmY4NmQyNjkgMTAwNjQ0DQo+PiAtLS0gYS9yZWNpcGVzLWV4dGVuZGVkL3hlbi9SRUFE
-TUUNCj4+ICsrKyBiL3JlY2lwZXMtZXh0ZW5kZWQveGVuL1JFQURNRQ0KPj4gQEAgLTI1LDYgKzI1
-LDkgQEAgU2VsZWN0IHRoZSBjb25maWcgc2V0dGluZ3MgdGhhdCB5b3Ugd2FudCBhbmQgU2F2ZQ0K
-Pj4gdGhlIGZpbGUuIElmIHlvdSBzYXZlIGl0IHRvICB0aGUgZGVmYXVsdCAiLmNvbmZpZyIgZmls
-ZSB3aGVuIHByb21wdGVkDQo+PiBieSBtZW51Y29uZmlnLCB5b3UgY2FuIGZpbmQgaXQgaW4gdGhl
-ICAneGVuJyBzdWJkaXJlY3Rvcnkgb2YgdGhlIGJ1aWxkIHRyZWUuDQo+Pg0KPj4gK0NvbmZpZ3Vy
-YXJpb24gZnJhZ21lbnRzIGFyZSBhbHNvIHN1cHBvcnRlZC4gVG8gdXNlIHRoZW0geW91IG5lZWQg
-dG8NCj4+ICtsaXN0IHRoZQ0KPg0KPkNvbmZpZ3VyYXRpb24NCg0KT29vcHMsIEkgZm9yZ290IGFi
-b3V0IHRoaXMgb25lLg0KDQo+DQo+PiArLmNmZyBmaWxlcyBpbiB0aGUgU1JDX1VSSS4NCj4+ICsN
-Cj4+ICBzZWN1cml0eSBwYXRjaGVzDQo+PiAgLS0tLS0tLS0tLS0tLS0tLQ0KPj4NCj4+IGRpZmYg
-LS1naXQNCj4+IGEvcmVjaXBlcy1leHRlbmRlZC94ZW4vZmlsZXMvMDAwMS1tZW51Y29uZmlnLW1j
-b25mLWNmZy1BbGxvdy1zcGVjaWZpY2ENCj4+IHRpb24tb2YtbmN1cnNlcy1sb2NhdGlvbi5wYXRj
-aA0KPj4gYi9yZWNpcGVzLWV4dGVuZGVkL3hlbi9maWxlcy8wMDAxLW1lbnVjb25maWctbWNvbmYt
-Y2ZnLUFsbG93LXNwZWNpZmljYQ0KPj4gdGlvbi1vZi1uY3Vyc2VzLWxvY2F0aW9uLnBhdGNoDQo+
-PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPj4gaW5kZXggMDAwMDAwMC4uNjQzMTlkNg0KPj4gLS0t
-IC9kZXYvbnVsbA0KPj4gKysrIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4vZmlsZXMvMDAwMS1tZW51
-Y29uZmlnLW1jb25mLWNmZy1BbGxvdy1zcGVjaQ0KPj4gKysrIGZpY2F0aW9uLW9mLW5jdXJzZXMt
-bG9jYXRpb24ucGF0Y2gNCj4+IEBAIC0wLDAgKzEsNjQgQEANCj4+ICtVcHN0cmVhbS1TdGF0dXM6
-IEluYXBwcm9wcmlhdGUgW29lIHNwZWNpZmljLCBjcm9zcyBjb21waWxlIGlzc3VlXQ0KPg0KPklz
-IHRoaXMgYmVpbmcgY29uc2lkZXJlZCBmb3Igc3VibWlzc2lvbiB1cHN0cmVhbT8NCj5odHRwczov
-L3d3dy5vcGVuZW1iZWRkZWQub3JnL3dpa2kvQ29tbWl0X1BhdGNoX01lc3NhZ2VfR3VpZGVsaW5l
-cw0KPnNvOiBQZW5kaW5nPw0KDQpJbiBhIHRocmVhZCBvZiBlbWFpbHMsIEBEb3VnIG1lbnRpb25l
-ZCB0aGF0IHRoaXMgcGF0Y2ggd2FzIG5vdCBnb2luZyB0byBiZQ0KYWNjZXB0ZWQgaW4gdGhlIFhl
-biBzb3VyY2UgdHJlZS4gV2UgZGlzY3Vzc2VkIHRoYXQgd2UgYXJlIGdvaW5nIHRvIHN1Ym1pdCB0
-aGUNCnNvbHV0aW9uIHRvIHRoZSBrZXJuZWwgbWFpbmxpbmUgYW5kIGlmIGFjY2VwdGVkLCBEb3Vn
-IHdpbGwgc3luYy11cCB0aGUgWGVuDQprY29uZmlnIHNvdXJjZSB3aXRoIHRoZSBrZXJuZWwuIFNp
-bmNlIHRoaXMgcGF0Y2ggaXMgdGFyZ2V0aW5nIHRoZSBYZW4gc291cmNlIHRyZWUNCmFuZCB3aWxs
-IG5vdCBiZSBhY2NlcHRlZCBieSB0aGUgWGVuIHByb2plY3QgYXMgaXMsIEkgdGhvdWdodCB0aGF0
-IHRoZQ0KVXBzdHJlYW0tU3RhdHVzIHNob3VsZCBiZSBzZXQgYXMgSW5hcHByb3ByaWF0ZS4gQEJy
-dWNlLCBjYW4geW91IHBsZWFzZQ0KYWR2aWNlIHdoYXQgaXMgdGhlIGJlc3QgZGVzY3JpcHRpb24g
-dG8gYWRkIGluIGl0Pw0KDQo+DQo+PiArU2lnbmVkLW9mZi1ieTogRGllZ28gU3VlaXJvIDxkaWVn
-by5zdWVpcm9AYXJtLmNvbT4gY29tbWl0DQo+PiArZTY5NzJlNjg5YTk4MGFiMjg2MzdlOTRlNDhj
-NzdlZWFjZTZhYmRlNQ0KPj4gK0F1dGhvcjogQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFzaGZpZWxk
-QHdpbmRyaXZlci5jb20+DQo+PiArRGF0ZTogICBNb24gSnVsIDIgMjM6MTA6MjggMjAxOCAtMDQw
-MA0KPj4gKw0KPj4gKyAgICB4ZW4va2NvbmZpZyxtZW51Y29uZmlnLG1jb25mLWNmZzogQWxsb3cg
-c3BlY2lmaWNhdGlvbiBvZiBuY3Vyc2VzDQo+PiArIGxvY2F0aW9uDQo+PiArDQo+PiArICAgIElu
-IHNvbWUgY3Jvc3MgYnVpbGQgZW52aXJvbm1lbnRzIHN1Y2ggYXMgdGhlIFlvY3RvIFByb2plY3Qg
-YnVpbGQNCj4+ICsgICAgZW52aXJvbm1lbnQgaXQgcHJvdmlkZXMgYW4gbmN1cnNlcyBsaWJyYXJ5
-IHRoYXQgaXMgY29tcGlsZWQNCj4+ICsgICAgZGlmZmVyZW50bHkgdGhhbiB0aGUgaG9zdCdzIHZl
-cnNpb24uICBUaGlzIGNhdXNlcyBkaXNwbGF5IGNvcnJ1cHRpb24NCj4+ICsgICAgcHJvYmxlbXMg
-d2hlbiB0aGUgaG9zdCdzIGN1cnNlcyBpbmNsdWRlcyBhcmUgdXNlZCBpbnN0ZWFkIG9mIHRoZQ0K
-Pj4gKyAgICBpbmNsdWRlcyBmcm9tIHRoZSBwcm92aWRlZCBjb21waWxlciBhcmUgb3ZlcnJpZGRl
-bi4gIFRoZXJlIGlzIGEgc2Vjb25kDQo+PiArICAgIGNhc2Ugd2hlcmUgdGhlcmUgaXMgbm8gY3Vy
-c2VzIGxpYnJhcmllcyBhdCBhbGwgb24gdGhlIGhvc3Qgc3lzdGVtIGFuZA0KPj4gKyAgICBtZW51
-Y29uZmlnIHdpbGwganVzdCBmYWlsIGVudGlyZWx5Lg0KPj4gKw0KPj4gKyAgICBUaGUgc29sdXRp
-b24gaXMgc2ltcGx5IHRvIGFsbG93IGFuIG92ZXJyaWRlIHZhcmlhYmxlIGluDQo+PiArICAgIGNo
-ZWNrLWx4ZGlhbG9nLnNoIGZvciBlbnZpcm9ubWVudHMgc3VjaCBhcyB0aGUgWW9jdG8gUHJvamVj
-dC4gIEFkZGluZw0KPj4gKyAgICBhIENST1NTX0NVUlNFU19MSUIgYW5kIENST1NTX0NVUlNFU19J
-TkMgc29sdmVzIHRoZSBpc3N1ZSBhbmQNCj5hbGxvd2luZw0KPj4gKyAgICBjb21waWxpbmcgYW5k
-IGxpbmtpbmcgYWdhaW5zdCB0aGUgcmlnaHQgaGVhZGVycyBhbmQgbGlicmFyaWVzLg0KPj4gKw0K
-Pj4gKyAgICBDaGFuZ2UtSWQ6IEliZThkZmFmYzkwNjU1ZTNiZTI2NzFkYmJiMGNiN2Y1NjMxZmM0
-ZDQ0DQo+PiArICAgIFNpZ25lZC1vZmYtYnk6IEphc29uIFdlc3NlbCA8amFzb24ud2Vzc2VsQHdp
-bmRyaXZlci5jb20+DQo+PiArICAgIGNjOiBNaWNoYWwgTWFyZWsgPG1tYXJla0BzdXNlLmN6Pg0K
-Pj4gKyAgICBjYzogbGludXgta2J1aWxkQHZnZXIua2VybmVsLm9yZw0KPj4gKyAgICBTaWduZWQt
-b2ZmLWJ5OiBCcnVjZSBBc2hmaWVsZCA8YnJ1Y2UuYXNoZmllbGRAd2luZHJpdmVyLmNvbT4NCj4+
-ICsgICAgU2lnbmVkLW9mZi1ieTogRGllZ28gU3VlaXJvIDxkaWVnby5zdWVpcm9AYXJtLmNvbT4N
-Cj4+ICsNCj4+ICtkaWZmIC0tZ2l0IGEvSU5TVEFMTCBiL0lOU1RBTEwNCj4+ICtpbmRleCAwZDNl
-Yjg5Li45ZGNkYThmIDEwMDY0NA0KPj4gKy0tLSBhL0lOU1RBTEwNCj4+ICsrKysgYi9JTlNUQUxM
-DQo+PiArQEAgLTMzLDYgKzMzLDEwIEBAIHNtYWxsIHN1YnNldCBvZiB0aGUgb3B0aW9ucy4gIEF0
-dGVtcHRzIHRvIGNoYW5nZQ0KPj4gK290aGVyIG9wdGlvbnMgd2lsbCBiZSAgc2lsZW50bHkgb3Zl
-cnJpZGRlbi4gIFRoZSBvbmx5IHdheSB0byBmaW5kDQo+PiArd2hpY2ggY29uZmlndXJhdGlvbiBv
-cHRpb25zICBhcmUgYXZhaWxhYmxlIGlzIHRvIHJ1biBgbWFrZSBtZW51Y29uZmlnJyBvcg0KPnRo
-ZSBsaWtlLg0KPj4gKw0KPj4gKytUbyB1c2UgdGhlIG1lbnVjb25maWcgaW4gY3Jvc3MgYnVpbGQg
-ZW52aXJvbm1lbnRzLCBlLmcuDQo+PiArK29wZW5lbWJlZGRlZCwgc2V0IHRoZSBDUk9TU19DVVJT
-RVNfTElCIGFuZCBDUk9TU19DVVJTRVNfSU5DDQo+PiArK2Vudmlyb25tZW50IHZhcmlhYmxlcyB3
-aXRoIHRoZSBwcm9wZXIgdmFsdWVzIHJlcXVpcmVkIGZvciBsaWJzIGFuZCBjZmxhZ3MNCj5jb21w
-aWxhdGlvbiBzZXR0aW5ncy4NCj4+ICsrDQo+PiArIFlvdSBjYW4gY291bnRlci1vdmVycmlkZSB0
-aGlzIGJlaGF2aW91ciBieSBzZXR0aW5nDQo+PiArIFhFTl9DT05GSUdfRVhQRVJUPXkgaW4geW91
-ciBlbnZpcm9ubWVudC4gIEhvd2V2ZXIsIGRvaW5nIHRoaXMgaXMgbm90DQo+PiArIHN1cHBvcnRl
-ZCBhbmQgdGhlIHJlc3VsdGluZyBjb25maWd1cmF0aW9ucyBkbyBub3QgcmVjZWl2ZSBzZWN1cml0
-eQ0KPj4gKyBzdXBwb3J0LiAgSWYgeW91IHNldA0KPg0KPlRoZSBkb2MgaGFzIGEgY291cGxlIG9m
-IGV4aXN0aW5nIHNlY3Rpb25zIGZvciB2YXJpYWJsZXMgdGhhdCBhZmZlY3QgdGhlIGJ1aWxkIC0t
-DQo+YmV0dGVyIHRvIGFkZCB0aGUgbmV3IGRvY3VtZW50YXRpb24gdGhlcmU/DQo+DQoNCldlbGws
-IHRoZSBpbnRyb2R1Y3Rpb24gb2YgdGhlc2UgdmFyaWFibGVzIGFyZSBub3QgYWZmZWN0aW5nIHRo
-ZSBidWlsZCBpdHNlbGYgc2luY2UNCnRoZXkgYXJlIG9ubHkgdXNlZCB3aGVuIGJ1aWxkaW5nIGtj
-b25maWcgaW4gYSBjcm9zcyBidWlsZCBlbnZpcm9ubWVudCBmb3IgdGhlDQptZW51Y29uZmlnIHRh
-cmdldC4gRWl0aGVyIHdheSwgc2luY2UgdGhpcyBwYXRjaCB3aWxsIG5vdCBiZSBtZXJnZWQgZGly
-ZWN0bHkgdG8NCnRoZSBYZW4gc291cmNlIHRyZWUsIEknbSB0aGlua2luZyBhYm91dCBkcm9wcGlu
-ZyB0aGUgZG9jdW1lbnRhdGlvbiBjaGFuZ2VzDQpzaW5jZSBmb3IgdGhlIG5vcm1hbCBZb2N0byB1
-c2UgY2FzZXMgdGhlIHVzZXIgZG9lcyBub3QgbmVlZCB0byBjYXJlIGFib3V0IGl0DQpiZWNhdXNl
-IHRoZSBidWlsZCBzeXN0ZW0gaXMgYWxyZWFkeSBzZXR0aW5nIGl0IHByb3Blcmx5Lg0KRG8geW91
-IGFncmVlIHdpdGggcmVtb3ZpbmcgdGhlIGRvY3VtZW50YXRpb24gY2hhbmdlcyBpbiB0aGlzIHBh
-dGNoPw0KDQo+PiArZGlmZiAtLWdpdCBhL3hlbi90b29scy9rY29uZmlnL21jb25mLWNmZy5zaA0K
-Pj4gK2IveGVuL3Rvb2xzL2tjb25maWcvbWNvbmYtY2ZnLnNoIG9sZCBtb2RlIDEwMDc1NSBuZXcg
-bW9kZSAxMDA2NDQNCj4NCj4/Pw0KDQpUaGlzIGNhbWUgZnJvbSB0aGUgb3JpZ2luYWwgcGF0Y2gu
-IFNoYWxsIEkgcmVtb3ZlIHRoZSBmaWxlIG1vZGUgbW9kaWZpY2F0aW9uPyAgDQoNCj4NCj4+ICtp
-bmRleCBjODEyODcyLi42NWE5YjllDQo+PiArLS0tIGEveGVuL3Rvb2xzL2tjb25maWcvbWNvbmYt
-Y2ZnLnNoDQo+PiArKysrIGIveGVuL3Rvb2xzL2tjb25maWcvbWNvbmYtY2ZnLnNoDQo+PiArQEAg
-LTQsNiArNCwxNCBAQA0KPj4gKyBQS0c9Im5jdXJzZXN3Ig0KPj4gKyBQS0cyPSJuY3Vyc2VzIg0K
-Pj4gKw0KPj4gKytpZiBbICIkQ1JPU1NfQ1VSU0VTX0xJQiIgIT0gIiIgXTsgdGhlbg0KPj4gKysg
-ICAgZWNobyBsaWJzPVwnJENST1NTX0NVUlNFU19MSUJcJw0KPj4gKysgICAgaWYgWyB4IiRDUk9T
-U19DVVJTRVNfSU5DIiAhPSB4IF07IHRoZW4NCj4+ICsrICAgICAgZWNobyBjZmxhZ3M9XCckQ1JP
-U1NfQ1VSU0VTX0lOQ1wnDQo+PiArKyAgICBmaQ0KPj4gKysgICAgZXhpdCAwDQo+PiArK2ZpDQo+
-PiArKw0KPj4gKyBpZiBbIC1uICIkKGNvbW1hbmQgLXYgcGtnLWNvbmZpZykiIF07IHRoZW4NCj4+
-ICsgICAgICAgaWYgcGtnLWNvbmZpZyAtLWV4aXN0cyAkUEtHOyB0aGVuDQo+PiArICAgICAgICAg
-ICAgICAgZWNobyBjZmxhZ3M9XCIkKHBrZy1jb25maWcgLS1jZmxhZ3MgJFBLRylcIg0KPj4gZGlm
-ZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbi1oeXBlcnZpc29yLmluYw0KPj4gYi9y
-ZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4taHlwZXJ2aXNvci5pbmMNCj4+IGluZGV4IGMzODY5MTcu
-LjI4ZDY0YzUgMTAwNjQ0DQo+PiAtLS0gYS9yZWNpcGVzLWV4dGVuZGVkL3hlbi94ZW4taHlwZXJ2
-aXNvci5pbmMNCj4+ICsrKyBiL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbi1oeXBlcnZpc29yLmlu
-Yw0KPj4gQEAgLTksNyArOSw3IEBAIERFU0NSSVBUSU9OID0gIlRoZSBYZW4gaHlwZXJ2aXNvciIN
-Cj4+ICAjIFRoZSBYZW4gaHlwZXJ2aXNvciBoYXMgYSBuYXJyb3dlciBjb21wYXRpYmxlIHBsYXRm
-b3JtIHJhbmdlIHRoYW4NCj4+IHRoZSBYZW4gdG9vbHMgIENPTVBBVElCTEVfSE9TVCA9ICcoeDg2
-XzY0LiopLiotbGludXh8YWFyY2g2NC4qLWxpbnV4fGFybS0NCj4uKi1saW51eC1nbnVlYWJpJw0K
-Pj4NCj4+IC1pbmhlcml0IGRlcGxveSBweXRob24zbmF0aXZlDQo+PiAraW5oZXJpdCBkZXBsb3kg
-cHl0aG9uM25hdGl2ZSBjbWwxDQo+Pg0KPj4gIFBBQ0tBR0VTID0gIiBcDQo+PiAgICAgICR7UE59
-IFwNCj4+IEBAIC0zNCw2ICszNCwxNyBAQCBGSUxFU18ke1BOfS1lZmkgPSAiIFwNCj4+DQo+PiAg
-ZG9fY29uZmlndXJlKCkgew0KPj4gICAgICBkb19jb25maWd1cmVfY29tbW9uDQo+PiArDQo+PiAr
-ICAgICMgSGFuZGxlIHRoZSBjb25maWcgZnJhZ21lbnRzDQo+PiArICAgIGlmIFsgLW4gIiR7QCcg
-Jy5qb2luKGZpbmRfY2ZncyhkKSl9IiBdOyB0aGVuDQo+PiArICAgICAgICAjIElmIC5jb25maWcg
-aXMgbm90IHByZXNlbnQgZ2VuZXJhdGUgb25lIGluIG9yZGVyDQo+PiArICAgICAgICAjIHRvIHVz
-ZSB0aGUgbWVyZ2VfY29uZmlnLnNoDQo+PiArICAgICAgICBpZiBbICEgLWYgIiR7U30veGVuLy5j
-b25maWciIF0gOyB0aGVuDQo+PiArICAgICAgICAgICAgb2VfcnVubWFrZSAtQyAke1N9L3hlbiBk
-ZWZjb25maWcNCj4+ICsgICAgICAgIGZpDQo+PiArICAgICAgICAke1N9L3hlbi90b29scy9rY29u
-ZmlnL21lcmdlX2NvbmZpZy5zaCAtbSAtTyBcDQo+PiArICAgICAgICAgICAgJHtTfS94ZW4gJHtT
-fS94ZW4vLmNvbmZpZyAke0AiICIuam9pbihmaW5kX2NmZ3MoZCkpfQ0KPj4gKyAgICBmaQ0KPj4g
-IH0NCj4+DQo+PiAgZG9fY29tcGlsZSgpIHsNCj4+IEBAIC03NywzNSArODgsMTIgQEAgZG9fZGVw
-bG95W2RlcGVuZHNdICs9ICJ4ZW4tDQo+dG9vbHM6ZG9fcG9wdWxhdGVfc3lzcm9vdCINCj4+ICBk
-b19kZXBsb3lbZGVwZW5kc10gKz0gInhlbi10b29sczpkb19kZXBsb3kiDQo+Pg0KPj4gICMgRW5h
-YmxlIHVzZSBvZiBtZW51Y29uZmlnIGRpcmVjdGx5IGZyb20gYml0YmFrZSBhbmQgYWxzbyB3aXRo
-aW4gdGhlDQo+PiBkZXZzaGVsbCAtT0VfVEVSTUlOQUxfRVhQT1JUUyArPSAiSE9TVF9FWFRSQUNG
-TEFHUyBIT1NUTERGTEFHUw0KPlRFUk1JTkZPIg0KPj4gLUhPU1RfRVhUUkFDRkxBR1MgPSAiJHtC
-VUlMRF9DRkxBR1N9ICR7QlVJTERfTERGTEFHU30iDQo+PiAtSE9TVExERkxBR1MgPSAiJHtCVUlM
-RF9MREZMQUdTfSINCj4+IC1URVJNSU5GTyA9ICIke1NUQUdJTkdfREFUQURJUl9OQVRJVkV9L3Rl
-cm1pbmZvIg0KPj4gIGRvX2RldnNoZWxsW2RlcGVuZHNdICs9ICJuY3Vyc2VzLW5hdGl2ZTpkb19w
-b3B1bGF0ZV9zeXNyb290Ig0KPj4NCj4+IC1LQ09ORklHX0NPTkZJR19DT01NQU5EID8/PSAibWVu
-dWNvbmZpZyINCj4+IC1weXRob24gZG9fbWVudWNvbmZpZygpIHsNCj4+IC0gICAgaW1wb3J0IHNo
-dXRpbA0KPj4gLQ0KPj4gLSAgICB0cnk6DQo+PiAtICAgICAgICBtdGltZSA9IG9zLnBhdGguZ2V0
-bXRpbWUoInhlbi8uY29uZmlnIikNCj4+IC0gICAgICAgIHNodXRpbC5jb3B5KCJ4ZW4vLmNvbmZp
-ZyIsICJ4ZW4vLmNvbmZpZy5vcmlnIikNCj4+IC0gICAgZXhjZXB0IE9TRXJyb3I6DQo+PiAtICAg
-ICAgICBtdGltZSA9IDANCj4+ICsjIFBhc3MgdGhlIG5hdGl2ZSBsaWJyYXJ5IHBhdGggZm9yIGtj
-b25maWcgYnVpbGQgd2hlbiBydW5uaW5nIHRoZQ0KPj4gK2RvX21lbnVjb25maWcgIyB0YXNrIENS
-T1NTX0NVUlNFU19MSUIgKz0gIi0NCj5MJHtTVEFHSU5HX0xJQkRJUl9OQVRJVkV9Ig0KPg0KPkkg
-dGhpbmsgdGhpcyBpbGx1c3RyYXRlcyB3aHkgdGhlIG5ldyB2YXJpYWJsZSBuYW1lcyB0aGF0IHRo
-aXMgcGF0Y2ggaW50cm9kdWNlcw0KPmNvdWxkIGJlIGltcHJvdmVkOiB0aGV5IGFyZSBzZXQgd2l0
-aCB2YWx1ZXMgdGhhdCBlbmFibGUgdGhlIGJ1aWxkIHRvIGdlbmVyYXRlDQo+YmluYXJpZXMgdGhh
-dCBydW4gb24gdGhlIGhvc3QgKGllLiBuYXRpdmUpLCBub3QgdGhlIHRhcmdldCAoY3Jvc3MpLiBB
-bHRlcm5hdGl2ZWx5LCBpbg0KPnRoZSBrY29uZmlnIE1ha2VmaWxlLCBhIEhPU1QgcHJlZml4IGRl
-bm90ZXMgdmFyaWFibGVzIHRoYXQgYXJlIHVzZWQgdG8gYnVpbGQNCj5iaW5hcmllcyB0aGF0IHJ1
-biBvbiB0aGUgaG9zdC4NCg0KSWYgd2UgY2hhbmdlIHRoZSB2YXJpYWJsZSBuYW1lLCBJJ2xsIGhh
-dmUgdG8gY2hhbmdlIHRoZSBvcmlnaW5hbCBwYXRjaCBhbmQgYWxzbw0KYWRkIGluIHRoaXMgcmVj
-aXBlIHRoZSBmb2xsb3dpbmc6DQpPRV9URVJNSU5BTF9FWFBPUlRTICs9ICJIT1NUX0NVUlNFU19M
-SUIgSE9TVF9DVVJTRVNfSU5DIg0KSE9TVF9DVVJTRVNfTElCID0gIiR7Q1JPU1NfQ1VSU0VTX0xJ
-Qn0gLUwke1NUQUdJTkdfTElCRElSX05BVElWRX0iDQpIT1NUX0NVUlNFU19JTkMgPSAiJHtDUk9T
-U19DVVJTRVNfSU5DfSINCg0KSSdtIHRyeWluZyB0byBhdm9pZCBhcyBtdWNoIGFzIHBvc3NpYmxl
-IGV4dHJhIGN1c3RvbWlzYXRpb25zIHRvIGV4dGVuZCB3aGF0IGNtbDEuYmJjbGFzcw0KaXMgYWxy
-ZWFkeSBwcm92aWRpbmcgLCBhbmQga2VlcCB0aGlzIHJlY2lwZSBhcyBjbGVhbiBhcyBwb3NzaWJs
-ZS4NClBsZWFzZSwgY29uZmlybSB0aGF0IHlvdSB3YW50IG1lIHRvIGdvIGFoZWFkIHdpdGggdGhp
-cyBleHRyYSBzZXR0aW5ncy9jdXN0b21pc2F0aW9ucy4NCg0KRGllZ28NCg0KPg0KPkNocmlzdG9w
-aGVyDQo+DQo+Pg0KPj4gLSAgICBvZV90ZXJtaW5hbCgiJHtTSEVMTH0gLWMgXCJjZCB4ZW47IFhF
-Tl9DT05GSUdfRVhQRVJUPXkgbWFrZSAlczsgaWYNCj5bIFwkPyAtbmUgMCBdOyB0aGVuIGVjaG8g
-J0NvbW1hbmQgZmFpbGVkLic7IHByaW50ZiAnUHJlc3MgYW55IGtleSB0byBjb250aW51ZS4uLiAn
-Ow0KPnJlYWQgcjsgZmlcIiIgJSBkLmdldFZhcignS0NPTkZJR19DT05GSUdfQ09NTUFORCcpLA0K
-Pj4gLSAgICAgICAgZC5nZXRWYXIoJ1BOJykgKyAnIENvbmZpZ3VyYXRpb24nLCBkKQ0KPj4gLQ0K
-Pj4gLSAgICB0cnk6DQo+PiAtICAgICAgICBuZXdtdGltZSA9IG9zLnBhdGguZ2V0bXRpbWUoInhl
-bi8uY29uZmlnIikNCj4+IC0gICAgZXhjZXB0IE9TRXJyb3I6DQo+PiAtICAgICAgICBuZXdtdGlt
-ZSA9IDANCj4+IC0NCj4+IC0gICAgaWYgbmV3bXRpbWUgPiBtdGltZToNCj4+IC0gICAgICAgIGJi
-Lm5vdGUoIkNvbmZpZ3VyYXRpb24gY2hhbmdlZCwgcmVjb21waWxlIHdpbGwgYmUgZm9yY2VkIikN
-Cj4+IC0gICAgICAgIGJiLmJ1aWxkLndyaXRlX3RhaW50KCdkb19jb21waWxlJywgZCkNCj4+IC19
-DQo+PiAtZG9fbWVudWNvbmZpZ1tkZXBlbmRzXSArPSAibmN1cnNlcy1uYXRpdmU6ZG9fcG9wdWxh
-dGVfc3lzcm9vdCINCj4+IC1kb19tZW51Y29uZmlnW25vc3RhbXBdID0gIjEiDQo+PiAtZG9fbWVu
-dWNvbmZpZ1tkaXJzXSA9ICIke0J9Ig0KPj4gLWFkZHRhc2sgbWVudWNvbmZpZyBhZnRlciBkb19j
-b25maWd1cmUNCj4+ICsjIFNwZWNpZnkgdGhlIHJvb3QgZGlyIG9mIHRoZSAuY29uZmlnIGZpbGUg
-Zm9yIGRvX21lbnVjb25maWcgYW5kDQo+PiArZG9fZGlmZmNvbmZpZyAjIHRhc2tzIEtDT05GSUdf
-Q09ORklHX1JPT1RESVIgPSAiJHtTfS94ZW4iDQo+PiBkaWZmIC0tZ2l0IGEvcmVjaXBlcy1leHRl
-bmRlZC94ZW4veGVuXzQuMTQuYmINCj4+IGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuXzQuMTQu
-YmINCj4+IGluZGV4IDA0MTNiZWUuLjkxZTg5ODggMTAwNjQ0DQo+PiAtLS0gYS9yZWNpcGVzLWV4
-dGVuZGVkL3hlbi94ZW5fNC4xNC5iYg0KPj4gKysrIGIvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVu
-XzQuMTQuYmINCj4+IEBAIC02LDYgKzYsNyBAQCBYRU5fQlJBTkNIID89ICJzdGFibGUtJHtYRU5f
-UkVMfSINCj4+ICBTUkNfVVJJID0gIiBcDQo+PiAgICAgIGdpdDovL3hlbmJpdHMueGVuLm9yZy94
-ZW4uZ2l0O2JyYW5jaD0ke1hFTl9CUkFOQ0h9IFwNCj4+ICAgICAgZmlsZTovL3hlbi1hcm02NC1p
-bXBsZW1lbnQtYXRvbWljLWZldGNoLWFkZC5wYXRjaCBcDQo+PiArDQo+PiArIGZpbGU6Ly8wMDAx
-LW1lbnVjb25maWctbWNvbmYtY2ZnLUFsbG93LXNwZWNpZmljYXRpb24tb2YtbmN1cnNlcy1sb2Nh
-DQo+PiArIHRpb24ucGF0Y2ggXA0KPj4gICAgICAiDQo+Pg0KPj4gIExJQ19GSUxFU19DSEtTVU0g
-Pz0NCj4iZmlsZTovL0NPUFlJTkc7bWQ1PTQxOTczOWUzMjVhNTBmM2Q3YjQ1MDEzMzhlNDRhNGU1
-Ig0KPj4gZGlmZiAtLWdpdCBhL3JlY2lwZXMtZXh0ZW5kZWQveGVuL3hlbl9naXQuYmINCj4+IGIv
-cmVjaXBlcy1leHRlbmRlZC94ZW4veGVuX2dpdC5iYiBpbmRleCA0MDhiYzNiLi41Nzc5MWZjIDEw
-MDY0NA0KPj4gLS0tIGEvcmVjaXBlcy1leHRlbmRlZC94ZW4veGVuX2dpdC5iYg0KPj4gKysrIGIv
-cmVjaXBlcy1leHRlbmRlZC94ZW4veGVuX2dpdC5iYg0KPj4gQEAgLTYsNiArNiw3IEBAIFhFTl9C
-UkFOQ0ggPz0gIm1hc3RlciINCj4+ICBTUkNfVVJJID0gIiBcDQo+PiAgICAgIGdpdDovL3hlbmJp
-dHMueGVuLm9yZy94ZW4uZ2l0O2JyYW5jaD0ke1hFTl9CUkFOQ0h9IFwNCj4+ICAgICAgZmlsZTov
-L3hlbi1hcm02NC1pbXBsZW1lbnQtYXRvbWljLWZldGNoLWFkZC5wYXRjaCBcDQo+PiArDQo+PiAr
-IGZpbGU6Ly8wMDAxLW1lbnVjb25maWctbWNvbmYtY2ZnLUFsbG93LXNwZWNpZmljYXRpb24tb2Yt
-bmN1cnNlcy1sb2NhDQo+PiArIHRpb24ucGF0Y2ggXA0KPj4gICAgICAiDQo+Pg0KPj4gIExJQ19G
-SUxFU19DSEtTVU0gPz0NCj4iZmlsZTovL0NPUFlJTkc7bWQ1PTQxOTczOWUzMjVhNTBmM2Q3YjQ1
-MDEzMzhlNDRhNGU1Ig0KPj4gLS0NCj4+IDIuNy40DQo+Pg0KPj4gDQo=
+--000000000000e686d405acc25e55
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Aug 13, 2020 at 3:14 AM Diego Sueiro <Diego.Sueiro@arm.com> wrote:
+
+> Hello Christopher,
+>
+> Please, find my comments inline.
+>
+> >-----Original Message-----
+> >From: Christopher Clark <christopher.w.clark@gmail.com>
+> >Sent: 12 August 2020 19:46
+> >To: Diego Sueiro <Diego.Sueiro@arm.com>
+> >Cc: meta-virtualization@lists.yoctoproject.org; nd <nd@arm.com>
+> >Subject: Re: [meta-virtualization][PATCH] xen: Fix menuconfig and add
+> support
+> >for config fragments and diffconfig
+> >
+> >On Wed, Aug 12, 2020 at 9:53 AM Diego Sueiro <diego.sueiro@arm.com>
+> >wrote:
+> >>
+> >> This patch introduces the following changes:
+> >>
+> >> 1. When building in OE environment the linker path needs to be passed
+> >when
+> >>    buildind the Kconfig tool in order to get the menuconfig task
+> properly
+> >>    working.
+> >>
+> >> 2. By inheriting cml1.bbclass we can drop some environment variables
+> >>    settings in xen-hypervisor.inc for the menuconfig task, and also be
+> >>    able to search for config fragmens and use the diffconfig task. Also,
+> >>    there is no need to have a custom do_menuconfig task anymore.
+> >>
+> >> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
+> >> ---
+> >>  recipes-extended/xen/README                        |  3 +
+> >>  ...g-Allow-specification-of-ncurses-location.patch | 64
+> >++++++++++++++++++++++
+> >>  recipes-extended/xen/xen-hypervisor.inc            | 48
+> ++++++----------
+> >>  recipes-extended/xen/xen_4.14.bb                   |  1 +
+> >>  recipes-extended/xen/xen_git.bb                    |  1 +
+> >>  5 files changed, 87 insertions(+), 30 deletions(-)  create mode
+> >> 100644
+> >> recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specificati
+> >> on-of-ncurses-location.patch
+> >>
+> >> diff --git a/recipes-extended/xen/README b/recipes-extended/xen/README
+> >> index 34e7977..f86d269 100644
+> >> --- a/recipes-extended/xen/README
+> >> +++ b/recipes-extended/xen/README
+> >> @@ -25,6 +25,9 @@ Select the config settings that you want and Save
+> >> the file. If you save it to  the default ".config" file when prompted
+> >> by menuconfig, you can find it in the  'xen' subdirectory of the build
+> tree.
+> >>
+> >> +Configurarion fragments are also supported. To use them you need to
+> >> +list the
+> >
+> >Configuration
+>
+> Ooops, I forgot about this one.
+>
+> >
+> >> +.cfg files in the SRC_URI.
+> >> +
+> >>  security patches
+> >>  ----------------
+> >>
+> >> diff --git
+> >> a/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specifica
+> >> tion-of-ncurses-location.patch
+> >> b/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specifica
+> >> tion-of-ncurses-location.patch
+> >> new file mode 100644
+> >> index 0000000..64319d6
+> >> --- /dev/null
+> >> +++ b/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-speci
+> >> +++ fication-of-ncurses-location.patch
+> >> @@ -0,0 +1,64 @@
+> >> +Upstream-Status: Inappropriate [oe specific, cross compile issue]
+> >
+> >Is this being considered for submission upstream?
+> >https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+> >so: Pending?
+>
+> In a thread of emails, @Doug mentioned that this patch was not going to be
+> accepted in the Xen source tree. We discussed that we are going to submit
+> the
+> solution to the kernel mainline and if accepted, Doug will sync-up the Xen
+> kconfig source with the kernel. Since this patch is targeting the Xen
+> source tree
+> and will not be accepted by the Xen project as is, I thought that the
+> Upstream-Status should be set as Inappropriate. @Bruce, can you please
+> advice what is the best description to add in it?
+>
+
+The field isn't too strictly regulated, and since there are two potential
+"upstreams", we can just put two entries.
+
+I'd suggest one for Xen upstream (which is what you have), i.e.
+Upstream-status: Xen: ......
+
+And a second for the kernel, and in that one, we can put "pending".
+
+Bruce
+
+
+
+>
+> >
+> >> +Signed-off-by: Diego Sueiro <diego.sueiro@arm.com> commit
+> >> +e6972e689a980ab28637e94e48c77eeace6abde5
+> >> +Author: Bruce Ashfield <bruce.ashfield@windriver.com>
+> >> +Date:   Mon Jul 2 23:10:28 2018 -0400
+> >> +
+> >> +    xen/kconfig,menuconfig,mconf-cfg: Allow specification of ncurses
+> >> + location
+> >> +
+> >> +    In some cross build environments such as the Yocto Project build
+> >> +    environment it provides an ncurses library that is compiled
+> >> +    differently than the host's version.  This causes display
+> corruption
+> >> +    problems when the host's curses includes are used instead of the
+> >> +    includes from the provided compiler are overridden.  There is a
+> second
+> >> +    case where there is no curses libraries at all on the host system
+> and
+> >> +    menuconfig will just fail entirely.
+> >> +
+> >> +    The solution is simply to allow an override variable in
+> >> +    check-lxdialog.sh for environments such as the Yocto Project.
+> Adding
+> >> +    a CROSS_CURSES_LIB and CROSS_CURSES_INC solves the issue and
+> >allowing
+> >> +    compiling and linking against the right headers and libraries.
+> >> +
+> >> +    Change-Id: Ibe8dfafc90655e3be2671dbbb0cb7f5631fc4d44
+> >> +    Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+> >> +    cc: Michal Marek <mmarek@suse.cz>
+> >> +    cc: linux-kbuild@vger.kernel.org
+> >> +    Signed-off-by: Bruce Ashfield <bruce.ashfield@windriver.com>
+> >> +    Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
+> >> +
+> >> +diff --git a/INSTALL b/INSTALL
+> >> +index 0d3eb89..9dcda8f 100644
+> >> +--- a/INSTALL
+> >> ++++ b/INSTALL
+> >> +@@ -33,6 +33,10 @@ small subset of the options.  Attempts to change
+> >> +other options will be  silently overridden.  The only way to find
+> >> +which configuration options  are available is to run `make menuconfig'
+> or
+> >the like.
+> >> +
+> >> ++To use the menuconfig in cross build environments, e.g.
+> >> ++openembedded, set the CROSS_CURSES_LIB and CROSS_CURSES_INC
+> >> ++environment variables with the proper values required for libs and
+> cflags
+> >compilation settings.
+> >> ++
+> >> + You can counter-override this behaviour by setting
+> >> + XEN_CONFIG_EXPERT=y in your environment.  However, doing this is not
+> >> + supported and the resulting configurations do not receive security
+> >> + support.  If you set
+> >
+> >The doc has a couple of existing sections for variables that affect the
+> build --
+> >better to add the new documentation there?
+> >
+>
+> Well, the introduction of these variables are not affecting the build
+> itself since
+> they are only used when building kconfig in a cross build environment for
+> the
+> menuconfig target. Either way, since this patch will not be merged
+> directly to
+> the Xen source tree, I'm thinking about dropping the documentation changes
+> since for the normal Yocto use cases the user does not need to care about
+> it
+> because the build system is already setting it properly.
+> Do you agree with removing the documentation changes in this patch?
+>
+> >> +diff --git a/xen/tools/kconfig/mconf-cfg.sh
+> >> +b/xen/tools/kconfig/mconf-cfg.sh old mode 100755 new mode 100644
+> >
+> >??
+>
+> This came from the original patch. Shall I remove the file mode
+> modification?
+>
+> >
+> >> +index c812872..65a9b9e
+> >> +--- a/xen/tools/kconfig/mconf-cfg.sh
+> >> ++++ b/xen/tools/kconfig/mconf-cfg.sh
+> >> +@@ -4,6 +4,14 @@
+> >> + PKG="ncursesw"
+> >> + PKG2="ncurses"
+> >> +
+> >> ++if [ "$CROSS_CURSES_LIB" != "" ]; then
+> >> ++    echo libs=\'$CROSS_CURSES_LIB\'
+> >> ++    if [ x"$CROSS_CURSES_INC" != x ]; then
+> >> ++      echo cflags=\'$CROSS_CURSES_INC\'
+> >> ++    fi
+> >> ++    exit 0
+> >> ++fi
+> >> ++
+> >> + if [ -n "$(command -v pkg-config)" ]; then
+> >> +       if pkg-config --exists $PKG; then
+> >> +               echo cflags=\"$(pkg-config --cflags $PKG)\"
+> >> diff --git a/recipes-extended/xen/xen-hypervisor.inc
+> >> b/recipes-extended/xen/xen-hypervisor.inc
+> >> index c386917..28d64c5 100644
+> >> --- a/recipes-extended/xen/xen-hypervisor.inc
+> >> +++ b/recipes-extended/xen/xen-hypervisor.inc
+> >> @@ -9,7 +9,7 @@ DESCRIPTION = "The Xen hypervisor"
+> >>  # The Xen hypervisor has a narrower compatible platform range than
+> >> the Xen tools  COMPATIBLE_HOST =
+> '(x86_64.*).*-linux|aarch64.*-linux|arm-
+> >.*-linux-gnueabi'
+> >>
+> >> -inherit deploy python3native
+> >> +inherit deploy python3native cml1
+> >>
+> >>  PACKAGES = " \
+> >>      ${PN} \
+> >> @@ -34,6 +34,17 @@ FILES_${PN}-efi = " \
+> >>
+> >>  do_configure() {
+> >>      do_configure_common
+> >> +
+> >> +    # Handle the config fragments
+> >> +    if [ -n "${@' '.join(find_cfgs(d))}" ]; then
+> >> +        # If .config is not present generate one in order
+> >> +        # to use the merge_config.sh
+> >> +        if [ ! -f "${S}/xen/.config" ] ; then
+> >> +            oe_runmake -C ${S}/xen defconfig
+> >> +        fi
+> >> +        ${S}/xen/tools/kconfig/merge_config.sh -m -O \
+> >> +            ${S}/xen ${S}/xen/.config ${@" ".join(find_cfgs(d))}
+> >> +    fi
+> >>  }
+> >>
+> >>  do_compile() {
+> >> @@ -77,35 +88,12 @@ do_deploy[depends] += "xen-
+> >tools:do_populate_sysroot"
+> >>  do_deploy[depends] += "xen-tools:do_deploy"
+> >>
+> >>  # Enable use of menuconfig directly from bitbake and also within the
+> >> devshell -OE_TERMINAL_EXPORTS += "HOST_EXTRACFLAGS HOSTLDFLAGS
+> >TERMINFO"
+> >> -HOST_EXTRACFLAGS = "${BUILD_CFLAGS} ${BUILD_LDFLAGS}"
+> >> -HOSTLDFLAGS = "${BUILD_LDFLAGS}"
+> >> -TERMINFO = "${STAGING_DATADIR_NATIVE}/terminfo"
+> >>  do_devshell[depends] += "ncurses-native:do_populate_sysroot"
+> >>
+> >> -KCONFIG_CONFIG_COMMAND ??= "menuconfig"
+> >> -python do_menuconfig() {
+> >> -    import shutil
+> >> -
+> >> -    try:
+> >> -        mtime = os.path.getmtime("xen/.config")
+> >> -        shutil.copy("xen/.config", "xen/.config.orig")
+> >> -    except OSError:
+> >> -        mtime = 0
+> >> +# Pass the native library path for kconfig build when running the
+> >> +do_menuconfig # task CROSS_CURSES_LIB += "-
+> >L${STAGING_LIBDIR_NATIVE}"
+> >
+> >I think this illustrates why the new variable names that this patch
+> introduces
+> >could be improved: they are set with values that enable the build to
+> generate
+> >binaries that run on the host (ie. native), not the target (cross).
+> Alternatively, in
+> >the kconfig Makefile, a HOST prefix denotes variables that are used to
+> build
+> >binaries that run on the host.
+>
+> If we change the variable name, I'll have to change the original patch and
+> also
+> add in this recipe the following:
+> OE_TERMINAL_EXPORTS += "HOST_CURSES_LIB HOST_CURSES_INC"
+> HOST_CURSES_LIB = "${CROSS_CURSES_LIB} -L${STAGING_LIBDIR_NATIVE}"
+> HOST_CURSES_INC = "${CROSS_CURSES_INC}"
+>
+> I'm trying to avoid as much as possible extra customisations to extend
+> what cml1.bbclass
+> is already providing , and keep this recipe as clean as possible.
+> Please, confirm that you want me to go ahead with this extra
+> settings/customisations.
+>
+> Diego
+>
+> >
+> >Christopher
+> >
+> >>
+> >> -    oe_terminal("${SHELL} -c \"cd xen; XEN_CONFIG_EXPERT=y make %s; if
+> >[ \$? -ne 0 ]; then echo 'Command failed.'; printf 'Press any key to
+> continue... ';
+> >read r; fi\"" % d.getVar('KCONFIG_CONFIG_COMMAND'),
+> >> -        d.getVar('PN') + ' Configuration', d)
+> >> -
+> >> -    try:
+> >> -        newmtime = os.path.getmtime("xen/.config")
+> >> -    except OSError:
+> >> -        newmtime = 0
+> >> -
+> >> -    if newmtime > mtime:
+> >> -        bb.note("Configuration changed, recompile will be forced")
+> >> -        bb.build.write_taint('do_compile', d)
+> >> -}
+> >> -do_menuconfig[depends] += "ncurses-native:do_populate_sysroot"
+> >> -do_menuconfig[nostamp] = "1"
+> >> -do_menuconfig[dirs] = "${B}"
+> >> -addtask menuconfig after do_configure
+> >> +# Specify the root dir of the .config file for do_menuconfig and
+> >> +do_diffconfig # tasks KCONFIG_CONFIG_ROOTDIR = "${S}/xen"
+> >> diff --git a/recipes-extended/xen/xen_4.14.bb
+> >> b/recipes-extended/xen/xen_4.14.bb
+> >> index 0413bee..91e8988 100644
+> >> --- a/recipes-extended/xen/xen_4.14.bb
+> >> +++ b/recipes-extended/xen/xen_4.14.bb
+> >> @@ -6,6 +6,7 @@ XEN_BRANCH ?= "stable-${XEN_REL}"
+> >>  SRC_URI = " \
+> >>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}
+> <http://xenbits.xen.org/xen.git;branch=$%7BXEN_BRANCH%7D> \
+> >>      file://xen-arm64-implement-atomic-fetch-add.patch \
+> >> +
+> >> + file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-loca
+> >> + tion.patch \
+> >>      "
+> >>
+> >>  LIC_FILES_CHKSUM ?=
+> >"file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> >> diff --git a/recipes-extended/xen/xen_git.bb
+> >> b/recipes-extended/xen/xen_git.bb index 408bc3b..57791fc 100644
+> >> --- a/recipes-extended/xen/xen_git.bb
+> >> +++ b/recipes-extended/xen/xen_git.bb
+> >> @@ -6,6 +6,7 @@ XEN_BRANCH ?= "master"
+> >>  SRC_URI = " \
+> >>      git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH}
+> <http://xenbits.xen.org/xen.git;branch=$%7BXEN_BRANCH%7D> \
+> >>      file://xen-arm64-implement-atomic-fetch-add.patch \
+> >> +
+> >> + file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-loca
+> >> + tion.patch \
+> >>      "
+> >>
+> >>  LIC_FILES_CHKSUM ?=
+> >"file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+> >> --
+> >> 2.7.4
+> >>
+> >> 
+>
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000e686d405acc25e55
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Thu, Aug 13, 2020 at 3:14 AM Diego Sueiro &lt;<a=
+ href=3D"mailto:Diego.Sueiro@arm.com">Diego.Sueiro@arm.com</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hello Christopher=
+,<br>
+<br>
+Please, find my comments inline.<br>
+<br>
+&gt;-----Original Message-----<br>
+&gt;From: Christopher Clark &lt;<a href=3D"mailto:christopher.w.clark@gmai=
+l.com" target=3D"_blank">christopher.w.clark@gmail.com</a>&gt;<br>
+&gt;Sent: 12 August 2020 19:46<br>
+&gt;To: Diego Sueiro &lt;<a href=3D"mailto:Diego.Sueiro@arm.com" target=3D=
+"_blank">Diego.Sueiro@arm.com</a>&gt;<br>
+&gt;Cc: <a href=3D"mailto:meta-virtualization@lists.yoctoproject.org" targ=
+et=3D"_blank">meta-virtualization@lists.yoctoproject.org</a>; nd &lt;<a hre=
+f=3D"mailto:nd@arm.com" target=3D"_blank">nd@arm.com</a>&gt;<br>
+&gt;Subject: Re: [meta-virtualization][PATCH] xen: Fix menuconfig and add =
+support<br>
+&gt;for config fragments and diffconfig<br>
+&gt;<br>
+&gt;On Wed, Aug 12, 2020 at 9:53 AM Diego Sueiro &lt;<a href=3D"mailto:die=
+go.sueiro@arm.com" target=3D"_blank">diego.sueiro@arm.com</a>&gt;<br>
+&gt;wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; This patch introduces the following changes:<br>
+&gt;&gt;<br>
+&gt;&gt; 1. When building in OE environment the linker path needs to be pa=
+ssed<br>
+&gt;when<br>
+&gt;&gt;=C2=A0 =C2=A0 buildind the Kconfig tool in order to get the menuco=
+nfig task properly<br>
+&gt;&gt;=C2=A0 =C2=A0 working.<br>
+&gt;&gt;<br>
+&gt;&gt; 2. By inheriting cml1.bbclass we can drop some environment variab=
+les<br>
+&gt;&gt;=C2=A0 =C2=A0 settings in xen-hypervisor.inc for the menuconfig ta=
+sk, and also be<br>
+&gt;&gt;=C2=A0 =C2=A0 able to search for config fragmens and use the diffc=
+onfig task. Also,<br>
+&gt;&gt;=C2=A0 =C2=A0 there is no need to have a custom do_menuconfig task=
+ anymore.<br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Diego Sueiro &lt;<a href=3D"mailto:diego.sueiro@ar=
+m.com" target=3D"_blank">diego.sueiro@arm.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 recipes-extended/xen/README=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +<br>
+&gt;&gt;=C2=A0 ...g-Allow-specification-of-ncurses-location.patch | 64<br>
+&gt;++++++++++++++++++++++<br>
+&gt;&gt;=C2=A0 recipes-extended/xen/xen-hypervisor.inc=C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 | 48 ++++++----------<br>
+&gt;&gt;=C2=A0 recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"=
+noreferrer" target=3D"_blank">xen_4.14.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 1 +<br>
+&gt;&gt;=C2=A0 recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">xen_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 1 +<br>
+&gt;&gt;=C2=A0 5 files changed, 87 insertions(+), 30 deletions(-)=C2=A0 cr=
+eate mode<br>
+&gt;&gt; 100644<br>
+&gt;&gt; recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specif=
+icati<br>
+&gt;&gt; on-of-ncurses-location.patch<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git a/recipes-extended/xen/README b/recipes-extended/xen/R=
+EADME<br>
+&gt;&gt; index 34e7977..f86d269 100644<br>
+&gt;&gt; --- a/recipes-extended/xen/README<br>
+&gt;&gt; +++ b/recipes-extended/xen/README<br>
+&gt;&gt; @@ -25,6 +25,9 @@ Select the config settings that you want and Sa=
+ve<br>
+&gt;&gt; the file. If you save it to=C2=A0 the default &quot;.config&quot;=
+ file when prompted<br>
+&gt;&gt; by menuconfig, you can find it in the=C2=A0 &#39;xen&#39; subdire=
+ctory of the build tree.<br>
+&gt;&gt;<br>
+&gt;&gt; +Configurarion fragments are also supported. To use them you need=
+ to<br>
+&gt;&gt; +list the<br>
+&gt;<br>
+&gt;Configuration<br>
+<br>
+Ooops, I forgot about this one.<br>
+<br>
+&gt;<br>
+&gt;&gt; +.cfg files in the SRC_URI.<br>
+&gt;&gt; +<br>
+&gt;&gt;=C2=A0 security patches<br>
+&gt;&gt;=C2=A0 ----------------<br>
+&gt;&gt;<br>
+&gt;&gt; diff --git<br>
+&gt;&gt; a/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-spec=
+ifica<br>
+&gt;&gt; tion-of-ncurses-location.patch<br>
+&gt;&gt; b/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-spec=
+ifica<br>
+&gt;&gt; tion-of-ncurses-location.patch<br>
+&gt;&gt; new file mode 100644<br>
+&gt;&gt; index 0000000..64319d6<br>
+&gt;&gt; --- /dev/null<br>
+&gt;&gt; +++ b/recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-=
+speci<br>
+&gt;&gt; +++ fication-of-ncurses-location.patch<br>
+&gt;&gt; @@ -0,0 +1,64 @@<br>
+&gt;&gt; +Upstream-Status: Inappropriate [oe specific, cross compile issue=
+]<br>
+&gt;<br>
+&gt;Is this being considered for submission upstream?<br>
+&gt;<a href=3D"https://www.openembedded.org/wiki/Commit_Patch_Message_Guid=
+elines" rel=3D"noreferrer" target=3D"_blank">https://www.openembedded.org/w=
+iki/Commit_Patch_Message_Guidelines</a><br>
+&gt;so: Pending?<br>
+<br>
+In a thread of emails, @Doug mentioned that this patch was not going to be=
+<br>
+accepted in the Xen source tree. We discussed that we are going to submit =
+the<br>
+solution to the kernel mainline and if accepted, Doug will sync-up the Xen=
+<br>
+kconfig source with the kernel. Since this patch is targeting the Xen sour=
+ce tree<br>
+and will not be accepted by the Xen project as is, I thought that the<br>
+Upstream-Status should be set as Inappropriate. @Bruce, can you please<br>
+advice what is the best description to add in it?<br></blockquote><div><br=
+></div><div><div class=3D"gmail_default" style=3D"font-size:small">The fiel=
+d isn&#39;t too strictly regulated, and since there are two potential &quot=
+;upstreams&quot;, we can just put two entries.</div><div class=3D"gmail_def=
+ault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">I&#39;d suggest one for Xen upstream (which is what y=
+ou have), i.e. Upstream-status: Xen: ......</div><div class=3D"gmail_defaul=
+t" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=
+=3D"font-size:small">And a second for the kernel, and in that one, we can =
+put &quot;pending&quot;.</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small">=
+Bruce</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">
+<br>
+&gt;<br>
+&gt;&gt; +Signed-off-by: Diego Sueiro &lt;<a href=3D"mailto:diego.sueiro@a=
+rm.com" target=3D"_blank">diego.sueiro@arm.com</a>&gt; commit<br>
+&gt;&gt; +e6972e689a980ab28637e94e48c77eeace6abde5<br>
+&gt;&gt; +Author: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@wind=
+river.com" target=3D"_blank">bruce.ashfield@windriver.com</a>&gt;<br>
+&gt;&gt; +Date:=C2=A0 =C2=A0Mon Jul 2 23:10:28 2018 -0400<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 xen/kconfig,menuconfig,mconf-cfg: Allow specificat=
+ion of ncurses<br>
+&gt;&gt; + location<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 In some cross build environments such as the Yocto=
+ Project build<br>
+&gt;&gt; +=C2=A0 =C2=A0 environment it provides an ncurses library that is=
+ compiled<br>
+&gt;&gt; +=C2=A0 =C2=A0 differently than the host&#39;s version.=C2=A0 Thi=
+s causes display corruption<br>
+&gt;&gt; +=C2=A0 =C2=A0 problems when the host&#39;s curses includes are u=
+sed instead of the<br>
+&gt;&gt; +=C2=A0 =C2=A0 includes from the provided compiler are overridden=
+.=C2=A0 There is a second<br>
+&gt;&gt; +=C2=A0 =C2=A0 case where there is no curses libraries at all on =
+the host system and<br>
+&gt;&gt; +=C2=A0 =C2=A0 menuconfig will just fail entirely.<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 The solution is simply to allow an override variab=
+le in<br>
+&gt;&gt; +=C2=A0 =C2=A0 check-lxdialog.sh for environments such as the Yoc=
+to Project.=C2=A0 Adding<br>
+&gt;&gt; +=C2=A0 =C2=A0 a CROSS_CURSES_LIB and CROSS_CURSES_INC solves the=
+ issue and<br>
+&gt;allowing<br>
+&gt;&gt; +=C2=A0 =C2=A0 compiling and linking against the right headers an=
+d libraries.<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 Change-Id: Ibe8dfafc90655e3be2671dbbb0cb7f5631fc4d=
+44<br>
+&gt;&gt; +=C2=A0 =C2=A0 Signed-off-by: Jason Wessel &lt;<a href=3D"mailto:=
+jason.wessel@windriver.com" target=3D"_blank">jason.wessel@windriver.com</a=
+>&gt;<br>
+&gt;&gt; +=C2=A0 =C2=A0 cc: Michal Marek &lt;<a href=3D"mailto:mmarek@suse=
+.cz" target=3D"_blank">mmarek@suse.cz</a>&gt;<br>
+&gt;&gt; +=C2=A0 =C2=A0 cc: <a href=3D"mailto:linux-kbuild@vger.kernel.org=
+" target=3D"_blank">linux-kbuild@vger.kernel.org</a><br>
+&gt;&gt; +=C2=A0 =C2=A0 Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailt=
+o:bruce.ashfield@windriver.com" target=3D"_blank">bruce.ashfield@windriver.=
+com</a>&gt;<br>
+&gt;&gt; +=C2=A0 =C2=A0 Signed-off-by: Diego Sueiro &lt;<a href=3D"mailto:=
+diego.sueiro@arm.com" target=3D"_blank">diego.sueiro@arm.com</a>&gt;<br>
+&gt;&gt; +<br>
+&gt;&gt; +diff --git a/INSTALL b/INSTALL<br>
+&gt;&gt; +index 0d3eb89..9dcda8f 100644<br>
+&gt;&gt; +--- a/INSTALL<br>
+&gt;&gt; ++++ b/INSTALL<br>
+&gt;&gt; +@@ -33,6 +33,10 @@ small subset of the options.=C2=A0 Attempts t=
+o change<br>
+&gt;&gt; +other options will be=C2=A0 silently overridden.=C2=A0 The only =
+way to find<br>
+&gt;&gt; +which configuration options=C2=A0 are available is to run `make =
+menuconfig&#39; or<br>
+&gt;the like.<br>
+&gt;&gt; +<br>
+&gt;&gt; ++To use the menuconfig in cross build environments, e.g.<br>
+&gt;&gt; ++openembedded, set the CROSS_CURSES_LIB and CROSS_CURSES_INC<br>
+&gt;&gt; ++environment variables with the proper values required for libs =
+and cflags<br>
+&gt;compilation settings.<br>
+&gt;&gt; ++<br>
+&gt;&gt; + You can counter-override this behaviour by setting<br>
+&gt;&gt; + XEN_CONFIG_EXPERT=3Dy in your environment.=C2=A0 However, doing=
+ this is not<br>
+&gt;&gt; + supported and the resulting configurations do not receive secur=
+ity<br>
+&gt;&gt; + support.=C2=A0 If you set<br>
+&gt;<br>
+&gt;The doc has a couple of existing sections for variables that affect th=
+e build --<br>
+&gt;better to add the new documentation there?<br>
+&gt;<br>
+<br>
+Well, the introduction of these variables are not affecting the build itse=
+lf since<br>
+they are only used when building kconfig in a cross build environment for =
+the<br>
+menuconfig target. Either way, since this patch will not be merged directl=
+y to<br>
+the Xen source tree, I&#39;m thinking about dropping the documentation cha=
+nges<br>
+since for the normal Yocto use cases the user does not need to care about =
+it<br>
+because the build system is already setting it properly.<br>
+Do you agree with removing the documentation changes in this patch?<br>
+<br>
+&gt;&gt; +diff --git a/xen/tools/kconfig/mconf-cfg.sh<br>
+&gt;&gt; +b/xen/tools/kconfig/mconf-cfg.sh old mode 100755 new mode 100644=
+<br>
+&gt;<br>
+&gt;??<br>
+<br>
+This came from the original patch. Shall I remove the file mode modificati=
+on?=C2=A0 <br>
+<br>
+&gt;<br>
+&gt;&gt; +index c812872..65a9b9e<br>
+&gt;&gt; +--- a/xen/tools/kconfig/mconf-cfg.sh<br>
+&gt;&gt; ++++ b/xen/tools/kconfig/mconf-cfg.sh<br>
+&gt;&gt; +@@ -4,6 +4,14 @@<br>
+&gt;&gt; + PKG=3D&quot;ncursesw&quot;<br>
+&gt;&gt; + PKG2=3D&quot;ncurses&quot;<br>
+&gt;&gt; +<br>
+&gt;&gt; ++if [ &quot;$CROSS_CURSES_LIB&quot; !=3D &quot;&quot; ]; then<br=
+>
+&gt;&gt; ++=C2=A0 =C2=A0 echo libs=3D\&#39;$CROSS_CURSES_LIB\&#39;<br>
+&gt;&gt; ++=C2=A0 =C2=A0 if [ x&quot;$CROSS_CURSES_INC&quot; !=3D x ]; the=
+n<br>
+&gt;&gt; ++=C2=A0 =C2=A0 =C2=A0 echo cflags=3D\&#39;$CROSS_CURSES_INC\&#39=
+;<br>
+&gt;&gt; ++=C2=A0 =C2=A0 fi<br>
+&gt;&gt; ++=C2=A0 =C2=A0 exit 0<br>
+&gt;&gt; ++fi<br>
+&gt;&gt; ++<br>
+&gt;&gt; + if [ -n &quot;$(command -v pkg-config)&quot; ]; then<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if pkg-config --exists $PKG; then<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0echo cfla=
+gs=3D\&quot;$(pkg-config --cflags $PKG)\&quot;<br>
+&gt;&gt; diff --git a/recipes-extended/xen/xen-hypervisor.inc<br>
+&gt;&gt; b/recipes-extended/xen/xen-hypervisor.inc<br>
+&gt;&gt; index c386917..28d64c5 100644<br>
+&gt;&gt; --- a/recipes-extended/xen/xen-hypervisor.inc<br>
+&gt;&gt; +++ b/recipes-extended/xen/xen-hypervisor.inc<br>
+&gt;&gt; @@ -9,7 +9,7 @@ DESCRIPTION =3D &quot;The Xen hypervisor&quot;<br=
+>
+&gt;&gt;=C2=A0 # The Xen hypervisor has a narrower compatible platform ran=
+ge than<br>
+&gt;&gt; the Xen tools=C2=A0 COMPATIBLE_HOST =3D &#39;(x86_64.*).*-linux|a=
+arch64.*-linux|arm-<br>
+&gt;.*-linux-gnueabi&#39;<br>
+&gt;&gt;<br>
+&gt;&gt; -inherit deploy python3native<br>
+&gt;&gt; +inherit deploy python3native cml1<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 PACKAGES =3D &quot; \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 ${PN} \<br>
+&gt;&gt; @@ -34,6 +34,17 @@ FILES_${PN}-efi =3D &quot; \<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 do_configure() {<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 do_configure_common<br>
+&gt;&gt; +<br>
+&gt;&gt; +=C2=A0 =C2=A0 # Handle the config fragments<br>
+&gt;&gt; +=C2=A0 =C2=A0 if [ -n &quot;${@&#39; &#39;.join(find_cfgs(d))}&q=
+uot; ]; then<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # If .config is not present generate=
+ one in order<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 # to use the merge_config.sh<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ ! -f &quot;${S}/xen/.config&quo=
+t; ] ; then<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 oe_runmake -C ${S}/xen=
+ defconfig<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${S}/xen/tools/kconfig/merge_config.=
+sh -m -O \<br>
+&gt;&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${S}/xen ${S}/xen/.con=
+fig ${@&quot; &quot;.join(find_cfgs(d))}<br>
+&gt;&gt; +=C2=A0 =C2=A0 fi<br>
+&gt;&gt;=C2=A0 }<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 do_compile() {<br>
+&gt;&gt; @@ -77,35 +88,12 @@ do_deploy[depends] +=3D &quot;xen-<br>
+&gt;tools:do_populate_sysroot&quot;<br>
+&gt;&gt;=C2=A0 do_deploy[depends] +=3D &quot;xen-tools:do_deploy&quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 # Enable use of menuconfig directly from bitbake and also w=
+ithin the<br>
+&gt;&gt; devshell -OE_TERMINAL_EXPORTS +=3D &quot;HOST_EXTRACFLAGS HOSTLDF=
+LAGS<br>
+&gt;TERMINFO&quot;<br>
+&gt;&gt; -HOST_EXTRACFLAGS =3D &quot;${BUILD_CFLAGS} ${BUILD_LDFLAGS}&quot=
+;<br>
+&gt;&gt; -HOSTLDFLAGS =3D &quot;${BUILD_LDFLAGS}&quot;<br>
+&gt;&gt; -TERMINFO =3D &quot;${STAGING_DATADIR_NATIVE}/terminfo&quot;<br>
+&gt;&gt;=C2=A0 do_devshell[depends] +=3D &quot;ncurses-native:do_populate_=
+sysroot&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; -KCONFIG_CONFIG_COMMAND ??=3D &quot;menuconfig&quot;<br>
+&gt;&gt; -python do_menuconfig() {<br>
+&gt;&gt; -=C2=A0 =C2=A0 import shutil<br>
+&gt;&gt; -<br>
+&gt;&gt; -=C2=A0 =C2=A0 try:<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mtime =3D os.path.getmtime(&quot;xen=
+/.config&quot;)<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 shutil.copy(&quot;xen/.config&quot;,=
+ &quot;xen/.config.orig&quot;)<br>
+&gt;&gt; -=C2=A0 =C2=A0 except OSError:<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 mtime =3D 0<br>
+&gt;&gt; +# Pass the native library path for kconfig build when running th=
+e<br>
+&gt;&gt; +do_menuconfig # task CROSS_CURSES_LIB +=3D &quot;-<br>
+&gt;L${STAGING_LIBDIR_NATIVE}&quot;<br>
+&gt;<br>
+&gt;I think this illustrates why the new variable names that this patch in=
+troduces<br>
+&gt;could be improved: they are set with values that enable the build to g=
+enerate<br>
+&gt;binaries that run on the host (ie. native), not the target (cross). Al=
+ternatively, in<br>
+&gt;the kconfig Makefile, a HOST prefix denotes variables that are used to=
+ build<br>
+&gt;binaries that run on the host.<br>
+<br>
+If we change the variable name, I&#39;ll have to change the original patch=
+ and also<br>
+add in this recipe the following:<br>
+OE_TERMINAL_EXPORTS +=3D &quot;HOST_CURSES_LIB HOST_CURSES_INC&quot;<br>
+HOST_CURSES_LIB =3D &quot;${CROSS_CURSES_LIB} -L${STAGING_LIBDIR_NATIVE}&q=
+uot;<br>
+HOST_CURSES_INC =3D &quot;${CROSS_CURSES_INC}&quot;<br>
+<br>
+I&#39;m trying to avoid as much as possible extra customisations to extend=
+ what cml1.bbclass<br>
+is already providing , and keep this recipe as clean as possible.<br>
+Please, confirm that you want me to go ahead with this extra settings/cust=
+omisations.<br>
+<br>
+Diego<br>
+<br>
+&gt;<br>
+&gt;Christopher<br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; -=C2=A0 =C2=A0 oe_terminal(&quot;${SHELL} -c \&quot;cd xen; XEN_C=
+ONFIG_EXPERT=3Dy make %s; if<br>
+&gt;[ \$? -ne 0 ]; then echo &#39;Command failed.&#39;; printf &#39;Press =
+any key to continue... &#39;;<br>
+&gt;read r; fi\&quot;&quot; % d.getVar(&#39;KCONFIG_CONFIG_COMMAND&#39;),<=
+br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.getVar(&#39;PN&#39;) + &#39; Confi=
+guration&#39;, d)<br>
+&gt;&gt; -<br>
+&gt;&gt; -=C2=A0 =C2=A0 try:<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 newmtime =3D os.path.getmtime(&quot;=
+xen/.config&quot;)<br>
+&gt;&gt; -=C2=A0 =C2=A0 except OSError:<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 newmtime =3D 0<br>
+&gt;&gt; -<br>
+&gt;&gt; -=C2=A0 =C2=A0 if newmtime &gt; mtime:<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.note(&quot;Configuration changed,=
+ recompile will be forced&quot;)<br>
+&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.build.write_taint(&#39;do_compile=
+&#39;, d)<br>
+&gt;&gt; -}<br>
+&gt;&gt; -do_menuconfig[depends] +=3D &quot;ncurses-native:do_populate_sys=
+root&quot;<br>
+&gt;&gt; -do_menuconfig[nostamp] =3D &quot;1&quot;<br>
+&gt;&gt; -do_menuconfig[dirs] =3D &quot;${B}&quot;<br>
+&gt;&gt; -addtask menuconfig after do_configure<br>
+&gt;&gt; +# Specify the root dir of the .config file for do_menuconfig and=
+<br>
+&gt;&gt; +do_diffconfig # tasks KCONFIG_CONFIG_ROOTDIR =3D &quot;${S}/xen&=
+quot;<br>
+&gt;&gt; diff --git a/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" =
+rel=3D"noreferrer" target=3D"_blank">xen_4.14.bb</a><br>
+&gt;&gt; b/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"nore=
+ferrer" target=3D"_blank">xen_4.14.bb</a><br>
+&gt;&gt; index 0413bee..91e8988 100644<br>
+&gt;&gt; --- a/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"=
+noreferrer" target=3D"_blank">xen_4.14.bb</a><br>
+&gt;&gt; +++ b/recipes-extended/xen/<a href=3D"http://xen_4.14.bb" rel=3D"=
+noreferrer" target=3D"_blank">xen_4.14.bb</a><br>
+&gt;&gt; @@ -6,6 +6,7 @@ XEN_BRANCH ?=3D &quot;stable-${XEN_REL}&quot;<br>
+&gt;&gt;=C2=A0 SRC_URI =3D &quot; \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://xenbits.xen.org/xen.g=
+it;branch=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits=
+.xen.org/xen.git;branch=3D${XEN_BRANCH}</a> \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 file://xen-arm64-implement-atomic-fetch-add.p=
+atch \<br>
+&gt;&gt; +<br>
+&gt;&gt; + file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses=
+-loca<br>
+&gt;&gt; + tion.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 LIC_FILES_CHKSUM ?=3D<br>
+&gt;&quot;file://COPYING;md5=3D419739e325a50f3d7b4501338e44a4e5&quot;<br>
+&gt;&gt; diff --git a/recipes-extended/xen/<a href=3D"http://xen_git.bb" r=
+el=3D"noreferrer" target=3D"_blank">xen_git.bb</a><br>
+&gt;&gt; b/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"noref=
+errer" target=3D"_blank">xen_git.bb</a> index 408bc3b..57791fc 100644<br>
+&gt;&gt; --- a/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">xen_git.bb</a><br>
+&gt;&gt; +++ b/recipes-extended/xen/<a href=3D"http://xen_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">xen_git.bb</a><br>
+&gt;&gt; @@ -6,6 +6,7 @@ XEN_BRANCH ?=3D &quot;master&quot;<br>
+&gt;&gt;=C2=A0 SRC_URI =3D &quot; \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 git://<a href=3D"http://xenbits.xen.org/xen.g=
+it;branch=3D$%7BXEN_BRANCH%7D" rel=3D"noreferrer" target=3D"_blank">xenbits=
+.xen.org/xen.git;branch=3D${XEN_BRANCH}</a> \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 file://xen-arm64-implement-atomic-fetch-add.p=
+atch \<br>
+&gt;&gt; +<br>
+&gt;&gt; + file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses=
+-loca<br>
+&gt;&gt; + tion.patch \<br>
+&gt;&gt;=C2=A0 =C2=A0 =C2=A0 &quot;<br>
+&gt;&gt;<br>
+&gt;&gt;=C2=A0 LIC_FILES_CHKSUM ?=3D<br>
+&gt;&quot;file://COPYING;md5=3D419739e325a50f3d7b4501338e44a4e5&quot;<br>
+&gt;&gt; --<br>
+&gt;&gt; 2.7.4<br>
+&gt;&gt;<br>
+&gt;&gt; <br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div></div>
+
+--000000000000e686d405acc25e55--
