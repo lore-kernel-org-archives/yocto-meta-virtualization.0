@@ -1,38 +1,38 @@
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [])
  by mx.groups.io with SMTP id smtpd.web10.6469.1597357098984279450
  for <meta-virtualization@lists.yoctoproject.org>;
  Thu, 13 Aug 2020 15:18:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=ZTM8647q;
- spf=pass (domain: wdc.com, ip: 68.232.143.124, mailfrom: prvs=487a0182d=alistair.francis@wdc.com)
+ dkim=pass header.i=@wdc.com header.s=dkim.wdc.com header.b=Knxfi1d/;
+ spf=fail (domain: wdc.com, ip: <nil>, mailfrom: prvs=487a0182d=alistair.francis@wdc.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1597357118; x=1628893118;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7X1rtlBBAMDXuRvzr/Uhpc0Oalk0IHvHWxyeZB/CsdA=;
-  b=ZTM8647qHtwmDqnQ+xYnr71vYngcAnUUlD6JIGd0udkbvPX0/UA+bXxz
-   FSxn182ipu9tZvelBBI2qh8MEHIWHxZNWfRZFDZZJLM+dIzxdiLxwiif7
-   CTxV8pz5C9ndVHArpbzcFzpnxta6k1f1HH4pQE+rRnOX5dNFi2jh8hYPu
-   CAZZaDdd7VJcOkYJsFetibr2bYi6ZEfXsddy6+L+/qzGYJRpw1B+1Xcva
-   JMIhoQnj0hhyRAOky/0ESdrGytGK9JWkUUMMYiYpZAq39zSYCwJJZPEKt
-   ywCDDEHoNB6WsvTAPrOy+0osV0s9rhDqQxCGvqhsM3zTJByZFrzCEluiV
-   Q==;
-IronPort-SDR: 3TzhciamO4lpsdkbPlETR6I9oAcEzICNcxT0eoq50YD5B8K+2UDdKUzCrx5ZP9VHtg9hGXb+fc
- 2PaDF6b70Gx0fyFsxcJ4fZaVkK0nMnK5GjCciEcHUw6vjJ7JYi+uOiXpa78JDPmbRWjPBWEy9f
- VIXvj3/KLx95Finn7wIWexFr3pOdKvUgEvUikAiduwFyRaxSEHu7WjeOpFVjfKZG6nxf6uUAfB
- pDCcVwO0j7+NTnC4pb3GI1J6H4oFIRGwKysuQ6HtUecic/CTj+c8kca/eKFeFzKuZgly3i6xV3
- 8YM=
+  t=1597357119; x=1628893119;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=2+HMGCGArx5RBMS5zCegnY1ZUZATd6sOfd76NoBu0Xc=;
+  b=Knxfi1d/LEosjo4XdPBKU+Waez3KG3MJpCS6Gr2aeZb+EllTyzlCM/rX
+   qLV+mlwQ0bB2H7vfs05ebzbXeqx9hn1YOa7bujEsrWoL1tD9+2HCEdNfr
+   yqwStJb1BZzqBkzL5psW6FUhiQlXl7/diKeFdGuRq0xwD94up2ETMy8qT
+   l1880jwEHI/UvLo12rE+7kStcMBmjSJq54OuqxiwsjyBzycjCko7GXo3y
+   w/Ol9n7sKpLFNjjrXa5cUJLtHQ5nge8mp7MlTNDqqvweqFzj2b3jBhUMJ
+   AiYiE5KB7eDwjbqr/E9lmIp4U6R9egxtRaQ3zDmP1GETEXRCTbSVNPscP
+   w==;
+IronPort-SDR: 16E5aXDkMtpZT215P0GFlm2I6oSZdGEquO3wRtLxm4U1LxnlpEjM+fOoqiq/k0UE2IP8wvMV5I
+ T3WooCje2hmPSGXcU/AtuaRU8X5oiYheeox/5Me6J08QAZzULGYXlPisjHHzVarkUvY5rmTXXn
+ tPBLqvgg5QlcjfXPFnlXhrejbfS2gmMMyYWXl9CqmyW+LbEc5yhDX9dIPBXm7lWQbebzE6TBbN
+ qhlASNW8rJ5N6ulKttnwlaI2D7tHoaL2h5FiPNoymxrSoAhvBlwucjfvD9ybfD3FeY8xB5BHb+
+ RpI=
 X-IronPort-AV: E=Sophos;i="5.76,309,1592841600"; 
-   d="scan'208";a="248064365"
+   d="scan'208";a="248064367"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com) ([199.255.45.14])
-  by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 06:18:36 +0800
-IronPort-SDR: uVAy7ILbIzWsES3jqbLQYkDnrDDMzZSje+v5tm4Wi551yo87SY9VhgYkLFAefiqn6KfqI4SJPc
- RiT/Ym+GeBpg==
+  by ob1.hgst.iphmx.com with ESMTP; 14 Aug 2020 06:18:37 +0800
+IronPort-SDR: vGgXQuHEf3dm+m5IecxCpTGM3hzyZ8l0Gj7gScSU+JbNpOxNAcVn+K64IcfbooqtIUmcHPgP//
+ Tp1ifZQwnACg==
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
   by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Aug 2020 15:06:07 -0700
-IronPort-SDR: LqZzTt+9qNXNdSvUDvrGMjegmmIF2XDCwHESzPlODswiMw2e+qN7zwhJlPujKWEgih7X4e/fHT
- /Sopql84LdxQ==
+IronPort-SDR: ZXwJuXR86quYMdF1XHU4z1bF/JhTHahWNAbevjtn8nBLeysBtRPM0U2QEtoYhGftsyy6Oen9wO
+ wexdbtZBpquw==
 WDCIronportException: Internal
 Received: from jbfyk72.ad.shared (HELO risc6-mainframe.hgst.com) ([10.86.59.14])
   by uls-op-cesaip01.wdc.com with ESMTP; 13 Aug 2020 15:18:17 -0700
@@ -42,41 +42,86 @@ Cc: christopher.w.clark@gmail.com,
 	bruce.ashfield@gmail.com,
 	alistair23@gmail.com,
 	Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH 1/4] xvisor: Bump to a git release
-Date: Thu, 13 Aug 2020 15:08:11 -0700
-Message-Id: <20200813220814.3110999-1-alistair.francis@wdc.com>
+Subject: [PATCH 3/4] xvisor: Add support for building AArch64
+Date: Thu, 13 Aug 2020 15:08:13 -0700
+Message-Id: <20200813220814.3110999-3-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200813220814.3110999-1-alistair.francis@wdc.com>
+References: <20200813220814.3110999-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Bump the Xvisor SHA to a git release with RISC-V 0.5.0 Hypversior
-extension support.
+Add support for building for AArch64, also remove the requirement to
+specify a platform.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- recipes-extended/xvisor/{xvisor_0.3.0.bb => xvisor_git.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename recipes-extended/xvisor/{xvisor_0.3.0.bb => xvisor_git.bb} (88%)
+ recipes-extended/xvisor/xvisor-configs.inc | 22 +++++++++++-----------
+ recipes-extended/xvisor/xvisor_git.bb      |  9 +++++++--
+ 2 files changed, 18 insertions(+), 13 deletions(-)
 
-diff --git a/recipes-extended/xvisor/xvisor_0.3.0.bb b/recipes-extended/xvisor/xvisor_git.bb
-similarity index 88%
-rename from recipes-extended/xvisor/xvisor_0.3.0.bb
-rename to recipes-extended/xvisor/xvisor_git.bb
-index 66ad618..45a7baf 100644
---- a/recipes-extended/xvisor/xvisor_0.3.0.bb
+diff --git a/recipes-extended/xvisor/xvisor-configs.inc b/recipes-extended/xvisor/xvisor-configs.inc
+index 099128d..f53bba2 100644
+--- a/recipes-extended/xvisor/xvisor-configs.inc
++++ b/recipes-extended/xvisor/xvisor-configs.inc
+@@ -1,15 +1,15 @@
+-def get_oemake_config(d):
+-    plat = d.getVar('XVISOR_PLAT')
+-
+-    if plat is None:
+-        return ""
+-
+-    if 'riscv/virt32' in plat:
+-        return "generic-32b-defconfig"
+-    if 'riscv/virt64' in plat:
+-        return "generic-64b-defconfig"
++def get_oemake_config(a, d):
++    import re
+ 
+-    return ""
++    if   re.match('armeb$', a):               return 'generic-v7-defconfig'
++    elif re.match('aarch64$', a):             return 'generic-v8-defconfig'
++    elif re.match('aarch64_be$', a):          return 'generic-v8-defconfig'
++    elif re.match('aarch64_ilp32$', a):       return 'generic-v8-defconfig'
++    elif re.match('aarch64_be_ilp32$', a):    return 'generic-v8-defconfig'
++    elif re.match('riscv32(eb|)$', a):        return 'generic-32b-defconfig'
++    elif re.match('riscv64(eb|)$', a):        return 'generic-64b-defconfig'
++    else:
++        bb.error("cannot map '%s' to a Xvisor defconfig" % a)
+ 
+ def map_xvisor_arch(a, d):
+     import re
+diff --git a/recipes-extended/xvisor/xvisor_git.bb b/recipes-extended/xvisor/xvisor_git.bb
+index 45a7baf..64b0f22 100644
+--- a/recipes-extended/xvisor/xvisor_git.bb
 +++ b/recipes-extended/xvisor/xvisor_git.bb
-@@ -8,8 +8,9 @@ require xvisor-configs.inc
+@@ -18,7 +18,7 @@ S = "${WORKDIR}/git"
  
- inherit autotools-brokensep
+ EXTRA_OEMAKE += "ARCH=\"${@map_xvisor_arch(d.getVar('TARGET_ARCH'), d)}\" I=${D}"
  
--SRCREV = "58592ef18c71526a0045935d1e8eed5e8553b7d6"
--SRC_URI = "git://github.com/xvisor/xvisor.git \
-+# This version support the RISC-V v0.5.0 Hypervisor extensions
-+SRCREV = "b3dac5b1f61f23f21dc59b3880897cff78f3b618"
-+SRC_URI = "git://github.com/avpatel/xvisor-next.git \
-            file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
-           "
+-CONFIG = "${@get_oemake_config(d)}"
++CONFIG = "${@get_oemake_config(d.getVar('TARGET_ARCH'), d)}"
  
+ do_configure() {
+     oe_runmake ${CONFIG}
+@@ -35,11 +35,16 @@ do_install_append() {
+ do_deploy () {
+     install -d ${DEPLOY_DIR_IMAGE}
+     install -m 755 ${D}/vmm.* ${DEPLOY_DIR_IMAGE}/
++
++    if [[ -f "${D}/*.dtb" ]]; then
++        install -m 755 ${D}/*.dtb ${DEPLOY_DIR_IMAGE}/
++    fi
+ }
+ 
+ addtask deploy after do_install
+ 
+ FILES_${PN} += "/vmm.*"
++FILES_${PN} += "/*.dtb"
+ 
+-COMPATIBLE_HOST = "(riscv64|riscv32).*"
++COMPATIBLE_HOST = "(aarch64|riscv64|riscv32).*"
+ INHIBIT_PACKAGE_STRIP = "1"
 -- 
 2.27.0
 
