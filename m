@@ -1,90 +1,80 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.62507.1597743705443902152
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web12.82920.1597817288432928178
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 18 Aug 2020 02:41:45 -0700
+ Tue, 18 Aug 2020 23:08:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 507C4E02034; Tue, 18 Aug 2020 02:41:45 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.3 required=5.0 tests=BAYES_00,DATE_IN_FUTURE_06_12,
-	RCVD_IN_DNSWL_MED autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 736D7E02031
-	for <meta-virtualization@yoctoproject.org>; Tue, 18 Aug 2020 02:41:44 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.76,326,1592841600"; 
-   d="scan'208";a="98222554"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 18 Aug 2020 17:41:44 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id A64B34CE34E2
-	for <meta-virtualization@yoctoproject.org>; Tue, 18 Aug 2020 17:41:40 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 18 Aug 2020 17:41:39 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-xstatic-mdi: upgrade 1.4.57.0 -> 1.6.50.2
-Date: Wed, 19 Aug 2020 02:41:44 +0800
-Message-ID: <1597776104-10786-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=rKRE4t7i;
+ spf=pass (domain: gmail.com, ip: 209.85.214.173, mailfrom: samuelzeter@gmail.com)
+Received: by mail-pl1-f173.google.com with SMTP id y6so10322318plt.3
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 18 Aug 2020 23:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K1JwutDP1vMuR7ROj67uqC6HmziSqhZlnGrzs0hUmn8=;
+        b=rKRE4t7iAtCHAEmKHNPX3XSDguannaKJa1E1Xvqaawk+9jalErcwWtpn+9bhmAeGtw
+         7pDueQFM0bh7Mg5FMHCb80jOCuAD8JdwaO2SIzH1WpeUcDjdkJFI7xVngMvVK8peLAUU
+         aN2TmVh4Z5rOnhVARmDwWsHIdN9DUTAibD4nm9hICcZyBvajupGihxliV22eWD1V33N5
+         NQFU1ckE8sOP+KMDdyclATIVCC+KecIDAeyAntEtTSR/bjdrl6WO+t6DCOOWW9xSXrIE
+         JAVK0DPVSYvE75ZCV/M2lkCbJrhW1Q8nZfgnZ1z6ZaC/qIetdRSAfWQM4/hOQ4xdAeJE
+         0Srg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=K1JwutDP1vMuR7ROj67uqC6HmziSqhZlnGrzs0hUmn8=;
+        b=ZnjbFyoeYlKSVCGNz3v6uwhBzWcGNfL1yYXCSTMywGainJJkzDxCDUAfE/HUtLTAB+
+         RsoryfqXZ88u3+hqc3BYbM07Kyzzw1MkSkj63mEOSjAbpmSv+u3O3Hku7aRsT8X9IzA7
+         h8Oal4jNyOfsAIYlFFshQOMrVaQKqhBoIPM6wGLoovA/fBqI/7SKYMdvjXc1c7ifKW8E
+         4FfUcDfpFuhZ991njVvRckRXZH7KwXxCWFu+JnEtrVT6lLmbW+s7Ya9Tq1QitdEkEaJU
+         o1rlNQLu+Y60/t16T3gWhDJRlyMQFtYs1zro3jR1bDvAnr9kfbNFUTMSTHeX9vbzwLRF
+         X1nQ==
+X-Gm-Message-State: AOAM530W0jNVCDY+RbAhX3VLc54TmSZnTaiE7dCGFx2xhzvBPqr2HPKg
+	S9H2qHS+tpctzWywbZmX+KVRzacQs3w=
+X-Google-Smtp-Source: ABdhPJzQcFqp+RuMJbR4sM49FvGlBO/DxwEzaAGxT7dYitIlc4Z5j3lMztILk844qfQZf5W4rAAS7g==
+X-Received: by 2002:a17:902:d345:: with SMTP id l5mr16915820plk.276.1597817287626;
+        Tue, 18 Aug 2020 23:08:07 -0700 (PDT)
+Return-Path: <samuelzeter@gmail.com>
+Received: from samz.bne.opengear.com (brisbane.opengear.com. [60.241.24.90])
+        by smtp.googlemail.com with ESMTPSA id o66sm10482694pgo.25.2020.08.18.23.08.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2020 23:08:07 -0700 (PDT)
+From: samuelzeter@gmail.com
+To: meta-virtualization@lists.yoctoproject.org
+Cc: Sam Zeter <samuelzeter@gmail.com>
+Subject: [meta-virtualization][m-c-s][PATCH] salt: Remove hardcoded Python 3.7 path
+Date: Wed, 19 Aug 2020 16:07:59 +1000
+Message-Id: <20200819060759.2014410-1-samuelzeter@gmail.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: A64B34CE34E2.A8942
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
--License-Update: Update PKG-INFO.
+The salt bitbake file hardcodes the Python 3.7 path as
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>/
+ ${libdir}/python3.7
+
+In order to ensure compatibility with Dunfell, which uses Python 3.8,
+and other future versions of Python, the variable PYTHON_SITEPACKAGES_DIR
+should be used.
+
+Signed-off-by: Sam Zeter <samuelzeter@gmail.com>
 ---
- ...ic-mdi_1.4.57.0.bb => python3-xstatic-mdi_1.6.50.2.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-xstatic-mdi_1.4.57.0.bb => python3-xstatic-mdi_1.6.50.2.bb} (56%)
+ meta-openstack/recipes-support/salt/salt_3000.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-mdi_1.4.57.0.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-mdi_1.6.50.2.bb
-similarity index 56%
-rename from meta-openstack/recipes-devtools/python/python-xstatic-mdi_1.4.57.0.bb
-rename to meta-openstack/recipes-devtools/python/python3-xstatic-mdi_1.6.50.2.bb
-index 9ea1473..3354f47 100644
---- a/meta-openstack/recipes-devtools/python/python-xstatic-mdi_1.4.57.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-xstatic-mdi_1.6.50.2.bb
-@@ -2,17 +2,17 @@ DESCRIPTION = "mdi javascript library packaged for setuptools3 (easy_install) /
- HOMEPAGE = "https://pypi.python.org/pypi/XStatic-mdi"
- SECTION = "devel/python"
- LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=898ae9ca7b59edc4521f10be07c6b622"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=af9320964a0ddf3bd33eccd79c29f964"
+diff --git a/meta-openstack/recipes-support/salt/salt_3000.bb b/meta-openstack/recipes-support/salt/salt_3000.bb
+index c2bc8da0..f80ceb65 100644
+--- a/meta-openstack/recipes-support/salt/salt_3000.bb
++++ b/meta-openstack/recipes-support/salt/salt_3000.bb
+@@ -104,7 +104,7 @@ RRECOMMENDS_${PN}-common = "lsb"
+ RSUGGESTS_${PN}-common = "python3-mako python3-git"
+ RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
+ CONFFILES_${PN}-common="${sysconfdir}/logrotate.d/${PN}"
+-FILES_${PN}-common = "${bindir}/${PN}-call ${libdir}/python3.7/ ${CONFFILES_${PN}-common}"
++FILES_${PN}-common = "${bindir}/${PN}-call ${PYTHON_SITEPACKAGES_DIR}/* ${CONFFILES_${PN}-common}"
  
- PYPI_PACKAGE = "XStatic-mdi"
- 
--SRC_URI[md5sum] = "f3d3d58603178e5898ee1ea4737826ee"
--SRC_URI[sha256sum] = "19b4d522f8fa62fee2893b39147fcf45ebaba8b95d63f3708ebdf34e130a8a53"
-+SRC_URI[md5sum] = "aa720e603fce607681cc69989fbd41a9"
-+SRC_URI[sha256sum] = "be1005af7a593b0b3a349aadb05e4160ea65894248a47b246c6658345e2f10c1"
- 
- inherit setuptools3 pypi
- 
- DEPENDS += " \
--        python-pip \
-+        python3-pip \
-         "
- 
- RDEPENDS_${PN} += " \
+ SUMMARY_${PN}-ssh = "remote manager to administer servers via salt"
+ DESCRIPTION_${PN}-ssh = "${DESCRIPTION_COMMON} This particular package provides the salt ssh controller. It \
 -- 
-2.25.1
-
-
+2.25.4
 
