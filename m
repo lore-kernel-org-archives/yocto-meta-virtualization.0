@@ -1,138 +1,167 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web12.117433.1597951555745662637
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web12.117539.1597951856715308602
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 20 Aug 2020 12:25:55 -0700
+ Thu, 20 Aug 2020 12:30:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=tyDqcJmi;
- spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 9AD37E0205C; Thu, 20 Aug 2020 12:25:55 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-	DKIM_VALID,DKIM_VALID_AU,FAKE_REPLY_C,FREEMAIL_FROM,FSL_HELO_FAKE,
-	RCVD_IN_DNSWL_NONE,URIBL_RED autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
-	*      trust
-	*      [209.85.222.195 listed in list.dnswl.org]
-	*  0.0 URIBL_RED Contains an URL listed in the URIBL redlist
-	*      [URIs: yoctoproject.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.0 FSL_HELO_FAKE FSL_HELO_FAKE
-	*  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail provider
-	*      (bruce.ashfield[at]gmail.com)
-	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
-	*       domain
-	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-	*      valid
-	*  1.5 FAKE_REPLY_C FAKE_REPLY_C
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id E1992E02059
-	for <meta-virtualization@yoctoproject.org>; Thu, 20 Aug 2020 12:25:53 -0700 (PDT)
-Received: by mail-qk1-f195.google.com with SMTP id i20so2535564qkk.8
-        for <meta-virtualization@yoctoproject.org>; Thu, 20 Aug 2020 12:25:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=OuaG0DEd;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id f24so3870826ejx.6
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 20 Aug 2020 12:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=1udmFKTT5k52bFKL44FB61wmymEs0Ob1e+6u4m+HRtE=;
-        b=tyDqcJmim8l+jjNfro5SLktJpj6MEqwHP4Gx2hqYCEyiI364VB1CQPEZkatcMhBDBA
-         ODMczr08Npug/uiGq7f2znsr3AU9RtIO6F1vNND4vgKaX9aVLfrEAw1dRkTiZscml5C3
-         sU5ccjei854dP6B1rNpNKBDa5oVJVwzw2GJHR466PRSn4zedGB1PcIyAkCkmotU4+FvG
-         2F6/HGdY7ksdrg7gJON/zeIEqk73SPI/+UDveRwB/cNjb5RQ3b65ybNA9h00vdQZm6i9
-         eSXrvG90CYLiA0Kioh23P4Prr0pa+p9/SjZgpup59daI51m4ir6ShSn8UVrjLtt2xJpt
-         lGrw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QeSU4vlpWGNJc78VD40X+HCZ/VwvoEW/djrQ6fNkJ7o=;
+        b=OuaG0DEd6ePAirlWrtfgbAHBys8B+AMp6xNOApk6HrKGHAwPSrIBwac+aFJsgZHmNc
+         ItsTn3cTGj1UurxOHsecHbUQP5KSGuAZeS+CKzJNOGHGoX3ilWn5yJF5oI4n2ZDx30GY
+         rFeq6090Y1qmAlqRrPtevIwU2O8I2AeXXxNuSn0W/xrDwNLaBJZV3U4/UoHXQE4zosIM
+         qOUdL+N8vXUankFg4Q//cvzZp2tmCnVs3N8xLpLgkOGQYu7bWcshOIjfuMoTN71LAmr8
+         kWVfEKkndiVGWutd4dnLTAqgcXcBoGQ+LqlpJPP1X68RmU4XWQYAlotFCLImvyJqV2nD
+         LXlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=1udmFKTT5k52bFKL44FB61wmymEs0Ob1e+6u4m+HRtE=;
-        b=ZWABWlO5ZALCdTchOCOclR3/X1yqCnVaBBH2qjxDZY4VGsiP9vnmBmoc5Hj/jJMM2u
-         5VLhMbpMWRfckBKwzXbHXYmg6BMYwJpuvd3xtgoRKeT/xa/I7YEEVpb/cuwea35rby2m
-         NcjeR2VClP7mw0zzbYPYlHrAAHzIgzoeage4zYj6F8gg96T8gTgbemfjw2oTLjFw006c
-         n7H0jzWecRLiccjhIZGI0zMRy3YIfbzpMh16F54mpgKTob1zgB7Rr8b7dpa2yUuBUMBG
-         TRbBwWna6HLOL3f2KhrF43vw2FFmWyP4cfdS+Vrc8zlYrWTdQOvWT7D88JQwlahpvHsu
-         9G1g==
-X-Gm-Message-State: AOAM531YN8QhoRVSB1Wvedk1B0HbFJnGvB3Dk/oGfLDMi+ceIk75SztS
-	G9jFjxnhBR3T6hZW3df1Yxo=
-X-Google-Smtp-Source: ABdhPJzMAUKjXiDrJbwsB0p7iOZZVOdKzeFkhl/xuD9gajX+my206uDercLAAXjeqvi9gA01JjpMFA==
-X-Received: by 2002:a37:9c89:: with SMTP id f131mr3691234qke.283.1597951552822;
-        Thu, 20 Aug 2020 12:25:52 -0700 (PDT)
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id h144sm3071051qke.83.2020.08.20.12.25.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2020 12:25:52 -0700 (PDT)
-Date: Thu, 20 Aug 2020 15:25:50 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-xstatic-mdi: upgrade 1.4.57.0 -> 1.6.50.2
-Message-ID: <20200820192549.GB23190@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QeSU4vlpWGNJc78VD40X+HCZ/VwvoEW/djrQ6fNkJ7o=;
+        b=gUEuBCBEb5Y4o/bWUmRegCeDKidAwWpDBFH9Dv2fbW7lgmjDiuCqPzNESyRbbGFHS3
+         ALykXn+6dkGphIJY+iEiaFl81go5nRvnb9LGRQ2Y0HxG7NNs+IugG1NIOQm4+YKFe1j1
+         7fqjgw1iGPtMR8h8xZlLxLxeZVErxSwbN+ZYVYAo1lx4HqatzlcMX4ires2baYRXVtb9
+         PJ3JTs+hFr9PPo6y8HE2qRCL48fnm46BSBYX1Qw9E8HJyDokm5qJuTWvuiVu5eKs4R0P
+         YE4vqr+3BuSBkwhAb0Uxm45XMAFy7bCumrQIYmClrrHox8X4ld1mMg29Xz/4om5G7UbD
+         Agdg==
+X-Gm-Message-State: AOAM532u5oklI7IMdibvOrv+0dq5aYtxlDXQeCB/6fHKdn/VA8gcCCq/
+	JpByofZM12u9aQKut/cYQFGoYPPBAof24k0pbJk=
+X-Google-Smtp-Source: ABdhPJw5Mf2y3C54CSt+HdFAxYHTa8RLWR5s+spvGqwmC7QPJZW2IPGHezo+8NQP2IjEAiJslygWUTaj/SVRpuFYIo0=
+X-Received: by 2002:a17:906:b815:: with SMTP id dv21mr156707ejb.517.1597951854939;
+ Thu, 20 Aug 2020 12:30:54 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1597775803-10541-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1597775816-10586-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1597776077-10674-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1597776083-10713-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1597776091-10750-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1597776104-10786-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200819060759.2014410-1-samuelzeter@gmail.com>
+In-Reply-To: <20200819060759.2014410-1-samuelzeter@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 20 Aug 2020 15:30:43 -0400
+Message-ID: <CADkTA4OG0HZ26csjGu37ZnTLF4wXE-r_RX5fPhsKafdcbNWV5A@mail.gmail.com>
+Subject: Re: [meta-virtualization][m-c-s][PATCH] salt: Remove hardcoded Python 3.7 path
+To: Sam Zeter <samuelzeter@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="000000000000ae91d405ad54286d"
 
-merged.
+--000000000000ae91d405ad54286d
+Content-Type: text/plain; charset="UTF-8"
+
+I tweaked the patch to apply to master as well (the salt version changed).
+
+We should always ensure that we have these on master, and then a version
+for a released branch.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python3-xstatic-mdi: upgrade 1.4.57.0 -> 1.6.50.2
-on 19/08/2020 zhengruoqin wrote:
+On Wed, Aug 19, 2020 at 2:08 AM Sam Zeter <samuelzeter@gmail.com> wrote:
 
-> -License-Update: Update PKG-INFO.
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>/
+> The salt bitbake file hardcodes the Python 3.7 path as
+>
+>  ${libdir}/python3.7
+>
+> In order to ensure compatibility with Dunfell, which uses Python 3.8,
+> and other future versions of Python, the variable PYTHON_SITEPACKAGES_DIR
+> should be used.
+>
+> Signed-off-by: Sam Zeter <samuelzeter@gmail.com>
 > ---
->  ...ic-mdi_1.4.57.0.bb => python3-xstatic-mdi_1.6.50.2.bb} | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-xstatic-mdi_1.4.57.0.bb => python3-xstatic-mdi_1.6.50.2.bb} (56%)
+>  meta-openstack/recipes-support/salt/salt_3000.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta-openstack/recipes-support/salt/salt_3000.bb
+> b/meta-openstack/recipes-support/salt/salt_3000.bb
+> index c2bc8da0..f80ceb65 100644
+> --- a/meta-openstack/recipes-support/salt/salt_3000.bb
+> +++ b/meta-openstack/recipes-support/salt/salt_3000.bb
+> @@ -104,7 +104,7 @@ RRECOMMENDS_${PN}-common = "lsb"
+>  RSUGGESTS_${PN}-common = "python3-mako python3-git"
+>  RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
+>  CONFFILES_${PN}-common="${sysconfdir}/logrotate.d/${PN}"
+> -FILES_${PN}-common = "${bindir}/${PN}-call ${libdir}/python3.7/
+> ${CONFFILES_${PN}-common}"
+> +FILES_${PN}-common = "${bindir}/${PN}-call ${PYTHON_SITEPACKAGES_DIR}/*
+> ${CONFFILES_${PN}-common}"
+>
+>  SUMMARY_${PN}-ssh = "remote manager to administer servers via salt"
+>  DESCRIPTION_${PN}-ssh = "${DESCRIPTION_COMMON} This particular package
+> provides the salt ssh controller. It \
+> --
+> 2.25.4
+>
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-mdi_1.4.57.0.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-mdi_1.6.50.2.bb
-> similarity index 56%
-> rename from meta-openstack/recipes-devtools/python/python-xstatic-mdi_1.4.57.0.bb
-> rename to meta-openstack/recipes-devtools/python/python3-xstatic-mdi_1.6.50.2.bb
-> index 9ea1473..3354f47 100644
-> --- a/meta-openstack/recipes-devtools/python/python-xstatic-mdi_1.4.57.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-xstatic-mdi_1.6.50.2.bb
-> @@ -2,17 +2,17 @@ DESCRIPTION = "mdi javascript library packaged for setuptools3 (easy_install) /
->  HOMEPAGE = "https://pypi.python.org/pypi/XStatic-mdi"
->  SECTION = "devel/python"
->  LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=898ae9ca7b59edc4521f10be07c6b622"
-> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=af9320964a0ddf3bd33eccd79c29f964"
->  
->  PYPI_PACKAGE = "XStatic-mdi"
->  
-> -SRC_URI[md5sum] = "f3d3d58603178e5898ee1ea4737826ee"
-> -SRC_URI[sha256sum] = "19b4d522f8fa62fee2893b39147fcf45ebaba8b95d63f3708ebdf34e130a8a53"
-> +SRC_URI[md5sum] = "aa720e603fce607681cc69989fbd41a9"
-> +SRC_URI[sha256sum] = "be1005af7a593b0b3a349aadb05e4160ea65894248a47b246c6658345e2f10c1"
->  
->  inherit setuptools3 pypi
->  
->  DEPENDS += " \
-> -        python-pip \
-> +        python3-pip \
->          "
->  
->  RDEPENDS_${PN} += " \
-> -- 
-> 2.25.1
-> 
-> 
-> 
-
-> 
+>
 
 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000ae91d405ad54286d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">I tweaked the patch to apply to master as well (the salt vers=
+ion changed).</div><div class=3D"gmail_default" style=3D"font-size:small"><=
+br></div><div class=3D"gmail_default" style=3D"font-size:small">We should a=
+lways ensure that we have these on master, and then a version for a release=
+d branch.</div><div class=3D"gmail_default" style=3D"font-size:small"><br><=
+/div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On W=
+ed, Aug 19, 2020 at 2:08 AM Sam Zeter &lt;<a href=3D"mailto:samuelzeter@gma=
+il.com">samuelzeter@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">The salt bitbake file hardcodes the Python 3.7=
+ path as<br>
+<br>
+=C2=A0${libdir}/python3.7<br>
+<br>
+In order to ensure compatibility with Dunfell, which uses Python 3.8,<br>
+and other future versions of Python, the variable PYTHON_SITEPACKAGES_DIR<=
+br>
+should be used.<br>
+<br>
+Signed-off-by: Sam Zeter &lt;<a href=3D"mailto:samuelzeter@gmail.com" targ=
+et=3D"_blank">samuelzeter@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta-openstack/recipes-support/salt/<a href=3D"http://salt_3000.bb" =
+rel=3D"noreferrer" target=3D"_blank">salt_3000.bb</a> | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta-openstack/recipes-support/salt/<a href=3D"http://salt_30=
+00.bb" rel=3D"noreferrer" target=3D"_blank">salt_3000.bb</a> b/meta-opensta=
+ck/recipes-support/salt/<a href=3D"http://salt_3000.bb" rel=3D"noreferrer" =
+target=3D"_blank">salt_3000.bb</a><br>
+index c2bc8da0..f80ceb65 100644<br>
+--- a/meta-openstack/recipes-support/salt/<a href=3D"http://salt_3000.bb" =
+rel=3D"noreferrer" target=3D"_blank">salt_3000.bb</a><br>
++++ b/meta-openstack/recipes-support/salt/<a href=3D"http://salt_3000.bb" =
+rel=3D"noreferrer" target=3D"_blank">salt_3000.bb</a><br>
+@@ -104,7 +104,7 @@ RRECOMMENDS_${PN}-common =3D &quot;lsb&quot;<br>
+=C2=A0RSUGGESTS_${PN}-common =3D &quot;python3-mako python3-git&quot;<br>
+=C2=A0RCONFLICTS_${PN}-common =3D &quot;python3-mako (&lt; 0.7.0)&quot;<br=
+>
+=C2=A0CONFFILES_${PN}-common=3D&quot;${sysconfdir}/logrotate.d/${PN}&quot;=
+<br>
+-FILES_${PN}-common =3D &quot;${bindir}/${PN}-call ${libdir}/python3.7/ ${=
+CONFFILES_${PN}-common}&quot;<br>
++FILES_${PN}-common =3D &quot;${bindir}/${PN}-call ${PYTHON_SITEPACKAGES_D=
+IR}/* ${CONFFILES_${PN}-common}&quot;<br>
+<br>
+=C2=A0SUMMARY_${PN}-ssh =3D &quot;remote manager to administer servers via=
+ salt&quot;<br>
+=C2=A0DESCRIPTION_${PN}-ssh =3D &quot;${DESCRIPTION_COMMON} This particula=
+r package provides the salt ssh controller. It \<br>
+-- <br>
+2.25.4<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
+" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
+haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
+ - Gandalf, Star Trek II<br><br></div></div>
+
+--000000000000ae91d405ad54286d--
