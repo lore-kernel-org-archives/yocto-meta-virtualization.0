@@ -1,12 +1,12 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web11.194218.1598273989474482734
+ by mx.groups.io with SMTP id smtpd.web12.193809.1598274056202162580
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 24 Aug 2020 05:59:49 -0700
+ Mon, 24 Aug 2020 06:00:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=SQfpGJfm;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=o5J96N39;
  spf=softfail (domain: gmail.com, ip: 140.211.169.56, mailfrom: bruce.ashfield@gmail.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 0C43DE02087; Mon, 24 Aug 2020 05:59:49 -0700 (PDT)
+	id 18E34E02087; Mon, 24 Aug 2020 06:00:56 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -20,158 +20,149 @@ X-Spam-HAM-Report:
 	*      (bruce.ashfield[at]gmail.com)
 	* -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at https://www.dnswl.org/, no
 	*      trust
-	*      [209.85.218.44 listed in list.dnswl.org]
+	*      [209.85.218.47 listed in list.dnswl.org]
 	*  0.0 HTML_MESSAGE BODY: HTML included in message
 	* -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from author's
 	*       domain
 	* -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
 	*  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
 	*      valid
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 99413E0203E
-	for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 05:59:46 -0700 (PDT)
-Received: by mail-ej1-f44.google.com with SMTP id j25so2594745ejk.9
-        for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 05:59:46 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9CD58E0203E
+	for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 06:00:54 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id bo3so11756957ejb.11
+        for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 06:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=vhiALzjKZ45tnL9+0DkqOdImu0c7qFNFIgRgWcpjrzc=;
-        b=SQfpGJfmbuNsHlhrUOATtm03sbSQRJ+BhOW7qc9rYe5GozE/FrZd8keAUSazAYhNVZ
-         poh13dhK4YAvd9jSy6yG1TE+WuMtCf9bl2D5d2XoLFJjkOiMXeJ/EW/buSUh5/hYECVq
-         XYpvYJDYCeOuqIDBmMb96kD7e3f4jcvpDJLWnA6atMerTYPDEyVV6oa5AJQhnHgstLEO
-         3JzkNuRUJIy1cHyr8im8m6QdC41UVzq+5aEQj9t2VBtWDwHd4ndVjArYSf2rPrzj2vhp
-         VVj1hf+GYqBKVHZnmGpexz2uyWp/hjPPuZlq2TGeKBVCCJVrlsuNZ+DbsdbrnN1KrODh
-         b0GA==
+        bh=eRWVEGXjc2mFcTEi+EST2oSPJ7eh4D+Lmjjtd/M6aMk=;
+        b=o5J96N39DEtg1R2PBP2HSPBUxZhdAvxrkixHh9tAVxPCFza34xya6NR1Zmro2MzSGM
+         XbwjjoEteNtIfSDhtb9kUiV2XLLv2b5bBhiFDSrpv59Uk/gfir2fMN1h9AYsQSfqEMjG
+         LhthtFweGev+lbs6j22R+xCbDlmPSe6/pl/8TvshKUb2CqXAdhsvXbnZXNU75lZYvGC9
+         67yfpN/fUy/Pyy+vnVDuB/46ESYvMF8TYvHVEoM/ouejA8NRkphJIkEdfNoQz6gjckne
+         SCqFaIbvAmc2j8cJKf1rpO9GpuTXQreHaLVb4FzRt/emmgMXlu1Jr0z7FOKUBDeUZe3h
+         OFLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=vhiALzjKZ45tnL9+0DkqOdImu0c7qFNFIgRgWcpjrzc=;
-        b=UCVRpjGxaT79WsS1kBg37HcvTLWC+jlKVZp3XYR3x301ZlybLgGzse8T7yIffkVhL9
-         wgWgD5jzXxh9Qw2wB6OP3rgBPxBGj7IHU0KW2+WoP8bDOzPHrtWl+QGcyfJvTMGalDkc
-         JtKzt1Ssaf7nVbrhfMrc8dHV0GdSRx1YIBIwARZGzNrjKiCgJkzBdhhjd0tKVA78Ax2N
-         IglOnB8hr8Fxi1M50M5kPSi1Ch6KHZShU78lTwofFA7KdAAeSMxgW+cDx5SCCUxfcwg5
-         JDjHsGNZ/03VoCDYnzn+0srfzShTsGxAwYlLOWb4yHH8bULq5qVLejComTGoCU3Mhrdx
-         Lymw==
-X-Gm-Message-State: AOAM533d7dNlTHR3A88ryXZWyhFOzATvNYiv4dv00uC4wVXbKsTK7SpY
-	RyCv5vWlvOOidmrbzsbhajcutv/aiQoaPrk8Oc8=
-X-Google-Smtp-Source: ABdhPJzr5rF+NhaxOAzGryaOwCekWAaownxxPIbj+ou0EaRN20kNIZQW0C2mj3JNYvyom7dRlbrq6mBGVf6P33+FjAA=
-X-Received: by 2002:a17:906:554:: with SMTP id k20mr5389524eja.334.1598273985608;
- Mon, 24 Aug 2020 05:59:45 -0700 (PDT)
+        bh=eRWVEGXjc2mFcTEi+EST2oSPJ7eh4D+Lmjjtd/M6aMk=;
+        b=YXWa2mgLZx5G4gKRwmmh9bSU9se8If8OQhQuprknM8SlV39Pn5ghmrv9nYDXukd07n
+         XHW7eq1U0fsK0BuB0upAEY9no1rojY8sCxDwWSm08LKhBoRrR9jv+0h42sLLTZ04G2Bk
+         4fGmjQ6xSZqh+Usvce2J0uN/PZox9WHzMOJm9bDVTKP8RnyQUITnh4q9W9iT7Zp7Mbjz
+         OA2bW3E8DGTB+776DIXo48pzRRVOERXD27N6u9BitK8xbEJxtQem3fAI0gtbq6p/b4DF
+         7T2t0R4jVZQokYS0r7sfStOm043cuSzz5M9e7MvffVZr4sZeffa6JLSqvHoeutu9r+qc
+         /mZw==
+X-Gm-Message-State: AOAM531bOo2EskBzfJOwrj0l3k2AOQ25pPB7WZV7CToLixObh7+da+D4
+	kv3z3RguNyAohoFXXG1aFjCuoq2wFJjpN4VY0ZkpP9YBEGerAw==
+X-Google-Smtp-Source: ABdhPJyy0b1qu+G1SeLmgnTajGxSdPPKFXdNpDP1JKGZqs3CuDRlq6yFf0JSujHLZKNBeDTfH+v8R8ZcANkOtVaXV+s=
+X-Received: by 2002:a17:906:71d3:: with SMTP id i19mr5423798ejk.459.1598274053254;
+ Mon, 24 Aug 2020 06:00:53 -0700 (PDT)
 MIME-Version: 1.0
-References: <1598289989-121800-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1598289989-121800-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+References: <1598299693-63275-1-git-send-email-zangrc.fnst@cn.fujitsu.com> <1598299693-63275-3-git-send-email-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <1598299693-63275-3-git-send-email-zangrc.fnst@cn.fujitsu.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Mon, 24 Aug 2020 08:59:34 -0400
-Message-ID: <CADkTA4OQkdy2REP6ezyOQica9HSzEDdqb0eUb+9T=Cg0HQVACg@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] python3-xstatic-angular-cookies: Remove python recipe
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+Date: Mon, 24 Aug 2020 09:00:41 -0400
+Message-ID: <CADkTA4P=O8V+0fU0x2f3ifgnKx9vK7RcSnM3iY-P+QndWiUH4A@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] python3-xstatic-bootstrap-datepicker: Remove python recipe
+To: zangrc <zangrc.fnst@cn.fujitsu.com>
 Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Content-Type: multipart/alternative; boundary="0000000000002a808d05ad9f2970"
+Content-Type: multipart/alternative; boundary="00000000000032b2c205ad9f2d8f"
 
---0000000000002a808d05ad9f2970
+--00000000000032b2c205ad9f2d8f
 Content-Type: text/plain; charset="UTF-8"
 
-For the remove patches, we need to be logging why something is being
-dropped.
-
-Is this replaced by the updated angular-xstatic recipe ? Is it no longer
-required ? Is the recipe coming from somewhere else ?
+Same thing here. Let's log the reason why it is being removed.
 
 Bruce
 
-On Mon, Aug 24, 2020 at 4:27 AM zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-wrote:
+On Mon, Aug 24, 2020 at 4:08 AM zangrc <zangrc.fnst@cn.fujitsu.com> wrote:
 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>/
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../python/python-xstatic-angular-cookies.inc | 22 -----------------
->  .../python-xstatic-angular-cookies_1.2.1.1.bb |  2 --
->  ...python3-xstatic-angular-cookies_1.2.1.1.bb | 24 +++++++++++++++++--
->  3 files changed, 22 insertions(+), 26 deletions(-)
+>  .../python-xstatic-bootstrap-datepicker.inc   | 19 -----------------
+>  ...on-xstatic-bootstrap-datepicker_1.3.1.0.bb |  2 --
+>  ...n3-xstatic-bootstrap-datepicker_1.4.0.0.bb | 21 +++++++++++++++++--
+>  3 files changed, 19 insertions(+), 23 deletions(-)
 >  delete mode 100644
-> meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
+> meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
 >  delete mode 100644 meta-openstack/recipes-devtools/python/
-> python-xstatic-angular-cookies_1.2.1.1.bb
+> python-xstatic-bootstrap-datepicker_1.3.1.0.bb
 >
 > diff --git
-> a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
-> b/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
+> a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
+> b/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
 > deleted file mode 100644
-> index bc3923b..0000000
+> index f1d19f3..0000000
 > ---
-> a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
+> a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-datepicker.inc
 > +++ /dev/null
-> @@ -1,22 +0,0 @@
-> -DESCRIPTION = "Angular-Cookies JavaScript library packaged for setuptools"
-> -HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-Cookies"
+> @@ -1,19 +0,0 @@
+> -DESCRIPTION = "Bootstrap-Datepicker JavaScript library packaged for
+> setuptools (easy_install) / pip."
+> -HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Bootstrap-Datepicker"
 > -SECTION = "devel/python"
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=70856f1d03d62a3e0c0cb1b7f8c7fd00"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=717661446a83183e303f3f8e0a1ea277"
 > -
-> -PYPI_PACKAGE = "XStatic-Angular-Cookies"
+> -PYPI_PACKAGE = "XStatic-Bootstrap-Datepicker"
 > -
-> -SRC_URI[md5sum] = "a67066fac5dfe9774ab163d44e5a896a"
+> -SRC_URI[md5sum] = "68375e81274159874ab5fd6d85ea405c"
 > -SRC_URI[sha256sum] =
-> "c8fc1a52549c601809fc9f25144e4fd346820412b6430e89256e7ec71fce0b4c"
+> "df33add9f5e785fa884ac4b182601af6aac9e1eeef7cfe62dbbcb0654d0f2d6e"
 > -
 > -inherit pypi
-> -
-> -# DEPENDS_default: python-pip
 > -
 > -DEPENDS += " \
 > -        ${PYTHON_PN}-pip \
 > -        "
 > -
-> -# RDEPENDS_default:
 > -RDEPENDS_${PN} += " \
 > -        "
 > diff --git a/meta-openstack/recipes-devtools/python/
-> python-xstatic-angular-cookies_1.2.1.1.bb
+> python-xstatic-bootstrap-datepicker_1.3.1.0.bb
 > b/meta-openstack/recipes-devtools/python/
-> python-xstatic-angular-cookies_1.2.1.1.bb
+> python-xstatic-bootstrap-datepicker_1.3.1.0.bb
 > deleted file mode 100644
-> index ee9591a..0000000
+> index 9e9db89..0000000
 > --- a/meta-openstack/recipes-devtools/python/
-> python-xstatic-angular-cookies_1.2.1.1.bb
+> python-xstatic-bootstrap-datepicker_1.3.1.0.bb
 > +++ /dev/null
 > @@ -1,2 +0,0 @@
-> -require python-xstatic-angular-cookies.inc
+> -require python-xstatic-bootstrap-datepicker.inc
 > -inherit setuptools3
 > diff --git a/meta-openstack/recipes-devtools/python/
-> python3-xstatic-angular-cookies_1.2.1.1.bb
+> python3-xstatic-bootstrap-datepicker_1.4.0.0.bb
 > b/meta-openstack/recipes-devtools/python/
-> python3-xstatic-angular-cookies_1.2.1.1.bb
-> index ee9591a..001bde9 100644
+> python3-xstatic-bootstrap-datepicker_1.4.0.0.bb
+> index 9e9db89..6ecaf8a 100644
 > --- a/meta-openstack/recipes-devtools/python/
-> python3-xstatic-angular-cookies_1.2.1.1.bb
+> python3-xstatic-bootstrap-datepicker_1.4.0.0.bb
 > +++ b/meta-openstack/recipes-devtools/python/
-> python3-xstatic-angular-cookies_1.2.1.1.bb
-> @@ -1,2 +1,22 @@
-> -require python-xstatic-angular-cookies.inc
+> python3-xstatic-bootstrap-datepicker_1.4.0.0.bb
+> @@ -1,2 +1,19 @@
+> -require python-xstatic-bootstrap-datepicker.inc
 > -inherit setuptools3
-> +DESCRIPTION = "Angular-Cookies JavaScript library packaged for setuptools"
-> +HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-Cookies"
+> +DESCRIPTION = "Bootstrap-Datepicker JavaScript library packaged for
+> setuptools (easy_install) / pip."
+> +HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Bootstrap-Datepicker"
 > +SECTION = "devel/python"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=70856f1d03d62a3e0c0cb1b7f8c7fd00"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=717661446a83183e303f3f8e0a1ea277"
 > +
-> +PYPI_PACKAGE = "XStatic-Angular-Cookies"
+> +PYPI_PACKAGE = "XStatic-Bootstrap-Datepicker"
 > +
-> +SRC_URI[md5sum] = "a67066fac5dfe9774ab163d44e5a896a"
+> +SRC_URI[md5sum] = "68375e81274159874ab5fd6d85ea405c"
 > +SRC_URI[sha256sum] =
-> "c8fc1a52549c601809fc9f25144e4fd346820412b6430e89256e7ec71fce0b4c"
+> "df33add9f5e785fa884ac4b182601af6aac9e1eeef7cfe62dbbcb0654d0f2d6e"
 > +
 > +inherit setuptools3 pypi
-> +
-> +# DEPENDS_default: python-pip
 > +
 > +DEPENDS += " \
 > +        ${PYTHON_PN}-pip \
 > +        "
 > +
-> +# RDEPENDS_default:
 > +RDEPENDS_${PN} += " \
 > +        "
 > --
@@ -188,134 +179,124 @@ wrote:
 at its end
 - "Use the force Harry" - Gandalf, Star Trek II
 
---0000000000002a808d05ad9f2970
+--00000000000032b2c205ad9f2d8f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">For=
- the remove patches, we need to be logging why something is being dropped.<=
-/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
-class=3D"gmail_default" style=3D"font-size:small">Is this replaced by the u=
-pdated angular-xstatic recipe ? Is it no longer required ? Is the recipe co=
-ming from somewhere else ?</div><div class=3D"gmail_default" style=3D"font-=
-size:small"><br></div><div class=3D"gmail_default" style=3D"font-size:small=
-">Bruce</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Mon, Aug 24, 2020 at 4:27 AM zhengruoqin &lt;<a href=3D"mai=
-lto:zhengrq.fnst@cn.fujitsu.com">zhengrq.fnst@cn.fujitsu.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-off-by: =
-Zheng Ruoqin &lt;<a href=3D"mailto:zhengrq.fnst@cn.fujitsu.com" target=3D"_=
-blank">zhengrq.fnst@cn.fujitsu.com</a>&gt;/<br>
+<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Sam=
+e thing here. Let&#39;s log the reason why it is being removed.</div><div c=
+lass=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gm=
+ail_default" style=3D"font-size:small">Bruce</div></div><br><div class=3D"g=
+mail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 24, 2020 at 4=
+:08 AM zangrc &lt;<a href=3D"mailto:zangrc.fnst@cn.fujitsu.com">zangrc.fnst=
+@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">Signed-off-by: Zang Ruochen &lt;<a href=3D"mailto:zangrc.fns=
+t@cn.fujitsu.com" target=3D"_blank">zangrc.fnst@cn.fujitsu.com</a>&gt;<br>
 ---<br>
-=C2=A0.../python/python-xstatic-angular-cookies.inc | 22 -----------------=
-<br>
-=C2=A0.../<a href=3D"http://python-xstatic-angular-cookies_1.2.1.1.bb" rel=
+=C2=A0.../python-xstatic-bootstrap-datepicker.inc=C2=A0 =C2=A0| 19 -------=
+----------<br>
+=C2=A0...<a href=3D"http://on-xstatic-bootstrap-datepicker_1.3.1.0.bb" rel=
 =
-=3D"noreferrer" target=3D"_blank">python-xstatic-angular-cookies_1.2.1.1.b=
-b</a> |=C2=A0 2 --<br>
-=C2=A0...<a href=3D"http://python3-xstatic-angular-cookies_1.2.1.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">on-xstatic-bootstrap-datepicker_1.3.1.0.=
+bb</a> |=C2=A0 2 --<br>
+=C2=A0...<a href=3D"http://n3-xstatic-bootstrap-datepicker_1.4.0.0.bb" rel=
 =
-=3D"noreferrer" target=3D"_blank">python3-xstatic-angular-cookies_1.2.1.1.=
-bb</a> | 24 +++++++++++++++++--<br>
-=C2=A03 files changed, 22 insertions(+), 26 deletions(-)<br>
+=3D"noreferrer" target=3D"_blank">n3-xstatic-bootstrap-datepicker_1.4.0.0.=
+bb</a> | 21 +++++++++++++++++--<br>
+=C2=A03 files changed, 19 insertions(+), 23 deletions(-)<br>
 =C2=A0delete mode 100644 meta-openstack/recipes-devtools/python/python-xst=
-atic-angular-cookies.inc<br>
+atic-bootstrap-datepicker.inc<br>
 =C2=A0delete mode 100644 meta-openstack/recipes-devtools/python/<a href=3D=
-"http://python-xstatic-angular-cookies_1.2.1.1.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">python-xstatic-angular-cookies_1.2.1.1.bb</a><br>
+"http://python-xstatic-bootstrap-datepicker_1.3.1.0.bb" rel=3D"noreferrer" =
+target=3D"_blank">python-xstatic-bootstrap-datepicker_1.3.1.0.bb</a><br>
 <br>
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular=
--cookies.inc b/meta-openstack/recipes-devtools/python/python-xstatic-angula=
-r-cookies.inc<br>
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-bootstr=
+ap-datepicker.inc b/meta-openstack/recipes-devtools/python/python-xstatic-b=
+ootstrap-datepicker.inc<br>
 deleted file mode 100644<br>
-index bc3923b..0000000<br>
---- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookie=
-s.inc<br>
+index f1d19f3..0000000<br>
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-bootstrap-date=
+picker.inc<br>
 +++ /dev/null<br>
-@@ -1,22 +0,0 @@<br>
--DESCRIPTION =3D &quot;Angular-Cookies JavaScript library packaged for set=
-uptools&quot;<br>
--HOMEPAGE =3D &quot;<a href=3D"https://pypi.python.org/pypi/XStatic-Angula=
-r-Cookies" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/pyp=
-i/XStatic-Angular-Cookies</a>&quot;<br>
+@@ -1,19 +0,0 @@<br>
+-DESCRIPTION =3D &quot;Bootstrap-Datepicker JavaScript library packaged fo=
+r setuptools (easy_install) / pip.&quot;<br>
+-HOMEPAGE =3D &quot;<a href=3D"https://pypi.python.org/pypi/XStatic-Bootst=
+rap-Datepicker" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.or=
+g/pypi/XStatic-Bootstrap-Datepicker</a>&quot;<br>
 -SECTION =3D &quot;devel/python&quot;<br>
--LICENSE =3D &quot;MIT&quot;<br>
--LIC_FILES_CHKSUM =3D &quot;file://PKG-INFO;md5=3D70856f1d03d62a3e0c0cb1b7=
-f8c7fd00&quot;<br>
+-LICENSE =3D &quot;Apache-2.0&quot;<br>
+-LIC_FILES_CHKSUM =3D &quot;file://PKG-INFO;md5=3D717661446a83183e303f3f8e=
+0a1ea277&quot;<br>
 -<br>
--PYPI_PACKAGE =3D &quot;XStatic-Angular-Cookies&quot;<br>
+-PYPI_PACKAGE =3D &quot;XStatic-Bootstrap-Datepicker&quot;<br>
 -<br>
--SRC_URI[md5sum] =3D &quot;a67066fac5dfe9774ab163d44e5a896a&quot;<br>
--SRC_URI[sha256sum] =3D &quot;c8fc1a52549c601809fc9f25144e4fd346820412b643=
-0e89256e7ec71fce0b4c&quot;<br>
+-SRC_URI[md5sum] =3D &quot;68375e81274159874ab5fd6d85ea405c&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;df33add9f5e785fa884ac4b182601af6aac9e1eeef7c=
+fe62dbbcb0654d0f2d6e&quot;<br>
 -<br>
 -inherit pypi<br>
--<br>
--# DEPENDS_default: python-pip<br>
 -<br>
 -DEPENDS +=3D &quot; \<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PYTHON_PN}-pip \<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 -<br>
--# RDEPENDS_default: <br>
 -RDEPENDS_${PN} +=3D &quot; \<br>
 -=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pyth=
-on-xstatic-angular-cookies_1.2.1.1.bb" rel=3D"noreferrer" target=3D"_blank"=
->python-xstatic-angular-cookies_1.2.1.1.bb</a> b/meta-openstack/recipes-dev=
-tools/python/<a href=3D"http://python-xstatic-angular-cookies_1.2.1.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">python-xstatic-angular-cookies_1.2.1.1.=
-bb</a><br>
+on-xstatic-bootstrap-datepicker_1.3.1.0.bb" rel=3D"noreferrer" target=3D"_b=
+lank">python-xstatic-bootstrap-datepicker_1.3.1.0.bb</a> b/meta-openstack/r=
+ecipes-devtools/python/<a href=3D"http://python-xstatic-bootstrap-datepicke=
+r_1.3.1.0.bb" rel=3D"noreferrer" target=3D"_blank">python-xstatic-bootstrap=
+-datepicker_1.3.1.0.bb</a><br>
 deleted file mode 100644<br>
-index ee9591a..0000000<br>
+index 9e9db89..0000000<br>
 --- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python-xsta=
-tic-angular-cookies_1.2.1.1.bb" rel=3D"noreferrer" target=3D"_blank">python=
--xstatic-angular-cookies_1.2.1.1.bb</a><br>
+tic-bootstrap-datepicker_1.3.1.0.bb" rel=3D"noreferrer" target=3D"_blank">p=
+ython-xstatic-bootstrap-datepicker_1.3.1.0.bb</a><br>
 +++ /dev/null<br>
 @@ -1,2 +0,0 @@<br>
--require python-xstatic-angular-cookies.inc<br>
+-require python-xstatic-bootstrap-datepicker.inc<br>
 -inherit setuptools3<br>
 diff --git a/meta-openstack/recipes-devtools/python/<a href=3D"http://pyth=
-on3-xstatic-angular-cookies_1.2.1.1.bb" rel=3D"noreferrer" target=3D"_blank=
-">python3-xstatic-angular-cookies_1.2.1.1.bb</a> b/meta-openstack/recipes-d=
-evtools/python/<a href=3D"http://python3-xstatic-angular-cookies_1.2.1.1.bb=
-" rel=3D"noreferrer" target=3D"_blank">python3-xstatic-angular-cookies_1.2.=
-1.1.bb</a><br>
-index ee9591a..001bde9 100644<br>
+on3-xstatic-bootstrap-datepicker_1.4.0.0.bb" rel=3D"noreferrer" target=3D"_=
+blank">python3-xstatic-bootstrap-datepicker_1.4.0.0.bb</a> b/meta-openstack=
+/recipes-devtools/python/<a href=3D"http://python3-xstatic-bootstrap-datepi=
+cker_1.4.0.0.bb" rel=3D"noreferrer" target=3D"_blank">python3-xstatic-boots=
+trap-datepicker_1.4.0.0.bb</a><br>
+index 9e9db89..6ecaf8a 100644<br>
 --- a/meta-openstack/recipes-devtools/python/<a href=3D"http://python3-xst=
-atic-angular-cookies_1.2.1.1.bb" rel=3D"noreferrer" target=3D"_blank">pytho=
-n3-xstatic-angular-cookies_1.2.1.1.bb</a><br>
+atic-bootstrap-datepicker_1.4.0.0.bb" rel=3D"noreferrer" target=3D"_blank">=
+python3-xstatic-bootstrap-datepicker_1.4.0.0.bb</a><br>
 +++ b/meta-openstack/recipes-devtools/python/<a href=3D"http://python3-xst=
-atic-angular-cookies_1.2.1.1.bb" rel=3D"noreferrer" target=3D"_blank">pytho=
-n3-xstatic-angular-cookies_1.2.1.1.bb</a><br>
-@@ -1,2 +1,22 @@<br>
--require python-xstatic-angular-cookies.inc<br>
+atic-bootstrap-datepicker_1.4.0.0.bb" rel=3D"noreferrer" target=3D"_blank">=
+python3-xstatic-bootstrap-datepicker_1.4.0.0.bb</a><br>
+@@ -1,2 +1,19 @@<br>
+-require python-xstatic-bootstrap-datepicker.inc<br>
 -inherit setuptools3<br>
-+DESCRIPTION =3D &quot;Angular-Cookies JavaScript library packaged for set=
-uptools&quot;<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://pypi.python.org/pypi/XStatic-Angula=
-r-Cookies" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.org/pyp=
-i/XStatic-Angular-Cookies</a>&quot;<br>
++DESCRIPTION =3D &quot;Bootstrap-Datepicker JavaScript library packaged fo=
+r setuptools (easy_install) / pip.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://pypi.python.org/pypi/XStatic-Bootst=
+rap-Datepicker" rel=3D"noreferrer" target=3D"_blank">https://pypi.python.or=
+g/pypi/XStatic-Bootstrap-Datepicker</a>&quot;<br>
 +SECTION =3D &quot;devel/python&quot;<br>
-+LICENSE =3D &quot;MIT&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://PKG-INFO;md5=3D70856f1d03d62a3e0c0cb1b7=
-f8c7fd00&quot;<br>
++LICENSE =3D &quot;Apache-2.0&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://PKG-INFO;md5=3D717661446a83183e303f3f8e=
+0a1ea277&quot;<br>
 +<br>
-+PYPI_PACKAGE =3D &quot;XStatic-Angular-Cookies&quot;<br>
++PYPI_PACKAGE =3D &quot;XStatic-Bootstrap-Datepicker&quot;<br>
 +<br>
-+SRC_URI[md5sum] =3D &quot;a67066fac5dfe9774ab163d44e5a896a&quot;<br>
-+SRC_URI[sha256sum] =3D &quot;c8fc1a52549c601809fc9f25144e4fd346820412b643=
-0e89256e7ec71fce0b4c&quot;<br>
++SRC_URI[md5sum] =3D &quot;68375e81274159874ab5fd6d85ea405c&quot;<br>
++SRC_URI[sha256sum] =3D &quot;df33add9f5e785fa884ac4b182601af6aac9e1eeef7c=
+fe62dbbcb0654d0f2d6e&quot;<br>
 +<br>
 +inherit setuptools3 pypi<br>
-+<br>
-+# DEPENDS_default: python-pip<br>
 +<br>
 +DEPENDS +=3D &quot; \<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ${PYTHON_PN}-pip \<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 +<br>
-+# RDEPENDS_default: <br>
 +RDEPENDS_${PN} +=3D &quot; \<br>
 +=C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 -- <br>
@@ -329,4 +310,4 @@ f8c7fd00&quot;<br>
 haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
  - Gandalf, Star Trek II<br><br></div>
 
---0000000000002a808d05ad9f2970--
+--00000000000032b2c205ad9f2d8f--
