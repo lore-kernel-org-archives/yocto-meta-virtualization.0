@@ -1,11 +1,11 @@
 Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.191269.1598257624988403712
+ by mx.groups.io with SMTP id smtpd.web12.190476.1598257637058249932
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 24 Aug 2020 01:27:05 -0700
+ Mon, 24 Aug 2020 01:27:17 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id D5A42E02087; Mon, 24 Aug 2020 01:27:04 -0700 (PDT)
+	id E7DFAE02087; Mon, 24 Aug 2020 01:27:16 -0700 (PDT)
 X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
 	yocto-www.yoctoproject.org
 X-Spam-Level: 
@@ -19,58 +19,58 @@ X-Spam-HAM-Report:
 	*      [score: 0.0000]
 	*  1.9 DATE_IN_FUTURE_06_12 Date: is 6 to 12 hours after Received: date
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 6872BE0203E
-	for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 01:26:59 -0700 (PDT)
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 96409E0203E
+	for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 01:27:14 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.76,347,1592841600"; 
-   d="scan'208";a="98453332"
+   d="scan'208";a="98453345"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 24 Aug 2020 16:26:54 +0800
+  by heian.cn.fujitsu.com with ESMTP; 24 Aug 2020 16:27:13 +0800
 Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6D24A48990CE
-	for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 16:26:52 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 6457F48990CE
+	for <meta-virtualization@yoctoproject.org>; Mon, 24 Aug 2020 16:27:07 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 24 Aug 2020 16:26:52 +0800
+ (TLS) id 15.0.1497.2; Mon, 24 Aug 2020 16:27:07 +0800
 From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-xstatic-angular-cookies: Remove python recipe
-Date: Tue, 25 Aug 2020 01:26:29 +0800
-Message-ID: <1598289989-121800-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python3-xstatic-angular-fileupload: Remove python recipe
+Date: Tue, 25 Aug 2020 01:27:12 +0800
+Message-ID: <1598290032-121849-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD06.g08.fujitsu.local (10.167.33.205) To
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 6D24A48990CE.A8CF1
+X-yoursite-MailScanner-ID: 6457F48990CE.A7BE3
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 Content-Type: text/plain
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>/
 ---
- .../python/python-xstatic-angular-cookies.inc | 22 -----------------
- .../python-xstatic-angular-cookies_1.2.1.1.bb |  2 --
- ...python3-xstatic-angular-cookies_1.2.1.1.bb | 24 +++++++++++++++++--
+ .../python-xstatic-angular-fileupload.inc     | 22 -----------------
+ ...hon-xstatic-angular-fileupload_12.0.4.0.bb |  2 --
+ ...on3-xstatic-angular-fileupload_12.0.4.0.bb | 24 +++++++++++++++++--
  3 files changed, 22 insertions(+), 26 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
- delete mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies_1.2.1.1.bb
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload.inc
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload_12.0.4.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc b/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload.inc b/meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload.inc
 deleted file mode 100644
-index bc3923b..0000000
---- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies.inc
+index a845453..0000000
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload.inc
 +++ /dev/null
 @@ -1,22 +0,0 @@
--DESCRIPTION = "Angular-Cookies JavaScript library packaged for setuptools"
--HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-Cookies"
+-DESCRIPTION = "Angular Fileupload packaged for setuptools (easy_install) / pip."
+-HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-FileUpload"
 -SECTION = "devel/python"
 -LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=70856f1d03d62a3e0c0cb1b7f8c7fd00"
+-LIC_FILES_CHKSUM = "file://PKG-INFO;md5=e634b82c14383ecefd736caa40ed2222"
 -
--PYPI_PACKAGE = "XStatic-Angular-Cookies"
+-PYPI_PACKAGE = "XStatic-Angular-FileUpload"
 -
--SRC_URI[md5sum] = "a67066fac5dfe9774ab163d44e5a896a"
--SRC_URI[sha256sum] = "c8fc1a52549c601809fc9f25144e4fd346820412b6430e89256e7ec71fce0b4c"
+-SRC_URI[md5sum] = "1cf48c0204783da2f71efe79039a8468"
+-SRC_URI[sha256sum] = "68e66efc4f2ed81438553a54646d5cc67487b05764c0003ff25ae5beb8dae21f"
 -
 -inherit pypi
 -
@@ -83,31 +83,31 @@ index bc3923b..0000000
 -# RDEPENDS_default: 
 -RDEPENDS_${PN} += " \
 -        "
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies_1.2.1.1.bb b/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies_1.2.1.1.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload_12.0.4.0.bb b/meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload_12.0.4.0.bb
 deleted file mode 100644
-index ee9591a..0000000
---- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-cookies_1.2.1.1.bb
+index 644a631..0000000
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-fileupload_12.0.4.0.bb
 +++ /dev/null
 @@ -1,2 +0,0 @@
--require python-xstatic-angular-cookies.inc
+-require python-xstatic-angular-fileupload.inc
 -inherit setuptools3
-diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-angular-cookies_1.2.1.1.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-angular-cookies_1.2.1.1.bb
-index ee9591a..001bde9 100644
---- a/meta-openstack/recipes-devtools/python/python3-xstatic-angular-cookies_1.2.1.1.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-xstatic-angular-cookies_1.2.1.1.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-angular-fileupload_12.0.4.0.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-angular-fileupload_12.0.4.0.bb
+index 644a631..2fc8f88 100644
+--- a/meta-openstack/recipes-devtools/python/python3-xstatic-angular-fileupload_12.0.4.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-xstatic-angular-fileupload_12.0.4.0.bb
 @@ -1,2 +1,22 @@
--require python-xstatic-angular-cookies.inc
+-require python-xstatic-angular-fileupload.inc
 -inherit setuptools3
-+DESCRIPTION = "Angular-Cookies JavaScript library packaged for setuptools"
-+HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-Cookies"
++DESCRIPTION = "Angular Fileupload packaged for setuptools (easy_install) / pip."
++HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-FileUpload"
 +SECTION = "devel/python"
 +LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=70856f1d03d62a3e0c0cb1b7f8c7fd00"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=e634b82c14383ecefd736caa40ed2222"
 +
-+PYPI_PACKAGE = "XStatic-Angular-Cookies"
++PYPI_PACKAGE = "XStatic-Angular-FileUpload"
 +
-+SRC_URI[md5sum] = "a67066fac5dfe9774ab163d44e5a896a"
-+SRC_URI[sha256sum] = "c8fc1a52549c601809fc9f25144e4fd346820412b6430e89256e7ec71fce0b4c"
++SRC_URI[md5sum] = "1cf48c0204783da2f71efe79039a8468"
++SRC_URI[sha256sum] = "68e66efc4f2ed81438553a54646d5cc67487b05764c0003ff25ae5beb8dae21f"
 +
 +inherit setuptools3 pypi
 +
