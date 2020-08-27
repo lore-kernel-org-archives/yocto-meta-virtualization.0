@@ -1,85 +1,91 @@
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com [209.85.208.65])
- by mx.groups.io with SMTP id smtpd.web10.28531.1598560125448244249
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
+ by mx.groups.io with SMTP id smtpd.web10.28560.1598560206823024234
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 27 Aug 2020 13:28:45 -0700
+ Thu, 27 Aug 2020 13:30:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=jnztCdvl;
- spf=pass (domain: gmail.com, ip: 209.85.208.65, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f65.google.com with SMTP id c10so6083225edk.6
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 27 Aug 2020 13:28:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IIZgFT88;
+ spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f196.google.com with SMTP id u3so7318578qkd.9
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 27 Aug 2020 13:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7n3rG9CDdVrAb7N2R7qKWsnSslkHHpc/vpoe+crOmNM=;
-        b=jnztCdvlNQT62IwXSMS3uCHW8wefBIbPCjh+1TxKJpa26ZW36zyT46c3bUuZWmbYAe
-         7PUXES39OqjhqDdESLqFNXr2i9Mo/Xm0E8be5tmVmMubmuKBdVOiz4d+zKYyUGjpL/j2
-         0U7uRrQ1Rrn+yslyU1AbGnBUfWuNZTK0aB0abg1FRRX6JqJLOxMccLQqMEE/L7egpDk5
-         R8qN7OwY9iUeoZux48UVLOpH888hwwCvu1AjCSO9n6TqZS04udt+0O9m1cEwhLoTE5CQ
-         YD4BY4CnIpWtpZJaMzUr/STkkH8hqOzT31I9pGezptEsK7Ds8pBW4Awr5rShAvbOQ4vX
-         bgwg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=enDQY+MM3HC4yHnNFCTwOzaek6tTR8MXApWtXnXemnU=;
+        b=IIZgFT88EoT+OtRseQScSzssH4YzFKqQh+NO9UL4TEdM6Y8T2Y7eEUvAmdEPudOd9j
+         MpjL0BfeTHf1AHc/y6OzmZt3Yip2SFoI53bYBwe/5lZuHC0Mw9JIc2LA4J9Ro88uqJor
+         aXvheB3yRwdkpEVOx0t30LX7Vi29PEgzbAMhEPB9y20lMCNMKy4jWGBgqM4HBgeOPWDU
+         2sh7SV2u0KwVlRa9QR3woy9c6Fac55e9NEc5oHFiX3OO7vsVjkL0udc8DeZjoorDhSoo
+         of+qsYG0i8dQd0JDIqn2CJVy+diAHSwQ24xZoAvMxwelkmahUkWA1AD3K6/9V3k7fIPB
+         9TzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7n3rG9CDdVrAb7N2R7qKWsnSslkHHpc/vpoe+crOmNM=;
-        b=mZd17ebLcidLDwKle4YFog+/gomQ7GzNxcRVEeSSot+fnYiAUYbAISY7fCg9HmSx7n
-         U5Svf+YApMgbuLPTZjau9eC/0jSxr01GONM/+jwWtohpWKFUubTFUBoa4wFWO+jUwRQj
-         ehkUpLcqT6HF3ZvLIi4eIu71TbmN80LODtMURujE6G9B4qpWs7++u7bspJ2R+ie/EgZr
-         ER16hlYxTWjYNUHMI2tW1oyqm+RwQnb+KFCOQOoA7fZu+O/DQ3/xKCZ9jOVz9F9GQw3o
-         yODU8ULWCJ/gFjYXA1M8nGJ1RC7AcgPDwnV1xSp1TALGU+oN0COjuzgqDI6Lch/K7b+y
-         rAHw==
-X-Gm-Message-State: AOAM532GVmQciaWE4QhlZnhOKlrLYggfl8R/45MFMtul6y+X0/OivLnC
-	Fm+4kNnynXIqA5P3QSuIi0Mm89TCUUSu8y7dCss=
-X-Google-Smtp-Source: ABdhPJwrB7hOOrOf10LPNTyZ2ELK1CU3sFQLg7GzRsIKY8YctrL/trh1zy0XkrdGOOwnSw1I5ZoDDLIlEwdD9PYX91M=
-X-Received: by 2002:aa7:c383:: with SMTP id k3mr20840435edq.164.1598560123737;
- Thu, 27 Aug 2020 13:28:43 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200825225552.780761-1-raj.khem@gmail.com>
-In-Reply-To: <20200825225552.780761-1-raj.khem@gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=enDQY+MM3HC4yHnNFCTwOzaek6tTR8MXApWtXnXemnU=;
+        b=cxbYhSXkSVKH3Oy8EG/4vXikdIzSf2cH0WvD0JatKyNQTFd7PXiOemg2O9jxqBDCOF
+         4jtY98RD1Cj32Q1TcSC1lmzl27DjlRMVLG+K93BE+oj6lYLT+8cjn9L93cIE1NCM9O6G
+         0Ow702c7Yn6M/El2ivp1gYM1Lxpv3FvEy/OHAhGKcNWzFNharBahmyDKaZI1AnMzDQ7+
+         o2LZOdfW2YFqvcrdg0c1ewSueWyhhSOnEalyZVO8LRp6ijdaImXhOBRAIIBzJRpxyNDV
+         CCzWF9cJstV7ijZ0LDvxJibUZ2kL0+dJllBDGNxMkQ9w2P+5bdiwo0HsE6UxJ8LYX5vk
+         aGrQ==
+X-Gm-Message-State: AOAM532j4Zvc20zVeu+lhGWqT7b56WCIQb1Ib2aCRsKUqdY/zQU0U/oD
+	6iiOHLB2F4dX8Q7cdZDCzKs=
+X-Google-Smtp-Source: ABdhPJxlqsSnNwSr88SbjiyQOWLf6zm6ryibdthvKacIwkvnQ3gONxN8mYYcC4+cRGzKDwuz2yfsbg==
+X-Received: by 2002:a37:508:: with SMTP id 8mr19971625qkf.416.1598560205877;
+        Thu, 27 Aug 2020 13:30:05 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id e21sm2565328qkl.88.2020.08.27.13.30.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Aug 2020 13:30:05 -0700 (PDT)
+Date: Thu, 27 Aug 2020 16:30:03 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 27 Aug 2020 16:26:38 -0400
-Message-ID: <CADkTA4M0KgPYcOBL4Uwir3Yp9VyFnHVoEU+U7BBEiH=-HQugfg@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] lxc: Disable warnings as errors
-To: Khem Raj <raj.khem@gmail.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+To: Diego Sueiro <diego.sueiro@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	christopher.w.clark@gmail.com, cardoe@gentoo.org
+Subject: Re: [meta-virtualization][PATCH v2] xen: Fix menuconfig and add support for config fragments and diffconfig
+Message-ID: <20200827203002.GA36814@gmail.com>
+References: <1597398993-36660-1-git-send-email-diego.sueiro@arm.com>
+MIME-Version: 1.0
+In-Reply-To: <1597398993-36660-1-git-send-email-diego.sueiro@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-merged.
+v2 is merged (which is now a 1 patch series, versus the original 2
+patch series).
+
+If I've got that wrong, let me know!
 
 Bruce
 
-On Tue, Aug 25, 2020 at 6:55 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Instead of disabling particular warnings, its better to use configure
-> switch, since some of these warnings could be compiler specific
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  recipes-containers/lxc/lxc_4.0.4.bb | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/recipes-containers/lxc/lxc_4.0.4.bb b/recipes-containers/lxc/lxc_4.0.4.bb
-> index a8f9394..f526ab9 100644
-> --- a/recipes-containers/lxc/lxc_4.0.4.bb
-> +++ b/recipes-containers/lxc/lxc_4.0.4.bb
-> @@ -67,9 +67,7 @@ EXTRA_OECONF += "--with-init-script=\
->  ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'sysvinit,', '', d)}\
->  ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
->
-> -EXTRA_OECONF += "--enable-log-src-basename"
-> -
-> -CFLAGS_append = " -Wno-error=deprecated-declarations -Wno-error=stringop-overflow"
-> +EXTRA_OECONF += "--enable-log-src-basename --disable-werror"
->
->  PACKAGECONFIG ??= "templates \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)} \
+
+In message: [meta-virtualization][PATCH v2] xen: Fix menuconfig and add support for config fragments and diffconfig
+on 14/08/2020 Diego Sueiro wrote:
+
+> Changes in v2:
+>     - Fixed typo in recipes-extended/xen/README
+>     - Removed documentation changes from 0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
+>     - Updated Upstream-Status in 0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
+>     - Call find_cfgs function only once in recipes-extended/xen/xen-hypervisor.inc
+> 
+> Diego Sueiro (1):
+>   xen: Fix menuconfig and add support for config fragments and
+>     diffconfig
+> 
+>  recipes-extended/xen/README                        |  3 ++
+>  ...g-Allow-specification-of-ncurses-location.patch | 49 ++++++++++++++++++++++
+>  recipes-extended/xen/xen-hypervisor.inc            | 49 +++++++++-------------
+>  recipes-extended/xen/xen_4.14.bb                   |  1 +
+>  recipes-extended/xen/xen_git.bb                    |  1 +
+>  5 files changed, 73 insertions(+), 30 deletions(-)
+>  create mode 100644 recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
+> 
 > --
-> 2.28.0
->
+> 2.7.4
+> 
+> IMPORTANT NOTICE: The contents of this email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please notify the sender immediately and do not disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you.
 
+> 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
