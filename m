@@ -1,91 +1,84 @@
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
- by mx.groups.io with SMTP id smtpd.web10.28560.1598560206823024234
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.2651.1598661167059995700
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 27 Aug 2020 13:30:07 -0700
+ Fri, 28 Aug 2020 17:32:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=IIZgFT88;
- spf=pass (domain: gmail.com, ip: 209.85.222.196, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f196.google.com with SMTP id u3so7318578qkd.9
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 27 Aug 2020 13:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=enDQY+MM3HC4yHnNFCTwOzaek6tTR8MXApWtXnXemnU=;
-        b=IIZgFT88EoT+OtRseQScSzssH4YzFKqQh+NO9UL4TEdM6Y8T2Y7eEUvAmdEPudOd9j
-         MpjL0BfeTHf1AHc/y6OzmZt3Yip2SFoI53bYBwe/5lZuHC0Mw9JIc2LA4J9Ro88uqJor
-         aXvheB3yRwdkpEVOx0t30LX7Vi29PEgzbAMhEPB9y20lMCNMKy4jWGBgqM4HBgeOPWDU
-         2sh7SV2u0KwVlRa9QR3woy9c6Fac55e9NEc5oHFiX3OO7vsVjkL0udc8DeZjoorDhSoo
-         of+qsYG0i8dQd0JDIqn2CJVy+diAHSwQ24xZoAvMxwelkmahUkWA1AD3K6/9V3k7fIPB
-         9TzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=enDQY+MM3HC4yHnNFCTwOzaek6tTR8MXApWtXnXemnU=;
-        b=cxbYhSXkSVKH3Oy8EG/4vXikdIzSf2cH0WvD0JatKyNQTFd7PXiOemg2O9jxqBDCOF
-         4jtY98RD1Cj32Q1TcSC1lmzl27DjlRMVLG+K93BE+oj6lYLT+8cjn9L93cIE1NCM9O6G
-         0Ow702c7Yn6M/El2ivp1gYM1Lxpv3FvEy/OHAhGKcNWzFNharBahmyDKaZI1AnMzDQ7+
-         o2LZOdfW2YFqvcrdg0c1ewSueWyhhSOnEalyZVO8LRp6ijdaImXhOBRAIIBzJRpxyNDV
-         CCzWF9cJstV7ijZ0LDvxJibUZ2kL0+dJllBDGNxMkQ9w2P+5bdiwo0HsE6UxJ8LYX5vk
-         aGrQ==
-X-Gm-Message-State: AOAM532j4Zvc20zVeu+lhGWqT7b56WCIQb1Ib2aCRsKUqdY/zQU0U/oD
-	6iiOHLB2F4dX8Q7cdZDCzKs=
-X-Google-Smtp-Source: ABdhPJxlqsSnNwSr88SbjiyQOWLf6zm6ryibdthvKacIwkvnQ3gONxN8mYYcC4+cRGzKDwuz2yfsbg==
-X-Received: by 2002:a37:508:: with SMTP id 8mr19971625qkf.416.1598560205877;
-        Thu, 27 Aug 2020 13:30:05 -0700 (PDT)
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id e21sm2565328qkl.88.2020.08.27.13.30.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2020 13:30:05 -0700 (PDT)
-Date: Thu, 27 Aug 2020 16:30:03 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org,
-	christopher.w.clark@gmail.com, cardoe@gentoo.org
-Subject: Re: [meta-virtualization][PATCH v2] xen: Fix menuconfig and add support for config fragments and diffconfig
-Message-ID: <20200827203002.GA36814@gmail.com>
-References: <1597398993-36660-1-git-send-email-diego.sueiro@arm.com>
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: ssajal@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 07T0WFhX030959
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Fri, 28 Aug 2020 17:32:36 -0700
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.50) with Microsoft SMTP Server id 14.3.487.0; Fri, 28 Aug 2020
+ 17:32:06 -0700
+Received: by yow-lpggp3.wrs.com (Postfix, from userid 20885)	id 220DF20035;
+ Fri, 28 Aug 2020 20:32:06 -0400 (EDT)
+From: sakib.sajal@windriver.com
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][PATCH] ceph: add missing include for atomic<bool>
+Date: Fri, 28 Aug 2020 20:31:58 -0400
+Message-ID: <20200829003158.3798-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <1597398993-36660-1-git-send-email-diego.sueiro@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-v2 is merged (which is now a 1 patch series, versus the original 2
-patch series).
+ceph do_compile failed with error:
+src/tools/rbd/action/Bench.cc:20:26: error: aggregate 'std::atomic<bool>
+terminating' has incomplete type and cannot be defined
 
-If I've got that wrong, let me know!
+Add missing include to fix it.
 
-Bruce
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+---
+ ...-add-missing-include-for-atomic-bool.patch | 25 +++++++++++++++++++
+ recipes-extended/ceph/ceph_15.2.0.bb          |  1 +
+ 2 files changed, 26 insertions(+)
+ create mode 100644 recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch
 
-
-In message: [meta-virtualization][PATCH v2] xen: Fix menuconfig and add support for config fragments and diffconfig
-on 14/08/2020 Diego Sueiro wrote:
-
-> Changes in v2:
->     - Fixed typo in recipes-extended/xen/README
->     - Removed documentation changes from 0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
->     - Updated Upstream-Status in 0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
->     - Call find_cfgs function only once in recipes-extended/xen/xen-hypervisor.inc
-> 
-> Diego Sueiro (1):
->   xen: Fix menuconfig and add support for config fragments and
->     diffconfig
-> 
->  recipes-extended/xen/README                        |  3 ++
->  ...g-Allow-specification-of-ncurses-location.patch | 49 ++++++++++++++++++++++
->  recipes-extended/xen/xen-hypervisor.inc            | 49 +++++++++-------------
->  recipes-extended/xen/xen_4.14.bb                   |  1 +
->  recipes-extended/xen/xen_git.bb                    |  1 +
->  5 files changed, 73 insertions(+), 30 deletions(-)
->  create mode 100644 recipes-extended/xen/files/0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-location.patch
-> 
-> --
-> 2.7.4
-> 
-> IMPORTANT NOTICE: The contents of this email and any attachments are confidential and may also be privileged. If you are not the intended recipient, please notify the sender immediately and do not disclose the contents to any other person, use it for any purpose, or store or copy the information in any medium. Thank you.
-
-> 
+diff --git a/recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch b/recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch
+new file mode 100644
+index 0000000..ffcbc58
+--- /dev/null
++++ b/recipes-extended/ceph/ceph/0001-add-missing-include-for-atomic-bool.patch
+@@ -0,0 +1,25 @@
++From 502be73be3c3645094525aa552f5e53d8782a004 Mon Sep 17 00:00:00 2001
++From: Sakib Sajal <sakib.sajal@windriver.com>
++Date: Fri, 28 Aug 2020 19:36:19 -0400
++Subject: [PATCH] add missing include for atomic<bool>
++
++Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
++---
++ src/tools/rbd/action/Bench.cc | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/tools/rbd/action/Bench.cc b/src/tools/rbd/action/Bench.cc
++index aa6edbc1..90c551c1 100644
++--- a/src/tools/rbd/action/Bench.cc
+++++ b/src/tools/rbd/action/Bench.cc
++@@ -9,6 +9,7 @@
++ #include "common/ceph_mutex.h"
++ #include "include/types.h"
++ #include "global/signal_handler.h"
+++#include <atomic>
++ #include <iostream>
++ #include <boost/accumulators/accumulators.hpp>
++ #include <boost/accumulators/statistics/stats.hpp>
++-- 
++2.27.0
++
+diff --git a/recipes-extended/ceph/ceph_15.2.0.bb b/recipes-extended/ceph/ceph_15.2.0.bb
+index 223a74e..bdc794f 100644
+--- a/recipes-extended/ceph/ceph_15.2.0.bb
++++ b/recipes-extended/ceph/ceph_15.2.0.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+            file://0001-mgr-require-all-caps-for-pre-octopus-tell-commands.patch \ 
+            file://0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch \
+            file://0003-PendingReleaseNotes-note-about-security-fix.patch \
++           file://0001-add-missing-include-for-atomic-bool.patch \
+ "
+ 
+ SRC_URI[md5sum] = "1f9af648b4c6d19975aab2583ab99710"
+-- 
+2.26.2
 
