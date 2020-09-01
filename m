@@ -1,143 +1,157 @@
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org [140.211.169.56])
- by mx.groups.io with SMTP id smtpd.web10.5145.1598930660035660250
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web10.6448.1598938014556195836
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 31 Aug 2020 20:24:20 -0700
+ Mon, 31 Aug 2020 22:26:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 140.211.169.56, mailfrom: zangrc.fnst@cn.fujitsu.com)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 99F1FE020F0; Mon, 31 Aug 2020 20:24:19 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED
-	autolearn=ham version=3.3.1
-X-Spam-HAM-Report: 
-	* -2.3 RCVD_IN_DNSWL_MED RBL: Sender listed at https://www.dnswl.org/,
-	*      medium trust
-	*      [183.91.158.132 listed in list.dnswl.org]
-	* -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 222D6E020EE
-	for <meta-virtualization@yoctoproject.org>; Mon, 31 Aug 2020 20:24:09 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.76,377,1592841600"; 
-   d="scan'208";a="98757272"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 01 Sep 2020 11:24:07 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 3DFDC48990D9
-	for <meta-virtualization@yoctoproject.org>; Tue,  1 Sep 2020 11:24:07 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 1 Sep 2020 11:24:06 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH 2/2] python3-cursive: Change to python3
-Date: Tue, 1 Sep 2020 11:23:58 +0800
-Message-ID: <1598930638-79311-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0815QX2o015356
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
+	for <meta-virtualization@lists.yoctoproject.org>; Mon, 31 Aug 2020 22:26:43 -0700
+Received: from ala-lpggp7.wrs.com (147.11.105.171) by ALA-HCA.corp.ad.wrs.com
+ (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Mon, 31 Aug 2020
+ 22:26:22 -0700
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>
+Subject: [meta-virtualization][m-c-s][PATCH] glusterfs: backport patch to fix failure for gcc-10
+Date: Mon, 31 Aug 2020 22:26:22 -0700
+Message-ID: <20200901052622.98891-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 3DFDC48990D9.A5FF3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Because python2 is no longer maintained, bb file is changed to python3
-version.
-
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- .../python/python-cursive_git.bb              | 37 -------------------
- .../python/python3-cursive_0.2.2.bb           | 31 ++++++++++++++++
- 2 files changed, 31 insertions(+), 37 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-cursive_git.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python3-cursive_0.2.2.bb
+ ...fns-of-cli_default_conn_timeout-and-.patch | 106 ++++++++++++++++++
+ recipes-extended/glusterfs/glusterfs.inc      |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch
 
-diff --git a/meta-openstack/recipes-devtools/python/python-cursive_git.bb b/meta-openstack/recipes-devtools/python/python-cursive_git.bb
-deleted file mode 100644
-index ce82998..0000000
---- a/meta-openstack/recipes-devtools/python/python-cursive_git.bb
-+++ /dev/null
-@@ -1,37 +0,0 @@
--DESCRIPTION = "Library for validation of digital signatures."
--HOMEPAGE = "https://github.com/openstack/cursive"
--SECTION = "devel/python"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
--
--SRC_URI = "\
--	git://git.openstack.org/openstack/cursive.git;branch=master \
--	"
--
--PV="0.2.0+git${SRCPV}"
--SRCREV="ad25a4016c56eeceb85764c7ac4501def2b5445a"
--S = "${WORKDIR}/git"
--
--inherit setuptools3
--
--DEPENDS += " \
--        python-pbr \
--        "
--
--# Satisfy setup.py 'setup_requires'
--DEPENDS += " \
--        python-pbr-native \
--        "
--
--RDEPENDS_${PN} += " \
--        python-pbr \
--        python-lxml \
--        python-cryptography \
--        python-netifaces \
--        python-six \
--        python-oslo.serialization \
--        python-oslo.utils \
--        python-oslo.i18n \
--        python-oslo.log \
--        python-castellan \
--        "
-diff --git a/meta-openstack/recipes-devtools/python/python3-cursive_0.2.2.bb b/meta-openstack/recipes-devtools/python/python3-cursive_0.2.2.bb
+diff --git a/recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch b/recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch
 new file mode 100644
-index 0000000..770acdc
+index 00000000..79a55b33
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-cursive_0.2.2.bb
-@@ -0,0 +1,31 @@
-+DESCRIPTION = "Library for validation of digital signatures."
-+HOMEPAGE = "https://github.com/openstack/cursive"
-+SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
++++ b/recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch
+@@ -0,0 +1,106 @@
++From f66bd85af09397300ad434655fc68861f48c2e3c Mon Sep 17 00:00:00 2001
++From: "Kaleb S. KEITHLEY" <kkeithle@redhat.com>
++Date: Thu, 2 Jan 2020 07:46:23 -0500
++Subject: [PATCH] cli: duplicate defns of cli_default_conn_timeout and
++ cli_ten_minutes_timeout
 +
-+inherit setuptools3 pypi
++Winter is coming. So is gcc-10.
 +
-+SRC_URI[sha256sum] = "fbdc2b088bf0b9a69b1897d726e6027e8fba8f21f0a881344f70e7a407d9abda"
++Compiling with gcc-10-20191219 snapshot reveals dupe defns of
++cli_default_conn_timeout and cli_ten_minutes_timeout in
++.../cli/src/cli.[ch] due to missing extern decl.
 +
-+DEPENDS += " \
-+        python3-pbr \
-+        "
++There are many changes coming in gcc-10 described in
++https://gcc.gnu.org/gcc-10/changes.html
 +
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        python3-pbr-native \
-+        "
++compiling cli.c with gcc-9 we see:
++   ...
++        .quad   .LC88
++        .comm   cli_ten_minutes_timeout,4,4
++        .comm   cli_default_conn_timeout,4,4
++        .text
++   .Letext0:
++   ...
 +
-+RDEPENDS_${PN} += " \
-+        python3-pbr \
-+        python3-lxml \
-+        python3-cryptography \
-+        python3-netifaces \
-+        python3-six \
-+        python3-oslo.serialization \
-+        python3-oslo.utils \
-+        python3-oslo.i18n \
-+        python3-oslo.log \
-+        python3-castellan \
-+        "
++and with gcc-10:
++   ...
++        .quad   .LC88
++        .globl  cli_ten_minutes_timeout
++        .bss
++        .align 4
++        .type   cli_ten_minutes_timeout, @object
++        .size   cli_ten_minutes_timeout, 4
++   cli_ten_minutes_timeout:
++        .zero   4
++        .globl  cli_default_conn_timeout
++        .align 4
++        .type   cli_default_conn_timeout, @object
++        .size   cli_default_conn_timeout, 4
++   cli_default_conn_timeout:
++        .zero   4
++        .text
++   .Letext0:
++   ...
++
++which is reflected in the .o file as (gcc-9):
++...
++0000000000000004 C cli_ten_minutes_timeout
++0000000000000004 C cli_default_conn_timeout
++...
++
++and (gcc-10):
++...
++0000000000000020 B cli_ten_minutes_timeout
++0000000000000024 B cli_default_conn_timeout
++...
++
++See nm(1) and ld(1) for a description C (common) and B (BSS) and how
++they are treated by the linker.
++
++Note: there is still a small chance that gcc-10 will land in Fedora-32,
++despite 31 Dec. 2019 having been the deadline for that to happen.
++
++Change-Id: I54ea485736a4910254eeb21222ad263721cdef3c
++Fixes: bz#1193929
++Signed-off-by: Kaleb S. KEITHLEY <kkeithle@redhat.com>
++
++Upstream-Status: Backport [https://review.gluster.org/#/c/glusterfs/+/23956/]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ cli/src/cli.c | 3 +++
++ cli/src/cli.h | 4 ++--
++ 2 files changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/cli/src/cli.c b/cli/src/cli.c
++index cb425c84b..2c96b7ae6 100644
++--- a/cli/src/cli.c
+++++ b/cli/src/cli.c
++@@ -84,6 +84,9 @@ rpc_clnt_prog_t *cli_rpc_prog;
++ 
++ extern struct rpc_clnt_program cli_prog;
++ 
+++int cli_default_conn_timeout = 120;
+++int cli_ten_minutes_timeout = 600;
+++
++ static int
++ glusterfs_ctx_defaults_init(glusterfs_ctx_t *ctx)
++ {
++diff --git a/cli/src/cli.h b/cli/src/cli.h
++index 81f75a0b4..cd4db3dac 100644
++--- a/cli/src/cli.h
+++++ b/cli/src/cli.h
++@@ -40,8 +40,8 @@ enum argp_option_keys {
++     ARGP_PORT_KEY = 'p',
++ };
++ 
++-int cli_default_conn_timeout;
++-int cli_ten_minutes_timeout;
+++extern int cli_default_conn_timeout;
+++extern int cli_ten_minutes_timeout;
++ 
++ typedef enum {
++     COLD_BRICK_COUNT,
++-- 
++2.21.0
++
+diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
+index c209baa6..91fc1c61 100644
+--- a/recipes-extended/glusterfs/glusterfs.inc
++++ b/recipes-extended/glusterfs/glusterfs.inc
+@@ -19,6 +19,7 @@ SRC_URI += "file://glusterd.init \
+             file://libglusterfs-Don-t-link-against-libfl.patch \
+             file://glusterd-change-port-range.patch \
+             file://configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch \
++            file://0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch \
+            "
+ 
+ LICENSE = "(LGPLv3+ | GPLv2) & GPLv3+ & LGPLv3+ & GPLv2+ & LGPLv2+ & LGPLv2.1+ & Apache-2.0"
 -- 
-2.25.1
-
-
+2.21.0
 
