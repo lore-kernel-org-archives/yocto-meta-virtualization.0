@@ -1,150 +1,198 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web11.17728.1599078698819768166
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web11.17752.1599078759031763848
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 02 Sep 2020 13:31:39 -0700
+ Wed, 02 Sep 2020 13:32:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ZLC2jxDX;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id d26so607490ejr.1
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Sep 2020 13:31:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=HlPLUz0s;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id e7so209678qtj.11
+        for <meta-virtualization@lists.yoctoproject.org>; Wed, 02 Sep 2020 13:32:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=f3uqD5jIfV32fpb2eMJJh7npyOwmSXkE5dSB5ZC4T6Q=;
-        b=ZLC2jxDXkXuwdDYrEXcc2iZiRGQ7vEAUdlNDslX3Cau75hxnYjeMpYJfGEYi3Cafn8
-         8m2dRMdoVm/L6OYyQcnMD6B1suofdzqEMa9c6QYbkihL2cpInaKMXy6qjSdl0nHhAdxt
-         OYfX5+dm7tZ7bJtq2QL+I5l8/ZLRbBH1A7ZSgqwoGCbosgvbcFmlMstKtJNvChC3XeXp
-         ZtoOCLKMSt6LD5RdJsJZCCybgaCVxENFVKljP0bn1B0Oi1NWxaLSPHa3zF0vr0WtUJ/x
-         s7M5SkseSNs3zkyc15/697sa6Y1K7kho++uru0cHIS4fd2Pg5jDy6GBJq+H1ej68eAiL
-         GkEg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=hgeYsIUF19AlrUZM4tz5tvzSa3fcrzPHpvbrzZVGppU=;
+        b=HlPLUz0sDfKVThaMaz1c3vYj0KcyNBMb6JG3CUwpLL3+4cIzjWr0FtS15GO4Zecq7K
+         mYNOX2ItYFMPdlgI2Luipvt1jGXGj+HDdoec4X9eJv5SHGPx0naCCikiwxe4M71KE472
+         HCrj7uft86wp4VtZwxckxDY/EbtJctjmfr4d0jbxZceGW+b6aLllKAUgI9gBRkR+xi6I
+         XndfB1Yy3idy2LvQla9m9jMaT14mkms2rL5CBaq4BLycjZJqsLHrCCMc3CLK4OvY/iF+
+         o0Sld0yPUWFLkdYbYgXwhHnJPrdviWDH+WPIZo/9erZ4GszECMymH5t5ny62420hEQyE
+         xmxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=f3uqD5jIfV32fpb2eMJJh7npyOwmSXkE5dSB5ZC4T6Q=;
-        b=M/axyPfZ6AVmEgyvAbwTH1kB3ab0Ahp8BSFLLGBIvEIKDDIRrczo5MhVNrND2h/G0B
-         ir40b1nB53LKgf2g97X4VRZ99mEGpxWbe5BmqQJNzp5lzYmscnaHD6bMxcdLNMGJicNL
-         W05/+mjkoMQ5/8HMQyz9yFQ64wEiJker0uwtHK2Y78ax+Af3PremxAsQtUl2EYAxPD6e
-         EGVVeDjwSOnaDVQ3x6Xxg2HAlpL4k/d6tWEBiNhuWlrGJSUl9GcBI8/hzJS4VTOOzPEP
-         9T+9g5rvTaLJLB4Pn+TJPARwMNv5EPzMRluVvYbYMFVWCM8fXF6qhT7qnKAGddQTEsc2
-         8ahA==
-X-Gm-Message-State: AOAM532uO3BhA5KWMQc/CaU8SWk7IJ4maDu9651iyGoIaF1xBhpquZei
-	jE/yqTInDmqV/eZsekS9ULKQ0dg4BRRHJjUrshI=
-X-Google-Smtp-Source: ABdhPJwxLO3A+URJr8Na6+ayUHvg94lv2o4TdBiG1MmMM3IMK6lvjoTCWV2uc9AXcyaikgi9CPvdzhmAaNQRgjtnLxA=
-X-Received: by 2002:a17:906:19c7:: with SMTP id h7mr1771982ejd.517.1599078697263;
- Wed, 02 Sep 2020 13:31:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200901062947.6835-1-Qi.Chen@windriver.com>
-In-Reply-To: <20200901062947.6835-1-Qi.Chen@windriver.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=hgeYsIUF19AlrUZM4tz5tvzSa3fcrzPHpvbrzZVGppU=;
+        b=EPM3hc12F1LQ+rYJ3RnEWOURm7LPgWt73I/Eogzg8CMH5c7XaS3sZxr21WrRHLPD1Y
+         kBL14dsBOTsYNwkMR/unkPwDtqUmXzVZXP+VxDFvJh7wnThQNGBMXY4q+9hvkA+LmA4q
+         8cd+DINUpjcIr8b2xYL9iuYt6Bdl1bhSknISfruCdQXCPvqD/T+cAFABjW7WFprLkXJC
+         TiWK785NskbfV1zY/IaixeBV+wN97xzCWGPsF62i166w/rEUdS9Qq9TQW6tDS1xHWVbW
+         pUUbcXGpmDMlEo8djlsdQLl8uU0sUtZLKAi7+q/j2BgMjsvbrmUMv1kepiwBcMDsYEXg
+         M8Fw==
+X-Gm-Message-State: AOAM5307CToZQrZRQYhGmu7nh36MrAFhoDL0X5V0tEHYQ45ywAVpWotL
+	PPDA2uL7FINK/qbyBN/ysY5u22cOV41JQQ==
+X-Google-Smtp-Source: ABdhPJwQ2QGYSKms8YCMxT7l7XR+JjsmyQxaq499qt1zJDFeJRWwa5og1XqDKQAWkEvydmp7JATHRQ==
+X-Received: by 2002:ac8:6c5d:: with SMTP id z29mr36804qtu.244.1599078758084;
+        Wed, 02 Sep 2020 13:32:38 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id v185sm598060qki.128.2020.09.02.13.32.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2020 13:32:37 -0700 (PDT)
+Date: Wed, 2 Sep 2020 16:32:35 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Wed, 2 Sep 2020 16:29:43 -0400
-Message-ID: <CADkTA4Ps421g67VOco8VwOBg3e4Tv-tvLm6sc+9iERDp3jAoiw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] nagios-core: fix build failure for gcc-10
 To: Chen Qi <Qi.Chen@windriver.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="000000000000b7e4ff05ae5a8583"
-
---000000000000b7e4ff05ae5a8583
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [meta-virtualization][m-c-s][PATCH] glusterfs: backport patch to fix failure for gcc-10
+Message-ID: <20200902203232.GA18324@gmail.com>
+References: <20200901052622.98891-1-Qi.Chen@windriver.com>
+MIME-Version: 1.0
+In-Reply-To: <20200901052622.98891-1-Qi.Chen@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
 merged
 
 Bruce
 
-On Tue, Sep 1, 2020 at 2:29 AM Chen Qi <Qi.Chen@windriver.com> wrote:
+In message: [meta-virtualization][m-c-s][PATCH] glusterfs: backport patch to fix failure for gcc-10
+on 31/08/2020 Chen Qi wrote:
 
-> gcc-10 uses '-fno-common' by default, which results in build
-> error complaining multiple definition.
->
-> Use '-fcommon' to fix this problem.
->
 > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 > ---
->  recipes-extended/nagios/nagios-core_4.4.3.bb | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/recipes-extended/nagios/nagios-core_4.4.3.bb
-> b/recipes-extended/nagios/nagios-core_4.4.3.bb
-> index 7a86653..c78259e 100644
-> --- a/recipes-extended/nagios/nagios-core_4.4.3.bb
-> +++ b/recipes-extended/nagios/nagios-core_4.4.3.bb
-> @@ -62,6 +62,9 @@ EXTRA_OECONF += "ac_cv_header_ltdl_h=no"
->  # Prevent nagios from suffering host contamination if host has /bin/perl
->  EXTRA_OECONF += "ac_cv_path_PERL=${bindir}/perl"
->
-> +# Fix build failure for gcc-10
-> +CFLAGS_append = " -fcommon"
-> +
->  # Set to "1" to allow nagios-core post-init to modify Apache configuration
->  NAGIOS_MODIFY_APACHE ??= "1"
->
-> --
-> 2.21.0
->
+>  ...fns-of-cli_default_conn_timeout-and-.patch | 106 ++++++++++++++++++
+>  recipes-extended/glusterfs/glusterfs.inc      |   1 +
+>  2 files changed, 107 insertions(+)
+>  create mode 100644 recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch
 > 
->
+> diff --git a/recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch b/recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch
+> new file mode 100644
+> index 00000000..79a55b33
+> --- /dev/null
+> +++ b/recipes-extended/glusterfs/files/0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch
+> @@ -0,0 +1,106 @@
+> +From f66bd85af09397300ad434655fc68861f48c2e3c Mon Sep 17 00:00:00 2001
+> +From: "Kaleb S. KEITHLEY" <kkeithle@redhat.com>
+> +Date: Thu, 2 Jan 2020 07:46:23 -0500
+> +Subject: [PATCH] cli: duplicate defns of cli_default_conn_timeout and
+> + cli_ten_minutes_timeout
+> +
+> +Winter is coming. So is gcc-10.
+> +
+> +Compiling with gcc-10-20191219 snapshot reveals dupe defns of
+> +cli_default_conn_timeout and cli_ten_minutes_timeout in
+> +.../cli/src/cli.[ch] due to missing extern decl.
+> +
+> +There are many changes coming in gcc-10 described in
+> +https://gcc.gnu.org/gcc-10/changes.html
+> +
+> +compiling cli.c with gcc-9 we see:
+> +   ...
+> +        .quad   .LC88
+> +        .comm   cli_ten_minutes_timeout,4,4
+> +        .comm   cli_default_conn_timeout,4,4
+> +        .text
+> +   .Letext0:
+> +   ...
+> +
+> +and with gcc-10:
+> +   ...
+> +        .quad   .LC88
+> +        .globl  cli_ten_minutes_timeout
+> +        .bss
+> +        .align 4
+> +        .type   cli_ten_minutes_timeout, @object
+> +        .size   cli_ten_minutes_timeout, 4
+> +   cli_ten_minutes_timeout:
+> +        .zero   4
+> +        .globl  cli_default_conn_timeout
+> +        .align 4
+> +        .type   cli_default_conn_timeout, @object
+> +        .size   cli_default_conn_timeout, 4
+> +   cli_default_conn_timeout:
+> +        .zero   4
+> +        .text
+> +   .Letext0:
+> +   ...
+> +
+> +which is reflected in the .o file as (gcc-9):
+> +...
+> +0000000000000004 C cli_ten_minutes_timeout
+> +0000000000000004 C cli_default_conn_timeout
+> +...
+> +
+> +and (gcc-10):
+> +...
+> +0000000000000020 B cli_ten_minutes_timeout
+> +0000000000000024 B cli_default_conn_timeout
+> +...
+> +
+> +See nm(1) and ld(1) for a description C (common) and B (BSS) and how
+> +they are treated by the linker.
+> +
+> +Note: there is still a small chance that gcc-10 will land in Fedora-32,
+> +despite 31 Dec. 2019 having been the deadline for that to happen.
+> +
+> +Change-Id: I54ea485736a4910254eeb21222ad263721cdef3c
+> +Fixes: bz#1193929
+> +Signed-off-by: Kaleb S. KEITHLEY <kkeithle@redhat.com>
+> +
+> +Upstream-Status: Backport [https://review.gluster.org/#/c/glusterfs/+/23956/]
+> +
+> +Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> +---
+> + cli/src/cli.c | 3 +++
+> + cli/src/cli.h | 4 ++--
+> + 2 files changed, 5 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/cli/src/cli.c b/cli/src/cli.c
+> +index cb425c84b..2c96b7ae6 100644
+> +--- a/cli/src/cli.c
+> ++++ b/cli/src/cli.c
+> +@@ -84,6 +84,9 @@ rpc_clnt_prog_t *cli_rpc_prog;
+> + 
+> + extern struct rpc_clnt_program cli_prog;
+> + 
+> ++int cli_default_conn_timeout = 120;
+> ++int cli_ten_minutes_timeout = 600;
+> ++
+> + static int
+> + glusterfs_ctx_defaults_init(glusterfs_ctx_t *ctx)
+> + {
+> +diff --git a/cli/src/cli.h b/cli/src/cli.h
+> +index 81f75a0b4..cd4db3dac 100644
+> +--- a/cli/src/cli.h
+> ++++ b/cli/src/cli.h
+> +@@ -40,8 +40,8 @@ enum argp_option_keys {
+> +     ARGP_PORT_KEY = 'p',
+> + };
+> + 
+> +-int cli_default_conn_timeout;
+> +-int cli_ten_minutes_timeout;
+> ++extern int cli_default_conn_timeout;
+> ++extern int cli_ten_minutes_timeout;
+> + 
+> + typedef enum {
+> +     COLD_BRICK_COUNT,
+> +-- 
+> +2.21.0
+> +
+> diff --git a/recipes-extended/glusterfs/glusterfs.inc b/recipes-extended/glusterfs/glusterfs.inc
+> index c209baa6..91fc1c61 100644
+> --- a/recipes-extended/glusterfs/glusterfs.inc
+> +++ b/recipes-extended/glusterfs/glusterfs.inc
+> @@ -19,6 +19,7 @@ SRC_URI += "file://glusterd.init \
+>              file://libglusterfs-Don-t-link-against-libfl.patch \
+>              file://glusterd-change-port-range.patch \
+>              file://configure.ac-allow-PYTHON-values-to-be-passed-via-en.patch \
+> +            file://0001-cli-duplicate-defns-of-cli_default_conn_timeout-and-.patch \
+>             "
+>  
+>  LICENSE = "(LGPLv3+ | GPLv2) & GPLv3+ & LGPLv3+ & GPLv2+ & LGPLv2+ & LGPLv2.1+ & Apache-2.0"
+> -- 
+> 2.21.0
+> 
 
+> 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---000000000000b7e4ff05ae5a8583
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">mer=
-ged</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><=
-div class=3D"gmail_default" style=3D"font-size:small">Bruce</div></div><br>=
-<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Se=
-p 1, 2020 at 2:29 AM Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com">Q=
-i.Chen@windriver.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">gcc-10 uses &#39;-fno-common&#39; by default, which res=
-ults in build<br>
-error complaining multiple definition.<br>
-<br>
-Use &#39;-fcommon&#39; to fix this problem.<br>
-<br>
-Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.com" target=
-=
-=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
----<br>
-=C2=A0recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a> | 3 +++<br>
-=C2=A01 file changed, 3 insertions(+)<br>
-<br>
-diff --git a/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.b=
-b" rel=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a> b/recipes-=
-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=3D"noreferrer" =
-target=3D"_blank">nagios-core_4.4.3.bb</a><br>
-index 7a86653..c78259e 100644<br>
---- a/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a><br>
-+++ b/recipes-extended/nagios/<a href=3D"http://nagios-core_4.4.3.bb" rel=
-=3D"noreferrer" target=3D"_blank">nagios-core_4.4.3.bb</a><br>
-@@ -62,6 +62,9 @@ EXTRA_OECONF +=3D &quot;ac_cv_header_ltdl_h=3Dno&quot;<b=
-r>
-=C2=A0# Prevent nagios from suffering host contamination if host has /bin/=
-perl<br>
-=C2=A0EXTRA_OECONF +=3D &quot;ac_cv_path_PERL=3D${bindir}/perl&quot;<br>
-<br>
-+# Fix build failure for gcc-10<br>
-+CFLAGS_append =3D &quot; -fcommon&quot;<br>
-+<br>
-=C2=A0# Set to &quot;1&quot; to allow nagios-core post-init to modify Apac=
-he configuration<br>
-=C2=A0NAGIOS_MODIFY_APACHE ??=3D &quot;1&quot;<br>
-<br>
--- <br>
-2.21.0<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div>
-
---000000000000b7e4ff05ae5a8583--
