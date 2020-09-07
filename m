@@ -1,168 +1,56 @@
-Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
- by mx.groups.io with SMTP id smtpd.web12.35113.1599455875883211327
+Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
+ by mx.groups.io with SMTP id smtpd.web10.40597.1599483679382266153
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 06 Sep 2020 22:17:56 -0700
+ Mon, 07 Sep 2020 06:01:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: qi.chen@windriver.com)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 0875HYdR001383
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Sun, 6 Sep 2020 22:17:45 -0700
-Received: from ala-lpggp7.wrs.com (147.11.105.171) by ALA-HCA.corp.ad.wrs.com
- (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Sun, 6 Sep 2020
- 22:17:23 -0700
-From: "Chen Qi" <Qi.Chen@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][m-c-s][PATCH] dhcp: remove bbappend file
-Date: Sun, 6 Sep 2020 22:17:23 -0700
-Message-ID: <20200907051723.80278-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.21.0
+ dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=TBXVFRYy;
+ spf=none, err=SPF record not found (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: yocto@optimcloud.com)
+Received: from mx02.optimcloud.com (localhost [127.0.0.1])
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 570d30a6
+	for <meta-virtualization@lists.yoctoproject.org>;
+	Mon, 7 Sep 2020 15:01:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=to
+	:from:subject:message-id:date:mime-version:content-type
+	:content-transfer-encoding; s=obsd; bh=Ivq3jqyPELSfHs+vmP0hQlU05
+	I2DXLRdOVskDNcymXo=; b=TBXVFRYyW/rgyNaaUe4QtVRTLvKMTLsrBf0QCiuT8
+	7rOrZ8PVFFdOBW1k1dQaYywVc4rzMxS+VulSULd4ScALwdFdFzaj5d2CIvCymXie
+	zfT6L36JOD0fsHZt9YoDf+DQZBsxtow65C3OoB2x36Sr8QimBzkQyIztYAcWwa2X
+	Jws+Z+urHmVxDzjPybfkN0NMYbb8qEkErRfuqyQT3ecZcQF6Mue96ckubllXg5JS
+	TjGVdfr7DoHieBqDiySlBppB+IFLn7y0aNO+bPPoMM+WVZRrFUpjCAP4dXlNludD
+	QTWwFKFxvarftl194W7Mxnt0U/AZI/taNiedVDbThliZQ==
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=to:from
+	:subject:message-id:date:mime-version:content-type
+	:content-transfer-encoding; q=dns; s=obsd; b=LagfN0NuuKiLnyYmdaF
+	NAuIPCiXJX0Op0Z52fXe+316dwpBC7MrnA10QuS7gB4S82CM1wXlWsATLnR2Xsjj
+	DsJcpdaPDJwxs9deJNybLHUKXazoXC3FP61BO2Y3uhZ2YhAwA6rM3gf4TdUylc+n
+	I/G71c8JDpjgKNqo8xjxe/L20e/dGb8pjV+YFm6oQdgdCKpBQwyd84hAJj+0JDVw
+	f4iZHJPmbU/StqQ4rdJ8Tw3+MTWmIIhjAydlRUBdS4hH1nSLpFZ8clSRMSr7HfIK
+	Y4vNYV7K5a/GNp7663QrhVH1WnspJOr8+FZUZdg/R2Ov00ymf1IoBiBad7W3jXdn
+	lrg==
+Received: 
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 29ddf63a (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
+	for <meta-virtualization@lists.yoctoproject.org>;
+	Mon, 7 Sep 2020 15:01:15 +0200 (CEST)
+To: meta-virtualization@lists.yoctoproject.org
+From: "Yocto" <yocto@optimcloud.com>
+Subject: podman & docker conflict
+Message-ID: <23410e55-5b13-fd4c-7c0f-5f013af8132f@optimcloud.com>
+Date: Mon, 7 Sep 2020 20:00:05 +0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.11.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-dhcp has been removed, thus removing its bbappend file.
+seems that trying to build podman and docker in the same image creates 
+an install conflict.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- recipes-connectivity/dhcp/dhcp_%.bbappend     |  1 -
- .../dhcp/dhcp_virtualization.inc              | 16 ----
- .../dhcp/files/dhclient-exit-hooks            | 95 -------------------
- 3 files changed, 112 deletions(-)
- delete mode 100644 recipes-connectivity/dhcp/dhcp_%.bbappend
- delete mode 100644 recipes-connectivity/dhcp/dhcp_virtualization.inc
- delete mode 100644 recipes-connectivity/dhcp/files/dhclient-exit-hooks
+anyway to get around this, and i know there are those of you asking why 
+both?
 
-diff --git a/recipes-connectivity/dhcp/dhcp_%.bbappend b/recipes-connectivity/dhcp/dhcp_%.bbappend
-deleted file mode 100644
-index 617caccb..00000000
---- a/recipes-connectivity/dhcp/dhcp_%.bbappend
-+++ /dev/null
-@@ -1 +0,0 @@
--require ${@bb.utils.contains('DISTRO_FEATURES', 'virtualization', '${BPN}_virtualization.inc', '', d)}
-diff --git a/recipes-connectivity/dhcp/dhcp_virtualization.inc b/recipes-connectivity/dhcp/dhcp_virtualization.inc
-deleted file mode 100644
-index 7466056c..00000000
---- a/recipes-connectivity/dhcp/dhcp_virtualization.inc
-+++ /dev/null
-@@ -1,16 +0,0 @@
--FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
--
--SRC_URI += "file://dhclient-exit-hooks \
--           "
--
--do_install_append () {
--	install -m 0644 ${WORKDIR}/dhclient-exit-hooks ${D}${sysconfdir}/dhcp/dhclient-exit-hooks
--	sed 's%/etc/dhclient-exit-hooks%/etc/dhcp/dhclient-exit-hooks%g' -i ${D}${base_sbindir}/dhclient-script
--
--	sed 's%request .*%\noption classless-static-routes code 121 = array of unsigned integer 8;\n\n&%g' -i ${D}${sysconfdir}/dhcp/dhclient.conf
--	sed 's%netbios-name-servers,.*netbios-scope;%netbios-name-servers, netbios-scope, classless-static-routes;\n%g' -i ${D}${sysconfdir}/dhcp/dhclient.conf
--
--}
--
--FILES_${PN}-client += "${sysconfdir}/dhcp/dhclient-exit-hooks \
--                     "
-diff --git a/recipes-connectivity/dhcp/files/dhclient-exit-hooks b/recipes-connectivity/dhcp/files/dhclient-exit-hooks
-deleted file mode 100644
-index 41bcb084..00000000
---- a/recipes-connectivity/dhcp/files/dhclient-exit-hooks
-+++ /dev/null
-@@ -1,95 +0,0 @@
--#!/bin/bash
--#
--# /etc/dhcp/dhclient-exit-hooks
--#
--# This file is sourced by /sbin/dhclient-script.
--#
--# dhcp option 121 is defined in RFC3442. The following is the link. 
--# http://www.ietf.org/rfc/rfc3442.txt
--#
--# The code for this option is 121, and its minimum length is 5 bytes.
--# This option can contain one or more static routes, each of which
--# consists of a destination descriptor and the IP address of the router
--# that should be used to reach that destination.
--#
--#    Code Len Destination 1    Router 1
--#   +-----+---+----+-----+----+----+----+----+----+
--#   | 121 | n | d1 | ... | dN | r1 | r2 | r3 | r4 |
--#   +-----+---+----+-----+----+----+----+----+----+
--#
--#    Destination 2       Router 2
--#   +----+-----+----+----+----+----+----+
--#   | d1 | ... | dN | r1 | r2 | r3 | r4 |
--#   +----+-----+----+----+----+----+----+
--#
--# In the above example, two static routes are specified.
--#
--# The following table contains some examples of how various subnet
--# number/mask combinations can be encoded:
--#
--#   Subnet number   Subnet mask      Destination descriptor
--#   0               0                0
--#   10.0.0.0        255.0.0.0        8.10
--#   10.0.0.0        255.255.255.0    24.10.0.0
--#   10.17.0.0       255.255.0.0      16.10.17
--#   10.27.129.0     255.255.255.0    24.10.27.129
--#   10.229.0.128    255.255.255.128  25.10.229.0.128
--#   10.198.122.47   255.255.255.255  32.10.198.122.47
--#
--# For metadata service, the following is a valid route from nova-api that
--# the VM instance can uses to retrieve metadata.
--#
--#   32 169 254 169 254 128 224 149 201
--#
--# In the above example, mask length of destination descriptor is always 32,
--# destination is always "169.254.169.254", and the gateway is a valid IP address.
--#
--# The add_routes function takes an array of unsigned integer 8, separated by spaces,
--# parse them, and added each of the routes into routing table.
--#
--
--function add_routes() {
--while [ $# -ne 0 ]; do
--  mask=$1
--  shift
-- 
--  # Parse the arguments into a CIDR net/mask string
--  if [ $mask -eq 32 ]; then
--    destination="-host $1.$2.$3.$4"
--    shift; shift; shift; shift
--  elif [ $mask -gt 24 ]; then
--    destination="-net $1.$2.$3.$4/$mask"
--    shift; shift; shift; shift
--  elif [ $mask -gt 16 ]; then
--    destination="-net $1.$2.$3.0/$mask"
--    shift; shift; shift
--  elif [ $mask -gt 8 ]; then
--    destination="-net $1.$2.0.0/$mask"
--    shift; shift
--  #Add the default route
--  elif [ $mask -eq 0 ]; then
--    destination="default"
--  else
--    destination="-net $1.0.0.0/$mask"
--    shift
--  fi
-- 
--  # Read the gateway
--  gateway="$1.$2.$3.$4"
--  shift; shift; shift; shift
--
--  # Add route into routing table
--  route add $destination gw $gateway
--
--  # Print it out if the route is added successfully
--  if [ $? = 0 ]; then
--    echo "Added route \"$destination gw $gateway\""
--  fi
--done
--}
--
--# Call add_routes to add routes
--if [ "x$new_classless_static_routes" != x ]; then
--  add_routes $new_classless_static_routes
--fi
--
--- 
-2.21.0
+simply put podman allows for some tooling the create docker containers, 
+and docker at the moment is the default container platform, i aim to 
+change this but, i also need to prove podman and functionalities under 
+the yocto image on the platform we have.
 
