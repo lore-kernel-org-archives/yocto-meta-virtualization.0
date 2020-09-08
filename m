@@ -1,56 +1,68 @@
-Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
- by mx.groups.io with SMTP id smtpd.web10.40597.1599483679382266153
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.12043.1599532943408396789
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 07 Sep 2020 06:01:20 -0700
+ Mon, 07 Sep 2020 19:42:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=TBXVFRYy;
- spf=none, err=SPF record not found (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: yocto@optimcloud.com)
-Received: from mx02.optimcloud.com (localhost [127.0.0.1])
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 570d30a6
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Mon, 7 Sep 2020 15:01:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=to
-	:from:subject:message-id:date:mime-version:content-type
-	:content-transfer-encoding; s=obsd; bh=Ivq3jqyPELSfHs+vmP0hQlU05
-	I2DXLRdOVskDNcymXo=; b=TBXVFRYyW/rgyNaaUe4QtVRTLvKMTLsrBf0QCiuT8
-	7rOrZ8PVFFdOBW1k1dQaYywVc4rzMxS+VulSULd4ScALwdFdFzaj5d2CIvCymXie
-	zfT6L36JOD0fsHZt9YoDf+DQZBsxtow65C3OoB2x36Sr8QimBzkQyIztYAcWwa2X
-	Jws+Z+urHmVxDzjPybfkN0NMYbb8qEkErRfuqyQT3ecZcQF6Mue96ckubllXg5JS
-	TjGVdfr7DoHieBqDiySlBppB+IFLn7y0aNO+bPPoMM+WVZRrFUpjCAP4dXlNludD
-	QTWwFKFxvarftl194W7Mxnt0U/AZI/taNiedVDbThliZQ==
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=to:from
-	:subject:message-id:date:mime-version:content-type
-	:content-transfer-encoding; q=dns; s=obsd; b=LagfN0NuuKiLnyYmdaF
-	NAuIPCiXJX0Op0Z52fXe+316dwpBC7MrnA10QuS7gB4S82CM1wXlWsATLnR2Xsjj
-	DsJcpdaPDJwxs9deJNybLHUKXazoXC3FP61BO2Y3uhZ2YhAwA6rM3gf4TdUylc+n
-	I/G71c8JDpjgKNqo8xjxe/L20e/dGb8pjV+YFm6oQdgdCKpBQwyd84hAJj+0JDVw
-	f4iZHJPmbU/StqQ4rdJ8Tw3+MTWmIIhjAydlRUBdS4hH1nSLpFZ8clSRMSr7HfIK
-	Y4vNYV7K5a/GNp7663QrhVH1WnspJOr8+FZUZdg/R2Ov00ymf1IoBiBad7W3jXdn
-	lrg==
-Received: 
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 29ddf63a (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Mon, 7 Sep 2020 15:01:15 +0200 (CEST)
-To: meta-virtualization@lists.yoctoproject.org
-From: "Yocto" <yocto@optimcloud.com>
-Subject: podman & docker conflict
-Message-ID: <23410e55-5b13-fd4c-7c0f-5f013af8132f@optimcloud.com>
-Date: Mon, 7 Sep 2020 20:00:05 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.11.0
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.yoctoproject.org (Postfix) with ESMTP id DB7A238C0894
+	for <meta-virtualization@yoctoproject.org>; Mon,  7 Sep 2020 19:42:22 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.76,404,1592841600"; 
+   d="scan'208";a="98988910"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 08 Sep 2020 10:42:20 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 94B5F48990E7
+	for <meta-virtualization@yoctoproject.org>; Tue,  8 Sep 2020 10:42:18 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 8 Sep 2020 10:42:17 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python3-ddjango-compressor: Change to python3
+Date: Tue, 8 Sep 2020 10:42:13 +0800
+Message-ID: <1599532933-124300-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-Originating-IP: [10.167.225.35]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 94B5F48990E7.A95EC
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-seems that trying to build podman and docker in the same image creates 
-an install conflict.
+Because python2 is no longer maintained, bb file is changed to python3 version.
 
-anyway to get around this, and i know there are those of you asking why 
-both?
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+---
+ ...o-compressor_2.1.bb => python3-django-compressor_2.1.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-django-compressor_2.1.bb => python3-django-compressor_2.1.bb} (90%)
 
-simply put podman allows for some tooling the create docker containers, 
-and docker at the moment is the default container platform, i aim to 
-change this but, i also need to prove podman and functionalities under 
-the yocto image on the platform we have.
+diff --git a/meta-openstack/recipes-devtools/python/python-django-compressor_2.1.bb b/meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb
+similarity index 90%
+rename from meta-openstack/recipes-devtools/python/python-django-compressor_2.1.bb
+rename to meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb
+index f6e73dd..40a0133 100644
+--- a/meta-openstack/recipes-devtools/python/python-django-compressor_2.1.bb
++++ b/meta-openstack/recipes-devtools/python/python3-django-compressor_2.1.bb
+@@ -12,9 +12,9 @@ SRC_URI[sha256sum] = "ae0051bc0c7a0660c93434e68d617553fccdd573293dfd15aa33f78d2b
+ inherit setuptools3 pypi
+ 
+ RDEPENDS_${PN} += " \
+-        python-django-appconf  \
+-        python-rcssmin  \
+-        python-rjsmin  \
++        python3-django-appconf  \
++        python3-rcssmin  \
++        python3-rjsmin  \
+         "
+ 
+ do_install_append() {
+-- 
+2.25.1
+
+
 
