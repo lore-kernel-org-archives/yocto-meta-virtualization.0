@@ -1,33 +1,33 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.12035.1599532985075410716
+ by mx.groups.io with SMTP id smtpd.web12.12097.1599532996781019174
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 07 Sep 2020 19:43:05 -0700
+ Mon, 07 Sep 2020 19:43:16 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 3D38938C0894
-	for <meta-virtualization@yoctoproject.org>; Mon,  7 Sep 2020 19:43:04 -0700 (PDT)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 525FB38C0894
+	for <meta-virtualization@yoctoproject.org>; Mon,  7 Sep 2020 19:43:16 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.76,404,1592841600"; 
-   d="scan'208";a="98988945"
+   d="scan'208";a="98988951"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 08 Sep 2020 10:43:03 +0800
+  by heian.cn.fujitsu.com with ESMTP; 08 Sep 2020 10:43:15 +0800
 Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6D1D748990EE
-	for <meta-virtualization@yoctoproject.org>; Tue,  8 Sep 2020 10:42:59 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 095BE48990E7
+	for <meta-virtualization@yoctoproject.org>; Tue,  8 Sep 2020 10:43:14 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 8 Sep 2020 10:42:58 +0800
+ (TLS) id 15.0.1497.2; Tue, 8 Sep 2020 10:43:12 +0800
 From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-rtslib-fb: upgrade 2.1.51 -> 2.1.74
-Date: Tue, 8 Sep 2020 10:42:59 +0800
-Message-ID: <1599532979-124418-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python3-xstatic-angular-schema: Remove python2 recipe
+Date: Tue, 8 Sep 2020 10:43:14 +0800
+Message-ID: <1599532994-124479-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 6D1D748990EE.A9F80
+X-yoursite-MailScanner-ID: 095BE48990E7.A8819
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
@@ -37,30 +37,29 @@ Since python2 is no longer maintained, the recipe of python2 is removed.
 
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- .../python/python-rtslib-fb.inc               | 20 ---------------
- .../python/python-rtslib-fb_2.1.51.bb         |  2 --
- .../python/python3-rtslib-fb_2.1.51.bb        |  2 --
- .../python/python3-rtslib-fb_2.1.74.bb        | 25 +++++++++++++++++++
- 4 files changed, 25 insertions(+), 24 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-rtslib-fb.inc
- delete mode 100644 meta-openstack/recipes-devtools/python/python-rtslib-fb_2.1.51.bb
- delete mode 100644 meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.51.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.74.bb
+ .../python-xstatic-angular-schema-form.inc    | 22 -----------------
+ ...on-xstatic-angular-schema-form_0.8.13.0.bb |  2 --
+ ...n3-xstatic-angular-schema-form_0.8.13.0.bb | 24 +++++++++++++++++--
+ 3 files changed, 22 insertions(+), 26 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form.inc
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form_0.8.13.0.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-rtslib-fb.inc b/meta-openstack/recipes-devtools/python/python-rtslib-fb.inc
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form.inc b/meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form.inc
 deleted file mode 100644
-index e14f33d..0000000
---- a/meta-openstack/recipes-devtools/python/python-rtslib-fb.inc
+index 7bfa957..0000000
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form.inc
 +++ /dev/null
-@@ -1,20 +0,0 @@
--DESCRIPTION = "API for Linux kernel SCSI target (aka LIO)"
--HOMEPAGE = "http://github.com/agrover/rtslib-fb"
+@@ -1,22 +0,0 @@
+-DESCRIPTION = "Angular Schema Form packaged for setuptools (easy_install) / pip."
+-HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-Schema-Form"
 -SECTION = "devel/python"
--LICENSE = "Apache-2"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=867c358d5dbac2602d0c0f850f731e62"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://PKG-INFO;md5=0e4430cb0dfdb98d3008c66d8339f31a"
 -
--SRC_URI[md5sum] = "4ec7575eb90b7c5a91bbea2962f0e036"
--SRC_URI[sha256sum] = "1902c581d6e04b7813f3cd1b11e2abc796205f646c39571cbbb809229fd5553e"
+-PYPI_PACKAGE = "XStatic-Angular-Schema-Form"
+-
+-SRC_URI[md5sum] = "d0faab81c36f4cfc03e092fedc30018d"
+-SRC_URI[sha256sum] = "7c08634901751267fe26d266fc027cf6ed2e5f422696985cec750594b3f4e300"
 -
 -inherit pypi
 -
@@ -73,36 +72,31 @@ index e14f33d..0000000
 -# RDEPENDS_default: 
 -RDEPENDS_${PN} += " \
 -        "
-diff --git a/meta-openstack/recipes-devtools/python/python-rtslib-fb_2.1.51.bb b/meta-openstack/recipes-devtools/python/python-rtslib-fb_2.1.51.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form_0.8.13.0.bb b/meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form_0.8.13.0.bb
 deleted file mode 100644
-index 571b68c..0000000
---- a/meta-openstack/recipes-devtools/python/python-rtslib-fb_2.1.51.bb
+index eae97b2..0000000
+--- a/meta-openstack/recipes-devtools/python/python-xstatic-angular-schema-form_0.8.13.0.bb
 +++ /dev/null
 @@ -1,2 +0,0 @@
--require python-rtslib-fb.inc
+-require python-xstatic-angular-schema-form.inc
 -inherit setuptools3
-diff --git a/meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.51.bb b/meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.51.bb
-deleted file mode 100644
-index 571b68c..0000000
---- a/meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.51.bb
-+++ /dev/null
-@@ -1,2 +0,0 @@
--require python-rtslib-fb.inc
+diff --git a/meta-openstack/recipes-devtools/python/python3-xstatic-angular-schema-form_0.8.13.0.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-angular-schema-form_0.8.13.0.bb
+index eae97b2..aa49f61 100644
+--- a/meta-openstack/recipes-devtools/python/python3-xstatic-angular-schema-form_0.8.13.0.bb
++++ b/meta-openstack/recipes-devtools/python/python3-xstatic-angular-schema-form_0.8.13.0.bb
+@@ -1,2 +1,22 @@
+-require python-xstatic-angular-schema-form.inc
 -inherit setuptools3
-diff --git a/meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.74.bb b/meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.74.bb
-new file mode 100644
-index 0000000..e1eef6b
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-rtslib-fb_2.1.74.bb
-@@ -0,0 +1,25 @@
-+DESCRIPTION = "API for Linux kernel SCSI target (aka LIO)"
-+HOMEPAGE = "http://github.com/agrover/rtslib-fb"
++DESCRIPTION = "Angular Schema Form packaged for setuptools (easy_install) / pip."
++HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Angular-Schema-Form"
 +SECTION = "devel/python"
-+LICENSE = "Apache-2"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=cf391b108961d84a581f45259ec47c52"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://PKG-INFO;md5=0e4430cb0dfdb98d3008c66d8339f31a"
 +
-+SRC_URI[md5sum] = "85ab011e3a98fb585d8a0fb337c5dab4"
-+SRC_URI[sha256sum] = "6f15bc30b55e0d35f29edde4f35880965b2f1e9acee1424e6e9820f32b0a925c"
++PYPI_PACKAGE = "XStatic-Angular-Schema-Form"
++
++SRC_URI[md5sum] = "d0faab81c36f4cfc03e092fedc30018d"
++SRC_URI[sha256sum] = "7c08634901751267fe26d266fc027cf6ed2e5f422696985cec750594b3f4e300"
 +
 +inherit setuptools3 pypi
 +
@@ -114,11 +108,6 @@ index 0000000..e1eef6b
 +
 +# RDEPENDS_default: 
 +RDEPENDS_${PN} += " \
-+        ${PYTHON_PN}-json \
-+        ${PYTHON_PN}-shell \
-+        ${PYTHON_PN}-six \
-+        ${PYTHON_PN}-pyudev \
-+        ${PYTHON_PN}-resource \
 +        "
 -- 
 2.25.1
