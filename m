@@ -1,63 +1,134 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.69592.1600114225500199523
+Received: from mail5.wrs.com (mail5.wrs.com [192.103.53.11])
+ by mx.groups.io with SMTP id smtpd.web12.7754.1600152533445906723
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 14 Sep 2020 13:10:25 -0700
+ Mon, 14 Sep 2020 23:48:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=softfail (domain: windriver.com, ip: 198.145.29.25, mailfrom: joe.slater@windriver.com)
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 80A5638C084F
-	for <meta-virtualization@yoctoproject.org>; Mon, 14 Sep 2020 13:10:24 -0700 (PDT)
+ dkim=missing; spf=pass (domain: windriver.com, ip: 192.103.53.11, mailfrom: hongxu.jia@windriver.com)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08EKA3Bt032331
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@yoctoproject.org>; Mon, 14 Sep 2020 13:10:13 -0700
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by ALA-HCA.corp.ad.wrs.com
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 08F6mFp8021231
+	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
+	Mon, 14 Sep 2020 23:48:25 -0700
+Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
  (147.11.189.40) with Microsoft SMTP Server id 14.3.487.0; Mon, 14 Sep 2020
- 13:09:52 -0700
-From: "Joe Slater" <joe.slater@windriver.com>
-To: <meta-virtualization@yoctoproject.org>
-CC: <joe.slater@windriver.com>, <randy.macleod@windriver.com>
-Subject: [v2][meta-oe][PATCH 1/1] luajit: advance SRCREV to fix two CVE's
-Date: Mon, 14 Sep 2020 13:09:52 -0700
-Message-ID: <20200914200952.78037-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.17.1
+ 23:48:04 -0700
+From: "hongxu" <hongxu.jia@windriver.com>
+To: <meta-virtualization@lists.yoctoproject.org>, <bruce.ashfield@gmail.com>
+Subject: [meta-virtualization][PATCH 1/2] skopeo: upgrade to 1.1.1
+Date: Tue, 15 Sep 2020 14:48:02 +0800
+Message-ID: <20200915064803.14962-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.18.2
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Fix CVE-2020-15890 and CVE-2020-24372.
+- Drop ostree
 
-Also change PV format because the reference to 2.1.0-beta3
-was already far behind the SRCREV.  Now, base PV on a tag
-and date of SRCREV commit if it is later.  Sort order is
-2.1.0~beta3 -> 2.1.0~beta-yymmdd -> 2.1.0 -> 2.1.0-yymmdd.
+- Support native and nativesdk
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta-oe/recipes-devtools/luajit/luajit_git.bb | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ .../skopeo/{skopeo_git.bb => skopeo_1.1.1.bb} | 50 +++++--------------
+ 1 file changed, 12 insertions(+), 38 deletions(-)
+ rename recipes-containers/skopeo/{skopeo_git.bb => skopeo_1.1.1.bb} (33%)
 
-diff --git a/meta-oe/recipes-devtools/luajit/luajit_git.bb b/meta-oe/recipes-devtools/luajit/luajit_git.bb
-index cc9039416..6573efcd9 100644
---- a/meta-oe/recipes-devtools/luajit/luajit_git.bb
-+++ b/meta-oe/recipes-devtools/luajit/luajit_git.bb
-@@ -3,13 +3,15 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=d739bb9250a55c124a545b588fd76771"
- HOMEPAGE = "http://luajit.org"
+diff --git a/recipes-containers/skopeo/skopeo_git.bb b/recipes-containers/skopeo/skopeo_1.1.1.bb
+similarity index 33%
+rename from recipes-containers/skopeo/skopeo_git.bb
+rename to recipes-containers/skopeo/skopeo_1.1.1.bb
+index f5a6231..ca23ac6 100644
+--- a/recipes-containers/skopeo/skopeo_git.bb
++++ b/recipes-containers/skopeo/skopeo_1.1.1.bb
+@@ -1,14 +1,14 @@
+ HOMEPAGE = "https://github.com/containers/skopeo"
+ SUMMARY = "Work with remote images registries - retrieving information, images, signing content"
+ LICENSE = "Apache-2.0"
+-LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=7e611105d3e369954840a6668c438584"
++LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=7e611105d3e369954840a6668c438584"
  
--PV = "2.1.0~beta3"
--SRCREV = "0ad60ccbc3768fa8e3e726858adf261950edbc22"
- SRC_URI = "git://luajit.org/git/luajit-2.0.git;protocol=http;branch=v2.1 \
-            file://0001-Do-not-strip-automatically-this-leaves-the-stripping.patch \
-            file://clang.patch \
-            "
+ DEPENDS = " \
+     gpgme \
+-    multipath-tools \
++    libdevmapper \
++    lvm2 \
+     btrfs-tools \
+     glib-2.0 \
+-    ostree \
+ "
  
-+# Set PV to a version tag and date associated with SRCREV if it is later.
-+PV = "2.1.0~beta3-200809"
-+SRCREV = "94d4abcca966df2cc423e821bcacd04898f73117"
-+
+ inherit go
+@@ -17,64 +17,38 @@ RDEPENDS_${PN} = " \
+      gpgme \
+      libgpg-error \
+      libassuan \
++     libdevmapper \
+ "
+ 
+ SRC_URI = " \
+-    git://github.com/containers/skopeo \
++    git://${GO_IMPORT};branch=release-1.1 \
+     file://storage.conf \
+     file://registries.conf \
+ "
+ 
+-SRCREV = "1cf1e06582142c522543560f2bc6d6756696e8ad"
+-PV = "v0.1.39-dev+git${SRCPV}"
+-GO_IMPORT = "import"
++SRCREV = "67abbb3cefbdc876447583d5ea45e76bf441eba7"
++GO_IMPORT = "github.com/containers/skopeo"
+ 
  S = "${WORKDIR}/git"
  
- inherit pkgconfig binconfig siteinfo
+ inherit goarch
+ inherit pkgconfig
+ 
+-# This disables seccomp and apparmor, which are on by default in the
+-# go package. 
+-EXTRA_OEMAKE="BUILDTAGS=''"
+-
+ do_compile() {
+-	export GOARCH="${TARGET_GOARCH}"
+-
+-	# Setup vendor directory so that it can be used in GOPATH.
+-	#
+-	# Go looks in a src directory under any directory in GOPATH but riddler
+-	# uses 'vendor' instead of 'vendor/src'. We can fix this with a symlink.
+-	#
+-	# We also need to link in the ipallocator directory as that is not under
+-	# a src directory.
+-	ln -sfn . "${S}/src/import/vendor/src"
+-	mkdir -p "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
+-	ln -sfn "${S}/src/import/skopeo" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo"
+-	ln -sfn "${S}/src/import/version" "${S}/src/import/vendor/src/github.com/projectatomic/skopeo/version"
+-	export GOPATH="${S}/src/import/vendor"
+-
+-	# Pass the needed cflags/ldflags so that cgo
+-	# can find the needed headers files and libraries
+-	export CGO_ENABLED="1"
+-	export CFLAGS=""
+-	export LDFLAGS=""
+-	export CGO_CFLAGS="${BUILDSDK_CFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+-	export CGO_LDFLAGS="${BUILDSDK_LDFLAGS} --sysroot=${STAGING_DIR_TARGET}"
+-	cd ${S}/src/import
+-
++	cd ${S}/src/${GO_IMPORT}
+ 	oe_runmake binary-local
+ }
+ 
+ do_install() {
+ 	install -d ${D}/${sbindir}
+ 	install -d ${D}/${sysconfdir}/containers
+-
+-	install ${S}/src/import/skopeo ${D}/${sbindir}/
+-	install ${S}/src/import/default-policy.json ${D}/${sysconfdir}/containers/policy.json
++	install ${S}/src/${GO_IMPORT}/skopeo ${D}/${sbindir}/
++	install ${S}/src/${GO_IMPORT}/default-policy.json ${D}/${sysconfdir}/containers/policy.json
+ 
+ 	install ${WORKDIR}/storage.conf ${D}/${sysconfdir}/containers/storage.conf
+ 	install ${WORKDIR}/registries.conf ${D}/${sysconfdir}/containers/registries.conf
+ }
+ 
+ INSANE_SKIP_${PN} += "ldflags"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
-2.17.1
+2.18.2
 
