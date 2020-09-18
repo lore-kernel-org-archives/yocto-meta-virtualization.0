@@ -1,118 +1,103 @@
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
- by mx.groups.io with SMTP id smtpd.web11.13436.1600342748438203153
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.8930.1600420758989381400
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 17 Sep 2020 04:39:08 -0700
+ Fri, 18 Sep 2020 02:19:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: windriver.com, ip: 147.11.146.13, mailfrom: yanfei.xu@windriver.com)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08HBd7Ht008203
-	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL)
-	for <meta-virtualization@lists.yoctoproject.org>; Thu, 17 Sep 2020 04:39:07 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
- (147.11.189.41) with Microsoft SMTP Server id 14.3.487.0; Thu, 17 Sep 2020
- 04:38:54 -0700
-From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-To: <meta-virtualization@lists.yoctoproject.org>
-Subject: [meta-virtualization][PATCH] libvirt: Use /run in replace of /var/run in libvirt
-Date: Thu, 17 Sep 2020 19:38:53 +0800
-Message-ID: <20200917113853.29095-1-yanfei.xu@windriver.com>
-X-Mailer: git-send-email 2.18.2
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@cn.fujitsu.com)
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.yoctoproject.org (Postfix) with ESMTP id CA49838C084A
+	for <meta-virtualization@yoctoproject.org>; Fri, 18 Sep 2020 02:19:17 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.77,274,1596470400"; 
+   d="scan'208";a="99403673"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 18 Sep 2020 17:19:14 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7CDDA48990EE
+	for <meta-virtualization@yoctoproject.org>; Fri, 18 Sep 2020 17:19:14 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Fri, 18 Sep 2020 17:19:14 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python3-hgtools: upgrade 6.3 -> 8.2.0
+Date: Sat, 19 Sep 2020 05:19:17 +0800
+Message-ID: <1600463957-30892-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-MIME-Autoconverted: from 8bit to quoted-printable by mail1.windriver.com id 08HBd7Ht008203
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 7CDDA48990EE.A195D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-From: Yanfei Xu <yanfei.xu@windriver.com>
+-License-Update: Update copyright.
 
-To avoid systemd complains that the libvirt unit files use legacy
-directory, we configure the libvirt with '--with-runstatedir=3D/run'
-and do some minor changes.
+Consolidate inc and bb files into a single bb file.
 
-------------------cut here----------------------
-014: systemd[1]: /lib/systemd/system/virtlogd.socket:6: ListenStream=3D
-references a path below legacy directory /var/run/, updating
-/var/run/libvirt/virtlogd-sock =E2=86=92 /run/libvirt/virtlogd-sock; plea=
-se
-update the unit file accordingly.
-014: systemd[1]: /lib/systemd/system/virtlogd-admin.socket:8:
-ListenStream=3D references a path below legacy directory /var/run/,
-updating /var/run/libvirt/virtlogd-admin-sock =E2=86=92
-/run/libvirt/virtlogd-admin-sock; please update the unit file
-accordingly.
-014: systemd[1]: /lib/systemd/system/virtlockd.socket:6: ListenStream=3D
-references a path below legacy directory /var/run/, updating
-/var/run/libvirt/virtlockd-sock =E2=86=92 /run/libvirt/virtlockd-sock; pl=
-ease
-update the unit file accordingly.
-014: systemd[1]: /lib/systemd/system/virtlockd-admin.socket:8:
-ListenStream=3D references a path below legacy directory /var/run/,
-updating /var/run/libvirt/virtlockd-admin-sock =E2=86=92
-/run/libvirt/virtlockd-admin-sock; please update the unit file
-accordingly.
-014: systemd[1]: /lib/systemd/system/libvirtd.socket:9: ListenStream=3D
-references a path below legacy directory /var/run/, updating
-/var/run/libvirt/libvirt-sock =E2=86=92 /run/libvirt/libvirt-sock; please=
- update
-the unit file accordingly.
-014: systemd[1]: /lib/systemd/system/libvirtd-ro.socket:11:
-ListenStream=3D references a path below legacy directory /var/run/,
-updating /var/run/libvirt/libvirt-sock-ro =E2=86=92
-/run/libvirt/libvirt-sock-ro; please update the unit file accordingly.
-......
-
-Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- recipes-extended/libvirt/libvirt_6.3.0.bb | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ .../recipes-devtools/python/python-hgtools.inc   | 13 -------------
+ .../python/python3-hgtools_6.3.bb                |  2 --
+ .../python/python3-hgtools_8.2.0.bb              | 16 ++++++++++++++++
+ 3 files changed, 16 insertions(+), 15 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-hgtools.inc
+ delete mode 100644 meta-openstack/recipes-devtools/python/python3-hgtools_6.3.bb
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-hgtools_8.2.0.bb
 
-diff --git a/recipes-extended/libvirt/libvirt_6.3.0.bb b/recipes-extended=
-/libvirt/libvirt_6.3.0.bb
-index 70c6d71..41abb06 100644
---- a/recipes-extended/libvirt/libvirt_6.3.0.bb
-+++ b/recipes-extended/libvirt/libvirt_6.3.0.bb
-@@ -283,23 +283,23 @@ do_install_append() {
-=20
- 	    # We can't use 'notify' when we don't support 'sd_notify' dbus capa=
-bilities.
- 	    sed -i -e 's/Type=3Dnotify/Type=3Dforking/' \
--	           -e '/Type=3Dforking/a PIDFile=3D${localstatedir}/run/libvirt=
-d.pid' \
-+	           -e '/Type=3Dforking/a PIDFile=3D/run/libvirtd.pid' \
- 		   ${D}/${systemd_unitdir}/system/libvirtd.service
- 	fi
-=20
--	# The /var/run/libvirt directories created by the Makefile
--	# are wiped out in volatile, we need to create these at boot.
--	rm -rf ${D}${localstatedir}/run
-+	# The /run/libvirt directories created by the Makefile are=20
-+	# wiped out in volatile, we need to create these at boot.
-+	rm -rf ${D}/run
- 	install -d ${D}${sysconfdir}/default/volatiles
--	echo "d root root 0755 ${localstatedir}/run/libvirt none" \
-+	echo "d root root 0755 /run/libvirt none" \
- 	     > ${D}${sysconfdir}/default/volatiles/99_libvirt
--	echo "d root root 0755 ${localstatedir}/run/libvirt/lockd none" \
-+	echo "d root root 0755 /run/libvirt/lockd none" \
- 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
--	echo "d root root 0755 ${localstatedir}/run/libvirt/lxc none" \
-+	echo "d root root 0755 /run/libvirt/lxc none" \
- 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
--	echo "d root root 0755 ${localstatedir}/run/libvirt/network none" \
-+	echo "d root root 0755 /run/libvirt/network none" \
- 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
--	echo "d root root 0755 ${localstatedir}/run/libvirt/qemu none" \
-+	echo "d root root 0755 /run/libvirt/qemu none" \
- 	     >> ${D}${sysconfdir}/default/volatiles/99_libvirt
-=20
- 	# Manually set permissions and ownership to match polkit recipe
-@@ -379,6 +379,7 @@ do_install_append() {
- EXTRA_OECONF +=3D " \
-     --with-init-script=3Dsystemd \
-     --with-test-suite \
-+    --with-runstatedir=3D/run \
-     "
-=20
- # gcc9 end up mis-compiling qemuxml2argvtest.o with Og which then
---=20
-2.18.2
+diff --git a/meta-openstack/recipes-devtools/python/python-hgtools.inc b/meta-openstack/recipes-devtools/python/python-hgtools.inc
+deleted file mode 100644
+index 561df3d..0000000
+--- a/meta-openstack/recipes-devtools/python/python-hgtools.inc
++++ /dev/null
+@@ -1,13 +0,0 @@
+-DESCRIPTION = "Classes and setuptools plugin for Mercurial repositories"
+-HOMEPAGE = "https://pypi.python.org/pypi/hgtools"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=a428d7abf1504d4dfeb4cbde155ba484"
+-
+-PYPI_PACKAGE_EXT = "zip"
+-
+-SRC_URI[md5sum] = "584d74b81b1efae3604c53086d1a3acb"
+-SRC_URI[sha256sum] = "1d0ef6ceaba1673e6923b17d7f09c5ae2f4394d16ef80562812987a27e7836ff"
+-
+-inherit pypi
+-
+diff --git a/meta-openstack/recipes-devtools/python/python3-hgtools_6.3.bb b/meta-openstack/recipes-devtools/python/python3-hgtools_6.3.bb
+deleted file mode 100644
+index 51a488f..0000000
+--- a/meta-openstack/recipes-devtools/python/python3-hgtools_6.3.bb
++++ /dev/null
+@@ -1,2 +0,0 @@
+-require python-hgtools.inc
+-inherit setuptools3
+diff --git a/meta-openstack/recipes-devtools/python/python3-hgtools_8.2.0.bb b/meta-openstack/recipes-devtools/python/python3-hgtools_8.2.0.bb
+new file mode 100644
+index 0000000..cfaf034
+--- /dev/null
++++ b/meta-openstack/recipes-devtools/python/python3-hgtools_8.2.0.bb
+@@ -0,0 +1,16 @@
++DESCRIPTION = "Classes and setuptools plugin for Mercurial repositories"
++HOMEPAGE = "https://pypi.python.org/pypi/hgtools"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=7a7126e068206290f3fe9f8d6c713ea6"
++
++SRC_URI[md5sum] = "200c967071c63efeb869470d24f250e3"
++SRC_URI[sha256sum] = "5f30e3e7729f67e414b63ae91697743bb2ec72f3cac0c514d16fd3c21bd25300"
++
++DEPENDS += " \
++	python3-setuptools-scm-native \
++	python3-toml-native \
++"
++
++inherit setuptools3 pypi
++
+-- 
+2.25.1
+
+
 
