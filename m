@@ -1,73 +1,78 @@
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
- by mx.groups.io with SMTP id smtpd.web10.41972.1600694118166239395
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web11.48672.1600715121293433958
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 21 Sep 2020 06:15:20 -0700
+ Mon, 21 Sep 2020 12:05:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=QC2Z1wdU;
- spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: joakim.roubert@axis.com)
+ dkim=pass header.i=@foundries-io.20150623.gappssmtp.com header.s=20150623 header.b=w8ZW+Tub;
+ spf=softfail (domain: foundries.io, ip: 209.85.219.52, mailfrom: ricardo@foundries.io)
+Received: by mail-qv1-f52.google.com with SMTP id cr8so8036104qvb.10
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 21 Sep 2020 12:05:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=758; q=dns/txt; s=axis-central1;
-  t=1600694119; x=1632230119;
-  h=subject:to:references:from:message-id:date:mime-version:
-   in-reply-to:content-transfer-encoding;
-  bh=tiURjPzTboDydduLybJnehsTwNxGXph5NodxiiITwRE=;
-  b=QC2Z1wdUbvvnkmbCI8m2rCOdfT3RJueYtkoQqlqFGXy02K6Zcb6lfOlp
-   QXtBoKqmMpYiwdq2inh4lpAFjs2adBRq6Uxx6hbLnWwUjNTC2gJpGlMVA
-   N9hq97be5e4oi3DiAzJQkVlAYGNo309wYNkrk5jTXk5eiEYYJGAA+IVmA
-   ggmp4WYkckDq5PdAGI2yFmUqQDl51mvqCUsJDIEzVSh21ckYhkj49oJR3
-   DB2STv/yb7ghTP9bOfGVVt5XkgX+ad1TZlRbtRA+P63YNVx+zWskV1A1U
-   5GSQimhm20jrovFnBOk/8xwaQJmHGXt4Mv8jlF9vxMor1JzgXcdvY9hgy
-   A==;
-IronPort-SDR: AXQfHtewzqsoBm8yoTY4LYeZZm3dC8pYp+aSCibVV1+bNG/4bEfFdx/uVLuoboQhYrrRV43tKt
- EaE5WdsX/BZLZICCqxC0Lf3pLiAYs5AXWxMs30r2HY1Sk3IWyWVcfkL7yd0HEA3a2A1zJSe8Tf
- PqYPYMExmG13Khna+E4TAcStzi1MHZkENmtUDlCqYjgHkj4LxMLQGyhVOR3W34m/YHzNOQBoBc
- q0pvjxlXMGHHDpugyp1oYYxocUr2Lu2nPiOGBc/HMn9KbjkUN0ckXUXSK5O8J7Gx6lC50t8NRR
- CzY=
-X-IronPort-AV: E=Sophos;i="5.77,286,1596492000"; 
-   d="scan'208";a="12715591"
-Subject: Re: [meta-virtualization][PATCH] Adding k3s recipe
-To: <meta-virtualization@lists.yoctoproject.org>
-References: <20200821205529.29901-1-erik.jansson@axis.com>
- <6adf1052-aa13-b890-606e-119d70eab618@axis.com>
- <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
-From: "Joakim Roubert" <joakim.roubert@axis.com>
-Message-ID: <c13a622a-5d4c-d87e-f901-673bec12fe33@axis.com>
-Date: Mon, 21 Sep 2020 15:15:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        d=foundries-io.20150623.gappssmtp.com; s=20150623;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eHfQn+lCAY1iXg5PY+gOZwYAfkiweYHFfD51w/5mcQk=;
+        b=w8ZW+TubxM5iMd0e89XRDpFcXpFD716f7Q3IxT3eR3HlbahDwMjR/5MwD3kSxBwkgf
+         LZtdPxOUadcC1b5v7Az+TlHs4WpzeclgqQab9Y5i28T2BJc7PQkI9+dGqvQlu5JkjaS3
+         F1XhI342fTk5ppoNRoP0o8OunZS36nn5fVc1jATSlh0W5JK2sHz91WorGfJTzyHCLeFG
+         Jo27tjHAEyZQeQ8wBilLxbTjN8zhoPdzF0qvLpU4sNQc10GjvEMZOKVqJZqt3AKZvDrX
+         0YXHmrtIpRBWXPhdqNcQo8g5yQzJMis2Ab8yGsF6D+r8wkyIMQs9Yg+FiKIacpqVBgvb
+         TGlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eHfQn+lCAY1iXg5PY+gOZwYAfkiweYHFfD51w/5mcQk=;
+        b=ilKY8tS6/zryE0WfH2v50L7q31LB+skF/yynErAiWmjtztHc4IpdDq4BTJm5rz2W8p
+         ogQFaA+j626aPkaQ6vI1jyJsO9h65HEVg1DIUQZF+qXaRzkH76AiI39ZVD14fcVf8AxA
+         +0ICvZvwn37ksz0PzV913GfuM7YmTdRAkgwmDgZbhnvet+sckxKeoD0fiad/hFPvy38d
+         yCTCSuc0KvydGrZf/jPNu85J8QbsOoaWxfLHhu7QKvjW2DUSmaIhLjK3k6WBFCH2P9kq
+         SGZLrwMH4xTYquIrrt3U3zIrSbRj5OEPT2u82ywvNRcPzoXcnshzUngVDuoRr3NoD35+
+         m0PQ==
+X-Gm-Message-State: AOAM5305oFeQjnfrRMY9Cu1gazjahN95DMhRQQ4L2kIb5waYvllgzYb2
+	OisqlijQU38nFt3ppe3bRmtqVLLELIQr
+X-Google-Smtp-Source: ABdhPJxuvvbcLTnOOKAHy97vMBlKM7EH/KPRwQCFGVuc0JvNsRtSk3VGYWosDz8Pe76BPjTzxAKBfQ==
+X-Received: by 2002:a0c:efd2:: with SMTP id a18mr1599307qvt.54.1600715120136;
+        Mon, 21 Sep 2020 12:05:20 -0700 (PDT)
+Return-Path: <ricardo@foundries.io>
+Received: from localhost.localdomain ([2804:7f5:f480:5fec:886c:4f96:30b8:57fa])
+        by smtp.gmail.com with ESMTPSA id g14sm9902936qkk.38.2020.09.21.12.05.18
+        for <meta-virtualization@lists.yoctoproject.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2020 12:05:19 -0700 (PDT)
+From: "Ricardo Salveti" <ricardo@foundries.io>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [PATCH] python3-texttable: remove recipe
+Date: Mon, 21 Sep 2020 16:04:48 -0300
+Message-Id: <20200921190448.20625-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
-Return-Path: joakim.roubert@axis.com
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX02.axis.com (10.0.5.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-On 2020-09-21 13:11, Bruce Ashfield wrote:
-> It is close. I had to abandon one approach, since it grew more
-> complex than if I just let a chunk of functionality be duplicated.
-> 
-> I'm at this again this week
+Newer version now available via meta-oe/meta-python:
+- meta-python/recipes-devtools/python/python3-texttable_1.6.3.bb
 
-Excellent news!
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+---
+ recipes-devtools/python/python3-texttable_0.9.1.bb | 9 ---------
+ 1 file changed, 9 deletions(-)
+ delete mode 100644 recipes-devtools/python/python3-texttable_0.9.1.bb
 
-> and if I can't sort it out, I'll merge the core recipes and start
-> factoring in tree (I'm just worried about people assuming what
-> appears in tree is the final version).
-
-But with those words you have just informed eveybody on the list about
-it, so that should make things clearer for the community!
-
-BR,
-
-/Joakim
+diff --git a/recipes-devtools/python/python3-texttable_0.9.1.bb b/recipes-devtools/python/python3-texttable_0.9.1.bb
+deleted file mode 100644
+index 25e402f..0000000
+--- a/recipes-devtools/python/python3-texttable_0.9.1.bb
++++ /dev/null
+@@ -1,9 +0,0 @@
+-SUMMARY = "module for creating simple ASCII tables"
+-HOMEPAGE = "https://github.com/foutaise/texttable/"
+-LICENSE = "LGPL-3.0"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=e6a600fd5e1d9cbde2d983680233ad02"
+-
+-inherit pypi setuptools3
+-
+-SRC_URI[md5sum] = "a712b5a5464d51c5fc43c64d9d2cd0de"
+-SRC_URI[sha256sum] = "119041773ff03596b56392532f9315cb3a3116e404fd6f36e76a7dc088d95c79"
 -- 
-Joakim Roubert
-Senior Engineer
-
-Axis Communications AB
-Emdalavägen 14, SE-223 69 Lund, Sweden
-Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
-Fax: +46 46 13 61 30, www.axis.com
+2.28.0
 
