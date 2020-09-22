@@ -1,50 +1,50 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.web12.85.1600803950661868512
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.92.1600803951752373207
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 22 Sep 2020 12:45:50 -0700
+ Tue, 22 Sep 2020 12:45:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MidkO8y+;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id g3so16610929qtq.10
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Sep 2020 12:45:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Qb+ZLnYG;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id g3so16610977qtq.10
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 22 Sep 2020 12:45:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=45kHTLzepS9lAxa9GfVLCf8AC38nuSBd1VpAP7jXWqs=;
-        b=MidkO8y+DWjHWbvOud5pgKh29KaGcxBTYnv5JqGht1rSonxPdCI+FEFmkKeVGnY5IX
-         TxdCbu9knL6+4YWtnYjhKwLNOmuY2021U83Mpz+EMtHFpQFKKVe2YTt4f8aMMBGoh+lM
-         Zn0IaZxLfXiOLEJb5pjqDdeeXarcBco0QmndrNe40E2NiD9h47STXmKSHFQAnhgEdCGQ
-         /Ai0ar6E0afAfH2Kca2t/fp327bwzKsE3d0qBzC82XFgZPxV+A3OzXdQwU9yyjZAOkl6
-         EoxU5t5bhHLEhmoXPFS+LoezcKie06pmWec/knLqusB3+KzAwiU/tPZDoTGVFPZqKxWd
-         FbHw==
+        bh=oy+IlrqmiH9cw05i7wfyG35IU0cS/B4zFIdJaNGBlNw=;
+        b=Qb+ZLnYG11AMqJ+ZTtJorFijm6lMNNvQwiJUcCg5x59uA6w3on1pPxKiygQOCgbTfi
+         t/iR1e2Yp0oMQB1B1LSVOnW/Jxl7uAktNLBLpVMGvj5dePAKIaen+D9F9M6+Ni2D0gK8
+         /BH5TMB6Q6hyldglC2Fbrncq0QhMLI1RM9CKSVYQSJ46tSIz8VM2s+/jsXqhbwnJnWmw
+         HoqBVXt482xkb/tRHgc3FqBB7j873UtP7QuO8lvOKfJNBkJG0UE+RfvOrcN67/FfGVz2
+         ze3mew4FjrmarJmIMq51z8jB9iAX13spnAe0qCq4UAaYezl7/mDCETi7Crs+eV8K0Of5
+         x4oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=45kHTLzepS9lAxa9GfVLCf8AC38nuSBd1VpAP7jXWqs=;
-        b=tSK3RdwEHcTQSDM071J7BY2E2gKNVnRKiQY/osoGyIF9LPOLlWzkJmjO75WCahayZj
-         RBwbAjjqYBNaLldvAX5dmi8vm4zFdILOSZGr/Ni+4WHAI441E3UMFZsVZhndirCP0YDD
-         WXxyWczQorPZWoDMJni88z1WxOAIyNxMUq1/9D207at/JUE2PVuQOfMyTefcxvxWGfLO
-         92rMY279HXaORJMuvF8M4ylf6jVYdlKpfbtzpPklbxrkvVGqTYx69sqvM44ts7pm67mj
-         VDDjxz4FPGxoY2xfqPo4XjT1nNFz3YftzWx3x12yeddXj+2S/e6xq16BuSzunYViExEB
-         t72w==
-X-Gm-Message-State: AOAM5332wJh+yOGmyVPRKr/VdSpjZdavVLr/WHTqAD8fq+6NyamAbyNN
-	k2FaFuM7D4TRrrFnfvA0nhYwUbSGCmQGgiI+
-X-Google-Smtp-Source: ABdhPJyDthr4qPmmO0DPXLHqeGi6A67xPzbgrubwbT3CRFUiPSG7dwF8uzKSmtKgGYlnRx0fQ/vDUw==
-X-Received: by 2002:ac8:c44:: with SMTP id l4mr1693759qti.2.1600803949412;
-        Tue, 22 Sep 2020 12:45:49 -0700 (PDT)
+        bh=oy+IlrqmiH9cw05i7wfyG35IU0cS/B4zFIdJaNGBlNw=;
+        b=Ul5qrc3kzdKQ6/m1Anqvnq/59rz82tlhmXL5sE4ka9USu54804ykv2AHKBfPQwa+rH
+         PbASeTle68hyDp4G07E2S0r4b3t8ftxEWaud+kJaqnlziQrC9CmKd0WZuJ90bj18vWjZ
+         YIk+noTSeW9fafW5NK3uGnT4rvmz4fxnvwx1AbQ950JvhGl31VkCgoSkQxvB9cxR8q0u
+         G0rZHEXSOvbwPoWaCLjDmbgLU5dJMOIRQI7a2EaMEzKUol+Iv8qH2VjnzYFd9MyJUt9G
+         /0NoW2kxHo2a1iy8iRXQmSnjA1Vj9QoHBmna91BB+iMST5EU0Ggr3ihXFz6s0znZFLh2
+         +jBw==
+X-Gm-Message-State: AOAM533TsdevrqkLOqZcC+HEOvvx+1jfTaYXENkyKnEooiqDbYf6yKDh
+	gQm162FaK5GNO11hkVWxVF4qPttcD5RTuvXq
+X-Google-Smtp-Source: ABdhPJxDAssGxQZWQ3jkqUogbIV3jp1IM4QwaPHhGeTvAi5IK0mQss0+WWU2qgPFo2Q420MiNy28yQ==
+X-Received: by 2002:ac8:140b:: with SMTP id k11mr6258721qtj.287.1600803950614;
+        Tue, 22 Sep 2020 12:45:50 -0700 (PDT)
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from localhost.localdomain (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id t43sm13538513qtc.54.2020.09.22.12.45.48
+        by smtp.gmail.com with ESMTPSA id t43sm13538513qtc.54.2020.09.22.12.45.49
         for <meta-virtualization@lists.yoctoproject.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2020 12:45:48 -0700 (PDT)
+        Tue, 22 Sep 2020 12:45:49 -0700 (PDT)
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
 To: meta-virtualization@lists.yoctoproject.org
-Subject: [PATCH 4/7] runx: robustness changes
-Date: Tue, 22 Sep 2020 15:45:36 -0400
-Message-Id: <20200922194539.51933-4-bruce.ashfield@gmail.com>
+Subject: [PATCH 5/7] dynamic-layers: add xilinx dynamic layer for Xen support
+Date: Tue, 22 Sep 2020 15:45:37 -0400
+Message-Id: <20200922194539.51933-5-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20200922194539.51933-1-bruce.ashfield@gmail.com>
 References: <20200922194539.51933-1-bruce.ashfield@gmail.com>
@@ -53,95 +53,55 @@ Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@xilinx.com>
 
-Adding one build and one runtime robustness change:
-
-  - build: specify the syroot native as a library path to qemu user.
-           This allows us to run dynamic executables
-
-  - runtime: add a patch to increase the serial fd timeout. We'll
-             drop this once it is merged upstream.
+Although this dynamic layer currently only adds Xen support, it will
+eventually hold other board and platform specific tweaks to core
+meta-virt recipes.
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- ...001-runX-add-bounded-looping-timeout.patch | 35 +++++++++++++++++++
- recipes-core/runx/runx_git.bb                 |  6 ++--
- 2 files changed, 38 insertions(+), 3 deletions(-)
- create mode 100644 recipes-core/runx/runx/0001-runX-add-bounded-looping-timeout.patch
+ .../xilinx/recipes-extended/xen/xen-xilinx.inc     | 14 ++++++++++++++
+ .../xilinx/recipes-extended/xen/xen_4.14.bbappend  |  1 +
+ .../xilinx/recipes-extended/xen/xen_git.bbappend   |  1 +
+ 3 files changed, 16 insertions(+)
+ create mode 100644 dynamic-layers/xilinx/recipes-extended/xen/xen-xilinx.inc
+ create mode 100644 dynamic-layers/xilinx/recipes-extended/xen/xen_4.14.bbappend
+ create mode 100644 dynamic-layers/xilinx/recipes-extended/xen/xen_git.bbappend
 
-diff --git a/recipes-core/runx/runx/0001-runX-add-bounded-looping-timeout.patch b/recipes-core/runx/runx/0001-runX-add-bounded-looping-timeout.patch
+diff --git a/dynamic-layers/xilinx/recipes-extended/xen/xen-xilinx.inc b/dynamic-layers/xilinx/recipes-extended/xen/xen-xilinx.inc
 new file mode 100644
-index 0000000..b4c6efa
+index 0000000..344061a
 --- /dev/null
-+++ b/recipes-core/runx/runx/0001-runX-add-bounded-looping-timeout.patch
-@@ -0,0 +1,35 @@
-+From 1cf4ff2137252c63687f54e09626850cfab6e9f9 Mon Sep 17 00:00:00 2001
-+From: Rob Woolley <Rob.Woolley@windriver.com>
-+Date: Thu, 17 Sep 2020 19:41:06 -0700
-+Subject: [PATCH] runX: add bounded / looping timeout
++++ b/dynamic-layers/xilinx/recipes-extended/xen/xen-xilinx.inc
+@@ -0,0 +1,14 @@
++FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
 +
-+On slower machines, we may need a longer timeout before giving
-+up.
++DEPENDS += "u-boot-mkimage-native"
++DEPENDS += "dtc-native"
 +
-+Signed-off-by: Rob Woolley <Rob.Woolley@windriver.com>
-+---
-+ git/runX | 8 +++++++-
-+ 1 file changed, 7 insertions(+), 1 deletion(-)
++XENIMAGE_KERNEL_LOADADDRESS ?= "0x6000000"
++do_deploy_append() {
++       if [ -f ${DEPLOYDIR}/xen-${MACHINE} ]; then
++           uboot-mkimage -A arm64 -T kernel -a ${XENIMAGE_KERNEL_LOADADDRESS} -e ${XENIMAGE_KERNEL_LOADADDRESS} -C none -d ${DEPLOYDIR}/xen-${MACHINE} ${DEPLOYDIR}/xen.ub
++       fi
++}
 +
-+diff --git a/runX b/runX
-+index 492cb4c..70c95e1 100755
-+--- a/runX
-++++ b/runX
-+@@ -119,7 +119,13 @@ then
-+         daemonize $workpath/serial_start \
-+           "$containerid" \
-+           "$crundir"/console_pty
-+-        sleep .1
-++        for n in 5 4 3 2 1; do
-++            if [ ! -l "$crundir"/console_pty ]; then
-++              break;
-++            else
-++              sleep .1;
-++            fi;
-++        done
-+         daemonize $workpath/serial_fd_handler \
-+           "$guestconsole" \
-+           "$crundir"/console_pty
-+-- 
-+2.17.1
-+
-diff --git a/recipes-core/runx/runx_git.bb b/recipes-core/runx/runx_git.bb
-index bf84b2d..53c2464 100644
---- a/recipes-core/runx/runx_git.bb
-+++ b/recipes-core/runx/runx_git.bb
-@@ -12,6 +12,7 @@ SRC_URI = "\
-           https://www.kernel.org/pub/linux/kernel/${KERNEL_URL_VER}/${KERNEL_SRC_VER}.tar.xz;destsuffix=git/kernel/build \
-           file://0001-make-kernel-cross-compilation-tweaks.patch \
-           file://0001-make-initrd-cross-install-tweaks.patch \
-+          file://0001-runX-add-bounded-looping-timeout.patch \
- 	  "
- SRC_URI[md5sum] = "ce9b2d974d27408a61c53a30d3f98fb9"
- SRC_URI[sha256sum] = "bf338980b1670bca287f9994b7441c2361907635879169c64ae78364efc5f491"
-@@ -31,7 +32,7 @@ inherit kernel-arch
- 
- # we have a busybox bbappend that makes /bin available to the
- # sysroot, and hence gets us the target binary that we need
--DEPENDS = "busybox go-build"
-+DEPENDS = "busybox-initrd go-build"
- 
- # for the kernel build phase
- DEPENDS += "openssl-native coreutils-native util-linux-native xz-native bc-native"
-@@ -77,9 +78,8 @@ do_compile() {
- 
-     # construct the initrd
-     echo "[INFO]: runx: constructing the initrd"
--
-     cp ${STAGING_DIR_HOST}/bin/busybox.nosuid ${WORKDIR}/busybox
--    export QEMU_USER=`which qemu-${HOST_ARCH}`
-+    export QEMU_USER="`which qemu-${HOST_ARCH}` -L ${STAGING_BASELIBDIR}/.."
-     export BUSYBOX="${WORKDIR}/busybox"
-     export CROSS_COMPILE="t"
-     ${S}/initrd/make-initrd
++deltask do_deploy_setscene
++deltask do_populate_sysroot_setscene
+diff --git a/dynamic-layers/xilinx/recipes-extended/xen/xen_4.14.bbappend b/dynamic-layers/xilinx/recipes-extended/xen/xen_4.14.bbappend
+new file mode 100644
+index 0000000..54edd1b
+--- /dev/null
++++ b/dynamic-layers/xilinx/recipes-extended/xen/xen_4.14.bbappend
+@@ -0,0 +1 @@
++include xen-xilinx.inc
+diff --git a/dynamic-layers/xilinx/recipes-extended/xen/xen_git.bbappend b/dynamic-layers/xilinx/recipes-extended/xen/xen_git.bbappend
+new file mode 100644
+index 0000000..54edd1b
+--- /dev/null
++++ b/dynamic-layers/xilinx/recipes-extended/xen/xen_git.bbappend
+@@ -0,0 +1 @@
++include xen-xilinx.inc
 -- 
 2.19.1
 
