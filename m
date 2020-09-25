@@ -1,143 +1,121 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.20054.1600962100236216458
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+ by mx.groups.io with SMTP id smtpd.web10.1621.1601014807612250800
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 24 Sep 2020 08:41:40 -0700
+ Thu, 24 Sep 2020 23:20:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=lZtABCkL;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id nw23so5138180ejb.4
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 24 Sep 2020 08:41:40 -0700 (PDT)
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=EBB3zQKw;
+ spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: joakim.roubert@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=8smgSn1r7Yad0omNFJLDlooxDUhPVvA+WuKNkXacfYo=;
-        b=lZtABCkLwXJQbiHlBMaYglZ9LewpsmLYcdQGX0Utq0LA2ljtpiQpBPNGdFZmbN7Vs5
-         V5zOLC0qdb9LgkVbnJjIMrNdJGt3UxZ3j93qW2G7YsboScZVW9+YC2mnm9T+ALfqTKo+
-         9I9g0ziXV9m6sK3I0o+7WrSir9CICU3a0WLi22+8SVDN6NDX3RUw3Ji9rAkrbg6WuUAs
-         obs2RwPY9ARa7EmzEGpvIXnNZxhoGGx4A7JL1MG1bA2wM/8V2xkqUj/Z5uf6exSyKLPA
-         ZVMQgltKfltHoSYuf15IROQZZhnr2HXg6iEWolWyTIrkEK98P2ulXU6oMaC9reosA3cI
-         5Lrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8smgSn1r7Yad0omNFJLDlooxDUhPVvA+WuKNkXacfYo=;
-        b=thLbQbE3pkJ3U7IqapgtE3hzyh1cF7ESvSrOCqVDwj/GMyfHGmJH2xkp7zDwL3v7rM
-         wkxaobJF0MOmK+kysr39WjPrjb0ZFVtQ0bk+8D5IhKwLSTD4i7e2bcWItf8A8j1/gltG
-         l+mapwDYkYYuBKgtVra5soNk8qYjMde5F8ff+vLKFTrexySWJK2anPtqGCUSqEurvbiN
-         arAw+zr9vVOOx10nSG2qp6TafAj84hlMpNXzjK36CK9IycC+bbrWeQQHbNEBmfCE5bE7
-         cpGf1TYJWXHx4cLOh74qChXftikWpiJFmTwBvBPsHCzoiMSmz+R2pxrFBHtQFXrT1IdG
-         VZUQ==
-X-Gm-Message-State: AOAM531FnF4g9hQtaNudpaQVkcfpCQmnsrT2ffv9dWG9cNvLXk1xIEV3
-	DrRzsQ++8KdWdRriX9NFgxXSCvAX0KexHmy6jik=
-X-Google-Smtp-Source: ABdhPJwZT3hKjivrn6G84IIHizr5dxff6D1sYD6GGn96Kv6JcXya5qSZe+39Y/RtLx4DdnS9t5b7spHj+Qir7DU+p/Q=
-X-Received: by 2002:a17:906:e18:: with SMTP id l24mr516460eji.334.1600962098401;
- Thu, 24 Sep 2020 08:41:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200821205529.29901-1-erik.jansson@axis.com> <6adf1052-aa13-b890-606e-119d70eab618@axis.com>
- <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
- <c13a622a-5d4c-d87e-f901-673bec12fe33@axis.com> <CADkTA4MArixWsydAc1YdwCvyiPHx36nqcigpLf=j_Fw6NudnRQ@mail.gmail.com>
- <ae269803-37c4-d72a-d19e-097a093baa60@axis.com>
-In-Reply-To: <ae269803-37c4-d72a-d19e-097a093baa60@axis.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 24 Sep 2020 11:41:26 -0400
-Message-ID: <CADkTA4NbKfrK0CwQz7P5ecGCgL_d_0CZnuROoVTL=iLWJ6kvMw@mail.gmail.com>
+  d=axis.com; l=2850; q=dns/txt; s=axis-central1;
+  t=1601014808; x=1632550808;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=CLx3HYwl5qacAvgZaz1NW6hhfcQyYKL27G/tafpsVJ8=;
+  b=EBB3zQKwBSbLiGr5T8o7JFLyOkacPGXtLbBvjFVGAiB7hNbJW4JpA0Pj
+   JE5T1jg7MGF9xVaFi8bwE9XmUJcDrU9she7fpznVZBxa2bH5XQPvTZC/P
+   DZFWL4CDS5DOunj+LJnQYyhiKWzUQquf6t3A0ahLyp0o35lCTfu8+WMIw
+   1uQh0ATH56MgVJW+GiFXklNNA++iLjXXCT3y+wkrzy3pKST9IhMFTsKth
+   /Z3gQBKRfzePU9nByVkNIS0qb5Jg1I9+mseZcC5hPrDuZx317JpL29qb0
+   4INJZ7y3nBtC5svZsBPxOuQ+zjbSv3KuogLs7NQoYGLWTEWYvlbuT9kMc
+   w==;
+IronPort-SDR: Hbotouq5xGdaOdz4l4x23j4O5DOmZiqxsyIKSV4elvirOET/k2uGcOheOutoz0wSzWxUYN5gMZ
+ 64dETlfqz33GrGyOuaXobf2jnvU5bRAGgD6ZxV3bv+ixPRXX3nGJBHNF55kCd8zpR1+YpUQAXX
+ 7CmhvW2i9KxMgDP/u23ECSfJI6qfsnsKNBdIo1LXEnEiCFasR7WXRP4j1p8kibLmO1M0qXc+I6
+ 4Pw4fYhSu15cUH4RIhEJDVIyfat+tx1/S6hai4AbJWi08ATy589uKb0+j/bNvFe0g56E/9c2rp
+ A4o=
+X-IronPort-AV: E=Sophos;i="5.77,301,1596492000"; 
+   d="scan'208";a="13347377"
 Subject: Re: [meta-virtualization][PATCH] Adding k3s recipe
-To: Joakim Roubert <joakim.roubert@axis.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+References: <20200821205529.29901-1-erik.jansson@axis.com>
+ <6adf1052-aa13-b890-606e-119d70eab618@axis.com>
+ <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
+ <c13a622a-5d4c-d87e-f901-673bec12fe33@axis.com>
+ <CADkTA4MArixWsydAc1YdwCvyiPHx36nqcigpLf=j_Fw6NudnRQ@mail.gmail.com>
+ <ae269803-37c4-d72a-d19e-097a093baa60@axis.com>
+ <CADkTA4NbKfrK0CwQz7P5ecGCgL_d_0CZnuROoVTL=iLWJ6kvMw@mail.gmail.com>
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <8943d000-4ce1-164b-eb8e-2bedfaca2981@axis.com>
+Date: Fri, 25 Sep 2020 08:20:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4NbKfrK0CwQz7P5ecGCgL_d_0CZnuROoVTL=iLWJ6kvMw@mail.gmail.com>
+Return-Path: joakim.roubert@axis.com
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX02.axis.com (10.0.5.16)
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 24, 2020 at 10:46 AM Joakim Roubert <joakim.roubert@axis.com> w=
-rote:
->
-> On 2020-09-24 16:02, Bruce Ashfield wrote:
-> >
-> > So I've decided to do this in a couple phases, since I keep making the
-> > bbclass more complex that it needs to be.
->
-> Sounds like a good plan! For what we know, concepts as "Big Bang" only
-> was successful once in the history of Universe, and it was not within
-> the field of software development. ;-)
->
-> > I've gone back through the patches, and have some questions/comments.
-> > Would you be willing to tweak things basd on those comments ? I
-> > realize it's been quite the delay from submission to this, so I can
-> > work through issues if you don't have the cycles.
->
-> Yes, I am happy to help in whatever way I can. Erik is a colleague of
-> mine but currently on parental leave, so I will try to fill his shoes
-> here now. But I have plenty of openembedded k3s build experience with
-> these recipes too, so let's do this!
+On 2020-09-24 17:41, Bruce Ashfield wrote:
+> 
+> There are at least two utilities that are shared with the main 
+> kubernetes and not in our existing layer dependencies. We shouldn't 
+> expand our dependencies more, so we have to look at importing a 
+> variant of the recipes to meta-virt, or seeing about getting the 
+> recipes into a more common location. In particular, I'm talking
+> about ipset and and upx, and I'm still looking for more.
 
-By phases, I meant some smaller changes to the series while I work a
-bit more through the bbclass and DISTRO feature flag efforts.
+Ah, yes.
 
-I can say immediately, that we have a problem with the dependencies,
-and we need to sort those out.
+> As for the service files, the k3s.service is different from the one 
+> from the latest on the k3s 1.18 branch, and there's a patch that 
+> modifies it. Although tempting to not use /usr/local/bin, for 
+> maintenance, we'd be better off either just installing where things 
+> are expected. Was something broken if /usr/local/bin was used ?
 
-There are at least two utilities that are shared with the main
-kubernetes and not in our existing layer dependencies. We shouldn't
-expand our dependencies more, so we have to look at importing a
-variant of the recipes to meta-virt, or seeing about getting the
-recipes into a more common location. In particular, I'm talking about
-ipset and and upx, and I'm still looking for more.
+The target systems I work on prohibits installations to /usr/local, so
+from my perspective something would in fact be broken if /usr/local/bin
+was to be used. Nevertheless, configuring the recipe to have
+/usr/{$VARIABLE}/bin and VARIABLE set to "local" as default would
+perhaps be an option for everybody to eat the cake and still have it?
 
-As for the service files, the k3s.service is different from the one
-from the latest on the k3s 1.18 branch, and there's a patch that
-modifies it. Although tempting to not use /usr/local/bin, for
-maintenance, we'd be better off either just installing where things
-are expected. Was something broken if /usr/local/bin was used ?
+> The other .service files, we have no idea where they come from by 
+> looking at the series, and as such they need some sort of comment
+> (by looking at the repo, you can tell they are variants of the
+> k3s.service file, but that needs to be clarified).
 
-The other .service files, we have no idea where they come from by
-looking at the series, and as such they need some sort of comment (by
-looking at the repo, you can tell they are variants of the k3s.service
-file, but that needs to be clarified).
+I will investigate.
 
-The patches themselves to the code base (not just the overall git
-commit) should have Signed-off-by: and Upstream-status: flags, so they
-can be maintained as I bump through releases.
+> The patches themselves to the code base (not just the overall git 
+> commit) should have Signed-off-by: and Upstream-status: flags, so
+> they can be maintained as I bump through releases.
 
-The scripts being created by the recipe, need license headers and spdx
-tags. Boring, but it is something we want to make sure is in new
-files. Also, at a glance, we need to make sure the dependencies of the
-scripts are captured in the DEPENDS of the recipe (i.e. I see 'ip'
-being called, make sure that is captured).
+I will see to that.
 
-As for the networking, what we have in the submission is specific to a
-setup, that's the parts that I'm really trying to unify. We need to
-document what is expected in the CNI configuration, and then control
-it via a distro/image flag such that it won't clobber/conflict with
-other CNI users. I can take care of that distro part, but the
-documentation would be ideal in a README that comes along with the
-recipe.
+> The scripts being created by the recipe, need license headers and
+> spdx tags. Boring, but it is something we want to make sure is in
+> new files.
 
-As I said, I'm still working through some of the factoring out and
-de-duplication, but there's some things in there that are best done on
-your end, versus mine.
+Absolutely!
 
-Bruce
+> Also, at a glance, we need to make sure the dependencies of the 
+> scripts are captured in the DEPENDS of the recipe (i.e. I see 'ip' 
+> being called, make sure that is captured).
 
+Ah, yes, I will go through that.
 
+> As for the networking, what we have in the submission is specific to
+> a setup, that's the parts that I'm really trying to unify. We need
+> to document what is expected in the CNI configuration, and then
+> control it via a distro/image flag such that it won't
+> clobber/conflict with other CNI users. I can take care of that distro
+> part, but the documentation would be ideal in a README that comes
+> along with the recipe.
 
+That also sounds like a good plan. I am not relly sure what text to
+write in that README file, though. But I guess that is something that
+can be iteratively created.
 
->
-> BR,
->
-> /Joakim
-> --
-> Joakim Roubert
-> Senior Engineer
->
-> Axis Communications AB
-> Emdalav=C3=A4gen 14, SE-223 69 Lund, Sweden
-> Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
-> Fax: +46 46 13 61 30, www.axis.com
->
+> As I said, I'm still working through some of the factoring out and 
+> de-duplication, but there's some things in there that are best done
+> on your end, versus mine.
 
+Excellent!
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+BR,
+
+/Joakim
