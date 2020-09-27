@@ -1,86 +1,269 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web12.8407.1601041814861735881
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.web11.16306.1601222885480931794
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 25 Sep 2020 06:50:16 -0700
+ Sun, 27 Sep 2020 09:08:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=Lx662WtO;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: joakim.roubert@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=NaUmp5et;
+ spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f44.google.com with SMTP id p9so5011741ejf.6
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Sep 2020 09:08:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1116; q=dns/txt; s=axis-central1;
-  t=1601041815; x=1632577815;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=XktJlAEuhxmOJCeOzLAPaBHc/CeKxtIxa1IAbWQkCqk=;
-  b=Lx662WtOCXnFsgeyoscL8J+Km1MSXLYeS3L8ql+puZtYKaxkfTu4TmNX
-   Ig+81Cr9kqrr42MOBzzuMcqhtfZeD/D89LQVM84HvyFGr1SaVZ6aro2Qf
-   GTQUMYDO45+nPzzBDRbD0QMLufTu+Nx7AfOTtHULuocapf4mYtGIGY4jB
-   HwUvlCzGqnqVb7aqE1F4GszAocsrGAzLH8qRQ2x4QZhk+H+PDexTDK5vd
-   gQjcRyKAd/A2hKryv5V1LmpvA4Y3E52cKD9j3kjolFGFUF0bN2VeEHvOd
-   ATHK5kKWCbpsfKNPL/7NcUaX6cxfNi97TinerPz1A1/wiy9ZaTn8nosyc
-   w==;
-IronPort-SDR: A+FjMK2LzLUe9a0JAD0fal/qL/qmNhIEcVhg05ALayCg4/Dpuj0OaU8LrERivaAohEoIpQdk1y
- A8Ls7gvRwMSXyjTviJGvB4VerRvpDr050W5X+A0rkPO/+2OxaTis2Fb4h8ujI3aONi8i3DcOZH
- +jSGM2qGXTKMIIuvfKta0+cQupXQBEZqTHf+AcJrFDhiVwYFYQWRmNnp5fa/lpB0hEOZ8FXozL
- ZzxssWACA8CxKKMECuXgvTa1bDgCmGzCHYlBzYKhK9auL+PBNcVHQYzSjCk2gTF6DXQd6Pgeqb
- NgM=
-X-IronPort-AV: E=Sophos;i="5.77,302,1596492000"; 
-   d="scan'208";a="13362643"
-Subject: Re: [meta-virtualization][PATCH] Adding k3s recipe
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>
-References: <20200821205529.29901-1-erik.jansson@axis.com>
- <6adf1052-aa13-b890-606e-119d70eab618@axis.com>
- <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
- <c13a622a-5d4c-d87e-f901-673bec12fe33@axis.com>
- <CADkTA4MArixWsydAc1YdwCvyiPHx36nqcigpLf=j_Fw6NudnRQ@mail.gmail.com>
- <ae269803-37c4-d72a-d19e-097a093baa60@axis.com>
- <CADkTA4NbKfrK0CwQz7P5ecGCgL_d_0CZnuROoVTL=iLWJ6kvMw@mail.gmail.com>
- <8943d000-4ce1-164b-eb8e-2bedfaca2981@axis.com>
- <CADkTA4PNMnRJ3iZu0TvsK+8S_MMySNxx-=fk7rFuCCOStcRdWw@mail.gmail.com>
-From: "Joakim Roubert" <joakim.roubert@axis.com>
-Message-ID: <fe1ed6e4-d1b5-cb35-10a8-0c0071bea825@axis.com>
-Date: Fri, 25 Sep 2020 15:50:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B4OjDnWnymafNSKAqIfLXps6oyJne+ivun3rWrQEyNg=;
+        b=NaUmp5et2r47azyw16l5Zj6NbH6nbQ9yL0fkZrMILUqtvnS+wHqwp/YLJMlskQuZx7
+         T8+QoEV70Pu/UyRbUshQmRAjVZtEGFLBDvYdxC9izUOtvaHA+gdoPYpoAClkKA7c40E5
+         wJ6LBwujHOvQit2LdguMeLFEA1Lo1fK016gygsou/2VAWpO4AAyIq3ZV+dEw8IgSiF5N
+         /O3M7IP1GTAcBzP6Dq5fEZ7fjUVnaH9n0jHWCkp0FSZ2ZYoCsrsOl3XV4aiTkTP8x+lt
+         W0ShtDZRPT39ONvuLABOCS3pBBNuOFhskGgQiEsjflO3b4jTEjO5jjMLqCPqPX3hiURy
+         wqJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B4OjDnWnymafNSKAqIfLXps6oyJne+ivun3rWrQEyNg=;
+        b=sD4JA9LEmmhEaYhZXq08xTWOLKt3V3myv3ohDSAlba0KPUfEjgWsONWVdVNDn+NSqh
+         s4AuC5sHRzqtm8aDaLhxauKb6jEgJG03SsB6Vjs5Fw/UsYoqmsRKd2bHYpNc/T+JWiMl
+         ubO+XQvLf7dc9mOw7a2Wa6zspTthueZlhzBnbTYHjCdMS1utCVeqjqYdJvBIAMARWdvR
+         S0OLXjAxA8pUi/SaDmQ0Q+FmrZvm4wUXwD/8juVLS8DA1RKaVZnRTkEHg3Zro28U+sbu
+         aZ+f31chR/eN19ZJbKSd6UrL4+tFvsuvEED47ZGOX1qZsdxSUYuuluwHHX6KyoMh9jD/
+         FrLw==
+X-Gm-Message-State: AOAM530MtXrNDH2LNc11WEIexrX7f5Hzpt/FyGpsXeLdvfia2L5fyb/Q
+	jIC/S9+9iGFjM1IJ7QS74RaZweMQt7vpW8i1Ohw=
+X-Google-Smtp-Source: ABdhPJzZ93N+9leCPXHEGNROnSbEin2Wy+8qvo7WmrmKRrWpdiO4kWZjksdeo+SQaRrU2P95FT7Li7/eBCegy9uwFms=
+X-Received: by 2002:a17:906:4a81:: with SMTP id x1mr12238764eju.541.1601222883831;
+ Sun, 27 Sep 2020 09:08:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4PNMnRJ3iZu0TvsK+8S_MMySNxx-=fk7rFuCCOStcRdWw@mail.gmail.com>
-Return-Path: joakim.roubert@axis.com
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX02.axis.com (10.0.5.16)
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200922194539.51933-1-bruce.ashfield@gmail.com> <20200922194539.51933-3-bruce.ashfield@gmail.com>
+In-Reply-To: <20200922194539.51933-3-bruce.ashfield@gmail.com>
+From: "Martin Jansa" <Martin.Jansa@gmail.com>
+Date: Sun, 27 Sep 2020 18:07:52 +0200
+Message-ID: <CA+chaQe00HMya5KUDFONH9L4Wk4j1x=8tu-f=2KC1X-V9DR+HQ@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 3/7] busybox: add initrd variant
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="0000000000003272dc05b04dc1e8"
 
-On 2020-09-25 15:12, Bruce Ashfield wrote:
+--0000000000003272dc05b04dc1e8
+Content-Type: text/plain; charset="UTF-8"
+
+Not sure if it's worth adding an DISABLE_STATIC exception for libxcrypt
+in meta/conf/distro/include/no-static-libs.inc or libxcrypt recipe, but for
+DISTROs which include conf/distro/include/no-static-libs.inc this recipe
+fails with:
+ld: error: cannot find -lcrypt
+because there won't be static libcrypt.a in RSS.
+
+On Tue, Sep 22, 2020 at 9:49 PM Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
+
+> From: Bruce Ashfield <bruce.ashfield@xilinx.com>
+>
+> Add a busybox variant that inherits almost all of its support from
+> the core busybox recipe, but adds configuration values that are
+> appropriate to be used in an initrd.
+>
+> In particular:
+>
+>   - we build busybox statically
+>   - we enable runlevel and init functionality
+>   - mdev is always enabled
+>   - applet install support is enabled
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  .../busybox/busybox-initrd/initrd.cfg         | 14 +++++++++++++
+>  recipes-core/busybox/busybox-initrd/runx.cfg  |  1 +
+>  recipes-core/busybox/busybox-initrd_1.32.0.bb | 20 +++++++++++++++++++
+>  3 files changed, 35 insertions(+)
+>  create mode 100644 recipes-core/busybox/busybox-initrd/initrd.cfg
+>  create mode 100644 recipes-core/busybox/busybox-initrd/runx.cfg
+>  create mode 100644 recipes-core/busybox/busybox-initrd_1.32.0.bb
+>
+> diff --git a/recipes-core/busybox/busybox-initrd/initrd.cfg
+> b/recipes-core/busybox/busybox-initrd/initrd.cfg
+> new file mode 100644
+> index 0000000..9f64c4c
+> --- /dev/null
+> +++ b/recipes-core/busybox/busybox-initrd/initrd.cfg
+> @@ -0,0 +1,14 @@
+> +CONFIG_INIT=y
+> +CNOFIG_FEATURE_UTMP=y
+> +CONFIG_RUNLEVEL=y
+> +CONFIG_FEATURE_USE_INITTAB=y
+> +CONFIG_HALT=y
+> +CONFIG_POWEROFF=y
+> +CONFIG_FEATURE_KILL_DELAY=0
+> +CONFIG_TELINIT_PATH=""
+> +CONFIG_INIT_TERMINAL_TYPE=""
+> +
+> +# CONFIG_FEATURE_SHADOWPASSWDS is not set
+> +CONFIG_USE_BB_PWD_GRP=y
+> +
+> +CONFIG_STATIC=y
+> diff --git a/recipes-core/busybox/busybox-initrd/runx.cfg
+> b/recipes-core/busybox/busybox-initrd/runx.cfg
+> new file mode 100644
+> index 0000000..1f1ac6a
+> --- /dev/null
+> +++ b/recipes-core/busybox/busybox-initrd/runx.cfg
+> @@ -0,0 +1 @@
+> +CONFIG_FEATURE_INSTALLER=y
+> diff --git a/recipes-core/busybox/busybox-initrd_1.32.0.bb
+> b/recipes-core/busybox/busybox-initrd_1.32.0.bb
+> new file mode 100644
+> index 0000000..82edb57
+> --- /dev/null
+> +++ b/recipes-core/busybox/busybox-initrd_1.32.0.bb
+> @@ -0,0 +1,20 @@
+> +FILESEXTRAPATHS_prepend :=
+> "${THISDIR}/busybox-initrd:${COREBASE}/meta/recipes-core/busybox/busybox:${COREBASE}/meta/recipes-core/busybox/files:"
+> +
+> +require recipes-core/busybox/busybox_${PV}.bb
+> +
+> +SRC_URI += "file://init.cfg \
+> +            file://mdev.cfg \
+> +            file://runx.cfg \
+> +            file://initrd.cfg"
+> +
+> +S = "${WORKDIR}/busybox-${PV}"
+> +
+> +# override security-flags settings, we have some warnings to ignore
+> +SECURITY_STRINGFORMAT = ""
+> +
+> +# we do this to get the target binary available to recipes that
+> +# depend on busybox
+> +SYSROOT_DIRS += "/bin"
+> +BUSYBOX_SPLIT_SUID = "0"
+> +
+> +FILES_${PN} += "${sysconfdir}/init.d/*"
+> --
+> 2.19.1
+>
+>
 > 
-> Absolutely. I'm always in favour of making these configurable, so we
-> can let users customize as they see fit.
+>
+>
 
-Wonderful.
+--0000000000003272dc05b04dc1e8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I finalized a quite (IMO) nice solution during the day, where
-${exec_prefix} would be the fixed starting point and /bin the ending
-dito, and what is in between configurable. But I like your suggestion
-with even more flexibility better and will update according to that.
+<div dir=3D"ltr">Not sure if it&#39;s worth adding an DISABLE_STATIC except=
+ion for libxcrypt in=C2=A0meta/conf/distro/include/no-static-libs.inc or li=
+bxcrypt recipe, but for DISTROs which include conf/distro/include/no-static=
+-libs.inc this recipe fails with:<div>ld: error: cannot find -lcrypt<br></d=
+iv><div>because there won&#39;t be static libcrypt.a in RSS.</div></div><br=
+><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, S=
+ep 22, 2020 at 9:49 PM Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@=
+gmail.com">bruce.ashfield@gmail.com</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">From: Bruce Ashfield &lt;<a href=3D"mail=
+to:bruce.ashfield@xilinx.com" target=3D"_blank">bruce.ashfield@xilinx.com</=
+a>&gt;<br>
+<br>
+Add a busybox variant that inherits almost all of its support from<br>
+the core busybox recipe, but adds configuration values that are<br>
+appropriate to be used in an initrd.<br>
+<br>
+In particular:<br>
+<br>
+=C2=A0 - we build busybox statically<br>
+=C2=A0 - we enable runlevel and init functionality<br>
+=C2=A0 - mdev is always enabled<br>
+=C2=A0 - applet install support is enabled<br>
+<br>
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@xilinx.=
+com" target=3D"_blank">bruce.ashfield@xilinx.com</a>&gt;<br>
+Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.c=
+om" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../busybox/busybox-initrd/initrd.cfg=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0| 14 +++++++++++++<br>
+=C2=A0recipes-core/busybox/busybox-initrd/runx.cfg=C2=A0 |=C2=A0 1 +<br>
+=C2=A0recipes-core/busybox/<a href=3D"http://busybox-initrd_1.32.0.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">busybox-initrd_1.32.0.bb</a> | 20 ++++++=
++++++++++++++<br>
+=C2=A03 files changed, 35 insertions(+)<br>
+=C2=A0create mode 100644 recipes-core/busybox/busybox-initrd/initrd.cfg<br=
+>
+=C2=A0create mode 100644 recipes-core/busybox/busybox-initrd/runx.cfg<br>
+=C2=A0create mode 100644 recipes-core/busybox/<a href=3D"http://busybox-in=
+itrd_1.32.0.bb" rel=3D"noreferrer" target=3D"_blank">busybox-initrd_1.32.0.=
+bb</a><br>
+<br>
+diff --git a/recipes-core/busybox/busybox-initrd/initrd.cfg b/recipes-core=
+/busybox/busybox-initrd/initrd.cfg<br>
+new file mode 100644<br>
+index 0000000..9f64c4c<br>
+--- /dev/null<br>
++++ b/recipes-core/busybox/busybox-initrd/initrd.cfg<br>
+@@ -0,0 +1,14 @@<br>
++CONFIG_INIT=3Dy<br>
++CNOFIG_FEATURE_UTMP=3Dy<br>
++CONFIG_RUNLEVEL=3Dy<br>
++CONFIG_FEATURE_USE_INITTAB=3Dy<br>
++CONFIG_HALT=3Dy<br>
++CONFIG_POWEROFF=3Dy<br>
++CONFIG_FEATURE_KILL_DELAY=3D0<br>
++CONFIG_TELINIT_PATH=3D&quot;&quot;<br>
++CONFIG_INIT_TERMINAL_TYPE=3D&quot;&quot;<br>
++<br>
++# CONFIG_FEATURE_SHADOWPASSWDS is not set<br>
++CONFIG_USE_BB_PWD_GRP=3Dy<br>
++<br>
++CONFIG_STATIC=3Dy<br>
+diff --git a/recipes-core/busybox/busybox-initrd/runx.cfg b/recipes-core/b=
+usybox/busybox-initrd/runx.cfg<br>
+new file mode 100644<br>
+index 0000000..1f1ac6a<br>
+--- /dev/null<br>
++++ b/recipes-core/busybox/busybox-initrd/runx.cfg<br>
+@@ -0,0 +1 @@<br>
++CONFIG_FEATURE_INSTALLER=3Dy<br>
+diff --git a/recipes-core/busybox/<a href=3D"http://busybox-initrd_1.32.0.=
+bb" rel=3D"noreferrer" target=3D"_blank">busybox-initrd_1.32.0.bb</a> b/rec=
+ipes-core/busybox/<a href=3D"http://busybox-initrd_1.32.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">busybox-initrd_1.32.0.bb</a><br>
+new file mode 100644<br>
+index 0000000..82edb57<br>
+--- /dev/null<br>
++++ b/recipes-core/busybox/<a href=3D"http://busybox-initrd_1.32.0.bb" rel=
+=
+=3D"noreferrer" target=3D"_blank">busybox-initrd_1.32.0.bb</a><br>
+@@ -0,0 +1,20 @@<br>
++FILESEXTRAPATHS_prepend :=3D &quot;${THISDIR}/busybox-initrd:${COREBASE}/=
+meta/recipes-core/busybox/busybox:${COREBASE}/meta/recipes-core/busybox/fil=
+es:&quot;<br>
++<br>
++require recipes-core/busybox/busybox_${PV}.bb<br>
++<br>
++SRC_URI +=3D &quot;file://init.cfg \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://mdev.cfg \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://runx.cfg \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://initrd.cfg&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/busybox-${PV}&quot;<br>
++<br>
++# override security-flags settings, we have some warnings to ignore<br>
++SECURITY_STRINGFORMAT =3D &quot;&quot;<br>
++<br>
++# we do this to get the target binary available to recipes that<br>
++# depend on busybox<br>
++SYSROOT_DIRS +=3D &quot;/bin&quot;<br>
++BUSYBOX_SPLIT_SUID =3D &quot;0&quot;<br>
++<br>
++FILES_${PN} +=3D &quot;${sysconfdir}/init.d/*&quot;<br>
+-- <br>
+2.19.1<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-> I just had to go through the License / SPDX header addition for
-> hundreds of files. So I know what a pain this can be, so thanks!
-
-No worries, I find those things very important too.
-
-> Absolutely. Just a stream of thoughts is fine for now, with a quick
-> overview, and perhaps a guideline on how to build a single node
-> system ? With a few notes about what is configured out of the box
-> and what we expect the end user to continue to configure / customize ?
-
-Ok!
-
-I am running out of time here today, so even though I have ticked off
-several of the tasks on the list, it will be next week where I get back
-with an update!
-
-BR,
-
-/Joakim
-
+--0000000000003272dc05b04dc1e8--
