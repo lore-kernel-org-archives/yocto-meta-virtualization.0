@@ -1,209 +1,165 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.28192.1601260959577382929
+ by mx.groups.io with SMTP id smtpd.web11.28129.1601261100826625454
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Sep 2020 19:42:39 -0700
+ Sun, 27 Sep 2020 19:45:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=FJ7gvvGw;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z8/KWg1B;
  spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 6173C38C0858
-	for <meta-virtualization@yoctoproject.org>; Sun, 27 Sep 2020 19:42:38 -0700 (PDT)
-Received: by mail-ej1-f67.google.com with SMTP id lo4so6387544ejb.8
-        for <meta-virtualization@yoctoproject.org>; Sun, 27 Sep 2020 19:42:38 -0700 (PDT)
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 9863438C0858
+	for <meta-virtualization@yoctoproject.org>; Sun, 27 Sep 2020 19:45:00 -0700 (PDT)
+Received: by mail-qt1-f196.google.com with SMTP id z2so7065174qtv.12
+        for <meta-virtualization@yoctoproject.org>; Sun, 27 Sep 2020 19:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cO3Au+t3eXbPApUAihLpklCbqOLBHYvTazcDsFa5i+c=;
-        b=FJ7gvvGwoXhmLEQXBj8e5r67928WqKuMV2pqy0HAGvp71l7O/EfnUDFOhwU3GIzs2o
-         h+RWCxNi/BbkPhIB6VB1tCGn9fVqbL9tapPwzwIinfqm8UkOIQSxXUEeqG5AOafALsyP
-         1IkEwMU6NLND39ghT5SR4AKXtKwAgHHdoG2UhZM+q1yGg76+gNRk/zLiTsocHFKa1kX+
-         qqeQuNqHufRy7ft9FBPHzSdNMgdvVsXVuvZieMMUbZIEVDN5ggNoN3WoOgxKuTDaRZ8X
-         63wnySuWahGZ5AJBeZEtjhfKboW3RRNJHHHiqIFCoqKPc09NSTN9Lcdx/zOCRaNFJ2Ol
-         JOsQ==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=vvSfS8JD5g429zuhgaz9kNILs+24lMpwr65EE4TPP94=;
+        b=Z8/KWg1BGRY6WxGHexDlz/+ibrSOhZzZIbyBDQWTG6+nv5CPVmuP0WyFqyR5dmukFG
+         SKKmUHX0N2hjzgodTtv6XRVvkAHp99C01vEhVQpntGCdD+WiIupuGMUJYuG4230EwObr
+         5nNXweGkdFoef9ZkEC4n/i7P8sh7ZwkuCMFTazNff7GA14+TFYrGBTBGyBR+X8WbYW9h
+         gsDZIjIS/WnjI4S3Bw5BP7beyILnGWDRuf5gTt1KtGkvOUZD23B+ql/Pvb/ViknqUzBx
+         vRCwJinGBOPSAiMGOZuG4X+lN6Uf89kZb7T/hOqpw3bkpzV8QpZlk8RckG1ZwrsRpGYe
+         IYZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cO3Au+t3eXbPApUAihLpklCbqOLBHYvTazcDsFa5i+c=;
-        b=BKoq7qR+FvQpFeI4ViFVlUv+HOu/RPOiwRV48OyCNK3JnUVQL2PftAJt/OM4YR+20W
-         BSq+wBeDd9x7FwJPIc6LgWjwZd9w+NKY0Lhq0YrfI25YK3dcWktfK1c2VWe7YujYhrcK
-         ouSShn5CPz6WLR+6319DSisljweqRY6SFql2xF1Rz4iKE34MJ/IYJrJhjsPxhHVQ0rtb
-         +BmV/OxFrz9C/Bs+kx8Kv5OGWuIhzSZidk5V5OIrRV6FulkRsMAnWQdrSGcPhECuHJOB
-         maXp7sB2T7/7309r6wt1VRynDk6LE1ERF996lumwKDJ1w466otADTJPtS0GtdgbasJj5
-         csqw==
-X-Gm-Message-State: AOAM533v6G0Aghtas4fr9UYFYNETbH2uslGFIqRV/oMuOvZoSMQNEJAh
-	0SSyTOC8X0KdzfeAVq6Xis/jUBioBp9REYhJj98=
-X-Google-Smtp-Source: ABdhPJwdZ45dWeAkhTJJpfWoGzpD+nn8X5Q1Ctf7V0wu4p3+ea+ZuTDXZ7aZbJzwy/TrtJ+nizZNvf7w2w3Nc1MRhYQ=
-X-Received: by 2002:a17:906:a2cf:: with SMTP id by15mr205011ejb.298.1601260956865;
- Sun, 27 Sep 2020 19:42:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <16370E1C8879D0E3.12779@lists.yoctoproject.org>
- <20200923075309.46978-1-mingli.yu@windriver.com> <CADkTA4NfOEhuR1JWWkJPAZvNKU6kk_Prz9kejRwBYefqxsFo_g@mail.gmail.com>
- <e3483726-1d87-f7f6-0ff2-515e94ba4ff1@windriver.com>
-In-Reply-To: <e3483726-1d87-f7f6-0ff2-515e94ba4ff1@windriver.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=vvSfS8JD5g429zuhgaz9kNILs+24lMpwr65EE4TPP94=;
+        b=DGwQQkSpgZKBSWlYZ1JfpURx9LE3OCKrO7IaiHgxXBoFtbguyT89ITW5i3ntfITWJV
+         Dm4fyFncsegoiiD/ftkJl9i4mlo/46ORaVlU1WYGFDX5izh26nYYJ32RbxkBYoq7fSWG
+         CoMaMSao7BBvi9CtZ8q/rRIjfC6J6ddNatUI8zyMlWtniudfsBqYuU4MZrJqBZsaOi+p
+         leZ/tiD38+hEMketoMLViGRfsr4YDXZWLySJ8rnUHnGJcWxB3L9J7ecsom+mx6FmKiT3
+         p1WKOY8bqzvYuKwPdnTDaQUBC4JUiEkj2H7RhVPgohfZfDfdcZN1d4uNE7lmDACOs5s4
+         AIQw==
+X-Gm-Message-State: AOAM530l3ZoTNDm/UrOeviFVB8Xqyv760u9FeCv6/vxuGxNFWrr0cj9E
+	6NIFS04JtjGhJf5u+fHBqJ0Si4fc6SsV6jcq
+X-Google-Smtp-Source: ABdhPJzyGbrZYWgJsaxZRtH7GGen8KrTkbwkS3dNFuEWL3V8jsU4qfs0WUYbaInsKKaLbtqYe99n1w==
+X-Received: by 2002:ac8:4c8e:: with SMTP id j14mr10988694qtv.340.1601261099384;
+        Sun, 27 Sep 2020 19:44:59 -0700 (PDT)
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id d51sm7247417qte.50.2020.09.27.19.44.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2020 19:44:58 -0700 (PDT)
+Date: Sun, 27 Sep 2020 22:44:57 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 27 Sep 2020 22:42:25 -0400
-Message-ID: <CADkTA4MWs1Bd2Yn-QEkUbn4rzNuCK-D9pUu=AzQdWRO7omw1xA@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH v2] lxc: remove deprecated options in lxc*.service
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: meta-virtualization <meta-virtualization@yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [meta-virtualization] [PATCH] python3-mistralclient: Change to python3
+Message-ID: <20200928024454.GA60026@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <1600741576-124087-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741637-124133-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741645-124169-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741657-124205-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741666-124250-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741690-124287-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741697-124327-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741708-124363-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741757-124408-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1600741786-124453-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, Sep 23, 2020 at 9:40 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
->
-> Hi Bruce,
->
-> On 9/23/20 8:40 PM, Bruce Ashfield wrote:
-> > On Wed, Sep 23, 2020 at 3:54 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
-> >>
-> >> From: Mingli Yu <mingli.yu@windriver.com>
-> >>
-> >> Remove deprecated options in lxc*.service to silence below warning:
-> >>   # systemctl status lxc
-> >>   [snip]
-> >>   /usr/lib/systemd/system/lxc.service:17: Standard output type syslog is obsolete, automatically updating to journal. Please update your unit file, and consider removing the setting altogether.
-> >>   /usr/lib/systemd/system/lxc.service:18: Standard output type syslog is obsolete, automatically updating to journal. Please update your unit file, and consider removing the setting altogether.
-> >
-> > What's the delta to v1 ?
->
-
-This should be logged in the temporary section of the patch, that way
-I can track what is changing through a series.
-
-That being said, I went to apply this patch, and it isn't against the
-lxc version that we have in master.
-
-Can you update and resubmit ?
+merged.
 
 Bruce
 
-> The v1 only have one patch
->    file://0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
->
->
-> And the v2 have the below two patch files.
->   file://0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
->   file://0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
->
-> Thanks,
->
-> >
-> > Bruce
-> >
-> >>
-> >> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> >> ---
-> >>   ...setting-regarding-the-Standard-Outpu.patch | 35 +++++++++++++++++++
-> >>   ...ed-options-in-lxc.service-fixes-3527.patch | 31 ++++++++++++++++
-> >>   recipes-containers/lxc/lxc_4.0.2.bb           |  2 ++
-> >>   3 files changed, 68 insertions(+)
-> >>   create mode 100644 recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
-> >>   create mode 100644 recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
-> >>
-> >> diff --git a/recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch b/recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
-> >> new file mode 100644
-> >> index 0000000..ab97422
-> >> --- /dev/null
-> >> +++ b/recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
-> >> @@ -0,0 +1,35 @@
-> >> +From a7a92a06a47322dee45664db5c7bfa68b2b95edb Mon Sep 17 00:00:00 2001
-> >> +From: Mingli Yu <mingli.yu@windriver.com>
-> >> +Date: Wed, 23 Sep 2020 07:03:02 +0000
-> >> +Subject: [PATCH] Remove obsolete setting regarding the Standard Output
-> >> +
-> >> +The Standard output type "syslog" is obsolete, causing a warning since systemd
-> >> +version 246 [1].
-> >> +
-> >> +Please consider using "journal" or "journal+console"
-> >> +
-> >> +[1] https://github.com/systemd/systemd/blob/master/NEWS#L202
-> >> +
-> >> +Upstream-Status: Submitted [https://github.com/lxc/lxc/pull/3541]
-> >> +
-> >> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> >> +---
-> >> + config/init/systemd/lxc@.service.in         | 2 --
-> >> + 1 files changed, 2 deletions(-)
-> >> +
-> >> +diff --git a/config/init/systemd/lxc@.service.in b/config/init/systemd/lxc@.service.in
-> >> +index a2aa2211f..21ce64aef 100644
-> >> +--- a/config/init/systemd/lxc@.service.in
-> >> ++++ b/config/init/systemd/lxc@.service.in
-> >> +@@ -14,8 +14,6 @@ ExecStop=@BINDIR@/lxc-stop -n %i
-> >> + # Environment=BOOTUP=serial
-> >> + # Environment=CONSOLETYPE=serial
-> >> + Delegate=yes
-> >> +-StandardOutput=syslog
-> >> +-StandardError=syslog
-> >> +
-> >> + [Install]
-> >> + WantedBy=multi-user.target
-> >> +--
-> >> +2.26.2
-> >> +
-> >> diff --git a/recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch b/recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
-> >> new file mode 100644
-> >> index 0000000..2957680
-> >> --- /dev/null
-> >> +++ b/recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
-> >> @@ -0,0 +1,31 @@
-> >> +From 0c4cd88d4a19d27ba9b5d2c8fa4d482d78211c35 Mon Sep 17 00:00:00 2001
-> >> +From: graysky <graysky@archlinux.us>
-> >> +Date: Fri, 21 Aug 2020 06:33:49 -0400
-> >> +Subject: [PATCH] remove deprecated options in lxc.service fixes #3527
-> >> +
-> >> +Remove deprecated options in lxc.service fixes #3527
-> >> +
-> >> +Upstream-Status: Backport
-> >> +
-> >> +Signed-off-by: graysky <graysky@archlinux.us>
-> >> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> >> +---
-> >> + config/init/systemd/lxc.service.in | 2 --
-> >> + 1 file changed, 2 deletions(-)
-> >> +
-> >> +diff --git a/config/init/systemd/lxc.service.in b/config/init/systemd/lxc.service.in
-> >> +index e3745dc2d..397a6c4d0 100644
-> >> +--- a/config/init/systemd/lxc.service.in
-> >> ++++ b/config/init/systemd/lxc.service.in
-> >> +@@ -14,8 +14,6 @@ ExecReload=@LIBEXECDIR@/lxc/lxc-apparmor-load
-> >> + # Environment=BOOTUP=serial
-> >> + # Environment=CONSOLETYPE=serial
-> >> + Delegate=yes
-> >> +-StandardOutput=syslog
-> >> +-StandardError=syslog
-> >> +
-> >> + [Install]
-> >> + WantedBy=multi-user.target
-> >> +--
-> >> +2.26.2
-> >> +
-> >> diff --git a/recipes-containers/lxc/lxc_4.0.2.bb b/recipes-containers/lxc/lxc_4.0.2.bb
-> >> index d0ead81..ead6bb2 100644
-> >> --- a/recipes-containers/lxc/lxc_4.0.2.bb
-> >> +++ b/recipes-containers/lxc/lxc_4.0.2.bb
-> >> @@ -47,6 +47,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
-> >>          file://templates-use-curl-instead-of-wget.patch \
-> >>          file://tests-our-init-is-not-busybox.patch \
-> >>          file://tests-add-no-validate-when-using-download-template.patch \
-> >> +       file://0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch \
-> >> +       file://0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch \
-> >>          file://dnsmasq.conf \
-> >>          file://lxc-net \
-> >>          "
-> >> --
-> >> 2.26.2
-> >>
-> >>
-> >> 
-> >>
-> >
-> >
+In message: [meta-virtualization] [PATCH] python3-mistralclient: Change to python3
+on 22/09/2020 zhengruoqin wrote:
+
+> Because python2 is no longer maintained, bb file is changed to python3 version.
+> 
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> ---
+>  .../python/python-mistralclient_git.bb        | 32 -------------------
+>  .../python/python3-mistralclient_4.1.1.bb     | 29 +++++++++++++++++
+>  2 files changed, 29 insertions(+), 32 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python-mistralclient_git.bb
+>  create mode 100644 meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
+> 
+> diff --git a/meta-openstack/recipes-devtools/python/python-mistralclient_git.bb b/meta-openstack/recipes-devtools/python/python-mistralclient_git.bb
+> deleted file mode 100644
+> index c9002e9..0000000
+> --- a/meta-openstack/recipes-devtools/python/python-mistralclient_git.bb
+> +++ /dev/null
+> @@ -1,32 +0,0 @@
+> -DESCRIPTION = "Python client for Mistral REST API"
+> -HOMEPAGE = "https://github.com/openstack/python-mistralclient"
+> -SECTION = "devel/python"
+> -LICENSE = "Apache-2.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+> -
+> -DEPENDS += " \
+> -        python-pip \
+> -        python-pbr \
+> -        "
+> -
+> -# Satisfy setup.py 'setup_requires'
+> -DEPENDS += " \
+> -        python-pbr-native \
+> -        "
+> -
+> -RDEPENDS_${PN} +=" \
+> -        python-cliff \
+> -        python-pbr \
+> -        python-keystoneclient \
+> -        python-pyyaml \
+> -        python-requests \
+> -	"
+> -
+> -SRCNAME = "mistralclient"
+> -SRC_URI = "git://github.com/openstack/${BPN}.git;branch=master"
+> -
+> -PV = "1.1.0+git${SRCPV}"
+> -SRCREV = "48e2780ee0148efc186c8972ca22e572fa2433c5"
+> -S = "${WORKDIR}/git"
+> -
+> -inherit setuptools3
+> diff --git a/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb b/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
+> new file mode 100644
+> index 0000000..dd0eb90
+> --- /dev/null
+> +++ b/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
+> @@ -0,0 +1,29 @@
+> +DESCRIPTION = "Python client for Mistral REST API"
+> +HOMEPAGE = "https://github.com/openstack/python-mistralclient"
+> +SECTION = "devel/python"
+> +LICENSE = "Apache-2.0"
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
+> +
+> +SRC_URI[sha256sum] = "b03d52ec860df292192a0face767585633e209ba9297fc71da70d42d6a76aebe"
+> +
+> +PYPI_PACKAGE = "python-mistralclient"
+> +
+> +DEPENDS += " \
+> +        python3-pip \
+> +        python3-pbr \
+> +        "
+> +
+> +# Satisfy setup.py 'setup_requires'
+> +DEPENDS += " \
+> +        python3-pbr-native \
+> +        "
+> +
+> +RDEPENDS_${PN} +=" \
+> +        python3-cliff \
+> +        python3-pbr \
+> +        python3-keystoneclient \
+> +        python3-pyyaml \
+> +        python3-requests \
+> +	"
+> +
+> +inherit setuptools3 pypi
+> -- 
+> 2.25.1
+> 
+> 
+> 
+
+> 
+> 
+> 
 
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
