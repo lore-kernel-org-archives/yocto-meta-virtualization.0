@@ -1,153 +1,109 @@
-Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
- by mx.groups.io with SMTP id smtpd.web12.18331.1601228760543993976
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com [209.85.160.194])
+ by mx.groups.io with SMTP id smtpd.web10.27966.1601260864308018365
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Sep 2020 10:46:00 -0700
+ Sun, 27 Sep 2020 19:41:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=CIajx2t/;
- spf=pass (domain: gmail.com, ip: 209.85.218.67, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f67.google.com with SMTP id e23so5235177eja.3
-        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Sep 2020 10:46:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=n3Fpv9xR;
+ spf=pass (domain: gmail.com, ip: 209.85.160.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f194.google.com with SMTP id g3so7067708qtq.10
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Sep 2020 19:41:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xgsdG7Ph08jtc/8JyCZxmY4VpgjxW5Q507cT52EL+Vs=;
-        b=CIajx2t/R3UYYL+PphOeLRqsaz/JgyRFz8K69N2WxGINYf/5x6VHwi+BLkocbsXzak
-         ekNZ7bw47WR6o7BWF185PKIyZEeFHBfYcFwo/rABjRgG0bGaDl+N3LWVTUEJ037o+ZuY
-         3pm2ho7oETxzK0UpXTUX+W3FC9Yl3LJ63KlXl2U7/6n5bD5kBZX2ofVeMAzZ2086Bcl3
-         jCYlEDPIXLF5xotZQRTzvloy5SalEP63IulQkVpsHqHh/tiVazf7aFDaZIB1RdCnA20b
-         dKwKW5lLodjIRqiMOnjY0IYCB1EbCfg+DupXMjzszZkwDQHhLdhiPhyc8eohpSSx9RGd
-         Pcsg==
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=gP3ww0m2SSKxBc0SVp3zHkFYxmJN61ADDVW1p/PE43Q=;
+        b=n3Fpv9xRhYSoiiHpZXwVHMUHzwLZ150SlKaggyiwMYR6YwGRupwzjwJyRhuk1JUFeM
+         fQTUVMb5ztvtGWaiVozvQvWTrr5moxx5CIRu20XYRy/1BbNJzdPIDemwt4n5UJ2jLMMi
+         panIfJ3509Nmki/clepx9HBgez4/lRlEDhh52k7dmnNj8m0DCl0PnyNFYXqI32T0gsJU
+         GJDbKIdB2D0taHp146weIEsSdRsAr5RwzJyYjuxz4zjNmhq4EitHtz2oRK9IB+j+weLa
+         quUziMlwARi520ARnjLLfJiro/NF/2Xy9MLXKKWDAbd8zvlgrm0O5FuHLAbaBN42P/wn
+         S6Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xgsdG7Ph08jtc/8JyCZxmY4VpgjxW5Q507cT52EL+Vs=;
-        b=jVUYIlucIMhQ3A36RXgK+sbGHQedQmtnT/HYI66L2udGvoanpIlpz1PIz9vQqiJkDM
-         4Cg1RngVG1qUT4i00ivpetrfrJ4fYIdHnKvzwjXtq5Ews6iSH9/SWxcndJIH3C6V23NG
-         hJt+sL63d95VhV+ZswZvJTlP/HDiKdwtMl3YV5EnNG+SlmsRTMgacbYNAzi64GNzn0XG
-         fo+zDuVF7kCa6FvmO27KicR1OQ24U5KZbj+8tOqqZJ1iez+2pB9MSurP/YBs0C1cl9SZ
-         cmpXOOgvEIzlo0AVzVNZ5OKVxrL9bnBoQh+dImOMFy5RQv3CVTHmDjGMsr5KcKuvimaC
-         xXRg==
-X-Gm-Message-State: AOAM530c5XKX5XR2N/5pF7bPWMG2b3EeIGWFxurxg4F2V7wblCPP7iHE
-	q1hIk/uWhIj43DhauVuJdrQ485WtjgrmACn5Qag=
-X-Google-Smtp-Source: ABdhPJyBZIaMIyqUJIyX+TGPNj6J7tDqRkQrEQK+3z8nAGxTpyQZQVhtyHACEjEZjzjJ/tRyfWjF8CB1BtTPt5ATRGU=
-X-Received: by 2002:a17:906:1e11:: with SMTP id g17mr11636820ejj.298.1601228758889;
- Sun, 27 Sep 2020 10:45:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200922194539.51933-1-bruce.ashfield@gmail.com>
- <20200922194539.51933-3-bruce.ashfield@gmail.com> <CA+chaQe00HMya5KUDFONH9L4Wk4j1x=8tu-f=2KC1X-V9DR+HQ@mail.gmail.com>
-In-Reply-To: <CA+chaQe00HMya5KUDFONH9L4Wk4j1x=8tu-f=2KC1X-V9DR+HQ@mail.gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=gP3ww0m2SSKxBc0SVp3zHkFYxmJN61ADDVW1p/PE43Q=;
+        b=roqqNN5WEpIWImJDYpihpbC71gEkW/RfSsBNFcPrfejJOhLzuPlfvjFIvG6gUaRAdg
+         UiElhC3OzKrRRnnhj513eVM1hvpYbECVypVq0pBQphv25Za06AvNkuTGOVMOIIG5UoKJ
+         VbKmTFb3ANFUU75obvlGfmbq0S6UqZ24pyj4GXgLpQKDwAxvN+k9JFkHaBonq7KX0VZT
+         Po7L6fq7ehaF7ayHHRJqed/XDvgLD6MCoWOTK2tZ6lIP0rxEPI0n0bYlEmAjJUGanM22
+         BXa7ELRckao0rQShjmAPkF9HJXON9OHAWzhraOu+7Ozos+684TjRr1dJG14lIp1ZeSOE
+         HbHA==
+X-Gm-Message-State: AOAM533tpSQhunLLUd7J+9S/OTI0/qiZwNQB90XsiQxFLe2ac+11My2x
+	y0bEEG2R+Ys5jrD2f8T5tQg=
+X-Google-Smtp-Source: ABdhPJzJDNyvzbQ4xNj6KjG8UiCG6V6O76p4pLD5bh5GaEzl10wyc237iVNlrTSw/x/4BZ5ilIJRaA==
+X-Received: by 2002:ac8:6916:: with SMTP id e22mr10437818qtr.141.1601260863034;
+        Sun, 27 Sep 2020 19:41:03 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id w2sm7787772qki.115.2020.09.27.19.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Sep 2020 19:41:02 -0700 (PDT)
+Date: Sun, 27 Sep 2020 22:41:00 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Sun, 27 Sep 2020 13:45:47 -0400
-Message-ID: <CADkTA4M-LUew7NOucP-1cMK_JuXY2bNLsqCN+beQAmPcJBWC9w@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH 3/7] busybox: add initrd variant
-To: Martin Jansa <martin.jansa@gmail.com>
+To: Ricardo Salveti <ricardo@foundries.io>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [meta-virtualization] [PATCH] python3-websocket-client: remove recipe
+Message-ID: <20200928024058.GA59678@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20200921190448.20625-1-ricardo@foundries.io>
+ <20200921192555.22149-1-ricardo@foundries.io>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Sun, Sep 27, 2020 at 12:08 PM Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> Not sure if it's worth adding an DISABLE_STATIC exception for libxcrypt in meta/conf/distro/include/no-static-libs.inc or libxcrypt recipe, but for DISTROs which include conf/distro/include/no-static-libs.inc this recipe fails with:
-> ld: error: cannot find -lcrypt
-> because there won't be static libcrypt.a in RSS.
-
-Aha.
-
-I hadn't considered that. I should be able to fix that up with a
-libxcrypte bbappend, that triggers only on a distro feature.
+merged.
 
 Bruce
 
->
-> On Tue, Sep 22, 2020 at 9:49 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->>
->> From: Bruce Ashfield <bruce.ashfield@xilinx.com>
->>
->> Add a busybox variant that inherits almost all of its support from
->> the core busybox recipe, but adds configuration values that are
->> appropriate to be used in an initrd.
->>
->> In particular:
->>
->>   - we build busybox statically
->>   - we enable runlevel and init functionality
->>   - mdev is always enabled
->>   - applet install support is enabled
->>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> ---
->>  .../busybox/busybox-initrd/initrd.cfg         | 14 +++++++++++++
->>  recipes-core/busybox/busybox-initrd/runx.cfg  |  1 +
->>  recipes-core/busybox/busybox-initrd_1.32.0.bb | 20 +++++++++++++++++++
->>  3 files changed, 35 insertions(+)
->>  create mode 100644 recipes-core/busybox/busybox-initrd/initrd.cfg
->>  create mode 100644 recipes-core/busybox/busybox-initrd/runx.cfg
->>  create mode 100644 recipes-core/busybox/busybox-initrd_1.32.0.bb
->>
->> diff --git a/recipes-core/busybox/busybox-initrd/initrd.cfg b/recipes-core/busybox/busybox-initrd/initrd.cfg
->> new file mode 100644
->> index 0000000..9f64c4c
->> --- /dev/null
->> +++ b/recipes-core/busybox/busybox-initrd/initrd.cfg
->> @@ -0,0 +1,14 @@
->> +CONFIG_INIT=y
->> +CNOFIG_FEATURE_UTMP=y
->> +CONFIG_RUNLEVEL=y
->> +CONFIG_FEATURE_USE_INITTAB=y
->> +CONFIG_HALT=y
->> +CONFIG_POWEROFF=y
->> +CONFIG_FEATURE_KILL_DELAY=0
->> +CONFIG_TELINIT_PATH=""
->> +CONFIG_INIT_TERMINAL_TYPE=""
->> +
->> +# CONFIG_FEATURE_SHADOWPASSWDS is not set
->> +CONFIG_USE_BB_PWD_GRP=y
->> +
->> +CONFIG_STATIC=y
->> diff --git a/recipes-core/busybox/busybox-initrd/runx.cfg b/recipes-core/busybox/busybox-initrd/runx.cfg
->> new file mode 100644
->> index 0000000..1f1ac6a
->> --- /dev/null
->> +++ b/recipes-core/busybox/busybox-initrd/runx.cfg
->> @@ -0,0 +1 @@
->> +CONFIG_FEATURE_INSTALLER=y
->> diff --git a/recipes-core/busybox/busybox-initrd_1.32.0.bb b/recipes-core/busybox/busybox-initrd_1.32.0.bb
->> new file mode 100644
->> index 0000000..82edb57
->> --- /dev/null
->> +++ b/recipes-core/busybox/busybox-initrd_1.32.0.bb
->> @@ -0,0 +1,20 @@
->> +FILESEXTRAPATHS_prepend := "${THISDIR}/busybox-initrd:${COREBASE}/meta/recipes-core/busybox/busybox:${COREBASE}/meta/recipes-core/busybox/files:"
->> +
->> +require recipes-core/busybox/busybox_${PV}.bb
->> +
->> +SRC_URI += "file://init.cfg \
->> +            file://mdev.cfg \
->> +            file://runx.cfg \
->> +            file://initrd.cfg"
->> +
->> +S = "${WORKDIR}/busybox-${PV}"
->> +
->> +# override security-flags settings, we have some warnings to ignore
->> +SECURITY_STRINGFORMAT = ""
->> +
->> +# we do this to get the target binary available to recipes that
->> +# depend on busybox
->> +SYSROOT_DIRS += "/bin"
->> +BUSYBOX_SPLIT_SUID = "0"
->> +
->> +FILES_${PN} += "${sysconfdir}/init.d/*"
->> --
->> 2.19.1
->>
->>
->> 
->>
+
+In message: [meta-virtualization] [PATCH] python3-websocket-client: remove recipe
+on 21/09/2020 Ricardo Salveti wrote:
+
+> Remove local python3-websocket-client recipe in favor of a similar one
+> that is provided by meta-oe/meta-python (same verison but with the correct
+> license).
+> 
+> Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+> ---
+>  recipes-devtools/python/python-websocket-client.inc   | 11 -----------
+>  .../python/python3-websocket-client_0.57.0.bb         |  2 --
+>  2 files changed, 13 deletions(-)
+>  delete mode 100644 recipes-devtools/python/python-websocket-client.inc
+>  delete mode 100644 recipes-devtools/python/python3-websocket-client_0.57.0.bb
+> 
+> diff --git a/recipes-devtools/python/python-websocket-client.inc b/recipes-devtools/python/python-websocket-client.inc
+> deleted file mode 100644
+> index 8604dcb..0000000
+> --- a/recipes-devtools/python/python-websocket-client.inc
+> +++ /dev/null
+> @@ -1,11 +0,0 @@
+> -SUMMARY = "WebSocket client for python. hybi13 is supported."
+> -HOMEPAGE = "https://github.com/websocket-client/websocket-client.git"
+> -LICENSE = "LGPL-3.0"
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=c4c4a98fbc4836b81c8c64d6ecb01fc1"
+> -
+> -inherit pypi
+> -
+> -PYPI_PACKAGE = "websocket_client"
+> -
+> -SRC_URI[md5sum] = "8061820da5e1de26a6a1a6996d4eebd5"
+> -SRC_URI[sha256sum] = "d735b91d6d1692a6a181f2a8c9e0238e5f6373356f561bb9dc4c7af36f452010"
+> diff --git a/recipes-devtools/python/python3-websocket-client_0.57.0.bb b/recipes-devtools/python/python3-websocket-client_0.57.0.bb
+> deleted file mode 100644
+> index 473e31f..0000000
+> --- a/recipes-devtools/python/python3-websocket-client_0.57.0.bb
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -require python-websocket-client.inc
+> -inherit setuptools3
+> \ No newline at end of file
+> -- 
+> 2.28.0
+> 
+
+> 
+> 
+> 
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
