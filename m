@@ -1,165 +1,132 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.28129.1601261100826625454
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+ by mx.groups.io with SMTP id smtpd.web10.28015.1601261143631982091
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 27 Sep 2020 19:45:00 -0700
+ Sun, 27 Sep 2020 19:45:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=Z8/KWg1B;
- spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 9863438C0858
-	for <meta-virtualization@yoctoproject.org>; Sun, 27 Sep 2020 19:45:00 -0700 (PDT)
-Received: by mail-qt1-f196.google.com with SMTP id z2so7065174qtv.12
-        for <meta-virtualization@yoctoproject.org>; Sun, 27 Sep 2020 19:45:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=uvlT5cTe;
+ spf=pass (domain: gmail.com, ip: 209.85.160.172, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f172.google.com with SMTP id y11so7082126qtn.9
+        for <meta-virtualization@lists.yoctoproject.org>; Sun, 27 Sep 2020 19:45:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=vvSfS8JD5g429zuhgaz9kNILs+24lMpwr65EE4TPP94=;
-        b=Z8/KWg1BGRY6WxGHexDlz/+ibrSOhZzZIbyBDQWTG6+nv5CPVmuP0WyFqyR5dmukFG
-         SKKmUHX0N2hjzgodTtv6XRVvkAHp99C01vEhVQpntGCdD+WiIupuGMUJYuG4230EwObr
-         5nNXweGkdFoef9ZkEC4n/i7P8sh7ZwkuCMFTazNff7GA14+TFYrGBTBGyBR+X8WbYW9h
-         gsDZIjIS/WnjI4S3Bw5BP7beyILnGWDRuf5gTt1KtGkvOUZD23B+ql/Pvb/ViknqUzBx
-         vRCwJinGBOPSAiMGOZuG4X+lN6Uf89kZb7T/hOqpw3bkpzV8QpZlk8RckG1ZwrsRpGYe
-         IYZQ==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=011ZaMRkbcybB5NC0YkldSZO2lp0KsHBf13MYjRWJhM=;
+        b=uvlT5cTenLupayMF2yZ5va4MdXBnLNLoWb5798dYjB54jd8OEPkSddrEBV7wJa2ulS
+         QmIvEWjNWGsiifKpuMQux6HidU0ruvfB8850+oHhrJw1GWQnwtip41caLjB0vTe5Zgi3
+         h16FCBCRe4qLRr6NfTcj6e1ZrKvpH4JjanbpZRFXOLuBHRfkMA7aTANxZcsBhiu9foCL
+         g4lpWKvQmBJC1fdjhXquN6E8dvAe1ukBDKH2uRhqtntYRK1UfM0dExAulM33WXwK6Guq
+         9bUGcgDT2yApKTn25ZSNg8zJ+kB7LCWxfs7qc2KV/5pA2XPGYuL5ThLJbtdKTZm+gJcy
+         jvOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=vvSfS8JD5g429zuhgaz9kNILs+24lMpwr65EE4TPP94=;
-        b=DGwQQkSpgZKBSWlYZ1JfpURx9LE3OCKrO7IaiHgxXBoFtbguyT89ITW5i3ntfITWJV
-         Dm4fyFncsegoiiD/ftkJl9i4mlo/46ORaVlU1WYGFDX5izh26nYYJ32RbxkBYoq7fSWG
-         CoMaMSao7BBvi9CtZ8q/rRIjfC6J6ddNatUI8zyMlWtniudfsBqYuU4MZrJqBZsaOi+p
-         leZ/tiD38+hEMketoMLViGRfsr4YDXZWLySJ8rnUHnGJcWxB3L9J7ecsom+mx6FmKiT3
-         p1WKOY8bqzvYuKwPdnTDaQUBC4JUiEkj2H7RhVPgohfZfDfdcZN1d4uNE7lmDACOs5s4
-         AIQw==
-X-Gm-Message-State: AOAM530l3ZoTNDm/UrOeviFVB8Xqyv760u9FeCv6/vxuGxNFWrr0cj9E
-	6NIFS04JtjGhJf5u+fHBqJ0Si4fc6SsV6jcq
-X-Google-Smtp-Source: ABdhPJzyGbrZYWgJsaxZRtH7GGen8KrTkbwkS3dNFuEWL3V8jsU4qfs0WUYbaInsKKaLbtqYe99n1w==
-X-Received: by 2002:ac8:4c8e:: with SMTP id j14mr10988694qtv.340.1601261099384;
-        Sun, 27 Sep 2020 19:44:59 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=011ZaMRkbcybB5NC0YkldSZO2lp0KsHBf13MYjRWJhM=;
+        b=tF/oqkx6wxZW/E79h2C4qvMJ3MxJqXBpcxTY+7KZaCrbHKjxuO4BKvE0jZvLq63Lay
+         fPnKzK+xZM5V46uPpuriAdJxNges9FRbV4MNIcs0lW0Oyjsdpx4DqzBj/mACzdCsj3Ok
+         PLY+NQpdnEdSiaUY7+CDa7a5uq0geRfiHCNlQs2EDUG7PMZch+Pjeigmflcb8F62NDgU
+         xCkERF6boMYj7f3o4Y3NcGwVffUiP7pl2KUdjwoTuGUU2Yef1E4v+IEsIBdgL3MQ0emP
+         nphVD6SiiUXd90bFxyX+uWxuttc1hYj92+HSM5ZydBA1zTs9VZuzYqav7AHtkNJSrt1G
+         dUMg==
+X-Gm-Message-State: AOAM533b++CyRVRK6/2kA7rel2KRxFNKueyblm8oeXq9PmMfgxeDSXYC
+	+N9mP5n7TfDHGDr10Hm4kMjn2J4SdVSSZJ5z
+X-Google-Smtp-Source: ABdhPJwxHEHh7vq7Ny8m28H81rvJIisCl+CJqhsmmIin7943gZacczAe26DpVz8BNtW1Ko6rretKxA==
+X-Received: by 2002:ac8:5d41:: with SMTP id g1mr10826216qtx.101.1601261142732;
+        Sun, 27 Sep 2020 19:45:42 -0700 (PDT)
+Return-Path: <bruce.ashfield@gmail.com>
 Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id d51sm7247417qte.50.2020.09.27.19.44.58
+        by smtp.gmail.com with ESMTPSA id a24sm7719504qko.82.2020.09.27.19.45.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2020 19:44:58 -0700 (PDT)
-Date: Sun, 27 Sep 2020 22:44:57 -0400
+        Sun, 27 Sep 2020 19:45:42 -0700 (PDT)
+Date: Sun, 27 Sep 2020 22:45:40 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-mistralclient: Change to python3
-Message-ID: <20200928024454.GA60026@gmail.com>
+To: David Burns <dburns@digi.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Subject: Re: [meta-virtualization][m-c-s][PATCH] salt: Move to version 3001.1 and fix RDEPENDS
+Message-ID: <20200928024539.GB60026@gmail.com>
+References: <20200923003624.188111-1-dburns@digi.com>
 MIME-Version: 1.0
-In-Reply-To: <1600741576-124087-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741637-124133-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741645-124169-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741657-124205-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741666-124250-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741690-124287-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741697-124327-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741708-124363-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741757-124408-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1600741786-124453-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <20200923003624.188111-1-dburns@digi.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged.
+In message: [meta-virtualization][m-c-s][PATCH] salt: Move to version 3001.1 and fix RDEPENDS
+on 23/09/2020 David Burns wrote:
+
+> Move to a new minor version of salt, 3001.1 that includes a number of
+> bug fixes.
+> 
+> Salt also needs the python3-distro runtime dependency for all of the
+> packages in the recipe, not just the salt-master package so it has been
+> included in the common package.
+> 
+> A runtime dependency on python-pycryptodomex has been added to the
+> salt-master and salt-minion packages as both have required it since the
+> 3001 salt version.
+
+Thanks for the update, this is now merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python3-mistralclient: Change to python3
-on 22/09/2020 zhengruoqin wrote:
-
-> Because python2 is no longer maintained, bb file is changed to python3 version.
 > 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+> Signed-off-by: David Burns <dburns@digi.com>
 > ---
->  .../python/python-mistralclient_git.bb        | 32 -------------------
->  .../python/python3-mistralclient_4.1.1.bb     | 29 +++++++++++++++++
->  2 files changed, 29 insertions(+), 32 deletions(-)
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-mistralclient_git.bb
->  create mode 100644 meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
+>  .../salt/{salt_3001.bb => salt_3001.1.bb}              | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
+>  rename meta-openstack/recipes-support/salt/{salt_3001.bb => salt_3001.1.bb} (96%)
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-mistralclient_git.bb b/meta-openstack/recipes-devtools/python/python-mistralclient_git.bb
-> deleted file mode 100644
-> index c9002e9..0000000
-> --- a/meta-openstack/recipes-devtools/python/python-mistralclient_git.bb
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -DESCRIPTION = "Python client for Mistral REST API"
-> -HOMEPAGE = "https://github.com/openstack/python-mistralclient"
-> -SECTION = "devel/python"
-> -LICENSE = "Apache-2.0"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
-> -
-> -DEPENDS += " \
-> -        python-pip \
-> -        python-pbr \
-> -        "
-> -
-> -# Satisfy setup.py 'setup_requires'
-> -DEPENDS += " \
-> -        python-pbr-native \
-> -        "
-> -
-> -RDEPENDS_${PN} +=" \
-> -        python-cliff \
-> -        python-pbr \
-> -        python-keystoneclient \
-> -        python-pyyaml \
-> -        python-requests \
-> -	"
-> -
-> -SRCNAME = "mistralclient"
-> -SRC_URI = "git://github.com/openstack/${BPN}.git;branch=master"
-> -
-> -PV = "1.1.0+git${SRCPV}"
-> -SRCREV = "48e2780ee0148efc186c8972ca22e572fa2433c5"
-> -S = "${WORKDIR}/git"
-> -
-> -inherit setuptools3
-> diff --git a/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb b/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
-> new file mode 100644
-> index 0000000..dd0eb90
-> --- /dev/null
-> +++ b/meta-openstack/recipes-devtools/python/python3-mistralclient_4.1.1.bb
-> @@ -0,0 +1,29 @@
-> +DESCRIPTION = "Python client for Mistral REST API"
-> +HOMEPAGE = "https://github.com/openstack/python-mistralclient"
-> +SECTION = "devel/python"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=34400b68072d710fecd0a2940a0d1658"
-> +
-> +SRC_URI[sha256sum] = "b03d52ec860df292192a0face767585633e209ba9297fc71da70d42d6a76aebe"
-> +
-> +PYPI_PACKAGE = "python-mistralclient"
-> +
-> +DEPENDS += " \
-> +        python3-pip \
-> +        python3-pbr \
-> +        "
-> +
-> +# Satisfy setup.py 'setup_requires'
-> +DEPENDS += " \
-> +        python3-pbr-native \
-> +        "
-> +
-> +RDEPENDS_${PN} +=" \
-> +        python3-cliff \
-> +        python3-pbr \
-> +        python3-keystoneclient \
-> +        python3-pyyaml \
-> +        python3-requests \
-> +	"
-> +
-> +inherit setuptools3 pypi
+> diff --git a/meta-openstack/recipes-support/salt/salt_3001.bb b/meta-openstack/recipes-support/salt/salt_3001.1.bb
+> similarity index 96%
+> rename from meta-openstack/recipes-support/salt/salt_3001.bb
+> rename to meta-openstack/recipes-support/salt/salt_3001.1.bb
+> index 04ef1c7c..9b485d69 100644
+> --- a/meta-openstack/recipes-support/salt/salt_3001.bb
+> +++ b/meta-openstack/recipes-support/salt/salt_3001.1.bb
+> @@ -21,8 +21,8 @@ PACKAGECONFIG[tcp] = ",,python3-pycrypto"
+>  SRC_URI = "https://files.pythonhosted.org/packages/source/s/${PN}/${PN}-${PV}.tar.gz \
+>  "
+>  
+> -SRC_URI[md5sum] = "ae06cef7557e237a954491a069e79a25"
+> -SRC_URI[sha256sum] = "5ca60d1b2cc8e63db50995bd8b117914eeaf57c48ce2b3a3731ee57163adf154"
+> +SRC_URI[md5sum] = "4174a6dd2c7eee808086ca06bdd928c9"
+> +SRC_URI[sha256sum] = "e9ebb4d92fae8dabf21b8749dc126e4a4048bf8f613f5b1b851fe4b8226b5abc"
+>  
+>  
+>  SYSTEMD_AUTO_ENABLE_${PN}-master = "disable"
+> @@ -87,7 +87,7 @@ Between the remote execution system, and state management Salt addresses the bac
+>  
+>  SUMMARY_${PN}-minion = "client package for salt, the distributed remote execution system"
+>  DESCRIPTION_${PN}-minion = "${DESCRIPTION_COMMON} This particular package provides the worker agent for salt."
+> -RDEPENDS_${PN}-minion = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack"
+> +RDEPENDS_${PN}-minion = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack python3-pycryptodomex (>= 3.9.7)"
+>  RDEPENDS_${PN}-minion += "${@bb.utils.contains('PACKAGECONFIG', 'zeromq', 'python3-pycrypto python3-pyzmq (>= 13.1.0)', '',d)}"
+>  RDEPENDS_${PN}-minion += "${@bb.utils.contains('PACKAGECONFIG', 'tcp', 'python3-pycrypto', '',d)}"
+>  RRECOMMENDS_${PN}-minion_append_x64 = "dmidecode"
+> @@ -98,7 +98,7 @@ FILES_${PN}-minion = "${bindir}/${PN}-minion ${sysconfdir}/${PN}/minion.d/ ${CON
+>  SUMMARY_${PN}-common = "shared libraries that salt requires for all packages"
+>  DESCRIPTION_${PN}-common ="${DESCRIPTION_COMMON} This particular package provides shared libraries that \
+>  salt-master, salt-minion, and salt-syndic require to function."
+> -RDEPENDS_${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0)"
+> +RDEPENDS_${PN}-common = "python3-dateutil python3-jinja2 python3-pyyaml python3-requests (>= 1.0.0) python3-distro"
+>  RRECOMMENDS_${PN}-common = "lsb-release"
+>  RSUGGESTS_${PN}-common = "python3-mako python3-git"
+>  RCONFLICTS_${PN}-common = "python3-mako (< 0.7.0)"
+> @@ -127,7 +127,7 @@ FILES_${PN}-api = "${bindir}/${PN}-api ${CONFFILES_${PN}-api} ${systemd_system_u
+>  
+>  SUMMARY_${PN}-master = "remote manager to administer servers via salt"
+>  DESCRIPTION_${PN}-master ="${DESCRIPTION_COMMON} This particular package provides the salt controller."
+> -RDEPENDS_${PN}-master = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack python3-distro"
+> +RDEPENDS_${PN}-master = "${PN}-common (= ${EXTENDPKGV}) python3-msgpack python3-pycryptodomex (>= 3.9.7)"
+>  RDEPENDS_${PN}-master += "${@bb.utils.contains('PACKAGECONFIG', 'zeromq', 'python3-pycrypto python3-pyzmq (>= 13.1.0)', '',d)}"
+>  RDEPENDS_${PN}-master += "${@bb.utils.contains('PACKAGECONFIG', 'tcp', 'python3-pycrypto', '',d)}"
+>  CONFFILES_${PN}-master="${sysconfdir}/init.d/${PN}-master  ${sysconfdir}/${PN}/master"
 > -- 
-> 2.25.1
-> 
-> 
+> 2.28.0
 > 
 
 > 
 > 
 > 
-
 
