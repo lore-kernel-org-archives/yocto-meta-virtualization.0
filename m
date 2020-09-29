@@ -1,74 +1,80 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.12300.1601348368043658244
+ by mx.groups.io with SMTP id smtpd.web11.12591.1601349575969131622
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Sep 2020 19:59:28 -0700
+ Mon, 28 Sep 2020 20:19:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@cn.fujitsu.com)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 8F74738C06C2
-	for <meta-virtualization@yoctoproject.org>; Mon, 28 Sep 2020 19:59:27 -0700 (PDT)
+	by mail.yoctoproject.org (Postfix) with ESMTP id F1C5F38C06F7
+	for <meta-virtualization@yoctoproject.org>; Mon, 28 Sep 2020 20:19:34 -0700 (PDT)
 X-IronPort-AV: E=Sophos;i="5.77,316,1596470400"; 
-   d="scan'208";a="99697886"
+   d="scan'208";a="99698497"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 29 Sep 2020 10:59:26 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 42B1B48990CC
-	for <meta-virtualization@yoctoproject.org>; Tue, 29 Sep 2020 10:59:21 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 29 Sep 2020 10:59:20 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+  by heian.cn.fujitsu.com with ESMTP; 29 Sep 2020 11:19:33 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6A0F748990F6
+	for <meta-virtualization@yoctoproject.org>; Tue, 29 Sep 2020 11:19:31 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 29 Sep 2020 11:19:28 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-ovs: upgrade 2.7.2 -> 2.13.0
-Date: Tue, 29 Sep 2020 22:59:19 +0800
-Message-ID: <1601391559-5262-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python3-pam: Consolidate in a single file
+Date: Tue, 29 Sep 2020 11:19:26 +0800
+Message-ID: <1601349566-108443-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
+X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 42B1B48990CC.A093D
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 6A0F748990F6.A6CFE
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
 Content-Type: text/plain
 
 Consolidate inc and bb files into a single bb file.
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- .../python/{python-ovs.inc => python3-ovs_2.13.0.bb}        | 6 +++---
- meta-openstack/recipes-devtools/python/python3-ovs_2.7.2.bb | 2 --
- 2 files changed, 3 insertions(+), 5 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-ovs.inc => python3-ovs_2.13.0.bb} (58%)
- delete mode 100644 meta-openstack/recipes-devtools/python/python3-ovs_2.7.2.bb
+ .../recipes-devtools/python/python-pam.inc           | 10 ----------
+ .../recipes-devtools/python/python3-pam_0.1.4.bb     | 12 ++++++++++--
+ 2 files changed, 10 insertions(+), 12 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-pam.inc
 
-diff --git a/meta-openstack/recipes-devtools/python/python-ovs.inc b/meta-openstack/recipes-devtools/python/python3-ovs_2.13.0.bb
-similarity index 58%
-rename from meta-openstack/recipes-devtools/python/python-ovs.inc
-rename to meta-openstack/recipes-devtools/python/python3-ovs_2.13.0.bb
-index d9303f2..4f372bc 100644
---- a/meta-openstack/recipes-devtools/python/python-ovs.inc
-+++ b/meta-openstack/recipes-devtools/python/python3-ovs_2.13.0.bb
-@@ -4,7 +4,7 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
- 
--SRC_URI[md5sum] = "8551ed58f4e5878db9a599e2d7792d98"
--SRC_URI[sha256sum] = "24cc9e324b03ba8d5799f07edf6c8eef013d6cbf741707f42200b1674fd60928"
-+SRC_URI[md5sum] = "a4a252b3c1c7d3d2d4d622179cff178e"
-+SRC_URI[sha256sum] = "c158aaaddbad1f122222f45def50e2bb2f9af4e21a101f5be8488da66d4391f5"
- 
--inherit pypi
-+inherit setuptools3 pypi
-diff --git a/meta-openstack/recipes-devtools/python/python3-ovs_2.7.2.bb b/meta-openstack/recipes-devtools/python/python3-ovs_2.7.2.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-pam.inc b/meta-openstack/recipes-devtools/python/python-pam.inc
 deleted file mode 100644
-index 9c9b82b..0000000
---- a/meta-openstack/recipes-devtools/python/python3-ovs_2.7.2.bb
+index 4fddfbc..0000000
+--- a/meta-openstack/recipes-devtools/python/python-pam.inc
 +++ /dev/null
-@@ -1,2 +0,0 @@
--require python-ovs.inc
+@@ -1,10 +0,0 @@
+-DESCRIPTION = "PAM interface using ctypes"
+-HOMEPAGE = "http://atlee.ca/software/pam"
+-SECTION = "devel/python"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://setup.py;beginline=13;endline=13;md5=8ecc573c355c5eb26b2a4a4f3f62684d"
+-
+-SRC_URI[md5sum] = "4c5247af579352bb6882dac64be10a33"
+-SRC_URI[sha256sum] = "35e88575afc37a2a5f96e20b22fa55d3e3213370d4ce640af1597c2a1dde226b"
+-
+-inherit pypi
+diff --git a/meta-openstack/recipes-devtools/python/python3-pam_0.1.4.bb b/meta-openstack/recipes-devtools/python/python3-pam_0.1.4.bb
+index e62079f..c6f6be9 100644
+--- a/meta-openstack/recipes-devtools/python/python3-pam_0.1.4.bb
++++ b/meta-openstack/recipes-devtools/python/python3-pam_0.1.4.bb
+@@ -1,2 +1,10 @@
+-require python-pam.inc
 -inherit setuptools3
++DESCRIPTION = "PAM interface using ctypes"
++HOMEPAGE = "http://atlee.ca/software/pam"
++SECTION = "devel/python"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://setup.py;beginline=13;endline=13;md5=8ecc573c355c5eb26b2a4a4f3f62684d"
++
++SRC_URI[md5sum] = "4c5247af579352bb6882dac64be10a33"
++SRC_URI[sha256sum] = "35e88575afc37a2a5f96e20b22fa55d3e3213370d4ce640af1597c2a1dde226b"
++
++inherit setuptools3 pypi
 -- 
 2.25.1
 
