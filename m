@@ -1,27 +1,27 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.11541.1601345292636719496
+ by mx.groups.io with SMTP id smtpd.web11.11810.1601346453535589895
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 28 Sep 2020 19:08:12 -0700
+ Mon, 28 Sep 2020 19:27:33 -0700
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=softfail (domain: windriver.com, ip: 198.145.29.25, mailfrom: mingli.yu@windriver.com)
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 6E63E38C132B
-	for <meta-virtualization@yoctoproject.org>; Mon, 28 Sep 2020 19:08:12 -0700 (PDT)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com [147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08T289qk029197
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 944E638C0632
+	for <meta-virtualization@yoctoproject.org>; Mon, 28 Sep 2020 19:27:32 -0700 (PDT)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com [147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 08T2RTXk029363
 	(version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256 verify=FAIL);
-	Mon, 28 Sep 2020 19:08:09 -0700 (PDT)
+	Mon, 28 Sep 2020 19:27:29 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
- ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 28 Sep 2020 19:07:50 -0700
+ ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+ 14.3.487.0; Mon, 28 Sep 2020 19:27:28 -0700
 From: "Yu, Mingli" <mingli.yu@windriver.com>
 To: <bruce.ashfield@gmail.com>, <meta-virtualization@yoctoproject.org>
 Subject: [PATCH v3] lxc: remove deprecated options in lxc*.service
-Date: Tue, 29 Sep 2020 10:06:56 +0800
-Message-ID: <20200929020656.39793-1-mingli.yu@windriver.com>
+Date: Tue, 29 Sep 2020 10:26:34 +0800
+Message-ID: <20200929022634.5951-1-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <1638DCB9C95B4ECB.17423@lists.yoctoproject.org>
-References: <1638DCB9C95B4ECB.17423@lists.yoctoproject.org>
+In-Reply-To: <CADkTA4MmW6TApw7z+SOPxcC7_VaAZjtKLQeX-_rEoWjMOu+OgQ@mail.gmail.com>
+References: <CADkTA4MmW6TApw7z+SOPxcC7_VaAZjtKLQeX-_rEoWjMOu+OgQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 Content-Transfer-Encoding: quoted-printable
