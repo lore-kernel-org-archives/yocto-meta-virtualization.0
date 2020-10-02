@@ -1,518 +1,175 @@
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
- by mx.groups.io with SMTP id smtpd.web11.9508.1601548365809401950
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.3950.1601608107729867212
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 01 Oct 2020 03:32:46 -0700
+ Thu, 01 Oct 2020 20:08:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=axis-central1 header.b=IfCZ8qCA;
- spf=pass (domain: axis.com, ip: 195.60.68.17, mailfrom: joakim.roubert@axis.com)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Yu3DcR3X;
+ spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com [209.85.160.196])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id C2CCE38C07FA
+	for <meta-virtualization@yoctoproject.org>; Thu,  1 Oct 2020 20:08:26 -0700 (PDT)
+Received: by mail-qt1-f196.google.com with SMTP id e7so122255qtj.11
+        for <meta-virtualization@yoctoproject.org>; Thu, 01 Oct 2020 20:08:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=12648; q=dns/txt; s=axis-central1;
-  t=1601548366; x=1633084366;
-  h=subject:to:references:cc:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=NkZasTbObg5KyIZsNUtQeg+Jy9eMcbF84FYeceSR5JI=;
-  b=IfCZ8qCAuZEixC2QFFeuSCpq7bxzGUeRnMStCjGiK8v0Gu0akpQcfSwZ
-   9wHlDnnBwX0l6KCxQHxskISHj0/RwgdTAv5JGWzTDpAQOwr0kIhae1WpT
-   zLsQUK1+AEZ/zvQf3MYkz/BLpG/65s1I/hrk+QsdKjcnXfMGcx7Sja3cW
-   rfrsRBDVzK2LwQ++mcQsTnsqcy5m2juJlMslRQZ2ZWtfcQE1EI8D2KOXI
-   z3JiKb0Fv6tsO6aAJkT50LcNO98QLj4bn60HSRAac81sOWGSTJv3lsgyy
-   jblDrhbpA9NViJoG9bxUK4Su8K4G+JlPLJwcFQkIFyxY0nLYQ+MVuiNlJ
-   Q==;
-IronPort-SDR: tUtr7OrARkEELaHmDXmrddw6HBe7oFn6sybXvqiRetAY4M5JnmfkJGKYkwKcVZAoFzPvGIGKee
- 6ZeX4Y3gvCtFT5DJdSvK89kmmkWV48miY79jFq5gLc77DgfrmrlCXsuqdvmoU0hRZhxEe9nUcF
- K90M1qrA5qNrEsrqZgTI+nOGcBdT73QOZFx7FHTGhyAZgpGg2UrGjS+rFit+h9u4UCPmk9o4Ld
- ZJ3chPgsSmud+1sB9WwDnsEqQJj7oL7JO8MYlq+axRCp4T2t74oIZEx/CI6kkEiQAjVyGeEJvp
- xHw=
-X-IronPort-AV: E=Sophos;i="5.77,323,1596492000"; 
-   d="scan'208";a="13552344"
-Subject: Re: [meta-virtualization][PATCH] Adding k3s recipe
-To: <meta-virtualization@lists.yoctoproject.org>
-References: <20200821205529.29901-1-erik.jansson@axis.com>
- <6adf1052-aa13-b890-606e-119d70eab618@axis.com>
- <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
- <c13a622a-5d4c-d87e-f901-673bec12fe33@axis.com>
- <CADkTA4MArixWsydAc1YdwCvyiPHx36nqcigpLf=j_Fw6NudnRQ@mail.gmail.com>
- <ae269803-37c4-d72a-d19e-097a093baa60@axis.com>
- <CADkTA4NbKfrK0CwQz7P5ecGCgL_d_0CZnuROoVTL=iLWJ6kvMw@mail.gmail.com>
- <8943d000-4ce1-164b-eb8e-2bedfaca2981@axis.com>
- <CADkTA4PNMnRJ3iZu0TvsK+8S_MMySNxx-=fk7rFuCCOStcRdWw@mail.gmail.com>
- <16380B0CA000AB98.28124@lists.yoctoproject.org>
- <c381ef59-ef51-840e-626e-ddb3e5706757@axis.com>
- <CADkTA4PMkHjKHmb0iwR1+xcu660xBGOBTQH0+exqfGL-VNhdAg@mail.gmail.com>
- <1639818C3E50A226.8589@lists.yoctoproject.org>
- <1639D7B9311FC65C.18704@lists.yoctoproject.org>
-CC: Bruce Ashfield <bruce.ashfield@gmail.com>
-From: "Joakim Roubert" <joakim.roubert@axis.com>
-Message-ID: <cb7cddae-6fbc-1307-618a-0c99e88f8070@axis.com>
-Date: Thu, 1 Oct 2020 12:32:43 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=Iefa3yv/DHZyYdPTDHt6fuLq9apWx3cFpM0ktOBoxXY=;
+        b=Yu3DcR3XnBO3Em1y84mnLzaR7YdfWzRaBckn+ewrXS6FpDvHmYO84gO0UK6EUFQOsj
+         CeQYB9Ush0l93dL2yzxc6uHRHx9gRhzt1/2l/CthSJiJskOqkrfhF9iAOO1lkI8xmoNL
+         V0frEc/gXyCPUMVGPPbp65aCBIrjx2ZaFjmjs0vnYDQnjX/FO7Iv8YFUPX7CmmmGu9OL
+         E7bGSn00bAsPDuEztCnI0NkiimWByog6BOzUzmJZfm0+YYemTJiHOm5TKMpxJ++bFVBh
+         F+5XKmRTqhzJgp8o9mvfkOubNA+cFQ6RtYuo2yY7nUWcpEdcCt7k6DJM5bgxauXjg172
+         lNLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Iefa3yv/DHZyYdPTDHt6fuLq9apWx3cFpM0ktOBoxXY=;
+        b=Fa7jp6WwDHpQ8oER1KqCASGo0Iz+R9x1MfSQCB3n5uFLtp0NewbOz3AvBv996M2wzB
+         5NdwHGd3VaB8l1Snyj2jhN18ywo8ENivUQXPnFDoxRxNlAGq+ZBUOGN/iQhQDt3LF0Uv
+         gtncqINGA2k0zgVptyxLjEPTiJ218LH++Iz2JwTOiLDq+nGWgR/JUEkeIAWti3aoKxfh
+         s+ylSXk0ziq2TgADKBhWZ+7ZWMV8MyDDeXTF7XMMA8DSN3pxZ7qPKkvocDd2P7TRXi51
+         i46i2C++hFCKg9QffYj/8q9xq7Whcu3XxwD8V1MUP/m35Yw4WPODIjxdA0BgY7ufNmmm
+         CNzQ==
+X-Gm-Message-State: AOAM533BBC0i4m0WUKOQLA8fz0zMKF9ooAKhWJrMFHHFQgQf2BKAbmH+
+	9mkAixwNStPwlCRJUSKKDc0=
+X-Google-Smtp-Source: ABdhPJyWUpwbzqmnv4O1cKwSyzJkbu0AwpNvThs6ST57LOJ8bIM0mvyi2LBSeCUu3kLnx3JwMq/qBQ==
+X-Received: by 2002:aed:3162:: with SMTP id 89mr380615qtg.315.1601608105646;
+        Thu, 01 Oct 2020 20:08:25 -0700 (PDT)
+Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
+        by smtp.gmail.com with ESMTPSA id x18sm152355qth.47.2020.10.01.20.08.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2020 20:08:25 -0700 (PDT)
+Date: Thu, 1 Oct 2020 23:08:23 -0400
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: mingli.yu@windriver.com
+Cc: meta-virtualization@yoctoproject.org
+Subject: Re: [PATCH v3] lxc: remove deprecated options in lxc*.service
+Message-ID: <20201002030820.GA52950@gmail.com>
+References: <1638DCB9C95B4ECB.17423@lists.yoctoproject.org>
+ <20200929020656.39793-1-mingli.yu@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <1639D7B9311FC65C.18704@lists.yoctoproject.org>
-Return-Path: joakim.roubert@axis.com
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX04.axis.com (10.0.5.18) To XBOX03.axis.com (10.0.5.17)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20200929020656.39793-1-mingli.yu@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+v3 is merged!
 
+Bruce
 
-Change-Id: Id1c52727593bc5ea8d0cd2de192faa44304d7a45
-Signed-off-by: Joakim Roubert <joakimr@axis.com>
----
-  recipes-containers/k3s/README.md              |  30 +++++
-  ...01-Finding-host-local-in-usr-libexec.patch |  27 +++++
-  .../k3s/k3s/cni-containerd-net.conf           |  24 ++++
-  recipes-containers/k3s/k3s/k3s-agent          | 103 ++++++++++++++++++
-  recipes-containers/k3s/k3s/k3s-agent.service  |  26 +++++
-  recipes-containers/k3s/k3s/k3s-clean          |  30 +++++
-  recipes-containers/k3s/k3s/k3s.service        |  27 +++++
-  recipes-containers/k3s/k3s_git.bb             |  75 +++++++++++++
-  8 files changed, 342 insertions(+)
-  create mode 100644 recipes-containers/k3s/README.md
-  create mode 100644 
-recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-  create mode 100644 recipes-containers/k3s/k3s/cni-containerd-net.conf
-  create mode 100755 recipes-containers/k3s/k3s/k3s-agent
-  create mode 100644 recipes-containers/k3s/k3s/k3s-agent.service
-  create mode 100755 recipes-containers/k3s/k3s/k3s-clean
-  create mode 100644 recipes-containers/k3s/k3s/k3s.service
-  create mode 100644 recipes-containers/k3s/k3s_git.bb
+In message: [PATCH v3] lxc: remove deprecated options in lxc*.service
+on 29/09/2020 mingli.yu@windriver.com wrote:
 
-diff --git a/recipes-containers/k3s/README.md 
-b/recipes-containers/k3s/README.md
-new file mode 100644
-index 0000000..3fe5ccd
---- /dev/null
-+++ b/recipes-containers/k3s/README.md
-@@ -0,0 +1,30 @@
-+# k3s: Lightweight Kubernetes
-+
-+Rancher's [k3s](https://k3s.io/), available under
-+[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), provides
-+lightweight Kubernetes suitable for small/edge devices. There are use cases
-+where the
-+[installation procedures provided by 
-Rancher](https://rancher.com/docs/k3s/latest/en/installation/)
-+are not ideal but a bitbake-built version is what is needed. And only a few
-+mods to the [k3s source code](https://github.com/rancher/k3s) is needed to
-+accomplish that.
-+
-+## CNI
-+
-+By default, K3s will run with flannel as the CNI, using VXLAN as the 
-default
-+backend. It is both possible to change the flannel backend and to 
-change from
-+flannel to another CNI.
-+
-+Please see 
-<https://rancher.com/docs/k3s/latest/en/installation/network-options/>
-+for further k3s networking details.
-+
-+## Configure and run a k3s agent
-+
-+The convenience script `k3s-agent` can be used to set up a k3s agent 
-(service):
-+
-+```shell
-+k3s-agent -t <token> -s https://<master>:6443
-+```
-+
-+(Here `<token>` is found in `/var/lib/rancher/k3s/server/node-token` at the
-+k3s master.)
-diff --git 
-a/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-new file mode 100644
-index 0000000..8205d73
---- /dev/null
-+++ 
-b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-@@ -0,0 +1,27 @@
-+From 4faf68d68c97cfd10947e1152f711acc59f39647 Mon Sep 17 00:00:00 2001
-+From: Erik Jansson <erikja@axis.com>
-+Date: Wed, 16 Oct 2019 15:07:48 +0200
-+Subject: [PATCH] Finding host-local in /usr/libexec
-+
-+Upstream-status: Inappropriate [embedded specific]
-+Signed-off-by: <erikja@axis.com>
-+---
-+ pkg/agent/config/config.go | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/pkg/agent/config/config.go b/pkg/agent/config/config.go
-+index b4296f360a..6af9dab895 100644
-+--- a/pkg/agent/config/config.go
-++++ b/pkg/agent/config/config.go
-+@@ -308,7 +308,7 @@ func get(envInfo *cmds.Agent) (*config.Node, error) {
-+ 		return nil, err
-+ 	}
-+
-+-	hostLocal, err := exec.LookPath("host-local")
-++	hostLocal, err := exec.LookPath("/usr/libexec/cni/host-local")
-+ 	if err != nil {
-+ 		return nil, errors.Wrapf(err, "failed to find host-local")
-+ 	}
-+--
-+2.11.0
-+
-diff --git a/recipes-containers/k3s/k3s/cni-containerd-net.conf 
-b/recipes-containers/k3s/k3s/cni-containerd-net.conf
-new file mode 100644
-index 0000000..ca434d6
---- /dev/null
-+++ b/recipes-containers/k3s/k3s/cni-containerd-net.conf
-@@ -0,0 +1,24 @@
-+{
-+  "cniVersion": "0.4.0",
-+  "name": "containerd-net",
-+  "plugins": [
-+    {
-+      "type": "bridge",
-+      "bridge": "cni0",
-+      "isGateway": true,
-+      "ipMasq": true,
-+      "promiscMode": true,
-+      "ipam": {
-+        "type": "host-local",
-+        "subnet": "10.88.0.0/16",
-+        "routes": [
-+          { "dst": "0.0.0.0/0" }
-+        ]
-+      }
-+    },
-+    {
-+      "type": "portmap",
-+      "capabilities": {"portMappings": true}
-+    }
-+  ]
-+}
-diff --git a/recipes-containers/k3s/k3s/k3s-agent 
-b/recipes-containers/k3s/k3s/k3s-agent
-new file mode 100755
-index 0000000..b6c6cb6
---- /dev/null
-+++ b/recipes-containers/k3s/k3s/k3s-agent
-@@ -0,0 +1,103 @@
-+#!/bin/sh -eu
-+#
-+# Copyright (C) 2020 Axis Communications AB
-+#
-+# SPDX-License-Identifier: Apache-2.0
-+
-+ENV_CONF=/etc/systemd/system/k3s-agent.service.d/10-env.conf
-+
-+usage() {
-+	echo "
-+USAGE:
-+    ${0##*/} [OPTIONS]
-+OPTIONS:
-+    --token value, -t value             Token to use for authentication 
-[\$K3S_TOKEN]
-+    --token-file value                  Token file to use for 
-authentication [\$K3S_TOKEN_FILE]
-+    --server value, -s value            Server to connect to [\$K3S_URL]
-+    --node-name value                   Node name [\$K3S_NODE_NAME]
-+    --resolv-conf value                 Kubelet resolv.conf file 
-[\$K3S_RESOLV_CONF]
-+    --cluster-secret value              Shared secret used to bootstrap 
-a cluster [\$K3S_CLUSTER_SECRET]
-+    -h                                  print this
-+"
-+}
-+
-+[ $# -gt 0 ] || {
-+	usage
-+	exit
-+}
-+
-+case $1 in
-+	-*)
-+		;;
-+	*)
-+		usage
-+		exit 1
-+		;;
-+esac
-+
-+rm -f $ENV_CONF
-+mkdir -p ${ENV_CONF%/*}
-+echo [Service] > $ENV_CONF
-+
-+while getopts "t:s:-:h" opt; do
-+	case $opt in
-+		h)
-+			usage
-+			exit
-+			;;
-+		t)
-+			VAR_NAME=K3S_TOKEN
-+			;;
-+		s)
-+			VAR_NAME=K3S_URL
-+			;;
-+		-)
-+			[ $# -ge $OPTIND ] || {
-+				usage
-+				exit 1
-+			}
-+			opt=$OPTARG
-+			eval OPTARG='$'$OPTIND
-+			OPTIND=$(($OPTIND + 1))
-+			case $opt in
-+				token)
-+					VAR_NAME=K3S_TOKEN
-+					;;
-+				token-file)
-+					VAR_NAME=K3S_TOKEN_FILE
-+					;;
-+				server)
-+					VAR_NAME=K3S_URL
-+					;;
-+				node-name)
-+					VAR_NAME=K3S_NODE_NAME
-+					;;
-+				resolv-conf)
-+					VAR_NAME=K3S_RESOLV_CONF
-+					;;
-+				cluster-secret)
-+					VAR_NAME=K3S_CLUSTER_SECRET
-+					;;
-+				help)
-+					usage
-+					exit
-+					;;
-+				*)
-+					usage
-+					exit 1
-+					;;
-+			esac
-+			;;
-+		*)
-+			usage
-+			exit 1
-+			;;
-+	esac
-+    echo Environment=$VAR_NAME=$OPTARG >> $ENV_CONF
-+done
-+
-+chmod 0644 $ENV_CONF
-+rm -rf /var/lib/rancher/k3s/agent
-+systemctl daemon-reload
-+systemctl restart k3s-agent
-+systemctl enable k3s-agent.service
-diff --git a/recipes-containers/k3s/k3s/k3s-agent.service 
-b/recipes-containers/k3s/k3s/k3s-agent.service
-new file mode 100644
-index 0000000..9f9016d
---- /dev/null
-+++ b/recipes-containers/k3s/k3s/k3s-agent.service
-@@ -0,0 +1,26 @@
-+# Derived from the k3s install.sh's create_systemd_service_file() function
-+[Unit]
-+Description=Lightweight Kubernetes Agent
-+Documentation=https://k3s.io
-+Requires=containerd.service
-+After=containerd.service
-+
-+[Install]
-+WantedBy=multi-user.target
-+
-+[Service]
-+Type=notify
-+KillMode=control-group
-+Delegate=yes
-+LimitNOFILE=infinity
-+LimitNPROC=infinity
-+LimitCORE=infinity
-+TasksMax=infinity
-+TimeoutStartSec=0
-+Restart=always
-+RestartSec=5s
-+ExecStartPre=-/sbin/modprobe br_netfilter
-+ExecStartPre=-/sbin/modprobe overlay
-+ExecStart=/usr/local/bin/k3s agent
-+ExecStopPost=/usr/local/bin/k3s-clean
-+
-diff --git a/recipes-containers/k3s/k3s/k3s-clean 
-b/recipes-containers/k3s/k3s/k3s-clean
-new file mode 100755
-index 0000000..8eca918
---- /dev/null
-+++ b/recipes-containers/k3s/k3s/k3s-clean
-@@ -0,0 +1,30 @@
-+#!/bin/sh -eu
-+#
-+# Copyright (C) 2020 Axis Communications AB
-+#
-+# SPDX-License-Identifier: Apache-2.0
-+
-+do_unmount() {
-+	[ $# -eq 2 ] || return
-+	local mounts=
-+	while read ignore mount ignore; do
-+		case $mount in
-+			$1/*|$2/*)
-+				mounts="$mount $mounts"
-+				;;
-+		esac
-+	done </proc/self/mounts
-+	[ -z "$mounts" ] || umount $mounts
-+}
-+
-+do_unmount /run/k3s /var/lib/rancher/k3s
-+
-+# The lines below come from install.sh's create_killall() function:
-+ip link show 2>/dev/null | grep 'master cni0' | while read ignore iface 
-ignore; do
-+    iface=${iface%%@*}
-+    [ -z "$iface" ] || ip link delete $iface
-+done
-+
-+ip link delete cni0
-+ip link delete flannel.1
-+rm -rf /var/lib/cni/
-diff --git a/recipes-containers/k3s/k3s/k3s.service 
-b/recipes-containers/k3s/k3s/k3s.service
-new file mode 100644
-index 0000000..34c7a80
---- /dev/null
-+++ b/recipes-containers/k3s/k3s/k3s.service
-@@ -0,0 +1,27 @@
-+# Derived from the k3s install.sh's create_systemd_service_file() function
-+[Unit]
-+Description=Lightweight Kubernetes
-+Documentation=https://k3s.io
-+Requires=containerd.service
-+After=containerd.service
-+
-+[Install]
-+WantedBy=multi-user.target
-+
-+[Service]
-+Type=notify
-+KillMode=process
-+Delegate=yes
-+# Having non-zero Limit*s causes performance problems due to accounting 
-overhead
-+# in the kernel. We recommend using cgroups to do container-local 
-accounting.
-+LimitNOFILE=1048576
-+LimitNPROC=infinity
-+LimitCORE=infinity
-+TasksMax=infinity
-+TimeoutStartSec=0
-+Restart=always
-+RestartSec=5s
-+ExecStartPre=-/sbin/modprobe br_netfilter
-+ExecStartPre=-/sbin/modprobe overlay
-+ExecStart=/usr/local/bin/k3s server
-+
-diff --git a/recipes-containers/k3s/k3s_git.bb 
-b/recipes-containers/k3s/k3s_git.bb
-new file mode 100644
-index 0000000..cfc2c64
---- /dev/null
-+++ b/recipes-containers/k3s/k3s_git.bb
-@@ -0,0 +1,75 @@
-+SUMMARY = "Production-Grade Container Scheduling and Management"
-+DESCRIPTION = "Lightweight Kubernetes, intended to be a fully compliant 
-Kubernetes."
-+HOMEPAGE = "https://k3s.io/"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = 
-"file://${S}/src/import/LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
-+PV = "v1.18.9+k3s1-dirty"
-+
-+SRC_URI = "git://github.com/rancher/k3s.git;branch=release-1.18;name=k3s \
-+           file://k3s.service \
-+           file://k3s-agent.service \
-+           file://k3s-agent \
-+           file://k3s-clean \
-+           file://cni-containerd-net.conf \
-+ 
-file://0001-Finding-host-local-in-usr-libexec.patch;patchdir=src/import \
-+          "
-+SRC_URI[k3s.md5sum] = "363d3a08dc0b72ba6e6577964f6e94a5"
-+SRCREV_k3s = "630bebf94b9dce6b8cd3d402644ed023b3af8f90"
-+
-+inherit go
-+inherit goarch
-+inherit systemd
-+
-+PACKAGECONFIG = ""
-+PACKAGECONFIG[upx] = ",,upx-native"
-+GO_IMPORT = "import"
-+GO_BUILD_LDFLAGS = "-X github.com/rancher/k3s/pkg/version.Version=${PV} \
-+                    -X 
-github.com/rancher/k3s/pkg/version.GitCommit=${@d.getVar('SRCREV_k3s', 
-d, 1)[:8]} \
-+                    -w -s \
-+                   "
-+BIN_PREFIX ?= "${exec_prefix}/local"
-+
-+do_compile() {
-+        export 
-GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
-+        export CGO_ENABLED="1"
-+        export GOFLAGS="-mod=vendor"
-+        cd ${S}/src/import
-+        ${GO} build -tags providerless -ldflags "${GO_BUILD_LDFLAGS}" 
--o ./dist/artifacts/k3s ./cmd/server/main.go
-+        # Use UPX if it is enabled (and thus exists) to compress binary
-+        if command -v upx > /dev/null 2>&1; then
-+                upx -9 ./dist/artifacts/k3s
-+        fi
-+}
-+do_install() {
-+        install -d "${D}${BIN_PREFIX}/bin"
-+        install -m 755 "${S}/src/import/dist/artifacts/k3s" 
-"${D}${BIN_PREFIX}/bin"
-+        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/crictl"
-+        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/ctr"
-+        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/kubectl"
-+        install -m 755 "${WORKDIR}/k3s-clean" "${D}${BIN_PREFIX}/bin"
-+        install -D -m 0644 "${WORKDIR}/cni-containerd-net.conf" 
-"${D}/${sysconfdir}/cni/net.d/10-containerd-net.conf"
-+        if 
-${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-+                install -D -m 0644 "${WORKDIR}/k3s.service" 
-"${D}${systemd_system_unitdir}/k3s.service"
-+                install -D -m 0644 "${WORKDIR}/k3s-agent.service" 
-"${D}${systemd_system_unitdir}/k3s-agent.service"
-+                sed -i 
-"s#\(Exec\)\(.*\)=\(.*\)\(k3s\)#\1\2=${BIN_PREFIX}/bin/\4#g" 
-"${D}${systemd_system_unitdir}/k3s.service" 
-"${D}${systemd_system_unitdir}/k3s-agent.service"
-+                install -m 755 "${WORKDIR}/k3s-agent" 
-"${D}${BIN_PREFIX}/bin"
-+        fi
-+}
-+
-+PACKAGES =+ "${PN}-server ${PN}-agent"
-+
-+SYSTEMD_PACKAGES = 
-"${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}-server 
-${PN}-agent','',d)}"
-+SYSTEMD_SERVICE_${PN}-server = 
-"${@bb.utils.contains('DISTRO_FEATURES','systemd','k3s.service','',d)}"
-+SYSTEMD_SERVICE_${PN}-agent = 
-"${@bb.utils.contains('DISTRO_FEATURES','systemd','k3s-agent.service','',d)}"
-+SYSTEMD_AUTO_ENABLE_${PN}-agent = "disable"
-+
-+FILES_${PN}-agent = "${BIN_PREFIX}/bin/k3s-agent"
-+
-+RDEPENDS_${PN} = "cni conntrack-tools coreutils findutils iproute2 
-ipset virtual/containerd"
-+RDEPENDS_${PN}-server = "${PN}"
-+RDEPENDS_${PN}-agent = "${PN}"
-+
-+RCONFLICTS_${PN} = "kubectl"
-+
-+INHIBIT_PACKAGE_STRIP = "1"
-+INSANE_SKIP_${PN} += "ldflags already-stripped"
--- 
-2.20.1
-
-
+> From: Mingli Yu <mingli.yu@windriver.com>
+> 
+> Remove deprecated options in lxc*.service to silence below warning:
+>  # systemctl status lxc
+>  [snip]
+>  /usr/lib/systemd/system/lxc.service:17: Standard output type syslog is obsolete, automatically updating to journal. Please update your unit file, and consider removing the setting altogether.
+>  /usr/lib/systemd/system/lxc.service:18: Standard output type syslog is obsolete, automatically updating to journal. Please update your unit file, and consider removing the setting altogether.
+> 
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  ...setting-regarding-the-Standard-Outpu.patch | 35 +++++++++++++++++++
+>  ...ed-options-in-lxc.service-fixes-3527.patch | 31 ++++++++++++++++
+>  recipes-containers/lxc/lxc_4.0.4.bb           |  2 ++
+>  3 files changed, 68 insertions(+)
+>  create mode 100644 recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
+>  create mode 100644 recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
+> 
+> diff --git a/recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch b/recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
+> new file mode 100644
+> index 0000000..ab97422
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch
+> @@ -0,0 +1,35 @@
+> +From a7a92a06a47322dee45664db5c7bfa68b2b95edb Mon Sep 17 00:00:00 2001
+> +From: Mingli Yu <mingli.yu@windriver.com>
+> +Date: Wed, 23 Sep 2020 07:03:02 +0000
+> +Subject: [PATCH] Remove obsolete setting regarding the Standard Output
+> +
+> +The Standard output type "syslog" is obsolete, causing a warning since systemd
+> +version 246 [1].
+> +
+> +Please consider using "journal" or "journal+console"
+> +
+> +[1] https://github.com/systemd/systemd/blob/master/NEWS#L202
+> +
+> +Upstream-Status: Submitted [https://github.com/lxc/lxc/pull/3541]
+> +
+> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> +---
+> + config/init/systemd/lxc@.service.in         | 2 --
+> + 1 files changed, 2 deletions(-)
+> +
+> +diff --git a/config/init/systemd/lxc@.service.in b/config/init/systemd/lxc@.service.in
+> +index a2aa2211f..21ce64aef 100644
+> +--- a/config/init/systemd/lxc@.service.in
+> ++++ b/config/init/systemd/lxc@.service.in
+> +@@ -14,8 +14,6 @@ ExecStop=@BINDIR@/lxc-stop -n %i
+> + # Environment=BOOTUP=serial
+> + # Environment=CONSOLETYPE=serial
+> + Delegate=yes
+> +-StandardOutput=syslog
+> +-StandardError=syslog
+> + 
+> + [Install]
+> + WantedBy=multi-user.target
+> +-- 
+> +2.26.2
+> +
+> diff --git a/recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch b/recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
+> new file mode 100644
+> index 0000000..2957680
+> --- /dev/null
+> +++ b/recipes-containers/lxc/files/0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch
+> @@ -0,0 +1,31 @@
+> +From 0c4cd88d4a19d27ba9b5d2c8fa4d482d78211c35 Mon Sep 17 00:00:00 2001
+> +From: graysky <graysky@archlinux.us>
+> +Date: Fri, 21 Aug 2020 06:33:49 -0400
+> +Subject: [PATCH] remove deprecated options in lxc.service fixes #3527
+> +
+> +Remove deprecated options in lxc.service fixes #3527
+> +
+> +Upstream-Status: Backport
+> +
+> +Signed-off-by: graysky <graysky@archlinux.us>
+> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> +---
+> + config/init/systemd/lxc.service.in | 2 --
+> + 1 file changed, 2 deletions(-)
+> +
+> +diff --git a/config/init/systemd/lxc.service.in b/config/init/systemd/lxc.service.in
+> +index e3745dc2d..397a6c4d0 100644
+> +--- a/config/init/systemd/lxc.service.in
+> ++++ b/config/init/systemd/lxc.service.in
+> +@@ -14,8 +14,6 @@ ExecReload=@LIBEXECDIR@/lxc/lxc-apparmor-load
+> + # Environment=BOOTUP=serial
+> + # Environment=CONSOLETYPE=serial
+> + Delegate=yes
+> +-StandardOutput=syslog
+> +-StandardError=syslog
+> + 
+> + [Install]
+> + WantedBy=multi-user.target
+> +-- 
+> +2.26.2
+> +
+> diff --git a/recipes-containers/lxc/lxc_4.0.4.bb b/recipes-containers/lxc/lxc_4.0.4.bb
+> index f526ab9..4ef5fc0 100644
+> --- a/recipes-containers/lxc/lxc_4.0.4.bb
+> +++ b/recipes-containers/lxc/lxc_4.0.4.bb
+> @@ -47,6 +47,8 @@ SRC_URI = "http://linuxcontainers.org/downloads/${BPN}-${PV}.tar.gz \
+>  	file://templates-use-curl-instead-of-wget.patch \
+>  	file://tests-our-init-is-not-busybox.patch \
+>  	file://tests-add-no-validate-when-using-download-template.patch \
+> +	file://0001-remove-deprecated-options-in-lxc.service-fixes-3527.patch \
+> +	file://0001-Remove-obsolete-setting-regarding-the-Standard-Outpu.patch \
+>  	file://dnsmasq.conf \
+>  	file://lxc-net \
+>  	"
+> -- 
+> 2.26.2
+> 
