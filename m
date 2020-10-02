@@ -1,102 +1,127 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.4011.1601608330234130229
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
+ by mx.groups.io with SMTP id smtpd.web11.7966.1601618369226499344
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 01 Oct 2020 20:12:10 -0700
+ Thu, 01 Oct 2020 22:59:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=imBGTsI5;
- spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com [209.85.222.196])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 086AF38C07FA
-	for <meta-virtualization@yoctoproject.org>; Thu,  1 Oct 2020 20:12:10 -0700 (PDT)
-Received: by mail-qk1-f196.google.com with SMTP id o5so732259qke.12
-        for <meta-virtualization@yoctoproject.org>; Thu, 01 Oct 2020 20:12:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=FYTI/Yfn;
+ spf=pass (domain: gmail.com, ip: 209.85.167.194, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oi1-f194.google.com with SMTP id n2so243126oij.1
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 01 Oct 2020 22:59:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=5HnO70Kf7ypXPrUSc264qFsIPlMVaDRt6Bht0a+Axyo=;
-        b=imBGTsI5DfkkAbpYkvJyM3dbFWIoQSACxLuKuJ07sS30LjgDPcloUHaiut1zKY5H/V
-         OGPm9pjLiFdPM9fKlX4GgAQEnYOiSQURGo988i8sIgEgsIiuWO2KkCSDwtsWFaJD56Fc
-         5y/SA0nNRX/R3+7udkP17Fcic/1Ohj0GvVSPzxqXpwkKnDkNyAsMbjadvRBaG+9rmPGe
-         MNJlO43jIsme14Y8QZMtdiGQt1PTiaQHqFS39MxxjGo+YWOG/VKrFpk9r0uE1v67Kqxj
-         rnlxbKtIn6clHDB5iu9FrsvR+4o6/Dnlww9qNvvHE07xFDj/4NNeCC7xRdFEAtr/353j
-         cFhw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vjQYuOxLksGWo50tXqCBoSEhfdWX69Zf+zxBYgT0Fg4=;
+        b=FYTI/Yfne3tFbGc0wuT6l7qm5oAkJ5un+mmbjFOskCMrFuvvvPqK5u+QE9qRH1j7fx
+         31gZtXlPappRdythjIH9bOPoLGLLkZ1xD51k2MFqFP+BleFrqNl3Np8tlAOmlIwUovdQ
+         0Ly32NKqyYnxiGmAuC0InUvjy0q6gzjQn9qd1urRrTewOy7xw/zbspexkMvF8uNcfXLa
+         cDmkXcc0rJ8OABkG8ZoHkfMR9FD+HWbb7eZVmgJMiNvhZGHWt51ok4hP20xFpB4ulQ/y
+         DQkrHbuX8B0mQn8p8+XGHjoG4pIuzIcstbfboeWghHs0B91xMNvSGEEx0SicNx6WgFpN
+         jAdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=5HnO70Kf7ypXPrUSc264qFsIPlMVaDRt6Bht0a+Axyo=;
-        b=d3P8570l0/x/tRf80eeGmRqGo5aFMqQigWEmLzjOt8JrGkgk3BVY2RK3IzGSGztkM8
-         HFUCvMvPhwO5crl5LFptaaPkGGp6nSqnPorEwRVBePdgSuejgdTvZcyV7xcrMThaOQPI
-         mPFP3pi5CuSPI2k14xZfCJwoG9EPzE4d1IO1tcZu6ViOnecr9kK6nOt119qPhnfYAck6
-         qoMrZm3NcckTgsGD0bD5NOSI1ivODOdcq1aQQzStXv7YlbZRB+es/ft2CPBV8yHUnzz+
-         uy2DjTRvGWfTX9aopL1xtD90JhfYOj8T4YZrdSSSRW2/29ouRC0VDfN7sU4FpTxbyb1d
-         RTnQ==
-X-Gm-Message-State: AOAM5314V8jZrlZwxnwI2rUEfRAZe3So3MCNfbjVmqdEM39nT0spYeA0
-	6aLgaSrthLoDmkSweQo2MsG6API9b6LfSSwY
-X-Google-Smtp-Source: ABdhPJziRYz/KHk2/qDb0NqNZFjAxiDD1l7ZS9h3UMbh+Bw0E0XU2X8dNp1A2N5qelFT2XTiQ9/vpw==
-X-Received: by 2002:a05:620a:69b:: with SMTP id f27mr196098qkh.309.1601608328975;
-        Thu, 01 Oct 2020 20:12:08 -0700 (PDT)
-Received: from gmail.com (CPE04d4c4975b80-CM64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id k5sm207951qkc.45.2020.10.01.20.12.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2020 20:12:08 -0700 (PDT)
-Date: Thu, 1 Oct 2020 23:12:06 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-xstatic-objectpath: change to python3
-Message-ID: <20201002031206.GB53106@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vjQYuOxLksGWo50tXqCBoSEhfdWX69Zf+zxBYgT0Fg4=;
+        b=BEe+yyUJlhQVUwMS6pVdXFHbSRh97+720ayP2Fe2RJIRvNUae2jf3HuBjtwkcwLcBY
+         MtNZ2ZAh6ztNkDxpf7NlCyQQfYz+zk+wu9gwiugxa15NOVGUDTXiFVmxZmRMGNlDT97d
+         dWw+iqceQNdRBXV2v5Ger5t3D2TNUsx4GnP/tEVV2WSDUNG8R5VcQS1TVaS+roDeq3J8
+         HIwYsyvbkMwXBJpkIQzE1zV651SZiF3SkvPcctkkRDdL7cZ6qomIubBIkcBk0P4VnlWN
+         krskUOX00eI4drVoncCxjN3RnAfkb35KKlGV/mOcnI04xNSq4IEnwxXz0Dz7YgX/qW/d
+         /uHg==
+X-Gm-Message-State: AOAM532H+h9SuJeNudSXMFWsFV+6bTVk4Uga7YheDyqIAVY/RpwqCcUa
+	KseRTBux2+x/a8iB/cVBH3+ajhfabJIHSmPpAmI=
+X-Google-Smtp-Source: ABdhPJzrHUdphWExbhz7RWoB1fGvaoyMcXk23VWW36w30qY6tbtNfTUC0k4xIv4yHYI/9tALTi2pqlFULGdRdCgNVK8=
+X-Received: by 2002:a05:6808:b03:: with SMTP id s3mr380662oij.28.1601618368508;
+ Thu, 01 Oct 2020 22:59:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1601349566-108443-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1601349593-108482-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1601349611-108532-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1601349622-108579-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1601349630-108615-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1601349638-108654-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20200922194539.51933-1-bruce.ashfield@gmail.com>
+ <20200922194539.51933-2-bruce.ashfield@gmail.com> <CADkTA4PCTO_iUFDAc1udvt_WwbbqZJ6bfCsUk9RhDTKXegKspg@mail.gmail.com>
+In-Reply-To: <CADkTA4PCTO_iUFDAc1udvt_WwbbqZJ6bfCsUk9RhDTKXegKspg@mail.gmail.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Thu, 1 Oct 2020 22:59:18 -0700
+Message-ID: <CACMJ4Gb5SUoMZ0k8EEbvOkHKOhBLkaftpYwo609S6pDkLgghXw@mail.gmail.com>
+Subject: Re: [PATCH 2/7] xen: make kernel modules an override possible variable
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-merged.
+On Tue, Sep 22, 2020 at 12:49 PM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> Christopher:
+>
+> I pushed an earlier Xen commit by mistake (make QB assignments weak),
+> but I wanted to bring this one to your attention.
+>
+> I've been fixing the support for Xen on some Xilinx SOCs and these are
+> my commits to do so.
+>
+> There's a new dynamic layer for xilinx, and just the one Xen tweak to
+> adjust to some kernel details (when not using linux-yocto).
+>
+> Let me know if you think it'll cause problems for you .. the default
+> isn't changed, but you never know what you miss when mucking with this
+> stuff.
 
-Bruce
+Bruce - sorry I missed this message earlier. I should have time to
+take a look at these next week. I can see that they're already in, so
+can follow up if needed.
 
-In message: [meta-virtualization] [PATCH] python3-xstatic-objectpath: change to python3
-on 29/09/2020 zhengruoqin wrote:
+Christopher
 
-> Because python2 is no longer maintained, bb file is changed to python3 version.
-> 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  ...ectpath_1.2.1.0.bb => python3-xstatic-objectpath_1.2.1.0.bb} | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta-openstack/recipes-devtools/python/{python-xstatic-objectpath_1.2.1.0.bb => python3-xstatic-objectpath_1.2.1.0.bb} (96%)
-> 
-> diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-objectpath_1.2.1.0.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-objectpath_1.2.1.0.bb
-> similarity index 96%
-> rename from meta-openstack/recipes-devtools/python/python-xstatic-objectpath_1.2.1.0.bb
-> rename to meta-openstack/recipes-devtools/python/python3-xstatic-objectpath_1.2.1.0.bb
-> index bd2eefa..faf2858 100644
-> --- a/meta-openstack/recipes-devtools/python/python-xstatic-objectpath_1.2.1.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-xstatic-objectpath_1.2.1.0.bb
-> @@ -14,7 +14,7 @@ inherit setuptools3 pypi
->  # DEPENDS_default: python-pip
->  
->  DEPENDS += " \
-> -        python-pip \
-> +        python3-pip \
->          "
->  
->  # RDEPENDS_default: 
-> -- 
-> 2.25.1
-> 
-> 
-> 
-
-> 
-> 
-> 
-
-
+>
+> Bruce
+>
+> On Tue, Sep 22, 2020 at 3:45 PM <bruce.ashfield@gmail.com> wrote:
+> >
+> > From: Bruce Ashfield <bruce.ashfield@xilinx.com>
+> >
+> > Sometimes Xen is built with different mixes of kernel modules and
+> > built-in values. If we put our expected/default modules in a
+> > variable, they can be overriden by a different kernel provider
+> > as required
+> >
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@xilinx.com>
+> > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  recipes-extended/images/xen-image-minimal.bb | 14 +++++++-------
+> >  1 file changed, 7 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/recipes-extended/images/xen-image-minimal.bb b/recipes-extended/images/xen-image-minimal.bb
+> > index 1b45397..6733801 100644
+> > --- a/recipes-extended/images/xen-image-minimal.bb
+> > +++ b/recipes-extended/images/xen-image-minimal.bb
+> > @@ -2,16 +2,16 @@ DESCRIPTION = "A minimal xen image"
+> >
+> >  INITRD_IMAGE = "core-image-minimal-initramfs"
+> >
+> > +XEN_KERNEL_MODULES ?= "kernel-module-xen-blkback kernel-module-xen-gntalloc \
+> > +                       kernel-module-xen-gntdev kernel-module-xen-netback kernel-module-xen-wdt \
+> > +                       ${@bb.utils.contains('MACHINE_FEATURES', 'pci', "${XEN_PCIBACK_MODULE}", '', d)} \
+> > +                       ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'kernel-module-xen-acpi-processor', '', d)} \
+> > +                      "
+> > +
+> >  IMAGE_INSTALL += " \
+> >      packagegroup-core-boot \
+> >      packagegroup-core-ssh-openssh \
+> > -    ${@bb.utils.contains('MACHINE_FEATURES', 'acpi', 'kernel-module-xen-acpi-processor', '', d)} \
+> > -    kernel-module-xen-blkback \
+> > -    kernel-module-xen-gntalloc \
+> > -    kernel-module-xen-gntdev \
+> > -    kernel-module-xen-netback \
+> > -    ${@bb.utils.contains('MACHINE_FEATURES', 'pci', "${XEN_PCIBACK_MODULE}", '', d)} \
+> > -    kernel-module-xen-wdt \
+> > +    ${XEN_KERNEL_MODULES} \
+> >      xen-tools \
+> >      qemu \
+> >      "
+> > --
+> > 2.19.1
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
