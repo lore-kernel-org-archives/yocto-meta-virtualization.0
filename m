@@ -1,116 +1,94 @@
-Received: from 2.mo173.mail-out.ovh.net (2.mo173.mail-out.ovh.net [178.33.251.49])
- by mx.groups.io with SMTP id smtpd.web10.14237.1602169230343444299
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+ by mx.groups.io with SMTP id smtpd.web11.14240.1602170045506930688
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 08 Oct 2020 08:00:30 -0700
+ Thu, 08 Oct 2020 08:14:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=softfail (domain: 3mdeb.com, ip: 178.33.251.49, mailfrom: maciej.pijanowski@3mdeb.com)
-Received: from player158.ha.ovh.net (unknown [10.108.4.98])
-	by mo173.mail-out.ovh.net (Postfix) with ESMTP id C8729150728
-	for <meta-virtualization@lists.yoctoproject.org>; Thu,  8 Oct 2020 17:00:27 +0200 (CEST)
-Received: from 3mdeb.com (85-222-117-222.dynamic.chello.pl [85.222.117.222])
-	(Authenticated sender: maciej.pijanowski@3mdeb.com)
-	by player158.ha.ovh.net (Postfix) with ESMTPSA id E510416ECD848;
-	Thu,  8 Oct 2020 15:00:25 +0000 (UTC)
-Authentication-Results: garm.ovh; auth=pass (GARM-99G00327f734ae-8df8-44d3-90c0-e28d035dbe73,
-                    9BDB21CE6912D189679EFBF3351B5BED2E29563B) smtp.auth=maciej.pijanowski@3mdeb.com
-Subject: Re: [meta-virtualization] dunfell/5.8.x kernel/Docker version 19.03.8-ce
-To: Robert Berger <robert.berger.yocto.user@gmail.com>,
- meta-virtualization@lists.yoctoproject.org
-References: <QqEr.1602167734052560613.bjmh@lists.yoctoproject.org>
-From: "Maciej Pijanowski" <maciej.pijanowski@3mdeb.com>
-Message-ID: <3ec52728-7c70-0e78-c0a5-306a3e2ea0a4@3mdeb.com>
-Date: Thu, 8 Oct 2020 17:00:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XMtUB1MQ;
+ spf=pass (domain: gmail.com, ip: 209.85.208.54, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ed1-f54.google.com with SMTP id l16so6224862eds.3
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 08 Oct 2020 08:14:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2VcYIyMt8DugItTHTFrdbym6/Mp+Qf9xeDnRed70LcQ=;
+        b=XMtUB1MQMRABQyhsudfVW8NKvEAgC3FnqYi4qR/K57cYWsmD4jq9lbvEZf1uTT5mQi
+         EvlUmIXiT81e7FEDey2kUa0kn4AOXCyM544yFNuJRSGukNj00rhO2GOLjTBFfG8w5PEA
+         GU4V8n94wi3Bq5XjhUOZf6HeWp6ylG1amsF42/eB5ojlT+eVY2g7sqU2CK2hoaU6PI4x
+         YaaEtH9IMzm7ZjEDFRuoRy1jdwvTv5PvNsCMlCNEDuNFuanfceOefzjWDFXCOrGGfhmH
+         fio2lUG+P9e/dUwzJb2i8TCK3DqSFobZjyTb+SaFN6+7AnPS79XWD6qODX8H3cPFWbSE
+         Mm7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2VcYIyMt8DugItTHTFrdbym6/Mp+Qf9xeDnRed70LcQ=;
+        b=rykylmT76DdEe8iGOJfds65R+pLRQOctghQJ6eC1Uk4PpaW6MNT6277DtM1iCfZbwX
+         Wwri1d3Ded5PERkfiNI+qpYi18SxC8b7PgV0waSduu9LthzXdVwe/Ou7RxeTrxbuGxyG
+         XUfisXubgpp913ZGLvgz+8uDU9Y9e8HMN6RqFvDjoOvGjRfgg6t10Xq86mogXeMuhr9Q
+         UBsRXAlUNrwZTFh+9qS1W7WNm1Lz1zsubRpBr6/cBK9rvQIEfvHbVaRxy9RDWEJnImLn
+         NFj8fooastSKpzcy4hnE/tond/i0vzMnA4wPPyIqO5ZawAv+1qyvVDShNutyu5d87+YV
+         E9Lw==
+X-Gm-Message-State: AOAM5320ueI7nnYi/7i4j9gV0niq0PZOlcJGSH2teZh6yoQRxR8evwo1
+	k0MKJD678MKCJv0LyuMOvgmajwxPwEbB1bOS7Ps=
+X-Google-Smtp-Source: ABdhPJxG5k+/+ijI9o47uRsEy0JUs4S1tHGLvsY4xdB92VIfeMaVel8ualWBCvCzSITI1RODga/onsPu8BBo2QAqi0A=
+X-Received: by 2002:aa7:d5c2:: with SMTP id d2mr9881076eds.234.1602170043749;
+ Thu, 08 Oct 2020 08:14:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <QqEr.1602167734052560613.bjmh@lists.yoctoproject.org>
-X-Ovh-Tracer-Id: 2993486378567937713
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrgeelgdehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepuffvfhfhkffffgggjggtsegrtderredtfeejnecuhfhrohhmpeforggtihgvjhcurfhijhgrnhhofihskhhiuceomhgrtghivghjrdhpihhjrghnohifshhkihesfehmuggvsgdrtghomheqnecuggftrfgrthhtvghrnheptdffkeeigfeiudehkeehtdeugeetgfetffefvefgieduteffleeutdeuvdevjeehnecuffhomhgrihhnpehprghsthgvsghinhdrtghomhdphihotghtohhprhhojhgvtghtrdhorhhgpdefmhguvggsrdgtohhmnecukfhppedtrddtrddtrddtpdekhedrvddvvddruddujedrvddvvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhduheekrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepmhgrtghivghjrdhpihhjrghnohifshhkihesfehmuggvsgdrtghomhdprhgtphhtthhopehmvghtrgdqvhhirhhtuhgrlhhiiigrthhiohhnsehlihhsthhsrdihohgtthhophhrohhjvggtthdrohhrgh
-Content-Type: multipart/alternative;
- boundary="------------B091B8B52E4D0F88BC7EC331"
-Content-Language: en-US
+References: <QqEr.1602167734052560613.bjmh@lists.yoctoproject.org> <3ec52728-7c70-0e78-c0a5-306a3e2ea0a4@3mdeb.com>
+In-Reply-To: <3ec52728-7c70-0e78-c0a5-306a3e2ea0a4@3mdeb.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 8 Oct 2020 11:13:52 -0400
+Message-ID: <CADkTA4PwkhC1K0BmVdEAe9Hhej7iX=MN24KU0m3Qe5ZD1-6F=g@mail.gmail.com>
+Subject: Re: [meta-virtualization] dunfell/5.8.x kernel/Docker version 19.03.8-ce
+To: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+Cc: Robert Berger <robert.berger.yocto.user@gmail.com>, 
+	meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
---------------B091B8B52E4D0F88BC7EC331
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-
-On 08.10.2020 16:35, Robert Berger wrote:
+On Thu, Oct 8, 2020 at 11:00 AM Maciej Pijanowski
+<maciej.pijanowski@3mdeb.com> wrote:
+>
+>
+> On 08.10.2020 16:35, Robert Berger wrote:
+>
 > Hi,
 >
-> It looks like with a 5.8.x kernel docker is not happy anymore with
-> iptables and kills the socket.
+> It looks like with a 5.8.x kernel docker is not happy anymore with iptables and kills the socket.
 >
 > https://pastebin.com/U702eC9G
 >
 > Are there any suggested fixes for this?
-The kernel-module-xt-masquerade is missing.
-Docker could RRECOMMENDS on it.
+>
+> The kernel-module-xt-masquerade is missing.
+> Docker could RRECOMMENDS on it.
+
+Indeed.
+
+And I have some other 5.8 related changes that I'm finishing up now,
+so I'll take care of adjusting to the 5.8+ kernel
+
+Bruce
+
+>
 >
 > Regards,
 >
 > Robert
 >
+>
+> --
+> Maciej Pijanowski
+> Embedded Systems Engineer
+> GPG: 9963C36AAC3B2B46
+> https://3mdeb.com | @3mdeb_com
+>
+>
 > 
 >
+
+
 -- 
-Maciej Pijanowski
-Embedded Systems Engineer
-GPG: 9963C36AAC3B2B46
-https://3mdeb.com | @3mdeb_com
-
-
---------------B091B8B52E4D0F88BC7EC331
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 08.10.2020 16:35, Robert Berger
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:QqEr.1602167734052560613.bjmh@lists.yoctoproject.org">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      Hi,<br>
-      <br>
-      It looks like with a 5.8.x kernel docker is not happy anymore with
-      iptables and kills the socket.<br>
-      <br>
-      <span style="font-size: 14px;"><a
-          href="https://pastebin.com/U702eC9G" target="_blank"
-          rel="noopener" moz-do-not-send="true">https://pastebin.com/U702eC9G</a><br>
-        <br>
-        Are there any suggested fixes for this?<br>
-      </span></blockquote>
-    The kernel-module-xt-masquerade is missing.<br>
-    Docker could RRECOMMENDS on it.<br>
-    <blockquote type="cite"
-      cite="mid:QqEr.1602167734052560613.bjmh@lists.yoctoproject.org"><span
-        style="font-size: 14px;"><br>
-        Regards,<br>
-        <br>
-        Robert</span>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-    </blockquote>
-    <pre class="moz-signature" cols="72">-- 
-Maciej Pijanowski
-Embedded Systems Engineer
-GPG: 9963C36AAC3B2B46
-<a class="moz-txt-link-freetext" href="https://3mdeb.com">https://3mdeb.com</a> | @3mdeb_com</pre>
-  </body>
-</html>
-
---------------B091B8B52E4D0F88BC7EC331--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
