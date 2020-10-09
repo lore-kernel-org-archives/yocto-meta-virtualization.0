@@ -1,255 +1,96 @@
-Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.75])
- by mx.groups.io with SMTP id smtpd.web11.12747.1602247535561195321
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+ by mx.groups.io with SMTP id smtpd.web11.13156.1602248734786171972
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 09 Oct 2020 05:45:36 -0700
+ Fri, 09 Oct 2020 06:05:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=mW1cDp/G;
- spf=pass (domain: arm.com, ip: 40.107.15.75, mailfrom: bertrand.marquis@arm.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oypdKcEl51twi2beO6LJ1eYx1VOcvIyWjyAIhnRuHtE=;
- b=mW1cDp/GrOhHYFob6OWrqGfJ+l0ZEFiK7rStN9JCPoJBmJR4TO9+WDVekmE7yezcYrxuTr/w6oFzSDfNSHjWfi38a1hUFeJdxEkmKmk3ayzrLGioHmcXociH2cMk7r5LohruiCVZHDqkbGC3qFrbFDF/2ZuwSZuw2Q7+MefzQEw=
-Received: from AM6P192CA0055.EURP192.PROD.OUTLOOK.COM (2603:10a6:209:82::32)
- by DB8PR08MB5386.eurprd08.prod.outlook.com (2603:10a6:10:f9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Fri, 9 Oct
- 2020 12:45:32 +0000
-Received: from VE1EUR03FT039.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:209:82:cafe::53) by AM6P192CA0055.outlook.office365.com
- (2603:10a6:209:82::32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.23 via Frontend
- Transport; Fri, 9 Oct 2020 12:45:32 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
- verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
- action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- VE1EUR03FT039.mail.protection.outlook.com (10.152.19.196) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3455.23 via Frontend Transport; Fri, 9 Oct 2020 12:45:31 +0000
-Received: ("Tessian outbound a0bffebca527:v64"); Fri, 09 Oct 2020 12:45:31 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 76bcfb793b9d82f6
-X-CR-MTA-TID: 64aa7808
-Received: from b180f1c4891a.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id EBF30E8B-8219-487F-927D-BA3FD63D4118.1;
-	Fri, 09 Oct 2020 12:45:26 +0000
-Received: from EUR04-HE1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id b180f1c4891a.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Fri, 09 Oct 2020 12:45:26 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ljkT9WRC4NuUO7ZkbzzYCYUfoLtz7mvkCnLSf1Nqgdyw0sAgejNz769r9zugVJPcQ0lGYjV+1JV/TP3hohHoLBJdOPyZloafLifRhDAS0VjeaqNy/0JW+9BrtbUtZQ5l8B7CIduDjpTDx+19gh6uWGfxLgS8rpdG25rX5wqNvmFfAc9MnmBtiUPTVTICO+eryrL/d4H3FT6gJRA/77nxTHXn/8nfKw4UwVGzMtGFgn199EsKw5mg/FWjUPktYhj1YOb9t02fPxTTUbd8hvx+eDaALxWN9FAGhH+B8ooYpcQcAfdKOFQrbcwQClkJHEIlu5YVKH+tUtUrLZs59EYmBg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oypdKcEl51twi2beO6LJ1eYx1VOcvIyWjyAIhnRuHtE=;
- b=eWjzfFIm+8stktshvFE2DkCX6ECabe8sLcz6YqIDggrZiqRpGYRFqJTJlRWk3RHG4k9Q333D69gNKUwzczGxx3JsIYtZhjj2oH5NE/IBZRMVebpEoNAjABHlq2vxxMtQqgVjJQnSiO4xu/md5kNL41L0/+fUVp7yupiNoWtWw0psLfCfFISgHD9WJIpsIw6hA4xWZ0n3CFFfyEH9FkI7hLcRtS5Vy/KzK8Q4vEE7sviqN5a9BqhcMYgXKMrzXrEzuRqf/w8Gg9RIwSl+ID6gGYsOI0R5/AEzqwM3GPWCzn+ObUDTtNMGgklnNphwnByFIhUSihpCz0s0u3KSjm8N7Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oypdKcEl51twi2beO6LJ1eYx1VOcvIyWjyAIhnRuHtE=;
- b=mW1cDp/GrOhHYFob6OWrqGfJ+l0ZEFiK7rStN9JCPoJBmJR4TO9+WDVekmE7yezcYrxuTr/w6oFzSDfNSHjWfi38a1hUFeJdxEkmKmk3ayzrLGioHmcXociH2cMk7r5LohruiCVZHDqkbGC3qFrbFDF/2ZuwSZuw2Q7+MefzQEw=
-Received: from DB7PR08MB3689.eurprd08.prod.outlook.com (2603:10a6:10:79::16)
- by DB7PR08MB3386.eurprd08.prod.outlook.com (2603:10a6:10:46::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.26; Fri, 9 Oct
- 2020 12:45:24 +0000
-Received: from DB7PR08MB3689.eurprd08.prod.outlook.com
- ([fe80::cf6:86:f034:aec4]) by DB7PR08MB3689.eurprd08.prod.outlook.com
- ([fe80::cf6:86:f034:aec4%6]) with mapi id 15.20.3455.026; Fri, 9 Oct 2020
- 12:45:24 +0000
-From: "Bertrand Marquis" <bertrand.marquis@arm.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: "meta-virtualization@lists.yoctoproject.org"
-	<meta-virtualization@lists.yoctoproject.org>, nd <nd@arm.com>
-Subject: Re: [meta-virtualization] [PATCH v2] ipxe: Fix gcc10 compilation
-Thread-Topic: [meta-virtualization] [PATCH v2] ipxe: Fix gcc10 compilation
-Thread-Index: AQHWnjj8dPpgfXObaUmnKXpPMvMFKKmPNpmAgAABEIA=
-Date: Fri, 9 Oct 2020 12:45:23 +0000
-Message-ID: <C77BB304-7775-4782-8BB8-7BB64E990B7C@arm.com>
-References: <163C53331F54B310.15658@lists.yoctoproject.org>
- <163C5377755A400D.8231@lists.yoctoproject.org>
-In-Reply-To: <163C5377755A400D.8231@lists.yoctoproject.org>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-Authentication-Results-Original: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-x-originating-ip: [82.24.250.194]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 223b9157-2892-4d9e-c797-08d86c513582
-x-ms-traffictypediagnostic: DB7PR08MB3386:|DB8PR08MB5386:
-X-Microsoft-Antispam-PRVS: 
-	<DB8PR08MB5386E903630267EB97EC69259D080@DB8PR08MB5386.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- NkDsBlkhRI94K2sYRC5gj4ttfHfVwVI9LC96JmJZc3b7Zzb0aqe1eJHWiv2ABNMuYKZbmJ2R6sT0xrzZS1aPUDS8zg4ImVZRf0VfFyDFrHyoKQv6wEE9j5YoK0aXMSg2aR8uPYJh958liWUhlUOqhDninNyiuqhuFTlV9EoDz1cVdrzM5mQrKVwYvkFVICq+b605mvt1iynaJdWppeyd+4PffJgzY1mJI/lndnrb/PZ4b3uwmn8vAtF6fmH8vLcr6cJUEWh3a0h66Acz7FRVyGo66UnJG36BLR9Q0LgqmXvlInQGV8rwy51DnETQf0WGZ5qkjq4HOSTdofc3mM4pS8bVC4nWvTxmO2Ob6REYCSfeRNM2M8ZIo/BsJuQ9BxYSDwwj+vvcHvueukpc/Ckqpw==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB3689.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(39850400004)(346002)(366004)(33656002)(83380400001)(316002)(6486002)(54906003)(966005)(6916009)(478600001)(2616005)(6506007)(4326008)(26005)(53546011)(186003)(8676002)(8936002)(86362001)(83080400001)(6512007)(2906002)(5660300002)(66946007)(71200400001)(36756003)(64756008)(91956017)(66446008)(66476007)(76116006)(66556008);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- crGnCOE64YbtZwhnhst5ko/h+3ypH10AheQep4fcynGN4X9gcu8NunTE9Jz2CU+mwmIQOcO92q/2kjj/UoBKFVesG4YXGh7lGV9kRCkoy+MXg1P/oUNIpwIh89kl3pw1Gz51eu6XIaqlrMmL//bFx8dtqpHRIrx1IeyTDUc/4Wx6kW8mtwzYF1+XTdHc+IitS/85GtPAITPcIhKq3WXXcX9oPdGcfMW2RBmuK4yDo0CP9JClr3SIGRMS8G9AZhhT4XNGKlGcD38JfQMRUiPmzgnDuRAEcsiNPI+nA9YZbvtp3A49mRy9Sej/vxliD1AJl1u5dhMhWEOqwvo2F1Shfqh0AFbP3rBXPnIuj+aKhf8fIjHhG8MOvOQmmef8Qo/enBfl/bi7q07ijnCdZJwfEf1rlmQl9virRKykb2z+J8so2LM0CQXPoiyKdtaPG9cZ5uut+zeFMMFFMO/TPpMrzCAv3xT0BYwoeXpPnDN0lQhb/B7e4++lvzZkqX9bM3iS7CU7AaliijkykX/PsMXBSVcPdXNP87pqIiFjTaTS32EHNnah2/eVygjQvOpugejWH4n8FIa4y0LoAwGjCIqzscIZv3ANoFCV1aJOGSbCbdx9gYLWX7iBUoAmDU1hZDsaLBfQoKjeWDlXq0oOXGkNNQ==
-x-ms-exchange-transport-forked: True
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=Fq4UM4KX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f45.google.com with SMTP id x7so2808056eje.8
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 09 Oct 2020 06:05:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=e5vJ2xPiGdWrFQL8+T+17MWiXywMiJOJNmeWMe+4fPE=;
+        b=Fq4UM4KXfQQLE7aKqRmmzose3v/zgCPig95dgqRDL6A6PJGFFr9aa7HYb4/XzTND57
+         07VLVMFzT+E775PIeUn6rnDc0LOmV3YG5lioSkFvjOVoR1pLJ5Qka24wd4GQO1cTZ9Ny
+         scFBVpQKctPASBieHSLxwG4hnNTxOd1YrWrcfqWk6Rpn4PL2S79TNJIhdyUlR/x+JgqM
+         ukH8iHGGbx8cirXhQUFtlmVhAXeMKsIqTu9fXy4t4QiYWVJgQJrdhZSwZ2BI8Qwb0uvK
+         cYHGoxirZs5zRbi70yc3RaSIJkxupqGbfT9h5xhbhoYW5vCxU8xm1kpBOZZ1ERRUmhR1
+         Omqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=e5vJ2xPiGdWrFQL8+T+17MWiXywMiJOJNmeWMe+4fPE=;
+        b=KtpX5DVrSeJiqu7lrNHTINc0gLJ88FMOXYJb4HhmVN/1T6BZBNtvX+C3zI3tNb0g2v
+         84yulhONUkeOEHAUowygR90D/Slz1JRQEO6nDaSg4HPO29j7gLGaG03R9AcB0VMVhsyP
+         tusRu4BRqb9RaXTlmkX8qbncWGzEt9g4bJZ5UeiH3fFX9o4UE4UYIJNOlWPv7BGZ3zHx
+         7+IMM3nu/Z+3MLfkv6fBjfAdIoX+Ra/9kw9TPBK9I35XaP4YOV2q5rQ2Zdv9NiwvkiE3
+         Kx/AKOIH2aFpLQTnPeXdZpAhs0a9Ocgph31Z+/gOjjV9nncy1NAGG8j6+7PkhXWusQy3
+         0P+Q==
+X-Gm-Message-State: AOAM533dDTSW0rEOG0IC1AxbhZN8/RWoJRVxfHEO2OEITofgfl948v3w
+	N702kbZ7X1FjI44UVOIimPDkoO7HLdK5jhcwyW4=
+X-Google-Smtp-Source: ABdhPJy63z80PHmP7vknmtHDQBkq+sK5hizffRnzi2Sj8CxnTgDA3170pdwzKJYtvZcS1JsYl0NhA1rzQkdgTmE9IpM=
+X-Received: by 2002:a17:906:53d6:: with SMTP id p22mr14011689ejo.517.1602248732997;
+ Fri, 09 Oct 2020 06:05:32 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB3386
-Original-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-Return-Path: Bertrand.Marquis@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- VE1EUR03FT039.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	509e168b-5f65-4093-9258-08d86c5130d9
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	NwzyusMvWYXDQPaoNktEgmoxVKhb0hf1r7IDwzYfZvw5ikE3OTHdhxFAl2tcDcuIPZ6TJmkxzmH166cxg+k+pvukmG6JlGq6dbFxoSW6wYjqwtivYPmfgyF+sp/sjuOuCAr9TDDLCRYf/a0JkplhzxfEGDJPb4obsUAv4847gCAUFP5XazB+YBQig2qio0x48H0AvN5J/XBk8cMP3iNGoOJrsEfAKVfE91AnqN0flexpZPNr6N3ZNaIo/vlUrolQJn/l0mkYQvuY0/k5pfsRV4UjUmWxdHHDZzJe6Xlnh77S/Z3b6tGuvMUxCUJHr56T5f5ZRNm8EM4jRQ3daEKVpr8BV4RjCUcog+ZNl00zPTxDpaaM25fsJReMPM20ooZPzw7Pd9qam7G1hFhL9og/SndNkx6/EA+yFm3BsVupwaLziHdKhRfceR2Ue4QW6NntlYZjgsfvLQoxVFuKg5GFRfPrLjKamZi81GiiowI0sY8=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(346002)(376002)(396003)(136003)(39850400004)(46966005)(54906003)(478600001)(83380400001)(86362001)(6486002)(47076004)(6862004)(6512007)(82310400003)(4326008)(33656002)(82740400003)(5660300002)(81166007)(2906002)(83080400001)(26005)(8676002)(336012)(356005)(53546011)(36756003)(6506007)(2616005)(186003)(70586007)(316002)(70206006)(966005)(8936002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Oct 2020 12:45:31.7719
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 223b9157-2892-4d9e-c797-08d86c513582
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	VE1EUR03FT039.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR08MB5386
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <8BEF093D6029FD4EA385D0E036B95B13@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+References: <QqEr.1602167734052560613.bjmh@lists.yoctoproject.org>
+ <3ec52728-7c70-0e78-c0a5-306a3e2ea0a4@3mdeb.com> <163C0D2B0E77C0DC.4412@lists.yoctoproject.org>
+ <CADkTA4N7n+RiuoGbtqf76i+QbTVOphekhMEG+cjBSE51NQuJEQ@mail.gmail.com> <1445d1d9-8fad-ff27-49db-c3675076ddeb@gmail.com>
+In-Reply-To: <1445d1d9-8fad-ff27-49db-c3675076ddeb@gmail.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Fri, 9 Oct 2020 09:05:20 -0400
+Message-ID: <CADkTA4NwLxT2oRJL6Dtv_xwHpUrijPeUenYzM-6_THhfUpXcoA@mail.gmail.com>
+Subject: Re: [meta-virtualization] dunfell/5.8.x kernel/Docker version 19.03.8-ce
+To: "Robert Berger@yocto.user" <robert.berger.yocto.user@gmail.com>
+Cc: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>, meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
-Actually it seems this is my mail client hidding it (as the online view is =
-correct)
+On Fri, Oct 9, 2020 at 6:10 AM Robert Berger@yocto.user
+<robert.berger.yocto.user@gmail.com> wrote:
+>
+> Hi,
+>
+> Thanks for the quick reply - I'll give it a try!
+>
+> On 09/10/2020 01:07, Bruce Ashfield wrote:
+> >
+> > FYI. If you were using the meta-virt fragments (as I hope you were!
+> > ;), then it was something I did to fix the rpi layer that broke things
+> > .. and hence why the required modules weren't around.
+> >
+>
+> You mean those in the meta-virt layer?
+>
+> I am using those, but I guess with my meta-virt is too old - dunfell
+> something.
 
-So you can ignore the v2.
+Aha. Right, I missed that. I wouldn't have broken dunfell, but I can
+confirm that with the right modules loaded, docker works fine with a
+yocto built 5.8
 
-Sorry for the noise :-)
+Bruce
 
-Cheers
-Bertrand
+>
+> Also I have my own custom kernel recipe and don't use the one from
+> meta-virt.
+>
+> So basically what is do is apply kernel fragments from meta-virt (and
+> some others) on top of some kind of upstream 5.8.x kernel.[1]
+>
+> [1]
+> https://gitlab.com/meta-layers/meta-raspberrypi-ml-bsp/-/blob/dunfell/recipes-kernel/linux/config/arm64-ml-base/ktypes/virt/virt.scc
+>
+> The same fragments work for a 5.4.x kernel.
+>
+> Regards,
+>
+> Robert
 
-> On 9 Oct 2020, at 13:41, Bertrand Marquis via lists.yoctoproject.org <be=
-rtrand.marquis=3Darm.com@lists.yoctoproject.org> wrote:
->=20
-> Hi Bruce,
->=20
-> For whatever reason the beginning of my commit message is removed, i tri=
-ed to resend it
-> but the same happen again.
->=20
-> This is the first sentence:
->=20
-> Add ipxe patch to pass -fcommon flag to gcc during compilation.
-> This patch is required to have ipxe compiling properly with gcc10.
->=20
-> No idea why this is happening.
->=20
-> Regards
-> Bertrand
->=20
->> On 9 Oct 2020, at 13:37, Bertrand Marquis via lists.yoctoproject.org <b=
-ertrand.marquis=3Darm.com@lists.yoctoproject.org> wrote:
->>=20
->> Without it the following error occur (and multiple others of the same
->> kind:
->> bin/blib.a(epic100.o):(.bss+0x0): multiple definition of `_shared_bss';
->> bin/blib.a(davicom.o):(.bss+0x0): first defined here
->>=20
->> Change-Id: Id9aed4cfe6bec9c0cbdb0b99271ddff472f1f0c3
->> Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
->> ---
->> Changes in v2: add missing part in commit message
->> ---
->> ...cit-about-fcommon-compiler-directive.patch | 33 +++++++++++++++++++
->> recipes-extended/ipxe/ipxe_git.bb             |  1 +
->> 2 files changed, 34 insertions(+)
->> create mode 100644 recipes-extended/ipxe/files/build-be-explicit-about-=
-fcommon-compiler-directive.patch
->>=20
->> diff --git a/recipes-extended/ipxe/files/build-be-explicit-about-fcommo=
-n-compiler-directive.patch b/recipes-extended/ipxe/files/build-be-explicit-=
-about-fcommon-compiler-directive.patch
->> new file mode 100644
->> index 0000000..6fa5858
->> --- /dev/null
->> +++ b/recipes-extended/ipxe/files/build-be-explicit-about-fcommon-compi=
-ler-directive.patch
->> @@ -0,0 +1,33 @@
->> +From f982a712979619dbae2c6e0d741757e2ce94be11 Mon Sep 17 00:00:00 2001
->> +Message-Id: <f982a712979619dbae2c6e0d741757e2ce94be11.1602165412.git.b=
-ertrand.marquis@arm.com>
->> +From: Bruce Rogers <brogers@suse.com>
->> +Date: Wed, 6 May 2020 15:03:02 -0600
->> +Subject: [PATCH] [build] Be explicit about -fcommon compiler directive
->> +
->> +gcc10 switched default behavior from -fcommon to -fno-common.  Since
->> +"__shared" relies on the legacy behavior, explicitly specify it.
->> +
->> +Upstream-Status: backport
->> +
->> +Signed-off-by: Bruce Rogers <brogers@suse.com>
->> +Modified-by: Michael Brown <mcb30@ipxe.org>
->> +Signed-off-by: Michael Brown <mcb30@ipxe.org>
->> +---
->> + src/Makefile.housekeeping | 1 +
->> + 1 file changed, 1 insertion(+)
->> +
->> +diff --git a/src/Makefile.housekeeping b/src/Makefile.housekeeping
->> +index 66d6dd44..b6c61c11 100644
->> +--- a/Makefile.housekeeping
->> ++++ b/Makefile.housekeeping
->> +@@ -418,6 +418,7 @@ CFLAGS+=3D -Os
->> + CFLAGS+=3D -g
->> + ifeq ($(CCTYPE),gcc)
->> + CFLAGS+=3D -ffreestanding
->> ++CFLAGS+=3D -fcommon
->> + CFLAGS+=3D -Wall -W -Wformat-nonliteral
->> + HOST_CFLAGS+=3D -Wall -W -Wformat-nonliteral
->> + endif
->> +--
->> +2.17.1
->> +
->> diff --git a/recipes-extended/ipxe/ipxe_git.bb b/recipes-extended/ipxe/=
-ipxe_git.bb
->> index fbaad30..d7c60ab 100644
->> --- a/recipes-extended/ipxe/ipxe_git.bb
->> +++ b/recipes-extended/ipxe/ipxe_git.bb
->> @@ -15,6 +15,7 @@ SRC_URI =3D " \
->>    file://ipxe-fix-hostcc-nopie-cflags.patch \
->>    file://ipxe-intel-Avoid-spurious-compiler-warning-on-GCC-10.patch \
->>    file://ipxe-golan-Add-explicit-type-casts-for-nodnic_queue_pair_.pat=
-ch \
->> +    file://build-be-explicit-about-fcommon-compiler-directive.patch \
->>    "
->>=20
->> FILES_${PN} =3D "/usr/share/firmware/*.rom"
->> --
->> 2.17.1
->>=20
->>=20
->>=20
->>=20
->=20
-> IMPORTANT NOTICE: The contents of this email and any attachments are con=
-fidential and may also be privileged. If you are not the intended recipient=
-, please notify the sender immediately and do not disclose the contents to =
-any other person, use it for any purpose, or store or copy the information =
-in any medium. Thank you.
->=20
->=20
 
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
