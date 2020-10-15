@@ -1,138 +1,226 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web10.2979.1602701744696630321
+Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
+ by mx.groups.io with SMTP id smtpd.web10.3784.1602727723602264986
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 14 Oct 2020 11:55:44 -0700
+ Wed, 14 Oct 2020 19:08:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=n54MN4Uy;
- spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: akuster808@gmail.com)
-Received: by mail-oi1-f181.google.com with SMTP id t77so296748oie.4
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 Oct 2020 11:55:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:autocrypt:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=kqX8F7yHZSy+dBPJWaaDoC9YHNsTZknP5tDMSKnngzM=;
-        b=n54MN4UyNae/Lv3StLj8HSrD8mITru5OsNyhvefAsNEV8nbwcuTYdJHyZRazepx73L
-         UHsB4GU/BryRMrstUoUXo9HitQCoB7VrmsZd0sOzCuipj4Wmzld7mhK54rWhj/6UNh7o
-         CLTeLx+OBKtKfy9HYtGBYtQXASjbA0zTXC80txGtquxwDgB8/e6zRnI2G5GCI8ShKTbl
-         y3nbcn0z44cQ9QNdsqAblYd8OXgWBYY9WmYSHmIETbOaYrGB7Gls496eNUiqu4YM0B8K
-         O+FbNamvoyk7EP7xjJtGaKJjxuXhopY8Ndtwy6kxsS3Qbjo9LEpsV8hzVw495DTc7LIW
-         U/PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-         :date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=kqX8F7yHZSy+dBPJWaaDoC9YHNsTZknP5tDMSKnngzM=;
-        b=mV1fvYEJBU2U470/hn6mb+vcSgkBdjkruo4OEpzTrwo17JOjJ23ObkJT48UVdeShoh
-         FyETZDG4ZKVZSMVWYpsTSHLbm4lW6VouKlQ+vwSBA702Sf0Kea3QMG//sYgJDr+NypFa
-         a6AL+Jt2q3+8u0na5vb+yFvsNuU6OCdZxK+hdBcbCPAKUB/kQBZ0x9N2nnfbyuSajhd9
-         eHfFtvDfTXPVOFkl3eG4Mj5PLmHrXtU9AKla/sqZHld7/9HvSvr0vQE2Mo/7rrPx30s2
-         LSCaBDPn0SI5/sNZ2KQBMql4dRBDh0gCvxSXpKDFxG9ZlIUmYbAhzYo4gZREdn58yZul
-         WXzA==
-X-Gm-Message-State: AOAM532Z3BeWxFIr4kVycwfQ8TnWoCjIGhGY7lkqari28+qzd87d00wt
-	GN3A70S9mZPeNtn3mTdO0m3EtG5Nz6A=
-X-Google-Smtp-Source: ABdhPJya61/pW+UCyEoK/X/NfumQiCxFYVU9dhH4S7BqsuQk4aEU7TjeBYQwhz2yqkMwmh/7C3yahA==
-X-Received: by 2002:aca:aa08:: with SMTP id t8mr489633oie.129.1602701743877;
-        Wed, 14 Oct 2020 11:55:43 -0700 (PDT)
-Return-Path: <akuster808@gmail.com>
-Received: from ?IPv6:2601:202:4180:a5c0:283a:e7e0:f7dd:41c0? ([2601:202:4180:a5c0:283a:e7e0:f7dd:41c0])
-        by smtp.gmail.com with ESMTPSA id f2sm77603ots.64.2020.10.14.11.55.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2020 11:55:43 -0700 (PDT)
-Subject: Re: [meta-virtualization] [PATCH] layer.conf: add security to LAYERDEPENDS
-To: Martin Jansa <Martin.Jansa@gmail.com>,
- meta-virtualization@lists.yoctoproject.org
-References: <20201014143120.423865-1-Martin.Jansa@gmail.com>
-From: "akuster" <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
- 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
- 8CS2NxU=
-Message-ID: <e90ecb58-79be-93c5-84e6-8f9778b2e756@gmail.com>
-Date: Wed, 14 Oct 2020 11:55:41 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=ouzR1yp/;
+ spf=none, err=SPF record not found (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: yocto@optimcloud.com)
+Received: from mx02.optimcloud.com (localhost [127.0.0.1])
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 6860b193
+	for <meta-virtualization@lists.yoctoproject.org>;
+	Thu, 15 Oct 2020 04:08:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=to
+	:from:subject:message-id:date:mime-version:content-type
+	:content-transfer-encoding; s=obsd; bh=kXY/XiG3ao6n1SDFZznrc6XNY
+	DQFA7TakohRZaRbIWs=; b=ouzR1yp/zR1UY3PHEUq6ukek5mE8LqlvjpeF/KGEs
+	zba6ti01m5efgrBIU5Z1tBWjsAG4os8wg5U74bpYxrWlo1MZHTFkNsZ/g8HAPQ2t
+	MIO3RNqPPyKmFqgGzyspks5FCmTeusMGaiVjMRmpyQaETwFm9rZgZAn13QNmLEeZ
+	wBLsRs3E/F2GiiLRxwd7b8mT/v0PnIoxqIb9Wq4hr9tyeKzrtb/psGmr71dMqiM0
+	HQTXGmUUJNbC6hRHZw6WDjdKrCTTuac039nhN0T3CDpaZ4MtnlNTKYaebIbsfSOP
+	u215zUSD5PwVn3sfyis7ojUxRn0XF/GbcxLsPQYXcvD6A==
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=to:from
+	:subject:message-id:date:mime-version:content-type
+	:content-transfer-encoding; q=dns; s=obsd; b=PV0Qqem4bmX5qt4eEBE
+	EVedTkA5dhvXHn5UzavDsXnTWzTzviXI24YJaK2q6tb2NPteV9NpNjOpP5XSic6z
+	vD+gJstWDj8NXhjfh5U3Yo5QhPdZSGlBcG++HtF3nbmiiNPSw/uDqz6+U+X7O/bU
+	uTYEVXB2zGu/sNncxVnLmFwwOSBLZ+nZNKatYPPQ3sOptH9HSt6biqQV6MFDoch6
+	UAdq63N+TxB7aZw44t2qUkJAmEujjmQ892aix/w2GgOYRK9T1vSTI04qTsqJ4m0m
+	94KbY6+fOkZ878Z5FYxMer/+UD6BFfY6OuWwmXkD1NgD7oUOVUKR05+gbAzVnJN6
+	juA==
+Received: 
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 2394d7d1 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
+	for <meta-virtualization@lists.yoctoproject.org>;
+	Thu, 15 Oct 2020 04:08:39 +0200 (CEST)
+To: meta-virtualization@lists.yoctoproject.org
+From: "Yocto" <yocto@optimcloud.com>
+Subject: lastest commit break ERROR: containerd-opencontainers
+Message-ID: <816fba5d-6d9a-3a90-65ca-91e86a135c4c@optimcloud.com>
+Date: Thu, 15 Oct 2020 09:08:32 +0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <20201014143120.423865-1-Martin.Jansa@gmail.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
+Build Configuration:
+BB_VERSION           = "1.47.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "fedora-32"
+TARGET_SYS           = "x86_64-overc-linux"
+MACHINE              = "intel-corei7-64"
+DISTRO               = "overc"
+DISTRO_VERSION       = "1.0"
+TUNE_FEATURES        = "m64 corei7"
+TARGET_FPU           = ""
+meta
+meta-poky
+meta-yocto-bsp       = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
+meta-oe
+meta-python
+meta-networking
+meta-filesystems
+meta-multimedia
+meta-perl            = "master:2258c9a767391e4529665cd6508e4b32bd18d130"
+meta-overc
+meta-cube            = "master:264d1d0949fb5e9ec8e39b1f7604086d59ec2047"
+meta-intel           = "master:4abd867159f2ea0cd560c34c574a6fe3dd252691"
+meta-virtualization  = "master:1d861978463fdc247a7a57464b8349debba51912"
+meta-cloud-services  = "master:910195eb791d754d394ba1013a258ab120c995e9"
+meta-security        = "master:3ce8b759c97706d6f78928c38b6ebac4edfd95a5"
+meta-selinux         = "master:6e1100d29aec118df2025c46c77f4c8aa8da4e76"
+meta-gnome
+meta-xfce            = "master:2258c9a767391e4529665cd6508e4b32bd18d130"
+meta-awnix           = "master:c616414c6ed4f6f2ab75703ce5a3e84acacd3c47"
+workspace            = "master:32f1010ad0d36b886ecde57290061558fc22929a"
 
+Initialising tasks: 100% 
+|######################################################################################################################| 
+Time: 0:00:11
+Sstate summary: Wanted 4286 Found 0 Missed 4286 Current 0 (0% match, 0% 
+complete)
+NOTE: Executing Tasks
+ERROR: containerd-opencontainers-v1.4.1+gitAUTOINC+e44e8ebeaa-r0 
+do_compile: oe_runmake failed
+ERROR: containerd-opencontainers-v1.4.1+gitAUTOINC+e44e8ebeaa-r0 
+do_compile: Execution of 
+'/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140' 
+failed with exit code 1:
++ bin/ctr
++ bin/containerd
++ bin/containerd-stress
++ bin/containerd-shim
++ bin/containerd-shim-runc-v1
++ bin/containerd-shim-runc-v2
+# 
+_/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-shim
+cannot find package runtime/cgo (using -importcfg)
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x86_64-overc-linux/go/pkg/tool/linux_amd64/link: 
+cannot open file : open : no such file or directory
+make: *** [Makefile:201: bin/containerd-shim] Error 2
+make: *** Waiting for unfinished jobs....
+WARNING: 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237 
+exit 1 from 'exit 1'
+WARNING: Backtrace (BB generated script):
+     #1: bbfatal_log, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 237
+     #2: die, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 212
+     #3: oe_runmake, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 207
+     #4: do_compile, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 202
+     #5: main, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 241
 
-On 10/14/20 7:31 AM, Martin Jansa wrote:
-> * fixes:
->   NOTE: Resolving any missing task queue dependencies
->   ERROR: Nothing PROVIDES 'libseccomp' (but /OE/meta-virtualization/recipes-networking/slirp4netns/slirp4netns_0.4.1.bb, /OE/meta-virtualization/recipes-containers/crun/crun_git.bb DEPENDS on or otherwise requires it). Close matches:
+Backtrace (metadata-relative locations):
+     #1: bbfatal_log, 
+/var/home/dingo/overc/poky/meta/classes/logging.bbclass, line 72
+     #2: die, /var/home/dingo/overc/poky/meta/classes/base.bbclass, line 56
+     #3: oe_runmake, 
+/var/home/dingo/overc/poky/meta/classes/base.bbclass, line 65
+     #4: do_compile, 
+/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd.inc, 
+line 70
+ERROR: Logfile of failure stored in: 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/log.do_compile.3449140
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: make -j 16 GODEBUG=1 binaries
+| + bin/ctr
+| + bin/containerd
+| + bin/containerd-stress
+| + bin/containerd-shim
+| + bin/containerd-shim-runc-v1
+| + bin/containerd-shim-runc-v2
+| # 
+_/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-shim
+| cannot find package runtime/cgo (using -importcfg)
+| 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x86_64-overc-linux/go/pkg/tool/linux_amd64/link: 
+cannot open file : open : no such file or directory
+| make: *** [Makefile:201: bin/containerd-shim] Error 2
+| make: *** Waiting for unfinished jobs....
+| ERROR: oe_runmake failed
+| WARNING: 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237 
+exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+|     #1: bbfatal_log, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 237
+|     #2: die, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 212
+|     #3: oe_runmake, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 207
+|     #4: do_compile, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 202
+|     #5: main, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 241
+| ERROR: Execution of 
+'/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140' 
+failed with exit code 1:
+| + bin/ctr
+| + bin/containerd
+| + bin/containerd-stress
+| + bin/containerd-shim
+| + bin/containerd-shim-runc-v1
+| + bin/containerd-shim-runc-v2
+| # 
+_/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-shim
+| cannot find package runtime/cgo (using -importcfg)
+| 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x86_64-overc-linux/go/pkg/tool/linux_amd64/link: 
+cannot open file : open : no such file or directory
+| make: *** [Makefile:201: bin/containerd-shim] Error 2
+| make: *** Waiting for unfinished jobs....
+| WARNING: 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237 
+exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+|     #1: bbfatal_log, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 237
+|     #2: die, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 212
+|     #3: oe_runmake, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 207
+|     #4: do_compile, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 202
+|     #5: main, 
+/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, 
+line 241
+|
+| Backtrace (metadata-relative locations):
+|     #1: bbfatal_log, 
+/var/home/dingo/overc/poky/meta/classes/logging.bbclass, line 72
+|     #2: die, /var/home/dingo/overc/poky/meta/classes/base.bbclass, line 56
+|     #3: oe_runmake, 
+/var/home/dingo/overc/poky/meta/classes/base.bbclass, line 65
+|     #4: do_compile, 
+/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd.inc, 
+line 70
+ERROR: Task 
+(/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:do_compile) 
+failed with exit code '1'
+NOTE: Tasks Summary: Attempted 7546 tasks of which 8 didn't need to be 
+rerun and 1 failed.
 
-Sorry.  I am aware of this situation and I think is stinks that
-meta-virt would have pull in meta-security just for a common package
-like this. I did try to get this package in meta-oe already once. Maybe
-its worth trying again.
-
-- armin
->     libcomps
->   ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
->   Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'slirp4netns', 'libseccomp']
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  conf/layer.conf | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index 16d071b..e2cdf23 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -38,6 +38,7 @@ LAYERDEPENDS_virtualization-layer = " \
->      networking-layer \
->      filesystems-layer \
->      meta-python \
-> +    security \
->  "
->  
->  # webserver: naigos requires apache2
->
-> 
->
+Summary: 1 task failed:
+/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:do_compile
+Summary: There were 4 WARNING messages shown.
+Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
 
