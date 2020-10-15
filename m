@@ -1,574 +1,165 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
- by mx.groups.io with SMTP id smtpd.web11.5259.1602734699041058578
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.80])
+ by mx.groups.io with SMTP id smtpd.web10.8082.1602752473226744104
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 14 Oct 2020 21:04:59 -0700
+ Thu, 15 Oct 2020 02:01:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=PQZH8LB0;
- spf=pass (domain: gmail.com, ip: 209.85.208.46, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ed1-f46.google.com with SMTP id cm24so627619edb.0
-        for <meta-virtualization@lists.yoctoproject.org>; Wed, 14 Oct 2020 21:04:58 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=N0ToB9xM;
+ spf=pass (domain: windriver.com, ip: 40.107.223.80, mailfrom: liezhi.yang@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Yzx6lpmY0oyhXdgEshEC5xdmyEXO2+rm1RGDOcTL1xENxgG2Dw7Qn1ntSbY7L2OsAgyDwszfEhRst1NpjwUM8m6TpJw+MWDGUJA2HrWPrwL4shIAhfPGSIWhSER5zCKgxbuEiFV7NhSFpfBfoUcQ1nyCO09bNPgRYNVv44fkI6VV8WLTjpeMGrOjdBPfX3nM00tFXMT2EkKPVERpc8yTJ8PU1vlLwEHHIIRl+kIlBHJZHROxzPemKPpz0CkIS950VEtZZvfUOU2dgfsfMpX+sWnSBVEuEo79UN2Ok658eTmzzBdek5yscdYZaBcvqtuaZf2h68SugGYSPTI2T9LYGg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k++K9CQxtn+e6lhzFjiPQAdwV9fKyf0+KWe/bpIgeKg=;
+ b=CqEcjAv5jxrb64FX4us2ypHaH/NXoOVLouevPnZBh2dB/ZeIZr/+H2F+z5+h2L6jRDQ7c4AHnLx4le973sNOeJg0TdBW2qI96y+SxptVkW8b4VE+HSNBk3P3PuWg7WtZ5X9FCmXIR2HFukO9RKeNJpy9/cZbCu3hZu77zcoCJRONzt33gWKQ36mbGAFJq3giy6jCwW15U62HCNAnXgzUP1O0AYZd4PfQqWq74rTn0h9AATnUgr9PiODxOVnE5MxrMuV5bDH/O6Ku8GDWrWcDHeiCRpQwuTQffLR2ICWfGsZQ9xCGlwbTWMVouT6QksVLh302BQIguy+NELi28OI6uQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=hNg4YCJyMcp5d0jqStP8a7hJUNGyz2BUonSxIat347w=;
-        b=PQZH8LB02IwTqkezhFoungAv4kefj7WZbS04XVaau4bQGNdAxW65V2QPmtRzH5kbWf
-         79xaib2GifjgAyP4DhCt5Pk0Sl3EzSPvrC/+G2+39lA2/KgBZxI2SbK4+3AxxuDM2JYe
-         3o0y5vGRV5CPEzy8rKoyaIyEWSeY+lgHoOch4ErZjd2KNud4wOP9Ivf5KJBrBCrfre+y
-         MRpATMipsHm7IidXsxgN3ZKuq7ZLNTPe0+lBbn0tEW1PZOnbbUBZM3G4hit+8mVSdsco
-         ZDcIASfJXCA6JrpsKWbY6GOG/Bot9zTEKpCgiuISK7BKTRHmritIfCfEA4KrTi5iX9J1
-         /0hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=hNg4YCJyMcp5d0jqStP8a7hJUNGyz2BUonSxIat347w=;
-        b=LNsiwmbWezZD6mnH+rkuGJ8gDMZ5wRxGAtT1EMxK9+1gGxo8Zh5qDC0zQV9k+j5hIM
-         cSsT+iycPI4gW0Eprr/2ivuq0UVxLgyr0raBTG6Py2dEjiaZEg5s46cdv3LYL5FifTxF
-         bXFKuBBTN2M0nTMSp+YraFExTy8QF746lEPRBIPDj5eaPc4uxNNmL2Q8P9QK+FNyvbZC
-         LESDtd8HCXqI46xklBGul7R0u4/xS75pYL2JTVMEZ8EpnSgVh8oxsi8s6jxyES6KtU+w
-         jKnwJCWh7wNgBko+C+CIQ8EPVrOYjvmUqKCIMJL1eXzchPcwvsJOCMcQRJgRDOLD1Xcp
-         kY2A==
-X-Gm-Message-State: AOAM5305qHueTVlWhh6rlLSmATJL6b7TPDuieP7lSFb7/DXM1N5mUx7T
-	ADWRcNeAJf2LBVbO+p5nxAHmS/B1FJACk1WuQtU=
-X-Google-Smtp-Source: ABdhPJxUGHpZFlqraq8pGDmTEXz5L3vqSkPsrhdN2yBgNgCgpTfJ69/CNN1Q+g2GIK3Smkfw+SQbuwdH+DFqbvLkiuk=
-X-Received: by 2002:a05:6402:13d7:: with SMTP id a23mr2234798edx.352.1602734697480;
- Wed, 14 Oct 2020 21:04:57 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k++K9CQxtn+e6lhzFjiPQAdwV9fKyf0+KWe/bpIgeKg=;
+ b=N0ToB9xMETuLq/II/w1808VkJjTHoa+pA4v4hjLBfx69ZuYavG4utX6AYRBwhF0KKDNiCzRXvdo09ubX1LNFjfcjsy+jh750aSELrKvxViRoSyisRpbVbXisD/S2HYDkWjfdM7hDvSxrpTrcVCMGqfLAnQ3TwMIzIDCL6kCZNn4=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from SN6PR11MB2909.namprd11.prod.outlook.com (2603:10b6:805:d5::13)
+ by SA2PR11MB4876.namprd11.prod.outlook.com (2603:10b6:806:119::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Thu, 15 Oct
+ 2020 09:01:10 +0000
+Received: from SN6PR11MB2909.namprd11.prod.outlook.com
+ ([fe80::8036:479:efe2:744d]) by SN6PR11MB2909.namprd11.prod.outlook.com
+ ([fe80::8036:479:efe2:744d%5]) with mapi id 15.20.3455.030; Thu, 15 Oct 2020
+ 09:01:10 +0000
+From: "Robert Yang" <liezhi.yang@windriver.com>
+To: meta-virtualization@lists.yoctoproject.org,
+	bruce.ashfield@gmail.com
+Subject: [meta-virtualization][PATCH] kubernetes: Fix race issue for installing go2make
+Date: Thu, 15 Oct 2020 02:01:04 -0700
+Message-Id: <20201015090104.26472-1-liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [147.11.105.124]
+X-ClientProxiedBy: BYAPR08CA0016.namprd08.prod.outlook.com
+ (2603:10b6:a03:100::29) To SN6PR11MB2909.namprd11.prod.outlook.com
+ (2603:10b6:805:d5::13)
+Return-Path: liezhi.yang@windriver.com
 MIME-Version: 1.0
-References: <816fba5d-6d9a-3a90-65ca-91e86a135c4c@optimcloud.com>
-In-Reply-To: <816fba5d-6d9a-3a90-65ca-91e86a135c4c@optimcloud.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 15 Oct 2020 00:04:46 -0400
-Message-ID: <CADkTA4N=GQtGh7+7O7Qp67u8=ccKEiAvgEYzoKF2jT_+wUxgyQ@mail.gmail.com>
-Subject: Re: [meta-virtualization] lastest commit break ERROR: containerd-opencontainers
-To: Yocto <yocto@optimcloud.com>
-Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="00000000000050076705b1adc05e"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from ala-lpggp3.wrs.com (147.11.105.124) by BYAPR08CA0016.namprd08.prod.outlook.com (2603:10b6:a03:100::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Thu, 15 Oct 2020 09:01:10 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: cfb96bdd-4870-47fa-ffd0-08d870e8dc81
+X-MS-TrafficTypeDiagnostic: SA2PR11MB4876:
+X-Microsoft-Antispam-PRVS: 
+	<SA2PR11MB4876395A5006D3FD2E4B9ED2FF020@SA2PR11MB4876.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	H5sTmU7okdMOfOub0VMohBKjqZ0WYy3pgI2IkktYgHs0UMKS6aDiSgDGWBLUJFrQafbNdqCFLniUKn5aBRCcq7BObXLRGfqMi+ZCM0b/kX1KrSTXqV6Bua+6rc1SgLj9rZKQQrkmZsdxbNR6yh/kXYi9dtZfWRlaTyTkPMnBBIVCfANEWiSEuXNh0em9AQPRn+G7cZcZKPrwzn/evg0j0TniGq2aNE4uVQ3Qx8unts0Qn9n3imI8QehaN6TIiWCz/X5yO5mruFCQXCddK/osM7wjzLTpJYJY2dSjCawgwh1Mdc/c8ZCILtdAgqCNGMelcpTqGXrxzQZ/STNqhUeTQztMYgtk7IF2dEpMFJHeArDB1FeKpD2ai2JN4rUJX52V
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(39850400004)(366004)(346002)(396003)(6506007)(36756003)(6486002)(2906002)(52116002)(5660300002)(1076003)(2616005)(956004)(86362001)(83380400001)(478600001)(316002)(66556008)(26005)(186003)(6512007)(6666004)(8936002)(8676002)(66946007)(34490700002)(66476007)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	4kpY8pIGL1CwksamZvJNXWBbiVyABe5ZD9wcuILL8kKTyApEl2k9X1S5ireu3CDzupO7l+FVY2M3+Vb7/2wFiGofn24HSxD3WP0I7BOHEU2oxyATvdp1uNH4HpEjdsyf6ibMAIsqnmGYnDqN/Q6z9cz25lfyQDNFCp3BNm+fKaTnWQku0s6gnq3SEu7zSArltkhJ6yL/2wE2uSzYJ8o7sGM6oRYP7xhXsl3TmdxobKTocqtpGYRhowifADXe7Khi4XXnN/c0BS9vmvQVjPXSR2nCtspDIhqfRmKOFj2E7xjOYexmbLfQaeMPAi4nvsNhYxJoJJVe7PbB4KnOUaA+FBBw4ezHpWiVf12vG6Nxmv0VQGVPB0pgDbV21zKU2hW2yJxd8mduP7AyF1+zhc4ps526rGa7jbgf3d0Qg/JV5tjkWTkp9ENKCtV58Rhws1cN35WpEone2ap+5PdrW73OslW9TUmcE98By9op+IhTryKOJb1WMmMrcjX915c9qrqYeOG45ftpLZwYMmaAY5cfBxe88nda9DqfWQRDoEHfSK4pBilPYK9INeehSMGm9kWAq+k/H87HhZdpj9jXCopYlQ1Z3AIUPu4a5pJFt9aXevUMTkusJmM7znXL5YVzMQXOVY+HeDWa67u/vDdcidSo3g==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cfb96bdd-4870-47fa-ffd0-08d870e8dc81
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 09:01:10.8665
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UKKRfYdIeoOVoKQMFnYe0Qt+qymgUFeV8oFI2QSqL6Za/FoqaT34W++8oY+F4pkcbVUUabVe/GrPmxr5yIxDcn8ZxYyb5u4t+MdtwSIT0S4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4876
+Content-Type: text/plain
 
---00000000000050076705b1adc05e
-Content-Type: text/plain; charset="UTF-8"
+The src/import/build/root/Makefile.generated_files are called several times
+during the build, so the following target which installs go2make will also run
+several times:
 
-Indeed.
+$(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
 
-x86-64 containerd 1.4.x is broken.
+It runs automatically when the Makefile is called because of:
+sinclude $(META_DIR)/$(GO_PKGDEPS_FILE)
 
-I'm putting together a fix, or will revert the upgrade.
+So there is a race issue of go2make when parallel build:
+hack/run-in-gopath.sh: line 34: build/tmp-glibc/work/corei7-64-wrs-linux/kubernetes/1.18.8-r0/git/src/import/_output/local/go/bin/go2make: No suc h file or directory
 
-Bruce
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
+ ...ed_files-Fix-race-issue-for-installi.patch | 48 +++++++++++++++++++
+ .../kubernetes/kubernetes_git.bb              |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
 
-On Wed, Oct 14, 2020 at 10:08 PM Yocto <yocto@optimcloud.com> wrote:
-
-> Build Configuration:
-> BB_VERSION           = "1.47.0"
-> BUILD_SYS            = "x86_64-linux"
-> NATIVELSBSTRING      = "fedora-32"
-> TARGET_SYS           = "x86_64-overc-linux"
-> MACHINE              = "intel-corei7-64"
-> DISTRO               = "overc"
-> DISTRO_VERSION       = "1.0"
-> TUNE_FEATURES        = "m64 corei7"
-> TARGET_FPU           = ""
-> meta
-> meta-poky
-> meta-yocto-bsp       = "master:ad30a6d470eca0f5be5c037ba37fad72e55a128c"
-> meta-oe
-> meta-python
-> meta-networking
-> meta-filesystems
-> meta-multimedia
-> meta-perl            = "master:2258c9a767391e4529665cd6508e4b32bd18d130"
-> meta-overc
-> meta-cube            = "master:264d1d0949fb5e9ec8e39b1f7604086d59ec2047"
-> meta-intel           = "master:4abd867159f2ea0cd560c34c574a6fe3dd252691"
-> meta-virtualization  = "master:1d861978463fdc247a7a57464b8349debba51912"
-> meta-cloud-services  = "master:910195eb791d754d394ba1013a258ab120c995e9"
-> meta-security        = "master:3ce8b759c97706d6f78928c38b6ebac4edfd95a5"
-> meta-selinux         = "master:6e1100d29aec118df2025c46c77f4c8aa8da4e76"
-> meta-gnome
-> meta-xfce            = "master:2258c9a767391e4529665cd6508e4b32bd18d130"
-> meta-awnix           = "master:c616414c6ed4f6f2ab75703ce5a3e84acacd3c47"
-> workspace            = "master:32f1010ad0d36b886ecde57290061558fc22929a"
->
-> Initialising tasks: 100%
-> |######################################################################################################################|
->
-> Time: 0:00:11
-> Sstate summary: Wanted 4286 Found 0 Missed 4286 Current 0 (0% match, 0%
-> complete)
-> NOTE: Executing Tasks
-> ERROR: containerd-opencontainers-v1.4.1+gitAUTOINC+e44e8ebeaa-r0
-> do_compile: oe_runmake failed
-> ERROR: containerd-opencontainers-v1.4.1+gitAUTOINC+e44e8ebeaa-r0
-> do_compile: Execution of
-> '/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140'
->
-> failed with exit code 1:
-> + bin/ctr
-> + bin/containerd
-> + bin/containerd-stress
-> + bin/containerd-shim
-> + bin/containerd-shim-runc-v1
-> + bin/containerd-shim-runc-v2
-> #
->
-> _/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-shim
-> cannot find package runtime/cgo (using -importcfg)
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x86_64-overc-linux/go/pkg/tool/linux_amd64/link:
->
-> cannot open file : open : no such file or directory
-> make: *** [Makefile:201: bin/containerd-shim] Error 2
-> make: *** Waiting for unfinished jobs....
-> WARNING:
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237
->
-> exit 1 from 'exit 1'
-> WARNING: Backtrace (BB generated script):
->      #1: bbfatal_log,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 237
->      #2: die,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 212
->      #3: oe_runmake,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 207
->      #4: do_compile,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 202
->      #5: main,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 241
->
-> Backtrace (metadata-relative locations):
->      #1: bbfatal_log,
-> /var/home/dingo/overc/poky/meta/classes/logging.bbclass, line 72
->      #2: die, /var/home/dingo/overc/poky/meta/classes/base.bbclass, line 56
->      #3: oe_runmake,
-> /var/home/dingo/overc/poky/meta/classes/base.bbclass, line 65
->      #4: do_compile,
-> /var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd.inc,
->
-> line 70
-> ERROR: Logfile of failure stored in:
->
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/log.do_compile.3449140
-> Log data follows:
-> | DEBUG: Executing shell function do_compile
-> | NOTE: make -j 16 GODEBUG=1 binaries
-> | + bin/ctr
-> | + bin/containerd
-> | + bin/containerd-stress
-> | + bin/containerd-shim
-> | + bin/containerd-shim-runc-v1
-> | + bin/containerd-shim-runc-v2
-> | #
->
-> _/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-shim
-> | cannot find package runtime/cgo (using -importcfg)
-> |
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x86_64-overc-linux/go/pkg/tool/linux_amd64/link:
->
-> cannot open file : open : no such file or directory
-> | make: *** [Makefile:201: bin/containerd-shim] Error 2
-> | make: *** Waiting for unfinished jobs....
-> | ERROR: oe_runmake failed
-> | WARNING:
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237
->
-> exit 1 from 'exit 1'
-> | WARNING: Backtrace (BB generated script):
-> |     #1: bbfatal_log,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 237
-> |     #2: die,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 212
-> |     #3: oe_runmake,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 207
-> |     #4: do_compile,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 202
-> |     #5: main,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 241
-> | ERROR: Execution of
-> '/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140'
->
-> failed with exit code 1:
-> | + bin/ctr
-> | + bin/containerd
-> | + bin/containerd-stress
-> | + bin/containerd-shim
-> | + bin/containerd-shim-runc-v1
-> | + bin/containerd-shim-runc-v2
-> | #
->
-> _/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-shim
-> | cannot find package runtime/cgo (using -importcfg)
-> |
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x86_64-overc-linux/go/pkg/tool/linux_amd64/link:
->
-> cannot open file : open : no such file or directory
-> | make: *** [Makefile:201: bin/containerd-shim] Error 2
-> | make: *** Waiting for unfinished jobs....
-> | WARNING:
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237
->
-> exit 1 from 'exit 1'
-> | WARNING: Backtrace (BB generated script):
-> |     #1: bbfatal_log,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 237
-> |     #2: die,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 212
-> |     #3: oe_runmake,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 207
-> |     #4: do_compile,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 202
-> |     #5: main,
-> /var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140,
->
-> line 241
-> |
-> | Backtrace (metadata-relative locations):
-> |     #1: bbfatal_log,
-> /var/home/dingo/overc/poky/meta/classes/logging.bbclass, line 72
-> |     #2: die, /var/home/dingo/overc/poky/meta/classes/base.bbclass, line
-> 56
-> |     #3: oe_runmake,
-> /var/home/dingo/overc/poky/meta/classes/base.bbclass, line 65
-> |     #4: do_compile,
-> /var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd.inc,
->
-> line 70
-> ERROR: Task
->
-> (/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:do_compile)
->
-> failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 7546 tasks of which 8 didn't need to be
-> rerun and 1 failed.
->
-> Summary: 1 task failed:
->
-> /var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/containerd-opencontainers_git.bb:
-> do_compile
-> Summary: There were 4 WARNING messages shown.
-> Summary: There were 2 ERROR messages shown, returning a non-zero exit code.
->
->
-> 
->
->
-
+diff --git a/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch b/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
+new file mode 100644
+index 0000000..97273e4
+--- /dev/null
++++ b/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
+@@ -0,0 +1,48 @@
++From 441df8a24a2c80e320f140b5d9bc352c7ce8a64a Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Thu, 15 Oct 2020 07:27:35 +0000
++Subject: [PATCH] src/import/build/root/Makefile.generated_files: Fix race issue for installing
++ go2make
++
++The src/import/build/root/Makefile.generated_files are called several times during the build, so the
++following target which installs go2make will also run several times:
++
++$(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
++
++It runs automatically when the Makefile is called because of:
++sinclude $(META_DIR)/$(GO_PKGDEPS_FILE)
++
++So there is a race issue of go2make when parallel build:
++hack/run-in-gopath.sh: line 34: build/tmp-glibc/work/corei7-64-wrs-linux/kubernetes/1.18.8-r0/git/src/import/_output/local/go/bin/go2make: No such file or directory
++
++It is because the first process is using go2make, but then the second process
++removes it and reinstall it.
++
++Check whether go2make has been installed or not before install it can fix the
++problem.
++
++Upstream-Status: Pending
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ src/import/build/root/Makefile.generated_files | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/src/import/build/root/Makefile.generated_files b/src/import/build/root/Makefile.generated_files
++index c8cbf27..e3f1593 100644
++--- a/src/import/build/root/Makefile.generated_files
+++++ b/src/import/build/root/Makefile.generated_files
++@@ -63,7 +63,9 @@ $(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
++ 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then          \
++ 	    echo "DBG: calculating Go dependencies";  \
++ 	fi
++-	hack/run-in-gopath.sh go install ./hack/make-rules/helpers/go2make
+++	if [ ! -e _output/local/go/bin/go2make ]; then \
+++		hack/run-in-gopath.sh go install ./hack/make-rules/helpers/go2make; \
+++	fi
++ 	hack/run-in-gopath.sh go2make                     \
++ 	    k8s.io/kubernetes/...                         \
++ 	    --prune  k8s.io/kubernetes/staging            \
++-- 
++2.26.2
++
+diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
+index 76c8202..1053d97 100644
+--- a/recipes-containers/kubernetes/kubernetes_git.bb
++++ b/recipes-containers/kubernetes/kubernetes_git.bb
+@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.19;name=k
+            file://0001-cross-don-t-build-tests-by-default.patch \
+            file://0001-generate-bindata-unset-GOBIN.patch \
+            file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch \
++           file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch \
+           "
+ 
+ DEPENDS += "rsync-native \
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
 
---00000000000050076705b1adc05e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div class=3D"gmail_default" style=3D"font-size:small">Ind=
-eed.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
-<div class=3D"gmail_default" style=3D"font-size:small">x86-64 containerd 1.=
-4.x is broken.</div><div class=3D"gmail_default" style=3D"font-size:small">=
-<br></div><div class=3D"gmail_default" style=3D"font-size:small">I&#39;m pu=
-tting together=C2=A0a fix, or will revert the upgrade.</div><div class=3D"g=
-mail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">Bruce</div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Oct 14, 2020 at 10:08 PM Y=
-octo &lt;<a href=3D"mailto:yocto@optimcloud.com">yocto@optimcloud.com</a>&g=
-t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Build =
-Configuration:<br>
-BB_VERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- &quot;1.47.0&quot;<br>
-BUILD_SYS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 =3D &quot;x86_64-linux&quot;<br>
-NATIVELSBSTRING=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;fedora-32&quot;<br=
->
-TARGET_SYS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- &quot;x86_64-overc-linux&quot;<br>
-MACHINE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 =3D &quot;intel-corei7-64&quot;<br>
-DISTRO=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 =3D &quot;overc&quot;<br>
-DISTRO_VERSION=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;1.0&quot;<br>
-TUNE_FEATURES=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;m64 core=
-i7&quot;<br>
-TARGET_FPU=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- &quot;&quot;<br>
-meta<br>
-meta-poky<br>
-meta-yocto-bsp=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;master:ad30a6=
-d470eca0f5be5c037ba37fad72e55a128c&quot;<br>
-meta-oe<br>
-meta-python<br>
-meta-networking<br>
-meta-filesystems<br>
-meta-multimedia<br>
-meta-perl=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 =3D &quot;master:2258c9a767391e4529665cd6508e4b32bd18d130&quot;<br>
-meta-overc<br>
-meta-cube=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 =3D &quot;master:264d1d0949fb5e9ec8e39b1f7604086d59ec2047&quot;<br>
-meta-intel=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- &quot;master:4abd867159f2ea0cd560c34c574a6fe3dd252691&quot;<br>
-meta-virtualization=C2=A0 =3D &quot;master:1d861978463fdc247a7a57464b8349d=
-ebba51912&quot;<br>
-meta-cloud-services=C2=A0 =3D &quot;master:910195eb791d754d394ba1013a258ab=
-120c995e9&quot;<br>
-meta-security=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;master:3=
-ce8b759c97706d6f78928c38b6ebac4edfd95a5&quot;<br>
-meta-selinux=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D &quot;mas=
-ter:6e1100d29aec118df2025c46c77f4c8aa8da4e76&quot;<br>
-meta-gnome<br>
-meta-xfce=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 =3D &quot;master:2258c9a767391e4529665cd6508e4b32bd18d130&quot;<br>
-meta-awnix=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =3D=
- &quot;master:c616414c6ed4f6f2ab75703ce5a3e84acacd3c47&quot;<br>
-workspace=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 =3D &quot;master:32f1010ad0d36b886ecde57290061558fc22929a&quot;<br>
-<br>
-Initialising tasks: 100% <br>
-|#########################################################################=
-#############################################| <br>
-Time: 0:00:11<br>
-Sstate summary: Wanted 4286 Found 0 Missed 4286 Current 0 (0% match, 0% <b=
-r>
-complete)<br>
-NOTE: Executing Tasks<br>
-ERROR: containerd-opencontainers-v1.4.1+gitAUTOINC+e44e8ebeaa-r0 <br>
-do_compile: oe_runmake failed<br>
-ERROR: containerd-opencontainers-v1.4.1+gitAUTOINC+e44e8ebeaa-r0 <br>
-do_compile: Execution of <br>
-&#39;/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd=
--opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140=
-&#39; <br>
-failed with exit code 1:<br>
-+ bin/ctr<br>
-+ bin/containerd<br>
-+ bin/containerd-stress<br>
-+ bin/containerd-shim<br>
-+ bin/containerd-shim-runc-v1<br>
-+ bin/containerd-shim-runc-v2<br>
-# <br>
-_/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-ope=
-ncontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-s=
-him<br>
-cannot find package runtime/cgo (using -importcfg)<br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x8=
-6_64-overc-linux/go/pkg/tool/linux_amd64/link: <br>
-cannot open file : open : no such file or directory<br>
-make: *** [Makefile:201: bin/containerd-shim] Error 2<br>
-make: *** Waiting for unfinished jobs....<br>
-WARNING: <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237 =
-<br>
-exit 1 from &#39;exit 1&#39;<br>
-WARNING: Backtrace (BB generated script):<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #1: bbfatal_log, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 237<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #2: die, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 212<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #3: oe_runmake, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 207<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #4: do_compile, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 202<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #5: main, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 241<br>
-<br>
-Backtrace (metadata-relative locations):<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #1: bbfatal_log, <br>
-/var/home/dingo/overc/poky/meta/classes/logging.bbclass, line 72<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #2: die, /var/home/dingo/overc/poky/meta/classes/=
-base.bbclass, line 56<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #3: oe_runmake, <br>
-/var/home/dingo/overc/poky/meta/classes/base.bbclass, line 65<br>
-=C2=A0=C2=A0=C2=A0=C2=A0 #4: do_compile, <br>
-/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/co=
-ntainerd.inc, <br>
-line 70<br>
-ERROR: Logfile of failure stored in: <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/log.do_compile.3449140<br>
-Log data follows:<br>
-| DEBUG: Executing shell function do_compile<br>
-| NOTE: make -j 16 GODEBUG=3D1 binaries<br>
-| + bin/ctr<br>
-| + bin/containerd<br>
-| + bin/containerd-stress<br>
-| + bin/containerd-shim<br>
-| + bin/containerd-shim-runc-v1<br>
-| + bin/containerd-shim-runc-v2<br>
-| # <br>
-_/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-ope=
-ncontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-s=
-him<br>
-| cannot find package runtime/cgo (using -importcfg)<br>
-| <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x8=
-6_64-overc-linux/go/pkg/tool/linux_amd64/link: <br>
-cannot open file : open : no such file or directory<br>
-| make: *** [Makefile:201: bin/containerd-shim] Error 2<br>
-| make: *** Waiting for unfinished jobs....<br>
-| ERROR: oe_runmake failed<br>
-| WARNING: <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237 =
-<br>
-exit 1 from &#39;exit 1&#39;<br>
-| WARNING: Backtrace (BB generated script):<br>
-| =C2=A0=C2=A0=C2=A0 #1: bbfatal_log, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 237<br>
-| =C2=A0=C2=A0=C2=A0 #2: die, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 212<br>
-| =C2=A0=C2=A0=C2=A0 #3: oe_runmake, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 207<br>
-| =C2=A0=C2=A0=C2=A0 #4: do_compile, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 202<br>
-| =C2=A0=C2=A0=C2=A0 #5: main, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 241<br>
-| ERROR: Execution of <br>
-&#39;/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd=
--opencontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140=
-&#39; <br>
-failed with exit code 1:<br>
-| + bin/ctr<br>
-| + bin/containerd<br>
-| + bin/containerd-stress<br>
-| + bin/containerd-shim<br>
-| + bin/containerd-shim-runc-v1<br>
-| + bin/containerd-shim-runc-v2<br>
-| # <br>
-_/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-ope=
-ncontainers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/git/src/import/cmd/containerd-s=
-him<br>
-| cannot find package runtime/cgo (using -importcfg)<br>
-| <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/recipe-sysroot-native/usr/lib/x8=
-6_64-overc-linux/go/pkg/tool/linux_amd64/link: <br>
-cannot open file : open : no such file or directory<br>
-| make: *** [Makefile:201: bin/containerd-shim] Error 2<br>
-| make: *** Waiting for unfinished jobs....<br>
-| WARNING: <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140:237 =
-<br>
-exit 1 from &#39;exit 1&#39;<br>
-| WARNING: Backtrace (BB generated script):<br>
-| =C2=A0=C2=A0=C2=A0 #1: bbfatal_log, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 237<br>
-| =C2=A0=C2=A0=C2=A0 #2: die, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 212<br>
-| =C2=A0=C2=A0=C2=A0 #3: oe_runmake, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 207<br>
-| =C2=A0=C2=A0=C2=A0 #4: do_compile, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 202<br>
-| =C2=A0=C2=A0=C2=A0 #5: main, <br>
-/var/home/dingo/overc/build/tmp/work/corei7-64-overc-linux/containerd-open=
-containers/v1.4.1+gitAUTOINC+e44e8ebeaa-r0/temp/run.do_compile.3449140, <br=
->
-line 241<br>
-|<br>
-| Backtrace (metadata-relative locations):<br>
-| =C2=A0=C2=A0=C2=A0 #1: bbfatal_log, <br>
-/var/home/dingo/overc/poky/meta/classes/logging.bbclass, line 72<br>
-| =C2=A0=C2=A0=C2=A0 #2: die, /var/home/dingo/overc/poky/meta/classes/base=
-.bbclass, line 56<br>
-| =C2=A0=C2=A0=C2=A0 #3: oe_runmake, <br>
-/var/home/dingo/overc/poky/meta/classes/base.bbclass, line 65<br>
-| =C2=A0=C2=A0=C2=A0 #4: do_compile, <br>
-/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/co=
-ntainerd.inc, <br>
-line 70<br>
-ERROR: Task <br>
-(/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/c=
-ontainerd-opencontainers_git.bb:do_compile) <br>
-failed with exit code &#39;1&#39;<br>
-NOTE: Tasks Summary: Attempted 7546 tasks of which 8 didn&#39;t need to be=
- <br>
-rerun and 1 failed.<br>
-<br>
-Summary: 1 task failed:<br>
-/var/home/dingo/overc/meta-virtualization/recipes-containers/containerd/co=
-ntainerd-opencontainers_git.bb:do_compile<br>
-Summary: There were 4 WARNING messages shown.<br>
-Summary: There were 2 ERROR messages shown, returning a non-zero exit code=
-.<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div>
-
---00000000000050076705b1adc05e--
