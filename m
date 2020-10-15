@@ -1,165 +1,204 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.80])
- by mx.groups.io with SMTP id smtpd.web10.8082.1602752473226744104
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (EUR04-DB3-obe.outbound.protection.outlook.com [40.107.6.86])
+ by mx.groups.io with SMTP id smtpd.web11.8347.1602754123603427105
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 15 Oct 2020 02:01:13 -0700
+ Thu, 15 Oct 2020 02:28:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=N0ToB9xM;
- spf=pass (domain: windriver.com, ip: 40.107.223.80, mailfrom: liezhi.yang@windriver.com)
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=bFzvAptW;
+ spf=pass (domain: arm.com, ip: 40.107.6.86, mailfrom: bertrand.marquis@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tnaJnuWUR6U4Gp1gS3GGL44W+96MZvI3NLKng/ezlXw=;
+ b=bFzvAptWwBeuVq2pimgkdElyx2fErX19gcjBZDJu8C5WWa+YBvR0LziqyENnvIHIASLVBUYfB829mn4+ZTef25akSZLy6/mPZpZWooJ61RTwxZqQKKB39fv7qmgQYBHd/O5H3Tl+H+e2TxY48w1FIrzWCzBkGbBbjbYp5NKNpmY=
+Received: from DB6PR1001CA0022.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:4:b7::32)
+ by VE1PR08MB5613.eurprd08.prod.outlook.com (2603:10a6:800:1a7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Thu, 15 Oct
+ 2020 09:28:41 +0000
+Received: from DB5EUR03FT010.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:4:b7:cafe::ee) by DB6PR1001CA0022.outlook.office365.com
+ (2603:10a6:4:b7::32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20 via Frontend
+ Transport; Thu, 15 Oct 2020 09:28:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB5EUR03FT010.mail.protection.outlook.com (10.152.20.96) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3477.21 via Frontend Transport; Thu, 15 Oct 2020 09:28:40 +0000
+Received: ("Tessian outbound c189680f801b:v64"); Thu, 15 Oct 2020 09:28:40 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 427649828ef27e26
+X-CR-MTA-TID: 64aa7808
+Received: from a48679e0e4e9.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 164514CF-18A8-4CD1-820C-04BAEE498781.1;
+	Thu, 15 Oct 2020 09:28:02 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id a48679e0e4e9.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Thu, 15 Oct 2020 09:28:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Yzx6lpmY0oyhXdgEshEC5xdmyEXO2+rm1RGDOcTL1xENxgG2Dw7Qn1ntSbY7L2OsAgyDwszfEhRst1NpjwUM8m6TpJw+MWDGUJA2HrWPrwL4shIAhfPGSIWhSER5zCKgxbuEiFV7NhSFpfBfoUcQ1nyCO09bNPgRYNVv44fkI6VV8WLTjpeMGrOjdBPfX3nM00tFXMT2EkKPVERpc8yTJ8PU1vlLwEHHIIRl+kIlBHJZHROxzPemKPpz0CkIS950VEtZZvfUOU2dgfsfMpX+sWnSBVEuEo79UN2Ok658eTmzzBdek5yscdYZaBcvqtuaZf2h68SugGYSPTI2T9LYGg==
+ b=aZJOPN8K1jqilEWy4HxrXpwdYUtf98h2bzxuxrC6zef7hY7Hy8sobwZLgvXWMVPZE2fnakN62NEBrwbMCDjAsvTJiBuHmNW3sr6R7qNFNYfZQeiGgsyXqcvTC8q2IOBUzh/2YYRJRpOyxaJhTZLyIZa/PC4WWu0unrz+GyHwLjq3KGbwLgs/pr5JTH2WwZRrkFGdRRr/VtSOT8SpXGXOOm54WfF3JlelzWqC3Yn1rT7CkwOea99PtIt51vIASgWHEwKNSmRoKKB6q7CLIjtbQfcc5CMVaJtURqNJ1cH9rEV2o2rua5hTmZ5mlbS9E36NflV84SMY1vNfBXUpxxNuWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k++K9CQxtn+e6lhzFjiPQAdwV9fKyf0+KWe/bpIgeKg=;
- b=CqEcjAv5jxrb64FX4us2ypHaH/NXoOVLouevPnZBh2dB/ZeIZr/+H2F+z5+h2L6jRDQ7c4AHnLx4le973sNOeJg0TdBW2qI96y+SxptVkW8b4VE+HSNBk3P3PuWg7WtZ5X9FCmXIR2HFukO9RKeNJpy9/cZbCu3hZu77zcoCJRONzt33gWKQ36mbGAFJq3giy6jCwW15U62HCNAnXgzUP1O0AYZd4PfQqWq74rTn0h9AATnUgr9PiODxOVnE5MxrMuV5bDH/O6Ku8GDWrWcDHeiCRpQwuTQffLR2ICWfGsZQ9xCGlwbTWMVouT6QksVLh302BQIguy+NELi28OI6uQ==
+ bh=tnaJnuWUR6U4Gp1gS3GGL44W+96MZvI3NLKng/ezlXw=;
+ b=mQc8BTNWtha1aDnAUZsn1dv3AfXestHfDh4ZOkXKeVqRzH4mproO86/4umVyqIiX+ggiTey1Q4mAw/QE3yFT799RZGrth5uK24gcAv+Gy43w2YwM+XgBljvELyNK6PuK9RNKkrmDjQaXtRiQK4pz//yI50MCQScfrcUZ183VYrxYyjV/7Vcs7i37x/jzhDePeBB3wym7E6lzLSHrMGMK4Rp+/9EoucWrYusnqEQMaQzko/XaIIMlrsAqHgTKI0l5lqgrYkpnjGJEMzAhChQkbMIhqTGauBuuoycoah/yvweYsUVJdYjVF46DheML0VuQ0MejjY3ekSfzOOGYdP4lZA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k++K9CQxtn+e6lhzFjiPQAdwV9fKyf0+KWe/bpIgeKg=;
- b=N0ToB9xMETuLq/II/w1808VkJjTHoa+pA4v4hjLBfx69ZuYavG4utX6AYRBwhF0KKDNiCzRXvdo09ubX1LNFjfcjsy+jh750aSELrKvxViRoSyisRpbVbXisD/S2HYDkWjfdM7hDvSxrpTrcVCMGqfLAnQ3TwMIzIDCL6kCZNn4=
-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com (2603:10b6:805:d5::13)
- by SA2PR11MB4876.namprd11.prod.outlook.com (2603:10b6:806:119::13) with
+ bh=tnaJnuWUR6U4Gp1gS3GGL44W+96MZvI3NLKng/ezlXw=;
+ b=bFzvAptWwBeuVq2pimgkdElyx2fErX19gcjBZDJu8C5WWa+YBvR0LziqyENnvIHIASLVBUYfB829mn4+ZTef25akSZLy6/mPZpZWooJ61RTwxZqQKKB39fv7qmgQYBHd/O5H3Tl+H+e2TxY48w1FIrzWCzBkGbBbjbYp5NKNpmY=
+Received: from DB7PR08MB3689.eurprd08.prod.outlook.com (2603:10a6:10:79::16)
+ by DBBPR08MB4776.eurprd08.prod.outlook.com (2603:10a6:10:f2::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Thu, 15 Oct
- 2020 09:01:10 +0000
-Received: from SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::8036:479:efe2:744d]) by SN6PR11MB2909.namprd11.prod.outlook.com
- ([fe80::8036:479:efe2:744d%5]) with mapi id 15.20.3455.030; Thu, 15 Oct 2020
- 09:01:10 +0000
-From: "Robert Yang" <liezhi.yang@windriver.com>
-To: meta-virtualization@lists.yoctoproject.org,
-	bruce.ashfield@gmail.com
-Subject: [meta-virtualization][PATCH] kubernetes: Fix race issue for installing go2make
-Date: Thu, 15 Oct 2020 02:01:04 -0700
-Message-Id: <20201015090104.26472-1-liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.17.1
-X-Originating-IP: [147.11.105.124]
-X-ClientProxiedBy: BYAPR08CA0016.namprd08.prod.outlook.com
- (2603:10b6:a03:100::29) To SN6PR11MB2909.namprd11.prod.outlook.com
- (2603:10b6:805:d5::13)
-Return-Path: liezhi.yang@windriver.com
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from ala-lpggp3.wrs.com (147.11.105.124) by BYAPR08CA0016.namprd08.prod.outlook.com (2603:10b6:a03:100::29) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22 via Frontend Transport; Thu, 15 Oct 2020 09:01:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: cfb96bdd-4870-47fa-ffd0-08d870e8dc81
-X-MS-TrafficTypeDiagnostic: SA2PR11MB4876:
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.22; Thu, 15 Oct
+ 2020 09:28:01 +0000
+Received: from DB7PR08MB3689.eurprd08.prod.outlook.com
+ ([fe80::cf6:86:f034:aec4]) by DB7PR08MB3689.eurprd08.prod.outlook.com
+ ([fe80::cf6:86:f034:aec4%6]) with mapi id 15.20.3477.021; Thu, 15 Oct 2020
+ 09:28:01 +0000
+From: "Bertrand Marquis" <bertrand.marquis@arm.com>
+To: "meta-virtualization@lists.yoctoproject.org"
+	<meta-virtualization@lists.yoctoproject.org>
+CC: Christopher Clark <christopher.w.clark@gmail.com>, Rich Persaud
+	<persaur@gmail.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] xen: Fix x86_64 xen-tools installation
+Thread-Topic: [meta-virtualization] [PATCH] xen: Fix x86_64 xen-tools
+ installation
+Thread-Index: AQHWnjg9vGO4XNyZOEGHjXUBS3Z55amYboIA
+Date: Thu, 15 Oct 2020 09:28:01 +0000
+Message-ID: <F3AE8A23-E5CE-4C57-8F4B-0E64B78F5CDE@arm.com>
+References: 
+ <ba7dacdcd5aaf6890b895f97fbe0007d75d73a75.1602246664.git.bertrand.marquis@arm.com>
+ <163C52E32AF7858D.12576@lists.yoctoproject.org>
+In-Reply-To: <163C52E32AF7858D.12576@lists.yoctoproject.org>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+Authentication-Results-Original: lists.yoctoproject.org; dkim=none (message
+ not signed) header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=arm.com;
+x-originating-ip: [82.24.250.194]
+x-ms-publictraffictype: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b2959f6e-b626-4848-3407-08d870ecb3f6
+x-ms-traffictypediagnostic: DBBPR08MB4776:|VE1PR08MB5613:
 X-Microsoft-Antispam-PRVS: 
-	<SA2PR11MB4876395A5006D3FD2E4B9ED2FF020@SA2PR11MB4876.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+	<VE1PR08MB5613A21C8DAC2336386E9C7C9D020@VE1PR08MB5613.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+nodisclaimer: true
+x-ms-oob-tlc-oobclassifiers: OLM:419;OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ hTVADt/z4DuKd/xdNZHe5P8ordyxAJAhb87Fhxi1WSk8mZZ2txMFiLIOeJLI8L7ZRm8DuMPLOApECJug4UiZahuv0YLX7Z/Tmp9E9W5RG6bnhJ9sdT3lg96LbcK/TDzJzyr+Nj7sjFvsgjv3EFGaVeuibIycRsXdTDGuGigGJg4ZM4WC54XzuQjQo4PVHXnZWEgCwQZ8bXn1U4oi05EjM9z1sQidjyF00DzlybNYmg5gQpza5Xc34dKARDOOvlTe+9Kdo5x4PAr/h6VdsJ+xvbL5LHZEbZ5ZbxasJgBvSJYMPnRd2E4CHbVcKhcyqzRy0GqIFKbB64iH3IVTF1zZ3V2j613Bh9ogf6xh6qDu+ZcpqCkcAVrlis9bLbWscHjN0bnXm1jAVe8CqTHbigU/wQ==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB3689.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(366004)(39860400002)(346002)(136003)(376002)(4326008)(54906003)(316002)(26005)(33656002)(6486002)(186003)(5660300002)(966005)(83080400001)(6506007)(6512007)(64756008)(66556008)(6916009)(66446008)(2616005)(53546011)(478600001)(91956017)(83380400001)(36756003)(76116006)(2906002)(66946007)(86362001)(71200400001)(8676002)(66476007)(8936002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: 
+ BBfUEArBTH4fJP51KEqHgtxV6NBw31i+vwoArEWp5HGHTyqm7aNZbyNAZzzX3USlLVq8GCxOzSzUff9aq9ZzN5W7BLQZq85k8/LMdXfO3MEi1Lf4eerIK393dNL9IEeMXIfKHgwjzwQQF7SgRSvHzBuCO1izmxYw4v/XHXxNKJUy8HQLZAD1gNGFxsbqdWg+8JPxz0s/T8PiGdSW3gJ03HoFF8ET7TOaqyamiih5WJakzoc/TlyAnhFapNtcBFQ2l7XTA1EicaWPrfJorC9QIl473cNVHUf26rrVcKl/NYXZDE65wo/jjHl3YU5SW7T6lj0y9qWxB9RMBkKF1alwayAEPaBV69VmBHY+gevLfWyA8eZRROOErVZjRcvmN2Mc4x+U8fftwAo5LpvvcYzArKajPrEzGf2ZRc6w/twCEvhyWW2R0R7Y0mk4rNHPR/NHeYDKjPlJtYFcqEoeFsNtNvUH0PPGp1qtMEt4u+XJMbXxcNqu4XRPk8H+J9dwmdbQvQA8N70uXY+kgZVCQuh/kP3g6FfEhBu8A7tkaXvuIVtp7kMsWh4h430iZJ607TKCOCpG5+CAKtq43XtGE/p6hLaMb/EzuSF0CkrEo33RR74b0q/N2As6h4V7uzD/lJw6z3C2iV1ktUAsHwp2NZ4K7w==
+x-ms-exchange-transport-forked: True
+MIME-Version: 1.0
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4776
+Original-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=arm.com;
+Return-Path: Bertrand.Marquis@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB5EUR03FT010.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	891c03d1-5900-40e5-6eca-08d870ec9c9f
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	H5sTmU7okdMOfOub0VMohBKjqZ0WYy3pgI2IkktYgHs0UMKS6aDiSgDGWBLUJFrQafbNdqCFLniUKn5aBRCcq7BObXLRGfqMi+ZCM0b/kX1KrSTXqV6Bua+6rc1SgLj9rZKQQrkmZsdxbNR6yh/kXYi9dtZfWRlaTyTkPMnBBIVCfANEWiSEuXNh0em9AQPRn+G7cZcZKPrwzn/evg0j0TniGq2aNE4uVQ3Qx8unts0Qn9n3imI8QehaN6TIiWCz/X5yO5mruFCQXCddK/osM7wjzLTpJYJY2dSjCawgwh1Mdc/c8ZCILtdAgqCNGMelcpTqGXrxzQZ/STNqhUeTQztMYgtk7IF2dEpMFJHeArDB1FeKpD2ai2JN4rUJX52V
+	HOQNcQ6+56ZnWgLbGjKu2IY69D/8EsBMIXWzsYL3C1z5ljniQinUdsiWmZLdMXIuitbOMD3hC2pT3BYCkRNc3Wd60PdXqt9sU+JaJZYF2TGzWnhNQq6Fk0exBTxSXpcDR8ZhA2ynlzA8MVg2o+VEoya95opMr/M+NVsXWrqhwEXC4w2T3soLei5Y27FphdiGRmMCzuzOPDsWU76UyxspDvEBg9KSVolDsjZHXgbA0BfoL7illwFfmGm47deZZdXxlKMfz4FVJhqoY/Ay/BNCCWzaTfcoFTg2XS1pas3PvD1lZKYhqxuxXHaWKVk22DSSseGTbL45hQm+2QBef47JGTnMjErTOJKkqbCxnihluekplFHGqzC2J9mreP11EIrP73bkHM+jDIj5R+ARIU9bJS8agJrGvWcHn29Ug7Vd5naZif4Kpee5ND5bwb/gPNvXttHBbmLAyzHu0gvwQqYVS8DI4yvaFHbbnaZzk1ig1eY=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN6PR11MB2909.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(39850400004)(366004)(346002)(396003)(6506007)(36756003)(6486002)(2906002)(52116002)(5660300002)(1076003)(2616005)(956004)(86362001)(83380400001)(478600001)(316002)(66556008)(26005)(186003)(6512007)(6666004)(8936002)(8676002)(66946007)(34490700002)(66476007)(16526019);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	4kpY8pIGL1CwksamZvJNXWBbiVyABe5ZD9wcuILL8kKTyApEl2k9X1S5ireu3CDzupO7l+FVY2M3+Vb7/2wFiGofn24HSxD3WP0I7BOHEU2oxyATvdp1uNH4HpEjdsyf6ibMAIsqnmGYnDqN/Q6z9cz25lfyQDNFCp3BNm+fKaTnWQku0s6gnq3SEu7zSArltkhJ6yL/2wE2uSzYJ8o7sGM6oRYP7xhXsl3TmdxobKTocqtpGYRhowifADXe7Khi4XXnN/c0BS9vmvQVjPXSR2nCtspDIhqfRmKOFj2E7xjOYexmbLfQaeMPAi4nvsNhYxJoJJVe7PbB4KnOUaA+FBBw4ezHpWiVf12vG6Nxmv0VQGVPB0pgDbV21zKU2hW2yJxd8mduP7AyF1+zhc4ps526rGa7jbgf3d0Qg/JV5tjkWTkp9ENKCtV58Rhws1cN35WpEone2ap+5PdrW73OslW9TUmcE98By9op+IhTryKOJb1WMmMrcjX915c9qrqYeOG45ftpLZwYMmaAY5cfBxe88nda9DqfWQRDoEHfSK4pBilPYK9INeehSMGm9kWAq+k/H87HhZdpj9jXCopYlQ1Z3AIUPu4a5pJFt9aXevUMTkusJmM7znXL5YVzMQXOVY+HeDWa67u/vDdcidSo3g==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfb96bdd-4870-47fa-ffd0-08d870e8dc81
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR11MB2909.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 09:01:10.8665
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(396003)(39860400002)(46966005)(33656002)(478600001)(5660300002)(54906003)(2616005)(186003)(6486002)(316002)(82310400003)(6916009)(6506007)(336012)(53546011)(86362001)(26005)(83080400001)(8936002)(47076004)(8676002)(966005)(4326008)(356005)(36756003)(2906002)(70206006)(83380400001)(81166007)(6512007)(82740400003)(107886003)(70586007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2020 09:28:40.6709
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UKKRfYdIeoOVoKQMFnYe0Qt+qymgUFeV8oFI2QSqL6Za/FoqaT34W++8oY+F4pkcbVUUabVe/GrPmxr5yIxDcn8ZxYyb5u4t+MdtwSIT0S4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR11MB4876
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2959f6e-b626-4848-3407-08d870ecb3f6
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB5EUR03FT010.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR08MB5613
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <111C5D784D83824593790BA9A422DF91@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 
-The src/import/build/root/Makefile.generated_files are called several times
-during the build, so the following target which installs go2make will also run
-several times:
+Hi,
 
-$(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
+Gentle ping :-)
 
-It runs automatically when the Makefile is called because of:
-sinclude $(META_DIR)/$(GO_PKGDEPS_FILE)
+Cheers
+Bertrand
 
-So there is a race issue of go2make when parallel build:
-hack/run-in-gopath.sh: line 34: build/tmp-glibc/work/corei7-64-wrs-linux/kubernetes/1.18.8-r0/git/src/import/_output/local/go/bin/go2make: No suc h file or directory
+> On 9 Oct 2020, at 13:31, Bertrand Marquis via lists.yoctoproject.org <be=
+rtrand.marquis=3Darm.com@lists.yoctoproject.org> wrote:
+>
+> Change-Id: I24e4336aaac4477efc5dc7426a6d9e909c98a6af
+> Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
+> ---
+> recipes-extended/xen/xen-tools.inc | 10 +++++-----
+> 1 file changed, 5 insertions(+), 5 deletions(-)
+>
+> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xen/x=
+en-tools.inc
+> index ace1a01..736a766 100644
+> --- a/recipes-extended/xen/xen-tools.inc
+> +++ b/recipes-extended/xen/xen-tools.inc
+> @@ -247,8 +247,8 @@ RPROVIDES_${PN}-xenstored =3D "virtual/xenstored"
+>
+> FILES_${PN}-dbg +=3D "\
+>     ${libdir}/xen/bin/.debug \
+> -    ${libdir}/${PYTHON_DIR}/site-packages/.debug \
+> -    ${libdir}/${PYTHON_DIR}/site-packages/xen/lowlevel/.debug \
+> +    ${nonarch_libdir}/${PYTHON_DIR}/site-packages/.debug \
+> +    ${nonarch_libdir}/${PYTHON_DIR}/site-packages/xen/lowlevel/.debug \
+>     ${libdir}/fs/xfs/.debug \
+>     ${libdir}/fs/ufs/.debug \
+>     ${libdir}/fs/ext2fs-lib/.debug \
+> @@ -261,8 +261,8 @@ FILES_${PN}-dbg +=3D "\
+>     ${libdir}exec/.debug \
+>     ${libdir}/xen/libexec/.debug \
+>     ${bindir}/.debug \
+> -    ${libdir}/${PYTHON_DIR}/dist-packages/.debug \
+> -    ${libdir}/${PYTHON_DIR}/dist-packages/xen/lowlevel/.debug \
+> +    ${nonarch_libdir}/${PYTHON_DIR}/dist-packages/.debug \
+> +    ${nonarch_libdir}/${PYTHON_DIR}/dist-packages/xen/lowlevel/.debug \
+>     "
+>
+> FILES_${PN}-dev =3D "\
+> @@ -497,7 +497,7 @@ FILES_${PN}-pygrub =3D "\
+>     "
+>
+> FILES_${PN}-python =3D "\
+> -    ${libdir}/${PYTHON_DIR} \
+> +    ${nonarch_libdir}/${PYTHON_DIR} \
+>     "
+>
+> FILES_${PN}-remus =3D "\
+> --
+> 2.17.1
+>
+>
+>=20
+>
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- ...ed_files-Fix-race-issue-for-installi.patch | 48 +++++++++++++++++++
- .../kubernetes/kubernetes_git.bb              |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
-
-diff --git a/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch b/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
-new file mode 100644
-index 0000000..97273e4
---- /dev/null
-+++ b/recipes-containers/kubernetes/kubernetes/0001-Makefile.generated_files-Fix-race-issue-for-installi.patch
-@@ -0,0 +1,48 @@
-+From 441df8a24a2c80e320f140b5d9bc352c7ce8a64a Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Thu, 15 Oct 2020 07:27:35 +0000
-+Subject: [PATCH] src/import/build/root/Makefile.generated_files: Fix race issue for installing
-+ go2make
-+
-+The src/import/build/root/Makefile.generated_files are called several times during the build, so the
-+following target which installs go2make will also run several times:
-+
-+$(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
-+
-+It runs automatically when the Makefile is called because of:
-+sinclude $(META_DIR)/$(GO_PKGDEPS_FILE)
-+
-+So there is a race issue of go2make when parallel build:
-+hack/run-in-gopath.sh: line 34: build/tmp-glibc/work/corei7-64-wrs-linux/kubernetes/1.18.8-r0/git/src/import/_output/local/go/bin/go2make: No such file or directory
-+
-+It is because the first process is using go2make, but then the second process
-+removes it and reinstall it.
-+
-+Check whether go2make has been installed or not before install it can fix the
-+problem.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ src/import/build/root/Makefile.generated_files | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/import/build/root/Makefile.generated_files b/src/import/build/root/Makefile.generated_files
-+index c8cbf27..e3f1593 100644
-+--- a/src/import/build/root/Makefile.generated_files
-++++ b/src/import/build/root/Makefile.generated_files
-+@@ -63,7 +63,9 @@ $(META_DIR)/$(GO_PKGDEPS_FILE): FORCE
-+ 	if [[ "$(DBG_CODEGEN)" == 1 ]]; then          \
-+ 	    echo "DBG: calculating Go dependencies";  \
-+ 	fi
-+-	hack/run-in-gopath.sh go install ./hack/make-rules/helpers/go2make
-++	if [ ! -e _output/local/go/bin/go2make ]; then \
-++		hack/run-in-gopath.sh go install ./hack/make-rules/helpers/go2make; \
-++	fi
-+ 	hack/run-in-gopath.sh go2make                     \
-+ 	    k8s.io/kubernetes/...                         \
-+ 	    --prune  k8s.io/kubernetes/staging            \
-+-- 
-+2.26.2
-+
-diff --git a/recipes-containers/kubernetes/kubernetes_git.bb b/recipes-containers/kubernetes/kubernetes_git.bb
-index 76c8202..1053d97 100644
---- a/recipes-containers/kubernetes/kubernetes_git.bb
-+++ b/recipes-containers/kubernetes/kubernetes_git.bb
-@@ -15,6 +15,7 @@ SRC_URI = "git://github.com/kubernetes/kubernetes.git;branch=release-1.19;name=k
-            file://0001-cross-don-t-build-tests-by-default.patch \
-            file://0001-generate-bindata-unset-GOBIN.patch \
-            file://0001-build-golang.sh-convert-remaining-go-calls-to-use.patch \
-+           file://0001-Makefile.generated_files-Fix-race-issue-for-installi.patch \
-           "
- 
- DEPENDS += "rsync-native \
--- 
-2.17.1
-
+IMPORTANT NOTICE: The contents of this email and any attachments are confi=
+dential and may also be privileged. If you are not the intended recipient, =
+please notify the sender immediately and do not disclose the contents to an=
+y other person, use it for any purpose, or store or copy the information in=
+ any medium. Thank you.
