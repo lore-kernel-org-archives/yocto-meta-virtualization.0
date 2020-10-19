@@ -1,551 +1,100 @@
-Received: from mail-ej1-f66.google.com (mail-ej1-f66.google.com [209.85.218.66])
- by mx.groups.io with SMTP id smtpd.web11.14229.1602774135324784488
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (NAM11-DM6-obe.outbound.protection.outlook.com [40.107.223.55])
+ by mx.groups.io with SMTP id smtpd.web10.8735.1603092299044234120
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 15 Oct 2020 08:02:15 -0700
+ Mon, 19 Oct 2020 00:24:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=vEMk0CdU;
- spf=pass (domain: gmail.com, ip: 209.85.218.66, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f66.google.com with SMTP id md26so4068214ejb.10
-        for <meta-virtualization@lists.yoctoproject.org>; Thu, 15 Oct 2020 08:02:15 -0700 (PDT)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=hBYbHV19;
+ spf=pass (domain: windriver.com, ip: 40.107.223.55, mailfrom: qi.chen@windriver.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gyW+lqPrBcPVcjbLotCTjWGj9T+W89UQFGs/JKDNnV3H8wPF5C/Oh8wLKN6zoPJcT4EWNn2KavnqZoUJsv9No6HYxiha5257ZVIWWmW7CUnRH/6V+zrdCG5IO+RfC9s3dmxPAHIlIu0+d9d6eoVBkWJ5cSuGhqEbOzgG+IaEzg0XVcfiLgTXS+VaJghYGAqQuEMzEXga0B6YNEGqF9C3mRf0B163U8xjkw4jEggx5+aGYlzQD4Invlw8u2yD+HEBzBjdvmWCtBWkuKfCUfLnsYHEj2q/FT74SXJPZp9SXD9KmgOxu9yUZHQ0GLlNMpfUH/SFVzhlJZuuyN/SGV4hAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k4OksiaLgxwiIw1IhzYMaKfW84Broc4AOfTyfwlq7FM=;
+ b=glJYhD1iRP9UFLN/MXbGmnniB0wXd5DTYD0kUfJGACBKGWJCZcSVJrqdpwTX9YBd21IteULlFiY4RPRJ71bBpcGf9z2NBcapR3t9bWhkWVKA8PTuJe9tse2T46nrUWre0Z/9U62rz23L3HjVt0W8kj54FE91il73wx3/4riOAdSAEkIm/6bqcbk+on4qV8s1h8PwL8ykAVqCAdqJyGXm657g9/AahS6H6rzpbZJMWGuCGJ9IMMaQyJvod3sxUBcC8luOZETZLZQ5jIVTinhwBoY5fNE/rIi5efuEM0RX2Q1xAb6mOU7gKokxmbo7kMgyVBMc81oKt9pAAlttUYUWig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=MJrefC9H8WEj4iLydQXgdYcJBWHSF6yizJbJGhzD44I=;
-        b=vEMk0CdUNlveGbIzHrlv6KxmDc14jqM1ghLG9s5gQGKdGOs9tG+qwK43MIuElCDWtk
-         STYQCD4ZZTt71h13/NtzJW+7NKhP1jHMHrI8iZmdWLji1OTzCwUCl+52aJy3sBceR1Dp
-         SM9UQTcWOj0oDBX0C/Fwlwl9hXSpJtQfOjWVNZ85vRZvaL64WmYuhUfoSm3DVyI6dbjf
-         mvBfZbGDNDQ7vuADqpEnKJzexsQIoAIk4fbcW+GNrlmT2iewL7jylOhuhf8R/mRU1kGm
-         v/WlXofXJHFrP5wG4pUhrIAEuphIIy2BV3S0SvkeiLAqrqUW7nNPs9EkMV31eu1WG3l9
-         nREw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=MJrefC9H8WEj4iLydQXgdYcJBWHSF6yizJbJGhzD44I=;
-        b=pAqa58bNS6pHQZxt2VS/h0HK/CWq+l0osie3DHf8G8Vv0UkDwXHSikZBf27t9O58ts
-         cRQskvMulw/D7lDVOADs26yL1KMpvRYN8NGN81eAitGGnXyd+TwySBQTFzAvJ9gdA4aE
-         UWuS7hl8idHsCXxotPVmRhw1th8JIBbpxq1uq45oltqPz12c5324c/LE2RhALeHe0D8b
-         54DzmDq3mbjSRqVUXBpOL8akZY1/FS5qD9+GSuqfGMCUBOY8NCfn+2WDKPRpWE3+tb46
-         dWqNnU+u7vJUAx/V/qzHelhDTyNZMGDW40ymXXq0MNJmzkIOazkj61JBuhjEg+SY1pQT
-         ZhgA==
-X-Gm-Message-State: AOAM533Y8HZOIKfeFdJjJiW0oQXilVlgJmj65zsHwrjhvau6VrSIbXLZ
-	KuZYUfefCK8aoCIhds/Q18mscXV3dErVny8zRRc=
-X-Google-Smtp-Source: ABdhPJz/G2QcsA4PPDKf5E8WndGVUOP0XC2s9uelpoRW/qhxZ0O8kAr76wtc8sYRg5bsToRpdUs99Z/BZ4UAf4AMw6I=
-X-Received: by 2002:a17:906:4695:: with SMTP id a21mr4758697ejr.357.1602774133547;
- Thu, 15 Oct 2020 08:02:13 -0700 (PDT)
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=k4OksiaLgxwiIw1IhzYMaKfW84Broc4AOfTyfwlq7FM=;
+ b=hBYbHV19Uzaz91NrOULLjJvo3Ah5Szs9ZcDhuUo2B5hJsHOjV94d7xzVXiMrm4KTJFrvPWmaTfjeg+JrPsPuFYMO5Y3Iv8jFVQZIoZz/R6xVmDY+fYlOqPDxH5oeCpOwDic0iXqjkb0Up8/TbyfC4t0sEvF+Ii5hOT0C06DHSr0=
+Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BYAPR11MB3480.namprd11.prod.outlook.com (2603:10b6:a03:79::27)
+ by BY5PR11MB4151.namprd11.prod.outlook.com (2603:10b6:a03:18f::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.22; Mon, 19 Oct
+ 2020 07:24:57 +0000
+Received: from BYAPR11MB3480.namprd11.prod.outlook.com
+ ([fe80::c4a4:4e3d:3154:98e4]) by BYAPR11MB3480.namprd11.prod.outlook.com
+ ([fe80::c4a4:4e3d:3154:98e4%5]) with mapi id 15.20.3477.028; Mon, 19 Oct 2020
+ 07:24:57 +0000
+From: "Chen Qi" <Qi.Chen@windriver.com>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [meta-virtualization][PATCH] nagios-core: use /run instead of /var/run in systemd service file
+Date: Mon, 19 Oct 2020 15:24:42 +0800
+Message-Id: <20201019072442.25583-1-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HKAPR04CA0004.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::14) To BYAPR11MB3480.namprd11.prod.outlook.com
+ (2603:10b6:a03:79::27)
+Return-Path: Qi.Chen@windriver.com
 MIME-Version: 1.0
-References: <20200821205529.29901-1-erik.jansson@axis.com> <6adf1052-aa13-b890-606e-119d70eab618@axis.com>
- <CADkTA4Mkpo9S92Pfqd_eDYiyt+3zopP9p97JF3yct2TWuc3kNQ@mail.gmail.com>
- <c13a622a-5d4c-d87e-f901-673bec12fe33@axis.com> <CADkTA4MArixWsydAc1YdwCvyiPHx36nqcigpLf=j_Fw6NudnRQ@mail.gmail.com>
- <ae269803-37c4-d72a-d19e-097a093baa60@axis.com> <CADkTA4NbKfrK0CwQz7P5ecGCgL_d_0CZnuROoVTL=iLWJ6kvMw@mail.gmail.com>
- <8943d000-4ce1-164b-eb8e-2bedfaca2981@axis.com> <CADkTA4PNMnRJ3iZu0TvsK+8S_MMySNxx-=fk7rFuCCOStcRdWw@mail.gmail.com>
- <16380B0CA000AB98.28124@lists.yoctoproject.org> <c381ef59-ef51-840e-626e-ddb3e5706757@axis.com>
- <CADkTA4PMkHjKHmb0iwR1+xcu660xBGOBTQH0+exqfGL-VNhdAg@mail.gmail.com>
- <1639818C3E50A226.8589@lists.yoctoproject.org> <1639D7B9311FC65C.18704@lists.yoctoproject.org>
- <cb7cddae-6fbc-1307-618a-0c99e88f8070@axis.com> <CADkTA4On-SF-80JAPQ0-Q=uAi2xZ7=BqHhVupaaXNEtCdP9rcw@mail.gmail.com>
- <e3c93914-5d9c-ba75-5570-9097aa71f4d7@axis.com>
-In-Reply-To: <e3c93914-5d9c-ba75-5570-9097aa71f4d7@axis.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Thu, 15 Oct 2020 11:02:02 -0400
-Message-ID: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH v4] Adding k3s recipe
-To: Joakim Roubert <joakim.roubert@axis.com>
-Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from pek-lpg-core3.wrs.com (60.247.85.82) by HKAPR04CA0004.apcprd04.prod.outlook.com (2603:1096:203:d0::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20 via Frontend Transport; Mon, 19 Oct 2020 07:24:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: f8817e7c-8db1-43bc-fa28-08d8740014cb
+X-MS-TrafficTypeDiagnostic: BY5PR11MB4151:
+X-Microsoft-Antispam-PRVS: 
+	<BY5PR11MB4151F67E2A4AF7907EE448A4ED1E0@BY5PR11MB4151.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:439;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	OOABkjhAg5N1ojB9bDoM4wcHEkxwH57kRUpx3uwHvID7Sti+bGs+l535SYDdjfqRaRapUkG8bOlhPYgNz6CZkWEE/wkw8DJ03Fjqc0o64dDnthMJeJIrj1to5DKnWuOwjwvRF6zz7Ds5hpOZsEQzvPYuCoc8zKdK8mkcroydvIohEMIZ/gxcS7xwosFZodGTCKJI8JjBPk2otyk02J6Ae9/PdSqAOTF0HIYk26FcTmaUQLhjpqGB3v8DDIhBHDR7Ol36WgDtkqiGRsv4yY2bgFdIMb3XZdSiF59z+NnfSUwchjp6CaNbEpv+31lcohRWOx0XA5XRaX36/c0Dv+Z5IA==
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR11MB3480.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(39840400004)(366004)(396003)(36756003)(956004)(316002)(6506007)(6916009)(2616005)(1076003)(6512007)(8676002)(8936002)(2906002)(26005)(16526019)(478600001)(186003)(4744005)(66476007)(66946007)(52116002)(86362001)(6666004)(83380400001)(66556008)(5660300002)(6486002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	D2qbKoQsJxulQHaFsYq2KIOhwKKFUwaXUlxZfZo+3lEdZC6xzV6cmbeJu6PZtgx+VjDI+qhmJDaLqdT2LM/5BUGABCorI+OqJh04ftefZ9PgSQve7W9PrSFICaT67o4bKT4Olfxe7uhChv5imXZyDNJeGwqqQojffF+qCS8LqWMwpqE9u1v0vLWE9ycje0YO/Md3CYvymXga6D7ZDe8boU0+caYz2g3hwa7C2M/tLgtGlraiSZDUEBz+Z05jiH/qo5nHvMQUK8B8vaLzcVJncXmnuhJfHzCijamgXr6iTKMH0xFmewW2XvTxT6B99/UFTNJvsZG0oPMxJfOmMr/pUU+N5rWluZAeiQTkkJBZeHfQ8rN31WCx3Gz8WGhNnLYIrCTqRn4P/+oFNfob+umz3BhB+r5Fd3peCN9gVPr056RHCdZfEr9RrQfV3ts2zCi3kh47KxWJtI12xdAZx1MUJLlwBQr65e8JZxjFI+iNml43YcOYWFZuTK8AmjrTX80UXtkZo/ymNxi1k08f4ALEUwGK3WMJopFgqcxVMyb+B9fJ8KWbZ3IKb8KAfU79cIQtlsLK/Y06s0L6czNAuZR/sW+UqihLphoo3wDs06vZNSfdYwDI2kO6lGZPB0V23U4jvw04NKVQdJ50cIeG7+PpZA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f8817e7c-8db1-43bc-fa28-08d8740014cb
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR11MB3480.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2020 07:24:57.4297
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 32nW5WQb7vFNt2SBZtWB427t7USx2cXlaJDi7XXsTIhekkNPe0RMlTKbJTzgh9RrPXxViATxi8/78Y4MOkASEg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR11MB4151
+Content-Type: text/plain
 
-I just merged 3 patches from the mailing list, using my standard
-workflow (save mbox, apply, buid, push).
+/var/run has been deprecated by systemd, so use /run instead,
+as suggested by systemd.
 
-But with your patch, saved the same way. I get:
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ recipes-extended/nagios/nagios-core/nagios-core.service | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-------------
-
-build [/home/bruc...ualization]> git am -s k3.mbox
-Applying: Adding k3s recipe
-.git/rebase-apply/patch:35: trailing whitespace.
-[installation procedures provided by
-error: corrupt patch at line 36
-Patch failed at 0001 Adding k3s recipe
-hint: Use 'git am --show-current-patch' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-
-----------
-
-I've tried hacking the patch by hand to apply, but it is just making
-things worse. Is there another way
-you can send the patch ?
-
-Bruce
-
-
-On Thu, Oct 15, 2020 at 7:47 AM Joakim Roubert <joakim.roubert@axis.com> wrote:
->
->
->
-> Change-Id: Id1c52727593bc5ea8d0cd2de192faa44304d7a45
-> Signed-off-by: Joakim Roubert <joakimr@axis.com>
-> ---
->   recipes-containers/k3s/README.md              |  30 +++++
->   ...01-Finding-host-local-in-usr-libexec.patch |  27 +++++
->   .../k3s/k3s/cni-containerd-net.conf           |  24 ++++
->   recipes-containers/k3s/k3s/k3s-agent          | 103 ++++++++++++++++++
->   recipes-containers/k3s/k3s/k3s-agent.service  |  26 +++++
->   recipes-containers/k3s/k3s/k3s-clean          |  30 +++++
->   recipes-containers/k3s/k3s/k3s.service        |  27 +++++
->   recipes-containers/k3s/k3s_git.bb             |  75 +++++++++++++
->   8 files changed, 342 insertions(+)
->   create mode 100644 recipes-containers/k3s/README.md
->   create mode 100644
-> recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
->   create mode 100644 recipes-containers/k3s/k3s/cni-containerd-net.conf
->   create mode 100755 recipes-containers/k3s/k3s/k3s-agent
->   create mode 100644 recipes-containers/k3s/k3s/k3s-agent.service
->   create mode 100755 recipes-containers/k3s/k3s/k3s-clean
->   create mode 100644 recipes-containers/k3s/k3s/k3s.service
->   create mode 100644 recipes-containers/k3s/k3s_git.bb
->
-> diff --git a/recipes-containers/k3s/README.md
-> b/recipes-containers/k3s/README.md
-> new file mode 100644
-> index 0000000..3fe5ccd
-> --- /dev/null
-> +++ b/recipes-containers/k3s/README.md
-> @@ -0,0 +1,30 @@
-> +# k3s: Lightweight Kubernetes
-> +
-> +Rancher's [k3s](https://k3s.io/), available under
-> +[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0), provides
-> +lightweight Kubernetes suitable for small/edge devices. There are use cases
-> +where the
-> +[installation procedures provided by
-> Rancher](https://rancher.com/docs/k3s/latest/en/installation/)
-> +are not ideal but a bitbake-built version is what is needed. And only a few
-> +mods to the [k3s source code](https://github.com/rancher/k3s) is needed to
-> +accomplish that.
-> +
-> +## CNI
-> +
-> +By default, K3s will run with flannel as the CNI, using VXLAN as the
-> default
-> +backend. It is both possible to change the flannel backend and to
-> change from
-> +flannel to another CNI.
-> +
-> +Please see
-> <https://rancher.com/docs/k3s/latest/en/installation/network-options/>
-> +for further k3s networking details.
-> +
-> +## Configure and run a k3s agent
-> +
-> +The convenience script `k3s-agent` can be used to set up a k3s agent
-> (service):
-> +
-> +```shell
-> +k3s-agent -t <token> -s https://<master>:6443
-> +```
-> +
-> +(Here `<token>` is found in `/var/lib/rancher/k3s/server/node-token` at the
-> +k3s master.)
-> diff --git
-> a/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-> new file mode 100644
-> index 0000000..8205d73
-> --- /dev/null
-> +++
-> b/recipes-containers/k3s/k3s/0001-Finding-host-local-in-usr-libexec.patch
-> @@ -0,0 +1,27 @@
-> +From 4faf68d68c97cfd10947e1152f711acc59f39647 Mon Sep 17 00:00:00 2001
-> +From: Erik Jansson <erikja@axis.com>
-> +Date: Wed, 16 Oct 2019 15:07:48 +0200
-> +Subject: [PATCH] Finding host-local in /usr/libexec
-> +
-> +Upstream-status: Inappropriate [embedded specific]
-> +Signed-off-by: <erikja@axis.com>
-> +---
-> + pkg/agent/config/config.go | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/pkg/agent/config/config.go b/pkg/agent/config/config.go
-> +index b4296f360a..6af9dab895 100644
-> +--- a/pkg/agent/config/config.go
-> ++++ b/pkg/agent/config/config.go
-> +@@ -308,7 +308,7 @@ func get(envInfo *cmds.Agent) (*config.Node, error) {
-> +               return nil, err
-> +       }
-> +
-> +-      hostLocal, err := exec.LookPath("host-local")
-> ++      hostLocal, err := exec.LookPath("/usr/libexec/cni/host-local")
-> +       if err != nil {
-> +               return nil, errors.Wrapf(err, "failed to find host-local")
-> +       }
-> +--
-> +2.11.0
-> +
-> diff --git a/recipes-containers/k3s/k3s/cni-containerd-net.conf
-> b/recipes-containers/k3s/k3s/cni-containerd-net.conf
-> new file mode 100644
-> index 0000000..ca434d6
-> --- /dev/null
-> +++ b/recipes-containers/k3s/k3s/cni-containerd-net.conf
-> @@ -0,0 +1,24 @@
-> +{
-> +  "cniVersion": "0.4.0",
-> +  "name": "containerd-net",
-> +  "plugins": [
-> +    {
-> +      "type": "bridge",
-> +      "bridge": "cni0",
-> +      "isGateway": true,
-> +      "ipMasq": true,
-> +      "promiscMode": true,
-> +      "ipam": {
-> +        "type": "host-local",
-> +        "subnet": "10.88.0.0/16",
-> +        "routes": [
-> +          { "dst": "0.0.0.0/0" }
-> +        ]
-> +      }
-> +    },
-> +    {
-> +      "type": "portmap",
-> +      "capabilities": {"portMappings": true}
-> +    }
-> +  ]
-> +}
-> diff --git a/recipes-containers/k3s/k3s/k3s-agent
-> b/recipes-containers/k3s/k3s/k3s-agent
-> new file mode 100755
-> index 0000000..b6c6cb6
-> --- /dev/null
-> +++ b/recipes-containers/k3s/k3s/k3s-agent
-> @@ -0,0 +1,103 @@
-> +#!/bin/sh -eu
-> +#
-> +# Copyright (C) 2020 Axis Communications AB
-> +#
-> +# SPDX-License-Identifier: Apache-2.0
-> +
-> +ENV_CONF=/etc/systemd/system/k3s-agent.service.d/10-env.conf
-> +
-> +usage() {
-> +       echo "
-> +USAGE:
-> +    ${0##*/} [OPTIONS]
-> +OPTIONS:
-> +    --token value, -t value             Token to use for authentication
-> [\$K3S_TOKEN]
-> +    --token-file value                  Token file to use for
-> authentication [\$K3S_TOKEN_FILE]
-> +    --server value, -s value            Server to connect to [\$K3S_URL]
-> +    --node-name value                   Node name [\$K3S_NODE_NAME]
-> +    --resolv-conf value                 Kubelet resolv.conf file
-> [\$K3S_RESOLV_CONF]
-> +    --cluster-secret value              Shared secret used to bootstrap
-> a cluster [\$K3S_CLUSTER_SECRET]
-> +    -h                                  print this
-> +"
-> +}
-> +
-> +[ $# -gt 0 ] || {
-> +       usage
-> +       exit
-> +}
-> +
-> +case $1 in
-> +       -*)
-> +               ;;
-> +       *)
-> +               usage
-> +               exit 1
-> +               ;;
-> +esac
-> +
-> +rm -f $ENV_CONF
-> +mkdir -p ${ENV_CONF%/*}
-> +echo [Service] > $ENV_CONF
-> +
-> +while getopts "t:s:-:h" opt; do
-> +       case $opt in
-> +               h)
-> +                       usage
-> +                       exit
-> +                       ;;
-> +               t)
-> +                       VAR_NAME=K3S_TOKEN
-> +                       ;;
-> +               s)
-> +                       VAR_NAME=K3S_URL
-> +                       ;;
-> +               -)
-> +                       [ $# -ge $OPTIND ] || {
-> +                               usage
-> +                               exit 1
-> +                       }
-> +                       opt=$OPTARG
-> +                       eval OPTARG='$'$OPTIND
-> +                       OPTIND=$(($OPTIND + 1))
-> +                       case $opt in
-> +                               token)
-> +                                       VAR_NAME=K3S_TOKEN
-> +                                       ;;
-> +                               token-file)
-> +                                       VAR_NAME=K3S_TOKEN_FILE
-> +                                       ;;
-> +                               server)
-> +                                       VAR_NAME=K3S_URL
-> +                                       ;;
-> +                               node-name)
-> +                                       VAR_NAME=K3S_NODE_NAME
-> +                                       ;;
-> +                               resolv-conf)
-> +                                       VAR_NAME=K3S_RESOLV_CONF
-> +                                       ;;
-> +                               cluster-secret)
-> +                                       VAR_NAME=K3S_CLUSTER_SECRET
-> +                                       ;;
-> +                               help)
-> +                                       usage
-> +                                       exit
-> +                                       ;;
-> +                               *)
-> +                                       usage
-> +                                       exit 1
-> +                                       ;;
-> +                       esac
-> +                       ;;
-> +               *)
-> +                       usage
-> +                       exit 1
-> +                       ;;
-> +       esac
-> +    echo Environment=$VAR_NAME=$OPTARG >> $ENV_CONF
-> +done
-> +
-> +chmod 0644 $ENV_CONF
-> +rm -rf /var/lib/rancher/k3s/agent
-> +systemctl daemon-reload
-> +systemctl restart k3s-agent
-> +systemctl enable k3s-agent.service
-> diff --git a/recipes-containers/k3s/k3s/k3s-agent.service
-> b/recipes-containers/k3s/k3s/k3s-agent.service
-> new file mode 100644
-> index 0000000..9f9016d
-> --- /dev/null
-> +++ b/recipes-containers/k3s/k3s/k3s-agent.service
-> @@ -0,0 +1,26 @@
-> +# Derived from the k3s install.sh's create_systemd_service_file() function
-> +[Unit]
-> +Description=Lightweight Kubernetes Agent
-> +Documentation=https://k3s.io
-> +Requires=containerd.service
-> +After=containerd.service
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> +
-> +[Service]
-> +Type=notify
-> +KillMode=control-group
-> +Delegate=yes
-> +LimitNOFILE=infinity
-> +LimitNPROC=infinity
-> +LimitCORE=infinity
-> +TasksMax=infinity
-> +TimeoutStartSec=0
-> +Restart=always
-> +RestartSec=5s
-> +ExecStartPre=-/sbin/modprobe br_netfilter
-> +ExecStartPre=-/sbin/modprobe overlay
-> +ExecStart=/usr/local/bin/k3s agent
-> +ExecStopPost=/usr/local/bin/k3s-clean
-> +
-> diff --git a/recipes-containers/k3s/k3s/k3s-clean
-> b/recipes-containers/k3s/k3s/k3s-clean
-> new file mode 100755
-> index 0000000..8eca918
-> --- /dev/null
-> +++ b/recipes-containers/k3s/k3s/k3s-clean
-> @@ -0,0 +1,30 @@
-> +#!/bin/sh -eu
-> +#
-> +# Copyright (C) 2020 Axis Communications AB
-> +#
-> +# SPDX-License-Identifier: Apache-2.0
-> +
-> +do_unmount() {
-> +       [ $# -eq 2 ] || return
-> +       local mounts=
-> +       while read ignore mount ignore; do
-> +               case $mount in
-> +                       $1/*|$2/*)
-> +                               mounts="$mount $mounts"
-> +                               ;;
-> +               esac
-> +       done </proc/self/mounts
-> +       [ -z "$mounts" ] || umount $mounts
-> +}
-> +
-> +do_unmount /run/k3s /var/lib/rancher/k3s
-> +
-> +# The lines below come from install.sh's create_killall() function:
-> +ip link show 2>/dev/null | grep 'master cni0' | while read ignore iface
-> ignore; do
-> +    iface=${iface%%@*}
-> +    [ -z "$iface" ] || ip link delete $iface
-> +done
-> +
-> +ip link delete cni0
-> +ip link delete flannel.1
-> +rm -rf /var/lib/cni/
-> diff --git a/recipes-containers/k3s/k3s/k3s.service
-> b/recipes-containers/k3s/k3s/k3s.service
-> new file mode 100644
-> index 0000000..34c7a80
-> --- /dev/null
-> +++ b/recipes-containers/k3s/k3s/k3s.service
-> @@ -0,0 +1,27 @@
-> +# Derived from the k3s install.sh's create_systemd_service_file() function
-> +[Unit]
-> +Description=Lightweight Kubernetes
-> +Documentation=https://k3s.io
-> +Requires=containerd.service
-> +After=containerd.service
-> +
-> +[Install]
-> +WantedBy=multi-user.target
-> +
-> +[Service]
-> +Type=notify
-> +KillMode=process
-> +Delegate=yes
-> +# Having non-zero Limit*s causes performance problems due to accounting
-> overhead
-> +# in the kernel. We recommend using cgroups to do container-local
-> accounting.
-> +LimitNOFILE=1048576
-> +LimitNPROC=infinity
-> +LimitCORE=infinity
-> +TasksMax=infinity
-> +TimeoutStartSec=0
-> +Restart=always
-> +RestartSec=5s
-> +ExecStartPre=-/sbin/modprobe br_netfilter
-> +ExecStartPre=-/sbin/modprobe overlay
-> +ExecStart=/usr/local/bin/k3s server
-> +
-> diff --git a/recipes-containers/k3s/k3s_git.bb
-> b/recipes-containers/k3s/k3s_git.bb
-> new file mode 100644
-> index 0000000..cfc2c64
-> --- /dev/null
-> +++ b/recipes-containers/k3s/k3s_git.bb
-> @@ -0,0 +1,75 @@
-> +SUMMARY = "Production-Grade Container Scheduling and Management"
-> +DESCRIPTION = "Lightweight Kubernetes, intended to be a fully compliant
-> Kubernetes."
-> +HOMEPAGE = "https://k3s.io/"
-> +LICENSE = "Apache-2.0"
-> +LIC_FILES_CHKSUM =
-> "file://${S}/src/import/LICENSE;md5=2ee41112a44fe7014dce33e26468ba93"
-> +PV = "v1.18.9+k3s1-dirty"
-> +
-> +SRC_URI = "git://github.com/rancher/k3s.git;branch=release-1.18;name=k3s \
-> +           file://k3s.service \
-> +           file://k3s-agent.service \
-> +           file://k3s-agent \
-> +           file://k3s-clean \
-> +           file://cni-containerd-net.conf \
-> +
-> file://0001-Finding-host-local-in-usr-libexec.patch;patchdir=src/import \
-> +          "
-> +SRC_URI[k3s.md5sum] = "363d3a08dc0b72ba6e6577964f6e94a5"
-> +SRCREV_k3s = "630bebf94b9dce6b8cd3d402644ed023b3af8f90"
-> +
-> +inherit go
-> +inherit goarch
-> +inherit systemd
-> +
-> +PACKAGECONFIG = ""
-> +PACKAGECONFIG[upx] = ",,upx-native"
-> +GO_IMPORT = "import"
-> +GO_BUILD_LDFLAGS = "-X github.com/rancher/k3s/pkg/version.Version=${PV} \
-> +                    -X
-> github.com/rancher/k3s/pkg/version.GitCommit=${@d.getVar('SRCREV_k3s',
-> d, 1)[:8]} \
-> +                    -w -s \
-> +                   "
-> +BIN_PREFIX ?= "${exec_prefix}/local"
-> +
-> +do_compile() {
-> +        export
-> GOPATH="${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go"
-> +        export CGO_ENABLED="1"
-> +        export GOFLAGS="-mod=vendor"
-> +        cd ${S}/src/import
-> +        ${GO} build -tags providerless -ldflags "${GO_BUILD_LDFLAGS}"
-> -o ./dist/artifacts/k3s ./cmd/server/main.go
-> +        # Use UPX if it is enabled (and thus exists) to compress binary
-> +        if command -v upx > /dev/null 2>&1; then
-> +                upx -9 ./dist/artifacts/k3s
-> +        fi
-> +}
-> +do_install() {
-> +        install -d "${D}${BIN_PREFIX}/bin"
-> +        install -m 755 "${S}/src/import/dist/artifacts/k3s"
-> "${D}${BIN_PREFIX}/bin"
-> +        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/crictl"
-> +        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/ctr"
-> +        ln -sr "${D}/${BIN_PREFIX}/bin/k3s" "${D}${BIN_PREFIX}/bin/kubectl"
-> +        install -m 755 "${WORKDIR}/k3s-clean" "${D}${BIN_PREFIX}/bin"
-> +        install -D -m 0644 "${WORKDIR}/cni-containerd-net.conf"
-> "${D}/${sysconfdir}/cni/net.d/10-containerd-net.conf"
-> +        if
-> ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-> +                install -D -m 0644 "${WORKDIR}/k3s.service"
-> "${D}${systemd_system_unitdir}/k3s.service"
-> +                install -D -m 0644 "${WORKDIR}/k3s-agent.service"
-> "${D}${systemd_system_unitdir}/k3s-agent.service"
-> +                sed -i
-> "s#\(Exec\)\(.*\)=\(.*\)\(k3s\)#\1\2=${BIN_PREFIX}/bin/\4#g"
-> "${D}${systemd_system_unitdir}/k3s.service"
-> "${D}${systemd_system_unitdir}/k3s-agent.service"
-> +                install -m 755 "${WORKDIR}/k3s-agent"
-> "${D}${BIN_PREFIX}/bin"
-> +        fi
-> +}
-> +
-> +PACKAGES =+ "${PN}-server ${PN}-agent"
-> +
-> +SYSTEMD_PACKAGES =
-> "${@bb.utils.contains('DISTRO_FEATURES','systemd','${PN}-server
-> ${PN}-agent','',d)}"
-> +SYSTEMD_SERVICE_${PN}-server =
-> "${@bb.utils.contains('DISTRO_FEATURES','systemd','k3s.service','',d)}"
-> +SYSTEMD_SERVICE_${PN}-agent =
-> "${@bb.utils.contains('DISTRO_FEATURES','systemd','k3s-agent.service','',d)}"
-> +SYSTEMD_AUTO_ENABLE_${PN}-agent = "disable"
-> +
-> +FILES_${PN}-agent = "${BIN_PREFIX}/bin/k3s-agent"
-> +
-> +RDEPENDS_${PN} = "cni conntrack-tools coreutils findutils iproute2
-> ipset virtual/containerd"
-> +RDEPENDS_${PN}-server = "${PN}"
-> +RDEPENDS_${PN}-agent = "${PN}"
-> +
-> +RCONFLICTS_${PN} = "kubectl"
-> +
-> +INHIBIT_PACKAGE_STRIP = "1"
-> +INSANE_SKIP_${PN} += "ldflags already-stripped"
-> --
-> 2.20.1
->
->
-
-
+diff --git a/recipes-extended/nagios/nagios-core/nagios-core.service b/recipes-extended/nagios/nagios-core/nagios-core.service
+index 61fda3f..0fdbfc9 100644
+--- a/recipes-extended/nagios/nagios-core/nagios-core.service
++++ b/recipes-extended/nagios/nagios-core/nagios-core.service
+@@ -6,7 +6,7 @@ After=network.target local-fs.target
+ Type=forking
+ User=nagios
+ Group=nagios
+-PIDFile=/var/run/nagios/nagios.pid
++PIDFile=/run/nagios/nagios.pid
+ # Verify Nagios config before start as upstream suggested
+ ExecStartPre=/usr/bin/nagios -v /etc/nagios/nagios.cfg
+ ExecStart=/usr/bin/nagios -d /etc/nagios/nagios.cfg
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
