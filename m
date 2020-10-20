@@ -1,77 +1,99 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.11494.1603164611357719965
+ by mx.groups.io with SMTP id smtpd.web12.1633.1603176116848428165
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 19 Oct 2020 20:30:11 -0700
+ Mon, 19 Oct 2020 23:41:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@cn.fujitsu.com)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C4EE838C0853
-	for <meta-virtualization@yoctoproject.org>; Mon, 19 Oct 2020 20:30:10 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.77,395,1596470400"; 
-   d="scan'208";a="100316582"
+	by mail.yoctoproject.org (Postfix) with ESMTP id 7808138C06C8
+	for <meta-virtualization@yoctoproject.org>; Mon, 19 Oct 2020 23:41:55 -0700 (PDT)
+X-IronPort-AV: E=Sophos;i="5.77,396,1596470400"; 
+   d="scan'208";a="100321971"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 20 Oct 2020 11:30:09 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 40BE048990CC
-	for <meta-virtualization@yoctoproject.org>; Tue, 20 Oct 2020 11:30:08 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.81) by
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 20 Oct 2020 11:30:06 +0800
-From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+  by heian.cn.fujitsu.com with ESMTP; 20 Oct 2020 14:41:52 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 5B52C48990D3
+	for <meta-virtualization@yoctoproject.org>; Tue, 20 Oct 2020 14:41:50 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 20 Oct 2020 14:41:48 +0800
+From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-xstatic-spin: change to python3
-Date: Tue, 20 Oct 2020 11:30:00 +0800
-Message-ID: <1603164600-37872-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python3-oslo.privsep: change to python3
+Date: Tue, 20 Oct 2020 14:41:36 +0800
+Message-ID: <1603176096-40364-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
+X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
-X-yoursite-MailScanner-ID: 40BE048990CC.A097E
+ G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
+X-yoursite-MailScanner-ID: 5B52C48990D3.A5486
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
 Content-Type: text/plain
 
 Because python2 is no longer maintained, bb file is changed to python3 version.
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- ...ic-spin_1.2.5.2.bb => python3-xstatic-spin_1.2.5.3.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python-xstatic-spin_1.2.5.2.bb => python3-xstatic-spin_1.2.5.3.bb} (58%)
+ ...sep_git.bb => python3-oslo.privsep_git.bb} | 27 +++++++++----------
+ 1 file changed, 13 insertions(+), 14 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python-oslo.privsep_git.bb => python3-oslo.privsep_git.bb} (50%)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-spin_1.2.5.2.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-spin_1.2.5.3.bb
-similarity index 58%
-rename from meta-openstack/recipes-devtools/python/python-xstatic-spin_1.2.5.2.bb
-rename to meta-openstack/recipes-devtools/python/python3-xstatic-spin_1.2.5.3.bb
-index 4060bd9..66bd986 100644
---- a/meta-openstack/recipes-devtools/python/python-xstatic-spin_1.2.5.2.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-xstatic-spin_1.2.5.3.bb
-@@ -2,19 +2,19 @@ DESCRIPTION = "Spin JavaScript library packaged for setuptools3"
- HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Spin"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://PKG-INFO;md5=322c2399a1682aaec2f4e5fff4be5726"
-+LIC_FILES_CHKSUM = "file://PKG-INFO;md5=45c30e2aa7df682a626f8e3629b8f7ee"
+diff --git a/meta-openstack/recipes-devtools/python/python-oslo.privsep_git.bb b/meta-openstack/recipes-devtools/python/python3-oslo.privsep_git.bb
+similarity index 50%
+rename from meta-openstack/recipes-devtools/python/python-oslo.privsep_git.bb
+rename to meta-openstack/recipes-devtools/python/python3-oslo.privsep_git.bb
+index 463f95e..27da695 100644
+--- a/meta-openstack/recipes-devtools/python/python-oslo.privsep_git.bb
++++ b/meta-openstack/recipes-devtools/python/python3-oslo.privsep_git.bb
+@@ -5,32 +5,31 @@ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
  
- PYPI_PACKAGE = "XStatic-Spin"
+ SRCNAME = "oslo.privsep"
+-SRC_URI = "git://github.com/openstack/${SRCNAME}.git;branch=stable/pike"
++SRC_URI = "git://github.com/openstack/${SRCNAME}.git"
  
--SRC_URI[md5sum] = "df83f80fd0b11545b64497112996e49e"
--SRC_URI[sha256sum] = "7f46ef0e45e047019ba6eda22c432fb96f681b97bbe7f1749aa9209e07727192"
-+SRC_URI[md5sum] = "d0cad2593c74eec38dbeed5161eab462"
-+SRC_URI[sha256sum] = "06e889cf3318f08ce74ef888b45d9f1e09017bb8e6d519a299c10a9e6b542642"
+-PV = "1.22.1+git${SRCPV}"
+-SRCREV = "d27bb5371c90e0f8b1bdf1bc24f16e1532b3e595"
++PV = "2.4.0+git${SRCPV}"
++SRCREV = "512b5d9f6b79b798474d8bb2dac2462b0f705cb9"
+ S = "${WORKDIR}/git"
  
- inherit setuptools3 pypi
- 
- # DEPENDS_default: python-pip
+ inherit setuptools3
  
  DEPENDS += " \
--        python-pip \
-+        python3-pip \
+-        python-pbr \
++        python3-pbr \
          "
  
- # RDEPENDS_default: 
+ # Satisfy setup.py 'setup_requires'
+ DEPENDS += " \
+-        python-pbr-native \
++        python3-pbr-native \
+         "
+ 
+ # RDEPENDS_default:
+ RDEPENDS_${PN} += " \
+-        python-oslo.log \
+-        python-oslo.i18n \
+-        python-oslo.config \
+-        python-oslo.utils \
+-        python-enum34 \
+-        python-cffi \
+-        python-eventlet \
+-        python-greenlet \
+-        python-msgpack \
++        python3-oslo.log \
++        python3-oslo.i18n \
++        python3-oslo.config \
++        python3-oslo.utils \
++        python3-cffi \
++        python3-eventlet \
++        python3-greenlet \
++        python3-msgpack \
+         "
 -- 
 2.25.1
 
