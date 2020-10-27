@@ -1,79 +1,94 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.9712.1603776629205947281
+ by mx.groups.io with SMTP id smtpd.web08.11208.1603790181731925263
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 26 Oct 2020 22:30:29 -0700
+ Tue, 27 Oct 2020 02:16:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 2F46F38C1176
-	for <meta-virtualization@yoctoproject.org>; Mon, 26 Oct 2020 22:30:27 -0700 (PDT)
-X-IronPort-AV: E=Sophos;i="5.77,422,1596470400"; 
-   d="scan'208";a="100542338"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 27 Oct 2020 13:30:26 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 45EC14CE1A08
-	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 13:30:22 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 27 Oct 2020 13:30:20 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-rjsmin: upgrade 1.0.12 -> 1.1.0
-Date: Tue, 27 Oct 2020 13:30:11 +0800
-Message-ID: <1603776611-96772-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=S6kstApM;
+ spf=none, err=SPF record not found (domain: optimcloud.com, ip: 198.145.29.25, mailfrom: yocto@optimcloud.com)
+Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 765B138C089D
+	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 02:16:20 -0700 (PDT)
+Received: from mx02.optimcloud.com (localhost [127.0.0.1])
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 166be565
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 27 Oct 2020 10:16:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=to
+	:from:subject:message-id:date:mime-version:content-type; s=obsd;
+	 bh=Dr7IdKTzd71T0s2Hl8Y8Y8kKiYu9Jm5QTKbWukMv9qQ=; b=S6kstApMJObz
+	L9qRMic35xhMCpXZRJRXdEoBzdHx78b6FGwaDzQdSMR6WF33BcCE1PkwEgAdy4Eu
+	HlIoYa6s9n7aDlwDip692/dTMhbaKv392CHfI3ql3SGkZhOU0n4gEv2yq2HSrZHE
+	SZCoTNszQcIYfwPtGb/rrnY1H71QCcvKQnkQLdjVVHYxUljFQxXnNLZ1glP5AzPT
+	6H/ZPyb342SJo5sTnsGgHPHGgn7vPGOa7vbSLlKPpE37JK7WLBmOQveybXkOPkFA
+	bnG1yc7GMgmrCpJZTbhfNPgEULVuKFET2lo9eclZK3XVAqRP9SLBhXpGJf/Oj2Ah
+	bL60RF6D4A==
+DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=to:from
+	:subject:message-id:date:mime-version:content-type; q=dns; s=
+	obsd; b=EAv6lVhBK0UGKp48lkT31lu2/ludtvlsOxoDIoMUTdM6beJX+N0LLz9H
+	WuQTQ6d3MZdTVwMIVmigb4rC41ZQK96cltdsDPSuUWfNG1OaB6P0rzHZBzrS9ZID
+	N7USM4Xh61Wm8PoIsFZZY/kynMbOjRkALOZ29ieiWDGrZsGJZ8xQmYAeVfX9Skmd
+	ClRTRH+QcjjJ0XqcM0o3KRS47o2Z9VsUDZjrceuheRwQL9e1EMqCH/Pk16EeJAZd
+	BR4OYN/utj0LTSxNM/JkCzZUb8klXiX1qat2A91GsqLANzKku0ZN0zdgmAGhrDHf
+	S2FPdbG34XkhhOKtueki5BjCatmNHw==
+Received: 
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 05411fc7 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
+	for <meta-virtualization@yoctoproject.org>;
+	Tue, 27 Oct 2020 10:16:16 +0100 (CET)
+To: "meta-virtualization@yoctoproject.org"
+ <meta-virtualization@yoctoproject.org>
+From: "Yocto" <yocto@optimcloud.com>
+Subject: is meta-cloud-services/meta-openstack useable, or a WIP ?
+Message-ID: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
+Date: Tue, 27 Oct 2020 16:16:12 +0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 45EC14CE1A08.A7ABF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+Content-Type: multipart/alternative;
+ boundary="------------1C9C42D53E589F367468801E"
+Content-Language: en-US
 
-Consolidate inc and bb files into a single bb file.
+--------------1C9C42D53E589F367468801E
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../recipes-devtools/python/python3-rjsmin_1.0.12.bb        | 2 --
- .../python/{python-rjsmin.inc => python3-rjsmin_1.1.0.bb}   | 6 +++---
- 2 files changed, 3 insertions(+), 5 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python3-rjsmin_1.0.12.bb
- rename meta-openstack/recipes-devtools/python/{python-rjsmin.inc => python3-rjsmin_1.1.0.bb} (63%)
-
-diff --git a/meta-openstack/recipes-devtools/python/python3-rjsmin_1.0.12.bb b/meta-openstack/recipes-devtools/python/python3-rjsmin_1.0.12.bb
-deleted file mode 100644
-index 9890e14..0000000
---- a/meta-openstack/recipes-devtools/python/python3-rjsmin_1.0.12.bb
-+++ /dev/null
-@@ -1,2 +0,0 @@
--require python-rjsmin.inc
--inherit setuptools3
-diff --git a/meta-openstack/recipes-devtools/python/python-rjsmin.inc b/meta-openstack/recipes-devtools/python/python3-rjsmin_1.1.0.bb
-similarity index 63%
-rename from meta-openstack/recipes-devtools/python/python-rjsmin.inc
-rename to meta-openstack/recipes-devtools/python/python3-rjsmin_1.1.0.bb
-index 0305a33..6c3b55b 100644
---- a/meta-openstack/recipes-devtools/python/python-rjsmin.inc
-+++ b/meta-openstack/recipes-devtools/python/python3-rjsmin_1.1.0.bb
-@@ -4,10 +4,10 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
- 
--SRC_URI[md5sum] = "9f67e133c88df5497d3da847603da9bf"
--SRC_URI[sha256sum] = "dd9591aa73500b08b7db24367f8d32c6470021f39d5ab4e50c7c02e4401386f1"
-+SRC_URI[md5sum] = "ff73482370832bcc8e75571c35b7a79b"
-+SRC_URI[sha256sum] = "b15dc75c71f65d9493a8c7fa233fdcec823e3f1b88ad84a843ffef49b338ac32"
- 
--inherit pypi
-+inherit setuptools3 pypi
- 
- RDEPENDS_${PN} += " \
-         "
--- 
-2.25.1
+|okay reading the doc README it states There are six openstack layers 
+that are used to build a controller/compute node image pair. The 
+dependencies of these layers are also required for a build, and are 
+listed in the layers themselves. - meta-cloud-services/meta-openstack - 
+meta-cloud-services/meta-openstack-compute-deploy - 
+meta-cloud-services/meta-openstack-controller-deploy - 
+meta-cloud-services/meta-openstack-qemu - 
+meta-cloud-services/meta-openstack-compute-test-config - 
+meta-cloud-services/meta-openstack-controller-test-config so the 
+question is, is this actually usable to bitbake openstack based images ? 
+or a Work in progress ? |
 
 
+--------------1C9C42D53E589F367468801E
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
+<html>
+  <head>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <pre><code>okay reading the doc README it states
+
+There are six openstack layers that are used to build a controller/compute
+node image pair. The dependencies of these layers are also required for a
+build, and are listed in the layers themselves.
+
+   - meta-cloud-services/meta-openstack
+   - meta-cloud-services/meta-openstack-compute-deploy
+   - meta-cloud-services/meta-openstack-controller-deploy
+   - meta-cloud-services/meta-openstack-qemu
+   - meta-cloud-services/meta-openstack-compute-test-config
+   - meta-cloud-services/meta-openstack-controller-test-config
+
+so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
+</code></pre>
+  </body>
+</html>
+
+--------------1C9C42D53E589F367468801E--
