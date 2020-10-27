@@ -1,173 +1,166 @@
-Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
- by mx.groups.io with SMTP id smtpd.web10.13163.1603801701259238554
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (EUR01-DB5-obe.outbound.protection.outlook.com [40.107.15.58])
+ by mx.groups.io with SMTP id smtpd.web09.854.1603814195962376877
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 05:28:22 -0700
+ Tue, 27 Oct 2020 08:56:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=BZT10xt6;
- spf=none, err=SPF record not found (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: dingo@optimcloud.com)
-Received: from mx02.optimcloud.com (localhost [127.0.0.1])
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 8b76bd63
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Tue, 27 Oct 2020 13:28:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=
-	subject:to:references:from:message-id:date:mime-version
-	:in-reply-to:content-type; s=obsd; bh=XmAaKL2HaUtly+COWGGVQZwjl4
-	VU0Df7PJ1ik8XR5+M=; b=BZT10xt6J8p/mzVS8tmz9Dfk+973anNRhwiDTziTJD
-	n+QTWBiTaR5XDMiD+xZAf6YxT/bR6pCLBZedjQ54bnuGni+y3in+Z470UtkRwFQv
-	2IUkdsmy3UgplAQk6p5GceqSNo729OV1hLVtUExNPprGuyA4mVVf5cPXO639Twy2
-	iE335uEayKoiqvMf3I4XEpsC822Coo9PvtB4TX/C5D3FYHIBi77ElwsqKmNV4mbd
-	8fNq+Ww74VymzkvTvTvSOkzBQhGQep/tyKLyejZoIzCW8iKvQS9ZmI5HXq2cEZgf
-	YwQ3vVJYLcJWILeaIxAZXoJYBX+hdRTylqQ3bwqSNulw==
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=subject:to
-	:references:from:message-id:date:mime-version:in-reply-to
-	:content-type; q=dns; s=obsd; b=lp7P4SG+qB9I0W3fwiIDwhj9+LO6x7T6
-	PqEbgDgEyzGDIhZcDwXuSKU466cKubMaLJl4UOs4krdj93znpbJpGvitu/Kbfi38
-	Saq03daF10USV8GNwWWYVMC09qFEJvfV1LkACYygWoZLGipYQ/tKne5A2bbvkiFB
-	uBWLguDqgQuSPtxyyR3yU8TkPpxyaQzueXZxRD4pUcWrSo1cN7v4TLNkbun+SfDD
-	9xXAmsW8P5AUmz3AH2kOuoTK5dPpKQHaD11rxz/fzNC1Ypy9/oEwaRXIsHoQUaYE
-	8ovFAHPfAgriN0tQpK8ros8sFhU7novmn1HS1ZWXryR+QbndX4QIQA==
-Received: 
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 5d0dfb54 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=support@optimcloud.com
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Tue, 27 Oct 2020 13:28:18 +0100 (CET)
-Subject: Re: [meta-virtualization] is meta-cloud-services/meta-openstack useable, or a WIP ?
+ dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=NG6BdToM;
+ spf=pass (domain: arm.com, ip: 40.107.15.58, mailfrom: diego.sueiro@arm.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0hye7x4SkQINBuz+/q/5i5K/FWagy5SSA70/lsXx7Pw=;
+ b=NG6BdToMWsc4QanJGYX9etcVQvxo0m6tJ4k/SlHsnKI8KVtK8SKTi67K9NRuHNzCac/kNsnRXUwjlDGpHA16y4iR9S8pi+HydYegfWLRmDsUNzGl/LWLj6p+fqc0f3uxuEhoeivcxJ6PY1kftETP5kP3rFZRPTSdpLSZVGhfUF4=
+Received: from AM0PR05CA0087.eurprd05.prod.outlook.com (2603:10a6:208:136::27)
+ by DB7PR08MB2970.eurprd08.prod.outlook.com (2603:10a6:5:17::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Tue, 27 Oct
+ 2020 15:56:31 +0000
+Received: from AM5EUR03FT047.eop-EUR03.prod.protection.outlook.com
+ (2603:10a6:208:136:cafe::86) by AM0PR05CA0087.outlook.office365.com
+ (2603:10a6:208:136::27) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.19 via Frontend
+ Transport; Tue, 27 Oct 2020 15:56:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; lists.yoctoproject.org; dkim=pass (signature was
+ verified) header.d=armh.onmicrosoft.com;lists.yoctoproject.org; dmarc=pass
+ action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ AM5EUR03FT047.mail.protection.outlook.com (10.152.16.197) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 15:56:31 +0000
+Received: ("Tessian outbound c189680f801b:v64"); Tue, 27 Oct 2020 15:56:31 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: bccb22b6c26db02b
+X-CR-MTA-TID: 64aa7808
+Received: from 4289c1d41ee9.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 3675739B-E152-45A0-BA89-A56B6320E5C4.1;
+	Tue, 27 Oct 2020 15:55:51 +0000
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 4289c1d41ee9.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 27 Oct 2020 15:55:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QF3b0ARIZpLQq2t9IiJvNDdkqGouLbQj854Sfus7CL8EPnWPhdOreHG7CmSVvoBKSraBUmVopllQShXbsOt/9hYxVu5DHzA75v0qI4h8L0w+djWEFzWN0qo3zqbhNK//fNufNRRO/NNc/GmSuzMUBRLciaDZ7kZ8a6F1VhBquZEuF/J49bD5uDpFumUQpMcaP2F7CC+/zS1JtPXY6any3GJ7ZNBYsyotB/mRo7jg2YGyB9s9o9rkaEn1bBv+00oSdfii1j7ZxsZzUtqq7giJQ8xmNjimiLsnDrr3mO5MejZy64y7rTXq68IQBXN18yItNfY/Y1xdlnomELBv1ZHSuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0hye7x4SkQINBuz+/q/5i5K/FWagy5SSA70/lsXx7Pw=;
+ b=L2nnA+y5GrrkZSwabxj1wXgJh/sxXMFbmIMa67Dr7RHGdllHxyzuP8uEm0ZAJo44WtsmZkIayLM+XafiPz5MS8HHUbQ0+69bGMTAIlsSUWgEGVrtkfyqnoDzOC3mG1HitmPFPtbzB1hDJbwJlZvvtte8slpmXBPLT2wpLYhcb54x8bjfIRdYwp0ev67PRhRepPwbwY8u+8UUN1DOQLi/sWMgn3PsbInjvUIuGvKR6X+cit7ktoBejpEn7/bZOQm/MKFTswyKkWGFdsCnVloxV/wHkoXCgQAgL4oi6cv8XxMSo3Exgs60GmqF1zh9yK2rFCDs79os9gQTNl6gLsNFEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
+ s=selector2-armh-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0hye7x4SkQINBuz+/q/5i5K/FWagy5SSA70/lsXx7Pw=;
+ b=NG6BdToMWsc4QanJGYX9etcVQvxo0m6tJ4k/SlHsnKI8KVtK8SKTi67K9NRuHNzCac/kNsnRXUwjlDGpHA16y4iR9S8pi+HydYegfWLRmDsUNzGl/LWLj6p+fqc0f3uxuEhoeivcxJ6PY1kftETP5kP3rFZRPTSdpLSZVGhfUF4=
+Authentication-Results-Original: lists.yoctoproject.org; dkim=none (message
+ not signed) header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=arm.com;
+Received: from DB7PR08MB3468.eurprd08.prod.outlook.com (2603:10a6:10:4a::11)
+ by DB7PR08MB2955.eurprd08.prod.outlook.com (2603:10a6:5:17::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.23; Tue, 27 Oct
+ 2020 15:55:48 +0000
+Received: from DB7PR08MB3468.eurprd08.prod.outlook.com
+ ([fe80::e4f9:119e:aee8:362d]) by DB7PR08MB3468.eurprd08.prod.outlook.com
+ ([fe80::e4f9:119e:aee8:362d%7]) with mapi id 15.20.3477.028; Tue, 27 Oct 2020
+ 15:55:48 +0000
+From: "Diego Sueiro" <diego.sueiro@arm.com>
 To: meta-virtualization@lists.yoctoproject.org
-References: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
- <CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com>
-From: "Dingo" <dingo@optimcloud.com>
-Message-ID: <f0be59b1-3e21-8520-ecc4-934d0a84df38@optimcloud.com>
-Date: Tue, 27 Oct 2020 19:28:15 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+Cc: nd@arm.com,
+	Diego Sueiro <diego.sueiro@arm.com>,
+	christopher.w.clark@gmail.com,
+	cardoe@gentoo.org
+Subject: [meta-virtualization] [PATCH 1/2] xen: run do_deploy after do_compile and do_populate_sysroot
+Date: Tue, 27 Oct 2020 15:55:35 +0000
+Message-Id: <20201027155536.12513-1-diego.sueiro@arm.com>
+X-Mailer: git-send-email 2.17.1
+X-Originating-IP: [217.140.106.50]
+X-ClientProxiedBy: MRXP264CA0004.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:15::16) To DB7PR08MB3468.eurprd08.prod.outlook.com
+ (2603:10a6:10:4a::11)
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com>
-Content-Type: multipart/alternative;
- boundary="------------23095E870DDD45187942DA16"
-Content-Language: en-US
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from scm-wfh-server-dievar01.stack04.eu02.mi.arm.com (217.140.106.50) by MRXP264CA0004.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500:15::16) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18 via Frontend Transport; Tue, 27 Oct 2020 15:55:47 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 8d79020d-0442-4e90-3db2-08d87a90df60
+X-MS-TrafficTypeDiagnostic: DB7PR08MB2955:|DB7PR08MB2970:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: 
+	<DB7PR08MB2970345DEA482238769C828292160@DB7PR08MB2970.eurprd08.prod.outlook.com>
+x-checkrecipientrouted: true
+NoDisclaimer: true
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;OLM:7691;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Untrusted: BCL:0;
+X-Microsoft-Antispam-Message-Info-Original: 
+ 4l1IVGcT/GoFUE0dZOkspy2M72jZ2FQHD2tK366t3thKAmTIsHWcMKPeie7BsEWzshwyP0mHBNIYMREYxmjOwcC10SqX5xaQNTt+tcV3dAsb08lgJJ5lrZcTin0JkJ8pIwIo5R0DxRNZkkFVC5JhpS+s8bxqv9BHWBcF9WkQdHQis4/utq9ui0/khZ2hT0BAm8nkoO4EcUW01+d6wSi5lIxiSdtqoaDw0Jp+MQz6ztOQRv+/zwQGXEmYlu8NIapjFq7m5AFoel4q9FLMqSLJ3ppgv/j7GkjZgLb0bxFoRCZTuEL6GbjIROl7XxZ+hHaH
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR08MB3468.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(136003)(366004)(376002)(346002)(396003)(26005)(5660300002)(6486002)(6916009)(186003)(44832011)(478600001)(2616005)(16526019)(956004)(7696005)(316002)(52116002)(36756003)(2906002)(86362001)(83380400001)(4326008)(8936002)(1076003)(8676002)(66476007)(66556008)(6666004)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+ X1K0DQE+unxofKCadwprSZmNu8qvoZQXvNpsK2GuOw1ai8Vf7hG+iy3U5rT/wXTcdMqjBzb971blZRLRTHPvy4DsE/Kb/jdhB00M4+LnFiAFaFUxtyqfY5F0Ex8Whe82kpTRP+sSrNWGxm8LwO5bZAC5t0OeM7yQYYTj2ww+N3pJjpn63AjfcpajAiP6VOEusKXDfo+vD/jJ4QamwxpT+uz4TkG0p8lvK9Ccjl3BB1rRQjDIcQwt4gxuB5oEbshwIGh8qIz6liQwuE8lSqK0rpEqa14smHHw5yA5s4+CLLluXtjUhKs72yPbD2MHhMPSNrJZHdcg+PNsTJHWbBUedbESadFZ0fuvBQQctprMIZ3TGkc4RGO4tFZV3A+Sg7JkE1kAHMOzO4pKqz0DrUCGczT7THVUUqxjXmgxLAOOAMw0bNhV014/5k7sBXW97cJL1cKbHZbMTk2aLOx1NlVu0arh8YBeEz46dFGjn3HBCU46LVQv1wdP8pYpmeUM1sWNsWBNJxdKW10hqGo1ytzjg+G0VCilOr5ea3rqjNuaFgxr5HAN/jiDfMNGCH+GWs5SM+7R1DRZW96WSXwEQ1zDyK2R2/S5bBzeaiWy/a5UNRBm/cAOaMVNTDVjK1JC9IYVanp9db/v4c9OVu1LAymzyw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB2955
+Original-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
+ header.d=none;lists.yoctoproject.org; dmarc=none action=none
+ header.from=arm.com;
+Return-Path: Diego.Sueiro@arm.com
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ AM5EUR03FT047.eop-EUR03.prod.protection.outlook.com
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	573932bd-a195-4df2-3bca-08d87a90c5af
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	TdohCJ0qc/UxZ2ToQfTYw5nE5890u4k5D72HHo/pq+yp7i45ZZwEEFcyKVWVCMiZNtGtbtO2eKowFZqNjjjRtSw9QYT3ZIBVG6brt6P1zPyfTtJR+eJ0TUmoei8ZfZDBDSbn/xQ92uuGTYX9h9ml6EWiWGeVMG4N3hetnW4gAX3XaOhw/BkvNMlzKSPN3PqzrTpYQUityePGf4PELUyyis7K76j4OpWbiX8n7H8cU3FYu82fbfXDL8eIvSCXCoZM586s0MCI5fIx8tfpKUFS9EcZB94Y1G4A6/4vlj1Edl+WVPL80LgX2U92nznERy/ypwO2FpiRVQQwKhPuab/zOYeslkVY2cX7ICBO/uLdIIbUO32aLSNPCmLFgKbkm6eIzdyeI5XgLBUdd0ZQEqJF9g==
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39850400004)(136003)(46966005)(44832011)(6486002)(86362001)(81166007)(8936002)(47076004)(16526019)(7696005)(82740400003)(26005)(186003)(4326008)(316002)(36906005)(6916009)(8676002)(107886003)(83380400001)(356005)(5660300002)(1076003)(336012)(70586007)(70206006)(956004)(2616005)(478600001)(2906002)(82310400003)(6666004)(36756003);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2020 15:56:31.3851
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8d79020d-0442-4e90-3db2-08d87a90df60
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	AM5EUR03FT047.eop-EUR03.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB7PR08MB2970
+Content-Type: text/plain
 
---------------23095E870DDD45187942DA16
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+When having rm_work and bitbake needs to re-run do_deploy, we need to ensure
+that the ${B} is re-generated, otherwise the deploy-xen will be empty.
 
+Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
+---
+ recipes-extended/xen/xen-hypervisor.inc | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
-On 10/27/20 7:07 PM, Bruce Ashfield wrote:
-> On Tue, Oct 27, 2020 at 5:16 AM Yocto <yocto@optimcloud.com> wrote:
->> okay reading the doc README it states
->>
->> There are six openstack layers that are used to build a controller/compute
->> node image pair. The dependencies of these layers are also required for a
->> build, and are listed in the layers themselves.
->>
->>     - meta-cloud-services/meta-openstack
->>     - meta-cloud-services/meta-openstack-compute-deploy
->>     - meta-cloud-services/meta-openstack-controller-deploy
->>     - meta-cloud-services/meta-openstack-qemu
->>     - meta-cloud-services/meta-openstack-compute-test-config
->>     - meta-cloud-services/meta-openstack-controller-test-config
->>
->> so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
->>
-> They are now a work in progress. They *worked*, but we didn't have a
-> dedicated maintainer, so we make sure the re-usable recipes work (and
-> a few have migrated to the main meta-virt over time), but to build and
-> deploy working controller and compute nodes, they wouldn't be usable
-> out of the box.
->
-> Bruce
+diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+index 3bfee8e..6a75d16 100644
+--- a/recipes-extended/xen/xen-hypervisor.inc
++++ b/recipes-extended/xen/xen-hypervisor.inc
+@@ -76,11 +76,13 @@ do_deploy() {
+ #   at least run afer that task has completed
+ # - the hypervisor binaries may be included in the image filesystem, so we
+ #   must ensure that the binaries deployed match what is staged in the sysroot:
+-#   so do deploy must run after do_populate_sysroot -- which is always after
+-#   do_compile, so that handles 'after do_compile' too
++#   so do_deploy must run after do_populate_sysroot and after do_compile is
++#   also needed for when having rm_work and bitbake needs to re-run do_deploy,
++#   we ensure that the ${B} is re-generated, otherwise the deploy-xen will be
++#   empty
+ # - add the task before do_build to ensure that deployment has completed when
+ #   the recipe build done stamp is written
+-addtask deploy after do_populate_sysroot before do_build
++addtask deploy after do_compile do_populate_sysroot before do_build
+ # To ensure that a deployed hypervisor has matching tools, add a dependency to
+ # make sure that the tools have built and been staged:
+ do_deploy[depends] += "xen-tools:do_populate_sysroot"
+-- 
+2.17.1
 
-So they need updating, maintaining, i see alot of python2 and python3 
-mixed in here.
-
-guess they would have to be gone through one by one to get it back to 
-functional.
-
-Ill take a look.
-
-
->
->>
->>
->
->
-> 
->
-
---------------23095E870DDD45187942DA16
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 10/27/20 7:07 PM, Bruce Ashfield
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Tue, Oct 27, 2020 at 5:16 AM Yocto <a class="moz-txt-link-rfc2396E" href="mailto:yocto@optimcloud.com">&lt;yocto@optimcloud.com&gt;</a> wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-okay reading the doc README it states
-
-There are six openstack layers that are used to build a controller/compute
-node image pair. The dependencies of these layers are also required for a
-build, and are listed in the layers themselves.
-
-   - meta-cloud-services/meta-openstack
-   - meta-cloud-services/meta-openstack-compute-deploy
-   - meta-cloud-services/meta-openstack-controller-deploy
-   - meta-cloud-services/meta-openstack-qemu
-   - meta-cloud-services/meta-openstack-compute-test-config
-   - meta-cloud-services/meta-openstack-controller-test-config
-
-so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-They are now a work in progress. They *worked*, but we didn't have a
-dedicated maintainer, so we make sure the re-usable recipes work (and
-a few have migrated to the main meta-virt over time), but to build and
-deploy working controller and compute nodes, they wouldn't be usable
-out of the box.
-
-Bruce</pre>
-    </blockquote>
-    <p>So they need updating, maintaining, i see alot of python2 and
-      python3 mixed in here.</p>
-    <p>guess they would have to be gone through one by one to get it
-      back to functional.</p>
-    <p>Ill take a look.<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-
-</pre>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-    </blockquote>
-  </body>
-</html>
-
---------------23095E870DDD45187942DA16--
