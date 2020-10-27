@@ -1,90 +1,90 @@
 Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
- by mx.groups.io with SMTP id smtpd.web10.13148.1603801632302607735
+ by mx.groups.io with SMTP id smtpd.web10.13163.1603801701259238554
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 05:27:13 -0700
+ Tue, 27 Oct 2020 05:28:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=Yxgcvv1d;
+ dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=BZT10xt6;
  spf=none, err=SPF record not found (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: dingo@optimcloud.com)
 Received: from mx02.optimcloud.com (localhost [127.0.0.1])
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 76e39bb0
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 8b76bd63
 	for <meta-virtualization@lists.yoctoproject.org>;
-	Tue, 27 Oct 2020 13:27:09 +0100 (CET)
+	Tue, 27 Oct 2020 13:28:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=
 	subject:to:references:from:message-id:date:mime-version
-	:in-reply-to:content-type; s=obsd; bh=taEiJ0EuCTr0f62AXWtE3/rMB3
-	/bYIN0V076AHcmurI=; b=Yxgcvv1divWkqG7nKAtOqOzQNr9E3XyX1N6i40h4Xo
-	dmdbPiuslS5XMbRE083GENN9YLVzTMpf8HKbKwE3BPwaHHeoiko+WDtE1+07u7z1
-	ECuvEkp0W/sURmSF6ePLMYQHYzoynSx+sd5RkyLPTULZyu27v/hmilBIM8IU4LNb
-	8JsCb4qLJjn0LEL/yObFWOvkoWLNlaqDJEh+W3XDg5ViJpgnmUCKenYSZsw/nzRA
-	SmXZD2l1pneEFpWC6R55l6Gz91/HdrJF9WSeUEAFzmS8OkX7lPkz8djX8fA97d44
-	zrQ3nLzUd9wuz3inJcBPohUa8cbmxvgLqvFkRFmGG83Q==
+	:in-reply-to:content-type; s=obsd; bh=XmAaKL2HaUtly+COWGGVQZwjl4
+	VU0Df7PJ1ik8XR5+M=; b=BZT10xt6J8p/mzVS8tmz9Dfk+973anNRhwiDTziTJD
+	n+QTWBiTaR5XDMiD+xZAf6YxT/bR6pCLBZedjQ54bnuGni+y3in+Z470UtkRwFQv
+	2IUkdsmy3UgplAQk6p5GceqSNo729OV1hLVtUExNPprGuyA4mVVf5cPXO639Twy2
+	iE335uEayKoiqvMf3I4XEpsC822Coo9PvtB4TX/C5D3FYHIBi77ElwsqKmNV4mbd
+	8fNq+Ww74VymzkvTvTvSOkzBQhGQep/tyKLyejZoIzCW8iKvQS9ZmI5HXq2cEZgf
+	YwQ3vVJYLcJWILeaIxAZXoJYBX+hdRTylqQ3bwqSNulw==
 DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=subject:to
 	:references:from:message-id:date:mime-version:in-reply-to
-	:content-type; q=dns; s=obsd; b=C+T2BZAnrYqjba2XaMg2WlF3pI7bsL4D
-	zZg1cDvnTyo8kntwirCR7ikwNgKZKwGV8d5LdKqNv2x4j+gDFnCy4GUmD0xXE5i2
-	mGsobxULsrIvL+n1G/9fH4bTcfsH0agkfccywSzgtHXbh34MADsYk7ZFgvGeEvAP
-	swhRgj1T2jDIa0ioONpdiNAyc3Le4k+Laif58rWBWjrJG0N1FkemAsvVQcOayDrl
-	EpWhxYQF1pdMnlkAhf+zAMs+IpoldgJCm1cDtXw2mj6csguv6Z7Ui89pUM+h7+nJ
-	j4/DIU8bM/m9Y8O869cpUF/mFw8kp2Yn/hg5JCI0KPaYnbPPVSPNBA==
+	:content-type; q=dns; s=obsd; b=lp7P4SG+qB9I0W3fwiIDwhj9+LO6x7T6
+	PqEbgDgEyzGDIhZcDwXuSKU466cKubMaLJl4UOs4krdj93znpbJpGvitu/Kbfi38
+	Saq03daF10USV8GNwWWYVMC09qFEJvfV1LkACYygWoZLGipYQ/tKne5A2bbvkiFB
+	uBWLguDqgQuSPtxyyR3yU8TkPpxyaQzueXZxRD4pUcWrSo1cN7v4TLNkbun+SfDD
+	9xXAmsW8P5AUmz3AH2kOuoTK5dPpKQHaD11rxz/fzNC1Ypy9/oEwaRXIsHoQUaYE
+	8ovFAHPfAgriN0tQpK8ros8sFhU7novmn1HS1ZWXryR+QbndX4QIQA==
 Received: 
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 2bb1ab87 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=support@optimcloud.com
+	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 5d0dfb54 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=support@optimcloud.com
 	for <meta-virtualization@lists.yoctoproject.org>;
-	Tue, 27 Oct 2020 13:27:09 +0100 (CET)
+	Tue, 27 Oct 2020 13:28:18 +0100 (CET)
 Subject: Re: [meta-virtualization] is meta-cloud-services/meta-openstack useable, or a WIP ?
 To: meta-virtualization@lists.yoctoproject.org
 References: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
- <CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com>
- <24a6f227-7d2b-cd96-e35b-d3f16546f51f@optimcloud.com>
- <CADkTA4MJOgFdLUdPS8AY-+Hy3-dGqsSD5uKWWdpVWZuHj0mfWw@mail.gmail.com>
+ <CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com>
 From: "Dingo" <dingo@optimcloud.com>
-Message-ID: <6c39df0f-5444-1b9c-dbf2-8a7640494def@optimcloud.com>
-Date: Tue, 27 Oct 2020 19:27:05 +0700
+Message-ID: <f0be59b1-3e21-8520-ecc4-934d0a84df38@optimcloud.com>
+Date: Tue, 27 Oct 2020 19:28:15 +0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.1
 MIME-Version: 1.0
-In-Reply-To: <CADkTA4MJOgFdLUdPS8AY-+Hy3-dGqsSD5uKWWdpVWZuHj0mfWw@mail.gmail.com>
+In-Reply-To: <CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com>
 Content-Type: multipart/alternative;
- boundary="------------8DB3177491524A80335882F3"
+ boundary="------------23095E870DDD45187942DA16"
 Content-Language: en-US
 
---------------8DB3177491524A80335882F3
+--------------23095E870DDD45187942DA16
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-On 10/27/20 7:05 PM, Bruce Ashfield wrote:
-> On Tue, Oct 27, 2020 at 6:05 AM Yocto <yocto@optimcloud.com> wrote:
+On 10/27/20 7:07 PM, Bruce Ashfield wrote:
+> On Tue, Oct 27, 2020 at 5:16 AM Yocto <yocto@optimcloud.com> wrote:
+>> okay reading the doc README it states
 >>
->> On 10/27/20 4:30 PM, Paul Barker wrote:
+>> There are six openstack layers that are used to build a controller/compute
+>> node image pair. The dependencies of these layers are also required for a
+>> build, and are listed in the layers themselves.
 >>
->> On Tue, 27 Oct 2020 at 09:16, Yocto <yocto@optimcloud.com> wrote:
+>>     - meta-cloud-services/meta-openstack
+>>     - meta-cloud-services/meta-openstack-compute-deploy
+>>     - meta-cloud-services/meta-openstack-controller-deploy
+>>     - meta-cloud-services/meta-openstack-qemu
+>>     - meta-cloud-services/meta-openstack-compute-test-config
+>>     - meta-cloud-services/meta-openstack-controller-test-config
 >>
->> Please set your name in your email client to something other than
->> "Yocto" so as not to mislead & confuse people.
+>> so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
 >>
->> I already did that, its Y L Reddy, email addie is yocto@domain.com which gets mail for literally every yocto list, as it was mentioned before i did change the name... to Y L Reddy
->>
-> Your mail client (or however you are sending messages) is still
-> misconfigured. It isn't filling in your real name, along with the
-> actual address.
->
-> Hence why I agree with Paul, very confusing as it comes through. In
-> particular, since your message isn't closed with your name, we'd
-> otherwise have no idea who was sending it.
-
-Yeah using firefox and i already unsubbed everything and will be using 
-this addie from now on, appears its a bug in groups, we tested and 
-modified, no matter what it still comes as Yocto
-
-
+> They are now a work in progress. They *worked*, but we didn't have a
+> dedicated maintainer, so we make sure the re-usable recipes work (and
+> a few have migrated to the main meta-virt over time), but to build and
+> deploy working controller and compute nodes, they wouldn't be usable
+> out of the box.
 >
 > Bruce
+
+So they need updating, maintaining, i see alot of python2 and python3 
+mixed in here.
+
+guess they would have to be gone through one by one to get it back to 
+functional.
+
+Ill take a look.
+
+
 >
->>
->>
->>
->>
->>
 >>
 >>
 >
@@ -92,7 +92,7 @@ modified, no matter what it still comes as Yocto
 > 
 >
 
---------------8DB3177491524A80335882F3
+--------------23095E870DDD45187942DA16
 Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
@@ -103,56 +103,56 @@ Content-Transfer-Encoding: 7bit
   <body>
     <p><br>
     </p>
-    <div class="moz-cite-prefix">On 10/27/20 7:05 PM, Bruce Ashfield
+    <div class="moz-cite-prefix">On 10/27/20 7:07 PM, Bruce Ashfield
       wrote:<br>
     </div>
     <blockquote type="cite"
-cite="mid:CADkTA4MJOgFdLUdPS8AY-+Hy3-dGqsSD5uKWWdpVWZuHj0mfWw@mail.gmail.com">
-      <pre class="moz-quote-pre" wrap="">On Tue, Oct 27, 2020 at 6:05 AM Yocto <a class="moz-txt-link-rfc2396E" href="mailto:yocto@optimcloud.com">&lt;yocto@optimcloud.com&gt;</a> wrote:
+cite="mid:CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">On Tue, Oct 27, 2020 at 5:16 AM Yocto <a class="moz-txt-link-rfc2396E" href="mailto:yocto@optimcloud.com">&lt;yocto@optimcloud.com&gt;</a> wrote:
 </pre>
       <blockquote type="cite">
         <pre class="moz-quote-pre" wrap="">
+okay reading the doc README it states
 
-On 10/27/20 4:30 PM, Paul Barker wrote:
+There are six openstack layers that are used to build a controller/compute
+node image pair. The dependencies of these layers are also required for a
+build, and are listed in the layers themselves.
 
-On Tue, 27 Oct 2020 at 09:16, Yocto <a class="moz-txt-link-rfc2396E" href="mailto:yocto@optimcloud.com">&lt;yocto@optimcloud.com&gt;</a> wrote:
+   - meta-cloud-services/meta-openstack
+   - meta-cloud-services/meta-openstack-compute-deploy
+   - meta-cloud-services/meta-openstack-controller-deploy
+   - meta-cloud-services/meta-openstack-qemu
+   - meta-cloud-services/meta-openstack-compute-test-config
+   - meta-cloud-services/meta-openstack-controller-test-config
 
-Please set your name in your email client to something other than
-"Yocto" so as not to mislead &amp; confuse people.
-
-I already did that, its Y L Reddy, email addie is <a class="moz-txt-link-abbreviated" href="mailto:yocto@domain.com">yocto@domain.com</a> which gets mail for literally every yocto list, as it was mentioned before i did change the name... to Y L Reddy
+so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
 
 </pre>
       </blockquote>
       <pre class="moz-quote-pre" wrap="">
-Your mail client (or however you are sending messages) is still
-misconfigured. It isn't filling in your real name, along with the
-actual address.
+They are now a work in progress. They *worked*, but we didn't have a
+dedicated maintainer, so we make sure the re-usable recipes work (and
+a few have migrated to the main meta-virt over time), but to build and
+deploy working controller and compute nodes, they wouldn't be usable
+out of the box.
 
-Hence why I agree with Paul, very confusing as it comes through. In
-particular, since your message isn't closed with your name, we'd
-otherwise have no idea who was sending it.</pre>
+Bruce</pre>
     </blockquote>
-    <p>Yeah using firefox and i already unsubbed everything and will be
-      using this addie from now on, appears its a bug in groups, we
-      tested and modified, no matter what it still comes as Yocto<br>
+    <p>So they need updating, maintaining, i see alot of python2 and
+      python3 mixed in here.</p>
+    <p>guess they would have to be gone through one by one to get it
+      back to functional.</p>
+    <p>Ill take a look.<br>
     </p>
     <p><br>
     </p>
     <blockquote type="cite"
-cite="mid:CADkTA4MJOgFdLUdPS8AY-+Hy3-dGqsSD5uKWWdpVWZuHj0mfWw@mail.gmail.com">
+cite="mid:CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com">
       <pre class="moz-quote-pre" wrap="">
-
-Bruce
 
 </pre>
       <blockquote type="cite">
         <pre class="moz-quote-pre" wrap="">
-
-
-
-
-
 
 
 </pre>
@@ -170,4 +170,4 @@ Bruce
   </body>
 </html>
 
---------------8DB3177491524A80335882F3--
+--------------23095E870DDD45187942DA16--
