@@ -1,94 +1,56 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.11208.1603790181731925263
+ by mx.groups.io with SMTP id smtpd.web12.11487.1603791042769432698
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 02:16:22 -0700
+ Tue, 27 Oct 2020 02:30:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=S6kstApM;
- spf=none, err=SPF record not found (domain: optimcloud.com, ip: 198.145.29.25, mailfrom: yocto@optimcloud.com)
-Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 765B138C089D
-	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 02:16:20 -0700 (PDT)
-Received: from mx02.optimcloud.com (localhost [127.0.0.1])
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id 166be565
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 27 Oct 2020 10:16:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=to
-	:from:subject:message-id:date:mime-version:content-type; s=obsd;
-	 bh=Dr7IdKTzd71T0s2Hl8Y8Y8kKiYu9Jm5QTKbWukMv9qQ=; b=S6kstApMJObz
-	L9qRMic35xhMCpXZRJRXdEoBzdHx78b6FGwaDzQdSMR6WF33BcCE1PkwEgAdy4Eu
-	HlIoYa6s9n7aDlwDip692/dTMhbaKv392CHfI3ql3SGkZhOU0n4gEv2yq2HSrZHE
-	SZCoTNszQcIYfwPtGb/rrnY1H71QCcvKQnkQLdjVVHYxUljFQxXnNLZ1glP5AzPT
-	6H/ZPyb342SJo5sTnsGgHPHGgn7vPGOa7vbSLlKPpE37JK7WLBmOQveybXkOPkFA
-	bnG1yc7GMgmrCpJZTbhfNPgEULVuKFET2lo9eclZK3XVAqRP9SLBhXpGJf/Oj2Ah
-	bL60RF6D4A==
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=to:from
-	:subject:message-id:date:mime-version:content-type; q=dns; s=
-	obsd; b=EAv6lVhBK0UGKp48lkT31lu2/ludtvlsOxoDIoMUTdM6beJX+N0LLz9H
-	WuQTQ6d3MZdTVwMIVmigb4rC41ZQK96cltdsDPSuUWfNG1OaB6P0rzHZBzrS9ZID
-	N7USM4Xh61Wm8PoIsFZZY/kynMbOjRkALOZ29ieiWDGrZsGJZ8xQmYAeVfX9Skmd
-	ClRTRH+QcjjJ0XqcM0o3KRS47o2Z9VsUDZjrceuheRwQL9e1EMqCH/Pk16EeJAZd
-	BR4OYN/utj0LTSxNM/JkCzZUb8klXiX1qat2A91GsqLANzKku0ZN0zdgmAGhrDHf
-	S2FPdbG34XkhhOKtueki5BjCatmNHw==
-Received: 
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 05411fc7 (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
-	for <meta-virtualization@yoctoproject.org>;
-	Tue, 27 Oct 2020 10:16:16 +0100 (CET)
-To: "meta-virtualization@yoctoproject.org"
- <meta-virtualization@yoctoproject.org>
-From: "Yocto" <yocto@optimcloud.com>
-Subject: is meta-cloud-services/meta-openstack useable, or a WIP ?
-Message-ID: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
-Date: Tue, 27 Oct 2020 16:16:12 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ dkim=pass header.i=@konsulko.com header.s=google header.b=EsElhmrd;
+ spf=softfail (domain: konsulko.com, ip: 198.145.29.25, mailfrom: paul.barker@konsulko.com)
+Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id A7D5C38C089D
+	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 02:30:42 -0700 (PDT)
+Received: by mail-ot1-f52.google.com with SMTP id b2so548493ots.5
+        for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 02:30:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=taAl6IZt1qQLOo98ZbuyZQ0fe7JNSsM9kYLc/30TH9s=;
+        b=EsElhmrdyz9k6wEwkEHq4rNfGSwppsF+Cs7T+AFyarkqTulXR+bv9ilCvTd+Z4DB6U
+         JdHEOl0o1sWDEt6mo8E7lWHRT+XFMMmkF93UY+1QulfKVXuCkaVj/w8DaRIX7MhjCweV
+         bUIYACyH1I/zILFqAl8vfoD+6dnK/XA5lJJoQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=taAl6IZt1qQLOo98ZbuyZQ0fe7JNSsM9kYLc/30TH9s=;
+        b=K4TLa0dOseEfT6vwtMggRAErdvO9YRYDAjP4qwgpbKFpsp9yfu3PGtDlgBD9rsHUq0
+         OWYm8Uv5zjST9npZX1o8HYlGke1MGb6O9C9/288jACl2lfEBcoOHt5phn4z+4qjhY/vw
+         CZyNHVtDnbItZ0kf4Wf6P2pLiGCfHdy4JhRqBWzRwCxDcQBUjNez4URTUkXMPafc3olV
+         e/bM/vUETKigDxhROOfAug9PTwQccHl4IbjqPt0AQpXFPbqT/o50/7em8fIt5K7HRad1
+         jY939jxQURckXo5HFigZvcdO4reTsS0q194tyX+BxGLDMOzTkYluuwPTyDCh5vm+kViO
+         ++GA==
+X-Gm-Message-State: AOAM530F75PaS1WecjB63kQ/qU06RnpXgz2fC7K4A5pC9rpzDX21bBcV
+	lMnn4rU7SIiXPEayemKh0c7tHsnbbNrVpLNNtZPSlRrxYp8=
+X-Google-Smtp-Source: ABdhPJwOhHRg3TKhZ5LM1hbLRgyFXUvzUl2ELyaXHkvT3qXewkom4TGzWay6EEs0BH/kBWaqvm751UgcJ4vSnJTCuI8=
+X-Received: by 2002:a05:6830:11c1:: with SMTP id v1mr844086otq.258.1603791041693;
+ Tue, 27 Oct 2020 02:30:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
- boundary="------------1C9C42D53E589F367468801E"
-Content-Language: en-US
+References: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
+In-Reply-To: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
+From: "Paul Barker" <pbarker@konsulko.com>
+Date: Tue, 27 Oct 2020 09:30:32 +0000
+Message-ID: <CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com>
+Subject: Re: [meta-virtualization] is meta-cloud-services/meta-openstack useable, or a WIP ?
+To: Yocto <yocto@optimcloud.com>
+Cc: "meta-virtualization@yoctoproject.org" <meta-virtualization@yoctoproject.org>
+Content-Type: text/plain; charset="UTF-8"
 
---------------1C9C42D53E589F367468801E
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Tue, 27 Oct 2020 at 09:16, Yocto <yocto@optimcloud.com> wrote:
+>
 
-|okay reading the doc README it states There are six openstack layers 
-that are used to build a controller/compute node image pair. The 
-dependencies of these layers are also required for a build, and are 
-listed in the layers themselves. - meta-cloud-services/meta-openstack - 
-meta-cloud-services/meta-openstack-compute-deploy - 
-meta-cloud-services/meta-openstack-controller-deploy - 
-meta-cloud-services/meta-openstack-qemu - 
-meta-cloud-services/meta-openstack-compute-test-config - 
-meta-cloud-services/meta-openstack-controller-test-config so the 
-question is, is this actually usable to bitbake openstack based images ? 
-or a Work in progress ? |
+Please set your name in your email client to something other than
+"Yocto" so as not to mislead & confuse people.
 
-
---------------1C9C42D53E589F367468801E
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <pre><code>okay reading the doc README it states
-
-There are six openstack layers that are used to build a controller/compute
-node image pair. The dependencies of these layers are also required for a
-build, and are listed in the layers themselves.
-
-   - meta-cloud-services/meta-openstack
-   - meta-cloud-services/meta-openstack-compute-deploy
-   - meta-cloud-services/meta-openstack-controller-deploy
-   - meta-cloud-services/meta-openstack-qemu
-   - meta-cloud-services/meta-openstack-compute-test-config
-   - meta-cloud-services/meta-openstack-controller-test-config
-
-so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
-</code></pre>
-  </body>
-</html>
-
---------------1C9C42D53E589F367468801E--
+-- 
+Paul Barker
+Konsulko Group
