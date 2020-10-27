@@ -1,131 +1,85 @@
-Received: from mx02.optimcloud.com (mx02.optimcloud.com [46.23.93.22])
- by mx.groups.io with SMTP id smtpd.web08.11851.1603794575661494862
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web08.12732.1603800339128795015
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 03:29:36 -0700
+ Tue, 27 Oct 2020 05:05:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="no key for verify" header.i=@optimcloud.com header.s=obsd header.b=BLnT/FSb;
- spf=none, err=SPF record not found (domain: optimcloud.com, ip: 46.23.93.22, mailfrom: yocto@optimcloud.com)
-Received: from mx02.optimcloud.com (localhost [127.0.0.1])
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTP id d89ff6d4
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Tue, 27 Oct 2020 11:29:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed; d=optimcloud.com; h=
-	subject:to:references:from:message-id:date:mime-version
-	:in-reply-to:content-type; s=obsd; bh=z8vXuwPYd0g3cqqwLl4w7/5baI
-	o5GyOSp4MW5VvtzLA=; b=BLnT/FSbHLOXILzhmMfpk3o7GD87IWQq8TjsT2Fv7v
-	5obQ7AQxqVq+Is8QPW9qGpgaoZVJcCqmYyEePpiGGkkn0+EymdC2Kv3DGXKoRO5i
-	YT8ZN3xfqfs6cBctIN4CyQnnRX+bYKpyX3xvn8nIIxL8TaqCuUklz9PgYfND+3hl
-	+V1mAjylrAf+kxMpw9Dl6cbycQCpVnuHbWUYjS4SwfCJOCfm68awukRW3U6nUhff
-	md7hMJjpdrH5thKHbGfTeeasb4RonahzJ+aOTfTY/5xU7AT4PZ0HdSgOgiWCc+oR
-	r4vcYhWpyJBnRHasTvXzCnjo+fXhtFbI13VOScVnP66A==
-DomainKey-Signature: a=rsa-sha1; c=nofws; d=optimcloud.com; h=subject:to
-	:references:from:message-id:date:mime-version:in-reply-to
-	:content-type; q=dns; s=obsd; b=Pca19JBKdke3FL+D/P+N2jxzwV74R2OK
-	hY16ayYV43Unwqp9t/doq8zt+pk+TJimhlUIVZ+mhoz0xyxAEpVBtj2U3rSYLH3e
-	Ycnwauzb0WvrX4HzqcGnSgv3goV+k94oKipsLwD8Ps6O2gpqjQH46XhsYBsTRh0e
-	EPw25FQwFFJTF1giQP/pjIpfM8T1UTysoUr71o3pzd9hRniS1BNqhxS8NWgb2RWD
-	4u9djN0jr2jSLp4fm55kfalbhMvoXvCyJ4Vv/P16wlZ8Kfn+v9fRj9N7eOF9VVty
-	cxpS4egIZQiYhcVDRuHgVIU4mDdTNGfy4bpAI1ET+7n43gfWQaHv9A==
-Received: 
-	by mx02.optimcloud.com (OpenSMTPD) with ESMTPSA id 2318ca0b (TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256:NO) auth=yes user=yocto@optimcloud.com
-	for <meta-virtualization@lists.yoctoproject.org>;
-	Tue, 27 Oct 2020 11:29:32 +0100 (CET)
-Subject: Re: [meta-virtualization] is meta-cloud-services/meta-openstack useable, or a WIP ?
-To: meta-virtualization@lists.yoctoproject.org
-References: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
- <CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com>
- <1641D1540454F162.12047@lists.yoctoproject.org>
-From: "Yocto" <yocto@optimcloud.com>
-Message-ID: <7a864b51-a89e-bdb4-769f-d5565ecd62e5@optimcloud.com>
-Date: Tue, 27 Oct 2020 17:29:29 +0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QHZIF0Qy;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id ce10so1859235ejc.5
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Oct 2020 05:05:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=AjeHWP11+oatMCMT7DGVm4HoW6bWCRDGcyqZGqAIhzM=;
+        b=QHZIF0Qy3vUD7hE9ttCwXi9zP6uXM2lw/xLwwXyuIQpz5edo1LSbx/kNYEiTBROx57
+         4FjgD8qhUKj7hoz0veKqubomTh+EwBA8SJ+u0uiGtZrh3dG8hPkrtGa64pW8qIVmc5FY
+         8zM6J2OQJiU1Rz7J43EyU/7NIiJQ1gjncvZVx48KOWseHFlSN79iU6lcpV8iael58mZn
+         C/7JNZtnAZ5irnuCqv3l2ZO1x5bZp6wi8OYJ/OGWqlX0jt3A9pN90FCFPB4RsT4u4FW5
+         Y+/PLrdmE/1HMJ6jUvjD7lXiGS8B+IUstrgG3clZx/kVSYU70vaCV95/D7OrJ8Zvh+IM
+         6N2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=AjeHWP11+oatMCMT7DGVm4HoW6bWCRDGcyqZGqAIhzM=;
+        b=ASVJugZIzneVLjJE/wpAsjUl3mPOwTfDVALl/QGoHuSeX01kfLZnMXFbYpssSdat30
+         TH0vrStgFt/iCOuqVedDXQAze+5BC0Jc1r3309knhuBHghpWf8HRnNAFG2hmipqsnfbz
+         N8O03xhO3P7c3uPgk3i9xEEzlwt4rP8Gvc0SRql54iUmF/tslG9iBJHrE4uxI7/0KIhK
+         u+c7kUgOm14PEZEQhEtQ7q3tf5RNCfgPv045C0NRKOWrlX25K3cArkv+zegUER9h9tp/
+         zPxsPYaXsuhYhJf/MxGbjSPs0yfxjYLpgu/vDw7jSdwvZsHPTlOtbiRx5F4x0FePNFLk
+         OkFA==
+X-Gm-Message-State: AOAM532g/lcXFpMj9CeM9JXM9qQSbgaylGWzztVhnGC/cHC5sUoVRotA
+	dKSP/0MjRXIM4y4Ujrz4p4ZU3GUwTPuCiWWdfCg=
+X-Google-Smtp-Source: ABdhPJw6mEE7gR7T0XUQ+bFQ40D/1vvcOKhIkXfrTQGVO/0kOaiDcZ0F3x3LbgnxSSZFa6P68tHCyUU80NFAx6QpfGQ=
+X-Received: by 2002:a17:906:cc18:: with SMTP id ml24mr1974584ejb.298.1603800337559;
+ Tue, 27 Oct 2020 05:05:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1641D1540454F162.12047@lists.yoctoproject.org>
-Content-Type: multipart/alternative;
- boundary="------------7B310C6A304C9216D78C9409"
-Content-Language: en-US
+References: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
+ <CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com> <24a6f227-7d2b-cd96-e35b-d3f16546f51f@optimcloud.com>
+In-Reply-To: <24a6f227-7d2b-cd96-e35b-d3f16546f51f@optimcloud.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Tue, 27 Oct 2020 08:05:26 -0400
+Message-ID: <CADkTA4MJOgFdLUdPS8AY-+Hy3-dGqsSD5uKWWdpVWZuHj0mfWw@mail.gmail.com>
+Subject: Re: [meta-virtualization] is meta-cloud-services/meta-openstack useable, or a WIP ?
+To: Yocto <yocto@optimcloud.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: text/plain; charset="UTF-8"
 
---------------7B310C6A304C9216D78C9409
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
-On 10/27/20 5:04 PM, Yocto wrote:
+On Tue, Oct 27, 2020 at 6:05 AM Yocto <yocto@optimcloud.com> wrote:
 >
 >
 > On 10/27/20 4:30 PM, Paul Barker wrote:
->> On Tue, 27 Oct 2020 at 09:16, Yocto<yocto@optimcloud.com>  wrote:
->> Please set your name in your email client to something other than
->> "Yocto" so as not to mislead & confuse people.
 >
-> I already did that, its Y L Reddy, email addie is yocto@domain.com 
-> which gets mail for literally every yocto list, as it was mentioned 
-> before i did change the name... to Y L Reddy
+> On Tue, 27 Oct 2020 at 09:16, Yocto <yocto@optimcloud.com> wrote:
 >
-maybe that fixed it
+> Please set your name in your email client to something other than
+> "Yocto" so as not to mislead & confuse people.
+>
+> I already did that, its Y L Reddy, email addie is yocto@domain.com which gets mail for literally every yocto list, as it was mentioned before i did change the name... to Y L Reddy
+>
+
+Your mail client (or however you are sending messages) is still
+misconfigured. It isn't filling in your real name, along with the
+actual address.
+
+Hence why I agree with Paul, very confusing as it comes through. In
+particular, since your message isn't closed with your name, we'd
+otherwise have no idea who was sending it.
+
+Bruce
+
 >
 >
->>
+>
+>
+>
 >
 > 
 >
 
 
---------------7B310C6A304C9216D78C9409
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 10/27/20 5:04 PM, Yocto wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:1641D1540454F162.12047@lists.yoctoproject.org">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <p><br>
-      </p>
-      <div class="moz-cite-prefix">On 10/27/20 4:30 PM, Paul Barker
-        wrote:<br>
-      </div>
-      <blockquote type="cite"
-cite="mid:CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com">
-        <pre class="moz-quote-pre" wrap="">On Tue, 27 Oct 2020 at 09:16, Yocto <a class="moz-txt-link-rfc2396E" href="mailto:yocto@optimcloud.com" moz-do-not-send="true">&lt;yocto@optimcloud.com&gt;</a> wrote:
-</pre>
-        <blockquote type="cite"> </blockquote>
-        <pre class="moz-quote-pre" wrap="">Please set your name in your email client to something other than
-"Yocto" so as not to mislead &amp; confuse people.</pre>
-      </blockquote>
-      <p>I already did that, its Y L Reddy, email addie is <a
-          class="moz-txt-link-abbreviated"
-          href="mailto:yocto@domain.com" moz-do-not-send="true">yocto@domain.com</a>
-        which gets mail for literally every yocto list, as it was
-        mentioned before i did change the name... to Y L Reddy<br>
-      </p>
-    </blockquote>
-    maybe that fixed it<br>
-    <blockquote type="cite"
-      cite="mid:1641D1540454F162.12047@lists.yoctoproject.org">
-      <p> </p>
-      <p><br>
-      </p>
-      <blockquote type="cite"
-cite="mid:CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com">
-        <br>
-        <fieldset class="mimeAttachmentHeader"></fieldset>
-      </blockquote>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-      <pre class="moz-quote-pre" wrap="">
-
-
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------7B310C6A304C9216D78C9409--
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
