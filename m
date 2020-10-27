@@ -1,79 +1,79 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.web08.12732.1603800339128795015
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web10.12933.1603800482706560103
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 05:05:39 -0700
+ Tue, 27 Oct 2020 05:08:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QHZIF0Qy;
- spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f47.google.com with SMTP id ce10so1859235ejc.5
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 27 Oct 2020 05:05:38 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=SAZSYovb;
+ spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 0D50838C089D
+	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 05:08:02 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id p9so1876981eji.4
+        for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 05:08:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=AjeHWP11+oatMCMT7DGVm4HoW6bWCRDGcyqZGqAIhzM=;
-        b=QHZIF0Qy3vUD7hE9ttCwXi9zP6uXM2lw/xLwwXyuIQpz5edo1LSbx/kNYEiTBROx57
-         4FjgD8qhUKj7hoz0veKqubomTh+EwBA8SJ+u0uiGtZrh3dG8hPkrtGa64pW8qIVmc5FY
-         8zM6J2OQJiU1Rz7J43EyU/7NIiJQ1gjncvZVx48KOWseHFlSN79iU6lcpV8iael58mZn
-         C/7JNZtnAZ5irnuCqv3l2ZO1x5bZp6wi8OYJ/OGWqlX0jt3A9pN90FCFPB4RsT4u4FW5
-         Y+/PLrdmE/1HMJ6jUvjD7lXiGS8B+IUstrgG3clZx/kVSYU70vaCV95/D7OrJ8Zvh+IM
-         6N2A==
+        bh=zPeOyZ34Rs+KsHDB3SzARuOKp0MOSHVnWJ3A1SybPRc=;
+        b=SAZSYovbHllAnWyVcqxcZi0r5/nzUUPaSg8NBCOCZvAL3X8nx9BeGlp1iee8A+aKxZ
+         pjmbr8nVSB6SgqE6enhQ1SrNRerJR5/GUGMo1GGNd4OF+wuiuuFkloA8WO98YMqHDafm
+         59g+oRlPlAo24Dmsc07cwbv9jFljuWWt3P7/JvdV7N5DOJwcaD80SuU1EedsEX5PM/+P
+         4a7/lvpaE33rHm0XyarRPiGq+JcTtsiniEA6PLdpb1sLMhWExHcHiSRk+8OmwrpJxtMy
+         dKkPjb4fS2uNLCrosTan35Ldqy7HkEz0/nBwWk9JNIdB20xQEv0ubxs2lVNKahvZzoT/
+         kLWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=AjeHWP11+oatMCMT7DGVm4HoW6bWCRDGcyqZGqAIhzM=;
-        b=ASVJugZIzneVLjJE/wpAsjUl3mPOwTfDVALl/QGoHuSeX01kfLZnMXFbYpssSdat30
-         TH0vrStgFt/iCOuqVedDXQAze+5BC0Jc1r3309knhuBHghpWf8HRnNAFG2hmipqsnfbz
-         N8O03xhO3P7c3uPgk3i9xEEzlwt4rP8Gvc0SRql54iUmF/tslG9iBJHrE4uxI7/0KIhK
-         u+c7kUgOm14PEZEQhEtQ7q3tf5RNCfgPv045C0NRKOWrlX25K3cArkv+zegUER9h9tp/
-         zPxsPYaXsuhYhJf/MxGbjSPs0yfxjYLpgu/vDw7jSdwvZsHPTlOtbiRx5F4x0FePNFLk
-         OkFA==
-X-Gm-Message-State: AOAM532g/lcXFpMj9CeM9JXM9qQSbgaylGWzztVhnGC/cHC5sUoVRotA
-	dKSP/0MjRXIM4y4Ujrz4p4ZU3GUwTPuCiWWdfCg=
-X-Google-Smtp-Source: ABdhPJw6mEE7gR7T0XUQ+bFQ40D/1vvcOKhIkXfrTQGVO/0kOaiDcZ0F3x3LbgnxSSZFa6P68tHCyUU80NFAx6QpfGQ=
-X-Received: by 2002:a17:906:cc18:: with SMTP id ml24mr1974584ejb.298.1603800337559;
- Tue, 27 Oct 2020 05:05:37 -0700 (PDT)
+        bh=zPeOyZ34Rs+KsHDB3SzARuOKp0MOSHVnWJ3A1SybPRc=;
+        b=WERIq2WoUaiKYH2O33xA8ROGRCZXJCENO3nWpggJ0bJgN5TPKEX/vd2WCzYvRPdXo2
+         i2jvH14Uwps0r3us7nnUZyOZ6HKlrdyJeOWakwzzHbz2+MtpYXkoSOSNdcdD18xMDYxG
+         dGbgQFmBAlrgH+KyVF6ilweMiUobt+CJaW4FCv6f25C0Q/wWs3X6IvID0+MJG79svkKh
+         Qgk8rZ1LMsRAeHOGKGbft+mqKP29XhHJLE7yXAkYzgZp+Nwt0ua9UTI5SIyBU0sIemdE
+         NvpzYu4Q+JMcsyWTeYccjxCCVSrdKyHBRt0C30bX5pkKagvrhifQWAzpY5O/1r8Egzn6
+         xTkA==
+X-Gm-Message-State: AOAM530z8+a9etioGOFRmVGVHmPZ2v0+RJYCRl8rICiy67i9JsKrkBIl
+	nzhS5ZGagROSDGxAGCgLmuLROSy7CJ8pPScsVH8=
+X-Google-Smtp-Source: ABdhPJxHIoq8cKWFZ2Ipx/uCcvI7q/0/c9igHILZsyMEGVUYE83cPXDqfPuggzSLLeSB21ZmnafyneTGI6qyHb9I3v4=
+X-Received: by 2002:a17:906:4742:: with SMTP id j2mr2014197ejs.247.1603800480307;
+ Tue, 27 Oct 2020 05:08:00 -0700 (PDT)
 MIME-Version: 1.0
 References: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
- <CAM9ZRVuxy0VJg45OiQy4OW4P5b7ioV_Gyq1fheCmDxatTG=TSg@mail.gmail.com> <24a6f227-7d2b-cd96-e35b-d3f16546f51f@optimcloud.com>
-In-Reply-To: <24a6f227-7d2b-cd96-e35b-d3f16546f51f@optimcloud.com>
+In-Reply-To: <b2b268d8-8c1a-2424-2029-7238e52404f8@optimcloud.com>
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 27 Oct 2020 08:05:26 -0400
-Message-ID: <CADkTA4MJOgFdLUdPS8AY-+Hy3-dGqsSD5uKWWdpVWZuHj0mfWw@mail.gmail.com>
+Date: Tue, 27 Oct 2020 08:07:48 -0400
+Message-ID: <CADkTA4MwLP4ScGjjZN4uhA=sAj1g2fZefWj71rpotrPrhVdLXA@mail.gmail.com>
 Subject: Re: [meta-virtualization] is meta-cloud-services/meta-openstack useable, or a WIP ?
 To: Yocto <yocto@optimcloud.com>
-Cc: meta-virtualization@lists.yoctoproject.org
+Cc: "meta-virtualization@yoctoproject.org" <meta-virtualization@yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Oct 27, 2020 at 6:05 AM Yocto <yocto@optimcloud.com> wrote:
+On Tue, Oct 27, 2020 at 5:16 AM Yocto <yocto@optimcloud.com> wrote:
 >
+> okay reading the doc README it states
 >
-> On 10/27/20 4:30 PM, Paul Barker wrote:
+> There are six openstack layers that are used to build a controller/compute
+> node image pair. The dependencies of these layers are also required for a
+> build, and are listed in the layers themselves.
 >
-> On Tue, 27 Oct 2020 at 09:16, Yocto <yocto@optimcloud.com> wrote:
+>    - meta-cloud-services/meta-openstack
+>    - meta-cloud-services/meta-openstack-compute-deploy
+>    - meta-cloud-services/meta-openstack-controller-deploy
+>    - meta-cloud-services/meta-openstack-qemu
+>    - meta-cloud-services/meta-openstack-compute-test-config
+>    - meta-cloud-services/meta-openstack-controller-test-config
 >
-> Please set your name in your email client to something other than
-> "Yocto" so as not to mislead & confuse people.
->
-> I already did that, its Y L Reddy, email addie is yocto@domain.com which gets mail for literally every yocto list, as it was mentioned before i did change the name... to Y L Reddy
+> so the question is, is this actually usable to bitbake openstack based images ? or a Work in progress ?
 >
 
-Your mail client (or however you are sending messages) is still
-misconfigured. It isn't filling in your real name, along with the
-actual address.
-
-Hence why I agree with Paul, very confusing as it comes through. In
-particular, since your message isn't closed with your name, we'd
-otherwise have no idea who was sending it.
+They are now a work in progress. They *worked*, but we didn't have a
+dedicated maintainer, so we make sure the re-usable recipes work (and
+a few have migrated to the main meta-virt over time), but to build and
+deploy working controller and compute nodes, they wouldn't be usable
+out of the box.
 
 Bruce
 
->
->
->
->
->
 >
 > 
 >
