@@ -1,107 +1,119 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.3499.1603855627356548515
+ by mx.groups.io with SMTP id smtpd.web12.3470.1603855702392235142
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 20:27:07 -0700
+ Tue, 27 Oct 2020 20:28:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=egG+TjTG;
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=WuqCHg0s;
  spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 9F69238C1433
-	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 20:27:06 -0700 (PDT)
-Received: by mail-qv1-f48.google.com with SMTP id bl9so1774192qvb.10
-        for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 20:27:06 -0700 (PDT)
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 18B0F38C1433
+	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 20:28:22 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id q199so3369388qke.10
+        for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 20:28:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :in-reply-to:user-agent;
-        bh=PUHQpFtl/SrtQxA4J5Z5iMsR7iBypuLvRoLIoO5S7uE=;
-        b=egG+TjTGz6kI6YjVXGYa+agSwKb90ATPr0mYeVo/cGbPVGQJssJBuRAFucnmZDJIhU
-         EewFx1wLNJUQ/P46kJaP19odN6BIJnI3xND3R1zW7DwFPJdMRRfBclsCTmK2E28UUC/z
-         ODy18taWQ3p7UmwlA3pcmrMOJk4i1vfWBkOdH9Anzu1/t5q/mzfJeka0L3qLZ1Mpwg0e
-         +A4JoSAVuMasPRHw/l73BgIPCcdc7gD50NXOSzzBe1G7I1RpoO7smBoxFxw+sM/Kxqkp
-         +eaVNH875iwQ1956JHYy5o9KodzhXPVPUhqWmvG/zer6ZLmy0fXDvx2D99XpbfxJjlKg
-         jXbg==
+        bh=f4RccT5o7G31oDNlbft9/BMvYYzpt9qMMtkPMs8QmNU=;
+        b=WuqCHg0sDZXUuiw3uIzqj82DKpWQtmQ6EiRJkpRnFsmwdJB6u6DX7WxSBxLpv5YZou
+         5/CNU06XKxePlwEhxruuYo1mhAoW/Jd9fphwXpJc3Mms9exVcTpRtM9r9287hHt4k7p6
+         1IIL3BDGTZGBfgNgqKLjtTpxcxIW7gySGaVi5nbNSGBGqKGd0Od79f0O3lG7qD5hEeZ9
+         YJn+gTl0KrCCZwmkBvxmLEBDDoJC81pZ8wvypxP+Oq0ofX8Ud+NBGx6CttVkmlQP9tTR
+         T9osZGeh96QRTqXulCw8UCd8bi7SmXeqmjiSSYLepwlXrVLshg0uyjXHUGZG44NIFnZd
+         HhoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=PUHQpFtl/SrtQxA4J5Z5iMsR7iBypuLvRoLIoO5S7uE=;
-        b=FusCtRTewGSK5fc6w37FqVCYab0zXQjcOJilfiqBS4g4hr/HJC2jdST2eORRUu3tG5
-         n0JbFX3TQi0CeAOwjNvCGJL+pf3FLykF+CXEH2kpfLJgHRIURioPFDyncVmlaJ8iAJXr
-         L0Iz++RmMZlC7EEoMq6T3mbomxqZ/fKDWjfDYoIbpWlHNgBTnXhkJcNmP9h4EMamPwVG
-         Kw7ULZQtxivP1anrDUMyE+N7/74LbvQlH1zDPFw+tcD2wthc3mzkCaxVNZH4gBQrXuB4
-         5CbmWDfNwhpv0YxhRQ20ufH4bQl6jn/4FskuBUfb5HUhh3/4NNKthnncyJh3WFva18je
-         6qzg==
-X-Gm-Message-State: AOAM530mC1Uw+U/uLPpqgw4YVkOcZOQmYZ1vBqhf4Dwe+EHOV7C5NVaS
-	Xfpw7GCOmrjLA30e2NJ40sN9wk67ZJxTuEwr
-X-Google-Smtp-Source: ABdhPJzy2H12c2dGFd67YuMsXHaBohQVD4MJTGDS3II9ErHu0m1QkI/puWjznJxTOWd4FXGMGjOsLg==
-X-Received: by 2002:a05:6214:1351:: with SMTP id b17mr5717517qvw.11.1603855625619;
-        Tue, 27 Oct 2020 20:27:05 -0700 (PDT)
+        bh=f4RccT5o7G31oDNlbft9/BMvYYzpt9qMMtkPMs8QmNU=;
+        b=QPefK1aSvgAWMg5S+ZkCpwew7ZVny9/UN10p79NduEXiPu42X7Thi0LoBVZGgeyFT0
+         c2GXdrqv98T8k8sr7VfgvYURO2lB9jBMsKcui3AnfkHSZsPYD/V9sHGx0p0i8wAkXNue
+         xzmjbZG/Bg553m73zPPDQ8ZCXOvisylSJ/K0PxjNBWKLsD9L8jHO668YRiaPO5jl08LA
+         xAaB+Mr000RVcQ+m6foIohcHlJ3zVIhhOwjkq61DHVJMXpeTyGKeLIQfpna1663eUduh
+         NjwluOEcBOCo94vKrsYJ4WxbXfOYqzVfmpzmHGREDEpajdqR5hro0HDoZPF6l33CJ2Xh
+         Zp0A==
+X-Gm-Message-State: AOAM533vZyYtvzodVv+UsktgowMPV3fHm40gu9L//W+a2xMGJXZ7VNvA
+	umJkGhxw2YmdE0p6y8Kj8do=
+X-Google-Smtp-Source: ABdhPJzTT4ezsj8J0t96neTlMZvV8kwbtqN0iSCi3fZCJRKzdvrXOA6W3QIpNdXrQvlm52Gd0W+K/Q==
+X-Received: by 2002:a05:620a:2202:: with SMTP id m2mr5342400qkh.58.1603855700864;
+        Tue, 27 Oct 2020 20:28:20 -0700 (PDT)
 Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id s17sm2145879qta.26.2020.10.27.20.27.04
+        by smtp.gmail.com with ESMTPSA id w45sm2405526qtw.96.2020.10.27.20.28.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 20:27:04 -0700 (PDT)
-Date: Tue, 27 Oct 2020 23:27:03 -0400
+        Tue, 27 Oct 2020 20:28:20 -0700 (PDT)
+Date: Tue, 27 Oct 2020 23:28:18 -0400
 From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
+To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
 Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-xstatic-spin: change to python3
-Message-ID: <20201028032702.GB46280@gmail.com>
+Subject: Re: [meta-virtualization] [PATCH] python3-webtest: upgrade 2.0.33 -> 2.0.35
+Message-ID: <20201028032817.GC46280@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1603164562-37683-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603164575-37740-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603164586-37810-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603164600-37872-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <1603176096-40364-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176138-40410-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176148-40446-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176157-40482-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176184-40527-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176202-40565-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176207-40601-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176227-40638-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176243-40682-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176256-40720-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176262-40756-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+ <1603176285-40793-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 
-merged
+Thanks for the fixes / updates / cleanups!
+
+These are now merged.
 
 Bruce
 
-In message: [meta-virtualization] [PATCH] python3-xstatic-spin: change to python3
-on 20/10/2020 zangrc wrote:
+In message: [meta-virtualization] [PATCH] python3-webtest: upgrade 2.0.33 -> 2.0.35
+on 20/10/2020 zhengruoqin wrote:
 
-> Because python2 is no longer maintained, bb file is changed to python3 version.
+> Consolidate inc and bb files into a single bb file.
 > 
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 > ---
->  ...ic-spin_1.2.5.2.bb => python3-xstatic-spin_1.2.5.3.bb} | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-xstatic-spin_1.2.5.2.bb => python3-xstatic-spin_1.2.5.3.bb} (58%)
+>  .../python/python3-webtest_2.0.33.bb                 |  2 --
+>  ...{python-webtest.inc => python3-webtest_2.0.35.bb} | 12 ++++++++++--
+>  2 files changed, 10 insertions(+), 4 deletions(-)
+>  delete mode 100644 meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb
+>  rename meta-openstack/recipes-devtools/python/{python-webtest.inc => python3-webtest_2.0.35.bb} (55%)
 > 
-> diff --git a/meta-openstack/recipes-devtools/python/python-xstatic-spin_1.2.5.2.bb b/meta-openstack/recipes-devtools/python/python3-xstatic-spin_1.2.5.3.bb
-> similarity index 58%
-> rename from meta-openstack/recipes-devtools/python/python-xstatic-spin_1.2.5.2.bb
-> rename to meta-openstack/recipes-devtools/python/python3-xstatic-spin_1.2.5.3.bb
-> index 4060bd9..66bd986 100644
-> --- a/meta-openstack/recipes-devtools/python/python-xstatic-spin_1.2.5.2.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-xstatic-spin_1.2.5.3.bb
-> @@ -2,19 +2,19 @@ DESCRIPTION = "Spin JavaScript library packaged for setuptools3"
->  HOMEPAGE = "https://pypi.python.org/pypi/XStatic-Spin"
->  SECTION = "devel/python"
->  LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://PKG-INFO;md5=322c2399a1682aaec2f4e5fff4be5726"
-> +LIC_FILES_CHKSUM = "file://PKG-INFO;md5=45c30e2aa7df682a626f8e3629b8f7ee"
+> diff --git a/meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb b/meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb
+> deleted file mode 100644
+> index aaf0b42..0000000
+> --- a/meta-openstack/recipes-devtools/python/python3-webtest_2.0.33.bb
+> +++ /dev/null
+> @@ -1,2 +0,0 @@
+> -inherit setuptools3 pypi
+> -require python-webtest.inc
+> diff --git a/meta-openstack/recipes-devtools/python/python-webtest.inc b/meta-openstack/recipes-devtools/python/python3-webtest_2.0.35.bb
+> similarity index 55%
+> rename from meta-openstack/recipes-devtools/python/python-webtest.inc
+> rename to meta-openstack/recipes-devtools/python/python3-webtest_2.0.35.bb
+> index d4e9e07..5fd4f5a 100644
+> --- a/meta-openstack/recipes-devtools/python/python-webtest.inc
+> +++ b/meta-openstack/recipes-devtools/python/python3-webtest_2.0.35.bb
+> @@ -8,5 +8,13 @@ PYPI_PACKAGE = "WebTest"
 >  
->  PYPI_PACKAGE = "XStatic-Spin"
+>  RDEPENDS_${PN} += "${PYTHON_PN}-beautifulsoup4"
 >  
-> -SRC_URI[md5sum] = "df83f80fd0b11545b64497112996e49e"
-> -SRC_URI[sha256sum] = "7f46ef0e45e047019ba6eda22c432fb96f681b97bbe7f1749aa9209e07727192"
-> +SRC_URI[md5sum] = "d0cad2593c74eec38dbeed5161eab462"
-> +SRC_URI[sha256sum] = "06e889cf3318f08ce74ef888b45d9f1e09017bb8e6d519a299c10a9e6b542642"
->  
->  inherit setuptools3 pypi
->  
->  # DEPENDS_default: python-pip
->  
->  DEPENDS += " \
-> -        python-pip \
-> +        python3-pip \
->          "
->  
->  # RDEPENDS_default: 
+> -SRC_URI[md5sum] = "dd0385c725b85ac1e8079f38d2acd7b1"
+> -SRC_URI[sha256sum] = "41348efe4323a647a239c31cde84e5e440d726ca4f449859264e538d39037fd0"
+> +SRC_URI[md5sum] = "a5d027ffa0991fdf20e305c62bd37791"
+> +SRC_URI[sha256sum] = "aac168b5b2b4f200af4e35867cf316712210e3d5db81c1cbdff38722647bb087"
+> +
+> +RDEPENDS_${PN} += " \
+> +	python3-html \
+> +	python3-logging \
+> +	python3-webob \
+> +"
+> +
+> +inherit setuptools3 pypi
 > -- 
 > 2.25.1
 > 
