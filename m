@@ -1,125 +1,71 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web12.3480.1603855748272529971
+ by mx.groups.io with SMTP id smtpd.web12.5724.1603873950495413285
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 27 Oct 2020 20:29:08 -0700
+ Wed, 28 Oct 2020 01:32:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=pGUbD39s;
- spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 1271B38C1433
-	for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 20:29:08 -0700 (PDT)
-Received: by mail-qt1-f182.google.com with SMTP id i7so2679239qti.6
-        for <meta-virtualization@yoctoproject.org>; Tue, 27 Oct 2020 20:29:08 -0700 (PDT)
+ dkim=fail reason="body hash did not verify" header.i=@axis.com header.s=axis-central1 header.b=mdnTwQa/;
+ spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id BF7F738C08AE
+	for <meta-virtualization@yoctoproject.org>; Wed, 28 Oct 2020 01:32:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=Q9rG9RY1QtYOVQ7iwSFBHR9DCwQIQFaP0k5U1+EeGHg=;
-        b=pGUbD39spfIDj8AouNYotVvq0dHCEYLTaF+BUbWdwaN2X2WsLibo9dw8sg48Pmwxqx
-         frLXz/L95ljd5aGqFouh2UuINVrrqTkZfd5r028mGXpyTtARRtqKlqTObvGv7xYHjoSS
-         tI5TscGMqLz6axf85c8ACHoXxd8r9tW++NnaFrqIBH7H0hi8fpBog5oloUvmmrAZLDFp
-         ddvMDOZu7fTRRhiffX7sFs1Jdit4MJtorNH2iKgW3KfcOH3HlZHt0k6HN06V9BGw0Zjq
-         JY1bCMrVz/VIf2XsNWfQrbA6FCgKGaIj83OCZhBHveE2duvw+/BpUW739adKNDjz0EpK
-         +5ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Q9rG9RY1QtYOVQ7iwSFBHR9DCwQIQFaP0k5U1+EeGHg=;
-        b=J5Bx/pCo/FEpFjPjDgAXNGHWWZuEqQR72Luv7eSMOuuLWm2QZyKgeKNqnbDDrB0zR2
-         +Ze534bGAwRSfOjqtWG07YdGJYyLk0zVOPCwbecOjOgYG1u1svT721QJOHH9L81/4l2u
-         UrmOnLBZbsTeetOoIEaqzQKjGeJO/HNExPqiZHZni2ZCJAAGhL2o79x+ZfXvcOaH2F9U
-         Njlvo0wIKx6FOhrQYSmUKYBtcGa5LgOdEDiGuiv5ZyZWa8VwI5vdLzNQcle1fpRAdIJF
-         m3vljbs4zrnY1PBPrw+s5kLpUq/p+Toj44wIwqYIKf1g74xe1h68IWC6nHzvu/yvxWWZ
-         C5rA==
-X-Gm-Message-State: AOAM530vkaAwdEI+RiHQKDb1Aa/I939F27SngPJjqp7WZly95yP/CdAy
-	jSLVj3O5gFW/RQ3W3yNXIrg=
-X-Google-Smtp-Source: ABdhPJxLyLtWwyfUDZLH7Y1rAhClIe0ugHxxxLVGvDYoWE9O2liHD9CAMQo3nR/xmYIGTMezbDXiGg==
-X-Received: by 2002:ac8:588d:: with SMTP id t13mr5340323qta.380.1603855746874;
-        Tue, 27 Oct 2020 20:29:06 -0700 (PDT)
-Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.240.214])
-        by smtp.gmail.com with ESMTPSA id p77sm2109564qke.39.2020.10.27.20.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 20:29:06 -0700 (PDT)
-Date: Tue, 27 Oct 2020 23:29:04 -0400
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zangrc <zangrc.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-statsd: Consolidate in a single file
-Message-ID: <20201028032903.GD46280@gmail.com>
+  d=axis.com; l=631; q=dns/txt; s=axis-central1;
+  t=1603873950; x=1635409950;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=bWZiC6aY1fN+YVl+RNeSd//xGbAjBcU/1We0Y7Fd6CY=;
+  b=mdnTwQa/dfQi0dwwM0wfxaiNsSpTpdJFTslYi3lpymxFU7qkBlkCLEOC
+   vmFMN9Ca0ssPywxch72xKrG7jEkH+fWEr0zSNsb2BSEIeGutGl8qaP3WC
+   DioWIDYhtIIDtZ1MQMv/eQ7Py9adBz3Nb+MlQudWkOv6oOJKtQLa3ggc6
+   pT99ve93Yqa8OwXYWxhI3MAWptER7OqOSzcRc1jQ6d2Sib93cKBTdIMRT
+   drgy+6wl5Zw09N5kCItPozCcNmCsaHcwihKio8b1bgMxWBr6P4PWFZHqn
+   s+xjUYzlE0SrDW8vq+q12Ug3DQ3ZIcYNmLngO2eiHIWNGwvr4jzUr2QVK
+   w==;
+IronPort-SDR: Nw56nz9Kn3DhuwQy54+bnE+Pvi2/RhgdzO7+9mjOqnukoifwQWZO/8dFiGw6qXXSBIDRpLmqAZ
+ yjfbOTIpJ5ZbP1VQSKgObLwGxg4dEI1MpFvHnAnZzUGX1/+FRW+c19SfnDWzI+NEmy4cr+lejj
+ sY4QPQLRXaUuBSMkIIeRcY8krbGyGBZ7ACQ6V5Yjax8PEg45HVBg/qRJd+4FEUP9NqOVn4O2vt
+ 71rdQ68miGPWrfTR/oH7qBZ5EY1Pam8lFovVXU1FT6aDPbi7qThNkh5Kx7q4RYQZxkqKyx3qev
+ cW0=
+X-IronPort-AV: E=Sophos;i="5.77,425,1596492000"; 
+   d="scan'208";a="14494461"
+Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: "meta-virtualization@yoctoproject.org"
+	<meta-virtualization@yoctoproject.org>
+References: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
+ <20201020111434.17993-1-joakimr@axis.com> <20201021031033.GA20764@gmail.com>
+ <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com>
+ <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <af00b32f-7619-a755-13b1-714675419946@axis.com>
+Date: Wed, 28 Oct 2020 09:32:27 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-In-Reply-To: <1603176682-40793-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603176694-40858-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603176706-40928-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603176714-40980-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
- <1603176719-41027-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+In-Reply-To: <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX01.axis.com (10.0.5.15) To XBOX03.axis.com (10.0.5.17)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-merged!
+On 2020-10-26 16:46, Bruce Ashfield wrote:
+>=20
+> ERROR: k3s-v1.18.9+k3s1-dirty-r0 do_package: QA Issue: k3s:
+> Files/directories were installed but not shipped in any package:
+>  =C2=A0 /usr/local/bin/k3s-clean
+>  =C2=A0 /usr/local/bin/crictl
+>  =C2=A0 /usr/local/bin/kubectl
+>  =C2=A0 /usr/local/bin/k3s
+>=20
+> So I added them to the FILES of the k3s package itself (so both
+> k3s-server and k3s-agent will get them), is that the split you were
+> looking for ?
 
-Bruce
+Yes, it is! In my build, all of those are found in the k3s RPM, although=20
+the FILES directive for them is missing. So yes, your fix here is the=20
+right one, IMO.
 
-In message: [meta-virtualization] [PATCH] python3-statsd: Consolidate in a single file
-on 20/10/2020 zangrc wrote:
+BR,
 
-> Consolidate inc and bb files into a single bb file.
-> 
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> ---
->  .../recipes-devtools/python/python-statsd.inc     | 13 -------------
->  .../python/python3-statsd_3.3.0.bb                | 15 +++++++++++++--
->  2 files changed, 13 insertions(+), 15 deletions(-)
->  delete mode 100644 meta-openstack/recipes-devtools/python/python-statsd.inc
-> 
-> diff --git a/meta-openstack/recipes-devtools/python/python-statsd.inc b/meta-openstack/recipes-devtools/python/python-statsd.inc
-> deleted file mode 100644
-> index 33257b9..0000000
-> --- a/meta-openstack/recipes-devtools/python/python-statsd.inc
-> +++ /dev/null
-> @@ -1,13 +0,0 @@
-> -DESCRIPTION = "A simple statsd client."
-> -HOMEPAGE = "https://github.com/jsocol/pystatsd"
-> -SECTION = "devel/python"
-> -LICENSE = "MIT"
-> -LIC_FILES_CHKSUM = "file://LICENSE;md5=4d8aa8ac1dc54b8aee4054bd5e5c61bd"
-> -
-> -inherit pypi
-> -
-> -SRC_URI[md5sum] = "b397ccf880f37cf099e775907ebf7a46"
-> -SRC_URI[sha256sum] = "e3e6db4c246f7c59003e51c9720a51a7f39a396541cb9b147ff4b14d15b5dd1f"
-> -
-> -RDEPENDS_${PN} += " \
-> -        "
-> diff --git a/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb b/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb
-> index 3e430a1..0c0cc6a 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-statsd_3.3.0.bb
-> @@ -1,2 +1,13 @@
-> -inherit setuptools3
-> -require python-statsd.inc
-> +DESCRIPTION = "A simple statsd client."
-> +HOMEPAGE = "https://github.com/jsocol/pystatsd"
-> +SECTION = "devel/python"
-> +LICENSE = "MIT"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=4d8aa8ac1dc54b8aee4054bd5e5c61bd"
-> +
-> +inherit setuptools3 pypi
-> +
-> +SRC_URI[md5sum] = "b397ccf880f37cf099e775907ebf7a46"
-> +SRC_URI[sha256sum] = "e3e6db4c246f7c59003e51c9720a51a7f39a396541cb9b147ff4b14d15b5dd1f"
-> +
-> +RDEPENDS_${PN} += " \
-> +        "
-> -- 
-> 2.25.1
-> 
-> 
-> 
-
-> 
-> 
-> 
-
-
+/Joakim
