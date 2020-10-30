@@ -1,121 +1,93 @@
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com [209.85.214.193])
- by mx.groups.io with SMTP id smtpd.web11.18078.1604081322353893762
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.web08.2880.1604099708003260919
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 30 Oct 2020 11:08:42 -0700
+ Fri, 30 Oct 2020 16:15:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=YsvNeBld;
- spf=pass (domain: gmail.com, ip: 209.85.214.193, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-pl1-f193.google.com with SMTP id t22so3326150plr.9
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 30 Oct 2020 11:08:42 -0700 (PDT)
+ dkim=pass header.i=@foundries.io header.s=google header.b=cf/4ZfZa;
+ spf=pass (domain: foundries.io, ip: 209.85.160.174, mailfrom: ricardo@foundries.io)
+Received: by mail-qt1-f174.google.com with SMTP id p45so5371842qtb.5
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 30 Oct 2020 16:15:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=BdELeBVoF2WdOYZl2N3iO2r2K4kCA86eYGn24TLV38I=;
-        b=YsvNeBldjaMMFfzpaWYC1ohU1AhIUBUEOquyYbQawQ3018sZxKz85y7ym2VBKRmFXV
-         L1SeOd+1JMUvEma8PYqybol4t1uz+0nLBsgiF51jQ3BYeJ2bb9mgaJqLxjPFgyY/jIcn
-         yuvxozIja605pU6uwMxeFTECj1ivveycuW2sGrCg0X02EUgVH4wJh/HcWF0GOed8XJ8I
-         DTiN3yxkRx5NKY/t19BZpClZ/PGmLCCj0lXwKImITp17RXd83kz8gONzhp/wY7dT/Z0P
-         qnqV1q4SAiQ5H82R/EKfarSWWbHRVo4O//3dguz3jA2hedeIaQc4K98pcU4nTBhw+BMI
-         I7kA==
+        d=foundries.io; s=google;
+        h=from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OiPWRZtLJX+kBFSRK8KWce+hXofEnhVY/AJhb1kEEgI=;
+        b=cf/4ZfZaDAqNHuBompNlfXFXnCwvOepXgz9CoRF58jzBa6dU2Iv3hYAcfnM0N+obRS
+         sUhDaDYl/GTeZxRK4gmGoBJ/Uondfnuj5IoIf/z/yjJnXNiPZS++xLe2tgWMcfSBOOZR
+         fgpwGaM9LMoVYid1qu0EXl01CpIgCDa1nmNFKiwDcz/alQuM/HsnIAux249Im7ydl7v2
+         pXKeFd977N5Aip1RDojgbTk3Fh4SKXD6ceyxKLQ2n2RFpJyY9fCglxJcjnU0A0A4pYMc
+         K+xmCjTORkUCBNfSY2rfQCRzOF5ifli5cdBCHQitO22BhojBXgRinOau+/hEh5SJA+gX
+         rYVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=BdELeBVoF2WdOYZl2N3iO2r2K4kCA86eYGn24TLV38I=;
-        b=IBrMKvW6BalfInzEv0mDNnpWBLpPI4vrXEHoTSobI9oo8eZZWP/Gm2ps/6cgtjNlWY
-         EhLcngVaRoaoTYoHSA7nyQW0gDLEf3x2SiEKOIQofLL0QmqPmx72HZThRG4AKQNkoA48
-         wHhtGMazlQ0xQsq8Y/yF8D6aj+TFceJL7ZycRvATUEvxOx8ACpjeEvZAD+Bd6nOgBYNt
-         /Y6707Qo+oapJHArnmx+830h+/qkE/wDkchhBeREVoGcrN7cCW6+tvWWB56a8aRdpo01
-         KsT7tHlCopxvXKfD6K0r3bviodf37B80jo7hpYcewAhJsnaqSmS4nQkJVrDkICul/ezu
-         DYUg==
-X-Gm-Message-State: AOAM532KDnSfMrpPQ29++7Gi9dethQLyxOeKX4nG3MRHqDmNEgUYv0Sh
-	ID1sIoZcGl397Jm7cAnlliWQRsfNAQI=
-X-Google-Smtp-Source: ABdhPJyNW/Kxjynxex7OIH/6V7IwSFMPeAPbo1MIkmlvSedIn8EmKGj0OmkW1agFs8Hvty70gciKkg==
-X-Received: by 2002:a17:902:8605:b029:d5:a6dc:ad0a with SMTP id f5-20020a1709028605b02900d5a6dcad0amr10368572plo.56.1604081321543;
-        Fri, 30 Oct 2020 11:08:41 -0700 (PDT)
-Return-Path: <christopher.w.clark@gmail.com>
-Received: from ?IPv6:2600:380:701d:ba96:706b:a0b0:a23b:a07? ([2600:380:701d:ba96:706b:a0b0:a23b:a07])
-        by smtp.gmail.com with ESMTPSA id z185sm6388750pfz.32.2020.10.30.11.08.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2020 11:08:40 -0700 (PDT)
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [meta-virtualization] [PATCH 2/2] xen: extend SYSROOT_DIRS
-Date: Fri, 30 Oct 2020 11:08:37 -0700
-Message-Id: <E4E29C95-6EE6-4A5C-834F-CC08641C03BB@gmail.com>
-References: <AM6PR08MB3461B708E14D6181ADF4993992150@AM6PR08MB3461.eurprd08.prod.outlook.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nd <nd@arm.com>,
- cardoe@gentoo.org
-In-Reply-To: <AM6PR08MB3461B708E14D6181ADF4993992150@AM6PR08MB3461.eurprd08.prod.outlook.com>
-To: Diego Sueiro <diego.sueiro@arm.com>
-X-Mailer: iPhone Mail (18A8395)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=OiPWRZtLJX+kBFSRK8KWce+hXofEnhVY/AJhb1kEEgI=;
+        b=VwpD1wObodjMaYh4/uom6rGuAj9BnvRm7mx4EKHh2GQdv4+XqdrlSL6k3csdmTMhwZ
+         EpTvDakYuCcpmh244v/AuCvVpApezGDPF5osdsyzizlb0sNQWjDZ5mmOhtVf3d5AmR4b
+         f1/OtdZgykqExtyhCosEMGywtfP08p3zB9AolmYIWZMYpUbYsYNALiuijr2c56gy4xvE
+         TrSqhuCxUjbtCCFNW0BXK+wtbS3jHnqDLp6iaNAquF4+ng5Ggsu1LK1rUhcYVH6pS6ES
+         b6XIiNA5vrWFCDMVIW/EHUhGV3hddqD5pAP/elECmVUh44N/sFuLz8GN9/6LQ0AgiqED
+         heCg==
+X-Gm-Message-State: AOAM530501Zdb5i0Xx2TyckiN1LzEVJaFQ7kgTcKZq5RTpqYcC5uv4E4
+	W5ob3lOK5EB8bbhzWzbyR6ogF7HDFj3U
+X-Google-Smtp-Source: ABdhPJywvnElMdLbHc90UPwWAy4XhKP928X506M5qrmKwc/bxaO1JibLaeOqMfGmPc1eXUDUv1furA==
+X-Received: by 2002:ac8:529a:: with SMTP id s26mr4630663qtn.150.1604099706770;
+        Fri, 30 Oct 2020 16:15:06 -0700 (PDT)
+Return-Path: <ricardo@foundries.io>
+Received: from localhost.localdomain ([2804:7f5:f480:bcdd:ddb5:2334:2f12:9430])
+        by smtp.gmail.com with ESMTPSA id o8sm552776qtm.9.2020.10.30.16.15.05
+        for <meta-virtualization@lists.yoctoproject.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2020 16:15:06 -0700 (PDT)
+From: "Ricardo Salveti" <ricardo@foundries.io>
+To: meta-virtualization@lists.yoctoproject.org
+Subject: [PATCH 1/2] python3-docker: upgrade 4.2.1 to 4.3.1
+Date: Fri, 30 Oct 2020 20:14:43 -0300
+Message-Id: <20201030231444.26695-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
+Release notes for 4.3.1:
+- Miscellaneous
+  - Set default API version to auto
+  - Fix conversion to bytes for float
+  - Support OpenSSH identityfile option
 
+Release notes for 4.3.0:
+- Features
+  - Add DeviceRequest type to expose host resources such as GPUs
+  - Add support for DriverOpts in EndpointConfig
+  - Disable compression by default when using container.get_archive method
+- Miscellaneous
+  - Update default API version to v1.39
+  - Update test engine version to 19.03.12
 
-> On Oct 30, 2020, at 1:43 AM, Diego Sueiro <diego.sueiro@arm.com> wrote:
->=20
-> =EF=BB=BF
->>=20
->> -----Original Message-----
->> From: meta-virtualization@lists.yoctoproject.org <meta-
->> virtualization@lists.yoctoproject.org> On Behalf Of Diego Sueiro via
->> lists.yoctoproject.org
->> Sent: 27 October 2020 15:56
->> To: meta-virtualization@lists.yoctoproject.org
->> Cc: nd <nd@arm.com>; Diego Sueiro <Diego.Sueiro@arm.com>;
->> christopher.w.clark@gmail.com; cardoe@gentoo.org
->> Subject: [meta-virtualization] [PATCH 2/2] xen: extend SYSROOT_DIRS
->>=20
->> The do_install task also ships files to /boot and /usr/lib64. Hence, exte=
-nd
->> SYSROOT_DIRS to include these paths.
->>=20
->> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
->=20
-> @Christopher,
-> Can you please also review this patch?
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+---
+ .../{python3-docker_4.2.1.bb => python3-docker_4.3.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename recipes-devtools/python/{python3-docker_4.2.1.bb => python3-docker_4.3.1.bb} (76%)
 
-Hi Diego,
+diff --git a/recipes-devtools/python/python3-docker_4.2.1.bb b/recipes-devtools/python/python3-docker_4.3.1.bb
+similarity index 76%
+rename from recipes-devtools/python/python3-docker_4.2.1.bb
+rename to recipes-devtools/python/python3-docker_4.3.1.bb
+index 32b24eb..f873ca6 100644
+--- a/recipes-devtools/python/python3-docker_4.2.1.bb
++++ b/recipes-devtools/python/python3-docker_4.3.1.bb
+@@ -3,8 +3,8 @@ HOMEPAGE = "https://github.com/docker/docker-py"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=34f3846f940453127309b920eeb89660"
+ 
+-SRC_URI[md5sum] = "65111a1e4a2ab83d2ba104cdb17f1326"
+-SRC_URI[sha256sum] = "380a20d38fbfaa872e96ee4d0d23ad9beb0f9ed57ff1c30653cbeb0c9c0964f2"
++SRC_URI[md5sum] = "ce28bd52fe2e33a26394693f01199e6c"
++SRC_URI[sha256sum] = "bad94b8dd001a8a4af19ce4becc17f41b09f228173ffe6a4e0355389eef142f2"
+ 
+ DEPENDS += "${PYTHON_PN}-pip-native"
+ 
+-- 
+2.28.0
 
-I started on reviewing this but it took a little longer than I'd anticipated=
- as it requires it digging into what the SYSROOT_DIRS variable does.
-
-The variables you use for the directories being added look ok, given that th=
-e recipe does install to there, but I don't quite understand why they need t=
-o be added to SYSROOT_DIRS. Does every directory that the recipe installs to=
- need to be listed in that variable? I saw that ${bindir} is not listed as i=
-ncluded in it by default in the Yocto mega-manual docs.
-What behaviour is this change intended to fix? Could it be described in the c=
-ommit message?
-
-Christopher=20
-
->=20
-> Thanks,
->=20
-> --
-> Diego Sueiro
->=20
->> ---
->> recipes-extended/xen/xen-hypervisor.inc | 2 ++
->> 1 file changed, 2 insertions(+)
->>=20
->> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-
->> extended/xen/xen-hypervisor.inc
->> index 6a75d16..916bd3c 100644
->> --- a/recipes-extended/xen/xen-hypervisor.inc
->> +++ b/recipes-extended/xen/xen-hypervisor.inc
->> @@ -55,6 +55,8 @@ do_compile() {
->> do_install() {
->>    oe_runmake DESTDIR=3D"${D}" install-xen  }
->> +# The do_install also ships files in /boot and /usr/lib64 SYSROOT_DIRS
->> ++=3D "/boot ${exec_prefix}/lib64"
->>=20
->> do_deploy() {
->>    install -d ${DEPLOYDIR}
->> --
->> 2.17.1
->=20
