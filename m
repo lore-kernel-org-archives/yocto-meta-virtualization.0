@@ -1,81 +1,70 @@
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com [209.85.167.193])
- by mx.groups.io with SMTP id smtpd.web09.3583.1604365116406237245
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web12.920.1604388589527257290
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Nov 2020 16:58:36 -0800
+ Mon, 02 Nov 2020 23:29:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=THxR5QqN;
- spf=pass (domain: gmail.com, ip: 209.85.167.193, mailfrom: christopher.w.clark@gmail.com)
-Received: by mail-oi1-f193.google.com with SMTP id j7so16653657oie.12
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 02 Nov 2020 16:58:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=r4IVqqEI5pfKzRLln1CaPWDQ6wP81Rt9EmkaR26xbTw=;
-        b=THxR5QqNmC5XNeeS0dff1o3PDF+EthNavMMPzW+y4F4/6O3O25AV0SdhBdxbbY/KZb
-         VjTkwVIVzbwzYQnWJlvJvvng+A3Ob/eo5cXtKqG5IoB+p/w+RDcO8jCtY6txp2PgAbHZ
-         HqdJjTaebS5Cx+zV8qAIaNjNkclErse1bQmAKU3AOIopX7eSQwJk/aEtcn0K5sz5KpSf
-         RPnMTg7j8mZu7zvlw5MT5BaN2Fo8ai0Ta1krFpMOtSbqo6hPvz+A2Gj6h+ySftTnRKTz
-         7I2x1ONrgztzTEmp46XeSX8AQ6aQgfhN70qE5yxAsEHTxn3TtNr8YwxjWwN7tsaAUG8R
-         3tvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=r4IVqqEI5pfKzRLln1CaPWDQ6wP81Rt9EmkaR26xbTw=;
-        b=JVFZkVqMVWp13zVPhWAzkHJGkNJpEeJMWhhsBkyKinM1G/Q9dazU5ckGq9h1ypZNvZ
-         fnu6muqifirdUdNu/ztHMACZgwMVh9ugzFifzKf68Uq2kC0fgNkGuZsQriDfQRuMC7wc
-         Drs4ztwk/S1+ay/zBrzvOpnoJwY5VuYQhtsUM8sV8DfoaN24vk3Ubl8p7qsOdkIGk4g2
-         IU66f2UAZTU25gSCYxEY+fozQ6jrwEovF4A0FzY2ELbeWzdvTL6Fjhs68HYAn/rB5YeK
-         6c6VlY1PhOdI6Xz4lv7wWpeFQ5kiKsh6aOSKsPrbhl5bJARL2KpcZDbQbvW5ptK466Yx
-         gTkA==
-X-Gm-Message-State: AOAM532QEp57ijdrBhwqd1IV+9lWW7oDizL/epeyYGbT/mw18mhuwV2f
-	A6F5qxuHNKFhrN/WsFXLkLpecCsy0Ln8rWvKosc=
-X-Google-Smtp-Source: ABdhPJzBv2IFNsP5L0LcrjtO8XSCQ5lShTrK7dlM87D4WPOTyEOjloT/sr3BLRq7dHjBkw7m/TO/G6QjaxsvvsAcxKA=
-X-Received: by 2002:aca:d941:: with SMTP id q62mr528101oig.33.1604365115715;
- Mon, 02 Nov 2020 16:58:35 -0800 (PST)
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@cn.fujitsu.com)
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.yoctoproject.org (Postfix) with ESMTP id 97EE438C0869
+	for <meta-virtualization@yoctoproject.org>; Mon,  2 Nov 2020 23:29:48 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.77,447,1596470400"; 
+   d="scan'208";a="100858894"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 03 Nov 2020 15:29:16 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id C1D4948990D3
+	for <meta-virtualization@yoctoproject.org>; Tue,  3 Nov 2020 15:29:14 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 3 Nov 2020 15:29:14 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python3-flake8: upgrade 3.8.3 -> 3.8.4
+Date: Tue, 3 Nov 2020 15:29:13 +0800
+Message-ID: <1604388553-74387-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-References: <20201102081357.4975-1-diego.sueiro@arm.com>
-In-Reply-To: <20201102081357.4975-1-diego.sueiro@arm.com>
-From: "Christopher Clark" <christopher.w.clark@gmail.com>
-Date: Mon, 2 Nov 2020 16:58:23 -0800
-Message-ID: <CACMJ4GZmT9Vgf4n8KKdy8YmATw+5dwiVNo-5o+7dUR46spY1-Q@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH v2 2/2] xen: extend SYSROOT_DIRS to include installed binaries
-To: Diego Sueiro <diego.sueiro@arm.com>
-Cc: meta-virtualization@lists.yoctoproject.org, nd <nd@arm.com>, 
-	Doug Goldstein <cardoe@gentoo.org>
-Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: C1D4948990D3.A2819
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-On Mon, Nov 2, 2020 at 12:14 AM Diego Sueiro <diego.sueiro@arm.com> wrote:
->
-> If a recipe DEPENDS on xen we should include its binaries in the sysroot.
-> The do_install task also ships files to /boot and /usr/lib64. Hence, extend
-> SYSROOT_DIRS to include these paths.
->
-> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ .../{python3-flake8_3.8.3.bb => python3-flake8_3.8.4.bb}     | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+ rename meta-openstack/recipes-devtools/python/{python3-flake8_3.8.3.bb => python3-flake8_3.8.4.bb} (72%)
 
-Reviewed-by: Christopher Clark <christopher.w.clark@gmail.com>
+diff --git a/meta-openstack/recipes-devtools/python/python3-flake8_3.8.3.bb b/meta-openstack/recipes-devtools/python/python3-flake8_3.8.4.bb
+similarity index 72%
+rename from meta-openstack/recipes-devtools/python/python3-flake8_3.8.3.bb
+rename to meta-openstack/recipes-devtools/python/python3-flake8_3.8.4.bb
+index 9385c80..cc860c4 100644
+--- a/meta-openstack/recipes-devtools/python/python3-flake8_3.8.3.bb
++++ b/meta-openstack/recipes-devtools/python/python3-flake8_3.8.4.bb
+@@ -4,8 +4,8 @@ SECTION = "devel/python"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=75b26781f1adf1aa310bda6098937878"
+ 
+-SRC_URI[md5sum] = "b11380b47468c3dc7323396d4b8c1746"
+-SRC_URI[sha256sum] = "f04b9fcbac03b0a3e58c0ab3a0ecc462e023a9faf046d57794184028123aa208"
++SRC_URI[md5sum] = "6ab0ad6630b6917fafabded7f80344b4"
++SRC_URI[sha256sum] = "aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b"
+ 
+ inherit setuptools3 pypi
+ 
+@@ -14,4 +14,5 @@ RDEPENDS_${PN} += "python3-prettytable \
+             python3-pyparsing \
+             python3-mccabe \
+             python3-pep8 \
++            python3-logging \
+             python3-pyflakes"
+-- 
+2.25.1
 
-> ---
-> Changes in v2:
->    - Updated commit subject and message
->
->  recipes-extended/xen/xen-hypervisor.inc | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
-> index 6a75d16..916bd3c 100644
-> --- a/recipes-extended/xen/xen-hypervisor.inc
-> +++ b/recipes-extended/xen/xen-hypervisor.inc
-> @@ -55,6 +55,8 @@ do_compile() {
->  do_install() {
->      oe_runmake DESTDIR="${D}" install-xen
->  }
-> +# The do_install also ships files in /boot and /usr/lib64
-> +SYSROOT_DIRS += "/boot ${exec_prefix}/lib64"
->
->  do_deploy() {
->      install -d ${DEPLOYDIR}
-> --
-> 2.17.1
->
+
+
