@@ -1,71 +1,101 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.1109.1604389560269463218
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com [209.85.222.194])
+ by mx.groups.io with SMTP id smtpd.web11.4020.1604438961043699766
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 02 Nov 2020 23:46:00 -0800
+ Tue, 03 Nov 2020 13:29:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id C0E9838C08E3
-	for <meta-virtualization@yoctoproject.org>; Mon,  2 Nov 2020 23:45:59 -0800 (PST)
-X-IronPort-AV: E=Sophos;i="5.77,447,1596470400"; 
-   d="scan'208";a="100859556"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 03 Nov 2020 15:45:58 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4E82C4CE34F9
-	for <meta-virtualization@yoctoproject.org>; Tue,  3 Nov 2020 15:45:53 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 3 Nov 2020 15:45:50 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-futurist: upgrade 2.2.0 -> 2.3.0
-Date: Tue, 3 Nov 2020 15:45:52 +0800
-Message-ID: <1604389552-98703-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=UCd4+Kzw;
+ spf=pass (domain: gmail.com, ip: 209.85.222.194, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f194.google.com with SMTP id s14so16643539qkg.11
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 03 Nov 2020 13:29:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :in-reply-to:user-agent;
+        bh=dSvnmOATYE/pARhiChy3fm1a9ccmqSZZ7XzLCvgbtbM=;
+        b=UCd4+KzwFJugnIPV9MmENZzYK6eG5hn7jEmX+0SOIL50tqSV2X65Dmro7Zfy0gF2rh
+         UM1Gw775cEtd9E1cjUGfMeByMvVpBsMQHY3vwgsKqsEwfHfmv6LvcS0Oo0RHKIwDvoMb
+         u9xTykF5lY6wngQlsK78b+ilGNEETpFKOfuqnb+sGr1/MlfSEEuVn4/gUQNBp4e/piYh
+         UWV4e9FGQo6pD/d5DnCTSn9At/M1i6Z9CFLzY095s4ZEMa32hGeckaSLNpWBAT0YoVhH
+         EH4AfNtCD9hV7kUiJybXJKMQPtR4iwT8gLcFglujEq29f9cCTVsaIIj/22XM3mdpvry+
+         j4Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=dSvnmOATYE/pARhiChy3fm1a9ccmqSZZ7XzLCvgbtbM=;
+        b=iVAmLEchJk+HZ5vp0LAg0CJhn6uh1noSjtJOpu5Ghse/GFV3Ed9uhtXXWd27gQLd9G
+         ZptJeNs1T1cOI458Oub08XtJeABOKPaeiK+yAkOj1baOl9g5Eqo1HHeK1eKDwZs89FSr
+         pOZX85KaS570QHUBpW4qlImKGzqKgNPSME8XEAfsICXTAWJQHjV1dd5QNqQGIa48KCxL
+         foZF2R1UIBV6in0S5toVgs4CdJp3P+kGoOIcum+WnQb5+GMqokFTtycIiGi5mN94FA8D
+         SMF9Gb0NXuIWSqpN/guhEbG+pVCr5uuIuTyNDcHQk6381aUQfod16mmbTW9vLjRNA29X
+         jPtQ==
+X-Gm-Message-State: AOAM533dmAwEjYQ2GKmdKz4lTLbkUcUjx/FC/wDf8ok4w0opAO6dVCKG
+	6Ck+D44fzqhcvRIXiawPmOY=
+X-Google-Smtp-Source: ABdhPJxRtot1IK2sXF7JC7NJ2xk0oXmJU5iPAsIQL55RtOdNc1+lxkzeN24szc8eA5X1bCLYAtOmKg==
+X-Received: by 2002:a37:aa8b:: with SMTP id t133mr21549189qke.487.1604438960155;
+        Tue, 03 Nov 2020 13:29:20 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
+        by smtp.gmail.com with ESMTPSA id 9sm12129281qkv.110.2020.11.03.13.29.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2020 13:29:19 -0800 (PST)
+Date: Tue, 3 Nov 2020 16:29:17 -0500
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Diego Sueiro <diego.sueiro@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org, nd@arm.com,
+	christopher.w.clark@gmail.com, cardoe@gentoo.org
+Subject: Re: [meta-virtualization] [PATCH v2 2/2] xen: extend SYSROOT_DIRS to include installed binaries
+Message-ID: <20201103212914.GA40662@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 4E82C4CE34F9.A798C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Content-Type: text/plain
+In-Reply-To: <20201027155536.12513-1-diego.sueiro@arm.com>
+ <20201102081357.4975-1-diego.sueiro@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- .../{python3-futurist_2.2.0.bb => python3-futurist_2.3.0.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta-openstack/recipes-devtools/python/{python3-futurist_2.2.0.bb => python3-futurist_2.3.0.bb} (74%)
+v2 looks good to me as well (FWIW: I had to do the same thing
+when implementing initramfs and qemu to ensure that extra parts
+of the qemu build were availble to recipes).
 
-diff --git a/meta-openstack/recipes-devtools/python/python3-futurist_2.2.0.bb b/meta-openstack/recipes-devtools/python/python3-futurist_2.3.0.bb
-similarity index 74%
-rename from meta-openstack/recipes-devtools/python/python3-futurist_2.2.0.bb
-rename to meta-openstack/recipes-devtools/python/python3-futurist_2.3.0.bb
-index 4788fb2..2e63d90 100644
---- a/meta-openstack/recipes-devtools/python/python3-futurist_2.2.0.bb
-+++ b/meta-openstack/recipes-devtools/python/python3-futurist_2.3.0.bb
-@@ -4,8 +4,8 @@ SECTION = "devel/python"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
- 
--SRC_URI[md5sum] = "708ae19b7e3bef70b47166da1e72392c"
--SRC_URI[sha256sum] = "3601ea64e3423b169683cffff58939ecee5cd5268834b20bf2da071c2563a43c"
-+SRC_URI[md5sum] = "4d642f5825a516d676356094179c6d27"
-+SRC_URI[sha256sum] = "174ea146adf303d7e5d7d6d34e3a01f4abf0382b03a6f9309bac2e2d54ffbed6"
- 
- inherit setuptools3 pypi
- 
-@@ -20,5 +20,6 @@ RDEPENDS_${PN} += " \
-         python3-monotonic \
-         python3-contextlib2 \
-         python3-prettytable \
-+        python3-multiprocessing \
-         "
- 
--- 
-2.25.1
+This is now merged.
 
+Bruce
+
+
+In message: [meta-virtualization] [PATCH v2 2/2] xen: extend SYSROOT_DIRS to include installed binaries
+on 02/11/2020 Diego Sueiro wrote:
+
+> If a recipe DEPENDS on xen we should include its binaries in the sysroot.
+> The do_install task also ships files to /boot and /usr/lib64. Hence, extend
+> SYSROOT_DIRS to include these paths.
+> 
+> Signed-off-by: Diego Sueiro <diego.sueiro@arm.com>
+> ---
+> Changes in v2:
+>    - Updated commit subject and message
+> 
+>  recipes-extended/xen/xen-hypervisor.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/recipes-extended/xen/xen-hypervisor.inc b/recipes-extended/xen/xen-hypervisor.inc
+> index 6a75d16..916bd3c 100644
+> --- a/recipes-extended/xen/xen-hypervisor.inc
+> +++ b/recipes-extended/xen/xen-hypervisor.inc
+> @@ -55,6 +55,8 @@ do_compile() {
+>  do_install() {
+>      oe_runmake DESTDIR="${D}" install-xen
+>  }
+> +# The do_install also ships files in /boot and /usr/lib64
+> +SYSROOT_DIRS += "/boot ${exec_prefix}/lib64"
+>  
+>  do_deploy() {
+>      install -d ${DEPLOYDIR}
+> -- 
+> 2.17.1
+> 
+
+> 
+> 
+> 
 
 
