@@ -1,148 +1,83 @@
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
- by mx.groups.io with SMTP id smtpd.web10.175.1604683568735311709
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com [209.85.166.45])
+ by mx.groups.io with SMTP id smtpd.web11.193.1604683648119364943
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Nov 2020 09:26:08 -0800
+ Fri, 06 Nov 2020 09:27:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=QP9OqZOQ;
- spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: alistair23@gmail.com)
-Received: by mail-il1-f176.google.com with SMTP id a20so1697059ilk.13
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Nov 2020 09:26:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=IRTRIjB9;
+ spf=pass (domain: gmail.com, ip: 209.85.166.45, mailfrom: alistair23@gmail.com)
+Received: by mail-io1-f45.google.com with SMTP id r12so2256128iot.4
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Nov 2020 09:27:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=jA2LLrjoWr3Oc61Q96Opk9q5To/RWlv/qZQgM51Ffjw=;
-        b=QP9OqZOQjYO1mojOgjjhPDIgm8Sf16/lO+rhNeFl7AKXoKcatXXybF+dthvbnk/3pp
-         1tZV/gTcFJ5iBXfHk0ZYBhwMmfjV4U+OVhYaCfY/cbawEq8ZyOwJk5sDG4iRA0NkorQ4
-         UYoXdYH4UbKE0hbInnilEqROcOM3gw67TJMjSvDRKTLziiBv1/NG6dw9rhgNJjDiBJaU
-         smqBpV0QvkMAaenaiiTFdCqCf9v1jOZJKt3hKMs9eK7mls1Oz1wmyYapGjmLbIHrP5aT
-         FMZX0OLlcVv7xcOTeI6/0BXKE0rLhD/ecxUHZ7BrT+GZpulvhBOml7fbnvLWX9MmI30Y
-         Rjhg==
+        bh=PsoGDgzu/urNhVFzhNPUrf9OHKCgkKIeLIRAgUVKFjw=;
+        b=IRTRIjB91Brdt7ELpSXwgw/Ypnc+reyLUzE2qRpGAu4+PnTzNvB8F55omnIAXXiWmL
+         8c9TvQlhDY11BWJzENO6JMSAw7rcZGzmg4549GlAPox+bj5T0JlJPe+pnjsKRuI5e8oA
+         zydwb4e2EYKc+BFjdJqQDYBinzugYtOepYhmVV0n3oqyEKGwPmTh/njAl8itwSBcBc5S
+         vrcOhjjBmIIQEBNWd4cECpx3zXOqPFBr2p4zqSik/g0sXYgCIEDV4hWxcbkwEuX+j0oL
+         L2v741MG8AKU30HwvXk+RsMLbyxiUzXI7U4MllKyj3q8Z+8tHiG8MJ2dGgJnIKdFYp1k
+         peOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=jA2LLrjoWr3Oc61Q96Opk9q5To/RWlv/qZQgM51Ffjw=;
-        b=ttvconLarBsfUZTvt2ck6y/2ig3/u4hYUVjFJk+9/YEdpnWffp5/rEVRdXxxpnH0xe
-         vuKyhWuHtUdHmDzvY7PFBDrBmiOdT/zEB8w+n5ADbbuEsIQQ9xLDahm0BjqA4g42D8c9
-         MJaIWgxR3bwM2S55fVjTCmKUmndGhyA1BQ61wm8HEZjh8DktUjZQ9WvbNIANeBDRs2ys
-         hHdlvibMK5y2e6gE+LdB+ovYolcBL/awNsjmGuRiQflQzLS+BfmVwgV+LNDYwzCal5je
-         eNMzIx2iRdZ2xZO9c+WCh+0TkImS/yBzkmF74fJnBdgATAu0GhUqz1SQZCF44B3bo4GH
-         9gRw==
-X-Gm-Message-State: AOAM531WI5jPgEjoQgMbVmbV2bwq/FyMW0FPknsu4Xj9a/1ReZwA/v1K
-	nn8ShUuTCP7yUkk2KhbLyf9wpCh19s4azVuvV6M=
-X-Google-Smtp-Source: ABdhPJyCQ2EWaW+9sh1Y2hqqAmShcI/YssfnO+4LHl6Nyoci9Q8lGGhplebDSh382lF6cEHxWMHFPQ/hi/xZ7ouPxy0=
-X-Received: by 2002:a92:5eda:: with SMTP id f87mr2267098ilg.131.1604683568033;
- Fri, 06 Nov 2020 09:26:08 -0800 (PST)
+        bh=PsoGDgzu/urNhVFzhNPUrf9OHKCgkKIeLIRAgUVKFjw=;
+        b=hPn3UdRQuSQFcWBR/ivvmBjKcrDmmnYvcoBxa5B5X5qzg7/m6v99hwZmbkOyOG3daj
+         WyKLx8Mep14p4apAJ0TxRPOBU4a317m/Pmv/SUMfo37k5iZL8mfksi3HzUzmP2f2qsJM
+         lLX047SaArJldGFT4tKvykM8NYQ0fOMbgsG3O+GNF4/6uFoytFWvi2V83crEKG/gVNwM
+         Azw7KKonY4q54K2HRlGBNHm3DdvxcdnDznhnZKaHGzM0fST3X7G6krnDkjSel58/8/P0
+         stk2OuMnXFi7nGivdxD/AudPc7BChta+1hrpqw/PiSK2JTrGAUtoUWrMjQTeiJmbPaal
+         mEEw==
+X-Gm-Message-State: AOAM532X1IQW5yk7uu86mSMofohw7MbjqWjvsd6Br4F0E1c+UTd15XwD
+	AWdP6RvBdKXSiBXSNkYl9LMhK2dPS7bgDGvDUOE=
+X-Google-Smtp-Source: ABdhPJychrMHclYNPO0R7KQIL4zbpHPnhtowTc3f4FaB9WYFe2VFdtGIMP3JKMPb9ElF7cj1zKEE17eew+hFalPnVfc=
+X-Received: by 2002:a5d:9d58:: with SMTP id k24mr2209137iok.118.1604683647597;
+ Fri, 06 Nov 2020 09:27:27 -0800 (PST)
 MIME-Version: 1.0
-References: <20201106140519.765558-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20201106140519.765558-1-Martin.Jansa@gmail.com>
+References: <20201106140937.765868-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20201106140937.765868-1-Martin.Jansa@gmail.com>
 From: "Alistair Francis" <alistair23@gmail.com>
-Date: Fri, 6 Nov 2020 09:25:39 -0800
-Message-ID: <CAKmqyKOY5D3nfP-qKyxdW-HZj2PJW6P8WUSKFD_8C+wzKTSNKg@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] xvisor: fix build with gcc-10
+Date: Fri, 6 Nov 2020 09:26:59 -0800
+Message-ID: <CAKmqyKN7HsWL1X5YfDPGZKmzD89cYDD35FGH4P-Y8X1JDPK3wg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xvisor: skip QA checks ldflags and textrel
 To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 6, 2020 at 6:05 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+On Fri, Nov 6, 2020 at 6:09 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
 >
-> * with gcc-10 (which doesn't include -fcommon by default) it fails like this:
->   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/mmc.o: multiple definition of 'sdio_func_type'
->   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/sdio_bus.o: multiple definition of 'sdio_func_type'
->   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/sdio_io.o: multiple definition of 'sdio_func_type'
->   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/sdio.o: multiple definition of 'sdio_func_type'
->   aarch64-oe-linux-ld: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/core.o: previous definition here
+> * feel free to fix it properly, I don't use xvisor at all
+>   it just shown these 2 errors in my aarch64 world builds
+>   and this recipe needs more love than just these 2 issues
+>   like setting PV to something better than "git"
 >
 > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Just FYI when the next QEMU release happens I'll update Xvisor. At
+that time I can try and cleanup the recipe a bit more to improve some
+of these errors.
+
 Alistair
 
 > ---
->  ...-Allow-Xvisor-to-compile-with-gcc-10.patch | 55 +++++++++++++++++++
->  recipes-extended/xvisor/xvisor_git.bb         |  5 +-
->  2 files changed, 58 insertions(+), 2 deletions(-)
->  create mode 100644 recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
+>  recipes-extended/xvisor/xvisor_git.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 >
-> diff --git a/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch b/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
-> new file mode 100644
-> index 0000000..221a314
-> --- /dev/null
-> +++ b/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
-> @@ -0,0 +1,55 @@
-> +From 417184cc41cfd33ae7b4c11c8396e0f47f43e2ba Mon Sep 17 00:00:00 2001
-> +From: Jean-Christophe Dubois <jcd@tribudubois.net>
-> +Date: Fri, 8 May 2020 15:17:36 +0200
-> +Subject: [PATCH] EMULATORS: Allow Xvisor to compile with gcc 10.
-> +
-> +With gcc 10 because some header files do not declare some variable
-> +definition as extern, the variable get duplicated in all files
-> +using it.
-> +
-> +This patch allow xvisor to compile with the latest gcc.
-> +
-> +Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
-> +Reviewed-by: Anup Patel <anup@brainfault.org>
-> +---
-> + drivers/mmc/core/core.h    |  2 +-
-> + emulators/display/drawfn.h | 10 +++++-----
-> + 2 files changed, 6 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/drivers/mmc/core/core.h b/drivers/mmc/core/core.h
-> +index d75d135a..e2ca3141 100644
-> +--- a/drivers/mmc/core/core.h
-> ++++ b/drivers/mmc/core/core.h
-> +@@ -64,7 +64,7 @@ int mmc_go_idle(struct mmc_host *host);
-> +  * Note: Must be called with host->lock held.
-> +  */
-> + extern struct vmm_bus sdio_bus_type;
-> +-struct vmm_device_type sdio_func_type;
-> ++extern struct vmm_device_type sdio_func_type;
-> +
-> + int __sdio_attach(struct mmc_host *host);
-> +
-> +diff --git a/emulators/display/drawfn.h b/emulators/display/drawfn.h
-> +index f9163cff..385deaf6 100644
-> +--- a/emulators/display/drawfn.h
-> ++++ b/emulators/display/drawfn.h
-> +@@ -69,14 +69,14 @@ typedef void (*drawfn)(struct vmm_surface *,
-> +                                DRAWFN_ORDER_MAX * \
-> +                                DRAWFN_FORMAT_MAX)
-> +
-> +-drawfn drawfn_surface_fntable_8[DRAWFN_FNTABLE_SIZE];
-> ++extern drawfn drawfn_surface_fntable_8[DRAWFN_FNTABLE_SIZE];
-> +
-> +-drawfn drawfn_surface_fntable_15[DRAWFN_FNTABLE_SIZE];
-> ++extern drawfn drawfn_surface_fntable_15[DRAWFN_FNTABLE_SIZE];
-> +
-> +-drawfn drawfn_surface_fntable_16[DRAWFN_FNTABLE_SIZE];
-> ++extern drawfn drawfn_surface_fntable_16[DRAWFN_FNTABLE_SIZE];
-> +
-> +-drawfn drawfn_surface_fntable_24[DRAWFN_FNTABLE_SIZE];
-> ++extern drawfn drawfn_surface_fntable_24[DRAWFN_FNTABLE_SIZE];
-> +
-> +-drawfn drawfn_surface_fntable_32[DRAWFN_FNTABLE_SIZE];
-> ++extern drawfn drawfn_surface_fntable_32[DRAWFN_FNTABLE_SIZE];
-> +
-> + #endif
 > diff --git a/recipes-extended/xvisor/xvisor_git.bb b/recipes-extended/xvisor/xvisor_git.bb
-> index 64b0f22..50323d7 100644
+> index 50323d7..831c943 100644
 > --- a/recipes-extended/xvisor/xvisor_git.bb
 > +++ b/recipes-extended/xvisor/xvisor_git.bb
-> @@ -11,8 +11,9 @@ inherit autotools-brokensep
->  # This version support the RISC-V v0.5.0 Hypervisor extensions
->  SRCREV = "b3dac5b1f61f23f21dc59b3880897cff78f3b618"
->  SRC_URI = "git://github.com/avpatel/xvisor-next.git \
-> -           file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
-> -          "
-> +    file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
-> +    file://0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch \
-> +"
+> @@ -49,3 +49,7 @@ FILES_${PN} += "/*.dtb"
 >
->  S = "${WORKDIR}/git"
->
+>  COMPATIBLE_HOST = "(aarch64|riscv64|riscv32).*"
+>  INHIBIT_PACKAGE_STRIP = "1"
+> +
+> +# ERROR: xvisor-git-r0 do_package_qa: QA Issue: File /vmm.elf in package xvisor doesn't have GNU_HASH (didn't pass LDFLAGS?) [ldflags]
+> +# ERROR: xvisor-git-r0 do_package_qa: QA Issue: xvisor: ELF binary /vmm.elf has relocations in .text [textrel]
+> +INSANE_SKIP_${PN} += "ldflags textrel"
 > --
 > 2.27.0
 >
