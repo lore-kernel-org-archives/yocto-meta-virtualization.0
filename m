@@ -1,144 +1,151 @@
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.12183.1604671830738321993
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web10.175.1604683568735311709
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 06 Nov 2020 06:10:31 -0800
+ Fri, 06 Nov 2020 09:26:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=OGW2FXLs;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id k3so2103643ejj.10
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Nov 2020 06:10:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=QP9OqZOQ;
+ spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: alistair23@gmail.com)
+Received: by mail-il1-f176.google.com with SMTP id a20so1697059ilk.13
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 06 Nov 2020 09:26:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=iJPWT+r/zz15q12JHCMGgCBx/tTApKy3aUpAe1RtPCY=;
-        b=OGW2FXLs3jpGlFbFYXfD+ZK1g19C9f8OHTWS5C9TveZ7V9bZBJh5DlUwigpdfQ+YXb
-         US7wyySogQEG/DBn/qyFTmkvKpVir4Gx0UUG5KGiVWLTO00jlNjdA2JKpcUthklzIMCx
-         UIJ/Q2YdjqDyF8caV6I7NHy37B79qZNR6z0Mx4Y01xvfxWkM4H6YPZIWjMR8pTJIg9jG
-         K/A90a8w39LDgomEhXJw8xMdME1HAsKGuh0qljj6VVUiPbr5IRxUQ4AphS73tbfhSqUe
-         cFCElYwXaO2A8YvDi0AKntS/R5IP6j9KB8cSPU/VIXuthWsyCejLKs9URHqTmbsTtYy1
-         /2Ww==
+        bh=jA2LLrjoWr3Oc61Q96Opk9q5To/RWlv/qZQgM51Ffjw=;
+        b=QP9OqZOQjYO1mojOgjjhPDIgm8Sf16/lO+rhNeFl7AKXoKcatXXybF+dthvbnk/3pp
+         1tZV/gTcFJ5iBXfHk0ZYBhwMmfjV4U+OVhYaCfY/cbawEq8ZyOwJk5sDG4iRA0NkorQ4
+         UYoXdYH4UbKE0hbInnilEqROcOM3gw67TJMjSvDRKTLziiBv1/NG6dw9rhgNJjDiBJaU
+         smqBpV0QvkMAaenaiiTFdCqCf9v1jOZJKt3hKMs9eK7mls1Oz1wmyYapGjmLbIHrP5aT
+         FMZX0OLlcVv7xcOTeI6/0BXKE0rLhD/ecxUHZ7BrT+GZpulvhBOml7fbnvLWX9MmI30Y
+         Rjhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=iJPWT+r/zz15q12JHCMGgCBx/tTApKy3aUpAe1RtPCY=;
-        b=VihJBegqcfZ4VUD9uWvzrODhejXxlZkLaeo3s8QrSJyl+GTGclOlOUCK29mfBwTZP4
-         lhSWBFWmJNVMMMo+sRlt3JjJmSkCDlQZuSoJvC08oJn7evl6Y4PDRF9mleUceYHhGUv+
-         bnwXnLcXrwHhWICb1mXuO4R2fK9HOHq93ep0KmvHttuKQK6DYToOB9HElDTP4DMdSJVU
-         57ES8TtNLCFGZGXoTiQZG7kHBJ1AMidrrPQ/EXbDKXOXf6NXmgDY6WmvP2qClKnzDCxg
-         p3Ydc0uRzjd6DoMOKiKGq8HbM5muIyLVBIXQZ9Gti3+uGmJM8/XO8xwP93LcXhtuaBy6
-         t2/A==
-X-Gm-Message-State: AOAM5338ID/aLDLHHgfJ8sQkAs9Bzp2p5Y/jYFxFkc3VVu+0QEpuM0Zv
-	btBDTN1smvsb3Iec4IlWWZPmGDKD3cn7JHPKI8A=
-X-Google-Smtp-Source: ABdhPJw3YoBuxPHoUyZ17ZW4ZVOEIn+ZJnCYVl370qYnmbiesK+38kBvTBjl5j9r/gvXH3Nr6bykh/NiQT4/i2EJRZo=
-X-Received: by 2002:a17:906:e2c3:: with SMTP id gr3mr2115660ejb.471.1604671829260;
- Fri, 06 Nov 2020 06:10:29 -0800 (PST)
+        bh=jA2LLrjoWr3Oc61Q96Opk9q5To/RWlv/qZQgM51Ffjw=;
+        b=ttvconLarBsfUZTvt2ck6y/2ig3/u4hYUVjFJk+9/YEdpnWffp5/rEVRdXxxpnH0xe
+         vuKyhWuHtUdHmDzvY7PFBDrBmiOdT/zEB8w+n5ADbbuEsIQQ9xLDahm0BjqA4g42D8c9
+         MJaIWgxR3bwM2S55fVjTCmKUmndGhyA1BQ61wm8HEZjh8DktUjZQ9WvbNIANeBDRs2ys
+         hHdlvibMK5y2e6gE+LdB+ovYolcBL/awNsjmGuRiQflQzLS+BfmVwgV+LNDYwzCal5je
+         eNMzIx2iRdZ2xZO9c+WCh+0TkImS/yBzkmF74fJnBdgATAu0GhUqz1SQZCF44B3bo4GH
+         9gRw==
+X-Gm-Message-State: AOAM531WI5jPgEjoQgMbVmbV2bwq/FyMW0FPknsu4Xj9a/1ReZwA/v1K
+	nn8ShUuTCP7yUkk2KhbLyf9wpCh19s4azVuvV6M=
+X-Google-Smtp-Source: ABdhPJyCQ2EWaW+9sh1Y2hqqAmShcI/YssfnO+4LHl6Nyoci9Q8lGGhplebDSh382lF6cEHxWMHFPQ/hi/xZ7ouPxy0=
+X-Received: by 2002:a92:5eda:: with SMTP id f87mr2267098ilg.131.1604683568033;
+ Fri, 06 Nov 2020 09:26:08 -0800 (PST)
 MIME-Version: 1.0
-References: <1644F07A1FB221DF.2515@lists.yoctoproject.org>
-In-Reply-To: <1644F07A1FB221DF.2515@lists.yoctoproject.org>
-From: "Martin Jansa" <Martin.Jansa@gmail.com>
-Date: Fri, 6 Nov 2020 15:10:18 +0100
-Message-ID: <CA+chaQcM2oVZM2i+3pOcDC3kDD2z2CCVEtzRdBPq5EfePqkrCg@mail.gmail.com>
-Subject: Re: [meta-virtualization][PATCH] layer.conf: add security to LAYERDEPENDS
+References: <20201106140519.765558-1-Martin.Jansa@gmail.com>
+In-Reply-To: <20201106140519.765558-1-Martin.Jansa@gmail.com>
+From: "Alistair Francis" <alistair23@gmail.com>
+Date: Fri, 6 Nov 2020 09:25:39 -0800
+Message-ID: <CAKmqyKOY5D3nfP-qKyxdW-HZj2PJW6P8WUSKFD_8C+wzKTSNKg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] xvisor: fix build with gcc-10
 To: Martin Jansa <Martin.Jansa@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000005d3d6805b370c6eb"
-
---0000000000005d3d6805b370c6eb
 Content-Type: text/plain; charset="UTF-8"
 
-ignore this one, it was sent by accident (and already rejected before)
-
-On Fri, Nov 6, 2020 at 3:09 PM Martin Jansa via lists.yoctoproject.org
-<Martin.Jansa=gmail.com@lists.yoctoproject.org> wrote:
-
-> * fixes:
->   NOTE: Resolving any missing task queue dependencies
->   ERROR: Nothing PROVIDES 'libseccomp' (but
-> /OE/meta-virtualization/recipes-networking/slirp4netns/
-> slirp4netns_0.4.1.bb, /OE/meta-virtualization/recipes-containers/crun/
-> crun_git.bb DEPENDS on or otherwise requires it). Close matches:
->     libcomps
->   ERROR: Required build target 'meta-world-pkgdata' has no buildable
-> providers.
->   Missing or unbuildable dependency chain was: ['meta-world-pkgdata',
-> 'slirp4netns', 'libseccomp']
+On Fri, Nov 6, 2020 at 6:05 AM Martin Jansa <Martin.Jansa@gmail.com> wrote:
+>
+> * with gcc-10 (which doesn't include -fcommon by default) it fails like this:
+>   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/mmc.o: multiple definition of 'sdio_func_type'
+>   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/sdio_bus.o: multiple definition of 'sdio_func_type'
+>   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/sdio_io.o: multiple definition of 'sdio_func_type'
+>   aarch64-oe-linux-ld: error: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/sdio.o: multiple definition of 'sdio_func_type'
+>   aarch64-oe-linux-ld: TOPDIR/BUILD/work/raspberrypi3_64-oe-linux/xvisor/git-r0/git/build/drivers/mmc/core/core.o: previous definition here
 >
 > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  conf/layer.conf | 1 +
->  1 file changed, 1 insertion(+)
+>  ...-Allow-Xvisor-to-compile-with-gcc-10.patch | 55 +++++++++++++++++++
+>  recipes-extended/xvisor/xvisor_git.bb         |  5 +-
+>  2 files changed, 58 insertions(+), 2 deletions(-)
+>  create mode 100644 recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
 >
-> diff --git a/conf/layer.conf b/conf/layer.conf
-> index 4294f99..9d741be 100644
-> --- a/conf/layer.conf
-> +++ b/conf/layer.conf
-> @@ -38,6 +38,7 @@ LAYERDEPENDS_virtualization-layer = " \
->      networking-layer \
->      filesystems-layer \
->      meta-python \
-> +    security \
->  "
+> diff --git a/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch b/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
+> new file mode 100644
+> index 0000000..221a314
+> --- /dev/null
+> +++ b/recipes-extended/xvisor/files/0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch
+> @@ -0,0 +1,55 @@
+> +From 417184cc41cfd33ae7b4c11c8396e0f47f43e2ba Mon Sep 17 00:00:00 2001
+> +From: Jean-Christophe Dubois <jcd@tribudubois.net>
+> +Date: Fri, 8 May 2020 15:17:36 +0200
+> +Subject: [PATCH] EMULATORS: Allow Xvisor to compile with gcc 10.
+> +
+> +With gcc 10 because some header files do not declare some variable
+> +definition as extern, the variable get duplicated in all files
+> +using it.
+> +
+> +This patch allow xvisor to compile with the latest gcc.
+> +
+> +Signed-off-by: Jean-Christophe Dubois <jcd@tribudubois.net>
+> +Reviewed-by: Anup Patel <anup@brainfault.org>
+> +---
+> + drivers/mmc/core/core.h    |  2 +-
+> + emulators/display/drawfn.h | 10 +++++-----
+> + 2 files changed, 6 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/drivers/mmc/core/core.h b/drivers/mmc/core/core.h
+> +index d75d135a..e2ca3141 100644
+> +--- a/drivers/mmc/core/core.h
+> ++++ b/drivers/mmc/core/core.h
+> +@@ -64,7 +64,7 @@ int mmc_go_idle(struct mmc_host *host);
+> +  * Note: Must be called with host->lock held.
+> +  */
+> + extern struct vmm_bus sdio_bus_type;
+> +-struct vmm_device_type sdio_func_type;
+> ++extern struct vmm_device_type sdio_func_type;
+> +
+> + int __sdio_attach(struct mmc_host *host);
+> +
+> +diff --git a/emulators/display/drawfn.h b/emulators/display/drawfn.h
+> +index f9163cff..385deaf6 100644
+> +--- a/emulators/display/drawfn.h
+> ++++ b/emulators/display/drawfn.h
+> +@@ -69,14 +69,14 @@ typedef void (*drawfn)(struct vmm_surface *,
+> +                                DRAWFN_ORDER_MAX * \
+> +                                DRAWFN_FORMAT_MAX)
+> +
+> +-drawfn drawfn_surface_fntable_8[DRAWFN_FNTABLE_SIZE];
+> ++extern drawfn drawfn_surface_fntable_8[DRAWFN_FNTABLE_SIZE];
+> +
+> +-drawfn drawfn_surface_fntable_15[DRAWFN_FNTABLE_SIZE];
+> ++extern drawfn drawfn_surface_fntable_15[DRAWFN_FNTABLE_SIZE];
+> +
+> +-drawfn drawfn_surface_fntable_16[DRAWFN_FNTABLE_SIZE];
+> ++extern drawfn drawfn_surface_fntable_16[DRAWFN_FNTABLE_SIZE];
+> +
+> +-drawfn drawfn_surface_fntable_24[DRAWFN_FNTABLE_SIZE];
+> ++extern drawfn drawfn_surface_fntable_24[DRAWFN_FNTABLE_SIZE];
+> +
+> +-drawfn drawfn_surface_fntable_32[DRAWFN_FNTABLE_SIZE];
+> ++extern drawfn drawfn_surface_fntable_32[DRAWFN_FNTABLE_SIZE];
+> +
+> + #endif
+> diff --git a/recipes-extended/xvisor/xvisor_git.bb b/recipes-extended/xvisor/xvisor_git.bb
+> index 64b0f22..50323d7 100644
+> --- a/recipes-extended/xvisor/xvisor_git.bb
+> +++ b/recipes-extended/xvisor/xvisor_git.bb
+> @@ -11,8 +11,9 @@ inherit autotools-brokensep
+>  # This version support the RISC-V v0.5.0 Hypervisor extensions
+>  SRCREV = "b3dac5b1f61f23f21dc59b3880897cff78f3b618"
+>  SRC_URI = "git://github.com/avpatel/xvisor-next.git \
+> -           file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
+> -          "
+> +    file://0001-TESTS-Don-t-specify-mabi-or-march-for-RISC-V.patch \
+> +    file://0001-EMULATORS-Allow-Xvisor-to-compile-with-gcc-10.patch \
+> +"
 >
->  # webserver: naigos requires apache2
+>  S = "${WORKDIR}/git"
+>
 > --
 > 2.27.0
 >
 >
 > 
 >
->
-
---0000000000005d3d6805b370c6eb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">ignore this one, it was sent by accident (and already reje=
-cted before)</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"=
-gmail_attr">On Fri, Nov 6, 2020 at 3:09 PM Martin Jansa via <a href=3D"http=
-://lists.yoctoproject.org">lists.yoctoproject.org</a> &lt;Martin.Jansa=3D<a=
- href=3D"mailto:gmail.com@lists.yoctoproject.org">gmail.com@lists.yoctoproj=
-ect.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">* fixes:<br>
-=C2=A0 NOTE: Resolving any missing task queue dependencies<br>
-=C2=A0 ERROR: Nothing PROVIDES &#39;libseccomp&#39; (but /OE/meta-virtuali=
-zation/recipes-networking/slirp4netns/<a href=3D"http://slirp4netns_0.4.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">slirp4netns_0.4.1.bb</a>, /OE/meta-=
-virtualization/recipes-containers/crun/<a href=3D"http://crun_git.bb" rel=
-=3D"noreferrer" target=3D"_blank">crun_git.bb</a> DEPENDS on or otherwise =
-requires it). Close matches:<br>
-=C2=A0 =C2=A0 libcomps<br>
-=C2=A0 ERROR: Required build target &#39;meta-world-pkgdata&#39; has no bu=
-ildable providers.<br>
-=C2=A0 Missing or unbuildable dependency chain was: [&#39;meta-world-pkgda=
-ta&#39;, &#39;slirp4netns&#39;, &#39;libseccomp&#39;]<br>
-<br>
-Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.com" =
-target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
----<br>
-=C2=A0conf/layer.conf | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/conf/layer.conf b/conf/layer.conf<br>
-index 4294f99..9d741be 100644<br>
---- a/conf/layer.conf<br>
-+++ b/conf/layer.conf<br>
-@@ -38,6 +38,7 @@ LAYERDEPENDS_virtualization-layer =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0networking-layer \<br>
-=C2=A0 =C2=A0 =C2=A0filesystems-layer \<br>
-=C2=A0 =C2=A0 =C2=A0meta-python \<br>
-+=C2=A0 =C2=A0 security \<br>
-=C2=A0&quot;<br>
-<br>
-=C2=A0# webserver: naigos requires apache2<br>
--- <br>
-2.27.0<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000005d3d6805b370c6eb--
