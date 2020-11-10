@@ -1,128 +1,77 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web09.12541.1604933377029216289
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web09.21593.1604970519767475308
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 09 Nov 2020 06:49:37 -0800
+ Mon, 09 Nov 2020 17:08:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: bertrand.marquis@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B25021435
-	for <meta-virtualization@lists.yoctoproject.org>; Mon,  9 Nov 2020 06:49:36 -0800 (PST)
-Received: from e109506-lin.cambridge.arm.com (e109506-lin.cambridge.arm.com [10.1.199.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5EF0F3F719
-	for <meta-virtualization@lists.yoctoproject.org>; Mon,  9 Nov 2020 06:49:36 -0800 (PST)
-From: "Bertrand Marquis" <bertrand.marquis@arm.com>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [PATCH 2/2] xen: Fix xenpmd compilation error on arm32
-Date: Mon,  9 Nov 2020 14:49:27 +0000
-Message-Id: <fe22da1f2e1be6076a47ac99189dcfbe321ff71a.1604933003.git.bertrand.marquis@arm.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <df132acec4c899d81d6a1b52746f0dc782c08e39.1604933003.git.bertrand.marquis@arm.com>
-References: <df132acec4c899d81d6a1b52746f0dc782c08e39.1604933003.git.bertrand.marquis@arm.com>
-In-Reply-To: <cover.1604933003.git.bertrand.marquis@arm.com>
-References: <cover.1604933003.git.bertrand.marquis@arm.com>
+ dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zangrc.fnst@cn.fujitsu.com)
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.yoctoproject.org (Postfix) with ESMTP id 39D4138C0706
+	for <meta-virtualization@yoctoproject.org>; Mon,  9 Nov 2020 17:08:38 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="5.77,464,1596470400"; 
+   d="scan'208";a="101121307"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+  by heian.cn.fujitsu.com with ESMTP; 10 Nov 2020 09:08:05 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 9DFF34CE3A72
+	for <meta-virtualization@yoctoproject.org>; Tue, 10 Nov 2020 09:08:03 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.81) by
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP Server
+ (TLS) id 15.0.1497.2; Tue, 10 Nov 2020 09:08:02 +0800
+From: "zangrc" <zangrc.fnst@cn.fujitsu.com>
+To: <meta-virtualization@yoctoproject.org>
+Subject: [meta-virtualization] [PATCH] python3-paramiko: remove recipe
+Date: Tue, 10 Nov 2020 09:07:56 +0800
+Message-ID: <1604970476-79636-1-git-send-email-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.81]
+X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
+ G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201)
+X-yoursite-MailScanner-ID: 9DFF34CE3A72.A4F21
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Content-Type: text/plain
 
-Add patch merged in current Xen master to solve compilation errors on
-xenmpd when Xen is compiled for arm32.
+Remove this recipe, because a higher version of the recipe exists in:
+meta-virtualization/recipes-devtools/python/python3-paramiko_2.7.0.bb
 
-Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
-Change-Id: Ifd94aa30e1b3a1016156ead395688f594ad2711d
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- ...ls-xenpmd-Fix-gcc10-snprintf-warning.patch | 60 +++++++++++++++++++
- recipes-extended/xen/xen-tools_4.14.bb        |  1 +
- recipes-extended/xen/xen-tools_git.bb         |  1 +
- 3 files changed, 62 insertions(+)
- create mode 100644 recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch
+ .../recipes-devtools/python/python-paramiko.inc      | 12 ------------
+ .../python/python3-paramiko_2.6.0.bb                 |  2 --
+ 2 files changed, 14 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-paramiko.inc
+ delete mode 100644 meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
 
-diff --git a/recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch b/recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch
-new file mode 100644
-index 0000000..0a136c9
---- /dev/null
-+++ b/recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch
-@@ -0,0 +1,60 @@
-+From 0dfddb2116e3757f77a691a3fe335173088d69dc Mon Sep 17 00:00:00 2001
-+Message-Id: <0dfddb2116e3757f77a691a3fe335173088d69dc.1604734077.git.bertrand.marquis@arm.com>
-+From: Bertrand Marquis <bertrand.marquis@arm.com>
-+Date: Thu, 15 Oct 2020 10:16:09 +0100
-+Subject: [PATCH] tools/xenpmd: Fix gcc10 snprintf warning
-+
-+Add a check for snprintf return code and ignore the entry if we get an
-+error. This should in fact never happen and is more a trick to make gcc
-+happy and prevent compilation errors.
-+
-+This is solving the following gcc warning when compiling for arm32 host
-+platforms with optimization activated:
-+xenpmd.c:92:37: error: '%s' directive output may be truncated writing
-+between 4 and 2147483645 bytes into a region of size 271
-+[-Werror=format-truncation=]
-+
-+This is also solving the following Debian bug:
-+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=970802
-+
-+Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
-+Acked-by: Wei Liu <wl@xen.org>
-+---
-+Upstream-status: Backport from 4.15
-+---
-+ tools/xenpmd/xenpmd.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/tools/xenpmd/xenpmd.c b/tools/xenpmd/xenpmd.c
-+index 35fd1c931a..12b82cf43e 100644
-+--- a/tools/xenpmd/xenpmd.c
-++++ b/tools/xenpmd/xenpmd.c
-+@@ -102,6 +102,7 @@ FILE *get_next_battery_file(DIR *battery_dir,
-+     FILE *file = 0;
-+     struct dirent *dir_entries;
-+     char file_name[284];
-++    int ret;
-+     
-+     do 
-+     {
-+@@ -111,11 +112,15 @@ FILE *get_next_battery_file(DIR *battery_dir,
-+         if ( strlen(dir_entries->d_name) < 4 )
-+             continue;
-+         if ( battery_info_type == BIF ) 
-+-            snprintf(file_name, sizeof(file_name), BATTERY_INFO_FILE_PATH,
-++            ret = snprintf(file_name, sizeof(file_name), BATTERY_INFO_FILE_PATH,
-+                      dir_entries->d_name);
-+         else 
-+-            snprintf(file_name, sizeof(file_name), BATTERY_STATE_FILE_PATH,
-++            ret = snprintf(file_name, sizeof(file_name), BATTERY_STATE_FILE_PATH,
-+                      dir_entries->d_name);
-++        /* This should not happen but is needed to pass gcc checks */
-++        if (ret < 0)
-++            continue;
-++        file_name[sizeof(file_name) - 1] = '\0';
-+         file = fopen(file_name, "r");
-+     } while ( !file );
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/recipes-extended/xen/xen-tools_4.14.bb b/recipes-extended/xen/xen-tools_4.14.bb
-index 4119190..73a52bc 100644
---- a/recipes-extended/xen/xen-tools_4.14.bb
-+++ b/recipes-extended/xen/xen-tools_4.14.bb
-@@ -7,6 +7,7 @@ SRC_URI = " \
-     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
-     file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
-     file://0001-xen-build-temporarily-inhibit-Werror-4.14.patch \
-+    file://0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch \
-     "
- 
- LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
-diff --git a/recipes-extended/xen/xen-tools_git.bb b/recipes-extended/xen/xen-tools_git.bb
-index 71aeeed..1f6be1d 100644
---- a/recipes-extended/xen/xen-tools_git.bb
-+++ b/recipes-extended/xen/xen-tools_git.bb
-@@ -7,6 +7,7 @@ SRC_URI = " \
-     git://xenbits.xen.org/xen.git;branch=${XEN_BRANCH} \
-     file://0001-python-pygrub-pass-DISTUTILS-xen-4.14.patch \
-     file://0001-xen-build-temporarily-inhibit-Werror-4.14.patch \
-+    file://0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch \
-     "
- 
- LIC_FILES_CHKSUM ?= "file://COPYING;md5=419739e325a50f3d7b4501338e44a4e5"
+diff --git a/meta-openstack/recipes-devtools/python/python-paramiko.inc b/meta-openstack/recipes-devtools/python/python-paramiko.inc
+deleted file mode 100644
+index da47c796..00000000
+--- a/meta-openstack/recipes-devtools/python/python-paramiko.inc
++++ /dev/null
+@@ -1,12 +0,0 @@
+-DESCRIPTION = "SSH2 protocol library"
+-HOMEPAGE = "https://github.com/paramiko/paramiko/"
+-SECTION = "devel/python"
+-LICENSE = "LGPLv2.1"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=fd0120fc2e9f841c73ac707a30389af5"
+-
+-SRC_URI[md5sum] = "f729a45c9122bf975b9177ec5aaa3791"
+-SRC_URI[sha256sum] = "f4b2edfa0d226b70bd4ca31ea7e389325990283da23465d572ed1f70a7583041"
+-
+-inherit pypi
+-
+-RDEPENDS_${PN} += "${PYTHON_PN}-pycrypto"
+diff --git a/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb b/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
+deleted file mode 100644
+index 97e56e10..00000000
+--- a/meta-openstack/recipes-devtools/python/python3-paramiko_2.6.0.bb
++++ /dev/null
+@@ -1,2 +0,0 @@
+-inherit setuptools3
+-require python-paramiko.inc
 -- 
-2.17.1
+2.25.1
+
+
 
