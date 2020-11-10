@@ -1,81 +1,137 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.25617.1605002229406969012
+Received: from mail-oi1-f176.google.com (mail-oi1-f176.google.com [209.85.167.176])
+ by mx.groups.io with SMTP id smtpd.web10.26783.1605010710847175987
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Nov 2020 01:57:09 -0800
+ Tue, 10 Nov 2020 04:18:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=LciyW9CR;
- spf=softfail (domain: konsulko.com, ip: 198.145.29.25, mailfrom: paul.barker@konsulko.com)
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com [209.85.167.194])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id C2FFC38C06E0
-	for <meta-virtualization@yoctoproject.org>; Tue, 10 Nov 2020 01:57:08 -0800 (PST)
-Received: by mail-oi1-f194.google.com with SMTP id u127so13673574oib.6
-        for <meta-virtualization@yoctoproject.org>; Tue, 10 Nov 2020 01:57:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=h2RGZpE3;
+ spf=pass (domain: gmail.com, ip: 209.85.167.176, mailfrom: christopher.w.clark@gmail.com)
+Received: by mail-oi1-f176.google.com with SMTP id o25so13215628oie.5
+        for <meta-virtualization@lists.yoctoproject.org>; Tue, 10 Nov 2020 04:18:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Je7JQWqiXeVLPAqMlbBTnGVLAhaDkibhIBrWXBmol+c=;
-        b=LciyW9CRRdXhSUZH5AYlM0NyidG+XU2bFbBwUh6l2H/SAkl/ufDM7x0XNLWh21Oq6r
-         CSWAEYTNeCwI4n4LFDrES3DbHQsiLf3IvZlGRYotGgq2V6IO1ELB1nMY9AsbwolFGEz0
-         JUcfJWBjvGkxdKFhi5ceiVe+Wgf/dPFn1pLao=
+         :cc:content-transfer-encoding;
+        bh=RpFLkfL6ImWCIDnAfD28n0V0p1+V1NFY1e+XpwiU4H8=;
+        b=h2RGZpE3vuFe7kQThDCHlKEbeCkxe9OsCRbYVuDD+52XTOSh6PNPQI8/DtqYkrV/fi
+         6MV+CkZgAXAUI3X2Sr8lKDmxLwTNhDpvlPsmOoJierpk4//Zwy3TJrK8jG2UKw0yERce
+         14RNT8o6eE09BG94eJ3zYDswn/PGs+rYRYK6EvxajR/rIQtQUK7wrYH9xxB+XcLHDb7J
+         2ozEpg6Zp8OpELnLpLeCpm5N0K/vxxm/2ekZ+eWIpdWmwAXdBF8KFMZ8yMauiKLon4CW
+         q0WbCzoK0TM0UTFEHspcOrWpCrAlHl+kGoLVCzEvhylqXxyi5YT1m+1lOz7x3uIzSr8o
+         n1gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Je7JQWqiXeVLPAqMlbBTnGVLAhaDkibhIBrWXBmol+c=;
-        b=HJeyAth5/aQ/eGFHhItSgD9H8A3cpeebysJJg7eK8R7P0qEYt1vW2NmMOU1jscdhW9
-         SIz6YlxrTIQBmiAMrV7eoDo7U9jrPd7xqf9WMwyXlFGCJwGDvYcV9bIzCdCeQhQFlQdY
-         zRJPf770H339cNOVZn/i0Bo3yI2XeO53onS8FwDA3cYeQ0fCcY6IgUCAB+Kda5tdLvNz
-         GCCkBYNUytysLcLVYOLlyPjww6YVTHghxnbbcHdKW+r0z1daLOX+zx/WHT7SEdppXGU/
-         hEWPZwxSwSxREwRpKbbPK4UYcdZQiKkFZvTOyVf1sVati5Xrjr1c7bVdJKj8ceOa/w/G
-         oeEQ==
-X-Gm-Message-State: AOAM531LQ5Q6/ACprd6jNCHH1AJTi+URQFXdFXUGsQsUbsQj2Dp5kXn+
-	u4sfQjcGecswoe5vPnvFc8zo84ZzdwIWvgMLYkK2mw==
-X-Google-Smtp-Source: ABdhPJx8+11txl/nPWwDNmuZtv/YAe+lJMt9b5AjD50fOrQGfeqHgh+Pd3PV5ZRN1QEi7NEopiBR0y1SIpqhNlm6n4Q=
-X-Received: by 2002:aca:5505:: with SMTP id j5mr2078038oib.6.1605002227686;
- Tue, 10 Nov 2020 01:57:07 -0800 (PST)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RpFLkfL6ImWCIDnAfD28n0V0p1+V1NFY1e+XpwiU4H8=;
+        b=NtIrFBBOoC5x/YUUGMrBIowgD2YhmJdt0PhK2KHMhMAqZyxtvdr7SUHqby/jeASpeo
+         VaHBLTjvlXkja6k9PNtKGesDqQaEsagaYXAfQ/zr2ZHkTFWdpyAc/djqhu5dxn6X31Pg
+         OSgmrYr+DYuIhwglDJ2mR9S3kwn/9Wu2e7Nc8OgqNhF9B7daRIM902kbp3NG91UjCEkh
+         7x0pJGQdgHK1igaeUD+c+6hcnFQabSuW+mIjEL0c0tFN6fHkO3BZ2jw5zw15jKt4KyF3
+         rZA9fG2EMSmK4a2hO7fBXb+CJgeHR9jL6L6GlkAwMHMa5I4pNBDBcPJPcyIl2z6Ublgd
+         o/WA==
+X-Gm-Message-State: AOAM531JMfrGPFoSQb9M1jyQLxQWZwodZi/MQW3CJ8ftqSiGxKmXBV34
+	XRamyihxkAKyJCtTIkPOnxnZjdJmI0IFKWIweLM=
+X-Google-Smtp-Source: ABdhPJzjmMRK+vF4MSeRe/aHNfWnQdWjmFzvYqoIm6/RIXcgKs7xgJAB3Cp+eJQlbKZzizLtcgW/zuNtmEGu171t6rE=
+X-Received: by 2002:aca:d941:: with SMTP id q62mr2634925oig.33.1605010710167;
+ Tue, 10 Nov 2020 04:18:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110094641.11352-1-yanfei.xu@windriver.com>
-In-Reply-To: <20201110094641.11352-1-yanfei.xu@windriver.com>
-From: "Paul Barker" <pbarker@konsulko.com>
-Date: Tue, 10 Nov 2020 09:56:58 +0000
-Message-ID: <CAM9ZRVskHmGkqJQu+WNechg3DiDS_ADCFTRYO=6mbhkmaG5o3w@mail.gmail.com>
-Subject: Re: [meta-virtualization] [PATCH] ceph: add support for python3.9
-To: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Cc: meta-virtualization@yoctoproject.org
+References: <cover.1604933003.git.bertrand.marquis@arm.com>
+ <df132acec4c899d81d6a1b52746f0dc782c08e39.1604933003.git.bertrand.marquis@arm.com>
+ <CACMJ4GYKuB_KVwfuGkcrYF5c8G-LHDKZGgj4+v13FjS+sctXww@mail.gmail.com> <DEB61562-75C4-4C3D-8CFC-EA18B4AD5166@arm.com>
+In-Reply-To: <DEB61562-75C4-4C3D-8CFC-EA18B4AD5166@arm.com>
+From: "Christopher Clark" <christopher.w.clark@gmail.com>
+Date: Tue, 10 Nov 2020 04:18:18 -0800
+Message-ID: <CACMJ4GaGOSDeAjfu8rZOM8xfey-dx74wDxteTqbz1m_EZY_tZw@mail.gmail.com>
+Subject: Re: [meta-virtualization] [PATCH 1/2] xen: Fix python libraries installation on multilib
+To: Bertrand Marquis <bertrand.marquis@arm.com>
+Cc: "meta-virtualization@lists.yoctoproject.org" <meta-virtualization@lists.yoctoproject.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Nov 2020 at 09:46, Xu, Yanfei <yanfei.xu@windriver.com> wrote:
+On Tue, Nov 10, 2020 at 12:31 AM Bertrand Marquis
+<bertrand.marquis@arm.com> wrote:
 >
-> From: Yanfei Xu <yanfei.xu@windriver.com>
+> Hi Christopher,
 >
-> Add support for python3.9, or it will do_configure failed.
+> > On 10 Nov 2020, at 07:47, Christopher Clark <christopher.w.clark@gmail=
+.com> wrote:
+> >
+> > On Mon, Nov 9, 2020 at 6:49 AM Bertrand Marquis
+> > <bertrand.marquis@arm.com> wrote:
+> >>
+> >> Fix install path for xen python libraries when multilib configuration=
+ is
+> >> activated (which is mandatory to compile xen for x86_64).
+> >> Depending on the version of Xen, the libraries are installed on lib o=
+r
+> >> on the nonarch lib directory so add both.
+> >
+> > Thanks, Bertrand -- I have positive results for this with
+> > compile-tests with both Xen 4.14 and 4.15 for x86_64.
 >
-> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
-> ---
->  ...FindPython-add-support-for-python3.9.patch | 30 +++++++++++++++++++
->  recipes-extended/ceph/ceph_15.2.0.bb          |  1 +
->  2 files changed, 31 insertions(+)
->  create mode 100644 recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch
+> I tried on x86_64 and also on arm32 and arm64 and all compile tests are =
+now passing.
 >
-> diff --git a/recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch b/recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch
-> new file mode 100644
-> index 0000000..096c9b7
-> --- /dev/null
-> +++ b/recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch
-> @@ -0,0 +1,30 @@
-> +From 27ac21526eae33a40edb81aef627aa13719fdaae Mon Sep 17 00:00:00 2001
-> +From: Yanfei Xu <yanfei.xu@windriver.com>
-> +Date: Tue, 10 Nov 2020 17:17:30 +0800
-> +Subject: [PATCH] FindPython: add support for python3.9
-> +
-> +Python of oe-core has been upgraded to v3.9, add support for python3.9.
-> +
-> +Upstream-Status: Inappropriate [oe specific]
+> >
+> >> Signed-off-by: Bertrand Marquis <bertrand.marquis@arm.com>
 
-This doesn't sound very OE specific - surely upstream would want
-Python 3.9 support as well?
+Reviewed-by: Christopher Clark <christopher.clark6@baesystems.com>
 
--- 
-Paul Barker
-Konsulko Group
+> >> Change-Id: I1f7f81a4e9e1420bce55d1e4bfe03d98ac2c93a3
+> >> ---
+> >> recipes-extended/xen/xen-tools.inc | 2 ++
+> >> 1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/recipes-extended/xen/xen-tools.inc b/recipes-extended/xe=
+n/xen-tools.inc
+> >> index 736a766..0c69fec 100644
+> >> --- a/recipes-extended/xen/xen-tools.inc
+> >> +++ b/recipes-extended/xen/xen-tools.inc
+> >> @@ -496,7 +496,9 @@ FILES_${PN}-pygrub =3D "\
+> >>     ${libdir}/xen/bin/pygrub \
+> >>     "
+> >>
+> >> +# Depending on the version of Xen libdir or nonarch libdir is used
+> >> FILES_${PN}-python =3D "\
+> >> +    ${libdir}/${PYTHON_DIR} \
+> >>     ${nonarch_libdir}/${PYTHON_DIR} \
+> >>     "
+> >
+> > Do you know whether a similar change is also needed for the python
+> > nonarch_libdir items in the -dbg package, when building older versions
+> > of Xen?
+>
+> No from my tests this is not needed.
+> Just after gatesgarth branch is released i will push patches to update X=
+en SRCREV
+> in both 4.14 and master (which will also allow to remove some patches).
+> I will also spend some time checking dunfell but right now i have no res=
+ults i can share.
+
+Excellent - thanks.
+
+Christopher
+
+>
+> Cheers
+> Bertrand
+>
+> >
+> > Christopher
+> >
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> >>
+> >>
+> >>
+>
+> IMPORTANT NOTICE: The contents of this email and any attachments are con=
+fidential and may also be privileged. If you are not the intended recipient=
+, please notify the sender immediately and do not disclose the contents to =
+any other person, use it for any purpose, or store or copy the information =
+in any medium. Thank you.
+>
+>=20
+>
