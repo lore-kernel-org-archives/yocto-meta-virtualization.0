@@ -1,343 +1,399 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web10.4792.1605089229590691612
+ by mx.groups.io with SMTP id smtpd.web11.6876.1605102019723237877
  for <meta-virtualization@lists.yoctoproject.org>;
- Wed, 11 Nov 2020 02:07:10 -0800
+ Wed, 11 Nov 2020 05:40:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@armh.onmicrosoft.com header.s=selector2-armh-onmicrosoft-com header.b=CR/W1czn;
- spf=fail (domain: arm.com, ip: 198.145.29.25, mailfrom: lance.yang@arm.com)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-eopbgr60047.outbound.protection.outlook.com [40.107.6.47])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 904FC38C04AD
-	for <meta-virtualization@yoctoproject.org>; Wed, 11 Nov 2020 10:07:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rzgx+2jJgtw7EJeTv/qkffH0AI1YLYqERhm5+8M7cMo=;
- b=CR/W1czn1idqmMhxi/neqwaZ8aIcYqH8RLSvsdc1EPlFAJSdzUxebOMDIkgevE9H5U1W9YKbpTb+Ijk9uIgiez7frSyZ65Yvz845hHJAPSJ/xz6FaH/rzxi53Uz71JNd9LPlRBG2x8Q0Bp7buxDhn5cnPgaAv7hAetlddlBp5Fs=
-Received: from DB6PR07CA0180.eurprd07.prod.outlook.com (2603:10a6:6:43::34) by
- DBBPR08MB4807.eurprd08.prod.outlook.com (2603:10a6:10:d9::16) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3541.23; Wed, 11 Nov 2020 10:07:04 +0000
-Received: from DB5EUR03FT062.eop-EUR03.prod.protection.outlook.com
- (2603:10a6:6:43:cafe::2) by DB6PR07CA0180.outlook.office365.com
- (2603:10a6:6:43::34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.21 via Frontend
- Transport; Wed, 11 Nov 2020 10:07:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; yoctoproject.org; dkim=pass (signature was verified)
- header.d=armh.onmicrosoft.com;yoctoproject.org; dmarc=pass action=none
- header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- DB5EUR03FT062.mail.protection.outlook.com (10.152.20.197) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3564.22 via Frontend Transport; Wed, 11 Nov 2020 10:07:04 +0000
-Received: ("Tessian outbound 797fb8e1da56:v71"); Wed, 11 Nov 2020 10:07:04 +0000
-X-CR-MTA-TID: 64aa7808
-Received: from 351fd5e705ca.2
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 227E181E-F6AA-4EFF-A29F-08582AD229E1.1;
-	Wed, 11 Nov 2020 10:06:59 +0000
-Received: from EUR04-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id 351fd5e705ca.2
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Wed, 11 Nov 2020 10:06:59 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eUFsRXGUZxVVSujA8JWqt/eCfJSgyqPs2TfLSbU20sl3X6YTGnRJdGzH9uP3/Em0/p3wJick5PqdByE3vWFwZg+jAtGyuAPsSLl87MUOmw4A1w8dLKxCDspFNf58aByV5pXGMI0pzO0+X+kfQQlxErVoZFKi94zlvCBEqrGZZOmLqVnz/danLHpyqLfo0CYIj7hNkXGAzSv+RuRHAVdsGgrJDH3smG1sTJhK7M5dUEJv2UhaTSA9GsLhzwn8XL91iWiLx6GuMJ07Pq2VRZnRuaDBvypwOMSy9gAiDe8D4t56u1HqNlp2QbrumN9xq68t/ydUKpqStMqtNJxSh8uTfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rzgx+2jJgtw7EJeTv/qkffH0AI1YLYqERhm5+8M7cMo=;
- b=LtAPvJ4LNwtEdzcJ7BalEfi35QTpCidYE1RqfdKk2yx39WWX7d8rn0jyOlH64bBNJkR/pt+cnL+QS37lR/dQvYsR8gQk3VsVhOjr+RSL2f2iZUEV+h7ju3zbOuaUkZb39MfOb3Jz4PxsxySGDPlt5HMCvUfewopIqywsndDduMw7IxyQ054OJGY2FN+Nupnh2CQ1C9MV4nEWpSxAwUAK5if9V7Ci5tyEGeA7fvaX1yRZPr1yHQ0/jfxiYZLC56QhFgg0PaEKL5yhy9l6Lf5d8tpFkQooQoMLGxZRCxgQpaq40aIiAJcfkADHLRq+EXYgfur8B3NJS3IybPUkgvM87A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com;
- s=selector2-armh-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rzgx+2jJgtw7EJeTv/qkffH0AI1YLYqERhm5+8M7cMo=;
- b=CR/W1czn1idqmMhxi/neqwaZ8aIcYqH8RLSvsdc1EPlFAJSdzUxebOMDIkgevE9H5U1W9YKbpTb+Ijk9uIgiez7frSyZ65Yvz845hHJAPSJ/xz6FaH/rzxi53Uz71JNd9LPlRBG2x8Q0Bp7buxDhn5cnPgaAv7hAetlddlBp5Fs=
-Received: from DBBPR08MB4725.eurprd08.prod.outlook.com (2603:10a6:10:f5::10)
- by DB6PR0801MB1751.eurprd08.prod.outlook.com (2603:10a6:4:2e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.18; Wed, 11 Nov
- 2020 10:06:57 +0000
-Received: from DBBPR08MB4725.eurprd08.prod.outlook.com
- ([fe80::d1a0:9ad4:b50f:9a84]) by DBBPR08MB4725.eurprd08.prod.outlook.com
- ([fe80::d1a0:9ad4:b50f:9a84%6]) with mapi id 15.20.3541.025; Wed, 11 Nov 2020
- 10:06:57 +0000
-From: "Lance Yang" <Lance.Yang@arm.com>
-To: "bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>
-CC: Joakim Roubert <joakim.roubert@axis.com>,
-	"meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>, Michael Zhao <Michael.Zhao@arm.com>,
-	Kaly Xin <Kaly.Xin@arm.com>
-Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
-Thread-Topic: [meta-virtualization][PATCH v5] Adding k3s recipe
-Thread-Index: AQHWq69fcPQ8C1m0vkKsSMY3RAelSKnA/LdQgAB4k0yAAUu2cA==
-Date: Wed, 11 Nov 2020 10:06:57 +0000
-Message-ID: 
- <DBBPR08MB4725AF4604F11A7DF0A83E0491E80@DBBPR08MB4725.eurprd08.prod.outlook.com>
-References: 
- <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
- <20201020111434.17993-1-joakimr@axis.com> <20201021031033.GA20764@gmail.com>
- <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com>
- <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
- <DBBPR08MB4725E54DC414E2CBE8E84D0D91E90@DBBPR08MB4725.eurprd08.prod.outlook.com>
- <16462648E2B320A8.24110@lists.yoctoproject.org>
- <164627F27D18DB55.10479@lists.yoctoproject.org>
- <CADkTA4MKnhDuf85C3X=CxqrMkCKy1ka3fWxVNfSN9U=m2cJWaw@mail.gmail.com>
-In-Reply-To: 
- <CADkTA4MKnhDuf85C3X=CxqrMkCKy1ka3fWxVNfSN9U=m2cJWaw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ts-tracking-id: 0E67C64AA349FE4892CCECDC33BC4930.0
-x-checkrecipientchecked: true
-Authentication-Results-Original: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-x-originating-ip: [103.73.66.85]
-x-ms-publictraffictype: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 4878dc2d-fde0-4ee2-cb30-08d886298a77
-x-ms-traffictypediagnostic: DB6PR0801MB1751:|DBBPR08MB4807:
-x-ms-exchange-transport-forked: True
-X-Microsoft-Antispam-PRVS: 
-	<DBBPR08MB4807C6579F542549B22C86E691E80@DBBPR08MB4807.eurprd08.prod.outlook.com>
-x-checkrecipientrouted: true
-nodisclaimer: true
-x-ms-oob-tlc-oobclassifiers: OLM:10000;OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Untrusted: BCL:0;
-X-Microsoft-Antispam-Message-Info-Original: 
- FxqcXp+pdkz/k9SiASZnwbJXzv1fVwpxo5SKbRSEm+r2tF38zaev4FfQUvVzpqiebyGFIaKenka/F6LKlhjABmKP2h91EhlKnKweBBnLR9shlc9UAUI+MKl1FA48wcrtDRNzuN0tCyExfvCR29BgfsNOAd32fNduCusPpMSArQkW0TmGLKGqpIh71sNCZXs+t9NmNppYw1JHmX2eyCkkIJjJ42dky9HjkHzx7i+T81+81f3fvySnrJuWOZyG6EYRg+rxoPe+54upX5Ywmzbe91k99eY92FzcqdQv/9H+wA0/bLXbZEPk67yFD+6YksTwcFhHLh6ky05tI9Derz837c/41ukZnjx6ttAMBn1BKrZxLihSbe35mdqPeYxKnbBBwn5y8drCLwYRUS+fI1cTQ65b+3sDbevJJkjVTb5vCL91vZ5W4NfPyfnkB485yEjeYN+tC9MjxbIUy1frp82jvA==
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR08MB4725.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(396003)(346002)(136003)(39860400002)(366004)(6506007)(5660300002)(54906003)(966005)(76116006)(66446008)(316002)(83380400001)(66574015)(66476007)(7696005)(66556008)(64756008)(2906002)(8676002)(186003)(4326008)(86362001)(52536014)(53546011)(55016002)(33656002)(71200400001)(15974865002)(4001150100001)(9686003)(26005)(6916009)(8936002)(66946007)(478600001)(42413003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 
- 63JTQObhK0lNoWXRDVbkYwiCemXVAti06abTnB2Jv9M6n20LLY72ZrW+5Mpi8s31sP0rZUXtX0MPdBju4Q8lEXTIy8Lk2G+GF8Vo3QMK1+wuYAlYyFlJaJvc9gbEy0kBB8wKRtK5+y8BuyrOTPTlKnvbdLgulWV+pofkcfQusnmj2Y928DXdeEHyBgZZnXK9HuccMd3xNeKslZP8X3BkTe3o3PB4t2Al0kSBCoe2BvtNWi+dT61Qay3545qR+Ez2r/013GXudGu82V1CJQ5n1Se1he7YSmHkCoVD896IUL1CGryHSP9k2qIr7es7xA+gYZgxF8o6TIDtV4Ir9o1di4+LCbGRH/qLGRreQQOqu7UgHMiBuJyI/+CL7Inijc9BzirQ4X5uYcws3RooJWKaaWQ3VDPsokDLODQnbTV5KsSK6gwd3DOHJrEcWqIU+7lfKnOYQ5zIWfsB/dDJ3nNnyL9zU1bXgXke60zaKiVoBjatYRJO90BFHfjfZAlO3micdHn4dFUhvvfwiY3pCrVWJJd27cJ9T2fmvQ1AfnC4slgHE9Ty8UgMa3dGMxTbryUyI33t4ygQdGpO3JcmuRnSRujWoP0uPmspm/AIuY4BqNTWueqfjiuAh9ZRFfBIiApHmYqIi6UCim86c3l3p42K7A==
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=DUXetxKq;
+ spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
+Received: from mail-ej1-f67.google.com (mail-ej1-f67.google.com [209.85.218.67])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 7512D38C04AD
+	for <meta-virtualization@yoctoproject.org>; Wed, 11 Nov 2020 13:40:19 +0000 (UTC)
+Received: by mail-ej1-f67.google.com with SMTP id cw8so2789149ejb.8
+        for <meta-virtualization@yoctoproject.org>; Wed, 11 Nov 2020 05:40:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=iAe/XdKSJqv8lPdOR2X+0TkggkgkP9lUJKraJyj2zoU=;
+        b=DUXetxKqYDlTI52hEaOduvJoEicw6ipbkFjR23D+Ldupsjbe5+VTUQo+DbPN9mndsL
+         m7xWMumErVC57i49Ie2XaITvlXWQabtyktE7PAyr3qrwhn2aHU98/bpXpHxQJtvEV+k9
+         MqbjJZ6NKFtWyEbUQdPBHfSjx5bRuPQxCOPhLffjAK9L6Qx9YpgFE7N64JorLlqp5NTn
+         6JqCwaCfR2W6bmiv59pWIKWiqx8Cqvq+HeGkpOC+/DB0W/zW/NKAwEjF50rj6jzPJ3XM
+         HHFtvCVl52pZrPw8ieP5Y3k0Iq09MDYsjyQjxdNXxTCBpLlIA8e0mbjb4APjuSynLQ5b
+         v9TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=iAe/XdKSJqv8lPdOR2X+0TkggkgkP9lUJKraJyj2zoU=;
+        b=AG4Q7UpJLiaaIIixS06EVQnLfbb5YYYOR26JYLhml4pnf9wlWKz+rj3odpiYfG5J6I
+         PuKVNVK5NZ6TjsZfY+QS6ExnK/Hcao/5UeoCXcxvxaSPVj67ioOVFuFjRSsUqFzwnYFH
+         n8qeyFDOKIZIoRrS/A6/Hqps8O23CobarJCr4DNQ3bgyrVMUNO55Q77cI9gTVGCo4B2D
+         EaY3sKC550q+vj3rz3HFY3e/nGzt6Zuj79S5LBygBfcUQBZt4EgnYaS3KcprCQ69CK2n
+         wSaNeYbxp87llVj1Yr2mqH6W9J0rJLS1KRzEKjeM9234W5nmKdTWubRm21ygWPwneZGs
+         uwJg==
+X-Gm-Message-State: AOAM533A6KFHrU0QpHYjPVqc5PsoBang/gXL/y0TLTxUX6yshBSBrBx9
+	f8ssOinQRO+2Y0crY+zRV8O4VSDVu2wCv/iwHuo=
+X-Google-Smtp-Source: ABdhPJxtRyiUMKvvHNcwJorAMEVp94j2n10YuuqLayjRBB+zrKluMb5pyz/LJxj0etFoVoRXMXi044fi4YhRG8Yslq8=
+X-Received: by 2002:a17:906:4742:: with SMTP id j2mr24696038ejs.247.1605102017797;
+ Wed, 11 Nov 2020 05:40:17 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB6PR0801MB1751
-Original-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- DB5EUR03FT062.eop-EUR03.prod.protection.outlook.com
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	1682b165-eba0-4507-f546-08d886298622
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	SkoKV88ly2oZUSIVE+Z6xquD1AQi0SnRz4/8AgZArcjFjBROsrEKigeG44p3QsnI5N4FwJ6ugv0bpdt7Lv71D4rno/5ks0p6FkGTey/f+k5Xs+4J3eU3CJr2/xdnnbSlHd0chWEEm9I9EbtUPYU93WHiYHXTvI6V6MeRyHw6er/2M2FYoU1wxYL0uvTrQP+BTcJjssTPkdBuWC+SxCdTBs8Ln80wc9UMRoMyNXg2I0NQYDlv5Bu8UwI6U+ScPsWGBoYgkq3zTeaQUzS4O4bslt+6sWBalfe4Opve01hShCBfhnlRQ3/OWUZV5SZQUHZMzW+fKHv4CxlWYRe7suWOSlMMVHoBnGMy0ZVspHSoP+pv5faNmXMGx2jsIl9l0tGP1Q3HZ9IfnbtuvTgtX6oagfcMeyz7lKNXfmWQ1l7KXh3+zTkjwl/uBg7CCZFlr3Qc1TYpmCQLFdgLycFBiFb35HFqJlc+RBKusSC+36EQ/ldHytJpt2gxJix3giz5sita
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(4636009)(376002)(39860400002)(396003)(346002)(136003)(46966005)(8676002)(86362001)(336012)(4001150100001)(70206006)(33656002)(52536014)(83380400001)(6506007)(30864003)(15974865002)(356005)(70586007)(81166007)(5660300002)(9686003)(478600001)(4326008)(966005)(2906002)(8936002)(6862004)(54906003)(26005)(47076004)(55016002)(316002)(7696005)(186003)(53546011)(82740400003)(82310400003)(66574015)(42413003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 10:07:04.7732
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4878dc2d-fde0-4ee2-cb30-08d886298a77
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB5EUR03FT062.eop-EUR03.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR08MB4807
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+References: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
+ <20201020111434.17993-1-joakimr@axis.com> <20201021031033.GA20764@gmail.com>
+ <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com> <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
+ <DBBPR08MB4725E54DC414E2CBE8E84D0D91E90@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <16462648E2B320A8.24110@lists.yoctoproject.org> <164627F27D18DB55.10479@lists.yoctoproject.org>
+ <CADkTA4MKnhDuf85C3X=CxqrMkCKy1ka3fWxVNfSN9U=m2cJWaw@mail.gmail.com> <DBBPR08MB4725AF4604F11A7DF0A83E0491E80@DBBPR08MB4725.eurprd08.prod.outlook.com>
+In-Reply-To: <DBBPR08MB4725AF4604F11A7DF0A83E0491E80@DBBPR08MB4725.eurprd08.prod.outlook.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Wed, 11 Nov 2020 08:40:06 -0500
+Message-ID: <CADkTA4PgwD1OwPa4kjAGHANjHYG7fbgmZAvGSw6nEt1x1Mvh3Q@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+To: Lance Yang <Lance.Yang@arm.com>
+Cc: Joakim Roubert <joakim.roubert@axis.com>, 
+	"meta-virtualization@yoctoproject.org" <meta-virtualization@yoctoproject.org>, Michael Zhao <Michael.Zhao@arm.com>, 
+	Kaly Xin <Kaly.Xin@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-SGkgQnJ1Y2UsDQoNClRoYW5rcyBmb3IgeW91ciByZXBseS4gSXQgdG9vayBtZSBhIGxvbmcgdGlt
-ZSB0byBhZGRyZXNzIHRoZSAkUEFUSCBpc3N1ZS4NCg0KSSBmb3VuZCB0aGUgY2F1c2UgYWZ0ZXIg
-SSBjbGVhbmVkIG15IGVudmlyb25tZW50LiBpdCBpcyBiZWNhdXNlIEkgc2V0IG15IG93biAkUEFU
-SCBiZWZvcmUgazNzIHN0YXJ0dXAgd2hpY2ggZGlkIG5vdCBpbmNsdWRlICIvYmluIiBhbmQgc29t
-ZSBjb21wb25lbnRzIGluIGszcyB3aWxsIHVzZSAib3MuR2V0ZW52KCJQQVRIIikgdG8gc2VhcmNo
-IHRoZSByZWxhdGVkIHRvb2wuDQoNClNpbmNlIHNvbWUgT1MgbWF5IG5vdCBoYXZlIHN5c3RlbWQg
-YW5kIHRoZSBrM3MtY2xlYW4gc2NyaXB0IHNlZW1zIG5vdCAgdG8gZGVsZXRlIGFsbCBpbnRlcmZh
-Y2VzIGNyZWF0ZWQgYnkgY25pIGFuZCB1bW91bnQgYWxsIG1vdW50IHBvaW50cyByZWxhdGVkIHRv
-IGszcy4gSSB3cm90ZSBhIHNjcmlwdCBmb3IgdGhpcyBzaXR1YXRpb24gYW5kIEkgd2lsbCBzZW5k
-IGl0IHRocm91Z2ggYSBzZXBhcmF0ZSBlbWFpbCBiYXNlZCBvbiB5b3VyIHByZXZpb3VzIHNjcmlw
-dHMuDQoNCkJlc3QgUmVnYXJkcywNCkxhbmNlDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IG1ldGEtdmlydHVhbGl6YXRpb25AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZyA8bWV0
-YS12aXJ0dWFsaXphdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3JnPg0KPiBPbiBCZWhhbGYgT2Yg
-QnJ1Y2UgQXNoZmllbGQgdmlhIGxpc3RzLnlvY3RvcHJvamVjdC5vcmcNCj4gU2VudDogVHVlc2Rh
-eSwgTm92ZW1iZXIgMTAsIDIwMjAgOTozNSBQTQ0KPiBUbzogQnJ1Y2UgQXNoZmllbGQgPGJydWNl
-LmFzaGZpZWxkQGdtYWlsLmNvbT4NCj4gQ2M6IExhbmNlIFlhbmcgPExhbmNlLllhbmdAYXJtLmNv
-bT47IEpvYWtpbSBSb3ViZXJ0IDxqb2FraW0ucm91YmVydEBheGlzLmNvbT47IG1ldGEtDQo+IHZp
-cnR1YWxpemF0aW9uQHlvY3RvcHJvamVjdC5vcmc7IE1pY2hhZWwgWmhhbyA8TWljaGFlbC5aaGFv
-QGFybS5jb20+OyBLYWx5IFhpbg0KPiA8S2FseS5YaW5AYXJtLmNvbT4NCj4gU3ViamVjdDogUmU6
-IFttZXRhLXZpcnR1YWxpemF0aW9uXVtQQVRDSCB2NV0gQWRkaW5nIGszcyByZWNpcGUNCj4NCj4g
-T24gVHVlLCBOb3YgMTAsIDIwMjAgYXQgODoxNyBBTSBCcnVjZSBBc2hmaWVsZCB2aWEgbGlzdHMu
-eW9jdG9wcm9qZWN0Lm9yZw0KPiA8YnJ1Y2UuYXNoZmllbGQ9Z21haWwuY29tQGxpc3RzLnlvY3Rv
-cHJvamVjdC5vcmc+IHdyb3RlOg0KPiA+DQo+ID4gT24gVHVlLCBOb3YgMTAsIDIwMjAgYXQgNzo0
-NiBBTSBCcnVjZSBBc2hmaWVsZCB2aWENCj4gPiBsaXN0cy55b2N0b3Byb2plY3Qub3JnDQo+ID4g
-PGJydWNlLmFzaGZpZWxkPWdtYWlsLmNvbUBsaXN0cy55b2N0b3Byb2plY3Qub3JnPiB3cm90ZToN
-Cj4gPiA+DQo+ID4gPiBPbiBUdWUsIE5vdiAxMCwgMjAyMCBhdCAxOjQzIEFNIExhbmNlIFlhbmcg
-PExhbmNlLllhbmdAYXJtLmNvbT4gd3JvdGU6DQo+ID4gPiA+DQo+ID4gPiA+IEhpIEJydWNlIGFu
-ZCBKb2FraW0sDQo+ID4gPiA+DQo+ID4gPiA+IFRoYW5rcyBmb3Igc2hhcmluZyB0aGlzIGJyYW5j
-aDogazNzLXdpcC4gSSBoYXZlIHRlc3RlZCBhZ2FpbnN0IG15IHlvY3RvIGJ1aWxkLg0KPiA+ID4N
-Cj4gPiA+IFRoZSBicmFuY2ggd2lsbCBiZSBtb3JlIGZ1bmN0aW9uYWwgc2hvcnRseSwgSSBoYXZl
-IHF1aXRlIGEgZmV3DQo+ID4gPiBjaGFuZ2VzIHRvIGZhY3RvciB0aGluZ3MgZm9yIGs4cyBhbmQg
-Z2VuZXJhbGx5IG1vcmUgdXNhYmxlIDpEDQo+ID4gPg0KPiA+ID4gICAgICAgICBtb2RpZmllZDog
-ICBjbGFzc2VzL2NuaV9uZXR3b3JraW5nLmJiY2xhc3MNCj4gPiA+ICAgICAgICAgbW9kaWZpZWQ6
-ICAgY29uZi9sYXllci5jb25mDQo+ID4gPiAgICAgICAgIG1vZGlmaWVkOiAgIHJlY2lwZXMtY29u
-dGFpbmVycy9jb250YWluZXJkL2NvbnRhaW5lcmQtZG9ja2VyX2dpdC5iYg0KPiA+ID4gICAgICAg
-ICBtb2RpZmllZDoNCj4gPiA+IHJlY2lwZXMtY29udGFpbmVycy9jb250YWluZXJkL2NvbnRhaW5l
-cmQtb3BlbmNvbnRhaW5lcnNfZ2l0LmJiDQo+ID4gPiAgICAgICAgIG1vZGlmaWVkOiAgIHJlY2lw
-ZXMtY29udGFpbmVycy9rM3MvUkVBRE1FLm1kDQo+ID4gPiAgICAgICAgIG1vZGlmaWVkOiAgIHJl
-Y2lwZXMtY29udGFpbmVycy9rM3MvazNzX2dpdC5iYg0KPiA+ID4gICAgICAgICBtb2RpZmllZDog
-ICByZWNpcGVzLWtlcm5lbC9saW51eC9saW51eC15b2N0by9rdWJlcm5ldGVzLmNmZw0KPiA+ID4g
-ICAgICAgICBtb2RpZmllZDogICByZWNpcGVzLW5ldHdvcmtpbmcvY25pL2NuaV9naXQuYmINCj4g
-PiA+ICAgICAgICAgY29udGFpbmVyLWRlcGxveS50eHQNCj4gPiA+ICAgICAgICAgcmVjaXBlcy1j
-b3JlL3BhY2thZ2Vncm91cHMvDQo+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPiBNeSBJbWFnZTogTGlu
-dXggcWVtdWFybTY0IGJ5IHlvY3RvLg0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgbWFzdGVyIG5vZGUg
-Y2FuIGJlIHJlYWR5IGFmdGVyIEkgc3RhcnRlZCB0aGUgazNzIHNlcnZlci4gSG93ZXZlciwgdGhl
-IHBvZHMgaW4ga3ViZS0NCj4gc3lzdGVtICh3aGljaCBhcmUgZXNzZW50aWFsIGNvbXBvbmVudHMg
-Zm9yIGszcykgY2Fubm90IHR1cm4gdG8gcmVhZHkgc3RhdGUgb24gcWVtdWFybTY0Lg0KPiA+ID4g
-Pg0KPiA+ID4NCj4gPiA+IFRoYXQncyBpbnRlcmVzdGluZywgc2luY2UgaW4gbXkgY29uZmlndXJh
-dGlvbiwgdGhlIG1hc3RlciBuZXZlciBjb21lcyByZWFkeToNCj4gPiA+DQo+ID4gPiByb290QHFl
-bXV4ODYtNjQ6fiMga3ViZWN0bCBnZXQgbm9kZXMNCj4gPiA+IE5BTUUgICAgICAgICBTVEFUVVMg
-ICAgIFJPTEVTICAgIEFHRSAgIFZFUlNJT04NCj4gPiA+IHFlbXV4ODYtNjQgICBOb3RSZWFkeSAg
-IG1hc3RlciAgIDE1aCAgIHYxLjE4LjktazNzMQ0KPiA+ID4NCj4gPg0KPiA+IEhhaC4NCj4gPg0K
-PiA+IEkgZmluYWxseSBnb3QgdGhlIG5vZGUgdG8gc2hvdyB1cCBhcyByZWFkeToNCj4gPg0KPiA+
-IHJvb3RAcWVtdXg4Ni02NDp+IyBrdWJlY3RsIGdldCBub2Rlcw0KPiA+IE5BTUUgICAgICAgICBT
-VEFUVVMgICBST0xFUyAgICBBR0UgICAgVkVSU0lPTg0KPiA+IHFlbXV4ODYtNjQgICBSZWFkeSAg
-ICBtYXN0ZXIgICAxMTJzICAgdjEuMTguOS1rM3MxDQo+ID4NCj4NCj4gTGFuY2UsDQo+DQo+IFdo
-YXQgaW1hZ2UgdHlwZSB3ZXJlIHlvdSBidWlsZGluZyA/IEknbSBwdWxsaW5nIGluIGRlcGVuZGVu
-Y2llcyB0byBwYWNrYWdlZ3JvdXBzIGFuZCB0aGUNCj4gcmVjaXBlcyB0aGVtc2VsdmVzLg0KPg0K
-PiBJJ20gbm90IHNlZWluZyB0aGUgbW91bnQgaXNzdWUgb24gbXkgbWFzdGVyL3NlcnZlciBub2Rl
-Og0KPg0KPiByb290QHFlbXV4ODYtNjQ6fiMga3ViZWN0bCBnZXQgcG9kcyAtbiBrdWJlLXN5c3Rl
-bQ0KPiBOQU1FICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFJFQURZICAgU1RB
-VFVTICAgICAgUkVTVEFSVFMgICBBR0UNCj4gbG9jYWwtcGF0aC1wcm92aXNpb25lci02ZDU5ZjQ3
-YzctaDdseGsgICAxLzEgICAgIFJ1bm5pbmcgICAgIDAgICAgICAgICAgM20zMnMNCj4gbWV0cmlj
-cy1zZXJ2ZXItNzU2NmQ1OTZjOC1td250ciAgICAgICAgICAxLzEgICAgIFJ1bm5pbmcgICAgIDAg
-ICAgICAgICAgM20zMnMNCj4gaGVsbS1pbnN0YWxsLXRyYWVmaWstMjI5djcgICAgICAgICAgICAg
-ICAwLzEgICAgIENvbXBsZXRlZCAgIDAgICAgICAgICAgM20zMnMNCj4gY29yZWRucy03OTQ0YzY2
-ZDhkLTlyZmo3ICAgICAgICAgICAgICAgICAxLzEgICAgIFJ1bm5pbmcgICAgIDAgICAgICAgICAg
-M20zMnMNCj4gc3ZjbGItdHJhZWZpay1wYjVqNCAgICAgICAgICAgICAgICAgICAgICAyLzIgICAg
-IFJ1bm5pbmcgICAgIDAgICAgICAgICAgMm0yOXMNCj4gdHJhZWZpay03NThjZDVmYzg1LWx4cHI4
-ICAgICAgICAgICAgICAgICAxLzEgICAgIFJ1bm5pbmcgICAgIDAgICAgICAgICAgMm0yOXMNCj4N
-Cj4gSSdtIGdvaW5nIGJhY2sgdG8gYWxsLWluLW9uZSBub2RlIGRlYnVnZ2luZywgYnV0IGNhbiBs
-b29rIGludG8gdGhlIG1vdW50IGlzc3VlIG1vcmUgbGF0ZXIuDQo+DQo+IEJydWNlDQo+DQo+ID4g
-SSdtIGF0dGVtcHRpbmcgdG8gYnVpbGQgYW4gYWxsLWluLW9uZSBub2RlLCBhbmQgdGhhdCBpcyBs
-aWtlbHkgY2F1c2luZw0KPiA+IG1lIHNvbWUgaXNzdWVzLg0KPiA+DQo+ID4gSSdtIHJldmlzaXRp
-bmcgdGhvc2UgcG90ZW50aWFsIGNvbmZsaWN0cyBub3cuDQo+ID4NCj4gPiBCdXQgaWYgYW55b25l
-IGVsc2UgZG9lcyBoYXZlIGFuIGFsbCBpbiBvbmUgd29ya2luZyBhbmQgaGFzIHNvbWUgdGlwcywN
-Cj4gPiBmZWVsIGZyZWUgdG8gc2hhcmUgOkQNCj4gPg0KPiA+IEJydWNlDQo+ID4NCj4gPiA+IEkn
-dmUgc29ydGVkIG91dCBtb3JlIG9mIHRoZSBkZXBlbmRlbmNpZXMsIGFuZCBoYXZlIHBhY2thZ2Vn
-cm91cHMgdG8NCj4gPiA+IG1ha2UgdGhlbSBlYXNpZXIgbm93Lg0KPiA+ID4NCj4gPiA+IEhvcGVm
-dWxseSwgSSBjYW4gZmlndXJlIG91dCB3aGF0IGlzIG5vdyBtaXNzaW5nIGFuZCBrZWVwaW5nIG15
-DQo+ID4gPiBtYXN0ZXIgZnJvbSBtb3ZpbmcgaW50byByZWFkeSB0b2RheS4NCj4gPiA+DQo+ID4g
-PiBCcnVjZQ0KPiA+ID4NCj4gPiA+ID4gQWZ0ZXIgdGhlIG1hc3RlciBub2RlIGl0c2VsZiB0dXJu
-ZWQgdG8gcmVhZHkgc3RhdGUsIEkgY2hlY2sgdGhlIHBvZHMgd2l0aCBrdWJlY3RsOg0KPiA+ID4g
-Pg0KPiA+ID4gPiBrdWJlY3RsIGdldCBub2Rlcw0KPiA+ID4gPiBOQU1FICAgICAgICBTVEFUVVMg
-ICBST0xFUyAgICBBR0UgICBWRVJTSU9ODQo+ID4gPiA+IHFlbXVhcm02NCAgIFJlYWR5ICAgIG1h
-c3RlciAgIDExbSAgIHYxLjE4LjktazNzMQ0KPiA+ID4gPiByb290QHFlbXVhcm02NDp+IyBscw0K
-PiA+ID4gPiByb290QHFlbXVhcm02NDp+IyBrdWJlY3RsIGdldCBwb2RzIC1uIGt1YmUtc3lzdGVt
-DQo+ID4gPiA+IE5BTUUgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgUkVBRFkg
-ICBTVEFUVVMgICAgICAgICAgICAgIFJFU1RBUlRTICAgQUdFDQo+ID4gPiA+IGxvY2FsLXBhdGgt
-cHJvdmlzaW9uZXItNmQ1OWY0N2M3LXh4dmJsICAgMC8xICAgICBDb250YWluZXJDcmVhdGluZyAg
-IDAgICAgICAgICAgMTJtDQo+ID4gPiA+IGNvcmVkbnMtNzk0NGM2NmQ4ZC10bHJtOSAgICAgICAg
-ICAgICAgICAgMC8xICAgICBDb250YWluZXJDcmVhdGluZyAgIDAgICAgICAgICAgMTJtDQo+ID4g
-PiA+IG1ldHJpY3Mtc2VydmVyLTc1NjZkNTk2Yzgtc3ZrZmYgICAgICAgICAgMC8xICAgICBDb250
-YWluZXJDcmVhdGluZyAgIDAgICAgICAgICAgMTJtDQo+ID4gPiA+IGhlbG0taW5zdGFsbC10cmFl
-ZmlrLXM4cDVnICAgICAgICAgICAgICAgMC8xICAgICBDb250YWluZXJDcmVhdGluZyAgIDAgICAg
-ICAgICAgMTJtDQo+ID4gPiA+DQo+ID4gPiA+IFRoZW4gSSBkZXNjcmliZSB0aGUgcG9kcyB3aXRo
-Og0KPiA+ID4gPg0KPiA+ID4gPiBFdmVudHM6DQo+ID4gPiA+ICAgVHlwZSAgICAgUmVhc29uICAg
-ICAgIEFnZSAgICAgICAgICAgICAgICAgIEZyb20gICAgICAgICAgICAgICBNZXNzYWdlDQo+ID4g
-PiA+ICAgLS0tLSAgICAgLS0tLS0tICAgICAgIC0tLS0gICAgICAgICAgICAgICAgIC0tLS0gICAg
-ICAgICAgICAgICAtLS0tLS0tDQo+ID4gPiA+ICAgTm9ybWFsICAgU2NoZWR1bGVkICAgIDE2bSAg
-ICAgICAgICAgICAgICAgIGRlZmF1bHQtc2NoZWR1bGVyICBTdWNjZXNzZnVsbHkgYXNzaWduZWQg
-a3ViZS0NCj4gc3lzdGVtL2NvcmVkbnMtNzk0NGM2NmQ4ZC10bHJtOSB0byBxZW11YXJtNjQNCj4g
-PiA+ID4gICBXYXJuaW5nICBGYWlsZWRNb3VudCAgNW0yM3MgKHgzIG92ZXIgMTRtKSAga3ViZWxl
-dCAgICAgICAgICAgIFVuYWJsZSB0byBhdHRhY2ggb3IgbW91bnQNCj4gdm9sdW1lczogdW5tb3Vu
-dGVkIHZvbHVtZXM9W2NvcmVkbnMtdG9rZW4tYjdubGhdLCB1bmF0dGFjaGVkIHZvbHVtZXM9W2Nv
-cmVkbnMtdG9rZW4tDQo+IGI3bmxoIGNvbmZpZy12b2x1bWVdOiB0aW1lZCBvdXQgd2FpdGluZyBm
-b3IgdGhlIGNvbmRpdGlvbg0KPiA+ID4gPiAgIFdhcm5pbmcgIEZhaWxlZE1vdW50ICA1MHMgKHg0
-IG92ZXIgMTJtKSAgICBrdWJlbGV0ICAgICAgICAgICAgVW5hYmxlIHRvIGF0dGFjaCBvciBtb3Vu
-dA0KPiB2b2x1bWVzOiB1bm1vdW50ZWQgdm9sdW1lcz1bY29yZWRucy10b2tlbi1iN25saF0sIHVu
-YXR0YWNoZWQgdm9sdW1lcz1bY29uZmlnLXZvbHVtZQ0KPiBjb3JlZG5zLXRva2VuLWI3bmxoXTog
-dGltZWQgb3V0IHdhaXRpbmcgZm9yIHRoZSBjb25kaXRpb24NCj4gPiA+ID4gICBXYXJuaW5nICBG
-YWlsZWRNb3VudCAgMTFzICh4MTYgb3ZlciAxNm0pICAga3ViZWxldCAgICAgICAgICAgIE1vdW50
-Vm9sdW1lLlNldFVwIGZhaWxlZA0KPiBmb3Igdm9sdW1lICJjb3JlZG5zLXRva2VuLWI3bmxoIiA6
-IG1vdW50IGZhaWxlZDogZXhlYzogIm1vdW50IjogZXhlY3V0YWJsZSBmaWxlIG5vdCBmb3VuZCBp
-bg0KPiAkUEFUSA0KPiA+ID4gPg0KPiA+ID4gPiBJIGZvdW5kIHRoZSAibW91bnQiIGJpbmFyeSBp
-cyBub3QgZm91bmQgaW4gJFBBVEguIEhvd2V2ZXIsIEkgY29uZmlybWVkIHRoZSAkUEFUSCBhbmQN
-Cj4gbW91bnQgYmluYXJ5IG9uIG15IHFlbXVhcm02NCBpbWFnZToNCj4gPiA+ID4NCj4gPiA+ID4g
-cm9vdEBxZW11YXJtNjQ6fiMgZWNobyAkUEFUSA0KPiA+ID4gPiAvdXNyL2xvY2FsL2JpbjovdXNy
-L2JpbjovYmluOi91c3IvbG9jYWwvc2JpbjovdXNyL3NiaW46L3NiaW4NCj4gPiA+ID4gcm9vdEBx
-ZW11YXJtNjQ6fiMgd2hpY2ggbW91bnQNCj4gPiA+ID4gL2Jpbi9tb3VudA0KPiA+ID4gPg0KPiA+
-ID4gPiBXaGVuIEkgdHlwZSBtb3VudCBjb21tYW5kLCBpdCB3b3JrZWQgZmluZToNCj4gPiA+ID4N
-Cj4gPiA+ID4gL2Rldi9yb290IG9uIC8gdHlwZSBleHQ0IChydyxyZWxhdGltZSkgZGV2dG1wZnMg
-b24gL2RldiB0eXBlDQo+ID4gPiA+IGRldnRtcGZzIChydyxyZWxhdGltZSxzaXplPTIwMTYyMTJr
-LG5yX2lub2Rlcz01MDQwNTMsbW9kZT03NTUpDQo+ID4gPiA+IHByb2Mgb24gL3Byb2MgdHlwZSBw
-cm9jIChydyxyZWxhdGltZSkgc3lzZnMgb24gL3N5cyB0eXBlIHN5c2ZzDQo+ID4gPiA+IChydyxy
-ZWxhdGltZSkgZGVidWdmcyBvbiAvc3lzL2tlcm5lbC9kZWJ1ZyB0eXBlIGRlYnVnZnMNCj4gPiA+
-ID4gKHJ3LHJlbGF0aW1lKSB0bXBmcyBvbiAvcnVuIHR5cGUgdG1wZnMgKHJ3LG5vc3VpZCxub2Rl
-dixtb2RlPTc1NSkNCj4gPiA+ID4gLi4uDQo+ID4gPiA+IC4uLiAoc2tpcHBlZCB0aGUgdmVyYm9z
-ZSBvdXRwdXQpDQo+ID4gPiA+DQo+ID4gPiA+IEkgd291bGQgbGlrZSB0byBrbm93IHdoZXRoZXIg
-eW91IGhhdmUgbWV0IHRoaXMgIm1vdW50IiBpc3N1ZSBldmVyPw0KPiA+ID4gPg0KPiA+ID4gPiBC
-ZXN0IFJlZ2FyZHMsDQo+ID4gPiA+IExhbmNlDQo+ID4gPiA+DQo+ID4gPiA+ID4gLS0tLS1Pcmln
-aW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+ID4gPiBGcm9tOiBtZXRhLXZpcnR1YWxpemF0aW9uQGxp
-c3RzLnlvY3RvcHJvamVjdC5vcmcNCj4gPiA+ID4gPiA8bWV0YS12aXJ0dWFsaXphdGlvbkBsaXN0
-cy55b2N0b3Byb2plY3Qub3JnPg0KPiA+ID4gPiA+IE9uIEJlaGFsZiBPZiBCcnVjZSBBc2hmaWVs
-ZCB2aWEgbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KPiA+ID4gPiA+IFNlbnQ6IE1vbmRheSwgT2N0
-b2JlciAyNiwgMjAyMCAxMTo0NiBQTQ0KPiA+ID4gPiA+IFRvOiBKb2FraW0gUm91YmVydCA8am9h
-a2ltLnJvdWJlcnRAYXhpcy5jb20+DQo+ID4gPiA+ID4gQ2M6IG1ldGEtdmlydHVhbGl6YXRpb25A
-eW9jdG9wcm9qZWN0Lm9yZw0KPiA+ID4gPiA+IFN1YmplY3Q6IFJlOiBbbWV0YS12aXJ0dWFsaXph
-dGlvbl1bUEFUQ0ggdjVdIEFkZGluZyBrM3MgcmVjaXBlDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBP
-biBXZWQsIE9jdCAyMSwgMjAyMCBhdCAyOjAwIEFNIEpvYWtpbSBSb3ViZXJ0IDxqb2FraW0ucm91
-YmVydEBheGlzLmNvbT4gd3JvdGU6DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gT24gMjAyMC0x
-MC0yMSAwNToxMCwgQnJ1Y2UgQXNoZmllbGQgd3JvdGU6DQo+ID4gPiA+ID4gPiA+IEhhISEhIQ0K
-PiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiBUaGlzIGFwcGxpZXMuDQo+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+ID4gV29uZGVyZnVsLCB0aGFuayB5b3UhIEkgZ3Vlc3MgdGhpcyBpcyB3aGF0IGlz
-IGNhbGxlZCAiZml2ZSB0aW1lcyBsdWNreSIuLi4NCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+
-IEknbSBub3cgdGVzdGluZyBhbmQgY29tcGxldGluZyBzb21lIG9mIG15IG5ldHdvcmtpbmcNCj4g
-PiA+ID4gPiA+ID4gZmFjdG9yaW5nLCBhcyB3ZWxsIGFzIGltcG9ydGluZyAvIGZvcmtpbmcgc29t
-ZSByZWNpcGVzIHRvDQo+ID4gPiA+ID4gPiA+IGF2b2lkIGV4dHJhIGxheWVyIGRlcGVuZHMuDQo+
-ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gRXhjZWxsZW50IQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4g
-SSd2ZSBwdXNoZWQgc29tZSBvZiBteSBXSVAgdG86DQo+ID4gPiA+ID4gaHR0cHM6Ly9naXQueW9j
-dG9wcm9qZWN0Lm9yZy9jZ2l0L2NnaXQuY2dpL21ldGEtdmlydHVhbGl6YXRpb24vbA0KPiA+ID4g
-PiA+IG9nLz9oPWszcy13aXANCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoYXQgaW5jbHVkZXMgdGhl
-IHNwbGl0IG9mIHRoZSBuZXR3b3JraW5nLCB0aGUgaW1wb3J0IG9mIHNvbWUgb2YNCj4gPiA+ID4g
-PiB0aGUgZGVwZW5kZW5jaWVzIGFuZCBzb21lIHNtYWxsIHR3ZWFrcyBJJ20gd29ya2luZyBvbi4N
-Cj4gPiA+ID4gPg0KPiA+ID4gPiA+IEkgZGlkIGhhdmUgYSBjb3VwbGUgb2YgcXVlc3Rpb25zIG9u
-IHRoZSBrM3MgcGFja2FnaW5nIGl0c2VsZiwgSQ0KPiA+ID4gPiA+IHdhcyBnZXR0aW5nIHRoZSBm
-b2xsb3dpbmcNCj4gPiA+ID4gPiBlcnJvcjoNCj4gPiA+ID4gPg0KPiA+ID4gPiA+IEVSUk9SOiBr
-M3MtdjEuMTguOStrM3MxLWRpcnR5LXIwIGRvX3BhY2thZ2U6IFFBIElzc3VlOiBrM3M6DQo+ID4g
-PiA+ID4gRmlsZXMvZGlyZWN0b3JpZXMgd2VyZSBpbnN0YWxsZWQgYnV0IG5vdCBzaGlwcGVkIGlu
-IGFueSBwYWNrYWdlOg0KPiA+ID4gPiA+ICAgL3Vzci9sb2NhbC9iaW4vazNzLWNsZWFuDQo+ID4g
-PiA+ID4gICAvdXNyL2xvY2FsL2Jpbi9jcmljdGwNCj4gPiA+ID4gPiAgIC91c3IvbG9jYWwvYmlu
-L2t1YmVjdGwNCj4gPiA+ID4gPiAgIC91c3IvbG9jYWwvYmluL2szcw0KPiA+ID4gPiA+DQo+ID4g
-PiA+ID4gU28gSSBhZGRlZCB0aGVtIHRvIHRoZSBGSUxFUyBvZiB0aGUgazNzIHBhY2thZ2UgaXRz
-ZWxmIChzbyBib3RoDQo+ID4gPiA+ID4gazNzLXNlcnZlciBhbmQgazNzLWFnZW50IHdpbGwgZ2V0
-IHRoZW0pLCBpcyB0aGF0IHRoZSBzcGxpdCB5b3Ugd2VyZSBsb29raW5nIGZvciA/DQo+ID4gPiA+
-ID4NCj4gPiA+ID4gPiBCcnVjZQ0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
-QlIsDQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gL0pvYWtpbQ0KPiA+ID4gPiA+ID4gLS0NCj4g
-PiA+ID4gPiA+IEpvYWtpbSBSb3ViZXJ0DQo+ID4gPiA+ID4gPiBTZW5pb3IgRW5naW5lZXINCj4g
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBBeGlzIENvbW11bmljYXRpb25zIEFCDQo+ID4gPiA+ID4g
-PiBFbWRhbGF2w6RnZW4gMTQsIFNFLTIyMyA2OSBMdW5kLCBTd2VkZW4NCj4gPiA+ID4gPiA+IFRl
-bDogKzQ2IDQ2IDI3MiAxOCAwMCwgVGVsIChkaXJlY3QpOiArNDYgNDYgMjcyIDI3IDQ4DQo+ID4g
-PiA+ID4gPiBGYXg6ICs0NiA0NiAxMyA2MSAzMCwgd3d3LmF4aXMuY29tDQo+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+IC0tDQo+ID4gPiA+ID4gLSBUaG91IHNoYWx0IG5vdCBmb2xsb3cgdGhlIE5VTEwg
-cG9pbnRlciwgZm9yIGNoYW9zIGFuZCBtYWRuZXNzDQo+ID4gPiA+ID4gYXdhaXQgdGhlZSBhdCBp
-dHMgZW5kDQo+ID4gPiA+ID4gLSAiVXNlIHRoZSBmb3JjZSBIYXJyeSIgLSBHYW5kYWxmLCBTdGFy
-IFRyZWsgSUkNCj4gPiA+ID4gSU1QT1JUQU5UIE5PVElDRTogVGhlIGNvbnRlbnRzIG9mIHRoaXMg
-ZW1haWwgYW5kIGFueSBhdHRhY2htZW50cyBhcmUgY29uZmlkZW50aWFsIGFuZA0KPiBtYXkgYWxz
-byBiZSBwcml2aWxlZ2VkLiBJZiB5b3UgYXJlIG5vdCB0aGUgaW50ZW5kZWQgcmVjaXBpZW50LCBw
-bGVhc2Ugbm90aWZ5IHRoZSBzZW5kZXINCj4gaW1tZWRpYXRlbHkgYW5kIGRvIG5vdCBkaXNjbG9z
-ZSB0aGUgY29udGVudHMgdG8gYW55IG90aGVyIHBlcnNvbiwgdXNlIGl0IGZvciBhbnkgcHVycG9z
-ZSwgb3INCj4gc3RvcmUgb3IgY29weSB0aGUgaW5mb3JtYXRpb24gaW4gYW55IG1lZGl1bS4gVGhh
-bmsgeW91Lg0KPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+ID4gLS0NCj4gPiA+IC0gVGhvdSBzaGFs
-dCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBjaGFvcyBhbmQgbWFkbmVzcw0KPiA+
-ID4gYXdhaXQgdGhlZSBhdCBpdHMgZW5kDQo+ID4gPiAtICJVc2UgdGhlIGZvcmNlIEhhcnJ5IiAt
-IEdhbmRhbGYsIFN0YXIgVHJlayBJSQ0KPiA+ID4NCj4gPiA+DQo+ID4gPg0KPiA+DQo+ID4NCj4g
-PiAtLQ0KPiA+IC0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZvciBj
-aGFvcyBhbmQgbWFkbmVzcyBhd2FpdA0KPiA+IHRoZWUgYXQgaXRzIGVuZA0KPiA+IC0gIlVzZSB0
-aGUgZm9yY2UgSGFycnkiIC0gR2FuZGFsZiwgU3RhciBUcmVrIElJDQo+ID4NCj4gPg0KPiA+DQo+
-DQo+DQo+IC0tDQo+IC0gVGhvdSBzaGFsdCBub3QgZm9sbG93IHRoZSBOVUxMIHBvaW50ZXIsIGZv
-ciBjaGFvcyBhbmQgbWFkbmVzcyBhd2FpdCB0aGVlIGF0IGl0cyBlbmQNCj4gLSAiVXNlIHRoZSBm
-b3JjZSBIYXJyeSIgLSBHYW5kYWxmLCBTdGFyIFRyZWsgSUkNCklNUE9SVEFOVCBOT1RJQ0U6IFRo
-ZSBjb250ZW50cyBvZiB0aGlzIGVtYWlsIGFuZCBhbnkgYXR0YWNobWVudHMgYXJlIGNvbmZpZGVu
-dGlhbCBhbmQgbWF5IGFsc28gYmUgcHJpdmlsZWdlZC4gSWYgeW91IGFyZSBub3QgdGhlIGludGVu
-ZGVkIHJlY2lwaWVudCwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVyIGltbWVkaWF0ZWx5IGFuZCBk
-byBub3QgZGlzY2xvc2UgdGhlIGNvbnRlbnRzIHRvIGFueSBvdGhlciBwZXJzb24sIHVzZSBpdCBm
-b3IgYW55IHB1cnBvc2UsIG9yIHN0b3JlIG9yIGNvcHkgdGhlIGluZm9ybWF0aW9uIGluIGFueSBt
-ZWRpdW0uIFRoYW5rIHlvdS4NCg==
+On Wed, Nov 11, 2020 at 5:07 AM Lance Yang <Lance.Yang@arm.com> wrote:
+>
+> Hi Bruce,
+>
+> Thanks for your reply. It took me a long time to address the $PATH issue.
+>
+> I found the cause after I cleaned my environment. it is because I set my =
+own $PATH before k3s startup which did not include "/bin" and some componen=
+ts in k3s will use "os.Getenv("PATH") to search the related tool.
+>
+> Since some OS may not have systemd and the k3s-clean script seems not  to=
+ delete all interfaces created by cni and umount all mount points related t=
+o k3s. I wrote a script for this situation and I will send it through a sep=
+arate email based on your previous scripts.
+>
+
+Sounds good.
+
+You'll notice that I pushed an update to the k3s-wip branch, things
+are a bit closer to working there now.
+
+I am interested to hear if flannel crashes if you (or anyone else)
+install (and use) the k3s-agent on the same node as the k3s-server.
+
+As soon as you run any k3s-agent command (with the proper token and
+local host as the server), the node moves into NotReady with what
+looks like a CNI error.
+
+I fetched and ran the binaries directly from rancher, and they showed
+the same behaviour as the meta-virt ones, so it isn't something
+fundamental with the integration.
+
+Bruce
+
+> Best Regards,
+> Lance
+> > -----Original Message-----
+> > From: meta-virtualization@lists.yoctoproject.org <meta-virtualization@l=
+ists.yoctoproject.org>
+> > On Behalf Of Bruce Ashfield via lists.yoctoproject.org
+> > Sent: Tuesday, November 10, 2020 9:35 PM
+> > To: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Cc: Lance Yang <Lance.Yang@arm.com>; Joakim Roubert <joakim.roubert@axi=
+s.com>; meta-
+> > virtualization@yoctoproject.org; Michael Zhao <Michael.Zhao@arm.com>; K=
+aly Xin
+> > <Kaly.Xin@arm.com>
+> > Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+> >
+> > On Tue, Nov 10, 2020 at 8:17 AM Bruce Ashfield via lists.yoctoproject.o=
+rg
+> > <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+> > >
+> > > On Tue, Nov 10, 2020 at 7:46 AM Bruce Ashfield via
+> > > lists.yoctoproject.org
+> > > <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+> > > >
+> > > > On Tue, Nov 10, 2020 at 1:43 AM Lance Yang <Lance.Yang@arm.com> wro=
+te:
+> > > > >
+> > > > > Hi Bruce and Joakim,
+> > > > >
+> > > > > Thanks for sharing this branch: k3s-wip. I have tested against my=
+ yocto build.
+> > > >
+> > > > The branch will be more functional shortly, I have quite a few
+> > > > changes to factor things for k8s and generally more usable :D
+> > > >
+> > > >         modified:   classes/cni_networking.bbclass
+> > > >         modified:   conf/layer.conf
+> > > >         modified:   recipes-containers/containerd/containerd-docker=
+_git.bb
+> > > >         modified:
+> > > > recipes-containers/containerd/containerd-opencontainers_git.bb
+> > > >         modified:   recipes-containers/k3s/README.md
+> > > >         modified:   recipes-containers/k3s/k3s_git.bb
+> > > >         modified:   recipes-kernel/linux/linux-yocto/kubernetes.cfg
+> > > >         modified:   recipes-networking/cni/cni_git.bb
+> > > >         container-deploy.txt
+> > > >         recipes-core/packagegroups/
+> > > >
+> > > > >
+> > > > > My Image: Linux qemuarm64 by yocto.
+> > > > >
+> > > > > The master node can be ready after I started the k3s server. Howe=
+ver, the pods in kube-
+> > system (which are essential components for k3s) cannot turn to ready st=
+ate on qemuarm64.
+> > > > >
+> > > >
+> > > > That's interesting, since in my configuration, the master never com=
+es ready:
+> > > >
+> > > > root@qemux86-64:~# kubectl get nodes
+> > > > NAME         STATUS     ROLES    AGE   VERSION
+> > > > qemux86-64   NotReady   master   15h   v1.18.9-k3s1
+> > > >
+> > >
+> > > Hah.
+> > >
+> > > I finally got the node to show up as ready:
+> > >
+> > > root@qemux86-64:~# kubectl get nodes
+> > > NAME         STATUS   ROLES    AGE    VERSION
+> > > qemux86-64   Ready    master   112s   v1.18.9-k3s1
+> > >
+> >
+> > Lance,
+> >
+> > What image type were you building ? I'm pulling in dependencies to pack=
+agegroups and the
+> > recipes themselves.
+> >
+> > I'm not seeing the mount issue on my master/server node:
+> >
+> > root@qemux86-64:~# kubectl get pods -n kube-system
+> > NAME                                     READY   STATUS      RESTARTS  =
+ AGE
+> > local-path-provisioner-6d59f47c7-h7lxk   1/1     Running     0         =
+ 3m32s
+> > metrics-server-7566d596c8-mwntr          1/1     Running     0         =
+ 3m32s
+> > helm-install-traefik-229v7               0/1     Completed   0         =
+ 3m32s
+> > coredns-7944c66d8d-9rfj7                 1/1     Running     0         =
+ 3m32s
+> > svclb-traefik-pb5j4                      2/2     Running     0         =
+ 2m29s
+> > traefik-758cd5fc85-lxpr8                 1/1     Running     0         =
+ 2m29s
+> >
+> > I'm going back to all-in-one node debugging, but can look into the moun=
+t issue more later.
+> >
+> > Bruce
+> >
+> > > I'm attempting to build an all-in-one node, and that is likely causin=
+g
+> > > me some issues.
+> > >
+> > > I'm revisiting those potential conflicts now.
+> > >
+> > > But if anyone else does have an all in one working and has some tips,
+> > > feel free to share :D
+> > >
+> > > Bruce
+> > >
+> > > > I've sorted out more of the dependencies, and have packagegroups to
+> > > > make them easier now.
+> > > >
+> > > > Hopefully, I can figure out what is now missing and keeping my
+> > > > master from moving into ready today.
+> > > >
+> > > > Bruce
+> > > >
+> > > > > After the master node itself turned to ready state, I check the p=
+ods with kubectl:
+> > > > >
+> > > > > kubectl get nodes
+> > > > > NAME        STATUS   ROLES    AGE   VERSION
+> > > > > qemuarm64   Ready    master   11m   v1.18.9-k3s1
+> > > > > root@qemuarm64:~# ls
+> > > > > root@qemuarm64:~# kubectl get pods -n kube-system
+> > > > > NAME                                     READY   STATUS          =
+    RESTARTS   AGE
+> > > > > local-path-provisioner-6d59f47c7-xxvbl   0/1     ContainerCreatin=
+g   0          12m
+> > > > > coredns-7944c66d8d-tlrm9                 0/1     ContainerCreatin=
+g   0          12m
+> > > > > metrics-server-7566d596c8-svkff          0/1     ContainerCreatin=
+g   0          12m
+> > > > > helm-install-traefik-s8p5g               0/1     ContainerCreatin=
+g   0          12m
+> > > > >
+> > > > > Then I describe the pods with:
+> > > > >
+> > > > > Events:
+> > > > >   Type     Reason       Age                  From               M=
+essage
+> > > > >   ----     ------       ----                 ----               -=
+------
+> > > > >   Normal   Scheduled    16m                  default-scheduler  S=
+uccessfully assigned kube-
+> > system/coredns-7944c66d8d-tlrm9 to qemuarm64
+> > > > >   Warning  FailedMount  5m23s (x3 over 14m)  kubelet            U=
+nable to attach or mount
+> > volumes: unmounted volumes=3D[coredns-token-b7nlh], unattached volumes=
+=3D[coredns-token-
+> > b7nlh config-volume]: timed out waiting for the condition
+> > > > >   Warning  FailedMount  50s (x4 over 12m)    kubelet            U=
+nable to attach or mount
+> > volumes: unmounted volumes=3D[coredns-token-b7nlh], unattached volumes=
+=3D[config-volume
+> > coredns-token-b7nlh]: timed out waiting for the condition
+> > > > >   Warning  FailedMount  11s (x16 over 16m)   kubelet            M=
+ountVolume.SetUp failed
+> > for volume "coredns-token-b7nlh" : mount failed: exec: "mount": executa=
+ble file not found in
+> > $PATH
+> > > > >
+> > > > > I found the "mount" binary is not found in $PATH. However, I conf=
+irmed the $PATH and
+> > mount binary on my qemuarm64 image:
+> > > > >
+> > > > > root@qemuarm64:~# echo $PATH
+> > > > > /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+> > > > > root@qemuarm64:~# which mount
+> > > > > /bin/mount
+> > > > >
+> > > > > When I type mount command, it worked fine:
+> > > > >
+> > > > > /dev/root on / type ext4 (rw,relatime) devtmpfs on /dev type
+> > > > > devtmpfs (rw,relatime,size=3D2016212k,nr_inodes=3D504053,mode=3D7=
+55)
+> > > > > proc on /proc type proc (rw,relatime) sysfs on /sys type sysfs
+> > > > > (rw,relatime) debugfs on /sys/kernel/debug type debugfs
+> > > > > (rw,relatime) tmpfs on /run type tmpfs (rw,nosuid,nodev,mode=3D75=
+5)
+> > > > > ...
+> > > > > ... (skipped the verbose output)
+> > > > >
+> > > > > I would like to know whether you have met this "mount" issue ever=
+?
+> > > > >
+> > > > > Best Regards,
+> > > > > Lance
+> > > > >
+> > > > > > -----Original Message-----
+> > > > > > From: meta-virtualization@lists.yoctoproject.org
+> > > > > > <meta-virtualization@lists.yoctoproject.org>
+> > > > > > On Behalf Of Bruce Ashfield via lists.yoctoproject.org
+> > > > > > Sent: Monday, October 26, 2020 11:46 PM
+> > > > > > To: Joakim Roubert <joakim.roubert@axis.com>
+> > > > > > Cc: meta-virtualization@yoctoproject.org
+> > > > > > Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+> > > > > >
+> > > > > > On Wed, Oct 21, 2020 at 2:00 AM Joakim Roubert <joakim.roubert@=
+axis.com> wrote:
+> > > > > > >
+> > > > > > > On 2020-10-21 05:10, Bruce Ashfield wrote:
+> > > > > > > > Ha!!!!
+> > > > > > > >
+> > > > > > > > This applies.
+> > > > > > >
+> > > > > > > Wonderful, thank you! I guess this is what is called "five ti=
+mes lucky"...
+> > > > > > >
+> > > > > > > > I'm now testing and completing some of my networking
+> > > > > > > > factoring, as well as importing / forking some recipes to
+> > > > > > > > avoid extra layer depends.
+> > > > > > >
+> > > > > > > Excellent!
+> > > > > >
+> > > > > > I've pushed some of my WIP to:
+> > > > > > https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualization/=
+l
+> > > > > > og/?h=3Dk3s-wip
+> > > > > >
+> > > > > > That includes the split of the networking, the import of some o=
+f
+> > > > > > the dependencies and some small tweaks I'm working on.
+> > > > > >
+> > > > > > I did have a couple of questions on the k3s packaging itself, I
+> > > > > > was getting the following
+> > > > > > error:
+> > > > > >
+> > > > > > ERROR: k3s-v1.18.9+k3s1-dirty-r0 do_package: QA Issue: k3s:
+> > > > > > Files/directories were installed but not shipped in any package=
+:
+> > > > > >   /usr/local/bin/k3s-clean
+> > > > > >   /usr/local/bin/crictl
+> > > > > >   /usr/local/bin/kubectl
+> > > > > >   /usr/local/bin/k3s
+> > > > > >
+> > > > > > So I added them to the FILES of the k3s package itself (so both
+> > > > > > k3s-server and k3s-agent will get them), is that the split you =
+were looking for ?
+> > > > > >
+> > > > > > Bruce
+> > > > > >
+> > > > > > >
+> > > > > > > BR,
+> > > > > > >
+> > > > > > > /Joakim
+> > > > > > > --
+> > > > > > > Joakim Roubert
+> > > > > > > Senior Engineer
+> > > > > > >
+> > > > > > > Axis Communications AB
+> > > > > > > Emdalav=C3=A4gen 14, SE-223 69 Lund, Sweden
+> > > > > > > Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
+> > > > > > > Fax: +46 46 13 61 30, www.axis.com
+> > > > > > >
+> > > > > > --
+> > > > > > - Thou shalt not follow the NULL pointer, for chaos and madness
+> > > > > > await thee at its end
+> > > > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > > > IMPORTANT NOTICE: The contents of this email and any attachments =
+are confidential and
+> > may also be privileged. If you are not the intended recipient, please n=
+otify the sender
+> > immediately and do not disclose the contents to any other person, use i=
+t for any purpose, or
+> > store or copy the information in any medium. Thank you.
+> > > >
+> > > >
+> > > >
+> > > > --
+> > > > - Thou shalt not follow the NULL pointer, for chaos and madness
+> > > > await thee at its end
+> > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > >
+> > > >
+> > > >
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > >
+> > >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await t=
+hee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+> IMPORTANT NOTICE: The contents of this email and any attachments are conf=
+idential and may also be privileged. If you are not the intended recipient,=
+ please notify the sender immediately and do not disclose the contents to a=
+ny other person, use it for any purpose, or store or copy the information i=
+n any medium. Thank you.
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
