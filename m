@@ -1,20 +1,20 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.1363.1605061423122997742
+ by mx.groups.io with SMTP id smtpd.web08.1859.1605064810540956894
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 10 Nov 2020 18:23:43 -0800
+ Tue, 10 Nov 2020 19:20:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=i5qtQieQ;
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=mz0volSv;
  spf=softfail (domain: windriver.com, ip: 198.145.29.25, mailfrom: yanfei.xu@windriver.com)
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2053.outbound.protection.outlook.com [40.107.93.53])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id D326E38C129F
-	for <meta-virtualization@yoctoproject.org>; Tue, 10 Nov 2020 18:23:41 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2059.outbound.protection.outlook.com [40.107.243.59])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 9B79138C046F
+	for <meta-virtualization@yoctoproject.org>; Wed, 11 Nov 2020 03:20:05 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gIaFCxfWj19+lUujI9j+x6jOQ1/FqgnPFcmfB8yXFe3dLfqToltk3SfeYaIYrWkaK3qtwUOiZyYC6LQWY7twRmdGat5fmNuDxsJoFiLcLCaIWQ2nOKK/6832Uoc86J4LePAUgGVNXkIRKI7778g2oSiMJKpXsdIRdQ8WqwHZ4I0wVJ6dNFZaqxgATEgSCLt0PHfZGxP22FGdstUPx3zq2WEz4G/FCnUQsiN2eyQmYNDntl68/JiScOJLPuYa85imTrgNyc90fHoVWM3jG337y7JIUwpX2DkFhYfr9DKaHKI/ChoRUvD8cF3jCY67L7srma+7r1T3awPkjxTIkN/CyQ==
+ b=lQ5nG8+b7S66816LRc2CzJLoHOoDObmJqgteYVJWd2uF/1CFc2CLTEUYP6nxS9sIM73W5mwGY+inDWAsbXOltRGDnFS/4zk8b09c9o6LduWygB4jeS/Hv9obifewL0LhxPe/ABd0JXSFi8ge65VquOdj2ukDqPk6gN49Om9NEK3kK/AMyryWCAtBpJvTB2bWX8NAqTbIgQiE+obNhtixezCMY2tCcm37pGokBGH/jB1FAJSW9w4wj08kRZj7ru2ZszWVHRKgztBikNY7PdB3wfYKMiwObvSaw8Lcbb1rFY4Fdaq/BEQZ9Y2EmQyR6mS6kFfa39D76tfnzP/HkhIygA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=75MY+f+wcDfomLB4cExC1Ux7573mtIIyrOWYzkBoTug=;
- b=NgvaQpMRTDgSUht4aOGGw1JESPzv2OEfg8dDIU5NLvATTvkwFx98OLut1hjlBtlW6Jakg74PqyRHsEhcJwN+Da0pTkQLb955F49+Cnd6s/ZJ1SnFhE3MAGfNT+q0DO64HJ5lntQnLgdWZE2wCeDEEYZJ0N9G8WI+8JZQuRaUT2FCUX2KRdhHAFdpL2tNwHKHPnER9bXNzC7IzPT2jMcBVZ3QmmZZhISbvOswLri+yCXiUSB7qizUVrWBRGko2eTCyvI1kcZS+BWphxXJN/tH42pM0P58cynq2gwz7w5HqaIOJD2Y9MPn9f8KZLTdsiRnDijGKwG9rNhLcwGcu/Qppg==
+ bh=KalUJIpzKDw/k3HF0b4ZibP6g0m4Ydc+bYb9lLju6o8=;
+ b=I7Kq8h9HqHm0iWRq9r6xCoOwf/frRjGvUsMw4MFPgB7l/fxKCEIcAjNkxlJrTALDaJnPG/zkFPqw1noA2R4dLFQzM3K81LABBjAfYEILwyzDjxGyVO2zXHhVbeeM3psL1mrxqY/YcY2dEBl/YsSrSu9+PnhkPQTI8TQwxQBvHv/ww3i7bjE0a0Y2GJDji9ko/Qeb11SFh4N0dzEQmmhyEXM7G9slUC+sMQxbUQgeLpiYEeMse+1qridDX84S93y0DhtpqSMGyJ/BC7Kz6Da3dFYwj7LBWZTEMiSpZ8DuqTcENqxFgS4oEZ3fFkTcN9GWAULLuWta8WXDP2MfBogYOQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -22,105 +22,121 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=windriversystems.onmicrosoft.com;
  s=selector2-windriversystems-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=75MY+f+wcDfomLB4cExC1Ux7573mtIIyrOWYzkBoTug=;
- b=i5qtQieQwU99u3pdB1rnT5m86XNxeaTDvOuXzoxhXoalGVBpKs+5hXmw27+sjTWg24pCytp+LFgW0+z0W/q6UnMagPinzO/Eg3KC1q/xktZYx/KM7V9ZzH/Yb7Vjjz86EMhj3Bi9QPWDTbOI9RAnWWDFdfjnqUXbwSj4+agC8BY=
-Authentication-Results: yoctoproject.org; dkim=none (message not signed)
- header.d=none;yoctoproject.org; dmarc=none action=none
- header.from=windriver.com;
+ bh=KalUJIpzKDw/k3HF0b4ZibP6g0m4Ydc+bYb9lLju6o8=;
+ b=mz0volSvgkiPwmg2nlKtAWB6LzaTHL1i4+EoT5dqx//PIzKjiM4U8EX9mFB0/e4JV7qVht3jclNb+HOT2YAuTci+La8EEN62CqqsXfOo5w0e/JbcLBDNBo5+zs+QnYl5P2jq0hHIUwmQgKlxv4xxIizGT70aQ/TkANPm1XzJe8c=
+Authentication-Results: konsulko.com; dkim=none (message not signed)
+ header.d=none;konsulko.com; dmarc=none action=none header.from=windriver.com;
 Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
- by BYAPR11MB3109.namprd11.prod.outlook.com (2603:10b6:a03:8c::26) with
+ by SJ0PR11MB5167.namprd11.prod.outlook.com (2603:10b6:a03:2d9::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.25; Wed, 11 Nov
- 2020 02:23:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21; Wed, 11 Nov
+ 2020 03:20:04 +0000
 Received: from BY5PR11MB4241.namprd11.prod.outlook.com
  ([fe80::adbd:559a:4a78:f09b]) by BY5PR11MB4241.namprd11.prod.outlook.com
  ([fe80::adbd:559a:4a78:f09b%6]) with mapi id 15.20.3541.025; Wed, 11 Nov 2020
- 02:23:39 +0000
-Subject: Re: [meta-virtualization] [PATCH] ceph: add support for python3.9
-To: Paul Barker <pbarker@konsulko.com>
-Cc: meta-virtualization@yoctoproject.org
-References: <20201110094641.11352-1-yanfei.xu@windriver.com>
- <CAM9ZRVskHmGkqJQu+WNechg3DiDS_ADCFTRYO=6mbhkmaG5o3w@mail.gmail.com>
+ 03:20:03 +0000
 From: "Xu, Yanfei" <yanfei.xu@windriver.com>
-Message-ID: <5efe585b-ed8a-3a64-513c-e688eddec533@windriver.com>
-Date: Wed, 11 Nov 2020 10:23:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-In-Reply-To: <CAM9ZRVskHmGkqJQu+WNechg3DiDS_ADCFTRYO=6mbhkmaG5o3w@mail.gmail.com>
+To: pbarker@konsulko.com
+Cc: meta-virtualization@yoctoproject.org
+Subject: [PATCH v2] ceph: add support for python3.9
+Date: Wed, 11 Nov 2020 11:19:51 +0800
+Message-Id: <20201111031951.33998-1-yanfei.xu@windriver.com>
+X-Mailer: git-send-email 2.18.2
 X-Originating-IP: [60.247.85.82]
-X-ClientProxiedBy: HKAPR03CA0027.apcprd03.prod.outlook.com
- (2603:1096:203:c9::14) To BY5PR11MB4241.namprd11.prod.outlook.com
+X-ClientProxiedBy: HK2PR04CA0050.apcprd04.prod.outlook.com
+ (2603:1096:202:14::18) To BY5PR11MB4241.namprd11.prod.outlook.com
  (2603:10b6:a03:1ca::13)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [128.224.162.160] (60.247.85.82) by HKAPR03CA0027.apcprd03.prod.outlook.com (2603:1096:203:c9::14) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.13 via Frontend Transport; Wed, 11 Nov 2020 02:23:38 +0000
+Received: from pek-lpggp1.wrs.com (60.247.85.82) by HK2PR04CA0050.apcprd04.prod.outlook.com (2603:1096:202:14::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Wed, 11 Nov 2020 03:20:02 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 97b86d7f-a36a-409e-887f-08d885e8cd4c
-X-MS-TrafficTypeDiagnostic: BYAPR11MB3109:
+X-MS-Office365-Filtering-Correlation-Id: 0a73e8ba-7232-445e-6931-08d885f0ae51
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5167:
 X-Microsoft-Antispam-PRVS: 
-	<BYAPR11MB310939BDC21CEDAA1BE7ACFAE4E80@BYAPR11MB3109.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+	<SJ0PR11MB5167E05B6BFEC94358ABBBB5E4E80@SJ0PR11MB5167.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3631;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info: 
-	iXVn993F6lWYaue79iGqluo2HijIiIDxTOREnhlOdfTGjF+js/3YxcnoET44FZFUzPsLfK9jQrNczTVnqb3Tbip6BPMdS4XsNQidrjAO+xipTS00kT1g8Ps1BmVsFCKHEAZdPZQbpKwtEQZ/XURq7F4SC2rOR6yORR0Ps139Pjq4mb2wH5rYX8bgqgAPo/Xv9Y5lKLXCbRRt8bJvla2pdEelhsyQXXT++PtVXah2m1uP7it9NV2NrSgpUg+pnZqD6DinDMkmY0kmAhRdRKm9LtpjD7QAinQ1Uj91PHR+nZFJ5zbGh17J70kVmoSBwlOUncQ0f3msMvKEkZesy3B9qPAI9U0ZES6deQpmDTX4HU+gaspnc2b+a7qg909sDwHglh2N9KNMUENtbMfQOQ26Sw==
+	n4s5nFGLINNzcTI+fkhtwAmFbaaEmqGcU9XgwAvQzdEsjDQmp8irGwSgRehGQcMz924WBJElP+dl2HchRNLfzLAdwztacfgCrgbWuqABXW1dZW7sBHCdxHHW9Iuo2Y57r3wLyZfFLEqUhcegQyTG5BQO1aNrHOYR4/JbSzs/5e13ws0x0gg825X3iK3taMSwuPXnSFHU/UhMOm8AN+4qyIq9RC0ULi9c+ssfSjzRhHiRyq1AeOWbXzxibLYo4wg+qojsDBMhZXrPTzQMsfURs8NFRPTuzW0Sq2+o9XpwqfivCJN1MHUCb5hc17VIY4oKLlcws+6PMaqiWl2jV4z+bkgKFzAdGhzuO0Rh13RcoXvHTwnwt/vRTxjakektLwwdw/6Gaiu4s8uUcK75e7To5w==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(39840400004)(346002)(376002)(366004)(136003)(6916009)(83380400001)(66946007)(26005)(66476007)(66556008)(8936002)(6486002)(16526019)(2906002)(478600001)(31696002)(53546011)(31686004)(6666004)(186003)(4326008)(2616005)(956004)(5660300002)(316002)(16576012)(36756003)(8676002)(86362001)(52116002)(6706004)(78286007)(43740500002);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(376002)(39850400004)(396003)(478600001)(16526019)(2616005)(956004)(6512007)(26005)(9686003)(6486002)(8676002)(186003)(83380400001)(6506007)(6916009)(4326008)(2906002)(6666004)(36756003)(86362001)(8936002)(1076003)(52116002)(66476007)(66556008)(66946007)(5660300002)(316002);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData: 
-	qm6JE6pAzWzBHh0YebCWmIaSif9pjGFO35fGTjMBdz5ClOfEiydMYnBAWrfvQKPbopki/0nMHqGeP9Jm7LZikYNV4RhNKCRIosOk3SrxlZ99vK5AOIai8j8ZCFyA/c8pQiq24X7y6T78MWfEXwqAW7+gZM2y1h72QV+LfTXn42N2wK4Z+draLRmMW9xzuLYnppGmG3Qx1mXLvOYlpJFyIp+CTNon8LQUjA+TMeUMjVE5+RuZW7SO5RNBMi95imJuWO4bYiuceM7qgYhjltA0bD5+EQel5FFAjLS9cjF761y05RwybWznpoi//MdtBi5875y321eRkAU/lr2N3vVkoiKuq+wlb9F2YknTFH07ZEuOJZfWPtCUpcMoE8RVAciJefBcyX291nVDm7JUX5OLSkPTrAYOPMPKrTYh48Dz79P91MsmRc7l6dqtHZpGu/j8hy1mwBE1i6p59IT+zIFqu/PdyEyb5k+H6XeMMZPN01jdTxI8QqadOB/U1gH05SUcVI90G/rvpSNbwbalLK8LY8bkFy49+bhXU/Pdx7vbQc2/LPNXqI2I2rKrPNP1MFR+64wvrnCGNhugOjfpQ6ilWHBVlamQlxISgeYA+LGO19LOmRWZUh5rNhxkwmiGqsE221BH58YQ0+rzvuGgcrcaKA==
+	CL8HeNdlMxuPHUvUULlSEMB+iKkY+75pSBC7DR78Dg9UnxvwveIgOLHpq5Ea/gagiqMqp4QFYhXOfEeuPKR+iL7uJbvIFTDe0ebH8Ld+lhqS8WN+BrthGGb+LG4tXaNTi3HgJ3PyJQAj2d/Hwd4z9GsVkyB4SyKuYYpxYE4dCqmqdfnJL5vJaqVcXgbKw4OL1F0ZsXNtWIQFh0as3hgO/ZPIlKRzbxJ0dC/1My5AZJu97I4CD342f3Yi6pxX+0lfokOyuh94FATE4z1OT1gKULnr/+99EOuW/RjrjcWH+vuBY4BDz8POv4qjNIKbNjLJCaqK4UV8GW+BoXgtbovtLcFQORvvJ4HZGtJAubeWrWeB8OWSrq8Q/n2V6Td20La0wUK9wi4Ju37vHQLKRiKCvCPlCkGCJUYsQXV5za58Yxe3qCgV+saGtxEDPnZR8G1aLNc9Ox0rxl/hkG7j9pZW20PUixw6XEPRn7rCFqfmOU9LN6VCWJGXOt5sdFADK0fXZ+3CyV0AYaDg1YzR3h4YBhqyp+v2WdgQkrltqkU5QWtFte8xWJeCVkBH5TzTibza0KBi7RhuOLrlAXtPbyBRSfmLPQsQTcNo6Xkkmd/AmBj5WD9F3sWf+kE2EeC9AYfyxhZjgq+RJ07qvci1B/iGYA==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 97b86d7f-a36a-409e-887f-08d885e8cd4c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a73e8ba-7232-445e-6931-08d885f0ae51
 X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 02:23:39.7756
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2020 03:20:03.7970
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QgoruqZiNKm9pDOH4wq2HoN7BrdqFEgGFWr9EEMod/CvexNTIN/UTkxX11MZvxijKmfNaxFhJJ37gbShqNnUBQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB3109
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-UserPrincipalName: 0qTVsxyjaUCQBdcdvce/aD9VArOYvNM5NlfGLZZ+ODzMBeVMakiXO6GCqeecuv7fucjSnlENfo2T1ILr5JnvpQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5167
+Content-Type: text/plain
 
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
+Add support for python3.9, or it will do_configure failed.
 
-On 11/10/20 5:56 PM, Paul Barker wrote:
-> [Please note this e-mail is from an EXTERNAL e-mail address]
-> 
-> On Tue, 10 Nov 2020 at 09:46, Xu, Yanfei <yanfei.xu@windriver.com> wrote:
->>
->> From: Yanfei Xu <yanfei.xu@windriver.com>
->>
->> Add support for python3.9, or it will do_configure failed.
->>
->> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
->> ---
->>   ...FindPython-add-support-for-python3.9.patch | 30 +++++++++++++++++++
->>   recipes-extended/ceph/ceph_15.2.0.bb          |  1 +
->>   2 files changed, 31 insertions(+)
->>   create mode 100644 recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch
->>
->> diff --git a/recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch b/recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch
->> new file mode 100644
->> index 0000000..096c9b7
->> --- /dev/null
->> +++ b/recipes-extended/ceph/ceph/0001-FindPython-add-support-for-python3.9.patch
->> @@ -0,0 +1,30 @@
->> +From 27ac21526eae33a40edb81aef627aa13719fdaae Mon Sep 17 00:00:00 2001
->> +From: Yanfei Xu <yanfei.xu@windriver.com>
->> +Date: Tue, 10 Nov 2020 17:17:30 +0800
->> +Subject: [PATCH] FindPython: add support for python3.9
->> +
->> +Python of oe-core has been upgraded to v3.9, add support for python3.9.
->> +
->> +Upstream-Status: Inappropriate [oe specific]
-> 
-> This doesn't sound very OE specific - surely upstream would want
-> Python 3.9 support as well?
-> 
-> --
-> Paul Barker
-> Konsulko Group
-> 
-OK, I will investigate how to contribute ceph, then send a v2.
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+---
+v1->v2: Change the patch's Upstream-Status to 'Pending'.
+
+ ...0001-cmake-add-support-for-python3.9.patch | 30 +++++++++++++++++++
+ recipes-extended/ceph/ceph_15.2.0.bb          |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
+
+diff --git a/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch b/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
+new file mode 100644
+index 0000000..d9116c4
+--- /dev/null
++++ b/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
+@@ -0,0 +1,30 @@
++From 1060f2e4362ebd6db23870d442dcd158d219ee92 Mon Sep 17 00:00:00 2001
++From: Yanfei Xu <yanfei.xu@windriver.com>
++Date: Tue, 10 Nov 2020 17:17:30 +0800
++Subject: [PATCH] cmake: add support for python3.9
++
++add support for python3.9.
++
++Upstream-Status: Pending
++
++Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
++---
++ cmake/modules/FindPython/Support.cmake | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/cmake/modules/FindPython/Support.cmake b/cmake/modules/FindPython/Support.cmake
++index 6584699b79..c05bbe3306 100644
++--- a/cmake/modules/FindPython/Support.cmake
+++++ b/cmake/modules/FindPython/Support.cmake
++@@ -17,7 +17,7 @@ if (NOT DEFINED _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
++   message (FATAL_ERROR "FindPython: INTERNAL ERROR")
++ endif()
++ if (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 3)
++-  set(_${_PYTHON_PREFIX}_VERSIONS 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+++  set(_${_PYTHON_PREFIX}_VERSIONS 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
++ elseif (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 2)
++   set(_${_PYTHON_PREFIX}_VERSIONS 2.7 2.6 2.5 2.4 2.3 2.2 2.1 2.0)
++ else()
++-- 
++2.18.2
++
+diff --git a/recipes-extended/ceph/ceph_15.2.0.bb b/recipes-extended/ceph/ceph_15.2.0.bb
+index bdc794f..8454a20 100644
+--- a/recipes-extended/ceph/ceph_15.2.0.bb
++++ b/recipes-extended/ceph/ceph_15.2.0.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+            file://0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch \
+            file://0003-PendingReleaseNotes-note-about-security-fix.patch \
+            file://0001-add-missing-include-for-atomic-bool.patch \
++           file://0001-cmake-add-support-for-python3.9.patch \
+ "
+ 
+ SRC_URI[md5sum] = "1f9af648b4c6d19975aab2583ab99710"
+-- 
+2.18.2
+
