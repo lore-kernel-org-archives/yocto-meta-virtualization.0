@@ -1,67 +1,475 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.4158.1605188410657643974
+ by mx.groups.io with SMTP id smtpd.web12.4199.1605188441009567119
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 12 Nov 2020 05:40:11 -0800
+ Thu, 12 Nov 2020 05:40:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=cuamKmjk;
- spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id EC2E838C0966
-	for <meta-virtualization@yoctoproject.org>; Thu, 12 Nov 2020 13:40:09 +0000 (UTC)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=j0kEQK7d;
+ spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com [209.85.208.67])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id AE9E938C0966
+	for <meta-virtualization@yoctoproject.org>; Thu, 12 Nov 2020 13:40:40 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id q3so6161412edr.12
+        for <meta-virtualization@yoctoproject.org>; Thu, 12 Nov 2020 05:40:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=496; q=dns/txt; s=axis-central1;
-  t=1605188410; x=1636724410;
-  h=subject:to:references:from:message-id:date:mime-version:
-   in-reply-to:content-transfer-encoding;
-  bh=uBq4LhXzrj+dhEZrEqyGHrS3Pxr8fBPBV/vwUhvbl64=;
-  b=cuamKmjkIk1Na1qMwN+I8RPGbfExNRfYAYwUrbzfJoYQA73nQlBKOYcU
-   i3AjDOqSri2C8OJ0D0bIdyJ2pznNVJ7mLiSGG2+ZVH3IHWec0jW9qDpGp
-   vTG/u+kD68Y7MMYlVruQYI9jwF32Eij+uaJMbDF/0qKiBEgMxods7viWw
-   RSwmB3In14fVIia6idtKNNnek5xM31iqzi7edRCXgEzxB3dsvt2coc94j
-   4xAD4d5hi+UFq8AA/YJMKFe8Wcs30Nmgk6MidvsZtrx9RmNwSdXvpgGyg
-   8iNsjX6/f+rf0CqtiRAGRiJWWN17RWnblHcEw3qng26cmrFDCACGg5I3y
-   w==;
-IronPort-SDR: a/IL4Jla+JOA4Ac3R5EflXlF/RrKJ0A/gaZqDx8B0F7fQ3aj6x9jd7xzuzH4OCnrxV32psFNKi
- ytiezzT3ULj8sjfDxwAjsG4smJ92IXiudaMWj6biynSDDxswadwfv1CXmgwp2u7iNBwh3aOk5v
- fKm3K4JbpUaGm91TQrcL4VppCPETvhR1Ota1FDzCRkADF6FWJDSBhLY41xpTK1EU2XvezZPtuK
- jsYhc6YJ52T0kT+lXJwmzHtB0ZENMR3ci2MmoyVLt0S2zrSj/PTZd6sjPwhxqroIeXB0qR8qwB
- 6zI=
-X-IronPort-AV: E=Sophos;i="5.77,472,1596492000"; 
-   d="scan'208";a="14994943"
-Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
-To: "meta-virtualization@yoctoproject.org"
-	<meta-virtualization@yoctoproject.org>
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=RqPhykOnCgU3gq9K/ubjaSipjSpA3oqKNEKEkLhtZbI=;
+        b=j0kEQK7d22iAuFixgWIG3nVbPSja3wKvcSDoDvrt1Qz5nwIg+B+OwubSu9q7ZX+Jpf
+         DnnnX5tmuNABUDCQexT8VtzxpR8r8Lyfx2tgKiOvaYWx0/DCzc6aquULJrLqnkuSnCML
+         Ji3zInGG6rd5/pG7IbG75b54wD6uCCjSTWa7O35tJ+otx7TABm1Txz5doNsgHir0uhiy
+         tEuO7DtZp+wNai5iuqKUErzYqImw9KlWyye2hRY/1k53pJ1Sd79mUbUSBZqM7CzJ9LZs
+         yKnR0k15Zhso5EbUg4KIDW2cFsB5n20atlRm8no2yH3v4xotHLGl6yR52koOCW4MqSX4
+         nTJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=RqPhykOnCgU3gq9K/ubjaSipjSpA3oqKNEKEkLhtZbI=;
+        b=d3L2CPUC4PR0sPE+82QYr6foETu/9Njr5VMlMlCmCo9lnvvqavkxEBa351A9nAogkC
+         EVsgM9nw2aI9a/qop5tmBM8gSVFIYcBmNPB4274luYGWKdIZmgi8DtLsDeisNWRRnn+B
+         RXlATUH8gc12AGTud0Ryv7L79ZGTGtW2wxzjbboG4RozM+zKYlSSSCGcEI+nQCFqvXoA
+         ZAa9m6FSi9f1gvZgx27dYgjxJenHkW8xECN7gldezamUb31nDMUiggXin2FcfHICUXvJ
+         pCDQSxLZuoRIP69TGARVf4li6bpegvcZMxR6VdautnAd+5DGdaRG6rpTjbLtyL2ClDUE
+         qJ9w==
+X-Gm-Message-State: AOAM530/T0Zy17rpjUY9y98EzcAvwWIPas56SGPprS+mgRO7uqP0X+mH
+	38rGSnl6tUEOr6BIzPhIpML/h4bnDbpdbixSyx1J/XXrojdgwA==
+X-Google-Smtp-Source: ABdhPJzdQ0446xCw5W54se9dU4FXN4hZLPMthZyIKXtTcrBhmzCfUxJ/ZXi4n3Mdse9vOqxnzCO0aB//S6OLbSTzHJ0=
+X-Received: by 2002:a05:6402:1ca6:: with SMTP id cz6mr5026595edb.129.1605188439204;
+ Thu, 12 Nov 2020 05:40:39 -0800 (PST)
+MIME-Version: 1.0
 References: <CADkTA4NUDHVRiSRHoUU=Ci8of0_J5C+pM7MVwOSopQ9F_yBTBw@mail.gmail.com>
  <20201020111434.17993-1-joakimr@axis.com> <20201021031033.GA20764@gmail.com>
- <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com>
- <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
+ <e18fb481-4206-2b32-3f31-1e0aace470dc@axis.com> <CADkTA4M3HT9HuENi9m2x4v9SXa=28a75BYqhbRhFGDoPSeoTVg@mail.gmail.com>
  <DBBPR08MB4725E54DC414E2CBE8E84D0D91E90@DBBPR08MB4725.eurprd08.prod.outlook.com>
- <16462648E2B320A8.24110@lists.yoctoproject.org>
- <CADkTA4PtR2gjBdimC6-JDqVr4=B82YrbwWZrFfh2vzegsOhF7Q@mail.gmail.com>
-From: "Joakim Roubert" <joakim.roubert@axis.com>
-Message-ID: <5f4c82ed-4279-293b-a5cc-c11ed83ef289@axis.com>
-Date: Thu, 12 Nov 2020 14:40:07 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.1
-MIME-Version: 1.0
-In-Reply-To: <CADkTA4PtR2gjBdimC6-JDqVr4=B82YrbwWZrFfh2vzegsOhF7Q@mail.gmail.com>
-X-Originating-IP: [10.0.5.60]
-X-ClientProxiedBy: XBOX04.axis.com (10.0.5.18) To XBOX03.axis.com (10.0.5.17)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+ <16462648E2B320A8.24110@lists.yoctoproject.org> <164627F27D18DB55.10479@lists.yoctoproject.org>
+ <CADkTA4MKnhDuf85C3X=CxqrMkCKy1ka3fWxVNfSN9U=m2cJWaw@mail.gmail.com>
+ <DBBPR08MB4725AF4604F11A7DF0A83E0491E80@DBBPR08MB4725.eurprd08.prod.outlook.com>
+ <CADkTA4PgwD1OwPa4kjAGHANjHYG7fbgmZAvGSw6nEt1x1Mvh3Q@mail.gmail.com> <DBBPR08MB4725692B5248F6A8064C6CEC91E70@DBBPR08MB4725.eurprd08.prod.outlook.com>
+In-Reply-To: <DBBPR08MB4725692B5248F6A8064C6CEC91E70@DBBPR08MB4725.eurprd08.prod.outlook.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Thu, 12 Nov 2020 08:40:27 -0500
+Message-ID: <CADkTA4MQVsjOnr6kd7khYY-MPqkYath70j0NPM-NsgcueNUmTQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+To: Lance Yang <Lance.Yang@arm.com>
+Cc: Joakim Roubert <joakim.roubert@axis.com>, 
+	"meta-virtualization@yoctoproject.org" <meta-virtualization@yoctoproject.org>, Michael Zhao <Michael.Zhao@arm.com>, 
+	Kaly Xin <Kaly.Xin@arm.com>, nd <nd@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2020-11-10 14:17, Bruce Ashfield wrote:
- >
-> But if anyone else does have an all in one working and has some tips,
-> feel free to share :D
+On Thu, Nov 12, 2020 at 2:04 AM Lance Yang <Lance.Yang@arm.com> wrote:
+>
+> Hi Bruce,
+>
+> On my side, the flannel did not crash.
+>
+> I started k3s server without agent and confirmed the node is ready. Then =
+I copied the node_token and then ran k3s agent with that token and specifie=
+d the server url. Then I can see node registered successfully.
 
-When it comes to mount issues as were mentioned here earlier, I have 
-seen those when I have has /var/lib/rancher/k3s mounted on overlayfs 
-file systems (which does not work when the containers are unpacking 
-their layers). Mounting another file system (e.g. ext4 or someting) on 
-/var/lib/rancher/k3s has mitigated such errors.
+When you say 'copied', do you mean copied to a different machine ?
 
-BR,
+>
+> The pods traefik and coredns will be not ready after I started k3s agent =
+in a short while:
+> kube-system   traefik-758cd5fc85-8tqhf                 0/1     Running   =
+0          24m
+> kube-system   coredns-7944c66d8d-584jt                 0/1     Running   =
+0          21m
+>
+> but they soon were back to ready state:
+> kube-system   coredns-7944c66d8d-584jt                 1/1     Running   =
+0          21m
+> kube-system   traefik-758cd5fc85-8tqhf                 1/1     Running   =
+0          24m
+>
+> I did not see any errors related flannel crash.  Hope this helped a littl=
+e bit.
+>
 
-/Joakim
+unfortunately .. no.
+
+I need a single node configuration to work, before I can actually
+merge the changes, since without it, I have no way to ensure that it
+continues working.
+
+Cheers,
+
+Bruce
+
+> Best Regards,
+> Lance
+> > -----Original Message-----
+> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > Sent: Wednesday, November 11, 2020 9:40 PM
+> > To: Lance Yang <Lance.Yang@arm.com>
+> > Cc: Joakim Roubert <joakim.roubert@axis.com>; meta-virtualization@yocto=
+project.org; Michael
+> > Zhao <Michael.Zhao@arm.com>; Kaly Xin <Kaly.Xin@arm.com>
+> > Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+> >
+> > On Wed, Nov 11, 2020 at 5:07 AM Lance Yang <Lance.Yang@arm.com> wrote:
+> > >
+> > > Hi Bruce,
+> > >
+> > > Thanks for your reply. It took me a long time to address the $PATH is=
+sue.
+> > >
+> > > I found the cause after I cleaned my environment. it is because I set=
+ my own $PATH before k3s
+> > startup which did not include "/bin" and some components in k3s will us=
+e "os.Getenv("PATH")
+> > to search the related tool.
+> > >
+> > > Since some OS may not have systemd and the k3s-clean script seems not=
+  to delete all
+> > interfaces created by cni and umount all mount points related to k3s. I=
+ wrote a script for this
+> > situation and I will send it through a separate email based on your pre=
+vious scripts.
+> > >
+> >
+> > Sounds good.
+> >
+> > You'll notice that I pushed an update to the k3s-wip branch, things are=
+ a bit closer to working
+> > there now.
+> >
+> > I am interested to hear if flannel crashes if you (or anyone else) inst=
+all (and use) the k3s-agent
+> > on the same node as the k3s-server.
+> >
+> > As soon as you run any k3s-agent command (with the proper token and loc=
+al host as the server),
+> > the node moves into NotReady with what looks like a CNI error.
+> >
+> > I fetched and ran the binaries directly from rancher, and they showed t=
+he same behaviour as the
+> > meta-virt ones, so it isn't something fundamental with the integration.
+> >
+> > Bruce
+> >
+> > > Best Regards,
+> > > Lance
+> > > > -----Original Message-----
+> > > > From: meta-virtualization@lists.yoctoproject.org
+> > > > <meta-virtualization@lists.yoctoproject.org>
+> > > > On Behalf Of Bruce Ashfield via lists.yoctoproject.org
+> > > > Sent: Tuesday, November 10, 2020 9:35 PM
+> > > > To: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > > Cc: Lance Yang <Lance.Yang@arm.com>; Joakim Roubert
+> > > > <joakim.roubert@axis.com>; meta- virtualization@yoctoproject.org;
+> > > > Michael Zhao <Michael.Zhao@arm.com>; Kaly Xin <Kaly.Xin@arm.com>
+> > > > Subject: Re: [meta-virtualization][PATCH v5] Adding k3s recipe
+> > > >
+> > > > On Tue, Nov 10, 2020 at 8:17 AM Bruce Ashfield via
+> > > > lists.yoctoproject.org <bruce.ashfield=3Dgmail.com@lists.yoctoproje=
+ct.org> wrote:
+> > > > >
+> > > > > On Tue, Nov 10, 2020 at 7:46 AM Bruce Ashfield via
+> > > > > lists.yoctoproject.org
+> > > > > <bruce.ashfield=3Dgmail.com@lists.yoctoproject.org> wrote:
+> > > > > >
+> > > > > > On Tue, Nov 10, 2020 at 1:43 AM Lance Yang <Lance.Yang@arm.com>=
+ wrote:
+> > > > > > >
+> > > > > > > Hi Bruce and Joakim,
+> > > > > > >
+> > > > > > > Thanks for sharing this branch: k3s-wip. I have tested agains=
+t my yocto build.
+> > > > > >
+> > > > > > The branch will be more functional shortly, I have quite a few
+> > > > > > changes to factor things for k8s and generally more usable :D
+> > > > > >
+> > > > > >         modified:   classes/cni_networking.bbclass
+> > > > > >         modified:   conf/layer.conf
+> > > > > >         modified:   recipes-containers/containerd/containerd-do=
+cker_git.bb
+> > > > > >         modified:
+> > > > > > recipes-containers/containerd/containerd-opencontainers_git.bb
+> > > > > >         modified:   recipes-containers/k3s/README.md
+> > > > > >         modified:   recipes-containers/k3s/k3s_git.bb
+> > > > > >         modified:   recipes-kernel/linux/linux-yocto/kubernetes=
+.cfg
+> > > > > >         modified:   recipes-networking/cni/cni_git.bb
+> > > > > >         container-deploy.txt
+> > > > > >         recipes-core/packagegroups/
+> > > > > >
+> > > > > > >
+> > > > > > > My Image: Linux qemuarm64 by yocto.
+> > > > > > >
+> > > > > > > The master node can be ready after I started the k3s server.
+> > > > > > > However, the pods in kube-
+> > > > system (which are essential components for k3s) cannot turn to read=
+y state on qemuarm64.
+> > > > > > >
+> > > > > >
+> > > > > > That's interesting, since in my configuration, the master never=
+ comes ready:
+> > > > > >
+> > > > > > root@qemux86-64:~# kubectl get nodes
+> > > > > > NAME         STATUS     ROLES    AGE   VERSION
+> > > > > > qemux86-64   NotReady   master   15h   v1.18.9-k3s1
+> > > > > >
+> > > > >
+> > > > > Hah.
+> > > > >
+> > > > > I finally got the node to show up as ready:
+> > > > >
+> > > > > root@qemux86-64:~# kubectl get nodes
+> > > > > NAME         STATUS   ROLES    AGE    VERSION
+> > > > > qemux86-64   Ready    master   112s   v1.18.9-k3s1
+> > > > >
+> > > >
+> > > > Lance,
+> > > >
+> > > > What image type were you building ? I'm pulling in dependencies to
+> > > > packagegroups and the recipes themselves.
+> > > >
+> > > > I'm not seeing the mount issue on my master/server node:
+> > > >
+> > > > root@qemux86-64:~# kubectl get pods -n kube-system
+> > > > NAME                                     READY   STATUS      RESTAR=
+TS   AGE
+> > > > local-path-provisioner-6d59f47c7-h7lxk   1/1     Running     0     =
+     3m32s
+> > > > metrics-server-7566d596c8-mwntr          1/1     Running     0     =
+     3m32s
+> > > > helm-install-traefik-229v7               0/1     Completed   0     =
+     3m32s
+> > > > coredns-7944c66d8d-9rfj7                 1/1     Running     0     =
+     3m32s
+> > > > svclb-traefik-pb5j4                      2/2     Running     0     =
+     2m29s
+> > > > traefik-758cd5fc85-lxpr8                 1/1     Running     0     =
+     2m29s
+> > > >
+> > > > I'm going back to all-in-one node debugging, but can look into the =
+mount issue more later.
+> > > >
+> > > > Bruce
+> > > >
+> > > > > I'm attempting to build an all-in-one node, and that is likely
+> > > > > causing me some issues.
+> > > > >
+> > > > > I'm revisiting those potential conflicts now.
+> > > > >
+> > > > > But if anyone else does have an all in one working and has some
+> > > > > tips, feel free to share :D
+> > > > >
+> > > > > Bruce
+> > > > >
+> > > > > > I've sorted out more of the dependencies, and have packagegroup=
+s
+> > > > > > to make them easier now.
+> > > > > >
+> > > > > > Hopefully, I can figure out what is now missing and keeping my
+> > > > > > master from moving into ready today.
+> > > > > >
+> > > > > > Bruce
+> > > > > >
+> > > > > > > After the master node itself turned to ready state, I check t=
+he pods with kubectl:
+> > > > > > >
+> > > > > > > kubectl get nodes
+> > > > > > > NAME        STATUS   ROLES    AGE   VERSION
+> > > > > > > qemuarm64   Ready    master   11m   v1.18.9-k3s1
+> > > > > > > root@qemuarm64:~# ls
+> > > > > > > root@qemuarm64:~# kubectl get pods -n kube-system
+> > > > > > > NAME                                     READY   STATUS      =
+        RESTARTS   AGE
+> > > > > > > local-path-provisioner-6d59f47c7-xxvbl   0/1     ContainerCre=
+ating   0          12m
+> > > > > > > coredns-7944c66d8d-tlrm9                 0/1     ContainerCre=
+ating   0          12m
+> > > > > > > metrics-server-7566d596c8-svkff          0/1     ContainerCre=
+ating   0          12m
+> > > > > > > helm-install-traefik-s8p5g               0/1     ContainerCre=
+ating   0          12m
+> > > > > > >
+> > > > > > > Then I describe the pods with:
+> > > > > > >
+> > > > > > > Events:
+> > > > > > >   Type     Reason       Age                  From            =
+   Message
+> > > > > > >   ----     ------       ----                 ----            =
+   -------
+> > > > > > >   Normal   Scheduled    16m                  default-schedule=
+r  Successfully assigned kube-
+> > > > system/coredns-7944c66d8d-tlrm9 to qemuarm64
+> > > > > > >   Warning  FailedMount  5m23s (x3 over 14m)  kubelet         =
+   Unable to attach or
+> > mount
+> > > > volumes: unmounted volumes=3D[coredns-token-b7nlh], unattached
+> > > > volumes=3D[coredns-token- b7nlh config-volume]: timed out waiting f=
+or
+> > > > the condition
+> > > > > > >   Warning  FailedMount  50s (x4 over 12m)    kubelet         =
+   Unable to attach or mount
+> > > > volumes: unmounted volumes=3D[coredns-token-b7nlh], unattached
+> > > > volumes=3D[config-volume
+> > > > coredns-token-b7nlh]: timed out waiting for the condition
+> > > > > > >   Warning  FailedMount  11s (x16 over 16m)   kubelet         =
+   MountVolume.SetUp
+> > failed
+> > > > for volume "coredns-token-b7nlh" : mount failed: exec: "mount":
+> > > > executable file not found in $PATH
+> > > > > > >
+> > > > > > > I found the "mount" binary is not found in $PATH. However, I
+> > > > > > > confirmed the $PATH and
+> > > > mount binary on my qemuarm64 image:
+> > > > > > >
+> > > > > > > root@qemuarm64:~# echo $PATH
+> > > > > > > /usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin
+> > > > > > > root@qemuarm64:~# which mount
+> > > > > > > /bin/mount
+> > > > > > >
+> > > > > > > When I type mount command, it worked fine:
+> > > > > > >
+> > > > > > > /dev/root on / type ext4 (rw,relatime) devtmpfs on /dev type
+> > > > > > > devtmpfs (rw,relatime,size=3D2016212k,nr_inodes=3D504053,mode=
+=3D755)
+> > > > > > > proc on /proc type proc (rw,relatime) sysfs on /sys type sysf=
+s
+> > > > > > > (rw,relatime) debugfs on /sys/kernel/debug type debugfs
+> > > > > > > (rw,relatime) tmpfs on /run type tmpfs
+> > > > > > > (rw,nosuid,nodev,mode=3D755) ...
+> > > > > > > ... (skipped the verbose output)
+> > > > > > >
+> > > > > > > I would like to know whether you have met this "mount" issue =
+ever?
+> > > > > > >
+> > > > > > > Best Regards,
+> > > > > > > Lance
+> > > > > > >
+> > > > > > > > -----Original Message-----
+> > > > > > > > From: meta-virtualization@lists.yoctoproject.org
+> > > > > > > > <meta-virtualization@lists.yoctoproject.org>
+> > > > > > > > On Behalf Of Bruce Ashfield via lists.yoctoproject.org
+> > > > > > > > Sent: Monday, October 26, 2020 11:46 PM
+> > > > > > > > To: Joakim Roubert <joakim.roubert@axis.com>
+> > > > > > > > Cc: meta-virtualization@yoctoproject.org
+> > > > > > > > Subject: Re: [meta-virtualization][PATCH v5] Adding k3s
+> > > > > > > > recipe
+> > > > > > > >
+> > > > > > > > On Wed, Oct 21, 2020 at 2:00 AM Joakim Roubert <joakim.roub=
+ert@axis.com> wrote:
+> > > > > > > > >
+> > > > > > > > > On 2020-10-21 05:10, Bruce Ashfield wrote:
+> > > > > > > > > > Ha!!!!
+> > > > > > > > > >
+> > > > > > > > > > This applies.
+> > > > > > > > >
+> > > > > > > > > Wonderful, thank you! I guess this is what is called "fiv=
+e times lucky"...
+> > > > > > > > >
+> > > > > > > > > > I'm now testing and completing some of my networking
+> > > > > > > > > > factoring, as well as importing / forking some recipes
+> > > > > > > > > > to avoid extra layer depends.
+> > > > > > > > >
+> > > > > > > > > Excellent!
+> > > > > > > >
+> > > > > > > > I've pushed some of my WIP to:
+> > > > > > > > https://git.yoctoproject.org/cgit/cgit.cgi/meta-virtualizat=
+i
+> > > > > > > > on/l
+> > > > > > > > og/?h=3Dk3s-wip
+> > > > > > > >
+> > > > > > > > That includes the split of the networking, the import of
+> > > > > > > > some of the dependencies and some small tweaks I'm working =
+on.
+> > > > > > > >
+> > > > > > > > I did have a couple of questions on the k3s packaging
+> > > > > > > > itself, I was getting the following
+> > > > > > > > error:
+> > > > > > > >
+> > > > > > > > ERROR: k3s-v1.18.9+k3s1-dirty-r0 do_package: QA Issue: k3s:
+> > > > > > > > Files/directories were installed but not shipped in any pac=
+kage:
+> > > > > > > >   /usr/local/bin/k3s-clean
+> > > > > > > >   /usr/local/bin/crictl
+> > > > > > > >   /usr/local/bin/kubectl
+> > > > > > > >   /usr/local/bin/k3s
+> > > > > > > >
+> > > > > > > > So I added them to the FILES of the k3s package itself (so
+> > > > > > > > both k3s-server and k3s-agent will get them), is that the s=
+plit you were looking for ?
+> > > > > > > >
+> > > > > > > > Bruce
+> > > > > > > >
+> > > > > > > > >
+> > > > > > > > > BR,
+> > > > > > > > >
+> > > > > > > > > /Joakim
+> > > > > > > > > --
+> > > > > > > > > Joakim Roubert
+> > > > > > > > > Senior Engineer
+> > > > > > > > >
+> > > > > > > > > Axis Communications AB
+> > > > > > > > > Emdalav=C3=A4gen 14, SE-223 69 Lund, Sweden
+> > > > > > > > > Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
+> > > > > > > > > Fax: +46 46 13 61 30, www.axis.com
+> > > > > > > > >
+> > > > > > > > --
+> > > > > > > > - Thou shalt not follow the NULL pointer, for chaos and
+> > > > > > > > madness await thee at its end
+> > > > > > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > > > > > IMPORTANT NOTICE: The contents of this email and any
+> > > > > > > attachments are confidential and
+> > > > may also be privileged. If you are not the intended recipient,
+> > > > please notify the sender immediately and do not disclose the
+> > > > contents to any other person, use it for any purpose, or store or c=
+opy the information in any
+> > medium. Thank you.
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > --
+> > > > > > - Thou shalt not follow the NULL pointer, for chaos and madness
+> > > > > > await thee at its end
+> > > > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > >
+> > > > >
+> > > > > --
+> > > > > - Thou shalt not follow the NULL pointer, for chaos and madness
+> > > > > await thee at its end
+> > > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > > >
+> > > > >
+> > > > >
+> > > >
+> > > >
+> > > > --
+> > > > - Thou shalt not follow the NULL pointer, for chaos and madness
+> > > > await thee at its end
+> > > > - "Use the force Harry" - Gandalf, Star Trek II
+> > > IMPORTANT NOTICE: The contents of this email and any attachments are =
+confidential and may
+> > also be privileged. If you are not the intended recipient, please notif=
+y the sender immediately
+> > and do not disclose the contents to any other person, use it for any pu=
+rpose, or store or copy
+> > the information in any medium. Thank you.
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await t=
+hee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+> IMPORTANT NOTICE: The contents of this email and any attachments are conf=
+idential and may also be privileged. If you are not the intended recipient,=
+ please notify the sender immediately and do not disclose the contents to a=
+ny other person, use it for any purpose, or store or copy the information i=
+n any medium. Thank you.
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
