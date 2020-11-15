@@ -1,104 +1,92 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
- by mx.groups.io with SMTP id smtpd.web10.15715.1605412178599042818
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.15785.1605412806431930394
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 14 Nov 2020 19:49:38 -0800
+ Sat, 14 Nov 2020 20:00:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=MtK/qihv;
- spf=pass (domain: gmail.com, ip: 209.85.210.193, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f193.google.com with SMTP id 131so33498pfb.9
-        for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Nov 2020 19:49:38 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=TdVyccMr;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id g19so7098416qvy.2
+        for <meta-virtualization@lists.yoctoproject.org>; Sat, 14 Nov 2020 20:00:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VeXMPN0oPvVjrrDRCMmEBihIUiO3kFDMsLWnF2Q0qW0=;
-        b=MtK/qihvBxBBgLYOy8Ea2rgcfflQ9aHv+8iuHeW9TwmsJYZlnx0+UEAYiCKkRymX6P
-         SsQ/qDQ4cEvsa96kJ+tpKeme/y15pjBdyJdYshWcwZr3PGoV8pCAtPIe/Cw+EnaAYzcK
-         WwKpwzcog+YMXikcRE1OvKbgzzQhgqL9JsVVyBxihRV7yMbJW4siXcsV7jufAKgcQv4h
-         wladDsJy72niqkHt9mbNbKOeXzecnQmZ8GxkZWyO34cnjLg9XeOFnoY1HF+9/Y7ybgUc
-         poWittTg+jGa53Ben0xKhWU8BI6GKXUz+ASX7sV7WM8xVOQ8sXSFPgAIynO5RpdnFILz
-         gVjA==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5IjZMJNK8xTC/FZ88lUO8Ak2TOulWzBnmYUx8IuJstY=;
+        b=TdVyccMryoQeKy5nwJsMu1g1f2l+oJYbr7LhvWAqfQkPGvzqfAaZ8+D9gnUi5W6lOB
+         tX5TBeAt3TTO+3O72NrTs4MQI3KCkTpmRYqA0dvky+j2igti/EMuVp0LJglspeCjfXDl
+         CsRMSK1ldQIcS3ajVHMNuZwtkwCb1C3oLoH31EUQ03y38I62QD94iP0mvh9EjHlrPL99
+         DiuqJVfUv72Mfbx7sivERkStMiHzc9JsxehCXy/tQ/PRJt0LjSTWiYz5WKXDZzIhpvcY
+         y5SFTt/QmsD9LfK2ZNS+fbKpY6wI44iFUP8sVv8ARUjSrP7I5+uPrAFem9Vszpk8k3ko
+         29sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=VeXMPN0oPvVjrrDRCMmEBihIUiO3kFDMsLWnF2Q0qW0=;
-        b=pjuzf9xHYavZsDoTxQXKJiovzT8xZtAQSROfCI/lie4kL0g31jRazUh75Ph6J5Hirh
-         Vuo1nhJnePRJgWUdv//sEbat46KGQ1TGgo232BOOKlWsR9nMFcJGHbEWcHMwErp7GOeN
-         G2y+nMwbcVujww2HPZ02yRPN4HPK/tZdZDMnmsIL8kwCZYEWbAQOoxGCAOjRdQrgocS6
-         ZPNeP6w1Rj0YZq8/tBa4BJyp+OjPgRTydxdDWRoZmFo7UfRXO6wiHveF9WCrnZ2YMlN4
-         mCMPsThfeG01VLqkMiHs1cVrA+0ilR+sbGOx9hAbyawGvABUy7eUL/P2O6veH3rWNkIJ
-         kTNw==
-X-Gm-Message-State: AOAM532CA7ySZUKZkofgxlee+vHzI0YGnVqWLT+id3P+Q3/2rC6/RL0n
-	Et5Iun5luJmbD1cOXHk3sBCz9n55Gr6gLA==
-X-Google-Smtp-Source: ABdhPJxG7fHs3IS4WM3GGG15E9t6r7OWHqWhgfJi5ruRhgneTTvFVcasAPYuZeDKaPYAuu8zG+rxkg==
-X-Received: by 2002:a62:8857:0:b029:18b:cf28:9bbe with SMTP id l84-20020a6288570000b029018bcf289bbemr8573863pfd.45.1605412177770;
-        Sat, 14 Nov 2020 19:49:37 -0800 (PST)
-Return-Path: <ticotimo@gmail.com>
-Received: from thetis.local ([2601:1c0:6000:9640:51f4:b524:ff3e:9205])
-        by smtp.gmail.com with ESMTPSA id h68sm13997045pfe.74.2020.11.14.19.49.37
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5IjZMJNK8xTC/FZ88lUO8Ak2TOulWzBnmYUx8IuJstY=;
+        b=Wm0diATMwWWbo8db9QYfKgASQU9gDiX8M33BU/ut0MyLBj/k6usTJhfPwmN7aPKOrJ
+         DZoCAoKKQSOHoRCc3s7dgla8Vb2h13JwzA2pV1oAkdwnz5JuLBThbkBHdf8UzlrdMLOM
+         V7oHNLwQQ0oSQLlipPS2v3sbsGO2tLRfbiVIB+tRYY9fptUc8t/5+GQDVRyq7UBsb/7O
+         3cClTYxmiR/pvzeplHdn4kXyOPUCq3uyt7iBoK9ziSIqhbyBN9STu9t1kf6+qAKLiuqx
+         p4FMzN+sLOVijRZPc9ppzIL9+8bt/l2B3qIOp3sYW5Vq7xVdxrlyPkcTosiZZBxzk09z
+         Is7Q==
+X-Gm-Message-State: AOAM533LGcb17SbZNX4Ie6ztA3rnMCUUEkSQThE5lhFS2PLpVrWjp8sa
+	XwOtClxPYl4fvGBLu7UZ99m4YKeJ0qDFl/7+
+X-Google-Smtp-Source: ABdhPJzQU15bur6mkjlen93gjbNIIIdZR5CDfyfd8tfRG27EnTp7OaQJN9eCrz6tDgYXMY3BOkdmQA==
+X-Received: by 2002:a0c:9e53:: with SMTP id z19mr9694128qve.23.1605412805571;
+        Sat, 14 Nov 2020 20:00:05 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
+        by smtp.gmail.com with ESMTPSA id q189sm10182258qkd.41.2020.11.14.20.00.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2020 19:49:37 -0800 (PST)
-From: "Tim Orling" <ticotimo@gmail.com>
-To: meta-virtualization@lists.yoctoproject.org
-Cc: Tim Orling <ticotimo@gmail.com>
-Subject: [meta-virtualization][PATCH] linux-yocto: add cgroup-hugetlb config
-Date: Sat, 14 Nov 2020 19:49:22 -0800
-Message-Id: <20201115034922.30940-1-ticotimo@gmail.com>
-X-Mailer: git-send-email 2.25.0
+        Sat, 14 Nov 2020 20:00:04 -0800 (PST)
+Date: Sat, 14 Nov 2020 23:00:03 -0500
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+To: Bertrand Marquis <bertrand.marquis@arm.com>
+Cc: meta-virtualization@lists.yoctoproject.org,
+	christopher.clark6@baesystems.com
+Subject: Re: [meta-virtualization] [PATCH 0/2] Fix Xen compilation
+Message-ID: <20201115040002.GA19607@gmail.com>
+References: <cover.1604933003.git.bertrand.marquis@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1604933003.git.bertrand.marquis@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Tim Orling <ticotimo@gmail.com>
+In message: [meta-virtualization] [PATCH 0/2] Fix Xen compilation
+on 09/11/2020 Bertrand Marquis wrote:
 
-Add kernel config fragment for CONFIG_CGROUP_HUGETLB
+> This serie contain 2 patches to fix Xen compilation:
+> - on arm32 by adding a patch already merged in Xen master to fix gcc10
+>   compilation issues.
+> - on x86 to fix an issue happening when compiling xen-tools with older
+>   xen versions.
+> 
+> Those would be good candidates to include in gatesgarth.
 
-This is a recommended config for Kubernetes and k8s
-will throw a warning if it is not present.
+merged.
 
-Signed-off-by: Tim Orling <ticotimo@gmail.com>
----
- recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg | 5 +++++
- recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc | 5 +++++
- recipes-kernel/linux/linux-yocto_virtualization.inc | 1 +
- 3 files changed, 11 insertions(+)
- create mode 100644 recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
- create mode 100644 recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+And yes, I haven't branched gatesgarth yet, so they will be part of that.
 
-diff --git a/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
-new file mode 100644
-index 0000000..417ca24
---- /dev/null
-+++ b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: MIT
-+#
-+# This requires CONFIG_HUGETLBFS
-+
-+CONFIG_CGROUP_HUGETLB=y
-diff --git a/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
-new file mode 100644
-index 0000000..7d1f999
---- /dev/null
-+++ b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: MIT
-+define KFEATURE_DESCRIPTION "Enable hugetlb cgroup"
-+define KFEATURE_COMPATIBILITY all
-+
-+kconf non-hardware cgroup-hugetlb.cfg
-diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/recipes-kernel/linux/linux-yocto_virtualization.inc
-index f050b3f..42a10b3 100644
---- a/recipes-kernel/linux/linux-yocto_virtualization.inc
-+++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
-@@ -5,6 +5,7 @@ SRC_URI += "file://xt-checksum.scc \
- 	    file://vswitch.scc \
- 	    file://lxc.scc \
-             file://docker.scc \
-+	    file://cgroup-hugetlb.scc \
- 	    "
- KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'kvm', 'features/kvm/qemu-kvm-enable.scc', '', d)}"
- 
--- 
-2.25.0
+Bruce
+
+> 
+> Bertrand Marquis (2):
+>   xen: Fix python libraries installation on multilib
+>   xen: Fix xenpmd compilation error on arm32
+> 
+>  ...ls-xenpmd-Fix-gcc10-snprintf-warning.patch | 60 +++++++++++++++++++
+>  recipes-extended/xen/xen-tools.inc            |  2 +
+>  recipes-extended/xen/xen-tools_4.14.bb        |  1 +
+>  recipes-extended/xen/xen-tools_git.bb         |  1 +
+>  4 files changed, 64 insertions(+)
+>  create mode 100644 recipes-extended/xen/files/0001-tools-xenpmd-Fix-gcc10-snprintf-warning.patch
+> 
+> -- 
+> 2.17.1
+> 
+
+> 
+> 
+> 
 
