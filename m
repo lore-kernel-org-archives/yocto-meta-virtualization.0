@@ -1,102 +1,184 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.15852.1605413907326849995
+ by mx.groups.io with SMTP id smtpd.web10.28750.1605491942543540120
  for <meta-virtualization@lists.yoctoproject.org>;
- Sat, 14 Nov 2020 20:18:27 -0800
+ Sun, 15 Nov 2020 17:59:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=sq7GsTZz;
- spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 80DEB38C086C
-	for <meta-virtualization@yoctoproject.org>; Sun, 15 Nov 2020 04:18:26 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id o66so242760qkd.4
-        for <meta-virtualization@yoctoproject.org>; Sat, 14 Nov 2020 20:18:26 -0800 (PST)
+ dkim=pass header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=VZCBIk0y;
+ spf=softfail (domain: windriver.com, ip: 198.145.29.25, mailfrom: yanfei.xu@windriver.com)
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2055.outbound.protection.outlook.com [40.107.223.55])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id C0C2838C06E8
+	for <meta-virtualization@yoctoproject.org>; Mon, 16 Nov 2020 01:59:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AQvI65BAcR3DH4EdZwIZiio86GIoiXqRvwqK/QqNKOE130sc2eMpUqgVAFKnFxXb5x0CE5JB4bzYHRAb9xD9FNFVn54g5v1nv5y/t7DH9+ybwiBPy7Ule351nKRIYVsuD26BnA4jD+uiENUj2i6Hfst0fHgjeQpdTSo/W3DIzvT5FknSS+GdbQU3F3OsazkWcC31Yv7B+U2cmf2QwhVWxunR+erycJkd0BaDqNVzJgzDTKQqm3r9nUXG77IHXQBPhXVbHSNu9+63zR91VgJakhqC5rZvPEtG0dfuVP1RdoD8JxZyninWk5a30VuJms03T6LyafK/JYeQRoG/iL699Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wd9CHholrehVLv6OZcsji8Y5bNpOzCZJBez+PRf1Qys=;
+ b=O/YmmJDx3TpX+MqWb52WU9hnyc+QMB32AxCWviZbeKSKDyUQdudF18psqrNeXvzLkkploAyM5kYMFvu2PBrpzDsrNoZi784oNN5UWqBXRlA5GivtUzY4IONFUJWDJpUsW/35W50KhN+WJPGpn9uT70YM83bJ9zlPQ5rtP7WhUAqgeQhBRw91j5yy5ec//0dzylFdRtQXH1TU7jHSQ+jxYojbqgrlsAgrzVoB2RzbnfZgNuteoKLXnXkZ/HxwoNeGnHQMutJshMqdRw7CPRTjZNeKemE8uYeVCUdt+lgxMhSeCCzIedbXJ1mlRxOy1Ih06dXk+krrPC4UW05PfvmVuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=Yh+bTxo/J40GqbNAJ3YKMHnaKIKrJzxrMuqurfgmIXY=;
-        b=sq7GsTZzoVGHqXq1rjgsZXPcPrl6x2saljlo2+SNxU7kBriRwDxxAse13+85TbXka2
-         FgFEB45EhuSEHl7+TOShTLUL2mweQazX3zZlVFKeKfOL1DAhorGrrLx+pzvdj5fGZSod
-         i2IOPhymCsb29Uzr8UpilWvuEyIB3Lz8miaax1ModXq20Zsl3rDyMt5RvddsC10HAPZj
-         /SdCfOqjP0j9WyZt8bmptUq5fha5hZeuUKwzYH3nbfzpT+vuZ3t2Y43yD7JMjsGurEmd
-         ybgIoBqlY0HNQ48ZwcqwIMK6LtMG/VT5yQXlCDjqCcpwWHMKtDWiMRU3//XhL+5Pf94A
-         GcUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=Yh+bTxo/J40GqbNAJ3YKMHnaKIKrJzxrMuqurfgmIXY=;
-        b=e1AYH51eh6R951apvCjvvU5919byHhaLD8Bt/KO1UDLcViRO3gTeBC7qVGDYtHxozW
-         /Glow6r5oOSVZYGTXoj/bNm9NPDBuV0WjuVQ/ma18uFvsGBiDDrSRDj1RYvMjMn/57Mj
-         PcOrALLEes2beCQlxztaDrqfXHIZi6WhBMfdK0NV03UCdCh7W93Rto7T6BT7HIZDAzWG
-         J/WpRseVE+T+VPOlHA3SY0OGGMomn5gT8r7OC6wtV2Xjxm9MGT06cjPStLS032ttFjA7
-         Pni9frbP8NKkPkN8DV0YhEHlGn2GzwOsBdRJFmEinIhTxNUolW9G6ViekdB49xo5B+xz
-         N1qw==
-X-Gm-Message-State: AOAM532yceCSFbtdM8xm7LHBoGZ0P4s5xK/b3GEA2eWm2nwK4Cs875VQ
-	whaeTKGXWA9H2MIOtPUJB78z26BD3Uyv1gUT
-X-Google-Smtp-Source: ABdhPJyJe4Z4ZmlnoNxWr/4CsJamI3foZeMgS2ABMenFd+UbqResTGvxUKwWsiV1wm3qGWVrtg3R5w==
-X-Received: by 2002:a37:660e:: with SMTP id a14mr9316474qkc.330.1605413905568;
-        Sat, 14 Nov 2020 20:18:25 -0800 (PST)
-Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id i64sm10170999qtb.43.2020.11.14.20.18.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2020 20:18:25 -0800 (PST)
-Date: Sat, 14 Nov 2020 23:18:23 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH] python3-kazoo: upgrade 2.7.0 -> 2.8.0
-Message-ID: <20201115041822.GB20764@gmail.com>
+ d=windriversystems.onmicrosoft.com;
+ s=selector2-windriversystems-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wd9CHholrehVLv6OZcsji8Y5bNpOzCZJBez+PRf1Qys=;
+ b=VZCBIk0ydLitSqUrkrf2fw3sfPATAL6a4CWDXSZmMAzpp1uJt+XZbAhNlIaHT/BSM9OOH7Mm/+1JNfToxwM0McKIlAovrNnrthDpG6iQKa10NHRovR5KD6sQBWpXDL0cOUJn5igy8EC5tYDuSf1ul6MaQtpyhL/Ls1KTXGz5sBk=
+Authentication-Results: yoctoproject.org; dkim=none (message not signed)
+ header.d=none;yoctoproject.org; dmarc=none action=none
+ header.from=windriver.com;
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com (2603:10b6:a03:1ca::13)
+ by SJ0PR11MB5136.namprd11.prod.outlook.com (2603:10b6:a03:2d1::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
+ 2020 01:58:59 +0000
+Received: from BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::adbd:559a:4a78:f09b]) by BY5PR11MB4241.namprd11.prod.outlook.com
+ ([fe80::adbd:559a:4a78:f09b%6]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
+ 01:58:59 +0000
+Subject: Re: [meta-virtualization] [PATCH v2] ceph: add support for python3.9
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: pbarker@konsulko.com, meta-virtualization@yoctoproject.org
+References: <20201111031951.33998-1-yanfei.xu@windriver.com>
+ <20201115041154.GA20540@gmail.com>
+From: "Xu, Yanfei" <yanfei.xu@windriver.com>
+Message-ID: <0065c806-20f5-d445-d564-6a95a40c24dc@windriver.com>
+Date: Mon, 16 Nov 2020 09:58:49 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+In-Reply-To: <20201115041154.GA20540@gmail.com>
+X-Originating-IP: [60.247.85.82]
+X-ClientProxiedBy: HKAPR04CA0005.apcprd04.prod.outlook.com
+ (2603:1096:203:d0::15) To BY5PR11MB4241.namprd11.prod.outlook.com
+ (2603:10b6:a03:1ca::13)
 MIME-Version: 1.0
-In-Reply-To: <1604990888-97067-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1604990879-97031-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1604990860-96957-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1604990851-96918-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1604990804-96864-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1604990740-96816-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-merged.
-
-Bruce
-
-In message: [meta-virtualization] [PATCH] python3-kazoo: upgrade 2.7.0 -> 2.8.0
-on 10/11/2020 zhengruoqin wrote:
-
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  .../python/{python3-kazoo_2.7.0.bb => python3-kazoo_2.8.0.bb} | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python3-kazoo_2.7.0.bb => python3-kazoo_2.8.0.bb} (79%)
-> 
-> diff --git a/meta-openstack/recipes-devtools/python/python3-kazoo_2.7.0.bb b/meta-openstack/recipes-devtools/python/python3-kazoo_2.8.0.bb
-> similarity index 79%
-> rename from meta-openstack/recipes-devtools/python/python3-kazoo_2.7.0.bb
-> rename to meta-openstack/recipes-devtools/python/python3-kazoo_2.8.0.bb
-> index adfec92c..554e1659 100644
-> --- a/meta-openstack/recipes-devtools/python/python3-kazoo_2.7.0.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-kazoo_2.8.0.bb
-> @@ -9,8 +9,8 @@ SRCNAME = "kazoo"
->  
->  PYPI_SRC_URI = "https://pypi.python.org/packages/source/k/${SRCNAME}/kazoo-${PV}.tar.gz"
->  
-> -SRC_URI[md5sum] = "073445f65d71520de2b6275530d88c4e"
-> -SRC_URI[sha256sum] = "6883f6dd3e8d4e1741076dd3b23b0861592f13759072e3835f035bcb72b077cb"
-> +SRC_URI[md5sum] = "5b2667e9c3f7b92675aef16c14cef97c"
-> +SRC_URI[sha256sum] = "588e27868e4a0ed70ae4a7a5b0f3bca4cec5e5c49dbd7e41349c0883182bf2fe"
->  
->  inherit setuptools3 pypi
->  
-> -- 
-> 2.25.1
-> 
-> 
-> 
-
-> 
-> 
-> 
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [128.224.162.160] (60.247.85.82) by HKAPR04CA0005.apcprd04.prod.outlook.com (2603:1096:203:d0::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend Transport; Mon, 16 Nov 2020 01:58:57 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 17fec959-2ac4-445c-c4cc-08d889d32ebb
+X-MS-TrafficTypeDiagnostic: SJ0PR11MB5136:
+X-Microsoft-Antispam-PRVS: 
+	<SJ0PR11MB51369B1123AA6B1FB70F9635E4E30@SJ0PR11MB5136.namprd11.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 
+	eQ8Hc1p7kQ6FXzU+vXsxJMhwipw3b/8dS+v103tvRXQpUVoDX5Z0uFv3H/Jb9wwJO78Mptuxpy3xFkeF3u7hhjEvfF+ZVWD4Ol7HYWIQf/0DyqKKsKaNwIpfuH3auf76CrZAldT+9RfZp/XDdLVatE79WvluMuGVCM1r5lWDTxcD7XTPcX7af8tajwuUovYLUUT//imA7EZXIS8Qz76QZ2f09ltkFjunqy1o4bVCHfTlb7+seuZq4Vqr09q6Ei1hMrXxUJHiJ0MDRa4O+jTx5zrx6ABYCFYL5vizJMfKNbxHcGBaRLwBK/lKT+qZYPcvCAqnaMjC9GUIc+0eXPpm7jNgREoAVOpIeacBqHn8ASBNbopjwEAhDczImz1/uPagIFOtn22sScYNwL+zyqEyGwzCRBsjvE3GSKAiUF+amhOi5uOmbkoCVYKJY+HgRCd29LURt+mfzqOwSHND+/7fvOakWsB838XLvJmpYid+KGE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4241.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(376002)(346002)(39830400003)(396003)(5660300002)(6666004)(6486002)(83380400001)(8936002)(8676002)(31696002)(86362001)(31686004)(6916009)(6706004)(966005)(26005)(52116002)(186003)(16526019)(53546011)(66946007)(66556008)(66476007)(478600001)(316002)(16576012)(2616005)(2906002)(956004)(36756003)(4326008)(78286007)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 
+	Y2cNouV+6iiGOH1MHD+ZUMdPourqCmwc2Y4yq+rpHPuDlFIY6Ljmsit8NclY+6J5wMuUue23ATc6kKLq8PZfLnVhvIpOLRCbgAJayiD1BXiLDS1jOl9CvZzHTf21Y5qmyAf0jlJ18wRepL9nfz3C5GxIBwsDhNI80pRWf9d+ptaSfNzv+3bfvVFeHFd/u7u7hhT1j3kXFU3WU2wv2sVzJhNTNLvLRhOieWQUtSzphMGA/WhPs2lgjq4koiNTV+0d3CZt/2qi5wwzwadMbRmjXQmhT4Q/Los2cXHo/YktJAJ4Ec9MbT1mpqoW46D84ikmxqz4Z4weJK5cRaZGN4WGGfBJrR2oJdjv8au4AKCPL21U0St7e1X4wQM9Zi2R3PG8q2diYh6L701qxPlruT2GJ2o/Fmm+KFFlAY1A9jTgzeck/tgQTP0DUADTPPamXEm7zvyZwS1xI566gUG0cftDyU0U9rRJ7V/rViOyRC3hCJUYKjm6toVMdSGLC24r0ha9kzmE3gwqejTTsLdmgysBUu7P+7iwRLAFzipHD6WSQJr7nVHNnhac5wCmkMsNjXwFAkwSNLryX9ejnZXW7YP51JgWk1DPspgEiKgOMwA/IiFqHps6Fufl8v7MZS21fpHprnsO1ECtrvvrPa1/TKo6TA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 17fec959-2ac4-445c-c4cc-08d889d32ebb
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4241.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 01:58:59.2025
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +dDtYNotgxufA8gXErIpMdC98uQ/53ZkS0Ft0IOASVJ+5n/WX5xa3P3gx6SfrQBznMla0abRBnEHKXO3WwHefg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5136
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
+
+On 11/15/20 12:11 PM, Bruce Ashfield wrote:
+> [Please note this e-mail is from an EXTERNAL e-mail address]
+> 
+> You have a patch in your SRC_URI, that I don't have in master ..
+> 
+> So I checked the mailing list and found a submission from August.
+> 
+> I applied that patch first, and then yours.
+> 
+> As a general rule though, you should be sure that you are on
+> upstream master, not a local branch when sending a patch. You
+> would have noticed that I missed the patch and could have pinged /
+> asked about it.
+> 
+Sorry. I wrongly thought my local meta-virt layer was same with upstream 
+master. Thank you and I will do that as you said next time.
+
+Cheers,
+
+Yanfei
+
+> Cheers,
+> 
+> Bruce
+> 
+> In message: [meta-virtualization] [PATCH v2] ceph: add support for python3.9
+> on 11/11/2020 Xu, Yanfei wrote:
+> 
+>> From: Yanfei Xu <yanfei.xu@windriver.com>
+>>
+>> Add support for python3.9, or it will do_configure failed.
+>>
+>> Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+>> ---
+>> v1->v2: Change the patch's Upstream-Status to 'Pending'.
+>>
+>>   ...0001-cmake-add-support-for-python3.9.patch | 30 +++++++++++++++++++
+>>   recipes-extended/ceph/ceph_15.2.0.bb          |  1 +
+>>   2 files changed, 31 insertions(+)
+>>   create mode 100644 recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
+>>
+>> diff --git a/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch b/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
+>> new file mode 100644
+>> index 0000000..d9116c4
+>> --- /dev/null
+>> +++ b/recipes-extended/ceph/ceph/0001-cmake-add-support-for-python3.9.patch
+>> @@ -0,0 +1,30 @@
+>> +From 1060f2e4362ebd6db23870d442dcd158d219ee92 Mon Sep 17 00:00:00 2001
+>> +From: Yanfei Xu <yanfei.xu@windriver.com>
+>> +Date: Tue, 10 Nov 2020 17:17:30 +0800
+>> +Subject: [PATCH] cmake: add support for python3.9
+>> +
+>> +add support for python3.9.
+>> +
+>> +Upstream-Status: Pending
+>> +
+>> +Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
+>> +---
+>> + cmake/modules/FindPython/Support.cmake | 2 +-
+>> + 1 file changed, 1 insertion(+), 1 deletion(-)
+>> +
+>> +diff --git a/cmake/modules/FindPython/Support.cmake b/cmake/modules/FindPython/Support.cmake
+>> +index 6584699b79..c05bbe3306 100644
+>> +--- a/cmake/modules/FindPython/Support.cmake
+>> ++++ b/cmake/modules/FindPython/Support.cmake
+>> +@@ -17,7 +17,7 @@ if (NOT DEFINED _${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR)
+>> +   message (FATAL_ERROR "FindPython: INTERNAL ERROR")
+>> + endif()
+>> + if (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 3)
+>> +-  set(_${_PYTHON_PREFIX}_VERSIONS 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+>> ++  set(_${_PYTHON_PREFIX}_VERSIONS 3.9 3.8 3.7 3.6 3.5 3.4 3.3 3.2 3.1 3.0)
+>> + elseif (_${_PYTHON_PREFIX}_REQUIRED_VERSION_MAJOR EQUAL 2)
+>> +   set(_${_PYTHON_PREFIX}_VERSIONS 2.7 2.6 2.5 2.4 2.3 2.2 2.1 2.0)
+>> + else()
+>> +--
+>> +2.18.2
+>> +
+>> diff --git a/recipes-extended/ceph/ceph_15.2.0.bb b/recipes-extended/ceph/ceph_15.2.0.bb
+>> index bdc794f..8454a20 100644
+>> --- a/recipes-extended/ceph/ceph_15.2.0.bb
+>> +++ b/recipes-extended/ceph/ceph_15.2.0.bb
+>> @@ -21,6 +21,7 @@ SRC_URI = "http://download.ceph.com/tarballs/ceph-${PV}.tar.gz \
+>>              file://0002-mon-enforce-caps-for-pre-octopus-client-tell-command.patch \
+>>              file://0003-PendingReleaseNotes-note-about-security-fix.patch \
+>>              file://0001-add-missing-include-for-atomic-bool.patch \
+>> +           file://0001-cmake-add-support-for-python3.9.patch \
+>>   "
+>>
+>>   SRC_URI[md5sum] = "1f9af648b4c6d19975aab2583ab99710"
+>> --
+>> 2.18.2
+>>
+> 
+>>
+>> 
+>>
+> 
