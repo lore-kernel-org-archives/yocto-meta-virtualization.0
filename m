@@ -1,89 +1,66 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web09.7160.1605616803762623000
- for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 17 Nov 2020 04:40:04 -0800
-Authentication-Results: mx.groups.io;
- dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=obQ4bWex;
- spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id 1D21A38C04BB
-	for <meta-virtualization@yoctoproject.org>; Tue, 17 Nov 2020 12:40:02 +0000 (UTC)
+ by mx.groups.io with SMTP id smtpd.web12.7446.1605618350114991094
+ for <meta-virtualization@lists.yoctoproject.org>;
+ Tue, 17 Nov 2020 05:05:51 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@axis.com header.s=axis-central1 header.b=ERts/UCO;
+ spf=pass (domain: axis.com, ip: 195.60.68.18, mailfrom: joakim.roubert@axis.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=axis.com; l=1498; q=dns/txt; s=axis-central1;
-  t=1605616803; x=1637152803;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ydkoTEAp2cJA2qZo1nGATZGEbfIoZOD0zPtBGilkRyo=;
-  b=obQ4bWexF+usb9rHbJ7pnRl3Z0ZI1Vz7gFXrDiNb9dy4ma9XWObGyiNB
-   1seVYi4YVraaLyF1kCMKI/tFPe01p0tdNIQ1b6YssR6GkFWAd262nzg9a
-   W4xlDOTdVoffOiafA95/Nfc2PXYTJuT0ghtSL5tUyRpQyAtpp8J14m8h4
-   JDaGu3ztASqVwN5+XYukOWmDILYnKD7N9xUeeIdl/kq6qyan5bfV9NQLR
-   SAR4yD1LTjIw6lMxALmm4sY8PxYgYKwJtao559lvT+FkttGOubGAkKs/v
-   qyrQBtMWLw+4zROwPPIlclHk0bVGRPrNSqEZ0EcWu41N3yGKXJLVCEOvi
-   g==;
-IronPort-SDR: GT6uB7QcC2XcWRygvpLXBgLh6qXz0pOCxRt6WS5pBciqnc+TvsnxoutlillIk0WeAmh2oZL8DO
- mQLNXRiCc3piCfY4nR9LH2vdRr1BmiK/zhpQF09P0dLCcDHNln/MRg/cI9uANr1TrTq4BO5AQm
- vrjrLYKC4OZk101aPBMTNCdpUwGeeSOqTGpGyDMF9gE+vKCMBUSQ2yEVD2hBxMVA2Jc+1JDPfP
- x4+ICMVV9xHhM4XuQCtzotZ/SKfm5T9XAcJNh9N8xDGYIs3gVeKo/R+bn+0+u8M/GvvNAvfU92
- WzE=
+  d=axis.com; l=598; q=dns/txt; s=axis-central1;
+  t=1605618350; x=1637154350;
+  h=subject:to:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding;
+  bh=Faq8uMZ/MV67YjAK3AHNXW4em0SM6TOigcbqw+/Xqq4=;
+  b=ERts/UCOuiAe3126oUEiJCjgoUlcuGqHsvOdNbOwXi9PyejjiINadeiS
+   BCKhCeA4YGhFs4zUMi4VC+oGqx7h6cfymxfKq/7Mrg/OmAEh1l/yXVeYN
+   Z5vpYKT/DGW4zQDIfij/g+Uggas4faBh3sbLYGX06HVWJAvKPs+7raIcX
+   z+IcosWb4xDnWabMAh0QGji9aSrFrMqJTWBGFmb/nBN8fR3Otv/T3tmDe
+   JKTShYx/fhF8JY16YsUPMHq6xKhvakrbecXf/0+R9VVjqUjoIS3r/t89D
+   1ue++5UbyNwb58hA4ISvJ/1EqCS4Q+0w2HlvWAhNdB1aUbYiARL2M6EEO
+   A==;
+IronPort-SDR: YwZtzV1Ik86wozfAjpQB3YQu3MbkGxp0zMz+vMS3ZmqGPs5ESq0FexIgXTI+TzDRj/wOIEPSLf
+ nVKodoT8VyIqKIIrsEoMUAyb2gIiTc6E77zb7UoGXgDx435L4jCMOcwlkgaK8TRnP1TGZIOgmE
+ ftn+M4ckGD/67hr/r0hJ83zELV5GOTiHSe3pMfteT7PQHdCTC+6ET09NJMeqHE7YX9HfiHfeUb
+ MvA9xqJVPKZ8PZQgIvIpIqm8QvwoTeYDhHcA85CaZukYyUQLbdGxSwon6GBbC4DWkWpEsclyNY
+ exY=
 X-IronPort-AV: E=Sophos;i="5.77,485,1596492000"; 
-   d="scan'208";a="14594936"
-From: "Joakim Roubert" <joakim.roubert@axis.com>
-To: <meta-virtualization@yoctoproject.org>
-CC: Joakim Roubert <joakimr@axis.com>
-Subject: [meta-virtualization][PATCH] k3s: Bump to v1.19.3+k3s3
-Date: Tue, 17 Nov 2020 13:39:57 +0100
-Message-ID: <20201117123957.12607-1-joakimr@axis.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
+   d="scan'208";a="14595873"
+Subject: Re: [meta-virtualization][PATCH] k3s: Bump to v1.19.3+k3s3
+To: <meta-virtualization@lists.yoctoproject.org>
 References: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
+ <16484BFA14ED0B17.5807@lists.yoctoproject.org>
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <698f9ae0-d048-7761-cd54-c718ef68ac53@axis.com>
+Date: Tue, 17 Nov 2020 14:05:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <16484BFA14ED0B17.5807@lists.yoctoproject.org>
+Return-Path: joakim.roubert@axis.com
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX03.axis.com (10.0.5.17)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-The current stable release installed when running the regular k3s
-install script is now v1.19.3+k3s3. Using that version in our recipe
-also mitigates the fixes for
+On 2020-11-17 13:39, Joakim Roubert wrote:
+> The current stable release installed when running the regular k3s
+> install script is now v1.19.3+k3s3.
 
-https://github.com/rancher/kine/issues/61
+I launched a multi-arch cluster with this v1.19.3+k3s3, deployed Linkerd 
+2.9.0 on it and then meshed a small test application sending traffic 
+back and forth between a client and a server, and it all seems to work 
+quite nicely.
 
-Change-Id: I4c53d777d4d837628a6c7f8a9234da9d71eb45ae
-Signed-off-by: Joakim Roubert <joakimr@axis.com>
----
- recipes-containers/k3s/k3s_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+BR,
 
-diff --git a/recipes-containers/k3s/k3s_git.bb b/recipes-containers/k3s/k=
-3s_git.bb
-index ea5ed75..28ce66b 100644
---- a/recipes-containers/k3s/k3s_git.bb
-+++ b/recipes-containers/k3s/k3s_git.bb
-@@ -4,7 +4,7 @@ HOMEPAGE =3D "https://k3s.io/"
- LICENSE =3D "Apache-2.0"
- LIC_FILES_CHKSUM =3D "file://${S}/src/import/LICENSE;md5=3D2ee41112a44fe=
-7014dce33e26468ba93"
-=20
--SRC_URI =3D "git://github.com/rancher/k3s.git;branch=3Drelease-1.18;name=
-=3Dk3s \
-+SRC_URI =3D "git://github.com/rancher/k3s.git;branch=3Drelease-1.19;name=
-=3Dk3s \
-            file://k3s.service \
-            file://k3s-agent.service \
-            file://k3s-agent \
-@@ -13,9 +13,9 @@ SRC_URI =3D "git://github.com/rancher/k3s.git;branch=3D=
-release-1.18;name=3Dk3s \
-            file://0001-Finding-host-local-in-usr-libexec.patch;patchdir=3D=
-src/import \
-           "
- SRC_URI[k3s.md5sum] =3D "363d3a08dc0b72ba6e6577964f6e94a5"
--SRCREV_k3s =3D "630bebf94b9dce6b8cd3d402644ed023b3af8f90"
-+SRCREV_k3s =3D "0e4fbfefe1dd8734756dfa4f9ab4fc89665cece4"
-=20
--PV =3D "v1.18.9+git${SRCPV}"
-+PV =3D "v1.19.3+git${SRCPV}"
-=20
- CNI_NETWORKING_FILES ?=3D "${WORKDIR}/cni-containerd-net.conf"
-=20
---=20
-2.20.1
+/Joakim
+-- 
+Joakim Roubert
+Senior Engineer
+
+Axis Communications AB
+Emdalavägen 14, SE-223 69 Lund, Sweden
+Tel: +46 46 272 18 00, Tel (direct): +46 46 272 27 48
+Fax: +46 46 13 61 30, www.axis.com
 
