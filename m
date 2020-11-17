@@ -1,132 +1,89 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.3922.1605590010876169006
+ by mx.groups.io with SMTP id smtpd.web09.7160.1605616803762623000
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 16 Nov 2020 21:13:30 -0800
+ Tue, 17 Nov 2020 04:40:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 5B9D938C051C
-	for <meta-virtualization@yoctoproject.org>; Tue, 17 Nov 2020 05:13:30 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.77,484,1596470400"; 
-   d="scan'208";a="101445968"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 17 Nov 2020 13:13:29 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id B898C4CE5059
-	for <meta-virtualization@yoctoproject.org>; Tue, 17 Nov 2020 13:13:28 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Tue, 17 Nov 2020 13:13:27 +0800
-From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=obQ4bWex;
+ spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id 1D21A38C04BB
+	for <meta-virtualization@yoctoproject.org>; Tue, 17 Nov 2020 12:40:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=axis.com; l=1498; q=dns/txt; s=axis-central1;
+  t=1605616803; x=1637152803;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ydkoTEAp2cJA2qZo1nGATZGEbfIoZOD0zPtBGilkRyo=;
+  b=obQ4bWexF+usb9rHbJ7pnRl3Z0ZI1Vz7gFXrDiNb9dy4ma9XWObGyiNB
+   1seVYi4YVraaLyF1kCMKI/tFPe01p0tdNIQ1b6YssR6GkFWAd262nzg9a
+   W4xlDOTdVoffOiafA95/Nfc2PXYTJuT0ghtSL5tUyRpQyAtpp8J14m8h4
+   JDaGu3ztASqVwN5+XYukOWmDILYnKD7N9xUeeIdl/kq6qyan5bfV9NQLR
+   SAR4yD1LTjIw6lMxALmm4sY8PxYgYKwJtao559lvT+FkttGOubGAkKs/v
+   qyrQBtMWLw+4zROwPPIlclHk0bVGRPrNSqEZ0EcWu41N3yGKXJLVCEOvi
+   g==;
+IronPort-SDR: GT6uB7QcC2XcWRygvpLXBgLh6qXz0pOCxRt6WS5pBciqnc+TvsnxoutlillIk0WeAmh2oZL8DO
+ mQLNXRiCc3piCfY4nR9LH2vdRr1BmiK/zhpQF09P0dLCcDHNln/MRg/cI9uANr1TrTq4BO5AQm
+ vrjrLYKC4OZk101aPBMTNCdpUwGeeSOqTGpGyDMF9gE+vKCMBUSQ2yEVD2hBxMVA2Jc+1JDPfP
+ x4+ICMVV9xHhM4XuQCtzotZ/SKfm5T9XAcJNh9N8xDGYIs3gVeKo/R+bn+0+u8M/GvvNAvfU92
+ WzE=
+X-IronPort-AV: E=Sophos;i="5.77,485,1596492000"; 
+   d="scan'208";a="14594936"
+From: "Joakim Roubert" <joakim.roubert@axis.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH 7/7] python3-osprofiler: upgrade 2.9.0 -> 3.4.0
-Date: Tue, 17 Nov 2020 22:13:27 +0800
-Message-ID: <1605622407-3718-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+CC: Joakim Roubert <joakimr@axis.com>
+Subject: [meta-virtualization][PATCH] k3s: Bump to v1.19.3+k3s3
+Date: Tue, 17 Nov 2020 13:39:57 +0100
+Message-ID: <20201117123957.12607-1-joakimr@axis.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
+References: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
- G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: B898C4CE5059.A8535
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
 Content-Type: text/plain
+Content-Transfer-Encoding: quoted-printable
 
-Because python2 is no longer maintained, bb file is changed to python3 version.
+The current stable release installed when running the regular k3s
+install script is now v1.19.3+k3s3. Using that version in our recipe
+also mitigates the fixes for
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+https://github.com/rancher/kine/issues/61
+
+Change-Id: I4c53d777d4d837628a6c7f8a9234da9d71eb45ae
+Signed-off-by: Joakim Roubert <joakimr@axis.com>
 ---
- .../python/python-osprofiler_2.9.0.bb         | 35 -------------------
- .../python/python3-osprofiler_3.4.0.bb        | 35 +++++++++++++++++++
- 2 files changed, 35 insertions(+), 35 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb
+ recipes-containers/k3s/k3s_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb b/meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb
-deleted file mode 100644
-index e6fe8656..00000000
---- a/meta-openstack/recipes-devtools/python/python-osprofiler_2.9.0.bb
-+++ /dev/null
-@@ -1,35 +0,0 @@
--DESCRIPTION = "OpenStack Profiler Library"
--HOMEPAGE = "http://www.openstack.org/"
--SECTION = "devel/python"
--LICENSE = "Apache-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=19cbd64715b51267a47bf3750cc6a8a5"
--
--SRC_URI[md5sum] = "75f190b00ac248b3d547b67a480801db"
--SRC_URI[sha256sum] = "6915cbf8ac390dc3e125340b0ff368dd53f5889e3d053f9122dd83ba0dd366f7"
--
--inherit setuptools3 pypi
--
--# DEPENDS_default: python-pip
--
--DEPENDS += " \
--        python-pip \
--        python-pbr \
--        "
--
--# Satisfy setup.py 'setup_requires'
--DEPENDS += " \
--        python-pbr-native \
--        "
--
--# RDEPENDS_default: 
--RDEPENDS_${PN} += " \
--        python-pbr \
--        python-six \
--        python-oslo.messaging \
--        python-oslo.log \
--        python-oslo.utils \
--        python-webob \
--        python-requests \
--        python-netaddr \
--        python-oslo.concurrency \
--        "
-diff --git a/meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb b/meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb
-new file mode 100644
-index 00000000..5d7939b6
---- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-osprofiler_3.4.0.bb
-@@ -0,0 +1,35 @@
-+DESCRIPTION = "OpenStack Profiler Library"
-+HOMEPAGE = "http://www.openstack.org/"
-+SECTION = "devel/python"
-+LICENSE = "Apache-2.0"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=19cbd64715b51267a47bf3750cc6a8a5"
-+
-+SRC_URI[md5sum] = "691c4d2cc77e60eeaa30edd7bf087481"
-+SRC_URI[sha256sum] = "f7fe387f4dd681bbf92b9fbe857cc90e89cfe96d44522a2727540902310a9ed6"
-+
-+inherit setuptools3 pypi
-+
-+# DEPENDS_default: python-pip
-+
-+DEPENDS += " \
-+        python3-pip \
-+        python3-pbr \
-+        "
-+
-+# Satisfy setup.py 'setup_requires'
-+DEPENDS += " \
-+        python3-pbr-native \
-+        "
-+
-+# RDEPENDS_default: 
-+RDEPENDS_${PN} += " \
-+        python3-pbr \
-+        python3-six \
-+        python3-oslo.messaging \
-+        python3-oslo.log \
-+        python3-oslo.utils \
-+        python3-webob \
-+        python3-requests \
-+        python3-netaddr \
-+        python3-oslo.concurrency \
-+        "
--- 
-2.25.1
-
-
+diff --git a/recipes-containers/k3s/k3s_git.bb b/recipes-containers/k3s/k=
+3s_git.bb
+index ea5ed75..28ce66b 100644
+--- a/recipes-containers/k3s/k3s_git.bb
++++ b/recipes-containers/k3s/k3s_git.bb
+@@ -4,7 +4,7 @@ HOMEPAGE =3D "https://k3s.io/"
+ LICENSE =3D "Apache-2.0"
+ LIC_FILES_CHKSUM =3D "file://${S}/src/import/LICENSE;md5=3D2ee41112a44fe=
+7014dce33e26468ba93"
+=20
+-SRC_URI =3D "git://github.com/rancher/k3s.git;branch=3Drelease-1.18;name=
+=3Dk3s \
++SRC_URI =3D "git://github.com/rancher/k3s.git;branch=3Drelease-1.19;name=
+=3Dk3s \
+            file://k3s.service \
+            file://k3s-agent.service \
+            file://k3s-agent \
+@@ -13,9 +13,9 @@ SRC_URI =3D "git://github.com/rancher/k3s.git;branch=3D=
+release-1.18;name=3Dk3s \
+            file://0001-Finding-host-local-in-usr-libexec.patch;patchdir=3D=
+src/import \
+           "
+ SRC_URI[k3s.md5sum] =3D "363d3a08dc0b72ba6e6577964f6e94a5"
+-SRCREV_k3s =3D "630bebf94b9dce6b8cd3d402644ed023b3af8f90"
++SRCREV_k3s =3D "0e4fbfefe1dd8734756dfa4f9ab4fc89665cece4"
+=20
+-PV =3D "v1.18.9+git${SRCPV}"
++PV =3D "v1.19.3+git${SRCPV}"
+=20
+ CNI_NETWORKING_FILES ?=3D "${WORKDIR}/cni-containerd-net.conf"
+=20
+--=20
+2.20.1
 
