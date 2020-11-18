@@ -1,113 +1,73 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.64])
- by mx.groups.io with SMTP id smtpd.web12.15850.1605652437794347754
+Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
+ by mx.groups.io with SMTP id smtpd.web08.28751.1605724056891259078
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 17 Nov 2020 14:33:58 -0800
+ Wed, 18 Nov 2020 10:27:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="body hash did not verify" header.i=@windriversystems.onmicrosoft.com header.s=selector2-windriversystems-onmicrosoft-com header.b=RCSgnYAA;
- spf=pass (domain: windriver.com, ip: 40.107.237.64, mailfrom: sakib.sajal@windriver.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=lEMJeVDRULdYBfogIE1jAoMOKx0qhDUp9ioE9q3ETk+2H2Ye82/EUREBQjV8UGg4TSxaSLIqd9RDgBh8QY8zcZ4Hya80mpRZ89Su5o1VNWDpfyRrU3PTJ4uhajAtHdWKtL1B/mc4sO/M6GeCR7JM/T1urzQZvOG25vlB0CCTMDkEOmMbXNOKTRvryQFLniD+QGp9GA4qgJdaKYPKdJjfHHjKzUhW/udQPFnXSvaB7T/ez8nIIC4voC+JJUkyVSh+92TlIMOBDohkxbl/Gf9A/JmjUbykufjCrdEx8G5AtI3IfFWkHEysu2ptZF2lYdCoFSPwy78itLYIedTvOI9PtA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7n8BmtKKrwQrnzFWIOBbvyxO3IFNZtv9sssT2hJrKrE=;
- b=loznzoAszEu4MCNVpwp+MBA6qIpYrv0EEUEm753fzOgqkEmf+SK25yaXxhNj88PMMLB2Kedyk7wx/rd+TH6JtnmoLdiP0suIMXJV03O8qwz5aYsOYthKnFpsQmufdzfetOrlNxylFwIBapuc6ex+PUperotWZzJFtcFHtrtdgyWe0KyMt6XzvGW7GFpk7P3rpPTdJOlAR4Bw94M50DzQm+71Bc+zu2D73E4hTqBAguDhqa16vCq0OiCF1ygMpU62K1l8O4WTnNBNRb1usKLbTisRfczZMr9IexJgg3L2v6le4+lTar4GNzUstF3WNtJ++m4Rio68iCKG5q+T6O7rcw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=windriversystems.onmicrosoft.com;
- s=selector2-windriversystems-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=7n8BmtKKrwQrnzFWIOBbvyxO3IFNZtv9sssT2hJrKrE=;
- b=RCSgnYAA5bANOL95DnSjxRjgrl19TJrQXawMvqFNSMKt7Gjga+v+YY6SH0Bng4VaL1AFbEZRI2IGX+NLhATSWX4IE8yvs2gs9NGP/ygS8uHI17YJG2GQzpdQx9WeF4fF1hXieK4vNDIL4KMvJrQWj1vGrpO3fpo08jwb9Z7zhN8=
-Authentication-Results: lists.yoctoproject.org; dkim=none (message not signed)
- header.d=none;lists.yoctoproject.org; dmarc=none action=none
- header.from=windriver.com;
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20) by
- DM6PR11MB4692.namprd11.prod.outlook.com (2603:10b6:5:2aa::11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3589.20; Tue, 17 Nov 2020 22:33:55 +0000
-Received: from DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::7126:4988:387b:a741]) by DM6PR11MB2538.namprd11.prod.outlook.com
- ([fe80::7126:4988:387b:a741%2]) with mapi id 15.20.3541.025; Tue, 17 Nov 2020
- 22:33:55 +0000
-From: sakib.sajal@windriver.com
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [meta-virtualization][PATCH] nagios-core: fix do_install during cross builds
-Date: Tue, 17 Nov 2020 17:33:36 -0500
-Message-ID: <20201117223336.39599-1-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.29.2
-X-Originating-IP: [128.224.252.2]
-X-ClientProxiedBy: YT1PR01CA0009.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::22)
- To DM6PR11MB2538.namprd11.prod.outlook.com (2603:10b6:5:be::20)
-Return-Path: sakib.sajal@windriver.com
+ dkim=fail reason="signature has expired" header.i=@axis.com header.s=axis-central1 header.b=lR0UyWoV;
+ spf=fail (domain: axis.com, ip: 198.145.29.25, mailfrom: joakim.roubert@axis.com)
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.yoctoproject.org (Postfix) with ESMTPS id AE23C38C06F7
+	for <meta-virtualization@yoctoproject.org>; Wed, 18 Nov 2020 18:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=axis.com; l=601; q=dns/txt; s=axis-central1;
+  t=1605724055; x=1637260055;
+  h=subject:to:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding;
+  bh=c73He+B8AWN2yoRNvd082v0hl48q3264O/ahjBVVdu0=;
+  b=lR0UyWoVDQh6R2duZi8IjlQiycE/okd2qe4KVgajzMXDtglfR99eWiEK
+   HW+h3pKvCWxNU4jSJDfY/nrGwqUvADt0OdIBPRC0epQC2qnqmhVWwbmAg
+   aeErHId00/Sc6uljjEr15K8NHLIkjI5PsrqeUARAtDRAMRkP8nBTHtYey
+   pCH3/yO4F03dlcJkVhqWTtBSzyPfhcq3x5adiKPGgzYSCFUhBCOeTzpc/
+   r58spQH+M964b1cRs6ZkJXB0jkXyh9JEJWHAJx3Bd2I5sk44KMfbADO7E
+   XdzHx78TmJ4eXWbuJbtw6zo+BV/MAyZ96HdFXYKKIQ92VJaTU4KRFePr/
+   w==;
+IronPort-SDR: 4HmkSi/o3nXyZkdgcfZM2l/w9It580+Y8LJPBrJ2I+bBB6C5UNn1TdocKXu0Pggj07jKuJMo3a
+ uNtluUmaxycmF2a1HVawzMTlsuz/rapMXF23dxCqb9jI5VQKjGwyuL5Lt4Qi1IyzbpZZ4VVL3M
+ lWPymKnj0ya2+AFPoZmsNSCOfW2UIlg4fI8l8mIURhH7WfrHMqznYXPixWKwm94M0Xk18jFrUO
+ 6D/QfhV4VRtNzVegxPuvcwLJCTIaeNGEpdciHfLV/1/v0vnDXDwZ/DyWvAsc5QmJfntoKjYxKV
+ fG8=
+X-IronPort-AV: E=Sophos;i="5.77,488,1596492000"; 
+   d="scan'208";a="15185055"
+Subject: Re: [meta-virtualization][PATCH] k3s: Bump to v1.19.3+k3s3
+To: meta-virtualization <meta-virtualization@yoctoproject.org>
+References: <CADkTA4MYg8ayOej7ZV+saSnDzXod4URBCHitxFDOrfbLifwf4A@mail.gmail.com>
+ <20201117123957.12607-1-joakimr@axis.com>
+ <CADkTA4NWRcaOhgPO14H2qhgq_HP=dX4VUVT_uBXq5matGNGwag@mail.gmail.com>
+ <f7949806-b05e-b81b-75b5-4f76d8fb7049@axis.com>
+ <CADkTA4POf_uUOEQ=P-Me-dFpJaK334nFvSJ_Uq-WW6God3DuOw@mail.gmail.com>
+ <0c2289b8-4ce2-ba88-a05d-7204d88f403e@axis.com>
+ <16485135E3A12798.28066@lists.yoctoproject.org>
+ <CADkTA4N6C6HdSMhX-+W4L9QcZWOGN+6WcrH0i9f8dO37NhFSVg@mail.gmail.com>
+ <6f43ed71-1a4c-f767-aa70-b83010851eb6@axis.com>
+ <1648529A6FD37D30.5807@lists.yoctoproject.org>
+ <CADkTA4PntU=xXDHzC6EissVgNf+hVq45qu58fuAr_x-b1Hdnsg@mail.gmail.com>
+From: "Joakim Roubert" <joakim.roubert@axis.com>
+Message-ID: <6eaac6fd-21cd-8d06-eeb5-c8a77516bdbe@axis.com>
+Date: Wed, 18 Nov 2020 19:27:31 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.3
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from yow-lpggp3.wrs.com (128.224.252.2) by YT1PR01CA0009.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01::22) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend Transport; Tue, 17 Nov 2020 22:33:54 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7216ab12-6aa7-4d50-622e-08d88b48ddb1
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4692:
-X-Microsoft-Antispam-PRVS: 
-	<DM6PR11MB46927CEC20EE8134BE86F243F2E20@DM6PR11MB4692.namprd11.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	aM/9HDjtfbaUIL5ciBX5vviBHS//DKPI/abB/vOK+h34AFtsZvPLZxJa4a9V8lIxg3AZ5lCA6A4Rkmnfh/pgGfOeLH/XG+b21NljVlO0SvezNRCW1fQ39+ii548GN+T+cmIxhfLGgq5J1OHGdfzNf+BAwqhHOpgbCEC9eyUQjuVAfARpAY4uNzyAmy6ZgQigOmduY9CKaIvhu+hJQfMVAEkOfeh6k2SoDf90oNQvPZwulu0cPWVUZmTWCzBV8JM24gMJi4xEW7pSiE9DwFBdk/jIQOsbyQkWjYzVRdBUjK65ptv2rx+u/fcaD7FptmA6
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB2538.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(39850400004)(376002)(366004)(136003)(396003)(478600001)(6916009)(83380400001)(36756003)(86362001)(26005)(44832011)(66556008)(66946007)(316002)(66476007)(5660300002)(1076003)(6486002)(52116002)(16526019)(8936002)(186003)(8676002)(2616005)(6666004)(956004)(6506007)(6512007)(2906002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: 
-	s28dUH2gkV3aTcS8/iZZbEyXLTUCUfe1udw7Giqtq8Md939qegrFEzxntIlZqKU3avVbgE55iGTQTevC2++B909BVWfEfbQPJOEHAqVjpV8nwJsjD5/Djqtb76d37EOe+nV9O72hyuvMm5yeT9CgiOlX3Sie9xy3PQTYx6dN47SODdQ4+qMnSrK4SRGOPjopV00WTc4g/xBF7xF9Akno2c23TCwW5CaxdqJ5PI7mK8KZXQTOfGx7T3kxFZCk4og18h3HS1KU55JKN+1PXeIXY+sC39SBbf7XdKAmfvWD11RvSXqNZpC4aJXBA1h+dbq3m4gmJ1gDyoy4Hak84mCDFbyxNWU1LRIxMlHGu+y2Drfc/Xb21t6LpvmfAb2ikf6fLj+jrx36t5DHHGeT7DgA6k3LoPDm9GDjvpF0NyKH1p1R2qacnR7L83nK6NLypvT3A7PDb53p2NkORHR4Pi1fe64wLyTru1A7xFqg6MPcEIxob6N/7VKM6tiE2n1MUBXu7vV385kV+ftmJcoNIbrhup/7qRGCnoCC46CRufD/jxhNY0XKFtpoH5tp0CLwy2Du2VCTEnZ3Ps/6Ox/sFkd3iCigw38KXJDYWZq+s3r/3Ne6WFBgxp4134B39DeHX6dgebhWWrox8wfrgtnKKsR3Vh7dlNz+vgCd1hMCK/otH1wkM5Rfax5JswpWE+87BDMwS3YIYCDYNtodlFjGChdckFhIkif2OwbrlSPdxGTZqkPYSDQOlOUttfZUyS90RgPHVckOpHVAB2b5zvVCJsqJb+RiT1G0JWiUArVtdAYuMEH2WWWT966mtbzmJvcOmQC2y2fe7fuGeIGUOYizt2hHurhwPqXcvOSgVPi2X0uLRMgtR0TXdsBZu6ELANJtYSruLu+a9wDS0y23lgVng+Wg3Q==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7216ab12-6aa7-4d50-622e-08d88b48ddb1
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB2538.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2020 22:33:55.4306
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ws/vLgroe7KywRdZMEWOegpp/WH62RR+4lY70w/AVsPp7vXHHnfoAXTxIeslzene6u0wVHNnhFNuySc556PfqoKfnXSi90A5ZTqoHB6IvFM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4692
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+In-Reply-To: <CADkTA4PntU=xXDHzC6EissVgNf+hVq45qu58fuAr_x-b1Hdnsg@mail.gmail.com>
+X-Originating-IP: [10.0.5.60]
+X-ClientProxiedBy: XBOX02.axis.com (10.0.5.16) To XBOX03.axis.com (10.0.5.17)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Upstream started stripping built binaries by default, using
-HOSTTOOLS install to strip binaries that are different in
-architecture from the host, raising errors:
+On 2020-11-17 20:39, Bruce Ashfield wrote:
+ >
+> root@qemux86-64:~# kubectl get pods -n kube-system
+> NAME READY STATUS RESTARTS AGE
+> local-path-provisioner-7ff9579c6-bd947 0/1 CrashLoopBackOff 822m
+> coredns-66c464876b-76bdl 0/1 CrashLoopBackOff 822m
+> helm-install-traefik-mvt5k 0/1 CrashLoopBackOff 822m
+> metrics-server-7b4f8b595-ck5kz 0/1 CrashLoopBackOff 822m
+> root@qemux86-64:~#
 
-strip: Unable to recognise the format of the input file
-TOPDIR/tmp-glibc/hosttools/install: strip process terminated abnormally
+ From my own experience with CrashLoopBackOff situations is that there 
+may be serveral different things causing that. Can you trace down what 
+is causing the CrashLoopBackOff here?
 
-Hence, build unstripped binaries and let oe build system
-strip the binaries during do_package.
+BR,
 
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
----
- recipes-extended/nagios/nagios-core_4.4.6.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/recipes-extended/nagios/nagios-core_4.4.6.bb b/recipes-extende=
-d/nagios/nagios-core_4.4.6.bb
-index aaa722c..4cbec2b 100644
---- a/recipes-extended/nagios/nagios-core_4.4.6.bb
-+++ b/recipes-extended/nagios/nagios-core_4.4.6.bb
-@@ -80,7 +80,7 @@ do_compile() {
- }
-=20
- do_install() {
--    oe_runmake 'DESTDIR=3D${D}' install
-+    oe_runmake 'DESTDIR=3D${D}' install-unstripped
-     oe_runmake 'DESTDIR=3D${D}' install-init
-     oe_runmake 'DESTDIR=3D${D}' install-config
-     oe_runmake 'DESTDIR=3D${D}' install-commandmode
-@@ -158,5 +158,3 @@ CVE_PRODUCT =3D "nagios_core"
- ALTERNATIVE_PRIORITY_${PN} =3D '20'
- ALTERNATIVE_${PN} =3D "nagios"
- ALTERNATIVE_LINK_NAME[nagios] =3D "${localstatedir}/nagios"
--
--INSANE_SKIP_${PN} =3D "already-stripped"
---=20
-2.29.2
-
+/Joakim
