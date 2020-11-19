@@ -1,123 +1,240 @@
-Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web11.11667.1605802338313037451
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web10.11949.1605804629377845631
  for <meta-virtualization@lists.yoctoproject.org>;
- Thu, 19 Nov 2020 08:12:18 -0800
+ Thu, 19 Nov 2020 08:50:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=ANE7giRy;
- spf=softfail (domain: gmail.com, ip: 198.145.29.25, mailfrom: bruce.ashfield@gmail.com)
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	by mail.yoctoproject.org (Postfix) with ESMTPS id C368638C08DD
-	for <meta-virtualization@yoctoproject.org>; Thu, 19 Nov 2020 16:12:17 +0000 (UTC)
-Received: by mail-qk1-f179.google.com with SMTP id k4so5802328qko.13
-        for <meta-virtualization@yoctoproject.org>; Thu, 19 Nov 2020 08:12:17 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=pxm5KT02;
+ spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: ticotimo@gmail.com)
+Received: by mail-il1-f176.google.com with SMTP id y18so5899803ilp.13
+        for <meta-virtualization@lists.yoctoproject.org>; Thu, 19 Nov 2020 08:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :in-reply-to:user-agent;
-        bh=NtD4R6oGq0LdE7EXNPZ/08pJbp/pJVyxjbvMkxSTnxM=;
-        b=ANE7giRy3ChJaoNJ77UcYW5SIqTajOBD5xZ3gEFE8bBz8uUxtEhmkia/lkigcDRceY
-         NBvQ0vFiqPKI6deGSFPkK5HUfSJ4Gdc4Wtuk1yZ7YtDPiN130AG4v4mJKNXVLh60Vcz1
-         9Ot2kRXnmCFNxpmxHxUN7ZqpACjF3A4QULKG4tsapJxwgKBQ2ySYKXzqyylJHx+vbj0P
-         eINKug7Q+el8NNh9E0yTQYCjRSVM+S1IVG/9HnpZhgrgXQ7LPK3jK5oUxeJtfIDYVkgL
-         7K73IcjslBbUtdFHKYnBaorAj3OW5ucHQ/YwSKxszfzpLuM0Lv/yk6GkcLtm9YWxrAkD
-         CVtg==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MHE9hWTf5GaXgMXQCusVJ4D/UMRffiITl+cJAiTwrX8=;
+        b=pxm5KT02vcZ7mx4TkyJdkDeDc9qJ4Ca3lP+D8Bq/Vb6n+OPnFQpNritSbQE31U27s5
+         qLMnLS5A5hAlR1z7m9FFTfNaiFnGD07UyiapCWrCQemtSMR3zuPl15tCQHz26SZRnuXm
+         1nlsO0EYD/rwnaadY4w9F2/QPubG82L5mvBKaxUxs800UljTn84WLcXzsDYazP19GOc1
+         tQVT+c6Kt8gTm+a7Dh1XyUrzDg0Nlmvz1hY62eQSaOgUAy88+SiPjjTOoFWGkDZlBK/u
+         EiM6h2OdoeQnGl3h3ShJEODFGProV4s6EMV5xS9Xe5/4+8fD/ijVQAaNh3MQ52rdgl5U
+         XcnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=NtD4R6oGq0LdE7EXNPZ/08pJbp/pJVyxjbvMkxSTnxM=;
-        b=XVEN7zrD92/mp1jjEGiqkehtr9w1jVxB0B5fR5IiSZ/yIRQTJP+iZcr1XAZ7wtMYlo
-         woK01fd+IvKN+6Jzj0GjW3Si7UHAXVhQbaFXzbwx8r3U6E/n7Qwv7kpLBogxezZqdtia
-         3/S0GkA59U62VDCU9wpF6PN0q69dTjuXzejm4aEGYMtmKBEXi40PT3RteAzhwh2/j0lU
-         EknuYOCoKG7npYPx+gifU7zRREbrt25zo9YMcCpLCYKV7/aYNIGfBPzDbhy75u+j0Um0
-         HkZOLDxJIfmcK31p1N/MwpWLcbESETL1iGsPNq3PbQQqsHO9NZALpPfmGjv0bJZvpyuQ
-         cSAw==
-X-Gm-Message-State: AOAM531PoK/8Dk0epZqLkCp04M+ZnYCrO68n5CUTA8Hyjv6pDuSXlUgs
-	PbLptg6n7Fm45whTWsX+cJc3BAshEgWC78QS
-X-Google-Smtp-Source: ABdhPJzwFbAQVDt9Mnpj+D5SymZKKbKk2wE1SDv/1M5qbUqW4a+byzPJBtQrZhNzCJCDHQ6QXn6hUw==
-X-Received: by 2002:a37:4f0a:: with SMTP id d10mr12057163qkb.184.1605802336676;
-        Thu, 19 Nov 2020 08:12:16 -0800 (PST)
-Received: from gmail.com (cpe04d4c4975b80-cm64777d5e8820.cpe.net.cable.rogers.com. [174.112.165.127])
-        by smtp.gmail.com with ESMTPSA id k17sm135480qkj.51.2020.11.19.08.12.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 08:12:16 -0800 (PST)
-Date: Thu, 19 Nov 2020 11:12:14 -0500
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-To: zhengruoqin <zhengrq.fnst@cn.fujitsu.com>
-Cc: meta-virtualization@yoctoproject.org
-Subject: Re: [meta-virtualization] [PATCH 1/7] python3-pyscss: Change to python3
-Message-ID: <20201119161213.GB26762@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MHE9hWTf5GaXgMXQCusVJ4D/UMRffiITl+cJAiTwrX8=;
+        b=jAi9uRLi//90n+MqbGWG4GADD38Y0rTk11tLi0YX4+C+R7mMKETowolO9bSwyrbR2G
+         5+ux367fenUNee3H6HHkGz2VJWhqEM7Fe3OdAzPKCwvFVECeWIyY2aBZVYo0pm37hM26
+         vSiXxyyKYQIiNGbUOYH3wJrVqvfsPJOAj+G++SIShZURpiuFpxRUMIoa4u9gpRXe6RYN
+         ddV1++IX/nDMh4rAGxJZjo9kDqwFC1bhWQxhJoq1qIoOqePpJcIKrgAGpugT0VcRgIBj
+         lWCBVeZW2UEPZZgEZKBWPNyz43ljXImMUU5rXgii+o1b9IHNDrnznDBOnYR6jKx1aLNl
+         g5Zw==
+X-Gm-Message-State: AOAM530LTzgTvGFaGTqG4AN0YmjQShCWYhuzJtf+jxKOMpCimb+8JiZ3
+	wrKUNoPwPYTzEy8ombAG2t24Wu+sAMITkNqzyio=
+X-Google-Smtp-Source: ABdhPJx15I8pab/h7xesmiNz/oGZA/0Tuad5f70FcZXIvvLBzVyveKU5CcHuO1efwG0la/oRSxOVn+OCVIbEerWLWno=
+X-Received: by 2002:a92:d2cb:: with SMTP id w11mr20556950ilg.170.1605804628675;
+ Thu, 19 Nov 2020 08:50:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1605622407-3718-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1605622356-3663-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1605622326-3580-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1605622302-3504-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1605622280-3455-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1605622236-3389-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
- <1605622185-3281-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20201115034922.30940-1-ticotimo@gmail.com> <20201119160844.GC9432@gmail.com>
+In-Reply-To: <20201119160844.GC9432@gmail.com>
+From: "Tim Orling" <ticotimo@gmail.com>
+Date: Thu, 19 Nov 2020 08:50:16 -0800
+Message-ID: <CANx9H-DQm6s5mn+eDGB4U7y2jLey7=7w7EP-JaRjco95EbevJQ@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] linux-yocto: add cgroup-hugetlb config
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org
+Content-Type: multipart/alternative; boundary="00000000000078924905b47886fa"
 
-merged.
+--00000000000078924905b47886fa
+Content-Type: text/plain; charset="UTF-8"
+
+On Thu, Nov 19, 2020 at 8:08 AM Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
+
+> In message: [meta-virtualization][PATCH] linux-yocto: add cgroup-hugetlb
+> config
+> on 14/11/2020 Tim Orling wrote:
+>
+> > From: Tim Orling <ticotimo@gmail.com>
+> >
+> > Add kernel config fragment for CONFIG_CGROUP_HUGETLB
+> >
+> > This is a recommended config for Kubernetes and k8s
+> > will throw a warning if it is not present.
+>
+> In my k3s-wip branch, I have a series of kernel configs directly related
+> and named for kubernetes .. I had hoped to just merge this into that
+> effort, but as you can see from my posts, getting k3s done is taking
+> longer than I wanted.
+>
+> So I've gone ahead and merged this, and I'll consolidate them later when
+> I finish k3s.
+>
+>
+Thank you.
+I am likewise not convinced this is the final version of this, but it is
+what is working for me now.
 
 Bruce
+>
+> >
+> > Signed-off-by: Tim Orling <ticotimo@gmail.com>
+> > ---
+> >  recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg | 5 +++++
+> >  recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc | 5 +++++
+> >  recipes-kernel/linux/linux-yocto_virtualization.inc | 1 +
+> >  3 files changed, 11 insertions(+)
+> >  create mode 100644 recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
+> >  create mode 100644 recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+> >
+> > diff --git a/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
+> b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
+> > new file mode 100644
+> > index 0000000..417ca24
+> > --- /dev/null
+> > +++ b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg
+> > @@ -0,0 +1,5 @@
+> > +# SPDX-License-Identifier: MIT
+> > +#
+> > +# This requires CONFIG_HUGETLBFS
+> > +
+> > +CONFIG_CGROUP_HUGETLB=y
+> > diff --git a/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+> b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+> > new file mode 100644
+> > index 0000000..7d1f999
+> > --- /dev/null
+> > +++ b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc
+> > @@ -0,0 +1,5 @@
+> > +# SPDX-License-Identifier: MIT
+> > +define KFEATURE_DESCRIPTION "Enable hugetlb cgroup"
+> > +define KFEATURE_COMPATIBILITY all
+> > +
+> > +kconf non-hardware cgroup-hugetlb.cfg
+> > diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc
+> b/recipes-kernel/linux/linux-yocto_virtualization.inc
+> > index f050b3f..42a10b3 100644
+> > --- a/recipes-kernel/linux/linux-yocto_virtualization.inc
+> > +++ b/recipes-kernel/linux/linux-yocto_virtualization.inc
+> > @@ -5,6 +5,7 @@ SRC_URI += "file://xt-checksum.scc \
+> >           file://vswitch.scc \
+> >           file://lxc.scc \
+> >              file://docker.scc \
+> > +         file://cgroup-hugetlb.scc \
+> >           "
+> >  KERNEL_FEATURES_append = " ${@bb.utils.contains('DISTRO_FEATURES',
+> 'kvm', 'features/kvm/qemu-kvm-enable.scc', '', d)}"
+> >
+> > --
+> > 2.25.0
+> >
+>
+> >
+> > 
+> >
+>
+>
 
-In message: [meta-virtualization] [PATCH 1/7] python3-pyscss: Change to python3
-on 17/11/2020 zhengruoqin wrote:
+--00000000000078924905b47886fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-> ---
->  ...thon-pyscss_1.3.4.bb => python3-pyscss_1.3.7.bb} | 13 ++++++++-----
->  1 file changed, 8 insertions(+), 5 deletions(-)
->  rename meta-openstack/recipes-devtools/python/{python-pyscss_1.3.4.bb => python3-pyscss_1.3.7.bb} (61%)
-> 
-> diff --git a/meta-openstack/recipes-devtools/python/python-pyscss_1.3.4.bb b/meta-openstack/recipes-devtools/python/python3-pyscss_1.3.7.bb
-> similarity index 61%
-> rename from meta-openstack/recipes-devtools/python/python-pyscss_1.3.4.bb
-> rename to meta-openstack/recipes-devtools/python/python3-pyscss_1.3.7.bb
-> index 60e300de..0c7528a5 100644
-> --- a/meta-openstack/recipes-devtools/python/python-pyscss_1.3.4.bb
-> +++ b/meta-openstack/recipes-devtools/python/python3-pyscss_1.3.7.bb
-> @@ -6,22 +6,25 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=28155276e8df3f75bbd327335f66f2fa"
->  
->  PYPI_PACKAGE = "pyScss"
->  
-> -SRC_URI[md5sum] = "9527b4864cd6023f77a8277e6fb773d7"
-> -SRC_URI[sha256sum] = "d0323110ecc7d3ead6b99cfec31301306928130e4d0a9eb13226bf390aba8c0e"
-> +SRC_URI[md5sum] = "c75fa4ea88d3c9df57a11679f337a939"
-> +SRC_URI[sha256sum] = "f1df571569021a23941a538eb154405dde80bed35dc1ea7c5f3e18e0144746bf"
->  
->  inherit setuptools3 pypi
->  
->  # DEPENDS_default: python-pip
->  
->  DEPENDS += " \
-> -        python-pip \
-> +        python3-pip \
->          libpcre \
-> -        python-six \
-> +        python3-six \
->          "
->  
->  # RDEPENDS_default: 
->  RDEPENDS_${PN} += " \
-> -        python-enum \
-> +	python3-logging \
-> +	python3-six \
-> +	python3-numbers \
-> +	python3-image \
->          "
->  
->  CLEANBROKEN = "1"
-> -- 
-> 2.25.1
-> 
-> 
-> 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 19, 2020 at 8:08 AM Bruce=
+ Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashfield@gm=
+ail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">In message: [meta-virtualization][PATCH] linux-yocto: add cgroup-hug=
+etlb config<br>
+on 14/11/2020 Tim Orling wrote:<br>
+<br>
+&gt; From: Tim Orling &lt;<a href=3D"mailto:ticotimo@gmail.com" target=3D"=
+_blank">ticotimo@gmail.com</a>&gt;<br>
+&gt; <br>
+&gt; Add kernel config fragment for CONFIG_CGROUP_HUGETLB<br>
+&gt; <br>
+&gt; This is a recommended config for Kubernetes and k8s<br>
+&gt; will throw a warning if it is not present.<br>
+<br>
+In my k3s-wip branch, I have a series of kernel configs directly related<b=
+r>
+and named for kubernetes .. I had hoped to just merge this into that<br>
+effort, but as you can see from my posts, getting k3s done is taking<br>
+longer than I wanted.<br>
+<br>
+So I&#39;ve gone ahead and merged this, and I&#39;ll consolidate them late=
+r when<br>
+I finish k3s.<br>
+<br></blockquote><div><br></div><div>Thank you.</div><div>I am likewise no=
+t convinced this is the final version of this, but it is what is working fo=
+r me now.</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+Bruce<br>
+<br>
+&gt; <br>
+&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:ticotimo@gmail.com" t=
+arget=3D"_blank">ticotimo@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg | 5 +++++<b=
+r>
+&gt;=C2=A0 recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc | 5 +++++<b=
+r>
+&gt;=C2=A0 recipes-kernel/linux/linux-yocto_virtualization.inc | 1 +<br>
+&gt;=C2=A0 3 files changed, 11 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 recipes-kernel/linux/linux-yocto/cgroup-huge=
+tlb.cfg<br>
+&gt;=C2=A0 create mode 100644 recipes-kernel/linux/linux-yocto/cgroup-huge=
+tlb.scc<br>
+&gt; <br>
+&gt; diff --git a/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg b/re=
+cipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..417ca24<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.cfg<br>
+&gt; @@ -0,0 +1,5 @@<br>
+&gt; +# SPDX-License-Identifier: MIT<br>
+&gt; +#<br>
+&gt; +# This requires CONFIG_HUGETLBFS<br>
+&gt; +<br>
+&gt; +CONFIG_CGROUP_HUGETLB=3Dy<br>
+&gt; diff --git a/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc b/re=
+cipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..7d1f999<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/recipes-kernel/linux/linux-yocto/cgroup-hugetlb.scc<br>
+&gt; @@ -0,0 +1,5 @@<br>
+&gt; +# SPDX-License-Identifier: MIT<br>
+&gt; +define KFEATURE_DESCRIPTION &quot;Enable hugetlb cgroup&quot;<br>
+&gt; +define KFEATURE_COMPATIBILITY all<br>
+&gt; +<br>
+&gt; +kconf non-hardware cgroup-hugetlb.cfg<br>
+&gt; diff --git a/recipes-kernel/linux/linux-yocto_virtualization.inc b/re=
+cipes-kernel/linux/linux-yocto_virtualization.inc<br>
+&gt; index f050b3f..42a10b3 100644<br>
+&gt; --- a/recipes-kernel/linux/linux-yocto_virtualization.inc<br>
+&gt; +++ b/recipes-kernel/linux/linux-yocto_virtualization.inc<br>
+&gt; @@ -5,6 +5,7 @@ SRC_URI +=3D &quot;file://xt-checksum.scc \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://vswitch.scc \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://lxc.scc \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://docker.scc \<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://cgroup-hugetlb.scc \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 KERNEL_FEATURES_append =3D &quot; ${@bb.utils.contains(&#39;DIS=
+TRO_FEATURES&#39;, &#39;kvm&#39;, &#39;features/kvm/qemu-kvm-enable.scc&#39=
+;, &#39;&#39;, d)}&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -- <br>
+&gt; 2.25.0<br>
+&gt; <br>
+<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+<br>
+</blockquote></div></div>
 
-> 
-> 
-> 
-
-
+--00000000000078924905b47886fa--
