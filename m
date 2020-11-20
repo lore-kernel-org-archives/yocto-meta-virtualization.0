@@ -1,51 +1,51 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.1117.1605895305998424048
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.1087.1605895379204348233
  for <meta-virtualization@lists.yoctoproject.org>;
- Fri, 20 Nov 2020 10:01:46 -0800
+ Fri, 20 Nov 2020 10:02:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=L9MhHJ+L;
- spf=pass (domain: gmail.com, ip: 209.85.221.49, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wr1-f49.google.com with SMTP id 23so10894950wrc.8
-        for <meta-virtualization@lists.yoctoproject.org>; Fri, 20 Nov 2020 10:01:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=PdOcR50+;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: adrian.freihofer@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id j7so10954454wrp.3
+        for <meta-virtualization@lists.yoctoproject.org>; Fri, 20 Nov 2020 10:02:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=2ea9usgjT2JFZs+Ucb99xOML2oodNage0suQvpsO4/A=;
-        b=L9MhHJ+LtzGNOZv4g9LTHyRMhKA+YuvWZRPYZFPsQLArcKHzZfeo4BHp4uH0+XqPMN
-         WN8Y81b3x7KrX8b+ZwpJcFhoO+w6Q6672isdhMFVTB4G3J7SXTLszfkpoA/Njoq+GwvC
-         YitRaMdf1+0rCarkz8CXunpJTYuJnLAcRwHkKi+VJ9e5obbNVhkiHr9ls/gPdimMfyYy
-         iVK8kqTOgQ3d7LnWgBCQ1IwpvxPlcFpksNK92IjrDOuudAmfhoMLnhYW6yXNy4WpzgFh
-         ZLJ8XIOac2ddEfknxpPZaL1XJ+iK0pGTydzHZaEqmK9kKRG3ZrTtF14lmOv9fGPXl8Of
-         kYQA==
+        b=PdOcR50+gRqv3AjSN/QgTp/Xzol/5ToJteQtdUigxlTgt0CBCRp30yjNbWiIQoBxTB
+         mXOu5LzEGyrprCvSsuNKl/6vw/aeE8S9qUrq5GQX404ofK7h/IFJh0FCpHovHkHeHzt5
+         FGmJ1QhA6rrzYkOfNOO87vVUUpUZ8EWDa4akkcYbaGv+R7lJK35o7+UUuamS66jcxvmd
+         IYO+2LqIsLFnqjHerq6ZEmw7D7GSLJVIE+DuPL/ztBpXq8zXjtYd3wdMiGmec1Yo5aOY
+         0vlKdWo3MvYDbcZCGUaEsA/cKeMocSO4w/kDQIGvj2LEgMHP4yurJMV8wgTx5NWy4tSe
+         DjYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
         bh=2ea9usgjT2JFZs+Ucb99xOML2oodNage0suQvpsO4/A=;
-        b=S6AmJJ96WtyTUBzI8dSHdOAwi1+V5Ks7qK/wuauEwHQiwOORyIcRGfhI+jQxFt5lbS
-         x7K15blzFb7+pSoagm0+O3MkErTJ0fqVYL92JsJkoy6ntIMmCUqJwfeSG39QNh8zwL/M
-         41k+hA2DwfE44Nm3ZSqtM7fTf4uOCHUaNF9fUpnw0Ba3tnBIb3TskelW4Yt/+ILVtvfu
-         aqGtVqxPmUJ8+pHtl4k73BQhMCOP6HpG6YqPt/gBF9UrKJflaqwBUNVRaDO4ZThUH8i7
-         Ph5J+UcX2piMf3JCrJXUSdeFzl2LhsxR6W+/QIgRZpyzRRbndDunbCIliptQiirNuPPo
-         J8JA==
-X-Gm-Message-State: AOAM533X4aH0i+K4BixBbUI0cLCRkGI2p2HE5JRbsuy+heWhvyrNFzd3
-	GusHNbEpN+MTHbI53PW6syK/ynSL6b8=
-X-Google-Smtp-Source: ABdhPJy3lZyCLWFEAMTrdfJAwD3xUnpJdoh2kSrPQOrYqpqyIF+0Rrz6ZTyN4CKQyvuYWWgbLxtN0g==
-X-Received: by 2002:a5d:4984:: with SMTP id r4mr18315860wrq.191.1605895304167;
-        Fri, 20 Nov 2020 10:01:44 -0800 (PST)
+        b=fy5ziu7dthJ7P8YQ3fjlvZE1q63Gmb7B6g4UWlmigIgqypgmy79uRAcLUsi+bXi6LS
+         ncNarlLufVUbObbsT2eazrBeXpKyxBTTKmeuIZqAARrkxkRkRGxnlfMUdMLXNpQ0qUKT
+         OHpnspglsVlMJFajpXhTXVwaw02yw1rlf3mU2eql2hxIglrHpEXDBLewJMMvxhdW7GHw
+         lf2hbPVdnEzmFubwcVlbC0JRUXJkNcRJ6Z6kjsreomE8Fuyb9jyJHew12vrqqv5z061N
+         7eQd5GAJf8rUPnzRAFHAF6dzGlFTkcKD1hLQRs+vs4zO0HaCM9SjaBf5YGb45BW70Q6x
+         CmOQ==
+X-Gm-Message-State: AOAM530ObyR/OkmtOqT8eCKTq8p/Q1JTo8l78idv92zuPW16/bbgrKOj
+	BOSOkJ0G77WbMFAFope2VsIhwffs7GA=
+X-Google-Smtp-Source: ABdhPJzAy+rIUyBbJcDfIwB4neSF7NA20LYFe8ZFCVO58MbeJbt+9dzoKsiEg3sUvMFYgRFicZ1xag==
+X-Received: by 2002:adf:f181:: with SMTP id h1mr16984790wro.267.1605895377102;
+        Fri, 20 Nov 2020 10:02:57 -0800 (PST)
 Return-Path: <adrian.freihofer@gmail.com>
 Received: from md2ramxc.ad001.siemens.net (c-93-184-20-132.customer.ggaweb.ch. [93.184.20.132])
-        by smtp.gmail.com with ESMTPSA id a9sm5692663wrp.21.2020.11.20.10.01.43
+        by smtp.gmail.com with ESMTPSA id j8sm5763490wrx.11.2020.11.20.10.02.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 10:01:43 -0800 (PST)
+        Fri, 20 Nov 2020 10:02:56 -0800 (PST)
 From: "Adrian Freihofer" <adrian.freihofer@gmail.com>
 X-Google-Original-From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: meta-virtualization@lists.yoctoproject.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
 Subject: [meta-virtualization][PATCH] docker-ce: update to 19.03.13
-Date: Fri, 20 Nov 2020 19:01:40 +0100
-Message-Id: <20201120180140.3612470-1-adrian.freihofer@siemens.com>
+Date: Fri, 20 Nov 2020 19:02:51 +0100
+Message-Id: <20201120180251.3612946-1-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
