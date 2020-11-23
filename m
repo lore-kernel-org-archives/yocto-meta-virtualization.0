@@ -1,71 +1,64 @@
 Received: from mail.yoctoproject.org (mail.yoctoproject.org [198.145.29.25])
- by mx.groups.io with SMTP id smtpd.web08.30896.1606110179675270673
+ by mx.groups.io with SMTP id smtpd.web09.31044.1606110191841524030
  for <meta-virtualization@lists.yoctoproject.org>;
- Sun, 22 Nov 2020 21:42:59 -0800
+ Sun, 22 Nov 2020 21:43:11 -0800
 Authentication-Results: mx.groups.io;
  dkim=missing; spf=none, err=SPF record not found (domain: cn.fujitsu.com, ip: 198.145.29.25, mailfrom: zhengrq.fnst@cn.fujitsu.com)
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.yoctoproject.org (Postfix) with ESMTP id 1ADC138C0532
-	for <meta-virtualization@yoctoproject.org>; Mon, 23 Nov 2020 05:42:58 +0000 (UTC)
+	by mail.yoctoproject.org (Postfix) with ESMTP id 55DE938C0532
+	for <meta-virtualization@yoctoproject.org>; Mon, 23 Nov 2020 05:43:11 +0000 (UTC)
 X-IronPort-AV: E=Sophos;i="5.78,361,1599494400"; 
-   d="scan'208";a="101645296"
+   d="scan'208";a="101645309"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-  by heian.cn.fujitsu.com with ESMTP; 23 Nov 2020 13:42:58 +0800
+  by heian.cn.fujitsu.com with ESMTP; 23 Nov 2020 13:43:10 +0800
 Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 4EACB4CE5458
-	for <meta-virtualization@yoctoproject.org>; Mon, 23 Nov 2020 13:42:52 +0800 (CST)
+	by cn.fujitsu.com (Postfix) with ESMTP id 718E54CE5472
+	for <meta-virtualization@yoctoproject.org>; Mon, 23 Nov 2020 13:43:05 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.35) by
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Mon, 23 Nov 2020 13:42:50 +0800
+ (TLS) id 15.0.1497.2; Mon, 23 Nov 2020 13:43:03 +0800
 From: "zhengruoqin" <zhengrq.fnst@cn.fujitsu.com>
 To: <meta-virtualization@yoctoproject.org>
-Subject: [meta-virtualization] [PATCH] python3-os-vif: Change to python3
-Date: Mon, 23 Nov 2020 22:42:49 +0800
-Message-ID: <1606142569-3789-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Subject: [meta-virtualization] [PATCH] python3-pypowervm: upgrade 1.1.10 -> 1.1.24
+Date: Mon, 23 Nov 2020 22:43:03 +0800
+Message-ID: <1606142583-3826-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.35]
 X-ClientProxiedBy: G08CNEXCHPEKD04.g08.fujitsu.local (10.167.33.200) To
  G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206)
-X-yoursite-MailScanner-ID: 4EACB4CE5458.A73E7
+X-yoursite-MailScanner-ID: 718E54CE5472.A491B
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
 X-Spam-Status: No
 Content-Type: text/plain
 
+Because python2 is no longer maintained, bb file is changed to python3 version.
+
 Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- .../python/python-os-vif_git.bb               | 38 -------------------
- .../python/python3-os-vif_git.bb              | 37 ++++++++++++++++++
- 2 files changed, 37 insertions(+), 38 deletions(-)
- delete mode 100644 meta-openstack/recipes-devtools/python/python-os-vif_git.bb
- create mode 100644 meta-openstack/recipes-devtools/python/python3-os-vif_git.bb
+ .../python/python-pypowervm_1.1.10.bb         | 33 -------------------
+ .../python/python3-pypowervm_1.1.24.bb        | 32 ++++++++++++++++++
+ 2 files changed, 32 insertions(+), 33 deletions(-)
+ delete mode 100644 meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb
+ create mode 100644 meta-openstack/recipes-devtools/python/python3-pypowervm_1.1.24.bb
 
-diff --git a/meta-openstack/recipes-devtools/python/python-os-vif_git.bb b/meta-openstack/recipes-devtools/python/python-os-vif_git.bb
+diff --git a/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb b/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb
 deleted file mode 100644
-index 6ad2020c..00000000
---- a/meta-openstack/recipes-devtools/python/python-os-vif_git.bb
+index 062d351e..00000000
+--- a/meta-openstack/recipes-devtools/python/python-pypowervm_1.1.10.bb
 +++ /dev/null
-@@ -1,38 +0,0 @@
--DESCRIPTION = "OpenStack integration library between network and compute providers."
--HOMEPAGE = "https://github.com/openstack/os-vif"
+@@ -1,33 +0,0 @@
+-DESCRIPTION = "Python binding for the PowerVM REST API"
+-HOMEPAGE = "https://pypi.python.org/pypi/pypowervm"
 -SECTION = "devel/python"
 -LICENSE = "Apache-2.0"
 -LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 -
--SRC_URI = "\
--	git://github.com/openstack/os-vif.git;branch=stable/pike \
--	"
+-SRC_URI[md5sum] = "54e4dfaa569350254b0a0f4c19686ded"
+-SRC_URI[sha256sum] = "ab27d4efb59105555b6c9b1fe7792fd895ad9ca893058c39bba4106d6a0ad986"
 -
--PV = "1.7.0+git${SRCPV}"
--SRCREV = "5184b7fc3b8d1689823eacb859087c8a943f9a09"
--S = "${WORKDIR}/git"
--
--inherit setuptools3
--
--DEPENDS += " \
--        python-pbr \
--        "
+-inherit setuptools3 pypi
 -
 -# Satisfy setup.py 'setup_requires'
 -DEPENDS += " \
@@ -73,43 +66,38 @@ index 6ad2020c..00000000
 -	"
 -
 -RDEPENDS_${PN} += " \
--        python-pbr \
--        python-netaddr \
+-        python-lxml \
 -        python-oslo.concurrency \
--        python-oslo.config \
--        python-oslo.log \
+-        python-oslo.context \
 -        python-oslo.i18n \
--        python-oslo.privsep \
--        python-oslo.versionedobjects \
+-        python-oslo.log \
+-        python-oslo.utils \
+-        python-pbr \
+-        python-pyasn1-modules \
+-        python-pyasn1 \
+-        python-pytz \
+-        python-requests \
 -        python-six \
--        python-stevedore \
+-        python-futures \
+-        python-taskflow \
+-        python-networkx \
 -        "
--	
-diff --git a/meta-openstack/recipes-devtools/python/python3-os-vif_git.bb b/meta-openstack/recipes-devtools/python/python3-os-vif_git.bb
+diff --git a/meta-openstack/recipes-devtools/python/python3-pypowervm_1.1.24.bb b/meta-openstack/recipes-devtools/python/python3-pypowervm_1.1.24.bb
 new file mode 100644
-index 00000000..18a9e6b3
+index 00000000..e659f618
 --- /dev/null
-+++ b/meta-openstack/recipes-devtools/python/python3-os-vif_git.bb
-@@ -0,0 +1,37 @@
-+DESCRIPTION = "OpenStack integration library between network and compute providers."
-+HOMEPAGE = "https://github.com/openstack/os-vif"
++++ b/meta-openstack/recipes-devtools/python/python3-pypowervm_1.1.24.bb
+@@ -0,0 +1,32 @@
++DESCRIPTION = "Python binding for the PowerVM REST API"
++HOMEPAGE = "https://pypi.python.org/pypi/pypowervm"
 +SECTION = "devel/python"
 +LICENSE = "Apache-2.0"
 +LIC_FILES_CHKSUM = "file://LICENSE;md5=1dece7821bf3fd70fe1309eaa37d52a2"
 +
-+SRC_URI = "\
-+	git://github.com/openstack/os-vif.git \
-+	"
++SRC_URI[md5sum] = "50b580055e5628aadaeb42fd69158ff8"
++SRC_URI[sha256sum] = "4c6bf225d2b1022b5d363f9b3695fd1692523235d3ce1b5b4506fbc608bdb535"
 +
-+PV = "2.2.0+git${SRCPV}"
-+SRCREV = "d7928102d69dadf653c9f734e5cf8fd504335849"
-+S = "${WORKDIR}/git"
-+
-+inherit setuptools3
-+
-+DEPENDS += " \
-+        python3-pbr \
-+        "
++inherit setuptools3 pypi
 +
 +# Satisfy setup.py 'setup_requires'
 +DEPENDS += " \
@@ -117,17 +105,21 @@ index 00000000..18a9e6b3
 +	"
 +
 +RDEPENDS_${PN} += " \
-+        python3-pbr \
-+        python3-netaddr \
++        python3-lxml \
 +        python3-oslo.concurrency \
-+        python3-oslo.config \
-+        python3-oslo.log \
++        python3-oslo.context \
 +        python3-oslo.i18n \
-+        python3-oslo.privsep \
++        python3-oslo.log \
++        python3-oslo.utils \
++        python3-pbr \
++        python3-pyasn1-modules \
++        python3-pyasn1 \
++        python3-pytz \
++        python3-requests \
 +        python3-six \
-+        python3-stevedore \
++        python3-taskflow \
++        python3-networkx \
 +        "
-+	
 -- 
 2.25.1
 
