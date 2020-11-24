@@ -1,1021 +1,1445 @@
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web09.873.1606241019791156677
+Received: from 9.mo177.mail-out.ovh.net (9.mo177.mail-out.ovh.net [46.105.72.238])
+ by mx.groups.io with SMTP id smtpd.web09.4187.1606255542607447565
  for <meta-virtualization@lists.yoctoproject.org>;
- Tue, 24 Nov 2020 10:03:40 -0800
+ Tue, 24 Nov 2020 14:05:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20161025 header.b=oXBw/aJI;
- spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-ej1-f53.google.com with SMTP id bo9so24022426ejb.13
-        for <meta-virtualization@lists.yoctoproject.org>; Tue, 24 Nov 2020 10:03:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=mKtmfcRlaLoW9gtLFiri4L96nsSDLX8oHn0YPZaTTa8=;
-        b=oXBw/aJI0NeSmRg3alFjAwQtG1FLrGm1NzbRu0MSYjIvVYbvnpM4PkPV0VZiyxWm6L
-         6UTh5c7azdEc3tFO4O7Xmsb3lZoELikZ07ESP4mVKJSbwU6BOKAZ56awK2FMXC5D+kZ7
-         T9th+YX6Bjzb/eJcsYcINv/iTrtPUB55vbmIqKUYsXE2E8BmLh2t6JJ2r+ZuixxJP3Z+
-         dcORBVyk3IQo/ApIbG5ejw2X0D36tijBzLIzi1Q/3bXJgt8KrTBieN1xX6UAWhCkPYTY
-         3JIR/nbM0Q1WeufzKY9DuF8rydtlIZsaVTn/cpBeuqv8U2Q2JmaawO9U5AwzwXRrlxu8
-         osYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=mKtmfcRlaLoW9gtLFiri4L96nsSDLX8oHn0YPZaTTa8=;
-        b=FLozhBYubvkNFSmIC48HlX7GMxsltSkkgmCMF0GHZPeXm6d1ENJ1OBDK8HxHfc8bIW
-         +LahtNjI9BenZQsS9mxGmuMrmTJM8noufqAOeiBeD68CmhXNsyUS4KGDs5eTlv7ib0UU
-         4Wfx3i0Ot4H9T1Dh3/m+f9rqTa3+XcHuEJh+qs7VwfMto6A6k3rQ3AHdLaNqADAp2cla
-         dwQRnvV/rZJKVwr4QKyarUrvjNnsucoMQyAG6CriC/QnbzViRGO1d/v03YOUmuI98wX1
-         zl6uZS0VDwQDpVYVmKs1JYzOOLs2dV8PFvsVeLRHiIRNmImkkmXbG+fbPI+9jEro8m0h
-         pB1A==
-X-Gm-Message-State: AOAM533udrEaoWZgii1eEK33CSEb5nhNqoiuhFpz1oarxyY9WJDvspF1
-	QEoAeabn5TdDpeB1OCc+lqnBgWLCxczOqHRFi9Y=
-X-Google-Smtp-Source: ABdhPJx+w38MGejTOuGTCxhw7DD7qyDLY+eQ5Cz9A0QQuUaW3isgEK4Gdstu1ihGDslYl3Jal3rjAx+mCPSbgztgiME=
-X-Received: by 2002:a17:907:4335:: with SMTP id ni5mr5181984ejb.459.1606241018055;
- Tue, 24 Nov 2020 10:03:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20201124172012.318030-1-maciej.pijanowski@3mdeb.com>
-In-Reply-To: <20201124172012.318030-1-maciej.pijanowski@3mdeb.com>
-From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
-Date: Tue, 24 Nov 2020 13:03:26 -0500
-Message-ID: <CADkTA4N2RAG1MSBrSWxgwwo2f=GN7zpM0r8OLgrLH82xE8vNSw@mail.gmail.com>
+ dkim=missing; spf=softfail (domain: 3mdeb.com, ip: 46.105.72.238, mailfrom: maciej.pijanowski@3mdeb.com)
+Received: from player787.ha.ovh.net (unknown [10.108.57.178])
+	by mo177.mail-out.ovh.net (Postfix) with ESMTP id 4C1EA139836
+	for <meta-virtualization@lists.yoctoproject.org>; Tue, 24 Nov 2020 23:05:40 +0100 (CET)
+Received: from 3mdeb.com (89-66-159-90.dynamic.chello.pl [89.66.159.90])
+	(Authenticated sender: maciej.pijanowski@3mdeb.com)
+	by player787.ha.ovh.net (Postfix) with ESMTPSA id 7571818AC67D2;
+	Tue, 24 Nov 2020 22:05:38 +0000 (UTC)
+Authentication-Results: garm.ovh; auth=pass (GARM-104R005fbb7154c-2f75-41a3-9233-0baf61f07cb2,
+                    BC82A14BF08680DC96B4491CA353477796433981) smtp.auth=maciej.pijanowski@3mdeb.com
 Subject: Re: [meta-virtualization][PATCH] balena-engine: add recipe
-To: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: meta-virtualization@lists.yoctoproject.org
-Content-Type: multipart/alternative; boundary="0000000000004e136f05b4de2133"
+References: <20201124172012.318030-1-maciej.pijanowski@3mdeb.com>
+ <CADkTA4N2RAG1MSBrSWxgwwo2f=GN7zpM0r8OLgrLH82xE8vNSw@mail.gmail.com>
+From: "Maciej Pijanowski" <maciej.pijanowski@3mdeb.com>
+Message-ID: <a127abae-6215-306b-e466-9cfea8dd91ff@3mdeb.com>
+Date: Tue, 24 Nov 2020 23:05:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4N2RAG1MSBrSWxgwwo2f=GN7zpM0r8OLgrLH82xE8vNSw@mail.gmail.com>
+X-Ovh-Tracer-Id: 9489928839925673649
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedujedrudegkedgudehlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgesrgdtreertdefjeenucfhrhhomhepofgrtghivghjucfrihhjrghnohifshhkihcuoehmrggtihgvjhdrphhijhgrnhhofihskhhiseefmhguvggsrdgtohhmqeenucggtffrrghtthgvrhhnpeefiedutedvjeekjeehhefgueffuedvheetgffghfdtjeejkeegvdeiveegieejudenucffohhmrghinhephihotghtohhprhhojhgvtghtrdhorhhgpdgsrghlvghnrgdqvghnghhinhgvpghgihhtrdgssgdpghhithhhuhgsrdgtohhmpdgsrghlvghnrgdrihhopdefmhguvggsrdgtohhmnecukfhppedtrddtrddtrddtpdekledrieeirdduheelrdeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehplhgrhigvrhejkeejrdhhrgdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepmhgrtghivghjrdhpihhjrghnohifshhkihesfehmuggvsgdrtghomhdprhgtphhtthhopehmvghtrgdqvhhirhhtuhgrlhhiiigrthhiohhnsehlihhsthhsrdihohgtthhophhrohhjvggtthdrohhrgh
+Content-Type: multipart/alternative;
+ boundary="------------9FBFCCA8362BF4BFABAD76DB"
+Content-Language: en-US
 
---0000000000004e136f05b4de2133
-Content-Type: text/plain; charset="UTF-8"
+--------------9FBFCCA8362BF4BFABAD76DB
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 24, 2020 at 12:20 PM Maciej Pijanowski <
-maciej.pijanowski@3mdeb.com> wrote:
 
-> As explained in [1], I have created the balena-engine recipe which could=
- be
-> used in "regular" Yocto/OE builds (outside of the balenaOS). The
-> recipe is mostly a copy of the original recipe from meta-balena,
-> stripped from the balenaOS-specific parts so it can be compiled and
-> build outside of it. This recipe was tested at build and runtime
-> on the dunfell release on two targets: RPi4 and qemux86-64.
+On 24.11.2020 19:03, Bruce Ashfield wrote:
 >
-
-Thanks for the contribution, it is most appreciated. The recipe
-unfortunately raises some concerns .. and something that we can work
-through.
-
-
 >
-> [1] https://lists.yoctoproject.org/g/meta-virtualization/message/5913
+> On Tue, Nov 24, 2020 at 12:20 PM Maciej Pijanowski
+> <maciej.pijanowski@3mdeb.com <mailto:maciej.pijanowski@3mdeb.com>> wrote=
+:
 >
-> Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-> ---
->  ...dcoded-CC-on-cross-compile-docker-ce.patch |  60 +++++++
->  .../balena-engine/balena-tmpfiles.conf        |   2 +
->  .../balena-engine/balena-engine_git.bb        | 159 ++++++++++++++++++
->  3 files changed, 221 insertions(+)
->  create mode 100644
-> recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-CC=
--on-cross-compile-docker-ce.patch
->  create mode 100644
-> recipes-containers/balena-engine/balena-engine/balena-tmpfiles.conf
->  create mode 100644 recipes-containers/balena-engine/balena-engine_git.b=
-b
+>     As explained in [1], I have created the balena-engine recipe which
+>     could be
+>     used in "regular" Yocto/OE builds (outside of the balenaOS). The
+>     recipe is mostly a copy of the original recipe from meta-balena,
+>     stripped from the balenaOS-specific parts so it can be compiled and
+>     build outside of it. This recipe was tested at build and runtime
+>     on the dunfell release on two targets: RPi4 and qemux86-64.
 >
-> diff --git
-> a/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-=
-CC-on-cross-compile-docker-ce.patch
-> b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-=
-CC-on-cross-compile-docker-ce.patch
-> new file mode 100644
-> index 000000000000..0f257f1bd964
-> --- /dev/null
-> +++
-> b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-=
-CC-on-cross-compile-docker-ce.patch
-> @@ -0,0 +1,60 @@
-> +From 1263fdb50a540e9db742694b7cee08284ad986d0 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Wed, 17 Jul 2019 17:34:04 +0800
-> +Subject: [PATCH] imporve hardcoded CC on cross compile
-> +
-> +Since commit applied in moby [61a3285 Support cross-compile for arm]
-> +it hardcoded var-CC to support cross-compile for arm
-> +
-> +Correct it with "${parameter:-word}" format, it is helpful for user
-> +define toolchains
-> +
-> +(Use Default Values.  If parameter is unset or null, the expansion of
-> +word is substituted.  Otherwise, the value of parameter is substituted.=
-)
-> +
-> +Upstream-Status: Submitted [https://github.com/moby/moby/pull/39546]
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + hack/make/.binary | 10 +++++-----
-> + 1 file changed, 5 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/src/import/hack/make/.binary b/src/import/hack/make/.binar=
-y
-> +index 53de6749e5..66f4ca05f3 100644
-> +--- a/src/import/hack/make/.binary
-> ++++ b/src/import/hack/make/.binary
-> +@@ -44,27 +44,27 @@ if [ "$(go env GOOS)/$(go env GOARCH)" !=3D "$(go e=
-nv
-> GOHOSTOS)/$(go env GOHOSTARC
-> +       # must be cross-compiling!
-> +       case "$(go env GOOS)/$(go env GOARCH)" in
-> +               windows/amd64)
-> +-                      export CC=3Dx86_64-w64-mingw32-gcc
-> ++                      export CC=3D"${CC:-x86_64-w64-mingw32-gcc}"
-> +                       export CGO_ENABLED=3D1
-> +                       ;;
-> +               linux/arm)
-> +                       case "${GOARM}" in
-> +                       5|"")
-> +-                              export CC=3Darm-linux-gnueabi-gcc
-> ++                              export CC=3D"${CC:-arm-linux-gnueabi-gcc=
-}"
-> +                               export CGO_ENABLED=3D1
-> +                               ;;
-> +                       7)
-> +-                              export CC=3Darm-linux-gnueabihf-gcc
-> ++                              export CC=3D"${CC:-arm-linux-gnueabihf-g=
-cc}"
-> +                               export CGO_ENABLED=3D1
-> +                               ;;
-> +                       esac
-> +                       ;;
-> +               linux/arm64)
-> +-                      export CC=3Daarch64-linux-gnu-gcc
-> ++                      export CC=3D"${CC:-aarch64-linux-gnu-gcc}"
-> +                       export CGO_ENABLED=3D1
-> +                       ;;
-> +               linux/amd64)
-> +-                      export CC=3Dx86_64-linux-gnu-gcc
-> ++                      export CC=3D"${CC:-x86_64-linux-gnu-gcc}"
-> +                       export CGO_ENABLED=3D1
-> +                       ;;
-> +       esac
-> +--
-> +2.23.0
-> diff --git
-> a/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.conf
-> b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.conf
-> new file mode 100644
-> index 000000000000..548a25d3ae49
-> --- /dev/null
-> +++ b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.con=
+>
+> Thanks for the contribution, it is most appreciated. The recipe
+> unfortunately raises some concerns ..and something that we can work
+> through.
+> =C2=A0
+>
+>
+>     [1] https://lists.yoctoproject.org/g/meta-virtualization/message/591=
+3
+>
+>     Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com
+>     <mailto:maciej.pijanowski@3mdeb.com>>
+>     ---
+>     =C2=A0...dcoded-CC-on-cross-compile-docker-ce.patch |=C2=A0 60 +++++=
+++
+>     =C2=A0.../balena-engine/balena-tmpfiles.conf=C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 |=C2=A0 =C2=A02 +
+>     =C2=A0.../balena-engine/balena-engine_git.bb
+>     <http://balena-engine_git.bb>=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 159 +++++=
++++++++++++++
+>     =C2=A03 files changed, 221 insertions(+)
+>     =C2=A0create mode 100644
+>     recipes-containers/balena-engine/balena-engine/0001-imporve-hardcode=
+d-CC-on-cross-compile-docker-ce.patch
+>     =C2=A0create mode 100644
+>     recipes-containers/balena-engine/balena-engine/balena-tmpfiles.conf
+>     =C2=A0create mode 100644
+>     recipes-containers/balena-engine/balena-engine_git.bb
+>     <http://balena-engine_git.bb>
+>
+>     diff --git
+>     a/recipes-containers/balena-engine/balena-engine/0001-imporve-hardco=
+ded-CC-on-cross-compile-docker-ce.patch
+>     b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardco=
+ded-CC-on-cross-compile-docker-ce.patch
+>     new file mode 100644
+>     index 000000000000..0f257f1bd964
+>     --- /dev/null
+>     +++
+>     b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardco=
+ded-CC-on-cross-compile-docker-ce.patch
+>     @@ -0,0 +1,60 @@
+>     +From 1263fdb50a540e9db742694b7cee08284ad986d0 Mon Sep 17 00:00:00
+>     2001
+>     +From: Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>>
+>     +Date: Wed, 17 Jul 2019 17:34:04 +0800
+>     +Subject: [PATCH] imporve hardcoded CC on cross compile
+>     +
+>     +Since commit applied in moby [61a3285 Support cross-compile for arm=
+]
+>     +it hardcoded var-CC to support cross-compile for arm
+>     +
+>     +Correct it with "${parameter:-word}" format, it is helpful for user
+>     +define toolchains
+>     +
+>     +(Use Default Values.=C2=A0 If parameter is unset or null, the expan=
+sion of
+>     +word is substituted.=C2=A0 Otherwise, the value of parameter is
+>     substituted.)
+>     +
+>     +Upstream-Status: Submitted [https://github.com/moby/moby/pull/39546=
+]
+>     +
+>     +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com
+>     <mailto:hongxu.jia@windriver.com>>
+>     +---
+>     + hack/make/.binary | 10 +++++-----
+>     + 1 file changed, 5 insertions(+), 5 deletions(-)
+>     +
+>     +diff --git a/src/import/hack/make/.binary
+>     b/src/import/hack/make/.binary
+>     +index 53de6749e5..66f4ca05f3 100644
+>     +--- a/src/import/hack/make/.binary
+>     ++++ b/src/import/hack/make/.binary
+>     +@@ -44,27 +44,27 @@ if [ "$(go env GOOS)/$(go env GOARCH)" !=3D
+>     "$(go env GOHOSTOS)/$(go env GOHOSTARC
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# must be cross-compiling!
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0case "$(go env GOOS)/$(go env GOARCH)" i=
+n
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0windows/amd6=
+4)
+>     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 export CC=3Dx86_64-w64-mingw32-gcc
+>     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 export CC=3D"${CC:-x86_64-w64-mingw32-gcc}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/arm)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0case "${GOARM}" in
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A05|"")
+>     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CC=3Darm-linux-gnueabi-gcc
+>     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export
+>     CC=3D"${CC:-arm-linux-gnueabi-gcc}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A07)
+>     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CC=3Darm-linux-gnueabihf-gcc
+>     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export
+>     CC=3D"${CC:-arm-linux-gnueabihf-gcc}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0esac
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/arm64)
+>     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 export CC=3Daarch64-linux-gnu-gcc
+>     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 export CC=3D"${CC:-aarch64-linux-gnu-gcc}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/amd64)
+>     +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 export CC=3Dx86_64-linux-gnu-gcc
+>     ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=
+=A0 =C2=A0 export CC=3D"${CC:-x86_64-linux-gnu-gcc}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0esac
+>     +--
+>     +2.23.0
+>     diff --git
+>     a/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.con=
 f
-> @@ -0,0 +1,2 @@
-> +L      /run/docker.pid -       -       -       -
->  /run/balena-engine.pid
-> +L      /run/balena.pid -       -       -       -
->  /run/balena-engine.pid
-> diff --git a/recipes-containers/balena-engine/balena-engine_git.bb
-> b/recipes-containers/balena-engine/balena-engine_git.bb
-> new file mode 100644
-> index 000000000000..5d78dc02350f
-> --- /dev/null
-> +++ b/recipes-containers/balena-engine/balena-engine_git.bb
-> @@ -0,0 +1,159 @@
-> +HOMEPAGE =3D "https://www.balena.io/"
-> +SUMMARY =3D "A Moby-based container engine for IoT"
-> +DESCRIPTION =3D "Balena is a new container engine purpose-built for
-> embedded \
-> +and IoT use cases and compatible with Docker containers. Based on
-> Docker=E2=80=99s \
-> +Moby Project, balena supports container deltas for 10-70x more efficien=
-t \
-> +bandwidth usage, has 3.5x smaller binaries, uses RAM and storage more \
-> +conservatively, and focuses on atomicity and durability of container \
-> +pulling."
-> +LICENSE =3D "Apache-2.0"
-> +LIC_FILES_CHKSUM =3D
-> "file://src/import/LICENSE;md5=3D4859e97a9c7780e77972d989f0823f28"
-> +
-> +inherit systemd go pkgconfig useradd
-> +
-> +BALENA_VERSION =3D "19.03.13-dev"
-> +BALENA_BRANCH=3D "master"
-> +
-> +SRCREV =3D "074a481789174b4b6fd2d706086e8ffceb72e924"
-> +SRC_URI =3D "\
-> +       git://
-> github.com/balena-os/balena-engine.git;branch=3D${BALENA_BRANCH};destsuf=
-fix=3Dgit/src/import
-> <http://github.com/balena-os/balena-engine.git;branch=3D$%7BBALENA_BRANC=
-H%7D;destsuffix=3Dgit/src/import>
-> \
-> +       file://0001-imporve-hardcoded-CC-on-cross-compile-docker-ce.patc=
-h \
+>     b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.con=
+f
+>     new file mode 100644
+>     index 000000000000..548a25d3ae49
+>     --- /dev/null
+>     +++
+>     b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.con=
+f
+>     @@ -0,0 +1,2 @@
+>     +L=C2=A0 =C2=A0 =C2=A0 /run/docker.pid -=C2=A0 =C2=A0 =C2=A0 =C2=A0-=
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=
+=A0
+>     =C2=A0/run/balena-engine.pid
+>     +L=C2=A0 =C2=A0 =C2=A0 /run/balena.pid -=C2=A0 =C2=A0 =C2=A0 =C2=A0-=
+=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=
+=A0
+>     =C2=A0/run/balena-engine.pid
+>     diff --git a/recipes-containers/balena-engine/balena-engine_git.bb
+>     <http://balena-engine_git.bb>
+>     b/recipes-containers/balena-engine/balena-engine_git.bb
+>     <http://balena-engine_git.bb>
+>     new file mode 100644
+>     index 000000000000..5d78dc02350f
+>     --- /dev/null
+>     +++ b/recipes-containers/balena-engine/balena-engine_git.bb
+>     <http://balena-engine_git.bb>
+>     @@ -0,0 +1,159 @@
+>     +HOMEPAGE =3D "https://www.balena.io/"
+>     +SUMMARY =3D "A Moby-based container engine for IoT"
+>     +DESCRIPTION =3D "Balena is a new container engine purpose-built for
+>     embedded \
+>     +and IoT use cases and compatible with Docker containers. Based on
+>     Docker=E2=80=99s \
+>     +Moby Project, balena supports container deltas for 10-70x more
+>     efficient \
+>     +bandwidth usage, has 3.5x smaller binaries, uses RAM and storage
+>     more \
+>     +conservatively, and focuses on atomicity and durability of
+>     container \
+>     +pulling."
+>     +LICENSE =3D "Apache-2.0"
+>     +LIC_FILES_CHKSUM =3D
+>     "file://src/import/LICENSE;md5=3D4859e97a9c7780e77972d989f0823f28"
+>     +
+>     +inherit systemd go pkgconfig useradd
+>     +
+>     +BALENA_VERSION =3D "19.03.13-dev"
+>     +BALENA_BRANCH=3D "master"
+>     +
+>     +SRCREV =3D "074a481789174b4b6fd2d706086e8ffceb72e924"
+>     +SRC_URI =3D "\
+>     +=C2=A0 =C2=A0 =C2=A0
+>     =C2=A0git://github.com/balena-os/balena-engine.git;branch=3D${BALENA=
+_BRANCH};destsuffix=3Dgit/src/import
+>     <http://github.com/balena-os/balena-engine.git;branch=3D$%7BBALENA_B=
+RANCH%7D;destsuffix=3Dgit/src/import>
+>     \
+>     +=C2=A0 =C2=A0 =C2=A0
+>     =C2=A0file://0001-imporve-hardcoded-CC-on-cross-compile-docker-ce.pa=
+tch \
 >
-The fact that we have to duplicate that patch, exposes an issue.
-
-It comes down to the fact that we already have containerd, moby, runc, etc=
-,
-recipes.
-
-Having vendored copies for all of the engine variants is a problem, and on=
-e
-what I'm looking to solve.  I can help on that front, but it won't be unti=
-l
-after I've finished getting k3s working and merged.
-
-See more specific comments below.
-
-
-
-> +        file://balena-tmpfiles.conf \
-> +       "
-> +
-> +S =3D "${WORKDIR}/git"
-> +
-> +PV =3D "${BALENA_VERSION}+git${SRCREV}"
-> +
-> +SECURITY_CFLAGS =3D "${SECURITY_NOPIE_CFLAGS}"
-> +SECURITY_LDFLAGS =3D ""
-> +
-> +SYSTEMD_PACKAGES =3D "${PN}"
-> +SYSTEMD_SERVICE_${PN} =3D "balena-engine.service balena-engine.socket"
-> +GO_IMPORT =3D "import"
-> +USERADD_PACKAGES =3D "${PN}"
-> +GROUPADD_PARAM_${PN} =3D "-r balena-engine"
-> +
-> +DEPENDS_append_class-target =3D " systemd"
-> +RDEPENDS_${PN}_class-target =3D "curl util-linux iptables tini systemd =
-bash"
-> +RRECOMMENDS_${PN} +=3D "kernel-module-nf-nat kernel-module-br-netfilter
-> kernel-module-nf-conntrack-netlink kernel-module-xt-masquerade
-> kernel-module-xt-addrtype"
-> +
-> +# oe-meta-go recipes try to build go-cross-native
+> The fact that we have to duplicate that patch, exposes an issue.
 >
-
-oe-meta-go shouldn't be relevant anymore .. neither should those _remove's=
+> It comes down to the fact that we already have containerd, moby, runc,
+> etc, recipes.
+>
+> Having vendored copies for all of the engine variants is a problem,
+> and one what I'm looking to solve.=C2=A0 I can help on that front, but i=
+t
+> won't be until after I've finished getting k3s working and merged.
+Ok. I will start with the simpler fixes for v2 and we will go back to that=
 .
-
-
-
-> +DEPENDS_remove_class-native =3D "go-cross-native"
-> +DEPENDS_append_class-native =3D " go-native"
-> +
-> +INSANE_SKIP_${PN} +=3D "already-stripped"
-> +
-> +FILES_${PN} +=3D " \
-> +       /lib/systemd/system/* \
 >
-
-/lib shouldn't be hardcoded.
-
-+       /home/root \
+> See more specific comments below.
 >
-
-neither should /home/root/
-
-
-
-> +       /boot/init \
-> +       /boot/storage-driver \
-> +       ${localstatedir} \
-> +       "
-> +
-> +DOCKER_PKG=3D"github.com/docker/docker"
-> +
-> +# By default no extra LDFLAGS needed when compiling mobynit
-> +MOBYNIT_EXTRA_LDFLAGS ??=3D ""
-> +
-> +do_configure[noexec] =3D "1"
-> +
-> +do_compile() {
-> +       export PATH=3D${STAGING_BINDIR_NATIVE}/${HOST_SYS}:$PATH
-> +
-> +       export GOCACHE=3D"${B}/.cache"
-> +       export GOHOSTOS=3D"linux"
-> +       export GOOS=3D"linux"
-> +       case "${TARGET_ARCH}" in
-> +               x86_64)
-> +                       GOARCH=3Damd64
-> +                       ;;
-> +               i586|i686)
-> +                       GOARCH=3D386
-> +                       ;;
-> +               arm)
-> +                       GOARCH=3D${TARGET_ARCH}
-> +                       case "${TUNE_PKGARCH}" in
-> +                               cortexa*)
-> +                                       export GOARM=3D7
-> +                                       ;;
-> +                       esac
-> +                       ;;
-> +               aarch64)
-> +                       # ARM64 is invalid for Go 1.4
-> +                       GOARCH=3Darm64
-> +               ;;
-> +               *)
-> +                       GOARCH=3D"${TARGET_ARCH}"
-> +               ;;
-> +       esac
-> +       export GOARCH
+> =C2=A0
 >
-
-There are already classes that deal with the arch mapping, it doesn't
-belong in individual recipes.
-
-+
-> +       # Set GOPATH. See 'PACKAGERS.md'. Don't rely on
-> +       # docker to download its dependencies but rather
-> +       # use dependencies packaged independently.
-> +       cd ${S}/src/import
-> +       rm -rf .gopath
-> +       mkdir -p .gopath/src/"$(dirname "${DOCKER_PKG}")"
-> +       ln -sf ../../../.. .gopath/src/"${DOCKER_PKG}"
-> +       export
-> GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_T=
-ARGET}/${prefix}/local/go"
-> +
-> +       export CGO_ENABLED=3D"1"
-> +
-> +       # Pass the needed cflags/ldflags so that cgo
-> +       # can find the needed headers files and libraries
-> +       export CGO_CFLAGS=3D"${CFLAGS} --sysroot=3D${STAGING_DIR_TARGET}=
-"
-> +       export CGO_LDFLAGS=3D"${LDFLAGS}  --sysroot=3D${STAGING_DIR_TARG=
-ET}"
-> +
-> +       export DOCKER_GITCOMMIT=3D"${SRCREV}"
-> +       export DOCKER_BUILDTAGS=3D"no_buildkit no_btrfs no_cri no_devmap=
-per
-> no_zfs exclude_disk_quota exclude_graphdriver_btrfs
-> exclude_graphdriver_devicemapper exclude_graphdriver_zfs"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://balena-tmpfiles.conf \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>     +
+>     +S =3D "${WORKDIR}/git"
+>     +
+>     +PV =3D "${BALENA_VERSION}+git${SRCREV}"
+>     +
+>     +SECURITY_CFLAGS =3D "${SECURITY_NOPIE_CFLAGS}"
+>     +SECURITY_LDFLAGS =3D ""
+>     +
+>     +SYSTEMD_PACKAGES =3D "${PN}"
+>     +SYSTEMD_SERVICE_${PN} =3D "balena-engine.service balena-engine.sock=
+et"
+>     +GO_IMPORT =3D "import"
+>     +USERADD_PACKAGES =3D "${PN}"
+>     +GROUPADD_PARAM_${PN} =3D "-r balena-engine"
+>     +
+>     +DEPENDS_append_class-target =3D " systemd"
+>     +RDEPENDS_${PN}_class-target =3D "curl util-linux iptables tini
+>     systemd bash"
+>     +RRECOMMENDS_${PN} +=3D "kernel-module-nf-nat
+>     kernel-module-br-netfilter kernel-module-nf-conntrack-netlink
+>     kernel-module-xt-masquerade kernel-module-xt-addrtype"
+>     +
+>     +# oe-meta-go recipes try to build go-cross-native
 >
-
-As we've already solved in the other docker/moby recipes, we any setting o=
-f
-buildtags needs to be by variable, so it can be overriden by bbappends, et=
-c.
-
-
-
-> +       export DOCKER_LDFLAGS=3D"-s"
-> +
-> +       VERSION=3D${BALENA_VERSION} ./hack/make.sh dynbinary-balena
 >
-
-And here we are with the repeated moby build infrastructure.
-
-I am curious as to why mainline moby won't work for this.
-
-
-
-> +
-> +       # Compile mobynit
-> +       cd .gopath/src/"${DOCKER_PKG}"/cmd/mobynit
-> +       go build -ldflags '-extldflags "-static ${MOBYNIT_EXTRA_LDFLAGS}=
-"'
-> .
+> oe-meta-go shouldn't be relevant anymore .. neither should those
+> _remove's.
 >
-
-This shouldn't be using 'go' directly, at the least, it should be using th=
-e
-variables as defined in the go classes.
-
-But again, this is solving and duplicating all the fixes that we've had to
-do over time in the existing moby recipe. .. this is less than ideal. and
-anything that we haven't solved there, we should actually be fixing there.
-
-
-> +       cd -
-> +}
-> +
-> +do_install() {
-> +       mkdir -p ${D}/${bindir}
-> +       install -m 0755
-> ${S}/src/import/bundles/dynbinary-balena/balena-engine
-> ${D}/${bindir}/balena-engine
-> +       # install -d ${D}/boot
-> +       # install -m 0755 ${S}/src/import/cmd/mobynit/mobynit
-> ${D}/boot/init
-> +       # echo ${BALENA_STORAGE} > ${D}/boot/storage-driver
-> +
-> +       ln -sf balena-engine ${D}/${bindir}/balena
-> +       ln -sf balena-engine ${D}/${bindir}/balenad
-> +       ln -sf balena-engine ${D}/${bindir}/balena-containerd
-> +       ln -sf balena-engine ${D}/${bindir}/balena-containerd-shim
-> +       ln -sf balena-engine ${D}/${bindir}/balena-containerd-ctr
-> +       ln -sf balena-engine ${D}/${bindir}/balena-runc
-> +       ln -sf balena-engine ${D}/${bindir}/balena-proxy
-> +
-> +       ln -sf balena-engine ${D}/${bindir}/balena-engine-daemon
-> +       ln -sf balena-engine ${D}/${bindir}/balena-engine-containerd
-> +       ln -sf balena-engine ${D}/${bindir}/balena-engine-containerd-shi=
-m
-> +       ln -sf balena-engine ${D}/${bindir}/balena-engine-containerd-ctr
-> +       ln -sf balena-engine ${D}/${bindir}/balena-engine-runc
-> +       ln -sf balena-engine ${D}/${bindir}/balena-engine-proxy
+> =C2=A0
 >
-
-Outside of the branding, what's the difference between these binaries and
-when we build the upstream project variants ?
-
-
-
-> +
-> +       install -d ${D}${systemd_unitdir}/system
-> +       install -m 0644
-> ${S}/src/import/contrib/init/systemd/balena-engine.socket
-> ${D}/${systemd_unitdir}/system
-> +       install -m 0644
-> ${S}/src/import/contrib/init/systemd/balena-engine.service
-> ${D}/${systemd_unitdir}/system
+>     +DEPENDS_remove_class-native =3D "go-cross-native"
+>     +DEPENDS_append_class-native =3D " go-native"
+>     +
+>     +INSANE_SKIP_${PN} +=3D "already-stripped"
+>     +
+>     +FILES_${PN} +=3D " \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0/lib/systemd/system/* \
 >
-
-The init system is variable, and should be checked before attempting to
-install services.
-
-
-
-> +
-> +       install -d ${D}/home/root/.docker
-> +       ln -sf .docker ${D}/home/root/.balena
-> +       ln -sf .docker ${D}/home/root/.balena-engine
 >
-
-As mentioned above /home/room, shouldn't be hardcoded.
-
-
-
-> +
-> +       install -d ${D}${localstatedir}/lib/docker
+> /lib shouldn't be hardcoded.
 >
-
-Now we are polluting namespaces. A balena recipe making directories called
-"docker". This is the issue I had with k3s and CNI, and my concern about
-all the vendored versions we are getting in the container recipes.
-
-
-
-> +       ln -sf docker ${D}${localstatedir}/lib/balena
-> +       ln -sf docker ${D}${localstatedir}/lib/balena-engine
-> +
-> +       install -d ${D}${sysconfdir}/tmpfiles.d
-> +       install -m 0644 ${WORKDIR}/balena-tmpfiles.conf
-> ${D}${sysconfdir}/tmpfiles.d/
-> +}
-> +
-> +BBCLASSEXTEND =3D " native"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0/home/root \
 >
-
-Where is this being used natively ?
-
-Bruce
-
-
-
-> --
-> 2.25.1
+>
+> neither should /home/root/
+>
+> =C2=A0
+>
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0/boot/init \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0/boot/storage-driver \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir} \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0"
+>     +
+>     +DOCKER_PKG=3D"github.com/docker/docker
+>     <http://github.com/docker/docker>"
+>     +
+>     +# By default no extra LDFLAGS needed when compiling mobynit
+>     +MOBYNIT_EXTRA_LDFLAGS ??=3D ""
+>     +
+>     +do_configure[noexec] =3D "1"
+>     +
+>     +do_compile() {
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export PATH=3D${STAGING_BINDIR_NATIVE}/$=
+{HOST_SYS}:$PATH
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOCACHE=3D"${B}/.cache"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOHOSTOS=3D"linux"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOOS=3D"linux"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0case "${TARGET_ARCH}" in
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0GOARCH=3Damd64
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586|i686)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0GOARCH=3D386
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0GOARCH=3D${TARGET_ARCH}
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0case "${TUNE_PKGARCH}" in
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cortexa*)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e=
+xport GOARM=3D7
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;=
+;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0esac
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aarch64)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0# ARM64 is invalid for Go 1.4
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0GOARCH=3Darm64
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*)
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0GOARCH=3D"${TARGET_ARCH}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0esac
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH
+>
+>
+> There are already classes that deal with the arch mapping, it doesn't
+> belong in individual recipes.
+>
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Set GOPATH. See 'PACKAGERS.md'. Don't =
+rely on
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# docker to download its dependencies bu=
+t rather
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# use dependencies packaged independentl=
+y.
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/src/import
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf .gopath
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p .gopath/src/"$(dirname "${DOCKE=
+R_PKG}")"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ../../../.. .gopath/src/"${DOCKER=
+_PKG}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export
+>     GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_D=
+IR_TARGET}/${prefix}/local/go"
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D"1"
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Pass the needed cflags/ldflags so that=
+ cgo
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# can find the needed headers files and =
+libraries
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D"${CFLAGS} --sysroot=
+=
+=3D${STAGING_DIR_TARGET}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D"${LDFLAGS}=C2=A0
+>     --sysroot=3D${STAGING_DIR_TARGET}"
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_GITCOMMIT=3D"${SRCREV}"
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D"no_buildkit n=
+o_btrfs no_cri
+>     no_devmapper no_zfs exclude_disk_quota exclude_graphdriver_btrfs
+>     exclude_graphdriver_devicemapper exclude_graphdriver_zfs"
+>
+>
+> As we've already solved in the other docker/moby recipes, we any
+> setting of buildtags needs to be by variable, so it can be
+> overriden=C2=A0by bbappends, etc.
+>
+> =C2=A0
+>
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_LDFLAGS=3D"-s"
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0VERSION=3D${BALENA_VERSION} ./hack/make.=
+sh dynbinary-balena
+>
+>
+> And here we are with the repeated moby build infrastructure.
+>
+> I am curious as to why mainline moby won't work for this.
+I have no idea, but can look into that.
+>
+> =C2=A0
+>
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile mobynit
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd .gopath/src/"${DOCKER_PKG}"/cmd/mobyn=
+it
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0go build -ldflags '-extldflags "-static
+>     ${MOBYNIT_EXTRA_LDFLAGS}"' .
+>
+>
+> This shouldn't be using 'go' directly, at the least, it should be
+> using the variables as defined in the go classes.=C2=A0
+>
+> But again, this is solving and duplicating all the fixes that we've
+> had to do over time in the existing moby recipe. .. this is less than
+> ideal. and anything that we haven't solved there, we should actually
+> be fixing there.
+I will drop the mobynit completely from this recipe.
+This was actually also done lately in the meta-balena:
+https://github.com/balena-os/meta-balena/commit/29844ed3bd936c581e20b72df1=
+33a2b6ed498512
+> =C2=A0
+>
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd -
+>     +}
+>     +
+>     +do_install() {
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}/${bindir}
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755
+>     ${S}/src/import/bundles/dynbinary-balena/balena-engine
+>     ${D}/${bindir}/balena-engine
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# install -d ${D}/boot
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# install -m 0755 ${S}/src/import/cmd/mo=
+bynit/mobynit
+>     ${D}/boot/init
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0# echo ${BALENA_STORAGE} > ${D}/boot/sto=
+rage-driver
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+nad
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-containerd
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-containerd-shim
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-containerd-ctr
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-runc
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-proxy
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-engine-daemon
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-engine-containerd
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+>     ${D}/${bindir}/balena-engine-containerd-shim
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+>     ${D}/${bindir}/balena-engine-containerd-ctr
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-engine-runc
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/bale=
+na-engine-proxy
+>
+>
+> Outside of the branding, what's the difference between these binaries
+> and when we build the upstream project variants ?
+I think we only care about the balena-engine for the purpose of this
+layer, really.
+From what I understand, the first ones are used in the balenaOS and I shou=
+ld
+have dropped them in the initial recipe port.
+>
+> =C2=A0
+>
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${systemd_unitdir}/system
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644
+>     ${S}/src/import/contrib/init/systemd/balena-engine.socket
+>     ${D}/${systemd_unitdir}/system
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644
+>     ${S}/src/import/contrib/init/systemd/balena-engine.service
+>     ${D}/${systemd_unitdir}/system
+>
+>
+> The init system is variable, and should be checked before attempting
+> to install services.
+>
+> =C2=A0
+>
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}/home/root/.docker
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf .docker ${D}/home/root/.balena
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf .docker ${D}/home/root/.balena-en=
+gine
+>
+>
+> As mentioned above /home/room, shouldn't be hardcoded.
+>
+> =C2=A0
+>
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${localstatedir}/lib/dock=
+er
+>
+>
+> Now we are polluting namespaces. A balena recipe making directories
+> called "docker". This is the issue I had with k3s and CNI, and my
+> concern about all the vendored versions we are getting in the
+> container recipes.
+>
+> =C2=A0
+>
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf docker ${D}${localstatedir}/lib/b=
+alena
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf docker ${D}${localstatedir}/lib/b=
+alena-engine
+>     +
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/tmpfiles.d
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/balena-tmpfil=
+es.conf
+>     ${D}${sysconfdir}/tmpfiles.d/
+>     +}
+>     +
+>     +BBCLASSEXTEND =3D " native"
+>
+>
+> Where is this being used natively ?
+I see no usecase for the purpose of meta-virt.
+In case of balenaOS it was used to build the containers probably.
+Will drop that.
+>
+> Bruce
+>
+> =C2=A0
+>
+>     --=20
+>     2.25.1
+>
+>
+>
+>
+>
+>
+> --=20
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 >
 >=20
 >
->
-
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Maciej Pijanowski
+Embedded Firmware Team Leader
+GPG: 9963C36AAC3B2B46
+https://3mdeb.com | @3mdeb_com
 
---0000000000004e136f05b4de2133
-Content-Type: text/html; charset="UTF-8"
+
+--------------9FBFCCA8362BF4BFABAD76DB
+Content-Type: text/html; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Tue, Nov 24, 2020 at 12:20 PM Maciej Pijanowski =
-&lt;<a href=3D"mailto:maciej.pijanowski@3mdeb.com">maciej.pijanowski@3mdeb.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">As explained in [1], I have created the balena-engine recipe which could=
- be<br>
-used in &quot;regular&quot; Yocto/OE builds (outside of the balenaOS). The=
-<br>
-recipe is mostly a copy of the original recipe from meta-balena,<br>
-stripped from the balenaOS-specific parts so it can be compiled and<br>
-build outside of it. This recipe was tested at build and runtime<br>
-on the dunfell release on two targets: RPi4 and qemux86-64.<br></blockquot=
-e><div><br></div><div><div>Thanks for the contribution, it is most apprecia=
-ted. The recipe unfortunately raises some concerns ..<span class=3D"gmail_d=
-efault" style=3D"font-size:small"> and something that we can work through.<=
-/span><br></div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
-<br>
-[1] <a href=3D"https://lists.yoctoproject.org/g/meta-virtualization/messag=
-e/5913" rel=3D"noreferrer" target=3D"_blank">https://lists.yoctoproject.org=
-/g/meta-virtualization/message/5913</a><br>
-<br>
-Signed-off-by: Maciej Pijanowski &lt;<a href=3D"mailto:maciej.pijanowski@3=
-mdeb.com" target=3D"_blank">maciej.pijanowski@3mdeb.com</a>&gt;<br>
----<br>
-=C2=A0...dcoded-CC-on-cross-compile-docker-ce.patch |=C2=A0 60 +++++++<br>
-=C2=A0.../balena-engine/balena-tmpfiles.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 =C2=A02 +<br>
-=C2=A0.../balena-engine/<a href=3D"http://balena-engine_git.bb" rel=3D"nor=
-eferrer" target=3D"_blank">balena-engine_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 | 159 ++++++++++++++++++<br>
-=C2=A03 files changed, 221 insertions(+)<br>
-=C2=A0create mode 100644 recipes-containers/balena-engine/balena-engine/00=
-01-imporve-hardcoded-CC-on-cross-compile-docker-ce.patch<br>
-=C2=A0create mode 100644 recipes-containers/balena-engine/balena-engine/ba=
-lena-tmpfiles.conf<br>
-=C2=A0create mode 100644 recipes-containers/balena-engine/<a href=3D"http:=
-//balena-engine_git.bb" rel=3D"noreferrer" target=3D"_blank">balena-engine_=
-git.bb</a><br>
-<br>
-diff --git a/recipes-containers/balena-engine/balena-engine/0001-imporve-h=
-ardcoded-CC-on-cross-compile-docker-ce.patch b/recipes-containers/balena-en=
-gine/balena-engine/0001-imporve-hardcoded-CC-on-cross-compile-docker-ce.pat=
-ch<br>
-new file mode 100644<br>
-index 000000000000..0f257f1bd964<br>
---- /dev/null<br>
-+++ b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcode=
-d-CC-on-cross-compile-docker-ce.patch<br>
-@@ -0,0 +1,60 @@<br>
-+From 1263fdb50a540e9db742694b7cee08284ad986d0 Mon Sep 17 00:00:00 2001<br=
+<html>
+  <head>
+    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF-=
+8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class=3D"moz-cite-prefix">On 24.11.2020 19:03, Bruce Ashfield
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite"
+cite=3D"mid:CADkTA4N2RAG1MSBrSWxgwwo2f=3DGN7zpM0r8OLgrLH82xE8vNSw@mail.gma=
+il.com">
+      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DUT=
+F-8">
+      <div dir=3D"ltr">
+        <div dir=3D"ltr">
+          <div class=3D"gmail_default" style=3D"font-size:small"><br>
+          </div>
+        </div>
+        <br>
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 24, 2020 at
+            12:20 PM Maciej Pijanowski &lt;<a
+              href=3D"mailto:maciej.pijanowski@3mdeb.com"
+              moz-do-not-send=3D"true">maciej.pijanowski@3mdeb.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">As explained in [1], I
+            have created the balena-engine recipe which could be<br>
+            used in "regular" Yocto/OE builds (outside of the balenaOS).
+            The<br>
+            recipe is mostly a copy of the original recipe from
+            meta-balena,<br>
+            stripped from the balenaOS-specific parts so it can be
+            compiled and<br>
+            build outside of it. This recipe was tested at build and
+            runtime<br>
+            on the dunfell release on two targets: RPi4 and qemux86-64.<br=
 >
-+From: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com" target=
-=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
-+Date: Wed, 17 Jul 2019 17:34:04 +0800<br>
-+Subject: [PATCH] imporve hardcoded CC on cross compile<br>
-+<br>
-+Since commit applied in moby [61a3285 Support cross-compile for arm]<br>
-+it hardcoded var-CC to support cross-compile for arm<br>
-+<br>
-+Correct it with &quot;${parameter:-word}&quot; format, it is helpful for =
-user<br>
-+define toolchains<br>
-+<br>
-+(Use Default Values.=C2=A0 If parameter is unset or null, the expansion o=
-f<br>
-+word is substituted.=C2=A0 Otherwise, the value of parameter is substitut=
-ed.)<br>
-+<br>
-+Upstream-Status: Submitted [<a href=3D"https://github.com/moby/moby/pull/=
-39546" rel=3D"noreferrer" target=3D"_blank">https://github.com/moby/moby/pu=
-ll/39546</a>]<br>
-+<br>
-+Signed-off-by: Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com"=
- target=3D"_blank">hongxu.jia@windriver.com</a>&gt;<br>
-+---<br>
-+ hack/make/.binary | 10 +++++-----<br>
-+ 1 file changed, 5 insertions(+), 5 deletions(-)<br>
-+<br>
-+diff --git a/src/import/hack/make/.binary b/src/import/hack/make/.binary<=
-br>
-+index 53de6749e5..66f4ca05f3 100644<br>
-+--- a/src/import/hack/make/.binary<br>
-++++ b/src/import/hack/make/.binary<br>
-+@@ -44,27 +44,27 @@ if [ &quot;$(go env GOOS)/$(go env GOARCH)&quot; !=3D=
- &quot;$(go env GOHOSTOS)/$(go env GOHOSTARC<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# must be cross-compiling!<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0case &quot;$(go env GOOS)/$(go env GOARCH)&quo=
-t; in<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0windows/amd64)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 export CC=3Dx86_64-w64-mingw32-gcc<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 export CC=3D&quot;${CC:-x86_64-w64-mingw32-gcc}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0export CGO_ENABLED=3D1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/arm)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0case &quot;${GOARM}&quot; in<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A05|&quot;&quot;)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CC=3Darm-linux-gnueabi-gcc<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CC=3D&quot;${CC:-arm-linux-gnuea=
-bi-gcc}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A07)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CC=3Darm-linux-gnueabihf-gcc<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export CC=3D&quot;${CC:-arm-linux-gnuea=
-bihf-gcc}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0esac<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/arm64)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 export CC=3Daarch64-linux-gnu-gcc<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 export CC=3D&quot;${CC:-aarch64-linux-gnu-gcc}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0export CGO_ENABLED=3D1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/amd64)<br>
-+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 export CC=3Dx86_64-linux-gnu-gcc<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 export CC=3D&quot;${CC:-x86_64-linux-gnu-gcc}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0export CGO_ENABLED=3D1<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
-+--<br>
-+2.23.0<br>
-diff --git a/recipes-containers/balena-engine/balena-engine/balena-tmpfile=
-s.conf b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.con=
-f<br>
-new file mode 100644<br>
-index 000000000000..548a25d3ae49<br>
---- /dev/null<br>
-+++ b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.conf<=
-br>
-@@ -0,0 +1,2 @@<br>
-+L=C2=A0 =C2=A0 =C2=A0 /run/docker.pid -=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0=
- =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0/run/balena-engine.pid<br>
-+L=C2=A0 =C2=A0 =C2=A0 /run/balena.pid -=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0=
- =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0/run/balena-engine.pid<br>
-diff --git a/recipes-containers/balena-engine/<a href=3D"http://balena-eng=
-ine_git.bb" rel=3D"noreferrer" target=3D"_blank">balena-engine_git.bb</a> b=
-/recipes-containers/balena-engine/<a href=3D"http://balena-engine_git.bb" r=
-el=3D"noreferrer" target=3D"_blank">balena-engine_git.bb</a><br>
-new file mode 100644<br>
-index 000000000000..5d78dc02350f<br>
---- /dev/null<br>
-+++ b/recipes-containers/balena-engine/<a href=3D"http://balena-engine_git=
-.bb" rel=3D"noreferrer" target=3D"_blank">balena-engine_git.bb</a><br>
-@@ -0,0 +1,159 @@<br>
-+HOMEPAGE =3D &quot;<a href=3D"https://www.balena.io/" rel=3D"noreferrer" =
-target=3D"_blank">https://www.balena.io/</a>&quot;<br>
-+SUMMARY =3D &quot;A Moby-based container engine for IoT&quot;<br>
-+DESCRIPTION =3D &quot;Balena is a new container engine purpose-built for =
-embedded \<br>
-+and IoT use cases and compatible with Docker containers. Based on Docker=
-=E2=80=99s \<br>
-+Moby Project, balena supports container deltas for 10-70x more efficient =
-\<br>
-+bandwidth usage, has 3.5x smaller binaries, uses RAM and storage more \<b=
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div>Thanks for the contribution, it is most appreciated.
+              The recipe unfortunately raises some concerns ..<span
+                class=3D"gmail_default" style=3D"font-size:small"> and
+                something that we can work through.</span><br>
+            </div>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            <br>
+            [1] <a
+              href=3D"https://lists.yoctoproject.org/g/meta-virtualization=
+/message/5913"
+              rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true=
+">https://lists.yoctoproject.org/g/meta-virtualization/message/5913</a><br>
+            <br>
+            Signed-off-by: Maciej Pijanowski &lt;<a
+              href=3D"mailto:maciej.pijanowski@3mdeb.com" target=3D"_blank=
+"
+              moz-do-not-send=3D"true">maciej.pijanowski@3mdeb.com</a>&gt;=
+<br>
+            ---<br>
+            =C2=A0...dcoded-CC-on-cross-compile-docker-ce.patch |=C2=A0 60=
+ +++++++<br>
+            =C2=A0.../balena-engine/balena-tmpfiles.conf=C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 |=C2=A0 =C2=A02 +<br>
+            =C2=A0.../balena-engine/<a href=3D"http://balena-engine_git.bb=
+"
+              rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true=
+">balena-engine_git.bb</a>=C2=A0
+            =C2=A0 =C2=A0 =C2=A0 | 159 ++++++++++++++++++<br>
+            =C2=A03 files changed, 221 insertions(+)<br>
+            =C2=A0create mode 100644
+recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-CC-o=
+n-cross-compile-docker-ce.patch<br>
+            =C2=A0create mode 100644
+            recipes-containers/balena-engine/balena-engine/balena-tmpfiles=
+.conf<br>
+            =C2=A0create mode 100644 recipes-containers/balena-engine/<a
+              href=3D"http://balena-engine_git.bb" rel=3D"noreferrer"
+              target=3D"_blank" moz-do-not-send=3D"true">balena-engine_git=
+.bb</a><br>
+            <br>
+            diff --git
+a/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-CC=
+-on-cross-compile-docker-ce.patch
+b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-CC=
+-on-cross-compile-docker-ce.patch<br>
+            new file mode 100644<br>
+            index 000000000000..0f257f1bd964<br>
+            --- /dev/null<br>
+            +++
+b/recipes-containers/balena-engine/balena-engine/0001-imporve-hardcoded-CC=
+-on-cross-compile-docker-ce.patch<br>
+            @@ -0,0 +1,60 @@<br>
+            +From 1263fdb50a540e9db742694b7cee08284ad986d0 Mon Sep 17
+            00:00:00 2001<br>
+            +From: Hongxu Jia &lt;<a
+              href=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank"
+              moz-do-not-send=3D"true">hongxu.jia@windriver.com</a>&gt;<br=
+>
+            +Date: Wed, 17 Jul 2019 17:34:04 +0800<br>
+            +Subject: [PATCH] imporve hardcoded CC on cross compile<br>
+            +<br>
+            +Since commit applied in moby [61a3285 Support cross-compile
+            for arm]<br>
+            +it hardcoded var-CC to support cross-compile for arm<br>
+            +<br>
+            +Correct it with "${parameter:-word}" format, it is helpful
+            for user<br>
+            +define toolchains<br>
+            +<br>
+            +(Use Default Values.=C2=A0 If parameter is unset or null, the
+            expansion of<br>
+            +word is substituted.=C2=A0 Otherwise, the value of parameter =
+is
+            substituted.)<br>
+            +<br>
+            +Upstream-Status: Submitted [<a
+              href=3D"https://github.com/moby/moby/pull/39546"
+              rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true=
+">https://github.com/moby/moby/pull/39546</a>]<br>
+            +<br>
+            +Signed-off-by: Hongxu Jia &lt;<a
+              href=3D"mailto:hongxu.jia@windriver.com" target=3D"_blank"
+              moz-do-not-send=3D"true">hongxu.jia@windriver.com</a>&gt;<br=
+>
+            +---<br>
+            + hack/make/.binary | 10 +++++-----<br>
+            + 1 file changed, 5 insertions(+), 5 deletions(-)<br>
+            +<br>
+            +diff --git a/src/import/hack/make/.binary
+            b/src/import/hack/make/.binary<br>
+            +index 53de6749e5..66f4ca05f3 100644<br>
+            +--- a/src/import/hack/make/.binary<br>
+            ++++ b/src/import/hack/make/.binary<br>
+            +@@ -44,27 +44,27 @@ if [ "$(go env GOOS)/$(go env GOARCH)"
+            !=3D "$(go env GOHOSTOS)/$(go env GOHOSTARC<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# must be cross-compiling!<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0case "$(go env GOOS)/$(go env GOAR=
+CH)" in<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0window=
+s/amd64)<br>
+            +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 export CC=3Dx86_64-w64-mingw32-gcc<br>
+            ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 export
+            CC=3D"${CC:-x86_64-w64-mingw32-gcc}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/=
+arm)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0case "${GOARM}" in<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A05|"")<br>
+            +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export
+            CC=3Darm-linux-gnueabi-gcc<br>
+            ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export
+            CC=3D"${CC:-arm-linux-gnueabi-gcc}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1=
+<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A07)<br>
+            +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export
+            CC=3Darm-linux-gnueabihf-gcc<br>
+            ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 export
+            CC=3D"${CC:-arm-linux-gnueabihf-gcc}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1=
+<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/=
+arm64)<br>
+            +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 export CC=3Daarch64-linux-gnu-gcc<br>
+            ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 export
+            CC=3D"${CC:-aarch64-linux-gnu-gcc}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0linux/=
+amd64)<br>
+            +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 export CC=3Dx86_64-linux-gnu-gcc<br>
+            ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 export
+            CC=3D"${CC:-x86_64-linux-gnu-gcc}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D1<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
+            +--<br>
+            +2.23.0<br>
+            diff --git
+            a/recipes-containers/balena-engine/balena-engine/balena-tmpfil=
+es.conf
+b/recipes-containers/balena-engine/balena-engine/balena-tmpfiles.conf<br>
+            new file mode 100644<br>
+            index 000000000000..548a25d3ae49<br>
+            --- /dev/null<br>
+            +++
+            b/recipes-containers/balena-engine/balena-engine/balena-tmpfil=
+es.conf<br>
+            @@ -0,0 +1,2 @@<br>
+            +L=C2=A0 =C2=A0 =C2=A0 /run/docker.pid -=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=
+=A0 =C2=A0
+            =C2=A0/run/balena-engine.pid<br>
+            +L=C2=A0 =C2=A0 =C2=A0 /run/balena.pid -=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=A0 =C2=A0 =C2=A0-=C2=A0 =C2=
+=A0 =C2=A0
+            =C2=A0/run/balena-engine.pid<br>
+            diff --git a/recipes-containers/balena-engine/<a
+              href=3D"http://balena-engine_git.bb" rel=3D"noreferrer"
+              target=3D"_blank" moz-do-not-send=3D"true">balena-engine_git=
+.bb</a>
+            b/recipes-containers/balena-engine/<a
+              href=3D"http://balena-engine_git.bb" rel=3D"noreferrer"
+              target=3D"_blank" moz-do-not-send=3D"true">balena-engine_git=
+.bb</a><br>
+            new file mode 100644<br>
+            index 000000000000..5d78dc02350f<br>
+            --- /dev/null<br>
+            +++ b/recipes-containers/balena-engine/<a
+              href=3D"http://balena-engine_git.bb" rel=3D"noreferrer"
+              target=3D"_blank" moz-do-not-send=3D"true">balena-engine_git=
+.bb</a><br>
+            @@ -0,0 +1,159 @@<br>
+            +HOMEPAGE =3D "<a href=3D"https://www.balena.io/"
+              rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true=
+">https://www.balena.io/</a>"<br>
+            +SUMMARY =3D "A Moby-based container engine for IoT"<br>
+            +DESCRIPTION =3D "Balena is a new container engine
+            purpose-built for embedded \<br>
+            +and IoT use cases and compatible with Docker containers.
+            Based on Docker=E2=80=99s \<br>
+            +Moby Project, balena supports container deltas for 10-70x
+            more efficient \<br>
+            +bandwidth usage, has 3.5x smaller binaries, uses RAM and
+            storage more \<br>
+            +conservatively, and focuses on atomicity and durability of
+            container \<br>
+            +pulling."<br>
+            +LICENSE =3D "Apache-2.0"<br>
+            +LIC_FILES_CHKSUM =3D
+            <a class=3D"moz-txt-link-rfc2396E" href=3D"file://src/import/L=
+ICENSE;md5=3D4859e97a9c7780e77972d989f0823f28">"file://src/import/LICENSE;m=
+d5=3D4859e97a9c7780e77972d989f0823f28"</a><br>
+            +<br>
+            +inherit systemd go pkgconfig useradd<br>
+            +<br>
+            +BALENA_VERSION =3D "19.03.13-dev"<br>
+            +BALENA_BRANCH=3D "master"<br>
+            +<br>
+            +SRCREV =3D "074a481789174b4b6fd2d706086e8ffceb72e924"<br>
+            +SRC_URI =3D "\<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a
+href=3D"http://github.com/balena-os/balena-engine.git;branch=3D$%7BBALENA_=
+BRANCH%7D;destsuffix=3Dgit/src/import"
+              rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true=
+">github.com/balena-os/balena-engine.git;branch=3D${BALENA_BRANCH};destsuff=
+ix=3Dgit/src/import</a>
+            \<br>
+            +=C2=A0 =C2=A0 =C2=A0
+            =C2=A0<a class=3D"moz-txt-link-freetext" href=3D"file://0001-i=
+mporve-hardcoded-CC-on-cross-compile-docker-ce.patch">file://0001-imporve-h=
+ardcoded-CC-on-cross-compile-docker-ce.patch</a>
+            \<br>
+          </blockquote>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">The fac=
+t
+              that we have to duplicate that patch, exposes an issue.</div=
+>
+            <div class=3D"gmail_default" style=3D"font-size:small"><br>
+            </div>
+            <div class=3D"gmail_default" style=3D"font-size:small">It come=
+s
+              down to the fact that we already have containerd, moby,
+              runc, etc, recipes.</div>
+            <div class=3D"gmail_default" style=3D"font-size:small"><br>
+            </div>
+            <div class=3D"gmail_default" style=3D"font-size:small">Having
+              vendored copies for all of the engine variants is a
+              problem, and one what I'm looking to solve.=C2=A0 I can help=
+ on
+              that front, but it won't be until after I've finished
+              getting k3s working and merged.</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    Ok. I will start with the simpler fixes for v2 and we will go back
+    to that.<br>
+    <blockquote type=3D"cite"
+cite=3D"mid:CADkTA4N2RAG1MSBrSWxgwwo2f=3DGN7zpM0r8OLgrLH82xE8vNSw@mail.gma=
+il.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small"><br>
+            </div>
+            <div class=3D"gmail_default" style=3D"font-size:small">See mor=
+e
+              specific comments below.</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a class=3D"moz-txt-link-freetext=
+" href=3D"file://balena-tmpfiles.conf">file://balena-tmpfiles.conf</a> \<br=
+>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0"<br>
+            +<br>
+            +S =3D "${WORKDIR}/git"<br>
+            +<br>
+            +PV =3D "${BALENA_VERSION}+git${SRCREV}"<br>
+            +<br>
+            +SECURITY_CFLAGS =3D "${SECURITY_NOPIE_CFLAGS}"<br>
+            +SECURITY_LDFLAGS =3D ""<br>
+            +<br>
+            +SYSTEMD_PACKAGES =3D "${PN}"<br>
+            +SYSTEMD_SERVICE_${PN} =3D "balena-engine.service
+            balena-engine.socket"<br>
+            +GO_IMPORT =3D "import"<br>
+            +USERADD_PACKAGES =3D "${PN}"<br>
+            +GROUPADD_PARAM_${PN} =3D "-r balena-engine"<br>
+            +<br>
+            +DEPENDS_append_class-target =3D " systemd"<br>
+            +RDEPENDS_${PN}_class-target =3D "curl util-linux iptables
+            tini systemd bash"<br>
+            +RRECOMMENDS_${PN} +=3D "kernel-module-nf-nat
+            kernel-module-br-netfilter
+            kernel-module-nf-conntrack-netlink
+            kernel-module-xt-masquerade kernel-module-xt-addrtype"<br>
+            +<br>
+            +# oe-meta-go recipes try to build go-cross-native<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">oe-meta=
+-go
+              shouldn't be relevant anymore .. neither should those
+              _remove's.</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +DEPENDS_remove_class-native =3D "go-cross-native"<br>
+            +DEPENDS_append_class-native =3D " go-native"<br>
+            +<br>
+            +INSANE_SKIP_${PN} +=3D "already-stripped"<br>
+            +<br>
+            +FILES_${PN} +=3D " \<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0/lib/systemd/system/* \<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">/lib
+              shouldn't be hardcoded.</div>
+            <br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0/home/root \<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">neither
+              should /home/root/</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0/boot/init \<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0/boot/storage-driver \<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir} \<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0"<br>
+            +<br>
+            +DOCKER_PKG=3D"<a href=3D"http://github.com/docker/docker"
+              rel=3D"noreferrer" target=3D"_blank" moz-do-not-send=3D"true=
+">github.com/docker/docker</a>"<br>
+            +<br>
+            +# By default no extra LDFLAGS needed when compiling mobynit<b=
 r>
-+conservatively, and focuses on atomicity and durability of container \<br=
->
-+pulling.&quot;<br>
-+LICENSE =3D &quot;Apache-2.0&quot;<br>
-+LIC_FILES_CHKSUM =3D &quot;file://src/import/LICENSE;md5=3D4859e97a9c7780=
-e77972d989f0823f28&quot;<br>
-+<br>
-+inherit systemd go pkgconfig useradd<br>
-+<br>
-+BALENA_VERSION =3D &quot;19.03.13-dev&quot;<br>
-+BALENA_BRANCH=3D &quot;master&quot;<br>
-+<br>
-+SRCREV =3D &quot;074a481789174b4b6fd2d706086e8ffceb72e924&quot;<br>
-+SRC_URI =3D &quot;\<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/balena-os/b=
-alena-engine.git;branch=3D$%7BBALENA_BRANCH%7D;destsuffix=3Dgit/src/import"=
- rel=3D"noreferrer" target=3D"_blank">github.com/balena-os/balena-engine.gi=
-t;branch=3D${BALENA_BRANCH};destsuffix=3Dgit/src/import</a> \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-imporve-hardcoded-CC-on-cross-comp=
-ile-docker-ce.patch \<br></blockquote><div><div class=3D"gmail_default" sty=
-le=3D"font-size:small"></div></div><div><div class=3D"gmail_default" style=
-=3D"font-size:small">The fact that we have to duplicate that patch, expose=
-s an issue.</div><div class=3D"gmail_default" style=3D"font-size:small"><br=
-></div><div class=3D"gmail_default" style=3D"font-size:small">It comes down=
- to the fact that we already have containerd, moby, runc, etc, recipes.</di=
-v><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div cla=
-ss=3D"gmail_default" style=3D"font-size:small">Having vendored copies for a=
-ll of the engine variants is a problem, and one what I&#39;m looking to sol=
-ve.=C2=A0 I can help on that front, but it won&#39;t be until after I&#39;v=
-e finished getting k3s working and merged.</div><div class=3D"gmail_default=
-" style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D=
-"font-size:small">See more specific comments below.</div><br></div><div>=C2=
-=
-=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://balena-tmpfiles.conf \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-+<br>
-+S =3D &quot;${WORKDIR}/git&quot;<br>
-+<br>
-+PV =3D &quot;${BALENA_VERSION}+git${SRCREV}&quot;<br>
-+<br>
-+SECURITY_CFLAGS =3D &quot;${SECURITY_NOPIE_CFLAGS}&quot;<br>
-+SECURITY_LDFLAGS =3D &quot;&quot;<br>
-+<br>
-+SYSTEMD_PACKAGES =3D &quot;${PN}&quot;<br>
-+SYSTEMD_SERVICE_${PN} =3D &quot;balena-engine.service balena-engine.socke=
-t&quot;<br>
-+GO_IMPORT =3D &quot;import&quot;<br>
-+USERADD_PACKAGES =3D &quot;${PN}&quot;<br>
-+GROUPADD_PARAM_${PN} =3D &quot;-r balena-engine&quot;<br>
-+<br>
-+DEPENDS_append_class-target =3D &quot; systemd&quot;<br>
-+RDEPENDS_${PN}_class-target =3D &quot;curl util-linux iptables tini syste=
-md bash&quot;<br>
-+RRECOMMENDS_${PN} +=3D &quot;kernel-module-nf-nat kernel-module-br-netfil=
-ter kernel-module-nf-conntrack-netlink kernel-module-xt-masquerade kernel-m=
-odule-xt-addrtype&quot;<br>
-+<br>
-+# oe-meta-go recipes try to build go-cross-native<br></blockquote><div><b=
-r></div><div><div class=3D"gmail_default" style=3D"font-size:small">oe-meta=
--go shouldn&#39;t be relevant anymore .. neither should those _remove&#39;s=
-.</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex">
-+DEPENDS_remove_class-native =3D &quot;go-cross-native&quot;<br>
-+DEPENDS_append_class-native =3D &quot; go-native&quot;<br>
-+<br>
-+INSANE_SKIP_${PN} +=3D &quot;already-stripped&quot;<br>
-+<br>
-+FILES_${PN} +=3D &quot; \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0/lib/systemd/system/* \<br></blockquote><div><=
-br></div><div><div class=3D"gmail_default" style=3D"font-size:small">/lib s=
-houldn&#39;t be hardcoded.</div><br></div><div class=3D"gmail_default" styl=
-e=3D"font-size:small"></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0/home/root \<br></blockquote><div><br></div><d=
-iv><div class=3D"gmail_default" style=3D"font-size:small">neither should /h=
-ome/root/</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0/boot/init \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0/boot/storage-driver \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0${localstatedir} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-+<br>
-+DOCKER_PKG=3D&quot;<a href=3D"http://github.com/docker/docker" rel=3D"nor=
-eferrer" target=3D"_blank">github.com/docker/docker</a>&quot;<br>
-+<br>
-+# By default no extra LDFLAGS needed when compiling mobynit<br>
-+MOBYNIT_EXTRA_LDFLAGS ??=3D &quot;&quot;<br>
-+<br>
-+do_configure[noexec] =3D &quot;1&quot;<br>
-+<br>
-+do_compile() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export PATH=3D${STAGING_BINDIR_NATIVE}/${HOST_=
-SYS}:$PATH<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOCACHE=3D&quot;${B}/.cache&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOHOSTOS=3D&quot;linux&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOOS=3D&quot;linux&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0case &quot;${TARGET_ARCH}&quot; in<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0GOARCH=3Damd64<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586|i686)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0GOARCH=3D386<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0GOARCH=3D${TARGET_ARCH}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0case &quot;${TUNE_PKGARCH}&quot; in<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cortexa*)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0export G=
-OARM=3D7<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0esac<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aarch64)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0# ARM64 is invalid for Go 1.4<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0GOARCH=3Darm64<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=
-=A0 =C2=A0GOARCH=3D&quot;${TARGET_ARCH}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH<br></blockquote><div><br></div><=
-div><div class=3D"gmail_default" style=3D"font-size:small">There are alread=
-y classes that deal with the arch mapping, it doesn&#39;t belong in individ=
-ual recipes.</div></div><div><br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Set GOPATH. See &#39;PACKAGERS.md&#39;. Don&=
-#39;t rely on<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# docker to download its dependencies but rath=
-er<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# use dependencies packaged independently.<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/src/import<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf .gopath<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p .gopath/src/&quot;$(dirname &quot;${D=
-OCKER_PKG}&quot;)&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ../../../.. .gopath/src/&quot;${DOCKER_=
-PKG}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOPATH=3D&quot;${S}/src/import/.gopath:=
-${S}/src/import/vendor:${STAGING_DIR_TARGET}/${prefix}/local/go&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D&quot;1&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Pass the needed cflags/ldflags so that cgo<b=
+            +MOBYNIT_EXTRA_LDFLAGS ??=3D ""<br>
+            +<br>
+            +do_configure[noexec] =3D "1"<br>
+            +<br>
+            +do_compile() {<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export
+            PATH=3D${STAGING_BINDIR_NATIVE}/${HOST_SYS}:$PATH<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOCACHE=3D"${B}/.cache"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOHOSTOS=3D"linux"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOOS=3D"linux"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0case "${TARGET_ARCH}" in<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0x86_64=
+)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0GOARCH=3Damd64<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0i586|i=
+686)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0GOARCH=3D386<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0arm)<b=
 r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# can find the needed headers files and librar=
-ies<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D&quot;${CFLAGS} --sysroot=
-=3D${STAGING_DIR_TARGET}&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D&quot;${LDFLAGS}=C2=A0 --=
-sysroot=3D${STAGING_DIR_TARGET}&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_GITCOMMIT=3D&quot;${SRCREV}&quot=
-;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D&quot;no_buildkit no=
-_btrfs no_cri no_devmapper no_zfs exclude_disk_quota exclude_graphdriver_bt=
-rfs exclude_graphdriver_devicemapper exclude_graphdriver_zfs&quot;<br></blo=
-ckquote><div><br></div><div><div class=3D"gmail_default" style=3D"font-size=
-:small">As we&#39;ve already solved in the other docker/moby recipes, we an=
-y setting of buildtags needs to be by variable, so it can be overriden=C2=
-=A0by bbappends, etc.</div><br></div><div>=C2=A0</div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_LDFLAGS=3D&quot;-s&quot;<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0VERSION=3D${BALENA_VERSION} ./hack/make.sh dyn=
-binary-balena<br></blockquote><div><br></div><div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">And here we are with the repeated moby build =
-infrastructure.</div><div class=3D"gmail_default" style=3D"font-size:small"=
-><br></div><div class=3D"gmail_default" style=3D"font-size:small">I am curi=
-ous as to why mainline moby won&#39;t work for this.</div><br></div><div>=
-=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile mobynit<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cd .gopath/src/&quot;${DOCKER_PKG}&quot;/cmd/m=
-obynit<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0go build -ldflags &#39;-extldflags &quot;-stat=
-ic ${MOBYNIT_EXTRA_LDFLAGS}&quot;&#39; .<br></blockquote><div><br></div><di=
-v><div class=3D"gmail_default" style=3D"font-size:small">This shouldn&#39;t=
- be using &#39;go&#39; directly, at the least, it should be using the varia=
-bles as defined in the go classes.=C2=A0</div><div class=3D"gmail_default" =
-style=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"f=
-ont-size:small">But again, this is solving and duplicating all the fixes th=
-at we&#39;ve had to do over time in the existing moby recipe. .. this is le=
-ss than ideal. and anything that we haven&#39;t solved there, we should act=
-ually be fixing there.</div></div><div>=C2=A0</div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cd -<br>
-+}<br>
-+<br>
-+do_install() {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}/${bindir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755 ${S}/src/import/bundles/dynbin=
-ary-balena/balena-engine ${D}/${bindir}/balena-engine<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# install -d ${D}/boot<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# install -m 0755 ${S}/src/import/cmd/mobynit/=
-mobynit ${D}/boot/init<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# echo ${BALENA_STORAGE} &gt; ${D}/boot/storag=
-e-driver<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balenad<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-con=
-tainerd<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-con=
-tainerd-shim<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-con=
-tainerd-ctr<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-run=
-c<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-pro=
-xy<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-eng=
-ine-daemon<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-eng=
-ine-containerd<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-eng=
-ine-containerd-shim<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-eng=
-ine-containerd-ctr<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-eng=
-ine-runc<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir}/balena-eng=
-ine-proxy<br></blockquote><div><br></div><div><div class=3D"gmail_default" =
-style=3D"font-size:small">Outside of the branding, what&#39;s the differenc=
-e between these binaries and when we build the upstream project variants ?<=
-/div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${systemd_unitdir}/system<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${S}/src/import/contrib/init/s=
-ystemd/balena-engine.socket ${D}/${systemd_unitdir}/system<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${S}/src/import/contrib/init/s=
-ystemd/balena-engine.service ${D}/${systemd_unitdir}/system<br></blockquote=
-><div><br></div><div><div class=3D"gmail_default" style=3D"font-size:small"=
->The init system is variable, and should be checked before attempting to in=
-stall services.</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}/home/root/.docker<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf .docker ${D}/home/root/.balena<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf .docker ${D}/home/root/.balena-engine<b=
-r></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"fo=
-nt-size:small">As mentioned above /home/room, shouldn&#39;t be hardcoded.</=
-div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${localstatedir}/lib/docker<br>=
-</blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"font=
--size:small">Now we are polluting namespaces. A balena recipe making direct=
-ories called &quot;docker&quot;. This is the issue I had with k3s and CNI, =
-and my concern about all the vendored versions we are getting in the contai=
-ner recipes.</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf docker ${D}${localstatedir}/lib/balena<=
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0GOARCH=3D${TARGET_ARCH}<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0case "${TUNE_PKGARCH}" in<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cortexa*)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0export GOARM=3D7<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=
+=C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0aarch6=
+4)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0# ARM64 is invalid for Go 1.4<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0GOARCH=3Darm64<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*)<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0GOARCH=3D"${TARGET_ARCH}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0;;<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0esac<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export GOARCH<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">There a=
+re
+              already classes that deal with the arch mapping, it
+              doesn't belong in individual recipes.</div>
+          </div>
+          <div><br>
+          </div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Set GOPATH. See 'PACKAGERS.md'. =
+Don't rely on<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# docker to download its dependenc=
+ies but rather<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# use dependencies packaged indepe=
+ndently.<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/src/import<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf .gopath<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p .gopath/src/"$(dirname "$=
+{DOCKER_PKG}")"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf ../../../.. .gopath/src/"${=
+DOCKER_PKG}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export
+GOPATH=3D"${S}/src/import/.gopath:${S}/src/import/vendor:${STAGING_DIR_TAR=
+GET}/${prefix}/local/go"<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_ENABLED=3D"1"<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Pass the needed cflags/ldflags s=
+o that cgo<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# can find the needed headers file=
+s and libraries<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_CFLAGS=3D"${CFLAGS}
+            --sysroot=3D${STAGING_DIR_TARGET}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export CGO_LDFLAGS=3D"${LDFLAGS}=
+=C2=A0
+            --sysroot=3D${STAGING_DIR_TARGET}"<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_GITCOMMIT=3D"${SRCRE=
+V}"<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_BUILDTAGS=3D"no_buil=
+dkit no_btrfs no_cri
+            no_devmapper no_zfs exclude_disk_quota
+            exclude_graphdriver_btrfs exclude_graphdriver_devicemapper
+            exclude_graphdriver_zfs"<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">As we'v=
+e
+              already solved in the other docker/moby recipes, we any
+              setting of buildtags needs to be by variable, so it can be
+              overriden=C2=A0by bbappends, etc.</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0export DOCKER_LDFLAGS=3D"-s"<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0VERSION=3D${BALENA_VERSION} ./hack=
+/make.sh
+            dynbinary-balena<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">And her=
+e
+              we are with the repeated moby build infrastructure.</div>
+            <div class=3D"gmail_default" style=3D"font-size:small"><br>
+            </div>
+            <div class=3D"gmail_default" style=3D"font-size:small">I am
+              curious as to why mainline moby won't work for this.</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    I have no idea, but can look into that.<br>
+    <blockquote type=3D"cite"
+cite=3D"mid:CADkTA4N2RAG1MSBrSWxgwwo2f=3DGN7zpM0r8OLgrLH82xE8vNSw@mail.gma=
+il.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div><br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# Compile mobynit<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd .gopath/src/"${DOCKER_PKG}"/cmd=
+/mobynit<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0go build -ldflags '-extldflags "-s=
+tatic
+            ${MOBYNIT_EXTRA_LDFLAGS}"' .<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">This
+              shouldn't be using 'go' directly, at the least, it should
+              be using the variables as defined in the go classes.=C2=A0</=
+div>
+            <div class=3D"gmail_default" style=3D"font-size:small"><br>
+            </div>
+            <div class=3D"gmail_default" style=3D"font-size:small">But
+              again, this is solving and duplicating all the fixes that
+              we've had to do over time in the existing moby recipe. ..
+              this is less than ideal. and anything that we haven't
+              solved there, we should actually be fixing there.</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    I will drop the mobynit completely from this recipe.<br>
+    This was actually also done lately in the meta-balena:<br>
+<a class=3D"moz-txt-link-freetext" href=3D"https://github.com/balena-os/me=
+ta-balena/commit/29844ed3bd936c581e20b72df133a2b6ed498512">https://github.c=
+om/balena-os/meta-balena/commit/29844ed3bd936c581e20b72df133a2b6ed498512</a=
+><br>
+    <blockquote type=3D"cite"
+cite=3D"mid:CADkTA4N2RAG1MSBrSWxgwwo2f=3DGN7zpM0r8OLgrLH82xE8vNSw@mail.gma=
+il.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0cd -<br>
+            +}<br>
+            +<br>
+            +do_install() {<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0mkdir -p ${D}/${bindir}<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0755
+            ${S}/src/import/bundles/dynbinary-balena/balena-engine
+            ${D}/${bindir}/balena-engine<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# install -d ${D}/boot<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# install -m 0755
+            ${S}/src/import/cmd/mobynit/mobynit ${D}/boot/init<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0# echo ${BALENA_STORAGE} &gt;
+            ${D}/boot/storage-driver<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir=
+}/balena<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir=
+}/balenad<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-containerd<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-containerd-shim<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-containerd-ctr<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir=
+}/balena-runc<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine ${D}/${bindir=
+}/balena-proxy<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-engine-daemon<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-engine-containerd<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-engine-containerd-shim<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-engine-containerd-ctr<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-engine-runc<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf balena-engine
+            ${D}/${bindir}/balena-engine-proxy<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">Outside
+              of the branding, what's the difference between these
+              binaries and when we build the upstream project variants ?</=
+div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    I think we only care about the balena-engine for the purpose of this
+    layer, really.<br>
+    From what I understand, the first ones are used in the balenaOS and
+    I should<br>
+    have dropped them in the initial recipe port.<br>
+    <blockquote type=3D"cite"
+cite=3D"mid:CADkTA4N2RAG1MSBrSWxgwwo2f=3DGN7zpM0r8OLgrLH82xE8vNSw@mail.gma=
+il.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div><br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${systemd_unitdir}/=
+system<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644
+            ${S}/src/import/contrib/init/systemd/balena-engine.socket
+            ${D}/${systemd_unitdir}/system<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644
+            ${S}/src/import/contrib/init/systemd/balena-engine.service
+            ${D}/${systemd_unitdir}/system<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">The ini=
+t
+              system is variable, and should be checked before
+              attempting to install services.</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}/home/root/.docker<=
 br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf docker ${D}${localstatedir}/lib/balena-=
-engine<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/tmpfiles.d<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/balena-tmpfiles.con=
-f ${D}${sysconfdir}/tmpfiles.d/<br>
-+}<br>
-+<br>
-+BBCLASSEXTEND =3D &quot; native&quot;<br></blockquote><div><br></div><div=
-><div class=3D"gmail_default" style=3D"font-size:small">Where is this being=
- used natively ?</div><div class=3D"gmail_default" style=3D"font-size:small=
-"><br></div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</d=
-iv><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">
--- <br>
-2.25.1<br>
-<br>
-<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr=
-" class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for c=
-haos and madness await thee at its end<br>- &quot;Use the force Harry&quot;=
- - Gandalf, Star Trek II<br><br></div></div>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf .docker ${D}/home/root/.bal=
+ena<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf .docker ${D}/home/root/.bal=
+ena-engine<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">As
+              mentioned above /home/room, shouldn't be hardcoded.</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${localstatedir}/li=
+b/docker<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">Now we
+              are polluting namespaces. A balena recipe making
+              directories called "docker". This is the issue I had with
+              k3s and CNI, and my concern about all the vendored
+              versions we are getting in the container recipes.</div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf docker ${D}${localstatedir}=
+/lib/balena<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -sf docker ${D}${localstatedir}=
+/lib/balena-engine<br>
+            +<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/tmpfi=
+les.d<br>
+            +=C2=A0 =C2=A0 =C2=A0 =C2=A0install -m 0644 ${WORKDIR}/balena-=
+tmpfiles.conf
+            ${D}${sysconfdir}/tmpfiles.d/<br>
+            +}<br>
+            +<br>
+            +BBCLASSEXTEND =3D " native"<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small">Where i=
+s
+              this being used natively ?</div>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    I see no usecase for the purpose of meta-virt.<br>
+    In case of balenaOS it was used to build the containers probably.<br>
+    Will drop that.<br>
+    <blockquote type=3D"cite"
+cite=3D"mid:CADkTA4N2RAG1MSBrSWxgwwo2f=3DGN7zpM0r8OLgrLH82xE8vNSw@mail.gma=
+il.com">
+      <div dir=3D"ltr">
+        <div class=3D"gmail_quote">
+          <div>
+            <div class=3D"gmail_default" style=3D"font-size:small"><br>
+            </div>
+            <div class=3D"gmail_default" style=3D"font-size:small">Bruce</=
+div>
+            <br>
+          </div>
+          <div>=C2=A0</div>
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">
+            -- <br>
+            2.25.1<br>
+            <br>
+            <br>
+            <br>
+            <br>
+          </blockquote>
+        </div>
+        <br clear=3D"all">
+        <div><br>
+        </div>
+        -- <br>
+        <div dir=3D"ltr" class=3D"gmail_signature">- Thou shalt not follow
+          the NULL pointer, for chaos and madness await thee at its end<br=
+>
+          - "Use the force Harry" - Gandalf, Star Trek II<br>
+          <br>
+        </div>
+      </div>
+      <br>
+      <fieldset class=3D"mimeAttachmentHeader"></fieldset>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
 
---0000000000004e136f05b4de2133--
+
+</pre>
+    </blockquote>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+Maciej Pijanowski
+Embedded Firmware Team Leader
+GPG: 9963C36AAC3B2B46
+<a class=3D"moz-txt-link-freetext" href=3D"https://3mdeb.com">https://3mde=
+b.com</a> | @3mdeb_com</pre>
+  </body>
+</html>
+
+--------------9FBFCCA8362BF4BFABAD76DB--
