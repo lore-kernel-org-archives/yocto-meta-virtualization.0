@@ -1,129 +1,162 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web11.3920.1606787063412196256
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web12.5721.1606797661357565729
  for <meta-virtualization@lists.yoctoproject.org>;
- Mon, 30 Nov 2020 17:44:23 -0800
+ Mon, 30 Nov 2020 20:41:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@foundries.io header.s=google header.b=GsRTOTxa;
- spf=pass (domain: foundries.io, ip: 209.85.160.176, mailfrom: ricardo@foundries.io)
-Received: by mail-qt1-f176.google.com with SMTP id v11so39474qtq.12
-        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Nov 2020 17:44:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20161025 header.b=XAgLtODA;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id f23so1323869ejk.2
+        for <meta-virtualization@lists.yoctoproject.org>; Mon, 30 Nov 2020 20:41:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=foundries.io; s=google;
-        h=from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4U4HAQqd/sog5+mrfVlgOtCHMAXeLtg8l99pBKBv5JA=;
-        b=GsRTOTxaZ8L3zTh6cLy96HXkGSbEMsXwu5Z7xReh2MGsZrxkmb8J2YXPNvUkkIbuqQ
-         e7L7Ry5Q4S9tJMQ0gmshd2cuPrEnXmc2S2JqWotECLgwJ0B1m9PvCwtxDDfmfQD5LpZ3
-         TKKEDdZ6CCIQ2Vbt6Ncovqz7I8xVfjtk/xUSoy6uj24wqxx1xV6keZfVpyMpEnlKlnyx
-         L5txR/9jr9i9Dt1Q1lb0+c4cHtzhT02/8qxPNUeL+JQYTabADlKVw3EaFNBJRGKVu+sP
-         +vKrJ46XdDAYUMBss/mOyf+emZfn/27i10WxrrsvkVxUASDzc2df0yQUGj/7uroZB4fI
-         ijWw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=sTJz0R+U651cOo93by9dFOQcFpeV3vch2+JWwwqiqME=;
+        b=XAgLtODAhOI7c/ttM2Lc3/jKgQkBD/Yl7lewmq6uFbhmzJi+xRh6+6QjiqCeNsip0v
+         rEfwSxvuFEBzRCiW7aRMtGTjwyydW2WHnFV+4NbutwPtxw/UGEFO+RbjZu/3YTuRVPAN
+         3L+DAs/GorHDDC+Zj9HhzNnkJqyRtDkVELf8V8oSjYyo7jXvdKYOjyHRgschLIFxSR+p
+         wLdOm6ib4z9lZngThlHYPkgFUxatYW+BdmF84lNgswx6RoIcNmW3wKddmJQFKVCjHBld
+         26PWdGJ56ChVyzxM6kGmCCYrxE/vviVRjtKCg0zjvXq2+XxBtJuuLNvHpjNsBOSOyrIM
+         Zd+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4U4HAQqd/sog5+mrfVlgOtCHMAXeLtg8l99pBKBv5JA=;
-        b=MafkGHV59EAfkorxHtpEkg17+OhbXvhZOcRl37i1qWA0o591aGCKyPFuyWCnqRv9Ng
-         AX0/AXnQ36aWkMf4+qyooxSDfnV3gJcEPBYt94SZCoRd/Q3mFVPGfU1orPmoJiZWdaTS
-         eENqWvpBxR7tUhp4uw/98n4/Na1mwW7tGd2aRh55emmo42WfKu5a6fuvcZxGe/RFsSnq
-         yVHfKOJxTyqD/2qO7aDMD0tF/gefywZeQwaQZ+Y8XZcNLm1MNKoxDPqejYU4CqdN3guk
-         cGzztoBUe20DrirkCkrvhUln6H4ojWEpmGu+yi543RiN61wa9DZ28otvxOEC/2AGbrSL
-         wVNg==
-X-Gm-Message-State: AOAM531qf5HNKAKnM7O6gpN/1l6N+tkBKFoADA6Pv9n5eyMqBy6Fc9nF
-	UHId54Ekqcl5P5L5hKThBJDyvLzQeQgV
-X-Google-Smtp-Source: ABdhPJyFcWD2oiEeaLe7BG6RFe1gbLMPJC92c6T78Hm/U6kQJIhjF/Kzut2tTesnbcLtBAo2w0NPWA==
-X-Received: by 2002:ac8:5901:: with SMTP id 1mr422816qty.350.1606787062031;
-        Mon, 30 Nov 2020 17:44:22 -0800 (PST)
-Return-Path: <ricardo@foundries.io>
-Received: from localhost.localdomain ([2804:7f5:f480:e2f8:f868:9671:3e53:1905])
-        by smtp.gmail.com with ESMTPSA id b33sm404026qta.62.2020.11.30.17.44.20
-        for <meta-virtualization@lists.yoctoproject.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 17:44:21 -0800 (PST)
-From: "Ricardo Salveti" <ricardo@foundries.io>
-To: meta-virtualization@lists.yoctoproject.org
-Subject: [PATCH] containerd: update to v1.4.3
-Date: Mon, 30 Nov 2020 22:44:08 -0300
-Message-Id: <20201201014408.26562-1-ricardo@foundries.io>
-X-Mailer: git-send-email 2.29.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=sTJz0R+U651cOo93by9dFOQcFpeV3vch2+JWwwqiqME=;
+        b=cBq82Sxpv8NOJWenx4YhDd2U1GhLS5O5HL5zDKxdMGHT6ENXjvP4pKsQcCqQyvKq77
+         CPwGMSDo5kdD+8JntJ6EVTP5X/KjxyOmsNVWDRtixAvS+D/OEnNfQXjNUikzVJahttZu
+         6VUhz6wGgBJz9lEjVfcsPQb+bAclYrGZwzrZw9Kt1zNQVsUUmisVupQ8DIy7KP+8dGuR
+         FppJBteW1eQvlpb19JA/fHaWDwr/ZUqUOYPZBLjlIMFJTQveWrxh+wmQJ4KMQ55zLeEt
+         8YDDA/6KReT+gzMgHmMrFuPl9vTsp84CIDJSCszZGxBc4Qi9IDKLD/efNOJEqs99UTV4
+         FBqQ==
+X-Gm-Message-State: AOAM5323nen2P3pKaVDqYDpZPy7EkFXaRjDnxEsLVu9xBfmKboniKJ3g
+	zsjJWH7Ybz8wevnD6Cu19SD7Hdd0GVQ3pMdaf4U=
+X-Google-Smtp-Source: ABdhPJzIlwhGQBU0Kk/aG6Z2/Y8KfxPTWeiVkRZNcM64ophdUkruW4FVO7W/f+At4yvAOUj9QP4wYNjPYjTgoDJXD5E=
+X-Received: by 2002:a17:907:d01:: with SMTP id gn1mr1268482ejc.357.1606797659563;
+ Mon, 30 Nov 2020 20:40:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201120180251.3612946-1-adrian.freihofer@siemens.com>
+In-Reply-To: <20201120180251.3612946-1-adrian.freihofer@siemens.com>
+From: "Bruce Ashfield" <bruce.ashfield@gmail.com>
+Date: Mon, 30 Nov 2020 23:40:48 -0500
+Message-ID: <CADkTA4Ncm0xs8MfNTmrT2ttEWcQP9jJ9qFP-Guqq7R=9DqAqmg@mail.gmail.com>
+Subject: Re: [meta-virtualization][PATCH] docker-ce: update to 19.03.13
+To: Adrian Freihofer <adrian.freihofer@gmail.com>
+Cc: meta-virtualization@lists.yoctoproject.org, 
+	Adrian Freihofer <adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Relevant changes:
-- 269548fa2 Merge pull request from GHSA-36xw-fx78-c5r4
-- 727e1728d Prepare 1.4.3 release notes
-- ae3a64aa1 containerd-shim: use path-based unix socket
-- 428f10fd2 Use path based unix socket for shims
-- b321d358e Merge pull request #4768 from dmcgowan/prepare-1.4.2
-- f2e4291b6 Prepare 1.4.2 release
-- 76f3d1955 Update mailmap for 1.4.2 release
-- ca9950755 Update cri version to pickup unknown state fix
-- 21baf7109 Merge pull request #4767 from dmcgowan/update-1.4-cri
-- 3458984bb Merge pull request #4766 from dmcgowan/backport-4765
-- 0b97c6204 Update cri plugin
-- c0f1add3c Fix Windows service panic file to not be read-only
-- 9c24574c9 Merge pull request #4763 from estesp/cp-tests-fix-1.4
-- fbe18caa1 Update btrfs vendor for chkptr fix for Go >= 1.14
-- cbbf257ab Add Go test runs to GitHub Actions CI
-- 19776b75b Adjust overlay tests to expect "index=off"
-- 7eb852214 Allow oom adj test to run in environments with a score
-- 036ede698 Import crypto for all snapshotters during testsuite
-- 8d839c4b3 Merge pull request #4751 from amrmahdi/amrh/cherry-pick-cc3785-1.4
-- 31bbc1f7d Merge pull request #4754 from thaJeztah/1.4_restore_nil_pointer
-- 5618423a0 Add comments clarifying copyWithBuffer implementation
-- a2ebee357 replicate io.Copy optimizations
-- 9b2156aa8 Improve image pull performance from http 1.1 container registries
-- 7fe3f1301 Merge pull request #4749 from thaJeztah/1.4_backport_windows_int_overflow
-- 56291a221 bug fix:#3448
-- 16e51fc31 Fix integer overflow on windows
-- 957bcaa9f Merge pull request #4746 from estesp/cp-4745-1.4
-- 6ebd9a94a Update other actions for env/path CVE fix
-- 49889957e Merge pull request #4743 from estesp/fix-ci
-- 0a3488c71 Fix GH Actions CI deprecations
-- 882e39618 Merge pull request #4733 from thaJeztah/1.4_backport_update_seccomp_profile
-- da9705a64 Merge pull request #4736 from AkihiroSuda/go-1.15.5-containerd-1.4
-- cc3be9ae3 Bump Golang 1.15.5
-- ebffce3ad seccomp: add pidfd_getfd syscall (gated by CAP_SYS_PTRACE)
-- 229f5ea4e seccomp: add pidfd_open and pidfd_send_signal
-- 457dafa4c Merge pull request #4711 from AkihiroSuda/go115-1.4
-- e45f41e3a update to golang 1.15.2
-- f8c187fcf Merge pull request #4696 from estesp/cp-4692-1.4
-- 695516287 Remove setuid gosu in favor of "sudo -E PATH=$PATH ..."
-- c562e8d2b Merge pull request #4690 from samuelkarp/backport1.4-critest
-- 77931f801 ci: run critest target for all runtimes
-- e46c29945 Merge pull request #4689 from estesp/cp-4665
-- c745d237e Revendor CRI to get disabled annotation config default
-- ded2577d6 Merge pull request #4660 from kevpar/1.4-update-hcsshim
-- 8b8494ec0 Merge pull request #4661 from kevpar/1.4-lcow-tar
-- 88e7f23bc Read trailing data from tar reader
-- 856a12fca Update github.com/Microsoft/hcsshim to v0.8.10
-- 013411ac1 Merge pull request #4650 from estesp/cp-4645-1.4
-- cc6f72a00 Check if a process exists before returning it
+Sorry for the slow reply.
 
-Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
----
- .../containerd/containerd-opencontainers_git.bb               | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I've been buried in k3s, and already most of these updates are part of
+that WIP branch. I also keep moby and docker-ce in sync, so I need to
+do that update before can get the next round of updates pushed. I'll
+double check against this and come up with a combined branch shortly.
 
-diff --git a/recipes-containers/containerd/containerd-opencontainers_git.bb b/recipes-containers/containerd/containerd-opencontainers_git.bb
-index d0ea715..2279a74 100644
---- a/recipes-containers/containerd/containerd-opencontainers_git.bb
-+++ b/recipes-containers/containerd/containerd-opencontainers_git.bb
-@@ -1,4 +1,4 @@
--SRCREV = "e44e8ebeaaa2d605f539dffa3788a53c92458c4d"
-+SRCREV = "269548fa27e0089a8b8278fc4fc781d7f65a939b"
- SRC_URI = "git://github.com/containerd/containerd;branch=release/1.4 \
-            file://0001-build-use-oe-provided-GO-and-flags.patch \
-            file://0001-Add-build-option-GODEBUG-1.patch \
-@@ -8,7 +8,7 @@ include containerd.inc
- 
- LIC_FILES_CHKSUM = "file://src/import/LICENSE;md5=1269f40c0d099c21a871163984590d89"
- 
--CONTAINERD_VERSION = "v1.4.1"
-+CONTAINERD_VERSION = "v1.4.3"
- 
- EXTRA_OEMAKE += "GODEBUG=1"
- 
--- 
-2.29.2
+Bruce
 
+On Fri, Nov 20, 2020 at 1:03 PM Adrian Freihofer
+<adrian.freihofer@gmail.com> wrote:
+>
+> This update comprises the following commits:
+>
+> 4484c46d9d Merge pull request #658 from tiborvass/bump_19.03.13
+> 19498650c3 Bump VERSION to 19.03.13
+> 9e4ef2803a Merge component 'engine' from git@github.com:moby/moby 19.03
+> ac28add3de Merge pull request #41314 from thaJeztah/19.03_backport_fix_r=
+acey_logger_test
+> f0254fd65c Merge component 'packaging' from git@github.com:docker/docker=
+-ce-packaging 19.03
+> c78f28f23a Merge component 'engine' from git@github.com:moby/moby 19.03
+> e0b868f387 Merge component 'cli' from git@github.com:docker/cli 19.03
+> 2961931781 Merge pull request #493 from thaJeztah/19.03_backport_bump_go=
+lang_1.13.15
+> 38ac4c17da Merge pull request #41451 from thaJeztah/19.03_update_buildki=
+t
+> 131aed7afb Merge pull request #2674 from thaJeztah/19.03_backport_bump_g=
+olang_1.13.15
+> b99d176810 Merge pull request #41446 from thaJeztah/19.03_backport_swagg=
+er_fixes
+> 340e0f5aae Merge pull request #41312 from thaJeztah/19.03_backport_pass_=
+network_error
+> 71f2583eb1 Merge pull request #41334 from thaJeztah/19.03_backport_bump_=
+golang_1.13.15
+> 0d7a5f477d Merge pull request #40408 from thaJeztah/19.03_backport_updat=
+e_containerd_1.3
+> edb9fbffd5 Merge component 'cli' from git@github.com:docker/cli 19.03
+> bcae92a97a Merge pull request #2720 from thaJeztah/19.03_remove_engine_a=
+lias
+> 6c6dd50ae8 Merge pull request #2719 from thaJeztah/19.03_update_buildkit
+> 4056693640 [19.03] vendor: stop using docker/engine fork for vendoring
+> f6cc6fa133 [19.03] vendor: buildkit v0.6.4-32-gdf89d4dc
+> d61bf277b8 [19.03] vendor: tonistiigi/fsutil v0.0.0-20191018213012-0f039=
+a052ca1
+> 4024535260 [19.03] vendor: buildkit v0.6.4-32-gdf89d4dc
+> 4a3bea631c Merge component 'cli' from git@github.com:docker/cli 19.03
+> 1cab9568fa Merge pull request #2667 from thaJeztah/19.03_backport_remove=
+_from_index
+> d48744dd4e Merge pull request #2717 from thaJeztah/19.03_backport_update=
+_git_remote_description
+> 9a44f43fb9 swagger: fix MemTotal units in SystemInfo endpoint
+> a75083ebf0 docs/build: add note about git subdirectories with BuildKit
+> de666636a6 Merge component 'packaging' from git@github.com:docker/docker=
+-ce-packaging 19.03
+> 772ee04120 Merge pull request #498 from thaJeztah/19.03_backport_bump_bu=
+ildx
+> 112d03e8ea plugins: update buildx to v0.4.2
+> ef44b94189 buildx: use v0.4.1
+> 8a18415110 Bump buildx to master to check if it builds on the CI
+> 4d7b3045be Merge component 'cli' from git@github.com:docker/cli 19.03
+> 6002284d4d Merge pull request #2695 from thaJeztah/19.03_backport_fix_vb=
+omml_util
+> 0100e1c0be Replace vbom.ml/util with fvbommel/sortorder
+> 53c69c574e Bump Golang 1.13.15
+> 87867aff90 Bump Golang 1.13.15
+> 76060cc4a0 Bump Golang 1.13.15
+> 8a905386a1 update containerd to v1.3.7
+> 0ffc8f1e55 update containerd to v1.3.6
+> aff3f55db8 update containerd to v1.3.5
+> 61f6fac7a1 update containerd to v1.3.4
+> c938231789 update containerd binary to v1.3.3
+> ba94dd5a0d Update containerd to v1.3.2
+> 13106ca34e Update containerd to v1.3.1
+> c5ad02b467 update containerd binary v1.3.0
+> a0edb6a8cb Fix log file rotation test.
+> b17b2f05b6 Fix flakey test for log file rotate.
+> efe3cf2163 Replaces ADD with COPY in the COPY section
+> 5a861b676c Check for context error that is wrapped in url.Error
+> a438db9875 docs: remove docs for =E2=80=94-from=3Dindex
+>
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> ---
+>  recipes-containers/docker/docker-ce_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/recipes-containers/docker/docker-ce_git.bb b/recipes-contai=
+ners/docker/docker-ce_git.bb
+> index 9835350..768cf25 100644
+> --- a/recipes-containers/docker/docker-ce_git.bb
+> +++ b/recipes-containers/docker/docker-ce_git.bb
+> @@ -18,7 +18,7 @@ DESCRIPTION =3D "Linux container runtime \
+>   subtle and/or glaring issues. \
+>   "
+>
+> -SRCREV_docker =3D "ff3fbc9d55de9fce497cd058411f21f4a4dcdb7c"
+> +SRCREV_docker =3D "4484c46d9d1a2d10b8fc662923ad586daeedb04f"
+>  SRCREV_libnetwork =3D "026aabaa659832804b01754aaadd2c0f420c68b6"
+>  SRC_URI =3D "\
+>         git://github.com/docker/docker-ce.git;branch=3D19.03;name=3Ddock=
+er \
+> --
+> 2.26.2
+>
+>
+>=20
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
